@@ -22,11 +22,12 @@ provenance/  出所台帳(ソフト版・seed・入力/証明書ハッシュ)+�
 3. **UNKNOWN は一級の結果** — 負の探索結果は非存在の証明ではない。
 4. **全部記録** — バージョン・seed・ハッシュを `provenance/LEDGER.md` に追記。
 
-## フェーズ 0 チェックリスト
+## 進行チェックリスト
 
-- [x] 論文 3 本の入手(2026-07-18)
-- [x] GAP 4.16.0 インストール+動作確認(2026-07-18、`search/smoke-test.g` PASSED)
-- [ ] Week 1 開始(GT-shadow の定義系の読解+既知 2 冪 dihedral 例の再現準備)
+- [x] フェーズ 0: 論文 3 本+GAP 4.16.0(2026-07-18)
+- [x] Week 1: 定義ノート v2(Sol 定義ゲート条件付き PASS)+較正スイート WP1 ALL PASSED(2026-07-18)
+- [ ] 較正スイート WP2(探索器+照合器 → cross-checked 昇格 → Sol 便 02 で G1★ 達成監査)
+- [ ] Week 3-6: shadow atlas(Dih 外第一撃 = L = K⁽³⁾∩N₀)
 
 ## GAP の実行方法
 

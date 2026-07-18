@@ -27,8 +27,10 @@
 - 環境: Windows。GAP 4.16.0 導入済み(`C:\Program Files\GAP-4.16.0`)。**実行は必ずプロジェクト直下の `gap.ps1` 経由**(`gap.bat` は別窓を開くため自動実行不可)。
 - **体制の正本: `docs/体制と道具.md`(v2・2026-07-18 承認)**: ES7 全面継承+影工房差分。**研究者=ユーザー本人(数学の主役)、司令塔=Claude(継続・コーチ兼務)、Sol=常設の数学監査官 兼 共同設計者**(週 2〜3 便の事前承認枠; 定義ゲート・go/no-go・定理候補のゲート便はスキップ不可)、Luna=休眠増援。停止ゲート: 枠外課金・クラウド工場・public 化・撤退条件変更のみ。数学的判断の所有権を段階的にユーザーへ移す。v1 は docs/archive/。
 
-## 進行状態
+## 進行状態(2026-07-18 更新)
 
-- **フェーズ 0 完了(2026-07-18)**: GAP 4.16.0 インストール+動作確認(`search/smoke-test.g`)、論文 3 本入手(`papers/`、テキスト版 `papers/txt/`、ハッシュは `provenance/LEDGER.md`)。
-- **次: Week 1** — 2401.06870(定義の正本)で GTSh の定義系を読み、2106.06645 の実装入口と突き合わせ、既知の 2 冪 dihedral 例の再現に着手。
+- **フェーズ 0 完了**: GAP 4.16.0(実行は `gap.ps1`)・論文 3 本+パッケージ GT 入手・poppler/node/Python 導入(ハッシュは `provenance/LEDGER.md`)。
+- **Week 1(初日で大幅前進)**: 定義ノート v2 確定(`docs/week1-定義ノート.md` — Sol 定義ゲート便 01 **条件付き PASS**・裁定済み `sol/裁定_01_definition_gate.md`)。較正スイート v2(8 項目)のうち **WP1 = ALL PASSED**(`search/suite-wp1.g`: 数値事実 n=3..16,18,36・Prop 3.5 全 256 対・N₅ control)。**WP2 設計凍結**: transversal-cocycle モデル 12 規則+証明書スキーマ gtsh-cert/v1(`docs/wp2-transversal-model.md`)・作業指示書(`docs/wp2-workorders.md`)。
+- **次の一手: WP2a(GAP 探索器)/ WP2b(node 照合器)を implementer(sonnet/medium)へ並列発注**(職務規程の effort を効かせるためセッション再起動後に発注、とユーザー合意)。その後: 照合器 PASS → 台帳 C-1/C-2 を cross-checked へ昇格 → **Sol 便 02**(雛形 v2 適用・★教材トライアル・スイート監査+G1★ 達成宣言 — 宣言は研究者の検分を経る)。
+- 台帳: `provenance/CLAIMS.md`(C-1..C-3・candidate)。タスク: #5 スイート実装(進行中)・#7 Week 3 Dih 外第一撃(L = K⁽³⁾∩N₀・待機)。
 - ユーザーの背景・応対トーン: `../galois-atelier/CLAUDE.md` と同じ(数学科卒・ガロア圏読書中・「才能の壁」への配慮・実績根拠の励まし・誇張なし)。
