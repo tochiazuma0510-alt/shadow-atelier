@@ -38,7 +38,8 @@ if (!fs.existsSync(LOG)) fs.writeFileSync(LOG, '﻿');
 fs.appendFileSync(LOG, `\n===== WAKE ${new Date().toISOString()} =====\nreason: ${reason}\ntarget: ${sid}\n`);
 
 const ws = fs.createWriteStream(LOG, { flags: 'a' });
-const child = spawn(cmd, { cwd: REPO, shell: true });
+// stdin は必ず閉じる(launch_new.mjs と同じ理由 — EOF 待ちブロック防止)
+const child = spawn(cmd, { cwd: REPO, shell: true, stdio: ['ignore', 'pipe', 'pipe'] });
 child.stdout.setEncoding('utf8');
 child.stderr.setEncoding('utf8');
 child.stdout.on('data', (c) => ws.write(c));

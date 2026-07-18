@@ -25,7 +25,9 @@ if (!fs.existsSync(LOG)) fs.writeFileSync(LOG, '﻿');
 fs.appendFileSync(LOG, `\n===== NEW-SESSION ${new Date().toISOString()} =====\ninstr: ${instr}\n`);
 
 const ws = fs.createWriteStream(LOG, { flags: 'a' });
-const child = spawn(cmd, { cwd: REPO, shell: true });
+// stdin は必ず閉じる: パイプのまま開いていると codex exec が
+// "Reading additional input from stdin..." で EOF 待ちブロックする(2026-07-18 実測)
+const child = spawn(cmd, { cwd: REPO, shell: true, stdio: ['ignore', 'pipe', 'pipe'] });
 let buf = '';
 let pinned = false;
 const tryPin = (chunk) => {
