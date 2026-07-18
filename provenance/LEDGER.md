@@ -71,6 +71,17 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **宇宙の補助拡張(透明化)**: doubling 検査のため G₂₆・G₃₀ を一時構成(week1-kn-spotcheck.g の前例と同型の補助であり、研究対象としての登録ではない)。
 - 状態: 以上はすべて GAP 単系統 = **candidate**(照合器通過で cross-checked へ)。
 
+## 2026-07-18 — 較正スイート v2: WP2 統合実行記録(二系統照合)
+
+- **探索器**: `search/suite-wp2-explorer.g`(K3..K16+N₅)+ `search/suite-wp2-explorer-q1836.g`(K18, K36 — 10 分 cap 順守の分割)。GAP 4.16.0(-o 2g)。implementer(sonnet/medium)実装・司令塔コードレビュー済み(fixture 釘付け・[ANOMALY] 規律・(4.11) 事前検査を確認)。
+- **照合器**: `crosscheck/check.mjs`(node v24・依存ゼロ・GAP 非依存の独立実装)。司令塔コードレビュー(指摘 F1〜F5 修正済み)+司令塔再実行で再現確認。
+- **結果: 証明書 17 通(K3..K16, K18, K36, N₅)すべてで照合器の全検査項目 PASS = cross-checked**。
+  - shadow 数の実測: |GT(K⁽ⁿ⁾)| が Thm 4.3/4.6 の閉じた式と全 n で一致(2 冪 n=4,8,16: 4/16/64。K18: 108、K36: 216 — 司令塔が指示文に書いた参考値 48 は暗算誤りで、探索器は正しく計算値を報告した)。
+  - reduction branch suite 5 対((8,4),(12,4),(9,3),(18,3),(36,12))全射性込みで PASS。LS witness は 3|n の全対象(K3,K6,K9,K12,K15,K18,K36)で (5.1) 両式 PASS(読者委任の m ≡ 2,3 mod 6 含む)。
+  - N₅ control: (3.3)(3.4) の c^m 項・T(c)=c^{2m+1}・brute kernel 手続き・charming(f=1)明示検査まで PASS。
+- 証明書 SHA-256(先頭 16 桁): `provenance/cert-hashes-wp2.txt`。
+- **残ギャップ(達成宣言前に Sol 便 02 で裁定を仰ぐ)**: (a) reduction の関手性 (5.3) は単段 5 対で被覆し、合成鎖(例 K36→K12→K4 vs 直接)は未検証。(b) Thm 4.6 の明示同型 ϱ は独立項目でなく、合成表 ≡ (3.53) 再計算+(4.19)(4.20) 恒等式経由で担保。
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。

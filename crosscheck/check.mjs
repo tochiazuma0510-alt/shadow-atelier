@@ -11,23 +11,25 @@
 //       sol/sol_reply_01_definition_gate.md 6 節 (罠12件)
 //   - D_n の元・積・作用は自分で導出し、起動時自己検査で braid / sigma^2 / c-check / 群位数較正 を通す。
 //
-// 未解決の仕様ギャップ (実装者からの申し送り. 司令塔へ確認要):
-//   (A) 検査項目 6 「kernel_cert の (4.11) 等式」: 入手した文書には (h1,h2,h3) の構成式は
-//       あるが、(4.11) の literal な等式そのものは転記されていない。本実装は
-//       「(h1,h2,h3) による共役が T^{PB3} の x,y 像を psi_n の x,y 像に写す」という
-//       marked-factor-map の自然な解釈を PROVISIONAL に実装した (verdict に
-//       provisional_interpretation:true を明記)。確定式が届き次第、差し替えが必要。
-//   (B) 検査項目 10 「ls_witness の (5.1) 両式」: 抽出ノートには witness g,h の明示式
-//       (item G) はあるが、(5.1) 自体 (LS 条件が何を要求する式か) の literal な式は
-//       転記されていない。本実装は「g,h が f の被覆条件を満たす」という一般的な
-//       Lochak-Schneps covering condition の教科書的定式化を PROVISIONAL に実装した。
-//       これも確定式が届くまで provisional 扱い。
+// 追補1 (docs/wp2-transversal-model.md「追補1」2026-07-18 司令塔裁定) 反映済み:
+//   - 検査項目 6 「kernel_cert の (4.11) 等式」: 確定式で実装済み。
+//       x-bar^{2m+1} = h . x-bar . h^-1  かつ  g^-1 . y-bar^{2m+1} . g = h . y-bar . h^-1
+//       (h=(h1,h2,h3)∈Sn^3、成分ごとの Sym(Z/n) 内共役として checkKernelCert に実装)。
+//       control(N5)の type=brute は checkKernelCertBrute で別途、井戸定義性+全単射性を検査。
+//   - 検査項目 10 「ls_witness の (5.1) 両式」: 確定式で実装済み。
+//       fK_F2 = theta(g)^-1 g K_F2、かつ
+//       f x^m K_F2 = tau(h)^-1 h K_F2 (m≡0 mod3) / tau(h)^-1 (xy) h K_F2 (m≡-1 mod3)
+//       (checkLsWitness に実装)。m≡1 mod3 は空虚 (charming の単元条件違反) — 出現したら FAIL。
+//   - 検査項目 1 (counts) の簡略化 (raw 候補の完全再列挙は不要) は司令塔承認済み
+//     (verdict に approved_simplification として明記)。
+//   - 検査項目 9 (reduction) の image[i] 添字規約は凍結済み (verdict に index_convention として明記)。
+//   - 検査項目 7 の (4.20) は mod n で判定 (司令塔追認)。
 //
 'use strict';
 
 import { readFileSync, readdirSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -454,19 +456,12 @@ function checkThm43(Gn, n, cert) {
   };
 }
 
-// --- 検査項目 6 (kernel_cert / (4.11)) : PROVISIONAL ---
-// h = [u,v] アフィン表記 (Z/n 上, j -> u*j + v mod n) と解釈。
-// b := (j -> (2m+1) j). h1 = r^{-2k-m} b すなわち j -> (2m+1)j - (2k+m)。
-// h2 = b すなわち j -> (2m+1) j。
-// h3 = b (m 偶): j -> (2m+1) j。 h3 = b s (m 奇, s(j)=-j 適用後に b): j -> -(2m+1) j。
-// 検証 (本実装の解釈): (h1,h2,h3) による共役で T^{PB3}(x), T^{PB3}(y) の各座標を
-//   psi_n(x)=(r,s,s), psi_n(y)=(rs,r,rs) の対応座標に写す。
-//   affine j->u*j+v は Dn の中で r^v * (r^u の "linear part" にあたる自己同型) に対応するため、
-//   ここでは共役先の Dn 元を r^a s^e -> (h の j->uj+v が r,s の作用にどう対応するか) で計算する。
-//   具体的には、j->u*j+v は Sym(Z/n) の元とみなし、r=(j->j+1) は j->j+1, s=(j->-j) に対応させ、
-//   Dn の元 r^a s^e を "j -> ((-1)^e) j + a" に写像するホモトピー phi_perm(a,e) := (u=(-1)^e, v=a) とみなす。
-//   共役 h * phi_perm(r^a s^e) * h^-1 を affine 合成で計算し、それが対応する psi_n 座標の
-//   affine 表現と一致するかを見る。
+// --- 検査項目 6 (kernel_cert / (4.11)) : 確定式 (司令塔裁定・追補1・2026-07-18) ---
+// h = [u,v] アフィン表記 (Z/n 上, j -> u*j + v mod n)。
+// 確定式 (2405 p.18): shadow (m, g), g = f_triple = (r^{2k}, r^{-2k}, r^{kappa(m)}) とし、
+//   (I)  x-bar^{2m+1} = h . x-bar . h^-1
+//   (II) g^-1 . y-bar^{2m+1} . g = h . y-bar . h^-1
+// を Sym(Z/n) 内の成分ごと (i=1,2,3) の等式として検査する (x-bar=psi_n(x), y-bar=psi_n(y))。
 function affineOfDnElement(n, el) {
   // r^a s^e <-> j -> ((-1)^e) j + a  (Lemma 4.2: r(j)=j+1, s(j)=-j という左作用の規約)
   return { u: el.e === 0 ? 1 : -1, v: el.a };
@@ -475,92 +470,208 @@ function affineCompose(n, f, g) {
   // (f after g): j -> f(g(j)) = f(u_g j + v_g) = u_f (u_g j + v_g) + v_f = u_f u_g j + (u_f v_g + v_f)
   return { u: mod(f.u * g.u, n), v: mod(f.u * g.v + f.v, n) };
 }
+function modInverse(u, n) {
+  // 拡張ユークリッド互除法: u の mod n 逆元 (u は Z/n の単元であることを仮定)
+  u = mod(u, n);
+  let [oldR, rr] = [u, n];
+  let [oldS, ss] = [1, 0];
+  while (rr !== 0) {
+    const q = Math.floor(oldR / rr);
+    [oldR, rr] = [rr, oldR - q * rr];
+    [oldS, ss] = [ss, oldS - q * ss];
+  }
+  if (oldR !== 1) throw new Error(`modInverse: ${u} は mod ${n} で単元でない (gcd=${oldR})`);
+  return mod(oldS, n);
+}
 function affineInv(n, f) {
-  // f: j -> u j + v.  f^-1: j -> u^-1 (j - v) = u^-1 j - u^-1 v.  u in {1,-1} なので u^-1=u。
-  const uinv = f.u; // u^2=1 in {1,-1}
+  // f: j -> u j + v.  f^-1: j -> u^-1 j - u^-1 v.  u は一般の単元 (b=(j->(2m+1)j) など ±1 に限らない)。
+  const uinv = modInverse(f.u, n);
   return { u: uinv, v: mod(-uinv * f.v, n) };
 }
 function affineEq(n, f, g) { return mod(f.u, n) === mod(g.u, n) && mod(f.v, n) === mod(g.v, n); }
+function affinePow(n, f, k) {
+  if (k === 0) return { u: 1, v: 0 };
+  const base = k < 0 ? affineInv(n, f) : f;
+  let res = { u: 1, v: 0 };
+  for (let i = 0; i < Math.abs(k); i++) res = affineCompose(n, res, base);
+  return res;
+}
 
 function checkKernelCert(n, shadow) {
   const kc = shadow.kernel_cert;
-  if (!kc) return { ok: false, reason: 'kernel_cert 欠落', provisional_interpretation: true };
+  if (!kc) return { ok: false, reason: 'kernel_cert 欠落' };
   if (kc.type === 'brute') {
-    return { ok: null, reason: 'brute type は本チェッカーでは未対応 (control 用, 別ロジックが必要)', provisional_interpretation: true };
+    return { ok: null, reason: 'brute type は checkKernelCertBrute (control/N5 専用) で処理する。dihedral 用関数では非対応。' };
   }
   if (kc.type !== 'conjugator-triple') {
-    return { ok: false, reason: `未知の kernel_cert.type: ${kc.type}`, provisional_interpretation: true };
+    return { ok: false, reason: `未知の kernel_cert.type: ${kc.type}` };
   }
   const m = shadow.m;
   const hRaw = kc.h; // [[u,v],[u,v],[u,v]]
-  if (!Array.isArray(hRaw) || hRaw.length !== 3) return { ok: false, reason: 'h が 3 要素でない', provisional_interpretation: true };
+  if (!Array.isArray(hRaw) || hRaw.length !== 3) return { ok: false, reason: 'h が 3 要素でない' };
   const h = hRaw.map(([u, v]) => ({ u: mod(u, n), v: mod(v, n) }));
 
   // psi_n の座標: x -> (r,s,s), y -> (rs,r,rs)  それぞれの affine 表現
   const rAff = { u: 1, v: 1 };       // r: j->j+1
-  const sAff = { u: -1, v: 0 };      // s: j->-j
+  const sAff = { u: mod(-1, n), v: 0 }; // s: j->-j
   const rsAff = affineCompose(n, rAff, sAff); // rs: j -> r(s(j)) = -j+1 (左作用: s のち r)
-  const psiX = [sAff, sAff, sAff];       // x -> (r,s,s) の 2405 記法だが x=phi(x)=s は 1 コピー目... 実際は (r,s,s) 全体
-  // 訂正: psi_n(x) = (r,s,s), psi_n(y) = (rs,r,rs) -- 3 座標
   const psiXTriple = [rAff, sAff, sAff];
   const psiYTriple = [rsAff, rAff, rsAff];
+  const gTriple = tripleFromCertFormat(shadow.f_triple).map((el) => affineOfDnElement(n, el));
 
-  // T^{PB3}(x) の affine 表現 (3 座標): x^{2m+1} を各座標で計算
-  //   座標 i の x 像は psi_n(x)_i の (2m+1) 乗 (affine の合成をその回数繰り返す)
-  function affinePow(n, f, k) {
-    if (k === 0) return { u: 1, v: 0 };
-    const base = k < 0 ? affineInv(n, f) : f;
-    let res = { u: 1, v: 0 };
-    for (let i = 0; i < Math.abs(k); i++) res = affineCompose(n, res, base);
+  let eq1ok = true, eq2ok = true;
+  const detail = [];
+  for (let i = 0; i < 3; i++) {
+    // (I) x-bar^{2m+1} == h_i . x-bar_i . h_i^-1
+    const lhs1 = affinePow(n, psiXTriple[i], 2 * m + 1);
+    const rhs1 = affineCompose(n, affineCompose(n, h[i], psiXTriple[i]), affineInv(n, h[i]));
+    const c1 = affineEq(n, lhs1, rhs1);
+    if (!c1) eq1ok = false;
+    // (II) g_i^-1 . y-bar_i^{2m+1} . g_i == h_i . y-bar_i . h_i^-1
+    const lhs2 = affineCompose(n, affineCompose(n, affineInv(n, gTriple[i]), affinePow(n, psiYTriple[i], 2 * m + 1)), gTriple[i]);
+    const rhs2 = affineCompose(n, affineCompose(n, h[i], psiYTriple[i]), affineInv(n, h[i]));
+    const c2 = affineEq(n, lhs2, rhs2);
+    if (!c2) eq2ok = false;
+    detail.push({ i, eq1: c1, eq2: c2 });
+  }
+  return { ok: eq1ok && eq2ok, eq1ok, eq2ok, detail };
+}
+
+// --- N5 (control) 用 kernel_cert(type=brute) の確定手続き (追補1 項目4) ---
+// <sigma1hat,sigma2hat> (期待位数 = kc.expected_kernel_index, N5 では 30) を BFS で全列挙し、
+// 全エッジ (木でない辺も含む) で T-substitution (sigma1->sigma1^{2m+1}, sigma2->f^-1 sigma2^{2m+1} f)
+// の井戸定義性 (同じ元に到達する 2 語の T-像が一致するか) を検査、さらに T-像の全単射性 (30 通り相異なるか)
+// を確認する。両方 PASS なら T は B3/N を経由し単射 -> settled。
+function checkKernelCertBrute(model, shadow) {
+  const kc = shadow.kernel_cert;
+  if (!kc || kc.type !== 'brute') return { ok: false, reason: 'kernel_cert.type が brute でない' };
+  const expectedIdx = kc.expected_kernel_index;
+  const m = shadow.m;
+  const fPerm = xyWordToPerm(model, shadow.f_word);
+  const invF = invPerm(fPerm);
+  const sigma1T = permPow(model.perm1, 2 * m + 1);
+  const invSigma1T = invPerm(sigma1T);
+  const sigma2T = composeAll([invF, permPow(model.perm2, 2 * m + 1), fPerm]);
+  const invSigma2T = invPerm(sigma2T);
+
+  function computeTWord(word) {
+    let res = identityPerm(model.N);
+    for (const [name, sign] of word) {
+      const gp = name === 's1' ? (sign > 0 ? sigma1T : invSigma1T) : (sign > 0 ? sigma2T : invSigma2T);
+      res = composeRight(res, gp);
+    }
     return res;
   }
-  const Tx = psiXTriple.map((f) => affinePow(n, f, 2 * m + 1));
-  // T^{PB3}(y) は f (shadow の f_word) による共役が必要だが、affine 表現の同時対応は複雑なため、
-  // ここでは h1,h2,h3 が Tx をそのまま psi_n(x) 座標へ写す等式のみを検査する (弱い検査、要確認)。
-  let okX = true;
-  for (let i = 0; i < 3; i++) {
-    const conj = affineCompose(n, affineCompose(n, h[i], Tx[i]), affineInv(n, h[i]));
-    if (!affineEq(n, conj, psiXTriple[i])) okX = false;
+
+  const id0 = identityPerm(model.N);
+  const seen = new Map();
+  seen.set(id0.join(','), { perm: id0, word: [] });
+  let frontier = [{ perm: id0, word: [] }];
+  const steps = [['s1', 1, model.perm1], ['s1', -1, invPerm(model.perm1)], ['s2', 1, model.perm2], ['s2', -1, invPerm(model.perm2)]];
+  let wellDefined = true;
+  const conflicts = [];
+  let cap = 5000;
+  while (frontier.length && seen.size < cap) {
+    const next = [];
+    for (const node of frontier) {
+      for (const [name, sign, gp] of steps) {
+        const cand = composeRight(node.perm, gp);
+        const key = cand.join(',');
+        const candWord = node.word.concat([[name, sign]]);
+        if (!seen.has(key)) {
+          const entry = { perm: cand, word: candWord };
+          seen.set(key, entry);
+          next.push(entry);
+        } else {
+          const existing = seen.get(key);
+          const tExisting = computeTWord(existing.word);
+          const tCand = computeTWord(candWord);
+          if (!permEq(tExisting, tCand)) {
+            wellDefined = false;
+            conflicts.push({ existingWord: existing.word, candWord });
+          }
+        }
+      }
+    }
+    frontier = next;
   }
+  const groupOrder = seen.size;
+  const orderOk = (groupOrder === expectedIdx);
+
+  const tImages = new Set();
+  let bijective = true;
+  for (const { word } of seen.values()) {
+    const t = computeTWord(word);
+    const k = t.join(',');
+    if (tImages.has(k)) bijective = false;
+    tImages.add(k);
+  }
+  const imageOrderOk = (tImages.size === expectedIdx);
+
   return {
-    ok: okX,
-    note: 'PROVISIONAL: (4.11) の literal な式が未入手のため x 座標の共役等式のみ検査。y 座標式は未実装 (要 司令塔確認)。',
-    provisional_interpretation: true,
+    ok: orderOk && wellDefined && bijective && imageOrderOk,
+    groupOrder, expectedIdx, orderOk, wellDefined,
+    conflicts: conflicts.slice(0, 5),
+    bijective, imageOrderCount: tImages.size, imageOrderOk,
   };
 }
 
-// --- 検査項目 10 (ls_witness / (5.1)) : PROVISIONAL ---
-function checkLsWitness(Gn, n, entry) {
-  // entry: { m, k, g_word, h_word }
-  // item (G) の witness 式 (抽出ノート): f = x^{2k} y^{-2k} z^{kappa(m)}
-  //   g := x^{2k} z^{kappa(m)/2}          (4 | kappa(m))
-  //      : y^{2k+2} z^{kappa(m)/2}        (4 not| kappa(m))
-  //   h := x^{2k+m} y^{m}                 (m == 0 mod 6)
-  //      : x^{2k-1} z^{-m-2}              (m == 2 mod 6)
-  //      : x^{-2k-m+1} y^{-m}             (m == 3 mod 6)
-  //      : x^{-2k} z^{-m}                 (m == 5 mod 6)
-  // z = (xy)^-1  (2401 定義)
-  // 本実装は「与えられた g_word, h_word が上記の明示式に一致するか」を再計算で検証する。
-  // (5.1) 自体 (LS 条件が g,h に要求する式) の literal な式は未入手のため、
-  // ここでは「証明書の g_word/h_word が item(G) の式に一致するか」のみを PROVISIONAL に検査する。
-  const { m, k } = entry;
-  const kap = kappa(m);
-  const mm6 = mod(m, 6);
-  let expectedG;
-  if (kap % 4 === 0) expectedG = [['x', 2 * k], ['z', kap / 2]];
-  else expectedG = [['y', 2 * k + 2], ['z', kap / 2]];
-  let expectedH = null;
-  if (mm6 === 0) expectedH = [['x', 2 * k + m], ['y', m]];
-  else if (mm6 === 2) expectedH = [['x', 2 * k - 1], ['z', -m - 2]];
-  else if (mm6 === 3) expectedH = [['x', -2 * k - m + 1], ['y', -m]];
-  else if (mm6 === 5) expectedH = [['x', -2 * k], ['z', -m]];
-  if (expectedH === null) {
-    return { ok: null, reason: `m mod 6 = ${mm6} は抽出ノートの item(G) に式が無いケース`, provisional_interpretation: true };
+// --- 検査項目 10 (ls_witness / (5.1)) : 確定式 (司令塔裁定・追補1・2026-07-18) ---
+// [m,f] in GT(K^(n)), 3|n. f = x^{2k} y^{-2k} z^{kappa(m)}, z=(xy)^-1.
+// 確定式:
+//   (i)  f K_F2 = theta(g)^-1 g K_F2
+//   (ii) f x^m K_F2 = tau(h)^-1 h K_F2          (m == 0 mod 3)
+//        f x^m K_F2 = tau(h)^-1 (x y) h K_F2    (m == -1 mod 3, i.e. m mod 3 == 2)
+//   m == 1 mod 3 は空虚 (3|n なら 3|N_ord, m==1 mod3 -> 3|(2m+1) -> charming の単元条件違反 -> Xn に不在)。
+//   ここでは「そのような m が ls_witness に現れたら FAIL」に変える。
+function invertWord(w) { return w.slice().reverse().map(([g, p]) => [g, -p]); }
+function applyAutoWord(tokens, image) {
+  const out = [];
+  for (const [gen, p] of tokens) {
+    const rep = image[gen];
+    const unit = p < 0 ? invertWord(rep) : rep;
+    for (let i = 0; i < Math.abs(p); i++) out.push(...unit);
   }
-  const wordEq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-  const gOk = wordEq(entry.g_word, expectedG);
-  const hOk = wordEq(entry.h_word, expectedH);
-  return { ok: gOk && hOk, g_ok: gOk, h_ok: hOk, expectedG, expectedH, provisional_interpretation: true };
+  return out;
+}
+function checkLsWitness(Gn, n, entry) {
+  const { Triple, phiTriple } = Gn;
+  const m = entry.m, k = entry.k;
+  const mm3 = mod(m, 3);
+  if (mm3 === 1) {
+    return { ok: false, reason: 'm == 1 mod 3 は空虚 (charming の単元条件違反) のはずが ls_witness に現れている', vacuous_violation: true };
+  }
+  const kap = kappa(m);
+  const fWord = [['x', 2 * k], ['y', -2 * k], ['z', kap]];
+  const phiExt = { x: phiTriple.x, y: phiTriple.y, c: phiTriple.c, z: Triple.inv(Triple.mul(phiTriple.x, phiTriple.y)) };
+  const ev = (tokens) => evalWord(Triple, phiExt, tokens);
+
+  // theta = (x<->y), theta(z) = theta((xy)^-1) = (yx)^-1 = x^-1 y^-1
+  const thetaImage = { x: [['y', 1]], y: [['x', 1]], z: [['x', -1], ['y', -1]] };
+  // tau: x->y->z->x (位数3の巡回)
+  const tauImage = { x: [['y', 1]], y: [['z', 1]], z: [['x', 1]] };
+
+  const gWord = entry.g_word;
+  const hWord = entry.h_word;
+
+  // (i) f = theta(g)^-1 g
+  const lhs1 = ev(fWord);
+  const rhs1 = Triple.mul(Triple.inv(ev(applyAutoWord(gWord, thetaImage))), ev(gWord));
+  const eq1ok = Triple.eq(lhs1, rhs1);
+
+  // (ii) f x^m = tau(h)^-1 h  or  tau(h)^-1 (xy) h
+  const lhsFxm = Triple.mul(ev(fWord), Triple.pow(phiTriple.x, m));
+  const tauH = ev(applyAutoWord(hWord, tauImage));
+  let rhs2;
+  if (mm3 === 0) {
+    rhs2 = Triple.mul(Triple.inv(tauH), ev(hWord));
+  } else {
+    const xy = Triple.mul(phiTriple.x, phiTriple.y);
+    rhs2 = Triple.mul(Triple.mul(Triple.inv(tauH), xy), ev(hWord));
+  }
+  const eq2ok = Triple.eq(lhsFxm, rhs2);
+
+  return { ok: eq1ok && eq2ok, eq1ok, eq2ok, mm3 };
 }
 
 // --- 検査項目 7: composition_table via (3.53) + (4.19)(4.20) ---
@@ -580,7 +691,6 @@ function composeShadowWords(m1, f1Tokens, m2, f2Tokens) {
     }
   }
   const composedWord = f1Tokens.concat(eOfF2);
-  const mNew = mod(2 * m1 * m2 + m1 + m2, Infinity); // reduce later with actual Nord
   return { mNewRaw: 2 * m1 * m2 + m1 + m2, composedWord };
 }
 
@@ -603,7 +713,7 @@ function checkCompositionEntry(Gn, n, Nord, shadows, i, j, k) {
   const rhs420 = mod(kNew, n);
   // 注: kappa は本来 Dn の r 冪の指数として mod n で解釈するのが自然なので mod n で比較
   const id420 = lhs420 === rhs420;
-  return { ok: mOk && tripleOk, mOk, tripleOk, id419, id420 };
+  return { ok: mOk && tripleOk && id419 && id420, mOk, tripleOk, id419, id420 };
 }
 
 // --- 検査項目 8: inverse via composition round-trip ---
@@ -660,7 +770,11 @@ function checkCertificate(cert, certsById) {
       const t43 = thm43ShadowSet(n);
       matchesThm43 = (c.surjective_pass === t43.shadows.length);
     }
-    verdict.items['1_counts'] = { ok: monotone && matchesShadowLen && (matchesThm43 !== false), monotone, matchesShadowLen, matchesThm43 };
+    verdict.items['1_counts'] = {
+      ok: monotone && matchesShadowLen && (matchesThm43 !== false),
+      monotone, matchesShadowLen, matchesThm43,
+      approved_simplification: '追補1 項目3(司令塔裁定・2026-07-18): raw 候補の完全再列挙は不要。単調性+最終個数一致(+dihedralはThm4.3集合一致)で可、と承認済み。',
+    };
   }
 
   // item 2: full hexagon per shadow
@@ -691,6 +805,20 @@ function checkCertificate(cert, certsById) {
       if (!r.ok) { allOk = false; fails.push({ i, r }); }
     }
     verdict.items['4_charming_surjective'] = { ok: allOk, checked: cert.shadows.length, fails };
+  } else {
+    // item 4 相当 (control): PB3/N5 = C5 は可換なので [F2/N_F2, F2/N_F2] = 1。
+    // charming の f ∈ [F2/N_F2,...] 条件は f_word が (N_F2 を法として) 1 であることに帰着する。
+    // 追補1 F4 裁定どおり「f_word が空」を明示検査する。
+    let allOk = true; const fails = [];
+    for (let i = 0; i < cert.shadows.length; i++) {
+      const sh = cert.shadows[i];
+      const isEmpty = Array.isArray(sh.f_word) && sh.f_word.length === 0;
+      if (!isEmpty) { allOk = false; fails.push({ i, f_word: sh.f_word }); }
+    }
+    verdict.items['4_charming_control'] = {
+      ok: allOk, checked: cert.shadows.length, fails,
+      note: '追補1 F4: control(N5) は PB3/N5=C5 が可換なので [F2/N_F2,F2/N_F2]=1。charming は f_word が空(f=1)であることの明示検査に帰着する。',
+    };
   }
 
   // item 5: Thm 4.3 set equality (dihedral only)
@@ -698,16 +826,19 @@ function checkCertificate(cert, certsById) {
     verdict.items['5_thm43_set'] = checkThm43(Gn, n, cert);
   }
 
-  // item 6: kernel_cert (4.11) -- PROVISIONAL
+  // item 6: kernel_cert (4.11) -- 確定式 (追補1 項目1・項目4)
   {
-    let allOk = true; const fails = []; let anyProvisional = false;
+    let allOk = true; const fails = [];
     for (let i = 0; i < cert.shadows.length; i++) {
       const sh = cert.shadows[i];
-      const r = isDihedral ? checkKernelCert(n, sh) : { ok: null, reason: 'control family: 別ロジック未実装' };
-      if (r.provisional_interpretation) anyProvisional = true;
+      const kc = sh.kernel_cert;
+      const r = (kc && kc.type === 'brute') ? checkKernelCertBrute(model, sh) : checkKernelCert(n, sh);
       if (r.ok === false) { allOk = false; fails.push({ i, r }); }
     }
-    verdict.items['6_kernel_cert'] = { ok: allOk, provisional_interpretation: anyProvisional, checked: cert.shadows.length, fails, note: '(4.11) 未確定式のため PROVISIONAL' };
+    verdict.items['6_kernel_cert'] = {
+      ok: allOk, checked: cert.shadows.length, fails,
+      note: '確定式で実装 (追補1 項目1: (4.11) の2等式 x-bar^{2m+1}=h.x-bar.h^-1, g^-1.y-bar^{2m+1}.g=h.y-bar.h^-1 / 項目4: N5 の brute 手続き)',
+    };
   }
 
   // item 7: composition_table via (3.53)(4.19)(4.20)
@@ -740,18 +871,23 @@ function checkCertificate(cert, certsById) {
       const r = checkReductionEntry(n, redEntry, cert.shadows, targetCert);
       if (r.ok !== true) { allOk = false; fails.push({ to: redEntry.to, r }); }
     }
-    verdict.items['9_reduction'] = { ok: allOk, checked: cert.reduction.length, fails };
+    verdict.items['9_reduction'] = {
+      ok: allOk, checked: cert.reduction.length, fails,
+      index_convention: '追補1 項目5で凍結: image[i] = source shadows[i] の像の target 証明書 shadows[] における添字。全射性 = image の値域が target 全添字を被覆。',
+    };
   }
 
-  // item 10: ls_witness (5.1) -- PROVISIONAL
+  // item 10: ls_witness (5.1) -- 確定式 (追補1 項目2)
   if (isDihedral && cert.ls_witness) {
-    let allOk = true; const fails = []; let anyProvisional = false;
+    let allOk = true; const fails = [];
     for (const entry of cert.ls_witness) {
       const r = checkLsWitness(Gn, n, entry);
-      if (r.provisional_interpretation) anyProvisional = true;
       if (r.ok === false) { allOk = false; fails.push({ entry, r }); }
     }
-    verdict.items['10_ls_witness'] = { ok: allOk, provisional_interpretation: anyProvisional, checked: cert.ls_witness.length, fails, note: '(5.1) 未確定式のため PROVISIONAL' };
+    verdict.items['10_ls_witness'] = {
+      ok: allOk, checked: cert.ls_witness.length, fails,
+      note: '確定式で実装 (追補1 項目2: fK=theta(g)^-1 gK, fx^mK=tau(h)^-1 hK(m=0 mod3)/tau(h)^-1 xy hK(m=2 mod3); m=1 mod3 は現れたらFAIL)',
+    };
   }
 
   const allItemsOk = Object.values(verdict.items).every((it) => it.ok === true);
@@ -819,4 +955,18 @@ function main() {
   }
 }
 
-main();
+// テスト用 export (main() の自動実行はコマンドライン起動時のみ -- 下の import.meta.url ガード参照)
+export {
+  checkKernelCert, checkKernelCertBrute, checkLsWitness, checkCompositionEntry,
+  checkInverseEntry, checkReductionEntry, checkHexagon, checkFWordVsTriple,
+  checkCharmingAndSurjective, checkThm43, buildGn, buildTransversalModel,
+  dihedralPhi, controlN5Phi, thm43ShadowSet, kappa, evalWord, tripleFromCertFormat,
+  xyWordToPerm,
+};
+
+// process.argv[1] が指すファイルとして直接起動された場合のみ main() を実行する
+// (他ファイルから import された場合は実行しない -- pathToFileURL で Windows のドライブレター/
+//  バックスラッシュも正しく正規化して比較する)。
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}

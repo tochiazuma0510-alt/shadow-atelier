@@ -1,0 +1,67 @@
+{
+  "id": "K12",
+  "family": "dihedral",
+  "schema": "gtsh-cert/v1",
+  "items": {
+    "1_counts": {
+      "ok": true,
+      "monotone": true,
+      "matchesShadowLen": true,
+      "matchesThm43": true,
+      "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18): raw 候補の完全再列挙は不要。単調性+最終個数一致(+dihedralはThm4.3集合一致)で可、と承認済み。"
+    },
+    "2_hexagon": {
+      "ok": true,
+      "checked": 24,
+      "fails": []
+    },
+    "3_f_word_vs_triple": {
+      "ok": true,
+      "checked": 24,
+      "fails": []
+    },
+    "4_charming_surjective": {
+      "ok": true,
+      "checked": 24,
+      "fails": []
+    },
+    "5_thm43_set": {
+      "ok": true,
+      "expected_count": 24,
+      "cert_count": 24,
+      "missing_in_cert": 0,
+      "extra_in_cert": 0,
+      "duplicates_in_cert": 0
+    },
+    "6_kernel_cert": {
+      "ok": true,
+      "checked": 24,
+      "fails": [],
+      "note": "確定式で実装 (追補1 項目1: (4.11) の2等式 x-bar^{2m+1}=h.x-bar.h^-1, g^-1.y-bar^{2m+1}.g=h.y-bar.h^-1 / 項目4: N5 の brute 手続き)"
+    },
+    "7_composition_table": {
+      "ok": true,
+      "checked": 576,
+      "fails": []
+    },
+    "8_inverse_map": {
+      "ok": true,
+      "checked": 24,
+      "fails": []
+    },
+    "9_reduction": {
+      "ok": true,
+      "checked": 1,
+      "fails": [],
+      "index_convention": "追補1 項目5で凍結: image[i] = source shadows[i] の像の target 証明書 shadows[] における添字。全射性 = image の値域が target 全添字を被覆。"
+    },
+    "10_ls_witness": {
+      "ok": true,
+      "checked": 24,
+      "fails": [],
+      "note": "確定式で実装 (追補1 項目2: fK=theta(g)^-1 gK, fx^mK=tau(h)^-1 hK(m=0 mod3)/tau(h)^-1 xy hK(m=2 mod3); m=1 mod3 は現れたらFAIL)"
+    }
+  },
+  "all_pass": true,
+  "cross_checked": true
+}
