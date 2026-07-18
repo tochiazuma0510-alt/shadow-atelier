@@ -1,12 +1,50 @@
-# Live viewer for ops/codex_activity.log (Sol/Luna turn output).
-# Usage:  ops\bin\watch_log.ps1            (opens in current console, Ctrl+C to quit)
-# The commander opens it in a visible window via:
-#   Start-Process powershell -ArgumentList '-NoExit','-ExecutionPolicy','Bypass','-File','ops\bin\watch_log.ps1'
+# Live viewer for ops/codex_activity.log (Sol/Luna turn output) - v2 readable.
+# Mojibake note: chcp 65001 + UTF8 OutputEncoding together (either alone breaks
+# on a cp932 console). Log file is UTF-8 (BOM at creation by wake scripts).
 # Keep this file ASCII-only (PS 5.1 encoding pitfall).
-param([int]$Tail = 40)
+param([int]$Tail = 60)
 $log = "C:\Users\81905\Desktop\shadow-atelier\ops\codex_activity.log"
 if (-not (Test-Path $log)) { New-Item -ItemType File -Path $log | Out-Null }
+chcp 65001 | Out-Null
 try { [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false) } catch {}
 $host.UI.RawUI.WindowTitle = "shadow-atelier codex log (live)"
-Write-Host "=== watching ops/codex_activity.log (Ctrl+C de owari) ===" -ForegroundColor Cyan
-Get-Content -LiteralPath $log -Wait -Tail $Tail -Encoding UTF8
+Write-Host ""
+Write-Host "==============================================" -ForegroundColor Cyan
+Write-Host "  shadow-atelier : codex activity (live tail)"  -ForegroundColor Cyan
+Write-Host "  quit: Ctrl+C    file: ops/codex_activity.log" -ForegroundColor DarkCyan
+Write-Host "==============================================" -ForegroundColor Cyan
+Write-Host ""
+Get-Content -LiteralPath $log -Wait -Tail $Tail -Encoding UTF8 | ForEach-Object {
+    $line = $_
+    switch -Regex ($line) {
+        '^=====\s*(WAKE|NEW-SESSION)' {
+            Write-Host ""
+            Write-Host $line -ForegroundColor Black -BackgroundColor Cyan
+            break
+        }
+        '^-----\s*turn end' {
+            Write-Host $line -ForegroundColor Black -BackgroundColor DarkCyan
+            Write-Host ""
+            break
+        }
+        '(ERROR|Error\b|error:|failed|FAILED|FAIL\b|refuted|ZOMBIE)' {
+            Write-Host $line -ForegroundColor Red
+            break
+        }
+        '(ALL PASSED|VERIFIED|\bPASS\b|SUCCESS)' {
+            Write-Host $line -ForegroundColor Green
+            break
+        }
+        '^(reason:|instr:|target:)' {
+            Write-Host $line -ForegroundColor Yellow
+            break
+        }
+        '^\s*(thinking|tokens used|exec\b|bash -lc|codex\b)' {
+            Write-Host $line -ForegroundColor DarkGray
+            break
+        }
+        default {
+            Write-Host $line -ForegroundColor Gray
+        }
+    }
+}
