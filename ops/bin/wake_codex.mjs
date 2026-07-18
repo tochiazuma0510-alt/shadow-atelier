@@ -51,7 +51,9 @@ if (!fs.existsSync(ID_FILE)) {
 }
 const sid = fs.readFileSync(ID_FILE, 'utf8').trim().split(/\r?\n/)[0];
 const quoted = '"' + reason.replace(/"/g, '\\"') + '"';
-const cmd = `codex exec resume ${sid}${MODEL_FLAGS} -c approval_policy="never" --sandbox workspace-write ${quoted}`;
+// 注意: `codex exec resume` は --sandbox フラグ非対応(new 専用)。sandbox は元セッション設定を
+// 継承するため -c のみ渡す(2026-07-19 実測: --sandbox 付きは exit 2 で起床失敗)。
+const cmd = `codex exec resume ${sid}${MODEL_FLAGS} -c approval_policy="never" ${quoted}`;
 
 if (!fs.existsSync(LOG)) fs.writeFileSync(LOG, '﻿');
 fs.appendFileSync(LOG, `\n===== WAKE(${role}) ${new Date().toISOString()} =====\nreason: ${reason}\ntarget: ${sid}\n`);
