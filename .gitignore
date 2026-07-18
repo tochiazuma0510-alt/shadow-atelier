@@ -2,6 +2,9 @@
 # 再取得手順とSHA-256 は provenance/LEDGER.md に記録済み。
 papers/
 
+# 第三者コード(Dolgushev パッケージ GT 等)— SHA-256 は provenance/LEDGER.md
+thirdparty/
+
 # GAP / エディタの一時ファイル
 *.g~
 *~

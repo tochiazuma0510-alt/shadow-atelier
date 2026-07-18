@@ -33,3 +33,20 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 既知の問題と対処: 同梱バイナリがシステムの古い VC++ ランタイム(14.13)でクラッシュ(0xC0000005)。Edge 同梱の x64 ランタイム DLL(14.50)を poppler の `Library\bin` にコピーして解消。その後システム側も VC++ 14.51 に更新済み。
   - `papers/txt/` のテキスト版はこの poppler で抽出(`pdftotext -layout`)。
 - Microsoft VC++ 2015+ x64 Redistributable: 14.13.26020 → **14.51.36247** に更新(winget)。
+
+## 2026-07-18 — Week 1: 定義系のスポット照合(Task #4)
+
+- 抽出ノート 3 本(`docs/notes/`、読解エージェント作)に対する司令塔の独立照合:
+  - ページ画像照合 4 か所: 2401.06870 p.10(hexagon (3.3)(3.4)・N_ord/N_F₂)/ 2405.11725 p.13(ψₙ (3.1)・K⁽ⁿ⁾・逆射)/ p.18(Thm 4.3 の (4.12)・𝒳ₙ・ϰ・isolated)/ p.23(Conjecture 5.1 全文)— **すべて一致**。
+  - GAP 独立検算: `search/week1-kn-spotcheck.g`(GAP 4.16.0)— |Gₙ| = 4n³/4(n/2)³(n=3..12)・K_ord = lcm(n,2)・K⁽ⁿ⁾=K⁽²ⁿ⁾(n=3,5,7,9,11)— **ALL PASSED**。慣習: Dₙ³ は置換の左作用・rs は「s のち r」で実装(Sol 便 01 で裁定予定)。
+- 統合版: `docs/week1-定義ノート.md` v1(状態: Sol 定義ゲート待ち)。
+
+## 2026-07-18 — Week 1: 追加ツール・第三者資源
+
+- **Python 3.13**(winget `Python.Python.3.13`)— 検証器第二系統+パッケージ GT 実行用。
+- **Dolgushev パッケージ GT**(B₄ 系の第三者実装・SymPy 製):
+  ```
+  c3124483cb1464b9010c091011370db091a76561a2af923a38efb6900f645f95  thirdparty/packageGT/PackageGT.zip
+  90545f5ea820b41c8bb16c5719c2540d39207f5247a4649fc4d784f1612468f1  thirdparty/packageGT/PackageGT_README.pdf
+  ```
+  取得元: https://sites.temple.edu/vald/files/2024/05/ (2026-07-18)。thirdparty/ は git 管理外。
