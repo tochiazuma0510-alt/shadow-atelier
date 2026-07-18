@@ -20,13 +20,13 @@
 ```
 テキスト版は `papers/txt/`(検索用)。論文 PDF は `papers/`。
 
-**node v24 / Python 3.13**: 独立検証器・小さな検算スクリプト。Dolgushev のパッケージ GT(B₄ 系第三者実装)は `thirdparty/packageGT/`。
+**node v24 / Python 3.13**: 独立照合器(cross-checker)・小さな検算スクリプト。Dolgushev のパッケージ GT(B₄ 系第三者実装)は `thirdparty/packageGT/`。
 
 **Lean 常駐サーバ**(起動している時のみ・`http://127.0.0.1:8787`): `POST /api/lean-check` {code} / `GET /api/mathlib-search?q=` / `POST /api/tactic-search`。ok=完全証明ではない(sorry は warning)。補題名は記憶で書かず mathlib-search で実在確認。
 
 ## 検証の序列(正本: docs/道具と検証の序列.md)
 
-どの道具の出力も検証前は candidate。探索器(GAP)と独立検証器(node/py・helper 非共有)の一致で verified、Lean 証明書で certified。**「見つからなかった」は非存在の証明ではない**(UNKNOWN は一級の結果)。主張の台帳は `provenance/CLAIMS.md`。
+どの道具の出力も candidate。探索器(GAP)と独立照合器(node/py・helper 非共有)の一致で **cross-checked(照合済み)**、Lean 証明書で初めて **verified(検証済み)** — **「検証」の語は Lean に予約されている**。「見つからなかった」は非存在の証明ではない(UNKNOWN は一級の結果)。主張の台帳は `provenance/CLAIMS.md`。
 
 ## 契約(必読)
 

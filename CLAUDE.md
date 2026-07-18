@@ -16,11 +16,12 @@
   - **副線 = B₄ ベース本来系**(pentagon あり・**同名別物**、2405 Remark 1.2): arXiv **2106.06645**(dessins への作用・軌道計算)+ その定義正本 arXiv **2008.00066**(未入手・副線着手時に)。Dolgushev の Python パッケージ GT(Temple 大サイト)は第三者クロスチェック資源。
   - 抽出ノート 3 本: `docs/notes/`(状態 candidate → 司令塔照合後に定義ノートへ統合)。
 - **撤退条件(先に書く)**: 2 週間で定義+既知例を再現できなければ**保留**し、勉強トラック専念 or 控え(norm-one tori)へ切替。
-- **Week 3-6**: 最小の奇数/混合位数 dihedral 対象の **shadow atlas**(候補 shadow の全列挙 → 有限群内での関係式検証 → genuine 判定 → 既知 arithmetic 部分の照合)。目標は定理でなく「**完全な atlas と検証器**」— それ自体が次の一歩を正確に切る資産。
+- **Week 3-6**: 最小の奇数/混合位数 dihedral 対象の **shadow atlas**(候補 shadow の全列挙 → 有限群内での関係式チェック → genuine 判定 → 既知 arithmetic 部分の照合)。目標は定理でなく「**完全な atlas と照合・検証の基盤**」— それ自体が次の一歩を正確に切る資産。
 
 ## 道具と規律(証明工房 ES(7) キャンペーンから輸入)
 
-- **探索器と検証器の分離**: 探索は GAP(有限表示・剰余群・軌道)、検証は独立実装(node/python で関係式を再計算)。将来は小さな証明書から Lean 化(整数行列・有限群等式の checker)。
+- **探索器と照合器の分離**: 探索は GAP(有限表示・剰余群・軌道)、照合は独立実装(node/python が証明書だけを入力に関係式を再計算し突合)。**「検証(verified)」は Lean に予約**(2026-07-18 ユーザー指示)— 二系統一致は「照合済み(cross-checked)」であって検証ではない。Lean 化(整数行列・有限群等式の checker)で初めて検証済み。
+- **内製部隊の職務規程**: `.claude/agents/` に 4 役 — reader(inherit/high)・implementer(sonnet/medium)・falsifier(sonnet/medium)・ops-clerk(haiku/low)。Agent tool の subagent_type で指定。**セッション起動時に読み込まれるため、新設・変更は次セッションから有効**(未読み込みセッションでは general-purpose + model 明示で代替)。
 - **宇宙の事前登録**: 対象の位数・生成系を先に固定し、後から変えない。**UNKNOWN は一級の結果**。負の探索結果は非存在の証明ではない。
 - 出所管理: ソフトのバージョン・seed・入力ハッシュ・全証明書ハッシュを記録(`provenance/LEDGER.md`)。既知例は positive/negative/adversarial の三分で常備。
 - 環境: Windows。GAP 4.16.0 導入済み(`C:\Program Files\GAP-4.16.0`)。**実行は必ずプロジェクト直下の `gap.ps1` 経由**(`gap.bat` は別窓を開くため自動実行不可)。

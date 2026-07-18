@@ -50,3 +50,17 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   90545f5ea820b41c8bb16c5719c2540d39207f5247a4649fc4d784f1612468f1  thirdparty/packageGT/PackageGT_README.pdf
   ```
   取得元: https://sites.temple.edu/vald/files/2024/05/ (2026-07-18)。thirdparty/ は git 管理外。
+
+## 2026-07-18 — 較正スイート v2: 宇宙の事前登録(Task #5)
+
+計算開始前に対象を固定する(後から広げる場合は新しい版として追記):
+
+- **dihedral 対象**: K⁽ⁿ⁾ = ker(ψₙ)、n ∈ {3,…,16} ∪ {18, 36}(18, 36 は reduction branch suite (q,n) = (36,12), (18,3) の q 側のため)。生成系は 2405.11725 (3.1) の ψₙ(x₁₂)=(r,s,s), ψₙ(x₂₃)=(rs,r,rs), ψₙ(c)=1 に固定。慣習: 置換は左作用、rs は「s のち r」(GAP では s*r)— Sol 便 01 で裁定済み。fixture: z̄ = (r²s, r⁻¹s, r)。
+- **control 対象(c ≠ 1)**: N₅ = ker(β₅)、β₅: B₃ → S₃×C₅、σ₁ ↦ ((12), t), σ₂ ↦ ((23), t)(Sol 便 01 提案・採用)。B₃/N₅ の位数 30、PB₃/N₅ ≅ C₅、N_ord = 5、期待 |GT(N₅)| = 4(独立に計算で確認する — 期待値に合わせにいかない)。
+- **検証項目**: docs/week1-定義ノート.md §4 の 8 項目(v2)。
+- **探索器/検証器**: 探索 = GAP 4.16.0、検証 = node v24(helper 非共有)。証明書は JSON(形式は WP2 で設計し本台帳に追記)。
+- **cap(超過時は保留して報告)**: 1 対象の shadow 候補列挙 ≤ 10⁶、GAP 1 スクリプト実行 ≤ 10 分。
+
+## 2026-07-18 — 用語改定(ユーザー指示)
+
+- **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。
