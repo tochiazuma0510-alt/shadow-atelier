@@ -61,6 +61,16 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **探索器/検証器**: 探索 = GAP 4.16.0、検証 = node v24(helper 非共有)。証明書は JSON(形式は WP2 で設計し本台帳に追記)。
 - **cap(超過時は保留して報告)**: 1 対象の shadow 候補列挙 ≤ 10⁶、GAP 1 スクリプト実行 ≤ 10 分。
 
+## 2026-07-18 — 較正スイート v2: WP1 実行記録
+
+- `search/suite-wp1.g`(GAP 4.16.0・implementer=sonnet 実装・司令塔が再実行で再現確認)— **WP1 ALL PASSED**。
+  - 項目 1 完走: n ∈ {3..16, 18, 36} の |Gₙ|・K_ord 全 PASS、doubling K⁽¹³⁾=K⁽²⁶⁾・K⁽¹⁵⁾=K⁽³⁰⁾ PASS。
+  - Prop 3.5: **全 256 順序対**で数論式 ⟺ marked factor map が一致(不成立 212 対はすべて fail を返すことも確認)。branch suite 5 対 個別 PASS。
+  - N₅ control: |B₃/N₅| = 30、N_ord = 5、**GT(N₅) = {m = 0,1,3,4}(計算値・Sol 予想と一致)**、T(c) = c^{2m+1} 全通過。
+  - **新規の観測**: N₅ では raw hexagon (3.3)(3.4) が m = 2 を含む全 m で成立し、m = 2 を落とすのは単元条件と全射性のみ(可換 control では hexagon が実質空回りし、charming 側が制約を担う)。atlas 向けの小データ点として記録。
+- **宇宙の補助拡張(透明化)**: doubling 検査のため G₂₆・G₃₀ を一時構成(week1-kn-spotcheck.g の前例と同型の補助であり、研究対象としての登録ではない)。
+- 状態: 以上はすべて GAP 単系統 = **candidate**(照合器通過で cross-checked へ)。
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。
