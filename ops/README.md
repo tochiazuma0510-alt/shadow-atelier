@@ -16,15 +16,21 @@ ES7 の郵便箱一式(`atelier_lean/ES7/ops/`・実証済み)の影工房移植
 
 ## 自動起動の仕組み
 
-- **セッション運用(ES7 準拠)**: **Sol 便ごとに新規セッション**(`launch_wake.ps1 new` — 2 便目以降は
-  `launch_new.mjs --renew` で旧ピンを履歴に退避)。文脈はファイルで渡す(キックオフに前便 reply への参照を書く)。
-  **wake(`launch_wake.ps1 wake`)は同一便内のフォローアップ専用**(ピン ID に `codex exec resume`)。
-- セッション ID は `ops/bin/codex_session_id.txt` に自動ピン留め、全ターン出力は `ops/codex_activity.log` へ。
-  ゾンビガード: codex.exe が居ても活動ログ 45 分無音なら kill して続行。
+- **セッション運用(ES7 準拠)**: **便ごとに新規セッション**(2 便目以降は `-Renew` で旧ピンを履歴に退避)。
+  文脈はファイルで渡す(キックオフに前便 reply への参照を書く)。
+  **wake は同一便内のフォローアップ専用**(ピン ID に `codex exec resume`)。
+  ```powershell
+  ops\bin\launch_wake.ps1 new  "<一行指示>"               # Sol 便(既定: gpt-5.6-sol/max)
+  ops\bin\launch_wake.ps1 new  "<一行指示>" -Renew        # 新しい便(旧ピンを履歴へ)
+  ops\bin\launch_wake.ps1 new  "<一行指示>" -Role luna    # Luna 便(gpt-5.6-luna/high・専用ピン)
+  ops\bin\launch_wake.ps1 wake "<理由>" [-Role luna]      # 便内フォローの起床
+  ```
+- ピン: Sol = `codex_session_id.txt` / Luna = `codex_session_id_luna.txt`(役割別・混線防止)。
+  全ターン出力は `ops/codex_activity.log` へ。ゾンビガード: codex.exe が居ても活動ログ 45 分無音なら kill して続行。
 - **ES7 との相違(重要)**: `--last` フォールバックは**廃止**。この計算機は複数工房で Codex を使うため、
   ピン ID が無ければ起床を拒否する(誤って他工房のセッションを resume しない)。
   同じ理由で、**この計算機で素の `codex exec`(launch_new 以外)を手で実行しない**こと。
-- モデル・エフォートは `~/.codex/config.toml` の既定(gpt-5.6-sol・max)を使う。
+- 資源配分(Sol=数学のみ・Luna=計算と実装・スクリプト=定型)は `docs/体制と道具.md` の資源配分表が正本。
 
 ## 既知の混線リスク(要対処・バックログ)
 

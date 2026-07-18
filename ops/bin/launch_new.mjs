@@ -3,8 +3,11 @@
 // Session policy (ES7-aligned): one NEW session per Sol kickoff (便);
 // context travels via files (kickoff references prior replies). wake_codex
 // is for follow-ups WITHIN the current 便 only.
-// Usage: node launch_new.mjs [--renew] "<instruction...>"
-// - Without --renew: refuses if a session id is already pinned.
+// Usage: node launch_new.mjs [--renew] [--role sol|luna] "<instruction...>"
+// - Roles (subscription discipline): sol = math audits only (config default
+//   gpt-5.6-sol / max). luna = implementation & bulk computation
+//   (-m gpt-5.6-luna, effort high). Each role has its OWN pin file.
+// - Without --renew: refuses if that role's session id is already pinned.
 // - With --renew: archives the current pin to codex_session_id_history.txt
 //   and starts a fresh session (use at the start of each new 便).
 // - Refuses if codex.exe is already running (do not spawn a second brain).
@@ -13,29 +16,36 @@ import fs from 'node:fs';
 
 const REPO = 'C:/Users/81905/Desktop/shadow-atelier';
 const LOG = `${REPO}/ops/codex_activity.log`;
-const ID_FILE = `${REPO}/ops/bin/codex_session_id.txt`;
 const HIST_FILE = `${REPO}/ops/bin/codex_session_id_history.txt`;
 let argv = process.argv.slice(2);
-const renew = argv[0] === '--renew';
-if (renew) argv = argv.slice(1);
+let renew = false, role = 'sol';
+while (argv[0] === '--renew' || argv[0] === '--role') {
+  if (argv[0] === '--renew') { renew = true; argv = argv.slice(1); }
+  else { role = (argv[1] || 'sol').toLowerCase(); argv = argv.slice(2); }
+}
+if (!['sol', 'luna'].includes(role)) { console.log('BAD-ROLE'); process.exit(1); }
+const ID_FILE = role === 'sol'
+  ? `${REPO}/ops/bin/codex_session_id.txt`
+  : `${REPO}/ops/bin/codex_session_id_luna.txt`;
+const MODEL_FLAGS = role === 'luna' ? ' -m gpt-5.6-luna -c model_reasoning_effort="high"' : '';
 const instr = argv.join(' ');
 if (!instr) { console.log('NO-INSTRUCTION'); process.exit(1); }
 if (fs.existsSync(ID_FILE)) {
   if (!renew) { console.log('ALREADY-PINNED: use wake_codex.mjs for follow-ups, or --renew for a new 便'); process.exit(3); }
   const old = fs.readFileSync(ID_FILE, 'utf8').trim();
-  fs.appendFileSync(HIST_FILE, `${new Date().toISOString()} ${old}\n`);
+  fs.appendFileSync(HIST_FILE, `${new Date().toISOString()} ${role} ${old}\n`);
   fs.unlinkSync(ID_FILE);
-  console.log(`RENEWED: archived ${old}`);
+  console.log(`RENEWED: archived ${role} ${old}`);
 }
 
 const tasklist = execSync('tasklist', { encoding: 'utf8' });
 if (/^codex\.exe/im.test(tasklist)) { console.log('CODEX-ALREADY-RUNNING: aborting first launch'); process.exit(2); }
 
 const quoted = '"' + instr.replace(/"/g, '\\"') + '"';
-const cmd = `codex exec -c approval_policy="never" --sandbox workspace-write ${quoted}`;
+const cmd = `codex exec${MODEL_FLAGS} -c approval_policy="never" --sandbox workspace-write ${quoted}`;
 
 if (!fs.existsSync(LOG)) fs.writeFileSync(LOG, '﻿');
-fs.appendFileSync(LOG, `\n===== NEW-SESSION ${new Date().toISOString()} =====\ninstr: ${instr}\n`);
+fs.appendFileSync(LOG, `\n===== NEW-SESSION(${role}) ${new Date().toISOString()} =====\ninstr: ${instr}\n`);
 
 const ws = fs.createWriteStream(LOG, { flags: 'a' });
 // stdin は必ず閉じる: パイプのまま開いていると codex exec が

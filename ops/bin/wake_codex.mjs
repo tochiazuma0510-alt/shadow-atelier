@@ -1,8 +1,8 @@
-// Wake the shadow-atelier Codex (Sol) session non-interactively.
-// Usage: node wake_codex.mjs [reason...]
-// - Resumes ONLY by pinned session id (ops/bin/codex_session_id.txt).
-//   NO --last fallback: this machine runs Codex for multiple ateliers
-//   (atelier_lean/ES7 etc.) and --last could resume a foreign session.
+// Wake a shadow-atelier Codex session non-interactively.
+// Usage: node wake_codex.mjs [--role sol|luna] [reason...]
+// - Resumes ONLY by the role's pinned session id (no --last fallback:
+//   this machine runs Codex for multiple ateliers and --last could
+//   resume a foreign session).
 // - Skips if codex.exe is running with an active log (zombie guard: 45 min
 //   silence => kill and proceed). Ported from atelier_lean/ES7/ops (proven).
 // - Appends full turn output to ops/codex_activity.log.
@@ -11,8 +11,14 @@ import fs from 'node:fs';
 
 const REPO = 'C:/Users/81905/Desktop/shadow-atelier';
 const LOG = `${REPO}/ops/codex_activity.log`;
-const ID_FILE = `${REPO}/ops/bin/codex_session_id.txt`;
-const reason = process.argv.slice(2).join(' ')
+let argv = process.argv.slice(2);
+let role = 'sol';
+if (argv[0] === '--role') { role = (argv[1] || 'sol').toLowerCase(); argv = argv.slice(2); }
+if (!['sol', 'luna'].includes(role)) { console.log('BAD-ROLE'); process.exit(1); }
+const ID_FILE = role === 'sol'
+  ? `${REPO}/ops/bin/codex_session_id.txt`
+  : `${REPO}/ops/bin/codex_session_id_luna.txt`;
+const reason = argv.join(' ')
   || 'ops: new message in ops/inbox_codex. Read it and resume work. (external wake from commander)';
 
 const tasklist = execSync('tasklist', { encoding: 'utf8' });
@@ -27,7 +33,7 @@ if (/^codex\.exe/im.test(tasklist)) {
 }
 
 if (!fs.existsSync(ID_FILE)) {
-  console.log('NO-PINNED-SESSION: refusing to wake (no --last fallback on a multi-atelier machine). Use launch_new.mjs first.');
+  console.log(`NO-PINNED-SESSION(${role}): refusing to wake (no --last fallback on a multi-atelier machine). Use launch_new.mjs first.`);
   process.exit(3);
 }
 const sid = fs.readFileSync(ID_FILE, 'utf8').trim().split(/\r?\n/)[0];
@@ -35,7 +41,7 @@ const quoted = '"' + reason.replace(/"/g, '\\"') + '"';
 const cmd = `codex exec resume ${sid} -c approval_policy="never" --sandbox workspace-write ${quoted}`;
 
 if (!fs.existsSync(LOG)) fs.writeFileSync(LOG, '﻿');
-fs.appendFileSync(LOG, `\n===== WAKE ${new Date().toISOString()} =====\nreason: ${reason}\ntarget: ${sid}\n`);
+fs.appendFileSync(LOG, `\n===== WAKE(${role}) ${new Date().toISOString()} =====\nreason: ${reason}\ntarget: ${sid}\n`);
 
 const ws = fs.createWriteStream(LOG, { flags: 'a' });
 // stdin は必ず閉じる(launch_new.mjs と同じ理由 — EOF 待ちブロック防止)

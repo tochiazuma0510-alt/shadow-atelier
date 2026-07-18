@@ -1,17 +1,23 @@
 # Detach a codex launch/wake via Start-Process so the caller's tool session
 # ending cannot take down the Codex turn. (Ported from atelier_lean/ES7/ops.)
 # Usage:
-#   powershell -File launch_wake.ps1 new  "instruction..."   # first launch (pins session id)
-#   powershell -File launch_wake.ps1 wake "reason..."        # wake pinned session
+#   launch_wake.ps1 new  "instruction..."             # new Sol session (pins id)
+#   launch_wake.ps1 new  "instruction..." -Role luna  # new Luna session (own pin)
+#   launch_wake.ps1 new  "instruction..." -Renew      # new session for a new 便 (archives old pin)
+#   launch_wake.ps1 wake "reason..." [-Role luna]     # wake pinned session (same-便 follow-up)
 # Keep this file ASCII-only (PS 5.1 misparses UTF-8 without BOM).
 param(
     [Parameter(Mandatory = $true)][ValidateSet("new", "wake")][string]$Mode,
-    [string]$Message = ""
+    [string]$Message = "",
+    [ValidateSet("sol", "luna")][string]$Role = "sol",
+    [switch]$Renew
 )
 $node = (Get-Command node).Source
 $dir = "C:\Users\81905\Desktop\shadow-atelier\ops\bin"
 $mjs = if ($Mode -eq "new") { "$dir\launch_new.mjs" } else { "$dir\wake_codex.mjs" }
 $list = @($mjs)
+if ($Mode -eq "new" -and $Renew) { $list += "--renew" }
+$list += @("--role", $Role)
 if ($Message) { $list += $Message }
 Start-Process -FilePath $node -ArgumentList $list -WindowStyle Hidden
-Write-Output "LAUNCHED-$Mode-VIA-STARTPROCESS"
+Write-Output "LAUNCHED-$Mode-$Role-VIA-STARTPROCESS"
