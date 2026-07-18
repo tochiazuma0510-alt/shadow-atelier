@@ -292,7 +292,7 @@ reduction の branch suite として、
 
 ### 現行ゲートに不足する三つの検査
 
-【重大】全 dihedral target で (c\in K^{(n)}) であるため、現在の 6 項目を全部通しても、(3.3), (3.4) の (c^m)、(N_{\mathrm{ord}}) の (cN) 成分、Prop. 3.5 の (T(c)=c^{2m+1}) は実質的に一度も試されない。これは Dih 外へ出た直後に顕在化する定義盲点である。
+【重大】全 dihedral target で \(c\in K^{(n)}\) であるため、現在の 6 項目を全部通しても、(3.3), (3.4) の \(c^m\)、\(N_{\mathrm{ord}}\) の \(cN\) 成分、2401 Prop. 3.5 の \(T(c)=c^{2m+1}\) は実質的に一度も試されない。これは Dih 外へ出た直後に顕在化する定義盲点である。
 
 小さな control として、(C_5=\langle t\rangle) とし、
 
@@ -310,7 +310,7 @@ N_5:=\ker\beta_5
 を勧める。(S_3) 射影が ρ なので (N_5\le PB_3)。また
 
 \[
-PB_3/N_5\cong C_5,quad x,y\mapsto t^2,quad c\mapsto t^6=t,quad (N_5)_{\mathrm{ord}}=5.
+PB_3/N_5\cong C_5,\quad x,y\mapsto t^2,\quad c\mapsto t^6=t,\quad (N_5)_{\mathrm{ord}}=5.
 \]
 
 2405 Remark 5.5 により
