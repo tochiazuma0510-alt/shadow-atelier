@@ -8,8 +8,9 @@ ES7 の郵便箱一式(`atelier_lean/ES7/ops/`・実証済み)の影工房移植
 |---|---|---|
 | キックオフ・裁定(契約級) | **司令塔** が `sol/` にファイルとして書く | **スクリプト**(`launch_wake.ps1` — 一行指示はファイルへのポインタのみ) |
 | Sol の監査・返信(契約級) | **Sol** が `sol/sol_reply_*.md` に書く | ファイル到着を **Monitor が自動検知**(done 通知は不要 — ES7 と違い司令塔側が常駐監視) |
-| 運用連絡(定型) | 原則**スクリプト**。郵便量が増えたら **ops 事務員**(安価モデルの subagent)を発足 | 同左+wake |
-| **Sol は ops の便りを書かない**(ES7 規約)— Sol の出力は数学成果物のみ | — | — |
+| 運用連絡(定型) | 原則**スクリプト**。郵便処理は **ops 事務員**(`.claude/agents/ops-clerk.md`・haiku)に委譲 | 同左+wake |
+| **Sol → Luna の実装指示** | **Sol** が `sol/luna_task_NN_*.md` に指示書を書く(数学成果物扱い・自分では実装しない) | **司令塔が点検**(停止ゲート・規律違反の一瞥)→ **ops 事務員**が `-Role luna` で起動・配達。Luna の返信は `sol/luna_reply_NN_*.md` → 次便で Sol が検収 |
+| **Sol は ops の便りを書かない**(ES7 規約)— Sol の出力は数学成果物のみ(reply と luna_task) | — | — |
 
 - Luna(実装増援)を起こす日が来たら: **Luna 専用セッション+専用ピン**(`codex_session_id_luna.txt`)を新設し、
   Codex 側の ops 便り担当は Luna に置く(ES7 と同配置)。Sol のピンと混ぜない。
