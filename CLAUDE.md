@@ -31,7 +31,7 @@
 
 - **フェーズ 0 完了**: GAP 4.16.0(実行は `gap.ps1`)・論文 3 本+パッケージ GT 入手・poppler/node/Python 導入(ハッシュは `provenance/LEDGER.md`)。
 - **Week 1(初日で大幅前進)**: 定義ノート v2 確定(`docs/week1-定義ノート.md` — Sol 定義ゲート便 01 **条件付き PASS**・裁定済み `sol/裁定_01_definition_gate.md`)。較正スイート v2(8 項目)のうち **WP1 = ALL PASSED**(`search/suite-wp1.g`: 数値事実 n=3..16,18,36・Prop 3.5 全 256 対・N₅ control)。**WP2 設計凍結**: transversal-cocycle モデル 12 規則+証明書スキーマ gtsh-cert/v1(`docs/wp2-transversal-model.md`)・作業指示書(`docs/wp2-workorders.md`)。
-- **WP2 統合完了(2026-07-18 夜)**: 探索器(GAP・2 本)×照合器(node・独立実装)で**証明書 17 通(K3..K16, K18, K36, N₅)全対象 cross-checked**。台帳 C-1/C-2/C-4 昇格済み。残ギャップ 2 点((5.3) 合成鎖・Thm 4.6 明示同型)は C-5 に記録し Sol 便 02 で裁定。
-- **次の一手: Sol 便 02 の起草と発射**(雛形 v2 初適用・★教材トライアル・前便 P/W への裁定・スイート監査+G1★ 達成宣言の敵対的検証 — 宣言は研究者の検分を経る)。
-- 台帳: `provenance/CLAIMS.md`(C-1..C-5)。タスク: #7 Week 3 Dih 外第一撃(待機)・#8 Sol 便 02(次の実行対象)。
+- **G1★ 工程完了(2026-07-19 未明)**: Sol 便 02(条件付き承認)→ Luna 便 02/02b/03(fail-closed 閉鎖・global sweep 3.5 秒化・下流直接比較)→ shard 分割+JoinC 線形化(全 GAP 実行が 600 秒 cap 内・ハッシュ 17/17 でバイト同一)→ Sol 便 03(検収・**宣言文原文承認**)→ 司令塔最終フル照合 **18/18 all_pass**。凍結 tag `v1.0-g1`。**宣言の発令は研究者の検分待ち**(Sol 承認文言は sol/sol_reply_03 §F7)。
+- 台帳: `provenance/CLAIMS.md`(C-1..C-5)。タスク: #9 宣言検分(進行中)・#7 Week 3 Dih 外第一撃(入口条件 = v1.0-g1 回帰 PASS)。
+- Sol 便の運用実績: 雛形 v2(F#/P#/W# 番号規約・★教材・監査範囲外申告)が 3 便で機能。裁定記録は sol/裁定_0*.md。
 - ユーザーの背景・応対トーン: `../galois-atelier/CLAUDE.md` と同じ(数学科卒・ガロア圏読書中・「才能の壁」への配慮・実績根拠の励まし・誇張なし)。

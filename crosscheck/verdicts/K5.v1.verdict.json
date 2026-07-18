@@ -35,6 +35,13 @@
       "matchesThm43": true,
       "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18): raw 候補の完全再列挙は不要。単調性+最終個数一致(+dihedralはThm4.3集合一致)で可、と承認済み。"
     },
+    "1_raw_formula": {
+      "ok": true,
+      "claimed_raw": 1000,
+      "expected_raw": 1000,
+      "X_n_count": 8,
+      "derived_order": 125
+    },
     "2_hexagon": {
       "ok": true,
       "checked": 40,
@@ -115,328 +122,40 @@
     "12_representative_invariance": {
       "ok": true,
       "x_Nord_in_N_F2": true,
-      "rows": [
-        {
-          "index": 0,
-          "m_shift": "0->10",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 1,
-          "m_shift": "9->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 2,
-          "m_shift": "0->10",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 3,
-          "m_shift": "9->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 4,
-          "m_shift": "0->10",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 5,
-          "m_shift": "9->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 6,
-          "m_shift": "1->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 7,
-          "m_shift": "8->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 8,
-          "m_shift": "1->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 9,
-          "m_shift": "8->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 10,
-          "m_shift": "1->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 11,
-          "m_shift": "8->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 12,
-          "m_shift": "0->10",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 13,
-          "m_shift": "9->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 14,
-          "m_shift": "1->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 15,
-          "m_shift": "8->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 16,
-          "m_shift": "4->14",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 17,
-          "m_shift": "5->15",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 18,
-          "m_shift": "4->14",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 19,
-          "m_shift": "5->15",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 20,
-          "m_shift": "4->14",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 21,
-          "m_shift": "5->15",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 22,
-          "m_shift": "4->14",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 23,
-          "m_shift": "5->15",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 24,
-          "m_shift": "0->10",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 25,
-          "m_shift": "9->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 26,
-          "m_shift": "1->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 27,
-          "m_shift": "8->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 28,
-          "m_shift": "4->14",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 29,
-          "m_shift": "5->15",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 30,
-          "m_shift": "3->13",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 31,
-          "m_shift": "6->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 32,
-          "m_shift": "3->13",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 33,
-          "m_shift": "6->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 34,
-          "m_shift": "3->13",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 35,
-          "m_shift": "6->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 36,
-          "m_shift": "3->13",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 37,
-          "m_shift": "6->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 38,
-          "m_shift": "3->13",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 39,
-          "m_shift": "6->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        }
-      ]
+      "hexagon": {
+        "checked": 40,
+        "original_pass": 40,
+        "shifted_pass": 40,
+        "equal_pass": 40,
+        "failures": []
+      },
+      "quotient_f": {
+        "checked": 40,
+        "pass": 40,
+        "failures": []
+      },
+      "T_sigma": {
+        "checked": 40,
+        "pass": 40,
+        "failures": []
+      },
+      "composition": {
+        "left_checked": 1600,
+        "left_pass": 1600,
+        "right_checked": 1600,
+        "right_pass": 1600,
+        "failures": []
+      },
+      "reduction": {
+        "required_entries": [],
+        "checked": 0,
+        "pass": 0,
+        "failures": []
+      },
+      "assertions": {
+        "x_Nord_in_N_F2": true,
+        "all_downstream_direct": true
+      }
     },
     "13_varrho": {
       "ok": true,

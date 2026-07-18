@@ -35,6 +35,13 @@
       "matchesThm43": true,
       "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18): raw 候補の完全再列挙は不要。単調性+最終個数一致(+dihedralはThm4.3集合一致)で可、と承認済み。"
     },
+    "1_raw_formula": {
+      "ok": true,
+      "claimed_raw": 2048,
+      "expected_raw": 2048,
+      "X_n_count": 16,
+      "derived_order": 128
+    },
     "2_hexagon": {
       "ok": true,
       "checked": 64,
@@ -115,526 +122,54 @@
     "12_representative_invariance": {
       "ok": true,
       "x_Nord_in_N_F2": true,
-      "rows": [
-        {
-          "index": 0,
-          "m_shift": "0->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 1,
-          "m_shift": "15->31",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 2,
-          "m_shift": "2->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 3,
-          "m_shift": "13->29",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 4,
-          "m_shift": "2->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 5,
-          "m_shift": "13->29",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 6,
-          "m_shift": "1->17",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 7,
-          "m_shift": "14->30",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 8,
-          "m_shift": "1->17",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 9,
-          "m_shift": "14->30",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 10,
-          "m_shift": "0->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 11,
-          "m_shift": "15->31",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 12,
-          "m_shift": "4->20",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 13,
-          "m_shift": "11->27",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 14,
-          "m_shift": "4->20",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 15,
-          "m_shift": "11->27",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 16,
-          "m_shift": "0->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 17,
-          "m_shift": "15->31",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 18,
-          "m_shift": "4->20",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 19,
-          "m_shift": "11->27",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 20,
-          "m_shift": "3->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 21,
-          "m_shift": "12->28",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 22,
-          "m_shift": "3->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 23,
-          "m_shift": "12->28",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 24,
-          "m_shift": "3->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 25,
-          "m_shift": "12->28",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 26,
-          "m_shift": "2->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 27,
-          "m_shift": "13->29",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 28,
-          "m_shift": "1->17",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 29,
-          "m_shift": "14->30",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 30,
-          "m_shift": "6->22",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 31,
-          "m_shift": "9->25",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 32,
-          "m_shift": "6->22",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 33,
-          "m_shift": "9->25",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 34,
-          "m_shift": "6->22",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 35,
-          "m_shift": "9->25",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 36,
-          "m_shift": "2->18",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 37,
-          "m_shift": "13->29",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 38,
-          "m_shift": "1->17",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 39,
-          "m_shift": "14->30",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 40,
-          "m_shift": "6->22",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 41,
-          "m_shift": "9->25",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 42,
-          "m_shift": "5->21",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 43,
-          "m_shift": "10->26",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 44,
-          "m_shift": "5->21",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 45,
-          "m_shift": "10->26",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 46,
-          "m_shift": "5->21",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 47,
-          "m_shift": "10->26",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 48,
-          "m_shift": "5->21",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 49,
-          "m_shift": "10->26",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 50,
-          "m_shift": "0->16",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 51,
-          "m_shift": "15->31",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 52,
-          "m_shift": "4->20",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 53,
-          "m_shift": "11->27",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 54,
-          "m_shift": "3->19",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 55,
-          "m_shift": "12->28",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 56,
-          "m_shift": "7->23",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 57,
-          "m_shift": "8->24",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 58,
-          "m_shift": "7->23",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 59,
-          "m_shift": "8->24",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 60,
-          "m_shift": "7->23",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 61,
-          "m_shift": "8->24",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 62,
-          "m_shift": "7->23",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 63,
-          "m_shift": "8->24",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        }
-      ]
+      "hexagon": {
+        "checked": 64,
+        "original_pass": 64,
+        "shifted_pass": 64,
+        "equal_pass": 64,
+        "failures": []
+      },
+      "quotient_f": {
+        "checked": 64,
+        "pass": 64,
+        "failures": []
+      },
+      "T_sigma": {
+        "checked": 64,
+        "pass": 64,
+        "failures": []
+      },
+      "composition": {
+        "left_checked": 4096,
+        "left_pass": 4096,
+        "right_checked": 4096,
+        "right_pass": 4096,
+        "failures": []
+      },
+      "reduction": {
+        "required_entries": [],
+        "checked": 0,
+        "pass": 0,
+        "failures": []
+      },
+      "assertions": {
+        "x_Nord_in_N_F2": true,
+        "all_downstream_direct": true
+      }
     },
     "13_varrho": {
       "ok": true,
       "formula": "rho(m,k)=(k mod n/2,u mod 2n), u=2m+1",
       "expected_shadow_count": 64,
       "actual_shadow_count": 64,
+      "exact_set": {
+        "expected_count": 64,
+        "actual_count": 64,
+        "missing": [],
+        "extra": [],
+        "duplicate_count": 0,
+        "ok": true
+      },
       "rows": [
         {
           "i": 0,
@@ -1093,6 +628,24 @@
         "1,5": 2,
         "forward_product": 5,
         "reverse_product": 3,
+        "forward_expected": {
+          "k": 7,
+          "u": 27
+        },
+        "reverse_expected": {
+          "k": 1,
+          "u": 27
+        },
+        "forward_actual": {
+          "k": 7,
+          "u": 27
+        },
+        "reverse_actual": {
+          "k": 1,
+          "u": 27
+        },
+        "forward_match": true,
+        "reverse_match": true,
         "noncommuting": true
       }
     }

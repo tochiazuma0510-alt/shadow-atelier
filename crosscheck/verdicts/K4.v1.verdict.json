@@ -35,6 +35,13 @@
       "matchesThm43": true,
       "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18): raw 候補の完全再列挙は不要。単調性+最終個数一致(+dihedralはThm4.3集合一致)で可、と承認済み。"
     },
+    "1_raw_formula": {
+      "ok": true,
+      "claimed_raw": 8,
+      "expected_raw": 8,
+      "X_n_count": 4,
+      "derived_order": 2
+    },
     "2_hexagon": {
       "ok": true,
       "checked": 4,
@@ -115,46 +122,54 @@
     "12_representative_invariance": {
       "ok": true,
       "x_Nord_in_N_F2": true,
-      "rows": [
-        {
-          "index": 0,
-          "m_shift": "0->4",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 1,
-          "m_shift": "3->7",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 2,
-          "m_shift": "1->5",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 3,
-          "m_shift": "2->6",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        }
-      ]
+      "hexagon": {
+        "checked": 4,
+        "original_pass": 4,
+        "shifted_pass": 4,
+        "equal_pass": 4,
+        "failures": []
+      },
+      "quotient_f": {
+        "checked": 4,
+        "pass": 4,
+        "failures": []
+      },
+      "T_sigma": {
+        "checked": 4,
+        "pass": 4,
+        "failures": []
+      },
+      "composition": {
+        "left_checked": 16,
+        "left_pass": 16,
+        "right_checked": 16,
+        "right_pass": 16,
+        "failures": []
+      },
+      "reduction": {
+        "required_entries": [],
+        "checked": 0,
+        "pass": 0,
+        "failures": []
+      },
+      "assertions": {
+        "x_Nord_in_N_F2": true,
+        "all_downstream_direct": true
+      }
     },
     "13_varrho": {
       "ok": true,
       "formula": "rho(m,k)=(k mod n/2,u mod 2n), u=2m+1",
       "expected_shadow_count": 4,
       "actual_shadow_count": 4,
+      "exact_set": {
+        "expected_count": 4,
+        "actual_count": 4,
+        "missing": [],
+        "extra": [],
+        "duplicate_count": 0,
+        "ok": true
+      },
       "rows": [
         {
           "i": 0,

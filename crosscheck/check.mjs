@@ -56,9 +56,12 @@ function makeDn(n) {
   const elements = () => { const out = []; for (let a = 0; a < n; a++) for (let e = 0; e < 2; e++) out.push({ a, e }); return out; };
   const pow = (g, k) => {
     if (k === 0) return id;
-    const base = k < 0 ? inv(g) : g;
-    let res = id;
-    for (let i = 0; i < Math.abs(k); i++) res = mul(res, base);
+    let base = k < 0 ? inv(g) : g, exponent = Math.abs(k), res = id;
+    while (exponent > 0) {
+      if (exponent % 2 === 1) res = mul(res, base);
+      base = mul(base, base);
+      exponent = Math.floor(exponent / 2);
+    }
     return res;
   };
   return { n, id, mul, inv, key, eq, elements, pow };
@@ -325,6 +328,10 @@ function selfCheck() {
   const log = [];
   let ok = true;
 
+  const rawFixtureOk = rawCountFixtureSelfCheck();
+  log.push(`fail-closed raw count fixture (wrong raw is rejected): ${rawFixtureOk ? 'PASS' : 'FAIL'}`);
+  if (!rawFixtureOk) ok = false;
+
   // (0) Dn 群の公理 (単位元・逆元・簡単な結合則スポットチェック)
   {
     const Dn = makeDn(7);
@@ -524,6 +531,22 @@ function checkCertificateInvariants(cert, Gn, n) {
   return { ok: Object.values(checks).every(Boolean), expected: { index_PB3: expectedGroup, index_B3: 6 * expectedGroup, N_ord: expectedNord, derived_order: actualDerived }, claimed: inv, checks };
 }
 
+function checkRawCandidateFormula(cert, Gn, n) {
+  const expected = thm43ShadowSet(n);
+  const XnCount = expected.Xn.length;
+  const derivedOrder = Gn.derived.size;
+  const expectedRaw = XnCount * derivedOrder;
+  const claimedRaw = cert.counts?.raw_candidates;
+  return { ok: claimedRaw === expectedRaw, claimed_raw: claimedRaw, expected_raw: expectedRaw, X_n_count: XnCount, derived_order: derivedOrder };
+}
+
+function rawCountFixtureSelfCheck() {
+  const expected = { counts: { raw_candidates: 1 } };
+  const fake = { ...expected, target: { n: 4 }, shadows: [] };
+  const fakeGn = { derived: { size: 2 } };
+  return checkRawCandidateFormula(fake, fakeGn, 4).ok === false;
+}
+
 function checkN5Enumeration(model, cert) {
   const expectedM = [0, 1, 3, 4];
   const rows = [];
@@ -627,15 +650,63 @@ function checkReductionCoverage(cert, certsById) {
   return { ok: exact && results.every((r) => r.ok === true), required, listed, exact_entry_set: exact, results };
 }
 
-function checkRepresentativeInvariance(cert, model, Gn) {
-  const n = cert.target.n, Nord = lcm(n, 2), rows = [], xNordIdentity = permEq(permPow(model.perm1, 2 * Nord), identityPerm(model.N));
-  for (const sh of cert.shadows) {
-    const shifted = { ...sh, m: sh.m + Nord, f_word: sh.f_word.concat([['x', Nord]]) };
-    const fSame = Gn.Triple.eq(evalWord(Gn.Triple, Gn.phiTriple, sh.f_word), evalWord(Gn.Triple, Gn.phiTriple, shifted.f_word));
-    const uSame = mod(2 * sh.m + 1, 2 * n) === mod(2 * shifted.m + 1, 2 * n);
-    rows.push({ index: rows.length, m_shift: sh.m + '->' + shifted.m, hexagon_periodic: xNordIdentity && uSame, quotient_f: fSame, induced_u: uSame, x_Nord_in_N_F2: xNordIdentity });
+function checkRepresentativeInvariance(cert, model, Gn, originalHexagon = [], certsById = new Map()) {
+  const n = cert.target.n, Nord = lcm(n, 2), S = cert.shadows.length;
+  const xNordIdentity = permEq(permPow(model.perm1, 2 * Nord), identityPerm(model.N));
+  const shifted = cert.shadows.map((sh) => ({ ...sh, m: sh.m + Nord, f_word: sh.f_word.concat([['x', Nord]]) }));
+  let hexOriginalPass = 0, hexShiftedPass = 0, hexEqual = 0, quotientPass = 0, tPass = 0;
+  const hexFailures = [], quotientFailures = [], tFailures = [];
+  for (let i = 0; i < S; i++) {
+    const originalOk = originalHexagon[i]?.ok === true;
+    const shiftedCheck = checkHexagon(model, { ...shifted[i], m: mod(shifted[i].m, Nord) });
+    if (originalOk) hexOriginalPass++;
+    if (shiftedCheck.ok) hexShiftedPass++;
+    if (originalOk && shiftedCheck.ok) hexEqual++;
+    else if (hexFailures.length < 10) hexFailures.push({ i, original: originalOk, shifted: shiftedCheck });
+    const fSame = Gn.Triple.eq(evalWord(Gn.Triple, Gn.phiTriple, cert.shadows[i].f_word), evalWord(Gn.Triple, Gn.phiTriple, shifted[i].f_word));
+    if (fSame) quotientPass++; else if (quotientFailures.length < 10) quotientFailures.push(i);
+    const f0 = xyWordToPerm(model, cert.shadows[i].f_word), f1 = xyWordToPerm(model, shifted[i].f_word);
+    const u0 = 2 * cert.shadows[i].m + 1, u1 = 2 * shifted[i].m + 1;
+    const t0 = [permPow(model.perm1, u0), composeAll([invPerm(f0), permPow(model.perm2, u0), f0])];
+    const t1 = [permPow(model.perm1, u1), composeAll([invPerm(f1), permPow(model.perm2, u1), f1])];
+    const tOk = permEq(t0[0], t1[0]) && permEq(t0[1], t1[1]);
+    if (tOk) tPass++; else if (tFailures.length < 10) tFailures.push(i);
   }
-  return { ok: rows.every((r) => r.hexagon_periodic && r.quotient_f && r.induced_u), x_Nord_in_N_F2: xNordIdentity, rows };
+
+  const comp = { left_checked: 0, left_pass: 0, right_checked: 0, right_pass: 0, failures: [] };
+  for (const [i, j, k] of cert.composition_table) {
+    const left = checkCompositionEntry(Gn, n, Nord, [shifted[i], cert.shadows[j], cert.shadows[k]], 0, 1, 2);
+    const right = checkCompositionEntry(Gn, n, Nord, [cert.shadows[i], shifted[j], cert.shadows[k]], 0, 1, 2);
+    comp.left_checked++; comp.right_checked++;
+    if (left.ok) comp.left_pass++; else if (comp.failures.length < 10) comp.failures.push({ side: 'left', i, j, k, result: left });
+    if (right.ok) comp.right_pass++; else if (comp.failures.length < 10) comp.failures.push({ side: 'right', i, j, k, result: right });
+  }
+
+  const reduction = { required_entries: requiredReductionsFor(n), checked: 0, pass: 0, failures: [] };
+  for (const targetId of reduction.required_entries) {
+    const entry = cert.reduction.find((r) => r.to === targetId);
+    if (!entry) { reduction.failures.push({ to: targetId, reason: 'required entry missing' }); continue; }
+    const target = certsById.get(targetId);
+    if (!target) { reduction.failures.push({ to: targetId, reason: 'target certificate missing' }); continue; }
+    const targetGn = buildGn(target.target.n), targetNord = lcm(target.target.n, 2);
+    const targetIndex = new Map();
+    for (let j = 0; j < target.shadows.length; j++) {
+      const sh = target.shadows[j];
+      targetIndex.set(`${mod(sh.m, targetNord)}|${tripleKey(sh.f_triple)}`, j);
+    }
+    for (let i = 0; i < S; i++) {
+      const sh = shifted[i], image = evalWord(targetGn.Triple, targetGn.phiTriple, sh.f_word);
+      const actual = targetIndex.get(`${mod(sh.m, targetNord)}|${tripleKey(image.map((e) => [e.a, e.e]))}`);
+      reduction.checked++;
+      if (actual === entry.image[i]) reduction.pass++;
+      else if (reduction.failures.length < 10) reduction.failures.push({ to: targetId, i, expected: entry.image[i], actual });
+    }
+  }
+  const hexOk = hexOriginalPass === S && hexShiftedPass === S && hexEqual === S;
+  const quotientOk = quotientPass === S, tOk = tPass === S;
+  const compOk = comp.left_checked === S * S && comp.right_checked === S * S && comp.left_pass === S * S && comp.right_pass === S * S;
+  const reductionOk = reduction.failures.length === 0 && reduction.checked === reduction.required_entries.length * S;
+  return { ok: xNordIdentity && hexOk && quotientOk && tOk && compOk && reductionOk, x_Nord_in_N_F2: xNordIdentity, hexagon: { checked: S, original_pass: hexOriginalPass, shifted_pass: hexShiftedPass, equal_pass: hexEqual, failures: hexFailures }, quotient_f: { checked: S, pass: quotientPass, failures: quotientFailures }, T_sigma: { checked: S, pass: tPass, failures: tFailures }, composition: comp, reduction, assertions: { x_Nord_in_N_F2: xNordIdentity, all_downstream_direct: hexOk && quotientOk && tOk && compOk && reductionOk } };
 }
 
 function checkInducedMaps(Gn) {
@@ -676,6 +747,19 @@ function checkVarRho(cert, n) {
   }
   const alpha = Math.round(Math.log2(n));
   const expectedCount = 2 ** (2 * alpha - 2);
+  const expectedSet = new Set();
+  const bCount = 2 ** (alpha - 1);
+  for (let b = 0; b < bCount; b++) {
+    const u5 = mod(5 ** b, 2 * n);
+    for (let a = 0; a < 2; a++) {
+      const u = mod((a === 0 ? 1 : -1) * u5, 2 * n);
+      for (let k = 0; k < q; k++) if (mod(k - b, 2) === 0) expectedSet.add(`${k},${u}`);
+    }
+  }
+  const actualSet = new Set(rows.map((r) => r.key));
+  const missing = [...expectedSet].filter((key) => !actualSet.has(key));
+  const extra = [...actualSet].filter((key) => !expectedSet.has(key));
+  const duplicateCount = rows.length - actualSet.size;
   const comp = [];
   if (cert.composition_table.length === cert.shadows.length ** 2) {
     for (const [i, j, k] of cert.composition_table) {
@@ -694,11 +778,20 @@ function checkVarRho(cert, n) {
     const lookup = (i, j) => cert.composition_table.find((r) => r[0] === i && r[1] === j)?.[2];
     witness.forward_product = a !== null && b !== null ? lookup(a, b) : null;
     witness.reverse_product = a !== null && b !== null ? lookup(b, a) : null;
+    const forwardTarget = witness.forward_product === null ? null : rows.find((r) => r.i === witness.forward_product);
+    const reverseTarget = witness.reverse_product === null ? null : rows.find((r) => r.i === witness.reverse_product);
+    witness.forward_expected = { k: mod(0 + mod(-1, 2 * n) * 1, q), u: mod(mod(-1, 2 * n) * 5, 2 * n) };
+    witness.reverse_expected = { k: mod(1 + 5 * 0, q), u: mod(5 * mod(-1, 2 * n), 2 * n) };
+    witness.forward_actual = forwardTarget ? { k: forwardTarget.k, u: forwardTarget.u } : null;
+    witness.reverse_actual = reverseTarget ? { k: reverseTarget.k, u: reverseTarget.u } : null;
+    witness.forward_match = Boolean(witness.forward_actual && witness.forward_actual.k === witness.forward_expected.k && witness.forward_actual.u === witness.forward_expected.u);
+    witness.reverse_match = Boolean(witness.reverse_actual && witness.reverse_actual.k === witness.reverse_expected.k && witness.reverse_actual.u === witness.reverse_expected.u);
     witness.noncommuting = witness.forward_product !== null && witness.reverse_product !== null && witness.forward_product !== witness.reverse_product;
   }
-  const baseOk = rows.length === cert.shadows.length && byKey.size === expectedCount && cert.shadows.length === expectedCount && errors.length === 0 && comp.length === cert.shadows.length ** 2 && comp.every((r) => r.ok);
-  const witnessOk = (n === 4) || (witness.noncommuting === true);
-  return { ok: baseOk && witnessOk, formula: 'rho(m,k)=(k mod n/2,u mod 2n), u=2m+1', expected_shadow_count: expectedCount, actual_shadow_count: cert.shadows.length, rows, composition_checked: comp.length, composition_failures: comp.filter((r) => !r.ok).slice(0, 10), errors, witness };
+  const exactSetOk = missing.length === 0 && extra.length === 0 && duplicateCount === 0 && expectedSet.size === expectedCount && actualSet.size === expectedCount;
+  const baseOk = rows.length === cert.shadows.length && exactSetOk && errors.length === 0 && comp.length === cert.shadows.length ** 2 && comp.every((r) => r.ok);
+  const witnessOk = (n === 4) || (witness.noncommuting === true && witness.forward_match === true && witness.reverse_match === true);
+  return { ok: baseOk && witnessOk, formula: 'rho(m,k)=(k mod n/2,u mod 2n), u=2m+1', expected_shadow_count: expectedCount, actual_shadow_count: cert.shadows.length, exact_set: { expected_count: expectedSet.size, actual_count: actualSet.size, missing, extra, duplicate_count: duplicateCount, ok: exactSetOk }, rows, composition_checked: comp.length, composition_failures: comp.filter((r) => !r.ok).slice(0, 10), errors, witness };
 }
 
 function buildWordTable(Gn) {
@@ -750,13 +843,14 @@ function runGlobalSuite(certsById, capMs = 120000) {
   const doublingNs = [3, 5, 7, 9, 11, 13, 15], doublingAuxTargets = [22, 26, 30];
   const doubling = doublingNs.map((n) => {
     const source = groups.get(n) || buildGnLight(n), target = buildGnLight(2 * n), r = checkMarkedFactorMap(source, target, buildWordTable(source));
-    return { n, target: 2 * n, auxiliary_target: doublingAuxTargets.includes(2 * n), ...r, pass: r.well_defined };
+    return { n, target: 2 * n, auxiliary_target: doublingAuxTargets.includes(2 * n), target_order: target.GnMap.size, ...r, isomorphism: r.well_defined && r.injective && r.image_order === target.GnMap.size, pass: r.well_defined && r.injective && r.image_order === target.GnMap.size };
   });
   const pairs = [], sourceTables = new Map(universe.map((q) => [q, buildWordTable(groups.get(q))]));
   let trueCount = 0, falseCount = 0, mismatch = 0;
   for (const q of universe) for (const n of universe) {
     if (Date.now() - started > capMs) {
-      return { schema: 'gtsh-global/v1', status: 'UNKNOWN', reason: `Prop.3.5 Cayley collision sweep exceeded cap ${capMs} ms`, cap_ms: capMs, elapsed_ms: Date.now() - started, universe, numeric: { ok: numeric.every((r) => r.pass), rows: numeric }, doubling: { ok: doubling.every((r) => r.pass), rows: doubling }, prop_3_5: { ok: false, total: 256, true_count: universe.flatMap((qq) => universe.filter((nn) => lcm(qq, 2) % nn === 0)).length, false_count: 256 - universe.flatMap((qq) => universe.filter((nn) => lcm(qq, 2) % nn === 0)).length, checked_pairs: pairs.length, mismatch_count: null, pairs }, reduction_triangle: { ok: false, status: 'UNKNOWN', reason: 'not reached before cap' }, all_pass: false };
+      const falsePairs = pairs.filter((p) => !p.number_theory);
+      return { schema: 'gtsh-global/v1', status: 'UNKNOWN', reason: `Prop.3.5 Cayley collision sweep exceeded cap ${capMs} ms`, cap_ms: capMs, elapsed_ms: Date.now() - started, universe, numeric: { ok: numeric.every((r) => r.pass), rows: numeric }, doubling: { ok: doubling.every((r) => r.pass), rows: doubling }, prop_3_5: { ok: false, total: 256, true_count: universe.flatMap((qq) => universe.filter((nn) => lcm(qq, 2) % nn === 0)).length, false_count: 256 - universe.flatMap((qq) => universe.filter((nn) => lcm(qq, 2) % nn === 0)).length, false_pair_collision_count: falsePairs.filter((p) => !p.well_defined).length, false_pair_well_defined_count: falsePairs.filter((p) => p.well_defined).length, true_pair_collision_count: pairs.filter((p) => p.number_theory && !p.well_defined).length, false_collision_count: falsePairs.filter((p) => p.well_defined).length, checked_pairs: pairs.length, mismatch_count: null, pairs }, reduction_triangle: { ok: false, status: 'UNKNOWN', reason: 'not reached before cap' }, all_pass: false };
     }
     const formula = n !== 0 && lcm(q, 2) % n === 0;
     if (formula) trueCount++; else falseCount++;
@@ -779,8 +873,13 @@ function runGlobalSuite(certsById, capMs = 120000) {
     }
     return { ok: pass === 216, checked: pass, expected: 216, failures: failures.slice(0, 10) };
   })();
-  const falseCollisionCount = pairs.filter((p) => !p.number_theory && p.well_defined).length;
-  const global = { schema: 'gtsh-global/v1', status: 'PASS', elapsed_ms: Date.now() - started, universe, numeric: { ok: numeric.every((r) => r.pass), rows: numeric }, doubling: { ok: doubling.every((r) => r.pass), rows: doubling }, prop_3_5: { ok: mismatch === 0 && trueCount + falseCount === 256, total: 256, true_count: trueCount, false_count: falseCount, false_collision_count: falseCollisionCount, mismatch_count: mismatch, pairs }, reduction_triangle: reductionTriangle, all_pass: numeric.every((r) => r.pass) && doubling.every((r) => r.pass) && mismatch === 0 && reductionTriangle.ok };
+  const falsePairCollisionCount = pairs.filter((p) => !p.number_theory && !p.well_defined).length;
+  const falsePairWellDefinedCount = pairs.filter((p) => !p.number_theory && p.well_defined).length;
+  const truePairCollisionCount = pairs.filter((p) => p.number_theory && !p.well_defined).length;
+  const propOk = mismatch === 0 && trueCount + falseCount === 256;
+  const numericOk = numeric.every((r) => r.pass), doublingOk = doubling.every((r) => r.pass), allPass = numericOk && doublingOk && propOk && reductionTriangle.ok;
+  const status = allPass ? 'PASS' : (mismatch > 0 || !numericOk || !doublingOk || !propOk || (reductionTriangle.ok === false && reductionTriangle.failures?.length) ? 'FAIL' : 'UNKNOWN');
+  const global = { schema: 'gtsh-global/v1', status, cap_ms: capMs, elapsed_ms: Date.now() - started, universe, numeric: { ok: numericOk, rows: numeric }, doubling: { ok: doublingOk, rows: doubling }, prop_3_5: { ok: propOk, total: 256, true_count: trueCount, false_count: falseCount, false_pair_collision_count: falsePairCollisionCount, false_pair_well_defined_count: falsePairWellDefinedCount, true_pair_collision_count: truePairCollisionCount, false_collision_count: falsePairWellDefinedCount, mismatch_count: mismatch, pairs }, reduction_triangle: reductionTriangle, all_pass: allPass };
   return global;
 }
 
@@ -1029,13 +1128,36 @@ function composeShadowWords(m1, f1Tokens, m2, f2Tokens) {
   return { mNewRaw: 2 * m1 * m2 + m1 + m2, composedWord };
 }
 
+const shadowTripleCache = new WeakMap();
+function evalShadowTriple(Gn, shadow) {
+  let cached = shadowTripleCache.get(shadow);
+  if (!cached) {
+    cached = evalWord(Gn.Triple, Gn.phiTriple, shadow.f_word || []);
+    shadowTripleCache.set(shadow, cached);
+  }
+  return cached;
+}
+
+function evalFactorUnderAction(Gn, m, f1Triple, f2Tokens) {
+  const { Triple, phiTriple } = Gn;
+  const u = 2 * m + 1;
+  const xImage = Triple.pow(phiTriple.x, u);
+  const yImage = Triple.mul(Triple.mul(Triple.inv(f1Triple), Triple.pow(phiTriple.y, u)), f1Triple);
+  let result = Triple.id;
+  for (const [gen, power] of f2Tokens || []) {
+    result = Triple.mul(result, Triple.pow(gen === 'x' ? xImage : yImage, power));
+  }
+  return result;
+}
+
 function checkCompositionEntry(Gn, n, Nord, shadows, i, j, k) {
   const shA = shadows[i], shB = shadows[j], shC = shadows[k];
-  const { mNewRaw, composedWord } = composeShadowWords(shA.m, shA.f_word, shB.m, shB.f_word);
+  const { mNewRaw } = composeShadowWords(shA.m, shA.f_word, shB.m, shB.f_word);
   const mNew = mod(mNewRaw, Nord);
   const mOk = mNew === mod(shC.m, Nord);
   const { Triple, phiTriple } = Gn;
-  const computedTriple = evalWord(Triple, phiTriple, composedWord);
+  const f1Triple = evalShadowTriple(Gn, shA);
+  const computedTriple = Triple.mul(f1Triple, evalFactorUnderAction(Gn, shA.m, f1Triple, shB.f_word));
   const givenTriple = tripleFromCertFormat(shC.f_triple);
   const tripleOk = Triple.eq(computedTriple, givenTriple);
   // (4.19): (2m1+1)(2m2+1) = 2mNewRaw+1  -- 代数的恒等式、常に真 (自己整合性チェック)
@@ -1124,15 +1246,19 @@ function checkCertificate(cert, certsById) {
   }
 
   if (!isDihedral) verdict.items['1_n5_full_enumeration'] = checkN5Enumeration(model, cert);
+  if (isDihedral) verdict.items['1_raw_formula'] = checkRawCandidateFormula(cert, Gn, n);
+  else verdict.items['1_raw_formula'] = { ok: true, status: 'N/A', reason: 'control N5 uses explicit raw enumeration item 1_n5_full_enumeration' };
 
   // item 2: full hexagon per shadow
   {
     let allOk = true; const fails = [];
+    const hexagonResults = [];
     for (let i = 0; i < cert.shadows.length; i++) {
       const r = checkHexagon(model, cert.shadows[i]);
+      hexagonResults.push(r);
       if (!r.ok) { allOk = false; fails.push({ i, r }); }
     }
-    verdict.items['2_hexagon'] = { ok: allOk, checked: cert.shadows.length, fails };
+    verdict.items['2_hexagon'] = { ok: allOk, checked: cert.shadows.length, fails, _results_for_downstream: hexagonResults };
   }
 
   // item 3: f_word <-> f_triple (dihedral only, needs psi_n)
@@ -1256,7 +1382,8 @@ function checkCertificate(cert, certsById) {
 
   if (isDihedral) {
     verdict.items['11_induced_maps'] = checkInducedMaps(Gn);
-    verdict.items['12_representative_invariance'] = checkRepresentativeInvariance(cert, model, Gn);
+    verdict.items['12_representative_invariance'] = checkRepresentativeInvariance(cert, model, Gn, verdict.items['2_hexagon']._results_for_downstream, certsById);
+    delete verdict.items['2_hexagon']._results_for_downstream;
     if ([4, 8, 16].includes(n)) verdict.items['13_varrho'] = checkVarRho(cert, n);
     else verdict.items['13_varrho'] = { ok: true, status: 'N/A', reason: 'Thm.4.6 explicit rho is applicable only to n=4,8,16' };
   } else {
@@ -1367,6 +1494,7 @@ function main() {
 
 // テスト用 export (main() の自動実行はコマンドライン起動時のみ -- 下の import.meta.url ガード参照)
 export {
+  checkCertificate, checkRepresentativeInvariance,
   checkKernelCert, checkKernelCertBrute, checkLsWitness, checkCompositionEntry,
   checkInverseEntry, checkReductionEntry, checkHexagon, checkFWordVsTriple,
   checkCharmingAndSurjective, checkThm43, buildGn, buildTransversalModel,

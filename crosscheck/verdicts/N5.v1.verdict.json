@@ -117,10 +117,37 @@
         }
       ]
     },
+    "1_raw_formula": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "control N5 uses explicit raw enumeration item 1_n5_full_enumeration"
+    },
     "2_hexagon": {
       "ok": true,
       "checked": 4,
-      "fails": []
+      "fails": [],
+      "_results_for_downstream": [
+        {
+          "ok33": true,
+          "ok34": true,
+          "ok": true
+        },
+        {
+          "ok33": true,
+          "ok34": true,
+          "ok": true
+        },
+        {
+          "ok33": true,
+          "ok34": true,
+          "ok": true
+        },
+        {
+          "ok33": true,
+          "ok34": true,
+          "ok": true
+        }
+      ]
     },
     "4_charming_control": {
       "ok": true,

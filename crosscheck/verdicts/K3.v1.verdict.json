@@ -35,6 +35,13 @@
       "matchesThm43": true,
       "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18): raw 候補の完全再列挙は不要。単調性+最終個数一致(+dihedralはThm4.3集合一致)で可、と承認済み。"
     },
+    "1_raw_formula": {
+      "ok": true,
+      "claimed_raw": 108,
+      "expected_raw": 108,
+      "X_n_count": 4,
+      "derived_order": 27
+    },
     "2_hexagon": {
       "ok": true,
       "checked": 12,
@@ -115,104 +122,40 @@
     "12_representative_invariance": {
       "ok": true,
       "x_Nord_in_N_F2": true,
-      "rows": [
-        {
-          "index": 0,
-          "m_shift": "0->6",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 1,
-          "m_shift": "5->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 2,
-          "m_shift": "0->6",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 3,
-          "m_shift": "5->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 4,
-          "m_shift": "2->8",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 5,
-          "m_shift": "3->9",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 6,
-          "m_shift": "2->8",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 7,
-          "m_shift": "3->9",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 8,
-          "m_shift": "0->6",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 9,
-          "m_shift": "5->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 10,
-          "m_shift": "2->8",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 11,
-          "m_shift": "3->9",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        }
-      ]
+      "hexagon": {
+        "checked": 12,
+        "original_pass": 12,
+        "shifted_pass": 12,
+        "equal_pass": 12,
+        "failures": []
+      },
+      "quotient_f": {
+        "checked": 12,
+        "pass": 12,
+        "failures": []
+      },
+      "T_sigma": {
+        "checked": 12,
+        "pass": 12,
+        "failures": []
+      },
+      "composition": {
+        "left_checked": 144,
+        "left_pass": 144,
+        "right_checked": 144,
+        "right_pass": 144,
+        "failures": []
+      },
+      "reduction": {
+        "required_entries": [],
+        "checked": 0,
+        "pass": 0,
+        "failures": []
+      },
+      "assertions": {
+        "x_Nord_in_N_F2": true,
+        "all_downstream_direct": true
+      }
     },
     "13_varrho": {
       "ok": true,

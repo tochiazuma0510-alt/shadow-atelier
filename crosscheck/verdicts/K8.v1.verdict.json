@@ -35,6 +35,13 @@
       "matchesThm43": true,
       "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18): raw 候補の完全再列挙は不要。単調性+最終個数一致(+dihedralはThm4.3集合一致)で可、と承認済み。"
     },
+    "1_raw_formula": {
+      "ok": true,
+      "claimed_raw": 128,
+      "expected_raw": 128,
+      "X_n_count": 8,
+      "derived_order": 16
+    },
     "2_hexagon": {
       "ok": true,
       "checked": 16,
@@ -223,142 +230,56 @@
     "12_representative_invariance": {
       "ok": true,
       "x_Nord_in_N_F2": true,
-      "rows": [
-        {
-          "index": 0,
-          "m_shift": "0->8",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 1,
-          "m_shift": "7->15",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 2,
-          "m_shift": "2->10",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 3,
-          "m_shift": "5->13",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 4,
-          "m_shift": "2->10",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 5,
-          "m_shift": "5->13",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 6,
-          "m_shift": "1->9",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 7,
-          "m_shift": "6->14",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 8,
-          "m_shift": "1->9",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 9,
-          "m_shift": "6->14",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 10,
-          "m_shift": "0->8",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 11,
-          "m_shift": "7->15",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 12,
-          "m_shift": "3->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 13,
-          "m_shift": "4->12",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 14,
-          "m_shift": "3->11",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        },
-        {
-          "index": 15,
-          "m_shift": "4->12",
-          "hexagon_periodic": true,
-          "quotient_f": true,
-          "induced_u": true,
-          "x_Nord_in_N_F2": true
-        }
-      ]
+      "hexagon": {
+        "checked": 16,
+        "original_pass": 16,
+        "shifted_pass": 16,
+        "equal_pass": 16,
+        "failures": []
+      },
+      "quotient_f": {
+        "checked": 16,
+        "pass": 16,
+        "failures": []
+      },
+      "T_sigma": {
+        "checked": 16,
+        "pass": 16,
+        "failures": []
+      },
+      "composition": {
+        "left_checked": 256,
+        "left_pass": 256,
+        "right_checked": 256,
+        "right_pass": 256,
+        "failures": []
+      },
+      "reduction": {
+        "required_entries": [
+          "K4"
+        ],
+        "checked": 16,
+        "pass": 16,
+        "failures": []
+      },
+      "assertions": {
+        "x_Nord_in_N_F2": true,
+        "all_downstream_direct": true
+      }
     },
     "13_varrho": {
       "ok": true,
       "formula": "rho(m,k)=(k mod n/2,u mod 2n), u=2m+1",
       "expected_shadow_count": 16,
       "actual_shadow_count": 16,
+      "exact_set": {
+        "expected_count": 16,
+        "actual_count": 16,
+        "missing": [],
+        "extra": [],
+        "duplicate_count": 0,
+        "ok": true
+      },
       "rows": [
         {
           "i": 0,
@@ -481,6 +402,24 @@
         "1,5": 2,
         "forward_product": 5,
         "reverse_product": 3,
+        "forward_expected": {
+          "k": 3,
+          "u": 11
+        },
+        "reverse_expected": {
+          "k": 1,
+          "u": 11
+        },
+        "forward_actual": {
+          "k": 3,
+          "u": 11
+        },
+        "reverse_actual": {
+          "k": 1,
+          "u": 11
+        },
+        "forward_match": true,
+        "reverse_match": true,
         "noncommuting": true
       }
     }
