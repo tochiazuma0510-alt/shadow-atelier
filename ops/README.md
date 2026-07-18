@@ -21,11 +21,15 @@ ES7 の郵便箱一式(`atelier_lean/ES7/ops/`・実証済み)の影工房移植
   文脈はファイルで渡す(キックオフに前便 reply への参照を書く)。
   **wake は同一便内のフォローアップ専用**(ピン ID に `codex exec resume`)。
   ```powershell
-  ops\bin\launch_wake.ps1 new  "<一行指示>"               # Sol 便(既定: gpt-5.6-sol/max)
-  ops\bin\launch_wake.ps1 new  "<一行指示>" -Renew        # 新しい便(旧ピンを履歴へ)
-  ops\bin\launch_wake.ps1 new  "<一行指示>" -Role luna    # Luna 便(gpt-5.6-luna/high・専用ピン)
-  ops\bin\launch_wake.ps1 wake "<理由>" [-Role luna]      # 便内フォローの起床
+  ops\bin\launch_wake.ps1 new  "<一行指示>"                        # Sol 便(sol/max 固定・override 不可)
+  ops\bin\launch_wake.ps1 new  "<一行指示>" -Renew                 # 新しい便(旧ピンを履歴へ)
+  ops\bin\launch_wake.ps1 new  "<一行指示>" -Role luna             # Luna 便(luna/high・専用ピン)
+  ops\bin\launch_wake.ps1 new  "<一行指示>" -Role luna -Effort xhigh   # Lean shard 級(medium=定型)
+  ops\bin\launch_wake.ps1 wake "<理由>" [-Role luna] [-Effort ...]     # 便内フォローの起床
   ```
+- **推論設定の強制**: 起動・起床の両方でモデルと effort をフラグ明示(config 既定への依存を排除)。
+  Sol = max 固定(--effort 指定は拒否)。Luna = medium/high/xhigh(既定 high)。resume にも同フラグを付け、
+  config 既定(sol/max)が Luna セッションへ漏れる事故を防ぐ。
 - ピン: Sol = `codex_session_id.txt` / Luna = `codex_session_id_luna.txt`(役割別・混線防止)。
   全ターン出力は `ops/codex_activity.log` へ。ゾンビガード: codex.exe が居ても活動ログ 45 分無音なら kill して続行。
 - **ES7 との相違(重要)**: `--last` フォールバックは**廃止**。この計算機は複数工房で Codex を使うため、

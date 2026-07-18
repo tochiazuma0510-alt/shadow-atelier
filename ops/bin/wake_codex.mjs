@@ -12,9 +12,22 @@ import fs from 'node:fs';
 const REPO = 'C:/Users/81905/Desktop/shadow-atelier';
 const LOG = `${REPO}/ops/codex_activity.log`;
 let argv = process.argv.slice(2);
-let role = 'sol';
-if (argv[0] === '--role') { role = (argv[1] || 'sol').toLowerCase(); argv = argv.slice(2); }
+let role = 'sol', effort = '';
+while (argv[0] === '--role' || argv[0] === '--effort') {
+  if (argv[0] === '--role') { role = (argv[1] || 'sol').toLowerCase(); argv = argv.slice(2); }
+  else { effort = (argv[1] || '').toLowerCase(); argv = argv.slice(2); }
+}
 if (!['sol', 'luna'].includes(role)) { console.log('BAD-ROLE'); process.exit(1); }
+// 推論設定を resume にも明示(config 既定 sol/max が Luna セッションへ漏れる事故の防止)
+let MODEL_FLAGS;
+if (role === 'sol') {
+  if (effort) { console.log('SOL-EFFORT-IS-PINNED-MAX'); process.exit(1); }
+  MODEL_FLAGS = ' -m gpt-5.6-sol -c model_reasoning_effort="max"';
+} else {
+  if (!effort) effort = 'high';
+  if (!['medium', 'high', 'xhigh'].includes(effort)) { console.log('BAD-EFFORT(luna)'); process.exit(1); }
+  MODEL_FLAGS = ` -m gpt-5.6-luna -c model_reasoning_effort="${effort}"`;
+}
 const ID_FILE = role === 'sol'
   ? `${REPO}/ops/bin/codex_session_id.txt`
   : `${REPO}/ops/bin/codex_session_id_luna.txt`;
@@ -38,7 +51,7 @@ if (!fs.existsSync(ID_FILE)) {
 }
 const sid = fs.readFileSync(ID_FILE, 'utf8').trim().split(/\r?\n/)[0];
 const quoted = '"' + reason.replace(/"/g, '\\"') + '"';
-const cmd = `codex exec resume ${sid} -c approval_policy="never" --sandbox workspace-write ${quoted}`;
+const cmd = `codex exec resume ${sid}${MODEL_FLAGS} -c approval_policy="never" --sandbox workspace-write ${quoted}`;
 
 if (!fs.existsSync(LOG)) fs.writeFileSync(LOG, '﻿');
 fs.appendFileSync(LOG, `\n===== WAKE(${role}) ${new Date().toISOString()} =====\nreason: ${reason}\ntarget: ${sid}\n`);
