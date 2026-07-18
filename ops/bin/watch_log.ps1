@@ -1,4 +1,6 @@
 # Live viewer for ops/codex_activity.log (Sol/Luna turn output) - v2 readable.
+# Launch in Windows Terminal (preferred - user directive 2026-07-18):
+#   Start-Process wt.exe -ArgumentList 'new-tab','--title','"shadow-atelier codex log"','powershell','-NoExit','-ExecutionPolicy','Bypass','-File','C:\Users\81905\Desktop\shadow-atelier\ops\bin\watch_log.ps1'
 # Mojibake note: chcp 65001 + UTF8 OutputEncoding together (either alone breaks
 # on a cp932 console). Log file is UTF-8 (BOM at creation by wake scripts).
 # Keep this file ASCII-only (PS 5.1 encoding pitfall).
