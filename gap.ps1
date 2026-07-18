@@ -1,6 +1,8 @@
 # GAP script runner (Windows / direct Cygwin runtime invocation).
 # Usage:  .\gap.ps1 search\smoke-test.g
 # Note: gap.bat opens a separate interactive window - never use it for automation.
+# Memory cap: this PC has 8GB RAM (user directive 2026-07-18) - GAP heap is
+# capped at 2g so a runaway enumeration cannot freeze the machine.
 # Keep this file ASCII-only: PS 5.1 misparses UTF-8 (no BOM) non-ASCII comments.
 param(
     [Parameter(Mandatory = $true)][string]$ScriptPath,
@@ -8,5 +10,5 @@ param(
 )
 $gapRoot = "C:\Program Files\GAP-4.16.0"
 $env:PATH = "$gapRoot\runtime\bin;" + $env:PATH
-& "$gapRoot\runtime\opt\gap-4.16.0\gap.exe" -q --quitonbreak @ExtraArgs (Resolve-Path $ScriptPath).Path
+& "$gapRoot\runtime\opt\gap-4.16.0\gap.exe" -q --quitonbreak -o 2g @ExtraArgs (Resolve-Path $ScriptPath).Path
 exit $LASTEXITCODE
