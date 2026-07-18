@@ -35,3 +35,42 @@
 
 - 照合器は本表を定数として実装し、(a) 12 規則から σ̂₁, σ̂₂ を組む、(b) braid 関係・σ̂ᵢ² の値・ĉ = φc の**自己検査**を起動時に行う(仕様定数のバグ検出)、(c) hexagon (3.3)(3.4) を σ̂ 語の積として Q×T 上で評価する。
 - GAP 側スクリプト・helper の import は禁止(独立性)。証明書(JSON)以外の入力を受けない。
+- **独立性の層の設計判断(Sol 便 02 の監査対象)**: 群のモデル(12 規則)は両系統が共有する「仕様」であり(SAT ソルバと checker が CNF 形式を共有するのと同型)、独立性の対象は**計算**(列挙・検証の実装と経路)。仕様自体は Artin 検証+ψₙ 同型較正で論文に係留済み。
+
+## 証明書スキーマ gtsh-cert/v1(凍結・2026-07-18 司令塔設計)
+
+対象 1 つにつき JSON 1 ファイル(`certificates/<id>.v1.json`、SHA-256 を LEDGER に記帳)。
+
+```
+{
+  "schema": "gtsh-cert/v1",
+  "generated_by": { "tool": "GAP 4.16.0", "script": "...", "date": "..." },
+  "target": {
+    "family": "dihedral" | "control",
+    "id": "K08" | "N5",
+    "n": 8,                              // dihedral のみ
+    "phi": { "desc": "x->s, y->rs, c->1 (left action)", "q_order": 16 },
+    "invariants": { "index_PB3": 256, "index_B3": 1536, "N_ord": 8,
+                     "derived_order": 64 }
+  },
+  "conventions": { "dn_element": "[a,e] = r^a s^e", "action": "left(rs = s のち r)",
+                    "f_word_alphabet": "x,y(c は不要 — f ∈ F2)" },
+  "shadows": [
+    { "m": 0,
+      "f_word": [["y",-2],["x",2], ...],     // 語(万国共通形 — 照合器はこれを評価)
+      "f_triple": [[2,0],[6,0],[1,0]],       // D_n^3 座標(冗長データ — 語との不一致はバグ検出器)
+      "kernel_cert": { "type": "conjugator-triple",   // Lemma 4.2 (4.11) の (h1,h2,h3)
+                        "h": [ [u,v]-affine 表記×3 ] }
+                     | { "type": "brute", "expected_kernel_index": 30 }   // 小さい control 用
+    }, ...
+  ],
+  "counts": { "raw_candidates": N, "hexagon_pass": N, "charming_pass": N,
+               "surjective_pass": N },         // silent cap 禁止 — 全段の個数を残す
+  "composition_table": [[i,j,k], ...],          // shadows[i]∘shadows[j] = shadows[k](全対)
+  "inverse_map": [ [i, i_inv], ... ],
+  "reduction": [ { "to": "K04", "image": [shadow index...], "surjective": true } ],
+  "ls_witness": [ { "m": ..., "k": ..., "g_word": [...], "h_word": [...] } ]   // 3|n のみ
+}
+```
+
+**照合器の検査項目(証明書ごと)**: ①counts の整合(候補全数 = 自前列挙と一致)②各 shadow の full hexagon (3.3)(3.4) を Q×T モデルで ③f_word ↔ f_triple の一致 ④charming(f_word の導来性は f_triple ∈ 導来部分群で判定)+全射性 ⑤Thm 4.3 の閉じた式との集合一致(dihedral)⑥kernel_cert の (4.11) 等式 ⑦composition_table を (3.53) で再計算・(4.19)(4.20) 恒等式 ⑧inverse を (3.54) で ⑨reduction 像の再計算と全射性 ⑩ls_witness の (5.1) 両式。判定は項目別 PASS/FAIL の verdict JSON で出力(工程正常≠数学判定 — ES7 教訓)。
