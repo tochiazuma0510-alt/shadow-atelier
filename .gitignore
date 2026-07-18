@@ -1,0 +1,8 @@
+# arXiv PDF とその派生テキストはコミットしない(著作権・将来の public 化に備える)。
+# 再取得手順とSHA-256 は provenance/LEDGER.md に記録済み。
+papers/
+
+# GAP / エディタの一時ファイル
+*.g~
+*~
+.DS_Store

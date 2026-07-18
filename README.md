@@ -1,0 +1,35 @@
+# 影工房 (Shadow Atelier)
+
+有限 GT-shadow の算術実現性(Dolgushev ら)への計算+証明書アプローチ。研究トラック。
+勉強トラックは隣の `../galois-atelier`。設計方針・フェーズ計画は `CLAUDE.md` を参照。
+
+## 構造
+
+```
+papers/      主文献 3 本(PDF; ハッシュは provenance/LEDGER.md)
+search/      探索器 — GAP スクリプト(有限表示・剰余群・軌道の列挙)
+verifier/    検証器 — 独立実装(node/python で関係式を再計算)。search/ のコードを import しない
+docs/        ノート・atlas・撤退条件などの文書
+provenance/  出所台帳(ソフト版・seed・入力/証明書ハッシュ)
+```
+
+## 規律(要約)
+
+1. **探索器と検証器の分離** — 同じ事実を独立の実装で二度計算する。
+2. **宇宙の事前登録** — 対象の位数・生成系を先に固定し、後から変えない。
+3. **UNKNOWN は一級の結果** — 負の探索結果は非存在の証明ではない。
+4. **全部記録** — バージョン・seed・ハッシュを `provenance/LEDGER.md` に追記。
+
+## フェーズ 0 チェックリスト
+
+- [x] 論文 3 本の入手(2026-07-18)
+- [x] GAP 4.16.0 インストール+動作確認(2026-07-18、`search/smoke-test.g` PASSED)
+- [ ] Week 1 開始(GT-shadow の定義系の読解+既知 2 冪 dihedral 例の再現準備)
+
+## GAP の実行方法
+
+```powershell
+.\gap.ps1 search\smoke-test.g
+```
+
+`gap.bat`(スタートメニューの GAP)は対話用の別ウィンドウを開く。自動実行・出力取得には必ず `gap.ps1` を使う。
