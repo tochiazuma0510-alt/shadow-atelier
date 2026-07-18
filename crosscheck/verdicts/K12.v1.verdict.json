@@ -3,6 +3,31 @@
   "family": "dihedral",
   "schema": "gtsh-cert/v1",
   "items": {
+    "0_schema_fail_closed": {
+      "ok": true,
+      "errors": []
+    },
+    "0_invariants": {
+      "ok": true,
+      "expected": {
+        "index_PB3": 864,
+        "index_B3": 5184,
+        "N_ord": 12,
+        "derived_order": 54
+      },
+      "claimed": {
+        "index_PB3": 864,
+        "index_B3": 5184,
+        "N_ord": 12,
+        "derived_order": 54
+      },
+      "checks": {
+        "index_PB3": true,
+        "index_B3": true,
+        "N_ord": true,
+        "derived_order": true
+      }
+    },
     "1_counts": {
       "ok": true,
       "monotone": true,
@@ -42,7 +67,19 @@
     "7_composition_table": {
       "ok": true,
       "checked": 576,
-      "fails": []
+      "fails": [],
+      "strict": {
+        "ok": true,
+        "composition_rows": 576,
+        "composition_expected": 576,
+        "composition_pair_unique": true,
+        "composition_failures": [],
+        "inverse_rows": 24,
+        "inverse_expected": 24,
+        "inverse_source_unique": true,
+        "inverse_failures": [],
+        "structural_errors": []
+      }
     },
     "8_inverse_map": {
       "ok": true,
@@ -53,13 +90,386 @@
       "ok": true,
       "checked": 1,
       "fails": [],
+      "coverage": {
+        "ok": true,
+        "required": [
+          "K4"
+        ],
+        "listed": [
+          "K4"
+        ],
+        "exact_entry_set": true,
+        "results": [
+          {
+            "to": "K4",
+            "ok": true,
+            "results": [
+              {
+                "i": 0,
+                "claimedIdx": 0,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 1,
+                "claimedIdx": 1,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 2,
+                "claimedIdx": 3,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 3,
+                "claimedIdx": 2,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 4,
+                "claimedIdx": 3,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 5,
+                "claimedIdx": 2,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 6,
+                "claimedIdx": 0,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 7,
+                "claimedIdx": 1,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 8,
+                "claimedIdx": 0,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 9,
+                "claimedIdx": 1,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 10,
+                "claimedIdx": 1,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 11,
+                "claimedIdx": 0,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 12,
+                "claimedIdx": 1,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 13,
+                "claimedIdx": 0,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 14,
+                "claimedIdx": 1,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 15,
+                "claimedIdx": 0,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 16,
+                "claimedIdx": 3,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 17,
+                "claimedIdx": 2,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 18,
+                "claimedIdx": 2,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 19,
+                "claimedIdx": 3,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 20,
+                "claimedIdx": 2,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 21,
+                "claimedIdx": 3,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 22,
+                "claimedIdx": 2,
+                "okM": true,
+                "okTriple": true
+              },
+              {
+                "i": 23,
+                "claimedIdx": 3,
+                "okM": true,
+                "okTriple": true
+              }
+            ],
+            "surjectiveOk": true
+          }
+        ]
+      },
       "index_convention": "追補1 項目5で凍結: image[i] = source shadows[i] の像の target 証明書 shadows[] における添字。全射性 = image の値域が target 全添字を被覆。"
     },
     "10_ls_witness": {
       "ok": true,
       "checked": 24,
+      "expected": 24,
       "fails": [],
       "note": "確定式で実装 (追補1 項目2: fK=theta(g)^-1 gK, fx^mK=tau(h)^-1 hK(m=0 mod3)/tau(h)^-1 xy hK(m=2 mod3); m=1 mod3 は現れたらFAIL)"
+    },
+    "11_induced_maps": {
+      "ok": true,
+      "theta_bijective": true,
+      "tau_bijective": true,
+      "checked": 864
+    },
+    "12_representative_invariance": {
+      "ok": true,
+      "x_Nord_in_N_F2": true,
+      "rows": [
+        {
+          "index": 0,
+          "m_shift": "0->12",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 1,
+          "m_shift": "11->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 2,
+          "m_shift": "2->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 3,
+          "m_shift": "9->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 4,
+          "m_shift": "2->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 5,
+          "m_shift": "9->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 6,
+          "m_shift": "0->12",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 7,
+          "m_shift": "11->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 8,
+          "m_shift": "0->12",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 9,
+          "m_shift": "11->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 10,
+          "m_shift": "3->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 11,
+          "m_shift": "8->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 12,
+          "m_shift": "3->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 13,
+          "m_shift": "8->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 14,
+          "m_shift": "3->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 15,
+          "m_shift": "8->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 16,
+          "m_shift": "2->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 17,
+          "m_shift": "9->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 18,
+          "m_shift": "5->17",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 19,
+          "m_shift": "6->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 20,
+          "m_shift": "5->17",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 21,
+          "m_shift": "6->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 22,
+          "m_shift": "5->17",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 23,
+          "m_shift": "6->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        }
+      ]
+    },
+    "13_varrho": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "Thm.4.6 explicit rho is applicable only to n=4,8,16"
     }
   },
   "all_pass": true,

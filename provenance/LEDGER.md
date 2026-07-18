@@ -82,6 +82,14 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 証明書 SHA-256(先頭 16 桁): `provenance/cert-hashes-wp2.txt`。
 - **残ギャップ(達成宣言前に Sol 便 02 で裁定を仰ぐ)**: (a) reduction の関手性 (5.3) は単段 5 対で被覆し、合成鎖(例 K36→K12→K4 vs 直接)は未検証。(b) Thm 4.6 の明示同型 ϱ は独立項目でなく、合成表 ≡ (3.53) 再計算+(4.19)(4.20) 恒等式経由で担保。
 
+## 2026-07-19 — Sol 便 02 の条件閉鎖(Luna 便 02/02b+司令塔統合)
+
+- **Luna 便 02**(gpt-5.6-luna/high・初起動): 照合器の fail-closed 化(仕様 A)・N₅ node 全列挙と T(c) 直接比較(仕様 B)・代表元不変性/θτ 全単射(仕様 D4-5)・ϱ 明示同型+非可換 witness(仕様 E)を実装。GAP はサンドボックス制約(signal pipe 不可)で実行不能 → 正直に UNKNOWN 報告。
+- **Luna 便 02b**: global sweep を最適化(source Cayley の一回構築・整数エッジ)し **576 秒 → 3.5 秒**。256/256 対(不成立 212 対の collision 全検出)・doubling 7/7・numeric 16/16 PASS。`--cap` フラグ追加。受理条件を単射性→**井戸定義性**へ修正(商写像の存在条件として正当 — 司令塔追認)。
+- **司令塔**: 改修探索器 2 本を再実行(主 687 秒 — **10 分 cap を 14% 超過、次回から分割**。q 側 448 秒)。K36 に K4 直接エントリ・N₅ counts 5/5/4/4 を正規再生成。照合器フル再実行 → **全 verdict 18/18 all_pass(三角形 216/216・GLOBAL ALL PASS)**。証明書ハッシュ再記録(再生成による全対象更新)。
+- ops 修理 1 件: `codex exec resume` は --sandbox 非対応(exit 2)— wake から除去(コミット済み)。
+- 台帳: C-1 の gate 保留解除・C-1b/C-2 を cross-checked へ再昇格・C-5 条件全閉鎖。
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。

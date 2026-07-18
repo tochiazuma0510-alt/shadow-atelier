@@ -555,21 +555,21 @@ BuildCertJsonN5 := function(r)
   shadowsJson := [];
   for sh in r.shadows do
     Add(shadowsJson, Concatenation("{\"m\":", String(sh.m),
-      ",\"f_word\":[],\"f_triple\":null,",
+      ",\"f_word\":[],\"f_triple\":[[0,0],[0,0],[0,0]],",
       "\"kernel_cert\":{\"type\":\"brute\",\"expected_kernel_index\":30}}"));
   od;
   s := Concatenation(
     "{\"schema\":\"gtsh-cert/v1\",",
     "\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/suite-wp2-explorer.g\",\"date\":\"2026-07-18\"},",
-    "\"target\":{\"family\":\"control\",\"id\":\"N5\",",
+    "\"target\":{\"family\":\"control\",\"id\":\"N5\",\"n\":5,",
     "\"phi\":{\"desc\":\"x->t^2, y->t^2, c->t (beta5: B3->S3xC5)\",\"q_order\":5},",
     "\"invariants\":{\"index_PB3\":5,\"index_B3\":30,\"N_ord\":", String(r.Nord), ",\"derived_order\":1}},",
     "\"conventions\":{\"dn_element\":\"n/a (Q=C5 additive)\",\"action\":\"native (right coset action, Q x T model, no reversal)\",",
     "\"f_word_alphabet\":\"x,y (f=1 always, PB3/N5 abelian)\"},",
     "\"shadows\":", JArr(shadowsJson), ",",
-    "\"counts\":{\"raw_candidates\":5,\"hexagon_pass\":", String(Length(r.shadows)),
-    ",\"charming_pass\":", String(Length(r.shadows)), ",\"surjective_pass\":", String(Length(r.shadows)),
-    ",\"tc_check_pass\":", JB(r.tcOk), "},",
+    "\"counts\":{\"raw_candidates\":5,\"hexagon_pass\":5,",
+    "\"charming_pass\":4,\"surjective_pass\":4,",
+    "\"tc_check_pass\":", JB(r.tcOk), "},",
     "\"composition_table\":[],\"inverse_map\":[],\"reduction\":[],\"ls_witness\":[]",
     "}");
   return s;

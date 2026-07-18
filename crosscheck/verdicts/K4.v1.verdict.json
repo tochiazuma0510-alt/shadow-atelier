@@ -3,6 +3,31 @@
   "family": "dihedral",
   "schema": "gtsh-cert/v1",
   "items": {
+    "0_schema_fail_closed": {
+      "ok": true,
+      "errors": []
+    },
+    "0_invariants": {
+      "ok": true,
+      "expected": {
+        "index_PB3": 32,
+        "index_B3": 192,
+        "N_ord": 4,
+        "derived_order": 2
+      },
+      "claimed": {
+        "index_PB3": 32,
+        "index_B3": 192,
+        "N_ord": 4,
+        "derived_order": 2
+      },
+      "checks": {
+        "index_PB3": true,
+        "index_B3": true,
+        "N_ord": true,
+        "derived_order": true
+      }
+    },
     "1_counts": {
       "ok": true,
       "monotone": true,
@@ -42,7 +67,19 @@
     "7_composition_table": {
       "ok": true,
       "checked": 16,
-      "fails": []
+      "fails": [],
+      "strict": {
+        "ok": true,
+        "composition_rows": 16,
+        "composition_expected": 16,
+        "composition_pair_unique": true,
+        "composition_failures": [],
+        "inverse_rows": 4,
+        "inverse_expected": 4,
+        "inverse_source_unique": true,
+        "inverse_failures": [],
+        "structural_errors": []
+      }
     },
     "8_inverse_map": {
       "ok": true,
@@ -53,13 +90,105 @@
       "ok": true,
       "checked": 0,
       "fails": [],
+      "coverage": {
+        "ok": true,
+        "required": [],
+        "listed": [],
+        "exact_entry_set": true,
+        "results": []
+      },
       "index_convention": "追補1 項目5で凍結: image[i] = source shadows[i] の像の target 証明書 shadows[] における添字。全射性 = image の値域が target 全添字を被覆。"
     },
     "10_ls_witness": {
       "ok": true,
       "checked": 0,
+      "expected": 0,
       "fails": [],
       "note": "確定式で実装 (追補1 項目2: fK=theta(g)^-1 gK, fx^mK=tau(h)^-1 hK(m=0 mod3)/tau(h)^-1 xy hK(m=2 mod3); m=1 mod3 は現れたらFAIL)"
+    },
+    "11_induced_maps": {
+      "ok": true,
+      "theta_bijective": true,
+      "tau_bijective": true,
+      "checked": 32
+    },
+    "12_representative_invariance": {
+      "ok": true,
+      "x_Nord_in_N_F2": true,
+      "rows": [
+        {
+          "index": 0,
+          "m_shift": "0->4",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 1,
+          "m_shift": "3->7",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 2,
+          "m_shift": "1->5",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 3,
+          "m_shift": "2->6",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        }
+      ]
+    },
+    "13_varrho": {
+      "ok": true,
+      "formula": "rho(m,k)=(k mod n/2,u mod 2n), u=2m+1",
+      "expected_shadow_count": 4,
+      "actual_shadow_count": 4,
+      "rows": [
+        {
+          "i": 0,
+          "m": 0,
+          "k": 0,
+          "u": 1,
+          "key": "0,1"
+        },
+        {
+          "i": 1,
+          "m": 3,
+          "k": 0,
+          "u": 7,
+          "key": "0,7"
+        },
+        {
+          "i": 2,
+          "m": 1,
+          "k": 1,
+          "u": 3,
+          "key": "1,3"
+        },
+        {
+          "i": 3,
+          "m": 2,
+          "k": 1,
+          "u": 5,
+          "key": "1,5"
+        }
+      ],
+      "composition_checked": 16,
+      "composition_failures": [],
+      "errors": [],
+      "witness": {}
     }
   },
   "all_pass": true,

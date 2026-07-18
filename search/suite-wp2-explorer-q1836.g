@@ -507,13 +507,18 @@ ReductionToJson := function(redlist)
   return JArr(items);
 end;;
 
-# ================= メインドライバ: K18, K36 + reduction (36->12),(18->3) =================
-Print("宇宙 (branch suite 残り2対の q 側; n=18,36; reduction to n=3,12): 構成開始\n");
+# ================= メインドライバ: K18, K36 + reduction triangle =================
+Print("宇宙 (branch suite: K18,K36 + K3,K4,K12 reconstruction; reduction triangle): 構成開始\n");
 
 t0 := Runtime();
 res3 := ProcessDihedral(3);
 t1 := Runtime();
 Print("[recompute] n=3  shadows=", Length(res3.shadows), " (expect 12)  time_ms=", t1-t0, "\n");
+
+t0 := Runtime();
+res4 := ProcessDihedral(4);
+t1 := Runtime();
+Print("[recompute] n=4  shadows=", Length(res4.shadows), " (expect 4)  time_ms=", t1-t0, "\n");
 
 t0 := Runtime();
 res12 := ProcessDihedral(12);
@@ -538,14 +543,16 @@ Print("\n累計 elapsed ms (n=3,12 recompute + 18 + 36): ", Runtime()-startTime,
 
 red183 := ComputeReduction(res18, res3, 18, 3);
 red3612 := ComputeReduction(res36, res12, 36, 12);
+red364 := ComputeReduction(res36, res4, 36, 4);
 Print("reduction (18->3): surjective=", red183.surjective, "\n");
 Print("reduction (36->12): surjective=", red3612.surjective, "\n");
+Print("reduction (36->4): surjective=", red364.surjective, "\n");
 
 cert18 := BuildCertJsonDihedral(18, res18, ReductionToJson([red183]));
 WriteFile("certificates/K18.v1.json", cert18);
 Print("wrote certificates/K18.v1.json\n");
 
-cert36 := BuildCertJsonDihedral(36, res36, ReductionToJson([red3612]));
+cert36 := BuildCertJsonDihedral(36, res36, ReductionToJson([red3612, red364]));
 WriteFile("certificates/K36.v1.json", cert36);
 Print("wrote certificates/K36.v1.json\n");
 

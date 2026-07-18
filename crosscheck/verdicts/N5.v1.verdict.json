@@ -3,12 +3,119 @@
   "family": "control",
   "schema": "gtsh-cert/v1",
   "items": {
+    "0_schema_fail_closed": {
+      "ok": true,
+      "errors": []
+    },
+    "0_invariants": {
+      "ok": true,
+      "expected": {
+        "index_PB3": 5,
+        "index_B3": 30,
+        "N_ord": 5,
+        "derived_order": 1
+      },
+      "claimed": {
+        "index_PB3": 5,
+        "index_B3": 30,
+        "N_ord": 5,
+        "derived_order": 1
+      },
+      "checks": {
+        "index_PB3": true,
+        "index_B3": true,
+        "N_ord": true,
+        "derived_order": true
+      }
+    },
     "1_counts": {
       "ok": true,
       "monotone": true,
       "matchesShadowLen": true,
       "matchesThm43": null,
       "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18): raw 候補の完全再列挙は不要。単調性+最終個数一致(+dihedralはThm4.3集合一致)で可、と承認済み。"
+    },
+    "1_n5_full_enumeration": {
+      "ok": true,
+      "counts": {
+        "raw_candidates": 5,
+        "hexagon_pass": 5,
+        "charming_pass": 4,
+        "surjective_pass": 4
+      },
+      "expected_counts": {
+        "raw_candidates": 5,
+        "hexagon_pass": 5,
+        "charming_pass": 4,
+        "surjective_pass": 4
+      },
+      "m_set": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "expected_m_set": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "stages": [
+        {
+          "m": 0,
+          "hexagon": true,
+          "charming_unit": true,
+          "surjective": true,
+          "accepted": true
+        },
+        {
+          "m": 1,
+          "hexagon": true,
+          "charming_unit": true,
+          "surjective": true,
+          "accepted": true
+        },
+        {
+          "m": 2,
+          "hexagon": true,
+          "charming_unit": false,
+          "surjective": false,
+          "accepted": false
+        },
+        {
+          "m": 3,
+          "hexagon": true,
+          "charming_unit": true,
+          "surjective": true,
+          "accepted": true
+        },
+        {
+          "m": 4,
+          "hexagon": true,
+          "charming_unit": true,
+          "surjective": true,
+          "accepted": true
+        }
+      ],
+      "central_power_direct": [
+        {
+          "m": 0,
+          "pass": true
+        },
+        {
+          "m": 1,
+          "pass": true
+        },
+        {
+          "m": 3,
+          "pass": true
+        },
+        {
+          "m": 4,
+          "pass": true
+        }
+      ]
     },
     "2_hexagon": {
       "ok": true,
@@ -26,6 +133,41 @@
       "checked": 4,
       "fails": [],
       "note": "確定式で実装 (追補1 項目1: (4.11) の2等式 x-bar^{2m+1}=h.x-bar.h^-1, g^-1.y-bar^{2m+1}.g=h.y-bar.h^-1 / 項目4: N5 の brute 手続き)"
+    },
+    "7_composition_table": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "control certificate has no dihedral shadow group composition table; N5 is fully enumerated independently"
+    },
+    "8_inverse_map": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "control certificate has no dihedral inverse map"
+    },
+    "9_reduction": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "control certificate has no reduction entry"
+    },
+    "10_ls_witness": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "control certificate has no LS witness"
+    },
+    "11_induced_maps": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "dihedral theta/tau maps are not part of control N5"
+    },
+    "12_representative_invariance": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "dihedral representative convention is not part of control N5"
+    },
+    "13_varrho": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "Thm.4.6 explicit rho is not part of control N5"
     }
   },
   "all_pass": true,

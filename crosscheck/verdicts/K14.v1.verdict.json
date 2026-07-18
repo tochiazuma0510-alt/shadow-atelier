@@ -3,6 +3,31 @@
   "family": "dihedral",
   "schema": "gtsh-cert/v1",
   "items": {
+    "0_schema_fail_closed": {
+      "ok": true,
+      "errors": []
+    },
+    "0_invariants": {
+      "ok": true,
+      "expected": {
+        "index_PB3": 1372,
+        "index_B3": 8232,
+        "N_ord": 14,
+        "derived_order": 343
+      },
+      "claimed": {
+        "index_PB3": 1372,
+        "index_B3": 8232,
+        "N_ord": 14,
+        "derived_order": 343
+      },
+      "checks": {
+        "index_PB3": true,
+        "index_B3": true,
+        "N_ord": true,
+        "derived_order": true
+      }
+    },
     "1_counts": {
       "ok": true,
       "monotone": true,
@@ -42,7 +67,19 @@
     "7_composition_table": {
       "ok": true,
       "checked": 7056,
-      "fails": []
+      "fails": [],
+      "strict": {
+        "ok": true,
+        "composition_rows": 7056,
+        "composition_expected": 7056,
+        "composition_pair_unique": true,
+        "composition_failures": [],
+        "inverse_rows": 84,
+        "inverse_expected": 84,
+        "inverse_source_unique": true,
+        "inverse_failures": [],
+        "structural_errors": []
+      }
     },
     "8_inverse_map": {
       "ok": true,
@@ -53,13 +90,710 @@
       "ok": true,
       "checked": 0,
       "fails": [],
+      "coverage": {
+        "ok": true,
+        "required": [],
+        "listed": [],
+        "exact_entry_set": true,
+        "results": []
+      },
       "index_convention": "追補1 項目5で凍結: image[i] = source shadows[i] の像の target 証明書 shadows[] における添字。全射性 = image の値域が target 全添字を被覆。"
     },
     "10_ls_witness": {
       "ok": true,
       "checked": 0,
+      "expected": 0,
       "fails": [],
       "note": "確定式で実装 (追補1 項目2: fK=theta(g)^-1 gK, fx^mK=tau(h)^-1 hK(m=0 mod3)/tau(h)^-1 xy hK(m=2 mod3); m=1 mod3 は現れたらFAIL)"
+    },
+    "11_induced_maps": {
+      "ok": true,
+      "theta_bijective": true,
+      "tau_bijective": true,
+      "checked": 1372
+    },
+    "12_representative_invariance": {
+      "ok": true,
+      "x_Nord_in_N_F2": true,
+      "rows": [
+        {
+          "index": 0,
+          "m_shift": "0->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 1,
+          "m_shift": "13->27",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 2,
+          "m_shift": "0->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 3,
+          "m_shift": "13->27",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 4,
+          "m_shift": "2->16",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 5,
+          "m_shift": "11->25",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 6,
+          "m_shift": "2->16",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 7,
+          "m_shift": "11->25",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 8,
+          "m_shift": "0->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 9,
+          "m_shift": "13->27",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 10,
+          "m_shift": "2->16",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 11,
+          "m_shift": "11->25",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 12,
+          "m_shift": "1->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 13,
+          "m_shift": "12->26",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 14,
+          "m_shift": "1->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 15,
+          "m_shift": "12->26",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 16,
+          "m_shift": "1->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 17,
+          "m_shift": "12->26",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 18,
+          "m_shift": "0->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 19,
+          "m_shift": "13->27",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 20,
+          "m_shift": "2->16",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 21,
+          "m_shift": "11->25",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 22,
+          "m_shift": "1->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 23,
+          "m_shift": "12->26",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 24,
+          "m_shift": "4->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 25,
+          "m_shift": "9->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 26,
+          "m_shift": "4->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 27,
+          "m_shift": "9->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 28,
+          "m_shift": "4->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 29,
+          "m_shift": "9->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 30,
+          "m_shift": "4->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 31,
+          "m_shift": "9->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 32,
+          "m_shift": "0->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 33,
+          "m_shift": "13->27",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 34,
+          "m_shift": "2->16",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 35,
+          "m_shift": "11->25",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 36,
+          "m_shift": "1->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 37,
+          "m_shift": "12->26",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 38,
+          "m_shift": "4->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 39,
+          "m_shift": "9->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 40,
+          "m_shift": "0->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 41,
+          "m_shift": "13->27",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 42,
+          "m_shift": "2->16",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 43,
+          "m_shift": "11->25",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 44,
+          "m_shift": "1->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 45,
+          "m_shift": "12->26",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 46,
+          "m_shift": "4->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 47,
+          "m_shift": "9->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 48,
+          "m_shift": "6->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 49,
+          "m_shift": "7->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 50,
+          "m_shift": "6->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 51,
+          "m_shift": "7->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 52,
+          "m_shift": "6->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 53,
+          "m_shift": "7->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 54,
+          "m_shift": "6->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 55,
+          "m_shift": "7->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 56,
+          "m_shift": "6->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 57,
+          "m_shift": "7->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 58,
+          "m_shift": "6->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 59,
+          "m_shift": "7->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 60,
+          "m_shift": "0->14",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 61,
+          "m_shift": "13->27",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 62,
+          "m_shift": "2->16",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 63,
+          "m_shift": "11->25",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 64,
+          "m_shift": "1->15",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 65,
+          "m_shift": "12->26",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 66,
+          "m_shift": "4->18",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 67,
+          "m_shift": "9->23",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 68,
+          "m_shift": "6->20",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 69,
+          "m_shift": "7->21",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 70,
+          "m_shift": "5->19",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 71,
+          "m_shift": "8->22",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 72,
+          "m_shift": "5->19",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 73,
+          "m_shift": "8->22",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 74,
+          "m_shift": "5->19",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 75,
+          "m_shift": "8->22",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 76,
+          "m_shift": "5->19",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 77,
+          "m_shift": "8->22",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 78,
+          "m_shift": "5->19",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 79,
+          "m_shift": "8->22",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 80,
+          "m_shift": "5->19",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 81,
+          "m_shift": "8->22",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 82,
+          "m_shift": "5->19",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        },
+        {
+          "index": 83,
+          "m_shift": "8->22",
+          "hexagon_periodic": true,
+          "quotient_f": true,
+          "induced_u": true,
+          "x_Nord_in_N_F2": true
+        }
+      ]
+    },
+    "13_varrho": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "Thm.4.6 explicit rho is applicable only to n=4,8,16"
     }
   },
   "all_pass": true,

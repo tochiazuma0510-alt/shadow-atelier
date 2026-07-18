@@ -1,0 +1,2559 @@
+{
+  "schema": "gtsh-global/v1",
+  "status": "PASS",
+  "elapsed_ms": 3353,
+  "universe": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    18,
+    36
+  ],
+  "numeric": {
+    "ok": true,
+    "rows": [
+      {
+        "n": 3,
+        "group_order": 108,
+        "expected_group_order": 108,
+        "N_ord": 6,
+        "expected_N_ord": 6,
+        "pass": true
+      },
+      {
+        "n": 4,
+        "group_order": 32,
+        "expected_group_order": 32,
+        "N_ord": 4,
+        "expected_N_ord": 4,
+        "pass": true
+      },
+      {
+        "n": 5,
+        "group_order": 500,
+        "expected_group_order": 500,
+        "N_ord": 10,
+        "expected_N_ord": 10,
+        "pass": true
+      },
+      {
+        "n": 6,
+        "group_order": 108,
+        "expected_group_order": 108,
+        "N_ord": 6,
+        "expected_N_ord": 6,
+        "pass": true
+      },
+      {
+        "n": 7,
+        "group_order": 1372,
+        "expected_group_order": 1372,
+        "N_ord": 14,
+        "expected_N_ord": 14,
+        "pass": true
+      },
+      {
+        "n": 8,
+        "group_order": 256,
+        "expected_group_order": 256,
+        "N_ord": 8,
+        "expected_N_ord": 8,
+        "pass": true
+      },
+      {
+        "n": 9,
+        "group_order": 2916,
+        "expected_group_order": 2916,
+        "N_ord": 18,
+        "expected_N_ord": 18,
+        "pass": true
+      },
+      {
+        "n": 10,
+        "group_order": 500,
+        "expected_group_order": 500,
+        "N_ord": 10,
+        "expected_N_ord": 10,
+        "pass": true
+      },
+      {
+        "n": 11,
+        "group_order": 5324,
+        "expected_group_order": 5324,
+        "N_ord": 22,
+        "expected_N_ord": 22,
+        "pass": true
+      },
+      {
+        "n": 12,
+        "group_order": 864,
+        "expected_group_order": 864,
+        "N_ord": 12,
+        "expected_N_ord": 12,
+        "pass": true
+      },
+      {
+        "n": 13,
+        "group_order": 8788,
+        "expected_group_order": 8788,
+        "N_ord": 26,
+        "expected_N_ord": 26,
+        "pass": true
+      },
+      {
+        "n": 14,
+        "group_order": 1372,
+        "expected_group_order": 1372,
+        "N_ord": 14,
+        "expected_N_ord": 14,
+        "pass": true
+      },
+      {
+        "n": 15,
+        "group_order": 13500,
+        "expected_group_order": 13500,
+        "N_ord": 30,
+        "expected_N_ord": 30,
+        "pass": true
+      },
+      {
+        "n": 16,
+        "group_order": 2048,
+        "expected_group_order": 2048,
+        "N_ord": 16,
+        "expected_N_ord": 16,
+        "pass": true
+      },
+      {
+        "n": 18,
+        "group_order": 2916,
+        "expected_group_order": 2916,
+        "N_ord": 18,
+        "expected_N_ord": 18,
+        "pass": true
+      },
+      {
+        "n": 36,
+        "group_order": 23328,
+        "expected_group_order": 23328,
+        "N_ord": 36,
+        "expected_N_ord": 36,
+        "pass": true
+      }
+    ]
+  },
+  "doubling": {
+    "ok": true,
+    "rows": [
+      {
+        "n": 3,
+        "target": 6,
+        "auxiliary_target": false,
+        "well_defined": true,
+        "injective": true,
+        "source_order": 108,
+        "image_order": 108,
+        "conflicts": [],
+        "pass": true
+      },
+      {
+        "n": 5,
+        "target": 10,
+        "auxiliary_target": false,
+        "well_defined": true,
+        "injective": true,
+        "source_order": 500,
+        "image_order": 500,
+        "conflicts": [],
+        "pass": true
+      },
+      {
+        "n": 7,
+        "target": 14,
+        "auxiliary_target": false,
+        "well_defined": true,
+        "injective": true,
+        "source_order": 1372,
+        "image_order": 1372,
+        "conflicts": [],
+        "pass": true
+      },
+      {
+        "n": 9,
+        "target": 18,
+        "auxiliary_target": false,
+        "well_defined": true,
+        "injective": true,
+        "source_order": 2916,
+        "image_order": 2916,
+        "conflicts": [],
+        "pass": true
+      },
+      {
+        "n": 11,
+        "target": 22,
+        "auxiliary_target": true,
+        "well_defined": true,
+        "injective": true,
+        "source_order": 5324,
+        "image_order": 5324,
+        "conflicts": [],
+        "pass": true
+      },
+      {
+        "n": 13,
+        "target": 26,
+        "auxiliary_target": true,
+        "well_defined": true,
+        "injective": true,
+        "source_order": 8788,
+        "image_order": 8788,
+        "conflicts": [],
+        "pass": true
+      },
+      {
+        "n": 15,
+        "target": 30,
+        "auxiliary_target": true,
+        "well_defined": true,
+        "injective": true,
+        "source_order": 13500,
+        "image_order": 13500,
+        "conflicts": [],
+        "pass": true
+      }
+    ]
+  },
+  "prop_3_5": {
+    "ok": true,
+    "total": 256,
+    "true_count": 44,
+    "false_count": 212,
+    "false_collision_count": 0,
+    "mismatch_count": 0,
+    "pairs": [
+      {
+        "q": 3,
+        "n": 3,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 3,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 6,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 3,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 3,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 4,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 4,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 4,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 5,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 5,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 10,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 5,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 5,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 3,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 6,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 6,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 6,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 6,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 7,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 7,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 14,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 7,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 7,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 4,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 8,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 8,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 8,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 8,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 3,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 9,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 6,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 9,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 9,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 9,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 9,
+        "n": 18,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 9,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 5,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 10,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 10,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 10,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 10,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 11,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 11,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 11,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 3,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 12,
+        "n": 4,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 12,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 6,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 12,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 12,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 12,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 12,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 13,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 13,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 13,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 7,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 14,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 14,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 14,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 14,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 3,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 15,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 5,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 15,
+        "n": 6,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 15,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 10,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 15,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 15,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 15,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 15,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 3,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 4,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 16,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 6,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 8,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 16,
+        "n": 9,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 16,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 16,
+        "n": 18,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 16,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 3,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 18,
+        "n": 4,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 6,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 18,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 9,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 18,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 12,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 18,
+        "n": 18,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 18,
+        "n": 36,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": true,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 3,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 36,
+        "n": 4,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 36,
+        "n": 5,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 6,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 36,
+        "n": 7,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 8,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 9,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 36,
+        "n": 10,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 11,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 12,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 36,
+        "n": 13,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 14,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 15,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 16,
+        "number_theory": false,
+        "well_defined": false,
+        "injective": false,
+        "admissible": false,
+        "conflict_count": 3
+      },
+      {
+        "q": 36,
+        "n": 18,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": false,
+        "admissible": true,
+        "conflict_count": 0
+      },
+      {
+        "q": 36,
+        "n": 36,
+        "number_theory": true,
+        "well_defined": true,
+        "injective": true,
+        "admissible": true,
+        "conflict_count": 0
+      }
+    ]
+  },
+  "reduction_triangle": {
+    "ok": true,
+    "checked": 216,
+    "expected": 216,
+    "failures": []
+  },
+  "all_pass": true
+}
