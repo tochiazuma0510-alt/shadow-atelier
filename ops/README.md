@@ -2,21 +2,41 @@
 
 ES7 の郵便箱一式(`atelier_lean/ES7/ops/`・実証済み)の影工房移植版。2026-07-18 開設。
 
+## 配達体制(誰が何を運ぶか — ES7 §5「TOP 同士が書くのをやめる」の継承)
+
+| 通信 | 書く者 | 配達する者 |
+|---|---|---|
+| キックオフ・裁定(契約級) | **司令塔** が `sol/` にファイルとして書く | **スクリプト**(`launch_wake.ps1` — 一行指示はファイルへのポインタのみ) |
+| Sol の監査・返信(契約級) | **Sol** が `sol/sol_reply_*.md` に書く | ファイル到着を **Monitor が自動検知**(done 通知は不要 — ES7 と違い司令塔側が常駐監視) |
+| 運用連絡(定型) | 原則**スクリプト**。郵便量が増えたら **ops 事務員**(安価モデルの subagent)を発足 | 同左+wake |
+| **Sol は ops の便りを書かない**(ES7 規約)— Sol の出力は数学成果物のみ | — | — |
+
+- Luna(実装増援)を起こす日が来たら: **Luna 専用セッション+専用ピン**(`codex_session_id_luna.txt`)を新設し、
+  Codex 側の ops 便り担当は Luna に置く(ES7 と同配置)。Sol のピンと混ぜない。
+
 ## 自動起動の仕組み
 
-- **初回**: `powershell -File ops\bin\launch_wake.ps1 new "<一行指示>"` — 新規 Codex セッションを起動し、
-  セッション ID を `ops/bin/codex_session_id.txt` に**ピン留め**。全ターン出力は `ops/codex_activity.log` へ。
-- **以後の起床**: `powershell -File ops\bin\launch_wake.ps1 wake "<理由>"` — ピン ID に `codex exec resume`。
-  文脈は保持される。ゾンビガード: codex.exe が居ても活動ログ 45 分無音なら kill して続行。
+- **セッション運用(ES7 準拠)**: **Sol 便ごとに新規セッション**(`launch_wake.ps1 new` — 2 便目以降は
+  `launch_new.mjs --renew` で旧ピンを履歴に退避)。文脈はファイルで渡す(キックオフに前便 reply への参照を書く)。
+  **wake(`launch_wake.ps1 wake`)は同一便内のフォローアップ専用**(ピン ID に `codex exec resume`)。
+- セッション ID は `ops/bin/codex_session_id.txt` に自動ピン留め、全ターン出力は `ops/codex_activity.log` へ。
+  ゾンビガード: codex.exe が居ても活動ログ 45 分無音なら kill して続行。
 - **ES7 との相違(重要)**: `--last` フォールバックは**廃止**。この計算機は複数工房で Codex を使うため、
   ピン ID が無ければ起床を拒否する(誤って他工房のセッションを resume しない)。
   同じ理由で、**この計算機で素の `codex exec`(launch_new 以外)を手で実行しない**こと。
 - モデル・エフォートは `~/.codex/config.toml` の既定(gpt-5.6-sol・max)を使う。
 
+## 既知の混線リスク(要対処・バックログ)
+
+- `~/.codex/config.toml` にグローバル登録の **es7ops MCP**(ES7 の CI dispatch・**ES7 側受信箱への note**)が
+  影工房のセッションにも露出している。キックオフで言及しない限り使われない想定だが、
+  Sol が「done 通知」に `ops_note_to_commander` を呼ぶと **ES7 の inbox_claude に落ちる**。
+  当面: 便の終了時に ES7 側 inbox も点検する。恒久対処(影工房用 MCP の分離 or スコープ)は Luna 発足時に。
+
 ## 郵便箱(ES7 と同じ規約)
 
-- `inbox_claude/` — Sol → 司令塔(依頼・チェックポイント・done 通知)。`YYYYMMDD-HHMMSS_題名.md` 1 件 1 ファイル。
-- `inbox_codex/` — 司令塔 → Sol(裁定速報・GO 等)。配達後に wake で起こす。
+- `inbox_claude/` — Codex → 司令塔(依頼・チェックポイント)。`YYYYMMDD-HHMMSS_題名.md` 1 件 1 ファイル。
+- `inbox_codex/` — 司令塔 → Codex(裁定速報・GO 等)。配達後に wake で起こす。
 - 処理済みは `archive/` へ。数学の成果物の正本は従来どおり `sol/`(キックオフ・reply)であり、inbox は運用連絡のみ。
 
 ## 契約(キックオフに毎回明記)

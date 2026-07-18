@@ -1,19 +1,32 @@
-// First launch: start a BRAND-NEW Codex (Sol) session for shadow-atelier and
-// pin its session id, so all later wakes use `codex exec resume <pinned-id>`.
-// Usage: node launch_new.mjs "<instruction...>"
-// - Refuses if a session id is already pinned (use wake_codex.mjs instead).
+// Start a BRAND-NEW Codex (Sol) session for shadow-atelier and pin its
+// session id, so follow-up wakes use `codex exec resume <pinned-id>`.
+// Session policy (ES7-aligned): one NEW session per Sol kickoff (便);
+// context travels via files (kickoff references prior replies). wake_codex
+// is for follow-ups WITHIN the current 便 only.
+// Usage: node launch_new.mjs [--renew] "<instruction...>"
+// - Without --renew: refuses if a session id is already pinned.
+// - With --renew: archives the current pin to codex_session_id_history.txt
+//   and starts a fresh session (use at the start of each new 便).
 // - Refuses if codex.exe is already running (do not spawn a second brain).
-// - Streams the whole turn to ops/codex_activity.log and scans the stream for
-//   "session id: <uuid>" to write ops/bin/codex_session_id.txt.
 import { execSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
 
 const REPO = 'C:/Users/81905/Desktop/shadow-atelier';
 const LOG = `${REPO}/ops/codex_activity.log`;
 const ID_FILE = `${REPO}/ops/bin/codex_session_id.txt`;
-const instr = process.argv.slice(2).join(' ');
+const HIST_FILE = `${REPO}/ops/bin/codex_session_id_history.txt`;
+let argv = process.argv.slice(2);
+const renew = argv[0] === '--renew';
+if (renew) argv = argv.slice(1);
+const instr = argv.join(' ');
 if (!instr) { console.log('NO-INSTRUCTION'); process.exit(1); }
-if (fs.existsSync(ID_FILE)) { console.log('ALREADY-PINNED: use wake_codex.mjs'); process.exit(3); }
+if (fs.existsSync(ID_FILE)) {
+  if (!renew) { console.log('ALREADY-PINNED: use wake_codex.mjs for follow-ups, or --renew for a new 便'); process.exit(3); }
+  const old = fs.readFileSync(ID_FILE, 'utf8').trim();
+  fs.appendFileSync(HIST_FILE, `${new Date().toISOString()} ${old}\n`);
+  fs.unlinkSync(ID_FILE);
+  console.log(`RENEWED: archived ${old}`);
+}
 
 const tasklist = execSync('tasklist', { encoding: 'utf8' });
 if (/^codex\.exe/im.test(tasklist)) { console.log('CODEX-ALREADY-RUNNING: aborting first launch'); process.exit(2); }
