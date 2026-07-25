@@ -113,51 +113,129 @@ function matFromStr(s) {
   return nums;
 }
 
-function checkStageS1(cert) {
-  const q = 7;
+// ---------- GF(8) = F2[x]/(x^3+x+1), own bit-based arithmetic (independent JS reimplementation of
+// search/week3-psl-common.g's GF8* functions -- same algorithm, separate code, per the P115/helper-
+// non-sharing rule between search/ and crosscheck/) ----------
+function bitOf(n, i) { return (n >> i) & 1; }
+function xorInt(a, b) { return a ^ b; }
+function gf8CarrylessMul(a, b) { let r = 0; for (let i = 0; i <= 2; i++) if (bitOf(b, i)) r ^= (a << i); return r; }
+function gf8Reduce(p) { let r = p; for (const i of [4, 3]) if (bitOf(r, i)) r ^= (11 << (i - 3)); return r; }
+function gf8Mul(a, b) { return gf8Reduce(gf8CarrylessMul(a, b)); }
+function gf8Add(a, b) { return a ^ b; }
+function gf8Inv(a) { for (let b = 1; b < 8; b++) if (gf8Mul(a, b) === 1) return b; throw new Error('gf8Inv: not found'); }
+function matToPermGF8(M) {
+  const [a, b, c, d] = M;
+  const perm = new Array(9);
+  perm[0] = c === 0 ? 0 : 1 + gf8Mul(a, gf8Inv(c));
+  for (let x = 0; x < 8; x++) {
+    const num = gf8Add(gf8Mul(a, x), b), den = gf8Add(gf8Mul(c, x), d);
+    perm[1 + x] = den === 0 ? 0 : 1 + gf8Mul(num, gf8Inv(den));
+  }
+  return perm;
+}
+function gf8CanonicalizeMat(M) {
+  let first = 0;
+  for (const x of M) if (x !== 0) { first = x; break; }
+  const inv = gf8Inv(first);
+  return M.map((x) => gf8Mul(x, inv));
+}
+function gf8DetMat(M) { return gf8Add(gf8Mul(M[0], M[3]), gf8Mul(M[1], M[2])); } // sub = add in char 2
+function buildPGLElementsGF8() {
+  const seen = new Map(); const out = [];
+  for (let a = 0; a < 8; a++) for (let b = 0; b < 8; b++) for (let c = 0; c < 8; c++) for (let d = 0; d < 8; d++) {
+    const M = [a, b, c, d];
+    if (gf8DetMat(M) === 0) continue;
+    const canon = gf8CanonicalizeMat(M);
+    const key = canon.join(',');
+    if (!seen.has(key)) { seen.set(key, true); out.push({ mat: canon, perm: matToPermGF8(canon) }); }
+  }
+  return out;
+}
+function frobPermGF8() {
+  const perm = [0];
+  for (let x = 0; x < 8; x++) perm.push(1 + gf8Mul(x, x));
+  return perm;
+}
+
+function parseQ(cert) {
+  const mtch = /\(2,\s*(\d+)\)/.exec(cert.ambient_group);
+  return mtch ? parseInt(mtch[1], 10) : null;
+}
+
+function checkPSLWindow(cert) {
+  const q = parseQ(cert);
+  if (q === 8) return checkPSLWindowGF8(cert);
+  return checkPSLWindowPrime(cert, q);
+}
+
+function checkPSLWindowPrime(cert, q) {
   const errors = [];
   const Smat = matFromStr(cert.marking.S);
   const Tmat = matFromStr(cert.marking.T);
   const Sperm = matToPerm(q, Smat);
   const Tperm = matToPerm(q, Tmat);
+  return checkPSLWindowCore(cert, q, q + 1, Sperm, Tperm, () => buildPGLElements(q),
+    (M) => detMat(q, M), (x) => isSquareInGF(q, x), Smat);
+}
+
+function checkPSLWindowGF8(cert) {
+  const Smat = matFromStr(cert.marking.S);
+  const Tmat = matFromStr(cert.marking.T);
+  const Sperm = matToPermGF8(Smat);
+  const Tperm = matToPermGF8(Tmat);
+  const buildAut = () => {
+    const pgl = buildPGLElementsGF8();
+    const frob = frobPermGF8();
+    const gens = [...pgl.map((e) => e.perm), frob];
+    const map = subgroupClosure(gens, 9);
+    return [...map.values()].map((p) => ({ mat: p, perm: p }));
+  };
+  return checkPSLWindowCore(cert, 8, 9, Sperm, Tperm, buildAut, null, null, Smat);
+}
+
+// core logic shared by prime-field and GF(8) windows (own independent implementation throughout;
+// P115: matrix-direct enumeration, no character tables read anywhere in this file)
+function checkPSLWindowCore(cert, q, n, Sperm, Tperm, buildAutList, detFn, isSquareFn, Smat) {
+  const errors = [];
   const ordS = permOrder(Sperm), ordT = permOrder(Tperm);
   if (ordS !== 2) errors.push('ord(S) != 2');
   if (ordT !== 3) errors.push('ord(T) != 3');
-  const detS = detMat(q, Smat);
-  const sIsInner = isSquareInGF(q, detS);
-  if (!sIsInner) errors.push('S expected inner for S1 (case A)');
+  let sIsInner = null;
+  if (detFn && isSquareFn) {
+    const detS = detFn(Smat);
+    sIsInner = isSquareFn(detS);
+    const expectInner = cert.case === 'A_split_inner';
+    if (sIsInner !== expectInner) errors.push(`det(S) square=${sIsInner}, case=${cert.case} mismatch`);
+  }
   const wPerm = permMul(Sperm, permInv(Tperm)); // paper T^-1 S -> GAP S*T^-1
   const eOrd = permOrder(wPerm);
-  if (eOrd !== 7) errors.push(`ord(w) = ${eOrd} != 7`);
   const Xperm = permMul(wPerm, wPerm);
   const kOrd = permOrder(Xperm);
-  if (kOrd !== 7) errors.push(`ord(X) = ${kOrd} != 7`);
+  if (eOrd !== cert.marking.ord_w) errors.push(`ord(w) = ${eOrd} != claimed ${cert.marking.ord_w}`);
+  if (kOrd !== cert.marking.ord_X) errors.push(`ord(X) = ${kOrd} != claimed ${cert.marking.ord_X}`);
   const Yperm = permMul(permMul(permInv(Sperm), Xperm), Sperm); // paper S X S^-1 -> GAP S^-1 X S
   const XYZid = (() => {
     const Zperm = permMul(permMul(permPow(Tperm, -2), Xperm), permPow(Tperm, 2));
-    return permEq(permMul(permMul(Zperm, Yperm), Xperm), permId(q + 1));
+    return permEq(permMul(permMul(Zperm, Yperm), Xperm), permId(n)); // paper XYZ=1 -> GAP Z*Y*X=1 (3-term reversal, D7)
   })();
   if (!XYZid) errors.push('XYZ != 1');
 
-  const ghatMap = subgroupClosure([Sperm, Tperm], q + 1);
-  const gMap = subgroupClosure([Xperm, Yperm], q + 1);
-  if (ghatMap.size !== 168) errors.push(`|<S,T>| = ${ghatMap.size} != 168`);
-  if (gMap.size !== 168) errors.push(`|<X,Y>| = ${gMap.size} != 168`);
+  const ghatMap = subgroupClosure([Sperm, Tperm], n);
+  const gMap = subgroupClosure([Xperm, Yperm], n);
+  if (ghatMap.size !== cert.generation_checks.gen_ambient) errors.push(`|<S,T>| = ${ghatMap.size} != claimed ${cert.generation_checks.gen_ambient}`);
+  if (gMap.size !== cert.generation_checks.gen_derived) errors.push(`|<X,Y>| = ${gMap.size} != claimed ${cert.generation_checks.gen_derived}`);
 
   const b3Points = 6 * gMap.size;
-  if (b3Points !== 1008) errors.push(`b3_points = ${b3Points} != 1008`);
+  if (b3Points !== cert.universe.b3_points) errors.push(`b3_points = ${b3Points} != claimed ${cert.universe.b3_points}`);
 
   const nOrd = kOrd;
   const charmingSet = Array.from({ length: nOrd }, (_, m) => m).filter((m) => gcd(2 * m + 1, nOrd) === 1);
-  const expectedCharming = [0, 1, 2, 4, 5, 6];
-  if (JSON.stringify(charmingSet) !== JSON.stringify(expectedCharming)) errors.push('charming_set mismatch');
+  if (JSON.stringify(charmingSet) !== JSON.stringify(cert.universe.charming_set)) errors.push('charming_set mismatch');
 
   const candidateTotal = charmingSet.length * gMap.size;
-  if (candidateTotal !== 1008) errors.push(`candidate_total = ${candidateTotal} != 1008`);
+  if (candidateTotal !== cert.universe.candidate_total) errors.push(`candidate_total = ${candidateTotal} != claimed ${cert.universe.candidate_total}`);
 
-  // Aut(Ghat) = PGL(2,7), 336 elements
-  const pglElts = buildPGLElements(q);
-  if (pglElts.length !== 336) errors.push(`|PGL(2,7)| = ${pglElts.length} != 336`);
+  const pglElts = buildAutList();
 
   // hexagon_free_certificate cross-check (reduced hexagon via theta/tau homomorphism shortcut,
   // matching GAP's EnumerateReducedHexagon logic -- own independent word/BFS implementation)
@@ -188,7 +266,6 @@ function checkStageS1(cert) {
   function thetaWord(w) { return w.map(([s, p]) => (s === 'x' ? ['y', p] : ['x', p])); }
   function tauWord(w) { return w.flatMap(([s, p]) => (s === 'x' ? [['y', p]] : (p === 1 ? [['y', -1], ['x', -1]] : [['x', 1], ['y', 1]]))); }
 
-  const n = q + 1;
   const { wordOf, elements } = bfsWords(Xperm, Yperm, n);
   // derived subgroup = G (perfect), so ALL 168 elements are candidates
   let h10Fail = 0, h11Fail = 0, genFail = 0, shadowTotal = 0;
@@ -219,6 +296,10 @@ function checkStageS1(cert) {
   if (!hexOk) errors.push(`hexagon_free_certificate mismatch: observed cand=${candTot} h10=${h10Fail} h11=${h11Fail} genfail=${genFail} shadow=${shadowTotal}, claimed=${JSON.stringify(claimedHex)}`);
 
   // settled witness re-verification (independent search over the SAME PGL(2,7) list)
+  function witnessToPerm(str) {
+    if (q === 8) return parseGapPermString(str, n); // PGammaL witnesses are printed as GAP perms
+    return matToPerm(q, matFromStr(str));
+  }
   let witnessMismatches = 0;
   for (const sd of (cert.settled_detail || [])) {
     const f = evalWordPrepend(sd.f_word, Xperm, Yperm, n);
@@ -226,8 +307,7 @@ function checkStageS1(cert) {
     const targetX = permPow(Xperm, u);
     const targetY = permMul(permMul(f, permPow(Yperm, u)), permInv(f));
     if (sd.settled) {
-      const wm = matFromStr(sd.automorphism_witness);
-      const h = matToPerm(q, wm);
+      const h = witnessToPerm(sd.automorphism_witness);
       const ok = permEq(permMul(permMul(permInv(h), Xperm), h), targetX) && permEq(permMul(permMul(permInv(h), Yperm), h), targetY);
       if (!ok) witnessMismatches++;
     } else {
@@ -243,33 +323,57 @@ function checkStageS1(cert) {
   const settledCountObserved = (cert.settled_detail || []).filter((sd) => sd.settled).length;
   if (cert.settled_count !== settledCountObserved) errors.push('settled_count mismatch');
 
-  // PU-F12 control re-check (independent, PSL(2,11))
+  const ok = errors.length === 0;
+  return { ok, errors, observed: { ord_S: ordS, ord_T: ordT, ord_w: eOrd, ord_X: kOrd, s_is_inner: sIsInner, ghat_size: ghatMap.size, g_size: gMap.size, b3_points: b3Points, candidate_total: candidateTotal, aut_size: pglElts.length, hexagon_free_certificate_observed: { candidate_total: candTot, h10_fail: h10Fail, h11_fail: h11Fail, generation_fail: genFail, shadow_total: shadowTotal }, settled_count_observed: settledCountObserved } };
+}
+
+// parses a 1-indexed GAP permutation print string (e.g. "(1,4)(2,7,3)" or "()") into a 0-indexed
+// permutation array of length n (own independent parser, mirrors the one used for A1 in check-v2.mjs
+// but generalized to n points).
+function parseGapPermString(s, n) {
+  const perm = Array.from({ length: n }, (_, i) => i);
+  if (s === '()') return perm;
+  const re = /\(([^)]+)\)/g;
+  let match;
+  while ((match = re.exec(s))) {
+    const cyc = match[1].split(',').map((x) => parseInt(x.trim(), 10) - 1);
+    for (let i = 0; i < cyc.length; i++) perm[cyc[i]] = cyc[(i + 1) % cyc.length];
+  }
+  return perm;
+}
+
+function checkPU_F12() {
+  // PU-F12 (W78 control, PSL(2,11)) -- checked once here (not per-window; excluded window, not
+  // part of any S1-S7 certificate's own claims, so verified against the S1 cert's recorded value).
   const q11 = 11;
   const pgl11 = buildPGLElements(q11);
   const psl11 = pgl11.filter((e) => isSquareInGF(q11, detMat(q11, e.mat))).map((e) => e.perm);
-  if (psl11.length !== 660) errors.push(`PSL(2,11) size = ${psl11.length} != 660`);
+  if (psl11.length !== 660) return { ok: false, reason: `PSL(2,11) size = ${psl11.length} != 660` };
   const v5 = psl11.find((x) => permOrder(x) === 5);
   const cc = classCoefficient(psl11, v5);
-  if (cc !== 10) errors.push(`PU-F12 class_coefficient = ${cc} != 10`);
-  const claimedCC = cert.pu_f12_control && cert.pu_f12_control.class_coefficient;
-  if (claimedCC !== cc) errors.push(`cert PU-F12 class_coefficient claim ${claimedCC} != recomputed ${cc}`);
-
-  const ok = errors.length === 0;
-  return { ok, errors, observed: { ord_S: ordS, ord_T: ordT, ord_w: eOrd, ord_X: kOrd, s_is_inner: sIsInner, ghat_size: ghatMap.size, g_size: gMap.size, b3_points: b3Points, candidate_total: candidateTotal, pgl_size: pglElts.length, hexagon_free_certificate_observed: { candidate_total: candTot, h10_fail: h10Fail, h11_fail: h11Fail, generation_fail: genFail, shadow_total: shadowTotal }, settled_count_observed: settledCountObserved, pu_f12_class_coefficient_observed: cc } };
+  return { ok: cc === 10, class_coefficient_observed: cc };
 }
 
 function main() {
   if (!existsSync(VERDICT_DIR)) mkdirSync(VERDICT_DIR, { recursive: true });
-  const id = process.argv[2] || 'S1';
-  const certPath = join(CERT_DIR, `${id}.v2.json`);
-  if (!existsSync(certPath)) { console.log(`certificate not found: ${certPath}`); process.exit(1); }
-  const cert = JSON.parse(readFileSync(certPath, 'utf8'));
-  let verdict;
-  if (id === 'S1') verdict = checkStageS1(cert);
-  else verdict = { ok: false, reason: `window ${id} checker not implemented yet` };
-  writeFileSync(join(VERDICT_DIR, `${id}.psl.verdict.json`), JSON.stringify(verdict, null, 2));
-  console.log(`window ${id}: ${verdict.ok ? 'PASS' : 'FAIL'}`);
-  console.log(JSON.stringify(verdict, null, 2));
+  const ids = process.argv.slice(2).length ? process.argv.slice(2) : ['S1'];
+  const results = {};
+  for (const id of ids) {
+    const certPath = join(CERT_DIR, `${id}.v2.json`);
+    if (!existsSync(certPath)) { console.log(`certificate not found: ${certPath}`); results[id] = { ok: false }; continue; }
+    const cert = JSON.parse(readFileSync(certPath, 'utf8'));
+    let verdict = checkPSLWindow(cert);
+    if (id === 'S1') {
+      const puf12 = checkPU_F12();
+      verdict = { ...verdict, ok: verdict.ok && puf12.ok, pu_f12_control_recheck: puf12 };
+    }
+    results[id] = verdict;
+    writeFileSync(join(VERDICT_DIR, `${id}.psl.verdict.json`), JSON.stringify(verdict, null, 2));
+    console.log(`window ${id}: ${verdict.ok ? 'PASS' : 'FAIL'}`);
+    console.log(JSON.stringify(verdict, null, 2));
+  }
+  const allOk = Object.values(results).every((r) => r.ok);
+  console.log(`\ncheck-psl.mjs overall: ${allOk ? 'all_pass' : 'FAIL'}`);
 }
 
 main();

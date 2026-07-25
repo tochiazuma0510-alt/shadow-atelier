@@ -11,7 +11,7 @@
     "g_size": 168,
     "b3_points": 1008,
     "candidate_total": 1008,
-    "pgl_size": 336,
+    "aut_size": 336,
     "hexagon_free_certificate_observed": {
       "candidate_total": 1008,
       "h10_fail": 876,
@@ -19,7 +19,10 @@
       "generation_fail": 0,
       "shadow_total": 42
     },
-    "settled_count_observed": 42,
-    "pu_f12_class_coefficient_observed": 10
+    "settled_count_observed": 42
+  },
+  "pu_f12_control_recheck": {
+    "ok": true,
+    "class_coefficient_observed": 10
   }
 }

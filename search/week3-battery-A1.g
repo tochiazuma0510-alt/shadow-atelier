@@ -122,6 +122,15 @@ shadowSumCheck := (result.candidate_total - result.h10_fail - result.h11_fail - 
                     = result.shadow_total);;
 Print("[", PF(shadowSumCheck), "] shadow_total 引き算整合性チェック\n");
 
+# ---- convention robustness check (司令塔裁定 2026-07-26, workorder3 item1, 遡及適用 workorder4) ----
+convRobust := CheckConventionRobust(qrec, charmingSet);;
+Print("[", PF(convRobust.agree), "] convention_robust: natural vs prepend word-level agree: ",
+      convRobust.agree, " (natural shadow_total=", convRobust.natural.shadow_total,
+      ", prepend shadow_total=", convRobust.prepend.shadow_total, ")\n");
+if not convRobust.agree then
+  Print("  [ANOMALY] convention mismatch detected for stage A1 -- report immediately, do not paper over\n");
+fi;
+
 emTable := ComputeEmTable(qrec, nOrd);;
 Print("E_m table computed (", Length(emTable), " rows, independent)\n");
 
@@ -285,7 +294,9 @@ s := Concatenation(
   "\"layer_id_note\":\"P75/Prop E6 の3層分類式が spec 射影内に見当たらない(docs/命題_* は読取禁止)。どの層が指定 Delta_bar に対応するか判定不能 -- 司令塔確認要\",",
   "\"runtime\":", runtimeJson, ",",
   "\"gt_shadows_observed\":", JArr(gtShadowsObservedJson), ",",
-  "\"gt_shadows_observed_note\":\"G-06形式の要請への対応: sealed の known_solutions とは別名で観測 shadow 一覧をそのまま出力(比較や整形は行っていない)\"",
+  "\"gt_shadows_observed_note\":\"G-06形式の要請への対応: sealed の known_solutions とは別名で観測 shadow 一覧をそのまま出力(比較や整形は行っていない)\",",
+  "\"convention_robust\":", JB(convRobust.agree), ",",
+  "\"convention_robust_note\":\"natural vs prepend 語レベル評価が一致(司令塔裁定, workorder4 item3 遡及適用)\"",
   "}");;
 
 WriteFile("certificates/A1.v2.json", s);;

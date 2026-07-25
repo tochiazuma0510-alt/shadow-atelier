@@ -114,6 +114,15 @@ shadowSumCheck := (result.candidate_total - result.h10_fail - result.h11_fail - 
                     = result.shadow_total);;
 Print("[", PF(shadowSumCheck), "] shadow_total 引き算整合性チェック\n");
 
+# ---- convention robustness check (遡及適用 workorder4 item3) ----
+convRobust := CheckConventionRobust(qrec, charmingSet);;
+Print("[", PF(convRobust.agree), "] convention_robust: natural vs prepend word-level agree: ",
+      convRobust.agree, " (natural shadow_total=", convRobust.natural.shadow_total,
+      ", prepend shadow_total=", convRobust.prepend.shadow_total, ")\n");
+if not convRobust.agree then
+  Print("  [ANOMALY] convention mismatch detected for stage 3 -- report immediately, do not paper over\n");
+fi;
+
 wallSecondsCheck3 := (Runtime()-startTime)/1000.0;;
 if wallSecondsCheck3 > capStage then
   Print("[CAP EXCEEDED] stage 3 exceeded ", capStage, "s during enumeration -- halting, UNKNOWN\n");
@@ -295,15 +304,33 @@ r7ImgStr := [];;  for i in r7Images do Add(r7ImgStr, String(i)); od;
 r8ImgStr := [];;  for i in r8Images do Add(r8ImgStr, String(i)); od;
 
 JBoolOrStr := function(v) if v = true then return "true"; elif v = false then return "false"; else return Concatenation("\"", String(v), "\""); fi; end;;
+
+FibreHist3 := function(images, targetCount)
+  local hist, im;
+  hist := List([1..targetCount], x -> 0);
+  for im in images do if im >= 0 then hist[im+1] := hist[im+1]+1; fi; od;
+  return hist;
+end;;
+KernelOrder3 := function(hist)
+  local h;
+  for h in hist do if h <> hist[1] then return "null"; fi; od;
+  return String(hist[1]);
+end;;
+
+r7Hist := FibreHist3(r7Images, Length(r7Seen));;
+r8Hist := FibreHist3(r8Images, Length(r8Seen));;
+r7HistStr := [];;  for h in r7Hist do Add(r7HistStr, String(h)); od;
+r8HistStr := [];;  for h in r8Hist do Add(r8HistStr, String(h)); od;
+
 reductionsJson := Concatenation(
   "[{\"target\":\"K3\",\"surjective\":", JBoolOrStr(r7Surjective),
   ",\"image_size\":", String(Length(r7Seen)), ",\"image\":", JArr(r7ImgStr),
-  ",\"fibre\":{\"note\":\"see image[] for raw per-shadow target index map\"},",
-  "\"kernel_order\":null,\"kernel_structure\":\"UNKNOWN\"},",
+  ",\"fibre\":{\"histogram\":", JArr(r7HistStr), ",\"note\":\"per-target-shadow preimage count\"},",
+  "\"kernel_order\":", KernelOrder3(r7Hist), ",\"kernel_structure\":\"UNKNOWN\"},",
   "{\"target\":\"N3\",\"surjective\":", JBoolOrStr(r8Surjective),
   ",\"image_size\":", String(Length(r8Seen)), ",\"image\":", JArr(r8ImgStr),
-  ",\"fibre\":{\"note\":\"see image[] for raw per-shadow target index map\"},",
-  "\"kernel_order\":null,\"kernel_structure\":\"UNKNOWN\"}]");;
+  ",\"fibre\":{\"histogram\":", JArr(r8HistStr), ",\"note\":\"per-target-shadow preimage count\"},",
+  "\"kernel_order\":", KernelOrder3(r8Hist), ",\"kernel_structure\":\"UNKNOWN\"}]");;
 
 s := Concatenation(
   "{\"schema\":\"gtsh-cert/v2\",",
@@ -326,11 +353,14 @@ s := Concatenation(
   "\"m_missing\":", JArr(List(mMissing, String)), ",",
   "\"kernel_certificate\":", kernelCert, ",",
   "\"reductions\":", reductionsJson, ",",
-  "\"isolated\":\"UNKNOWN\",",
-  "\"isolated_note\":\"settled 判定未実装(司令塔裁定③)\",",
+  "\"isolated\":true,",
+  "\"isolated_note\":\"司令塔指示(workorder3 item2-1): isolated=true, 根拠 Prop 3.15 + 事前登録(K^(3) Thm 4.3・N_3 verbal 補題 H2)。実装担当としての settled 判定は本証明書では独立計算していない(spec由来の根拠を直接記帳するのみ)\",",
   "\"layer_id\":\"not_applicable\",",
   "\"runtime\":", runtimeJson, ",",
-  "\"full_hexagon_double_check\":{\"dblFail\":\"", String(dblFail), "\"}",
+  "\"full_hexagon_double_check\":{\"dblFail\":\"", String(dblFail), "\"},",
+  "\"convention_robust\":", JB(convRobust.agree), ",",
+  "\"convention_robust_note\":\"natural vs prepend 語レベル評価が一致(workorder4 item3 遡及適用)\",",
+  "\"schema_v2_1_note\":\"司令塔裁定(workorder3 item2-5): f_word を gtsh-cert/v2.1 の正式欄として採用(f_hash は未定義のため不使用)。schema フィールド自体は既存の gtsh-cert/v2 のまま(内容の互換拡張)\"",
   "}");;
 
 WriteFile("certificates/3.v2.json", s);;

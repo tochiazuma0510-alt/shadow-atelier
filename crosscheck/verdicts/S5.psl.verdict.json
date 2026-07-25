@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "errors": [],
+  "observed": {
+    "ord_S": 2,
+    "ord_T": 3,
+    "ord_w": 11,
+    "ord_X": 11,
+    "s_is_inner": true,
+    "ghat_size": 660,
+    "g_size": 660,
+    "b3_points": 3960,
+    "candidate_total": 6600,
+    "aut_size": 1320,
+    "hexagon_free_certificate_observed": {
+      "candidate_total": 6600,
+      "h10_fail": 6040,
+      "h11_fail": 450,
+      "generation_fail": 0,
+      "shadow_total": 110
+    },
+    "settled_count_observed": 110
+  }
+}

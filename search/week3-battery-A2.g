@@ -109,6 +109,14 @@ Print("quotient_shortcut_available=", result.quotient_shortcut_available,
 shadowSumCheck := (result.candidate_total - result.h10_fail - result.h11_fail - result.generation_fail
                     = result.shadow_total);;
 Print("[", PF(shadowSumCheck), "] shadow_total 引き算整合性チェック\n");
+
+# ---- convention robustness check (遡及適用 workorder4 item3): A2 IS the word-level stage, so
+# this directly re-confirms prepend (adopted) vs natural (rejected) diverge, matching the
+# investigation already on record; recorded for completeness of the retroactive sweep.
+convRobust := CheckConventionRobust(qrec, charmingSet);;
+Print("[", PF(convRobust.agree), "] convention_robust: natural vs prepend word-level agree: ",
+      convRobust.agree, " (natural shadow_total=", convRobust.natural.shadow_total,
+      ", prepend shadow_total=", convRobust.prepend.shadow_total, ")\n");
 Print("[", PF(true), "] A-F4: judged by word-level evaluation only; quotient-shortcut recorded as diagnostic (see quotient_eval_diff_count)\n");
 if result.quotient_eval_diff_count = 0 then
   Print("  [REPORT] quotient_eval_diff_count = 0 observed (spec sec.3: report to commander, not a fixture fail)\n");
@@ -274,7 +282,9 @@ s := Concatenation(
   "\"reductions\":", reductionsJson, ",",
   "\"isolated\":\"UNKNOWN\",",
   "\"isolated_note\":\"settled 判定未実装(司令塔裁定③)。W57: 両者の isolated が UNKNOWN の間、R6 の集合全単射を「群同型」と呼ばない\",",
-  "\"runtime\":", runtimeJson,
+  "\"runtime\":", runtimeJson, ",",
+  "\"convention_robust\":", JB(convRobust.agree), ",",
+  "\"convention_robust_note\":\"natural(却下済み) vs prepend(採用済み) 語レベル評価の一致性(workorder4 item3 遡及適用)。A2 は元々この不一致自体が発見された段であり、agree=false が期待される観測\"",
   "}");;
 
 WriteFile("certificates/A2.v2.json", s);;
