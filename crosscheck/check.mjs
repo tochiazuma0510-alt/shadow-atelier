@@ -79,6 +79,15 @@ function makeCyclic(m) {
 }
 
 // 直積 (成分ごとに同じ or 違う Group の配列)
+function cartesianProduct(arrays) {
+  let result = [[]];
+  for (const arr of arrays) {
+    const next = [];
+    for (const prefix of result) for (const item of arr) next.push(prefix.concat([item]));
+    result = next;
+  }
+  return result;
+}
 function makeProduct(groups) {
   const id = groups.map((g) => g.id);
   const mul = (xs, ys) => xs.map((x, i) => groups[i].mul(x, ys[i]));
@@ -86,7 +95,67 @@ function makeProduct(groups) {
   const key = (xs) => xs.map((x, i) => groups[i].key(x)).join('|');
   const eq = (xs, ys) => key(xs) === key(ys);
   const pow = (xs, k) => xs.map((x, i) => groups[i].pow(x, k));
-  return { id, mul, inv, key, eq, pow };
+  // elements(): 成分すべてが elements() を持つ場合のみ (直積の全数列挙; Week3 general family の Q_L 構成に使用)
+  const elements = groups.every((g) => typeof g.elements === 'function')
+    ? () => cartesianProduct(groups.map((g) => g.elements()))
+    : undefined;
+  return { id, mul, inv, key, eq, pow, elements };
+}
+
+// ---------- H3 (Week3 general family: docs/week3-L-設計.md v1.1 sec.1) ----------
+// H3 := F2/V, V = F2^3.gamma3(F2) = Heisenberg group mod 3, 位数 27。
+// 元 = (a,b,e) in (Z/3)^3, X=(1,0,0), Y=(0,1,0)。
+// 積: (a,b,e)(a',b',e') = (a+a', b+b', e+e'+a*b') mod 3 (仕様 §1 の規約のみから自前実装 -- search/ 不参照)。
+function makeH3() {
+  const P = 3;
+  const id = { a: 0, b: 0, e: 0 };
+  const mul = (g, h) => ({ a: mod(g.a + h.a, P), b: mod(g.b + h.b, P), e: mod(g.e + h.e + g.a * h.b, P) });
+  // 逆元: (a,b,e)^-1 = (-a,-b,-e+a*b) -- (a,b,e)(-a,-b,-e+a*b) = (0,0, e+(-e+a*b)+a*(-b)) = (0,0,0) を満たす
+  const inv = (g) => ({ a: mod(-g.a, P), b: mod(-g.b, P), e: mod(-g.e + g.a * g.b, P) });
+  const key = (g) => `${mod(g.a, P)},${mod(g.b, P)},${mod(g.e, P)}`;
+  const eq = (g, h) => key(g) === key(h);
+  const elements = () => { const out = []; for (let a = 0; a < P; a++) for (let b = 0; b < P; b++) for (let e = 0; e < P; e++) out.push({ a, b, e }); return out; };
+  const pow = (g, k) => {
+    if (k === 0) return id;
+    let base = k < 0 ? inv(g) : g, exponent = Math.abs(k), res = id;
+    while (exponent > 0) { if (exponent % 2 === 1) res = mul(res, base); base = mul(base, base); exponent = Math.floor(exponent / 2); }
+    return res;
+  };
+  return { id, mul, inv, key, eq, elements, pow };
+}
+
+// Q_L = G3 x H3 (仕様 §1: phi_L: x -> ((r,s,s),X), y -> ((rs,r,rs),Y), c -> (1,1))。
+// G3 = Im(psi_3) <= D3^3 は既存の buildGn(3) と同一構成 (x->(r,s,s), y->(rs,r,rs) の triple)。
+// |Q_L| = 2916 は Goursat 論証 (仕様 §1) の帰結として自己検査で確認する (subgroupClosure で実測)。
+function buildQL() {
+  const G3 = buildGn(3);
+  const H3 = makeH3();
+  const H3_X = { a: 1, b: 0, e: 0 }, H3_Y = { a: 0, b: 1, e: 0 };
+  // ambient = D3^3 x H3 (位数 216*27=5832) -- mul/inv/key の演算だけを提供する台。
+  // Q_L 自体は Goursat 論証(仕様§1)により ambient 内で <X,Y> が生成する部分群(=Im(psi_3)xH3、
+  // 位数 2916)であり、G3.Triple(=D3^3 全体、位数216)の cartesian ではない
+  // (「PB₃/N を安易に直積分解しない」罠 — G3=Im(psi_3) は D3^3 の真部分群、位数108)。
+  const ambient = makeProduct([G3.Triple, H3]);
+  const X = [G3.X, H3_X];
+  const Y = [G3.Y, H3_Y];
+  const phiTriple = { x: X, y: Y, c: [G3.Triple.id, H3.id] };
+  const QLMap = subgroupClosure(ambient, [X, Y]); // BFS 閉包 (自己検査で 2916 を確認)
+  const derived = derivedSubgroupOfTwoGen(ambient, QLMap, X, Y);
+  // Triple: 演算は ambient と共有し、elements() だけを実際の部分群 QLMap に差し替える
+  // (buildTransversalModel が Q.elements() で点集合を作るため、ambient の 5832 ではなく
+  //  Q_L の 2916 を使わせる必要がある)。
+  const Triple = {
+    id: ambient.id, mul: ambient.mul, inv: ambient.inv, key: ambient.key, eq: ambient.eq, pow: ambient.pow,
+    elements: () => [...QLMap.values()],
+  };
+  return { G3, H3, Triple, phiTriple, X, Y, QLMap, derived };
+}
+
+function shadowToQLElement(QL, shadow) {
+  const g3 = tripleFromCertFormat(shadow.f_triple);
+  const h3raw = shadow.f_h3;
+  const h3 = Array.isArray(h3raw) ? { a: h3raw[0], b: h3raw[1], e: h3raw[2] } : QL.H3.id;
+  return [g3, h3];
 }
 
 // ---------- 語の評価 ----------
@@ -208,10 +277,13 @@ function validateCertificateShape(cert) {
   if (!cert || typeof cert !== 'object') return ['certificate is not an object'];
   if (cert.schema !== 'gtsh-cert/v1') errors.push('schema must be gtsh-cert/v1');
   if (!cert.target || typeof cert.target !== 'object') return errors.concat('target is missing');
-  for (const key of ['family', 'id', 'n', 'invariants']) if (!hasOwn(cert.target, key)) errors.push(`target.${key} is missing`);
-  if (cert.target.family !== 'dihedral' && cert.target.family !== 'control') errors.push('unknown target.family');
+  const isGeneral = cert.target.family === 'general';
+  const requiredTargetKeys = isGeneral ? ['family', 'id', 'invariants'] : ['family', 'id', 'n', 'invariants'];
+  for (const key of requiredTargetKeys) if (!hasOwn(cert.target, key)) errors.push(`target.${key} is missing`);
+  if (cert.target.family !== 'dihedral' && cert.target.family !== 'control' && cert.target.family !== 'general') errors.push('unknown target.family');
   if (cert.target.family === 'dihedral' && (!Number.isInteger(cert.target.n) || cert.target.n < 3)) errors.push('dihedral target.n is invalid');
   if (cert.target.family === 'control' && cert.target.n !== 5) errors.push('control target.n must be 5');
+  if (isGeneral && !hasOwn(cert.target, 'construction')) errors.push('target.construction is missing (general family requires phi_L generator images per week3-L-設計.md §3)');
   for (const key of ['shadows', 'counts', 'composition_table', 'inverse_map', 'reduction', 'ls_witness']) {
     if (!hasOwn(cert, key)) errors.push(`${key} is missing`);
   }
@@ -227,8 +299,10 @@ function validateCertificateShape(cert) {
   }
   if (Array.isArray(cert.shadows)) {
     cert.shadows.forEach((sh, i) => {
-      for (const key of ['m', 'f_word', 'f_triple', 'kernel_cert']) if (!hasOwn(sh, key)) errors.push(`shadow[${i}].${key} is missing`);
+      const requiredShadowKeys = isGeneral ? ['m', 'f_word', 'f_triple', 'f_h3', 'kernel_cert'] : ['m', 'f_word', 'f_triple', 'kernel_cert'];
+      for (const key of requiredShadowKeys) if (!hasOwn(sh, key)) errors.push(`shadow[${i}].${key} is missing`);
       if (!Array.isArray(sh.f_word) || !Array.isArray(sh.f_triple)) errors.push(`shadow[${i}] word/triple malformed`);
+      if (isGeneral && !Array.isArray(sh.f_h3)) errors.push(`shadow[${i}].f_h3 malformed`);
     });
   }
   return errors;
@@ -422,6 +496,69 @@ function selfCheck() {
     const orderOk = (groupOrder === expectedGroupOrder);
     log.push(`n=${n}: |<sigma1hat,sigma2hat>| = ${groupOrder} (期待 ${expectedGroupOrder} = 6*|G_${n}|=6*${expectedGnOrd}) : ${orderOk ? 'PASS' : 'FAIL'}`);
     if (!orderOk) ok = false;
+  }
+
+  // (4) Week3 general family: H3 fixture + Q_L = G3 x H3 構成 + 12 規則モデルの自己検査
+  // (docs/week3-L-設計.md v1.1 §1・§2。search/ の explorer は一切参照しない)
+  {
+    const H3 = makeH3();
+    const X = { a: 1, b: 0, e: 0 }, Y = { a: 0, b: 1, e: 0 };
+    const x3 = H3.pow(X, 3), y3 = H3.pow(Y, 3);
+    const xy = H3.mul(X, Y);
+    const xy3 = H3.pow(xy, 3);
+    const fixtureOk = H3.eq(x3, H3.id) && H3.eq(y3, H3.id) && H3.eq(xy3, H3.id);
+    const comm = commutator(H3, X, Y);
+    const commCentral = H3.eq(H3.mul(comm, X), H3.mul(X, comm)) && H3.eq(H3.mul(comm, Y), H3.mul(Y, comm));
+    const commOrder3 = !H3.eq(comm, H3.id) && H3.eq(H3.pow(comm, 3), H3.id);
+    const nonComm = !H3.eq(H3.mul(X, Y), H3.mul(Y, X));
+    const h3Ok = fixtureOk && commCentral && commOrder3 && nonComm;
+    log.push(`H3 fixture (X^3=Y^3=(XY)^3=1, [X,Y] 中心・位数3, 非可換) : ${h3Ok ? 'PASS' : 'FAIL'}`);
+    if (!h3Ok) ok = false;
+
+    const QL = buildQL();
+    const qlSizeOk = QL.QLMap.size === 2916;
+    log.push(`|Q_L| = ${QL.QLMap.size} (期待 2916 = |G3|*|H3| = 108*27) : ${qlSizeOk ? 'PASS' : 'FAIL'}`);
+    if (!qlSizeOk) ok = false;
+    const derivedOk = QL.derived.size === 81;
+    log.push(`|[Q_L,Q_L]| = ${QL.derived.size} (期待 81 = 27*3) : ${derivedOk ? 'PASS' : 'FAIL'}`);
+    if (!derivedOk) ok = false;
+
+    const model = buildTransversalModel(QL.Triple, QL.phiTriple);
+    const modelSizeOk = model.N === 17496;
+    log.push(`Q_L x T 点数 = ${model.N} (期待 17496 = 2916*6) : ${modelSizeOk ? 'PASS' : 'FAIL'}`);
+    if (!modelSizeOk) ok = false;
+
+    const lhsBraid = composeAll([model.perm1, model.perm2, model.perm1]);
+    const rhsBraid = composeAll([model.perm2, model.perm1, model.perm2]);
+    const braidOk = permEq(lhsBraid, rhsBraid);
+    log.push(`Q_L: braid s1s2s1=s2s1s2 : ${braidOk ? 'PASS' : 'FAIL'}`);
+    if (!braidOk) ok = false;
+
+    const { x_perm, y_perm, c_perm } = modelDerivedPerms(model);
+    let tFixOk = true;
+    for (let p = 0; p < model.N; p++) { if (x_perm[p] % 6 !== p % 6) tFixOk = false; if (y_perm[p] % 6 !== p % 6) tFixOk = false; }
+    log.push(`Q_L: sigma_i^2 が t 成分を固定 : ${tFixOk ? 'PASS' : 'FAIL'}`);
+    if (!tFixOk) ok = false;
+
+    // c-hat: phi_L(c) = (1,1) (=id in Q_L) なので Delta^2 は全点で恒等置換のはず
+    const cHatIdentity = permEq(c_perm, identityPerm(model.N));
+    log.push(`Q_L: c-hat = phi_L(c) = id (全点で恒等) : ${cHatIdentity ? 'PASS' : 'FAIL'}`);
+    if (!cHatIdentity) ok = false;
+
+    // 軌道: <sigma1,sigma2,sigma1^-1,sigma2^-1> の基点 (id_QL, t0) からの軌道が全 17496 点を覆う (推移性)
+    const invP1 = invPerm(model.perm1), invP2 = invPerm(model.perm2);
+    const orbit = new Set([0]);
+    const frontier = [0];
+    while (frontier.length) {
+      const p = frontier.pop();
+      for (const perm of [model.perm1, model.perm2, invP1, invP2]) {
+        const q = perm[p];
+        if (!orbit.has(q)) { orbit.add(q); frontier.push(q); }
+      }
+    }
+    const orbitOk = orbit.size === 17496;
+    log.push(`Q_L: <sigma1hat,sigma2hat> の軌道サイズ = ${orbit.size} (期待 17496) : ${orbitOk ? 'PASS' : 'FAIL'}`);
+    if (!orbitOk) ok = false;
   }
 
   return { ok, log };
@@ -648,6 +785,193 @@ function checkReductionCoverage(cert, certsById) {
     results.push({ to: id, ...checked });
   }
   return { ok: exact && results.every((r) => r.ok === true), required, listed, exact_entry_set: exact, results };
+}
+
+// =====================================================================
+// Week3 general family (target.family="general", id="L01" 想定)
+// docs/week3-L-設計.md v1.1 §3・§5 の検査項目実装。search/ の explorer は不参照。
+// 証明書スキーマの assumption (WP3a 未着手のため独自に設計・報告で明記):
+//   shadow.f_triple = G3 成分 (既存 dihedral と同一形式 [[a,e],[a,e],[a,e]])
+//   shadow.f_h3     = H3 成分 [a,b,e] (新設フィールド)
+// =====================================================================
+
+function checkRawCandidateFormulaGeneral(cert, QL) {
+  const XL = xn(6); // 𝒳_L = {m in 0..5 : gcd(2m+1,6)=1} = {0,2,3,5}
+  const derivedOrder = QL.derived.size;
+  const expectedRaw = XL.length * derivedOrder;
+  const claimedRaw = cert.counts?.raw_candidates;
+  return { ok: claimedRaw === expectedRaw, claimed_raw: claimedRaw, expected_raw: expectedRaw, X_L_count: XL.length, derived_order: derivedOrder };
+}
+
+function checkCertificateInvariantsGeneral(cert, QL) {
+  const inv = cert.target.invariants || {};
+  const actualDerived = QL.derived.size;
+  const checks = {
+    index_PB3: inv.index_PB3 === 2916 && QL.QLMap.size === 2916,
+    index_B3: inv.index_B3 === 17496 && inv.index_B3 === 6 * inv.index_PB3,
+    N_ord: inv.N_ord === 6,
+    derived_order: inv.derived_order === 81 && inv.derived_order === actualDerived,
+  };
+  return { ok: Object.values(checks).every(Boolean), expected: { index_PB3: 2916, index_B3: 17496, N_ord: 6, derived_order: actualDerived }, claimed: inv, checks };
+}
+
+function checkFWordVsPairGeneral(QL, shadow) {
+  const computed = evalWord(QL.Triple, QL.phiTriple, shadow.f_word); // [G3elem, H3elem]
+  const computedG3 = computed[0], computedH3 = computed[1];
+  const givenG3 = tripleFromCertFormat(shadow.f_triple);
+  const g3Ok = QL.G3.Triple.eq(computedG3, givenG3);
+  const h3raw = shadow.f_h3;
+  const givenH3 = Array.isArray(h3raw) && h3raw.length === 3 ? { a: h3raw[0], b: h3raw[1], e: h3raw[2] } : null;
+  const h3Ok = givenH3 !== null && QL.H3.eq(computedH3, givenH3);
+  return {
+    ok: g3Ok && h3Ok, g3Ok, h3Ok,
+    computed_g3_key: QL.G3.Triple.key(computedG3), given_g3_key: QL.G3.Triple.key(givenG3),
+    computed_h3_key: QL.H3.key(computedH3), given_h3_key: givenH3 ? QL.H3.key(givenH3) : null,
+  };
+}
+
+function checkCharmingAndSurjectiveGeneral(QL, shadow) {
+  const { Triple, phiTriple, QLMap, derived, X, Y } = QL;
+  const m = shadow.m;
+  const fTriple = shadowToQLElement(QL, shadow);
+  const charming = derived.has(Triple.key(fTriple));
+  const g1 = Triple.pow(X, 2 * m + 1);
+  const invF = Triple.inv(fTriple);
+  const g2 = Triple.mul(Triple.mul(invF, Triple.pow(Y, 2 * m + 1)), fTriple);
+  const gen = subgroupClosure(Triple, [g1, g2]);
+  const surjective = gen.size === QLMap.size;
+  return { charming, surjective, ok: charming && surjective };
+}
+
+// kernel brute (N5 の checkKernelCertBrute と同じ手続きの一般化)。cap を明示パラメータ化し、
+// 単位 cap (120秒/shadow) をここで検査する (集約 30分 cap は呼び出し元 checkCertificate の
+// family=general ループが shadow 横断で管理する -- docs/week3-L-設計.md §5)。
+function checkKernelCertBruteGeneral(model, shadow, opts = {}) {
+  const maxMs = opts.maxMs ?? 120000;
+  const kc = shadow.kernel_cert;
+  if (!kc || kc.type !== 'brute') return { ok: false, reason: 'kernel_cert.type が brute でない' };
+  const expectedIdx = kc.expected_kernel_index;
+  const elementCap = opts.elementCap ?? (expectedIdx + 100);
+  const started = Date.now();
+  const m = shadow.m;
+  const fPerm = xyWordToPerm(model, shadow.f_word);
+  const invF = invPerm(fPerm);
+  const sigma1T = permPow(model.perm1, 2 * m + 1);
+  const invSigma1T = invPerm(sigma1T);
+  const sigma2T = composeAll([invF, permPow(model.perm2, 2 * m + 1), fPerm]);
+  const invSigma2T = invPerm(sigma2T);
+
+  function computeTWord(word) {
+    let res = identityPerm(model.N);
+    for (const [name, sign] of word) {
+      const gp = name === 's1' ? (sign > 0 ? sigma1T : invSigma1T) : (sign > 0 ? sigma2T : invSigma2T);
+      res = composeRight(res, gp);
+    }
+    return res;
+  }
+
+  const id0 = identityPerm(model.N);
+  const seen = new Map();
+  seen.set(id0.join(','), { perm: id0, word: [] });
+  let frontier = [{ perm: id0, word: [] }];
+  const steps = [['s1', 1, model.perm1], ['s1', -1, invPerm(model.perm1)], ['s2', 1, model.perm2], ['s2', -1, invPerm(model.perm2)]];
+  let wellDefined = true;
+  const conflicts = [];
+  let timedOut = false;
+  while (frontier.length && seen.size < elementCap) {
+    if (Date.now() - started > maxMs) { timedOut = true; break; }
+    const next = [];
+    for (const node of frontier) {
+      for (const [name, sign, gp] of steps) {
+        const cand = composeRight(node.perm, gp);
+        const key = cand.join(',');
+        const candWord = node.word.concat([[name, sign]]);
+        if (!seen.has(key)) {
+          const entry = { perm: cand, word: candWord };
+          seen.set(key, entry);
+          next.push(entry);
+        } else {
+          const existing = seen.get(key);
+          const tExisting = computeTWord(existing.word);
+          const tCand = computeTWord(candWord);
+          if (!permEq(tExisting, tCand)) { wellDefined = false; conflicts.push({ existingWord: existing.word, candWord }); }
+        }
+      }
+    }
+    frontier = next;
+  }
+  const groupOrder = seen.size;
+  const orderOk = !timedOut && groupOrder === expectedIdx;
+  const tImages = new Set();
+  let bijective = true;
+  if (!timedOut) {
+    for (const { word } of seen.values()) {
+      const t = computeTWord(word);
+      const k = t.join(',');
+      if (tImages.has(k)) bijective = false;
+      tImages.add(k);
+    }
+  }
+  const imageOrderOk = !timedOut && tImages.size === expectedIdx;
+  const elapsedMs = Date.now() - started;
+  return {
+    ok: !timedOut && orderOk && wellDefined && bijective && imageOrderOk,
+    timed_out: timedOut, elapsed_ms: elapsedMs,
+    groupOrder, expectedIdx, orderOk, wellDefined,
+    conflicts: conflicts.slice(0, 5),
+    bijective, imageOrderCount: tImages.size, imageOrderOk,
+  };
+}
+
+// composition (3.53) の一般化 (E_{m,f} は群非依存の式なので QL にそのまま適用できる).
+// (4.19) は代数的恒等式として汎用に成立するが (4.20) は kappa(=Dn の r 冪指数) 依存なので N/A。
+function checkCompositionEntryGeneral(QL, Nord, shadows, i, j, k) {
+  const shA = shadows[i], shB = shadows[j], shC = shadows[k];
+  const { mNewRaw } = composeShadowWords(shA.m, shA.f_word, shB.m, shB.f_word);
+  const mNew = mod(mNewRaw, Nord);
+  const mOk = mNew === mod(shC.m, Nord);
+  const { Triple, phiTriple } = QL;
+  const f1Triple = evalWord(Triple, phiTriple, shA.f_word);
+  const computedTriple = Triple.mul(f1Triple, evalFactorUnderAction(QL, shA.m, f1Triple, shB.f_word));
+  const givenTriple = shadowToQLElement(QL, shC);
+  const tripleOk = Triple.eq(computedTriple, givenTriple);
+  const u1 = 2 * shA.m + 1, u2 = 2 * shB.m + 1;
+  const id419 = (u1 * u2) === (2 * mNewRaw + 1);
+  return { ok: mOk && tripleOk && id419, mOk, tripleOk, id419 };
+}
+
+function checkInverseEntryGeneral(QL, Nord, shadows, i, iInv) {
+  const shA = shadows[i], shB = shadows[iInv];
+  const idShadow = { m: 0, f_word: [], f_triple: identityTripleFormat(), f_h3: [0, 0, 0] };
+  const c1 = checkCompositionEntryGeneral(QL, Nord, [shA, shB, idShadow], 0, 1, 2);
+  const c2 = checkCompositionEntryGeneral(QL, Nord, [shB, shA, idShadow], 0, 1, 2);
+  return { ok: c1.ok && c2.ok, forward: c1, backward: c2 };
+}
+
+function checkStrictCompositionInverseGeneral(cert, QL) {
+  const S = cert.shadows.length, Nord = 6, indexErrors = [], pairSeen = new Set(), inverseSeen = new Set();
+  for (const row of cert.composition_table) {
+    if (!Array.isArray(row) || row.length !== 3 || !row.every(Number.isInteger)) { indexErrors.push({ row, reason: 'row shape' }); continue; }
+    const [i, j, k] = row;
+    if (i < 0 || i >= S || j < 0 || j >= S || k < 0 || k >= S) indexErrors.push({ row, reason: 'index out of range' });
+    const pair = `${i},${j}`;
+    if (pairSeen.has(pair)) indexErrors.push({ row, reason: 'duplicate ordered pair' });
+    pairSeen.add(pair);
+  }
+  for (let i = 0; i < S; i++) for (let j = 0; j < S; j++) if (!pairSeen.has(`${i},${j}`)) indexErrors.push({ i, j, reason: 'missing ordered pair' });
+  const compRows = cert.composition_table.map(([i, j, k]) => ({ i, j, k })).filter((r) => r.i >= 0 && r.i < S && r.j >= 0 && r.j < S && r.k >= 0 && r.k < S);
+  const compChecks = compRows.map((row) => ({ ...row, ...checkCompositionEntryGeneral(QL, Nord, cert.shadows, row.i, row.j, row.k) }));
+  for (const row of cert.inverse_map) {
+    if (!Array.isArray(row) || row.length !== 2 || !row.every(Number.isInteger)) { indexErrors.push({ row, reason: 'inverse row shape' }); continue; }
+    const [i, j] = row;
+    if (i < 0 || i >= S || j < 0 || j >= S) indexErrors.push({ row, reason: 'inverse index out of range' });
+    if (inverseSeen.has(i)) indexErrors.push({ row, reason: 'duplicate inverse source' });
+    inverseSeen.add(i);
+  }
+  for (let i = 0; i < S; i++) if (!inverseSeen.has(i)) indexErrors.push({ i, reason: 'missing inverse source' });
+  const invRows = cert.inverse_map.map(([i, j]) => ({ i, j })).filter((r) => r.i >= 0 && r.i < S && r.j >= 0 && r.j < S);
+  const invChecks = invRows.map((row) => ({ ...row, ...checkInverseEntryGeneral(QL, Nord, cert.shadows, row.i, row.j) }));
+  return { ok: indexErrors.length === 0 && compRows.length === S * S && compChecks.every((r) => r.ok) && invRows.length === S && invChecks.every((r) => r.ok), composition_rows: compRows.length, composition_expected: S * S, composition_pair_unique: pairSeen.size === S * S, composition_failures: compChecks.filter((r) => !r.ok).slice(0, 10), inverse_rows: invRows.length, inverse_expected: S, inverse_source_unique: inverseSeen.size === S, inverse_failures: invChecks.filter((r) => !r.ok).slice(0, 10), structural_errors: indexErrors.slice(0, 20) };
 }
 
 function checkRepresentativeInvariance(cert, model, Gn, originalHexagon = [], certsById = new Map()) {
@@ -1208,7 +1532,190 @@ function checkReductionEntry(n, redEntry, sourceShadows, targetCert) {
 }
 
 // ---------- 証明書1件の検査 ----------
+// ---------- family="general" (Week3・L=K^(3)∩N0) 証明書の検査 ----------
+// docs/week3-L-設計.md v1.1 §1-§5 に基づく。search/ の explorer コードは不参照。
+function checkRepresentativeInvarianceGeneral(cert, model, QL) {
+  const Nord = 6, S = cert.shadows.length;
+  const xNordIdentity = permEq(permPow(model.perm1, 2 * Nord), identityPerm(model.N));
+  const shifted = cert.shadows.map((sh) => ({ ...sh, m: sh.m + Nord, f_word: sh.f_word.concat([['x', Nord]]) }));
+  let hexShiftedPass = 0, quotientPass = 0, tPass = 0;
+  const hexFailures = [], quotientFailures = [], tFailures = [];
+  for (let i = 0; i < S; i++) {
+    const shiftedCheck = checkHexagon(model, { ...shifted[i], m: mod(shifted[i].m, Nord) });
+    if (shiftedCheck.ok) hexShiftedPass++; else if (hexFailures.length < 10) hexFailures.push({ i, shiftedCheck });
+    const fSame = QL.Triple.eq(evalWord(QL.Triple, QL.phiTriple, cert.shadows[i].f_word), evalWord(QL.Triple, QL.phiTriple, shifted[i].f_word));
+    if (fSame) quotientPass++; else if (quotientFailures.length < 10) quotientFailures.push(i);
+    const f0 = xyWordToPerm(model, cert.shadows[i].f_word), f1 = xyWordToPerm(model, shifted[i].f_word);
+    const u0 = 2 * cert.shadows[i].m + 1, u1 = 2 * shifted[i].m + 1;
+    const t0 = [permPow(model.perm1, u0), composeAll([invPerm(f0), permPow(model.perm2, u0), f0])];
+    const t1 = [permPow(model.perm1, u1), composeAll([invPerm(f1), permPow(model.perm2, u1), f1])];
+    const tOk = permEq(t0[0], t1[0]) && permEq(t0[1], t1[1]);
+    if (tOk) tPass++; else if (tFailures.length < 10) tFailures.push(i);
+  }
+  const hexOk = hexShiftedPass === S, quotientOk = quotientPass === S, tOk = tPass === S;
+  return {
+    ok: xNordIdentity && hexOk && quotientOk && tOk, x_Nord_in_N_F2: xNordIdentity,
+    hexagon: { checked: S, shifted_pass: hexShiftedPass, failures: hexFailures },
+    quotient_f: { checked: S, pass: quotientPass, failures: quotientFailures },
+    T_sigma: { checked: S, pass: tPass, failures: tFailures },
+  };
+}
+
+function checkCertificateGeneral(cert, certsById) {
+  const verdict = { id: cert.target.id, family: 'general', schema: cert.schema, items: {} };
+
+  const schemaErrors = validateCertificateShape(cert);
+  verdict.items['0_schema_fail_closed'] = { ok: schemaErrors.length === 0, errors: schemaErrors };
+
+  const QL = buildQL();
+  const model = buildTransversalModel(QL.Triple, QL.phiTriple);
+
+  verdict.items['0_invariants'] = checkCertificateInvariantsGeneral(cert, QL);
+
+  // item 1: counts 整合 (raw = |X_L|*|[Q_L,Q_L]| = 4*81 = 324)
+  {
+    const c = cert.counts || {};
+    const monotone = (c.raw_candidates >= c.hexagon_pass) && (c.hexagon_pass >= c.charming_pass) && (c.charming_pass >= c.surjective_pass);
+    const matchesShadowLen = c.surjective_pass === cert.shadows.length;
+    verdict.items['1_counts'] = {
+      ok: monotone && matchesShadowLen, monotone, matchesShadowLen,
+      approved_simplification: '追補1 項目3(司令塔裁定・2026-07-18)の緩和を general に準用: raw 候補の完全再列挙は不要、単調性+最終個数一致で可。',
+    };
+    verdict.items['1_raw_formula'] = checkRawCandidateFormulaGeneral(cert, QL);
+  }
+
+  // item 2: full hexagon (3.3)(3.4) を Q_L x T 上で
+  {
+    let allOk = true; const fails = [];
+    for (let i = 0; i < cert.shadows.length; i++) {
+      const r = checkHexagon(model, cert.shadows[i]);
+      if (!r.ok) { allOk = false; fails.push({ i, r }); }
+    }
+    verdict.items['2_hexagon'] = { ok: allOk, checked: cert.shadows.length, fails };
+  }
+
+  // item 3: f_word <-> f_pair (G3 triple + H3 座標)
+  {
+    let allOk = true; const fails = [];
+    for (let i = 0; i < cert.shadows.length; i++) {
+      const r = checkFWordVsPairGeneral(QL, cert.shadows[i]);
+      if (!r.ok) { allOk = false; fails.push({ i, r }); }
+    }
+    verdict.items['3_f_word_vs_pair'] = { ok: allOk, checked: cert.shadows.length, fails };
+  }
+
+  // item 4: charming (f in [Q_L,Q_L]) + surjective
+  {
+    let allOk = true; const fails = [];
+    for (let i = 0; i < cert.shadows.length; i++) {
+      const r = checkCharmingAndSurjectiveGeneral(QL, cert.shadows[i]);
+      if (!r.ok) { allOk = false; fails.push({ i, r }); }
+    }
+    verdict.items['4_charming_surjective'] = { ok: allOk, checked: cert.shadows.length, fails };
+  }
+
+  // item 5: Thm 4.3 系 -- dihedral 専用 (N/A, fail-closed: 理由つきで明記)
+  verdict.items['5_thm43_set'] = {
+    ok: true, status: 'N/A',
+    reason: 'Thm 4.3 の閉じた式(2405)は dihedral 専用。Q_L=G3xH3 の general 対象には非適用 -- week3-L-設計.md §3。',
+  };
+
+  // item 6: kernel brute (N5 方式の一般化)。単位 cap 120秒/shadow・集約 cap 30分。
+  {
+    const unitCapMs = 120000, aggregateCapMs = 1800000, sampleLimit = 50;
+    let allOk = true; const fails = []; const results = [];
+    let aggregateMs = 0, aggregateExceeded = false;
+    for (let i = 0; i < cert.shadows.length; i++) {
+      if (aggregateExceeded && i >= sampleLimit) {
+        results.push({ i, status: 'UNKNOWN' });
+        continue;
+      }
+      const sh = cert.shadows[i];
+      const r = checkKernelCertBruteGeneral(model, sh, { maxMs: unitCapMs });
+      aggregateMs += r.elapsed_ms || 0;
+      results.push({ i, ...r });
+      if (r.ok !== true) { allOk = false; fails.push({ i, r }); }
+      if (aggregateMs > aggregateCapMs) aggregateExceeded = true;
+    }
+    const unknownCount = results.filter((r) => r.status === 'UNKNOWN').length;
+    verdict.items['6_kernel_cert'] = {
+      ok: allOk && unknownCount === 0, checked: cert.shadows.length, fails,
+      aggregate_elapsed_ms: aggregateMs, unit_cap_ms: unitCapMs, aggregate_cap_ms: aggregateCapMs,
+      sample_limit: sampleLimit, unknown_count: unknownCount,
+      note: 'N5 の checkKernelCertBrute 方式の一般化 (17496 元 BFS で井戸定義性+全単射性)。集約 cap 超過時は決定的に先頭50件のみ全数、残りは UNKNOWN(silent cap 禁止・week3-L-設計.md §5)。',
+    };
+  }
+
+  // item 7: composition_table via (3.53)。(4.20)(kappa 依存)は dihedral 専用のため id419 のみ適用。
+  if (cert.composition_table) {
+    const Nord = 6;
+    let allOk = true; const fails = [];
+    for (const [i, j, k] of cert.composition_table) {
+      const r = checkCompositionEntryGeneral(QL, Nord, cert.shadows, i, j, k);
+      if (!r.ok) { allOk = false; fails.push({ i, j, k, r }); }
+    }
+    const strict = checkStrictCompositionInverseGeneral(cert, QL);
+    verdict.items['7_composition_table'] = { ok: allOk && strict.ok, checked: cert.composition_table.length, fails, strict };
+  } else {
+    verdict.items['7_composition_table'] = { ok: false, reason: 'composition_table is missing' };
+  }
+
+  // item 8: inverse via (3.54) round-trip
+  if (cert.inverse_map) {
+    const Nord = 6;
+    let allOk = true; const fails = [];
+    for (const [i, iInv] of cert.inverse_map) {
+      const r = checkInverseEntryGeneral(QL, Nord, cert.shadows, i, iInv);
+      if (!r.ok) { allOk = false; fails.push({ i, iInv, r }); }
+    }
+    verdict.items['8_inverse_map'] = { ok: allOk, checked: cert.inverse_map.length, fails };
+  } else {
+    verdict.items['8_inverse_map'] = { ok: false, reason: 'inverse_map is missing' };
+  }
+
+  // item 9: reduction -> K3 ([m,f] -> (m, f の G3 成分))。全射かどうかを独立再計算し claim と突合。
+  {
+    const required = ['K3'];
+    const listed = (cert.reduction || []).map((r) => r && r.to);
+    const exact = listed.length === required.length && required.every((id) => listed.filter((x) => x === id).length === 1);
+    let allOk = true; const fails = [];
+    for (const id of required) {
+      const entry = (cert.reduction || []).find((r) => r.to === id);
+      if (!entry) { allOk = false; fails.push({ to: id, reason: 'required reduction entry missing' }); continue; }
+      const targetCert = certsById.get(id);
+      const r = checkReductionEntry(cert.target.n, entry, cert.shadows, targetCert);
+      const claimMatchesRecomputed = r.surjectiveOk === undefined ? false : (entry.surjective === r.surjectiveOk);
+      if (!(r.ok === true && claimMatchesRecomputed)) {
+        allOk = false;
+        fails.push({ to: id, r, claimed_surjective: entry.surjective, recomputed_surjective: r.surjectiveOk });
+      }
+    }
+    verdict.items['9_reduction'] = {
+      ok: allOk && exact, required, listed, exact_entry_set: exact, fails,
+      note: '設計 §2/§1: R_{L,K3} = [m,f]->(m, fのG3成分)。全射性は claim をそのまま信じず独立再計算し一致を要求(week3-L-設計.md §2 fake 証明書対応)。',
+    };
+  }
+
+  // item 10: ls_witness -- (5.1) の theta/tau (F2 の自己準同型) は dihedral 専用構成。N/A。
+  verdict.items['10_ls_witness'] = {
+    ok: true, status: 'N/A',
+    reason: 'ls_witness (5.1) の theta/tau 構成は dihedral(2405 Thm4.3系)専用。week3-L-設計.md は general 用の再定義を与えていない。',
+  };
+
+  verdict.items['11_induced_maps'] = { ok: true, status: 'N/A', reason: 'dihedral の theta/tau 商写像は Q_L=G3xH3 に非適用。' };
+  verdict.items['12_representative_invariance'] = checkRepresentativeInvarianceGeneral(cert, model, QL);
+  verdict.items['13_varrho'] = { ok: true, status: 'N/A', reason: 'Thm.4.6 の明示式 rho は n=4,8,16 dihedral 専用。' };
+
+  const allItemsOk = Object.values(verdict.items).every((it) => it.ok === true);
+  verdict.all_pass = allItemsOk;
+  verdict.cross_checked = allItemsOk; // 用語規律: cross-checked (verified は Lean 専有)
+  return verdict;
+}
+
 function checkCertificate(cert, certsById) {
+  if (cert.target && cert.target.family === 'general') {
+    return checkCertificateGeneral(cert, certsById);
+  }
   const verdict = { id: cert.target.id, family: cert.target.family, schema: cert.schema, items: {} };
   const isDihedral = cert.target.family === 'dihedral';
   const n = cert.target.n;
@@ -1500,6 +2007,10 @@ export {
   checkCharmingAndSurjective, checkThm43, buildGn, buildTransversalModel,
   dihedralPhi, controlN5Phi, thm43ShadowSet, kappa, evalWord, tripleFromCertFormat,
   xyWordToPerm,
+  // Week3 general family (docs/week3-L-設計.md)
+  makeH3, buildQL, checkCertificateGeneral, checkFWordVsPairGeneral,
+  checkCharmingAndSurjectiveGeneral, checkKernelCertBruteGeneral,
+  checkCompositionEntryGeneral, checkInverseEntryGeneral, checkRepresentativeInvarianceGeneral,
 };
 
 // process.argv[1] が指すファイルとして直接起動された場合のみ main() を実行する
