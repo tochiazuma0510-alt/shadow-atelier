@@ -6,10 +6,10 @@
 
 | 対象 | 判定 | 要点 |
 |---|---|---|
-| \(v_m=\bar\sigma _1^{\,2m+1}\) | **合格** | \(c\in N\) の全許容対象で成立する。ただし「非 charming は \(v_m=1\) となる唯一の \(m\)」という後段の一般化は偽。 |
+| \(v_m=\bar\sigma _1^{\,2m+1}\) | **合格** | \(c\in N\) の全許容対象で成立する。ただし「非 charming は split-inner の \(P\)-成分 \(\widehat v_m=1\) となる唯一の \(m\)」という後段の一般化は偽。 |
 | \(48=8\cdot3\cdot2\) と \(24\) との差 | **合格・紙上の生成穴も対象別に閉じる** | 共通商 \(C_2^2\) 上の subdirect subgroup に、これより大きい共通商がないことを示せる。差は \(N_Q\) 側の per-\(m\) 数 \(1\) と \(N_3\) 側の \(2\) だけ。 |
 | 補題 D | **合格** | Goursat の正しい使用である。\(Q_8\times_{C_2^2}Q_8\) では導来群が対角 \(C_2\) となり、互いに素条件の必要な位置が見える。 |
-| 【GAP-E2a】完全群の場合 | **結論は修正付き合格** | split-inner の窓では \(n_m\) は \(P\) の scalar Frobenius 公式に落ちる。ただし \(z_{2,C}\) は \(Q=P\times S_3\) の既約表現上で一般に scalar ではない。また「\(P\) 完全」だけでは仮定不足。 |
+| 【GAP-E2a】完全群の場合 | **結論は修正付き合格** | exact な位数 \(2,3\) の inner implementer を持つ split-inner 窓では \(n_m\) は \(P\) の scalar Frobenius 公式に落ちる。ただし \(z_{2,C}\) は \(Q=P\times S_3\) の既約表現上で一般に scalar ではない。また「\(P\) 完全」だけでは仮定不足。 |
 | 語規約案 v1 | **現版は併合不可・局所修正後に合格** | W-1/W-2/W-3、補題 W1 の等式、A5-CONV 主判定は正しい。一方、\(\iota\) は実は \(F_2\) の自己同型であり、「値が対合なら盲点」も一般には偽。 |
 
 ### (c) 封印予測
@@ -57,7 +57,7 @@ v_m
 
 補題 2 自体とは別に、次は一般には成り立たない。
 
-1. 「非 charming は \(v_m=1\) に潰れる唯一の \(m\)」は \(k=5\) の特殊事情である。例えば \(k=9\) では \(u\equiv3,0,6\pmod9\) の三層が非 charming で、対応する \(v_m\) の位数は \(3,1,3\) となる。
+1. 「非 charming は split-inner の \(P\)-成分 \(\widehat v_m=1\) に潰れる唯一の \(m\)」は \(k=5\) の特殊事情である。例えば \(k=9\) では \(u\equiv3,0,6\pmod9\) の三層が非 charming で、\(\operatorname{ord}(w)=9\) なる \(P\)-成分 \(\widehat v_m=w^u\) の位数は \(3,1,3\) となる。全体元 \(v_m=\bar\sigma _1^u\in Q\) の位数はそれぞれ \(6,2,6\) であり、標準 \(S_3\) 商で転置へ写るため恒等元にはならない。
 2. 【GAP-20c】の「\(k\) が合成数なら charming な \(w^u\) の位数が \(k\) の真の約数になり得る」も逆である。charming なら \(\gcd(u,2k)=1\) なので、\(\operatorname{ord}(w^u)=\operatorname{ord}(w)\) は保たれる。今回の \(k=9\) がその較正点になる。
 
 正しい一般形は単に
@@ -181,18 +181,26 @@ z_{2,C}=z_2(P)\otimes\sigma.
 
 であり、\(S_3\) の 2 次元既約表現では \(\rho_\psi(\sigma)\) は scalar でない。正しい閉じ方は、F13 の trace を \(P\) 因子と \(S_3\) 因子に分け、後者が「指定された \(\rho^{-1}\) 一個」を数えて \(1\) になることを先に和で消す方法、または上の \(f\leftrightarrow(r,g)\) の直接全単射である。
 
-また仮定は「\(P\) 完全」だけでは足りない。少なくとも Opus 補題 1 の
+また仮定は「\(P\) 完全」だけでは足りず、この reduction には少なくとも exact な split-inner data
 
 \[
-Z(P)=1,\quad \theta=\operatorname{Ad}(s),\quad
+\theta=\operatorname{Ad}(s),\quad
 \tau=\operatorname{Ad}(t),\quad s^2=t^3=1
 \]
 
-が必要である。従って【GAP-E2a】は
+が要る。一方 \(Z(P)=1\) は補題 1 の直積同型 \(Q\cong P\times S_3\) には必要だが、上の \(P\) 内類積への直接全単射には不要である。実際、中心付きでも
+\(\sigma=\bar\Delta s^{-1}\)、\(\rho=\bar\delta t^{-1}\) は \(P\) を中心化し、\(\sigma^2=\rho^3=1\) だから
 
-> **有限単純群を含む split-inner・centerless・perfect の窓では閉鎖**
+\[
+\bar\Delta f=(sf)\sigma,\qquad
+\bar\delta^{-1}\bar Y^m f=(t^{-1}\bar Y^m f)\rho^{-1};
+\]
 
-と記帳するのが正確である。中心を持つ完全群、または \(\theta,\tau\) が外部自己同型である完全群、および \(A\subsetneq P\) の一般対象について、ordinary \(P\)-table だけの公式は依然 UNKNOWN である。今回の二つの PSL outer-sign 系列は一般公式を仮定せず、拡大 \(PGL(2,q)\) の class table を用いて F16–F18 で個別に閉じる。
+従って二つの torsion 条件は同じく \(P\) 成分だけへ落ちる。ゆえに【GAP-E2a】は
+
+> **exact な位数 \(2,3\) の implementer を持つ split-inner・perfect の窓では閉鎖**
+
+と記帳するのが正確である。中心のため implementer の位数を \(2,3\) に正規化できない完全群、\(\theta,\tau\) が外部自己同型である完全群、および \(A\subsetneq P\) の一般対象について、ordinary \(P\)-table だけの公式は依然 UNKNOWN である。今回の二つの PSL outer-sign 系列は一般公式を仮定せず、拡大 \(PGL(2,q)\) の class table を用いて F16–F18 で個別に閉じる。
 
 ---
 
@@ -650,9 +658,9 @@ P110【語規約 v2】F7–F9 の三修正、すなわち作用式の明記、\(
 
 W75【語規約の正本】「先に掛ける」という時間語を正本に置かず、paper と GAP の作用式を並べて定義する。
 
-P111【E2a 訂正】補題 3 の scalar 化証明を、\(z_2(P)\otimes\sigma\) の tensor trace と \(S_3\) 係数 1 の計算で書き換える。CLAIMS の閉鎖範囲は split-inner・centerless・perfect に限定する。
+P111【E2a 訂正】補題 3 の scalar 化証明を、\(z_2(P)\otimes\sigma\) の tensor trace と \(S_3\) 係数 1、または F6 の直接全単射で書き換える。CLAIMS の閉鎖範囲は exact な位数 \(2,3\) の implementer を持つ split-inner・perfect に限定し、centerless は直積分解だけの仮定として分離する。
 
-W76【完全群の量化子】\(P=[P,P]\) だけから \(Q=P\times S_3\) や termwise scalar 性を推論しない。
+W76【完全群の量化子】\(P=[P,P]\) だけから \(Q=P\times S_3\) や termwise scalar 性を推論しない。中心消滅と exact inner implementer の役割も混同しない。
 
 P112【GAP-48a の対象別閉鎖】F3 の「最大共通商 \(=C_2^2\)」補題を \(M_Q,M_3\) の紙上証明へ追記する。命題 C′ の一般版には `no_larger_common_quotient` または同値な subdirect-rigidity 仮定を加える。
 
