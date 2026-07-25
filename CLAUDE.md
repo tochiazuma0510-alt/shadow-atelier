@@ -21,9 +21,10 @@
 ## 道具と規律(証明工房 ES(7) キャンペーンから輸入)
 
 - **探索器と照合器の分離**: 探索は GAP(有限表示・剰余群・軌道)、照合は独立実装(node/python が証明書だけを入力に関係式を再計算し突合)。**「検証(verified)」は Lean に予約**(2026-07-18 ユーザー指示)— 二系統一致は「照合済み(cross-checked)」であって検証ではない。Lean 化(整数行列・有限群等式の checker)で初めて検証済み。
-- **内製部隊の職務規程**: `.claude/agents/` に 4 役 — reader(inherit/high)・implementer(sonnet/medium)・falsifier(sonnet/medium)・ops-clerk(haiku/low)。Agent tool の subagent_type で指定。**セッション起動時に読み込まれるため、新設・変更は次セッションから有効**(未読み込みセッションでは general-purpose + model 明示で代替)。
+- **内製部隊の職務規程**: `.claude/agents/` に 6 役 — reader(inherit/high)・mathematician(opus/max・数学者レイヤー)・implementer(sonnet/medium)・falsifier(sonnet/medium)・paper-scout(sonnet/medium)・ops-clerk(haiku/low)。Agent tool の subagent_type で指定。**セッション起動時に読み込まれるため、新設・変更は次セッションから有効**(未読み込みセッションでは general-purpose + model 明示で代替)。
 - **宇宙の事前登録**: 対象の位数・生成系を先に固定し、後から変えない。**UNKNOWN は一級の結果**。負の探索結果は非存在の証明ではない。
 - 出所管理: ソフトのバージョン・seed・入力ハッシュ・全証明書ハッシュを記録(`provenance/LEDGER.md`)。既知例は positive/negative/adversarial の三分で常備。
+- **文献ゲート(2026-07-25)**: 数学者二人は正典のみで独立に考える。外部論文は司令塔が関所 — ①数学者の要請駆動 ②司令塔発 の 2 経路のみ。検索は paper-scout・**降ろすときは司令塔が機構抽出+B₃-gentle 設定への翻訳(一工夫)を義務**。正本: 体制と道具.md「文献ゲート」節。
 - 環境: Windows。GAP 4.16.0 導入済み(`C:\Program Files\GAP-4.16.0`)。**実行は必ずプロジェクト直下の `gap.ps1` 経由**(`gap.bat` は別窓を開くため自動実行不可)。
 - **体制の正本: `docs/体制と道具.md`(v2・2026-07-18 承認)**: ES7 全面継承+影工房差分。**研究者=ユーザー本人(数学の主役)、司令塔=Claude(継続・コーチ兼務)、Sol=常設の数学監査官 兼 共同設計者**(週 2〜3 便の事前承認枠; 定義ゲート・go/no-go・定理候補のゲート便はスキップ不可)、Luna=休眠増援。停止ゲート: 枠外課金・クラウド工場・public 化・撤退条件変更のみ。数学的判断の所有権を段階的にユーザーへ移す。v1 は docs/archive/。
 
