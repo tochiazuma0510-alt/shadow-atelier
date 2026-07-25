@@ -21,7 +21,7 @@
 ## 道具と規律(証明工房 ES(7) キャンペーンから輸入)
 
 - **探索器と照合器の分離**: 探索は GAP(有限表示・剰余群・軌道)、照合は独立実装(node/python が証明書だけを入力に関係式を再計算し突合)。**「検証(verified)」は Lean に予約**(2026-07-18 ユーザー指示)— 二系統一致は「照合済み(cross-checked)」であって検証ではない。Lean 化(整数行列・有限群等式の checker)で初めて検証済み。
-- **内製部隊の職務規程**: `.claude/agents/` に 6 役 — reader(inherit/high)・mathematician(opus/max・数学者レイヤー)・implementer(sonnet/medium)・falsifier(sonnet/medium)・paper-scout(sonnet/medium)・ops-clerk(haiku/low)。Agent tool の subagent_type で指定。**セッション起動時に読み込まれるため、新設・変更は次セッションから有効**(未読み込みセッションでは general-purpose + model 明示で代替)。
+- **内製部隊の職務規程**: `.claude/agents/` に 7 役 — reader(inherit/high)・mathematician(opus/max・数学者レイヤー)・implementer(sonnet/medium)・falsifier(sonnet/medium)・paper-hunter(opus/medium・①遠征検索)・paper-scout(sonnet/medium・②関連検索)・ops-clerk(haiku/low)。Agent tool の subagent_type で指定。**セッション起動時に読み込まれるため、新設・変更は次セッションから有効**(未読み込みセッションでは general-purpose + model 明示で代替)。
 - **宇宙の事前登録**: 対象の位数・生成系を先に固定し、後から変えない。**UNKNOWN は一級の結果**。負の探索結果は非存在の証明ではない。
 - 出所管理: ソフトのバージョン・seed・入力ハッシュ・全証明書ハッシュを記録(`provenance/LEDGER.md`)。既知例は positive/negative/adversarial の三分で常備。
 - **文献ゲート(2026-07-25)**: 数学者二人は正典のみで独立に考える。外部論文は司令塔が関所 — ①数学者の要請駆動 ②司令塔発 の 2 経路のみ。検索は paper-scout・**降ろすときは司令塔が機構抽出+B₃-gentle 設定への翻訳(一工夫)を義務**。正本: 体制と道具.md「文献ゲート」節。
