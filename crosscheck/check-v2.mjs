@@ -442,9 +442,11 @@ function checkStage2b(cert) {
     const surjective = seen.size === nqObserved.shadows.length;
     r5Res = { ok: claimedR5.surjective === surjective && claimedR5.image_size === seen.size, claimed: { surjective: claimedR5.surjective, image_size: claimedR5.image_size }, recomputed: { surjective, image_size: seen.size, target_count: nqObserved.shadows.length } };
   }
-  const uf7Status = cert.uf7_status === 'BLOCKED';
+  // U-F7 (司令塔裁定 2026-07-26): D_4^(2)=F2^4.gamma_2^2.gamma_4; agreement <=> exponent([P3,P3])<=2
+  const derivedExpOk2b = [...uniRes.D.values()].every((g) => P3.eq(P3.pow(g, 2), P3.id));
+  const uf7Status = cert.uf7_status === 'PASS' && derivedExpOk2b;
   const ok = hashRes.ok && selfCheck.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && r4Res.ok && r5Res.ok && uf7Status;
-  return { ok, target_hash: hashRes, p3_self_check: selfCheck, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R4_to_N2: r4Res, reduction_R5_to_N_Q: r5Res, uf7_status_acknowledged: uf7Status, observed_shadow_total: observed.shadow_total };
+  return { ok, target_hash: hashRes, p3_self_check: selfCheck, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R4_to_N2: r4Res, reduction_R5_to_N_Q: r5Res, uf7_derived_subgroup_exponent_le2: derivedExpOk2b, uf7_status_acknowledged: uf7Status, observed_shadow_total: observed.shadow_total };
 }
 
 function checkStage2a(cert) {
@@ -485,9 +487,11 @@ function checkStage2a(cert) {
     const surjective = seen.size === nqObserved.shadows.length;
     r3Res = { ok: claimed.surjective === surjective && claimed.image_size === seen.size, claimed: { surjective: claimed.surjective, image_size: claimed.image_size }, recomputed: { surjective, image_size: seen.size, target_count: nqObserved.shadows.length } };
   }
-  const uf7Status = cert.uf7_status === 'BLOCKED';
+  // U-F7 (司令塔裁定 2026-07-26): D_3^(2)=F2^4.gamma_2^2.gamma_3; agreement <=> exponent([P2,P2])<=2
+  const derivedExpOk2a = [...uniRes.D.values()].every((g) => P2.eq(P2.pow(g, 2), P2.id));
+  const uf7Status = cert.uf7_status === 'PASS' && derivedExpOk2a;
   const ok = hashRes.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && uf6Ok && uf6Claimed && r3Res.ok && uf7Status;
-  return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, uf6_p2_to_q8: { ok: uf6Ok, claimed_matches: uf6Claimed }, uf7_status_acknowledged: uf7Status, reduction_R3_to_N_Q: r3Res, observed_shadow_total: observed.shadow_total };
+  return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, uf6_p2_to_q8: { ok: uf6Ok, claimed_matches: uf6Claimed }, uf7_derived_subgroup_exponent_le2: derivedExpOk2a, uf7_status_acknowledged: uf7Status, reduction_R3_to_N_Q: r3Res, observed_shadow_total: observed.shadow_total };
 }
 
 // ---------- P3 = F2/F2^4 gamma_4(F2), order 128, class 3 (own independent construction via direct
@@ -719,6 +723,63 @@ function checkStage1b(cert) {
   return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R1_to_K3: r1Res, reduction_R2_to_N_Q: r2Res, observed_shadow_total: observed.shadow_total };
 }
 
+// ---------- permutations on {1..n} (own independent implementation, array-based 1-indexed) ----------
+function makeSymGroupHelpers(n) {
+  const id = Array.from({ length: n }, (_, i) => i + 1);
+  const mul = (p, q) => p.map((_, i) => q[p[i] - 1]); // apply p then q (matches GAP's p*q convention, empirically verified in stage 1a/A1 debugging)
+  const inv = (p) => { const r = new Array(n); p.forEach((v, i) => { r[v - 1] = i + 1; }); return r; };
+  const key = (p) => p.join(',');
+  const eq = (p, q) => key(p) === key(q);
+  const pow = (p, k) => { if (k === 0) return id; let base = k < 0 ? inv(p) : p, exponent = Math.abs(k), res = id; while (exponent > 0) { if (exponent % 2 === 1) res = mul(res, base); base = mul(base, base); exponent = Math.floor(exponent / 2); } return res; };
+  return { id, mul, inv, key, eq, pow, n };
+}
+function cyclesToPerm(n, cycles) {
+  const p = Array.from({ length: n }, (_, i) => i + 1);
+  for (const cyc of cycles) {
+    for (let i = 0; i < cyc.length; i++) { const a = cyc[i], b = cyc[(i + 1) % cyc.length]; p[a - 1] = b; }
+  }
+  return p;
+}
+
+function checkStageA1(cert) {
+  const hashRes = checkTargetHash(cert);
+  const S5 = makeSymGroupHelpers(5);
+  // generators taken verbatim from the spec-disclosed marking block (same data GAP used; using
+  // given spec literals is not "importing GAP code" -- it is using spec data, same as K3.v1.json).
+  const t = cyclesToPerm(5, [[1, 2, 3]]);
+  const a = cyclesToPerm(5, [[1, 4, 5]]);
+  const X = cyclesToPerm(5, [[1, 3, 2, 4, 5]]);
+  const Y = cyclesToPerm(5, [[1, 3, 4, 5, 2]]);
+  const Z = cyclesToPerm(5, [[1, 4, 5, 3, 2]]);
+  const s = cyclesToPerm(5, [[1, 4], [3, 5]]);
+  // A-F1 self-check (reversed-product convention, same finding as GAP script)
+  const ord = (g) => { let k = 1, cur = g; while (!S5.eq(cur, S5.id)) { cur = S5.mul(cur, g); k++; } return k; };
+  const f1a = ord(X) === 5 && ord(Y) === 5 && ord(Z) === 5;
+  const f1b = S5.eq(S5.mul(S5.mul(Z, Y), X), S5.id);
+  const f1c = ord(s) === 2;
+  const f1d = S5.eq(S5.mul(S5.mul(s, X), S5.inv(s)), Y);
+  const f1e = ord(t) === 3;
+  const tinv = S5.inv(t);
+  const f1f = S5.eq(S5.mul(S5.mul(tinv, X), t), Y) && S5.eq(S5.mul(S5.mul(tinv, Y), t), Z) && S5.eq(S5.mul(S5.mul(tinv, Z), t), X);
+  const f1g = S5.eq(S5.mul(tinv, a), X);
+  const selfCheckOk = f1a && f1b && f1c && f1d && f1e && f1f && f1g;
+  const genMap = subgroupClosure(S5, [X, Y]);
+  const uniRes = checkUniverseSimple(cert, S5, X, Y, 5, 60);
+  const derivedIsFull = uniRes.D.size === 60; // A5 perfect
+  const charmingSet = (cert.universe && cert.universe.charming_set) || [0, 1, 3, 4];
+  const observed = enumerateReducedHexagon(S5, X, Y, charmingSet);
+  const hexRes = checkHexagonFreeCertificate(cert, observed);
+  const genRes = checkGenerationDetailByEval(cert, S5, X, Y, uniRes.D);
+  const kernelClaim = cert.kernel_certificate || {};
+  const kernelOk = kernelClaim.kernel_scope === 'PB3' && kernelClaim.pb3_kernel_index === 60 && kernelClaim.b3_kernel_index === 360;
+  const cInNOk = cert.c_in_N === true;
+  const evalModeOk = cert.evaluation_mode === 'quotient_ok';
+  const shadowSumOk = observed.candidate_total - observed.h10_fail - observed.h11_fail - observed.generation_fail === observed.shadow_total;
+  const layerBlocked = cert.layer_id === 'BLOCKED';
+  const ok = hashRes.ok && selfCheckOk && genMap.size === 60 && uniRes.ok && derivedIsFull && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && layerBlocked;
+  return { ok, target_hash: hashRes, a5_self_check: { f1a, f1b, f1c, f1d, f1e, f1f, f1g, ok: selfCheckOk }, generated_order: genMap.size, universe: uniRes, derived_is_full_A5: derivedIsFull, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, layer_id_blocked_acknowledged: layerBlocked, observed_shadow_total: observed.shadow_total };
+}
+
 // ---------- driver ----------
 function loadCert(id) {
   const path = join(CERT_DIR, `${id}.v2.json`);
@@ -738,6 +799,7 @@ function main() {
     else if (id === '1b') verdict = checkStage1b(cert);
     else if (id === '2a') verdict = checkStage2a(cert);
     else if (id === '2b') verdict = checkStage2b(cert);
+    else if (id === 'A1') verdict = checkStageA1(cert);
     else verdict = { ok: false, reason: `stage ${id} checker not implemented yet in check-v2.mjs` };
     results[id] = verdict;
     writeFileSync(join(VERDICT_DIR, `${id}.v2.verdict.json`), JSON.stringify(verdict, null, 2));

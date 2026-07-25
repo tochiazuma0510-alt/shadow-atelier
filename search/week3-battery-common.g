@@ -448,4 +448,151 @@ MakeP3 := function()
   return rec(x:=Xp, y:=Yp, c:=Identity(Pc), G:=Pc);
 end;;
 
+# ================= word-level (natural left-to-right) machinery -- stage A2 only =================
+# coordinator ruling 2026-07-26: A2 (c_in_N=false) MUST use word-level evaluation with the NATURAL
+# left-to-right homomorphism convention (word [w1,...,wk] represents the F2 element w1*w2*...*wk,
+# phi(w1...wk)=phi(w1)*...*phi(wk) using Q's own multiplication in matching order -- the SAME side
+# established correct during stage 1a's crosscheck bug-hunt), explicitly NOT the "prepend"
+# convention used by week3-M5-explorer.g's EvalWordInQ (that convention is only self-consistent
+# there because it is paired with a matching "reversed" BFSWords storage scheme specific to that
+# script's own left-regular-permutation-representation choice; mixing conventions is what caused
+# the bug found in crosscheck/check-v2.mjs -- see that file's evalWordLeftAccum comment).
+
+# NaturalBFSWords: word list [w1,...,wk] stored so that extending by appending a new letter at the
+# END corresponds to RIGHT-multiplying the current element by that letter (cur*g) -- natural
+# left-to-right reading.
+NaturalBFSWords := function(gr)
+  local gens, wordOf, queue, qi, cur, curWord, g, nv;
+  gens := [ rec(sym:=["x",1], gap:=gr.x), rec(sym:=["x",-1], gap:=gr.x^-1),
+            rec(sym:=["y",1], gap:=gr.y), rec(sym:=["y",-1], gap:=gr.y^-1) ];
+  wordOf := NewDictionary(Identity(gr.G), true);
+  AddDictionary(wordOf, Identity(gr.G), []);
+  queue := [ Identity(gr.G) ];
+  qi := 1;
+  while qi <= Length(queue) do
+    cur := queue[qi];  qi := qi+1;
+    curWord := LookupDictionary(wordOf, cur);
+    for g in gens do
+      nv := cur * g.gap;   # natural: append g extends the word by right-multiplication
+      if LookupDictionary(wordOf, nv) = fail then
+        AddDictionary(wordOf, nv, Concatenation(curWord, [g.sym]));
+        Add(queue, nv);
+      fi;
+    od;
+  od;
+  return rec(wordOf:=wordOf, elements:=queue);
+end;;
+
+# NaturalEvalWordInQ: phi(w1...wk) = phi(w1)*phi(w2)*...*phi(wk) in Q, natural order.
+NaturalEvalWordInQ := function(word, xg, yg, idG)
+  local val, letter;
+  val := idG;
+  for letter in word do
+    if letter[1]="x" then val := val * xg^letter[2];
+    else val := val * yg^letter[2]; fi;
+  od;
+  return val;
+end;;
+
+ThetaLetterNatural := function(l)
+  if l[1] = "x" then return [["y",l[2]]]; else return [["x",l[2]]]; fi;
+end;;
+TauLetterNatural := function(l)
+  if l[1] = "x" then
+    return [["y",l[2]]];
+  else
+    if l[2] = 1 then return [["y",-1],["x",-1]]; else return [["x",1],["y",1]]; fi;
+  fi;
+end;;
+ThetaWordNatural := function(word) return Concatenation(List(word, ThetaLetterNatural)); end;;
+TauWordNatural := function(word) return Concatenation(List(word, TauLetterNatural)); end;;
+
+# EnumerateWordLevelHexagon: word-level (3.10)/(3.11) via natural evaluation (mandatory when
+# c_in_N=false). Also computes the quotient-shortcut result per candidate as a DIAGNOSTIC ONLY
+# (A-F4: judged by word-level; quotient-shortcut recorded for comparison, quotient_eval_diff_count).
+EnumerateWordLevelHexagon := function(qrec, charmingSet)
+  local G, D, bfs, Dwords, elt, cand, f, m, u, thetaWord, hex310, yWordM, ymfWord, tauWord1,
+        tauWord2, hex311, genA, genB, surj, h10Fail, h11Fail, genFail, shadows, genDetail,
+        candidateTotal, thetaHom, tauHom, zElt, quotientAvailable, thetaHomF, ymfElt, tauHomYmf,
+        tau2HomYmf, hex311Quot, hex310Quot, thetaFQuot, diffCount, diffDetail;
+  G := qrec.G;
+  D := DerivedSubgroup(G);
+  # diagnostic-only quotient shortcut (may legitimately fail to construct since c_in_N=false;
+  # if it fails to construct we just skip the diagnostic comparison for that stage)
+  zElt := AbstractProd([qrec.x, qrec.y])^-1;
+  thetaHom := GroupHomomorphismByImages(G, G, [qrec.x, qrec.y], [qrec.y, qrec.x]);
+  tauHom := GroupHomomorphismByImages(G, G, [qrec.x, qrec.y], [qrec.y, zElt]);
+  quotientAvailable := (thetaHom <> fail) and (tauHom <> fail);
+  bfs := NaturalBFSWords(qrec);
+  if Length(bfs.elements) <> Size(G) then
+    Error("EnumerateWordLevelHexagon: BFS did not cover full G: covered=", Length(bfs.elements), " expected=", Size(G));
+  fi;
+  Dwords := [];
+  for elt in bfs.elements do
+    if elt in D then Add(Dwords, rec(elt:=elt, word:=LookupDictionary(bfs.wordOf, elt))); fi;
+  od;
+  h10Fail := 0;  h11Fail := 0;  genFail := 0;  shadows := [];  genDetail := [];  diffCount := 0;  diffDetail := [];
+  candidateTotal := Length(Dwords) * Length(charmingSet);
+  for cand in Dwords do
+    f := cand.elt;
+    for m in charmingSet do
+      u := 2*m+1;
+      thetaWord := ThetaWordNatural(cand.word);
+      hex310 := NaturalEvalWordInQ(Concatenation(cand.word, thetaWord), qrec.x, qrec.y, Identity(G)) = Identity(G);
+      if quotientAvailable then
+        thetaFQuot := Image(thetaHom, f);
+        hex310Quot := AbstractProd([f, thetaFQuot]) = Identity(G);
+      fi;
+      if not hex310 then
+        h10Fail := h10Fail + 1;
+        Add(genDetail, rec(m:=m, f_word:=cand.word, pass:=false, stage:="h10_fail"));
+        if quotientAvailable and hex310Quot <> hex310 then
+          diffCount := diffCount + 1;
+          Add(diffDetail, rec(m:=m, f_word:=cand.word, word_level:=hex310, quotient_shortcut:=hex310Quot, at:="3.10"));
+        fi;
+        continue;
+      fi;
+      yWordM := List([1..m], ii -> ["y",1]);
+      ymfWord := Concatenation(yWordM, cand.word);
+      tauWord1 := TauWordNatural(ymfWord);
+      tauWord2 := TauWordNatural(tauWord1);
+      hex311 := NaturalEvalWordInQ(Concatenation(tauWord2, tauWord1, ymfWord), qrec.x, qrec.y, Identity(G)) = Identity(G);
+      if quotientAvailable then
+        ymfElt := AbstractProd([qrec.y^m, f]);
+        tauHomYmf := Image(tauHom, ymfElt);
+        tau2HomYmf := Image(tauHom, tauHomYmf);
+        hex311Quot := AbstractProd([tau2HomYmf, tauHomYmf, ymfElt]) = Identity(G);
+      fi;
+      if not hex311 then
+        h11Fail := h11Fail + 1;
+        Add(genDetail, rec(m:=m, f_word:=cand.word, pass:=false, stage:="h11_fail"));
+        if quotientAvailable and hex311Quot <> hex311 then
+          diffCount := diffCount + 1;
+          Add(diffDetail, rec(m:=m, f_word:=cand.word, word_level:=hex311, quotient_shortcut:=hex311Quot, at:="3.11"));
+        fi;
+        continue;
+      fi;
+      if quotientAvailable and ((not hex310Quot) or (not hex311Quot)) then
+        diffCount := diffCount + 1;
+        Add(diffDetail, rec(m:=m, f_word:=cand.word, word_level:=true, quotient_shortcut:=false, at:="pass_vs_fail"));
+      fi;
+      genA := qrec.x^u;
+      genB := AbstractProd([f^-1, qrec.y^u, f]);
+      surj := Size(Group(genA, genB)) = Size(G);
+      if not surj then
+        genFail := genFail + 1;
+        Add(genDetail, rec(m:=m, f_word:=cand.word, pass:=false, stage:="generation_fail"));
+      else
+        Add(shadows, rec(m:=m, f:=f, word:=cand.word));
+        Add(genDetail, rec(m:=m, f_word:=cand.word, pass:=true, stage:="pass"));
+      fi;
+    od;
+  od;
+  return rec(candidate_total:=candidateTotal, h10_fail:=h10Fail, h11_fail:=h11Fail,
+             generation_fail:=genFail, shadow_total:=Length(shadows), shadows:=shadows,
+             generation_detail:=genDetail, dwords_count:=Length(Dwords),
+             quotient_eval_diff_count:=diffCount, quotient_eval_diff_detail:=diffDetail,
+             quotient_shortcut_available:=quotientAvailable);
+end;;
+
 Print("week3-battery-common.g loaded.\n");

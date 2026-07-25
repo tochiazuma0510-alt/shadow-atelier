@@ -338,6 +338,7 @@
       "target_count": 4
     }
   },
+  "uf7_derived_subgroup_exponent_le2": true,
   "uf7_status_acknowledged": true,
   "observed_shadow_total": 8
 }

@@ -139,6 +139,7 @@
     "ok": true,
     "claimed_matches": true
   },
+  "uf7_derived_subgroup_exponent_le2": true,
   "uf7_status_acknowledged": true,
   "reduction_R3_to_N_Q": {
     "ok": true,

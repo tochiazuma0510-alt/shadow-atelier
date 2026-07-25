@@ -93,12 +93,19 @@ uf6ok := (p3ToP2 <> fail) and IsSurjective(p3ToP2);;
 Print("[", PF(uf6ok), "] U-F6 (P3->P2 leg): marked factor map X->X,Y->Y is a well-defined surjective hom\n");
 if not uf6ok then fixtureOK := false; fi;
 
-Print("[BLOCKED] U-F7: restricted presentation D_4^(2) has no construction formula in the spec\n");
-Print("  projection available to me (manifest's own GAP-E5 flags this as unresolved). Proceeding\n");
-Print("  with all other fixtures/enumeration (verbal side only); flagged for review.\n");
+# ---- U-F7: resolved (司令塔裁定 2026-07-26) -- D_4^(2) = F2^4.gamma_2^2.gamma_3^2.gamma_4 =
+# F2^4.gamma_2^2.gamma_4 (gamma_3^2 <= gamma_2^2). P3 = F2/F2^4 gamma_4 already imposes gamma_4=1,
+# so D_4^(2) = ker(F2->P3) exactly iff gamma_2^2 ALSO maps to 1 in P3, i.e. iff [P3,P3] (image of
+# gamma_2(F2), = <w,p,q> per U-F5/derived_order=8) has exponent dividing 2. Checked directly below
+# (same argument as stage 2a's U-F7 resolution, one level deeper in the tower).
+uf7Exp := Exponent(DP3);;
+uf7ok := (uf7Exp = 2);;
+Print("[", PF(uf7ok), "] U-F7: Exponent([P3,P3]) = ", uf7Exp,
+      " (=2 => gamma_2(F2)^2 maps to 1 in P3 => D_4^(2) = ker(F2->P3) => verbal/restricted agree)\n");
+if not uf7ok then fixtureOK := false; fi;
 
 if not fixtureOK then
-  Print("\n[UNKNOWN] stage 2b: fixture mismatch (excluding U-F7 which is BLOCKED) -- halting.\n");
+  Print("\n[UNKNOWN] stage 2b: fixture mismatch -- halting.\n");
   haltStage := true;
 fi;
 
@@ -325,8 +332,9 @@ s := Concatenation(
   "\"isolated_note\":\"settled 判定未実装(司令塔裁定③)\",",
   "\"runtime\":", runtimeJson, ",",
   "\"uf6_check\":{\"p3_to_p2_leg\":", JB(uf6ok), ",\"p3_to_q8_direct_sanity\":", JB(uf6bOk), "},",
-  "\"uf7_status\":\"BLOCKED\",",
-  "\"uf7_note\":\"restricted presentation D_4^(2) の構成式が spec 射影内に見当たらない(manifest 自身の GAP-E5 も未了と明記)。verbal 側(U-F5 の関係式 + derived_basis)のみで P3 を構成し独立検算した(GAP 提示表現+Todd-Coxeter+IsomorphismPcGroup)。両表示一致(U-F7)は本証明書では判定不能 -- 司令塔確認要\",",
+  "\"uf7_status\":\"PASS\",",
+  "\"uf7_note\":\"司令塔裁定 2026-07-26: D_4^(2)(F2) = F2^4.gamma_2^2.gamma_4. 検査 = Exponent([P3,P3]) = ",
+  String(uf7Exp), " (=2) => gamma_2(F2)^2 は P3 で自明 => D_4^(2) = ker(F2->P3) = F2^4.gamma_4 => verbal/restricted 一致(定理T1)\",",
   "\"p3_construction_note\":\"P3 built via explicit fp-group presentation on generators X,Y,w=[X,Y],p=[w,X],q=[w,Y] with X^4=Y^4=w^2=p^2=q^2=1 and gamma_3=<p,q> central; verified by GAP coset enumeration to have order exactly 128 and to satisfy every U-F5 relation before being adopted\"",
   "}");;
 
