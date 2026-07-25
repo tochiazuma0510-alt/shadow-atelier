@@ -160,6 +160,18 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-25 — ops 障害記録: Sol 便 05 初回起動が OpenAI 503 で失敗
+
+- Codex バックエンドが 503(circuit open + throttled)。WebSocket/HTTPS 両系 5 回再試行の末 turn 失敗(返信なし・exit 1)。
+- 扱い: **技術的失敗**(ES7 規律 4 — 数学的 stuck と区別・claim なし)。20 分後に wake で自動再試行(1 回)。再失敗なら間隔を広げ研究者に報告。
+
+### 続報(同日 09:23 UTC): 再試行は 401(認証失効)で失敗 — 自動再試行を停止
+
+- wake 再試行は 503 でなく **401 Unauthorized(token_invalidated / refresh_token_invalidated)**。障害の副作用で Codex のリフレッシュトークンが無効化されたとみられる(exit 1・ログ ops/codex_activity.log)。
+- 401 は時間経過で回復しないため**自動再試行を停止**し、研究者に Codex 再ログイン(`codex login`)を依頼。claim なし。
+- 再ログイン確認後、同一 pinned セッション(019f9881-…)へ wake を再発射する(sol_task_05_peer_review.txt は不変・監査内容に影響なし)。
+- 待機中の並行措置: Claude 側数学者(Opus)に狩場設計 Q1/Q2 の**ブラインド起草**を先行発注(Sol の (e) 回答と独立に起草 → 司令塔が突合)。sol/ 読み取り禁止を指示済み。
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。
