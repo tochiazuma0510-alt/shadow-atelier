@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "errors": [],
+  "observed": {
+    "ord_S": 2,
+    "ord_T": 3,
+    "ord_w": 7,
+    "ord_X": 7,
+    "s_is_inner": true,
+    "ghat_size": 168,
+    "g_size": 168,
+    "b3_points": 1008,
+    "candidate_total": 1008,
+    "pgl_size": 336,
+    "hexagon_free_certificate_observed": {
+      "candidate_total": 1008,
+      "h10_fail": 876,
+      "h11_fail": 90,
+      "generation_fail": 0,
+      "shadow_total": 42
+    },
+    "settled_count_observed": 42,
+    "pu_f12_class_coefficient_observed": 10
+  }
+}
