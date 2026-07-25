@@ -133,6 +133,15 @@ shadowSumCheck := (result.candidate_total - result.h10_fail - result.h11_fail - 
                     = result.shadow_total);;
 Print("[", PF(shadowSumCheck), "] shadow_total 引き算整合性チェック\n");
 
+# ---- convention robustness check (司令塔裁定 2026-07-26 item 1) ----
+convRobust := CheckConventionRobust(qrec, charmingSet);;
+Print("[", PF(convRobust.agree), "] convention_robust: natural vs prepend word-level agree: ",
+      convRobust.agree, " (natural shadow_total=", convRobust.natural.shadow_total,
+      ", prepend shadow_total=", convRobust.prepend.shadow_total, ")\n");
+if not convRobust.agree then
+  Print("  [ANOMALY] convention mismatch detected for stage 2a -- report immediately, do not paper over\n");
+fi;
+
 emTable := ComputeEmTable(qrec, nOrd);;
 Print("E_m table computed (", Length(emTable), " rows, independent)\n");
 
@@ -304,7 +313,9 @@ s := Concatenation(
   "\"uf6_check\":{\"p2_to_q8_leg\":", JB(uf6ok), ",\"p3_to_p2_leg\":\"not applicable at this stage (2b)\"},",
   "\"uf7_status\":\"PASS\",",
   "\"uf7_note\":\"司令塔裁定 2026-07-26: D_3^(2)(F2) = F2^4.gamma_2^2.gamma_3. 検査 = Exponent([P2,P2]) = ",
-  String(uf7Exp), " (=2) => gamma_2(F2)^2 は P2 で自明 => D_3^(2) = ker(F2->P2) = F2^4.gamma_3 => verbal/restricted 一致(定理T1)\"",
+  String(uf7Exp), " (=2) => gamma_2(F2)^2 は P2 で自明 => D_3^(2) = ker(F2->P2) = F2^4.gamma_3 => verbal/restricted 一致(定理T1)\",",
+  "\"convention_robust\":", JB(convRobust.agree), ",",
+  "\"convention_robust_note\":\"natural vs prepend 語レベル評価が一致(司令塔裁定 2026-07-26 item1)\"",
   "}");;
 
 WriteFile("certificates/2a.v2.json", s);;

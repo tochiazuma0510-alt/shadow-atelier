@@ -595,4 +595,147 @@ EnumerateWordLevelHexagon := function(qrec, charmingSet)
              quotient_shortcut_available:=quotientAvailable);
 end;;
 
+# ================= word-level (prepend, week3-M5-explorer.g convention) machinery =================
+# coordinator ruling 2026-07-26 (reversing the earlier "natural" ruling, on evidence): A2 must use
+# the SAME prepend convention as week3-M5-explorer.g's EvalWordInQ, paired with the SAME BFSWords
+# (already defined above, prepend-storage). Ground-truth check via genuine GAP FreeGroup
+# automorphisms (theta,tau on F2 directly, no custom word-substitution code) confirmed: the
+# "paper's word AB = GAP's B*A" reversal (established via 1a's S3-marking and A1's A5-marking
+# fixtures) applies generally, and for objects NOT built via an artificial left-regular
+# permutation representation (like A5 here), only ONE reversal applies -- so prepend accumulation
+# (which already embeds that single reversal) is correct, not natural/append. For objects that ARE
+# built via left-regular representation (Q8/D_n/H3/P2/P3), TWO reversals compose (representation
+# reversal + paper-GAP reversal) and cancel, which is why natural accumulation happened to look
+# right there. ThetaLetter/TauLetter substitution RULES are identical either way (pure automorphism
+# letter-substitution, convention-independent); only the FINAL evaluation accumulation differs.
+ThetaLetter := function(l)
+  if l[1] = "x" then return [["y",l[2]]]; else return [["x",l[2]]]; fi;
+end;;
+TauLetter := function(l)
+  if l[1] = "x" then
+    if l[2] = 1 then return [["y",1]]; else return [["y",-1]]; fi;
+  else
+    if l[2] = 1 then return [["y",-1],["x",-1]]; else return [["x",1],["y",1]]; fi;
+  fi;
+end;;
+ThetaWord := function(word) return Concatenation(List(word, ThetaLetter)); end;;
+TauWord := function(word) return Concatenation(List(word, TauLetter)); end;;
+
+# EvalWordInQ: prepend accumulation (val := g^pow * val for each letter, processing the word list
+# left to right) -- matches week3-M5-explorer.g exactly.
+EvalWordInQ := function(word, xg, yg, idG)
+  local val, letter;
+  val := idG;
+  for letter in word do
+    if letter[1]="x" then val := xg^letter[2] * val;
+    else val := yg^letter[2] * val; fi;
+  od;
+  return val;
+end;;
+
+# EnumerateWordLevelHexagonPrepend: word-level (3.10)/(3.11) via prepend evaluation (the spec's
+# pre-registered convention for A2, per manifest_spec_v1.md's "M5実装と同一" instruction).
+EnumerateWordLevelHexagonPrepend := function(qrec, charmingSet)
+  local G, D, bfs, Dwords, elt, cand, f, m, u, thetaWord, hex310, yWordM, ymfWord, tauWord1,
+        tauWord2, hex311, genA, genB, surj, h10Fail, h11Fail, genFail, shadows, genDetail,
+        candidateTotal, thetaHom, tauHom, zElt, quotientAvailable, hex310Quot, hex311Quot,
+        thetaFQuot, ymfElt, tauHomYmf, tau2HomYmf, diffCount, diffDetail;
+  G := qrec.G;
+  D := DerivedSubgroup(G);
+  zElt := AbstractProd([qrec.x, qrec.y])^-1;
+  thetaHom := GroupHomomorphismByImages(G, G, [qrec.x, qrec.y], [qrec.y, qrec.x]);
+  tauHom := GroupHomomorphismByImages(G, G, [qrec.x, qrec.y], [qrec.y, zElt]);
+  quotientAvailable := (thetaHom <> fail) and (tauHom <> fail);
+  bfs := BFSWords(qrec);
+  if Length(bfs.elements) <> Size(G) then
+    Error("EnumerateWordLevelHexagonPrepend: BFS did not cover full G: covered=", Length(bfs.elements), " expected=", Size(G));
+  fi;
+  Dwords := [];
+  for elt in bfs.elements do
+    if elt in D then Add(Dwords, rec(elt:=elt, word:=LookupDictionary(bfs.wordOf, elt))); fi;
+  od;
+  h10Fail := 0;  h11Fail := 0;  genFail := 0;  shadows := [];  genDetail := [];  diffCount := 0;  diffDetail := [];
+  candidateTotal := Length(Dwords) * Length(charmingSet);
+  for cand in Dwords do
+    f := cand.elt;
+    for m in charmingSet do
+      u := 2*m+1;
+      thetaWord := ThetaWord(cand.word);
+      hex310 := EvalWordInQ(Concatenation(cand.word, thetaWord), qrec.x, qrec.y, Identity(G)) = Identity(G);
+      if quotientAvailable then
+        thetaFQuot := Image(thetaHom, f);
+        hex310Quot := AbstractProd([f, thetaFQuot]) = Identity(G);
+      fi;
+      if not hex310 then
+        h10Fail := h10Fail + 1;
+        Add(genDetail, rec(m:=m, f_word:=cand.word, pass:=false, stage:="h10_fail"));
+        if quotientAvailable and hex310Quot <> hex310 then
+          diffCount := diffCount + 1;
+          Add(diffDetail, rec(m:=m, f_word:=cand.word, word_level:=hex310, quotient_shortcut:=hex310Quot, at:="3.10"));
+        fi;
+        continue;
+      fi;
+      yWordM := List([1..m], ii -> ["y",1]);
+      ymfWord := Concatenation(yWordM, cand.word);
+      tauWord1 := TauWord(ymfWord);
+      tauWord2 := TauWord(tauWord1);
+      hex311 := EvalWordInQ(Concatenation(tauWord2, tauWord1, ymfWord), qrec.x, qrec.y, Identity(G)) = Identity(G);
+      if quotientAvailable then
+        ymfElt := AbstractProd([qrec.y^m, f]);
+        tauHomYmf := Image(tauHom, ymfElt);
+        tau2HomYmf := Image(tauHom, tauHomYmf);
+        hex311Quot := AbstractProd([tau2HomYmf, tauHomYmf, ymfElt]) = Identity(G);
+      fi;
+      if not hex311 then
+        h11Fail := h11Fail + 1;
+        Add(genDetail, rec(m:=m, f_word:=cand.word, pass:=false, stage:="h11_fail"));
+        if quotientAvailable and hex311Quot <> hex311 then
+          diffCount := diffCount + 1;
+          Add(diffDetail, rec(m:=m, f_word:=cand.word, word_level:=hex311, quotient_shortcut:=hex311Quot, at:="3.11"));
+        fi;
+        continue;
+      fi;
+      if quotientAvailable and ((not hex310Quot) or (not hex311Quot)) then
+        diffCount := diffCount + 1;
+        Add(diffDetail, rec(m:=m, f_word:=cand.word, word_level:=true, quotient_shortcut:=false, at:="pass_vs_fail"));
+      fi;
+      genA := qrec.x^u;
+      genB := AbstractProd([f^-1, qrec.y^u, f]);
+      surj := Size(Group(genA, genB)) = Size(G);
+      if not surj then
+        genFail := genFail + 1;
+        Add(genDetail, rec(m:=m, f_word:=cand.word, pass:=false, stage:="generation_fail"));
+      else
+        Add(shadows, rec(m:=m, f:=f, word:=cand.word));
+        Add(genDetail, rec(m:=m, f_word:=cand.word, pass:=true, stage:="pass"));
+      fi;
+    od;
+  od;
+  return rec(candidate_total:=candidateTotal, h10_fail:=h10Fail, h11_fail:=h11Fail,
+             generation_fail:=genFail, shadow_total:=Length(shadows), shadows:=shadows,
+             generation_detail:=genDetail, dwords_count:=Length(Dwords),
+             quotient_eval_diff_count:=diffCount, quotient_eval_diff_detail:=diffDetail,
+             quotient_shortcut_available:=quotientAvailable);
+end;;
+
+# ================= robustness check (natural vs prepend, quotient_ok stages only) =================
+# For stages using the quotient-SHORTCUT (EnumerateReducedHexagon: theta/tau via genuine
+# GroupHomomorphismByImages on the ACTUAL group elements, never touching word storage at all), the
+# convention question does not even arise for the pass/fail judgement -- but we can still check
+# robustness DIAGNOSTICALLY by running BOTH word-level evaluators (natural and prepend) against the
+# same candidate set and confirming they agree with each other (and, ideally, with the trusted
+# shortcut result). Cheap: reuses EnumerateWordLevelHexagon (natural) and
+# EnumerateWordLevelHexagonPrepend (prepend) on the same qrec/charmingSet.
+CheckConventionRobust := function(qrec, charmingSet)
+  local natRes, prepRes, natMap, prepRes2, agree, mismatches, k1, k2;
+  natRes := EnumerateWordLevelHexagon(qrec, charmingSet);
+  prepRes := EnumerateWordLevelHexagonPrepend(qrec, charmingSet);
+  agree := (natRes.h10_fail = prepRes.h10_fail) and (natRes.h11_fail = prepRes.h11_fail)
+           and (natRes.generation_fail = prepRes.generation_fail) and (natRes.shadow_total = prepRes.shadow_total);
+  return rec(agree:=agree, natural:=rec(h10_fail:=natRes.h10_fail, h11_fail:=natRes.h11_fail,
+             generation_fail:=natRes.generation_fail, shadow_total:=natRes.shadow_total),
+             prepend:=rec(h10_fail:=prepRes.h10_fail, h11_fail:=prepRes.h11_fail,
+             generation_fail:=prepRes.generation_fail, shadow_total:=prepRes.shadow_total));
+end;;
+
 Print("week3-battery-common.g loaded.\n");

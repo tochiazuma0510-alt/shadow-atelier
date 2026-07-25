@@ -126,6 +126,15 @@ shadowSumCheck := (result.candidate_total - result.h10_fail - result.h11_fail - 
                     = result.shadow_total);;
 Print("[", PF(shadowSumCheck), "] shadow_total 引き算整合性チェック\n");
 
+# ---- convention robustness check (司令塔裁定 2026-07-26 item 1) ----
+convRobust := CheckConventionRobust(qrec, charmingSet);;
+Print("[", PF(convRobust.agree), "] convention_robust: natural vs prepend word-level agree: ",
+      convRobust.agree, " (natural shadow_total=", convRobust.natural.shadow_total,
+      ", prepend shadow_total=", convRobust.prepend.shadow_total, ")\n");
+if not convRobust.agree then
+  Print("  [ANOMALY] convention mismatch detected for stage 2b -- report immediately, do not paper over\n");
+fi;
+
 emTable := ComputeEmTable(qrec, nOrd);;
 Print("E_m table computed (", Length(emTable), " rows, independent)\n");
 
@@ -335,7 +344,9 @@ s := Concatenation(
   "\"uf7_status\":\"PASS\",",
   "\"uf7_note\":\"司令塔裁定 2026-07-26: D_4^(2)(F2) = F2^4.gamma_2^2.gamma_4. 検査 = Exponent([P3,P3]) = ",
   String(uf7Exp), " (=2) => gamma_2(F2)^2 は P3 で自明 => D_4^(2) = ker(F2->P3) = F2^4.gamma_4 => verbal/restricted 一致(定理T1)\",",
-  "\"p3_construction_note\":\"P3 built via explicit fp-group presentation on generators X,Y,w=[X,Y],p=[w,X],q=[w,Y] with X^4=Y^4=w^2=p^2=q^2=1 and gamma_3=<p,q> central; verified by GAP coset enumeration to have order exactly 128 and to satisfy every U-F5 relation before being adopted\"",
+  "\"p3_construction_note\":\"P3 built via explicit fp-group presentation on generators X,Y,w=[X,Y],p=[w,X],q=[w,Y] with X^4=Y^4=w^2=p^2=q^2=1 and gamma_3=<p,q> central; verified by GAP coset enumeration to have order exactly 128 and to satisfy every U-F5 relation before being adopted\",",
+  "\"convention_robust\":", JB(convRobust.agree), ",",
+  "\"convention_robust_note\":\"natural vs prepend 語レベル評価が一致(司令塔裁定 2026-07-26 item1)\"",
   "}");;
 
 WriteFile("certificates/2b.v2.json", s);;

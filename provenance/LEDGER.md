@@ -160,6 +160,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-26 — バッテリー完走: 全 7 段 all_pass・開封総括
+
+- **観測(blind)= 紙上予測**: 1a 4・1b 24(公式破れ実測)・2a 4・2b 8(H9 較正一致)。**発見値**: A1 = A2 = **20**(補題 A2A1 の全単射が観測成立・staged counts まで一致)・段 3 M₃ = **48**(R→K³ 12/12・R→N₃ 8/8 全射)。**バッテリー全域で fake witness なし**。GAP 合計 <10 秒・7/7 verdict all_pass。
+- 規約頑健性: 1a/2a/2b は両規約一致・**1b は非頑健**(natural 12 vs prepend 24)— 二重打ち消し仮説は単一左正則構成のみで成立と確定。crosscheck の genB 対規約バグも検出→修正→全段再照合。**語規約の正本 = prepend(paper 語 "AB" ↔ GAP "B*A")を工房規約として恒久化すること**(定義ノート追記は次回)。
+- CLAIMS 更新: W3-3/W3-3b/W3-4 追記。次工程: 結果の両数学者配達(20 と 48 の構造説明の委嘱)・可視化更新・Lean 初弾(Actions 工場)。
+
 ## 2026-07-26 — WO2 前半: A₅ 初実測 |GT(N_A)| = 20(発見値)・司令塔裁定の撤回 1 件
 
 - **段 A1(N_A・360 点)all_pass**: 観測 shadow_total = **20**(240 候補 → h10_fail 176 → h11_fail 44 → generation_fail 0)。紙上は「m-full・既知 4 解・総数 UNKNOWN(P59)」だった — **本プロジェクト初の発見値**(GAP+check-v2 二系統一致)。U-F7 も解除済み(両表示一致 PASS・exponent 2 論法)。layer_id は開示制限により BLOCKED(後日司令塔が注記)。

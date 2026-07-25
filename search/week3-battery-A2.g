@@ -3,9 +3,16 @@
 # Usage: .\gap.ps1 search\week3-battery-A2.g
 #
 # c_in_N = false (c-bar = (1,zeta) has order 5) -> evaluation_mode = word_level_required.
-# coordinator ruling 2026-07-26: use NATURAL left-to-right word evaluation (see
-# search/week3-battery-common.g's EnumerateWordLevelHexagon header comment for the convention
-# rationale), NOT the "prepend" convention from week3-M5-explorer.g. quotient-shortcut computed
+# REVISED 2026-07-26 (coordinator reversed the earlier "natural" ruling on evidence): uses PREPEND
+# word evaluation (search/week3-battery-common.g's EnumerateWordLevelHexagonPrepend), matching
+# week3-M5-explorer.g's EvalWordInQ exactly -- the manifest's original pre-registered instruction.
+# A first attempt with NATURAL evaluation gave shadow_total=12, disagreeing with N_A's (A1's)
+# trusted shadow_total=20 via R6 (which Lemma A2A1 predicts should set-biject); a ground-truth
+# check using genuine GAP FreeGroup automorphisms (theta,tau on F2 directly, no custom
+# word-substitution code) confirmed PREPEND is correct: the "paper's word AB = GAP's B*A" reversal
+# (established via 1a's S3-marking and A1's A5-marking fixtures) applies generally to this whole
+# project's convention, and for A5 (a NATURAL, non-left-regular permutation representation) only
+# ONE such reversal applies, which prepend accumulation already embeds. quotient-shortcut computed
 # in parallel purely as a DIAGNOSTIC (A-F4), never used for the pass/fail judgement itself.
 
 SizeScreen([4096, 0]);;
@@ -91,7 +98,7 @@ if not haltStage then
 
 qrec := rec(x:=xhat, y:=yhat, c:=chat, G:=QM);;
 t0 := Runtime();;
-result := EnumerateWordLevelHexagon(qrec, charmingSet);;
+result := EnumerateWordLevelHexagonPrepend(qrec, charmingSet);;
 t1 := Runtime();;
 Print("\nword-level hexagon enumeration: time_ms=", t1-t0, "\n");
 Print("candidate_total=", result.candidate_total, " h10_fail=", result.h10_fail,
@@ -129,12 +136,22 @@ Print("[", PF(qtSizeOk), "] QxT |<s1,s2>| = ", qtGroupSize, " (expect ", b3Point
 if not qtSizeOk then fixtureOK := false; fi;
 
 Print("Order(qt.cc) = ", Order(qt.cc), " (expect 5, c alive)\n");
-Print("  [SKIPPED] full-hexagon double-check via EvalWordQT: that helper assumes 'prepend'-style\n");
-Print("  word storage (matching BuildQTGeneral/EvalWordQT's own established precedent from\n");
-Print("  1a-2b/A1), but this stage's shadow words come from NaturalBFSWords (append-style, per\n");
-Print("  coordinator ruling). Feeding a natural-convention word into EvalWordQT would silently\n");
-Print("  reconstruct the WRONG element and produce a false anomaly -- skipped rather than reporting\n");
-Print("  a misleading double-check. The QxT braid/size checks above (convention-independent) stand.\n");
+
+dblFail := 0;;
+for sh in result.shadows do
+  m := sh.m;  u := 2*m+1;
+  fhat := EvalWordQT(sh.word, qt);  fhatInv := fhat^-1;
+  lhs33 := qt.s1^u * fhatInv * qt.s2^u * fhat;
+  rhs33 := fhatInv * qt.s1*qt.s2 * qt.xx^(-m) * qt.cc^m;
+  lhs34 := fhatInv * qt.s2^u * fhat * qt.s1^u;
+  rhs34 := qt.s2*qt.s1 * qt.yy^(-m) * qt.cc^m * fhat;
+  if not ((lhs33=rhs33) and (lhs34=rhs34)) then
+    dblFail := dblFail + 1;
+    Print("  [ANOMALY] full-hexagon double-check FAILED for shadow m=", m, "\n");
+  fi;
+od;
+Print("full hexagon double-check (words now prepend-convention, matches EvalWordQT): dblFail=",
+      dblFail, " (of ", Length(result.shadows), " shadows)\n");
 
 mMissing := [];;
 for m in charmingSet do
@@ -240,7 +257,7 @@ s := Concatenation(
   "\"universe\":", universeJson, ",",
   "\"c_in_N\":false,",
   "\"evaluation_mode\":\"word_level_required\",",
-  "\"evaluation_convention_note\":\"natural left-to-right homomorphism evaluation (司令塔裁定 2026-07-26: 1a crosscheck で確立した規約と同じ側; NOT week3-M5-explorer.g の prepend 規約) -- 実装は search/week3-battery-common.g の EnumerateWordLevelHexagon\",",
+  "\"evaluation_convention_note\":\"prepend 規約(week3-M5-explorer.g の EvalWordInQ と同一、manifest 事前登録どおり)-- 実装は search/week3-battery-common.g の EnumerateWordLevelHexagonPrepend。natural 規約での初回試行(shadow_total=12)は R6(->N_A)で補題A2A1(集合全単射)と矛盾し、FreeGroup 準同型による地の計算で prepend が正しいと確認(司令塔裁定 2026-07-26、先の natural 裁定を撤回)\",",
   "\"triangle_marking\":\"not_applicable\",",
   "\"hexagon_free_certificate\":", hexFreeCert, ",",
   "\"generation_pass_count\":", String(result.shadow_total), ",",

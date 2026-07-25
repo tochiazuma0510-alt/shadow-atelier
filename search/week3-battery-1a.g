@@ -102,42 +102,19 @@ Print("[", PF(shadowSumCheck), "] shadow_total 引き算整合性チェック\n"
 thetaOnGens := (Image(GroupHomomorphismByImages(QQ,QQ,[xhat,yhat],[yhat,xhat]), xhat) = yhat);;
 Print("[", PF(thetaOnGens), "] U-F8: theta descends to Q8 (spot check on x)\n");
 
-# ---- word-level parallel evaluation (spec (4): "安い" cheap self-check, diagnostic only) ----
-zElt := AbstractProd([xhat,yhat])^-1;;
-ThetaLetter := function(l) if l[1]="x" then return [["y",l[2]]]; else return [["x",l[2]]]; fi; end;;
-TauLetter := function(l)
-  if l[1]="x" then
-    if l[2]=1 then return [["y",1]]; else return [["y",-1]]; fi;
-  else
-    if l[2]=1 then return [["y",-1],["x",-1]]; else return [["x",1],["y",1]]; fi;
-  fi;
-end;;
-ApplyLetterSubst := function(word, letterFn) return Concatenation(List(word, letterFn)); end;;
-ThetaWord := function(word) return ApplyLetterSubst(word, ThetaLetter); end;;
-TauWord := function(word) return ApplyLetterSubst(word, TauLetter); end;;
-EvalWordInQ := function(word, xg, yg)
-  local val, letter;
-  val := Identity(QQ);
-  for letter in word do
-    if letter[1]="x" then val := xg^letter[2] * val; else val := yg^letter[2] * val; fi;
-  od;
-  return val;
-end;;
-
-wordLevelDiff := 0;;
-for sh in result.shadows do
-  m := sh.m;
-  combinedWord10 := Concatenation(sh.word, ThetaWord(sh.word));;
-  wl310 := EvalWordInQ(combinedWord10, xhat, yhat) = Identity(QQ);;
-  yWordM := List([1..m], ii -> ["y",1]);;
-  ymfWord := Concatenation(yWordM, sh.word);;
-  tauWord1 := TauWord(ymfWord);;
-  tauWord2 := TauWord(tauWord1);;
-  combinedWord11 := Concatenation(tauWord2, tauWord1, ymfWord);;
-  wl311 := EvalWordInQ(combinedWord11, xhat, yhat) = Identity(QQ);;
-  if not (wl310 and wl311) then wordLevelDiff := wordLevelDiff + 1; fi;
-od;
-Print("[", PF(wordLevelDiff = 0), "] 語レベル評価 並走診断: quotient_eval_diff_count(diagnostic, not schema field) = ", wordLevelDiff, " (0 なら商評価と一致)\n");
+# ---- convention robustness check (司令塔裁定 2026-07-26 item 1): natural vs prepend word-level
+# evaluation must agree for this stage (two-cancellation hypothesis: Q8 is a left-regular
+# permutation representation, so the representation reversal + the general paper/GAP reversal
+# should cancel, making BOTH conventions agree with each other and with the trusted quotient-
+# shortcut result). Uses the shared common.g implementations exclusively (no local redefinition,
+# to avoid the exact kind of convention-mixing bug found during stage A2's investigation).
+convRobust := CheckConventionRobust(qrec, charmingSet);;
+Print("[", PF(convRobust.agree), "] convention_robust: natural vs prepend word-level agree: ",
+      convRobust.agree, " (natural shadow_total=", convRobust.natural.shadow_total,
+      ", prepend shadow_total=", convRobust.prepend.shadow_total, ")\n");
+if not convRobust.agree then
+  Print("  [ANOMALY] convention mismatch detected for stage 1a -- report immediately, do not paper over\n");
+fi;
 
 # ---- U-F9: E_m table, independent computation ----
 emTable := ComputeEmTable(qrec, nOrd);;
@@ -314,7 +291,8 @@ s := Concatenation(
   "\"isolated_note\":\"settled/kernel-triple determination for every shadow not implemented in this batch -- reported UNKNOWN, not guessed\",",
   "\"runtime\":", runtimeJson, ",",
   "\"e_m_table\":", JArr(emTableJson), ",",
-  "\"word_level_parallel_diagnostic\":{\"diff_count\":", String(wordLevelDiff), ",\"note\":\"spec (4) cheap parallel word-level check, diagnostic only (not a schema-required field; c_in_N=true so quotient shortcut is the evaluation_mode of record)\"}",
+  "\"convention_robust\":", JB(convRobust.agree), ",",
+  "\"convention_robust_note\":\"natural(左→右自然評価) vs prepend(week3-M5-explorer.g 規約) の語レベル評価が一致(司令塔裁定 2026-07-26 item1: 二重打ち消し仮説の機械確認)\"",
   "}");;
 
 WriteFile("certificates/1a.v2.json", s);;

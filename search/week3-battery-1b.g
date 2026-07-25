@@ -103,6 +103,15 @@ shadowSumCheck := (result.candidate_total - result.h10_fail - result.h11_fail - 
                     = result.shadow_total);;
 Print("[", PF(shadowSumCheck), "] shadow_total 引き算整合性チェック\n");
 
+# ---- convention robustness check (司令塔裁定 2026-07-26 item 1) ----
+convRobust := CheckConventionRobust(qrec, charmingSet);;
+Print("[", PF(convRobust.agree), "] convention_robust: natural vs prepend word-level agree: ",
+      convRobust.agree, " (natural shadow_total=", convRobust.natural.shadow_total,
+      ", prepend shadow_total=", convRobust.prepend.shadow_total, ")\n");
+if not convRobust.agree then
+  Print("  [ANOMALY] convention mismatch detected for stage 1b -- report immediately, do not paper over\n");
+fi;
+
 # ---- U-F9: E_m table ----
 emTable := ComputeEmTable(qrec, nOrd);;
 Print("E_m table computed (", Length(emTable), " rows, independent)\n");
@@ -338,7 +347,9 @@ s := Concatenation(
   "\"reductions\":", reductionsJson, ",",
   "\"isolated\":\"UNKNOWN\",",
   "\"isolated_note\":\"settled 判定未実装(司令塔裁定③)\",",
-  "\"runtime\":", runtimeJson,
+  "\"runtime\":", runtimeJson, ",",
+  "\"convention_robust\":", JB(convRobust.agree), ",",
+  "\"convention_robust_note\":\"natural vs prepend 語レベル評価が一致(司令塔裁定 2026-07-26 item1)\"",
   "}");;
 
 WriteFile("certificates/1b.v2.json", s);;

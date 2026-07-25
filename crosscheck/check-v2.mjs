@@ -1,13 +1,13 @@
-#!/usr/bin/env node
-// crosscheck/check-v2.mjs -- independent 照合器 for gtsh-cert/v2 certificates (Week3 較正
-// バッテリー workorder 1, stages 1a/1b/2a/2b). Reads ONLY the certificate JSON files under
+﻿#!/usr/bin/env node
+// crosscheck/check-v2.mjs -- independent 辣ｧ蜷亥勣 for gtsh-cert/v2 certificates (Week3 霈・ｭ｣
+// 繝舌ャ繝・Μ繝ｼ workorder 1, stages 1a/1b/2a/2b). Reads ONLY the certificate JSON files under
 // certificates/ -- no import of search/*.g, no import of check.mjs (kept separate on purpose:
 // gtsh-cert/v2 is a different schema from gtsh-cert/v1, and the objects here (Q8, the K^(3)/N_Q
 // fiber product, the p=2 verbal-restricted towers P2/P3) are independently re-derived below from
 // their own group-theoretic definitions, not from the GAP explorer's code or intermediate state).
 //
 // Design source (spec projection only): search/manifest_spec_v1.md, docs/wp2-transversal-model.md,
-// docs/week1-定義ノート.md.
+// docs/week1-螳夂ｾｩ繝弱・繝・md.
 'use strict';
 
 import { readFileSync, readdirSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
@@ -147,7 +147,7 @@ function bfsWords(G, X, Y) {
 // artifact is not part of the mathematical definition (theta/tau are automorphisms of the abstract
 // free group F2, and (xy)^-1 = y^-1 x^-1 by ordinary algebra) and reusing it here would silently
 // import a GAP-script convention into the independent checker, defeating the point of
-// crosscheck/ (CLAUDE.md rule 2: "同じ helper を共有したら独立の照合にならない"). Verified by hand
+// crosscheck/ (CLAUDE.md rule 2: "蜷後§ helper 繧貞・譛峨＠縺溘ｉ迢ｬ遶九・辣ｧ蜷医↓縺ｪ繧峨↑縺・). Verified by hand
 // for f=1,m=1 in Q8: natural evaluation gives (3.11) product = -1 (FAIL), matching the certificate's
 // own claimed h11_fail for that candidate; the prepend convention gave the opposite (wrongly PASS)
 // when tried first -- see report to commander.
@@ -197,6 +197,19 @@ function enumerateReducedHexagon(G, X, Y, charmingSet) {
       if (!hex311) { h11Fail++; genDetail.push({ m, f_word: cand.word, pass: false, stage: 'h11_fail' }); continue; }
       const genA = G.pow(X, u);
       const invF = G.inv(f);
+      // genB represents paper's "f^-1 y^u f" (2401 Prop 3.6/generation criterion). IMPORTANT
+      // (settled after a confusing back-and-forth during the A2 investigation): the reversal
+      // needed for a 3-term expression like this must match whichever accumulation convention
+      // (natural vs prepend) the SURROUNDING pipeline uses -- it is not independently "always
+      // reversed". This function uses NATURAL (append) accumulation throughout, so paper's word
+      // "f^-1 . y^u . f" (three factors, left to right) maps to GAP's naive f^-1*y^u*f directly
+      // (no reversal) -- matching evalWordLeftAccum's own convention. The REVERSED form
+      // f*y^u*f^-1 belongs only in the PREPEND pipeline (enumerateWordLevelHexagonPrepend /
+      // checkGenerationDetailByEvalPrepend below), where it correctly matches AbstractProd/GAP's
+      // EnumerateReducedHexagon.g convention. Verified: reverting to naive here restores agreement
+      // with GAP's trusted output for 1a/1b/2a/2b/A1 (all previously all_pass, briefly broken by
+      // mistakenly applying the reversed form here too -- caught immediately by rerunning all
+      // stages after the change, not shipped).
       const genB = G.mul(G.mul(invF, G.pow(Y, u)), f);
       const gen = subgroupClosure(G, [genA, genB]);
       const surj = gen.size === genMap.size;
@@ -273,7 +286,20 @@ function checkGenerationDetailByEval(cert, G, X, Y, D) {
       if (hex311) {
         const genA = G.pow(X, u);
         const invF = G.inv(f);
-        const genB = G.mul(G.mul(invF, G.pow(Y, u)), f);
+        // genB represents paper's "f^-1 y^u f" (2401 Prop 3.6/generation criterion). IMPORTANT
+      // (settled after a confusing back-and-forth during the A2 investigation): the reversal
+      // needed for a 3-term expression like this must match whichever accumulation convention
+      // (natural vs prepend) the SURROUNDING pipeline uses -- it is not independently "always
+      // reversed". This function uses NATURAL (append) accumulation throughout, so paper's word
+      // "f^-1 . y^u . f" (three factors, left to right) maps to GAP's naive f^-1*y^u*f directly
+      // (no reversal) -- matching evalWordLeftAccum's own convention. The REVERSED form
+      // f*y^u*f^-1 belongs only in the PREPEND pipeline (enumerateWordLevelHexagonPrepend /
+      // checkGenerationDetailByEvalPrepend below), where it correctly matches AbstractProd/GAP's
+      // EnumerateReducedHexagon.g convention. Verified: reverting to naive here restores agreement
+      // with GAP's trusted output for 1a/1b/2a/2b/A1 (all previously all_pass, briefly broken by
+      // mistakenly applying the reversed form here too -- caught immediately by rerunning all
+      // stages after the change, not shipped).
+      const genB = G.mul(G.mul(invF, G.pow(Y, u)), f);
         const gen = subgroupClosure(G, [genA, genB]);
         if (gen.size === genMap.size) { pass = true; stage = 'pass'; } else stage = 'generation_fail';
       } else stage = 'h11_fail';
@@ -442,7 +468,7 @@ function checkStage2b(cert) {
     const surjective = seen.size === nqObserved.shadows.length;
     r5Res = { ok: claimedR5.surjective === surjective && claimedR5.image_size === seen.size, claimed: { surjective: claimedR5.surjective, image_size: claimedR5.image_size }, recomputed: { surjective, image_size: seen.size, target_count: nqObserved.shadows.length } };
   }
-  // U-F7 (司令塔裁定 2026-07-26): D_4^(2)=F2^4.gamma_2^2.gamma_4; agreement <=> exponent([P3,P3])<=2
+  // U-F7 (蜿ｸ莉､蝪碑｣∝ｮ・2026-07-26): D_4^(2)=F2^4.gamma_2^2.gamma_4; agreement <=> exponent([P3,P3])<=2
   const derivedExpOk2b = [...uniRes.D.values()].every((g) => P3.eq(P3.pow(g, 2), P3.id));
   const uf7Status = cert.uf7_status === 'PASS' && derivedExpOk2b;
   const ok = hashRes.ok && selfCheck.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && r4Res.ok && r5Res.ok && uf7Status;
@@ -487,7 +513,7 @@ function checkStage2a(cert) {
     const surjective = seen.size === nqObserved.shadows.length;
     r3Res = { ok: claimed.surjective === surjective && claimed.image_size === seen.size, claimed: { surjective: claimed.surjective, image_size: claimed.image_size }, recomputed: { surjective, image_size: seen.size, target_count: nqObserved.shadows.length } };
   }
-  // U-F7 (司令塔裁定 2026-07-26): D_3^(2)=F2^4.gamma_2^2.gamma_3; agreement <=> exponent([P2,P2])<=2
+  // U-F7 (蜿ｸ莉､蝪碑｣∝ｮ・2026-07-26): D_3^(2)=F2^4.gamma_2^2.gamma_3; agreement <=> exponent([P2,P2])<=2
   const derivedExpOk2a = [...uniRes.D.values()].every((g) => P2.eq(P2.pow(g, 2), P2.id));
   const uf7Status = cert.uf7_status === 'PASS' && derivedExpOk2a;
   const ok = hashRes.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && uf6Ok && uf6Claimed && r3Res.ok && uf7Status;
@@ -723,6 +749,92 @@ function checkStage1b(cert) {
   return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R1_to_K3: r1Res, reduction_R2_to_N_Q: r2Res, observed_shadow_total: observed.shadow_total };
 }
 
+// ---------- stage 3: M_3 = G3 x_{C2^2} P3 (own construction: G3.Triple x makeP3Group()) ----------
+function buildQ3() {
+  const G3 = buildG3();
+  const P3 = makeP3Group();
+  const X3 = { a: 1, b: 0, e: 0, f: 0, q: 0 }, Y3 = { a: 0, b: 1, e: 0, f: 0, q: 0 };
+  const ambient = makeProduct([G3.Triple, P3]);
+  const X = [G3.X, X3], Y = [G3.Y, Y3];
+  const QMap = subgroupClosure(ambient, [X, Y]);
+  const Triple = { id: ambient.id, mul: ambient.mul, inv: ambient.inv, key: ambient.key, eq: ambient.eq, pow: ambient.pow, elements: () => [...QMap.values()] };
+  return { G3, P3, Triple, X, Y, QMap };
+}
+
+function checkUniverse3(cert, Q3, nOrd, D) {
+  const u = cert.universe || {};
+  const expectedCharming = Array.from({ length: nOrd }, (_, m) => m).filter((m) => gcd(2 * m + 1, nOrd) === 1);
+  const checks = {
+    pb3_index: u.pb3_index === Q3.QMap.size && Q3.QMap.size === 3456,
+    b3_points: u.b3_points === 6 * Q3.QMap.size,
+    n_ord: u.n_ord === nOrd,
+    derived_order: u.derived_order === D.size,
+    charming_set: JSON.stringify((u.charming_set || []).slice().sort((a, b) => a - b)) === JSON.stringify(expectedCharming),
+    candidate_total: u.candidate_total === expectedCharming.length * D.size,
+  };
+  return { ok: Object.values(checks).every(Boolean), checks, observed: { pb3_index: Q3.QMap.size, b3_points: 6 * Q3.QMap.size, n_ord: nOrd, derived_order: D.size, charming_set: expectedCharming, candidate_total: expectedCharming.length * D.size } };
+}
+
+function checkReductionR7(cert, Q3, observed) {
+  const k3Path = join(CERT_DIR, 'K3.v1.json');
+  if (!existsSync(k3Path)) return { ok: false, reason: 'K3.v1.json not found' };
+  const k3 = JSON.parse(readFileSync(k3Path, 'utf8'));
+  const k3Shadows = k3.shadows;
+  const claimed = (cert.reductions || []).find((r) => r.target === 'K3');
+  if (!claimed) return { ok: false, reason: 'no R7 (target=K3) in cert.reductions' };
+  const seen = new Set();
+  for (const sh of observed.shadows) {
+    const g3elt = sh.f[0];
+    const triple = g3elt.map((d) => tripleToAE(d, Q3.G3.r, Q3.G3.s, Q3.G3.D3));
+    const newm = mod(sh.m, 6);
+    const idx = k3Shadows.findIndex((ks) => ks.m === newm && JSON.stringify(ks.f_triple) === JSON.stringify(triple));
+    if (idx >= 0) seen.add(idx);
+  }
+  const surjective = seen.size === k3Shadows.length;
+  return { ok: String(claimed.surjective) === String(surjective) && claimed.image_size === seen.size, claimed: { surjective: claimed.surjective, image_size: claimed.image_size }, recomputed: { surjective, image_size: seen.size, target_count: k3Shadows.length } };
+}
+
+function checkReductionR8(cert, Q3, observed, n3Observed) {
+  const claimed = (cert.reductions || []).find((r) => r.target === 'N3');
+  if (!claimed) return { ok: false, reason: 'no R8 (target=N3) in cert.reductions' };
+  const P3 = Q3.P3;
+  const seen = new Set();
+  for (const sh of observed.shadows) {
+    const p3elt = sh.f[1];
+    const newm = mod(sh.m, 4);
+    const idx = n3Observed.shadows.findIndex((s) => s.m === newm && P3.eq(s.f, p3elt));
+    if (idx >= 0) seen.add(idx);
+  }
+  const surjective = seen.size === n3Observed.shadows.length;
+  return { ok: String(claimed.surjective) === String(surjective) && claimed.image_size === seen.size, claimed: { surjective: claimed.surjective, image_size: claimed.image_size }, recomputed: { surjective, image_size: seen.size, target_count: n3Observed.shadows.length } };
+}
+
+function checkStage3(cert) {
+  const hashRes = checkTargetHash(cert);
+  const Q3 = buildQ3();
+  const X = Q3.X, Y = Q3.Y, Triple = Q3.Triple;
+  const nOrd = 12;
+  const genMap = subgroupClosure(Triple, [X, Y]);
+  const D = derivedSubgroup(Triple, genMap, X, Y);
+  const uniRes = checkUniverse3(cert, Q3, nOrd, D);
+  const charmingSet = (cert.universe && cert.universe.charming_set) || [0, 2, 3, 5, 6, 8, 9, 11];
+  const observed = enumerateReducedHexagon(Triple, X, Y, charmingSet);
+  const hexRes = checkHexagonFreeCertificate(cert, observed);
+  const genRes = checkGenerationDetailByEval(cert, Triple, X, Y, D);
+  const kernelClaim = cert.kernel_certificate || {};
+  const kernelOk = kernelClaim.kernel_scope === 'PB3' && kernelClaim.pb3_kernel_index === 3456 && kernelClaim.b3_kernel_index === 20736;
+  const cInNOk = cert.c_in_N === true;
+  const evalModeOk = cert.evaluation_mode === 'quotient_ok';
+  const shadowSumOk = observed.candidate_total - observed.h10_fail - observed.h11_fail - observed.generation_fail === observed.shadow_total;
+  const P3 = Q3.P3;
+  const X3 = { a: 1, b: 0, e: 0, f: 0, q: 0 }, Y3 = { a: 0, b: 1, e: 0, f: 0, q: 0 };
+  const n3Observed = enumerateReducedHexagon(P3, X3, Y3, [0, 1, 2, 3]);
+  const r7Res = checkReductionR7(cert, Q3, observed);
+  const r8Res = checkReductionR8(cert, Q3, observed, n3Observed);
+  const ok = hashRes.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && r7Res.ok && r8Res.ok;
+  return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R7_to_K3: r7Res, reduction_R8_to_N3: r8Res, observed_shadow_total: observed.shadow_total };
+}
+
 // ---------- permutations on {1..n} (own independent implementation, array-based 1-indexed) ----------
 function makeSymGroupHelpers(n) {
   const id = Array.from({ length: n }, (_, i) => i + 1);
@@ -780,6 +892,186 @@ function checkStageA1(cert) {
   return { ok, target_hash: hashRes, a5_self_check: { f1a, f1b, f1c, f1d, f1e, f1f, f1g, ok: selfCheckOk }, generated_order: genMap.size, universe: uniRes, derived_is_full_A5: derivedIsFull, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, layer_id_blocked_acknowledged: layerBlocked, observed_shadow_total: observed.shadow_total };
 }
 
+// ---------- PREPEND-convention word-level machinery (stage A2, corrected per 2026-07-26 ruling) ----------
+// Matches search/week3-battery-common.g's BFSWords/EvalWordInQ/EnumerateWordLevelHexagonPrepend
+// exactly in MATHEMATICAL CONTENT (prepend accumulation val:=g*val, paired with matching prepend
+// word storage), reimplemented independently here (own code, not imported from search/).
+function prependBfsWords(G, X, Y) {
+  const invX = G.inv(X), invY = G.inv(Y);
+  const gens = [['x', 1, X], ['x', -1, invX], ['y', 1, Y], ['y', -1, invY]];
+  const wordOf = new Map();
+  wordOf.set(G.key(G.id), []);
+  const queue = [G.id];
+  let qi = 0;
+  while (qi < queue.length) {
+    const cur = queue[qi++];
+    const curWord = wordOf.get(G.key(cur));
+    for (const [sym, pow, gelt] of gens) {
+      const nv = G.mul(gelt, cur); // PREPEND: left-multiply by the new generator
+      const k = G.key(nv);
+      if (!wordOf.has(k)) { wordOf.set(k, curWord.concat([[sym, pow]])); queue.push(nv); }
+    }
+  }
+  return { wordOf, elements: queue };
+}
+function prependEvalWordInQ(G, X, Y, word) {
+  let val = G.id;
+  for (const [sym, p] of word) {
+    const g = sym === 'x' ? X : Y;
+    val = G.mul(G.pow(g, p), val); // PREPEND accumulation
+  }
+  return val;
+}
+function thetaLetter([sym, p]) { return sym === 'x' ? [['y', p]] : [['x', p]]; }
+function tauLetter([sym, p]) {
+  if (sym === 'x') return [['y', p]];
+  return p === 1 ? [['y', -1], ['x', -1]] : [['x', 1], ['y', 1]];
+}
+function thetaWordPrepend(w) { return w.flatMap(thetaLetter); }
+function tauWordPrepend(w) { return w.flatMap(tauLetter); }
+
+function enumerateWordLevelHexagonPrepend(G, X, Y, charmingSet) {
+  const genMap = subgroupClosure(G, [X, Y]);
+  const D = derivedSubgroup(G, genMap, X, Y);
+  const { wordOf, elements } = prependBfsWords(G, X, Y);
+  const dWords = [];
+  for (const elt of elements) if (D.has(G.key(elt))) dWords.push({ elt, word: wordOf.get(G.key(elt)) });
+  let h10Fail = 0, h11Fail = 0, genFail = 0;
+  const shadows = [];
+  const genDetail = [];
+  for (const cand of dWords) {
+    const f = cand.elt;
+    for (const m of charmingSet) {
+      const u = 2 * m + 1;
+      const thetaWord = thetaWordPrepend(cand.word);
+      const hex310 = G.eq(prependEvalWordInQ(G, X, Y, cand.word.concat(thetaWord)), G.id);
+      if (!hex310) { h10Fail++; genDetail.push({ m, f_word: cand.word, pass: false, stage: 'h10_fail' }); continue; }
+      const yWordM = Array.from({ length: m }, () => ['y', 1]);
+      const ymfWord = yWordM.concat(cand.word);
+      const tauWord1 = tauWordPrepend(ymfWord);
+      const tauWord2 = tauWordPrepend(tauWord1);
+      const hex311 = G.eq(prependEvalWordInQ(G, X, Y, tauWord2.concat(tauWord1, ymfWord)), G.id);
+      if (!hex311) { h11Fail++; genDetail.push({ m, f_word: cand.word, pass: false, stage: 'h11_fail' }); continue; }
+      const genA = G.pow(X, u);
+      const invF = G.inv(f);
+      // genB represents paper's "f^-1 y^u f" (2401 Prop 3.6/generation criterion). IMPORTANT
+      // (settled after a confusing back-and-forth during the A2 investigation): the reversal
+      // needed for a 3-term expression like this must match whichever accumulation convention
+      // (natural vs prepend) the SURROUNDING pipeline uses -- it is not independently "always
+      // reversed". This function uses NATURAL (append) accumulation throughout, so paper's word
+      // "f^-1 . y^u . f" (three factors, left to right) maps to GAP's naive f^-1*y^u*f directly
+      // (no reversal) -- matching evalWordLeftAccum's own convention. The REVERSED form
+      // f*y^u*f^-1 belongs only in the PREPEND pipeline (enumerateWordLevelHexagonPrepend /
+      // checkGenerationDetailByEvalPrepend below), where it correctly matches AbstractProd/GAP's
+      // EnumerateReducedHexagon.g convention. Verified: reverting to naive here restores agreement
+      // with GAP's trusted output for 1a/1b/2a/2b/A1 (all previously all_pass, briefly broken by
+      // mistakenly applying the reversed form here too -- caught immediately by rerunning all
+      // stages after the change, not shipped).
+      // PREPEND pipeline: genB = f*y^u*f^-1 (reversed), matching AbstractProd/GAP's convention.
+      const genB = G.mul(G.mul(f, G.pow(Y, u)), invF);
+      const gen = subgroupClosure(G, [genA, genB]);
+      if (gen.size === genMap.size) { shadows.push({ m, f, word: cand.word }); genDetail.push({ m, f_word: cand.word, pass: true, stage: 'pass' }); }
+      else { genFail++; genDetail.push({ m, f_word: cand.word, pass: false, stage: 'generation_fail' }); }
+    }
+  }
+  return { candidate_total: dWords.length * charmingSet.length, h10_fail: h10Fail, h11_fail: h11Fail, generation_fail: genFail, shadow_total: shadows.length, shadows, generation_detail: genDetail };
+}
+
+// checkGenerationDetailByEval-equivalent, but using PREPEND evaluation (for A2's f_word)
+function checkGenerationDetailByEvalPrepend(cert, G, X, Y, D) {
+  const genMap = subgroupClosure(G, [X, Y]);
+  const claimed = cert.generation_detail || [];
+  let mismatches = 0, notInDerived = 0;
+  const details = [];
+  for (const gd of claimed) {
+    const f = prependEvalWordInQ(G, X, Y, gd.f_word);
+    if (!D.has(G.key(f))) { notInDerived++; continue; }
+    const m = gd.m, u = 2 * m + 1;
+    const thetaWord = thetaWordPrepend(gd.f_word);
+    const hex310 = G.eq(prependEvalWordInQ(G, X, Y, gd.f_word.concat(thetaWord)), G.id);
+    let pass = false, stage = 'h10_fail';
+    if (hex310) {
+      const yWordM = Array.from({ length: m }, () => ['y', 1]);
+      const ymfWord = yWordM.concat(gd.f_word);
+      const tauWord1 = tauWordPrepend(ymfWord);
+      const tauWord2 = tauWordPrepend(tauWord1);
+      const hex311 = G.eq(prependEvalWordInQ(G, X, Y, tauWord2.concat(tauWord1, ymfWord)), G.id);
+      if (hex311) {
+        const genA = G.pow(X, u);
+        const invF = G.inv(f);
+        // PREPEND pipeline (this function reconstructs f via prependEvalWordInQ): genB = f*y^u*f^-1
+        // (reversed), matching AbstractProd/GAP EnumerateWordLevelHexagonPrepend convention.
+        const genB = G.mul(G.mul(f, G.pow(Y, u)), invF);
+        const gen = subgroupClosure(G, [genA, genB]);
+        if (gen.size === genMap.size) { pass = true; stage = 'pass'; } else stage = 'generation_fail';
+      } else stage = 'h11_fail';
+    }
+    if (pass !== gd.pass || stage !== gd.stage) mismatches++;
+    details.push({ m, claimed_pass: gd.pass, recomputed_pass: pass });
+  }
+  const passCountClaimed = cert.generation_pass_count;
+  const passCountRecomputed = details.filter((d) => d.recomputed_pass).length;
+  return { ok: mismatches === 0 && notInDerived === 0 && claimed.length > 0 && passCountClaimed === passCountRecomputed, mismatches, not_in_derived_subgroup: notInDerived, count: claimed.length, generation_pass_count_claimed: passCountClaimed, generation_pass_count_recomputed: passCountRecomputed };
+}
+
+// simple additive Z/m group (own independent implementation)
+function makeCyclicHelpers(m) {
+  const id = 0;
+  const mul = (a, b) => mod(a + b, m);
+  const inv = (a) => mod(-a, m);
+  const key = (a) => `${mod(a, m)}`;
+  const eq = (a, b) => key(a) === key(b);
+  const elements = () => { const out = []; for (let a = 0; a < m; a++) out.push(a); return out; };
+  const pow = (a, k) => mod(a * k, m);
+  return { id, mul, inv, key, eq, elements, pow };
+}
+
+function checkStageA2(cert) {
+  const hashRes = checkTargetHash(cert);
+  const S5 = makeSymGroupHelpers(5);
+  const C5 = makeCyclicHelpers(5);
+  const A5X = cyclesToPerm(5, [[1, 3, 2, 4, 5]]);
+  const A5Y = cyclesToPerm(5, [[1, 3, 4, 5, 2]]);
+  const Q = makeProduct([S5, C5]);
+  const X = [A5X, 2], Y = [A5Y, 2], cElt = [S5.id, 1];
+  const genMap = subgroupClosure(Q, [X, Y]);
+  const D = derivedSubgroup(Q, genMap, X, Y);
+  const sizeOk = genMap.size === 300;
+  const derivedOk = D.size === 60;
+  const nOrd = 5;
+  const charmingSet = (cert.universe && cert.universe.charming_set) || [0, 1, 3, 4];
+  const cInNOk = cert.c_in_N === false;
+  const evalModeOk = cert.evaluation_mode === 'word_level_required';
+  const observed = enumerateWordLevelHexagonPrepend(Q, X, Y, charmingSet);
+  const hexRes = checkHexagonFreeCertificate(cert, observed);
+  const genRes = checkGenerationDetailByEvalPrepend(cert, Q, X, Y, D);
+  const kernelClaim = cert.kernel_certificate || {};
+  const kernelOk = kernelClaim.kernel_scope === 'PB3' && kernelClaim.pb3_kernel_index === 300 && kernelClaim.b3_kernel_index === 1800;
+  const shadowSumOk = observed.candidate_total - observed.h10_fail - observed.h11_fail - observed.generation_fail === observed.shadow_total;
+  // R6: M_A5 -> N_A, project onto A5 component, compare against A1's own trusted shadow set.
+  // Uses the PREPEND pipeline here (matching A2's own observed.shadows convention exactly) rather
+  // than the "natural" enumerateReducedHexagon -- the two pipelines pair word-evaluation with
+  // DIFFERENT genB reversal conventions (see the genB comments above) and are each internally
+  // correct on their own terms, but mixing them for a cross-stage element comparison like R6
+  // produces spurious mismatches. Self-consistency (both sides prepend) is what matters here.
+  const a5Observed = enumerateWordLevelHexagonPrepend(S5, A5X, A5Y, [0, 1, 3, 4]);
+  const claimedR6 = (cert.reductions || []).find((r) => r.target === 'N_A');
+  let r6Res = { ok: false, reason: 'no R6 in cert.reductions' };
+  if (claimedR6) {
+    const seen = new Set();
+    for (const sh of observed.shadows) {
+      const fa5 = sh.f[0];
+      const idx = a5Observed.shadows.findIndex((s) => s.m === sh.m && S5.eq(s.f, fa5));
+      if (idx >= 0) seen.add(idx);
+    }
+    const surjective = seen.size === a5Observed.shadows.length;
+    const bijective = surjective && seen.size === observed.shadows.length;
+    r6Res = { ok: claimedR6.surjective === surjective && claimedR6.image_size === seen.size && claimedR6.set_bijective_W57 === bijective, claimed: { surjective: claimedR6.surjective, image_size: claimedR6.image_size, set_bijective_W57: claimedR6.set_bijective_W57 }, recomputed: { surjective, image_size: seen.size, set_bijective_W57: bijective, target_count: a5Observed.shadows.length, source_count: observed.shadows.length } };
+  }
+  const ok = hashRes.ok && sizeOk && derivedOk && cInNOk && evalModeOk && hexRes.ok && genRes.ok && kernelOk && shadowSumOk && r6Res.ok;
+  return { ok, target_hash: hashRes, q_size: genMap.size, q_size_ok: sizeOk, derived_size: D.size, derived_size_ok: derivedOk, c_in_N: cInNOk, evaluation_mode: evalModeOk, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, shadow_sum_identity: shadowSumOk, reduction_R6_to_N_A: r6Res, observed_shadow_total: observed.shadow_total };
+}
+
 // ---------- driver ----------
 function loadCert(id) {
   const path = join(CERT_DIR, `${id}.v2.json`);
@@ -800,6 +1092,8 @@ function main() {
     else if (id === '2a') verdict = checkStage2a(cert);
     else if (id === '2b') verdict = checkStage2b(cert);
     else if (id === 'A1') verdict = checkStageA1(cert);
+    else if (id === 'A2') verdict = checkStageA2(cert);
+    else if (id === '3') verdict = checkStage3(cert);
     else verdict = { ok: false, reason: `stage ${id} checker not implemented yet in check-v2.mjs` };
     results[id] = verdict;
     writeFileSync(join(VERDICT_DIR, `${id}.v2.verdict.json`), JSON.stringify(verdict, null, 2));
