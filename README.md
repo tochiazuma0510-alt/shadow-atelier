@@ -36,3 +36,8 @@ provenance/  出所台帳(ソフト版・seed・入力/証明書ハッシュ)+�
 ```
 
 `gap.bat`(スタートメニューの GAP)は対話用の別ウィンドウを開く。自動実行・出力取得には必ず `gap.ps1` を使う。
+
+## 可視化(研究者向け一次デリバリー)
+
+- 研究地図(進行・実データ): https://claude.ai/code/artifact/afa2dace-76aa-45bf-a41a-36d847af785b
+- 概念の手引き(難所 12 項目の図解): https://claude.ai/code/artifact/393a34e8-ac9e-4b71-bc10-d9c9fbf48212
