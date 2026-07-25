@@ -160,6 +160,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-26 — 停止ゲート (b)(c) 解除: リポジトリ public 化・GitHub 工場の使用開始
+
+- 研究者承認(同日原文): 「公開設定にしてgithab上で操作してもいいよ。Lean+Mathlib重いからね。」
+- 公開先: **https://github.com/tochiazuma0510-alt/shadow-atelier**(public・master・凍結タグ v1.0-g1 込み)。
+- 公開除外(gitignore 済みを push 前に確認): papers/(arXiv PDF — 著作権)・ops/codex_activity.log・ops/bin/codex_session_id*.txt。金庫(vault)はリポジトリ外で非公開のまま。
+- 主目的: **Lean+Mathlib の重いビルドを GitHub Actions へ**(8GB ローカルの排他制約の回避)。Actions 工場の設営は較正バッテリー完走後の Lean 初弾(T2(iii)・E1・A5-Q)と同時に実施予定。
+
 ## 2026-07-26 — 実装ゲート GO(falsifier 差分再確認 PASS)・較正バッテリー発射
 
 - Opus 委嘱 04(G-01〜G-09 反映・manifest v1・比較写像 v2)→ falsifier 監査で **NO-GO(1 重大+3 軽微)**: U-F9 の E_m 値が spec 側に漏れ較正盲検を破壊、ほか型/根拠文/正規形固定。司令塔が外科修正(コミット 6f7ad14)→ **falsifier 差分再確認 PASS・GO**。
