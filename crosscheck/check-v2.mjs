@@ -672,6 +672,116 @@ function checkUniverse1b(cert, QM, nOrd, D) {
   return { ok: Object.values(checks).every(Boolean), checks, observed: { pb3_index: QM.QMap.size, b3_points: 6 * QM.QMap.size, n_ord: nOrd, derived_order: D.size, charming_set: expectedCharming, candidate_total: expectedCharming.length * D.size } };
 }
 
+// ---------- P96 checker enhancements: fibre histogram self-consistency + duplicate-pair check ----------
+// (1) fibre histogram: recompute the per-target preimage count directly from the claimed image[]
+// array and compare to the claimed fibre.histogram / kernel_order fields -- catches transcription
+// errors in the cert's own bookkeeping (does not re-derive the image[] mapping itself, which the
+// per-stage reduction checks above/below already do independently).
+function checkFibreSelfConsistency(reduction) {
+  if (!reduction || !Array.isArray(reduction.image)) return { ok: false, reason: 'no image[] to check' };
+  const hist = new Array(reduction.image_size).fill(0);
+  for (const im of reduction.image) if (im >= 0) hist[im]++;
+  const claimedHist = reduction.fibre && Array.isArray(reduction.fibre.histogram) ? reduction.fibre.histogram : null;
+  const histOk = claimedHist ? JSON.stringify(claimedHist) === JSON.stringify(hist) : true; // no claim to check against
+  const uniform = hist.every((x) => x === hist[0]);
+  const kernelOrderOk = uniform ? reduction.kernel_order === hist[0] : reduction.kernel_order === null;
+  return { ok: histOk && kernelOrderOk, recomputed_histogram: hist, claimed_histogram: claimedHist, uniform, claimed_kernel_order: reduction.kernel_order };
+}
+
+// (2) joint-pair distinctness: within a shadow list ("pass" entries of generation_detail, or an
+// observed.shadows array), no two entries should represent the SAME (m, f) pair (a duplicate would
+// mean the same GT-shadow was counted twice, corrupting shadow_total).
+function checkJointPairDistinct(shadows, G) {
+  const seen = new Set();
+  let dup = 0;
+  for (const sh of shadows) {
+    const k = `${sh.m}|${G.key(sh.f)}`;
+    if (seen.has(k)) dup++; else seen.add(k);
+  }
+  return { ok: dup === 0, duplicate_count: dup, distinct_count: seen.size, total: shadows.length };
+}
+
+// ---------- P92 independent re-verification: A1.v2.1 settled witness + (3.53) composition ----------
+function checkStageA1v21(cert, a1Cert) {
+  const S5 = makeSymGroupHelpers(5);
+  const Xhat = cyclesToPerm(5, [[1, 3, 2, 4, 5]]);
+  const Yhat = cyclesToPerm(5, [[1, 3, 4, 5, 2]]);
+  const S5elts = [];
+  // generate all 120 permutations of {1..5} directly (own independent enumeration, not via GAP)
+  function permute(arr, k, acc) {
+    if (k === arr.length) { acc.push(arr.slice()); return; }
+    for (let i = k; i < arr.length; i++) { [arr[k], arr[i]] = [arr[i], arr[k]]; permute(arr, k + 1, acc); [arr[k], arr[i]] = [arr[i], arr[k]]; }
+  }
+  permute([1, 2, 3, 4, 5], 0, S5elts);
+  const sizeOk = S5elts.length === 120;
+
+  const witnessDetail = cert.settled_witness && cert.settled_witness.detail || [];
+  let witnessMismatches = 0, witnessNotVerified = 0;
+  const details = [];
+  for (const wd of witnessDetail) {
+    const f = evalWordLeftAccum(S5, Xhat, Yhat, wd.f_word); // uses NATURAL eval; f in derived subgroup
+    // NOTE: A1 uses the quotient-shortcut pipeline (EnumerateReducedHexagon, natural+naive genB per
+    // the resolved convention), so f_word is stored in that convention; reconstructing via natural
+    // evalWordLeftAccum matches what checkStageA1's own (already-passing) verification used.
+    const m = wd.m, u = 2 * m + 1;
+    const targetX = S5.pow(Xhat, u);
+    const invF = S5.inv(f);
+    const targetY = S5.mul(S5.mul(invF, S5.pow(Yhat, u)), f); // naive f^-1 Y^u f, matching A1's own (natural) genB pairing
+    if (wd.settled) {
+      // verify the CLAIMED witness actually satisfies the two equations (independent check of a
+      // specific witness, not a full independent re-search -- cheap and directly falsifiable)
+      const h = cyclesToPermFromGapString(wd.witness);
+      if (!h) { witnessNotVerified++; details.push({ m, ok: false, reason: 'could not parse witness permutation string' }); continue; }
+      const lhsX = S5.mul(S5.mul(S5.inv(h), Xhat), h);
+      const lhsY = S5.mul(S5.mul(S5.inv(h), Yhat), h);
+      const ok = S5.eq(lhsX, targetX) && S5.eq(lhsY, targetY);
+      if (!ok) witnessMismatches++;
+      details.push({ m, ok });
+    } else {
+      // for unsettled claims, do a full independent search over all 120 elements to confirm none work
+      let found = false;
+      for (const g of S5elts) {
+        const lhsX = S5.mul(S5.mul(S5.inv(g), Xhat), g);
+        if (!S5.eq(lhsX, targetX)) continue;
+        const lhsY = S5.mul(S5.mul(S5.inv(g), Yhat), g);
+        if (S5.eq(lhsY, targetY)) { found = true; break; }
+      }
+      const ok = !found; // claimed settled=false should mean truly no witness exists
+      if (!ok) witnessMismatches++;
+      details.push({ m, ok, independent_search: true });
+    }
+  }
+  const settledCountClaimed = cert.settled_witness && cert.settled_witness.settled_count;
+  const settledCountObserved = witnessDetail.filter((wd) => wd.settled).length;
+
+  // composition table closure self-check (recompute closure from the claimed composition entries
+  // themselves: every (i,j) triple should have a valid target index in range, and this should be
+  // an actual CLOSED operation -- i.e. re-derive it is out of scope here (GAP-side only, since it
+  // needs the actual A5 elements which are only in A1.v2.json, not A1.v2.1.json) -- so this checks
+  // internal consistency: closure claim matches actual entries, identity/inverse claims hold given
+  // the entries as data.
+  const comp = cert.composition_3_53 || {};
+  const entries = comp.entries || [];
+  const n = 20;
+  let closureFailRecount = 0;
+  for (const [i, j, k] of entries) if (k < 0 || k >= n) closureFailRecount++;
+  const closureOk = (closureFailRecount === 0) === comp.closed_observed && closureFailRecount === comp.closure_fail_count;
+
+  const ok = sizeOk && witnessMismatches === 0 && witnessNotVerified === 0 && settledCountClaimed === settledCountObserved && closureOk;
+  return { ok, s5_size_ok: sizeOk, witness_mismatches: witnessMismatches, witness_not_verified: witnessNotVerified, settled_count_claimed: settledCountClaimed, settled_count_observed: settledCountObserved, composition_closure_recheck: { ok: closureOk, claimed_closure_fail_count: comp.closure_fail_count, recounted: closureFailRecount }, details_sample: details.slice(0, 5) };
+}
+
+function cyclesToPermFromGapString(s) {
+  // parses GAP's Print output for a permutation, e.g. "(1,4)(2,5,3)" or "()" -> array form on {1..5}
+  if (s === '()') return [1, 2, 3, 4, 5];
+  const cycles = [];
+  const re = /\(([^)]+)\)/g;
+  let match;
+  while ((match = re.exec(s))) cycles.push(match[1].split(',').map((x) => parseInt(x.trim(), 10)));
+  if (cycles.length === 0) return null;
+  return cyclesToPerm(5, cycles);
+}
+
 function checkReductionR1(cert, QM, observed) {
   const k3Path = join(CERT_DIR, 'K3.v1.json');
   if (!existsSync(k3Path)) return { ok: false, reason: 'K3.v1.json not found' };
@@ -831,8 +941,12 @@ function checkStage3(cert) {
   const n3Observed = enumerateReducedHexagon(P3, X3, Y3, [0, 1, 2, 3]);
   const r7Res = checkReductionR7(cert, Q3, observed);
   const r8Res = checkReductionR8(cert, Q3, observed, n3Observed);
-  const ok = hashRes.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && r7Res.ok && r8Res.ok;
-  return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R7_to_K3: r7Res, reduction_R8_to_N3: r8Res, observed_shadow_total: observed.shadow_total };
+  // P96: fibre histogram self-consistency + joint-pair distinctness
+  const r7fibre = checkFibreSelfConsistency((cert.reductions || []).find((r) => r.target === 'K3'));
+  const r8fibre = checkFibreSelfConsistency((cert.reductions || []).find((r) => r.target === 'N3'));
+  const distinctRes = checkJointPairDistinct(observed.shadows, Triple);
+  const ok = hashRes.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && r7Res.ok && r8Res.ok && r7fibre.ok && r8fibre.ok && distinctRes.ok;
+  return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R7_to_K3: r7Res, reduction_R8_to_N3: r8Res, r7_fibre_self_consistency: r7fibre, r8_fibre_self_consistency: r8fibre, joint_pair_distinct: distinctRes, observed_shadow_total: observed.shadow_total };
 }
 
 // ---------- permutations on {1..n} (own independent implementation, array-based 1-indexed) ----------
@@ -1068,8 +1182,29 @@ function checkStageA2(cert) {
     const bijective = surjective && seen.size === observed.shadows.length;
     r6Res = { ok: claimedR6.surjective === surjective && claimedR6.image_size === seen.size && claimedR6.set_bijective_W57 === bijective, claimed: { surjective: claimedR6.surjective, image_size: claimedR6.image_size, set_bijective_W57: claimedR6.set_bijective_W57 }, recomputed: { surjective, image_size: seen.size, set_bijective_W57: bijective, target_count: a5Observed.shadows.length, source_count: observed.shadows.length } };
   }
-  const ok = hashRes.ok && sizeOk && derivedOk && cInNOk && evalModeOk && hexRes.ok && genRes.ok && kernelOk && shadowSumOk && r6Res.ok;
-  return { ok, target_hash: hashRes, q_size: genMap.size, q_size_ok: sizeOk, derived_size: D.size, derived_size_ok: derivedOk, c_in_N: cInNOk, evaluation_mode: evalModeOk, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, shadow_sum_identity: shadowSumOk, reduction_R6_to_N_A: r6Res, observed_shadow_total: observed.shadow_total };
+  // R9: M_A5 -> N5 (workorder3 item2-4). N5's own quotient is C5 (own independent construction:
+  // additive Z/5, x->2, y->2, c->1, matching x,y-> zeta^2, c-> zeta), word-level required there too
+  // (c_in_N=false for N5 as well, per week1-定義ノート's PB3/N5=C5 with c bar = t != 1).
+  const C5only = makeCyclicHelpers(5);
+  const n5Observed = enumerateWordLevelHexagonPrepend(C5only, 2, 2, [0, 1, 3, 4]);
+  const claimedR9 = (cert.reductions || []).find((r) => r.target === 'N5');
+  let r9Res = { ok: false, reason: 'no R9 in cert.reductions' };
+  if (claimedR9) {
+    const seen = new Set();
+    for (const sh of observed.shadows) {
+      const fc5 = sh.f[1];
+      const idx = n5Observed.shadows.findIndex((s) => s.m === sh.m && C5only.eq(s.f, fc5));
+      if (idx >= 0) seen.add(idx);
+    }
+    const surjective = seen.size === n5Observed.shadows.length;
+    r9Res = { ok: claimedR9.surjective === surjective && claimedR9.image_size === seen.size, claimed: { surjective: claimedR9.surjective, image_size: claimedR9.image_size }, recomputed: { surjective, image_size: seen.size, target_count: n5Observed.shadows.length } };
+  }
+  // P96: fibre self-consistency + joint-pair distinctness
+  const r6fibre = checkFibreSelfConsistency(claimedR6);
+  const r9fibre = checkFibreSelfConsistency(claimedR9);
+  const distinctRes = checkJointPairDistinct(observed.shadows, Q);
+  const ok = hashRes.ok && sizeOk && derivedOk && cInNOk && evalModeOk && hexRes.ok && genRes.ok && kernelOk && shadowSumOk && r6Res.ok && r9Res.ok && r6fibre.ok && r9fibre.ok && distinctRes.ok;
+  return { ok, target_hash: hashRes, q_size: genMap.size, q_size_ok: sizeOk, derived_size: D.size, derived_size_ok: derivedOk, c_in_N: cInNOk, evaluation_mode: evalModeOk, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, shadow_sum_identity: shadowSumOk, reduction_R6_to_N_A: r6Res, reduction_R9_to_N5: r9Res, r6_fibre_self_consistency: r6fibre, r9_fibre_self_consistency: r9fibre, joint_pair_distinct: distinctRes, observed_shadow_total: observed.shadow_total };
 }
 
 // ---------- driver ----------
