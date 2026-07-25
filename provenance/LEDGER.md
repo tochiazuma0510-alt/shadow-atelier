@@ -144,6 +144,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 司令塔裁定(検算済み): 簡約 hexagon の**商内評価の近道**は N_F₂ の θ,τ-不変性 = braid 共役の c-因子の消滅(**c ∈ N**)を暗黙前提にしていた。K⁽ⁿ⁾・L(c ∈ N)では成立、M₅(c ∉ M₅)では不成立 — agent の指標計算 e(τw) = n_x − 2n_y ≢ e(w) mod 5 が正しい。**Prop 3.4 自体は無傷**(元ごとの membership 条件)。対処: θ/τ を自由群の語レベルで適用してから φ_M 評価(設計変更を指示・実装再開)。
 - 教訓: falsifier 前哨の軽微指摘(「θτ の商への降下前提を assertion に」)が予言どおり発火し、assertion(hom 構成の fail 検知)が誤列挙の前に停止させた。定義ノート §2 に注意書きを恒久化。
 
+## 2026-07-25 — Week 3: M₅ 実行記録(WP3c 統合)
+
+- **探索器**(語レベル θ/τ 版・4.0 秒・ANOMALY 0): fixture 5/5 事前登録一致(540/3240/30/27/432)+新規防御(EvalWordInQ の BFS 規約一致 540/540)。**|GT(M₅)| = 48**・full hexagon(c̄ 位数 5・c^m 項あり)48/48・**R_{M₅,K⁽³⁾} 全射**(12/12・繊維一様 4)。証明書 M01(SHA-256 a2019d64…)。
+- **照合器**(WP3c-b: construction 駆動一般化+F2 改善 4 点適用): M01 verdict **全項目 PASS**・既存 19 verdict 回帰維持・GLOBAL PASS。
+- 司令塔観測(candidate・W3-2b): 繊維 4 は m 方向(円分方向)の持ち上げ — L の繊維 3(f 方向・中心 torsor)と対。
+- 結果の要約: **c が生きる Dih 外細分でも fake witness なし — K⁽³⁾ の全 12 shadow が survive(2 本目の細分)**。次: J = L∩M₅ の gluing obstruction(Sol P21・A 全射条件成立)。
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。

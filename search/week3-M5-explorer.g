@@ -366,17 +366,51 @@ if fixtureOK then
 Print("\n全 fixture 自己検査 PASS (5/5). 実装続行.\n\n");
 
 # ================================================================================
-# Enumeration (reduced hexagon inside Q_M, mirrors week3-L-explorer.g's ProcessDihedral-style loop)
-# reduced hexagon (Prop 3.4, (3.10)/(3.11)) lives inside F2/(M5 cap F2) = Q_M (x,y only) -- c not used here.
+# Enumeration (reduced hexagon inside Q_M) -- WORD-LEVEL theta/tau (commander ruling 2026-07-25):
+# GroupHomomorphismByImages(QM,QM,[xhat,yhat],[yhat,zM]) for tau returns fail (isolated + diagnosed
+# separately, reported to commander). Commander's verified ruling: this is a genuine mathematical fact,
+# not a bug -- the "descend to a quotient-group automorphism" shortcut requires N_F2 to be theta/tau-
+# invariant as a SUBGROUP, which in turn (via the braid-conjugation c-factor) requires c in N. K^(n) and
+# L01 have c in N (c |-> 1); M5 does not (c survives, order 5) so that shortcut is unavailable. Prop 3.4
+# itself is untouched (it is a per-element membership statement, not a subgroup-invariance statement),
+# and theta/tau do NOT act on c ((3.10)/(3.11) are complete within F2 alone) -- so theta/tau are applied
+# here at the WORD level (free-group letter substitution) and the resulting word is evaluated directly
+# in Q_M via phi_M (xhat/yhat), never via a QM-to-QM endomorphism.
 # ================================================================================
 qmrec := rec(x := xhat, y := yhat, G := QM);;
 
-zM := AbstractProd([xhat, yhat])^-1;;
-thetaHom := GroupHomomorphismByImages(QM, QM, [xhat,yhat], [yhat,xhat]);;
-tauHom := GroupHomomorphismByImages(QM, QM, [xhat,yhat], [yhat,zM]);;
-if thetaHom = fail or tauHom = fail then
-  Error("theta/tau homomorphism construction failed for Q_M");
-fi;
+# theta: x -> y, y -> x (letter-wise, sign preserved)
+ThetaLetter := function(l)
+  if l[1] = "x" then return [["y",l[2]]]; else return [["x",l[2]]]; fi;
+end;;
+
+# tau: x -> y, y -> y^-1 x^-1 (i.e. z = (xy)^-1); inverse letters get the word-inverse of the image
+TauLetter := function(l)
+  if l[1] = "x" then
+    if l[2] = 1 then return [["y",1]]; else return [["y",-1]]; fi;
+  else
+    if l[2] = 1 then return [["y",-1],["x",-1]]; else return [["x",1],["y",1]]; fi;
+  fi;
+end;;
+
+ApplyLetterSubst := function(word, letterFn)
+  return Concatenation(List(word, letterFn));
+end;;
+
+ThetaWord := function(word) return ApplyLetterSubst(word, ThetaLetter); end;;
+TauWord := function(word) return ApplyLetterSubst(word, TauLetter); end;;
+
+# evaluate a word in Q_M using the SAME left-accumulation convention as BFSWords (nv := gen.gap * cur),
+# so that EvalWordInQ(cand.word, xhat, yhat) = cand.elt exactly (checked below as a self-test).
+EvalWordInQ := function(word, xg, yg)
+  local val, letter;
+  val := Identity(QM);
+  for letter in word do
+    if letter[1]="x" then val := xg^letter[2] * val;
+    else val := yg^letter[2] * val; fi;
+  od;
+  return val;
+end;;
 
 t0 := Runtime();;
 bfs := BFSWords(qmrec);;
@@ -385,6 +419,18 @@ Print("BFS over Q_M: covered ", Length(bfs.elements), " elements (expect 540), t
 if Length(bfs.elements) <> Size(QM) then
   Error("BFS did not cover full Q_M: covered=", Length(bfs.elements), " expected=", Size(QM));
 fi;
+
+# self-check: EvalWordInQ reproduces BFS's own words (bug-detector for the convention above)
+evalSelfCheckFail := 0;;
+for elt in bfs.elements do
+  if EvalWordInQ(LookupDictionary(bfs.wordOf, elt), xhat, yhat) <> elt then
+    evalSelfCheckFail := evalSelfCheckFail + 1;
+  fi;
+od;
+if evalSelfCheckFail > 0 then
+  Error("EvalWordInQ self-check FAILED for ", evalSelfCheckFail, " of ", Length(bfs.elements), " BFS elements");
+fi;
+Print("[", PF(true), "] EvalWordInQ self-check: matches BFS elt for all ", Length(bfs.elements), " words\n");
 
 Dwords := [];;
 for elt in bfs.elements do
@@ -399,12 +445,16 @@ for cand in Dwords do
   for m in XM do
     rawCount := rawCount + 1;
     u := 2*m+1;
-    thetaf := Image(thetaHom, f);
-    hex310 := AbstractProd([f, thetaf]) = Identity(QM);
-    ymf := AbstractProd([yhat^m, f]);
-    tauymf := Image(tauHom, ymf);
-    tau2ymf := Image(tauHom, tauymf);
-    hex311 := AbstractProd([tau2ymf, tauymf, ymf]) = Identity(QM);
+    # (3.10): f . theta(f) in N_F2  <=>  phi_M evaluated on the concatenated word f++theta(f) is identity
+    combinedWord10 := Concatenation(cand.word, ThetaWord(cand.word));;
+    hex310 := EvalWordInQ(combinedWord10, xhat, yhat) = Identity(QM);
+    # (3.11): tau^2(y^m f) . tau(y^m f) . y^m f in N_F2
+    yWordM := List([1..m], ii -> ["y",1]);;
+    ymfWord := Concatenation(yWordM, cand.word);;
+    tauWord1 := TauWord(ymfWord);;
+    tauWord2 := TauWord(tauWord1);;
+    combinedWord11 := Concatenation(tauWord2, tauWord1, ymfWord);;
+    hex311 := EvalWordInQ(combinedWord11, xhat, yhat) = Identity(QM);
     if hex310 and hex311 then
       hexPass := hexPass + 1;
       charmPass := charmPass + 1;   # f in [Q_M,Q_M] by construction -> charming holds
@@ -637,6 +687,8 @@ lsWitnessNote := "\"ls_witness_note\":\"N/A: Thm 5.2 (5.1) kappaFn/witness formu
 
 rawFieldNote := "\"raw_candidates_field_note\":\"field name kept as raw_candidates for backward compatibility with existing crosscheck/ and L01; its semantic meaning is pre_hex_charming (母集合 before the reduced-hexagon+charming filter) per Sol 便04 P27 -- rename deferred to a checker-update pass, per task instruction\"";
 
+reducedHexNote := "\"reduced_hexagon_note\":\"簡約 hexagon (3.10)(3.11) は語レベル評価(theta: x->y,y->x / tau: x->y,y->y^-1 x^-1 の文字置換を BFS 語に適用し、結果の語を phi_M で Q_M に評価)。GroupHomomorphismByImages(Q_M,Q_M,[xhat,yhat],[yhat,zM]) による商群自己準同型としての tau 構成は fail する(単離診断済み) -- N_F2=M5∩F2 は c が M5 で死なない(c は位数5で生き残る)ため theta/tau-不変な部分群にならない。Prop 3.4 自体(元ごとの membership 条件)は無傷であり、theta/tau は c に作用しない((3.10)(3.11) は F2 内で完結)ため語レベル評価で正しく計算できる。2026-07-25 司令塔裁定・検算済み。\"";
+
 s := Concatenation(
   "{\"schema\":\"gtsh-cert/v1\",",
   "\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/week3-M5-explorer.g\",\"date\":\"2026-07-25\"},",
@@ -646,7 +698,8 @@ s := Concatenation(
   "\"action\":\"left(rs = s のち r)\",",
   "\"f_word_alphabet\":\"x,y(c は不要 -- f in [Q_M,Q_M])\",",
   lsWitnessNote, ",",
-  rawFieldNote,
+  rawFieldNote, ",",
+  reducedHexNote,
   "},",
   "\"shadows\":", JArr(shadowsJson), ",",
   "\"counts\":", counts, ",",
