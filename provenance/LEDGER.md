@@ -180,6 +180,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 司令塔一次読み: Guillot GT(G)(1407.3112 / 1604.04415)は要旨より B₄ 系(pentagon 込み)の可能性高。有限単純群での明示計算の機構は将来の翻訳候補として検疫圏に留置(**降ろしていない** — ゲート通過なし)。
 - 残 UNKNOWN(報告書末尾に引き継ぎ): Guillot の関係式実地判定・Yulia's Dream 資料・候補 9/10 実在確認・Dolgushev publist.pdf。
 - **②常務読み 第 1 号(同日)**: arXiv 1109.0024 v3(Bauer–Sen–Zvengrowski, Generalized Goursat Lemma)を reader が精密読解 → docs/scout/読解_generalized_goursat.md。**3 因子補題(監査中)への確認定理・反例とも文献に無し** — 監査が引き続き決定打。PDF は方針どおり非コミット(gitignore `papers/`)・SHA-256 = `C2A97D8A4F9BD6EA86B322FA7B57B5B1667B9EF29F860A3965FE237E26D665BB`(docs/scout/papers/1109.0024v3.pdf・arXiv から再取得可)。処置: **留置** — 便 05 決着後に両数学者へ同時降ろしの候補 A(累積型分類 Thm 3.2・profinite 版 Prop 4.2 が翻訳対象)。
+- **②常務読み 第 2 号(同日)**: Guillot GT(G) 2 本(arXiv 1407.3112 v3・1604.04415)を reader が精密読解 → docs/scout/読解_guillot_gtg.md。**系統確定: hexagon 階層(逆極限 ĜT₀・pentagon 出現 0 回)の F̂₂-outer「第三変種」**(λ・(m,f)・中心 c なし)。scout 段階の司令塔一次判定「B₄ 系可能性高」は**誤りで訂正**(教訓: 要旨だけで系統判定しない — 上記スイープ記帳の該当部は本行で上書き)。収穫: dihedral 粗塔の fake 実例(Prop 3.1: n 奇の位数 2 元が D₄ₙ で死滅 = 持ち上げテスト式 fake 検出の文献先例・**fake は塔相対的**)/単純因子 menu 定理/両側剰余類+θ 前段フィルタ・packet 法(実装レーン向け)/比較写像 GTSh(N)→GT(G) の予想(読解者発案・小課題候補)。SHA-256 = `416C0A91EF7BBB2EB7B8E615D8D209083232965F1151C3E2832256110806784B`(1407)・`16A2496E4C4929570BBC8D330070DEA92F0A08CB0D1DAD01A2A9DBCEE834CDEA`(1604)。処置: **留置** — 降ろし候補 B。**覚書 docs/scout/降ろし覚書_01_goursat_guillot_v1.md を起草済み**(配達条件: 便 05 決着+ブラインド突合後・両数学者同時)。
 
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
