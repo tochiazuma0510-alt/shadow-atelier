@@ -57,7 +57,7 @@ v_m
 
 補題 2 自体とは別に、次は一般には成り立たない。
 
-1. 「非 charming は split-inner の \(P\)-成分 \(\widehat v_m=1\) に潰れる唯一の \(m\)」は \(k=5\) の特殊事情である。例えば \(k=9\) では \(u\equiv3,0,6\pmod9\) の三層が非 charming で、\(\operatorname{ord}(w)=9\) なる \(P\)-成分 \(\widehat v_m=w^u\) の位数は \(3,1,3\) となる。全体元 \(v_m=\bar\sigma _1^u\in Q\) の位数はそれぞれ \(6,2,6\) であり、標準 \(S_3\) 商で転置へ写るため恒等元にはならない。
+1. 「非 charming は split-inner の \(P\)-成分 \(\widehat v_m=1\) に潰れる唯一の \(m\)」は \(k=5\) の特殊事情である。例えば \(k=9\) では \(m=1,4,7\)、すなわち \(u=3,9,15\pmod{18}\)（\(3,0,6\pmod9\)）の三層が非 charming で、\(\operatorname{ord}(w)=9\) なる \(P\)-成分 \(\widehat v_m=w^u\) の位数は \(3,1,3\) となる。全体元 \(v_m=\bar\sigma _1^u\in Q\) の位数はそれぞれ \(6,2,6\) であり、標準 \(S_3\) 商で転置へ写るため恒等元にはならない。
 2. 【GAP-20c】の「\(k\) が合成数なら charming な \(w^u\) の位数が \(k\) の真の約数になり得る」も逆である。charming なら \(\gcd(u,2k)=1\) なので、\(\operatorname{ord}(w^u)=\operatorname{ord}(w)\) は保たれる。今回の \(k=9\) がその較正点になる。
 
 正しい一般形は単に
@@ -142,7 +142,7 @@ R'=G'\times P'.
 
 ### F6【修正付き合格】完全群窓の scalar 化
 
-補題 3 の最初の部分、すなわち split-inner の仮定下で
+Opus 補題 3 の仮定（とくに centerless split-inner）の下で
 
 \[
 f\longleftrightarrow g=sf,\qquad
@@ -181,14 +181,14 @@ z_{2,C}=z_2(P)\otimes\sigma.
 
 であり、\(S_3\) の 2 次元既約表現では \(\rho_\psi(\sigma)\) は scalar でない。正しい閉じ方は、F13 の trace を \(P\) 因子と \(S_3\) 因子に分け、後者が「指定された \(\rho^{-1}\) 一個」を数えて \(1\) になることを先に和で消す方法、または上の \(f\leftrightarrow(r,g)\) の直接全単射である。
 
-また仮定は「\(P\) 完全」だけでは足りず、この reduction には少なくとも exact な split-inner data
+また仮定は「\(P\) 完全」だけでは足りない。この reduction を保証する明瞭な十分仮定は exact な split-inner data
 
 \[
 \theta=\operatorname{Ad}(s),\quad
 \tau=\operatorname{Ad}(t),\quad s^2=t^3=1
 \]
 
-が要る。一方 \(Z(P)=1\) は補題 1 の直積同型 \(Q\cong P\times S_3\) には必要だが、上の \(P\) 内類積への直接全単射には不要である。実際、中心付きでも
+である。一方 \(Z(P)=1\) は補題 1 が \(C_Q(P)\cong S_3\) とその直積表示を得る際に使った仮定だが、上の \(P\) 内類積への直接全単射には不要である。実際、中心付きでも
 \(\sigma=\bar\Delta s^{-1}\)、\(\rho=\bar\delta t^{-1}\) は \(P\) を中心化し、\(\sigma^2=\rho^3=1\) だから
 
 \[
@@ -196,7 +196,14 @@ z_{2,C}=z_2(P)\otimes\sigma.
 \bar\delta^{-1}\bar Y^m f=(t^{-1}\bar Y^m f)\rho^{-1};
 \]
 
-従って二つの torsion 条件は同じく \(P\) 成分だけへ落ちる。ゆえに【GAP-E2a】は
+従って二つの torsion 条件は同じく \(P\) 成分だけへ落ち、
+
+\[
+n_m=\#\{(r,g)\in T_3(P)\times T_2(P):rg=\bar X^m t^{-1}s\}
+\]
+
+は ordinary \(P\)-table の scalar Frobenius 公式で計算できる。ただし中心消滅なしには
+\(\bar X=(t^{-1}s)^2\) とは限らないので、右辺を \(N_P((t^{-1}s)^u)\) とまで簡約してはならない。ゆえに【GAP-E2a】は
 
 > **exact な位数 \(2,3\) の implementer を持つ split-inner・perfect の窓では閉鎖**
 
@@ -481,7 +488,7 @@ Q\cong
 \{(a,h)\in\operatorname{Aut}(P)\times S_3:[a]=\omega(h)\}.
 \]
 
-核は \(P\cap C_Q(P)=Z(P)=1\)、両辺の位数は \(6|P|\) なのでこれは同型である。従って outer action を分類すれば拡大も尽くす。
+この組写像の核は \(P\cap C_Q(P)=Z(P)=1\)、両辺の位数は \(6|P|\) なのでこれは同型である。従って outer action を分類すれば拡大も尽くす。
 
 - \(\operatorname{Out}(L_2(8))=C_3\) だが、\(S_3^{\rm ab}=C_2\) なので \(\omega\) は自明。F14 の二型で完全である。
 - \(\operatorname{Out}(L_2(7))=\operatorname{Out}(L_2(11))=C_2\)。\(\omega\) は自明または sign。自明な場合が F13/F15 の split-inner 型で、sign の場合は
@@ -489,15 +496,34 @@ Q\cong
   Q\cong\operatorname{Aut}(P)\times_{C_2}S_3.
   \]
 
-sign 型では \(r=t^{-1}\) は inner order 3、\(g=s\) は outer involution、\(\widehat w=rg\) は outer である。固定 \(\widehat w\) の \(n_m\) は \(\operatorname{Aut}(P)\) における
+sign 型で以下の生成 pair \((r,g)\) を一つ取れば
+
+\[
+\bar\Delta=(g,(12)),\qquad
+\bar\delta=(r^{-1},(123))
+\]
+
+と置いて標準 \(S_3\) marking を持つ商を逆構成でき、
+\(\bar\sigma _1=\bar\delta^{-1}\bar\Delta\) の第一成分は \(rg\)、第二成分は転置である。従って以下で採用する \(\operatorname{ord}(rg)=2k\) は exact-order 条件そのものであり、正の生成類積係数は実際の許容 marking の存在を与える。
+
+sign 型では \(r=t^{-1}\) は inner order 3、\(g=s\) は outer involution、\(z:=rg\) は outer である。固定 \(z\) の \(n_m\) は \(\operatorname{Aut}(P)\) における
 
 \[
 3_{\rm inner}\cdot2_{\rm outer}\longrightarrow
 \text{指定 outer class}
 \]
 
-の class-multiplication coefficient であり、ordinary \(P\)-table ではなく \(PGL(2,q)\)-tableで scalar に計算できる。
+の class-multiplication coefficient であり、ordinary \(P\)-table ではなく \(PGL(2,q)\)-table で scalar に計算できる。
 fiber-product の \(S_3\) 座標では対応する order-3 元が一意なので、追加の倍率はない。
+
+\(m\) 層の候補では \(g=sf\)、\(z^u=rg\) であり、F11 と同じ直接計算から
+
+\[
+X^u=(rg)^2,\qquad f^{-1}Y^uf=(gr)^2.
+\]
+
+従って \(\langle r,g\rangle=\operatorname{Aut}(P)\) なら、この二つが生成する正規部分群は
+\(\operatorname{Aut}(P)\) の socle \(P\) であり、正本の generation test も通る。これは今回の centerless simple 対象に限った同値の閉鎖であって、一般対象への代用ではない。
 
 \(\langle r,g\rangle=\operatorname{Aut}(P)\) なら、その \(Q\) への標準 lift は \(S_3\) にも全射である。ここで \(\operatorname{Aut}(P)\) の非自明な真 quotient は \(C_2\) だけなので、元の糊 \(C_2\) より大きい共通商はなく、F3 と同じ subdirect 論法で lift は \(Q\) 全体を生成する。
 
@@ -531,7 +557,7 @@ CTblLib の九行では、線形二指標と次数 7・8 の二つの tensor pai
 \]
 となり、convolution の総質量と一致する。
 
-order 2 は \(X=z^2=1\)、order 6 は Euclidean \(\Delta(2,3,6)\) のため不採用。order 8 を含む最大部分群は \(D_{16}\) だけで、これは order 3 元を持たない。従って各 order-8 分解は \(PGL(2,7)\) を生成し、対応する \(\langle X,Y\rangle\triangleleft PGL(2,7)\) は \(P\) に等しい。
+order 2 は \(X=z^2=1\)、order 6 は Euclidean \(\Delta(2,3,6)\) のため不採用。order 8 を含む最大部分群は \(D_{16}\) だけで、これは order 3 元を持たない。従って各 order-8 分解は \(PGL(2,7)\) を生成し、F16 により対応する shadow の generation test も全て通る。
 
 各 class は size \(42\) なので
 
@@ -658,7 +684,7 @@ P110【語規約 v2】F7–F9 の三修正、すなわち作用式の明記、\(
 
 W75【語規約の正本】「先に掛ける」という時間語を正本に置かず、paper と GAP の作用式を並べて定義する。
 
-P111【E2a 訂正】補題 3 の scalar 化証明を、\(z_2(P)\otimes\sigma\) の tensor trace と \(S_3\) 係数 1、または F6 の直接全単射で書き換える。CLAIMS の閉鎖範囲は exact な位数 \(2,3\) の implementer を持つ split-inner・perfect に限定し、centerless は直積分解だけの仮定として分離する。
+P111【E2a 訂正】補題 3 の scalar 化証明を、\(z_2(P)\otimes\sigma\) の tensor trace と \(S_3\) 係数 1、または F6 の直接全単射で書き換える。CLAIMS の閉鎖範囲は exact な位数 \(2,3\) の implementer を持つ split-inner・perfect に限定し、centerless は補題 1 の直積表示と \(w^u\) への冪簡約に使う仮定として分離する。
 
 W76【完全群の量化子】\(P=[P,P]\) だけから \(Q=P\times S_3\) や termwise scalar 性を推論しない。中心消滅と exact inner implementer の役割も混同しない。
 
