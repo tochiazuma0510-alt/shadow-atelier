@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "s5_size_ok": true,
+  "witness_mismatches": 0,
+  "witness_not_verified": 0,
+  "settled_count_claimed": 20,
+  "settled_count_observed": 20,
+  "composition_closure_recheck": {
+    "ok": true,
+    "claimed_closure_fail_count": 0,
+    "recounted": 0
+  },
+  "details_sample": [
+    {
+      "m": 0,
+      "ok": true
+    },
+    {
+      "m": 4,
+      "ok": true
+    },
+    {
+      "m": 0,
+      "ok": true
+    },
+    {
+      "m": 4,
+      "ok": true
+    },
+    {
+      "m": 0,
+      "ok": true
+    }
+  ]
+}

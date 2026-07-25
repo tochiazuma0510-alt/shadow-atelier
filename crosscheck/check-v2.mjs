@@ -719,14 +719,17 @@ function checkStageA1v21(cert, a1Cert) {
   let witnessMismatches = 0, witnessNotVerified = 0;
   const details = [];
   for (const wd of witnessDetail) {
-    const f = evalWordLeftAccum(S5, Xhat, Yhat, wd.f_word); // uses NATURAL eval; f in derived subgroup
-    // NOTE: A1 uses the quotient-shortcut pipeline (EnumerateReducedHexagon, natural+naive genB per
-    // the resolved convention), so f_word is stored in that convention; reconstructing via natural
-    // evalWordLeftAccum matches what checkStageA1's own (already-passing) verification used.
+    // A1.v2.1's f_word comes straight from A1.g's EnumerateReducedHexagon, which stores words via
+    // GAP's actual BFSWords (PREPEND) and computes genB via AbstractProd (REVERSED) -- unlike
+    // checkStageA1's own generation_detail check (which uses an independently-valid but DIFFERENT
+    // natural+naive pairing that happens to reproduce correct pass/fail judgments without needing
+    // the literal element f to match GAP's). Here we need the ACTUAL element f (for the witness
+    // equations to be meaningful), so we must match GAP's own convention exactly: prepend + reversed.
+    const f = prependEvalWordInQ(S5, Xhat, Yhat, wd.f_word);
     const m = wd.m, u = 2 * m + 1;
     const targetX = S5.pow(Xhat, u);
     const invF = S5.inv(f);
-    const targetY = S5.mul(S5.mul(invF, S5.pow(Yhat, u)), f); // naive f^-1 Y^u f, matching A1's own (natural) genB pairing
+    const targetY = S5.mul(S5.mul(f, S5.pow(Yhat, u)), invF); // reversed f Y^u f^-1, matching AbstractProd/genB
     if (wd.settled) {
       // verify the CLAIMED witness actually satisfies the two equations (independent check of a
       // specific witness, not a full independent re-search -- cheap and directly falsifiable)
@@ -1001,9 +1004,14 @@ function checkStageA1(cert) {
   const cInNOk = cert.c_in_N === true;
   const evalModeOk = cert.evaluation_mode === 'quotient_ok';
   const shadowSumOk = observed.candidate_total - observed.h10_fail - observed.h11_fail - observed.generation_fail === observed.shadow_total;
-  const layerBlocked = cert.layer_id === 'BLOCKED';
-  const ok = hashRes.ok && selfCheckOk && genMap.size === 60 && uniRes.ok && derivedIsFull && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && layerBlocked;
-  return { ok, target_hash: hashRes, a5_self_check: { f1a, f1b, f1c, f1d, f1e, f1f, f1g, ok: selfCheckOk }, generated_order: genMap.size, universe: uniRes, derived_is_full_A5: derivedIsFull, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, layer_id_blocked_acknowledged: layerBlocked, observed_shadow_total: observed.shadow_total };
+  // layer_id: was BLOCKED (P75/Prop E6 out of blind scope), then patched to a specific pair
+  // (g,r)=((1 2),(1 3 2)) per coordinator instruction (workorder3 item2-3, a directly-supplied
+  // value, not independently derivable from spec alone) -- accept either the original BLOCKED
+  // acknowledgment or a non-empty recorded value; this is not something crosscheck can independently
+  // verify without Prop E6's formula (still out of blind scope), so only record its presence.
+  const layerIdPresent = cert.layer_id === 'BLOCKED' || (typeof cert.layer_id === 'string' && cert.layer_id.length > 0);
+  const ok = hashRes.ok && selfCheckOk && genMap.size === 60 && uniRes.ok && derivedIsFull && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && layerIdPresent;
+  return { ok, target_hash: hashRes, a5_self_check: { f1a, f1b, f1c, f1d, f1e, f1f, f1g, ok: selfCheckOk }, generated_order: genMap.size, universe: uniRes, derived_is_full_A5: derivedIsFull, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, layer_id_recorded: cert.layer_id, observed_shadow_total: observed.shadow_total };
 }
 
 // ---------- PREPEND-convention word-level machinery (stage A2, corrected per 2026-07-26 ruling) ----------
@@ -1218,9 +1226,10 @@ function main() {
   const results = {};
   const stageIds = process.argv.slice(2).length ? process.argv.slice(2) : ['1a'];
   for (const id of stageIds) {
-    const certPath = join(CERT_DIR, `${id}.v2.json`);
+    const certFile = id === 'A1.v2.1' ? 'A1.v2.1.json' : `${id}.v2.json`;
+    const certPath = join(CERT_DIR, certFile);
     if (!existsSync(certPath)) { results[id] = { ok: false, reason: 'certificate not found', path: certPath }; continue; }
-    const cert = loadCert(id);
+    const cert = JSON.parse(readFileSync(certPath, 'utf8'));
     let verdict;
     if (id === '1a') verdict = checkStage1a(cert);
     else if (id === '1b') verdict = checkStage1b(cert);
@@ -1229,9 +1238,11 @@ function main() {
     else if (id === 'A1') verdict = checkStageA1(cert);
     else if (id === 'A2') verdict = checkStageA2(cert);
     else if (id === '3') verdict = checkStage3(cert);
+    else if (id === 'A1.v2.1') verdict = checkStageA1v21(cert);
     else verdict = { ok: false, reason: `stage ${id} checker not implemented yet in check-v2.mjs` };
     results[id] = verdict;
-    writeFileSync(join(VERDICT_DIR, `${id}.v2.verdict.json`), JSON.stringify(verdict, null, 2));
+    const verdictFile = id === 'A1.v2.1' ? 'A1.v2.1.verdict.json' : `${id}.v2.verdict.json`;
+    writeFileSync(join(VERDICT_DIR, verdictFile), JSON.stringify(verdict, null, 2));
     console.log(`stage ${id}: ${verdict.ok ? 'PASS' : 'FAIL'}`);
     console.log(JSON.stringify(verdict, null, 2));
   }

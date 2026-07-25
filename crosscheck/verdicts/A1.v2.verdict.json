@@ -1771,6 +1771,6 @@
   "c_in_N": true,
   "evaluation_mode": true,
   "shadow_sum_identity": true,
-  "layer_id_blocked_acknowledged": true,
+  "layer_id_recorded": "(g,r)=((1 2),(1 3 2))",
   "observed_shadow_total": 20
 }

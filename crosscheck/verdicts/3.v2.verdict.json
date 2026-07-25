@@ -12201,5 +12201,69 @@
       "target_count": 8
     }
   },
+  "r7_fibre_self_consistency": {
+    "ok": true,
+    "recomputed_histogram": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "claimed_histogram": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "uniform": true,
+    "claimed_kernel_order": 4
+  },
+  "r8_fibre_self_consistency": {
+    "ok": true,
+    "recomputed_histogram": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    "claimed_histogram": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    "uniform": true,
+    "claimed_kernel_order": 6
+  },
+  "joint_pair_distinct": {
+    "ok": true,
+    "duplicate_count": 0,
+    "distinct_count": 48,
+    "total": 48
+  },
   "observed_shadow_total": 48
 }

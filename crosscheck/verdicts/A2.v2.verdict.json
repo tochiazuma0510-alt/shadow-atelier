@@ -70,5 +70,89 @@
       "source_count": 20
     }
   },
+  "reduction_R9_to_N5": {
+    "ok": true,
+    "claimed": {
+      "surjective": true,
+      "image_size": 4
+    },
+    "recomputed": {
+      "surjective": true,
+      "image_size": 4,
+      "target_count": 4
+    }
+  },
+  "r6_fibre_self_consistency": {
+    "ok": true,
+    "recomputed_histogram": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "claimed_histogram": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "uniform": true,
+    "claimed_kernel_order": 1
+  },
+  "r9_fibre_self_consistency": {
+    "ok": true,
+    "recomputed_histogram": [
+      5,
+      5,
+      5,
+      5
+    ],
+    "claimed_histogram": [
+      5,
+      5,
+      5,
+      5
+    ],
+    "uniform": true,
+    "claimed_kernel_order": 5
+  },
+  "joint_pair_distinct": {
+    "ok": true,
+    "duplicate_count": 0,
+    "distinct_count": 20,
+    "total": 20
+  },
   "observed_shadow_total": 20
 }
