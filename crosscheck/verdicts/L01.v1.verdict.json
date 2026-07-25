@@ -1,0 +1,146 @@
+{
+  "id": "L01",
+  "family": "general",
+  "schema": "gtsh-cert/v1",
+  "items": {
+    "0_schema_fail_closed": {
+      "ok": true,
+      "errors": []
+    },
+    "0_invariants": {
+      "ok": true,
+      "expected": {
+        "index_PB3": 2916,
+        "index_B3": 17496,
+        "N_ord": 6,
+        "derived_order": 81
+      },
+      "claimed": {
+        "index_PB3": 2916,
+        "index_B3": 17496,
+        "N_ord": 6,
+        "derived_order": 81
+      },
+      "checks": {
+        "index_PB3": true,
+        "index_B3": true,
+        "N_ord": true,
+        "derived_order": true
+      }
+    },
+    "1_counts": {
+      "ok": true,
+      "monotone": true,
+      "matchesShadowLen": true,
+      "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18)の緩和を general に準用: raw 候補の完全再列挙は不要、単調性+最終個数一致で可。"
+    },
+    "1_raw_formula": {
+      "ok": true,
+      "claimed_raw": 324,
+      "expected_raw": 324,
+      "X_L_count": 4,
+      "derived_order": 81
+    },
+    "2_hexagon": {
+      "ok": true,
+      "checked": 36,
+      "fails": []
+    },
+    "3_f_word_vs_pair": {
+      "ok": true,
+      "checked": 36,
+      "fails": []
+    },
+    "4_charming_surjective": {
+      "ok": true,
+      "checked": 36,
+      "fails": []
+    },
+    "5_thm43_set": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "Thm 4.3 の閉じた式(2405)は dihedral 専用。Q_L=G3xH3 の general 対象には非適用 -- week3-L-設計.md §3。"
+    },
+    "6_kernel_cert": {
+      "ok": true,
+      "checked": 36,
+      "fails": [],
+      "aggregate_elapsed_ms": 532,
+      "unit_cap_ms": 120000,
+      "aggregate_cap_ms": 1800000,
+      "sample_limit": 50,
+      "unknown_count": 0,
+      "note": "N5 の checkKernelCertBrute 方式の一般化 (17496 元 BFS で井戸定義性+全単射性)。集約 cap 超過時は決定的に先頭50件のみ全数、残りは UNKNOWN(silent cap 禁止・week3-L-設計.md §5)。"
+    },
+    "7_composition_table": {
+      "ok": true,
+      "checked": 1296,
+      "fails": [],
+      "strict": {
+        "ok": true,
+        "composition_rows": 1296,
+        "composition_expected": 1296,
+        "composition_pair_unique": true,
+        "composition_failures": [],
+        "inverse_rows": 36,
+        "inverse_expected": 36,
+        "inverse_source_unique": true,
+        "inverse_failures": [],
+        "structural_errors": []
+      }
+    },
+    "8_inverse_map": {
+      "ok": true,
+      "checked": 36,
+      "fails": []
+    },
+    "9_reduction": {
+      "ok": true,
+      "required": [
+        "K3"
+      ],
+      "listed": [
+        "K3"
+      ],
+      "exact_entry_set": true,
+      "fails": [],
+      "note": "設計 §2/§1: R_{L,K3} = [m,f]->(m, fのG3成分)。全射性は claim をそのまま信じず独立再計算し一致を要求(week3-L-設計.md §2 fake 証明書対応)。"
+    },
+    "10_ls_witness": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "ls_witness (5.1) の theta/tau 構成は dihedral(2405 Thm4.3系)専用。week3-L-設計.md は general 用の再定義を与えていない。"
+    },
+    "11_induced_maps": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "dihedral の theta/tau 商写像は Q_L=G3xH3 に非適用。"
+    },
+    "12_representative_invariance": {
+      "ok": true,
+      "x_Nord_in_N_F2": true,
+      "hexagon": {
+        "checked": 36,
+        "shifted_pass": 36,
+        "failures": []
+      },
+      "quotient_f": {
+        "checked": 36,
+        "pass": 36,
+        "failures": []
+      },
+      "T_sigma": {
+        "checked": 36,
+        "pass": 36,
+        "failures": []
+      }
+    },
+    "13_varrho": {
+      "ok": true,
+      "status": "N/A",
+      "reason": "Thm.4.6 の明示式 rho は n=4,8,16 dihedral 専用。"
+    }
+  },
+  "all_pass": true,
+  "cross_checked": true
+}

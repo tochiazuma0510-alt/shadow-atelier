@@ -124,6 +124,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **cap**: GAP 1 実行 ≤ 600 秒・node kernel-brute 1 shadow ≤ 120 秒。超過は UNKNOWN+実測報告。
 - 台帳規約: L の行は Dih 正解表と別テーブル・三値(genuine/fake/UNKNOWN)・有限深度 PASS から genuine を導かない。
 
+## 2026-07-25 — Week 3 第一撃の実行記録(WP3a/WP3b)
+
+- **WP3a(GAP)**: `search/week3-L-explorer.g` — 全 fixture PASS・列挙 1.16 秒・ANOMALY 0。**|GT(L)| = 36**(324 → 36 → 36 → 36 — hexagon のみが刈る)。**R_{L,K⁽³⁾} 全射**(image 12/12・繊維一様 3)。証明書 `certificates/L01.v1.json`。裁定: 点数 54 は司令塔指示の誤記(正 36 = 9+27)— 実装承認。
+- **WP3b(node)**: family="general" 拡張。**実バグ 2 件を発見・修正**: ①Q_L 構成が D₃³ 全体(216)を使用 → Im(ψ₃)(108)に是正(直積の安易な分解の罠)②kernel brute の素朴移植が 17496 点で OOM → 正則作用(推移的+|群| = |点| ⇒ 固定部分群自明)により基点の像のみで追跡する O(N) 版へ(論拠は Sol 便 04 監査対象)。集約 510ms。
+- **統合**: L01 verdict 全項目 PASS(kernel 36/36・reduction の全射を独立再計算で追認)。既存 17+global の回帰も全 PASS(挙動不変)。裁定 3 件: f_word からの自前再構成方式(独立性強化・承認)・O(N) brute(承認・要監査)・(4.20) の general 非適用(承認)。
+- 台帳: W3-1 を cross-checked へ昇格。**結果の要約: Dih 外の細分 1 段で fake 検出なし — GT(K⁽³⁾) の 12 shadow 全てが survive。**
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。

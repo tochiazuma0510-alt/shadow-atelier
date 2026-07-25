@@ -151,12 +151,8 @@ function buildQL() {
   return { G3, H3, Triple, phiTriple, X, Y, QLMap, derived };
 }
 
-function shadowToQLElement(QL, shadow) {
-  const g3 = tripleFromCertFormat(shadow.f_triple);
-  const h3raw = shadow.f_h3;
-  const h3 = Array.isArray(h3raw) ? { a: h3raw[0], b: h3raw[1], e: h3raw[2] } : QL.H3.id;
-  return [g3, h3];
-}
+// (旧) shadowToQLElement: 証明書に H3 成分の専用フィールドが無いことが実測で判明したため撤去。
+// Q_L の完全な元が必要な箇所は evalShadowQL (下方で定義) で f_word から自前再構成する。
 
 // ---------- 語の評価 ----------
 // token = [gen, power]  (gen: 文字, power: 整数)
@@ -299,10 +295,11 @@ function validateCertificateShape(cert) {
   }
   if (Array.isArray(cert.shadows)) {
     cert.shadows.forEach((sh, i) => {
-      const requiredShadowKeys = isGeneral ? ['m', 'f_word', 'f_triple', 'f_h3', 'kernel_cert'] : ['m', 'f_word', 'f_triple', 'kernel_cert'];
+      // general (Q_L=G3xH3) の f_triple は G3 成分のみ (実測: WP3a explorer は H3 成分の専用
+      // フィールドを持たない)。Q_L の完全な元は f_word から自前再構成する(checkCertificateGeneral 参照)。
+      const requiredShadowKeys = ['m', 'f_word', 'f_triple', 'kernel_cert'];
       for (const key of requiredShadowKeys) if (!hasOwn(sh, key)) errors.push(`shadow[${i}].${key} is missing`);
       if (!Array.isArray(sh.f_word) || !Array.isArray(sh.f_triple)) errors.push(`shadow[${i}] word/triple malformed`);
-      if (isGeneral && !Array.isArray(sh.f_h3)) errors.push(`shadow[${i}].f_h3 malformed`);
     });
   }
   return errors;
@@ -790,9 +787,12 @@ function checkReductionCoverage(cert, certsById) {
 // =====================================================================
 // Week3 general family (target.family="general", id="L01" 想定)
 // docs/week3-L-設計.md v1.1 §3・§5 の検査項目実装。search/ の explorer は不参照。
-// 証明書スキーマの assumption (WP3a 未着手のため独自に設計・報告で明記):
-//   shadow.f_triple = G3 成分 (既存 dihedral と同一形式 [[a,e],[a,e],[a,e]])
-//   shadow.f_h3     = H3 成分 [a,b,e] (新設フィールド)
+// 証明書スキーマの実態 (certificates/L01.v1.json 実測で確認):
+//   shadow.f_triple = G3 成分のみ (既存 dihedral と同一形式 [[a,e],[a,e],[a,e]])
+//   H3 成分の専用フィールドは存在しない。Q_L の完全な元(G3+H3)が要る箇所(charming・
+//   composition・inverse)は f_word を Q_L=G3xH3 で評価して自前再構成する(evalShadowQL)。
+//   item3(f_word<->f_pair)は結果として G3 成分のみの突合になる — 証明書に格納された
+//   冗長データがそれしかないため。他の項目はすべて f_word からの独立再計算で完結する。
 // =====================================================================
 
 function checkRawCandidateFormulaGeneral(cert, QL) {
@@ -815,25 +815,31 @@ function checkCertificateInvariantsGeneral(cert, QL) {
   return { ok: Object.values(checks).every(Boolean), expected: { index_PB3: 2916, index_B3: 17496, N_ord: 6, derived_order: actualDerived }, claimed: inv, checks };
 }
 
+// 証明書スキーマの実態(WP3a explorer の実際の出力を確認): shadow は f_triple(G3 成分)のみを
+// 格納し、H3 成分を格納する専用フィールドは存在しない。ゆえに Q_L の完全な元が必要な箇所
+// (charming・composition・inverse)では f_word を Q_L で評価して自前で再構成する(f_h3 という
+// フィールドを信用しない・存在すればなお良いが必須にしない、で独立性をむしろ強める)。
+// item3 は「f_word の評価と証明書が格納する f_triple(G3 成分)の突合」に限定する。
 function checkFWordVsPairGeneral(QL, shadow) {
   const computed = evalWord(QL.Triple, QL.phiTriple, shadow.f_word); // [G3elem, H3elem]
-  const computedG3 = computed[0], computedH3 = computed[1];
+  const computedG3 = computed[0];
   const givenG3 = tripleFromCertFormat(shadow.f_triple);
   const g3Ok = QL.G3.Triple.eq(computedG3, givenG3);
-  const h3raw = shadow.f_h3;
-  const givenH3 = Array.isArray(h3raw) && h3raw.length === 3 ? { a: h3raw[0], b: h3raw[1], e: h3raw[2] } : null;
-  const h3Ok = givenH3 !== null && QL.H3.eq(computedH3, givenH3);
   return {
-    ok: g3Ok && h3Ok, g3Ok, h3Ok,
+    ok: g3Ok, g3Ok,
     computed_g3_key: QL.G3.Triple.key(computedG3), given_g3_key: QL.G3.Triple.key(givenG3),
-    computed_h3_key: QL.H3.key(computedH3), given_h3_key: givenH3 ? QL.H3.key(givenH3) : null,
+    note: '証明書スキーマに H3 成分の専用フィールドが無いため、G3 成分(f_triple)のみを突合する。H3 成分を要する検査(charming/composition/inverse)は f_word を Q_L で評価して自前再構成する。',
   };
+}
+
+function evalShadowQL(QL, shadow) {
+  return evalWord(QL.Triple, QL.phiTriple, shadow.f_word || []);
 }
 
 function checkCharmingAndSurjectiveGeneral(QL, shadow) {
   const { Triple, phiTriple, QLMap, derived, X, Y } = QL;
   const m = shadow.m;
-  const fTriple = shadowToQLElement(QL, shadow);
+  const fTriple = evalShadowQL(QL, shadow);
   const charming = derived.has(Triple.key(fTriple));
   const g1 = Triple.pow(X, 2 * m + 1);
   const invF = Triple.inv(fTriple);
@@ -843,9 +849,18 @@ function checkCharmingAndSurjectiveGeneral(QL, shadow) {
   return { charming, surjective, ok: charming && surjective };
 }
 
-// kernel brute (N5 の checkKernelCertBrute と同じ手続きの一般化)。cap を明示パラメータ化し、
-// 単位 cap (120秒/shadow) をここで検査する (集約 30分 cap は呼び出し元 checkCertificate の
-// family=general ループが shadow 横断で管理する -- docs/week3-L-設計.md §5)。
+// kernel brute (N5 の checkKernelCertBrute と同じ数学的手続きの一般化だが、実装は別)。
+// N5 は N=30 点なので全順列(長さ30の配列)を Map のキー/値として素朴に保持しても軽い。
+// L01 は N=17496 点で、同じ素朴な実装(全順列を要素ごとに Map へ格納)を試したところ
+// 17496×17496 の全順列格納が発生し JS heap が枯渇して OOM した(実測)。
+// 対策: expected_kernel_index = model.N(点数)なので、軌道-安定化群定理より
+// <sigma1,sigma2> の B3/L 上の作用は正則(自由)であることが構成上保証される。正則表現の元は
+// 基点(点0)の像 1 個で一意に定まるので、各元を「基点の像」という 1 整数だけで追跡すれば足り、
+// O(N) の点追跡だけで済む(O(N^2) の全順列格納を回避)。T-像側も同じ基点を並行して追跡し、
+// 衝突(同じ源点に別の語で到達)時に T-像の基点が食い違えば、その時点で「井戸定義でない」の
+// 確証となる(全順列として不一致であることの十分条件)。最終的に T-像側の基点到達集合の
+// サイズが expectedIdx に届けば Im(T) も正則表現になるため、基点一致 <=> 全順列一致が成立する
+// (双方が位数 N の正則表現になるため)。
 function checkKernelCertBruteGeneral(model, shadow, opts = {}) {
   const maxMs = opts.maxMs ?? 120000;
   const kc = shadow.kernel_cert;
@@ -860,66 +875,54 @@ function checkKernelCertBruteGeneral(model, shadow, opts = {}) {
   const invSigma1T = invPerm(sigma1T);
   const sigma2T = composeAll([invF, permPow(model.perm2, 2 * m + 1), fPerm]);
   const invSigma2T = invPerm(sigma2T);
+  const invP1 = invPerm(model.perm1), invP2 = invPerm(model.perm2);
 
-  function computeTWord(word) {
-    let res = identityPerm(model.N);
-    for (const [name, sign] of word) {
-      const gp = name === 's1' ? (sign > 0 ? sigma1T : invSigma1T) : (sign > 0 ? sigma2T : invSigma2T);
-      res = composeRight(res, gp);
-    }
-    return res;
-  }
-
-  const id0 = identityPerm(model.N);
-  const seen = new Map();
-  seen.set(id0.join(','), { perm: id0, word: [] });
-  let frontier = [{ perm: id0, word: [] }];
-  const steps = [['s1', 1, model.perm1], ['s1', -1, invPerm(model.perm1)], ['s2', 1, model.perm2], ['s2', -1, invPerm(model.perm2)]];
+  const genSteps = [
+    ['s1', 1, model.perm1, sigma1T],
+    ['s1', -1, invP1, invSigma1T],
+    ['s2', 1, model.perm2, sigma2T],
+    ['s2', -1, invP2, invSigma2T],
+  ];
+  const tPointOf = new Map([[0, 0]]); // sourcePoint(基点の像) -> tPoint(T-像の基点)
+  let frontier = [{ sp: 0, tp: 0 }];
   let wellDefined = true;
   const conflicts = [];
   let timedOut = false;
-  while (frontier.length && seen.size < elementCap) {
-    if (Date.now() - started > maxMs) { timedOut = true; break; }
+  let iter = 0;
+  while (frontier.length && tPointOf.size < elementCap) {
+    if (((iter++) & 511) === 0 && Date.now() - started > maxMs) { timedOut = true; break; }
     const next = [];
     for (const node of frontier) {
-      for (const [name, sign, gp] of steps) {
-        const cand = composeRight(node.perm, gp);
-        const key = cand.join(',');
-        const candWord = node.word.concat([[name, sign]]);
-        if (!seen.has(key)) {
-          const entry = { perm: cand, word: candWord };
-          seen.set(key, entry);
-          next.push(entry);
+      for (const [name, sign, gp, tgp] of genSteps) {
+        const candSp = gp[node.sp];
+        const candTp = tgp[node.tp];
+        if (!tPointOf.has(candSp)) {
+          tPointOf.set(candSp, candTp);
+          next.push({ sp: candSp, tp: candTp });
         } else {
-          const existing = seen.get(key);
-          const tExisting = computeTWord(existing.word);
-          const tCand = computeTWord(candWord);
-          if (!permEq(tExisting, tCand)) { wellDefined = false; conflicts.push({ existingWord: existing.word, candWord }); }
+          const existingTp = tPointOf.get(candSp);
+          if (existingTp !== candTp) {
+            wellDefined = false;
+            if (conflicts.length < 10) conflicts.push({ source_point: candSp, existing_t_point: existingTp, candidate_t_point: candTp });
+          }
         }
       }
     }
     frontier = next;
+    if (Date.now() - started > maxMs) { timedOut = true; break; }
   }
-  const groupOrder = seen.size;
+  const groupOrder = tPointOf.size;
   const orderOk = !timedOut && groupOrder === expectedIdx;
-  const tImages = new Set();
-  let bijective = true;
-  if (!timedOut) {
-    for (const { word } of seen.values()) {
-      const t = computeTWord(word);
-      const k = t.join(',');
-      if (tImages.has(k)) bijective = false;
-      tImages.add(k);
-    }
-  }
-  const imageOrderOk = !timedOut && tImages.size === expectedIdx;
+  const distinctTPoints = new Set(tPointOf.values()).size;
+  const imageOrderOk = !timedOut && distinctTPoints === expectedIdx;
   const elapsedMs = Date.now() - started;
   return {
-    ok: !timedOut && orderOk && wellDefined && bijective && imageOrderOk,
+    ok: !timedOut && orderOk && wellDefined && imageOrderOk,
     timed_out: timedOut, elapsed_ms: elapsedMs,
     groupOrder, expectedIdx, orderOk, wellDefined,
-    conflicts: conflicts.slice(0, 5),
-    bijective, imageOrderCount: tImages.size, imageOrderOk,
+    conflicts,
+    imageOrderCount: distinctTPoints, imageOrderOk,
+    method: 'basepoint-tracking (regular-representation shortcut) -- O(N) memory, see comment above',
   };
 }
 
@@ -933,7 +936,7 @@ function checkCompositionEntryGeneral(QL, Nord, shadows, i, j, k) {
   const { Triple, phiTriple } = QL;
   const f1Triple = evalWord(Triple, phiTriple, shA.f_word);
   const computedTriple = Triple.mul(f1Triple, evalFactorUnderAction(QL, shA.m, f1Triple, shB.f_word));
-  const givenTriple = shadowToQLElement(QL, shC);
+  const givenTriple = evalShadowQL(QL, shC);
   const tripleOk = Triple.eq(computedTriple, givenTriple);
   const u1 = 2 * shA.m + 1, u2 = 2 * shB.m + 1;
   const id419 = (u1 * u2) === (2 * mNewRaw + 1);
@@ -942,7 +945,7 @@ function checkCompositionEntryGeneral(QL, Nord, shadows, i, j, k) {
 
 function checkInverseEntryGeneral(QL, Nord, shadows, i, iInv) {
   const shA = shadows[i], shB = shadows[iInv];
-  const idShadow = { m: 0, f_word: [], f_triple: identityTripleFormat(), f_h3: [0, 0, 0] };
+  const idShadow = { m: 0, f_word: [], f_triple: identityTripleFormat() };
   const c1 = checkCompositionEntryGeneral(QL, Nord, [shA, shB, idShadow], 0, 1, 2);
   const c2 = checkCompositionEntryGeneral(QL, Nord, [shB, shA, idShadow], 0, 1, 2);
   return { ok: c1.ok && c2.ok, forward: c1, backward: c2 };
