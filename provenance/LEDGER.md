@@ -165,6 +165,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - Codex バックエンドが 503(circuit open + throttled)。WebSocket/HTTPS 両系 5 回再試行の末 turn 失敗(返信なし・exit 1)。
 - 扱い: **技術的失敗**(ES7 規律 4 — 数学的 stuck と区別・claim なし)。20 分後に wake で自動再試行(1 回)。再失敗なら間隔を広げ研究者に報告。
 
+### 続報 2(同日 11:15–11:22 UTC): 再ログイン後の wake は成功・約 7 分実走の後 503 再発で turn 失敗
+
+- `codex login` 再認証成功(研究者実施)→ 同一 pinned セッションへの wake 成功・監査の実走を確認(2405 原文のページ画像照合ログ等)。
+- 11:21 UTC に WebSocket 5/5 → HTTPS fallback → 5/5 いずれも 503(biscuit_baker circuit open)で turn 失敗(exit 1)・返信なし。**技術的失敗扱い継続(claim なし)**。
+- 進行分はセッション transcript に残存 — 次の resume は続きから。対応: **間隔を 35 分に拡大**して再 wake を予約(churn 回避)。以後も失敗なら間隔をさらに拡大し研究者に報告。
+
 ### 続報(同日 09:23 UTC): 再試行は 401(認証失効)で失敗 — 自動再試行を停止
 
 - wake 再試行は 503 でなく **401 Unauthorized(token_invalidated / refresh_token_invalidated)**。障害の副作用で Codex のリフレッシュトークンが無効化されたとみられる(exit 1・ログ ops/codex_activity.log)。
