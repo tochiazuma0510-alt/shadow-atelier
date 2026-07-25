@@ -14,18 +14,19 @@
 
 ### (c) 封印予測
 
-ここで \(n_m^{\rm all}\) は scalar 類積公式が数える全分解数、\(n_m^{\rm gen}\) はそのうち生成条件を通る数である。次表は Opus の命題 S が扱う **split-inner marking** の封印値であり、採用された四型では両者が一致する。
+ここで \(n_m^{\rm all}\) は scalar 類積公式が数える全分解数、\(n_m^{\rm gen}\) はそのうち生成条件を通る数である。inner 型は \(G\) の表、outer 型は \(\operatorname{Aut}(G)\) の指定 coset 類積表で計算した。
 
-| \(G\) | split-inner 許容 marking（Aut\((G)\)-軌道） | charming \(m\) | 各 \(m\) の \((n_m^{\rm all},n_m^{\rm gen})\) | shadow 集合の予測総数 | 命題 S の数値予測 |
+| \(G\) | 許容 marking（Aut\((G)\)-軌道） | charming \(m\) | 各 \(m\) の \((n_m^{\rm all},n_m^{\rm gen})\) | 1 marking 当たりの予測総数 | 命題 S |
 |---|---|---|---|---:|---|
 | \(\mathrm{PSL}(2,7)\) | \(k=7\)、**1 軌道** | \(\{0,1,2,4,5,6\}\) | \((7,7)\) | **42** | \(42=\varphi(7)7\)、成立 |
+| \(\mathrm{PSL}(2,7)\) | outer \(k=4\)、**2 軌道** | \(\{0,1,2,3\}\) | \((8,8)\) | **32** | 仮定外。数値式は \(32\ne\varphi(4)4\) |
 | \(\mathrm{PSL}(2,8)\) | \(k=7\)、**1 軌道** | \(\{0,1,2,4,5,6\}\) | \((7,7)\) | **42** | \(42=\varphi(7)7\)、成立 |
 | \(\mathrm{PSL}(2,8)\) | \(k=9\)、**1 軌道**（\(3\mid k\)） | \(\{0,2,3,5,6,8\}\) | \((9,9)\) | **54** | \(54=\varphi(9)9\)、成立 |
 | \(\mathrm{PSL}(2,11)\) | \(k=11\)、**1 軌道** | \(\{0,1,2,3,4,6,7,8,9,10\}\) | \((11,11)\) | **110** | \(110=\varphi(11)11\)、成立 |
+| \(\mathrm{PSL}(2,11)\) | outer \(k=5\)、**2 軌道** | \(\{0,1,3,4\}\) | \((10,10)\) | **40** | 仮定外。数値式は \(40\ne\varphi(5)5\) |
+| \(\mathrm{PSL}(2,11)\) | outer \(k=6\)、**2 軌道**（\(3\mid k\)） | \(\{0,2,3,5\}\) | \((12,12)\) | **48** | 仮定外。数値式は \(48\ne\varphi(6)6\) |
 
-split-inner の範囲では、\(\mathrm{PSL}(2,7)\) と \(\mathrm{PSL}(2,11)\) に \(3\mid k\) の marking はなく、\(\mathrm{PSL}(2,8)\) では \(k=9\) がその唯一の型である。
-
-一般の許容 marking についてはさらに外部作用を分ける必要がある。外部類は \(S_3\to\operatorname{Out}(G)\) を与える。\(\operatorname{Out}(L_2(8))=C_3\) へのそのような準同型は自明なので \(L_2(8)\) の上表は完全である。一方 \(\operatorname{Out}(L_2(7))=\operatorname{Out}(L_2(11))=C_2\) には sign 写像があり、\(\theta\) が outer となる marking を ordinary \(G\)-character table だけでは排除・計数できない。この **outer-sign 部分の存在・分類・\(n_m\) は UNKNOWN** とする。以上は shadow の個数予測であり、さらに **settled/isolated、合成の閉鎖、群同型 \(\mathrm{AGL}(1,k)\) もすべて UNKNOWN** である。
+\(3\mid k\) の別記は \(L_2(8),k=9\) と \(L_2(11)\) の outer \(k=6\) である。outer 三型は \(s\notin G\) なので命題 S の反例ではないが、式を全許容 marking へ拡張すれば直ちに破れる。以上は shadow の個数予測であり、**settled/isolated、合成の閉鎖、群同型 \(\mathrm{AGL}(1,k)\) はすべて UNKNOWN** である。
 
 ---
 
@@ -191,7 +192,7 @@ Z(P)=1,\quad \theta=\operatorname{Ad}(s),\quad
 
 > **有限単純群を含む split-inner・centerless・perfect の窓では閉鎖**
 
-と記帳するのが正確である。中心を持つ完全群、または \(\theta,\tau\) が外部自己同型である完全群、および \(A\subsetneq P\) の一般対象は依然 UNKNOWN である。
+と記帳するのが正確である。中心を持つ完全群、または \(\theta,\tau\) が外部自己同型である完全群、および \(A\subsetneq P\) の一般対象について、ordinary \(P\)-table だけの公式は依然 UNKNOWN である。今回の二つの PSL outer-sign 系列は一般公式を仮定せず、拡大 \(PGL(2,q)\) の class table を用いて F16–F18 で個別に閉じる。
 
 ---
 
@@ -325,6 +326,7 @@ X=(rg)^2,\qquad Y=(gr)^2,\qquad
 - \(L_2(7)=L_3(2)\): `ctoline4.tbl` の table ID `L3(2)`。同ファイルは出所を *ATLAS of Finite Groups*、補助出所を McKay と記す。
 - \(L_2(8)\): `ctoline1.tbl` の ID `L2(8)`。出所は ATLAS compound table。
 - \(L_2(11)\): 同ファイルの ID `L2(11)`。出所は *ATLAS of Finite Groups*。
+- outer-sign 用には同じ二ファイルの `L3(2).2=PGL(2,7)` と `L2(11).2=PGL(2,11)` を用いた。いずれも ATLAS compound table 由来と明記されている。
 
 同じレコードにある centralizer orders から class size を取り、最大部分群欄も分類に用いた。各既約指標について
 
@@ -348,7 +350,7 @@ N_G(w)=\frac1{|G|}\sum_\chi a_\chi\overline{\chi(w)}
 
 へ代入した。以下の数値はこの有限和の手計算である。
 
-この ordinary \(G\)-table が直接数えるのは \(r,g,w\in G\) の split-inner 型だけである。outer-sign 型では指定 outer coset の involution 和が必要になり、F6 のとおり同じ scalar 和を流用できない。
+この ordinary \(G\)-table が直接数えるのは \(r,g,w\in G\) の split-inner 型だけである。outer-sign 型では指定 outer coset の involution 和が必要なので、F6 のとおり同じ \(G\)-scalar 和は流用せず、F17–F18 で \(PGL(2,q)\) の該当二共役類の class-multiplication coefficient を計算する。
 
 ### F13【封印値】\(\mathrm{PSL}(2,7)\)
 
@@ -456,15 +458,147 @@ N_{L_2(11)}(5*)=10>5
 
 である。しかし \(\Delta(2,3,5)=A_5\) なので十個は全て二クラスの \(A_5\) 最大部分群内にあり、生成通過数は 0 である。これは「scalar 数が \(k\) より大きければ命題 S が破れる」と即断してはいけず、**先に marking の生成性を通す必要がある**ことの最小 control になる。
 
-### F16【封印の解釈】命題 S は四つの split-inner 較正点で生存
+### F16【完全分類への外部作用】trivial action と sign action
 
-採用された四つの split-inner marking では全 charming \(m\) に
+\(P\) は centerless simple なので、任意の許容 marking の拡大 \(Q\) は共役作用から
+
+\[
+\omega:S_3\longrightarrow\operatorname{Out}(P)
+\]
+
+を定める。さらに共役作用 \(Q\to\operatorname{Aut}(P)\) と \(Q\to S_3\) を組にすると
+
+\[
+Q\cong
+\{(a,h)\in\operatorname{Aut}(P)\times S_3:[a]=\omega(h)\}.
+\]
+
+核は \(P\cap C_Q(P)=Z(P)=1\)、両辺の位数は \(6|P|\) なのでこれは同型である。従って outer action を分類すれば拡大も尽くす。
+
+- \(\operatorname{Out}(L_2(8))=C_3\) だが、\(S_3^{\rm ab}=C_2\) なので \(\omega\) は自明。F14 の二型で完全である。
+- \(\operatorname{Out}(L_2(7))=\operatorname{Out}(L_2(11))=C_2\)。\(\omega\) は自明または sign。自明な場合が F13/F15 の split-inner 型で、sign の場合は
+  \[
+  Q\cong\operatorname{Aut}(P)\times_{C_2}S_3.
+  \]
+
+sign 型では \(r=t^{-1}\) は inner order 3、\(g=s\) は outer involution、\(\widehat w=rg\) は outer である。固定 \(\widehat w\) の \(n_m\) は \(\operatorname{Aut}(P)\) における
+
+\[
+3_{\rm inner}\cdot2_{\rm outer}\longrightarrow
+\text{指定 outer class}
+\]
+
+の class-multiplication coefficient であり、ordinary \(P\)-table ではなく \(PGL(2,q)\)-tableで scalar に計算できる。
+fiber-product の \(S_3\) 座標では対応する order-3 元が一意なので、追加の倍率はない。
+
+\(\langle r,g\rangle=\operatorname{Aut}(P)\) なら、その \(Q\) への標準 lift は \(S_3\) にも全射である。ここで \(\operatorname{Aut}(P)\) の非自明な真 quotient は \(C_2\) だけなので、元の糊 \(C_2\) より大きい共通商はなく、F3 と同じ subdirect 論法で lift は \(Q\) 全体を生成する。
+
+### F17【封印値・outer】\(\mathrm{PSL}(2,7)\)
+
+\(\operatorname{Aut}(P)=PGL(2,7)\) の outer classes の orders は \(2,6,8,8\)、centralizer orders は \(12,6,8,8\) である。inner \(3A\) の size は \(56\)、outer involution class の size は \(28\)。従って固定 outer 元 \(z\) の分解数は
+
+\[
+\frac{56\cdot28}{336}
+\sum_{\chi\in\operatorname{Irr}(PGL(2,7))}
+\frac{\chi(3A)\chi(2_{\rm out})\overline{\chi(z)}}{\chi(1)}.
+\]
+
+CTblLib の九行では、線形二指標と次数 7・8 の二つの tensor pair 以外は消える。sign を掛ける前の行を \(\chi_7,\chi_8\) とすると和は
+
+\[
+\frac{14}{3}\left(
+2+\frac{2\chi_7(z)}7-\frac{\chi_8(z)}2
+\right).
+\]
+
+これを各 outer class に代入すると
+
+| \(\operatorname{ord}(z)\) | 2 | 6 | \(8A\) | \(8B\) |
+|---:|---:|---:|---:|---:|
+| coefficient | 6 | 13 | **8** | **8** |
+
+全体和も
+\[
+28\cdot6+56\cdot13+2(42\cdot8)=1568=56\cdot28
+\]
+となり、convolution の総質量と一致する。
+
+order 2 は \(X=z^2=1\)、order 6 は Euclidean \(\Delta(2,3,6)\) のため不採用。order 8 を含む最大部分群は \(D_{16}\) だけで、これは order 3 元を持たない。従って各 order-8 分解は \(PGL(2,7)\) を生成し、対応する \(\langle X,Y\rangle\triangleleft PGL(2,7)\) は \(P\) に等しい。
+
+各 class は size \(42\) なので
+
+\[
+\frac{42\cdot8}{336}=1.
+\]
+
+\(8A,8B\) は \(PGL(2,7)=\operatorname{Aut}(P)\) 内で非共役だから、outer \(k=\operatorname{ord}(z^2)=4\) marking は **2 Aut\((P)\)-軌道**である。一方を \(z\in8A\) と正規化すると
+
+| \(m\) | \(u\bmod8\) | \(z^u\) | \(n_m^{\rm all}=n_m^{\rm gen}\) |
+|---:|---:|---|---:|
+| 0 | 1 | \(8A\) | 8 |
+| 1 | 3 | \(8B\) | 8 |
+| 2 | 5 | \(8B\) | 8 |
+| 3 | 7 | \(8A\) | 8 |
+
+他方の marking は \(A,B\) を交換した表である。各 marking の総数は \(4\cdot8=32\)。
+
+### F18【封印値・outer】\(\mathrm{PSL}(2,11)\)
+
+\(\operatorname{Aut}(P)=PGL(2,11)\) の outer classes の orders は
+
+\[
+2,\ 4,\ 10,\ 10,\ 12,\ 12
+\]
+
+である。inner \(3A\) の size は \(110\)、outer involution class の size は \(66\)。十三行の class-multiplication sum は
+
+\[
+\frac{110\cdot66}{1320}
+\sum_{\chi}
+\frac{\chi(3A)\chi(2_{\rm out})\overline{\chi(z)}}{\chi(1)}
+=\frac{11}{2}\left(2-\frac{2\chi_{11}(z)}{11}\right),
+\]
+
+ここで \(\chi_{11}\) は表の次数 11 の非 tensor 行である。従って
+
+| \(\operatorname{ord}(z)\) | 2 | 4 | \(10A\) | \(10B\) | \(12A\) | \(12B\) |
+|---:|---:|---:|---:|---:|---:|---:|
+| coefficient | 10 | 12 | **10** | **10** | **12** | **12** |
+
+全体和も
+\[
+66\cdot10+110\cdot12+2(132\cdot10)+2(110\cdot12)
+=7260=110\cdot66
+\]
+である。
+
+order 2 は \(X=1\)、order 4 は \(\Delta(2,3,4)=S_4\) のため不採用。order 10 を含む最大部分群は \(11{:}10,D_{20}\) で、どちらも order 3 元を持たない。order 12 を含む可能性がある \(D_{24}\) では order 3 元は rotation である。order-12 rotation を outer とすると中央 involution はその 6 乗なので inner、従って outer involution は reflection であり、inner order-3 rotation との積も reflection となって order 12 にはならない。従って order 10/12 の全分解が \(PGL(2,11)\) を生成する。
+
+order-10 class は size \(132\)、order-12 class は size \(110\) なので
+
+\[
+\frac{132\cdot10}{1320}=1,\qquad
+\frac{110\cdot12}{1320}=1.
+\]
+
+従って outer marking は \(k=5\) に **2 軌道**、\(k=6\) に **2 軌道**ある。各型の一方を \(A\) class に正規化すると
+
+| \(k\) | \(m:u\) と \(z^u\) の class | 各 \(n_m^{\rm all}=n_m^{\rm gen}\) | 1 marking 当たりの総数 |
+|---:|---|---:|---:|
+| 5 | \(0:1:A,\ 1:3:B,\ 3:7:B,\ 4:9:A\) | 10 | 40 |
+| 6 | \(0:1:A,\ 2:5:B,\ 3:7:B,\ 5:11:A\) | 12 | 48 |
+
+各型の第二軌道は \(A,B\) を交換する。後者が \(3\mid k\) の別記である。
+
+### F19【封印の解釈】命題 S と outer 一般化を分離
+
+四つの split-inner marking では全 charming \(m\) に
 
 \[
 n_m^{\rm all}=n_m^{\rm gen}=k
 \]
 
-が成立し、従って cardinality 予測
+が成立し、
 
 \[
 |\mathrm{GT}(N)|=\varphi(k)\,k
@@ -472,9 +606,19 @@ n_m^{\rm all}=n_m^{\rm gen}=k
 
 は四点すべてで生き残る。とくに \(k=9\) により「素数 \(k\) だけの偶然」ではないところまで進んだ。
 
-しかし、ここから一般定理、\(\mathrm{GT}(N)\cong\mathrm{AGL}(1,k)\)、または算術実現性を推論してはならない。今回決めたのは character table と最大部分群分類を入力にした **split-inner shadow 集合の紙上予測**までであり、outer-sign marking、settled witness、合成表は未計算である。
+outer 三型では命題 S の仮定 \(s,t\in P\) が壊れているため、これは命題 S の反例ではない。しかし全許容 marking への素朴な拡張は
 
-★ もう一つの重要点は、\(L_2(11)\) の order-5 類で raw coefficient \(10>5\) が現れながら、生成フィルタで全て消えることである。命題 S を壊す候補は「大きい類積係数」ではなく、**大きい類積係数を持つ admissible generating marking**でなければならない。
+\[
+32\ne\varphi(4)4,\qquad
+40\ne\varphi(5)5,\qquad
+48\ne\varphi(6)6
+\]
+
+として破れる。実際 outer 三型では \(n_m=2k\)、charming 層数は \(\varphi(2k)\) なので、三総数はいずれも \(2k\varphi(2k)\) である。
+
+ここから \(\mathrm{GT}(N)\cong\mathrm{AGL}(1,k)\) や算術実現性を推論してはならない。今回決めたのは character table と最大部分群分類を入力にした shadow 集合の紙上予測までであり、settled witness と合成表は未計算である。
+
+★ \(L_2(11)\) の split-inner order-5 類では raw coefficient \(10>5\) が現れながら、生成フィルタで全て消える。一方 outer order-10 類では同じ \(10\) が全て生成を通る。**類積係数だけでなく、どの拡大のどの coset にいるか**が式の成否を決める。
 
 ---
 
@@ -484,7 +628,8 @@ n_m^{\rm all}=n_m^{\rm gen}=k
 2. fiber product の二射影全射だけでは全体生成にならない。今回の 48 を閉じたのは「糊より大きい共通商がない」という追加事実である。
 3. direct product で変数分離できることと、非中心群環元が各既約表現で scalar になることは別主張である。
 4. 語の指数反転 \(x\mapsto x^{-1},y\mapsto y^{-1}\) は自由群自己同型である。商へ降りるかどうかが本当の盲点である。
-5. character coefficient は関係式解の数であり、marking の存在には生成フィルタが別途要る。\(L_2(11)\) の order-5 値 \(10\) がその教材である。
+5. character coefficient は関係式解の数であり、marking の存在には生成フィルタが別途要る。\(L_2(11)\) の inner order-5 は \(10\to0\)、outer order-10 は \(10\to10\) となる。
+6. 完全群でも outer action があれば ordinary \(G\)-table への reduction はできない。適切な拡大 \(PGL(2,q)\) の指定 coset 類積へ移る必要がある。
 
 ---
 
@@ -492,8 +637,8 @@ n_m^{\rm all}=n_m^{\rm gen}=k
 
 - Sol の役割規律に従い、GAP、node、Python、Lean は実行していない。CTblLib の ordinary table 生データと power map、最大部分群欄を読み、有限和は紙で計算した。
 - ATLAS 印刷版または原著 PDF のページ画像は今回供与されていないため、character table 入力を第二の原典で再照合していない。従って Opus からは独立だが、将来 GAP が CTblLib を使う場合は **データ源まで独立した二系統**にはならない。
-- PSL marking の明示行列 \(s,t\) は構成していない。正の類積係数、最大部分群分類、軌道数から存在と Aut 軌道を紙上で決めた。実装証明書では明示行列を出すべきである。
-- PSL 四対象の settled/isolated、composition table、reduction、算術像は監査範囲外であり UNKNOWN。
+- PSL marking の明示行列 \(s,t\)（outer 型では \(s\in PGL\setminus PSL\)）は構成していない。正の類積係数、最大部分群分類、軌道数から存在と Aut 軌道を紙上で決めた。実装証明書では明示行列を出すべきである。
+- PSL 七 marking 型の settled/isolated、composition table、reduction、算術像は監査範囲外であり UNKNOWN。
 - `docs/week3-20の正体_opus_v1.md` 以外の Opus 封印答案は見ていない。外部検索も行っていない。
 - 今便に Lean verified の新主張はない。
 
@@ -513,23 +658,27 @@ P112【GAP-48a の対象別閉鎖】F3 の「最大共通商 \(=C_2^2\)」補題
 
 W77【subdirect trap】fiber product への二射影が全射でも、その部分群が全 fiber product とは限らない。
 
-P113【PSL nonce 封印】F13–F15 の class label、\(m:u\)、\(n_m^{\rm all}\)、\(n_m^{\rm gen}\)、総数 \(42/42/54/110\) をこの版の封印値として固定し、Opus 答案との突合前に変更しない。
+P113【PSL nonce 封印】F13–F18 の class label、\(m:u\)、\(n_m^{\rm all}\)、\(n_m^{\rm gen}\) と、1 marking 当たりの総数
+\[
+42;\ 32,32;\ 42;\ 54;\ 110;\ 40,40;\ 48,48
+\]
+をこの版の封印値として固定し、Opus 答案との突合前に変更しない。
 
-W78【raw と生成】`class_coefficient` と `generation_pass_count` を別欄にする。\(L_2(11)\) の order-5 control は \(10\to0\) を必ず保存する。
+W78【raw と生成】`class_coefficient` と `generation_pass_count` を別欄にする。\(L_2(11)\) の inner order-5 control \(10\to0\) と outer order-10 control \(10\to10\) を対で保存する。
 
-P114【実装証明書】各 PSL marking について明示 \(s,t,w,X,Y\)、exact order、\(\langle X,Y\rangle=G\)、Aut 軌道、power-class map、per-\(m\) staged counts、settled witness を出す。探索前に四総数を manifest へ固定する。
+P114【実装証明書】各 PSL marking について明示 \(s,t,w,X,Y\)、inner/outer action、exact order、\(\langle X,Y\rangle=G\)、Aut 軌道、power-class map、per-\(m\) staged counts、settled witness を出す。探索前に七型十軌道の総数を manifest へ固定する。
 
-W79【class label】\(7A/7B/7C\)、\(9A/9B/9C\)、\(11A/11B\) は CTblLib の正規化であり、外部自己同型で入れ替わる。ラベル自体を marking の不変量にしない。
+W79【class label】\(7A/7B/7C\)、\(9A/9B/9C\)、\(11A/11B\) と PGL 側の \(8A/B,10A/B,12A/B\) は CTblLib の正規化である。ラベルそのものより power map と inner/outer coset を証明書に残す。
 
 P115【独立データ源】実装後の二系統化では、GAP/CTblLib の同じ table を再読するだけでなく、ATLAS 印刷表または明示 \(2\times2\) 行列からの直接列挙を相方にする。追加の巨大探索器は不要。
 
 W80【合成数 \(k\)】charming なら \(\gcd(u,2k)=1\) であり、合成数でも \(w^u\) の exact order は落ちない。
 
-P116【次の反証点】命題 S の次候補は、raw coefficient \(>k\) かつ生成条件も通る marking に限定する。単に類積係数が大きい非生成 triangle pair は候補から除く。
+P116【次の反証点】命題 S 自身の次候補は split-inner のまま、raw coefficient \(>k\) かつ生成条件も通る marking に限定する。outer 三型は「全許容 marking への拡張」が失敗する control として別欄に置く。
 
 W81【状態】PSL の数値は標準 character table に基づく独立紙計算であり、現時点では candidate。GAP/node の一致で初めて cross-checked、Lean 証明書で初めて verified と呼ぶ。
 
-P117【outer-sign 残件】\(L_2(7),L_2(11)\) について、sign action を持つ
-\(\operatorname{Aut}(G)\times_{C_2}S_3\) 型の拡大を別宇宙として事前登録し、outer involution coset の類積係数と marking 軌道を計算する。split-inner の四封印値とは混ぜない。
+P117【outer-sign 実装宇宙】\(L_2(7),L_2(11)\) の
+\(\operatorname{Aut}(G)\times_{C_2}S_3\) 型拡大を split-inner とは別 target ID で事前登録し、F17/F18 の二類積表を直接列挙で照合する。
 
-W82【分類の射程】「\(G\) 完全だから ordinary \(G\)-character table で全 marking を分類できる」と記帳しない。今便で完全なのは \(L_2(8)\) と、三群の split-inner 部分である。
+W82【分類の射程】三群の marking 分類は F16 の外部作用二分で尽くしたが、scalar の入力は一枚ではない。split-inner は \(G\)-table、outer-sign は \(PGL\)-table の指定 coset 類積である。
