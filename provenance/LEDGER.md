@@ -160,6 +160,14 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-25 — Sol 便 05 受領・裁定 05(相互監査 初回転の完了)
+
+- 3 回目の起動(12:13 UTC・exit 0)で sol/sol_reply_05_peer_review.md 受領。git 監査クリーン(変更は返信のみ)。裁定: sol/裁定_05_peer_review.md。
+- **判定: 定理 A 合格・定理 B 結論合格(χ の言い回し修正 F5/W31)・命題 C 合格・J 設計合格(kernel 証明書 PB₃ 縮小は F10 の schema 条件付き)。W23 は Sol が原文照合の上で自己撤回(Opus の (3.32) 論拠を承認)。**反証の穴なし。紙上相互監査 PASS ≠ verified(Lean 未接続)。
+- 封印プロトコルは F11/P46 で強化裁定(canonical payload+乱数 nonce+計算前 commit)。既存 J 封印は「blind 運用」に再ラベル(暗号学的秘匿とは呼ばない)。
+- 狩場案: P32-P36(Q₈/M_Q)は汚染(続報 3)により独立収束と扱わず「第二系統の紙上再計算(一致)」として採用。P37-P43(2-Zassenhaus 塔)は Opus T₄ 塔との照合を委嘱 02 で実施。
+- **文献配達 01 実施**(タスク #11): docs/文献配達_01_goursat_guillot.md を起草し Opus(委嘱 02)へ配達・Sol へは便 06 で配達予定。ブラインド局面の終了を確認の上、検疫圏から翻訳して開示(きっかけ: ②常務読み第 1・2 号)。
+
 ## 2026-07-25 — ops 障害記録: Sol 便 05 初回起動が OpenAI 503 で失敗
 
 - Codex バックエンドが 503(circuit open + throttled)。WebSocket/HTTPS 両系 5 回再試行の末 turn 失敗(返信なし・exit 1)。
