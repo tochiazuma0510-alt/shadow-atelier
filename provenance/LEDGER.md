@@ -114,6 +114,16 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **ハッシュ再照合(バイト同一性の確認)**: K13.v1.json / K14.v1.json の SHA-256 先頭16桁を再計算 → 記録値(b9a89b812224ea17 / c90c80b8053a8a91)と **完全一致(2/2 MATCH)**。JoinC の実装変更が出力バイトに一切影響しないことを実測で確認。
 - **結論**: 全 shard(shard-a 205.6 秒・shard-b1 161.3 秒・shard-b2 243.4 秒・q1836 448 秒〔既存・無変更〕)が 10 分 cap 内に収まった。宇宙分担(shard A {3..12} + shard B1 {13,14} + shard B2 {15,16}+N5 + q1836 {18,36} = {3..16,18,36,N5})・certificates 17 件の全ハッシュ一致は変わらず有効。
 
+## 2026-07-25 — Week 3: 宇宙の事前登録(L = K⁽³⁾ ∩ N₀)
+
+計算開始前に固定(設計正本: docs/week3-L設計.md):
+
+- **対象**: L = ker(φ_L)、φ_L: PB₃ → G₃ × H₃(x ↦ ((r,s,s), X)、y ↦ ((rs,r,rs), Y)、c ↦ (1,1))。H₃ = 位数 27 Heisenberg(座標 (a,b,e)・積 (a,b,e)(a′,b′,e′) = (a+a′,b+b′,e+e′+ab′) mod 3・X=(1,0,0), Y=(0,1,0))。
+- **司令塔導出の構造値(照合対象)**: |Q_L| = 2916(Goursat: 共通商自明)・|B₃:L| = 17496・L_ord = 6・𝒳_L = {0,2,3,5}・|[Q_L,Q_L]| = 81・raw = 324。**L ∉ Dih**(K⁽⁹⁾ との位数一致は H₃ 非可換 3 群商の非存在で分離 — Sol 便 04 監査予定)。
+- **計算項目**: GT(L) 完全列挙(counts 全段)・kernel brute 証明書・合成/逆・R_{L,K⁽³⁾} の像と全射判定。**|GT(L)| と像の期待値は事前登録しない(新対象・UNKNOWN から)**。
+- **cap**: GAP 1 実行 ≤ 600 秒・node kernel-brute 1 shadow ≤ 120 秒。超過は UNKNOWN+実測報告。
+- 台帳規約: L の行は Dih 正解表と別テーブル・三値(genuine/fake/UNKNOWN)・有限深度 PASS から genuine を導かない。
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。

@@ -1,0 +1,45 @@
+# Week 3 設計: L = K⁽³⁾ ∩ N₀ の窓を開ける(fake 狩り初戦)— v1
+
+2026-07-25・司令塔設計。Sol 便 01 P3(修正採用)・便 03 の atlas 助言 8 行を設計制約として反映。
+入口条件(v1.0-g1 回帰 PASS)は 2026-07-25 充足済み(provenance/regression-v1.0-g1-20260725.log)。
+
+## 1. 対象の構成(司令塔導出)
+
+- **H₃** := F₂/V、V := F₂³·γ₃(F₂)(自由 class-2・exponent-3 商)= Heisenberg 群 mod 3、位数 27。
+  座標規約: 元 = (a, b, e) ∈ (ℤ/3)³、**X = (1,0,0)、Y = (0,1,0)**、積 **(a,b,e)(a′,b′,e′) = (a+a′, b+b′, e+e′ + a·b′)**(mod 3)。
+  この規約で [X,Y] := X⁻¹Y⁻¹XY = (0,0,1)。**fixture**: X³ = Y³ = (XY)³ = 1、[X,Y] は中心・位数 3、[[X,Y],X] = 1。
+- **N₀** := π⁻¹(V)、π: PB₃ → PB₃/⟨c⟩ ≅ F₂。V は F₂ の characteristic 部分群なので B₃ 共役で不変 → N₀ ⊴ B₃、N₀ ≤ PB₃、PB₃/N₀ ≅ H₃(c ↦ 1)。
+- **φ_L: PB₃ → G₃ × H₃**: x ↦ ((r,s,s), X)、y ↦ ((rs,r,rs), Y)、c ↦ (1,1)。**L := ker φ_L = K⁽³⁾ ∩ N₀**。
+- **|Q_L| = 2916(直積全体)の証明**: Q_L は生成元対から作る subdirect product。Goursat により Q_L は同型 G₃/A ≅ H₃/B の fiber 積。共通商は G₃ の商かつ H₃ の商 — G₃^{ab} = G₃/[G₃,G₃] は位数 108/27 = 4(2 群)、H₃ の全商は 3 群 → 共通商は自明のみ → Q_L = G₃ × H₃ 全体、位数 108·27 = **2916**。ゆえに |B₃:L| = 6·2916 = **17496**。
+- **不変量**: c ∈ L(両成分で c ↦ 1)なので F₂/L_F₂ ≅ Q_L。x̄ の位数 = lcm(6, 3) = 6、ȳ 同・c̄ = 1 → **L_ord = 6**。𝒳_L = {m ∈ 0..5 | gcd(2m+1,6)=1} = **{0, 2, 3, 5}**(4 個)。
+  [Q_L, Q_L] = [G₃,G₃] × [H₃,H₃] = 27 × 3 = **81**。**raw 候補 = 4 × 81 = 324**(Sol 便 01 の見積もりが等号で実現)。
+- **Dih 外性の証明(位数だけで)**: もし L = K⁽ⁿ⁾ なら |PB₃:L| = 4n³ or 4(n/2)³ — どちらも 4 の倍数。2916 = 4·729 は 4 の倍数だが…(K⁽ⁿ⁾ との一致は |Gₙ| = 2916 を要し、4n³ = 2916 ⇒ n³ = 729 ⇒ n = 9 奇数 → |G₉| = 4·729 = 2916!)**注意: 位数だけでは K⁽⁹⁾ と区別できない**。排他的不変量で分離する: K⁽⁹⁾ の商 G₉ は可解長・exponent が異なる(G₉ ≤ D₉³ は exponent lcm(18,2) 系、Q_L は H₃ 因子で class-2 nilpotent 因子を持つ)。**確定的な分離**: F₂/L_F₂ ≅ G₃×H₃ は位数 27 の非可換 nilpotent 商(H₃)を持つが、F₂/K⁽⁹⁾_F₂ ≅ G₉ ≤ D₉³ の 3-Sylow は ⟨r_9 の冪⟩³ ∩ G₉ 型の**可換**群 → H₃(非可換 3 群)は G₉ の商になり得ない。ゆえに L ≠ K⁽⁹⁾、また n ≠ 9 の K⁽ⁿ⁾ とは位数で不一致。**L ∉ Dih**(marked kernel として)。※Sol 警告 5(seed の非 dihedral 性だけで判定しない)への正面回答 — この分離論証自体を Sol 便 04 の監査対象に載せる。
+- **c = 1 の注意**: L でも c̄ = 1(K⁽³⁾ 側も N₀ 側も c を殺す)。中心項機構の見張りは引き続き N₅(回帰スイート内)が担う。機構は c-generic のまま使う(c=1 を暗黙に仮定する短絡を書かない — Sol 助言)。
+
+## 2. 計算計画
+
+- **モデル**: 凍結済み transversal-cocycle(12 規則)を Q = Q_L で適用。点数 = |Q_L|·6 = 17496。GAP は G₃×H₃ の置換表現(9+9+9 点の D₃³ ブロック+H₃ の正則表現 27 点 = 54 点上の直積)で Q_L を作る。node は (G₃ triple [a,e]×3, H₃ (a,b,e)) の整数対で自前実装(§1 の積規約+fixture 自己検査)。
+- **列挙**: 探索器 = 簡約 hexagon (3.10)(3.11) を F₂/L_F₂ = Q_L 内で+全射性(Prop 3.6)。照合器 = full (3.3)(3.4) を Q_L×T 上で。**期待値は事前登録しない**(新対象 — 錨を下ろさない。UNKNOWN から始める)。
+- **kernel 証明書**: type = **brute の一般化**(N₅ 方式): B₃/L(17496 点)上で σ̂ᵢ ↦ T(σᵢ) の井戸定義性を BFS 衝突検査+全単射判定。dihedral の (4.11) は使えない(Lemma 4.2 は Dih 専用)。**注意(規模)**: node 側 BFS は 17496 元 × 4 生成元。1 shadow あたり数十秒〜数分の見込み — 実測を cap 管理(超過なら shadow のサンプル検査+GAP 側全数、と分割し正直に記録)。
+- **本題: R_{L,K⁽³⁾} の像**: L ≤ K⁽³⁾、L_ord = K⁽³⁾_ord = 6 なので reduction は [m, f] ↦ (m, f の G₃ 成分)。GT(K⁽³⁾)(12 元・凍結済み証明書)への像を添字で列挙し、**全射か非全射かを判定**。非全射なら: 漏れた shadow・GT(L) の完全列挙証明書・像の完全計算、の三点セットで **fake 証明書**を構成(Sol W: 負判定には完全列挙の個数証明を必ず添付)。
+- **台帳規約**(Sol 助言): L の行は既知 Dih の正解表と別テーブル。列 = 全列挙 / kernel / survival(別証拠・三値 genuine/fake/UNKNOWN)。有限深度 PASS から genuine を導かない。
+
+## 3. 証明書スキーマの拡張(gtsh-cert/v1 内で後方互換)
+
+- target.family = **"general"** を追加(dihedral/control と並ぶ第 3 値)。target.construction に φ_L の生成元像(G₃ 成分は [a,e]×3、H₃ 成分は (a,b,e))を明記。
+- kernel_cert.type = "brute"(expected_kernel_index = 17496)。
+- reduction エントリ: "to": "K3"(添字規約は凍結済みのまま)。
+- 照合器: family=general の検査項目 = ①counts ②full hexagon ③f_word↔f_pair 一致 ④charming(f ∈ [Q_L,Q_L])+全射 ⑥kernel brute ⑦合成表 ⑧逆 ⑨reduction(→K3)。Thm 4.3 系(⑤ ϱ 等)は Dih 専用のため非適用(理由つき N/A — fail-closed 規約どおり)。
+
+## 4. 作業パッケージ
+
+- **WP3a(explorer・implementer/sonnet)**: `search/week3-L-explorer.g` — Q_L 構成+fixture 自己検査+列挙+証明書 `certificates/L01.v1.json`(counts 全段)。cap 600 秒/実行(超過見込みなら分割設計を先に報告)。
+- **WP3b(checker 拡張・implementer/sonnet)**: `crosscheck/check.mjs` に family=general を追加(H₃ 積の自前実装+fixture 自己検査つき)。verdict `L01.v1.verdict.json`。search/ を読まない掟は継続。
+- **司令塔**: 本設計の Sol 便 04(戦況+設計監査+結果裁定を 1 便に)・検収・統合・可視化拡張(結果が出たら Artifact に「Week 3: L の窓」節を追加 — 決定木の実測側を塗る)。
+- **falsifier 前哨**: 実装予算投入前に本設計を反証前哨に通す(空虚性・事前登録・証明の型・撤退条件)。
+
+## 5. cap・撤退条件(事前登録)
+
+- GAP 1 実行 ≤ 600 秒 / node kernel-brute 1 shadow ≤ 120 秒(超過は UNKNOWN + 実測報告・宇宙は絞らない)。
+- 候補 324・|Q_L| 2916・17496 点 — 全て既知規模の範囲内(RAM 影響なし)。
+- 撤退: 実装が 2 作業日で回らなければ対象を保留し Sol と再設計。
