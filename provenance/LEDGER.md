@@ -160,6 +160,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-26 — 裁定 10: 独立収束第 4 号(case B 障害機構)・統一定理候補・PU-F14 封印
+
+- **双方向ブラインドの偶然成立**: Opus 委嘱 07 の命題_caseB_settled障害_v1 は Sol 便 10 を読む前に起草(逆も未読)— case B の settled 障害で全論点一致(座 = w・u ≡ ±1・繊維 16/32・20/40・24/48)。**統一定理候補: |GTSh(N,N)| = |N_Aut(⟨w⟩)|**(case A = Hol(ℤ/k)・case B = D_{4k}・case B 恒常非 isolated)— 便 11 で最終相互監査。
+- D7(判定式の積規約・(H-a) 鈍感/(H-b′) 敏感)= Opus 新発見・Sol 未監査【GAP-W3 遡及監査は WO4 並行】。PU-F14 は選択肢 (b) 採用(期待値 PS-F14 封印・fixture は出力形式)。Opus 検算スクリプト 36 本を金庫 staging に恒久化(6cc917d)。
+- manifest v2_psl(7 窓 10 軌道・19944 点・封印行列と整合)受領 → spec 射影 → falsifier → WO4。
+
 ## 2026-07-26 — Lean 工場開通・プロジェクト初の verified(W3-5)
 
 - lean/(plain Lean 4.32.1・Mathlib なし・lake)+.github/workflows/lean.yml(elan → lake build)を設営。ローカル warm 0.8s/RSS 255MB・**CI green**(commit 054db1b)。
