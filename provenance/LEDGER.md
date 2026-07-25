@@ -160,6 +160,14 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-25 — Sol 便 07 受領・裁定 07: 実装ゲート「条件付き GO」(G-01〜G-08)
+
+- 14:34 UTC 受領(exit 0)・git 監査クリーン。裁定: sol/裁定_07_audit.md。
+- **合格**: T2 本体(【GAP-E10】閉鎖)・E1・E3(限定版)・E4-E6・比較写像 G1/G2′/G3(【GAP-G1】閉鎖)・A5-Q・Q₈ Φ=0・バッテリー 7 段/25200 点/順序/cap。**要修正 8 点(G-01〜G-08)**: T2-A exact order・E2→E2′ 弱化・`m_missing`/`fake_witness` 分離(F11 — fake は相対概念)・settled の (m,f) witness 化・単一 manifest 統合ほか。
+- 訂正: 中心化条件 ⟺ **class ≤ 2 と正確に同値**(F8)・Guillot δ は位数 2(F16)。
+- **Sol の数学提供**: F13 行列値 Fourier 公式(成層数の正確式)・F20 A2→A1 全 shadow 集合全単射の紙上証明。文献要請 4 は F13 基準式の scalar 化に絞り直し(P85)。
+- 工程: Opus 委嘱 04(修正反映+canonical manifest)→ falsifier 差分確認(P88)→ implementer 発射。状態札: 今便の合格群はすべて「紙上相互監査」(W60)。
+
 ## 2026-07-25 — Sol 便 06 受領・裁定 06: H8″/H7′ 不合格・(Q7) は A₅ で存在決着(真の独立収束)
 
 - 13:35 UTC 受領(exit 0)・git 監査クリーン。裁定: sol/裁定_06_audit.md。
