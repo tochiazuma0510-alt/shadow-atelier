@@ -80,7 +80,7 @@ gtsh-cert/v2
   hexagon_free_certificate {           # 排他的 staged count (F16/W49)
       candidate_total, h10_fail, h11_fail, generation_fail,
       shadow_total }                   # shadow_total は導出値 (引き算が成り立つこと)
-  generation_pass_count  <int>         # G-05: boolean 禁止・候補別に数える
+  generation_pass_count  <int>         # G-05: boolean 禁止・候補別に数える(出力は <int>・期待値欄は <int>|UNKNOWN — A1/A2 の期待は UNKNOWN)
   generation_detail   [ { m, f_hash, pass } ]                   # 候補別欄
   torsion_generation_agrees  true|false|UNKNOWN                 # 参考値のみ (W52)
   derived_product_check { ab_order_observed, product_expected, agree }  # W46
@@ -348,6 +348,7 @@ gtsh-cert/v2
 **(3) derived / candidate**(spec): `derived_order = 60`(= \|[A₅×C₅, A₅×C₅]\| = \|A₅×1\|)、`candidate_total = 240`。
 **(4) c と評価**(spec): **`c_in_N = false`**(c̄ = (1,ζ) は位数 5)、**`evaluation_mode = "word_level_required"`**。
 > **実装注意(最重要・M₅ で判明した罠)**: **簡約 hexagon を商 P の中で評価してはならない。** θ/τ を**自由群の語レベル**で適用してから φ で評価すること(定義ノート §2)。**近道を使うと壊れる。本段はその罠の実地検査である。**
+> **正規形の事前固定(falsifier 指摘 2026-07-26)**: 語レベル評価の規約は **M₅ 実装(凍結 tag v1.0-g1 系列・search/week3-M5-explorer.g)の語レベル θ/τ 規約と同一**とする — f の代表語は候補列挙で用いた生成語(自由簡約形・左から簡約)をそのまま使い、θ/τ を代表語へ文字ごとに適用してから φ で評価する。**列挙開始後の規約変更は禁止**(必要が生じたら停止して司令塔へ)。
 `triangle_marking`(spec): **`"not_applicable"`**。理由: 定理 T2 / 系 T2-A′ は **c ∈ N を仮定する**。A2 では Δ̄² = c̄ が位数 5 なので B₃/M は PSL(2,ℤ) の商ではない(Δ̄ は位数 10、δ̄_B は位数 15)。**exact_order 欄を書かない。**
 **(5) 期待値**(**sealed**):
 ```json
@@ -370,7 +371,7 @@ gtsh-cert/v2
 ```
 補題 A2A1 の骨子: ①候補集合が一致([A₅×C₅ の導来] = A₅×1 ≅ A₅、𝒳 も同一)②A₅ 完全ゆえ f は [F₂,F₂] の語で代表でき **C₅ 成分は 1** ③C₅ 側の hexagon は可換商ゆえ自動(N₅ の m-full 性)④A₅ と C₅ に非自明な共通商が無い(A₅ 単純非可換・A₅^{ab} = 1)ので Goursat より生成性が全体へ。
 > **W57(厳守)**: 両対象の isolated が UNKNOWN の間、この全単射を **「群同型」と呼ばない**。言えるのは「集合の全単射」と「gt_count の等号」まで。
-**(7) isolated**(sealed): **`UNKNOWN`**。
+**(7) isolated**(sealed): **`UNKNOWN`**。根拠 = 補題 A2A1 は**集合全単射まで**で settled/isolated には触れない。A1 側の isolated も UNKNOWN(【GAP-E11】)であり、その像である本段も UNKNOWN(W57 の群語彙規律)。
 **(8) cap / 撤退**(spec): §1.1 共通。**本段の fixture 不一致は「語レベル評価の実装バグ」か「補題 A2A1 の誤り」のいずれかを意味する。どちらでも情報量があるので、必ず停止して原因を切り分ける。**
 
 ---
@@ -423,13 +424,15 @@ gtsh-cert/v2
 | U-F6 | 塔の包含: **P₃ ↠ P₂** と **P₂ ↠ Q₈** を marked factor map で**別々に** | PASS |
 | U-F7 | 両表示の一致(定理 T1): P₂/P₃ が verbal 表示と restricted 表示の**双方の**関係式を満たす | PASS |
 | U-F8 | θ, τ が各 P に降りること(生成元の像で検査。**c ∈ N の段のみ**商評価が正当) | PASS |
-| U-F9 | E_m 表(三層 + 二交わりで独立計算) | Q₈:(1,−1,−1,1) / P₂:(1,w,w,1) / P₃:(1,wp,wq,1) |
+| U-F9 | E_m := X^m Z^m Y^m の値表を各層で**独立計算し証明書へ出力**する(**期待値は本 fixture に書かない — sealed 側 S-F9 に封印**・開封時に司令塔が突合) | 出力欄の存在(値の事前指定なし) |
 | **U-F10** | **exact order(G-01)**: c ∈ N の各段で `ord_Q(deltaB_bar^{-1} Delta_bar) = 2·n_ord` | 1a/2a/2b: 8、1b/3: 24、A1: **10** |
 | **U-F11** | **S₃ marking(G-02)**: Δ̄ ↦ (12)、δ̄_B ↦ (123)、かつ**標準射との同時共役元が (123)** | PASS |
 | **A-F1** | A₅ 自己検査: X,Y,Z の位数 5、XYZ = 1、s² = 1、sXs⁻¹ = Y、t³ = 1、τ: X→Y→Z→X | PASS |
 | **A-F2** | ⟨X,Y⟩ = ⟨X,t⟩ = ⟨s,t⟩ = A₅(位数 60) | PASS |
 | **A-F3** | B₃/N_A ≅ A₅×S₃: Δ̄²=δ̄_B³=1、braid 関係、σ̄₁²=(X,1)、σ̄₂²=(Y,1)、\|⟨Δ̄,δ̄_B⟩\| = 360 | PASS |
 | **A-F4** | **段 A2 の評価方式**: 判定は**語レベル評価のみ**を採用。商内評価は**診断目的でのみ並走**させ、一致/不一致を候補ごとに記録する | 語レベル評価が採用され、`quotient_eval_diff_count` が記録されていること |
+
+- **S-F9(sealed — spec 射影から除去)**: E_m 期待表 = Q₈:(1,−1,−1,1) / P₂:(1,w,w,1) / P₃:(1,wp,wq,1)。これは段 1a/2a/2b の (H-b′) 解そのものであるため、spec に置くと較正の盲検性が壊れる(falsifier 指摘 2026-07-26 で U-F9 から移設)。
 | **A-F5** | A2 の E_m を **語レベルで**構成し、C₅ 成分の hexagon が全 m ∈ 𝒳 で成立 | PASS(補題 A2A1 ③) |
 | **A-F6** | A2 の derived: \|[A₅×C₅, A₅×C₅]\| = 60、射影 A₅×1 → A₅ が同型 | PASS |
 
