@@ -160,6 +160,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-26 — Lean 工場開通・プロジェクト初の verified(W3-5)
+
+- lean/(plain Lean 4.32.1・Mathlib なし・lake)+.github/workflows/lean.yml(elan → lake build)を設営。ローカル warm 0.8s/RSS 255MB・**CI green**(commit 054db1b)。
+- **初の verified**: `Marking.marking_identity` — A₅ marking の s∘X∘s⁻¹ = Y を decide で機械証明。**依存公理 propext のみ・sorry なし**(公理監査込み)。範囲は単一恒等式(誇張しない)。CLAIMS W3-5。
+- 次段: 証明書形式(JSON → Lean 命題群)の設計は司令塔+Opus(P87 候補: T2(iii) 捻れ恒等式・E1・A5-Q 生成元等式)。Mathlib は必要が生じた時点で CI 側にのみ導入(ローカル排他は不要になった)。
+
 ## 2026-07-26 — 道具の解放完了+正典追加(2008.00066)
 
 - 道具聴取のフォローアップ: **MapClass は GAP 棚に既在**(lins/repsn/twistedconjugacy/wedderga と共に実在確認)— 数学者要望のソフトは全て調達不要で解放済み。Guillot 原文は配達済み。**Lean+Mathlib 工場の設営を implementer に発注**(public 化の主目的 — Actions でのビルド・ローカルは軽量)。
