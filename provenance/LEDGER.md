@@ -160,6 +160,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-26 — 道具の解放完了+正典追加(2008.00066)
+
+- 道具聴取のフォローアップ: **MapClass は GAP 棚に既在**(lins/repsn/twistedconjugacy/wedderga と共に実在確認)— 数学者要望のソフトは全て調達不要で解放済み。Guillot 原文は配達済み。**Lean+Mathlib 工場の設営を implementer に発注**(public 化の主目的 — Actions でのビルド・ローカルは軽量)。
+- 正典追加: **arXiv 2008.00066**(What are GT-shadows? — 副線 B₄ 系の定義正本・Phase 0 以来の未入手分)を papers/ へ。SHA-256 = C44EBA890F83C1AC84A44A5B52FD5C6849250B242331D7EAAFF9DD983167FB33。txt 層生成済み。
+
 ## 2026-07-26 — PSL 突合成立・封印 PSL_v1(P67 初適用)・裁定 09
 
 - **PSL 独立紙計算の突合**: 重なり(split-inner = case A・4 窓)で Sol(便 09)と Opus(委嘱 06・金庫)が**完全一致**。Opus は外部型 case B を完全分類(Sol は正しく UNKNOWN 申告 — 矛盾なし・相補)。PSL(2,8) に case B 非存在は両者一致。**命題 S は case A で 5/5 成立・case B で 3/3 破れ** — 正しい射程は「split-inner 窓」(3|k は無関係)。case B は **atlas 初の非 isolated 対象の予測**を含む。
