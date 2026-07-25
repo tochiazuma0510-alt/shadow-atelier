@@ -138,6 +138,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 判定: R_{M₅,K⁽³⁾} の像を最優先。cap: 単位 600 秒・GAP+checker 集約 10 分(W24: fixture が 1 つでも外れたら列挙へ進まず UNKNOWN)。
 - counts 語彙は便 04 P27 を先行適用: 母集合 field 名は raw でなく **pre_hex_charming**(L01 の raw も同義と読み替え・改名は照合器改修と同時)。
 
+## 2026-07-25 — Week 3 続: M₅ 実装での数学的発見(θ/τ の商降下の前提)
+
+- WP3c-a(explorer)が M₅ の fixture 5/5 PASS(540・3240・30・27・432 — 全て事前登録値と一致・2.9 秒)の後、τ の商準同型構成が fail する現象を単離・診断して**独断せず差し戻し**。
+- 司令塔裁定(検算済み): 簡約 hexagon の**商内評価の近道**は N_F₂ の θ,τ-不変性 = braid 共役の c-因子の消滅(**c ∈ N**)を暗黙前提にしていた。K⁽ⁿ⁾・L(c ∈ N)では成立、M₅(c ∉ M₅)では不成立 — agent の指標計算 e(τw) = n_x − 2n_y ≢ e(w) mod 5 が正しい。**Prop 3.4 自体は無傷**(元ごとの membership 条件)。対処: θ/τ を自由群の語レベルで適用してから φ_M 評価(設計変更を指示・実装再開)。
+- 教訓: falsifier 前哨の軽微指摘(「θτ の商への降下前提を assertion に」)が予言どおり発火し、assertion(hom 構成の fail 検知)が誤列挙の前に停止させた。定義ノート §2 に注意書きを恒久化。
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。

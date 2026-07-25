@@ -5,7 +5,8 @@
   "items": {
     "0_schema_fail_closed": {
       "ok": true,
-      "errors": []
+      "errors": [],
+      "detected_kind": "H3"
     },
     "0_invariants": {
       "ok": true,
@@ -32,14 +33,17 @@
       "ok": true,
       "monotone": true,
       "matchesShadowLen": true,
+      "raw_field_read": "raw_candidates",
       "approved_simplification": "追補1 項目3(司令塔裁定・2026-07-18)の緩和を general に準用: raw 候補の完全再列挙は不要、単調性+最終個数一致で可。"
     },
     "1_raw_formula": {
       "ok": true,
       "claimed_raw": 324,
       "expected_raw": 324,
-      "X_L_count": 4,
-      "derived_order": 81
+      "X_count": 4,
+      "Nord": 6,
+      "derived_order": 81,
+      "field_read": "raw_candidates"
     },
     "2_hexagon": {
       "ok": true,
@@ -59,18 +63,18 @@
     "5_thm43_set": {
       "ok": true,
       "status": "N/A",
-      "reason": "Thm 4.3 の閉じた式(2405)は dihedral 専用。Q_L=G3xH3 の general 対象には非適用 -- week3-L-設計.md §3。"
+      "reason": "Thm 4.3 の閉じた式(2405)は dihedral 専用。Q_H3=G3xH3 の general 対象には非適用 -- week3-L設計.md §3。"
     },
     "6_kernel_cert": {
       "ok": true,
       "checked": 36,
       "fails": [],
-      "aggregate_elapsed_ms": 532,
+      "aggregate_elapsed_ms": 523,
       "unit_cap_ms": 120000,
       "aggregate_cap_ms": 1800000,
       "sample_limit": 50,
       "unknown_count": 0,
-      "note": "N5 の checkKernelCertBrute 方式の一般化 (17496 元 BFS で井戸定義性+全単射性)。集約 cap 超過時は決定的に先頭50件のみ全数、残りは UNKNOWN(silent cap 禁止・week3-L-設計.md §5)。"
+      "note": "N5 の checkKernelCertBrute 方式の一般化 (model.N=17496 点 BFS で井戸定義性+全単射性、基点像による同時共役で settled を保証 -- sol_reply_04 F2)。集約 cap 超過時は決定的に先頭50件のみ全数、残りは UNKNOWN(silent cap 禁止・week3-L設計.md §5)。"
     },
     "7_composition_table": {
       "ok": true,
@@ -104,17 +108,17 @@
       ],
       "exact_entry_set": true,
       "fails": [],
-      "note": "設計 §2/§1: R_{L,K3} = [m,f]->(m, fのG3成分)。全射性は claim をそのまま信じず独立再計算し一致を要求(week3-L-設計.md §2 fake 証明書対応)。"
+      "note": "設計 §2/§1: R_{Q,K3} = [m,f]->(m, fのG3成分)。全射性は claim をそのまま信じず独立再計算し一致を要求(week3-L設計.md §2 fake 証明書対応)。"
     },
     "10_ls_witness": {
       "ok": true,
       "status": "N/A",
-      "reason": "ls_witness (5.1) の theta/tau 構成は dihedral(2405 Thm4.3系)専用。week3-L-設計.md は general 用の再定義を与えていない。"
+      "reason": "ls_witness (5.1) の theta/tau 構成は dihedral(2405 Thm4.3系)専用。week3-L設計.md は general 用の再定義を与えていない。"
     },
     "11_induced_maps": {
       "ok": true,
       "status": "N/A",
-      "reason": "dihedral の theta/tau 商写像は Q_L=G3xH3 に非適用。"
+      "reason": "dihedral の theta/tau 商写像は Q_H3=G3xH3 に非適用。"
     },
     "12_representative_invariance": {
       "ok": true,
@@ -139,6 +143,16 @@
       "ok": true,
       "status": "N/A",
       "reason": "Thm.4.6 の明示式 rho は n=4,8,16 dihedral 専用。"
+    },
+    "14_central_power_direct": {
+      "ok": true,
+      "checked": 36,
+      "fails": [],
+      "c_hat_identity": true,
+      "c_hat_order_5": null,
+      "expected_c_hat_trivial": true,
+      "c_hat_matches_expectation": true,
+      "note": "N5(control) の checkN5Enumeration directCentral 機構を general 家族へ適用。T(c)=c-hat^{2m+1} を全 shadow で直接検査し、あわせて c-hat が kind に応じて自明(H3)/位数5で非自明(C5)であることを独立確認する(sol_reply_04 P18-P20)。"
     }
   },
   "all_pass": true,
