@@ -26,4 +26,5 @@
 
 | # | 対象 | 全列挙 | kernel | survival(reduction) | 三値判定 | 状態 | 日付 |
 |---|---|---|---|---|---|---|---|
-| W3-1 | L = K⁽³⁾∩N₀(\|PB₃:L\| = 2916・L∉Dih は設計 §1 の Sylow 論証・Sol 便 04 監査予定) | \|GT(L)\| = **36**(raw 324 → hex 36 → charm 36 → surj 36) | brute 36/36 PASS(正則作用 O(N) 法・510ms・論拠は便 04 監査対象) | **R_{L,K⁽³⁾} 全射**(12/12 被覆・各繊維一様 3・照合器が独立再計算で追認) | **fake 検出なし**(この細分)。genuine は主張しない(有限深度 1 段) | **cross-checked**(L01 verdict 全項目 PASS・2026-07-25) | 2026-07-25 |
+| W3-1 | L = K⁽³⁾∩N₀(\|PB₃:L\| = 2916・L∉Dih は設計 §1 の Sylow 論証・Sol 便 04 監査予定) | \|GT(L)\| = **36**(raw 324 → hex 36 → charm 36 → surj 36) | brute 36/36 PASS(正則作用 O(N) 法・510ms・論拠は便 04 監査対象) | **R_{L,K⁽³⁾} 全射**(12/12 被覆・各繊維一様 3・照合器が独立再計算で追認) | **UNKNOWN**(指定した一細分 L では R_{L,K⁽³⁾} が全射・12/12 survive。**この細分からの fake witness はなし**。genuine は未主張 — 便 04 F3 の確定文言) | **cross-checked**(L01 verdict 全項目 PASS・2026-07-25) | 2026-07-25 |
+| W3-1b | 構造命題(候補): 36 = 12×3 は Heisenberg 中心 ⟨Z⟩ ≅ C₃ の torsor — ker R_{L,K⁽³⁾} = {[0,(1,Zᵃ)]} ≅ C₃・全 36 shadow settled(成分別自己同型) | Sol 便 04 F4 のスケッチ+司令塔の中心計算検算。**紙上証明(P17)は司令塔起草中 → Sol 便 05 監査へ** | candidate | 2026-07-25 |

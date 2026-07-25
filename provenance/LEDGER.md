@@ -131,6 +131,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **統合**: L01 verdict 全項目 PASS(kernel 36/36・reduction の全射を独立再計算で追認)。既存 17+global の回帰も全 PASS(挙動不変)。裁定 3 件: f_word からの自前再構成方式(独立性強化・承認)・O(N) brute(承認・要監査)・(4.20) の general 非適用(承認)。
 - 台帳: W3-1 を cross-checked へ昇格。**結果の要約: Dih 外の細分 1 段で fake 検出なし — GT(K⁽³⁾) の 12 shadow 全てが survive。**
 
+## 2026-07-25 — Week 3 続: M₅ の宇宙の事前登録(Sol 便 04 P18〜P20 採用)
+
+- **対象**: M₅ = K⁽³⁾ ∩ N₅ = ker(φ_M)、φ_M: PB₃ → G₃ × C₅(x ↦ ((r,s,s), t²), y ↦ ((rs,r,rs), t²), c ↦ ((1,1,1), t))。c が位数 5 で生きる Dih 外細分 — L と直交する中心項機構の本番 survival 試験。
+- **事前 fixture(Sol 便 04・司令塔再導出一致)**: |PB₃:M₅| = 540(G₃×C₅ 直積全体 — 共通商自明)・|B₃:M₅| = 3240・M₅_ord = 30・derived = 27・charming 母集合 = |𝒳₃₀|·27 = 16·27 = 432。**期待 |GT(M₅)|・R の像は登録しない(UNKNOWN から)**。
+- 判定: R_{M₅,K⁽³⁾} の像を最優先。cap: 単位 600 秒・GAP+checker 集約 10 分(W24: fixture が 1 つでも外れたら列挙へ進まず UNKNOWN)。
+- counts 語彙は便 04 P27 を先行適用: 母集合 field 名は raw でなく **pre_hex_charming**(L01 の raw も同義と読み替え・改名は照合器改修と同時)。
+
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。
