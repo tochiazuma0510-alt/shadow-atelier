@@ -1,0 +1,28 @@
+﻿{
+  "seal_id": "PSL_v1",
+  "date": "2026-07-26",
+  "protocol": "P67-six-requirements",
+  "sources": {
+    "sol": "sol/sol_reply_09_audit_psl.md (case A independent)",
+    "opus": "vault quarantine opus_蟋泌亞06_PSL蟆∝魂.md (case A independent + case B classification)"
+  },
+  "agreement": "case A: exact match on all 4 windows (independent computations)",
+  "predictions": [
+    {"G": "PSL(2,7)",  "case": "A", "k": 7,  "n_m": 7,  "total": 42,  "prop_S": "holds", "isolated_pred": true,  "group_pred": "Hol(Z/7)"},
+    {"G": "PSL(2,8)",  "case": "A", "k": 7,  "n_m": 7,  "total": 42,  "prop_S": "holds", "isolated_pred": true,  "group_pred": "Hol(Z/7)"},
+    {"G": "PSL(2,8)",  "case": "A", "k": 9,  "n_m": 9,  "total": 54,  "prop_S": "holds", "isolated_pred": true,  "group_pred": "Hol(Z/9)"},
+    {"G": "PSL(2,11)", "case": "A", "k": 11, "n_m": 11, "total": 110, "prop_S": "holds", "isolated_pred": true,  "group_pred": "Hol(Z/11)"},
+    {"G": "PSL(2,7)",  "case": "B", "k": 4,  "n_m": 8,  "total": 32,  "prop_S": "breaks (ratio 4)", "isolated_pred": false, "settled_pred": "only u = +/-1 mod 2k (2 fibres)", "source": "opus-only (internal two-route)"},
+    {"G": "PSL(2,11)", "case": "B", "k": 5,  "n_m": 10, "total": 40,  "prop_S": "breaks (ratio 2)", "isolated_pred": false, "source": "opus-only"},
+    {"G": "PSL(2,11)", "case": "B", "k": 6,  "n_m": 12, "total": 48,  "prop_S": "breaks (ratio 4)", "isolated_pred": false, "source": "opus-only"}
+  ],
+  "structural": {
+    "case_B_PSL_2_8": "nonexistent (both sources agree: Out = C3 is not a quotient of S3)",
+    "rigidity": "n_m = |C(v_m)| 窶・uniform, rigid triples (delivery 04 vocabulary)",
+    "prop_S_scope_correction": "not 'simple windows' but 'split-inner windows'; 3|k irrelevant to validity"
+  },
+  "unknowns": ["composition law / group isomorphism (unverified)", "case B settled obstruction mechanism (k=4,6)", "outer-sign counting via ordinary character tables impossible (Sol) 窶・resolved by Opus via Aut2(G) structure, single-mathematician status"],
+  "status_labels": "paper predictions; case A = independent convergence (two mathematicians); case B = single-mathematician (internal two-route); NOT cross-checked, NOT verified",
+  "blindness_note": "operative blindness = implementer input control (sol/ and vault unreadable by workorder); Sol values are public in repo 窶・this seal is tamper-evidence (predictions fixed before runs), not cryptographic secrecy (W38 vocabulary)",
+  "nonce": "b8764bc58dfabfad2263ae2803823164"
+}

@@ -160,6 +160,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-26 — WO4 完遂・封印 PSL_v1 開封: 7/7 完全一致(CLAIMS W3-6)
+
+- falsifier 条件付き GO(PU-F14 witness 必須化・D7 札 — workorder で実装)→ WO4 実行: **全 7 窓の観測が封印値と一致**(42/32/42/54/110/40/48)。case A settled 100%・**case B settled ちょうど半分**(非 isolated の初観測 — u ≡ ±1 定理と整合)。GAP 合計 <2 秒・check-psl(GF(q) 行列直接構成・P115 遵守)7/7 all_pass。
+- **開封**: provenance/seals/seal_PSL_v1.opened.json の SHA-256 再計算 = D696AC9EA7B621A71F83A0182417485E7470FEE6AE6A3376EF419D47B28C141B — **封印時の台帳記録と一致**(予測の事前固定を機械的に証明)。
+- D7 遡及: convention_robust は 1a/2a/2b = true・1b/A1/A2/3 = false の一貫パターン(構成型に対応)— D7 の監査は便 11。
+
 ## 2026-07-26 — 裁定 10: 独立収束第 4 号(case B 障害機構)・統一定理候補・PU-F14 封印
 
 - **双方向ブラインドの偶然成立**: Opus 委嘱 07 の命題_caseB_settled障害_v1 は Sol 便 10 を読む前に起草(逆も未読)— case B の settled 障害で全論点一致(座 = w・u ≡ ±1・繊維 16/32・20/40・24/48)。**統一定理候補: |GTSh(N,N)| = |N_Aut(⟨w⟩)|**(case A = Hol(ℤ/k)・case B = D_{4k}・case B 恒常非 isolated)— 便 11 で最終相互監査。
