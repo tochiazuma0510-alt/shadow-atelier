@@ -160,6 +160,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - 封印の範囲: 実装レーン(implementer/Luna)に対してのみ。Sol の監査は証明文書を全て読む(監査対象のため)。
 - J の実装は **Sol 便 05 の監査通過後**(Opus 提案 1 を採用 — 命題 C が誤りなら設計が変わるため)。
 
+## 2026-07-26 — PSL 突合成立・封印 PSL_v1(P67 初適用)・裁定 09
+
+- **PSL 独立紙計算の突合**: 重なり(split-inner = case A・4 窓)で Sol(便 09)と Opus(委嘱 06・金庫)が**完全一致**。Opus は外部型 case B を完全分類(Sol は正しく UNKNOWN 申告 — 矛盾なし・相補)。PSL(2,8) に case B 非存在は両者一致。**命題 S は case A で 5/5 成立・case B で 3/3 破れ** — 正しい射程は「split-inner 窓」(3|k は無関係)。case B は **atlas 初の非 isolated 対象の予測**を含む。
+- **封印 PSL_v1(P67 六要件・初適用)**: 7 窓の予測(n_m・総数・isolated・群型 Hol(ℤ/k))+構造予測を canonical JSON+128bit nonce で封印。**SHA-256 = D696AC9EA7B621A71F83A0182417485E7470FEE6AE6A3376EF419D47B28C141B**(payload+nonce は金庫 sealed/・金庫 git d851c98)。性格 = 改竄防止 commit(case A 値は sol/ に公開済みゆえ秘匿でなく tamper-evidence — W38 語彙)。
+- 裁定 09(sol/裁定_09_psl.md): v_m 恒等式 合格(F2 の訂正込み)・48 一本式/補題 D 合格・E2a は split-inner へ射程修正・語規約 v1 は局所修正後併合(Opus へ v2 差し戻し)。実装は S1(PSL(2,7) A・1008 点)→ A 残り → S2(case B 非 isolated 検証)の順で次 workorder。
+
 ## 2026-07-26 — 配達原著の一括取得(規約強化: 引用論文は配達時に取得が既定)
 
 - 研究者指摘 2 件を受け SLA 最終形(要請受領→即出撃→探索完了→**両者同時**配達)と「**覚書+引用論文の原著一式**」を規約化。配達 03/04 の引用 14 本を arXiv から一括取得し papers/delivered/ へ(SHA-256 先頭 16 桁): 0710.1835=EF53BE9ECCF58C5C・1301.2949=FB475EB467E77328・1301.2955=C59A3CCBB5015B5F・1506.01371=D62558D1B60663A5・1811.09526=7F52AD3945972238・2011.12940=F60283B0B406554C・2105.07247=193CC4B18F086C8D・2308.12286=924D986ABC936815・2508.10434=518B0AC317FDE58F・2508.21671=8135119629EDB477・2510.12003=AE029E4E98F4B666・2605.22127=8EBD18F41D40E1D0・2605.23195=07FFF7204EF471B3・math/0304376=5B05A2B6EA43BFC9(再取得は arXiv ID で可・全桁ハッシュはファイルから再計算可)。
