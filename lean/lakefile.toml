@@ -1,0 +1,5 @@
+name = "shadow_atelier_lean"
+defaultTargets = ["Marking"]
+
+[[lean_lib]]
+name = "Marking"

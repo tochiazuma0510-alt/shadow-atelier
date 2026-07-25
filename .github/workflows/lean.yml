@@ -1,0 +1,25 @@
+name: lean
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lean
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: lake build
+        run: lake build
+        # lake build type-checks lean/Marking.lean, which contains the proof-of-life theorem
+        # `marking_identity` (proved by `decide`) and a `#print axioms marking_identity` that
+        # prints its axiom dependencies to the build log -- a successful build IS the proof.
