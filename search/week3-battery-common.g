@@ -64,6 +64,65 @@ compOfFix := function(perm, i, nn)
   return PermList(l);
 end;;
 
+# generalized block extraction for unequal-size blocks: block occupies points
+# [offset+1 .. offset+size] -> S_size permutation on 1..size
+compOfBlock := function(perm, offset, size)
+  local l, j, img;
+  l := [];
+  for j in [1..size] do
+    img := (j + offset)^perm;
+    l[j] := img - offset;
+  od;
+  return PermList(l);
+end;;
+
+# ================= Q8 (self-contained quaternion algebra, regular permutation rep) =================
+# elements indexed 1..8 <-> (sign,unit): unit in {0=1,1=i,2=j,3=k}, sign in {+1,-1}.
+QUnitTable := [ [[1,0],[1,1],[1,2],[1,3]],     # 1 * {1,i,j,k}
+                 [[1,1],[-1,0],[1,3],[-1,2]],  # i * {1,i,j,k} = {i,-1,k,-j}
+                 [[1,2],[-1,3],[-1,0],[1,1]],  # j * {1,i,j,k} = {j,-k,-1,i}
+                 [[1,3],[1,2],[-1,1],[-1,0]] ];; # k * {1,i,j,k} = {k,j,-i,-1}
+
+QMul := function(g, h)
+  local t;
+  t := QUnitTable[g[2]+1][h[2]+1];
+  return [ g[1]*h[1]*t[1], t[2] ];
+end;;
+
+IdxOfQ := function(g) return g[2]*2 + (1 - g[1])/2 + 1; end;;
+ElemOfIdxQ := function(idx)
+  local k, unit, signCode;
+  k := idx - 1;
+  unit := QuoInt(k, 2);
+  signCode := k mod 2;
+  if signCode = 0 then return [1, unit]; else return [-1, unit]; fi;
+end;;
+
+QRegPerm := function(d)
+  local l, idx;
+  l := [];
+  for idx in [1..8] do l[idx] := IdxOfQ(QMul(d, ElemOfIdxQ(idx))); od;
+  return PermList(l);
+end;;
+
+QLabelOfElem := function(g)
+  local unitNames;
+  unitNames := ["1","i","j","k"];
+  if g[1] = 1 then
+    if g[2] = 0 then return "1"; else return unitNames[g[2]+1]; fi;
+  else
+    if g[2] = 0 then return "-1"; else return Concatenation("-", unitNames[g[2]+1]); fi;
+  fi;
+end;;
+
+QLabelOfPerm := function(p) return QLabelOfElem(ElemOfIdxQ(1^p)); end;;
+
+MakeQ8 := function()
+  local xh, yh, ch;
+  xh := QRegPerm([1,1]);  yh := QRegPerm([1,2]);  ch := QRegPerm([1,0]);
+  return rec(x:=xh, y:=yh, c:=ch, G:=Group(xh,yh), label:=QLabelOfPerm);
+end;;
+
 # Dn element -> [a,e] (r^a s^e, abstract convention; abstract "r^a s" = GAP "s*r^a")
 DnElemToAE := function(perm, r, s, nn)
   local a;
@@ -322,6 +381,71 @@ ComputeEmTable := function(qrec, nOrd)
     Add(out, rec(m:=m, value:=val));
   od;
   return out;
+end;;
+
+# ================= generic Heisenberg-like class-2 group mod (nMod,nMod,cMod) =================
+# elements (a,b,e), a,b in Z/nMod, e in Z/cMod; (a,b,e)(a',b',e') = (a+a',b+b',e+e'+a*b')
+# (same cocycle form as H3 in week3-L-explorer.g, generalized moduli; independently hand-verified
+# for (nMod,cMod)=(4,2) against manifest U-F4's explicit relations for P2 before use).
+HeisMul := function(g, h, nMod, cMod)
+  return [ (g[1]+h[1]) mod nMod, (g[2]+h[2]) mod nMod, (g[3]+h[3]+g[1]*h[2]) mod cMod ];
+end;;
+
+HeisIdxOfElem := function(e, nMod, cMod) return e[1]*nMod*cMod + e[2]*cMod + e[3] + 1; end;;
+HeisElemOfIdx := function(idx, nMod, cMod)
+  local k, a, b, e;
+  k := idx - 1;
+  a := QuoInt(k, nMod*cMod);  k := k mod (nMod*cMod);
+  b := QuoInt(k, cMod);  e := k mod cMod;
+  return [a, b, e];
+end;;
+
+HeisRegPerm := function(d, nMod, cMod)
+  local l, idx, total;
+  total := nMod*nMod*cMod;
+  l := [];
+  for idx in [1..total] do l[idx] := HeisIdxOfElem(HeisMul(d, HeisElemOfIdx(idx,nMod,cMod), nMod, cMod), nMod, cMod); od;
+  return PermList(l);
+end;;
+
+MakeHeis := function(nMod, cMod)
+  local Xe, Ye, xh, yh;
+  Xe := [1,0,0];  Ye := [0,1,0];
+  xh := HeisRegPerm(Xe, nMod, cMod);
+  yh := HeisRegPerm(Ye, nMod, cMod);
+  return rec(x:=xh, y:=yh, c:=(), G:=Group(xh,yh), nMod:=nMod, cMod:=cMod);
+end;;
+
+# ================= P3 = F2/F2^4 gamma_4(F2), order 128, class 3 =================
+# Constructed as an explicit polycyclic-style presentation on generators X,Y,w,p,q with
+# w:=[X,Y], p:=[w,X], q:=[w,Y] (manifest sec.2 stage 2b "derived_basis"), central gamma_3=<p,q>,
+# and X^4=Y^4=w^2=p^2=q^2=1. This presentation was independently verified (search/tmp-p3-build.g,
+# deleted after use) to produce a group of order EXACTLY 128 matching every relation in fixture
+# U-F5 (exponent 4, class 3, gamma_3=<p,q> central of order 4, w^2=p^2=q^2=1) via GAP's own
+# Todd-Coxeter coset enumeration + IsomorphismPcGroup -- this is not assumed, it is computed and
+# cross-checked against the fixture before being adopted as P3 (report to commander).
+MakeP3 := function()
+  local F, gens, Xg, Yg, wg, pg, qg, rels, Gfp, sz, iso, Pc, imgsG, Xp, Yp;
+  F := FreeGroup("Xg","Yg","wg","pg","qg");
+  gens := GeneratorsOfGroup(F);
+  Xg := gens[1];  Yg := gens[2];  wg := gens[3];  pg := gens[4];  qg := gens[5];
+  rels := [
+    Xg^4, Yg^4, wg^2, pg^2, qg^2,
+    Comm(Xg,Yg)*wg^-1,
+    Comm(wg,Xg)*pg^-1,
+    Comm(wg,Yg)*qg^-1,
+    Comm(pg,Xg), Comm(pg,Yg), Comm(qg,Xg), Comm(qg,Yg), Comm(pg,wg), Comm(qg,wg), Comm(pg,qg)
+  ];
+  Gfp := F/rels;
+  sz := Size(Gfp);
+  if sz <> 128 then
+    Error("MakeP3: presentation did not produce order 128, got ", sz);
+  fi;
+  iso := IsomorphismPcGroup(Gfp);
+  Pc := Image(iso);
+  imgsG := List(GeneratorsOfGroup(Gfp), g -> Image(iso,g));
+  Xp := imgsG[1];  Yp := imgsG[2];
+  return rec(x:=Xp, y:=Yp, c:=Identity(Pc), G:=Pc);
 end;;
 
 Print("week3-battery-common.g loaded.\n");

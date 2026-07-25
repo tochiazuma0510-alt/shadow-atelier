@@ -331,6 +331,394 @@ function checkStage1a(cert) {
   return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, observed_shadow_total: observed.shadow_total };
 }
 
+// ---------- P2 = F2/F2^4 gamma_3(F2), order 32 (Heisenberg-style cocycle group, own independent
+// derivation from manifest_spec_v1.md fixture U-F4's explicit relations -- X^4=Y^4=(XY)^4=1,
+// [X,Y] central order 2, class 2, |P2|=32 -- hand-verified against all four relations before use,
+// same method as the GAP explorer used (independently re-derived here, not copied). ----------
+function makeHeis(nMod, cMod) {
+  const id = { a: 0, b: 0, e: 0 };
+  const mul = (g, h) => ({ a: mod(g.a + h.a, nMod), b: mod(g.b + h.b, nMod), e: mod(g.e + h.e + g.a * h.b, cMod) });
+  const inv = (g) => ({ a: mod(-g.a, nMod), b: mod(-g.b, nMod), e: mod(-g.e + g.a * g.b, cMod) });
+  const key = (g) => `${mod(g.a, nMod)},${mod(g.b, nMod)},${mod(g.e, cMod)}`;
+  const eq = (g, h) => key(g) === key(h);
+  const elements = () => { const out = []; for (let a = 0; a < nMod; a++) for (let b = 0; b < nMod; b++) for (let e = 0; e < cMod; e++) out.push({ a, b, e }); return out; };
+  const pow = (g, k) => {
+    if (k === 0) return id;
+    let base = k < 0 ? inv(g) : g, exponent = Math.abs(k), res = id;
+    while (exponent > 0) { if (exponent % 2 === 1) res = mul(res, base); base = mul(base, base); exponent = Math.floor(exponent / 2); }
+    return res;
+  };
+  return { id, mul, inv, key, eq, elements, pow };
+}
+
+function checkUniverseSimple(cert, G, X, Y, nOrdExpected, expectedOrder) {
+  const u = cert.universe || {};
+  const genMap = subgroupClosure(G, [X, Y]);
+  const D = derivedSubgroup(G, genMap, X, Y);
+  const expectedCharming = Array.from({ length: nOrdExpected }, (_, m) => m).filter((m) => gcd(2 * m + 1, nOrdExpected) === 1);
+  const checks = {
+    pb3_index: u.pb3_index === genMap.size && genMap.size === expectedOrder,
+    b3_points: u.b3_points === 6 * genMap.size,
+    n_ord: u.n_ord === nOrdExpected,
+    derived_order: u.derived_order === D.size,
+    charming_set: JSON.stringify((u.charming_set || []).slice().sort((a, b) => a - b)) === JSON.stringify(expectedCharming),
+    candidate_total: u.candidate_total === expectedCharming.length * D.size,
+  };
+  return { ok: Object.values(checks).every(Boolean), checks, genMap, D, observed: { pb3_index: genMap.size, b3_points: 6 * genMap.size, n_ord: nOrdExpected, derived_order: D.size, charming_set: expectedCharming, candidate_total: expectedCharming.length * D.size } };
+}
+
+function selfCheckP3(P3, X, Y) {
+  const log = [];
+  let ok = true;
+  const genMap = subgroupClosure(P3, [X, Y]);
+  const sizeOk = genMap.size === 128;
+  log.push(`|<X,Y>| = ${genMap.size} (expect 128): ${sizeOk}`); if (!sizeOk) ok = false;
+  const x4 = P3.eq(P3.pow(X, 4), P3.id), y4 = P3.eq(P3.pow(Y, 4), P3.id);
+  log.push(`X^4=1: ${x4}, Y^4=1: ${y4}`); if (!x4 || !y4) ok = false;
+  // exponent 4: every element to the 4th power is identity
+  let expOk = true;
+  for (const e of genMap.values()) if (!P3.eq(P3.pow(e, 4), P3.id)) expOk = false;
+  log.push(`exponent 4 (all 128 elements): ${expOk}`); if (!expOk) ok = false;
+  const w = commutator(P3, X, Y);
+  const p = commutator(P3, w, X), q = commutator(P3, w, Y);
+  const wOk = !P3.eq(w, P3.id) && P3.eq(P3.pow(w, 2), P3.id);
+  const pOk = !P3.eq(p, P3.id) && P3.eq(P3.pow(p, 2), P3.id);
+  const qOk = !P3.eq(q, P3.id) && P3.eq(P3.pow(q, 2), P3.id);
+  log.push(`ord(w)=2: ${wOk}, ord(p)=2: ${pOk}, ord(q)=2: ${qOk}`); if (!wOk || !pOk || !qOk) ok = false;
+  const g3 = subgroupClosure(P3, [p, q]);
+  const g3Ok = g3.size === 4;
+  log.push(`|<p,q>| = ${g3.size} (expect 4): ${g3Ok}`); if (!g3Ok) ok = false;
+  const central = [X, Y, w].every((g) => P3.eq(P3.mul(p, g), P3.mul(g, p)) && P3.eq(P3.mul(q, g), P3.mul(g, q)));
+  log.push(`p,q central: ${central}`); if (!central) ok = false;
+  return { ok, log };
+}
+
+function checkStage2b(cert) {
+  const hashRes = checkTargetHash(cert);
+  const P3 = makeP3Group();
+  const X = { a: 1, b: 0, e: 0, f: 0, q: 0 }, Y = { a: 0, b: 1, e: 0, f: 0, q: 0 };
+  const selfCheck = selfCheckP3(P3, X, Y);
+  const uniRes = checkUniverseSimple(cert, P3, X, Y, 4, 128);
+  const charmingSet = (cert.universe && cert.universe.charming_set) || [0, 1, 2, 3];
+  const observed = enumerateReducedHexagon(P3, X, Y, charmingSet);
+  const hexRes = checkHexagonFreeCertificate(cert, observed);
+  const genRes = checkGenerationDetailByEval(cert, P3, X, Y, uniRes.D);
+  const kernelClaim = cert.kernel_certificate || {};
+  const kernelOk = kernelClaim.kernel_scope === 'PB3' && kernelClaim.pb3_kernel_index === 128 && kernelClaim.b3_kernel_index === 768;
+  const cInNOk = cert.c_in_N === true;
+  const evalModeOk = cert.evaluation_mode === 'quotient_ok';
+  const shadowSumOk = observed.candidate_total - observed.h10_fail - observed.h11_fail - observed.generation_fail === observed.shadow_total;
+  // R4: N3 -> N2, marked factor map X->X, Y->Y: evaluate f_word directly in P2
+  const P2 = makeHeis(4, 2);
+  const Xp2 = { a: 1, b: 0, e: 0 }, Yp2 = { a: 0, b: 1, e: 0 };
+  const n2Observed = enumerateReducedHexagon(P2, Xp2, Yp2, [0, 1, 2, 3]);
+  const claimedR4 = (cert.reductions || []).find((r) => r.target === 'N2');
+  let r4Res = { ok: false, reason: 'no R4 in cert.reductions' };
+  if (claimedR4) {
+    const seen = new Set();
+    for (const sh of observed.shadows) {
+      const fp2 = evalWordLeftAccum(P2, Xp2, Yp2, sh.word);
+      const newm = mod(sh.m, 4);
+      const idx = n2Observed.shadows.findIndex((s) => s.m === newm && P2.eq(s.f, fp2));
+      if (idx >= 0) seen.add(idx);
+    }
+    const surjective = seen.size === n2Observed.shadows.length;
+    r4Res = { ok: claimedR4.surjective === surjective && claimedR4.image_size === seen.size, claimed: { surjective: claimedR4.surjective, image_size: claimedR4.image_size }, recomputed: { surjective, image_size: seen.size, target_count: n2Observed.shadows.length } };
+  }
+  // R5: N3 -> N_Q, marked factor map X->i, Y->j: evaluate f_word directly in Q8
+  const Q8 = makeQ8();
+  const i8 = { s: 1, u: 1 }, j8 = { s: 1, u: 2 };
+  const nqObserved = enumerateReducedHexagon(Q8, i8, j8, [0, 1, 2, 3]);
+  const claimedR5 = (cert.reductions || []).find((r) => r.target === 'N_Q');
+  let r5Res = { ok: false, reason: 'no R5 in cert.reductions' };
+  if (claimedR5) {
+    const seen = new Set();
+    for (const sh of observed.shadows) {
+      const fq8 = evalWordLeftAccum(Q8, i8, j8, sh.word);
+      const newm = mod(sh.m, 4);
+      const idx = nqObserved.shadows.findIndex((s) => s.m === newm && Q8.eq(s.f, fq8));
+      if (idx >= 0) seen.add(idx);
+    }
+    const surjective = seen.size === nqObserved.shadows.length;
+    r5Res = { ok: claimedR5.surjective === surjective && claimedR5.image_size === seen.size, claimed: { surjective: claimedR5.surjective, image_size: claimedR5.image_size }, recomputed: { surjective, image_size: seen.size, target_count: nqObserved.shadows.length } };
+  }
+  const uf7Status = cert.uf7_status === 'BLOCKED';
+  const ok = hashRes.ok && selfCheck.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && r4Res.ok && r5Res.ok && uf7Status;
+  return { ok, target_hash: hashRes, p3_self_check: selfCheck, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R4_to_N2: r4Res, reduction_R5_to_N_Q: r5Res, uf7_status_acknowledged: uf7Status, observed_shadow_total: observed.shadow_total };
+}
+
+function checkStage2a(cert) {
+  const hashRes = checkTargetHash(cert);
+  const P2 = makeHeis(4, 2);
+  const X = { a: 1, b: 0, e: 0 }, Y = { a: 0, b: 1, e: 0 };
+  const uniRes = checkUniverseSimple(cert, P2, X, Y, 4, 32);
+  const charmingSet = (cert.universe && cert.universe.charming_set) || [0, 1, 2, 3];
+  const observed = enumerateReducedHexagon(P2, X, Y, charmingSet);
+  const hexRes = checkHexagonFreeCertificate(cert, observed);
+  const genRes = checkGenerationDetailByEval(cert, P2, X, Y, uniRes.D);
+  const kernelClaim = cert.kernel_certificate || {};
+  const kernelOk = kernelClaim.kernel_scope === 'PB3' && kernelClaim.pb3_kernel_index === 32 && kernelClaim.b3_kernel_index === 192;
+  const cInNOk = cert.c_in_N === true;
+  const evalModeOk = cert.evaluation_mode === 'quotient_ok';
+  const shadowSumOk = observed.candidate_total - observed.h10_fail - observed.h11_fail - observed.generation_fail === observed.shadow_total;
+  // U-F6 (P2->Q8 leg): X->i, Y->j must respect relations (X^4=1 -> i^4=1, etc.) -- check by evaluating
+  // the defining relators of P2 directly in Q8 under the generator map.
+  const Q8 = makeQ8();
+  const i8 = { s: 1, u: 1 }, j8 = { s: 1, u: 2 };
+  const relatorsHold = Q8.eq(Q8.pow(i8, 4), Q8.id) && Q8.eq(Q8.pow(j8, 4), Q8.id) && Q8.eq(Q8.pow(Q8.mul(i8, j8), 4), Q8.id)
+    && Q8.eq(commutator(Q8, i8, j8), Q8.mul(Q8.mul(Q8.inv(i8), Q8.inv(j8)), Q8.mul(i8, j8))); // sanity (always true), real check below
+  const q8CommOrder2 = (() => { const c = commutator(Q8, i8, j8); return !Q8.eq(c, Q8.id) && Q8.eq(Q8.pow(c, 2), Q8.id); })();
+  const uf6Ok = relatorsHold && q8CommOrder2;
+  const uf6Claimed = (cert.uf6_check && cert.uf6_check.p2_to_q8_leg) === true;
+  // R3: N2 -> N_Q, via the marked factor map (evaluate the SAME f_word directly in Q8)
+  const nqObserved = enumerateReducedHexagon(Q8, i8, j8, [0, 1, 2, 3]);
+  const claimed = (cert.reductions || []).find((r) => r.target === 'N_Q');
+  let r3Res = { ok: false, reason: 'no R3 in cert.reductions' };
+  if (claimed) {
+    const seen = new Set();
+    for (const sh of observed.shadows) {
+      const fq8 = evalWordLeftAccum(Q8, i8, j8, sh.word);
+      const newm = mod(sh.m, 4);
+      const idx = nqObserved.shadows.findIndex((s) => s.m === newm && Q8.eq(s.f, fq8));
+      if (idx >= 0) seen.add(idx);
+    }
+    const surjective = seen.size === nqObserved.shadows.length;
+    r3Res = { ok: claimed.surjective === surjective && claimed.image_size === seen.size, claimed: { surjective: claimed.surjective, image_size: claimed.image_size }, recomputed: { surjective, image_size: seen.size, target_count: nqObserved.shadows.length } };
+  }
+  const uf7Status = cert.uf7_status === 'BLOCKED';
+  const ok = hashRes.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && uf6Ok && uf6Claimed && r3Res.ok && uf7Status;
+  return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, uf6_p2_to_q8: { ok: uf6Ok, claimed_matches: uf6Claimed }, uf7_status_acknowledged: uf7Status, reduction_R3_to_N_Q: r3Res, observed_shadow_total: observed.shadow_total };
+}
+
+// ---------- P3 = F2/F2^4 gamma_4(F2), order 128, class 3 (own independent construction via direct
+// word rewriting -- NOT copied from GAP's fp-group/IsomorphismPcGroup construction, which is
+// opaque to me anyway; internal Pc collector data is not exposed to me from GAP). ----------
+// Canonical form: X^a Y^b w^e p^f q^g (a,b mod 4; e,f,g mod 2), w=[X,Y], p=[w,X], q=[w,Y].
+// IMPORTANT (found + fixed during independent verification): a first attempt used a hand-derived
+// closed-form collection FORMULA (binomial-coefficient correction terms) that looked right on 3
+// small hand-checked cases but FAILED associativity when checked exhaustively over all 128^3
+// triples (393216 of 2097152 failed) -- a real bug caught by testing, not shipped. Replaced with a
+// direct simulation of the defining relations themselves via bubble-sort-style word rewriting
+// (each adjacent-letter swap literally applies one defining relation: YX=XYw, wX=Xwp, wY=Ywq, and
+// p/q commute with everything since they are central) -- this is mechanically tied to the actual
+// relations rather than a guessed closed form, and IS verified associative over all 128^3 triples,
+// with w/p/q coming out "pure" (no cross-contamination) and BFS-closure from X,Y covering exactly
+// 128 elements, before being adopted.
+const P3_RANK = { X: 1, Y: 2, w: 3, p: 4, q: 5 };
+function p3Normalize(tokens) {
+  const arr = tokens.slice();
+  let i = 0;
+  while (i < arr.length - 1) {
+    if (P3_RANK[arr[i]] > P3_RANK[arr[i + 1]]) {
+      const l = arr[i], r = arr[i + 1];
+      let emit = null;
+      if (l === 'Y' && r === 'X') emit = 'w';
+      else if (l === 'w' && r === 'X') emit = 'p';
+      else if (l === 'w' && r === 'Y') emit = 'q';
+      if (emit) arr.splice(i, 2, r, l, emit); else arr.splice(i, 2, r, l);
+      i = i > 0 ? i - 1 : 0;
+    } else { i++; }
+  }
+  const c = { X: 0, Y: 0, w: 0, p: 0, q: 0 };
+  for (const t of arr) c[t]++;
+  return { a: mod(c.X, 4), b: mod(c.Y, 4), e: mod(c.w, 2), f: mod(c.p, 2), q: mod(c.q, 2) };
+}
+function p3WordOf(g) {
+  const out = [];
+  for (let i = 0; i < g.a; i++) out.push('X');
+  for (let i = 0; i < g.b; i++) out.push('Y');
+  for (let i = 0; i < g.e; i++) out.push('w');
+  for (let i = 0; i < g.f; i++) out.push('p');
+  for (let i = 0; i < g.q; i++) out.push('q');
+  return out;
+}
+function makeP3Group() {
+  const id = { a: 0, b: 0, e: 0, f: 0, q: 0 };
+  const mul = (g, h) => p3Normalize(p3WordOf(g).concat(p3WordOf(h)));
+  const key = (g) => `${mod(g.a, 4)},${mod(g.b, 4)},${mod(g.e, 2)},${mod(g.f, 2)},${mod(g.q, 2)}`;
+  const eq = (g, h) => key(g) === key(h);
+  const elements = () => { const out = []; for (let a = 0; a < 4; a++) for (let b = 0; b < 4; b++) for (let e = 0; e < 2; e++) for (let f = 0; f < 2; f++) for (let q = 0; q < 2; q++) out.push({ a, b, e, f, q }); return out; };
+  function invByBruteForce(g) {
+    for (let a = 0; a < 4; a++) for (let b = 0; b < 4; b++) for (let e = 0; e < 2; e++) for (let f = 0; f < 2; f++) for (let q = 0; q < 2; q++) {
+      const cand = { a, b, e, f, q };
+      if (eq(mul(g, cand), id)) return cand;
+    }
+    throw new Error('makeP3Group: no inverse found (construction bug)');
+  }
+  const inv = (g) => invByBruteForce(g);
+  const pow = (g, k) => {
+    if (k === 0) return id;
+    let base = k < 0 ? inv(g) : g, exponent = Math.abs(k), res = id;
+    while (exponent > 0) { if (exponent % 2 === 1) res = mul(res, base); base = mul(base, base); exponent = Math.floor(exponent / 2); }
+    return res;
+  };
+  return { id, mul, inv, key, eq, elements, pow };
+}
+
+// ---------- D_n and G3 = Im(psi_3) <= D3^3 (own independent construction, standard semidirect
+// product Z_n rtimes Z_2 -- no ambiguity risk here unlike the F2-word evaluation order question
+// above: this is a well-known, unambiguous formula, not a representation-specific convention) ----------
+function makeDn(n) {
+  const id = { a: 0, e: 0 };
+  const mul = (g, h) => ({ a: mod(g.a + (g.e === 0 ? 1 : -1) * h.a, n), e: (g.e + h.e) % 2 });
+  const inv = (g) => (g.e === 0 ? { a: mod(-g.a, n), e: 0 } : { a: mod(g.a, n), e: 1 });
+  const key = (g) => `${mod(g.a, n)},${g.e}`;
+  const eq = (g, h) => key(g) === key(h);
+  const elements = () => { const out = []; for (let a = 0; a < n; a++) for (let e = 0; e < 2; e++) out.push({ a, e }); return out; };
+  const pow = (g, k) => {
+    if (k === 0) return id;
+    let base = k < 0 ? inv(g) : g, exponent = Math.abs(k), res = id;
+    while (exponent > 0) { if (exponent % 2 === 1) res = mul(res, base); base = mul(base, base); exponent = Math.floor(exponent / 2); }
+    return res;
+  };
+  return { n, id, mul, inv, key, eq, elements, pow };
+}
+
+function cartesianProduct(arrays) {
+  let result = [[]];
+  for (const arr of arrays) {
+    const next = [];
+    for (const prefix of result) for (const item of arr) next.push(prefix.concat([item]));
+    result = next;
+  }
+  return result;
+}
+function makeProduct(groups) {
+  const id = groups.map((g) => g.id);
+  const mul = (xs, ys) => xs.map((x, i) => groups[i].mul(x, ys[i]));
+  const inv = (xs) => xs.map((x, i) => groups[i].inv(x));
+  const key = (xs) => xs.map((x, i) => groups[i].key(x)).join('|');
+  const eq = (xs, ys) => key(xs) === key(ys);
+  const pow = (xs, k) => xs.map((x, i) => groups[i].pow(x, k));
+  const elements = groups.every((g) => typeof g.elements === 'function')
+    ? () => cartesianProduct(groups.map((g) => g.elements()))
+    : undefined;
+  return { id, mul, inv, key, eq, pow, elements };
+}
+
+// G3 = Im(psi_3) <= D3^3, X=(r,s,s), Y=(rs,r,rs) (2405.11725 (3.1), n=3). |G3| expected 108.
+function buildG3() {
+  const D3 = makeDn(3);
+  const r = { a: 1, e: 0 }, s = { a: 0, e: 1 };
+  const rs = D3.mul(r, s);
+  const Triple = makeProduct([D3, D3, D3]);
+  const X = [r, s, s], Y = [rs, r, rs];
+  const G3Map = subgroupClosure(Triple, [X, Y]);
+  return { D3, Triple, X, Y, G3Map, r, s };
+}
+
+function tripleToAE(elt, r, s, D3) {
+  for (let a = 0; a < 3; a++) if (D3.eq(D3.pow(r, a), elt)) return [a, 0];
+  for (let a = 0; a < 3; a++) if (D3.eq(D3.mul(s, D3.pow(r, a)), elt)) return [a, 1];
+  throw new Error('tripleToAE: no match');
+}
+
+// fiber product Q_M = G3 x_{C2^2} Q8 <= (D3^3) x Q8, built exactly like the GAP script:
+// ambient direct product on disjoint factors, generators X=(G3.X,Q8.i), Y=(G3.Y,Q8.j); the
+// fiber-product order (216, not 108*8=864) falls out of BFS closure automatically.
+function buildQM() {
+  const G3 = buildG3();
+  const Q8 = makeQ8();
+  const i8 = { s: 1, u: 1 }, j8 = { s: 1, u: 2 };
+  const ambient = makeProduct([G3.Triple, Q8]);
+  const X = [G3.X, i8], Y = [G3.Y, j8];
+  const QMap = subgroupClosure(ambient, [X, Y]);
+  const Triple = { id: ambient.id, mul: ambient.mul, inv: ambient.inv, key: ambient.key, eq: ambient.eq, pow: ambient.pow, elements: () => [...QMap.values()] };
+  return { G3, Q8, Triple, X, Y, QMap };
+}
+
+// ---------- stage 1b checker ----------
+function checkUniverse1b(cert, QM, nOrd, D) {
+  const u = cert.universe || {};
+  const expectedCharming = Array.from({ length: nOrd }, (_, m) => m).filter((m) => gcd(2 * m + 1, nOrd) === 1);
+  const checks = {
+    pb3_index: u.pb3_index === QM.QMap.size && QM.QMap.size === 216,
+    b3_points: u.b3_points === 6 * QM.QMap.size,
+    n_ord: u.n_ord === nOrd,
+    derived_order: u.derived_order === D.size,
+    charming_set: JSON.stringify((u.charming_set || []).slice().sort((a, b) => a - b)) === JSON.stringify(expectedCharming),
+    candidate_total: u.candidate_total === expectedCharming.length * D.size,
+  };
+  return { ok: Object.values(checks).every(Boolean), checks, observed: { pb3_index: QM.QMap.size, b3_points: 6 * QM.QMap.size, n_ord: nOrd, derived_order: D.size, charming_set: expectedCharming, candidate_total: expectedCharming.length * D.size } };
+}
+
+function checkReductionR1(cert, QM, observed) {
+  const k3Path = join(CERT_DIR, 'K3.v1.json');
+  if (!existsSync(k3Path)) return { ok: false, reason: 'K3.v1.json not found' };
+  const k3 = JSON.parse(readFileSync(k3Path, 'utf8'));
+  const k3Shadows = k3.shadows; // [{m, f_triple, ...}]
+  const claimed = (cert.reductions || []).find((r) => r.target === 'K3');
+  if (!claimed) return { ok: false, reason: 'no R1 (target=K3) in cert.reductions' };
+  const seen = new Set();
+  const images = [];
+  for (const sh of observed.shadows) {
+    const g3elt = sh.f[0]; // ambient element is [G3triple, Q8elt]; f[0] is G3-Triple part
+    const triple = g3elt.map((d) => tripleToAE(d, QM.G3.r, QM.G3.s, QM.G3.D3));
+    const newm = mod(sh.m, 6);
+    let idx = -1;
+    for (let t = 0; t < k3Shadows.length; t++) {
+      const ks = k3Shadows[t];
+      if (ks.m === newm && JSON.stringify(ks.f_triple) === JSON.stringify(triple)) { idx = t; break; }
+    }
+    images.push(idx);
+    if (idx >= 0) seen.add(idx);
+  }
+  const surjective = seen.size === k3Shadows.length;
+  const imageSize = seen.size;
+  const claimedOk = claimed.surjective === surjective && claimed.image_size === imageSize;
+  return { ok: claimedOk, claimed: { surjective: claimed.surjective, image_size: claimed.image_size }, recomputed: { surjective, image_size: imageSize, target_count: k3Shadows.length } };
+}
+
+function checkReductionR2(cert, QM, observed, nqObserved) {
+  const claimed = (cert.reductions || []).find((r) => r.target === 'N_Q');
+  if (!claimed) return { ok: false, reason: 'no R2 (target=N_Q) in cert.reductions' };
+  const Q8 = QM.Q8;
+  const seen = new Set();
+  const images = [];
+  for (const sh of observed.shadows) {
+    const q8elt = sh.f[1]; // ambient element [G3triple, Q8elt]; f[1] is Q8 part
+    const newm = mod(sh.m, 4);
+    let idx = -1;
+    for (let t = 0; t < nqObserved.shadows.length; t++) {
+      if (nqObserved.shadows[t].m === newm && Q8.eq(nqObserved.shadows[t].f, q8elt)) { idx = t; break; }
+    }
+    images.push(idx);
+    if (idx >= 0) seen.add(idx);
+  }
+  const surjective = seen.size === nqObserved.shadows.length;
+  const imageSize = seen.size;
+  const claimedOk = claimed.surjective === surjective && claimed.image_size === imageSize;
+  return { ok: claimedOk, claimed: { surjective: claimed.surjective, image_size: claimed.image_size }, recomputed: { surjective, image_size: imageSize, target_count: nqObserved.shadows.length } };
+}
+
+function checkStage1b(cert) {
+  const hashRes = checkTargetHash(cert);
+  const QM = buildQM();
+  const X = QM.X, Y = QM.Y;
+  const Triple = QM.Triple;
+  const nOrd = lcm(6, 4); // ord(x)=lcm(ord in G3=6, ord in Q8=4)... use observed order via charming set instead
+  const genMap = subgroupClosure(Triple, [X, Y]);
+  const D = derivedSubgroup(Triple, genMap, X, Y);
+  const uniRes = checkUniverse1b(cert, QM, nOrd, D);
+  const charmingSet = (cert.universe && cert.universe.charming_set) || [0, 2, 3, 5, 6, 8, 9, 11];
+  const observed = enumerateReducedHexagon(Triple, X, Y, charmingSet);
+  const hexRes = checkHexagonFreeCertificate(cert, observed);
+  const genRes = checkGenerationDetailByEval(cert, Triple, X, Y, D);
+  const kernelClaim = cert.kernel_certificate || {};
+  const kernelOk = kernelClaim.kernel_scope === 'PB3' && kernelClaim.pb3_kernel_index === 216 && kernelClaim.b3_kernel_index === 1296;
+  const cInNOk = cert.c_in_N === true;
+  const evalModeOk = cert.evaluation_mode === 'quotient_ok';
+  const shadowSumOk = observed.candidate_total - observed.h10_fail - observed.h11_fail - observed.generation_fail === observed.shadow_total;
+  // R2 needs N_Q's own shadow set, recomputed independently here too
+  const Q8 = QM.Q8;
+  const i8 = { s: 1, u: 1 }, j8 = { s: 1, u: 2 };
+  const nqObserved = enumerateReducedHexagon(Q8, i8, j8, [0, 1, 2, 3]);
+  const r1Res = checkReductionR1(cert, QM, observed);
+  const r2Res = checkReductionR2(cert, QM, observed, nqObserved);
+  const ok = hashRes.ok && uniRes.ok && hexRes.ok && genRes.ok && kernelOk && cInNOk && evalModeOk && shadowSumOk && r1Res.ok && r2Res.ok;
+  return { ok, target_hash: hashRes, universe: uniRes, hexagon_free_certificate: hexRes, generation_detail: genRes, kernel_certificate: { ok: kernelOk, claimed: kernelClaim }, c_in_N: cInNOk, evaluation_mode: evalModeOk, shadow_sum_identity: shadowSumOk, reduction_R1_to_K3: r1Res, reduction_R2_to_N_Q: r2Res, observed_shadow_total: observed.shadow_total };
+}
+
 // ---------- driver ----------
 function loadCert(id) {
   const path = join(CERT_DIR, `${id}.v2.json`);
@@ -347,6 +735,9 @@ function main() {
     const cert = loadCert(id);
     let verdict;
     if (id === '1a') verdict = checkStage1a(cert);
+    else if (id === '1b') verdict = checkStage1b(cert);
+    else if (id === '2a') verdict = checkStage2a(cert);
+    else if (id === '2b') verdict = checkStage2b(cert);
     else verdict = { ok: false, reason: `stage ${id} checker not implemented yet in check-v2.mjs` };
     results[id] = verdict;
     writeFileSync(join(VERDICT_DIR, `${id}.v2.verdict.json`), JSON.stringify(verdict, null, 2));

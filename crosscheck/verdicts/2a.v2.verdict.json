@@ -1,0 +1,156 @@
+{
+  "ok": true,
+  "target_hash": {
+    "ok": true,
+    "expected": "417250c6a3756e82983e68eb94daf74cfe9185a7b608c475a72451d6a36a107a",
+    "claimed": "417250c6a3756e82983e68eb94daf74cfe9185a7b608c475a72451d6a36a107a",
+    "canonical": "{\"definition\":\"pi^{-1}( F2^4 gamma_3(F2) )\",\"equality_proof\":\"計画v2 定理 T1a\",\"equality_scope\":\"p=2, n<=4, rank=2\",\"id\":\"2a\",\"marked_images\":{\"c\":\"1\",\"x\":\"X\",\"y\":\"Y\"},\"name\":\"N_2\",\"presentation_restricted\":\"D_3^(2)\",\"presentation_verbal\":\"F2^4 gamma_3\",\"quotient\":\"P2 = F2 / F2^4 gamma_3, order 32\"}"
+  },
+  "universe": {
+    "ok": true,
+    "checks": {
+      "pb3_index": true,
+      "b3_points": true,
+      "n_ord": true,
+      "derived_order": true,
+      "charming_set": true,
+      "candidate_total": true
+    },
+    "genMap": {},
+    "D": {},
+    "observed": {
+      "pb3_index": 32,
+      "b3_points": 192,
+      "n_ord": 4,
+      "derived_order": 2,
+      "charming_set": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "candidate_total": 8
+    }
+  },
+  "hexagon_free_certificate": {
+    "ok": true,
+    "checks": {
+      "candidate_total": true,
+      "h10_fail": true,
+      "h11_fail": true,
+      "generation_fail": true,
+      "shadow_total": true,
+      "sum_identity": true
+    },
+    "claimed": {
+      "candidate_total": 8,
+      "h10_fail": 0,
+      "h11_fail": 4,
+      "generation_fail": 0,
+      "shadow_total": 4
+    },
+    "observed": {
+      "candidate_total": 8,
+      "h10_fail": 0,
+      "h11_fail": 4,
+      "generation_fail": 0,
+      "shadow_total": 4
+    }
+  },
+  "generation_detail": {
+    "ok": true,
+    "mismatches": 0,
+    "not_in_derived_subgroup": 0,
+    "count": 8,
+    "generation_pass_count_claimed": 4,
+    "generation_pass_count_recomputed": 4,
+    "details": [
+      {
+        "m": 0,
+        "claimed_pass": true,
+        "recomputed_pass": true,
+        "claimed_stage": "pass",
+        "recomputed_stage": "pass"
+      },
+      {
+        "m": 1,
+        "claimed_pass": false,
+        "recomputed_pass": false,
+        "claimed_stage": "h11_fail",
+        "recomputed_stage": "h11_fail"
+      },
+      {
+        "m": 2,
+        "claimed_pass": false,
+        "recomputed_pass": false,
+        "claimed_stage": "h11_fail",
+        "recomputed_stage": "h11_fail"
+      },
+      {
+        "m": 3,
+        "claimed_pass": true,
+        "recomputed_pass": true,
+        "claimed_stage": "pass",
+        "recomputed_stage": "pass"
+      },
+      {
+        "m": 0,
+        "claimed_pass": false,
+        "recomputed_pass": false,
+        "claimed_stage": "h11_fail",
+        "recomputed_stage": "h11_fail"
+      },
+      {
+        "m": 1,
+        "claimed_pass": true,
+        "recomputed_pass": true,
+        "claimed_stage": "pass",
+        "recomputed_stage": "pass"
+      },
+      {
+        "m": 2,
+        "claimed_pass": true,
+        "recomputed_pass": true,
+        "claimed_stage": "pass",
+        "recomputed_stage": "pass"
+      },
+      {
+        "m": 3,
+        "claimed_pass": false,
+        "recomputed_pass": false,
+        "claimed_stage": "h11_fail",
+        "recomputed_stage": "h11_fail"
+      }
+    ]
+  },
+  "kernel_certificate": {
+    "ok": true,
+    "claimed": {
+      "kernel_scope": "PB3",
+      "pb3_kernel_index": 32,
+      "b3_kernel_index": 192,
+      "justification": "2401 (3.32)"
+    }
+  },
+  "c_in_N": true,
+  "evaluation_mode": true,
+  "shadow_sum_identity": true,
+  "uf6_p2_to_q8": {
+    "ok": true,
+    "claimed_matches": true
+  },
+  "uf7_status_acknowledged": true,
+  "reduction_R3_to_N_Q": {
+    "ok": true,
+    "claimed": {
+      "surjective": true,
+      "image_size": 4
+    },
+    "recomputed": {
+      "surjective": true,
+      "image_size": 4,
+      "target_count": 4
+    }
+  },
+  "observed_shadow_total": 4
+}

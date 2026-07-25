@@ -18,54 +18,12 @@ capStage := 600.0;;   # seconds, sec.1.1
 haltStage := false;;
 
 # ================================================================================
-# Q8 construction (self-contained quaternion algebra, regular permutation representation)
-# elements indexed 1..8 <-> (sign,unit): unit in {0=1,1=i,2=j,3=k}, sign in {+1,-1}
+# Q8 construction: now shared via search/week3-battery-common.g's MakeQ8()
+# (moved there so stage 1b's fiber-product construction can reuse the identical Q8 instance).
 # ================================================================================
-QUnitTable := [ [[1,0],[1,1],[1,2],[1,3]],     # 1 * {1,i,j,k}
-                 [[1,1],[-1,0],[1,3],[-1,2]],  # i * {1,i,j,k} = {i,-1,k,-j}
-                 [[1,2],[-1,3],[-1,0],[1,1]],  # j * {1,i,j,k} = {j,-k,-1,i}
-                 [[1,3],[1,2],[-1,1],[-1,0]] ];; # k * {1,i,j,k} = {k,j,-i,-1}
-
-QMul := function(g, h)
-  local t;
-  t := QUnitTable[g[2]+1][h[2]+1];
-  return [ g[1]*h[1]*t[1], t[2] ];
-end;;
-
-IdxOfQ := function(g) return g[2]*2 + (1 - g[1])/2 + 1; end;;  # sign=1 -> +0, sign=-1 -> +1
-ElemOfIdxQ := function(idx)
-  local k, unit, signCode;
-  k := idx - 1;
-  unit := QuoInt(k, 2);
-  signCode := k mod 2;
-  if signCode = 0 then return [1, unit]; else return [-1, unit]; fi;
-end;;
-
-QRegPerm := function(d)
-  local l, idx;
-  l := [];
-  for idx in [1..8] do l[idx] := IdxOfQ(QMul(d, ElemOfIdxQ(idx))); od;
-  return PermList(l);
-end;;
-
-QLabelOfElem := function(g)
-  local unitNames, s;
-  unitNames := ["1","i","j","k"];
-  if g[1] = 1 then
-    if g[2] = 0 then return "1"; else return unitNames[g[2]+1]; fi;
-  else
-    if g[2] = 0 then return "-1"; else return Concatenation("-", unitNames[g[2]+1]); fi;
-  fi;
-end;;
-
-QLabelOfPerm := function(p) return QLabelOfElem(ElemOfIdxQ(1^p)); end;;
-
-one := [1,0];;  negone := [-1,0];;  ii := [1,1];;  jj := [1,2];;
-
-xhat := QRegPerm(ii);;
-yhat := QRegPerm(jj);;
-chat := QRegPerm(one);;   # c |-> 1
-QQ := Group(xhat, yhat);;
+negone := [-1,0];;
+q8rec := MakeQ8();;
+xhat := q8rec.x;;  yhat := q8rec.y;;  chat := q8rec.c;;  QQ := q8rec.G;;
 
 # ================================================================================
 # U-F3: Q8 self-check -- i^4=1, i^2=j^2, ord(ij)=4, [i,j]=-1
@@ -343,6 +301,7 @@ s := Concatenation(
   "\"hexagon_free_certificate\":", hexFreeCert, ",",
   "\"generation_pass_count\":", String(result.shadow_total), ",",
   "\"generation_detail\":", JArr(genDetailJson), ",",
+  "\"generation_detail_note\":\"f_hash 規約未定義につき f_word を canonical とする(司令塔裁定 2026-07-26 ④)\",",
   "\"torsion_generation_agrees\":\"UNKNOWN\",",
   "\"derived_product_check\":", derivedProductCheck, ",",
   "\"frobenius_zero\":[],",
