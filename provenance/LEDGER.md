@@ -179,6 +179,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **正典の版確認**: 2405.11725 に v2(2026-01-13 改訂)が存在するが、当工房の PDF は入手時(2026-07-18)から **v2**(papers/txt のスタンプ行で確認)。定義ノート・較正データは v2 準拠 — diff リスクなし。
 - 司令塔一次読み: Guillot GT(G)(1407.3112 / 1604.04415)は要旨より B₄ 系(pentagon 込み)の可能性高。有限単純群での明示計算の機構は将来の翻訳候補として検疫圏に留置(**降ろしていない** — ゲート通過なし)。
 - 残 UNKNOWN(報告書末尾に引き継ぎ): Guillot の関係式実地判定・Yulia's Dream 資料・候補 9/10 実在確認・Dolgushev publist.pdf。
+- **②常務読み 第 1 号(同日)**: arXiv 1109.0024 v3(Bauer–Sen–Zvengrowski, Generalized Goursat Lemma)を reader が精密読解 → docs/scout/読解_generalized_goursat.md。**3 因子補題(監査中)への確認定理・反例とも文献に無し** — 監査が引き続き決定打。PDF は方針どおり非コミット(gitignore `papers/`)・SHA-256 = `C2A97D8A4F9BD6EA86B322FA7B57B5B1667B9EF29F860A3965FE237E26D665BB`(docs/scout/papers/1109.0024v3.pdf・arXiv から再取得可)。処置: **留置** — 便 05 決着後に両数学者へ同時降ろしの候補 A(累積型分類 Thm 3.2・profinite 版 Prop 4.2 が翻訳対象)。
 
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
