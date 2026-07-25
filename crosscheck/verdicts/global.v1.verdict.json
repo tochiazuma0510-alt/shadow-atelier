@@ -2,7 +2,7 @@
   "schema": "gtsh-global/v1",
   "status": "PASS",
   "cap_ms": 600000,
-  "elapsed_ms": 3111,
+  "elapsed_ms": 1523,
   "universe": [
     3,
     4,
