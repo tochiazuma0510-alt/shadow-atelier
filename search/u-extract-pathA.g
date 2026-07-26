@@ -239,6 +239,98 @@ ExtractPathA := function(model)
   return report;
 end;;
 
+#################### R-5(便 36・裁定 36): 副枝 (N_infty) 経路 A∞ ####################
+# 委嘱: docs/week4-K5_Rule1_v1.md v1.2 S6.1 (b) / 補題 R1-B∞。K^(5) の実 fixture
+# には (N_infty) が無いため、較正は Rule 1 S0.4-3 の合成の玩具例(M=n=3 の
+# toy family)でのみ行う -- search/u-extract-pathA-ninf-toy-driver.g が
+# 明示する model は **synthetic**(K^(5) の個別モデル・係数・数値近似では
+# ない)。
+#
+# model_ninf レコードのフィールド:
+#   id            : 文字列ラベル
+#   n             : 被覆の位数(div(lambda) = n P0 - n P_infty; toy では n=3)
+#   f             : 昇冪係数リスト、次数 6(モニック、種数 2 の六次モデル)
+#   A, B          : 昇冪係数リスト(deg A = n、deg B = n-3。b_{n-3}=a_n を要求)
+#   seriesLen     : 保持する項数(>= 2n+4 を推奨。W mod s^{2n+4} が A∞-1 の要求)
+#
+# s := 1/x, w := y/x^3 のチャート(補題 R1-U∞ 1.)。F(s) := s^6 f(1/s) は
+# f の係数列を逆順にしたもの(f モニックゆえ F(0)=1)。W は W^2=F、W(0)=1 の
+# 冪級数(A∞-1)。Atilde(s):=s^n A(1/s)、Btilde(s):=s^{n-3} B(1/s) も係数列の
+# 逆順(A∞-2)。P0=infty_- では w=-W ゆえ G_-(s):=Atilde(s)-W(s)*Btilde(s)、
+# u^{(A)} := [s^{2n}] G_-(A∞-3、補題 R1-B∞ より M=n の下で [s^{M+n}]=[s^{2n}])。
+ReverseCoeffs := function(c) return Reversed(c); end;;
+
+ExtractPathA_Ninf := function(model)
+  local n, seriesLen, Fasc, W, Atilde, Btilde, GMinus, k, lowerZero,
+        u, higherRaw, report;
+
+  n := model.n;
+  seriesLen := model.seriesLen;
+
+  if Length(model.f) <> 7 then
+    Error("ExtractPathA_Ninf: f must have degree 6 (genus-2 sextic model), got length ", Length(model.f));
+  fi;
+  if model.f[7] <> 1 then
+    Error("ExtractPathA_Ninf: f must be monic (leading coeff 1)");
+  fi;
+
+  # F(s) = s^6 f(1/s): reverse of f's ascending coeffs, then pad to seriesLen.
+  Fasc := ShallowCopy(ReverseCoeffs(model.f));
+  while Length(Fasc) < seriesLen do Add(Fasc, 0); od;
+  if Fasc[1] <> 1 then
+    Error("ExtractPathA_Ninf: F(0) must be 1 (monic f), got ", Fasc[1]);
+  fi;
+
+  W := PSSqrt(Fasc, 1, seriesLen);
+
+  Atilde := ShallowCopy(ReverseCoeffs(model.A));
+  while Length(Atilde) < seriesLen do Add(Atilde, 0); od;
+  Btilde := ShallowCopy(ReverseCoeffs(model.B));
+  while Length(Btilde) < seriesLen do Add(Btilde, 0); od;
+
+  # P0 = infty_-: w = -W, so lambda = s^{-n}(Atilde + w*Btilde) = s^{-n}(Atilde - W*Btilde) =: s^{-n} G_-.
+  GMinus := PSSub(Atilde, PSMul(W, Btilde));
+
+  lowerZero := true;
+  for k in [1 .. 2*n] do
+    if GMinus[k] <> 0 then lowerZero := false; fi;
+  od;
+
+  u := GMinus[2*n + 1];
+  higherRaw := List([2*n + 1 .. Minimum(seriesLen, 2*n + 4)], k -> GMinus[k]);
+
+  report := rec(
+    id := model.id,
+    n := n,
+    f := model.f,
+    A := model.A,
+    B := model.B,
+    seriesLen := seriesLen,
+    lowerOrderVanish := lowerZero,
+    u_pathA_ninf := u,
+    higherOrderRaw := higherRaw,
+    W_mod_check := ForAll(PSSub(PSMul(W, W), Fasc), c -> c = 0)
+  );
+  return report;
+end;;
+
+ReportToJSON_Ninf := function(r)
+  return Concatenation("{",
+    JStr("schema"), ":", JStr("u-pathA-ninf-toy/v1"), ",",
+    JStr("synthetic_note"), ":", JStr("R-5 toy calibration (Rule 1 S0.4-3 M=n=3 toy family) -- NOT a K^(5) individual model/coefficient/numeric approximation"), ",",
+    JStr("id"), ":", JStr(r.id), ",",
+    JStr("n"), ":", String(r.n), ",",
+    JStr("f_coeffs_ascending"), ":", JRatList(r.f), ",",
+    JStr("A_coeffs_ascending"), ":", JRatList(r.A), ",",
+    JStr("B_coeffs_ascending"), ":", JRatList(r.B), ",",
+    JStr("series_length"), ":", String(r.seriesLen), ",",
+    JStr("W_squared_equals_F"), ":", JB(r.W_mod_check), ",",
+    JStr("lower_order_vanish"), ":", JB(r.lowerOrderVanish), ",",
+    JStr("u_pathA_ninf"), ":", JRat(r.u_pathA_ninf), ",",
+    JStr("higher_order_raw"), ":", JRatList(r.higherOrderRaw),
+  "}");
+end;;
+
 #################### JSON 直列化(有理数専用。cyclotomic は将来拡張) ####################
 JRat := function(q)
   if not IsRat(q) then

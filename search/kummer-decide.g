@@ -133,6 +133,19 @@ OrdModM := function(K, M, w)
 end;;
 
 #################### 便 34 P6-C3: 第三 covariance (tau∘[d] + character 逆冪) ####################
+# *** 撤回(便 36・裁定 36・Sol 便 35 F3 = blocker 4) ***
+# 以下の KummerCovariance3Check / KummerCovariance3ToJSON は、witness
+# e in K に対する GaloisCyc(e,d)(= Gal(K/Q) の K 内自己同型)の作用を検査
+# するものであり、要求された Kummer character
+#   kappa_w(gamma) = gamma(w^{1/M})/w^{1/M}   (gamma in G_K)
+# ではない(e in K は定義により G_K に固定されるので GaloisCyc(e,d)/e の
+# 非自明値はこの character と無関係)。また出力に b_i・tau_i・rho_0・j_i・
+# formal a のいずれも現れず、便 34 F4.5 が要求した較正を実行し得ない
+# (Sol 便 35 F3 全文)。両関数は**もう呼び出さない**(kummer-decide-k3-driver.g
+# 参照)。後継は search/kummer-cov3-actual.g(rho_0/tau/j の実値 covariance
+# を扱う・射程限定を明記)。旧証明書は certificates/k5pipeline/retracted/ へ
+# 退避済み(NOTE.md 参照)。コードは history として残すが dead code である。
+#
 # manifest §較正三層 3: tau -> tau∘[d] (mu_M の生成元の取り替え) と Kummer
 # character kappa の逆冪 kappa -> d^{-1}*kappa を**同時に**施しても (5')
 # 相当の等式 sigma(e)/e = zeta_M^{kappa(sigma)} が(取り替えた生成元の下で)

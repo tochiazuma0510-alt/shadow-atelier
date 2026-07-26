@@ -1,0 +1,33 @@
+{
+  "schema": "u-pathB-ninf-toy/v1",
+  "synthetic_note": "R-5 toy calibration (Rule 1 S0.4-3 M=n=3 toy family) -- NOT a K^(5) individual model/coefficient/numeric approximation",
+  "id": "toy-ninf-M3",
+  "n": 3,
+  "f_coeffs_ascending": [
+    "-1",
+    "2",
+    "1",
+    "2",
+    "2",
+    "0",
+    "1"
+  ],
+  "A_coeffs_ascending": [
+    "1",
+    "1",
+    "0",
+    "1"
+  ],
+  "B_coeffs_ascending": [
+    "1"
+  ],
+  "deg_A_equals_n": true,
+  "b_nm3_equals_a_n": true,
+  "N_lambda_coeffs_ascending": [
+    "2"
+  ],
+  "N_lambda_is_nonzero_constant": true,
+  "chat": "2",
+  "a_n": "1",
+  "u_pathB_ninf": "1"
+}

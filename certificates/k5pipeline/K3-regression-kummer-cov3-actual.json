@@ -1,0 +1,175 @@
+{
+  "schema": "k5pipeline/kummer-cov3-actual/v1",
+  "retraction_note": "Supersedes certificates/k5pipeline/retracted/K3-regression-kummer-cov3.v1.json + *-checkcov3.v1.json (search/kummer-decide.g KummerCovariance3Check + crosscheck/check-kummer-cov3.mjs, retracted per Sol 便35 F3 -- those applied Gal(K/Q) (GaloisCyc / cyclotomic ring substitution) to a witness e in K, which is NOT the required Kummer character kappa_w(gamma)=gamma(w^{1/M})/w^{1/M} for gamma in G_K, since e in K is fixed pointwise by G_K by definition.",
+  "scope_limitation_UNKNOWN": "This certificate implements ONLY the rho_0/tau/j actual-value reparametrization covariance: the j-table (mu_M[e] generator -> F0 element) is independently rebuilt under a change of generator zeta_M[e] -> zeta_M[e]^{dprime} (dprime in (Z/e)^x) and checked against the transformation law tprime = dprime^{-1} t (mod e), using only certified fixture permutation data (no shared helper between GAP/node). It does NOT implement an independently measured b_i (Rule 1 §7.1: requires actual local monodromy generator ell_i and the FC-3 intertwiner c_i; not present as certified data for K3 -- K3's tau is defined directly via the local Kummer convention s^{1/M} -> zeta_M s^{1/M}, so b=1 reported here is definitional, not an independent measurement) and does NOT re-derive formal a=1 (Rule 1 (1.11), a K5 sq/ns comparison exponent with no meaning for a single K3 dessin). These two items are reported as UNKNOWN / explicitly out of scope, per instruction not to weaken the predicate to manufacture a false PASS.",
+  "e": 3,
+  "M": 6,
+  "systems": {
+    "gap": {
+      "method": "derive tau_0/tau_4 from the tau homomorphism property + cited tau_2; rebuild j-table by raw permutation matching; rebuild j'-table under generator change and compare to transformation law prediction",
+      "script": "search/kummer-cov3-actual.g",
+      "certificate_file": "certificates/k5pipeline/K3-regression-kummer-cov3-actual.gap.json",
+      "raw": {
+        "schema": "k5pipeline/kummer-cov3-actual-gap/v1",
+        "retraction_note": "supersedes certificates/k5pipeline/retracted/K3-regression-kummer-cov3.v1.json (search/kummer-decide.g KummerCovariance3Check, retracted per Sol 便35 F3 -- that check applied GaloisCyc / Gal(K/Q) to a witness e in K, which is NOT the Kummer character kappa_w(gamma)=gamma(w^{1/M})/w^{1/M} for gamma in G_K, since e in K is fixed by G_K by definition.",
+        "scope_limitation_UNKNOWN": "This certificate implements ONLY the rho_0/tau/j actual-value reparametrization covariance (independently rebuilt j-table under generator change, matching the transformation law t'=d'^{-1}t mod e). It does NOT implement an independently measured b_i (Rule 1 S7.1: requires actual local monodromy generator ell_i and intertwiner c_i, not present as certified data for K3 -- tau is defined directly via the local Kummer convention, so b=1 here is definitional, not measured) and does NOT re-derive formal a=1 (Rule 1 (1.11), a K5 sq/ns-specific quantity, N/A for a single K3 dessin). These two items are reported as UNKNOWN / out of current scope, per instruction not to weaken the predicate.",
+        "e": 3,
+        "M": 6,
+        "rho0_k0": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "rho0_k1": [
+          1,
+          2,
+          0,
+          4,
+          5,
+          3
+        ],
+        "rho0_k2": [
+          2,
+          0,
+          1,
+          5,
+          3,
+          4
+        ],
+        "tau2_fixture": [
+          2,
+          0,
+          1,
+          5,
+          3,
+          4
+        ],
+        "tau2_equals_rho0_k2": true,
+        "tau4_derived": [
+          1,
+          2,
+          0,
+          4,
+          5,
+          3
+        ],
+        "tau4_equals_rho0_k1": true,
+        "baseJTable": [
+          0,
+          2,
+          1
+        ],
+        "baseJTable_matches_fixture": true,
+        "units_mod_e": [
+          1,
+          2
+        ],
+        "covariance_results": [
+          {
+            "dprime": 1,
+            "dprimeInv": 1,
+            "newJTable": [
+              0,
+              2,
+              1
+            ],
+            "predictedFromOld": [
+              0,
+              2,
+              1
+            ],
+            "match": true
+          },
+          {
+            "dprime": 2,
+            "dprimeInv": 2,
+            "newJTable": [
+              0,
+              1,
+              2
+            ],
+            "predictedFromOld": [
+              0,
+              1,
+              2
+            ],
+            "match": true
+          }
+        ],
+        "all_covariance_match": true,
+        "b_formal_definitional": 1,
+        "formal_a_note": "formal a (Rule 1 (1.11), K5 sq/ns-specific) is not applicable to a single K3 dessin; not re-derived here.",
+        "pass": 6,
+        "fail": 0
+      }
+    },
+    "node": {
+      "method": "independent from-scratch reimplementation (no shared helper with the GAP script) of the same derivation, using self-transcribed fixture data",
+      "script": "crosscheck/check-kummer-cov3-actual.mjs",
+      "self_pass": 6,
+      "self_fail": 0,
+      "baseJTable": [
+        0,
+        2,
+        1
+      ],
+      "covarianceResults": [
+        {
+          "dprime": 1,
+          "dprimeInv": 1,
+          "newJTable": [
+            0,
+            2,
+            1
+          ],
+          "predictedFromOld": [
+            0,
+            2,
+            1
+          ],
+          "match": true
+        },
+        {
+          "dprime": 2,
+          "dprimeInv": 2,
+          "newJTable": [
+            0,
+            1,
+            2
+          ],
+          "predictedFromOld": [
+            0,
+            1,
+            2
+          ],
+          "match": true
+        }
+      ],
+      "allCovarianceMatch": true,
+      "bFormal": 1,
+      "bPrimeByDprime": [
+        {
+          "dprime": 1,
+          "bPrime": 1
+        },
+        {
+          "dprime": 2,
+          "bPrime": 2
+        }
+      ]
+    }
+  },
+  "cross_check": {
+    "pass": 5,
+    "fail": 0,
+    "note": "一致は cross-checked であって Lean の verified ではない(CLAUDE.md 語彙規律)"
+  },
+  "conclusion": {
+    "rho0_tau_j_reparametrization_covariance": true,
+    "b_i_independently_measured": "UNKNOWN -- not implementable from currently certified data (see scope_limitation_UNKNOWN)",
+    "formal_a_rederived": "N/A -- K5 sq/ns-specific quantity, not applicable to a single K3 dessin"
+  }
+}

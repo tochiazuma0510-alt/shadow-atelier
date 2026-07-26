@@ -36,15 +36,11 @@ RunK3Calibration := function()
   WriteFile("certificates/k5pipeline/K3-regression-kummer-u.json", KummerCertToJSON("K3-regression-u", K12, 12, 6, u, ordU));
   WriteFile("certificates/k5pipeline/K3-regression-kummer-uinv.json", KummerCertToJSON("K3-regression-uinv", K12, 12, 6, v, ordV));
 
-  # 便 34 P6-C3: 第三 covariance (tau∘[d] + Kummer character 逆冪)。
-  # u の witness (ord=3, e^6=u^3) について検査する。
-  Print("=== KummerCovariance3Check (K3-regression, w=u=-4, ord=3) ===\n");
-  cov3 := KummerCovariance3Check(12, 6, u, ordU.ord, ordU.witness);
-  Print("  galoisUnits (Z/12)^x = ", cov3.galoisUnits, "\n");
-  Print("  kappaTable (wrt zeta_6=E(6)) = ", cov3.kappaTable, "\n");
-  Print("  unitsModM (Z/6)^x = ", cov3.unitsModM, "\n");
-  Print("  allMatch (tau in [d] + kappa 逆冪の同時変換で不変)? ", cov3.allMatch, "\n");
-  WriteFile("certificates/k5pipeline/K3-regression-kummer-cov3.json", KummerCovariance3ToJSON(cov3));
+  # 便 34 P6-C3 の第三 covariance はここでは走らせない(便 36・裁定 36):
+  # KummerCovariance3Check は Sol 便 35 F3 により撤回された誤述語である
+  # (Gal(K/Q) の K 内自己同型であって G_K 上の Kummer character ではない)。
+  # 後継は search/kummer-cov3-actual.g(rho_0/tau/j の実値 covariance・
+  # 射程限定を明記)。
 end;;
 
 RunK3Calibration();

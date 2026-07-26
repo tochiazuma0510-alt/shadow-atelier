@@ -1,0 +1,11 @@
+{
+  "schema": "u-compare-ninf-toy/v1",
+  "synthetic_note": "Rule 1 S0.4-3 M=n=3 toy family -- NOT K^(5) real data",
+  "pathAFile": "certificates/k5pipeline/toy-ninf-M3-pathA.json",
+  "pathBFile": "certificates/k5pipeline/toy-ninf-M3-pathB.json",
+  "idA": "toy-ninf-M3",
+  "idB": "toy-ninf-M3",
+  "u_pathA_ninf": "1",
+  "u_pathB_ninf": "1",
+  "result": "ACCEPT"
+}

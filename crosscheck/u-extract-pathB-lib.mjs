@@ -207,6 +207,68 @@ export function extractPathB(model) {
   };
 }
 
+//////////////////// R-5(便 36・裁定 36): 副枝 (N_infty) 経路 B-iii ////////////////////
+// docs/week4-K5_Rule1_v1.md v1.2 S6.2 B-iii (6.3) / 補題 R1-B∞。級数を使わない:
+// N(lambda) = A^2 - B^2 f (多項式のみ) が定数 chat であることを直接検算し、
+// u^{(B)} = chat / (2 a_n) (a_n := [x^n] A) を計算する。
+// SYNTHETIC のみ: K^(5) の実 fixture には (N_infty) が無いため、較正は
+// crosscheck/u-extract-pathB-ninf-toy-driver.mjs が明示する玩具モデルでのみ
+// 行う。
+export function loadModelNinf(raw) {
+  return {
+    id: raw.id,
+    n: raw.n,
+    f: raw.f_coeffs_ascending.map(Q.parse),
+    A: raw.A_coeffs_ascending.map(Q.parse),
+    B: raw.B_coeffs_ascending.map(Q.parse),
+  };
+}
+
+export function extractPathB_Ninf(model) {
+  const { n, f, A, B } = model;
+  if (f.length !== 7) throw new Error('extractPathB_Ninf: f must have degree 6');
+  if (!f[6].eq(new Q(1n))) throw new Error('extractPathB_Ninf: f must be monic');
+
+  const degA = A.length - 1;
+  const degB = B.length - 1;
+  if (degA !== n) throw new Error(`extractPathB_Ninf (N∞-1): deg A must equal n=${n}, got ${degA}`);
+  if (degB !== n - 3) throw new Error(`extractPathB_Ninf (N∞-1): deg B must equal n-3=${n - 3}, got ${degB}`);
+  const a_n = A[n];
+  const b_nm3 = B[n - 3];
+  if (!a_n.eq(b_nm3)) throw new Error(`extractPathB_Ninf (N∞-2): b_{n-3} (${b_nm3}) must equal a_n (${a_n})`);
+  if (a_n.isZero()) throw new Error('extractPathB_Ninf (N∞-2): a_n must be nonzero');
+
+  const A2 = polyMul(A, A);
+  const B2 = polyMul(B, B);
+  const B2f = polyMul(B2, f);
+  const Nlambda = polySub(A2, B2f);
+
+  // (N∞-3) N(lambda) must be a nonzero constant polynomial.
+  const isConstant = Nlambda.length === 1;
+  if (!isConstant) throw new Error(`extractPathB_Ninf (N∞-3): N(lambda) is not constant, degree ${Nlambda.length - 1}`);
+  const chat = Nlambda[0];
+  if (chat.isZero()) throw new Error('extractPathB_Ninf (N∞-3): N(lambda) is the zero constant');
+
+  const u_pathB_ninf = chat.div(a_n.mul(new Q(2n)));
+
+  return {
+    schema: 'u-pathB-ninf-toy/v1',
+    synthetic_note: 'R-5 toy calibration (Rule 1 S0.4-3 M=n=3 toy family) -- NOT a K^(5) individual model/coefficient/numeric approximation',
+    id: model.id,
+    n,
+    f_coeffs_ascending: f.map(String),
+    A_coeffs_ascending: A.map(String),
+    B_coeffs_ascending: B.map(String),
+    deg_A_equals_n: degA === n,
+    b_nm3_equals_a_n: a_n.eq(b_nm3),
+    N_lambda_coeffs_ascending: Nlambda.map(String),
+    N_lambda_is_nonzero_constant: isConstant && !chat.isZero(),
+    chat: chat.toString(),
+    a_n: a_n.toString(),
+    u_pathB_ninf: u_pathB_ninf.toString(),
+  };
+}
+
 //////////////////// COV-1 (s -> cs) 派生モデル (pathA.g と独立に再構成) ////////////////////
 export function cov1Model(model, k) {
   const kQ = Q.parse(k);

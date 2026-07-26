@@ -211,7 +211,7 @@ manifest 本文 §8.6/§10 が要求する「実装版・commit・checker ID」�
 
 | component | 役割 | 直前 commit(便 32 時点) | 備考 |
 |---|---|---|---|
-| `search/k5-fixture-serialize.mjs` | fixture 実体化・canonical serialization 生成器(PART 1/2/2c/3) | `25c37e209b655d29af707b6fe0bbc25730b70300` | **本便で PART 2c を追加・未コミット**(git status で確認)。コミット後に新 hash へ更新要 |
+| `search/k5-fixture-serialize.mjs` | fixture 実体化・canonical serialization 生成器(PART 1/2/2c/3) | `fefaaece2bac8b1f3e1ed52bf2f04af75a051a4e`(commit ID・`git log -1 --format=%H` 実測、便 36 で確認・working tree はこの commit と同一 — `git status`/`git diff` とも差分なし) | **コミット済**(便 36 で自己申告を訂正。blob hash は `41f3d9c86fdd7d3b99c4a75bc81c10dea78656af`) |
 | `search/k5-blocks-check.g` | K5-sq/K5-ns の GAP 側ブロック系検算(34/34) | `3eb0a70a48be9b897db08cb5a08ad907a3b03ae4` | 本便で無変更 |
 | `crosscheck/check-k5-blocks.mjs` | 同上の node 独立照合器(36/36・突合 13/13) | `3eb0a70a48be9b897db08cb5a08ad907a3b03ae4` | 本便で無変更 |
 | `search/week4-k3-v2-repairs.mjs` | K3 側 $\rho_0$/$\mathfrak F_0$ の独立検算(43/43・PART 2c の突合先) | `174dd5a967b6db1d496fc1fe79f7406143769183` | 本便で無変更(本便で再実行し 43/43 PASS を再確認) |

@@ -1,21 +1,24 @@
 {
-  "schema": "k5pipeline/ninf-exclusion/v1",
-  "source_doc": "docs/week4-K5_Rule1_v1.md v1.2 S11 論点7 / 補題 R1-N∞-S",
-  "question": "sigma_0 <-> sigma_infty を交換し sigma_1 を保つ simultaneous conjugator g in S_10 は存在するか(存在しなければ、補題 R1-N∞-S 3. の対偶により (N_infty) はこの dessin について発火し得ない)",
+  "schema": "k5pipeline/ninf-exclusion/v3",
+  "retraction_note": "v1 (moved to certificates/k5pipeline/retracted/) tested the naive swap (x,y,z)->(z,y,x) (35.2)/(35.3), which does not preserve the relator xyz=1 in general. Direct computation confirms sigma_0*sigma_1 <> sigma_1*sigma_0 for both fixtures, so (35.3)'s third equation combined with E1 is unsatisfiable (35.3 is equivalent to (35.4) AND [sigma_0,sigma_1]=1 given E1) -- v1's 'no conjugator found' was a CORRECT computation of an uninformative/wrong question, not evidence against (N_infty). v2 fixed the predicate to (35.4) but used a full-S10 search; v3 implements the mathematician-reviewed restricted method (Rule 1 v1.3 R1-N∞-W): only 10 candidates (g(0)=c), E1+E2 as the decisive predicate, E3 as a redundant confirmation, and theorem-derived self-checks (unique survivor, g^2=sigma_1) as integrity stops rather than UNKNOWN.",
+  "conclusion_label": "排除されず・対称性充足・(N_infty) の存否は UNKNOWN・witness は cross-checked",
+  "source_doc": "docs/week4-K5_Rule1_v1.md v1.3 §11 R-6 (補題 R1-N∞-W); sol/sol_reply_35_freeze1r4.md F1.5; sol/裁定_36_ben35.md",
   "inputs": "certificates/k5fixture/K5-sq.json, K5-ns.json の perm_triple のみ(model/lambda/u には一切接触なし)",
-  "expectation_not_used_in_judgement": "「対称性なし ⇒ (N_infty) は両 dessin で発火しない」という期待は判定に使っていない。以下は結果そのもの。",
   "systems": {
     "gap": {
-      "method": "RepresentativeAction(SymmetricGroup(10), [s0,s1,sInf], [sInf,s1,s0], OnTuples) -- backtrack search (group-theoretic algebraic algorithm)",
+      "method": "restricted 10-candidate search: g(0)=c for c=0..9 via GAP-side propagation; E1+E2 decisive, E3 redundant confirmation; self-checks per R1-N∞-W",
       "script": "search/k5-ninf-exclusion.g",
       "certificate_file": "certificates/k5pipeline/ninf-exclusion.gap.json",
       "raw": {
-        "schema": "k5pipeline/ninf-exclusion-gap/v1",
-        "pass": 12,
+        "schema": "k5pipeline/ninf-exclusion-gap/v3",
+        "retraction_note": "v1 (moved to certificates/k5pipeline/retracted/) tested the naive swap (x,y,z)->(z,y,x) (35.2)/(35.3), which does not preserve the relator xyz=1 in general. Direct computation here confirms sigma_0*sigma_1 <> sigma_1*sigma_0 for both fixtures, so (35.3)'s third equation combined with E1 is unsatisfiable (35.3 is equivalent to (35.4) AND [sigma_0,sigma_1]=1 given E1) -- v1's 'no conjugator found' was a CORRECT computation of an uninformative/wrong question, not evidence against (N_infty). v2 fixed the predicate to (35.4) but used a full-S10 search; v3 (this file) additionally implements the mathematician-reviewed restricted method (Rule 1 v1.3 R1-N∞-W): only 10 candidates (g(0)=c), E1+E2 as the decisive predicate, E3 as a redundant confirmation, and theorem-derived self-checks (unique survivor, g^2=sigma_1) as integrity stops rather than UNKNOWN.",
+        "conclusion_label": "排除されず・対称性充足・(N_infty) の存否は UNKNOWN・witness は cross-checked",
+        "pass": 20,
         "fail": 0,
-        "method": "RepresentativeAction(SymmetricGroup(10), [s0,s1,sInf], [sInf,s1,s0], OnTuples)",
+        "method": "restricted 10-candidate search: g(0)=c for c=0..9, g built by propagating E1 (g s0 g^-1 = sInf) along the sigma_0 10-cycle; filter by E2 (g s1 g^-1 = s1); E3 checked as redundant confirmation; self-checks (unique survivor, g^2=sigma_1) per R1-N∞-W",
         "targets": {
           "sq": {
+            "integrity_stop": false,
             "sanity_relation_ok": true,
             "cycle_type_sigma0": [
               10
@@ -33,11 +36,28 @@
             ],
             "sign_sigma1": 1,
             "odd_length_cycle_count_sigma1": 2,
-            "conjugator_exists": false,
-            "conjugator_g_0indexed": null,
-            "ninf_excluded": true
+            "sigma0_sigma1_commute": false,
+            "num_candidates_checked": 10,
+            "num_survivors": 1,
+            "conjugator_exists": true,
+            "conjugator_g_0indexed": [
+              1,
+              0,
+              3,
+              8,
+              5,
+              6,
+              7,
+              4,
+              9,
+              2
+            ],
+            "e3_redundant_confirmation": true,
+            "g_squared_equals_sigma1": true,
+            "ninf_excluded": false
           },
           "ns": {
+            "integrity_stop": false,
             "sanity_relation_ok": true,
             "cycle_type_sigma0": [
               10
@@ -55,21 +75,38 @@
             ],
             "sign_sigma1": 1,
             "odd_length_cycle_count_sigma1": 2,
-            "conjugator_exists": false,
-            "conjugator_g_0indexed": null,
-            "ninf_excluded": true
+            "sigma0_sigma1_commute": false,
+            "num_candidates_checked": 10,
+            "num_survivors": 1,
+            "conjugator_exists": true,
+            "conjugator_g_0indexed": [
+              6,
+              3,
+              2,
+              7,
+              8,
+              1,
+              4,
+              5,
+              0,
+              9
+            ],
+            "e3_redundant_confirmation": true,
+            "g_squared_equals_sigma1": true,
+            "ninf_excluded": false
           }
         }
       }
     },
     "node": {
-      "method": "brute force over all 3,628,800 permutations of S_10 (Heap's algorithm), testing g s0 g^-1 = sInf AND g sInf g^-1 = s0 AND g s1 g^-1 = s1 directly by permutation composition -- no shared code/helper with the GAP script, independent from-scratch implementation",
+      "method": "independent from-scratch reimplementation of the same restricted 10-candidate method (no shared helper with the GAP script)",
       "script": "crosscheck/check-k5-ninf.mjs",
-      "self_pass": 12,
+      "self_pass": 20,
       "self_fail": 0,
       "results": {
         "sq": {
           "target": "sq",
+          "integrity_stop": false,
           "sanity_relation_ok": true,
           "cycle_type_sigma0": [
             10
@@ -87,15 +124,29 @@
           ],
           "sign_sigma1": 1,
           "odd_length_cycle_count_sigma1": 2,
-          "total_permutations_checked": 3628800,
-          "conjugator_exists": false,
-          "conjugator_count": 0,
-          "conjugators_g_0indexed": [],
-          "ninf_excluded": true,
-          "elapsed_ms": 66
+          "sigma0_sigma1_commute": false,
+          "num_candidates_checked": 10,
+          "num_survivors": 1,
+          "conjugator_exists": true,
+          "conjugator_g_0indexed": [
+            1,
+            0,
+            3,
+            8,
+            5,
+            6,
+            7,
+            4,
+            9,
+            2
+          ],
+          "e3_redundant_confirmation": true,
+          "g_squared_equals_sigma1": true,
+          "ninf_excluded": false
         },
         "ns": {
           "target": "ns",
+          "integrity_stop": false,
           "sanity_relation_ok": true,
           "cycle_type_sigma0": [
             10
@@ -113,12 +164,25 @@
           ],
           "sign_sigma1": 1,
           "odd_length_cycle_count_sigma1": 2,
-          "total_permutations_checked": 3628800,
-          "conjugator_exists": false,
-          "conjugator_count": 0,
-          "conjugators_g_0indexed": [],
-          "ninf_excluded": true,
-          "elapsed_ms": 63
+          "sigma0_sigma1_commute": false,
+          "num_candidates_checked": 10,
+          "num_survivors": 1,
+          "conjugator_exists": true,
+          "conjugator_g_0indexed": [
+            6,
+            3,
+            2,
+            7,
+            8,
+            1,
+            4,
+            5,
+            0,
+            9
+          ],
+          "e3_redundant_confirmation": true,
+          "g_squared_equals_sigma1": true,
+          "ninf_excluded": false
         }
       }
     }
@@ -130,13 +194,13 @@
   },
   "conclusion": {
     "sq": {
-      "ninf_excluded_gap": true,
-      "ninf_excluded_node": true,
+      "ninf_excluded_gap": false,
+      "ninf_excluded_node": false,
       "agree": true
     },
     "ns": {
-      "ninf_excluded_gap": true,
-      "ninf_excluded_node": true,
+      "ninf_excluded_gap": false,
+      "ninf_excluded_node": false,
       "agree": true
     }
   }

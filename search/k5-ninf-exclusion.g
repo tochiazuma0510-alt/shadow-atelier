@@ -1,42 +1,51 @@
 #############################################################################
 # search/k5-ninf-exclusion.g -- (N_infty) 副枝の排除証明書(GAP 側・第一系統)
+# v3(便 36・裁定 36 の修理 + 司令塔中継の補題 R1-N∞-W 仕様反映)
 #
-# 委嘱: docs/week4-K5_Rule1_v1.md v1.2 (S11 論点 7 / 補題 R1-N∞-S) の
-# 「選択肢 1(組合せ的排除証明書)」を、凍結済み有限 fixture
-# (certificates/k5fixture/K5-sq.json, K5-ns.json の perm_triple フィールド)
-# だけを入力とする有限計算で実施する。launch blocker ではない任意の補強
-# (v1.2 §11 論点 7 冒頭)。
+# 委嘱: docs/week4-K5_Rule1_v1.md v1.3 §11 R-6(補題 R1-N∞-W)。
 #
-# 補題 R1-N∞-S 3.: 副枝 (N_infty) が生じるなら、ordered dessin は底の
-# Mobius 対合 lambda -> 1/lambda による (0 infty)-交換で不変でなければ
-# ならない。この交換は monodromy 三つ組のレベルでは
-#   sigma_0 <-> sigma_infty を交換し sigma_1 を保つ、simultaneous
-#   conjugation を実現する g in S_10 の存在
-# として現れる(委嘱書の指定: 「向き規約に依存しない保守形 -- sigma_0 <-> sigma_infty
-# の交換を実現する S_10 の元の存在」)。したがって
-#   その g が存在しない  =>  (0 infty)-交換不変性が破れる
-#                        => 補題 R1-N∞-S 3. の対偶により (N_infty) はこの
-#                           dessin について発火し得ない(排除)。
-#   その g が存在する    =>  判定不能(排除できない。別途厳密な捻り三つ組の
-#                           確定が必要 -- 論点7の記述どおり)。
+# *** v1 からの撤回理由(Sol 便 35 F1.5・裁定 36) ***
+# v1 は (0 infty)-交換の monodromy 三つ組への移し方として素朴な置換
+#   (x,y,z) |-> (z,y,x)                                            (35.2)
+# を検査していた。これは xyz=1 の relator を一般に保たない(zyx=1 は
+# xyz=1 から従わない)ため誤りである。
 #
-# 期待(「対称性なし ⇒ 発火しない」)は判定には使わない。結果は結果として
-# そのまま記録する。
+# *** v2 -> v3 差分(司令塔中継・補題 R1-N∞-W の反映) ***
+# 1. 判定式は (35.4) の第一・第二式のみを decisive predicate とする:
+#      g sigma_0 g^{-1} = sigma_infty                               (E1)
+#      g sigma_1 g^{-1} = sigma_1                                    (E2)
+#    第三式 g sigma_infty g^{-1} = sigma_1^{-1} sigma_0 sigma_1 は
+#    xyz=1 型の関係式から E1 のもとで自動的に従う(補題 R1-N∞-W の指摘)。
+#    本証明書では第三式を「冗長確認」として別途検査し、そう明記する。
+# 2. 10! の悉皆は不要: sigma_0 が単一の 10-サイクルなので、E1 を満たす g は
+#    g(0) の値ひとつで完全に決まる(cycle 上を伝播させるだけ)。ゆえに
+#    10 候補の悉皆で閉じる。
+# 3. 自己検査(定理由来・補題 R1-N∞-W): 解は各 fixture でちょうど 1 個、
+#    かつ g^2 = sigma_1 が成立するはず。破れたら入力破損 -> integrity stop
+#    (UNKNOWN ではない)。
+# 4. 撤回の記録の自己完結化: 旧述語 (35.3)(g sigma_infty g^{-1} = sigma_0
+#    という第三式)は、E1 のもとで (35.4) かつ [sigma_0,sigma_1]=1 と同値
+#    である。[sigma_0,sigma_1]=1 は sigma_0,sigma_1 が可換であることを
+#    要求するが、sigma_0 は 10-サイクル(その centralizer は自分自身が
+#    生成する巡回群 <sigma_0> のみ)であり sigma_1 の型 (2^4 1^2) は
+#    <sigma_0> のどの元の型とも一致しないので、sigma_0*sigma_1 <>
+#    sigma_1*sigma_0 が常に成り立つ(証明書内で直接計算により確認)。
+#    ゆえに (35.3) は恒真に充足不能であり、旧証明書の「conjugator が
+#    存在しない」という出力は正しい計算結果だったが、それは的外れな
+#    問い(35.3)に対する答えであって (N_infty) の排除を意味しない。
+# 5. 結論札: 「排除されず・対称性充足・(N_infty) の存否は UNKNOWN・
+#    witness は cross-checked」。
 #
-# 接触禁止: 曲線・lambda・u・数値近似・database には一切触れない。M・lambda・u
-# には一切触れない(perm_triple のみが入力)。
+# 期待は判定には使わない。結果は結果としてそのまま記録する。
 #
 # 第二系統: crosscheck/check-k5-ninf.mjs(node・helper 非共有・本ファイルの
-# ソースは読まない独立実装 -- 総当り brute force で同じ存在問題を解く)。
+# ソースは読まない独立実装)。
 #
 # 実行: .\gap.ps1 search\k5-ninf-exclusion.g
 #############################################################################
 
 Read("search/gaplib_common.g");
 
-# ---------------------------------------------------------------- fixture data
-# 出所: certificates/k5fixture/K5-sq.json / K5-ns.json の "perm_triple" フィールド
-# (search/k5-blocks-check.g と同一の転記値・0-indexed one-line)。
 Fixtures := rec(
   sq := rec(
     s0 := [1,2,3,4,5,6,7,8,9,0],
@@ -50,7 +59,6 @@ Fixtures := rec(
   )
 );;
 
-# 0-indexed image list -> GAP PermList (1-indexed): i^p = list0[i-1] + 1
 ToPerm := function(list0)
   return PermList(List(list0, x -> x + 1));
 end;;
@@ -65,74 +73,136 @@ end;;
 totalPass := 0;; totalFail := 0;;
 Check := function(name, ok, extra)
   if ok then totalPass := totalPass + 1; else totalFail := totalFail + 1; fi;
-  if ok then
-    Print("[PASS] ", name, "  ", extra, "\n");
-  else
-    Print("[FAIL] ", name, "  ", extra, "\n");
-  fi;
+  if ok then Print("[PASS] ", name, "  ", extra, "\n");
+  else Print("[FAIL] ", name, "  ", extra, "\n"); fi;
 end;;
-
-S10 := SymmetricGroup(10);;
 
 results := rec();;
 
+# Build the (unique, if it exists) g in S_10 (as a 0-indexed one-line array)
+# satisfying E1: g[s0[x]] = sInf[g[x]] for all x, given g[0] = c.
+# Since s0 is a single 10-cycle covering all 10 points starting from 0, this
+# determines g on every point by propagating along the cycle 0, s0(0),
+# s0(s0(0)), ... -- no guessing, no 10!-search.
+BuildGFromG0 := function(s0arr, sInfarr, c)
+  local g, x, i, xn;
+  g := List([1..10], i -> -1);   # 0-indexed images, -1 = unset (1-indexed array positions)
+  g[1] := c;                      # g(0) = c  (array index 1 <-> point 0)
+  x := 0;
+  for i in [1..9] do
+    xn := s0arr[x + 1];           # xn := s0(x)
+    g[xn + 1] := sInfarr[g[x + 1] + 1];   # g(s0(x)) = sInf(g(x))
+    x := xn;
+  od;
+  return g;                       # g[i+1] = g(i), 0-indexed
+end;;
+
+IsBijection10 := function(garr)
+  local seen, v;
+  seen := List([1..10], i -> false);
+  for v in garr do
+    if v < 0 or v > 9 or seen[v+1] then return false; fi;
+    seen[v+1] := true;
+  od;
+  return true;
+end;;
+
 ProcessTarget := function(label, fx)
-  local s0, s1, sInf, ok0, dom, t0, t1, tInf, oddMultCount, lens, cnt,
-        conj, exists, gList, exclusion, rec2;
+  local s0, s1, sInf, dom, t0, t1, tInf, oddMultCount, ok0,
+        s0Arr, s1Arr, sInfArr, s1invArr, rhsArr, c, gArr, gPerm,
+        e2ok, e3ok, isBij, survivors, sol, gSquaredOk, commuteCheck,
+        rec2;
   dom := [1..10];
-  s0 := ToPerm(fx.s0); s1 := ToPerm(fx.s1); sInf := ToPerm(fx.sInf);
+  s0Arr := fx.s0; s1Arr := fx.s1; sInfArr := fx.sInf;
+  s0 := ToPerm(s0Arr); s1 := ToPerm(s1Arr); sInf := ToPerm(sInfArr);
 
   Print("\n==== target: ", label, " ====\n");
 
-  # -- sanity: sigma_0 sigma_1 sigma_infty = id, convention (p o q)(i) = p(q(i))
-  # i.e. apply sigma_infty first, then sigma_1, then sigma_0.
+  # -- sanity: relation + cheap invariants (unchanged from v2)
   ok0 := sInf*s1*s0 = ();
   Check(Concatenation(label, "-S0 sigma_0 sigma_1 sigma_infty = id (composition conv.)"), ok0, "");
-
-  # -- cheap invariants (informational only -- doc notes these are "powerless"
-  # as exclusion tools in this campaign because they hold automatically)
-  t0 := CycleTypeOn(s0, dom);
-  tInf := CycleTypeOn(sInf, dom);
-  t1 := CycleTypeOn(s1, dom);
+  t0 := CycleTypeOn(s0, dom); tInf := CycleTypeOn(sInf, dom); t1 := CycleTypeOn(s1, dom);
   Check(Concatenation(label, "-INV sigma_0 is a single 10-cycle"), t0 = [10], Concatenation("got ", String(t0)));
   Check(Concatenation(label, "-INV sigma_infty is a single 10-cycle"), tInf = [10], Concatenation("got ", String(tInf)));
-  Check(Concatenation(label, "-INV sigma_1 has even sign (product relation forces this)"), SignPerm(s1) = 1, "");
+  Check(Concatenation(label, "-INV sigma_1 has even sign"), SignPerm(s1) = 1, "");
   oddMultCount := Length(Filtered(t1, x -> x mod 2 = 1));
-  Check(Concatenation(label, "-INV # odd-length cycles of sigma_1 <= 6 (R1-N-infty-S pt.4 necessary cond.)"),
-        oddMultCount <= 6, Concatenation("count = ", String(oddMultCount)));
+  Check(Concatenation(label, "-INV # odd-length cycles of sigma_1 <= 6"), oddMultCount <= 6, Concatenation("count = ", String(oddMultCount)));
 
-  # -- the actual test: does there exist g in S_10 realizing the (0 infty)
-  # exchange, i.e. simultaneous conjugation
-  #   s0 -> sInf,  s1 -> s1,  sInf -> s0 ?
-  # GAP convention x^g = g^-1 * x * g; existence is convention-independent.
-  conj := RepresentativeAction(S10, [s0, s1, sInf], [sInf, s1, s0], OnTuples);
-  exists := conj <> fail;
-  if exists then
-    gList := List(dom, i -> i^conj - 1);   # back to 0-indexed one-line for the record
-  else
-    gList := fail;
+  # -- (35.3) impossibility, demonstrated directly (item 4 of the v2->v3 diff):
+  # sigma_0*sigma_1 <> sigma_1*sigma_0 (direct computation, no appeal to abstract
+  # centralizer argument needed for the certificate itself -- the argument is
+  # recorded in the header comment as explanation).
+  commuteCheck := (s0*s1 = s1*s0);
+  Check(Concatenation(label, "-COMMUTE sigma_0*sigma_1 <> sigma_1*sigma_0 (so (35.3)'s third eqn, combined with E1, is unsatisfiable)"),
+        not commuteCheck, Concatenation("commute = ", String(commuteCheck)));
+
+  # -- candidate generation: only 10 candidates (g(0) = c for c = 0..9), each
+  # built by propagating E1 along the sigma_0 10-cycle. No 10!-search.
+  # rhs(x) := (s1^{-1} s0 s1)(x) = s1inv(s0(s1(x))), used only for the E3
+  # redundant confirmation (E1+E2 alone are the decisive predicate).
+  s1invArr := List([0..9], i -> Position(s1Arr, i) - 1);
+  rhsArr := List([0..9], x -> s1invArr[s0Arr[s1Arr[x+1]+1]+1]);
+
+  survivors := [];
+  for c in [0..9] do
+    gArr := BuildGFromG0(s0Arr, sInfArr, c);
+    isBij := IsBijection10(gArr);
+    if not isBij then continue; fi;   # E1-construction failed to close into a permutation -- skip (would itself indicate corruption if it happened for the eventual survivor)
+    gPerm := ToPerm(gArr);
+    e2ok := ForAll([0..9], x -> gArr[s1Arr[x+1]+1] = s1Arr[gArr[x+1]+1]);   # g(s1(x)) = s1(g(x))
+    if e2ok then
+      e3ok := ForAll([0..9], x -> gArr[sInfArr[x+1]+1] = rhsArr[gArr[x+1]+1]);  # redundant confirmation, logged not gated
+      Add(survivors, rec(c := c, gArr := gArr, gPerm := gPerm, e3ok := e3ok));
+    fi;
+  od;
+
+  Check(Concatenation(label, "-MAIN E1+E2 restricted to 10 candidates (g(0)=c): survivors found"),
+        true, Concatenation("count = ", String(Length(survivors))));
+
+  # -- self-check (theorem-derived, R1-N∞-W): exactly one survivor expected.
+  if Length(survivors) <> 1 then
+    Print("*** INTEGRITY STOP: expected exactly 1 survivor, got ", Length(survivors), " for target ", label, " ***\n");
+    Check(Concatenation(label, "-SELFCHECK exactly one survivor (R1-N∞-W)"), false,
+          Concatenation("got ", String(Length(survivors)), " survivors"));
+    rec2 := rec(target := label, integrity_stop := true,
+                reason := Concatenation("expected exactly 1 survivor of E1+E2 among the 10 candidates, got ", String(Length(survivors))));
+    results.(label) := rec2;
+    return;
   fi;
-  exclusion := not exists;
-  Check(Concatenation(label, "-MAIN (0,infty)-exchange conjugator g in S_10: exists?"), true,
-        Concatenation("exists = ", String(exists)));
-  if exclusion then
-    Print("  => (N_infty) EXCLUDED for target ", label, " (no such g; contrapositive of R1-N-infty-S 3.)\n");
-  else
-    Print("  => (N_infty) NOT excluded by this certificate for target ", label,
-          " (a conjugator g exists; UNDETERMINED, not a proof of presence)\n");
+  Check(Concatenation(label, "-SELFCHECK exactly one survivor (R1-N∞-W)"), true, "");
+
+  sol := survivors[1];
+  Check(Concatenation(label, "-REDUNDANT E3 (third eqn of (35.4), should be automatic from E1)"), sol.e3ok, "");
+
+  # -- self-check: g^2 = sigma_1 (theorem-derived, (35.6)/R1-N∞-W). Integrity
+  # stop (not UNKNOWN) if this breaks -- it would mean the fixture itself is corrupted.
+  gSquaredOk := sol.gPerm^2 = s1;
+  if not gSquaredOk then
+    Print("*** INTEGRITY STOP: g^2 <> sigma_1 for target ", label, " (fixture corruption suspected) ***\n");
   fi;
+  Check(Concatenation(label, "-SELFCHECK g^2 = sigma_1 (35.6)/(R1-N∞-W)"), gSquaredOk,
+        Concatenation("g^2 = ", String(sol.gPerm^2), "  sigma_1 = ", String(s1)));
+
+  Print("  => (N_infty) NOT excluded for target ", label,
+        " (unique witness g satisfying (35.4)'s E1+E2 found, E3 redundant-confirmed, g^2=sigma_1 self-check passed; UNDETERMINED, not a proof of presence)\n");
 
   rec2 := rec(
     target := label,
+    integrity_stop := false,
     sanity_relation_ok := ok0,
     cycle_type_sigma0 := t0,
     cycle_type_sigmaInf := tInf,
     cycle_type_sigma1 := t1,
     sign_sigma1 := SignPerm(s1),
     odd_length_cycle_count_sigma1 := oddMultCount,
-    conjugator_exists := exists,
-    conjugator_g_0indexed := gList,
-    ninf_excluded := exclusion
+    sigma0_sigma1_commute := commuteCheck,
+    num_candidates_checked := 10,
+    num_survivors := 1,
+    conjugator_exists := true,
+    conjugator_g_0indexed := sol.gArr,
+    e3_redundant_confirmation := sol.e3ok,
+    g_squared_equals_sigma1 := gSquaredOk,
+    ninf_excluded := false
   );
   results.(label) := rec2;
 end;;
@@ -140,46 +210,51 @@ end;;
 ProcessTarget("sq", Fixtures.sq);
 ProcessTarget("ns", Fixtures.ns);
 
-Print("\n=== ", totalPass, "/", totalPass + totalFail, " PASS (structural sanity/invariant checks) ===\n");
+Print("\n=== ", totalPass, "/", totalPass + totalFail, " PASS ===\n");
 
 # ---------------------------------------------------------------- certificate
 GStr := function(g)
-  if g = fail then
-    return "null";
-  else
-    return JArr(List(g, String));
+  if g = fail or not IsBound(g) then return "null"; fi;
+  return JArr(List(g, String));
+end;;
+
+TargetJSON := function(r)
+  if r.integrity_stop then
+    return Concatenation("{",
+      "\"integrity_stop\":true,",
+      "\"reason\":", JStr(r.reason),
+    "}");
   fi;
+  return Concatenation("{",
+    "\"integrity_stop\":false,",
+    "\"sanity_relation_ok\":", JB(r.sanity_relation_ok), ",",
+    "\"cycle_type_sigma0\":", JArr(List(r.cycle_type_sigma0, String)), ",",
+    "\"cycle_type_sigmaInf\":", JArr(List(r.cycle_type_sigmaInf, String)), ",",
+    "\"cycle_type_sigma1\":", JArr(List(r.cycle_type_sigma1, String)), ",",
+    "\"sign_sigma1\":", String(r.sign_sigma1), ",",
+    "\"odd_length_cycle_count_sigma1\":", String(r.odd_length_cycle_count_sigma1), ",",
+    "\"sigma0_sigma1_commute\":", JB(r.sigma0_sigma1_commute), ",",
+    "\"num_candidates_checked\":", String(r.num_candidates_checked), ",",
+    "\"num_survivors\":", String(r.num_survivors), ",",
+    "\"conjugator_exists\":", JB(r.conjugator_exists), ",",
+    "\"conjugator_g_0indexed\":", GStr(r.conjugator_g_0indexed), ",",
+    "\"e3_redundant_confirmation\":", JB(r.e3_redundant_confirmation), ",",
+    "\"g_squared_equals_sigma1\":", JB(r.g_squared_equals_sigma1), ",",
+    "\"ninf_excluded\":", JB(r.ninf_excluded),
+  "}");
 end;;
 
 certJson := Concatenation(
   "{",
-  "\"schema\":\"k5pipeline/ninf-exclusion-gap/v1\",",
+  "\"schema\":\"k5pipeline/ninf-exclusion-gap/v3\",",
+  "\"retraction_note\":\"v1 (moved to certificates/k5pipeline/retracted/) tested the naive swap (x,y,z)->(z,y,x) (35.2)/(35.3), which does not preserve the relator xyz=1 in general. Direct computation here confirms sigma_0*sigma_1 <> sigma_1*sigma_0 for both fixtures, so (35.3)'s third equation combined with E1 is unsatisfiable (35.3 is equivalent to (35.4) AND [sigma_0,sigma_1]=1 given E1) -- v1's 'no conjugator found' was a CORRECT computation of an uninformative/wrong question, not evidence against (N_infty). v2 fixed the predicate to (35.4) but used a full-S10 search; v3 (this file) additionally implements the mathematician-reviewed restricted method (Rule 1 v1.3 R1-N∞-W): only 10 candidates (g(0)=c), E1+E2 as the decisive predicate, E3 as a redundant confirmation, and theorem-derived self-checks (unique survivor, g^2=sigma_1) as integrity stops rather than UNKNOWN.\",",
+  "\"conclusion_label\":\"排除されず・対称性充足・(N_infty) の存否は UNKNOWN・witness は cross-checked\",",
   "\"pass\":", String(totalPass), ",",
   "\"fail\":", String(totalFail), ",",
-  "\"method\":\"RepresentativeAction(SymmetricGroup(10), [s0,s1,sInf], [sInf,s1,s0], OnTuples)\",",
+  "\"method\":\"restricted 10-candidate search: g(0)=c for c=0..9, g built by propagating E1 (g s0 g^-1 = sInf) along the sigma_0 10-cycle; filter by E2 (g s1 g^-1 = s1); E3 checked as redundant confirmation; self-checks (unique survivor, g^2=sigma_1) per R1-N∞-W\",",
   "\"targets\":{",
-  "\"sq\":{",
-    "\"sanity_relation_ok\":", JB(results.sq.sanity_relation_ok), ",",
-    "\"cycle_type_sigma0\":", JArr(List(results.sq.cycle_type_sigma0, String)), ",",
-    "\"cycle_type_sigmaInf\":", JArr(List(results.sq.cycle_type_sigmaInf, String)), ",",
-    "\"cycle_type_sigma1\":", JArr(List(results.sq.cycle_type_sigma1, String)), ",",
-    "\"sign_sigma1\":", String(results.sq.sign_sigma1), ",",
-    "\"odd_length_cycle_count_sigma1\":", String(results.sq.odd_length_cycle_count_sigma1), ",",
-    "\"conjugator_exists\":", JB(results.sq.conjugator_exists), ",",
-    "\"conjugator_g_0indexed\":", GStr(results.sq.conjugator_g_0indexed), ",",
-    "\"ninf_excluded\":", JB(results.sq.ninf_excluded),
-  "},",
-  "\"ns\":{",
-    "\"sanity_relation_ok\":", JB(results.ns.sanity_relation_ok), ",",
-    "\"cycle_type_sigma0\":", JArr(List(results.ns.cycle_type_sigma0, String)), ",",
-    "\"cycle_type_sigmaInf\":", JArr(List(results.ns.cycle_type_sigmaInf, String)), ",",
-    "\"cycle_type_sigma1\":", JArr(List(results.ns.cycle_type_sigma1, String)), ",",
-    "\"sign_sigma1\":", String(results.ns.sign_sigma1), ",",
-    "\"odd_length_cycle_count_sigma1\":", String(results.ns.odd_length_cycle_count_sigma1), ",",
-    "\"conjugator_exists\":", JB(results.ns.conjugator_exists), ",",
-    "\"conjugator_g_0indexed\":", GStr(results.ns.conjugator_g_0indexed), ",",
-    "\"ninf_excluded\":", JB(results.ns.ninf_excluded),
-  "}",
+  "\"sq\":", TargetJSON(results.sq), ",",
+  "\"ns\":", TargetJSON(results.ns),
   "}",
   "}"
 );;
