@@ -947,7 +947,16 @@ for m8m in m8bcdMtests do
         s2gD := G3ApplyAsAutomorphism(sigTblMD, s2vecD);;
         emElemD := G3ElemFromVec(EmVec21(m8m));;
         nProdD := Exponents(emElemD * s2gD * sgD * gzElemD);;
-        if IsIdentityInCellAj(thetaProdD) or IsIdentityInCellAj(nProdD) then
+        # BUG FIX (self-caught during real-data run): a genuine "identity lift" requires BOTH
+        # theta(g_z)*g_z AND Em*sigma^2(g_z)*sigma(g_z)*g_z to be identity in cell A^(j)
+        # SIMULTANEOUSLY (that is what "real lift exists" means) -- checking with OR flags a
+        # false positive whenever the theta-side ALONE happens to vanish (which is common: for
+        # any genuine L_m solution f, (1+theta_bar)f=0 mod 8 already forces the Abar-part of
+        # theta(g)g to vanish regardless of any central shift z, and the theta-side's C-part is
+        # shift-invariant on ker(Lambda) by construction -- so an OR-check is nearly guaranteed
+        # to misfire on ker(Lambda) elements whenever Xi(g)'s theta-component happens to be 0
+        # mod 4, independent of whether a genuine FULL lift exists). Corrected to AND.
+        if IsIdentityInCellAj(thetaProdD) and IsIdentityInCellAj(nProdD) then
           allFail := false;;
           Print("  M8-d UNEXPECTED PASS at m=",m8m," z=",zfib," (ob<>(0,0) witness produced an identity lift -- this would be a genuine discrepancy)\n");
         fi;
@@ -1017,9 +1026,12 @@ end;;
 
 RunRealSweepC6J3 := function()
   local mIt, snfD, res, f0, path, cert, tblS, tblB, entriesS, tableStrs, guardCheck,
-        yReal, yMReal, ybReal, yMZeroReal, yBNonzeroReal, abortCount, computedCount;
+        yReal, yMReal, ybReal, yMZeroReal, yBNonzeroReal, abortCount, computedCount,
+        solvableMList, unsolvableMList, abortMList, allKeysSeen, mTableSummaries;
   Print("  [UNLOCKED] running real-universe sweep, j=3, m=0..63 ...\n");
   abortCount := 0;;  computedCount := 0;;
+  solvableMList := [];;  unsolvableMList := [];;  abortMList := [];;
+  allKeysSeen := rec();;  mTableSummaries := [];;
   for mIt in [0..63] do
     snfD := BuildSnfData(BuildLinearSystemC6, mIt);;
     res := TestAtJ(snfD, 3);;
@@ -1031,6 +1043,7 @@ RunRealSweepC6J3 := function()
       guardCheck := CheckPremiseKw(res.kgens);;
       if guardCheck.violated then
         abortCount := abortCount + 1;;
+        Add(abortMList, mIt);;
         cert := Concatenation(
           "{\"claim\":\"precondition_violated_c6j3\",\"m\":", String(mIt), ",\"j\":3,\"modulus\":8,",
           "\"k_w_nonzero\":true,\"bad_generator_count\":", String(Length(guardCheck.bad_generators)), ",",
@@ -1041,11 +1054,18 @@ RunRealSweepC6J3 := function()
         Print("  [ABORT] m=", mIt, ": k_w<>0 premise VIOLATED (", Length(guardCheck.bad_generators), " bad generators) -- wrote precondition_violated_c6j3, NOT computing ob_table\n");
       else
         computedCount := computedCount + 1;;
+        Add(solvableMList, mIt);;
         f0 := ExtractF0(snfD, 3);;
         tblS := BuildJ3MultTableShortcut(f0, res.kgens, mIt);;
         tblB := BuildJ3MultTableBruteForce(f0, res.kgens, mIt);;
         entriesS := RecNames(tblS.table);;
         tableStrs := List(entriesS, k -> Concatenation("\"", k, "\":", String(tblS.table.(k))));;
+        for kEntry in entriesS do
+          if IsBound(allKeysSeen.(kEntry)) then allKeysSeen.(kEntry) := allKeysSeen.(kEntry)+1;
+          else allKeysSeen.(kEntry) := 1; fi;
+        od;;
+        Add(mTableSummaries, rec(m:=mIt, table:=tblS.table, total:=tblS.total,
+          all_zero_only:=(Length(entriesS)=1 and entriesS[1]="0,0")));;
         cert := Concatenation(
           "{\"claim\":\"m6j3_multiplicity_table\",\"fixture\":\"real_sweep\",",
           "\"m\":", String(mIt), ",\"j\":3,\"modulus\":8,\"R\":4,\"linear_solvable\":true,",
@@ -1063,6 +1083,7 @@ RunRealSweepC6J3 := function()
     else
       # 便24 F8 item 1: dual witness for unsolvable real systems (mirrors j=2's
       # WriteUnsolvableCertC6 exactly).
+      Add(unsolvableMList, mIt);;
       yReal := snfD.U[res.failRow];;
       yMReal := yReal * snfD.sys.rows;;
       ybReal := yReal * snfD.sys.rhs;;
@@ -1076,7 +1097,147 @@ RunRealSweepC6J3 := function()
       WriteFile(path, cert);;
     fi;
   od;;
-  Print("  real-universe sweep complete: certificates/e2c6j3/sweep_j3_m*.json (64 files, ", computedCount, " ob_table + ", abortCount, " premise-violated-abort + unsolvable)\n");
+  Print("  real-universe sweep complete: certificates/e2c6j3/sweep_j3_m*.json (64 files, ", computedCount, " ob_table + ", abortCount, " premise-violated-abort + ", Length(unsolvableMList), " unsolvable)\n");
+  return rec(solvableMList:=solvableMList, unsolvableMList:=unsolvableMList, abortMList:=abortMList,
+    allKeysSeen:=allKeysSeen, mTableSummaries:=mTableSummaries);
+end;;
+
+# ================================================================================
+# M8-b/c/d REAL-DATA SAMPLE (司令塔発射合図 item 2): now that the fire lock is open (blind
+# constraint lifted), real solvable systems genuinely satisfy N_bar(f0)=-Ebar_m(m) for the
+# REAL m -- so q_N's sigma-invariance precondition (the reason M8-b/c/d were restricted to
+# m=0 in the fixture pass) is expected to hold for ANY real solvable m, not just m=0. Run on
+# a SAMPLE (not all 64 -- some kernels are large) of real solvable m's.
+# ================================================================================
+RunRealM8SeriesSample := function(solvableMList, sampleSize)
+  local sampleMs, m8m, snfR, resR, f0R, obDataR, lamTblR, kerLamSizeR, sumFibR, setMismatchR,
+        multQuotZeroR, pt, xiC, keyFib, fibSize, isObZero, massOkR, setOkR, pathC, certC,
+        zeroPointsR, witnessesR, wpt, gVecB, witnessXiB, witnessFiberKeyB, witnessFiberB,
+        zfib, gzVecB, thetaProd, gzElemB, sigTblM, sgB, s2vecB, s2gB, emElemB, nProdB,
+        m8bOkR, m8bTotalGroupProductsR, witnessSummaries, nonzeroPointsR, negWitnessR,
+        xiCNegR, keyFibNegR, fibEmptyDictR, gVecD, allFailR, gzVecD, thetaProdD, gzElemD,
+        sigTblMD, sgD, s2vecD, s2gD, emElemD, nProdD, m8dOkR, pathB, certB, pathD, certD,
+        results, skippedTooLarge;
+  results := [];;  skippedTooLarge := [];;
+  sampleMs := solvableMList{[1..Minimum(sampleSize, Length(solvableMList))]};;
+  Print("\n  === M8-b/c/d REAL-DATA SAMPLE (m = ", sampleMs, ") ===\n");
+  for m8m in sampleMs do
+    snfR := BuildSnfData(BuildLinearSystemC6, m8m);;
+    resR := TestAtJ(snfR, 3);;
+    if not resR.solvable then continue; fi;   # should not happen (m came from solvableMList)
+    if Product(List(resR.kgens, g->g.order), x->x) > 200000 then
+      Add(skippedTooLarge, m8m);;
+      Print("  [SKIP] m=", m8m, ": |K|=", Product(List(resR.kgens,g->g.order),x->x), " too large for full L_m enumeration in this pass\n");
+      continue;
+    fi;
+    f0R := ExtractF0(snfR, 3);;
+    obDataR := BuildObMultTableAndPoints(f0R, resR.kgens, m8m);;
+    lamTblR := LambdaTable(m8m);;
+    kerLamSizeR := Length(lamTblR.kerLambda);;
+
+    # ---- M8-c (mass identity) ----
+    sumFibR := 0;;  setMismatchR := 0;;  multQuotZeroR := 0;;
+    for pt in obDataR.points do
+      xiC := XiClosedFlat12(pt.f, m8m);;
+      keyFib := String(NegVec(xiC, 4));;
+      fibSize := 0;;
+      if IsBound(lamTblR.table.(keyFib)) then fibSize := Length(lamTblR.table.(keyFib)); fi;
+      sumFibR := sumFibR + fibSize;;
+      isObZero := IsObZeroQuotient(pt);;
+      if isObZero then multQuotZeroR := multQuotZeroR + 1; fi;
+      if isObZero <> (fibSize>0) then setMismatchR := setMismatchR + 1; fi;
+    od;;
+    massOkR := (sumFibR = kerLamSizeR * multQuotZeroR);;
+    setOkR := (setMismatchR = 0);;
+    pathC := Concatenation("certificates/e2c6j3/m8c_real_m", String(m8m), ".json");;
+    certC := Concatenation(
+      "{\"claim\":\"m8c_mass_identity\",\"fixture\":\"real_sample\",\"m\":", String(m8m), ",\"j\":3,\"R\":4,",
+      "\"witness_f0_abar\":\"", String(f0R), "\",",
+      "\"K_generators\":[", JoinC(List(resR.kgens, g -> String(g.vec)), ","), "],",
+      "\"K_orders\":[", JoinC(List(resR.kgens, g -> String(g.order)), ","), "],",
+      "\"ker_lambda_size\":", String(kerLamSizeR), ",\"mult_ob0_quotient\":", String(multQuotZeroR), ",",
+      "\"sum_fib\":", String(sumFibR), ",\"expected_sum_fib\":", String(kerLamSizeR*multQuotZeroR), ",",
+      "\"set_mismatch_count\":", String(setMismatchR), ",",
+      "\"mass_identity_holds\":", JB(massOkR), ",\"set_match_holds\":", JB(setOkR), ",",
+      "\"m8a_sign\":\"", m8aSign, "\"}");;
+    WriteFile(pathC, certC);;
+
+    # ---- M8-b (fiber realization) on up to 4 real ob=0-quotient witnesses ----
+    zeroPointsR := Filtered(obDataR.points, p -> IsObZeroQuotient(p));;
+    witnessesR := zeroPointsR{[1..Minimum(4, Length(zeroPointsR))]};;
+    m8bOkR := true;;  m8bTotalGroupProductsR := 0;;  witnessSummaries := [];;
+    for wpt in witnessesR do
+      gVecB := G3PadTo21(wpt.f);;
+      witnessXiB := XiClosedFlat12(wpt.f, m8m);;
+      witnessFiberKeyB := String(NegVec(witnessXiB, 4));;
+      witnessFiberB := lamTblR.table.(witnessFiberKeyB);;
+      for zfib in witnessFiberB do
+        gzVecB := List([1..21], k -> gVecB[k] + EmbC(zfib)[k]);;
+        thetaProd := Exponents(G3ApplyAsAutomorphism(ThetaTable21, gzVecB) * G3ElemFromVec(gzVecB));;
+        gzElemB := G3ElemFromVec(gzVecB);;
+        sigTblM := SigmaMat21(m8m);;
+        sgB := G3ApplyAsAutomorphism(sigTblM, gzVecB);;
+        s2vecB := Exponents(sgB);;
+        s2gB := G3ApplyAsAutomorphism(sigTblM, s2vecB);;
+        emElemB := G3ElemFromVec(EmVec21(m8m));;
+        nProdB := Exponents(emElemB * s2gB * sgB * gzElemB);;
+        m8bTotalGroupProductsR := m8bTotalGroupProductsR + 2;;
+        if not IsIdentityInCellAj(thetaProd) then m8bOkR := false; fi;
+        if not IsIdentityInCellAj(nProdB) then m8bOkR := false; fi;
+      od;;
+      Add(witnessSummaries, rec(ob_a:=wpt.ob_a, ob_b:=wpt.ob_b, fiber_size:=Length(witnessFiberB)));;
+    od;;
+    pathB := Concatenation("certificates/e2c6j3/m8b_real_m", String(m8m), ".json");;
+    certB := Concatenation(
+      "{\"claim\":\"m8b_fiber_realization\",\"fixture\":\"real_sample\",\"m\":", String(m8m), ",\"j\":3,\"R\":4,",
+      "\"witness_count\":", String(Length(witnessesR)), ",",
+      "\"witnesses\":[", JoinC(List(witnessSummaries, w -> Concatenation(
+        "{\"ob_a\":",String(w.ob_a),",\"ob_b\":",String(w.ob_b),",\"fiber_size\":",String(w.fiber_size),"}")), ","), "],",
+      "\"total_group_products\":", String(m8bTotalGroupProductsR), ",",
+      "\"all_fiber_elements_give_identity\":", JB(m8bOkR), "}");;
+    WriteFile(pathB, certB);;
+
+    # ---- M8-d (negative control) on one real ob<>0-quotient witness ----
+    nonzeroPointsR := Filtered(obDataR.points, p -> not IsObZeroQuotient(p));;
+    if Length(nonzeroPointsR) > 0 then
+      negWitnessR := nonzeroPointsR[1];;
+      xiCNegR := XiClosedFlat12(negWitnessR.f, m8m);;
+      keyFibNegR := String(NegVec(xiCNegR, 4));;
+      fibEmptyDictR := not IsBound(lamTblR.table.(keyFibNegR));;
+      gVecD := G3PadTo21(negWitnessR.f);;
+      allFailR := true;;
+      for zfib in lamTblR.kerLambda do
+        gzVecD := List([1..21], k -> gVecD[k] + EmbC(zfib)[k]);;
+        thetaProdD := Exponents(G3ApplyAsAutomorphism(ThetaTable21, gzVecD) * G3ElemFromVec(gzVecD));;
+        gzElemD := G3ElemFromVec(gzVecD);;
+        sigTblMD := SigmaMat21(m8m);;
+        sgD := G3ApplyAsAutomorphism(sigTblMD, gzVecD);;
+        s2vecD := Exponents(sgD);;
+        s2gD := G3ApplyAsAutomorphism(sigTblMD, s2vecD);;
+        emElemD := G3ElemFromVec(EmVec21(m8m));;
+        nProdD := Exponents(emElemD * s2gD * sgD * gzElemD);;
+        # (same AND-fix as the fixture-pass M8-d above -- see its comment for the reasoning)
+        if IsIdentityInCellAj(thetaProdD) and IsIdentityInCellAj(nProdD) then allFailR := false; fi;
+      od;;
+      m8dOkR := fibEmptyDictR and allFailR;;
+      pathD := Concatenation("certificates/e2c6j3/m8d_real_m", String(m8m), ".json");;
+      certD := Concatenation(
+        "{\"claim\":\"m8d_negative_control\",\"fixture\":\"real_sample\",\"m\":", String(m8m), ",\"j\":3,\"R\":4,",
+        "\"witness_ob_a\":", String(negWitnessR.ob_a), ",\"witness_ob_b\":", String(negWitnessR.ob_b), ",",
+        "\"fiber_empty\":", JB(fibEmptyDictR), ",\"all_ker_lambda_products_fail\":", JB(allFailR), ",",
+        "\"pass\":", JB(m8dOkR), "}");;
+      WriteFile(pathD, certD);;
+    else
+      m8dOkR := fail;;   # no ob<>0 point in this m's L_m -- honestly recorded, not silently skipped
+      Print("  [NOTE] m=", m8m, ": no ob<>0-quotient point found in this real L_m -- M8-d negative control has no witness to test at this m\n");
+    fi;
+
+    Add(results, rec(m:=m8m, m8b_ok:=m8bOkR, m8c_mass_ok:=massOkR, m8c_set_ok:=setOkR, m8d_ok:=m8dOkR,
+      ker_lambda_size:=kerLamSizeR, mult_ob0:=multQuotZeroR, total_points:=obDataR.total));;
+    Print("  m=", m8m, ": |L|=", obDataR.total, " |kerLambda|=", kerLamSizeR, " mult(ob=0)=", multQuotZeroR,
+      "  M8-b=", PF(m8bOkR), "  M8-c(mass)=", PF(massOkR), "  M8-c(set)=", PF(setOkR), "  M8-d=", m8dOkR, "\n");
+  od;;
+  return rec(results:=results, skippedTooLarge:=skippedTooLarge);;
 end;;
 
 Print("\n=== FIRE LOCK CHECK (j=3) ===\n");
@@ -1096,9 +1257,27 @@ if IsExistingFile(fireAuthPathJ3) then
   fi;
 fi;
 
+ConcatSha256OfFiles := function(relpaths)
+  local tmp, f, line, listFile, p;
+  tmp := "search/.tmp_sha256_concat_j3.txt";;
+  listFile := "search/.tmp_filelist_j3.txt";;
+  WriteFile(listFile, JoinC(relpaths, "\n"));;
+  Exec(Concatenation("cat $(sort \"", listFile, "\") | sha256sum > \"", tmp, "\""));;
+  f := InputTextFile(tmp);;
+  line := ReadLine(f);;
+  CloseStream(f);;
+  Exec(Concatenation("rm -f \"", tmp, "\" \"", listFile, "\""));;
+  return line{[1..64]};
+end;;
+
+realSweepSummary := fail;;  m8RealSummary := fail;;
+sweepStartMs := 0;;  sweepElapsedMs := 0;;
 if fireUnlockedJ3 then
   Print("[UNLOCKED] real-universe sweep authorized by search/FIRE_e2c6j3.auth (hash-matched)\n");
-  RunRealSweepC6J3();;
+  sweepStartMs := Runtime();;
+  realSweepSummary := RunRealSweepC6J3();;
+  m8RealSummary := RunRealM8SeriesSample(realSweepSummary.solvableMList, 6);;
+  sweepElapsedMs := Runtime() - sweepStartMs;;
 else
   Print("[LOCKED] real-universe sweep requires FIRE_e2c6j3.auth (commander issues at fire time)\n");
 fi;
@@ -1118,5 +1297,50 @@ Print("[", PF(m8bOk and m8bAnyRun), "] M8-b fiber realization (direct group prod
 Print("[", PF(m8cOk and m8cAnyRun), "] M8-c mass identity (main check)\n");
 Print("[", PF(m8dOk and m8dAnyRun), "] M8-d negative control\n");
 Print("[", PF(m8SeriesOk), "] M8 SERIES combined\n");
-Print("[", PF(fireUnlockedJ3 = false), "] fire lock CLOSED (real sweep NOT run this pass)\n");
+if fireUnlockedJ3 then
+  Print("[UNLOCKED] real-universe sweep RAN this pass (see REAL SWEEP REPORT below)\n");
+else
+  Print("[", PF(true), "] fire lock CLOSED (real sweep NOT run this pass)\n");
+fi;
+
+if fireUnlockedJ3 and realSweepSummary <> fail then
+  Print("\n=== REAL SWEEP REPORT (m=0..63, j=3) -- 機械事実 ===\n");
+  Print("linear-stage solvable count: ", Length(realSweepSummary.solvableMList), " / 64\n");
+  Print("solvable m list: ", realSweepSummary.solvableMList, "\n");
+  Print("unsolvable m list: ", realSweepSummary.unsolvableMList, " (count=", Length(realSweepSummary.unsolvableMList), ")\n");
+  Print("k_w-guard ABORTED m list: ", realSweepSummary.abortMList, " (count=", Length(realSweepSummary.abortMList), ")\n");
+  Print("\n--- multiplicity table summary (aggregate over all solvable+non-aborted m) ---\n");
+  Print("distinct (ob_a,ob_b) keys observed across all m: ", RecNames(realSweepSummary.allKeysSeen), "\n");
+  Print("per-key m-count (how many m's tables contain this key at all): ", realSweepSummary.allKeysSeen, "\n");
+  allZeroOnlyMs := List(Filtered(realSweepSummary.mTableSummaries, r -> r.all_zero_only), r -> r.m);;
+  mixedMs := List(Filtered(realSweepSummary.mTableSummaries, r -> not r.all_zero_only), r -> r.m);;
+  Print("m's whose table is EXCLUSIVELY \"0,0\" (all-zero branch only): ", allZeroOnlyMs, " (count=", Length(allZeroOnlyMs), ")\n");
+  Print("m's whose table has at least one NONZERO (a,b) key present: ", mixedMs, " (count=", Length(mixedMs), ")\n");
+  Print("\n--- k_w guard ---\n");
+  if Length(realSweepSummary.abortMList) = 0 then
+    Print("k_w guard: DID NOT FIRE at any m (0 aborts out of 64)\n");
+  else
+    Print("k_w guard: FIRED at ", Length(realSweepSummary.abortMList), " m value(s): ", realSweepSummary.abortMList, "\n");
+  fi;
+  Print("\n--- M8-b/c/d real-data sample ---\n");
+  if Length(m8RealSummary.skippedTooLarge) > 0 then
+    Print("skipped (|K|>200000): ", m8RealSummary.skippedTooLarge, "\n");
+  fi;
+  for m8res in m8RealSummary.results do
+    Print("  m=", m8res.m, ": |L|=", m8res.total_points, " |kerLambda|=", m8res.ker_lambda_size,
+      " mult(ob=0)=", m8res.mult_ob0, "  M8-b=", PF(m8res.m8b_ok), "  M8-c(mass)=", PF(m8res.m8c_mass_ok),
+      "  M8-c(set)=", PF(m8res.m8c_set_ok), "  M8-d=", m8res.m8d_ok, "\n");
+  od;;
+  Print("\n--- timing ---\n");
+  Print("real sweep + M8 sample GAP-internal elapsed ms: ", sweepElapsedMs, "\n");
+  Print("\n--- concatenated SHA-256 ---\n");
+  sweepFilePaths := List([0..63], mi -> Concatenation("certificates/e2c6j3/sweep_j3_m", String(mi), ".json"));;
+  sweepConcatSha := ConcatSha256OfFiles(sweepFilePaths);;
+  Print("64 sweep_j3_m*.json files, concatenated SHA-256: ", sweepConcatSha, "\n");
+  allE2c6j3Files := SortedList(List(DirectoryContents("certificates/e2c6j3"), fn -> Concatenation("certificates/e2c6j3/", fn)));;
+  allE2c6j3Files := Filtered(allE2c6j3Files, fn -> Length(fn) > 5 and fn{[Length(fn)-4..Length(fn)]} = ".json");;
+  allConcatSha := ConcatSha256OfFiles(allE2c6j3Files);;
+  Print("all ", Length(allE2c6j3Files), " certificates/e2c6j3/*.json files, concatenated SHA-256: ", allConcatSha, "\n");
+fi;
+
 Print("\ntotal elapsed ms: ", Runtime()-startTime, "\n");

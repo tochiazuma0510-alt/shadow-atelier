@@ -494,3 +494,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   込みでnode側が完全独立にL_m再列挙+LambdaTable再構築(check-e2c6j3.mjsに追加)。
 - 詳細: docs/notes/実装_j3.md 追記節。FIRE_e2c6j3.authは作成していない(現在不存在)。
   commit未実施。
+
+## 2026-07-26 -- E2 class-6 j=3 本走査(発射・FIRE_e2c6j3.auth解錠、implementer実行): 線型段可解20/64(m={0,1,7,9,15,16,17,23,25,31,32,33,39,41,47,48,49,55,57,63})・k_wガード発火0件・重複度表に4種の(ob_a,ob_b)キー出現("0,0"20件・"0,1"20件・"1,0"/"1,1"各8件、全零単独の系は0件)・M8-b/c/d実データ版(m=0,1,7,9,15,16の6系)全PASS(M8-d判定でOR→AND修理を自己発見・全証明書再生成)・GAP側全証明書96件+node独立検算(check-e2c6j3.mjs)全PASS・GAP内部経過35750ms(本走査+M8実データ部分30156ms)・sweep_j3_m*64件連結SHA256=eaca0f396510f2d6e5c13052323405c086578d47839e6af5cb50c49c9ed48941・certificates/e2c6j3/全96件連結SHA256=1add4bf7923454c4474bf244bfd59009bef883bcb2b6840b45ed2af5aa3144a7。封印§F7との照合は実施していない(裁定時に司令塔が行う)。commit未実施。

@@ -1,0 +1,807 @@
+{
+  "ok": true,
+  "errors": [],
+  "observed": {
+    "pb3_index": 256,
+    "b3_points": 1536,
+    "n_ord": 8,
+    "charming_set": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "derived_order": 16,
+    "candidate_total": 128,
+    "hexagon_free_certificate": {
+      "candidate_total": 128,
+      "h10_fail": 64,
+      "h11_fail": 48,
+      "generation_fail": 0,
+      "shadow_total": 16
+    },
+    "settled": {
+      "settled_count": 16,
+      "total": 16,
+      "isolated": true,
+      "method": "full Cayley-graph relation check (all |G|x4 edges), not just BFS spanning-tree representatives",
+      "detail": [
+        {
+          "m": 0,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 7,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 2,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 5,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 2,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 5,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 1,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 6,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 1,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 6,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 0,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 7,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 3,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 4,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 3,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 4,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        }
+      ]
+    },
+    "kernel_certificate": {
+      "generator_images_match": true,
+      "generation_verified": true,
+      "pb3_kernel_index": 256,
+      "b3_kernel_index": 1536
+    }
+  },
+  "G": {
+    "id": [
+      {
+        "a": 0,
+        "e": 0
+      },
+      {
+        "a": 0,
+        "e": 0
+      },
+      {
+        "a": 0,
+        "e": 0
+      }
+    ]
+  },
+  "X": [
+    {
+      "a": 1,
+      "e": 0
+    },
+    {
+      "a": 0,
+      "e": 1
+    },
+    {
+      "a": 0,
+      "e": 1
+    }
+  ],
+  "Y": [
+    {
+      "a": 1,
+      "e": 1
+    },
+    {
+      "a": 1,
+      "e": 0
+    },
+    {
+      "a": 1,
+      "e": 1
+    }
+  ],
+  "genMap": {},
+  "shadows": [
+    {
+      "m": 0,
+      "f": [
+        {
+          "a": 0,
+          "e": 0
+        },
+        {
+          "a": 0,
+          "e": 0
+        },
+        {
+          "a": 0,
+          "e": 0
+        }
+      ],
+      "word": []
+    },
+    {
+      "m": 7,
+      "f": [
+        {
+          "a": 0,
+          "e": 0
+        },
+        {
+          "a": 0,
+          "e": 0
+        },
+        {
+          "a": 0,
+          "e": 0
+        }
+      ],
+      "word": []
+    },
+    {
+      "m": 2,
+      "f": [
+        {
+          "a": 2,
+          "e": 0
+        },
+        {
+          "a": 6,
+          "e": 0
+        },
+        {
+          "a": 2,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ]
+      ]
+    },
+    {
+      "m": 5,
+      "f": [
+        {
+          "a": 2,
+          "e": 0
+        },
+        {
+          "a": 6,
+          "e": 0
+        },
+        {
+          "a": 2,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ]
+      ]
+    },
+    {
+      "m": 2,
+      "f": [
+        {
+          "a": 6,
+          "e": 0
+        },
+        {
+          "a": 2,
+          "e": 0
+        },
+        {
+          "a": 2,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 5,
+      "f": [
+        {
+          "a": 6,
+          "e": 0
+        },
+        {
+          "a": 2,
+          "e": 0
+        },
+        {
+          "a": 2,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 1,
+      "f": [
+        {
+          "a": 6,
+          "e": 0
+        },
+        {
+          "a": 2,
+          "e": 0
+        },
+        {
+          "a": 6,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          -1
+        ]
+      ]
+    },
+    {
+      "m": 6,
+      "f": [
+        {
+          "a": 6,
+          "e": 0
+        },
+        {
+          "a": 2,
+          "e": 0
+        },
+        {
+          "a": 6,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          -1
+        ]
+      ]
+    },
+    {
+      "m": 1,
+      "f": [
+        {
+          "a": 2,
+          "e": 0
+        },
+        {
+          "a": 6,
+          "e": 0
+        },
+        {
+          "a": 6,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 6,
+      "f": [
+        {
+          "a": 2,
+          "e": 0
+        },
+        {
+          "a": 6,
+          "e": 0
+        },
+        {
+          "a": 6,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 0,
+      "f": [
+        {
+          "a": 4,
+          "e": 0
+        },
+        {
+          "a": 4,
+          "e": 0
+        },
+        {
+          "a": 0,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "y",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 7,
+      "f": [
+        {
+          "a": 4,
+          "e": 0
+        },
+        {
+          "a": 4,
+          "e": 0
+        },
+        {
+          "a": 0,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "y",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 3,
+      "f": [
+        {
+          "a": 0,
+          "e": 0
+        },
+        {
+          "a": 0,
+          "e": 0
+        },
+        {
+          "a": 4,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 4,
+      "f": [
+        {
+          "a": 0,
+          "e": 0
+        },
+        {
+          "a": 0,
+          "e": 0
+        },
+        {
+          "a": 4,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 3,
+      "f": [
+        {
+          "a": 4,
+          "e": 0
+        },
+        {
+          "a": 4,
+          "e": 0
+        },
+        {
+          "a": 4,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ]
+      ]
+    },
+    {
+      "m": 4,
+      "f": [
+        {
+          "a": 4,
+          "e": 0
+        },
+        {
+          "a": 4,
+          "e": 0
+        },
+        {
+          "a": 4,
+          "e": 0
+        }
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ]
+      ]
+    }
+  ]
+}

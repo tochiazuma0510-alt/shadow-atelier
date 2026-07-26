@@ -19,6 +19,13 @@
       "h11_fail": 4,
       "generation_fail": 0,
       "shadow_total": 4
+    },
+    "settled": null,
+    "kernel_certificate": {
+      "generator_images_match": true,
+      "generation_verified": true,
+      "pb3_kernel_index": 32,
+      "b3_kernel_index": 192
     }
   },
   "G": {

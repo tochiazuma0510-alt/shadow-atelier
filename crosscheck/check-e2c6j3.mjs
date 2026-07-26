@@ -452,6 +452,36 @@ for (const fname of certFiles) {
     continue;
   }
 
+  if (cert.claim === 'm8b_fiber_realization') {
+    // M8-b real-data sample: this checker has no polycyclic package (same limitation as
+    // f7_routeG_crosscheck/m8a -- genuine PcpGroup products are GAP-only), so the group
+    // products themselves are NOT independently rebuilt here. Structural/arithmetic
+    // self-consistency check only: witness count matches array length, each fiber_size is
+    // positive (an ob=0-quotient point must have a nonempty fiber), and total_group_products
+    // arithmetically equals 2 * sum(fiber_size) (theta-side + N-side per fiber element).
+    const witnesses = cert.witnesses || [];
+    const sumFiberSizes = witnesses.reduce((s, w) => s + w.fiber_size, 0);
+    const countOk = witnesses.length === cert.witness_count;
+    const fiberSizesPositive = witnesses.every((w) => w.fiber_size > 0);
+    const totalMatch = cert.total_group_products === 2 * sumFiberSizes;
+    const ok = countOk && fiberSizesPositive && totalMatch && cert.all_fiber_elements_give_identity === true;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: m8b_fiber_realization (fixture=${cert.fixture}, m=${cert.m}) structural/arithmetic self-consistency (witness_count=${countOk}, fiber_sizes_positive=${fiberSizesPositive}, total_group_products=2*Sum(fiber_size)=${totalMatch}) -- genuine PcpGroup products NOT independently rebuilt (GAP-only, same limitation as f7_routeG_crosscheck)`);
+    if (!ok) certFails++;
+    continue;
+  }
+
+  if (cert.claim === 'm8d_negative_control') {
+    // M8-d real-data sample: same GAP-only limitation as above -- structural self-consistency
+    // check: pass field must equal (fiber_empty AND all_ker_lambda_products_fail), and the
+    // witness's own ob must genuinely be OUTSIDE the ob=0-quotient class (ob_a<>0 or ob_b odd).
+    const isObZeroQuotient = cert.witness_ob_a === 0 && mod(cert.witness_ob_b, 2) === 0;
+    const passConsistent = cert.pass === (cert.fiber_empty && cert.all_ker_lambda_products_fail);
+    const ok = !isObZeroQuotient && passConsistent;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: m8d_negative_control (fixture=${cert.fixture}, m=${cert.m}) witness ob=(${cert.witness_ob_a},${cert.witness_ob_b}) genuinely outside ob=0-quotient class=${!isObZeroQuotient}, pass field arithmetically consistent=${passConsistent} -- genuine PcpGroup products NOT independently rebuilt (GAP-only)`);
+    if (!ok) certFails++;
+    continue;
+  }
+
   if (cert.claim === 'precondition_violated_c6j3') {
     // GUARD cert (only appears if k_w<>0 was detected during a real sweep -- not expected in
     // this fixture-only pass, but handled defensively): structural well-formedness check only
@@ -491,19 +521,26 @@ for (const fname of certFiles) {
     // G1b (便24 F8 item 1, dual witness): independently rebuild the SAME public
     // theta_bar/sigma_bar(m-shape) structure AND the SAME deterministic adversarial rhs
     // formula, then recheck y*rows==0 (mod modulus) and y*rhs<>0 (mod modulus) directly.
-    if (cert.fixture !== 'adversarial_unsolvable_synthetic_j3') {
-      console.log(`SKIP  ${fname}: linear_stage_empty_c6j3 with fixture="${cert.fixture}" (only "adversarial_unsolvable_synthetic_j3" is independently rechecked in this fixture-only pass; a real-sweep recheck would require this checker to also independently confirm unsolvability of the real system, out of scope here since the real sweep has not run)`);
-      continue;
-    }
     if (cert.linear_solvable !== false) {
       console.log(`FAIL  ${fname}: linear_stage_empty_c6j3 claim but linear_solvable !== false (got ${cert.linear_solvable})`);
       certFails++;
       continue;
     }
-    const label = cert.label;
-    const mShape = mod(label, 64);
-    const { rows } = buildLinearSystemC6(mShape);
-    const rhs = [...new Array(NAB).fill(0), ...buildAdversarialRhs(label)];
+    let rows, rhs;
+    if (cert.fixture === 'adversarial_unsolvable_synthetic_j3') {
+      const label = cert.label;
+      const mShape = mod(label, 64);
+      ({ rows } = buildLinearSystemC6(mShape));
+      rhs = [...new Array(NAB).fill(0), ...buildAdversarialRhs(label)];
+    } else if (cert.fixture === 'real_sweep') {
+      // real sweep: independently rebuild the REAL public theta_bar/sigma_bar(m) structure
+      // AND the REAL Ebar_m(m)-derived rhs (both from this checker's own agree6_sol2.json-
+      // derived EmBar15/SigmaBarMat -- public formula data, fire lock now open).
+      ({ rows, rhs } = buildLinearSystemC6(cert.m));
+    } else {
+      console.log(`SKIP  ${fname}: linear_stage_empty_c6j3 with unrecognized fixture="${cert.fixture}"`);
+      continue;
+    }
     const modulus = cert.modulus;
     const y = parseMaybe(cert.dual_witness_y);
     const n = NAB;
@@ -515,7 +552,7 @@ for (const fname of certFiles) {
     const claimedYMZero = !!cert.yM_is_zero_mod_2j;
     const claimedYBNonzero = !!cert.yb_nonzero_mod_2j;
     const ok = yMZero && yBNonzero && yMZero === claimedYMZero && yBNonzero === claimedYBNonzero;
-    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: linear_stage_empty_c6j3 (fixture=${cert.fixture}, label=${label}, modulus=${modulus}) independently rebuilt public theta_bar/sigma_bar structure + adversarial rhs, recomputed yM=${JSON.stringify(yM)} yb=${yb} (cert claimed yM_zero=${claimedYMZero}, yb_nonzero=${claimedYBNonzero})`);
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: linear_stage_empty_c6j3 (fixture=${cert.fixture}, m=${cert.m}, label=${cert.label}, modulus=${modulus}) independently rebuilt public theta_bar/sigma_bar(+Ebar_m) structure, recomputed yM=${JSON.stringify(yM)} yb=${yb} (cert claimed yM_zero=${claimedYMZero}, yb_nonzero=${claimedYBNonzero})`);
     if (!ok) certFails++;
     continue;
   }

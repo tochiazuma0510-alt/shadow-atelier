@@ -11,7 +11,40 @@
     "known_value_ok": true
   },
   "calibration_2": {
-    "known_value_ok": true
+    "known_value_ok": true,
+    "bijection": {
+      "ok": true,
+      "sizesMatch": true,
+      "injective": true,
+      "surjective": true,
+      "shadowMatched": 20,
+      "shadow1_count": 20,
+      "shadow2_count": 20
+    },
+    "a5_conv": {
+      "ok": true,
+      "observed": [
+        1,
+        3,
+        2,
+        0,
+        4
+      ],
+      "target": [
+        1,
+        3,
+        2,
+        0,
+        4
+      ]
+    },
+    "ok": true
+  },
+  "calibration_3": {
+    "status": "RAN",
+    "known_value_ok": true,
+    "observed_shadow_total": 16,
+    "expected": 16
   },
   "negative_fixture": {
     "ok": true

@@ -1,0 +1,324 @@
+{
+  "ok": true,
+  "errors": [],
+  "observed": {
+    "pb3_index": 256,
+    "b3_points": 1536,
+    "n_ord": 8,
+    "charming_set": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "derived_order": 4,
+    "candidate_total": 32,
+    "hexagon_free_certificate": {
+      "candidate_total": 32,
+      "h10_fail": 0,
+      "h11_fail": 24,
+      "generation_fail": 0,
+      "shadow_total": 8
+    },
+    "settled": {
+      "settled_count": 8,
+      "total": 8,
+      "isolated": true,
+      "method": "full Cayley-graph relation check (all |G|x4 edges), not just BFS spanning-tree representatives",
+      "detail": [
+        {
+          "m": 0,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 7,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 2,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 5,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 1,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 6,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 3,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        },
+        {
+          "m": 4,
+          "settled": true,
+          "bijective": true,
+          "relation_violations": 0
+        }
+      ]
+    },
+    "kernel_certificate": {
+      "generator_images_match": true,
+      "generation_verified": true,
+      "pb3_kernel_index": 256,
+      "b3_kernel_index": 1536
+    }
+  },
+  "G": {
+    "id": [
+      1,
+      0,
+      0,
+      1
+    ],
+    "X": [
+      1,
+      2,
+      0,
+      1
+    ],
+    "Y": [
+      1,
+      0,
+      14,
+      1
+    ],
+    "L": 16
+  },
+  "X": [
+    1,
+    2,
+    0,
+    1
+  ],
+  "Y": [
+    1,
+    0,
+    14,
+    1
+  ],
+  "genMap": {},
+  "shadows": [
+    {
+      "m": 0,
+      "f": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "word": []
+    },
+    {
+      "m": 7,
+      "f": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "word": []
+    },
+    {
+      "m": 2,
+      "f": [
+        5,
+        8,
+        8,
+        13
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ]
+      ]
+    },
+    {
+      "m": 5,
+      "f": [
+        5,
+        8,
+        8,
+        13
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ]
+      ]
+    },
+    {
+      "m": 1,
+      "f": [
+        3,
+        8,
+        8,
+        11
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 6,
+      "f": [
+        3,
+        8,
+        8,
+        11
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          -1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          1
+        ]
+      ]
+    },
+    {
+      "m": 3,
+      "f": [
+        7,
+        0,
+        0,
+        7
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ]
+      ]
+    },
+    {
+      "m": 4,
+      "f": [
+        7,
+        0,
+        0,
+        7
+      ],
+      "word": [
+        [
+          "x",
+          1
+        ],
+        [
+          "x",
+          1
+        ],
+        [
+          "y",
+          1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "x",
+          -1
+        ],
+        [
+          "y",
+          -1
+        ]
+      ]
+    }
+  ]
+}
