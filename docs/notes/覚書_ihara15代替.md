@@ -18,3 +18,10 @@
 - **路線 (ii) 死亡**: Schneps に速度較正なし(unit tangent vector/±∂/∂t 全 42 頁 0 件・「(taking tangential base points)」の語のみ)。Furusho は基点 0⃗1 明示だが較正は Deligne [De] §15 委任。
 - **収穫**: Schneps p.2・p.4 — f_σ は「outer 作用の f ∈ F̂₂′ なる**唯一の持ち上げ**」(純群論的一意化)。Furusho Note 4.1.2 も条件 (0) を一意化条件と明記。⇒ (I3*) の基点無用な再定式化+直接補題「速度 1 切断 = F̂₂′-正規化持ち上げ」への縮約が可能(Opus へ提示済み)。
 - 全照合の詳細: docs/notes/照合_Ih定義_P1.md §「二次資料照合: Schneps/Furusho」。
+
+## 追記 2(枠組み出典 3 本の取得結果・同日)
+
+- **Deligne 1989: 現物取得**(IAS 公式)— papers/delivered/deligne_1989_groupe_fondamental_P1_moins_3points.pdf。**§15「Points base à l'infini」= 印字頁 151–176(PDF 73–98)**。【GAP-C3】枠組み裏取りの正本。
+- Szamuely 2009: 本文は CUP 壁。§4.7「The Outer Galois Action」= pp.130–135 と目次で確定(Cor 4.7.3/Ex 4.7.4 の節内頁は UNVERIFIED)。目次+errata のみ取得。
+- Herfort–Ribes 1985(補題 D の裏取り候補): 書誌実在確認済み・本文未入手(EUDML 403/GDZ 入口止まり)・命題番号 UNKNOWN。GDZ 巻ブラウズで再挑戦中。
+- 詳細: docs/scout/scout_20260726_framework3.md。
