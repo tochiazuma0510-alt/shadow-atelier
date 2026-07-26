@@ -24,3 +24,9 @@ staged counts(raw → h10 → h11 → gen・排他)・|GT|・settled/isolated・
 ## 発射条件
 
 ① 実装+較正 ①②が既知値を再現 ② falsifier 計画監査 ③ FIRE_twincell.auth。fixture には合成負例(既知値をわざと壊した証明書が FAIL すること)を含める。ツール仕様ヘッダ必須。
+
+## 追記(falsifier 要求・2026-07-26)
+
+- **較正 ③(新設)**: K⁽⁸⁾ の既知値 |GT| = 16(Thm 4.3)を内部較正として登録(本走査時に自動照合・pass/fail 変数つき)。K⁽⁸⁾ は地理比較上は標的だが数値は既知 — 「本走査の未知量」は 𝒞₁₆ のみと明確化。
+- **cap**: 窓ごと GAP 600 秒・超過時は battery 前例の shard 分割へエスカレーション(司令塔判断)。候補数の目安: |Q₁₆| = 256(transversal 12×256)。
+- 証明書ハッシュは LEDGER 記載を必須とする。
