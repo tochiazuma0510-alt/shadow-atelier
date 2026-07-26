@@ -41,3 +41,4 @@ provenance/  出所台帳(ソフト版・seed・入力/証明書ハッシュ)+�
 
 - 研究地図(進行・実データ): https://claude.ai/code/artifact/afa2dace-76aa-45bf-a41a-36d847af785b
 - 概念の手引き(難所 12 項目の図解): https://claude.ai/code/artifact/393a34e8-ac9e-4b71-bc10-d9c9fbf48212
+- 可視化(三枚目): 🎯 研究目的の地図 https://claude.ai/code/artifact/697b9f2c-5c3d-4198-a83b-7c5d515445d6(正本 docs/研究目的.md の鏡・2026-07-26)
