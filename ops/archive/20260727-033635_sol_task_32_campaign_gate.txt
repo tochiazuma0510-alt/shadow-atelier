@@ -1,0 +1,9 @@
+﻿[DELIVERY RECORD]
+Dispatch: 2026-07-27 (便 32)
+Task: Campaign gate re-judgment for K5 (manifest v1.2 + appendix A + Rule 1 + S5)
+Recipient: Sol
+Wake method: launch_wake.ps1 wake -Role sol
+Command: Campaign gate #32: review manifest v1.2, appendix A, Rule 1, S5 design; deliver decision to sol_reply_32_gate.md
+Status: LAUNCHED
+PID: 20532
+Reply file: sol/sol_reply_32_gate.md

@@ -93,7 +93,7 @@
 
 ## 即時 integrity stop(期限を待たない・v1.2)
 
-凍結 1 前の個別候補接触/凍結 2 前の u または同値 leading class(**(N_∞) 枝では ĉ_μ を含む** — v1.4)の漏洩/hash・serialization・発射錠対象の不一致/両翼共同凍結前の片翼 u 開示/モデル検査二系統の不一致/u 二経路の不一致/b_i が一意に決まらない・受理規約 b_sq = b_ns の破れ/K3 regression・covariance control の失敗/exact Kummer 証明書なしの PASS/FAIL 宣言。**漏洩 run は後から同じ規則を hash して救済しない** — 汚染 artifact を隔離し、規則を変えるなら新 version の campaign とする。
+凍結 1 前の個別候補接触/凍結 2 前の u または同値 leading class の漏洩(**同値物は I-b・I-b∞ と逐語同一: c および ĉ_μ の値・平方類・平方因子・符号・(c,μ) 分離報告** — v1.4)/hash・serialization・発射錠対象の不一致/両翼共同凍結前の片翼 u 開示/モデル検査二系統の不一致/u 二経路の不一致/b_i が一意に決まらない・受理規約 b_sq = b_ns の破れ/K3 regression・covariance control の失敗/exact Kummer 証明書なしの PASS/FAIL 宣言。**漏洩 run は後から同じ規則を hash して救済しない** — 汚染 artifact を隔離し、規則を変えるなら新 version の campaign とする。
 
 ## 撤退条件(先に書く)
 

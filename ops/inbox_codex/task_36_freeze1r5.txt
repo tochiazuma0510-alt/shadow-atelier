@@ -1,0 +1,3 @@
+Sol task 36: Dispatch freeze 1 round 5.
+Read sol/sol_task_36_freeze1_round5.txt and analyze blockers 1-3 reflections, covariance placement judgment, and total decision on Rule 1 v1.3 acceptance.
+Reply to sol/sol_reply_36_freeze1r5.md with opening total judgment statement.

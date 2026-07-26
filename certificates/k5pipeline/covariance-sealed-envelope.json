@@ -1,0 +1,51 @@
+{
+  "schema": "k5pipeline/covariance-sealed-envelope/v1",
+  "source_doc": "sol/sol_reply_36_freeze1r5.md F4.2; sol/裁定_37_ben36.md 条件5",
+  "d_convention": "For a Kummer character with exponent kappa in Z/e represented via tau(kappa) (tau injective on <zeta_e>), reparametrizing the primitive root zeta_e -> zeta_e^d (d in (Z/e)^x) transforms the exponent as kappa -> kappa' = d^{-1} kappa (mod e) and the labeling map as tau -> tau' := tau o [d], jointly satisfying tau'(kappa') = tau(kappa). The restriction map [.]: (Z/10)^x -> (Z/5)^x used in SS7.2 is reduction mod 5 (bijective on these two 4-element groups).",
+  "components": {
+    "k3_actual_rho0_tau_j": {
+      "note": "imported verbatim from certificates/k5pipeline/K3-regression-kummer-cov3-actual.json (not recomputed here -- that artifact is its own independent GAP/node cross-check)",
+      "conclusion": {
+        "rho0_tau_j_reparametrization_covariance": true,
+        "b_i_independently_measured": "UNKNOWN -- not implementable from currently certified data (see scope_limitation_UNKNOWN)",
+        "formal_a_rederived": "N/A -- K5 sq/ns-specific quantity, not applicable to a single K3 dessin"
+      },
+      "cross_check": {
+        "pass": 5,
+        "fail": 0,
+        "note": "一致は cross-checked であって Lean の verified ではない(CLAUDE.md 語彙規律)"
+      },
+      "envelope_check_pass": true
+    },
+    "b_over_k_type_level_covariance": {
+      "e": 10,
+      "units_mod_e": [
+        1,
+        3,
+        7,
+        9
+      ],
+      "tau_model": "abstract tau(k) := k (mod e) -- schema-only check, not an actual local-monodromy calibration",
+      "all_combinations_checked": 40,
+      "all_ok": true
+    },
+    "formal_a_and_a_eff": {
+      "formal_a": 1,
+      "formal_a_source": "Rule 1 SS7.2 (1.11): a := j_ns^{-1} j_sq = 1, permanent invariant -- read here, NOT re-derived",
+      "restriction_map": "(Z/10)^x -> (Z/5)^x, reduce mod 5",
+      "all_combinations_checked": 64,
+      "a_eff_invariant_under_reparametrization": true,
+      "acceptance_rule_b_sq_eq_b_ns_implies_a_eff_eq_1": true,
+      "note": "real b_sq, b_ns are supplied at the bridge stage to the SAME computeAEff/covariance functions; this envelope calibrates the schema exhaustively over synthetic (Z/10)^x values, not any individual K5 model"
+    }
+  },
+  "self_check": {
+    "pass": 4,
+    "fail": 0
+  },
+  "conclusion": {
+    "sealed": true,
+    "note": "一致は cross-checked であって Lean の verified ではない(CLAUDE.md 語彙規律)。実 b_i の代入は橋段(atomic Freeze 2 受理後)へ送る -- 便 36 F4.1/F4.2。"
+  },
+  "envelope_digest": "19809c249eeb66ea823cb4787f42fcd2db244cb03e9b771a9dba685267af9b8e"
+}

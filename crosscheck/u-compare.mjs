@@ -152,6 +152,40 @@ if (uA.n === 0n || uB.n === 0n) {
   process.exit(1);
 }
 
+// --- R-7/I-l(便 36 F3.2/F6-2): raw の model_digest を凍結 bundle の expected
+// digest へ束縛する(§6.3-5)。この機構は expected_model_digest フィールドが
+// raw に埋め込まれて初めて働く。K3 較正の凍結済み raw(certificates/
+// k5pipeline/K3-regression-u-pathA.json 等)は本便で新設される前の schema で
+// あり、このフィールドを持たない -- それらを遡って改変しない(「K3 finite
+// fixture の formal a=1 読取りは変更しない」の規律)ので、両 raw に
+// expected_model_digest が無い場合は「機構は配線済みだが Freeze 2 未到達」と
+// 正直に記録し、ACCEPT/INTEGRITY_STOP の判定には使わない。一方が有って
+// 他方が無い、または値が食い違う場合は fail-closed に stop する。
+if (A.expected_model_digest || B.expected_model_digest) {
+  if (!A.expected_model_digest || !B.expected_model_digest) {
+    report.result = 'INTEGRITY_STOP';
+    report.reason = `expected_model_digest present on only one of pathA/pathB (pathA=${A.expected_model_digest} pathB=${B.expected_model_digest})`;
+    console.log(JSON.stringify(report, null, 2));
+    process.exit(1);
+  }
+  if (A.expected_model_digest !== B.expected_model_digest) {
+    report.result = 'INTEGRITY_STOP';
+    report.reason = `expected_model_digest mismatch: pathA=${A.expected_model_digest} pathB=${B.expected_model_digest}`;
+    console.log(JSON.stringify(report, null, 2));
+    process.exit(1);
+  }
+  if (A.expected_model_digest !== recomputedA) {
+    report.result = 'INTEGRITY_STOP';
+    report.reason = `(I-l) expected_model_digest (${A.expected_model_digest}) does not match the independently recomputed model_digest (${recomputedA})`;
+    console.log(JSON.stringify(report, null, 2));
+    process.exit(1);
+  }
+  report.expected_model_digest = A.expected_model_digest;
+  report.expected_digest_check = 'BOUND';
+} else {
+  report.expected_digest_check = 'NOT_PROVIDED (pre-bridge; R-7 mechanism wired but Freeze 2 has not injected a value into this raw schema yet)';
+}
+
 const equal = ratEq(uA, uB);
 
 report.u_pathA = ratStr(uA);

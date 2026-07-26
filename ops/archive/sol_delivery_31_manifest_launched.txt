@@ -1,0 +1,7 @@
+Task: sol_task_31_manifest.txt - K⁽⁵⁾ manifest v1.1 gate review + residual issues
+Delivery Route: launch_wake.ps1 wake -Role sol
+Status: LAUNCHED (pid=14332)
+Timestamp: 2026-07-27T01:00:00Z
+Instruction: Read sol/sol_task_31_manifest.txt and start the manifest gate review. Reply to sol/sol_reply_31_manifest.md.
+Expected Reply: sol/sol_reply_31_manifest.md
+Archive Completed: 2026-07-27

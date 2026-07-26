@@ -1,10 +1,10 @@
 {
-  "schema": "u-pathB-ninf-toy/v1",
-  "synthetic_note": "R-5 toy calibration (Rule 1 S0.4-3 M=n=3 toy family) -- NOT a K^(5) individual model/coefficient/numeric approximation",
+  "schema": "u-pathB-ninf/v2",
   "id": "toy-ninf-M3",
-  "n": 3,
+  "branch": "N_infty",
+  "M": 3,
   "f_coeffs_ascending": [
-    "-1",
+    "0",
     "2",
     "1",
     "2",
@@ -21,13 +21,20 @@
   "B_coeffs_ascending": [
     "1"
   ],
-  "deg_A_equals_n": true,
-  "b_nm3_equals_a_n": true,
+  "deg_A_equals_M": true,
+  "deg_B_equals_Mminus3": true,
+  "b_Mm3_equals_a_M": true,
+  "gcd_f_fprime_is_unit": true,
   "N_lambda_coeffs_ascending": [
-    "2"
+    "1"
   ],
   "N_lambda_is_nonzero_constant": true,
-  "chat": "2",
-  "a_n": "1",
-  "u_pathB_ninf": "1"
+  "chat": "1",
+  "chat_equals_1": true,
+  "a_M": "1",
+  "u_pathB_ninf": "1/2",
+  "model_digest": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
+  "model_digest_algo": "sha256(canonical_model_string_ninf)",
+  "expected_model_digest": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
+  "canonical_model_string": "id=toy-ninf-M3;branch=N_infty;M=3;f=[0,2,1,2,2,0,1];A=[1,1,0,1];B=[1]"
 }

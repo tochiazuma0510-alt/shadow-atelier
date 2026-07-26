@@ -15,14 +15,20 @@
 #      g sigma_0 g^{-1} = sigma_infty                               (E1)
 #      g sigma_1 g^{-1} = sigma_1                                    (E2)
 #    第三式 g sigma_infty g^{-1} = sigma_1^{-1} sigma_0 sigma_1 は
-#    xyz=1 型の関係式から E1 のもとで自動的に従う(補題 R1-N∞-W の指摘)。
+#    xyz=1 型の関係式から **E1・E2 の両方**のもとで自動的に従う(補題
+#    R1-N∞-W の指摘・便 36 F1.2 の文言修理: 「E1 だけから」ではない)。
 #    本証明書では第三式を「冗長確認」として別途検査し、そう明記する。
 # 2. 10! の悉皆は不要: sigma_0 が単一の 10-サイクルなので、E1 を満たす g は
 #    g(0) の値ひとつで完全に決まる(cycle 上を伝播させるだけ)。ゆえに
 #    10 候補の悉皆で閉じる。
-# 3. 自己検査(定理由来・補題 R1-N∞-W): 解は各 fixture でちょうど 1 個、
-#    かつ g^2 = sigma_1 が成立するはず。破れたら入力破損 -> integrity stop
-#    (UNKNOWN ではない)。
+# 3. 自己検査(定理由来・補題 R1-N∞-W・便 36 F1.2 の文言修理): 定理が証明
+#    するのは解が**高々一つ**であること(centralizer=1 からの一意性)まで。
+#    「ちょうど 1 個存在する」ことは定理からは出ず、各 fixture の実計算
+#    結果である。survivors > 1 は定理違反(理論上ありえない)ゆえ入力破損
+#    -> integrity stop。survivors = 0 は定理に反しないので integrity stop
+#    としない(0 解を fixture corruption 扱いしない -- 便 36 F1.2 (2))。
+#    survivors = 1 のときは g^2 = sigma_1 も成立するはず -- 破れたら
+#    入力破損 -> integrity stop(UNKNOWN ではない)。
 # 4. 撤回の記録の自己完結化: 旧述語 (35.3)(g sigma_infty g^{-1} = sigma_0
 #    という第三式)は、E1 のもとで (35.4) かつ [sigma_0,sigma_1]=1 と同値
 #    である。[sigma_0,sigma_1]=1 は sigma_0,sigma_1 が可換であることを
@@ -159,20 +165,45 @@ ProcessTarget := function(label, fx)
   Check(Concatenation(label, "-MAIN E1+E2 restricted to 10 candidates (g(0)=c): survivors found"),
         true, Concatenation("count = ", String(Length(survivors))));
 
-  # -- self-check (theorem-derived, R1-N∞-W): exactly one survivor expected.
-  if Length(survivors) <> 1 then
-    Print("*** INTEGRITY STOP: expected exactly 1 survivor, got ", Length(survivors), " for target ", label, " ***\n");
-    Check(Concatenation(label, "-SELFCHECK exactly one survivor (R1-N∞-W)"), false,
-          Concatenation("got ", String(Length(survivors)), " survivors"));
+  # -- self-check (theorem-derived, R1-N∞-W / 便 36 F1.2 の文言修理): R1-N∞-W
+  # が定理として与えるのは「解は**高々一つ**」(centralizer=1 からの一意性)
+  # であって「ちょうど一つ存在する」ことまでは定理から出ない -- 存在は各
+  # fixture の実計算結果である。したがって:
+  #   survivors > 1 は理論的に不可能な事態 ⇒ 定理違反 ⇒ integrity stop
+  #     (fixture corruption suspected -- 一意性定理そのものに反する)。
+  #   survivors = 0 は定理に反しない(「高々一つ」は「ゼロでもよい」を含む)
+  #     ⇒ **integrity stop として扱わない**。「この fixture には (35.4) の
+  #     E1+E2 を満たす witness が無い」という正直な結論として記録する
+  #     (reusable checker は 0 解を fixture corruption 扱いしない)。
+  if Length(survivors) > 1 then
+    Print("*** INTEGRITY STOP: R1-N∞-W proves AT MOST one survivor, got ", Length(survivors),
+          " for target ", label, " (theorem violation -- fixture corruption suspected) ***\n");
+    Check(Concatenation(label, "-SELFCHECK at most one survivor (R1-N∞-W)"), false,
+          Concatenation("got ", String(Length(survivors)), " survivors (theorem allows at most 1)"));
     rec2 := rec(target := label, integrity_stop := true,
-                reason := Concatenation("expected exactly 1 survivor of E1+E2 among the 10 candidates, got ", String(Length(survivors))));
+                reason := Concatenation("R1-N∞-W proves at most 1 survivor of E1+E2 among the 10 candidates, got ", String(Length(survivors)), " (theorem violation)"));
     results.(label) := rec2;
     return;
   fi;
-  Check(Concatenation(label, "-SELFCHECK exactly one survivor (R1-N∞-W)"), true, "");
+  Check(Concatenation(label, "-SELFCHECK at most one survivor (R1-N∞-W)"), true, "");
+  if Length(survivors) = 0 then
+    Print("  => (N_infty) predicate (35.4)'s E1+E2 has NO witness for target ", label,
+          " among the 10 candidates. This is consistent with R1-N∞-W (at most one, ",
+          "possibly zero) and is NOT treated as fixture corruption.\n");
+    rec2 := rec(target := label, integrity_stop := false, num_survivors := 0,
+                conjugator_exists := false,
+                sanity_relation_ok := ok0, cycle_type_sigma0 := t0, cycle_type_sigmaInf := tInf,
+                cycle_type_sigma1 := t1, sign_sigma1 := SignPerm(s1),
+                odd_length_cycle_count_sigma1 := oddMultCount,
+                sigma0_sigma1_commute := commuteCheck, num_candidates_checked := 10,
+                ninf_excluded := false,
+                note := "no witness found for (35.4)'s E1+E2 among the 10 candidates; R1-N∞-W does not require existence, only at most one -- honestly reported, not integrity_stop");
+    results.(label) := rec2;
+    return;
+  fi;
 
   sol := survivors[1];
-  Check(Concatenation(label, "-REDUNDANT E3 (third eqn of (35.4), should be automatic from E1)"), sol.e3ok, "");
+  Check(Concatenation(label, "-REDUNDANT E3 (third eqn of (35.4), should be automatic from E1+E2)"), sol.e3ok, "");
 
   # -- self-check: g^2 = sigma_1 (theorem-derived, (35.6)/R1-N∞-W). Integrity
   # stop (not UNKNOWN) if this breaks -- it would mean the fixture itself is corrupted.
@@ -225,6 +256,25 @@ TargetJSON := function(r)
       "\"reason\":", JStr(r.reason),
     "}");
   fi;
+  if r.num_survivors = 0 then
+    # 便 36 F1.2 の文言修理: 0 survivors は R1-N∞-W(高々一つ)に反しないので
+    # integrity_stop ではない -- 正直に「witness なし」として記録する。
+    return Concatenation("{",
+      "\"integrity_stop\":false,",
+      "\"sanity_relation_ok\":", JB(r.sanity_relation_ok), ",",
+      "\"cycle_type_sigma0\":", JArr(List(r.cycle_type_sigma0, String)), ",",
+      "\"cycle_type_sigmaInf\":", JArr(List(r.cycle_type_sigmaInf, String)), ",",
+      "\"cycle_type_sigma1\":", JArr(List(r.cycle_type_sigma1, String)), ",",
+      "\"sign_sigma1\":", String(r.sign_sigma1), ",",
+      "\"odd_length_cycle_count_sigma1\":", String(r.odd_length_cycle_count_sigma1), ",",
+      "\"sigma0_sigma1_commute\":", JB(r.sigma0_sigma1_commute), ",",
+      "\"num_candidates_checked\":", String(r.num_candidates_checked), ",",
+      "\"num_survivors\":0,",
+      "\"conjugator_exists\":false,",
+      "\"ninf_excluded\":", JB(r.ninf_excluded), ",",
+      "\"note\":", JStr(r.note),
+    "}");
+  fi;
   return Concatenation("{",
     "\"integrity_stop\":false,",
     "\"sanity_relation_ok\":", JB(r.sanity_relation_ok), ",",
@@ -247,11 +297,11 @@ end;;
 certJson := Concatenation(
   "{",
   "\"schema\":\"k5pipeline/ninf-exclusion-gap/v3\",",
-  "\"retraction_note\":\"v1 (moved to certificates/k5pipeline/retracted/) tested the naive swap (x,y,z)->(z,y,x) (35.2)/(35.3), which does not preserve the relator xyz=1 in general. Direct computation here confirms sigma_0*sigma_1 <> sigma_1*sigma_0 for both fixtures, so (35.3)'s third equation combined with E1 is unsatisfiable (35.3 is equivalent to (35.4) AND [sigma_0,sigma_1]=1 given E1) -- v1's 'no conjugator found' was a CORRECT computation of an uninformative/wrong question, not evidence against (N_infty). v2 fixed the predicate to (35.4) but used a full-S10 search; v3 (this file) additionally implements the mathematician-reviewed restricted method (Rule 1 v1.3 R1-N∞-W): only 10 candidates (g(0)=c), E1+E2 as the decisive predicate, E3 as a redundant confirmation, and theorem-derived self-checks (unique survivor, g^2=sigma_1) as integrity stops rather than UNKNOWN.\",",
+  "\"retraction_note\":\"v1 (moved to certificates/k5pipeline/retracted/) tested the naive swap (x,y,z)->(z,y,x) (35.2)/(35.3), which does not preserve the relator xyz=1 in general. Direct computation here confirms sigma_0*sigma_1 <> sigma_1*sigma_0 for both fixtures, so (35.3)'s third equation combined with E1 is unsatisfiable (35.3 is equivalent to (35.4) AND [sigma_0,sigma_1]=1 given E1) -- v1's 'no conjugator found' was a CORRECT computation of an uninformative/wrong question, not evidence against (N_infty). v2 fixed the predicate to (35.4) but used a full-S10 search; v3 (this file) additionally implements the mathematician-reviewed restricted method (Rule 1 v1.3 R1-N∞-W): only 10 candidates (g(0)=c), E1+E2 as the decisive predicate (third eqn E3 automatic from E1+E2, checked as a redundant confirmation), and theorem-derived self-checks. 便36 F1.2 wording repair: R1-N∞-W proves AT MOST one survivor (integrity stop if >1, i.e. a genuine theorem violation), NOT exactly one -- 0 survivors is consistent with the theorem and is reported honestly rather than treated as fixture corruption; g^2=sigma_1 remains an integrity stop when a unique survivor exists but fails it.\",",
   "\"conclusion_label\":\"排除されず・対称性充足・(N_infty) の存否は UNKNOWN・witness は cross-checked\",",
   "\"pass\":", String(totalPass), ",",
   "\"fail\":", String(totalFail), ",",
-  "\"method\":\"restricted 10-candidate search: g(0)=c for c=0..9, g built by propagating E1 (g s0 g^-1 = sInf) along the sigma_0 10-cycle; filter by E2 (g s1 g^-1 = s1); E3 checked as redundant confirmation; self-checks (unique survivor, g^2=sigma_1) per R1-N∞-W\",",
+  "\"method\":\"restricted 10-candidate search: g(0)=c for c=0..9, g built by propagating E1 (g s0 g^-1 = sInf) along the sigma_0 10-cycle; filter by E2 (g s1 g^-1 = s1); E1+E2 jointly imply E3 (checked as redundant confirmation); self-checks per R1-N∞-W: at most one survivor (integrity stop if >1; 0 is not corruption), g^2=sigma_1 when a survivor exists\",",
   "\"targets\":{",
   "\"sq\":", TargetJSON(results.sq), ",",
   "\"ns\":", TargetJSON(results.ns),

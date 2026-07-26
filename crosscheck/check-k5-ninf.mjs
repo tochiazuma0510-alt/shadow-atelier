@@ -17,15 +17,20 @@
 // 1. decisive predicate は (35.4) の第一・第二式のみ:
 //      E1: g s0 g^-1 = sInf
 //      E2: g s1 g^-1 = s1
-//    第三式(E3: g sInf g^-1 = s1^-1 s0 s1)は E1 のもとで xyz=1 型の関係式
-//    から自動的に従う(補題 R1-N∞-W)。本証明書では E3 を「冗長確認」として
+//    第三式(E3: g sInf g^-1 = s1^-1 s0 s1)は **E1・E2 の両方**のもとで
+//    xyz=1 型の関係式から自動的に従う(補題 R1-N∞-W・便 36 F1.2 の文言修理:
+//    「E1 だけから」ではない)。本証明書では E3 を「冗長確認」として
 //    別途記録するが、判定には使わない。
 // 2. 10! の悉皆は不要: s0 が単一の 10-サイクルなので、E1 を満たす g は
 //    g(0) の値ひとつで(サイクルに沿って伝播させるだけで)完全に決まる。
 //    ゆえに 10 候補の悉皆で閉じる(3,628,800 通りの総当りは不要)。
-// 3. 自己検査(定理由来・R1-N∞-W): 各 fixture でちょうど 1 個の survivor が
-//    あり、かつ g^2 = sigma_1 が成立するはず。破れたら UNKNOWN ではなく
-//    integrity stop(入力破損)。
+// 3. 自己検査(定理由来・R1-N∞-W・便 36 F1.2 の文言修理): 定理が証明する
+//    のは解が**高々一つ**であること(centralizer=1 からの一意性)まで。
+//    「ちょうど 1 個存在する」ことは定理から出ず、各 fixture の実計算
+//    結果である。survivors > 1 は定理違反ゆえ integrity stop(入力破損)。
+//    survivors = 0 は定理に反しないので integrity stop としない(0 解を
+//    fixture corruption 扱いしない -- reusable checker の規律)。survivors
+//    = 1 のときは g^2 = sigma_1 も成立するはず -- 破れたら integrity stop。
 // 4. 撤回の記録を自己完結させる: sigma_0*sigma_1 <> sigma_1*sigma_0 を直接
 //    計算で確認する。これにより (35.3) の第三式(E1 と合わせて sigma_0,
 //    sigma_1 の可換性を要求する)は充足不能であることが分かる — v1 の
@@ -143,15 +148,38 @@ function processTarget(label, fx) {
   }
   ck(`${label}-MAIN E1+E2 restricted to 10 candidates (g(0)=c): survivors found`, true, `count=${survivors.length}`);
 
-  if (survivors.length !== 1) {
-    console.log(`*** INTEGRITY STOP: expected exactly 1 survivor, got ${survivors.length} for target ${label} ***`);
-    ck(`${label}-SELFCHECK exactly one survivor (R1-N∞-W)`, false, `got ${survivors.length} survivors`);
-    return { target: label, integrity_stop: true, reason: `expected exactly 1 survivor of E1+E2 among the 10 candidates, got ${survivors.length}` };
+  // 便 36 F1.2 の文言修理: R1-N∞-W が証明するのは「解は高々一つ」であって
+  // 「ちょうど一つ存在する」ことは定理から出ない。>1 は理論違反(integrity
+  // stop)。0 は理論に反しないので fixture corruption 扱いしない。
+  if (survivors.length > 1) {
+    console.log(`*** INTEGRITY STOP: R1-N∞-W proves AT MOST one survivor, got ${survivors.length} for target ${label} (theorem violation) ***`);
+    ck(`${label}-SELFCHECK at most one survivor (R1-N∞-W)`, false, `got ${survivors.length} survivors (theorem allows at most 1)`);
+    return { target: label, integrity_stop: true, reason: `R1-N∞-W proves at most 1 survivor of E1+E2 among the 10 candidates, got ${survivors.length} (theorem violation)` };
   }
-  ck(`${label}-SELFCHECK exactly one survivor (R1-N∞-W)`, true);
+  ck(`${label}-SELFCHECK at most one survivor (R1-N∞-W)`, true);
+
+  if (survivors.length === 0) {
+    console.log(`  => (N_infty) predicate (35.4)'s E1+E2 has NO witness for target ${label} among the 10 candidates. This is consistent with R1-N∞-W (at most one, possibly zero) and is NOT treated as fixture corruption.`);
+    return {
+      target: label,
+      integrity_stop: false,
+      sanity_relation_ok: isIdentity(h),
+      cycle_type_sigma0: t0,
+      cycle_type_sigmaInf: tInf,
+      cycle_type_sigma1: t1,
+      sign_sigma1: s1sign,
+      odd_length_cycle_count_sigma1: oddCount,
+      sigma0_sigma1_commute: commute,
+      num_candidates_checked: 10,
+      num_survivors: 0,
+      conjugator_exists: false,
+      ninf_excluded: false,
+      note: 'no witness found for (35.4)\'s E1+E2 among the 10 candidates; R1-N∞-W does not require existence, only at most one -- honestly reported, not integrity_stop',
+    };
+  }
 
   const sol = survivors[0];
-  ck(`${label}-REDUNDANT E3 (third eqn of (35.4), should be automatic from E1)`, sol.e3ok);
+  ck(`${label}-REDUNDANT E3 (third eqn of (35.4), should be automatic from E1+E2)`, sol.e3ok);
 
   const g2 = composeArr(sol.g, sol.g, N);
   const gSquaredOk = eqPerm(g2, s1);
@@ -208,10 +236,17 @@ if (gapCert) {
     const gp = gapCert.targets[name];
     xck(`${name}: conjugator_exists node==gap`, nd.conjugator_exists === gp.conjugator_exists, `${nd.conjugator_exists} vs ${gp.conjugator_exists}`);
     xck(`${name}: ninf_excluded node==gap`, nd.ninf_excluded === gp.ninf_excluded, `${nd.ninf_excluded} vs ${gp.ninf_excluded}`);
-    xck(`${name}: g^2=sigma_1 node==gap`, nd.g_squared_equals_sigma1 === gp.g_squared_equals_sigma1, `${nd.g_squared_equals_sigma1} vs ${gp.g_squared_equals_sigma1}`);
-    xck(`${name}: conjugator_g_0indexed node==gap`, JSON.stringify(nd.conjugator_g_0indexed) === JSON.stringify(gp.conjugator_g_0indexed.map(Number)),
-        `${JSON.stringify(nd.conjugator_g_0indexed)} vs ${JSON.stringify(gp.conjugator_g_0indexed)}`);
     xck(`${name}: sigma0_sigma1_commute node==gap`, nd.sigma0_sigma1_commute === gp.sigma0_sigma1_commute, `${nd.sigma0_sigma1_commute} vs ${gp.sigma0_sigma1_commute}`);
+    // 便 36 F1.2: num_survivors=0 は conjugator_g_0indexed/g_squared_equals_sigma1
+    // を持たない(ケース分岐そのものが正当な結果なので、この二つの比較は
+    // survivor が実在するときだけ意味を持つ)。
+    if (nd.num_survivors === 1 && Number(gp.num_survivors) === 1) {
+      xck(`${name}: g^2=sigma_1 node==gap`, nd.g_squared_equals_sigma1 === gp.g_squared_equals_sigma1, `${nd.g_squared_equals_sigma1} vs ${gp.g_squared_equals_sigma1}`);
+      xck(`${name}: conjugator_g_0indexed node==gap`, JSON.stringify(nd.conjugator_g_0indexed) === JSON.stringify(gp.conjugator_g_0indexed.map(Number)),
+          `${JSON.stringify(nd.conjugator_g_0indexed)} vs ${JSON.stringify(gp.conjugator_g_0indexed)}`);
+    } else {
+      xck(`${name}: num_survivors node==gap`, String(nd.num_survivors) === String(gp.num_survivors), `${nd.num_survivors} vs ${gp.num_survivors}`);
+    }
   }
 }
 console.log(`\n=== cross-check: ${xpass}/${xpass + xfail} PASS ===`);
@@ -221,7 +256,7 @@ console.log(`\n=== GRAND TOTAL (self ${pass}/${pass + fail} + cross ${xpass}/${x
 mkdirSync(join(ROOT, 'certificates', 'k5pipeline'), { recursive: true });
 const finalCert = {
   schema: 'k5pipeline/ninf-exclusion/v3',
-  retraction_note: "v1 (moved to certificates/k5pipeline/retracted/) tested the naive swap (x,y,z)->(z,y,x) (35.2)/(35.3), which does not preserve the relator xyz=1 in general. Direct computation confirms sigma_0*sigma_1 <> sigma_1*sigma_0 for both fixtures, so (35.3)'s third equation combined with E1 is unsatisfiable (35.3 is equivalent to (35.4) AND [sigma_0,sigma_1]=1 given E1) -- v1's 'no conjugator found' was a CORRECT computation of an uninformative/wrong question, not evidence against (N_infty). v2 fixed the predicate to (35.4) but used a full-S10 search; v3 implements the mathematician-reviewed restricted method (Rule 1 v1.3 R1-N∞-W): only 10 candidates (g(0)=c), E1+E2 as the decisive predicate, E3 as a redundant confirmation, and theorem-derived self-checks (unique survivor, g^2=sigma_1) as integrity stops rather than UNKNOWN.",
+  retraction_note: "v1 (moved to certificates/k5pipeline/retracted/) tested the naive swap (x,y,z)->(z,y,x) (35.2)/(35.3), which does not preserve the relator xyz=1 in general. Direct computation confirms sigma_0*sigma_1 <> sigma_1*sigma_0 for both fixtures, so (35.3)'s third equation combined with E1 is unsatisfiable (35.3 is equivalent to (35.4) AND [sigma_0,sigma_1]=1 given E1) -- v1's 'no conjugator found' was a CORRECT computation of an uninformative/wrong question, not evidence against (N_infty). v2 fixed the predicate to (35.4) but used a full-S10 search; v3 implements the mathematician-reviewed restricted method (Rule 1 v1.3 R1-N∞-W): only 10 candidates (g(0)=c), E1+E2 as the decisive predicate (E3 automatic from E1+E2, checked as a redundant confirmation). 便36 F1.2 wording repair: R1-N∞-W proves AT MOST one survivor (integrity stop if >1, a genuine theorem violation), NOT exactly one -- 0 survivors is consistent with the theorem and is reported honestly rather than treated as fixture corruption; g^2=sigma_1 remains an integrity stop when a unique survivor exists but fails it.",
   conclusion_label: '排除されず・対称性充足・(N_infty) の存否は UNKNOWN・witness は cross-checked',
   source_doc: 'docs/week4-K5_Rule1_v1.md v1.3 §11 R-6 (補題 R1-N∞-W); sol/sol_reply_35_freeze1r4.md F1.5; sol/裁定_36_ben35.md',
   inputs: 'certificates/k5fixture/K5-sq.json, K5-ns.json の perm_triple のみ(model/lambda/u には一切接触なし)',

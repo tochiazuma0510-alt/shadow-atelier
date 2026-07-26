@@ -115,11 +115,26 @@ function polyDerivN(a, k) { let r = a; for (let i = 0; i < k; i++) r = polyDeriv
 function factorialQ(k) { let r = 1n; for (let i = 2; i <= k; i++) r = r * BigInt(i); return new Q(r); }
 
 //////////////////// モデル読み込み ////////////////////
+// R-8(便 35 F5.2・便 36 F3.2 (4)/F6-3): 枝ラベルは三値 enumeration
+// {Weierstrass, nonWeierstrass, N_infty} とし、未知ラベル・欠落ラベルを
+// 既定値(旧実装は無条件で 'Weierstrass' へ fallback していた -- バグ)へ
+// 丸めることを禁止する(fail-closed。Rule 1 SS2.2 M0 / SS9.2 I-m)。
+// N_infty は x0,y0 を持たない別 schema(loadModelNinf/extractPathB_Ninf)を
+// 使う必要があるため、ここに来たら明示的にエラーで停止する(schema と
+// branch label の不整合 = I-m)。
+const BRANCH_ENUM = ['Weierstrass', 'nonWeierstrass', 'N_infty'];
 export function loadModel(raw) {
+  const label = raw.branchP0;
+  if (!BRANCH_ENUM.includes(label)) {
+    throw new Error(`loadModel (I-m): branchP0 must be one of {${BRANCH_ENUM.join(', ')}}, got '${label}' -- no default fallback is permitted (Rule 1 SS2.2 M0 / SS9.2 I-m)`);
+  }
+  if (label === 'N_infty') {
+    throw new Error(`loadModel (I-m): branchP0='N_infty' models have no x0,y0 and must use loadModelNinf/extractPathB_Ninf, not loadModel/extractPathB (Rule 1 SS6.3-6)`);
+  }
   return {
     id: raw.fixture_id ?? raw.id,
     M: raw.M,
-    branchP0: raw.branch_P0 === 'nonWeierstrass' || raw.branchP0 === 'nonWeierstrass' ? 'nonWeierstrass' : 'Weierstrass',
+    branchP0: label,
     x0: Q.parse(raw.x0),
     y0: Q.parse(raw.y0),
     f: raw.f_coeffs_ascending.map(Q.parse),
@@ -207,65 +222,161 @@ export function extractPathB(model) {
   };
 }
 
-//////////////////// R-5(便 36・裁定 36): 副枝 (N_infty) 経路 B-iii ////////////////////
-// docs/week4-K5_Rule1_v1.md v1.2 S6.2 B-iii (6.3) / 補題 R1-B∞。級数を使わない:
-// N(lambda) = A^2 - B^2 f (多項式のみ) が定数 chat であることを直接検算し、
-// u^{(B)} = chat / (2 a_n) (a_n := [x^n] A) を計算する。
-// SYNTHETIC のみ: K^(5) の実 fixture には (N_infty) が無いため、較正は
-// crosscheck/u-extract-pathB-ninf-toy-driver.mjs が明示する玩具モデルでのみ
-// 行う。
+//////////////////// R-5(便 36・裁定 37): 副枝 (N_infty) 経路 B-iii(production 化) ////////////////////
+// docs/week4-K5_Rule1_v1.md v1.2 S6.2 B-iii (6.3) / 補題 R1-B∞ + 便 36 F3.2/F6-1
+// (Sol 提供の M=10, chat=1 exact synthetic fixture)。級数を使わない: N(lambda)
+// = A^2 - B^2 f (多項式のみ) が定数 chat=1 であることを直接検算し、
+// u^{(B)} = chat / (2 a_M) (a_M := [x^M] A) を計算する。
+//
+// schema v2(便 36 F3.2 (3) の修理): 三値 branch label(model.branch は必ず
+// "N_infty")・model.M(旧 model.n を置換)・model_digest・
+// expected_model_digest を持つ。x0, y0 は存在しない(§6.3-6)。同じライブラリ
+// コードを M=3 の unit test(crosscheck/u-extract-pathB-ninf-toy-driver.mjs)
+// と M=10 の production 較正(crosscheck/u-extract-pathB-ninf-production-
+// driver.mjs)の両方が使う -- いずれも K^(5) の実 fixture ではない。
+//
+// (N∞-1)-(N∞-4) の構造検査(すべて exact 多項式演算・fail-closed。§6.2):
+//   (N∞-1) deg A = M かつ deg B = M-3
+//   (N∞-2) b_{M-3} = a_M かつ a_M <> 0
+//   (N∞-3) A^2-B^2 f が定数 chat <> 0
+//   (N∞-4) chat = 1(補題 R1-N∞-S)
+// いずれかが破れたら throw で即停止する(§9.2 I-j)。加えて gcd(f,f') が単元
+// (f の平方非因子性・多項式 Euclid の互除法で実装。search/u-extract-pathA.g
+// の PolyGcdIsUnit とは独立実装)・model_digest = expectedModelDigest
+// (§9.2 I-l)も fail-closed に検査する(便 36 F3.2 (2)(3)(5))。
 export function loadModelNinf(raw) {
+  if (raw.branch !== 'N_infty') {
+    throw new Error(`loadModelNinf (I-m): raw.branch must be the literal string 'N_infty', got '${raw.branch}'`);
+  }
+  if (raw.M === undefined || raw.M === null) {
+    throw new Error("loadModelNinf: raw.M is required (Rule 1 M naming; the old raw.n field name is retired)");
+  }
   return {
     id: raw.id,
-    n: raw.n,
+    branch: raw.branch,
+    M: raw.M,
     f: raw.f_coeffs_ascending.map(Q.parse),
     A: raw.A_coeffs_ascending.map(Q.parse),
     B: raw.B_coeffs_ascending.map(Q.parse),
+    seriesLen: raw.series_length,
+    expectedModelDigest: raw.expected_model_digest,
   };
 }
 
+//////////////////// exact 多項式 gcd(有理数係数・pathA.g とは独立実装) ////////////////////
+function polyDivMod(a, b) {
+  const bdeg = b.length - 1;
+  const blead = b[bdeg];
+  let rem = a.slice();
+  const quot = [];
+  while (rem.length - 1 >= bdeg && !(rem.length === 1 && rem[0].isZero())) {
+    const rdeg = rem.length - 1;
+    const coeff = rem[rdeg].div(blead);
+    const shift = rdeg - bdeg;
+    const term = Array(shift).fill(Q0).concat([coeff]);
+    rem = polySub(rem, polyMul(term, b));
+    quot[shift] = coeff;
+  }
+  for (let i = 0; i < quot.length; i++) if (quot[i] === undefined) quot[i] = Q0;
+  return { quot: polyTrim(quot.length ? quot : [Q0]), rem };
+}
+function polyGcd(a, b) {
+  let A = a.slice(), B = b.slice();
+  while (!(B.length === 1 && B[0].isZero())) {
+    const { rem } = polyDivMod(A, B);
+    A = B;
+    B = rem;
+  }
+  return A;
+}
+function polyGcdIsUnit(f) {
+  const fp = polyDeriv(f);
+  if (fp.length === 1 && fp[0].isZero()) return false; // f' = 0 degenerate
+  const g = polyGcd(f, fp);
+  return g.length === 1 && !g[0].isZero();
+}
+
+//////////////////// canonical model digest (N_infty schema, pathA.g の Ninf 版と同一仕様) ////////////////////
+export function canonicalModelStringNinf(model) {
+  const rat = (x) => x.toString();
+  const list = (xs) => xs.map(rat).join(',');
+  return `id=${model.id};branch=N_infty;M=${model.M};` +
+    `f=[${list(model.f)}];A=[${list(model.A)}];B=[${list(model.B)}]`;
+}
+export function modelDigestNinf(model) {
+  return createHash('sha256').update(canonicalModelStringNinf(model), 'utf8').digest('hex');
+}
+
 export function extractPathB_Ninf(model) {
-  const { n, f, A, B } = model;
+  const { M, f, A, B } = model;
   if (f.length !== 7) throw new Error('extractPathB_Ninf: f must have degree 6');
   if (!f[6].eq(new Q(1n))) throw new Error('extractPathB_Ninf: f must be monic');
 
+  // -- (N∞-1) --
   const degA = A.length - 1;
   const degB = B.length - 1;
-  if (degA !== n) throw new Error(`extractPathB_Ninf (N∞-1): deg A must equal n=${n}, got ${degA}`);
-  if (degB !== n - 3) throw new Error(`extractPathB_Ninf (N∞-1): deg B must equal n-3=${n - 3}, got ${degB}`);
-  const a_n = A[n];
-  const b_nm3 = B[n - 3];
-  if (!a_n.eq(b_nm3)) throw new Error(`extractPathB_Ninf (N∞-2): b_{n-3} (${b_nm3}) must equal a_n (${a_n})`);
-  if (a_n.isZero()) throw new Error('extractPathB_Ninf (N∞-2): a_n must be nonzero');
+  if (degA !== M) throw new Error(`extractPathB_Ninf (N∞-1): deg A must equal M=${M}, got ${degA}`);
+  if (degB !== M - 3) throw new Error(`extractPathB_Ninf (N∞-1): deg B must equal M-3=${M - 3}, got ${degB}`);
+
+  // -- (N∞-2) --
+  const a_M = A[M];
+  const b_Mm3 = B[M - 3];
+  if (!a_M.eq(b_Mm3)) throw new Error(`extractPathB_Ninf (N∞-2): b_{M-3} (${b_Mm3}) must equal a_M (${a_M})`);
+  if (a_M.isZero()) throw new Error('extractPathB_Ninf (N∞-2): a_M must be nonzero');
+
+  // -- gcd(f,f') must be a unit (f squarefree) --
+  if (!polyGcdIsUnit(f)) throw new Error('extractPathB_Ninf: gcd(f,f\') is not a unit -- f is not squarefree (fixture corruption)');
+
+  // -- required series length, if declared (便 36 F3.2 (2)) --
+  if (model.seriesLen !== undefined && model.seriesLen !== null && model.seriesLen < 2 * M + 4) {
+    throw new Error(`extractPathB_Ninf: seriesLen (${model.seriesLen}) must be >= 2M+4 = ${2 * M + 4}`);
+  }
 
   const A2 = polyMul(A, A);
   const B2 = polyMul(B, B);
   const B2f = polyMul(B2, f);
   const Nlambda = polySub(A2, B2f);
 
-  // (N∞-3) N(lambda) must be a nonzero constant polynomial.
+  // -- (N∞-3) N(lambda) must be a nonzero constant polynomial. --
   const isConstant = Nlambda.length === 1;
   if (!isConstant) throw new Error(`extractPathB_Ninf (N∞-3): N(lambda) is not constant, degree ${Nlambda.length - 1}`);
   const chat = Nlambda[0];
   if (chat.isZero()) throw new Error('extractPathB_Ninf (N∞-3): N(lambda) is the zero constant');
 
-  const u_pathB_ninf = chat.div(a_n.mul(new Q(2n)));
+  // -- (N∞-4) --
+  if (!chat.eq(new Q(1n))) throw new Error(`extractPathB_Ninf (N∞-4): chat must equal 1 (Lemma R1-N∞-S; sigma_1<>id is automatic in this campaign), got ${chat}`);
+
+  const u_pathB_ninf = chat.div(a_M.mul(new Q(2n)));
+
+  const modelDigest = modelDigestNinf(model);
+  if (model.expectedModelDigest !== undefined && model.expectedModelDigest !== null) {
+    if (modelDigest !== model.expectedModelDigest) {
+      throw new Error(`extractPathB_Ninf (I-l): model_digest (${modelDigest}) does not match expectedModelDigest (${model.expectedModelDigest})`);
+    }
+  }
 
   return {
-    schema: 'u-pathB-ninf-toy/v1',
-    synthetic_note: 'R-5 toy calibration (Rule 1 S0.4-3 M=n=3 toy family) -- NOT a K^(5) individual model/coefficient/numeric approximation',
+    schema: 'u-pathB-ninf/v2',
     id: model.id,
-    n,
+    branch: 'N_infty',
+    M,
     f_coeffs_ascending: f.map(String),
     A_coeffs_ascending: A.map(String),
     B_coeffs_ascending: B.map(String),
-    deg_A_equals_n: degA === n,
-    b_nm3_equals_a_n: a_n.eq(b_nm3),
+    deg_A_equals_M: degA === M,
+    deg_B_equals_Mminus3: degB === M - 3,
+    b_Mm3_equals_a_M: a_M.eq(b_Mm3),
+    gcd_f_fprime_is_unit: true,
     N_lambda_coeffs_ascending: Nlambda.map(String),
     N_lambda_is_nonzero_constant: isConstant && !chat.isZero(),
     chat: chat.toString(),
-    a_n: a_n.toString(),
+    chat_equals_1: chat.eq(new Q(1n)),
+    a_M: a_M.toString(),
     u_pathB_ninf: u_pathB_ninf.toString(),
+    model_digest: modelDigest,
+    model_digest_algo: 'sha256(canonical_model_string_ninf)',
+    expected_model_digest: model.expectedModelDigest,
+    canonical_model_string: canonicalModelStringNinf(model),
   };
 }
 

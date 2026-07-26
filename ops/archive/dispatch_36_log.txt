@@ -1,0 +1,12 @@
+DISPATCH LOG — Delivery #36 (2026-07-27)
+
+Target: Sol (Role: sol)
+Task: sol_task_36_freeze1_round5.txt
+Content: Blocker 1-3 reflections (predicate v3, covariance actual version, pending closure)
+         Judgment request: Rule 1 v1.3 acceptance + model search authorization + covariance b_i placement
+Reply file: sol/sol_reply_36_freeze1r5.md
+
+Inbox message: C:\Users\81905\Desktop\shadow-atelier\ops\inbox_codex\task_36_freeze1r5.txt
+Wake command: launch_wake.ps1 wake -Role sol
+Launch time: 2026-07-27 (pid 16276, monitor=on)
+Status: LAUNCHED-wake-sol-VIA-STARTPROCESS
