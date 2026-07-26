@@ -115,7 +115,9 @@ $$ \beta(\bar u,\bar v)=[\,H(\bar u),H(\bar v)\,]=(u_wv_p-u_pv_w)\,t_5+(u_wv_q-u
 **証明.** (2.2): $R_a:=r_1^{a_{r_1}}\cdots t_6^{a_{t_6}}$ は $A$ の中心に入る(重み $\ge4$ の元は $\gamma_2$ と可換)。ゆえに
 $$ H(a)H(b)=w^{a_w}p^{a_p}q^{a_q}\cdot w^{b_w}p^{b_p}q^{b_q}\cdot R_aR_b . $$
 $w^{b_w}$ を左へ送る: $q^{a_q}w^{b_w}=w^{b_w}q^{a_q}[q,w]^{a_qb_w}=w^{b_w}q^{a_q}t_6^{-a_qb_w}$、$p^{a_p}w^{b_w}=w^{b_w}p^{a_p}t_5^{-a_pb_w}$($t_5,t_6$ は中心)。$[p,q]=1$ ゆえ $p^{a_p}q^{a_q}p^{b_p}q^{b_q}=p^{a_p+b_p}q^{a_q+b_q}$。以上を束ねて (2.2)。
-(2.3): $n\ge1$ は (2.2) から帰納法($H(a)^{n}H(a)$ の補正が $-n(a_pa_w,a_qa_w)$、$\binom n2+n=\binom{n+1}2$)。$n=-1$ は (2.2) で直接検算でき、$\binom{-1}2=1$ と整合するので (2.3) は全ての $n\in\mathbb Z$ で成立。(2.4) は (2.3) の $n=-1$。∎
+(2.3): $\delta_a:=(a_pa_w)e_{t_5}+(a_qa_w)e_{t_6}$ と置き $G(n):=H\bigl(na-\binom n2\delta_a\bigr)$ とする。(2.2) より、任意の $n\in\mathbb Z$ で
+$$ G(n)H(a)=H\Bigl(na-\tbinom n2\delta_a+a-\bigl((na)_pa_w\bigr)e_{t_5}-\bigl((na)_qa_w\bigr)e_{t_6}\Bigr)=H\Bigl((n+1)a-\bigl[\tbinom n2+n\bigr]\delta_a\Bigr)=G(n+1). $$
+$G(0)=1$ ゆえ、$n$ の増加方向・減少方向の両方の帰納法で $G(n)=H(a)^n$($\forall n\in\mathbb Z$)。(2.4) は $n=-1$($\binom{-1}2=1$)。∎
 
 **検算**: `hall5.mjs` §2 — 座標をランダムに振った 200 対で (2.2)、60 例で (2.3) を Magnus モデル上の実際の積と照合、全一致。
 
@@ -191,7 +193,13 @@ $$ \sigma_m:=\iota_{Y^m}\circ\tau,\qquad \sigma_m(g)=y^{-m}\,\tau(g)\,y^{m}. $$
 > $$ \boxed{\ h^{y^m}=h\cdot[h,y]^{\binom m1}\cdot\bigl[[h,y],y\bigr]^{\binom m2}\cdot\bigl[[[h,y],y],y\bigr]^{\binom m3}\ }\qquad(m\in\mathbb Z). \tag{4.1}$$
 > 同形が $x$ でも成立する。
 
-**根拠**: $h\in\gamma_2$ なら $[h,y]\in\gamma_3$、$[h,y,y]\in\gamma_4$、$[h,y,y,y]\in\gamma_5$ で、これら相互の交換子と $h$ との交換子は $[\gamma_2,\gamma_3]$ を除いてすべて重み $\ge6$。$[\gamma_2,\gamma_3]$ 由来の補正は $h$ の $w$ 座標と $[h,y]$ の $p,q$ 座標の積に比例するが、$[h,y]\in\gamma_3$ の $\gamma_3/\gamma_4$-成分は $h$ の $w$ 成分の $\mathrm{ad}_y$ 像であり、この対では消える。**Magnus モデルで機械検査済**(`hall5.mjs` §19: $m\in\{0,1,2,3,5,8,13,-4\}$ × ランダム $h$ 20 例、および $x$ 版)。
+**証明.** $c_0:=h$、$c_{k+1}:=[c_k,y]$ と置く。$h\in\gamma_2$ より $c_k\in\gamma_{2+k}$、特に $c_4\in\gamma_6=1$。**鍵となる可換性**: $[c_1,c_2]\in[\gamma_3,\gamma_4]\subseteq\gamma_7=1$、$[c_2,c_3]\in[\gamma_4,\gamma_5]=1$、$[c_1,c_3]=1$。すなわち $c_1,c_2,c_3$ は**互いに可換**($c_0$ とは可換でなくてよい)。
+
+$m$ についての帰納法。$h^{y^m}=c_0c_1^{a}c_2^{b}c_3^{c}$($a=\binom m1,b=\binom m2,c=\binom m3$)を仮定し、両辺を $y$ で共役する。$c_k^y=c_k[c_k,y]=c_kc_{k+1}$ なので
+$$ (c_0c_1^ac_2^bc_3^c)^y=(c_0c_1)(c_1c_2)^a(c_2c_3)^bc_3^c = c_0\,c_1^{a+1}c_2^{a+b}c_3^{b+c} $$
+($(c_1c_2)^a=c_1^ac_2^a$、$(c_2c_3)^b=c_2^bc_3^b$ は上の可換性から。並べ替えは一切生じない)。Pascal $\binom{m+1}k=\binom mk+\binom m{k-1}$ より右辺は $m+1$ の場合の主張。$m=0$ は自明。負の $m$ については、両辺とも $f(m+1)=f(m)^y$ という同じ漸化式を満たし $f(0)=h$ で一致し、Pascal は全ての $m\in\mathbb Z$ で成立するので、$\mathbb Z$ 全体で一致する。∎
+
+**検算**: `hall5.mjs` §19($m\in\{0,1,2,3,5,8,13,-4\}$ × ランダム $h$ 20 例、および $x$ 版)。
 
 ### 4.2 導出例(2 本を手計算・残りは同一手順)
 
