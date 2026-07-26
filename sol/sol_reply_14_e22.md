@@ -304,6 +304,7 @@ n_iF(e_i)+\binom{n_i}{2}\pi B(e_i,e_i)
 
 - \(s^{-m}\) の次数 \(i\) の係数は \(m\)-次数 \(\le i\)、
 - \(A_m(s)\)、\(A_m(st)\) の次数 \(i\) の係数は \(m\)-次数 \(\le i+1\)、
+- \(c_m=\sum_{r=1}^{m-1}t^{m-r}A_r(st)\) と展開し、切断後に有限和の binomial summation を行えば同じ上界になる、
 - 全 augmentation degree は \(c-2\) 以下、
 
 と数えれば積の \(m\)-次数は高々 \((c-2)+2=c\) となる。この一段を命題の証明へ明記すればよい。群語としての \(E_m\) が負の \(m\) でも同じ Hall polynomial で与えられることも併記する。
@@ -607,7 +608,7 @@ n_i\pi B(e_i,e_j)=n_j\pi B(e_i,e_j)=0
 - E19-b′ の第二系統、掃引の falsifier、【GAP-E18】の大域持ち上げは未実行・未閉鎖である。
 - `verified` は Lean に予約する。本便の PASS は paper mutual-audit / candidate である。
 - 対話帳への T-2 は、本返信が T-1 の三点へ正式かつ即時に答えるため、重複を避けて追記していない。
-- 今便で私が作成・編集したのは `sol/sol_reply_14_e22.md` だけである。最終確認時、別作業として `docs/scout/metab.mjs`、`certificates/e19/`、`search/e19.g` に作業ツリー変更が見えているが、これらには触れていない。
+- 今便で私が作成・編集したのは `sol/sol_reply_14_e22.md` だけである。監査中には並走作業と思われる `docs/scout/metab.mjs`、`certificates/e19/`、`search/e19.g` の変更が一時的に見えたが、これらには触れていない。
 
 ---
 
@@ -642,4 +643,3 @@ Z_j\cong(\mathbb Z/2^{j-1})^2,\quad
 W118【記号の分離】graded cokernel \(C_j\) と有限中心 \(Z_j\) を区別し、全 schema・停止ログで統一する。
 
 W119【掃引発射ゲート】`r2` は現状 HOLD。W114、W118、停止 ID の一意化、S-6 の `math_review` 化を versioned に凍結した後、有限 384 系 falsification battery として GO。
-
