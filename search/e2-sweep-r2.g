@@ -960,8 +960,92 @@ Print("  (6.1)/(6.2)). IMPLEMENTED and self-checked (piB symmetry, (6.1) expansi
 Print("  coefficient vectors, (6.2) postcondition) across 12 sample (j,m) pairs -- all PASS,\n");
 Print("  resolving the earlier direct-substitution/piB inconsistency. Full exhaustion + mass\n");
 Print("  check + witness/obstruction certificates run on the 8-pair spot sample (NOT the 384).\n");
-Print("FULL 384-SYSTEM SWEEP: NOT EXECUTED (only 8 spot pairs for linear stage + 8 for quadratic\n");
-Print("  stage above; j=1..6 x m=0..63 in full has not been run, per explicit instruction --\n");
-Print("  sol2 agreement signal still pending).\n");
+Print("FULL 384-SYSTEM SWEEP: see below -- launch authorized 2026-07-26 (sol2 agreement: 608\n");
+Print("  PASS/0 FAIL, docs/notes/一致確認_E2作用表.md).\n");
+
+# ================================================================================
+# FULL 384-SYSTEM SWEEP (launch authorized 2026-07-26: "608 PASS / 0 FAIL, 規約差ゼロ" per
+# crosscheck/agree-tables.mjs + docs/notes/一致確認_E2作用表.md). j=1..6, m=0..63 = 384 systems
+# (j=1 is the commutative control per v3 sec.1.2, C_1=0). Per (j,m): linear stage (SNF,
+# solvability, K generators+recheck) then, if solvable, quadratic stage (F/piB exhaustion,
+# mass check, -omega0 in F(K)?). One dual certificate per system written to
+# certificates/e2sweep/sweep_j{j}_m{m}.json. enumeration_cap_per_pair = 2^24 (v3 F18 S-1):
+# if |K| exceeds this, status=cap_exceeded (UNKNOWN), not solvable/unsolvable.
+# ================================================================================
+ENUMERATION_CAP := 2^24;;
+
+RunFullSystem := function(m, j, snfData)
+  local certPath, res, f0, modC, exh, status, distinctFVals, cert;
+  certPath := Concatenation("certificates/e2sweep/sweep_j", String(j), "_m", String(m), ".json");;
+  res := TestAtJ(snfData, j);;
+  if not res.solvable then
+    WriteUnsolvableCert(certPath, snfData, j, res.failRow);;
+    return rec(status:="linear_unsolvable", j:=j, m:=m, path:=certPath);
+  fi;
+  if Product(res.kgens, g -> g.order) > ENUMERATION_CAP then
+    cert := Concatenation("{\"claim\":\"cap_exceeded\",\"status\":\"UNKNOWN\",\"m\":", String(m),
+      ",\"j\":", String(j), ",\"K_order_total\":", String(Product(res.kgens, g->g.order)),
+      ",\"enumeration_cap\":", String(ENUMERATION_CAP), "}");;
+    WriteFileRaw(certPath, cert);;
+    return rec(status:="cap_exceeded", j:=j, m:=m, path:=certPath);
+  fi;
+  f0 := ExtractF0(snfData, j);;
+  modC := 2^(j-1);;
+  exh := ExhaustK(res.kgens, f0, m, modC);;
+  distinctFVals := Length(RecNames(exh.mult));;
+  if exh.found then
+    WritePositiveCert(certPath, snfData, j, m, res.kgens, exh);;
+    return rec(status:="quad_positive", j:=j, m:=m, path:=certPath, kOrder:=exh.parameterDomainSize,
+               distinctFVals:=distinctFVals, massCheckOk:=(Sum(List(RecNames(exh.mult),k->exh.mult.(k)))=exh.parameterDomainSize));;
+  else
+    WriteObstructionCert(certPath, snfData, j, m, res.kgens, exh);;
+    return rec(status:="quad_obstruction", j:=j, m:=m, path:=certPath, kOrder:=exh.parameterDomainSize,
+               distinctFVals:=distinctFVals, massCheckOk:=(Sum(List(RecNames(exh.mult),k->exh.mult.(k)))=exh.parameterDomainSize));;
+  fi;
+end;;
+
+Print("\n=== FULL 384-SYSTEM SWEEP (j=1..6, m=0..63) ===\n");
+sweepStart := Runtime();;
+sweepResults := [];;
+for fm in [0..63] do
+  fSnf := BuildSnfData(fm);;
+  for fj in [1..6] do
+    Add(sweepResults, RunFullSystem(fm, fj, fSnf));;
+  od;
+od;
+sweepElapsedMs := Runtime() - sweepStart;;
+
+# ---- tally ----
+cntLinUnsolv := Length(Filtered(sweepResults, r -> r.status = "linear_unsolvable"));;
+cntCapExceeded := Length(Filtered(sweepResults, r -> r.status = "cap_exceeded"));;
+cntPositive := Length(Filtered(sweepResults, r -> r.status = "quad_positive"));;
+cntObstruction := Length(Filtered(sweepResults, r -> r.status = "quad_obstruction"));;
+massCheckAllOk := ForAll(Filtered(sweepResults, r -> IsBound(r.massCheckOk)), r -> r.massCheckOk);;
+fConstantAll := ForAll(Filtered(sweepResults, r -> IsBound(r.distinctFVals)), r -> r.distinctFVals = 1);;
+fNonConstantCount := Length(Filtered(sweepResults, r -> IsBound(r.distinctFVals) and r.distinctFVals <> 1));;
+
+Print("Total systems: ", Length(sweepResults), " (expect 384)\n");
+Print("  linear_unsolvable: ", cntLinUnsolv, "\n");
+Print("  cap_exceeded (UNKNOWN): ", cntCapExceeded, "\n");
+Print("  quad_positive (POSITIVE/solvable): ", cntPositive, "\n");
+Print("  quad_obstruction (unsolvable at quadratic stage): ", cntObstruction, "\n");
+Print("mass_check all PASS (among quadratic-stage systems): ", JB(massCheckAllOk), "\n");
+Print("\"F identically constant on K\" (distinct-F-values=1) holds for ALL quadratic-stage systems: ", JB(fConstantAll), "\n");
+Print("  systems where F is NOT constant on K: ", fNonConstantCount, "\n");
+Print("sweep elapsed ms: ", sweepElapsedMs, "\n");
+
+# ---- per-(j,m) POSITIVE/OBSTRUCTION table ----
+Print("\n=== per-(j,m) verdict table (rows=m 0..63, cols=j 1..6; P=positive,O=obstruction,U=linear-unsolvable,C=cap) ===\n");
+for fm in [0..63] do
+  rowStr := "";;
+  for fj in [1..6] do
+    rr := First(sweepResults, r -> r.m = fm and r.j = fj);;
+    if rr.status = "quad_positive" then rowStr := Concatenation(rowStr, "P");
+    elif rr.status = "quad_obstruction" then rowStr := Concatenation(rowStr, "O");
+    elif rr.status = "linear_unsolvable" then rowStr := Concatenation(rowStr, "U");
+    else rowStr := Concatenation(rowStr, "C"); fi;
+  od;
+  Print("  m=", String(fm), ": ", rowStr, "\n");
+od;
 
 fi; # ncOk

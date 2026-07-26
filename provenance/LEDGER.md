@@ -324,3 +324,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 「qrv=1」の語順規約は両読み(MAIN: v*r*q=1・NAIVE: q*r*v=1)を並記 — **両規約とも \|𝒟(v)\|=5・well-defined・全単射・⟨v⟩共役で閉じる・⟨v⟩-同変、すべて PASS**。node 側期待値(𝒟(v)=5・全単射/同変=true)と**全一致**。
 - 実装中に第二の GAP 罠を検出・修正: ⟨v⟩-同変性検査で「q を v で共役」を素朴に `q^(v^(-1))` と書くと誤り(GAP の `^` は `i^(g*h)=(i^g)^h` の右作用規約で自己完結しており、標準数学の v(i)=i^v と組み合わせて「v q v⁻¹」を再現する正しい GAP 式は `q^v`)。具体例 q=(1,2)(3,4), v=(1,2,3,4,5) で実測確認(`search/debug-equiv-test.g`・削除済み、手順は `docs/notes/検算_a5_dessin_gap.md` に記録)。2026-07-26 WO2 A2「paper "AB" ↔ GAP "B*A" の反転」と同種の罠。
 - 証明書 `certificates/a5/gap_dessin_crosscheck.json` の `task_a.item5_corrected` に MAIN/NAIVE 両規約の全数値を記録。`docs/notes/検算_a5_dessin_gap.md` に訂正セクションを追記。
+
+## 2026-07-26 — E2 掃引①r2 項目3・384 系本走査(発射許可後・implementer 実行)
+
+- sol2 一致確認(608 PASS/0 FAIL・規約差ゼロ、`docs/notes/一致確認_E2作用表.md`)を受けた発射許可により、`search/e2-sweep-r2.g` で j=1..6 × m=0..63 の全 384 系を線型段+二次段(F/πB exhaustion・mass check・双対証明書)まで完全実行(elapsed 11094ms・cap 600秒内)。結果: **384/384 POSITIVE(線型段不可解 0・二次段障害 0・cap_exceeded 0)・mass_check 全系 PASS・「F が K 上で恒等的に定数」の現象が全 384 系で観測**(解釈は保留・事実のみ記帳)。証明書 `certificates/e2sweep/sweep_j{1..6}_m{0..63}.json`(384 件、`solution_witness` 型)を `crosscheck/check-e2-action.mjs` が全件独立再検算(GAP コード不読・凍結スペックのみ入力)し **409/409 PASS・0 FAIL・0 SKIP**。証明書一式(401 件、demo/smoke 含む)の連結 SHA-256 = `cdbed977f91be34ec771c0377167ad23f38987c5244cac5b2ab95eb7d888e1a7`、384 本番のみの連結 SHA-256 = `f67aefde75718de1ffb63bc6be0adfeffdb3e7f7f3627f55b37c3359436293e6`。
