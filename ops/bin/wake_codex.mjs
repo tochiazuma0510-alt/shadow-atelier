@@ -45,6 +45,12 @@ if (role !== 'sol2') {
       console.log('SKIP-WAKE: codex.exe running and log active - message stays in inbox_codex');
       process.exit(2);
     }
+    const SOL2_LOG = `${REPO}/ops/codex_activity_sol2.log`;
+    const sol2SilentMin = fs.existsSync(SOL2_LOG) ? (Date.now() - fs.statSync(SOL2_LOG).mtimeMs) / 60000 : Infinity;
+    if (sol2SilentMin < 45) {
+      console.log('SKIP-WAKE: sol2 lane active - refusing zombie-kill (would kill the parallel lane). Message stays in inbox_codex');
+      process.exit(2);
+    }
     console.log(`ZOMBIE-DETECTED: codex.exe present but log silent ${Math.round(silentMin)}min - killing and proceeding`);
     try { execSync('taskkill /IM codex.exe /F', { stdio: 'pipe' }); } catch { /* already gone */ }
   }
