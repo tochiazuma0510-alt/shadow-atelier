@@ -18,6 +18,10 @@ K3/Conjugator.lean — 表 C §4.5、F29(裁定 28 で保留解除)。
 pin する(`Marking.lean` と同型の流儀、0-indexed = 1-indexed の値から 1 を引いたもの)。
 
 plain Lean 4 core のみ(Mathlib 不使用)。
+
+**射程限定**(監査 §7.5・検収基準 §8-4): $h$ は node 単系統(`gap18a.json` に conjugator 非格納)
+ゆえ本 Lean 実装が事実上の第二系統である — 独立な第三系統ではない。$\sigma_0,\sigma_1,\sigma_\infty$
+が LMFDB の実データそのものであることの裏取りはここでは行っていない(✗S・W3-5 の S10 の範囲外)。
 -/
 
 /-- x̄(good[0] の剰余類表現、0-indexed)。1-indexed [2,5,4,6,3,1] より。 -/
@@ -109,6 +113,54 @@ theorem F29_unique : allPerms6.filter matchesCandidate = [hList] := by decide +k
 /-- hList は実際に hperm と同じ関数を表す(toFun の整合性確認)。 -/
 theorem F29_hList_eq_hperm : ∀ i : Fin 6, toFun hList i = hperm i := by decide
 
+/-! ### 監査 §7.3(F29-c)の修理: allPerms6 の悉皆性(α)+ 各元の全単射性(β) -/
+
+/-- **allPerms6_complete**((α)): 相異なる 6 元の任意の並び([a,b,c,d,e,f].Nodup)は
+    `allPerms6` に含まれる — `permsOf base6` が本当に S₆ を尽くしていること(「長さ 720」という
+    弱い証人ではなく、生成漏れ・重複を直接排除する)。`decide +kernel`(6⁶=46656 通り)。 -/
+theorem allPerms6_complete : ∀ a b c d e f : Fin 6,
+    [a, b, c, d, e, f].Nodup → [a, b, c, d, e, f] ∈ allPerms6 := by decide +kernel
+
+/-- **allPerms6_are_perms**((β)): `allPerms6` の各元は長さ 6 かつ Nodup(= 全単射)。
+    これがあって初めて `matchesCandidate` の $g^{-1}$ 非経由の書換え形(`g x̄ = σ₀ g`)が
+    真の共役 $g\bar xg^{-1}=\sigma_0$ と同値になる。`decide +kernel`(720 元、瞬時)。 -/
+theorem allPerms6_are_perms :
+    allPerms6.all (fun p => decide (p.length = 6 ∧ p.Nodup)) = true := by decide +kernel
+
+/-! ### 監査 §7.4(F29-d)のアンカー A-8・A-9 -/
+
+/-- **A-8**: σ 側の marking(σ₀σ₁σ_∞ = id、規約 (iii) の左作用合成で)。 -/
+theorem sigma_marking : ∀ i : Fin 6, sigma0 (sigma1 (sigmaInf i)) = i := by decide
+
+/-- **A-9(x̄ の位数 6)**。 -/
+theorem xbar_order6 :
+    xbar 0 ≠ 0 ∧ (xbar ∘ xbar) 0 ≠ 0 ∧ (xbar ∘ xbar ∘ xbar) 0 ≠ 0 ∧
+    (xbar ∘ xbar ∘ xbar ∘ xbar ∘ xbar ∘ xbar) 0 = 0 := by decide
+
+/-- **A-9(z̄ の位数 6)**。 -/
+theorem zbar_order6 :
+    zbar 0 ≠ 0 ∧ (zbar ∘ zbar) 0 ≠ 0 ∧ (zbar ∘ zbar ∘ zbar) 0 ≠ 0 ∧
+    (zbar ∘ zbar ∘ zbar ∘ zbar ∘ zbar ∘ zbar) 0 = 0 := by decide
+
+/-- **A-9(σ₀ の位数 6)**。 -/
+theorem sigma0_order6 :
+    sigma0 0 ≠ 0 ∧ (sigma0 ∘ sigma0) 0 ≠ 0 ∧ (sigma0 ∘ sigma0 ∘ sigma0) 0 ≠ 0 ∧
+    (sigma0 ∘ sigma0 ∘ sigma0 ∘ sigma0 ∘ sigma0 ∘ sigma0) 0 = 0 := by decide
+
+/-- **A-9(σ_∞ の位数 6)**。 -/
+theorem sigmaInf_order6 :
+    sigmaInf 0 ≠ 0 ∧ (sigmaInf ∘ sigmaInf) 0 ≠ 0 ∧ (sigmaInf ∘ sigmaInf ∘ sigmaInf) 0 ≠ 0 ∧
+    (sigmaInf ∘ sigmaInf ∘ sigmaInf ∘ sigmaInf ∘ sigmaInf ∘ sigmaInf) 0 = 0 := by decide
+
+/-- **A-9(ȳ の巡回型 2²1²)**: 不動点 {0,5}・互換 {1,2},{3,4}。 -/
+theorem ybar_cycle_type :
+    ybar 0 = 0 ∧ ybar 5 = 5 ∧ (ybar 1 = 2 ∧ ybar 2 = 1) ∧ (ybar 3 = 4 ∧ ybar 4 = 3) := by decide
+
+/-- **A-9(σ₁ の巡回型 2²1²)**: 不動点 {0,1}・互換 {2,4},{3,5}。 -/
+theorem sigma1_cycle_type :
+    sigma1 0 = 0 ∧ sigma1 1 = 1 ∧ (sigma1 2 = 4 ∧ sigma1 4 = 2) ∧
+    (sigma1 3 = 5 ∧ sigma1 5 = 3) := by decide
+
 #print axioms hinv_left
 #print axioms hinv_right
 #print axioms F29_conj_x
@@ -118,3 +170,12 @@ theorem F29_hList_eq_hperm : ∀ i : Fin 6, toFun hList i = hperm i := by decide
 #print axioms allPerms6_card
 #print axioms F29_unique
 #print axioms F29_hList_eq_hperm
+#print axioms allPerms6_complete
+#print axioms allPerms6_are_perms
+#print axioms sigma_marking
+#print axioms xbar_order6
+#print axioms zbar_order6
+#print axioms sigma0_order6
+#print axioms sigmaInf_order6
+#print axioms ybar_cycle_type
+#print axioms sigma1_cycle_type
