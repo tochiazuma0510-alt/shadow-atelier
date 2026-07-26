@@ -25,3 +25,9 @@
 - Szamuely 2009: 本文は CUP 壁。§4.7「The Outer Galois Action」= pp.130–135 と目次で確定(Cor 4.7.3/Ex 4.7.4 の節内頁は UNVERIFIED)。目次+errata のみ取得。
 - Herfort–Ribes 1985(補題 D の裏取り候補): 書誌実在確認済み・本文未入手(EUDML 403/GDZ 入口止まり)・命題番号 UNKNOWN。GDZ 巻ブラウズで再挑戦中。
 - 詳細: docs/scout/scout_20260726_framework3.md。
+
+## 追記 3(H–R 再挑戦・同日)
+
+- 本文依然未達(GDZ 巻レベル不達・De Gruyter 壁)。R–Z は Thm 9.1.12 まで絞込むも**別言明**(自由積の有限部分群・中心自明)。
+- **地雷候補**: arXiv:1711.01500 p.5 地の文「centralizer … in a free profinite group is **meta-procyclic**」— 補題 D の C(x) = ⟨x⟩^cl(procyclic)と字面が衝突。言い換え/別主張/文脈違いの裁定を Opus へ回付(選択肢: 無害裁定・補題 D の中心化群非依存化・自前証明)。Sol 便 18 の監査結果と突合して裁定 16 へ。
+- 新規取得 3 本: 0712.4244・1001.3599・1711.01500(papers/delivered/)。

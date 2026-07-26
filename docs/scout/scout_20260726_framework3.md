@@ -67,3 +67,75 @@
 - 目標1(Deligne)は**完全達成**: 実PDF入手・§15の頁範囲確定。
 - 目標2(Szamuely)は**部分達成**: 本自体は入手不可(商業書籍)だが、正しい節(§4.7 pp.130–135)であることを目次で確認・目次と正誤表は取得。
 - 目標3(中心化群)は**書誌確認止まり**: Herfort–Ribes 1985 pp.155–161 の実在は複数独立に確認したが、本文入手・命題番号特定は今回不能(UNKNOWN として報告)。Ribes–Zalesskii 教科書側の命題番号も特定できず。
+
+---
+
+## 目標 3 再挑戦(2026-07-26・司令塔再発注)
+
+### 冒頭表(再挑戦分)
+
+| 経路 | 結果 | 詳細 |
+|---|---|---|
+| ① GDZ 巻レベルブラウズ | **不達**(前任と同じ壁) | `gdz.sub.uni-goettingen.de/id/PPN243919689_0358` へ到達したが、返るのはヘッダー/フッターのみの JS 殻(目次・PDF リンクとも取得不可)。URL 構造自体は存在確認(PPN243919689 = 誌の親 ID)したが本文への経路は開けず。 |
+| ② De Gruyter DOI 10.1515/crll.1985.358.155 | **未再訪**(前任確認済みの壁を追認するに留め、今回は時間を③④に配分) | — |
+| ③ 代替(番号特定・独立引用) | **部分成功** — ただし**本丸(centralizer procyclic の直接言明)には未到達**。関連する構造定理の番号を 2 系統で確認 | 下記詳細 |
+| ④ 教科書・ノート | Ribes–Zalesskii "Profinite Groups" (Springer, 2000/2010) の該当章 = **第9章(自由積)・§9.1** に絞り込めた(番号 9.1.12 等を2独立引用で確認) | 下記詳細 |
+
+**本文 PDF は今回も入手不可**(GDZ・De Gruyter とも壁)。**Herfort–Ribes 1985 (Crelle 358) そのものの定理番号は依然 UNKNOWN**。以下は経路③④で見つかった「近傍成果」の報告(候補・懸念つき)。
+
+### 経路③④で見つかった具体的な引用(実在確認済み・PDF取得済み)
+
+**(A) Ribes–Zalesskii "Profinite Groups" Theorem 9.1.12 ― 2独立ソースで番号確認**
+
+1本目: J.W. MacQuarrie 系列の先行論文 **W. Herfort, P.A. Zalesskii, "Virtually Free pro-p groups whose Torsion Elements have finite Centralizer"**(arXiv:0712.4244, published version: J. reine angew. Math. 相当の作業に近い pro-p 論文)の **Theorem 2.9**:
+> "Let G = ∐ⁿᵢ₌₁ Gᵢ be a free profinite (pro-p) product. Then Gᵢ ∩ Gᵢᵍ = 1 for either i≠j or g∉Gⱼ. Every finite subgroup of G is conjugate to a subgroup of a free factor."
+> — 引用元: **[[6], Theorems 9.1.12 and 9.5.1]**。文献[6] = **L. Ribes, P.A. Zalesskii, *Profinite groups*, (Springer, Berlin, 2000)** と巻末で確認(実在確認済み)。
+
+2本目(独立): **P. Zalesskii, T. Zapata, "Profinite extensions of centralizers and the profinite completion of limit groups"**(arXiv:1711.01500)p.13:
+> "...for otherwise Γ is a free product, and hence G is a free profinite product and thus a centreless group (cf. **[RZ00b, Thm. 9.1.12]** or [ZM88, Thm. 2.13])."
+> — [RZ00b] = 巻末で **L. Ribes and P. Zalesskii, *Profinite groups*, Springer-Verlag, Berlin, 2000** と確認。
+
+→ **2独立ソースが同じ番号(Thm. 9.1.12)を同じ書(RZ00b)に帰属させている**(番号特定は成立)。ただし言明内容は「自由副有限積の有限部分群は自由因子の共役」「自由副有限積は中心が自明」であって、**「非自明元の中心化群が手続き巡回」そのものではない**(隣接する性質・同じ第9章の可能性が高いが、9.1.12 自体がそれとイコールではない)。
+
+**(B) 同論文(1711.01500)本文中の直接言及(番号なし・地の文)**
+
+Introduction §3 (p.5):
+> "In the discrete case, the centralizer of each non-trivial element in a free group is infinite-cyclic and... In the profinite case, **the centralizer of each non-trivial element that generates Ẑ in a free profinite group is meta-procyclic**, and, after performing an extension of centralizer, the centralizer becomes either meta-abelian, or (non-trivial procyclic)-by-(infinite dihedral pro-π), or contains a non-abelian free pro-p subgroup. See Lemma 4.2 and Theorem 4.3, and Proposition 4.7."
+
+→ **懸念(重要)**: この文は「procyclic」ではなく **"meta-procyclic"**(procyclic を法とする拡大、つまり procyclic-by-procyclic 型)と書いている。しかも対象は「Ẑ を生成する非自明元」に限定した言い方に読める。当工房が求める言明(「非自明元の中心化群 = procyclic」)と**完全には一致しない可能性がある**(meta-procyclic ⊋ procyclic)。この論文はこの事実の**一次出典を明示引用していない**(地の文で述べるのみ・直前の文献リストにも Herfort–Ribes 1985 は現れず)。**深読み時に要検証**: (i) 「procyclic」と「meta-procyclic」の食い違いが記法の緩さか、実際に異なる主張かの切り分け、(ii) 対象元の限定(「Ẑ を生成する」)が実質的にすべての非自明元を指すのか特殊な部分集合かの確認。
+
+**(C) 近接するが別論文と判明したもの(誤同定回避のため報告)**
+
+- **W. Herfort, L. Ribes, "Solvable subgroups of free products of profinite groups"**, Group theory (Singapore, 1987), 391–403, de Gruyter, Berlin, **1989**(1985年 Crelle 論文とは**別の論文**・同著者ペア)。R. Guralnick, D. Haran, "Frobenius subgroups of free profinite products"(arXiv:1001.3599)がこの **Theorem 3.2** を引用:
+  > "Herfort and Ribes show in [8, Theorem 3.2] that a closed solvable subgroup of the free product of a family of profinite groups {Aₓ} must be one of the following: (1) a conjugate of a subgroup of one of the free factors; (2) isomorphic to Ẑ_σ ⋊ Ẑ_σ'...; (3) free pro-C product of two copies of the group of order 2...; (4) a profinite Frobenius group of the form Ẑ_σ ⋊ C..."
+  - 実在確認: 巻末文献[8]で書誌一致(Group theory (Singapore, 1987))。**これは目標のCrelle 1985論文ではない**(同著者・隣接主題の**別論文**)ため、目標3の直接的な代替出典としては不採用。ただし機構的には極めて近い(可解部分群の分類が中心化群procyclicの一般化になっている可能性)ため、深読み時の参考として記録。
+- **W. Herfort, L. Ribes, "Frobenius subgroups of free products of prosolvable groups"**, Monatsh. Math. 108 (1989), 165–182。同じく1985年論文とは別物(参考記録のみ)。
+
+### 取得物(今回追加分・papers/delivered/)
+
+- `herfort_zalesskii_0712.4244_virtually_free_prop_finite_centralizer.pdf`
+  - SHA-256: `187cf9313bf9a397b2ff7250951d28d84685492e933531cef76c907d666d821d`
+  - Theorem 2.9(RZ00b Thm 9.1.12/9.5.1 引用元)を含む。
+- `guralnick_haran_1001.3599_frobenius_subgroups_free_profinite_products.pdf`
+  - SHA-256: `5c75c7ea7f88a8afa873c7ecb7403ec1349b652c745cb43297960e12539e8ccf`
+  - Herfort–Ribes 1989(別論文)Theorem 3.2 の引用を含む。
+- `zalesskii_zapata_1711.01500_profinite_extensions_centralizers.pdf`
+  - SHA-256: `6f42e953267170b7c48629d2d8bee4427add24f437faf49b6629b9dc424cb21b`
+  - "meta-procyclic" 地の文言明・RZ00b Thm 9.1.12 引用を含む。
+
+### 結論(目標3再挑戦)
+
+- **本文未達は変わらず**(GDZ・De Gruyter とも壁 ― 経路①②は前任と同じ結果)。
+- **前進**: Ribes–Zalesskii 教科書の該当箇所を「第9章・§9.1 周辺(Thm 9.1.12 が2独立引用で確定)」まで絞り込めた。これは「番号特定(二次)」の**部分達成**であり、**完全達成ではない**(9.1.12 自体の言明は「自由積の有限部分群共役性・中心が自明」であって「中心化群 procyclic」ではないため)。
+- **新規の懸念**: 独立に見つかった地の文言明が "procyclic" ではなく "meta-procyclic" と書いており、当工房の求める言明と字面が食い違う。これが同じ事実の言い換えか、実際に異なる主張かは**司令塔・数学者による深読みが必要**(UNKNOWN として明示)。
+- **次の一手の候補**(未実施・提案のみ): (a) Ribes–Zalesskii 本の第9章目次(節タイトル一覧)だけでも取得できれば、9.1.12 近傍の節タイトルから「centralizer」の節番号が絞れる可能性。(b) Herfort–Ribes 1989 論文("Solvable subgroups...")の本文が入手できれば、Theorem 3.2 から中心化群 procyclic 性が系として導けるかを機構的に確認できる(この論文も本文未取得)。
+
+### 空振り・追加クエリ(再挑戦分)
+
+- `gdz.sub.uni-goettingen.de "Journal für die reine und angewandte Mathematik" Band 358 PPN` → 親PPN(243919689)は特定できたが巻レベル到達せず(空振り)。
+- `Herfort Ribes 1985 crelle 358 pdf sci-hub OR semanticscholar OR zbmath` → De Gruyter 公式ページ(壁)以外ヒットなし。
+- `zbmath.org` の当該レビューページへの直接アクセス → HTTP 403(空振り)。
+- `"Theorem 9.1.19" OR "Proposition 9.1.19" Ribes Zalesskii centralizer procyclic free profinite group` → 該当なし(空振り、ただし検索エンジンの要約が「centralizer of each non-trivial element that generates Ẑ in a free profinite group is meta-procyclic」という言い回し自体を提示 — 上記(B)と符合)。
+- arXiv 1910.04838(Shumyatsky–Zalesskii, centralizers virtually procyclic)を全文確認 → Herfort–Ribes 1985 への直接引用なし(その論文が引く「procyclic centralizer of infinite-order element」は双曲群論(Alonso et al., 参考文献[1])からの一般論であり、自由副有限群固有の話ではなかった ― 誤誘導注意)。
+- arXiv 1305.4887(Weigel–Zalesskii, Virtually free pro-p products)を全文確認 → Herfort–Ribes 1985 への引用なし(空振り)。
+- arXiv 1807.02429(Shumyatsky–Zalesskii–Zapata, centralizers abelian)→ WebFetch 要約では検出できず(バイナリ深読み未実施・時間の都合で見送り、深読み時に再訪の価値あり)。
