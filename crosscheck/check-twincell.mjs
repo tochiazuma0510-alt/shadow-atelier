@@ -44,12 +44,19 @@ function matMulL(m, n, L) {
 }
 function matNegL(m, L) { return m.map((x) => mod(-x, L)); }
 function matKeyInt(m, L) { return ((m[0] * L + m[1]) * L + m[2]) * L + m[3]; }
-function matCanonL(m, L) { const neg = matNegL(m, L); return matKeyInt(m, L) <= matKeyInt(neg, L) ? m : neg; }
+// 罠(発見・修理 2026-07-26 事後デルタ対応中, GAP 側 search/twincell-enum.g と同じ修理):
+// 正準化は「まず全エントリを mod L 還元してから」比較しないと、生の(未還元の)整数リテラル
+// (例: -2)と、他所で既に還元済みの同じ抽象元(例: L-2)とで異なる代表元が選ばれてしまう
+// (整数キーは還元前後で値が違うため)。kernel_certificate.generator_images を証明書の文字列
+// から parse した値と、この照合器が独自に構築した X/Y とを比較する際、両者が同じ正準化規約を
+// 使っていないと偽の不一致が出る -- 入力を必ず mod L 還元してから比較することで解消する
+// (入力が既に還元済みでも冪等なので無害)。
+function matCanonL(m, L) { const mr = m.map((x) => mod(x, L)); const neg = matNegL(mr, L); return matKeyInt(mr, L) <= matKeyInt(neg, L) ? mr : neg; }
 
 function makeMatGroup(L) {
   const id = matCanonL([1, 0, 0, 1], L);
   const X = matCanonL([1, 2, 0, 1], L);
-  const Y = matCanonL([1, 0, mod(-2, L), 1], L);
+  const Y = matCanonL([1, 0, -2, 1], L);
   const mul = (g, h) => matCanonL(matMulL(g, h, L), L);
   const key = (g) => String(matKeyInt(g, L));
   const eq = (g, h) => key(g) === key(h);
@@ -66,6 +73,28 @@ function makeMatGroup(L) {
 function matStrToArr(s) {
   const nums = s.match(/-?\d+/g).map(Number);
   return nums; // [a,b,c,d]
+}
+
+// ================= kernel_certificate.generator_images parsers (司令塔続報「事後デルタ」要求1
+// への対応: 数値の重複+文章だけの kernel_certificate をやめ、N を定義する psi: F2->>Q の
+// 生成元像そのものを machine-parseable な文字列で持たせ、この照合器が独自に構築した (G,X,Y) と
+// 突き合わせて独立に再検証する。フォーマットは窓の構成方式(matrix / D_n^3-triple / A5-perm)
+// ごとに異なるので、window_id で分岐してパースする。) =================
+function parseGeneratorImageMatrix(str, L) { return matCanonL(matStrToArr(str), L); }
+function parseGeneratorImageDnTriple(str, n) {
+  const arr = JSON.parse(str); // "[[a1,e1],[a2,e2],[a3,e3]]" -- valid JSON already
+  return arr.map(([a, e]) => ({ a: mod(a, n), e: mod(e, 2) }));
+}
+function parseGapPermString(s, n) {
+  const perm = Array.from({ length: n }, (_, i) => i);
+  if (s === '()') return perm;
+  const re = /\(([^)]+)\)/g;
+  let match;
+  while ((match = re.exec(s))) {
+    const cyc = match[1].split(',').map((x) => parseInt(x.trim(), 10) - 1);
+    for (let i = 0; i < cyc.length; i++) perm[cyc[i]] = cyc[(i + 1) % cyc.length];
+  }
+  return perm;
 }
 
 // ================= D_n and D_n^3 embedding G_n = <x,y> <= D_n^3 (own from-scratch construction,
@@ -330,11 +359,23 @@ function checkCert(cert, opts = {}) {
 
   // ---- settled/isolated (only checked when the certificate actually claims settled_detail --
   // calibration windows C8/C10 don't compute this, target windows C16/K8 do per the fire
-  // instructions). settled: the induced map x->x^u, y->f^-1 y^u f is a BIJECTION of G onto itself
-  // (own re-derivation via word-transport, not reusing GAP's GroupHomomorphismByImages result) ----
+  // instructions). settled: the induced map x->x^u, y->f^-1 y^u f is a genuine AUTOMORPHISM of G
+  // (own re-derivation, not reusing GAP's GroupHomomorphismByImages result).
+  //
+  // 【要修正→強化(falsifier 監査「事後デルタ」問い1)】旧実装は BFS 全域木の代表語だけを
+  // targetX/targetY で再評価し、その像集合の濃度が |G| と一致するかだけを見ていた -- これは
+  // 「代表語ベースの関数としての単射性」でしかなく、全域木に含まれない辺(非木辺・Cayley
+  // グラフの関係式)が targetX/targetY の下でも保存されるかを一度も検査していなかった
+  // (falsifier が独立に書いた第三スクリプトが手本として示した弱点)。
+  // 強化版: 全要素 g in G と全生成元方向 gen in {x,+1},{x,-1},{y,+1},{y,-1} について
+  // F(g*gen) == F(g)*targetGen(このgen方向のtarget像)を悉皆検査する(|G|×4 回、G=256でも軽量)。
+  // これは真の群準同型としての well-definedness を保証する完全なチェックであり(F が生成元との
+  // 積演算をどの経路でも一貫して尊重することを直接確認するので、単なる代表語の単射性より強い)、
+  // かつ image-size による全単射性チェックも維持する(両方が真のとき初めて settled=true)。
   let settledObserved = null;
   if (Array.isArray(cert.settled_detail)) {
     const { wordOf, elements } = bfsWords(G, X, Y);
+    const invX = G.inv(X), invY = G.inv(Y);
     let settledCount = 0;
     const detail = [];
     for (const sd of cert.settled_detail) {
@@ -342,25 +383,86 @@ function checkCert(cert, opts = {}) {
       const f = evalWordPrepend(G, X, Y, sd.f_word);
       const targetX = G.pow(X, u);
       const targetY = G.mul(G.mul(f, G.pow(Y, u)), G.inv(f));
+      const invTX = G.inv(targetX), invTY = G.inv(targetY);
+      const gens = [['x', 1, X, targetX], ['x', -1, invX, invTX], ['y', 1, Y, targetY], ['y', -1, invY, invTY]];
+      const Fcache = new Map();
+      const Fof = (g) => {
+        const k = G.key(g);
+        if (Fcache.has(k)) return Fcache.get(k);
+        const val = evalWordPrepend(G, targetX, targetY, wordOf.get(k));
+        Fcache.set(k, val);
+        return val;
+      };
       const imageSet = new Set();
-      for (const elt of elements) {
-        const w = wordOf.get(G.key(elt));
-        imageSet.add(G.key(evalWordPrepend(G, targetX, targetY, w)));
+      for (const elt of elements) imageSet.add(G.key(Fof(elt)));
+      const bijective = imageSet.size === elements.length;
+      let relationViolations = 0;
+      for (const g of elements) {
+        const Fg = Fof(g);
+        for (const [, , gelt, targetGelt] of gens) {
+          const h = G.mul(g, gelt); // g * gen, using the ORIGINAL generators' multiplication (Cayley graph edge)
+          const Fh = Fof(h);
+          const rhs = G.mul(Fg, targetGelt); // F(g) * targetGen (what a genuine homomorphism must give)
+          if (!G.eq(Fh, rhs)) relationViolations++;
+        }
       }
-      const isSettled = imageSet.size === elements.length; // finite set, well-defined map: |image|=|domain| <=> bijective
+      const isSettled = bijective && relationViolations === 0;
       if (isSettled) settledCount++;
-      if (isSettled !== sd.settled) errors.push(`settled mismatch for m=${m}: claimed=${sd.settled} observed=${isSettled}`);
-      detail.push({ m, settled: isSettled });
+      if (isSettled !== sd.settled) errors.push(`settled mismatch for m=${m}: claimed=${sd.settled} observed=${isSettled} (bijective=${bijective}, cayley_relation_violations=${relationViolations})`);
+      detail.push({ m, settled: isSettled, bijective, relation_violations: relationViolations });
     }
     const isolatedObserved = detail.length > 0 && settledCount === detail.length;
-    settledObserved = { settled_count: settledCount, total: detail.length, isolated: isolatedObserved };
+    settledObserved = { settled_count: settledCount, total: detail.length, isolated: isolatedObserved, method: 'full Cayley-graph relation check (all |G|x4 edges), not just BFS spanning-tree representatives', detail };
     if (cert.settled_count !== settledCount) errors.push(`settled_count claimed=${cert.settled_count} observed=${settledCount}`);
     if (cert.settled_total !== detail.length) errors.push(`settled_total claimed=${cert.settled_total} observed=${detail.length}`);
     if (cert.isolated !== isolatedObserved) errors.push(`isolated claimed=${cert.isolated} observed=${isolatedObserved}`);
   }
 
+  // ---- kernel_certificate (falsifier 監査「事後デルタ」重大指摘への対応): 数値の重複+文章では
+  // なく、実際に N を定義する generator_images を独立に parse し、この照合器が独自に構築した
+  // (G,X,Y) と一致するかを直接検証する。加えて claimed generation_verified/pb3_kernel_index/
+  // b3_kernel_index も独立再計算して突き合わせる -- kernel_certificate という名のフィールドを
+  // 実際に読み検査する、初めてのロジック(旧実装では node 側は当フィールドを一切参照していなかった)。
+  let kernelCertObserved = null;
+  if (cert.kernel_certificate) {
+    const kc = cert.kernel_certificate;
+    let parsedX = null, parsedY = null, parseErr = null;
+    try {
+      if (windowId.startsWith('C8_matrix') || windowId.startsWith('C10_matrix') || windowId.startsWith('C16_matrix')) {
+        parsedX = parseGeneratorImageMatrix(kc.generator_images.x, G.L);
+        parsedY = parseGeneratorImageMatrix(kc.generator_images.y, G.L);
+      } else if (windowId === 'C8_D4cubed') {
+        parsedX = parseGeneratorImageDnTriple(kc.generator_images.x, 4);
+        parsedY = parseGeneratorImageDnTriple(kc.generator_images.y, 4);
+      } else if (windowId === 'K8_MakeGn8') {
+        parsedX = parseGeneratorImageDnTriple(kc.generator_images.x, 8);
+        parsedY = parseGeneratorImageDnTriple(kc.generator_images.y, 8);
+      } else if (windowId === 'C10_A5_permutation') {
+        parsedX = parseGapPermString(kc.generator_images.x, 5);
+        parsedY = parseGapPermString(kc.generator_images.y, 5);
+      } else {
+        parseErr = `no generator_images parser registered for window_id ${windowId}`;
+      }
+    } catch (e) { parseErr = String(e); }
+    if (parseErr) {
+      errors.push(`kernel_certificate.generator_images parse failed: ${parseErr}`);
+    } else {
+      const imagesMatchIndependentBuild = G.eq(parsedX, X) && G.eq(parsedY, Y);
+      if (!imagesMatchIndependentBuild) errors.push('kernel_certificate.generator_images do NOT match this checker\'s independently-built generators');
+      const genMapFromCert = subgroupClosure(G, [parsedX, parsedY]);
+      const generationVerifiedObserved = genMapFromCert.size === pb3Index;
+      if (!generationVerifiedObserved) errors.push(`kernel_certificate generators only generate a subgroup of size ${genMapFromCert.size}, not the full claimed pb3_index=${pb3Index}`);
+      if (kc.verification && kc.verification.generation_verified !== generationVerifiedObserved) errors.push(`kernel_certificate.verification.generation_verified claimed=${kc.verification.generation_verified} observed=${generationVerifiedObserved}`);
+      if (kc.pb3_kernel_index !== pb3Index) errors.push(`kernel_certificate.pb3_kernel_index claimed=${kc.pb3_kernel_index} observed=${pb3Index}`);
+      if (kc.b3_kernel_index !== 6 * pb3Index) errors.push(`kernel_certificate.b3_kernel_index claimed=${kc.b3_kernel_index} observed=${6 * pb3Index}`);
+      kernelCertObserved = { generator_images_match: imagesMatchIndependentBuild, generation_verified: generationVerifiedObserved, pb3_kernel_index: pb3Index, b3_kernel_index: 6 * pb3Index };
+    }
+  } else {
+    errors.push('kernel_certificate field missing');
+  }
+
   const ok = errors.length === 0;
-  return { ok, errors, observed: { pb3_index: pb3Index, b3_points: b3Points, n_ord: nOrd, charming_set: charmingSet, derived_order: derivedOrder, candidate_total: candidateTotal, hexagon_free_certificate: { candidate_total: observed.candidate_total, h10_fail: observed.h10_fail, h11_fail: observed.h11_fail, generation_fail: observed.generation_fail, shadow_total: observed.shadow_total }, settled: settledObserved }, G, X, Y, genMap, shadows: observed.shadows };
+  return { ok, errors, observed: { pb3_index: pb3Index, b3_points: b3Points, n_ord: nOrd, charming_set: charmingSet, derived_order: derivedOrder, candidate_total: candidateTotal, hexagon_free_certificate: { candidate_total: observed.candidate_total, h10_fail: observed.h10_fail, h11_fail: observed.h11_fail, generation_fail: observed.generation_fail, shadow_total: observed.shadow_total }, settled: settledObserved, kernel_certificate: kernelCertObserved }, G, X, Y, genMap, shadows: observed.shadows };
 }
 
 function orderOf(G, g) { let k = 1, p = g; while (!G.eq(p, G.id)) { p = G.mul(p, g); k++; } return k; }

@@ -50,10 +50,17 @@ MatNegL := function(m, L) return [ MatModL(-m[1],L), MatModL(-m[2],L), MatModL(-
 
 MatKeyInt := function(m, L) return ((m[1]*L + m[2])*L + m[3])*L + m[4]; end;;
 
+# 罠(発見・修理 2026-07-26 事後デルタ対応中): 正準化は「入力を先に mod L で還元してから」
+# 比較しないと、生の(未還元の)整数リテラル(例: 種生成元 Ym の -2)と、BFS 経由で既に
+# 還元済みの同じ抽象元とで**異なる代表元**が選ばれる恐れがある(-2 と 14 は mod 16 で同じ値だが、
+# 整数キー ((a*L+b)*L+c)*L+d は還元前後で異なる)。node 側の独立検算(kernel_certificate の
+# generator_images 突合)がこれに依存するため、GAP・node 双方で「まず全エントリを mod L 還元
+# してから比較する」に統一する(入力が既に還元済みでも冪等なので無害)。
 MatCanonL := function(m, L)
-  local neg;
-  neg := MatNegL(m, L);
-  if MatKeyInt(m,L) <= MatKeyInt(neg,L) then return m; else return neg; fi;
+  local mr, neg;
+  mr := List(m, x -> MatModL(x, L));;
+  neg := MatNegL(mr, L);
+  if MatKeyInt(mr,L) <= MatKeyInt(neg,L) then return mr; else return neg; fi;
 end;;
 
 # BuildMatQuotient: BFS closure of <Xbar,Ybar> under the +-1 identification, then a left-regular
@@ -111,6 +118,38 @@ end;;
 
 MatToStrL := function(m)
   return Concatenation("[[",String(m[1]),",",String(m[2]),"],[",String(m[3]),",",String(m[4]),"]]");
+end;;
+
+# DnTripleAEStr: encode a D_n^3 element (a permutation built via MakeGn's tr()) as
+# "[[a1,e1],[a2,e2],[a3,e3]]" -- the abstract (a,e) triple per factor (r^a s^e), using the SAME
+# encoding week3-battery-common.g's DnElemToAE already defines. This is n-independent as ABSTRACT
+# data (x=(r,s,s)=[[1,0],[0,1],[0,1]], y=(rs,r,rs)=[[1,1],[1,0],[1,1]] for every n) -- machine
+# parseable JSON, used as the generative "kernel_certificate.generator_images" for D_n^3 windows.
+DnTripleAEStr := function(perm, r, s, n)
+  local i, ae, parts;
+  parts := [];;
+  for i in [1..3] do
+    ae := DnElemToAE(compOfFix(perm, i, n), r, s, n);;
+    Add(parts, Concatenation("[", String(ae[1]), ",", String(ae[2]), "]"));
+  od;
+  return Concatenation("[", JoinC(parts, ","), "]");
+end;;
+
+# KernelCertJson(qrec, pb3Index, xImgStr, yImgStr): the GENERATIVE kernel_certificate
+# (falsifier 監査「事後デルタ」重大指摘への対応 -- 数値の重複+文章だけでなく、N を定義する
+# psi: F2 ->> Q の生成元像そのもの(xImgStr/yImgStr、machine-parseable)と、それが本当に
+# claimed pb3_index の群を生成する(=部分群でないことを確認する)検証データを両方含める。
+# node 側はこの xImgStr/yImgStr を自前で構築した (G,X,Y) と突き合わせて独立に再検証する。
+KernelCertJson := function(qrec, pb3Index, xImgStr, yImgStr)
+  local genVerified;
+  genVerified := (Size(Group(qrec.x, qrec.y)) = pb3Index);;
+  return Concatenation(
+    "\"kernel_certificate\":{\"kernel_scope\":\"PB3\",",
+    "\"definition\":\"N = ker(psi: F2 ->> Q), psi(x)|->generator_images.x, psi(y)|->generator_images.y (Q per the construction field)\",",
+    "\"generator_images\":{\"x\":\"", xImgStr, "\",\"y\":\"", yImgStr, "\"},",
+    "\"verification\":{\"method\":\"Size(Group(generator_images.x,generator_images.y)) equals the claimed pb3_index -- confirms the given images GENERATE the full claimed quotient (not a proper subgroup, which would mean N is strictly larger than claimed)\",",
+    "\"generation_verified\":", JB(genVerified), "},",
+    "\"pb3_kernel_index\":", String(pb3Index), ",\"b3_kernel_index\":", String(6*pb3Index), "},");
 end;;
 
 # ================================================================================
@@ -384,9 +423,8 @@ else
     Concatenation("Q_16 = <Xbar,Ybar> <= SL(2,Z/16)/{+-I}, Xbar=", MatToStrL(c16mat.xMat),
                   ", Ybar=", MatToStrL(c16mat.yMat)),
     runC16mat,
-    Concatenation("\"kernel_certificate\":{\"kernel_scope\":\"PB3\",\"pb3_kernel_index\":",
-      String(runC16mat.pb3_index), ",\"b3_kernel_index\":", String(6*runC16mat.pb3_index),
-      ",\"justification\":\"N = ker(F2 ->> Q_16), Q_16 = <Xbar,Ybar> <= SL(2,Z/16)/{+-I} (2401 (3.32))\"},",
+    Concatenation(
+      KernelCertJson(qrecC16mat, runC16mat.pb3_index, MatToStrL(c16mat.xMat), MatToStrL(c16mat.yMat)),
       "\"settled_count\":", String(c16Settled.settled_count),
       ",\"settled_total\":", String(c16Settled.total),
       ",\"settled_detail\":", SettledDetailToJson(c16Settled), ","),
@@ -413,9 +451,9 @@ else
   WriteTwincellCertFull("certificates/twincell/K8.dncubed.v1.json", "K8_MakeGn8",
     "K^(8) = Im(psi_8) <= D_8^3, x=(r,s,s), y=(rs,r,rs) (D1 (3.1)/(3.6))",
     runK8,
-    Concatenation("\"kernel_certificate\":{\"kernel_scope\":\"PB3\",\"pb3_kernel_index\":",
-      String(runK8.pb3_index), ",\"b3_kernel_index\":", String(6*runK8.pb3_index),
-      ",\"justification\":\"N = K^(8) = ker(psi_8), D1 (3.1); K^(8) = Im(psi_8) <= D_8^3 (2401 (3.32) analog)\"},",
+    Concatenation(
+      KernelCertJson(qrecK8, runK8.pb3_index,
+        DnTripleAEStr(gn8.x, gn8.r, gn8.s, 8), DnTripleAEStr(gn8.y, gn8.r, gn8.s, 8)),
       "\"settled_count\":", String(k8Settled.settled_count),
       ",\"settled_total\":", String(k8Settled.total),
       ",\"settled_detail\":", SettledDetailToJson(k8Settled), ","),
@@ -428,30 +466,32 @@ fi;
 WriteTwincellCert("certificates/twincell/C8.matrix.v1.json", "C8_matrix_mod8",
   Concatenation("Q_8 = <Xbar,Ybar> <= SL(2,Z/8)/{+-I}, Xbar=", MatToStrL(c8mat.xMat),
                 ", Ybar=", MatToStrL(c8mat.yMat)),
-  runC8mat, "");
+  runC8mat, KernelCertJson(qrecC8mat, runC8mat.pb3_index, MatToStrL(c8mat.xMat), MatToStrL(c8mat.yMat)));
 
 WriteTwincellCert("certificates/twincell/C8.d4cubed.v1.json", "C8_D4cubed",
   "K^(4) = Im(psi_4) <= D_4^3, x=(r,s,s), y=(rs,r,rs) (D1 (3.1)/(3.6))",
-  runC8d4, "");
+  runC8d4, KernelCertJson(qrecC8d4, runC8d4.pb3_index,
+    DnTripleAEStr(gn4.x, gn4.r, gn4.s, 4), DnTripleAEStr(gn4.y, gn4.r, gn4.s, 4)));
 
 WriteTwincellCert("certificates/twincell/C10.matrix.v1.json", "C10_matrix_mod10",
   Concatenation("Q_10 = <Xbar,Ybar> <= SL(2,Z/10)/{+-I}, Xbar=", MatToStrL(c10mat.xMat),
                 ", Ybar=", MatToStrL(c10mat.yMat)),
-  runC10mat, "");
+  runC10mat, KernelCertJson(qrecC10mat, runC10mat.pb3_index, MatToStrL(c10mat.xMat), MatToStrL(c10mat.yMat)));
 
 WriteTwincellCert("certificates/twincell/C10.a5permutation.v1.json", "C10_A5_permutation",
   "N_A = pi^{-1}(ker(F2 ->> A5)), marking verbatim from certificates/A1.v2.json / week3-battery-A1.g: X=(1,3,2,4,5), Y=(1,3,4,5,2)",
-  runA5, "");
+  runA5, KernelCertJson(qrecA5, runA5.pb3_index, String(A5Xhat), String(A5Yhat)));
 
 WriteTwincellCert("certificates/twincell/C8.matrix.v1.WRONG_LEVEL6_fixture.json", "C8_matrix_WRONG_LEVEL6_fixture",
   Concatenation("(NEGATIVE FIXTURE -- mistaken level L=6 in place of C8's L=8) Xbar=", MatToStrL(c8matBad.xMat),
                 ", Ybar=", MatToStrL(c8matBad.yMat)),
-  runC8matBad, "");
+  runC8matBad, KernelCertJson(qrecC8matBad, runC8matBad.pb3_index, MatToStrL(c8matBad.xMat), MatToStrL(c8matBad.yMat)));
 
 WriteTwincellCert("certificates/twincell/C8.matrix.v1.Ybar_signflip_BONUS.json", "C8_matrix_mod8_Ybar_signflip_BONUS",
   Concatenation("(参考記録・要件外 -- 負例ではない) Xbar=", MatToStrL(c8matSignFlip.xMat),
                 ", Ybar(sign flipped)=", MatToStrL(c8matSignFlip.yMat)),
-  runC8matSignFlip, "");
+  runC8matSignFlip, KernelCertJson(qrecC8matSignFlip, runC8matSignFlip.pb3_index,
+    MatToStrL(c8matSignFlip.xMat), MatToStrL(c8matSignFlip.yMat)));
 
 # calibration_3 JSON scalars (LOCKED vs RAN -- computed explicitly, not via a ternary idiom,
 # since GAP string concatenation needs plain string values here)

@@ -421,3 +421,24 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - calibration_summary.v1.json = `77ef30aa8e39f42c4ac45429e7e3cfb4d5f643571ee6b93c6a9bc06a5515c670`
   - 上記9件連結SHA-256 = `55fd53374b152db16ed7c2c5d4388ec33513c3ae69c53c81eda273f65e6d3bfc`
 - 𝒞₁₆の|GT|=8・settled 8/8・isolated=trueは観測事実として記帳するのみ — 解釈・予測との比較は行っていない(司令塔指示「観測が先」)。commit未実施。
+
+## 2026-07-26 -- レベル16双子セル列挙機 v1: 事後デルタ2件(kernel_certificate生成的化・settled強化)対応(implementer実行)
+
+- falsifier「事後デルタ監査」追記2(docs/notes/反証前哨_双子セル.md)の要求2件に対応。
+- **【重大→解消】kernel_certificate を生成的に**: 旧版は`pb3_kernel_index`/`b3_kernel_index`(既存universeフィールドの数値重複)+テキストjustificationのみで、node側は当フィールドを一切参照していなかった(grep 0件)。新版は`generator_images`(N=ker(psi:F2->>Q)を定義する psi(x),psi(y) の実際の生成元像、machine-parseable文字列 -- matrix窓は`"[[a,b],[c,d]]"`・D_n^3窓は`"[[a1,e1],[a2,e2],[a3,e3]]"`・A5窓はGAPサイクル記法)+`verification.generation_verified`(Size(Group(images))=pb3_indexで「部分群でなく完全に claimed group を生成する」ことの確認)を追加。`crosscheck/check-twincell.mjs`に対応する検査ロジック(`parseGeneratorImageMatrix`/`parseGeneratorImageDnTriple`/`parseGapPermString`)を新規実装、8窓全証明書のkernel_certificateを独立に parse・自前構築した(G,X,Y)と突合・generation_verified再計算・pb3/b3_kernel_index再計算。実測: K8証明書のgenerator_images.yを意図的に破壊したclone(`[[9,9],[9,9],[9,9]]`)を作り、`node crosscheck/check-twincell.mjs`が正しく`FAIL -- kernel_certificate.generator_images do NOT match...; kernel_certificate generators only generate a subgroup of size 64, not the full claimed pb3_index=256`を検出することを確認(検出力の実測)。
+- **副産物として発見・修理した独立バグ**: `MatCanonL`/`matCanonL`の正準化が「入力を先にmod L還元してから比較する」になっておらず、生の整数リテラル(種生成元Ybarの`-2`)と既に還元済みの同じ元(`L-2`)とで異なる整数キーが計算され、GAP側とnode側が異なる代表元を「正準形」として選びうる不整合があった(kernel_certificate突合を実装して初めて露見しうる潜在バグ)。GAP・node双方で「まずmod L還元してから比較」に統一修理。修理後、generator_images.yは`[[1,0],[14,1]]`(mod16還元済み、旧`[[1,0],[-2,1]]`から変更)のように正しく[0,L)範囲で出力される。
+- **【要修正→解消】node側settled再検証を強化**: 旧版はBFS全域木の代表語のみをtargetX/targetYで再評価し、その像集合の濃度が|G|と一致するかだけを見る「弱い」チェックだった(全域木に含まれない非木辺・Cayleyグラフの関係式は一度も検査していなかった)。新版は全要素g∈G×全4生成元方向(x,+-1 / y,+-1)についてF(g*gen)==F(g)*targetGenを悉皆検査する「完全なCayleyグラフ整合性チェック」(falsifierの第三スクリプトと同じ方法論)に格上げ。計算量|G|×4(最大256×4=1024回)で軽量。
+- **観測値への影響確認**: 𝒞₁₆=8・K^(8)=16・settled 8/8, 16/16・isolated=trueは**全て不変**(再実行で完全再現、GAP内部219-250ms・壁時計約2.9-3.0秒)。
+- **全証明書再生成+両系統再実行結果**: GAP側 較正①②③・負例fixture 全PASS。node側`crosscheck/check-twincell.mjs`: 全8証明書self-consistency PASS(kernel_certificate検査・強化settled検査を含む)、較正①②③・負例fixture・証明書改竄自己テスト全PASS。`check-twincell.mjs overall: all_pass`。
+- **証明書SHA-256(`certificates/twincell/` 全9件、kernel_certificate生成的化により全て再生成・ハッシュ変更)**:
+  - C8.matrix.v1.json = `34474df387db4fd72ffb997e5370a5e48f0855cc6ccb859fa9f9e983844ef96b`
+  - C8.d4cubed.v1.json = `1362c3eea306e49c3004356ae26dd9ac1416c1242102f9ca302c7291eaf1381e`
+  - C10.matrix.v1.json = `497087feba27cee174f6f3a3c8db9872190072dfc718d6928093958f22e661f4`
+  - C10.a5permutation.v1.json = `69ca1a313f6ebcf2f168bf77e2017d8d0a5a300202fce12885b30684996658ce`
+  - C8.matrix.v1.WRONG_LEVEL6_fixture.json = `2c4f56611610df1469c9c1532cdfc92128dc1bf70340eb04c692cb6b2e0a6632`
+  - C8.matrix.v1.Ybar_signflip_BONUS.json = `bb0a774b98915e19ed1791958a28c9004d5b5a67ac1b4e04c42d9ae566a7edae`
+  - C16.matrix.v1.json = `f1c2c3f044ff4c4933e433572150fb346343a664ab374049860c0e018bf8b91b`
+  - K8.dncubed.v1.json = `532ec2b17fb517179ccbb45e789cea9b24e3116e4eed58dde5dd107b7e791a5f`
+  - calibration_summary.v1.json = `77ef30aa8e39f42c4ac45429e7e3cfb4d5f643571ee6b93c6a9bc06a5515c670`(不変・kernel_certificate生成的化はcalibration_summaryのスキーマに影響しないため)
+  - 上記9件連結SHA-256 = `d41f8ccde32f7c848f17e4e3abbbb1e7bf9626545813a2ceb2fe34d7243f32e8`
+- commit未実施。
