@@ -309,3 +309,18 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-18 — 用語改定(ユーザー指示)
 
 - **「検証(verified)」は Lean(機械証明)に予約**。node/python の独立再計算は「**照合器(cross-checker)**」と呼び、二系統一致の状態は「**cross-checked(照合済み)**」。上のエントリの「検証器/検証 = node」の表記はこの改定で「照合器/照合 = node」と読み替える。ディレクトリ `verifier/` → `crosscheck/` に改名。台帳語彙は CLAIMS.md 冒頭が正。
+
+## 2026-07-26 — A₅ (5,5,5) dessin GAP 二系統化・implementer 実装(P2 発注)
+
+- `search/a5-dessin-crosscheck.g`(GAP 4.16.0・node 実装(`search/week4-a5-dessin-unique.mjs`)非参照・数学的定義から独自再構成)実行、200ms 未満。証明書 `certificates/a5/gap_dessin_crosscheck.json`。
+- 任務(a)結果: 全 192・A₅ 型 120・C₅ 型 72・A₅-共役軌道 2(サイズ[60,60])・S₅-共役軌道 1(サイズ[120])・\|C_{S₅}(A₅)\|=1・種数=2(全 120 A₅ 型対で一定)・\|𝒟(v)\|=5 — **node 側期待値と全一致(9/9 PASS)**。
+- **不一致 1 件(黙って合わせず報告)**: 発注文の写像 (g0,g1)↦Fix(g1)(g1 の固定点)を字義どおり実装したところ、g1 は位数 5(5-サイクル)ゆえ {1,…,5} 上で常に不動点 0 個 — Fix(g1)=∅ が 𝒟(v) の 5 対すべてで成立。ゆえに写像は {1,…,5} への写像として well-defined でなく、「全単射」判定は **FAIL**(node 側期待値 true と不一致)。⟨v⟩-同変性は両辺恒常的に∅どうしの比較で機械的には PASS するが空虚な成立(vacuous)。詳細と所見は `docs/notes/検算_a5_dessin_gap.md`。司令塔差し戻し事項として記録(FC-6 の (2,3,5) 文脈の Fix(q)(q は位数2)との混同の可能性を指摘・断定はせず)。
+- 任務(c′)結果: 4 項目全 PASS — t=1 展開一致・(x+2)(x⁴−2x³+4x²−8x+6) 分解+分離的(gcd(f,f')次数0)・mod 3 因子次数型 [1,1,1,2]・F₂₀(位数20)の cycle type 悉皆に転置型 (2,1,1,1) 不在。
+- 実装中の罠: GAP `Concatenation` は単一引数だと「リストのリストの連結」と解釈され文字列(文字のリスト)を渡すとクラッシュする(複数引数なら問題なし)— 証明書 JSON 組み立てで踏み・修正済み。
+
+## 2026-07-26 — A₅ dessin (a).5 発注ミスの訂正・再実行(司令塔裁定・implementer 追補)
+
+- 司令塔裁定: 上記の(a).5 FAIL 報告は implementer の実装ミスではなく**司令塔の発注文の転記ミス**(v2 §3.6 補題 FC-6 は (5,5,5) ではなく (2,3,5) 対の写像だった)。訂正仕様(𝒟(v):={(q,r): q∈2A(位数2・不動点1個), r∈3A(位数3), qrv=1})で `search/a5-dessin-crosscheck.g` に追補・再実行(旧コードは監査痕跡として無変更のまま残置)。
+- 「qrv=1」の語順規約は両読み(MAIN: v*r*q=1・NAIVE: q*r*v=1)を並記 — **両規約とも \|𝒟(v)\|=5・well-defined・全単射・⟨v⟩共役で閉じる・⟨v⟩-同変、すべて PASS**。node 側期待値(𝒟(v)=5・全単射/同変=true)と**全一致**。
+- 実装中に第二の GAP 罠を検出・修正: ⟨v⟩-同変性検査で「q を v で共役」を素朴に `q^(v^(-1))` と書くと誤り(GAP の `^` は `i^(g*h)=(i^g)^h` の右作用規約で自己完結しており、標準数学の v(i)=i^v と組み合わせて「v q v⁻¹」を再現する正しい GAP 式は `q^v`)。具体例 q=(1,2)(3,4), v=(1,2,3,4,5) で実測確認(`search/debug-equiv-test.g`・削除済み、手順は `docs/notes/検算_a5_dessin_gap.md` に記録)。2026-07-26 WO2 A2「paper "AB" ↔ GAP "B*A" の反転」と同種の罠。
+- 証明書 `certificates/a5/gap_dessin_crosscheck.json` の `task_a.item5_corrected` に MAIN/NAIVE 両規約の全数値を記録。`docs/notes/検算_a5_dessin_gap.md` に訂正セクションを追記。

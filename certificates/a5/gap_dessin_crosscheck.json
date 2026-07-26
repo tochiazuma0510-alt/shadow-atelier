@@ -1,0 +1,66 @@
+{
+  "schema": "a5-dessin-crosscheck/v1",
+  "gap_version": "4.16.0",
+  "input_conventions": {
+    "universe": "all (g0,g1) in S5 x S5 (120x120=14400), triple counts iff ord(g0)=ord(g1)=ord(g0*g1)=5, ginf:=(g0*g1)^-1",
+    "v": "cycle (1,2,3,4,5), GAP PermList([2,3,4,5,1])",
+    "conjugation_action": "a: (g0,g1) -> (g0^a, g1^a) with GAP convention g^a = a^-1*g*a"
+  },
+  "task_a": {
+    "total_triples": 192,
+    "a5_type_count": 120,
+    "c5_type_count": 72,
+    "anomaly_count": 0,
+    "a5_conjugation_orbit_count": 2,
+    "a5_conjugation_orbit_sizes": [ 60, 60 ],
+    "s5_conjugation_orbit_count": 1,
+    "s5_conjugation_orbit_sizes": [ 120 ],
+    "all_a5_type_subgroups_equal_A5": true,
+    "centralizer_S5_of_A5_order": 1,
+    "representative_cycle_counts": {"c0": 1, "c1": 1, "cinf": 1},
+    "genus_from_representative": 2,
+    "genus_constant_across_all_a5_pairs": true,
+    "D_v_count": 5,
+    "fix_g1_images": [ [  ], [  ], [  ], [  ], [  ] ],
+    "all_fix_g1_empty": true,
+    "map_well_defined_into_five_points": false,
+    "map_bijective_onto_five_points": false,
+    "v_equivariance_pointwise_holds": true,
+    "item5_superseded_note": "item5 above (fix_g1_images .. v_equivariance_pointwise_holds) implements the commander's ORIGINAL (a).5 wording literally (g0,g1 both order 5); this was a transcription error by the commander -- see item5_corrected below for the actual v2 sec.3.6 FC-6 spec (q order 2, r order 3). Kept unmodified as audit trail.",
+    "item5_corrected": {
+      "spec": "D(v) := {(q,r): q in 2A (order 2, exactly 1 fixed point), r in 3A (order 3), qrv=1}; word convention ambiguous, both computed",
+      "primary_convention": "main",
+      "q2A_candidate_count": 15,
+      "r3A_candidate_count": 20,
+      "main": {
+        "equation": "v*r*q = One(G)",
+        "D_v_count": 5,
+        "fix_q_images": [ [ 1 ], [ 2 ], [ 4 ], [ 3 ], [ 5 ] ],
+        "well_defined": true,
+        "bijective_onto_five_points": true,
+        "stable_under_v_conjugation": true,
+        "v_equivariant": true
+      },
+      "naive": {
+        "equation": "q*r*v = One(G)",
+        "D_v_count": 5,
+        "fix_q_images": [ [ 1 ], [ 2 ], [ 4 ], [ 3 ], [ 5 ] ],
+        "well_defined": true,
+        "bijective_onto_five_points": true,
+        "stable_under_v_conjugation": true,
+        "v_equivariant": true
+      }
+    }
+  },
+  "task_c_prime": {
+    "item1_t1_specialization_matches": true,
+    "item2a_factorization_matches": true,
+    "item2b_separable_gcd_deg": 0,
+    "item3_mod3_factor_degrees_sorted": [ 1, 1, 1, 2 ],
+    "item3_matches_2_1_1_1_type": true,
+    "F20_order": 20,
+    "F20_distinct_cycle_types": [ [ 1, 1, 1, 1, 1 ], [ 1, 2, 2 ], [ 1, 4 ], [ 5 ] ],
+    "F20_has_transposition_type": false,
+    "item4_no_transposition_type": true
+  }
+}
