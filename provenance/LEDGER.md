@@ -452,3 +452,22 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   fixture G1-G4 全PASS(GAP側・node側とも)。証明書5件 `certificates/e2c6j3/`。64系本走査は
   `search/FIRE_e2c6j3.auth` 未発行につき未実行(fire lock CLOSED確認済み)。詳細: `docs/notes/実装_j3.md`。
   commit未実施。
+
+## 2026-07-26 -- E2 class-6 j=3 ゲート: falsifier監査(反証前哨_j3.md)対応の修理一式(implementer実行)
+
+- 対応した修理: (1)【重大】RunRealSweepC6J3にk_wガード実走装備(CheckPremiseKw、違反時
+  precondition_violated_c6j3で当該m ABORT、λ非適用)+注入違反での単体動作確認(GUARD fixture)。
+  (2)便24§F8残り4項のうち3項実装: 不可解系dual witness(G1b、疑似乱数rhsで実際に不可解系を
+  発生させ検証)・2×d bit matrix+rank証明書格納(lambda_bit_matrix/lambda_rank)・m→m+32周期性
+  fixture(G8、EmBar15/EmC6/W(m)の公開構造データのみ・等号は観測記録に留め合否判定にしない)。
+  項目5(中心補正×8・直接群積M8照合)は central extension の具体的構成が未指定のため実装せず
+  保留と明記(次便で司令塔/数学者に構成指定を要請)。(3)ObFromQPair(R=4)をnonzero q_Nで実際に
+  呼ぶ恒久fixture G7を追加(ob mod2独立性を確認、raw a係数のR=4意味論は未解決のまま明記)。
+  (4)search/e2c6-common-data.gとsearch/e2c6-sweep.gの7ブロックのbyte一致を自動検査する
+  crosscheck/check-e2c6-common-data-drift.mjsを新設・ALL PASS。(5)発射錠の誤ハッシュ試験
+  (前回falsifier監査でタイムアウト)を再試行・今回はLOCKED応答を正常確認(壁時計1秒未満、
+  試験用authファイルは削除・不存在確認済み)。
+- 実装ノート`docs/notes/実装_j3.md`を「§F8を逐語実装した」という過大申告から
+  「実装済み項目の列挙形」へ全面改版(司令塔指示)。
+- 全13証明書(GAP側fixture実行+node側crosscheck/check-e2c6j3.mjs)ALL PASS。
+  FIRE_e2c6j3.authは作成していない(現在不存在)。commit未実施。

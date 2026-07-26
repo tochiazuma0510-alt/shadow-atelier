@@ -94,6 +94,15 @@ end;;
 #      directly (exact, nonlinear) at every point, tally.
 # Only run on SAFE (synthetic / m=0-shortcut / class-5-control) systems in this fixture pass.
 # ================================================================================
+RankFromSpanSize := function(n)
+  if n = 1 then return 0; elif n = 2 then return 1; else return 2; fi;
+end;;
+
+# BuildJ3MultTableShortcut now ALSO returns the explicit 2xd bit matrix (便24 F8 item 2:
+# "各 generator に (8.3) を適用した 2×d bit matrix とその rank を証明書へ入れる") -- bitMatrix
+# is stored as a list of d columns, each column = LambdaOfK(gen_i,m) = [a_i,b_i]; rank is the
+# GF(2) rank of that matrix (equivalently log2(|span|), since the ambient codomain is only
+# dimension 2 here).
 BuildJ3MultTableShortcut := function(f0, kgens, m)
   local baseQ, images, span, total, mult, key, kk, vv;
   baseQ := QFirstCond(f0);;
@@ -105,7 +114,8 @@ BuildJ3MultTableShortcut := function(f0, kgens, m)
     key := Concatenation(String((baseQ[1]+vv[1]) mod 2), ",", String((baseQ[2]+vv[2]) mod 2));;
     mult.(key) := total / Length(span);;
   od;
-  return rec(table:=mult, total:=total, span_size:=Length(span), baseQ:=baseQ);
+  return rec(table:=mult, total:=total, span_size:=Length(span), baseQ:=baseQ,
+    bit_matrix:=images, rank:=RankFromSpanSize(Length(span)));
 end;;
 
 BuildJ3MultTableBruteForce := function(f0, kgens, m)
@@ -176,6 +186,42 @@ od;;
 Print("[", PF(kwZeroOk and kwAnyRun), "] k_w = 0 (mod 8) for all sampled K_m^(3) generators (", Length(kwSamples), " generators checked, safe synthetic systems)\n");
 
 # ================================================================================
+# GUARD (司令塔発注・falsifier監査問3【重大】への対応): the k_w=0 precondition (eq 8.2) is
+# checked above only on SAFE synthetic systems -- the real 64-system sweep (RunRealSweepC6J3,
+# below) MUST re-verify this premise PER m and ABORT (not silently apply the lambda formula)
+# if it is violated. CheckPremiseKw is the reusable guard function; this block unit-tests it
+# BOTH on genuine safe kgens (expect no violation) AND on a deliberately injected fake
+# generator with k_w<>0 (expect detection) -- the latter is the only way to exercise the
+# guard's DETECTION path without running the (still fire-locked) real sweep.
+# ================================================================================
+CheckPremiseKw := function(kgens)
+  local bad, gi;
+  bad := [];;
+  for gi in kgens do
+    if (gi.vec[IdxW] mod 8) <> 0 then Add(bad, gi.vec); fi;
+  od;
+  return rec(violated := Length(bad) > 0, bad_generators := bad);
+end;;
+
+Print("\n=== GUARD (adversarial): CheckPremiseKw must pass genuine safe kgens and catch an injected violation ===\n");
+guardSnf := BuildSnfData(k -> BuildLinearSystemC6SyntheticJ3(0), 0);;
+guardRes := TestAtJ(guardSnf, 3);;
+guardCheckGenuine := CheckPremiseKw(guardRes.kgens);;
+guardOkGenuine := not guardCheckGenuine.violated;;
+Print("  genuine safe kgens (m=0 synthetic, ", Length(guardRes.kgens), " generators): violated=", JB(guardCheckGenuine.violated), " (expect false)\n");
+
+guardFakeGens := ShallowCopy(guardRes.kgens);;
+guardFakeInjected := rec(vec := List([1..NAB], x -> 0), order := 2);;
+guardFakeInjected.vec[IdxW] := 1;;   # deliberately violates k_w=0 (mod 8)
+Add(guardFakeGens, guardFakeInjected);;
+guardCheckFake := CheckPremiseKw(guardFakeGens);;
+guardOkFake := guardCheckFake.violated and (Length(guardCheckFake.bad_generators) = 1);;
+Print("  same kgens + 1 injected fake generator (k_w=1): violated=", JB(guardCheckFake.violated), " bad_count=", Length(guardCheckFake.bad_generators), " (expect true, 1)\n");
+
+guardOk := guardOkGenuine and guardOkFake;;
+Print("[", PF(guardOk), "] GUARD: CheckPremiseKw correctly passes genuine safe kgens AND detects an injected k_w<>0 violation (this is the function RunRealSweepC6J3 below calls per-m before applying the lambda formula)\n");
+
+# ================================================================================
 # FIXTURE G1 (false-positive detector, j=3 version): on a SOLVABLE SYNTHETIC system,
 # check (a) sum of multiplicity table = |L| and (b) witness recheck: the lambda-shortcut
 # table matches the independent brute-force table EXACTLY. Per manifest: do NOT assert any
@@ -201,6 +247,61 @@ for mtest in [0,1,2,3] do
   fi;
 od;;
 Print("[", PF(g1Ok and g1AnyRun), "] G1: sum(multiplicity table)=|L| AND lambda-shortcut matches independent brute-force enumeration exactly, on solvable synthetic systems\n");
+
+# ================================================================================
+# FIXTURE G1b (便24 F8 item 1: "不可解なら dual witness を出す" -- dual-witness path for
+# UNSOLVABLE systems, exercised on a deliberately ADVERSARIAL SAFE synthetic system (NOT real
+# Ebar_m -- rhs is a plain pseudo-random 15-vector, which e2c6-sweep.g's own F5 discovery
+# documented as "essentially never" landing in the solvable image when drawn freely, unlike
+# the ker(1+theta_bar)-constructed rhs used for G1's solvable fixtures above). Mirrors the j=2
+# gate's WriteUnsolvableCertC6 recheck exactly (y := U[failRow]; yM := y*rows; yb := y*rhs;
+# check yM=0 and yb<>0 mod modulus).
+# ================================================================================
+BuildLinearSystemC6AdversarialUnsolvableJ3 := function(label)
+  local sys, mshape;
+  mshape := label mod 64;;
+  sys := BuildLinearSystemC6(mshape);;   # real theta_bar/sigma_bar STRUCTURE (public table data)
+  # deliberately adversarial: plain pseudo-random 15-vector rhs for the N-block (NOT built via
+  # ker(1+theta_bar), unlike the SOLVABLE-by-construction fixtures above) -- generically not in
+  # the image of N_bar, so almost always unsolvable. Still fully deterministic/reproducible and
+  # unrelated to any real Ebar_m value (blind-safe, same discipline as e2c6-sweep.g's F5).
+  sys.rhs := Concatenation(List([1..sys.n], x->0), List([1..NAB], i -> ((41*label + 13*i + 3) mod 5) - 2));;
+  sys.synthetic := true;;  sys.adversarial_unsolvable := true;;
+  return sys;
+end;;
+
+Print("\n=== FIXTURE G1b (dual witness path, 便24 F8 item 1, adversarial-unsolvable safe synthetic) ===\n");
+g1bFound := false;;  g1bOk := true;;  g1bLabel := fail;;
+labelCand := 1;;
+while not g1bFound and labelCand <= 60 do
+  snfAdv := BuildSnfData(k -> BuildLinearSystemC6AdversarialUnsolvableJ3(labelCand), labelCand);;
+  resAdv := TestAtJ(snfAdv, 3);;
+  if not resAdv.solvable then
+    g1bFound := true;;  g1bLabel := labelCand;;
+    yAdv := snfAdv.U[resAdv.failRow];;
+    yMAdv := yAdv * snfAdv.sys.rows;;
+    ybAdv := yAdv * snfAdv.sys.rhs;;
+    yMZeroAdv := ForAll(List(yMAdv, x -> x mod resAdv.modulus), x -> x = 0);;
+    yBNonzeroAdv := (ybAdv mod resAdv.modulus <> 0);;
+    g1bOk := yMZeroAdv and yBNonzeroAdv;;
+    Print("  label=", labelCand, " (m-shape=", labelCand mod 64, "): UNSOLVABLE (as expected), dual witness y=", yAdv,
+      "  yM mod 8 all-zero=", JB(yMZeroAdv), "  yb mod 8 nonzero=", JB(yBNonzeroAdv), "\n");
+    pathAdv := "certificates/e2c6j3/fixture_G1b_dualwitness.json";;
+    certAdv := Concatenation(
+      "{\"claim\":\"linear_stage_empty_c6j3\",\"linear_solvable\":false,",
+      "\"fixture\":\"adversarial_unsolvable_synthetic_j3\",\"label\":", String(labelCand), ",",
+      "\"j\":3,\"modulus\":", String(resAdv.modulus), ",",
+      "\"dual_witness_y\":\"", String(yAdv), "\",",
+      "\"yM_is_zero_mod_2j\":", JB(yMZeroAdv), ",",
+      "\"yb\":", String(ybAdv), ",\"yb_nonzero_mod_2j\":", JB(yBNonzeroAdv), ",",
+      "\"recheck\":\"checker independently rebuilds the same public theta_bar/sigma_bar(m-shape) structure and the same deterministic adversarial rhs formula, then recomputes yM/yb directly\"}");;
+    WriteFile(pathAdv, certAdv);;
+    Print("  wrote ", pathAdv, "\n");
+  else
+    labelCand := labelCand + 1;;
+  fi;
+od;;
+Print("[", PF(g1bFound and g1bOk), "] G1b: dual-witness path exercised on an unsolvable safe synthetic system (label=", g1bLabel, "), yM=0 and yb<>0 mod modulus independently verified\n");
 
 # ================================================================================
 # FIXTURE G2 (class-5 / j=2 統制, projection agreement):
@@ -417,6 +518,78 @@ g4Combined := g4U4InRsub2 and g4Ok and g4AnyRun;;
 Print("[", PF(g4Combined), "] G4 (M-series, mod-4/R=4, combined)\n");
 
 # ================================================================================
+# FIXTURE G7 (司令塔発注 item 3: "ObFromQPair の R=4 実演習" -- F6-analog, permanent). This
+# actually CALLS ObFromQPair(qTheta, qN, 4) with NONZERO q_N -- the code path e2c6-sweep.g's
+# own "MOD-4 RE-RUN" section already exercised once (and flagged as an OPEN finding: ob_b
+# needs an explicit mod-2 reduction to generalize past R=2; ob_a's R=4 coordinate semantics
+# beyond mod 2 remain UNRESOLVED, per that file's own GAP-OB1 note). This fixture reproduces
+# that exercise independently in the j=3 gate (not silently skipped this time), and reports
+# HONESTLY: it checks ob mod 2 (both a and b) is independent of q_N, and does NOT claim to
+# have resolved the raw R=4 coordinate question (no unverified formula invented here).
+# ================================================================================
+Print("\n=== FIXTURE G7 (ObFromQPair at R=4, nonzero q_N, permanent) ===\n");
+g7Cases := [
+  rec(label:="G7a_t5t6_nonzeroqN", qTheta:=[1,1,0,0,0,0], qN:=[1,1,0,0,0,0]),
+  rec(label:="G7b_u4_nonzeroqN",   qTheta:=[0,0,0,0,0,1], qN:=[0,0,1,0,1,0]),
+  rec(label:="G7c_u2_nonzeroqN",   qTheta:=[0,0,0,1,0,0], qN:=[0,1,1,1,0,1])
+];;
+g7Ok := true;;
+for gc in g7Cases do
+  rWithQN := ObFromQPair(gc.qTheta, gc.qN, 4);;
+  rZeroQN := ObFromQPair(gc.qTheta, [0,0,0,0,0,0], 4);;
+  sameModTwo := (rWithQN.ob_a mod 2 = rZeroQN.ob_a mod 2) and (rWithQN.ob_b mod 2 = rZeroQN.ob_b mod 2);;
+  Print("  ", gc.label, ": q_theta=",gc.qTheta," q_N=",gc.qN,
+    " -> ob_a=",rWithQN.ob_a," ob_b=",rWithQN.ob_b,
+    "  (q_N=0 case: ob_a=",rZeroQN.ob_a," ob_b=",rZeroQN.ob_b,")",
+    "  same-mod-2=",JB(sameModTwo),"\n");
+  if not sameModTwo then g7Ok := false; fi;
+  pathG7 := Concatenation("certificates/e2c6j3/fixture_", gc.label, ".json");;
+  certG7 := Concatenation(
+    "{\"claim\":\"ob_synthetic_check\",\"fixture\":\"", gc.label, "\",\"R\":4,",
+    "\"basis_order_C6\":[", JoinC(List(CNames, n -> Concatenation("\"",n,"\"")), ","), "],",
+    "\"q_theta\":", String(gc.qTheta), ",\"q_N\":", String(gc.qN), ",",
+    "\"v\":", String(rWithQN.v), ",",
+    "\"ob_a\":", String(rWithQN.ob_a), ",\"ob_b\":", String(rWithQN.ob_b), ",",
+    "\"ob_mode\":\"quotient-ratified-v2\",",
+    "\"q_N_zero_comparison_ob_a\":", String(rZeroQN.ob_a), ",\"q_N_zero_comparison_ob_b\":", String(rZeroQN.ob_b), ",",
+    "\"same_mod_2_as_q_N_zero\":", JB(sameModTwo), ",",
+    "\"scope_note\":\"raw R=4 ob_a coordinate semantics beyond mod 2 are OPEN (not resolved here) -- only mod-2 independence-from-q_N is asserted\"}");;
+  WriteFile(pathG7, certG7);;
+od;;
+Print("[", PF(g7Ok), "] G7: ObFromQPair(R=4) exercised with NONZERO q_N (3 permanent cases) -- ob mod 2 independent of q_N in all cases; raw R=4 semantics beyond mod 2 remain OPEN (not silently resolved)\n");
+
+# ================================================================================
+# FIXTURE G8 (便24 F8 item 6: m -> m+32 periodicity). Per commander instruction: "mod 8 での
+# 成立/不成立は観測事項 -- fixture は「両者の証明書が生成され比較可能」の形で" -- this fixture
+# does NOT assert equality as a pass/fail criterion (that could leak toward the sealed F7
+# prediction's branch structure). It only verifies both sides are computed and well-formed,
+# using PUBLIC structural Em-formula data (EmBar15/EmC6/W(m) -- generalized-binomial formulas,
+# independent of any real linear-stage solvability disclosure), and records the observed
+# comparison as data, not as a judgment.
+# ================================================================================
+Print("\n=== FIXTURE G8 (periodicity comparison certs, m vs m+32 -- structural Em-formula data only) ===\n");
+g8Pairs := [[3,35],[5,37],[21,53],[27,59]];;
+g8AllWritten := true;;
+for pr in g8Pairs do
+  mA := pr[1];;  mB := pr[2];;
+  emBarA := ModVec(EmBar15(mA), 8);;  emBarB := ModVec(EmBar15(mB), 8);;
+  emCA := ModVec(EmC6(mA), 4);;       emCB := ModVec(EmC6(mB), 4);;
+  wA := WMfun(mA);;  wB := WMfun(mB);;
+  obsEqual := (emBarA = emBarB) and (emCA = emCB) and (wA = wB);;
+  pathG8 := Concatenation("certificates/e2c6j3/fixture_G8_periodicity_m", String(mA), "_m", String(mB), ".json");;
+  certG8 := Concatenation(
+    "{\"claim\":\"periodicity_comparison_j3\",\"m_pair\":[", String(mA), ",", String(mB), "],",
+    "\"note\":\"STRUCTURAL Em-formula data only (public generalized-binomial data, not a real linear-stage solvability disclosure) -- equality is NOT asserted as pass/fail here (commander instruction); recorded as an observation only\",",
+    "\"EmBar15_mod8_mA\":", String(emBarA), ",\"EmBar15_mod8_mB\":", String(emBarB), ",",
+    "\"EmC6_mod4_mA\":", String(emCA), ",\"EmC6_mod4_mB\":", String(emCB), ",",
+    "\"W_mA\":", String(wA), ",\"W_mB\":", String(wB), ",",
+    "\"observed_equal\":", JB(obsEqual), "}");;
+  WriteFile(pathG8, certG8);;
+  Print("  m=",mA,"/m=",mB,": EmBar15 mod8 equal=",JB(emBarA=emBarB)," EmC6 mod4 equal=",JB(emCA=emCB)," W equal=",JB(wA=wB)," (observation only, not asserted as PASS/FAIL criterion)\n");
+od;;
+Print("[", PF(g8AllWritten), "] G8: periodicity comparison certificates generated for all 4 m/m+32 pairs (equality itself recorded as an OBSERVATION field, not asserted)\n");
+
+# ================================================================================
 # CERTIFICATE WRITING (fixture certs only, certificates/e2c6j3/).
 # ================================================================================
 Print("\n=== writing fixture certificates to certificates/e2c6j3/ ===\n");
@@ -439,6 +612,8 @@ for mIt in [0,1,2,3] do
       "\"K_orders\":[", JoinC(List(resW.kgens, g -> String(g.order)), ","), "],",
       "\"total_points\":", String(tblS.total), ",",
       "\"ob_table\":{", JoinC(tableStrs, ","), "},",
+      "\"lambda_bit_matrix\":[", JoinC(List(tblS.bit_matrix, v -> String(v)), ","), "],",
+      "\"lambda_rank\":", String(tblS.rank), ",",
       "\"brute_force_matches_shortcut\":", JB(TablesEqual(tblS.table, tblB.table)), ",",
       "\"new_first_condition_j3\":\"p_parity_s3_w_r2/v1\",",
       "\"lambda_formula\":\"lambda_m3(k)=(k_p, k_s3+W(m)*k_r2) mod 2, W(m)=binom(m+1,2) mod 2 (sol_reply_24_d2.md sec.F8 eq 8.3)\",",
@@ -466,36 +641,67 @@ ComputeSha256File := function(relpath)
 end;;
 
 RunRealSweepC6J3 := function()
-  local mIt, snfD, res, f0, path, cert, tblS, tblB, entriesS, tableStrs;
+  local mIt, snfD, res, f0, path, cert, tblS, tblB, entriesS, tableStrs, guardCheck,
+        yReal, yMReal, ybReal, yMZeroReal, yBNonzeroReal, abortCount, computedCount;
   Print("  [UNLOCKED] running real-universe sweep, j=3, m=0..63 ...\n");
+  abortCount := 0;;  computedCount := 0;;
   for mIt in [0..63] do
     snfD := BuildSnfData(BuildLinearSystemC6, mIt);;
     res := TestAtJ(snfD, 3);;
     path := Concatenation("certificates/e2c6j3/sweep_j3_m", String(mIt), ".json");;
     if res.solvable then
-      f0 := ExtractF0(snfD, 3);;
-      tblS := BuildJ3MultTableShortcut(f0, res.kgens, mIt);;
-      tblB := BuildJ3MultTableBruteForce(f0, res.kgens, mIt);;
-      entriesS := RecNames(tblS.table);;
-      tableStrs := List(entriesS, k -> Concatenation("\"", k, "\":", String(tblS.table.(k))));;
-      cert := Concatenation(
-        "{\"claim\":\"m6j3_multiplicity_table\",\"fixture\":\"real_sweep\",",
-        "\"m\":", String(mIt), ",\"j\":3,\"modulus\":8,\"R\":4,\"linear_solvable\":true,",
-        "\"witness_f0_abar\":\"", String(f0), "\",",
-        "\"K_generators\":[", JoinC(List(res.kgens, g -> String(g.vec)), ","), "],",
-        "\"K_orders\":[", JoinC(List(res.kgens, g -> String(g.order)), ","), "],",
-        "\"total_points\":", String(tblS.total), ",",
-        "\"ob_table\":{", JoinC(tableStrs, ","), "},",
-        "\"brute_force_matches_shortcut\":", JB(TablesEqual(tblS.table, tblB.table)), ",",
-        "\"ob_mode\":\"quotient-ratified-v2\"}");;
-      WriteFile(path, cert);;
+      # GUARD (司令塔発注item1 / falsifier問3【重大】): re-verify k_w=0 (mod 8) PER m before
+      # applying the lambda formula (eq 8.3) -- if violated, ABORT this m (write a
+      # premise_violated cert, do NOT silently apply lambda / do NOT write an ob_table).
+      guardCheck := CheckPremiseKw(res.kgens);;
+      if guardCheck.violated then
+        abortCount := abortCount + 1;;
+        cert := Concatenation(
+          "{\"claim\":\"precondition_violated_c6j3\",\"m\":", String(mIt), ",\"j\":3,\"modulus\":8,",
+          "\"k_w_nonzero\":true,\"bad_generator_count\":", String(Length(guardCheck.bad_generators)), ",",
+          "\"bad_generators\":[", JoinC(List(guardCheck.bad_generators, v -> String(v)), ","), "],",
+          "\"action\":\"ABORTED -- lambda formula (eq 8.3) NOT applied; k_w=0 premise (eq 8.2) violated at this m\",",
+          "\"ob_mode\":null}");;
+        WriteFile(path, cert);;
+        Print("  [ABORT] m=", mIt, ": k_w<>0 premise VIOLATED (", Length(guardCheck.bad_generators), " bad generators) -- wrote precondition_violated_c6j3, NOT computing ob_table\n");
+      else
+        computedCount := computedCount + 1;;
+        f0 := ExtractF0(snfD, 3);;
+        tblS := BuildJ3MultTableShortcut(f0, res.kgens, mIt);;
+        tblB := BuildJ3MultTableBruteForce(f0, res.kgens, mIt);;
+        entriesS := RecNames(tblS.table);;
+        tableStrs := List(entriesS, k -> Concatenation("\"", k, "\":", String(tblS.table.(k))));;
+        cert := Concatenation(
+          "{\"claim\":\"m6j3_multiplicity_table\",\"fixture\":\"real_sweep\",",
+          "\"m\":", String(mIt), ",\"j\":3,\"modulus\":8,\"R\":4,\"linear_solvable\":true,",
+          "\"witness_f0_abar\":\"", String(f0), "\",",
+          "\"K_generators\":[", JoinC(List(res.kgens, g -> String(g.vec)), ","), "],",
+          "\"K_orders\":[", JoinC(List(res.kgens, g -> String(g.order)), ","), "],",
+          "\"total_points\":", String(tblS.total), ",",
+          "\"ob_table\":{", JoinC(tableStrs, ","), "},",
+          "\"lambda_bit_matrix\":[", JoinC(List(tblS.bit_matrix, v -> String(v)), ","), "],",
+          "\"lambda_rank\":", String(tblS.rank), ",",
+          "\"brute_force_matches_shortcut\":", JB(TablesEqual(tblS.table, tblB.table)), ",",
+          "\"ob_mode\":\"quotient-ratified-v2\"}");;
+        WriteFile(path, cert);;
+      fi;
     else
+      # 便24 F8 item 1: dual witness for unsolvable real systems (mirrors j=2's
+      # WriteUnsolvableCertC6 exactly).
+      yReal := snfD.U[res.failRow];;
+      yMReal := yReal * snfD.sys.rows;;
+      ybReal := yReal * snfD.sys.rhs;;
+      yMZeroReal := ForAll(List(yMReal, x -> x mod res.modulus), x -> x = 0);;
+      yBNonzeroReal := (ybReal mod res.modulus <> 0);;
       cert := Concatenation("{\"claim\":\"linear_stage_empty_c6j3\",\"linear_solvable\":false,",
-        "\"fixture\":\"real_sweep\",\"m\":", String(mIt), ",\"j\":3,\"modulus\":8}");;
+        "\"fixture\":\"real_sweep\",\"m\":", String(mIt), ",\"j\":3,\"modulus\":", String(res.modulus), ",",
+        "\"dual_witness_y\":\"", String(yReal), "\",",
+        "\"yM_is_zero_mod_2j\":", JB(yMZeroReal), ",",
+        "\"yb\":", String(ybReal), ",\"yb_nonzero_mod_2j\":", JB(yBNonzeroReal), "}");;
       WriteFile(path, cert);;
     fi;
   od;;
-  Print("  real-universe sweep complete: certificates/e2c6j3/sweep_j3_m*.json (64 files)\n");
+  Print("  real-universe sweep complete: certificates/e2c6j3/sweep_j3_m*.json (64 files, ", computedCount, " ob_table + ", abortCount, " premise-violated-abort + unsolvable)\n");
 end;;
 
 Print("\n=== FIRE LOCK CHECK (j=3) ===\n");
@@ -523,10 +729,14 @@ else
 fi;
 
 Print("\n=== FINAL SUMMARY (j=3 gate) ===\n");
-Print("[", PF(kwZeroOk and kwAnyRun), "] precondition: k_w=0 mod 8\n");
+Print("[", PF(kwZeroOk and kwAnyRun), "] precondition: k_w=0 mod 8 (safe systems)\n");
+Print("[", PF(guardOk), "] GUARD: CheckPremiseKw unit-tested (genuine pass + injected-violation detection)\n");
 Print("[", PF(g1Ok and g1AnyRun), "] G1 false-positive detector (sum=|L| + shortcut==brute-force)\n");
+Print("[", PF(g1bFound and g1bOk), "] G1b dual-witness path (unsolvable safe synthetic system)\n");
 Print("[", PF(g2Ok), "] G2 class-5 control (j=3) + projection agreement vs frozen j=2 gate\n");
 Print("[", PF(G3AllOk), "] G3 route-G cross-check (mod-8-reduced test vectors)\n");
 Print("[", PF(g4Combined), "] G4 M-series (R=4, (1+theta)ker(N_C) recomputed)\n");
+Print("[", PF(g7Ok), "] G7 ObFromQPair(R=4) nonzero q_N permanent fixture\n");
+Print("[", PF(g8AllWritten), "] G8 periodicity comparison certs (m vs m+32, observation only)\n");
 Print("[", PF(fireUnlockedJ3 = false), "] fire lock CLOSED (real sweep NOT run this pass)\n");
 Print("\ntotal elapsed ms: ", Runtime()-startTime, "\n");

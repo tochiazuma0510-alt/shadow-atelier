@@ -176,6 +176,86 @@ function qNFullRaw(f15, m) {
 function QFirstCond(f15) {
   return [mod(f15[IdxP], 2), mod(f15[IdxS3] + f15[IdxW] * f15[IdxR2], 2)];
 }
+function WMfun(m) { return mod(genBinom(m + 1, 2), 2); }
+function lambdaOfK(k15, m) {
+  return [mod(k15[IdxP], 2), mod(k15[IdxS3] + WMfun(m) * k15[IdxR2], 2)];
+}
+function xor2(a, b) { return [(a[0] + b[0]) % 2, (a[1] + b[1]) % 2]; }
+function spanF2(vecs) {
+  let span = [[0, 0]];
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const v of vecs) {
+      for (const s of [...span]) {
+        const nv = xor2(s, v);
+        if (!span.some((x) => x[0] === nv[0] && x[1] === nv[1])) { span.push(nv); changed = true; }
+      }
+    }
+  }
+  return span;
+}
+function rankFromSpanSize(n) { return n === 1 ? 0 : n === 2 ? 1 : 2; }
+
+// ---------------------------------------------------------------------------
+// R-generic ObFromQPair (same ratified formula as check-e2c6.mjs's j=2 checker, reused here
+// unchanged -- the ob quotient formula itself does not change between j=2 and j=3, only R).
+// ---------------------------------------------------------------------------
+function modInverse(a, n) {
+  if (n === 1) return 0;
+  let [old_r, r] = [((a % n) + n) % n, n];
+  let [old_s, s] = [1, 0];
+  while (r !== 0) { const q = Math.floor(old_r / r); [old_r, r] = [r, old_r - q * r]; [old_s, s] = [s, old_s - q * s]; }
+  return ((old_s % n) + n) % n;
+}
+function obFromQPair(qTheta6, qN6, R) {
+  const inv3 = modInverse(3, R);
+  const thQN = vecMatMul(qN6, ThetaOnCMat);
+  const corr = qN6.map((x, i) => inv3 * (x + thQN[i]));
+  const v = qTheta6.map((x, i) => mod(x - corr[i], R));
+  return { v, ob_a: v[CNames.indexOf('u4')], ob_b: v[CNames.indexOf('u2')] };
+}
+
+// ---------------------------------------------------------------------------
+// Linear-stage system builder (class 6, n=15) -- for the G1b dual-witness recheck (adversarial
+// unsolvable synthetic system) and for a possible future real-sweep recheck.
+// ---------------------------------------------------------------------------
+function matMatMul(A, B) {
+  const n = A.length, k = B.length, m = B[0].length;
+  const R2 = [];
+  for (let i = 0; i < n; i++) {
+    const row = new Array(m).fill(0);
+    for (let t = 0; t < k; t++) { const a = A[i][t]; if (a !== 0) for (let j = 0; j < m; j++) row[j] += a * B[t][j]; }
+    R2.push(row);
+  }
+  return R2;
+}
+function buildLinearSystemC6(m) {
+  const n = NAB;
+  const thMat = ThetaBarMat;
+  const smMat = SigmaBarMat(m);
+  const sm2Mat = matMatMul(smMat, smMat);
+  const b = EmBar15(m);
+  const rows = [], rhs = [];
+  for (let i = 0; i < n; i++) {
+    rows.push(Array.from({ length: n }, (_, k) => thMat[k][i] + (i === k ? 1 : 0)));
+    rhs.push(0);
+  }
+  for (let i = 0; i < n; i++) {
+    rows.push(Array.from({ length: n }, (_, k) => (i === k ? 1 : 0) + smMat[k][i] + sm2Mat[k][i]));
+    rhs.push(-b[i]);
+  }
+  return { rows, rhs, n };
+}
+// Adversarial-unsolvable rhs formula, EXACT reproduction of e2c6j3-sweep.g's
+// BuildLinearSystemC6AdversarialUnsolvableJ3(label): rhs = plain pseudo-random 15-vector,
+// independently re-typed here (not read from the GAP source).
+function buildAdversarialRhs(label) {
+  return Array.from({ length: NAB }, (_, i0) => {
+    const i = i0 + 1; // GAP is 1-indexed in the source formula
+    return mod(41 * label + 13 * i + 3, 5) - 2;
+  });
+}
 
 // ---------------------------------------------------------------------------
 // Certificate crosscheck: reads certificates/e2c6j3/*.json ONLY.
@@ -233,9 +313,81 @@ for (const fname of certFiles) {
     const valuesMatch = keysMatch && certKeys.every((k) => table.get(k) === cert.ob_table[k]);
     const totalMatch = count === total && total === cert.total_points;
     const sumMatch = certKeys.reduce((s, k) => s + cert.ob_table[k], 0) === cert.total_points;
-    const ok = keysMatch && valuesMatch && totalMatch && sumMatch;
+
+    // Independent recheck of lambda_bit_matrix/lambda_rank (便24 F8 item 2), if present:
+    // recompute LambdaOfK(gen_i, m) for each generator directly from the cert's own
+    // K_generators/m, and recompute the rank via the GF(2) span closure.
+    let bitMatrixOk = true;
+    if (typeof cert.lambda_bit_matrix !== 'undefined') {
+      const gotBitMatrix = gens.map((g) => lambdaOfK(g, cert.m));
+      const certBitMatrix = cert.lambda_bit_matrix.map(parseMaybe);
+      bitMatrixOk = JSON.stringify(gotBitMatrix) === JSON.stringify(certBitMatrix);
+      const gotSpan = spanF2(gotBitMatrix);
+      const gotRank = rankFromSpanSize(gotSpan.length);
+      if (gotRank !== cert.lambda_rank) bitMatrixOk = false;
+      if (!bitMatrixOk) console.log(`  lambda_bit_matrix/rank MISMATCH: got matrix=${JSON.stringify(gotBitMatrix)} rank=${gotRank} (cert claimed matrix=${JSON.stringify(certBitMatrix)} rank=${cert.lambda_rank})`);
+    }
+
+    const ok = keysMatch && valuesMatch && totalMatch && sumMatch && bitMatrixOk;
     const gotTableStr = JSON.stringify(Object.fromEntries(table));
-    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: m6j3_multiplicity_table (fixture=${cert.fixture}, m=${cert.m}, |L|=${total}) independently re-enumerated (brute force, exact nonlinear Q) table=${gotTableStr} (cert claimed ${JSON.stringify(cert.ob_table)})`);
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: m6j3_multiplicity_table (fixture=${cert.fixture}, m=${cert.m}, |L|=${total}) independently re-enumerated (brute force, exact nonlinear Q) table=${gotTableStr} (cert claimed ${JSON.stringify(cert.ob_table)}); lambda_bit_matrix/rank recheck=${bitMatrixOk}`);
+    if (!ok) certFails++;
+    continue;
+  }
+
+  if (cert.claim === 'ob_synthetic_check') {
+    // G7 (ObFromQPair at R=4, nonzero q_N, permanent): independently recompute v/ob_a/ob_b
+    // from the cert's OWN q_theta/q_N via the ratified formula, and also recheck the cert's
+    // own same_mod_2_as_q_N_zero self-report against a fresh q_N=0 computation.
+    const R = cert.R;
+    const qTheta6 = parseMaybe(cert.q_theta);
+    const qN6 = parseMaybe(cert.q_N);
+    const obR = obFromQPair(qTheta6, qN6, R);
+    const obZero = obFromQPair(qTheta6, new Array(NC6).fill(0), R);
+    const primaryOk = obR.ob_a === cert.ob_a && obR.ob_b === cert.ob_b;
+    const sameMod2Indep = (mod(obR.ob_a, 2) === mod(obZero.ob_a, 2)) && (mod(obR.ob_b, 2) === mod(obZero.ob_b, 2));
+    const selfReportOk = cert.same_mod_2_as_q_N_zero === sameMod2Indep;
+    const ok = primaryOk && selfReportOk;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: ob_synthetic_check (fixture=${cert.fixture}, R=${R}) independently recomputed ob_a=${obR.ob_a} ob_b=${obR.ob_b} (cert claimed ob_a=${cert.ob_a} ob_b=${cert.ob_b}); same-mod-2-vs-qN-zero recheck=${sameMod2Indep} (cert self-report=${cert.same_mod_2_as_q_N_zero})`);
+    if (!ok) certFails++;
+    continue;
+  }
+
+  if (cert.claim === 'periodicity_comparison_j3') {
+    // G8: independently recompute EmBar15(mA)/(mB) mod 8, EmC6(mA)/(mB) mod 4, W(mA)/(mB),
+    // and confirm the cert's own fields AND its "observed_equal" self-report are consistent
+    // with an independent recomputation (this recheck does NOT itself assert whether equality
+    // SHOULD hold -- it only verifies the cert accurately reports what it claims to report).
+    const [mA, mB] = cert.m_pair;
+    const gotEmBarA = EmBar15(mA).map((x) => mod(x, 8));
+    const gotEmBarB = EmBar15(mB).map((x) => mod(x, 8));
+    const gotEmCA = EmC6(mA).map((x) => mod(x, 4));
+    const gotEmCB = EmC6(mB).map((x) => mod(x, 4));
+    const gotWA = WMfun(mA), gotWB = WMfun(mB);
+    const certEmBarA = parseMaybe(cert.EmBar15_mod8_mA), certEmBarB = parseMaybe(cert.EmBar15_mod8_mB);
+    const certEmCA = parseMaybe(cert.EmC6_mod4_mA), certEmCB = parseMaybe(cert.EmC6_mod4_mB);
+    const fieldsMatch =
+      JSON.stringify(gotEmBarA) === JSON.stringify(certEmBarA) &&
+      JSON.stringify(gotEmBarB) === JSON.stringify(certEmBarB) &&
+      JSON.stringify(gotEmCA) === JSON.stringify(certEmCA) &&
+      JSON.stringify(gotEmCB) === JSON.stringify(certEmCB) &&
+      gotWA === cert.W_mA && gotWB === cert.W_mB;
+    const gotObsEqual = JSON.stringify(gotEmBarA) === JSON.stringify(gotEmBarB) &&
+      JSON.stringify(gotEmCA) === JSON.stringify(gotEmCB) && gotWA === gotWB;
+    const obsReportOk = gotObsEqual === cert.observed_equal;
+    const ok = fieldsMatch && obsReportOk;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: periodicity_comparison_j3 (m_pair=[${mA},${mB}]) independently recomputed EmBar15/EmC6/W for both m -- fields match cert=${fieldsMatch}, observed_equal self-report accurate=${obsReportOk} (this recheck does not judge whether equality SHOULD hold)`);
+    if (!ok) certFails++;
+    continue;
+  }
+
+  if (cert.claim === 'precondition_violated_c6j3') {
+    // GUARD cert (only appears if k_w<>0 was detected during a real sweep -- not expected in
+    // this fixture-only pass, but handled defensively): structural well-formedness check only
+    // (this checker cannot re-derive K_m3 generators from scratch without re-solving the
+    // linear stage, which is out of scope for a lightweight recheck of an abort record).
+    const ok = cert.k_w_nonzero === true && Array.isArray(cert.bad_generators) && cert.bad_generators.length === cert.bad_generator_count && cert.ob_mode === null;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: precondition_violated_c6j3 (m=${cert.m}) well-formed abort record (k_w_nonzero=true, bad_generator_count=${cert.bad_generator_count} consistent, ob_mode=null)`);
     if (!ok) certFails++;
     continue;
   }
@@ -265,7 +417,35 @@ for (const fname of certFiles) {
   }
 
   if (cert.claim === 'linear_stage_empty_c6j3') {
-    console.log(`SKIP  ${fname}: linear_stage_empty_c6j3 (negative real-sweep cert; only appears if fire lock is open -- no independent recheck implemented in this fixture-only pass)`);
+    // G1b (便24 F8 item 1, dual witness): independently rebuild the SAME public
+    // theta_bar/sigma_bar(m-shape) structure AND the SAME deterministic adversarial rhs
+    // formula, then recheck y*rows==0 (mod modulus) and y*rhs<>0 (mod modulus) directly.
+    if (cert.fixture !== 'adversarial_unsolvable_synthetic_j3') {
+      console.log(`SKIP  ${fname}: linear_stage_empty_c6j3 with fixture="${cert.fixture}" (only "adversarial_unsolvable_synthetic_j3" is independently rechecked in this fixture-only pass; a real-sweep recheck would require this checker to also independently confirm unsolvability of the real system, out of scope here since the real sweep has not run)`);
+      continue;
+    }
+    if (cert.linear_solvable !== false) {
+      console.log(`FAIL  ${fname}: linear_stage_empty_c6j3 claim but linear_solvable !== false (got ${cert.linear_solvable})`);
+      certFails++;
+      continue;
+    }
+    const label = cert.label;
+    const mShape = mod(label, 64);
+    const { rows } = buildLinearSystemC6(mShape);
+    const rhs = [...new Array(NAB).fill(0), ...buildAdversarialRhs(label)];
+    const modulus = cert.modulus;
+    const y = parseMaybe(cert.dual_witness_y);
+    const n = NAB;
+    const yM = new Array(n).fill(0);
+    for (let k = 0; k < n; k++) for (let i = 0; i < rows.length; i++) yM[k] += y[i] * rows[i][k];
+    const yb = y.reduce((s, yi, i) => s + yi * rhs[i], 0);
+    const yMZero = yM.every((x) => mod(x, modulus) === 0);
+    const yBNonzero = mod(yb, modulus) !== 0;
+    const claimedYMZero = !!cert.yM_is_zero_mod_2j;
+    const claimedYBNonzero = !!cert.yb_nonzero_mod_2j;
+    const ok = yMZero && yBNonzero && yMZero === claimedYMZero && yBNonzero === claimedYBNonzero;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: linear_stage_empty_c6j3 (fixture=${cert.fixture}, label=${label}, modulus=${modulus}) independently rebuilt public theta_bar/sigma_bar structure + adversarial rhs, recomputed yM=${JSON.stringify(yM)} yb=${yb} (cert claimed yM_zero=${claimedYMZero}, yb_nonzero=${claimedYBNonzero})`);
+    if (!ok) certFails++;
     continue;
   }
 
