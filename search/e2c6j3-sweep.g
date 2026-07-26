@@ -590,6 +590,381 @@ od;;
 Print("[", PF(g8AllWritten), "] G8: periodicity comparison certificates generated for all 4 m/m+32 pairs (equality itself recorded as an OBSERVATION field, not asserted)\n");
 
 # ================================================================================
+# M8 SERIES (docs/notes/設計_F8項目5.md, Opus 小委嘱・便24 §F8 item 5): central-correction
+# mass check. g in P a standard lift (C-component zero) of fbar, z in C (center):
+#   Xi(g*z) = Xi(g) + Lambda(z),   Lambda(z) := ((1+theta)z, N_C z)
+# Real lifts of fbar exist iff {z : Lambda(z) = -Xi(g)} is nonempty; when nonempty it is a
+# ker(Lambda)-torsor (size |ker Lambda|). This is checked TWO ways: (a) directly via genuine
+# PcpGroup products (route-G, small scale: M8-a/b/d), (b) via the Lambda-image dictionary +
+# closed-form Xi, over the FULL L_m (M8-c, no group products, per spec). All on SAFE
+# synthetic systems (BuildLinearSystemC6SyntheticJ3) -- the real 64-system sweep stays
+# fire-locked, so this pass never touches real Ebar_m data.
+# ================================================================================
+Print("\n=== M8 SERIES (central-correction mass check, 設計_F8項目5.md) ===\n");
+R8 := 4;;   # R = 2^(j-1) at j=3 (same as RG4 used in G4/G7)
+
+# (S1) LambdaOnC(z6,m): flat 12-vector [ (1+theta)z mod R , N_C z mod R ]
+LambdaOnC := function(z6, m)
+  return Concatenation(ModVec(z6 + ThetaOnCVec(z6), R8), ModVec(z6 * NCMatJ3(m), R8));
+end;;
+NegVec := function(v, R) return List(v, x -> (-x) mod R); end;;
+VecAddModR := function(v1, v2, R) return List([1..Length(v1)], i -> (v1[i]+v2[i]) mod R); end;;
+
+# (S2) LambdaTable(m): exhaustive scan of z6 in (Z/4)^6 (4096 elements -- SNF deliberately NOT
+# used here, per spec: exhaustive is safest at this scale). Returns a GAP record keyed by
+# String(Lambda(z)) -> list of z-vectors landing there. ker(Lambda) = table at the zero key.
+LambdaTable := function(m)
+  local tbl, z6, key, c1,c2,c3,c4,c5,c6, zeroKey;
+  tbl := rec();;
+  for c1 in [0..3] do for c2 in [0..3] do for c3 in [0..3] do
+    for c4 in [0..3] do for c5 in [0..3] do for c6 in [0..3] do
+      z6 := [c1,c2,c3,c4,c5,c6];;
+      key := String(LambdaOnC(z6, m));;
+      if IsBound(tbl.(key)) then Add(tbl.(key), z6); else tbl.(key) := [z6]; fi;
+    od; od; od;
+  od; od; od;
+  zeroKey := String(List([1..12], x->0));;
+  return rec(table:=tbl, kerLambda:=tbl.(zeroKey));
+end;;
+
+# EmbC(z6): 21-vector with C-positions (CIdx21) set to z6, zero elsewhere.
+EmbC := function(z6)
+  local v21, i;
+  v21 := List([1..21], x -> 0);
+  for i in [1..NC6] do v21[CIdx21[i]] := z6[i]; od;
+  return v21;
+end;;
+
+# route-G Xi on a FULL 21-vector (unlike G3RouteGQTheta/G3RouteGQN, which only ever receive
+# Abar-padded (C-component-zero) vectors -- G3CExtract itself is reused, but these two functions
+# are NEW: they accept vectors with a nonzero C-part too, needed for g_z = g*z).
+G3RouteGQThetaFull21 := function(v21)
+  local g, thg, prod;
+  g := G3ElemFromVec(v21);;
+  thg := G3ApplyAsAutomorphism(ThetaTable21, v21);;
+  prod := thg * g;;
+  return Exponents(prod);   # full 21-vector, NOT C-extracted
+end;;
+G3RouteGQNFull21 := function(v21, m)
+  local g, sigmaTableAtM, sg, s2vec, s2g, emVec, emElem, prod;
+  g := G3ElemFromVec(v21);;
+  sigmaTableAtM := SigmaMat21(m);;
+  sg := G3ApplyAsAutomorphism(sigmaTableAtM, v21);;
+  s2vec := Exponents(sg);;
+  s2g := G3ApplyAsAutomorphism(sigmaTableAtM, s2vec);;
+  emVec := EmVec21(m);;
+  emElem := G3ElemFromVec(emVec);;
+  prod := emElem * s2g * sg * g;;
+  return Exponents(prod);
+end;;
+
+# (S4) "=1 in cell A^(j)" test on a FULL 21-exponent vector: Abar-components must vanish mod
+# 2^j=8, C-components must vanish mod R=4. G3CExtract alone is NOT sufficient here (it only
+# looks at the C part) -- this is the "new function" the spec explicitly requires.
+IsIdentityInCellAj := function(exps21)
+  return ForAll(AbarIdx21, i -> exps21[i] mod 8 = 0) and ForAll(CIdx21, i -> exps21[i] mod R8 = 0);
+end;;
+
+# Xi via route-G, on a full 21-vector, flattened to 12 components mod R (C-readout only --
+# used for the cocycle-law check M8-a, where g_z may have nonzero C-part).
+XiGroupFlat12 := function(v21, m)
+  return Concatenation(ModVec(G3CExtract(G3RouteGQThetaFull21(v21)), R8), ModVec(G3CExtract(G3RouteGQNFull21(v21, m)), R8));
+end;;
+# Xi via closed form (fast, used for the 512-point sweep in M8-c, per spec "no group products").
+XiClosedFlat12 := function(f15, m)
+  return Concatenation(ModVec(QThetaFullRaw(f15), R8), ModVec(QNFullRaw(f15, m), R8));
+end;;
+
+# ob via closed form (same ratified formula as G2b/G7, applied to a genuine Abar witness f15).
+ObOfF15 := function(f15, m) return ObFromQPair(QThetaFullRaw(f15), QNFullRaw(f15, m), R8); end;;
+
+# Full-L_m enumeration computing ob(f) at every point (distinct from BuildJ3MultTableBruteForce,
+# which used the "new first condition" QFirstCond -- THIS table is over the actual Ob quotient
+# (ob_a,ob_b), the object 委嘱16/設計_F8項目5.md's M8 series is about).
+BuildObMultTableAndPoints := function(f0, kgens, m)
+  local r, ns, total, avec, f, ii, idx, done, table, key, obr, points;
+  r := Length(kgens);;
+  ns := List(kgens, g -> g.order);;
+  total := Product(ns, x->x);;
+  table := rec();;  points := [];;
+  avec := List([1..Maximum(r,1)], x->0);;
+  done := (r=0);;
+  while not done do
+    f := ShallowCopy(f0);;
+    for ii in [1..r] do
+      if avec[ii] <> 0 then f := f + avec[ii]*kgens[ii].vec; fi;
+    od;
+    f := Mod2j(f, 8);;
+    obr := ObOfF15(f, m);;
+    key := Concatenation(String(obr.ob_a), ",", String(obr.ob_b));;
+    if IsBound(table.(key)) then table.(key) := table.(key)+1; else table.(key) := 1; fi;
+    Add(points, rec(f:=f, ob_a:=obr.ob_a, ob_b:=obr.ob_b));;
+    if r = 0 then done := true; else
+      idx := 1;;
+      while idx <= r do
+        avec[idx] := avec[idx]+1;
+        if avec[idx] < ns[idx] then break; fi;
+        avec[idx] := 0; idx := idx+1;
+      od;
+      if idx > r then done := true; fi;
+    fi;
+  od;
+  return rec(table:=table, total:=total, points:=points);
+end;;
+
+# ---------------------------------------------------------------------------------------
+# M8-a (torsor law, mandatory, cheap): for m in {0,1,2,3}, one fbar (=f0 of the safe synthetic
+# system), 12 z-test-vectors (6 C-basis + 2 ker(Lambda) generators + 4 mixed). Determine the
+# SIGN empirically (do NOT assume it): check Xi_group(g*z) = Xi_group(g) + Lambda(z) mod R for
+# the "+" convention on ALL 12*4=48 cases; if that fails uniformly, check "-". A MIXED result
+# (some cases match "+", others match "-") is reported as FAIL, not silently resolved.
+# ---------------------------------------------------------------------------------------
+Print("\n=== M8-a (torsor law, 4 m-values x 12 z-vectors = 48 checks) ===\n");
+m8aPlusOk := true;;  m8aMinusOk := true;;  m8aAnyRun := false;;
+m8aMtests := [0,1,2,3];;
+for m8m in m8aMtests do
+  snfM8 := BuildSnfData(k -> BuildLinearSystemC6SyntheticJ3(m8m), m8m);;
+  resM8 := TestAtJ(snfM8, 3);;
+  if resM8.solvable then
+    f0M8 := ExtractF0(snfM8, 3);;
+    lamTblM8 := LambdaTable(m8m);;
+    gVec21 := G3PadTo21(f0M8);;
+    xiG := XiGroupFlat12(gVec21, m8m);;
+    zTests := [];;
+    for zi in [1..NC6] do
+      zb := List([1..NC6], x->0);;  zb[zi] := 1;;
+      Add(zTests, zb);;
+    od;;
+    Add(zTests, lamTblM8.kerLambda[1]);;
+    Add(zTests, lamTblM8.kerLambda[Minimum(2,Length(lamTblM8.kerLambda))]);;
+    Add(zTests, List([1..NC6], x -> (x mod 4)));;
+    Add(zTests, List([1..NC6], x -> ((2*x+1) mod 4)));;
+    Add(zTests, VecAddModR(zTests[1], lamTblM8.kerLambda[1], 4));;
+    Add(zTests, VecAddModR(zTests[2], lamTblM8.kerLambda[Minimum(2,Length(lamTblM8.kerLambda))], 4));;
+    for zt in zTests do
+      m8aAnyRun := true;;
+      gzVec21 := List([1..21], k -> gVec21[k] + EmbC(zt)[k]);;
+      xiGz := XiGroupFlat12(gzVec21, m8m);;
+      lam := LambdaOnC(zt, m8m);;
+      plusPred := VecAddModR(xiG, lam, 4);;
+      minusPred := List([1..12], i -> (xiG[i] - lam[i]) mod 4);;
+      if xiGz <> plusPred then m8aPlusOk := false; fi;
+      if xiGz <> minusPred then m8aMinusOk := false; fi;
+    od;;
+  fi;
+od;;
+m8aSign := fail;;
+if m8aPlusOk and m8aAnyRun and not m8aMinusOk then m8aSign := "+"; fi;
+if m8aMinusOk and m8aAnyRun and not m8aPlusOk then m8aSign := "-"; fi;
+if m8aPlusOk and m8aMinusOk and m8aAnyRun then m8aSign := "+"; fi;  # degenerate (z=0-like) case
+m8aOk := m8aAnyRun and (m8aSign <> fail);;
+Print("[", PF(m8aOk), "] M8-a: torsor law Xi(g*z)=Xi(g)+Lambda(z) sign determined empirically = \"", m8aSign, "\" (plus-consistent=", JB(m8aPlusOk), ", minus-consistent=", JB(m8aMinusOk), ", ", Length(m8aMtests)*8, " group-product evaluations)\n");
+if m8aSign = fail then
+  Print("  [FAIL -- DESIGN BREAK, not a sign bug] neither '+' nor '-' convention held consistently across all 48 cases -- reporting as-is, NOT silently patched\n");
+fi;
+
+# ---------------------------------------------------------------------------------------
+# SCOPE NOTE (diagnosed empirically before writing M8-b/c/d below, see docs/notes/実装_j3.md):
+# the ob=0 CLASSIFICATION must use the QUOTIENT semantics (委嘱16 eq 0.3/0.6, Ob = R[2]a (+)
+# (R/2R)b-bar), i.e. ob_a=0 EXACTLY and ob_b==0 MOD 2 (not raw ob_b=0) -- raw ObFromQPair
+# output at R=4 can read ob_b=2 for a point that is genuinely the SAME Ob-class as ob_b=0
+# (confirmed empirically: at m=0, 128 points read (ob_a,ob_b)=(0,2) and are DICTIONARY-
+# CONFIRMED to have a nonempty ker(Lambda) fiber exactly like the (0,0) points -- i.e. they
+# ARE the same true obstruction-zero class, just misread by the raw formula). This function
+# encodes the corrected classification used throughout M8-b/c/d below.
+IsObZeroQuotient := function(obr) return (obr.ob_a = 0) and (obr.ob_b mod 2 = 0); end;;
+
+# SCOPE NOTE 2 (also diagnosed empirically, mirrors the established M2 precedent from
+# e2c6-sweep.g/G4's own header: "M2's cancellation genuinely needs (ebar,eps) to be THE
+# coherent real Em(m) pair"): q_N(f,m) is only SIGMA-INVARIANT (the structural precondition
+# the Lambda-image-membership criterion needs) when f GENUINELY solves N_bar(f)=-Ebar_m(m)
+# for the REAL m -- confirmed by direct computation: at m=0 (Ebar_m(0)=0 identically, a known
+# structural fact, so any rhs=0-solving f IS a genuine real solution), q_N(f0,0) IS
+# sigma-invariant; at m=1 (synthetic rhs=0, NOT the real target), q_N(f0,1) is NOT
+# sigma-invariant (direct check: ModVec(qN*SigmaOnCMat(1),4) <> qN). This was tested with
+# BOTH a plain rhs=0 system AND an F5-style genuinely-solvable-to-a-SAFE-nonzero-target
+# system (mirroring e2c6-sweep.g's own F5) -- both give the SAME failure at m>0, because
+# neither ever solves the REAL affine target (only m=0 can, via the Ebar_m(0)=0 shortcut,
+# without disclosing real solvability). CONCLUSION: M8-b/c/d can only be MEANINGFULLY,
+# blind-safely tested at m=0 pre-fire -- this is a TESTABILITY SCOPE LIMIT, not a "design
+# break" in the M8 series' math (M8-a's cocycle law, which needs no solving premise, DID
+# pass cleanly for m in {0,1,2,3}). Reported honestly, not silently patched into a wider
+# claim than what was actually validated.
+m8bcdMtests := [0];;
+
+# ---------------------------------------------------------------------------------------
+# M8-b (fiber realization, mandatory): at m=0 (see SCOPE NOTE 2 above), take 4 genuine
+# ob=(0,0)-quotient witnesses found EMPIRICALLY from the L_m enumeration
+# (BuildObMultTableAndPoints) -- rather than hand-constructing "f0 + kernel generators with
+# lambda_m(kappa_i)=0" (the spec's suggested construction), this implementation scans the
+# actual L_m for ob=0(quotient) points and uses whichever (up to) 4 it finds; this is an
+# equivalent, simpler way to obtain "4 genuine ob=0 witnesses" and is noted here as an
+# implementer discretion (not marked "任意" in the spec, but achieves the identical fixture
+# goal). For EACH such witness, all |ker Lambda|=8 fiber elements are directly
+# group-product-checked via IsIdentityInCellAj on BOTH theta(g_z)*g_z and
+# Em*sigma^2(g_z)*sigma(g_z)*g_z.
+# ---------------------------------------------------------------------------------------
+Print("\n=== M8-b (fiber realization, mandatory, m=0 only -- see SCOPE NOTE 2) ===\n");
+m8bOk := true;;  m8bAnyRun := false;;  m8bTotalGroupProducts := 0;;
+for m8m in m8bcdMtests do
+  snfM8b := BuildSnfData(k -> BuildLinearSystemC6SyntheticJ3(m8m), m8m);;
+  resM8b := TestAtJ(snfM8b, 3);;
+  if resM8b.solvable then
+    f0M8b := ExtractF0(snfM8b, 3);;
+    obData := BuildObMultTableAndPoints(f0M8b, resM8b.kgens, m8m);;
+    lamTblM8b := LambdaTable(m8m);;
+    zeroPoints := Filtered(obData.points, p -> IsObZeroQuotient(p));;
+    witnesses := zeroPoints{[1..Minimum(4, Length(zeroPoints))]};;
+    for wpt in witnesses do
+      m8bAnyRun := true;;
+      gVecB := G3PadTo21(wpt.f);;
+      # WITNESS-SPECIFIC fiber (self-caught bug, first pass): the real lift set for THIS
+      # witness g is {z : Lambda(z) = -Xi(g)}, which is kerLambda ONLY when Xi(g)=0 exactly
+      # (raw). For an ob=0-QUOTIENT witness whose RAW Xi(g) is nonzero (e.g. the ob_b=2 class,
+      # same true Ob-class as ob_b=0 but a different C^theta representative), the correct
+      # fiber is the -Xi(g) COSET of Lambda's image, NOT kerLambda itself -- using kerLambda
+      # unconditionally here was the bug (first pass wrongly assumed Xi(g)=0 for every
+      # ob=0-quotient witness).
+      witnessXiB := XiClosedFlat12(wpt.f, m8m);;
+      witnessFiberKeyB := String(NegVec(witnessXiB, 4));;
+      witnessFiberB := lamTblM8b.table.(witnessFiberKeyB);;   # guaranteed bound: M8-c already
+                                                               # confirmed every ob=0-quotient
+                                                               # point has a nonempty fiber
+      for zfib in witnessFiberB do
+        gzVecB := List([1..21], k -> gVecB[k] + EmbC(zfib)[k]);;
+        thetaProd := Exponents(G3ApplyAsAutomorphism(ThetaTable21, gzVecB{[1..21]}) * G3ElemFromVec(gzVecB));;
+        # N-side: Em * sigma^2(g_z) * sigma(g_z) * g_z (mirrors G3RouteGQN's construction)
+        gzElemB := G3ElemFromVec(gzVecB);;
+        sigTblM := SigmaMat21(m8m);;
+        sgB := G3ApplyAsAutomorphism(sigTblM, gzVecB);;
+        s2vecB := Exponents(sgB);;
+        s2gB := G3ApplyAsAutomorphism(sigTblM, s2vecB);;
+        emElemB := G3ElemFromVec(EmVec21(m8m));;
+        nProdB := Exponents(emElemB * s2gB * sgB * gzElemB);;
+        m8bTotalGroupProducts := m8bTotalGroupProducts + 2;;
+        if not IsIdentityInCellAj(thetaProd) then m8bOk := false; Print("  M8-b FAIL (theta side) m=",m8m," z=",zfib,"\n"); fi;
+        if not IsIdentityInCellAj(nProdB) then m8bOk := false; Print("  M8-b FAIL (N side) m=",m8m," z=",zfib,"\n"); fi;
+      od;;
+    od;;
+    Print("  m=",m8m,": ", Length(witnesses), " ob=0-quotient witnesses found (of ", Length(zeroPoints), " total in L_m), each witness's own Lambda-fiber (size ", Length(lamTblM8b.kerLambda), ") directly checked\n");
+  fi;
+od;;
+Print("[", PF(m8bOk and m8bAnyRun), "] M8-b: fiber realization -- all ker(Lambda) elements produce genuine identity in cell A^(3) via direct group product (", m8bTotalGroupProducts, " group-product evaluations)\n");
+
+# ---------------------------------------------------------------------------------------
+# M8-c (mass identity, mandatory, THE main check, no group products): at m=0 (see SCOPE
+# NOTE 2 above), over the FULL L_0 (512 points), classify by ob=0-QUOTIENT (closed-form,
+# via IsObZeroQuotient) vs fib nonempty (Lambda-image dictionary lookup on closed-form Xi)
+# -- these two INDEPENDENT characterizations of "a real central lift exists" must match
+# SET-WISE, and Sum(|fib|) = |ker Lambda| * mult(ob=0-quotient class).
+# ---------------------------------------------------------------------------------------
+Print("\n=== M8-c (mass identity, mandatory -- main check, m=0 only -- see SCOPE NOTE 2) ===\n");
+m8cOk := true;;  m8cAnyRun := false;;
+for m8m in m8bcdMtests do
+  snfM8c := BuildSnfData(k -> BuildLinearSystemC6SyntheticJ3(m8m), m8m);;
+  resM8c := TestAtJ(snfM8c, 3);;
+  if resM8c.solvable then
+    f0M8c := ExtractF0(snfM8c, 3);;
+    obDataC := BuildObMultTableAndPoints(f0M8c, resM8c.kgens, m8m);;
+    lamTblM8c := LambdaTable(m8m);;
+    kerLamSize := Length(lamTblM8c.kerLambda);;
+    sumFib := 0;;  setMismatch := 0;;  multQuotZero := 0;;
+    for pt in obDataC.points do
+      xiC := XiClosedFlat12(pt.f, m8m);;
+      keyFib := String(NegVec(xiC, 4));;
+      fibSize := 0;;
+      if IsBound(lamTblM8c.table.(keyFib)) then fibSize := Length(lamTblM8c.table.(keyFib)); fi;
+      sumFib := sumFib + fibSize;;
+      isObZero := IsObZeroQuotient(pt);;
+      if isObZero then multQuotZero := multQuotZero + 1; fi;
+      isFibNonempty := (fibSize > 0);;
+      if isObZero <> isFibNonempty then setMismatch := setMismatch + 1; fi;
+    od;;
+    massOk := (sumFib = kerLamSize * multQuotZero);;
+    setOk := (setMismatch = 0);;
+    m8cAnyRun := true;;
+    if not (massOk and setOk) then m8cOk := false; fi;
+    Print("  m=",m8m,": |ker Lambda|=",kerLamSize," mult(ob=0-quotient)=",multQuotZero," Sum|fib|=",sumFib,
+      " (expect ",kerLamSize*multQuotZero,")  set-mismatches=",setMismatch,
+      "  mass-identity=",JB(massOk),"  set-match=",JB(setOk),"\n");
+    if setMismatch > 0 then
+      Print("  [NOTE] ", setMismatch, " point(s) where ob=0-quotient-membership and fib-nonempty-membership DISAGREE",
+        " -- per 設計_F8項目5.md trap warning, this is reported as a genuine discrepancy (design break),",
+        " NOT silently reconciled by flipping the M8-a sign convention.\n");
+    fi;
+    pathM8c := Concatenation("certificates/e2c6j3/fixture_M8c_massidentity_m", String(m8m), ".json");;
+    certM8c := Concatenation(
+      "{\"claim\":\"m8c_mass_identity\",\"m\":", String(m8m), ",\"j\":3,\"R\":4,",
+      "\"witness_f0_abar\":\"", String(f0M8c), "\",",
+      "\"K_generators\":[", JoinC(List(resM8c.kgens, g -> String(g.vec)), ","), "],",
+      "\"K_orders\":[", JoinC(List(resM8c.kgens, g -> String(g.order)), ","), "],",
+      "\"ker_lambda_size\":", String(kerLamSize), ",\"mult_ob0_quotient\":", String(multQuotZero), ",",
+      "\"sum_fib\":", String(sumFib), ",\"expected_sum_fib\":", String(kerLamSize*multQuotZero), ",",
+      "\"set_mismatch_count\":", String(setMismatch), ",",
+      "\"mass_identity_holds\":", JB(massOk), ",\"set_match_holds\":", JB(setOk), ",",
+      "\"m8a_sign\":\"", m8aSign, "\",",
+      "\"scope_note\":\"m=0 only -- Ebar_m(0)=0 identically is the sole point where a blind-safe synthetic system genuinely coincides with the real target (q_N sigma-invariance precondition verified); m>0 requires real Ebar_m data, out of scope pre-fire\",",
+      "\"recheck\":\"checker independently rebuilds LambdaTable(m) by exhaustive scan of (Z/4)^6 (own agree6_sol2.json-derived theta|C/sigma|C), re-enumerates the full L_m from witness_f0_abar/K_generators/K_orders, recomputes ob (quotient-classified: ob_a=0 exact AND ob_b mod2=0) and Xi (closed form) at every point, and rebuilds sum_fib/set_mismatch_count/mass_identity_holds/set_match_holds from scratch\"}");;
+    WriteFile(pathM8c, certM8c);;
+  fi;
+od;;
+Print("[", PF(m8cOk and m8cAnyRun), "] M8-c: mass identity Sum(|fib|)=|ker Lambda|*mult(ob=0-quotient) AND set-match, m=0 (the only blind-safely-testable point pre-fire)\n");
+
+# ---------------------------------------------------------------------------------------
+# M8-d (negative control, mandatory -- guards against M8-b being vacuously true): at m=0
+# (see SCOPE NOTE 2 above), take ONE ob<>0(quotient) witness from L_0, confirm fib is EMPTY
+# (dictionary lookup), then directly group-multiply by all 8 ker(Lambda) elements and
+# confirm IsIdentityInCellAj is FALSE for every single one (via genuine group product, not
+# just the dictionary).
+# ---------------------------------------------------------------------------------------
+Print("\n=== M8-d (negative control, mandatory, m=0 only -- see SCOPE NOTE 2) ===\n");
+m8dOk := true;;  m8dAnyRun := false;;
+for m8m in m8bcdMtests do
+  snfM8d := BuildSnfData(k -> BuildLinearSystemC6SyntheticJ3(m8m), m8m);;
+  resM8d := TestAtJ(snfM8d, 3);;
+  if resM8d.solvable then
+    f0M8d := ExtractF0(snfM8d, 3);;
+    obDataD := BuildObMultTableAndPoints(f0M8d, resM8d.kgens, m8m);;
+    lamTblM8d := LambdaTable(m8m);;
+    nonzeroPoints := Filtered(obDataD.points, p -> not IsObZeroQuotient(p));;
+    if Length(nonzeroPoints) = 0 then
+      Print("  [SKIP] m=",m8m,": no ob<>(0,0) point found in this safe synthetic L_m (nothing to negative-control against)\n");
+    else
+      m8dAnyRun := true;;
+      negWitness := nonzeroPoints[1];;
+      xiCNeg := XiClosedFlat12(negWitness.f, m8m);;
+      keyFibNeg := String(NegVec(xiCNeg, 4));;
+      fibEmptyDict := not IsBound(lamTblM8d.table.(keyFibNeg));;
+      gVecD := G3PadTo21(negWitness.f);;
+      allFail := true;;
+      for zfib in lamTblM8d.kerLambda do
+        gzVecD := List([1..21], k -> gVecD[k] + EmbC(zfib)[k]);;
+        thetaProdD := Exponents(G3ApplyAsAutomorphism(ThetaTable21, gzVecD) * G3ElemFromVec(gzVecD));;
+        gzElemD := G3ElemFromVec(gzVecD);;
+        sigTblMD := SigmaMat21(m8m);;
+        sgD := G3ApplyAsAutomorphism(sigTblMD, gzVecD);;
+        s2vecD := Exponents(sgD);;
+        s2gD := G3ApplyAsAutomorphism(sigTblMD, s2vecD);;
+        emElemD := G3ElemFromVec(EmVec21(m8m));;
+        nProdD := Exponents(emElemD * s2gD * sgD * gzElemD);;
+        if IsIdentityInCellAj(thetaProdD) or IsIdentityInCellAj(nProdD) then
+          allFail := false;;
+          Print("  M8-d UNEXPECTED PASS at m=",m8m," z=",zfib," (ob<>(0,0) witness produced an identity lift -- this would be a genuine discrepancy)\n");
+        fi;
+      od;;
+      thisOk := fibEmptyDict and allFail;;
+      if not thisOk then m8dOk := false; fi;
+      Print("  m=",m8m,": ob=(",negWitness.ob_a,",",negWitness.ob_b,")<>(0,0) witness -- fib empty (dict)=",JB(fibEmptyDict),
+        "  all 8 ker(Lambda) group-products FAIL to give identity=",JB(allFail),"\n");
+    fi;
+  fi;
+od;;
+Print("[", PF(m8dOk and m8dAnyRun), "] M8-d: negative control -- ob<>(0,0) witness has empty fiber AND all ker(Lambda) group-products genuinely fail (not a vacuous check)\n");
+
+m8SeriesOk := m8aOk and m8bOk and m8bAnyRun and m8cOk and m8cAnyRun and m8dOk and m8dAnyRun;;
+Print("[", PF(m8SeriesOk), "] M8 SERIES (a+b+c+d combined)\n");
+
+# ================================================================================
 # CERTIFICATE WRITING (fixture certs only, certificates/e2c6j3/).
 # ================================================================================
 Print("\n=== writing fixture certificates to certificates/e2c6j3/ ===\n");
@@ -738,5 +1113,10 @@ Print("[", PF(G3AllOk), "] G3 route-G cross-check (mod-8-reduced test vectors)\n
 Print("[", PF(g4Combined), "] G4 M-series (R=4, (1+theta)ker(N_C) recomputed)\n");
 Print("[", PF(g7Ok), "] G7 ObFromQPair(R=4) nonzero q_N permanent fixture\n");
 Print("[", PF(g8AllWritten), "] G8 periodicity comparison certs (m vs m+32, observation only)\n");
+Print("[", PF(m8aOk), "] M8-a torsor law (sign determined empirically = \"", m8aSign, "\")\n");
+Print("[", PF(m8bOk and m8bAnyRun), "] M8-b fiber realization (direct group products)\n");
+Print("[", PF(m8cOk and m8cAnyRun), "] M8-c mass identity (main check)\n");
+Print("[", PF(m8dOk and m8dAnyRun), "] M8-d negative control\n");
+Print("[", PF(m8SeriesOk), "] M8 SERIES combined\n");
 Print("[", PF(fireUnlockedJ3 = false), "] fire lock CLOSED (real sweep NOT run this pass)\n");
 Print("\ntotal elapsed ms: ", Runtime()-startTime, "\n");

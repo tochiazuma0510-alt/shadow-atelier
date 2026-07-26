@@ -381,6 +381,77 @@ for (const fname of certFiles) {
     continue;
   }
 
+  if (cert.claim === 'm8c_mass_identity') {
+    // Full independent recheck of the M8-c mass identity (docs/notes/設計_F8項目5.md item 5):
+    // rebuild LambdaTable(m) from scratch (own agree6_sol2.json-derived theta|C/sigma|C),
+    // re-enumerate the FULL L_m from the cert's own f0/K_generators/K_orders, recompute ob
+    // (QUOTIENT-classified: ob_a=0 exact AND ob_b mod 2=0 -- per the empirically-confirmed
+    // 委嘱16 R[2]a(+)(R/2R)b-bar semantics) and Xi (closed form) at every point, and rebuild
+    // sum_fib/set_mismatch_count/mass_identity_holds/set_match_holds independently.
+    const R = cert.R;
+    const m = cert.m;
+    function lambdaOnC(z6, mm) {
+      const thZ = vecMatMul(z6, ThetaOnCMat);
+      const oneP = z6.map((x, i) => mod(x + thZ[i], R));
+      const S = SigmaOnCMat(mm);
+      const S2 = matMatMul(S, S);
+      const NC = S2.map((row, i) => row.map((x, j) => x + S[i][j] + (i === j ? 1 : 0)));
+      const nz = vecMatMul(z6, NC);
+      return [...oneP, ...nz.map((x) => mod(x, R))];
+    }
+    const lamTable = new Map();
+    let kerLambdaSize = 0;
+    for (let c1 = 0; c1 < 4; c1++) for (let c2 = 0; c2 < 4; c2++) for (let c3 = 0; c3 < 4; c3++)
+      for (let c4 = 0; c4 < 4; c4++) for (let c5 = 0; c5 < 4; c5++) for (let c6 = 0; c6 < 4; c6++) {
+        const z6 = [c1, c2, c3, c4, c5, c6];
+        const key = JSON.stringify(lambdaOnC(z6, m));
+        if (!lamTable.has(key)) lamTable.set(key, 0);
+        lamTable.set(key, lamTable.get(key) + 1);
+      }
+    kerLambdaSize = lamTable.get(JSON.stringify(new Array(12).fill(0))) || 0;
+
+    const f0 = parseMaybe(cert.witness_f0_abar);
+    const gens = cert.K_generators.map(parseMaybe);
+    const orders = cert.K_orders.map(parseMaybe);
+    const r = gens.length;
+    const avec = new Array(Math.max(r, 1)).fill(0);
+    let done = r === 0;
+    let sumFib = 0, multQuotZero = 0, setMismatch = 0, total = 0;
+    while (!done) {
+      let f = f0.slice();
+      for (let i = 0; i < r; i++) if (avec[i]) f = f.map((x, k) => x + avec[i] * gens[i][k]);
+      f = f.map((x) => mod(x, 8));
+      const qT = qThetaFullRaw(f);
+      const qN = qNFullRaw(f, m);
+      const obr = obFromQPair(qT, qN, R);
+      const isObZero = obr.ob_a === 0 && mod(obr.ob_b, 2) === 0;
+      if (isObZero) multQuotZero++;
+      const xi = [...qT.map((x) => mod(x, R)), ...qN.map((x) => mod(x, R))];
+      const negXi = xi.map((x) => mod(-x, R));
+      const fibSize = lamTable.get(JSON.stringify(negXi)) || 0;
+      sumFib += fibSize;
+      if (isObZero !== (fibSize > 0)) setMismatch++;
+      total++;
+      if (r === 0) { done = true; } else {
+        let idx = 0;
+        while (idx < r) { avec[idx]++; if (avec[idx] < orders[idx]) break; avec[idx] = 0; idx++; }
+        if (idx >= r) done = true;
+      }
+    }
+    const massOk = sumFib === kerLambdaSize * multQuotZero;
+    const setOk = setMismatch === 0;
+    const kerLamMatch = kerLambdaSize === cert.ker_lambda_size;
+    const multMatch = multQuotZero === cert.mult_ob0_quotient;
+    const sumFibMatch = sumFib === cert.sum_fib;
+    const massOkMatch = massOk === cert.mass_identity_holds;
+    const setOkMatch = setOk === cert.set_match_holds;
+    const setMismatchMatch = setMismatch === cert.set_mismatch_count;
+    const ok = kerLamMatch && multMatch && sumFibMatch && massOkMatch && setOkMatch && setMismatchMatch && massOk && setOk;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: m8c_mass_identity (m=${m}, |L|=${total}) independently rebuilt LambdaTable + re-enumerated L_m -- ker_lambda_size=${kerLambdaSize} mult_ob0_quotient=${multQuotZero} sum_fib=${sumFib} set_mismatch=${setMismatch} (cert claimed ker_lambda_size=${cert.ker_lambda_size} mult=${cert.mult_ob0_quotient} sum_fib=${cert.sum_fib} set_mismatch=${cert.set_mismatch_count})`);
+    if (!ok) certFails++;
+    continue;
+  }
+
   if (cert.claim === 'precondition_violated_c6j3') {
     // GUARD cert (only appears if k_w<>0 was detected during a real sweep -- not expected in
     // this fixture-only pass, but handled defensively): structural well-formedness check only

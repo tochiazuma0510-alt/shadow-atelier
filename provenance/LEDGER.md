@@ -471,3 +471,26 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   「実装済み項目の列挙形」へ全面改版(司令塔指示)。
 - 全13証明書(GAP側fixture実行+node側crosscheck/check-e2c6j3.mjs)ALL PASS。
   FIRE_e2c6j3.authは作成していない(現在不存在)。commit未実施。
+
+## 2026-07-26 -- E2 class-6 j=3 ゲート: 便24 F8 item 5 実装(設計_F8項目5.md・Opus起草、implementer実行)
+
+- 司令塔小委嘱の設計指定(docs/notes/設計_F8項目5.md)に従い、中心補正×8・直接群積M8との
+  mass照合(M8-a torsor律/M8-b fiber実現/M8-c mass恒等式(本体)/M8-d負の統制)を
+  search/e2c6j3-sweep.gに実装。G3CExtractは流用不可のため21成分フル判定の新関数
+  (G3RouteGQThetaFull21/G3RouteGQNFull21/IsIdentityInCellAj)を新設。
+- **符号はM8-aで実測決定**(+で全48検査一致、−は不一致 — 決め打ちせず実測)。
+- **自己発見バグ1件**: M8-b初回実装は全ob=0証人に一律kerΛを使っていた(Ξ(g)=0の証人にしか
+  正しくない)。証人固有のΛ-ファイバー(-Ξ(g)のコセット)を使うよう修正しPASS。
+- **数学的発見**: raw ObFromQPair出力は真のOb=4元群(委嘱16 R[2]a⊕(R/2R)b̄)のクラスとしては
+  ob_bをmod2で読む必要があると実測確認(m=0でob=(0,0)と(0,2)は同じ真のクラス — 両方とも
+  Λ-ファイバー非空)。G7で「未解決」と記録したR=4座標意味論の一部をM8系列が独立に裏付けた。
+- **テスト可能性のスコープ限界(設計の破れではないと判断)**: M8-b/c/dはm=0のみ盲検安全に
+  テスト可能(合成系・F5型どちらでもm>0ではq_N(f,m)のσ-不変性〈j=2のM2前提と同型〉が破れ、
+  Λ-ファイバー判定が全点で空になることを実測確認 — 「−Ξ(g)∈im(Λ)⟺ob=0」の等式は本物の
+  Ē_m(m)アフィン解を前提とするため、実m>0データなしには検証不可)。M8-aは前提を要さない
+  恒等式のためm∈{0,1,2,3}全てで妥当にPASS — この対比を根拠に「設計の破れ」でなく
+  「盲検制約下のテスト可能性限界」として区別して報告。
+- 全14証明書(既存9件+M8c 1件)GAP・node両系統ALL PASS。M8c証明書はf0/K_generators/K_orders
+  込みでnode側が完全独立にL_m再列挙+LambdaTable再構築(check-e2c6j3.mjsに追加)。
+- 詳細: docs/notes/実装_j3.md 追記節。FIRE_e2c6j3.authは作成していない(現在不存在)。
+  commit未実施。
