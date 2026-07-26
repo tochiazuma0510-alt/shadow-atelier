@@ -377,13 +377,19 @@ Magnus 埋め込み $x\mapsto 1+\xi$、$y\mapsto 1+\eta$ による自由冪零�
 | $E_m$ の閉形 $= w^{-\binom{m+1}2}p^{\binom{m+2}3}q^{-\binom{m+1}3}$($m = -3..8$) | **PASS** ✔ |
 | **補題 E9.2**: $3E_m = -T_m\kappa_m$($m = 0..8$) | **PASS** ✔ |
 | **$P_3$ の再現**: $E_m = (1, wp, wq, 1)$、各 $m$ に**解 2 個**、$m=0,3\Rightarrow\{1,pq\}$・$m=1,2\Rightarrow\{w,wpq\}$ | **PASS** ✔ — **定理 H9 の 8 元表と完全一致**(独立経路) |
-| class 3・相対自由 $A = (\mathbb Z/2^j)^3$、$j = 1..6$、$m$ を $0..2^{j+1}-1$ で全走査 | **全 $m$ で可解** ✔(定理 E9 と一致) |
-| class 4・相対自由 $A = (\mathbb Z/2^j)^6$、$j = 1..4$($\exp A\le 16$)、$m$ 全走査 | **全 $m$ で可解** ✔ |
+| class 3・相対自由 $A = (\mathbb Z/2^j)^3$、$j = 1..6$、$m$ を $0..2^{j+1}-1$ で全走査 【**§F-1.2 注意**】 | **全 $m$ で可解** ✔(定理 E9 と一致)。**各解は直接代入で検証済み**なので、後に判明した `solve2adic.mjs` の欠陥(偽の欠損しか出さない)の影響を受けない |
+| class 4・相対自由 $A = (\mathbb Z/2^j)^6$、$j = 1..4$($\exp A\le 16$)、$m$ 全走査 【**§F-1.2 注意**】 | **全 $m$ で可解** ✔(同上・witness 検証済み)。なお本行は**定理 E9′ により不要**になった(下 2 行が独立に閉じる) |
 | **class 4・$\mathbb Q$ 上で解いて分母を検分**($m = 0..20$) | 解は $(T_m/3,\ -B_m/9,\ -B_m/9,\ 0,0,0)$ で **分母は 3 の冪のみ = 2-integral** ✔ ⇒ **全ての $j$ で mod $2^j$ 可解** |
 | **定理 E9′ の閉形 witness を直接代入**($m = 0..20$・21 点) | $(1+\theta)\bar f = 0$ と $\mathcal N(\bar f) = E_m^{-1}$ が **21/21 で厳密成立** ✔(両辺 $m$ の次数 $\le 8$ ⇒ 恒等式) |
 | $\theta$ が class 4 の基底上でも「反転して逆元」 | $\theta: w\mapsto w^{-1},\ p\mapsto q^{-1},\ q\mapsto p^{-1},\ r_1\mapsto r_3^{-1},\ r_2\mapsto r_2^{-1},\ r_3\mapsto r_1^{-1}$ ✔ |
 
-スクリプト: `scratchpad/class3.mjs`(構造定数と $P_3$ 再現)・`scratchpad/class4.mjs`(class 3/4 の brute force)・`scratchpad/solve2adic.mjs`($\mathbb Z/2^j$ 上の厳密線型解法)・`scratchpad/rational4.mjs`($\mathbb Q$ 上の解と分母検分)・`scratchpad/witness4.mjs`(定理 E9′ の閉形直接検査)。**恒久化が要るなら司令塔経由で `search/` か `crosscheck/` へ移送**(本稿は数学的正本、スクリプトは検算用)。
+スクリプト: `scratchpad/class3.mjs`(構造定数と $P_3$ 再現)・`scratchpad/class4.mjs`(class 3/4 の brute force)・`scratchpad/rational4.mjs`($\mathbb Q$ 上の解と分母検分)・`scratchpad/witness4.mjs`(定理 E9′ の閉形直接検査)・`scratchpad/f1_witness.g`(**GAP・§F-1 の主判定器**)。**恒久化が要るなら司令塔経由で `search/` か `crosscheck/` へ移送**(本稿は数学的正本、スクリプトは検算用)。
+
+> ### ⚠ 回収時の警告 — `scratchpad/solve2adic.mjs` と `f1_metab5.mjs` は**欠陥あり・そのまま再利用しない**
+> 両者が共有する `solveMod`(2 進付値ピボットの掃き出し)は $\mathbb Z/2^j$ 上で**自由変数を 0 に固定**するため、**偽の欠損(spurious "MISSING")を出す**(§F-1.2)。
+> - **偽の解は出さない**ので、これらが返した**肯定側の結果は無傷**(しかも上表の各行で witness を直接代入検証済み)。
+> - **否定側の出力は一切信用してはならない。** 実際 `f1_metab5.mjs` は E15 を誤って反証した。
+> - **代替**: $\mathbb Z/2^j$ 上の可解性判定は **`f1_witness.g`(GAP・Smith 標準形+witness 直接検証)を正本**とする。掃引実装もこちらを使うこと(§3.5 の `unsolvability_certificate` 規則)。
 
 > **状態札の分離(W60/W92 準拠)**
 > - 定理 E9・命題 E8/E10/E12・観察 B1: **紙上証明**(Opus 単独)。**Sol 未監査**なので `paper mutual-audit PASS` ではない。
