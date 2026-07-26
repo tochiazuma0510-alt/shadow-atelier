@@ -383,3 +383,21 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-26 -- 【GAP-18a】K^(3) の 6 点作用と検出器 Lambda への F0 作用(implementer 実行)
 
 - `search/k3-lambda-action.g`(GAP、MakeGn(3) 転用・LatticeSubgroups で位数18部分群18個を悉皆・4共役類 |Lambda|=3,6,3,6 を検出)+ F0={phi_k:k=0,1,2}(Thm4.3 (4.12) m=0 の hexagon-automorphism、GroupHomomorphismByImages+IsBijectiveで機械確認・生成群位数3)。**4共役類すべてでF0のLambda作用は非自明**(|Lambda|=6側: 像36・核3・不動点なしの2個の3-サイクル(委嘱18 sec2.1の主張と一致)/ |Lambda|=3側: 単一3-サイクル・構造的に自動)。発注書「Lambda(3元集合)」と正本委嘱18「Lambda(6元)」の不一致を発見・推測せず4通り全計算+速達箱(`ops/express/20260726_implementer_gap18a-lambda-ambiguity.md`)で確認要請。証明書 `certificates/k3/gap18a.json`(schema k3-lambda-action/v1)・詳細 `docs/notes/検算_18a.md`。commit未実施。
+
+## 2026-07-26 -- レベル16双子セル列挙機 v1: falsifier監査(反証前哨_双子セル.md)の要求4件対応(implementer実行)
+
+- falsifier監査(docs/notes/反証前哨_双子セル.md、PASS保留・要求事項1-4)を受け、司令塔指示により修理。
+- **【重大】較正③新設**: K^(8)の既知値|GT|=16(Thm4.3/5.3、2^(2*alpha-2)、alpha=3)をGAP側(calib3Status/calib3KnownValueOk、FIRE unlocked分岐でのみRAN、locked中はstatus="LOCKED"で明示)・node側(check-twincell.mjs、K8_MakeGn8証明書があればcalib3計算、無ければ[LOCKED]と明示しall_pass判定はブロックしない)・calibration_summary.v1.json(calibration_3セクション)の三箇所に登録。既知値が実行コードから断線したまま発射される事態を解消。
+- **【要修正】較正②upgrade**: 数値一致(|GT|=20)のみだった較正②に、既存A5置換構成(certificates/A1.v2.json marking、X=(1,3,2,4,5)、Y=(1,3,4,5,2))とのmarked factor map全単射(較正①と同水準、GroupHomomorphismByImages x->x,y->y・IsBijective・shadow対応)を追加。新規証明書`certificates/twincell/C10.a5permutation.v1.json`。あわせてA5-CONV適合テスト(ev(y x^-1)=(1 2 4)、docs/週次定義ノート§1.5.4)をtwincell固有のC10 matrix-mod-10構成に対して(C10-matrix<->A5の語転送経由で)直接実行、GAP側・node側とも新規PASS。
+- **【要修正】証明書ハッシュ記載**: `certificates/twincell/`較正分5件+summary計6件(A5置換構成証明書の新規追加込み)のSHA-256:
+  - C8.matrix.v1.json = `9a5b958df6cec3d6e786007acd7993411ea8c7ac7604c1578a0625be139f2411`
+  - C8.d4cubed.v1.json = `463ad292fffbd1cf7d27d7d9d8122170af021fb090d3b251cdbb5ad0ae7ce89e`
+  - C10.matrix.v1.json = `69b617a72572ae09959501a106000c98baa27062703ba904b420facebb44dfb6`
+  - C10.a5permutation.v1.json(新規) = `daf5e669648249f2b62b6db7082e4a622866d27efe3573215b5f1467dfd7abd4`
+  - C8.matrix.v1.WRONG_LEVEL6_fixture.json = `b73f386985ef97a4e925b6395e89361e625bb69ada99080224fe595d93ad758b`
+  - C8.matrix.v1.Ybar_signflip_BONUS.json = `b441a1be9372be2d65ff93798d774f5e6c9e5d9b5c386b9f5cd5d933fee66d7d`
+  - calibration_summary.v1.json = `35fd25d4e8f84ed6017dd25d5677d52b11696806e2071a7009d17affe323024d`
+  - 上記7件連結SHA-256 = `7b6dbddfac2293e9f01c68a11bffbdf9d1383d8df83bae89812b4a2b4b07e25d`
+- **【軽微・対応済み】**: check-twincell.mjsのper-cert出力ラベルに「[self-consistency of this certificate]」注記を追加(負例fixtureのPASS表示が「較正合格」と誤読されるのを防止)。A5-CONV適合テストをtwincell固有構成に対して明示実行(上記)。
+- **再実行結果(GAP+node二系統)**: 較正①PASS(matched=4/4)・較正②PASS(数値20+bijection matched=20/20+A5-CONV一致)・較正③はFIRE未解錠のため[LOCKED](既知値16との照合コードは接続済み、発射後に自動実行される)・負例fixture正しくFAIL判定PASS・証明書改竄自己テストPASS。`node crosscheck/check-twincell.mjs`: `check-twincell.mjs overall: all_pass`。
+- manifest本文への数値cap・エスカレーション先の明記(falsifier要求4)は司令塔対応事項のため本記帳では未対応。commit未実施。

@@ -13,8 +13,16 @@
 // 出力スキーマ: crosscheck/verdicts/<window_id>.twincell.verdict.json(ok/errors/observed)。
 // 検査する不変量: universe(pb3_index/n_ord/charming_set/derived_order/candidate_total)・
 //   hexagon_free_certificate(candidate_total/h10_fail/h11_fail/generation_fail/shadow_total)・
-//   generation_detail の再評価一致・(較正①のみ)marked factor map 全単射・
+//   generation_detail の再評価一致・較正①(marked factor map 全単射, matrix-mod-8 <-> D4^3)・
+//   較正②(marked factor map 全単射, matrix-mod-10 <-> A5 permutation, + A5-CONV 適合テスト)・
+//   較正③(K^(8) の既知値 |GT|=16, Thm 4.3/5.3 alpha=3 -- 標的窓の証明書が存在する場合のみ)・
 //   (自己テスト)証明書の数値を故意に壊した clone が FAIL することの確認。
+//
+// 【読み方の注意・falsifier 監査 §5a 軽微指摘への対応】「window <id>: PASS/FAIL」という行は
+// **その証明書単体の自己無矛盾性**(claimed 値 = 独立再計算値)を意味するだけであり、
+// 「その窓が較正に合格した」という意味ではない。負例 fixture の証明書は、正直に作られていれば
+// 自己無矛盾なので self-consistency は PASS になる(=正しい振る舞い) -- 負例としての合否は
+// 別行の「NEGATIVE FIXTURE ... correctly_rejected」で報告される。
 'use strict';
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -195,6 +203,38 @@ function enumerateReducedHexagon(G, X, Y, charmingSet) {
   };
 }
 
+// ================= A5 permutation construction (own from-scratch reimplementation of the marking
+// verbatim from certificates/A1.v2.json / week3-battery-A1.g: X=(1,3,2,4,5), Y=(1,3,4,5,2) --
+// this is spec-disclosed known marking data, not an import of search/ code) =================
+function permMul(p, q) { return p.map((_, i) => q[p[i]]); }
+function permInv(p) { const r = new Array(p.length); p.forEach((v, i) => { r[v] = i; }); return r; }
+function permId(n) { return Array.from({ length: n }, (_, i) => i); }
+function permEq(a, b) { return a.length === b.length && a.every((x, i) => x === b[i]); }
+function permPow(p, k) {
+  const n = p.length;
+  if (k === 0) return permId(n);
+  let base = k < 0 ? permInv(p) : p, e = Math.abs(k), res = permId(n);
+  while (e > 0) { if (e % 2 === 1) res = permMul(res, base); base = permMul(base, base); e = Math.floor(e / 2); }
+  return res;
+}
+function cyclesToPerm(n, cycles) {
+  const perm = permId(n);
+  for (const cyc of cycles) {
+    const idx = cyc.map((x) => x - 1);
+    for (let i = 0; i < idx.length; i++) perm[idx[i]] = idx[(i + 1) % idx.length];
+  }
+  return perm;
+}
+function makePermWrapper(n) {
+  return { id: permId(n), mul: permMul, inv: permInv, key: (p) => p.join(','), eq: permEq, pow: permPow };
+}
+function makeA5Construction() {
+  const G = makePermWrapper(5);
+  const X = cyclesToPerm(5, [[1, 3, 2, 4, 5]]);
+  const Y = cyclesToPerm(5, [[1, 3, 4, 5, 2]]);
+  return { G, X, Y };
+}
+
 // ================= per-construction group builders keyed by window_id =================
 function groupForWindow(windowId) {
   if (windowId.startsWith('C8_matrix_mod8_Ybar_signflip')) {
@@ -204,11 +244,27 @@ function groupForWindow(windowId) {
   }
   if (windowId.startsWith('C8_matrix_WRONG_LEVEL6')) { const g = makeMatGroup(6); return { G: g, X: g.X, Y: g.Y }; }
   if (windowId.startsWith('C8_matrix') || windowId === 'C8_matrix_mod8') { const g = makeMatGroup(8); return { G: g, X: g.X, Y: g.Y }; }
+  if (windowId === 'C10_A5_permutation') { return makeA5Construction(); }
   if (windowId.startsWith('C10_matrix')) { const g = makeMatGroup(10); return { G: g, X: g.X, Y: g.Y }; }
   if (windowId.startsWith('C16_matrix')) { const g = makeMatGroup(16); return { G: g, X: g.X, Y: g.Y }; }
   if (windowId === 'C8_D4cubed') { const gn = makeGn(4); return { G: gn.T, X: gn.X, Y: gn.Y }; }
   if (windowId === 'K8_MakeGn8') { const gn = makeGn(8); return { G: gn.T, X: gn.X, Y: gn.Y }; }
   return null;
+}
+
+// ================= A5-CONV 適合テスト(twincell 固有・falsifier 監査 §4 軽微指摘への対応)
+// docs/week1-定義ノート.md §1.5.4 の判定式 ev(y x^-1) = (1 2 4) を、C10 matrix-mod-10 構成の
+// 要素を実際に BFS で得た語に変換し、その同じ語を A5 permutation 構成側で評価する(較正②の
+// marked bijection と同じ「語の転送」による、GAP 側 twincell-enum.g の手続きに正確に対応)。=================
+function checkA5ConvViaBijection(matRes, a5Res) {
+  const word = [['y', 1], ['x', -1]];
+  const fMat = evalWordPrepend(matRes.G, matRes.X, matRes.Y, word);
+  const { wordOf } = bfsWords(matRes.G, matRes.X, matRes.Y);
+  const w = wordOf.get(matRes.G.key(fMat));
+  if (w === undefined) return { ok: false, reason: 'f (y x^-1 in matrix group) not found via BFS -- should be unreachable' };
+  const img = evalWordPrepend(a5Res.G, a5Res.X, a5Res.Y, w);
+  const target = cyclesToPerm(5, [[1, 2, 4]]);
+  return { ok: a5Res.G.eq(img, target), observed: img, target };
 }
 
 // ================= per-certificate check =================
@@ -328,6 +384,7 @@ function main() {
     C8_matrix_mod8: 'C8.matrix.v1.json',
     C8_D4cubed: 'C8.d4cubed.v1.json',
     C10_matrix_mod10: 'C10.matrix.v1.json',
+    C10_A5_permutation: 'C10.a5permutation.v1.json',
     C8_matrix_WRONG_LEVEL6_fixture: 'C8.matrix.v1.WRONG_LEVEL6_fixture.json',
     C8_matrix_mod8_Ybar_signflip_BONUS: 'C8.matrix.v1.Ybar_signflip_BONUS.json',
     C16_matrix_mod16: 'C16.matrix.v1.json',       // target window -- may not exist while FIRE-locked
@@ -344,7 +401,7 @@ function main() {
     const verdict = checkCert(cert);
     results[id] = verdict;
     writeFileSync(join(VERDICT_DIR, `${id}.twincell.verdict.json`), JSON.stringify(verdict, null, 2));
-    console.log(`window ${id}: ${verdict.ok ? 'PASS' : 'FAIL'}${verdict.errors.length ? '  -- ' + verdict.errors.join('; ') : ''}`);
+    console.log(`window ${id} [self-consistency of this certificate]: ${verdict.ok ? 'PASS' : 'FAIL'}${verdict.errors.length ? '  -- ' + verdict.errors.join('; ') : ''}`);
   }
 
   // ---- Calibration 1: C8 marked factor map bijection (matrix-mod-8 <-> D4^3) ----
@@ -360,9 +417,33 @@ function main() {
   console.log(`\n[${calib1.ok ? 'PASS' : 'FAIL'}] CALIBRATION 1 (marked factor map bijection, C8 matrix-mod-8 <-> D4^3): ${JSON.stringify(calib1)}`);
   console.log(`[${calib1KnownValue ? 'PASS' : 'FAIL'}] CALIBRATION 1 known value (|GT|=4 both sides)`);
 
-  // ---- Calibration 2: C10 known value |GT|=20 ----
+  // ---- Calibration 2: C10 known value |GT|=20 + marked factor map bijection vs A5 permutation
+  // construction (falsifier 監査 §2 要修正への対応 -- 数値一致だけで済ませない) + A5-CONV
+  // (falsifier 軽微指摘6への対応 -- twincell 固有の構成に対する専用実行) ----
   const calib2KnownValue = results.C10_matrix_mod10 && results.C10_matrix_mod10.observed.hexagon_free_certificate.shadow_total === 20;
-  console.log(`[${calib2KnownValue ? 'PASS' : 'FAIL'}] CALIBRATION 2 (C10 matrix-mod-10 |GT|=20 known value)`);
+  console.log(`[${calib2KnownValue ? 'PASS' : 'FAIL'}] CALIBRATION 2 known value (C10 matrix-mod-10 |GT|=20)`);
+  let calib2Bij = { ok: false, reason: 'missing certs' };
+  let a5ConvResult = { ok: false, reason: 'missing certs' };
+  if (results.C10_matrix_mod10 && results.C10_A5_permutation) {
+    calib2Bij = checkMarkedBijection(results.C10_matrix_mod10, results.C10_A5_permutation);
+    a5ConvResult = checkA5ConvViaBijection(results.C10_matrix_mod10, results.C10_A5_permutation);
+  }
+  console.log(`[${calib2Bij.ok ? 'PASS' : 'FAIL'}] CALIBRATION 2 (marked factor map bijection, C10 matrix-mod-10 <-> A5 permutation): ${JSON.stringify(calib2Bij)}`);
+  console.log(`[${a5ConvResult.ok ? 'PASS' : 'FAIL'}] A5-CONV (twincell 固有, transported via C10-matrix<->A5 word bijection): observed=${a5ConvResult.observed} target=${a5ConvResult.target}`);
+  const calib2Ok = calib2KnownValue && calib2Bij.ok && a5ConvResult.ok;
+  console.log(`[${calib2Ok ? 'PASS' : 'FAIL'}] CALIBRATION 2 overall`);
+
+  // ---- Calibration 3: K^(8) known value |GT|=16 (Thm 4.3/5.3, alpha=3) -- only if the target
+  // window certificate exists (i.e. FIRE unlocked and the main sweep has run). While locked, this
+  // reports status=LOCKED (not a silent skip, not a false PASS) -- falsifier 監査 §3b 重大指摘 ----
+  let calib3 = { status: 'LOCKED', known_value_ok: null };
+  if (results.K8_MakeGn8) {
+    const observedShadowTotal = results.K8_MakeGn8.observed.hexagon_free_certificate.shadow_total;
+    calib3 = { status: 'RAN', known_value_ok: observedShadowTotal === 16, observed_shadow_total: observedShadowTotal, expected: 16 };
+    console.log(`[${calib3.known_value_ok ? 'PASS' : 'FAIL'}] CALIBRATION 3 (K^(8) known value |GT|=16, Thm 4.3/5.3 alpha=3): observed=${observedShadowTotal}`);
+  } else {
+    console.log('[LOCKED] CALIBRATION 3 (K^(8) known value |GT|=16) -- target window certificate not found, NOT a PASS');
+  }
 
   // ---- Negative fixture (mistaken level L=6): must NOT match known value / must NOT biject with D4^3 ----
   let negFixtureOk = null;
@@ -380,10 +461,13 @@ function main() {
   }
 
   const perCertOk = Object.values(results).every((r) => r.ok);
-  const allOk = perCertOk && calib1.ok && calib1KnownValue && calib2KnownValue && (negFixtureOk === null || negFixtureOk) && (selfTest === null || selfTest.ok);
+  const calib3Blocking = calib3.status === 'RAN' ? calib3.known_value_ok : true; // LOCKED does not fail the gate, a RAN mismatch does
+  const allOk = perCertOk && calib1.ok && calib1KnownValue && calib2Ok && calib3Blocking
+    && (negFixtureOk === null || negFixtureOk) && (selfTest === null || selfTest.ok);
   writeFileSync(join(VERDICT_DIR, 'twincell.calibration.verdict.json'), JSON.stringify({
     per_cert_ok: perCertOk, calibration_1: { ...calib1, known_value_ok: calib1KnownValue },
-    calibration_2: { known_value_ok: calib2KnownValue },
+    calibration_2: { known_value_ok: calib2KnownValue, bijection: calib2Bij, a5_conv: a5ConvResult, ok: calib2Ok },
+    calibration_3: calib3,
     negative_fixture: { ok: negFixtureOk }, self_test_corruption: selfTest, all_ok: allOk,
   }, null, 2));
   console.log(`\ncheck-twincell.mjs overall: ${allOk ? 'all_pass' : 'FAIL'}`);

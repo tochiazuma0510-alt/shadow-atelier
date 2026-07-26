@@ -230,16 +230,44 @@ calib1KnownValueOk := (runC8mat.result.shadow_total = 4) and (runC8d4.result.sha
 Print("[", PF(calib1KnownValueOk), "] CALIBRATION 1 known value: both constructions give |GT|=4 (Thm 4.3)\n");
 
 # ================================================================================
-# 較正② 𝒞₁₀ = N_A: 系統(a) 行列 mod 10。既知値 |GT|=20 (≅F20, 裁定16) の再現のみが要件。
-# (A5 置換構成との bijection は要件外だが、参考として付す -- 委嘱13/A1.v2.json 系統)
+# 較正② 𝒞₁₀ = N_A: 系統(a) 行列 mod 10。既知値 |GT|=20 (≅F20, 裁定16) の再現に加え、
+# falsifier 監査(docs/notes/反証前哨_双子セル.md §2)の要求により、既存 A5 置換構成
+# (certificates/A1.v2.json のマーキング, week3-battery-A1.g 系統)との marked factor map
+# 全単射を較正①と同水準で追加する(数値一致のみでは「kernel 主張」の証明にならない
+# -- CLAUDE.md 鉄則3・Sol 警告6件・罠12件)。A5 の構成はここで独立に再構築する
+# (search/week3-battery-A1.g を import せず、A1.v2.json 記載の marking を直に転記 -- これは
+# spec-disclosed な既知データの再利用であり、探索器コードの import ではない)。
 # ================================================================================
-Print("\n########## CALIBRATION 2: C10 = N_A, matrix-mod-10 reproduces known |GT|=20 ##########\n");
+Print("\n########## CALIBRATION 2: C10 = N_A, matrix-mod-10 vs A5 permutation construction ##########\n");
 c10mat := BuildMatQuotient(10, 1);;
 Print("C10 matrix-mod-10: |Q_10| = ", c10mat.order, " (expect 60, matches |A5|)\n");
 qrecC10mat := rec(x:=c10mat.x, y:=c10mat.y, c:=c10mat.c, G:=c10mat.G);;
 runC10mat := RunWindow("C10_matrix_mod10", qrecC10mat);;
 calib2KnownValueOk := (runC10mat.result.shadow_total = 20);;
 Print("[", PF(calib2KnownValueOk), "] CALIBRATION 2 known value: matrix-mod-10 gives |GT|=", runC10mat.result.shadow_total, " (expect 20)\n");
+
+# A5 permutation construction (marking verbatim from certificates/A1.v2.json / week3-battery-A1.g)
+A5Xhat := (1,3,2,4,5);;  A5Yhat := (1,3,4,5,2);;
+A5grp := Group(A5Xhat, A5Yhat);;
+qrecA5 := rec(x:=A5Xhat, y:=A5Yhat, c:=(), G:=A5grp);;
+runA5 := RunWindow("C10_A5_permutation", qrecA5);;
+
+calib2Bij := CheckMarkedBijection(runC10mat, runA5);;
+Print("\n[", PF(calib2Bij.ok), "] CALIBRATION 2 (marked factor map bijection, matrix-mod-10 <-> A5 permutation): ",
+      "shadow1=", calib2Bij.shadow1_count, " shadow2=", calib2Bij.shadow2_count, " matched=", calib2Bij.matched, "\n");
+
+# A5-CONV 適合テスト(docs/week1-定義ノート.md §1.5.4, PU-F11 と同一判定式)を twincell 固有の
+# 行列 mod 10 構成に対して直接実行する(falsifier 軽微指摘6への対応 -- 既存 PSL 系列からの
+# 流用ではなく、C10 matrix -> A5 の marked hom を経由した専用チェック)。
+calib2ConvHom := GroupHomomorphismByImages(qrecC10mat.G, A5grp, [qrecC10mat.x, qrecC10mat.y], [A5Xhat, A5Yhat]);;
+a5ConvOk := false;;
+if calib2ConvHom <> fail then
+  evYXinvMat := AbstractProd([qrecC10mat.y, qrecC10mat.x^-1]);;
+  evYXinvA5 := Image(calib2ConvHom, evYXinvMat);;
+  a5ConvOk := (evYXinvA5 = (1,2,4));;
+fi;
+Print("[", PF(a5ConvOk), "] A5-CONV (twincell 固有, C10 matrix-mod-10 経由): ev(y x^-1) mapped into A5 = ",
+      evYXinvA5, " (expect (1 2 4))\n");
 
 # ================================================================================
 # 合成負例 fixture(manifest 発射条件: 既知値をわざと壊した証明書が FAIL すること)
@@ -283,10 +311,20 @@ Print("[INFO] Ybar-sign-flip variant: |Q_8|=", runC8matSignFlip.pb3_index, " sha
 # ================================================================================
 fireLockPath := "search/FIRE_twincell.auth";;
 fireUnlocked := IsExistingFile(fireLockPath);;
+# 較正③(falsifier 監査 §3b・重大指摘への対応): K^(8) の既知値 |GT|=16 (Thm 4.3/5.3,
+# 2^(2*alpha-2), alpha=3) を、印字コメントのみでなく pass/fail 判定変数として登録する。
+# FIRE ロック中は「まだ判定できない(標的窓を走らせていない)」ことを明示するため
+# calib3Status := "LOCKED" とし、calib3KnownValueOk は真偽値ではなく明示的に未定(fail)とする
+# -- これにより calibJson・SUMMARY のどちらでも「ロック中は判定不能」と「判定して不一致」の
+# 区別が機械的に付く(事前登録された既知値が実行コードから断線したまま発射されることを防ぐ)。
+calib3Status := "LOCKED";;
+calib3KnownValueOk := fail;;
+calib3ObservedShadowTotal := fail;;
 Print("\n########## TARGET WINDOWS (C16 matrix-mod-16, K^(8)=MakeGn(8)) ##########\n");
 if not fireUnlocked then
   Print("[LOCKED] ", fireLockPath, " not found -- target window main sweep SKIPPED per manifest_twincell_v1.md.\n");
   Print("[LOCKED] Only calibration windows (C8, C10) and fixtures were executed this run.\n");
+  Print("[LOCKED] CALIBRATION 3 (K^(8) known value |GT|=16) NOT YET RUN -- status=LOCKED, not a PASS.\n");
 else
   Print("[UNLOCKED] ", fireLockPath, " found -- running target window main sweep.\n");
   c16mat := BuildMatQuotient(16, 1);;
@@ -302,6 +340,17 @@ else
   Print("K^(8) (MakeGn(8)): |G_8| = ", Size(gn8.G), " (expect saturated |GT|=16 per Thm 5.3)\n");
   qrecK8 := rec(x:=gn8.x, y:=gn8.y, c:=Identity(gn8.G), G:=gn8.G);;
   runK8 := RunWindow("K8_MakeGn8", qrecK8);;
+
+  # ---- CALIBRATION 3: K^(8) known value |GT|=16 (Thm 4.3/5.3, alpha=3, 2^(2*3-2)=16) ----
+  calib3Status := "RAN";;
+  calib3ObservedShadowTotal := runK8.result.shadow_total;;
+  calib3KnownValueOk := (calib3ObservedShadowTotal = 16);;
+  Print("[", PF(calib3KnownValueOk), "] CALIBRATION 3 known value: K^(8) gives |GT|=",
+        calib3ObservedShadowTotal, " (expect 16, Thm 4.3/5.3 alpha=3)\n");
+  if not calib3KnownValueOk then
+    Print("  [ANOMALY] CALIBRATION 3 MISMATCH -- K^(8) observed shadow_total != 16, report to commander immediately\n");
+  fi;
+
   WriteTwincellCert("certificates/twincell/K8.dncubed.v1.json", "K8_MakeGn8",
     "K^(8) = Im(psi_8) <= D_8^3, x=(r,s,s), y=(rs,r,rs) (D1 (3.1)/(3.6))",
     runK8, "");
@@ -324,6 +373,10 @@ WriteTwincellCert("certificates/twincell/C10.matrix.v1.json", "C10_matrix_mod10"
                 ", Ybar=", MatToStrL(c10mat.yMat)),
   runC10mat, "");
 
+WriteTwincellCert("certificates/twincell/C10.a5permutation.v1.json", "C10_A5_permutation",
+  "N_A = pi^{-1}(ker(F2 ->> A5)), marking verbatim from certificates/A1.v2.json / week3-battery-A1.g: X=(1,3,2,4,5), Y=(1,3,4,5,2)",
+  runA5, "");
+
 WriteTwincellCert("certificates/twincell/C8.matrix.v1.WRONG_LEVEL6_fixture.json", "C8_matrix_WRONG_LEVEL6_fixture",
   Concatenation("(NEGATIVE FIXTURE -- mistaken level L=6 in place of C8's L=8) Xbar=", MatToStrL(c8matBad.xMat),
                 ", Ybar=", MatToStrL(c8matBad.yMat)),
@@ -334,6 +387,18 @@ WriteTwincellCert("certificates/twincell/C8.matrix.v1.Ybar_signflip_BONUS.json",
                 ", Ybar(sign flipped)=", MatToStrL(c8matSignFlip.yMat)),
   runC8matSignFlip, "");
 
+# calibration_3 JSON scalars (LOCKED vs RAN -- computed explicitly, not via a ternary idiom,
+# since GAP string concatenation needs plain string values here)
+if calib3Status = "LOCKED" then
+  calib3KnownValueOkJson := "\"N/A_LOCKED\"";;
+  calib3ObservedShadowTotalJson := "null";;
+  calib3OkJson := "\"LOCKED\"";;
+else
+  calib3KnownValueOkJson := JB(calib3KnownValueOk);;
+  calib3ObservedShadowTotalJson := String(calib3ObservedShadowTotal);;
+  calib3OkJson := JB(calib3KnownValueOk);;
+fi;
+
 calibJson := Concatenation(
   "{\"schema\":\"gtsh-cert/twincell-calib-v1\",",
   "\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/twincell-enum.g\",\"date\":\"2026-07-26\"},",
@@ -343,10 +408,23 @@ calibJson := Concatenation(
   ",\"shadow2_count\":", String(calib1.shadow2_count),
   ",\"matched\":", String(calib1.matched),
   ",\"method\":\"marked_factor_map (GroupHomomorphismByImages x->x,y->y; IsBijective; per-shadow image match)\"},",
-  "\"calibration_2\":{\"ok\":", JB(calib2KnownValueOk),
+  "\"calibration_2\":{\"known_value_ok\":", JB(calib2KnownValueOk),
   ",\"observed_shadow_total\":", String(runC10mat.result.shadow_total),
-  ",\"expected\":20},",
-  "\"negative_fixture\":{\"description\":\"mistaken level L=6 in place of C8's L=8\",",
+  ",\"expected\":20",
+  ",\"bijection_ok\":", JB(calib2Bij.ok),
+  ",\"bijection_shadow1_count\":", String(calib2Bij.shadow1_count),
+  ",\"bijection_shadow2_count\":", String(calib2Bij.shadow2_count),
+  ",\"bijection_matched\":", String(calib2Bij.matched),
+  ",\"bijection_method\":\"marked_factor_map (GroupHomomorphismByImages x->x,y->y vs A5 permutation construction, certificates/A1.v2.json marking); IsBijective; per-shadow image match\"",
+  ",\"a5_conv_ok\":", JB(a5ConvOk),
+  ",\"a5_conv_note\":\"ev(y x^-1) transported via the C10-matrix->A5 marked hom, checked = (1 2 4) per docs/week1-定義ノート.md §1.5.4\"",
+  ",\"ok\":", JB(calib2KnownValueOk and calib2Bij.ok and a5ConvOk), "},",
+  "\"calibration_3\":{\"status\":\"", calib3Status, "\"",
+  ",\"known_value_ok\":", calib3KnownValueOkJson,
+  ",\"observed_shadow_total\":", calib3ObservedShadowTotalJson,
+  ",\"expected\":16,\"note\":\"K^(8)=MakeGn(8), Thm 4.3/5.3 alpha=3, 2^(2*alpha-2)=16; LOCKED until search/FIRE_twincell.auth is issued by the commander\"",
+  ",\"ok\":", calib3OkJson, "},",
+  "\"negative_fixture\":{\"description\":\"mistaken level L=6 in place of C8's L=8 (self-consistency of THIS certificate is not the same as passing the negative-fixture check -- see calibration_summary/negative_fixture.correctly_rejected)\",",
   "\"correctly_rejected\":", JB(negFixtureDetectsCorruption),
   ",\"bad_bijection_ok\":", JB(calibBad.ok),
   ",\"bad_pb3_index\":", String(runC8matBad.pb3_index),
@@ -360,8 +438,14 @@ WriteFile("certificates/twincell/calibration_summary.v1.json", calibJson);;
 Print("\nwrote certificates/twincell/calibration_summary.v1.json\n");
 
 Print("\n===== SUMMARY =====\n");
-Print("[", PF(calib1.ok and calib1KnownValueOk), "] CALIBRATION 1 (C8=K^(4)) overall\n");
-Print("[", PF(calib2KnownValueOk), "] CALIBRATION 2 (C10=N_A) overall\n");
+Print("[", PF(calib1.ok and calib1KnownValueOk), "] CALIBRATION 1 (C8=K^(4)) overall (marked bijection + known value)\n");
+Print("[", PF(calib2KnownValueOk and calib2Bij.ok and a5ConvOk),
+      "] CALIBRATION 2 (C10=N_A) overall (known value + marked bijection vs A5 + A5-CONV)\n");
+if calib3Status = "LOCKED" then
+  Print("[LOCKED] CALIBRATION 3 (K^(8) known value |GT|=16) -- NOT a PASS, target window not yet run\n");
+else
+  Print("[", PF(calib3KnownValueOk), "] CALIBRATION 3 (K^(8) known value |GT|=16) overall\n");
+fi;
 Print("[", PF(negFixtureDetectsCorruption), "] NEGATIVE FIXTURE correctly rejected\n");
 Print("fire_lock unlocked = ", fireUnlocked, "\n");
 
