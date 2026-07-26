@@ -1322,8 +1322,13 @@ RunM6MultiplicityTables := function()
       hasZero := IsBound(table.("0,0"));;
       allNonzero := not hasZero;;
       path := Concatenation("certificates/e2c6/m6_j2_m", String(mIt), ".json");;
+      # include f0/K_generators/K_orders so the Node checker can independently re-enumerate
+      # L_m and recompute the WHOLE table itself (not just re-derive it from the table).
       cert := Concatenation(
-        "{\"claim\":\"m6_multiplicity_table\",\"m\":", String(mIt), ",\"j\":2,",
+        "{\"claim\":\"m6_multiplicity_table\",\"m\":", String(mIt), ",\"j\":2,\"modulus\":4,",
+        "\"witness_f0_abar\":\"", String(f0), "\",",
+        "\"K_generators\":[", JoinC(List(res.kgens, g -> String(g.vec)), ","), "],",
+        "\"K_orders\":[", JoinC(List(res.kgens, g -> String(g.order)), ","), "],",
         "\"total_points\":", String(totalCombos), ",",
         "\"ob_table\":{", JoinC(tableStrs, ","), "},",
         "\"all_nonzero\":", JB(allNonzero), ",",

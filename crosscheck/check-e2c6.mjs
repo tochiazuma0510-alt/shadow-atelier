@@ -439,6 +439,50 @@ for (const fname of certFiles) {
     continue;
   }
 
+  if (cert.claim === 'm6_multiplicity_table') {
+    // Independent recheck: re-enumerate the FULL L_m = f0 + ker (all Prod(K_orders)
+    // combinations, from the cert's own f0/K_generators/K_orders) and independently
+    // recompute ob at EVERY point via this file's own qThetaFullRaw/qNFullRaw/obFromQPair
+    // (agree6_sol2.json-based), building an independent multiplicity table, then comparing
+    // to the cert's claimed table exactly (not just spot-checking a few points).
+    const R = 2 ** (cert.j - 1);
+    const f0 = parseMaybe(cert.witness_f0_abar);
+    const gens = cert.K_generators.map(parseMaybe);
+    const orders = cert.K_orders.map(parseMaybe);
+    const r = gens.length;
+    const total = orders.reduce((a, b) => a * b, 1);
+    const table = new Map();
+    const avec = new Array(Math.max(r, 1)).fill(0);
+    let done = r === 0;
+    let count = 0;
+    while (!done) {
+      let f = f0.slice();
+      for (let i = 0; i < r; i++) if (avec[i]) f = f.map((x, k) => x + avec[i] * gens[i][k]);
+      f = f.map((x) => mod(x, 4));
+      const qT = qThetaFullRaw(f);
+      const qN = qNFullRaw(f, cert.m);
+      const obR = obFromQPair(qT, qN, R);
+      const key = `${obR.ob_a},${obR.ob_b}`;
+      table.set(key, (table.get(key) || 0) + 1);
+      count++;
+      if (r === 0) { done = true; } else {
+        let idx = 0;
+        while (idx < r) { avec[idx]++; if (avec[idx] < orders[idx]) break; avec[idx] = 0; idx++; }
+        if (idx >= r) done = true;
+      }
+    }
+    const certKeys = Object.keys(cert.ob_table).sort();
+    const gotKeys = [...table.keys()].sort();
+    const keysMatch = JSON.stringify(certKeys) === JSON.stringify(gotKeys);
+    const valuesMatch = keysMatch && certKeys.every((k) => table.get(k) === cert.ob_table[k]);
+    const totalMatch = count === total && total === cert.total_points;
+    const ok = keysMatch && valuesMatch && totalMatch;
+    const gotTableStr = JSON.stringify(Object.fromEntries(table));
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: m6_multiplicity_table (m=${cert.m}, |L|=${total}) independently re-enumerated table=${gotTableStr} (cert claimed ${JSON.stringify(cert.ob_table)})`);
+    if (!ok) certFails++;
+    continue;
+  }
+
   if (cert.claim !== 'linear_stage_kernel_c6') {
     console.log(`SKIP  ${fname}: unrecognized claim "${cert.claim}"`);
     continue;
