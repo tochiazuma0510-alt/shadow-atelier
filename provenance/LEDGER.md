@@ -342,3 +342,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   のいずれの核候補も B₃-許容でなく、窓の新候補にはならない**。較正: G4=SmallGroup(32,2)(既知の K̄⁽⁴⁾、
   1軌道)は θ・τ 共に PASS(想定どおり、実装バグなし)。証明書 `certificates/a5/sg32_admissibility.json`、
   詳細 `docs/notes/検算_sg32許容性.md`。
+
+## 2026-07-26 — E2 class-6 二方向掃引: 線型段+fixture 実装(発射は保留・implementer 実行)
+
+- `search/e2c6-sweep.g`(GAP、入力=`crosscheck/agree6_claude.json`のみ・elapsed ~700ms)+ `crosscheck/check-e2c6.mjs`(Node、入力=`crosscheck/agree6_sol2.json`のみ・系統分離)で線型段(Ā_j=15次元, rank15 の (1+θ̄)f=0 & N̄f=−Ē_m)・証明書配管・fixture (ii) class-5 統制(j=2, m=0..63 全可解 PASS)・fixture (iii) mass check(判定基準=解の重複度総和=Π n_i の厳密一致、司令塔補完の基準で class-5 統制系+class-6-shaped 合成系(rhs=0、実ターゲットの m は不使用)双方で PASS)を実装・実行。表転写・d_theta/d_sigma 自己整合の自己検査も全 PASS(GAP側3件・Node側3件)。**64系の本走査(実 m での ob 判定)は未実行**。**ob 抽出層(「(q_θ)₊」の射影定義)は司令塔差し込み(falsifier 計画監査: (A)3⁻¹(1+σ+σ²)平均化射影 vs (B) Ra⊕Rb 単純読取、未批准)により実装保留**— fixture (i)(合成非零で ob≠0 発火)もこれに伴い保留。証明書 `certificates/e2c6/fixture_{ii,iii}_*.json`(5件、fixture専用・ob_a/ob_b は null)、詳細・未解決確認事項は `docs/notes/実装_e2c6掃引.md`。
