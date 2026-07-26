@@ -328,3 +328,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-26 — E2 掃引①r2 項目3・384 系本走査(発射許可後・implementer 実行)
 
 - sol2 一致確認(608 PASS/0 FAIL・規約差ゼロ、`docs/notes/一致確認_E2作用表.md`)を受けた発射許可により、`search/e2-sweep-r2.g` で j=1..6 × m=0..63 の全 384 系を線型段+二次段(F/πB exhaustion・mass check・双対証明書)まで完全実行(elapsed 11094ms・cap 600秒内)。結果: **384/384 POSITIVE(線型段不可解 0・二次段障害 0・cap_exceeded 0)・mass_check 全系 PASS・「F が K 上で恒等的に定数」の現象が全 384 系で観測**(解釈は保留・事実のみ記帳)。証明書 `certificates/e2sweep/sweep_j{1..6}_m{0..63}.json`(384 件、`solution_witness` 型)を `crosscheck/check-e2-action.mjs` が全件独立再検算(GAP コード不読・凍結スペックのみ入力)し **409/409 PASS・0 FAIL・0 SKIP**。証明書一式(401 件、demo/smoke 含む)の連結 SHA-256 = `cdbed977f91be34ec771c0377167ad23f38987c5244cac5b2ab95eb7d888e1a7`、384 本番のみの連結 SHA-256 = `f67aefde75718de1ffb63bc6be0adfeffdb3e7f7f3627f55b37c3359436293e6`。
+
+## 2026-07-26 — 位数 32 全 51 群 (4,4,4)-marked F2-商 悉皆走査(裁定_19 §4 発注・implementer 実行)
+
+- `search/smallgroup32-scan.g`(elapsed 1500ms)で SmallGroup(32,i), i=1..51 の全群につき、G²=1024 対の総当たりで N_i(<a,b>=G かつ ord(a)=ord(b)=ord(ab)=4 を満たす対の数)を算出。G4=⟨(r,s,s),(rs,r,rs)⟩≤D4^3(`week3-M5-explorer.g`の`MakeGn(4)`)は IdSmallGroup(G4)=[32,2] と同定(N_2=384, |Aut|=384, kernels=1 — 裁定_18 の「384/384」と整合)。**結果: N_i>0 は SmallGroup(32,2) だけでなく SmallGroup(32,6)((C2xC2xC2):C4, N_6=192, |Aut|=64, kernels=3)も非零 — 「G4 ただ一つ」の予測は不成立(反例あり)**。独立の別アルゴリズム再計算(`search/smallgroup32-scan-diag.g`、群2・群6のみ)で完全一致確認(社内サニティ、正式照合器ではない)。証明書 `certificates/a5/smallgroup32_scan.json`、詳細 `docs/notes/検算_sg32走査.md`。384/384 の昇格経路(marked bridge 第二証明)はこの形では閉じない。
