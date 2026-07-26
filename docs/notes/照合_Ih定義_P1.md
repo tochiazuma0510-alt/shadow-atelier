@@ -114,3 +114,74 @@
 3. Ih の第 1 成分は χ(g) でなく **(χ(g)−1)/2**((1.5))。作用の指数と shadow 指数の対応は χ(g) = 2m̂+1((1.7))。
 4. 向きはすべて共変(homomorphism)。anti-homomorphism/cofunctor 規約は両論文とも不採用(語自体が 0 件)。
 5. N が isolated でないときの Ih_N は群準同型でない(2405.11725 Remark 1.4、p.6)— 「準同型」と呼べるのは isolated N のときのみ。
+
+---
+
+## 追加照合: f の所属(f̂ ∈ [F̂₂,F̂₂]^top.cl. が定義の要求か)
+
+- 状態: **画像照合済み**(q2401-01/02/06/07/11/26.png・q2405-02/11.png)
+- 照合日: 2026-07-26
+
+### 結論: **Yes — 両論文とも ĜT_gen の定義の明示的要求**(2401.06870 p.2・(2.8) p.7 / 2405.11725 p.2)
+
+### A. arXiv 2401.06870
+
+1. **Introduction(p.2)逐語**:
+
+   > Just as ĜT, the group ĜT_gen consists of pairs (m̂, f̂) ∈ Ẑ × F̂₂ satisfying hexagon relations (1.1), (1.2), the invertibility condition and the following consequence of pentagon relation (1.3):
+   >
+   > f̂ ∈ [F̂₂, F̂₂]^{top. cl.}.
+
+   - gentle 版は pentagon を落とし、その**帰結**である f̂ ∈ [F̂₂,F̂₂]^{top.cl.}(交換子部分群の位相的閉包)を定義条件として残す、と明記。
+
+2. **正式定義((2.8)、§2.2、p.7)逐語**:
+
+   > Let us denote by ĜT_gen,mon the subset of Ẑ × F̂₂ that consists of pairs
+   >
+   > (m̂, f̂) ∈ Ẑ × [F̂₂, F̂₂]^{top. cl.}   (2.8)
+   >
+   > satisfying the hexagon relations (2.9), (2.10).
+
+   - **(2.8) の第 2 成分の属域そのものが [F̂₂,F̂₂]^{top.cl.}**。定義の一部であることは確定。
+
+3. **Drinfeld の元の ĜT(p.1、§1)**: 「It consists of pairs (m̂, f̂) ∈ Ẑ × F̂₂ satisfying the hexagon relations: (1.1), (1.2), the pentagon relation: (1.3) ... and the invertibility condition.」— **ĜT 自体の定義には f̂ ∈ F̂₂′ の明示要求なし**(pentagon から従う帰結という扱い。p.2 の「consequence of pentagon relation (1.3)」)。
+
+4. **shadow 側(有限側)の対応条件 = charming(p.11、§3)逐語**:
+
+   > A GT-pair (3.5) is called charming if
+   > • 2m + 1 represents a unit in the ring ℤ/N_ord ℤ and
+   > • f N_F₂ ∈ [F₂/N_F₂, F₂/N_F₂], or equivalently the coset f N_F₂ can be represented by an element in the commutator subgroup [F₂, F₂] of F₂.
+
+5. **profinite 版が shadow 側条件から復元されること(p.26、§5、Thm 5.2 の証明中)逐語**:
+
+   > The element f̂ belongs to the topological closure of the commutator subgroup [F̂₂, F̂₂] in F̂₂ due to these properties:
+   > • for every N ∈ NFI^isolated_PB₃(B₃), f̂(N_F₂) ∈ [F₂/N_F₂, F₂/N_F₂],
+   > • the open subsets 𝒫̂⁻¹_{N_F₂}(1_{F₂/N_F₂}) ⊂ F̂₂, N ∈ NFI^isolated_PB₃(B₃) form a basis of neighborhoods of 1_{F̂₂} in F̂₂.
+
+   - すなわち**有限側の f N_F₂ ∈ [F₂/N_F₂, F₂/N_F₂](全 isolated N)⇒ profinite 側の f̂ ∈ [F̂₂,F̂₂]^{top.cl.}** が明示的に述べられている(方向は「有限側条件の逆極限が profinite 条件を出す」)。
+
+### B. arXiv 2405.11725
+
+1. **p.2(§1 導入)逐語**:
+
+   > The group ĜT_gen consists of pairs (m̂, f̂) ∈ Ẑ × F̂₂ satisfying the hexagon relations (see equations (1.1) and (1.2) in [6, Introduction]) and the technical condition f̂ ∈ [F̂₂, F̂₂]^{top.cl.}.
+
+   - 「**the technical condition**」として定義に明示。
+
+2. **(1.5) 周辺(p.4)**: f_g 自体には交換子条件の言明なし(「the construction of the element f_g ∈ F̂₂ is described in great detail in [15, Section 1.4]」のみ)。f_g ∈ [F̂₂,F̂₂]^{top.cl.} は Ih の像が ĜT ⊂ ĜT_gen に入るという主張(1.5)–(1.6) 経由の**含意**であり、p.4 に明示の式はない。
+
+3. **shadow 側 = charming(Definition 2.1、p.11)逐語**:
+
+   > If, in addition, the GT-pair satisfies
+   >
+   > gcd(2m + 1, N_ord) = 1  and  f N_F₂ ∈ [F₂/N_F₂, F₂/N_F₂],
+   >
+   > then we call it **charming**.
+
+   - 有限側の条件は**剰余群の交換子部分群への所属**(coset レベル)。判定の釘付けは profinite 側((2.8)/p.2)で行うこと — 有限側は F₂/N_F₂ が完全群(例: A₅ 系)のとき [F₂/N_F₂, F₂/N_F₂] = F₂/N_F₂ となり条件が空虚化する。
+
+### C. 文献ゲート用データ(判定には不使用)
+
+2405.11725 参考文献 [15](p.33、逐語・行結合):
+
+> [15] Y. Ihara, On the embedding of Gal(Q̄/Q) into ĜT. With an appendix by Michel Emsalem and Pierre Lochak. London Math. Soc. Lecture Note Ser., 200, The Grothendieck theory of dessins d'enfants (Luminy, 1993), 289–321, Cambridge Univ. Press, Cambridge, 1994.
