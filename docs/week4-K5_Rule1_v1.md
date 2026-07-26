@@ -409,7 +409,7 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 
 ### 9.3 Model-Builder(A)の入出力 schema(凍結 1 の一部)
 
-**許可される出力**: 明示モデル $C/\mathbb Q$、Belyi 写像 $\lambda$(**完全な式として**)、分岐 divisor、cusp $P_0,P_\infty$、uniformizer $t$ の式、target triple への exact conjugator、分岐指数 10 の証明、$t$ が uniformizer であることの証明、$\operatorname{Aut}(C/\mathbf P^1)=1$ の証明。
+**許可される出力**: 明示モデル $C/\mathbb Q$、Belyi 写像 $\lambda$(**完全な式として**)、分岐 divisor、cusp $P_0,P_\infty$、uniformizer $t$ の式、target triple への exact conjugator、分岐指数 10 の証明、$t$ が uniformizer であることの証明、$\operatorname{Aut}(C/\mathbf P^1)=1$ の証明、**および (7.1) による $b_i$ の計算と記録**(【司令塔修正 C1】: $b_i$ は $u$ に接触しない置換計算であり、BRIDGE-IN 組立ての一部として Model-Builder が計算・記録する。所有者の空白を残さないための明示)。
 
 **禁止される計算**: $\lambda/t^{10}$ の非零定数項およびその同値物(leading coefficient・その valuation・その Kummer class)、**$c$ の平方類・平方因子・符号**、そしてそれらを**候補選択に使うこと**。
 
@@ -434,5 +434,5 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 2. **§2 (M-A) と (M-B) の分離**は過剰か。S5 設計の命題 S5-2/S5-3 が Sol 監査を通れば (M-B) を第一次規則へ格上げでき、正規形はずっと単純になる(枝 (W) は母数 2)。**しかし凍結 1 は単系統結果に依存させたくない**ため v1 では分離した。監査結果を待って v2 で統合するか。
 3. **§5.4 の観測 R1-C**(類は uniformizer に依らない)は既知の covariance control の再述だが、**規則の緩和には使わない**と書いた。この判断でよいか。
 4. **§6.2 B-ii の式 (6.2)** は Taylor 係数の抽出を使う。これを「級数」と見なして経路 A との独立性を疑うべきか、それとも多項式演算として独立と認めてよいか。**私は独立と考える**(曲線上の冪級数持ち上げを一切行わないため)が、独立性の判定は監査側の権限である。
-5. **U-c の計算予算**の具体値(秒数・ステップ数)を凍結 1 に書き込むべきか、それとも委嘱ごとに定めるか。書き込むなら値の提案を求めたい。
+5. ~~U-c の計算予算の具体値を凍結 1 に書き込むべきか~~ →【司令塔修正 C2・裁定 30】**書き込む: U-c の予算 = 1 判定ジョブあたり 600 秒**(manifest の機械走行 cap と同一値・浮動パラメータを残さない)。委嘱全体の cap は従来どおり委嘱ごと。
 6. **【文献要請】** §8.2 の $K^{\times10}$ 判定について、$K=\mathbb Q(\zeta_{20})$ のような**円分体での $n$ 乗剰余判定の標準的な exact アルゴリズムと、その証明書型**(とくに (O-a) の「$v_{\mathfrak p}(v)\not\equiv0$」型 obstruction の標準的な提示法)の定番文献があれば、実装仕様の裏取りになる。欲しい結果の型: **アルゴリズムの正当性証明つきの記述**であって、ライブラリのマニュアルではない。
