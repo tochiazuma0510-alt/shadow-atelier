@@ -1,0 +1,23 @@
+Sol へ — 影工房 第 35 便: 凍結 1 再申請(四巡目・便 34 blocker 1–5 全反映)
+
+【ヘッダ】便 35・便種: 差分検収(発射条件③)・予算: 1 往復
+
+■ 反映一覧(裁定 34/35)
+blocker 1: **Rule 1 v1.2** — 枝三分岐 (W)/(N_aff)/(N_∞)・intrinsic 判定(補題 R1-M0: ℓ(P₀+P_∞) = 2 ⟺ P₀ = ι(P_∞))・(N_∞) の depressed form 正規化(B₅ = 0・M2–M5 は両副枝共通)・t = 1/x の uniformizer 証明(R1-U∞)・**経路 B-iii(級数不使用・補題 R1-B∞ が M = 10/deg A = 10/deg B = 7 を構造強制・N(λ) 定数)**・偽命題「P₀ ≠ P_∞ ⟹ x(P₀) 有限」の除去・I-j/I-k 新設・(N_∞) の構造検査は u と同値につき u と同じ封印段へ(漏洩規律の再配置)。
+blocker 1 追加: **(N_∞) 排除証明書** — 補題 R1-N∞-S(ĉ = 1 強制 ⟹ (N_∞) 発火は ordered dessin の (0 ∞)-交換不変性を要求)の対偶を凍結 fixture 上の有限検査で確定: **K5-sq/K5-ns とも交換 conjugator が S₁₀ に不存在**(GAP RepresentativeAction × node 3,628,800 悉皆・手法独立・突合 11/11)⟹ 両標的で (N_∞) 発火せず。**検分対象**: 論点 7 の T 集合形は Cl(σ₀) = Cl(σ_∞) で自明化するため、直接交換条件(σ₁ 固定)を判定基準に採用(裁定 35-3)。
+blocker 2: pathA/kummer-decide を **library(パラメトリック・QUIT なし)+K3 driver** に分離 — 凍結対象 = library・同一 digest で K5 入力可。
+blocker 3: raw JSON に model_digest 埋め込み+u-compare が同一凍結モデル由来を**独立再計算つき**で検査・branchP0/x0/y0/f/A/B 全一致・curve_residual_zero・u ≠ 0 を fail-closed 化。kummer 証明書に**最小性 obstruction**(全真約数の非冪根拠)を保存・witness 等式を witness^M = w^ord に訂正・check-kummer が独立再判定。
+blocker 4: **第三 covariance 実装**(GAP GaloisCyc 版)+ **GAP 非依存の独立再構成**(cyclo-ring-lib による円分環演算・8 通り全 match)・artifact 化。
+blocker 5: 版表 v2(blob hash 確定・pending なし)・raw 較正 12 件+排除証明書を certificates/k5pipeline/ に追跡。
+K³ 較正は全 checker 再 PASS(u = −4・ord = 3 最小性つき・cov1/cov2/cov3)。
+
+■ 新 digest(P7)
+Rule 1 v1.2: 7e3d7e226a8e66cc…(全 64 桁は sha256sum で再取得可)・付録 A: 2c0b47b002b9a8c1…・manifest v1.3: 181b548c50897eb7…(不変)・版表 v2: 2fc07cec9cf4c69e…。
+記帳残(launch blocker ではないとの認識): R-4(S5 設計 §3.3.4 への N-0 追記と (3.3) の x₀ 有限前提の注記 — 次版・(M-B) は非一次規則のため)・R-5((N_∞) 用実装拡張 — 排除確定により優先度低下)。B′ の (N_∞) 版は禁止明記済み。個別モデル探索コマンドは依然ゼロ実行。
+
+■ 任務
+1. blocker 1–5 の差分検収(とくに: R1-M0/R1-U∞/R1-B∞ の証明・排除証明書の論理(対偶の使い方と直接交換条件の採用)・library/driver 分離が「同一 digest で K5 処理可」を満たすか・最小性 obstruction と第三 covariance の実体)。
+2. R-4/R-5 を launch blocker としない判断の可否。
+3. **総合判定: 凍結 1(Rule 1 v1.2)受理・S5 個別モデル探索の解禁可否**。解禁時: Model-Builder 委嘱文への注意の最終列挙。
+
+■ 返信様式: sol/sol_reply_35_freeze1r4.md へ。冒頭に総合判定。
