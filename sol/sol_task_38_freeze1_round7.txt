@@ -1,0 +1,24 @@
+Sol へ — 影工房 第 38 便: 凍結 1 再申請(七巡目・便 37 残 3 blocker の閉鎖)
+
+【ヘッダ】便 38・便種: 差分検収(発射条件③)・予算: 1 往復
+
+■ 反映一覧(裁定 38・content commit 16b18a7・status commit e4b6239)
+1. **R-7 閉**: 第三 checker の bundle(expected digest)を**必須の独立入力**に(raw 自己申告比較を廃止・canonical-string 逐語一致+digest 束縛)。bundle 生成は pathA/pathB と独立な第三実装(build-frozen-bundles.mjs)。**あなたの攻撃(二 driver 同一誤転記+相互整合)を実構成する adversarial 較正 5/5** — 誤転記は bundle 照合で INTEGRITY_STOP・bundle 側も同じ誤りの対照実験のみ ACCEPT。主枝 K3 は凍結済み K3-regression-model.json を bundle に使用(bridge_mode: calibration_pre_bridge 明記)。
+2. **R-8 閉**: **branch({W, N_aff, N_infty}・P_∞ の大域枝 = §2.2 M0 正本型)と P0_type({Weierstrass, nonWeierstrass}・局所)を分離**(schema v3)。整合規則(W ⟹ P0 非 Weierstrass = S5-W・N_infty ⟹ 同 = R1-M0 3.)+ schema 名と branch の突合。fail-closed 検査 **18/18**。
+3. **covariance envelope 完成**: FORMAL_A のハードコード廃止 → K5-sq/ns の a_sealed を実読取り(両者一致検査)・K3 artifact+K5 2 fixture の**ファイル全体 digest 束縛**・橋段用 CLI(covariance-bridge-in.mjs — b_sq/b_ns 引数・未配線時 BRIDGE-UNKNOWN)と envelope が**同一関数を import**。「受理前・u 開示前」に文言訂正。sealed 判定は明示 count。envelope digest `3a8fb77c727c4ad31270ccfa1b1ccff51ea1a6160baf7c6d6aaed35d1bb31b5a`。
+4. 証明書清掃(旧 schema 2 件を retracted/ へ理由つき・現行 checker で再発行・(N∞) raw に a_M/b_{M−3} 明示)。**司令塔判断 1 件の検分対象**: cov1 派生(K3-regression-cov1-k2)は参考出力につき R-7 bundle 束縛対象外とした(証拠に数えない・covariance control は s↦cs の class 不変検査として既存 PASS のまま)— 可否を。
+5. **R-1/R-2 閉**(status commit): content commit ID を版表に値記入・R-1〜R-8 全閉・§11.1 の受理ゲート文も現状に一致。
+
+■ 最終 digest(status commit e4b6239 時点・全 64 桁)
+- Rule 1: 73008a682ebef33b1c685b6ed6bd7fe6ccfa4eba40ec8be61550f20daef0165e
+- 付録 A: c72b92f7cf2e0b037f00b37e4fef9dd295a831f7179e5acde2141a886a63ab27
+- manifest v1.4: 7b51c6f891eb793ad83d6655129b6ac5791fa5e1fcdb363d0c4dfb7e4c676d8c
+- 実装版表: 537ae83de9ee9fcd00ce37c89bacb916e0dbda423f060c9846282948e457a97a
+- S5 設計: b5a14db3cd18412021fe64398a483e7dfeb4bbe7835ef499ca21108667a20555
+個別モデル探索コマンドは依然ゼロ実行。全較正: K3 回帰 ACCEPT・synthetic M=10/M=3 ACCEPT(bundle BOUND)・R5/R8 18/18・R7 攻撃 5/5・envelope sealed。
+
+■ 任務
+1. 3 blocker 閉鎖+清掃+R-1/R-2 の差分検収(cov1 派生の扱い判断を含む)。
+2. **総合判定: 凍結 1 受理・S5 個別モデル探索の解禁可否**。解禁時: Model-Builder 委嘱文への注意の最終列挙(既設二枝 positive-only の非網羅明記・(N_∞) 報告規則を含む)。
+
+■ 返信様式: sol/sol_reply_38_freeze1r7.md へ。冒頭に総合判定。
