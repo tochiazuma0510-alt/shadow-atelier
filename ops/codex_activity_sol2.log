@@ -22,3 +22,1267 @@ tokens used
 READY-SOL2
 
 ----- turn end (exit 0) 2026-07-26T03:41:45.359Z -----
+
+===== WAKE(sol2) 2026-07-26T03:45:11.319Z =====
+reason: Task: read sol/sol2_task_01_q_verification.txt (UTF-8, Japanese) and perform it. Write your reply to sol/sol2_reply_01_q.md as instructed. Respect the read restrictions in the task file strictly.
+target: 019f9c83-982d-7232-902c-d78943eb7892
+OpenAI Codex v0.144.4
+--------
+workdir: C:\Users\81905\Desktop\shadow-atelier
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: max
+reasoning summaries: none
+session id: 019f9c83-982d-7232-902c-d78943eb7892
+--------
+user
+Task: read sol/sol2_task_01_q_verification.txt (UTF-8, Japanese) and perform it. Write your reply to sol/sol2_reply_01_q.md as instructed. Respect the read restrictions in the task file strictly.
+codex
+指定のキックオフファイルだけを先に UTF-8 で読み、そこに記された閲覧範囲と出力契約に従って監査します。
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -LiteralPath 'sol/sol2_task_01_q_verification.txt' -Raw -Encoding UTF8" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 336ms:
+Sol(並列レーン sol2)へ — 検証委嘱 01: 掃引実装の q 式自己導出の妥当性
+
+【ヘッダ】sol2 便 01・便種: 独立検証(狭スコープ)・予算: 1 往復。まず docs/所在と能力.md を読め(道具と所在の一枚地図)。
+
+■ 課題
+実装担当が E2 掃引 ① r2 の二次/障害段の計算式を自己導出で補った。その妥当性を独立に検証せよ:
+- 導出の所在: search/e2-sweep-r2.g のコード注記 — section cocycle **c_s(a,b) = a_w·(b_p, b_q)** と、そこから導いた q_θ/q_N の関数定義。論拠は「f ∈ L では (1+θ̄)f = 0・𝒩̄f = −Ē_m を使うと群積の Ā 成分が恒等的に消える」。
+- 突合する正本: docs/命題_E22三段判定_v1.md(定理 E22′ — 紙上相互監査 PASS)・docs/week4-掃引宇宙_v3.md+docs/week4-掃引宇宙_v3.1補正.md・search/manifest_spec_e2_actions.md。
+- 較正点: certificates/e2sweep/smoke_negative_c5_m5.json(スモーク観測)・実装が再現済みの構造事実(𝒩_C = 0・im Λ の (t₅+t₆, 0) 方向)。
+
+■ 判定
+(a) E22′ と整合(384 系適用可)/(b) 誤り(正しい式を提示)/(c) 条件付き(適用範囲の限定)。紙上検証を主とし、必要なら小さい検算(数式の手展開)を返信内に。
+
+■ スコープ制限(厳守)
+読むのは上記指定ファイル+所在と能力.md のみ。**読取禁止**: sol/sol_task_15*・sol/sol_reply_15*(別レーンでブラインド進行中)・docs/対話帳.md・docs/notes/検証_q式導出.md(もし存在しても — 別の独立検証者の答案・見ると独立性が壊れる)・ops/。他ファイル変更禁止・返信のみ。
+
+■ 返信様式
+sol/sol2_reply_01_q.md へ。冒頭に判定 (a)/(b)/(c)・根拠・監査範囲外申告。簡潔でよい(この検証は狭スコープ)。
+
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -LiteralPath 'docs/所在と能力.md' -Raw -Encoding UTF8" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 299ms:
+# 所在と能力 — 数学者向けの一枚地図(2026-07-26 新設・司令塔が節目ごとに更新)
+
+**目的**: 「自分は何が使えるか」「どこに何があるか」を便ごとの説明なしで引けるようにする。迷ったらまずこの紙。
+
+## 1. あなたが使える道具(能力)
+
+| 道具 | 用途 | 備考 |
+|---|---|---|
+| **GAP 4.16.0**(必ず `gap.ps1` 経由・-o 2g) | 群計算・列挙 | **同梱パッケージ約 190**: twistedconjugacy(捻れ共役類)・repsn/wedderga(既約行列表現・群環)・lins(低指数正規部分群)・anupq/autpgrp(p 群)・ctbllib(指標表)・**MapClass**(braid 軌道)・hap/cohomolo 等。設計前に棚(pkg/)を確認 |
+| **node / Python** | 検算スクリプト(数十行・整数/置換) | 数学者は「手計算の機械確認」まで。本実装は implementer の職分 |
+| **pdftocairo ページ画像** | 論文の数式の原文照合 | papers/txt のテキスト層と併用(AGENTS.md 参照) |
+| **Lean 工場**(lean/ + GitHub Actions CI) | verified 札の獲得 | plain Lean 4・decide。証明書設計は司令塔・実装は implementer — あなたは「何を Lean 化すべきか」の指定 |
+| **文献ゲート** | 外部論文 | 自分で漁らない。【文献要請】(困難+欲しい結果の型)を書けば hunter が探し原著+覚書が届く |
+| **速達箱 ops/express/** | 急ぎの小連絡 | 1 件 1 ファイル・司令塔が即時回収(常駐監視) |
+| **対話帳 docs/対話帳.md** | 相手数学者への技術ノート | T-番号・追記専用。ブラインド工程中は対象話題禁止 |
+
+## 2. どこに何があるか(所在)
+
+| 場所 | 中身 | 一言 |
+|---|---|---|
+| **provenance/CLAIMS.md** | 全主張の現在状態(candidate/cross-checked/verified) | **「いま何が立っているか」はここが最速** |
+| **provenance/LEDGER.md** | 事象の時系列台帳(封印ハッシュ・事故・裁定要旨) | 経緯を知りたいとき |
+| **sol/裁定_N_*.md** | 各ラウンドの司令塔裁定(採否の確定) | **直近の裁定 = 現在の合意状態**。便の返信より裁定が正 |
+| docs/week1-定義ノート.md | 定義の正本(§1.5 語規約込み) | 定義で迷ったらここ |
+| docs/命題_*・week3/4-*.md | 定理・作戦・manifest 群(versioned — 最大番号が現行) | v1 は歴史・最新 v が正 |
+| docs/文献配達_N_*.md + **papers/delivered/** | 配達済み文献(覚書+原著 PDF) | 原著は資料庫 — 全読義務なし |
+| docs/scout/ | 開示済みの文献報告・読解・検算スクリプト | 配達後のみここに現れる |
+| papers/ + papers/txt/ | 正典論文(2401/2405/2106/2008)+テキスト層 | |
+| certificates/ + crosscheck/verdicts/ | 実装レーンの証明書と照合判定 | 観測値の一次資料(読んでよい) |
+| search/ | explorer・spec 射影(実装の正本) | spec 射影は sealed 除去版 — 期待値はない |
+| 金庫(リポジトリ外・所在非公開) | 未開示 intel・封印 payload | あなたからは見えない(設計どおり) |
+
+## 3. 最短経路表
+
+- いまの主張状態は? → CLAIMS。直近の合意は? → 最新の 裁定_N。定義は? → 定義ノート。
+- 文献が要る → 【文献要請】。急ぎの質問 → 速達箱。相手への技術ノート → 対話帳。
+- 観測値の根拠 → certificates/。作法 → 職務規程(Opus)/ AGENTS.md(Sol)。
+
+**更新責任**: 司令塔(節目ごと)。この紙にない能力を見つけたら速達で知らせよ — 棚卸しは全員の得。
+
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@( 'search/e2-sweep-r2.g', 'docs/命題_E22三段判定_v1.md', 'docs/week4-掃引宇宙_v3.md', 'docs/week4-掃引宇宙_v3.1補正.md', 'search/manifest_spec_e2_actions.md', 'certificates/e2sweep/smoke_negative_c5_m5.json' ) | ForEach-Object { "'$n = (Get-Content -LiteralPath $_ -Encoding UTF8).Count; "$_`t$n" }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 410ms:
+search/e2-sweep-r2.g	361
+docs/命題_E22三段判定_v1.md	310
+docs/week4-掃引宇宙_v3.md	249
+docs/week4-掃引宇宙_v3.1補正.md	96
+search/manifest_spec_e2_actions.md	113
+certificates/e2sweep/smoke_negative_c5_m5.json	1
+
+codex
+閲覧許可された資料は約 1,100 行です。まず実装中の section cocycle と \(q_\theta,q_N\) の定義を行番号付きで読み、その後に E22′ と manifest の規約へ突合します。
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'search/e2-sweep-r2.g'; "'$lines=Get-Content -LiteralPath $p -Encoding UTF8; for($i=0;$i -lt [Math]::Min(190,$lines.Count);$i++){ '"'{0,4}: {1}' -f ("'$i+1),$lines[$i] }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 343ms:
+   1: # search/e2-sweep-r2.g -- workorder5 continuation: item1 (synthetic negative smoke test) +
+   2: # item3 (sweep (1) r2), per docs/week4-掃引宇宙_v3.md + search/manifest_spec_e2_actions.md +
+   3: # docs/week4-掃引宇宙_v3.1補正.md (all three spec-projection files, per coordinator's read list).
+   4: #
+   5: # Model reuse: Abar's 10-dim basis (w,p,q,r1,r2,r3,t1,t2,t3,t4) is stated (v3 sec.1.3) to be in
+   6: # exact bijection with the E19 c=5 monomial basis (S^aT^b, a+b<=3, deg-asc/within-deg a-desc order)
+   7: # -- so bar_theta=ThetaP, bar_sigma(.,m)=SigmaP(.,m), bar_E_m=EmP(m) at class 5, copied here
+   8: # UNCHANGED from search/e19.g (same functions, this is the SAME object, not a coincidence).
+   9: #
+  10: # Quadratic-stage derivation (own reasoning, flagged for review -- see report to commander): the
+  11: # spec gives beta (full bracket on Abar->C) and sigma|_C/theta|_C explicitly, but NOT a literal
+  12: # formula for q_theta/q_N as functions on general Abar elements. Key observation used here: q_theta,
+  13: # q_N are ONLY EVER evaluated at f in L = ker(1+bar_theta) cap {bar_N f = -Ebar_m}, i.e. exactly
+  14: # where bar_theta(f)+f=0 and f+sigma(f)+sigma^2(f)+Ebar_m=0 (additively, Abar free abelian). This
+  15: # means the "Abar-part" of the defining group products s(theta f).s(f) and s(Ebar_m).s(sigma^2 f).
+  16: # s(sigma f).s(f) collapses to s(0)=identity EXACTLY on this domain, so BOTH q_theta and q_N reduce
+  17: # to iterated section-cocycle terms c_s(.,.) alone (a standard nilpotent-group collection fact),
+  18: # and c_s itself is DERIVABLE from the given beta: since the ONLY nonzero brackets among the 10
+  19: # generators are [w,p]=t5, [w,q]=t6 (confirmed: beta(p,q)=0 since both have zero w-coordinate,
+  20: # matching beta's given formula depending only on w,p,q-coordinates), the "upper-triangular"
+  21: # (Hall-order w<p<q<...) section cocycle is c_s(a,b) := a_w*(b_p, b_q) -- i.e. (a_w*b_p, a_w*b_q)
+  22: # in the (t5,t6) basis, where a_w=a[1] is the w-coordinate of vector a. This was verified by hand
+  23: # (report to commander) to reproduce the known im(Lambda)=<(t5+t6,0)> structural fact.
+  24: 
+  25: SizeScreen([4096, 0]);;
+  26: startTime := Runtime();;
+  27: 
+  28: PF := function(b) if b then return "PASS"; else return "FAIL"; fi; end;;
+  29: JoinC := function(strs, sep)
+  30:   local r, i;
+  31:   if Length(strs) = 0 then return ""; fi;
+  32:   r := strs[1];
+  33:   for i in [2..Length(strs)] do r := Concatenation(r, sep, strs[i]); od;
+  34:   return r;
+  35: end;;
+  36: JB := function(b) if b then return "true"; else return "false"; fi; end;;
+  37: WriteFileRaw := function(path, content)
+  38:   local f;
+  39:   f := OutputTextFile(path, false);
+  40:   SetPrintFormattingStatus(f, false);
+  41:   PrintTo(f, content);
+  42:   CloseStream(f);
+  43: end;;
+  44: 
+  45: # ================================================================================
+  46: # model (copied UNCHANGED from search/e19.g -- same object, per the bijection stated in
+  47: # manifest_spec_e2_actions.md; this is reuse of an already-independently-verified model, not a
+  48: # fresh port of a DIFFERENT script)
+  49: # ================================================================================
+  50: DG := 0;;  BASIS := [];;  IDXTAB := [];;
+  51: SetClass := function(c)
+  52:   local d, a, b;
+  53:   DG := c - 2;
+  54:   BASIS := [];
+  55:   IDXTAB := List([1..DG+1], x -> List([1..DG+1], y -> 0));
+  56:   for d in [0..DG] do
+  57:     for a in [d,d-1..0] do
+  58:       b := d - a;
+  59:       Add(BASIS, [a,b]);
+  60:       IDXTAB[a+1][b+1] := Length(BASIS);
+  61:     od;
+  62:   od;
+  63: end;;
+  64: NN := function() return Length(BASIS); end;;
+  65: IdxOf := function(a,b)
+  66:   if a < 0 or b < 0 or a > DG or b > DG then return 0; fi;
+  67:   return IDXTAB[a+1][b+1];
+  68: end;;
+  69: ZeroP := function() return List([1..NN()], x->0); end;;
+  70: ConstP := function(c) local v; v := ZeroP(); if c <> 0 then v[IdxOf(0,0)] := c; fi; return v; end;;
+  71: Sgen := function() local v; v := ZeroP(); v[IdxOf(1,0)] := 1; return v; end;;
+  72: Tgen := function() local v; v := ZeroP(); v[IdxOf(0,1)] := 1; return v; end;;
+  73: Padd := function(u,v) return u+v; end;;
+  74: Psub := function(u,v) return u-v; end;;
+  75: Pscal := function(u,c) return c*u; end;;
+  76: Pmul := function(u,v)
+  77:   local r, i, j, a1,b1,a2,b2, idx;
+  78:   r := ZeroP();
+  79:   for i in [1..NN()] do
+  80:     if u[i] <> 0 then
+  81:       a1 := BASIS[i][1];  b1 := BASIS[i][2];
+  82:       for j in [1..NN()] do
+  83:         if v[j] <> 0 then
+  84:           a2 := BASIS[j][1];  b2 := BASIS[j][2];
+  85:           if a1+a2+b1+b2 <= DG then
+  86:             idx := IdxOf(a1+a2, b1+b2);
+  87:             r[idx] := r[idx] + u[i]*v[j];
+  88:           fi;
+  89:         fi;
+  90:       od;
+  91:     fi;
+  92:   od;
+  93:   return r;
+  94: end;;
+  95: Ppow := function(u, k)
+  96:   local r, b, n;
+  97:   r := ConstP(1);  b := ShallowCopy(u);  n := k;
+  98:   while n > 0 do
+  99:     if n mod 2 = 1 then r := Pmul(r,b); fi;
+ 100:     b := Pmul(b,b);
+ 101:     n := QuoInt(n,2);
+ 102:   od;
+ 103:   return r;
+ 104: end;;
+ 105: PinvUnit := function(u)
+ 106:   local x, r, t, i;
+ 107:   x := Psub(u, ConstP(1));
+ 108:   r := ConstP(1);  t := ConstP(1);
+ 109:   for i in [1..DG] do
+ 110:     t := Pmul(t, x);
+ 111:     if i mod 2 = 1 then r := Psub(r,t); else r := Padd(r,t); fi;
+ 112:   od;
+ 113:   return r;
+ 114: end;;
+ 115: Sunit := function() return Padd(ConstP(1), Sgen()); end;;
+ 116: Tunit := function() return Padd(ConstP(1), Tgen()); end;;
+ 117: Psubst := function(f, U, V)
+ 118:   local r, Up, Vp, i, a, b;
+ 119:   r := ZeroP();
+ 120:   Up := [ConstP(1)];  Vp := [ConstP(1)];
+ 121:   for i in [1..DG] do
+ 122:     Add(Up, Pmul(Up[i], U));
+ 123:     Add(Vp, Pmul(Vp[i], V));
+ 124:   od;
+ 125:   for i in [1..NN()] do
+ 126:     if f[i] <> 0 then
+ 127:       a := BASIS[i][1];  b := BASIS[i][2];
+ 128:       if a+b <= DG then
+ 129:         r := Padd(r, Pscal(Pmul(Up[a+1], Vp[b+1]), f[i]));
+ 130:       fi;
+ 131:     fi;
+ 132:   od;
+ 133:   return r;
+ 134: end;;
+ 135: ThetaP := function(f) return Pscal(Psubst(f, Tgen(), Sgen()), -1); end;;
+ 136: TauP := function(f)
+ 137:   local invs, invt, rho;
+ 138:   invs := PinvUnit(Sunit());
+ 139:   invt := PinvUnit(Tunit());
+ 140:   rho := Psub(Pmul(invs,invt), ConstP(1));
+ 141:   return Pmul(Psubst(f, Tgen(), rho), invs);
+ 142: end;;
+ 143: SigmaP := function(f, m) return Pmul(Ppow(Tunit(), m), TauP(f)); end;;
+ 144: EmP := function(m)
+ 145:   local s,t,st,AA,c,k,invsm;
+ 146:   if m = 0 then return ZeroP(); fi;
+ 147:   s := Sunit();  t := Tunit();  st := Pmul(s,t);
+ 148:   AA := function(u,n) local r,p,i; r:=ZeroP(); p:=ConstP(1);
+ 149:     for i in [0..n-1] do r := Padd(r,p); p := Pmul(p,u); od; return r; end;
+ 150:   c := ZeroP();
+ 151:   for k in [2..m] do c := Padd(Pmul(t, AA(st,k-1)), Pmul(t,c)); od;
+ 152:   invsm := Ppow(PinvUnit(s), m);
+ 153:   return Psub(c, Pmul(invsm, Pmul(AA(s,m), AA(st,m))));
+ 154: end;;
+ 155: MatOf := function(op)
+ 156:   local n, m, i, e;
+ 157:   n := NN();  m := [];
+ 158:   for i in [1..n] do
+ 159:     e := ZeroP();  e[i] := 1;
+ 160:     Add(m, op(e));
+ 161:   od;
+ 162:   return m;
+ 163: end;;
+ 164: 
+ 165: SetClass(5);;  # Abar model: class 5, dim 10, matches w,p,q,r1,r2,r3,t1,t2,t3,t4
+ 166: 
+ 167: # ================================================================================
+ 168: # C-level structure (new data, manifest_spec_e2_actions.md)
+ 169: # ================================================================================
+ 170: ThetaC := function(v) return [v[2], v[1]]; end;;               # [[0,1],[1,0]]
+ 171: SigmaC := function(v) return [-v[2], v[1]-v[2]]; end;;         # [[0,-1],[1,-1]]
+ 172: NC := function(v) return v + SigmaC(v) + SigmaC(SigmaC(v)); end;;
+ 173: 
+ 174: ncOk := (NC([1,0]) = [0,0] and NC([0,1]) = [0,0]);;
+ 175: Print("[", PF(ncOk), "] N_C = 0 on both basis vectors (S-3 stop condition, structural fact from v3 sec.1.4/sys E22.6)\n");
+ 176: if not ncOk then
+ 177:   Print("[STOP-S3] N_C != 0 -- halting (math or model error). Remaining computation SKIPPED.\n");
+ 178: fi;
+ 179: 
+ 180: if ncOk then
+ 181: 
+ 182: # beta: Abar x Abar -> C, using ONLY w,p,q coordinates (BASIS positions 1,2,3)
+ 183: BetaAC := function(u, v)
+ 184:   return [ u[1]*v[2] - u[2]*v[1], u[1]*v[3] - u[3]*v[1] ];
+ 185: end;;
+ 186: Print("[", PF(BetaAC(Sgen(), Tgen()) = [0,0]) , "] beta(p,q) = 0 (sanity: only w-paired brackets nonzero)\n");
+ 187: 
+ 188: # section cocycle c_s(a,b) := a_w * (b_p, b_q), derived from beta (see header note)
+ 189: Cs := function(a, b) return [ a[1]*b[2], a[1]*b[3] ]; end;;
+ 190: 
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'search/e2-sweep-r2.g'; "'$lines=Get-Content -LiteralPath $p -Encoding UTF8; for($i=190;$i -lt $lines.Count;$i++){ '"'{0,4}: {1}' -f ("'$i+1),$lines[$i] }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 357ms:
+ 191: # Lambda: C -> C x C, Lambda(z) = ((1+theta)z, N_C(z)) = ((1+theta)z, 0) since N_C=0
+ 192: Lambda1 := function(z) return z + ThetaC(z); end;;  # (1+theta)z
+ 193: Print("im(Lambda) generator check: Lambda((1,0)) = ", JoinC([String(Lambda1([1,0])),String(NC([1,0]))],","), "\n");
+ 194: Print("  Lambda((0,1)) = (1+theta)(0,1) = ", String(Lambda1([0,1])), "\n");
+ 195: Print("[", PF(Lambda1([1,0]) = [1,1] and Lambda1([0,1]) = [1,1]), "] im(Lambda) generated by (1,1) in the (1+theta) coordinate (matches <(t5+t6,0)> structural prediction)\n");
+ 196: 
+ 197: # ================================================================================
+ 198: # q_theta, q_N on L (domain: f with (1+bar_theta)f=0), per header derivation
+ 199: # ================================================================================
+ 200: QTheta := function(f)
+ 201:   local thf;
+ 202:   thf := ThetaP(f);
+ 203:   return Cs(thf, f);   # valid since thf+f=0 for f in L
+ 204: end;;
+ 205: 
+ 206: QN := function(f, m)
+ 207:   local a1, a2, a3, a4, term1, term2, term3;
+ 208:   a1 := EmP(m);
+ 209:   a3 := SigmaP(f, m);
+ 210:   a2 := SigmaP(a3, m);
+ 211:   a4 := f;
+ 212:   term1 := Cs(a1+a2, a3);
+ 213:   term2 := Cs(a1, a2);
+ 214:   term3 := Cs(a1+a2+a3, a4);
+ 215:   return term3 + term1 + term2;   # additive in C = Z^2
+ 216: end;;
+ 217: 
+ 218: Xi := function(f, m) return Concatenation(QTheta(f), QN(f,m)); end;;  # 4-vector in C x C
+ 219: 
+ 220: # ================================================================================
+ 221: # v3.1 F5/F12.3 postcondition: for basis-generator representation of K, check
+ 222: #   n_i * piB(e_i,e_j) = 0 = n_j * piB(e_i,e_j)   and   piB(e_i,e_j) = piB(e_j,e_i)
+ 223: # piB(u,v) := (b_theta(u,v), b_N(u,v)) with b_theta(u,v):=beta(theta(v),u),
+ 224: #             b_N(u,v):=beta(sigma^2(v), sigma(u)+u) + beta(sigma(v), u)   [manifest_spec_e2_actions.md]
+ 225: # (computed directly via beta + known theta_bar/sigma_bar -- no group collection needed for piB
+ 226: # itself, only for Xi/q_theta/q_N as derived above.)
+ 227: # ================================================================================
+ 228: BTheta := function(u, v) return BetaAC(ThetaP(v), u); end;;
+ 229: BN := function(u, v, m)
+ 230:   local sv2, su, term1, term2;
+ 231:   sv2 := SigmaP(SigmaP(v,m),m);
+ 232:   su := SigmaP(u,m);
+ 233:   term1 := BetaAC(sv2, su+u);
+ 234:   term2 := BetaAC(SigmaP(v,m), u);
+ 235:   return term1+term2;
+ 236: end;;
+ 237: PiB := function(u,v,m) return Concatenation(BTheta(u,v), BN(u,v,m)); end;;
+ 238: 
+ 239: # ================================================================================
+ 240: # per-(j,m) three-stage evaluation. Runs on the linear-stage system ALREADY computed and
+ 241: # verified in workorder5 item2 (search/e19.g at class 5): L != empty for ALL m=0..63 (Z2-solvable
+ 242: # for every j simultaneously). This function recomputes the linear stage independently here too
+ 243: # (does not just assume the e19 result) since this is a DIFFERENT script/object nominally, then
+ 244: # adds the quadratic/obstruction stage.
+ 245: # ================================================================================
+ 246: IntBool := function(b) if b then return 1; else return 0; fi; end;;
+ 247: 
+ 248: BuildLinearSystem := function(m)
+ 249:   local n, thMat, smMat, sm2Mat, b, rows, rhs, i, k, j, val;
+ 250:   n := NN();
+ 251:   thMat := MatOf(ThetaP);;
+ 252:   smMat := MatOf(x -> SigmaP(x,m));;
+ 253:   sm2Mat := [];
+ 254:   for k in [1..n] do
+ 255:     val := ZeroP();
+ 256:     for j in [1..n] do
+ 257:       if smMat[k][j] <> 0 then val := val + smMat[k][j]*smMat[j]; fi;
+ 258:     od;
+ 259:     Add(sm2Mat, val);
+ 260:   od;
+ 261:   b := EmP(m);;
+ 262:   rows := [];;  rhs := [];;
+ 263:   for i in [1..n] do
+ 264:     rows[i] := List([1..n], k -> thMat[k][i] + IntBool(i=k));
+ 265:     rhs[i] := 0;
+ 266:   od;
+ 267:   for i in [1..n] do
+ 268:     rows[n+i] := List([1..n], k -> IntBool(i=k) + smMat[k][i] + sm2Mat[k][i]);
+ 269:     rhs[n+i] := -b[i];
+ 270:   od;
+ 271:   return rec(n:=n, rows:=rows, rhs:=rhs, b:=b);
+ 272: end;;
+ 273: 
+ 274: Print("\ntotal setup elapsed ms: ", Runtime()-startTime, "\n");
+ 275: 
+ 276: # ================================================================================
+ 277: # ITEM 1: synthetic negative-example smoke test (launch condition, priority per coordinator)
+ 278: # Perturb b for a KNOWN-solvable (c=5 i.e. Abar model, m=5) system: b -> b + e_1 (one unit
+ 279: # outside the image). Confirm GAP's canonical SNF now reports UNSOLVABLE and that a genuine dual
+ 280: # witness y (yM=0 mod 2^j, yb!=0 mod 2^j) is recoverable -- i.e. the negative certificate code path
+ 281: # actually fires, per docs/notes/falsifier_掃引v3ゲート.md's finding that this never happened with
+ 282: # real (c,m) data in the E19 sweep. This is SYNTHETIC data (synthetic=true), not a sweep result.
+ 283: # ================================================================================
+ 284: Print("\n=== ITEM 1: synthetic negative-example smoke test ===\n");
+ 285: smokeM := 5;;
+ 286: sys := BuildLinearSystem(smokeM);;
+ 287: Mmat := sys.rows;;
+ 288: origRhs := sys.rhs;;
+ 289: # perturb: add 1 to the first component of b (i.e. to rhs[1], the first (1+theta) row's target --
+ 290: # still 0 there originally, so add 1 there to push b outside the image in a component that is very
+ 291: # likely to be unreachable, per the item's instruction "b を像の外へ")
+ 292: perturbedRhs := ShallowCopy(origRhs);;
+ 293: perturbedRhs[1] := perturbedRhs[1] + 1;;
+ 294: 
+ 295: snfSmoke := SmithNormalFormIntegerMatTransforms(Mmat);;
+ 296: Usmoke := snfSmoke.rowtrans;;  Dsmoke := snfSmoke.normal;;  rankSmoke := snfSmoke.rank;;
+ 297: cvecOrig := Usmoke * origRhs;;
+ 298: cvecPerturbed := Usmoke * perturbedRhs;;
+ 299: 
+ 300: v2val := function(n) local v; if n=0 then return 1000000; fi; v:=0; n:=AbsInt(n); while n mod 2=0 do n:=n/2; v:=v+1; od; return v; end;;
+ 301: 
+ 302: origSolvableAllJ := true;;
+ 303: for ii in [1..rankSmoke] do
+ 304:   if v2val(cvecOrig[ii]) < v2val(Dsmoke[ii][ii]) then origSolvableAllJ := false; fi;
+ 305: od;
+ 306: for ii in [rankSmoke+1..Length(cvecOrig)] do if cvecOrig[ii] <> 0 then origSolvableAllJ := false; fi; od;
+ 307: 
+ 308: perturbedSolvableAllJ := true;;
+ 309: for ii in [1..rankSmoke] do
+ 310:   if v2val(cvecPerturbed[ii]) < v2val(Dsmoke[ii][ii]) then perturbedSolvableAllJ := false; fi;
+ 311: od;
+ 312: for ii in [rankSmoke+1..Length(cvecPerturbed)] do if cvecPerturbed[ii] <> 0 then perturbedSolvableAllJ := false; fi; od;
+ 313: 
+ 314: Print("[", PF(origSolvableAllJ), "] original system (c=5 model, m=", smokeM, "): Z2-solvable (positive baseline)\n");
+ 315: Print("[", PF(not perturbedSolvableAllJ), "] perturbed system (b+e_1): Z2-solvable = ", perturbedSolvableAllJ, " (expect FALSE -- launch condition)\n");
+ 316: 
+ 317: if origSolvableAllJ and not perturbedSolvableAllJ then
+ 318:   # find the smallest j at which it fails, and extract the dual witness y = U-row for that
+ 319:   # failing coordinate (yM = (row of U*M) = (row of D) which is 0 off-diagonal.. construct y
+ 320:   # directly as the appropriate row of U restricted to where the 2-adic mismatch occurs)
+ 321:   failJ := 0;;  failRow := 0;;
+ 322:   for ii in [1..rankSmoke] do
+ 323:     if v2val(cvecPerturbed[ii]) < v2val(Dsmoke[ii][ii]) then
+ 324:       failJ := v2val(Dsmoke[ii][ii]) ;  failRow := ii; break;
+ 325:     fi;
+ 326:   od;
+ 327:   if failRow = 0 then
+ 328:     for ii in [rankSmoke+1..Length(cvecPerturbed)] do
+ 329:       if cvecPerturbed[ii] <> 0 then failRow := ii; failJ := 1; break; fi;
+ 330:     od;
+ 331:   fi;
+ 332:   yWitness := Usmoke[failRow];;
+ 333:   yM := yWitness * Mmat;;
+ 334:   yB := yWitness * perturbedRhs;;
+ 335:   Print("  dual witness y = row ", failRow, " of U. yM (should be all-zero) = ", yM, "\n");
+ 336:   Print("  y.b = ", yB, " (should be nonzero mod 2^", failJ, ")\n");
+ 337:   yMZero := ForAll(yM, z -> z = 0);;
+ 338:   yBNonzero := (yB mod (2^failJ) <> 0);;
+ 339:   Print("[", PF(yMZero), "] dual witness satisfies yM = 0 exactly\n");
+ 340:   Print("[", PF(yBNonzero), "] dual witness satisfies yb != 0 mod 2^", failJ, "\n");
+ 341: 
+ 342:   smokeCert := Concatenation(
+ 343:     "{\"claim\":\"linear_stage_empty\",",
+ 344:     "\"synthetic\":true,",
+ 345:     "\"method\":\"left_kernel_mod_prime_power/v1\",",
+ 346:     "\"modulus\":", String(2^failJ), ",",
+ 347:     "\"matrix_shape\":[", String(2*sys.n), ",", String(sys.n), "],",
+ 348:     "\"perturbation\":\"b[1] += 1 (item1 synthetic smoke test, NOT real sweep data)\",",
+ 349:     "\"dual_witness_y\":\"", String(yWitness), "\",",
+ 350:     "\"yM_is_zero\":", JB(yMZero), ",",
+ 351:     "\"yb\":", String(yB), ",",
+ 352:     "\"yb_nonzero_mod_2j\":", JB(yBNonzero), ",",
+ 353:     "\"recheck\":\"yM and yb recomputed directly above, independent of the SNF's own internal claims\"}");;
+ 354:   WriteFileRaw("certificates/e2sweep/smoke_negative_c5_m5.json", smokeCert);;
+ 355:   Print("wrote certificates/e2sweep/smoke_negative_c5_m5.json\n");
+ 356:   Print("\n[LAUNCH CONDITION]: ", PF(yMZero and yBNonzero), " -- negative certificate code path fires correctly.\n");
+ 357: else
+ 358:   Print("\n[LAUNCH CONDITION FAILED]: could not construct the expected pos/neg contrast -- DO NOT PROCEED to item 3.\n");
+ 359: fi;
+ 360: 
+ 361: fi; # ncOk
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'docs/命題_E22三段判定_v1.md'; "'$lines=Get-Content -LiteralPath $p -Encoding UTF8; for($i=0;$i -lt [Math]::Min(165,$lines.Count);$i++){ '"'{0,4}: {1}' -f ("'$i+1),$lines[$i] }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 326ms:
+   1: # 命題 E22′ — 非可換 $A$ における同時可解性の**三段判定**(線型部 + 二次形式部 + cocycle 部)
+   2: 
+   3: 2026-07-26 起草: Claude(数学者レイヤー・Opus 5)。**司令塔 委嘱 10 §2**。
+   4: 便 13 **F14**(「(H-a) 側にも中心的二次補正 $[\theta(g),f]$ があり、canonical section の cocycle も必要。E22 の一形式だけでは十分性が未証明」)への応答。**v2 補題 E22 は積公式まで PASS**(便 13 F13)、本稿はそこから**必要十分の判定**へ到達させる。
+   5: 
+   6: 依存: `docs/week4-E2作戦_v3.md` §7・`docs/week4-E2作戦_v1.md` §1.0(記法)・`docs/week3-狩場計画_v4.md`(命題 E1)。
+   7: 状態: **紙上証明(Opus 単独・Sol 未監査)**。verified(Lean)ではない。§5 の具体構造は手計算 — **二系統照合の対象**(掃引宇宙 v3 の必須項目)。
+   8: 
+   9: ---
+  10: 
+  11: ## 0. 要旨
+  12: 
+  13: | # | 内容 |
+  14: |---|---|
+  15: | **T1** | 同時可解性は **$\mathcal L\ne\emptyset$(線型段)** と **$0\in\omega(\mathcal L)$(障害段)** の連言に**同値**。障害は明示的な有限アーベル群 $\mathrm{Ob}=(C\times C)/\operatorname{im}\Lambda$ の中の元 |
+  16: | **T2** | $\omega$ は **section の取り方に依らない**(§3.3)。すなわち「Hall section をどう選ぶか」は判定に影響しない |
+  17: | **T3** | **★ section cocycle の寄与は $\operatorname{im}\Lambda$ に入るので $\mathrm{Ob}$ で消える**(§3.4)。したがって cocycle は中間計算には必要だが、**独立な第四の障害を生まない**。便 13 F14 の懸念はこの形で解消する |
+  18: | **T4** | $\omega$ の $K$ 上の展開は **定数 + 準同型 $\ell$ + 二次写像 $\pi\mathcal Q$** の三項(§3.5)。極化 $\pi B$ の**対称性**が独立の整合性検査になり、実際に成立する(§4 — 二座標とも手計算で確認) |
+  19: | **T5** | **★ 普遍 class-5 対象では $\mathcal N\vert_C=0$**(§5.3)。ゆえに **$\mathcal N$-欠損は中心補正で一切修正できず、section 値の段階で厳密に $1$ でなければならない**。判定は事実上「rank 2 の厳密条件 + rank 1 の余裕」になる |
+  20: | **T6** | 全数判定の証明書は **$\omega_0$、$F(e_i)$、$\pi B(e_i,e_j)$($i\le j$)の $O(r^2)$ 個の中心値**で完全に再構成可能(§6)。hash だけの証明書は不要かつ禁止 |
+  21: 
+  22: ---
+  23: 
+  24: ## 1. 設定と記法
+  25: 
+  26: $A$ を有限群で **class $\le2$**、すなわち $C:=[A,A]\subseteq Z(A)$ とする。$\sigma,\theta\in\mathrm{Aut}(A)$、$E_m\in A$。$C$ は特性部分群なので $\sigma,\theta$ は $C$ と $\bar A:=A/C$ に作用する。$\bar A$ は**可換**なので加法的に書く。
+  27: 
+  28: 判定する連立方程式は(v1 §1.0 の定義そのまま):
+  29: 
+  30: $$ \textbf{(H-a)}\quad D_\theta(f):=\theta(f)\,f=1, \qquad\qquad
+  31: \textbf{(H-b′)}\quad E_m\,\mathcal N(f)=1,\quad \mathcal N(f):=\sigma^2(f)\,\sigma(f)\,f . $$
+  32: 
+  33: すなわち $\mathcal S_m\cap\mathcal B_\theta\ne\emptyset$ か。既知: $\sigma^3=\mathrm{Inn}_A(E_m)$、$\sigma(E_m)=E_m$。
+  34: 
+  35: > **注意(v2 §1.4 (B1) との差).** $A$ が非可換のとき $\sigma^3=\mathrm{Inn}(E_m)\ne\mathrm{id}$ である。ただし $\mathrm{Inn}(E_m)$ は $\bar A$ 上恒等(内部自己同型は abelianization に自明に作用)、また $C$ が中心なので $C$ 上も恒等。したがって
+  36: > $$ \bar\sigma^3=\mathrm{id}\ \text{on}\ \bar A,\qquad \sigma^3=\mathrm{id}\ \text{on}\ C $$
+  37: > は成立する。以下で使うのはこの二つだけである。
+  38: 
+  39: **交換子対**: $\beta:\bar A\times\bar A\to C$、$\beta(\bar u,\bar v):=[u,v]=u^{-1}v^{-1}uv$。class 2 より $[uz,vz']=[u,v]$($z,z'\in C$)なので well-defined、双加法的、交代的($\beta(\bar u,\bar u)=0$、$\beta(\bar v,\bar u)=-\beta(\bar u,\bar v)$)。また $\sigma,\theta$ は $\beta$ と同変: $\gamma(\beta(\bar u,\bar v))=\beta(\bar\gamma\bar u,\bar\gamma\bar v)$($\gamma\in\{\sigma,\theta\}$)。
+  40: 
+  41: **Section**: 写像 $s:\bar A\to A$ で $\pi_C\circ s=\mathrm{id}$、$s(0)=1$。各 $f\in A$ は $f=s(\bar f)z$($z\in C$)と**一意**に書ける。**Section cocycle**:
+  42: $$ c_s(\bar u,\bar v):=s(\bar u)\,s(\bar v)\,s(\bar u+\bar v)^{-1}\in C . $$
+  43: $C$ は中心なので $c_s$ は自明係数の 2-cocycle。対称性の破れは
+  44: $$ c_s(\bar u,\bar v)=c_s(\bar v,\bar u)\cdot\beta(\bar u,\bar v). \tag{1.1} $$
+  45: (∵ $s(\bar u)s(\bar v)=s(\bar v)s(\bar u)[s\bar u,s\bar v]$。)
+  46: 
+  47: ---
+  48: 
+  49: ## 2. 二つの積公式(便 13 F13/F14 の独立再導出)
+  50: 
+  51: > **補題 E22.1(積公式・二本).** $A$ が class $\le2$ なら、任意の $f,g\in A$ について
+  52: > $$ \boxed{\ D_\theta(fg)=D_\theta(f)\,D_\theta(g)\,[\theta(g),f]\ } \tag{2.1} $$
+  53: > $$ \boxed{\ \mathcal N(fg)=\mathcal N(f)\,\mathcal N(g)\,\bigl[\sigma^2(g),\,\sigma(f)f\bigr]\,\bigl[\sigma(g),\,f\bigr]\ } \tag{2.2} $$
+  54: 
+  55: **証明.** どちらも「並べ替えで生じる交換子は中心」を使う($uv=vu[u,v]$、$[u,v]\in C\subseteq Z(A)$)。
+  56: 
+  57: (2.1): $D_\theta(fg)=\theta(f)\theta(g)fg$。$\theta(g)f=f\theta(g)[\theta(g),f]$ を代入すると
+  58: $\theta(f)f\theta(g)[\theta(g),f]g=\theta(f)f\,\theta(g)g\,[\theta(g),f]=D_\theta(f)D_\theta(g)[\theta(g),f]$。
+  59: 
+  60: (2.2): $\mathcal N(fg)=\sigma^2(f)\sigma^2(g)\sigma(f)\sigma(g)fg$。
+  61: まず $\sigma^2(g)\sigma(f)=\sigma(f)\sigma^2(g)[\sigma^2g,\sigma f]$ を使い
+  62: $$ =\sigma^2(f)\sigma(f)\,\sigma^2(g)\sigma(g)\,f\,g\,[\sigma^2g,\sigma f] . $$
+  63: 次に $\sigma^2(g)\sigma(g)\,f=f\,\sigma^2(g)\sigma(g)\,[\sigma^2(g)\sigma(g),f]$ と $[\,\cdot\,,f]$ の加法性 $[\sigma^2(g)\sigma(g),f]=[\sigma^2g,f][\sigma g,f]$ を使うと
+  64: $$ =\sigma^2(f)\sigma(f)f\;\sigma^2(g)\sigma(g)g\;[\sigma^2g,f][\sigma g,f][\sigma^2g,\sigma f] . $$
+  65: 最後に $[\sigma^2g,\sigma f][\sigma^2g,f]=[\sigma^2g,\sigma(f)f]$。∎
+  66: 
+  67: > **便 13 F13/F14 との照合**: (2.2) は Sol の式と**向きも含めて一致**。(2.1) も Sol の $D_\theta(fg)=D_\theta(f)D_\theta(g)[\theta(g),f]$ と一致。$\bar A$ 上へ落とせば $\beta$ で書けて
+  68: > $$ b_\theta(\bar u,\bar v):=\beta(\bar\theta\bar v,\ \bar u),\qquad
+  69: > b_N(\bar u,\bar v):=\beta(\bar\sigma^2\bar v,\ \bar\sigma\bar u+\bar u)+\beta(\bar\sigma\bar v,\ \bar u) \tag{2.3} $$
+  70: > はともに**双加法的** $\bar A\times\bar A\to C$(一般には非対称 — §4 参照)。
+  71: 
+  72: > **補題 E22.2(中心元の分離).** $z\in C$ に対し
+  73: > $$ D_\theta(uz)=D_\theta(u)\cdot(1+\theta)z,\qquad \mathcal N(uz)=\mathcal N(u)\cdot\mathcal N_C(z) $$
+  74: > ここで $(1+\theta)z:=\theta(z)z$、$\mathcal N_C(z):=\sigma^2(z)\sigma(z)z$。$C$ は可換で $\sigma,\theta$-安定なので、両者は $C$ 上の**群準同型**である。
+  75: 
+  76: **証明.** $z$ とその $\sigma,\theta$ 像はすべて中心なので自由に移動できる。∎
+  77: 
+  78: ---
+  79: 
+  80: ## 3. ★ 主定理 — 三段判定
+  81: 
+  82: ### 3.1 障害群
+  83: 
+  84: > **定義.** $\Lambda:C\to C\times C$、$\Lambda(z):=\bigl((1+\theta)z,\ \mathcal N_C(z)\bigr)$。補題 E22.2 よりこれは群準同型。**障害群**を
+  85: > $$ \boxed{\ \mathrm{Ob}:=(C\times C)\big/\operatorname{im}\Lambda\ },\qquad \pi:C\times C\twoheadrightarrow\mathrm{Ob} $$
+  86: > と定める。
+  87: 
+  88: ### 3.2 線型段と欠損対
+  89: 
+  90: 線型段の解集合を
+  91: $$ \mathcal L:=\bigl\{\bar f\in\bar A\ :\ (1+\bar\theta)\bar f=0\ \text{ かつ }\ \bar{\mathcal N}\bar f=-\bar E_m\bigr\} $$
+  92: と置く($\bar{\mathcal N}:=1+\bar\sigma+\bar\sigma^2$)。$\mathcal L$ は空か、
+  93: $$ \mathcal L=\bar f_0+K,\qquad K:=\ker(1+\bar\theta)\cap\ker\bar{\mathcal N}\ \le\ \bar A $$
+  94: という剰余類である。$\bar f\in\mathcal L$ に対し**欠損対**を
+  95: $$ \Xi(\bar f):=\Bigl(\ \underbrace{\theta(s\bar f)\,s\bar f}_{=:q_\theta(\bar f)}\ ,\ \underbrace{E_m\,\sigma^2(s\bar f)\sigma(s\bar f)\,s\bar f}_{=:q_N(\bar f)}\ \Bigr)\ \in\ C\times C $$
+  96: と定める。**$C\times C$ に値をとることの確認**: $\overline{q_\theta(\bar f)}=(1+\bar\theta)\bar f=0$、$\overline{q_N(\bar f)}=\bar E_m+\bar{\mathcal N}\bar f=0$。すなわち **$\bar f\in\mathcal L$ であることが $\Xi$ の定義域条件そのもの**である。
+  97: 
+  98: ### 3.3 主定理
+  99: 
+ 100: > **定理 E22′(三段判定).** 上の記号の下で
+ 101: > $$ \boxed{\ \mathcal S_m\cap\mathcal B_\theta\ne\emptyset \iff \mathcal L\ne\emptyset\ \text{ かつ }\ 0\in\omega(\mathcal L)\ },\qquad \omega:=\pi\circ\Xi:\mathcal L\to\mathrm{Ob}. $$
+ 102: > さらに **$\omega$ は section $s$ の取り方に依らない**。
+ 103: 
+ 104: **証明.**
+ 105: **(a) 同値性.** $f\in A$ を $f=s(\bar f)z$($z\in C$)と一意に書く。補題 E22.2 より
+ 106: $$ D_\theta(f)=q_\theta(\bar f)\cdot(1+\theta)z,\qquad E_m\mathcal N(f)=q_N(\bar f)\cdot\mathcal N_C(z). $$
+ 107: (H-a)$\wedge$(H-b′) が成り立つには、まず両辺を $C$ で割って $\bar f\in\mathcal L$ が**必要**。$\bar f\in\mathcal L$ のとき二式は $C\times C$ の中の
+ 108: $$ \Xi(\bar f)\cdot\Lambda(z)=(1,1) $$
+ 109: と同値。$z$ を動かせば $\Lambda(z)$ は部分群 $\operatorname{im}\Lambda$ 全体を走るので、解の存在は $\Xi(\bar f)^{-1}\in\operatorname{im}\Lambda$、すなわち($\operatorname{im}\Lambda$ が部分群ゆえ)$\Xi(\bar f)\in\operatorname{im}\Lambda$、すなわち $\omega(\bar f)=0$ と同値。$\bar f$ を $\mathcal L$ 上動かして主張を得る。
+ 110: 
+ 111: **(b) section 独立性.** 別の section $s'$ は $s'(\bar u)=s(\bar u)\,u(\bar u)$($u:\bar A\to C$、$u(0)=1$)と書ける。補題 E22.2 より
+ 112: $$ \Xi'(\bar f)=\Xi(\bar f)\cdot\Lambda\bigl(u(\bar f)\bigr) . $$
+ 113: $\Lambda(u(\bar f))\in\operatorname{im}\Lambda$ なので $\pi\Xi'=\pi\Xi$。∎
+ 114: 
+ 115: ### 3.4 ★ cocycle 部の帰着(便 13 F14 への直接回答)
+ 116: 
+ 117: > **命題 E22.3(展開公式).** $\bar f_0\in\mathcal L$ を固定する。任意の $\bar k\in K$ について、$C\times C$ の中で
+ 118: > $$ \Xi(\bar f_0+\bar k)\;=\;\Xi(\bar f_0)\cdot \ell(\bar k)\cdot \mathcal Q(\bar k)\cdot \Lambda\bigl(c_s(\bar f_0,\bar k)\bigr)^{-1} \tag{3.1} $$
+ 119: > が成り立つ。ここで
+ 120: > $$ \ell(\bar k):=\bigl(b_\theta(\bar f_0,\bar k),\ b_N(\bar f_0,\bar k)\bigr)\quad(\text{$\bar k$ について加法的 = 準同型 }K\to C\times C), $$
+ 121: > $$ \mathcal Q(\bar k):=\bigl(\theta(s\bar k)s\bar k,\ \ \sigma^2(s\bar k)\sigma(s\bar k)s\bar k\bigr)\quad(\bar k\in K\text{ ゆえ }C\times C\text{ に値をとる}). $$
+ 122: > したがって $\mathrm{Ob}$ の中では
+ 123: > $$ \boxed{\ \omega(\bar f_0+\bar k)\;=\;\omega(\bar f_0)\;+\;\pi\ell(\bar k)\;+\;\pi\mathcal Q(\bar k)\ } \tag{3.2} $$
+ 124: > であり、**section cocycle $c_s$ の寄与は $\operatorname{im}\Lambda$ に入るので消える。**
+ 125: 
+ 126: **証明.** $c:=c_s(\bar f_0,\bar k)$ と置くと $s(\bar f_0+\bar k)=s(\bar f_0)s(\bar k)c^{-1}$。
+ 127: 第一座標: 補題 E22.2 と (2.1) より
+ 128: $$ q_\theta(\bar f_0+\bar k)=D_\theta\bigl(s\bar f_0\,s\bar k\bigr)\cdot\bigl((1+\theta)c\bigr)^{-1}
+ 129: = q_\theta(\bar f_0)\cdot D_\theta(s\bar k)\cdot[\theta(s\bar k),s\bar f_0]\cdot\bigl((1+\theta)c\bigr)^{-1} $$
+ 130: で、$[\theta(s\bar k),s\bar f_0]=\beta(\bar\theta\bar k,\bar f_0)=b_\theta(\bar f_0,\bar k)$。
+ 131: 第二座標: 同様に補題 E22.2 と (2.2) より
+ 132: $$ q_N(\bar f_0+\bar k)=q_N(\bar f_0)\cdot\mathcal N(s\bar k)\cdot[\sigma^2(s\bar k),\sigma(s\bar f_0)s\bar f_0]\cdot[\sigma(s\bar k),s\bar f_0]\cdot\mathcal N_C(c)^{-1} $$
+ 133: で、後ろ二つの交換子の積が $b_N(\bar f_0,\bar k)$。以上を束ねて (3.1)。$\Lambda(c)\in\operatorname{im}\Lambda$ より (3.2)。∎
+ 134: 
+ 135: > **★ 便 13 F14 への回答.** Sol の指摘「canonical section の cocycle も式へ含めなければならない」は**正しく、(3.1) にその項がある**。しかし**その項は $\Lambda$ の像に丸ごと入る**ので、判定を行う商 $\mathrm{Ob}$ では消える。すなわち:
+ 136: > - **中間計算には section(= Hall 正規形)が要る**($\mathcal Q(\bar k)$ の値は $s$ に依存する)。
+ 137: > - **しかし cocycle は独立な第四の障害を生まない**。障害は「定数 $\omega_0$ + 準同型 $\pi\ell$ + 二次写像 $\pi\mathcal Q$」の三項で尽きる。
+ 138: >
+ 139: > これが「三段判定」の正確な意味である。
+ 140: 
+ 141: ### 3.5 二次写像としての構造
+ 142: 
+ 143: > **系 E22.4.** $\pi\mathcal Q:K\to\mathrm{Ob}$ は $\pi\mathcal Q(0)=0$ を満たす**二次写像**であり、その極化は
+ 144: > $$ \pi B,\qquad B(\bar k,\bar l):=\bigl(b_\theta(\bar k,\bar l),\ b_N(\bar k,\bar l)\bigr) $$
+ 145: > で与えられる。すなわち $\pi\mathcal Q(\bar k+\bar l)=\pi\mathcal Q(\bar k)+\pi\mathcal Q(\bar l)+\pi B(\bar k,\bar l)$、かつ **$\pi B$ は $K$ 上対称**である(§4)。
+ 146: > したがって $F:=\pi\ell+\pi\mathcal Q:K\to\mathrm{Ob}$ も同じ極化 $\pi B$ をもつ二次写像で、
+ 147: > $$ \textbf{可解} \iff -\,\omega_0\in F(K),\qquad \omega_0:=\omega(\bar f_0). $$
+ 148: 
+ 149: **証明.** 命題 E22.3 と同じ計算を $\bar f_0$ の代わりに $\bar k\in K$ で行う($E_m$ を含まないので $\Xi$ ではなく $\mathcal Q$ になる)。$c:=c_s(\bar k,\bar l)$ と置くと、補題 E22.2 と (2.1)(2.2) から
+ 150: $$ \mathcal Q_1(\bar k+\bar l)=\mathcal Q_1(\bar k)\mathcal Q_1(\bar l)\,b_\theta(\bar k,\bar l)\,\bigl((1+\theta)c\bigr)^{-1},\qquad
+ 151: \mathcal Q_2(\bar k+\bar l)=\mathcal Q_2(\bar k)\mathcal Q_2(\bar l)\,b_N(\bar k,\bar l)\,\mathcal N_C(c)^{-1}, $$
+ 152: すなわち $\mathcal Q(\bar k+\bar l)=\mathcal Q(\bar k)\,\mathcal Q(\bar l)\,B(\bar k,\bar l)\,\Lambda(c)^{-1}$。$\pi$ を施せば $\Lambda(c)$ が消えて主張を得る。$\pi\ell$ は $\bar k$ について加法的(= 準同型)なので、$F=\pi\ell+\pi\mathcal Q$ も同じ極化 $\pi B$ をもつ。∎
+ 153: 
+ 154: ---
+ 155: 
+ 156: ## 4. 極化の対称性 — 独立の整合性検査(**両座標とも手計算で PASS**)
+ 157: 
+ 158: 二次写像の極化は対称でなければならない。ところが (2.3) の $b_\theta,b_N$ は**それ自体は非対称**である。整合性は「差が $\operatorname{im}\Lambda$ に入る」ことで回復するはずであり、これは公式の**強い検算**になる。実際に確かめる。
+ 159: 
+ 160: $\bar k,\bar l\in K$ とする。$K$ の定義より
+ 161: $$ \bar\theta\bar k=-\bar k,\quad \bar\theta\bar l=-\bar l,\qquad \bar\sigma^2\bar k=-\bar k-\bar\sigma\bar k,\quad \bar\sigma^2\bar l=-\bar l-\bar\sigma\bar l. $$
+ 162: $\langle u,v\rangle:=\beta(\bar u,\bar v)$(双線型・交代)、$S:=\bar\sigma$ と略記する。
+ 163: 
+ 164: **要求される等式.** 系 E22.4 の証明の式を $(\bar k,\bar l)$ と $(\bar l,\bar k)$ の二通りに書くと、左辺は同じ $\mathcal Q(\bar k+\bar l)$ なので
+ 165: $$ B(\bar k,\bar l)-\Lambda\bigl(c_s(\bar k,\bar l)\bigr)=B(\bar l,\bar k)-\Lambda\bigl(c_s(\bar l,\bar k)\bigr). $$
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'docs/命題_E22三段判定_v1.md'; "'$lines=Get-Content -LiteralPath $p -Encoding UTF8; for($i=165;$i -lt $lines.Count;$i++){ '"'{0,4}: {1}' -f ("'$i+1),$lines[$i] }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 344ms:
+ 166: (1.1) の $c_s(\bar k,\bar l)=c_s(\bar l,\bar k)\,\beta(\bar k,\bar l)$ を代入して
+ 167: $$ B(\bar k,\bar l)-B(\bar l,\bar k)\;=\;\Lambda\bigl(\beta(\bar k,\bar l)\bigr) \tag{4.1} $$
+ 168: が**恒等式として成立していなければならない**。これを両座標で直接確かめる。
+ 169: 
+ 170: **第一座標.** $b_\theta(\bar k,\bar l)=\langle\bar\theta\bar l,\bar k\rangle=\langle-l,k\rangle=\langle k,l\rangle$。同様に $b_\theta(\bar l,\bar k)=\langle k,l\rangle\cdot(-1)$… 正確には $b_\theta(\bar l,\bar k)=\langle-k,l\rangle=-\langle k,l\rangle$。よって
+ 171: $$ b_\theta(\bar k,\bar l)-b_\theta(\bar l,\bar k)=2\langle k,l\rangle . $$
+ 172: 一方 $\Lambda$ の第一座標は $(1+\theta)\langle k,l\rangle=\langle k,l\rangle+\theta\langle k,l\rangle=\langle k,l\rangle+\langle\bar\theta\bar k,\bar\theta\bar l\rangle=\langle k,l\rangle+\langle-k,-l\rangle=2\langle k,l\rangle$。**一致 ✓**
+ 173: 
+ 174: **第二座標.** $\bar\sigma^2\bar l=-l-Sl$ を代入して
+ 175: $$ b_N(\bar k,\bar l)=\langle -l-Sl,\ Sk+k\rangle+\langle Sl,k\rangle
+ 176: =-\langle l,Sk\rangle-\langle l,k\rangle-\langle Sl,Sk\rangle-\langle Sl,k\rangle+\langle Sl,k\rangle $$
+ 177: $$ =-\langle l,Sk\rangle-\langle l,k\rangle-\langle Sl,Sk\rangle . $$
+ 178: $\bar k\leftrightarrow\bar l$ を入れ替えて差をとると(交代性 $\langle v,u\rangle=-\langle u,v\rangle$ を使う)
+ 179: $$ b_N(\bar k,\bar l)-b_N(\bar l,\bar k)=\langle Sk,l\rangle+\langle k,Sl\rangle+2\langle k,l\rangle+2\langle Sk,Sl\rangle . $$
+ 180: 一方 $\Lambda$ の第二座標は $\mathcal N_C\langle k,l\rangle=\langle k,l\rangle+\langle Sk,Sl\rangle+\langle S^2k,S^2l\rangle$ で、
+ 181: $$ \langle S^2k,S^2l\rangle=\langle -k-Sk,\ -l-Sl\rangle=\langle k,l\rangle+\langle k,Sl\rangle+\langle Sk,l\rangle+\langle Sk,Sl\rangle $$
+ 182: ゆえ
+ 183: $$ \mathcal N_C\langle k,l\rangle=2\langle k,l\rangle+2\langle Sk,Sl\rangle+\langle k,Sl\rangle+\langle Sk,l\rangle . $$
+ 184: **一致 ✓**
+ 185: 
+ 186: > **★ (4.1) は両座標で成立する。** 二つの積公式・$K$ の定義・$\beta$ の同変性という互いに独立な材料が、恒等式として噛み合った。これは (2.1)(2.2)(2.3)(3.1) の**符号と向きの独立検算**である。
+ 187: > 系として、$\pi B$ は $K\times K$ 上**対称**であり、系 E22.4 の「二次写像」の主張が正当化される。
+ 188: 
+ 189: ---
+ 190: 
+ 191: ## 5. 普遍 class-5 対象での具体形($P^{(5)}=F_2/\gamma_6$)
+ 192: 
+ 193: ### 5.1 対象
+ 194: 
+ 195: $P^{(5)}:=F_2/\gamma_6$、$A:=\gamma_2/\gamma_6$。Hall 基底(順序を正本として固定):
+ 196: $$ w;\quad p,q;\quad r_1,r_2,r_3;\quad t_1,t_2,t_3,t_4;\quad \boxed{t_5:=[w,p],\ t_6:=[w,q]} $$
+ 197: 重み $2;3;4;5;5$、$\mathbb Z$-階数 $1+2+3+6=12$(= Hirsch length。**「$\mathbb Z$-階数」という語は使わない** — 便 13 F15)。
+ 198: 
+ 199: > **命題 E22.5(二層の同定).**
+ 200: > $$ C:=[A,A]=\langle t_5,t_6\rangle\cong\mathbb Z^2\ \subseteq\ \gamma_5=Z(P^{(5)}),\qquad
+ 201: > \bar A=A/C\ \cong\ A_5:=\mathbb Z[S,T]/(S,T)^{4}\quad(\text{階数 }10) $$
+ 202: > であり、$\bar A$ 上の $\theta,\tau,\sigma_m,E_m$ は **`docs/scout/metab.mjs` の $c=5$ モデルと同一**である。
+ 203: 
+ 204: **証明.** $[A,A]=[\gamma_2,\gamma_2]$ の $\gamma_6$ を法とする像。$[\gamma_2,\gamma_2]$ の最低重みは $2+3=5$(重み 4 の成分は $[w,w]=1$ のみ)なので $[\gamma_2,\gamma_2]\gamma_6/\gamma_6=\langle[w,p],[w,q]\rangle$。階数は $\dim[L_2,L_3]=2$($L_2\otimes L_3\cong\mathrm{sgn}\otimes V\cong V$ が $L_5$ へ単射)。
+ 205: $\bar A=\gamma_2/(\gamma_6\,[\gamma_2,\gamma_2])=\gamma_2(F)/(\gamma_6F'')$ は Magnus のモデル $A_c$($c=5$)そのもの。階数 $\binom52=10$、$10+2=12$ ✓。∎
+ 206: 
+ 207: ### 5.2 $C$ 上の作用(手計算)
+ 208: 
+ 209: $C\subseteq\gamma_5$ は中心なので $\mathrm{Ad}(\bar Y^m)$ と $\iota_{X^u}$ は $C$ 上恒等、したがって $\sigma\vert_C=\tau\vert_C$ で $\langle\sigma,\theta\rangle$ は $C$ 上**真に $S_3$** を通す。
+ 210: 
+ 211: - $\tau(w)=wp^{-1}r_1\cdots$、$\tau(p)=qr_2^{-1}\cdots$。重み 6 以上を落とすと
+ 212:  $$ \tau(t_5)=[\tau w,\tau p]=[w,q]=t_6 . $$
+ 213: - $\tau(q)=p^{-1}q^{-1}r_1^2r_2^2r_3\cdots$ ゆえ
+ 214:  $$ \tau(t_6)=[\tau w,\tau q]=[w,p^{-1}q^{-1}]=t_5^{-1}t_6^{-1} . $$
+ 215: - $\theta(w)=w^{-1}$、$\theta(p)=q^{-1}\cdot(\text{中心})$、$\theta(q)=p^{-1}\cdot(\text{中心})$、交換子は中心ゆえ $[u^{-1},v^{-1}]=[u,v]$。よって
+ 216:  $$ \theta(t_5)=[w^{-1},q^{-1}]=[w,q]=t_6,\qquad \theta(t_6)=[w^{-1},p^{-1}]=[w,p]=t_5 . $$
+ 217: 
+ 218: 加法的に、基底 $(t_5,t_6)$ で
+ 219: $$ \sigma\vert_C=\begin{pmatrix}0&-1\\1&-1\end{pmatrix},\qquad \theta\vert_C=\begin{pmatrix}0&1\\1&0\end{pmatrix}. $$
+ 220: ($\mathrm{tr}\,\sigma\vert_C=-1$、$\mathrm{tr}\,\theta\vert_C=0$、$\dim=2$ ⇒ $C\otimes\mathbb Q\cong V$ = $S_3$ の標準表現。§5 の表現論と整合。)
+ 221: 
+ 222: ### 5.3 ★ 系 — $\mathcal N$-欠損は中心補正で修正できない
+ 223: 
+ 224: > **系 E22.6.** $\ \mathcal N_C=1+\sigma+\sigma^2=0$ **on $C$**(恒等的に零写像)。したがって
+ 225: > $$ \operatorname{im}\Lambda=\bigl\{\bigl((1+\theta)z,\ 0\bigr):z\in C\bigr\}=\langle\,(t_5+t_6,\,0)\,\rangle . $$
+ 226: > ゆえに $P^{(5)}$(およびその任意の $\sigma,\theta$-同変商)において
+ 227: > $$ \boxed{\ \mathcal S_m\cap\mathcal B_\theta\ne\emptyset \iff \exists\,\bar f\in\mathcal L:\quad q_N(\bar f)=1\ \ \textbf{(厳密)}\quad\text{かつ}\quad q_\theta(\bar f)\in(1+\theta)C\ } $$
+ 228: 
+ 229: **証明.** $\sigma\vert_C$ の特性多項式は $\lambda^2+\lambda+1$($\mathrm{tr}=-1,\det=1$)。Cayley–Hamilton より $\sigma^2+\sigma+1=0$ on $C$。よって $\mathcal N_C=0$。$(1+\theta)(at_5+bt_6)=(a+b)(t_5+t_6)$ から $\operatorname{im}(1+\theta)\vert_C=\langle t_5+t_6\rangle$。定理 E22′ に代入。∎
+ 230: 
+ 231: > **★ 意味.** 中心 $C$ には $\sigma$ の固定ベクトルが**一つもない**ため、**$\mathcal N$-欠損 $q_N$ は $z\in C$ をどう選んでも変えられない**。判定は
+ 232: > - **rank 2 の厳密条件**($q_N(\bar f)=0\in C$ — 二つの整数条件)、
+ 233: > - **rank 1 の余裕**($q_\theta(\bar f)$ は $\langle t_5+t_6\rangle$ を法として消えればよい)
+ 234: >
+ 235: > に分解する。$\mathrm{Ob}\cong\bigl(C/\langle t_5+t_6\rangle\bigr)\oplus C$ は階数 3。
+ 236: > これは v2 §3.5 の「二段構え」より**厳しい**判定である(v2 は中心補正の自由度を暗黙に見積もっていなかった)。
+ 237: 
+ 238: ### 5.4 交換子対 $\beta$ の明示形
+ 239: 
+ 240: $[A,A]$ が重み 5 に集中しているので、$\beta$ は「重み 2 × 重み 3」の対にしか値をもたない。$\bar u=u_w w+u_p p+u_q q+\cdots$ と Hall 座標で書くと
+ 241: $$ \boxed{\ \beta(\bar u,\bar v)=(u_wv_p-u_pv_w)\,t_5+(u_wv_q-u_qv_w)\,t_6\ } $$
+ 242: ($[p,q]$、$[w,r_i]$ 等は重み $\ge6$ ゆえ $0$)。したがって (2.3) の $b_\theta,b_N$ は、$\bar A$ の**最初の三座標 $(u_w,u_p,u_q)$ だけ**に依存する双線型形式である。**$\beta$ の階数は低く、二次項は $\bar A$ の 3 次元部分にしか載らない** — これは掃引の計算量を大きく下げる構造的事実である。
+ 243: 
+ 244: > **【GAP-E22a】** $\mathcal Q(\bar k)$(= section を通した二次値)は $\beta$ ほど単純ではない — $\theta(s\bar k)s\bar k$ の中心成分は Hall collection の $\binom{a}{2}$ 型の項を含むため、$\bar k$ の**全 10 座標**に依存し得る。この係数表を明示的に閉形で書き下すことは本稿では**していない**(掃引 ① r2 の実装で数値的に構成する)。**UNKNOWN(閉形)**。
+ 245: 
+ 246: ---
+ 247: 
+ 248: ## 6. 計算形と証明書(便 13 F17 への応答)
+ 249: 
+ 250: ### 6.1 有限アーベル群上の二次写像の展開
+ 251: 
+ 252: $K$ の invariant factor 分解 $K=\bigoplus_{i=1}^r\langle e_i\rangle$、$\mathrm{ord}(e_i)=n_i$ を固定する。$F=\pi\ell+\pi\mathcal Q$ は極化 $\pi B$ の二次写像なので、$\bar k=\sum_ia_ie_i$($0\le a_i<n_i$)に対し
+ 253: 
+ 254: $$ \boxed{\ F(\bar k)\;=\;\sum_{i}\Bigl(a_i\,F(e_i)+\tbinom{a_i}2\,\pi B(e_i,e_i)\Bigr)\;+\;\sum_{i<j}a_ia_j\,\pi B(e_i,e_j)\ } \tag{6.1} $$
+ 255: 
+ 256: **証明.** (a) 単一生成元: $F((a+1)e)=F(ae)+F(e)+\pi B(ae,e)=F(ae)+F(e)+a\pi B(e,e)$ から帰納法で $F(ae)=aF(e)+\binom a2\pi B(e,e)$。(b) 一般: $X=\sum_{i<n}a_ie_i$、$Y=a_ne_n$ として $F(X+Y)=F(X)+F(Y)+\pi B(X,Y)$、$\pi B(X,Y)=\sum_{i<n}a_ia_n\pi B(e_i,e_n)$。帰納法。∎
+ 257: 
+ 258: > **必須の自己検査(postcondition).** $n_ie_i=0$ ゆえ $F(0)=0$ から
+ 259: > $$ n_i\,F(e_i)+\tbinom{n_i}2\,\pi B(e_i,e_i)=0\quad\text{in }\mathrm{Ob}\qquad(\forall i) \tag{6.2} $$
+ 260: > が**恒真でなければならない**。これは表の内部整合性検査であり、実装のバグ(section の非整合・$K$ の生成元の誤り)を直ちに露見させる。**FAIL なら結果は無効。**
+ 261: 
+ 262: ### 6.2 判定手順(三段)
+ 263: 
+ 264: | 段 | 入力 | 出力 | 失敗時の証明書 |
+ 265: |---|---|---|---|
+ 266: | **① 線型段** | $\bar A$ 上の $2n\times n$ 整数系 $(1+\bar\theta)\bar f=0$、$\bar{\mathcal N}\bar f=-\bar E_m$ | $\mathcal L=\emptyset$ か、$\bar f_0$ と $K$ の invariant factor 分解 $(e_i,n_i)$ | `unsolvability_certificate`(dual witness $y$: $yM\equiv0$、$yb\not\equiv0$、行列 content hash・modulus・基底順序) |
+ 267: | **② 線型障害段** | $\omega_0=\pi\Xi(\bar f_0)$、$\pi\ell(e_i)$ | $\mathrm{Ob}$ の中のアフィン部分 | — |
+ 268: | **③ 二次段** | $\pi\mathcal Q(e_i)$、$\pi B(e_i,e_j)$($i\le j$) | (6.1) の全数評価、$-\omega_0\in F(K)$ か | `lift_obstruction_certificate/v2`(§6.3) |
+ 269: 
+ 270: ### 6.3 `central_lift_obstruction/v2` の最低内容(便 13 F17 / P149 の要求を満たす)
+ 271: 
+ 272: **hash だけでは不可**(W111)。**再構成可能**でなければならない。
+ 273: 
+ 274: 1. **対象**: $A_j$ の PC presentation または collection 多項式の content hash、$\bar A_j$ と $C_j$ の基底・invariant factors、**canonical section の定義**(Hall 正規形の規約)。
+ 275: 2. **線型段**: $M$、$b$ の content hash、$\bar f_0$、$K$ の生成元 $e_i$ と modulus $n_i$、**および $|K|=\prod n_i$ の根拠**(SNF の変換行列 $U,V$ と $\det U,\det V=\pm1$ の検査)。
+ 276: 3. **障害群**: $\Lambda$ の行列、$\operatorname{im}\Lambda$ の生成元、$\mathrm{Ob}$ の invariant factors、$\pi$ の明示行列。
+ 277: 4. **二次表**: $\omega_0$、$F(e_i)$($i=1..r$)、$\pi B(e_i,e_j)$($i\le j$)の**全値**($\mathrm{Ob}$ の座標で)。
+ 278: 5. **自己検査**: (6.2) の $r$ 本すべてが $0$ であること。
+ 279: 6. **全数性**: `parameter_domain_size` $=\prod n_i$、`scanned` $=$ 同数、`value_multiplicity_table`(値ごとの重複度)と `mass_check`($\sum$ 重複度 $=\prod n_i$)。
+ 280: 7. **target 非所属**: $-\omega_0\notin F(K)$ を、重複度表の $-\omega_0$ 欄が $0$ であることとして提示。
+ 281: 8. **独立再計算手順**: checker は保存された boolean や hash を信用せず、**群の積から**
+ 282:  $$ \theta(f)f\quad\text{と}\quad E_m\sigma^2(f)\sigma(f)f $$
+ 283:  を再計算する。肯定側は witness $f$ を Hall 座標で与え、**非可換群の積で**両式が $1$ になることを直接確認する(生成条件は別欄)。
+ 284: 
+ 285: > **禁止**: `kernel_representatives_hash` と `form_values_hash` だけで「全 lift が失敗」を宣言すること。$\mathbb Z/2^j$ は体でないので `kernel_rank` は全数を決めない(便 13 F17)。
+ 286: 
+ 287: ---
+ 288: 
+ 289: ## 7. 未閉鎖項
+ 290: 
+ 291: | # | 内容 | 状態 |
+ 292: |---|---|---|
+ 293: | **【GAP-E22a】** | $\mathcal Q(\bar k)$ の閉形(Hall collection 係数の明示式) | **UNKNOWN**(数値構成で代替) |
+ 294: | **【GAP-E22b】** | 系 E22.6 の一般化: どのような有限許容 $P$ で $\mathcal N\vert_{[A,A]}=0$ が成り立つか($[A,A]$ に $\sigma$-固定点がないこと)。成り立たない対象では中心補正の自由度が増え、判定が緩む | **UNKNOWN** |
+ 295: | **【GAP-E22c】** | 二次写像 $F:K\to\mathrm{Ob}$ の像を**全数走査せずに**決定する方法(Arf/Witt 型の不変量)。全数走査は $\prod n_i$ が大きいと破綻する | **UNKNOWN** —【文献要請 6″】(v3 §8.3)の対象 |
+ 296: | **【GAP-E22d】** | 定理 E22′ は class $\le2$ の $A$ に限る。導来長 $\ge4$($A$ の class $\ge3$)では (2.1)(2.2) の補正項自体が非中心になり、この定式化は壊れる | **射程外・明記** |
+ 297: 
+ 298: ---
+ 299: 
+ 300: ## 8. 状態札
+ 301: 
+ 302: | 主張 | 札 |
+ 303: |---|---|
+ 304: | 補題 E22.1(積公式 2 本) | **paper mutual-audit PASS**(便 13 F13 と本稿で独立に一致。(2.1) も同様) |
+ 305: | 補題 E22.2 / 定理 E22′ / 命題 E22.3 / 系 E22.4 | **紙上証明**(Opus 単独・**Sol 未監査**) |
+ 306: | §4 の極化対称性 (4.1) | **紙上検算 PASS**(両座標・独立材料の噛み合い) |
+ 307: | 命題 E22.5(二層の同定) | **紙上証明**。$\bar A\cong A_5$ は `metab.mjs` の $c=5$ モデルと同一 — 二系統照合の対象 |
+ 308: | 系 E22.6($\mathcal N\vert_C=0$) | **紙上証明**(手計算)。**掃引 ① r2 で GAP 側の独立再計算を必須とする** |
+ 309: | §5.4 の $\beta$ 明示形 | **紙上証明**(手計算)。同上 |
+ 310: | verified(Lean) | 一つもない |
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'docs/week4-掃引宇宙_v3.md'; "'$lines=Get-Content -LiteralPath $p -Encoding UTF8; for($i=0;$i -lt [Math]::Min(140,$lines.Count);$i++){ '"'{0,4}: {1}' -f ("'$i+1),$lines[$i] }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 396ms:
+   1: # 掃引宇宙 v3 — `U-E2-nm5-r2-2026-07-26`(有限反証バッテリー)
+   2: 
+   3: 2026-07-26 起草: Claude(数学者レイヤー・Opus 5)。**司令塔 委嘱 10 §3**。
+   4: 便 13 **F15–F18 / P148 / P149 / P150 / W109 / W110 / W111 / W112** の修理リストに一つずつ答えた**再登録版**。
+   5: 
+   6: > **凍結の宣言(絶対).** 既存 ID **`U-E2-nm5-2026-07-26`(v2 §4.2 ①)は事前登録記録として凍結**する。上書き・削除・射程変更は**しない**。本稿は**新 ID** による再登録であり、v2 の宇宙を置き換えない。`U-E2-metab-2026-07-26`(②)と `U-E2-fin-2026-07-26`(③)も凍結のまま据え置く(②の後継作業は `docs/week4-E19二系統化指示書_v1.md`)。
+   7: 
+   8: 依存: `docs/week4-E2作戦_v3.md`(v3 本体)・**`docs/命題_E22三段判定_v1.md`(判定の数学的正本)**・`sol/sol_reply_13_graded.md`・`sol/裁定_13_graded.md`。
+   9: 
+  10: ---
+  11: 
+  12: ## 0. この宇宙は何であって、何でないか(W110/W112 の先取り)
+  13: 
+  14: | | |
+  15: |---|---|
+  16: | **これは** | **有限反証バッテリー**。事前登録した **$j=1..6$、$m=0..63$ の 384 系**について、普遍 class-5 対象の合同商における同時可解性を全数判定する |
+  17: | **これでない** | 定理ゲートではない。全件通過は「全 $j$」「全 $m$」「class-5 非 metabelian 層全体」のいずれの証明でもない |
+  18: | **通過の読み** | 「この有限化と二つの lift 方程式が正しいという条件の下で、登録した 384 系が可解」**まで**。**class 6 以上へ狩場を移す理由にしない**(W110) |
+  19: | **失敗の読み** | まず `universal_class5_congruence_obstruction`。**E15 の反証ではない**(W112)。反証と呼ぶには、その合同対象を実際の有限許容 $P=PB_3/N$($c\in N$)へ実現し、該当 charming $m$ について `m_missing` 証明書を付ける必要がある |
+  20: | **前提の明示** | 判定の数学的正本は `docs/命題_E22三段判定_v1.md` の**定理 E22′**。この定理が誤っていれば結果は全て無効 |
+  21: 
+  22: ---
+  23: 
+  24: ## 1. 対象の定義 — 非可換 $A$ の有限化(F15 / W109 への応答)
+  25: 
+  26: ### 1.1 なぜ $A\otimes\mathbb Z/2^j$ が使えないか(便 13 F15 の追認)
+  27: 
+  28: $A:=\gamma_2/\gamma_6$ は**非可換**(class 2)なので、テンソル積 $A\otimes\mathbb Z/2^j$ という対象は**定義されない**。また Hall 座標を単純に全て $\bmod\,2^j$ に落とすことも**できない**: class-2 collection に現れる $\binom a2$ は
+  29: $$ \binom{a+2^j}2-\binom a2 = 2^ja+\binom{2^j}2 = 2^ja+2^{j-1}(2^j-1) $$
+  30: であり、$2^{j-1}(2^j-1)\not\equiv0\pmod{2^j}$ なので**代表元依存**が起きる。**v2 §4.2 ① の対象定義は無効**であり、これが NO-GO の直接の理由である。
+  31: 
+  32: ★ ただしこの計算は、**中心座標だけを $\bmod\,2^{j-1}$ に落とせば整合する**ことも同時に示している。以下の定義はそれを群論的に正しく実現したものである。
+  33: 
+  34: ### 1.2 正本の有限化 — verbal(特性)冪商
+  35: 
+  36: > **定義 1.1.** $j\ge1$ に対し
+  37: > $$ \mho_j(A):=\bigl\langle\,a^{2^j}\ :\ a\in A\,\bigr\rangle,\qquad \boxed{\ A_j:=A/\mho_j(A)\ } $$
+  38: > $\mho_j$ は verbal subgroup ゆえ **$A$ の特性部分群**、したがって $\sigma,\theta$ は $A_j$ に降りる。さらに $\mho_j(A)$ は $P^{(5)}=F_2/\gamma_6$ で正規なので $P_j:=P^{(5)}/\mho_j(A)$ も定義でき、$[P_j,P_j]=A_j$。
+  39: 
+  40: > **命題 1.2(構造).** $A$ が class 2、$C=[A,A]$ と $\bar A=A/C$ がともに自由アーベルであるとき、$j\ge1$ について
+  41: > $$ \text{(i) }\ \overline{\mho_j(A)}=2^j\bar A,\qquad \text{(ii) }\ \mho_j(A)\cap C=2^{j-1}C . $$
+  42: > したがって $A_j$ は
+  43: > $$ 1\longrightarrow C_j:=C/2^{j-1}C\longrightarrow A_j\longrightarrow \bar A_j:=\bar A/2^j\bar A\longrightarrow 1 $$
+  44: > という中心拡大であり、$P^{(5)}$ の場合は
+  45: > $$ \bar A_j\cong(\mathbb Z/2^j)^{10},\qquad C_j\cong(\mathbb Z/2^{j-1})^2,\qquad \lvert A_j\rvert=2^{12j-2}. $$
+  46: 
+  47: **証明.** (i) は明らか。(ii) $\supseteq$: class 2 の Hall–Petrescu $(ab)^n=a^nb^n[b,a]^{\binom n2}$ より、$n=2^j$ 冪が生成する部分群は $[b,a]^{\binom{2^j}2}$ をすべて含むので $\binom{2^j}2C=2^{j-1}(2^j-1)C$ を含み、また $z\in C$ に対し $z^{2^j}=2^jz$ ゆえ $2^jC$ も含む。$\gcd\bigl(2^{j-1}(2^j-1),\,2^j\bigr)=2^{j-1}$($2^j-1$ は奇数)なので $2^{j-1}C\subseteq\mho_j(A)$。
+  48: $\subseteq$: $g=a_1^{n}\cdots a_k^{n}\in C$($n=2^j$、逆元は $(a^{-1})^n$ に吸収)とする。$\bar A$ での像は $n\sum\bar a_i=0$ で $\bar A$ は自由なので $\sum\bar a_i=0$、すなわち $a_1\cdots a_k=:z\in C$。$a^nb^n=(ab)^n[b,a]^{-\binom n2}$ を $k$ について反復すると($\binom n2C$ は部分群なので各段の補正が吸収される)
+  49: $$ a_1^n\cdots a_k^n=(a_1\cdots a_k)^n\cdot c=z^n\cdot c,\qquad c\in\tbinom n2C, $$
+  50: よって $g\in2^jC+2^{j-1}(2^j-1)C=2^{j-1}C$。∎
+  51: 
+  52: > **★ 選択理由(なぜこの定義か)**
+  53: > 1. **特性である**(verbal)。$\sigma,\theta$ の降下が**証明つき**で保証される — F15 が要求した `action descent certificate` は命題 1.2 の (i)(ii) がそれにあたる。
+  54: > 2. **§1.1 の代表元依存が起きない**。中心が自動的に $2^{j-1}$ で落ちるので、collection の $\binom a2$ 項が整合する。
+  55: > 3. **Hall 正規形の一意性が保たれる**: $A_j$ の元は $\bigl(\bar a\in(\mathbb Z/2^j)^{10},\ z\in(\mathbb Z/2^{j-1})^2\bigr)$ で**一意**に表される(中心拡大の section)。
+  56: > 4. **他の候補との比較**: (a) 座標を一律 $\bmod2^j$ にする素朴案 → §1.1 で破綻。(b) $\bar A$ を $2^j$、$C$ を $2^j$ で落とす案 → そのような部分群は存在しない(§1.1 の計算がその不存在の証明)。(c) $\mathbb Z_2$-Mal'cev 座標上の普遍恒等式 → **別宇宙**であり、有限許容対象の E15 とは同一でない(F15 の警告)。本宇宙は (c) を採らない。
+  57: 
+  58: > **⚠ $j=1$ は退化(必ず明記して集計する).** $C_1=0$ なので $A_1$ は**基本アーベル**(階数 10)。非可換性がまったく効かないので、$j=1$ は**可換 control** として扱い、live discovery に混ぜない。実質的な層は $j=2,\dots,6$ の 5 層 × 64 = **320 系**、$j=1$ の 64 系は control。
+  59: 
+  60: ### 1.3 事前登録する基底と section(正本・以後変更しない)
+  61: 
+  62: **$A$ の Hall 基底(順序固定)**:
+  63: $$ w;\ \ p,q;\ \ r_1,r_2,r_3;\ \ t_1=[r_1,x],\,t_2=[r_1,y],\,t_3=[r_2,y],\,t_4=[r_3,y];\ \ t_5=[w,p],\,t_6=[w,q]. $$
+  64: **$\bar A$ の基底(10)**: 上の $w,p,q,r_1,r_2,r_3,t_1,t_2,t_3,t_4$ の像。`metab.mjs` の $c=5$ モデルの単項式基底 $S^aT^b$($a+b\le3$)と、辞書 $w=1,\ p=S,\ q=T,\ r_1=S^2,\ r_2=ST,\ r_3=T^2$、$t_i\leftrightarrow$ 3 次単項式 で**一対一に対応させる**(対応表は証明書に載せる)。
+  65: **$C$ の基底(2)**: $t_5,t_6$。
+  66: **canonical section** $s:\bar A_j\to A_j$: Hall 正規形
+  67: $$ s(\bar a)=w^{a_1}p^{a_2}q^{a_3}r_1^{a_4}r_2^{a_5}r_3^{a_6}t_1^{a_7}t_2^{a_8}t_3^{a_9}t_4^{a_{10}},\qquad 0\le a_i<2^j $$
+  68: (**この順序と代表元区間を正本とする**)。
+  69: 
+  70: ### 1.4 二つの中心欠損(F14/P147 の登録)
+  71: 
+  72: 定理 E22′(`命題_E22三段判定_v1.md` §3)に従い、**登録する量は二つの中心値写像**である:
+  73: $$ q_\theta(\bar f)=\theta(s\bar f)\,s\bar f\ \in C_j,\qquad q_N(\bar f)=E_m\,\sigma^2(s\bar f)\sigma(s\bar f)\,s\bar f\ \in C_j . $$
+  74: 中心補正の像は $\Lambda(z)=\bigl((1+\theta)z,\ \mathcal N_C z\bigr)$、障害群は $\mathrm{Ob}_j=(C_j\times C_j)/\operatorname{im}\Lambda$。
+  75: 
+  76: > **★ 事前に登録しておく構造的予測(系 E22.6).** $\mathcal N\vert_C=0$ なので
+  77: > $$ \operatorname{im}\Lambda=\langle(t_5+t_6,\,0)\rangle\cong\mathbb Z/2^{j-1},\qquad \lvert\mathrm{Ob}_j\rvert=2^{3(j-1)} . $$
+  78: > すなわち **$q_N$ は中心補正で一切修正できず、厳密に $0$ でなければならない**。
+  79: > **これは実装が最初に再現すべき構造事実であり、GAP 側が独立に $\mathcal N\vert_{C_j}=0$ を確認できなければ即停止**(§4 の停止規則 S-3)。
+  80: 
+  81: ---
+  82: 
+  83: ## 2. 事前登録表
+  84: 
+  85: | 項目 | 事前登録値 |
+  86: |---|---|
+  87: | **universe_id** | `U-E2-nm5-r2-2026-07-26` |
+  88: | **対象(普遍側)** | $P^{(5)}=F_2/\gamma_6$、$A=\gamma_2/\gamma_6$(Hirsch length 12、class 2、$C=[A,A]$ は階数 2・中心) |
+  89: | **有限化** | $A_j=A/\mho_j(A)$、**定義 1.1**。$j=1,\dots,6$($j=1$ は可換 control) |
+  90: | **$m$ の範囲** | $m=0,\dots,63$ |
+  91: | **系の総数** | $6\times64=\mathbf{384}$(うち live $=5\times64=320$、control $=64$) |
+  92: | **判定** | 定理 E22′ の三段判定(① 線型段 ② 線型障害段 ③ 二次段) |
+  93: | **列挙対象** | 列挙は $K=\ker(1+\bar\theta)\cap\ker\bar{\mathcal N}\le\bar A_j$ の**全元**。$\lvert K\rvert=\prod_i n_i$($n_i$ = invariant factors) |
+  94: | **規模の見積り** | 線型段: $20\times10$ 級の $\mathbb Z/2^j$ 上の SNF。二次段: $\lvert K\rvert$ の全数走査。$\lvert K\rvert$ が $10^7$ を超える $(j,m)$ は **cap 対象**として先に列挙する |
+  95: | **二系統** | route N(node: Hall collection 多項式 + 二欠損)/ route G(GAP: 独立な PC presentation 上の**直接群演算**)。**二次表を共有しない**(F18) |
+  96: 
+  97: ### 2.1 cap の単位(F18 — 単位を明示的に固定)
+  98: 
+  99: | キー | 値 | 意味 |
+ 100: |---|---|---|
+ 101: | `wall_seconds_per_pair` | **120** | 一つの $(j,m)$ の判定(線型段+二次段の合計)。route ごとに個別計測 |
+ 102: | `wall_seconds_per_route` | **1800** | 一つの route(node または GAP)の $j$ 一つぶん(= 64 個の $m$) |
+ 103: | `wall_seconds_universe_total` | **7200** | 宇宙全体(両 route 合計) |
+ 104: | `heap_bytes_per_process` | **2 GB**(`gap.ps1 -o 2g` / node `--max-old-space-size=2048`) | `RAM 8GB constraint` に従う |
+ 105: | `enumeration_cap_per_pair` | $\lvert K\rvert\le 2^{24}$ | 超えたら全数走査を行わず `status="cap_exceeded"` |
+ 106: 
+ 107: **cap 規則(厳守)**
+ 108: - **S-1**: いずれかの cap に触れたら、その $(j,m)$ は `status="cap_exceeded"` = **UNKNOWN**。**可解とも不可解とも書かない。**
+ 109: - **S-2**: cap に触れた $(j,m)$ を**全て列挙**して証明書の `unprocessed_pairs` に書き、**宇宙全体の verdict を `partial`** にする。「320/320 通過」とは書けない。
+ 110: - **S-3**: **cap の事後引き上げは禁止**。引き上げが必要なら**新 ID で再登録**する(v3 → v4)。
+ 111: 
+ 112: ---
+ 113: 
+ 114: ## 3. 全数性(completeness)の証明書 — F17/W111 への応答
+ 115: 
+ 116: 「$K$ の全元を走査した」を**再構成可能に**証明する。hash だけでは不可。
+ 117: 
+ 118: ### 3.1 パラメータ領域の確定
+ 119: 
+ 120: 1. 線型段の係数行列 $M_j(m)$($\mathbb Z/2^j$ 上、$20\times10$)と右辺 $b_j(m)$ を出力(content hash + **基底順序**+ **modulus** つき)。
+ 121: 2. $\mathbb Z$ 上に持ち上げて **canonical Smith 標準形** $U M V=D$ を計算し、$U,V$ を**保存**。postcondition:
+ 122:  - $\lvert\det U\rvert=\lvert\det V\rvert=1$、
+ 123:  - $D$ が対角で $d_i>0$ かつ $d_i\mid d_{i+1}$、
+ 124:  - $UMV=D$ の再乗算一致。
+ 125: 3. $\mathcal L\ne\emptyset$ の判定と $\bar f_0$ の復元。$K$ の生成元 $e_i$ と位数 $n_i$ を $V$ と $D$ から構成し、
+ 126:  $$ \lvert K\rvert=\prod_i n_i $$
+ 127:  を宣言する。**根拠は $U,V,D$ の postcondition**(2 の三点)であって、求解器の内部主張ではない。
+ 128: 4. **独立検査**: checker は $e_i$ が実際に $(1+\bar\theta)e_i=0$、$\bar{\mathcal N}e_i=0$ を満たすこと、$n_ie_i=0$、かつ $\{e_i\}$ が生成する部分群の位数が $\prod n_i$ であることを**自前で**再計算する。
+ 129: 
+ 130: ### 3.2 二次表と mass check
+ 131: 
+ 132: `docs/命題_E22三段判定_v1.md` §6 の (6.1) に従い、
+ 133: $$ \omega_0,\qquad F(e_i)\ (i=1..r),\qquad \pi B(e_i,e_j)\ (i\le j) $$
+ 134: の**全値**($\mathrm{Ob}_j$ の座標)を保存する。これで $F$ の全値が再構成できる。
+ 135: 
+ 136: **必須の自己検査 (6.2)**: 各 $i$ について $\ n_iF(e_i)+\binom{n_i}2\pi B(e_i,e_i)=0$ in $\mathrm{Ob}_j$。**一本でも FAIL なら結果は無効**(停止)。
+ 137: 
+ 138: **mass check**: 値ごとの重複度表 `value_multiplicity_table` を出し、
+ 139: $$ \sum_{v\in\mathrm{Ob}_j}\mathrm{mult}(v)=\prod_i n_i=\lvert K\rvert $$
+ 140: を検査する。**target 非所属**は「$\mathrm{mult}(-\omega_0)=0$」として提示する。
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'docs/week4-掃引宇宙_v3.md'; "'$lines=Get-Content -LiteralPath $p -Encoding UTF8; for($i=140;$i -lt $lines.Count;$i++){ '"'{0,4}: {1}' -f ("'$i+1),$lines[$i] }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 314ms:
+ 141: 
+ 142: ### 3.3 不可解性証明書(二種)
+ 143: 
+ 144: **(A) 線型段が空** — `unsolvability_certificate`(便 12 F13 の形式を維持):
+ 145: ```json
+ 146: { "claim": "linear_stage_empty",
+ 147:   "method": "left_kernel_mod_prime_power/v1",
+ 148:   "modulus": 64,
+ 149:   "matrix_shape": [20,10],
+ 150:   "basis_order_Abar": ["w","p","q","r1","r2","r3","t1","t2","t3","t4"],
+ 151:   "relation_row_order": ["theta_1..theta_10","norm_1..norm_10"],
+ 152:   "matrix_content_hash": "...", "b_content_hash": "...",
+ 153:   "dual_witness_y": ["..."],            // y*M = 0 (mod 2^j),  y*b != 0 (mod 2^j)
+ 154:   "recheck": "y*M と y*b を独立に再計算" }
+ 155: ```
+ 156: > **F17 の指示に従い、$\bar A$ の 10 座標と $C$ の 2 座標を混ぜない。行列の空間ごとに別欄で記録する。**
+ 157: 
+ 158: **(B) 線型段は非空だが全 lift が失敗** — `central_lift_obstruction/v2`(新設・P149):
+ 159: ```json
+ 160: { "claim": "linear_solutions_exist_but_none_lifts",
+ 161:   "method": "central_quadratic_exhaustion/v2",
+ 162:   "object": { "A_j_presentation_hash": "...", "section_convention": "Hall(w,p,q,r1,r2,r3,t1..t4), 0<=a_i<2^j",
+ 163:               "Abar_j_invariants": ["2^j x10"], "C_j_invariants": ["2^(j-1) x2"] },
+ 164:   "linear": { "f0": ["..."], "K_generators": [["..."]], "K_moduli": [ ... ],
+ 165:               "K_order": 0, "snf": {"U_hash":"...","V_hash":"...","D":[...],
+ 166:                                     "det_U":1,"det_V":1,"UMV_recheck":true} },
+ 167:   "obstruction_group": { "Lambda_matrix": [[...]], "im_Lambda_generators": [["..."]],
+ 168:                          "Ob_invariants": [ ... ], "pi_matrix": [[...]] },
+ 169:   "quadratic_table": { "omega0": ["..."], "F_e": [["..."]], "piB": [["..."]] },
+ 170:   "selftest_6_2": [0,0,0],                   // 全て 0 でなければ無効
+ 171:   "exhaustion": { "parameter_domain_size": 0, "scanned": 0,
+ 172:                   "value_multiplicity_table": {"...":0}, "mass_check": true,
+ 173:                   "target": ["-omega0 の座標"], "target_multiplicity": 0 },
+ 174:   "independent_recheck": "checker は群の積から theta(f)f と E_m N(f) を再計算する" }
+ 175: ```
+ 176: 
+ 177: **(C) 肯定側** — `solution_witness`:
+ 178: - $f$ の **Hall 座標**(section 規約つき)、
+ 179: - checker が**非可換群の積**として $\theta(f)f=1$ と $E_m\sigma^2(f)\sigma(f)f=1$ を直接再計算、
+ 180: - **生成条件は別欄**(`generation` — torsion 解と混同しない。便 12 Errata 4 / W97)。
+ 181: 
+ 182: ### 3.4 schema
+ 183: 
+ 184: `e2-sweep-cert/v3`(v2 からの**追加のみ**)。禁止事項は v2 §4.3 をすべて継承し、さらに:
+ 185: - **`kernel_representatives_hash` / `form_values_hash` **だけ**で否定を宣言してはならない**(W111)。
+ 186: - **`kernel_rank` を全数の根拠にしてはならない**($\mathbb Z/2^j$ は体でない)。
+ 187: - **`verified` の語を使わない**(Lean 予約)。二系統一致は `cross-checked`、単系統は `candidate`。
+ 188: - `A_finitization` 欄を新設し、`"mho_j"` と定義 1.1 への参照、$C_j$ の invariant factors を必ず書く。**`"tensor_Z_mod_2j"` は禁止値**。
+ 189: 
+ 190: ---
+ 191: 
+ 192: ## 4. 二系統の分離と停止規則(F18)
+ 193: 
+ 194: | route | 実装 | 独立性の担保 |
+ 195: |---|---|---|
+ 196: | **route N**(node) | $\bar A_j$ を `metab.mjs` の $c=5$ モデル(切断多項式)で、$C_j$ と二欠損を Hall collection 多項式で | 多項式代数 |
+ 197: | **route G**(GAP) | $A_j$ の **PC presentation**(`PcGroupFpGroup`/`NilpotentQuotient` 経由)を独立に構成し、$\theta,\sigma,E_m$ を群自己同型として与え、**群の積そのもの**で $\theta(f)f$ と $E_m\mathcal N(f)$ を評価 | 群演算 |
+ 198: 
+ 199: **共有してはならないもの**: 二次表 $(F(e_i),\pi B(e_i,e_j))$、$\mathrm{Ob}_j$ の座標系、section の実装コード。
+ 200: 
+ 201: **照合の対象**
+ 202: - 肯定: 全 $(j,m)$ について**少なくとも一つの witness $f$** を双方で直接代入。可能なら全 witness。
+ 203: - 否定: `parameter_domain_size`、`mass_check`、`target_multiplicity=0` を双方で照合。
+ 204: - 構造: $\lvert A_j\rvert$、$C_j$ の invariant factors、$\operatorname{im}\Lambda$ の生成元、$\lvert\mathrm{Ob}_j\rvert$。
+ 205: 
+ 206: **停止規則**
+ 207: - **S-3**: GAP 側が $\mathcal N\vert_{C_j}=0$(系 E22.6)を再現できない ⇒ **即停止**(数学かモデルのどちらかが誤り)。
+ 208: - **S-4**: 自己検査 (6.2) が一本でも FAIL ⇒ **即停止**、結果を出力しない(`fails>0` で非零終了)。
+ 209: - **S-5**: route N と route G の `Ob_invariants` または可解性 boolean が食い違う ⇒ **即停止**。
+ 210: - **S-6**: control($j=1$、可換層)で不可解が出る ⇒ **実装バグ**。$j=1$ では $A_1$ が可換なので定理 E9′ の class-5 版が使えるか要検討 — **不可解が出たら停止して数学者へ差し戻す**。
+ 211: 
+ 212: ---
+ 213: 
+ 214: ## 5. 事前登録した両方向の読み(W110/W112 遵守)
+ 215: 
+ 216: ### 5.1 全件可解だった場合
+ 217: 
+ 218: > **書いてよい**: 「有限化 $A_j=A/\mho_j(A)$($j=1..6$)と $m=0..63$ の登録 384 系すべてで、二つの lift 方程式は同時可解である(二系統一致)」。
+ 219: > **書いてはならない**: 「全ての $j$」「全ての $m$」「class-5 非 metabelian 層は安全」「狩場を class 6 へ移す」。**通過を class 6 移動の理由にしない**(W110)。
+ 220: > **次の一手**: (a) $j$ を上げるのではなく、**具体的な有限許容 $P$**(charming $m$ つき)への実現へ進む。(b) $\lvert K\rvert$ と $\lvert\mathrm{Ob}_j\rvert$ の $j$ 依存を見て、二次写像 $F$ が全射に近いのか偶然なのかを判定する材料を残す。
+ 221: 
+ 222: ### 5.2 一件でも不可解だった場合
+ 223: 
+ 224: > **書いてよい**: `universal_class5_congruence_obstruction`。すなわち「普遍 class-5 対象の合同商 $A_j$ において、$m$ に対する同時解が存在しない」。
+ 225: > **書いてはならない**: 「E15 は反証された」(W112)。
+ 226: > **反証に必要な追加**: (i) その $A_j$ を $[P,P]$ にもつ**有限許容対象** $P=PB_3/N$($N\in\mathrm{NFI}_{PB_3}(B_3)$、$c\in N$)の構成、(ii) 該当 $m$ が **charming** であることの確認、(iii) `m_missing` 証明書。
+ 227: > **注意(実現ギャップの明示)**: $A_j$ が有限でも $P^{(5)}/\mho_j(A)$ は**無限**である($P/\gamma_2\cong\mathbb Z^2$ が残る)。有限許容対象を作るには $\bar X,\bar Y$ の位数も落とす必要があり、その商で $A_j$ がそのまま生き残る保証はない。**この段は【GAP-E20】と合流する。**
+ 228: > **次の一手**: 障害ベクトル $-\omega_0\notin F(K)$ を出力し、$\mathrm{Ob}_j$ のどの成分で外れているかを記録($q_N$ 側か $q_\theta$ 側か)。系 E22.6 により **$q_N$ 側で外れる可能性が構造的に高い**。
+ 229: 
+ 230: ---
+ 231: 
+ 232: ## 6. 作業指示
+ 233: 
+ 234: > **W-r2-1(implementer・最優先)**: route N の実装。§1.2–§1.4 の対象定義、定理 E22′ の三段判定、§3 の証明書。**否定側は `central_lift_obstruction/v2` を必須**。自己検査 (6.2) と系 E22.6 の再現を**先に**通し、FAIL なら本走査へ進まない(非零終了)。
+ 235: > **W-r2-2(implementer)**: route G の実装(GAP・独立 PC presentation・群演算で直接評価)。二次表を共有しない。
+ 236: > **W-r2-3(falsifier)**: 本稿の事前登録への反証前哨。特に (a) 定義 1.1 の有限化が「$\sigma,\theta$ の降下」以外の落とし穴を持たないか(**命題 1.2 の証明を独立に検分**)、(b) §3 の全数性証明書が独立再構成可能か、(c) §5 の両方向の読みが空虚テストになっていないか、(d) $j=1$ control の扱い。
+ 237: > **W-r2-4(司令塔経由・Sol へ)**: 定理 E22′ と系 E22.6・命題 1.2 の相互監査。**特に「section cocycle の寄与が $\operatorname{im}\Lambda$ で消える」(命題 E22.3)は便 13 F14 への直接回答なので、独立検分を求める。**
+ 238: 
+ 239: ---
+ 240: 
+ 241: ## 7. 状態札
+ 242: 
+ 243: | 項目 | 札 |
+ 244: |---|---|
+ 245: | 定義 1.1 / 命題 1.2(有限化) | **紙上証明**(Opus 単独・Sol 未監査) |
+ 246: | 判定の数学的正本(定理 E22′) | **紙上証明**(Opus 単独・Sol 未監査) |
+ 247: | 系 E22.6($\mathcal N\vert_C=0$・$\lvert\mathrm{Ob}_j\rvert=2^{3(j-1)}$) | **紙上証明**(手計算)。GAP 側の独立再計算を停止規則 S-3 に組み込み |
+ 248: | 掃引結果 | **未実行**。実行後の札は route N/G 一致で `cross-checked`、単系統なら `candidate` |
+ 249: | verified(Lean) | 一つもない |
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'docs/week4-掃引宇宙_v3.1補正.md'; "'$lines=Get-Content -LiteralPath $p -Encoding UTF8; for($i=0;$i -lt $lines.Count;$i++){ '"'{0,4}: {1}' -f ("'$i+1),$lines[$i] }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 1148ms:
+   1: 本書は掃引宇宙 v3 の補正 v3.1(便 14 の HOLD 解除要求の逐語版)。実装は v3+作用式追補+本補正を正とする。
+   2: 
+   3: ## F5. E22 §6 の二次表 — 公式は PASS、postcondition は不足
+   4: 
+   5: 有限アーベル群
+   6: \[
+   7: K=\bigoplus_i\langle e_i\rangle,\qquad \operatorname{ord}(e_i)=n_i
+   8: \]
+   9: 上の展開
+  10: \[
+  11: F\!\left(\sum_i a_ie_i\right)
+  12: =\sum_i\left(a_iF(e_i)+\binom{a_i}{2}\pi B(e_i,e_i)\right)
+  13:  +\sum_{i<j}a_ia_j\pi B(e_i,e_j)
+  14: \]
+  15: は正しい。
+  16: 
+  17: しかし、現在の唯一の自己検査
+  18: \[
+  19: n_iF(e_i)+\binom{n_i}{2}\pi B(e_i,e_i)=0 \tag{6.2}
+  20: \]
+  21: は、\(a_i\) を一周させたときの **\(x=0\) の場合しか検査しない**。一般の
+  22: \(x=\sum_{j\ne i}a_je_j\) に対して
+  23: \[
+  24: F(x+n_ie_i)-F(x)
+  25: =
+  26: n_iF(e_i)+\binom{n_i}{2}\pi B(e_i,e_i)
+  27:  +n_i\pi B(e_i,x)
+  28: \]
+  29: である。従って (6.2) に加えて、少なくとも次を必須にする。
+  30: 
+  31: 1. 全 \(i,j\) について
+  32:    \[
+  33:    n_i\,\pi B(e_i,e_j)=0,\qquad
+  34:    n_j\,\pi B(e_i,e_j)=0
+  35:    \quad\text{in }\mathrm{Ob}.
+  36:    \]
+  37: 2. checker が \(B(e_i,e_j)\) と \(B(e_j,e_i)\) を別々に群の積から計算し、
+  38:    \[
+  39:    \pi B(e_i,e_j)=\pi B(e_j,e_i)
+  40:    \]
+  41:    を検査する。
+  42: 
+  43: 理論上は \(\pi B\) の双加法性・対称性から自動だが、保存された有限表が本当にその理論を実装していることの **certificate postcondition** としては省けない。特に現在は \(i\le j\) の半分しか保存しないため、対称性を保存値だけで自己正当化してはならない。
+  44: 
+  45: この不足は E22′ 本体の反例ではない。`central_lift_obstruction/v2` と掃引 S-4 の修理事項である。
+  46: 
+  47: ## F12. `U-E2-nm5-r2` の停止規則 — 四点修正後に GO
+  48: 
+  49: ### F12.1 記号衝突
+  50: 
+  51: v3 §4 では既に
+  52: \[
+  53: C_j=(M_j^{\bar\sigma})^{\bar\theta}
+  54: \]
+  55: を graded cokernel に使っている。一方、掃引 v3 §1.2 は
+  56: \[
+  57: C_j=C/2^{j-1}C
+  58: \]
+  59: を有限中心に使う。同じ作戦文書群で意味が衝突するため、掃引側を
+  60: \[
+  61: Z_j\quad\text{または}\quad C_j^{\mathrm{cen}}
+  62: \]
+  63: へ改名する。証明書 schema も同じ語に統一する。
+  64: 
+  65: ### F12.2 S-3 の重複
+  66: 
+  67: §2.1 の「cap の事後引き上げ禁止」と §4 の
+  68: \(\mathcal N|_{Z_j}=0\) 再現失敗がともに S-3 である。停止ログが曖昧になるため、全停止規則に一意な ID を振る。
+  69: 
+  70: ### F12.3 S-4 の補強
+  71: 
+  72: F5 のとおり、(6.2) に加えて
+  73: \[
+  74: n_i\pi B(e_i,e_j)=n_j\pi B(e_i,e_j)=0
+  75: \]
+  76: および
+  77: \[
+  78: \pi B(e_i,e_j)=\pi B(e_j,e_i)
+  79: \]
+  80: を全 \(i,j\) で検査する。一件でも FAIL なら非零終了し、本走査へ進まない。
+  81: 
+  82: ### F12.4 S-6 の裁定語
+  83: 
+  84: \(j=1\) で \(A_1\) がアーベルであることから、直ちに「不可解なら実装バグ」とは言えない。\(P_1\) 自体は class 5 であり得るため、class \(\le4\) の E9′ はそのまま適用できない。class 5 metabelian の全 \(m\) 可解性は E19-b′ の \(c=5\) 適用に対応するが、その数値前提は現在 single-system candidate である。
+  85: 
+  86: 従って S-6 は、
+  87: 
+  88: > \(j=1\) control で不可解が出たら  
+  89: > `calibration_mismatch / math_review` として即停止する。独立な E19 \(c=5\)
+  90: > witness と照合するまで、実装バグとも数学的反例とも裁定しない。
+  91: 
+  92: へ直す。
+  93: 
+  94: 以上四点を versioned に反映した `r3`、または発射前の同等な凍結 errata があれば、数学面から **GO** を出せる。現行 `r2` 本文のままなら **HOLD** である。cap、二 route の独立性、有限 384 系に限定した読み、\(\mathcal N|_{Z_j}=0\) の停止自体には追加異論はない。
+  95: 
+  96: 補正反映の確認は falsifier 不要 — 便 14 の原文が正(逐語のため)。
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$p='"'search/manifest_spec_e2_actions.md'; "'$lines=Get-Content -LiteralPath $p -Encoding UTF8; for($i=0;$i -lt $lines.Count;$i++){ '"'{0,4}: {1}' -f ("'$i+1),$lines[$i] }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 314ms:
+   1: # 掃引 ① r2 用・作用式 spec 追補(定義のみ・結論なし)
+   2: 
+   3: 本書は掃引 ① r2 用の作用式 spec 追補(定義のみ・結論なし)。実装は掃引宇宙 v3 とこの追補だけを正とする。
+   4: 
+   5: ---
+   6: 
+   7: ## 対象 A(γ₂/γ₆) 上の作用式
+   8: 
+   9: ### 対象と基底
+  10: 
+  11: $$P^{(5)}:=F_2/\gamma_6,\qquad A:=\gamma_2/\gamma_6.$$
+  12: 
+  13: Hall 基底(順序を正本として固定):
+  14: $$w;\quad p,q;\quad r_1,r_2,r_3;\quad t_1,t_2,t_3,t_4;\quad t_5:=[w,p],\ t_6:=[w,q].$$
+  15: 
+  16: ### 中心層 C と商層 $\bar A$
+  17: 
+  18: $$C:=[A,A]=\langle t_5,t_6\rangle\cong\mathbb Z^2\subseteq\gamma_5=Z(P^{(5)}),\quad \bar A=A/C.$$
+  19: 
+  20: ### σ の作用式(C 上)
+  21: 
+  22: C の基底 $(t_5,t_6)$ に関して:
+  23: $$\sigma\vert_C=\begin{pmatrix}0&-1\\1&-1\end{pmatrix}.$$
+  24: 
+  25: ### θ の作用式(C 上)
+  26: 
+  27: C の基底 $(t_5,t_6)$ に関して:
+  28: $$\theta\vert_C=\begin{pmatrix}0&1\\1&0\end{pmatrix}.$$
+  29: 
+  30: ### $\mathcal N_C$ の定義式(C 上)
+  31: 
+  32: $$\mathcal N_C(z):=\sigma^2(z)\sigma(z)z\quad\text{on }C.$$
+  33: 
+  34: 特に: **$\mathcal N_C=1+\sigma+\sigma^2=0$ on $C$**(恒等的に零写像)。
+  35: 
+  36: ### 交換子対 β
+  37: 
+  38: 双線型・交代写像 $\beta:\bar A\times\bar A\to C$ は、$\bar u=u_w w+u_p p+u_q q+\cdots$ と Hall 座標で書くとき:
+  39: $$\beta(\bar u,\bar v)=(u_wv_p-u_pv_w)\,t_5+(u_wv_q-u_qv_w)\,t_6.$$
+  40: 
+  41: ---
+  42: 
+  43: ## 定理 E22′ の判定式
+  44: 
+  45: ### 線型段: 線型解集合 $\mathcal L$
+  46: 
+  47: $$\mathcal L:=\bigl\{\bar f\in\bar A\ :\ (1+\bar\theta)\bar f=0\ \text{ かつ }\ \bar{\mathcal N}\bar f=-\bar E_m\bigr\}.$$
+  48: 
+  49: あるいは剰余類の形:
+  50: $$\mathcal L=\bar f_0+K,\qquad K:=\ker(1+\bar\theta)\cap\ker\bar{\mathcal N}\ \le\ \bar A.$$
+  51: 
+  52: ### 第一座標と第二座標の欠損対
+  53: 
+  54: Section $s:\bar A\to A$ に対し($\pi_C\circ s=\mathrm{id}$)、$\bar f\in\mathcal L$ について:
+  55: $$q_\theta(\bar f):=\theta(s\bar f)\,s\bar f,\qquad q_N(\bar f):=E_m\,\sigma^2(s\bar f)\sigma(s\bar f)\,s\bar f.$$
+  56: 
+  57: 欠損対:
+  58: $$\Xi(\bar f):=\bigl(q_\theta(\bar f),\ q_N(\bar f)\bigr)\in C\times C.$$
+  59: 
+  60: ### 障害群と商写像
+  61: 
+  62: 中心層 $C$ 上の準同型:
+  63: $$\Lambda:C\to C\times C,\quad \Lambda(z):=\bigl((1+\theta)z,\ \mathcal N_C(z)\bigr).$$
+  64: 
+  65: 障害群:
+  66: $$\mathrm{Ob}:=(C\times C)\big/\operatorname{im}\Lambda,\quad \pi:C\times C\twoheadrightarrow\mathrm{Ob}.$$
+  67: 
+  68: 障害写像:
+  69: $$\omega:=\pi\circ\Xi:\mathcal L\to\mathrm{Ob}.$$
+  70: 
+  71: ### 同時可解性の判定条件
+  72: 
+  73: $$\mathcal S_m\cap\mathcal B_\theta\ne\emptyset \iff \mathcal L\ne\emptyset\ \text{ かつ }\ 0\in\omega(\mathcal L).$$
+  74: 
+  75: ---
+  76: 
+  77: ## $q_\theta$ / $q_N$ の定義式(簡潔版)
+  78: 
+  79: Section cocycle:
+  80: $$c_s(\bar u,\bar v):=s(\bar u)\,s(\bar v)\,s(\bar u+\bar v)^{-1}\in C.$$
+  81: 
+  82: 補題 E22.2 での分離公式:
+  83: $$D_\theta(uz)=D_\theta(u)\cdot(1+\theta)z,\qquad \mathcal N(uz)=\mathcal N(u)\cdot\mathcal N_C(z).$$
+  84: 
+  85: ここで $(1+\theta)z:=\theta(z)z$。
+  86: 
+  87: ---
+  88: 
+  89: ## 二次形式の極化展開
+  90: 
+  91: $\bar f_0\in\mathcal L$ 固定、$\bar k\in K$ について:
+  92: $$F(\bar k):=\pi\ell(\bar k)+\pi\mathcal Q(\bar k).$$
+  93: 
+  94: ここで
+  95: $$\ell(\bar k):=\bigl(b_\theta(\bar f_0,\bar k),\ b_N(\bar f_0,\bar k)\bigr),\quad b_\theta(\bar u,\bar v):=\beta(\bar\theta\bar v,\ \bar u),\quad b_N(\bar u,\bar v):=\beta(\bar\sigma^2\bar v,\ \bar\sigma\bar u+\bar u)+\beta(\bar\sigma\bar v,\ \bar u).$$
+  96: 
+  97: $\mathcal Q(\bar k):=\bigl(\theta(s\bar k)s\bar k,\ \sigma^2(s\bar k)\sigma(s\bar k)s\bar k\bigr)$。
+  98: 
+  99: 極化(対称):
+ 100: $$\pi B(\bar k,\bar l):=\bigl(b_\theta(\bar k,\bar l),\ b_N(\bar k,\bar l)\bigr).$$
+ 101: 
+ 102: 展開式:
+ 103: $$F(\bar k)=\sum_{i}\Bigl(a_i\,F(e_i)+\tbinom{a_i}2\,\pi B(e_i,e_i)\Bigr)+\sum_{i<j}a_ia_j\,\pi B(e_i,e_j)\quad(\bar k=\sum_ia_ie_i).$$
+ 104: 
+ 105: ---
+ 106: 
+ 107: ## 自己検査結果
+ 108: 
+ 109: 禁止項目スキャン:
+ 110: - ❌ 「可解」「solvable」「m-full」「E15」「class 5 が安全/危険」: 0 件
+ 111: - ❌ 定理の主張文・証明・可解/不可解の結論文: 0 件  
+ 112: 
+ 113: **自己検査: PASS**(定義のみ・結論なし)
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -LiteralPath 'certificates/e2sweep/smoke_negative_c5_m5.json' -Raw -Encoding UTF8" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 356ms:
+{"claim":"linear_stage_empty","synthetic":true,"method":"left_kernel_mod_prime_power/v1","modulus":2,"matrix_shape":[20,10],"perturbation":"b[1] += 1 (item1 synthetic smoke test, NOT real sweep data)","dual_witness_y":"[ 7, 0, 0, 0, 0, 0, 0, 3, 3, 0, 7, 3, 0, 0, 0, 0, 0, 0, 0, 0 ]","yM_is_zero":true,"yb":7,"yb_nonzero_mod_2j":true,"recheck":"yM and yb recomputed directly above, independent of the SNF's own internal claims"}
+

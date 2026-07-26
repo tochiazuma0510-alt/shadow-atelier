@@ -774,6 +774,69 @@ function checkStageA1v21(cert, a1Cert) {
   return { ok, s5_size_ok: sizeOk, witness_mismatches: witnessMismatches, witness_not_verified: witnessNotVerified, settled_count_claimed: settledCountClaimed, settled_count_observed: settledCountObserved, composition_closure_recheck: { ok: closureOk, claimed_closure_fail_count: comp.closure_fail_count, recounted: closureFailRecount }, details_sample: details.slice(0, 5) };
 }
 
+// isolated determination for N_A (待機中の小任務・司令塔指示 2026-07-26). Independently
+// re-verifies every settled witness in certificates/A1.v2.2.json (own S5 enumeration, own word
+// evaluation) and re-checks the isolated conclusion (observed: settled_count = shadow_total).
+function checkStageA1v22(cert) {
+  const S5 = makeSymGroupHelpers(5);
+  const Xhat = cyclesToPerm(5, [[1, 3, 2, 4, 5]]);
+  const Yhat = cyclesToPerm(5, [[1, 3, 4, 5, 2]]);
+  const S5elts = [];
+  function permute(arr, k, acc) {
+    if (k === arr.length) { acc.push(arr.slice()); return; }
+    for (let i = k; i < arr.length; i++) { [arr[k], arr[i]] = [arr[i], arr[k]]; permute(arr, k + 1, acc); [arr[k], arr[i]] = [arr[i], arr[k]]; }
+  }
+  permute([1, 2, 3, 4, 5], 0, S5elts);
+  const sizeOk = S5elts.length === (cert.aut_group && cert.aut_group.size);
+
+  const witnessDetail = cert.settled_witness && cert.settled_witness.detail || [];
+  let witnessMismatches = 0, witnessNotVerified = 0;
+  const details = [];
+  for (const wd of witnessDetail) {
+    const f = prependEvalWordInQ(S5, Xhat, Yhat, wd.f_word); // same prepend convention as A1's own EnumerateReducedHexagon/AbstractProd
+    const m = wd.m, u = 2 * m + 1;
+    const targetX = S5.pow(Xhat, u);
+    const invF = S5.inv(f);
+    const targetY = S5.mul(S5.mul(f, S5.pow(Yhat, u)), invF);
+    if (wd.settled) {
+      const h = cyclesToPermFromGapString(wd.automorphism_witness);
+      if (!h) { witnessNotVerified++; details.push({ m, ok: false, reason: 'could not parse witness' }); continue; }
+      const lhsX = S5.mul(S5.mul(S5.inv(h), Xhat), h);
+      const lhsY = S5.mul(S5.mul(S5.inv(h), Yhat), h);
+      const ok = S5.eq(lhsX, targetX) && S5.eq(lhsY, targetY);
+      if (!ok) witnessMismatches++;
+      details.push({ m, ok });
+    } else {
+      let found = false;
+      for (const g of S5elts) {
+        const lhsX = S5.mul(S5.mul(S5.inv(g), Xhat), g);
+        if (!S5.eq(lhsX, targetX)) continue;
+        const lhsY = S5.mul(S5.mul(S5.inv(g), Yhat), g);
+        if (S5.eq(lhsY, targetY)) { found = true; break; }
+      }
+      const ok = !found;
+      if (!ok) witnessMismatches++;
+      details.push({ m, ok, independent_search: true });
+    }
+  }
+  const settledCountClaimed = cert.settled_witness && cert.settled_witness.settled_count;
+  const totalClaimed = cert.settled_witness && cert.settled_witness.total;
+  const settledCountObserved = witnessDetail.filter((wd) => wd.settled).length;
+  const totalObserved = witnessDetail.length;
+  const isolatedRecomputed = settledCountObserved === totalObserved && totalObserved > 0;
+  const isolatedOk = cert.isolated === isolatedRecomputed;
+
+  const ok = sizeOk && witnessMismatches === 0 && witnessNotVerified === 0
+    && settledCountClaimed === settledCountObserved && totalClaimed === totalObserved && isolatedOk;
+  return {
+    ok, s5_size_ok: sizeOk, witness_mismatches: witnessMismatches, witness_not_verified: witnessNotVerified,
+    settled_count_claimed: settledCountClaimed, settled_count_observed: settledCountObserved,
+    total_claimed: totalClaimed, total_observed: totalObserved,
+    isolated_claimed: cert.isolated, isolated_recomputed: isolatedRecomputed, isolated_ok: isolatedOk,
+    details_sample: details.slice(0, 5),
+  };
+}
+
 function cyclesToPermFromGapString(s) {
   // parses GAP's Print output for a permutation, e.g. "(1,4)(2,5,3)" or "()" -> array form on {1..5}
   if (s === '()') return [1, 2, 3, 4, 5];
@@ -1226,7 +1289,7 @@ function main() {
   const results = {};
   const stageIds = process.argv.slice(2).length ? process.argv.slice(2) : ['1a'];
   for (const id of stageIds) {
-    const certFile = id === 'A1.v2.1' ? 'A1.v2.1.json' : `${id}.v2.json`;
+    const certFile = (id === 'A1.v2.1' || id === 'A1.v2.2') ? `${id}.json` : `${id}.v2.json`;
     const certPath = join(CERT_DIR, certFile);
     if (!existsSync(certPath)) { results[id] = { ok: false, reason: 'certificate not found', path: certPath }; continue; }
     const cert = JSON.parse(readFileSync(certPath, 'utf8'));
@@ -1239,9 +1302,10 @@ function main() {
     else if (id === 'A2') verdict = checkStageA2(cert);
     else if (id === '3') verdict = checkStage3(cert);
     else if (id === 'A1.v2.1') verdict = checkStageA1v21(cert);
+    else if (id === 'A1.v2.2') verdict = checkStageA1v22(cert);
     else verdict = { ok: false, reason: `stage ${id} checker not implemented yet in check-v2.mjs` };
     results[id] = verdict;
-    const verdictFile = id === 'A1.v2.1' ? 'A1.v2.1.verdict.json' : `${id}.v2.verdict.json`;
+    const verdictFile = (id === 'A1.v2.1' || id === 'A1.v2.2') ? `${id}.verdict.json` : `${id}.v2.verdict.json`;
     writeFileSync(join(VERDICT_DIR, verdictFile), JSON.stringify(verdict, null, 2));
     console.log(`stage ${id}: ${verdict.ok ? 'PASS' : 'FAIL'}`);
     console.log(JSON.stringify(verdict, null, 2));

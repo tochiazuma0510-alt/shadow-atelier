@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "s5_size_ok": true,
+  "witness_mismatches": 0,
+  "witness_not_verified": 0,
+  "settled_count_claimed": 20,
+  "settled_count_observed": 20,
+  "total_claimed": 20,
+  "total_observed": 20,
+  "isolated_claimed": true,
+  "isolated_recomputed": true,
+  "isolated_ok": true,
+  "details_sample": [
+    {
+      "m": 0,
+      "ok": true
+    },
+    {
+      "m": 4,
+      "ok": true
+    },
+    {
+      "m": 0,
+      "ok": true
+    },
+    {
+      "m": 4,
+      "ok": true
+    },
+    {
+      "m": 0,
+      "ok": true
+    }
+  ]
+}
