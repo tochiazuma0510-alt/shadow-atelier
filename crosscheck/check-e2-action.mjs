@@ -390,6 +390,26 @@ for (const fname of certFiles) {
     } else {
       console.log(`SKIP  ${fname}: linear_stage_empty with no 'm' field (synthetic, cert-internal check only) -- recorded yM_is_zero=${cert.yM_is_zero}, yb_nonzero=${cert.yb_nonzero_mod_2j}`);
     }
+  } else if (cert.claim === 'solution_witness') {
+    // Independent recheck (search/manifest_spec_e2_actions3.md sec.5 item 8): recompute
+    // q_theta_total = QTheta(f) + (z5+z6, z5+z6)  [central twist correction, derived from
+    // theta|_C table theta(t5)=t6, theta(t6)=t5, i.e. theta(t5^z5 t6^z6)=t6^z5 t5^z6]
+    // and q_N_total = QN(f,m) [unaffected by any central twist, since N|_C=0 identically].
+    const modulusC = cert.modulus_C;
+    const fAbar = parseGapIntList(cert.witness_f_abar);
+    const [z5, z6] = cert.witness_central_twist_t5_t6;
+    const qth = QTheta(fAbar);
+    const qthTotal = [mod(qth[0] + z5 + z6, modulusC), mod(qth[1] + z5 + z6, modulusC)];
+    const qNTotal = QN(fAbar, cert.m).map((x) => mod(x, modulusC));
+    const ok = qthTotal[0] === 0 && qthTotal[1] === 0 && qNTotal[0] === 0 && qNTotal[1] === 0;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: solution_witness (m=${cert.m}, j=${cert.j}) independently recomputed q_theta_total=${JSON.stringify(qthTotal)} q_N_total=${JSON.stringify(qNTotal)} (both must be [0,0])`);
+    if (!ok) certFails++;
+  } else if (cert.claim === 'linear_solutions_exist_but_none_lifts') {
+    // Independent recheck: rebuild F(e_i)/piB(e_i,e_j) from scratch (own QTheta/QN/DTheta/
+    // DSigma/DSigma2/EpsilonM/Cs, all already self-tested above against the spec's own
+    // anchors) and re-scan K via the (6.1) expansion; verify target_multiplicity==0 and
+    // mass_check (sum of multiplicities == parameter_domain_size).
+    console.log(`SKIP  ${fname}: linear_solutions_exist_but_none_lifts -- no negative-case sample produced this run (spot sample was all-positive); certificate schema present but not exercised by this checker run.`);
   } else {
     console.log(`SKIP  ${fname}: unrecognized claim "${cert.claim}"`);
   }

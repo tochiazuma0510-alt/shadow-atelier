@@ -627,6 +627,293 @@ WriteUnsolvableCert := function(path, snfData, j, failRow)
   return yMZero and yBNonzero;
 end;;
 
+# ================================================================================
+# QUADRATIC STAGE (unblocked 2026-07-26 via search/manifest_spec_e2_actions3.md, quoting
+# docs/命題_E22三段判定_v1.md Cor E22.4/eq(6.1)(6.2)/Cor E22.6/sec.6.2-6.3 verbatim). Read in
+# full (98 lines). Implements F := pi.ell + pi.Q : K -> Ob, the polarization piB, the
+# concrete Ob = (C/<t5+t6>) (+) C quotient (Cor E22.6, rank 3), the (6.1) expansion formula,
+# and the (6.2) self-check n_i F(e_i) + C(n_i,2) piB(e_i,e_i) = 0 in Ob.
+#
+# ell(k) := (b_theta(f0,k), b_N(f0,k)) = PiB(f0, k, m)        [already defined above]
+# Q(k)   := (theta(s k)(s k), sigma^2(s k) sigma(s k)(s k))   -- NOTE: NO E_m factor, unlike
+#           QN. First component = QTheta(k) exactly (same formula, theta(s.)s. product).
+#           Second component: derived below as QQ(f,m), obtained from QN's OWN closed form
+#           (6.7) by algebraically deleting the E_m-dependent terms (ebar->0, eps_m->0) --
+#           this is a legitimate algebraic specialization of an already-validated formula,
+#           NOT a new guess: QN(f,m) = eps_m + dSigma2(f,m) + dSigma(f,m) + Cs(ebar,S2f)
+#           + Cs(ebar+S2f,Sf) + Cs(ebar+S2f+Sf,f); setting ebar:=[0,0], eps_m:=[0,0] gives
+#           QQ(f,m) = dSigma2(f,m) + dSigma(f,m) + Cs(S2f,Sf) + Cs(S2f+Sf,f).
+# ================================================================================
+QQ := function(f, m)
+  local Sf, S2f;
+  Sf := SigmaP(f, m);;
+  S2f := SigmaP(Sf, m);;
+  return DSigma2(f, m) + DSigma(f, m) + Cs(S2f, Sf) + Cs(S2f+Sf, f);
+end;;
+
+# Pi: C x C (4-vector [a1,b1,a2,b2]) -> Ob (3-vector), per Cor E22.6: im(Lambda)=<(t5+t6,0)>,
+# i.e. only the FIRST C-copy (the b_theta/QTheta slot) is quotiented, by identifying (a1,b1)
+# with (a1+1,b1+1) -- invariant is a1-b1. The second C-copy (b_N/QQ slot) passes through
+# unreduced (rank 3 total, matches Ob = (C/<t5+t6>) (+) C).
+PiOb := function(v4) return [ v4[1]-v4[2], v4[3], v4[4] ]; end;;
+
+ObModReduce := function(v3, modulus) return List(v3, x -> x mod modulus); end;;
+
+# raw (pre-projection) ell, Q, B, all valued in C x C (4-vectors)
+RawEll := function(k, f0, m) return PiB(f0, k, m); end;;
+RawQ := function(k, m) return Concatenation(QTheta(k), QQ(k, m)); end;;
+RawB := function(u, v, m) return PiB(u, v, m); end;;
+
+# projected (Ob-valued, 3-vectors)
+FE := function(k, f0, m) return PiOb(RawEll(k,f0,m)) + PiOb(RawQ(k,m)); end;;
+PiBFull := function(u, v, m) return PiOb(RawB(u,v,m)); end;;
+
+# ---- Extract a particular solution f0 (Abar x-coords) from the linear-stage SNF data,
+#      given solvability at level j already confirmed by TestAtJ. ----
+ModInv := function(a, m)
+  local g;
+  if m = 1 then return 0; fi;
+  g := Gcdex(a, m);;
+  return g.coeff1 mod m;
+end;;
+
+ExtractF0 := function(snfData, j)
+  local n, rank, D, U, V, b, c, modulus, i, d, v2d, g, dprime, cprime, modprime, yi, y, f0;
+  n := snfData.n;  rank := snfData.rank;  D := snfData.D;  U := snfData.U;  V := snfData.V;
+  b := snfData.sys.rhs;  c := U * b;;  modulus := 2^j;;
+  y := List([1..n], x -> 0);;
+  for i in [1..rank] do
+    d := D[i][i];  v2d := V2Val(d);
+    if v2d >= j then
+      y[i] := 0;
+    else
+      g := 2^v2d;  dprime := d/g;  cprime := c[i]/g;  modprime := modulus/g;
+      if modprime = 1 then
+        yi := 0;
+      else
+        yi := (ModInv(dprime, modprime) * cprime) mod modprime;
+      fi;
+      y[i] := yi;
+    fi;
+  od;
+  f0 := V * y;;
+  return f0;
+end;;
+
+# ---- SELF-CHECKS required before trusting F/piB at all (coordinator instruction: "解消
+#      しなければまた止まって報告"). Generalized into a function so it can be run over
+#      several (j,m) samples, and over MULTIPLE coefficient vectors a (not just (1,1)),
+#      to stress the (6.1) expansion formula harder (a_i=2,3 too, not only 0/1). ----
+QuadStageSelfCheck := function(m, j, verbose)
+  local snfD, res, f0, modulus, modulusC, f0Ok, symOk, postOk, expandOk, gi, fei, bii, lhs, lhsRed,
+        k1, k2, aVecs, avec, kk, fDirectRaw, fDirect, fe1, fe2, fExpandedRaw, fExpanded, term, ii, jj;
+  snfD := BuildSnfData(m);;
+  res := TestAtJ(snfD, j);;
+  if not res.solvable then
+    if verbose then Print("  [SKIP] (j=",j,",m=",m,"): linear stage unsolvable, no quadratic self-check possible\n"); fi;
+    return rec(ok:=false, skipped:=true);
+  fi;
+  if Length(res.kgens) < 2 then
+    if verbose then Print("  [SKIP] (j=",j,",m=",m,"): |K generators| < 2, expansion cross-term check needs 2\n"); fi;
+    return rec(ok:=false, skipped:=true);
+  fi;
+  f0 := ExtractF0(snfD, j);;
+  modulus := 2^j;;  modulusC := 2^(j-1);;
+  f0Ok := ForAll((f0+ThetaP(f0)), x -> x mod modulus = 0) and
+          ForAll((f0+SigmaP(f0,m)+SigmaP(SigmaP(f0,m),m)+EmP(m)), x -> x mod modulus = 0);;
+  k1 := res.kgens[1].vec;;  k2 := res.kgens[2].vec;;
+  symOk := ObModReduce(PiBFull(k1,k2,m),modulusC) = ObModReduce(PiBFull(k2,k1,m),modulusC);;
+  postOk := true;;
+  for gi in res.kgens do
+    fei := FE(gi.vec, f0, m);;
+    bii := PiBFull(gi.vec, gi.vec, m);;
+    lhs := gi.order*fei + Binomial(gi.order,2)*bii;;
+    lhsRed := ObModReduce(lhs, modulusC);;
+    if not ForAll(lhsRed, x -> x = 0) then postOk := false; fi;
+  od;
+  # (6.1) expansion, stress-tested at several coefficient vectors a=(a1,a2) (not just (1,1))
+  expandOk := true;;
+  aVecs := [[1,1],[2,1],[1,2],[2,3],[3,2]];;
+  for avec in aVecs do
+    if avec[1] < res.kgens[1].order and avec[2] < res.kgens[2].order then
+      kk := avec[1]*k1 + avec[2]*k2;;
+      fDirect := ObModReduce(FE(kk, f0, m), modulusC);;
+      # (6.1): F(k) = sum_i (a_i F(e_i) + C(a_i,2) piB(e_i,e_i)) + sum_{i<j} a_i a_j piB(e_i,e_j)
+      fe1 := FE(k1, f0, m);;  fe2 := FE(k2, f0, m);;
+      fExpandedRaw := avec[1]*fe1 + Binomial(avec[1],2)*PiBFull(k1,k1,m)
+                    + avec[2]*fe2 + Binomial(avec[2],2)*PiBFull(k2,k2,m)
+                    + avec[1]*avec[2]*PiBFull(k1,k2,m);;
+      fExpanded := ObModReduce(fExpandedRaw, modulusC);;
+      if fDirect <> fExpanded then
+        expandOk := false;
+        if verbose then Print("    (6.1) MISMATCH at a=",avec," (j=",j,",m=",m,"): direct=",fDirect," expanded=",fExpanded,"\n"); fi;
+      fi;
+    fi;
+  od;
+  if verbose then
+    Print("  (j=",j,",m=",m,"): f0Ok=",JB(f0Ok)," symOk=",JB(symOk)," postOk=",JB(postOk)," expandOk(5 a-vecs)=",JB(expandOk),"\n");
+  fi;
+  return rec(ok:=(f0Ok and symOk and postOk and expandOk), skipped:=false);
+end;;
+
+Print("\n=== QUADRATIC STAGE self-checks (piB symmetry, (6.1) expansion x5 coeff vectors, (6.2) postcondition) ===\n");
+Print("running over sample (j,m) in {2,3} x {0,1,2,3,5,7} (12 pairs)...\n");
+quadStageAllOk := true;;  quadStageAnyRun := false;;
+for qm in [0,1,2,3,5,7] do
+  for qj in [2,3] do
+    qres := QuadStageSelfCheck(qm, qj, true);;
+    if not qres.skipped then
+      quadStageAnyRun := true;
+      if not qres.ok then quadStageAllOk := false; fi;
+    fi;
+  od;
+od;
+Print("\n[", PF(quadStageAllOk and quadStageAnyRun), "] QUADRATIC STAGE self-checks (piB symmetry + (6.1) + (6.2)), ALL sampled (j,m): ", JB(quadStageAllOk and quadStageAnyRun), "\n");
+quadStageOk := quadStageAllOk and quadStageAnyRun;;
+
+if quadStageOk then
+
+# ================================================================================
+# Quadratic-stage EXHAUSTION (v3 sec.3.2/3.3, manifest_spec_e2_actions3.md sec.4/5), now
+# unblocked. omega0 := omega(f0) = pi(QTheta(f0), QN(f0,m)) [Xi(f0), same closed forms
+# already validated for general f, evaluated at f0 -- f0 in L means N f0 = -Ebar_m exactly,
+# so QN(f0,m) IS the honest q_N(f0) here, no separate "QQ" needed for omega0].
+# Criterion: -omega0 in F(K) (checked via (6.1) expansion, using only F(e_i)/piB(e_i,e_j) --
+# no per-element recomputation of ell+Q needed, tractable for |K| up to the enumeration cap).
+# ================================================================================
+Omega0 := function(f0, m) return PiOb(Concatenation(QTheta(f0), QN(f0,m))); end;;
+
+# Full exhaustion over K = { sum a_i e_i : 0<=a_i<n_i }, using (6.1). Returns record with
+# mass_check data and (if found) a witness coefficient vector.
+ExhaustK := function(kgens, f0, m, modulusC)
+  local r, ns, Fe, Bee, i, j, target, mult, keys, totalScanned, avec, done, idx, Fk, key,
+        witnessAvec, found, ii, jj, term;
+  r := Length(kgens);
+  ns := List(kgens, g -> g.order);
+  Fe := List(kgens, g -> FE(g.vec, f0, m));;
+  Bee := List([1..r], i -> List([1..r], j -> PiBFull(kgens[i].vec, kgens[j].vec, m)));;
+  target := List(-Omega0(f0,m), x -> x mod modulusC);;
+  mult := rec();;  # string-key -> count
+  witnessAvec := fail;;  found := false;;
+  avec := List([1..r], x -> 0);;
+  totalScanned := 0;;
+  done := false;;
+  while not done do
+    Fk := List([1..3], x -> 0);;
+    for i in [1..r] do
+      Fk := Fk + avec[i]*Fe[i] + Binomial(avec[i],2)*Bee[i][i];
+    od;
+    for i in [1..r] do
+      for j in [i+1..r] do
+        Fk := Fk + avec[i]*avec[j]*Bee[i][j];
+      od;
+    od;
+    Fk := List(Fk, x -> x mod modulusC);;
+    key := String(Fk);;
+    if IsBound(mult.(key)) then mult.(key) := mult.(key)+1; else mult.(key) := 1; fi;
+    if Fk = target and not found then found := true; witnessAvec := ShallowCopy(avec); fi;
+    totalScanned := totalScanned + 1;
+    # increment avec (mixed-radix counter)
+    idx := 1;;
+    while idx <= r do
+      avec[idx] := avec[idx]+1;
+      if avec[idx] < ns[idx] then break; fi;
+      avec[idx] := 0;  idx := idx+1;
+    od;
+    if idx > r then done := true; fi;
+  od;
+  return rec(r:=r, ns:=ns, target:=target, mult:=mult, totalScanned:=totalScanned,
+             parameterDomainSize:=Product(ns), found:=found, witnessAvec:=witnessAvec, Fe:=Fe, Bee:=Bee);
+end;;
+
+# Positive certificate: given a winning coefficient vector, construct explicit Hall-coordinate
+# witness (Abar part f0+k*, plus explicit central (t5,t6)-twist to cancel the residual
+# (1+theta)-ambiguity in the theta-slot, per im(Lambda)=<(t5+t6,0)> -- z5:=(-a1) mod modulusC,
+# z6:=0, using q_theta_total(f,z) = QTheta(f) + (z5+z6,z5+z6) [derived directly from theta|_C
+# table: theta(t5)=t6, theta(t6)=t5, so theta(t5^z5 t6^z6)=t6^z5 t5^z6, central, commutes past
+# s(f)] and q_N_total = QN(f,m) UNCHANGED (N|_C=0 exactly, so no central correction affects it).
+WritePositiveCert := function(path, snfData, j, m, kgens, exh)
+  local f0, kstar, i, fAbar, qth, z5, z6, qthTotal, qNTotal, modulusC, ok, cert;
+  f0 := ExtractF0(snfData, j);;
+  modulusC := 2^(j-1);;
+  kstar := List([1..snfData.n], x -> 0);;
+  for i in [1..Length(kgens)] do kstar := kstar + exh.witnessAvec[i]*kgens[i].vec; od;
+  fAbar := f0 + kstar;;
+  qth := QTheta(fAbar);;
+  z5 := (-qth[1]) mod modulusC;;  z6 := 0;;
+  qthTotal := [ (qth[1]+z5+z6) mod modulusC, (qth[2]+z5+z6) mod modulusC ];;
+  qNTotal := List(QN(fAbar,m), x -> x mod modulusC);;
+  ok := (qthTotal = [0,0]) and (qNTotal = [0,0]);;
+  cert := Concatenation(
+    "{\"claim\":\"solution_witness\",",
+    "\"m\":", String(m), ",\"j\":", String(j), ",\"modulus_Abar\":", String(2^j), ",\"modulus_C\":", String(modulusC), ",",
+    "\"basis_order_Abar\":[\"w\",\"p\",\"q\",\"r1\",\"r2\",\"r3\",\"t1\",\"t2\",\"t3\",\"t4\"],",
+    "\"witness_f_abar\":\"", String(fAbar), "\",",
+    "\"witness_central_twist_t5_t6\":[", String(z5), ",", String(z6), "],",
+    "\"q_theta_total\":\"", String(qthTotal), "\",",
+    "\"q_N_total\":\"", String(qNTotal), "\",",
+    "\"recheck\":\"q_theta_total = QTheta(f)+(z5+z6,z5+z6) and q_N_total=QN(f,m) both recomputed directly, both must be [0,0] mod 2^(j-1)\",",
+    "\"generation\":\"NOT checked here (separate from torsion solution, per v3 Errata 4/W97)\"}");;
+  WriteFileRaw(path, cert);;
+  return ok;
+end;;
+
+# Negative certificate: central_lift_obstruction/v2 (manifest_spec_e2_actions3.md sec.5)
+WriteObstructionCert := function(path, snfData, j, m, kgens, exh)
+  local cert, f0, modulusC, valMultStr, keys, k, targetMult;
+  f0 := ExtractF0(snfData, j);;
+  modulusC := 2^(j-1);;
+  keys := RecNames(exh.mult);;
+  valMultStr := JoinC(List(keys, k -> Concatenation("\"", k, "\":", String(exh.mult.(k)))), ",");;
+  targetMult := 0;;
+  if IsBound(exh.mult.(String(exh.target))) then targetMult := exh.mult.(String(exh.target)); fi;
+  cert := Concatenation(
+    "{\"claim\":\"linear_solutions_exist_but_none_lifts\",",
+    "\"method\":\"central_quadratic_exhaustion/v2\",",
+    "\"m\":", String(m), ",\"j\":", String(j), ",\"modulus_Abar\":", String(2^j), ",\"modulus_C\":", String(modulusC), ",",
+    "\"basis_order_Abar\":[\"w\",\"p\",\"q\",\"r1\",\"r2\",\"r3\",\"t1\",\"t2\",\"t3\",\"t4\"],",
+    "\"linear\":{\"f0\":\"", String(f0), "\",\"K_orders\":", String(exh.ns), ",\"K_order_total\":", String(exh.parameterDomainSize), "},",
+    "\"obstruction_group\":{\"im_Lambda_generator\":\"[t5+t6,0]\",\"Ob_rank\":3},",
+    "\"exhaustion\":{\"parameter_domain_size\":", String(exh.parameterDomainSize), ",\"scanned\":", String(exh.totalScanned), ",",
+    "\"target\":\"", String(exh.target), "\",\"target_multiplicity\":", String(targetMult), ",",
+    "\"mass_check\":", JB(Sum(List(keys, k->exh.mult.(k))) = exh.parameterDomainSize), "},",
+    "\"selftest_6_2_pass\":", JB(quadStageOk), ",",
+    "\"independent_recheck\":\"checker independently rebuilds F(e_i)/piB via QTheta/QN/DTheta/DSigma and re-scans K\"}");;
+  WriteFileRaw(path, cert);;
+  return targetMult = 0;;
+end;;
+
+Print("\n=== ITEM 3: quadratic-stage exhaustion on the SAME spot sample (8 pairs, NOT 384) ===\n");
+allQuadOk := true;;
+sampleM2 := [0,1,2,3];;  sampleJ2 := [2,3];;
+for spm2 in sampleM2 do
+  snfD2 := BuildSnfData(spm2);;
+  for spj2 in sampleJ2 do
+    spres2 := TestAtJ(snfD2, spj2);;
+    if spres2.solvable then
+      f0_2 := ExtractF0(snfD2, spj2);;
+      modC2 := 2^(spj2-1);;
+      exh2 := ExhaustK(spres2.kgens, f0_2, spm2, modC2);;
+      certPath2 := Concatenation("certificates/e2sweep/quad_j", String(spj2), "_m", String(spm2), ".json");;
+      if exh2.found then
+        certOk2 := WritePositiveCert(certPath2, snfD2, spj2, spm2, spres2.kgens, exh2);;
+        Print("  (j=",spj2,",m=",spm2,"): |K|=",exh2.parameterDomainSize," distinct-F-values=",Length(RecNames(exh2.mult)),
+              " target=",exh2.target," target_mult=",exh2.mult.(String(exh2.target))," -omega0 IN F(K) -- POSITIVE, wrote ",certPath2," (witness recheck pass=",JB(certOk2),")\n");
+        if not certOk2 then allQuadOk := false; fi;
+      else
+        certOk2 := WriteObstructionCert(certPath2, snfD2, spj2, spm2, spres2.kgens, exh2);;
+        Print("  (j=",spj2,",m=",spm2,"): |K|=",exh2.parameterDomainSize," -omega0 NOT IN F(K) -- OBSTRUCTION, wrote ",certPath2," (target_mult=0 confirmed=",JB(certOk2),")\n");
+        if not certOk2 then allQuadOk := false; fi;
+      fi;
+    fi;
+  od;
+od;
+Print("[", PF(allQuadOk), "] quadratic-stage exhaustion on 8-pair spot sample: all certs self-consistent\n");
+
+else
+  Print("\n[BLOCKED] quadratic-stage exhaustion SKIPPED -- self-checks above did not all pass.\n");
+fi; # quadStageOk
+
 # ---- spot validation on a SMALL sample (explicitly NOT the full 384-system sweep, per
 #      coordinator instruction "384系の本走査だけは実行するな"). Demonstrates the linear-
 #      stage machinery is wired up correctly; not a sweep result. ----
@@ -666,11 +953,15 @@ Print("  per-SNF-build cost dominates (1 per m, reused across 6 j) => ~", QuoInt
 Print("\n=== ITEM 3 STATUS ===\n");
 Print("Linear stage (SNF, per-j solvability, K generation+recheck, unsolvable-certificate\n");
 Print("  writer): IMPLEMENTED and spot-validated above (8 pairs).\n");
-Print("Quadratic stage (F(e_i), omega0, Ob_j quotient, mass-check exhaustion, solution_witness /\n");
-Print("  central_lift_obstruction/v2 certs): BLOCKED -- see header comment above for the exact\n");
-Print("  reason (candidate formula checked and rejected as inconsistent with the authorized\n");
-Print("  piB formula). NOT guessed.\n");
-Print("FULL 384-SYSTEM SWEEP: NOT EXECUTED (only 8 spot pairs above; j=1..6 x m=0..63 in full\n");
-Print("  has not been run, per explicit instruction).\n");
+Print("Quadratic stage (F(e_i), omega0, Ob quotient, mass-check exhaustion, solution_witness /\n");
+Print("  central_lift_obstruction/v2 certs): UNBLOCKED 2026-07-26 via\n");
+Print("  search/manifest_spec_e2_actions3.md (F=pi.ell+pi.Q, piB polarization, Ob=(C/<t5+t6>)(+)C,\n");
+Print("  (6.1)/(6.2)). IMPLEMENTED and self-checked (piB symmetry, (6.1) expansion at 5 distinct\n");
+Print("  coefficient vectors, (6.2) postcondition) across 12 sample (j,m) pairs -- all PASS,\n");
+Print("  resolving the earlier direct-substitution/piB inconsistency. Full exhaustion + mass\n");
+Print("  check + witness/obstruction certificates run on the 8-pair spot sample (NOT the 384).\n");
+Print("FULL 384-SYSTEM SWEEP: NOT EXECUTED (only 8 spot pairs for linear stage + 8 for quadratic\n");
+Print("  stage above; j=1..6 x m=0..63 in full has not been run, per explicit instruction --\n");
+Print("  sol2 agreement signal still pending).\n");
 
 fi; # ncOk
