@@ -139,3 +139,61 @@ Introduction §3 (p.5):
 - arXiv 1910.04838(Shumyatsky–Zalesskii, centralizers virtually procyclic)を全文確認 → Herfort–Ribes 1985 への直接引用なし(その論文が引く「procyclic centralizer of infinite-order element」は双曲群論(Alonso et al., 参考文献[1])からの一般論であり、自由副有限群固有の話ではなかった ― 誤誘導注意)。
 - arXiv 1305.4887(Weigel–Zalesskii, Virtually free pro-p products)を全文確認 → Herfort–Ribes 1985 への引用なし(空振り)。
 - arXiv 1807.02429(Shumyatsky–Zalesskii–Zapata, centralizers abelian)→ WebFetch 要約では検出できず(バイナリ深読み未実施・時間の都合で見送り、深読み時に再訪の価値あり)。
+
+---
+
+## 目標 3 差し替え(因子交叉定理・2026-07-26 Opus 裁定による訂正発注)
+
+### 訂正の経緯
+
+司令塔より: 目標3(旧)は Herfort–Ribes 1985 の**中心化群定理**(捻れ元の中心化群が procyclic 等)を狙っていたが、Opus の裁定でこれは**狙い違い**と判明。真に欲しいのは、自由副有限積 ∐ Gᵢ における「**相異なる自由因子の共役は自明にしか交わらない**」(malnormality 型)の定理番号。
+
+### 結論(先出し): 前回調査で既に取得済みの資料の中に、本丸がそのまま含まれていた
+
+前任(私自身の前回セッション)が目標3(旧・中心化群)の調査中に取得した **arXiv:0712.4244**(Herfort–Zalesskii, "Virtually Free pro-p groups whose Torsion Elements have finite Centralizer")の **Theorem 2.9** が、訂正後の目標(因子交叉定理)の**逐語的な言明そのもの**だった。前回は「中心が自明・有限部分群の共役」という別の帰結に気を取られ、この定理の中心部分(交叉が自明という命題)が今回の本丸と一致することを見落としていた。**これは前任の誤トリアージであり、今回改めて機構ベースで照合し直して確認した。**
+
+### 冒頭表(差し替え分)
+
+| 候補 | 出典 | 実在確認 | 定理番号 | 版 |
+|---|---|---|---|---|
+| **本丸** | Ribes–Zalesskii, *Profinite Groups* (Springer Ergebnisse 40) | 直接入手不可・**孫引き 2 独立ソースで番号確認済み** | **Theorem 9.1.12**(合わせて 9.5.1 も関連) | **2000年第1版**(RZ00 / RZ00b と引用される版) |
+| 引用元1 | Herfort–Zalesskii, arXiv:0712.4244, Theorem 2.9 | **PDF入手済み・全文確認**(papers/delivered/ に既存) | 「[6], Theorems 9.1.12 and 9.5.1」として引用 | — |
+| 引用元2 | Zalesskii–Zapata, arXiv:1711.01500, p.13 | **PDF入手済み・全文確認**(papers/delivered/ に既存) | 「[RZ00b, Thm. 9.1.12]」として引用 | — |
+
+### 逐語(0712.4244, Theorem 2.9 — 実物 PDF から直接確認)
+
+> **Theorem 2.9** [([6], Theorems 9.1.12 and 9.5.1)] Let G = ∐ⁿᵢ₌₁ Gᵢ be a free profinite (pro-p) product. Then Gᵢ ∩ Gⱼᵍ = 1 for either i ≠ j or g ∉ Gⱼ.
+> Every finite subgroup of G is conjugate to a subgroup of a free factor.
+
+([6] = L. Ribes, P.A. Zalesskii, *Profinite Groups*, Springer, Berlin, 2000 — 巻末文献表で確認済み)
+
+**機構照合(命題の同値変形)**: 目標の言明は「1 ≠ u ∈ Gᵢ かつ g u g⁻¹ ∈ Gⱼ ならば i=j かつ g ∈ Gᵢ」。これは Theorem 2.9 の対偶にほかならない ― u ∈ Gᵢ ∩ (Gⱼ)^{g⁻¹} が非自明なら、Theorem 2.9 より「i≠j または g⁻¹∉Gⱼ」は偽、すなわち i=j かつ g⁻¹∈Gⱼ=Gᵢ、ゆえに g∈Gᵢ。**式変形だけで完全に一致する(同じ命題の書き方違い)** — 別命題への横滑りではない。
+
+前段の Theorem 2.9 は本文中で 2 回、実際の証明(Lemma 3.2 の Claim・Proposition 4.1 の冒頭)に使われており、著者自身がこの命題を「自由因子の共役の交叉が自明」という意味で運用していることも確認済み(0712.4244 本文 p.6, p.6-7)。
+
+### 第二独立ソース(1711.01500, p.13 — 前回取得分の再確認)
+
+> "...for otherwise Γ is a free product, and hence G is a free profinite product and thus a centreless group (cf. **[RZ00b, Thm. 9.1.12]** or [ZM88, Thm. 2.13])."
+
+こちらは「中心が自明」という**帰結**の引用だが、同じ番号(9.1.12)・同じ書(RZ00b = Ribes–Zalesskii 2000)を指しており、番号の独立確認としては十分(中心が自明という帰結は、自由因子の自明交叉から容易に従う — g が中心元なら任意の Gᵢ と可換 = Gᵢ の共役 Gᵢᵍ=Gᵢ に u∈Gᵢ が交わる形になり、Theorem 2.9 型の議論で g∈Gᵢ 各因子に対して成立 → g は全因子の共通部分 → 通常 g=1)。
+
+### 懸念・未解決点
+
+1. **本文 PDF は今回も未入手**(RZ の本自体・GDZ・De Gruyter とも壁は前回と同じ)。9.1.12 の逐語は **孫引き(0712.4244 の Theorem 2.9 の記述)経由の再構成であり、RZ00 の原文そのものではない**。0712.4244 の著者(Zalesskii は RZ00 の共著者本人)による引用なので誤引用の可能性は低いが、**一次確認(RZ00 原文)は依然 UNVERIFIED**。
+2. **版の特定**: 引用は 2 件とも **2000年 Springer 初版**(RZ00 / RZ00b)を指している。**2010年第2版で章立て・定理番号が変わっている可能性は未確認**(2版は「3つの新しい付録」を追加という情報は取得したが、既存章の番号繰り下げ・繰り上げの有無は未確認 — 付録追加なら本体の番号は保存される可能性が高いが、断定はできない)。深読み時に 2010 版の該当箇所を直接確認する必要あり。
+3. 9.5.1 側の言明(「有限部分群は自由因子の共役」)は今回の本丸(交叉定理)そのものではなく隣接命題 — 誤って 9.5.1 を主命題として引用しないよう注意。**主命題は 9.1.12**。
+4. 章内での 9.1.12 の直前直後(節タイトルが「malnormal」等かどうか)は未確認 — 前回調査で得た情報では第9章§9.1 は Kurosh 部分群定理まわり(0712.4244 内でも「Theorem 9.1.9 in [6]」= pro-p 版 Kurosh 部分群定理として引用されている・本文 p.3, p.5)。9.1.12 はその節内の系列にあると推定(未確認)。
+
+### 使ったクエリ・角度
+
+- **(d) 逆引き優先**(前回取得済み PDF の再点検): `papers/delivered/herfort_zalesskii_0712.4244...` を Read ツールで全文取得 → Theorem 2.9 の逐語発見(直当てでなく手持ち資料の読み直しで解決 — 前回のトリアージ誤りに気づいた)。
+- **(b) 機構名直当て**: `Ribes Zalesskii "Profinite Groups" "9.1.12" free product intersect trivially conjugate`(WebSearch)→ 空振り(該当ヒットなし、一般的な文脈情報のみ)。
+- **版差の確認**: `"Ribes" "Zalesskii" "Profinite Groups" second edition 2010 chapter 9 free products theorem numbering changed`(WebSearch)→ 部分成功(2版に新付録3本追加という情報は得たが、章9番号の異同は未確認)。
+- **第三独立ソース探索**: arXiv:1305.4887(Weigel–Zalesskii, Virtually free pro-p products)の PDF 冒頭3頁を確認 → 9.1.12 への直接引用は発見できず(空振り、圧縮 PDF のテキスト抽出限界の可能性もあり深読み時に再訪の価値あり)。arXiv:1001.3599(Guralnick–Haran)冒頭3頁も確認 → 該当引用なし(文献[12]=RZ本と推定されるが番号までは言及なし・空振り)。
+
+### 総括(目標3差し替え)
+
+- **番号特定(二次)は達成**: Theorem 9.1.12(Ribes–Zalesskii, *Profinite Groups*, Springer 2000年版)が、2 独立ソース(0712.4244・1711.01500)により確認された。
+- **命題内容の機構一致は代数的に確認済み**(対偶変形で完全一致 — 別命題への誤爆ではない)。
+- **一次原文(RZ00 直接確認)・2010年版での番号保存の有無は UNVERIFIED として持ち越し**。
+- 追加取得物なし(既存の papers/delivered/ 内 0712.4244・1711.01500 を再利用・再確認したのみ)。
