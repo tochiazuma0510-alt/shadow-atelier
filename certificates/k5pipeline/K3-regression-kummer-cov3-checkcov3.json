@@ -1,0 +1,82 @@
+{
+  "schema": "check-kummer-cov3/v1",
+  "certPath": "certificates/k5pipeline/K3-regression-kummer-cov3.json",
+  "field_n": 12,
+  "M": 6,
+  "w": "-4",
+  "ord": 3,
+  "independent_kappa_table": {
+    "1": 0,
+    "5": 4,
+    "7": 3,
+    "11": 1
+  },
+  "gap_kappa_table": {
+    "1": 0,
+    "5": 4,
+    "7": 3,
+    "11": 1
+  },
+  "kappa_table_match": true,
+  "reparam_results": [
+    {
+      "d": 1,
+      "dprime": 1,
+      "kNew": 0,
+      "expectedKNew": 0,
+      "match": true
+    },
+    {
+      "d": 5,
+      "dprime": 1,
+      "kNew": 4,
+      "expectedKNew": 4,
+      "match": true
+    },
+    {
+      "d": 7,
+      "dprime": 1,
+      "kNew": 3,
+      "expectedKNew": 3,
+      "match": true
+    },
+    {
+      "d": 11,
+      "dprime": 1,
+      "kNew": 1,
+      "expectedKNew": 1,
+      "match": true
+    },
+    {
+      "d": 1,
+      "dprime": 5,
+      "kNew": 0,
+      "expectedKNew": 0,
+      "match": true
+    },
+    {
+      "d": 5,
+      "dprime": 5,
+      "kNew": 2,
+      "expectedKNew": 2,
+      "match": true
+    },
+    {
+      "d": 7,
+      "dprime": 5,
+      "kNew": 3,
+      "expectedKNew": 3,
+      "match": true
+    },
+    {
+      "d": 11,
+      "dprime": 5,
+      "kNew": 5,
+      "expectedKNew": 5,
+      "match": true
+    }
+  ],
+  "independent_all_match": true,
+  "gap_all_match": true,
+  "result": "MATCH"
+}

@@ -1,13 +1,18 @@
 #############################################################################
 # search/u-extract-pathA.g -- Rule 1 (docs/week4-K5_Rule1_v1.md) SS6.1 経路 A
-# 委嘱: 便 32 P6 後半(司令塔発注)。M パラメトリック実装 --
-#   K^(3) (M=6, K=Q(zeta_12)) と K^(5) (M=10, K=Q(zeta_20)) の両方をこの
-#   1 本の関数 ExtractPathA(model) が処理する(model レコードを変えるだけ)。
+# 委嘱: 便 32 P6 後半(司令塔発注)+ 便 34 blocker 2/3 修理(Sol 便 34 P6-E1/E2)。
 #
-# 入力: model レコード (このファイル下部の MODELS 一覧・GAP 内リテラル。
-#   JSON パーサに依存しない -- 数値は certificates/k5fixture/*-model.json
-#   の値を手動転記し、出力 JSON にモデル係数を echo するので突合器
-#   (crosscheck/u-compare.mjs) が JSON 側の値と一致するか検査できる)。
+# 身分(便 34 P6-E1 以降): 本ファイルは **library** である(関数定義のみ・
+# 入力パラメトリック・QUIT なし・トップレベルの MODELS 実行なし)。
+# K3 較正の実行は search/u-extract-pathA-k3-driver.g(薄い driver)が担う。
+# 将来の K5 driver は本ファイルを Read して ExtractPathA(model) を呼ぶだけで
+# よく、この library の凍結 digest は変わらない(model literal はすべて
+# driver 側に置く)。
+#
+# 入力: model レコード (呼び出し元 driver が渡す。JSON パーサに依存しない --
+#   数値は certificates/k5fixture/*-model.json の値を手動転記し、出力 JSON に
+#   モデル係数を echo するので突合器 (crosscheck/u-compare.mjs) が JSON 側の
+#   値と一致するか検査できる)。
 #
 # model レコードのフィールド:
 #   id            : 文字列ラベル
@@ -17,13 +22,21 @@
 #   f, A, B       : 昇冪係数リスト (f(x)=sum f[i+1]*x^i, 等)
 #   seriesLen     : 保持する項数 (= M+4 を推奨。[t^{M+3}] まで検算可能)
 #
-# 出力: 呼び出し元が WriteFile で certificates/k5fixture/<id>-u-pathA.json
-#   へ書く(このファイル自身は実行時に対象 model 群を回して書き出す)。
+# 出力: ExtractPathA(model) が report レコードを返す。driver が
+#   ReportToJSON(report) で JSON 化し WriteFile で書き出す。
 #
 # 中間表現: K[[t]] (切断冪級数、GAP の有理数/CF(n) 元のリストとして表現)。
 # SS6.3 の非共有 helper 要件: 本ファイルはべき級数演算のみを実装し、
-# crosscheck/u-extract-pathB.mjs (多項式係数評価・Taylor 係数のみ) とは
+# crosscheck/u-extract-pathB-lib.mjs (多項式係数評価・Taylor 係数のみ) とは
 # 関数・データ構造を一切共有しない。
+#
+# 便 34 P6-E2 (blocker 3 前半): report に「入力モデルの canonical digest」を
+# 埋め込む(model_digest フィールド)。canonical 化・sha256 の算出方法は
+# crosscheck/u-extract-pathB-lib.mjs 側と**独立に**実装する(既存の
+# search/e2c6-sweep.g ComputeSha256File と同じ Exec+sha256sum 方式を流用)。
+# 突合(二 raw が同一モデル由来か)は crosscheck/u-compare.mjs が
+# 埋め込み digest だけでなく全フィールドの再突合でも fail-closed に行う
+# (blocker 3 前半の本体はそちら)。
 #############################################################################
 
 Read("search/gaplib_common.g");
@@ -124,6 +137,36 @@ PSSqrt := function(g, y0, n)
   return y;
 end;;
 
+#################### canonical model digest (便 34 P6-E2) ####################
+# 罠回避: 一時ファイル名は id を含めて衝突を避ける(並行 driver 実行を想定)。
+PathA_CanonicalModelString := function(model)
+  local ratList, joinRat;
+  joinRat := function(lst) return JoinC(List(lst, String), ","); end;;
+  return Concatenation(
+    "id=", model.id, ";",
+    "M=", String(model.M), ";",
+    "branchP0=", model.branchP0, ";",
+    "x0=", String(model.x0), ";",
+    "y0=", String(model.y0), ";",
+    "f=[", joinRat(model.f), "];",
+    "A=[", joinRat(model.A), "];",
+    "B=[", joinRat(model.B), "]"
+  );
+end;;
+
+PathA_ModelDigest := function(model)
+  local s, tmp, f, line;
+  s := PathA_CanonicalModelString(model);
+  tmp := Concatenation("search/.tmp_model_digest_pathA_", model.id, ".txt");
+  WriteFile(tmp, s);
+  Exec(Concatenation("sha256sum \"", tmp, "\" > \"", tmp, ".out\""));
+  f := InputTextFile(Concatenation(tmp, ".out"));
+  line := ReadLine(f);
+  CloseStream(f);
+  Exec(Concatenation("rm -f \"", tmp, "\" \"", tmp, ".out\""));
+  return line{[1..64]};
+end;;
+
 #################### 経路 A 本体 ####################
 # model.branchP0 = "nonWeierstrass": t = x - x0, x(t) = x0 + t (自明),
 #   y(t) = PSSqrt(f(x(t)), y0, n).
@@ -189,7 +232,9 @@ ExtractPathA := function(model)
     curveResidualZero := extras.curveResidualZero,
     lowerOrderVanish := lowerZero,
     u_pathA := u,
-    higherOrderRaw := List([model.M + 1 .. Minimum(n, model.M + 4)], k -> lambdaSeries[k])
+    higherOrderRaw := List([model.M + 1 .. Minimum(n, model.M + 4)], k -> lambdaSeries[k]),
+    modelDigest := PathA_ModelDigest(model),
+    modelCanonicalString := PathA_CanonicalModelString(model)
   );
   return report;
 end;;
@@ -206,7 +251,7 @@ JRatList := function(lst) return JArr(List(lst, JRat)); end;;
 
 ReportToJSON := function(r)
   return Concatenation("{",
-    JStr("schema"), ":", JStr("u-pathA/v1"), ",",
+    JStr("schema"), ":", JStr("u-pathA/v2"), ",",
     JStr("id"), ":", JStr(r.id), ",",
     JStr("M"), ":", String(r.M), ",",
     JStr("branchP0"), ":", JStr(r.branchP0), ",",
@@ -219,56 +264,12 @@ ReportToJSON := function(r)
     JStr("curve_residual_zero"), ":", JB(r.curveResidualZero), ",",
     JStr("lower_order_vanish"), ":", JB(r.lowerOrderVanish), ",",
     JStr("u_pathA"), ":", JRat(r.u_pathA), ",",
-    JStr("higher_order_raw"), ":", JRatList(r.higherOrderRaw),
+    JStr("higher_order_raw"), ":", JRatList(r.higherOrderRaw), ",",
+    JStr("model_digest"), ":", JStr(r.modelDigest), ",",
+    JStr("model_digest_algo"), ":", JStr("sha256(canonical_model_string)"), ",",
+    JStr("canonical_model_string"), ":", JStr(r.modelCanonicalString),
   "}");
 end;;
 
-#################### モデル群 ####################
-# K3-regression (certificates/k5fixture/K3-regression-model.json と手動照合済み)
-K3Model := rec(
-  id := "K3-regression",
-  M := 6,
-  branchP0 := "nonWeierstrass",
-  x0 := 0,
-  y0 := 1,
-  f := [1, -12, 54, -116, 129, -72],
-  A := [-1/2, 3, -9/2, 2],
-  B := [1/2],
-  seriesLen := 10
-);;
-
-# COV-1 (s -> cs 較正・M2 残余群作用 x -> k^2 x, y -> k^5 y, k=2 を適用した
-# 派生モデル。u -> u*k^{-2M} となるはず -- SS5.4 観測 R1-C の実地検算)
-K3Model_cov1_k2 := function()
-  local k, f2, A2, B2, i;
-  k := 2;
-  f2 := List([1..Length(K3Model.f)], i -> K3Model.f[i] * k^(10 - 2*(i-1)));
-  A2 := List([1..Length(K3Model.A)], i -> K3Model.A[i] / k^(2*(i-1)));
-  B2 := List([1..Length(K3Model.B)], i -> K3Model.B[i] / k^(2*(i-1) + 5));
-  return rec(
-    id := "K3-regression-cov1-k2",
-    M := 6,
-    branchP0 := "nonWeierstrass",
-    x0 := 0,
-    y0 := k^5 * K3Model.y0,
-    f := f2,
-    A := A2,
-    B := B2,
-    seriesLen := 10
-  );
-end;;
-
-MODELS := [ K3Model, K3Model_cov1_k2() ];;
-
-#################### 実行 ####################
-if not IsBoundGlobal("U_PATHA_ONLY_LOAD") then
-  for m in MODELS do
-    r := ExtractPathA(m);
-    Print("== ", r.id, " ==\n");
-    Print("  u_pathA = ", r.u_pathA, "  lowerOrderVanish=", r.lowerOrderVanish,
-          "  curveResidualZero=", r.curveResidualZero, "\n");
-    WriteFile(Concatenation("certificates/k5fixture/", r.id, "-u-pathA.json"), ReportToJSON(r));
-  od;
-fi;
-
-QUIT;
+# 本ファイルは library。実行(model 定義・driver・QUIT)は
+# search/u-extract-pathA-k3-driver.g(K3 較正)/ 将来の K5 driver が担う。

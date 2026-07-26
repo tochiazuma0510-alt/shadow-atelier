@@ -1,0 +1,13 @@
+{
+  "schema": "u-compare/v2",
+  "pathAFile": "certificates/k5pipeline/K3-regression-cov1-k2-u-pathA.json",
+  "pathBFile": "certificates/k5pipeline/K3-regression-cov1-k2-u-pathB.json",
+  "idA": "K3-regression-cov1-k2",
+  "idB": "K3-regression-cov1-k2",
+  "recomputed_model_digest_pathA": "588fc3c7562ce8297721a27135f7d468db8ecd4563b3244e109ddd148567f165",
+  "recomputed_model_digest_pathB": "588fc3c7562ce8297721a27135f7d468db8ecd4563b3244e109ddd148567f165",
+  "model_digest": "588fc3c7562ce8297721a27135f7d468db8ecd4563b3244e109ddd148567f165",
+  "u_pathA": "-1/1024",
+  "u_pathB": "-1/1024",
+  "result": "ACCEPT"
+}

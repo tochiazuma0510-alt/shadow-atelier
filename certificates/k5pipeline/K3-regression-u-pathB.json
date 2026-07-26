@@ -1,0 +1,42 @@
+{
+  "schema": "u-pathB/v2",
+  "id": "K3-regression",
+  "M": 6,
+  "branchP0": "nonWeierstrass",
+  "x0": "0",
+  "y0": "1",
+  "f_coeffs_ascending": [
+    "1",
+    "-12",
+    "54",
+    "-116",
+    "129",
+    "-72"
+  ],
+  "A_coeffs_ascending": [
+    "-1/2",
+    "3",
+    "-9/2",
+    "2"
+  ],
+  "B_coeffs_ascending": [
+    "1/2"
+  ],
+  "formula": "B-i (6.1)",
+  "lower_order_vanish": true,
+  "N_lambda_coeffs_ascending": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "4"
+  ],
+  "u_pathB": "-4",
+  "chat": "4",
+  "lambda_iota_P0": "-1",
+  "model_digest": "066eb85eeebbdeac4d5190abaf63325fc32d1a80d29e2b0cb81d6fc38fecedb7",
+  "model_digest_algo": "sha256(canonical_model_string)",
+  "canonical_model_string": "id=K3-regression;M=6;branchP0=nonWeierstrass;x0=0;y0=1;f=[1,-12,54,-116,129,-72];A=[-1/2,3,-9/2,2];B=[1/2]"
+}

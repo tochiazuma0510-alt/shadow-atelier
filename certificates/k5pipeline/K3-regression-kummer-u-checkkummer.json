@@ -1,0 +1,38 @@
+{
+  "schema": "check-kummer/v2",
+  "certPath": "certificates/k5pipeline/K3-regression-kummer-u.json",
+  "label": "K3-regression-u",
+  "field_n": 12,
+  "M": 6,
+  "w": "-4",
+  "gap_ord": 3,
+  "independent_ord": 3,
+  "independent_decided": true,
+  "minimality_obstruction_checks": [
+    {
+      "divisor": 1,
+      "claimedObstructionPrime": 3,
+      "independentDecided": true,
+      "independentIsPower": false,
+      "independentObstructionPrime": 3,
+      "ok": true
+    },
+    {
+      "divisor": 2,
+      "claimedObstructionPrime": 3,
+      "independentDecided": true,
+      "independentIsPower": false,
+      "independentObstructionPrime": 3,
+      "ok": true
+    }
+  ],
+  "witness_equation_check": {
+    "checked": true,
+    "lhs": [
+      "-64"
+    ],
+    "rhs": "-64/1",
+    "match": true
+  },
+  "result": "MATCH"
+}

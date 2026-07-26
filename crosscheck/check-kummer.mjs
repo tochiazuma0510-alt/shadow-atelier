@@ -5,6 +5,15 @@
 // 中間結果は import しない。読むのは kummer-decide.g が書き出した
 // 証明書 JSON の中の w / ord / witness 数値だけ)。
 //
+// 便 34 P6-K1 (Sol 便 34 blocker 3 後半 / F4.4): 従来は最終 ord の数値
+// 比較だけで、(a) witness が満たすべき正しい等式 witness^M = w^ord の検算、
+// (b) ord の最小性(証明書の minimality_obstructions が主張する「約数 d' は
+// M 乗でない」)の独立検算、をしていなかった。本版は
+// crosscheck/cyclo-ring-lib.mjs(円分多項式の環演算・GAP を import しない
+// 独立実装)を使って witness^M = w^ord を厳密に再検算し、かつ
+// minimality_obstructions の各エントリを独立アルゴリズム(下記
+// isMthPowerInK)で再判定する。
+//
 // 独立アルゴリズムの根拠(exact・非発見的):
 //  (a) K=Q(zeta_n) は Q 上アーベル拡大 -- アーベル群の部分群はすべて正規
 //      なので K の任意の部分体は Q 上アーベル(ガロア)。
@@ -29,6 +38,7 @@
 // 出力: 独立算出した ord と一致するかどうかの照合レポート。
 
 import { readFileSync } from 'node:fs';
+import { Q as RingQ, polyPowMod, polyEqConst, cyclotomicPolynomialAscending } from './cyclo-ring-lib.mjs';
 
 function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
 function parseRatMaybeNumber(x) {
@@ -151,6 +161,45 @@ function ordModMIndependent(w, M, n) {
   return { decided: false, reason: 'no divisor produced isPower=true (unexpected)' };
 }
 
+// 便 34 P6-K1: minimality_obstructions の各エントリ(「divisor は M 乗でない、
+// 障害素数は obstruction_prime」)を、GAP から独立に isMthPowerInK で再判定する。
+function checkMinimalityObstructions(cert, w, M, n) {
+  const obstructions = cert.minimality_obstructions ?? [];
+  const results = [];
+  for (const o of obstructions) {
+    const wd = ratPow(w, o.divisor);
+    const res = isMthPowerInK(wd, M, n);
+    let ok;
+    if (!res.decided) {
+      ok = false;
+    } else {
+      // res.isPower が false であるべき(minimality obstruction の主張)、かつ
+      // 障害素数が cert の obstruction_prime と一致すること。
+      ok = (res.isPower === false) && (res.obstructionPrime !== undefined
+        ? Number(res.obstructionPrime) === o.obstruction_prime : true);
+    }
+    results.push({ divisor: o.divisor, claimedObstructionPrime: o.obstruction_prime,
+                   independentDecided: res.decided, independentIsPower: res.decided ? res.isPower : null,
+                   independentObstructionPrime: res.decided && !res.isPower ? Number(res.obstructionPrime) : null,
+                   ok });
+  }
+  return results;
+}
+
+// 便 34 P6-K1: witness^M = w^ord を独立の円分多項式環演算で厳密に再検算する
+// (crosscheck/cyclo-ring-lib.mjs、GAP の AlgebraicExtension/Factors は不使用)。
+function checkWitnessEquation(cert, w, ord, n) {
+  const coeffsRaw = cert.witness_coeffs_basis_powers_of_root;
+  if (!coeffsRaw) return { checked: false, reason: 'witness_coeffs_basis_powers_of_root missing from certificate' };
+  const coeffs = coeffsRaw.map((s) => { const r = parseRatMaybeNumber(s); return new RingQ(r.n, r.d); });
+  const modPoly = cyclotomicPolynomialAscending(Number(n));
+  const lhs = polyPowMod(coeffs, Number(M), modPoly);
+  // w^ord は有理数(BigInt 分数)。RingQ の BigInt 有理数として渡す。
+  const wPowOrd = ratPow(w, Number(ord));
+  const rhsMatches = polyEqConst(lhs, new RingQ(wPowOrd.n, wPowOrd.d));
+  return { checked: true, lhs: lhs.map(String), rhs: `${wPowOrd.n}/${wPowOrd.d}`, match: rhsMatches };
+}
+
 //////////////////// 実行 ////////////////////
 const certPath = process.argv[2];
 if (!certPath) {
@@ -165,7 +214,7 @@ const n = cert.field_n;
 const indep = ordModMIndependent(w, M, n);
 
 const report = {
-  schema: 'check-kummer/v1',
+  schema: 'check-kummer/v2',
   certPath,
   label: cert.label,
   field_n: n,
@@ -179,11 +228,59 @@ const report = {
 if (!indep.decided) {
   report.result = 'UNKNOWN';
   report.reason = indep.reason;
-} else if (Number(indep.ord) === cert.ord) {
-  report.result = 'MATCH';
-} else {
-  report.result = 'MISMATCH';
+  console.log(JSON.stringify(report, null, 2));
+  process.exit(0);
 }
 
+if (Number(indep.ord) !== cert.ord) {
+  report.result = 'MISMATCH';
+  report.reason = `independent ord (${indep.ord}) != GAP ord (${cert.ord})`;
+  console.log(JSON.stringify(report, null, 2));
+  process.exit(1);
+}
+
+// 最小性 obstruction の独立検算
+const obstructionChecks = checkMinimalityObstructions(cert, w, M, n);
+report.minimality_obstruction_checks = obstructionChecks;
+const obstructionsOk = obstructionChecks.every((r) => r.ok);
+if (!obstructionsOk) {
+  report.result = 'MISMATCH';
+  report.reason = 'independent recomputation could not confirm one or more minimality_obstructions entries';
+  console.log(JSON.stringify(report, null, 2));
+  process.exit(1);
+}
+// 証明書が主張する ord 未満の全ての約数(M の約数のうち ord より小さいもの)
+// について obstruction が記録されていること自体も検査する(取りこぼし禁止)。
+{
+  const M_num = Number(M);
+  const divisorsOfM = [];
+  for (let d = 1; d <= M_num; d++) if (M_num % d === 0) divisorsOfM.push(d);
+  const smallerDivisors = divisorsOfM.filter((d) => d < cert.ord);
+  const coveredDivisors = new Set(obstructionChecks.map((r) => r.divisor));
+  const missing = smallerDivisors.filter((d) => !coveredDivisors.has(d));
+  if (missing.length > 0) {
+    report.result = 'MISMATCH';
+    report.reason = `minimality_obstructions does not cover all divisors of M smaller than ord: missing ${JSON.stringify(missing)}`;
+    console.log(JSON.stringify(report, null, 2));
+    process.exit(1);
+  }
+}
+
+// witness^M = w^ord の独立再検算(円分体の環演算)
+const witnessCheck = checkWitnessEquation(cert, w, BigInt(cert.ord), n);
+report.witness_equation_check = witnessCheck;
+if (witnessCheck.checked && !witnessCheck.match) {
+  report.result = 'MISMATCH';
+  report.reason = `witness^M = w^ord failed independent recheck: ${JSON.stringify(witnessCheck)}`;
+  console.log(JSON.stringify(report, null, 2));
+  process.exit(1);
+}
+if (!witnessCheck.checked) {
+  report.result = 'MISMATCH';
+  report.reason = `witness equation could not be independently checked: ${witnessCheck.reason}`;
+  console.log(JSON.stringify(report, null, 2));
+  process.exit(1);
+}
+
+report.result = 'MATCH';
 console.log(JSON.stringify(report, null, 2));
-if (report.result === 'MISMATCH') process.exit(1);

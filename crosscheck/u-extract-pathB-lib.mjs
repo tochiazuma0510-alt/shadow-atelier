@@ -1,7 +1,12 @@
-// crosscheck/u-extract-pathB.mjs
+// crosscheck/u-extract-pathB-lib.mjs
 // Rule 1 (docs/week4-K5_Rule1_v1.md) SS6.2 経路 B (Vieta / ノルム・級数不使用)
-// 委嘱: 便 32 P6 後半。M パラメトリック: K^(3) (M=6) と K^(5) (M=10) を
-// 同じ関数 extractPathB(model) が処理する。
+// 委嘱: 便 32 P6 後半 + 便 34 blocker 2 (Sol 便 34 P6-E1)。
+//
+// 身分: 本ファイルは library である(関数定義のみ・入力パラメトリック・
+// トップレベル実行なし)。K3 較正の実行は
+// crosscheck/u-extract-pathB-k3-driver.mjs(薄い driver)が担う。将来の K5
+// driver はこの library を import して extractPathB(model) を呼ぶだけで
+// よい(model literal・ファイル書き出しは driver 側)。
 //
 // 独立性 (SS6.3): べき級数を一切使わない。使う演算は
 //   (a) 多項式の掛け算・引き算 (係数ベクトル演算)
@@ -10,14 +15,17 @@
 // search/u-extract-pathA.g とは関数・データ構造を一切共有しない
 // (BigInt 有理数クラス Q はこのファイル内で独立に再実装する)。
 //
-// 入力: certificates/k5fixture/<id>-model.json (model-spec/v1)
-// 出力: certificates/k5fixture/<id>-u-pathB.json
+// 便 34 P6-E2 (blocker 3 前半): extractPathB の出力に「入力モデルの
+// canonical digest」を埋め込む(model_digest フィールド)。canonical
+// 化・sha256 の算出は search/u-extract-pathA.g 側と**独立に**実装する
+// (node crypto の createHash のみを共有インフラとして使う -- これは
+// アルゴリズム本体ではないので SS6.3 の非共有 helper 要件には抵触しない)。
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 
 //////////////////// BigInt 有理数 (pathA.g とは独立実装) ////////////////////
 function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
-class Q {
+export class Q {
   constructor(n, d = 1n) {
     if (typeof n === 'number') n = BigInt(n);
     if (typeof d === 'number') d = BigInt(d);
@@ -74,7 +82,6 @@ function polyMul(a, b) {
   }
   return polyTrim(r);
 }
-function polyScale(a, c) { return a.map(x => x.mul(c)); }
 function polyEval(a, x) {
   let r = Q0;
   for (let i = a.length - 1; i >= 0; i--) r = r.mul(x).add(a[i]);
@@ -108,8 +115,7 @@ function polyDerivN(a, k) { let r = a; for (let i = 0; i < k; i++) r = polyDeriv
 function factorialQ(k) { let r = 1n; for (let i = 2; i <= k; i++) r = r * BigInt(i); return new Q(r); }
 
 //////////////////// モデル読み込み ////////////////////
-function loadModel(path) {
-  const raw = JSON.parse(readFileSync(path, 'utf8'));
+export function loadModel(raw) {
   return {
     id: raw.fixture_id ?? raw.id,
     M: raw.M,
@@ -122,8 +128,24 @@ function loadModel(path) {
   };
 }
 
+//////////////////// canonical model digest (便 34 P6-E2) ////////////////////
+// search/u-extract-pathA.g の PathA_CanonicalModelString と**同一のバイト列**
+// を生成するよう独立に実装する(突合の前提)。ここでは実装を独立に書き下す
+// ことで「両方が同じ仕様を独立に満たす」ことを保証する(共有関数の呼び出し
+// ではない)。
+export function canonicalModelString(model) {
+  const rat = (x) => x.toString();
+  const list = (xs) => xs.map(rat).join(',');
+  return `id=${model.id};M=${model.M};branchP0=${model.branchP0};` +
+    `x0=${rat(model.x0)};y0=${rat(model.y0)};` +
+    `f=[${list(model.f)}];A=[${list(model.A)}];B=[${list(model.B)}]`;
+}
+export function modelDigest(model) {
+  return createHash('sha256').update(canonicalModelString(model), 'utf8').digest('hex');
+}
+
 //////////////////// 経路 B 本体 (SS6.2 (6.1)(6.2)) ////////////////////
-function extractPathB(model) {
+export function extractPathB(model) {
   const { M, branchP0, x0, y0, f, A, B } = model;
   // lambda^iota = A - B y なので N(lambda) = A^2 - B^2 f
   const A2 = polyMul(A, A);
@@ -165,7 +187,7 @@ function extractPathB(model) {
   }
 
   return {
-    schema: 'u-pathB/v1',
+    schema: 'u-pathB/v2',
     id: model.id,
     M,
     branchP0,
@@ -179,11 +201,14 @@ function extractPathB(model) {
     N_lambda_coeffs_ascending: Nlambda.map(String),
     u_pathB: u_pathB.toString(),
     ...extra,
+    model_digest: modelDigest(model),
+    model_digest_algo: 'sha256(canonical_model_string)',
+    canonical_model_string: canonicalModelString(model),
   };
 }
 
 //////////////////// COV-1 (s -> cs) 派生モデル (pathA.g と独立に再構成) ////////////////////
-function cov1Model(model, k) {
+export function cov1Model(model, k) {
   const kQ = Q.parse(k);
   const f2 = model.f.map((c, i) => c.mul(kQ.pow(10 - 2 * i)));
   const A2 = model.A.map((c, i) => c.div(kQ.pow(2 * i)));
@@ -196,28 +221,4 @@ function cov1Model(model, k) {
     y0: kQ.pow(5).mul(model.y0),
     f: f2, A: A2, B: B2,
   };
-}
-
-//////////////////// 実行 ////////////////////
-const args = process.argv.slice(2);
-const modelPath = args[0] ?? 'certificates/k5fixture/K3-regression-model.json';
-const model = loadModel(modelPath);
-
-const rBase = extractPathB(model);
-console.log(`== ${rBase.id} == u_pathB = ${rBase.u_pathB}  lowerOrderVanish=${rBase.lower_order_vanish}  (${rBase.formula})`);
-writeFileSync(`certificates/k5fixture/${rBase.id}-u-pathB.json`, JSON.stringify(rBase, null, 2));
-
-const cov1 = cov1Model(model, 2);
-const rCov1 = extractPathB(cov1);
-console.log(`== ${rCov1.id} == u_pathB = ${rCov1.u_pathB}  lowerOrderVanish=${rCov1.lower_order_vanish}  (${rCov1.formula})`);
-writeFileSync(`certificates/k5fixture/${rCov1.id}-u-pathB.json`, JSON.stringify(rCov1, null, 2));
-
-// 較正のみの参考出力(パイプラインの入力には使わない): u_pathB と cov1 の比 = k^{-2M} を厳密に検算
-{
-  const uBase = Q.parse(rBase.u_pathB);
-  const uCov1 = Q.parse(rCov1.u_pathB);
-  const kQ = Q.parse(2);
-  const expectedRatio = kQ.pow(-2 * model.M);
-  const actualRatio = uCov1.div(uBase);
-  console.log(`COV-1 check (reference only): u_cov1/u_base = ${actualRatio}  expected k^(-2M) = ${expectedRatio}  match=${actualRatio.eq(expectedRatio)}`);
 }
