@@ -1,9 +1,10 @@
-# 凍結 1(Rule 1)候補文書 — $K^{(5)}$ 橋の規約・正規形・抽出手順 v1.2
+# 凍結 1(Rule 1)候補文書 — $K^{(5)}$ 橋の規約・正規形・抽出手順 v1.3
 
 2026-07-27 起草: Claude(数学者レイヤー・Opus 5)。**司令塔委嘱**。上位文書: `docs/manifest_k5_v1.md` v1.2 §「BRIDGE-IN 構築の独立性」1.・`sol/sol_reply_31_manifest.md` F4.1/F5/F9.3・`sol/裁定_29_ben31.md` 7。姉妹文書: `docs/week4-K5_S5設計_opus_v1.md`。
 
 **v1.1(2026-07-27・便 32 P2/P6 + 裁定 31 の修理)。**
 **v1.2(2026-07-27・便 34 F2.3 の blocker R1-T0 修理 — $P_0=\iota(P_\infty)=\infty_-$ の副枝を追加し、M-A を対象宇宙上の total algorithm にする)。**
+**v1.3(2026-07-27・便 35 F1.5/F2.2/F5 の修理 — $(N_\infty)$ 排除証明書の撤回と正しい $(0\,\infty)$ 述語の確定。**副枝 $(N_\infty)$ は live**)。**
 
 ## v1 → v1.1 差分表
 
@@ -37,9 +38,29 @@
 | E8 | §10-6 | 記録欄「枝 (W)/(N) の別」 | 「枝 (W)/(N$_{\rm aff}$)/(N$_\infty$) の別」+ $\hat c$(N$_\infty$ のみ)を追加(**値は凍結 2 まで空**のまま) | 便 34 F2.3 |
 | E9 | §11 | 論点 1–6 決着 | **論点 7 新設**(**補題 R1-N∞-S**: (N$_\infty$) は ordered dessin が底の Möbius 対合 $\lambda\mapsto1/\lambda$ による $(0\,\infty)$-交換で不変であることを**要求する** ⇒ 凍結済み fixture 上の**純組合せ的排除証明書**が可能)。§11.1 に **R-4**(S5 設計 §3.3.4 の分離条件へ **N-0**: $P_0\ne\iota(P_\infty)$ を追記・別便) | 便 34 F2.3 / F3.3 |
 
-> **digest 注意(P7)**: 本改訂で canonical serialization が変わる。§10-1 の sha256 は**再取得を要する**(司令塔)。v1.1 の digest `0863b3fd…` は v1.2 には適用されない。
+## v1.2 → v1.3 差分表(便 35 F1.5 の blocker — **$(N_\infty)$ 排除証明書の撤回**)
+
+> **v1.2 の欠陥(便 35 F1.5・そのまま受け入れる)**: §11 論点 7 は補題 R1-N∞-S 3.(「(N$_\infty$) ならば ordered dessin は $(0\,\infty)$ 交換で不変」)から**組合せ的排除証明書**を作れると書いたが、**置換水準の述語を書き下さなかった**。その空白を埋めた実装は素朴な交換
+> $$ g\sigma_0g^{-1}=\sigma_\infty,\quad g\sigma_1g^{-1}=\sigma_1,\quad g\sigma_\infty g^{-1}=\sigma_0 \tag{35.3} $$
+> を検査したが、これは $(0\,\infty)$-対称性の必要条件では**ない**。正しい述語は Nielsen 代表 $\beta(x)=z,\ \beta(y)=y,\ \beta(z)=y^{-1}xy$ に対応する**捻れ形 (35.4)** である。**述語が誤りなので `ninf_excluded=true` は撤回する**(仕様の空白は起草者=私の責任 — ★教材 28)。しかも正しい述語の witness は**両 fixture に実在する**(§11 論点 7)ので、対偶による排除は**原理的に使えない**。
 >
-> **起草時点の申告(再掲・v1.2 でも不変)**: 本改訂の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。v1.1 で新たに行った機械計算は、**§2.4 の補題を無作為な有理係数ベクトルで確認する検算スクリプト 1 本のみ**(`search/wp-check.mjs`(司令塔が恒久化・再走 11649/0 再現)・整数演算・曲線データを入力に持たない・11649 検査すべて一致)。**v1.2 で新たに行った機械計算は無い**(§6.2 B-iii の補題は二通りの独立な手計算で照合 — §0.4-3)。探索コマンドは依然として一度も実行していない。
+> $$ \boxed{\ \textbf{副枝 (N}_\infty\textbf{) は排除されていない — live な枝として全工程で扱う。}\ } $$
+
+| # | 箇所 | v1.2 | v1.3 | 出典 |
+|---|---|---|---|---|
+| F1 | §11 **論点 7** | 「$(0\,\infty)$ 交換で不変 ⇒ 組合せ的**排除**証明書が可能」(置換水準の述語なし。保守判定 $T$ の設計のみ) | **正しい述語 (35.4)** を正本として書き下す。**補題 R1-N∞-W**(解の一意性・$g^2=\sigma_1$・(35.3) の**空虚性**)を新設。**両 fixture の witness (35.5) を記録**(Sol 便 35 (35.5)+数学者の独立再現)。結論を **「対称性条件 PASS・(N$_\infty$) 存否は未決」**に確定し、**排除路線を閉じる** | 便 35 F1.5 / 裁定 36 |
+| F2 | §2.2 **M0** | 三分岐判定を規定 | **判定 (2.-1) の実走を義務化**(「排除済みだから省略」を明示的に禁止)。**枝ラベルは三値 enumeration・既定値への fallback を禁止**(未知ラベル ⇒ I-m) | 便 35 F5.1 / F5.2 |
+| F3 | §6.2 (N$_\infty$) 封印段 | $u,\hat c,a_{10}$ を封印段 | **$\hat c_\mu:=a^2-f_6p^2$($\mu$ 側の norm 定数)も同段**へ。理由: 補題 R1-N∞-S 2. の $\hat c=1$ と $\hat c=c^2\hat c_\mu^2$ から **(P1) $\iff\hat c_\mu\in K^{\times2}$** が (N$_\infty$) では**単独で**成立する(**I-b∞**) | 本便(S5 設計 v1.2 §3.3.5 と対) |
+| F4 | §6.3 独立性の要件 | 1.–4. | **5.(model digest 束縛)**と **6.((N$_\infty$) 用 raw schema: $x_0,y_0$ を持たない)**を追加 | 便 35 F2.2 / F5.2 |
+| F5 | §9.2 | I-a〜I-k | **I-l**(raw の model digest が凍結 bundle の expected digest と不一致)・**I-m**(枝ラベルが三値 enumeration 外/既定値へ落とした)を新設。**I-b** に (N$_\infty$) の $\hat c_\mu$ を明記 | 便 35 F2.2 / F5.2 |
+| F6 | §10 | 記録 1.–6. | **7.**(fixture ごとの $(0\,\infty)$ witness $g_i$ と (35.4) 充足の記録 — **凍結 2 前でも可視**。$u$ に触れない fixture 事実) | 本便 |
+| F7 | §11.1 | R-1〜R-5 | **R-4 を閉**(S5 設計 v1.2・同便)。**R-5 は最優先へ復帰**((N$_\infty$) が live ゆえ)。**R-6/R-7/R-8 新設**(排除証明書の再発行・digest 束縛・枝ラベル fail-closed) | 便 35 F5 / 再申請リスト 1.3.5. |
+
+> **v1.2 の $(N_\infty)$ 機構は一切変更しない(確認)**: M1 (2.-3)(depressed $B_5=0$)・§5.1 U-1 第三行($t=1/x$)・補題 R1-U∞・§5.2.1 の (N$_\infty$) 行($\operatorname{ord}_{\infty_-}(g)\ge1$ 一本)・§6.1 (b) 経路 A∞(A∞-1〜A∞-4)・§6.2 B-iii (6.3)・補題 R1-B∞・構造検査 (N∞-1)–(N∞-4)・I-j・I-k・§10-6 の記録欄は**すべて v1.2 のまま有効**である。v1.3 が変えるのは**排除の可否(§11 論点 7)とその帰結**、および上表 F2–F7 の規則面だけ。**M-A の total 性は v1.2 で既に回復しており、(N$_\infty$) が live であっても Rule 1 は止まらない。**
+
+> **digest 注意(P7)**: 本改訂で canonical serialization が変わる。§10-1 の sha256 は**再取得を要する**(司令塔)。v1.1 の digest `0863b3fd…`・v1.2 の digest `7e3d7e22…` は v1.3 には適用されない。
+>
+> **起草時点の申告(v1.3 で更新)**: 本改訂の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。v1.1 で新たに行った機械計算は、**§2.4 の補題を無作為な有理係数ベクトルで確認する検算スクリプト 1 本**(`search/wp-check.mjs`(司令塔が恒久化・再走 11649/0 再現)・整数演算・曲線データを入力に持たない・11649 検査すべて一致)。**v1.2 で新たに行った機械計算は無い**(§6.2 B-iii の補題は二通りの独立な手計算で照合 — §0.4-3)。**v1.3 で新たに行った機械計算は、凍結済み fixture の置換三つ組のみを入力とする (35.4)(35.5) の検算 1 本**(§0.4-4・整数/置換演算のみ・曲線 $\lambda,u,c$ に接触なし)。探索コマンドは依然として一度も実行していない。
 
 ---
 
@@ -51,7 +72,7 @@
 
 > **凍結 1 の時点(manifest v1.2・W2)**: 両 dessin のいかなる**個別モデル候補・係数・数値近似にも接する前**、**探索コマンドを一度も実行する前**に完了する。
 >
-> **起草時点の申告**: 本文書の起草者(Opus)は、起草の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。用いた計算は §0.4 に列挙したものだけで(v1: 1 本、v1.1: +1 本、**v1.2: 追加なし**)、その入力は凍結済み有限 fixture と無作為な有理数だけである。
+> **起草時点の申告**: 本文書の起草者(Opus)は、起草の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。用いた計算は §0.4 に列挙したものだけで(v1: 1 本、v1.1: +1 本、**v1.2: 追加なし**、**v1.3: +1 本**)、その入力は凍結済み有限 fixture と無作為な有理数だけである。
 
 ### 0.2 不変条項(受理後は一切変更しない)
 
@@ -65,6 +86,8 @@
 **したがって本文書の第一次規則(§2 の (M-A))は、`docs/week4-K5_S5設計_opus_v1.md` の命題群に一切依存しない形で書いてある。** S5 設計の結果は §2 の (M-B)(整合検査)と §6 の副経路にのみ現れ、そこが崩れても Rule 1 は生きる。
 
 > **v1.2 で追加した副枝 (N$_\infty$) も同じ設計である**: 補題 R1-M0(Riemann–Roch と種数 2 の超楕円 pencil)・補題 R1-U∞(無限遠チャート)・補題 R1-B∞($\operatorname{div}(\lambda)=10P_0-10P_\infty$ と Vieta)・補題 R1-N∞-S(分岐点集合の $\iota$-不変性)は**いずれも S5 設計に依存しない**。S5 設計側の欠品(N-0)は §11.1 R-4 として別便に送る(Rule 1 の受理条件ではない)。
+>
+> **(v1.3)** R-4 は `docs/week4-K5_S5設計_opus_v1.md` **v1.2**(同便)で閉じた。**副枝 (N$_\infty$) が live に確定しても、この独立性は変わらない** — 上の四補題はいずれも $\operatorname{div}(\lambda)=10P_0-10P_\infty$ と超楕円幾何だけを使い、$\mu$-分解(命題 S5-2)を使っていない。S5 設計 v1.2 が新設した命題 S5-3∞ は **Rule 1 の受理条件ではなく**、§6.2 の補助経路 B′ と Model-Builder の探索設計にのみ関わる。
 
 **v1.1 での S5 側の監査状態の更新**(便 32 F4):
 
@@ -81,6 +104,7 @@
 1. `scratchpad/k5_blocks.js`(node・単系統・v1)— 入力は凍結済み有限 fixture($G_5$ の $(v,q)$ 座標と標的 $H$)のみ。
 2. `search/wp-check.mjs`(node・単系統・**v1.1 で追加**・司令塔恒久化)— §2.4 の補題 R1-N1/R1-N2 の検算。入力は**無作為な有理係数ベクトル**のみ(BigInt 整数演算・11649 検査すべて一致)。
 3. **v1.2 では機械計算を追加していない。** §6.2 の補題 R1-B∞ は (i) $G_+G_-=\hat c\,s^{2M}$ と $G_+(0)=2\tilde A(0)$ による一般証明、(ii) $M=3$ の玩具族 $f_6:=A_3(x)^2-\hat c,\ \lambda:=A_3(x)+y$($A_3$ モニック 3 次・$\hat c\in\mathbb Q^\times$ は**記号のまま**)における冪級数の直接展開($\lambda=\hat c\,s^3/(2\tilde A)+O(s^9)$ ⇒ $u=\hat c/(2a_3)$)、の**二通りの手計算**で照合した。(ii) は**記号族**であって個別モデル候補ではなく、$K^{(5)}$ の dessin データ($\deg=10$・単数値係数)を一切含まない。
+4. **v1.3 で追加した計算 1 本**(scratchpad・node・整数/置換演算のみ・リポジトリ外)— §11 論点 7 の (35.4)(35.5) の独立検算。入力は `certificates/k5fixture/K5-{sq,ns}.json` の `perm_triple`(**凍結済み有限 fixture**)のみ。行った検分は (a) $\sigma_0\sigma_1\sigma_\infty=\mathrm{id}$、(b) 補題 R1-N∞-W 2. の 10 候補の悉皆生成、(c) 各候補に対する (35.4) と (35.3) の充足判定、(d) $g^2=\sigma_1$、(e) $[\sigma_0,\sigma_1]\ne1$。**Sol の便 35 とは方法が独立**(Sol は紙上検分、私は $g(0)$ による 10 候補悉皆)。**曲線・$\lambda$・$u$・$c$・数値近似・database には一切接触していない。**
 
 **いずれも曲線・$\lambda$・$u$・数値近似・database に接触なし。**
 
@@ -186,6 +210,12 @@ $$ \boxed{\ \text{(N}_{\rm aff}\text{)} := \{P_\infty\ \text{非 W}\}\cap\{P_0\n
 > **実装上の同値判定(モデルを得たあとの検査)**: 枝 (N) の六次モデルでは $x^{-1}(\infty)=\{\infty_+,\infty_-\}=\{P_\infty,\iota(P_\infty)\}$(§5.1 補題 R1-U∞)だから、
 > $$ \text{(N}_\infty\text{)}\iff x(P_0)=\infty \iff P_0=\infty_- . $$
 > intrinsic 判定 (2.-1) と座標判定の**不一致は入力破損** ⇒ **I-k**(§9.2・v1.2 で新設)。**予算超過は U-c**(§9.1・値は不変)。
+
+> **【v1.3・便 35 F5.1/F5.2 の必須規定】M0 の三枝判定は実走で必ず実行する。**
+> 1. **判定 (2.-1)($\ell(P_0+P_\infty)$ の計算)を省略してはならない。** とくに「組合せ的証明書で (N$_\infty$) は排除済み」という理由での省略・既定枝への固定を**明示的に禁止**する。**その証明書は撤回された**(§11 論点 7)。判定が予算内に閉じなければ **U-c**(§9.1)であって「(N$_{\rm aff}$) とみなす」ではない。
+> 2. **枝ラベルは三値の enumeration** $\{\texttt{W},\ \texttt{N\_aff},\ \texttt{N\_infty}\}$ とし、**既定値へ落とす実装を禁止する**。入出力のどこかで未知ラベル・欠落ラベルが現れたら、既定値に解釈せず **I-m**(§9.2・v1.3 で新設)で停止する(fail-closed)。
+>    > (根拠: 便 35 F5.2 — 実装の `loadModel` が `nonWeierstrass` 以外を無条件に `Weierstrass` へ落としていた。**三枝化した規則を二値の既定値付き実装で受けると、live な枝が黙って消える。**)
+> 3. 三枝はこの順で**排他かつ網羅**である: (W) $\iff$ $\ell(2P_\infty)=2$;さもなくば (N$_\infty$) $\iff$ $\ell(P_0+P_\infty)=2$;さもなくば (N$_{\rm aff}$)。補題 R1-M0 2. により (W) と (N$_\infty$) は両立しないので、この順序は判定結果に影響しない。
 
 **M1(超楕円モデル)**
 
@@ -562,12 +592,25 @@ $$ \operatorname{div}\bigl(N(\lambda)\bigr)\ =\ 10P_0+10\,\iota(P_0)-10P_\infty-
 > > - 凍結 2 前に人間へ見せてよいのは **(N∞-1)(次数のみ)** だけ。
 > > - **(N∞-2)–(N∞-4) は $u$ と同じ封印段で、同じ access control の下で走らせる。** $\hat c$ と $a_{10}$ の値は §10-6 の記録欄(凍結 2 まで空)に入る。
 > > - これは §11-1 の但し書き(full Belyi map を許す以上、担保は語彙 grep でなく **access control と total selection rule の二重**である)の、副枝 (N$_\infty$) における具体化である。**M-A の正規化規則は $u$ にも $a_{10}$ にも依存しないので、選択自由度ゼロという前件は保たれている。**
+> >
+> > **【v1.3 で追加・I-b∞: $\mu$ 側の norm 定数 $\hat c_\mu$ も同じ封印段】** 副枝 (N$_\infty$) が live に確定した以上、この枝の**漏洩経路をすべて閉じる**必要がある。$\lambda=c\mu^2$(命題 S5-2)と (N$_\infty$) の norm 恒等式(S5 設計 v1.2 命題 S5-3∞)から
+> > $$ \hat c_\mu\ :=\ a^2-f_6p^2\ \in\mathbb Q^\times\ (\textbf{定数}),\qquad \hat c\ =\ c^2\hat c_\mu^{\,2},\qquad a_{10}=2ca_5^2,\qquad u\ =\ c\Bigl(\frac{\hat c_\mu}{2a_5}\Bigr)^{2} $$
+> > (**$\mu=a(x)+p(x)y$、$a_5:=[x^5]a$**)。ここで補題 R1-N∞-S 2. の $\hat c=1$ を使うと $c=\pm\hat c_\mu^{-1}$、したがって $-1=i^2\in K^{\times2}$($K=\mathbb Q(\zeta_{20})$)ゆえ
+> > $$ \boxed{\ \text{(N}_\infty\text{) では}\quad \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \hat c_\mu\in K^{\times2}\ \iff\ \operatorname{sqfree}(\hat c_\mu)\in\{1,-1,5,-5\}.\ } $$
+> > すなわち **$\hat c_\mu$ 単独で封印予測 (P1) が完全に決まる**。他の二枝ではこうならない((N$_{\rm aff}$)/(W) では $\hat c=c^2c_N^2$ だが $\hat c=1$ の定理がないので、$c_N$ 単独では (P1) は決まらない)。**この非対称は $\hat c=1$(補題 R1-N∞-S 2.)が (N$_\infty$) だけで成り立つことから生じる。**
+> > - よって **§9 I-b の禁止対象に $\hat c_\mu$(および $\mu$ の norm 定数と同値な任意の量)を明記する**(§9.2 I-b)。
+> > - **$\hat c_\mu$ は $u,\hat c,a_{10}$ と同じ封印段・同じ access control** に置く。凍結 2 前に人間へ見せない。
+> > - これは新しい禁止ではなく、**strict I-b(「$\lambda$ を $(c,\mu)$ の対に分離して報告することの禁止」)の (N$_\infty$) における具体化**である。ただし $\hat c_\mu$ は「$c$ でも $\mu$ の係数でもない第三の量」の顔をして通りうるので、**逐語で書く**(S5 設計 §6.2 ★教材候補 2 の形: 禁止リストは量の出自でなく「封印予測のどのビットを決めるか」で書く)。
 
 **中間表現**: $\mathbb Q[x]$(多項式・評価・Taylor 係数;B-iii は係数抽出のみ)。**冪級数を使わない。**
 
 > **補助経路 B′(S5 設計に依存・任意)**: 命題 S5-2 が成立するなら $\lambda=c\mu^2$、$\mu = v t^5(1+\cdots)$ で $u = cv^2$、かつ $\mu\mu^\iota = c_N(x-x_0)^5$(**v1.1: 記号を $c_N$ に統一** — S5 設計 v1.1 §3.3.0)から、$P_0$ 非 Weierstrass・$t=x-x_0$ の場合に $v = c_N/\mu^\iota(P_0)$(級数不要)。**B′ は第三経路であって B の代用ではない。** 用いる場合は独立な札で記録する。
 >
 > **【v1.2 の適用範囲】B′ の上式は $x_0=x(P_0)$ が有限であること(枝 (W)・副枝 (N$_{\rm aff}$))を前提とする。** 副枝 (N$_\infty$) では $\mu\mu^\iota$ も定数になり(補題 R1-B∞ 2. の $\lambda$ を $\mu$ に置き換えた議論;$\operatorname{div}\mu=5P_0-5P_\infty$ ならば $\deg A_\mu=5,\ \deg B_\mu=2$)、上式は書き換えを要する。**B′ は任意の第三経路なので、v1.2 では (N$_\infty$) 版を書き下さない** — この副枝で B′ を使いたければ、S5 設計側の (N$_\infty$) 対応(§11.1 R-4)を待って別便で追加する。それまで (N$_\infty$) で B′ を走らせてはならない。
+>
+> **【v1.3・B′∞】R-4 が閉じた**(S5 設計 v1.2 §3.3.5 命題 S5-3∞)ので、(N$_\infty$) 版を書ける: $\mu=a(x)+p(x)y$、$\hat c_\mu:=a^2-f_6p^2\in\mathbb Q^\times$(定数)、$a_5:=[x^5]a\ (=[x^2]p\ne0)$ とすると $t=1/x$ に関して
+> $$ \mu=v\,t^5(1+O(t)),\qquad v=\frac{\hat c_\mu}{2a_5},\qquad \boxed{u^{(B')}=c\,v^2=\frac{c\,\hat c_\mu^{\,2}}{4a_5^{\,2}}}\quad(\text{B-iii と同型の議論;}\ \deg=10\to5). $$
+> **付随する強い整合検査**(いずれも封印段): $a_{10}=2ca_5^2$、$b_7=a_{10}$、$\hat c=c^2\hat c_\mu^2$、および補題 R1-N∞-S 2. の $\hat c=1$ との合成 $c^2\hat c_\mu^2=1$。**ただし B′ は依然として任意の第三経路であり、$(c,\mu)$ 分離を要するので strict I-b の下で凍結 2 前は走らせない**(上の v1.1 運用制限は不変)。$\hat c_\mu$ の扱いは §6.2 の **I-b∞** に従う。
 >
 > **【v1.1 の運用制限】B′ は $\lambda$ を $(c,\mu)$ に分離した形を要求するので、§9 I-b 厳格版の下では凍結 2 より前に走らせてはならない。** 凍結 2 のあとの独立な裏取りとしてのみ使う。
 
@@ -577,6 +620,9 @@ $$ \operatorname{div}\bigl(N(\lambda)\bigr)\ =\ 10P_0+10\,\iota(P_0)-10P_\infty-
 2. **別中間表現**: $K[[t]]$ vs $\mathbb Q[x]$(上記)。
 3. **raw 出力の別保存**: `u_pathA.json` / `u_pathB.json`(それぞれ生の中間量も含む)。
 4. **第三の checker**: 二つの生出力**だけ**を読み、$u^{(A)} = u^{(B)}$ を $K$ の中で厳密に判定する小さな独立プログラム。**それ以外の計算をしない。**
+5. **model digest の束縛(v1.3・便 35 F2.2)**: 両経路の driver は、モデルの係数を**手転記せず**、凍結 bundle の canonical model JSON を読み、その **canonical digest を入力として束縛**する。第三 checker は (i) 二 raw の `model_digest` の相互一致、(ii) **凍結 bundle 側の expected digest との一致**、の**両方**を fail-closed に検査する。
+   > **根拠**: digest を二 raw の echo field から自己生成するだけでは、**二 driver が同じ誤転記をすれば checker は ACCEPT する**(便 35 F2.2)。「二系統一致」は同じ入力を仮定した上でしか意味を持たない。破れは **I-l**(§9.2)。
+6. **(N$_\infty$) 用 raw schema(v1.3・便 35 F5.2)**: 副枝 (N$_\infty$) では $x_0,y_0$ が**存在しない**。したがって cusp raw は $x_0,y_0$ を必須 field に持つ schema を**流用してはならない**(欠落を $0$ 等の既定値で埋めると I-k/I-j が発火せずに通る)。(N$_\infty$) 用に、$x_0,y_0$ を持たず代わりに $M$ の実測値・$\hat c$・$a_{10}$・$b_7$ を持つ**別 schema** を用意し、schema 名を枝ラベルと突合する(不一致は **I-m**)。
 
 ### 6.4 受理規則
 
@@ -697,7 +743,7 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 | # | 条件 |
 |---|---|
 | **I-a** | 凍結 1 前に個別モデル候補・係数・数値近似に接触した |
-| **I-b** | 凍結 2 前に $u$ **または同値な leading class** が漏れた。**同値物には $\lambda=c\mu^2$ の $c$ の平方類・平方因子・符号を含む**(命題 S5-4)。$\lambda$ を「$c$ と $\mu$ の対」に分離して報告することも禁止 |
+| **I-b** | 凍結 2 前に $u$ **または同値な leading class** が漏れた。**同値物には $\lambda=c\mu^2$ の $c$ の平方類・平方因子・符号を含む**(命題 S5-4)。$\lambda$ を「$c$ と $\mu$ の対」に分離して報告することも禁止。**(v1.3・I-b∞)** 副枝 (N$_\infty$) では**さらに $\hat c_\mu=a^2-f_6p^2$($\mu$ の norm 定数)の値・平方類・平方因子・符号**、および $\hat c$・$a_{10}$・$b_7$・$a_5$ を含む(§6.2 の I-b∞: $\hat c=1$ ゆえ **$\hat c_\mu$ 単独で (P1) が決まる**) |
 | **I-c** | $u$ 二経路の不一致(§6.4) |
 | **I-d** | $b_{\rm sq}\ne b_{\rm ns}$(§7.3) |
 | **I-e** | モデル検査二系統の不一致 / U-3 の $\varepsilon\notin\mathbb Q^\times$ |
@@ -707,6 +753,8 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 | **I-i** | exact Kummer 証明書なしに PASS/FAIL を宣言した |
 | **I-j**(v1.2) | 副枝 (N$_\infty$) の構造検査 **(N∞-1)–(N∞-4)**(§6.2 B-iii)のいずれかが破れる。すなわち $\deg A\ne10$ / $\deg B\ne7$ / $b_7\ne a_{10}$ / $a_{10}=0$ / $A^2-B^2f_6$ が非定数または $0$ / ($\sigma_1\ne\mathrm{id}$ なのに)$\hat c\ne1$。**いずれも $\operatorname{div}(\lambda)=10P_0-10P_\infty$ と入力モデルの矛盾を意味する** ⇒ 入力破損 |
 | **I-k**(v1.2) | M0 の intrinsic 判定 (2.-1) と座標判定($x(P_0)=\infty$)が食い違う(I-e の特例として明示) |
+| **I-l**(v1.3) | raw の `model_digest` が**凍結 bundle の expected model digest** と一致しない、または二 raw の間で一致しない(§6.3-5)。**二 raw の自己生成 digest が一致するだけでは閉じない** — 同じ誤転記は同じ digest を生む(便 35 F2.2) |
+| **I-m**(v1.3) | 枝ラベルが三値 enumeration $\{\texttt{W},\texttt{N\_aff},\texttt{N\_infty}\}$ に属さない / 欠落している / **未知ラベルを既定値へ落とした**(§2.2 M0 の v1.3 規定)。raw schema 名と枝ラベルの不整合も同じ(§6.3-6)。**「知らない枝は Weierstrass」型の暗黙 fallback は入力破損として扱う**(便 35 F5.2) |
 
 ### 9.3 Model-Builder(A)の入出力 schema(凍結 1 の一部)
 
@@ -725,7 +773,8 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 3. §8.6 の実装版一覧。
 4. §1.6 の $(\mathbb Z/20)^\times\to(\mathbb Z/10)^\times$ の $2:1$ lift の記載(別欄)。
 5. 発射錠 `FIRE_k5bridge.auth` が束縛する digest 組(**一回性・別 artifact へ再利用不可**)。
-6. **記録欄(値は凍結 2 まで空)**: $b_{\rm sq}$, $b_{\rm ns}$, $a_{\rm eff}$, $\varepsilon$(U-3)、**枝 (W)/(N$_{\rm aff}$)/(N$_\infty$) の別**(v1.2)、$P_0$ の Weierstrass 性、**$M=\max(\deg A,\deg B+3)$ の実測値と $\hat c$(いずれも副枝 (N$_\infty$) のみ・v1.2)**。**$a=1$ の欄は不変値として先に埋める。**
+6. **記録欄(値は凍結 2 まで空)**: $b_{\rm sq}$, $b_{\rm ns}$, $a_{\rm eff}$, $\varepsilon$(U-3)、**枝 (W)/(N$_{\rm aff}$)/(N$_\infty$) の別**(v1.2)、$P_0$ の Weierstrass 性、**$M=\max(\deg A,\deg B+3)$ の実測値と $\hat c$(いずれも副枝 (N$_\infty$) のみ・v1.2)**、**$\hat c_\mu$(副枝 (N$_\infty$) で B′∞ を使う場合のみ・v1.3・I-b∞ の封印対象)**。**$a=1$ の欄は不変値として先に埋める。**
+7. **(v1.3)$(0\,\infty)$-対称性 witness の記録(凍結 2 前でも可視)**: 各 fixture $i\in\{\rm sq,ns\}$ について、(35.4) を満たす $g_i\in S_{10}$ の**存否・値・一意性**、および $g_i^2=\sigma_{1,i}$ の成否(§11 論点 7 の (35.5))。**これは凍結済み fixture の置換データだけから決まる有限事実**であり、モデル・$\lambda$・$u$・$c$ に一切依存しないので、$u$ の封印段の外に置いてよい。**「排除された」ではなく「対称性条件は充足・(N$_\infty$) の存否は未決」という結論の形で記録すること。**
 
 ---
 
@@ -740,7 +789,11 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 6. **【文献要請・充足】** §8.2 の $K^{\times10}$ 判定 → **`docs/文献ゲート_02_power_residue.md` が仕様 provenance として PASS**(便 32 F2.5)。$\zeta_2,\zeta_5\in K$ のもとで平方・五乗判定へ分解する exact Kummer 仕様と、valuation obstruction / binomial factorization の数学的出所は閉じた。
    > **ただし二つの留保(便 32 F2.5・そのまま採録)**: (i) Sol は Cohen/Roblot の一次 PDF と定理番号を独立照合していない。(ii) **文献は executable certificate checker ではない。** 凍結 1 の最終 bundle には §8.6 が要求する library 名・版・commit、アルゴリズム名、経路 A/B と第三 checker の commit を**値として**埋めること(P6 後半・実装別便)。
 
-7. **【v1.2 新設】副枝 (N$_\infty$) の存否を、凍結済み fixture 上の組合せ的証明書で閉じるか。** 便 34 F2.3 は二つの選択肢を示した。**v1.2 は選択肢 2(副枝の追加)を採り、M-A の total 性はこれで回復した。** 選択肢 1(exact な排除証明書)は**任意の補強**として下に設計だけ置く — **launch blocker ではない**(証明書が得られなくても M-A は total)。
+7. **【v1.2 新設・v1.3 で決着(否定的決着)】副枝 (N$_\infty$) の存否を、凍結済み fixture 上の組合せ的証明書で閉じるか。** 便 34 F2.3 は二つの選択肢を示した。**v1.2 は選択肢 2(副枝の追加)を採り、M-A の total 性はこれで回復した。** 選択肢 1(exact な排除証明書)は**任意の補強**として設計だけ置いた — **launch blocker ではない**(証明書が得られなくても M-A は total)。
+
+   $$ \boxed{\ \textbf{v1.3 の決着: 選択肢 1 は使えない。両 fixture が必要条件を満たすので、対偶による排除は不可能である。}\ } $$
+
+   **したがって副枝 (N$_\infty$) は live** であり、以後「排除済み」を前提にした省略・既定枝への固定を一切してはならない(§2.2 M0 の v1.3 規定・§9.2 I-m)。**この決着は Rule 1 の受理を妨げない**(M-A は v1.2 で既に total)。影響を受けるのは (i) 実装の網羅性(§11.1 R-5 が最優先へ復帰)と (ii) S5 設計の探索 ansatz(R-4 — S5 設計 v1.2 で閉)だけである。
 
    > **補題 R1-N∞-S(副枝 (N$_\infty$) が要求する dessin の対称性).** $P_0=\iota(P_\infty)$ と仮定する。$m(z):=\hat c/z$ と置く。
    > 1. $\lambda\lambda^\iota=\hat c\in\mathbb Q^\times$(補題 R1-B∞ 2.)、すなわち $\lambda\circ\iota = m\circ\lambda$。**$\iota$ は底の Möbius 変換 $m$ を覆う $C$ の自己同型**である。
@@ -752,19 +805,77 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
    >
    > **補足($\sigma_1\ne\mathrm{id}$ は本 campaign では仮定でなく定理)**: $\sigma_1=\mathrm{id}$ なら $\operatorname{Mon}=\langle\sigma_0\rangle$ が巡回群として $10$ 点上に推移的に作用するので正則作用となり点安定化群 $H=1$、ゆえに $N_{\operatorname{Mon}}(H)/H=\operatorname{Mon}\ne1$ となって §4.3 補題 R1-U($\operatorname{Aut}(W_0/U)=1$)に矛盾する。**したがって 2.–4. は本 campaign では無条件に成立する。**
 
-   > **証明書の設計(implementer 委嘱・司令塔経由・個別モデルに触れない)**: 3. の**否定**が示せれば副枝 (N$_\infty$) は当該 dessin について**空**である。凍結済み fixture の三つ組 $(\sigma_0,\sigma_1,\sigma_\infty)=(\tau_i(X),\tau_i(Y),\tau_i(Z))$ だけを入力とする有限計算でよい。
-   > - **向き規約に依存しない保守的判定(推奨)**: $T:=\{(\tau_0,\tau_1,\tau_\infty):\tau_0\tau_1\tau_\infty=\mathrm{id},\ \tau_0\in\mathrm{Cl}(\sigma_\infty),\ \tau_1\in\mathrm{Cl}(\sigma_1),\ \tau_\infty\in\mathrm{Cl}(\sigma_0)\}$ と置く。**$T$ のどの元も $(\sigma_0,\sigma_1,\sigma_\infty)$ と同時共役でないならば、$(0\,\infty)$ 交換による同型は(いかなる基点・向きの規約でも)存在しない ⇒ (N$_\infty$) は空。** 逆に $T$ の中に同時共役なものがあれば**判定不能**であり、そのときは §1 の向き規約と突き合わせた厳密な捻り三つ組を確定する必要がある(その確定自体が別途の監査対象)。
-   > - **安価な不変量は本 campaign では無力**: $\sigma_0,\sigma_\infty$ はともに $10$-巡回($P_0,P_\infty$ が全分岐)なので巡回型は自動一致し、$\operatorname{sgn}(\sigma_1)=+1$(したがって $\sigma_1$ の巡回数は偶数)も関係式から自動である。**巡回型・パリティ水準の検査に予算を割かないこと。**
-   > - 4. からの追加の必要条件: $\sigma_1$ の巡回長の重複度が奇数である長さの個数は $6$ 以下でなければならない($\iota$ が $\lambda^{-1}(1)$ 上に誘導する対合の不動点は $6$ 個以下)。これも安価な事前 filter として使える。
+   **【論点 7-A】$(0\,\infty)$-対称性の正しい置換水準の述語(v1.3・便 35 F1.5)**
 
-### 11.1 v1.2 時点で残る未充足項目(凍結 1 受理の前提)
+   > **式番号の規約(本論点のみ)**: 追跡を容易にするため、**便 35 の式番号 $(35.x)$ をそのまま引き継ぐ**(`sol/sol_reply_35_freeze1r4.md` F1.5)。本文書の他節の式番号体系とは独立である。
+
+   > **【v1.2 の欠陥・撤回】** v1.2 の「証明書の設計」欄は、$T:=\{(\tau_0,\tau_1,\tau_\infty):\tau_0\tau_1\tau_\infty=\mathrm{id},\ \tau_i\in\mathrm{Cl}(\cdot)\}$ を使う**保守的判定**しか書かず、**正本となる置換水準の述語を書き下さなかった**。その空白を埋めた実装は素朴な交換 (35.3)($g\sigma_0g^{-1}=\sigma_\infty,\ g\sigma_1g^{-1}=\sigma_1,\ g\sigma_\infty g^{-1}=\sigma_0$)を検査し、両 fixture で `false` を得て `ninf_excluded=true` を出した。**この判定は数学的に無効であり、撤回する。** 仕様の空白は起草者(私)の責任である。
+   >
+   > **★教材 28(自認)**: **「必要条件がある」と書くだけでは仕様にならない。** 幾何の必要条件を組合せ的証明書に落とすときは、**置換水準の述語そのものを正本に書き下す**まで仕様は未完成である。書かなければ、埋めるのは実装であり、実装は最も自然に見える(そして誤った)対称形を選ぶ。
+
+   **正しい述語.** §1.1 の正本関係 $xyz=1$ の下で、向きを保つ $(0\,\infty)$-交換を表す $\operatorname{Out}(\hat F_2)$ の代表は
+   $$ \beta(x)=z,\qquad \beta(y)=y,\qquad \beta(z)=y^{-1}xy \tag{35.1} $$
+   である。実際 $\beta(x)\beta(y)\beta(z)=z\,y\,y^{-1}xy=zxy=1$($xyz=1$ の巡回)で関係式を保ち、peripheral 類を $[x]\leftrightarrow[z]$、$[y]\mapsto[y]$ と移し、$\beta^2=\operatorname{Inn}(y^{-1})$ ゆえ outer 位数は 2。基点への経路を変えた別代表は inner だけ異なり、simultaneous conjugacy に吸収される(3 点穴あき球面の写像類群は $S_3$ で、pure 部分は自明 — $\beta$ は $[y]$ を固定し $[x],[z]$ を交換する向き保存類として**一意**)。
+
+   $\pi:\hat F_2\to\operatorname{Sym}(\Lambda_i)$、$(\sigma_0,\sigma_1,\sigma_\infty)=(\pi x,\pi y,\pi z)$ に対し、被覆が $\beta$-捻りと同型 $\iff$ $\exists g:\ g\,\pi(w)\,g^{-1}=\pi(\beta(w))\ (\forall w)$。生成元に書き下すと
+
+   $$ \boxed{\ g\sigma_0g^{-1}=\sigma_\infty,\qquad g\sigma_1g^{-1}=\sigma_1,\qquad g\sigma_\infty g^{-1}=\sigma_1^{-1}\sigma_0\sigma_1\ } \tag{35.4} $$
+
+   **これが正本である。** §10-7 の記録欄はこの述語で書く。
+
+   > **補題 R1-N∞-W((35.4) の構造・v1.3 で新設).** $\sigma_0\sigma_1\sigma_\infty=\mathrm{id}$、$\operatorname{Mon}=\langle\sigma_0,\sigma_1\rangle$ は $\Lambda_i$ 上推移的、$C_{S_{10}}(\operatorname{Mon})=1$(§4.3 補題 R1-U)とする。
+   > 1. **(35.4) の第三式は第一・第二式から自動**である。ゆえに (35.4) $\iff$ $g\sigma_0g^{-1}=\sigma_\infty\ \wedge\ g\sigma_1g^{-1}=\sigma_1$。
+   > 2. $\sigma_0$ は $10$-巡回だから、$g\sigma_0g^{-1}=\sigma_\infty$ を満たす $g$ は $g(0)$ の値で**完全に決まり、ちょうど 10 通り**。したがって (35.4) の判定は **10 候補の悉皆**で閉じる($10!$ の走査は不要)。
+   > 3. **解 $g$ は存在すれば一意**であり、そのとき $\boxed{g^2=\sigma_1}$。
+   > 4. **素朴述語 (35.3) は (35.4) $\wedge\ [\sigma_0,\sigma_1]=1$ と同値**であり、本 campaign の仮定の下で **$[\sigma_0,\sigma_1]\ne1$ が定理**である。すなわち **(35.3) は恒真に偽** — dessin が何であれ `false` を返す**空虚な検査**であった。
+   >
+   > **証明.** 1. 第一・第二式より $g\sigma_\infty g^{-1}=g(\sigma_1^{-1}\sigma_0^{-1})g^{-1}=\sigma_1^{-1}\sigma_\infty^{-1}$。他方 $\sigma_0\sigma_1\sigma_\infty=\mathrm{id}$ から $\sigma_\infty^{-1}=\sigma_0\sigma_1$、ゆえに $\sigma_1^{-1}\sigma_\infty^{-1}=\sigma_1^{-1}\sigma_0\sigma_1$。
+   > 2. $g\sigma_0=\sigma_\infty g$ を $p\mapsto\sigma_0(p)$ に沿って反復すると $g(\sigma_0^k(0))=\sigma_\infty^k(g(0))$。$\sigma_0$ が $10$-巡回ゆえ $\{\sigma_0^k(0)\}=\Lambda_i$ で $g$ は $g(0)$ から一意に定まり、$\sigma_\infty$ も $10$-巡回ゆえ得られる写像は常に全単射。
+   > 3. $g,g'$ が二解なら $g^{-1}g'$ は $\sigma_0$ と $\sigma_1$ の双方と可換、すなわち $\operatorname{Mon}$ を中心化するので $=1$。次に $\pi\circ\beta^2=\operatorname{Inn}(\sigma_1^{-1})\circ\pi$ と (35.4) を二度使うと $g^2\pi(w)g^{-2}=\sigma_1^{-1}\pi(w)\sigma_1$、ゆえに $\sigma_1g^2\in C_{S_{10}}(\operatorname{Mon})=1$、$g^2=\sigma_1^{-1}=\sigma_1$($\sigma_1$ は型 $2^41^2$ の対合)。
+   > 4. (35.3) は (35.4) に $g\sigma_\infty g^{-1}=\sigma_0$ を足したもの。1. よりこれは $\sigma_1^{-1}\sigma_0\sigma_1=\sigma_0$、すなわち $[\sigma_0,\sigma_1]=1$ と同値。もし $[\sigma_0,\sigma_1]=1$ なら $\operatorname{Mon}$ は可換かつ推移的ゆえ**正則**、したがって $C_{S_{10}}(\operatorname{Mon})\cong\operatorname{Mon}\ne1$ となり補題 R1-U に矛盾する。$\blacksquare$
+
+   > **★教材 29(便 35 ★教材 27 の強化)**: cross-check は述語の妥当性を上げないだけでなく、**述語が恒真に偽なら、二系統一致は「二つの実装が同じ空虚な質問に正しく答えた」ことしか意味しない。** 判定述語を採用する前に、**その述語が充足可能でありうるか**(本件では $[\sigma_0,\sigma_1]=1$ が campaign の仮定と両立するか)を先に確かめる。**空虚な検査は、負の結果を出し続けることで最も長く生き延びる。**
+
+   **【論点 7-B】両 fixture の witness と結論**
+
+   凍結済み fixture の置換三つ組($\sigma_0$ は $10$-巡回)に対し、補題 R1-N∞-W 2. の 10 候補を悉皆すると **(35.4) の解は各 fixture でちょうど一つ**存在する。one-line・0-indexed で
+
+   $$ g_{\rm sq}=[1,0,3,8,5,6,7,4,9,2],\qquad g_{\rm ns}=[6,3,2,7,8,1,4,5,0,9] \tag{35.5} $$
+
+   いずれも $\boxed{g_i^2=\sigma_{1,i}}$((35.6))を満たし、補題 R1-N∞-W 3. と整合する。素朴述語 (35.3) の解は両 fixture で存在しない(補題 R1-N∞-W 4. の通り、これは dessin に依らない)。
+
+   > **出所と状態札**: (35.5) の初出は **Sol 便 35 (35.5)**(`sol/sol_reply_35_freeze1r4.md` F1.5・紙上検分)。**数学者側で独立に再現した**(§0.4-4: 入力は `certificates/k5fixture/K5-{sq,ns}.json` の `perm_triple` のみ、方法は $g(0)$ による 10 候補悉皆、実装は Sol と非共有)。**二つの独立導出が一致 = cross-checked。`verified`(Lean)ではない。**
+   > 参考記録(幾何的解釈を付けない生データ): $g_{\rm sq}$ の巡回型は $4+4+2$、$g_{\rm ns}$ は $4+4+1+1$。**$\operatorname{Fix}(g_i)$ を「$\iota$ の不動点数」と読んではならない** — $m$ が底の基点を動かすので $g_i$ は $\iota$ と基点復帰経路の合成であり、$\operatorname{Fix}$ に直接の幾何的意味はない。
+
+   $$ \boxed{\ \textbf{結論: 両 fixture で補題 R1-N}\infty\textbf{-S 3. の必要条件は充足される。ゆえに対偶による (N}_\infty\textbf{) の排除は不可能。存否は UNKNOWN。}\ } $$
+
+   **ここから「(N$_\infty$) が発火する」とまでは言えない**(必要条件が満たされただけである)。**規則面の帰結は「(N$_\infty$) を live 枝として全工程で扱う」の一点**に尽きる。
+
+   **【論点 7-C】残る鋭化の余地 — launch blocker ではない**
+
+   排除路線は 3. では閉じたが、補題 R1-N∞-S 4.(**$\iota$ の 6 個の不動点が $\operatorname{Fix}(m)=\{\pm1\}$ へ写る**)からの必要条件はまだ使い切っていない。**現時点では UNKNOWN**であり、閉じる義務も予算も置かない。閉じたい者のための定式化だけ残す:
+
+   - $\iota$ は $\lambda^{-1}(1)$(6 点・分岐指数 $2,2,2,2,1,1$)を保ち、その上での不動点は Weierstrass 点である。$g_i$ が $\sigma_1$ の巡回に誘導する置換($g_i$ は $\sigma_1$ を中心化するので巡回を置換する)と、$\lambda^{-1}(-1)$(10 点・不分岐)への作用の不動点数の和が **ちょうど 6** でなければならない。**この「和 = 6」を $g_i$ から純組合せ的に読む正しい規約**(基点復帰経路の寄与の扱い)は本 v1.3 では確定していない。
+   - **安価な不変量は無力(v1.2 の観察は不変)**: $\sigma_0,\sigma_\infty$ はともに $10$-巡回なので巡回型は自動一致、$\operatorname{sgn}(\sigma_1)=+1$ も関係式から自動。**巡回型・パリティ水準の検査に予算を割かないこと。**
+   - **v1.2 の保守的判定 $T$ は (35.4) に置き換えられた**(超越されたので、以後 $T$ は使わない)。$T$ 自体は健全な**十分条件**だったが、(35.4) の witness が実在する以上 $T$ も「判定不能」を返す。
+
+### 11.1 v1.3 時点で残る未充足項目(凍結 1 受理の前提)
 
 | # | 項目 | 担当 | 状態 |
 |---|---|---|---|
-| R-1 | §8.6/§10-3 の実装版・commit・checker ID を**値として**記入 | 実装(P6 後半) | **未** |
-| R-2 | 本文書 + 付録 A の新 digest 再取得と再提出 | 司令塔(P7) | **未**(v1.2 で serialization が再び変わる) |
-| R-3 | 親 manifest 側の whitelist/stop に I-b と同語を反映 | 司令塔(P1+P3) | 別便 |
-| R-4(v1.2) | **S5 設計 §3.3.4 の分離条件表に「N-0: $P_0\ne\iota(P_\infty)$」を追記**し、命題 S5-3 の枝 (N) の式 (3.3) が**有限な $x_0=x(P_0)$ を前提としている**ことを明記する(便 34 F3.3)。Rule 1 は S5 設計に依存しないので**本文書の受理条件ではない**が、Model-Builder の枝列挙にこの欠品を持ち込ませないために閉じる必要がある | 数学者(S5 設計 v1.2・別便) | **未**(本便では対象外 — 委嘱範囲が Rule 1 のみ) |
-| R-5(v1.2) | 実装側: 経路 A/B/第三 checker を副枝 (N$_\infty$)(§6.1 (b)・§6.2 B-iii・構造検査 (N∞-1)–(N∞-4))へ拡張 | 実装(便 34 F4.2/F4.3 の修理と同便) | **未** |
+| R-1 | §8.6/§10-3 の実装版・commit・checker ID を**値として**記入 | 実装(P6 後半) | **未**(便 35 F4: 版表・付録 A・本節の自己申告が現物と食い違う。**実 commit を値として埋め、全修理後に再 hash**) |
+| R-2 | 本文書 + 付録 A の新 digest 再取得と再提出 | 司令塔(P7) | **未**(**v1.3 で serialization が三たび変わる**) |
+| R-3 | 親 manifest 側の whitelist/stop に I-b と同語を反映 | 司令塔(P1+P3) | **未**(便 35 F4-4: manifest の operative な「即時 integrity stop」行が **$c$ の平方類・平方因子・符号**と **$(c,\mu)$ 分離報告**を逐語参照していない。**v1.3 では $\hat c_\mu$(I-b∞)も同語で反映すること**) |
+| R-4(v1.2) | S5 設計 §3.3.4 の分離条件表に **N-0: $P_0\ne\iota(P_\infty)$** を追記し、(3.3) の $x_0$ 有限前提を明示し、**(N$_\infty$) の stratum を total な分岐表に入れる**(便 34 F3.3・便 35 F5.1) | 数学者 | **閉(2026-07-27)** — `docs/week4-K5_S5設計_opus_v1.md` **v1.2** §3.3.4 の N-0 と §3.3.5(命題 S5-3∞・(3.3∞)・total 分岐表)。**Rule 1 の受理条件ではない** |
+| R-5(v1.2) | 実装側: 経路 A/B/第三 checker を副枝 (N$_\infty$)(§6.1 (b) A∞-1〜A∞-4・§6.2 B-iii・構造検査 (N∞-1)–(N∞-4)・(N$_\infty$) 用 raw schema §6.3-6)へ拡張 | 実装 | **実装済(便 36・数学者検分待ち)**。K5 実 fixture に (N$_\infty$) 型が無いため §0.4-3 の M=n=3 合成玩具族で較正(SYNTHETIC 明記)。`search/u-extract-pathA.g` の `ExtractPathA_Ninf`(経路 A∞・W mod $s^{2n+4}$ の Hensel/Newton)+ `crosscheck/u-extract-pathB-lib.mjs` の `extractPathB_Ninf`(経路 B-iii・級数不使用)+ `crosscheck/u-compare-ninf-toy.mjs`(第三 checker)で $u^{(A)}=u^{(B)}=1$・`result:"ACCEPT"` を確認。**(N$_\infty$) 用 raw schema(§6.3-6・$x_0,y_0$ を持たない)はこの toy driver で実装($x_0,y_0$ フィールドを持たない model レコード)** が、K5 実 driver・$x_0,y_0$ を持たない K5 raw との束縛(R-7)はまだ無い。詳細 `docs/week4-K5_Rule1_impl_versions.md` §9.3 |
+| **R-6**(v1.3) | `ninf-exclusion*.json` の `ninf_excluded=true` を**撤回**し、**(35.4) 述語**で証明書を再発行する。結論は「**対称性条件 PASS・witness (35.5) を記録・(N$_\infty$) の存否は未決**」。補題 R1-N∞-W 2. により **10 候補の悉皆**でよい($10!$ 走査は不要)。撤回の事実自体も証明書に残す | 実装(数学者の検分必須) | **実装済(便 36・数学者検分待ち)**。`search/k5-ninf-exclusion.g`/`crosscheck/check-k5-ninf.mjs` を (35.4) 述語で書き直し、両 fixture で `ninf_excluded=false`・witness (35.5)・$g^2=\sigma_1$ (35.6) を GAP(`RepresentativeAction`・代数的 backtrack)と node(brute force 全 $S_{10}$・3,628,800 通り)の二系統で確認(GAP/node とも 14/14 PASS・cross-check 11/11 PASS)。**10 候補悉皆の最適化は未使用**(全 $S_{10}$ を検査する重い方法だが結果は同一・正当な上位互換)。旧証明書は `certificates/k5pipeline/retracted/`(`ninf-exclusion.gap.v1.json`・`ninf-exclusion.v1.json`・撤回理由は同ディレクトリ `NOTE.md`)。撤回の事実は新証明書の `retraction_note` フィールドに記録 |
+| **R-7**(v1.3) | §6.3-5: raw の `model_digest` を**凍結 bundle の expected digest に束縛**し、第三 checker で fail-closed に検査(**I-l**) | 実装 | **未**(便 35 F2.2・再申請リスト 5.) |
+| **R-8**(v1.3) | §2.2 M0 / §6.3-6 / §9.2 **I-m**: 枝ラベルを三値 enumeration とし、**未知ラベルの既定値 fallback を禁止**(fail-closed) | 実装 | **未**(便 35 F5.2・再申請リスト 3.) |
 
-**R-1〜R-3・R-5 が閉じるまで凍結 1 は受理されず、個別モデル探索コマンドは実行しない。**
+> **本節の運用注(便 35 F4)**: 凍結物は task や裁定の説明文でなく、**hash された本文が正本**である。したがって本表の「未」は、実際に閉じたときに**本文で**更新し、その後に再 hash する。**「別便で閉じた」という外部説明で本表を上書きしない。**
+>
+> **Rule 1 の受理条件ではない項目**: R-4(閉)。**受理条件である項目**: R-1・R-2・R-3・R-5・R-6・R-7・R-8。
+
+**R-1〜R-3・R-5〜R-8 が閉じるまで凍結 1 は受理されず、個別モデル探索コマンドは実行しない。**
+
+> **v1.3 の射程外(本文書が判定しないもの)**: 便 35 の blocker 4(第三 covariance の再実装 — $b_i,\tau_i,\rho_0,j_i$・actual local monodromy・$G_K$ 上の Kummer character・formal $a=1$ を同一 artifact 内で検査する)は**親 manifest 側の control** であり、Rule 1 の条項ではない(Rule 1 §8.4 は (5′) の量化子の規律だけを定める)。裁定 36 の配分どおり実装別便で閉じる。
