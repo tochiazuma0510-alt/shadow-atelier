@@ -639,3 +639,9 @@ $$ \mathrm{Ih}_N|_{G_K} = \iota\circ q\circ\kappa_{u^{-1}}. \tag{7.5} $$
 15. **【便 30 ★2】outer action の inner ambiguity は部分群の共役類には見えない。** だから field of moduli には (K3‡) の exact lift が不要(補題 Q)。**しかし actual marking と局所 $\tau$ には再び exact data が要る** — どの段が安くなり、どの段が安くならないかを取り違えない。
 
 > **記帳**: 本 addendum は依存表の更新のみ。定理 K3 の状態札(`paper-proof / two-mathematician audit PASS`)は不変。
+
+---
+
+## v3.3 erratum((P4) の conjugator リテラル訂正・2026-07-27・司令塔・裁定 28)
+
+(P4) 行に記載していた exact conjugator の数値は**転記ミス**であった。正典値は **h = [2,3,5,6,4,1]**(one-line・1-indexed・規約 = 委嘱 20 §1: 左作用ラベル付け・σ 三つ組は λ 割当整列済み・(p∘q)(i) = p(q(i))・共役 hxh⁻¹)。旧記載 [6,1,5,4,2,3] と旧割当 (x̄,ȳ,z̄) ↦ (σ₁,σ_∞,σ₀) はどの規約でも成立しない(Möbius 再整列の二重適用痕・S₆ 悉皆で解一意 = 上記正典値)。**load-bearing は search/week4-19a19e.mjs の 7/7 検算(正値で実行済み)であり、定理本文・検算結果に影響なし**。h は node 単系統(gap18a に conjugator 非格納)— Lean F29 が第二系統となる。v2 の同箇所も本 erratum の対象(凍結版につき本文不変)。
