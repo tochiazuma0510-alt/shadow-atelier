@@ -1,0 +1,25 @@
+{
+  "per_cert_ok": true,
+  "calibration_1": {
+    "ok": true,
+    "sizesMatch": true,
+    "injective": true,
+    "surjective": true,
+    "shadowMatched": 4,
+    "shadow1_count": 4,
+    "shadow2_count": 4,
+    "known_value_ok": true
+  },
+  "calibration_2": {
+    "known_value_ok": true
+  },
+  "negative_fixture": {
+    "ok": true
+  },
+  "self_test_corruption": {
+    "ok": true,
+    "note": "corrupted shadow_total must be REJECTED",
+    "verdict_ok": false
+  },
+  "all_ok": true
+}

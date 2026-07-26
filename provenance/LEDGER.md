@@ -368,3 +368,14 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 証明書: `certificates/e2c6/m6_j2_m{各可解m}.json`(40件、f0・K_generators・K_orders・ob_table 込み)。`crosscheck/check-e2c6.mjs`に`m6_multiplicity_table`claimの独立再検算(L_m全列挙をagree6_sol2.json系統で再構成し重複度表を再現)を追加。
 - **両系統検算: 全118証明書(fixture14+実走査64+M6用40)129 PASS・0 FAIL/REJECT/SKIP**。証明書全118件連結SHA-256=`a3c0bd8a10a9e1032790b6bcc427370e32dcf6554498bc504cba1357d49e6d80`。
 - M8(route G本物群積)は数学者エージェントによる設計検証のみ実施(collection_tableは[·,x]/[·,y]の交換子表・A はclass2でH(a)H(b)=H(a+b-κ(a,b))という閉形式一発・現行閉形式実装に符号バグ(+κであるべきところ-κ、mod2では消えるがmod4以上では効く)を発見、j≥3で要修正・司令塔裁定案件として記帳)。生成 GAP コード(FromTheLeftCollector版)・node検算スクリプトは数学者エージェントのスクラッチ領域のみに存在、本番スクリプトへの反映はしていない。解釈(なぜob_aが常に0か等)は本記帳では行わない — 機械事実のみ。
+
+## 2026-07-26 -- レベル16双子セル列挙機 v1: 建造+較正①②完了(implementer実行)
+
+- `search/twincell-enum.g`(行列mod L系統を新規実装・BuildMatQuotient/CheckMarkedBijection)+既存MakeGnで4窓(C8/C10/C16/K8)の建造完了。較正①(C8=K^(4)、行列mod8 vs D4^3のmarked factor map全単射)PASS・較正②(C10=N_A、行列mod10で|GT|=20再現)PASS。合成負例(level取り違えL=6)は正しくFAIL判定。標的窓(C16行列mod16・K8=MakeGn(8))はFIRE_twincell.auth未発行のため[LOCKED]、本走査未実施。`crosscheck/check-twincell.mjs`(独立node照合器、新規)で全証明書+較正+負例+自己テスト(証明書改竄検出)all_pass。証明書はcertificates/twincell/、詳細はdocs/notes/実装_双子セル.md。commit未実施。
+
+## 2026-07-26 — E2 class-6: kappa符号バグ修理+F7(route-G本物群積)恒久fixture+mod4再走(j=3前提準備・implementer実行)
+
+- **符号バグ修理**: `search/e2c6-sweep.g`・`crosscheck/check-e2c6.mjs` 両系統で `QThetaFullRaw`/`QNFullRaw` の kappa cocycle 項を `+Kappa` から `-Kappa` に訂正(class-5 実装 `Cs=-kappa` 規約・M8設計検証で確認済みのバグ)。**j=2 本番結果(実走査64件+M6用40件、計104証明書)は全てob値が修理前後でビット単位一致することを確認済み**(mod2では2*kappaの差が恒等的に消えるため、数学的に予見された通り)。
+- **F7新設(恒久fixture)**: `kappa_terms`のみから`FromTheLeftCollector`でPcpGroup(21生成子・class2・6個の交換子関係)を構築(`IsConfluent=true`)、θ/σ_m を「昇順Hall順で table[k]^{a_k} を群積」として自己同型に拡張、q_θ/q_N を**本物の群積**(θ(g)g、E_m·σ²(g)σ(g)g)で計算し、符号修理後の閉形式と mod4 で突合。**10ベクトル×(θ1+σ4 m値)=50評価、全50件が mod4 一致・かつ50/50が厳密整数一致**(route-G構築はkappa_termsのみから、closed formとは独立な計算経路)。証明書`certificates/e2c6/fixture_F7_routeG_crosscheck.json`、node側は同ファイルのclosed_form欄をagree6_sol2.json系統で独立再計算し一致確認(群積自体の独立再構築はnode側未実装・GAP限定と明記)。
+- **F1/F2/F6/M2/M3のmod4再走**: F1・F2・M2・M3は生の比較でR=2と同型の結果を維持(全PASS)。**F6(ob のq_N非依存性)は生の比較でR=4のとき一部(F6c)が R=2 と異なる値(ob_b: 1→3)を示した — これは実装バグでなく理論的に予見される境界**: 委嘱16 eq 0.3 の Ob≅R[2]a⊕(R/2R)b̄ という構造(b成分はR/2Rの商、Rそのものではない)により、(1+θ)K のu2成分は2R(R=2では自明に0だがR=4では{0,2}と非自明)であるため、q_N補正項がob_bを偶数だけ動かしうる(mod2では消える)。**mod2に還元すればF6c含め全て一致を再確認(F6再読解mod2は全PASS)**。この境界は委嘱16の自己申告(GAP-OB1: 「j≥3用の座標形は未導出」)と正確に整合し、実測で確認された形。**ob読み出し式そのものは今回変更していない**(j=3以降のご裁定・別manifestに委ねる)。
+- **発射錠**: j=2用のまま変更なし。64系実走査(j=3相当)は実行していない。
