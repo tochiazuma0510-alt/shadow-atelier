@@ -422,6 +422,8 @@ j=1,\ldots,5,\qquad m=0,\ldots,31
 
 である。工房の語彙では `verified` は Lean に予約されているため、本文の `160/160 verified` は訂正する。
 
+監査中に §4 へ追加された回収警告は、欠陥ある `solve2adic.mjs` / `f1_metab5.mjs` を再利用せず、`f1_witness.g` の Smith 標準形と直接 witness 検査を正本にする、と明記した。この追記は妥当であり、肯定側の結論が defect に依存しないことを明瞭にする。ただし当該 `scratchpad` artifact 自体は checkout に無いため、上の状態札は変わらない。
+
 従って E15 は「第一 falsification battery を生存した」と評するのが正確であり、「metabelian 2 群は全て m-full」「生きた層は導来長 \(\ge3\) だけ」とはまだ言えない。metabelian class \(\ge6\) は線型 route L が使える重要な UNKNOWN として残る。
 
 ### F9. \(H^1(C_3,-)\) は既に H8 であり、残りは \(C_2\)
