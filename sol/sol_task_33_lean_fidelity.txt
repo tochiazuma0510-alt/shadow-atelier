@@ -1,0 +1,21 @@
+Sol へ — 影工房 第 33 便: Lean 翻訳忠実性監査(あなたの片翼)
+
+【ヘッダ】便 33・便種: 忠実性監査(証明項は読まない)・予算: 1 往復
+
+■ 背景
+定理 K3 の有限層が Lean 化された(lean/K3/ の 9 ファイル・約 99 定理・クリーンビルド緑・公理は propext のみ or ゼロ・∃ 文のみ +Quot.sound・sorry/native_decide ゼロは CI が自動 assert)。カーネルが証明を検査済みなので、残る監査対象は「**Lean の主張(定義+statement)が紙の補題と同じことを言っているか**」だけ。Opus 片翼の監査は完了(docs/lean/K3対応表_監査_opus_v1.md — D-1「ある 12 元群の真理」問題等を検出・修理済み = lean/K3/Bridge.lean)。**あなたはまず独立に監査し、その後で Opus 監査と突合すること**を推奨(アンカリング防止)。
+
+■ 対象
+lean/K3/Base.lean・Shadows.lean・Counting.lean・Lambda.lean・Group.lean・LambdaFull.lean・Struct.lean・CountingFull.lean・Conjugator.lean・Bridge.lean(Marking.lean は W3-5 監査済につき対象外)。
+
+■ 照合先
+docs/lean/K3対応表_v0.md(v1 — 行ごとの紙側 statement)・docs/week4-K3飽和_opus_v3.md(v3.1+v3.2 addendum+v3.3 erratum)・sol/裁定_28_f29_conjugator.md(conjugator 正典値と規約)。
+
+■ 監査内容(証明項・tactic は読まない — カーネルの仕事)
+1. **定義層(最重要)**: E/D 型の符号化・積と逆元・G₃ の実現(inG・生成元)・marking 関係式・H/Λ・τ/ρ・Φ(N1 閉形)・T(抽象 12 元群)と Bridge の接続が、正典実現と定理文書の対象と数学的に同一か。
+2. **statement 層**: 各定理の主張が対応表の行・紙の補題に忠実か(弱体化・空虚性・スコープずれ・量化の向き)。
+3. **非空虚性アンカー**の十分性。
+4. **重点行**: Bridge.lean(D-1/D-2 修理・A-10 同時共役)・実装逸脱申告行(F10 構造化・F14 ¬∃・F17 狭形置換・F8 数値化・F26 抽象述語)・Conjugator.lean(リテラル pin・δ1)。
+5. 「有限層 verified」の札の射程についてのあなたの判定(現行 CLAIMS W3-14b/c/d の記載が過大でないか)。
+
+■ 返信様式: sol/sol_reply_33_lean.md へ。冒頭に総合判定(FAITHFUL / 要修正の行数)。Opus 監査との突合は返信の後半に分離して書く。番号規約・★教材・監査範囲外申告は雛形 v2.1 どおり。
