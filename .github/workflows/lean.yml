@@ -19,7 +19,13 @@ jobs:
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
 
       - name: lake build
-        run: lake build
-        # lake build type-checks lean/Marking.lean, which contains the proof-of-life theorem
-        # `marking_identity` (proved by `decide`) and a `#print axioms marking_identity` that
-        # prints its axiom dependencies to the build log -- a successful build IS the proof.
+        run: |
+          set -o pipefail
+          lake build 2>&1 | tee build.log
+        # lake build re-elaborates and kernel-checks every .lean file (Marking + K3).
+        # Each theorem carries a `#print axioms` that prints its axiom dependencies
+        # to the build log -- a successful build IS the proof.
+
+      - name: assert proof hygiene (no sorry, no native_decide)
+        run: |
+          ! grep -E "uses 'sorry'|sorryAx|ofReduceBool|ofReduceNat" build.log
