@@ -401,3 +401,23 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **【軽微・対応済み】**: check-twincell.mjsのper-cert出力ラベルに「[self-consistency of this certificate]」注記を追加(負例fixtureのPASS表示が「較正合格」と誤読されるのを防止)。A5-CONV適合テストをtwincell固有構成に対して明示実行(上記)。
 - **再実行結果(GAP+node二系統)**: 較正①PASS(matched=4/4)・較正②PASS(数値20+bijection matched=20/20+A5-CONV一致)・較正③はFIRE未解錠のため[LOCKED](既知値16との照合コードは接続済み、発射後に自動実行される)・負例fixture正しくFAIL判定PASS・証明書改竄自己テストPASS。`node crosscheck/check-twincell.mjs`: `check-twincell.mjs overall: all_pass`。
 - manifest本文への数値cap・エスカレーション先の明記(falsifier要求4)は司令塔対応事項のため本記帳では未対応。commit未実施。
+
+## 2026-07-26 -- レベル16双子セル列挙機 v1: 発射・標的2窓本走査(FIRE_twincell.auth解錠・implementer実行)
+
+- 司令塔発行`search/FIRE_twincell.auth`(内容=manifest v1現行SHA-256 `CB7EC23F...19D4`)により解錠。実行前に settled/isolated 判定コードが未実装だった欠落を発見・修理(`ComputeSettledIsolated`: 誘導写像 x|->x^u, y|->f^-1 y^u f が G 自身への全単射かを`GroupHomomorphismByImages`+`IsBijective`で判定、較正①②のmarked-factor-map機構の再利用)。修理中に別バグ(`WriteTwincellCert`ラッパーが値を返さない関数に`return`を付けていた"Function Calls: must return a value"エラー)も発見・即修正。
+- **𝒞₁₆(行列mod16, Q_16=<Xbar,Ybar><=SL(2,Z/16)/{+-I})機械事実(未知量・予測との突合なし)**: |Q_16|=256・staged counts(排他)= candidate_total=32, h10_fail=0, h11_fail=24, generation_fail=0, shadow_total(=|GT|)=**8**・settled=8/8・**isolated=true**。
+- **K^(8)(=MakeGn(8), Im(psi_8)<=D_8^3)機械事実**: |G_8|=256・staged counts= candidate_total=128, h10_fail=64, h11_fail=48, generation_fail=0, shadow_total(=|GT|)=**16**・settled=16/16・isolated=true。**較正③(既知値|GT|=16, Thm4.3/5.3 alpha=3): PASS**(GAP・node二系統とも)。
+- **走行時間**: GAP内部計測(Runtime()差分)219ms、外側PowerShell Stopwatch壁時計3017ms(gap.ps.1起動含む)。600秒capに対し十分小さく shard分割等は不要だった。
+- **node独立検算(`crosscheck/check-twincell.mjs`)**: settled/isolatedの独立再検証ロジックを新規追加(語のBFS+誘導写像の像サイズ判定、GAPの`GroupHomomorphismByImages`は使わない別実装)。全8証明書(較正分6件+標的2件)self-consistency PASS、較正①②③・負例fixture・証明書改竄自己テストすべてPASS。`check-twincell.mjs overall: all_pass`。
+- **証明書SHA-256(`certificates/twincell/`全8件)**:
+  - C8.matrix.v1.json = `9a5b958df6cec3d6e786007acd7993411ea8c7ac7604c1578a0625be139f2411`
+  - C8.d4cubed.v1.json = `463ad292fffbd1cf7d27d7d9d8122170af021fb090d3b251cdbb5ad0ae7ce89e`
+  - C10.matrix.v1.json = `69b617a72572ae09959501a106000c98baa27062703ba904b420facebb44dfb6`
+  - C10.a5permutation.v1.json = `daf5e669648249f2b62b6db7082e4a622866d27efe3573215b5f1467dfd7abd4`
+  - C8.matrix.v1.WRONG_LEVEL6_fixture.json = `b73f386985ef97a4e925b6395e89361e625bb69ada99080224fe595d93ad758b`
+  - C8.matrix.v1.Ybar_signflip_BONUS.json = `b441a1be9372be2d65ff93798d774f5e6c9e5d9b5c386b9f5cd5d933fee66d7d`
+  - **C16.matrix.v1.json(新規・標的) = `8ffc7a060b009dc4a3982c835db2630dcc9aba6f11920adbb9390bcd2008767f`**
+  - **K8.dncubed.v1.json(新規・標的) = `fec658d830e4aa92bf1e8f9f59c71d3b9c73c2dff0b49e7aa77c2374c3b2c413`**
+  - calibration_summary.v1.json = `77ef30aa8e39f42c4ac45429e7e3cfb4d5f643571ee6b93c6a9bc06a5515c670`
+  - 上記9件連結SHA-256 = `55fd53374b152db16ed7c2c5d4388ec33513c3ae69c53c81eda273f65e6d3bfc`
+- 𝒞₁₆の|GT|=8・settled 8/8・isolated=trueは観測事実として記帳するのみ — 解釈・予測との比較は行っていない(司令塔指示「観測が先」)。commit未実施。

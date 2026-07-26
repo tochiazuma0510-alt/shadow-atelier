@@ -140,7 +140,11 @@ RunWindow := function(label, qrec)
              pb3_index:=Size(qrec.G));
 end;;
 
-WriteTwincellCert := function(path, label, construction, run, extra)
+# WriteTwincellCertFull: writes a gtsh-cert/twincell-v1 certificate with an explicit isolatedJson
+# value (a JSON scalar string, e.g. "\"UNKNOWN\"" or "true"/"false") -- used for target windows
+# once settled/isolated has actually been computed (falsifier/司令塔 発射指示: settled/isolated・
+# kernel 証明書 も本走査の観測量に含める).
+WriteTwincellCertFull := function(path, label, construction, run, extra, isolatedJson)
   local genDetailJson, gd, gtShadowsJson, sh, s;
   genDetailJson := [];;
   for gd in run.result.generation_detail do
@@ -167,9 +171,51 @@ WriteTwincellCert := function(path, label, construction, run, extra)
     "\"shadow_sum_identity\":", JB(run.shadowSumOk), ",",
     "\"generation_detail\":", JArr(genDetailJson), ",",
     "\"gt_shadows_observed\":", JArr(gtShadowsJson), ",",
-    extra, "\"isolated\":\"UNKNOWN\"}");;
+    extra, "\"isolated\":", isolatedJson, "}");;
   WriteFile(path, s);;
   Print("wrote ", path, "\n");
+end;;
+
+# WriteTwincellCert: thin wrapper, isolated always "UNKNOWN" (calibration windows -- settled/isolated
+# not computed there, out of scope for this manifest's calibration windows).
+WriteTwincellCert := function(path, label, construction, run, extra)
+  WriteTwincellCertFull(path, label, construction, run, extra, "\"UNKNOWN\"");
+end;;
+
+# ================================================================================
+# settled/isolated(week1-定義ノート.md §2, Thm 3.10 の定義に厳密に従う):
+# settled: ker(T_{m,f}) = N -- 同値に、induced map T_{m,f}: x|->x^u, y|->f^-1 y^u f が
+# G=Q/N 自身の自己同型(全単射)であること。これは GroupHomomorphismByImages(G,G,[x,y],
+# [targetX,targetY]) を構成し IsBijective で判定すれば計算できる(Aut(G) の全列挙は不要 --
+# 較正①②で使った marked-factor-map の仕組みと全く同じ機構の再利用)。
+# isolated: 全 shadow が settled ⇒ GT(N) = GTSh(N,N) は有限群(Prop 3.14 系)。
+# ================================================================================
+ComputeSettledIsolated := function(qrec, result)
+  local settledDetail, sh, isSettled, m, u, targetX, targetY, hom, settledCount;
+  settledDetail := [];;  settledCount := 0;;
+  for sh in result.shadows do
+    m := sh.m;;  u := 2*m+1;;
+    targetX := qrec.x^u;;
+    targetY := AbstractProd([sh.f^-1, qrec.y^u, sh.f]);;   # paper "f^-1 y^u f" -> AbstractProd convention
+    hom := GroupHomomorphismByImages(qrec.G, qrec.G, [qrec.x, qrec.y], [targetX, targetY]);;
+    if hom = fail then isSettled := false;
+    else isSettled := IsBijective(hom); fi;
+    if isSettled then settledCount := settledCount + 1; fi;
+    Add(settledDetail, rec(m:=m, f_word:=sh.word, settled:=isSettled));
+  od;
+  return rec(settled_detail:=settledDetail, settled_count:=settledCount,
+             total:=Length(result.shadows),
+             isolated:=(Length(result.shadows) > 0 and settledCount = Length(result.shadows)));
+end;;
+
+SettledDetailToJson := function(si)
+  local items, sd;
+  items := [];;
+  for sd in si.settled_detail do
+    Add(items, Concatenation("{\"m\":", String(sd.m), ",\"f_word\":", WordToJson(sd.f_word),
+        ",\"settled\":", JB(sd.settled), "}"));
+  od;
+  return JArr(items);
 end;;
 
 # ================================================================================
@@ -331,10 +377,20 @@ else
   Print("C16 matrix-mod-16: |Q_16| = ", c16mat.order, "\n");
   qrecC16mat := rec(x:=c16mat.x, y:=c16mat.y, c:=c16mat.c, G:=c16mat.G);;
   runC16mat := RunWindow("C16_matrix_mod16", qrecC16mat);;
-  WriteTwincellCert("certificates/twincell/C16.matrix.v1.json", "C16_matrix_mod16",
+  c16Settled := ComputeSettledIsolated(qrecC16mat, runC16mat.result);;
+  Print("C16 settled: ", c16Settled.settled_count, "/", c16Settled.total,
+        " shadows settled; isolated=", c16Settled.isolated, "\n");
+  WriteTwincellCertFull("certificates/twincell/C16.matrix.v1.json", "C16_matrix_mod16",
     Concatenation("Q_16 = <Xbar,Ybar> <= SL(2,Z/16)/{+-I}, Xbar=", MatToStrL(c16mat.xMat),
                   ", Ybar=", MatToStrL(c16mat.yMat)),
-    runC16mat, "");
+    runC16mat,
+    Concatenation("\"kernel_certificate\":{\"kernel_scope\":\"PB3\",\"pb3_kernel_index\":",
+      String(runC16mat.pb3_index), ",\"b3_kernel_index\":", String(6*runC16mat.pb3_index),
+      ",\"justification\":\"N = ker(F2 ->> Q_16), Q_16 = <Xbar,Ybar> <= SL(2,Z/16)/{+-I} (2401 (3.32))\"},",
+      "\"settled_count\":", String(c16Settled.settled_count),
+      ",\"settled_total\":", String(c16Settled.total),
+      ",\"settled_detail\":", SettledDetailToJson(c16Settled), ","),
+    JB(c16Settled.isolated));
 
   gn8 := MakeGn(8);;
   Print("K^(8) (MakeGn(8)): |G_8| = ", Size(gn8.G), " (expect saturated |GT|=16 per Thm 5.3)\n");
@@ -351,9 +407,19 @@ else
     Print("  [ANOMALY] CALIBRATION 3 MISMATCH -- K^(8) observed shadow_total != 16, report to commander immediately\n");
   fi;
 
-  WriteTwincellCert("certificates/twincell/K8.dncubed.v1.json", "K8_MakeGn8",
+  k8Settled := ComputeSettledIsolated(qrecK8, runK8.result);;
+  Print("K8 settled: ", k8Settled.settled_count, "/", k8Settled.total,
+        " shadows settled; isolated=", k8Settled.isolated, "\n");
+  WriteTwincellCertFull("certificates/twincell/K8.dncubed.v1.json", "K8_MakeGn8",
     "K^(8) = Im(psi_8) <= D_8^3, x=(r,s,s), y=(rs,r,rs) (D1 (3.1)/(3.6))",
-    runK8, "");
+    runK8,
+    Concatenation("\"kernel_certificate\":{\"kernel_scope\":\"PB3\",\"pb3_kernel_index\":",
+      String(runK8.pb3_index), ",\"b3_kernel_index\":", String(6*runK8.pb3_index),
+      ",\"justification\":\"N = K^(8) = ker(psi_8), D1 (3.1); K^(8) = Im(psi_8) <= D_8^3 (2401 (3.32) analog)\"},",
+      "\"settled_count\":", String(k8Settled.settled_count),
+      ",\"settled_total\":", String(k8Settled.total),
+      ",\"settled_detail\":", SettledDetailToJson(k8Settled), ","),
+    JB(k8Settled.isolated));
 fi;
 
 # ================================================================================

@@ -328,8 +328,39 @@ function checkCert(cert, opts = {}) {
   }
   if (genMismatches > 0) errors.push(`${genMismatches} generation_detail mismatches on independent re-evaluation`);
 
+  // ---- settled/isolated (only checked when the certificate actually claims settled_detail --
+  // calibration windows C8/C10 don't compute this, target windows C16/K8 do per the fire
+  // instructions). settled: the induced map x->x^u, y->f^-1 y^u f is a BIJECTION of G onto itself
+  // (own re-derivation via word-transport, not reusing GAP's GroupHomomorphismByImages result) ----
+  let settledObserved = null;
+  if (Array.isArray(cert.settled_detail)) {
+    const { wordOf, elements } = bfsWords(G, X, Y);
+    let settledCount = 0;
+    const detail = [];
+    for (const sd of cert.settled_detail) {
+      const m = sd.m, u = 2 * m + 1;
+      const f = evalWordPrepend(G, X, Y, sd.f_word);
+      const targetX = G.pow(X, u);
+      const targetY = G.mul(G.mul(f, G.pow(Y, u)), G.inv(f));
+      const imageSet = new Set();
+      for (const elt of elements) {
+        const w = wordOf.get(G.key(elt));
+        imageSet.add(G.key(evalWordPrepend(G, targetX, targetY, w)));
+      }
+      const isSettled = imageSet.size === elements.length; // finite set, well-defined map: |image|=|domain| <=> bijective
+      if (isSettled) settledCount++;
+      if (isSettled !== sd.settled) errors.push(`settled mismatch for m=${m}: claimed=${sd.settled} observed=${isSettled}`);
+      detail.push({ m, settled: isSettled });
+    }
+    const isolatedObserved = detail.length > 0 && settledCount === detail.length;
+    settledObserved = { settled_count: settledCount, total: detail.length, isolated: isolatedObserved };
+    if (cert.settled_count !== settledCount) errors.push(`settled_count claimed=${cert.settled_count} observed=${settledCount}`);
+    if (cert.settled_total !== detail.length) errors.push(`settled_total claimed=${cert.settled_total} observed=${detail.length}`);
+    if (cert.isolated !== isolatedObserved) errors.push(`isolated claimed=${cert.isolated} observed=${isolatedObserved}`);
+  }
+
   const ok = errors.length === 0;
-  return { ok, errors, observed: { pb3_index: pb3Index, b3_points: b3Points, n_ord: nOrd, charming_set: charmingSet, derived_order: derivedOrder, candidate_total: candidateTotal, hexagon_free_certificate: { candidate_total: observed.candidate_total, h10_fail: observed.h10_fail, h11_fail: observed.h11_fail, generation_fail: observed.generation_fail, shadow_total: observed.shadow_total } }, G, X, Y, genMap, shadows: observed.shadows };
+  return { ok, errors, observed: { pb3_index: pb3Index, b3_points: b3Points, n_ord: nOrd, charming_set: charmingSet, derived_order: derivedOrder, candidate_total: candidateTotal, hexagon_free_certificate: { candidate_total: observed.candidate_total, h10_fail: observed.h10_fail, h11_fail: observed.h11_fail, generation_fail: observed.generation_fail, shadow_total: observed.shadow_total }, settled: settledObserved }, G, X, Y, genMap, shadows: observed.shadows };
 }
 
 function orderOf(G, g) { let k = 1, p = g; while (!G.eq(p, G.id)) { p = G.mul(p, g); k++; } return k; }
