@@ -186,9 +186,9 @@ $$ K\ \ge\ (r_{\bar m}+1)\,d+c,\qquad d:=2(c-2) $$
 
 | $c$ | $n=\binom c2$ | $d=2(c-2)$ | 観測 $r$(全剰余類共通) | 必要 $K=(r{+}1)d+c$ | 必要な $m$ の上限 $7+8K$ | 状態 |
 |---|---|---|---|---|---|---|
-| 3 | 3 | 2 | **2** | 9 | 79 | **済** `node docs/scout/metab_rank.mjs 3 80` — **CLOSED** |
-| 4 | 6 | 4 | **4** | 24 | 199 | **済** `node docs/scout/metab_rank.mjs 4 260` — **CLOSED** |
-| 5 | 10 | 6 | **8** | 59 | 479 | **済** `node docs/scout/metab_rank.mjs 5 480` — **CLOSED** |
+| 3 | 3 | 2 | **2** | 9 | 79 | **単系統・GAP 照合待ち** `node docs/scout/metab_rank.mjs 3 80`(falsifier 掃引v3ゲート指摘 F#1 反映: GAP 独立再現前は CLOSED と書かない) |
+| 4 | 6 | 4 | **4** | 24 | 199 | **単系統・GAP 照合待ち** `node docs/scout/metab_rank.mjs 4 260` |
+| 5 | 10 | 6 | **8** | 59 | 479 | **単系統・GAP 照合待ち** `node docs/scout/metab_rank.mjs 5 480` |
 | 6 | 15 | 8 | **11** | 102 | **823** | **要実行** `node docs/scout/metab_rank.mjs 6 830` |
 | 7 | 21 | 10 | **16** | 177 | **1423** | **要実行** `node docs/scout/metab_rank.mjs 7 1430` |
 

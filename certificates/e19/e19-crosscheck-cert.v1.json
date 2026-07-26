@@ -1,0 +1,33 @@
+{
+  "schema": "e19-crosscheck-cert/v1",
+  "target": "theorem E19 (c=3..7, m=0..63) -- sections 1-3 of docs/week4-E19二系統化指示書_v1.md",
+  "comparison_mode": "B_ranks_and_witness",
+  "model_hash_check": {
+    "pairs_checked": 320,
+    "mismatches": 0,
+    "note": "byte-identical M,b serialization between route N (docs/scout/metab.mjs, modified to dump per F8-3) and route G (search/e19.g, independently re-derived from the spec, not ported from metab.mjs)"
+  },
+  "linear_algebra_check": {
+    "pairs_checked": 320,
+    "snf_postconditions_pass": 320,
+    "all_Z2_solvable": true,
+    "all_Q_solvable": true,
+    "all_max_v2_divisor_zero": true,
+    "note": "GAP SmithNormalFormIntegerMatTransforms postconditions (unimodularity, UMV recheck, diagonal, divisibility chain, rank count) verified for all 320 pairs; node side (metab.mjs) uses its own non-canonical integer diagonalization (not SNF) per the instruction doc sec.2.1 rationale -- comparison mode B (ranks+solvability+witness), not canonical-divisor byte-equality (mode A)"
+  },
+  "witness_check": {
+    "pairs_checked": 5,
+    "note": "one per class (c=3..7, m=0), residual M*x-b recomputed directly and confirmed exactly zero on both sides"
+  },
+  "self_tests": {
+    "node": "13/13 PASS (exit 0)",
+    "gap": "13/13 PASS, independently re-derived (not ported)"
+  },
+  "verdict": "all_pass",
+  "E19b_prime_extension_c6_c7": "NOT EXECUTED this pass -- out of core scope of workorder5 item2 (which asked for the 3-stage check on the registered dump, sections 1-3); the m-quantifier closure for c=6,7 (section 4, up to m=823/1423) remains 候補/単系統 as already marked in the instruction doc",
+  "provenance": {
+    "gap_version": "4.16.0",
+    "script_sha256_metab_mjs_before_patch": "45cea39cd2a3fd80c999db21c5411b32202a50dfa744e48b0a86863f08fc09d9",
+    "note": "metab.mjs was modified in this pass (F8-3 dump feature + F8-4 exit(1) on self-test failure); pre-patch hash recorded above for provenance, post-patch hash should be recomputed by LEDGER maintainer"
+  }
+}

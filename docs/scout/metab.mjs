@@ -143,6 +143,47 @@ TT("E_3 = [-6,10,-4,-15,5,-1]", toVec(Em(3)).join(",")===[-6n,10n,-4n,-15n,5n,-1
     const v=apv(N,[0n,1n,1n,0n,0n,0n]); if(v.join(",")!==[0n,0n,0n,3n,3n,3n].join(","))ok=false;}
   TT("Lemma A : N(p+q) = 3(r1+r2+r3), independent of m", ok); }
 console.log(fails?`\n*** ${fails} SELF-TEST FAILURES -- results below are void ***\n`:"\n--- all self-tests passed ---\n");
+if (fails) { console.error(`FATAL: ${fails} self-test failures -- exiting nonzero (F8-4)`); process.exit(1); }
+
+// ---------- F8-3 dump: serialize M,b per docs/week4-E19二系統化指示書_v1.md sec.1.4, with hashes ----
+import { createHash } from 'node:crypto';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+const __dirname_ = dirname(fileURLToPath(import.meta.url));
+const DUMP_DIR = join(__dirname_, '..', '..', 'certificates', 'e19');
+function sha256hex(s) { return createHash('sha256').update(s, 'utf8').digest('hex'); }
+function dumpSystem(c, m, rows, rhs) {
+  mkdirSync(DUMP_DIR, { recursive: true });
+  const rowStrs = rows.map((r) => r.map((x) => x.toString()).join(','));
+  const Mstr = rowStrs.join(';');
+  const bStr = rhs.map((x) => x.toString()).join(',');
+  const MHash = sha256hex(Mstr);
+  const bHash = sha256hex(bStr);
+  const content = `M=${Mstr}\nb=${bStr}\n`;
+  writeFileSync(join(DUMP_DIR, `system_c${c}_m${m}.txt`), content);
+  return { MHash, bHash };
+}
+const DUMP_CMIN = Number(process.env.E19_DUMP_CMIN || 0), DUMP_CMAX = Number(process.env.E19_DUMP_CMAX || -1);
+if (DUMP_CMAX >= DUMP_CMIN) {
+  console.log(`\n=== dumping M,b for c=${DUMP_CMIN}..${DUMP_CMAX}, m=0..${MMAX} (F8-3) ===`);
+  const hashLog = [];
+  for (let c = DUMP_CMIN; c <= DUMP_CMAX; c++) {
+    setClass(c); const n = BASIS.length;
+    const th = matOf(thetaP), OT = ma(idm(n), th);
+    for (let m = 0; m <= MMAX; m++) {
+      const sm = matOf((f) => sigmaP(f, m)); const N = ma(idm(n), sm, mm(sm, sm));
+      const b = toVec(Em(m));
+      const rows = [], rhs = [];
+      for (let i = 0; i < n; i++) { const r = new Array(n).fill(0n); for (let k = 0; k < n; k++) r[k] = OT[k][i]; rows.push(r); rhs.push(0n); }
+      for (let i = 0; i < n; i++) { const r = new Array(n).fill(0n); for (let k = 0; k < n; k++) r[k] = N[k][i]; rows.push(r); rhs.push(-b[i]); }
+      const { MHash, bHash } = dumpSystem(c, m, rows, rhs);
+      hashLog.push({ c, m, M_content_hash: MHash, b_content_hash: bHash });
+    }
+  }
+  writeFileSync(join(DUMP_DIR, 'node_hashes.json'), JSON.stringify(hashLog));
+  console.log(`wrote ${hashLog.length} dump files + node_hashes.json to ${DUMP_DIR}`);
+}
 
 // ======================= main sweep ========================================
 console.log("class | rank A | m-range | Z_2-solvable for all m ? | max v2(elementary divisor) | note");
