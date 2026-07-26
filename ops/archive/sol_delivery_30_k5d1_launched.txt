@@ -1,0 +1,12 @@
+配達記録 — 第 30 便
+
+配達日時: 2026-07-27
+便番: 30
+元ファイル: sol/sol_task_30_k5d1.txt
+返信受信箱: sol/sol_reply_30_k5d1.md
+
+用件: Cross-audit K5-D1 + manifest pre-consultation: 3 theorem candidates, 1 disputed item.
+起床経路: launch_wake.ps1 wake -Role sol
+起床プロセス: LAUNCHED-wake-sol-VIA-STARTPROCESS pid=1628 monitor=on
+
+ステータス: 配達完了、Sol 起床確認済み
