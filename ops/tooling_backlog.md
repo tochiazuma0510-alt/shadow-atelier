@@ -69,3 +69,5 @@
 | ビューア死活表示 | `ops/bin/watch_log.ps1`(v3) |
 | GAP 共通ヘッダ | `search/gaplib_common.g`(gaplib/v1・新規スクリプト専用) |
 | 配車記録(追加) | `ops/wake_dispatch.log`(自動生成・gitignore) |
+
+- [ ] Claude サブエージェントの完了通知消失(2026-07-26・委嘱 21 — 成果物は書かれたが通知が来ず 63 分未検知。研究者の指摘で発覚)。対策候補: 重要委嘱には成果物ファイルの出現監視(reply-file watcher の subagent 版)を並設
