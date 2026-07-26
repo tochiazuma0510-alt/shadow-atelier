@@ -11,7 +11,15 @@
 //
 // 実行: node crosscheck/check-r5-r8-ninf-fail-closed.mjs
 
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { loadModel, loadModelNinf, extractPathB_Ninf } from './u-extract-pathB-lib.mjs';
+import { compareMain } from './u-compare.mjs';
+import { compareNinf } from './u-compare-ninf.mjs';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
 
 let pass = 0, fail = 0;
 function expectThrow(name, fn) {
@@ -138,6 +146,121 @@ expectThrow("R-8/I-m(便37 F3): branch='W' with P0_type='Weierstrass' must be re
 expectOk("R-8(便37 F3): branch='N_aff' with P0_type='Weierstrass' is the only branch allowed to have P0 Weierstrass", () => {
   loadModel({ ...validMainRaw, branch: 'N_aff', P0_type: 'Weierstrass' });
 });
+
+// ============================================================================
+// 裁定 39/便 38 F2(R-8 schema gate の fail-closed 化): 第三 checker
+// (crosscheck/u-compare.mjs / u-compare-ninf.mjs)自体への 5 攻撃。
+//
+// 便 38 F2.3 が実証したとおり、上の 18 件は crosscheck/u-extract-pathB-lib.mjs
+// の loadModel/loadModelNinf(ローダー)の branch/P0_type 分岐だけを検査して
+// おり、第三 checker(u-compare.mjs/u-compare-ninf.mjs)の schema 欠落・方向
+// 交換・(N∞) の P0_type 欠落・禁止 field 混入・必須 field 欠落は一件も
+// 試していなかった(旧第三 checker はこれら 5 攻撃すべてを ACCEPT していた)。
+// 本節は保存済みの正当な raw/bundle 証明書(K3 main-path・prod-ninf-M10)を
+// 出発点に、便 38 F2.3 と同じ 5 攻撃を実際に compareMain()/compareNinf() へ
+// in-process で投入し、INTEGRITY_STOP になることを確認する。
+// ============================================================================
+
+function expectStop(name, report) {
+  if (report && report.result === 'INTEGRITY_STOP') {
+    console.log(`[PASS] ${name}: rejected as expected -- ${report.reason}`);
+    pass++;
+  } else {
+    console.log(`[FAIL] ${name}: expected INTEGRITY_STOP, got ${report ? report.result : report}`);
+    fail++;
+  }
+}
+function expectAccept(name, report) {
+  if (report && report.result === 'ACCEPT') {
+    console.log(`[PASS] ${name}: accepted as expected`);
+    pass++;
+  } else {
+    console.log(`[FAIL] ${name}: expected ACCEPT, got ${report ? report.result + ' -- ' + report.reason : report}`);
+    fail++;
+  }
+}
+
+// ---- fixtures: K3 main-path (schema u-pathA/v3 / u-pathB/v3) ----
+const k3A = JSON.parse(readFileSync(join(ROOT, 'certificates/k5pipeline/K3-regression-u-pathA.json'), 'utf8'));
+const k3B = JSON.parse(readFileSync(join(ROOT, 'certificates/k5pipeline/K3-regression-u-pathB.json'), 'utf8'));
+const k3Bundle = JSON.parse(readFileSync(join(ROOT, 'certificates/k5fixture/K3-regression-model.json'), 'utf8'));
+
+// baseline sanity: unmodified fixtures still ACCEPT (proves the 5 attacks
+// below are the *cause* of rejection, not some unrelated fixture drift).
+expectAccept('baseline: unmodified K3 main-path raw ACCEPTs', compareMain(k3A, k3B, k3Bundle));
+
+// ---- attack 1: schema field missing (K3 pathA) ----
+{
+  const { schema, ...badA } = k3A;
+  expectStop('攻撃1(main): K3 pathA.schema 欠落は拒否される', compareMain(badA, k3B, k3Bundle));
+}
+
+// ---- attack 2: schema names swapped between pathA/pathB (K3) ----
+{
+  const swappedA = { ...k3A, schema: 'u-pathB/v3' };
+  const swappedB = { ...k3B, schema: 'u-pathA/v3' };
+  expectStop('攻撃2(main): K3 pathA/pathB の schema 名交換は拒否される', compareMain(swappedA, swappedB, k3Bundle));
+}
+
+// ---- fixtures: production (N_infty) (schema u-pathA-ninf/v2 / u-pathB-ninf/v2) ----
+const ninfA = JSON.parse(readFileSync(join(ROOT, 'certificates/k5pipeline/prod-ninf-M10-pathA.json'), 'utf8'));
+const ninfB = JSON.parse(readFileSync(join(ROOT, 'certificates/k5pipeline/prod-ninf-M10-pathB.json'), 'utf8'));
+const ninfBundle = JSON.parse(readFileSync(join(ROOT, 'certificates/k5pipeline/prod-ninf-M10-bundle.json'), 'utf8'));
+
+expectAccept('baseline: unmodified production (N_infty) raw ACCEPTs', compareNinf(ninfA, ninfB, ninfBundle));
+
+// ---- attack 1 (N_infty variant): schema and P0_type both missing ----
+{
+  const { schema: sA, P0_type: pA, ...badA } = ninfA;
+  const { schema: sB, P0_type: pB, ...badB } = ninfB;
+  expectStop('攻撃1(N_infty): schema と P0_type の同時欠落は拒否される', compareNinf(badA, badB, ninfBundle));
+}
+
+// ---- attack 2 (N_infty variant): schema names swapped between pathA/pathB ----
+{
+  const swappedA = { ...ninfA, schema: 'u-pathB-ninf/v2' };
+  const swappedB = { ...ninfB, schema: 'u-pathA-ninf/v2' };
+  expectStop('攻撃2(N_infty): production raw の pathA/pathB schema 名交換は拒否される', compareNinf(swappedA, swappedB, ninfBundle));
+}
+
+// ---- attack 3: (N_infty) P0_type missing alone (schema kept intact) ----
+{
+  const { P0_type, ...badA } = ninfA;
+  const { P0_type: p2, ...badB } = ninfB;
+  expectStop('攻撃3: production (N_infty) raw の P0_type 欠落は拒否される', compareNinf(badA, badB, ninfBundle));
+}
+
+// ---- attack 4: forbidden fields x0/y0 injected into an (N_infty) raw ----
+{
+  const badA = { ...ninfA, x0: '0', y0: '1' };
+  const badB = { ...ninfB, x0: '0', y0: '1' };
+  expectStop('攻撃4: production (N_infty) raw への禁止 field x0/y0 混入は拒否される', compareNinf(badA, badB, ninfBundle));
+}
+
+// ---- attack 5: required fields a_M/b_Mm3 removed from an (N_infty) raw ----
+{
+  const { a_M, b_Mm3, ...badA } = ninfA;
+  const { a_M: a2, b_Mm3: b2, ...badB } = ninfB;
+  expectStop('攻撃5: production (N_infty) raw の必須 field a_M/b_Mm3 欠落は拒否される', compareNinf(badA, badB, ninfBundle));
+}
+
+// ---- combined attack (便38 F2.3 悪意入力 5.そのもの): x0/y0 混入 と
+// a_M/b_Mm3 欠落を同時に行う ----
+{
+  const badA = { ...ninfA, x0: '0', y0: '1' };
+  delete badA.a_M; delete badA.b_Mm3;
+  const badB = { ...ninfB, x0: '0', y0: '1' };
+  delete badB.a_M; delete badB.b_Mm3;
+  expectStop('便38 F2.3 攻撃5(結合形): x0/y0 混入 + a_M/b_Mm3 欠落の同時攻撃は拒否される', compareNinf(badA, badB, ninfBundle));
+}
+
+// ---- extra: independently-recomputed a_M/b_Mm3 must match the declared
+// value (not just "field present") -- a forged a_M that disagrees with the
+// coefficient list must also be rejected ----
+{
+  const badA = { ...ninfA, a_M: String(BigInt(ninfA.a_M) + 1n) };
+  expectStop('裁定39 F2 追加: a_M の明示値が係数列からの再抽出値と食い違えば拒否される', compareNinf(badA, ninfB, ninfBundle));
+}
 
 console.log(`\n=== ${pass}/${pass + fail} PASS ===`);
 if (fail > 0) process.exitCode = 1;
