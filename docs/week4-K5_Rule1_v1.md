@@ -1,6 +1,26 @@
-# 凍結 1(Rule 1)候補文書 — $K^{(5)}$ 橋の規約・正規形・抽出手順 v1
+# 凍結 1(Rule 1)候補文書 — $K^{(5)}$ 橋の規約・正規形・抽出手順 v1.1
 
 2026-07-27 起草: Claude(数学者レイヤー・Opus 5)。**司令塔委嘱**。上位文書: `docs/manifest_k5_v1.md` v1.2 §「BRIDGE-IN 構築の独立性」1.・`sol/sol_reply_31_manifest.md` F4.1/F5/F9.3・`sol/裁定_29_ben31.md` 7。姉妹文書: `docs/week4-K5_S5設計_opus_v1.md`。
+
+**v1.1(2026-07-27・便 32 P2/P6 + 裁定 31 の修理)。**
+
+## v1 → v1.1 差分表
+
+| # | 箇所 | v1 | v1.1 | 出典 |
+|---|---|---|---|---|
+| D1 | §2.2 **M3** | 「すべての係数を $\mathbb Z$ に入れる」(方法未定義) | 明示の既定手続き(分母 lcm)+ **どの clearing でもよい**ことを明記 | 便 32 F2.2 / P2 |
+| D2 | §2.2 **M4** | 「重み付き content が極小」(被 floor 数なし・アルゴリズムでない) | **total algorithm** $\mathrm{wp}$: 重み $w_j$・素数ごとの $k_p=\min_{A_j\ne0}\lfloor v_p(A_j)/w_j\rfloor$・$\tau_+=\prod p^{k_p}$・$A_j\mapsto A_j/\tau_+^{w_j}$。零係数は min から除外、符号単元は M5 へ | 便 32 F2.2 (2.1)(2.2) |
+| D3 | **§2.4(新設)** | — | **補題 R1-N1(denominator clearing 非依存性)**・**補題 R1-N2(残余 $=\{\pm1\}$・有限性)**+系(§3.1 の根拠)+計算可能性の注 | 便 32 F2.2「短く証明する」 |
+| D4 | §2.3 (M-B) | $y^2=a(x)^2+c_5x^5$ | 符号修理($c_N$ 規約)。**M-B は第一次規則へ昇格しない**・discovery に使うなら sealed automation の別 schema | 便 32 F2.3 / F4.4 |
+| D5 | §3.1 | 「有限性の証明義務」(未履行) | 補題 R1-N2 で**両枝とも証明済み**。U-b は fail-closed の札として存続 | 便 32 F2.2 |
+| D6 | §4.1 の参考行 | $a(x_0)=0\Rightarrow\operatorname{ord}_{P_0}(\mu)=1$ | **直接証明**($a(x_0)=0\Rightarrow(x-x_0)^2\mid f_5\Rightarrow$ 特異)へ差替え | 便 32 F4.4 末尾 |
+| D7 | §5.2 U-2 | 「モデルの単項式順序(固定)」(未定義) | **単項式順序 $(\mathrm{pol},b,a)$ 昇順辞書式**・**ambient $\mathcal A(n)$ の明示**・RREF の対象空間を $L(n_0P_\infty-P_0)$ と明記・存在の証明 | 便 32 F2.1 |
+| D8 | §9.1 U-c | 条件のみ(予算値は §11) | **作用行に 600 秒を移記**(同 campaign 内で上限を増やして再分類しない) | 便 32 F2.5 / P6 |
+| D9 | §11 論点 1–6 | 未決 | **1–6 すべて決着**(I-b 厳格版採用・M-B 非昇格・R1-C 非緩和・B-ii 独立・U-c 600 秒・文献ゲート 02 PASS) | 便 32 F2.1/F2.3/F2.4/F2.5・裁定 31 |
+
+> **digest 注意(P7)**: 本改訂で canonical serialization が変わる。§10-1 の sha256 は**再取得を要する**(司令塔)。
+>
+> **起草時点の申告(再掲・v1.1 でも不変)**: 本改訂の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。v1.1 で新たに行った機械計算は、**§2.4 の補題を無作為な有理係数ベクトルで確認する検算スクリプト 1 本のみ**(`search/wp-check.mjs`(司令塔が恒久化・再走 11649/0 再現)・整数演算・曲線データを入力に持たない・11649 検査すべて一致)。探索コマンドは依然として一度も実行していない。
 
 ---
 
@@ -23,13 +43,24 @@
 
 ### 0.3 本文書が依存していないもの(頑健性の設計)
 
-`docs/week4-K5_S5設計_opus_v1.md` の命題 S5-1/S5-2/S5-3(ブロック構造・$\lambda = c\mu^2$・正規形)は**単系統・未監査**である。**したがって本文書の第一次規則(§2 の (M-A))は、これらに一切依存しない形で書いてある。** S5 設計の結果は §2 の (M-B)(整合検査)と §6 の副経路にのみ現れ、そこが崩れても Rule 1 は生きる。
+**したがって本文書の第一次規則(§2 の (M-A))は、`docs/week4-K5_S5設計_opus_v1.md` の命題群に一切依存しない形で書いてある。** S5 設計の結果は §2 の (M-B)(整合検査)と §6 の副経路にのみ現れ、そこが崩れても Rule 1 は生きる。
 
-**例外(依存を明示)**: §9 の停止条件 I-b(**$\lambda=c\mu^2$ の $c$ の平方類の漏洩禁止**)は命題 S5-4 に依存する。ただしこれは**禁止を増やす向き**の依存であり、命題 S5-4 が誤りでも安全側に倒れる。
+**v1.1 での S5 側の監査状態の更新**(便 32 F4):
+
+| S5 側の主張 | 便 32 の判定 | Rule 1 での使われ方 |
+|---|---|---|
+| 補題 S5-B(唯一のブロック系)・命題 S5-1($\operatorname{ord}=5$)・命題 S5-2($\lambda=c\mu^2$) | **PASS**(紙上証明が通る。有限群部分は cross-checked artifact として受理・**Lean の `verified` ではない**) | §9 I-g(A8 の破れで stop)・§6.2 の補助経路 B′ |
+| **命題 S5-3(曲線の二枝正規形)** | **差戻し**(符号・gauge の不整合)→ **S5 設計 v1.1 で修理**。なお**単系統・未監査**(機械照合は受けていない — ★教材 22) | §2.3 (M-B)・§4.1 の参考行のみ。**第一次規則は依存しない** |
+| 命題 S5-4((P1) $\iff c\in K^{\times2}$) | **PASS** | §8.5・**§9 I-b**(下記) |
+
+**例外(依存を明示)**: §9 の停止条件 I-b(**$\lambda=c\mu^2$ の $c$ の平方類の漏洩禁止**)は命題 S5-4 に依存する。ただしこれは**禁止を増やす向き**の依存であり、命題 S5-4 が誤りでも安全側に倒れる。S5-4 は便 32 F4.6 で PASS。
 
 ### 0.4 起草時に用いた計算
 
-`scratchpad/k5_blocks.js`(node・単系統)— 入力は凍結済み有限 fixture($G_5$ の $(v,q)$ 座標と標的 $H$)のみ。曲線・$\lambda$・$u$・数値近似・database に接触なし。
+1. `scratchpad/k5_blocks.js`(node・単系統・v1)— 入力は凍結済み有限 fixture($G_5$ の $(v,q)$ 座標と標的 $H$)のみ。
+2. `search/wp-check.mjs`(node・単系統・**v1.1 で追加**・司令塔恒久化)— §2.4 の補題 R1-N1/R1-N2 の検算。入力は**無作為な有理係数ベクトル**のみ(BigInt 整数演算・11649 検査すべて一致)。
+
+**いずれも曲線・$\lambda$・$u$・数値近似・database に接触なし。**
 
 ---
 
@@ -116,37 +147,108 @@ $$ \text{(W)} := \{P_\infty\ \text{Weierstrass}\},\qquad \text{(N)} := \{P_\inft
 - **枝 (W)**: $\deg f = 5$ のモデル $y^2=f_5(x)$ を取り、$P_\infty = \infty$(唯一の無限遠点)とする。$f_5$ は $\mathbb Q$ 上**モニック**にできる($x\mapsto tx,\ y\mapsto sy$ で主係数 $\mapsto s^{-2}t^5\cdot(\text{主係数})$;$t=\mathrm{lc},\ s=\mathrm{lc}^3$ と取れば $\mathrm{lc}\mapsto1$)。次に $x$-平行移動で $\boxed{x(P_0)=0}$。
 - **枝 (N)**: $\deg f = 6$ のモデル $y^2=f_6(x)$ を取り、$x(P_\infty)=\infty$ とする。$P_\infty\in C(\mathbb Q)$ ゆえ $\mathrm{lc}(f_6)\in\mathbb Q^{\times2}$、$y$-スケールで $f_6$ を**モニック**にできる。$P_\infty = \infty_+$($y\sim+x^3$ の枝)と**定義する**(これが $y\mapsto-y$ を固定する — §4)。次に $x$-平行移動で $\boxed{x(P_0)=0}$。
 
-**M2(残余群)**: M1 のあと残る座標変換は
+**M2(残余群・重み)**: M1 のあと残る座標変換と、それが係数に与える**重み**を次で固定する。
 
-- 枝 (W): $x\mapsto\tau^2x,\ y\mapsto\tau^5y$($\tau\in\mathbb Q^\times$)。係数 $a_j\mapsto a_j/\tau^{2(5-j)}$。
-- 枝 (N): $x\mapsto tx,\ y\mapsto t^3y$($t\in\mathbb Q^\times$)。係数 $b_j\mapsto b_j/t^{6-j}$。
+| 枝 | 係数の並び | 残余変換 | 係数の変換則 | 重み $w_j$ |
+|---|---|---|---|---|
+| **(W)** | $f_5 = x^5+\sum_{j=0}^{4}A_jx^j$ | $x\mapsto\tau^2x,\ y\mapsto\tau^5y$($\tau\in\mathbb Q^\times$) | $A_j\mapsto A_j/\tau^{2(5-j)}$ | $w_j := 2(5-j)\in\{10,8,6,4,2\}$ |
+| **(N)** | $f_6 = x^6+\sum_{j=0}^{5}B_jx^j$ | $x\mapsto tx,\ y\mapsto t^3y$($t\in\mathbb Q^\times$) | $B_j\mapsto B_j/t^{6-j}$ | $w_j := 6-j\in\{6,5,4,3,2,1\}$ |
 
-**M3(整数性)**: すべての係数を $\mathbb Z$ に入れる。
+以下、両枝を統一して**係数ベクトル** $A = (A_j)_{j\in J}$($J$ は**主係数を除く**添字集合)、群作用を
 
-**M4(極小性)**: M2 の作用の中で M3 を保つものの中で、**重み付き content が極小**なものを取る。すなわち、係数ベクトルの重み付き付値 $\min_p\lfloor\cdot\rfloor$ をこれ以上下げられない状態にする。
+$$ (\sigma\cdot A)_j\ :=\ A_j/\sigma^{w_j}\qquad(\sigma\in\mathbb Q^\times) \tag{2.0} $$
+
+と書く(枝 (W) では $\sigma=\tau$、枝 (N) では $\sigma=t$)。**主係数の重みは $w=0$** なので M2 は主係数を動かさない — これが M1 のモニック性が M2 で保たれる理由であり、同時に主係数を $J$ から**除かねばならない**理由である($w_j$ で割るため $w_j\ge1$ が要る)。枝 (W) では群の元は $\alpha=\tau^2\in\mathbb Q^{\times2}$ であり、$w_j$ が偶数なので $\sigma^{w_j}=(\sigma^2)^{(5-j)}$、すなわち (2.0) は常に**実在する群元**の作用である。
+
+**M3(整数化・どの clearing でもよい)**: 任意の $\sigma_3\in\mathbb Q_{>0}$ で $A\mapsto\sigma_3\cdot A$ とし、全係数を $\mathbb Z$ に入れる。
+
+> **既定手続き(実装が迷わないため)**: $A_j$ の分母の最小公倍数を $D$ とし $\sigma_3 := 1/D$ を取る。$w_j\ge1$ ゆえ $v_p(A_j)+w_jv_p(D)\ \ge\ v_p(A_j)+v_p(D)\ \ge\ 0$ で必ず整数化する。**これは過剰 clearing でよい** — M4 が同じだけ戻す(補題 R1-N1)。
+
+**M4(weighted-primitive 正規化・total algorithm)**: 入力は M3 の出力(零ベクトルでない整数ベクトル)。ただし以下は**任意の有理係数ベクトルに対して定義される**(それが R1-N1 の内容)。
+
+1. $S(A) := \{\,p\ \text{素数}\ :\ \exists j\in J,\ A_j\ne0,\ v_p(A_j)\ne0\,\}$ — $A_j$ の分子・分母の素因数分解から決まる**有限集合**。
+2. 各素数 $p$ について
+   $$ k_p(A)\ :=\ \min_{\substack{j\in J\\ A_j\ne 0}}\ \left\lfloor\frac{v_p(A_j)}{w_j}\right\rfloor\qquad(\textbf{零係数は min から除外}). \tag{2.1} $$
+   $p\notin S(A)$ なら $k_p(A)=0$。
+3. $\displaystyle \tau_+(A)\ :=\ \prod_{p\in S(A)}p^{\,k_p(A)}\ \in\ \mathbb Q_{>0}$。
+4. **出力** $\ \mathrm{wp}(A)\ :=\ \tau_+(A)\cdot A$、すなわち
+   $$ \boxed{\ A_j\ \longmapsto\ A_j\big/\tau_+(A)^{\,w_j}\ }\qquad(j\in J). \tag{2.2} $$
+5. **符号単元 $\sigma=-1$ は M4 で扱わない** — M5(§3.2)へ回す。
+
+$\mathrm{wp}(A)$ は**整数ベクトルであり、かつ weighted primitive**($\forall p:\ k_p(\mathrm{wp}(A))=0$)である(§2.4)。具体形は、枝 (W) が便 32 (2.1)、枝 (N) が便 32 (2.2) と一致する。
+
+> **計算可能性と凍結記録**: $S(A)$ と $(k_p(A))_{p\in S(A)}$ は **値として**凍結記録に載せる(再現に因数分解の再実行を要求しない)。$v_p$ は整数演算のみ。**浮動小数点を使わない。**
 
 **M5(全順序で一意化)**: §3。
 
 **M6(一意性の検査)**: M5 が一意な候補を返さなければ **UNKNOWN 停止**(§9 U-a/U-b)。
 
-### 2.3 (M-B) 整合検査(規則ではない)
+### 2.3 (M-B) 整合検査(規則ではない・**第一次規則へ昇格しない**)
 
-S5 設計の命題 S5-3 が正しければ、枝 (W) のモデルは
-$$ y^2 = a(x)^2+c_5x^5\qquad(\deg a\le2) $$
-の形に一致するはずである。**一致しない場合でも Rule 1 は M-A に従う**(M-B は自己整合の警報にすぎない)。不一致は §11 論点として記録し、S5 設計の命題を疑う。
+S5 設計の命題 S5-3(v1.1 で符号修理済み・$c_N$ 規約)が正しければ、枝 (W) のモデルは
+
+$$ y^2\ =\ a(x)^2-c_N\,x^5\qquad(\deg a\le2),\qquad\text{gauge を統一すれば}\ c_N=-1\ \text{で}\quad y^2 = a(x)^2+x^5 $$
+
+の形に一致するはずである($x_0=0$ は M1 で既に固定済。符号は `docs/week4-K5_S5設計_opus_v1.md` v1.1 §3.3 の $N=\mu\mu^\iota=a^2-b^2f=c_N(x-x_0)^5$ 規約に統一した — v1 の $+c_5$ は誤り。便 32 F4.4)。**一致しない場合でも Rule 1 は M-A に従う**(M-B は自己整合の警報にすぎない)。不一致は §11 に記録し、S5 設計の命題を疑う。
+
+> **【裁定 31 / 便 32 F2.3】M-B を第一次規則へ昇格しない。** 理由は監査の順序ではなく **I-b 厳格版との両立不能**である: M-B を通常の Model-Builder 探索規則にすると、solver は $\lambda=c\mu^2$ の $c$ を明示変数として扱う。これは §9 I-b(**$c$ の平方類・平方因子・符号を凍結 2 前に計算・報告・選択に使うことの禁止**)と同時には運用できない。
+>
+> **M-B / $\mu$-正規形を discovery engine に使うなら**、全候補列挙・M-A canonicalization・両翼共同 freeze までを**人間から隔離した sealed automation** として、**別 schema に事前登録**すること(本 v1 の範囲外)。v1 では **M-A を正本**、**M-B を凍結 2 後の整合検査**に留める。
+
+### 2.4 M3–M4 の正当化(便 32 F2.2 の要求)
+
+記号は §2.2 の通り($J$・$w_j\ge1$・作用 (2.0)・$k_p$ (2.1)・$\mathrm{wp}$ (2.2))。$A\ne0$ とする。
+
+> **補題 R1-N1(denominator clearing 非依存性).** 任意の $\sigma\in\mathbb Q_{>0}$ に対し
+> $$ \boxed{\ \mathrm{wp}(\sigma\cdot A)\ =\ \mathrm{wp}(A).\ } $$
+
+**証明.** $A_j\ne0$ なら $(\sigma\cdot A)_j\ne0$ でありその逆も真だから、(2.1) の min を取る添字集合 $\{j: A_j\ne0\}$ は $\sigma$ 作用で**不変**である。各 $j$ につき $v_p((\sigma\cdot A)_j) = v_p(A_j)-w_j\,v_p(\sigma)$、そして $v_p(\sigma)\in\mathbb Z$ なので floor の外へ出せる:
+
+$$ \left\lfloor\frac{v_p((\sigma\cdot A)_j)}{w_j}\right\rfloor = \left\lfloor\frac{v_p(A_j)}{w_j}-v_p(\sigma)\right\rfloor = \left\lfloor\frac{v_p(A_j)}{w_j}\right\rfloor-v_p(\sigma). $$
+
+min を取って $k_p(\sigma\cdot A) = k_p(A)-v_p(\sigma)$(全素数で)、すなわち正の有理数として $\tau_+(\sigma\cdot A) = \tau_+(A)/\sigma$。よって
+
+$$ \mathrm{wp}(\sigma\cdot A)_j\ =\ \frac{A_j/\sigma^{w_j}}{\bigl(\tau_+(A)/\sigma\bigr)^{w_j}}\ =\ \frac{A_j}{\tau_+(A)^{w_j}}\ =\ \mathrm{wp}(A)_j. \qquad\blacksquare $$
+
+**系 R1-N1a.** M3 でどれだけ余分に denominator を clear しても、M4 の出力は同一である。すなわち **$\mathrm{M4}\circ\mathrm{M3}$ は M3 の選択に依らず、元の有理係数ベクトル $A$ の関数 $\mathrm{wp}(A)$ である。** とくに $\mathrm{wp}$ は M2 の**正部分** $\mathbb Q_{>0}$ の軌道上の定数であり、$k_p(\mathrm{wp}(A))=k_p(A)-k_p(A)=0$ から $\mathrm{wp}\circ\mathrm{wp}=\mathrm{wp}$(冪等)。また $k_p(\mathrm{wp}(A))=0\ (\forall p)$ は $\mathrm{wp}(A)$ の**整数性**も含む(下記の同値による)。
+
+> **補題 R1-N2(残余は符号単元のみ ⇒ 有限性).** $A$ を整数かつ weighted primitive(すなわち $\forall p:\ k_p(A)=0$)とする。$\sigma\in\mathbb Q^\times$ に対し
+> $$ \sigma\cdot A\ \text{が再び整数かつ weighted primitive}\quad\Longleftrightarrow\quad \sigma=\pm1. $$
+
+**証明.** まず $w_j\ge1>0$ より、任意の有理係数ベクトル $B$ について
+
+$$ B\ \text{が整数}\ \iff\ \forall p,j:\ v_p(B_j)\ge0\ \iff\ \forall p:\ k_p(B)\ge0 $$
+
+(⇐ は $\lfloor v_p(B_j)/w_j\rfloor\ge k_p(B)\ge0\Rightarrow v_p(B_j)\ge0$)。R1-N1 の計算より $k_p(\sigma\cdot A) = k_p(A)-v_p(\sigma) = -v_p(\sigma)$。したがって
+
+- 整数性 $\iff\forall p:\ -v_p(\sigma)\ge0$、
+- weighted primitive $\iff\forall p:\ -v_p(\sigma)=0$。
+
+後者は $\forall p:v_p(\sigma)=0$、すなわち $\sigma=\pm1$。逆に $\sigma=\pm1$ なら $v_p(\sigma)=0$ で両条件を保つ。$\blacksquare$
+
+**系 R1-N2a(§3.1 の有限性).** M1 正規形の一つの同値類内では、候補は M2 群 $\cong\mathbb Q^\times$ の**一軌道**である。M3+M4 を経た候補集合はその軌道のうち「整数かつ weighted primitive」なもの全体であり、R1-N2 によりそれは $\{\pm1\}\cdot\mathrm{wp}(A)$、すなわち**高々 2 個**。**有限性は証明された。** さらに
+
+- 枝 (W): $w_j$ が偶数ゆえ $(-1)\cdot A = A$ ⇒ **係数ベクトルは 1 個**($\sigma=-1$ は $y\mapsto-y$ としてのみ効き、§4.1 で処理)。
+- 枝 (N): $((-1)\cdot B)_j = B_j/(-1)^{6-j} = (-1)^jB_j$ ⇒ **係数ベクトルは高々 2 個**(§3.2 の tie-break が受け持つ)。
+
+> **検算(単系統・整数演算)**: `search/wp-check.mjs`(node・BigInt 有理数・司令塔再走で 11649/0 再現)。無作為な有理係数ベクトル 400 組 × 2 枝に対し、(i) 無作為な $\sigma\in\mathbb Q_{>0}$ 6 通りでの R1-N1、(ii) 既定手続き($\sigma_3=1/\mathrm{lcm}$)での整数化と wp 一致、(iii) 出力の整数性・weighted primitivity・冪等性、(iv) $\sigma\ne\pm1$ での安定化の破れと $\sigma=-1$ での保存 — **計 11649 検査すべて一致・失敗 0**。符号作用も $(W)$ で不変・$(N)$ で $(-1)^j$ を確認。**入力は無作為な有理数のみで、曲線・$\lambda$・$u$ のデータを含まない。**
 
 ---
 
 ## Q3 → §3. 全順序と tie-break
 
-### 3.1 有限性の証明義務(先に書く)
+### 3.1 有限性(**証明済み** — v1.1)
 
 $$ \boxed{\text{M4 のあと残る候補集合が\textbf{有限}であることを、最小化の前に証明する。}} $$
 
 有限でない(または有限性を証明できない)なら最小元は存在しないかもしれないので、**即 UNKNOWN 停止**(U-b)。
 
-- 枝 (W): $\tau\mapsto-\tau$ は $a_j\mapsto a_j/(-1)^{2(5-j)} = a_j$ で係数に作用しない(作用は $y\mapsto-y$ のみ — §4 へ回る)。整数性 + 極小性のあと $\tau\in\{\pm1\}$ ゆえ**候補は 1 個**。
-- 枝 (N): $t\mapsto-t$ は $b_j\mapsto(-1)^{j}b_j$ で**係数を実際に動かす**。整数性 + 極小性のあと $t\in\{\pm1\}$ ゆえ**候補は 2 個** ⇒ tie-break が要る(§3.2)。
+**この義務は v1.1 で履行された。** §2.4 の**補題 R1-N2**(残余 $=\{\pm1\}$)と**系 R1-N2a** により:
+
+- 枝 (W): $\tau\mapsto-\tau$ は $A_j\mapsto A_j/(-1)^{2(5-j)} = A_j$ で係数に作用しない(作用は $y\mapsto-y$ のみ — §4 へ回る)。M3+M4 のあと $\tau\in\{\pm1\}$ ゆえ**候補は 1 個**。
+- 枝 (N): $t\mapsto-t$ は $B_j\mapsto(-1)^{j}B_j$ で**係数を実際に動かす**。M3+M4 のあと $t\in\{\pm1\}$ ゆえ**候補は 2 個** ⇒ tie-break が要る(§3.2)。
+
+**U-b は札として存続する**(fail-closed)。v1 では「有限性が未証明だから U-b が発火しうる」状態だったが、v1.1 では M1 が想定した二枝の正規形に**入らなかった**場合(例: $\deg f\notin\{5,6\}$、主係数がモニックにならない、$J$ の重みが (2.0) と異なる)にのみ発火する。**R1-N2 の前提($w_j\ge1$ の重み付き $\mathbb Q^\times$-作用・一軌道)が成り立たない入力を受け取ったら、規則を延長せずに U-b で止める。**
 
 ### 3.2 全順序
 
@@ -182,7 +284,7 @@ $y\mapsto-y$ は超楕円対合 $\iota$ の座標表示である。**印付き�
 **$P_0$ も Weierstrass の場合の規則**: $\iota$ は印付き被覆の同型 $(C,\lambda\circ\iota)\xrightarrow{\sim}(C,\lambda)$ を与えるので、**§5 の uniformizer 規則が $\iota$-同変である限り $u$ は同じ**($t=y\mapsto-y$ で $u\mapsto u\cdot(-1)^{10}=u$)。ゆえに数学的曖昧さはない。再現性のためだけに tie-break を置く:
 $$ \lambda = A(x)+B(x)y\ \text{と書いたとき、}\ B\ \text{の係数ベクトルが §3.2 の順序で小さい方の}\ \lambda\ \text{を取る}. $$
 
-> **S5 設計 §3.3 の帰結(参考・依存しない)**: 枝 (W) では $P_0$ は自動的に非 Weierstrass になる(命題 S5-3 の正規形から $a(x_0)=0\Rightarrow\operatorname{ord}_{P_0}(\mu)=1\ne5$)。したがってこの行は**枝 (N) でのみ発火する見込み**である。ただし Rule 1 は S5 設計に依存しないので、両方書いておく。
+> **S5 設計 §3.3 の帰結(参考・依存しない)**: 枝 (W) では $P_0$ は自動的に非 Weierstrass になる。**直接証明**(便 32 F4.4 末尾の形・v1.1 で差替え): 命題 S5-3 の正規形 $b_0^2f_5 = a(x)^2-c_N(x-x_0)^5$($b_0\in\mathbb Q^\times$)で $a(x_0)=0$ とすると $(x-x_0)\mid a$、ゆえに $(x-x_0)^2\mid a^2$ かつ $(x-x_0)^2\mid(x-x_0)^5$ で $(x-x_0)^2\mid f_5$。**$f_5$ が $x_0$ で二重根をもつので $C:y^2=f_5$ は滑らかでない** — 種数 2 の非特異曲線という前提に反する。ゆえに $a(x_0)\ne0$、すなわち $y(P_0)=-a(x_0)/b_0\ne0$ で $P_0$ は非 Weierstrass。∎(S5 設計 v1.1 補題 S5-W) したがってこの行は**枝 (N) でのみ発火する見込み**である。ただし Rule 1 は S5 設計に依存しないので、両方書いておく。
 
 ### 4.2 Möbius
 
@@ -217,12 +319,41 @@ $$ \boxed{\ t := \begin{cases} x - x(P_0)\ (= x,\ \text{M1 で}\ x(P_0)=0) & f(x
 
 ### 5.2 Rule U-2(モデル非依存の仕様・Riemann–Roch)
 
-U-1 は超楕円座標に依存する。モデル非依存の仕様を併記し、**両者が一致することを検査する**(U-3)。
+U-1 は超楕円座標に依存する。モデル非依存の仕様を併記し、**両者が一致することを検査する**(U-3)。U-2 は**検査路**であって launch blocker ではない(便 32 F2.1)が、再現可能でなければ検査にならないので、v1.1 で ambient と単項式順序を値として固定する。
 
-1. $n_0 := \min\{\,n\ge1\ :\ \ell(nP_\infty-P_0) > \ell(nP_\infty-2P_0)\,\}$ を計算する(有限:$n\ge5$ で必ず成立)。
-2. $L(n_0P_\infty)$ の**順序付き生成系**を固定する: $P_\infty$ での極位数の**昇順**、同位数内はモデルの単項式順序(固定)。
-3. その生成系に関する **reduced row echelon form**(一意)で基底を取る。
-4. $\operatorname{ord}_{P_0}(g)=1$ を満たす基底元のうち **添字最小のもの**を $t_0$ とする。
+#### 5.2.0 ambient と単項式順序(v1.1 で明記・便 32 F2.1)
+
+$C$ のアフィン座標環を $R := \mathbb Q[x,y]/(y^2-f(x))$ とする。$R$ の $\mathbb Q$-基底は単項式 $x^ay^b$($a\in\mathbb Z_{\ge0},\ b\in\{0,1\}$)。$P_\infty$ での極位数を $\operatorname{pol}(x^ay^b) := -\operatorname{ord}_{P_\infty}(x^ay^b)$ と書く。
+
+| 枝 | $\operatorname{ord}_{P_\infty}(x),\ \operatorname{ord}_{P_\infty}(y)$ | $\operatorname{pol}(x^ay^b)$ | ambient $\mathcal A(n)$ | 同値 |
+|---|---|---|---|---|
+| **(W)** | $-2,\ -5$ | $2a+5b$ | $\operatorname{span}_{\mathbb Q}\{x^ay^b:\ b\in\{0,1\},\ 2a+5b\le n\}$ | $=L(nP_\infty)$ |
+| **(N)** | $-1,\ -3$ | $a+3b$ | $\operatorname{span}_{\mathbb Q}\{x^ay^b:\ b\in\{0,1\},\ a+3b\le n\}$ | $=L(n\infty_++n\infty_-)$($\dim=2n-1$、$n\ge3$) |
+
+枝 (N) では $x^ay^b$ は $\infty_+$ と $\infty_-$ の**両方**に極をもつので $\mathcal A(n)\ne L(nP_\infty)$ である。この場合
+
+$$ L(n P_\infty)\ =\ L(n\infty_+)\ =\ \{\,g\in\mathcal A(n)\ :\ \operatorname{ord}_{\infty_-}(g)\ge0\,\} $$
+
+は $\mathcal A(n)$ の**線型部分空間**($\infty_-$ での局所展開の主要部が消える、という $\mathbb Q$-線型条件)であり、局所展開は厳密に(冪級数の切断で)計算する。
+
+$$ \boxed{\ \textbf{単項式順序(固定)}:\quad x^ay^b\ \prec\ x^{a'}y^{b'}\ :\Longleftrightarrow\ \bigl(\operatorname{pol},\,b,\,a\bigr)\ <_{\rm lex}\ \bigl(\operatorname{pol}',\,b',\,a'\bigr)\quad(\text{三成分とも昇順}).\ } \tag{5.2} $$
+
+- 枝 (W) では $\operatorname{pol}=2a+5b$ が $b=0$ で偶数・$b=1$ で奇数($\ge5$)ゆえ**すべて相異なる**。第一成分だけで順序が確定し、tie-break $(b,a)$ は発火しない。
+- 枝 (N) では $\operatorname{pol}=a+3b$ が同値になりうる(例: $x^3$ と $y$ はともに $3$)ので $(b,a)$ が実際に効く。(5.2) は $x^3\prec y$ を意味する。
+
+$\mathcal A(n)$ の単項式を (5.2) の昇順に並べた列を $(m_1\prec\cdots\prec m_N)$ とし、$g=\sum c_{a,b}x^ay^b\in\mathcal A(n)$ の **ambient coefficient vector** を
+
+$$ \operatorname{vec}(g)\ :=\ \bigl(c_{m_1},\,c_{m_2},\,\dots,\,c_{m_N}\bigr)\ \in\ \mathbb Q^N \tag{5.3} $$
+
+と定める。**RREF はこの $\operatorname{vec}$ を行に並べた行列に対し、列を $m_1,\dots,m_N$ の順(左端が $m_1$)として取る**(pivot は最左優先)。RREF は部分空間と列順序だけで決まるので**一意**である。
+
+#### 5.2.1 手順
+
+1. $n_0 := \min\{\,n\ge1\ :\ \ell(nP_\infty-P_0) > \ell(nP_\infty-2P_0)\,\}$ を計算する(有限:$n\ge5$ なら $\deg(nP_\infty-2P_0)=n-2\ge3=2g-1$ で両者非特殊、$\ell$ は $n-2$ と $n-3$ で必ず相異なる。ゆえに $n_0\le5$)。
+2. **対象空間**を $V := L(n_0P_\infty-P_0)\subseteq\mathcal A(n_0)$ とする(v1.1 修理: v1 は $L(n_0P_\infty)$ と書いていたが、それでは 4. の存在が保証されない)。$V$ は $\mathcal A(n_0)$ 内の線型条件($P_0$ での消滅、枝 (N) では加えて $\infty_-$ での正則性)で切り出す。
+3. $V$ の任意の生成系の $\operatorname{vec}$ を行に並べ、(5.3) の列順序で **reduced row echelon form**(一意)を取る。得られた行を pivot 列の添字の昇順に $g_1,\dots,g_r$ と番号づける。
+4. $\operatorname{ord}_{P_0}(g_i)=1$ を満たす $i$ のうち **最小のもの**を取り、$t_0 := g_i$ とする。
+   **存在**: $\ell(n_0P_\infty-P_0)>\ell(n_0P_\infty-2P_0)$ なので、$V$ の**どの**基底にも $\operatorname{ord}_{P_0}=1$ の元が少なくとも一つある(全て $\operatorname{ord}_{P_0}\ge2$ なら $V\subseteq L(n_0P_\infty-2P_0)$ となり次元が矛盾)。存在しない出力が返ったら**入力破損 ⇒ integrity stop**(§9 I-e)。
 5. $\boxed{t := t_0}$ — **再スケールしない。**
 
 > **禁止(明示)**: $\lambda/t^{10}$ の定数項が $1$ になるように $t$ をスケールすること、および $\lambda$ の局所展開から計算した任意の量で $t$ をスケールすること。**それが $u$ である。**
@@ -270,7 +401,9 @@ $\lambda^\iota := \lambda\circ\iota = A(x)-B(x)y$、$N(\lambda) := \lambda\lambd
 
 **中間表現**: $\mathbb Q[x]$(多項式・評価・Taylor 係数)。**冪級数を使わない。**
 
-> **補助経路 B′(S5 設計に依存・任意)**: 命題 S5-2 が成立するなら $\lambda=c\mu^2$、$\mu = v t^5(1+\cdots)$ で $u = cv^2$、かつ $\mu\mu^\iota = c_5(x-x_0)^5$ から $v = c_5/\mu^\iota(P_0)$(級数不要)。**B′ は第三経路であって B の代用ではない。** 用いる場合は独立な札で記録する。
+> **補助経路 B′(S5 設計に依存・任意)**: 命題 S5-2 が成立するなら $\lambda=c\mu^2$、$\mu = v t^5(1+\cdots)$ で $u = cv^2$、かつ $\mu\mu^\iota = c_N(x-x_0)^5$(**v1.1: 記号を $c_N$ に統一** — S5 設計 v1.1 §3.3.0)から、$P_0$ 非 Weierstrass・$t=x-x_0$ の場合に $v = c_N/\mu^\iota(P_0)$(級数不要)。**B′ は第三経路であって B の代用ではない。** 用いる場合は独立な札で記録する。
+>
+> **【v1.1 の運用制限】B′ は $\lambda$ を $(c,\mu)$ に分離した形を要求するので、§9 I-b 厳格版の下では凍結 2 より前に走らせてはならない。** 凍結 2 のあとの独立な裏取りとしてのみ使う。
 
 ### 6.3 独立性の要件(manifest v1.2 §4 の実体化)
 
@@ -386,7 +519,7 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 |---|---|
 | **U-a** | §2 のパイプラインが 2 個以上の候補を返し、§3.2 の全順序でも同点 |
 | **U-b** | §3.1 の**有限性が証明できない**(残余群の軌道が無限かもしれない) |
-| **U-c** | M0 の Weierstrass 枝判定が、事前登録した計算予算内に閉じない |
+| **U-c** | M0 の Weierstrass 枝判定が、事前登録した計算予算内に閉じない。**予算 = M0 の一判定ジョブにつき wall-clock 600 秒**(v1.1 で §11 から本行へ移記・便 32 F2.5)。**timeout は U-c**(FAIL でも「非 Weierstrass」でもない)。**同 campaign 内で上限を増やして再分類しない** — 上限を変えるなら新 version の campaign |
 | **U-d** | 明示モデルそのものが得られない(撤退条件 2026-08-10 / 8 委嘱とは別枠の即時札) |
 | **U-e** | exact Kummer 証明書が得られない(探索失敗のみ)/ $u$ の一方の経路が計算不能 |
 | **U-f** | $b_i$ が $\tau_i(\langle\zeta_{10}\rangle)$ に属さない(actual marking 未閉) |
@@ -428,11 +561,23 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 
 ---
 
-## §11. 論点(便 32 / 司令塔裁定へ)
+## §11. 論点(**v1.1 で 1–6 すべて決着** — 便 32 / 裁定 31)
 
-1. **§9 I-b(命題 S5-4 由来の漏洩禁止)を採るか。** 採ると Model-Builder は $\lambda$ を分解形で報告できなくなる。代案: 「分解形の報告は許すが $\operatorname{sqfree}(c)$ の計算は禁止し、access log で担保する」。**私は I-b の厳格版を推す**(便 31 F4.3 の「同値な leading coefficient」は、まさにこれを指していたと読む)。
-2. **§2 (M-A) と (M-B) の分離**は過剰か。S5 設計の命題 S5-2/S5-3 が Sol 監査を通れば (M-B) を第一次規則へ格上げでき、正規形はずっと単純になる(枝 (W) は母数 2)。**しかし凍結 1 は単系統結果に依存させたくない**ため v1 では分離した。監査結果を待って v2 で統合するか。
-3. **§5.4 の観測 R1-C**(類は uniformizer に依らない)は既知の covariance control の再述だが、**規則の緩和には使わない**と書いた。この判断でよいか。
-4. **§6.2 B-ii の式 (6.2)** は Taylor 係数の抽出を使う。これを「級数」と見なして経路 A との独立性を疑うべきか、それとも多項式演算として独立と認めてよいか。**私は独立と考える**(曲線上の冪級数持ち上げを一切行わないため)が、独立性の判定は監査側の権限である。
-5. ~~U-c の計算予算の具体値を凍結 1 に書き込むべきか~~ →【司令塔修正 C2・裁定 30】**書き込む: U-c の予算 = 1 判定ジョブあたり 600 秒**(manifest の機械走行 cap と同一値・浮動パラメータを残さない)。委嘱全体の cap は従来どおり委嘱ごと。
-6. **【文献要請】** §8.2 の $K^{\times10}$ 判定について、$K=\mathbb Q(\zeta_{20})$ のような**円分体での $n$ 乗剰余判定の標準的な exact アルゴリズムと、その証明書型**(とくに (O-a) の「$v_{\mathfrak p}(v)\not\equiv0$」型 obstruction の標準的な提示法)の定番文献があれば、実装仕様の裏取りになる。欲しい結果の型: **アルゴリズムの正当性証明つきの記述**であって、ライブラリのマニュアルではない。
+1. **§9 I-b(命題 S5-4 由来の漏洩禁止)を採るか。** → **【決着・I-b 厳格版を採用】**(便 32 F2.3・裁定 31)。凍結 2 前は (i) $c$ の平方類・平方因子・符号を**計算しない**、(ii) $\lambda$ を $(c,\mu)$ の対として**報告しない**、(iii) それらを**候補選択に使わない**。代案(「分解形の報告は許し access log で担保」)は**採らない**。
+   > **採用理由の補足(裁定 30 の但し書きつき)**: 「漏洩実害 = 可視性 × 選択自由度」という分析は原理として正しいが、**「選択自由度ゼロ」は正規化が total, executable, pre-frozen であるときにだけ成立する**(便 32 F2.3・★教材 23)。v1 は M4 が未定義でその前件が立っていなかった。**v1.1 の §2.2 M4 + §2.4 の R1-N1/N2 が前件を初めて成立させる**が、それでも I-b の緩和には使わない — 便 32 W4 の通り、full Belyi map を許す以上 $c$ の平方類は原理的に導出可能であり、担保は語彙 grep でなく **access control と total selection rule** の二重である。親 manifest 側にも同語で反映される(P3・司令塔)。
+2. **§2 (M-A) と (M-B) の分離**は過剰か。 → **【決着・分離を維持。M-B は第一次規則へ昇格しない】**(便 32 F2.3・裁定 31)。理由は「S5 設計が未監査だから」ではなく、**M-B が strict I-b と両立しないから**である(solver が $c$ を明示変数として扱う)。監査が通っても自動昇格はしない。**M-B / $\mu$-正規形を discovery engine に使うなら、$c$ を凍結 2 前に人間へ見せない sealed automation を別 schema として事前登録する**(§2.3 の枠内)。v1.1 では M-A が正本、M-B は凍結 2 後の整合検査。
+3. **§5.4 の観測 R1-C** を規則の緩和に使わないという判断でよいか。 → **【決着・承認】**(便 32 F2.1)。「R1-C は Kummer class の covariance を示すだけであり、生の $u$ の二経路比較に使う $t$ を曖昧にしてよい理由にはならない」。
+4. **§6.2 B-ii の式 (6.2)** を経路 A と独立と認めてよいか。 → **【決着・独立と認定】**(便 32 F2.4)。B-ii は曲線上の Hensel/Newton 級数を作らず $\mathbb Q[x]$ 内の Taylor 係数と一点評価だけを使うため、§6.3(非共有 helper・raw 中間量の別保存)が実装でも守られる限り独立経路。**「多項式の Taylor 係数」という語だけを理由に級数経路と同一視しない。** B′ は第三経路であり B の代替にしない(現規定どおり)。
+5. ~~U-c の計算予算の具体値を凍結 1 に書き込むべきか~~ → **【決着・§9.1 U-c の作用行へ移記済(v1.1・D8)】**(便 32 F2.5)。値 = M0 の一判定ジョブにつき wall-clock 600 秒。**論点欄に予算値を置かない**(未決パラメータに見えるため)。委嘱全体の cap は従来どおり委嘱ごと。
+6. **【文献要請・充足】** §8.2 の $K^{\times10}$ 判定 → **`docs/文献ゲート_02_power_residue.md` が仕様 provenance として PASS**(便 32 F2.5)。$\zeta_2,\zeta_5\in K$ のもとで平方・五乗判定へ分解する exact Kummer 仕様と、valuation obstruction / binomial factorization の数学的出所は閉じた。
+   > **ただし二つの留保(便 32 F2.5・そのまま採録)**: (i) Sol は Cohen/Roblot の一次 PDF と定理番号を独立照合していない。(ii) **文献は executable certificate checker ではない。** 凍結 1 の最終 bundle には §8.6 が要求する library 名・版・commit、アルゴリズム名、経路 A/B と第三 checker の commit を**値として**埋めること(P6 後半・実装別便)。
+
+### 11.1 v1.1 時点で残る未充足項目(凍結 1 受理の前提)
+
+| # | 項目 | 担当 | 状態 |
+|---|---|---|---|
+| R-1 | §8.6/§10-3 の実装版・commit・checker ID を**値として**記入 | 実装(P6 後半) | **未** |
+| R-2 | 本文書 + 付録 A の新 digest 再取得と再提出 | 司令塔(P7) | **未**(本改訂で serialization が変わる) |
+| R-3 | 親 manifest 側の whitelist/stop に I-b と同語を反映 | 司令塔(P1+P3) | 別便 |
+
+**R-1〜R-3 が閉じるまで凍結 1 は受理されず、個別モデル探索コマンドは実行しない。**
