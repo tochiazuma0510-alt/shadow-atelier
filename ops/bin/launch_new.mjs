@@ -24,12 +24,14 @@ while (argv[0] === '--renew' || argv[0] === '--role' || argv[0] === '--effort') 
   else if (argv[0] === '--role') { role = (argv[1] || 'sol').toLowerCase(); argv = argv.slice(2); }
   else { effort = (argv[1] || '').toLowerCase(); argv = argv.slice(2); }
 }
-if (!['sol', 'luna'].includes(role)) { console.log('BAD-ROLE'); process.exit(1); }
+if (!['sol', 'sol2', 'luna'].includes(role)) { console.log('BAD-ROLE'); process.exit(1); }
+// sol2 (2026-07-26): second PARALLEL sol-model lane. Own pin + own log; skips
+// the codex-already-running guard BY DESIGN (parallel lanes are intentional).
 // 推論設定の強制(2026-07-18 ユーザー指示「推論設定を必ず遵守」):
 // - Sol = gpt-5.6-sol / max 固定(effort 指定は拒否 — 数学監査を安売りしない)
 // - Luna = gpt-5.6-luna / effort は medium|high|xhigh(既定 high、Lean shard は xhigh、定型は medium)
 let MODEL_FLAGS;
-if (role === 'sol') {
+if (role === 'sol' || role === 'sol2') {
   if (effort) { console.log('SOL-EFFORT-IS-PINNED-MAX: --effort is not allowed for sol'); process.exit(1); }
   MODEL_FLAGS = ' -m gpt-5.6-sol -c model_reasoning_effort="max"';
 } else {
@@ -39,7 +41,10 @@ if (role === 'sol') {
 }
 const ID_FILE = role === 'sol'
   ? `${REPO}/ops/bin/codex_session_id.txt`
-  : `${REPO}/ops/bin/codex_session_id_luna.txt`;
+  : role === 'sol2'
+    ? `${REPO}/ops/bin/codex_session_id_sol2.txt`
+    : `${REPO}/ops/bin/codex_session_id_luna.txt`;
+const ROLE_LOG = role === 'sol2' ? `${REPO}/ops/codex_activity_sol2.log` : LOG;
 const instr = argv.join(' ');
 if (!instr) { console.log('NO-INSTRUCTION'); process.exit(1); }
 if (fs.existsSync(ID_FILE)) {
@@ -50,16 +55,20 @@ if (fs.existsSync(ID_FILE)) {
   console.log(`RENEWED: archived ${role} ${old}`);
 }
 
-const tasklist = execSync('tasklist', { encoding: 'utf8' });
-if (/^codex\.exe/im.test(tasklist)) { console.log('CODEX-ALREADY-RUNNING: aborting first launch'); process.exit(2); }
+if (role !== 'sol2') {
+  const tasklist = execSync('tasklist', { encoding: 'utf8' });
+  if (/^codex\.exe/im.test(tasklist)) { console.log('CODEX-ALREADY-RUNNING: aborting first launch'); process.exit(2); }
+} else {
+  console.log('PARALLEL-LANE(sol2): skipping running-guard by design');
+}
 
 const quoted = '"' + instr.replace(/"/g, '\\"') + '"';
 const cmd = `codex exec${MODEL_FLAGS} -c approval_policy="never" --sandbox workspace-write ${quoted}`;
 
-if (!fs.existsSync(LOG)) fs.writeFileSync(LOG, '﻿');
-fs.appendFileSync(LOG, `\n===== NEW-SESSION(${role}) ${new Date().toISOString()} =====\ninstr: ${instr}\n`);
+if (!fs.existsSync(ROLE_LOG)) fs.writeFileSync(ROLE_LOG, '﻿');
+fs.appendFileSync(ROLE_LOG, `\n===== NEW-SESSION(${role}) ${new Date().toISOString()} =====\ninstr: ${instr}\n`);
 
-const ws = fs.createWriteStream(LOG, { flags: 'a' });
+const ws = fs.createWriteStream(ROLE_LOG, { flags: 'a' });
 // stdin は必ず閉じる: パイプのまま開いていると codex exec が
 // "Reading additional input from stdin..." で EOF 待ちブロックする(2026-07-18 実測)
 const child = spawn(cmd, { cwd: REPO, shell: true, stdio: ['ignore', 'pipe', 'pipe'] });

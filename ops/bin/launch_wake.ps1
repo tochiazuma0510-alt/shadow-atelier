@@ -9,7 +9,7 @@
 param(
     [Parameter(Mandatory = $true)][ValidateSet("new", "wake")][string]$Mode,
     [string]$Message = "",
-    [ValidateSet("sol", "luna")][string]$Role = "sol",
+    [ValidateSet("sol", "sol2", "luna")][string]$Role = "sol",
     [ValidateSet("", "medium", "high", "xhigh")][string]$Effort = "",
     [switch]$Renew
 )
