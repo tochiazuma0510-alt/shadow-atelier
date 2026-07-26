@@ -1,5 +1,9 @@
 name = "shadow_atelier_lean"
-defaultTargets = ["Marking"]
+defaultTargets = ["Marking", "K3"]
 
 [[lean_lib]]
 name = "Marking"
+
+[[lean_lib]]
+name = "K3"
+globs = ["K3.+"]
