@@ -1,0 +1,143 @@
+{
+  "schema": "k5pipeline/ninf-exclusion/v1",
+  "source_doc": "docs/week4-K5_Rule1_v1.md v1.2 S11 論点7 / 補題 R1-N∞-S",
+  "question": "sigma_0 <-> sigma_infty を交換し sigma_1 を保つ simultaneous conjugator g in S_10 は存在するか(存在しなければ、補題 R1-N∞-S 3. の対偶により (N_infty) はこの dessin について発火し得ない)",
+  "inputs": "certificates/k5fixture/K5-sq.json, K5-ns.json の perm_triple のみ(model/lambda/u には一切接触なし)",
+  "expectation_not_used_in_judgement": "「対称性なし ⇒ (N_infty) は両 dessin で発火しない」という期待は判定に使っていない。以下は結果そのもの。",
+  "systems": {
+    "gap": {
+      "method": "RepresentativeAction(SymmetricGroup(10), [s0,s1,sInf], [sInf,s1,s0], OnTuples) -- backtrack search (group-theoretic algebraic algorithm)",
+      "script": "search/k5-ninf-exclusion.g",
+      "certificate_file": "certificates/k5pipeline/ninf-exclusion.gap.json",
+      "raw": {
+        "schema": "k5pipeline/ninf-exclusion-gap/v1",
+        "pass": 12,
+        "fail": 0,
+        "method": "RepresentativeAction(SymmetricGroup(10), [s0,s1,sInf], [sInf,s1,s0], OnTuples)",
+        "targets": {
+          "sq": {
+            "sanity_relation_ok": true,
+            "cycle_type_sigma0": [
+              10
+            ],
+            "cycle_type_sigmaInf": [
+              10
+            ],
+            "cycle_type_sigma1": [
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "sign_sigma1": 1,
+            "odd_length_cycle_count_sigma1": 2,
+            "conjugator_exists": false,
+            "conjugator_g_0indexed": null,
+            "ninf_excluded": true
+          },
+          "ns": {
+            "sanity_relation_ok": true,
+            "cycle_type_sigma0": [
+              10
+            ],
+            "cycle_type_sigmaInf": [
+              10
+            ],
+            "cycle_type_sigma1": [
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "sign_sigma1": 1,
+            "odd_length_cycle_count_sigma1": 2,
+            "conjugator_exists": false,
+            "conjugator_g_0indexed": null,
+            "ninf_excluded": true
+          }
+        }
+      }
+    },
+    "node": {
+      "method": "brute force over all 3,628,800 permutations of S_10 (Heap's algorithm), testing g s0 g^-1 = sInf AND g sInf g^-1 = s0 AND g s1 g^-1 = s1 directly by permutation composition -- no shared code/helper with the GAP script, independent from-scratch implementation",
+      "script": "crosscheck/check-k5-ninf.mjs",
+      "self_pass": 12,
+      "self_fail": 0,
+      "results": {
+        "sq": {
+          "target": "sq",
+          "sanity_relation_ok": true,
+          "cycle_type_sigma0": [
+            10
+          ],
+          "cycle_type_sigmaInf": [
+            10
+          ],
+          "cycle_type_sigma1": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "sign_sigma1": 1,
+          "odd_length_cycle_count_sigma1": 2,
+          "total_permutations_checked": 3628800,
+          "conjugator_exists": false,
+          "conjugator_count": 0,
+          "conjugators_g_0indexed": [],
+          "ninf_excluded": true,
+          "elapsed_ms": 66
+        },
+        "ns": {
+          "target": "ns",
+          "sanity_relation_ok": true,
+          "cycle_type_sigma0": [
+            10
+          ],
+          "cycle_type_sigmaInf": [
+            10
+          ],
+          "cycle_type_sigma1": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "sign_sigma1": 1,
+          "odd_length_cycle_count_sigma1": 2,
+          "total_permutations_checked": 3628800,
+          "conjugator_exists": false,
+          "conjugator_count": 0,
+          "conjugators_g_0indexed": [],
+          "ninf_excluded": true,
+          "elapsed_ms": 63
+        }
+      }
+    }
+  },
+  "cross_check": {
+    "pass": 11,
+    "fail": 0,
+    "note": "一致は cross-checked であって Lean の verified ではない(CLAUDE.md 語彙規律)"
+  },
+  "conclusion": {
+    "sq": {
+      "ninf_excluded_gap": true,
+      "ninf_excluded_node": true,
+      "agree": true
+    },
+    "ns": {
+      "ninf_excluded_gap": true,
+      "ninf_excluded_node": true,
+      "agree": true
+    }
+  }
+}
