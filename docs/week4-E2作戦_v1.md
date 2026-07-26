@@ -15,7 +15,9 @@
 | **C3** | **命題 E10(降下)**: $m$-full 性は許容全射に沿って**粗い側へ降りる**。⇒ 相対自由対象を一つ潰せば、その全ての許容商が一括で安全 | **紙上証明**(3 行) |
 | **C4** | **定理 E9′: class ≤ 4 も閉じた**。明示 witness $\bar f = w^{\lambda T_m}(pq)^{-\lambda^2B_m}$($B_m = T_m(T_m+1)/2$)。**係数は $\mathbb Z[1/3]$ に載る** ⇒ 2 群では常に可解 | **紙上構造+厳密有理計算**(多項式次数による決定・§4) |
 | **C5** | **★ 狩場の再配置**: 2 生成 2 群では $A$ 非可換 ⟺ $\mathrm{class}\ge 5$ ⟺ $\lvert P\rvert\ge 2^6$。C2+C4 と合わせ、**E2 正面の生きた最小地点は class ≥ 5**。v4 §4.1 の「$\lvert P\rvert\le 512$ の 2 群掃引」は **class ≥ 5 に絞ってよい**(残りは事前登録 PASS control) | **本稿の主張** |
-| **C8** | **★★ 予想 E15(掃引の前に撃つべき)**: **2 群には E2 型障害が存在しない**かもしれない。class ≤ 4 の witness が両方とも $\mathbb Z[1/3]$-係数だったことから、**障害の唯一の素数は 3** と読める。正しければ委嘱の想定した 2 群掃引は**原理的に空振り**する | **予想**(§1.6 に falsification 計画つき)。**撤回済み H8″ と結論が似るので取り扱い注意** |
+| **C8** | **★★ 予想 E15**: **2 群には E2 型障害が存在しない**かもしれない。class ≤ 4 の witness が両方とも $\mathbb Z[1/3]$-係数だったことから、**障害の唯一の素数は 3** と読める | **予想**(§1.6)。**撤回済み H8″ と結論が似るので取り扱い注意** |
+| **C9** | **F-1 実行済(§F-1)**: 自由 metabelian class-5 対象で **160/160(j=1..5, m=0..31)の解を明示構成し直接代入で検証** ⇒ **E15 は第一審判を通過**。metabelian class 5 は狩場でない。生きた層は **$A$ 非可換(導来長 ≥ 3・$\lvert P\rvert\ge2^6$)**のみ | **GAP witness 直接検証**(node は誤判定・§F-1.2) |
+| **C10** | **★ 過程の教訓**: node の初回実行は「E15 反証」と出たが、**GAP の独立照合が偽の反証を捕まえた**(私の求解器が $\mathbb Z/2^j$ 上で自由変数を 0 に固定 ⇒ **偽の欠損**)。**`m_missing` を主張する側では求解器を単独で信用しない**規律を新設(§F-1.2) | **確定**(GAP witness を node 側の系に代入して同一性も確認) |
 | **C6** | **Burkhart は E2 正面では原理的に無力**。作用群 $J = \langle\rho\rangle \cong C_2$ が**素数冪位数**なので Thm 1/Thm 2 の仮定「各素数 $p$ で $J$ の Sylow $p$ が不動点をもつ」は**結論と同値**になり、定理が空虚 | **紙上確定**(原文 Thm 1 と照合・§2.1) |
 | **C7** | **命題 E12(選択則)**: $n_m$ の指標展開に寄与するのは $\mathrm{Irr}(A)$ のうち **$\sigma$-安定 かつ $\theta$-安定**なものだけ。Kawanaka–Matsuyama はこの $\mathcal B_\theta$ 因子の評価に入る | **紙上証明**(選択則のみ)。**係数の正規化は【GAP-E12】** |
 
@@ -319,7 +321,8 @@ $$ \#\{g\in G : \theta(g) = g^{-1}\} \;=\; \sum_{\chi\in\mathrm{Irr}(G)}\varepsi
     "pigeonhole_pass": false,
     "route_linear":           { "available": true, "solvable": true, "count": 2, "witness": "..." },
     "route_twistedconjugacy": { "available": true, "solvable": true, "count": 2, "witness": "..." },
-    "routes_agree": true, "single_route": false
+    "routes_agree": true, "single_route": false,
+    "unsolvability_certificate": null
   }],
   "m_missing": [],
   "torsion_generation_agrees": true,
@@ -333,6 +336,9 @@ $$ \#\{g\in G : \theta(g) = g^{-1}\} \;=\; \sum_{\chi\in\mathrm{Irr}(G)}\varepsi
 **schema の禁止事項(W54 — G-04 の継続)**
 - **`fake_witness` 欄をこの schema に置いてはならない。** `intersection_size = 0` が証明するのは `m_missing`(= その $(N,m)$ で同時 hexagon 解が無い)までである。
 - `frobenius_zero` / `m_missing` / `fake_witness` は**三つ別の語**であり、自動出力してよいのは前二者だけ。
+
+> **新規則(§F-1.2 の教訓・厳守)**: `intersection_size = 0` を書くときは **`unsolvability_certificate` を必須**とする。中身は (i) Smith 標準形による証明書 $y$($yM \equiv 0$ かつ $yb\not\equiv 0 \bmod 2^j$ — 3 行で独立検証できる)か (ii) 全数探索の記録、のいずれか。**求解器が `fail`/`null` を返しただけでは `m_missing` を書かない。**
+> 逆に `intersection_size > 0` を書くときは **witness を直接代入で検証**する(肯定側は安い)。**肯定と否定で要求する証拠の型が違う**ことを schema で強制する。
 
 ### 3.6 W54 遵守 — `m_missing` を **fake witness へ昇格**させる手順(相対化)
 
@@ -419,6 +425,54 @@ Magnus 埋め込み $x\mapsto 1+\xi$、$y\mapsto 1+\eta$ による自由冪零�
 2. **P-新 B**: 命題 E12 の選択則から、**$\mathrm{Irr}(A)^{\langle\sigma,\theta\rangle} = \{1\}$(自明指標のみ不変)なら $n_m$ が一意に決まる**はずである。この「$S_3$-不変既約指標が自明のみ」という条件を満たす 2 群は E2 障害を**持てない**か? もし言えれば class ≥ 5 の宇宙をさらに縮められる。
 3. **P-新 C**: 観察 B1(素数冪位数の作用群では非 coprime 不動点定理が空虚)は、**Glauberman 系の道具全体**への一般的教訓ではないか。裁定 07 以来の「攻撃 B」の位置づけを、Sol の側からも独立に検分してほしい。
 4. **P-新 D(最重要・監査要請)**: **予想 E15**(2 群には E2 型障害が無い)を独立に検分してほしい。特に (i) 定理 E9 / E9′ の証明(補題 E9.2 の「$A^\sigma\otimes\mathbb Q$ が 1 次元」と、class 4 の 2-integrality)、(ii) **撤回済み H8″ との論理的差**が私の主張どおりか、(iii) 「障害の唯一の素数は 3」という読みに一般的な理由($\tau$ の位数 3・自由 Lie 環の $C_3$-加群構造)を与えられるか。**もし E15 の一般証明が付けば、E2 正面は 2 群では閉じ、狩場は $3\mid\lvert A\rvert$ 側(Q7 型)へ全面移動する** — 週の戦略が変わる。
+
+---
+
+## §F-1 — 予想 E15 の第一審判(2026-07-26・司令塔指示により即時実行)
+
+### F-1.0 事前登録(**計算前に凍結**)
+
+| 項目 | 事前登録値 |
+|---|---|
+| **対象** | $P_5^{\mathrm m} := F_2/(\gamma_6[\gamma_2,\gamma_2])$ = **2 生成の相対自由 metabelian 群・class 5** |
+| **加群** | $A := [P_5^{\mathrm m},P_5^{\mathrm m}] = \gamma_2/(\gamma_6[\gamma_2,\gamma_2]) = \mathbb Z^{12}/L$。$\gamma_2/\gamma_6$ の基底: wt2 $w=[x,y]$;wt3 $p=[w,x],q=[w,y]$;wt4 $r_1=[p,x],r_2=[p,y],r_3=[q,y]$;wt5 $s_1..s_6 = [r_i,x],[r_i,y]$。$L := \langle[w,p],[w,q]\rangle$ |
+| **写像** | $\theta$($x\!\leftrightarrow\!y$)、$\tau$($x\!\to\!y\!\to\!z\!\to\!x$)、$\sigma_m = \mathrm{Ad}(Y^{-m})\circ\tau$、$\mathcal N = 1+\sigma+\sigma^2$、$E_m = X^mZ^mY^m$ |
+| **問い** | 各 $m$ で $v\in A$ が存在して $(1+\theta)v = 0$ かつ $\mathcal Nv = -E_m$($A = \mathbb Z^{12}/L$ の中で)。実装は $L$ の係数を自由変数に持つ **24 式 16 未知数**の増補系 |
+| **判定手続き(主)** | $\mathbb Z/2^j$($j = 1..5$)上の可解性、$m = 0..31$ |
+| **「2-integral」の定義** | 解が $\mathbb Z_{(2)}$ に取れること。運用上は「全ての $j$ で mod $2^j$ 可解」 |
+| **事前宣言した両方向の読み** | **全て可解** ⇒ E15 生存・metabelian class 5 は狩場でない・降下(命題 E10)で全ての許容 metabelian class-5 2 群対象が $m$-full。 **一つでも不可解** ⇒ E15 は普遍レベルで反証・**class 5 が生きた狩場**・障害ベクトルを出力。**ただし普遍レベルの不可解性は、具体的な有限許容対象での `m_missing` を直ちには与えない**(商へ降りると可解になり得る)— 掃引を局在化するだけで、置き換えはしない |
+
+**構造の自己検査(全て PASS)**: 12 基底の round-trip / $[w,p],[w,q]\in\gamma_5$ かつ $\mathbb Z$-独立 / $\theta^2 = \tau^3 = \mathrm{id}$ / $\theta(w) = w^{-1}$ 厳密 / **$L$ が $\theta$-不変かつ $\tau$-不変**(⇒ $\mathcal N,\theta$ が $A$ 上 well-defined)。
+
+### F-1.1 結果 — **E15 は生存**
+
+> **判定: 全ての $(j,m)$($j = 1,\dots,5$、$m = 0,\dots,31$、計 160 通り)で可解。**
+> しかも各ケースで**明示的な解ベクトル $v$ を構成し、$Mv \equiv b \pmod{2^j}$ を直接代入で検証**した(**160/160 verified**)。解の存在は**どの求解器の正しさにも依存しない**。
+> 例(j=4, m=1): $v = (11,13,13,10,10,10,0,2,7,0,9,0\ \vert\ 14,9,0,0)$(前 12 = $A$ の座標、後 4 = $L$ の slack)。
+
+**事前宣言に従った読み**: **E15 は第一審判を通過した。** 降下(命題 E10)により **class ≤ 5 の許容 metabelian 2 群対象は全て $m$-full(torsion 部)**。⇒ **metabelian class 5 は E2 の狩場ではない。**
+
+### F-1.2 ★ 過程で起きたこと — **偽の反証を二系統照合が捕まえた**
+
+**最初の node 実行は「$j\ge2$ の大半の $m$ で MISSING」= E15 反証と出た。** GAP による独立照合(Smith 標準形)がこれを**否定**し、GAP の witness を node が組んだ系に**そのまま代入したら通った**(= 両者の系は同一物、node の判定だけが誤り)。
+
+> **根本原因**: 私の `solveMod`(2 進付値ピボットの掃き出し)は**自由変数を 0 に固定**していた。体の上ならそれで一般性を失わないが、$\mathbb Z/2^j$ は体でないため、**ピボットを取らずに飛ばした列が、既にピボット済みの行では非零係数を持ち得る**。その自由変数を 0 に固定すると、右辺の $2$-可除性条件が偽に厳しくなり **spurious `null`(偽の MISSING)**が出る。
+
+> **★ 教訓(記帳)**: この求解器は **偽陽性(偽の解)は出さないが偽陰性(偽の欠損)を出す**。ゆえに
+> - **§4 の class 3 / class 4 の結果は無傷**(すべて**肯定側**で、しかも witness を直接検証済み。定理 E9/E9′ は独立の紙上証明つき)。
+> - しかし **`m_missing` を主張する側では、この求解器の出力を単独で信用してはならない**。⇒ **§3.5 の schema に `unsolvability_certificate` 欄を新設し、`intersection_size = 0` を出すときは必ず(i)Smith 標準形による証明書 $y$($y M \equiv 0$, $y b \not\equiv 0$)か(ii)全数探索のどちらかを添える**ことを実装規律に格上げする。
+> - **W54 の一段手前に、もう一つの関門ができた**: `m_missing` を書く前に **`m_missing` が実装の産物でないことの証明書**が要る。
+
+★ これは工房の「探索器と照合器の分離」が**自分の推した予想を守る方向に**働いた例である。二系統でなければ、私は E15 を自分で反証したと誤報していた。
+
+### F-1.3 次に何が残ったか
+
+- **生きた層はさらに狭まった**: 2 生成 2 群で E8 の線型判定が使えないのは **$A$ 非可換 ⟺ 導来長 ≥ 3 ⟺ class ≥ 5 かつ非 metabelian**(⇒ $\lvert P\rvert\ge 2^6$)。§3.1 の宇宙はここへ絞ってよい。
+- **ただし E15 の証明はできていない**。class 3 / class 4 は**閉形 witness**($w^{\lambda T_m}(pq)^{-\lambda^2B_m}$)で閉じたが、**class 5 metabelian の解には見やすい閉形がない**(上の $v$ を見よ・$L$-slack も非零)。⇒ **証明には別の考えが要る**(下の P-新 E)。
+- **次の安い一手(F-2 に差し替え提案)**: (i) metabelian class **6**($D = 6$ へ拡張)、(ii) **class 5 の完全版**($A = \gamma_2/\gamma_6$・非可換・階数 12)を route T 相当で直接計算。どちらも同じ Magnus 機構の拡張で、**GAP の SNF を主判定器**にすれば今回の落とし穴を避けられる。
+
+> **【GAP-E15】の更新**: **反証されず**。射程は「class ≤ 4 は証明済 / class 5 metabelian は $m\le31$・$\exp A\le32$ で **160/160 verified**」。**一般証明は未着手**。
+> **P-新 E(Sol への発案要請・追加)**: class 3 は「$A^\sigma\otimes\mathbb Q$ が 1 次元」で閉じ、class 4 は閉形 witness で閉じ、class 5 metabelian は解が存在するが閉形が見えない。**$\mathbb Z[1/3]$ 上で常に解が存在することの一般的理由**(たとえば $H^1(C_3, -)$ の消滅と $\theta$-対称性の組み合わせ、あるいは $\langle\sigma,\theta\rangle\cong S_3$ の群コホモロジー的な消滅定理)を探してほしい。**これが見つかれば E15 は定理になり、E2 正面は 2 群では完全に閉じる。**
 
 ---
 
