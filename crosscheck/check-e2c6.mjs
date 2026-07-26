@@ -395,6 +395,33 @@ for (const fname of certFiles) {
     continue;
   }
 
+  if (cert.claim === 'linear_stage_empty_c6') {
+    // Negative certificate (linear stage unsolvable at this m): independently rebuild the
+    // REAL system (real Em_bar(m), now that the fire lock has authorized real-sweep
+    // disclosure) and recheck the dual witness y: y*rows === 0 (mod modulus) and
+    // y*rhs !== 0 (mod modulus).
+    const modulus = cert.modulus;
+    const y = parseMaybe(cert.dual_witness_y);
+    let rows, rhs, n;
+    if (cert.fixture === 'real_sweep') {
+      ({ rows, rhs, n } = buildLinearSystemC6(cert.m));
+    } else {
+      console.log(`SKIP  ${fname}: linear_stage_empty_c6 with unrecognized fixture "${cert.fixture}"`);
+      continue;
+    }
+    const yM = new Array(n).fill(0);
+    for (let k = 0; k < n; k++) for (let i = 0; i < rows.length; i++) yM[k] += y[i] * rows[i][k];
+    const yb = y.reduce((s, yi, i) => s + yi * rhs[i], 0);
+    const yMZero = yM.every((x) => mod(x, modulus) === 0);
+    const yBNonzero = mod(yb, modulus) !== 0;
+    const claimedYMZero = !!(cert.yM_is_zero ?? cert.yM_is_zero_mod_2j);
+    const claimedYBNonzero = !!cert.yb_nonzero_mod_2j;
+    const ok = yMZero && yBNonzero && yMZero === claimedYMZero && yBNonzero === claimedYBNonzero;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: linear_stage_empty_c6 (fixture=${cert.fixture}, m=${cert.m}, modulus=${modulus}) independently recomputed yM=${JSON.stringify(yM)} yb=${yb} (cert claimed yM_zero=${claimedYMZero}, yb_nonzero=${claimedYBNonzero})`);
+    if (!ok) certFails++;
+    continue;
+  }
+
   if (cert.claim !== 'linear_stage_kernel_c6') {
     console.log(`SKIP  ${fname}: unrecognized claim "${cert.claim}"`);
     continue;

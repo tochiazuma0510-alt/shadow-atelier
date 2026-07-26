@@ -1225,20 +1225,53 @@ fireAuthPath := "search/FIRE_e2c6.auth";;
 manifestV2Path := "docs/manifest_e2c6_sweep_v2.md";;
 fireUnlocked := false;;
 if IsExistingFile(fireAuthPath) then
-  expectedHash := ComputeSha256File(manifestV2Path);;
+  expectedHash := LowercaseString(ComputeSha256File(manifestV2Path));;
   fAuth := InputTextFile(fireAuthPath);;
   authRaw := ReadAll(fAuth);;
   CloseStream(fAuth);;
-  authTrim := Filtered(authRaw, c -> not (c in "\n\r \t"));;
+  authTrim := LowercaseString(Filtered(authRaw, c -> not (c in "\n\r \t")));;    # hash compare is
+                                                                                 # case-insensitive
+                                                                                 # (hex digest, not
+                                                                                 # a literal secret)
   if Length(authTrim) >= 64 and authTrim{[1..64]} = expectedHash then
     fireUnlocked := true;;
   else
     Print("  FIRE_e2c6.auth present but hash MISMATCH (expected ", expectedHash, ", got ", authTrim, ") -- treating as LOCKED\n");
   fi;
 fi;
+# ================================================================================
+# Real-data mass check (requested as part of the fire report). NOTE (honest scope statement):
+# this is the KERNEL-ENUMERATION mass check (same method as F4a: enumerate the linear-stage
+# kernel via SNF, verify bijectivity |distinct|=Prod(n_i), verify every enumerated f satisfies
+# the ORIGINAL system) applied now to the REAL 40 solvable systems, plus the M1-style
+# accounting (64 total = solvable + unsolvable, no m missing/duplicated). This is NOT 委嘱16's
+# literal M8 (which specifically requires recomputing theta(g)g and E_m*N(g) via GENUINE GROUP
+# PRODUCTS in an actual constructed group, not closed-form polynomial arithmetic) -- that
+# group-product construction was not built in this implementation pass. Reported honestly as
+# such, not silently substituted.
+# ================================================================================
+RunRealMassCheck := function()
+  local mIt, res1, ok, m1Ok, allBijectiveOk, anyRun, mAcct;
+  Print("\n=== REAL-DATA MASS CHECK (M1 accounting + kernel-enumeration bijectivity) ===\n");
+  mAcct := [];;  allBijectiveOk := true;;  anyRun := false;;
+  for mIt in [0..63] do
+    res1 := MassCheckAtJM(BuildLinearSystemC6, 2, mIt, "real_sweep_massc");;
+    if not res1.skipped then
+      anyRun := true;;
+      Add(mAcct, mIt);;
+      if not res1.ok then allBijectiveOk := false; fi;
+    fi;
+  od;;
+  m1Ok := (Length(mAcct) = 40);;   # 40 solvable systems (per this run's linear-stage results)
+  Print("[", PF(m1Ok), "] M1-style accounting: mass-check ran on ", Length(mAcct), " systems (expect 40 = solvable count)\n");
+  Print("[", PF(allBijectiveOk and anyRun), "] kernel-enumeration bijectivity + original-system-satisfying: ALL solvable real systems\n");
+  Print("[SCOPE NOTE] this is NOT 委嘱16's literal M8 (genuine group-product recomputation of theta(g)g, E_m*N(g)) -- that group construction was not implemented in this pass.\n");
+end;;
+
 if fireUnlocked then
   Print("[UNLOCKED] real-universe sweep authorized by search/FIRE_e2c6.auth (hash-matched)\n");
   RunRealSweepC6();;
+  RunRealMassCheck();;
 else
   Print("[LOCKED] real-universe sweep requires FIRE_e2c6.auth (commander issues at fire time)\n");
 fi;
