@@ -31,6 +31,8 @@
 
 出力先: `certificates/k5fixture/{K5-sq,K5-ns,K3-regression}.json`(canonical 直列化そのもの — 別途「読みやすい版」は作らない。ハッシュの対象と保存物を一致させるため)。
 
+**envelope の明記(便 32 F1.2)**: `sha256` は当然ながら自己 hash される JSON payload 内には置けない。したがって各 fixture の実体は「payload の 6(K3-regression は 8)field」+「その外側の envelope の digest」という構成であり、`sha256` の値そのものは payload に含まれない外部添付(このドキュメントの表・付録 A §1–2)としてのみ存在する。循環 hash を避けるための型の区別であって、payload の完全性は変わらない(Sol 便 32 F1.2)。
+
 ---
 
 ## 1. K5 finite fixture(二類代表)
@@ -63,6 +65,13 @@
 1. **クラス代表の選択(tie-break)**: $\Lambda_{\rm sq}$ に属する 10 個の共役部分群のうち、要素集合(0..499 の整数)を昇順ソートした配列を**数値辞書式比較**して最小のものを代表 $H$ とする(一意・決定的)。
 2. **点のラベル付け**: 基点 $p_0 := H$ 自身の coset。ラベル $\mathrm{label}(gH) := i$ s.t. $X^i H = gH$($\langle X\rangle$ は $\Lambda$ 上単純推移ゆえ矛盾なく一意)。$\sigma_0$ の方向は「$X$ による左乗算」($X^{-1}$ ではない)に固定。
 3. **残る自由度**: 基点と方向を両方固定した時点で回転・鏡映の自由度は残らない。追加の tie-break は不要。
+
+**tie-break の定義追記(便 32 F1.3・裁定 31 P4)**:
+
+1. 上記「要素 $0,\ldots,499$」は、昇順に並べた raw $D_5^3$ code の $G_5$-list($G_5=\langle X,Y\rangle$ を `search/k5-fixture-serialize.mjs` が構成する際の配列、コード $0$..$999$ のうち $G_5$ に属するものを昇順ソートしたもの)における **index**(0-indexed の通し番号)である。$H$ の「要素集合」とは、この index の集合を指す。
+2. coset $gH$ と、manifest 本文・付録 A が共役類作用として使う $H\mapsto gHg^{-1}$ を結ぶ写像は
+   $$ gH\ \longmapsto\ gHg^{-1} $$
+   である。$N_{G_5}(H)=H$(good 側の判定条件そのもの)により、$g_1H=g_2H \iff g_1Hg_1^{-1}=g_2Hg_2^{-1}$ が成り立つのでこの写像は well-defined かつ全単射であり、$X$ による coset の左乗算($gH\mapsto (Xg)H$)と $X$ による共役($K\mapsto XKX^{-1}$)を **intertwine** する(すなわち上記写像は $\langle X\rangle$-同変)。
 
 **ρ₀・j_i・a**: $\rho_0$ は $\Lambda_{\rm sq}$ 上で忠実(5 元が相異なる・S11 PASS)。$j_{\rm sq}(k$ を $F_0$ の添字として$) = [0,4,3,2,1]$(S12 で全域定義を確認)。**a_sealed = 1**(S13 PASS)。
 
@@ -126,14 +135,27 @@ a49252af8a09031137ee2a5621b7a1eb9c2a6506849afad14dfe74a38a876716
 | covariance control $u'$ | $u' = -256/729$($t=\infty$ 側のもう一方の全分岐 cusp) | 検算 (13)(14)(15)(16) |
 | Möbius 不変性 | $[u]_3 = [u']_3 = [2^2]$($u\ne u'$ だが 3-剰余類は同じ) | 検算 (16) |
 | $\tau$ の向き | $\langle\bar x\rangle\to\mu_M$: 全分岐 cusp の ℚ-有理局所助変数 $s$ に対し $s^{1/M}\mapsto\zeta_M s^{1/M}$。生成元の向きの曖昧さは判定にも固定体にも影響しない | `docs/week4-K3飽和_opus_v3.md` 「$\tau$ の $\mu_M$ 側の同定」節 |
+| $\rho_0$ の定義 | $\rho_0:\mathfrak F_0\to\mathrm{Sym}(\Lambda)$。$\mathfrak F_0=\ker\tilde\chi\cong C_3\subset\mathrm{Aut}(G_3)$($G_3\le D_3^3$、$\lvert G_3\rvert=108$、D1 (3.6) $n=3$ 座標)。$\Lambda=H$ の $G_3$-共役類(6 元、ordered passport $(6,2^21^2,6)$ 側) | `docs/week4-K3飽和_opus_v3.md` §5.2.3・表(§0 の定義表)/ `search/week4-k3-v2-repairs.mjs` T7-T8 |
+| $\Lambda$ の列挙順 | `conjClass(H)`($G_3$ を昇順 0..107 で走査し重複除去)の順。$H$ は target クラス(6 個の共役部分群)のうち要素集合の数値辞書式最小で一意固定(K5 と同じ tie-break 規則。good[0] のような列挙順依存ではない) | `search/k5-fixture-serialize.mjs` PART 2c(K3x2) |
+| $\rho_0$ の生成元・像(実値) | $F_0$ の生成元 $\Phi_{(m{=}0,k{=}1)}$(位数 3): $\rho_0(\Phi_{0,1}) = [1,2,0,4,5,3]$(one-line, 0-indexed、型 $3.3$)。$\rho_0(\Phi_{0,2}) = [2,0,1,5,3,4]$。$\rho_0(\Phi_{0,0}) = \mathrm{id} = [0,1,2,3,4,5]$ | `search/k5-fixture-serialize.mjs` PART 2c(K3x5)= `search/week4-k3-v2-repairs.mjs` T8d(実値一致を本便で突合) |
+| $\tau$ の生成元作用(実値) | $\tau_{tt} := (X$ の $\Lambda$ 上の共役作用$)^{tt}$($tt=0..5$)。$\mu_6[3]$ の生成元 $\tau_2 = [2,0,1,5,3,4]$($\rho_0(\Phi_{0,2})$ と字面一致) | `search/k5-fixture-serialize.mjs` PART 2c(K3x6) |
+| $j$ の表(実値) | $j(\tau_{2\cdot tt\bmod 6}):=k$ s.t. $\rho_0(\Phi_{0,k})=\tau_{2\cdot tt\bmod 6}$。$tt=0\mapsto k=0$、$tt=1\mapsto k=2$、$tt=2\mapsto k=1$(全域定義・(1.1) の実値化) | `search/k5-fixture-serialize.mjs` PART 2c(K3x7) |
+| 向きの注(便 32 F1.4) | 生成元(★$X$ の向き・$F_0$ の $k=1/2$ のどちらを「正」とするか)の選択は $j$ の見た目(どの $tt$ にどの $k$ が対応するか)を入れ替えるが、$\rho_0$ の忠実性・固定体の同定には無影響。上表は $\tau_2:=(X$-共役作用$)^2$ を正の向きとする一つの明示的選択のもとでの値 | `docs/week4-K3飽和_opus_v3.md` 同節・注 4 |
 
-**evidence_ids**: K3-19a19e(`search/week4-19a19e.mjs`・7/7 PASS 本便再実行済)/ K3-u-k3(`search/week4-u-k3.mjs`・16/16 PASS 本便再実行済)/ K3-裁定28(`sol/裁定_28_f29_conjugator.md` 裁定 1-5)。
+**evidence_ids**: K3-19a19e(`search/week4-19a19e.mjs`・7/7 PASS 本便再実行済)/ K3-u-k3(`search/week4-u-k3.mjs`・16/16 PASS 本便再実行済)/ K3-裁定28(`sol/裁定_28_f29_conjugator.md` 裁定 1-5)/ K3x0-K3x7(`search/k5-fixture-serialize.mjs` PART 2c・本便新設・$\rho_0$/$\tau$/$j$ の実値生成と `search/week4-k3-v2-repairs.mjs` T8d との突合)。
 
 **sha256(canonical serialization)**:
 ```
-70f2a6040d0bff85e4c597a6059cfb7151193f1de0c23d20a53f0dc9b2529ed9
+71c609ed75b00737b6d163a922340001593379d64b28d6479ac553845f515776
 ```
 格納先: `certificates/k5fixture/K3-regression.json`
+
+**ハッシュ履歴**:
+
+| 版 | sha256 | 変更内容 |
+|---|---|---|
+| v1(便 31) | `70f2a6040d0bff85e4c597a6059cfb7151193f1de0c23d20a53f0dc9b2529ed9` | 初版。`tau_rho0_j_orientation` は $\tau$ のみ(Sol 便 32 F1.4 が欠品と指摘) |
+| v2(本便・便 32 P4) | `71c609ed75b00737b6d163a922340001593379d64b28d6479ac553845f515776` | $\rho_0$ の生成元/像・$\tau$ の生成元作用・$j$ の表(実値)を追加。`exact_conjugator` に good[0] の provenance 降格 note を追加。K5-sq/K5-ns の sha256 は不変(`node search/k5-fixture-serialize.mjs` 再実行で確認済み) |
 
 ---
 
@@ -157,7 +179,9 @@ a49252af8a09031137ee2a5621b7a1eb9c2a6506849afad14dfe74a38a876716
 | S12 | $j_{\rm sq}, j_{\rm ns}$ が全域定義 | I1 |
 | S13 | 封印値 $a=1$ | I2・I3(node)・I1-I3(GAP) |
 
-実行コマンド: `node search/k5-fixture-serialize.mjs` → `=== 14/14 PASS ===`。
+実行コマンド(v1・便 31): `node search/k5-fixture-serialize.mjs` → `=== 14/14 PASS ===`。
+
+**追加(v2・便 32 P4)**: `search/k5-fixture-serialize.mjs` に PART 2c(K3x0-K3x7 の 8 項目・K3-regression の $\rho_0$/$\tau$/$j$ 実値生成)を追加し、`=== 22/22 PASS ===`(14 + 8)。K3x5 で `search/week4-k3-v2-repairs.mjs` T8d の $\rho_0$ 実値(置換 `012345 | 120453 | 201534`)との一致を assertion として確認した。K5-sq/K5-ns の PART 1/S0-S13 は無変更(sha256 不変で裏付け)。
 
 `search/week4-19a19e.mjs` と `search/week4-u-k3.mjs` も本便で再実行し、それぞれ **7/7 PASS**・**16/16 PASS** を確認した(§2 の出所欄に反映済み)。
 
@@ -176,5 +200,18 @@ a49252af8a09031137ee2a5621b7a1eb9c2a6506849afad14dfe74a38a876716
 ## 5. 懸念・報告事項(実装担当より)
 
 1. **sha256 の桁数確認**: 3 個の digest はいずれも 64 桁(`node -e` で `.length` を実測して確認済み)。転記前の自己点検で一度桁数を誤読したが、実測により 64 桁で正常と確定した。
-2. K3-regression fixture の $\sigma$ 三つ組・$G_3$ 側次数 6 表現は `search/week4-19a19e.mjs` の**この 1 回の実行**での出力である(good[0] の選び方は部分群列挙順に依存するため、環境やバージョンが変わると `good[0]` 自体が変わりうる——ただし裁定 28 が pin した $h$ の値自体は変わらないので、$h$ の正典性には影響しない)。
-3. 本稿は u・固定体・算術側には触れていない。§2 の $u=-4$・$u'=-256/729$ は「K3 の既知回帰データの引用」であり、K5 側の新しい u 抽出ではない(K5-sq/K5-ns fixture には u を含めていない)。
+2. K3-regression fixture の $\sigma$ 三つ組・$G_3$ 側次数 6 表現は `search/week4-19a19e.mjs` の**この 1 回の実行**での出力である(good[0] の選び方は部分群列挙順に依存するため、環境やバージョンが変わると `good[0]` 自体が変わりうる——ただし裁定 28 が pin した $h$ の値自体は変わらないので、$h$ の正典性には影響しない)。**便 32 F1.4・裁定 31 P4 により格下げを明文化**: authoritative value は本稿・fixture JSON 内の明示三つ組($\sigma_0,\sigma_1,\sigma_\infty$・$\bar x,\bar y,\bar z$)と明示 $h$ であり、`good[0]` という選び方自体は再現 recipe ではなく provenance(どの実行から転記したかの記録)である。この降格 note を `certificates/k5fixture/K3-regression.json` の `exact_conjugator.good0_authoritative_note` として fixture 本体にも記入した。
+3. 本稿は u・固定体・算術側には触れていない。§2 の $u=-4$・$u'=-256/729$ は「K3 の既知回帰データの引用」であり、K5 側の新しい u 抽出ではない(K5-sq/K5-ns fixture には u を含めていない)。**同じ理由で本便で追加した $\rho_0$/$\tau$/$j$ の実値(PART 2c)も、既存の `search/week4-k3-v2-repairs.mjs`(T7・T8・cross-checked 43/43)が確立した対象の値の切り出しであり、新しい独立クロスチェックとしては数えない**(§0 冒頭の射程宣言と同じ扱い)。
+
+---
+
+## 6. 版表(§8.6 下準備・便 32 P4)
+
+manifest 本文 §8.6/§10 が要求する「実装版・commit・checker ID」欄への値の下準備。**本便では git commit を行っていない**(実装担当の規律)ため、下表の commit hash は「本便の編集直前(working tree 変更前)の HEAD」であり、`search/k5-fixture-serialize.mjs` は本便で内容を変更したため次回コミット後にハッシュが変わる。司令塔が P7(便 34 再提出)で確定値に更新すること。
+
+| component | 役割 | 直前 commit(便 32 時点) | 備考 |
+|---|---|---|---|
+| `search/k5-fixture-serialize.mjs` | fixture 実体化・canonical serialization 生成器(PART 1/2/2c/3) | `25c37e209b655d29af707b6fe0bbc25730b70300` | **本便で PART 2c を追加・未コミット**(git status で確認)。コミット後に新 hash へ更新要 |
+| `search/k5-blocks-check.g` | K5-sq/K5-ns の GAP 側ブロック系検算(34/34) | `3eb0a70a48be9b897db08cb5a08ad907a3b03ae4` | 本便で無変更 |
+| `crosscheck/check-k5-blocks.mjs` | 同上の node 独立照合器(36/36・突合 13/13) | `3eb0a70a48be9b897db08cb5a08ad907a3b03ae4` | 本便で無変更 |
+| `search/week4-k3-v2-repairs.mjs` | K3 側 $\rho_0$/$\mathfrak F_0$ の独立検算(43/43・PART 2c の突合先) | `174dd5a967b6db1d496fc1fe79f7406143769183` | 本便で無変更(本便で再実行し 43/43 PASS を再確認) |

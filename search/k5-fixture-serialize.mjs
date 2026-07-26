@@ -321,6 +321,126 @@ console.log(`\nK5-sq sha256 = ${hSq}`);
 console.log(`K5-ns sha256 = ${hNs}`);
 
 // ============================================================================
+// PART 2c: K3-regression の rho0/j 実値(n=3, D_3^3, |G3|=108)を独立生成する。
+// 便 32 P4(裁定 31)対応: search/week4-k3-v2-repairs.mjs T1-T8 と同一の群構成・
+// 定義(D1 (3.6) n=3)を本スクリプト内に再実装する。ただし target クラスの代表 H の
+// 選択は week4-k3-v2-repairs.mjs のような「列挙順で最初に見つかったもの」(target[0]
+// 型の依存)を避け、K5(§ PART 1 の pickCanonicalRep)と同じ tie-break(要素集合の
+// 数値辞書式最小)を適用する。最終的に week4-k3-v2-repairs.mjs T8d の rho0 実値
+// (置換 [012345, 120453, 201534])と突合し、一致することを assert する。
+// ============================================================================
+const dec3n = (c) => [Math.floor(c / 2) % 3, c % 2];
+const enc3n = (a, e) => 2 * (((a % 3) + 3) % 3) + (e & 1);
+const mul3n1 = (c1, c2) => { const [a1, e1] = dec3n(c1), [a2, e2] = dec3n(c2); return enc3n(a1 + (e1 ? -a2 : a2), e1 ^ e2); };
+const E3n = (x) => [x % 6, Math.floor(x / 6) % 6, Math.floor(x / 36) % 6];
+const N3n = (v) => v[0] + 6 * v[1] + 36 * v[2];
+const MUL3n = (x, y) => { const a = E3n(x), b = E3n(y); return N3n([mul3n1(a[0], b[0]), mul3n1(a[1], b[1]), mul3n1(a[2], b[2])]); };
+const ID3n = 0;
+const R3n = (a) => enc3n(a, 0), S3n = (a) => enc3n(a, 1);
+// D1 (3.6) n=3: xbar=(r,s,s), ybar=(rs,r,rs), zbar=(r^2 s, r^{-1} s, r)
+const XB3 = N3n([R3n(1), S3n(0), S3n(0)]);
+const YB3 = N3n([S3n(1), R3n(1), S3n(1)]);
+const ZB3 = N3n([S3n(2), S3n(2), R3n(1)]);
+const gen3n = (gens) => { const set = new Set([ID3n]); const st = [ID3n];
+  while (st.length) { const g = st.pop(); for (const h of gens) { const p = MUL3n(g, h); if (!set.has(p)) { set.add(p); st.push(p); } } } return set; };
+const invRaw3 = (x) => { for (let y = 0; y < 216; y++) if (MUL3n(x, y) === ID3n) return y; throw new Error('no inv'); };
+const G3arr = [...gen3n([XB3, YB3, invRaw3(XB3), invRaw3(YB3)])].sort((a, b) => a - b);
+const NG3 = G3arr.length;
+const idx3 = new Map(G3arr.map((g, i) => [g, i]));
+const T3 = new Int16Array(NG3 * NG3);
+for (let i = 0; i < NG3; i++) for (let j = 0; j < NG3; j++) T3[i * NG3 + j] = idx3.get(MUL3n(G3arr[i], G3arr[j]));
+const mul3 = (i, j) => T3[i * NG3 + j];
+const ID3 = idx3.get(ID3n);
+const INV3 = new Int16Array(NG3);
+for (let i = 0; i < NG3; i++) for (let j = 0; j < NG3; j++) if (mul3(i, j) === ID3) { INV3[i] = j; break; }
+const ORD3 = new Int16Array(NG3);
+for (let i = 0; i < NG3; i++) { let r = i, n = 1; while (r !== ID3) { r = mul3(r, i); n++; } ORD3[i] = n; }
+const powi3 = (i, n) => { let r = ID3; const k = ((n % ORD3[i]) + ORD3[i]) % ORD3[i]; for (let t = 0; t < k; t++) r = mul3(r, i); return r; };
+const X3 = idx3.get(XB3), Y3 = idx3.get(YB3), Z3 = idx3.get(ZB3);
+ck('K3x0  |G3| = 108・xbar ybar zbar = 1(D1 (3.6) n=3 再構成)', NG3 === 108 && mul3(mul3(X3, Y3), Z3) === ID3);
+
+// 部分群の全列挙(week4-k3-v2-repairs.mjs T2 と同一手続き)
+const key3 = (S) => [...S].sort((a, b) => a - b);
+const keyStr3 = (S) => key3(S).join(',');
+const closure3 = (elts) => { const s = new Set([ID3]); const st = [ID3];
+  const gens = [...elts, ...elts.map(g => INV3[g])];
+  while (st.length) { const g = st.pop(); for (const h of gens) { const p = mul3(g, h); if (!s.has(p)) { s.add(p); st.push(p); } } } return s; };
+let subs3 = new Map(); subs3.set(keyStr3(new Set([ID3])), new Set([ID3]));
+{ let changed = true;
+  while (changed) { changed = false;
+    for (const [, Ssub] of [...subs3]) { if (Ssub.size === 108) continue;
+      for (let g = 0; g < NG3; g++) { if (Ssub.has(g)) continue;
+        const Tn = closure3([...Ssub, g]); const k = keyStr3(Tn);
+        if (!subs3.has(k)) { subs3.set(k, Tn); changed = true; } } } } }
+const H18arr = [...subs3.values()].filter(S => S.size === 18);
+
+const normalizer3 = (H) => { const out = []; for (let g = 0; g < NG3; g++) { let ok = true; for (const h of H) if (!H.has(mul3(mul3(g, h), INV3[g]))) { ok = false; break; } if (ok) out.push(g); } return out; };
+const conjSub3 = (H, g) => { const gi = INV3[g]; const S = new Set(); for (const h of H) S.add(mul3(mul3(g, h), gi)); return S; };
+const conjClass3 = (H) => { const m = new Map(); for (let g = 0; g < NG3; g++) { const C = conjSub3(H, g); m.set(keyStr3(C), C); } return [...m.values()]; };
+const cosets3 = (H) => { const seen = new Map(), list = []; for (let g = 0; g < NG3; g++) { const c = new Set(); for (const h of H) c.add(mul3(g, h)); const k = keyStr3(c); if (!seen.has(k)) { seen.set(k, list.length); list.push(c); } } return { list, seen }; };
+const permOf3 = (cs, g) => cs.list.map(c => { const t = new Set(); for (const x of c) t.add(mul3(g, x)); return cs.seen.get(keyStr3(t)); });
+const cycType3 = (p) => { const n = p.length, sn = new Array(n).fill(false), t = []; for (let i = 0; i < n; i++) { if (sn[i]) continue; let j = i, l = 0; while (!sn[j]) { sn[j] = true; j = p[j]; l++; } t.push(l); } return t.sort((a, b) => b - a).join('.'); };
+
+const info3 = H18arr.map(H => {
+  const cs = cosets3(H);
+  const px = permOf3(cs, X3), py = permOf3(cs, Y3), pz = permOf3(cs, Z3);
+  const nrm = normalizer3(H);
+  return { H, cs, px, py, pz, tX: cycType3(px), tY: cycType3(py), tZ: cycType3(pz), nrmOrd: nrm.length };
+});
+const qual3 = info3.filter(o => o.tX === '6');
+const good3 = qual3.filter(o => o.nrmOrd === 18);
+const target3 = good3.filter(o => o.tX === '6' && o.tY === '2.2.1.1' && o.tZ === '6');
+ck('K3x1  qualifying 18 / good 12 / target(ordered passport (6,2^2 1^2,6)) 6 個(week4-k3-v2-repairs.mjs T2/T3 の再確認)',
+  qual3.length === 18 && good3.length === 12 && target3.length === 6,
+  `qual=${qual3.length} good=${good3.length} target=${target3.length}`);
+
+// tie-break(K5 と同一規則。cmpArr/pickCanonicalRep は PART 1 で定義済み):
+// target クラス(6 個の共役部分群)のうち、要素集合の数値辞書式最小を代表 H とする。
+const targetSorted = [...target3].sort((a, b) => cmpArr(key3(a.H), key3(b.H)));
+const H3rep = targetSorted[0];
+ck('K3x2  target クラスの代表 H を数値辞書式最小 tie-break で一意固定', !!H3rep);
+
+const L3 = conjClass3(H3rep.H), LK3 = L3.map(keyStr3);
+ck('K3x3  |Lambda| = 6(H の G3-共役類)', L3.length === 6);
+
+// F0 = ker(chi~) の再構成(week4-k3-v2-repairs.mjs T7/T8 と同一定義)
+const kappa3 = (m) => (m % 2 === 1) ? m + 1 : -m;
+const Xcal3n = [0, 2, 3, 5];
+const par3b = new Int16Array(NG3).fill(-1), via3b = new Int16Array(NG3).fill(-1), bfs3b = [];
+{ const q = [ID3], seen = new Uint8Array(NG3); seen[ID3] = 1;
+  while (q.length) { const g = q.shift(); bfs3b.push(g);
+    for (const [gi, gg] of [[0, X3], [1, Y3]]) { const p = mul3(g, gg); if (!seen[p]) { seen[p] = 1; par3b[p] = g; via3b[p] = gi; q.push(p); } } } }
+const imgBuf3 = new Int16Array(NG3), seenImg3 = new Int16Array(NG3); let stamp3 = 0;
+const autOf3 = (X2, Y2) => { stamp3++; imgBuf3[ID3] = ID3;
+  for (let t = 1; t < bfs3b.length; t++) { const g = bfs3b[t]; imgBuf3[g] = mul3(imgBuf3[par3b[g]], via3b[g] === 0 ? X2 : Y2); }
+  for (let t = 0; t < bfs3b.length; t++) { const v = imgBuf3[bfs3b[t]]; if (seenImg3[v] === stamp3) return null; seenImg3[v] = stamp3; }
+  for (let i = 0; i < NG3; i++) { if (imgBuf3[mul3(i, X3)] !== mul3(imgBuf3[i], X2)) return null; if (imgBuf3[mul3(i, Y3)] !== mul3(imgBuf3[i], Y2)) return null; }
+  return Int16Array.from(imgBuf3); };
+const eltOf3 = (v) => idx3.get(N3n(v.map(a => R3n(a))));
+const F0_3 = [];
+for (const m of Xcal3n) { if (((2 * m + 1) % 12 + 12) % 12 !== 1) continue;
+  for (let k = 0; k < 3; k++) { const f = eltOf3([2 * k, -2 * k, kappa3(m)].map(a => ((a % 3) + 3) % 3));
+    const X2 = powi3(X3, 1), Y2 = mul3(mul3(INV3[f], powi3(Y3, 1)), f); F0_3.push({ m, k, aut: autOf3(X2, Y2) }); } }
+ck('K3x4  F0 = ker(chi~) は 3 元(m=0 の k=0..2)', F0_3.length === 3);
+
+const applyAut3 = (aut, S) => { const T2 = new Set(); for (const g of S) T2.add(aut[g]); return T2; };
+const rho0_3 = F0_3.map(s => L3.map(C => LK3.indexOf(keyStr3(applyAut3(s.aut, C)))));
+ck('K3x5  rho0 は忠実(3 元が相異なる)・week4-k3-v2-repairs.mjs T8d と実値一致',
+  new Set(rho0_3.map(p => p.join(','))).size === 3 &&
+  rho0_3[0].join(',') === '0,1,2,3,4,5' && rho0_3[1].join(',') === '1,2,0,4,5,3' && rho0_3[2].join(',') === '2,0,1,5,3,4',
+  rho0_3.map(p => p.join('')).join(' | '));
+
+// tau: X による Lambda(6 元)上の共役作用の巡回群(位数 6)
+const t3 = L3.map(C => LK3.indexOf(keyStr3(conjSub3(C, X3))));
+const comp3 = (p, q) => p.map((_, i) => q[p[i]]);
+const TT3 = []; { let p = L3.map((_, i) => i); for (let i = 0; i < 6; i++) { TT3.push(p); p = comp3(p, t3); } }
+ck('K3x6  <X> は Lambda(6 元)上単純推移(位数 6 の巡回置換)', new Set(TT3.map(p => p.join(','))).size === 6);
+
+// j: mu_6[3] = <tau^2>(生成元 X^2 の共役作用)の像を rho0 の何番目(F0 の k)に対応させるか
+const j3 = [0, 1, 2].map(tt => { const tgt = TT3[(2 * tt) % 6].join(','); const w = rho0_3.findIndex(p => p.join(',') === tgt); return w < 0 ? null : F0_3[w].k; });
+ck('K3x7  j は全域定義(rho0 の像が tau(mu_6[3]) を尽くす)', j3.every(v => v !== null), `j = ${j3.join(',')}`);
+
+// ============================================================================
 // PART 3: K3 regression fixture(裁定_28 の正典値 + week4-19a19e.mjs / week4-u-k3.mjs の実行結果を機械転写)
 // ============================================================================
 const k3Fixture = {
@@ -348,6 +468,7 @@ const k3Fixture = {
     g3_side_ybar: [1, 3, 2, 5, 4, 6],
     g3_side_zbar: [6, 1, 4, 2, 3, 5],
     source: 'sol/裁定_28_f29_conjugator.md 裁定 1・再計算 search/week4-19a19e.mjs 検算 (3)(3b)(3c) = 7/7 PASS(本便で再実行し一致を確認)',
+    good0_authoritative_note: 'good[0] は search/week4-19a19e.mjs の部分群列挙順に依存し、環境やバージョンが変わると変わりうる(裁定 31・Sol 便 32 F1.4)。authoritative な値は本ブロックの h_one_line_1indexed と g3_side_xbar/ybar/zbar・sigma_0/1/infty(このJSON内の明示三つ組と明示 h)であり、good[0] という選び方自体は再現 recipe ではなく provenance(どの実行から転記したかの記録)に過ぎない',
   },
   cusp_and_uniformizer: {
     point_P0: '(x,t) = (0,0), 全分岐 cusp(lambda=0 上)',
@@ -361,6 +482,33 @@ const k3Fixture = {
     tau_definition: 'X (=<xbar>) -> mu_M(全分岐 cusp の Q-有理局所助変数 s に対し s^{1/M} |-> zeta_M s^{1/M})',
     source: 'docs/week4-K3飽和_opus_v3.md 「tau の mu_M 側の同定」節',
     note: '生成元の向きの曖昧さは判定にも固定体にも影響しない(同節・注 4)',
+    rho0_definition: 'rho0 : F0 -> Sym(Lambda)(docs/week4-K3飽和_opus_v3.md 表・§5.2.3)。F0 = ker(chi~) ~= C3 subset Aut(G3)(D1 (3.6) n=3 座標、G3 <= D_3^3・|G3|=108)。Lambda = H の G3-共役類(6 元、ordered passport (6,2^2 1^2,6) 側)。rho0(phi) := phi の Lambda への誘導作用',
+    lambda_size: 6,
+    lambda_ordering_note: 'Lambda の 6 元は conjClass(H)(G3 を昇順 0..107 で走査して重複除去)の列挙順。H はここでも K5 と同じ tie-break(target クラス 6 個のうち要素集合の数値辞書式最小)で一意固定 — good[0] のような単なる「最初に見つかった」順ではない',
+    F0_generators: [
+      { m: 0, k: 0, note: '恒等元(chi~(0,0)=1 の自明な代表)' },
+      { m: 0, k: 1, note: 'F0 の生成元として採用(位数 3)' },
+      { m: 0, k: 2, note: '上記生成元の平方(逆元)' },
+    ],
+    rho0_images_one_line_0indexed: {
+      k0: [0, 1, 2, 3, 4, 5],
+      k1: [1, 2, 0, 4, 5, 3],
+      k2: [2, 0, 1, 5, 3, 4],
+      convention: 'perm[i] = rho0(phi)(Lambda の i 番目の元)。k1・k2 は不動点なしの 3-サイクル 2 個(型 3.3)',
+    },
+    tau_generator_action: {
+      description: 'tau_tt := (X の Lambda 上の共役作用)^tt (tt=0..5)。mu_6[3] の生成元は tau2 = tau_tt の tt=2 に対応する(位数 6 の巡回群 <X> の指数 2 部分群)',
+      tau2_one_line_0indexed: [2, 0, 1, 5, 3, 4],
+      note: 'tau2 は rho0_images_one_line_0indexed の k2 と字面まで一致する(j(tt=1)=2 の直接確認)',
+    },
+    j_table: {
+      convention: 'j(tau_{2tt mod 6}) := k  s.t.  rho0(k 番目の F0 元) = tau_{2tt mod 6}  (tt = 0,1,2)。(1.1) j := (rho0|F0)^{-1} circ tau|mu_M[e] の実値化',
+      values_by_tt: { tt0: 0, tt1: 2, tt2: 1 },
+      note: '全域定義(3 値とも F0 の k in {0,1,2} を尽くす・一つも null にならない)。tt0 は tau0=identity <-> rho0 の k0=identity(自明な対応)',
+    },
+    orientation_note: '生成元(X の向き、あるいは F0 の k=1/k=2 のどちらを「正」の生成元と呼ぶか)の選択は j の見た目(どの tt にどの k が対応するか)を入れ替えるが、rho0 の忠実性・tau の単射性・固定体の同定には無影響(docs/week4-K3飽和_opus_v3.md 同節・注 4)。上記 j_table は tau2 := (X-共役作用)^2 を正の向きとする一つの明示的な選択のもとでの値である',
+    cross_check: 'rho0_images_one_line_0indexed は search/week4-k3-v2-repairs.mjs T8d(F0 の Lambda 上の忠実な作用の実値・独立実装)と本便で突合し一致を確認(k5-fixture-serialize.mjs 実行時 assertion K3x5)。ただし両スクリプトは D1 の座標系と G3 の構成手続きを共有しており、「探索器と照合器の分離」における独立クロスチェックには数えない(付録 A の射程宣言と同じ扱い)',
+    source: 'search/k5-fixture-serialize.mjs 本便追加分(PART 2c)+ docs/week4-K3飽和_opus_v3.md §5.2.3・(1.1)(rho0/tau/j の定義)+ search/week4-k3-v2-repairs.mjs T7/T8(F0 の再構成と Lambda 上の忠実性の既存検算)',
   },
   evidence_ids: [
     { id: 'K3-19a19e', path: 'search/week4-19a19e.mjs', item: '(0)-(4)', desc: '7/7 PASS(本便で再実行し確認)' },
