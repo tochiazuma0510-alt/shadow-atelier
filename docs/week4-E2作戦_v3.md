@@ -22,14 +22,14 @@
 | 「$O_j=0\iff$ 自明表現なし」を有限層の判定に使う | **FAIL**(位数 2 元上で $-1=+1$) | **撤回**し、さらに強い形へ: 有限 2 群では $C_j=0\iff M_j^{\bar\sigma}=0$(§4.3・本稿の追加) | §4.3 |
 | weight 5 初出(表 1) | 有理表現論として PASS | **射程を限定して保持**(有理係数の主張・E9/E9′ の再証明ではない) | §5 |
 | 定理 E19($c\le7$, $m\le63$) | 単系統 candidate のまま | 札を `Z2-solvable candidate (single system, statically audited)` に固定。二系統化は別紙 | §6.1 |
-| 系 E19-b(mod 8 周期性 $\Rightarrow$ 全 $m$) | **FAIL** | **撤回**。代わりに **命題 E19-b′(小行列式の次数による有限判定)を新設し、$c=3,4,5$ については全 $m\in\mathbb Z$ で実際に閉じた** | §6.2 |
+| 系 E19-b(mod 8 周期性 $\Rightarrow$ 全 $m$) | **FAIL** | **撤回**。代わりに **命題 E19-b′(小行列式の次数による有限判定)を新設し、$c\le6$ については全 $m\in\mathbb Z$ で実際に閉じた** | §6.2 |
 | 「素数 2 は完全に落ちた」 | 射程超過 | **撤回**($c\le5$ に限る・§6.3 が正しい射程) | §6.3 |
 | 定理 E21(E12-a は空虚) | **PASS** | 維持(変更なし) | — |
 | 補題 E22(norm 積公式) | 積公式 PASS・持ち上げ枠組み未完 | 積公式維持。**三段判定として完成**(別紙 `命題_E22三段判定_v1.md`) | §7 |
-| 「生存層は class-5 非 metabelian だけ」 | 射程超過 | **撤回**。class-5 非 metabelian は**第一優先層**。metabelian class $\ge8$・$c=6,7$ の全 $m$ は **UNKNOWN として盤面に残す** | §7 |
+| 「生存層は class-5 非 metabelian だけ」 | 射程超過 | **撤回**。class-5 非 metabelian は**第一優先層**。metabelian class $\ge8$・$c=7$ の全 $m$ は **UNKNOWN として盤面に残す** | §7 |
 | 掃引宇宙 v2(`U-E2-nm5-2026-07-26`) | **NO-GO** | **凍結**。新 ID `U-E2-nm5-r2-2026-07-26` で再登録(別紙) | 別紙 |
 
-★ **一行でいうと**: (†) は紙で閉じた(これは確定)。しかし **graded 解析の「障害は消えている」という読みは誤りだった** — 有限 2 群では潜在障害群はほぼ常に非零で、消えるのは**障害元**であって群ではない。一方 E19 側は、便 13 が撤回を求めた $m$ 量化子が、**小行列式の次数による有限判定で $c\le5$ については実際に閉じた**。
+★ **一行でいうと**: (†) は紙で閉じた(これは確定)。しかし **graded 解析の「障害は消えている」という読みは誤りだった** — 有限 2 群では潜在障害群はほぼ常に非零で、消えるのは**障害元**であって群ではない。一方 E19 側は、便 13 が撤回を求めた $m$ 量化子が、**小行列式の次数による有限判定で $c\le6$ については実際に閉じた**($c=6$ は便 12/13 時点では $m\le63$ 止まりだった層)。
 
 ---
 
@@ -234,11 +234,11 @@ $$ r\le\operatorname{rank}_{\mathbb Q}M(m)\le\operatorname{rank}_{\mathbb Q}[M(m
 > | 3 | 3 | 2 | **2** | 10 | $m=0..80$(10–11/類) | **CLOSED** |
 > | 4 | 6 | 4 | **4** | 25 | $m=0..260$(32–33/類) | **CLOSED** |
 > | 5 | 10 | 6 | **8** | 60 | $m=0..480$(60–61/類) | **CLOSED** |
-> | 6 | 15 | 8 | **11** | 103 | $m=0..63$ のみ(8/類) | **UNKNOWN** — $m\le823$ まで走らせれば閉じる |
+> | 6 | 15 | 8 | **11** | 103 | $m=0..900$(112–113/類) | **CLOSED** |
 > | 7 | 21 | 10 | **16** | 178 | $m=0..63$ のみ(8/類) | **UNKNOWN** — $m\le1423$ まで走らせれば閉じる |
 >
-> ⇒ **$c=3,4,5$ については、$m\le63$ ではなく全ての $m\in\mathbb Z$ について $\mathbb Z_2$-可解かつ $\mathbb Q$-可解が確定した**(命題 E19-b′ + 上の計算)。
-> ⇒ **$c=6,7$ も rank は $m=0..63$ の全剰余類で一定($11,16$)であり、必要な標本数($103,178$/類)まで走らせるだけで閉じる見込み — 有限・実行可能**(指示書 §4.2 に正確なコマンドと上限を記載)。
+> ⇒ **$c=3,4,5,6$ については、$m\le63$ ではなく全ての $m\in\mathbb Z$ について $\mathbb Z_2$-可解かつ $\mathbb Q$-可解が確定した**(命題 E19-b′ + 上の計算)。**$c=6$ は v2 の定理 E19 が $m\le63$ でしか主張できなかった層であり、$m$ 量化子が初めて閉じた。**
+> ⇒ **$c=7$ も rank は $m=0..63$ の全剰余類で一定($16$)であり、必要な標本数($178$/類 ⇒ $m\le1423$)まで走らせるだけで閉じる見込み — 有限・実行可能**(指示書 §4.2 に正確なコマンドと上限を記載)。
 > **札 = `candidate`(単系統)**。本スクリプトは `metab.mjs` と**同一モデルのコードを共有**しており(意図的・rank という別量を測る補助計算)、**第二系統ではない**。二系統化の対象に含めること(指示書 §4)。
 
 > **系 E19-c(v3・射程を明示).** 命題 E10(v2 §2)より、**2 生成 metabelian 2 群で class $\le5$ の許容対象は、全ての charming $m$ で torsion-full**(指数 $2^j$ は任意)。class $6,7$ は $m\le63$ の範囲で candidate、全 $m$ は UNKNOWN。
@@ -246,12 +246,12 @@ $$ r\le\operatorname{rank}_{\mathbb Q}M(m)\le\operatorname{rank}_{\mathbb Q}[M(m
 ### 6.3 便 12 ★ への最終回答(射程の確定・W109/F11)
 
 **採用する**:
-> `metab.mjs` の結果が第二系統と一致すれば、自由 metabelian $c\le7$、$m\le63$ では高い 2 冪で初出する divisibility obstruction はない。さらに **$c\le5$ については命題 E19-b′ により全 $m$ へ拡張される**。
+> `metab.mjs` の結果が第二系統と一致すれば、自由 metabelian $c\le7$、$m\le63$ では高い 2 冪で初出する divisibility obstruction はない。さらに **$c\le6$ については命題 E19-b′ により全 $m\in\mathbb Z$ へ拡張される**。
 
 **採用しない(v2 D7 / §3.5(i) の撤回)**:
 - 「全 metabelian 塔に 2-primary obstruction は存在しない」— **反駁**(metabelian class $\ge8$ は UNKNOWN)。
-- 「class $\le7$ の全 $m$ で存在しない」— **UNKNOWN**($c=6,7$ は E19-b′ の標本が未取得)。
-- 「素数 2 は完全に落ちた」— **撤回**。落ちたのは $c\le5$ の metabelian 塔だけである。
+- 「class $\le7$ の全 $m$ で存在しない」— **UNKNOWN**($c=7$ は E19-b′ の標本が未取得。$c\le6$ は取得済み)。
+- 「素数 2 は完全に落ちた」— **撤回**。落ちたのは $c\le6$ の metabelian 塔だけである。
 
 ---
 
@@ -263,15 +263,15 @@ $$ r\le\operatorname{rank}_{\mathbb Q}M(m)\le\operatorname{rank}_{\mathbb Q}[M(m
 |---|---|---|---|
 | class $\le2$ | **閉鎖** | 命題 E16(i)(無仮定)+ 系 E16-a | 紙上・相互監査 PASS |
 | class $\le4$(⇒ $A$ 可換) | **閉鎖** | 定理 E9′・(†)(§1) | paper mutual-audit PASS / candidate |
-| metabelian $c\le5$、**全 $m\in\mathbb Z$**、全指数 $2^j$ | **閉鎖(単系統)** | 定理 E19 + **命題 E19-b′**(§6.2) | candidate(単系統・二系統化待ち) |
-| metabelian $c=6,7$、$m\le63$、全 $j$ | candidate | 定理 E19 | candidate(単系統) |
-| metabelian $c=6,7$、**全 $m$** | **UNKNOWN(ただし有限・実行可能)** | E19-b′ の標本未取得($m\le823$ / $m\le1423$ で閉じる見込み) | UNKNOWN |
+| metabelian $c\le6$、**全 $m\in\mathbb Z$**、全指数 $2^j$ | **閉鎖(単系統)** | 定理 E19 + **命題 E19-b′**(§6.2) | candidate(単系統・二系統化待ち) |
+| metabelian $c=7$、$m\le63$、全 $j$ | candidate | 定理 E19 | candidate(単系統) |
+| metabelian $c=7$、**全 $m$** | **UNKNOWN(ただし有限・実行可能)** | E19-b′ の標本未取得($m\le1423$ で閉じる見込み) | UNKNOWN |
 | **metabelian class $\ge8$** | **UNKNOWN** | 8GB 制約で未計算 | UNKNOWN(盤面に残す) |
 | **$A$ 非可換(導来長 $\ge3$・class $\ge5$)** | **UNKNOWN・第一優先** | weight-5 初出(§5)+ 三つの武器が同時失効 | UNKNOWN |
 
 > **★ v2 の「唯一の生きた層」は撤回する。** 正しくは:
 > $$ \text{class-5 非 metabelian}\;=\;\textbf{現在もっとも情報価値の高い第一優先層} $$
-> であって唯一ではない。**metabelian class $\ge8$、$c=6,7$ の全 $m$、および E19 の第二系統は生きたまま盤面に残す**(便 13 F11)。
+> であって唯一ではない。**metabelian class $\ge8$、$c=7$ の全 $m$、および E19 の第二系統は生きたまま盤面に残す**(便 13 F11)。
 
 ### 7.2 なぜ第一優先か(三つの独立な理由)
 
@@ -294,11 +294,11 @@ $$ r\le\operatorname{rank}_{\mathbb Q}M(m)\le\operatorname{rank}_{\mathbb Q}[M(m
 | # | 内容 | v3 での状態 |
 |---|---|---|
 | **【GAP-E2】** | 一般の同時可解性 | 本丸 = $A$ 非可換。**正しい定式化 = 三段判定(線型部+二次形式部+cocycle 部)** — `docs/命題_E22三段判定_v1.md` で完成 |
-| **【GAP-E13】** | class $\ge5$ の判定 | metabelian は $c\le5$ 全 $m$ 閉鎖(単系統)/ $c=6,7$ 部分 / $c\ge8$ UNKNOWN。非 metabelian は【GAP-E2】と合流 |
-| **【GAP-E15】** | 予想 E15 の真偽 | **反証されず**。射程: class $\le4$ 紙上、metabelian $c\le5$ 全 $m$(単系統)。残るのは $c\ge6$ の $m$ 量化子・class $\ge8$・$A$ 非可換 |
+| **【GAP-E13】** | class $\ge5$ の判定 | metabelian は $c\le6$ 全 $m$ 閉鎖(単系統)/ $c=7$ 部分 / $c\ge8$ UNKNOWN。非 metabelian は【GAP-E2】と合流 |
+| **【GAP-E15】** | 予想 E15 の真偽 | **反証されず**。射程: class $\le4$ 紙上、metabelian $c\le6$ 全 $m$(単系統)。残るのは $c=7$ の $m$ 量化子・class $\ge8$・$A$ 非可換 |
 | **【GAP-E16】** | 命題 E16 の仮定 | **問いを鋭化**: $\iota\sigma^{-1}+(\iota\sigma^{-1})^2=\sigma+\sigma^2$ が class $\ge3$ で成立し得るか。**UNKNOWN** |
 | **【GAP-E18】** | 定理 E18 の逆 | **UNKNOWN**。§4.3 により「$C_j$ の消滅」からは何も出ない($C_j\ne0$ がほぼ常に成立)ので、逆は障害元 $\mathrm{ob}_j$ の逐次制御としてのみ意味をもつ |
-| **【GAP-E19】** | $\mathbb Q$-可解性の全 $m$ | **$c\le5$ は命題 E19-b′ で閉鎖(単系統)**。$c=6,7$ は標本取得待ち(有限・実行可能)。$c\ge8$ は 8GB 制約 |
+| **【GAP-E19】** | $\mathbb Q$-可解性の全 $m$ | **$c\le6$ は命題 E19-b′ で閉鎖(単系統)**。$c=7$ は標本取得待ち(有限・実行可能・$m\le1423$)。$c\ge8$ は 8GB 制約 |
 | **【GAP-E20】** | $A$ 非可換な許容 2 群の最小位数 | **UNKNOWN**($\ge2^7$ と見込む) |
 | **【GAP-E22】(新設)** | 三段判定の第三段(中心補正の値域)が class-5 普遍対象で空でないか | **UNKNOWN** — 掃引 ① r2 の主目標 |
 
@@ -315,7 +315,7 @@ $$ r\le\operatorname{rank}_{\mathbb Q}M(m)\le\operatorname{rank}_{\mathbb Q}[M(m
 | 表 1(a)(b)・weight 5 初出 | 紙上証明(指標公式・独立再計算で一致)。**射程は有理係数のみ** |
 | 定理 E19($c\le7,m\le63$) | `Z2-solvable candidate (single system, statically audited)` |
 | **命題 E19-b′**(有限判定) | **紙上証明**(v3 新規・Sol 未監査) |
-| **E19-b′ の適用結果($c=3,4,5$ 全 $m$)** | **candidate(単系統)** — `metab_rank.mjs` |
+| **E19-b′ の適用結果($c=3,4,5,6$ 全 $m$)** | **candidate(単系統)** — `metab_rank.mjs`($c=6$ は $m=0..900$・112–113 標本/類) |
 | 系 E19-b(v2) | **撤回(refuted as stated)** |
 | 定理 E21 / 命題 E20 | PASS(便 13 F12) |
 | 補題 E22(積公式) | PASS(便 13 F13・独立に再導出) |

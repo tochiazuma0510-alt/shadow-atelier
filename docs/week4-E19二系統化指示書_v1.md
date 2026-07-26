@@ -189,7 +189,7 @@ $$ K\ \ge\ (r_{\bar m}+1)\,d+c,\qquad d:=2(c-2) $$
 | 3 | 3 | 2 | **2** | 9 | 79 | **単系統・GAP 照合待ち** `node docs/scout/metab_rank.mjs 3 80`(falsifier 掃引v3ゲート指摘 F#1 反映: GAP 独立再現前は CLOSED と書かない) |
 | 4 | 6 | 4 | **4** | 24 | 199 | **単系統・GAP 照合待ち** `node docs/scout/metab_rank.mjs 4 260` |
 | 5 | 10 | 6 | **8** | 59 | 479 | **単系統・GAP 照合待ち** `node docs/scout/metab_rank.mjs 5 480` |
-| 6 | 15 | 8 | **11** | 102 | **823** | **要実行** `node docs/scout/metab_rank.mjs 6 830` |
+| 6 | 15 | 8 | **11** | 102 | **823** | **済** `node docs/scout/metab_rank.mjs 6 900`(112–113/類)— **CLOSED** |
 | 7 | 21 | 10 | **16** | 177 | **1423** | **要実行** `node docs/scout/metab_rank.mjs 7 1430` |
 
 **手順**
@@ -267,8 +267,8 @@ $c\le5$ については **`metab_rank.mjs` の出力(node)と完全一致**を�
 | 成果 | 昇格条件 |
 |---|---|
 | 定理 E19($c=3..7$、$m=0..63$、全 $j$) | §1–§3 の三段すべてで `routes_agree` ⇒ **`cross-checked`** |
-| 命題 E19-b′ の適用($c=3,4,5$、**全 $m\in\mathbb Z$**) | §4.3 で GAP と node が一致 ⇒ **`cross-checked`** |
-| 同($c=6,7$) | §4.2 の実行後。rank が剰余類ごとに一定でなければ **UNKNOWN のまま** |
+| 命題 E19-b′ の適用($c=3,4,5,6$、**全 $m\in\mathbb Z$**) | 単系統は**取得済み**($c=6$ は $m\le900$)。§4.3 で GAP と node が一致 ⇒ **`cross-checked`** |
+| 同($c=7$) | §4.2 の実行後($m\le1423$)。rank が剰余類ごとに一定でなければ **UNKNOWN のまま** |
 | $c\ge8$ | 8GB 制約。**UNKNOWN のまま盤面に残す**(便 13 F11 — metabelian class $\ge8$ は落とさない) |
 
 > **★ この作業が閉じても E15 は閉じない。** 閉じるのは「自由 metabelian 塔の 2-一次障害と $m$ 量化子」だけである。**$A$ 非可換の層(掃引 ① r2)は独立に残る。**
@@ -281,5 +281,5 @@ $c\le5$ については **`metab_rank.mjs` の出力(node)と完全一致**を�
 |---|---|
 | 本指示書の仕様(§1.1–§1.2) | 数学的仕様。`metab.mjs` の冒頭コメントと一致するが、**GAP 実装は独立に行うこと** |
 | 命題 E19-b′ | **紙上証明**(v3 §6.2・Opus 単独・Sol 未監査) |
-| $c=3,4,5$ の適用結果 | **candidate(単系統)**。本指示書 §4.3 の完了で `cross-checked` へ |
+| $c=3,4,5,6$ の適用結果(全 $m\in\mathbb Z$) | **candidate(単系統)**。本指示書 §4.3 の完了で `cross-checked` へ |
 | 定理 E19($m\le63$) | `Z2-solvable candidate (single system, statically audited)`。本指示書の完了で `cross-checked` へ |
