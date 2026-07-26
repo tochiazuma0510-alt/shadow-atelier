@@ -5,11 +5,15 @@ papers/
 # 第三者コード(Dolgushev パッケージ GT 等)— SHA-256 は provenance/LEDGER.md
 thirdparty/
 
-# ops のランタイム状態(ログ・ピン留めセッション ID)はコミットしない
-ops/codex_activity.log
-ops/bin/codex_session_id.txt
-ops/bin/codex_session_id_luna.txt
-ops/bin/codex_session_id_history.txt
+# ops のランタイム状態(ログ・ピン留めセッション ID・wake キュー)はコミットしない
+# 注意(2026-07-26 総点検): codex_activity_sol2.log と codex_session_id_sol2.txt は
+# 個別列挙漏れで追跡済み(public 化時の除外決定 LEDGER 2026-07-26 に反する)。
+# ignore はコミット時の untrack(git rm --cached)と併せて司令塔が処置のこと。
+ops/codex_activity*.log
+ops/bin/codex_session_id*.txt
+ops/wake_dispatch.log
+ops/bin/wake_queue.jsonl
+ops/bin/wake_queue.lock
 
 # GAP / エディタの一時ファイル
 *.g~

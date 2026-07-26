@@ -563,6 +563,9 @@ WriteUnsolvableCertC6 := function(path, snfData, j, failRow, fixtureName)
   yBNonzero := (yb mod modulus <> 0);;
   cert := Concatenation(
     "{\"claim\":\"linear_stage_empty_c6\",",
+    "\"linear_solvable\":false,",   # BUG FIX (2026-07-26 commander): field was missing entirely
+                                    # (undefined != false); any consumer checking === false was
+                                    # silently mishandling unsolvable certs. Now explicit.
     "\"fixture\":\"", fixtureName, "\",",
     "\"method\":\"left_kernel_mod_prime_power/v1\",",
     "\"modulus\":", String(modulus), ",",
@@ -1268,10 +1271,85 @@ RunRealMassCheck := function()
   Print("[SCOPE NOTE] this is NOT 委嘱16's literal M8 (genuine group-product recomputation of theta(g)g, E_m*N(g)) -- that group construction was not implemented in this pass.\n");
 end;;
 
+# ================================================================================
+# M6 (priority shift, 2026-07-26 commander, per 委嘱17's discovery that ob is WITNESS-
+# dependent, not just m-dependent -- a single f0 sample per m is insufficient): for each of
+# the 40 solvable real systems, enumerate the FULL solution set L_m = f0 + ker (all
+# Prod(n_i) combinations), evaluate ob=(ob_a,ob_b) at EVERY point, and build a multiplicity
+# table {ob-value -> count}. Special focus: m in {3,5,21,27,35,37,53,59} (four m/m+32 pairs:
+# (3,35),(5,37),(21,53),(27,59)) -- report whether each system is all-nonzero or has a zero
+# point, and whether the m/m+32 pair's tables match exactly (generator-bug hypothesis).
+# ================================================================================
+RunM6MultiplicityTables := function()
+  local mIt, snfD, res, f0, r, ns, totalCombos, avec, idx, f, obr, key, table, done, ii,
+        path, cert, entries, tableStrs, m6Tables, pairs, pr, tA, tB, sameTable, allNonzero,
+        hasZero, keysA, keysB;
+  Print("\n=== M6: full L_m enumeration + ob multiplicity table (real 40 solvable systems) ===\n");
+  m6Tables := rec();;
+  for mIt in [0..63] do
+    snfD := BuildSnfData(BuildLinearSystemC6, mIt);;
+    res := TestAtJ(snfD, 2);;
+    if res.solvable then
+      f0 := ExtractF0(snfD, 2);;
+      r := Length(res.kgens);;
+      ns := List(res.kgens, g -> g.order);;
+      totalCombos := Product(ns, x->x);;
+      table := rec();;
+      avec := List([1..Maximum(r,1)], x->0);;
+      done := (r=0);;
+      while not done do
+        f := ShallowCopy(f0);;
+        for ii in [1..r] do
+          if avec[ii] <> 0 then f := f + avec[ii]*res.kgens[ii].vec; fi;
+        od;
+        f := Mod2j(f, 4);;
+        obr := ObFromF(f, mIt, 2);;
+        key := Concatenation(String(obr.ob_a), ",", String(obr.ob_b));;
+        if IsBound(table.(key)) then table.(key) := table.(key)+1; else table.(key):=1; fi;
+        if r = 0 then done := true; else
+          idx := 1;;
+          while idx <= r do
+            avec[idx] := avec[idx]+1;
+            if avec[idx] < ns[idx] then break; fi;
+            avec[idx] := 0; idx := idx+1;
+          od;
+          if idx > r then done := true; fi;
+        fi;
+      od;;
+      m6Tables.(Concatenation("m", String(mIt))) := rec(table:=table, total:=totalCombos);;
+      entries := RecNames(table);;
+      tableStrs := List(entries, k -> Concatenation("\"", k, "\":", String(table.(k))));;
+      hasZero := IsBound(table.("0,0"));;
+      allNonzero := not hasZero;;
+      path := Concatenation("certificates/e2c6/m6_j2_m", String(mIt), ".json");;
+      cert := Concatenation(
+        "{\"claim\":\"m6_multiplicity_table\",\"m\":", String(mIt), ",\"j\":2,",
+        "\"total_points\":", String(totalCombos), ",",
+        "\"ob_table\":{", JoinC(tableStrs, ","), "},",
+        "\"all_nonzero\":", JB(allNonzero), ",",
+        "\"ob_mode\":\"quotient-ratified-v2\"}");;
+      WriteFileRaw(path, cert);;
+      Print("  m=", mIt, ": |L|=", totalCombos, "  ob_table=", table, "  all_nonzero=", JB(allNonzero), "\n");
+    fi;
+  od;;
+  Print("\n--- m / m+32 pair comparison (four pairs: (3,35),(5,37),(21,53),(27,59)) ---\n");
+  pairs := [[3,35],[5,37],[21,53],[27,59]];;
+  for pr in pairs do
+    tA := m6Tables.(Concatenation("m", String(pr[1])));;
+    tB := m6Tables.(Concatenation("m", String(pr[2])));;
+    keysA := Set(RecNames(tA.table));;  keysB := Set(RecNames(tB.table));;
+    sameTable := (keysA = keysB) and ForAll(keysA, k -> tA.table.(k) = tB.table.(k)) and (tA.total = tB.total);;
+    Print("  (m=", pr[1], ", m=", pr[2], "): |L|=", tA.total, "/", tB.total,
+      "  table_m", pr[1], "=", tA.table, "  table_m", pr[2], "=", tB.table,
+      "  IDENTICAL=", JB(sameTable), "\n");
+  od;;
+end;;
+
 if fireUnlocked then
   Print("[UNLOCKED] real-universe sweep authorized by search/FIRE_e2c6.auth (hash-matched)\n");
   RunRealSweepC6();;
   RunRealMassCheck();;
+  RunM6MultiplicityTables();;
 else
   Print("[LOCKED] real-universe sweep requires FIRE_e2c6.auth (commander issues at fire time)\n");
 fi;

@@ -381,6 +381,13 @@ for (const fname of certFiles) {
     // RunRealSweepC6 schema) -- no need to recompute them from witness_f_abar independently
     // (that would require this file's own Abar(15)/C(6) machinery applied to the witness,
     // which is exactly what qThetaFullRaw/qNFullRaw below already do if ever needed).
+    // HARDENED (2026-07-26 commander): explicit check that linear_solvable === true (strict),
+    // not just "truthy" -- catches a missing/undefined field rather than silently passing.
+    if (cert.linear_solvable !== true) {
+      console.log(`FAIL  ${fname}: e2c6_real_sweep claim but linear_solvable !== true (got ${cert.linear_solvable})`);
+      certFails++;
+      continue;
+    }
     const R = 2 ** (cert.j - 1);
     const qTheta6 = parseMaybe(cert.q_theta);
     const qN6 = parseMaybe(cert.q_N);
@@ -400,6 +407,16 @@ for (const fname of certFiles) {
     // REAL system (real Em_bar(m), now that the fire lock has authorized real-sweep
     // disclosure) and recheck the dual witness y: y*rows === 0 (mod modulus) and
     // y*rhs !== 0 (mod modulus).
+    // HARDENED (2026-07-26 commander): explicit strict check linear_solvable === false --
+    // the underlying bug (field missing entirely, so `cert.linear_solvable === false` was
+    // ALWAYS false for old certs, i.e. this check would have wrongly FAILED every legitimate
+    // unsolvable cert once added naively) is fixed at the SOURCE (e2c6-sweep.g now always
+    // writes the field); this checker requires it be present and exactly false.
+    if (cert.linear_solvable !== false) {
+      console.log(`FAIL  ${fname}: linear_stage_empty_c6 claim but linear_solvable !== false (got ${cert.linear_solvable})`);
+      certFails++;
+      continue;
+    }
     const modulus = cert.modulus;
     const y = parseMaybe(cert.dual_witness_y);
     let rows, rhs, n;
