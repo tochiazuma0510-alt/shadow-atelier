@@ -1,0 +1,1 @@
+{"self_pass":36,"self_fail":0,"cross_pass":13,"cross_fail":0,"targets":{"sq":{"target":"sq","monOrder":100,"nBlockSystems":1,"blockSizes":[5,5],"overgroupSizes":[10,50,100],"d5order":10,"isD5":true},"ns":{"target":"ns","monOrder":100,"nBlockSystems":1,"blockSizes":[5,5],"overgroupSizes":[10,50,100],"d5order":10,"isD5":true}},"gap_cert_read":true}
