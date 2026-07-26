@@ -1574,3 +1574,2076 @@ tokens used
 判定 **(b) 誤り**として監査結果を [sol2_reply_01_q.md](C:/Users/81905/Desktop/shadow-atelier/sol/sol2_reply_01_q.md) に記載しました。
 
 ----- turn end (exit 0) 2026-07-26T03:51:20.991Z -----
+
+===== WAKE(sol2) 2026-07-26T04:10:17.991Z =====
+reason: Task: read sol/sol2_task_02_actions.txt (UTF-8, Japanese) and perform it. Write your reply to sol/sol2_reply_02_actions.md as instructed. Respect the read restrictions strictly.
+target: 019f9c83-982d-7232-902c-d78943eb7892
+OpenAI Codex v0.144.4
+--------
+workdir: C:\Users\81905\Desktop\shadow-atelier
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: max
+reasoning summaries: none
+session id: 019f9c83-982d-7232-902c-d78943eb7892
+--------
+user
+Task: read sol/sol2_task_02_actions.txt (UTF-8, Japanese) and perform it. Write your reply to sol/sol2_reply_02_actions.md as instructed. Respect the read restrictions strictly.
+codex
+指定のキックオフファイルだけを先に UTF-8 で読み、そこに定められた閲覧範囲・独立性・出力契約に従います。
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -LiteralPath 'sol/sol2_task_02_actions.txt' -Raw -Encoding UTF8" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 294ms:
+Sol(並列レーン sol2)へ — 導出委嘱 02: full-A 作用表の独立導出
+
+【ヘッダ】sol2 便 02・便種: 独立導出(Claude 側数学者と並列・互いに不可視・一致で確定)・予算: 1 往復。まず docs/所在と能力.md。
+
+■ 背景
+E2 掃引の実装に必要な具体表(A = γ₂(F₂)/γ₆(F₂) の Hall 積表・θ/σ/E_m の full-A 作用・section 欠損項)がどの正本にも書き下されていない。**Claude 側数学者が同じ導出を並列実行中 — 二つの独立導出が一致すれば監査往復なしで採用する**(答え合わせが目的なので、必ず自力で導出せよ)。
+
+■ 成果物: 返信ファイル内に(定義と導出のみ・可解性の議論はしない)
+Hall 基底 w,p,q,r₁,r₂,r₃,t₁..t₆(docs/week4-掃引宇宙_v3.md §1.3・search/manifest_spec_e2_actions*.md の既存記載と整合):
+1. **Hall 積表**(基底元の積・交換子の γ₆ 打ち切り collection 展開・全対)。
+2. **θ・σ の full-A 作用表**(基底元ごとの像・導出過程・m 依存部は m の式)。
+3. **E_m の明示式**(Hall 座標・m の多項式)。整合検査に certificates/e19/gap_system_c*_m*.txt の b ベクトル 2〜3 件を使ってよい。
+4. **section s(昇順)と欠損項 d_θ(a) = s(θ̄ā)⁻¹θ(s(ā))・d_σ・ε_m の基底上の明示式**(あなた自身の sol2 便 01 の cocycle 式 (1) に接続)。
+5. **自己検査**: 𝒩_C = 0・im Λ = ⟨(t₅+t₆,0)⟩・c_s(w,p) = 0・c_s(p,w) = −t₅ の再現。
+
+■ スコープ制限
+読取禁止: **docs/week4-E2作用表_v1.md(存在しても読むな — 相方の答案)**・sol/sol_task_16*・sol_reply_16*(別レーン)・docs/対話帳.md。他ファイル変更禁止。
+
+■ 返信様式
+sol/sol2_reply_02_actions.md へ(表は返信内に完結)。冒頭に自己検査の結果・末尾に監査範囲外申告。
+
+
+  → 許可資料から群・作用・記号の正本を特定する
+  • 自由 Lie/Hall collection で積表・θ・σ・E_m を独立導出する
+  • section 欠損式と指定自己検査を紙上・小規模計算で照合する
+  • 指定返信ファイルへ完結した表と監査範囲外申告を書く
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -LiteralPath 'docs/所在と能力.md' -Raw -Encoding UTF8" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 307ms:
+# 所在と能力 — 数学者向けの一枚地図(2026-07-26 新設・司令塔が節目ごとに更新)
+
+**目的**: 「自分は何が使えるか」「どこに何があるか」を便ごとの説明なしで引けるようにする。迷ったらまずこの紙。
+
+## 1. あなたが使える道具(能力)
+
+| 道具 | 用途 | 備考 |
+|---|---|---|
+| **GAP 4.16.0**(必ず `gap.ps1` 経由・-o 2g) | 群計算・列挙 | **同梱パッケージ約 190**: twistedconjugacy(捻れ共役類)・repsn/wedderga(既約行列表現・群環)・lins(低指数正規部分群)・anupq/autpgrp(p 群)・ctbllib(指標表)・**MapClass**(braid 軌道)・hap/cohomolo 等。設計前に棚(pkg/)を確認 |
+| **node / Python** | 検算スクリプト(数十行・整数/置換) | 数学者は「手計算の機械確認」まで。本実装は implementer の職分 |
+| **pdftocairo ページ画像** | 論文の数式の原文照合 | papers/txt のテキスト層と併用(AGENTS.md 参照) |
+| **Lean 工場**(lean/ + GitHub Actions CI) | verified 札の獲得 | plain Lean 4・decide。証明書設計は司令塔・実装は implementer — あなたは「何を Lean 化すべきか」の指定 |
+| **文献ゲート** | 外部論文 | 自分で漁らない。【文献要請】(困難+欲しい結果の型)を書けば hunter が探し原著+覚書が届く |
+| **速達箱 ops/express/** | 急ぎの小連絡 | 1 件 1 ファイル・司令塔が即時回収(常駐監視) |
+| **対話帳 docs/対話帳.md** | 相手数学者への技術ノート | T-番号・追記専用。ブラインド工程中は対象話題禁止 |
+
+## 2. どこに何があるか(所在)
+
+| 場所 | 中身 | 一言 |
+|---|---|---|
+| **provenance/CLAIMS.md** | 全主張の現在状態(candidate/cross-checked/verified) | **「いま何が立っているか」はここが最速** |
+| **provenance/LEDGER.md** | 事象の時系列台帳(封印ハッシュ・事故・裁定要旨) | 経緯を知りたいとき |
+| **sol/裁定_N_*.md** | 各ラウンドの司令塔裁定(採否の確定) | **直近の裁定 = 現在の合意状態**。便の返信より裁定が正 |
+| docs/week1-定義ノート.md | 定義の正本(§1.5 語規約込み) | 定義で迷ったらここ |
+| docs/命題_*・week3/4-*.md | 定理・作戦・manifest 群(versioned — 最大番号が現行) | v1 は歴史・最新 v が正 |
+| docs/文献配達_N_*.md + **papers/delivered/** | 配達済み文献(覚書+原著 PDF) | 原著は資料庫 — 全読義務なし |
+| docs/scout/ | 開示済みの文献報告・読解・検算スクリプト | 配達後のみここに現れる |
+| papers/ + papers/txt/ | 正典論文(2401/2405/2106/2008)+テキスト層 | |
+| certificates/ + crosscheck/verdicts/ | 実装レーンの証明書と照合判定 | 観測値の一次資料(読んでよい) |
+| search/ | explorer・spec 射影(実装の正本) | spec 射影は sealed 除去版 — 期待値はない |
+| 金庫(リポジトリ外・所在非公開) | 未開示 intel・封印 payload | あなたからは見えない(設計どおり) |
+
+## 3. 最短経路表
+
+- いまの主張状態は? → CLAIMS。直近の合意は? → 最新の 裁定_N。定義は? → 定義ノート。
+- 文献が要る → 【文献要請】。急ぎの質問 → 速達箱。相手への技術ノート → 対話帳。
+- 観測値の根拠 → certificates/。作法 → 職務規程(Opus)/ AGENTS.md(Sol)。
+
+**更新責任**: 司令塔(節目ごと)。この紙にない能力を見つけたら速達で知らせよ — 棚卸しは全員の得。
+
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -LiteralPath 'search' -Filter 'manifest_spec_e2_actions*.md' -File | Select-Object -ExpandProperty FullName" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 366ms:
+C:\Users\81905\Desktop\shadow-atelier\search\manifest_spec_e2_actions.md
+C:\Users\81905\Desktop\shadow-atelier\search\manifest_spec_e2_actions2.md
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -LiteralPath 'search/manifest_spec_e2_actions.md' -Raw -Encoding UTF8; Get-Content -LiteralPath 'search/manifest_spec_e2_actions2.md' -Raw -Encoding UTF8" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 282ms:
+# 掃引 ① r2 用・作用式 spec 追補(定義のみ・結論なし)
+
+本書は掃引 ① r2 用の作用式 spec 追補(定義のみ・結論なし)。実装は掃引宇宙 v3 とこの追補だけを正とする。
+
+---
+
+## 対象 A(γ₂/γ₆) 上の作用式
+
+### 対象と基底
+
+$$P^{(5)}:=F_2/\gamma_6,\qquad A:=\gamma_2/\gamma_6.$$
+
+Hall 基底(順序を正本として固定):
+$$w;\quad p,q;\quad r_1,r_2,r_3;\quad t_1,t_2,t_3,t_4;\quad t_5:=[w,p],\ t_6:=[w,q].$$
+
+### 中心層 C と商層 $\bar A$
+
+$$C:=[A,A]=\langle t_5,t_6\rangle\cong\mathbb Z^2\subseteq\gamma_5=Z(P^{(5)}),\quad \bar A=A/C.$$
+
+### σ の作用式(C 上)
+
+C の基底 $(t_5,t_6)$ に関して:
+$$\sigma\vert_C=\begin{pmatrix}0&-1\\1&-1\end{pmatrix}.$$
+
+### θ の作用式(C 上)
+
+C の基底 $(t_5,t_6)$ に関して:
+$$\theta\vert_C=\begin{pmatrix}0&1\\1&0\end{pmatrix}.$$
+
+### $\mathcal N_C$ の定義式(C 上)
+
+$$\mathcal N_C(z):=\sigma^2(z)\sigma(z)z\quad\text{on }C.$$
+
+特に: **$\mathcal N_C=1+\sigma+\sigma^2=0$ on $C$**(恒等的に零写像)。
+
+### 交換子対 β
+
+双線型・交代写像 $\beta:\bar A\times\bar A\to C$ は、$\bar u=u_w w+u_p p+u_q q+\cdots$ と Hall 座標で書くとき:
+$$\beta(\bar u,\bar v)=(u_wv_p-u_pv_w)\,t_5+(u_wv_q-u_qv_w)\,t_6.$$
+
+---
+
+## 定理 E22′ の判定式
+
+### 線型段: 線型解集合 $\mathcal L$
+
+$$\mathcal L:=\bigl\{\bar f\in\bar A\ :\ (1+\bar\theta)\bar f=0\ \text{ かつ }\ \bar{\mathcal N}\bar f=-\bar E_m\bigr\}.$$
+
+あるいは剰余類の形:
+$$\mathcal L=\bar f_0+K,\qquad K:=\ker(1+\bar\theta)\cap\ker\bar{\mathcal N}\ \le\ \bar A.$$
+
+### 第一座標と第二座標の欠損対
+
+Section $s:\bar A\to A$ に対し($\pi_C\circ s=\mathrm{id}$)、$\bar f\in\mathcal L$ について:
+$$q_\theta(\bar f):=\theta(s\bar f)\,s\bar f,\qquad q_N(\bar f):=E_m\,\sigma^2(s\bar f)\sigma(s\bar f)\,s\bar f.$$
+
+欠損対:
+$$\Xi(\bar f):=\bigl(q_\theta(\bar f),\ q_N(\bar f)\bigr)\in C\times C.$$
+
+### 障害群と商写像
+
+中心層 $C$ 上の準同型:
+$$\Lambda:C\to C\times C,\quad \Lambda(z):=\bigl((1+\theta)z,\ \mathcal N_C(z)\bigr).$$
+
+障害群:
+$$\mathrm{Ob}:=(C\times C)\big/\operatorname{im}\Lambda,\quad \pi:C\times C\twoheadrightarrow\mathrm{Ob}.$$
+
+障害写像:
+$$\omega:=\pi\circ\Xi:\mathcal L\to\mathrm{Ob}.$$
+
+### 同時可解性の判定条件
+
+$$\mathcal S_m\cap\mathcal B_\theta\ne\emptyset \iff \mathcal L\ne\emptyset\ \text{ かつ }\ 0\in\omega(\mathcal L).$$
+
+---
+
+## $q_\theta$ / $q_N$ の定義式(簡潔版)
+
+Section cocycle:
+$$c_s(\bar u,\bar v):=s(\bar u)\,s(\bar v)\,s(\bar u+\bar v)^{-1}\in C.$$
+
+補題 E22.2 での分離公式:
+$$D_\theta(uz)=D_\theta(u)\cdot(1+\theta)z,\qquad \mathcal N(uz)=\mathcal N(u)\cdot\mathcal N_C(z).$$
+
+ここで $(1+\theta)z:=\theta(z)z$。
+
+---
+
+## 二次形式の極化展開
+
+$\bar f_0\in\mathcal L$ 固定、$\bar k\in K$ について:
+$$F(\bar k):=\pi\ell(\bar k)+\pi\mathcal Q(\bar k).$$
+
+ここで
+$$\ell(\bar k):=\bigl(b_\theta(\bar f_0,\bar k),\ b_N(\bar f_0,\bar k)\bigr),\quad b_\theta(\bar u,\bar v):=\beta(\bar\theta\bar v,\ \bar u),\quad b_N(\bar u,\bar v):=\beta(\bar\sigma^2\bar v,\ \bar\sigma\bar u+\bar u)+\beta(\bar\sigma\bar v,\ \bar u).$$
+
+$\mathcal Q(\bar k):=\bigl(\theta(s\bar k)s\bar k,\ \sigma^2(s\bar k)\sigma(s\bar k)s\bar k\bigr)$。
+
+極化(対称):
+$$\pi B(\bar k,\bar l):=\bigl(b_\theta(\bar k,\bar l),\ b_N(\bar k,\bar l)\bigr).$$
+
+展開式:
+$$F(\bar k)=\sum_{i}\Bigl(a_i\,F(e_i)+\tbinom{a_i}2\,\pi B(e_i,e_i)\Bigr)+\sum_{i<j}a_ia_j\,\pi B(e_i,e_j)\quad(\bar k=\sum_ia_ie_i).$$
+
+---
+
+## 自己検査結果
+
+禁止項目スキャン:
+- ❌ 「可解」「solvable」「m-full」「E15」「class 5 が安全/危険」: 0 件
+- ❌ 定理の主張文・証明・可解/不可解の結論文: 0 件  
+
+**自己検査: PASS**(定義のみ・結論なし)
+
+# 掃引 ① r2 の spec 追補 2(A 上の作用と構造定数 — 定義のみ)
+
+## 1. Hall 基底と Hall 基底の順序
+
+**`docs/命題_E22三段判定_v1.md` 命題 E22.5(p195–205)**
+
+$P^{(5)}:=F_2/\gamma_6$, $A:=\gamma_2/\gamma_6$ の Hall 基底(順序を正本として固定):
+$$w;\quad p,q;\quad r_1,r_2,r_3;\quad t_1=[r_1,x],t_2=[r_1,y],t_3=[r_2,y],t_4=[r_3,y];\quad t_5:=[w,p],\ t_6:=[w,q].$$
+
+重み $2;3;4;5;5$、$\mathbb Z$-階数 $1+2+3+6=12$。
+
+---
+
+## 2. 交換子対 $\beta$ の定義と明示形
+
+**`docs/命題_E22三段判定_v1.md` 節 1(p39–45) / 節 5.4(p238–243)**
+
+**交換子対の定義**:
+$$\beta:\bar A\times\bar A\to C,\quad \beta(\bar u,\bar v):=[u,v]=u^{-1}v^{-1}uv.$$
+$\text{class}\ 2$ より $[uz,vz']=[u,v]$ ($z,z'\in C$)なので well-defined、双加法的、交代的($\beta(\bar u,\bar u)=0$、$\beta(\bar v,\bar u)=-\beta(\bar u,\bar v)$)。
+
+**対称性の破れ**:
+$$c_s(\bar u,\bar v)=c_s(\bar v,\bar u)\cdot\beta(\bar u,\bar v).$$
+
+**明示形(Hall 座標)** ($\bar u=u_w w+u_p p+u_q q+\cdots$ と書く):
+$$\boxed{\ \beta(\bar u,\bar v)=(u_wv_p-u_pv_w)\,t_5+(u_wv_q-u_qv_w)\,t_6\ }.$$
+
+---
+
+## 3. σ と θ の $C$ 上の作用
+
+**`docs/命題_E22三段判定_v1.md` 節 5.2(p207–220) / `docs/week4-E2作戦_v3.md` 節 2.2(p87–90)**
+
+$C:=\langle t_5,t_6\rangle\cong\mathbb Z^2$ は中心なので $\mathrm{Ad}(\bar Y^m)$ と $\iota_{X^u}$ は $C$ 上恒等、したがって $\sigma\vert_C=\tau\vert_C$ で $\langle\sigma,\theta\rangle$ は $C$ 上真に $S_3$ を通す。基底 $(t_5,t_6)$ に対し:
+$$\sigma\vert_C=\begin{pmatrix}0&-1\\1&-1\end{pmatrix},\qquad \theta\vert_C=\begin{pmatrix}0&1\\1&0\end{pmatrix}.$$
+
+**明示的な基底元の像**:
+- $\sigma(t_5)=[\sigma w,\sigma p]=[w,q]=t_6$ (重み 6 以上を落とすと)
+- $\sigma(t_6)=[\sigma w,\sigma q]=[w,p^{-1}q^{-1}]=t_5^{-1}t_6^{-1}$
+- $\theta(t_5)=[w^{-1},q^{-1}]=[w,q]=t_6$
+- $\theta(t_6)=[w^{-1},p^{-1}]=[w,p]=t_5$
+
+---
+
+## 4. Section の定義と Section cocycle
+
+**`docs/命題_E22三段判定_v1.md` 節 1(p41–45) / `docs/week4-掃引宇宙_v3.md` 節 1.3(p60–68)**
+
+**Section**:
+写像 $s:\bar A\to A$ で $\pi_C\circ s=\mathrm{id}$, $s(0)=1$。各 $f\in A$ は $f=s(\bar f)z$ ($z\in C$)と一意に書ける。
+
+**Canonical section (Hall 正規形 — 順序と代表元区間を正本とする)**:
+$$s(\bar a)=w^{a_1}p^{a_2}q^{a_3}r_1^{a_4}r_2^{a_5}r_3^{a_6}t_1^{a_7}t_2^{a_8}t_3^{a_9}t_4^{a_{10}},\qquad 0\le a_i<2^j.$$
+
+**Section cocycle**:
+$$c_s(\bar u,\bar v):=s(\bar u)\,s(\bar v)\,s(\bar u+\bar v)^{-1}\in C.$$
+
+---
+
+## 5. 二欠損 $q_\theta, q_N$ の定義
+
+**`docs/命題_E22三段判定_v1.md` 節 3.2(p88–97) / `docs/week4-掃引宇宙_v3.md` 節 1.4(p70–74)**
+
+$\bar f\in\mathcal L$ に対し、**欠損対**を
+$$\Xi(\bar f):=\Bigl(\ \underbrace{\theta(s\bar f)\,s\bar f}_{=:q_\theta(\bar f)}\ ,\ \underbrace{E_m\,\sigma^2(s\bar f)\sigma(s\bar f)\,s\bar f}_{=:q_N(\bar f)}\ \Bigr)\in C\times C.$$
+
+**中心元の分離** (`docs/命題_E22三段判定_v1.md` 補題 E22.2, p72–76):
+$$D_\theta(uz)=D_\theta(u)\cdot(1+\theta)z,\quad \text{ここで } (1+\theta)z:=\theta(z)z.$$
+$$\mathcal N(uz)=\mathcal N(u)\cdot\mathcal N_C(z),\quad \text{ここで } \mathcal N_C(z):=\sigma^2(z)\sigma(z)z.$$
+
+$C$ は可換で $\sigma,\theta$-安定なので、両者は $C$ 上の群準同型である。
+
+---
+
+## 原本に明示的な定義式がない項目
+
+- $E_m$ の**明示式**(提言箇所 `命題_E22三段判定_v1.md` では「$E_m\in A^σ$」の存在主張のみ、class-4 の閉形式 `week4-E2作戦_v3.md p221` は metabelian 限定版で class-5 非可換版はなし)
+- $A$ の全体(重み 4 以上を含む)における $σ,θ$ の**明示的な基底元別像**(記載は $C$ 上のみ + $w,p,q$ の定性記述)
+- Hall 基底の**乗法規則と交換子 commutator table の閉形**(Magnus formula または Hall collection の「規則」として参照されるが、本文で明示式を見つけない)
+
+---
+
+**抽出完了**: 定義 5 件 + 見つからない 3 件。§1–§5 の 5 セクション、計 13 行の逐語複製。
+
+
+codex
+既存 spec は「商作用・中心作用・交換子対」までで、full-\(A\) 表そのものは未記載と確認しました。次に、許可範囲内の定義正本から \(x,y\) 上の \(\theta,\tau,\sigma,E_m\) を回収し、そこから Hall 基底へ展開します。禁止された相方案・別レーン・対話帳は検索対象から除外します。
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -l --glob '*.md' --glob '"'!week4-E2作用表_v1.md'"' --glob '"'!対話帳.md'"' --glob '"'!sol_task_16*'"' --glob '"'!sol_reply_16*'"' '(E_m|E\\_m|sigma_m|\\\\sigma_m|tau|\\\\tau|theta|\\\\theta|w.*\\[x,y\\]|p.*\\[w,x\\])' docs search certificates" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 277ms:
+search\manifest_spec_v1.md
+search\manifest_spec_e2_actions.md
+search\manifest_spec_v2_psl.md
+docs\week3-狩場計画_v2.md
+docs\week4-E2作戦_v2.md
+docs\week3-比較写像_guillot_v2.md
+docs\week4-E2作戦_v1.md
+docs\week3-比較写像_guillot_v1.md
+docs\week4-E19二系統化指示書_v1.md
+docs\week4-掃引宇宙_v3.md
+docs\week3-PSL封印計算_opus_v1.md
+docs\week3-manifest_v2_psl.md
+docs\week4-掃引宇宙_v3.1補正.md
+docs\week3-狩場設計_opus_v1.md
+docs\week3-manifest_v1.md
+docs\week1-定義ノート.md
+docs\week3-狩場計画_v4.md
+docs\week4-E2作戦_v3.md
+docs\week3-狩場計画_v3.md
+docs\命題_円分持ち上げ_v1.md
+docs\命題_caseB_settled障害_v1.md
+docs\命題_E22三段判定_v1.md
+docs\定義ノート追記案_語規約_v2.md
+docs\命題_円分持ち上げ_v2.md
+docs\定義ノート追記案_語規約_v1.md
+docs\scout\hunt_20260725_捻れ共役反不変.md
+search\manifest_spec_e2_actions2.md
+docs\notes\falsifier_掃引v3ゲート.md
+docs\notes\検証_q式導出.md
+docs\notes\falsifier_実装ゲート監査.md
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@( 'docs/week1-定義ノート.md','docs/week4-E2作戦_v1.md','docs/week4-E2作戦_v2.md','docs/week4-E2作戦_v3.md','docs/week3-狩場計画_v4.md','search/manifest_spec_v1.md' ) | ForEach-Object { \""'$_`t$((Get-Content -LiteralPath $_ -Encoding UTF8).Count)" }' in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 310ms:
+docs/week1-定義ノート.md	218
+docs/week4-E2作戦_v1.md	508
+docs/week4-E2作戦_v2.md	603
+docs/week4-E2作戦_v3.md	350
+docs/week3-狩場計画_v4.md	440
+search/manifest_spec_v1.md	373
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -C 4 '(E_m|E\\_m|sigma|\\\\sigma|tau|\\\\tau|theta|\\\\theta|w ?:=|p ?:=|q ?:=|r_1|t_1|X.*Y)' 'docs/week1-定義ノート.md' 'docs/week4-E2作戦_v1.md' 'docs/week4-E2作戦_v2.md' 'docs/week4-E2作戦_v3.md' 'docs/week3-狩場計画_v4.md' 'search/manifest_spec_v1.md'" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 286ms:
+search/manifest_spec_v1.md-102-
+search/manifest_spec_v1.md-103-- **排他的 staged count(F16/W49)**: `h10_fail` は最初に (3.10) で落ちた数、`h11_fail` は h10 通過後に (3.11) で落ちた数、`generation_fail` は両方通過後に生成性で落ちた数。
+search/manifest_spec_v1.md-104- **`shadow_total = candidate_total − h10_fail − h11_fail − generation_fail` が成り立たない証明書は不正**(独立に数えた重複可能な fail 数を入れる運用は禁止)。
+search/manifest_spec_v1.md-105-- **G-05**: `generation_pass_count` は boolean ではない。一つの m に複数解があり得るため、**候補ごとの欄**(`generation_detail`)と**総数**を出す。
+search/manifest_spec_v1.md:106:- **W52**: 生成判定の**正本は `⟨X^u, f⁻¹Y^u f⟩ = P`**。系 T2-B の `⟨g,r⟩ = Q` は参考値 `torsion_generation_agrees` に置くだけで、判定に使わない。
+search/manifest_spec_v1.md-107-
+search/manifest_spec_v1.md-108-### 1.5 S₃ marking(**G-02** — 全段に必記)
+search/manifest_spec_v1.md-109-
+search/manifest_spec_v1.md-110-標準 braid 射影は σ₁ ↦ (12)、σ₂ ↦ (23)、ゆえに **Δ ↦ (13)、δ_B ↦ (123)**。
+--
+search/manifest_spec_v1.md-193-  "presentation_verbal": "F2^4 gamma_3",
+search/manifest_spec_v1.md-194-  "presentation_restricted": "D_3^(2)",
+search/manifest_spec_v1.md-195-  "equality_scope": "p=2, n<=4, rank=2",
+search/manifest_spec_v1.md-196-  "equality_proof": "計画v2 定理 T1a",
+search/manifest_spec_v1.md:197:  "marked_images": { "x": "X", "y": "Y", "c": "1" } }
+search/manifest_spec_v1.md-198-```
+search/manifest_spec_v1.md-199-**(2) 宇宙**(spec): `pb3_index = 32`、`b3_points = 192`、`n_ord = 4`、`charming_set = [0,1,2,3]`。
+search/manifest_spec_v1.md:200:**(3) derived / candidate**(spec): `derived_order = 2`(⟨w⟩、w = [X,Y])、`candidate_total = 8`。
+search/manifest_spec_v1.md-201-**(4) c と評価**(spec): `c_in_N = true`、`evaluation_mode = "quotient_ok"`。
+search/manifest_spec_v1.md-202-`triangle_marking`(spec): `{ "applicable": true, "exact_order_binv_a": 8 }`。
+search/manifest_spec_v1.md-203-**(5) 期待値**(**(SEALED — 司令塔保管。開封は照合後)***)
+search/manifest_spec_v1.md-204-**(6) reduction**(**(SEALED — 司令塔保管。開封は照合後)***)
+--
+search/manifest_spec_v1.md-217-  "presentation_verbal": "F2^4 gamma_4",
+search/manifest_spec_v1.md-218-  "presentation_restricted": "D_4^(2)",
+search/manifest_spec_v1.md-219-  "equality_scope": "p=2, n<=4, rank=2",
+search/manifest_spec_v1.md-220-  "equality_proof": "計画v2 定理 T1b (収集公式の原典照合は【GAP-E5】で未了)",
+search/manifest_spec_v1.md:221:  "marked_images": { "x": "X", "y": "Y", "c": "1" },
+search/manifest_spec_v1.md:222:  "derived_basis": { "w": "[X,Y]", "p": "[w,X]", "q": "[w,Y]" } }
+search/manifest_spec_v1.md-223-```
+search/manifest_spec_v1.md-224-**(2) 宇宙**(spec): `pb3_index = 128`、`b3_points = 768`、`n_ord = 4`、`charming_set = [0,1,2,3]`。
+search/manifest_spec_v1.md-225-**(3) derived / candidate**(spec): `derived_order = 8`(⟨w,p,q⟩ ≅ C₂³)、`candidate_total = 32`。
+search/manifest_spec_v1.md-226-**(4) c と評価**(spec): `c_in_N = true`、`evaluation_mode = "quotient_ok"`。
+--
+search/manifest_spec_v1.md-237-
+search/manifest_spec_v1.md-238-**(1) 対象定義**(spec)
+search/manifest_spec_v1.md-239-```json
+search/manifest_spec_v1.md-240-{ "id": "A1", "name": "N_A",
+search/manifest_spec_v1.md:241:  "definition": "pi^{-1}( ker( q: F2 ->> A5, x|->X, y|->Y ) )",
+search/manifest_spec_v1.md-242-  "quotient": "A5",
+search/manifest_spec_v1.md-243-  "element_encoding": "permutations of {1..5}, 1-indexed cycle strings",
+search/manifest_spec_v1.md-244-  "marking": { "t": "(1 2 3)", "a": "(1 4 5)",
+search/manifest_spec_v1.md-245-               "X": "a t^{-1} = (1 3 2 4 5)",
+search/manifest_spec_v1.md-246-               "Y": "t X t^{-1} = (1 3 4 5 2)",
+search/manifest_spec_v1.md-247-               "Z": "t^2 X t^{-2} = (1 4 5 3 2)",
+search/manifest_spec_v1.md-248-               "s": "t X^3 = (1 4)(3 5)",
+search/manifest_spec_v1.md:249:               "theta_P": "Ad(s)", "tau_P": "Ad(t)" },
+search/manifest_spec_v1.md:250:  "marked_images": { "x": "X", "y": "Y", "c": "1" },
+search/manifest_spec_v1.md-251-  "B3_quotient": "Q = B3/N_A = A5 x S3 (order 360), Delta_bar=(s,(1 2)), deltaB_bar=(t,(1 2 3))" }
+search/manifest_spec_v1.md-252-```
+search/manifest_spec_v1.md-253-**(2) 宇宙**(spec): `pb3_index = 60`、`b3_points = 360`、`n_ord = 5`、`charming_set = [0,1,3,4]`(𝒳 = {m ∈ ℤ/5 : gcd(2m+1,5) = 1})。
+search/manifest_spec_v1.md-254-**(3) derived / candidate**(spec): `derived_order = 60`(A₅ 完全)、`candidate_total = 240`(= 4 × 60)。
+--
+search/manifest_spec_v1.md-268-{ "id": "A2", "name": "M_A5",
+search/manifest_spec_v1.md-269-  "definition": "N_A cap N_5,  N_5 = ker( beta_5: B3 -> S3 x C5 )",
+search/manifest_spec_v1.md-270-  "quotient": "A5 x C5 (order 300)",
+search/manifest_spec_v1.md-271-  "C5_generator": "zeta",
+search/manifest_spec_v1.md:272:  "marked_images": { "x": "(X, zeta^2)", "y": "(Y, zeta^2)", "c": "(1, zeta)" },
+search/manifest_spec_v1.md-273-  "symbol_note": "C5 の生成元は zeta。v3 の t は A5 の (1 2 3) と衝突するため改名(§1.6)" }
+search/manifest_spec_v1.md-274-```
+search/manifest_spec_v1.md-275-**(2) 宇宙**(spec): `pb3_index = 300`、`b3_points = 1800`、`n_ord = 5`(= lcm(5,5,5))、`charming_set = [0,1,3,4]`。
+search/manifest_spec_v1.md-276-**(3) derived / candidate**(spec): `derived_order = 60`(= \|[A₅×C₅, A₅×C₅]\| = \|A₅×1\|)、`candidate_total = 240`。
+--
+search/manifest_spec_v1.md-293-```json
+search/manifest_spec_v1.md-294-{ "id": "3", "name": "M_3",
+search/manifest_spec_v1.md-295-  "definition": "K^(3) cap N_3",
+search/manifest_spec_v1.md-296-  "quotient": "G3 x_{C2^2} P3 (order 3456)",
+search/manifest_spec_v1.md:297:  "marked_images": { "x": "((r,s,s), X)", "y": "((rs,r,rs), Y)", "c": "(1,1)" } }
+search/manifest_spec_v1.md-298-```
+search/manifest_spec_v1.md-299-**(2) 宇宙**(spec): `pb3_index = 3456`、`b3_points = 20736`、`n_ord = 12`、`charming_set = [0,2,3,5,6,8,9,11]`。
+search/manifest_spec_v1.md-300-**(3) derived / candidate**(spec): `derived_order = 216`(= 27·8)、`candidate_total = 1728`(= 8 × 216)。
+search/manifest_spec_v1.md-301-根拠: Q^{ab} = ⟨(ā,X̄),(b̄,Ȳ)⟩ ≤ C₂²×(C₄×C₄) は (s,t) ↦ (sā+tb̄, sX̄+tȲ) が単射ゆえ ≅ C₄×C₄(位数 16)⇒ \|[Q,Q]\| = 3456/16 = 216。
+--
+search/manifest_spec_v1.md-314-|---|---|---|
+search/manifest_spec_v1.md-315-| U-F1 | 各段の \|PB₃:·\| / \|B₃:·\| | §2 の各段(2)のとおり |
+search/manifest_spec_v1.md-316-| U-F2 | 各段の ord / derived / candidate_total / charming_set の元 | §2 の各段(2)(3)のとおり |
+search/manifest_spec_v1.md-317-| U-F3 | Q₈ 自己検査: i⁴=1, i²=j²=(ij)², ord(ij)=4, [i,j]=−1 | PASS |
+search/manifest_spec_v1.md:318:| U-F4 | P₂ 自己検査: X⁴=Y⁴=(XY)⁴=1, [X,Y] 中心・位数 2, class 2 | PASS |
+search/manifest_spec_v1.md-319-| U-F5 | P₃ 自己検査: exponent 4, class 3, γ₃ = ⟨p,q⟩ 中心, w²=p²=q²=1, \|P₃\|=128 | PASS |
+search/manifest_spec_v1.md-320-| U-F6 | 塔の包含: **P₃ ↠ P₂** と **P₂ ↠ Q₈** を marked factor map で**別々に** | PASS |
+search/manifest_spec_v1.md-321-| U-F7 | 両表示の一致(定理 T1): P₂/P₃ が verbal 表示と restricted 表示の**双方の**関係式を満たす | PASS |
+search/manifest_spec_v1.md-322-| U-F8 | θ, τ が各 P に降りること(生成元の像で検査。**c ∈ N の段のみ**商評価が正当) | PASS |
+search/manifest_spec_v1.md:323:| U-F9 | E_m := X^m Z^m Y^m の値表を各層で**独立計算し証明書へ出力**する(**期待値は本 fixture に書かない — sealed 側に封印**・開封時に司令塔が突合) | 出力欄の存在(値の事前指定なし) |
+search/manifest_spec_v1.md-324-| **U-F10** | **exact order(G-01)**: c ∈ N の各段で `ord_Q(deltaB_bar^{-1} Delta_bar) = 2·n_ord` | 1a/2a/2b: 8、1b/3: 24、A1: **10** |
+search/manifest_spec_v1.md-325-| **U-F11** | **S₃ marking(G-02)**: Δ̄ ↦ (12)、δ̄_B ↦ (123)、かつ**標準射との同時共役元が (123)** | PASS |
+search/manifest_spec_v1.md:326:| **A-F1** | A₅ 自己検査: X,Y,Z の位数 5、XYZ = 1、s² = 1、sXs⁻¹ = Y、t³ = 1、τ: X→Y→Z→X | PASS |
+search/manifest_spec_v1.md:327:| **A-F2** | ⟨X,Y⟩ = ⟨X,t⟩ = ⟨s,t⟩ = A₅(位数 60) | PASS |
+search/manifest_spec_v1.md:328:| **A-F3** | B₃/N_A ≅ A₅×S₃: Δ̄²=δ̄_B³=1、braid 関係、σ̄₁²=(X,1)、σ̄₂²=(Y,1)、\|⟨Δ̄,δ̄_B⟩\| = 360 | PASS |
+search/manifest_spec_v1.md-329-| **A-F4** | **段 A2 の評価方式**: 判定は**語レベル評価のみ**を採用。商内評価は**診断目的でのみ並走**させ、一致/不一致を候補ごとに記録する | 語レベル評価が採用され、`quotient_eval_diff_count` が記録されていること |
+search/manifest_spec_v1.md:330:| **A-F5** | A2 の E_m を **語レベルで**構成し、C₅ 成分の hexagon が全 m ∈ 𝒳 で成立 | PASS(補題 A2A1 ③) |
+search/manifest_spec_v1.md-331-| **A-F6** | A2 の derived: \|[A₅×C₅, A₅×C₅]\| = 60、射影 A₅×1 → A₅ が同型 | PASS |
+search/manifest_spec_v1.md-332-
+search/manifest_spec_v1.md-333-**A-F4 の意味**: 段 A2 は「答えを当てる」段ではなく「**c ∉ M で近道が使えないことを実地で確認し、語レベル評価が正しく動くことを較正する**」段である。
+search/manifest_spec_v1.md-334-**`quotient_eval_diff_count` は fixture ではなく観測値**である(私は「必ず食い違う」ことを証明していない — 特定の (m,f) で偶然一致することは排除できない)。ただし **diff_count = 0 が観測されたら報告事項**とし、罠が本当に無害なのか、それとも語レベル評価が実は商評価に退化しているのかを司令塔が切り分ける。
+--
+docs/week4-E2作戦_v2.md-10-## 0. 冒頭結論
+docs/week4-E2作戦_v2.md-11-
+docs/week4-E2作戦_v2.md-12-| # | 内容 | 札 |
+docs/week4-E2作戦_v2.md-13-|---|---|---|
+docs/week4-E2作戦_v2.md:14:| **D1** | **定理 E9′ の中心恒等式 (†) は紙で閉じた**。21 点補間は**不要になった**。(†) は二つの補題 — **Lemma A**: $\mathcal N(pq) = \rho^3$($\rho := r_1r_2r_3$、**$m$ に依らない**)、**Lemma B**: $3E_m = -T_m\kappa_m + B_m\rho$ — に完全に還元し、両方を手計算で証明した(§1) | **紙上証明**(Opus 単独・Sol 未監査)。**全定数を `docs/scout/` の独立スクリプトが再現** |
+docs/week4-E2作戦_v2.md-15-| **D2** | **命題 E10 の全称版に lift 補題を追加**(便 12 F6 の指示どおり一行)。$(\mathbb Z/n)^\times \to (\mathbb Z/n')^\times$ の全射性を CRT で証明(§2) | **紙上証明**(3 行) |
+docs/week4-E2作戦_v2.md:16:| **D3** | **★ 命題 E16(捻れ無しの崩壊)**: $\theta$ が $A^\sigma$ を保つ(= $\iota_{X^u}\vert_A = \mathrm{id}$)なら、E2 の torsion 条件は **$\theta(E_m) = E_m^{-1}$ ただ一つ**と同値。系 E2′-a より $\iota_{X^u}\vert_A = \mathrm{id} \iff \mathrm{class}(P)\le2$。⇒ **障害は $S_3$-加群構造ではなく内部捻れ $\iota_{X^u}$ が担う**(§3.1)。便 12 の「$\mathbb Z_2[\langle\sigma,\theta\rangle]$-加群構造で特徴づけよ」という枠組みは、**$\langle\sigma,\theta\rangle$ が $S_3$ でない**ため直接には成立しない | **紙上証明**+H6 の別証明として整合 |
+docs/week4-E2作戦_v2.md:17:| **D4** | **★ 定理 E18(次数付き障害)**: $\iota_{X^u}$ は $\mathrm{gr}_j(A)$ 上**恒等**に作用するので、**associated graded の上でだけ $\langle\bar\sigma,\bar\theta\rangle$ は真に $S_3$ になる**。障害は (i) $\sigma$-非自明イソタイプ $M_j^-$ からは**決して来ない**($M_j^-$ は $\langle\theta\rangle$-コホモロジー的自明 — crossed product $\mathbb Z_2[\omega]*C_2\cong M_2(\mathbb Z_2)$)、(ii) すべて $M_j^+ = \mathrm{gr}_j(A)^{\bar\sigma}$ に載り、$O_j := (1+\bar\theta)\vert_{M_j^+}$ で測る。**$O_j = 0 \iff \mathrm{gr}_j$ に $S_3$ の自明表現が現れない**(§3.2) | **紙上証明** |
+docs/week4-E2作戦_v2.md-18-| **D5** | **★★ 自由 Lie 環での初出は weight 5**: $L_j(V)$($V$ = $S_3$ の 2 次元標準表現)における自明表現の重複度は $j = 2,3,4$ で **0**、$j = 5$ で **1**。⇒ **class ≤ 4 が無条件に安全な理由の表現論的説明**(定理 E9/E9′ の再証明)であり、**class 5 が第一の生きた層であることの独立な構造的根拠**(§3.2・表) | **紙上証明**(自由 Lie 環の指標公式)+ `docs/scout/` で数値照合 |
+docs/week4-E2作戦_v2.md-19-| **D6** | **★★★ 定理 E19: 自由 metabelian 塔 class ≤ 7 では 2-一次障害は存在しない**。厳密 Smith 標準形の**基本因子が全て奇数**($m = 0..63$・class $3..7$)⇒ **$\mathbb Z_2$-可解 ⟺ $\mathbb Q$-可解**。すなわち「mod $2^j$ で新たに現れる可除性障害」は**この範囲では原理的に起こらない**。$\mathbb Q$-可解性も $m\le63$ で成立 ⇒ **全ての $j$ で可解**。さらに **Lucas による $m\bmod 8$ 周期性**で「基本因子が全て奇数」は **class ≤ 7 の全ての $m\in\mathbb Z$** へ拡張される(系 E19-b)(§3.3) | **単系統**(`docs/scout/metab.mjs`・厳密 BigInt・自己検査 13 項 PASS)。**cross-checked ではない** |
+docs/week4-E2作戦_v2.md-20-| **D7** | **便 12 の ★ を部分的に修正**: 「残り得る障害はむしろ 2-一次」は、**metabelian 塔 class ≤ 7 では成り立たない**(D6)。残る障害は $\mathbb Q$-線型の問題か、**$A$ 非可換(導来長 ≥ 3)**の領域である | **本稿の主張**(射程つき) |
+docs/week4-E2作戦_v2.md:21:| **D8** | **★ 定理 E21: 系 E12-a は非可換 2 群では常に空虚**。$\gamma_3[A,A]A^2$ による商 $A/B\cong\mathbb F_2$ が**必ず** $\langle\sigma,\theta\rangle$-自明加群になる($\sigma(w)\equiv w\ (\gamma_3)$、$\theta(w)=w^{-1}\equiv w\ (A^2)$)ので、非自明な同時安定 1 次元指標が常に存在する。⇒ E12-a を安価な safe criterion として使う道は**本設定では閉じている**(§3.4) | **紙上証明** |
+docs/week4-E2作戦_v2.md-22-| **D9** | **掃引宇宙 v2 の登録表**(新 ID・既存上書き禁止・3 層)を §4 に固定。**発射順は Sol の F14 どおり**①完全 class-5 非 metabelian ②metabelian class-6 記号的 SNF(**D6 により事実上完了・残るのは $m$ 量化子**)③有限群掃引 | **事前登録** |
+docs/week4-E2作戦_v2.md-23-
+docs/week4-E2作戦_v2.md-24-★ **一行でいうと**: (†) は紙で閉じ、E15 の「2-一次障害」仮説は **metabelian 塔 class ≤ 7 では反証された**(基本因子が全て奇数)。障害が残り得るのは **$A$ 非可換**の領域だけであり、そこでは線型モデル自体が使えない。**狩場は導来長 ≥ 3 に一点集中する。**
+docs/week4-E2作戦_v2.md-25-
+--
+docs/week4-E2作戦_v2.md-30-### 1.0 Hall 座標の正本(監査用・開示形)
+docs/week4-E2作戦_v2.md-31-
+docs/week4-E2作戦_v2.md-32-自由 class-4 rank-2 冪零群 $F_2/\gamma_5$、$A_{\mathrm{free}} := \gamma_2/\gamma_5 \cong\mathbb Z^6$。**基底の順序を固定する**(以後この順序を正本とする):
+docs/week4-E2作戦_v2.md-33-
+docs/week4-E2作戦_v2.md:34:$$ w := [x,y],\quad p := [w,x],\quad q := [w,y],\quad r_1 := [p,x],\quad r_2 := [p,y],\quad r_3 := [q,y]. $$
+docs/week4-E2作戦_v2.md-35-
+docs/week4-E2作戦_v2.md:36:重み: $w$ は 2、$p,q$ は 3、$r_1,r_2,r_3$ は 4。$A$ は可換(補題 E8.0)。$\gamma_4 = \langle r_1,r_2,r_3\rangle$ は $P$ の中心に入る。**Jacobi**: $[q,x] = r_2$。以後 $A$ を**加法的**に書く。
+docs/week4-E2作戦_v2.md-37-
+docs/week4-E2作戦_v2.md-38-**構造定数(全て手計算で導出・§1.1–§1.2 で証明。`docs/scout/class4.mjs` が独立に再現)**
+docs/week4-E2作戦_v2.md-39-
+docs/week4-E2作戦_v2.md-40-$$
+docs/week4-E2作戦_v2.md:41:\theta:\quad w\mapsto -w,\quad p\mapsto -q,\quad q\mapsto -p,\quad r_1\mapsto -r_3,\quad r_2\mapsto -r_2,\quad r_3\mapsto -r_1.
+docs/week4-E2作戦_v2.md-42-$$
+docs/week4-E2作戦_v2.md-43-$$
+docs/week4-E2作戦_v2.md:44:\tau:\quad w\mapsto w-p+r_1,\quad p\mapsto q-r_2,\quad q\mapsto -p-q+2r_1+2r_2+r_3,
+docs/week4-E2作戦_v2.md-45-$$
+docs/week4-E2作戦_v2.md-46-$$
+docs/week4-E2作戦_v2.md:47:\qquad r_1\mapsto r_3,\quad r_2\mapsto -r_2-r_3,\quad r_3\mapsto r_1+2r_2+r_3.
+docs/week4-E2作戦_v2.md-48-$$
+docs/week4-E2作戦_v2.md-49-$$
+docs/week4-E2作戦_v2.md:50:\sigma_m = \mathrm{Ad}(\bar Y^{m})\circ\tau:\quad
+docs/week4-E2作戦_v2.md:51:w\mapsto w-p+mq+r_1-mr_2+\tbinom m2 r_3,\quad
+docs/week4-E2作戦_v2.md-52-p\mapsto q-r_2+mr_3,
+docs/week4-E2作戦_v2.md-53-$$
+docs/week4-E2作戦_v2.md-54-$$
+docs/week4-E2作戦_v2.md:55:\qquad q\mapsto -p-q+2r_1+(2-m)r_2+(1-m)r_3,\qquad \sigma_m\vert_{\gamma_4} = \tau\vert_{\gamma_4}.
+docs/week4-E2作戦_v2.md-56-$$
+docs/week4-E2作戦_v2.md-57-
+docs/week4-E2作戦_v2.md:58:> **記法.** $\rho := r_1+r_2+r_3$、$T_m := \binom{m+1}2 = \frac{m(m+1)}2$、$B_m := \binom{T_m+1}2 = \frac{T_m(T_m+1)}2$、$\kappa_m := \mathcal N(w)$、$\mathcal N := 1+\sigma+\sigma^2$。
+docs/week4-E2作戦_v2.md-59-
+docs/week4-E2作戦_v2.md:60:**$\theta$ の一言**: $\theta = -s$、ここで $s$ は基底の対合 $(w,p,q,r_1,r_2,r_3)\mapsto(w,q,p,r_3,r_2,r_1)$。ゆえに
+docs/week4-E2作戦_v2.md:61:$$ \boxed{\ \ker(1+\theta) = \{v : v_p = v_q,\ v_{r_1} = v_{r_3}\} = \langle w,\ p+q,\ r_1+r_3,\ r_2\rangle\ } $$
+docs/week4-E2作戦_v2.md-62-は**階数 4 の直和因子**である。E9′ の witness $\bar f = w^{\lambda T_m}(pq)^{-\lambda^2B_m}$ は $\langle w, p+q\rangle$ に入るので (H-a) は自明に満たす。
+docs/week4-E2作戦_v2.md-63-
+docs/week4-E2作戦_v2.md:64:### 1.1 補題の証明 — $\theta$ と $\tau$
+docs/week4-E2作戦_v2.md-65-
+docs/week4-E2作戦_v2.md:66:**$\theta$**($x\leftrightarrow y$、$F_2$ の自己同型):
+docs/week4-E2作戦_v2.md:67:$\theta(w) = [y,x] = w^{-1}$ は**自由群の中で厳密**。$\gamma_3$ は $\gamma_2$ を中心化する($[\gamma_3,\gamma_2]\subseteq\gamma_5 = 1$)ので
+docs/week4-E2作戦_v2.md:68:$\theta(p) = [\theta w,\theta x] = [w^{-1},y] = ([w,y]^{-1})^{w^{-1}} = q^{-1}$、同様に $\theta(q) = p^{-1}$。
+docs/week4-E2作戦_v2.md:69:$\gamma_4$ は中心なので $\theta(r_1) = [\theta p,\theta x] = [q^{-1},y] = r_3^{-1}$、$\theta(r_2) = [q^{-1},x] = [q,x]^{-1} = r_2^{-1}$、$\theta(r_3) = [p^{-1},x] = r_1^{-1}$。∎
+docs/week4-E2作戦_v2.md-70-
+docs/week4-E2作戦_v2.md:71:**$\tau$**: §1.3 の自由 metabelian モデル(§3.3)が同じ値を独立に与える(自己検査 4 項)。ここでは値のみ用いる。
+docs/week4-E2作戦_v2.md-72-
+docs/week4-E2作戦_v2.md-73-### 1.2 **Lemma A** — $\mathcal N(p+q) = 3\rho$($m$ に依らない)
+docs/week4-E2作戦_v2.md-74-
+docs/week4-E2作戦_v2.md:75:> **Lemma A.** 自由 class-4 対象において、**全ての $m$** に対し $\ \mathcal N(p+q) = 3(r_1+r_2+r_3) = 3\rho$。
+docs/week4-E2作戦_v2.md-76-
+docs/week4-E2作戦_v2.md:77:**証明.**(全て $A$ の中の加法計算。$\gamma_4$ 上 $\sigma = \tau$。)
+docs/week4-E2作戦_v2.md:78:$$ \sigma(p+q) = (q - r_2 + mr_3) + (-p-q+2r_1+(2-m)r_2+(1-m)r_3) = -p + 2r_1 + (1-m)r_2 + r_3. $$
+docs/week4-E2作戦_v2.md-79-$$
+docs/week4-E2作戦_v2.md-80-\begin{aligned}
+docs/week4-E2作戦_v2.md:81:\sigma^2(p+q) &= \sigma(-p) + \sigma\bigl(2r_1+(1-m)r_2+r_3\bigr)\\
+docs/week4-E2作戦_v2.md:82:&= (-q + r_2 - mr_3) + \bigl(2r_3 + (1-m)(-r_2-r_3) + (r_1+2r_2+r_3)\bigr)\\
+docs/week4-E2作戦_v2.md:83:&= -q + r_1 + (1+m)r_2 + (2+m)r_3 .
+docs/week4-E2作戦_v2.md-84-\end{aligned}
+docs/week4-E2作戦_v2.md-85-$$
+docs/week4-E2作戦_v2.md-86-加えると $p,q$ 成分は打ち消し、
+docs/week4-E2作戦_v2.md:87:$$ \mathcal N(p+q) = (2+1)r_1 + \bigl((1-m)+(2+m)\bigr)r_2 + (1+2)r_3 = 3r_1+3r_2+3r_3 = 3\rho. \qquad\blacksquare $$
+docs/week4-E2作戦_v2.md-88-
+docs/week4-E2作戦_v2.md-89-★ **$m$ が完全に消える**のが本補題の要点である。
+docs/week4-E2作戦_v2.md-90-
+docs/week4-E2作戦_v2.md-91-### 1.3 **$\kappa_m$ の閉形**(手計算)
+docs/week4-E2作戦_v2.md-92-
+docs/week4-E2作戦_v2.md:93:$\mathrm{Ad}(\bar Y^{m})$ は $\gamma_3$ 上 $g\mapsto g+m[g,y]$、$\gamma_4$ 上恒等、$w$ 上 $w\mapsto w+mq+\binom m2 r_3$($[w,y^k] = q^kr_3^{\binom k2}$ の帰納法)。ゆえに $\sigma(w)$ は上表のとおり。続けて
+docs/week4-E2作戦_v2.md-94-$$
+docs/week4-E2作戦_v2.md:95:\sigma^2(w) = \sigma(w)-\sigma(p)+m\sigma(q)+\sigma(r_1)-m\sigma(r_2)+\tbinom m2\sigma(r_3)
+docs/week4-E2作戦_v2.md-96-$$
+docs/week4-E2作戦_v2.md-97-を展開すると
+docs/week4-E2作戦_v2.md:98:$$ \sigma^2(w) = w-(1+m)p-q+\bigl(1+2m+\tbinom m2\bigr)r_1+(1+m)r_2+1\cdot r_3 $$
+docs/week4-E2作戦_v2.md-99-(係数の内訳: $r_2$ は $-m+1+m(2-m)+m+2\binom m2 = 1+m$、$r_3$ は $\binom m2 - m + m(1-m)+1+m+\binom m2 = 1$)。したがって
+docs/week4-E2作戦_v2.md:100:$$ \boxed{\ \kappa_m = 3w - (m+2)p + (m-1)q + \tfrac{m^2+3m+4}2\,r_1 + 1\cdot r_2 + \tfrac{m^2-m+2}2\,r_3\ } $$
+docs/week4-E2作戦_v2.md-101-特に **$\kappa_m$ の $r_2$-座標は $m$ に依らず $1$** である。
+docs/week4-E2作戦_v2.md-102-
+docs/week4-E2作戦_v2.md:103:### 1.4 **Lemma B** — $3E_m = -T_m\kappa_m + B_m\rho$
+docs/week4-E2作戦_v2.md-104-
+docs/week4-E2作戦_v2.md-105-> **Lemma B(補題 E9.2 の class-4 精密化).** 自由 class-4 対象において
+docs/week4-E2作戦_v2.md:106:> $$ \boxed{\ 3E_m \;=\; -T_m\,\kappa_m \;+\; B_m\,\rho\ },\qquad T_m = \tbinom{m+1}2,\ B_m = \tbinom{T_m+1}2 .$$
+docs/week4-E2作戦_v2.md-107-
+docs/week4-E2作戦_v2.md-108-**証明は 4 段。**
+docs/week4-E2作戦_v2.md-109-
+docs/week4-E2作戦_v2.md:110:**(B1) $E_m\in A^\sigma$、$\kappa_m,\rho\in A^\sigma$。**
+docs/week4-E2作戦_v2.md:111:$\tau(E_m) = \tau(X^mZ^mY^m) = Y^mX^mZ^m$、ゆえに
+docs/week4-E2作戦_v2.md:112:$\sigma(E_m) = \bar Y^{-m}(Y^mX^mZ^m)\bar Y^{m} = X^mZ^mY^m = E_m$。(一行。)
+docs/week4-E2作戦_v2.md:113:$\sigma^3 = \mathrm{Inn}_A(E_m) = \mathrm{id}$($A$ 可換)より $\sigma\mathcal N = \mathcal N$、ゆえに $\kappa_m = \mathcal N(w)\in A^\sigma$。
+docs/week4-E2作戦_v2.md:114:$\rho$: $\tau\vert_{\gamma_4}$ の不動空間は $ar_1+br_2+cr_3\mapsto cr_1+(-b+2c)r_2+(a-b+c)r_3$ を等置して $a=b=c$、すなわち $\langle\rho\rangle$。
+docs/week4-E2作戦_v2.md-115-
+docs/week4-E2作戦_v2.md:116:**(B2) $\dim_{\mathbb Q}A^\sigma = 2$、したがって $A^\sigma\otimes\mathbb Q = \mathbb Q\kappa_m\oplus\mathbb Q\rho$。**
+docs/week4-E2作戦_v2.md:117:フィルトレーション $A\supseteq\gamma_3\supseteq\gamma_4$ に対し $\dim\ker(\sigma-1)\le\sum_j\dim\ker(\bar\sigma-1)\vert_{\mathrm{gr}_j}$。
+docs/week4-E2作戦_v2.md:118:$\mathrm{gr}_2 = \langle w\rangle$: $\bar\sigma = \mathrm{id}$、次元 1。
+docs/week4-E2作戦_v2.md:119:$\mathrm{gr}_3 = \langle p,q\rangle$: $\bar\sigma(p)=q,\ \bar\sigma(q)=-p-q$、特性多項式 $\lambda^2+\lambda+1$、固有値 1 を持たない、次元 0。
+docs/week4-E2作戦_v2.md-120-$\mathrm{gr}_4$: (B1) より次元 1。
+docs/week4-E2作戦_v2.md:121:合計 $\le 2$。一方 $\kappa_m$($w$-係数 $3\ne0$)と $\rho\in\gamma_4$ は一次独立な $\sigma$-不動ベクトルなので**ちょうど 2**。∎
+docs/week4-E2作戦_v2.md-122-
+docs/week4-E2作戦_v2.md:123:**(B3) $w$-座標 ⇒ 比例係数。** (B2) より $E_m = a\kappa_m + b\rho$($a,b\in\mathbb Q$)。$\rho\in\gamma_4$ なので $w$-座標を比べて、$E_m\equiv w^{-T_m}\ (\mathrm{mod}\ \gamma_3)$(定理 H6 の内容。§1.5 に独立導出)と $\kappa_m$ の $w$-座標 $3$ から
+docs/week4-E2作戦_v2.md-124-$$ -T_m = 3a,\qquad a = -T_m/3. $$
+docs/week4-E2作戦_v2.md-125-
+docs/week4-E2作戦_v2.md-126-**(B4) $r_2$-座標 ⇒ $b$。** $\kappa_m$ の $r_2$-座標は $1$(§1.3)、$\rho$ の $r_2$-座標は $1$。よって
+docs/week4-E2作戦_v2.md:127:$$ (E_m)_{r_2} = -\tfrac{T_m}3 + b . $$
+docs/week4-E2作戦_v2.md:128:§1.6 で **$(E_m)_{r_2} = \binom{m+2}4$** を Magnus 係数の手計算で示す。すると
+docs/week4-E2作戦_v2.md-129-$$ 3b = 3\tbinom{m+2}4 + T_m . $$
+docs/week4-E2作戦_v2.md-130-初等恒等式
+docs/week4-E2作戦_v2.md-131-$$ 3\tbinom{m+2}4 = \frac{(m+2)(m+1)m(m-1)}{8} = \frac{T_m(T_m-1)}2 = \tbinom{T_m}2 $$
+docs/week4-E2作戦_v2.md-132-(∵ $T_m = \frac{m(m+1)}2$、$T_m-1 = \frac{(m+2)(m-1)}2$)より
+docs/week4-E2作戦_v2.md-133-$$ 3b = \tbinom{T_m}2 + T_m = \frac{T_m(T_m-1)}2 + T_m = \frac{T_m(T_m+1)}2 = B_m . $$
+docs/week4-E2作戦_v2.md:134:ゆえに $3E_m = 3a\kappa_m + 3b\rho = -T_m\kappa_m + B_m\rho$。∎
+docs/week4-E2作戦_v2.md-135-
+docs/week4-E2作戦_v2.md:136:### 1.5 $E_m\equiv w^{-T_m}\pmod{\gamma_3}$(H6 の独立導出・1 行)
+docs/week4-E2作戦_v2.md-137-
+docs/week4-E2作戦_v2.md:138:$E_m = x^m(xy)^{-m}y^m$。$\mathrm{mod}\ \gamma_3$ で $(xy)^m \equiv x^my^mw^{-\binom m2}$(Hall–Petrescu の 2 段目)ゆえ
+docs/week4-E2作戦_v2.md:139:$E_m \equiv x^mw^{\binom m2}y^{-m}x^{-m}y^m = w^{\binom m2}[x^{-m},y^m] = w^{\binom m2 - m^2} = w^{-T_m}$。∎
+docs/week4-E2作戦_v2.md-140-
+docs/week4-E2作戦_v2.md:141:### 1.6 $(E_m)_{r_2} = \binom{m+2}4$ — Magnus 係数による手計算
+docs/week4-E2作戦_v2.md-142-
+docs/week4-E2作戦_v2.md-143-Magnus 埋め込み $x\mapsto1+\xi$、$y\mapsto1+\eta$、$\mathbb Z\langle\xi,\eta\rangle/(\deg>4)$。$c_u(\cdot)$ で語 $u$ の係数を表す。**選ぶ語は $u_0 := \xi^2\eta^2$。**
+docs/week4-E2作戦_v2.md-144-
+docs/week4-E2作戦_v2.md-145-**(a) 次数 4 の Lie 元での $u_0$-係数.**
+--
+docs/week4-E2作戦_v2.md-155-$W_2^2 = \xi\eta\xi\eta-\xi\eta^2\xi-\eta\xi^2\eta+\eta\xi\eta\xi$ ⇒ **$c_{u_0}(W_2^2) = 0$**。
+docs/week4-E2作戦_v2.md-156-$\mu(p) = \mu(w)^{-1}(1+\xi)^{-1}\mu(w)(1+\xi)$: $u_0$ を 4 ブロックに切る分解を尽くすと生き残るのは 1 通りで、値は $-c_{\xi\eta^2}(\mu(w)) = 0$ ⇒ **$c_{u_0}(P_4) = 0$**。
+docs/week4-E2作戦_v2.md-157-$\mu(q) = \mu(w)^{-1}(1+\eta)^{-1}\mu(w)(1+\eta)$: 同様に生き残るのは 2 項、$c_{\xi^2\eta}(\mu(w)^{-1})\cdot(-1) = (+1)(-1) = -1$ と、$u_4 = \eta$ の場合の $(-1)+1 = 0$ ⇒ **$c_{u_0}(Q_4) = -1$**。
+docs/week4-E2作戦_v2.md-158-したがって
+docs/week4-E2作戦_v2.md:159:$$ \boxed{\ c_{u_0}\bigl(\mu(E_m)\bigr) = -\gamma - \delta_2\ }\qquad(\gamma = (E_m)_q,\ \delta_2 = (E_m)_{r_2}). $$
+docs/week4-E2作戦_v2.md-160-
+docs/week4-E2作戦_v2.md:161:**(c) $c_{u_0}(\mu(E_m))$ の閉形.** $E_m = x^m z^m y^m$、$z = y^{-1}x^{-1}$。$\zeta := \mu(z)-1 = \sum_{(i,j)\ne(0,0)}(-1)^{i+j}\eta^j\xi^i$、
+docs/week4-E2作戦_v2.md:162:$$ \mu(E_m) = \Bigl(\sum_a\tbinom ma\xi^a\Bigr)\Bigl(\sum_k\tbinom mk\zeta^k\Bigr)\Bigl(\sum_d\tbinom md\eta^d\Bigr). $$
+docs/week4-E2作戦_v2.md-163-$\zeta^k$ の語は $\eta^{j}\xi^{i}$ 型ブロックの連接。$\xi^s\eta^t$ に等しくなるのは「純 $\xi$ ブロックが $s$ の合成、続いて純 $\eta$ ブロックが $t$ の合成」の場合だけ($\eta$ の後に $\xi$ が来るブロックは $\xi^s\eta^t$ の中に置けない)。符号は $(-1)^{s+t}$、個数は合成数 $\binom{s-1}{k_1-1}\binom{t-1}{k_2-1}$。よって $F(s,t) := c_{\xi^s\eta^t}\bigl(\mu(z)^m\bigr)$ は
+docs/week4-E2作戦_v2.md-164-$$ F(0,0)=1,\quad F(1,0)=F(0,1)=-m,\quad F(2,0)=F(0,2)=m+\tbinom m2,\quad F(1,1)=\tbinom m2, $$
+docs/week4-E2作戦_v2.md-165-$$ F(2,1)=F(1,2) = -\bigl(\tbinom m2+\tbinom m3\bigr),\quad F(2,2)=\tbinom m2+2\tbinom m3+\tbinom m4 . $$
+docs/week4-E2作戦_v2.md:166:$S := \binom m2$ と置き $c_{u_0}(\mu(E_m)) = \sum_{a,d\le2}\binom ma\binom md F(2-a,2-d)$ を展開すると
+docs/week4-E2作戦_v2.md:167:$$ c_{u_0}(\mu(E_m)) = S + 2\tbinom m3 + \tbinom m4 - 2m\tbinom m3 + 3S^2 - m^2S $$
+docs/week4-E2作戦_v2.md-168-$$ = S\Bigl[\tfrac{(m-1)(m-2)}2\Bigr] - \tfrac{2(m-1)\cdot m(m-1)(m-2)}6 + \tbinom m4
+docs/week4-E2作戦_v2.md-169-= m(m-1)(m-2)\cdot\frac{6(m-1)-8(m-1)+(m-3)}{24} = -\tbinom{m+1}4 . $$
+docs/week4-E2作戦_v2.md-170-
+docs/week4-E2作戦_v2.md:171:**(d) 結論.** $\rho$ の $q$-座標は $0$、$\kappa_m$ の $q$-座標は $m-1$(§1.3)なので、(B2)(B3) から $E_m$ の $q$-座標は**新しい計算なしに**決まる:
+docs/week4-E2作戦_v2.md:172:$$ \gamma = (E_m)_q = a\,(m-1) = -\frac{T_m(m-1)}3 = -\frac{(m-1)m(m+1)}6 = -\tbinom{m+1}3 . $$
+docs/week4-E2作戦_v2.md-173-これと (b)(c) より
+docs/week4-E2作戦_v2.md:174:$$ \delta_2 = -\gamma - c_{u_0}(\mu(E_m)) = \tbinom{m+1}3 + \tbinom{m+1}4 = \tbinom{m+2}4 . \qquad\blacksquare $$
+docs/week4-E2作戦_v2.md-175-
+docs/week4-E2作戦_v2.md-176-### 1.7 **定理 E9′ の証明**((†) の閉鎖)
+docs/week4-E2作戦_v2.md-177-
+docs/week4-E2作戦_v2.md-178-> **定理 E9′.** $N$ 許容($c\in N$)、$P$ 2 生成・$\mathrm{class}(P)\le4$、$3\nmid\lvert A\rvert$。$\lambda := 3^{-1}\bmod\exp A$ と置くと
+docs/week4-E2作戦_v2.md-179-> $$ \bar f := w^{\lambda T_m}(pq)^{-\lambda^2B_m} $$
+docs/week4-E2作戦_v2.md-180-> は (H-a) と (H-b′) を同時に満たす。
+docs/week4-E2作戦_v2.md-181-
+docs/week4-E2作戦_v2.md:182:**証明.** (H-a): $\bar f\in\langle w,p+q\rangle\subseteq\ker(1+\theta)$(§1.0)。
+docs/week4-E2作戦_v2.md-183-(H-b′): 加法的に $f_0 := 3T_m\,w - B_m\,(p+q)$ と置くと、$\mathcal N$ の $\mathbb Z$-線型性と Lemma A・Lemma B から
+docs/week4-E2作戦_v2.md:184:$$ \mathcal N(f_0) = 3T_m\kappa_m - B_m\cdot3\rho \overset{\text{Lem B}}{=} 3T_m\kappa_m - 3\bigl(3E_m + T_m\kappa_m\bigr) = -9E_m. $$
+docs/week4-E2作戦_v2.md:185:これが **(†)** である(**紙上で閉じた。21 点補間は不要**)。指数ベクトルを $\lambda^2$ 倍し $9\lambda^2\equiv1$、$3\lambda^2\equiv\lambda\pmod{\exp A}$ を使うと $\mathcal N(\bar f) = E_m^{-1}$。$P$ への押し出しは $A^P$ が $A_{\mathrm{free}}$ の $\theta,\sigma$-同変商であることによる。∎
+docs/week4-E2作戦_v2.md-186-
+docs/week4-E2作戦_v2.md:187:> **系(無料で出る).** Lemma B と §1.3 の $\kappa_m$ から、$E_m$ の class-4 Hall 閉形が従う:
+docs/week4-E2作戦_v2.md:188:> $$ E_m = \Bigl(-\tbinom{m+1}2,\ \tbinom{m+2}3,\ -\tbinom{m+1}3,\ -\tbinom{m+3}4,\ \tbinom{m+2}4,\ -\tbinom{m+1}4\Bigr). $$
+docs/week4-E2作戦_v2.md-189-
+docs/week4-E2作戦_v2.md-190-> **状態札(W60/W92)**: §1 は **紙上証明(Opus 単独・Sol 未監査)**。全構造定数・全恒等式は `docs/scout/class4.mjs` と `docs/scout/metab.mjs`(独立の 2 モデル: Magnus 切断代数 / 自由 metabelian 加群)が再現する。**verified(Lean)ではない。** 便 12 W98 が求めた「Hall 基底順・六座標・次数上界・21 点 residual・script hash」のうち、**次数上界と 21 点は不要になった**(恒等式が閉じたため)。Hall 基底順は §1.0、座標は §1.3 と §1.7 系、script は `docs/scout/` に開示。
+docs/week4-E2作戦_v2.md-191-
+docs/week4-E2作戦_v2.md-192----
+--
+docs/week4-E2作戦_v2.md-210-
+docs/week4-E2作戦_v2.md-211-## 3. 【中核】修正目標での E15 攻撃 — 2-一次障害の構造解析
+docs/week4-E2作戦_v2.md-212-
+docs/week4-E2作戦_v2.md-213-**便 12 F9 の目標式**を出発点にする:
+docs/week4-E2作戦_v2.md:214:$$ (\ast)\qquad -\lambda E_m \;\in\; \ker(1+\theta) + (1-\sigma)A ,\qquad \lambda = 3^{-1}\bmod\exp A. $$
+docs/week4-E2作戦_v2.md-215-
+docs/week4-E2作戦_v2.md:216:> **補題 E15.0(目標式と E8(iii) の同値 — 記録).** $A$ 有限可換・$3$ 可逆・$\sigma^3=\mathrm{id}$・$E_m\in A^\sigma$ とする。$e := \lambda\mathcal N$ は $A_+ := A^\sigma$ への冪等射影で $A = A_+\oplus A_-$、$A_- := \ker\mathcal N = (1-\sigma)A$。このとき
+docs/week4-E2作戦_v2.md:217:> $$ (\ast) \iff -E_m\in\mathcal N\bigl(\ker(1+\theta)\bigr) \iff E_m\in e\bigl(\ker(1+\theta)\bigr). $$
+docs/week4-E2作戦_v2.md-218-
+docs/week4-E2作戦_v2.md:219:**証明.** $-\lambda E_m = b + c$($b\in\ker(1+\theta)$、$c\in A_-$)と書けたとする。$e$ を施すと $e(c)=0$、$-\lambda E_m\in A_+$ ゆえ $-\lambda E_m = e(b)$。逆に $-\lambda E_m = e(b)$ なら $-\lambda E_m - b = -(1-e)b\in A_-$。ゆえに $(\ast)\iff -\lambda E_m\in e(\ker(1+\theta))$。$\mathcal N = 3e$ と $3,\lambda$ が可逆であることから三者は同値。∎
+docs/week4-E2作戦_v2.md-220-
+docs/week4-E2作戦_v2.md-221-### 3.1 命題 E16 — **捻れが無ければ問題は一行で崩壊する**
+docs/week4-E2作戦_v2.md-222-
+docs/week4-E2作戦_v2.md:223:> **命題 E16.** $A$ 有限可換 2 群、$\sigma$ の位数 $\mid 3$、$\theta^2=\mathrm{id}$、$E_m\in A^\sigma$ とする。**$\theta(A^\sigma) = A^\sigma$** ならば
+docs/week4-E2作戦_v2.md:224:> $$ (\ast) \iff \theta(E_m) = E_m^{-1}. $$
+docs/week4-E2作戦_v2.md-225-
+docs/week4-E2作戦_v2.md:226:**証明.** $\theta(A_+) = A_+$ なら $A_- = \ker\mathcal N$ も $\theta$-安定である($\theta\mathcal N\theta = 1+\theta\sigma\theta+\theta\sigma^2\theta = 1+\sigma^{-1}+\sigma^{-2} = \mathcal N$)。ゆえに
+docs/week4-E2作戦_v2.md:227:$$ \ker(1+\theta) = \bigl(\ker(1+\theta)\cap A_+\bigr)\oplus\bigl(\ker(1+\theta)\cap A_-\bigr), $$
+docs/week4-E2作戦_v2.md:228:$$ \mathcal N\bigl(\ker(1+\theta)\bigr) = 3\bigl(\ker(1+\theta)\cap A_+\bigr) = \ker(1+\theta)\cap A_+ $$
+docs/week4-E2作戦_v2.md:229:(最後の等号は $3$ が $A$ 上可逆ゆえ $3M = M$)。$E_m\in A_+$ だから $-E_m\in\mathcal N(\ker(1+\theta))\iff(1+\theta)E_m = 0$。∎
+docs/week4-E2作戦_v2.md-230-
+docs/week4-E2作戦_v2.md:231:> **補題 E16.1($\theta$-安定性の正体).** 命題 E1(`docs/week3-狩場計画_v4.md` §3.1)$\ \theta\sigma\theta = \iota_{X^u}\sigma^{-1}$($\iota := \iota_{X^u}\vert_A$)より、$a\in A^\sigma$ に対し $\sigma(\theta a) = \theta(\iota a)$。ゆえに
+docs/week4-E2作戦_v2.md:232:> $$ \theta(A^\sigma)\subseteq A^\sigma \iff A^\sigma\subseteq C_A(X^u) . $$
+docs/week4-E2作戦_v2.md-233-> 特に $\iota = \mathrm{id}$、すなわち $X^u\in C_P(A)$ なら成立する。**系 E2'-a により $X^u\in C_P(A)\iff\mathrm{class}(P)\le2$。**
+docs/week4-E2作戦_v2.md-234-
+docs/week4-E2作戦_v2.md:235:> **系 E16-a(H6 の torsion 部の別証明).** $\mathrm{class}(P)\le2$ なら $A = \langle w\rangle$、$E_m = w^{-T_m}$、$\theta(w) = w^{-1}$ ゆえ $\theta(E_m) = w^{T_m} = E_m^{-1}$。命題 E16 より $(\ast)$ 成立。∎
+docs/week4-E2作戦_v2.md-236-
+docs/week4-E2作戦_v2.md-237-> **★★ 帰結(委嘱 09 §3(a) への直接回答・便 12 の枠組みの修正).**
+docs/week4-E2作戦_v2.md:238:> 委嘱は「$A$ の $\mathbb Z_2[\langle\sigma,\theta\rangle]$-加群構造($S_3$ の 2-modular 表現論)で特徴づけよ」と書いたが、**$\langle\sigma,\theta\rangle$ は $S_3$ ではない**。関係式は $\theta\sigma\theta = \iota_{X^u}\sigma^{-1}$ であり、**内部捻れ $\iota_{X^u}$ が消えるのは class $\le2$ に限る**(系 E2'-a)。したがって:
+docs/week4-E2作戦_v2.md-239-> - class $\le2$($S_3$-加群になる唯一の範囲): 命題 E16 で完全に閉じる。障害ゼロ。
+docs/week4-E2作戦_v2.md:240:> - class $\ge3$(生きた範囲): $\theta$ は $A^\sigma$ を保たず、$e$ と $\theta$ は**可換でない**($\theta e\theta = \lambda(1+\iota\sigma^{-1}+(\iota\sigma^{-1})^2)\ne e$)。**したがって 2-modular 表現論を $A$ そのものに適用する路線は入口が無い。**
+docs/week4-E2作戦_v2.md-241-> - 正しい入口は **associated graded**(§3.2)である — そこでは $\iota$ が消えて $S_3$-加群構造が回復する。
+docs/week4-E2作戦_v2.md-242-
+docs/week4-E2作戦_v2.md-243-### 3.2 定理 E18 — 次数付き障害 $O_j$ と $S_3$ の 2-modular 構造
+docs/week4-E2作戦_v2.md-244-
+docs/week4-E2作戦_v2.md-245-$P$ を 2 生成有限 2 群、$A = [P,P]$ **可換**(= $P$ metabelian)とし、$\gamma_j := \gamma_j(P)$、$M_j := \gamma_j/\gamma_{j+1}$($j\ge2$)と置く。
+docs/week4-E2作戦_v2.md-246-
+docs/week4-E2作戦_v2.md:247:> **補題 E18.1(捻れは次数付きで消える).** $\iota_{X^u}$ は各 $M_j$ 上**恒等**に作用する。$\mathrm{Ad}(\bar Y^m)$ も同様。ゆえに $M_j$ 上では
+docs/week4-E2作戦_v2.md:248:> $$ \bar\sigma = \bar\tau,\qquad \bar\theta\bar\sigma\bar\theta = \bar\sigma^{-1},\qquad \bar\theta^2 = \bar\sigma^3 = 1, $$
+docs/week4-E2作戦_v2.md:249:> すなわち $\langle\bar\sigma,\bar\theta\rangle$ は**真に $S_3$ を通して作用する**。
+docs/week4-E2作戦_v2.md-250-
+docs/week4-E2作戦_v2.md:251:**証明.** 任意の $g\in P$ について $(\iota_g-1)\gamma_j = [\gamma_j,g]\subseteq[\gamma_j,P] = \gamma_{j+1}$。$g = X^u$ でも $g = Y^m$ でも同じ。命題 E1 の右辺の $\iota_{X^u}$ が $M_j$ 上消えるので $S_3$ 関係式が回復する。∎
+docs/week4-E2作戦_v2.md-252-
+docs/week4-E2作戦_v2.md:253:$3$ は $M_j$ 上可逆なので $M_j = M_j^+\oplus M_j^-$、$M_j^+ := M_j^{\bar\sigma}$、$M_j^- := \ker\bar{\mathcal N}$。この分解は $\bar\theta$-安定である。
+docs/week4-E2作戦_v2.md-254-
+docs/week4-E2作戦_v2.md:255:> **補題 E18.2($\sigma$-非自明部分は障害を出さない).** $M_j^-$ は $\langle\bar\theta\rangle\cong C_2$ 上**コホモロジー的に自明**、すなわち $\widehat H^*(\langle\bar\theta\rangle, M_j^-) = 0$。したがって
+docs/week4-E2作戦_v2.md:256:> $$ \ker(1+\bar\theta)\vert_{M_j^-} = (1-\bar\theta)M_j^-,\qquad (M_j^-)^{\bar\theta} = (1+\bar\theta)M_j^- . $$
+docs/week4-E2作戦_v2.md-257-
+docs/week4-E2作戦_v2.md:258:**証明.** $\bar\sigma$ は $M_j^-$ 上 $1+\bar\sigma+\bar\sigma^2 = 0$ を満たすので、$M_j^-$ は $R := \mathbb Z_2[\omega] = \mathbb Z_2[T]/(T^2+T+1)$ 上の加群である($R = W(\mathbb F_4)$ は $\mathbb Q_2$ の**不分岐**二次拡大の整数環)。$\bar\theta\bar\sigma\bar\theta = \bar\sigma^{-1}$ は $\bar\theta$ が $R/\mathbb Z_2$ の Galois 群(Frobenius)に沿って半線型であることを意味する。不分岐(étale)ゆえ Galois 降下により crossed product
+docs/week4-E2作戦_v2.md:259:$$ R*\langle\bar\theta\rangle \;\cong\; \mathrm{End}_{\mathbb Z_2}(R)\;\cong\;M_2(\mathbb Z_2) $$
+docs/week4-E2作戦_v2.md:260:であり、その単純加群は $R$ 自身のみ。**正規基底定理**(不分岐なので整基底で成立)より $R\cong\mathbb Z_2[\langle\bar\theta\rangle]$ が $C_2$-加群として自由。ゆえに任意の $R*\langle\bar\theta\rangle$-加群は $\mathbb Z_2[C_2]$-自由であり、Tate コホモロジーは消える(係数 $\mathbb Z/2^e$ でも同じ議論)。∎
+docs/week4-E2作戦_v2.md-261-
+docs/week4-E2作戦_v2.md-262-> **定理 E18(障害の局在).** 逐次近似(重み $j$ ごとの補正)で $f$ を構成するとき、重み $j$ の段階での障害はただ一つの方程式
+docs/week4-E2作戦_v2.md:263:> $$ \bar\varepsilon_+ \;=\; \lambda\,(1+\bar\theta)\,\bar\delta \qquad\text{in } M_j^+ $$
+docs/week4-E2作戦_v2.md:264:> に集約される($\bar\varepsilon$ = 現在の $(1+\theta)$-欠損、$\bar\delta$ = 現在の $\mathcal N$-欠損)。$\bar\delta\in M_j^+$ は自動($\mathcal N f + E_m\in A^\sigma$)、$\bar\varepsilon\in M_j^{\bar\theta}$ も自動($(1-\theta)(1+\theta) = 0$)、$M_j^-$ 成分は補題 E18.2 により**常に**解消できる。したがって
+docs/week4-E2作戦_v2.md:265:> $$ \boxed{\ \text{潜在障害群}\quad O_j \;:=\; (1+\bar\theta)\bigl(M_j^{\bar\sigma}\bigr) \;\cong\; M_j^{\bar\sigma}\big/\ker(1+\bar\theta)\vert_{M_j^{\bar\sigma}}\ } $$
+docs/week4-E2作戦_v2.md:266:> であり、$O_j = 0 \iff \bar\theta$ が $M_j^{\bar\sigma}$ 上**反転($-1$)として作用する**。$M_j$ が捩れ自由(相対自由対象)なら、これはさらに **$M_j\otimes\mathbb Q$ に $S_3$ の自明表現が現れない**ことと同値である($M_j^{\bar\sigma}\otimes\mathbb Q$ は自明成分 $\oplus$ 符号成分で、$\bar\theta$ は前者で $+1$、後者で $-1$)。有限指数対象では「$\bar\theta = -1$ on $M_j^{\bar\sigma}$」が正本の判定条件で、上の表現論的判定はその**必要条件を与える持ち上げ**である。
+docs/week4-E2作戦_v2.md-267-
+docs/week4-E2作戦_v2.md:268:**証明の骨子.** $\Psi_j: M_j\to M_j\oplus M_j$、$\bar g\mapsto((1+\bar\theta)\bar g,\ \bar{\mathcal N}\bar g)$ の像は、$\bar g = \bar g_++\bar g_-$ と分けて $\bar{\mathcal N}\bar g = 3\bar g_+$ ゆえ
+docs/week4-E2作戦_v2.md:269:$$ \mathrm{im}\,\Psi_j = \{(\lambda(1+\bar\theta)\bar\delta+\eta,\ \bar\delta) : \bar\delta\in M_j^+,\ \eta\in(1+\bar\theta)M_j^-\}. $$
+docs/week4-E2作戦_v2.md:270:$\bar\varepsilon$ の $M_j^-$-成分は $(M_j^-)^{\bar\theta} = (1+\bar\theta)M_j^-$(補題 E18.2)に入るので**自動的に解消**され、残るのは $M_j^+$-成分の等式のみ。最後の同値は、$\bar\theta$ が $M_j^+$ 上の対合であることから $(1+\bar\theta) = 0\iff\bar\theta=-1\iff$($M_j\otimes\mathbb Q$ の $S_3$-自明成分 $=$ $\bar\theta$ の $+1$ 固有部分 $= 0$)。∎
+docs/week4-E2作戦_v2.md-271-
+docs/week4-E2作戦_v2.md:272:> **注意(状態札).** 定理 E18 は「**障害はここにしか載らない**」という**局在**の主張である。逆($O_j = 0\ \forall j\Rightarrow$ 可解)には、各段の持ち上げ($\bar g\in\ker(1+\bar\theta)$ を $\gamma_j\cap\ker(1+\theta)$ の元へ厳密に持ち上げる)の二次障害を制御する必要があり、**未閉鎖 =【GAP-E18】**。§3.3 は、metabelian 塔ではこの逆も事実上成立していることを計算で示す。
+docs/week4-E2作戦_v2.md-273-
+docs/week4-E2作戦_v2.md-274-#### 表 1 — $S_3$ 表現論による $O_j$ の判定(自由対象)
+docs/week4-E2作戦_v2.md-275-
+docs/week4-E2作戦_v2.md-276-$V$ = $S_3$ の 2 次元標準表現($x,y,z$ の張る空間 $/(x+y+z)$)、$\mathrm{sgn}$ = 符号表現。
+docs/week4-E2作戦_v2.md-277-
+docs/week4-E2作戦_v2.md:278:**(a) 完全自由対象**: $M_j = L_j(V)$(自由 Lie 環の $j$ 次成分)。自由 Lie 環の指標公式 $\chi_{L_n}(g) = \frac1n\sum_{d\mid n}\mu(d)\chi_V(g^d)^{n/d}$、$\chi_V(1)=2,\ \chi_V(\tau)=-1,\ \chi_V(\theta)=0$ から:
+docs/week4-E2作戦_v2.md-279-
+docs/week4-E2作戦_v2.md-280-| $j$ | 2 | 3 | 4 | **5** | 6 | 7 | 8 | 9 | 10 |
+docs/week4-E2作戦_v2.md-281-|---|---|---|---|---|---|---|---|---|---|
+docs/week4-E2作戦_v2.md-282-| $\dim L_j$ | 1 | 2 | 3 | 6 | 9 | 18 | 30 | 56 | 99 |
+docs/week4-E2作戦_v2.md-283-| 自明の重複度 | 0 | 0 | 0 | **1** | 1 | 3 | 4 | 9 | 15 |
+docs/week4-E2作戦_v2.md-284-| $\mathrm{sgn}$ の重複度 | 1 | 0 | 1 | 1 | 2 | 3 | 6 | 9 | 18 |
+docs/week4-E2作戦_v2.md:285:| $\dim M_j^{\bar\sigma}$ | 1 | 0 | 1 | 2 | 3 | 6 | 10 | 18 | 33 |
+docs/week4-E2作戦_v2.md-286-| **$O_j$** | $0$ | $0$ | $0$ | **$\ne0$** | $\ne0$ | $\ne0$ | $\ne0$ | $\ne0$ | $\ne0$ |
+docs/week4-E2作戦_v2.md-287-
+docs/week4-E2作戦_v2.md:288:**(b) 自由 metabelian 対象**: $M_j \cong \mathrm{Sym}^{j-2}(V)\otimes\mathrm{sgn}$(§3.3 のモデルから直ちに従う: 加群は $\mathbb Z[S,T]$ の $j-2$ 次斉次部 $\times\,w$ であり、$\langle S,T\rangle\cong V$、$w$-直線は $\tau$-不変・$\theta$-反転ゆえ $\mathrm{sgn}$)。自明表現の重複度 $=\ \mathrm{Sym}^{j-2}V$ における $\mathrm{sgn}$ の重複度:
+docs/week4-E2作戦_v2.md-289-
+docs/week4-E2作戦_v2.md-290-| $j$ | 2 | 3 | 4 | **5** | 6 | 7 | 8 | 9 | 10 |
+docs/week4-E2作戦_v2.md-291-|---|---|---|---|---|---|---|---|---|---|
+docs/week4-E2作戦_v2.md-292-| $\dim M_j$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+docs/week4-E2作戦_v2.md:293:| $\dim M_j^{\bar\sigma}$ | 1 | 0 | 1 | 2 | 1 | 2 | 2 | 2 | 2 |
+docs/week4-E2作戦_v2.md-294-| **$O_j$** | $0$ | $0$ | $0$ | **$\ne0$** | $0$ | $\ne0$ | $\ne0$ | $\ne0$ | $\ne0$ |
+docs/week4-E2作戦_v2.md-295-
+docs/week4-E2作戦_v2.md-296-(表 1(b) の $j\le7$ は `docs/scout/metab.mjs` が独立に再計算して一致。)
+docs/week4-E2作戦_v2.md-297-
+docs/week4-E2作戦_v2.md-298-> **★★ 委嘱 09 §3(c) 前半への回答.**
+docs/week4-E2作戦_v2.md-299-> **どちらの塔でも「$S_3$ の自明表現の初出 = weight 5」である。** ゆえに
+docs/week4-E2作戦_v2.md:300:> 1. **class $\le4$ が無条件に安全なのは偶然ではない** — $L_2,L_3,L_4$ に自明表現が現れないという表現論的事実の帰結であり、定理 E9/E9' の明示 witness はその**具体形**にすぎない。便 12 F9 が要求した「$\theta$-同変な contracting homotopy」の骨格は、weight $\le4$ についてはこれで得られたことになる。
+docs/week4-E2作戦_v2.md-301-> 2. **class 5 が第一の生きた層である**ことに、掃引や数値実験と独立な**構造的根拠**が付いた(v1 の C5 は「$A$ 非可換になり得る最小 class」という別理由だった。**二つの独立な理由が同じ weight 5 を指す**)。
+docs/week4-E2作戦_v2.md-302-> 3. **ただし $O_j\ne0$ は「障害が起き得る」であって「起きる」ではない。** §3.3 が、metabelian 塔では実際には**起きない**ことを示す。
+docs/week4-E2作戦_v2.md-303-
+docs/week4-E2作戦_v2.md-304-### 3.3 定理 E19 — **自由 metabelian 塔には 2-一次障害が存在しない**(class $\le7$)
+--
+docs/week4-E2作戦_v2.md-306-#### 3.3.1 厳密モデル(`docs/scout/metab.mjs` — 開示形)
+docs/week4-E2作戦_v2.md-307-
+docs/week4-E2作戦_v2.md-308-古典的事実(Magnus): rank 2 自由群 $F$ について $F'/F''$ は $\mathbb Z[F/F'] = \mathbb Z[s^{\pm1},t^{\pm1}]$ 上の**階数 1 の自由巡回加群**で、生成元は $w = [x,y]$、作用は $a^x = s\cdot a$、$a^y = t\cdot a$(paper 規約 $a^g = g^{-1}ag$)。$s = 1+S$、$t = 1+T$ と置くと $\gamma_j/(\gamma_{j+1}F'')$ は増大イデアル $I = (S,T)$ の $I^{j-2}/I^{j-1}$ に対応し、
+docs/week4-E2作戦_v2.md-309-$$ \boxed{\ A_c \;:=\; \gamma_2/(\gamma_{c+1}F'') \;\cong\; \mathbb Z[S,T]/(S,T)^{c-1},\qquad \mathrm{rank} = \tbinom c2 .\ } $$
+docs/week4-E2作戦_v2.md:310:辞書: $w = 1$、$p = S$、$q = T$、$r_1 = S^2$、$r_2 = ST\ (= [q,x])$、$r_3 = T^2$。写像は
+docs/week4-E2作戦_v2.md:311:$$ \theta:\ f\mapsto -f(T,S),\qquad
+docs/week4-E2作戦_v2.md:312:\tau:\ f(s,t)\mapsto f\bigl(t,(st)^{-1}\bigr)\cdot s^{-1},\qquad
+docs/week4-E2作戦_v2.md:313:\sigma_m = t^m\cdot\tau, $$
+docs/week4-E2作戦_v2.md:314:$$ E_m \;=\; c_m - s^{-m}A_m(s)A_m(st),\quad A_m(u) = 1+u+\cdots+u^{m-1},\quad c_m = t\,A_{m-1}(st)+t\,c_{m-1},\ c_1 = 0 $$
+docs/week4-E2作戦_v2.md-315-($c_m$ は $x^my^m = (xy)^mc_m$ で定まる Hall-Petrescu 元。導出は $[ab,c] = \beta[a,c]+[b,c]$、$[a,bc] = [a,c]+\gamma[a,b]$ の反復)。
+docs/week4-E2作戦_v2.md-316-
+docs/week4-E2作戦_v2.md:317:**自己検査(スクリプトが 13 項すべて PASS)**: $\theta^2 = \tau^3 = \mathrm{id}$ / $\theta(w) = w^{-1}$ 厳密 / $\tau(w) = w-p+r_1$、$\tau(p) = q-r_2$、$\tau(q) = -p-q+2r_1+2r_2+r_3$(§1.0 の表と**一致**)/ $E_1,E_2,E_3$ の class-4 座標が `docs/scout/class4.mjs` と**一致** / **命題 E1** $\theta\tau\theta = \iota_x\circ\tau^{-1}$ / $\sigma_m(E_m) = E_m$($m\le6$)/ **Lemma A** $\mathcal N(p+q) = 3\rho$ / **Lemma B** $3E_m = -T_m\kappa_m+B_m\rho$($m\le12$)。
+docs/week4-E2作戦_v2.md-318-
+docs/week4-E2作戦_v2.md-319-★ **この 13 項は、§1 の紙上証明と `docs/scout/class4.mjs`(Magnus 切断代数)の双方に対する独立照合になっている** — 二つのモデルは数学的に別物である(一方は非可換冪級数環の切断、他方は Laurent 多項式加群)。
+docs/week4-E2作戦_v2.md-320-
+docs/week4-E2作戦_v2.md-321-#### 3.3.2 結果
+docs/week4-E2作戦_v2.md-322-
+docs/week4-E2作戦_v2.md-323-$n := \binom c2$ 未知数、$2n$ 本の整数方程式
+docs/week4-E2作戦_v2.md:324:$$ (1+\theta)f = 0,\qquad \mathcal N f = -E_m $$
+docs/week4-E2作戦_v2.md-325-の係数行列 $M(m)$ の**整数 Smith 標準形**を厳密 BigInt で計算した。
+docs/week4-E2作戦_v2.md-326-
+docs/week4-E2作戦_v2.md-327-| class $c$ | $\mathrm{rank}\,A_c$ | $m$ の範囲 | 全 $m$ で $\mathbb Z_2$-可解? | $\max_i v_2(d_i)$ |
+docs/week4-E2作戦_v2.md-328-|---|---:|---|---|---:|
+--
+docs/week4-E2作戦_v2.md-341-> の第一条件を**恒真**にする。したがってこの範囲では
+docs/week4-E2作戦_v2.md-342-> $$ \boxed{\ \mathbb Z_2\text{-可解} \iff \mathbb Q\text{-可解}\ } $$
+docs/week4-E2作戦_v2.md-343-> であり、**「より高い 2 冪で初めて現れる可除性障害」(便 12 F8)は原理的に起こり得ない**。すなわち **metabelian 塔 class $\le7$ には 2-一次障害が存在しない。**
+docs/week4-E2作戦_v2.md-344-
+docs/week4-E2作戦_v2.md:345:> **系 E19-b($m$ 量化子の部分閉鎖).** $M(m)\bmod2$ は $m$ について**周期的**である。実際 $\sigma_m$ の行列は $(1+T)^m$ の乗算行列(成分 $\binom mi$、$0\le i\le c-2$)と定数行列 $M_\tau$ の積で書け、$\mathcal N = 1+\sigma_m+\sigma_m^2$ の成分はそれらの $\mathbb Z$-係数多項式である。**Lucas の定理**より $\binom mi\bmod2$ は $i<2^L$ のとき $m\bmod2^L$ にしか依存しない。$c\le7$ では $c-2\le5<8$ ゆえ $L = 3$、すなわち
+docs/week4-E2作戦_v2.md-346-> $$ M(m)\bmod 2 \ \text{は}\ m\bmod 8\ \text{のみに依存する}. $$
+docs/week4-E2作戦_v2.md-347-> $m = 0..63$ は $\bmod\,8$ の全剰余を尽くすので、**「基本因子が全て奇数」は class $\le7$ の全ての $m\in\mathbb Z$ で成立する**。ゆえに残る問題は**純粋に $\mathbb Q$ 上の問題**であり、素数 2 は完全に落ちた。
+docs/week4-E2作戦_v2.md-348-
+docs/week4-E2作戦_v2.md-349-> **系 E19-c(降下).** 命題 E10(§2)より、**2 生成 metabelian 2 群で class $\le7$ の許容対象は、$m\le63$ の全ての charming $m$ で torsion-full**(指数 $2^j$ は任意)。$m$ 量化子は $\mathbb Q$-可解性の側にのみ残る =【GAP-E19】。
+--
+docs/week4-E2作戦_v2.md-356-> - ゆえに **E15 の残る困難は (i) $\mathbb Q$ 上の $m$ 量化子、(ii) $A$ 非可換(導来長 $\ge3$)の領域**の二つに絞られる。
+docs/week4-E2作戦_v2.md-357-
+docs/week4-E2作戦_v2.md-358-### 3.4 系 E12-a の適用範囲 — **非可換 2 群では常に空虚**(委嘱 09 §3(b) への回答)
+docs/week4-E2作戦_v2.md-359-
+docs/week4-E2作戦_v2.md:360:> **命題 E20(E12-a の仮定の言い換え).** $A$ 有限群、$\sigma,\theta\in\mathrm{Aut}(A)$。1 次元指標に限れば
+docs/week4-E2作戦_v2.md:361:> $$ \{\rho\in\mathrm{Irr}(A) : \rho\circ\sigma = \rho,\ \rho\circ\theta = \rho,\ \dim\rho = 1\} \;=\; \bigl(A\big/\langle[A,A],\ (1-\sigma)A,\ (1-\theta)A\rangle\bigr)^\vee . $$
+docs/week4-E2作戦_v2.md:362:> ゆえに E12-a の仮定「同時 $\sigma,\theta$-安定な既約は自明のみ」は少なくとも
+docs/week4-E2作戦_v2.md:363:> $$ A = [A,A]\cdot(1-\sigma)A\cdot(1-\theta)A $$
+docs/week4-E2作戦_v2.md:364:> を要求する($A$ 可換なら $(1-\sigma)A+(1-\theta)A = A$ と同値)。
+docs/week4-E2作戦_v2.md-365-
+docs/week4-E2作戦_v2.md:366:> **定理 E21(空虚性).** $P$ を**非可換**な 2 生成 2 群、$A = [P,P]$、$\sigma,\theta$ を本設定の自己同型とする。このとき **E12-a の仮定は決して満たされない。**
+docs/week4-E2作戦_v2.md-367-
+docs/week4-E2作戦_v2.md:368:**証明.** $\gamma_3 = \gamma_3(P)$ は $P$ の特性部分群なので $\sigma,\theta$-安定。$B := \gamma_3\cdot[A,A]\cdot A^2$ と置くと $B$ も $\sigma,\theta$-安定で、$P$ が 2 生成ゆえ $\gamma_2/\gamma_3$ は $w = [X,Y]$ で生成される巡回群だから
+docs/week4-E2作戦_v2.md-369-$$ A/B \;\cong\; (\gamma_2/\gamma_3)\big/(\gamma_2/\gamma_3)^2 . $$
+docs/week4-E2作戦_v2.md-370-$P$ が非可換 2 群なら $\gamma_2\ne\gamma_3$(さもなくば冪零性より $\gamma_2 = 1$)ゆえ $\gamma_2/\gamma_3$ は非自明な有限 2 群、その Frattini 商は $\cong\mathbb F_2$。
+docs/week4-E2作戦_v2.md:371:作用: $\sigma(w)\equiv w\pmod{\gamma_3}$(∵ $\tau(w) = wp^{-1}$、$p\in\gamma_3$、かつ $\mathrm{Ad}(\bar Y^m)$ も $\gamma_3$ を法として恒等)、$\theta(w) = w^{-1}\equiv w\pmod{A^2}$。ゆえに **$A/B\cong\mathbb F_2$ は $\langle\sigma,\theta\rangle$ の自明加群**であり、その双対は $A$ の非自明な $\sigma,\theta$-不変 1 次元指標を与える。∎
+docs/week4-E2作戦_v2.md-372-
+docs/week4-E2作戦_v2.md-373-> **帰結.** 便 12 P134 の系 E12-a は数学的には正しいが、**本設定の非可換 2 群には一度も適用できない**。「安価な safe criterion」として CLAIMS に登録するのは差し支えないが、**適用可能性 = 空**を併記すべきである。$3\mid\lvert A\rvert$ 側(Q7 型)や非 2 群では $A/B$ の位数が $\ne2$ になり得るので上の議論は通らず、別途検討の余地がある。
+docs/week4-E2作戦_v2.md-374-
+docs/week4-E2作戦_v2.md-375-### 3.5 反例が出得る加群型と最小対象(委嘱 09 §3(c))
+--
+docs/week4-E2作戦_v2.md-390-**(iii) 反例が出得る「加群型」の特定**
+docs/week4-E2作戦_v2.md-391-
+docs/week4-E2作戦_v2.md-392-$A$ 非可換のときの**最小の非自明化**は $[A,A]\ne1$ かつ $[A,A]\subseteq Z(P)$ である(自由 class-5 対象では $[A,A] = \langle[w,p],[w,q]\rangle\cong\mathbb Z^2\subseteq\gamma_5 = Z$)。すなわち **$A$ は class 2 の冪零群**で、$\mathcal N$ は準同型ではなく**次数 2 の多項式写像**になる。正確には:
+docs/week4-E2作戦_v2.md-393-
+docs/week4-E2作戦_v2.md:394:> **補題 E22(class-2 $A$ における $\mathcal N$ の Hall-Petrescu 補正).** $[A,A]\subseteq Z(A)$ とする。$\mathcal N(f) := \sigma^2(f)\sigma(f)f$ に対し
+docs/week4-E2作戦_v2.md-395-> $$ \mathcal N(fg) \;=\; \mathcal N(f)\,\mathcal N(g)\cdot c(f,g),\qquad
+docs/week4-E2作戦_v2.md:396:> c(f,g) := \bigl[\sigma^2(g),\,\sigma(f)f\bigr]\bigl[\sigma(g),\,f\bigr]\ \in\ [A,A] $$
+docs/week4-E2作戦_v2.md:397:> であり、$c$ は $[A,A]$ に値をとる双加法的写像である。また $\mathcal B_\theta = \{f:\theta(f)=f^{-1}\}$ は部分群ではないが、$\bar A := A/[A,A]$ 上では $\ker(1+\bar\theta)$ に落ちる。
+docs/week4-E2作戦_v2.md-398-
+docs/week4-E2作戦_v2.md:399:**証明.** $\sigma^2(fg)\sigma(fg)(fg) = \sigma^2(f)\sigma^2(g)\sigma(f)\sigma(g)fg$ を $\bigl(\sigma^2(f)\sigma(f)f\bigr)\bigl(\sigma^2(g)\sigma(g)g\bigr)$ の順へ並べ替えるとき、$\sigma^2(g)$ を $\sigma(f)f$ の右へ、$\sigma(g)$ を $f$ の右へ通す。生じる交換子は $[A,A]$ に入り中心的なので上の形になる。双加法性も $[A,A]$ の中心性から従う。∎
+docs/week4-E2作戦_v2.md-400-
+docs/week4-E2作戦_v2.md-401-> **★ したがって $A$ 非可換の層での正しい定式化は「アフィン線型 + 中心的二次形式の値域判定」**である:
+docs/week4-E2作戦_v2.md-402-> 1. $\bar A = A/[A,A]$ 上で**線型判定**(これは定理 E18・E19 が扱う metabelian 対象そのもの)。
+docs/week4-E2作戦_v2.md-403-> 2. その解の**持ち上げ**の障害は $[A,A]$ 内の**二次的**条件になる(補題 E22 の $c(f,g)$)。
+--
+docs/week4-E2作戦_v2.md-406-
+docs/week4-E2作戦_v2.md-407-**(iv) 最小の許容対象の候補**
+docs/week4-E2作戦_v2.md-408-
+docs/week4-E2作戦_v2.md-409-- **普遍側(最安・最優先)**: $F_2/\gamma_6$($A = \gamma_2/\gamma_6$、階数 12、$[A,A] = \langle[w,p],[w,q]\rangle$ 階数 2、中心)。**これが $A$ 非可換の最小の相対自由対象**であり、§3.3 のモデルの $c=5$ 版に $[A,A]$ を戻したものである。補題 E22 の二次形式で直接撃つのが最安の第一撃。
+docs/week4-E2作戦_v2.md:410:- **有限側**: $\lvert P\rvert\ge2^6$、class $\ge5$、**導来長 $\ge3$**、かつ $3\mid\lvert\mathrm{Aut}(P)\rvert$(位数 3 の $\tau$ を許容)。極大類 2 群($\lvert P\rvert\ge16$ の二面体・半二面体・一般四元数)は $\mathrm{Aut}$ が 2 群なので除外。$\lvert P\rvert = 64$ の class 5 は極大類ゆえ**除外**され、最小候補は $\lvert P\rvert\ge128$ になる。**正確な最小位数は UNKNOWN =【GAP-E20】**(§4 の掃引 (1) で決定する)。
+docs/week4-E2作戦_v2.md-411-
+docs/week4-E2作戦_v2.md-412----
+docs/week4-E2作戦_v2.md-413-
+docs/week4-E2作戦_v2.md-414-## 4. 掃引宇宙 v2 の登録表(便 12 F14 / W103 / 裁定 12 の指示)
+--
+docs/week4-E2作戦_v2.md-421-Sol の F14/P139/P140 の順序を採用する。**各層は独立した universe ID を持ち、独立に凍結される。**
+docs/week4-E2作戦_v2.md-422-
+docs/week4-E2作戦_v2.md-423-| 順 | universe ID | 層 | 何を撃つか | なぜここか |
+docs/week4-E2作戦_v2.md-424-|---|---|---|---|---|
+docs/week4-E2作戦_v2.md:425:| **①** | **`U-E2-nm5-2026-07-26`** | **完全 class-5・非 metabelian(普遍側)** | 相対自由対象 $F_2/\gamma_6$、$A = \gamma_2/\gamma_6$(階数 12・**非可換**・$[A,A]$ 階数 2 中心)。補題 E22 の**二次形式**で $\mathcal S_m\cap\mathcal B_\theta$ を直接判定 | **$A$ 非可換の最小の相対自由対象**。§3.5 (ii) より**唯一残った生きた層**。ここで $\mathbb Z_2$-不可解が出れば E15 は普遍レベルで反証される |
+docs/week4-E2作戦_v2.md-426-| **②** | **`U-E2-metab-2026-07-26`** | **metabelian 塔(記号的 SNF)** | 自由 metabelian class $c = 3..8$、$m$ 全域。**定理 E19 の第二系統照合**(GAP の SNF)+ $\mathbb Q$-可解性の $m$ 量化子を記号的に閉じる | **D6 により 2-一次側は事実上決着**。残るのは (i) 第二系統照合、(ii) $\mathbb Q$-可解性の全 $m$、(iii) class 8 以上(8GB でヒープ超過) |
+docs/week4-E2作戦_v2.md-427-| **③** | **`U-E2-fin-2026-07-26`** | **有限群掃引** | $k\in\{4,8\}$、$2^5\le\lvert P\rvert\le2^8$、**`A_abelian=false` 枝を主目標**、`A_abelian=true` 枝は control | ①②の結果を**封印予測**として先に書いてから発射する(F14) |
+docs/week4-E2作戦_v2.md-428-
+docs/week4-E2作戦_v2.md-429-### 4.2 各層の対象列挙法・規模・cap・証明書要件
+--
+docs/week4-E2作戦_v2.md-431-#### ① `U-E2-nm5-2026-07-26`(完全 class-5 非 metabelian)
+docs/week4-E2作戦_v2.md-432-
+docs/week4-E2作戦_v2.md-433-| 項目 | 事前登録値 |
+docs/week4-E2作戦_v2.md-434-|---|---|
+docs/week4-E2作戦_v2.md:435:| **対象(普遍側)** | $P^{(5)} := F_2/\gamma_6$。$A := \gamma_2/\gamma_6$、$\mathbb Z$-階数 12。Hall 基底(**順序を固定**): $w$;$p,q$;$r_1,r_2,r_3$;$t_1 = [r_1,x],t_2 = [r_1,y],t_3 = [r_2,y],t_4 = [r_3,y],t_5 = [w,p],t_6 = [w,q]$。$[A,A] = \langle t_5,t_6\rangle$(**中心**) |
+docs/week4-E2作戦_v2.md-436-| **対象(有限化)** | $A\otimes\mathbb Z/2^j$、$j = 1..6$。$m = 0..63$ |
+docs/week4-E2作戦_v2.md-437-| **列挙法** | 列挙ではなく**直接計算**。$\bar A := A/[A,A]$ 上で線型判定(§3.3 のモデルの $c=5$ 版・階数 10)→ 解の集合を求める → 各解の $[A,A]$ への持ち上げを補題 E22 の二次形式で判定 |
+docs/week4-E2作戦_v2.md-438-| **規模** | $\bar A$ 側: $10\times$(2 本の方程式系)の SNF。持ち上げ側: $\ker$ の階数だけ二次形式を評価。**いずれも秒オーダー** |
+docs/week4-E2作戦_v2.md-439-| **cap** | node 側 600 秒 / GAP 側 600 秒。ヒープ 2GB(**RAM 8GB 制約**)。超過は `status="cap_exceeded"` で UNKNOWN |
+docs/week4-E2作戦_v2.md:440:| **certificate(肯定)** | `solution_witness`: $f$ の Hall 座標、$(1+\theta)f$ と $\mathcal N f\cdot E_m$ を**群の積として**直接評価して $1$ になることを独立 checker が再計算 |
+docs/week4-E2作戦_v2.md-441-| **certificate(否定)** | 線型部が空 ⇒ `unsolvability_certificate`(dual witness $y$: $yM\equiv0$, $yb\not\equiv0\bmod2^j$、matrix content hash・modulus・基底順序つき — 便 12 F13)。線型部は非空だが持ち上げが全滅 ⇒ **`lift_obstruction_certificate`**(新設): $\ker$ の全代表元の列挙 + 各代表元での二次形式の値 + 到達不能性の再計算 |
+docs/week4-E2作戦_v2.md-442-| **★ 事前登録した両方向の読み** | **全 $(j,m)$ で可解** ⇒ E15 は $A$ 非可換の最小層でも生存。狩場は class 6 以上 or $3\mid\lvert A\rvert$ 側へ。 **一つでも不可解** ⇒ **E15 は普遍レベルで反証**・障害ベクトルを出力・§3.6(v1)の昇格レシピへ。**ただし普遍レベルの不可解性は具体的な有限許容対象の `m_missing` を直ちには与えない**(商へ降りると可解になり得る) |
+docs/week4-E2作戦_v2.md-443-
+docs/week4-E2作戦_v2.md-444-#### ② `U-E2-metab-2026-07-26`(metabelian 塔・記号的 SNF)
+--
+docs/week4-E2作戦_v2.md-535-| **【GAP-E2】** | 一般の同時可解性 | 本丸 = class $\ge5$ | **本丸 = $A$ 非可換($=$ 導来長 $\ge3$)のみ**へさらに縮小。正しい定式化は「線型 + 中心的二次形式」(補題 E22) |
+docs/week4-E2作戦_v2.md-536-| **【GAP-E13】** | class $\ge5$ の判定 | 新設 UNKNOWN | **metabelian 側は class $\le7$・全 $j$ で閉鎖(定理 E19)**。非 metabelian は UNKNOWN(=【GAP-E2】と合流) |
+docs/week4-E2作戦_v2.md-537-| **【GAP-E15】** | 予想 E15 の真偽 | 新設・最重要 | **反証されず**。射程が大幅に拡大: class $\le4$ は**紙で証明**、metabelian class $\le7$ は $m\le63$・**全 $j$**。残るのは (i) metabelian の $\mathbb Q$-可解性の全 $m$、(ii) $A$ 非可換 |
+docs/week4-E2作戦_v2.md-538-| **【GAP-E12】** | E12 の絡作用素の正規化 | 新設 UNKNOWN | **優先度を下げる** — 定理 E21 により系 E12-a が空虚である以上、指標和路線の当面の価値は小さい。数学的には依然 UNKNOWN |
+docs/week4-E2作戦_v2.md:539:| **【GAP-E16】(新設)** | 命題 E16 の仮定 $A^\sigma\subseteq C_A(X^u)$ が class $\ge3$ で成立し得るか(系 E2′-a は $A\subseteq C_A(X^u)$ の場合しか扱っていない) | — | **UNKNOWN**。成立する対象があれば、その対象は $\theta(E_m) = E_m^{-1}$ の一行判定で片付く |
+docs/week4-E2作戦_v2.md-540-| **【GAP-E18】(新設)** | 定理 E18 の逆($O_j = 0\ \forall j\Rightarrow$ 可解)。各段の持ち上げの二次障害の制御 | — | **UNKNOWN**。§3.3 は metabelian 塔では逆も事実上成立していることを示すが、証明ではない |
+docs/week4-E2作戦_v2.md-541-| **【GAP-E19】(新設)** | 定理 E19 の $\mathbb Q$-可解性を**全 $m$** へ(記号的 SNF)。および class $\ge8$ | — | **UNKNOWN**(§4.2 ② に作業指示) |
+docs/week4-E2作戦_v2.md-542-| **【GAP-E20】(新設)** | $A$ 非可換な許容 2 群の**最小位数**($\ge2^7$ と見込まれる) | — | **UNKNOWN**(§4.2 ③ で決定) |
+docs/week4-E2作戦_v2.md-543-| **【GAP-E2b】** | $\iota_{X^u}$ の吸収 / Burkhart | 恒久閉鎖 | **維持**。ただし便 12 W104 に従い「全ての非 coprime 固定点定理が無力」とは書かない |
+--
+docs/week4-E2作戦_v2.md-545-
+docs/week4-E2作戦_v2.md-546-### 5.2 【文献要請】(便 12 の裁定を踏まえて更新)
+docs/week4-E2作戦_v2.md-547-
+docs/week4-E2作戦_v2.md-548-> **【文献要請 6′】(【GAP-E2】本丸 = $A$ 非可換)** — v1 の【文献要請 6】を**差し替える**。
+docs/week4-E2作戦_v2.md:549:> **困難**: 有限 2 群 $A$ が **class 2**($[A,A]\subseteq Z(A)$、$[A,A]$ の階数は小さい)であるとき、位数 3 の自己同型 $\sigma$ に対する $\sigma$-捻れ共役類 $\mathcal S = \{\sigma(a)^{-1}f_0a\}$ と、$\mathcal B_\theta = \{f : \theta(f) = f^{-1}\}$ の交わりの非空性を判定したい。**$\bar A = A/[A,A]$ 上では線型で完全に解ける**(本稿 §3.3)。難しいのは**持ち上げ**であり、それは $[A,A]$ に値をとる**双加法的形式 $c(f,g)$(補題 E22)の値域判定**になる。
+docs/week4-E2作戦_v2.md-550-> **欲しい結果の型**: (i) class-2 群における「捻れ共役類 $\times$ 反不変集合」の交わりを、中心拡大のコサイクル($H^2$ 的)言語で書く枠組み。(ii) 中心的二次形式の値域(Arf 不変量・Witt 群)による判定条件。(iii) この交わりが空になる**最小の class-2 例**。
+docs/week4-E2作戦_v2.md-551-> **探す先の当たり**: 中心拡大と捻れ共役性 — Dekimpe らの `twistedconjugacy` の背景文献、冪零群の Reidemeister 数、group cohomology の "twisted quadratic form" 系。
+docs/week4-E2作戦_v2.md:552:> **★ 探さなくてよい方向(本稿で潰した)**: (a) Burkhart 型の非 coprime 不動点定理(v1 観察 B1)、(b) **$S_3$ の 2-modular 表現論を $A$ そのものへ適用する路線**(§3.1 — $\langle\sigma,\theta\rangle$ が $S_3$ でない)、(c) **系 E12-a 型の「同時安定既約が自明のみ」条件**(定理 E21 — 非可換 2 群では常に空虚)。
+docs/week4-E2作戦_v2.md-553-
+docs/week4-E2作戦_v2.md-554-### 5.3 状態札の一覧(W60/W92 準拠)
+docs/week4-E2作戦_v2.md-555-
+docs/week4-E2作戦_v2.md-556-| 主張 | 札 |
+docs/week4-E2作戦_v2.md-557-|---|---|
+docs/week4-E2作戦_v2.md:558:| §1 の定理 E9′ と (†)、Lemma A/B、$\kappa_m$ の閉形、$E_m$ の class-4 閉形 | **紙上証明**(Opus 単独・**Sol 未監査**)。全定数を `class4.mjs` と `metab.mjs` の**二つの独立モデル**が再現 |
+docs/week4-E2作戦_v2.md-559-| §2 の補題 E10.1・命題 E10 全称版 | **紙上証明**(Opus 単独・Sol 未監査) |
+docs/week4-E2作戦_v2.md-560-| 命題 E16 / 補題 E16.1 / 系 E16-a / 補題 E18.1 / 補題 E18.2 / 定理 E18 / 命題 E20 / 定理 E21 / 補題 E22 | **紙上証明**(Opus 単独・Sol 未監査) |
+docs/week4-E2作戦_v2.md-561-| 表 1(a)(b) の重複度 | **紙上証明**(指標公式)。$j\le7$ は `metab.mjs` が数値照合 |
+docs/week4-E2作戦_v2.md-562-| **定理 E19**(class $\le7$・$m\le63$・全 $j$) | **単系統 candidate**(`docs/scout/metab.mjs`・自己検査 13 項 PASS)。**cross-checked ではない**(W-新 2 で第二系統を取る) |
+--
+docs/week4-E2作戦_v2.md-577-| Errata 7(「障害の唯一の素数は 3」を弱める) | **受諾かつ超過達成**。§3.3 は「metabelian 塔 class $\le7$ では 2-一次障害は**存在しない**」という、より強く射程の明確な形へ置き換えた |
+docs/week4-E2作戦_v2.md-578-| W97 / W98 / W100 / W101 / W102 / W103 / W104 | **全て受諾**(§2・§4.3・§4.2 に反映) |
+docs/week4-E2作戦_v2.md-579-| P133(E8/E9/E10/E12 の CLAIMS 登録) | 司令塔へ: **E9′ は §1 により candidate から `紙上証明(Sol 未監査)` へ昇格可能**。E16/E18/E19/E21 は**新規起票**を推奨 |
+docs/week4-E2作戦_v2.md-580-| P134(系 E12-a の登録) | **登録は可。ただし定理 E21(適用可能性 = 空)を併記すること**(§3.4) |
+docs/week4-E2作戦_v2.md:581:| P135(正しい cohomology 目標) | **受諾し、具体化した** — 定理 E18 が「$\theta$-同変 contracting homotopy」の障害を weight ごとの $O_j$ として明示し、weight $\le4$ では $O_j = 0$ を表現論で証明した |
+docs/week4-E2作戦_v2.md-582-| P136(F-1 の証明書化) | **§4.2 ② に作業指示**。本稿の `metab.mjs` は F-1 より強い(全 $j$)結果を出すので、証明書はこちらを正本にすることを推奨 |
+docs/week4-E2作戦_v2.md-583-| P137 / P138(不可解性証明書・独立 Q-route) | **§4.3 / W-新 3 に反映** |
+docs/week4-E2作戦_v2.md-584-| P139 / P140(次弾 1・2) | **§4.1 の ① ② としてそのまま採用**。ただし ② は D6 により大半が済んでいるので、**予算は ① に寄せることを進言する** |
+docs/week4-E2作戦_v2.md-585-| P141(Burkhart の限定記帳) | **受諾**(§5.1【GAP-E2b】) |
+--
+docs/week4-E2作戦_v1.md-9-## 0. 冒頭結論(この便で確定したこと)
+docs/week4-E2作戦_v1.md-10-
+docs/week4-E2作戦_v1.md-11-| # | 内容 | 札 |
+docs/week4-E2作戦_v1.md-12-|---|---|---|
+docs/week4-E2作戦_v1.md:13:| **C1** | **命題 E8**: $A = [P,P]$ が**可換**なら、E2 の交わり問題は完全に**線型代数**へ潰れる — $\mathcal S_m\cap\mathcal B_\theta \ne \varnothing \iff -E_m \in \mathcal N(\ker(1+\theta))$ | **紙上証明**(Opus 単独・Sol 未監査) |
+docs/week4-E2作戦_v1.md-14-| **C2** | **定理 E9**: $P$ が 2 生成・$\mathrm{class}(P)\le 3$・$3\nmid\lvert A\rvert$ なら、**全ての $m$** で同時解 $\bar f = w^{\lambda T_m}$ が**明示的に存在**($\lambda = 3^{-1}$、$T_m = m(m+1)/2$)。⇒ **class ≤ 3 に E2 型障害は存在しない** | **紙上証明**+**H6/H9 を独立再現**(検算 §4) |
+docs/week4-E2作戦_v1.md-15-| **C3** | **命題 E10(降下)**: $m$-full 性は許容全射に沿って**粗い側へ降りる**。⇒ 相対自由対象を一つ潰せば、その全ての許容商が一括で安全 | **紙上証明**(3 行) |
+docs/week4-E2作戦_v1.md-16-| **C4** | **定理 E9′: class ≤ 4 も閉じた**。明示 witness $\bar f = w^{\lambda T_m}(pq)^{-\lambda^2B_m}$($B_m = T_m(T_m+1)/2$)。**係数は $\mathbb Z[1/3]$ に載る** ⇒ 2 群では常に可解 | **紙上構造+厳密有理計算**(多項式次数による決定・§4) |
+docs/week4-E2作戦_v1.md-17-| **C5** | **★ 狩場の再配置**: 2 生成 2 群では $A$ 非可換 ⟺ $\mathrm{class}\ge 5$ ⟺ $\lvert P\rvert\ge 2^6$。C2+C4 と合わせ、**E2 正面の生きた最小地点は class ≥ 5**。v4 §4.1 の「$\lvert P\rvert\le 512$ の 2 群掃引」は **class ≥ 5 に絞ってよい**(残りは事前登録 PASS control) | **本稿の主張** |
+docs/week4-E2作戦_v1.md-18-| **C8** | **★★ 予想 E15**: **2 群には E2 型障害が存在しない**かもしれない。class ≤ 4 の witness が両方とも $\mathbb Z[1/3]$-係数だったことから、**障害の唯一の素数は 3** と読める | **予想**(§1.6)。**撤回済み H8″ と結論が似るので取り扱い注意** |
+docs/week4-E2作戦_v1.md-19-| **C9** | **F-1 実行済(§F-1)**: 自由 metabelian class-5 対象で **160/160(j=1..5, m=0..31)の解を明示構成し直接代入で検証** ⇒ **E15 は第一審判を通過**。metabelian class 5 は狩場でない。生きた層は **$A$ 非可換(導来長 ≥ 3・$\lvert P\rvert\ge2^6$)**のみ | **GAP witness 直接検証**(node は誤判定・§F-1.2) |
+docs/week4-E2作戦_v1.md-20-| **C10** | **★ 過程の教訓**: node の初回実行は「E15 反証」と出たが、**GAP の独立照合が偽の反証を捕まえた**(私の求解器が $\mathbb Z/2^j$ 上で自由変数を 0 に固定 ⇒ **偽の欠損**)。**`m_missing` を主張する側では求解器を単独で信用しない**規律を新設(§F-1.2) | **確定**(GAP witness を node 側の系に代入して同一性も確認) |
+docs/week4-E2作戦_v1.md-21-| **C6** | **Burkhart は E2 正面では原理的に無力**。作用群 $J = \langle\rho\rangle \cong C_2$ が**素数冪位数**なので Thm 1/Thm 2 の仮定「各素数 $p$ で $J$ の Sylow $p$ が不動点をもつ」は**結論と同値**になり、定理が空虚 | **紙上確定**(原文 Thm 1 と照合・§2.1) |
+docs/week4-E2作戦_v1.md:22:| **C7** | **命題 E12(選択則)**: $n_m$ の指標展開に寄与するのは $\mathrm{Irr}(A)$ のうち **$\sigma$-安定 かつ $\theta$-安定**なものだけ。Kawanaka–Matsuyama はこの $\mathcal B_\theta$ 因子の評価に入る | **紙上証明**(選択則のみ)。**係数の正規化は【GAP-E12】** |
+docs/week4-E2作戦_v1.md-23-
+docs/week4-E2作戦_v1.md:24:★ **一行でいうと**: 委嘱が想定した「2 群掃引で $\mathcal S_m\cap\mathcal B_\theta = \varnothing$ の初例を探す」は正しい方向だが、**掃引すべき領域は思われていたより遥かに狭い** — class ≤ 4 は紙と計算で閉じた。掃引は **class ≥ 5** に集中させ、class ≤ 4 は**実装が正しいことを証明する control** として使う。
+docs/week4-E2作戦_v1.md-25-
+docs/week4-E2作戦_v1.md-26----
+docs/week4-E2作戦_v1.md-27-
+docs/week4-E2作戦_v1.md-28-## 1. 新しい数学 — E2 の線型化
+docs/week4-E2作戦_v1.md-29-
+docs/week4-E2作戦_v1.md-30-### 1.0 記法(v4 §2/§3 を継承)
+docs/week4-E2作戦_v1.md-31-
+docs/week4-E2作戦_v1.md-32-$N$ を許容対象($c \in N$)、$P := PB_3/N \cong F_2/\bar N$、$A := [P,P]$、$k := \mathrm{ord}(\bar X) = N_{\mathrm{ord}}$、$u := 2m+1$。
+docs/week4-E2作戦_v1.md:33:$\theta = \mathrm{Ad}(\bar\Delta)$、$\tau = \mathrm{Ad}(\bar\delta)$(定理 T2(ii))。$A$ 上で
+docs/week4-E2作戦_v1.md:34:$$ \sigma(a) \;:=\; \bar Y^{-m}\,\tau(a)\,\bar Y^{m} \;=\; (\tau a)^{\bar Y^m},\qquad
+docs/week4-E2作戦_v1.md:35:\mathcal N \;:=\; 1 + \sigma + \sigma^2,\qquad E_m := \tau^2(\bar Y^m)\tau(\bar Y^m)\bar Y^m = \bar X^m\bar Z^m\bar Y^m \in A. $$
+docs/week4-E2作戦_v1.md:36:既知(v3 §1.1 F1): $\sigma^3 = \mathrm{Inn}_A(E_m)$、$\sigma(E_m) = E_m$。
+docs/week4-E2作戦_v1.md:37:$$ \mathcal B_\theta = \{f\in A : \theta(f) = f^{-1}\},\qquad
+docs/week4-E2作戦_v1.md:38:\mathcal S_m = \{f \in A : \mathcal N\text{-方程式 } E_m\mathcal N_m(f) = 1\ \text{の解}\}. $$
+docs/week4-E2作戦_v1.md-39-
+docs/week4-E2作戦_v1.md:40:> **注意(語規約 W-1 の落とし穴 — 実装者へ)**: paper の $a^g := g^{-1}ag$ は、規約 W-1(paper 語 "AB" ↔ GAP `B*A`)の下で **GAP では `a^(g^-1)`** になる。**共役も向きが反転する。** $\sigma$ を GAP で書くときはここで必ず一度間違える。§3.4 の適合テストを先に通すこと。
+docs/week4-E2作戦_v1.md-41-
+docs/week4-E2作戦_v1.md-42-### 1.1 命題 E8 — $A$ 可換なら E2 は線型代数
+docs/week4-E2作戦_v1.md-43-
+docs/week4-E2作戦_v1.md-44-> **補題 E8.0.** $P$ が **2 生成**で $\mathrm{class}(P)\le 4$ ならば $A = [P,P]$ は**可換**である。逆に $A$ が非可換なら $\mathrm{class}(P)\ge 5$、したがって $\lvert P\rvert \ge 2^6$($P$ が 2 群のとき)。
+docs/week4-E2作戦_v1.md-45-
+docs/week4-E2作戦_v1.md:46:**証明.** 2 生成なので $\gamma_2 = \langle w\rangle\gamma_3$($w := [X,Y]$)。ゆえに
+docs/week4-E2作戦_v1.md-47-$[\gamma_2,\gamma_2] = [\langle w\rangle\gamma_3,\ \langle w\rangle\gamma_3]$ は $[\langle w\rangle,\gamma_3]\subseteq[\gamma_2,\gamma_3]\subseteq\gamma_5$ と $[\gamma_3,\gamma_3]\subseteq\gamma_6$ の共役たちで生成されるので $\subseteq\gamma_5$。class $\le 4$ なら $\gamma_5 = 1$。
+docs/week4-E2作戦_v1.md-48-最後の主張: 2 生成 $p$ 群で $\lvert\gamma_i/\gamma_{i+1}\rvert\ge 2$($i\le c$)かつ $\lvert P/\gamma_2\rvert\ge 4$ ゆえ $\lvert P\rvert\ge 2^{c+1}$。∎
+docs/week4-E2作戦_v1.md-49-
+docs/week4-E2作戦_v1.md:50:> **命題 E8($A$ 可換のときの完全判定).** $A$ を加法的に書く($\theta,\sigma$ は $\mathbb Z$-線型)。
+docs/week4-E2作戦_v1.md:51:> **(i)** $\mathcal B_\theta = \ker(1+\theta)$ は**部分群**である。
+docs/week4-E2作戦_v1.md:52:> **(ii)** $\mathcal S_m = \{f : \mathcal N(f) = -E_m\}$ は空か、$\ker\mathcal N$ の**剰余類**である。
+docs/week4-E2作戦_v1.md-53-> **(iii)** ゆえに
+docs/week4-E2作戦_v1.md:54:> $$ \boxed{\ \mathcal S_m\cap\mathcal B_\theta \ne \varnothing \iff -E_m \in \mathcal N\bigl(\ker(1+\theta)\bigr)\ } $$
+docs/week4-E2作戦_v1.md:55:> であり、非空なら $\lvert\mathcal S_m\cap\mathcal B_\theta\rvert = \lvert\ker(1+\theta)\cap\ker\mathcal N\rvert$。
+docs/week4-E2作戦_v1.md:56:> **(iv)** さらに $3\nmid\lvert A\rvert$ なら $\sigma^3 = \mathrm{Inn}_A(E_m) = \mathrm{id}$ かつ Maschke より $A = A^\sigma\oplus\ker\mathcal N$、$\mathcal N\vert_{A^\sigma} = 3\cdot\mathrm{id}$、$E_m\in A^\sigma$。したがって $\lambda := 3^{-1}\bmod\exp A$ と置くと
+docs/week4-E2作戦_v1.md:57:> $$ \mathcal S_m = -\lambda E_m + \ker\mathcal N, \qquad
+docs/week4-E2作戦_v1.md:58:> \mathcal S_m\cap\mathcal B_\theta\ne\varnothing \iff \lambda\,(1+\theta)(E_m) \in (1+\theta)\bigl(\ker\mathcal N\bigr). $$
+docs/week4-E2作戦_v1.md:59:> **障害は $\mathrm{Im}(1+\theta)\big/(1+\theta)(\ker\mathcal N)$ の中の $\lambda(1+\theta)(E_m)$ の類**という**ただ一つの明示的な不変量**である。
+docs/week4-E2作戦_v1.md-60-
+docs/week4-E2作戦_v1.md:61:**証明.** (i) $A$ 可換ゆえ $\nu: f\mapsto \theta(f)f$ は準同型($\nu(fg) = \theta(f)\theta(g)fg = \theta(f)f\theta(g)g$)であり $\mathcal B_\theta = \ker\nu = \ker(1+\theta)$。
+docs/week4-E2作戦_v1.md:62:(ii) $A$ 可換なので $\mathcal N_m(f) = \sigma^2(f)\sigma(f)f = \mathcal N(f)$ は準同型。方程式 $\mathcal N(f) = -E_m$ はアフィン。
+docs/week4-E2作戦_v1.md:63:(iii) (i)(ii) から直ちに。個数は解集合が $\ker(1+\theta)\cap\ker\mathcal N$ の剰余類であることによる。
+docs/week4-E2作戦_v1.md:64:(iv) $\sigma^3 = \mathrm{Inn}_A(E_m)$ は $A$ 可換ゆえ恒等。$\langle\sigma\rangle\cong C_3$ が $A$ に作用し $3$ が可逆なので $e := \lambda\mathcal N$ は $A^\sigma$ への射影冪等元で $A = A^\sigma\oplus\ker\mathcal N$。$\mathcal N(f) = -E_m$ の $A^\sigma$-成分は $3f_+ = -E_m$、$\ker\mathcal N$-成分は自由。∎
+docs/week4-E2作戦_v1.md-65-
+docs/week4-E2作戦_v1.md-66-> **系 E8-a(v4 §3 の攻撃 A/B との関係).** $A$ 可換の領域では **指標和(E4/E4′/F13)も Glauberman/Burkhart も不要**である。判定は $\lvert A\rvert$ 次元以下の整数線型代数で**完全に**決まる。指標和が本質的に要るのは **$A$ 非可換 = class ≥ 5** の領域だけである。
+docs/week4-E2作戦_v1.md-67-
+docs/week4-E2作戦_v1.md-68-### 1.2 定理 E9 — class ≤ 3 は完全に閉じた
+docs/week4-E2作戦_v1.md-69-
+docs/week4-E2作戦_v1.md:70:> **補題 E9.1(構造定数 — 自由 class 3 で計算・検算 §4).** $P$ 2 生成・class $\le 3$、$w := [X,Y]$、$p := [w,X]$、$q := [w,Y]$ とすると $A = \langle w\rangle\gamma_3$、$\gamma_3 = \langle p,q\rangle \le Z(P)$、$A$ 可換。さらに
+docs/week4-E2作戦_v1.md:71:> $$ \underbrace{\theta(w) = w^{-1}}_{\textbf{$F_2$ の中で厳密}},\qquad
+docs/week4-E2作戦_v1.md:72:> \underbrace{\theta(p) = q^{-1},\ \ \theta(q) = p^{-1},\ \ \tau(w) = wp^{-1},\ \ \tau(p) = q,\ \ \tau(q) = p^{-1}q^{-1}}_{A = \gamma_2/\gamma_4 \text{ の中で}(\text{class 4 では } \gamma_2/\gamma_5 \text{ でも成立 — §4})}. $$
+docs/week4-E2作戦_v1.md:73:> **★ 証明が寄りかかるのは $\theta(w) = w^{-1}$ の厳密性だけ**である($\theta$ が $F_2$ の自己同型 $x\leftrightarrow y$ ゆえ $\theta([x,y]) = [y,x] = [x,y]^{-1}$ — 商へ降ろす前に成り立つ)。残りは $A$ の中の等式で足りる。
+docs/week4-E2作戦_v1.md:74:> ゆえに $\sigma(w) = w\,q^{m}p^{-1}$、$\sigma\vert_{\gamma_3} = \tau\vert_{\gamma_3}$、**$\mathcal N\vert_{\gamma_3} = 0$**、そして
+docs/week4-E2作戦_v1.md-75-> $$ \kappa_m := \mathcal N(w) = w^{3}\,p^{-(m+2)}\,q^{\,m-1}. $$
+docs/week4-E2作戦_v1.md-76-
+docs/week4-E2作戦_v1.md:77:**証明.** $\theta(w) = \theta([x,y]) = [y,x] = w^{-1}$ は $F_2$ の中の恒等式(**厳密**であって mod $\gamma_3$ ではない)。$\tau(w) = [y,z] = [y,x^{-1}] = w^{x^{-1}} = wp^{-1}$、$\tau(p) = [\tau w,\tau x] = [wp^{-1},y] = [w,y] = q$、$\tau(q) = [\tau w,\tau y] = [w,z] = [w,y^{-1}x^{-1}] = p^{-1}q^{-1}$($\gamma_3$ 中心)。$\gamma_3$ 上 $1+\tau+\tau^2$ は $p\mapsto p+q+(-p-q) = 0$、$q$ も同様ゆえ $\mathcal N\vert_{\gamma_3} = 0$。$\gamma_3$ 中心ゆえ $\mathrm{Ad}(\bar Y^{-m})$ は $\gamma_3$ 上恒等・$w\mapsto wq^{m}$、よって $d := \sigma(w)-w = mq-p$、$\sigma(d) = -mp-(1+m)q$、
+docs/week4-E2作戦_v1.md:78:$\kappa_m = \mathcal N(w) = 3w + 2d + \sigma(d) = 3w-(m+2)p+(m-1)q$。∎(**全項を Magnus 埋め込みで機械照合済み — §4**)
+docs/week4-E2作戦_v1.md-79-
+docs/week4-E2作戦_v1.md-80-> **補題 E9.2(基本恒等式).** 自由 class-3 対象の $A\cong\mathbb Z^3$ において
+docs/week4-E2作戦_v1.md:81:> $$ \boxed{\ 3\,E_m \;=\; -\,T_m\,\kappa_m\ },\qquad T_m := \tfrac{m(m+1)}2 . $$
+docs/week4-E2作戦_v1.md-82-
+docs/week4-E2作戦_v1.md:83:**証明.** $\sigma$ の固定部分 $A^\sigma\otimes\mathbb Q$ を求める: $\sigma(\alpha w+\beta p+\gamma q) = \alpha w + (-\alpha-\gamma)p + (\alpha m+\beta-\gamma)q$ を $=(\alpha,\beta,\gamma)$ と置くと $\beta = -\alpha(m+2)/3$、$\gamma = \alpha(m-1)/3$ — すなわち **$A^\sigma\otimes\mathbb Q$ は 1 次元で $\kappa_m$ が張る**。一方 $\sigma(E_m) = E_m$ ゆえ $E_m\in A^\sigma$、したがって $E_m = c\,\kappa_m$($c\in\mathbb Q$)。$w$-成分を比べる: mod $\gamma_3$ で $E_m \equiv w^{-T_m}$(class 2 の計算 = 定理 H6 の内容)かつ $\kappa_m\equiv w^{3}$ ゆえ $-T_m = 3c$。∎
+docs/week4-E2作戦_v1.md-84-
+docs/week4-E2作戦_v1.md-85-> **定理 E9(class ≤ 3 に E2 型障害は無い).** $N$ を許容対象($c\in N$)、$P = F_2/\bar N$ を **2 生成・$\mathrm{class}(P)\le 3$**、$A = [P,P]$ が **$3\nmid\lvert A\rvert$** を満たすとする。$\lambda := 3^{-1}\bmod\exp(A)$ と置くと、**全ての $m\in\mathbb Z$** に対し
+docs/week4-E2作戦_v1.md:86:> $$ \bar f \;:=\; w^{\lambda T_m} \qquad (w = [X,Y],\ T_m = m(m+1)/2) $$
+docs/week4-E2作戦_v1.md:87:> は (H-a) と (H-b′) を**同時に**満たす。すなわち $\mathcal S_m\cap\mathcal B_\theta\ne\varnothing$。
+docs/week4-E2作戦_v1.md-88-
+docs/week4-E2作戦_v1.md:89:**証明.** (H-a): $\theta(\bar f) = \theta(w)^{\lambda T_m} = (w^{-1})^{\lambda T_m} = \bar f^{-1}$(補題 E9.1 の $\theta(w) = w^{-1}$ が**厳密**であることが効く)。
+docs/week4-E2作戦_v1.md:90:(H-b′): $A$ 可換ゆえ $\mathcal N(\bar f) = \lambda T_m\,\kappa_m$。補題 E9.2 を $P$ へ押し出して $T_m\kappa_m = -3E_m$、ゆえに
+docs/week4-E2作戦_v1.md:91:$\mathcal N(\bar f) = -3\lambda E_m = -E_m = E_m^{-1}$。∎
+docs/week4-E2作戦_v1.md-92-
+docs/week4-E2作戦_v1.md-93-> **系 E9-a.** $P$ が **2 群**なら $3\nmid\lvert A\rvert$ は自動。ゆえに **class ≤ 3 の許容 2 群対象は全て $m$-full(torsion 部)**である。
+docs/week4-E2作戦_v1.md-94-
+docs/week4-E2作戦_v1.md-95-**既知結果との整合(独立再現)**
+docs/week4-E2作戦_v1.md-96-- **class 2 = 定理 H6**: $\gamma_3 = 1$ なので $\kappa_m = w^3$、条件は $3a\equiv T_m$ — v3 §1.4 の H6 の式そのもの ✔
+docs/week4-E2作戦_v1.md:97:- **$P_3$(位数 128)= 定理 H9**: $\lambda = 1$($3\cdot1\equiv1\bmod 2$)、$\bar f = w^{T_m}$ は $m = 0,1,2,3$ で $1, w, w, 1$ — **H9 の 8 元表の各行の第一解と完全一致** ✔。さらに §4 の独立計算が H9 の**もう一方の解**($pq$ / $wpq$)と $E_m = (1,wp,wq,1)$ も再現 ✔
+docs/week4-E2作戦_v1.md-98-
+docs/week4-E2作戦_v1.md-99-### 1.3 命題 E10 — 降下(m-full は粗い側へ落ちる)
+docs/week4-E2作戦_v1.md-100-
+docs/week4-E2作戦_v1.md:101:> **命題 E10.** $N \le N'$ をともに許容対象、$\pi: P = F_2/\bar N \twoheadrightarrow P' = F_2/\bar N'$ を自然な全射とする($\theta,\tau$ と可換)。$m$ が $N$ で shadow を与えるなら、$m\bmod N'_{\mathrm{ord}}$ は $N'$ で shadow を与える。すなわち
+docs/week4-E2作戦_v1.md-102-> $$ m \in \mathfrak M(N) \;\Longrightarrow\; (m\bmod N'_{\mathrm{ord}}) \in \mathfrak M(N'). $$
+docs/week4-E2作戦_v1.md-103-> **対偶**: $N'$ で $m'$ が欠損すれば、$N$ では $m'$ に合同な**全ての** $m$ が欠損する。
+docs/week4-E2作戦_v1.md-104-
+docs/week4-E2作戦_v1.md:105:**証明.** $\pi$ は $\theta,\tau,\mathrm{Ad}(\bar Y^m)$ と可換、$\pi(E_m^{P}) = E_m^{P'}$、$\pi([P,P]) = [P',P']$。ゆえに (H-a)(H-b′) の解は解へ写る。生成条件 $\langle \bar X^u, \bar f^{-1}\bar Y^u\bar f\rangle = P$ も全射で保たれる。charming 条件は $N'_{\mathrm{ord}}\mid N_{\mathrm{ord}}$ より保たれる。∎
+docs/week4-E2作戦_v1.md-106-
+docs/week4-E2作戦_v1.md-107-★ **使い方(掃引を桁で縮める)**: 相対自由対象(その変種の**最大**対象)で $m$-full を一度示せば、**その全ての許容商が一括で安全**。逆に、掃引で新しい対象を撃つ意味があるのは「どの既知 $m$-full 対象の商にもなっていない」対象だけである。
+docs/week4-E2作戦_v1.md-108-
+docs/week4-E2作戦_v1.md-109-### 1.4 class 4 の位置 — 第一の「生きた」層は class 5
+docs/week4-E2作戦_v1.md-110-
+docs/week4-E2作戦_v1.md:111:$A$ の $\mathbb Q[C_3]$-加群構造を見ると障害の余地が判る。$\gamma_i/\gamma_{i+1}$ 上で $\tau$ の指標を自由 Lie 環の公式 $\chi_{L_n}(g) = \frac1n\sum_{d\mid n}\mu(d)\chi_V(g^d)^{n/d}$($V$ = 2 次元 $C_3$-表現、$\chi_V(\tau) = -1$)で計算すると
+docs/week4-E2作戦_v1.md-112-
+docs/week4-E2作戦_v1.md-113-| 層 | 階数 | 自明表現の重複度 |
+docs/week4-E2作戦_v1.md-114-|---|---:|---:|
+docs/week4-E2作戦_v1.md-115-| $\gamma_2/\gamma_3$ | 1 | **1** |
+docs/week4-E2作戦_v1.md-116-| $\gamma_3/\gamma_4$ | 2 | 0 |
+docs/week4-E2作戦_v1.md-117-| $\gamma_4/\gamma_5$ | 3 | **1** |
+docs/week4-E2作戦_v1.md-118-
+docs/week4-E2作戦_v1.md:119:- **class 3**: $\dim_{\mathbb Q}A^\sigma = 1$ ⇒ $E_m\in A^\sigma$ は $\kappa_m = \mathcal N(w)$ に**比例せざるを得ない** ⇒ 補題 E9.2 ⇒ 定理 E9。**障害の余地がゼロ**なのはこの 1 次元性が理由である。
+docs/week4-E2作戦_v1.md:120:- **class 4**: $\dim_{\mathbb Q}A^\sigma = 2$ ⇒ $E_m$ が $\kappa_m$ の方向から**外れ得る** ⇒ **初めて障害の余地が生じる**。にもかかわらず、下の定理 E9′ が明示 witness で閉じる。
+docs/week4-E2作戦_v1.md-121-- **class ≥ 5**: $A$ が**非可換になり得る**(補題 E8.0)。E8 の線型判定が使えず、指標和(E4′/F13)と E12 の選択則が要る。**ここが本丸**。
+docs/week4-E2作戦_v1.md-122-
+docs/week4-E2作戦_v1.md-123-> **定理 E9′(class ≤ 4 も閉じた).** $N$ 許容($c\in N$)、$P$ 2 生成・$\mathrm{class}(P)\le 4$、$3\nmid\lvert A\rvert$。$\lambda := 3^{-1}\bmod\exp A$、$T_m := \tfrac{m(m+1)}2$、$B_m := \tfrac{T_m(T_m+1)}2$ と置くと
+docs/week4-E2作戦_v1.md:124:> $$ \boxed{\ \bar f \;:=\; w^{\lambda T_m}\,(pq)^{-\lambda^2 B_m}\ }\qquad (w=[X,Y],\ p=[w,X],\ q=[w,Y]) $$
+docs/week4-E2作戦_v1.md:125:> は (H-a) と (H-b′) を**同時に**満たす。ゆえに $\mathcal S_m\cap\mathcal B_\theta\ne\varnothing$ が全 $m$ で成立する。
+docs/week4-E2作戦_v1.md-126-
+docs/week4-E2作戦_v1.md:127:**証明.** (H-a): $\theta(w) = w^{-1}$($F_2$ で厳密)と、$A = \gamma_2/\gamma_5$ の中での $\theta(p) = q^{-1}$、$\theta(q) = p^{-1}$(§4 で class 4 の基底全体について確認)より $\theta(pq) = q^{-1}p^{-1} = (pq)^{-1}$($A$ 可換)、ゆえに $\bar f\in\ker(1+\theta)$。
+docs/week4-E2作戦_v1.md-128-(H-b′): 自由 class-4 対象 $A_{\mathrm{free}} = \gamma_2/\gamma_5\cong\mathbb Z^6$ において
+docs/week4-E2作戦_v1.md:129:$$ \mathcal N\bigl(w^{3T_m}(pq)^{-B_m}\bigr) \;=\; E_m^{-9} $$
+docs/week4-E2作戦_v1.md-130-が $m$ の**多項式恒等式**として成立する(両辺の成分は $m$ の次数 $\le 8$ の多項式。$m = 0,\dots,20$ の **21 点**で厳密整数照合 ✔ — §4)。**指数ベクトルを $\lambda^2$ 倍する**と、$\mathcal N$ が $\mathbb Z$-線型なので
+docs/week4-E2作戦_v1.md:131:$$ \mathcal N\bigl(w^{3\lambda^2T_m}(pq)^{-\lambda^2B_m}\bigr) = E_m^{-9\lambda^2} = E_m^{-1} \qquad(9\lambda^2\equiv1,\ 3\lambda^2\equiv\lambda \bmod \exp A) $$
+docs/week4-E2作戦_v1.md:132:となり、これが主張の $\bar f = w^{\lambda T_m}(pq)^{-\lambda^2B_m}$ である。$P$ への押し出しは命題 E10 と同じ議論($A^P$ は $A_{\mathrm{free}}$ の $\theta,\sigma$-同変な商)。∎
+docs/week4-E2作戦_v1.md-133-
+docs/week4-E2作戦_v1.md-134-> **系 E9′-a.** $P$ が 2 群なら $3$ は可逆ゆえ、**class ≤ 4 の許容 2 群対象は全て $m$-full(torsion 部)**である。$P_3$(class 3・128)は $B_m$ 項が $\ker\mathcal N$ に落ちるので定理 E9 の形に退化する(整合 ✔)。
+docs/week4-E2作戦_v1.md-135-
+docs/week4-E2作戦_v1.md-136-### 1.5 狩場の再配置(C5)
+docs/week4-E2作戦_v1.md-137-
+docs/week4-E2作戦_v1.md-138-> 2 生成 2 群では
+docs/week4-E2作戦_v1.md-139-> $$ \lvert P\rvert \le 2^8 \ \wedge\ \mathrm{class}(P)\ge 5 \;\Longrightarrow\; \mathrm{class}(P)\in\{5,6,7\},\quad \lvert P\rvert\ge 2^6 = 64. $$
+docs/week4-E2作戦_v1.md:140:> さらに $P$ は**位数 3 の自己同型 $\tau$ を許容**しなければならない(⇒ $3\mid\lvert\mathrm{Aut}(P)\rvert$)。これは 2 群には強い制約で、たとえば位数 $\ge 16$ の極大類 2 群(二面体・半二面体・一般四元数)は $\mathrm{Aut}$ が 2 群なので**全て除外**される。⇒ **生きた宇宙は小さい。**
+docs/week4-E2作戦_v1.md-141-> なお **class ≥ 5 でも $A$ が可換なまま**のこと($P$ が metabelian)はあり、その場合は命題 E8 の線型判定が**そのまま使える**。ゆえに生きた層はさらに二分される: **metabelian class ≥ 5(安い・route L)** と **非 metabelian(高い・route T 単系統)**。
+docs/week4-E2作戦_v1.md-142-
+docs/week4-E2作戦_v1.md-143-### 1.6 予想 E15 — **2 群には E2 型障害が無いのではないか**(掃引の前に撃つべき)
+docs/week4-E2作戦_v1.md-144-
+docs/week4-E2作戦_v1.md:145:> **予想 E15.** $N$ を許容対象($c\in N$)、$P = F_2/\bar N$ を **2 群**とする。このとき全ての $m$ で $\mathcal S_m\cap\mathcal B_\theta\ne\varnothing$、すなわち **E2 型の $m$-欠損は 2 群には存在しない**。
+docs/week4-E2作戦_v1.md-146-
+docs/week4-E2作戦_v1.md:147:**根拠(帰納であって証明ではない)**: class ≤ 4 で成立(E9/E9′)。しかも二つの witness はどちらも**係数が $\mathbb Z[1/3]$ に載る** — 自由対象の上で解が存在し、分母は $3$ の冪だけである。**障害の唯一の素数は $\tau$ の位数 $3$ に由来する**と読める。これは H8(3 ∤ |A| ⇒ (H-b′) 可解)が (H-b′) 単独で示したことの、**同時可解版**にあたる。
+docs/week4-E2作戦_v1.md-148-
+docs/week4-E2作戦_v1.md-149-> **⚠ 取り扱い注意(W42 の再確認).** 予想 E15 の**結論**は、便 06 で**撤回された H8″「2 群は完全に安全」と同じ形**である。しかし**根拠は全く異なる**: H8″ は (H-b′) 単独の可解性から誤って結論した(交わりを一切見ていなかった)。E15 は class ≤ 4 の**同時解の明示 witness** から帰納している。**それでも E15 は予想であり、撤回済みの主張を復活させる根拠にはならない。** 掃引の safe フィルタに使ってはならない(W42 は生きている)。
+docs/week4-E2作戦_v1.md-150-
+docs/week4-E2作戦_v1.md-151-**falsification 計画(安い順・これが本稿の一番の推奨)**
+--
+docs/week4-E2作戦_v1.md-160-★ **司令塔への進言**: **§3 の掃引(GAP 実装・数時間規模)に予算を投じる前に、F-1 を撃つべきである。** F-1 は私が数十分で書ける node 計算であり、予想 E15 が正しければ掃引全体が空振りすることを**事前に**教えてくれる。これは v4 §4.1 の事前登録を撤回するのではなく、**発射順を変える**提案である。
+docs/week4-E2作戦_v1.md-161-
+docs/week4-E2作戦_v1.md-162-### 1.7 命題 E12 — 指標展開の選択則($A$ 非可換用)
+docs/week4-E2作戦_v1.md-163-
+docs/week4-E2作戦_v1.md:164:$\mathbb C[A]$ の中で $s_m := \sum_{f\in\mathcal S_m}f$、$b_\theta := \sum_{f\in\mathcal B_\theta}f$ と置くと $n_m^{\mathrm{tor}} = \lvert\mathcal S_m\cap\mathcal B_\theta\rvert = \langle s_m, b_\theta\rangle$。
+docs/week4-E2作戦_v1.md-165-
+docs/week4-E2作戦_v1.md-166-> **命題 E12(選択則).** $\rho\in\mathrm{Irr}(A)$ に対し
+docs/week4-E2作戦_v1.md:167:> **(a)** $\rho(s_m) \ne 0 \Rightarrow \rho\cong\rho\circ\sigma$。 **(b)** $\rho(b_\theta)\ne 0 \Rightarrow \rho\cong\rho\circ\theta$。
+docs/week4-E2作戦_v1.md-168-> ゆえに Plancherel 展開
+docs/week4-E2作戦_v1.md:169:> $$ n_m^{\mathrm{tor}} = \frac1{\lvert A\rvert}\sum_{\rho\in\mathrm{Irr}(A)} d_\rho\,\mathrm{Tr}\bigl(\rho(s_m)\rho(b_\theta)^{*}\bigr) $$
+docs/week4-E2作戦_v1.md:170:> に寄与するのは **$\langle\sigma,\theta\rangle$-不変な既約指標だけ**である($\langle\tau,\theta\rangle\cong S_3$ の $\mathrm{Irr}(A)$ への作用で不変な軌道)。
+docs/week4-E2作戦_v1.md-171-
+docs/week4-E2作戦_v1.md:172:**証明.** (a) $\mathcal S_m$ は $\sigma$-捻れ共役類(H8 の Schur–Zassenhaus 補群共役性)なので $\tilde s := \sum_{a\in A}\sigma(a)^{-1}f_0a$ は $s_m$ のスカラー倍。$\rho(\tilde s) = \sum_a\rho^\sigma(a)^{-1}\rho(f_0)\rho(a)$ は $\lvert A\rvert$ 倍の「$\rho\to\rho^\sigma$ の絡作用素への射影」であり、Schur の補題より $\rho\not\cong\rho^\sigma$ なら $0$。
+docs/week4-E2作戦_v1.md:173:(b) $\mathcal B_\theta$ は $\theta$-捻れ作用 $a*f = \theta(a)^{-1}fa$ で閉じる(v3 §3.1)ので $\theta$-捻れ類の合併であり、同じ議論。∎
+docs/week4-E2作戦_v1.md-174-
+docs/week4-E2作戦_v1.md:175:**$A$ 可換での整合検査($P_3$)**: $\mathrm{Ann}(\mathrm{Im}(1-\sigma)) \cap \mathrm{Ann}(\mathrm{Im}(1-\theta))$ で選択則が効き、$\hat s(\chi) = \chi(f_0)\lvert\mathrm{Im}(1-\sigma)\rvert$、$\hat b(\chi) = \lvert\ker(1+\theta)\rvert$ の同時台は自明指標のみ、$n_m = \frac18\cdot4\cdot4 = 2$ ✔(H9 と一致)。
+docs/week4-E2作戦_v1.md-176-
+docs/week4-E2作戦_v1.md-177-- **状態**: 選択則(a)(b)は**証明済**。**絡作用素の正規化(= 具体的係数)は未確定** ⇒ **【GAP-E12】(新設)**。ここに Kawanaka–Matsuyama の捻れ FS 指標が入る(§2.2)。
+docs/week4-E2作戦_v1.md-178-
+docs/week4-E2作戦_v1.md-179----
+--
+docs/week4-E2作戦_v1.md-185-原文 Theorem 1(p.2)を写す:
+docs/week4-E2作戦_v1.md-186-
+docs/week4-E2作戦_v1.md-187-> Given a finite group $J$ acting via automorphisms on a finite **abelian** group $N$, suppose the induced semidirect product $N\rtimes J$ acts on some non-empty set $\Omega$ where the action of $N$ is transitive. **If for each prime $p$, a Sylow $p$-subgroup of $J$ fixes an element of $\Omega$**, then there exists some $J$-invariant element $\omega\in\Omega$.
+docs/week4-E2作戦_v1.md-188-
+docs/week4-E2作戦_v1.md:189:E2 正面への当てはめ(v3 §3.2 の枠組み)は $N := A$、$\Omega := \mathcal S_m$、$J := \langle\rho\rangle$($\rho(f) = \theta(f)^{-1}$)であり、$\lvert J\rvert = 2$。
+docs/week4-E2作戦_v1.md-190-
+docs/week4-E2作戦_v1.md-191-> **観察 B1(致命的).** $J$ が**素数冪位数**のとき、$J$ の Sylow $2$-部分群は $J$ 自身、他の素数の Sylow は自明である。ゆえに Theorem 1 の仮定は
+docs/week4-E2作戦_v1.md-192-> $$ \text{「$J$ が } \Omega \text{ の点を固定する」} $$
+docs/week4-E2作戦_v1.md-193-> に**帰着し、結論と同一**になる。**したがって Burkhart Theorem 1 は $J\cong C_2$ に対して空虚である。** Theorem 2($N$ 冪零・$N\rtimes J$ 超可解)も仮定の形が同じなので同様に空虚。
+--
+docs/week4-E2作戦_v1.md-195-**帰結(v4 §3.8 の更新)**: v4 は「攻撃 B は E2′ の同変性が回復した後にしか使えない/入口が見つかっていない」と書いた。**本稿はより強く、入口が回復しても Burkhart 型は何も与えないことを確定する。** 作用群 $J$ を 2 つ以上の素数で割れる群へ**拡大**できない限り(拡大しても Sylow 2 の条件が結論と同値のまま残るので)この方向は死んでいる。
+docs/week4-E2作戦_v1.md-196-
+docs/week4-E2作戦_v1.md-197-> **記帳(W-新)**: **「非 coprime 不動点定理」は、作用群が素数冪位数のときは自動的に空虚**である。E2 の $\Theta = \langle\rho\rangle\cong C_2$ はまさにこれ。**配達 03 §2 の第一弾は E2 正面から撤去する。**
+docs/week4-E2作戦_v1.md-198-
+docs/week4-E2作戦_v1.md:199:### 2.2 Kawanaka–Matsuyama — **$\mathcal B_\theta$ 因子としてなら生きる**
+docs/week4-E2作戦_v1.md-200-
+docs/week4-E2作戦_v1.md-201-K–M(Hokkaido Math. J. 19 (1990) 495–508)の
+docs/week4-E2作戦_v1.md:202:$$ \#\{g\in G : \theta(g) = g^{-1}\} \;=\; \sum_{\chi\in\mathrm{Irr}(G)}\varepsilon_\theta(\chi)\,\chi(1) $$
+docs/week4-E2作戦_v1.md:203:は、**$\lvert\mathcal B_\theta\rvert$ の閉じた式そのもの**である($G := A$)。ただしこれは**交わりではなく片方の集合の大きさ**しか与えない。正しい使い所は二つ。
+docs/week4-E2作戦_v1.md-204-
+docs/week4-E2作戦_v1.md-205-> **補題 E11(鳩の巣フィルタ — 十分条件).**
+docs/week4-E2作戦_v1.md:206:> $$ \lvert\mathcal S_m\rvert + \lvert\mathcal B_\theta\rvert > \lvert A\rvert \;\Longrightarrow\; \mathcal S_m\cap\mathcal B_\theta \ne \varnothing. $$
+docs/week4-E2作戦_v1.md:207:> ここで $\lvert\mathcal B_\theta\rvert = \sum_\chi\varepsilon_\theta(\chi)\chi(1)$(K–M)、$\lvert\mathcal S_m\rvert = [A : C_\sigma(f_0)]$、$C_\sigma(f_0) = \{a : \sigma(a)^{-1}f_0a = f_0\}$。
+docs/week4-E2作戦_v1.md-208-
+docs/week4-E2作戦_v1.md-209-**証明.** 二つの部分集合の和が全体を超えれば交わる。∎
+docs/week4-E2作戦_v1.md:210:**正直な評価**: **弱い**。$P_3$ では $\lvert\mathcal S_m\rvert + \lvert\mathcal B_\theta\rvert = 4+4 = 8 = \lvert A\rvert$ で**ちょうど届かない**(実際は交わる)。だが**指標表だけで計算できて安い**ので、掃引の前置フィルタとしては使ってよい(`pigeonhole_pass` 欄)。
+docs/week4-E2作戦_v1.md-211-
+docs/week4-E2作戦_v1.md:212:> **命題 E12 との合流(委嘱が求めた「$\Sigma\varepsilon_\theta(\chi)\chi(1)$ を $\mathcal S_m$ への制限に変形する路線」の到達点).**
+docs/week4-E2作戦_v1.md:213:> K–M の指標和は、群環の言葉では $\rho(b_\theta)$ の**トレース評価**である。命題 E12 (b) により $\rho(b_\theta)\ne0$ は $\rho\cong\rho^\theta$ に限られ、その上で $\varepsilon_\theta(\rho)$ が絡作用素の符号を与える。一方 $\rho(s_m)$ は $\rho\cong\rho^\sigma$ に限られ、$\sigma$-捻れ類和として決まる。ゆえに
+docs/week4-E2作戦_v1.md:214:> $$ n_m^{\mathrm{tor}} \;=\; \frac1{\lvert A\rvert}\sum_{\substack{\rho:\ \rho\cong\rho^\sigma\\ \rho\cong\rho^\theta}} d_\rho\ \mathrm{Tr}\bigl(\rho(s_m)\,\rho(b_\theta)^{*}\bigr) $$
+docs/week4-E2作戦_v1.md-215-> が「**成層された K–M**」の正しい形である。**選択則は証明済み**、**係数(絡作用素の正規化)は未確定 =【GAP-E12】**。
+docs/week4-E2作戦_v1.md-216-> ★ **W59 の再確認**: これは行列値の式であって、**scalar character-table 公式ではない**。「K–M で E2 が指標表計算に落ちた」とは**書かない**。
+docs/week4-E2作戦_v1.md-217-
+docs/week4-E2作戦_v1.md-218-### 2.3 CST(1811.09526)を読まなかった理由
+--
+docs/week4-E2作戦_v1.md-225-|---|---|---|---|
+docs/week4-E2作戦_v1.md-226-| **【GAP-E2】** | 一般の同時可解性 | 未解決(本丸) | **class ≤ 3 は閉鎖(定理 E9)/ class 4 は計算上閉鎖(§4)/ 本丸は class ≥ 5 = $A$ 非可換**へ縮小 |
+docs/week4-E2作戦_v1.md-227-| **【GAP-E2a】** | F13 の scalar 化 | UNKNOWN【文献要請 4】 | **$A$ 可換では moot**(E8 が直接解く)。**$A$ 非可換で継続** |
+docs/week4-E2作戦_v1.md-228-| **【GAP-E2b】** | $\iota_{X^u}$ の吸収 | 塞がっている | **恒久的に閉じる**(観察 B1 — 吸収できても Burkhart が空虚) |
+docs/week4-E2作戦_v1.md:229:| **【GAP-E2c】** | 一般の $\sigma_A$ の存在必要性 | UNKNOWN | **優先度を最低へ**(同じ理由。数学的には依然 UNKNOWN) |
+docs/week4-E2作戦_v1.md-230-| **【GAP-E12】** | 命題 E12 の絡作用素の正規化 | — | **新設・UNKNOWN**(【文献要請 7】) |
+docs/week4-E2作戦_v1.md-231-| **【GAP-E13】** | class 4・$\exp(A)\ge 32$、および class ≥ 5 の一般判定 | — | **新設・UNKNOWN**(掃引の対象) |
+docs/week4-E2作戦_v1.md-232-
+docs/week4-E2作戦_v1.md-233----
+--
+docs/week4-E2作戦_v1.md-254-
+docs/week4-E2作戦_v1.md-255-| 経路 | 道具 | 手順 | 射程 |
+docs/week4-E2作戦_v1.md-256-|---|---|---|---|
+docs/week4-E2作戦_v1.md-257-| **E-1(正本)** | **`lins`**(Low Index Normal Subgroups) | $\Delta(2,3,2k) = \langle a,b\mid a^2,b^3,(b^{-1}a)^{2k}\rangle$ の指数 $\le 6\cdot 2^8 = 1536$ の正規部分群を列挙 → $Q := \Delta/M$ → $\varepsilon: Q\twoheadrightarrow S_3$ の存在と marking を検査 → $P := \ker\varepsilon$ が 2 群か → `exact_order_binv_a` $= 2k$ を**独立欄で**検査(W51) | $\lvert P\rvert\le 256$ を**完全**に被覆(理論上) |
+docs/week4-E2作戦_v1.md:258:| **E-2(照合)** | **`SmallGroups`**(+`autpgrp`) | $\lvert P\rvert \in\{32,64,128\}$(必要なら 256)の 2 生成 2 群を全列挙 → $3\mid\lvert\mathrm{Aut}(P)\rvert$ で粗フィルタ → $\tau\in\mathrm{Aut}(P)$ 位数 3・$\theta\in\mathrm{Aut}(P)$ 位数 2 で $(x,y,z)$ を巡回/交換する marking を探索 → $\mathrm{ord}(\bar X) = k$ を検査 | $\lvert P\rvert\le 128$ は**完全**、256 は cap つき |
+docs/week4-E2作戦_v1.md-259-
+docs/week4-E2作戦_v1.md-260-> **交差検査(必須)**: E-1 と E-2 が $\lvert P\rvert\le 128$ で**同じ対象集合**(marked 同型類として)を出すこと。食い違ったら**掃引を止めて司令塔へ差し戻す**。片方だけで先へ進まない。
+docs/week4-E2作戦_v1.md-261-> **なぜ二系統か**: v4 §2.2 注意 1(W51)の「presentation の関係式は位数が**割る**ことしか課さない」型の取りこぼしは、単系統では原理的に検出できない。
+docs/week4-E2作戦_v1.md-262-
+docs/week4-E2作戦_v1.md-263-### 3.3 判定器 — **二系統**(E8 線型 vs `twistedconjugacy`)
+docs/week4-E2作戦_v1.md-264-
+docs/week4-E2作戦_v1.md:265:各対象・各 $m\in\mathcal X_N$ について、**独立の 2 通り**で $\lvert\mathcal S_m\cap\mathcal B_\theta\rvert$ を出す。
+docs/week4-E2作戦_v1.md-266-
+docs/week4-E2作戦_v1.md-267-**route L(線型・$A$ 可換のときのみ)** — 命題 E8:
+docs/week4-E2作戦_v1.md-268-1. $A$ をアーベル群として `IndependentGeneratorsOfAbelianGroup` で座標化。
+docs/week4-E2作戦_v1.md:269:2. $\theta,\sigma$ を整数行列に。$\mathcal N := 1+\sigma+\sigma^2$、$1+\theta$。
+docs/week4-E2作戦_v1.md:270:3. $-E_m \in \mathcal N(\ker(1+\theta))$ を**整数線型代数**(Smith 標準形 / Howell 形)で判定。個数は $\lvert\ker(1+\theta)\cap\ker\mathcal N\rvert$。
+docs/week4-E2作戦_v1.md-271-
+docs/week4-E2作戦_v1.md-272-**route T(捻れ共役・常に可能)** — `twistedconjugacy` パッケージ:
+docs/week4-E2作戦_v1.md:273:1. `sigma_hom := GroupHomomorphismByImages(A, A, gens, images)`(位数 3 の自己同型として `IsBijective` を確認)。
+docs/week4-E2作戦_v1.md-274-2. $f_0$: (H-b′) の解を一つ。**cap 内なら $A$ 全走査、越えるなら** `RepresentativeTwistedConjugation`。
+docs/week4-E2作戦_v1.md:275:3. `S := TwistedConjugacyClass(sigma_hom, IdentityMapping(A), f0)` — パッケージの規約は $\mathrm{tc}(g,h) = \mathrm{hom}_1(h)^{-1}\,g\,\mathrm{hom}_2(h)$(`lib/twistedconjugation.gi` で確認済み)なので $\mathrm{hom}_1 = \sigma$、$\mathrm{hom}_2 = \mathrm{id}$ で $\sigma(a)^{-1}f a$ ✔。
+docs/week4-E2作戦_v1.md:276:4. `B := Filtered(A, f -> theta(f) = f^-1)`。
+docs/week4-E2作戦_v1.md-277-5. `intersection_size := Size(Filtered(AsList(S), f -> f in B))`。
+docs/week4-E2作戦_v1.md-278-
+docs/week4-E2作戦_v1.md-279-> **`routes_agree` を必須欄にする。** 不一致は**即停止**(数学ではなく実装の警報)。
+docs/week4-E2作戦_v1.md-280-> **$A$ 非可換($\mathrm{class}\ge5$)では route L が使えない** ⇒ その対象だけは route T 単系統になる。**そこは `single_route = true` を立てて記帳し、cross-checked と書かない。**(★ ここが本丸なのに単系統になる — 第二の照合器の設計は次便の課題として **P-新** に起票する。)
+--
+docs/week4-E2作戦_v1.md-283-
+docs/week4-E2作戦_v1.md-284-| # | fixture | 期待値(**事前登録**) | 出典 |
+docs/week4-E2作戦_v1.md-285-|---|---|---|---|
+docs/week4-E2作戦_v1.md-286-| **CT-1** | A5-CONV(定義ノート §1.5.4) | $\mathrm{ev}(yx^{-1}) = (1\,2\,4)$ | 定義ノート §1.5.4 |
+docs/week4-E2作戦_v1.md:287:| **CT-2** | $P_3$(位数 128・class 3・$A\cong C_2^3$)、$k = 4$ | 各 $m\in\{0,1,2,3\}$ で $\lvert\mathcal S_m\rvert = 4$、$\lvert\mathcal B_\theta\rvert = 4$、**$\lvert\mathcal S_m\cap\mathcal B_\theta\rvert = 2$**、解は $m=0,3$ で $\{1,pq\}$・$m=1,2$ で $\{w,wpq\}$、$E_m = (1,wp,wq,1)$ | **定理 H9**(v3 §1.7)+ 本稿 §4 の独立再現 |
+docs/week4-E2作戦_v1.md-288-| **CT-3** | $Q_8$($A = C_2$)、$P_2$($A = C_2$) | $m$-full | H6/H9 |
+docs/week4-E2作戦_v1.md:289:| **CT-4** | 共役の向き | $P_3$ で $\sigma$ を GAP 実装し、$\sigma^3 = \mathrm{id}$ と $\sigma(E_m) = E_m$ を確認 | §1.0 の注意(paper $a^g$ ↔ GAP `a^(g^-1)`) |
+docs/week4-E2作戦_v1.md-290-
+docs/week4-E2作戦_v1.md:291:**CT-2 を通らない実装で本番を撃たない。** これは全パイプライン(列挙 → marking → $\sigma,\theta$ → 二 route → 個数)を一度に検査する最良の fixture である。
+docs/week4-E2作戦_v1.md-292-
+docs/week4-E2作戦_v1.md-293-### 3.5 出力 schema `e2-sweep-cert/v1`
+docs/week4-E2作戦_v1.md-294-
+docs/week4-E2作戦_v1.md-295-```json
+--
+docs/week4-E2作戦_v1.md-312-  },
+docs/week4-E2作戦_v1.md-313-  "charming_set": [0,1,2,3],
+docs/week4-E2作戦_v1.md-314-  "per_m": [{
+docs/week4-E2作戦_v1.md-315-    "m": 0, "u": 1,
+docs/week4-E2作戦_v1.md:316:    "E_m": "<element_encoding>",
+docs/week4-E2作戦_v1.md:317:    "S_m_size": 4, "B_theta_size": 4,
+docs/week4-E2作戦_v1.md-318-    "intersection_size": 2,
+docs/week4-E2作戦_v1.md-319-    "generation_pass_count": 2,
+docs/week4-E2作戦_v1.md-320-    "frobenius_N_v_m": 12, "frobenius_zero": false,
+docs/week4-E2作戦_v1.md-321-    "pigeonhole_pass": false,
+--
+docs/week4-E2作戦_v1.md-341-> 逆に `intersection_size > 0` を書くときは **witness を直接代入で検証**する(肯定側は安い)。**肯定と否定で要求する証拠の型が違う**ことを schema で強制する。
+docs/week4-E2作戦_v1.md-342-
+docs/week4-E2作戦_v1.md-343-### 3.6 W54 遵守 — `m_missing` を **fake witness へ昇格**させる手順(相対化)
+docs/week4-E2作戦_v1.md-344-
+docs/week4-E2作戦_v1.md:345:委嘱は「$\mathcal S_m\cap\mathcal B_\theta = \varnothing$ の初例 = E2 型 fake の初発見」と書いたが、**W54 によりそれは直ちには fake ではない**。昇格には v4 §3.6 の必須 4 項が要る。本稿は**その具体的な取り方**を与える。
+docs/week4-E2作戦_v1.md-346-
+docs/week4-E2作戦_v1.md-347-> **昇格レシピ(E2 型・class ≥ 5 用).**
+docs/week4-E2作戦_v1.md-348-> $N$ で $m'$ が欠損したとする。**粗い対象 $K$ として $P_K := P/\gamma_4(P)$(class 3 への切り捨て)を取る。**
+docs/week4-E2作戦_v1.md:349:> 1. **粗い $K$ の具体的 shadow**: **定理 E9 により $P_K$ は $m$-full** なので、任意の charming $m_0$ に対し shadow $[m_0, f_K]$ が**明示的に**($f_K = w^{\lambda T_{m_0}}$ で)存在する。個数証明は E8 (iii) の $\lvert\ker(1+\theta)\cap\ker\mathcal N\rvert$ で閉じる。 ✔ **(第 1 項が無料で揃う)**
+docs/week4-E2作戦_v1.md-350-> 2. **$m_0$ の全 lift の欠落**: $m_0\bmod K_{\mathrm{ord}}$ を持つ $\mathcal X_N$ の**全ての** $m'$ について `intersection_size = 0` を示す。⇒ `m_missing` の**全数**が要る(1 個では足りない)。
+docs/week4-E2作戦_v1.md-351-> 3. **補題 H3 の仮定リスト**((O1)–(O3)・生成性・必要な isolated 性)を対象ごとに明示。
+docs/week4-E2作戦_v1.md-352-> 4. **W34 の完全 reduction 像**を計算。
+docs/week4-E2作戦_v1.md-353->
+--
+docs/week4-E2作戦_v1.md-369-
+docs/week4-E2作戦_v1.md-370-| 検査 | 結果 |
+docs/week4-E2作戦_v1.md-371-|---|---|
+docs/week4-E2作戦_v1.md-372-| $A = \gamma_2/\gamma_{D+1}$ が可換($D = 3, 4$) | **PASS** ✔ |
+docs/week4-E2作戦_v1.md:373:| $\theta(w) = w^{-1}$ が **$F_2$ の中で厳密** | **PASS** ✔($\theta(p) = q^{-1}$、$\theta(q) = p^{-1}$ も) |
+docs/week4-E2作戦_v1.md:374:| $\tau(w) = wp^{-1}$、$\tau(p) = q$、$\tau(q) = p^{-1}q^{-1}$、$\tau^3 = \mathrm{id}$ | **PASS** ✔ |
+docs/week4-E2作戦_v1.md:375:| $\sigma(w) = wq^mp^{-1}$、$\mathcal N\vert_{\gamma_3} = 0$($m = 0..6$) | **PASS** ✔ |
+docs/week4-E2作戦_v1.md-376-| $\kappa_m = w^3p^{-(m+2)}q^{m-1}$($m = 0..6$) | **PASS** ✔ |
+docs/week4-E2作戦_v1.md:377:| $E_m$ の閉形 $= w^{-\binom{m+1}2}p^{\binom{m+2}3}q^{-\binom{m+1}3}$($m = -3..8$) | **PASS** ✔ |
+docs/week4-E2作戦_v1.md:378:| **補題 E9.2**: $3E_m = -T_m\kappa_m$($m = 0..8$) | **PASS** ✔ |
+docs/week4-E2作戦_v1.md:379:| **$P_3$ の再現**: $E_m = (1, wp, wq, 1)$、各 $m$ に**解 2 個**、$m=0,3\Rightarrow\{1,pq\}$・$m=1,2\Rightarrow\{w,wpq\}$ | **PASS** ✔ — **定理 H9 の 8 元表と完全一致**(独立経路) |
+docs/week4-E2作戦_v1.md-380-| class 3・相対自由 $A = (\mathbb Z/2^j)^3$、$j = 1..6$、$m$ を $0..2^{j+1}-1$ で全走査 【**§F-1.2 注意**】 | **全 $m$ で可解** ✔(定理 E9 と一致)。**各解は直接代入で検証済み**なので、後に判明した `solve2adic.mjs` の欠陥(偽の欠損しか出さない)の影響を受けない |
+docs/week4-E2作戦_v1.md-381-| class 4・相対自由 $A = (\mathbb Z/2^j)^6$、$j = 1..4$($\exp A\le 16$)、$m$ 全走査 【**§F-1.2 注意**】 | **全 $m$ で可解** ✔(同上・witness 検証済み)。なお本行は**定理 E9′ により不要**になった(下 2 行が独立に閉じる) |
+docs/week4-E2作戦_v1.md-382-| **class 4・$\mathbb Q$ 上で解いて分母を検分**($m = 0..20$) | 解は $(T_m/3,\ -B_m/9,\ -B_m/9,\ 0,0,0)$ で **分母は 3 の冪のみ = 2-integral** ✔ ⇒ **全ての $j$ で mod $2^j$ 可解** |
+docs/week4-E2作戦_v1.md:383:| **定理 E9′ の閉形 witness を直接代入**($m = 0..20$・21 点) | $(1+\theta)\bar f = 0$ と $\mathcal N(\bar f) = E_m^{-1}$ が **21/21 で厳密成立** ✔(両辺 $m$ の次数 $\le 8$ ⇒ 恒等式) |
+docs/week4-E2作戦_v1.md:384:| $\theta$ が class 4 の基底上でも「反転して逆元」 | $\theta: w\mapsto w^{-1},\ p\mapsto q^{-1},\ q\mapsto p^{-1},\ r_1\mapsto r_3^{-1},\ r_2\mapsto r_2^{-1},\ r_3\mapsto r_1^{-1}$ ✔ |
+docs/week4-E2作戦_v1.md-385-
+docs/week4-E2作戦_v1.md-386-スクリプト: `scratchpad/class3.mjs`(構造定数と $P_3$ 再現)・`scratchpad/class4.mjs`(class 3/4 の brute force)・`scratchpad/rational4.mjs`($\mathbb Q$ 上の解と分母検分)・`scratchpad/witness4.mjs`(定理 E9′ の閉形直接検査)・`scratchpad/f1_witness.g`(**GAP・§F-1 の主判定器**)。**恒久化が要るなら司令塔経由で `search/` か `crosscheck/` へ移送**(本稿は数学的正本、スクリプトは検算用)。
+docs/week4-E2作戦_v1.md-387-
+docs/week4-E2作戦_v1.md-388-> ### ⚠ 回収時の警告 — `scratchpad/solve2adic.mjs` と `f1_metab5.mjs` は**欠陥あり・そのまま再利用しない**
+--
+docs/week4-E2作戦_v1.md-403-## 5. 未閉鎖項・要請・次の一手
+docs/week4-E2作戦_v1.md-404-
+docs/week4-E2作戦_v1.md-405-### 5.1 【GAP】
+docs/week4-E2作戦_v1.md-406-
+docs/week4-E2作戦_v1.md:407:- **【GAP-E13】(本丸・新設)**: class ≥ 5 での $\mathcal S_m\cap\mathcal B_\theta\ne\varnothing$ の判定。まず **metabelian class 5**(E8 が使える・F-1)、次に **$A$ 非可換**(E8 が使えない唯一の領域)。
+docs/week4-E2作戦_v1.md-408-- **【GAP-E12】(新設)**: 命題 E12 の絡作用素の正規化(= 具体的係数)。
+docs/week4-E2作戦_v1.md-409-- **【GAP-E15】(新設・最重要)**: **予想 E15**(2 群には E2 型障害が無い)の真偽。falsification 計画は §1.6。
+docs/week4-E2作戦_v1.md-410-- **【GAP-E2a/E2c】**: $A$ 非可換の領域でのみ継続。優先度は E13 の下。
+docs/week4-E2作戦_v1.md-411-- **【GAP-E2b】**: **恒久閉鎖**(観察 B1 — 吸収に成功しても Burkhart が空虚)。
+--
+docs/week4-E2作戦_v1.md-413-
+docs/week4-E2作戦_v1.md-414-### 5.2 【文献要請】
+docs/week4-E2作戦_v1.md-415-
+docs/week4-E2作戦_v1.md-416-> **【文献要請 6】(【GAP-E13】/【GAP-E15】)** — **ただし §1.6 の F-1 を先に撃ってから出すのが順序**として正しい(F-1 が落ちれば文献は不要、通れば要請の形が変わる)。
+docs/week4-E2作戦_v1.md:417:> **困難**: 有限**冪零**群 $A$(2 群)と、$\langle\sigma,\theta\rangle\cong S_3$ に近い二つの自己同型($\sigma$ が位数 3 の捻れ、$\theta$ が位数 2)について、
+docs/week4-E2作戦_v1.md:418:> $$ \mathcal S = \{\sigma(a)^{-1}f_0a : a\in A\}\ (\sigma\text{-捻れ共役類})\quad\text{と}\quad \mathcal B = \{f : \theta(f) = f^{-1}\} $$
+docs/week4-E2作戦_v1.md-419-> **の交わりの非空性**を判定する道具が欲しい。$A$ が可換なら線型代数で完全に決まる(本稿 E8)ので、**$A$ 非可換の場合のみ**が問題。
+docs/week4-E2作戦_v1.md-420-> **欲しい結果の型**: (i) 二つの捻れが**同時に**かかった数え上げの指標和公式(絡作用素の正規化つき — Reidemeister 数の理論の「二重捻れ」版)。(ii) $S_3$ が $A$ に作用するときの「$S_3$-捻れ Reidemeister 類」の理論。(iii) **交わりが空になる最小例**(そのものずばりの反例があれば掃引が要らなくなる)。
+docs/week4-E2作戦_v1.md-421-> **探す先の当たり**: 捻れ共役性(Reidemeister theory)の群論側 — Roman'kov、Bogopolski–Kudryavtseva–Lustig、Dekimpe–Tertooy(`twistedconjugacy` パッケージの背景文献)。冪零群の Reidemeister spectrum の文献。
+docs/week4-E2作戦_v1.md-422-> **★ 探さなくてよい方向(本稿で潰した)**: **Burkhart 型の非 coprime 不動点定理**。作用群 $\langle\rho\rangle$ が素数冪位数なので**原理的に空虚**(観察 B1)。この系統への追加投資は不要。
+docs/week4-E2作戦_v1.md-423-
+docs/week4-E2作戦_v1.md-424-> **【文献要請 7】(【GAP-E12】)**
+docs/week4-E2作戦_v1.md:425:> **困難**: 捻れ類和 $\rho(s_m)$、$\rho(b_\theta)$ の**絡作用素の正規化**。Kawanaka–Matsuyama の $\varepsilon_\theta(\chi)$ は $\theta$ 側の符号を与えるが、$\sigma$ 側(位数 3 の捻れ)の対応物と、両者の積のトレースの正規化が要る。
+docs/week4-E2作戦_v1.md-426-> **欲しい結果の型**: 位数 $n$ の自己同型に対する「$n$-捻れ Frobenius–Schur 指標」と、その捻れ類和への作用。Vinroot・Kawanaka–Matsuyama の一般化(位数 3 版)があるか。
+docs/week4-E2作戦_v1.md-427-
+docs/week4-E2作戦_v1.md-428-### 5.3 共同設計者(Sol)への発案要請
+docs/week4-E2作戦_v1.md-429-
+docs/week4-E2作戦_v1.md-430-1. **P-新 A**: class ≥ 5 の領域は route T(`twistedconjugacy`)の**単系統**になる(§3.3)。**第二の独立判定器**をどう作るか — 群環の直接畳み込み?置換表現での軌道計算?**本丸が単系統というのは工房の規律に反するので、設計を求めたい。**
+docs/week4-E2作戦_v1.md:431:2. **P-新 B**: 命題 E12 の選択則から、**$\mathrm{Irr}(A)^{\langle\sigma,\theta\rangle} = \{1\}$(自明指標のみ不変)なら $n_m$ が一意に決まる**はずである。この「$S_3$-不変既約指標が自明のみ」という条件を満たす 2 群は E2 障害を**持てない**か? もし言えれば class ≥ 5 の宇宙をさらに縮められる。
+docs/week4-E2作戦_v1.md-432-3. **P-新 C**: 観察 B1(素数冪位数の作用群では非 coprime 不動点定理が空虚)は、**Glauberman 系の道具全体**への一般的教訓ではないか。裁定 07 以来の「攻撃 B」の位置づけを、Sol の側からも独立に検分してほしい。
+docs/week4-E2作戦_v1.md:433:4. **P-新 D(最重要・監査要請)**: **予想 E15**(2 群には E2 型障害が無い)を独立に検分してほしい。特に (i) 定理 E9 / E9′ の証明(補題 E9.2 の「$A^\sigma\otimes\mathbb Q$ が 1 次元」と、class 4 の 2-integrality)、(ii) **撤回済み H8″ との論理的差**が私の主張どおりか、(iii) 「障害の唯一の素数は 3」という読みに一般的な理由($\tau$ の位数 3・自由 Lie 環の $C_3$-加群構造)を与えられるか。**もし E15 の一般証明が付けば、E2 正面は 2 群では閉じ、狩場は $3\mid\lvert A\rvert$ 側(Q7 型)へ全面移動する** — 週の戦略が変わる。
+docs/week4-E2作戦_v1.md-434-
+docs/week4-E2作戦_v1.md-435----
+docs/week4-E2作戦_v1.md-436-
+docs/week4-E2作戦_v1.md-437-## §F-1 — 予想 E15 の第一審判(2026-07-26・司令塔指示により即時実行)
+--
+docs/week4-E2作戦_v1.md-440-
+docs/week4-E2作戦_v1.md-441-| 項目 | 事前登録値 |
+docs/week4-E2作戦_v1.md-442-|---|---|
+docs/week4-E2作戦_v1.md-443-| **対象** | $P_5^{\mathrm m} := F_2/(\gamma_6[\gamma_2,\gamma_2])$ = **2 生成の相対自由 metabelian 群・class 5** |
+docs/week4-E2作戦_v1.md:444:| **加群** | $A := [P_5^{\mathrm m},P_5^{\mathrm m}] = \gamma_2/(\gamma_6[\gamma_2,\gamma_2]) = \mathbb Z^{12}/L$。$\gamma_2/\gamma_6$ の基底: wt2 $w=[x,y]$;wt3 $p=[w,x],q=[w,y]$;wt4 $r_1=[p,x],r_2=[p,y],r_3=[q,y]$;wt5 $s_1..s_6 = [r_i,x],[r_i,y]$。$L := \langle[w,p],[w,q]\rangle$ |
+docs/week4-E2作戦_v1.md:445:| **写像** | $\theta$($x\!\leftrightarrow\!y$)、$\tau$($x\!\to\!y\!\to\!z\!\to\!x$)、$\sigma_m = \mathrm{Ad}(Y^{-m})\circ\tau$、$\mathcal N = 1+\sigma+\sigma^2$、$E_m = X^mZ^mY^m$ |
+docs/week4-E2作戦_v1.md:446:| **問い** | 各 $m$ で $v\in A$ が存在して $(1+\theta)v = 0$ かつ $\mathcal Nv = -E_m$($A = \mathbb Z^{12}/L$ の中で)。実装は $L$ の係数を自由変数に持つ **24 式 16 未知数**の増補系 |
+docs/week4-E2作戦_v1.md-447-| **判定手続き(主)** | $\mathbb Z/2^j$($j = 1..5$)上の可解性、$m = 0..31$ |
+docs/week4-E2作戦_v1.md-448-| **「2-integral」の定義** | 解が $\mathbb Z_{(2)}$ に取れること。運用上は「全ての $j$ で mod $2^j$ 可解」 |
+docs/week4-E2作戦_v1.md-449-| **事前宣言した両方向の読み** | **全て可解** ⇒ E15 生存・metabelian class 5 は狩場でない・降下(命題 E10)で全ての許容 metabelian class-5 2 群対象が $m$-full。 **一つでも不可解** ⇒ E15 は普遍レベルで反証・**class 5 が生きた狩場**・障害ベクトルを出力。**ただし普遍レベルの不可解性は、具体的な有限許容対象での `m_missing` を直ちには与えない**(商へ降りると可解になり得る)— 掃引を局在化するだけで、置き換えはしない |
+docs/week4-E2作戦_v1.md-450-
+docs/week4-E2作戦_v1.md:451:**構造の自己検査(全て PASS)**: 12 基底の round-trip / $[w,p],[w,q]\in\gamma_5$ かつ $\mathbb Z$-独立 / $\theta^2 = \tau^3 = \mathrm{id}$ / $\theta(w) = w^{-1}$ 厳密 / **$L$ が $\theta$-不変かつ $\tau$-不変**(⇒ $\mathcal N,\theta$ が $A$ 上 well-defined)。
+docs/week4-E2作戦_v1.md-452-
+docs/week4-E2作戦_v1.md-453-### F-1.1 結果 — **E15 は生存**
+docs/week4-E2作戦_v1.md-454-
+docs/week4-E2作戦_v1.md-455-> **判定: 全ての $(j,m)$($j = 1,\dots,5$、$m = 0,\dots,31$、計 160 通り)で可解。**
+--
+docs/week4-E2作戦_v1.md-477-- **ただし E15 の証明はできていない**。class 3 / class 4 は**閉形 witness**($w^{\lambda T_m}(pq)^{-\lambda^2B_m}$)で閉じたが、**class 5 metabelian の解には見やすい閉形がない**(上の $v$ を見よ・$L$-slack も非零)。⇒ **証明には別の考えが要る**(下の P-新 E)。
+docs/week4-E2作戦_v1.md-478-- **次の安い一手(F-2 に差し替え提案)**: (i) metabelian class **6**($D = 6$ へ拡張)、(ii) **class 5 の完全版**($A = \gamma_2/\gamma_6$・非可換・階数 12)を route T 相当で直接計算。どちらも同じ Magnus 機構の拡張で、**GAP の SNF を主判定器**にすれば今回の落とし穴を避けられる。
+docs/week4-E2作戦_v1.md-479-
+docs/week4-E2作戦_v1.md-480-> **【GAP-E15】の更新**: **反証されず**。射程は「class ≤ 4 は証明済 / class 5 metabelian は $m\le31$・$\exp A\le32$ で **160/160 verified**」。**一般証明は未着手**。
+docs/week4-E2作戦_v1.md:481:> **P-新 E(Sol への発案要請・追加)**: class 3 は「$A^\sigma\otimes\mathbb Q$ が 1 次元」で閉じ、class 4 は閉形 witness で閉じ、class 5 metabelian は解が存在するが閉形が見えない。**$\mathbb Z[1/3]$ 上で常に解が存在することの一般的理由**(たとえば $H^1(C_3, -)$ の消滅と $\theta$-対称性の組み合わせ、あるいは $\langle\sigma,\theta\rangle\cong S_3$ の群コホモロジー的な消滅定理)を探してほしい。**これが見つかれば E15 は定理になり、E2 正面は 2 群では完全に閉じる。**
+docs/week4-E2作戦_v1.md-482-
+docs/week4-E2作戦_v1.md-483----
+docs/week4-E2作戦_v1.md-484-
+docs/week4-E2作戦_v1.md-485-## 付録 A — 任務 3: S1–S7 証明書の `isolated` 確定の数学的根拠文
+--
+docs/week3-狩場計画_v4.md-26-|---|---|---|---|---|
+docs/week3-狩場計画_v4.md-27-| **G-01** | 系 T2-A | 「Δ(2,3,2k) の全射 + S₃ マーク」と N の一対一 | **系 T2-A′ へ書き換え**(§2.2): `ord_Q(φ(b⁻¹a)) = 2k` を data に追加・**marked quotient の同型類**で述べる。W51 を規律に格上げ | A₅ 対象で `ord_Q(σ̄₁) = 10 = 2k`(k=5)を確認。さらに **2 の因子は自動**であることを新たに証明(§2.2 注意 2) |
+docs/week3-狩場計画_v4.md-28-| **G-02** | S₃ marking | 「a↦(12), b↦(123) が標準射」 | **「標準 braid 射影との同時共役」へ修文**(§2.4)。schema に記録欄(manifest `s3_marking`) | 標準規約は Δ↦(13), δ↦(123)。両者は **(123) による同時共役**であることを計算で確認 |
+docs/week3-狩場計画_v4.md-29-| **G-03** | 命題 E2 | 「ある σ_A が存在 ⟺ X^u ∈ C_P(A)」(必要十分) | **命題 E2′ へ弱化**(§3.2): canonical σ_A = σ⁻¹θ に対する同値のみ。**一般存在の必要性は UNKNOWN**(【GAP-E2c】新設)。理由 = λ 非 faithful・ker λ = Z(A)∩Fix(σ) | ker λ = Z(A)∩Fix(σ) を独立に再導出(§3.2 の証明後半)。σ_A² = ι_{X^{−u}}\|_A も新たに計算 |
+docs/week3-狩場計画_v4.md:30:| — | 系(F8) | 「class 3 にはほぼ届かない」 | **系 E2′-a**(§3.3): charming 下で **X^u ∈ C_P(A) ⟺ class(P) ≤ 2**(厳密な同値)。E3 は「**H6 の別証明**」へ再配置 | uv ≡ 1 (mod ord X) から X = (X^u)^v、θ(X) = Y、⟨X,Y⟩ = P で閉じることを確認 |
+docs/week3-狩場計画_v4.md-31-| **G-04** | fake 語彙 | 「`intersection_size = 0` は fake witness 候補」 | **`frobenius_zero` / `m_missing` と `fake_witness` を分離**(§3.6)。fake certificate の**必須 4 項**(F11)を明文化 | n_m ≤ N(v_m) は正しい(片側フィルタ)。fake が相対概念であることの反例構造(同じ m₀ mod K_ord の別 lift)を確認 |
+docs/week3-狩場計画_v4.md:32:| **G-05** | 生成判定 | `generation_pass`(boolean) | **`generation_pass_count`**(候補別欄)へ(§4.3・manifest)。torsion 判定(h10/h11)と生成判定を**別 certificate** に(F5/P70) | ⟨g,r⟩ = Q と shadow の生成性の同値は**未証明**(W52)。実装の正本は従来の ⟨X^u, (Y^u)^f⟩ = P |
+docs/week3-狩場計画_v4.md-33-| **G-06** | settled の量化 | `settled[m] = true` | **`known_solutions[i]`(exact (m,f) witness)形式**へ(§5.5・manifest)。`gt_count = UNKNOWN`・`{"relation":"ge","value":4}` | 一つの m に複数の f があり得るため `settled[m]` は isolated UNKNOWN と衝突する — 指摘は正しい |
+docs/week3-狩場計画_v4.md-34-| **G-07** | manifest | 7 段の情報が v2 §3.3 / v3 §5.3–5.5 に分散 | **`docs/week3-manifest_v1.md` に一元化**(F18 の 8 項目 + P83 機械可読 cap 欄) | 25200 = 48+1296+192+768+20736+360+1800 を再検算・一致 |
+docs/week3-狩場計画_v4.md-35-| **G-08** | A2→A1 | 「A1 の既知 4 解が持ち上がる」 | **補題 A2A1(F20 の全 shadow 集合全単射)へ差し替え**(§5.6)。W57・封印 payload 4 行を反映 | A₅ 完全 ⇒ f の C₅ 成分 1、A₅ と C₅ に共通商なし ⇒ 生成性、を独立に確認 |
+docs/week3-狩場計画_v4.md-36-| **G-09** | Guillot δ | 「δ は Out(Q₈) で位数 3」 | **位数 2 に訂正**(比較写像 v2 §6)。記号を **δ_B(B₃ 側・位数 3)/ d_G(Guillot 側・位数 2)**に分離(W55) | **スクリプトで確認**: d_G は Aut(Q₈) で位数 4、d_G² = Ad(j) ∈ Inn ⇒ **Out で位数 2**。τ = d_G∘θ は Out で位数 3 |
+--
+docs/week3-狩場計画_v4.md-61-> **定理 T2.**
+docs/week3-狩場計画_v4.md-62-> **(i)** Δ̄² = δ̄³ = 1、P ⊴ Q、Q/P ≅ S₃、**Q = ⟨Δ̄, δ̄⟩ は PSL(2,ℤ) ≅ C₂ * C₃ の有限商**。σ̄₁ = δ̄⁻¹Δ̄、σ̄₂ = Δ̄δ̄⁻¹。
+docs/week3-狩場計画_v4.md-63-> **(ii)** P 上で **θ = Ad(Δ̄)**、**τ = Ad(δ̄)**(Ad(g)(w) = gwg⁻¹)。
+docs/week3-狩場計画_v4.md-64-> **(iii)** f̄ ∈ A、h := Ȳ^m f̄ と置くと
+docs/week3-狩場計画_v4.md:65:> $$ (H\text{-a})\ \theta(\bar f)=\bar f^{-1} \iff (\bar\Delta \bar f)^2 = 1,\qquad
+docs/week3-狩場計画_v4.md:66:> (H\text{-b}')\ E_m\mathcal N_m(\bar f)=1 \iff (\bar\delta^{-1}\bar Y^m \bar f)^3 = 1. $$
+docs/week3-狩場計画_v4.md-67-> **(iv)** ord(σ̄₁) = ord(σ̄₂) = 2k。ゆえに **Q は三角群 Δ(2,3,2k) = ⟨a,b \| a² = b³ = (b⁻¹a)^{2k} = 1⟩ の有限商**。
+docs/week3-狩場計画_v4.md-68-
+docs/week3-狩場計画_v4.md-69-証明は v3 §2.1 のまま(土台は §1 末尾で閉鎖済み)。(iii) の第二式は便 07 F2 が独立に再導出した:h := Ȳ^m f̄ と置き δ̄⁻¹w = τ⁻¹(w)δ̄⁻¹ を三回使うと (δ̄⁻¹h)³ = τ⁻¹(h)τ⁻²(h)τ⁻³(h) = τ²(h)τ(h)h であり、これは簡約 hexagon (3.11) そのもの。**積の順序・逆元のずれはない**(便 07 の独立確認)。
+docs/week3-狩場計画_v4.md-70-
+--
+docs/week3-狩場計画_v4.md-104-**便 07 の修正(F5/P70/W52 — 厳守)**: v3 は「shadow であるためには生成性が要り、それは ⟨g,r⟩ = Q と**同値に近い**」と書いた。**「同値に近い」は実装の判定基準にしてよい根拠ではない。**
+docs/week3-狩場計画_v4.md-105-
+docs/week3-狩場計画_v4.md-106-> **実装規律(G-05)**: torsion 判定(系 T2-B)と生成判定は **別 certificate** に分ける。
+docs/week3-狩場計画_v4.md-107-> - torsion: `h10_fail` / `h11_fail`(排他的 staged count)。
+docs/week3-狩場計画_v4.md:108:> - 生成: **従来の marked generators test `⟨X^u, f⁻¹Y^u f⟩ = P` を正本**とし、`generation_pass_count`(候補別の欄。boolean 禁止 — 一つの m に複数解があり得る)で出す。
+docs/week3-狩場計画_v4.md-109-> - ⟨g,r⟩ = Q を正本判定に昇格するのは、**shadow の生成条件との同値を証明した後に限る**(W52)。それまでは**独立の観測欄** `torsion_generation_agrees`(参考値)として並走させてよい。
+docs/week3-狩場計画_v4.md-110-
+docs/week3-狩場計画_v4.md-111-### 2.4 S₃ marking の規約(**G-02**)
+docs/week3-狩場計画_v4.md-112-
+--
+docs/week3-狩場計画_v4.md-125-
+docs/week3-狩場計画_v4.md-126-### 3.1 命題 E1(**紙上補題・CLAIMS 搭載予定** — P72)
+docs/week3-狩場計画_v4.md-127-
+docs/week3-狩場計画_v4.md-128-> **命題 E1(紙上補題).** F₂ 上 **θτθ = ι_x ∘ τ⁻¹**(ι_g(w) := w^g = g⁻¹wg)。ゆえに A 上
+docs/week3-狩場計画_v4.md:129:> $$ \theta\,\sigma\,\theta^{-1} \;=\; \iota_{X^{u}}\circ\sigma^{-1},\qquad u = 2m+1. $$
+docs/week3-狩場計画_v4.md-130-
+docs/week3-狩場計画_v4.md:131:証明は v3 §3.2 のまま。便 07 F6 が独立に再導出し**合格**(θτθ(X) = Z^X, θτθ(Y) = X、σ = ι_{Y^m}τ, σ⁻¹ = ι_{X^{−m}}τ⁻¹ を代入して θσθ = ι_{X^{m+1}}τ⁻¹ = ι_{X^{2m+1}}σ⁻¹。右共役の合成順にも問題なし)。
+docs/week3-狩場計画_v4.md-132-
+docs/week3-狩場計画_v4.md-133-**札**: **紙上補題**(Opus 起草 + Sol 独立照合)。**CLAIMS へ candidate で起票する**(P72)。数値照合は A₅ で m = 0..4 の全 60 元(単系統)。**Lean 初弾候補**でもある(P87)。
+docs/week3-狩場計画_v4.md-134-
+docs/week3-狩場計画_v4.md-135-### 3.2 命題 E2′(**G-03 — 弱化した確定版**)
+docs/week3-狩場計画_v4.md-136-
+docs/week3-狩場計画_v4.md-137-v3 の命題 E2 は「**ある** σ_A ∈ Aut(A) が存在して ρ が同変 ⟺ X^u ∈ C_P(A)」という必要十分形だった。**掲載計算が証明したのは canonical candidate に対する同値だけ**である。以下が確定版。
+docs/week3-狩場計画_v4.md-138-
+docs/week3-狩場計画_v4.md-139-> **命題 E2′.** ρ(f) := θ(f)⁻¹、捻れ作用を λ(a)(f) := σ(a)⁻¹ f a と書く。**canonical candidate σ_A := σ⁻¹θ ∈ Aut(A)** について、
+docs/week3-狩場計画_v4.md:140:> $$ \rho\circ\lambda(a) = \lambda(\sigma_A(a))\circ\rho \quad(\forall a\in A) \iff X^{u}\in C_P(A). $$
+docs/week3-狩場計画_v4.md-141-> さらに **σ_A² = ι_{X^{−u}}\|_A** であり、上の条件下で **σ_A² = id**(逆も成立)。
+docs/week3-狩場計画_v4.md-142-
+docs/week3-狩場計画_v4.md-143-**証明.** ρ(λ(a)f) = θ(σ(a)⁻¹ f a)⁻¹ = θ(a)⁻¹·θ(f)⁻¹·θσ(a)。命題 E1 より θσ = ι_{X^u}σ⁻¹θ なので θσ(a) = X^{−u}σ⁻¹θ(a)X^{u}。c := σ_A(a) = σ⁻¹θ(a) と置けば θ(a) = σ(c) ゆえ
+docs/week3-狩場計画_v4.md:144:$$ \rho(\lambda(a)f) = \sigma(c)^{-1}\,\rho(f)\,X^{-u}cX^{u},\qquad \lambda(c)(\rho f) = \sigma(c)^{-1}\rho(f)c. $$
+docs/week3-狩場計画_v4.md-145-σ_A は全単射なので c は A 全体を走る。両者が全 c, f で一致 ⟺ 全 c ∈ A で [c, X^u] = 1 ⟺ **X^u ∈ C_P(A)** ✔。
+docs/week3-狩場計画_v4.md-146-σ_A² について: θ² = id より θσ⁻¹θ = (θσθ)⁻¹ = (ι_{X^u}σ⁻¹)⁻¹ = σ∘ι_{X^{−u}}、ゆえに σ_A² = σ⁻¹(θσ⁻¹θ) = σ⁻¹σ ι_{X^{−u}} = **ι_{X^{−u}}\|_A**。これが id ⟺ X^{−u} ∈ C_P(A) ⟺ X^u ∈ C_P(A) ✔。∎
+docs/week3-狩場計画_v4.md-147-
+docs/week3-狩場計画_v4.md-148-> **【GAP-E2c】(新設・UNKNOWN).** 「**何らかの** σ_A ∈ Aut(A) について ρ が λ-同変ならば X^u ∈ C_P(A)」という**必要性は証明されていない**。理由は λ が一般に faithful でないことである。実際、λ(a) = λ(a′) ⟺ a′a⁻¹ ∈ ker λ、かつ
+docs/week3-狩場計画_v4.md:149:> $$ \ker\lambda = Z(A)\cap\operatorname{Fix}(\sigma) $$
+docs/week3-狩場計画_v4.md-150-> である(σ(a)⁻¹fa = f を全 f で要求 ⟺ σ(a)^f = a を全 f ∈ A で要求。f = 1 から σ(a) = a、残りから a ∈ Z(A)。逆は明らか — **私の独立再導出**、便 07 F7 と一致)。
+docs/week3-狩場計画_v4.md-151-> ゆえに **canonical でない σ_A が同じ置換作用を与える可能性を排除できない**。この必要性は **UNKNOWN のまま残す**(W53)。
+docs/week3-狩場計画_v4.md-152-
+docs/week3-狩場計画_v4.md-153-★ **これは「Glauberman 路線が class 3 で不可能」という主張が**まだ言えない**ことを意味する。言えるのは §3.3 の系 — **canonical 路線は class ≤ 2 で尽きる** — までである。
+--
+docs/week3-狩場計画_v4.md-156-
+docs/week3-狩場計画_v4.md-157-> **系 E2′-a.** N を許容対象(c ∈ N)、m を charming(gcd(u, k) = 1、k = ord(X) = N_ord)とする。このとき
+docs/week3-狩場計画_v4.md-158-> $$ X^{u}\in C_P(A) \iff A = [P,P] \le Z(P) \iff \operatorname{class}(P)\le 2. $$
+docs/week3-狩場計画_v4.md-159-
+docs/week3-狩場計画_v4.md:160:**証明.** (⇒) charming より gcd(u, k) = 1 なので uv ≡ 1 (mod k) なる v が取れ、**X = (X^u)^v**。ゆえに X^u ∈ C_P(A) ⇒ X ∈ C_P(A)。A = [P,P] は特性部分群なので θ(A) = A、かつ θ(X) = Y ゆえ **Y ∈ C_P(A)**。P = ⟨X,Y⟩ より A ≤ Z(P)。(⇐) A ≤ Z(P) なら全ての元が A を中心化する。最後の同値は class の定義。∎
+docs/week3-狩場計画_v4.md-161-
+docs/week3-狩場計画_v4.md:162:> **系 E2′-a の帰結(E3 の再配置).** v3 の命題 E3(A 可換・\|A\| 奇・3∤\|A\|・X^u ∈ C_P(A)・θ(E_m) = E_m⁻¹ ⇒ 同時可解)は、系 E2′-a により**仮定が class ≤ 2 を強制する**。2 生成群が class ≤ 2 なら [P,P] = ⟨[X,Y]⟩ は中心巡回なので、**E3 は定理 H6 の別証明(coprime Glauberman 版)である**。新しい領域は開かない。
+docs/week3-狩場計画_v4.md-163-> **したがって E3 の位置づけを「新機構」から「H6 の別証明」へ変更する**(便 07 F8/F9・裁定 07)。E3 自身の証明(v3 §3.2)は便 07 F9 で合格しており、**A は仮定から既に可換なので Feit–Thompson を持ち出す必要はない**(F9 の簡素化を採用)。
+docs/week3-狩場計画_v4.md-164-
+docs/week3-狩場計画_v4.md-165-★ **正確な射程**: Glauberman 路線は「**canonical σ_A を使う限り** class 3 に**厳密に届かない**」。「およそ届かない」ではない。ただし **canonical でない σ_A の存在は UNKNOWN**(【GAP-E2c】)なので、「Glauberman 系の道具が class 3 で原理的に無力」とまでは**言えない**。この二段の区別を記帳に必ず残す。
+docs/week3-狩場計画_v4.md-166-
+--
+docs/week3-狩場計画_v4.md-271-
+docs/week3-狩場計画_v4.md-272-**掃引スペック(v3 §4.3 の確定版)**:
+docs/week3-狩場計画_v4.md-273-1. 宇宙は **系 T2-A′** の形で事前登録(k 固定 → Δ(2,3,2k) の有限商 → S₃ マーク → **exact order フィルタ**)。列挙前に k と \|P\| の上限を固定し、後から変えない。
+docs/week3-狩場計画_v4.md-274-2. class ≤ 2 は H6 で safe と記帳してよい。**3 ∤ \|[P,P]\| を理由に safe と落とすのは禁止**(W42)。
+docs/week3-狩場計画_v4.md:275:3. 各 m ∈ 𝒳_N で `S_m_size` / `B_theta_size` / `intersection_size` / **`generation_pass_count`**(G-05)を出す。
+docs/week3-狩場計画_v4.md-276-4. `derived_product_check`(W46)を交わり対象で必須。
+docs/week3-狩場計画_v4.md-277-5. `hexagon_free_certificate` は**排他的 staged count**(F16/W49): `candidate_total` / `h10_fail` / `h11_fail` / `generation_fail`、`shadow_total` は**導出値**。
+docs/week3-狩場計画_v4.md-278-6. **W34 の 3 点セット**は不変。cap 超過は UNKNOWN に倒す。
+docs/week3-狩場計画_v4.md-279-7. `frobenius_zero` / `m_missing` / `fake_witness` の分離(§3.6)を語彙として強制。
+--
+docs/week3-狩場計画_v4.md-287-## 5. A₅ の登録と較正バッテリー(確定)
+docs/week3-狩場計画_v4.md-288-
+docs/week3-狩場計画_v4.md-289-### 5.1 marking と 4 解(v3 §5.1 のまま・便 07 合格)
+docs/week3-狩場計画_v4.md-290-
+docs/week3-狩場計画_v4.md:291:A₅ 内で t = (1 2 3)、a = (1 4 5)、X := at⁻¹ = (1 3 2 4 5)、Y := tXt⁻¹、Z := t²Xt⁻²、s := tX³ = (1 4)(3 5)、θ_P = Ad(s)、τ_P = Ad(t)。**私の独立再検証(単系統)は v3 §5.1 の全 8 項目 PASS。**
+docs/week3-狩場計画_v4.md-292-
+docs/week3-狩場計画_v4.md-293-| m | u = 2m+1 | f | g_m f | α_{m,f} を実現する S₅ の元 | Out(A₅) 像 |
+docs/week3-狩場計画_v4.md-294-|---:|---:|---|---|---|---|
+docs/week3-狩場計画_v4.md-295-| 0 | 1 | 1 | (1 3 2) | () | 自明 |
+--
+docs/week3-狩場計画_v4.md-300-⇒ **これら 4 shadow は settled**(ker T = N_A)。**N_A 全体の isolated 性は UNKNOWN**(【GAP-E11】)。
+docs/week3-狩場計画_v4.md-301-
+docs/week3-狩場計画_v4.md-302-### 5.2 命題 A5-Q(便 07 合格 + G-02 の一行を追加)
+docs/week3-狩場計画_v4.md-303-
+docs/week3-狩場計画_v4.md:304:> **命題 A5-Q.** N_A := π⁻¹(ker q)(q: F₂ ↠ A₅, x ↦ X, y ↦ Y)について
+docs/week3-狩場計画_v4.md-305-> $$ Q := B_3/N_A \;\cong\; A_5\times S_3\quad(\text{位数 }360),\qquad \bar\Delta = (s, (1\,2)),\quad \bar\delta = (t, (1\,2\,3)). $$
+docs/week3-狩場計画_v4.md-306-> **(G-02 の一行)** ここで用いた S₃ 座標の marking は **標準 braid 射影と (123) による同時共役**である(§2.4)。PB₃ の核は同じなので kernel の同定は影響を受けない。
+docs/week3-狩場計画_v4.md-307-
+docs/week3-狩場計画_v4.md:308:証明は v3 §5.2(便 07 F17 が独立に合格判定)。**私の再検算(スクリプト)**: Δ̄² = δ̄³ = 1、braid 関係 σ̄₁σ̄₂σ̄₁ = σ̄₂σ̄₁σ̄₂、σ̄₁² = (X,1)、σ̄₂² = (Y,1)、ord(σ̄₁) = ord(σ̄₂) = **10 = 2k** ✔(系 T2-A′ の exact order 条件を満たす実例第 1 号)。
+docs/week3-狩場計画_v4.md-309-
+docs/week3-狩場計画_v4.md-310-### 5.3 宇宙の事前登録(A1・A2)
+docs/week3-狩場計画_v4.md-311-
+docs/week3-狩場計画_v4.md-312-| 段 | 対象 | marked 生成元の像 | \|PB₃:·\| | ord | derived | candidate | B₃ 点数 | c |
+docs/week3-狩場計画_v4.md-313-|---|---|---|---|---|---|---|---|---|
+docs/week3-狩場計画_v4.md:314:| **A1** | N_A | x↦X, y↦Y, **c↦1** | 60 | 5 | 60 | 240 | 360 | c ∈ N |
+docs/week3-狩場計画_v4.md:315:| **A2** | M_{A,5} = N_A ∩ N₅ | x↦(X,t²), y↦(Y,t²), **c↦(1,t)** | 300 | 5 | 60 | 240 | 1800 | **c ∉ M** |
+docs/week3-狩場計画_v4.md-316-
+docs/week3-狩場計画_v4.md-317-導出は v3 §5.3。**A2 の注意**: c ∉ M なので **簡約 hexagon の商内評価は使えない**(M₅ で判明した罠)。θ/τ を自由群の**語レベル**で適用してから φ で評価する。**さらに T2/T2-A′ は c ∈ N を仮定するので A2 には適用されない** — A2 の Q は PSL(2,ℤ) の商ではない(Δ̄² = c̄ は位数 5)。manifest の `triangle_marking` 欄は A2 で `not_applicable` とする(**本稿の追加注意**)。
+docs/week3-狩場計画_v4.md-318-
+docs/week3-狩場計画_v4.md-319-**Dih 外性**: \|PB₃:K⁽ⁿ⁾\| ≥ 108 かつ G_n は可解、A₅ は非可解 ⇒ N_A, M_{A,5} は Dih 外(自明)。
+--
+docs/week3-狩場計画_v4.md-321-### 5.4 較正バッテリー(7 段・25200 点・便 07 F18 合格)
+docs/week3-狩場計画_v4.md-322-
+docs/week3-狩場計画_v4.md-323-| 段 | 対象 | \|B₃:·\| | 機構 | 較正するもの | 反証機会 |
+docs/week3-狩場計画_v4.md-324-|---|---|---:|---|---|---|
+docs/week3-狩場計画_v4.md:325:| **1a** | N_Q(Q₈) | 48 | ① 2 群・**genus 対象** | E_m 表・(H-a) 空虚 | — |
+docs/week3-狩場計画_v4.md-326-| **1b** | M_Q = K⁽³⁾∩N_Q | 1296 | ② Goursat 交わり・③ 命題 C 公式の破れ(比 2) | 交わりの分解・derived 直積 | **[Q,Q] 実測**(W46) |
+docs/week3-狩場計画_v4.md-327-| **2a** | N₂ = N_{P₂} | 192 | ① verbal 塔(class 2) | T1a・H6 | 両表示一致(U-F7) |
+docs/week3-狩場計画_v4.md-328-| **2b** | N₃ = N_{P₃} | 768 | ① verbal 塔(class 3) | T1b・**H9**(8 元表) | **H9 の最大の反証機会** |
+docs/week3-狩場計画_v4.md-329-| **A1** | N_A(A₅) | 360 | ⑤ 非 verbal・非冪零・Q7・**完全群 P** | 4 解・m-full・settled | **Q7 型の初データ** |
+--
+docs/week1-定義ノート.md-73-> #### 規約 W-3(証明書 `f_word` の読み書き)
+docs/week1-定義ノート.md-74-> 証明書スキーマの `f_word = [[letter, exponent], ...]` は **paper 語の順序**で並べる。読み手は必ず W-2 の手続きで評価する。**書き手と読み手が別実装のときは §1.5.4 の適合テストを先に通すこと。**
+docs/week1-定義ノート.md-75->
+docs/week1-定義ノート.md-76-> #### 規約 W-4(判定式の積も paper 積)
+docs/week1-定義ノート.md:77:> 簡約 hexagon の $(sf)^2 = 1$、$(t^{-1}Y^m f)^3 = 1$、$\theta(f)f = 1$ 等の**すべての積は paper 積**である。GAP 実装では $(t^{-1}Y^m f)^3$ は `(f * Y^m * t^-1)^3` と書く。
+docs/week1-定義ノート.md-78-> **規約 W-1 は語の評価だけでなく、判定式そのものにも効く。**
+docs/week1-定義ノート.md-79->
+docs/week1-定義ノート.md-80-> **鈍感な式と敏感な式**:
+docs/week1-定義ノート.md:81:> - **(H-a) $(sf)^2 = 1$ は向きに鈍感**【**紙で閉鎖・便 11 F9**】。$s^2=1$ より $fs = s(sf)s$ ゆえ $(fs)^2 = s(sf)^2 s$、すなわち $(sf)^2 = 1 \iff (fs)^2 = 1$。同値に $\theta = \mathrm{Ad}(s)$ で書けば $f\theta(f) = 1 \iff \theta(f)f = 1 \iff \theta(f) = f^{-1}$。
+docs/week1-定義ノート.md-82-> - **(H-b′) $(t^{-1}Y^mf)^3 = 1$ は敏感**【**明示反例で閉鎖・便 11 F10**】。A1 の marking $t = (1\,2\,3)$、$Y = (1\,3\,4\,5\,2)$ で、受理 shadow の一つ $m = 1$、$f = (1\,5)(3\,4)$ を取ると
+docs/week1-定義ノート.md-83->   $$ \text{paper 積 } t^{-1}Yf = (2\,3\,5)\ (\text{位数 }3) \qquad\text{対}\qquad \text{反転しない積 } fYt^{-1} = (1\,3\,5\,2\,4)\ (\text{位数 }5). $$
+docs/week1-定義ノート.md-84->   **この反例は集計値 `12/20` に依存しない**(便 11 F10)。集計値そのものは **node 単系統 candidate**(W93)。
+docs/week1-定義ノート.md-85->
+--
+docs/week1-定義ノート.md-106-> **(b) 単一生成元の冪 $w = x^a$ または $y^a$ ⇒ 不可視.** $\iota(w) = w^{-1}$ ゆえ。**空語も含む。**
+docs/week1-定義ノート.md-107-> **(c) 偶発的一致(必要十分条件).** その語だけで $\ \mathrm{ev}(\iota w) = \mathrm{ev}(w)^{-1}\ $ が成り立つ場合も不可視。**本ノートが主張するのはこれだけである。**
+docs/week1-定義ノート.md-108-> > **⚠ 撤回済み(D3)**: 「$\mathrm{ev}(w)$ が対合」は盲点の十分条件では**ない**。**反例**: $P = S_3$、$x \mapsto (1\,2)$、$y \mapsto (1\,2\,3)$ で $\mathrm{ev}(xy) = (2\,3)$、$\mathrm{ev}^{\rm bad}(xy) = \mathrm{ev}(yx) = (1\,3)$ — **両方とも対合だが値が異なる**。
+docs/week1-定義ノート.md-109-> **(d) 過度な一般化の禁止.** 「$[P,P]$ が可換だから安全」とは**言えない**。理由(D4)は、$\iota$ が商 $P = F_2/N_{F_2}$ に降りるには $N_{F_2}$ の $\iota$-不変性が必要で、一般には保証されないこと。**盲点かどうかは対象ごと・語ごとに実測するしかない。**
+docs/week1-定義ノート.md:110:> > 例: class 2 の $P$ と交換子語 $w = xyx^{-1}y^{-1}$ では $\mathrm{ev}(\iota w) = [X^{-1},Y^{-1}] = [X,Y] = \mathrm{ev}(w)$ なので $\mathrm{ev}^{\mathrm{bad}}(w) = \mathrm{ev}(w)^{-1}$ — 不可視ではないが**符号だけ**の違いになり、$f \mapsto f^{-1}$ で閉じた判定条件((H-a) は $\theta(f) = f^{-1}$ ゆえまさにそう)では**やはり検出されない**。
+docs/week1-定義ノート.md-111-
+docs/week1-定義ノート.md-112-**バッテリーの実測**: A1($N_A$・$P = A_5$)は**最も頑健**で、20 語を規約を取り違えて再評価すると hexagon を満たし続けるのは **4 語だけ**(空語 ×2 = 盲点 (b)、$xxyxyy$ ×2 = 盲点 (c) が実測上成立)。**検出率 16/20**。理由は $P = A_5$ が非可換なばかりか **$[P,P] = P$(完全群)**なので (a)(d) の打ち消し機構がどちらも働かないこと。逆に**可換方向の段(1b)は非頑健**(司令塔の観測を正本とする。機構の候補は $[P,P]$ 可換 + 判定条件が $f \mapsto f^{-1}$ で閉じていること — **1b 対象での実測は未了**)。
+docs/week1-定義ノート.md-113-
+docs/week1-定義ノート.md-114-**規約が実際に効く場所(実装者への地図)**
+docs/week1-定義ノート.md-115-
+docs/week1-定義ノート.md-116-| 経路 | 規約が効くか | 根拠 |
+docs/week1-定義ノート.md-117-|---|---|---|
+docs/week1-定義ノート.md:118:| `evaluation_mode = quotient_ok`(c ∈ N)で f を群の元として直接扱う場合の**語の解析** | 効かない | 語を経由しないから。商上で $\theta,\tau$ を評価してよい |
+docs/week1-定義ノート.md-119-| 同じ段の **hexagon 判定式の積の向き** | **効く**(W-4) | (H-a) は鈍感だが **(H-b′) は敏感** |
+docs/week1-定義ノート.md:120:| **`evaluation_mode = word_level_required`(c ∉ N)の hexagon** | **決定的に効く** | $\theta,\tau$ を**自由群の語に文字置換として適用してから** $\varphi$ で評価するため(§2 の 2026-07-25 注記・`docs/命題_円分持ち上げ_v2.md` §2) |
+docs/week1-定義ノート.md-121-| **証明書 `f_word` の書き出し / 読み込み** | **常に効く** | 書き手と読み手が別実装なら不一致が起こる |
+docs/week1-定義ノート.md-122-| 下流の照合器・可視化・比較写像 | **常に効く** | 同上 |
+docs/week1-定義ノート.md-123-
+docs/week1-定義ノート.md-124-### 1.5.4 実装者への警告文と適合テスト(**発注書に必記**)
+--
+docs/week1-定義ノート.md-132-> 5. 規約を変更したくなったら、**変更せずに司令塔へ差し戻す**(全証明書のハッシュが変わるため)。
+docs/week1-定義ノート.md-133-
+docs/week1-定義ノート.md-134-> #### 適合テスト A5-CONV(**全実装必須**)
+docs/week1-定義ノート.md-135-> $A_5$ を fixture に使う(`certificates/A1.v2.json` の marking をそのまま採る)。
+docs/week1-定義ノート.md:136:> $$ t = (1\,2\,3),\quad a = (1\,4\,5),\quad X = a t^{-1} = (1\,3\,2\,4\,5),\quad Y = tXt^{-1} = (1\,3\,4\,5\,2),\quad s = tX^3 = (1\,4)(3\,5). $$
+docs/week1-定義ノート.md-137-> **主判定(3 行・便 09 F10 合格)**: paper 語 $\;y\,x^{-1}\;$ を評価して
+docs/week1-定義ノート.md:138:> $$ \mathrm{ev}(y x^{-1}) = (1\,2\,4) \quad(\text{GAP では } \texttt{X\^{}-1 * Y}) $$
+docs/week1-定義ノート.md-139-> を得ること。**$(2\,5\,3)$ が出たら規約が逆**である(それは $\mathrm{ev}^{\rm bad}$ の値)。
+docs/week1-定義ノート.md-140->
+docs/week1-定義ノート.md-141-> **補助判定(より強い・fixture 扱い)**: `A1.v2.json` の 20 語を自分の実装で評価し、hexagon $\;(sf)^2 = 1 \wedge (t^{-1}Y^m f)^3 = 1\;$(**paper 積**)を検査する。**20/20 なら正しい規約、4/20 なら逆順**(中間の値が出たら別のバグ)。
+docs/week1-定義ノート.md-142-> **【状態札】** この `20/20 対 4/20` は **node 単系統**の数値である(便 09 F10)。適合 fixture として使ってよいが、**GAP 側の独立再現までは cross-checked と書かない**。
+--
+docs/week4-E2作戦_v3.md-13-## 0. v2 → v3 の差分表(何が撤回され、何が生き残ったか)
+docs/week4-E2作戦_v3.md-14-
+docs/week4-E2作戦_v3.md-15-| v2 の主張 | 便 13 の裁定 | v3 での処置 | 本稿 |
+docs/week4-E2作戦_v3.md-16-|---|---|---|---|
+docs/week4-E2作戦_v3.md:17:| Lemma A(§1.2)の $\sigma^2(p+q)$ の中間式 | 誤植(最終値は正しい) | **訂正して再掲**。Lemma A・Lemma B・(†) は **paper mutual-audit PASS / candidate** へ昇格 | §1 |
+docs/week4-E2作戦_v3.md:18:| 命題 E16(定理文「$\theta(A^\sigma)=A^\sigma$ ならば」) | **FAIL**(必要方向が出ない・Sol の反例) | **定理文を差し替え**(仮定 $= e\theta=\theta e$)。**十分方向は無仮定で成立**。系 E16-a(class $\le2$)は保持 | §2 |
+docs/week4-E2作戦_v3.md:19:| 補題 E16.1 の「$\theta(A^\sigma)$ 安定 $=\iota\vert_A=1$」 | 誤り | **等号を包含へ訂正**($\iff\iota\vert_{A^\sigma}=\mathrm{id}$) | §2.2 |
+docs/week4-E2作戦_v3.md-20-| 補題 E18.2 の証明語句(「単純加群は $R$ のみ」「$\mathbb Z_2[C_2]$-自由」) | 結論 PASS・語句 FAIL | **Morita + normal integral basis + induced** で書き直し | §3 |
+docs/week4-E2作戦_v3.md:21:| 定理 E18 の障害群 $O_j=(1+\bar\theta)M_j^+$ | **FAIL**(像であって cokernel でない) | **撤回**。$\boxed{C_j=(M_j^{\bar\sigma})^{\bar\theta}}$ へ再定式化。★「$\sigma$-非自明部は induced ゆえ障害を出さない」は**成果として保持** | §4 |
+docs/week4-E2作戦_v3.md:22:| 「$O_j=0\iff$ 自明表現なし」を有限層の判定に使う | **FAIL**(位数 2 元上で $-1=+1$) | **撤回**し、さらに強い形へ: 有限 2 群では $C_j=0\iff M_j^{\bar\sigma}=0$(§4.3・本稿の追加) | §4.3 |
+docs/week4-E2作戦_v3.md-23-| weight 5 初出(表 1) | 有理表現論として PASS | **射程を限定して保持**(有理係数の主張・E9/E9′ の再証明ではない) | §5 |
+docs/week4-E2作戦_v3.md-24-| 定理 E19($c\le7$, $m\le63$) | 単系統 candidate のまま | 札を `Z2-solvable candidate (single system, statically audited)` に固定。二系統化は別紙 | §6.1 |
+docs/week4-E2作戦_v3.md-25-| 系 E19-b(mod 8 周期性 $\Rightarrow$ 全 $m$) | **FAIL** | **撤回**。代わりに **命題 E19-b′(小行列式の次数による有限判定)を新設し、$c\le6$ については全 $m\in\mathbb Z$ で実際に閉じた** | §6.2 |
+docs/week4-E2作戦_v3.md-26-| 「素数 2 は完全に落ちた」 | 射程超過 | **撤回**($c\le5$ に限る・§6.3 が正しい射程) | §6.3 |
+--
+docs/week4-E2作戦_v3.md-36-## 1. Errata 1 の反映 — Lemma A の中間式(便 13 F1)
+docs/week4-E2作戦_v3.md-37-
+docs/week4-E2作戦_v3.md-38-v2 §1.2 の
+docs/week4-E2作戦_v3.md-39-
+docs/week4-E2作戦_v3.md:40:$$ \sigma^2(p+q) \;=\; -q + r_1 + (1+m)r_2 + (2+m)r_3 \qquad\text{(v2・誤り)} $$
+docs/week4-E2作戦_v3.md-41-
+docs/week4-E2作戦_v3.md:42:は、第一項 $-\sigma(p) = -q+r_2-mr_3$ の中心座標を落としている。正しい計算を再掲する(独立に再展開して Sol と一致):
+docs/week4-E2作戦_v3.md-43-
+docs/week4-E2作戦_v3.md:44:$$ \sigma(p+q) = (q-r_2+mr_3) + \bigl(-p-q+2r_1+(2-m)r_2+(1-m)r_3\bigr) = -p+2r_1+(1-m)r_2+r_3. $$
+docs/week4-E2作戦_v3.md-45-$$
+docs/week4-E2作戦_v3.md-46-\begin{aligned}
+docs/week4-E2作戦_v3.md:47:\sigma^2(p+q)
+docs/week4-E2作戦_v3.md:48:&= -\sigma(p) + 2\sigma(r_1) + (1-m)\sigma(r_2) + \sigma(r_3)\\
+docs/week4-E2作戦_v3.md:49:&= (-q+r_2-mr_3) + 2r_3 + (1-m)(-r_2-r_3) + (r_1+2r_2+r_3)\\
+docs/week4-E2作戦_v3.md:50:&= \boxed{\,-q + r_1 + (m+2)r_2 + 2r_3\,}.
+docs/week4-E2作戦_v3.md-51-\end{aligned}
+docs/week4-E2作戦_v3.md-52-$$
+docs/week4-E2作戦_v3.md-53-
+docs/week4-E2作戦_v3.md-54-総和は $p,q$ が相殺して
+docs/week4-E2作戦_v3.md:55:$$ \mathcal N(p+q) = (2+1)r_1 + \bigl((1-m)+(m+2)\bigr)r_2 + (1+2)r_3 = 3\rho . $$
+docs/week4-E2作戦_v3.md-56-
+docs/week4-E2作戦_v3.md-57-v2 の最終行はすでに正しい係数 $(m+2,\,2)$ を用いていたので、**Lemma A の結論は無傷**である。
+docs/week4-E2作戦_v3.md-58-
+docs/week4-E2作戦_v3.md:59:> **状態札の更新(便 13 F1–F3・裁定 13 §1)**: Lemma A・Lemma B・**中心恒等式 (†)** $\mathcal N(f_0)=-9E_m$ ・定理 E9′ は
+docs/week4-E2作戦_v3.md-60-> $$ \texttt{paper mutual-audit PASS / candidate} $$
+docs/week4-E2作戦_v3.md-61-> へ昇格する(Sol が構造定数・$w$ 座標・Magnus の $\xi^2\eta^2$ 係数を独立に追い、script に依存せず閉じることを確認)。**verified(Lean)ではない。** 便 12 W98 の単系統保留は解除。
+docs/week4-E2作戦_v3.md-62-
+docs/week4-E2作戦_v3.md-63----
+--
+docs/week4-E2作戦_v3.md-65-## 2. 命題 E16 — 正しい定理文(便 13 F4)
+docs/week4-E2作戦_v3.md-66-
+docs/week4-E2作戦_v3.md-67-### 2.1 Sol の反例の独立検証(FAIL の追認)
+docs/week4-E2作戦_v3.md-68-
+docs/week4-E2作戦_v3.md:69:Sol の抽象反例を自分で検算した。$A=C_4\oplus C_4^2$、$\sigma(a,x)=(a,Sx)$、$S=\begin{pmatrix}0&-1\\1&-1\end{pmatrix}$。
+docs/week4-E2作戦_v3.md-70-
+docs/week4-E2作戦_v3.md:71:- $S^2=-S-1$ ゆえ $S^3=1$、$1+S+S^2=0$。$\det(S-1)=3\in(\mathbb Z/4)^\times$ ゆえ $\ker(S-1)=0$、したがって $A^\sigma=C_4\oplus0$。
+docs/week4-E2作戦_v3.md:72:- $\varphi(x_1,x_2)=x_1$、$\theta(a,x)=(a+\varphi(x),-x)$。$\varphi$ は線型なので $\theta^2=\mathrm{id}$、かつ $\theta(a,0)=(a,0)$ ゆえ $\theta(A^\sigma)=A^\sigma$。
+docs/week4-E2作戦_v3.md:73:- $\mathcal N(a,x)=(3a,0)$、$3\in(\mathbb Z/4)^\times$ ゆえ $\ker\mathcal N=0\oplus C_4^2$。$\theta(0,x)=(\varphi(x),-x)\notin\ker\mathcal N$($\varphi(x)\ne0$ のとき)⇒ **$\ker\mathcal N$ は $\theta$-安定でない**。
+docs/week4-E2作戦_v3.md:74:- $x=(2,0)$、$b=(1,x)$: $\theta(b)=(1+2,(2,0))=(3,(2,0))=-b$ ✓、$\mathcal N(b)=(3,0)$。$E:=-\mathcal N(b)=(1,0)\in A^\sigma$。
+docs/week4-E2作戦_v3.md:75:- ゆえに $(\ast)$ は**成立**するが $\theta(E)=(1,0)=E\ne-E=(3,0)$。∎
+docs/week4-E2作戦_v3.md-76-
+docs/week4-E2作戦_v3.md:77:**Sol の指摘は正しい。v2 の命題 E16 の定理文は FAIL。** v2 の証明が実際に使っているのは「$\theta(A_+)=A_+$ **かつ** $\theta(A_-)=A_-$」であり、これは $\theta(A^\sigma)=A^\sigma$ からは出ない。
+docs/week4-E2作戦_v3.md-78-
+docs/week4-E2作戦_v3.md-79-### 2.2 補題 E16.1 の訂正
+docs/week4-E2作戦_v3.md-80-
+docs/week4-E2作戦_v3.md:81:> **補題 E16.1(訂正版).** 命題 E1 $\ \theta\sigma\theta=\iota_{X^u}\sigma^{-1}$($\iota:=\iota_{X^u}\vert_A$)より、$a\in A^\sigma$ に対し $\sigma(\theta a)=\theta(\iota a)$。したがって
+docs/week4-E2作戦_v3.md:82:> $$ \theta(A^\sigma)\subseteq A^\sigma \iff \iota\vert_{A^\sigma}=\mathrm{id} \iff A^\sigma\subseteq C_A(X^u). $$
+docs/week4-E2作戦_v3.md-83-> **$\iota\vert_A=\mathrm{id}$ は十分条件にすぎない**(v2 D3 の「$=$」は誤り)。
+docs/week4-E2作戦_v3.md-84-
+docs/week4-E2作戦_v3.md:85:**証明.** $\theta\sigma\theta=\iota\sigma^{-1}$ の両辺に右から $\theta$ を掛けて $\sigma\theta=\theta\iota\sigma^{-1}$。$a\in A^\sigma$ なら $\sigma^{-1}a=a$ なので $\sigma(\theta a)=\theta(\iota a)$。よって $\theta a\in A^\sigma\iff\theta(\iota a)=\theta(a)\iff\iota a=a$。∎
+docs/week4-E2作戦_v3.md-86-
+docs/week4-E2作戦_v3.md-87-### 2.3 命題 E16(v3・正しい定理文)
+docs/week4-E2作戦_v3.md-88-
+docs/week4-E2作戦_v3.md:89:> **命題 E16 (v3).** $A$ 有限可換 2 群、$\sigma^3=\mathrm{id}$、$\theta^2=\mathrm{id}$、$E_m\in A^\sigma$、$\lambda:=3^{-1}\bmod\exp A$、$e:=\lambda\mathcal N$。
+docs/week4-E2作戦_v3.md:90:> **(i) 十分方向(無仮定)**: $\theta(E_m)=E_m^{-1}$ ならば $(\ast)$ が成立する。
+docs/week4-E2作戦_v3.md:91:> **(ii) 必要方向(要仮定)**: $\ \mathcal N\theta=\theta\mathcal N$(同値: $e\theta=\theta e$、同値: $\theta(A_+)=A_+$ かつ $\theta(A_-)=A_-$)を仮定すると、$(\ast)\Rightarrow\theta(E_m)=E_m^{-1}$。
+docs/week4-E2作戦_v3.md:92:> したがってこの仮定の下でのみ $(\ast)\iff\theta(E_m)=E_m^{-1}$。
+docs/week4-E2作戦_v3.md-93-
+docs/week4-E2作戦_v3.md-94-**証明.**
+docs/week4-E2作戦_v3.md:95:**(i)** $b:=-\lambda E_m$ と置く。$E_m\in A^\sigma$ ゆえ $\mathcal N(b)=-\lambda\cdot3E_m=-E_m$。また $(1+\theta)b=-\lambda(E_m+\theta E_m)=-\lambda(E_m-E_m)=0$。ゆえに $b\in\ker(1+\theta)$ かつ $\mathcal N(b)=-E_m$、すなわち $-E_m\in\mathcal N(\ker(1+\theta))$。補題 E15.0 より $(\ast)$。$\theta$ に関する仮定は一切使っていない。∎
+docs/week4-E2作戦_v3.md:96:**(ii)** $\theta\mathcal N=\mathcal N\theta$ なら $\theta(A_+)=A_+$、$\theta(A_-)=A_-$、したがって
+docs/week4-E2作戦_v3.md:97:$$ \ker(1+\theta)=\bigl(\ker(1+\theta)\cap A_+\bigr)\oplus\bigl(\ker(1+\theta)\cap A_-\bigr),\qquad
+docs/week4-E2作戦_v3.md:98:\mathcal N\bigl(\ker(1+\theta)\bigr)=3\bigl(\ker(1+\theta)\cap A_+\bigr)=\ker(1+\theta)\cap A_+ $$
+docs/week4-E2作戦_v3.md:99:($3$ が $A$ 上可逆)。$E_m\in A_+$ ゆえ $-E_m\in\mathcal N(\ker(1+\theta))\iff(1+\theta)E_m=0$。∎
+docs/week4-E2作戦_v3.md-100-
+docs/week4-E2作戦_v3.md:101:> **補題 E16.2(仮定の書き下し).** $\psi:=\iota\sigma^{-1}$ と置くと $\theta\mathcal N\theta=1+\psi+\psi^2$。したがって
+docs/week4-E2作戦_v3.md:102:> $$ \mathcal N\theta=\theta\mathcal N \iff \iota\sigma^{-1}+(\iota\sigma^{-1})^2=\sigma+\sigma^2 \quad\text{on }A. $$
+docs/week4-E2作戦_v3.md-103-> 特に $\iota\vert_A=\mathrm{id}$(厳密 $S_3$)なら成立する。
+docs/week4-E2作戦_v3.md-104-
+docs/week4-E2作戦_v3.md:105:**証明.** $\theta\sigma\theta=\psi$、$\theta\sigma^2\theta=(\theta\sigma\theta)^2=\psi^2$。$\theta^2=1$ より $\theta\mathcal N\theta=1+\psi+\psi^2$、これが $\mathcal N$ に等しいことと $\mathcal N\theta=\theta\mathcal N$ は同値。∎
+docs/week4-E2作戦_v3.md-106-
+docs/week4-E2作戦_v3.md:107:> **系 E16-a(生存・変更なし).** $\mathrm{class}(P)\le2$ なら系 E2′-a より $\iota\vert_A=\mathrm{id}$、補題 E16.2 より命題 E16 の仮定が成立。さらに $A=\langle w\rangle$、$E_m=w^{-T_m}$、$\theta(w)=w^{-1}$ ゆえ $\theta(E_m)=E_m^{-1}$。したがって $(\ast)$。∎
+docs/week4-E2作戦_v3.md-108-> (なお (i) が無仮定なので、**class $\le2$ の結論は命題 E16 の仮定を経由せずとも出る**。)
+docs/week4-E2作戦_v3.md-109-
+docs/week4-E2作戦_v3.md:110:> **【GAP-E16】(v3 で鋭化).** class $\ge3$ の許容対象で $\mathcal N\theta=\theta\mathcal N$(補題 E16.2 の等式)が成立し得るか。v2 は「$\theta(A^\sigma)$ が安定か」を問うていたが、**それでは足りない**ことが §2.1 で判明した。正しい問いは上の等式である。**UNKNOWN。**
+docs/week4-E2作戦_v3.md-111-
+docs/week4-E2作戦_v3.md-112----
+docs/week4-E2作戦_v3.md-113-
+docs/week4-E2作戦_v3.md-114-## 3. 補題 E18.2 の証明語句の修復(便 13 F5)
+docs/week4-E2作戦_v3.md-115-
+docs/week4-E2作戦_v3.md:116:> **補題 E18.2(v3).** $M$ を有限 2-primary $\mathbb Z_2$-加群、$\bar\sigma$ が $M$ 上 $1+\bar\sigma+\bar\sigma^2=0$ を満たし、$\bar\theta\bar\sigma\bar\theta=\bar\sigma^{-1}$、$\bar\theta^2=1$ とする。このとき $\widehat H^*(\langle\bar\theta\rangle,M)=0$、すなわち
+docs/week4-E2作戦_v3.md:117:> $$ \ker(1+\bar\theta)=(1-\bar\theta)M,\qquad \ker(1-\bar\theta)=M^{\bar\theta}=(1+\bar\theta)M. $$
+docs/week4-E2作戦_v3.md-118-
+docs/week4-E2作戦_v3.md:119:**証明(語句を修復した版).** $M$ の指数を $2^e$ とし $R_e:=(\mathbb Z/2^e)[\omega]=(\mathbb Z/2^e)[X]/(X^2+X+1)$ と置く。$1+\bar\sigma+\bar\sigma^2=0$ より $M$ は $R_e$-加群であり、$\bar\theta\bar\sigma\bar\theta=\bar\sigma^{-1}$ は $\bar\theta$ が $R_e/(\mathbb Z/2^e)$ の Galois 群(Frobenius $\omega\mapsto\omega^2$)に沿って**半線型**であることを意味する。$\mathbb Z_2\subseteq\mathbb Z_2[\omega]$ は**不分岐**なので、この Galois 拡大の crossed product は
+docs/week4-E2作戦_v3.md:120:$$ R_e\#\langle\bar\theta\rangle \;\cong\; \mathrm{End}_{\mathbb Z/2^e}(R_e)\;\cong\;M_2(\mathbb Z/2^e) $$
+docs/week4-E2作戦_v3.md:121:であり(Galois 降下 / Wedderburn の crossed product 定理の可換環版)、この環は $R_e$ と **Morita 同値**である。したがって任意の $R_e\#\langle\bar\theta\rangle$-加群は
+docs/week4-E2作戦_v3.md:122:$$ M\;\cong\;R_e\otimes_{\mathbb Z/2^e}N,\qquad N:=\mathrm{Hom}_{R_e\#\bar\theta}(R_e,M) $$
+docs/week4-E2作戦_v3.md:123:の形をもつ。一方、不分岐拡大には**正規整基底**があるので、$C_2=\langle\bar\theta\rangle$-加群として $R_e\cong(\mathbb Z/2^e)[C_2]$、したがって $M\cong(\mathbb Z/2^e)[C_2]\otimes_{\mathbb Z/2^e}N$ は $C_2$ から **induced** な加群である。induced 加群の Tate コホモロジーは消える(Shapiro)。∎
+docs/week4-E2作戦_v3.md-124-
+docs/week4-E2作戦_v3.md-125-> **v2 からの訂正(便 13 F5 / Errata 4)**: v2 の「行列環 $M_2(\mathbb Z_2)$ の単純加群は $R$ のみ」「任意の加群は $\mathbb Z_2[C_2]$-**自由**」は誤り($M_2(\mathbb Z_2)$ は半単純でなく、有限 torsion 加群は $\mathbb Z_2[C_2]$-自由でない)。**必要なのは free ではなく induced** である。結論は変わらない。
+docs/week4-E2作戦_v3.md-126-
+docs/week4-E2作戦_v3.md-127----
+docs/week4-E2作戦_v3.md-128-
+docs/week4-E2作戦_v3.md:129:## 4. 定理 E18 の再定式化 — 障害群は $C_j=(M_j^{\bar\sigma})^{\bar\theta}$(便 13 F6・裁定 13 §2)
+docs/week4-E2作戦_v3.md-130-
+docs/week4-E2作戦_v3.md-131-### 4.1 設定と補題 E18.1(変更なし)
+docs/week4-E2作戦_v3.md-132-
+docs/week4-E2作戦_v3.md-133-$P$ 2 生成有限 2 群、$A=[P,P]$ 可換、$\gamma_j:=\gamma_j(P)$、$M_j:=\gamma_j/\gamma_{j+1}$。
+docs/week4-E2作戦_v3.md-134-
+docs/week4-E2作戦_v3.md:135:> **補題 E18.1(PASS・再掲).** 任意の $g\in P$ について $(\iota_g-1)\gamma_j=[\gamma_j,g]\subseteq\gamma_{j+1}$。ゆえに $\iota_{X^u}$ と $\mathrm{Ad}(\bar Y^m)$ は $M_j$ 上恒等に作用し、$M_j$ 上では $\bar\theta\bar\sigma\bar\theta=\bar\sigma^{-1}$、$\bar\theta^2=\bar\sigma^3=1$ — **$\langle\bar\sigma,\bar\theta\rangle$ は真に $S_3$ を通す**。
+docs/week4-E2作戦_v3.md-136-
+docs/week4-E2作戦_v3.md:137:$3$ は $M_j$ 上可逆なので $M_j=M_j^+\oplus M_j^-$、$M_j^+:=M_j^{\bar\sigma}$、$M_j^-:=\ker\bar{\mathcal N}$、この分解は $\bar\theta$-安定($\bar\theta\bar{\mathcal N}\bar\theta=\bar{\mathcal N}$)。
+docs/week4-E2作戦_v3.md-138-
+docs/week4-E2作戦_v3.md-139-### 4.2 定理 E18(v3・正しい局所 cokernel)
+docs/week4-E2作戦_v3.md-140-
+docs/week4-E2作戦_v3.md:141:> **定理 E18 (v3).** 重み $j$ の段で、現在の $(1+\theta)$-欠損 $\varepsilon$ と $\mathcal N$-欠損 $\delta$ を補正 $g\in M_j$ で消す問題を考える。目標群は
+docs/week4-E2作戦_v3.md:142:> $$ T_j:=M_j^{\bar\theta}\oplus M_j^{+}\qquad(\varepsilon\in M_j^{\bar\theta}\text{ は自動、}\delta\in M_j^{+}\text{ も自動}) $$
+docs/week4-E2作戦_v3.md:143:> であり、$\Psi_j:M_j\to T_j$、$g\mapsto\bigl((1+\bar\theta)g,\ \bar{\mathcal N}g\bigr)$ に対し
+docs/week4-E2作戦_v3.md:144:> $$ \boxed{\ \operatorname{coker}\Psi_j\;\cong\;C_j:=(M_j^{\bar\sigma})^{\bar\theta}\ } $$
+docs/week4-E2作戦_v3.md-145-> であり、$(\varepsilon,\delta)$ の**障害元**は
+docs/week4-E2作戦_v3.md:146:> $$ \boxed{\ \mathrm{ob}_j(\varepsilon,\delta)\;=\;\varepsilon_+-\lambda(1+\bar\theta)\delta\;\in\;C_j\ }\qquad(\lambda=3^{-1}) $$
+docs/week4-E2作戦_v3.md-147-> である。**$M_j^-$ 成分は補題 E18.2 により常に解消される** — これが graded 解析の正味の成果である。
+docs/week4-E2作戦_v3.md-148-
+docs/week4-E2作戦_v3.md-149-**証明(独立に再構成し Sol と一致).** $g=g_++g_-$ と分けると $\bar{\mathcal N}g=3g_+$ なので、第二成分の一致は $g_+=\lambda\delta$ を**強制**する。すると
+docs/week4-E2作戦_v3.md:150:$$ (1+\bar\theta)g=\underbrace{\lambda(1+\bar\theta)\delta}_{\in M_j^+}+\underbrace{(1+\bar\theta)g_-}_{\in M_j^-}. $$
+docs/week4-E2作戦_v3.md:151:$\varepsilon\in M_j^{\bar\theta}$ を $\varepsilon_++\varepsilon_-$ と分けると $\varepsilon_\pm\in(M_j^\pm)^{\bar\theta}$。よって
+docs/week4-E2作戦_v3.md:152:- $M_j^-$ 成分: $\varepsilon_-\in(1+\bar\theta)M_j^-$ が必要十分。補題 E18.2 より $(M_j^-)^{\bar\theta}=(1+\bar\theta)M_j^-$ なので**常に成立**。
+docs/week4-E2作戦_v3.md:153:- $M_j^+$ 成分: $\varepsilon_+=\lambda(1+\bar\theta)\delta$ が必要十分。
+docs/week4-E2作戦_v3.md-154-
+docs/week4-E2作戦_v3.md:155:したがって $\Phi:T_j\to(M_j^+)^{\bar\theta}$、$(\varepsilon,\delta)\mapsto\varepsilon_+-\lambda(1+\bar\theta)\delta$ は well-defined($(1+\bar\theta)\delta$ は $\bar\theta$-固定)、$\ker\Phi=\operatorname{im}\Psi_j$、かつ $\Phi(h,0)=h$ ゆえ全射。∎
+docs/week4-E2作戦_v3.md-156-
+docs/week4-E2作戦_v3.md:157:> **v2 の $O_j$ が誤りである最小反例(Sol F6・独立に検算).** $M=C_2$、$\bar\sigma=1$、$\bar\theta=1$($=-1$)。$M^+=M$、$M^-=0$。v2 の $O=(1+\bar\theta)M=2M=0$ だが、$(\varepsilon,\delta)=(1,0)$ は $g_+=\lambda\cdot0=0$ を強制し $(1+\bar\theta)g=0\ne1$。ゆえに $\operatorname{im}\Psi$ に入らない。真の cokernel は $C=(M^+)^{\bar\theta}=M=C_2\ne0$。**$O_j$ は「強制される欠損の像」であって障害群ではない。**
+docs/week4-E2作戦_v3.md-158-
+docs/week4-E2作戦_v3.md-159-### 4.3 ★ 有限 2 群では潜在障害群はほぼ常に非零(本稿の追加・便 13 F6/W107 の帰結の鋭化)
+docs/week4-E2作戦_v3.md-160-
+docs/week4-E2作戦_v3.md-161-> **系 E18.3(v3・新設).** $M_j$ が有限 2 群のとき
+docs/week4-E2作戦_v3.md:162:> $$ \boxed{\ C_j=0 \iff M_j^{\bar\sigma}=0\ } $$
+docs/week4-E2作戦_v3.md-163-
+docs/week4-E2作戦_v3.md:164:**証明.** ($\Leftarrow$) 自明。($\Rightarrow$) $M_j^{\bar\sigma}\ne0$ とする。$\langle\bar\theta\rangle\cong C_2$ が有限 2 群 $M_j^{\bar\sigma}\ne0$ に作用しているので、軌道分解より
+docs/week4-E2作戦_v3.md:165:$$ \lvert M_j^{\bar\sigma}\rvert\equiv\lvert(M_j^{\bar\sigma})^{\bar\theta}\rvert \pmod 2 $$
+docs/week4-E2作戦_v3.md:166:(自明でない軌道は長さ 2)。左辺は偶数、右辺は $0\in(M_j^{\bar\sigma})^{\bar\theta}$ ゆえ $\ge1$、したがって $\ge2$。∎
+docs/week4-E2作戦_v3.md-167-
+docs/week4-E2作戦_v3.md-168-> **★ この系が意味すること(v2 の楽観の完全な撤回).**
+docs/week4-E2作戦_v3.md:169:> 1. **「$\bar\theta=-1$ on $M_j^+$」は障害消滅を与えない。** $\bar\theta=-1$ なら $(M_j^+)^{\bar\theta}=M_j^+[2]$ であり、これは $M_j^+\ne0$ なら必ず非零。「符号作用 $-1$」と「固定点なし」は有限 2 群では**同義でない**(位数 2 元上で $-1=+1$)。
+docs/week4-E2作戦_v3.md:170:> 2. **表 1 の $\dim M_j^{\bar\sigma}$ が非零な全ての $j$ で $C_j\ne0$。** metabelian 表 1(b) では $j=2,4,5,6,7,\dots$ の全てで $M_j^+\ne0$、したがって $C_j\ne0$。**ところが $j=2,3,4$ は定理 E9′ により実際には可解である**(紙で閉じている)。すなわち **$C_j\ne0$ は「障害が起き得る」ですらなく、単に「この方法では何も言えない」を意味する**。
+docs/week4-E2作戦_v3.md-171-> 3. ゆえに **graded 解析から得られる正味の情報は「$M_j^-$ 成分は常に消える」の一点のみ**であり、判定には**障害元 $\mathrm{ob}_j(\varepsilon,\delta)$ を実際に計算する**しかない。v2 §3.2 の「$O_j=0\iff$ 自明表現なし」を安全基準に使う路線は**閉じている**。
+docs/week4-E2作戦_v3.md-172-
+docs/week4-E2作戦_v3.md-173-> **【GAP-E18】(v3 で書き直し).** 逐次近似の各段で $\mathrm{ob}_j=0$ が全ての $j$ で成り立てば大域解が存在するか(持ち上げの二次障害の制御)。v2 と同じく **UNKNOWN**。ただし v3 では、class-5 の具体的対象について**この二次障害を明示的に定式化した**(`docs/命題_E22三段判定_v1.md`)。
+docs/week4-E2作戦_v3.md-174-
+--
+docs/week4-E2作戦_v3.md-186-| **5** | $(6,0,0)$ | **1** | 1 | 2 |
+docs/week4-E2作戦_v3.md-187-
+docs/week4-E2作戦_v3.md-188-自由 metabelian 側 $M_j\otimes\mathbb Q\cong\mathrm{Sym}^{j-2}(V)\otimes\mathrm{sgn}$ も独立に確認($j=2$: $\mathrm{sgn}$、$j=3$: $V$、$j=4$: $(3,0,-1)$、$j=5$: $(4,1,0)$ ⇒ 自明の重複度 $0,0,0,\mathbf1$、$j=6$: $(5,-1,-1)$ ⇒ 0)。**両塔とも自明表現の初出は weight 5** である。
+docs/week4-E2作戦_v3.md-189-
+docs/week4-E2作戦_v3.md:190:> **採用する主張(P144)**: torsion-free universal lattice を $\mathbb Q$ 化したとき、$(M_j^{\bar\sigma})^{\bar\theta}\otimes\mathbb Q$ の初出は **weight 5**。これは **class 5 を第一撃にする強い構造的理由**である。
+docs/week4-E2作戦_v3.md-191-
+docs/week4-E2作戦_v3.md-192-> **採用しない主張(W107・v2 D5 の撤回部分)**: 「$j\le4$ で graded 自明表現がないことから、有限 2 群上の同時方程式が解ける」。理由は §4.3 の系 E18.3(有限 2-torsion では符号成分にも固定点 $M[2]$ がある)と、【GAP-E18】が未閉鎖であることの二つ。**表 1 は E9/E9′ の構造的説明であって、独立な再証明ではない。**
+docs/week4-E2作戦_v3.md-193-
+docs/week4-E2作戦_v3.md-194----
+--
+docs/week4-E2作戦_v3.md-208-
+docs/week4-E2作戦_v3.md-209-しかし、**$M(m)$ の成分が $m$ の多項式である**という事実を使えば、有限個の標本点から全 $m$ を制御できる。
+docs/week4-E2作戦_v3.md-210-
+docs/week4-E2作戦_v3.md-211-> **命題 E19-b′(有限判定・本稿で新設).** $c$ を固定し、$n:=\binom c2$、$d:=2(c-2)$ と置く。
+docs/week4-E2作戦_v3.md:212:> **(a) 次数上界**: $M(m)$ の成分は $m$ の整数係数多項式で次数 $\le d$、$b(m)=-E_m$ の成分は次数 $\le c$。
+docs/week4-E2作戦_v3.md-213-> **(b) 周期性**: $M(m)\bmod2$ は $m\bmod8$ にのみ依存($c\le7$ ゆえ Lucas より)。したがって $r_{\bar m}:=\operatorname{rank}_{\mathbb F_2}M(m)$ は剰余類 $\bar m\in\mathbb Z/8$ の関数。
+docs/week4-E2作戦_v3.md-214-> **(c) 有限判定**: ある剰余類 $\bar m$ について、$K+1$ 個の標本 $m=\bar m,\bar m+8,\dots,\bar m+8K$ すべてで
+docs/week4-E2作戦_v3.md-215-> $$ \operatorname{rank}_{\mathbb Q}M(m)=\operatorname{rank}_{\mathbb Q}[\,M(m)\mid b(m)\,]=r_{\bar m} $$
+docs/week4-E2作戦_v3.md-216-> が成り立ち、かつ $K\ \ge\ (r_{\bar m}+1)\,d+c$ ならば、**その剰余類の全ての $m\in\mathbb Z$** について
+docs/week4-E2作戦_v3.md-217-> $$ \operatorname{rank}_{\mathbb Q}M(m)=\operatorname{rank}_{\mathbb F_2}M(m)=\operatorname{rank}_{\mathbb Q}[M(m)\mid b(m)]=r_{\bar m}, $$
+docs/week4-E2作戦_v3.md-218-> すなわち **(i) 全ての非零基本因子が奇数、(ii) $\mathbb Q$-可解、したがって (iii) $\mathbb Z_2$-可解**(= 全ての $j$ で mod $2^j$ 可解)。
+docs/week4-E2作戦_v3.md-219-
+docs/week4-E2作戦_v3.md-220-**証明.**
+docs/week4-E2作戦_v3.md:221:**(a)** $\sigma_m=(1+T)^m\cdot\tau$ の行列成分は $\binom mi$($0\le i\le c-2$)の $\mathbb Z$-結合ゆえ次数 $\le c-2$。$\sigma_m^2$ は次数 $\le2(c-2)=d$、$\mathcal N=1+\sigma_m+\sigma_m^2$ も次数 $\le d$、$(1+\theta)$ は定数。$E_m$ の座標は $c$ 以下の次数の binomial の $\mathbb Z$-結合(class-4 の閉形 $\bigl(-\binom{m+1}2,\binom{m+2}3,-\binom{m+1}3,-\binom{m+3}4,\binom{m+2}4,-\binom{m+1}4\bigr)$ はその $c=4$ の場合)。
+docs/week4-E2作戦_v3.md-222-**(b)** Lucas より $\binom mi\bmod2$ は $i<2^L$ のとき $m\bmod2^L$ のみに依存。$c\le7$ ゆえ $i\le c-2\le5<8$、$L=3$。$M(m)\bmod2$ の成分は $\binom mi\bmod2$ の多項式なので $m\bmod8$ にのみ依存。
+docs/week4-E2作戦_v3.md-223-**(c)** $m=\bar m+8k$ と置くと、$M(m)$ と $[M(m)\mid b(m)]$ の成分は $k$ の多項式で次数はそれぞれ $\le d$、$\le\max(d,c)$。$r:=r_{\bar m}$ と置く。$[M\mid b]$ の任意の $(r+1)\times(r+1)$ 小行列式は $k$ の多項式で、次数は
+docs/week4-E2作戦_v3.md-224-$$ \le \max\bigl((r+1)d,\ rd+c\bigr)\le (r+1)d+c $$
+docs/week4-E2作戦_v3.md-225-標本点 $k=0,\dots,K$ で $\operatorname{rank}_{\mathbb Q}[M\mid b]=r$ ゆえ全ての $(r+1)$-小行列式が消える。零点の個数 $K+1>(r+1)d+c$ が次数を超えるので、**各小行列式は恒等的に零**。したがって $\operatorname{rank}_{\mathbb Q(k)}[M\mid b]\le r$、特殊化で rank は増えないので全ての $k\in\mathbb Z$ で $\operatorname{rank}_{\mathbb Q}[M(m)\mid b(m)]\le r$。
+--
+docs/week4-E2作戦_v3.md-280-3. **最小性**: $F_2/\gamma_6$ が **$A$ 非可換な最小の相対自由対象**($A=\gamma_2/\gamma_6$、Hirsch length 12、$[A,A]$ は階数 2 で中心)。
+docs/week4-E2作戦_v3.md-281-
+docs/week4-E2作戦_v3.md-282-### 7.3 定理 E21(変更なし・PASS)
+docs/week4-E2作戦_v3.md-283-
+docs/week4-E2作戦_v3.md:284:> **定理 E21.** $P$ 非可換 2 生成 2 群、$A=[P,P]$ とすると、$B:=\gamma_3[A,A]A^2$ による商 $A/B\cong C_2$ は常に $\langle\sigma,\theta\rangle$-自明加群。ゆえに非自明な同時安定 1 次元指標が常に存在し、**系 E12-a の仮定は本設定では決して満たされない**。
+docs/week4-E2作戦_v3.md-285-
+docs/week4-E2作戦_v3.md-286-便 13 F12 が PASS を出した。「E12-a を安価な safe criterion として使う道は本設定では閉じている」を CLAIMS へ登録する際は**適用可能性 = 空**を併記(P146)。
+docs/week4-E2作戦_v3.md-287-
+docs/week4-E2作戦_v3.md-288----
+--
+docs/week4-E2作戦_v3.md-295-|---|---|---|
+docs/week4-E2作戦_v3.md-296-| **【GAP-E2】** | 一般の同時可解性 | 本丸 = $A$ 非可換。**正しい定式化 = 三段判定(線型部+二次形式部+cocycle 部)** — `docs/命題_E22三段判定_v1.md` で完成 |
+docs/week4-E2作戦_v3.md-297-| **【GAP-E13】** | class $\ge5$ の判定 | metabelian は $c\le6$ 全 $m$ 閉鎖(単系統)/ $c=7$ 部分 / $c\ge8$ UNKNOWN。非 metabelian は【GAP-E2】と合流 |
+docs/week4-E2作戦_v3.md-298-| **【GAP-E15】** | 予想 E15 の真偽 | **反証されず**。射程: class $\le4$ 紙上、metabelian $c\le6$ 全 $m$(単系統)。残るのは $c=7$ の $m$ 量化子・class $\ge8$・$A$ 非可換 |
+docs/week4-E2作戦_v3.md:299:| **【GAP-E16】** | 命題 E16 の仮定 | **問いを鋭化**: $\iota\sigma^{-1}+(\iota\sigma^{-1})^2=\sigma+\sigma^2$ が class $\ge3$ で成立し得るか。**UNKNOWN** |
+docs/week4-E2作戦_v3.md-300-| **【GAP-E18】** | 定理 E18 の逆 | **UNKNOWN**。§4.3 により「$C_j$ の消滅」からは何も出ない($C_j\ne0$ がほぼ常に成立)ので、逆は障害元 $\mathrm{ob}_j$ の逐次制御としてのみ意味をもつ |
+docs/week4-E2作戦_v3.md-301-| **【GAP-E19】** | $\mathbb Q$-可解性の全 $m$ | **$c\le6$ は命題 E19-b′ で閉鎖(単系統)**。$c=7$ は標本取得待ち(有限・実行可能・$m\le1423$)。$c\ge8$ は 8GB 制約 |
+docs/week4-E2作戦_v3.md-302-| **【GAP-E20】** | $A$ 非可換な許容 2 群の最小位数 | **UNKNOWN**($\ge2^7$ と見込む) |
+docs/week4-E2作戦_v3.md-303-| **【GAP-E22】(新設)** | 三段判定の第三段(中心補正の値域)が class-5 普遍対象で空でないか | **UNKNOWN** — 掃引 ① r2 の主目標 |
+--
+docs/week4-E2作戦_v3.md-310-| 補題 E10.1 / 命題 E10 全称版 | 紙上証明(Opus 単独・Sol 未監査) |
+docs/week4-E2作戦_v3.md-311-| 命題 E16 (v3) / 補題 E16.1 (v3) / 補題 E16.2 / 系 E16-a | **紙上証明**(v3 新規・Sol 未監査。Sol の反例は独立検算済み) |
+docs/week4-E2作戦_v3.md-312-| 補題 E18.1 / 補題 E18.2 (v3) | PASS(便 13 F5・語句修復済み) |
+docs/week4-E2作戦_v3.md-313-| **定理 E18 (v3)**($C_j$ 版) | 便 13 F6 と本稿で**独立に同じ結論**(相互監査 PASS 相当・candidate) |
+docs/week4-E2作戦_v3.md:314:| **系 E18.3**($C_j=0\iff M_j^{\bar\sigma}=0$) | **紙上証明**(v3 新規・Sol 未監査) |
+docs/week4-E2作戦_v3.md-315-| 表 1(a)(b)・weight 5 初出 | 紙上証明(指標公式・独立再計算で一致)。**射程は有理係数のみ** |
+docs/week4-E2作戦_v3.md-316-| 定理 E19($c\le7,m\le63$) | `Z2-solvable candidate (single system, statically audited)` |
+docs/week4-E2作戦_v3.md-317-| **命題 E19-b′**(有限判定) | **紙上証明**(v3 新規・Sol 未監査) |
+docs/week4-E2作戦_v3.md-318-| **E19-b′ の適用結果($c=3,4,5,6$ 全 $m$)** | **candidate(単系統)** — `metab_rank.mjs`($c=6$ は $m=0..900$・112–113 標本/類) |
+--
+docs/week4-E2作戦_v3.md-323-| verified(Lean) | **本稿には一つもない** |
+docs/week4-E2作戦_v3.md-324-
+docs/week4-E2作戦_v3.md-325-### 8.3 【文献要請 6″】(6′ を差し替え)
+docs/week4-E2作戦_v3.md-326-
+docs/week4-E2作戦_v3.md:327:> **困難**: 有限 class-2 群 $A$($C:=[A,A]\subseteq Z(A)$、$C$ の階数 2)と、位数 3 の(mod inner)自己同型 $\sigma$、対合 $\theta$ に対し、二つの**中心値二次写像**
+docs/week4-E2作戦_v3.md:328:> $$ q_\theta(\bar f)=\theta(s\bar f)\,s\bar f,\qquad q_N(\bar f)=E_m\,\sigma^2(s\bar f)\sigma(s\bar f)\,s\bar f \qquad(s:\bar A\to A\text{ は section}) $$
+docs/week4-E2作戦_v3.md:329:> の**同時値域**が、線型部の解空間 $\mathcal L=\bar f_0+K$ 上で、部分群 $\operatorname{im}\Lambda\subseteq C\times C$($\Lambda(z)=((1+\theta)z,\mathcal N z)$)と交わるかを判定したい。**特に本設定では $\mathcal N\vert_C=0$ が構造的に成り立つ**(`命題_E22三段判定_v1.md` 系 3.4)ので、$q_N$ は中心補正で一切修正できない。
+docs/week4-E2作戦_v3.md:330:> **欲しい結果の型**: (i) 有限アーベル群($\mathbb Z/2^j$ 係数、体でない)に値をとる**対の二次形式**の同時表現可能性の判定法。(ii) 二次形式が一つでなく**組**であるときの Witt 型 / Arf 型不変量、あるいは「同時値域が部分群と交わらない」ための障害。(iii) 中心拡大 $1\to C\to A\to\bar A\to1$ の cocycle と $\langle\sigma,\theta\rangle$-作用が絡む場合の $H^2$ 的言語。
+docs/week4-E2作戦_v3.md-331-> **探す先の当たり**: 冪零群の twisted conjugacy と Reidemeister 数(Dekimpe ら)、$\mathbb Z/2^j$ 上の二次形式の分類(Wall・Kawauchi–Kojima の linking form)、有限群の cohomological quadratic map(Baues の quadratic functor)。
+docs/week4-E2作戦_v3.md-332-> **★ 探さなくてよい方向(潰した)**: (a) Burkhart 型の非 coprime 不動点定理、(b) $S_3$ の 2-modular 表現論を $A$ そのものへ適用する路線(§2)、(c) 系 E12-a 型の条件(定理 E21)、**(d) graded 障害群 $C_j$ の消滅を判定条件にする路線(系 E18.3 により空虚)**。
+docs/week4-E2作戦_v3.md-333-
+docs/week4-E2作戦_v3.md-334----
+--
+docs/week4-E2作戦_v3.md-336-## 付録 — v2 からの訂正一覧(v2 は上書きしない)
+docs/week4-E2作戦_v3.md-337-
+docs/week4-E2作戦_v3.md-338-| v2 の箇所 | 訂正 |
+docs/week4-E2作戦_v3.md-339-|---|---|
+docs/week4-E2作戦_v3.md:340:| §1.2 の $\sigma^2(p+q)$ | $-q+r_1+(m+2)r_2+2r_3$(§1)。Lemma A の結論は無傷 |
+docs/week4-E2作戦_v3.md:341:| §0 D3・§3.1 命題 E16 | 定理文を差し替え(§2.3)。仮定は $\mathcal N\theta=\theta\mathcal N$ |
+docs/week4-E2作戦_v3.md:342:| §3.1 補題 E16.1 の「$=$」 | 「$\theta(A^\sigma)\subseteq A^\sigma\iff\iota\vert_{A^\sigma}=\mathrm{id}$」へ(§2.2) |
+docs/week4-E2作戦_v3.md-343-| §3.2 補題 E18.2 の「単純加群 / 自由」 | 「Morita 同値 + normal integral basis ⇒ **induced** ⇒ Tate 消滅」へ(§3) |
+docs/week4-E2作戦_v3.md:344:| §0 D4・§3.2 定理 E18 の $O_j$ | **撤回**。$C_j=(M_j^{\bar\sigma})^{\bar\theta}$ へ(§4.2)。「$O_j=0\iff$ 自明表現なし」も撤回(§4.3) |
+docs/week4-E2作戦_v3.md-345-| §0 D5 の「E9/E9′ の再証明」 | **撤回**。構造的説明に留める(§5) |
+docs/week4-E2作戦_v3.md-346-| §0 D6 末尾・§3.3 系 E19-b | **撤回**。命題 E19-b′ へ(§6.2) |
+docs/week4-E2作戦_v3.md-347-| §3.3 系 E19-a 末尾「素数 2 は完全に落ちた」 | **撤回**。$c\le5$ に限る(§6.3) |
+docs/week4-E2作戦_v3.md-348-| §0 D7・§3.5(ii) の「唯一残った生きた層」 | **撤回**。第一優先層へ(§7.1) |
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -LiteralPath 'gap.ps1' -Raw -Encoding UTF8" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 301ms:
+# GAP script runner (Windows / direct Cygwin runtime invocation).
+# Usage:  .\gap.ps1 search\smoke-test.g
+# Note: gap.bat opens a separate interactive window - never use it for automation.
+# Memory cap: this PC has 8GB RAM (user directive 2026-07-18) - GAP heap is
+# capped at 2g so a runaway enumeration cannot freeze the machine.
+# Keep this file ASCII-only: PS 5.1 misparses UTF-8 (no BOM) non-ASCII comments.
+param(
+    [Parameter(Mandatory = $true)][string]$ScriptPath,
+    [string[]]$ExtraArgs = @()
+)
+$gapRoot = "C:\Program Files\GAP-4.16.0"
+$env:PATH = "$gapRoot\runtime\bin;" + $env:PATH
+& "$gapRoot\runtime\opt\gap-4.16.0\gap.exe" -q --quitonbreak -o 2g @ExtraArgs (Resolve-Path $ScriptPath).Path
+exit $LASTEXITCODE
+
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg --files search docs/scout | rg -v 'week4-E2作用表_v1|対話帳|sol_task_16|sol_reply_16' | rg '(class5|hall|nq|e22|action|nilpot|metab)'" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 343ms:
+docs/scout\metab.mjs
+docs/scout\metab_rank.mjs
+search\manifest_spec_e2_actions2.md
+search\manifest_spec_e2_actions.md
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n 'EpimorphismNilpotentQuotient|NilpotentQuotient' 'C:\\Program Files\\GAP-4.16.0\\pkg\\nq' | Select-Object -First 80" in C:\Users\81905\Desktop\shadow-atelier
+2026-07-26T04:12:53.672497Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 0.3 seconds
+Output:
+rg: C:\Program Files\GAP-4.16.0\pkg\nq: IO error for operation on C:\Program Files\GAP-4.16.0\pkg\nq: 指定されたパスが見つかりません。 (os error 3)
+
+ exited 1 in 345ms:
+rg: C:\Program Files\GAP-4.16.0\pkg\nq: IO error for operation on C:\Program Files\GAP-4.16.0\pkg\nq: 指定されたパスが見つかりません。 (os error 3)
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -LiteralPath 'C:\\Program Files\\GAP-4.16.0' -Force | Select-Object Name,FullName" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 345ms:
+
+Name           FullName                                  
+----           --------                                  
+runtime        C:\Program Files\GAP-4.16.0\runtime       
+gap-mintty.bat C:\Program Files\GAP-4.16.0\gap-mintty.bat
+gap.bat        C:\Program Files\GAP-4.16.0\gap.bat       
+gapicon.ico    C:\Program Files\GAP-4.16.0\gapicon.ico   
+unins000.dat   C:\Program Files\GAP-4.16.0\unins000.dat  
+unins000.exe   C:\Program Files\GAP-4.16.0\unins000.exe  
+
+
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-ChildItem -LiteralPath 'C:\\Program Files\\GAP-4.16.0\\runtime' -Directory -Recurse -Filter 'nq*' -ErrorAction SilentlyContinue | Select-Object -First 20 -ExpandProperty FullName" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 3629ms:
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n 'EpimorphismNilpotentQuotient|NilpotentQuotient' 'C:\\Program Files\\GAP-4.16.0\\runtime\\opt\\gap-4.16.0\\pkg\\nq' | Select-Object -First 100" in C:\Users\81905\Desktop\shadow-atelier
+2026-07-26T04:13:09.978823Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 0.7 seconds
+Output:
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gd:22:DeclareOperation( "NilpotentQuotient", 
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gd:25:DeclareOperation( "NilpotentQuotientIdentical", 
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gd:28:DeclareOperation( "NqEpimorphismNilpotentQuotient", 
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:51:##  NilpotentQuotient().
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:440:#F  NilpotentQuotient( <F>, <class> ) . . . . . . . nilpotent quotient of <F>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:468:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:478:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:488:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:501:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:512:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:525:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:535:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:548:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:561:InstallMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:574:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:588:InstallMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:601:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:615:InstallMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:628:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:642:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:659:#F  NqEpimorphismNilpotentQuotient
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:697:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:712:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:724:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:737:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:749:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:764:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:776:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:791:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:803:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:828:    A := CallFuncList( NilpotentQuotient, arg );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:848:    return CallFuncList( NilpotentQuotient, arg );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0.html:108:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8216791583DE512C">3.1-1 NilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0.html:110:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8758F663782AE655">3.1-3 NqEpimorphismNilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0.txt:78:      3.1-1 NilpotentQuotient
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0.txt:80:      3.1-3 NqEpimorphismNilpotentQuotient
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0_mj.html:111:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8216791583DE512C">3.1-1 NilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0_mj.html:113:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8758F663782AE655">3.1-3 NqEpimorphismNilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\TODO:10:* Add EpimorphismNilpotentQuotientOp method(s)
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\TODO:28:* Document NilpotentQuotient methods for expression trees.
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\TODO:69:-- NilpotentQuotient() should return a quotient system.
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:7:gap> H := NilpotentQuotient( G, 10 );;
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:17:gap> H := NilpotentQuotient( G, 7 );;
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:41:gap> H := NilpotentQuotient( G, 11 );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:67:gap> H := NilpotentQuotient( G );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:90:gap> H := NilpotentQuotient( G, 15 );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:125:gap> H := NilpotentQuotient( G, 8 );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:150:gap> H := NilpotentQuotient( G, 10 );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.html:139:<p>is a group on 3 generators <span class="SimpleMath">a,b,c</span> of exponent <span class="SimpleMath">5</span> satisfying the 3rd Engel law. The presentation above is equivalent to a presentation on 3 generators with an infinite set of relators, where the set of relators consists of all fifth powers of words in the generators and all commutators <span class="SimpleMath">[x,y,y,y]</span> where <span class="SimpleMath">x</span> and <span class="SimpleMath">y</span> run through all words in the generators <span class="SimpleMath">a,b,c</span>. The standalone programme accepts the notation introduced above as a description of its input. In <strong class="pkg">GAP 4</strong> finitely presented groups are specified in a different way, see <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>) for a description.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.html:245:<p>Typically, the input for the standalone is put into a file by using a standard text editor. The file can be passed as an argument to the function <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>). It is also possible to put a presentation in the standalone's input format into a string and use the string as argument for <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>).</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.txt:208:  [2XNilpotentQuotient[102X ([14X3.1-1[114X) for a description.[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.txt:389:  [2XNilpotentQuotient[102X  ([14X3.1-1[114X). It is also possible to put a presentation in the
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.txt:391:  [2XNilpotentQuotient[102X ([14X3.1-1[114X).[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2_mj.html:142:<p>is a group on 3 generators <span class="SimpleMath">\(a,b,c\)</span> of exponent <span class="SimpleMath">\(5\)</span> satisfying the 3rd Engel law. The presentation above is equivalent to a presentation on 3 generators with an infinite set of relators, where the set of relators consists of all fifth powers of words in the generators and all commutators <span class="SimpleMath">\([x,y,y,y]\)</span> where <span class="SimpleMath">\(x\)</span> and <span class="SimpleMath">\(y\)</span> run through all words in the generators <span class="SimpleMath">\(a,b,c\)</span>. The standalone programme accepts the notation introduced above as a description of its input. In <strong class="pkg">GAP 4</strong> finitely presented groups are specified in a different way, see <code class="func">NilpotentQuotient</code> (<a href="chap3_mj.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>) for a description.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2_mj.html:248:<p>Typically, the input for the standalone is put into a file by using a standard text editor. The file can be passed as an argument to the function <code class="func">NilpotentQuotient</code> (<a href="chap3_mj.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>). It is also possible to put a presentation in the standalone's input format into a string and use the string as argument for <code class="func">NilpotentQuotient</code> (<a href="chap3_mj.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>).</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:28:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8216791583DE512C">3.1-1 NilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:30:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8758F663782AE655">3.1-3 NqEpimorphismNilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:67:<h5>3.1-1 NilpotentQuotient</h5>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:69:<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NilpotentQuotient</code>( [<var class="Arg">output-file</var>, ]<var class="Arg">fp-group</var>[, <var class="Arg">id-gens</var>][, <var class="Arg">c</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:70:<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NilpotentQuotient</code>( [<var class="Arg">output-file</var>, ]<var class="Arg">input-file</var>[, <var class="Arg">c</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:107:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">## Equivalent to:  NilpotentQuotient( : group := F, class := 5 );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:108:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">##                 NilpotentQuotient( F : class := 5 );          </span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:109:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := NilpotentQuotient( F, 5 );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:132:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := NilpotentQuotient( G, 4 ); </span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:156:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">##   NilpotentQuotient( G : idgens := [F.3,F.4,F.5,F.6] );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:157:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := NilpotentQuotient( G, [F.3,F.4,F.5,F.6] );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:179:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := NilpotentQuotient( G : idgens := [et[1],et[2]] );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:210:<p>This function is a special version of <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>) which enforces the <span class="SimpleMath">n</span>-th Engel identity on the nilpotent quotients of the group specified by <code class="file">fp-group</code> or by <code class="file">input-file</code>. It accepts the same options as <code class="file">NilpotentQuotient</code>.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:212:<p>The Engel condition can also be enforced by using identical generators and the Engel law and <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>). See the examples there.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:253:<h5>3.1-3 NqEpimorphismNilpotentQuotient</h5>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:255:<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NqEpimorphismNilpotentQuotient</code>( [<var class="Arg">output-file</var>, ]<var class="Arg">fp-group</var>[, <var class="Arg">id-gens</var>][, <var class="Arg">c</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:262:<p>The function understands the same options as the function <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>).</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:269:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">phi := NqEpimorphismNilpotentQuotient( F, 5 );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:277:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">phi := NqEpimorphismNilpotentQuotient( G, 4 );   </span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:286:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">phi := NqEpimorphismNilpotentQuotient( G : idgens:=[u,v,x], class:=5 );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:302:<p>This function accepts the same arguments and options as <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>) and returns a list containing the abelian invariants of the central factors in the lower central series of the specified group.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:396:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">##     NilpotentQuotient( : input_file := "dihedral" );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:397:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotentQuotient( "dihedral" );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:408:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotentQuotient( : input_string := str );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:509:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotentQuotient(FreeGroup(2),5);</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:512:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotentQuotient(FreeGroup(2),5);</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:7:  [1X3.1-1 NilpotentQuotient[101X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:9:  [33X[1;0Y[29X[2XNilpotentQuotient[102X( [[3Xoutput-file[103X, ][3Xfp-group[103X[, [3Xid-gens[103X][, [3Xc[103X] ) [32X function[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:10:  [33X[1;0Y[29X[2XNilpotentQuotient[102X( [[3Xoutput-file[103X, ][3Xinput-file[103X[, [3Xc[103X] ) [32X function[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:58:    [4X[25Xgap>[125X [27X## Equivalent to:  NilpotentQuotient( : group := F, class := 5 );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:59:    [4X[25Xgap>[125X [27X##                 NilpotentQuotient( F : class := 5 );          [127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:60:    [4X[25Xgap>[125X [27XH := NilpotentQuotient( F, 5 );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:87:    [4X[25Xgap>[125X [27XH := NilpotentQuotient( G, 4 ); [127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:114:    [4X[25Xgap>[125X [27X##   NilpotentQuotient( G : idgens := [F.3,F.4,F.5,F.6] );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:115:    [4X[25Xgap>[125X [27XH := NilpotentQuotient( G, [F.3,F.4,F.5,F.6] );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:137:    [4X[25Xgap>[125X [27XH := NilpotentQuotient( G : idgens := [et[1],et[2]] );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:170:  [33X[0;0YThis  function  is  a  special  version  of  [2XNilpotentQuotient[102X ([14X3.1-1[114X) which
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:173:  [11XNilpotentQuotient[111X.[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:176:  the Engel law and [2XNilpotentQuotient[102X ([14X3.1-1[114X). See the examples there.[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:222:  [1X3.1-3 NqEpimorphismNilpotentQuotient[101X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:224:  [33X[1;0Y[29X[2XNqEpimorphismNilpotentQuotient[102X( [[3Xoutput-file[103X, ][3Xfp-group[103X[, [3Xid-gens[103X][, [3Xc[103X] ) [32X function[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:242:  [33X[0;0YThe  function understands the same options as the function [2XNilpotentQuotient[102X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:249:    [4X[25Xgap>[125X [27Xphi := NqEpimorphismNilpotentQuotient( F, 5 );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:257:    [4X[25Xgap>[125X [27Xphi := NqEpimorphismNilpotentQuotient( G, 4 );   [127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:266:    [4X[25Xgap>[125X [27Xphi := NqEpimorphismNilpotentQuotient( G : idgens:=[u,v,x], class:=5 );[127X[104X
+
+ exited 1 in 705ms:
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gd:22:DeclareOperation( "NilpotentQuotient", 
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gd:25:DeclareOperation( "NilpotentQuotientIdentical", 
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gd:28:DeclareOperation( "NqEpimorphismNilpotentQuotient", 
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:51:##  NilpotentQuotient().
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:440:#F  NilpotentQuotient( <F>, <class> ) . . . . . . . nilpotent quotient of <F>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:468:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:478:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:488:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:501:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:512:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:525:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:535:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:548:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:561:InstallMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:574:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:588:InstallMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:601:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:615:InstallMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:628:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:642:InstallOtherMethod( NilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:659:#F  NqEpimorphismNilpotentQuotient
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:697:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:712:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:724:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:737:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:749:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:764:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:776:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:791:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:803:InstallOtherMethod( NqEpimorphismNilpotentQuotient,
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:828:    A := CallFuncList( NilpotentQuotient, arg );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\gap\nq.gi:848:    return CallFuncList( NilpotentQuotient, arg );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0.html:108:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8216791583DE512C">3.1-1 NilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0.html:110:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8758F663782AE655">3.1-3 NqEpimorphismNilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0.txt:78:      3.1-1 NilpotentQuotient
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0.txt:80:      3.1-3 NqEpimorphismNilpotentQuotient
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0_mj.html:111:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8216791583DE512C">3.1-1 NilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap0_mj.html:113:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8758F663782AE655">3.1-3 NqEpimorphismNilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\TODO:10:* Add EpimorphismNilpotentQuotientOp method(s)
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\TODO:28:* Document NilpotentQuotient methods for expression trees.
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\TODO:69:-- NilpotentQuotient() should return a quotient system.
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:7:gap> H := NilpotentQuotient( G, 10 );;
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:17:gap> H := NilpotentQuotient( G, 7 );;
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:41:gap> H := NilpotentQuotient( G, 11 );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:67:gap> H := NilpotentQuotient( G );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:90:gap> H := NilpotentQuotient( G, 15 );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:125:gap> H := NilpotentQuotient( G, 8 );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\tst\nq.tst:150:gap> H := NilpotentQuotient( G, 10 );
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.html:139:<p>is a group on 3 generators <span class="SimpleMath">a,b,c</span> of exponent <span class="SimpleMath">5</span> satisfying the 3rd Engel law. The presentation above is equivalent to a presentation on 3 generators with an infinite set of relators, where the set of relators consists of all fifth powers of words in the generators and all commutators <span class="SimpleMath">[x,y,y,y]</span> where <span class="SimpleMath">x</span> and <span class="SimpleMath">y</span> run through all words in the generators <span class="SimpleMath">a,b,c</span>. The standalone programme accepts the notation introduced above as a description of its input. In <strong class="pkg">GAP 4</strong> finitely presented groups are specified in a different way, see <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>) for a description.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.html:245:<p>Typically, the input for the standalone is put into a file by using a standard text editor. The file can be passed as an argument to the function <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>). It is also possible to put a presentation in the standalone's input format into a string and use the string as argument for <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>).</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.txt:208:  [2XNilpotentQuotient[102X ([14X3.1-1[114X) for a description.[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.txt:389:  [2XNilpotentQuotient[102X  ([14X3.1-1[114X). It is also possible to put a presentation in the
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2.txt:391:  [2XNilpotentQuotient[102X ([14X3.1-1[114X).[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2_mj.html:142:<p>is a group on 3 generators <span class="SimpleMath">\(a,b,c\)</span> of exponent <span class="SimpleMath">\(5\)</span> satisfying the 3rd Engel law. The presentation above is equivalent to a presentation on 3 generators with an infinite set of relators, where the set of relators consists of all fifth powers of words in the generators and all commutators <span class="SimpleMath">\([x,y,y,y]\)</span> where <span class="SimpleMath">\(x\)</span> and <span class="SimpleMath">\(y\)</span> run through all words in the generators <span class="SimpleMath">\(a,b,c\)</span>. The standalone programme accepts the notation introduced above as a description of its input. In <strong class="pkg">GAP 4</strong> finitely presented groups are specified in a different way, see <code class="func">NilpotentQuotient</code> (<a href="chap3_mj.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>) for a description.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap2_mj.html:248:<p>Typically, the input for the standalone is put into a file by using a standard text editor. The file can be passed as an argument to the function <code class="func">NilpotentQuotient</code> (<a href="chap3_mj.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>). It is also possible to put a presentation in the standalone's input format into a string and use the string as argument for <code class="func">NilpotentQuotient</code> (<a href="chap3_mj.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>).</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:28:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8216791583DE512C">3.1-1 NilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:30:<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8758F663782AE655">3.1-3 NqEpimorphismNilpotentQuotient</a></span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:67:<h5>3.1-1 NilpotentQuotient</h5>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:69:<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NilpotentQuotient</code>( [<var class="Arg">output-file</var>, ]<var class="Arg">fp-group</var>[, <var class="Arg">id-gens</var>][, <var class="Arg">c</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:70:<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NilpotentQuotient</code>( [<var class="Arg">output-file</var>, ]<var class="Arg">input-file</var>[, <var class="Arg">c</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:107:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">## Equivalent to:  NilpotentQuotient( : group := F, class := 5 );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:108:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">##                 NilpotentQuotient( F : class := 5 );          </span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:109:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := NilpotentQuotient( F, 5 );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:132:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := NilpotentQuotient( G, 4 ); </span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:156:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">##   NilpotentQuotient( G : idgens := [F.3,F.4,F.5,F.6] );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:157:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := NilpotentQuotient( G, [F.3,F.4,F.5,F.6] );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:179:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := NilpotentQuotient( G : idgens := [et[1],et[2]] );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:210:<p>This function is a special version of <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>) which enforces the <span class="SimpleMath">n</span>-th Engel identity on the nilpotent quotients of the group specified by <code class="file">fp-group</code> or by <code class="file">input-file</code>. It accepts the same options as <code class="file">NilpotentQuotient</code>.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:212:<p>The Engel condition can also be enforced by using identical generators and the Engel law and <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>). See the examples there.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:253:<h5>3.1-3 NqEpimorphismNilpotentQuotient</h5>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:255:<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NqEpimorphismNilpotentQuotient</code>( [<var class="Arg">output-file</var>, ]<var class="Arg">fp-group</var>[, <var class="Arg">id-gens</var>][, <var class="Arg">c</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:262:<p>The function understands the same options as the function <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>).</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:269:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">phi := NqEpimorphismNilpotentQuotient( F, 5 );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:277:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">phi := NqEpimorphismNilpotentQuotient( G, 4 );   </span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:286:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">phi := NqEpimorphismNilpotentQuotient( G : idgens:=[u,v,x], class:=5 );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:302:<p>This function accepts the same arguments and options as <code class="func">NilpotentQuotient</code> (<a href="chap3.html#X8216791583DE512C"><span class="RefLink">3.1-1</span></a>) and returns a list containing the abelian invariants of the central factors in the lower central series of the specified group.</p>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:396:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">##     NilpotentQuotient( : input_file := "dihedral" );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:397:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotentQuotient( "dihedral" );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:408:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotentQuotient( : input_string := str );</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:509:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotentQuotient(FreeGroup(2),5);</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.html:512:<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotentQuotient(FreeGroup(2),5);</span>
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:7:  [1X3.1-1 NilpotentQuotient[101X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:9:  [33X[1;0Y[29X[2XNilpotentQuotient[102X( [[3Xoutput-file[103X, ][3Xfp-group[103X[, [3Xid-gens[103X][, [3Xc[103X] ) [32X function[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:10:  [33X[1;0Y[29X[2XNilpotentQuotient[102X( [[3Xoutput-file[103X, ][3Xinput-file[103X[, [3Xc[103X] ) [32X function[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:58:    [4X[25Xgap>[125X [27X## Equivalent to:  NilpotentQuotient( : group := F, class := 5 );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:59:    [4X[25Xgap>[125X [27X##                 NilpotentQuotient( F : class := 5 );          [127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:60:    [4X[25Xgap>[125X [27XH := NilpotentQuotient( F, 5 );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:87:    [4X[25Xgap>[125X [27XH := NilpotentQuotient( G, 4 ); [127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:114:    [4X[25Xgap>[125X [27X##   NilpotentQuotient( G : idgens := [F.3,F.4,F.5,F.6] );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:115:    [4X[25Xgap>[125X [27XH := NilpotentQuotient( G, [F.3,F.4,F.5,F.6] );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:137:    [4X[25Xgap>[125X [27XH := NilpotentQuotient( G : idgens := [et[1],et[2]] );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:170:  [33X[0;0YThis  function  is  a  special  version  of  [2XNilpotentQuotient[102X ([14X3.1-1[114X) which
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:173:  [11XNilpotentQuotient[111X.[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:176:  the Engel law and [2XNilpotentQuotient[102X ([14X3.1-1[114X). See the examples there.[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:222:  [1X3.1-3 NqEpimorphismNilpotentQuotient[101X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:224:  [33X[1;0Y[29X[2XNqEpimorphismNilpotentQuotient[102X( [[3Xoutput-file[103X, ][3Xfp-group[103X[, [3Xid-gens[103X][, [3Xc[103X] ) [32X function[133X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:242:  [33X[0;0YThe  function understands the same options as the function [2XNilpotentQuotient[102X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:249:    [4X[25Xgap>[125X [27Xphi := NqEpimorphismNilpotentQuotient( F, 5 );[127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:257:    [4X[25Xgap>[125X [27Xphi := NqEpimorphismNilpotentQuotient( G, 4 );   [127X[104X
+C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\pkg\nq\doc\chap3.txt:266:    [4X[25Xgap>[125X [27Xphi := NqEpimorphismNilpotentQuotient( G : idgens:=[u,v,x], class:=5 );[127X[104X
+
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "& .\\gap.ps1 'gap.ps1' -ExtraArgs @('-c','Print(\"GAP_INLINE_OK\\n\"); QUIT_GAP(0);')" in C:\Users\81905\Desktop\shadow-atelier
+2026-07-26T04:13:34.617870Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 0.5 seconds
+Output:
+      0 [main] gap (17996) C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\gap.exe: *** fatal error - couldn't create signal pipe, Win32 error 5
+
+ exited 1 in 536ms:
+      0 [main] gap (17996) C:\Program Files\GAP-4.16.0\runtime\opt\gap-4.16.0\gap.exe: *** fatal error - couldn't create signal pipe, Win32 error 5
+
+codex
+作用の向きは、許可資料の class-4 表と突合できる形に固定します。自由群の Magnus 展開を次数 5 で打ち切る独立照合を行い、\(\theta:x\leftrightarrow y\)、\(\tau:(x,y)\mapsto(y,(xy)^{-1})\)、\(\sigma_m(g)=\tau(g)^{y^m}\)、\(E_m=x^m((xy)^{-1})^m y^m\) から Hall 座標を回収します。これは返信外の一時ファイルを作らない小規模計算です。
+exec
+"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+const D=5;
+function add(A,B,s=1n){let C=new Map(A);for(const[k,v]of B){let q=(C.get(k)||0n)+s*v;if(q)C.set(k,q);else C.delete(k);}return C}
+function mul(A,B){let C=new Map();for(const[ka,a]of A)for(const[kb,b]of B){if(ka.length+kb.length<=D){let k=ka+kb,q=(C.get(k)||0n)+a*b;if(q)C.set(k,q);else C.delete(k)}}return C}
+const one=new Map([['',1n]]);
+function inv(A){let U=add(A,one,-1n),R=new Map(one),P=new Map(one);for(let i=1;i<=D;i++){P=mul(P,U);R=add(R,P,i%2?-1n:1n)}return R}
+function pow(A,n){n=BigInt(n);if(n<0n)return pow(inv(A),-n);let R=new Map(one),B=A;while(n){if(n&1n)R=mul(R,B);B=mul(B,B);n>>=1n}return R}
+function comm(a,b){return mul(mul(mul(inv(a),inv(b)),a),b)}
+function conj(a,b){return mul(mul(inv(b),a),b)}
+const x=new Map([['',1n],['X',1n]]), y=new Map([['',1n],['Y',1n]]);
+function basis(a,b){let w=comm(a,b),p=comm(w,a),q=comm(w,b),r1=comm(p,a),r2=comm(p,b),r3=comm(q,b),t1=comm(r1,a),t2=comm(r1,b),t3=comm(r2,b),t4=comm(r3,b),t5=comm(w,p),t6=comm(w,q);return [w,p,q,r1,r2,r3,t1,t2,t3,t4,t5,t6]}
+const B=basis(x,y), weights=[2,3,3,4,4,4,5,5,5,5,5,5];
+function words(n,p='',a=[]){if("'!n)return [...a,p];return words(n-1,p+'"'X',words(n-1,p+'Y',a))}
+class Q{constructor(n=0n,d=1n){if(d<0n){n=-n;d=-d}let g=gcd(n<0n?-n:n,d);this.n=n/g;this.d=d/g}add(o){return new Q(this.n*o.d+o.n*this.d,this.d*o.d)}sub(o){return new Q(this.n*o.d-o.n*this.d,this.d*o.d)}mul(o){return new Q(this.n*o.n,this.d*o.d)}div(o){return new Q(this.n*o.d,this.d*o.n)}}
+function gcd(a,b){while(b){let t=a%b;a=b;b=t}return a||1n}
+function solve(A,b){let m=A.length,n=A[0].length,M=A.map((r,i)=>r.map(v=>new Q(v)).concat([new Q(b[i])])),row=0,pivs=[];for(let col=0;col<n&&row<m;col++){let p=row;while(p<m&&M[p][col].n===0n)p++;if(p===m)continue;[M[p],M[row]]=[M[row],M[p]];let z=M[row][col];M[row]=M[row].map(v=>v.div(z));for(let i=0;i<m;i++)if(i"'!==row&&M[i][col].n!==0n){let f=M[i][col];M[i]=M[i].map((v,j)=>v.sub(f.mul(M[row][j])))}pivs.push(col);row++}let out=Array(n).fill(0n);for(let i=0;i<pivs.length;i++){let q=M[i][n];if(q.d!==1n)throw Error('"'nonint '+q.n+'/'+q.d);out[pivs[i]]=q.n}for(let i=row;i<m;i++)if(M[i][n].n"'!==0n)throw Error('"'inconsistent');return out}
+const mons={};for(let n=2;n<=5;n++)mons[n]=words(n);
+function coords(g){let out=[],R=g;for(let n=2;n<=5;n++){let inds=weights.map((w,i)=>w===n?i:-1).filter(i=>i>=0), ms=mons[n],A=ms.map(k=>inds.map(i=>B[i].get(k)||0n)),v=ms.map(k=>R.get(k)||0n),c=solve(A,v);out.push(...c);let block=new Map(one);for(let j=0;j<inds.length;j++)block=mul(block,pow(B[inds[j]],c[j]));R=mul(inv(block),R)}for(const[k,v]of R)if(k"'!=='"''&&v)throw Error('residual '+k+'='+v);return out}
+function fmt(v){return '['+v.map(String).join(', ')+']'}
+const th=basis(y,x),z=inv(mul(x,y)),ta=basis(y,z);
+console.log('THETA');th.forEach((g,i)=>console.log(i+1,fmt(coords(g))));
+console.log('TAU');ta.forEach((g,i)=>console.log(i+1,fmt(coords(g))));
+for(let m=0;m<=7;m++){console.log('SIGMA m='+m);let ym=pow(y,BigInt(m));ta.forEach((g,i)=>console.log(i+1,fmt(coords(conj(g,ym)))));let E=mul(mul(pow(x,BigInt(m)),pow(z,BigInt(m))),pow(y,BigInt(m)));console.log('E',fmt(coords(E)))}
+'@ | node -" in C:\Users\81905\Desktop\shadow-atelier
+ succeeded in 493ms:
+THETA
+1 [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2 [0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -1]
+3 [0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0]
+4 [0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0]
+5 [0, 0, 0, 0, -1, 0, 0, 0, 0, 0, -1, -1]
+6 [0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0]
+10 [0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+TAU
+1 [1, -1, 0, 1, 0, 0, -1, 0, 0, 0, 0, 0]
+2 [0, 0, 1, 0, -1, 0, 0, 1, 0, 0, 0, 0]
+3 [0, -1, -1, 2, 2, 1, -3, -3, -2, -1, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, 2, 1, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, -6, -5, -2, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+SIGMA m=0
+1 [1, -1, 0, 1, 0, 0, -1, 0, 0, 0, 0, 0]
+2 [0, 0, 1, 0, -1, 0, 0, 1, 0, 0, 0, 0]
+3 [0, -1, -1, 2, 2, 1, -3, -3, -2, -1, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, 2, 1, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, -6, -5, -2, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+E [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+SIGMA m=1
+1 [1, -1, 1, 1, -1, 0, -1, 1, 0, 0, 0, 0]
+2 [0, 0, 1, 0, -1, 1, 0, 1, -1, 0, 0, 0]
+3 [0, -1, -1, 2, 1, 0, -3, -1, 0, 0, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 1, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, 1, 0, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, -5, -3, -1, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+E [-1, 1, 0, -1, 0, 0, 1, 0, 0, 0, 1, 0]
+SIGMA m=2
+1 [1, -1, 2, 1, -2, 1, -1, 2, -1, 0, 0, 0]
+2 [0, 0, 1, 0, -1, 2, 0, 1, -2, 1, 0, 0]
+3 [0, -1, -1, 2, 0, -1, -3, 1, 1, 0, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 2, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, 0, -1, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, -4, -1, 0, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+E [-3, 4, -1, -5, 1, 0, 6, -1, 0, 0, 9, -1]
+SIGMA m=3
+1 [1, -1, 3, 1, -3, 3, -1, 3, -3, 1, 0, 0]
+2 [0, 0, 1, 0, -1, 3, 0, 1, -3, 3, 0, 0]
+3 [0, -1, -1, 2, -1, -2, -3, 3, 1, -1, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 3, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, -1, -2, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, -3, 1, 1, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+E [-6, 10, -4, -15, 5, -1, 21, -6, 1, 0, 41, -7]
+SIGMA m=4
+1 [1, -1, 4, 1, -4, 6, -1, 4, -6, 4, 0, 0]
+2 [0, 0, 1, 0, -1, 4, 0, 1, -4, 6, 0, 0]
+3 [0, -1, -1, 2, -2, -3, -3, 5, 0, -3, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 4, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, -2, -3, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, -2, 3, 2, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+E [-10, 20, -10, -35, 15, -5, 56, -21, 6, -1, 131, -28]
+SIGMA m=5
+1 [1, -1, 5, 1, -5, 10, -1, 5, -10, 10, 0, 0]
+2 [0, 0, 1, 0, -1, 5, 0, 1, -5, 10, 0, 0]
+3 [0, -1, -1, 2, -3, -4, -3, 7, -2, -6, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 5, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, -3, -4, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, -1, 5, 3, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+E [-15, 35, -20, -70, 35, -15, 126, -56, 21, -6, 336, -83]
+SIGMA m=6
+1 [1, -1, 6, 1, -6, 15, -1, 6, -15, 20, 0, 0]
+2 [0, 0, 1, 0, -1, 6, 0, 1, -6, 15, 0, 0]
+3 [0, -1, -1, 2, -4, -5, -3, 9, -5, -10, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 6, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, -4, -5, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, 0, 7, 4, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+E [-21, 56, -35, -126, 70, -35, 252, -126, 56, -21, 742, -203]
+SIGMA m=7
+1 [1, -1, 7, 1, -7, 21, -1, 7, -21, 35, 0, 0]
+2 [0, 0, 1, 0, -1, 7, 0, 1, -7, 21, 0, 0]
+3 [0, -1, -1, 2, -5, -6, -3, 11, -9, -15, -1, 0]
+4 [0, 0, 0, 0, 0, 1, 0, 0, -1, 7, 0, 0]
+5 [0, 0, 0, 0, -1, -1, 0, 2, -5, -6, 1, 0]
+6 [0, 0, 0, 1, 2, 1, -3, 1, 9, 5, -3, -1]
+7 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+8 [0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, -1]
+9 [0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1]
+10 [0, 0, 0, 0, 0, 0, -1, -3, -3, -1, -2, -1]
+11 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+12 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1]
+E [-28, 84, -56, -210, 126, -70, 462, -252, 126, -56, 1470, -434]
+
