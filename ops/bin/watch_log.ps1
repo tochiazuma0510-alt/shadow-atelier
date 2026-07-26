@@ -4,12 +4,13 @@
 # Mojibake note: chcp 65001 + UTF8 OutputEncoding together (either alone breaks
 # on a cp932 console). Log file is UTF-8 (BOM at creation by wake scripts).
 # Keep this file ASCII-only (PS 5.1 encoding pitfall).
-param([int]$Tail = 60)
-$log = "C:\Users\81905\Desktop\shadow-atelier\ops\codex_activity.log"
+param([int]$Tail = 60, [string]$Log = "")
+$log = if ($Log) { $Log } else { "C:\Users\81905\Desktop\shadow-atelier\ops\codex_activity.log" }
+$lane = if ($Log -match "sol2") { "sol2" } else { "main" }
 if (-not (Test-Path $log)) { New-Item -ItemType File -Path $log | Out-Null }
 chcp 65001 | Out-Null
 try { [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false) } catch {}
-$host.UI.RawUI.WindowTitle = "shadow-atelier codex log (live)"
+$host.UI.RawUI.WindowTitle = "shadow-atelier codex log ($lane, live)"
 Write-Host ""
 Write-Host "==============================================" -ForegroundColor Cyan
 Write-Host "  shadow-atelier : codex activity (live tail)"  -ForegroundColor Cyan
