@@ -280,4 +280,120 @@ for (const cf of testVecs) {
   }
 }
 
-if (fails > 0) process.exit(1);
+// ============================================================================
+// Certificate crosscheck (coordinator instruction 2026-07-26, item-3 continuation):
+// "Node照合器も certificate 検証まで拡張(入力は凍結スペック+証明書のみ・GAPコード不読の
+// 規律継続)". This reads ONLY the JSON certificates written by search/e2-sweep-r2.g to
+// certificates/e2sweep/ -- it does NOT read that GAP script's source.
+// ============================================================================
+import { readFileSync, readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+const __dirname_ = dirname(fileURLToPath(import.meta.url));
+const CERT_DIR = join(__dirname_, '..', 'certificates', 'e2sweep');
+
+// Independently build the (2n x n) linear-stage matrix rows and rhs for a given m,
+// from ThetaBar/SigmaBar/EBar alone (the same mathematical objects self-tested above),
+// mirroring the *specification*'s two block equations (1+theta)f=0, N f = -Ebar_m --
+// not any GAP script's code.
+function buildLinearSystemNode(m) {
+  const n = 10;
+  const ek = (i) => { const v = new Array(n).fill(0); v[i] = 1; return v; };
+  const thetaImgs = [], smImgs = [], sm2Imgs = [];
+  for (let k = 0; k < n; k++) {
+    thetaImgs.push(ThetaBar(ek(k)));
+    smImgs.push(SigmaBar(ek(k), m));
+  }
+  for (let k = 0; k < n; k++) {
+    const val = new Array(n).fill(0);
+    for (let j = 0; j < n; j++) {
+      if (smImgs[k][j] !== 0) for (let t = 0; t < n; t++) val[t] += smImgs[k][j] * smImgs[j][t];
+    }
+    sm2Imgs.push(val);
+  }
+  const b = EBar(m);
+  const rows = [], rhs = [];
+  for (let i = 0; i < n; i++) {
+    const row = new Array(n).fill(0);
+    for (let k = 0; k < n; k++) row[k] = thetaImgs[k][i] + (i === k ? 1 : 0);
+    rows.push(row); rhs.push(0);
+  }
+  for (let i = 0; i < n; i++) {
+    const row = new Array(n).fill(0);
+    for (let k = 0; k < n; k++) row[k] = (i === k ? 1 : 0) + smImgs[k][i] + sm2Imgs[k][i];
+    rows.push(row); rhs.push(-b[i]);
+  }
+  return { rows, rhs, n };
+}
+
+function mod(x, m) { const r = x % m; return r < 0 ? r + m : r; }
+function parseGapIntList(s) {
+  // GAP's String(list) e.g. "[ 1, -2, 0 ]" is valid JSON already (whitespace + commas + ints).
+  return JSON.parse(s);
+}
+
+let certFails = 0;
+console.log('\n=== certificate crosscheck: certificates/e2sweep/*.json ===');
+let certFiles = [];
+try { certFiles = readdirSync(CERT_DIR).filter((f) => f.endsWith('.json')); } catch (e) { console.log('  (no certificates/e2sweep/ directory found)'); }
+for (const fname of certFiles) {
+  const raw = readFileSync(join(CERT_DIR, fname), 'utf8');
+  let cert;
+  try { cert = JSON.parse(raw); } catch (e) { console.log(`FAIL  ${fname}: not valid JSON (${e.message})`); certFails++; continue; }
+
+  if (cert.claim === 'linear_stage_kernel') {
+    const modulus = cert.modulus;
+    const m = cert.m;
+    let ok = true;
+    const gens = cert.K_generators.map((g) => (typeof g === 'string' ? parseGapIntList(g) : g));
+    const orders = cert.K_orders;
+    gens.forEach((e, idx) => {
+      const th = ThetaBar(e);
+      const sum1 = e.map((x, i) => x + th[i]);
+      const ok1 = sum1.every((x) => mod(x, modulus) === 0);
+      const sg = SigmaBar(e, m);
+      const s2g = SigmaBar(sg, m);
+      const Ne = e.map((x, i) => x + sg[i] + s2g[i]);
+      const ok2 = Ne.every((x) => mod(x, modulus) === 0);
+      const nE = e.map((x) => orders[idx] * x);
+      const ok3 = nE.every((x) => mod(x, modulus) === 0);
+      if (!ok1 || !ok2 || !ok3) { ok = false; console.log(`  ${fname} gen[${idx}]: (1+theta)e=0? ${ok1}  Ne=0? ${ok2}  n*e=0? ${ok3}`); }
+    });
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: linear_stage_kernel (m=${m}, modulus=${modulus}, ${gens.length} generators) independently rechecked`);
+    if (!ok) certFails++;
+  } else if (cert.claim === 'linear_stage_empty') {
+    const modulus = cert.modulus;
+    const yRaw = cert.dual_witness_y;
+    const y = typeof yRaw === 'string' ? parseGapIntList(yRaw) : yRaw;
+    let rows, rhs;
+    if (typeof cert.m === 'number') {
+      ({ rows, rhs } = buildLinearSystemNode(cert.m));
+      if (cert.synthetic && typeof cert.perturbation === 'string') {
+        const mMatch = cert.perturbation.match(/b\[(\d+)\]\s*\+=\s*(-?\d+)/);
+        if (mMatch) {
+          const idx1based = parseInt(mMatch[1], 10);
+          const delta = parseInt(mMatch[2], 10);
+          rhs = rhs.slice();
+          rhs[idx1based - 1] += delta; // GAP is 1-indexed
+        }
+      }
+      const yM = new Array(rows[0].length).fill(0);
+      for (let k = 0; k < rows[0].length; k++) for (let i = 0; i < rows.length; i++) yM[k] += y[i] * rows[i][k];
+      const yb = y.reduce((s, yi, i) => s + yi * rhs[i], 0);
+      const yMZero = yM.every((x) => mod(x, modulus) === 0);
+      const yBNonzero = mod(yb, modulus) !== 0;
+      const ok = yMZero === !!cert.yM_is_zero || yMZero === !!cert.yM_is_zero_mod_2j;
+      const ok2 = yBNonzero === !!cert.yb_nonzero_mod_2j;
+      const allOk = yMZero && yBNonzero && ok && ok2;
+      console.log((allOk ? 'PASS  ' : 'FAIL  ') + `${fname}: linear_stage_empty (m=${cert.m}, modulus=${modulus}) independently recomputed yM=${JSON.stringify(yM)} yb=${yb} (cert claimed yM_is_zero=${cert.yM_is_zero ?? cert.yM_is_zero_mod_2j}, yb_nonzero=${cert.yb_nonzero_mod_2j})`);
+      if (!allOk) certFails++;
+    } else {
+      console.log(`SKIP  ${fname}: linear_stage_empty with no 'm' field (synthetic, cert-internal check only) -- recorded yM_is_zero=${cert.yM_is_zero}, yb_nonzero=${cert.yb_nonzero_mod_2j}`);
+    }
+  } else {
+    console.log(`SKIP  ${fname}: unrecognized claim "${cert.claim}"`);
+  }
+}
+console.log(`\ncertificate crosscheck: ${certFails === 0 ? 'ALL PASS' : certFails + ' FAILURES'}`);
+
+if (fails > 0 || certFails > 0) process.exit(1);

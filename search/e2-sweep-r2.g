@@ -462,7 +462,7 @@ if origSolvableAllJ and not perturbedSolvableAllJ then
     "{\"claim\":\"linear_stage_empty\",",
     "\"synthetic\":true,",
     "\"method\":\"left_kernel_mod_prime_power/v1\",",
-    "\"modulus\":", String(2^failJ), ",",
+    "\"modulus\":", String(2^failJ), ",\"m\":", String(smokeM), ",",
     "\"matrix_shape\":[", String(2*sys.n), ",", String(sys.n), "],",
     "\"perturbation\":\"b[1] += 1 (item1 synthetic smoke test, NOT real sweep data)\",",
     "\"dual_witness_y\":\"", String(yWitness), "\",",
@@ -476,5 +476,201 @@ if origSolvableAllJ and not perturbedSolvableAllJ then
 else
   Print("\n[LAUNCH CONDITION FAILED]: could not construct the expected pos/neg contrast -- DO NOT PROCEED to item 3.\n");
 fi;
+
+# ================================================================================
+# ITEM 3 PIPELINE (coordinator continuation instruction, 2026-07-26): "v3 sec.2-3 の完全
+# パイプラインを実装せよ -- 384系の全数列挙・Kの生成・二次表(F,piB)・mass check・Ob_j商群
+# 構成・判定...384系の本走査だけは実行するな."
+#
+# LINEAR STAGE (v3 sec.3.1): fully implemented below -- per-m SNF (computed once over Z,
+# unreduced), per-j (j=1..6) solvability test via 2-adic valuation comparison (a direct
+# generalization of item1's "Z2-solvable for all j simultaneously" test to a SPECIFIC j),
+# K = ker(M mod 2^j) generator construction (with orders) from the SNF column-transform V,
+# independent recheck that generators satisfy (1+theta)e=0, N e=0, n_i e=0 mod 2^j, and an
+# unsolvable-certificate writer (v3 sec.3.3(A) schema, dual witness y: yM=0, yb!=0 mod 2^j).
+#
+# QUADRATIC STAGE (v3 sec.3.2-3.3(B)/(C)): BLOCKED, reported explicitly below rather than
+# guessed. F(e_i) and omega0 (the quadratic obstruction map into Ob_j=(C_j x C_j)/im(Lambda))
+# are NOT derivable from beta/theta|_C/sigma|_C/QTheta/QN alone. Candidate checked and
+# REJECTED: F(k):=(QTheta(k),QN(k,m)) evaluated directly at k. Expanding QTheta(u+v) gives
+# quadratic cross-term (uw*vq+vw*uq, uw*vp+vw*up) (symmetric in u,v); this does NOT match
+# the ALREADY-AUTHORIZED piB formula (BTheta(u,v):=BetaAC(ThetaP(v),u), from
+# manifest_spec_e2_actions.md, computed below) at u=w-basis-vector, v=p-basis-vector:
+#   my candidate's cross-term at (u,v)=(e_w,e_p): e_w has w-coord 1, e_p has q-coord 0,
+#   p-coord... [full check in report to commander] -- the two do not coincide in general,
+#   so treating "the quadratic part of QTheta's own expansion" as piB (or vice versa,
+#   deriving F from piB by undoing this) is not licensed by anything I have been given
+#   permission to read. This is exactly the shape of error that both independent audits
+#   caught in the earlier q_theta/q_N self-derivation (docs/notes/検証_q式導出.md,
+#   sol/sol2_reply_01_q.md) -- NOT repeating it. Stopping here; see report to commander for
+#   the precise ask (either docs/命題_E22三段判定_v1.md sec.6's F/omega0 formulas, or an
+#   explicit closed form via a permitted channel).
+# ================================================================================
+
+Print("\n=== ITEM 3: linear-stage pipeline (per (j,m)) ===\n");
+
+V2Val := function(n)
+  local v;
+  if n = 0 then return 1000000; fi;
+  v := 0; n := AbsInt(n);
+  while n mod 2 = 0 do n := n/2; v := v+1; od;
+  return v;
+end;;
+
+# Build the (once-per-m) SNF data for the 20x10 system M(m) x = b(m) (over Z, unreduced).
+BuildSnfData := function(m)
+  local sys, snf;
+  sys := BuildLinearSystem(m);;
+  snf := SmithNormalFormIntegerMatTransforms(sys.rows);;
+  return rec(m:=m, sys:=sys, U:=snf.rowtrans, V:=snf.coltrans, D:=snf.normal, rank:=snf.rank, n:=sys.n);
+end;;
+
+# Test solvability of M x = b (mod 2^j), using the once-computed SNF data (U*M*V=D). Returns
+# a record: solvable(bool); if unsolvable: failRow, modulus; if solvable: modulus, kgens (list
+# of {vec (Abar x-coords, length n), order (2^k)}), covering K = ker(M mod 2^j) fully.
+TestAtJ := function(snfData, j)
+  local n, rank, D, U, V, b, c, modulus, i, failRow, ok, kgens, ord, genY, genX, d, v2d;
+  n := snfData.n;  rank := snfData.rank;  D := snfData.D;  U := snfData.U;  V := snfData.V;
+  b := snfData.sys.rhs;
+  c := U * b;;
+  modulus := 2^j;;
+  ok := true;  failRow := 0;
+  for i in [1..rank] do
+    d := D[i][i];  v2d := V2Val(d);
+    if V2Val(c[i]) < Minimum(v2d, j) then ok := false; failRow := i; break; fi;
+  od;
+  if ok then
+    for i in [rank+1..Length(c)] do
+      if V2Val(c[i]) < j then ok := false; failRow := i; break; fi;
+    od;
+  fi;
+  if not ok then
+    return rec(solvable:=false, failRow:=failRow, modulus:=modulus);
+  fi;
+  kgens := [];;
+  for i in [1..n] do
+    if i <= rank then
+      d := D[i][i];  v2d := V2Val(d);
+    else
+      v2d := 1000000;
+    fi;
+    if v2d >= j then
+      ord := 2^j;  genY := List([1..n], k -> 0);  genY[i] := 1;
+    else
+      ord := 2^v2d;  genY := List([1..n], k -> 0);  genY[i] := 2^(j - v2d);
+    fi;
+    genX := V * genY;;
+    if ord > 1 then
+      Add(kgens, rec(vec:=genX, order:=ord));
+    fi;
+  od;
+  return rec(solvable:=true, modulus:=modulus, kgens:=kgens);
+end;;
+
+# Independent recheck (v3 sec.3.1 point 4): each K generator e must satisfy, mod 2^j:
+#   (1+bar_theta) e = 0,  bar_N e = 0,  n_i * e = 0
+RecheckKGenerator := function(gen, j, m)
+  local e, thetaE, sum1, modulus, ok1, ok2, ok3, sigE, sig2E, NE, nE;
+  e := gen.vec;  modulus := 2^j;
+  thetaE := ThetaP(e);;
+  sum1 := e + thetaE;;
+  ok1 := ForAll(sum1, x -> x mod modulus = 0);;
+  sigE := SigmaP(e, m);;
+  sig2E := SigmaP(sigE, m);;
+  NE := e + sigE + sig2E;;
+  ok2 := ForAll(NE, x -> x mod modulus = 0);;
+  nE := gen.order * e;;
+  ok3 := ForAll(nE, x -> x mod modulus = 0);;
+  return ok1 and ok2 and ok3;
+end;;
+
+# Solvable (linear-stage kernel) certificate writer -- for crosscheck/check-e2-action.mjs to
+# independently re-derive (1+theta)e=0, N e=0, n_i*e=0 mod 2^j directly from theta_bar/sigma_bar.
+WriteSolvableCert := function(path, j, m, kgens)
+  local genStrs, ordStrs, cert;
+  genStrs := List(kgens, g -> String(g.vec));;
+  ordStrs := List(kgens, g -> String(g.order));;
+  cert := Concatenation(
+    "{\"claim\":\"linear_stage_kernel\",",
+    "\"method\":\"snf_kernel_mod_prime_power/v1\",",
+    "\"modulus\":", String(2^j), ",\"m\":", String(m), ",\"j\":", String(j), ",",
+    "\"basis_order_Abar\":[\"w\",\"p\",\"q\",\"r1\",\"r2\",\"r3\",\"t1\",\"t2\",\"t3\",\"t4\"],",
+    "\"K_generators\":[", JoinC(genStrs, ","), "],",
+    "\"K_orders\":[", JoinC(ordStrs, ","), "],",
+    "\"recheck\":\"checker independently rebuilds theta_bar/sigma_bar mod 2^j and verifies (1+theta)e=0, N e=0, n_i*e=0 for each generator\"}");;
+  WriteFileRaw(path, cert);;
+end;;
+
+# Unsolvable certificate writer (v3 sec.3.3(A) schema)
+WriteUnsolvableCert := function(path, snfData, j, failRow)
+  local U, n, modulus, y, yM, yb, yMZero, yBNonzero, cert;
+  U := snfData.U;  n := snfData.n;
+  modulus := 2^j;
+  y := U[failRow];;
+  yM := y * snfData.sys.rows;;
+  yb := y * snfData.sys.rhs;;
+  yMZero := ForAll(List(yM, x -> x mod modulus), x -> x = 0);;
+  yBNonzero := (yb mod modulus <> 0);;
+  cert := Concatenation(
+    "{\"claim\":\"linear_stage_empty\",",
+    "\"method\":\"left_kernel_mod_prime_power/v1\",",
+    "\"modulus\":", String(modulus), ",",
+    "\"matrix_shape\":[", String(2*n), ",", String(n), "],",
+    "\"m\":", String(snfData.m), ",\"j\":", String(j), ",",
+    "\"basis_order_Abar\":[\"w\",\"p\",\"q\",\"r1\",\"r2\",\"r3\",\"t1\",\"t2\",\"t3\",\"t4\"],",
+    "\"dual_witness_y\":\"", String(y), "\",",
+    "\"yM_is_zero_mod_2j\":", JB(yMZero), ",",
+    "\"yb\":", String(yb), ",",
+    "\"yb_nonzero_mod_2j\":", JB(yBNonzero), ",",
+    "\"recheck\":\"yM mod 2^j and yb mod 2^j recomputed directly, independent of SNF's internal claim\"}");;
+  WriteFileRaw(path, cert);;
+  return yMZero and yBNonzero;
+end;;
+
+# ---- spot validation on a SMALL sample (explicitly NOT the full 384-system sweep, per
+#      coordinator instruction "384系の本走査だけは実行するな"). Demonstrates the linear-
+#      stage machinery is wired up correctly; not a sweep result. ----
+Print("\n--- spot validation sample: m in {0,1,2,3}, j in {2,3} (8 pairs, NOT the 384-system sweep) ---\n");
+item3StartTime := Runtime();;
+sampleM := [0,1,2,3];;
+sampleJ := [2,3];;
+allSpotOk := true;;
+for spm in sampleM do
+  snfD := BuildSnfData(spm);;
+  for spj in sampleJ do
+    spres := TestAtJ(snfD, spj);;
+    if spres.solvable then
+      krechecks := List(spres.kgens, g -> RecheckKGenerator(g, spj, spm));;
+      kOk := ForAll(krechecks, x -> x);;
+      Print("  (j=", spj, ",m=", spm, "): linear-stage SOLVABLE, |K generators|=", Length(spres.kgens),
+            " orders=", List(spres.kgens, g->g.order), " recheck-all-pass=", JB(kOk), "\n");
+      certPath := Concatenation("certificates/e2sweep/spot_j", String(spj), "_m", String(spm), ".json");;
+      WriteSolvableCert(certPath, spj, spm, spres.kgens);;
+      if not kOk then allSpotOk := false; fi;
+    else
+      certPath := Concatenation("certificates/e2sweep/spot_j", String(spj), "_m", String(spm), ".json");;
+      certOk := WriteUnsolvableCert(certPath, snfD, spj, spres.failRow);;
+      Print("  (j=", spj, ",m=", spm, "): linear-stage UNSOLVABLE at row ", spres.failRow,
+            " -- wrote ", certPath, " (witness recheck pass=", JB(certOk), ")\n");
+      if not certOk then allSpotOk := false; fi;
+    fi;
+  od;
+od;
+Print("[", PF(allSpotOk), "] spot-validation sample: all linear-stage results independently rechecked OK\n");
+item3ElapsedMs := Runtime() - item3StartTime;;
+Print("item3 spot-validation (8 pairs: 4 SNF builds + 8 per-j tests + K-recheck) elapsed ms: ", item3ElapsedMs, "\n");
+Print("naive linear extrapolation to 320 live pairs (5 j-values x 64 m, excluding j=1 control):\n");
+Print("  per-SNF-build cost dominates (1 per m, reused across 6 j) => ~", QuoInt(item3ElapsedMs,4), " ms/SNF-build * 64 m = ~",
+      QuoInt(item3ElapsedMs,4)*64, " ms for all SNF builds, plus 6x cheap per-j tests (negligible by comparison)\n");
+
+Print("\n=== ITEM 3 STATUS ===\n");
+Print("Linear stage (SNF, per-j solvability, K generation+recheck, unsolvable-certificate\n");
+Print("  writer): IMPLEMENTED and spot-validated above (8 pairs).\n");
+Print("Quadratic stage (F(e_i), omega0, Ob_j quotient, mass-check exhaustion, solution_witness /\n");
+Print("  central_lift_obstruction/v2 certs): BLOCKED -- see header comment above for the exact\n");
+Print("  reason (candidate formula checked and rejected as inconsistent with the authorized\n");
+Print("  piB formula). NOT guessed.\n");
+Print("FULL 384-SYSTEM SWEEP: NOT EXECUTED (only 8 spot pairs above; j=1..6 x m=0..63 in full\n");
+Print("  has not been run, per explicit instruction).\n");
 
 fi; # ncOk
