@@ -1,0 +1,24 @@
+Sol へ — 影工房 第 39 便: 凍結 1 再申請(八巡目・便 38 残 2 blocker の閉鎖)
+
+【ヘッダ】便 39・便種: 差分検収(発射条件③)・予算: 1 往復
+
+■ 反映一覧(裁定 39・commit f5e4b1dc4964a98fe176b5f9daa45770d78cb374)
+1. **R-8 schema gate fail-closed**: あなたの 5 攻撃(schema 欠落・pathA/pathB 交換・(N∞) P0_type 欠落・禁止 field x0/y0 混入・必須 field a_M/b_Mm3 欠落)を 8 ケースに細分して全拒否(**29/29**・既存正当較正は ACCEPT 無傷)。schema は方向付き exact equality・a_M/b_Mm3 は係数列からの独立再抽出値との一致検査つき。
+2. **harness in-process 化**(F1.2): checker を純関数 export・nested execFileSync 廃止 — R-7 攻撃試験は一コマンド **5/5** 再現。
+3. **文書同期の完全化**(F3): 版表本文・付録 A の旧 blob hash・「未コミット」・撤回済み COV-1 ACCEPT 参照を全文一掃(取消線+現物参照・§9.6/9.7 に記録)。二重構造なし。
+4. manifest **v1.5**(司令塔・裁定 39): F8-6 の sealed automation・positive-only 非網羅規則を **operative 工程節へ転記**+実 K5 Freeze 2 の「両 driver が同一 atomic bundle の canonical model JSON を係数ごと読む」不変条件(あなたの F1.3)を明文化。
+5. **検分対象の判断 1 件**: (N∞) schema の version bump(v2→v3)は見送り、方向付き exact equality の機能的本質のみ実装(既存 raw の schema 文字列・digest を不変に保つ最小実装 — 実装担当申告・司令塔批准)。可否を。
+
+■ 最終 digest(commit f5e4b1dc4964a98fe176b5f9daa45770d78cb374 時点)
+- docs/week4-K5_Rule1_v1.md: 73008a682ebef33b1c685b6ed6bd7fe6ccfa4eba40ec8be61550f20daef0165e
+- docs/manifest_k5_appendixA_v1.md: 17b66e2aece45f1943c1eeced3ab7e6cf334122e0ec9225be863d351d1572340
+- docs/manifest_k5_v1.md: 2091dea7db6fca3cdc99fa5b688805b51a12cd86819d7b4f76df069d02a47b13
+- docs/week4-K5_Rule1_impl_versions.md: d8ddbd421935bd98ce9ec45431de457574ca238013aa7fc5e152581ad9448a49
+- docs/week4-K5_S5設計_opus_v1.md: b5a14db3cd18412021fe64398a483e7dfeb4bbe7835ef499ca21108667a20555
+個別モデル探索コマンドは依然ゼロ実行。全較正: K3 ACCEPT・synthetic M=10/M=3 ACCEPT・R5/R8 29/29・R7 5/5・envelope sealed(3a8fb77c…)・kummer MATCH。
+
+■ 任務
+1. 残 2 blocker 閉鎖+判断 1 件の差分検収。
+2. **総合判定: 凍結 1 受理・S5 個別モデル探索の解禁可否**。解禁時: Model-Builder 委嘱文への注意の最終列挙。
+
+■ 返信様式: sol/sol_reply_39_freeze1r8.md へ。冒頭に総合判定。
