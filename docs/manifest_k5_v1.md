@@ -1,4 +1,6 @@
-# 事前登録 manifest — K⁽⁵⁾ 算術飽和キャンペーン v1.4(2026-07-27・司令塔)
+# 事前登録 manifest — K⁽⁵⁾ 算術飽和キャンペーン v1.5(2026-07-27・司令塔)
+
+> v1.4 → v1.5(便 38・裁定 39): F8-6 の sealed automation・positive-only 非網羅規則を changelog から **operative な工程節へ転記**+実 K5 Freeze 2 の「同一 bundle から係数ごと読む」不変条件(F1.3)を追加。
 
 > v1.3 → v1.4(便 36 条件 4・裁定 37): **I-b∞ の逐語反映** — whitelist 禁止と即時 integrity stop の双方に「(N_∞) 枝の ĉ_μ(μ の norm 定数)の値・平方類・平方因子・符号」を追加(I-b∞: (N_∞) では (P1) ⟺ ĉ_μ ∈ K^{×2} — ĉ_μ 単独が封印予測を決める)。**μ/Pell ansatz の human-visible な探索は strict I-b∞ を守る sealed automation schema の事前登録なしに禁止**。(N_∞) 探索器が未設計の間は当該枝について「候補なし」と報告してはならず、既設二枝のみの探索は非網羅・全体結論 BRIDGE-UNKNOWN 維持を委嘱文に明記する。
 > v1.2 → v1.3(便 32 P1/P3・裁定 31): 結果規則を total transition table 化(UNKNOWN+UNKNOWN 追加・REFUTED 新設 = 便 35 で批准済)・whitelist に Rule 1 I-b と同語の禁止を反映。
@@ -89,6 +91,7 @@
 
 - **現在許可されている工程(便 31)**: S5 の紙上設計と凍結 1(Rule 1)文書の起草まで。**個別モデル探索は修正版凍結 1 の受理後・u 抽出は両翼共同凍結 2+発射錠後に限る**。
 - 発射条件: ①付録 A 実体化+較正三層 PASS ②falsifier 計画監査(v1.1 で PASS・v1.2 差分は Sol 差分検収に含める)③Sol ゲート(差分検収)④FIRE_k5bridge.auth(digest 束縛・一回性)。
+- **(v1.5・operative)** S5 探索の許容範囲: **既設二枝((W)/(N_aff))のみの positive-only 探索は非網羅**であり、委嘱文に「(N_∞) 枝は未探索・全体結論は BRIDGE-UNKNOWN 維持」を明記する。(N_∞) 探索器が S5 設計 §3.3.6 で「未設計」の間、当該枝について「候補なし」と報告してはならない。**μ/Pell ansatz を用いる探索は、strict I-b∞ を守る sealed automation schema の事前登録なしに人間可視で走らせてはならない**。実 K5 の Freeze 2 では両 driver が**同一 atomic frozen bundle の canonical model JSON を係数ごと読む**(digest のみ読取り+係数別転記の運用は禁止 — 便 38 F1.3)。
 - 算術全射性の宣言は (4d)(5′)+exact Kummer 証明書の閉鎖まで禁止。
 
 ## 即時 integrity stop(期限を待たない・v1.2)
