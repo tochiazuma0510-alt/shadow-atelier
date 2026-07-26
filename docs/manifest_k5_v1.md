@@ -1,6 +1,6 @@
 # 事前登録 manifest — K⁽⁵⁾ 算術飽和キャンペーン v1.2(2026-07-27・司令塔)
 
-> v1.1 → v1.2(便 31 差戻しの全採用・裁定 29): ①fixture 実データ表(付録 A)の実体化を必須化(P1 — 実データ生成は発注済・追記後に Sol 差分検収)②凍結 1 の時点を一意化・「または初期」削除(P2)③凍結 2 = 両翼 atomic joint freeze(P3)④formal a = 1 は永久不変・橋側捻れは b_sq/b_ns・比較指数 a_eff(P4 — v1.1 の「a ↦ ab⁻¹ 更新」は誤りとして撤回・裁定 29-2)⑤exact Kummer 証明書型(P5)⑥結果規則表と結果記録の分離(P6)⑦Model-Builder whitelist・u 二経路の独立性要件(P7)⑧即時 integrity stop 条件(P8)⑨S5 紙上 ansatz と Rule 1 要件(P9)。
+> v1.1 → v1.2(便 31 差戻しの全採用・裁定 29): ①fixture 実データ表(付録 A)の実体化を必須化(P1 — **実体化済: docs/manifest_k5_appendixA_v1.md**・K5-sq `a49252af…6716`・K5-ns `0ce28a6d…cd81`・K3-regression `70f2a604…9ed9`(sha256・機械計算)。付録 A 内の新設 tie-break 2 規則(代表 H の辞書式最小・σ₀ ラベル付け)は Sol 検収対象)②凍結 1 の時点を一意化・「または初期」削除(P2)③凍結 2 = 両翼 atomic joint freeze(P3)④formal a = 1 は永久不変・橋側捻れは b_sq/b_ns・比較指数 a_eff(P4 — v1.1 の「a ↦ ab⁻¹ 更新」は誤りとして撤回・裁定 29-2)⑤exact Kummer 証明書型(P5)⑥結果規則表と結果記録の分離(P6)⑦Model-Builder whitelist・u 二経路の独立性要件(P7)⑧即時 integrity stop 条件(P8)⑨S5 紙上 ansatz と Rule 1 要件(P9)。
 > v1 → v1.1: falsifier 監査(F1・W1–W3・P1–P2)全採用。
 
 ## 宇宙(事前登録・変更禁止)
