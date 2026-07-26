@@ -177,6 +177,32 @@ k5CK("E7  非自明元は型 5.5(不動点なし)",
 k5CK("E10 Phi(GT) は 2 つの G_5-共役類を入れ替えない",
    ForAll(k5shad, k5t -> Image(k5t.aut, k5o0.k5H) in k5Lam), "");
 
+# ------------------------------------------------- 便 30 F2.3/P4: 封印値 a = j_ns^{-1} j_sq
+# GAP は共役を H^g = g^-1 H g、node は g H g^-1 を使う。**両クラスで同一規約**である限り
+# a は不変(node I4 が逆向き規約でも同じ a を出すことを確認済み)。
+k5jFor := function(H)
+  local L, tau, rho, out, tt, kk;
+  L := AsList(ConjugateSubgroups(k5G, H));
+  tau := PermList(List([1..10], i -> Position(L, L[i]^k5X)));
+  rho := List(k5F0, t -> PermList(List([1..10], i -> Position(L, Image(t.aut, L[i])))));
+  out := [];
+  for tt in [0..4] do
+    kk := First([1..5], j -> rho[j] = tau^(2*tt));
+    if kk = fail then return fail; fi;
+    Add(out, k5F0[kk].k5k);
+  od;
+  return out;
+end;;
+k5j1 := k5jFor(k5tgt[1].k5H);;
+k5j2 := k5jFor(k5tgt[2].k5H);;
+k5CK("I1  j_i は標的二共役類の両方で定義される(rho_0 の像が tau_i(mu_10[5]) を尽くす)",
+   k5j1 <> fail and k5j2 <> fail, "");
+k5CK("I2  j_sq = j_ns(K5-1 の帰結 — j_i は i に依らない)", k5j1 = k5j2,
+   Concatenation("j_1 = ", String(k5j1), "  j_2 = ", String(k5j2)));
+k5aVals := Filtered([1..4], a -> ForAll([0..4], tt -> k5j2[(a*tt) mod 5 + 1] = k5j1[tt+1]));;
+k5CK("I3  封印値 a = j_ns^{-1} j_sq in (Z/5)^x", Length(k5aVals) = 1 and k5aVals[1] = 1,
+   Concatenation("a = ", String(k5aVals)));
+
 # ---------------------------------------------------------------- 最小 faithful
 k5cf := Filtered(k5ccs, k5c -> Size(Core(k5G, Representative(k5c))) = 1);;
 k5mindeg := Minimum(List(k5cf, k5c -> Index(k5G, Representative(k5c))));;

@@ -389,6 +389,43 @@ ck('E11 事前枠: (5\')+(R6-act) が成立するなら ord([u^{-1}]_10) | e = 5
 ck('E12 事前枠(警報規準): 将来の走査で 2 または 10 が出たら新現象ではなく **前件札か記録の破れ**',
   5 % 2 !== 0 && 5 % 10 !== 0);
 
+// ================================================================ I. 【便 30 F2.3/P4】整合ゲートの強化: 封印値 a
+// j_i := (rho_0^{(i)})^{-1} o tau_i|_{<X^2>} : mu_10[5] --> F_0  (dessin ごとの作用同型)
+// (5') が両 dessin で成立するなら Ih|_{G_K} = j_i o kappa_i、ゆえに kappa_ns = kappa_sq^a、
+//   a := j_ns^{-1} j_sq in Aut(mu_5) = (Z/5)^x  … これを **u の開示前に**有限群論だけで確定する。
+{
+  const jFor = (o) => {
+    const L = o.lam, LK = L.map(key);
+    const t = L.map(C => LK.indexOf(key(conjSub(C, X))));            // tau_i(zeta_10)
+    const TT = []; { let p = L.map((_, i2) => i2); for (let i2 = 0; i2 < 10; i2++) { TT.push(p); p = comp(p, t); } }
+    const rho = F0.map(s => L.map(C => LK.indexOf(key(applyAut(s.aut, C)))));
+    return [...Array(5)].map((_, tt) => {
+      const tgt = TT[(2 * tt) % 10].join(',');
+      const w = rho.findIndex(p => p.join(',') === tgt);
+      return w < 0 ? null : F0[w].k;
+    });
+  };
+  const reps = tClasses.map(C => targetSet.find(x => C.includes(key(x.H))));
+  const sqRep = reps.find(o => [1, 4].includes(alphaOf(o))), nsRep = reps.find(o => [2, 3].includes(alphaOf(o)));
+  const jsq = jFor(sqRep), jns = jFor(nsRep);
+  ck('I1  j_i は両クラスで定義される(rho_0 の像が tau_i(mu_10[5]) を尽くす)',
+    jsq.every(v => v !== null) && jns.every(v => v !== null));
+  ck('I2  K5-1 の帰結: j_i(tau_i(zeta_10^{2t})) = Phi_{0,-t}  — **i に依らない**',
+    jsq.every((v, tt) => v === ((-tt % 5) + 5) % 5) && jns.every((v, tt) => v === ((-tt % 5) + 5) % 5),
+    `j_sq = [${jsq}]  j_ns = [${jns}]`);
+  const aVals = [1, 2, 3, 4].filter(a => [...Array(5)].every((_, tt) => jns[(a * tt) % 5] === jsq[tt]));
+  ck('I3  ★★封印値 a = j_ns^{-1} j_sq in (Z/5)^x  ⇒ kappa_ns = kappa_sq^a',
+    aVals.length === 1, `a = ${aVals.join(',')}`);
+  ck('I4  a は tau の向き(zeta_10 <-> X か X^{-1} か)に依らない — 両クラスで同一規約を使う限り不変',
+    (() => { const jF2 = (o) => { const L = o.lam, LK = L.map(key);
+        const t = L.map(C => LK.indexOf(key(conjSub(C, INV[X]))));   // 逆向き規約
+        const TT = []; { let p = L.map((_, i2) => i2); for (let i2 = 0; i2 < 10; i2++) { TT.push(p); p = comp(p, t); } }
+        const rho = F0.map(s => L.map(C => LK.indexOf(key(applyAut(s.aut, C)))));
+        return [...Array(5)].map((_, tt) => { const tgt = TT[(2 * tt) % 10].join(','); const w = rho.findIndex(p => p.join(',') === tgt); return F0[w].k; }); };
+      const b = [1, 2, 3, 4].filter(a => [...Array(5)].every((_, tt) => jF2(nsRep)[(a * tt) % 5] === jF2(sqRep)[tt]));
+      return b.length === 1 && b[0] === aVals[0]; })());
+}
+
 // ================================================================ F. 最小 faithful transitive 作用
 // core-free 部分群の最大位数を、位数 50 / 100 / 125 / 250 の全部分群で確認
 const coreFreePlanes = [...U25.values()].filter(U => coreOf(U).size === 1);

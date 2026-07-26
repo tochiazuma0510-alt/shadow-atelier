@@ -1,10 +1,26 @@
-# K⁽⁵⁾ 橋 D1 — 奇数族横展開の第一歩: $G_5$ の構造確定と $R^{\rm cyc}$ 前件判定
+# K⁽⁵⁾ 橋 D1 — 奇数族横展開の第一歩: $G_5$ の構造確定と $R^{\rm cyc}$ 前件判定(**v1.1 = 便 30 / 裁定 26 反映版**)
 
-2026-07-27 起草: Claude(数学者レイヤー・Opus 5)。**司令塔委嘱(第三例 = 奇数族・$n=5$)。研究者裁定(`docs/研究目的.md` 追記 3)に基づく。**
+2026-07-27 起草・**同日 v1.1 改訂**: Claude(数学者レイヤー・Opus 5)。**司令塔委嘱(第三例 = 奇数族・$n=5$)。研究者裁定(`docs/研究目的.md` 追記 3)に基づく。v1.1 は Sol 便 30(条件付き PASS)+ 裁定 26 を反映。**
+
+## v1 → v1.1 差分表
+
+| # | 箇所 | v1 | **v1.1** | 出所 |
+|---|---|---|---|---|
+| **E1** | §5.4 | $\mathrm{inn}$ の規約を書かずに $\Phi_{0,k}=\mathrm{inn}(\bar x^{-2k})$ と述べた | **$\mathrm{inn}(g)(h) := ghg^{-1}$ を一行明記**。逆規約なら指数の符号だけ反転し、像と忠実性は不変であることも明記 | 便 30 F1.1・P1 / 裁定 26-1 |
+| **E2** | §6.1 | $W_0$ を最初から「$\mathbf P^1_{\mathbb Q}\smallsetminus\{0,1,\infty\}$ の被覆」と書いた(**型が先走り**) | **$W_{0,\bar{\mathbb Q}}\to U_{\bar{\mathbb Q}}$ の幾何被覆と型付け**($U := \mathbf P^1_{\mathbb Q}\smallsetminus\{0,1,\infty\}$)。結論で初めて $\mathbb Q$-有理性を得る。Sol (3.1)–(3.3) の $\mathrm{Out}(P)$ 経由の書き方を採用 | 便 30 F3.1・P5 |
+| **E3** | §6.2・§5.1 | (4b) は「PASS(紙上・**文献要請つき**)」 | **(4b) = 「PASS(紙上・両数学者)」へ昇格**。Sol F3.2 が Weil cocycle の自動成立を書き切ったため**数学的な穴は無い**。**(4d)(5′) は UNKNOWN のまま動かさない** | 便 30 F3.2 / 裁定 26-4 |
+| **E4** | §6.2 | 【文献要請 1】= 要請中 | **【引用確定】Dèbes–Douai 1997 + Sijsling–Voight 2016**(`docs/文献ゲート_01_moduli_descent.md`)。**降下が与えるのは $\mathbb Q$-モデルの存在のみ — (4) を弱めない**の翻訳注意を明記 | 裁定 26-4・文献ゲート 01 |
+| **E5** | §3.4・§10 | 「次標的は $n=24$」 | **$n=24$ は差戻し・次標的から外す**。**盲点定理 K5-2b**(便 30 (4.5)(4.6): $8\mid n$ で $\Phi_{0,n/4}=1$ ⇒ $\ker\rho_0\supseteq C_2$)を新設し、$K^{(n)}$ 族の repeated-primary を**一律 SCHEMA-OUT** に登録。$K^{(8)}$ は**負較正**。攻略分岐 2 本を将来課題へ | 便 30 F4.3 / 裁定 26-3 |
+| **E6** | §4.5・§8.1 | 「2 つの dessin は非同型」 | **圏の明示**: 非同型は「**固定した $U$ 上の ordered dessin(cover over the fixed $U$)**」の意味。基底三点の置換を許す圏や曲線のみの粗い同値では**未分離** | 便 30 F2.1・W4 |
+| **E7** | §6.3 | 整合ゲート = 「位数一致」 | **§6.3 を全面強化**: $a := j_{\rm ns}^{-1}j_{\rm sq}\in(\mathbb Z/5)^\times$ を**有限群論段で計算・封印**し、$[u_{\rm ns}^{-1}]_{10} = [u_{\rm sq}^{-1}]_{10}^{\,a}$ を主整合ゲートにする。**$a$ の値は本稿で確定**(§6.3・二系統) | 便 30 F2.3・P4 / 裁定 26-6 |
+| **E8** | §9.3・§11・§12 | — | 【GAP】表・★教材(便 30 ★1 = 教材 14)・論点欄(便 30 の回答先を付記 + 便 31 への論点を新設) | — |
+
+> **不変**: §2・§3.1–§3.3 の全構造値・§4.1–§4.4 の列挙と分裂・§5.1 の (0)(1)(2)(3a–d)(6′-i)(6′-ii) 判定・§5.3 の $\Phi$ 単射・§7 の B1–B5・§8 の dessin データ・全検算値。**v1.1 は構造確定値を 1 ミリも動かさない。**
+> **係争の決着(裁定 26-2)**: $n=12$ は $(M,e,M/e)=(12,3,4)$ で **coprime** — 私の §3.4 が正しく、便 29 P7/W6 は Sol 本人の erratum(便 30 F4.2)。$n=12$ 欄は v1 のまま**変更しない**。
 
 - 入力(正典と工房内のみ): `docs/notes/抽出_Kn定義_D1.md`((3.1)(3.4)(3.6)・Prop 3.4/3.5/3.6・Thm 4.3 (4.9)(4.12)・Thm 4.6 (4.23))/ `docs/week4-K3飽和_opus_v3.md`(型付け $R^{\rm cyc}$・§5.2.5 事前登録表)/ `sol/sol_reply_24_d2.md`(B1–B5 の枠・符号表 (1.4))/ `docs/委嘱18_K3橋_D2D4_opus_v1.md` / `provenance/CLAIMS.md`(C-1・C-4)/ `certificates/K5.v1.json`。
 - **司令塔経由の便 29 注意 ①〜⑧ を設計に反映済み**(反映箇所は §0.2 の対応表)。**`sol/sol_reply_29_v3delta.md` の F6 節($K^{(5)}$ 事前値表)は読んでいない** — 本稿の構造値はすべて独立導出であり、突合は司令塔が裁定時に行う。
-- 検算: **二系統**(便 29 ⑧)。`search/week4-k5-bridge-d1.mjs`(node・**83/83 PASS**)と `search/week4-k5-bridge-d1.g`(GAP 4.16.0・**49/49 PASS**)。両者はヘルパーを一切共有しない(node は $D_5$ を整数 $2a+e$ で自前符号化+左剰余類、GAP は fp 群 → `IsomorphismPermGroup` → `DirectProduct`+右剰余類)。
+- 検算: **二系統**(便 29 ⑧)。`search/week4-k5-bridge-d1.mjs`(node・**87/87 PASS**・v1.1 で I 群 4 件追加)と `search/week4-k5-bridge-d1.g`(GAP 4.16.0・**52/52 PASS**・v1.1 で I 群 3 件追加)。両者はヘルパーを一切共有しない(node は $D_5$ を整数 $2a+e$ で自前符号化+左剰余類、GAP は fp 群 → `IsomorphismPermGroup` → `DirectProduct`+右剰余類)。
 - **状態: `paper + two-system cross-checked`(群論部分のみ)。`verified`(Lean)ではない。算術部分は本稿の範囲外(未着手)。**
 
 > ### 封印規律(本稿が触れないもの)
@@ -12,16 +28,18 @@
 
 ---
 
-## 0. 結論(先に 8 行)
+## 0. 結論(先に 9 行・**v1.1**)
 
 1. **構造確定**: $\lvert G_5\rvert = 500$、$[G_5,G_5] = \langle r\rangle^3\cong\mathbb F_5^3$(位数 125)、$Z(G_5)=1$、$\lvert\mathrm{Aut}(G_5)\rvert = 48000$。**符号表 (1.4) は $n=3$ と字面まで同一** — $G_5\cong\mathbb F_5^3\rtimes C_2^2$。
 2. **GT の確定**: $\boxed{\lvert\mathrm{GT}(K^{(5)})\rvert = 40}$、完全列 $1\to\mathfrak F_0\to\mathrm{GT}(K^{(5)})\xrightarrow{\tilde\chi}(\mathbb Z/20)^\times\to1$、$\boxed{\mathfrak F_0\cong C_5,\ e=5,\ M=10,\ K=\mathbb Q(\zeta_{20})}$。C-1(位数)・C-4(完全列挙証明書)と全項目一致。
-3. **前件 (0)(1)(2)(3)(6′) は PASS**。(4) は 4 分割して 3/4 PASS・残り 1 は次工程。(5′) は次工程(【GAP-Rcyc】そのもの)。
+3. **前件 (0)(1)(2)(3)(6′) は PASS**。(4) は 4 分割して **(4a)(4b)(4c) PASS(紙上・両数学者)・(4d) UNKNOWN**。(5′) は次工程(【GAP-Rcyc】そのもの)。
 4. **★最大の収穫**: $\mathfrak F_0$ の像は**内部自己同型**である — $\boxed{\Phi_{0,k} = \mathrm{inn}(\bar x^{-2k})}$。これは $n=5$ に固有でなく**すべての奇数 $n$ で成立**し、(6′) を有限計算なしに与える(命題 K5-1・§5.4)。$K^{(3)}$ で【GAP-18a】として機械に頼った 1 ビットが、族全体で構造的に閉じた。
 5. **★$n=3$ に無い新現象 1**: 標的 ordered passport の $H$ は **$G_5$-共役類 2 つ**に割れる(不変量は $\alpha\bmod\pm$ = 平方剰余か否か)。したがって**標的 dessin は 2 個あり、互いに非同型**。$n=3$ では 1 個だった。
-6. **★$n=3$ に無い新現象 2(かつ 5 の解決)**: それでも **$\Phi(\mathrm{GT})$ は 2 類を入れ替えない**。ここから **field of moduli $=\mathbb Q$ が GT 側だけで従う**(補題 Q・§6)。$K^{(3)}$ で明示 $\mathbb Q$-モデルに依拠した箇所が、構造的論証に置き換わる。
+6. **★$n=3$ に無い新現象 2(かつ 5 の解決)**: それでも **$\Phi(\mathrm{GT})$ は 2 類を入れ替えない**。ここから **field of moduli $=\mathbb Q$ が GT 側だけで従う**(補題 Q・§6.1)。さらに $\mathrm{Aut}=1$ から **Weil cocycle が自動成立して $\mathbb Q$-モデルの存在まで閉じる**(§6.2・便 30 F3.2 と独立一致)。**ただし降下が与えるのは存在のみ — (4d) の明示モデルと actual marking は別物で、(4d)(5′) は UNKNOWN のまま。**
+6b. **【v1.1】二 dessin の整合ゲートを確定**: $a := j_{m ns}^{-1}j_{m sq}\in(\mathbb Z/5)^	imes$ を $u$ の開示前に有限群論だけで計算し、$oxed{a = 1}$(補題 K5-a・§6.3・二系統)。封印する予測は $[u_{m ns}^{-1}]_{10} = [u_{m sq}^{-1}]_{10}$(**位数一致より強い**)。
 7. **dessin**: 標的は**次数 10・種数 2・ordered passport $(10,\,2^41^2,\,10)$・$\mathrm{Aut}=1$・monodromy 位数 100**。最小 faithful transitive 作用は**次数 20・種数 8・$(10^2,10^2,10^2)$・$\mathrm{Aut}\cong C_5$(B2 FAIL)**。
-8. **射程の正直な限界**: $\gcd(e,M/e)=\gcd(5,2)=1$ — **$n=5$ も coprime regime**。しかも **奇数族は構造的に永久に coprime**(§3.4)。便 28 P4 が求めた repeated-primary regime は **$8\mid n$ でしか現れない**(最小の非 2 冪は $n=24$)。奇数族の横展開だけでは $q$-版の反証条件は永久に試験できない。
+8. **射程の正直な限界**: $\gcd(e,M/e)=\gcd(5,2)=1$ — **$n=5$ も coprime regime**。しかも **奇数族は構造的に永久に coprime**(§3.4)。repeated-primary は **$8\mid n$ でしか現れない**(命題 K5-2)。
+9. **【v1.1・最重要の計画修正】**: その $8\mid n$ では **$\Phi_{0,n/4} = \mathrm{inn}(X^{-n/2}) = 1$(中心元)ゆえ $\kerho_0\supseteq C_2$** — **repeated-primary が発火する条件が detector を同時に殺す**(命題 K5-2b・便 30 F4.3)。ゆえに **$K^{(n)}$ 族の repeated-primary は現行 $R^{m cyc}$ で一律 SCHEMA-OUT**、**$n=24$ は次標的から外す**($K^{(8)}$ は負較正)。転進先は ①族外の忠実 detector 窓 ②中心 $C_2$ を測る拡張スキーマ(§3.4.1)。
 
 ### 0.1 $K^{(3)}$ との対照表(値のみ・算術は空欄)
 
@@ -87,7 +105,11 @@
 > $$ \mathrm{ord}\bigl([u^{-1}]_{10}\bigr)\in\{1,\ 5\}\quad\text{の二値である。} $$
 > **警報規準**: 将来の走査で $2$ または $10$ が観測されたら、それは新現象ではなく**前件の札か記録のどこかが破れている**証拠として扱う(検算 E11・E12)。
 >
-> **もう一つの事前登録された整合検査(§6.3)**: 標的が 2 つの $G_5$-共役類 $\Lambda_{\rm sq}$, $\Lambda_{\rm ns}$ に割れる(§4.5)。**両者は群論側で完全に同じ**((3)(6′) が同じ形で成立・§5.2)。したがって (5′) が両方で成立するなら、**両 dessin から読む $\mathrm{ord}([u^{-1}]_{10})$ は一致しなければならない**。食い違ったら (5′) か $\mathbb Q$-モデルのどちらかが破れている。
+> **もう一つの事前登録された整合検査【v1.1 で強化・§6.3】**: 標的が 2 つの $G_5$-共役類 $\Lambda_{\rm sq}$, $\Lambda_{\rm ns}$ に割れる(§4.5)。v1 は整合ゲートを「$\mathrm{ord}$ の一致」と書いたが**弱すぎる**(便 30 W3)。正しいゲートは、**作用同型 $j_i$ で移送した Kummer character の一致**である:
+> $$ \boxed{\text{(P-a)}\quad[u_{\rm ns}^{-1}]_{10} = [u_{\rm sq}^{-1}]_{10}^{\,a},\qquad a := j_{\rm ns}^{-1}j_{\rm sq}\in(\mathbb Z/5)^\times } $$
+> **$a$ は $u$ の開示前に有限群論だけで確定できる。本稿 §6.3.2 で確定・封印した。** 生の $u_{\rm sq}, u_{\rm ns}$ の一致は**要求しない**(曲線・局所座標・marking が違えば主係数は違いうる)。
+>
+> **採否規則(v1.1)**: 二 dessin は **`target_policy = all_two_classes`** — 両方を別 fixture として走らせ、**結果を見てから片方を捨てることを禁止**する(便 30 F6.1・P3 / 裁定 26-6)。$\mathrm{Aut}(G_5)$ が二類を融合する以上、marking から独立に一方を正典化する自然な根拠はない。
 
 ---
 
@@ -192,11 +214,36 @@ $$ \gcd(e,\ M/e) = \gcd(5,\,2) = 1\quad\Longrightarrow\quad K^{(5)}\ \text{も\ 
 > - $n\equiv2\ (4)$($\alpha=1$): Prop 3.4 より $K^{(n)} = K^{(n/2)}$ で奇に帰着。
 > - $4\mid n$($\alpha\ge2$): $M = n$、$e = n_0\,2^{\alpha-2} = n/4$、$M/e = 4$、$\gcd(e,4) = \gcd(n/4,4)$。
 >
-> ゆえに $\boxed{\text{repeated-primary regime}\ \bigl(\gcd(e,M/e)>1\bigr)\iff 8\mid n}$ であり、**最小の非 2 冪の repeated-primary 窓は $n = 24$**($\lvert G_{24}\rvert = 4\cdot12^3 = 6912$、$M=24$, $e=6$, $M/e=4$)。
+> ゆえに $\boxed{\text{repeated-primary regime}\ \bigl(\gcd(e,M/e)>1\bigr)\iff 8\mid n}$ であり、数値的に最小の非 2 冪の repeated-primary 窓は $n = 24$($M=24$, $e=6$, $M/e=4$)。
 
-**導出**: $e = \lvert\mathfrak F_0\rvert = \lvert\mathrm{GT}(K^{(n)})\rvert/\varphi(2M)$。D1 §4 の導出値 $\lvert\mathrm{GT}(K^{(n)})\rvert = 2n_0\varphi(n_0)$($\alpha\le1$)$/\ n_0\varphi(n_0)2^{2\alpha-2}$($\alpha\ge2$)と $\varphi(2M)$ を代入する。検算 B7・B8・B9。
+**導出**: $e = \lvert\mathfrak F_0\rvert = \lvert\mathrm{GT}(K^{(n)})\rvert/\varphi(2M)$。D1 §4 の導出値 $\lvert\mathrm{GT}(K^{(n)})\rvert = 2n_0\varphi(n_0)$($\alpha\le1$)$/\ n_0\varphi(n_0)2^{2\alpha-2}$($\alpha\ge2$)と $\varphi(2M)$ を代入する。検算 B7・B8・B9。**便 30 F4.1 が (4.1)(4.2) で独立再導出し PASS(裁定 26-2)。**
 
-> **★ この節の含意(研究計画への入力)**: 研究者裁定の「奇数族の横展開($n=5,7,9,\dots$)」は、**構造的に永久に coprime regime の中にある**。ゆえに便 28 P4 が求めた「repeated-primary regime での $q$-版の反証試験」は、**奇数族をいくら刈っても実行できない**。両者は独立の攻め手として並走させるべきである(§10 論点 4)。
+> **$n=12$ の決着(裁定 26-2)**: $(M,e,M/e) = (12,3,4)$、$\gcd(3,4)=1$ で **coprime**。便 30 F4.2 が $\mathfrak F_0 = \{k\equiv0\ (2)\bmod6\}\cong C_3$ と $\lvert\mathrm{GT}(K^{(12)})\rvert/\varphi(24) = 24/8 = 3$ の二経路で再導出し、便 29 P7/W6 を自ら erratum とした。**本欄は v1 のまま。**
+
+#### 3.4.1 【v1.1・便 30 F4.3 / 裁定 26-3】★ 構造的盲点 — $n=24$ の差戻し
+
+> **命題 K5-2b(盲点定理).** $4\mid n$ とする。$m=0$ における許容パラメータは $k\equiv0\ (\mathrm{mod}\ 2)$(Thm 4.3 (4.12) の $4\mid n$ 側の条件)であり、生成元計算 (5.2) は偶数 $n$ でもそのまま成立する:
+> $$ \Phi_{0,k} = \mathrm{inn}\bigl(X^{-2k}\bigr). \tag{4.4} $$
+> ここで **$8\mid n$** なら $k_0 := n/4$ は非零の許容値で、$f_{k_0} = (r^{n/2},r^{-n/2},1)$ は $\mathfrak F_0$ の位数 2 の元を与える。他方
+> $$ X^{-2k_0} = X^{-n/2} = (r^{n/2},\,1,\,1)\ \in\ Z(D_n^3)\cap G_n $$
+> は**中心元**なので
+> $$ \boxed{\ \Phi_{0,k_0} = 1,\qquad\text{ゆえに}\qquad \ker\rho_0\ \supseteq\ \langle(0,f_{k_0})\rangle\cong C_2\quad(\text{任意の }\Lambda\text{ について}).\ } \tag{4.5–4.6} $$
+
+**⇒ $\rho_0$ は detector の選び方に依らず非忠実であり、$8\mid n$ の $K^{(n)}$ は現行 $R^{\rm cyc}$ の SCHEMA-OUT。**
+
+$n=24$ では $M=24,\ e=6,\ M/e=4$、$\mathfrak F_0\cong C_6$、$\Phi(\mathfrak F_0)\cong C_3$、$\ker(\Phi\vert_{\mathfrak F_0})\cong C_2$。
+
+> **★★ 二つの条件が同じ $8\mid n$ で発火する。** すなわち $K^{(n)}$ 族では
+> $$ \boxed{\text{repeated-primary を得た瞬間、まさにその repeated 2-成分が }\Phi\text{ から見えなくなる。}} $$
+> $K^{(8)}$ は最小の実例($\mathfrak F_0 = C_2$ が丸ごと $\Phi$ 上で消える)。既知の飽和結果(Thm 5.3)との比較には使えるが、**これは legacy regression test の正例ではなく SCHEMA-OUT の負較正である**。
+
+**v1 の記述の訂正**: v1 §3.4 末尾と §10 は $n=24$ を「$q$-版の反証の最小候補」と書いた。**取り下げる。** 数値的に最小の repeated-primary 窓であることは正しいが、**スキーマ上で最初に適用可能な候補ではない**(便 30 ★教材 4)。**$G_{24}$(位数 6912)の全面走査に予算を投じる前に、この構造的 SCHEMA-OUT を manifest に登録する**(裁定 26-3)。
+
+**攻略分岐(将来課題・本稿では着手しない)**:
+1. **$K^{(n)}$ 族外**で repeated-primary かつ $\rho_0$ 忠実となる窓を探す(窓の地理学の探索課題)。
+2. **拡張スキーマ**: $\Phi$ で消える中心 $C_2$ を、別の rigidification(例えば $\Lambda$ 以外の付加構造)で測る設計。
+
+> **★ この節の含意(研究計画への入力)**: 研究者裁定の「奇数族の横展開($n=5,7,9,\dots$)」は、**構造的に永久に coprime regime の中にある**。そして repeated-primary 側は **$K^{(n)}$ 族全体で SCHEMA-OUT**。ゆえに便 28 P4 が求めた「repeated-primary regime での試験」は、**この族の中では原理的に実行できない** — 上の分岐 1・2 のどちらかへ転進するしかない(§12 論点)。
 
 ---
 
@@ -264,6 +311,11 @@ $$ \boxed{\ \Lambda_{\rm sq}:\ \alpha\in\{1,4\}\ (\text{mod }5\ \text{平方剰�
 
 - **$n=3$ に無い**: $\mathbb F_3^\times = \{1,-1\}$ は $\pm$ で一つの類になるため、$K^{(3)}$ では標的 6 個で共役類 1 つだった。**一般に類の個数は $(n-1)/2$**(candidate)。
 - **dessin としても非同型**: $\sigma_x$ を標準 10-サイクルに正規化して $\sigma_y$ を $\langle\sigma_x\rangle$-共役で比較すると 2 つは分かれる(検算 D15・D16)。手計算の不変量は $A-B\equiv1-\alpha\ (5)$ で、$\langle\sigma_x\rangle$-共役が $A-B\mapsto -(A-B)+2$ を起こす ⇒ 軌道は $\{0,2\}$ と $\{4,3\}$。
+
+> **【v1.1・便 30 F2.1/W4 — 圏の明示(この一行が無いと主張が曖昧)】**
+> 「非同型」は **固定した $U = \mathbf P^1_{\mathbb Q}\smallsetminus\{0,1,\infty\}$ 上の被覆(= ordered dessin / cover over the fixed $U$)の圏**での主張である。この圏では同型類は $\hat F_2$-共役類、したがって $G_5$-共役類で分類されるので、二類は非同型。
+> **未分離**: 「基底の三点 $0,1,\infty$ の置換を許す」圏や「Belyi 写像を忘れて曲線だけを見る」粗い同値関係では、本稿も便 30 も分離を確認していない。**その圏での主張はしない。**
+> あわせて **$\mathrm{Aut}(G_5)$-融合を dessin 同型と読まない**(W4): $\mathrm{Aut}(G_5)$ は marking を動かすので、cover の同型判定は $G_5$-共役類で行う(★教材 1 の系)。
 - **$\mathrm{Aut}(G_5)$ は融合する**: good 40 個は $\mathrm{Aut}(G_5)$-軌道 1 つ(検算 G4)。**「$\mathrm{Aut}$-軌道が一つ」から「$G$-共役類が一つ」を推論してはならない**(★教材 1)。
 
 ---
@@ -281,8 +333,8 @@ $$ \boxed{\ \Lambda_{\rm sq}:\ \alpha\in\{1,4\}\ (\text{mod }5\ \text{平方剰�
 | **(3b)** | $\lvert\Lambda\rvert = M = 10$ | **PASS** | 検算 D9-(3b)・二系統 |
 | **(3c)** | $\langle X\rangle$ が $\Lambda$ 上 regular(**全 coset で $H^g\cap\langle X\rangle=1$** まで) | **PASS** | 検算 D9-(3c)・二系統。$\lvert\langle X\rangle\rvert = 10 = \lvert\Lambda\rvert$ と自由性 ⇒ 単純推移 |
 | **(3d)** | $\mathrm{Stab}_{\langle X\rangle}(H) = N_G(H)\cap\langle X\rangle$(W1 の型) | **PASS** | 検算 D9-(3d)。**coset の stabilizer $H$ と取り違えない** |
-| **(4a)** | dessin $W_0$ の field of moduli $=\mathbb Q$ | **PASS(紙上・要監査)** | **補題 Q**(§6)。GT 側だけで従う |
-| **(4b)** | field of definition $=\mathbb Q$(descent) | **PASS(紙上・文献要請つき)** | $\mathrm{Aut}(W_0/\mathbf P^1) = N_G(H)/H = 1$ + Weil 降下(§6.2・【文献要請 1】) |
+| **(4a)** | dessin $W_0$($=$ 幾何被覆 $W_{0,\bar{\mathbb Q}}\to U_{\bar{\mathbb Q}}$)の field of moduli $=\mathbb Q$ | **PASS(紙上・両数学者)** | **補題 Q**(§6.1)。GT 側だけで従う。便 30 F3.1 検分 PASS |
+| **(4b)** | field of definition $=\mathbb Q$(descent) | **PASS(紙上・両数学者)** | $\mathrm{Aut}(W_0/U) = N_G(H)/H = 1$ ⇒ 同型一意 ⇒ Weil cocycle 自動(§6.2)。便 30 F3.2 が独立に記述。**引用は Dèbes–Douai 1997 + Sijsling–Voight 2016(出版時)** |
 | **(4c)** | $\mathbb Q$-有理な全分岐 cusp | **PASS** | (3c) より $\lambda=0$ 上は 1 点(分岐指数 10)。ファイバーが Galois 安定な 1 点集合ゆえ $\mathbb Q$-有理 |
 | **(4d)** | 明示 $\mathbb Q$-モデル(方程式)と actual marked identification | **UNKNOWN(次工程 S5)** | $K^{(3)}$ の (P4)(P5) に当たる作業。本稿の範囲外 |
 | **(5)** | FC-2b/FC-3(窓非依存 import) | **PASS(条件つき)** | 補題 C/D0/D/E/I3‡ は窓非依存($A_5$ v4 §1・便 27 F5 で PASS 済)。前件 (FC3-i) は (4a)(4b)、(FC3-ii) は推移性、**(FC3-iii) は (3a)** が供給 |
@@ -316,6 +368,9 @@ $$ m=0{:}(1,0),\ 1{:}(3,2),\ 3{:}(2,4),\ 4{:}(4,1),\ 5{:}(1,1),\ 6{:}(3,4),\ 8{:
 
 ### 5.4 ★★ (6′) の構造的閉鎖 — 全奇数 $n$ に効く
 
+> **【v1.1・便 30 P1】$\mathrm{inn}$ の規約**: 本稿は $\boxed{\mathrm{inn}(g)(h) := ghg^{-1}}$ を採る。
+> 逆規約 $\mathrm{inn}(g)(h) = g^{-1}hg$ を採ると (5.2) の指数の符号だけが反転する($\Phi_{0,k} = \mathrm{inn}(\bar x^{2k})$)。**像の部分群 $\mathrm{inn}(\langle\bar x^2\rangle)$ と忠実性・$\rho_0(\mathfrak F_0)=\tau(\mu_M[e])$ は規約に依らない**(便 30 F1.1 と一致)。§6.3 の封印値 $a$ も規約不変(検算 I4)。
+
 > **命題 K5-1.** $n\ge3$ を**奇数**、$G_n = F_2/\bar K^{(n)}_{F_2}$、marking は D1 (3.6)、$M = 2n$、$\mathfrak F_0 = \ker\tilde\chi$ とする。このとき
 > $$ \boxed{\ \Phi_{0,k}\ =\ \mathrm{inn}\bigl(\bar x^{-2k}\bigr)\qquad(k\bmod n),\ } \tag{5.2} $$
 > すなわち **$\Phi(\mathfrak F_0) = \mathrm{inn}\bigl(\langle\bar x^2\rangle\bigr)\subseteq\mathrm{Inn}(G_n)$**、位数 $n$。ゆえに、**前件 (3) を満たす任意の $H$ に対して**
@@ -344,15 +399,29 @@ $$ m=0{:}(1,0),\ 1{:}(3,2),\ 3{:}(2,4),\ 4{:}(4,1),\ 5{:}(1,1),\ 6{:}(3,4),\ 8{:
 
 ### 6.1 補題
 
-> **補題 Q.** $N\in\mathrm{NFI}_{PB_3}(B_3)$ が isolated、$P = F_2/\bar N_{F_2}$、$H\le P$、$\Lambda := \{H\ \text{の}\ P\text{-共役}\}$、$\tilde H\le\hat F_2$ を $H$ の引き戻しとし、$W_0$ を $\tilde H$ の定める $\mathbf P^1_{\mathbb Q}\smallsetminus\{0,1,\infty\}$ の被覆とする。もし
+> **【v1.1・便 30 P5】型の宣言(先走らないための一行)**: $U := \mathbf P^1_{\mathbb Q}\smallsetminus\{0,1,\infty\}$ と置く。**結論を証明する前の $W_0$ は $\mathbb Q$ 上の被覆ではなく、幾何被覆**
+> $$ W_{0,\bar{\mathbb Q}}\ \longrightarrow\ U_{\bar{\mathbb Q}} $$
+> **である**($\hat F_2 = \pi_1^{\rm geom}(U)$ の開部分群 $\tilde H$ に対応)。$\mathbb Q$-有理性は §6.1 の結論(field of moduli)と §6.2(descent)で**初めて**得られる。
+
+> **補題 Q.** $N\in\mathrm{NFI}_{PB_3}(B_3)$ が isolated、$\pi:\hat F_2\twoheadrightarrow P = F_2/\bar N_{F_2}$、$H\le P$、$\Lambda := \{H\ \text{の}\ P\text{-共役}\}$、$\tilde H := \pi^{-1}(H)$、$W_{0,\bar{\mathbb Q}}\to U_{\bar{\mathbb Q}}$ を $\tilde H$ の定める連結有限 étale 被覆とする。もし
 > $$ \Phi\bigl(\mathrm{GT}(N)\bigr)\ \text{が}\ \Lambda\ \text{を(集合として)保つ} $$
-> ならば、**$W_0$ の field of moduli は $\mathbb Q$ である**。
+> ならば、**$\mathrm{FOM}(W_0/U) = \mathbb Q$ である**。
 
-**証明**。$N$ isolated より $\bar N_{F_2}$ は $G_{\mathbb Q}$-安定(定理 K3 §2.4 段 1 と同じ)。$\sigma\in G_{\mathbb Q}$ の $\hat F_2$ への作用の持ち上げ $\varphi_\sigma\in\mathrm{Aut}(\hat F_2)$(内部を法に一意)は $\bar N_{F_2}$ を保つので $\beta_\sigma\in\mathrm{Aut}(P)$($\mathrm{Inn}(P)$ を法に一意)を誘導する。$\mathrm{Ih}_N$ の定義(2405 §1.3)より
-$$ \beta_\sigma\ \in\ \Phi\bigl(\mathrm{Ih}_N(\sigma)\bigr)\cdot\mathrm{Inn}(P)\ \subseteq\ \Phi(\mathrm{GT}(N))\cdot\mathrm{Inn}(P). $$
-$\Lambda$ は共役類なので $\mathrm{Inn}(P)$-安定、仮定より $\Phi(\mathrm{GT}(N))$-安定。ゆえに $\beta_\sigma(H)\in\Lambda$、すなわち $\beta_\sigma(H)$ は $H$ と $P$-共役。$\bar N_{F_2}\le\tilde H$ ゆえ「$\hat F_2$ 内の共役」と「$P$ 内の共役」は対応するから $\varphi_\sigma(\tilde H)$ は $\tilde H$ と $\hat F_2$-共役、すなわち $W_0^\sigma\cong W_0$(被覆として)。$\sigma$ は任意だったので field of moduli は $\mathbb Q$。∎
+**証明**(便 30 F3.1 の (3.1)–(3.3) と同一。独立に書いた本稿の論証を Sol の型付けで整える)。$N$ isolated より $\bar N_{F_2}$ は $G_{\mathbb Q}$-安定(定理 K3 §2.4 段 1 と同じ)。ゆえに $\sigma\in G_{\mathbb Q}$ の outer action は $P$ に降り、$\mathrm{Ih}_N$ の定義(2405 §1.3)より **$\mathrm{Out}(P)$ の中で**
 
-> **★ 前提の軽さ**: 本補題は **(K3‡) を必要としない**。$\beta_\sigma = \Phi(\mathrm{Ih}_N(\sigma))$ という**厳密な等式**は不要で、$\mathrm{Inn}(P)$ を法にした所属だけで足りる(共役類は $\mathrm{Inn}$ 不変だから)。定理 K3 §2.4 段 2 が支払った代金より安い。
+$$ \overline{\beta_\sigma} = \overline{\Phi(\mathrm{Ih}_N(\sigma))} \tag{3.1} $$
+
+代表を取れば
+
+$$ \beta_\sigma\ \in\ \Phi\bigl(\mathrm{Ih}_N(\sigma)\bigr)\cdot\mathrm{Inn}(P)\ \subseteq\ \Phi(\mathrm{GT}(N))\cdot\mathrm{Inn}(P). \tag{3.2} $$
+
+$\Lambda$ は共役類なので $\mathrm{Inn}(P)$-安定、仮定より $\Phi(\mathrm{GT}(N))$-安定。ゆえに $\beta_\sigma(H) = pHp^{-1}$ なる $p\in P$ がある。$p$ の $\hat F_2$ への持ち上げを $\tilde p$ とすれば $\bar N_{F_2}\le\tilde H$ より
+
+$$ \varphi_\sigma(\tilde H) = \tilde p\,\tilde H\,\tilde p^{-1} \tag{3.3} $$
+
+($\varphi_\sigma$ は $\sigma$ の作用の任意の持ち上げ)。有限 étale 被覆と開部分群の対応より $W_0^\sigma\cong W_0$。$\sigma$ は任意だったので $\mathrm{FOM}(W_0/U) = \mathbb Q$。∎
+
+> **★ 前提の軽さ((3.3) が鍵)**: 本補題は **(K3‡) を必要としない**。$\beta_\sigma = \Phi(\mathrm{Ih}_N(\sigma))$ という**厳密な actual lift 等式**は不要で、$\mathrm{Inn}(P)$ を法にした所属 (3.2) だけで足りる — **(3.3) は共役類しか見ないので (3.1) の inner ambiguity が完全に消える**から。定理 K3 §2.4 段 2 が支払った代金より安い(便 30 F3.1 と一致・★教材 8)。
 
 **$K^{(5)}$ への適用**: $\Phi(\mathrm{GT}(K^{(5)}))$ は $\Lambda_{\rm sq}$ も $\Lambda_{\rm ns}$ も**入れ替えずに保つ**(検算 E10・二系統。紙上の理由は §5.3 副産物: $\Phi\vert_R$ が $\alpha\mapsto\pm\alpha$ しか起こさず、$\pm$ が共役類そのものだから)。ゆえに
 
@@ -360,15 +429,75 @@ $$ \boxed{\ \text{標的 2 つの dessin は\textbf{どちらも} field of modul
 
 > **§4.5 の懸念の解消**: 「2 個の dessin が $\mathbb Q(\sqrt5)$ 上で共役かもしれない」という自然な懸念($\alpha$ の平方剰余/非剰余という不変量はいかにも $\mathbb Q(\sqrt5)$ 的である)は、**GT 側の計算が否定する**。二つは Galois 共役ではなく、単に別々の $\mathbb Q$-有理 dessin である。**GT の構造が幾何を制約した例**として記録する。
 
-### 6.2 field of definition への降下
+### 6.2 field of definition への降下 —【v1.1】紙上で閉じた
 
-$\mathrm{Aut}(W_0/\mathbf P^1) = N_{G_5}(H)/H = 1$(前件 (3a))なので、field of moduli から field of definition への降下障害は消える(降下データ $\varphi_\sigma:W_0^\sigma\xrightarrow{\sim}W_0$ が**一意**ゆえコサイクル条件が自動的に成立し、Weil の降下定理が適用できる)。ゆえに **$W_0$(と被覆写像)は $\mathbb Q$ 上定義される** = (4b) PASS。
+$\mathrm{Aut}(W_0/U) \cong N_{G_5}(H)/H = 1$(前件 (3a))とする。$W_0$ が定義される有限 Galois 拡大 $L/\mathbb Q$ を取り、各 $\sigma\in\mathrm{Gal}(L/\mathbb Q)$ に対し §6.1 の同型
 
-> **【文献要請 1】** 困難: 「$\mathrm{Aut} = 1$ の(単なる)被覆 $W\to\mathbf P^1_{\bar{\mathbb Q}}\smallsetminus\{0,1,\infty\}$ について、field of moduli が field of definition である」ことの**正確な形と引用**が欲しい。とくに (i) 3 点を個別に固定する(順序つき)設定、(ii) 被覆写像込みの降下、(iii) 接基点/尖点の $\mathbb Q$-有理性まで降下が及ぶか、の 3 点。欲しい結果の型: 「$G$-被覆でない単なる被覆 $X\to\mathbf P^1$、$\mathrm{Aut}(X/\mathbf P^1)=1$、$k$ = field of moduli $\Rightarrow$ $X\to\mathbf P^1$ は $k$ 上のモデルを持つ」という命題+出典(定理番号)。W5(「$\mathrm{Aut}=1$ 単独では field of moduli $=\mathbb Q$ は出ない」)とは**別の主張**であることに注意 — 本稿は field of moduli $=\mathbb Q$ を補題 Q で独立に得ており、要請しているのは「moduli → definition」の一段だけである。
+$$ \phi_\sigma:\ W_0^\sigma\ \xrightarrow{\ \sim\ }\ W_0 \qquad(U\ \text{上の被覆の同型}) $$
 
-### 6.3 事前登録された整合検査(§1.3 の再掲・結果値なし)
+を取る。**$\mathrm{Aut}(W_0/U)=1$ より $\phi_\sigma$ は一意**。すると $\phi_\sigma\circ{}^\sigma\phi_\tau$ と $\phi_{\sigma\tau}$ はいずれも $W_0^{\sigma\tau}\to W_0$ の同型なので、一意性から等しい。すなわち **Weil のコサイクル条件が自動的に成立**し、有限被覆の Galois descent により $W_0\to U$ は $\mathbb Q$ 上へ降下する。∎
 
-$\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ は**群論側で完全に同型な入力**を与える(§5.2)。ゆえに (5′) が両方で成立するなら、両 dessin から抽出される $\mathrm{ord}([u^{-1}]_{10})$ は**一致しなければならない**。次工程でこれを**盲検の整合検査として実行する**(食い違えば (5′) か $\mathbb Q$-モデルのどちらかが破れている)。**本稿では値を書かない。**
+さらに (3c) より $\lambda=0$ 上の幾何点は 1 個だけなので、その一点集合は Galois 安定であり、降下後の点は **$\mathbb Q$-有理** = (4c)。
+
+> **⇒ (4b) の札: 「PASS(紙上・両数学者)」**(本稿の論証 + 便 30 F3.2 の独立記述が一致)。**数学的な穴ではない。**
+
+> **【引用確定・裁定 26-4 / `docs/文献ゲート_01_moduli_descent.md`】** v1 の【文献要請 1】は文献ゲートを通り、出版時の引用が確定した:
+> - **Dèbes–Douai 1997**(mere cover の降下障害の一般論・査読済の正典)
+> - **Sijsling–Voight 2016**(arXiv:1504.02814・**marked 版** — $\mathbb Q$-有理 marked point がある場合の Dèbes–Emsalem 判定の整理。本稿の前件 (4c) と直結)
+>
+> 機構は上の証明(**$\mathrm{Aut}=1\Rightarrow$ 同型一意 $\Rightarrow$ cocycle 自動**)と同型である。札は **「要請中」→「引用確定(出版時に定理番号を精読)」** へ。
+>
+> **【重要・混同禁止】降下が与えるのは $\mathbb Q$-モデルの「存在」だけである。** 前件 (4) が要求するのは
+> **明示** $\mathbb Q$-モデル(方程式)+ 選んだ sheet/frame の $\mathbb Q$-有理性 + actual marked identification + $\tau$ と局所 Kummer generator の一致 であり、これらは降下からは出ない。
+> **したがって補題 Q + 降下は (4d) を「存在が保証された探し物」に格下げするだけで、(4) を弱めない。(4d)(5′) は UNKNOWN のまま動かさない**(便 30 F3.2 末尾・文献ゲート 01 の翻訳注意と一致)。
+>
+> **他窓への再利用の条件(便 30 F3.3)**: 補題 Q は $A_5$ と $K^{(3)}$ の field-of-moduli 段にも使えるが、**各窓で「$\Phi(\mathrm{GT}(N))$ が標的の『個々の』$P$-共役類を保つ」を確認してから**である。$\mathrm{Aut}$-軌道全体や複数クラスの和集合の安定性では足りない。**既存の明示モデルや exact marking を補題 Q で置換してはならない。**
+
+### 6.3 【v1.1・全面強化】二 dessin の整合ゲート — 封印値 $a$ による Kummer 類の冪関係
+
+> **v1 の弱さ(便 30 F2.3・W3 の指摘を受領)**: v1 は整合ゲートを「$\mathrm{ord}([u^{-1}]_{10})$ が一致する」と書いた。**これは弱すぎる**。逆に「生の $u_{\rm sq} = u_{\rm ns}$」を要求するのは**強すぎて誤り**である — 曲線・局所座標・actual marking が異なれば主係数そのものは異なりうる。正しい比較対象は、**共通の算術作用へ運ぶ作用同型 $j_i$ を通した Kummer character** である。
+
+#### 6.3.1 $j_i$ の定義(有限群論だけで決まる)
+
+各 $i\in\{\mathrm{sq},\mathrm{ns}\}$ について、$\Lambda_i$ 上には二つの単射がある:
+
+$$ \tau_i:\ \langle X\rangle\ \hookrightarrow\ \mathrm{Sym}(\Lambda_i),\quad X\mapsto(H'\mapsto XH'X^{-1}) \qquad(\text{(3c) より regular}) $$
+$$ \rho_0^{(i)}:\ \mathfrak F_0\ \hookrightarrow\ \mathrm{Sym}(\Lambda_i),\qquad \mathrm{im}\,\rho_0^{(i)} = \tau_i\bigl(\langle X^2\rangle\bigr) = \tau_i(\mu_M[e]) \qquad(\text{命題 K5-1}) $$
+
+そこで**作用同型**を
+
+$$ \boxed{\ j_i\ :=\ (\rho_0^{(i)})^{-1}\circ\tau_i\bigl|_{\langle X^2\rangle}\ :\ \mu_{10}[5]\ \xrightarrow{\ \sim\ }\ \mathfrak F_0\ } \tag{6.1} $$
+
+と定める。(5′) が dessin $i$ で成立すれば $\mathrm{Ih}_N\bigl|_{G_K} = j_i\circ\kappa_i$($\kappa_i := \kappa_{u_i^{-1}}$)。両方で成立するなら
+
+$$ j_{\rm sq}\circ\kappa_{\rm sq}\ =\ j_{\rm ns}\circ\kappa_{\rm ns} \quad\Longrightarrow\quad \kappa_{\rm ns} = a\circ\kappa_{\rm sq} = \kappa_{\rm sq}^{\,a},\qquad a := j_{\rm ns}^{-1}j_{\rm sq}\in\mathrm{Aut}(\mu_5)\cong(\mathbb Z/5)^\times. \tag{6.2} $$
+
+#### 6.3.2 ★ 封印値 $a$ の確定(**$u$ の開示前・有限群論のみ**)
+
+> **補題 K5-a.** 命題 K5-1 の下で $j_{\rm sq} = j_{\rm ns}$、すなわち
+> $$ \boxed{\ a\ =\ 1\ \in(\mathbb Z/5)^\times.\ } $$
+
+**証明**(1 行)。命題 K5-1 は $\Phi_{0,k} = \mathrm{inn}(\bar x^{-2k})$ を**自己同型として**与える。内部自己同型 $\mathrm{inn}(g)$ の任意の共役類 $\Lambda_i$ 上の作用は「$g$ による共役」だから、$i$ に依らず
+
+$$ \rho_0^{(i)}(\Phi_{0,k})\ =\ \tau_i\bigl(X^{-2k}\bigr)\qquad(i = \mathrm{sq},\mathrm{ns}) $$
+
+である。$\tau_i$ は単射だから $j_i(\tau_i(X^{2t})) $ を与える $k$ は $-2k\equiv2t$、すなわち $k\equiv-t\ (\mathrm{mod}\ 5)$ で、**$i$ に依らない**。ゆえに $j_{\rm sq} = j_{\rm ns}$、$a = 1$。∎
+
+**検算(二系統)**: node **I1–I4**(`j_{\rm sq} = j_{\rm ns} = [0,4,3,2,1]`、$a=1$)/ GAP **I1–I3**($a=1$)。GAP は共役規約 $H^g = g^{-1}Hg$、node は $gHg^{-1}$ で $j_i$ の向きが逆になるが、**両クラスで同一規約を使う限り $a$ は不変**(node I4 が逆向き規約でも同じ $a$ を出すことを明示検査)。
+
+> **★ なぜ $a=1$ が「強い」か**: $a$ は $\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ という**別々の集合**の上で定義された二つの同型の比較なので、先験的には $(\mathbb Z/5)^\times$ の 4 通りがありえた。**命題 K5-1 が「同じ群元 $\bar x^{-2k}$ が両方の detector を動かす」ことを言うので、二つの detector が自動的に coherent に正規化される** — これは K5-1 の副産物であって、独立の仮定ではない。
+
+#### 6.3.3 封印する予測(結果値は含まない)
+
+$$ \boxed{\ \text{(P-a)}\quad [u_{\rm ns}^{-1}]_{10}\ =\ [u_{\rm sq}^{-1}]_{10}^{\,a}\ =\ [u_{\rm sq}^{-1}]_{10}\quad\text{in}\quad K^\times/K^{\times10}\ } $$
+
+— すなわち **二つの Kummer 類は(位数だけでなく)$K^\times/K^{\times10}$ の中で等しい**。§1.3 の (6.1)($\mathrm{ord}\in\{1,5\}$)と併せて封印する。
+
+**前件(封印の有効条件)**: (P-a) は BRIDGE-IN で **両 dessin に同一の $\tau$ 規約**(原始根 $\zeta_{10} := \zeta_{20}^2$ の固定・$\tau_i(\zeta_{10})(H') = XH'X^{-1}$ の向き・Kummer cocycle を $\gamma(s^{1/10})/s^{1/10}$ と読む規約)を課したときの予測である。片方の actual marking が $\tau_{\rm ns} = \tau_{\rm sq}\circ[b]$($b\in(\mathbb Z/10)^\times$)を強いる場合は、**その $b$ を BRIDGE-IN に記録し $a$ を $ab^{-1}$ 型に更新する**(便 30 F5 の $(\mathbb Z/M)^\times$ 自由度の封印)。**$b$ を後から選んで不一致を吸収することは禁止**(それを許すと BRIDGE-FAIL が反証可能でなくなる)。
+
+**破れたときの読み**: (P-a) が破れたら、それは新現象ではなく **(5′) か $\mathbb Q$-モデル/actual marking のどちらかの破れ**である(BRIDGE-FAIL 札)。
+
+> **予測登録の可否(便 30 F2.3 末尾)**: (P-a) は「単なる整合確認」より強く、**BRIDGE-IN を独立に閉じた後なら真の盲検予測として登録してよい**。本稿は $a=1$ を**先に**確定し封印した — 順序は守られている。
 
 ---
 
@@ -400,7 +529,7 @@ $\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ は**群論側で完全に同型な入
 | **種数**(Riemann–Hurwitz) | $2g-2 = -2\cdot10 + 9 + 4 + 9 = 2\Rightarrow\boxed{g=2}$ | D14(二系統) |
 | $\mathrm{Aut}(\text{dessin})$ | $N_{G_5}(H)/H = \mathbf 1$ | D13 |
 | monodromy 群 | $G_5/\mathrm{Core}(H)$、**位数 100**(核 $\cong C_5$)。$\cong\mathbb F_5^2\rtimes C_2^2$ | D12 |
-| dessin の個数(この passport・この monodromy) | **2**(互いに非同型・§4.5) | D15 |
+| dessin の個数(この passport・この monodromy) | **2**(互いに非同型・§4.5)。**【v1.1】非同型は「固定した $U$ 上の ordered dessin(cover over the fixed $U$)」の圏での主張** — 基底三点の置換を許す圏や曲線のみの粗い同値では未分離(便 30 F2.1) | D15 |
 | $\lambda=0$ 上の点 | **1 点**(分岐指数 10)⇒ $\mathbb Q$-有理 | (3c) |
 
 ### 8.2 最小 faithful transitive 作用
@@ -444,8 +573,8 @@ $\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ は**群論側で完全に同型な入
 
 | ファイル | 系統 | 結果 |
 |---|---|---|
-| **`search/week4-k5-bridge-d1.mjs`** | node ESM。$D_5$ を整数 $2a+e$ で自前符号化、$500\times500$ 積表、左剰余類、$gHg^{-1}$。**証明書は最後の突合でのみ読む** | **83/83 PASS** |
-| **`search/week4-k5-bridge-d1.g`** | GAP 4.16.0。fp 群 → `IsomorphismPermGroup` → `DirectProduct`、右剰余類、`H^g = g^{-1}Hg`、`AutomorphismGroup`・`ConjugacyClassesSubgroups` | **49/49 PASS** |
+| **`search/week4-k5-bridge-d1.mjs`** | node ESM。$D_5$ を整数 $2a+e$ で自前符号化、$500\times500$ 積表、左剰余類、$gHg^{-1}$。**証明書は最後の突合でのみ読む** | **87/87 PASS** |
+| **`search/week4-k5-bridge-d1.g`** | GAP 4.16.0。fp 群 → `IsomorphismPermGroup` → `DirectProduct`、右剰余類、`H^g = g^{-1}Hg`、`AutomorphismGroup`・`ConjugacyClassesSubgroups` | **52/52 PASS** |
 
 **ヘルパー非共有**を満たす(符号化・剰余類の向き・共役の向き・部分群列挙法がすべて別)。**規約差の吸収**: $\tau$ の向きが互いに逆になるが $\langle\tau\rangle$ と $\langle\tau^2\rangle$ は同一、cycle type も同一なので判定は不変(両スクリプトのヘッダに明記)。
 
@@ -462,14 +591,17 @@ $\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ は**群論側で完全に同型な入
 
 | # | 内容 | 状態 |
 |---|---|---|
-| **【GAP-K5a】** | (4d) 明示 $\mathbb Q$-モデル(次数 10・種数 2・$(10,2^41^2,10)$ の Belyi 写像)と actual marked identification | **開(次工程 S5 の本体)** |
+| **【GAP-K5a】** | (4d) 明示 $\mathbb Q$-モデル(次数 10・種数 2・$(10,2^41^2,10)$ の Belyi 写像)と actual marked identification | **開(次工程 S5 の本体)**。**補題 Q+降下により「存在は保証された探し物」**になったが、(4) は弱まらない |
 | **【GAP-K5b】** | (5′) の構成(局所 Kummer と $\rho_0$ の比較) | **開**。**これは【GAP-Rcyc】の $n=5$ 実例**であり、一般化が族の定理への本丸 |
-| **【文献要請 1】** | §6.2「$\mathrm{Aut}=1$ ⇒ field of moduli は field of definition」の正確な形と出典 | **要請中** |
+| ~~【文献要請 1】~~ | §6.2「$\mathrm{Aut}=1$ ⇒ field of moduli は field of definition」 | **閉(数学的な穴ではない)**。§6.2 で紙上完結・便 30 F3.2 と独立一致。**引用確定 = Dèbes–Douai 1997 + Sijsling–Voight 2016(出版時に定理番号精読)** |
 | **【GAP-K5c】** | 標的 dessin は種数 2 で**楕円曲線ではない** — $K^{(3)}$ で使えた LMFDB Belyi(次数 6・種数 1)の直接類推は効かない可能性。次数 10・種数 2 のデータベース射程は未確認 | 中(次工程の律速) |
 | **【GAP-K5d】** | §8.3 の一般奇数 $n$ の予測式は 2 点フィット。$n=7$ まで未検証 | 低(予測登録していない) |
-| **【状態】** | 群論部分(§2–§5・§7・§8)= **`paper + two-system cross-checked`**。補題 Q(§6.1)= **紙上・Sol 監査待ち**。§6.2 = **紙上・文献要請つき**。算術部分 = **未着手**。**`verified`(Lean)ではない** | — |
+| **【v1.1】【GAP-K5e】** | 命題 K5-2b(§3.4.1)の $4\mid n$ での (4.4) は便 30 F4.3 から受領。**私は偶数 $n$ の半直積座標を自分では検算していない**($n$ 偶では $2$ が $\mathbb Z/n$ で非可逆) | 中。**$n=8$($\lvert G_8
+vert=256$・安価)で負較正を撃つことを提案(§12.2 論点 3)** |
+| **【状態】** | 群論部分(§2–§5・§7・§8・§6.3.2)= **`paper + two-system cross-checked`**。**補題 Q(§6.1)・§6.2 の降下・補題 K5-a の紙上証明 = `paper / two-mathematician PASS`(便 30 F3.1/F3.2 検分)**。§8.3 の一般 $n$ 予測 = 紙上単系統・2 点フィット。算術部分 = **未着手**。**`verified`(Lean)ではない** | — |
 
-> **札の射程分け(★教材 11 の遵守)**: 「二系統一致」は**証明書の粒度**で主張する。本稿で二系統が覆うのは **§2 の基本量・§3 の GT 構造・§4 の列挙と分裂・§5.1 の (3)(6′) 判定・§5.3 の $\Phi$ 単射・§7 の B1–B4・§8.1/8.2 の dessin データ**である。**補題 Q・§6.2 の降下・§8.3 の一般 $n$ 予測は紙上単系統**であり、`cross-checked` と名乗らない。
+> **札の射程分け(★教材 11 の遵守)**: 「二系統一致」は**証明書の粒度**で主張する。本稿で二系統(node+GAP)が覆うのは **§2 の基本量・§3 の GT 構造・§4 の列挙と分裂・§5.1 の (3)(6′) 判定・§5.3 の $\Phi$ 単射・§6.3.2 の封印値 $a$・§7 の B1–B4・§8.1/8.2 の dessin データ**である。
+> **補題 Q(§6.1)・§6.2 の降下・補題 K5-a の紙上証明・§8.3 の一般 $n$ 予測は紙上**であり、`two-system cross-checked` とは名乗らない。ただし**補題 Q と §6.2 は便 30 F3.1/F3.2 が独立に書き下ろして一致した**ので `two-mathematician PASS` の札は付く(機械照合の札とは別物)。**§8.3 の予測は 2 点フィットで、どちらの札も付かない。**
 
 ---
 
@@ -480,10 +612,12 @@ $\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ は**群論側で完全に同型な入
 | **適用条件(scope-in)** | (0)(1)(2)(3)(4)(5)(5′)(6′) がすべて成立 | **群論側は全 PASS**((0)(1)(2)(3a–d)(6′-i)(6′-ii))。**(4a)(4b)(4c) PASS(紙上)**、**(4d)(5′) は次工程 — 現時点で scope-in は「条件つき」** |
 | **反証条件(falsify)** | 適用条件を満たす窓で $\mathrm{ord}([u^{-1}]_M)=e$ なのに非全射 / $<e$ なのに全射 | **未試験**((4d)(5′) 待ち)。試験可能になった時点で $e=5$ に対して実行する |
 | **射程外(scope-out・棄却ではない)** | (3) 破れ / $\Lambda$ が $\Phi(\mathfrak F_0)$-不安定 / $\rho_0$ 非忠実 / (2) 破れ | **標的では該当なし**。**ただし bad 側 10 個($\lvert\Lambda\rvert=5$)は (3) 破れで scope-out**(§4.4)— これは「射程外の実例が同じ窓の中に同居する」初の記録 |
-| **$q$-版の反証条件** | $\gcd(e,M/e)>1$ の窓で $K(u^{1/e})\ne\mathrm{Fix}(\ker\mathrm{Ih}_N)$ | **$n=5$ では試験不能**($\gcd(5,2)=1$)。**しかも奇数族全体で永久に試験不能**(命題 K5-2)。**最小の候補は $n=24$** |
+| **【v1.1・裁定 26-3】SCHEMA-OUT の将来欄** | 現行 $R^{\rm cyc}$($\rho_0 = \Phi\vert_{\mathfrak F_0}$ を detector にする形)が原理的に適用できない窓 | **$8\mid n$ の $K^{(n)}$ を一律登録**(命題 K5-2b・(4.5)(4.6))。$\rho_0$ が $\Lambda$ の選び方に依らず非忠実。**$n=24$ は差戻し**(数値的に最小の repeated-primary 窓だが、スキーマ上の最初の適用候補ではない)。**$K^{(8)}$ は SCHEMA-OUT の負較正**(既知の飽和結果 Thm 5.3 との比較用であり、legacy regression test の正例ではない) |
+| **legacy regression test(旧「$q$-版の反証条件」)** | $\gcd(e,M/e)>1$ の窓で $K(u^{1/e})\ne\mathrm{Fix}(\ker\mathrm{Ih}_N)$ | **$n=5$ では試験不能**($\gcd(5,2)=1$)。**奇数族全体で永久に試験不能**(命題 K5-2)。**さらに $K^{(n)}$ 族の repeated-primary 側は SCHEMA-OUT**(上欄)⇒ **この族の中では原理的に実行できない**。転進先は ①族外の忠実 detector 窓 ②中心 $C_2$ を測る拡張スキーマ(§3.4.1) |
 | **縮約の反証条件** | (1)(3) 成立の窓で $\rho_0(\mathfrak F_0)\not\subseteq\tau(\mu_M)$ | **反証されず。** それどころか命題 K5-1 が $\rho_0(\mathfrak F_0) = \tau(\mu_M[e])$ を**等号で**、しかも全奇数 $n$ で与えた |
-| **(便 29 ⑥)整合の事前枠** | — | $\mathrm{ord}([u^{-1}]_{10})\in\{1,5\}$。**$2$ か $10$ が出たら警報**(§1.3) |
-| **(本稿発)整合の事前枠 2** | — | $\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ の 2 dessin から読む $\mathrm{ord}$ は**一致しなければならない**(§6.3) |
+| **(便 29 ⑥)整合の事前枠 1** | — | $\mathrm{ord}([u_i^{-1}]_{10})\in\{1,5\}$($i=\mathrm{sq},\mathrm{ns}$)。**$2$ か $10$ が出たら警報**(§1.3) |
+| **【v1.1・便 30 P4】整合の事前枠 2(主整合ゲート)** | — | $[u_{\rm ns}^{-1}]_{10} = [u_{\rm sq}^{-1}]_{10}^{\,a}$、**$a = 1$(§6.3.2 で確定・封印・二系統)**。位数一致より強い。破れたら BRIDGE-FAIL |
+| **【v1.1】採否ポリシー** | — | **`target_policy = all_two_classes`**: `K5-sq` / `K5-ns` を別 fixture(hash つき)で走らせ、**結果後の片方棄却は NO-GO**(裁定 26-6) |
 
 ---
 
@@ -496,10 +630,18 @@ $\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ は**群論側で完全に同型な入
 5. **【便 29 ①・本稿で実例化】「$\lvert\Lambda\rvert$ を $e$ に合わせたくなる」誘惑は同じ窓の中に実在する。** $K^{(5)}$ の bad 側 10 個はまさに $\lvert\Lambda\rvert = 5 = e$ を持つ。**detector の次数は $M$ であって $e$ ではない** — $\tau$ の単射性(= 局所 Kummer torsor)が判定の生命線だから。
 6. **【本稿発】GT の構造が幾何を制約することがある。** 「2 つの dessin が $\mathbb Q(\sqrt5)$ 上で共役では」という自然な懸念を、$\Phi(\mathrm{GT})$ が 2 類を保つという**有限計算**が否定した(補題 Q)。**幾何側の descent 議論を、GT 側の群論で置き換えられる場合がある。**
 7. **【本稿発】前件を族全体で構造的に閉じられるなら、機械計算は「較正」に降格する。** $K^{(3)}$ の【GAP-18a】は命題 K5-1 で不要になる。**個別窓で機械に頼った 1 ビットが、族の構造で消えることがある** — 第三例を取る本当の価値はここにあった。
+8. **【v1.1・便 30 ★1 / 裁定 26-3 = 工房★教材 14】族の中で欲しい算術 regime が現れる条件と、detector がその成分を見失う条件が一致することがある。** $K^{(n)}$ 族では**どちらも $8\mid n$**。「最小の repeated-primary 窓 $n=24$ を撃つ」という計画は、**その窓で detector が死ぬ**という理由で無効になった。**regime の存在条件と観測可能性は別々に確認せよ。**
+9. **【v1.1・便 30 ★2】outer action の inner ambiguity は部分群の共役類には見えない。** だから field of moduli には (K3‡) の exact lift が不要(補題 Q・(3.3))。**しかし actual marking と局所 $\tau$ には再び exact data が要る** — 「安くなった段」と「安くならない段」を取り違えない。
+10. **【v1.1・便 30 ★3】複数 detector の正しい一致条件は、生の局所係数の一致ではない。** 共通の算術作用へ運ぶ作用同型 $j_i$ を通した character の一致である($a$ による冪関係・§6.3)。**「$u$ が同じはず」も「位数だけ同じはず」もどちらも誤り。**
+11. **【v1.1・便 30 W4】同型を主張するときは圏を書く。** 二 dessin の非同型は「固定した $U$ 上の ordered dessin」の圏での話。基底三点の置換を許す圏では未分離(§4.5)。★教材 1(Aut-軌道と $G$-共役類の区別)の圏論的な顔である。
 
 ---
 
-## 12. Sol への論点(便 30)
+## 12. 論点
+
+### 12.1 便 30 への論点(v1 発・**回答先を付記**)
+
+> **便 30 の回答先**: 1 → F1.1/F1.2(PASS・inn の規約明記を要求 → E1 で反映)、2 → F1.3(PASS・過去文書は編集せず次版 addendum → K3 v3.2 addendum で対応)、3 → F3.1/F3.2(PASS・型を一箇所修文 → E2/E3 で反映)、4 → F4.3(**差戻し** — $n=24$ は SCHEMA-OUT → E5 で反映)、5 → F2.3(整合ゲートを $a$ へ強化 → E7 で反映)、6 → F3.2(数学的な穴ではない・引用は出版時 → E4 で反映)。**すべて v1.1 に反映済み。**
 
 1. **命題 K5-1(§5.4)の 4 段**に穴はないか。とくに段 3 の「生成元像の一致で $\Phi_{0,k} = \mathrm{inn}(e^{(-2k,0,0)})$」と段 2 の「$n$ 奇 ⇒ $2$ が $\mathbb Z/n$ で可逆」の使い方。**もし正しければ、$R^{\rm cyc}$ の前件 (6′) は奇数族全体で自動になり、v3 §5.2.3 の「第三例で確認すべき 1 項目」は $n$ 奇では消える。**
 2. **遡及効果の確認**: 命題 K5-1 を $n=3$ に適用すると、定理 K3 §4 の条件 4(【GAP-18a】)は**紙上で閉じる**。定理 K3 の依存表を改訂すべきか(v4 を起こすか、注記に留めるか)。
@@ -507,3 +649,11 @@ $\Lambda_{\rm sq}$ と $\Lambda_{\rm ns}$ は**群論側で完全に同型な入
 4. **§3.4 命題 K5-2(regime は $8\mid n$ でしか repeated-primary にならない)**の帰結として、便 28 P4 の「repeated-primary 優先」と研究者裁定の「奇数族横展開」は**直交する二本の攻め手**になる。$n=24$($\lvert G_{24}\rvert = 6912$)は現実的な計算対象か、それとも $q$-版の反証は別の手段(例えば $K^{(8)}$ で既知結果と突合する較正)で撃つべきか。
 5. **§4.5 の 2 dessin**について。群論側は完全に同型な入力を与えるので (5′) が両方で成立するはずだが、**$u$ が異なる値になる可能性は排除できない**(§6.3 の整合検査)。この検査を「盲検の予測登録」として扱ってよいか、それとも「単なる整合確認」に留めるべきか。
 6. **【文献要請 1】(§6.2)**について、正典の範囲で代替できるか(2401/2405 は dessin に言及がないので難しいと見ているが、$A_5$ v4 §3 の descent 議論に同型の補題が既にあるなら再利用したい)。
+
+### 12.2 便 31 への論点(v1.1 発)
+
+1. **補題 K5-a($a=1$・§6.3.2)**の 1 行証明に穴はないか。とくに「$\mathrm{inn}(g)$ の任意の共役類上の作用は $g$ による共役だから $i$ に依らない」という一段。**もし正しければ、$a$ は「二 detector が K5-1 により自動的に coherent に正規化される」ことの表明であり、独立の封印情報を持たない** — この読みでよいか(それでも封印する価値はあると考えている: BRIDGE-IN で $\tau$ 規約が片方だけ捻れた場合に $a$ がずれるので、**$a$ は「規約の捻れ検出器」として機能する**)。
+2. **§6.3.3 の前件**($b\in(\mathbb Z/10)^\times$ による $\tau$ の捻れが actual marking から強制された場合の $a\mapsto ab^{-1}$ 更新)を、BRIDGE-IN の封印項目としてどう書けば「後から $b$ を選んで不一致を吸収する」を排除できるか。**$b$ を先に(モデル探索の前に)全 4 通り(または 8 通り)列挙して、それぞれの (P-a) を封印しておく**という運用は過剰か。
+3. **命題 K5-2b(§3.4.1)の射程**: 私は $4\mid n$ で (4.4) が成立することを便 30 F4.3 から受領したが、**自分では偶数 $n$ の半直積座標を検算していない**($n$ 偶では $2$ が $\mathbb Z/n$ で非可逆なので §5.4 段 3 の議論がそのままは通らない)。$8\mid n$ の SCHEMA-OUT を manifest に登録する前に、**$n=8$ で有限計算による較正($\lvert G_8\rvert = 4\cdot4^3 = 256$ — 安価)**を撃つべきか。私はこれを撃つ価値があると考えている(負較正の実データになる)。
+4. **攻略分岐の優先**(§3.4.1): ①$K^{(n)}$ 族外の忠実 detector 窓 ②中心 $C_2$ を測る拡張スキーマ。**私は ② の設計の方が族の定理に効くと見ている**($\Phi$ が中心を潰すのは $\mathrm{Aut}(P)$ を detector に使う限り一般に起きうる現象で、$\Lambda$ 以外の付加構造 — 例えば $\Lambda$ 上の**線束/接方向**や $P$ の中心拡大 — で測るのが自然)。あなたの見立ては。
+5. **$n=7$ の位置づけ**: §8.3 の一般奇数 $n$ 予測表は 2 点フィットである。$n=7$($\lvert G_7\rvert = 1372$・$M=14$・$e=7$・標的 dessin 3 個・種数 3)を **finite gate だけ**撃って 3 点目を取るのは、$n=5$ の S5(明示モデル)より先に回すべきか、後か。**私は「$n=5$ の S5 が律速で、その間に $n=7$ の finite gate は安価に並走できる」**と見ている。
