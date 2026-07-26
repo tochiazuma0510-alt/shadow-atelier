@@ -1,0 +1,9 @@
+{
+  "schema": "k5pipeline/frozen-bundle/v1",
+  "mode": "production",
+  "id": "prod-ninf-M10",
+  "branch": "N_infty",
+  "canonical_model_string": "id=prod-ninf-M10;branch=N_infty;M=10;f=[0,2,1,0,2,0,1];A=[1,4,2,8,8,4,12,0,8,0,2];B=[2,2,2,6,0,6,0,2]",
+  "expected_model_digest": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",
+  "note": "本 bundle は search/u-extract-pathA-ninf-*-driver.g / crosscheck/u-extract-pathB-ninf-*-driver.mjs のどちらのコードとも独立な第三実装(本ファイル build-frozen-bundles.mjs)で計算した。第三 checker (crosscheck/u-compare-ninf.mjs) はこのファイルを第三引数として読み、二 raw の recomputed canonical string がこの canonical_model_string と逐語一致するかを検査する(便37 F2/I-l)。"
+}

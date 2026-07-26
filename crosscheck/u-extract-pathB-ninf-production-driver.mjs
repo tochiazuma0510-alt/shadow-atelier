@@ -19,7 +19,7 @@
 //
 // 実行: node crosscheck/u-extract-pathB-ninf-production-driver.mjs
 
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Q, loadModelNinf, extractPathB_Ninf } from './u-extract-pathB-lib.mjs';
@@ -58,15 +58,21 @@ console.log('derived A =', A.map(String), 'deg =', A.length - 1);
 console.log('derived B =', B.map(String), 'deg =', B.length - 1);
 console.log('f =', f.map(String), 'deg =', f.length - 1);
 
+// 便37 F2 修理 1: expected_model_digest は hardcode せず、独立に生成された
+// 凍結 bundle ファイル(crosscheck/build-frozen-bundles.mjs -- pathA/pathB の
+// どちらのコードとも独立な第三実装)から読む。
+const bundle = JSON.parse(readFileSync(join(ROOT, 'certificates', 'k5pipeline', 'prod-ninf-M10-bundle.json'), 'utf8'));
+
 const raw = {
   id: 'prod-ninf-M10',
   branch: 'N_infty',
+  P0_type: 'nonWeierstrass',
   M: 10,
   f_coeffs_ascending: f.map(String),
   A_coeffs_ascending: A.map(String),
   B_coeffs_ascending: B.map(String),
   series_length: 30,
-  expected_model_digest: 'a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3',
+  expected_model_digest: bundle.expected_model_digest,
 };
 
 const model = loadModelNinf(raw);

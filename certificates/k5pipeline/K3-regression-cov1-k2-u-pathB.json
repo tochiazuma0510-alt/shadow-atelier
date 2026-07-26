@@ -1,8 +1,9 @@
 {
-  "schema": "u-pathB/v2",
+  "schema": "u-pathB/v3",
   "id": "K3-regression-cov1-k2",
   "M": 6,
-  "branchP0": "nonWeierstrass",
+  "branch": "W",
+  "P0_type": "nonWeierstrass",
   "x0": "0",
   "y0": "32",
   "f_coeffs_ascending": [
@@ -36,7 +37,7 @@
   "u_pathB": "-1/1024",
   "chat": "1/1024",
   "lambda_iota_P0": "-1",
-  "model_digest": "588fc3c7562ce8297721a27135f7d468db8ecd4563b3244e109ddd148567f165",
+  "model_digest": "a457014d5cfd0414a18a7f614bdf7491c173ced6b0f6d412826bb4c5198ec52e",
   "model_digest_algo": "sha256(canonical_model_string)",
-  "canonical_model_string": "id=K3-regression-cov1-k2;M=6;branchP0=nonWeierstrass;x0=0;y0=32;f=[1024,-3072,3456,-1856,516,-72];A=[-1/2,3/4,-9/32,1/32];B=[1/64]"
+  "canonical_model_string": "id=K3-regression-cov1-k2;M=6;branch=W;P0_type=nonWeierstrass;x0=0;y0=32;f=[1024,-3072,3456,-1856,516,-72];A=[-1/2,3/4,-9/32,1/32];B=[1/64]"
 }

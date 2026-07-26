@@ -23,10 +23,12 @@
 # 減らす。node 側の照合器・production driver も同じ p, a, f の定義から
 # 独立に A, B を再計算する)。
 #
-# expectedModelDigest は sha256(canonical_model_string_ninf) を事前に
-# node の crypto.createHash で計算し(非公式のクロスチェック・scratchpad)、
-# その値をここへ転記したもの。実 K5 では Freeze 2 が注入する値のスタンドイン
-# (便 36 F3.2 (3)/R-7 の型を production スケールで先に配線する)。
+# expectedModelDigest は本 driver がハードコードせず、独立に生成された凍結
+# bundle ファイル certificates/k5pipeline/prod-ninf-M10-bundle.json
+# (crosscheck/build-frozen-bundles.mjs -- pathA/pathB のどちらのコードとも
+# 独立な第三実装)から読み取る(裁定 38/便 37 F2 修理 1: 「driver が凍結
+# bundle の canonical model JSON を読むこと」)。実 K5 では Freeze 2 が注入
+# する値のスタンドイン。
 #
 # 実行: .\gap.ps1 search\u-extract-pathA-ninf-production-driver.g
 #############################################################################
@@ -64,15 +66,19 @@ Print("derived A (ascending) = ", A, " deg = ", Length(A) - 1, "\n");
 Print("derived B (ascending) = ", B, " deg = ", Length(B) - 1, "\n");
 Print("f (ascending) = ", f, " deg = ", Length(f) - 1, "\n");
 
+bundleExpectedDigest := ReadJsonStringField("certificates/k5pipeline/prod-ninf-M10-bundle.json", "expected_model_digest");;
+Print("expected_model_digest read from bundle file = ", bundleExpectedDigest, "\n");
+
 model := rec(
   id := "prod-ninf-M10",
   branch := "N_infty",
+  P0_type := "nonWeierstrass",
   M := 10,
   f := f,
   A := A,
   B := B,
   seriesLen := 30,     # >= 2M+4 = 24; margin for exact rational arithmetic
-  expectedModelDigest := "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3"
+  expectedModelDigest := bundleExpectedDigest
 );;
 
 report := ExtractPathA_Ninf(model);;

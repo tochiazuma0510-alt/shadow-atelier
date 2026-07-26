@@ -2,6 +2,7 @@
   "schema": "u-pathB-ninf/v2",
   "id": "toy-ninf-M3",
   "branch": "N_infty",
+  "P0_type": "nonWeierstrass",
   "M": 3,
   "f_coeffs_ascending": [
     "0",
@@ -32,6 +33,7 @@
   "chat": "1",
   "chat_equals_1": true,
   "a_M": "1",
+  "b_Mm3": "1",
   "u_pathB_ninf": "1/2",
   "model_digest": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
   "model_digest_algo": "sha256(canonical_model_string_ninf)",

@@ -1,11 +1,21 @@
 {
-  "schema": "u-compare-ninf-toy/v1",
-  "synthetic_note": "Rule 1 S0.4-3 M=n=3 toy family -- NOT K^(5) real data",
+  "schema": "u-compare-ninf/v3",
   "pathAFile": "certificates/k5pipeline/toy-ninf-M3-pathA.json",
   "pathBFile": "certificates/k5pipeline/toy-ninf-M3-pathB.json",
+  "bundleFile": "certificates/k5pipeline/toy-ninf-M3-bundle.json",
   "idA": "toy-ninf-M3",
   "idB": "toy-ninf-M3",
-  "u_pathA_ninf": "1",
-  "u_pathB_ninf": "1",
+  "recomputed_model_digest_pathA": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
+  "recomputed_model_digest_pathB": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
+  "model_digest": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
+  "bundle_mode": "calibration",
+  "bundle_expected_model_digest": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
+  "expected_digest_check": "BOUND (bundle-external, R-7/I-l closed per 裁定38/便37 F2)",
+  "raw_self_reported_expected_model_digest": {
+    "pathA": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
+    "pathB": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d"
+  },
+  "u_pathA_ninf": "1/2",
+  "u_pathB_ninf": "1/2",
   "result": "ACCEPT"
 }

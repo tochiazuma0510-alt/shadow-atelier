@@ -39,26 +39,30 @@
 # PolyGcdIsUnit で exact 検査される(事前に scratchpad でも確認済み:
 # gcd(f,f') は次数 0 の非零有理数)。
 #
-# expectedModelDigest は本 driver が sha256(canonical_model_string_ninf) を
-# 手計算(node の crypto.createHash で独立に確認済み・非公式のクロスチェック)
-# して転記した値。実 K5 では Freeze 2 が注入する値であり、この unit test では
-# 「凍結 bundle の期待 digest」を模する synthetic な定数として扱う(便 36
-# F3.2 (3)/R-7 の型を M=3 スケールで先に配線する)。
+# expectedModelDigest は本 driver がハードコードせず、独立に生成された凍結
+# bundle ファイル certificates/k5pipeline/toy-ninf-M3-bundle.json
+# (crosscheck/build-frozen-bundles.mjs -- pathA/pathB のどちらのコードとも
+# 独立な第三実装)から読み取る(裁定 38/便 37 F2 修理 1)。この unit test では
+# 「凍結 bundle の期待 digest」を模する synthetic bundle として扱う。
 #
 # 実行: .\gap.ps1 search\u-extract-pathA-ninf-toy-driver.g
 #############################################################################
 
 Read("search/u-extract-pathA.g");
 
+bundleExpectedDigest := ReadJsonStringField("certificates/k5pipeline/toy-ninf-M3-bundle.json", "expected_model_digest");;
+Print("expected_model_digest read from bundle file = ", bundleExpectedDigest, "\n");
+
 model := rec(
   id := "toy-ninf-M3",
   branch := "N_infty",
+  P0_type := "nonWeierstrass",
   M := 3,
   f := [0, 2, 1, 2, 2, 0, 1],    # f = x^3+x+1)^2 - 1 = x^6+2x^4+2x^3+x^2+2x
   A := [1, 1, 0, 1],             # A(x) = x^3 + x + 1 (ascending: a0=1,a1=1,a2=0,a3=1)
   B := [1],                     # B(x) = 1 (constant, deg = M-3 = 0)
   seriesLen := 20,               # >= 2M+4 = 10; ample margin for exact rational arithmetic
-  expectedModelDigest := "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d"
+  expectedModelDigest := bundleExpectedDigest
 );;
 
 report := ExtractPathA_Ninf(model);;

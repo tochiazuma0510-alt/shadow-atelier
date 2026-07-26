@@ -90,6 +90,45 @@ WriteFile := function(path, content)
   CloseStream(f);
 end;;
 
+# ================= JSON 文字列 field 読取り(便 37 F2・R-7 bundle 読込み用) =================
+# 罠回避: GAP に汎用 JSON parser は同梱していない。ここでは「driver が
+# 自分では手転記せず、独立に生成された凍結 bundle ファイルを読む」という
+# R-7 §6.3-5 の要求だけを満たせば十分なので、フルパーサではなく
+# `"key": "value"` という一行パターンを文字列走査で拾う最小実装にする
+# (bundle ファイルは crosscheck/build-frozen-bundles.mjs が固定フォーマットで
+# 生成するため、この単純な走査で十分)。アルゴリズム本体(経路 A/B)とは
+# 無関係な入出力インフラであり、共有しても SS6.3 の非共有 helper 要件には
+# 抵触しない(既存の WriteFile/JStr と同種)。
+ReadJsonStringField := function(path, key)
+  local f, line, pattern, pos, rest, qstart, qend, i;
+  f := InputTextFile(path);
+  pattern := Concatenation("\"", key, "\":");
+  while true do
+    line := ReadLine(f);
+    if line = fail then
+      CloseStream(f);
+      Error("ReadJsonStringField: key \"", key, "\" not found in ", path);
+    fi;
+    pos := PositionSublist(line, pattern);
+    if pos <> fail then
+      CloseStream(f);
+      rest := line{[pos + Length(pattern) .. Length(line)]};
+      qstart := Position(rest, '"');
+      if qstart = fail then
+        Error("ReadJsonStringField: malformed value for key \"", key, "\" in ", path);
+      fi;
+      qend := fail;
+      for i in [qstart + 1 .. Length(rest)] do
+        if rest[i] = '"' then qend := i; break; fi;
+      od;
+      if qend = fail then
+        Error("ReadJsonStringField: unterminated string value for key \"", key, "\" in ", path);
+      fi;
+      return rest{[qstart + 1 .. qend - 1]};
+    fi;
+  od;
+end;;
+
 #############################################################################
 # ── 罠のコメント集(実測済み・出典は provenance/LEDGER.md)────────────────
 # (1) Concatenation の単一引数呼びは「リストのリストの連結」— 文字列(=文字の

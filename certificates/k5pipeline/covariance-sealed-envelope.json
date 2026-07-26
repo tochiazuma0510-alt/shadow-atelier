@@ -1,10 +1,12 @@
 {
-  "schema": "k5pipeline/covariance-sealed-envelope/v1",
-  "source_doc": "sol/sol_reply_36_freeze1r5.md F4.2; sol/裁定_37_ben36.md 条件5",
+  "schema": "k5pipeline/covariance-sealed-envelope/v2",
+  "source_doc": "sol/sol_reply_36_freeze1r5.md F4.2; sol/裁定_37_ben36.md 条件5; sol/sol_reply_37_freeze1r6.md F5; sol/裁定_38_ben37.md 条件3",
   "d_convention": "For a Kummer character with exponent kappa in Z/e represented via tau(kappa) (tau injective on <zeta_e>), reparametrizing the primitive root zeta_e -> zeta_e^d (d in (Z/e)^x) transforms the exponent as kappa -> kappa' = d^{-1} kappa (mod e) and the labeling map as tau -> tau' := tau o [d], jointly satisfying tau'(kappa') = tau(kappa). The restriction map [.]: (Z/10)^x -> (Z/5)^x used in SS7.2 is reduction mod 5 (bijective on these two 4-element groups).",
   "components": {
     "k3_actual_rho0_tau_j": {
       "note": "imported verbatim from certificates/k5pipeline/K3-regression-kummer-cov3-actual.json (not recomputed here -- that artifact is its own independent GAP/node cross-check)",
+      "source_file": "certificates/k5pipeline/K3-regression-kummer-cov3-actual.json",
+      "source_file_sha256": "fc094b93ff70d20aae12240ca29a7c3b4eb41745fbb813197589489fc43d347d",
       "conclusion": {
         "rho0_tau_j_reparametrization_covariance": true,
         "b_i_independently_measured": "UNKNOWN -- not implementable from currently certified data (see scope_limitation_UNKNOWN)",
@@ -31,21 +33,38 @@
     },
     "formal_a_and_a_eff": {
       "formal_a": 1,
-      "formal_a_source": "Rule 1 SS7.2 (1.11): a := j_ns^{-1} j_sq = 1, permanent invariant -- read here, NOT re-derived",
+      "formal_a_source": {
+        "note": "Rule 1 SS7.2 (1.11): a := j_ns^{-1} j_sq, permanent invariant. Read here from the K5 finite fixtures rho0_and_j.a_sealed field (NOT hardcoded, NOT re-derived) -- 便37 F5.2 (1) 修理.",
+        "k5_sq_source_file": "certificates/k5fixture/K5-sq.json",
+        "k5_sq_source_file_sha256": "a49252af8a09031137ee2a5621b7a1eb9c2a6506849afad14dfe74a38a876716",
+        "k5_ns_source_file": "certificates/k5fixture/K5-ns.json",
+        "k5_ns_source_file_sha256": "0ce28a6d6b7a3687dc07811f66a05fede464bc3a30efb1a126a913adfa2ccd81",
+        "a_sealed_sq": 1,
+        "a_sealed_ns": 1,
+        "agrees_between_fixtures": true
+      },
       "restriction_map": "(Z/10)^x -> (Z/5)^x, reduce mod 5",
       "all_combinations_checked": 64,
       "a_eff_invariant_under_reparametrization": true,
-      "acceptance_rule_b_sq_eq_b_ns_implies_a_eff_eq_1": true,
-      "note": "real b_sq, b_ns are supplied at the bridge stage to the SAME computeAEff/covariance functions; this envelope calibrates the schema exhaustively over synthetic (Z/10)^x values, not any individual K5 model"
+      "acceptance_rule_b_sq_eq_b_ns_implies_a_eff_eq_a": true,
+      "note": "real b_sq, b_ns are supplied to the SAME crosscheck/covariance-lib.mjs computeAEff function by crosscheck/covariance-bridge-in.mjs (便37 F5.2 (3) 修理: actual bridge imports this shared library). This envelope calibrates the schema exhaustively over synthetic (Z/10)^x values, not any individual K5 model. 実 b_i の代入は atomic Freeze 2 の組立て中・受理前・u 開示前に行う(便37 F5.2 (4) の文言訂正: 「受理後」ではなく「受理前」が正しい -- b_sq=b_ns はFreeze 2/BRIDGE-IN の受理条件そのものである)。"
     }
   },
   "self_check": {
-    "pass": 4,
+    "pass": 9,
     "fail": 0
+  },
+  "expected_counts": {
+    "components": 3,
+    "components_present": 3,
+    "covk_combinations": 40,
+    "covk_combinations_actual": 40,
+    "aeff_combinations": 64,
+    "aeff_combinations_actual": 64
   },
   "conclusion": {
     "sealed": true,
-    "note": "一致は cross-checked であって Lean の verified ではない(CLAUDE.md 語彙規律)。実 b_i の代入は橋段(atomic Freeze 2 受理後)へ送る -- 便 36 F4.1/F4.2。"
+    "note": "一致は cross-checked であって Lean の verified ではない(CLAUDE.md 語彙規律)。実 b_i の代入は atomic Freeze 2 の組立て中・受理前・u 開示前に crosscheck/covariance-bridge-in.mjs 経由で同じ computeAEff へ渡す(便37 F5.2 (3)(4))。"
   },
-  "envelope_digest": "19809c249eeb66ea823cb4787f42fcd2db244cb03e9b771a9dba685267af9b8e"
+  "envelope_digest": "3a8fb77c727c4ad31270ccfa1b1ccff51ea1a6160baf7c6d6aaed35d1bb31b5a"
 }

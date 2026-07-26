@@ -120,3 +120,42 @@ covariance」の部分を実装するが、「実測 `b_i` の covariance」の�
 
 **裁定根拠**: `sol/sol_reply_35_freeze1r4.md` F3(blocker 4)・
 `sol/裁定_36_ben35.md`。
+
+---
+
+## toy-ninf-M3-u-compare.v1.json
+
+**撤回日**: 便 37 検収対応(裁定 38・実装担当・2026-07-27)。
+
+**撤回理由**: schema `u-compare-ninf-toy/v1`(旧 `u-compare-ninf-toy.mjs` が
+生成)であり、現行 raw(schema v2・`u_pathA_ninf`/`u_pathB_ninf` は本便で
+`chat=1` に修理済みの `1/2`)と食い違う古い `u=1` の値を記す(Sol 便37 F1.2
+の指摘)。**現行 checker で再発行**: `crosscheck/u-compare-ninf.mjs`
+(schema v3・bundle 引数必須)で `certificates/k5pipeline/toy-ninf-M3-bundle.json`
+を第三引数に与えて再計算した現行版が
+`certificates/k5pipeline/toy-ninf-M3-u-compare.json` として存在する。
+
+---
+
+## K3-regression-cov1-k2-u-compare.v2.json
+
+**撤回日**: 便 37 検収対応(裁定 38・実装担当・2026-07-27)。
+
+**撤回理由**: schema `u-compare/v2`(旧 `u-compare.mjs` の 2 引数版・
+`branchP0` field 時代)。便 37 F2/F3 修理で `u-compare.mjs` は
+(a) branch/P0_type の分離(schema v3・canonical string が変わるので
+model_digest も変わる)、(b) 第三引数として凍結 bundle/model-spec を必須化、
+の二点を反映した。COV-1 派生モデル(`K3-regression-cov1-k2`)は
+`search/u-extract-pathA-k3-driver.g` / `crosscheck/u-extract-pathB-k3-driver.mjs`
+のコメントに明記のとおり**「較正のみの参考出力・パイプラインの入力には
+使わない」**ものであり、certificates/k5fixture 配下に対応する model-spec
+ファイルを持たない(K3-regression-model.json から driver 内で導出される
+派生モデルのため)。したがって R-7 の bundle 束縛要求はこの参考比較には
+及ばない(Sol 便37 F2 が要求したのは正典パイプライン `K3-regression` /
+`toy-ninf-M3` / `prod-ninf-M10` の三本であり、COV-1 はそこに含まれない)。
+本便では `K3-regression-cov1-k2-u-pathA.json` / `-u-pathB.json` 自体は
+schema v3(branch/P0_type)へ再生成した上で二経路一致(`u=-1/1024`)を
+driver 実行時の標準出力で確認済み(`node crosscheck/u-extract-pathB-k3-driver.mjs`
+の `COV-1 check` 行・`match=true`)。旧 `-u-compare.json` は
+このディレクトリへ撤回するのみとし、bundle 必須の新 checker では
+再発行しない(参考比較という位置づけのまま)。

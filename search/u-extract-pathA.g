@@ -14,10 +14,14 @@
 #   モデル係数を echo するので突合器 (crosscheck/u-compare.mjs) が JSON 側の
 #   値と一致するか検査できる)。
 #
-# model レコードのフィールド:
+# model レコードのフィールド(便 37 F3/裁定 38 で branch/P0_type を分離):
 #   id            : 文字列ラベル
 #   M             : 次数 (6 or 10)
-#   branchP0      : "nonWeierstrass" または "Weierstrass"
+#   branch        : 大域枝 "W" または "N_aff"(M0 の三値 {W,N_aff,N_infty}
+#                   のうち、x0,y0 を持つこのスキーマでは N_infty は不正)
+#   P0_type       : 局所 P0 の Weierstrass 性 "nonWeierstrass" または "Weierstrass"
+#                   (branch='W' のときは 'nonWeierstrass' でなければならない --
+#                   S5-W 補題 / Rule 1 SS4.1「v1.2 の絞り込み」)
 #   x0, y0        : P0 の座標(有理数)
 #   f, A, B       : 昇冪係数リスト (f(x)=sum f[i+1]*x^i, 等)
 #   seriesLen     : 保持する項数 (= M+4 を推奨。[t^{M+3}] まで検算可能)
@@ -208,7 +212,8 @@ PathA_CanonicalModelString := function(model)
   return Concatenation(
     "id=", model.id, ";",
     "M=", String(model.M), ";",
-    "branchP0=", model.branchP0, ";",
+    "branch=", model.branch, ";",
+    "P0_type=", model.P0_type, ";",
     "x0=", String(model.x0), ";",
     "y0=", String(model.y0), ";",
     "f=[", joinRat(model.f), "];",
@@ -231,23 +236,44 @@ PathA_ModelDigest := function(model)
 end;;
 
 #################### 経路 A 本体 ####################
-# model.branchP0 = "nonWeierstrass": t = x - x0, x(t) = x0 + t (自明),
+# model.P0_type = "nonWeierstrass": t = x - x0, x(t) = x0 + t (自明),
 #   y(t) = PSSqrt(f(x(t)), y0, n).
-# model.branchP0 = "Weierstrass": t = y, x(t) を f(x(t)) = t^2 の
+# model.P0_type = "Weierstrass": t = y, x(t) を f(x(t)) = t^2 の
 #   Hensel/Newton 持ち上げで解く(f(x0)=0, f'(x0) <> 0 が前提)。
+#
+# 便 37 F3/裁定 38(R-8 修理): model.branch(大域枝 {W,N_aff})と model.P0_type
+# (局所 Weierstrass 性)を fail-closed に検査する。未知/欠落ラベルは既定値へ
+# 丸めず即 Error(I-m)。branch='W' は P0_type='nonWeierstrass' を要求する
+# (S5-W 補題)。
+
+GLOBAL_BRANCH_ENUM := ["W", "N_aff"];;
+P0_TYPE_ENUM := ["Weierstrass", "nonWeierstrass"];;
 
 ExtractPathA := function(model)
   local n, xSeries, ySeries, fprimeAsc, tSquared, xcur, iter, nIter,
         fx, fpx, num, lambdaSeries, k, lowerZero, report, u, extras;
 
+  if not IsBound(model.branch) or not (model.branch in GLOBAL_BRANCH_ENUM) then
+    Error("ExtractPathA (I-m): model.branch must be one of ", GLOBAL_BRANCH_ENUM,
+          ", got ", model.branch, " (N_infty must use ExtractPathA_Ninf, not this schema)");
+  fi;
+  if not IsBound(model.P0_type) or not (model.P0_type in P0_TYPE_ENUM) then
+    Error("ExtractPathA (I-m): model.P0_type must be one of ", P0_TYPE_ENUM,
+          ", got ", model.P0_type);
+  fi;
+  if model.branch = "W" and model.P0_type <> "nonWeierstrass" then
+    Error("ExtractPathA (I-m): branch='W' requires P0_type='nonWeierstrass' (Lemma S5-W), got ",
+          model.P0_type);
+  fi;
+
   n := model.seriesLen;
 
-  if model.branchP0 = "nonWeierstrass" then
+  if model.P0_type = "nonWeierstrass" then
     xSeries := PSFromScalar(model.x0, n);
     xSeries[2] := xSeries[2] + 1;               # x(t) = x0 + t
     ySeries := PSSqrt(PSEvalPoly(model.f, xSeries, n), model.y0, n);
 
-  elif model.branchP0 = "Weierstrass" then
+  elif model.P0_type = "Weierstrass" then
     fprimeAsc := PolyDeriv(model.f);
     xcur := PSFromScalar(model.x0, n);
     nIter := 0;
@@ -265,7 +291,7 @@ ExtractPathA := function(model)
     ySeries[2] := 1;                              # y(t) = t (自明恒等)
 
   else
-    Error("ExtractPathA: unknown branchP0 ", model.branchP0);
+    Error("ExtractPathA: unknown P0_type ", model.P0_type);
   fi;
 
   # 曲線方程式 y^2 = f(x) の切断検算(モデル整合性)
@@ -285,7 +311,8 @@ ExtractPathA := function(model)
   report := rec(
     id := model.id,
     M := model.M,
-    branchP0 := model.branchP0,
+    branch := model.branch,
+    P0_type := model.P0_type,
     x0 := model.x0,
     y0 := model.y0,
     f := model.f,
@@ -381,6 +408,12 @@ ExtractPathA_Ninf := function(model)
   if not IsBound(model.M) then
     Error("ExtractPathA_Ninf: model.M is required (Rule 1 M naming; the old model.n field name is retired)");
   fi;
+  # 便 37 F3(R-8): P0_type は副枝 (N_infty) では常に "nonWeierstrass"
+  # (補題 R1-M0 3.)。field があれば逐語一致を要求する(fail-closed)。
+  if IsBound(model.P0_type) and model.P0_type <> "nonWeierstrass" then
+    Error("ExtractPathA_Ninf (I-m): P0_type must be \"nonWeierstrass\" for branch=\"N_infty\" (Lemma R1-M0 3.), got ",
+          model.P0_type);
+  fi;
 
   M := model.M;
   seriesLen := model.seriesLen;
@@ -475,6 +508,7 @@ ExtractPathA_Ninf := function(model)
     schema := "u-pathA-ninf/v2",
     id := model.id,
     branch := "N_infty",
+    P0Type := "nonWeierstrass",
     M := M,
     f := model.f,
     A := model.A,
@@ -483,6 +517,8 @@ ExtractPathA_Ninf := function(model)
     degAEqualsM := (degA = M),
     degBEqualsMminus3 := (degB = M - 3),
     bMm3EqualsAM := (aM = bMm3),
+    aM := aM,
+    bMm3 := bMm3,
     gcdFFprimeIsUnit := gcdUnit,
     chat := chat,
     chatEquals1 := (chat = 1),
@@ -502,6 +538,7 @@ ReportToJSON_Ninf := function(r)
     JStr("schema"), ":", JStr(r.schema), ",",
     JStr("id"), ":", JStr(r.id), ",",
     JStr("branch"), ":", JStr(r.branch), ",",
+    JStr("P0_type"), ":", JStr(r.P0Type), ",",
     JStr("M"), ":", String(r.M), ",",
     JStr("f_coeffs_ascending"), ":", JRatList(r.f), ",",
     JStr("A_coeffs_ascending"), ":", JRatList(r.A), ",",
@@ -510,6 +547,8 @@ ReportToJSON_Ninf := function(r)
     JStr("deg_A_equals_M"), ":", JB(r.degAEqualsM), ",",
     JStr("deg_B_equals_Mminus3"), ":", JB(r.degBEqualsMminus3), ",",
     JStr("b_Mm3_equals_a_M"), ":", JB(r.bMm3EqualsAM), ",",
+    JStr("a_M"), ":", JRat(r.aM), ",",
+    JStr("b_Mm3"), ":", JRat(r.bMm3), ",",
     JStr("gcd_f_fprime_is_unit"), ":", JB(r.gcdFFprimeIsUnit), ",",
     JStr("chat"), ":", JRat(r.chat), ",",
     JStr("chat_equals_1"), ":", JB(r.chatEquals1), ",",
@@ -536,10 +575,11 @@ JRatList := function(lst) return JArr(List(lst, JRat)); end;;
 
 ReportToJSON := function(r)
   return Concatenation("{",
-    JStr("schema"), ":", JStr("u-pathA/v2"), ",",
+    JStr("schema"), ":", JStr("u-pathA/v3"), ",",
     JStr("id"), ":", JStr(r.id), ",",
     JStr("M"), ":", String(r.M), ",",
-    JStr("branchP0"), ":", JStr(r.branchP0), ",",
+    JStr("branch"), ":", JStr(r.branch), ",",
+    JStr("P0_type"), ":", JStr(r.P0_type), ",",
     JStr("x0"), ":", JRat(r.x0), ",",
     JStr("y0"), ":", JRat(r.y0), ",",
     JStr("f_coeffs_ascending"), ":", JRatList(r.f), ",",

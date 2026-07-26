@@ -320,18 +320,18 @@ $A^2-B^2f=1$(=$\hat c$、(N∞-4) を満たす)。
   データへの適用には、実 fixture が (N∞) 型を持つ場合の model literal
   (driver)を新設するだけでよく、library 本体は変更不要。
 
-### 9.4 R-1〜R-8 の状態(裁定 37 対応後・2026-07-27)
+### 9.4 R-1〜R-8 の状態(裁定 38 対応後・2026-07-27)
 
 | # | 項目 | 状態 |
 |---|---|---|
 | R-1 | §8.6/§10-3 の実装版・commit・checker ID | 未(**git commit は司令塔の作業 — 実装担当は commit しない規律**。commit 後の `git log` 差し替え・値としての記入は司令塔 P7) |
-| R-2 | 本文書+付録 A の新 digest 再取得・再提出 | 未(司令塔 P7・裁定 37 対応の全修理完了後にまとめて再取得要) |
-| R-3 | 親 manifest 側の whitelist/stop への反映 | 一部反映(司令塔・`docs/manifest_k5_v1.md` v1.4 で I-b∞ を whitelist に逐語追加。即時 integrity stop 節は「$\hat c_\mu$ を含む」と明記したが「値・平方類・平方因子・符号」の四語は逐語列挙せず — 十分性は Sol 検分待ち) |
+| R-2 | 本文書+付録 A の新 digest 再取得・再提出 | 未(司令塔 P7・本便の全修理完了後にまとめて再取得要) |
+| R-3 | 親 manifest 側の whitelist/stop への反映 | **実体は閉(便37 F4.1・Sol 検分済み)**。`docs/manifest_k5_v1.md` v1.4 の whitelist・即時 stop 節はいずれも「$\hat c_\mu$ の値・平方類・平方因子・符号」の四語を逐語列挙。残る留保は operative 節への転記(便37 F4.2・単独では非 FAIL) |
 | R-4 | S5 設計 §3.3.4 への N-0 追記 | **閉(2026-07-27)**(数学者・裁定36の配分どおり。§3.3.5 の次元断定は裁定37条件6でさらに「期待次元/design count」へ降格済み) |
 | R-5 | (N∞) 用パイプライン拡張(経路 A∞・B-iii・構造検査) | **production 較正済み(裁定37条件1・§9.3)**。M=10・$\hat c=1$ の exact synthetic fixture で (N∞-1)–(N∞-4)・gcd・digest 束縛のすべてを通し二経路一致(ACCEPT)確認。旧 M=3 玩具は library unit test に位置づけ直し |
 | R-6 | (N∞) 排除証明書の再発行(補題 R1-N∞-W) | **数学 PASS・文言修理済み(裁定37条件7前半)**。「E1 だけから」→「E1+E2 から」、「ちょうど一つ」→「高々一つ」(0 survivors は corruption 扱いしない)に修理し GAP/node とも再実行・同結果(20/20+11/11)を確認 |
-| R-7 | model_digest の凍結 bundle expected digest への束縛(I-l) | (N∞) 副枝は**閉**(裁定37条件2・`u-compare-ninf.mjs`)。主枝(`u-compare.mjs`)は機構を追加したが K3 の凍結済み raw が schema 未対応のため `NOT_PROVIDED (pre-bridge)` — 実 K5 の Freeze 2 到達で有効化 |
-| R-8 | 枝ラベルの三値 fail-closed(I-m) | **閉(裁定37条件3)**。`loadModel` の無条件 Weierstrass fallback バグを除去、三値 enumeration を fail-closed に強制。`check-r5-r8-ninf-fail-closed.mjs` で確認 |
+| R-7 | model_digest の凍結 bundle expected digest への束縛(I-l) | **閉(便37 F2/裁定38 条件1・§9.6)**。raw 二本の自己申告 expected digest 同士の比較を、第三の独立 bundle ファイル(`build-frozen-bundles.mjs` 生成 or 凍結 model-spec)との canonical-string 逐語一致 + digest 束縛へ修理。`check-r7-bundle-attack.mjs`(5/5 PASS)で「二 driver 同一誤転記」攻撃の遮断を確認 |
+| R-8 | 枝ラベルの三値 fail-closed(I-m) | **閉(便37 F3/裁定38 条件2・§9.6)**。旧 `branchP0` の大域/局所混同(Sol 便37 F3 の指摘)を `branch`(大域・$\{{\tt W},{\tt N\_aff},{\tt N\_infty}\}$)/`P0_type`(局所)の二軸へ分離し、`branch='W'⇒P0_type='nonWeierstrass'` 等の整合規則と schema 名突合を fail-closed に実装。`check-r5-r8-ninf-fail-closed.mjs` で確認(18/18 PASS) |
 
 ### 9.5 裁定 37(便 36 検収)最小 7 条件のうち実装担当分(条件 1–3・5–7)の状態
 
@@ -344,3 +344,157 @@ $A^2-B^2f=1$(=$\hat c$、(N∞-4) を満たす)。
 | 5 | covariance の型レベル固定(sealed envelope) | 閉。`crosscheck/check-covariance-envelope.mjs` — K3 actual artifact(既存 PASS)を取り込み + b/k 型検査(e=10・40 通り悉皆)+ formal a=1(再導出せず)+ a_eff の d-reparametrization 不変性(64 通り悉皆)。envelope_digest はファイル出力を参照 |
 | 6 | S5 §3.3.5 の次元降格 | 閉。`docs/week4-K5_S5設計_opus_v1.md` の「余次元 2」「次元 2」「(N) 内余次元 1」を「期待次元 2 / design count」へ一貫して降格・出典(便36 F2.2・裁定37条件6)を行内明記 |
 | 7 | 文言修理 + status 同期 | 文言修理は閉(R-6 参照)。status 同期は本節+§11.1 R 表+付録 A(§10 参照)で反映。R-1・R-2 は実装担当の範囲外につき「未」のまま正直に記録(自己申告の陳腐化を作らない) |
+
+### 9.6 便 37(裁定 38 検収)残 3 blocker の修理(2026-07-27・実装担当)
+
+**対応 blocker**: 裁定_38_ben37.md の 1(R-7 外部束縛)・2(R-8 正本型)・3 前半
+(covariance envelope の実配線・証明書束の清掃)。R-1/R-2・commit・最終
+digest・status 文言の**最終**同期は司令塔の作業(裁定38 配分どおり)。
+
+#### R-7(bundle 外部束縛)
+
+- **修理**: `crosscheck/u-compare-ninf.mjs`・`crosscheck/u-compare.mjs` は
+  第三引数(bundle ファイル)を**必須**にした。(N$_\infty$) 副枝は新設
+  `crosscheck/build-frozen-bundles.mjs`(pathA/pathB のどちらのコードとも
+  独立な第三実装 -- 有理数・多項式演算を自前で再実装)が生成する
+  `certificates/k5pipeline/toy-ninf-M3-bundle.json`(mode=`calibration`)・
+  `certificates/k5pipeline/prod-ninf-M10-bundle.json`(mode=`production`)。
+  主枝(W/N$_{\rm aff}$)は凍結済み model-spec ファイル自身
+  (`certificates/k5fixture/K3-regression-model.json`。`bridge_mode:
+  "calibration_pre_bridge"` を明記 -- Freeze 2 以前で expected digest の
+  事前登録がまだ無いことを型で表現する)。
+- checker は (i) raw 二本から再構成した canonical model string が
+  bundle の canonical model string と**逐語一致**すること、(ii) bundle
+  自身の canonical string から取り直した sha256 が bundle の
+  `expected_model_digest` と一致すること(bundle 自己整合)、(iii)
+  production/calibration モードでは `expected_model_digest` の欠落を必ず
+  INTEGRITY_STOP にすること、を検査する。raw 内の自己申告
+  `expected_model_digest` は `raw_self_reported_expected_model_digest` として
+  参考記録するのみで判定根拠にしない。
+- **driver 側修理**(§6.3-5 item 1 完全化): 4 driver
+  (`search/u-extract-pathA-ninf-{production,toy}-driver.g`・
+  `crosscheck/u-extract-pathB-ninf-{production,toy}-driver.mjs`)はいずれも
+  `expected_model_digest` のハードコード転記をやめ、bundle ファイルから
+  読む(GAP 側は新設 `ReadJsonStringField`(`search/gaplib_common.g` 追加)
+  による最小 JSON field 読取り)。
+- **adversarial 較正(新設)**: `crosscheck/check-r7-bundle-attack.mjs`。
+  Sol 便37 F2 が明記した攻撃(「両 driver が同じ誤ったモデルを転記し、
+  同時に expected_model_digest = digest(誤モデル) を入れれば ACCEPT する」)
+  を実際に構成し、正しい bundle と照合すると INTEGRITY_STOP になることを
+  確認(5/5 PASS)。対照実験として、bundle 側も同じ誤りに合わせれば
+  ACCEPT することも確認(機構が「モデルが正しいか」ではなく
+  「bundle と raw の bytes が一致するか」を検査していることの裏付け)。
+
+#### R-8(branch/P0_type 分離)
+
+- **修理**: `crosscheck/u-extract-pathB-lib.mjs`(`loadModel`/
+  `canonicalModelString`/`extractPathB`)・`search/u-extract-pathA.g`
+  (`ExtractPathA`/`PathA_CanonicalModelString`/`ReportToJSON`)の main-path
+  schema を v2→**v3** へ上げ、旧 `branchP0` を大域 `branch`
+  ($\{{\tt W},{\tt N\_aff}\}$。$N_\infty$ はこのスキーマでは不正 -- 別
+  loader を使うこと)と局所 `P0_type`($\{{\tt Weierstrass},{\tt
+  nonWeierstrass}\}$)へ分離。整合規則: `branch='W'` は
+  `P0_type='nonWeierstrass'` を要求(S5-W 補題・Rule 1 SS4.1「v1.2 の
+  絞り込み」)、`branch='N_aff'` のみ両値を許す(「$P_0$ も Weierstrass」が
+  発火しうるのは副枝 (N$_{\rm aff}$) だけ -- Rule 1 同節)。$N_\infty$
+  schema(`loadModelNinf`/`ExtractPathA_Ninf`)にも `P0_type` field を追加
+  (常に `'nonWeierstrass'` -- 補題 R1-M0 3.、与えられれば fail-closed に
+  検査)。
+- 第三 checker(`u-compare.mjs`/`u-compare-ninf.mjs`)は raw の `schema`
+  文字列(`u-pathA/v3`・`u-pathB/v3`・`u-pathA-ninf/v2`・
+  `u-pathB-ninf/v2`)を許可リストと突合し、`branch`/`P0_type` の整合規則
+  も再検査する(I-m)。
+- model-spec ファイル(`certificates/k5fixture/K3-regression-model.json`)も
+  同じ field 名(`branch`/`P0_type`)へ改名。
+- **F1.2 清掃(便37 が指摘した schema field の明示値化)**: (N$_\infty$)
+  raw に `a_M`・`b_Mm3` の明示値フィールドを追加(pathA/pathB とも)。
+- **adversarial 較正**: `crosscheck/check-r5-r8-ninf-fail-closed.mjs` に
+  `branch='W'`+`P0_type='Weierstrass'` の拒否・`branch='N_aff'`+
+  `P0_type='Weierstrass'` の受理・`P0_type` 欠落/不正値の拒否などを追加し
+  18/18 PASS(旧 11/11 から拡張)。
+
+#### covariance envelope の実配線(F5)
+
+- `crosscheck/covariance-lib.mjs`(新設)へ `computeAEff`/`invMod`/
+  `mulMod`/`unitsMod`/`gcd`/`restrict10to5` を切り出し、
+  `crosscheck/check-covariance-envelope.mjs` と新設
+  `crosscheck/covariance-bridge-in.mjs`(橋段 driver スタブ -- CLI 引数
+  `<b_sq> <b_ns>` を受け取り同じ `computeAEff` を呼ぶ。未配線時は
+  `BRIDGE-UNKNOWN` を正直に返し fail-open しない)の**両方**が import する。
+- **formal a の実読取り**(便37 F5.2 (1)): `FORMAL_A` のハードコードをやめ、
+  `certificates/k5fixture/K5-sq.json`/`K5-ns.json` の
+  `rho0_and_j.a_sealed` を読み、両 fixture の値が一致することを
+  fail-closed に検査してから使う。
+- **source digest 束縛**(便37 F5.2 (2)): K3 covariance artifact
+  (`K3-regression-kummer-cov3-actual.json`)・K5-sq/K5-ns fixture の
+  **ファイル全体**の SHA-256 を envelope へ記録する(従来は conclusion
+  抜粋のみで、source の他部分が変わっても同じ envelope digest になり
+  得た)。
+- **段階の文言訂正**(便37 F5.2 (4)): 「実 $b_i$ は atomic Freeze 2
+  **受理後**に代入」という誤記を「**受理前**・$u$ 開示前」へ訂正
+  ($b_{\rm sq}=b_{\rm ns}$ は受理条件そのものであり、受理後に代入する
+  ものではない)。
+- **明示的な component/件数 assert**(便37 F5.2 (5)): `sealed` は
+  従来 `pass > 0` だったが、`components_present === 3`・
+  `covk_combinations_actual === 40`・`aeff_combinations_actual === 64`・
+  `a_sealed(sq) === a_sealed(ns)` を明示的に assert する形へ強化。
+  schema を `k5pipeline/covariance-sealed-envelope/v2` へ上げ、
+  再実行して `sealed=true`・`envelope_digest =
+  3a8fb77c727c4ad31270ccfa1b1ccff51ea1a6160baf7c6d6aaed35d1bb31b5a`
+  を得た。
+
+#### 証明書束の清掃(F1.2・裁定38条件3後半)
+
+- `certificates/k5pipeline/toy-ninf-M3-u-compare.json`(旧 schema v1・
+  $u=1$ の陳腐化した値)→ `retracted/toy-ninf-M3-u-compare.v1.json` へ退避
+  し、現行 checker(bundle 引数つき)で再発行。
+- `certificates/k5pipeline/K3-regression-cov1-k2-u-compare.json`(旧
+  `u-compare.mjs` 2 引数版・schema v2)→
+  `retracted/K3-regression-cov1-k2-u-compare.v2.json` へ退避。COV-1 派生
+  モデルは driver コメントに明記のとおり「較正のみの参考出力・パイプライン
+  の入力に使わない」ため、bundle 必須の新 checker では再発行しない(退避
+  理由は `certificates/k5pipeline/retracted/NOTE.md` 追記済み)。
+- `prod-ninf-M10-u-compare.json`(未保存だった production 較正の第三
+  checker 出力)を新規保存。
+- (N$_\infty$) raw に `a_M`/`b_Mm3` の明示値を追加(上記 R-8 節参照)。
+
+#### 変更・新設ファイル一覧(blob hash・`git hash-object`・2026-07-27 実測・未コミット)
+
+| ファイル | 種別 | blob hash |
+|---|---|---|
+| `search/u-extract-pathA.g` | library(R-8 分離・schema v3) | `6e30fd91897d4a91455bfc4d0449a281f7073bfa` |
+| `crosscheck/u-extract-pathB-lib.mjs` | library(R-8 分離・schema v3) | `7b7263498a96e0431eca940b2bc57520d5852a08` |
+| `crosscheck/u-compare.mjs` | 第三 checker(R-7 bundle 化・R-8 突合・schema v3) | `7f623a64669615099d25d071eef8cad639df3734` |
+| `crosscheck/u-compare-ninf.mjs` | 第三 checker(R-7 bundle 化・schema v3) | `797dc48a652bee0c184a1deed46572257387b783` |
+| `crosscheck/check-r5-r8-ninf-fail-closed.mjs` | adversarial 較正(拡張・18/18) | `fa6ceb49e68c421314b5e38c893859cae9624ef4` |
+| `crosscheck/check-r7-bundle-attack.mjs`(新設) | adversarial 較正(R-7 攻撃再現・5/5) | `204ecb37e023955943021856873454ead1094d89` |
+| `crosscheck/build-frozen-bundles.mjs`(新設) | 独立 bundle 生成器 | `d2a37fd630c38f3156e73c7a3b29324a2509af47` |
+| `crosscheck/covariance-lib.mjs`(新設) | 共有 covariance library | `690de2e5c910cdce6a1bb1f774eecbec1fda684f` |
+| `crosscheck/covariance-bridge-in.mjs`(新設) | 橋段 driver スタブ | `9fc7b9a12bc7487b29b8f3f0ae9a1b0dc10d2a79` |
+| `crosscheck/check-covariance-envelope.mjs` | covariance envelope(実配線・v2) | `7bdee13dcecee6f417c5cb24364a1c3ab9b88fd5` |
+| `search/gaplib_common.g` | 共通 GAP infra(`ReadJsonStringField` 追加) | `12fb309d83721744dcc764969133a6e8257ffa12` |
+| `search/u-extract-pathA-k3-driver.g` | K3 較正 driver(field 名更新) | `ae54238485ab58b235af939f876062081cb777bb` |
+| `crosscheck/u-extract-pathB-k3-driver.mjs` | K3 較正 driver(無変更) | `979a227866bc70f02e408765b98172a8f7708223` |
+| `search/u-extract-pathA-ninf-production-driver.g` | production driver(bundle 読取り化) | `a33b52a2fc289f0e9d5e22c06ffbd1e6f1c6a8d1` |
+| `crosscheck/u-extract-pathB-ninf-production-driver.mjs` | production driver(bundle 読取り化) | `99e160cc2d278f9ebabda18542d4f4cf5be7618d` |
+| `search/u-extract-pathA-ninf-toy-driver.g` | toy driver(bundle 読取り化) | `6e08cfc7211c0b0b1fe0659ff0dedcbb261c8d9b` |
+| `crosscheck/u-extract-pathB-ninf-toy-driver.mjs` | toy driver(bundle 読取り化) | `85b65ab876a0bd8ec40c2ab2c8733fdefcc9b898` |
+| `certificates/k5fixture/K3-regression-model.json` | model-spec(field 名更新・bridge_mode 追加) | `9d6c5c0fe359d6701ea0711557a5b1d51f95e777` |
+
+**全較正の再実行結果(2026-07-27)**:
+
+- K3 回帰(主枝): `node crosscheck/u-compare.mjs
+  certificates/k5pipeline/K3-regression-u-pathA.json
+  certificates/k5pipeline/K3-regression-u-pathB.json
+  certificates/k5fixture/K3-regression-model.json` → `result: "ACCEPT"`
+  (`u=-4`・`expected_digest_check: "NOT_PROVIDED (calibration_pre_bridge,
+  explicit ...)"`)。
+- synthetic M=10 production((N$_\infty$)): `u-compare-ninf.mjs` →
+  `result: "ACCEPT"`(`u=1/4`・`bundle_mode: "production"`・
+  `expected_digest_check: "BOUND (bundle-external, ...)"`)。
+- synthetic M=3 unit test((N$_\infty$)): 同上 → `result: "ACCEPT"`
+  (`u=1/2`・`bundle_mode: "calibration"`)。
+- `check-r5-r8-ninf-fail-closed.mjs`: **18/18 PASS**。
+- `check-r7-bundle-attack.mjs`: **5/5 PASS**。
+- `check-covariance-envelope.mjs`: `sealed=true`・
+  `envelope_digest=3a8fb77c727c4ad31270ccfa1b1ccff51ea1a6160baf7c6d6aaed35d1bb31b5a`。

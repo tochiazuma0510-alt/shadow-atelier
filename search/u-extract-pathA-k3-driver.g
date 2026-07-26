@@ -19,7 +19,8 @@ Read("search/u-extract-pathA.g");
 K3Model := rec(
   id := "K3-regression",
   M := 6,
-  branchP0 := "nonWeierstrass",
+  branch := "W",
+  P0_type := "nonWeierstrass",
   x0 := 0,
   y0 := 1,
   f := [1, -12, 54, -116, 129, -72],
@@ -39,7 +40,8 @@ K3Model_cov1_k2 := function()
   return rec(
     id := "K3-regression-cov1-k2",
     M := 6,
-    branchP0 := "nonWeierstrass",
+    branch := "W",
+    P0_type := "nonWeierstrass",
     x0 := 0,
     y0 := k^5 * K3Model.y0,
     f := f2,

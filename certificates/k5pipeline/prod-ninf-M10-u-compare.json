@@ -1,0 +1,21 @@
+{
+  "schema": "u-compare-ninf/v3",
+  "pathAFile": "certificates/k5pipeline/prod-ninf-M10-pathA.json",
+  "pathBFile": "certificates/k5pipeline/prod-ninf-M10-pathB.json",
+  "bundleFile": "certificates/k5pipeline/prod-ninf-M10-bundle.json",
+  "idA": "prod-ninf-M10",
+  "idB": "prod-ninf-M10",
+  "recomputed_model_digest_pathA": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",
+  "recomputed_model_digest_pathB": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",
+  "model_digest": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",
+  "bundle_mode": "production",
+  "bundle_expected_model_digest": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",
+  "expected_digest_check": "BOUND (bundle-external, R-7/I-l closed per 裁定38/便37 F2)",
+  "raw_self_reported_expected_model_digest": {
+    "pathA": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",
+    "pathB": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3"
+  },
+  "u_pathA_ninf": "1/4",
+  "u_pathB_ninf": "1/4",
+  "result": "ACCEPT"
+}

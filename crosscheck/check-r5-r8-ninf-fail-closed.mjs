@@ -88,25 +88,55 @@ expectThrow('R-7/I-l: wrong expected_model_digest must be rejected', () => {
 expectThrow("I-m: loadModelNinf rejects branch != 'N_infty'", () => {
   loadModelNinf({ ...validRaw, branch: 'Weierstrass' });
 });
+// ---- R-8(便37 F3): loadModelNinf rejects P0_type != 'nonWeierstrass' if given ----
+expectThrow("R-8/I-m(便37 F3): loadModelNinf rejects P0_type='Weierstrass' for branch=N_infty (Lemma R1-M0 3.)", () => {
+  loadModelNinf({ ...validRaw, P0_type: 'Weierstrass' });
+});
+expectOk("R-8(便37 F3): loadModelNinf accepts explicit P0_type='nonWeierstrass' for branch=N_infty", () => {
+  loadModelNinf({ ...validRaw, P0_type: 'nonWeierstrass' });
+});
 
-// ---- R-8/I-m: loadModel (main, non-Ninf) must not fall back to Weierstrass on unknown label ----
+// ---- R-8/I-m(便 37 F3/裁定 38 修理): loadModel (main, non-Ninf) must not
+// fall back to a default on an unknown label, and must keep the global
+// `branch` ({W,N_aff,N_infty}) separate from the local `P0_type`
+// ({Weierstrass,nonWeierstrass}) ----
 const validMainRaw = {
-  id: 'dummy', M: 6, branchP0: 'nonWeierstrass', x0: '0', y0: '1',
+  id: 'dummy', M: 6, branch: 'N_aff', P0_type: 'nonWeierstrass', x0: '0', y0: '1',
   f_coeffs_ascending: ['1', '0', '0', '0', '0', '0', '1'],
   A_coeffs_ascending: ['1'], B_coeffs_ascending: ['1'],
 };
-expectOk('R-8 baseline: loadModel accepts valid nonWeierstrass label', () => {
+expectOk('R-8 baseline: loadModel accepts valid branch=N_aff/P0_type=nonWeierstrass', () => {
   loadModel(validMainRaw);
 });
+expectOk('R-8 baseline: loadModel accepts valid branch=W/P0_type=nonWeierstrass', () => {
+  loadModel({ ...validMainRaw, branch: 'W' });
+});
 expectThrow('R-8/I-m: loadModel must reject unknown branch label (no silent fallback)', () => {
-  loadModel({ ...validMainRaw, branchP0: 'bogusLabel' });
+  loadModel({ ...validMainRaw, branch: 'bogusLabel' });
 });
 expectThrow('R-8/I-m: loadModel must reject missing branch label (no silent fallback)', () => {
-  const { branchP0, ...rest } = validMainRaw;
+  const { branch, ...rest } = validMainRaw;
   loadModel(rest);
 });
-expectThrow("R-8/I-m: loadModel must reject branchP0='N_infty' (wrong loader for that schema)", () => {
-  loadModel({ ...validMainRaw, branchP0: 'N_infty' });
+expectThrow("R-8/I-m: loadModel must reject branch='N_infty' (wrong loader for that schema)", () => {
+  loadModel({ ...validMainRaw, branch: 'N_infty' });
+});
+expectThrow('R-8/I-m: loadModel must reject unknown P0_type label (no silent fallback)', () => {
+  loadModel({ ...validMainRaw, P0_type: 'bogusP0Type' });
+});
+expectThrow('R-8/I-m: loadModel must reject missing P0_type label (no silent fallback)', () => {
+  const { P0_type, ...rest } = validMainRaw;
+  loadModel(rest);
+});
+// 便 37 F3 の核心: branch と P0_type は別軸であり、branch='W' は
+// P0_type='nonWeierstrass' を要求する(S5-W 補題 / Rule 1 SS4.1「v1.2 の
+// 絞り込み」)。混同していれば branch='W' + P0_type='Weierstrass' が
+// 素通りしてしまう -- これを fail-closed に拒否できることを確認する。
+expectThrow("R-8/I-m(便37 F3): branch='W' with P0_type='Weierstrass' must be rejected (S5-W consistency; only N_aff may have P0 Weierstrass)", () => {
+  loadModel({ ...validMainRaw, branch: 'W', P0_type: 'Weierstrass' });
+});
+expectOk("R-8(便37 F3): branch='N_aff' with P0_type='Weierstrass' is the only branch allowed to have P0 Weierstrass", () => {
+  loadModel({ ...validMainRaw, branch: 'N_aff', P0_type: 'Weierstrass' });
 });
 
 console.log(`\n=== ${pass}/${pass + fail} PASS ===`);

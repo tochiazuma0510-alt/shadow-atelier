@@ -16,7 +16,7 @@
 //
 // 実行: node crosscheck/u-extract-pathB-ninf-toy-driver.mjs
 
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadModelNinf, extractPathB_Ninf } from './u-extract-pathB-lib.mjs';
@@ -24,17 +24,22 @@ import { loadModelNinf, extractPathB_Ninf } from './u-extract-pathB-lib.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
+// 便37 F2 修理 1: expected_model_digest は hardcode せず、独立に生成された
+// 凍結 bundle ファイルから読む。
+const bundle = JSON.parse(readFileSync(join(ROOT, 'certificates', 'k5pipeline', 'toy-ninf-M3-bundle.json'), 'utf8'));
+
 // search/u-extract-pathA-ninf-toy-driver.g と同一の値(f の定数項を -1 -> 0
 // に変えて chat=2 -> chat=1 へ修理した版 -- 便 36 F3.2 の (N∞-4) 要求)。
 const raw = {
   id: 'toy-ninf-M3',
   branch: 'N_infty',
+  P0_type: 'nonWeierstrass',
   M: 3,
   f_coeffs_ascending: ['0', '2', '1', '2', '2', '0', '1'],
   A_coeffs_ascending: ['1', '1', '0', '1'],
   B_coeffs_ascending: ['1'],
   series_length: 20,
-  expected_model_digest: '9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d',
+  expected_model_digest: bundle.expected_model_digest,
 };
 
 const model = loadModelNinf(raw);

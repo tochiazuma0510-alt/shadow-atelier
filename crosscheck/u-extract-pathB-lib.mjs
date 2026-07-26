@@ -115,26 +115,49 @@ function polyDerivN(a, k) { let r = a; for (let i = 0; i < k; i++) r = polyDeriv
 function factorialQ(k) { let r = 1n; for (let i = 2; i <= k; i++) r = r * BigInt(i); return new Q(r); }
 
 //////////////////// モデル読み込み ////////////////////
-// R-8(便 35 F5.2・便 36 F3.2 (4)/F6-3): 枝ラベルは三値 enumeration
-// {Weierstrass, nonWeierstrass, N_infty} とし、未知ラベル・欠落ラベルを
-// 既定値(旧実装は無条件で 'Weierstrass' へ fallback していた -- バグ)へ
-// 丸めることを禁止する(fail-closed。Rule 1 SS2.2 M0 / SS9.2 I-m)。
-// N_infty は x0,y0 を持たない別 schema(loadModelNinf/extractPathB_Ninf)を
-// 使う必要があるため、ここに来たら明示的にエラーで停止する(schema と
-// branch label の不整合 = I-m)。
-const BRANCH_ENUM = ['Weierstrass', 'nonWeierstrass', 'N_infty'];
+// R-8(便 35 F5.2・便 36 F3.2 (4)/F6-3・**裁定 38/便 37 F3 修理**): 旧実装は
+// 「大域枝 (M0 の三値 {W,N_aff,N_infty})」と「P0 の局所 Weierstrass 性」を
+// 同じ `branchP0` field に混ぜていた(Sol 便 37 F3 の指摘)。ここを二軸に
+// 分離する:
+//   - `branch`  : 大域枝(P_infty の Weierstrass 性 + P0=iota(P_infty) 判定
+//                 (2.-1)。Rule 1 SS2.2 M0)。このスキーマ(x0,y0 を持つ
+//                 アフィン raw)では {W, N_aff} のいずれかでなければならない
+//                 -- N_infty はここに来たら別スキーマ違反(I-m)。
+//   - `P0_type` : 局所 P0 の Weierstrass 性({Weierstrass, nonWeierstrass})。
+//                 B-i/B-ii(SS6.2)・Hensel/Newton 展開の分岐(SS6.1)の選択に
+//                 使う量そのもの。
+// 整合規則(Sol 便37 F3 / Rule 1 SS4.1 の帰結・S5-W 補題・R1-M0 3.):
+//   - branch = 'W'      => P0_type は 'nonWeierstrass' でなければならない
+//                          (枝 (W) では P0 は自動的に非 Weierstrass -- S5-W
+//                          補題・SS4.1「(v1.2 の絞り込み)」)。
+//   - branch = 'N_aff'  => P0_type は両値どちらでも良い(「P0 も Weierstrass」
+//                          が発火しうるのは副枝 (N_aff) だけ -- SS4.1)。
+//   - branch = 'N_infty' はこのスキーマでは不正(loadModelNinf を使うこと)。
+// 未知ラベル・欠落ラベルを既定値(旧実装は無条件で 'Weierstrass' へ
+// fallback していた -- バグ)へ丸めることは禁止する(fail-closed。
+// Rule 1 SS2.2 M0 / SS9.2 I-m)。
+const GLOBAL_BRANCH_ENUM = ['W', 'N_aff', 'N_infty'];
+const P0_TYPE_ENUM = ['Weierstrass', 'nonWeierstrass'];
 export function loadModel(raw) {
-  const label = raw.branchP0;
-  if (!BRANCH_ENUM.includes(label)) {
-    throw new Error(`loadModel (I-m): branchP0 must be one of {${BRANCH_ENUM.join(', ')}}, got '${label}' -- no default fallback is permitted (Rule 1 SS2.2 M0 / SS9.2 I-m)`);
+  const branch = raw.branch;
+  const p0Type = raw.P0_type;
+  if (!GLOBAL_BRANCH_ENUM.includes(branch)) {
+    throw new Error(`loadModel (I-m): branch must be one of {${GLOBAL_BRANCH_ENUM.join(', ')}}, got '${branch}' -- no default fallback is permitted (Rule 1 SS2.2 M0 / SS9.2 I-m)`);
   }
-  if (label === 'N_infty') {
-    throw new Error(`loadModel (I-m): branchP0='N_infty' models have no x0,y0 and must use loadModelNinf/extractPathB_Ninf, not loadModel/extractPathB (Rule 1 SS6.3-6)`);
+  if (branch === 'N_infty') {
+    throw new Error(`loadModel (I-m): branch='N_infty' models have no x0,y0 and must use loadModelNinf/extractPathB_Ninf, not loadModel/extractPathB (Rule 1 SS6.3-6)`);
+  }
+  if (!P0_TYPE_ENUM.includes(p0Type)) {
+    throw new Error(`loadModel (I-m): P0_type must be one of {${P0_TYPE_ENUM.join(', ')}}, got '${p0Type}' -- no default fallback is permitted`);
+  }
+  if (branch === 'W' && p0Type !== 'nonWeierstrass') {
+    throw new Error(`loadModel (I-m): branch='W' requires P0_type='nonWeierstrass' (Lemma S5-W / Rule 1 SS4.1 "v1.2 の絞り込み"), got P0_type='${p0Type}'`);
   }
   return {
     id: raw.fixture_id ?? raw.id,
     M: raw.M,
-    branchP0: label,
+    branch,
+    P0_type: p0Type,
     x0: Q.parse(raw.x0),
     y0: Q.parse(raw.y0),
     f: raw.f_coeffs_ascending.map(Q.parse),
@@ -143,15 +166,16 @@ export function loadModel(raw) {
   };
 }
 
-//////////////////// canonical model digest (便 34 P6-E2) ////////////////////
+//////////////////// canonical model digest (便 34 P6-E2・便 37 F3 で branch/P0_type 分離) ////////////////////
 // search/u-extract-pathA.g の PathA_CanonicalModelString と**同一のバイト列**
 // を生成するよう独立に実装する(突合の前提)。ここでは実装を独立に書き下す
 // ことで「両方が同じ仕様を独立に満たす」ことを保証する(共有関数の呼び出し
-// ではない)。
+// ではない)。schema v3(便 37 F3 の branch/P0_type 分離で digest 対象文字列が
+// 変わるため v2 から version up)。
 export function canonicalModelString(model) {
   const rat = (x) => x.toString();
   const list = (xs) => xs.map(rat).join(',');
-  return `id=${model.id};M=${model.M};branchP0=${model.branchP0};` +
+  return `id=${model.id};M=${model.M};branch=${model.branch};P0_type=${model.P0_type};` +
     `x0=${rat(model.x0)};y0=${rat(model.y0)};` +
     `f=[${list(model.f)}];A=[${list(model.A)}];B=[${list(model.B)}]`;
 }
@@ -161,7 +185,7 @@ export function modelDigest(model) {
 
 //////////////////// 経路 B 本体 (SS6.2 (6.1)(6.2)) ////////////////////
 export function extractPathB(model) {
-  const { M, branchP0, x0, y0, f, A, B } = model;
+  const { M, branch, P0_type, x0, y0, f, A, B } = model;
   // lambda^iota = A - B y なので N(lambda) = A^2 - B^2 f
   const A2 = polyMul(A, A);
   const B2 = polyMul(B, B);
@@ -178,7 +202,7 @@ export function extractPathB(model) {
   const chat = NlambdaShift[M] ?? Q0; // ĉ
 
   let u_pathB, formula, extra = {};
-  if (branchP0 === 'nonWeierstrass') {
+  if (P0_type === 'nonWeierstrass') {
     // (6.1): u = chat / (A(x0) - B(x0) y0)
     const Ax0 = polyEval(A, x0);
     const Bx0 = polyEval(B, x0);
@@ -202,10 +226,11 @@ export function extractPathB(model) {
   }
 
   return {
-    schema: 'u-pathB/v2',
+    schema: 'u-pathB/v3',
     id: model.id,
     M,
-    branchP0,
+    branch,
+    P0_type,
     x0: x0.toString(),
     y0: y0.toString(),
     f_coeffs_ascending: f.map(String),
@@ -251,9 +276,18 @@ export function loadModelNinf(raw) {
   if (raw.M === undefined || raw.M === null) {
     throw new Error("loadModelNinf: raw.M is required (Rule 1 M naming; the old raw.n field name is retired)");
   }
+  // 便 37 F3 (R-8): P0_type は副枝 (N_infty) では常に 'nonWeierstrass'
+  // (補題 R1-M0 3.: iota(P_infty) は iota の不動点でないので P0 は非
+  // Weierstrass)。field が与えられていれば fail-closed に検査する
+  // (未提供でも許す -- N_infty raw の必須 field ではないが、あれば逐語一致
+  // を要求する)。
+  if (raw.P0_type !== undefined && raw.P0_type !== null && raw.P0_type !== 'nonWeierstrass') {
+    throw new Error(`loadModelNinf (I-m): P0_type must be 'nonWeierstrass' for branch='N_infty' (Lemma R1-M0 3.), got '${raw.P0_type}'`);
+  }
   return {
     id: raw.id,
     branch: raw.branch,
+    P0_type: 'nonWeierstrass',
     M: raw.M,
     f: raw.f_coeffs_ascending.map(Q.parse),
     A: raw.A_coeffs_ascending.map(Q.parse),
@@ -359,6 +393,7 @@ export function extractPathB_Ninf(model) {
     schema: 'u-pathB-ninf/v2',
     id: model.id,
     branch: 'N_infty',
+    P0_type: 'nonWeierstrass',
     M,
     f_coeffs_ascending: f.map(String),
     A_coeffs_ascending: A.map(String),
@@ -372,6 +407,7 @@ export function extractPathB_Ninf(model) {
     chat: chat.toString(),
     chat_equals_1: chat.eq(new Q(1n)),
     a_M: a_M.toString(),
+    b_Mm3: b_Mm3.toString(),
     u_pathB_ninf: u_pathB_ninf.toString(),
     model_digest: modelDigest,
     model_digest_algo: 'sha256(canonical_model_string_ninf)',
@@ -389,7 +425,8 @@ export function cov1Model(model, k) {
   return {
     id: model.id + '-cov1-k' + k,
     M: model.M,
-    branchP0: model.branchP0,
+    branch: model.branch,
+    P0_type: model.P0_type,
     x0: model.x0, // k^2 * x0 = 0 when x0 = 0
     y0: kQ.pow(5).mul(model.y0),
     f: f2, A: A2, B: B2,
