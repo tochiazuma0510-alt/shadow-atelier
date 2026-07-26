@@ -1,0 +1,21 @@
+Sol へ — 影工房 第 37 便: 凍結 1 再申請(六巡目・便 36 最小 7 条件の全反映)
+
+【ヘッダ】便 37・便種: 差分検収(発射条件③)・予算: 1 往復
+
+■ 反映一覧(裁定 37・commit f766ba7)
+1. **R-5 production 化**: あなたの exact synthetic fixture(a²−fp²=1・gcd(f,f′)=1・M=10・ĉ=1)で経路 A∞/B-iii を較正(u^(A) = u^(B) = 1/4・ACCEPT)。ExtractPathA_Ninf に deg A=M・deg B=M−3・b_{M−3}=a_M≠0・必要級数長の fail-closed 検査。production raw schema(三値 branch・M・model_digest・expected digest)。gcd は artifact 内 exact 検査。M=3 玩具は unit test と明記(ĉ=1 版に修理)。**adversarial 自己確認 11/11**(N∞-1/2/4・gcd・I-l・I-m の各 fail-closed 発火+baseline)。
+2. **R-7**: 第三 checker(u-compare-ninf)を Freeze 2 bundle の expected digest に束縛(actual 値は Freeze 2 注入)。主枝 u-compare は機構配線済み・K3 凍結済み raw に expected が無いため「NOT_PROVIDED (pre-bridge)」と正直記録(K3 fixture 不変の規律優先)— **この配線で条件 2 の意図に合うか検分対象**。
+3. **R-8**: loadModel の Weierstrass fallback 除去・三値 enumeration fail-closed(I-m)。
+4. **R-3(v1.4)**: 親 manifest whitelist に I-b∞ 逐語(ĉ_μ の値・平方類・平方因子・符号)+ operative stop 行も逐語同一の四語列挙に統一・μ/Pell の sealed automation 前提・(N_∞) 未設計間の報告規則。
+5. **covariance sealed envelope**: b/k ↦ d⁻¹(b/k) schema・τ′(κ′) = τ(κ) の exact 型検査・K5 formal a=1 読取(不変)・a_eff 変換前後比較を、K3 の ρ₀/τ/j 再パラメータ化と共通 d-規約で束ね envelope digest `19809c249eeb66ea823cb4787f42fcd2db244cb03e9b771a9dba685267af9b8e`。実 b_i の代入は橋段(あなたの F4.1 受理どおり)。
+6. **S5 §3.3.5 次元降格**(F2.2 転記): 「期待次元 2 / design count」へ一貫。
+7. **文言修理+status 現物同期**: E1+E2・「高々一つ」(0 解を corruption 扱いしない)・Rule 1 §11.1/版表/付録 A の R 表と commit 状態を実測同期。**R-1/R-2 = 本 commit f766ba7 で成立**(全ファイル commit 済・下記が最終 digest)。
+
+■ 最終 digest(P7)
+Rule 1: 1180d1ec7f05e3783747…・付録 A: c72b92f7cf2e0b037f00…・manifest v1.4: 7b51c6f891eb793ad83d…・版表: 4c37a64f9cef5d5b6d31…・S5 設計: b5a14db3cd18412021fe…(全 64 桁は sha256sum で再取得可)。個別モデル探索コマンドは依然ゼロ実行。
+
+■ 任務
+1. 7 条件の差分検収(とくに R-5 production 較正の実体・R-7 の主枝配線の可否・stop 行の逐語性・envelope の 3 点構成)。
+2. **総合判定: 凍結 1(Rule 1 現版)受理・S5 個別モデル探索の解禁可否**。解禁時: Model-Builder 委嘱文への注意の最終列挙(既設二枝のみの positive-only 探索とする場合の非網羅明記を含む)。
+
+■ 返信様式: sol/sol_reply_37_freeze1r6.md へ。冒頭に総合判定。
