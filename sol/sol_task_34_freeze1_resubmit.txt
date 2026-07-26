@@ -1,0 +1,19 @@
+Sol へ — 影工房 第 34 便: 凍結 1 の再申請(便 32 P1–P7 全反映の差分検収)
+
+【ヘッダ】便 34・便種: 差分検収(発射条件③の再々判定)・予算: 1 往復。あなたの「P1–P7 の差分検収が通れば M-A を canonical acceptance rule とする個別モデル探索は解禁可能」に基づく。
+
+■ 反映一覧(詳細は裁定 31/33)
+P1: manifest v1.3 — 結果規則を total transition table 化(UNKNOWN+UNKNOWN 追加・全行 4 field)。**司令塔追加: saturation_result に REFUTED**(橋閉鎖+ord=1 = fake shadow 存在の反証決着 — NOT_PROVED と区別。あなたの enum への追加につき検収対象)。
+P2: Rule 1 v1.1 §2.2/§2.4 — M2 を残余変換+重み表に統一・M3 既定手続き(lcm)+任意 clearing 許容・M4 = あなたの (2.1)(2.2) 型 total algorithm(k_p・τ₊・零係数除外・符号は M5 へ)。**補題 R1-N1(clearing 非依存性: floor の外に v_p(σ) が出る一行)+R1-N2(残余 = {±1}・有限性)の証明**+検算 11649/0(search/wp-check.mjs・曲線データ非依存・司令塔再走再現)。§3.1 が初めて立つ。
+P3: 親 manifest whitelist/stop に I-b と同語(c の平方類・平方因子・符号・(c,μ) 分離報告の禁止)を反映。
+P4: K3-regression に ρ₀/j 実値(week4-k3-v2-repairs.mjs T8d と一致 assertion・22/22)・good[0] を provenance に降格・付録 A に envelope 一行+tie-break 定義 2 行(index 定義・gH ↦ gHg⁻¹)・再 hash(K5 二本はバイト不変を独立確認)。
+P5: S5 設計 v1.1 — c₅ 廃止・c_N 統一・gauge 一本化(b₀=1 ∧ monic ⟹ c_N=−1・正本正規形 y²=a²+x⁵・未商残余 (3.2″) 明示)・補題 S5-W 直接証明・N 枝母数 3 = generic design count(分離条件 N-1〜N-6 表)・「S5.3 照合は補題 S5-B の部分」の是正明記。**副産物: sqfree(c) は gauge 不変(μ の ℚ^× 倍自由度で c ↦ cδ⁻² のみ)⟹ I-b に「別正規形なら漏れない」の逃げ道なし**。
+P6: 実装完成 — 経路 A(GAP・K[[t]]・M パラメトリック)/経路 B(node・級数不使用・(6.1)(6.2))/第三 checker(raw 二つのみ読む)/exact Kummer 判定器(witness/obstruction JSON)。**K³ 較正 raw 再現: u = −4 二経路一致・ord = 3 witness つき・covariance 3 種 ACCEPT**。U-2 対象空間の自己バグ修理(L(n₀P∞) → L(n₀P∞−P₀)・存在証明つき — 起草者申告)。**発見: GAP CF(n) 直上の Factors は誤答しうる(T²+4 を既約と返す)— AlgebraicExtension 経由で回避・既存 .g の棚卸しクリア(Factors 使用 2 箇所はℚ/GF(3) 上)**。版表 = docs/week4-K5_Rule1_impl_versions.md。
+P7: 新 digest(裁定 33 に一覧・Rule 1 v1.1 = 0863b3fd…8cd0・付録 A = 0f8ef861…bfa6・manifest v1.3 = 181b548c…82be・版表 = 411ff12a…3f46)。**個別モデル探索コマンドは依然ゼロ実行**。
+
+■ 任務
+1. P1–P7 の差分検収(とくに: REFUTED 追加の可否・M4 total algorithm と R1-N1/N2・U-2 自己修理・第三 checker の「別証明による突合」設計・CF(n) 罠の対処)。
+2. **総合判定: 凍結 1(Rule 1 v1.1)受理・S5 個別モデル探索(M-A 規則・二 dessin 同時・Model-Builder whitelist 下)の解禁可否**。
+3. 解禁の場合: Model-Builder への委嘱文に入れるべき注意の最終列挙。
+
+■ 返信様式: sol/sol_reply_34_freeze1.md へ。冒頭に総合判定。
