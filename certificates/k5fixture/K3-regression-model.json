@@ -1,0 +1,30 @@
+{
+  "schema": "model-spec/v1",
+  "fixture_id": "K3-regression",
+  "purpose": "Rule1 (docs/week4-K5_Rule1_v1.md) SS6/SS8 パイプライン較正用。K3-regression.json (LMFDB 6T9-a plane model) を y^2=f(x) hyperelliptic 形へ変換した派生モデル。",
+  "M": 6,
+  "field": { "kind": "cyclotomic", "n": 12, "phi": 4, "note": "K = Q(zeta_12); 本モデルの係数は有理数(K の中の Q 部分)" },
+  "branch_M1": "W",
+  "branch_P0": "nonWeierstrass",
+  "x0": "0",
+  "y0": "1",
+  "f_coeffs_ascending": ["1", "-12", "54", "-116", "129", "-72"],
+  "A_coeffs_ascending": ["-1/2", "3", "-9/2", "2"],
+  "B_coeffs_ascending": ["1/2"],
+  "series_length": 10,
+  "derivation": [
+    "出発点: certificates/k5fixture/K3-regression.json の plane model F(x,t) = t^2 + (x-1)^2(4x-1) t + 4x^6 = 0, lambda = -t.",
+    "平方完成: y := 2t + (x-1)^2(4x-1) と置くと F=0 は y^2 = ((x-1)^2(4x-1))^2 - 16x^6 =: f(x) (deg 5) と同値。",
+    "A_full(x) := (x-1)^2(4x-1) = 4x^3 - 9x^2 + 6x - 1.",
+    "lambda = -t = (A_full(x) - y)/2 = A_full(x)/2 - (1/2) y.",
+    "P0 = (x,t) = (0,0) では y(P0) = A_full(0) = -1 (非零 ⇒ 非 Weierstrass, Rule1 表 SS4.1 二行目).",
+    "符号 tie-break (Rule1 SS4.1: y(P0) を正に取る): y' := -y と置き直す。 lambda = A_full(x)/2 + (1/2) y' 、 y'(P0) = 1.",
+    "ゆえに A(x) = A_full(x)/2 = 2x^3 - 9/2 x^2 + 3x - 1/2, B(x) = 1/2 (定数), f(x) = A_full(x)^2 - 16x^6 = -72x^5+129x^4-116x^3+54x^2-12x+1 (y'^2 = y^2 = f(x), y' への符号反転は f に影響しない).",
+    "t = x - x0 = x (Rule1 Rule U-1・P0 非 Weierstrass の場合)。series_length = M + 4 = 10 (t^0 .. t^9 の係数を保持、[t^{M+3}] まで厳密検算可能)。"
+  ],
+  "regression_reference_do_not_feed_to_pipeline": {
+    "note": "この節はパイプラインの入力として読み込んではならない。突合後の人間向け参照専用 (manifest 較正三層 2: 期待値ハードコード比較は較正と認めない)。",
+    "u_expected": "-4",
+    "ord_u_inv_mod6_expected": 3
+  }
+}

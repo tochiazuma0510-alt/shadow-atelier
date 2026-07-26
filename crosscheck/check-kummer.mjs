@@ -1,0 +1,189 @@
+// crosscheck/check-kummer.mjs
+// Rule 1 SS8 exact Kummer 判定器の独立照合器。
+// search/kummer-decide.g の GAP 実装(Factors ベース)とは**別のアルゴリズム**
+// で同じ命題「w は K=Q(zeta_n) の M 乗か」を判定する(GAP のコード・
+// 中間結果は import しない。読むのは kummer-decide.g が書き出した
+// 証明書 JSON の中の w / ord / witness 数値だけ)。
+//
+// 独立アルゴリズムの根拠(exact・非発見的):
+//  (a) K=Q(zeta_n) は Q 上アーベル拡大 -- アーベル群の部分群はすべて正規
+//      なので K の任意の部分体は Q 上アーベル(ガロア)。
+//  (b) 奇素数 p と有理数 w について、X^p-w は「w が Q で p 乗」でない限り
+//      Q 上既約(古典的事実)。既約かつ次数 p (>1) の拡大 Q(w^{1/p}) が
+//      アーベルになるのは Q(zeta_p) 込みで次数 p(p-1) の分解体がアーベルに
+//      潰れる場合のみだが [Q(zeta_p):Q]=p-1 と p は互いに素(p 素数)なので
+//      次数 p の巡回群が (p-1 の巡回) と両立するのは自明拡大のときだけ。
+//      ゆえに: **奇素数 p では w が K で p 乗 <=> w が Q で p 乗**。
+//  (c) p=2 は例外(K は虚二次部分体を複数持ちうる)。K=Q(zeta_n) の二次
+//      部分体の判別式 d は「導手 cond(d) が n を割る」squarefree 整数
+//      (古典的な円分体の理論)。w (rational, 非零) が K で平方 <=>
+//      ある登録済み d についてw*d が Q で平方。
+//      本ファイルは n in {12, 20} の**事前登録された**二次部分体の
+//      判別式表のみを使う(それ以外の n は UNKNOWN)。
+//        n=12: Q(zeta_12) = Q(i, sqrt(3))  -> d in {1, -1, -3, 3}
+//        n=20: Q(zeta_20) つまり Q(i, sqrt(5)) (Rule1 SS8.5 に同じ記載:
+//              「K の二次部分体は Q(i), Q(sqrt5), Q(sqrt(-5))」)
+//                                            -> d in {1, -1, 5, -5}
+//
+// 入力: kummer-decide.g が書いた証明書 JSON(w, M, ord, witness)。
+// 出力: 独立算出した ord と一致するかどうかの照合レポート。
+
+import { readFileSync } from 'node:fs';
+
+function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
+function parseRatMaybeNumber(x) {
+  if (typeof x === 'number') { return ratFromNumber(x); }
+  const s = String(x).trim();
+  if (s.includes('/')) { const [a, b] = s.split('/'); return norm(BigInt(a), BigInt(b)); }
+  return norm(BigInt(s), 1n);
+}
+function ratFromNumber(x) {
+  if (!Number.isInteger(x)) throw new Error('non-integer JSON number encountered for w (unexpected for this fixture)');
+  return norm(BigInt(x), 1n);
+}
+function norm(n, d) { if (d < 0n) { n = -n; d = -d; } const g = gcdBig(n, d) || 1n; return { n: n / g, d: d / g }; }
+function ratMul(a, b) { return norm(a.n * b.n, a.d * b.d); }
+function ratPow(a, k) {
+  if (k === 0) return norm(1n, 1n);
+  if (k > 0) { let r = norm(1n, 1n); for (let i = 0; i < k; i++) r = ratMul(r, a); return r; }
+  const p = ratPow(a, -k); return norm(p.d, p.n);
+}
+function ratEq(a, b) { return a.n === b.n && a.d === b.d; }
+
+// 整数 n の素因数分解(絶対値・符号は別途扱う)
+function factorizeAbs(n) {
+  n = n < 0n ? -n : n;
+  const f = new Map();
+  let d = 2n;
+  while (d * d <= n) {
+    while (n % d === 0n) { f.set(d, (f.get(d) ?? 0) + 1); n /= d; }
+    d += 1n;
+  }
+  if (n > 1n) f.set(n, (f.get(n) ?? 0) + 1);
+  return f;
+}
+
+// 有理数が(符号込みで)整数 p 乗かどうか(p は素数、正または負の w を許す;
+// p が奇数なら符号も p 乗根に吸収できるので自由、p が偶数(=2)ならここでは
+// 呼ばない -- 二次の場合は下の quadratic subfield ルートを使う)
+function isPerfectPthPowerInQ_odd(w, pBig) {
+  // w = sign * n/d (既約・d>0)。奇素数 p: sign 自体 (+-1) は (+-1)^p = 同じ符号 なので
+  // 常に p 乗根で吸収可能。n,d の素因数がすべて p の倍数指数であればよい。
+  const p = Number(pBig);
+  const nAbs = w.n < 0n ? -w.n : w.n;
+  const fn = factorizeAbs(nAbs);
+  const fd = factorizeAbs(w.d);
+  for (const [, e] of fn) if (e % p !== 0) return false;
+  for (const [, e] of fd) if (e % p !== 0) return false;
+  return true; // sign は奇数乗根で吸収可能なので判定に影響しない
+}
+
+// 有理数が(非負であれば)Q で平方かどうか(整数指数がすべて偶数)
+function isPerfectSquareInQ(w) {
+  if (w.n < 0n) return false; // 実平方は負にならない(実根の意味での「Q の平方」)
+  const fn = factorizeAbs(w.n);
+  const fd = factorizeAbs(w.d);
+  for (const [, e] of fn) if (e % 2 !== 0) return false;
+  for (const [, e] of fd) if (e % 2 !== 0) return false;
+  return true;
+}
+
+const QUADRATIC_SUBFIELD_DISCRIMINANTS = {
+  12: [1n, -1n, -3n, 3n],   // Q(zeta_12) = Q(i, sqrt(3)) = Q(i, sqrt(-3))
+  20: [1n, -1n, 5n, -5n],   // Rule1 SS8.5: K の二次部分体は Q(i), Q(sqrt5), Q(sqrt(-5))
+};
+
+// w (rational, != 0) が K=Q(zeta_n) で平方か(独立・非 Factors 判定)
+function isSquareInK(w, n) {
+  const table = QUADRATIC_SUBFIELD_DISCRIMINANTS[n];
+  if (!table) return { decided: false, reason: `n=${n} の二次部分体判別式表が未登録 -- UNKNOWN` };
+  for (const dRaw of table) {
+    const d = norm(dRaw, 1n);
+    const wd = ratMul(w, d);
+    if (isPerfectSquareInQ(wd)) return { decided: true, isPower: true, viaDiscriminant: dRaw.toString() };
+  }
+  return { decided: true, isPower: false };
+}
+
+// w (rational) が K=Q(zeta_n) で p 乗か (p は M の素因数, p=2 or 奇素数)
+function isPthPowerInK(w, p, n) {
+  if (p === 2n) return isSquareInK(w, n);
+  return { decided: true, isPower: isPerfectPthPowerInQ_odd(w, p) };
+}
+
+function primeFactorsDistinct(M) {
+  let m = M; const ps = [];
+  let d = 2n;
+  while (d * d <= m) { if (m % d === 0n) { ps.push(d); while (m % d === 0n) m /= d; } d += 1n; }
+  if (m > 1n) ps.push(m);
+  return ps;
+}
+
+function divisorsOf(M) {
+  const ds = [];
+  for (let d = 1n; d <= M; d++) if (M % d === 0n) ds.push(d);
+  return ds;
+}
+
+// w^d が K^{*M} かどうか (SS8.2 (8.1): すべての素因数 p|M で p 乗であること)
+function isMthPowerInK(wd, M, n) {
+  const primes = primeFactorsDistinct(M);
+  if (primes.reduce((a, b) => a * b, 1n) !== M) {
+    return { decided: false, reason: `M=${M} is not squarefree product of distinct primes -- out of SS8.2 scope` };
+  }
+  for (const p of primes) {
+    const res = isPthPowerInK(wd, p, n);
+    if (!res.decided) return { decided: false, reason: res.reason };
+    if (!res.isPower) return { decided: true, isPower: false, obstructionPrime: p.toString() };
+  }
+  return { decided: true, isPower: true };
+}
+
+// 独立版 ord: w^d in K^{*M} となる最小の d | M
+function ordModMIndependent(w, M, n) {
+  const divs = divisorsOf(M);
+  for (const d of divs) {
+    const wd = ratPow(w, Number(d));
+    const res = isMthPowerInK(wd, M, n);
+    if (!res.decided) return { decided: false, reason: res.reason, triedDivisor: d.toString() };
+    if (res.isPower) return { decided: true, ord: d.toString() };
+  }
+  return { decided: false, reason: 'no divisor produced isPower=true (unexpected)' };
+}
+
+//////////////////// 実行 ////////////////////
+const certPath = process.argv[2];
+if (!certPath) {
+  console.error('usage: node check-kummer.mjs <kummer-decide cert JSON>');
+  process.exit(2);
+}
+const cert = JSON.parse(readFileSync(certPath, 'utf8'));
+const w = parseRatMaybeNumber(cert.w);
+const M = BigInt(cert.M);
+const n = cert.field_n;
+
+const indep = ordModMIndependent(w, M, n);
+
+const report = {
+  schema: 'check-kummer/v1',
+  certPath,
+  label: cert.label,
+  field_n: n,
+  M: cert.M,
+  w: cert.w,
+  gap_ord: cert.ord,
+  independent_ord: indep.decided ? Number(indep.ord) : null,
+  independent_decided: indep.decided,
+};
+
+if (!indep.decided) {
+  report.result = 'UNKNOWN';
+  report.reason = indep.reason;
+} else if (Number(indep.ord) === cert.ord) {
+  report.result = 'MATCH';
+} else {
+  report.result = 'MISMATCH';
+}
+
+console.log(JSON.stringify(report, null, 2));
+if (report.result === 'MISMATCH') process.exit(1);
