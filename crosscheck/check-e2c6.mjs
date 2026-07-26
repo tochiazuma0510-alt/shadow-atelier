@@ -1,18 +1,62 @@
 // crosscheck/check-e2c6.mjs
 // Independent Node-side crosscheck for search/e2c6-sweep.g (E2 class-6 two-direction sweep,
-// docs/manifest_e2c6_sweep_v1.md).
+// docs/manifest_e2c6_sweep_v2.md).
 //
-// INPUT DISCIPLINE: reads crosscheck/agree6_sol2.json ONLY for the class-6 table data (system
-// B / Sol's independently-transcribed tables -- NOT agree6_claude.json, which is what the GAP
-// side used -- input-level system separation, per manifest requirement 1). Also reads the
-// certificate files GAP wrote to certificates/e2c6/*.json (that's the intended output-side
-// crosscheck point), but does NOT read search/e2c6-sweep.g's source code.
+// === TOOL SPEC (first of its kind, per 体制と道具.md "仕様書優先", 2026-07-26 researcher ruling) ===
 //
-// STATUS (2026-07-26): mirrors the GAP script's hold -- the ob-extraction layer's "(q_theta)_+"
-// projection convention is UNRATIFIED (falsifier audit flagged two readings). This checker
-// therefore only verifies: (a) table self-consistency, (b) linear-stage kernel certificates
-// (class-5 control + class-6-shaped synthetic fixtures), (c) mass-check bijectivity. It does
-// NOT compute or certify ob_a/ob_b.
+// (1) INPUT (files and roles):
+//   - crosscheck/agree6_sol2.json    : ONLY source for class-6 table data (theta_table,
+//     sigma_table_poly, Em_components, kappa_terms, d_theta_formula, d_sigma_formula). This is
+//     system B (Sol's independent transcription) -- NOT agree6_claude.json (system A, used by
+//     the GAP side) -- input-level system separation is the whole point of having two files.
+//   - certificates/e2c6/*.json       : the only other input. Certificates written by
+//     search/e2c6-sweep.g. This script does NOT read e2c6-sweep.g's source, hall6.mjs, or sol/.
+//   - The RATIFIED OB FORMULA (as opposed to the class-6 table data) is taken from the same
+//     commander-designated spec docs as the GAP side: docs/manifest_e2c6_sweep_v2.md,
+//     docs/委嘱16_ob定義_opus_v1.md, sol/sol_reply_22_ob.md.
+//
+// (2) MODES (what data each mode may touch):
+//   - fixture mode (the only mode this script runs): rechecks certificates whose "fixture"
+//     field names a SYNTHETIC system (rhs=0, or a hand-built (q_theta,q_N) pair) or the
+//     class-5 CONTROL system (independent Magnus-embedding reimplementation, dim 10). This
+//     mode NEVER computes or discloses real E_m(m)-based class-6 target solvability/ob for
+//     m>0 -- the one exception is m=0, where Ebar_15(0)=EmC6(0)=0 is a known STRUCTURAL
+//     identity (not a "finding" about the real 64-system sweep), used only inside
+//     e2c6-sweep.g's own M2 self-check (this script does not need to re-derive that).
+//   - real-sweep mode: NOT implemented on the Node side. If a certificate ever appears with
+//     claim "e2c6_real_sweep", this script rechecks it the same way as any other ob-bearing
+//     certificate (same ratified formula, same mode-lock gate below) -- it does not
+//     distinguish "is this real data" from "is this fixture data" when RECHECKING math, only
+//     when deciding whether to print an extra disclosure warning (see FIRE LOCK note below).
+//
+// (3) OUTPUT (certificate schema this script consumes):
+//   - claim:"linear_stage_kernel_c6"  : {modulus,m,j,K_generators,K_orders,ob_a:null,
+//     ob_b:null,ob_mode:"PENDING",fixture}. Pure kernel cert, no ob content expected.
+//   - claim:"ob_synthetic_check"      : {fixture,R,basis_order_C6,q_theta,q_N,v,ob_a,ob_b,
+//     ob_mode,formula}. ob_a/ob_b non-null -- MODE LOCK applies (see below).
+//   - claim:"e2c6_real_sweep"         : {m,j,linear_solvable,witness_f_abar,q_theta,q_N,
+//     ob_a,ob_b,ob_mode}. Only ever appears once the fire lock is opened; same mode lock.
+//   - Ratified ob_mode string: "quotient-ratified-v2" (裁定20). Any OTHER string paired with
+//     non-null ob_a/ob_b is a contract violation (see MODE LOCK).
+//
+// (4) INVARIANTS checked at runtime (M-series, 委嘱16 sec.5 / manifest v2 F4):
+//   - M2: (1-sigma)q_N = 0 mod R          -- checked GAP-side only (needs real Em(0)=0 shortcut)
+//   - M3: (1-theta)q_theta = 0 mod R      -- checked GAP-side only (m-independent, safe)
+//   - M5: (1+theta)ker(N_C) has zero u4/u2 mod R -- checked GAP-side only
+//   - This script's own invariants: (a) K-generators satisfy the homogeneous kernel equations
+//     mod `modulus` for their declared fixture system; (b) kernel enumeration is bijective
+//     (|distinct| = Prod(K_orders)); (c) for ob-bearing certs, v/ob_a/ob_b are independently
+//     recomputed from the certificate's own (q_theta,q_N) via the ratified formula and must
+//     match: MODE LOCK -- ob_a/ob_b non-null with ob_mode != "quotient-ratified-v2" is REJECT.
+//
+// (5) FIRE LOCK (specified here for completeness; this script does not enforce it -- that is
+//     search/e2c6-sweep.g's job): the real-universe sweep (real m=0..63, claim
+//     "e2c6_real_sweep") only runs when search/FIRE_e2c6.auth exists and contains the SHA-256
+//     of docs/manifest_e2c6_sweep_v2.md. This checker has no opinion on whether that file
+//     should exist -- it only rechecks whatever certificates are actually present.
+//
+// STATUS (2026-07-26, second pass): ob layer RATIFIED (裁定20). MODE LOCK enforced below --
+// any ob-bearing certificate not carrying "ob_mode":"quotient-ratified-v2" is REJECTed.
 
 'use strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -129,6 +173,59 @@ function dSigmaOf(avec15, m) {
   return CNames.map((cc) => (DSigmaFormula[cc] || []).reduce((s, t) => s + evalDFormTerm(t, avec15, m, 3), 0));
 }
 function ekAbar(i) { const v = new Array(NAB).fill(0); v[i] = 1; return v; }
+
+// ---------------------------------------------------------------------------
+// RATIFIED OB LAYER (裁定20): ob = [q_theta - 3^{-1}(1+theta)q_N] in C^theta/(1+theta)K.
+// j=2 readout (R=2): ob_a = v's u4-coefficient, ob_b = v's u2-coefficient.
+// ---------------------------------------------------------------------------
+const ThetaOnCMat = CIdx21.map((i) => CIdx21.map((j) => ThetaTable21[i][j]));
+function SigmaOnCMat(m) { return CIdx21.map((i) => CIdx21.map((j) => evalPoly5(SigmaTablePoly21[i][j], m))); }
+function EmC6(m) { return CIdx21.map((i) => evalEmComponent(EmComponents21[i], m)); }
+function kappa(a15, b15) {
+  const out = new Array(NC6).fill(0);
+  for (const term of KappaTerms) {
+    const ai = a15[AbarNames.indexOf(term.in1)];
+    const bi = b15[AbarNames.indexOf(term.in2)];
+    out[CNames.indexOf(term.out)] += term.coef * ai * bi;
+  }
+  return out;
+}
+function qThetaFullRaw(f15) {
+  const thBar = vecMatMul(f15, ThetaBarMat);
+  const k = kappa(thBar, f15);
+  const d = dThetaOf(f15);
+  return k.map((x, i) => x + d[i]);
+}
+function qNFullRaw(f15, m) {
+  const ebar = EmBar15(m);
+  const Sf = vecMatMul(f15, SigmaBarMat(m));
+  const S2f = vecMatMul(Sf, SigmaBarMat(m));
+  const eps = EmC6(m);
+  const dSigmaF = dSigmaOf(f15, m);
+  const dSigmaSf = dSigmaOf(Sf, m);
+  const dSigma2 = dSigmaSf.map((x, i) => x + vecMatMul(dSigmaF, SigmaOnCMat(m))[i]);
+  const c1 = kappa(ebar, S2f);
+  const ePlusS2f = ebar.map((x, i) => x + S2f[i]);
+  const c2 = kappa(ePlusS2f, Sf);
+  const ePlusS2fPlusSf = ePlusS2f.map((x, i) => x + Sf[i]);
+  const c3 = kappa(ePlusS2fPlusSf, f15);
+  return eps.map((x, i) => x + dSigma2[i] + dSigmaF[i] + c1[i] + c2[i] + c3[i]);
+}
+function modInverse(a, n) {
+  if (n === 1) return 0;
+  // extended Euclid
+  let [old_r, r] = [((a % n) + n) % n, n];
+  let [old_s, s] = [1, 0];
+  while (r !== 0) { const q = Math.floor(old_r / r); [old_r, r] = [r, old_r - q * r]; [old_s, s] = [s, old_s - q * s]; }
+  return ((old_s % n) + n) % n;
+}
+function obFromQPair(qTheta6, qN6, R) {
+  const inv3 = modInverse(3, R);
+  const thQN = vecMatMul(qN6, ThetaOnCMat);
+  const corr = qN6.map((x, i) => inv3 * (x + thQN[i]));
+  const v = qTheta6.map((x, i) => mod(x - corr[i], R));
+  return { v, ob_a: v[CNames.indexOf('u4')], ob_b: v[CNames.indexOf('u2')] };
+}
 
 let dThetaOk = true, dSigmaOk = true;
 for (let g = 0; g < NAB; g++) {
@@ -251,19 +348,59 @@ for (const fname of certFiles) {
   const raw = readFileSync(join(CERT_DIR, fname), 'utf8');
   let cert;
   try { cert = JSON.parse(raw); } catch (e) { console.log(`FAIL  ${fname}: not valid JSON (${e.message})`); certFails++; continue; }
+  const parseMaybe = (x) => (typeof x === 'string' ? JSON.parse(x) : x);
+
+  // MODE LOCK (applies to every claim type): any certificate carrying a non-null ob_a or
+  // ob_b MUST declare "ob_mode":"quotient-ratified-v2" -- the one ratified string (裁定20).
+  // Anything else (e.g. "PENDING" with non-null values, an old "A"/"B" label, a typo) is a
+  // REJECT, full stop, regardless of what the numeric values happen to be.
+  const obANonNull = typeof cert.ob_a !== 'undefined' && cert.ob_a !== null;
+  const obBNonNull = typeof cert.ob_b !== 'undefined' && cert.ob_b !== null;
+  if ((obANonNull || obBNonNull) && cert.ob_mode !== 'quotient-ratified-v2') {
+    console.log(`REJECT  ${fname}: ob_a/ob_b non-null (ob_a=${cert.ob_a}, ob_b=${cert.ob_b}) but ob_mode="${cert.ob_mode}" != "quotient-ratified-v2" -- MODE LOCK violation`);
+    certFails++;
+    continue;
+  }
+
+  if (cert.claim === 'ob_synthetic_check') {
+    // Independent recheck: recompute v/ob_a/ob_b from the certificate's OWN q_theta/q_N
+    // (given directly in the cert -- these are synthetic/hand-built pairs for F1/F2, not
+    // derived from any Abar witness) using the ratified formula, and compare.
+    const R = cert.R;
+    const qTheta6 = parseMaybe(cert.q_theta);
+    const qN6 = parseMaybe(cert.q_N);
+    const obR = obFromQPair(qTheta6, qN6, R);
+    const ok = obR.ob_a === cert.ob_a && obR.ob_b === cert.ob_b;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: ob_synthetic_check (fixture=${cert.fixture}, R=${R}) independently recomputed ob_a=${obR.ob_a} ob_b=${obR.ob_b} (cert claimed ob_a=${cert.ob_a} ob_b=${cert.ob_b})`);
+    if (!ok) certFails++;
+    continue;
+  }
+
+  if (cert.claim === 'e2c6_real_sweep') {
+    // Same recheck, but q_theta/q_N are given directly in the cert too (per e2c6-sweep.g's
+    // RunRealSweepC6 schema) -- no need to recompute them from witness_f_abar independently
+    // (that would require this file's own Abar(15)/C(6) machinery applied to the witness,
+    // which is exactly what qThetaFullRaw/qNFullRaw below already do if ever needed).
+    const R = 2 ** (cert.j - 1);
+    const qTheta6 = parseMaybe(cert.q_theta);
+    const qN6 = parseMaybe(cert.q_N);
+    const obR = obFromQPair(qTheta6, qN6, R);
+    const fAbar = parseMaybe(cert.witness_f_abar);
+    const qThetaIndep = qThetaFullRaw(fAbar);
+    const qNIndep = qNFullRaw(fAbar, cert.m);
+    const qOk = qThetaIndep.every((x, i) => mod(x, R) === mod(qTheta6[i], R)) && qNIndep.every((x, i) => mod(x, R) === mod(qN6[i], R));
+    const ok = qOk && obR.ob_a === cert.ob_a && obR.ob_b === cert.ob_b;
+    console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: e2c6_real_sweep (m=${cert.m}, j=${cert.j}) independently rebuilt q_theta/q_N from witness_f_abar AND recomputed ob_a=${obR.ob_a} ob_b=${obR.ob_b} (cert claimed ob_a=${cert.ob_a} ob_b=${cert.ob_b})`);
+    if (!ok) certFails++;
+    continue;
+  }
 
   if (cert.claim !== 'linear_stage_kernel_c6') {
     console.log(`SKIP  ${fname}: unrecognized claim "${cert.claim}"`);
     continue;
   }
-  if (typeof cert.ob_a !== 'undefined' && cert.ob_a !== null) {
-    console.log(`FAIL  ${fname}: ob_a is non-null (${cert.ob_a}) but ob layer is HELD -- certificate should not assert an ob value yet`);
-    certFails++;
-    continue;
-  }
 
   const modulus = cert.modulus, j = cert.j, m = cert.m;
-  const parseMaybe = (x) => (typeof x === 'string' ? JSON.parse(x) : x);
   const gens = cert.K_generators.map(parseMaybe);
   const orders = cert.K_orders.map(parseMaybe);
 
