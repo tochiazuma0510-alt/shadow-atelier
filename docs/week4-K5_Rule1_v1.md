@@ -863,8 +863,8 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 
 | # | 項目 | 担当 | 状態 |
 |---|---|---|---|
-| R-1 | §8.6/§10-3 の実装版・commit・checker ID を**値として**記入 | 実装(P6 後半) | **未**(便 35 F4: 版表・付録 A・本節の自己申告が現物と食い違う。**実 commit を値として埋め、全修理後に再 hash**) |
-| R-2 | 本文書 + 付録 A の新 digest 再取得と再提出 | 司令塔(P7) | **未**(**v1.3 で serialization が三たび変わる**) |
+| R-1 | §8.6/§10-3 の実装版・commit・checker ID を**値として**記入 | 実装(P6 後半) | **閉**(content commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c` を版表に値記入 — 司令塔) |
+| R-2 | 本文書 + 付録 A の新 digest 再取得と再提出 | 司令塔(P7) | **閉**(status commit 後の最終 digest を便 38 に記載 — 司令塔) |
 | R-3 | 親 manifest 側の whitelist/stop に I-b と同語を反映 | 司令塔(P1+P3) | **実体は閉(便 37 F4.1・裁定 38・2026-07-27・Sol 検分済み)**。`docs/manifest_k5_v1.md` **v1.4** の whitelist(§3)・即時 stop 行はいずれも「$\hat c_\mu$ の値・平方類・平方因子・符号」の四語を逐語列挙する(Sol 便37 F4.1 が「R-3 の実体部分は閉じた」と判定)。**残る留保**: $\mu$/Pell の sealed automation・(N$_\infty$) 探索器未設計中の非開示規則が変更記録の一段落にしかなく、operative 節(Model-Builder 委嘱・S5 工程節)への転記が探索解禁版までの宿題として残る(便37 F4.2・単独では本条件を FAIL にしない)。 |
 | R-4(v1.2) | S5 設計 §3.3.4 の分離条件表に **N-0: $P_0\ne\iota(P_\infty)$** を追記し、(3.3) の $x_0$ 有限前提を明示し、**(N$_\infty$) の stratum を total な分岐表に入れる**(便 34 F3.3・便 35 F5.1) | 数学者 | **閉(2026-07-27)** — `docs/week4-K5_S5設計_opus_v1.md` **v1.2** §3.3.4 の N-0 と §3.3.5(命題 S5-3∞・(3.3∞)・total 分岐表)。**Rule 1 の受理条件ではない** |
 | R-5(v1.2) | 実装側: 経路 A/B/第三 checker を副枝 (N$_\infty$)(§6.1 (b) A∞-1〜A∞-4・§6.2 B-iii・構造検査 (N∞-1)–(N∞-4)・(N$_\infty$) 用 raw schema §6.3-6)へ拡張 | 実装 | **production 較正済み(便 36 F3.2/F6-1・裁定 37 条件 1・2026-07-27)**。schema v2 へ更新(三値 branch label `N_infty`・`M`(旧 `n` を置換)・`model_digest`・`expected_model_digest`)。`search/u-extract-pathA.g` の `ExtractPathA_Ninf` に (N∞-1)–(N∞-4) の fail-closed 検査(deg A=M・deg B=M-3・$b_{M-3}=a_M\ne0$・$A^2-B^2f$=定数=1・必要級数長 $\ge 2M+4$)と `gcd(f,f')` が単元であることの exact 検査(GAP 側 `PolyGcdIsUnit`・node 側は独立実装の Euclid 互除法)を追加。**Sol 提供の exact synthetic fixture**($p=x^2+1$・$a=1+x(x^2+1)^2$・$f=x^6+2x^4+x^2+2x$・$\lambda=\mu^2$ で $\deg A=10$・$\deg B=7$・$b_7=a_{10}=2$・$\hat c=1$)で `search/u-extract-pathA-ninf-production-driver.g` + `crosscheck/u-extract-pathB-ninf-production-driver.mjs` + `crosscheck/u-compare-ninf.mjs`(第三 checker・R-7 の expected digest 束縛も同時実装)を実行し、$u^{(A)}=u^{(B)}=1/4$・`result:"ACCEPT"`・digest 一致を確認(実行ログは本裁定対応の便報告に原文記載)。旧 M=3 玩具は `search/u-extract-pathA-ninf-toy-driver.g`/`crosscheck/u-extract-pathB-ninf-toy-driver.mjs` として**同一ライブラリの unit test**に位置づけ直し(schema v2・chat=1 の passing fixture に更新)、旧 chat=2 入力での fail-closed 停止は `crosscheck/check-r5-r8-ninf-fail-closed.mjs`(11/11 PASS)で確認。詳細 `docs/week4-K5_Rule1_impl_versions.md` §9.3 |
@@ -876,7 +876,7 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 >
 > **Rule 1 の受理条件ではない項目**: R-4(閉)。**受理条件である項目**: R-1・R-2・R-3・R-5・R-6・R-7・R-8。
 
-**現状(2026-07-27・便 37/裁定 38 修理反映後)**: R-3(実体は閉・Sol 検分済み)・R-4(閉)・R-5(production 較正済み)・R-6(数学 PASS・文言修理済み)・**R-7(閉・bundle 束縛へ修理)**・**R-8(閉・branch/P0_type 分離へ修理)**。**R-1・R-2 はなお未着手**(実 commit ID の値記入・全修理後の再 hash・本文書自身の再提出 -- これは実装担当ではなく司令塔の作業。commit 後に司令塔が本節・実装版表・付録 A の commit ID 欄を最終確認し、値として記入する)。
+**現状(2026-07-27・便 37/裁定 38 修理反映後)**: R-3(実体は閉・Sol 検分済み)・R-4(閉)・R-5(production 較正済み)・R-6(数学 PASS・文言修理済み)・**R-7(閉・bundle 束縛へ修理)**・**R-8(閉・branch/P0_type 分離へ修理)**。**R-1・R-2 も閉**(content commit 16b18a7 の値記入と最終 digest 取得 = 司令塔・便 38)。これで R-1〜R-8 全閉。
 
 **R-1・R-2 が閉じ、かつ本文書の再 hash(R-2)が済むまで、凍結 1 は受理されず、個別モデル探索コマンドは実行しない。**
 

@@ -324,8 +324,8 @@ $A^2-B^2f=1$(=$\hat c$、(N∞-4) を満たす)。
 
 | # | 項目 | 状態 |
 |---|---|---|
-| R-1 | §8.6/§10-3 の実装版・commit・checker ID | 未(**git commit は司令塔の作業 — 実装担当は commit しない規律**。commit 後の `git log` 差し替え・値としての記入は司令塔 P7) |
-| R-2 | 本文書+付録 A の新 digest 再取得・再提出 | 未(司令塔 P7・本便の全修理完了後にまとめて再取得要) |
+| R-1 | §8.6/§10-3 の実装版・commit・checker ID | **閉**(content commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c` — 司令塔記入) |
+| R-2 | 本文書+付録 A の新 digest 再取得・再提出 | **閉**(status commit 後の digest 5 本を便 38 に記載 — 司令塔取得) |
 | R-3 | 親 manifest 側の whitelist/stop への反映 | **実体は閉(便37 F4.1・Sol 検分済み)**。`docs/manifest_k5_v1.md` v1.4 の whitelist・即時 stop 節はいずれも「$\hat c_\mu$ の値・平方類・平方因子・符号」の四語を逐語列挙。残る留保は operative 節への転記(便37 F4.2・単独では非 FAIL) |
 | R-4 | S5 設計 §3.3.4 への N-0 追記 | **閉(2026-07-27)**(数学者・裁定36の配分どおり。§3.3.5 の次元断定は裁定37条件6でさらに「期待次元/design count」へ降格済み) |
 | R-5 | (N∞) 用パイプライン拡張(経路 A∞・B-iii・構造検査) | **production 較正済み(裁定37条件1・§9.3)**。M=10・$\hat c=1$ の exact synthetic fixture で (N∞-1)–(N∞-4)・gcd・digest 束縛のすべてを通し二経路一致(ACCEPT)確認。旧 M=3 玩具は library unit test に位置づけ直し |
@@ -343,7 +343,7 @@ $A^2-B^2f=1$(=$\hat c$、(N∞-4) を満たす)。
 | 4 | 親 manifest への I-b∞ 逐語反映 | 司令塔担当(範囲外)。manifest v1.4 で一部反映済み(§9.4 R-3 参照) |
 | 5 | covariance の型レベル固定(sealed envelope) | 閉。`crosscheck/check-covariance-envelope.mjs` — K3 actual artifact(既存 PASS)を取り込み + b/k 型検査(e=10・40 通り悉皆)+ formal a=1(再導出せず)+ a_eff の d-reparametrization 不変性(64 通り悉皆)。envelope_digest はファイル出力を参照 |
 | 6 | S5 §3.3.5 の次元降格 | 閉。`docs/week4-K5_S5設計_opus_v1.md` の「余次元 2」「次元 2」「(N) 内余次元 1」を「期待次元 2 / design count」へ一貫して降格・出典(便36 F2.2・裁定37条件6)を行内明記 |
-| 7 | 文言修理 + status 同期 | 文言修理は閉(R-6 参照)。status 同期は本節+§11.1 R 表+付録 A(§10 参照)で反映。R-1・R-2 は実装担当の範囲外につき「未」のまま正直に記録(自己申告の陳腐化を作らない) |
+| 7 | 文言修理 + status 同期 | 文言修理は閉(R-6 参照)。status 同期は本節+§11.1 R 表+付録 A(§10 参照)で反映。R-1・R-2 は司令塔が content commit 16b18a7 で閉鎖(本行は司令塔記入) |
 
 ### 9.6 便 37(裁定 38 検収)残 3 blocker の修理(2026-07-27・実装担当)
 
