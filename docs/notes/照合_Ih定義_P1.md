@@ -185,3 +185,88 @@
 2405.11725 参考文献 [15](p.33、逐語・行結合):
 
 > [15] Y. Ihara, On the embedding of Gal(Q̄/Q) into ĜT. With an appendix by Michel Emsalem and Pierre Lochak. London Math. Soc. Lecture Note Ser., 200, The Grothendieck theory of dessins d'enfants (Luminy, 1993), 289–321, Cambridge Univ. Press, Cambridge, 1994.
+
+---
+
+## 二次資料照合: Schneps/Furusho(定理 A₅ 絶対較正 (I3*) の証拠固め)
+
+- 状態: **画像照合済み**(pdftocairo 150dpi・スクラッチパッド schn-02/04/12/13/21.png・furu-13/23/24.png)
+- 照合日: 2026-07-26 / 照合者: reader(精密読解係)
+- 対象: papers/delivered/schneps_2005_AWS_GT_notes.pdf(全 42 頁)、papers/delivered/furusho_RIMS1357_mzv_gt.pdf(全 43 頁)
+- 注意: 両ノートとも当該箇所に**式番号なし**(Schneps §I は式番号を一切振らない)。頁番号は PDF 印字頁(= PDF 頁番号と一致)。
+
+### S1. Schneps: Ihara の path 解釈(p.13・式番号なし)
+
+p.12 末尾に「**Theorem.** (Ihara) *There is an injection G_ℚ ↪ ĜT.*」があり、その 3 通りの証明スケッチの第 2 ビュレット(p.13)に逐語(画像照合済み):
+
+> We can approach this more arithmetically by using the fact that not only does G_ℚ act on (homotopy classes of) *loops* on a variety X based at a ℚ-point, but also on (homotopy classes of) *paths* on X from one ℚ-point to another. Ihara explained that the geometric meaning of the element f_σ(x, y) is that if p denotes the path from 0 to 1 (taking tangential base points), then σ(p) = pf(x, y).
+
+- 続き: 「the path r from 0 to 1/2」で σ(r) = rg(x, y)、Θ(z) = 1 − z、p = Θ(r)⁻¹r から無番号の連鎖式で f(x, y) = g(y, x)⁻¹g(x, y) を導き relation (I) を出す。
+- **接基点の較正は皆無(本丸の回答)**: この近傍にあるのは括弧書き「(taking tangential base points)」の**語だけ**。単位接ベクトル・±∂/∂t・速度/座標の正規化は一切なし。全 42 頁 grep で「unit tangent」「tangent vector」「∂/∂t」「direction」**0 件**。ノート内で tangential base point が実質定義されるのは p.21(§II「Tangential base points」)のみで、それは M₀,n(ℝ) の maximal degeneration 点近傍の **simply connected regions を基点に使う**という定義(「these regions can be used as base points for a topological fundamental groupoid; they are called *tangential base points of maximal degeneration*」逐語)— ベクトル較正はここにもない。**どの向き・どの正規化の接基点かは本ノートからは UNKNOWN**。
+
+### S2. Schneps: f ∈ F̂₂′(derived subgroup)の言明 — Galois 側と GT 定義側の両方
+
+1. **Galois 側(p.2、§I.1)逐語**:
+
+   > 1) to identify each element σ ∈ G_ℚ with a pair (χ(σ), f_σ) ∈ Ẑ* × F̂₂′.
+   >
+   > As for f_σ ∈ F̂₂′, which is the derived subgroup of the profinite completion of the free group F̂₂ on two generators, ...
+   >
+   > 2) Find necessary and sufficient conditions on f ∈ F̂₂′ for it to come from a σ ∈ G_ℚ.
+
+2. **Galois 側の正規化の仕組み(p.4、§I.3)逐語** — f_σ ∈ F̂₂′ は**外作用の持ち上げの一意化条件**として導入される:
+
+   > Suppose g ≡ x^δ y^ε in F̂₂^ab, and set f = y^{−ε} g x^δ. Then
+   >
+   > σ(x) = x^α, σ(y) = f^{−1} y^β f
+   >
+   > is the unique lifting of the outer action of σ such that f ∈ F̂₂′.
+   >
+   > We have obtained a map G_ℚ → Ẑ* × F̂₂′.
+
+   - すなわち Schneps の提示では **f_σ の釘付けは abelianization による純群論的正規化**(接基点によるのではない)。p.13 の path 解釈は「Ihara が説明した幾何的意味」として後置され、両者の整合の較正(どの接基点でこの正規化が実現されるか)はノート内では**述べられない**。
+
+3. **GT 定義側(p.12)逐語**:
+
+   > **Definition.** The *Grothendieck-Teichmüller group* ĜT is the group of pairs (λ, f) ∈ Ẑ* × F̂₂′ such that x ↦ x^λ and y ↦ f^{−1}y^λ f induces an automorphism of F̂₂, and such that (I) f(x,y)f(y,x) = 1, (II) f(x,y)x^m f(z,x)z^m f(y,z)y^m = 1 where xyz = 1 and m = (λ−1)/2, (III) (5-cycle relation) ...
+
+   - **結論: f ∈ F̂₂′ は「GT の定義条件」かつ「Galois の f_σ の正規化条件」の両方**。ĜT 定義では属域そのもの(Ẑ* × F̂₂′ の第 2 成分)、Galois 側では lift 一意化の条件(p.4)として機能。
+
+### S3. Furusho RIMS-1357: 条件 (0) の 2 箇所と Galois 像との関係
+
+1. **pro-代数版(Definition 2.2.1、p.12–13、[Dr]§4 引用)逐語**:
+
+   > GT(k) = {(λ, f) ∈ k^× × F₂(k) | (λ, f) satisfies (0)∼(iii) below.}
+   >
+   > (0) f ∈ [F₂, F₂](k)
+
+   - ここで F₂(下線付き)は F₂ の **Malcev completion**、k は任意の ℚ-algebra(p.12)。**GT の定義条件**であり Galois 表現の言明ではない。脚注 3(p.13): 「For our convenience, we reverse the original definition of the multiplication of GT in [Dr]」(乗法の向きが [Dr] と逆)。
+
+2. **pro-ℓ 版(p.24 冒頭、ĜT₁^(ℓ) の定義)逐語** — 司令塔指定の「(0) f ∈ [F₂^(ℓ), F₂^(ℓ)]」はこちら:
+
+   > Here ĜT₁^(ℓ) := { σ ∈ Aut F̂₂^(ℓ) | σ(x) = x, σ(y) = f⁻¹yf for ∃f ∈ F̂₂^(ℓ) which satisfies (0) ∼ (iii) below. }
+   >
+   > (0) f ∈ [F̂₂^(ℓ), F̂₂^(ℓ)]
+   > (i) f(X,Y)f(Y,X) = 1
+   > (ii) f(Z,X)f(Y,Z)f(X,Y) = 1 for XYZ = 1
+   > (iii) (5-cycle、P̂₅^(ℓ) 内)
+
+   - **Note 4.1.2(p.24)逐語**: 「Here [F̂₂^(ℓ), F̂₂^(ℓ)] means the topological commutator subgroup of F̂₂^(ℓ) ... Note that σ ∈ ĜT₁^(ℓ) determines f ∈ F̂₂^(ℓ) uniquely because of the condition (0).」— **(0) は f の一意化(正規化)条件**と明記。
+   - これは λ = 1 の unipotent 部分(ĜT₁)なので (ii) に X^m 因子なし(m = 0)。
+
+3. **Galois 像との関係(p.23、§4.1)**: 定義自体は GT 側だが、**Galois 像が (0)〜(iii) を満たして中に入る**ことが Lemma 4.1.1 で言明される。逐語:
+
+   > The absolute Galois group Gal(Q̄/Q) acts on the algebraic fundamental group π₁(P¹_Q̄ − {0,1,∞}, 0⃗1) of the projective line minus 3 points, where 0⃗1 means the tangential base point (see [De]§15). ... p₁^(ℓ) : Gal(Q̄/Q(μ_{ℓ∞})) → Aut F̂₂^(ℓ) ...
+   >
+   > By imitating the construction of the embedding Gal(Q̄/Q) ↪ ĜT in [Ih94], we can show that its image is contained in the following pro-ℓ group version of the Grothendieck-Teichmüller group ĜT₁^(ℓ).
+   >
+   > **Lemma 4.1.1.** Im p₁^(ℓ) ⊆ ĜT₁^(ℓ).
+
+   - **f が Galois 表現の像かどうかへの回答**: 条件 (0) は **ĜT₁^(ℓ) の定義条件**として書かれ、Galois 側は「Im p₁^(ℓ) ⊆ ĜT₁^(ℓ)」(Lemma 4.1.1、証明は [Ih94] の模倣と述べるのみ)経由で **f_σ ∈ [F̂₂^(ℓ), F̂₂^(ℓ)] が帰結**する構成。Galois の作用の基点は **0⃗1 = tangential base point(矢印つき記法)で明示**されるが、その較正は **[De]§15(Deligne, Le groupe fondamental de la droite projective moins trois points, §15)へ委任**— 単位接ベクトル等の正規化は本稿に書かれていない。
+   - なお σ の範囲は Gal(Q̄/Q(μ_{ℓ∞}))(円分指標を消した部分群)であり、full Gal(Q̄/Q) の f_σ ではない点に注意。
+
+### S4. (I3*) への含意(判定材料の整理)
+
+1. σ(p) = p·f(x,y)(p = 0 から 1 への道)という**規約の向き(f が右)**は Schneps p.13 で確定(画像照合)。
+2. ただし Schneps は接基点の較正(単位接ベクトル・向き)を**どこにも書かない**。較正の一次出典は Ihara [I]/Deligne [De]§15 側 — 本 2 資料は「二次資料として規約の向きを支持する」ことまで。**接基点較正の一次証拠としては使えない**。
+3. f ∈ (derived subgroup) は Schneps では Galois 側の一意化(p.4)+GT 定義の属域(p.12)、Furusho では GT(k) の条件 (0)(p.13)+ĜT₁^(ℓ) の条件 (0)(p.24、一意化と明記)+Lemma 4.1.1 で Galois 像に伝播。**両資料とも「(0) = f の一意正規化条件」という役割で一貫**。
