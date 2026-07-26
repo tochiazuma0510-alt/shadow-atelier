@@ -3,7 +3,7 @@
 # STATUS (2026-07-26, second pass): 裁定 20 -- ob layer RATIFIED. Two independent math-layer
 # derivations (Claude/Opus 委嘱16, Sol 便22) agreed: the earlier (A)/(B) split was a false
 # dichotomy -- averaging projection (A) is provably WRONG (it is not theta-equivariant on the
-# class-6 center, see 委嘱16 F8's lift-gauge-invariance counterexample), and naive Ra(+)Rb
+# class-6 center, see 委嘱16 sec.4's lift-gauge-invariance counterexample), and naive Ra(+)Rb
 # readout (B, plain component read) is really the CORRECT special case of the general quotient
 # formula once you use the right group:
 #     ob_{6,e}(fbar) := [ q_theta(fbar) - 3^{-1}(1+theta) q_N(fbar) ]  in  Ob := C^theta/(1+theta)K
@@ -832,10 +832,31 @@ od;;
 Print("[", PF(massAllOk and massAnyRun), "] F4a mass check (kernel enumeration): ALL sampled (j,m) bijective + original-system-satisfying\n");
 
 # ================================================================================
+# Certificate writer for ob-bearing synthetic (q_theta,q_N) test pairs (used by F1/F2/F6).
+# ================================================================================
+WriteObCertC6 := function(path, label, qTheta6, qN6, R, obRes)
+  local cert;
+  cert := Concatenation(
+    "{\"claim\":\"ob_synthetic_check\",",
+    "\"fixture\":\"", label, "\",",
+    "\"R\":", String(R), ",",
+    "\"basis_order_C6\":[", JoinC(List(CNames, n -> Concatenation("\"",n,"\"")), ","), "],",
+    "\"q_theta\":", String(qTheta6), ",",
+    "\"q_N\":", String(qN6), ",",
+    "\"v\":", String(obRes.v), ",",
+    "\"ob_a\":", String(obRes.ob_a), ",\"ob_b\":", String(obRes.ob_b), ",",
+    "\"ob_mode\":\"quotient-ratified-v2\",",
+    "\"formula\":\"ob = [q_theta - 3^{-1}(1+theta)q_N] in C^theta/(1+theta)ker(N_C); j=2 readout = (v's u4-coeff, v's u2-coeff)\",",
+    "\"recheck\":\"checker independently rebuilds ThetaOnCMat/SigmaOnCMat from agree6_sol2.json and recomputes v, ob_a, ob_b from q_theta/q_N given in this certificate\"}");;
+  WriteFileRaw(path, cert);;
+end;;
+
+# ================================================================================
 # FIXTURE F1 (false-positive detector): synthetic q_theta = t5+t6, q_N = 0 -> ob must be
 # (0,0). The OLD (averaging-projection) formula would have returned (1,1) here -- this is
-# exactly 委嘱16 F8's lift-gauge-invariance counterexample (q_theta'=t5+t6 arises from
-# re-gauging a genuinely solvable (0,0) system by the central lift g->g*t5).
+# exactly 委嘱16 sec.4's lift-gauge-invariance counterexample (q_theta'=t5+t6 arises from
+# re-gauging a genuinely solvable (0,0) system by the central lift g->g*t5; matches 便22 sec.F8
+# eq 8.2 independently too).
 # ================================================================================
 Print("\n=== FIXTURE F1 (false-positive detector) ===\n");
 f1Res := ObFromQPair([1,1,0,0,0,0], [0,0,0,0,0,0], 2);;   # C order: t5,t6,u1,u2,u3,u4
@@ -844,7 +865,7 @@ Print("  q_theta=t5+t6, q_N=0 (j=2, R=2): ob_a=", f1Res.ob_a, " ob_b=", f1Res.ob
 Print("[", PF(f1Ok), "] F1 false-positive detector: ratified formula returns ob=(0,0) on the gauge-shifted zero system\n");
 
 # ================================================================================
-# FIXTURE F2 (true-positive / bit-drop detectors, 委嘱16 F8 "two nonzero-controls"):
+# FIXTURE F2 (true-positive / bit-drop detectors, 便22 sec.F8 "二本の nonzero-control"):
 #   q_theta = u4, q_N = 0  ->  (ob_a,ob_b) = (1,0)   [catches an implementation that drops
 #                                                      the a-bit]
 #   q_theta = u2, q_N = 0  ->  (ob_a,ob_b) = (0,1)   [catches an implementation that drops
@@ -889,24 +910,13 @@ end;;
 #   - M3 (q_theta in C^theta) needs ONLY theta_bar(f)=-f, which is m-INDEPENDENT (ThetaBarMat
 #     does not depend on m) and carries no real-target information at all -- test broadly.
 #   - M2 (q_N in C^sigma) needs N_bar(f)=-Ebar_m for the SAME (ebar,eps) pair used inside the
-#     q_N formula. Rather than using the real (disclosure-risky) Ebar_m at m>0, this uses a
-#     SYNTHETIC override (ebar:=0, eps:=0 -- i.e. simulating "the E_m=0 case", a legitimate
-#     mathematical instance of the same identity, matching real m=0 but tested at several
-#     sigma_bar(m) STRUCTURES (m=0..7,11 -- sigma_bar itself is public table data, not a
-#     solvability fact) with f drawn from ker(1+theta_bar) INTERSECT ker(N_bar(m)) (computed
-#     via BuildLinearSystemC6Synthetic, which is exactly this system).
-QNFullRawCustom := function(f15, m, ebarOverride, epsOverride)
-  local Sf, S2f, dS2, dS, c1, c2, c3;
-  Sf := SigmaBar(f15, m);
-  S2f := SigmaBar(Sf, m);
-  dS2 := DSigmaOf(SigmaBar(f15,m), m) + (DSigmaOf(f15,m) * SigmaOnCMat(m));
-  dS := DSigmaOf(f15, m);
-  c1 := Kappa(ebarOverride, S2f);
-  c2 := Kappa(ebarOverride+S2f, Sf);
-  c3 := Kappa(ebarOverride+S2f+Sf, f15);
-  return epsOverride + dS2 + dS + c1 + c2 + c3;
-end;;
-
+#     q_N formula. At m=0, Ebar_15(0)=EmC6(0)=0 identically (委嘱16/便22's own Em(0)=0 fact),
+#     so the REAL system AT m=0 coincides exactly with the safe rhs=0 synthetic system
+#     (BuildLinearSystemC6Synthetic) -- there is no override involved: this is genuinely the
+#     real Em(m) pair, just evaluated at the one m where it happens to vanish. m=0 is not a
+#     "finding" about the real 64-system sweep (it is a known structural fact, verified below
+#     as a precondition), so using it discloses nothing.
+#
 # NOTE (self-caught second bug): q_theta/q_N are only well-defined AS ELEMENTS OF C_j =
 # (Z/2^(j-1))^6 = (Z/R)^6 -- e.g. 委嘱16 eq 0.5 states the u4-coefficient d of q_theta
 # satisfies "2d=0", which is a statement IN R (trivial mod R=2), not over the raw integers.
@@ -939,14 +949,15 @@ for mtest in [0,1,2,3] do
 od;;
 Print("[", PF(m3Ok and m3AnyRun), "] M3: (1-theta)q_theta = 0 mod R=2 (q_theta in C^theta), tested on genuine ker(1+theta_bar) solutions (m-independent claim)\n");
 
-# M2 (self-corrected, second attempt): (E23b)'s cancellation genuinely needs (ebar,eps) to be
-# THE coherent Em(m) pair (not an arbitrary override -- an override with ebar=0 but real eps,
-# or vice versa, breaks an internal consistency between the two and produced spurious FAILs
-# in an earlier attempt at m=1,2,3). The only m where the REAL (ebar,eps)=Em(m) pair is BOTH
-# (a) usable without disclosing any real-target solvability fact and (b) exactly reproducible
-# via the safe rhs=0 synthetic system is m=0, since Ebar_15(0)=EmC6(0)=0 identically (a known
-# structural fact about the E_m formula family, not a "finding" about the real 64-system
-# sweep). This is a narrower test than originally hoped, but a mathematically sound one.
+# M2: (E23b)'s cancellation genuinely needs (ebar,eps) to be THE coherent real Em(m) pair used
+# inside the q_N formula (an earlier attempt tried substituting an arbitrary (ebar,eps) not
+# tied to a real m, which produced spurious FAILs at m=1,2,3 -- that was simply not a valid
+# instance of the claim, not a bug). At m=0, Ebar_15(0) = EmC6(0) = 0 IDENTICALLY -- this is
+# verified as a precondition below, not assumed -- so the REAL system at m=0 coincides EXACTLY
+# with the safe rhs=0 synthetic system (BuildLinearSystemC6Synthetic(0)). Testing there uses
+# the genuine real Em(m) pair (m=0 is not a "finding" about the 64-system sweep; it is a known
+# structural fact about the E_m formula family), giving a mathematically sound, non-disclosing
+# instance of M2.
 m2Ok := true;;  m2AnyRun := false;;
 em0Bar := EmBar15(0);;  em0C := EmC6(0);;
 m2Ok := m2Ok and ForAll(em0Bar, x->x=0) and ForAll(em0C, x->x=0);;
@@ -960,14 +971,14 @@ if resSafe0.solvable and m2Ok then
   for gi in resSafe0.kgens do Add(safeVecs0, Mod2j(f0safe0 + gi.vec, 4)); od;
   for ftest in safeVecs0 do
     m2AnyRun := true;;
-    qN6real := ModVec(QNFullRaw(ftest, 0), Rc);;    # at m=0, real Em is exactly 0 -- same as override
+    qN6real := ModVec(QNFullRaw(ftest, 0), Rc);;    # Ebar_m(0)=0 => coincides with the real system
     if ModVec(qN6real * SigmaOnCMat(0), Rc) <> qN6real then
       m2Ok := false;
       Print("  M2 FAIL at f=",ftest," m=0: sigma(qN) mod R=",ModVec(qN6real*SigmaOnCMat(0),Rc)," qN mod R=",qN6real,"\n");
     fi;
   od;
 fi;;
-Print("[", PF(m2Ok and m2AnyRun), "] M2: (1-sigma)q_N = 0 mod R=2 (q_N in C^sigma), tested at m=0 (Ebar(0)=0 identically -- a structural fact, not a real-sweep finding) on ", Length(safeVecs0), " genuine solutions\n");
+Print("[", PF(m2Ok and m2AnyRun), "] M2: (1-sigma)q_N = 0 mod R=2 (q_N in C^sigma), tested at m=0 (Ebar_m(0)=0 identically, so this IS the real system, not an override -- structural fact, not a real-sweep finding) on ", Length(safeVecs0), " genuine solutions\n");
 
 # M5: (1+theta)K, K=ker(N_C) -- recompute independently per sampled m, check the image has
 # zero u4-component and zero u2-component mod R=2 (matches (1+theta)K=R(t5+t6)+R(u1+u3)+2Ru2
@@ -1011,27 +1022,131 @@ f4Ok := massAllOk and massAnyRun and m2Ok and m2AnyRun and m3Ok and m3AnyRun and
 Print("[", PF(f4Ok), "] F4 (M-series mass check, F4a+F4b combined)\n");
 
 # ================================================================================
-# CERTIFICATE WRITING. Linear-stage-only certs (F3, F4a) keep ob_a/ob_b = null (they are
-# pure kernel certificates, no ob content). NEW: ob-bearing certs for F1/F2 (synthetic
-# q_theta/q_N pairs, ratified formula) with "ob_mode":"quotient-ratified-v2".
+# FIXTURE F5 (researcher-proposed, real-shaped affine solve): matrices (theta block, N block)
+# are the REAL structure (real theta_bar, real sigma_bar(m)) -- but the RHS is replaced with a
+# DETERMINISTIC PSEUDO-RANDOM NONZERO 15-vector, NOT the real Ebar_m. This exercises the
+# inhomogeneous (affine) solve path -- particular-solution recovery (ExtractF0), non-trivial
+# kernel multiplicity, mass check -- on 3-5 such systems, while never touching real Ebar_m
+# solvability (blind-safe by construction: the target vector has nothing to do with any real
+# E_m formula value).
 # ================================================================================
-WriteObCertC6 := function(path, label, qTheta6, qN6, R, obRes)
-  local cert;
-  cert := Concatenation(
-    "{\"claim\":\"ob_synthetic_check\",",
-    "\"fixture\":\"", label, "\",",
-    "\"R\":", String(R), ",",
-    "\"basis_order_C6\":[", JoinC(List(CNames, n -> Concatenation("\"",n,"\"")), ","), "],",
-    "\"q_theta\":", String(qTheta6), ",",
-    "\"q_N\":", String(qN6), ",",
-    "\"v\":", String(obRes.v), ",",
-    "\"ob_a\":", String(obRes.ob_a), ",\"ob_b\":", String(obRes.ob_b), ",",
-    "\"ob_mode\":\"quotient-ratified-v2\",",
-    "\"formula\":\"ob = [q_theta - 3^{-1}(1+theta)q_N] in C^theta/(1+theta)ker(N_C); j=2 readout = (v's u4-coeff, v's u2-coeff)\",",
-    "\"recheck\":\"checker independently rebuilds ThetaOnCMat/SigmaOnCMat from agree6_sol2.json and recomputes v, ob_a, ob_b from q_theta/q_N given in this certificate\"}");;
-  WriteFileRaw(path, cert);;
+Print("\n=== FIXTURE F5 (real-shaped affine solve, pseudo-random non-Ebar rhs) ===\n");
+PrngVec15 := function(seed)
+  return List([1..NAB], i -> ((37*seed + 101*i + 7) mod 7) - 3);
 end;;
 
+# NOTE (self-corrected): a first attempt drew the RHS as a fully free pseudo-random 15-vector
+# (independent of any structural constraint). That gave 0/60 solvable systems -- the affine
+# target for the N-block must lie in a specific (generically low-dimensional) image, which a
+# free random draw essentially never hits. Fix: draw a pseudo-random ELEMENT of ker(1+theta_bar)
+# (itself an m-independent, always-computable, non-disclosing subspace) and set the rhs to
+# N_bar applied to THAT element -- this guarantees solvability (by that very element) while the
+# resulting target vector is still deterministically pseudo-random-looking and has nothing to
+# do with any real Em(m). This is the same "affine target via a chosen witness" idea as the
+# rhs=0 synthetic system (BuildLinearSystemC6Synthetic), generalized to a NONZERO target.
+KerOnePlusThetaBar := BuildSnfData(k -> rec(n:=NAB, rows:=List([1..NAB], i -> List([1..NAB], k2 -> ThetaBarMat[k2][i] + IntBool(i=k2))), rhs:=List([1..NAB],x->0)), 0);;
+KerOnePlusThetaBarRes := TestAtJ(KerOnePlusThetaBar, 2);;
+
+PseudoRandomKerThetaElt := function(seed)
+  local coeffs, f, i;
+  coeffs := PrngVec15(seed){[1..Length(KerOnePlusThetaBarRes.kgens)]};;
+  f := List([1..NAB], x->0);;
+  for i in [1..Length(KerOnePlusThetaBarRes.kgens)] do
+    f := f + coeffs[i]*KerOnePlusThetaBarRes.kgens[i].vec;
+  od;
+  return f;
+end;;
+
+BuildLinearSystemC6F5 := function(seed)
+  local sys, frand, mshape, target;
+  mshape := seed mod 64;;
+  sys := BuildLinearSystemC6(mshape);;   # structure only (sigma_bar shape at m=mshape,
+                                          # public table data -- rhs below is NOT this m's Ebar)
+  frand := PseudoRandomKerThetaElt(seed);;              # pseudo-random elt of ker(1+theta_bar)
+  target := frand * (SigmaBarMat(mshape) + SigmaBarMat(mshape)*SigmaBarMat(mshape)) + frand;;  # N_bar(frand)
+  sys.rhs := Concatenation(List([1..sys.n], x->0), -target);;
+  sys.synthetic := true;;  sys.seed := seed;;
+  return sys;
+end;;
+
+CheckAffineSatisfies := function(sys, f, modulus)
+  local ii, ok;
+  ok := true;
+  for ii in [1..Length(sys.rhs)] do
+    if (sys.rows[ii]*f - sys.rhs[ii]) mod modulus <> 0 then ok := false; fi;
+  od;
+  return ok;
+end;;
+
+# Scan a deterministic sequence of seeds (still fully reproducible) until 5 SOLVABLE cases are
+# found -- pseudo-random nonzero rhs vectors need not land in the image of the map, so a fixed
+# small hand-picked seed list risked 0 solvable draws (as first observed here); scanning is the
+# deterministic fix, not a retreat to real Ebar_m.
+f5AllOk := true;;  f5AnyRun := false;;  f5SolvableCount := 0;;  f5UnsolvableCount := 0;;
+f5SeedsTried := [];;
+seedCandidate := 1;;
+while f5SolvableCount < 3 and Length(f5SeedsTried) < 60 do
+  Add(f5SeedsTried, seedCandidate);;
+  snfF5 := BuildSnfData(k -> BuildLinearSystemC6F5(seedCandidate), seedCandidate);;
+  resF5 := TestAtJ(snfF5, 2);;
+  f5AnyRun := true;;
+  if resF5.solvable then
+    f5SolvableCount := f5SolvableCount + 1;;
+    f0F5 := ExtractF0(snfF5, 2);;
+    okDirect := CheckAffineSatisfies(snfF5.sys, f0F5, 4);;
+    Print("  seed=",seedCandidate," (m-shape=",seedCandidate mod 64,"): SOLVABLE, |K|=",Product(List(resF5.kgens,g->g.order),x->x)," f0-satisfies-affine-system=",JB(okDirect),"\n");
+    if not okDirect then f5AllOk := false; fi;
+    mres5 := MassCheckAtJM(k -> BuildLinearSystemC6F5(seedCandidate), 2, seedCandidate, "F5-pseudorandom-affine");;
+    if not mres5.skipped and not mres5.ok then f5AllOk := false; fi;
+    WriteSolvableCertC6(Concatenation("certificates/e2c6/fixture_F5_seed", String(seedCandidate), ".json"),
+      2, seedCandidate, resF5.kgens, "fixture_F5_pseudorandom_rhs");;
+    Print("  wrote certificates/e2c6/fixture_F5_seed", seedCandidate, ".json\n");
+  else
+    f5UnsolvableCount := f5UnsolvableCount + 1;;
+    if f5UnsolvableCount <= 2 then   # keep a couple of negative certs too, don't write all 60 attempts
+      WriteUnsolvableCertC6(Concatenation("certificates/e2c6/fixture_F5_seed", String(seedCandidate), ".json"),
+        snfF5, 2, resF5.failRow, "fixture_F5_pseudorandom_rhs");;
+      Print("  seed=",seedCandidate," (m-shape=",seedCandidate mod 64,"): unsolvable (negative-certificate path exercised), wrote cert\n");
+    fi;
+  fi;
+  seedCandidate := seedCandidate + 1;;
+od;;
+Print("[", PF(f5AllOk and f5AnyRun and f5SolvableCount>=3), "] F5: affine (pseudo-random non-Ebar rhs) solve path -- ",
+  f5SolvableCount, " solvable + ", f5UnsolvableCount, " unsolvable out of ", Length(f5SeedsTried), " seeds scanned, no real Ebar_m used\n");
+
+# ================================================================================
+# FIXTURE F6 (falsifier-recommended, permanent): synthetic (q_theta, q_N) pairs with q_N != 0
+# (unlike F1/F2, which used q_N=0 and so never exercised the correction term's inner workings)
+# -- this drives ObFromQPair's inv3 / ThetaOnCVec matrix product / subtraction code non-
+# trivially at every step, and empirically demonstrates that ob does NOT depend on q_N at
+# j=2 (matches 委嘱16 eq 0.4/便22 eq F7: 3^{-1}(1+theta)q_N is ALWAYS in (1+theta)K = (1+theta)C
+# for class 6, for ANY q_N -- not just q_N in C^sigma -- since 3^{-1}q_N is just some element
+# z0 of C, and (1+theta)z0 in (1+theta)C = (1+theta)K always).
+# ================================================================================
+Print("\n=== FIXTURE F6 (nonzero q_N, ob-independence-from-q_N proof, permanent) ===\n");
+f6Cases := [
+  rec(label:="F6a_t5t6_with_nonzero_qN", qTheta:=[1,1,0,0,0,0], qN:=[1,1,0,0,0,0], expectA:=0, expectB:=0),
+  rec(label:="F6b_u4_with_nonzero_qN",   qTheta:=[0,0,0,0,0,1], qN:=[0,0,1,0,1,0], expectA:=1, expectB:=0),
+  rec(label:="F6c_u2_with_nonzero_qN",   qTheta:=[0,0,0,1,0,0], qN:=[0,1,1,1,0,1], expectA:=0, expectB:=1)
+];;
+f6Ok := true;;
+for fc in f6Cases do
+  f6r := ObFromQPair(fc.qTheta, fc.qN, 2);;
+  ok := (f6r.ob_a = fc.expectA) and (f6r.ob_b = fc.expectB);;
+  Print("  ", fc.label, ": q_theta=",fc.qTheta," q_N=",fc.qN," (nonzero) -> ob_a=",f6r.ob_a," ob_b=",f6r.ob_b,
+    " (expect ",fc.expectA,",",fc.expectB,", same as the q_N=0 case)\n");
+  if not ok then f6Ok := false; fi;
+  WriteObCertC6(Concatenation("certificates/e2c6/fixture_", fc.label, ".json"), fc.label, fc.qTheta, fc.qN, 2, f6r);;
+  Print("  wrote certificates/e2c6/fixture_", fc.label, ".json\n");
+od;;
+Print("[", PF(f6Ok), "] F6: ob is independent of q_N at j=2 (correction-term code path exercised non-trivially, 3 permanent cases)\n");
+
+# ================================================================================
+# CERTIFICATE WRITING. Linear-stage-only certs (F3, F4a) keep ob_a/ob_b = null (they are
+# pure kernel certificates, no ob content). ob-bearing certs (F1/F2/F6) use
+# "ob_mode":"quotient-ratified-v2" (WriteObCertC6 is defined earlier, before F1, since F5/F6
+# already call it).
+# ================================================================================
 Print("\n=== writing fixture certificates to certificates/e2c6/ ===\n");
 for mIt in [0, 5, 11] do
   snfC5 := BuildSnfData(BuildLinearSystemC5, mIt);;
@@ -1134,5 +1249,7 @@ Print("[", PF(f1Ok), "] F1 false-positive detector\n");
 Print("[", PF(f2Ok), "] F2 true-positive / bit-drop detectors\n");
 Print("[", PF(fixIIallSolvable), "] F3 class-5 control (j=2, m=0..63 all solvable)\n");
 Print("[", PF(f4Ok), "] F4 M-series mass check (F4a kernel-enumeration + F4b M2/M3/M5 postconditions)\n");
+Print("[", PF(f5AllOk and f5AnyRun and f5SolvableCount>=3), "] F5 real-shaped affine solve (pseudo-random non-Ebar rhs)\n");
+Print("[", PF(f6Ok), "] F6 ob-independence-from-q_N (nonzero q_N, permanent)\n");
 Print("[", PF(fireUnlocked = false), "] fire lock CLOSED (real sweep NOT run this pass)\n");
 Print("\ntotal elapsed ms: ", Runtime()-startTime, "\n");

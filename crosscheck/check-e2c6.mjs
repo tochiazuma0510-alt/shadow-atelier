@@ -410,6 +410,13 @@ for (const fname of certFiles) {
   } else if (cert.fixture === 'fixture_iii_mass_check_synthetic_rhs0') {
     ({ rows, rhs, n } = buildLinearSystemC6(m));
     rhs = new Array(2 * n).fill(0); // synthetic: rhs overwritten to 0, per e2c6-sweep.g's own labeling
+  } else if (cert.fixture === 'fixture_F5_pseudorandom_rhs') {
+    // F5: cert.m is the PRNG SEED, not the sigma_bar shape parameter (m mod 64 is). The
+    // K-generator recheck (M*e === 0 mod modulus) and mass-check bijectivity are both
+    // rhs-independent, so rhs is irrelevant here regardless -- only the real theta_bar/
+    // sigma_bar STRUCTURE (public table data) at m%64 is needed to rebuild `rows`.
+    ({ rows, n } = buildLinearSystemC6(((m % 64) + 64) % 64));
+    rhs = new Array(2 * n).fill(0); // placeholder; unused by the kernel/bijectivity checks below
   } else {
     console.log(`SKIP  ${fname}: unrecognized fixture label "${cert.fixture}"`);
     continue;
