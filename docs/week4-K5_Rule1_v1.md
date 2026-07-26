@@ -1,8 +1,9 @@
-# 凍結 1(Rule 1)候補文書 — $K^{(5)}$ 橋の規約・正規形・抽出手順 v1.1
+# 凍結 1(Rule 1)候補文書 — $K^{(5)}$ 橋の規約・正規形・抽出手順 v1.2
 
 2026-07-27 起草: Claude(数学者レイヤー・Opus 5)。**司令塔委嘱**。上位文書: `docs/manifest_k5_v1.md` v1.2 §「BRIDGE-IN 構築の独立性」1.・`sol/sol_reply_31_manifest.md` F4.1/F5/F9.3・`sol/裁定_29_ben31.md` 7。姉妹文書: `docs/week4-K5_S5設計_opus_v1.md`。
 
 **v1.1(2026-07-27・便 32 P2/P6 + 裁定 31 の修理)。**
+**v1.2(2026-07-27・便 34 F2.3 の blocker R1-T0 修理 — $P_0=\iota(P_\infty)=\infty_-$ の副枝を追加し、M-A を対象宇宙上の total algorithm にする)。**
 
 ## v1 → v1.1 差分表
 
@@ -18,9 +19,27 @@
 | D8 | §9.1 U-c | 条件のみ(予算値は §11) | **作用行に 600 秒を移記**(同 campaign 内で上限を増やして再分類しない) | 便 32 F2.5 / P6 |
 | D9 | §11 論点 1–6 | 未決 | **1–6 すべて決着**(I-b 厳格版採用・M-B 非昇格・R1-C 非緩和・B-ii 独立・U-c 600 秒・文献ゲート 02 PASS) | 便 32 F2.1/F2.3/F2.4/F2.5・裁定 31 |
 
-> **digest 注意(P7)**: 本改訂で canonical serialization が変わる。§10-1 の sha256 は**再取得を要する**(司令塔)。
+## v1.1 → v1.2 差分表(便 34 F2.3 の blocker **R1-T0** — $P_0=\iota(P_\infty)=\infty_-$)
+
+> **v1.1 の欠陥(便 34 F2.3・そのまま受け入れる)**: 枝 (N) の六次モデルには無限遠点が $\infty_+,\infty_-$ の**二つ**あり、$P_0=\infty_-=\iota(P_\infty)$ は $P_0\ne P_\infty$ と両立する。したがって §5.1 の根拠にあった
+> $$ \text{「}P_0\ne P_\infty\ \text{だから}\ x(P_0)\ \text{は有限」} $$
+> は**偽**であり、v1.1 の M-A は対象宇宙上の total algorithm ではなかった。v1.2 は Sol の選択肢 2(副枝の新設)で total 性を回復する。選択肢 1(組合せ的排除証明書)は §11 論点 7 に**任意の補強**として設計だけ置く。
+
+| # | 箇所 | v1.1 | v1.2 | 出典 |
+|---|---|---|---|---|
+| E1 | §2.2 **M0** | 判定は Weierstrass 性のみ・枝は (W)/(N) の 2 分岐 | **三分岐 (W) / (N$_{\rm aff}$) / (N$_\infty$)**。intrinsic 判定に **補題 R1-M0**($\ell(P_0+P_\infty)=2\iff P_0=\iota(P_\infty)$)を追加。**(N) は親枝として存続**し、$x(P_0)$ に言及しない (N) の全主張は両副枝で verbatim に成立 | 便 34 F2.3 |
+| E2 | §2.2 **M1** 枝 (N) | 「$x$-平行移動で $x(P_0)=0$」(無条件) | 副枝 **(N$_{\rm aff}$)** は従来通り。副枝 **(N$_\infty$)** は $x(P_0)=\infty$ ゆえ**適用不能** — 代替の正規化 **$B_5=0$**(depressed form・$e=-B_5/6$ で一意・monic 性と $\infty_\pm$ ラベルを保つ)で平行移動を使い切る | 便 34 F2.3 |
+| E3 | §5.1 **U-1** | 「$P_0\ne P_\infty$ だから $x(P_0)$ は有限」(**偽**) | **偽命題を除去**。枝 (W) でのみ「$P_0\ne P_\infty\Rightarrow P_0$ アフィン」が成り立つことを証明し、(N) では $P_0$ 無限遠 $\iff$ (N$_\infty$) と特徴づける。**(N$_\infty$) では $t:=1/x$**(**補題 R1-U∞** で $\operatorname{ord}_{P_0}(1/x)=1$ を証明。**$y/x^3$ は単元**($P_0$ での値 $-1$)ゆえ uniformizer ではない) | 便 34 F2.3 |
+| E4 | §5.2 **U-2** | $V=L(n_0P_\infty-P_0)$ をアフィン消滅条件で切る | (N$_\infty$) では $V=\{g\in\mathcal A(n_0):\operatorname{ord}_{\infty_-}(g)\ge1\}$(アフィン条件は消え、$\infty_-$ の局所展開条件に一本化)。$n_0\le5$ の議論と 4. の存在証明は不変 | 便 34 F2.3 |
+| E5 | §6.1 **経路 A** | $P_0$ で $x,y$ を $K[[t]]$ に展開(精度 $t^{13}$) | (N$_\infty$) では $x,y$ が $P_0$ で**極**を持つので $(s,w)=(1/x,\,y/x^3)$ チャートで $W=\sqrt F$ を **精度 $s^{23}$**(理由つき)まで持ち上げ、$\lambda=s^{-10}(\tilde A-W\tilde B)$ から $u_{10},\dots,u_{13}=[s^{20}],\dots,[s^{23}]$ を取る | 便 34 F2.3 |
+| E6 | §6.2 **経路 B** | (6.1)(6.2) のみ(いずれも **$x_0=x(P_0)$ 有限が前提**) | **B-iii(6.3)を新設**: $u^{(B)}=\hat c/(2a_{10})$($\hat c:=A^2-B^2f$ は**定数**、$a_{10}:=[x^{10}]A$)。**補題 R1-B∞** で $\deg A=10$、$\deg B=7$、$b_7=a_{10}\ne0$、$N(\lambda)\in\mathbb Q^\times$ を証明。**級数を使わない**点は B-i/B-ii と同じ(むしろ弱い仮定) | 便 34 F2.3 |
+| E7 | §9.1 U-c / §9.2 | U-c は M0 の Weierstrass 判定のみ | U-c を M0 の**全枝判定**(Weierstrass 性 + $P_0=\iota(P_\infty)$ 判定)へ拡張(予算値は不変)。**I-j 新設**(枝 (N$_\infty$) の構造検査 (N∞-1)–(N∞-4) の破れ = 入力破損) | 便 34 F2.3 |
+| E8 | §10-6 | 記録欄「枝 (W)/(N) の別」 | 「枝 (W)/(N$_{\rm aff}$)/(N$_\infty$) の別」+ $\hat c$(N$_\infty$ のみ)を追加(**値は凍結 2 まで空**のまま) | 便 34 F2.3 |
+| E9 | §11 | 論点 1–6 決着 | **論点 7 新設**(**補題 R1-N∞-S**: (N$_\infty$) は ordered dessin が底の Möbius 対合 $\lambda\mapsto1/\lambda$ による $(0\,\infty)$-交換で不変であることを**要求する** ⇒ 凍結済み fixture 上の**純組合せ的排除証明書**が可能)。§11.1 に **R-4**(S5 設計 §3.3.4 の分離条件へ **N-0**: $P_0\ne\iota(P_\infty)$ を追記・別便) | 便 34 F2.3 / F3.3 |
+
+> **digest 注意(P7)**: 本改訂で canonical serialization が変わる。§10-1 の sha256 は**再取得を要する**(司令塔)。v1.1 の digest `0863b3fd…` は v1.2 には適用されない。
 >
-> **起草時点の申告(再掲・v1.1 でも不変)**: 本改訂の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。v1.1 で新たに行った機械計算は、**§2.4 の補題を無作為な有理係数ベクトルで確認する検算スクリプト 1 本のみ**(`search/wp-check.mjs`(司令塔が恒久化・再走 11649/0 再現)・整数演算・曲線データを入力に持たない・11649 検査すべて一致)。探索コマンドは依然として一度も実行していない。
+> **起草時点の申告(再掲・v1.2 でも不変)**: 本改訂の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。v1.1 で新たに行った機械計算は、**§2.4 の補題を無作為な有理係数ベクトルで確認する検算スクリプト 1 本のみ**(`search/wp-check.mjs`(司令塔が恒久化・再走 11649/0 再現)・整数演算・曲線データを入力に持たない・11649 検査すべて一致)。**v1.2 で新たに行った機械計算は無い**(§6.2 B-iii の補題は二通りの独立な手計算で照合 — §0.4-3)。探索コマンドは依然として一度も実行していない。
 
 ---
 
@@ -32,7 +51,7 @@
 
 > **凍結 1 の時点(manifest v1.2・W2)**: 両 dessin のいかなる**個別モデル候補・係数・数値近似にも接する前**、**探索コマンドを一度も実行する前**に完了する。
 >
-> **起草時点の申告**: 本文書の起草者(Opus)は、起草の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。用いた計算は §0.4 に列挙した 1 本のみで、その入力は凍結済み有限 fixture だけである。
+> **起草時点の申告**: 本文書の起草者(Opus)は、起草の全過程で個別モデル候補・係数・数値近似・database に**一切接していない**。用いた計算は §0.4 に列挙したものだけで(v1: 1 本、v1.1: +1 本、**v1.2: 追加なし**)、その入力は凍結済み有限 fixture と無作為な有理数だけである。
 
 ### 0.2 不変条項(受理後は一切変更しない)
 
@@ -44,6 +63,8 @@
 ### 0.3 本文書が依存していないもの(頑健性の設計)
 
 **したがって本文書の第一次規則(§2 の (M-A))は、`docs/week4-K5_S5設計_opus_v1.md` の命題群に一切依存しない形で書いてある。** S5 設計の結果は §2 の (M-B)(整合検査)と §6 の副経路にのみ現れ、そこが崩れても Rule 1 は生きる。
+
+> **v1.2 で追加した副枝 (N$_\infty$) も同じ設計である**: 補題 R1-M0(Riemann–Roch と種数 2 の超楕円 pencil)・補題 R1-U∞(無限遠チャート)・補題 R1-B∞($\operatorname{div}(\lambda)=10P_0-10P_\infty$ と Vieta)・補題 R1-N∞-S(分岐点集合の $\iota$-不変性)は**いずれも S5 設計に依存しない**。S5 設計側の欠品(N-0)は §11.1 R-4 として別便に送る(Rule 1 の受理条件ではない)。
 
 **v1.1 での S5 側の監査状態の更新**(便 32 F4):
 
@@ -59,6 +80,7 @@
 
 1. `scratchpad/k5_blocks.js`(node・単系統・v1)— 入力は凍結済み有限 fixture($G_5$ の $(v,q)$ 座標と標的 $H$)のみ。
 2. `search/wp-check.mjs`(node・単系統・**v1.1 で追加**・司令塔恒久化)— §2.4 の補題 R1-N1/R1-N2 の検算。入力は**無作為な有理係数ベクトル**のみ(BigInt 整数演算・11649 検査すべて一致)。
+3. **v1.2 では機械計算を追加していない。** §6.2 の補題 R1-B∞ は (i) $G_+G_-=\hat c\,s^{2M}$ と $G_+(0)=2\tilde A(0)$ による一般証明、(ii) $M=3$ の玩具族 $f_6:=A_3(x)^2-\hat c,\ \lambda:=A_3(x)+y$($A_3$ モニック 3 次・$\hat c\in\mathbb Q^\times$ は**記号のまま**)における冪級数の直接展開($\lambda=\hat c\,s^3/(2\tilde A)+O(s^9)$ ⇒ $u=\hat c/(2a_3)$)、の**二通りの手計算**で照合した。(ii) は**記号族**であって個別モデル候補ではなく、$K^{(5)}$ の dessin データ($\deg=10$・単数値係数)を一切含まない。
 
 **いずれも曲線・$\lambda$・$u$・数値近似・database に接触なし。**
 
@@ -136,16 +158,50 @@ $\lambda$ 側に Möbius の自由度は**ない**: dessin は ordered($0,1,\inf
 
 ### 2.2 (M-A) 第一次正規形パイプライン(S5 設計に依存しない)
 
-**M0(intrinsic な枝の決定)**: $P_\infty$ が Weierstrass 点か否かを、**モデルに依らない判定**
-$$ P_\infty\ \text{は Weierstrass 点}\ \iff\ \ell(2P_\infty) = 2 $$
-で決める。同様に $P_0$ についても決める。以後の枝を
+**M0(intrinsic な枝の決定・v1.2 で三分岐化)**: 次の**三つ**を、いずれも**モデルに依らない判定**で決める。
+
+$$ \text{(i)}\ \ P_\infty\ \text{は Weierstrass 点}\ \iff\ \ell(2P_\infty) = 2, \qquad \text{(ii)}\ \ P_0\ \text{についても同様}, $$
+
+$$ \text{(iii)}\ \ \boxed{\ P_0 = \iota(P_\infty)\ \iff\ \ell(P_0+P_\infty) = 2\ }\qquad(\textbf{v1.2 で新設・補題 R1-M0}). \tag{2.-1} $$
+
+以後の枝を
+
 $$ \text{(W)} := \{P_\infty\ \text{Weierstrass}\},\qquad \text{(N)} := \{P_\infty\ \text{非 Weierstrass}\} $$
-と書く。**両枝を先に書く**(以下)。
+
+と書き、さらに **(N) を二つの副枝に分ける**:
+
+$$ \boxed{\ \text{(N}_{\rm aff}\text{)} := \{P_\infty\ \text{非 W}\}\cap\{P_0\ne\iota(P_\infty)\},\qquad \text{(N}_\infty\text{)} := \{P_\infty\ \text{非 W}\}\cap\{P_0=\iota(P_\infty)\}.\ } \tag{2.-2} $$
+
+**全三枝を先に書く**(以下)。**(N) は親枝として存続する** — 以下の (N) についての主張のうち **$x(P_0)$ に言及しないもの**(M2 の重み表、M3/M4、§2.4、§3.1、§3.2、§5.2.0 の ambient $\mathcal A(n)$、§4.1 の (N) 行)は、**両副枝でそのまま成立する**。$x(P_0)$ が入る箇所は M1(下)・§4.2・§5.1・§5.2.1-2.・§6.1・§6.2 だけであり、そこにのみ副枝分けを書く。
+
+> **補題 R1-M0(判定 (2.-1) の正当化と副枝の基本性質).** $C$ を種数 2、$P_0\ne P_\infty$ とする。
+> 1. $\ell(P_0+P_\infty)\in\{1,2\}$ であり、$\ \ell(P_0+P_\infty)=2\iff P_0=\iota(P_\infty)$。
+> 2. 枝 (W) では $P_0=\iota(P_\infty)$ は**起こらない**。すなわち副枝 (N$_\infty$) は枝 (N) の内部にしか現れない。
+> 3. 副枝 (N$_\infty$) では $P_0$ は**非 Weierstrass** である(よって M0 (ii) の出力は自動的に「非」)。
+>
+> **証明.** 1. $D:=P_0+P_\infty$、$\deg D=2$。Riemann–Roch $\ell(D)-\ell(K-D)=\deg D-g+1=1$ と $\deg(K-D)=0$ より $\ell(K-D)\in\{0,1\}$、かつ $\ell(K-D)=1\iff D\sim K$。$g=2$ では $K$ が唯一の $g^1_2$ であり $|K|=\{P+\iota P: P\in C\}$(超楕円 pencil = $x$ の fiber 全体)。ゆえに $D\sim K$ なら $D\in|K|$ すなわち $\{P_0,P_\infty\}=\{P,\iota P\}$、$P_0\ne P_\infty$ と合わせて $P_0=\iota(P_\infty)$。逆は $D=P_\infty+\iota(P_\infty)\sim K$ で明らか。
+> 2. (W) では $\iota(P_\infty)=P_\infty\ne P_0$。
+> 3. $\iota(P_0)=\iota^2(P_\infty)=P_\infty\ne P_0$ ゆえ $P_0$ は $\iota$ の不動点でない。$\blacksquare$
+
+> **実装上の同値判定(モデルを得たあとの検査)**: 枝 (N) の六次モデルでは $x^{-1}(\infty)=\{\infty_+,\infty_-\}=\{P_\infty,\iota(P_\infty)\}$(§5.1 補題 R1-U∞)だから、
+> $$ \text{(N}_\infty\text{)}\iff x(P_0)=\infty \iff P_0=\infty_- . $$
+> intrinsic 判定 (2.-1) と座標判定の**不一致は入力破損** ⇒ **I-k**(§9.2・v1.2 で新設)。**予算超過は U-c**(§9.1・値は不変)。
 
 **M1(超楕円モデル)**
 
-- **枝 (W)**: $\deg f = 5$ のモデル $y^2=f_5(x)$ を取り、$P_\infty = \infty$(唯一の無限遠点)とする。$f_5$ は $\mathbb Q$ 上**モニック**にできる($x\mapsto tx,\ y\mapsto sy$ で主係数 $\mapsto s^{-2}t^5\cdot(\text{主係数})$;$t=\mathrm{lc},\ s=\mathrm{lc}^3$ と取れば $\mathrm{lc}\mapsto1$)。次に $x$-平行移動で $\boxed{x(P_0)=0}$。
-- **枝 (N)**: $\deg f = 6$ のモデル $y^2=f_6(x)$ を取り、$x(P_\infty)=\infty$ とする。$P_\infty\in C(\mathbb Q)$ ゆえ $\mathrm{lc}(f_6)\in\mathbb Q^{\times2}$、$y$-スケールで $f_6$ を**モニック**にできる。$P_\infty = \infty_+$($y\sim+x^3$ の枝)と**定義する**(これが $y\mapsto-y$ を固定する — §4)。次に $x$-平行移動で $\boxed{x(P_0)=0}$。
+- **枝 (W)**: $\deg f = 5$ のモデル $y^2=f_5(x)$ を取り、$P_\infty = \infty$(唯一の無限遠点)とする。$f_5$ は $\mathbb Q$ 上**モニック**にできる($x\mapsto tx,\ y\mapsto sy$ で主係数 $\mapsto s^{-2}t^5\cdot(\text{主係数})$;$t=\mathrm{lc},\ s=\mathrm{lc}^3$ と取れば $\mathrm{lc}\mapsto1$)。次に $x$-平行移動で $\boxed{x(P_0)=0}$(**この枝では $P_0$ は必ずアフィンなので適用可能** — §5.1 補題 R1-U∞ 3.)。
+- **枝 (N)**: $\deg f = 6$ のモデル $y^2=f_6(x)$ を取り、$x(P_\infty)=\infty$ とする。$P_\infty\in C(\mathbb Q)$ ゆえ $\mathrm{lc}(f_6)\in\mathbb Q^{\times2}$、$y$-スケールで $f_6$ を**モニック**にできる。$P_\infty = \infty_+$($y\sim+x^3$ の枝)と**定義する**(これが $y\mapsto-y$ を固定する — §4)。**ここで平行移動の使い方が副枝で分かれる**(v1.2):
+  - **副枝 (N$_{\rm aff}$)**($P_0\ne\iota(P_\infty)$;$P_0$ はアフィン点で $x(P_0)\in\mathbb Q$): 従来どおり $x$-平行移動で $\boxed{x(P_0)=0}$。
+  - **副枝 (N$_\infty$)**($P_0=\iota(P_\infty)=\infty_-$;$x(P_0)=\infty$): **$x$-平行移動による $x(P_0)=0$ は適用不能**($P_0$ は $x$-直線の $\infty$ の上にある)。代わりに、余った平行移動を**係数側**で使い切る:
+    $$ \boxed{\ \text{(N}_\infty\text{) の正規化: }\ x\text{-平行移動で}\ B_5 = 0\ \ (\text{depressed form}).\ } \tag{2.-3} $$
+
+> **(2.-3) の一意性と両立性(v1.2).** $f_6 = x^6+\sum_{j\le5}B_jx^j$(モニック)に $x\mapsto x+e$ を施すと $f_6(x+e)$ の $x^5$-係数は $B_5+6e$。標数 0 で $6\in\mathbb Q^\times$ だから $e := -B_5/6\in\mathbb Q$ が**一意**に (2.-3) を実現する。さらに
+> - **モニック性を保つ**(最高次係数は平行移動で不変)。
+> - **$\infty_\pm$ のラベルを保つ**: $x'=x-e$ とすると $x/x'\to1$($x\to\infty$)ゆえ $y/x'^3 = (y/x^3)(x/x')^3\to y/x^3$ の符号は不変。したがって「$y\sim+x^3$ の枝 $=\infty_+ = P_\infty$」という M1 の定義は平行移動後も同じ点を指す。
+> - **M2 の残余群と両立する**: 平行移動は (2.-3) で**完全に使い切られる**($e\ne0$ なら $B_5$ が $6e\ne0$ になる)。残るのは M2 の表の (N) 行そのもの($x\mapsto tx,\ y\mapsto t^3y$)であり、これは $B_5=0$ を保つ($B_5\mapsto B_5/t=0$)。**ゆえに M2–M5 は (N$_{\rm aff}$) と (N$_\infty$) で完全に共通**である。
+> - **$A\ne0$(§2.4 の前提)は滑らかさから従う**: $B_0=\cdots=B_5=0$ なら $f_6=x^6$ は平方因子を持ち $C$ が非特異でない。よって係数ベクトルは零でない。
+>
+> **注(規約の選択について)**: (2.-3) は「代数的に一意・整数演算のみ・$P_0$ の座標を使わない」という三条件を満たす最も単純な規約として採る。**他の規約に後から差し替えない**(§0.2-3)。
 
 **M2(残余群・重み)**: M1 のあと残る座標変換と、それが係数に与える**重み**を次で固定する。
 
@@ -248,7 +304,7 @@ $$ \boxed{\text{M4 のあと残る候補集合が\textbf{有限}であること�
 - 枝 (W): $\tau\mapsto-\tau$ は $A_j\mapsto A_j/(-1)^{2(5-j)} = A_j$ で係数に作用しない(作用は $y\mapsto-y$ のみ — §4 へ回る)。M3+M4 のあと $\tau\in\{\pm1\}$ ゆえ**候補は 1 個**。
 - 枝 (N): $t\mapsto-t$ は $B_j\mapsto(-1)^{j}B_j$ で**係数を実際に動かす**。M3+M4 のあと $t\in\{\pm1\}$ ゆえ**候補は 2 個** ⇒ tie-break が要る(§3.2)。
 
-**U-b は札として存続する**(fail-closed)。v1 では「有限性が未証明だから U-b が発火しうる」状態だったが、v1.1 では M1 が想定した二枝の正規形に**入らなかった**場合(例: $\deg f\notin\{5,6\}$、主係数がモニックにならない、$J$ の重みが (2.0) と異なる)にのみ発火する。**R1-N2 の前提($w_j\ge1$ の重み付き $\mathbb Q^\times$-作用・一軌道)が成り立たない入力を受け取ったら、規則を延長せずに U-b で止める。**
+**U-b は札として存続する**(fail-closed)。v1 では「有限性が未証明だから U-b が発火しうる」状態だったが、v1.1 以降は M1 が想定した正規形に**入らなかった**場合(例: $\deg f\notin\{5,6\}$、主係数がモニックにならない、$J$ の重みが (2.0) と異なる)にのみ発火する。**v1.2 の副枝 (N$_\infty$) はこの点を変えない** — M2 の残余群も重みも (N) 行のままだから、R1-N2 とその系はそのまま適用される($B_5=0$ は零成分として (2.1) の min から除かれるだけ)。**R1-N2 の前提($w_j\ge1$ の重み付き $\mathbb Q^\times$-作用・一軌道)が成り立たない入力を受け取ったら、規則を延長せずに U-b で止める。**
 
 ### 3.2 全順序
 
@@ -261,6 +317,7 @@ $$ \kappa(\text{model}) := \Bigl(\ \lvert\operatorname{disc}\rvert,\ \ (\text{�
 とし、第一成分は通常の $\mathbb Z_{\ge0}$ の順、第二成分は $\prec$ の**辞書式**で比較する。**最小のものを取る。**
 
 - 枝 (N) の 2 候補は $\operatorname{disc}$ が等しいので第二成分で決まる。$b_j\mapsto(-1)^jb_j$ ゆえ、$(b_5,b_3,b_1)$ のうち**最初の非零成分が正**になる方を取る。すべて零なら $f_6$ は偶関数で $t\mapsto-t$ が真の自己同型 ⇒ **候補は 1 個**(曖昧さ消滅)。
+  - **(v1.2) 副枝 (N$_\infty$) では M1 (2.-3) により $b_5=0$** なので、この規則は実質 $(b_3,b_1)$ の最初の非零成分で決まる。**規則の文言は変更しない**(零成分を飛ばすのは元の規則の内容である)。$b_5=b_3=b_1=0$ の場合の扱いも上の通り。
 
 ### 3.3 「最小係数」型のアルゴリズムを名指しで禁止する
 
@@ -277,7 +334,7 @@ $y\mapsto-y$ は超楕円対合 $\iota$ の座標表示である。**印付き�
 
 | 状況 | $y\mapsto-y$ の効果 | 規則 |
 |---|---|---|
-| 枝 (N)($P_\infty$ 非 Weierstrass) | $\infty_+\leftrightarrow\infty_-$ を入れ替える | **$P_\infty = \infty_+$ の定義(M1)で固定済**。自由度なし |
+| 枝 (N)($P_\infty$ 非 Weierstrass) | $\infty_+\leftrightarrow\infty_-$ を入れ替える | **$P_\infty = \infty_+$ の定義(M1)で固定済**。自由度なし(**副枝 (N$_\infty$) では同時に $P_0=\infty_-$ と $P_\infty$ を入れ替えるので、なおさら自由度でない** — v1.2) |
 | 枝 (W) かつ $y(P_0)\ne0$ | $P_0 = (0,y_0)\mapsto(0,-y_0)$ — **別の点** | **$y(P_0)$ が正になる符号**を取る($y_0\in\mathbb Q^\times$ なので判定可能)。自由度なし |
 | 枝 (W) かつ $y(P_0)=0$($P_0$ も Weierstrass) | $P_0,P_\infty$ をともに固定し、$\lambda\mapsto\lambda\circ\iota\ne\lambda$ | **真の 2 択**。下記 |
 
@@ -285,11 +342,15 @@ $y\mapsto-y$ は超楕円対合 $\iota$ の座標表示である。**印付き�
 $$ \lambda = A(x)+B(x)y\ \text{と書いたとき、}\ B\ \text{の係数ベクトルが §3.2 の順序で小さい方の}\ \lambda\ \text{を取る}. $$
 
 > **S5 設計 §3.3 の帰結(参考・依存しない)**: 枝 (W) では $P_0$ は自動的に非 Weierstrass になる。**直接証明**(便 32 F4.4 末尾の形・v1.1 で差替え): 命題 S5-3 の正規形 $b_0^2f_5 = a(x)^2-c_N(x-x_0)^5$($b_0\in\mathbb Q^\times$)で $a(x_0)=0$ とすると $(x-x_0)\mid a$、ゆえに $(x-x_0)^2\mid a^2$ かつ $(x-x_0)^2\mid(x-x_0)^5$ で $(x-x_0)^2\mid f_5$。**$f_5$ が $x_0$ で二重根をもつので $C:y^2=f_5$ は滑らかでない** — 種数 2 の非特異曲線という前提に反する。ゆえに $a(x_0)\ne0$、すなわち $y(P_0)=-a(x_0)/b_0\ne0$ で $P_0$ は非 Weierstrass。∎(S5 設計 v1.1 補題 S5-W) したがってこの行は**枝 (N) でのみ発火する見込み**である。ただし Rule 1 は S5 設計に依存しないので、両方書いておく。
+>
+> **(v1.2 の絞り込み)**: さらに副枝 (N$_\infty$) では $P_0=\iota(P_\infty)$ が $\iota$ の不動点でない(補題 R1-M0 3.)ので $P_0$ は非 Weierstrass。**「$P_0$ も Weierstrass」の場合が発火しうるのは副枝 (N$_{\rm aff}$) だけ**である(S5 設計に依存しない結論)。
 
 ### 4.2 Möbius
 
 - **底 $\mathbf P^1_\lambda$**: 自由度**なし**(§2.1)。
-- **源の $x$-直線**: M1(平行移動で $x(P_0)=0$、$x(P_\infty)=\infty$)と M2–M5 で**使い切っている**。追加の Möbius は使わない。
+- **源の $x$-直線**: $x(P_\infty)=\infty$ を課した時点で残るのは affine 変換 $x\mapsto tx+e$ のみであり、それを M1 と M2–M5 で**使い切っている**。追加の Möbius は使わない。
+  - 枝 (W) / 副枝 (N$_{\rm aff}$): 平行移動 $e$ は $x(P_0)=0$ が、スケール $t$ は M2–M5 が使い切る。
+  - **副枝 (N$_\infty$)(v1.2)**: $P_0$ も $x=\infty$ の上にあるので $e$ に条件を与えない。代わりに **$B_5=0$**(M1 (2.-3))が $e$ を使い切る。スケール $t$ は従来どおり M2–M5。**自由度の数(1+1)は両副枝で同じ**である。
 
 ### 4.3 sheet numbering
 
@@ -311,11 +372,42 @@ $\lambda=0$ における底の局所助変数は **$\lambda$ 自身**である($
 
 ### 5.1 Rule U-1(実務規則・超楕円座標)
 
-$$ \boxed{\ t := \begin{cases} x - x(P_0)\ (= x,\ \text{M1 で}\ x(P_0)=0) & f(x(P_0))\ne0\quad(P_0\ \text{非 Weierstrass}) \\[2pt] y & f(x(P_0))=0\quad(P_0\ \text{Weierstrass}) \end{cases}\ } \tag{5.1} $$
+$$ \boxed{\ t := \begin{cases} x - x(P_0)\ (= x,\ \text{M1 で}\ x(P_0)=0) & P_0\ \text{アフィンかつ}\ f(x(P_0))\ne0\quad(P_0\ \text{非 Weierstrass}) \\[2pt] y & P_0\ \text{アフィンかつ}\ f(x(P_0))=0\quad(P_0\ \text{Weierstrass}) \\[2pt] 1/x & P_0 = \infty_-\quad(\textbf{副枝 (N}_\infty\textbf{)}\ \text{— v1.2 で新設}) \end{cases}\ } \tag{5.1} $$
 
-**根拠**: $P_0$ 非 Weierstrass なら $\operatorname{ord}_{P_0}(x-x_0)=1$;Weierstrass なら $\operatorname{ord}_{P_0}(x-x_0)=2$ かつ $\operatorname{ord}_{P_0}(y)=1$。$P_0\ne P_\infty$ ゆえ $x(P_0)$ は有限で、無限遠の場合分けは不要。
+**根拠(v1.2 で修理)**:
 
-**$t$ は $\mathbb Q$-有理**である(どちらの場合も)。
+- **アフィンの二行**(枝 (W) と副枝 (N$_{\rm aff}$)): $P_0$ 非 Weierstrass なら $\operatorname{ord}_{P_0}(x-x_0)=1$;Weierstrass なら $\operatorname{ord}_{P_0}(x-x_0)=2$ かつ $\operatorname{ord}_{P_0}(y)=1$。
+- **第三行**(副枝 (N$_\infty$)): 補題 R1-U∞ 2.。
+- **場合分けの網羅性**: 補題 R1-U∞ 3./4.(「$P_0$ がアフィンか無限遠か」は M0 の判定 (2.-1) で**先に決まっている**)。
+
+> **【v1.1 の誤り・便 34 F2.3 で指摘・撤回】** v1.1 の根拠行にあった
+> $$ \text{「}P_0\ne P_\infty\ \text{ゆえ}\ x(P_0)\ \text{は有限で、無限遠の場合分けは不要」} $$
+> は**枝 (N) では偽**である。六次モデルの無限遠点は $\infty_+,\infty_-$ の二つあり、$P_0=\infty_-=\iota(P_\infty)$ は $P_0\ne P_\infty$ と両立するからである。この文は削除し、下の補題 R1-U∞ 3./4. で置き換える。**この誤りは枝 (W) でのみ真であった主張を枝 (N) へ不当に一般化したものである。**
+
+> **補題 R1-U∞($\infty_\pm$ の局所構造と uniformizer).**
+> **1.(枝 (N) の無限遠チャート)** M1 の正規化モデル($f_6$ モニック・$P_\infty=\infty_+$)で
+> $$ s := 1/x,\qquad w := y/x^3\ (=ys^3) $$
+> と置くと、$C$ の $x=\infty$ の近傍はアフィン曲線
+> $$ w^2 = F(s) := s^6f_6(1/s) = 1 + B_5s + B_4s^2 + B_3s^3 + B_2s^4 + B_1s^5 + B_0s^6\ \in\mathbb Q[s] \tag{5.1a} $$
+> で与えられ、$\boxed{F(0)=1\ne0}$。したがって $x^{-1}(\infty)$ は**相異なる二点**
+> $$ \infty_+ = (s,w)=(0,+1) = P_\infty,\qquad \infty_- = (s,w)=(0,-1) = \iota(P_\infty) $$
+> から成り、$x$ は $\infty$ の上で**不分岐**。両点で
+> $$ \operatorname{ord}_{\infty_\pm}(s) = 1,\qquad \operatorname{ord}_{\infty_\pm}(w) = 0,\qquad \operatorname{ord}_{\infty_\pm}(x) = -1,\qquad \operatorname{ord}_{\infty_\pm}(y) = -3 . $$
+> **2.($P_0=\infty_-$ での uniformizer)** $\boxed{t := 1/x = s\ \text{は}\ P_0=\infty_-\ \text{の uniformizer}}$($\operatorname{ord}_{P_0}(1/x)=1$)であり、$\mathbb Q$-有理。他方
+> $$ \boxed{\ y/x^3 = w\ \text{は}\ P_0\ \text{で単元}(\text{値}\ -1)\ \text{であって uniformizer ではない}.\ } $$
+> **3.(枝 (W) では $P_0$ は必ずアフィン)** $\deg f=5$ のモデルでは $x^{-1}(\infty)$ は**一点** $P_\infty$(分岐指数 2 の Weierstrass 点)だから、$P_0\ne P_\infty$ ならば $P_0$ はアフィン点であり $x(P_0)\in\mathbb Q$。
+> **4.(枝 (N) での正しい場合分け)** 枝 (N) では
+> $$ P_0\ \text{が無限遠}\iff P_0\in\{\infty_+,\infty_-\}\iff P_0=\infty_-=\iota(P_\infty)\iff \textbf{副枝 (N}_\infty\textbf{)} $$
+> ($P_0\ne P_\infty=\infty_+$ による)。すなわち**アフィン/無限遠の二択は M0 の (2.-1) と完全に一致する。**
+>
+> **証明.** 1. $f_6$ がモニックだから $F(s)=s^6f_6(1/s)$ は $\mathbb Q[s]$ の元で $F(0)=\mathrm{lc}(f_6)=1$。$(s,w)$ は $x\ne0$ 上のアフィンチャートを与え($x=1/s,\ y=w/s^3$)、方程式 $y^2=f_6(x)$ は両辺に $s^6$ を掛けて (5.1a) になる。$F(0)=1\ne0$ ゆえ $s=0$ 上の点は $w=\pm1$ の二点で、$\partial(w^2-F)/\partial w = 2w = \pm2\ne0$ だから $s$ は両点で局所助変数(陰関数定理/完備局所環 $\mathbb Q[[s]]$ 上で $w$ が一意に解ける)。よって $\operatorname{ord}_{\infty_\pm}(s)=1$。$w(\infty_\pm)=\pm1\ne0$ から $\operatorname{ord}(w)=0$、$x=1/s$ と $y=w/s^3$ から残りの二式。$\infty_+$($y\sim+x^3$ すなわち $w\to+1$)が M1 の定義で $P_\infty$、$\iota:(x,y)\mapsto(x,-y)$ が $(s,w)\mapsto(s,-w)$ ゆえ $\iota(\infty_+)=\infty_-$。
+> 2. 1. より直ちに従う($1/x=s$)。$1/x\in\mathbb Q(C)$ は $\mathbb Q$-有理。
+> 3. $y^2=f_5(x)$ の無限遠を $s=1/x,\ v=y/x^3$ で見ると $v^2 = s\,F_5(s)$、$F_5(s):=s^5f_5(1/s)$、$F_5(0)=\mathrm{lc}(f_5)\ne0$。ゆえに $s=0$ 上の点は $v=0$ の**一点のみ**で、そこで $\operatorname{ord}(v)=1,\ \operatorname{ord}(s)=2$、すなわち分岐指数 2(Weierstrass 点)。よって $x^{-1}(\infty)=\{P_\infty\}$。
+> 4. 1. と $P_0\ne P_\infty$ から。$\blacksquare$
+
+**$t$ は $\mathbb Q$-有理**である(三つの場合すべて)。したがって §5.4 の観測 R1-C(Kummer class の uniformizer 非依存性)は副枝 (N$_\infty$) でもそのまま適用される。
+
+> **注(なぜ $1/x$ であって $y/x^4$ ではないか)**: $y/x^4=ws$ も $\operatorname{ord}_{P_0}=1$ をもつので uniformizer である。**規則は最も単純な $1/x$ を正本として固定する**(§0.2-3: 後から一意化のために規則を変えない)。生の $u$ は $t$ の取り方に依存するので、**経路 A と経路 B は必ずこの同じ $t=1/x$ を使う**(§6・R1-C は $[u]_{10}$ の不変性しか与えない)。
 
 ### 5.2 Rule U-2(モデル非依存の仕様・Riemann–Roch)
 
@@ -350,10 +442,19 @@ $$ \operatorname{vec}(g)\ :=\ \bigl(c_{m_1},\,c_{m_2},\,\dots,\,c_{m_N}\bigr)\ \
 #### 5.2.1 手順
 
 1. $n_0 := \min\{\,n\ge1\ :\ \ell(nP_\infty-P_0) > \ell(nP_\infty-2P_0)\,\}$ を計算する(有限:$n\ge5$ なら $\deg(nP_\infty-2P_0)=n-2\ge3=2g-1$ で両者非特殊、$\ell$ は $n-2$ と $n-3$ で必ず相異なる。ゆえに $n_0\le5$)。
-2. **対象空間**を $V := L(n_0P_\infty-P_0)\subseteq\mathcal A(n_0)$ とする(v1.1 修理: v1 は $L(n_0P_\infty)$ と書いていたが、それでは 4. の存在が保証されない)。$V$ は $\mathcal A(n_0)$ 内の線型条件($P_0$ での消滅、枝 (N) では加えて $\infty_-$ での正則性)で切り出す。
+2. **対象空間**を $V := L(n_0P_\infty-P_0)\subseteq\mathcal A(n_0)$ とする(v1.1 修理: v1 は $L(n_0P_\infty)$ と書いていたが、それでは 4. の存在が保証されない)。$V$ は $\mathcal A(n_0)$ 内の線型条件で切り出す。**切り出す条件は枝によって次のとおり**(v1.2 で副枝を明示):
+
+   | 枝 | $V=L(n_0P_\infty-P_0)$ を切り出す線型条件 |
+   |---|---|
+   | **(W)** | $g(P_0)=0$($P_0$ アフィン。$\mathcal A(n_0)=L(n_0P_\infty)$ なので他に条件なし) |
+   | **(N$_{\rm aff}$)** | $g(P_0)=0$($P_0$ アフィン)**かつ** $\operatorname{ord}_{\infty_-}(g)\ge0$($\infty_-$ での正則性) |
+   | **(N$_\infty$)** | $\boxed{\operatorname{ord}_{\infty_-}(g)\ge1}$ の**一本のみ**($P_0=\infty_-$ なので「$\infty_-$ での正則性」と「$P_0$ での消滅」が一本の位数条件に融合する。**アフィン条件は存在しない**) |
+
+   いずれも $\infty_-$ における局所展開(補題 R1-U∞ 1. のチャート $(s,w)$、$w=-W$)の**切断係数に対する $\mathbb Q$-線型条件**であり、厳密に計算する(浮動小数点を使わない)。$L(n_0P_\infty-P_0)\subseteq\mathcal A(n_0)$ は (N$_\infty$) でも成立する($\operatorname{ord}_{\infty_-}\ge1\ge-n_0$)。
 3. $V$ の任意の生成系の $\operatorname{vec}$ を行に並べ、(5.3) の列順序で **reduced row echelon form**(一意)を取る。得られた行を pivot 列の添字の昇順に $g_1,\dots,g_r$ と番号づける。
 4. $\operatorname{ord}_{P_0}(g_i)=1$ を満たす $i$ のうち **最小のもの**を取り、$t_0 := g_i$ とする。
    **存在**: $\ell(n_0P_\infty-P_0)>\ell(n_0P_\infty-2P_0)$ なので、$V$ の**どの**基底にも $\operatorname{ord}_{P_0}=1$ の元が少なくとも一つある(全て $\operatorname{ord}_{P_0}\ge2$ なら $V\subseteq L(n_0P_\infty-2P_0)$ となり次元が矛盾)。存在しない出力が返ったら**入力破損 ⇒ integrity stop**(§9 I-e)。
+   **(v1.2)** 副枝 (N$_\infty$) では $\operatorname{ord}_{P_0}=\operatorname{ord}_{\infty_-}$ を 2. と同じ $(s,w)$ 展開から読む(新しい機構は不要)。1. の $n_0\le5$ の証明と上の存在証明は $P_0,P_\infty$ が相異なる点であることしか使っていないので、**両副枝で verbatim に成立する**。
 5. $\boxed{t := t_0}$ — **再スケールしない。**
 
 > **禁止(明示)**: $\lambda/t^{10}$ の定数項が $1$ になるように $t$ をスケールすること、および $\lambda$ の局所展開から計算した任意の量で $t$ をスケールすること。**それが $u$ である。**
@@ -361,6 +462,8 @@ $$ \operatorname{vec}(g)\ :=\ \bigl(c_{m_1},\,c_{m_2},\,\dots,\,c_{m_N}\bigr)\ \
 ### 5.3 Rule U-3(整合検査)
 
 U-1 の $t$ と U-2 の $t_0$ は $t_0 = \varepsilon\,t\,(1+O(t))$、$\varepsilon\in\mathbb Q^\times$ を満たすはずである。$\varepsilon$ を記録する。**$\varepsilon\notin\mathbb Q^\times$、または一方が uniformizer でない ⇒ integrity stop**(§9 I-e)。
+
+> **(v1.2) 副枝 (N$_\infty$) での注意**: この副枝では U-1 の $t=1/x$ は**どの $\mathcal A(n)$ にも属さない**($1/x$ は $x=0$ の上の二点に極をもつ)。したがって $t$ と $t_0$ は関数として別物であり、$t_0/t$ を多項式環の中で比較することはできない。**U-3 は両者を $P_0$ の局所助変数として比較する規則である** — すなわち $\operatorname{ord}_{P_0}(t)=\operatorname{ord}_{P_0}(t_0)=1$ を確認し、$\varepsilon := \lim_{P\to P_0}(t_0/t)\in\mathbb Q^\times$ を $(s,w)$ 展開の主要係数として読む。$\mathbb Q$-有理な二つの uniformizer だから $\varepsilon\in\mathbb Q^\times$ は自動であり、破れは入力破損(I-e)。**正本が U-1 であることも不変**。
 
 **正本は U-1** とする(実装が単純で監査しやすい)。U-2 は仕様と検査。
 
@@ -383,25 +486,88 @@ $$ \lambda\ =\ u\,t^{10}\,\bigl(1+O(t)\bigr)\quad\text{at }P_0,\qquad u\in K^\ti
 
 ### 6.1 経路 A(cusp 展開)
 
+**(a) $P_0$ がアフィンの場合(枝 (W)・副枝 (N$_{\rm aff}$))**
+
 1. モデルの定義方程式を $P_0$ で Hensel/Newton 持ち上げし、$K[[t]]$ の中で $x,y$ の展開を精度 $t^{13}$ まで**厳密に**求める。
 2. $\lambda = A(x)+B(x)y$ に代入し、$\lambda = \sum_{k\ge10}u_kt^k$ を得る。
 3. $\boxed{u^{(A)} := u_{10}}$。$u_{10},\dots,u_{13}$ を**生出力として別保存**する。
 4. 検査: $u_k = 0$($k<10$)を厳密に確認。破れたら integrity stop。
 
-**中間表現**: $K[[t]]$(切断冪級数)。
+**(b) 副枝 (N$_\infty$)($P_0=\infty_-$・$t=1/x$)— v1.2 で新設**
+
+この副枝では $x,y$ が $P_0$ で**極**をもつので、$x,y$ を $K[[t]]$ の中で展開することはできない($x=1/s\notin\mathbb Q[[s]]$)。展開の場を補題 R1-U∞ 1. の $(s,w)$ チャートへ移す。**用いる局所助変数は U-1 と同じ $t=s=1/x$**(経路 B と共通 — §5.1 の注)。
+
+- **A∞-1**: $W\in\mathbb Q[[s]]$ を $W^2=F(s)$((5.1a))かつ $W(0)=+1$ で Newton/Hensel 持ち上げにより厳密に求める($F(0)=1$ ゆえ一意)。**精度は $W \bmod s^{M+14}$**(下の $M$;$M=10$ なら $s^{23}$ の係数まで)。
+- **A∞-2**: $M := \max(\deg A,\ \deg B+3)$ を**計算し**(仮定しない)、$\tilde A(s) := s^MA(1/s)$、$\tilde B(s) := s^{M-3}B(1/s)\in\mathbb Q[s]$ と置く。$P_0=\infty_-$ の枝は $w=-W$ だから
+  $$ \lambda\ =\ s^{-M}\bigl(\tilde A(s)-W(s)\tilde B(s)\bigr)\ =:\ s^{-M}G_-(s). $$
+- **A∞-3**: $\boxed{u^{(A)} := [s^{M+10}]\,G_-}$。$u_{10},\dots,u_{13} = [s^{M+10}],\dots,[s^{M+13}]\,G_-$ を**生出力として別保存**する。
+- **A∞-4**: 検査: $[s^k]G_-=0$($k<M+10$)を厳密に確認(= $\operatorname{ord}_{P_0}\lambda=10$)。破れたら integrity stop。あわせて $M$ の実測値を生出力に記録する(補題 R1-B∞ 1. は $M=10$ を予言する — **経路 A はそれを仮定せず、独立に観測して突合に供する**)。
+
+> **精度 $M+14$ の根拠**: $\operatorname{ord}_s\tilde B\ge0$ ゆえ $[s^k]G_-$ は $W$ の $s^{\le k}$ の係数だけに依存する。$u_{13}=[s^{M+13}]G_-$ に必要かつ十分なのは $W\bmod s^{M+14}$。アフィン枝の「精度 $t^{13}$」($t^{10}$ の 3 次先まで)と同じ情報量である。
+
+**中間表現**: $K[[t]]$(切断冪級数;副枝 (N$_\infty$) では $\mathbb Q[[s]]$ の切断と $\lambda\in\mathbb Q((s))$)。
 
 ### 6.2 経路 B(Vieta / ノルム・**級数を使わない**)
 
-$\lambda^\iota := \lambda\circ\iota = A(x)-B(x)y$、$N(\lambda) := \lambda\lambda^\iota = A^2-B^2f\in\mathbb Q[x]$ と置く。$\operatorname{div}(\lambda) = 10P_0-10P_\infty$ から $N(\lambda)$ の $x_0:=x(P_0)$ における零位数は $10$ であり、$\hat c := \bigl[N(\lambda)/(x-x_0)^{10}\bigr]_{x=x_0}\ne0$。
+$\lambda^\iota := \lambda\circ\iota = A(x)-B(x)y$、$N(\lambda) := \lambda\lambda^\iota = A^2-B^2f\in\mathbb Q[x]$ と置く($\lambda$ は $C$ のアフィン部分で正則だから $A,B\in\mathbb Q[x]$)。$\operatorname{div}(\lambda) = 10P_0-10P_\infty$ に $\iota$ を施して
 
-- **B-i($P_0$ 非 Weierstrass・$t=x-x_0$)**: $\iota P_0\ne P_0$ かつ $\lambda^{-1}(0)=\{P_0\}$ ゆえ $\lambda^\iota(P_0)\ne0$。したがって
+$$ \operatorname{div}\bigl(N(\lambda)\bigr)\ =\ 10P_0+10\,\iota(P_0)-10P_\infty-10\,\iota(P_\infty). \tag{6.0} $$
+
+**(6.0) の右辺は副枝によって形が変わる**(v1.2 で明示 — v1.1 はアフィンの場合しか書いていなかった):
+
+| 枝 | (6.0) の帰結 | 適用する式 |
+|---|---|---|
+| **(W)**・**(N$_{\rm aff}$)**($P_0$ アフィン) | $N(\lambda)$ の $x_0:=x(P_0)$ における零位数は $10$ であり $\hat c := \bigl[N(\lambda)/(x-x_0)^{10}\bigr]_{x=x_0}\ne0$ | **B-i / B-ii** |
+| **(N$_\infty$)**($P_0=\infty_-=\iota(P_\infty)$) | $\iota(P_0)=P_\infty,\ \iota(P_\infty)=P_0$ ゆえ $\operatorname{div}(N(\lambda))=0$、すなわち $N(\lambda)$ は**定数** $\hat c\in\mathbb Q^\times$。**$x_0$ は存在せず「零位数 10」も起こらない** | **B-iii(新設)** |
+
+- **B-i($P_0$ がアフィンかつ非 Weierstrass・$t=x-x_0$)**: $\iota P_0\ne P_0$ かつ $\lambda^{-1}(0)=\{P_0\}$ ゆえ $\lambda^\iota(P_0)\ne0$(**$\iota P_0$ が $P_\infty$ でないこと、すなわち副枝 (N$_\infty$) でないことを使っている** — v1.2 で明示)。したがって
   $$ \boxed{\ u^{(B)}\ =\ \frac{\hat c}{\lambda^\iota(P_0)}\ =\ \frac{\hat c}{A(x_0)-B(x_0)\,y_0}\ }\qquad(y_0:=y(P_0)). \tag{6.1} $$
-- **B-ii($P_0$ Weierstrass・$t=y$)**: $\lambda+\lambda^\iota = 2A(x)$ で、$\lambda = ut^{10}+u_{11}t^{11}+\cdots$, $\lambda^\iota = \lambda(-t)$ ゆえ $\lambda+\lambda^\iota = 2ut^{10}+O(t^{12})$。他方 $y^2=f(x)$ と $f(x_0)=0$ から $x-x_0 = y^2/f'(x_0)+O(y^4)$。ゆえに $A(x) = \alpha(x-x_0)^5+O((x-x_0)^6)$ と書けば
+- **B-ii($P_0$ Weierstrass・$t=y$;この場合 $P_0$ は自動的にアフィン — 補題 R1-U∞ 1. より $\infty_\pm$ は Weierstrass 点でない)**: $\lambda+\lambda^\iota = 2A(x)$ で、$\lambda = ut^{10}+u_{11}t^{11}+\cdots$, $\lambda^\iota = \lambda(-t)$ ゆえ $\lambda+\lambda^\iota = 2ut^{10}+O(t^{12})$。他方 $y^2=f(x)$ と $f(x_0)=0$ から $x-x_0 = y^2/f'(x_0)+O(y^4)$。ゆえに $A(x) = \alpha(x-x_0)^5+O((x-x_0)^6)$ と書けば
   $$ \boxed{\ u^{(B)}\ =\ \frac{\alpha}{f'(x_0)^5},\qquad \alpha := \bigl[(x-x_0)^5\bigr]A(x)\ =\ \frac{A^{(5)}(x_0)}{120}.\ } \tag{6.2} $$
 
-**中間表現**: $\mathbb Q[x]$(多項式・評価・Taylor 係数)。**冪級数を使わない。**
+- **B-iii(副枝 (N$_\infty$): $P_0=\infty_-$・$t=1/x$)— v1.2 で新設**: この副枝では $\lambda^\iota$ は $P_0$ で **10 位の極**をもつので (6.1) の分母 $\lambda^\iota(P_0)$ は定義されない。$N(\lambda)$ が定数になる代わりに、$\iota(P_0)=P_\infty$ での主要係数が分母の役を果たす:
+
+  $$ \boxed{\ u^{(B)}\ =\ \frac{\hat c}{2\,a_{10}},\qquad \hat c := A^2-B^2f_6\ \in\mathbb Q^\times\ (\textbf{定数}),\qquad a_{10} := [x^{10}]\,A(x)\ \ne 0.\ } \tag{6.3} $$
+
+  **(6.3) は多項式の係数抽出と一回の多項式恒等式検査だけで計算される**(評価も Taylor 展開も不要 — B-i/B-ii より弱い機構)。
+
+> **補題 R1-B∞(副枝 (N$_\infty$) の構造と $u$).** M1 の正規化モデル($f_6$ モニック・$P_\infty=\infty_+$・$P_0=\infty_-$)で $\lambda = A(x)+B(x)y$、$a_j:=[x^j]A,\ b_j:=[x^j]B$ とし、$s=1/x$、$W\in\mathbb Q[[s]]$ を $W^2=F,\ W(0)=1$、$M:=\max(\deg A,\deg B+3)$、$\tilde A:=s^MA(1/s)$、$\tilde B:=s^{M-3}B(1/s)\in\mathbb Q[s]$、$G_\pm := \tilde A\pm W\tilde B$ と置く。$\operatorname{div}(\lambda)=10P_0-10P_\infty$ の下で:
+> 1. $\boxed{M=10}$、すなわち $\deg A = 10$ かつ $\deg B = 7$。さらに $\boxed{b_7 = a_{10}\ne0}$。
+> 2. $\boxed{N(\lambda) = A^2-B^2f_6 = \hat c\in\mathbb Q^\times}$(**定数**)。
+> 3. $t=1/x$ に関して $\lambda = u\,t^{10}(1+O(t))$ が成り立ち、$\boxed{u = \hat c/(2a_{10})}$。
+>
+> **証明.** 補題 R1-U∞ 1. のチャートで $x=1/s,\ y=w/s^3$ だから
+> $$ \lambda\ =\ A(1/s)+B(1/s)\,\frac{w}{s^3}\ =\ s^{-M}\bigl(\tilde A(s)+w\,\tilde B(s)\bigr), $$
+> ここで $\infty_+$ では $w=W$、$\infty_-$ では $w=-W$($w^2=F$ の二つの根)。$M$ の定義から $(\tilde A(0),\tilde B(0))\ne(0,0)$ であり、$\tilde A(0)=a_M$($\deg A=M$ のとき、さもなくば $0$)、$\tilde B(0)=b_{M-3}$(同様)。
+>
+> **1.** $\operatorname{ord}_{\infty_-}(\lambda)=+10$ は $\operatorname{ord}_s G_- = M+10>0$ を意味するから $G_-(0)=\tilde A(0)-W(0)\tilde B(0)=\tilde A(0)-\tilde B(0)=0$、すなわち $\tilde A(0)=\tilde B(0)$。もし両方 $0$ なら $M$ の定義に反するので $\tilde A(0)=\tilde B(0)\ne0$、ゆえに $\deg A=M$ かつ $\deg B+3=M$ で $a_M=b_{M-3}\ne0$。すると標数 $0$ で $G_+(0)=\tilde A(0)+\tilde B(0)=2a_M\ne0$、すなわち $\operatorname{ord}_sG_+=0$。他方 $\operatorname{ord}_{\infty_+}(\lambda)=-10$ は $\operatorname{ord}_sG_+ - M = -10$ を与えるから $M=10$。
+> **2.** $G_+G_- = \tilde A^2-W^2\tilde B^2 = \tilde A^2-F\tilde B^2 = s^{20}\bigl(A(1/s)^2-f_6(1/s)B(1/s)^2\bigr) = s^{20}\,N(1/s)$、$N:=N(\lambda)\in\mathbb Q[x]$。左辺の $\operatorname{ord}_s$ は $0+(M+10)=20$。$N=\sum_{k}n_kx^k$ と書けば $s^{20}N(1/s)=\sum_kn_ks^{20-k}$ の $\operatorname{ord}_s$ は $20-\deg N$。ゆえに $\deg N=0$、$N=\hat c$ は定数で、$\operatorname{ord}_s$ がちょうど $20$ だから $\hat c\ne0$。
+> **3.** 2. より $G_- = \hat c\,s^{20}/G_+$、よって
+> $$ \frac{\lambda}{s^{10}}\ =\ \frac{G_-}{s^{20}}\ =\ \frac{\hat c}{G_+}\ \xrightarrow[\ s\to0\ ]{}\ \frac{\hat c}{G_+(0)}\ =\ \frac{\hat c}{2a_{10}} . $$
+> $s=t$ ゆえこれが $u$。$\blacksquare$
+>
+> **【級数を使っていないことの確認】** 証明の中では $W$ を**書き下していない**($W(0)=1$ という一点の値しか使っていない)。(6.3) の右辺は $A,B,f_6$ の係数から**有限回の有理数演算**で得られる。したがって B-iii は経路 A(Newton/Hensel 級数)と原理的に独立である(§6.3 の要件 1./2. を満たす)。
+
+> **(N$_\infty$) の構造検査(fail-closed・すべて厳密な多項式演算)**:
+> - **(N∞-1)** $\deg A = 10$ かつ $\deg B = 7$;
+> - **(N∞-2)** $b_7 = a_{10}\ne0$;
+> - **(N∞-3)** $A^2-B^2f_6$ が**定数** $\hat c\ne0$(次数 $\ge1$ の係数がすべて $0$);
+> - **(N∞-4)** $\boxed{\hat c=1}$(**補題 R1-N∞-S** — §11 論点 7)。前提の $\sigma_1\ne\mathrm{id}$ は**本 campaign では自動**である: $\sigma_1=\mathrm{id}$ なら $\operatorname{Mon}=\langle\sigma_0\rangle$ は巡回群で $10$ 点上に推移的、ゆえに正則作用で点安定化群 $H=1$、すると $N_{\operatorname{Mon}}(H)/H=\operatorname{Mon}\ne1$ となり §4.3 **補題 R1-U**($\operatorname{Aut}(W_0/U)=1$)に矛盾する。
+>
+> **いずれかが破れたら入力破損 ⇒ integrity stop(§9 I-j)。**
+>
+> > **【重要・I-b との関係(v1.2)】** 補題 R1-B∞ 3. により、この副枝では
+> > $$ u\ =\ \frac{\hat c}{2a_{10}}\ \overset{(\text{N∞-4})}{=}\ \frac{1}{2a_{10}} $$
+> > すなわち **$u$ は $\lambda$ の係数一つ($a_{10}=[x^{10}]A$)の一行の関数**である。したがって **(N∞-2)(N∞-3)(N∞-4) は事実上 $u$ の計算と同値**であり、「$u$ を開ける前の安全な事前検査」として扱ってはならない。
+> > - 凍結 2 前に人間へ見せてよいのは **(N∞-1)(次数のみ)** だけ。
+> > - **(N∞-2)–(N∞-4) は $u$ と同じ封印段で、同じ access control の下で走らせる。** $\hat c$ と $a_{10}$ の値は §10-6 の記録欄(凍結 2 まで空)に入る。
+> > - これは §11-1 の但し書き(full Belyi map を許す以上、担保は語彙 grep でなく **access control と total selection rule の二重**である)の、副枝 (N$_\infty$) における具体化である。**M-A の正規化規則は $u$ にも $a_{10}$ にも依存しないので、選択自由度ゼロという前件は保たれている。**
+
+**中間表現**: $\mathbb Q[x]$(多項式・評価・Taylor 係数;B-iii は係数抽出のみ)。**冪級数を使わない。**
 
 > **補助経路 B′(S5 設計に依存・任意)**: 命題 S5-2 が成立するなら $\lambda=c\mu^2$、$\mu = v t^5(1+\cdots)$ で $u = cv^2$、かつ $\mu\mu^\iota = c_N(x-x_0)^5$(**v1.1: 記号を $c_N$ に統一** — S5 設計 v1.1 §3.3.0)から、$P_0$ 非 Weierstrass・$t=x-x_0$ の場合に $v = c_N/\mu^\iota(P_0)$(級数不要)。**B′ は第三経路であって B の代用ではない。** 用いる場合は独立な札で記録する。
+>
+> **【v1.2 の適用範囲】B′ の上式は $x_0=x(P_0)$ が有限であること(枝 (W)・副枝 (N$_{\rm aff}$))を前提とする。** 副枝 (N$_\infty$) では $\mu\mu^\iota$ も定数になり(補題 R1-B∞ 2. の $\lambda$ を $\mu$ に置き換えた議論;$\operatorname{div}\mu=5P_0-5P_\infty$ ならば $\deg A_\mu=5,\ \deg B_\mu=2$)、上式は書き換えを要する。**B′ は任意の第三経路なので、v1.2 では (N$_\infty$) 版を書き下さない** — この副枝で B′ を使いたければ、S5 設計側の (N$_\infty$) 対応(§11.1 R-4)を待って別便で追加する。それまで (N$_\infty$) で B′ を走らせてはならない。
 >
 > **【v1.1 の運用制限】B′ は $\lambda$ を $(c,\mu)$ に分離した形を要求するので、§9 I-b 厳格版の下では凍結 2 より前に走らせてはならない。** 凍結 2 のあとの独立な裏取りとしてのみ使う。
 
@@ -519,7 +685,7 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 |---|---|
 | **U-a** | §2 のパイプラインが 2 個以上の候補を返し、§3.2 の全順序でも同点 |
 | **U-b** | §3.1 の**有限性が証明できない**(残余群の軌道が無限かもしれない) |
-| **U-c** | M0 の Weierstrass 枝判定が、事前登録した計算予算内に閉じない。**予算 = M0 の一判定ジョブにつき wall-clock 600 秒**(v1.1 で §11 から本行へ移記・便 32 F2.5)。**timeout は U-c**(FAIL でも「非 Weierstrass」でもない)。**同 campaign 内で上限を増やして再分類しない** — 上限を変えるなら新 version の campaign |
+| **U-c** | M0 の**枝判定**($P_\infty$/$P_0$ の Weierstrass 性、**および $P_0=\iota(P_\infty)$ 判定 (2.-1)** — v1.2 で追加)が、事前登録した計算予算内に閉じない。**予算 = M0 の一判定ジョブにつき wall-clock 600 秒**(**予算値は v1.2 でも不変**。判定が三つになったので、ジョブ数が増えるだけで一ジョブの上限は同じ)(v1.1 で §11 から本行へ移記・便 32 F2.5)。**timeout は U-c**(FAIL でも「非 Weierstrass」でもない)。**同 campaign 内で上限を増やして再分類しない** — 上限を変えるなら新 version の campaign |
 | **U-d** | 明示モデルそのものが得られない(撤退条件 2026-08-10 / 8 委嘱とは別枠の即時札) |
 | **U-e** | exact Kummer 証明書が得られない(探索失敗のみ)/ $u$ の一方の経路が計算不能 |
 | **U-f** | $b_i$ が $\tau_i(\langle\zeta_{10}\rangle)$ に属さない(actual marking 未閉) |
@@ -539,6 +705,8 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 | **I-g** | S5 設計の受理物 A8($\operatorname{ord}[P_0-P_\infty]=5$)が破れる |
 | **I-h** | hash・serialization・発射錠の対象が一致しない / 両翼共同凍結前に片翼の $u$ を開けた |
 | **I-i** | exact Kummer 証明書なしに PASS/FAIL を宣言した |
+| **I-j**(v1.2) | 副枝 (N$_\infty$) の構造検査 **(N∞-1)–(N∞-4)**(§6.2 B-iii)のいずれかが破れる。すなわち $\deg A\ne10$ / $\deg B\ne7$ / $b_7\ne a_{10}$ / $a_{10}=0$ / $A^2-B^2f_6$ が非定数または $0$ / ($\sigma_1\ne\mathrm{id}$ なのに)$\hat c\ne1$。**いずれも $\operatorname{div}(\lambda)=10P_0-10P_\infty$ と入力モデルの矛盾を意味する** ⇒ 入力破損 |
+| **I-k**(v1.2) | M0 の intrinsic 判定 (2.-1) と座標判定($x(P_0)=\infty$)が食い違う(I-e の特例として明示) |
 
 ### 9.3 Model-Builder(A)の入出力 schema(凍結 1 の一部)
 
@@ -557,7 +725,7 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 3. §8.6 の実装版一覧。
 4. §1.6 の $(\mathbb Z/20)^\times\to(\mathbb Z/10)^\times$ の $2:1$ lift の記載(別欄)。
 5. 発射錠 `FIRE_k5bridge.auth` が束縛する digest 組(**一回性・別 artifact へ再利用不可**)。
-6. **記録欄(値は凍結 2 まで空)**: $b_{\rm sq}$, $b_{\rm ns}$, $a_{\rm eff}$, $\varepsilon$(U-3)、枝 (W)/(N) の別、$P_0$ の Weierstrass 性。**$a=1$ の欄は不変値として先に埋める。**
+6. **記録欄(値は凍結 2 まで空)**: $b_{\rm sq}$, $b_{\rm ns}$, $a_{\rm eff}$, $\varepsilon$(U-3)、**枝 (W)/(N$_{\rm aff}$)/(N$_\infty$) の別**(v1.2)、$P_0$ の Weierstrass 性、**$M=\max(\deg A,\deg B+3)$ の実測値と $\hat c$(いずれも副枝 (N$_\infty$) のみ・v1.2)**。**$a=1$ の欄は不変値として先に埋める。**
 
 ---
 
@@ -572,12 +740,31 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 6. **【文献要請・充足】** §8.2 の $K^{\times10}$ 判定 → **`docs/文献ゲート_02_power_residue.md` が仕様 provenance として PASS**(便 32 F2.5)。$\zeta_2,\zeta_5\in K$ のもとで平方・五乗判定へ分解する exact Kummer 仕様と、valuation obstruction / binomial factorization の数学的出所は閉じた。
    > **ただし二つの留保(便 32 F2.5・そのまま採録)**: (i) Sol は Cohen/Roblot の一次 PDF と定理番号を独立照合していない。(ii) **文献は executable certificate checker ではない。** 凍結 1 の最終 bundle には §8.6 が要求する library 名・版・commit、アルゴリズム名、経路 A/B と第三 checker の commit を**値として**埋めること(P6 後半・実装別便)。
 
-### 11.1 v1.1 時点で残る未充足項目(凍結 1 受理の前提)
+7. **【v1.2 新設】副枝 (N$_\infty$) の存否を、凍結済み fixture 上の組合せ的証明書で閉じるか。** 便 34 F2.3 は二つの選択肢を示した。**v1.2 は選択肢 2(副枝の追加)を採り、M-A の total 性はこれで回復した。** 選択肢 1(exact な排除証明書)は**任意の補強**として下に設計だけ置く — **launch blocker ではない**(証明書が得られなくても M-A は total)。
+
+   > **補題 R1-N∞-S(副枝 (N$_\infty$) が要求する dessin の対称性).** $P_0=\iota(P_\infty)$ と仮定する。$m(z):=\hat c/z$ と置く。
+   > 1. $\lambda\lambda^\iota=\hat c\in\mathbb Q^\times$(補題 R1-B∞ 2.)、すなわち $\lambda\circ\iota = m\circ\lambda$。**$\iota$ は底の Möbius 変換 $m$ を覆う $C$ の自己同型**である。
+   > 2. **$\lambda$ が $1$ の上で分岐する($\sigma_1\ne\mathrm{id}$)ならば $\hat c=1$**、したがって $m(z)=1/z$ は $\{0,1,\infty\}$ を保ち、$0\leftrightarrow\infty$ を交換し $1$ を固定する。
+   > 3. ゆえに $\iota$ は**被覆の同型 $(C,\lambda)\xrightarrow{\ \sim\ }(C,1/\lambda)$** を与える。すなわち **ordered dessin は $S_3$-作用の元「$(0\,\infty)$ 交換」で不変**でなければならない。
+   > 4. さらに $\iota$ の不動点(6 個の Weierstrass 点)は $\lambda$ で $\operatorname{Fix}(m)=\{+1,-1\}$ へ写る。
+   >
+   > **証明.** 1. は補題 R1-B∞ 2.。2.: $R:=\{\lambda\ \text{の分岐点}\}=\{P_0,P_\infty\}\cup S$、$S:=\lambda^{-1}(1)\cap R$ と置く。$\iota$ は同型だから $\operatorname{ram}(\lambda\circ\iota)=\iota(R)$;他方 $\lambda\circ\iota=m\circ\lambda$ で $m$ は $\mathbf P^1$ の同型だから $\operatorname{ram}(m\circ\lambda)=\operatorname{ram}(\lambda)=R$。ゆえに $\iota(R)=R$。$\sigma_1\ne\mathrm{id}$ なら $S\ne\emptyset$ で、$Q\in S$ に対し $\iota(Q)\in R$ かつ $\lambda(\iota(Q))=\hat c/\lambda(Q)=\hat c$。$\lambda(R)\subseteq\{0,1,\infty\}$ で $\hat c$ は有限非零だから $\hat c=1$。3. は 2. の言い換え。4.: $\iota(P)=P$ なら $\lambda(P)=1/\lambda(P)$。$\blacksquare$
+   >
+   > **補足($\sigma_1\ne\mathrm{id}$ は本 campaign では仮定でなく定理)**: $\sigma_1=\mathrm{id}$ なら $\operatorname{Mon}=\langle\sigma_0\rangle$ が巡回群として $10$ 点上に推移的に作用するので正則作用となり点安定化群 $H=1$、ゆえに $N_{\operatorname{Mon}}(H)/H=\operatorname{Mon}\ne1$ となって §4.3 補題 R1-U($\operatorname{Aut}(W_0/U)=1$)に矛盾する。**したがって 2.–4. は本 campaign では無条件に成立する。**
+
+   > **証明書の設計(implementer 委嘱・司令塔経由・個別モデルに触れない)**: 3. の**否定**が示せれば副枝 (N$_\infty$) は当該 dessin について**空**である。凍結済み fixture の三つ組 $(\sigma_0,\sigma_1,\sigma_\infty)=(\tau_i(X),\tau_i(Y),\tau_i(Z))$ だけを入力とする有限計算でよい。
+   > - **向き規約に依存しない保守的判定(推奨)**: $T:=\{(\tau_0,\tau_1,\tau_\infty):\tau_0\tau_1\tau_\infty=\mathrm{id},\ \tau_0\in\mathrm{Cl}(\sigma_\infty),\ \tau_1\in\mathrm{Cl}(\sigma_1),\ \tau_\infty\in\mathrm{Cl}(\sigma_0)\}$ と置く。**$T$ のどの元も $(\sigma_0,\sigma_1,\sigma_\infty)$ と同時共役でないならば、$(0\,\infty)$ 交換による同型は(いかなる基点・向きの規約でも)存在しない ⇒ (N$_\infty$) は空。** 逆に $T$ の中に同時共役なものがあれば**判定不能**であり、そのときは §1 の向き規約と突き合わせた厳密な捻り三つ組を確定する必要がある(その確定自体が別途の監査対象)。
+   > - **安価な不変量は本 campaign では無力**: $\sigma_0,\sigma_\infty$ はともに $10$-巡回($P_0,P_\infty$ が全分岐)なので巡回型は自動一致し、$\operatorname{sgn}(\sigma_1)=+1$(したがって $\sigma_1$ の巡回数は偶数)も関係式から自動である。**巡回型・パリティ水準の検査に予算を割かないこと。**
+   > - 4. からの追加の必要条件: $\sigma_1$ の巡回長の重複度が奇数である長さの個数は $6$ 以下でなければならない($\iota$ が $\lambda^{-1}(1)$ 上に誘導する対合の不動点は $6$ 個以下)。これも安価な事前 filter として使える。
+
+### 11.1 v1.2 時点で残る未充足項目(凍結 1 受理の前提)
 
 | # | 項目 | 担当 | 状態 |
 |---|---|---|---|
 | R-1 | §8.6/§10-3 の実装版・commit・checker ID を**値として**記入 | 実装(P6 後半) | **未** |
-| R-2 | 本文書 + 付録 A の新 digest 再取得と再提出 | 司令塔(P7) | **未**(本改訂で serialization が変わる) |
+| R-2 | 本文書 + 付録 A の新 digest 再取得と再提出 | 司令塔(P7) | **未**(v1.2 で serialization が再び変わる) |
 | R-3 | 親 manifest 側の whitelist/stop に I-b と同語を反映 | 司令塔(P1+P3) | 別便 |
+| R-4(v1.2) | **S5 設計 §3.3.4 の分離条件表に「N-0: $P_0\ne\iota(P_\infty)$」を追記**し、命題 S5-3 の枝 (N) の式 (3.3) が**有限な $x_0=x(P_0)$ を前提としている**ことを明記する(便 34 F3.3)。Rule 1 は S5 設計に依存しないので**本文書の受理条件ではない**が、Model-Builder の枝列挙にこの欠品を持ち込ませないために閉じる必要がある | 数学者(S5 設計 v1.2・別便) | **未**(本便では対象外 — 委嘱範囲が Rule 1 のみ) |
+| R-5(v1.2) | 実装側: 経路 A/B/第三 checker を副枝 (N$_\infty$)(§6.1 (b)・§6.2 B-iii・構造検査 (N∞-1)–(N∞-4))へ拡張 | 実装(便 34 F4.2/F4.3 の修理と同便) | **未** |
 
-**R-1〜R-3 が閉じるまで凍結 1 は受理されず、個別モデル探索コマンドは実行しない。**
+**R-1〜R-3・R-5 が閉じるまで凍結 1 は受理されず、個別モデル探索コマンドは実行しない。**
