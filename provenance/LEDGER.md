@@ -442,3 +442,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - calibration_summary.v1.json = `77ef30aa8e39f42c4ac45429e7e3cfb4d5f643571ee6b93c6a9bc06a5515c670`(不変・kernel_certificate生成的化はcalibration_summaryのスキーマに影響しないため)
   - 上記9件連結SHA-256 = `d41f8ccde32f7c848f17e4e3abbbb1e7bf9626545813a2ceb2fe34d7243f32e8`
 - commit未実施。
+
+## 2026-07-26 -- E2 class-6 j=3 ゲート実装(発射保留・implementer実行)
+
+- `docs/manifest_e2c6j3_v1.md`(SHA-256 `aea71b16345a1878ea96152d12a8e8602307b97c0c38c24cfe81c3f5f782005a`)発注に対し、
+  `search/e2c6-common-data.g`(共有データ・j=2確定済み`search/e2c6-sweep.g`は不変)・`search/e2c6j3-sweep.g`
+  (便24 §F8のみ読取・§F7封印遵守。eq8.1-8.4のλ公式+k_w=0前提+M6型重複度表をλ-shortcut/brute-force二系統実装)・
+  `crosscheck/check-e2c6j3.mjs`(agree6_sol2.jsonのみ入力・brute-forceのみで独立再検算)を新設。
+  fixture G1-G4 全PASS(GAP側・node側とも)。証明書5件 `certificates/e2c6j3/`。64系本走査は
+  `search/FIRE_e2c6j3.auth` 未発行につき未実行(fire lock CLOSED確認済み)。詳細: `docs/notes/実装_j3.md`。
+  commit未実施。
