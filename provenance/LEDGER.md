@@ -332,3 +332,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-26 — 位数 32 全 51 群 (4,4,4)-marked F2-商 悉皆走査(裁定_19 §4 発注・implementer 実行)
 
 - `search/smallgroup32-scan.g`(elapsed 1500ms)で SmallGroup(32,i), i=1..51 の全群につき、G²=1024 対の総当たりで N_i(<a,b>=G かつ ord(a)=ord(b)=ord(ab)=4 を満たす対の数)を算出。G4=⟨(r,s,s),(rs,r,rs)⟩≤D4^3(`week3-M5-explorer.g`の`MakeGn(4)`)は IdSmallGroup(G4)=[32,2] と同定(N_2=384, |Aut|=384, kernels=1 — 裁定_18 の「384/384」と整合)。**結果: N_i>0 は SmallGroup(32,2) だけでなく SmallGroup(32,6)((C2xC2xC2):C4, N_6=192, |Aut|=64, kernels=3)も非零 — 「G4 ただ一つ」の予測は不成立(反例あり)**。独立の別アルゴリズム再計算(`search/smallgroup32-scan-diag.g`、群2・群6のみ)で完全一致確認(社内サニティ、正式照合器ではない)。証明書 `certificates/a5/smallgroup32_scan.json`、詳細 `docs/notes/検算_sg32走査.md`。384/384 の昇格経路(marked bridge 第二証明)はこの形では閉じない。
+
+## 2026-07-26 — SG(32,6) 新窓候補の B₃-許容性判定(裁定19追記・implementer 実行)
+
+- `search/sg32-admissibility.g`(elapsed 172ms)で、SG(32,6) の 3 核候補(N_6=192, Aut-軌道 3 個)につき
+  θ: x↦y,y↦x・τ: x↦y,y↦(xy)⁻¹ が核を保つか(marked pair (a,b) の Aut(G)-軌道単位で、変換後の対が同一
+  軌道に入るかで判定・核は構成しない・GAP 部分群比較ではなくAut-軌道membership判定)を判定。**結果:
+  3 軌道すべて both_admissible=FAIL(軌道1のみ θ=PASS・τ=FAIL、軌道2・3は θ・τ 共に FAIL)— SG(32,6) 由来
+  のいずれの核候補も B₃-許容でなく、窓の新候補にはならない**。較正: G4=SmallGroup(32,2)(既知の K̄⁽⁴⁾、
+  1軌道)は θ・τ 共に PASS(想定どおり、実装バグなし)。証明書 `certificates/a5/sg32_admissibility.json`、
+  詳細 `docs/notes/検算_sg32許容性.md`。
