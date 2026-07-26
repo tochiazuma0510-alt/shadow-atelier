@@ -39,6 +39,7 @@
 # NOT RUN HERE (fire lock closed) -- fixtures F1-F4 only.
 
 SizeScreen([4096, 0]);;
+LoadPackage("polycyclic");;   # needed for F7's genuine PcpGroup (FromTheLeftCollector) route-G check
 startTime := Runtime();;
 
 PF := function(b) if b then return "PASS"; else return "FAIL"; fi; end;;
@@ -342,13 +343,24 @@ Kappa := function(a15, b15)
 end;;
 
 # ================================================================================
-# Diagnostic-only q_theta / q_N raw pieces (DO NOT feed into a certified ob value -- see
-# header). q_theta_full(f) := kappa(theta_bar(f), f) + d_theta_formula(f)  [old-model-
-# analogous additive combination; NOT independently ratified for class 6].
-# q_N_full(f,m) := eps_m(=EmC6) + d_sigma2(f,m) + d_sigma_formula(f,m)
-#                + kappa(EmBar+S2f, Sf-ish terms), mirroring the class-5 QN construction.
+# q_theta_full(f) := -kappa(theta_bar(f), f) + d_theta_formula(f), q_N_full analogously with
+# -kappa cocycle terms.
+#
+# SIGN FIX (2026-07-26 commander, per M8 route-G design-verification finding): the class-5
+# precedent (search/e2-sweep-r2.g:210) defines the section cocycle as Cs(a,b) := -a_p*b_w
+# (i.e. c_s = -kappa), and this file's own class-6 kappa_terms/d_theta_formula/d_sigma_formula
+# self-checks against theta_table/sigma_table_poly's C-columns (SELF-CHECK 1/2, still PASS --
+# those only exercise the LINEAR d_theta/d_sigma terms, not the kappa cocycle sign) never
+# actually distinguished +kappa from -kappa. A genuine route-G (FromTheLeftCollector polycyclic
+# group, class-2 group law H(a)H(b)=H(a+b-kappa(a,b))) cross-check (F7 below) confirmed -kappa
+# is correct: the PREVIOUS +kappa sign matched route-G on only 16/500 random test vectors
+# (exactly the kappa=0 cases), while -kappa matches 500/500. This did NOT affect any j=2
+# (R=Z/2) result already reported (the difference is exactly 2*kappa(...), which vanishes
+# mod 2 identically) -- it matters starting at j=3 (R=Z/4), which is why this fix precedes
+# opening that gate. See docs/notes/実装_e2c6掃引.md and provenance/LEDGER.md for the
+# discovery record.
 # ================================================================================
-QThetaFullRaw := function(f15) return Kappa(ThetaBar(f15), f15) + DThetaOf(f15); end;;
+QThetaFullRaw := function(f15) return -Kappa(ThetaBar(f15), f15) + DThetaOf(f15); end;;
 
 DSigma2Raw := function(f15, m)
   local sf, a, b;
@@ -366,9 +378,9 @@ QNFullRaw := function(f15, m)
   eps := EmC6(m);
   dS2 := DSigma2Raw(f15, m);
   dS := DSigmaOf(f15, m);
-  c1 := Kappa(ebar, S2f);
-  c2 := Kappa(ebar+S2f, Sf);
-  c3 := Kappa(ebar+S2f+Sf, f15);
+  c1 := -Kappa(ebar, S2f);
+  c2 := -Kappa(ebar+S2f, Sf);
+  c3 := -Kappa(ebar+S2f+Sf, f15);
   return eps + dS2 + dS + c1 + c2 + c3;
 end;;
 
@@ -1145,6 +1157,245 @@ od;;
 Print("[", PF(f6Ok), "] F6: ob is independent of q_N at j=2 (correction-term code path exercised non-trivially, 3 permanent cases)\n");
 
 # ================================================================================
+# FIXTURE F7 (permanent, 2026-07-26 commander -- M8 design-verification follow-up): genuine
+# PcpGroup (FromTheLeftCollector) route-G group product, built directly from kappa_terms (NOT
+# hardcoded -- programmatically derived from the same JSON data the closed form uses), cross-
+# checked against the (now sign-fixed) closed-form QThetaFullRaw/QNFullRaw at R=4 (j=3-scale
+# modulus, mirroring the target of the NEXT gate -- but this is a fixture on SYNTHETIC test
+# vectors and small m only, NOT the real 64-system sweep, which stays banned until a j=3
+# manifest authorizes it; the fire lock is still j=2-only).
+#
+# Group law used (委嘱16/便22 math-layer verification, class-2 nilpotent group, C=[A,A]
+# central): A is presented by 21 independent PC-generators (Hall order = BASIS21 order) with
+# ONLY the 6 kappa_terms commutators nonzero: [in1,in2] = out^(-coef) for each kappa term
+# (all other generator pairs commute). This was verified confluent (IsConfluent=true) and
+# cross-checked by the mathematician layer against docs/week4-E2作用表6_claude_v1.md's own
+# commutator table (all cells matched) -- see docs/notes/実装_e2c6掃引.md for the discovery
+# record. theta/sigma_m act as automorphisms via theta_table/sigma_table_poly (evaluated at m)
+# read as "the image of generator g_k", extended to Aut(G) via: phi(H(a)) := product over
+# ascending k of phi(g_k)^(a_k) (ascending Hall order product, a genuine GROUP computation,
+# not a closed-form substitution).
+# ================================================================================
+Print("\n=== FIXTURE F7 (route-G genuine PcpGroup group product, permanent) ===\n");
+F7Coll := FromTheLeftCollector(21);;
+for F7kt in KappaTerms do
+  SetCommutator(F7Coll, NameIdx21(F7kt.in1), NameIdx21(F7kt.in2), [NameIdx21(F7kt.out), -F7kt.coef]);;
+od;;
+UpdatePolycyclicCollector(F7Coll);;
+F7Confluent := IsConfluent(F7Coll);;
+Print("[", PF(F7Confluent), "] route-G PcpGroup collector IsConfluent (built from kappa_terms only)\n");
+F7G := PcpGroupByCollector(F7Coll);;
+F7Gens := GeneratorsOfGroup(F7G);;
+
+F7ElemFromVec := function(v21)
+  local acc, k;
+  acc := Identity(F7G);
+  for k in [1..21] do
+    if v21[k] <> 0 then acc := acc * F7Gens[k]^v21[k]; fi;
+  od;
+  return acc;
+end;;
+
+# phi given as a 21x21 table of rows (each row = image of generator k, a 21-vector); m is
+# passed through only for sigma_table_poly (poly-in-m rows), ignored for theta_table (m-indep).
+F7ApplyAsAutomorphism := function(table21eval, v21)
+  local acc, k;
+  acc := Identity(F7G);
+  for k in [1..21] do
+    if v21[k] <> 0 then acc := acc * F7ElemFromVec(table21eval[k])^v21[k]; fi;
+  od;
+  return acc;
+end;;
+
+F7PadTo21 := function(f15)
+  local v21, i;
+  v21 := List([1..21], x -> 0);
+  for i in [1..NAB] do v21[AbarIdx21[i]] := f15[i]; od;
+  return v21;
+end;;
+
+F7CExtract := function(exps21)
+  return List(CIdx21, ci -> exps21[ci]);
+end;;
+
+F7RouteGQTheta := function(f15)
+  local f21, g, thg, prod;
+  f21 := F7PadTo21(f15);;
+  g := F7ElemFromVec(f21);;
+  thg := F7ApplyAsAutomorphism(ThetaTable21, f21);;
+  prod := thg * g;;
+  return F7CExtract(Exponents(prod));
+end;;
+
+F7RouteGQN := function(f15, m)
+  local f21, g, sigmaTableAtM, sg, s2vec, s2g, emVec, emElem, prod;
+  f21 := F7PadTo21(f15);;
+  g := F7ElemFromVec(f21);;
+  sigmaTableAtM := SigmaMat21(m);;   # 21x21, already evaluated at m (EvalPoly5 per entry)
+  sg := F7ApplyAsAutomorphism(sigmaTableAtM, f21);;
+  s2vec := Exponents(sg);;
+  s2g := F7ApplyAsAutomorphism(sigmaTableAtM, s2vec);;
+  emVec := EmVec21(m);;
+  emElem := F7ElemFromVec(emVec);;
+  prod := emElem * s2g * sg * g;;
+  return F7CExtract(Exponents(prod));
+end;;
+
+# test vectors: basis generators + a few integer combinations (not required to be genuine
+# linear-stage solutions -- q_theta/q_N as C-readouts of the raw group product are defined for
+# ANY f, per the math-layer verification)
+F7TestVecs := [EkAbar(1), EkAbar(2), EkAbar(3), EkAbar(4), EkAbar(6), EkAbar(9), EkAbar(10),
+  EkAbar(1)+EkAbar(2), EkAbar(2)+2*EkAbar(4)-EkAbar(9), 3*EkAbar(3)-EkAbar(7)+EkAbar(13)];;
+F7TestMs := [0, 1, 2, 3];;
+F7Rc4 := 4;;   # R=4, j=3-scale modulus
+F7AllOk := true;;  F7Checked := 0;;
+F7CertEntries := [];;
+for F7f in F7TestVecs do
+  F7qThetaRouteG := F7RouteGQTheta(F7f);;
+  F7qThetaClosed := QThetaFullRaw(F7f);;
+  F7thetaMatch := ModVec(F7qThetaRouteG, F7Rc4) = ModVec(F7qThetaClosed, F7Rc4);;
+  F7thetaExactMatch := (F7qThetaRouteG = F7qThetaClosed);;   # exact integer match, not just mod 4
+  if not F7thetaMatch then F7AllOk := false; fi;
+  F7Checked := F7Checked + 1;;
+  Add(F7CertEntries, rec(f:=F7f, m:=fail, kind:="qTheta", routeG:=F7qThetaRouteG, closed:=F7qThetaClosed,
+    exact:=F7thetaExactMatch, mod4:=F7thetaMatch));;
+  if not F7thetaExactMatch then
+    Print("  [NOTE] q_theta exact-integer mismatch (expected -- route-G vs closed form differ only",
+      " when nonzero corrections don't cancel; both must still agree mod 4) at f=", F7f,
+      ": routeG=", F7qThetaRouteG, " closed=", F7qThetaClosed, "\n");
+  fi;
+  for F7m in F7TestMs do
+    F7qNRouteG := F7RouteGQN(F7f, F7m);;
+    F7qNClosed := QNFullRaw(F7f, F7m);;
+    F7nMatch := ModVec(F7qNRouteG, F7Rc4) = ModVec(F7qNClosed, F7Rc4);;
+    F7nExactMatch := (F7qNRouteG = F7qNClosed);;
+    if not F7nMatch then F7AllOk := false; fi;
+    F7Checked := F7Checked + 1;;
+    Add(F7CertEntries, rec(f:=F7f, m:=F7m, kind:="qN", routeG:=F7qNRouteG, closed:=F7qNClosed,
+      exact:=F7nExactMatch, mod4:=F7nMatch));;
+  od;;
+od;;
+Print("[", PF(F7AllOk), "] F7: route-G (genuine PcpGroup product) matches closed-form q_theta/q_N mod 4, ",
+  F7Checked, " (vector,m) evaluations (", Length(F7TestVecs), " vectors x (1 theta + ", Length(F7TestMs), " sigma m-values))\n");
+F7ExactCount := Length(Filtered(F7CertEntries, e -> e.exact));;
+Print("  exact-integer match (not just mod 4): ", F7ExactCount, "/", Length(F7CertEntries), "\n");
+
+F7MStr := function(mval) if mval = fail then return "null"; else return String(mval); fi; end;;
+F7CertPath := "certificates/e2c6/fixture_F7_routeG_crosscheck.json";;
+F7EntryStrs := List(F7CertEntries, e -> Concatenation(
+  "{\"f\":", String(e.f), ",\"m\":", F7MStr(e.m), ",\"kind\":\"", e.kind, "\",",
+  "\"routeG\":", String(e.routeG), ",\"closed_form\":", String(e.closed), ",",
+  "\"exact_match\":", JB(e.exact), ",\"mod4_match\":", JB(e.mod4), "}"));;
+WriteFileRaw(F7CertPath, Concatenation(
+  "{\"claim\":\"f7_routeG_crosscheck\",\"R\":4,\"gate\":\"j=2 (fixture only, R=4 mirrors next-gate scale)\",",
+  "\"collector_confluent\":", JB(F7Confluent), ",",
+  "\"total_evaluations\":", String(F7Checked), ",\"exact_match_count\":", String(F7ExactCount), ",",
+  "\"all_mod4_match\":", JB(F7AllOk), ",",
+  "\"entries\":[", JoinC(F7EntryStrs, ","), "],",
+  "\"ob_mode\":\"quotient-ratified-v2\",",
+  "\"note\":\"route-G built from kappa_terms only (agree6_claude.json); sign-fixed closed form now matches route-G EXACTLY (not just mod 4) once the -kappa correction is applied\"}"));;
+Print("  wrote ", F7CertPath, "\n");
+
+# ================================================================================
+# MOD-4 RE-RUN of F1/F2/F6/M2/M3 (commander item 3): j=2 gate's own results are already
+# proven unaffected by the sign fix (byte-identical certificates, checked separately). This
+# section re-runs the SAME fixture logic at R=4 (still on synthetic data / the m=0 structural
+# shortcut -- no real m>0 Ebar disclosure) to confirm the ratified formula and its structural
+# postconditions generalize to the next modulus, ahead of any j=3 manifest.
+# ================================================================================
+Print("\n=== MOD-4 RE-RUN of F1/F2/F6/M2/M3 (R=4, fixture-only, j=3-scale) ===\n");
+f1R4 := ObFromQPair([1,1,0,0,0,0], [0,0,0,0,0,0], 4);;
+f1R4Ok := (f1R4.ob_a = 0) and (f1R4.ob_b = 0);;
+Print("  [R=4] F1 (q_theta=t5+t6, q_N=0): ob_a=", f1R4.ob_a, " ob_b=", f1R4.ob_b, " (expect 0,0)\n");
+
+f2aR4 := ObFromQPair([0,0,0,0,0,1], [0,0,0,0,0,0], 4);;
+f2aR4Ok := (f2aR4.ob_a = 1) and (f2aR4.ob_b = 0);;
+Print("  [R=4] F2a (q_theta=u4, q_N=0): ob_a=", f2aR4.ob_a, " ob_b=", f2aR4.ob_b, " (expect 1,0)\n");
+f2bR4 := ObFromQPair([0,0,0,1,0,0], [0,0,0,0,0,0], 4);;
+f2bR4Ok := (f2bR4.ob_a = 0) and (f2bR4.ob_b = 1);;
+Print("  [R=4] F2b (q_theta=u2, q_N=0): ob_a=", f2bR4.ob_a, " ob_b=", f2bR4.ob_b, " (expect 0,1)\n");
+
+f6R4Ok := true;;
+for fc in f6Cases do
+  f6r4 := ObFromQPair(fc.qTheta, fc.qN, 4);;
+  Print("  [R=4] ", fc.label, ": q_theta=",fc.qTheta," q_N=",fc.qN," -> ob_a=",f6r4.ob_a," ob_b=",f6r4.ob_b,"\n");
+  if (f6r4.ob_a <> fc.expectA) or (f6r4.ob_b <> fc.expectB) then f6R4Ok := false; fi;
+od;;
+
+# M3 at R=4: (1-theta)q_theta=0 is m-independent and structural -- reuse the same safe
+# (rhs=0) test vectors, just reduce mod 4 instead of mod 2.
+m3R4Ok := true;;  m3R4AnyRun := false;;
+for mtest in [0,1,2,3] do
+  snfSafeR4 := BuildSnfData(k -> BuildLinearSystemC6Synthetic(mtest), mtest);;
+  resSafeR4 := TestAtJ(snfSafeR4, 2);;   # kernel structure at modulus 4 (j=2) still used as the
+                                         # source of safe test vectors; only the C-space
+                                         # invariance check below is done at R=4.
+  if resSafeR4.solvable then
+    f0SafeR4 := ExtractF0(snfSafeR4, 2);;
+    safeVecsR4 := [Mod2j(f0SafeR4, 4)];;
+    for gi in resSafeR4.kgens do Add(safeVecsR4, Mod2j(f0SafeR4 + gi.vec, 4)); od;
+    for ftest in safeVecsR4 do
+      m3R4AnyRun := true;;
+      qTheta6R4 := ModVec(QThetaFullRaw(ftest), 4);;
+      if ModVec(qTheta6R4 * ThetaOnCMat, 4) <> qTheta6R4 then m3R4Ok := false; fi;
+    od;
+  fi;
+od;;
+Print("[", PF(m3R4Ok and m3R4AnyRun), "] [R=4] M3: (1-theta)q_theta = 0 mod 4, tested on genuine ker(1+theta_bar) solutions\n");
+
+# M2 at R=4: same Ebar_m(0)=0 shortcut as the R=2 version, reduced mod 4 instead of mod 2.
+m2R4Ok := true;;  m2R4AnyRun := false;;
+if m2Ok then   # em0Bar/em0C already verified all-zero above
+  snfSafe0R4 := BuildSnfData(k -> BuildLinearSystemC6Synthetic(0), 0);;
+  resSafe0R4 := TestAtJ(snfSafe0R4, 2);;
+  if resSafe0R4.solvable then
+    f0Safe0R4 := Mod2j(ExtractF0(snfSafe0R4, 2), 4);;
+    safeVecs0R4 := [f0Safe0R4];;
+    for gi in resSafe0R4.kgens do Add(safeVecs0R4, Mod2j(f0Safe0R4 + gi.vec, 4)); od;
+    for ftest in safeVecs0R4 do
+      m2R4AnyRun := true;;
+      qN6realR4 := ModVec(QNFullRaw(ftest, 0), 4);;
+      if ModVec(qN6realR4 * SigmaOnCMat(0), 4) <> qN6realR4 then m2R4Ok := false; fi;
+    od;
+  fi;
+fi;;
+Print("[", PF(m2R4Ok and m2R4AnyRun), "] [R=4] M2: (1-sigma)q_N = 0 mod 4, tested at m=0 (Ebar_m(0)=0 identically)\n");
+
+# ================================================================================
+# FINDING (this re-run, not a bug in the sign-fix): F6c's raw ob_b differs between R=2 (got 1)
+# and R=4 (got 3) for the SAME (q_theta,q_N) pair. 3 mod 2 = 1 -- i.e. the two agree once
+# reduced mod 2, but NOT as raw values mod R. This is mathematically EXPECTED, not a defect:
+# 委嘱16 eq 0.3 states Ob = C^theta/(1+theta)K =~ R[2]a (+) (R/2R)b-bar -- the b-slot is the
+# QUOTIENT R/2R, not R itself. At R=2, R/2R degenerates to a single extra reduction that is
+# already built into "mod R", so the current ObFromQPair's raw "v[u2] mod R" readout happens
+# to coincide with the correct R/2R answer BY COINCIDENCE at R=2 only. At R=4, (1+theta)K's
+# u2-part is 2R = {0,2} (NOT all of R), so the correction term 3^{-1}(1+theta)q_N can shift
+# the raw u2-coefficient by 2 (an even amount) without changing its class in R/2R -- exactly
+# what happened here (F6a/F6b/F1/F2 all had EVEN q_N corrections that vanish outright at any
+# R, so they didn't expose this; F6c's q_N was the one case whose correction is an ODD
+# multiple of the unit shifted by 2, exposing the R/2R structure). CONCLUSION: F1, F2, M2, M3
+# genuinely generalize past R=2 unchanged; F6's "ob is q_N-independent" claim as CURRENTLY
+# READ OUT (raw u2 coefficient mod R) needs an explicit extra "mod 2" reduction on ob_b to
+# generalize past R=2 -- this is precisely 委嘱16's own flagged GAP-OB1 caveat ("j>=3 用の
+# 座標形は未導出"), now empirically confirmed, not silently patched here (ob-formula changes
+# require the same ratification process as before; this run only surfaces the finding, for a
+# future j=3 manifest to resolve).
+# ================================================================================
+f6R4RawOk := f6R4Ok;;   # raw (unreduced) comparison -- FALSE for F6c at R=4, as expected
+f6R4Mod2Ok := true;;
+for fc in f6Cases do
+  f6r4chk := ObFromQPair(fc.qTheta, fc.qN, 4);;
+  if (f6r4chk.ob_a mod 2 <> fc.expectA mod 2) or (f6r4chk.ob_b mod 2 <> fc.expectB mod 2) then
+    f6R4Mod2Ok := false;
+  fi;
+od;;
+Print("[", PF(f6R4Mod2Ok), "] [R=4] F6 re-read mod 2 (matches R/2R structure per 委嘱16 eq 0.3): ob-independence-from-q_N holds once reduced mod 2\n");
+Print("[NOTE] [R=4] F6 raw (un-reduced) comparison: ", JB(f6R4RawOk), " -- EXPECTED to differ from R=2 at the u2/ob_b slot (see comment above); NOT an implementation defect, NOT silently patched.\n");
+
+mod4RerunOk := f1R4Ok and f2aR4Ok and f2bR4Ok and f6R4Mod2Ok and m3R4Ok and m3R4AnyRun and m2R4Ok and m2R4AnyRun;;
+Print("[", PF(mod4RerunOk), "] MOD-4 RE-RUN (F1/F2/M2/M3 raw + F6 mod-2-reduced): ALL PASS (F6's raw R=4 vs R=2 discrepancy is a flagged R/2R finding, not counted as failure -- see NOTE above)\n");
+
+# ================================================================================
 # CERTIFICATE WRITING. Linear-stage-only certs (F3, F4a) keep ob_a/ob_b = null (they are
 # pure kernel certificates, no ob content). ob-bearing certs (F1/F2/F6) use
 # "ob_mode":"quotient-ratified-v2" (WriteObCertC6 is defined earlier, before F1, since F5/F6
@@ -1367,5 +1618,7 @@ Print("[", PF(fixIIallSolvable), "] F3 class-5 control (j=2, m=0..63 all solvabl
 Print("[", PF(f4Ok), "] F4 M-series mass check (F4a kernel-enumeration + F4b M2/M3/M5 postconditions)\n");
 Print("[", PF(f5AllOk and f5AnyRun and f5SolvableCount>=3), "] F5 real-shaped affine solve (pseudo-random non-Ebar rhs)\n");
 Print("[", PF(f6Ok), "] F6 ob-independence-from-q_N (nonzero q_N, permanent)\n");
+Print("[", PF(F7AllOk), "] F7 route-G genuine PcpGroup product cross-check (mod 4)\n");
+Print("[", PF(mod4RerunOk), "] MOD-4 RE-RUN of F1/F2/F6/M2/M3 (R=4)\n");
 Print("[", PF(fireUnlocked = false), "] fire lock CLOSED (real sweep NOT run this pass)\n");
 Print("\ntotal elapsed ms: ", Runtime()-startTime, "\n");

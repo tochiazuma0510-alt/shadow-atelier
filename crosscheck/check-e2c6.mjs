@@ -190,11 +190,15 @@ function kappa(a15, b15) {
   }
   return out;
 }
+// SIGN FIX (2026-07-26 commander): -kappa, not +kappa (see search/e2c6-sweep.g header for the
+// route-G (FromTheLeftCollector) cross-check that found this; matches class-5 precedent
+// Cs=-kappa in search/e2-sweep-r2.g:210). Vanishes mod 2 (no effect on any j=2 result already
+// reported); matters from j=3 (R=Z/4) onward.
 function qThetaFullRaw(f15) {
   const thBar = vecMatMul(f15, ThetaBarMat);
   const k = kappa(thBar, f15);
   const d = dThetaOf(f15);
-  return k.map((x, i) => x + d[i]);
+  return k.map((x, i) => -x + d[i]);
 }
 function qNFullRaw(f15, m) {
   const ebar = EmBar15(m);
@@ -209,7 +213,7 @@ function qNFullRaw(f15, m) {
   const c2 = kappa(ePlusS2f, Sf);
   const ePlusS2fPlusSf = ePlusS2f.map((x, i) => x + Sf[i]);
   const c3 = kappa(ePlusS2fPlusSf, f15);
-  return eps.map((x, i) => x + dSigma2[i] + dSigmaF[i] + c1[i] + c2[i] + c3[i]);
+  return eps.map((x, i) => x + dSigma2[i] + dSigmaF[i] - c1[i] - c2[i] - c3[i]);
 }
 function modInverse(a, n) {
   if (n === 1) return 0;
@@ -436,6 +440,30 @@ for (const fname of certFiles) {
     const ok = yMZero && yBNonzero && yMZero === claimedYMZero && yBNonzero === claimedYBNonzero;
     console.log((ok ? 'PASS  ' : 'FAIL  ') + `${fname}: linear_stage_empty_c6 (fixture=${cert.fixture}, m=${cert.m}, modulus=${modulus}) independently recomputed yM=${JSON.stringify(yM)} yb=${yb} (cert claimed yM_zero=${claimedYMZero}, yb_nonzero=${claimedYBNonzero})`);
     if (!ok) certFails++;
+    continue;
+  }
+
+  if (cert.claim === 'f7_routeG_crosscheck') {
+    // This checker has no polycyclic-group package (JS), so it cannot rebuild route-G's
+    // genuine PcpGroup product independently -- what IS independently checkable: recompute
+    // the CLOSED FORM (qThetaFullRaw/qNFullRaw, from agree6_sol2.json, system B) for every
+    // entry's f/m and verify it matches the cert's own "closed_form" field exactly, AND that
+    // the cert's own mod4_match/exact_match self-report against "routeG" is arithmetically
+    // consistent (routeG mod 4 == closed_form mod 4 when mod4_match is claimed true, etc.).
+    const R = cert.R;
+    let allOk = true;
+    for (const e of cert.entries) {
+      const f = parseMaybe(e.f);
+      const routeG = parseMaybe(e.routeG);
+      const closedCert = parseMaybe(e.closed_form);
+      const closedIndep = e.kind === 'qTheta' ? qThetaFullRaw(f) : qNFullRaw(f, e.m);
+      const closedMatchesIndep = closedIndep.every((x, i) => x === closedCert[i]);
+      const mod4ClaimOk = e.mod4_match === routeG.every((x, i) => mod(x, R) === mod(closedCert[i], R));
+      const exactClaimOk = e.exact_match === routeG.every((x, i) => x === closedCert[i]);
+      if (!closedMatchesIndep || !mod4ClaimOk || !exactClaimOk) allOk = false;
+    }
+    console.log((allOk ? 'PASS  ' : 'FAIL  ') + `${fname}: f7_routeG_crosscheck (${cert.entries.length} entries) -- independently recomputed closed_form (agree6_sol2.json) matches cert's closed_form field, and mod4_match/exact_match self-reports are arithmetically consistent (route-G group-product itself NOT independently rebuilt here -- no polycyclic package in Node; that check is GAP-only)`);
+    if (!allOk) certFails++;
     continue;
   }
 

@@ -1,1 +1,1 @@
-{"claim":"e2c6_real_sweep","m":19,"j":2,"linear_solvable":true,"witness_f_abar":"[ -6, -16, -16, -22, -21, -22, -3, 0, 0, -3, 0, 0, 0, 0, 0 ]","q_theta":[ -3, -3, -6, -12, -6, 0 ],"q_N":[ 155800, -71716, -908653, 490507, -205561, 374367 ],"ob_a":0,"ob_b":0,"ob_mode":"quotient-ratified-v2"}
+{"claim":"e2c6_real_sweep","m":19,"j":2,"linear_solvable":true,"witness_f_abar":"[ -6, -16, -16, -22, -21, -22, -3, 0, 0, -3, 0, 0, 0, 0, 0 ]","q_theta":[ -3, -3, 2, 0, 2, 0 ],"q_N":[ 140168, -58172, -824257, 418507, -148825, 278599 ],"ob_a":0,"ob_b":0,"ob_mode":"quotient-ratified-v2"}
