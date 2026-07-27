@@ -129,4 +129,21 @@ for (const n of [5, 10, 20]) {
   chk(`n=${n} 時計回り`, lab === n - 1, `0 -> ${lab}(期待 ${n - 1})`);
 }
 
+// ---- 検査 4: root-object ずれ(便 48 F7.2 の countermodel)の独立再現・整数演算のみ ----
+// (TB2) の系を canonical の t 乗に取ると、(*) は ε ≡ t^{-1} (mod 20)。
+// 主張: b := ε^{-1} mod 10 は t mod 10 に等しい。とくに t≡3 (20) で ε≡7, b=3(Sol の値)。
+console.log('\n検査 4: root-object ずれ t の countermodel(整数演算・便 48 F7.2 の独立再現)');
+const inv = (a, m) => { for (let k = 1; k < m; k++) if ((a * k) % m === 1) return k; return null; };
+const units20 = [1, 3, 7, 9, 11, 13, 17, 19];
+const rows = [];
+for (const t of units20) {
+  const eps20 = inv(t, 20);              // ε ≡ t^{-1} (mod 20)
+  const eps10 = eps20 % 10;
+  const b = inv(eps10, 10);              // b := ε^{-1} mod 10  (BFC (2.1))
+  rows.push([t, eps20, b]);
+  chk(`t=${t}`, b === t % 10, `ε≡${eps20} (20), b=${b}, t mod 10 = ${t % 10}`);
+}
+chk('Sol の値 t=3 -> ε≡7, b=3', rows.find((r) => r[0] === 3)[1] === 7 && rows.find((r) => r[0] === 3)[2] === 3);
+chk('t≡11 (20) は b=1 を与える(単一 M の観測では exact が戻らない例)', rows.find((r) => r[0] === 11)[2] === 1);
+
 console.log(`\n=== ${pass}/${pass + fail} PASS ===`);
