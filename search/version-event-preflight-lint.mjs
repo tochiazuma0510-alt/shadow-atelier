@@ -178,7 +178,7 @@ if (writeTriage && Object.keys(newTriage).length) {
 
 // ④ 二段 receipt(source_commit = 現 HEAD = clean payload commit C)
 let sourceCommit = 'unknown', sourceTree = 'unknown';
-try { sourceCommit = execSync('git rev-parse HEAD').toString().trim(); sourceTree = execSync('git rev-parse HEAD^{tree}').toString().trim(); } catch {}
+try { sourceCommit = execSync('git rev-parse HEAD').toString().trim(); sourceTree = execSync('git rev-parse "HEAD^{tree}"').toString().trim(); } catch {}
 const verdict = (open === 0 && failures.length === 0) ? 'CLEAN' : 'BLOCKED';
 fs.writeFileSync(RECEIPT_PATH, JSON.stringify({
   schema: 'preflight-receipt/v2', event_id: manifest.event_id,

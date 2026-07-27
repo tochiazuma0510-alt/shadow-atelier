@@ -9,7 +9,10 @@
     {
       "path": "docs/amendment_5prime_draft.md",
       "input_version": "v8",
-      "stale_tokens": ["本草案 v6", "本草案 v7 を差分ゲート", "BFC v2.9 の現行", "現行 BFC proof(v2.9"]
+      "stale_tokens": [
+        "本草案 v6 を差分ゲート",
+        "本草案 v7 を差分ゲート"
+      ]
     },
     {
       "path": "docs/week4-TB4導出_opus_v1.md",
@@ -20,11 +23,21 @@
   "claims": [
     {
       "row_id": "W3-17",
-      "must_contain": ["(Z_{2M}-link)", "b_op", "checker 37/37", "自前導出 v2.4", "v2.11", "便 54"]
+      "must_contain": [
+        "(Z_{2M}-link)",
+        "b_op",
+        "checker 37/37",
+        "自前導出 v2.4",
+        "v2.11",
+        "便 54"
+      ]
     },
     {
       "row_id": "W3-18",
-      "must_contain": ["b_op,sq = b_op,ns = (t̄_M ε)⁻¹", "(2.1′)"]
+      "must_contain": [
+        "b_op,sq = b_op,ns = (t̄_M ε)⁻¹",
+        "(2.1′)"
+      ]
     }
   ],
   "checkers": [

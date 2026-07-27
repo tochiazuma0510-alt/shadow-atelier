@@ -159,14 +159,6 @@
     "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
     "reviewer": "司令塔(裁定 62)"
   },
-  "docs/amendment_5prime_draft.md::340255ba58d42178::unconditional": {
-    "file": "docs/amendment_5prime_draft.md",
-    "line": 146,
-    "token": "unconditional",
-    "text": "> **★ 版の区別**: **amendment 成立後**は `bridge_result_i` を含む campaign 全判定が $\\varepsilon$-free になる。**成立前は Belyi-side ",
-    "disposition": "correct-conditional: amendment 成立前後を正しく区別する文",
-    "reviewer": "司令塔(裁定 62)"
-  },
   "docs/amendment_5prime_draft.md::fafa71dbc144ca02::unversioned-bundle": {
     "file": "docs/amendment_5prime_draft.md",
     "line": 207,
@@ -358,5 +350,29 @@
     "text": "| 5 | **(C7)** を $\\zeta_n\\ne e^{2\\pi i/n}$($n\\nmid20$)と取る | $\\varepsilon\\ne1$ だが $\\varepsilon\\equiv1\\ (20)$ は不",
     "disposition": "correct-conditional: 反実仮想表の帰結列 — 型付き文脈の数学的内容",
     "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::5e8135af61c457ef::window-independent": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 764,
+    "token": "window-independent",
+    "text": "**(a)【v2.9・F2.1 で書き直し・v2.11 で射程を精密化】** 固定した $K^{(5)}$・$M=10$・共通の Rule 1 root object の下で、$b_{\\rm op}=(\\bar t_M\\",
+    "disposition": "correct-conditional: 射程精密化の本文/注記が旧句を引用して訂正を説明(v2.11 K1)",
+    "reviewer": "司令塔(裁定 65)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::9a01698748dc376b::window-independent": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 767,
+    "token": "window-independent",
+    "text": "> **【v2.10・F7-1-5 で射程を精密化】** ここで要るのは「**同じ $M$・同じ Rule 1 root object を共有する二 detector に依らない**」ことである。**v2.9 の「$t_",
+    "disposition": "correct-conditional: 射程精密化の本文/注記が旧句を引用して訂正を説明(v2.11 K1)",
+    "reviewer": "司令塔(裁定 65)"
+  },
+  "docs/amendment_5prime_draft.md::85ce9baae296e5ad::unconditional": {
+    "file": "docs/amendment_5prime_draft.md",
+    "line": 164,
+    "token": "unconditional",
+    "text": "> **★ 版の区別**: **amendment 成立後**は `bridge_result_i` を含む campaign 全判定が $\\varepsilon$-free になる。**成立前は Belyi-side ",
+    "disposition": "correct-conditional: amendment 成立前後を正しく区別する文",
+    "reviewer": "司令塔(裁定 65)"
   }
 }
