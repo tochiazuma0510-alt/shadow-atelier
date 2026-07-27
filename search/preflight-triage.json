@@ -198,5 +198,165 @@
     "text": "| **`NF-root-link/K5`** | full tuple $(10,11,1,11,1,1,\\textbf{false})$ — 「$b=1$ だから根も一致」は**どちらの $b$ でも偽** | TB",
     "disposition": "meta-mention: fixture 表のスローガン引用(「b=1 だから根も一致」は偽、の否定文脈)",
     "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::090402139cba0fe9::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 32,
+    "token": "naked-b-eq1",
+    "text": "> — ただし **(i) Lean `verified` ではない(未着手)**、**(ii) exact $\\varepsilon=1$ の向きは (TB4) 関所待ち**(**【v2.5・F2.2】**関所名は e",
+    "disposition": "correct-conditional: 「b=1 は mod M 帰結(同値でない)」型の正しい型付き言明・関所名の議論",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::03ecb64734ac9461::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 129,
+    "token": "naked-b-eq1",
+    "text": "P4 \"exact \\$b=1\\$|for exact b\"",
+    "disposition": "meta-mention: self-lint パターンの引用",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::18035770fe57d4f0::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 239,
+    "token": "naked-b-eq1",
+    "text": "2. **$B_{\\rm FC}$-II はさらに 3 枚に割れ、3 枚とも閉じた**: **II-a** 剛性 descent(§6・定理 B-4)/ **II-b** torsor 比較と $b=1$(§8・補題 B",
+    "disposition": "scoped-usage: B-6/II-b の結論 — B-6tw 冒頭の型付き宣言と §8 scope 宣言の射程内",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::37233e94689984d1::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 243,
+    "token": "naked-b-eq1",
+    "text": "6. **閉じなかったもの = 枠組み札 2 件**【**v2.7・F3.3-4 で訂正**】: 【GAP-TB】= 接基点繊維関手の 4 性質 (TB1)–(TB4)、**および未凍結の $Z$**(根 object ",
+    "disposition": "correct-conditional: 「b=1 は mod M 帰結(同値でない)」型の正しい型付き言明・関所名の議論",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::eb99a049d4982250::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 291,
+    "token": "naked-b-eq1",
+    "text": "> **(TB4)(慣性の正規化・exact 版)** $x$ は $\\mathrm{Gal}(\\Omega/\\bar{\\mathbb Q}((\\beta)))\\cong\\hat{\\mathbb Z}(1)$ の、**$",
+    "disposition": "correct-conditional: 「b=1 は mod M 帰結(同値でない)」型の正しい型付き言明・関所名の議論",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::60871b27189b859b::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 384,
+    "token": "naked-b-eq1",
+    "text": "| **II-b** | $\\Lambda\\cong\\mathrm{Fib}_{\\vec{01}}(W_0)$ が $G_K$-集合としても $\\mu_M$-torsor としても同型($b=1$) | **(TB1)(",
+    "disposition": "scoped-usage: B-6/II-b の結論 — B-6tw 冒頭の型付き宣言と §8 scope 宣言の射程内",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::e945843989425045::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 520,
+    "token": "naked-b-eq1",
+    "text": "> **⚠【v2・R4】v1 は $\\mathcal H\\backslash\\pi_1$・$\\tilde H\\backslash\\hat F_2\\cong\\hat F_2/\\tilde H$ と書いていた**(便 43 ",
+    "disposition": "history-table: 版差分の注記・撤回済み文言の引用",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::4c4ed0a0910e9be9::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 582,
+    "token": "naked-b-eq1",
+    "text": "## 8. $B_{\\rm FC}$-II-b — torsor 比較と $b=1$",
+    "disposition": "scoped-usage: B-6/II-b の結論 — B-6tw 冒頭の型付き宣言と §8 scope 宣言の射程内",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::ecd2d4ae44e6a6ba::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 588,
+    "token": "naked-b-eq1",
+    "text": "> を満たす。すなわち **$b=1$**。",
+    "disposition": "scoped-usage: B-6/II-b の結論 — B-6tw 冒頭の型付き宣言と §8 scope 宣言の射程内",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::833afc48b35527d9::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 603,
+    "token": "naked-b-eq1",
+    "text": "> **⚠【v2・R6/S1】$b=1$ の状態札を正確に**(便 43 F6.2): $b=1$ は「規約から独立な裸の定理」**ではない**。",
+    "disposition": "history-table: 版差分の注記・撤回済み文言の引用",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::d3561c20ecbf1bfc::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 655,
+    "token": "naked-b-eq1",
+    "text": "> **⚠【v2.5・F2.2】v2.3 まで「exact $b=1$ が要るのは二 dessin 比較 $a_{\\mathrm{eff}}$ の側だけ」と書いていたのは撤回済み**(§10.1・補題 B-9′(a)(c",
+    "disposition": "correct-conditional: 「b=1 は mod M 帰結(同値でない)」型の正しい型付き言明・関所名の議論",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::ef1282ce1ca57269::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 682,
+    "token": "naked-b-eq1",
+    "text": "> **⚠ 状態札(誇張しない)【v2 更新】**: 系 B-7′ は **`paper-proof (framework-conditional on TB1–TB4 + (Z_2M-link), 現行 proof I",
+    "disposition": "correct-conditional: 「b=1 は mod M 帰結(同値でない)」型の正しい型付き言明・関所名の議論",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::54f2d432bfcab53b::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 793,
+    "token": "naked-b-eq1",
+    "text": "> **★ 便 45 F2.2 との整合**: 測定で $\\hat b_{\\rm sq}=\\hat b_{\\rm ns}=1$ が出ても、**そこから exact $\\varepsilon=1$ は帰結しない**((2.",
+    "disposition": "correct-conditional: 「b=1 は mod M 帰結(同値でない)」型の正しい型付き言明・関所名の議論",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::31a044644fc17b05::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 886,
+    "token": "naked-b-eq1",
+    "text": "> **障害の正確な所在【v2・S1 で射程限定】**: **exact $\\varepsilon=1$ の向きについては (TB4) が第 $k$ 段**である(**【v2.4・F2.4】** 関所名は exact $",
+    "disposition": "correct-conditional: 「b=1 は mod M 帰結(同値でない)」型の正しい型付き言明・関所名の議論",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::1eb19ffe3c693004::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 893,
+    "token": "naked-b-eq1",
+    "text": "> (b = 1 is its mod-M consequence, NOT an equivalent condition)",
+    "disposition": "correct-conditional: 「b=1 は mod M 帰結(同値でない)」型の正しい型付き言明・関所名の議論",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::70ecd18eeca6097c::naked-b-eq1": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 1065,
+    "token": "naked-b-eq1",
+    "text": "2. **【GAP-C3】と【GAP-TB】の統合**: 同じ札である。札の本文は便 43 F7 の 2 行(`TB1–TB4 = global framework assumptions` / `TB4 = orien",
+    "disposition": "meta-mention: 札本文(便 43 F7)の引用",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/amendment_5prime_draft.md::6322580c04ebe81d::naked-b-eq1": {
+    "file": "docs/amendment_5prime_draft.md",
+    "line": 132,
+    "token": "naked-b-eq1",
+    "text": "> > いずれを採ったかは結果 record の `exact_recovery_path` に記録する(§4)。**(5′) という既存の名前は上書きしない**(BFC/K3/$R^{\\rm cyc}$ の数学文書では",
+    "disposition": "meta-mention: exact_recovery_path 手続き文・(5′) 名不変の規定",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-TB4導出_opus_v1.md::f914eb3f2328a071::naked-b-eq1": {
+    "file": "docs/week4-TB4導出_opus_v1.md",
+    "line": 99,
+    "token": "naked-b-eq1",
+    "text": " - **TB4-A20**(有限): $+$ **(Z20-link)** $+$ Rule 1 (1.6) $\\Longrightarrow$ $\\varepsilon\\equiv1\\ (\\mathrm{mod}\\ ",
+    "disposition": "correct-conditional: TB4-A20 の結論 — (Z20-link) 下で b_cmp=b_op=1 と型付け済(F6.1)",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-TB4導出_opus_v1.md::347ee830a03c8aa3::naked-b-eq1": {
+    "file": "docs/week4-TB4導出_opus_v1.md",
+    "line": 484,
+    "token": "naked-b-eq1",
+    "text": "BFC (2.2)「単一の $M$ で $b=1$ を観測しても exact (TB4) は戻らない」を本稿は**否定しない**どころか §3.4 で witness($t\\equiv11$)を与えた。本稿は観測ではなく",
+    "disposition": "meta-mention: BFC (2.2) の引用と本稿の関係の説明",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-TB4導出_opus_v1.md::2b62d261de16e861::naked-b-eq1": {
+    "file": "docs/week4-TB4導出_opus_v1.md",
+    "line": 554,
+    "token": "naked-b-eq1",
+    "text": "| 5 | **(C7)** を $\\zeta_n\\ne e^{2\\pi i/n}$($n\\nmid20$)と取る | $\\varepsilon\\ne1$ だが $\\varepsilon\\equiv1\\ (20)$ は不",
+    "disposition": "correct-conditional: 反実仮想表の帰結列 — 型付き文脈の数学的内容",
+    "reviewer": "司令塔(裁定 63)"
   }
 }

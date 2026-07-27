@@ -1,18 +1,18 @@
 {
   "schema": "preflight-receipt/v1",
   "event_id": "rule1-v1.4_manifest-v1.6_2026-07",
-  "source_commit": "41415a756d72b1a099970aedd84998fb4ec3e00b",
+  "source_commit": "4e4e5fa42937b3a5beba4e11c4bba53d0414bda6",
   "lint_version": "v3",
   "artifacts": [
     {
       "path": "docs/week4-BFC攻略_opus_v2.md",
-      "sha256": "2a6a52b792ed919c19d2af02a423c4fa18bc2062dee5ef12d9f8fa580758f4a0",
+      "sha256": "b546b77fdbb04b3f585e4a46a4bc27af55b3adc4e7eb1386442a9da5f1fd3416",
       "declared_version": "v2.10",
-      "header_ok": false
+      "header_ok": true
     },
     {
       "path": "docs/amendment_5prime_draft.md",
-      "sha256": "ae5a59a9d3634eabbd4167bba03a33ffcd3d03360de3489aad8741f1276bf5c4",
+      "sha256": "84af2e0101a0561b9e6e958319ee2d96d32c04fd543b1e70c722c168e8d3f9a8",
       "declared_version": "v7",
       "header_ok": true
     },
@@ -27,7 +27,7 @@
     {
       "row_id": "W3-17",
       "ok": true,
-      "row_hash": "ab63da93d206fa3e"
+      "row_hash": "63eb0b52b6d2b9fd"
     },
     {
       "row_id": "W3-18",
@@ -35,16 +35,13 @@
       "row_hash": "3daf3f9a2789f17d"
     }
   ],
-  "certificate_ok": false,
+  "certificate_ok": true,
   "hits": {
-    "open": 20,
-    "triaged": 25,
-    "orphans": 2
+    "open": 0,
+    "triaged": 45,
+    "orphans": 0
   },
-  "failures": [
-    "VERSION-IDENTITY: docs/week4-BFC攻略_opus_v2.md の 1 行目が declared v2.10 と不一致",
-    "CERT-BINDING: certificate の input_doc 束縛が現物 digest と不一致(再束縛が必要)"
-  ],
-  "verdict": "BLOCKED",
+  "failures": [],
+  "verdict": "CLEAN",
   "generated_note": "timestamp は commit が持つ(スクリプトは時刻を打刻しない)"
 }
