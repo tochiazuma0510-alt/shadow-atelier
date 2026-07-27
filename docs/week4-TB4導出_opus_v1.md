@@ -58,6 +58,17 @@
 | **V28** | §8.6a | dictionary schema に normalization 水準の欄がなかった | **`root_normalization_level = none \| mod_M \| level_2M \| profinite` を追加**し、各値に許される結論を固定(四段のはしごと 1:1)。**L2/L3 の同欄圧潰を schema が拒否できる** | 便 50 **F8.2** |
 | **V29** | §7 検算 | 33/33 | **34/34**(検査 5(d)(d′) を full-tuple 形へ・**(e) $K^{(3)}$ 同型 fixture を新設**) | 本便 |
 
+### v2.3 → v2.4 差分(裁定 61 / 便 51 F4・**status/provenance の小修理のみ**)
+
+| # | 箇所 | v2.3 | v2.4 | 出所 |
+|---|---|---|---|---|
+| **V30** | §0 状態札・§3.2 見出し・付録 A | TB4-A20 を **「未監査」**(3 箇所) | **便 50 F2.1 で型修理後 PASS 済み**へ同期。**過大にしないため「two-mathematician audit 前・Lean `verified` ではない」を併記** | 便 51 **F4** |
+| **V31** | §0 状態札 | 数値 checker **25/25**(v2.1 時点で止まっていた) | **37/37**(現物) | 便 51 F4 |
+| **V32** | §7 | checker path を **`scratchpad/`(リポジトリ外)** と記載 | **`search/tb4-monodromy-check.mjs`(tracked 現物)**。司令塔が恒久化済み(内容は scratchpad 版と byte 同一を確認) | 便 51 F4 |
+| **V33** | §7 検査 5(e)・checker | **ラベル過大**: ラベルは $\ker((\mathbb Z/12)^\times\to(\mathbb Z/6)^\times)=\{1,7\}$ を検査すると書きながら、コードは $7\bmod6=1$・$7\ne1$・$12/6=2$ しか見ていなかった | **units 列挙による核の完全一致検査へ強化**。(e) $\ker((\mathbb Z/12)^\times\to(\mathbb Z/6)^\times)=\{1,7\}$ / (e′) $t_{12}=7\in\ker\smallsetminus\{1\}$ / **(f) $\ker((\mathbb Z/20)^\times\to(\mathbb Z/10)^\times)=\{1,11\}$**(§3.5.1 の反例の出所・**同じラベル過大の危険が K5 側にもあったので同時に閉じた**)/ (f′) $t_{20}=11$ がその非自明元。**34/34 → 37/37** | 便 51 **F4**(+ 本便の自主拡張) |
+
+> **v2.4 で数学は一切動かない。** 便 51 F4 は束 3 の 8 項目すべてを **PASS** と判定しており、修理は **live status の同期**と **checker のラベル整合**のみである。
+
 > **v2.3 でも不変(便 50 が PASS と判定した部分)**: **TB4-D/D′ の辞書と証明核**・**TB4-E の証明核と依存削減**(TB4-3 全体でなく TB4-2 orientation package で足りる)・**$\hat b_i=b_{\rm op}$**・**四段のはしごの数学的骨格**(F3.1「支持」)・**検査 5(d′) の算術**(F4.1・独立再計算で一致)・**$K^{(3)}$ 副次記録**(F4.3)・suite 二分割(F5-2)。**v2.3 は表示と型付けのみ。**
 
 > **v2.2 でも不変(便 49 が PASS と判定した部分)**: **TB4-D / D′ の辞書**(型修理後)・**$\hat b_i=b_{\rm op}$(F4.3 で確定)**・**TB4-E の証明核**(F4.4)・TB4-1/2/3・TB4-0・比較式 ($*$)・(Z-norm) 下の TB4-B・命題 TB4-E が (Z20-link) を要さないこと(F6.7)。修理は**型の分離・前件の明示・数え直し・schema 化**であり、定理核は動かない。
@@ -101,9 +112,9 @@
 > | TB4-1 | `paper-proof PASS`(便 48) |
 > | TB4-2(解析持ち上げ) | `paper-proof / A3-framework-conditional PASS`(便 48) |
 > | TB4-3 の比較式 (\*) | `paper-proof / framework-conditional PASS`(便 48) |
-> | **TB4-A20**($\varepsilon\equiv1\ (20)$) | **`paper-proof / conditional on (Z20-link)`** — v2 新設・**未監査** |
+> | **TB4-A20**($\varepsilon\equiv1\ (20)$) | **`paper-proof / conditional on (Z20-link)` — 便 50 F2.1 で型修理後 PASS**(**two-mathematician audit 前**・Lean `verified` ではない) |
 > | **TB4-B**($\varepsilon=1$) | **`paper-proof / conditional on (Z-norm)`**(便 48「条件付き PASS」) |
-> | 数値 checker | `25/25 sanity only`(証明の一部ではない) |
+> | 数値 checker | **`37/37 sanity only`**(`search/tb4-monodromy-check.mjs`・**証明の一部ではない**・網羅性は検査していない) |
 >
 > **$B_{\rm FC}$ の状態札は、(Z20-link)/(Z-norm) が凍結されるまで更新しないこと**(便 48 F10.1「現時点ではまだ更新しない」)。
 
@@ -230,7 +241,7 @@ $(\eta_n)_n$ は整合系($\eta_{mn}^{\,m}=\bar\iota^{-1}(e^{2\pi im/(mn)})=\eta
 
 > **★ ($*$) は「$\varepsilon$ の値」ではなく「$\varepsilon$ の測り方」を与える。** $\varepsilon$ が $1$ かどうかは、($*$) の右辺 $\eta_n$ と左辺の $\zeta_n$ が**同じ object か**にかかっている — それが次の 2 段である。
 
-### 3.2 第 2 段(有限) — $M\mid20$ の窓 —【v2 新設・未監査】
+### 3.2 第 2 段(有限) — $M\mid20$ の窓 —【v2 新設・**便 50 F2.1 で型修理後 PASS**】
 
 > ### 定理 TB4-A20(有限正規化)
 > **前件: 定理 TB4-3 の前件 $+$ $\bar\iota|_K=\iota_\infty$ $+$ (Z20-link) $+$ Rule 1 (1.6) $+$ (TB2) の整合性.**
@@ -445,7 +456,7 @@ $$ \boxed{\ \text{期待値: } \textbf{6 detected / 1 root-link blind}\ } $$
 **⇒ 数え方は 2 通りある。母数を必ず明記すること**:
 $$ \text{8 経路を母数: }\ \mathbf{6/8}\ \text{可視・}2/8\ \text{不可視}\qquad\text{finite 射程 7 経路を母数: }\ \mathbf{6/7}\ \text{可視・}1/7\ \text{盲点} $$
 
-> **⚠ この表は「単一 axis の代表例」であって全 counterfactual の悉皆ではない**(便 49 F6.4)。**複数反転の合成は含まない。** ゆえに「8 本ですべて」とは書かず、**single-axis regression set** と呼ぶ。**検査 6 はこの数え(6/1/1)を機械で検査する**が、**網羅性そのものは検査していない**(29/29 や 33/33 から網羅性は出ない — 便 49 F4.5)。
+> **⚠ この表は「単一 axis の代表例」であって全 counterfactual の悉皆ではない**(便 49 F6.4)。**複数反転の合成は含まない。** ゆえに「8 本ですべて」とは書かず、**single-axis regression set** と呼ぶ。**検査 6 はこの数え(6/1/1)を機械で検査する**が、**網羅性そのものは検査していない** — **checker の 37/37 は regression lint であって網羅証明ではない**(便 49 F4.5・便 50 F5-2)。
 
 > **⇒ 運用への含意(便 49 F5 の裁定を反映)**: **amendment の `b_value_i` は $b_{\rm op}$ と確定**(`b_semantics="op"` を固定値)。それは向き・埋め込み・比較の事故を検出するが、
 > $$ \boxed{\ \text{(7.1) は (Z}_{2M}\text{-link) の代替でないだけでなく、\textbf{(Z-norm) 全体の certificate にもならない}.}\ } $$
@@ -557,7 +568,7 @@ $K^{(3)}$ 回帰は $M=6$、$K=\mathbb Q(\zeta_{12})$、$6\nmid20$、$\zeta_6\no
 
 **本稿の証明は閉形式であり、機械計算に依存しない。** 以下は取り違え検出のための補助検査である。
 
-`scratchpad/tb4-monodromy-check.mjs`(node・**リポジトリ外**・**34/34 PASS**):
+**`search/tb4-monodromy-check.mjs`**(node・**tracked 現物**・**37/37 PASS**)【**v2.4 で path と件数を現物へ同期**】:
 
 | 検査 | 内容 | 型 | 検証対象 |
 |---|---|---|---|
@@ -566,7 +577,7 @@ $K^{(3)}$ 回帰は $M=6$、$K=\mathbb Q(\zeta_{12})$、$6\nmid20$、$\zeta_6\no
 | **3** | 時計回りで標識が $0\mapsto n-1$($n=5,10,20$) | 浮動小数点 | §6 経路 1–3, 6 の符号敏感性 |
 | **4** | **【v2 追加】root-object ずれ $t\in(\mathbb Z/20)^\times$ の 8 元すべてで $\varepsilon\equiv t^{-1}\ (20)$・$b_{\rm cmp}\equiv t\ (10)$。$t=3\Rightarrow\varepsilon\equiv7,\ b_{\rm cmp}=3$** | **整数演算のみ** | **便 48 F7.2 countermodel の独立再現**(§3.4)$+$ 一般形 (3.3) の発見 |
 | **5** | **【v2.1 追加・v2.2 で型修理・`TB4-b-dictionary/v1` の invariant 4 本】(a) $b_{\rm op}=b_{\rm cmp}\cdot\bar t_M^{-1}$ を **$\varepsilon,t_{2M}$ 任意の 64 対**で(TB4-3 を仮定しない)/ (b) TB4-3 下で $b_{\rm cmp}\equiv\bar t_M$・**$b_{\rm op}\equiv1$(全 $t_{2M}$)** / (c) `Z2M_link` $\Rightarrow t_{2M}=1$ / **(d) NEGATIVE fixture: $\bar t_M=1\nRightarrow$ `Z2M_link`($M=10,\ t_{20}=11$)**+**(d′) その fixture で $b_{\rm cmp}=b_{\rm op}=1$** | **整数演算のみ** | **命題 TB4-D / D′ / E**(§3.5)・**§3.5.1 の型分離**(便 49 F10.1) |
-| **5(d)(d′)(e)** | **【v2.3 で full-tuple 化】(d) `NF-root-link/K5`$=(M,t_{20},\bar t_{10},\varepsilon,b_{\rm cmp},b_{\rm op},\text{link})=(10,11,1,11,1,1,\textbf{false})$ を**タプル一致**で検査($\varepsilon$ は TB4-3 で束縛 — 普遍含意ではない)/ (d′) 同 fixture で $b_{\rm cmp}=b_{\rm op}=1$ かつ link$=$false / **(e) `NF-root-link/K3`$=(6,7,1)$**($\ker((\mathbb Z/12)^\times\to(\mathbb Z/6)^\times)=\{1,7\}$)| **整数演算のみ** | **§3.5.1b**(便 50 F4.2 / T-15)。**実計算は v2.2 から不変・表示のみ同期** |
+| **5(d)(d′)(e)** | **【v2.3 で full-tuple 化】(d) `NF-root-link/K5`$=(M,t_{20},\bar t_{10},\varepsilon,b_{\rm cmp},b_{\rm op},\text{link})=(10,11,1,11,1,1,\textbf{false})$ を**タプル一致**で検査($\varepsilon$ は TB4-3 で束縛 — 普遍含意ではない)/ (d′) 同 fixture で $b_{\rm cmp}=b_{\rm op}=1$ かつ link$=$false / **【v2.4 で強化】(e) $\ker((\mathbb Z/12)^\times\to(\mathbb Z/6)^\times)=\{1,7\}$ を units 列挙で完全一致検査**/ (e′) `NF-root-link/K3`$=(6,7,1)$ かつ $t_{12}\in\ker\smallsetminus\{1\}$ / **(f) $\ker((\mathbb Z/20)^\times\to(\mathbb Z/10)^\times)=\{1,11\}$**(同上)/ (f′) $t_{20}=11$ がその非自明元 | **整数演算のみ** | **§3.5.1・§3.5.1b**(便 50 F4.2 / T-15・**便 51 F4 のラベル過大解消**)。**(d)(d′) の実計算は v2.2 から不変** |
 | **6** | **【v2.2 追加・3 項目】single-axis regression set の二分割: **finite operational orientation suite**(7 経路・期待 **6 detected / 1 root-link blind**)/ **profinite root-normalization suite**(経路 5・期待 **out-of-scope**)/ 母数 8 での数え(**6/8 可視・2/8 不可視 — 「7/8」は偽**) | **整数演算のみ** | **§3.5.4 の検出表**(便 49 F4.5・F10.2)。**⚠ 数えを検査するだけで網羅性は検査していない** |
 
 **入力**: すべて一般の玩具データ($u,c_i$ は任意の小整数)と整数。**$K^{(5)}$ の個別モデル候補・係数・数値近似・database・$\lambda$・$u$・$c$ には一切接触していない。** 探索コマンドは実行していない。上記以外の機械計算は行っていない。
@@ -730,7 +741,7 @@ $\hat b_i=b_{\rm op}$ の根拠は (B-ii)、すなわち「$\ell_i$ と $x=[\gam
 ### ~~8.8(旧)~~ v2 時点の突合依頼(**上記で回答済み・記録として残す**)
 
 1. **§3.2 定理 TB4-A20 の前件**が過不足ないか(とくに $\bar\iota|_K=\iota_\infty$ を (Z20-link) と別立てにした点)。
-2. **§3.4 の (3.3) $b\equiv t\ (\mathrm{mod}\ 10)$** — 便 48 の $t=3$ の値は再現したが、一般形は本稿の新規主張であり**単系統・未監査**。
+2. **§3.4 の (3.3)** — 便 48 の $t=3$ の値は再現したが、一般形は本稿の新規主張。**→ 便 49 F6.2 で PASS**($t_{20}$ を使えば正しい)。
 3. **§4.4 の $B_{\rm FC}$ 側への波及の見立て**(補題 B-6 の証明が (Z20-link) を暗黙に使っているという読み)が正しいか。**もし正しければ $B_{\rm FC}$ v2 の前件欄も 1 行増える。**
 4. §6 の反転表 — **8 経路でまだ不足がないか**(v1 は「全部」と言って外した)。
 5. §8.1 の seal を **(iii) だけ先に凍結する**運用(finite だけ先行)に危険がないか。
@@ -822,9 +833,9 @@ $\hat b_i=b_{\rm op}$ の根拠は (B-ii)、すなわち「$\ell_i$ と $x=[\gam
 | **TB4-1** | $\iota(\sigma)$ は $\chi_n(\sigma)$ 倍で作用 | A1, A2 | — | 便 48 PASS |
 | **TB4-2** | $x=[\gamma_0]$ は $\eta_n$ 倍で作用 | **C1, C5, chosen $\bar\iota$, radial comparison, A3** | 検査 1 | 便 48 **A3 条件付き PASS** |
 | **TB4-3** | 比較式 ($*$): $\zeta_n^{\,\varepsilon}=\eta_n$、$\varepsilon=\chi_{\rm cyc}(\vartheta)$ | A1–A3, C1, C5, C6, A12 | — | 便 48 **framework-conditional PASS** |
-| **TB4-A20** | **$\varepsilon\equiv1\ (20)$**、$M\mid20$ で $b=1$ | TB4-3 $+$ **A10 (Z20-link)** $+$ A6, A7 | 検査 1・4 | **v2 新設・未監査** |
+| **TB4-A20** | **$\varepsilon\equiv1\ (20)$**、$M\mid20$ で $b_{\rm cmp}=b_{\rm op}=1$ | TB4-3 $+$ **A10 (Z20-link)** $+$ A6, A7 | 検査 1・4 | **便 50 F2.1 で型修理後 PASS**(two-mathematician 前) |
 | **TB4-B** | **$\varepsilon=1$**($=$ exact (TB4)) | TB4-3 $+$ **A11 (Z-norm)** | — | 便 48 **条件付き PASS** |
-| **(3.3)** | root-object ずれ $t$ で $\varepsilon\equiv t^{-1}(20)$、**$b_{\rm cmp}\equiv t\ (10)$** | TB4-3 | **検査 4**(8 元悉皆) | **v2 新設・単系統・未監査** |
+| **(3.3)** | root-object ずれで $\varepsilon\equiv t_{20}^{-1}(20)$、**$b_{\rm cmp}\equiv\bar t_{10}\ (10)$** | TB4-3 | **検査 4**(8 元悉皆) | **便 49 F6.2 で PASS**($t_{20}$ を使えば正しい・型修理後) |
 | **型分離** | **$t_{2M}\in(\mathbb Z/2M)^\times$ と $\bar t_M$ の分離・(Z$_{2M}$-link)$\iff t_{2M}=1$・$\bar t_M=1$ は不十分** | — | **検査 5(c)(d)**(negative fixture $t_{20}=11$) | **v2.2**(便 49 F4.1 blocker を受諾) |
 | **TB4-D** | **辞書 $b_{\rm op}=b_{\rm cmp}\cdot\bar t_M^{-1}$** | **(D-i)(D-ii)(D-iii)**(§3.5.1・**「定義だけ」を撤回**) | **検査 5(a)**(64 対) | **便 49 F4.2 で PASS**(型修理後) |
 | **TB4-D′** | TB4-3 下で $b_{\rm cmp}\equiv\bar t_M$、**$b_{\rm op}\equiv1$(全 $t_{2M}$)** | TB4-D + TB4-3 | **検査 5(b)**(8 元悉皆) | **便 49 F4.2 で PASS** |

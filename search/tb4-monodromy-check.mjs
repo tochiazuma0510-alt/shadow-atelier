@@ -197,11 +197,26 @@ console.log('\n検査 5: TB4-b-dictionary/v1 invariant(便 49 F10.1・整数演�
     chk("(d′) 同 fixture で b_cmp = b_op = 1 かつ link = false(どちらの b でも link は戻らない)",
         bcmp === 1 && bop === 1 && link === false);
   }
-  // 同型 fixture NF-root-link/K3: level 12 の equality を level 6 の指数から復元しない(型警告)
+  // 核の完全一致検査(便 51 F4: ラベル過大の解消 — units を列挙して集合比較する)
+  const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+  const units = (n) => [...Array(n).keys()].filter((u) => gcd(u, n) === 1);
+  const kernelOf = (n2, n1) => units(n2).filter((u) => u % n1 === 1);   // ker((Z/n2)^× -> (Z/n1)^×)
+
+  // (e) NF-root-link/K3: level 12 の equality を level 6 の指数から復元しない(型警告)
   {
-    const M3 = 6, M3x2 = 12, t12 = 7;
-    chk('(e) NF-root-link/K3 = (M,t_12,t̄_6) = (6,7,1)・ker((Z/12)^×→(Z/6)^×)={1,7}',
-        t12 % M3 === 1 && t12 !== 1 && (M3x2 / M3) === 2);
+    const ker = kernelOf(12, 6);
+    chk('(e) ker((Z/12)^× → (Z/6)^×) = {1,7}(units 列挙による完全一致)',
+        JSON.stringify(ker) === JSON.stringify([1, 7]), `実測 ker = {${ker}}`);
+    const t12 = 7;
+    chk('(e′) NF-root-link/K3 = (M,t_12,t̄_6) = (6,7,1) かつ t_12 ∈ ker∖{1}',
+        t12 % 6 === 1 && t12 !== 1 && ker.includes(t12));
+  }
+  // (f) K5 側の核も同じ形式で検査(§3.5.1 の反例 t_20=11 の出所)
+  {
+    const ker = kernelOf(20, 10);
+    chk('(f) ker((Z/20)^× → (Z/10)^×) = {1,11}(units 列挙による完全一致)',
+        JSON.stringify(ker) === JSON.stringify([1, 11]), `実測 ker = {${ker}}`);
+    chk('(f′) 反例 t_20=11 はこの核の非自明元である', ker.includes(11) && 11 !== 1);
   }
 }
 
