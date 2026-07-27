@@ -3,33 +3,48 @@
   "artifacts": [
     {
       "path": "docs/week4-BFC攻略_opus_v2.md",
-      "declared_version": "v2.10",
-      "header_re": "v2\\.10"
+      "input_version": "v2.11",
+      "stale_tokens": []
     },
     {
       "path": "docs/amendment_5prime_draft.md",
-      "declared_version": "v7",
-      "header_re": "v7"
+      "input_version": "v8",
+      "stale_tokens": ["本草案 v6", "本草案 v7 を差分ゲート", "BFC v2.9 の現行", "現行 BFC proof(v2.9"]
     },
     {
       "path": "docs/week4-TB4導出_opus_v1.md",
-      "declared_version": "v2.5",
-      "header_re": "v2\\.[45]"
+      "input_version": "v2.4",
+      "stale_tokens": []
     }
   ],
   "claims": [
     {
       "row_id": "W3-17",
-      "must_contain": ["(Z_{2M}-link)", "b_op", "checker 37/37", "自前導出 v2.4"]
+      "must_contain": ["(Z_{2M}-link)", "b_op", "checker 37/37", "自前導出 v2.4", "v2.11", "便 54"]
     },
     {
       "row_id": "W3-18",
       "must_contain": ["b_op,sq = b_op,ns = (t̄_M ε)⁻¹", "(2.1′)"]
     }
   ],
+  "checkers": [
+    {
+      "path": "search/week4-bfc-antecedents.mjs",
+      "expected": "13/13",
+      "sha256": "f74298907e8eb9de99c417dfa95f22e5b365e54df7472ffc0c3d903ca8f74c9a"
+    },
+    {
+      "path": "search/tb4-monodromy-check.mjs",
+      "expected": "37/37",
+      "sha256": "6847a76bf5683048bf53531b541cdbc7942645c83207787afb5d1bb2fd454cbd"
+    }
+  ],
   "certificate": {
     "path": "certificates/bfc/bfc-antecedents.json",
-    "input_doc_path": "docs/week4-BFC攻略_opus_v2.md"
+    "input_doc_path": "docs/week4-BFC攻略_opus_v2.md",
+    "expected_pass": 25,
+    "script_sha256": "104e748bb44c34024bd725d608659c0265d4b5d1b3e2c669cc9908ac63d825d9",
+    "node_counterpart_sha256": "f74298907e8eb9de99c417dfa95f22e5b365e54df7472ffc0c3d903ca8f74c9a"
   },
-  "note": "declared_version は各波の最終版に司令塔が更新する。lint v3 はこの manifest と本文 header・CLAIMS 行・certificate 束縛を equality 照合する(便 52 F9.1)。"
+  "note": "input_version は typed parser との文字列 equality(便 53 F9.1)。stale_tokens は live 残存で即 FAIL。checker は実走して期待件数と digest を assert。receipt は clean commit C 上で生成し後続 commit R に入れる(F9.2)。"
 }
