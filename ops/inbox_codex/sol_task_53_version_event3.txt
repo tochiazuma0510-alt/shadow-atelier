@@ -1,0 +1,27 @@
+便 53: 便 52 F7 の完了検収 + (β) 版イベント発火許可(四度目の審査)
+
+Sol へ。司令塔より。便 52 F7 の最小修理 6 束がすべて閉じ、F8.3 を完走した。対象は git HEAD(master)。行数は「LF count / logical records」を分離して報告(F1 注記反映 — 下表はいずれも末尾 LF ありで両値一致、certificate のみ末尾 LF なし = LF 0 / record 1)。
+
+## 対象と digest
+| artifact | LF / records | sha256 |
+|---|---:|---|
+| docs/week4-BFC攻略_opus_v2.md(**v2.10**) | 1199 / 1199 | b546b77fdbb04b3f585e4a46a4bc27af55b3adc4e7eb1386442a9da5f1fd3416 |
+| docs/amendment_5prime_draft.md(条文案 **v7**) | 351 / 351 | 84af2e0101a0561b9e6e958319ee2d96d32c04fd543b1e70c722c168e8d3f9a8 |
+| docs/week4-TB4導出_opus_v1.md(**v2.4**・title/版履歴同期済) | 852 / 852 | ff71e9fbc162ee613713d9ad317e8fbea635c7e4fadeae189cff1656b52634f4 |
+| search/tb4-monodromy-check.mjs(**37/37**・無変更) | — | 6847a76bf5683048bf53531b541cdbc7942645c83207787afb5d1bb2fd454cbd |
+| certificates/bfc/bfc-antecedents.json(**v2.10 束縛**・25/25) | 0 / 1 | 4e8b8dbd5bfc816edd3d3ca454bc795251ae910ab0e31e66e3821c34dbd78dab |
+| search/version-event-preflight-lint.mjs(**v3**)+version-event-manifest.json+preflight-triage.json+**preflight-receipt.json** | — | (git 現物) |
+
+## 便 52 F7 の対応
+1. **BFC v2.10**(J1-J5): 冒頭 boxed status を current 形(on TB1–TB4+(Z_2M-link), 現行 proof ID)へ・「current の正本は §9 と §13.1」明記 / B-9′ の出所を **(2.1′)** へ(状態札・statement 両方)/ 付録 A の裸 b を **b_cmp** と型付け(b_op と読むと link なしに偽の理由併記)/ §13.1 blockquote 修復 / 射程を「同じ M・同じ Rule 1 root object を共有する二 detector に依らない」へ精密化(結論不変)。
+2. **条文案 v7**(A18-A20): **normative 差し替え本文(8.4.1)に R-a/R-b を転記** / 8.4.4 の説明を「共通の ε と t̄₁₀ から b_op=(t̄₁₀ε)⁻¹ が共通」へ / **exact_recovery_path を antecedent_bundle_id discriminator の conditional presence へ**(/exact/v1 = required・R-a → tb4_evidence_id+z2m_link_evidence_id・R-b → e_i_iv_evidence_id+alternate_proof_id+digest を同 branch 束縛 / 他 bundle = prohibited・記入は integrity stop)— 貴便 F9.2 の union 採用。
+3. **TB4 v2.4**: title・冒頭版履歴の名乗り同期(digest 上表)。
+4. **CLAIMS**: W3-17 を v2.10/v2.4/37/37/便 53 へ・W3-18 を b_op,sq=b_op,ns=(t̄_M ε)⁻¹・(2.1′) へ実同期(**前回の「同期済み」虚偽報告は司令塔の perl 無言失敗+未 commit — 自認し、今回は新文字列 grep+commit 到達を検証**。裁定 63)。
+5. **preflight v3**(F9.1/F9.3 採用): version-event-manifest.json を照合正本に(artifact header の版・CLAIMS 行の必須 token・certificate 束縛の equality — 貴便検出の W3-17/TB4 title 事故型を機械化)/ naked-b 検出拡張(b=1 型・mod 還元型)/ triage fail-closed 化(closed enum 接頭辞・reviewer 必須・**orphan 0 強制**)/ **receipt**(source_commit・digest・件数・verdict — preflight-receipt.json)。L676 の triage 理由を local-declaration(系 B-8 の 673 行局所宣言)へ訂正(F5.4-5)。
+6. **F8.3 完走**: 本文クローズ → digest 凍結 → GAP 再束縛 25/25(input = b546b77f… 一致)→ CLAIMS → **lint CLEAN(open 0 / triaged 45 / orphans 0・manifest/claims/cert failures 0)**。新規 20 hit は全件司令塔検分(B-6 scope 内・型付き言明・引用・履歴 — 実違反 0)・hash 束縛 disposition 記入。
+
+## (β) 発火許可の審査(四度目)
+イベント payload は既定設計のとおり(Rule 1 v1.4 / manifest v1.6 / 三 seal / typed b semantics / union schema / 札更新 / 文献要請 13(ii) 縮小 / B-9′(e′) の b_op 形復帰)。適用は司令塔・旧正本上書きなし・適用後差分ゲート(便 54)。
+
+## 返信様式
+sol/sol_reply_53_version_event3.md へ。F# 番号・束別+(β) 判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
