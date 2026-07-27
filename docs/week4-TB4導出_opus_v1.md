@@ -1,7 +1,8 @@
-# (TB4) の自前導出 — 枠組条件 $\varepsilon=1$ の解消 **v2(便 48 Part B 修理反映版)**
+# (TB4) の自前導出 — 枠組条件 $\varepsilon=1$ の解消 **v2.1(裁定 55「二つの $b$」追記版)**
 
-2026-07-27 起草(v1)・**2026-07-28 v2**: Claude(数学者レイヤー・Opus 5・**第二インスタンス**)。司令塔委嘱「(TB4) の自前導出」。研究者 GO 済み。
+2026-07-27 起草(v1)・2026-07-28 **v2**(便 48 Part B 修理)・2026-07-28 **v2.1**(裁定 55): Claude(数学者レイヤー・Opus 5・**第二インスタンス**)。司令塔委嘱「(TB4) の自前導出」。研究者 GO 済み。
 **v2 は `sol/sol_reply_48_tb4_v24.md` Part B(F4–F13)の監査を反映**(司令塔指示 1–8 / Sol F14 項 5–7+α)。**解析計算(補題 TB4-2)は開け直していない** — 便 48 F6 が「解析持ち上げは正しい」と判定した部分は不変である。
+**v2.1 は裁定 55**(§4.4 の波及指摘が B-6 所有者の検分で**確定**・BFC v2.6 で (TB2′)$=$(Z20-link) 前件化済)**の副産物「$b$ の定義差」を §3.5 に辞書として立てた**。
 
 **独立性の申告(v1 から不変)**: 本稿の起草者は $B_{\rm FC}$ 攻略 v2 の著者とは別インスタンスであり、その下書き・作業メモ・`docs/week4-BFC攻略_opus_v1.md` には一切接していない。**外部文献検索は一切行っていない。** `docs/文献ゲート_04_tangential_inertia.md`・`docs/scout/scout_20260727_tangential_inertia.md`・`docs/notes/覚書_ihara15代替.md` は、同主題と知りつつ**意図的に開いていない**。v2 で新たに読んだのは `sol/sol_reply_48_tb4_v24.md`(監査回答)のみ。
 
@@ -24,6 +25,15 @@
 | **V11** | §4.3 悉皆表 | $(\zeta_n)$ の使用箇所のみ | **「同じ字形の object identity」欄を追加**(v1 の悉皆表はこの型を持っていなかった) | 便 48 F8 |
 | **V12** | §8.7 新設 | — | **TB4 の成立を理由に amendment の二段コミット・$b_i$ 記録・I-n を削ってはならない**ことを明記 | 便 48 **F11** |
 | **V13** | §7 検算 | 15/15 | **25/25**(検査 4 = root-object countermodel の整数演算による独立再現・**$b\equiv t\ (10)$ の一般形**を新たに得た) | 本便 |
+
+### v2 → v2.1 差分(裁定 55)
+
+| # | 箇所 | v2 | v2.1 | 出所 |
+|---|---|---|---|---|
+| **V14** | **§3.5 新設**・§3.4・§5.1・§6・§8.6・付録 A | $b$ を単一の記号で扱っていた | **二つの $b$ を別記号に分離**: $b_{\rm cmp}:=\varepsilon^{-1}$(BFC (2.1) 側・$x$ と $\sigma_\zeta^{\rm TB2}$ の比較)と $b_{\rm op}$(BFC (8.1) 側・$m$ と $\tau$ の捻れ)。関係 **$b_{\rm op}=b_{\rm cmp}\cdot t^{-1}\ (\mathrm{mod}\ M)$** を私の規約で再導出(検査 5(a): $\varepsilon$ 任意の 64 対) | 裁定 55(**発見 = $B_{\rm FC}$ 著者**) |
+| **V15** | §3.5.2(新設)・§5.1・§6 | (7.1) の測定値 $\hat b_i$ がどちらかを論じていなかった | **判定: $\hat b_i=b_{\rm op}$(断定)。** 導出は §3.5.2。**副次の帰結として $b_{\rm op}=1$ は (Z20-link) を要さない**((TB2) の根系が (7.1) にも (8.1) にも現れないため) | 裁定 55 依頼 2 |
+| **V16** | §3.5.3・対話帳 T-13 | T-12 で「(7.1) は (Z20-link) の代替にならない/理由 = $t\equiv11$ で $b=1$」と書いた | **理由づけの誤りを自認・訂正。** 正しくは **$\hat b_i=b_{\rm op}=1$ が全 $t$ で成立**するので、(7.1) は root ずれを**構造的に一切検出できない**。**結論は不変(むしろ強まる)が、根拠が違う**(検査 5(c)) | 本便・自己訂正 |
+| **V17** | §7 検算 | 25/25 | **29/29**(検査 5 = 二つの $b$ の辞書・4 項目) | 本便 |
 
 > **v2 でも不変(便 48 が PASS と判定した部分)**: **補題 TB4-1**(後合成の計算)・**補題 TB4-2 の解析持ち上げ**($w_j(t)=\bar\iota(\zeta_n)^j\delta^{1/n}e^{2\pi it/n}$ の一意性と終点)・**補題 TB4-0**(標識の平行移動は巡回 torsor の作用を変えない)・**比較式 (\*)**・**$\varepsilon=\chi_{\rm cyc}(\vartheta)$ の一般式**・**(Z-norm) 追加下の TB4-B**・**§6 の符号敏感性**・**★教材 T1/T2**(便 48 F12 が両方採用)。修理は**前件の型付け・定理の分割・条文の精密化**であり、解析計算は 1 ミリも動かない。
 
@@ -229,13 +239,95 @@ $$ \zeta_n^{\rm TB2}\ :=\ \bigl(\zeta_n^{\rm can}\bigr)^{t},\qquad \zeta_n^{\rm 
 - **現行文面をすべて満たす**: (TB2) は「整合系を固定する」としか言わず、(1.6) は体生成元の像しか言わない ✓
 
 このとき $\eta_n=\zeta_n^{\rm can}=(\zeta_n^{\rm TB2})^{t^{-1}}$ なので ($*$) は $\zeta_n^{\,\varepsilon}=\zeta_n^{\,t^{-1}}$、すなわち
-$$ \boxed{\ \varepsilon\equiv t^{-1}\ (\mathrm{mod}\ 20),\qquad b\ =\ \varepsilon^{-1}\bmod10\ \equiv\ t\ \ (\mathrm{mod}\ 10).\ } \tag{3.3} $$
+$$ \boxed{\ \varepsilon\equiv t^{-1}\ (\mathrm{mod}\ 20),\qquad b_{\rm cmp}\ :=\ \varepsilon^{-1}\bmod10\ \equiv\ t\ \ (\mathrm{mod}\ 10).\ } \tag{3.3} $$
 
-**$t\equiv3\ (20)$ なら $\varepsilon\equiv7$、$b=3$** — **便 48 の値と完全一致**(検査 4 で $(\mathbb Z/20)^\times$ の 8 元すべてを整数演算で再現)。
+**$t\equiv3\ (20)$ なら $\varepsilon\equiv7$、$b_{\rm cmp}=3$** — **便 48 の値と完全一致**(検査 4 で $(\mathbb Z/20)^\times$ の 8 元すべてを整数演算で再現)。
 
-> **★【v2 で得た一般形 (3.3)】観測される捻れ $b$ は、root-object のずれ $t$ そのもの($\bmod\ 10$)である。** v1 が持っていなかった知見で、二つの帰結をもつ:
-> 1. **反転経路は $\pm1$ ではない** — $t$ は $(\mathbb Z/20)^\times$ 全体(8 通り)を走り、$b$ は $(\mathbb Z/10)^\times$ 全体(4 通り)を取る(§6 経路 8)。
-> 2. **$t\equiv11\ (20)$ は $b=1$ を与える**(検査 4)。すなわち **root-object がずれていても単一の $M=10$ では検出できない場合がある** — BFC (2.2)「単一の $M$ で $b=1$ を観測しても exact (TB4) は戻らない」の**具体的 witness** である。
+> **★【v2 で得た一般形 (3.3)・v2.1 で記号を $b_{\rm cmp}$ に確定】BFC (2.1) の帳簿量 $b_{\rm cmp}$ は、root-object のずれ $t$ そのもの($\bmod\ 10$)である。**
+> **⚠【v2.1】これは (8.1) の捻れ指数 $b_{\rm op}$ とは別物である** — §3.5 で辞書を立てる。**反転経路が $\pm1$ でなく $(\mathbb Z/20)^\times$ 全体を生む**という §6 経路 8 の主張は $b_{\rm cmp}$ についてのものであり、$b_{\rm op}$ については**逆に何も動かない**(§3.5.2)。
+
+---
+
+## 3.5 【v2.1・V14 新設】二つの $b$ の辞書(裁定 55)
+
+> **発端**: $B_{\rm FC}$ 著者(B-6 所有者)の検分の副産物。**countermodel の下で、私の (3.3) の $b$ と BFC (8.1) の捻れ指数が別物になる。** (Z20-link) の下では $t=1$ で両者は一致するので現行本文に矛盾はないが、**$t\ne1$ を許すと分岐する。**
+
+### 3.5.1 定義と関係式
+
+記号: $M\mid20$、$\zeta_M^{\rm Rule1}$ は Rule 1 (1.7) の体生成元の冪、$\zeta_M^{\rm TB2}$ は (TB2) の根系の $M$ 項、$t\in(\mathbb Z/M)^\times$ を $\zeta_M^{\rm TB2}=(\zeta_M^{\rm Rule1})^{t}$ で定める((Z20-link) $\iff t=1$)。
+
+> **定義(二つの $b$).**
+> $$ \textbf{(比較側)}\quad b_{\rm cmp}\ :=\ \varepsilon^{-1}\bmod M \qquad\bigl(\varepsilon:\ x=\iota(\sigma_\zeta^{\,\varepsilon}),\ \sigma_\zeta\ \text{は}\ \zeta^{\rm TB2}\ \text{で定義}\bigr)\qquad\text{— BFC (2.1)} $$
+> $$ \textbf{(作用側)}\quad c_\Lambda\circ m(\xi)\circ c_\Lambda^{-1}\ =\ \tau\bigl(\xi^{\,b_{\rm op}}\bigr)\quad(\forall\xi\in\mu_M)\qquad\text{— BFC (8.1)/(8.2)} $$
+> **型の違い**: $b_{\rm cmp}$ は「**$\pi_1$ の生成元 $x$ と (TB2) の根系が定める $\sigma_\zeta$ のずれ**」を測る。$b_{\rm op}$ は「**Kummer torsor の乗法 $m$ と、$\Lambda$ 上の共役作用 $\tau$(Rule 1 (1.8) で $\zeta_M^{\rm Rule1}\mapsto X$)のずれ**」を測る。$m$ は根系に依らず、$\tau$ は **Rule 1 側**に固定されている。
+
+> ### 命題 TB4-D(辞書)
+> $$ \boxed{\ b_{\rm op}\ =\ b_{\rm cmp}\cdot t^{-1}\ =\ (t\,\varepsilon)^{-1}\qquad(\mathrm{mod}\ M)\ } \tag{3.4} $$
+> **これは定義だけから従い、$\varepsilon$ の値(したがって TB4-3)を仮定しない。**
+
+**証明(私の規約で再導出).** BFC 補題 B-6$^{\rm tw}$ の第 1・2 段を、二つの $\zeta_M$ を分離して書き直す。
+1. (2.1) より $x$ の $\mathrm{Fib}$ 上の作用は $m\bigl((\zeta_M^{\rm TB2})^{\varepsilon}\bigr)=m\bigl((\zeta_M^{\rm Rule1})^{t\varepsilon}\bigr)$。
+2. 系 B-4c $+$ Rule 1 (1.8) より $c_\Lambda\circ(x\text{ の作用})\circ c_\Lambda^{-1}=\tau(X)=\tau\bigl(\zeta_M^{\rm Rule1}\bigr)$。
+3. ゆえに $c_\Lambda\, m\bigl((\zeta_M^{\rm Rule1})^{t\varepsilon}\bigr)\,c_\Lambda^{-1}=\tau\bigl(\zeta_M^{\rm Rule1}\bigr)$。$\xi=(\zeta_M^{\rm Rule1})^{k}$ と置き $k=t\varepsilon j$ とすると
+$$ c_\Lambda\,m(\xi)\,c_\Lambda^{-1}=\tau\bigl((\zeta_M^{\rm Rule1})^{j}\bigr)=\tau\bigl(\xi^{(t\varepsilon)^{-1}}\bigr). $$
+よって $b_{\rm op}=(t\varepsilon)^{-1}=b_{\rm cmp}\,t^{-1}$。∎(**検査 5(a)**: $\varepsilon,t$ を $(\mathbb Z/20)^\times$ 全体に走らせた **64 対**で確認)
+
+> **系 TB4-D′.** TB4-3 の $\varepsilon\equiv t^{-1}\ (M)$ を代入すると $t\varepsilon\equiv1$、ゆえに
+> $$ \boxed{\ b_{\rm cmp}\equiv t,\qquad b_{\rm op}\equiv1\quad(\mathrm{mod}\ M)\ \ \text{— $b_{\rm op}$ は $t$ に依らない.}\ } \tag{3.5} $$
+> **(検査 5(b): 8 元悉皆で確認。$B_{\rm FC}$ 著者の整数演算と一致。)**
+
+### 3.5.2 **$b_{\rm op}=1$ は (Z20-link) を要さない**(v2.1 の主たる新結果)
+
+$t$ を経由せずに直接示せる。**この一段が「二つの $b$ を分ける」ことの実質的な価値である。**
+
+> **命題 TB4-E.** **前件: 定理 TB4-3 の前件(A1–A3, C1, C5, C6, chosen $\bar\iota$)$+$ $\bar\iota|_K=\iota_\infty$(A12)$+$ Rule 1 (1.6)(1.7)(A6)$+$ Rule 1 (1.8)。$M\mid20$ とする。**
+> $$ \boxed{\ b_{\rm op}\ =\ 1 . } $$
+> **(Z20-link) も (TB2) の根系も前件に現れない。**
+
+**証明.** 補題 TB4-2 より $x$ の作用は $m(\eta_M)$、$\eta_M=\bar\iota^{-1}(e^{2\pi i/M})$。A12 $+$ A6 より $\bar\iota(\zeta_M^{\rm Rule1})=\iota_\infty(\zeta_{20}^{\rm Rule1})^{20/M}=e^{2\pi i/M}$、ゆえに $\eta_M=\zeta_M^{\rm Rule1}$。他方 系 B-4c $+$ (1.8) より $c_\Lambda(x\text{ の作用})c_\Lambda^{-1}=\tau(\zeta_M^{\rm Rule1})$。よって
+$$ c_\Lambda\,m\bigl(\zeta_M^{\rm Rule1}\bigr)\,c_\Lambda^{-1}\ =\ \tau\bigl(\zeta_M^{\rm Rule1}\bigr), $$
+生成元で一致するから全 $\mu_M$ で $b_{\rm op}=1$。∎
+
+> **★ なぜ根系が消えるか**: **(8.1) の両辺はどちらも「Rule 1 側 $+$ 幾何側」の量である** — $m$ は $\mu_M\subset K$ の乗法(根系の名前を使わない)、$\tau$ は (1.8) で $\zeta_M^{\rm Rule1}$ に固定、$x$ の作用は (1.6) の埋め込みと反時計回りで固定。**(TB2) の根系はこの等式のどこにも現れない。** 根系が現れるのは $\sigma_\zeta$ を経由する $b_{\rm cmp}$ のほうだけである。
+>
+> **⇒ 帰結(BFC 側へ)**: **BFC 補題 B-6 の結論 (8.1) 自体は (Z20-link) なしで成立する**(上の別証)。**(Z20-link)$=$(TB2′) が要るのは、BFC が (8.1) を $\sigma_\zeta$ 経由で証明する経路と、(2.1) の帳簿等式 $b=\varepsilon^{-1}$ のほうである。** BFC v2.6 の (TB2′) 前件化は正しい(**現行の証明経路には必要**)が、**結論の射程はそれより広い**ことを記録しておく。§8.8-7 で Sol に突合を依頼する。
+
+### 3.5.3 Rule 1 (7.1) の測定値 $\hat b_i$ はどちらか(裁定 55 依頼 2)
+
+> ### 判定: $\ \boxed{\hat b_i\ =\ b_{\rm op}}\ $ — **断定できる**($B_{\rm FC}$ 著者の見立てを支持)。
+
+**導出.** Rule 1 (7.1) は $c_i\,\ell_i\,c_i^{-1}=\tau_i\bigl(\zeta_{10}^{\,\hat b_i}\bigr)$ である。三つの記号の型を一つずつ辿る。
+
+1. **$c_i$** = §4.3 の一意な intertwiner $\mathrm{Fib}_{\vec{01}}(W_0^{(i)})\xrightarrow{\sim}\Lambda_i$ $=$ 系 B-4c の $c_\Lambda$。**同じ対象。**
+2. **$\zeta_{10}$**(右辺)= Rule 1 (1.7) $\zeta_{10}:=\zeta_{20}^2$、すなわち **$\zeta_{10}^{\rm Rule1}$**(体生成元の冪)。**(TB2) の根系ではない。**
+3. **$\ell_i$** = 「$P_0$ における惰性群($\cong\mu_{10}$・全分岐)の生成元で、**(1.6) の埋め込みの下で $\lambda$ の周りを反時計回りに一周する $\gamma_0$ に対応するもの**」。
+ - **★教材 T5 の自己適用**: ここの「$\gamma_0$」が Rule 1 §1.1 の $\gamma_0$ と**同じ object か**を確かめる。§1.1 の $\gamma_0$ は「$U$($\beta$-線)の $0$ を反時計回りに一周する $\vec{01}$ 基点の単純ループ」、§7.1 の $\gamma_0$ は「$\lambda$ の周りを反時計回りに一周する $\gamma_0$」。**$\lambda$ は $U$ 上の座標 $\beta$ を値に取る Belyi 写像**なので、$\lambda=0$ のまわりのループ $=$ $\beta$-線の $0$ のまわりのループ。**同一文書・同一記号・同一定義で、実際に同じ object である。** ✓(今回は一致したが、確認を省かない。)
+ - ゆえに $\ell_i$ $=$ $x=[\gamma_0]$ の $\mathrm{Fib}$ 上の作用 $\overset{\text{補題 TB4-2}}{=}m(\eta_{10})$。
+
+これを (7.1) に入れ、命題 TB4-E の途中式 $\eta_{10}=\zeta_{10}^{\rm Rule1}$ を使うと
+$$ c_\Lambda\,m\bigl(\zeta_{10}^{\rm Rule1}\bigr)\,c_\Lambda^{-1}\ =\ \tau_i\bigl((\zeta_{10}^{\rm Rule1})^{\hat b_i}\bigr). $$
+$b_{\rm op}$ の定義式を $\xi=\zeta_{10}^{\rm Rule1}$ で読むと左辺 $=\tau_i\bigl((\zeta_{10}^{\rm Rule1})^{b_{\rm op}}\bigr)$。$\tau_i$ は単射(Rule 1 §7.1)だから $\hat b_i=b_{\rm op}$。∎
+
+> **★ 構造的な理由(一行)**: **(7.1) は「(1.6) で固定した幾何」と「(1.8) で固定した $\tau$」を突き合わせるだけで、(TB2) の根系に一度も触れない。** だから測るのは $b_{\rm op}$ であって $b_{\rm cmp}$ ではない。
+
+> ### ⚠【v2.1・V16】T-12 の先出し 1 の**理由づけ**を自己訂正する
+> 対話帳 T-12 で私は「**(7.1) の $b_i$ 測定は (Z20-link) の代替にならない**」と書き、その根拠に「$t\equiv11\ (20)$ なら $b=1$ なので検出できない場合がある」を挙げた。**根拠が誤っていた**(その $b$ は $b_{\rm cmp}$ であって測定値ではない)。**正しくは、命題 TB4-E と (3.5) により**
+> $$ \boxed{\ \hat b_i\ =\ b_{\rm op}\ =\ 1\quad\text{が}\ \textbf{すべての}\ t\ \text{で成り立つ}\ } $$
+> **したがって (7.1) は root-object ずれ $t$ を「ある $t$ で検出できない」のではなく、構造的に一切検出できない**(検査 5(c))。**結論(測定は (Z20-link) の代替にならない)は不変で、むしろ強まる。自認。** 訂正は対話帳 T-13 で Sol に送る。
+
+### 3.5.4 検出能力の対照表(amendment `b_value_i` の意味論へ)
+
+$\hat b_i=b_{\rm op}$ が**何を検出し何を検出しないか**を、§6 の反転経路ごとに書く($M=10$)。
+
+| §6 の経路 | $b_{\rm cmp}$ | $\hat b_i=b_{\rm op}$ | 測定で検出できるか |
+|---|---|---|---|
+| 1 (C1) / 2 (C2) / 6 (C3) / 7 (A3) の反転 | $9$ | $9$ | **検出できる** |
+| 3 (C5) 時計回り | $9$ | $9$ | **検出できる** |
+| 4 (C4) $\iota_\infty$ 反転 | $9$ | $9$ | **検出できる**(検査 5(d)) |
+| **8 root-object ずれ $t$** | $t\bmod10$ | **$1$(全 $t$)** | **検出できない** |
+| 5 (C7) $n\nmid20$ の根 | $1$ | $1$ | $M\mid20$ では該当しない |
+
+> **⇒ 運用への含意**: **amendment の `b_value_i` は $b_{\rm op}$ を記録する量である。** それは向き・埋め込み・比較の事故を検出するが、**root-object の同一視((Z20-link))は検出しない**。**したがって (Z20-link) は §8.1(iii) の seal として独立に凍結するほかない** — 測定で代替できない。**$b_{\rm cmp}$ を記録したいなら、根系 ID を含む別欄が要る**(§8.6)。**この意味論の確定は Sol 便 49 の裁定事項**であり、本節は判定材料の提供である。
 
 ---
 
@@ -291,9 +383,13 @@ BFC (2.2)「単一の $M$ で $b=1$ を観測しても exact (TB4) は戻らな�
 
 補題 B-6 の証明第 1 段「$x\cdot p=m(\zeta_M)p$」に対し、本稿の補題 TB4-2 は **exact (TB4) を経ずに直接** $x\cdot p=m(\eta_M)p$ を与える。定理 TB4-A20 により、**(Z20-link) の下で** $M\mid20$ なら $\eta_M=\zeta_M$ である。
 
-$$ \boxed{\ \text{(Z20-link)}+\text{A1--A3}+\text{(C1)(C5)(C6)}+\text{chosen }\bar\iota\ \Longrightarrow\ M\mid20\ \text{の窓で補題 B-6 の (8.1) と }b=1 . } $$
+$$ \boxed{\ \text{(Z20-link)}+\text{A1--A3}+\text{(C1)(C5)(C6)}+\text{chosen }\bar\iota\ \Longrightarrow\ M\mid20\ \text{の窓で }\varepsilon\equiv1\ (M)\ \text{と }b_{\rm cmp}=1 . } $$
 
 $K^{(5)}$ は $M=10\mid20$ なので該当する。**v1 は前件から (Z20-link) と A3 を落としていた。自認。**
+
+> **【v2.1・V15 で射程を精密化】上の $b$ は $b_{\rm cmp}$ である。** **補題 B-6 の結論 (8.1) そのもの($=b_{\rm op}=1$)は、(Z20-link) なしで成立する**(命題 TB4-E)。整理すると:
+> $$ \begin{array}{lll} \textbf{(8.1)}\ (b_{\rm op}=1) & \Longleftarrow & \text{A1--A3}+\text{(C1)(C5)(C6)}+\text{A12}+\text{A6}+\text{Rule 1 (1.8)}\quad(\textbf{(Z20-link) 不要})\\ \textbf{(2.1) の帳簿等式}\ (b_{\rm cmp}=1) & \Longleftarrow & \text{上}+\textbf{(Z20-link)}\\ \textbf{exact }\varepsilon=1 & \Longleftarrow & \text{上}+\textbf{(Z-norm)} \end{array} $$
+> **⇒ 橋の式 (9.1) が要求するのは第 1 行だけ**なので、**$K^{(5)}$ の運用は (Z20-link) が凍結される前でも (8.1) の水準では立つ**。ただし BFC の**現行の証明経路**は $\sigma_\zeta$ を経由するので (TB2′)$=$(Z20-link) を要する — **BFC v2.6 の前件化は現行証明に対して正しい**(§3.5.2 末)。
 
 ### 5.2 それでも Rule 1 §7 の測定規律は緩めない
 
@@ -322,9 +418,11 @@ $K^{(3)}$ 回帰は $M=6$、$K=\mathbb Q(\zeta_{12})$、$6\nmid20$、$\zeta_6\no
 | 5 | **(C7)** を $\zeta_n\ne e^{2\pi i/n}$($n\nmid20$)と取る | $\varepsilon\ne1$ だが $\varepsilon\equiv1\ (20)$ は不変、**$b=1$ は不変** | **UNKNOWN**。(Z-norm)(ii) で閉じる |
 | **6** | **【v2 追加】(C3) の反転** — 後合成左作用を**前合成・右作用**として読む | $\iota$ が反準同型になり $\varepsilon=-1$、$b=9$ | **排除済**((TB4$^{\rm u}$) が明記)。**だが反転表に載せるべきだった**(便 48 F9) |
 | **7** | **【v2 追加】A3 の反転** — 位相 forward transport を代数作用の**逆**へ送る比較 | $\varepsilon=-1$、$b=9$ | **UNKNOWN(framework seal)**。正典に条項なし ⇒ §8.2 の seal + 文献要請 13(ii)(縮小版)で押さえる |
-| **8** | **【v2 追加】root-object ずれ** — $\zeta_{20}^{\rm TB2}=(\zeta_{20}^{\rm Rule1})^t$、$t\in(\mathbb Z/20)^\times$ **任意** | $\varepsilon\equiv t^{-1}\ (20)$、**$b\equiv t\ (\mathrm{mod}\ 10)$** — $b$ は $\{1,3,7,9\}$ **全体**を取る。$t\equiv3$ で $b=3$ | **UNKNOWN $\to$ (Z20-link) で閉じる**。**便 48 の具体的 countermodel**(§3.4・検査 4) |
+| **8** | **【v2 追加】root-object ずれ** — $\zeta_{20}^{\rm TB2}=(\zeta_{20}^{\rm Rule1})^t$、$t\in(\mathbb Z/20)^\times$ **任意** | $\varepsilon\equiv t^{-1}\ (20)$、**$b_{\rm cmp}\equiv t\ (\mathrm{mod}\ 10)$** — $b_{\rm cmp}$ は $\{1,3,7,9\}$ **全体**を取る。$t\equiv3$ で $b_{\rm cmp}=3$。**【v2.1】ただし $b_{\rm op}=\hat b_i=1$(全 $t$)** | **UNKNOWN $\to$ (Z20-link) で閉じる**。**便 48 の具体的 countermodel**(§3.4・検査 4)。**測定 (7.1) では検出不能**(§3.5.4) |
 
 > **★ 符号の敏感性は本物である。** 8 経路のうち **1–4, 6 は凍結文で排除済、5, 7, 8 は未凍結**である。**したがって v1 の「$\varepsilon=-1$ の枝は工房規約では立たない」は経路 1–4, 6 についてのみ正しく、経路 7, 8 については立ちうる。自認。** §7 の検査 3(時計回り)と検査 4(root-object)は 2 種の敏感性を機械で再現している。
+>
+> **★【v2.1・V15】どの経路が測定 (7.1) に映るか**: 経路 **1–4, 6, 7 は $\hat b_i=9$ として映る**が、**経路 8(root-object)は $\hat b_i=1$ のまま映らない**(§3.5.4 の対照表・検査 5(c)(d))。**すなわち 8 経路のうち 1 つだけが測定の盲点であり、それが (Z20-link) を seal として独立に凍結しなければならない理由である。**
 
 ---
 
@@ -332,14 +430,15 @@ $K^{(3)}$ 回帰は $M=6$、$K=\mathbb Q(\zeta_{12})$、$6\nmid20$、$\zeta_6\no
 
 **本稿の証明は閉形式であり、機械計算に依存しない。** 以下は取り違え検出のための補助検査である。
 
-`scratchpad/tb4-monodromy-check.mjs`(node・**リポジトリ外**・**25/25 PASS**):
+`scratchpad/tb4-monodromy-check.mjs`(node・**リポジトリ外**・**29/29 PASS**):
 
 | 検査 | 内容 | 型 | 検証対象 |
 |---|---|---|---|
 | **1** | $w^n=\beta$ の反時計回り解析接続(離散連続分枝追跡・4000 ステップ)。$n=2,3,5,6,10,12,20$ で置換 $j\mapsto j+1$ | 浮動小数点 | 補題 TB4-2 の独立再現(閉形式の持ち上げを使わない) |
 | **2** | 局所 Kummer $\lambda=u\,s^M(1+c_1s+c_2s^2)$ の正規化 uniformizer $\tilde s=s\,h(s)^{1/M}$ が反時計回りで**厳密に $\zeta_M$ 倍**($M=5,6,10$・機械精度 $\sim10^{-16}$)。生の $s$ は $O(|s|)$ ずれる | 浮動小数点 | BFC 補題 B-5(iii) $+$ B-6 第 1 段の幾何側からの確認 |
 | **3** | 時計回りで標識が $0\mapsto n-1$($n=5,10,20$) | 浮動小数点 | §6 経路 1–3, 6 の符号敏感性 |
-| **4** | **【v2 追加】root-object ずれ $t\in(\mathbb Z/20)^\times$ の 8 元すべてで $\varepsilon\equiv t^{-1}\ (20)$・$b\equiv t\ (10)$。$t=3\Rightarrow\varepsilon\equiv7,\ b=3$。$t=11\Rightarrow b=1$** | **整数演算のみ** | **便 48 F7.2 countermodel の独立再現**(§3.4)$+$ 一般形 (3.3) の発見 |
+| **4** | **【v2 追加】root-object ずれ $t\in(\mathbb Z/20)^\times$ の 8 元すべてで $\varepsilon\equiv t^{-1}\ (20)$・$b_{\rm cmp}\equiv t\ (10)$。$t=3\Rightarrow\varepsilon\equiv7,\ b_{\rm cmp}=3$** | **整数演算のみ** | **便 48 F7.2 countermodel の独立再現**(§3.4)$+$ 一般形 (3.3) の発見 |
+| **5** | **【v2.1 追加・4 項目】(a) 定義的関係 $b_{\rm op}=b_{\rm cmp}\cdot t^{-1}$ を **$\varepsilon,t$ 任意の 64 対**で検査(TB4-3 を仮定しない)/ (b) TB4-3 下で $b_{\rm cmp}\equiv t$ かつ **$b_{\rm op}\equiv1$(全 $t$)**(8 元悉皆・$B_{\rm FC}$ 著者の値と一致)/ (c) **$b_{\rm op}$ は $t$ に依らない ⇒ (7.1) は root ずれを検出できない** / (d) 対照: $\iota_\infty$ 反転は $b_{\rm op}=9$ として**検出される** | **整数演算のみ** | **命題 TB4-D / D′ / E**(§3.5)・**§3.5.4 の検出能力対照表** |
 
 **入力**: すべて一般の玩具データ($u,c_i$ は任意の小整数)と整数。**$K^{(5)}$ の個別モデル候補・係数・数値近似・database・$\lambda$・$u$・$c$ には一切接触していない。** 探索コマンドは実行していない。上記以外の機械計算は行っていない。
 
@@ -415,9 +514,16 @@ TB4-comparison-seal/v1
   path_transport = forward                     # (C2)
   algebraic_action = postcomposition_left      # (C3)
   top_etale_comparison_orientation_certificate # A3
+  # ---- v2.1・V14 で追加(裁定 55 依頼 3)----
+  b_semantics = "op" | "cmp"                   # どちらの b を記録する欄か(必須・既定値禁止)
+  b_op_value                                   # (8.1) 側。Rule 1 (7.1) の測定値 b̂_i はこちら(§3.5.3)
+  b_cmp_value                                  # (2.1) 側。root_system_id を伴わなければ意味を持たない
+  b_dictionary = "b_op = b_cmp * t^{-1} mod M" # 命題 TB4-D
 ```
 
 **Rule 1・$B_{\rm FC}$・結果 record の三者がこの seal の digest を参照する設計**とする。**同じ root name を人間が再解釈する余地を物理的に消せる** — 本稿の blocker B1 はまさにその再解釈で生じた。
+
+> **【v2.1・V14】$b$ 欄を二本に割る理由**: **$b_{\rm op}$ と $b_{\rm cmp}$ は $t\ne1$ で別の値になる**(命題 TB4-D)。**単一の `b_value_i` 欄しか持たないと、どちらを記録したのかが seal から読めない。** とくに **$b_{\rm cmp}$ は `root_system_id` を伴わなければ定義すらできない**(($\zeta^{\rm TB2}$) がなければ $\varepsilon$ が定まらない)ので、欄の型として `root_system_id` への依存を明示すること。**`b_semantics` に既定値を置くことを禁止する**(未指定なら fail-closed) — Rule 1 v1.3 §F2 で「三値 enumeration の既定値 fallback で live な枝が黙って消えた」のと同じ事故型である。
 
 ### 8.7 【v2・V12】amendment を削ってはならない(便 48 F11)
 
@@ -434,6 +540,8 @@ $$ \boxed{\ \textbf{定理があることは、実装がその定理の規約を
 3. **§4.4 の $B_{\rm FC}$ 側への波及の見立て**(補題 B-6 の証明が (Z20-link) を暗黙に使っているという読み)が正しいか。**もし正しければ $B_{\rm FC}$ v2 の前件欄も 1 行増える。**
 4. §6 の反転表 — **8 経路でまだ不足がないか**(v1 は「全部」と言って外した)。
 5. §8.1 の seal を **(iii) だけ先に凍結する**運用(finite だけ先行)に危険がないか。
+6. **【v2.1】§3.5.3 の判定 $\hat b_i=b_{\rm op}$** — 私は断定したが、依拠したのは (a) $c_i=c_\Lambda$(Rule 1 §4.3 $=$ 系 B-4c)、(b) (7.1) 右辺の $\zeta_{10}$ が (1.7) の**体生成元**であること、(c) $\ell_i$ が §1.1 の $\gamma_0$ のモノドロミーであること、の 3 点である。**(c) は「同一文書内で同じ記号 $\gamma_0$」という読みを含む**ので、★教材 T5 に照らして第三者確認を求めたい(私は $\lambda$ の値域が $\beta$-線であることから同一と判断した)。**amendment の `b_value_i` の意味論に直結する**(裁定 55・便 49 の裁定事項)。
+7. **【v2.1】命題 TB4-E**($b_{\rm op}=1$ が (Z20-link) を要さないこと)— **もし正しければ、BFC v2.6 の (TB2′) 前件化は「現行証明経路には必要だが結論の射程はより広い」**という位置づけになる。**BFC の前件欄を弱めるべきだとは主張しない**(現行の証明は $\sigma_\zeta$ を経由する)が、**射程の記録**は残す価値があると考える。誤読なら早く潰したい。
 
 ---
 
@@ -471,6 +579,7 @@ $$ \boxed{\ \textbf{定理があることは、実装がその定理の規約を
 > ### ★教材 T5(**v2 新設**・便 48 の追加教材 1): **同じ glyph は同じ object ではない**
 > 別文書の $\zeta_{20}$ を使って剰余結論($\varepsilon\equiv1\ (20)$)を出すなら、**equality を前件に置く**。「同じ記号を使っている」は型付けではない。
 > **⇒ 検出法**: 結論に $\bmod\ N$ が出たら、「$N$ を決めている object は、$\varepsilon$ を定義している object と**同一であることが証明書つきで言えるか**」を必ず問う。
+> **⇒【v2.1 追記】同じ検出法を「同名の量」にも適用せよ**: T5 の初出は object($\zeta_{20}$)についてだったが、**裁定 55 が示したのは「同名の**量**」でも同じ事故が起きる**ことである — $b$ という 1 文字が、**$b_{\rm cmp}$(根系との比較)と $b_{\rm op}$($m$ と $\tau$ の捻れ)という別の量**を指していた。(Z20-link) の下では一致するので、**正しい規約のもとでは永久に見えない**。**⇒ 量にも型を付け、seal に `b_semantics` のような判別欄を必須(既定値禁止)で持たせる**(§8.6)。**「一致している間は区別が要らない」は、規約が壊れた瞬間に最も高くつく。**
 
 > ### ★教材 T6(**v2 新設**・便 48 の追加教材 2): **左作用式は forward transport を定義しない**
 > 次の 4 つを分けて記録すること。v1 の補題 TB4-C は 1 と 3 を融合していた。
@@ -499,5 +608,10 @@ $$ \boxed{\ \textbf{定理があることは、実装がその定理の規約を
 | **TB4-3** | 比較式 ($*$): $\zeta_n^{\,\varepsilon}=\eta_n$、$\varepsilon=\chi_{\rm cyc}(\vartheta)$ | A1–A3, C1, C5, C6, A12 | — | 便 48 **framework-conditional PASS** |
 | **TB4-A20** | **$\varepsilon\equiv1\ (20)$**、$M\mid20$ で $b=1$ | TB4-3 $+$ **A10 (Z20-link)** $+$ A6, A7 | 検査 1・4 | **v2 新設・未監査** |
 | **TB4-B** | **$\varepsilon=1$**($=$ exact (TB4)) | TB4-3 $+$ **A11 (Z-norm)** | — | 便 48 **条件付き PASS** |
-| **(3.3)** | root-object ずれ $t$ で $\varepsilon\equiv t^{-1}(20)$、**$b\equiv t\ (10)$** | TB4-3 | **検査 4**(8 元悉皆) | **v2 新設・単系統・未監査** |
+| **(3.3)** | root-object ずれ $t$ で $\varepsilon\equiv t^{-1}(20)$、**$b_{\rm cmp}\equiv t\ (10)$** | TB4-3 | **検査 4**(8 元悉皆) | **v2 新設・単系統・未監査** |
+| **TB4-D** | **辞書 $b_{\rm op}=b_{\rm cmp}\cdot t^{-1}$**(定義のみ・$\varepsilon$ 任意) | (2.1), (8.1), 系 B-4c, Rule 1 (1.8) | **検査 5(a)**(64 対) | **v2.1 新設・未監査**($B_{\rm FC}$ 著者の発見を私の規約で再導出) |
+| **TB4-D′** | TB4-3 下で $b_{\rm cmp}\equiv t$、**$b_{\rm op}\equiv1$(全 $t$)** | TB4-D + TB4-3 | **検査 5(b)**(8 元悉皆) | **v2.1 新設・未監査**($B_{\rm FC}$ 著者の整数演算と一致) |
+| **TB4-E** | **$b_{\rm op}=1$ は (Z20-link) を要さない** | TB4-3 の前件 + A12 + A6 + Rule 1 (1.8) | 検査 5(b)(c) | **v2.1 新設・単系統・未監査**(§8.8-7) |
+| **判定** | **$\hat b_i$(Rule 1 (7.1) の測定値)$=b_{\rm op}$** | §3.5.3 の (a)(b)(c) | 検査 5(c)(d) | **v2.1 断定・未監査**(§8.8-6・便 49 裁定事項) |
 | ~~TB4-A(a)~~ | ~~既存三文書だけで $\varepsilon\equiv1\ (20)$~~ | — | — | **v2 で撤回(便 48 F7.2 blocker B1)** |
+| ~~T-12 先出し 1 の理由~~ | ~~$t\equiv11$ で $b=1$ ゆえ (7.1) は代替にならない~~ | — | — | **v2.1 で理由を訂正**(正しくは $\hat b_i=1$ が全 $t$ — 結論は不変・§3.5.3) |

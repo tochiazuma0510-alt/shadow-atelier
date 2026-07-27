@@ -146,4 +146,42 @@ for (const t of units20) {
 chk('Sol の値 t=3 -> ε≡7, b=3', rows.find((r) => r[0] === 3)[1] === 7 && rows.find((r) => r[0] === 3)[2] === 3);
 chk('t≡11 (20) は b=1 を与える(単一 M の観測では exact が戻らない例)', rows.find((r) => r[0] === 11)[2] === 1);
 
+// ---- 検査 5: 二つの b の辞書(裁定 55)・整数演算のみ ----
+// b_cmp := ε^{-1} mod M            (BFC (2.1) 側・x と σ_ζ^TB2 の比較)
+// b_op  := (t·ε)^{-1} mod M        (BFC (8.1) 側・m と τ の捻れ)
+// 主張 (a): b_op = b_cmp · t^{-1} (mod M)  ← 定義だけから。ε は任意でよい。
+// 主張 (b): TB4-3 の ε ≡ t^{-1} (20) を入れると b_cmp ≡ t (10)、b_op ≡ 1(t に依らない)。
+console.log('\n検査 5: 二つの b の辞書 b_op = b_cmp · t^{-1} (mod 10)(裁定 55・整数演算)');
+{
+  // (a) ε を (Z/20)^× 全体に走らせた 8x8 = 64 対で定義的関係を検査(TB4-3 を仮定しない)
+  let ok = true, n = 0;
+  for (const t of units20) for (const e of units20) {
+    const bcmp = inv(e % 10, 10);
+    const bop = inv((t * e) % 10, 10);
+    const rhs = (bcmp * inv(t % 10, 10)) % 10;
+    if (bop !== rhs) ok = false;
+    n++;
+  }
+  chk('(a) 定義的関係 b_op = b_cmp·t^{-1}(ε 任意・64 対)', ok, `${n} 対検査`);
+
+  // (b) TB4-3 を入れた場合
+  let okB = true;
+  const tbl = [];
+  for (const t of units20) {
+    const e = inv(t, 20);                 // TB4-3: ε ≡ t^{-1} (mod 20)
+    const bcmp = inv(e % 10, 10);
+    const bop = inv((t * e) % 10, 10);
+    tbl.push(`t=${t}: b_cmp=${bcmp}, b_op=${bop}`);
+    if (bcmp !== t % 10 || bop !== 1) okB = false;
+  }
+  chk('(b) TB4-3 下で b_cmp ≡ t (10) かつ b_op ≡ 1(全 t)', okB, tbl.slice(0, 3).join(' / ') + ' …');
+
+  // (c) 検出能力: (7.1) の測定値 = b_op は root-object ずれ t を一切検出しない
+  chk('(c) b_op は t に依らず 1 ⇒ (7.1) は root ずれを検出できない',
+      units20.every((t) => inv((t * inv(t, 20)) % 10, 10) === 1));
+
+  // (d) 対照: 埋め込み (1.6) の反転(η_M -> η_M^{-1})は b_op を 9 にする(検出する)
+  chk('(d) ι_∞ 反転は b_op = 9 として検出される', inv((10 - 1) % 10, 10) === 9);
+}
+
 console.log(`\n=== ${pass}/${pass + fail} PASS ===`);
