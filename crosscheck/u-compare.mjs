@@ -41,6 +41,7 @@
 
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 
 function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
 function parseRat(s) {
@@ -224,7 +225,11 @@ export function compareMain(A, B, bundle, meta = {}) {
   }
 }
 
-// --- CLI wrapper: 直接実行された場合のみ発火(import 時は発火しない) ---
+// --- CLI wrapper: 直接実行された場合のみ発火(import 時は発火しない)。
+// 裁定40/便39 F1.3 修理: u-compare-ninf.mjs と同じ修理 -- direct-run 判定と
+// runCli() 本体の例外捕捉を分離し、予期しない例外は stderr へ
+// INTEGRITY_STOP メッセージを出して非零 exit する(無出力・exit 0 の
+// fail-open を禁止)。 ---
 function runCli() {
   const [pathAFile, pathBFile, bundleFile] = process.argv.slice(2);
   if (!pathAFile || !pathBFile || !bundleFile) {
@@ -239,7 +244,14 @@ function runCli() {
   console.log(JSON.stringify(report, null, 2));
   if (report.result !== 'ACCEPT') process.exit(1);
 }
-try {
-  const { pathToFileURL } = await import('node:url');
-  if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) runCli();
-} catch { /* not run as CLI (e.g. bundler edge cases) -- ignore */ }
+function runCliGuarded() {
+  try {
+    runCli();
+  } catch (e) {
+    process.stderr.write(`INTEGRITY_STOP: unhandled exception in u-compare.mjs CLI wrapper -- ${e && e.stack ? e.stack : e}\n`);
+    process.exit(1);
+  }
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  runCliGuarded();
+}

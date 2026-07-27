@@ -5,10 +5,6 @@
   "bundleFile": "certificates/k5pipeline/prod-ninf-M10-bundle.json",
   "idA": "prod-ninf-M10",
   "idB": "prod-ninf-M10",
-  "recomputed_N_lambda_coeffs_ascending": [
-    "1"
-  ],
-  "chat": "1",
   "recomputed_model_digest_pathA": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",
   "recomputed_model_digest_pathB": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",
   "model_digest": "a8e58ee991e93895383e8bbf346565620b3e3406f3f38e518b9d7bb3d026ffe3",

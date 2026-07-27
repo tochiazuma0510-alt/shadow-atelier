@@ -253,7 +253,9 @@ export function extractPathB(model) {
 // = A^2 - B^2 f (多項式のみ) が定数 chat=1 であることを直接検算し、
 // u^{(B)} = chat / (2 a_M) (a_M := [x^M] A) を計算する。
 //
-// schema v2(便 36 F3.2 (3) の修理): 三値 branch label(model.branch は必ず
+// schema v3(便 36 F3.2 (3) の修理・裁定40/便39 F2 で v2→v3 へ破壊的
+// version bump -- 必須 field P0_type/a_M/b_Mm3 を持たない旧 v2 raw は
+// retracted/ へ退避): 三値 branch label(model.branch は必ず
 // "N_infty")・model.M(旧 model.n を置換)・model_digest・
 // expected_model_digest を持つ。x0, y0 は存在しない(§6.3-6)。同じライブラリ
 // コードを M=3 の unit test(crosscheck/u-extract-pathB-ninf-toy-driver.mjs)
@@ -390,7 +392,7 @@ export function extractPathB_Ninf(model) {
   }
 
   return {
-    schema: 'u-pathB-ninf/v2',
+    schema: 'u-pathB-ninf/v3',
     id: model.id,
     branch: 'N_infty',
     P0_type: 'nonWeierstrass',

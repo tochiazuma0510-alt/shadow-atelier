@@ -207,35 +207,35 @@ a49252af8a09031137ee2a5621b7a1eb9c2a6506849afad14dfe74a38a876716
 
 ## 6. 版表(§8.6 下準備・便 32 P4)
 
-manifest 本文 §8.6/§10 が要求する「実装版・commit・checker ID」欄への値の下準備。
+manifest 本文 §8.6/§10 が要求する「実装版・checker ID」欄への値の下準備。
 
-**同期注記(2026-07-27・裁定39/便38 F5.2 対応・実装担当)**: 本節は便 32 起草
-時点の「本便では git commit を行っていない」という記述のまま複数便にわたり
-更新されず、便38 F5.1 で指摘された自己言及 seal の不同期の一因になっていた。
-実際の commit 履歴は次のとおりである: `search/k5-fixture-serialize.mjs` は
-commit `fefaaece2bac8b1f3e1ed52bf2f04af75a051a4e` の時点で commit 済み(便36で
-自己申告訂正済み・下表 1 行目)。P6 の u 二経路パイプライン一式は commit
-`514ebab11317809d0a7081c3e810bcf81adcaf63` で一度 commit された後、便37/裁定38
-対応(R-7/R-8/covariance envelope 修理)で working tree が変化し、司令塔が
-content commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`(+ status commit
-`e4b623947e5b230f2e962b4da13030f37deb14e2`)として commit した。**その後
-裁定39/便38 F2(R-8 schema gate の fail-closed 化)対応で
-`crosscheck/u-compare.mjs`・`crosscheck/u-compare-ninf.mjs`・
-`crosscheck/check-r5-r8-ninf-fail-closed.mjs`・`crosscheck/check-r7-bundle-attack.mjs`
-の 4 ファイルのみ working tree が commit `16b18a7` から再び変化しており、
-これらは実際に現時点で未コミットである**(実装担当は git commit しない
-規律のため)。したがって「未コミット」は本節時点では虚偽ではないが、この
-4 ファイル以外(下表・P6 行の library/driver/checker 一式のうち本便で
-変更していないもの)については commit `16b18a7` が現状であり、「未コミット」
-という一般化した記述は誤りである。詳細な blob hash・commit ID は
-`docs/week4-K5_Rule1_impl_versions.md` §9.6/§9.7(本便で更新)を正本とする
-(本節はそれを重複転記しない)。司令塔が P7 相当の便で最終確定値に更新する
-こと。
+**commit 状態の正本宣言(裁定40/便39 F3・恒久設計・2026-07-27)**: 本節は便 32
+起草時点の「本便では git commit を行っていない」という記述のまま複数便に
+わたり更新されず、便38 F5.1・便39 F2 が指摘した自己言及 seal の不同期
+(文書更新 → commit → 記載が陳腐化)を繰り返し起こしてきた。この欠陥類
+そのものを絶つため、**本節はもはや commit 済み/未コミットの別を主張しない**。
+**commit 状態の正本は git であり(`git log -1 --format=%H -- <path>`・
+`git status`・`git diff` で読むこと)、本節が記録するのは blob hash
+(`git hash-object <path>`)のみである。** 詳細な blob hash は
+`docs/week4-K5_Rule1_impl_versions.md` §9.6/§9.7(随時更新)を正本とし、
+本節はそれを重複転記しない。過去便の commit ID 言及は「記録した時点
+(記録当時)の観測」という履歴注記としてのみ読むこと。
 
-| component | 役割 | 直前 commit(便 32 時点) | 備考 |
+**履歴(以下は記録当時の観測であり現在の commit 状態を主張しない)**:
+`search/k5-fixture-serialize.mjs` は記録当時 commit
+`fefaaece2bac8b1f3e1ed52bf2f04af75a051a4e` の内容として確認された(便36)。
+P6 の u 二経路パイプライン一式は記録当時 commit
+`514ebab11317809d0a7081c3e810bcf81adcaf63` の内容として一度確認され、便37/
+裁定38 対応(R-7/R-8/covariance envelope 修理)後は記録当時 commit
+`16b18a7dc05fe94ec3b48967f1adad5a8a35013c` の内容として再確認された。
+裁定39/便38 F2 対応・裁定40/便39 F1.2/F1.3/F2 対応でさらに working tree が
+複数回変化している(個々の blob hash は
+`docs/week4-K5_Rule1_impl_versions.md` §9.6/§9.7/§9.8 参照)。
+
+| component | 役割 | blob hash(`git hash-object`・記録当時の値) | 備考 |
 |---|---|---|---|
-| `search/k5-fixture-serialize.mjs` | fixture 実体化・canonical serialization 生成器(PART 1/2/2c/3) | `fefaaece2bac8b1f3e1ed52bf2f04af75a051a4e`(commit ID・`git log -1 --format=%H` 実測、便 36 で確認・working tree はこの commit と同一 — `git status`/`git diff` とも差分なし) | **コミット済**(便 36 で自己申告を訂正。blob hash は `41f3d9c86fdd7d3b99c4a75bc81c10dea78656af`) |
+| `search/k5-fixture-serialize.mjs` | fixture 実体化・canonical serialization 生成器(PART 1/2/2c/3) | `41f3d9c86fdd7d3b99c4a75bc81c10dea78656af`(便 36 実測・本便で無変更) | 詳細は上記「履歴」参照 |
 | `search/k5-blocks-check.g` | K5-sq/K5-ns の GAP 側ブロック系検算(34/34) | `3eb0a70a48be9b897db08cb5a08ad907a3b03ae4` | 本便で無変更 |
 | `crosscheck/check-k5-blocks.mjs` | 同上の node 独立照合器(36/36・突合 13/13) | `3eb0a70a48be9b897db08cb5a08ad907a3b03ae4` | 本便で無変更 |
 | `search/week4-k3-v2-repairs.mjs` | K3 側 $\rho_0$/$\mathfrak F_0$ の独立検算(43/43・PART 2c の突合先) | `174dd5a967b6db1d496fc1fe79f7406143769183` | 本便で無変更(本便で再実行し 43/43 PASS を再確認) |
-| P6 $u$ 二経路・exact Kummer 判定パイプライン(library+driver+checker 一式) | 経路 A/B・第三 checker・Kummer 判定器・第三 covariance の library/driver/checker 一式 | (下記参照) | 詳細版表は `docs/week4-K5_Rule1_impl_versions.md`(v2・随時更新・§9.6/§9.7 が最新)を正本とする(本表はそれを重複転記せず参照するのみ)。**status(2026-07-27 裁定39/便38 F5.2 対応で再訂正)**: この一式は commit `514ebab11317809d0a7081c3e810bcf81adcaf63` で一度 commit → 便37/裁定38 対応(R-7/R-8/covariance envelope 修理)後、司令塔が content commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`(+ status commit `e4b623947e5b230f2e962b4da13030f37deb14e2`)として commit 済み。**その後、裁定39/便38 F2(R-8 schema gate の fail-closed 化)対応で `crosscheck/u-compare.mjs`・`crosscheck/u-compare-ninf.mjs`・`crosscheck/check-r5-r8-ninf-fail-closed.mjs`・`crosscheck/check-r7-bundle-attack.mjs` の 4 ファイルのみ working tree が commit `16b18a7` から再び変化しており、現時点(2026-07-27)ではこの 4 ファイルが未コミットである**(実装担当は git commit しない規律のため)。それ以外の library/driver/checker(`search/u-extract-pathA.g`・`crosscheck/u-extract-pathB-lib.mjs` を含む)は commit `16b18a7` の内容のまま無変更。commit ID の最終確定・再 hash は司令塔の作業(Rule 1 R-1/R-2)。blob hash(`git hash-object`)は commit の有無によらず不変 — 現物は `docs/week4-K5_Rule1_impl_versions.md` §9.6/§9.7 参照。
+| P6 $u$ 二経路・exact Kummer 判定パイプライン(library+driver+checker 一式) | 経路 A/B・第三 checker・Kummer 判定器・第三 covariance の library/driver/checker 一式 | (下記参照) | 詳細版表は `docs/week4-K5_Rule1_impl_versions.md`(v2・随時更新・§9.6/§9.7/§9.8 が最新)を正本とする(本表はそれを重複転記せず参照するのみ)。blob hash は commit の有無によらず不変 — 現物は同文書参照。commit 状態そのものは常に git を参照すること(本節・本表は主張しない)。 |

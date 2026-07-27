@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // crosscheck/u-extract-pathB-ninf-toy-driver.mjs -- R-5 ライブラリ unit test(M=3, synthetic)
 // 委嘱: 便 36(裁定_36_ben35 起草・裁定_37_ben36 で production 化を要求・便 36 F3.2)。
-// crosscheck/u-extract-pathB-lib.mjs の extractPathB_Ninf(schema v2)を、
+// crosscheck/u-extract-pathB-lib.mjs の extractPathB_Ninf(schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump))を、
 // search/u-extract-pathA-ninf-toy-driver.g と同一の玩具モデルで叩く(二経路
 // 比較のため意図的に同じ数値を使うが、計算方式・実装は完全に独立: 級数を
 // 一切使わない多項式演算のみ)。
 //
 // *** 位置づけ(便 36 F3.2 の裁定を反映・重要) ***
 // 本ファイルは **R-5 の production 較正ではない**。extractPathB_Ninf ライブラリ
-// 関数(schema v2 の配線・(N∞-1)-(N∞-4) の fail-closed 検査・gcd(f,f')=1・
+// 関数(schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump) の配線・(N∞-1)-(N∞-4) の fail-closed 検査・gcd(f,f')=1・
 // model digest 束縛)の unit test である。R-5 の production 較正(M=10)は
 // crosscheck/u-extract-pathB-ninf-production-driver.mjs が別途行う。
 //
@@ -45,7 +45,7 @@ const raw = {
 const model = loadModelNinf(raw);
 const report = extractPathB_Ninf(model);
 
-console.log('=== u-extract-pathB-ninf unit test (M=3, synthetic, schema v2) ===');
+console.log('=== u-extract-pathB-ninf unit test (M=3, synthetic, schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump)) ===');
 console.log(JSON.stringify(report, null, 2));
 
 writeFileSync(join(ROOT, 'certificates', 'k5pipeline', 'toy-ninf-M3-pathB.json'), JSON.stringify(report, null, 2) + '\n');

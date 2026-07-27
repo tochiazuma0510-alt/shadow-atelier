@@ -56,6 +56,7 @@
 
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 
 function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
 function parseRat(s) {
@@ -74,6 +75,29 @@ function ratListEq(as, bs) {
   for (let i = 0; i < as.length; i++) if (!ratEq(parseRat(as[i]), parseRat(bs[i]))) return false;
   return true;
 }
+const RAT_ONE = { n: 1n, d: 1n };
+const RAT_ZERO = { n: 0n, d: 1n };
+
+// --- 裁定40/便39 F1.2: この checker 自身による厳密有理数多項式演算
+// (independent of crosscheck/u-extract-pathB-lib.mjs / search/u-extract-pathA.g --
+// 係数配列は raw の echo フィールドから読むのみで、両実装の polyMul/polySub
+// 関数そのものは import しない)。A^2-B^2*f を再計算し、chat の自己申告
+// boolean flag だけに頼らず、厳密に定数 1 であることを直接検算する。 ---
+function ratMul2(a, b) { const n = a.n * b.n, d = a.d * b.d; const g = gcdBig(n, d) || 1n; return { n: n / g, d: d / g }; }
+function ratSub2(a, b) { const n = a.n * b.d - b.n * a.d, d = a.d * b.d; const g = gcdBig(n, d) || 1n; return { n: n / g, d: d / g }; }
+function ratAdd2(a, b) { const n = a.n * b.d + b.n * a.d, d = a.d * b.d; const g = gcdBig(n, d) || 1n; return { n: n / g, d: d / g }; }
+function polyTrimRat(cs) { const r = cs.slice(); while (r.length > 1 && r[r.length - 1].n === 0n) r.pop(); return r; }
+function polyMulRat(a, b) {
+  const r = Array.from({ length: a.length + b.length - 1 }, () => RAT_ZERO);
+  for (let i = 0; i < a.length; i++) for (let j = 0; j < b.length; j++) r[i + j] = ratAdd2(r[i + j], ratMul2(a[i], b[j]));
+  return polyTrimRat(r);
+}
+function polySubRat(a, b) {
+  const n = Math.max(a.length, b.length);
+  const r = [];
+  for (let i = 0; i < n; i++) r.push(ratSub2(a[i] ?? RAT_ZERO, b[i] ?? RAT_ZERO));
+  return polyTrimRat(r);
+}
 // この checker 自身による canonical digest 再構成(GAP/node どちらの実装
 // コードも import せず、raw JSON の echo フィールドから独立に組み立てる)。
 function recomputeCanonicalModelStringNinf(raw) {
@@ -86,8 +110,11 @@ function recomputeModelDigestNinf(raw) {
   return createHash('sha256').update(recomputeCanonicalModelStringNinf(raw), 'utf8').digest('hex');
 }
 
-// --- 便 38 F2/裁定 39 blocker 1: 方向付き exact equality(集合所属ではない) ---
-const EXPECTED_NINF_SCHEMA = { pathA: 'u-pathA-ninf/v2', pathB: 'u-pathB-ninf/v2' };
+// --- 便 38 F2/裁定 39 blocker 1: 方向付き exact equality(集合所属ではない)。
+// 裁定40/便39 F2: v2 raw は P0_type/a_M/b_Mm3 を欠いていたため、同じ schema
+// 名の下で受理言語を破壊的に変更するのではなく v3 へ version bump した
+// (旧 v2 raw/compare は certificates/k5pipeline/retracted/ へ理由付きで退避)。 ---
+const EXPECTED_NINF_SCHEMA = { pathA: 'u-pathA-ninf/v3', pathB: 'u-pathB-ninf/v3' };
 
 class IntegrityStopSignal { constructor(report) { this.report = report; } }
 
@@ -155,6 +182,47 @@ export function compareNinf(A, B, bundle, meta = {}) {
     if (B.N_lambda_is_nonzero_constant !== true) stop('pathB.N_lambda_is_nonzero_constant is not true (N∞-3)');
     if (A.chat_equals_1 !== true) stop('pathA.chat_equals_1 is not true (N∞-4)');
     if (B.chat_equals_1 !== true) stop('pathB.chat_equals_1 is not true (N∞-4)');
+
+    // --- 裁定40/便39 F1.2: chat の実値検査(自己申告 boolean flag だけに
+    // 依存しない)。旧版は chat_equals_1===true という自己申告を信じるのみで、
+    // raw.chat 自体の値・pathA/pathB 相互一致・pathB.N_lambda_coeffs_ascending
+    // の値を一度も検査していなかった(Sol 便39 F1.2 の矛盾 raw 攻撃: chat="2"
+    // かつ N_lambda=["2"] にしても chat_equals_1=true を保てば旧版は ACCEPT
+    // した)。本版は次の三点を独立に exact rational として検査する: ---
+    if (A.chat === undefined || A.chat === null) stop('(裁定40 F1.2) pathA.chat is missing (required field)');
+    if (B.chat === undefined || B.chat === null) stop('(裁定40 F1.2) pathB.chat is missing (required field)');
+    const chatA = parseRat(A.chat);
+    const chatB = parseRat(B.chat);
+    if (!ratEq(chatA, RAT_ONE)) stop(`(裁定40 F1.2) pathA.chat='${A.chat}' is not exactly the rational 1 (N∞-4 requires chat=1, not just the self-reported chat_equals_1 flag)`);
+    if (!ratEq(chatB, RAT_ONE)) stop(`(裁定40 F1.2) pathB.chat='${B.chat}' is not exactly the rational 1 (N∞-4 requires chat=1, not just the self-reported chat_equals_1 flag)`);
+    if (!ratEq(chatA, chatB)) stop(`(裁定40 F1.2) pathA.chat='${A.chat}' and pathB.chat='${B.chat}' disagree (mutual exact-value check)`);
+
+    // 2. pathB.N_lambda_coeffs_ascending は宣言済みの定数多項式であり、
+    //    厳密に [1] (trailing zeros を除いて長さ 1・値 1) と一致すること。
+    if (!Array.isArray(B.N_lambda_coeffs_ascending) || B.N_lambda_coeffs_ascending.length === 0) {
+      stop('(裁定40 F1.2) pathB.N_lambda_coeffs_ascending is missing or empty (required field)');
+    }
+    const nLambdaDeclared = polyTrimRat(B.N_lambda_coeffs_ascending.map(parseRat));
+    if (nLambdaDeclared.length !== 1 || !ratEq(nLambdaDeclared[0], RAT_ONE)) {
+      stop(`(裁定40 F1.2) pathB.N_lambda_coeffs_ascending does not equal the constant polynomial [1]: [${B.N_lambda_coeffs_ascending.join(',')}]`);
+    }
+
+    // 3. checker 自身が A_coeffs_ascending/B_coeffs_ascending/f_coeffs_ascending
+    //    から A^2-B^2*f を独立に再計算し、厳密に定数多項式 1 であることを
+    //    確認する(自己申告の chat 値・N_lambda_coeffs_ascending 値を一切
+    //    信頼せず、model field として既に検査済みの A/B/f のみから導出する)。
+    const AcoeffsRat = A.A_coeffs_ascending.map(parseRat);
+    const BcoeffsRat = A.B_coeffs_ascending.map(parseRat); // A/B間で既に等しいと fieldChecks で確認済み
+    const fcoeffsRat = A.f_coeffs_ascending.map(parseRat);
+    const A2rat = polyMulRat(AcoeffsRat, AcoeffsRat);
+    const B2rat = polyMulRat(BcoeffsRat, BcoeffsRat);
+    const B2frat = polyMulRat(B2rat, fcoeffsRat);
+    const NlambdaRecomputed = polySubRat(A2rat, B2frat);
+    report.recomputed_N_lambda_coeffs_ascending = NlambdaRecomputed.map(ratStr);
+    if (NlambdaRecomputed.length !== 1 || !ratEq(NlambdaRecomputed[0], RAT_ONE)) {
+      stop(`(裁定40 F1.2) checker が A_coeffs_ascending/B_coeffs_ascending/f_coeffs_ascending から独立に再計算した A^2-B^2*f が定数 1 ではない: [${NlambdaRecomputed.map(ratStr).join(',')}] (declared chat=${A.chat}/${B.chat} does not match the independently recomputed value)`);
+    }
+    report.chat = ratStr(chatA);
 
     // --- 裁定39 F2(必須 field a_M/b_Mm3/chat): 存在必須化 + 係数列から
     // 独立に再抽出した値との一致(自己申告 boolean flag だけに依存しない)。
@@ -236,7 +304,14 @@ export function compareNinf(A, B, bundle, meta = {}) {
   }
 }
 
-// --- CLI wrapper: 直接実行された場合のみ発火(import 時は発火しない) ---
+// --- CLI wrapper: 直接実行された場合のみ発火(import 時は発火しない)。
+// 裁定40/便39 F1.3 修理: 旧版は「direct-run 判定」と「runCli() 本体の
+// JSON.parse/BigInt/I-O/型例外」を同じ最外 catch で握り潰し、非 JSON 入力を
+// 与えても無出力・exit 0 になっていた(Sol 便39 実測)。本版は
+// runCliGuarded() 内の try/catch を runCli() 本体の例外だけに限定し、
+// 予期しない例外は stderr に INTEGRITY_STOP メッセージを出して非零 exit
+// する(direct-run 判定自体は try で囲まない -- pathToFileURL/import.meta.url
+// の比較は通常例外を投げない静的 import なので、握りつぶす catch は不要)。 ---
 function runCli() {
   const [pathAFile, pathBFile, bundleFile] = process.argv.slice(2);
   if (!pathAFile || !pathBFile || !bundleFile) {
@@ -251,7 +326,14 @@ function runCli() {
   console.log(JSON.stringify(report, null, 2));
   if (report.result !== 'ACCEPT') process.exit(1);
 }
-try {
-  const { pathToFileURL } = await import('node:url');
-  if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) runCli();
-} catch { /* not run as CLI -- ignore */ }
+function runCliGuarded() {
+  try {
+    runCli();
+  } catch (e) {
+    process.stderr.write(`INTEGRITY_STOP: unhandled exception in u-compare-ninf.mjs CLI wrapper -- ${e && e.stack ? e.stack : e}\n`);
+    process.exit(1);
+  }
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  runCliGuarded();
+}

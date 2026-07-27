@@ -2,12 +2,12 @@
 # search/u-extract-pathA-ninf-toy-driver.g -- R-5 ライブラリ unit test(M=3, synthetic)
 # 委嘱: 便 36(裁定_36_ben35 起草・裁定_37_ben36 で production 化を要求・便 36 F3.2)。
 # docs/week4-K5_Rule1_v1.md v1.2 S6.1(b)/補題 R1-B∞ の実装(search/u-extract-
-# pathA.g の ExtractPathA_Ninf, schema v2)を、Rule 1 S0.4-3 の精神に沿う
+# pathA.g の ExtractPathA_Ninf, schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump))を、Rule 1 S0.4-3 の精神に沿う
 # M=3 の小さい合成 fixture で叩く unit test。
 #
 # *** 位置づけ(便 36 F3.2 の裁定を反映・重要) ***
 # 本ファイルは **R-5 の production 較正ではない**。ExtractPathA_Ninf ライブラリ
-# 関数(schema v2 の配線・(N∞-1)-(N∞-4) の fail-closed 検査・gcd(f,f')=1・
+# 関数(schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump) の配線・(N∞-1)-(N∞-4) の fail-closed 検査・gcd(f,f')=1・
 # 必要級数長・model digest 束縛)が「M=3 という小さい入力でも production と
 # 同じコードパスで正しく動く」ことを確認する library unit test である。
 # R-5 の production 較正(M=10・(N∞-1)-(N∞-4) 完走・Sol 提供 exact synthetic
@@ -22,7 +22,7 @@
 #
 # *** 便 36 F3.2 の修理注記 ***
 # 旧版(便 36 起草時点)の玩具は f6 の定数項を -1 とし chat=2 だった。
-# schema v2 の ExtractPathA_Ninf は (N∞-4)(chat=1)を fail-closed に要求する
+# schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump) の ExtractPathA_Ninf は (N∞-4)(chat=1)を fail-closed に要求する
 # ため、chat=2 の入力はもはやこの共有ライブラリを正常に通らない(意図的:
 # chat=1 は補題 R1-N∞-S による K5 campaign 固有の定理であり、production
 # schema はこれを常時検査する)。以下は定数項を 0 に変えただけ(それ以外の
@@ -67,7 +67,7 @@ model := rec(
 
 report := ExtractPathA_Ninf(model);;
 
-Print("=== u-extract-pathA-ninf unit test (M=3, synthetic, schema v2) ===\n");
+Print("=== u-extract-pathA-ninf unit test (M=3, synthetic, schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump)) ===\n");
 Print("id = ", report.id, "\n");
 Print("branch = ", report.branch, "\n");
 Print("M = ", report.M, "\n");

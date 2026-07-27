@@ -97,6 +97,40 @@ kappa_w(gamma) = gamma(w^{1/M}) / w^{1/M}     (gamma in G_K)
 を変えないことの検査」を実行し得ない(Sol 便 35 F3 全文)。
 
 **帰結**: この二証明書は「要求された較正ではない」ものとして撤回する。
+
+---
+
+## toy-ninf-M3-pathA.v2.json / toy-ninf-M3-pathB.v2.json / prod-ninf-M10-pathA.v2.json / prod-ninf-M10-pathB.v2.json / toy-ninf-M3-u-compare.v2-input.json / prod-ninf-M10-u-compare.v2-input.json
+
+**撤回日**: 便 39 検収対応(裁定 40・実装担当・2026-07-27)。
+
+**撤回理由**(Sol 便39 F2 = `sol/sol_reply_39_freeze1r8.md` F2/F4 の指摘、裁定
+40 で批准): 旧 `u-pathA-ninf/v2` raw には `P0_type`・`a_M`・`b_Mm3` field が
+無く、旧 `u-pathB-ninf/v2` raw にも `P0_type`・`b_Mm3` field が無かった。
+`crosscheck/u-compare-ninf.mjs` の裁定39対応版は同じ `/v2` 文字列の下で
+これらを必須化して旧 v2 raw を拒否するようになっており、これは「検査を
+厳しくしただけ」ではなく**同じ schema 名が指す受理言語を破壊的に変更して
+いた**(Sol の指摘)。「既存 digest を保つため v2 を据え置く」という理由は
+成立しない(`recomputeCanonicalModelStringNinf()` は schema/`P0_type`/
+`a_M`/`b_Mm3` を digest payload に含めないため、version bump しても
+canonical model string・model_digest・frozen bundle digest はいずれも
+不変)。
+
+**帰結**: `search/u-extract-pathA.g`(`ExtractPathA_Ninf`)・
+`crosscheck/u-extract-pathB-lib.mjs`(`extractPathB_Ninf`)の raw schema を
+`u-pathA-ninf/v2`→`u-pathA-ninf/v3`・`u-pathB-ninf/v2`→`u-pathB-ninf/v3` へ
+version bump し、`crosscheck/u-compare-ninf.mjs` の `EXPECTED_NINF_SCHEMA`
+も v3 へ揃えた。旧 v2 raw(このディレクトリの 4 ファイル)と、それを入力に
+生成されていた旧 compare 証明書(2 ファイル・`-u-compare.v2-input.json` の
+接尾辞で退避 -- 中身は `u-compare-ninf/v3`(checker 自身の report schema)
+のまま変わらないため、旧 v2 raw を入力にした版であることを接尾辞で明示)を
+このディレクトリへ退避する。現行 driver(GAP 4 本・node 4 本)を v3 raw で
+再実行し、`certificates/k5pipeline/{toy-ninf-M3,prod-ninf-M10}-{pathA,pathB,
+u-compare}.json` を v3 として再発行した(数値 -- `f`/`A`/`B` 係数・
+`u_pathA_ninf`/`u_pathB_ninf`・`model_digest` -- はいずれも無変更。
+canonical string に schema field を含まないため digest は不変)。
+
+**裁定根拠**: `sol/sol_reply_39_freeze1r8.md` F2/F4・`sol/裁定_40_ben39.md`。
 後継は `search/kummer-cov3-actual.g` /
 `crosscheck/check-kummer-cov3-actual.mjs` が生成する
 `certificates/k5pipeline/K3-regression-kummer-cov3-actual.{gap,node}.json`

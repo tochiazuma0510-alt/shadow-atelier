@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // crosscheck/u-extract-pathB-ninf-production-driver.mjs -- R-5 production 較正(M=10, synthetic)
 // 委嘱: 便 36 F3.2/F6-1(裁定_37_ben36 の最小条件 1)。Sol 提供の exact synthetic
-// fixture で extractPathB_Ninf(crosscheck/u-extract-pathB-lib.mjs・schema v2)
+// fixture で extractPathB_Ninf(crosscheck/u-extract-pathB-lib.mjs・schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump))
 // を production-degree で叩く。search/u-extract-pathA-ninf-production-
 // driver.g とは独立実装(級数を一切使わない多項式演算のみ・BigInt 有理数
 // クラスも別実装)。
@@ -78,7 +78,7 @@ const raw = {
 const model = loadModelNinf(raw);
 const report = extractPathB_Ninf(model);
 
-console.log('\n=== u-extract-pathB-ninf PRODUCTION calibration (M=10, synthetic, schema v2) ===');
+console.log('\n=== u-extract-pathB-ninf PRODUCTION calibration (M=10, synthetic, schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump)) ===');
 console.log(JSON.stringify(report, null, 2));
 
 writeFileSync(join(ROOT, 'certificates', 'k5pipeline', 'prod-ninf-M10-pathB.json'), JSON.stringify(report, null, 2) + '\n');

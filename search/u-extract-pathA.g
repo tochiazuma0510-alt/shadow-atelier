@@ -339,7 +339,9 @@ end;;
 # dessin がまだ無い)。単体試験(M=3)と production 較正(M=10・chat=1・
 # (N∞-1)-(N∞-4) 完走)の位置づけの違いは呼び出し側 driver のコメントで区別する。
 #
-# schema v2(便 36 F3.2 (3) の修理): 三値 branch label(model.branch は必ず
+# schema v3(便 36 F3.2 (3) の修理・裁定40/便39 F2 で v2→v3 へ破壊的 version
+# bump -- 必須 field P0Type/aM/bMm3 を欠く旧 v2 raw は retracted/ へ退避):
+# 三値 branch label(model.branch は必ず
 # "N_infty" 文字列)・model.M(旧 model.n を置換 -- Rule 1 の M と揃える)・
 # model_digest・expected_model_digest を持つ。x0, y0 は存在しない(§6.3-6)。
 #
@@ -505,7 +507,7 @@ ExtractPathA_Ninf := function(model)
   higherRaw := List([2*M + 1 .. Minimum(seriesLen, 2*M + 4)], k -> GMinus[k]);
 
   report := rec(
-    schema := "u-pathA-ninf/v2",
+    schema := "u-pathA-ninf/v3",
     id := model.id,
     branch := "N_infty",
     P0Type := "nonWeierstrass",

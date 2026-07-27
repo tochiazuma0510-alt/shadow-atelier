@@ -5,10 +5,6 @@
   "bundleFile": "certificates/k5pipeline/toy-ninf-M3-bundle.json",
   "idA": "toy-ninf-M3",
   "idB": "toy-ninf-M3",
-  "recomputed_N_lambda_coeffs_ascending": [
-    "1"
-  ],
-  "chat": "1",
   "recomputed_model_digest_pathA": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
   "recomputed_model_digest_pathB": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",
   "model_digest": "9e5563726c0fbd544ad13e569ed368baaac1ade58d1be1617548e6570cacfe1d",

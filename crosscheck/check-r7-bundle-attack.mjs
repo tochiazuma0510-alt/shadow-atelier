@@ -50,25 +50,36 @@ const rawB = JSON.parse(readFileSync(join(ROOT, 'certificates/k5pipeline/toy-nin
 const goodBundle = JSON.parse(readFileSync(join(ROOT, 'certificates/k5pipeline/toy-ninf-M3-bundle.json'), 'utf8'));
 
 // ---- attack: both drivers mistranscribe the same coefficient the same
-// way (A_coeffs_ascending[1]: '1' -> '2'), and both embed a
-// self-consistent (but WRONG) expected_model_digest computed from the
-// corrupted model itself. ----
+// way (a global sign flip A->-A, B->-B: a DIFFERENT model from the true
+// toy-ninf-M3, but -- 裁定40/便39 F1.2 の A^2-B^2f=1 独立再検算チェックが
+// 追加された後も -- still internally consistent, since (-A)^2=A^2 and
+// (-B)^2=B^2 leave N(lambda)=A^2-B^2f unchanged at the constant 1. This
+// keeps the "mutually-consistent-but-wrong-model" attack meaningful: a
+// naive digest-only checker would ACCEPT it, and (separately, after 裁定40)
+// so would the (N∞-4) chat identity, so the ONLY thing that can catch this
+// specific attack is bundle-vs-raw canonical-string byte binding (R-7/I-l)
+// -- exactly what this test is meant to isolate), and both embed a
+// self-consistent (but WRONG relative to the true frozen bundle)
+// expected_model_digest computed from the corrupted model itself. ----
 function canonicalNinf(raw) {
   const list = (xs) => xs.join(',');
   return `id=${raw.id};branch=N_infty;M=${raw.M};f=[${list(raw.f_coeffs_ascending)}];A=[${list(raw.A_coeffs_ascending)}];B=[${list(raw.B_coeffs_ascending)}]`;
 }
 function digestOf(s) { return createHash('sha256').update(s, 'utf8').digest('hex'); }
 
-const badA = { ...rawA, A_coeffs_ascending: ['1', '2', '0', '1'] }; // same corruption in both
-const badB = { ...rawB, A_coeffs_ascending: ['1', '2', '0', '1'] };
+const negA = ['-1', '-1', '0', '-1']; // -A(x), matches (-A)^2 = A^2
+const negB = ['-1'];                  // -B(x), matches (-B)^2 = B^2
+const badA = { ...rawA, A_coeffs_ascending: negA, B_coeffs_ascending: negB, a_M: '-1', b_Mm3: '-1', chat: '1', u_pathA_ninf: '-1/2' };
+const badB = { ...rawB, A_coeffs_ascending: negA, B_coeffs_ascending: negB, a_M: '-1', b_Mm3: '-1', chat: '1', u_pathB_ninf: '-1/2' };
 const corruptedDigest = digestOf(canonicalNinf(badA));
 badA.model_digest = corruptedDigest;
 badA.expected_model_digest = corruptedDigest;
 badB.model_digest = corruptedDigest;
 badB.expected_model_digest = corruptedDigest;
-// a_M was corrupted too (A_coeffs_ascending[1] changed, not A_coeffs_ascending[M],
-// so a_M/b_Mm3 independent-recompute check in u-compare-ninf.mjs still holds
-// for this attack -- the corruption is at a non-boundary coefficient index).
+// sanity: this alternate model is internally consistent (N∞-1..N∞-4 all
+// still hold: deg A=3=M, deg B=0=M-3, b_Mm3=a_M=-1<>0, A^2-B^2f=1=chat) --
+// verified by the "control" ACCEPT case below, which now exercises the
+// 裁定40/便39 F1.2 recompute path too (not just digest binding).
 
 // sanity: the two corrupted raws DO agree with each other (mutual
 // model_digest match, mutual expected_model_digest match) -- this is

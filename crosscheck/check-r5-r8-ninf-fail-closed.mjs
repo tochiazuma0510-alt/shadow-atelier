@@ -218,8 +218,8 @@ expectAccept('baseline: unmodified production (N_infty) raw ACCEPTs', compareNin
 
 // ---- attack 2 (N_infty variant): schema names swapped between pathA/pathB ----
 {
-  const swappedA = { ...ninfA, schema: 'u-pathB-ninf/v2' };
-  const swappedB = { ...ninfB, schema: 'u-pathA-ninf/v2' };
+  const swappedA = { ...ninfA, schema: 'u-pathB-ninf/v3' };
+  const swappedB = { ...ninfB, schema: 'u-pathA-ninf/v3' };
   expectStop('攻撃2(N_infty): production raw の pathA/pathB schema 名交換は拒否される', compareNinf(swappedA, swappedB, ninfBundle));
 }
 
@@ -260,6 +260,43 @@ expectAccept('baseline: unmodified production (N_infty) raw ACCEPTs', compareNin
 {
   const badA = { ...ninfA, a_M: String(BigInt(ninfA.a_M) + 1n) };
   expectStop('裁定39 F2 追加: a_M の明示値が係数列からの再抽出値と食い違えば拒否される', compareNinf(badA, ninfB, ninfBundle));
+}
+
+// ============================================================================
+// 裁定40/便39 F1.2: chat の実値矛盾 raw への直接攻撃(Sol 便39 の攻撃そのもの)。
+//
+// 便39 F1.2 の指摘: 旧 checker は chat_equals_1===true という自己申告
+// boolean flag だけを見ており、raw.chat の実値・pathA/pathB 相互一致・
+// pathB.N_lambda_coeffs_ascending の値を一度も検査していなかった。Sol は
+// 保存済み production raw の chat="2"(かつ B.N_lambda_coeffs_ascending=["2"])
+// へ書き換え、chat_equals_1・A/B/f・u・全 digest はそのままにして
+// compareNinf() へ直接投入すると ACCEPT することを実証した。この攻撃を
+// そのまま再現し、裁定40対応版が INTEGRITY_STOP にすることを確認する。
+// ============================================================================
+{
+  const badA = { ...ninfA, chat: '2' }; // chat_equals_1 は据え置き(true のまま) -- Sol の攻撃どおり
+  const badB = { ...ninfB, chat: '2', N_lambda_coeffs_ascending: ['2'] }; // chat_equals_1/N_lambda_is_nonzero_constant も据え置き
+  expectStop(
+    '裁定40 F1.2 攻撃(Sol 便39 の矛盾 raw 攻撃そのもの): chat="2"(+N_lambda=["2"])は chat_equals_1=true のままでも拒否される',
+    compareNinf(badA, badB, ninfBundle)
+  );
+}
+// ---- variant: only pathB's declared chat/N_lambda are corrupted (pathA left alone) ----
+{
+  const badB2 = { ...ninfB, chat: '2', N_lambda_coeffs_ascending: ['2'] };
+  expectStop(
+    '裁定40 F1.2 攻撃 variant: pathB.chat="2"(+N_lambda=["2"])のみの矛盾 raw も拒否される(pathA は無傷)',
+    compareNinf(ninfA, badB2, ninfBundle)
+  );
+}
+// ---- variant: N_lambda_coeffs_ascending corrupted while chat stays "1" (declared chat and
+// declared N(lambda) polynomial disagree with each other) ----
+{
+  const badB3 = { ...ninfB, N_lambda_coeffs_ascending: ['2'] };
+  expectStop(
+    '裁定40 F1.2 攻撃 variant: chat="1" のまま N_lambda_coeffs_ascending=["2"] にすると拒否される(宣言値同士の内部矛盾)',
+    compareNinf(ninfA, badB3, ninfBundle)
+  );
 }
 
 console.log(`\n=== ${pass}/${pass + fail} PASS ===`);

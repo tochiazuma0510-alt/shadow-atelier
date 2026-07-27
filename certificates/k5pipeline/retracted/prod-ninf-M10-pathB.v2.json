@@ -1,5 +1,5 @@
 {
-  "schema": "u-pathB-ninf/v3",
+  "schema": "u-pathB-ninf/v2",
   "id": "prod-ninf-M10",
   "branch": "N_infty",
   "P0_type": "nonWeierstrass",

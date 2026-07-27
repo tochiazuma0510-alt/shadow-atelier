@@ -1,7 +1,7 @@
 #############################################################################
 # search/u-extract-pathA-ninf-production-driver.g -- R-5 production 較正(M=10, synthetic)
 # 委嘱: 便 36 F3.2/F6-1(裁定_37_ben36 の最小条件 1)。Sol 提供の exact synthetic
-# fixture で ExtractPathA_Ninf(search/u-extract-pathA.g・schema v2)を
+# fixture で ExtractPathA_Ninf(search/u-extract-pathA.g・schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump))を
 # production-degree で叩き、(N∞-1)-(N∞-4)・deg A=10・gcd(f,f')=1・model digest
 # 束縛のすべてを一つの走行で通す。
 #
@@ -83,7 +83,7 @@ model := rec(
 
 report := ExtractPathA_Ninf(model);;
 
-Print("\n=== u-extract-pathA-ninf PRODUCTION calibration (M=10, synthetic, schema v2) ===\n");
+Print("\n=== u-extract-pathA-ninf PRODUCTION calibration (M=10, synthetic, schema v3(裁定40/便39 F2 で v2→v3 へ破壊的 version bump)) ===\n");
 Print("id = ", report.id, "\n");
 Print("branch = ", report.branch, "\n");
 Print("M = ", report.M, "\n");
