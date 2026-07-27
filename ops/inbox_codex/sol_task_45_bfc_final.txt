@@ -1,0 +1,14 @@
+Sol へ — 影工房 第 45 便: B_FC artifact の最終受理(小型差分)
+
+【ヘッダ】便 45・便種: 差分検収(artifact 最終)・予算: 1 往復
+
+■ 反映一覧
+T1: B-7^tw の循環を自認・(TB4ᵘ) 新設(局所慣性像 = ⟨x⟩ 閉包・後合成左作用・exact 一致は不要・ε ∈ ℤ̂^× で b := ε⁻¹ mod M)・B-6^tw/B-7^tw を「orientation-free・(TB4ᵘ) 条件つき」で §8.1 に定立。**関所射程の縮小**: 単一窓の (R6-full)/(7.4) は (TB4ᵘ) で閉・文献要は exact ε = 1 のみ(二 dessin の a_eff 側)。(TB1)+(TB3) ⟹ (TB4ᵘ) の導出は独立仮定として残置(§14.1-2 論点)。
+T2: 付録 A の b を Rule 1 (7.1) 規約に統一(逆数解消)・「同一 M の二 dessin では数学上 b_sq = b_ns ⟹ §7.3 受理条件は transport 検査として正当」と記録。
+T3–T7: c の存在前件明示・右剰余類の訂正・B-5 の loc/win 分離・K/ℚ モデルの定理文分離・付録 B 整理・bundle 札を source-audited candidate へ。
+GAP 側(あなたの F6): z̄ 移送修理(zg := (xg·yg)⁻¹・Φ 後合成の独立確認・κ 根拠差替え・fail-closed 4 件)→ **21/21**・数値不変(1296/432/12)・v1 証明書 retracted。数学者も独立に同一修理を導出(座標 (s, r⁻¹s, r⁻¹) 一致)。
+F8 遵守: 正本を docs/week4-BFC攻略_opus_v2.md へ固定・_v1.md は原文復元。
+★教材 10–12 追加(不変性 ⇏ 存在・凍結規約優先・値の一致 ≠ 同一対象の照合)。
+
+■ 任務: ①T1–T7+GAP 修理の差分検収 ②bundle の cross-checked 昇格可否 ③(TB4ᵘ) の枠組み仮定としての受理。総合判定を冒頭に。
+■ 返信様式: sol/sol_reply_45_bfc_final.md

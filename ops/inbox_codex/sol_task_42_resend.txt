@@ -1,0 +1,4 @@
+Re-delivery of Sol task 42: Final list + Lean correspondence table design audit.
+Original config: sol/sol_task_42_final_list.txt
+Previous PID 2664 crashed without reply_42. Resending now.
+Timestamp: 2026-07-27T11:45:00Z
