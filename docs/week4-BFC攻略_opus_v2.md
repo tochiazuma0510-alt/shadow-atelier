@@ -1,10 +1,10 @@
-# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2.4 = 便 47 文書清掃版・補題 B-9′ two-mathematician PASS**)
+# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2.5 = 便 48 F14 項 1-2/5-6 反映版**)
 
 2026-07-27 起草(v1)・**同日 v2 / v2.1 / v2.2 改訂**: Claude(数学者レイヤー・Opus 5)。司令塔委嘱「$B_{\rm FC}$ の紙上攻略」。**v2 は `sol/sol_reply_43_bfc.md` の必須修理 R1–R6(裁定 44)、v2.1 は `sol/sol_reply_44_bfc_v2.md` の T1–T7(裁定 46)、v2.2 は `sol/sol_reply_45_bfc_final.md` の差戻し理由 1・2(= U1・U2)+ 司令塔委嘱「$K^{(5)}$ campaign の $\varepsilon$ 非依存性」(**発端 = 研究者の指摘**)を反映(裁定 47)。**
 **版の所在(便 45 F6 で実体 PASS)**: **`docs/week4-BFC攻略_opus_v1.md` は v1 原文(digest `659a9570…`)に復元済み・本ファイルが v2 系列の最終正本**である。**v2.1 が書いていた「`_v1_archive.md` に復元済み / path 改称は裁定事項」は現 tree では偽**なので削除した(便 45 F6 の指摘・**自認**)。
 入力: `docs/week4-K3飽和_opus_v3.md`(v3.1–v3.3 = $B_{\rm FC}$ の定義・(5′) の型・§2.6)・`docs/week4-A5算術飽和_v4.md`(§1.4 較正・§3 FC-1〜FC-7)・`sol/sol_reply_29_v3delta.md` F1・`sol/sol_reply_31_manifest.md` F5・`docs/week4-K5_Rule1_v1.md` §1・§7・§9・`docs/manifest_k5_v1.md`(結果規則表)・**`sol/sol_reply_43_bfc.md`・`sol/sol_reply_45_bfc_final.md`(全文)**。
 検算: `search/week4-bfc-antecedents.mjs`(**Node 13/13 PASS**・便 43/44/45 F1 が独立再走で再現)+ `search/bfc-antecedents-check.g` / `certificates/bfc/bfc-antecedents.json`(**GAP 25/25**・`fail_closed: true`・schema `bfc-antecedents-check/v3`)。
-**【v2.2・U4】** 便 44 F6.1 の marked-fidelity blocker($z$ 未移送で $x_gy_gz_g\ne1$)は**数式として修理済**で、便 45 F4.1 が `zg := (xg*yg)^-1` と `kapExp := -kap` を**紙上 PASS** と判定した。**便 45 F7 の 4 件のうち 3 件は閉鎖済**である(現 certificate `bfc-antecedents-check/v3`: `pass_count 25`・`fail_closed true`・`xyz_identity_check`・`x/y/z/fk_phi_transport_check`・`all_markings_phi_transport_check`・`v3_expected_count 12`)。**残るのは (iv) certificate の input digest を final path/digest へ束縛する 1 件のみ**(現在は v1 の `659a9570…` を指す)。**これは本稿の digest 確定後に再走・再発行する provenance 作業**であり、**本稿の数学的主張には掛からない**(§15.7)。
+**【v2.2・U4】** 便 44 F6.1 の marked-fidelity blocker($z$ 未移送で $x_gy_gz_g\ne1$)は**数式として修理済**で、便 45 F4.1 が `zg := (xg*yg)^-1` と `kapExp := -kap` を**紙上 PASS** と判定した。**【v2.5・F2.4】有限計算 bundle の現況(pass 数・fail-closed・fixture・provenance 束縛)は本文に書かない。正は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` である。** 本文編集のたびに digest が変わり certificate が失効する自己参照ループを避けるため、status-layer は外部台帳に一本化する。**残るのは (iv) certificate の input digest を final path/digest へ束縛する 1 件のみ**(現在は v1 の `659a9570…` を指す)。**これは本稿の digest 確定後に再走・再発行する provenance 作業**であり、**本稿の数学的主張には掛からない**(§15.7)。
 **規律**: $K^{(5)}$ の個別モデル・$u$ には一切触れていない(紙上の一般論のみ)。外部文献は使っていない(§12 に【文献要請 13】を 1 本立てる)。
 
 ---
@@ -28,7 +28,7 @@
 
 > **状態札**(便 43 F10 → **便 44 F9 で確定**):
 > $$ \boxed{\ B_{\rm FC}\ (\text{定理 B-7})\ =\ \texttt{paper-proof (framework-conditional on TB1--TB4) / two-mathematician audit PASS}\ } $$
-> — ただし **(i) Lean `verified` ではない(未着手)**、**(ii) exact $b=1$ の向きは (TB4) 関所待ち**(**【v2.1・T1 で訂正】**その手前の orientation-free 版 B-7$^{\rm tw}$ は**無条件ではなく (TB4$^{\rm u}$)-条件つき** — §8.1)、**(iii) 有限計算 bundle**: Node 13/13 + **GAP 25/25(fail-closed・marked-fidelity gate 閉鎖済)**。**残るのは certificate の provenance 束縛 1 件のみ**(§15.7)。**【v2.2・U1】**「exact $b=1$ の関所」は**「exact $\varepsilon=1$ の関所(したがって全窓で $b=1$)」**と読む。**【v2.4・F2.3】**$K^{(5)}$ campaign のうち **(P1)(P2)(R6-full)・固定体・Kummer 証明書型・現行 Belyi-side 測定量**は exact $\varepsilon$ に依存しない(補題 B-9′(e)・**two-mathematician PASS**)。**`bridge_result_i` / `pair_gate` / `saturation_result` まで含む全称は `amendment-pending`**(`docs/amendment_5prime_draft.md` 成立後)。
+> — ただし **(i) Lean `verified` ではない(未着手)**、**(ii) exact $\varepsilon=1$ の向きは (TB4) 関所待ち**(**【v2.5・F2.2】**関所名は exact $\varepsilon=1$。$b=1$ はその $\mathrm{mod}\ M$ 帰結であって同値ではない — (2.2)。その手前の orientation-free 版 B-7$^{\rm tw}$ は**無条件ではなく (TB4$^{\rm u}$)-条件つき** — §8.1)、**(iii) 有限計算 bundle の現況は `certificates/bfc/` と `provenance/CLAIMS.md` を正とする**(**【v2.5・F2.4】**本文に現況を書かない・§15.7)。**【v2.2・U1】**「exact $b=1$ の関所」は**「exact $\varepsilon=1$ の関所(したがって全窓で $b=1$)」**と読む。**【v2.4・F2.3】**$K^{(5)}$ campaign のうち **(P1)(P2)(R6-full)・固定体・Kummer 証明書型・現行 Belyi-side 測定量**は exact $\varepsilon$ に依存しない(補題 B-9′(e)・**two-mathematician PASS**)。**`bridge_result_i` / `pair_gate` / `saturation_result` まで含む全称は `amendment-pending`**(`docs/amendment_5prime_draft.md` 成立後)。
 
 ---
 
@@ -103,6 +103,33 @@
 | **C6** | §15.8 の要旨・別ファイル | 条文案 v1 | **条文案 v2**(`docs/amendment_5prime_draft.md`)へ差し替え: blocker 2 件(8.4.0 の二段分離・8.4.2 の oriented certificate)+ F7.1–F7.4 + F9 の I-n 条件 + F10.1/F10.2 | 便 47 F5–F10 |
 
 > **v2.4 でも不変**: **B-9′ (a)–(e) の補題文と証明・主定理 B-7・(B7tw)・B-5$^{\rm u}$・B-6$^{\rm tw}$・系 B-8・Node 13/13・GAP 25/25。** C1–C6 は**文書の自己記述の同期・制御文字の除去・札の更新・条文案の差し替え**であり、**数学は 1 行も動かない**(便 47 F12「B-9′ の数学を開け直す必要はない」)。
+
+---
+
+## v2.4 → v2.5 差分一覧(便 48 F14 の項 1・2・5・6)
+
+> **便 48 Part A は差戻し**。**B-9′ の数学は開け直さない**(F14)。修理は文書清掃と条文案の 2 blocker。
+
+| # | 箇所 | v2.4 | v2.5 | 出所 |
+|---|---|---|---|---|
+| **D1** | §8.1 使い分け・§10 §10.1 見出し・§10.1.3-1・§15.8 冒頭 | **stale 全称の掃き残し 5 箇所**: 「exact $b=1$ が要るのは $a_{\mathrm{eff}}$ の側だけ」/「$\varepsilon$ 依存は campaign の判定から完全に消える」/ §10.1 の見出し /「campaign は $b$ の値を一度も必要としない」/ §15.8 の「campaign の判定は…依存しない」 | **全部 Belyi-side 限定形へ**(bridge/result の全称は **`amendment-pending`**)。**「$b$ の値を一度も必要としない」は誤り**とも明記 — **bridge predicate (5$'_b$) は $b_i$ の値を使う**。**掃き残しが二便連続した**ので、**行番号指定に頼らず 7 パターンの正規表現で全文悉皆**してから修理した(§下記)。**自認** | 便 48 F2.2 |
+| **D2** | 707–708 行 | `a_{` + 改行 + `m eff}` — **TeX として破損** | **`a_{\mathrm{eff}}` へ修復**。**根因は同じ escape 病**: `\rm` の `\r` が CR 化 → 行分割。**再発防止として当該箇所は `\rm` を使わず `\mathrm{}` 表記**。さらに **TeX 構文レベルで全文走査**(下記)し、**他に同型破損なし**を確認 | 便 48 F2.3 |
+| **D3** | 7 / 31 / 346 / 690 / 872 / 915–916 行 | certificate の pass 数・fail-closed・fixture・`input_doc_*` の**現況値を本文に複製** | **参照化**: 「**現況は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` を正とする**」。**本文編集のたび digest が変わり自分の記述を失効させる自己参照ループを断つ** | 便 48 F2.4 |
+| **D4** | 514 / 768 / 31 行 | 関所名が `exact b=1` | **`exact $\varepsilon=1$`**($b=1$ はその $\mathrm{mod}\ M$ 帰結であって同値ではない — (2.2)) | 便 48 F2.2-3 |
+| **D5** | `search/week4-bfc-antecedents.mjs` 1 / 11 行 | コメントが v1 path 表記 | **v2 path へ同期**(非 load-bearing・実読込 path と certificate は既に v2) | 便 48 F2.4 末 |
+| **D6** | `docs/amendment_5prime_draft.md` | 条文案 v2 | **条文案 v3**: **(AB-1) の循環除去**(FORMAL-IN から (5′)/(5′_b) を外し manifest v1.5 を逐語転記)+ **bundle の二分割**(THEOREM-ANTECEDENT-Rcyc / FALSIFIER-ANTECEDENT-BFC)+ **C-ii の 5 束縛 operational schema** | 便 48 F3.2・F3.3・裁定 53 |
+
+### v2.5 で用いた悉皆走査(**行番号に頼らない**)
+
+```text
+P1 "campaign の(全)?判定"        P5 "a_{\rm eff}$ の側|二 dessin 比較"
+P2 "消える|消せる|丸ごと消"        P6 "に依存しない|に依らない"
+P3 "一度も"                        P7 "値を(一度も)?必要"
+P4 "exact \$b=1\$|for exact b"
+```
+**TeX 構文走査**(C0=0 では不十分・便 48 ★教材 3):`\rm` / `\varepsilon` / `\bmod` の出現数、**行末が開き括弧で終わる行**、**行頭が制御綴りの残骸(`m eff}` 等)で始まる行**、**`$` の個数が奇数の行**。→ **v2.5 時点で該当 0**(修復前は 707/708 の 1 箇所のみ)。
+
+> **v2.5 でも不変**: **B-9′ (a)–(e)・主定理 B-7・(B7tw)・B-5$^{\rm u}$・B-6$^{\rm tw}$・系 B-8・Node 13/13。** D1–D6 は**文言の限定・数式の修復・status の参照化・条文案の修理**であり、**数学は 1 行も動かない**。
 
 > **v2.1 でも不変**: **主定理 B-7 の主張・(9.1)・証明・系 B-7′・補題 B-5 の計算・補題 B-6 の計算・系 B-8・二例との整合・Node 検算 13/13。** T1–T7 は**別番号定理の条件付け・規約の逆数統一・stale statement の除去・依存の分割**であり、**B-7 の真偽を動かさない**(便 44 F5 が同旨)。
 
@@ -343,7 +370,7 @@ $c_\gamma\alpha_\gamma(\tilde H)c_\gamma^{-1}=\tilde H$ より $c_\gamma\alpha_\
 > **★ $A_5$/$K^{(3)}$ が払っていた代金との比較**: $A_5$ は「$H^1(G_\mathbb Q,\mathrm{Aut})=H^1(G_\mathbb Q,1)=1$」(FC-4(c))という**同じ論法**を使っていたが、「dessin の同型類が一意」(FC-4(b))という悉皆計算と抱き合わせだった。$K^{(3)}$ は明示モデルを外から持ってきた。**どちらも不要**だったことになる。
 >
 > **⚠ 注意(W5 の非自明性)【v2・S2 で射程限定】**: $K^{(3)}$ では $\lvert\mathrm{Aut}(G_3)\rvert=1296$ のうち $\Lambda$ を **setwise に**保つのは **432 個**(検算 **V7**)。$\Phi(\mathfrak F_0)$ の 3 元も $\Phi(\mathrm{GT}(K^{(3)}))$ の 12 元もすべてその中(検算 **V6**)。**つまり (W5)/(W5$^{\mathbb Q}$) は「自明に成り立つ条件」ではない** — v3.1 §2.2 が記録した「$\mathrm{Aut}(G_3)$ が二つの $G_3$-類を融合する」現象は、まさにこの条件が破れうることの実例である。
-> **ただし (W5) は「432/1296」という比ではない**(便 43 F8.1): **(W5) は「指定された 3 元(または 12 元)の像が、その 432 元の setwise stabilizer に含まれる」という包含条件**である。432/1296 は条件の非自明性を示す**周囲の有限群データ**であって、条件そのものではない。数値の状態札は **二系統一致(Node 13/13 + GAP 25/25・fail-closed)**。**【v2.2・U4】** marked-fidelity gate は閉鎖済で、`cross-checked` 昇格に残るのは **certificate の provenance 束縛 1 件**のみ(§15.7)。
+> **ただし (W5) は「432/1296」という比ではない**(便 43 F8.1): **(W5) は「指定された 3 元(または 12 元)の像が、その 432 元の setwise stabilizer に含まれる」という包含条件**である。432/1296 は条件の非自明性を示す**周囲の有限群データ**であって、条件そのものではない。数値の状態札は **`certificates/bfc/` と `provenance/CLAIMS.md` を正とする**(**【v2.5・F2.4】**本文に現況を書かない)。
 
 ### 6.3 FC-3 は帰結である
 
@@ -485,7 +512,9 @@ $\xi=\zeta_M^{\,k}$ と書き $k=\varepsilon j$ すなわち $j=bk$ と置き換
 > | **B-7$^{\rm tw}$**(orientation-free) | (TB1)(TB2)(TB3)**(TB4$^{\rm u}$)**+(CAL)+(W1)–(W5) | `paper-proof`。**「無条件」ではなく (TB4$^{\rm u}$)-条件つき** |
 > | **系 B-8** | (10.1) を**仮定**したときの不変性 | 補題(存在命題ではない) |
 >
-> **★ 使い分け**: (TB4) が関所を通る前は **B-7$^{\rm tw}$ + 系 B-8** で単一窓の結論((R6-full)・(7.4))が出る。**exact $b=1$ が要るのは二 dessin 比較 $a_{\rm eff}$ の側だけ**である(§10)。
+> **★ 使い分け**: (TB4) が関所を通る前は **B-7$^{\rm tw}$ + 系 B-8** で単一窓の結論((R6-full)・(7.4))が出る。
+> **⚠【v2.5・F2.2】v2.3 まで「exact $b=1$ が要るのは二 dessin 比較 $a_{\mathrm{eff}}$ の側だけ」と書いていたのは撤回済み**(§10.1・補題 B-9′(a)(c): $b_{\rm sq}=b_{\rm ns}$ が定理ゆえ $a_{\mathrm{eff}}=a=1$ は $\varepsilon$ に依らない)。**掃き残しだった。自認。**
+> **⇒ exact $\varepsilon=1$ が要るのは、shadow を特定の Kummer 類として名指しする言明だけ**である(§10.1.5)。ただし**現行の運用 predicate(manifest BRIDGE-FAIL ① / Rule 1 §8.4 の untwisted (5′))はその名指しの形で書かれている**ので、`bridge_result_i` とその下流は **`amendment-pending`**(`docs/amendment_5prime_draft.md`)。
 > **★ $b$ は窓ごとの自由変数ではない**(便 44 F7.3): (2.1) の $\varepsilon$ は **$x$ と $(\zeta_n)$ と局所比較だけから決まる枠組みレベルの 1 単位**であり、その $\bmod\,M$ 還元が $b$。ゆえに同じ $M$ の二 dessin では**数学上 $b_{\rm sq}=b_{\rm ns}$ が従う**。Rule 1 §7.3 が両方を記録するのは、**実装 transport が同じ規約を実現したかの検査**であって、数学的自由度の記録ではない — この読み替えにより Rule 1 の受理条件はいっそう正当化される。
 
 ---
@@ -511,7 +540,7 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 
 > **★【v2】B-7 の前件欄は v1 から不変である。** R2(B-3 の (W3))・R3(B-4 の (W2))はいずれも**下位補題の前件欄の脱落**であり、**主定理 B-7 は初めから (W1)–(W5) を全部仮定していた**ので、修理により結論は 1 ミリも動かない(便 43 F7 が同旨)。R4 の剰余類修理後も上の合成は同じ式になる(便 43 F7 が独立に再構成)。
 >
-> **⚠ 状態札(誇張しない)【v2 更新】**: 系 B-7′ は **`paper-proof (framework-conditional on TB1–TB4) / two-mathematician audit PASS`**(便 43 F10・裁定 44)。(i) **Lean `verified` ではない(未着手)**、(ii) **exact $b=1$ の向きは (TB4) 関所待ち**(**【v2.1・T1】**その手前は **定理 B-7$^{\rm tw}$**(§8.1)が **(TB4$^{\rm u}$)-条件つき**で使える — **「無条件」ではない**)、(iii) $u$ の**計算**は依然窓固有(§12.2)、(iv) 有限計算 bundle は Node 13/13 + GAP 25/25(provenance 束縛のみ残・§15.7)。**【v2.4・F2.3】**$K^{(5)}$ campaign の **Belyi-side 限定結論**は exact $\varepsilon$ に依存しない(補題 B-9′(e))。**bridge/result の全称は `amendment-pending`。**
+> **⚠ 状態札(誇張しない)【v2 更新】**: 系 B-7′ は **`paper-proof (framework-conditional on TB1–TB4) / two-mathematician audit PASS`**(便 43 F10・裁定 44)。(i) **Lean `verified` ではない(未着手)**、(ii) **exact $\varepsilon=1$ の向きは (TB4) 関所待ち**(**【v2.5・F2.2】**関所名は exact $\varepsilon=1$。$b=1$ はその $\mathrm{mod}\ M$ 帰結であって同値ではない — (2.2)。その手前は **定理 B-7$^{\rm tw}$**(§8.1)が **(TB4$^{\rm u}$)-条件つき**で使える — **「無条件」ではない**)、(iii) $u$ の**計算**は依然窓固有(§12.2)、(iv) **有限計算 bundle の現況は `certificates/bfc/` と `provenance/CLAIMS.md` を正とする**(§15.7・**【v2.5・F2.4】本文に現況を書かない**)。**【v2.4・F2.3】**$K^{(5)}$ campaign の **Belyi-side 限定結論**は exact $\varepsilon$ に依存しない(補題 B-9′(e))。**bridge/result の全称は `amendment-pending`。**
 
 ---
 
@@ -536,13 +565,13 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 > **★ 段階的定理化【v2.1・T1 で修理】**: **(TB4) が文献関所で閉じる前でも、「ある単位 $b\in(\mathbb Z/M)^\times$ を伴う twisted bridge」((B7tw) 形)が使える** — ただしそれは **定理 B-7$^{\rm tw}$**(§8.1)であって、**前件は (TB4$^{\rm u}$) である。「無条件」ではない。**
 > **v2 の誤り(自認・便 44 F7.1)**: v2 はこれを「無条件」と書いた。系 B-8 は **(10.1) を仮定したときの不変性**しか言わないので、そこから **$\exists b$** は出ない — **循環していた**。存在は §8.1 の (2.1)(「$x$ と $\iota(\sigma_\zeta)$ は同じ procyclic 慣性の位相的生成元だから一意な $\varepsilon\in\hat{\mathbb Z}^\times$ で結ばれる」)から**証明**される。
 
-> **⚠【v2.2・U3 で上の「$b$ は二 dessin 比較で load-bearing」を精密化】**: 上の警告は **「$b_{\rm sq}\ne b_{\rm ns}$ なら崩れる」** という条件文としては正しいが、**$b_{\rm sq}=b_{\rm ns}$ は実は規約ではなく定理である**(§8.1 末)。これを使うと **$\varepsilon$ 依存は $K^{(5)}$ campaign の判定から完全に消える** — それが次節の補題 B-9′ である。
+> **⚠【v2.2・U3 で上の「$b$ は二 dessin 比較で load-bearing」を精密化】**: 上の警告は **「$b_{\rm sq}\ne b_{\rm ns}$ なら崩れる」** という条件文としては正しいが、**$b_{\rm sq}=b_{\rm ns}$ は実は規約ではなく定理である**(§8.1 末)。これを使うと **$\varepsilon$ 依存は $K^{(5)}$ campaign の **Belyi-side の列挙量**((P1)(P2)(R6-full)・固定体・Kummer 証明書型)から消える** — それが次節の補題 B-9′ である。**【v2.5・F2.2】v2.2 の「campaign の判定から完全に消える」は無条件全称だった。撤回。** `bridge_result_i` とその下流の全称は **amendment 成立後**(§10.1.4・§15.8)。
 
 ---
 
-## 10.1 【v2.2・U3 新設】補題 B-9′ — $K^{(5)}$ campaign の判定は exact $\varepsilon$ に依存しない
+## 10.1 【v2.2・U3 新設】補題 B-9′ — $K^{(5)}$ campaign の **Belyi-side 列挙量**は exact $\varepsilon$ に依存しない(**bridge/result の全称は amendment-pending**)
 
-> **発端**: **研究者の指摘**(2026-07-27)。司令塔経由で「exact $\varepsilon=1$ への依存が campaign の全判定から消せるのではないか」という問いとして降りてきた。骨子(補題 K5-a + $b$ の枠組み性 + $(\mathbb Z/e)^\times$ の可換性)は司令塔のアイデア投入、以下の定式化・証明・残留箇所の総点検は本稿。
+> **発端**: **研究者の指摘**(2026-07-27)。司令塔経由で「exact $\varepsilon=1$ への依存が campaign の全判定から消せるのではないか」という**問い**として降りてきた(**【v2.5・F2.2】これは問いの記述であって結論ではない** — 答えは「**Belyi-side 列挙量については消える。`bridge_result_i` を含む全称は amendment 成立後**」であった・§10.1.2 (e))。骨子(補題 K5-a + $b$ の枠組み性 + $(\mathbb Z/e)^\times$ の可換性)は司令塔のアイデア投入、以下の定式化・証明・残留箇所の総点検は本稿。
 
 ### 10.1.1 設定
 
@@ -609,7 +638,8 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 | **【v2.3・U5】$b$ の一意性** | **(U-i)** (2.1) で $\varepsilon$ を先に定めて $b:=\varepsilon^{-1}\bmod 10$(**式から fitting しない**) | **(U-ii)** $G_K$ データを見る**前に** (7.1) で $\hat b_i$ を測って凍結。**(7.1) は $\mu_{10}$-torsor 全体の実 local monodromy を見るので、$\kappa_i$ の像の大小に影響されない** |
 
 > **★ 二つの帰結**:
-> 1. **campaign は $b$ の値を一度も必要としない。** 共通値が $1$ でなくても (9.1) で $a_{\rm eff}=a=1$。これは Sol 便 31 F5.3 が既に書いていた運用上の事実だが、**B-9′ はそれを「規約上の幸運」から「定理」へ格上げする**。
+> 1. **(P1)(P2) の判定は $b$ の値を必要としない。** 共通値が $1$ でなくても (9.1) で $a_{\mathrm{eff}}=a=1$。これは Sol 便 31 F5.3 が既に書いていた運用上の事実だが、**B-9′ はそれを「規約上の幸運」から「定理」へ格上げする**。
+> **⚠【v2.5・F2.2】v2.2 の「campaign は $b$ の値を一度も必要としない」は誤り**(掃き残し・**自認**): **bridge predicate 自体は $b_i$ を使う** — amendment 後の判定式 (5$'_b$) は $\tau_i(\kappa_i(\gamma)^{b_i})$ であり、$b_i$ の**値**が要る。$b$ の値が不要なのは **(P1)(P2)・位数・核・固定体・Kummer 証明書型**についてである。
 > 2. **Rule 1 §7.4「$b_i=1$ を仮定するな・必ず計算して記録せよ」は維持**(むしろ強化)。**測定は数学の代用ではなく、実装が (TB2)(TB4$^{\rm u}$) の transport を実現したかの検査**であり、その役割は B-9′ によって初めて明確になる。
 > **★ 便 45 F2.2 との整合**: 測定で $\hat b_{\rm sq}=\hat b_{\rm ns}=1$ が出ても、**そこから exact $\varepsilon=1$ は帰結しない**((2.2))。**「$b=1$ を観測したから (TB4) が閉じた」と書いてはならない。**
 
@@ -687,7 +717,7 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 > $$ \boxed{\text{(P7) の\ }\textbf{非標識 }\mathbb Q\textbf{-descent 部分}\text{\ に独立な抽象証明を追加}} $$
 > である。**次の 4 つは置換しない**: (i) 手元の明示曲線がその抽象被覆であるというモデル認識、(ii) ordered passport と actual marking、(iii) exact conjugator (P4)/(R-2)、(iv) そのモデル上の $u$ の抽出。また**「有限群論だけ」の証明でもない** — 有限事実 V6 に **B-4 の descent 枠組み**(較正込み)を合成した証明である。**v1 の「有限群論だけで再導出」は言い過ぎ。自認。**
 >
-> **★ V7 の意味**: $\Phi(\mathrm{GT})\subsetneq\{$ $\Lambda$ を setwise に保つ 432 元 $\}\subsetneq\mathrm{Aut}(G_3)$。**もし $\Phi(\mathrm{GT})$ が 432 の外にはみ出していたら (W5$^\mathbb Q$) が破れ、この経路では $\mathbb Q$-モデルを得られなかった。** 実例が「たまたま」ではないことの確認。**【v2.2・U4】数値 432/1296 と V6 は二系統一致**(Node 13/13 + GAP 25/25)。便 44 F6.1 の marked-fidelity blocker($z$ 未移送で $x_gy_gz_g=(r,1,r^2)\ne1$・本稿で独立再現)は**閉鎖済**。昇格に残るのは certificate の provenance 束縛のみ(§15.7)。
+> **★ V7 の意味**: $\Phi(\mathrm{GT})\subsetneq\{$ $\Lambda$ を setwise に保つ 432 元 $\}\subsetneq\mathrm{Aut}(G_3)$。**もし $\Phi(\mathrm{GT})$ が 432 の外にはみ出していたら (W5$^\mathbb Q$) が破れ、この経路では $\mathbb Q$-モデルを得られなかった。** 実例が「たまたま」ではないことの確認。便 44 F6.1 の marked-fidelity blocker($z$ 未移送で $x_gy_gz_g=(r,1,r^2)\ne1$)は**本稿で独立再現**した(数式修理は便 45 F4.1 で PASS)。**【v2.5・F2.4】数値 432/1296 と V6 の機械状態の現況は `certificates/bfc/` と `provenance/CLAIMS.md` を正とする**(本文に書かない)。
 
 ### 11.3 整合の総括
 
@@ -704,8 +734,7 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 > - **(TB3)** $\pi_1(U_{\bar{\mathbb Q}},\vec{01})\cong\hat F_2$ と慣性生成元の指定。
 > - **(TB4)(最重要)** $\vec{01}$ における慣性が $\mathrm{Gal}(\Omega/\bar{\mathbb Q}((\beta)))\cong\hat{\mathbb Z}(1)$ と**正準に**同一視され、$\mathrm{Fib}$ への作用が $\Omega$ への後合成であること。
 >
-> **障害の正確な所在【v2・S1 で射程限定】**: **exact $\varepsilon=1$ の向きについては (TB4) が第 $k$ 段**である(**【v2.4・F2.4】** 関所名は exact $\varepsilon=1$。$b=1$ はその $\mathrm{mod}\ M$ 帰結)。**(TB4) が破れると補題 B-6 の 1(「$x\cdot p=\zeta_Mp$」)の向きが決まらず、$\Lambda$ と $\mathrm{Fib}$ の $\mu_M$-torsor 構造の同一視が単位 $b$ だけずれる。すると (9.1) は「$\tau(\kappa_{u^{-1}}^{\,b})$」までしか言えない**(結論は系 B-8 で救われる。**【v2.4・F2.4】v2.3 までここに書いていた「二 dessin 比較には効く」は撤回** — 補題 B-9′(a)(c) により $a_{
-m eff}=a=1$ が無条件で、**二 dessin 比較にも効かない**)。
+> **障害の正確な所在【v2・S1 で射程限定】**: **exact $\varepsilon=1$ の向きについては (TB4) が第 $k$ 段**である(**【v2.4・F2.4】** 関所名は exact $\varepsilon=1$。$b=1$ はその $\mathrm{mod}\ M$ 帰結)。**(TB4) が破れると補題 B-6 の 1(「$x\cdot p=\zeta_Mp$」)の向きが決まらず、$\Lambda$ と $\mathrm{Fib}$ の $\mu_M$-torsor 構造の同一視が単位 $b$ だけずれる。すると (9.1) は「$\tau(\kappa_{u^{-1}}^{\,b})$」までしか言えない**(結論は系 B-8 で救われる。**【v2.4・F2.4】v2.3 までここに書いていた「二 dessin 比較には効く」は撤回** — 補題 B-9′(a)(c) により $a_{\mathrm{eff}}=a=1$ が無条件で、**二 dessin 比較にも効かない**)。
 > **⚠ v1 の「(TB1)(TB3) は破れても記法の問題にとどまる」は言い過ぎ**(便 43 F7)。**(TB1) の圏同値も (TB3) の慣性生成元同定も、論理上は B-4/B-5 の土台**であり、真に破れれば記法では済まない。正しい札の書き方は
 > ```text
 > TB1–TB4 = global framework assumptions
@@ -766,7 +795,7 @@ m eff}=a=1$ が無条件で、**二 dessin 比較にも効かない**)。
 | **枠組み** | (TB1) | 接基点繊維関手の圏同値 | 標準事実 | **【GAP-TB】** |
 | | (TB2) | $(\zeta_n)$ 固定・$G_\mathbb Q$ は $\Omega$ に係数作用・$\beta^{1/n}$ 固定 | **当工房の規約** | 閉 |
 | | (TB3) | $\pi_1(U_{\bar{\mathbb Q}},\vec{01})=\hat F_2=\langle x,y\rangle$ | 標準事実 | **【GAP-TB】** |
-| | (TB4) | $x=$ $(\zeta_n)$ が定める $\hat{\mathbb Z}(1)$ の生成元の像・作用は**左作用としての後合成** | 標準事実 | **【GAP-TB】(exact $b=1$ の向きの唯一の関所)** |
+| | (TB4) | $x=$ $(\zeta_n)$ が定める $\hat{\mathbb Z}(1)$ の生成元の像・作用は**左作用としての後合成** | 標準事実 | **【GAP-TB】(exact $\varepsilon=1$ の向きの唯一の関所。$b=1$ はその $\mathrm{mod}\ M$ 帰結)** |
 | **較正** | (CAL) | $\alpha^{\rm Ih}=\alpha^{\rm std}$ | 証明済 | **閉**($A_5$ v4 §1.4・窓非依存) |
 | **窓** | (W1) | $\bar N$ 開・$G_\mathbb Q$-安定 | 正典 | 窓ごと |
 | | (W2) | 完全列 + $\tilde\chi\circ\mathrm{Ih}=\chi_{2M}$ | 正典 | 窓ごと |
@@ -867,12 +896,12 @@ m eff}=a=1$ が無条件で、**二 dessin 比較にも効かない**)。
 2. **【GAP-C3】と【GAP-TB】の統合**: 同じ札である。札の本文は便 43 F7 の 2 行(`TB1–TB4 = global framework assumptions` / `TB4 = unique orientation-sensitive literature gate for exact eps=1`)を採る。**【v2.4・F2.4】** 便 43 の原文は `exact b=1` だが、U1 の (2.2) により **関所は exact $\varepsilon=1$**、$b=1$ はその $\mathrm{mod}\ M$ 帰結である。
 3. **【文献要請 13】**(§12.1)を関所へ。優先度中。**§14.1-1(pure mapping class group の自明性)を同梱するか要判断。**
 4. **$K^{(5)}$ 運用の再検討**(§13.3): 封印が測る対象が四束に変わる。**凍結 1/2 の内容自体は変更不要**(むしろ (R-1)(R-2) と $u$ 抽出に集中するのが正しい)だが、**「$K^{(5)}$ で $B_{\rm FC}$ を試す」という位置づけの文言**は裁定で更新すべき。**§13.3 の 6 層表の正本を manifest 側へ移すかも同時に裁定を(§14.1-3)。**
-5. **検算の恒久化**【**v2.2・U4 で現物へ同期**】: `search/week4-bfc-antecedents.mjs`(**Node 13/13**・便 43/44/45 F1 が独立再走で再現)+ `search/bfc-antecedents-check.g` / `certificates/bfc/bfc-antecedents.json`(**GAP 25/25・`fail_closed: true`**・schema `bfc-antecedents-check/v3`)。**両者は 1296/432/12 で一致**し、**marked-fidelity gate($xyz=1$・$\Phi$ の $x,y,z,f_{m,k}$ 同時移送・V3 の `=12` 明示 assert)は閉鎖済**。**`cross-checked` 昇格に残るのは certificate の provenance 束縛 1 件のみ**(§15.7)。**V6 は定理 K3 §2.2 (P7) の非標識 $\mathbb Q$-descent 部分への第二証明**(モデル認識・marking・$u$ 抽出は置換しない)として、**その 1 件の閉鎖後に登録**。
+5. **検算の恒久化**【**v2.2・U4 で現物へ同期**】: `search/week4-bfc-antecedents.mjs`(**Node 13/13**・便 43/44/45 F1 が独立再走で再現)+ `search/bfc-antecedents-check.g` / `certificates/bfc/bfc-antecedents.json`(**現況は certificate 現物を正とする**)。**両者は 1296/432/12 で一致**し、**marked-fidelity gate($xyz=1$・$\Phi$ の $x,y,z,f_{m,k}$ 同時移送・V3 の `=12` 明示 assert)は閉鎖済**。**`cross-checked` 昇格に残るのは certificate の provenance 束縛 1 件のみ**(§15.7)。**V6 は定理 K3 §2.2 (P7) の非標識 $\mathbb Q$-descent 部分への第二証明**(モデル認識・marking・$u$ 抽出は置換しない)として、**その 1 件の閉鎖後に登録**。
 6. **可視化**: 「shadow 類 = Belyi 類」という一行と、$B_{\rm FC}$-I/II-a/II-b/II-c の 4 枚分解は図にすると効く(🌒 の拡張候補)。**$B$-7 と $B$-7$^{\rm tw}$ の関係((TB4) と (TB4$^{\rm u}$) の差が単位 $\varepsilon$ 一つ)も図示候補。**
 
 ### 【v2.2・U3 で新規】8. Rule 1 / manifest 側の文言修理(**司令塔の裁定事項**)
 
-補題 B-9′(§10.1)の帰結として、**$K^{(5)}$ campaign の判定は exact $\varepsilon$ に依存しない**。ただし総点検で **1 箇所だけ**、条文に $\varepsilon$-依存が残っていた(§10.1.4):
+補題 B-9′(§10.1)の帰結として、**$K^{(5)}$ campaign の Belyi-side 列挙量**((P1)(P2)(R6-full)・固定体・Kummer 証明書型)**は exact $\varepsilon$ に依存しない**(**【v2.5・F2.2】**v2.3 の「campaign の判定は…依存しない」という無条件全称は撤回・**自認**)。ただし総点検で **1 箇所だけ**、条文に $\varepsilon$-依存が残っており、**その 1 箇所が `bridge_result_i` の意味を通じて下流の全称を止めている**(§10.1.4):
 
 | 場所 | 現行の文言 | 提案する修理 |
 |---|---|---|
@@ -910,8 +939,9 @@ m eff}=a=1$ が無条件で、**二 dessin 比較にも効かない**)。
 > aut_G3_order 1296 / aut_G3_lambda_stabilizer_count 432 / gt_k3_element_count 12
 > ```
 > を記録し、旧版 certificate は `certificates/bfc/retracted/` へ撤回済み。
-> **⇒ 残る 1 件だけを明示する**: **certificate の `input_doc_path` / `input_doc_sha256` が `docs/week4-BFC攻略_opus_v1.md` の `659a9570…`(= v1 原文)を指しており、final 正本 `docs/week4-BFC攻略_opus_v2.md` に束縛されていない**(便 45 F5)。**本稿の digest が確定した後に checker の input を final path へ向けて再走・再発行すること。** それで `cross-checked` 昇格の条件は尽きる。
-> **★ 順序の注意**: この束縛は**本稿の編集が止まってから**でないと意味がない(編集のたび digest が変わる)。**先に本文を凍結し、後で certificate を発行する**のが正しい順序である。
+> **⇒【v2.5・F2.4】現況は本文に書かない。** certificate の `schema` / `pass_count` / `fail_closed` / 各 fixture / `provenance.input_doc_path` / `input_doc_sha256` の**現在値は `certificates/bfc/` の現行 certificate を正**とし、bundle の**公式札は `provenance/CLAIMS.md`** を正とする。**本稿はそれらを参照するだけで値を複製しない。**
+> **理由**: 本文を編集するたび BFC digest が変わり、本文中の「certificate は◯◯を指す」という記述が**その編集自体によって失効する**(自己参照ループ)。**status を本文から外部台帳へ移してループを断つ**(便 48 F2.4 の提案を採用)。
+> **★ 順序の規約(不変)**: 束縛は**本稿の編集が止まってから**行う。**先に本文を凍結し、後で certificate を発行・再束縛する**。**実行は司令塔**(本稿からは GAP を再走しない — 便 48 F14 項 8)。
 
 ---
 

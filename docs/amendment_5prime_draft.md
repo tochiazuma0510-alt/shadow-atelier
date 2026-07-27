@@ -1,6 +1,6 @@
-# 修正条文案 **v2**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
+# 修正条文案 **v3**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
 
-**起草**: 2026-07-27・Claude(数学者レイヤー・Opus 5)。**裁定 48-3 に基づく起草・v2 は便 47(`sol/sol_reply_47_amendment.md`)の blocker 2 件 + F7–F10 を反映(裁定 50)。**
+**起草**: 2026-07-27(**v3 = 2026-07-28**)・Claude(数学者レイヤー・Opus 5)。**裁定 48-3 に基づく起草・v2 は便 47(`sol/sol_reply_47_amendment.md`)の blocker 2 件 + F7–F10 を反映(裁定 50)。**
 **身分**: **草案である。適用は司令塔** — 凍結正本(`docs/manifest_k5_v1.md` v1.5 / `docs/week4-K5_Rule1_v1.md` v1.3)を**上書きしてはならず**、**manifest v1.6 / Rule 1 v1.4 という新 version を作り差分ゲートを通す**。**本草案が PASS してから新 version を作る**(便 47 F12-5)。
 **根拠**: 便 46 F4・F5.2・F5.3 / **便 47 F4–F10** / `docs/week4-BFC攻略_opus_v2.md` §8.1(U5 注)・§10.1(補題 B-9′ = **two-mathematician PASS**)・§15.8。
 **発端**: **研究者の指摘**(2026-07-27)→ 司令塔委嘱 → 補題 B-9′ → 残留 1 述語の同定 → 本条文案。
@@ -20,6 +20,16 @@
 | **A9** | §2 I-n | 「fitting 違反 = 即時 integrity stop」 | **「汚染 run は隔離し、同 run の PASS/FAIL を救済しない」**を追加 | 便 47 F9 |
 
 > **便 47 F4 の判定**: amendment の**中心設計は PASS**(捻れ形への変更・$\exists b$ 禁止・FAIL は固定 $b_i$ に対する反例 1 個・$b_{\rm sq}=b_{\rm ns}$ を pairwise の前に検査し不一致を I-d・fitting 違反を I-n・版跨ぎ比較の禁止)。**v2 が直すのは blocker 2 件と条文の精度のみ。**
+
+## v2 → v3 差分(便 48 の blocker A3・F3.3・裁定 53)
+
+| # | 箇所 | v2 | v3 | 出所 |
+|---|---|---|---|---|
+| **A10** | §3 antecedent bundle | **(AB-1) に (5′) を含めていた** — **falsifier を論理的に殺す循環(blocker)**。(i) 個別反例が「(5′) を真と仮定して (5$'_b$) の破れを探す」ことになり、(ii) (P1) の破れは $R^{\rm cyc}_{\rm formal}$ と正面衝突して**反証分岐が空**になり、(iii) pairwise で「少なくとも一方の橋が偽」を言いたいのに前件で exact bridge を真と置く | **(5′)/(5$'_b$) を除去**し、**現行 manifest v1.5 の FORMAL-IN を逐語転記**((0)(1)(2)(3a–d)(6′-i)(6′-ii) の証拠 ID・K5-1・$j_i$・封印値 $a=1$。**(5′) は `PENDING`**)。さらに **bundle を目的別に二分割**: **`THEOREM-ANTECEDENT-Rcyc`**((5$'_b$) を含む・**定理適用側**)/ **`FALSIFIER-ANTECEDENT-BFC`**((5′) 系を含まない・**橋を試す側**)。結果 record に **`antecedent_bundle_id`** を追加。**自認** | 便 48 F3.2・F13.3・裁定 53 |
+| **A11** | §4.1 新設 | `orientation_certificate` が **boolean / field ID でも通る**書き方 | **5 束縛の operational schema** へ: **(1)** source/target torsor の ID+digest **(2)** 凍結済 $(\zeta_{10},\tau_i,j_i,b_i)$+選択 Kummer root ID **(3)** 全点写像 $\Phi_i$ または基点像 **(4)** $\mu_{10}$-equivariance $\Phi_i(\xi\cdot p)=\tau_i(\xi^{b_i})\Phi_i(p)$ **(5)** $G_K$-equivariance $\Phi_i(\gamma\cdot p)=\rho_i(\mathrm{Ih}_N(\gamma))\Phi_i(p)$ を全 $\gamma$ で。**サンプル・抽象 field equality・(4) 欠落を明示拒否**・欠落は fail-closed | 便 48 F3.3 |
+
+> **便 48 F3.1 の判定**: 8.4.0 の二段分離・F10.1 schema・8.4.1 の (5$'_b$)・ord1 修文・I-n・digest/predicate ID は**すべて PASS**。8.4.2 は **A11 を条件に PASS**。**v3 が直すのは A10(blocker)と A11 のみ。**
+> **F3.1 の申し送り(blocker ではない)**: `b_observed_before_gk = true` は必要だが**自己申告**でもある。将来は **凍結 2 event ID・観測 artifact ID・順序を示す append-only log digest** を併記するとより fail-closed になる。**§4 の schema に予約欄として記載**する。
 
 ---
 
@@ -119,12 +129,37 @@
 
 > | **BRIDGE-FAIL**(= B_FC の真の falsifier) | **①個別橋**: 下記 **antecedent bundle** が成立する下で、**Rule 1 §8.4.0 (F2) で値としてコミットされた $b_i$** に対する **(5$'_b$) $\rho_i(\operatorname{Ih}_N(\gamma))=\tau_i(\kappa_i(\gamma)^{b_i})$ の exact な反例 $\gamma$ が一つ得られること**(**存在形 $\exists b$ による判定は禁止** — Rule 1 §8.4.3)、または **(P1) の exact な破れ**。**②pairwise**: 同じ antecedent bundle の下で封印予測 (P2)/(5.5) が exact に破れること ⇒「**少なくとも一方の (5$'_b$) が偽**」までを主張し、どちらかは同定しない |
 
-> **antecedent bundle(新設・A6)**: ①② いずれも次が**すべて**成立していることを前件とする。
-> **(AB-1)** FORMAL-IN((0)(1)(2)(3)(5′)(6′))
-> **(AB-2)** BFC 補題 B-9′ の**共通枠組み前件**((TB1)(TB2)(TB3)(TB4$^{\rm u}$)+(CAL)+ 両 detector の (W1)–(W5) と **(6′-ii)** + 補題 K5-a)
+> ### antecedent bundle 【**v3・A10 で循環を除去し二分割**】
+>
+> **⚠ v2 の (AB-1) は「FORMAL-IN((0)(1)(2)(3)(5′)(6′))」と書いていた。これは falsifier を論理的に殺す blocker だった**(便 48 F3.2)。**(5′) は BFC が導くべき橋そのもの**であり、**BRIDGE-FAIL が試す対象**である。前件に置くと (i) 個別反例は「(5′) を真と仮定した上で (5$'_b$) の破れを探す」ことになり、(ii) (P1) の破れは (5′)+(6′) から $\mathrm{ord}([u^{-1}]_M)\mid e$ を出す $R^{\rm cyc}_{\rm formal}$ と正面衝突して**反証分岐が空**になり、(iii) pairwise の「少なくとも一方の橋が偽」を言いたいのに前件で exact bridge を真と置いてしまう。**自認。**
+>
+> **⇒ 便 48 F13.3 / 裁定 53 に従い、bundle を目的別に二つに分ける。同じ名前で兼用しない。**
+>
+> #### (B-I) `THEOREM-ANTECEDENT-Rcyc` — **定理を適用する側**
+> $R^{\rm cyc}_{\rm formal}$ / 補題 B-9′ の結論を**使う**ときの前件束。**(5$'_b$)(および exact (5′))を含む。**
+> ```text
+> THEOREM-ANTECEDENT-Rcyc
+>   = FORMAL-IN(下記 B-II と同内容)
+>   + (5'_b)            # ← 含む(定理の前件だから)
+>   + B-9' の共通枠組み前件
+> ```
+> **この bundle の下で結論が破れたら、それは `THEOREM/RECORD-CONSISTENCY-FAIL`(証明か記録の誤り)であって橋の反証ではない。**
+>
+> #### (B-II) `FALSIFIER-ANTECEDENT-BFC` — **橋を試す側**
+> BRIDGE-FAIL ①② が参照するのは**こちら**。**(5′) 系を一切含まない。**
+> ```text
+> FALSIFIER-ANTECEDENT-BFC
+>   = (AB-1) + (AB-2) + (AB-3) + (AB-4)
+> ```
+> **(AB-1)** **現行 manifest v1.5 の FORMAL-IN(逐語転記)**:
+> > 「(0)(1)(2)(3a–d)(6′-i)(6′-ii) の証拠 ID(付録 A・dessin 別行)・命題 K5-1・$j_i$ の定義・**封印値 $a=j_{\rm ns}^{-1}j_{\rm sq}=1$(formal invariant・永久不変)**。**(5′) は `PENDING`**」
+> > **⇒ (5′) および (5$'_b$) は (AB-1) に含めない。**
+> **(AB-2)** BFC 補題 B-9′ の**共通枠組み前件**((TB1)(TB2)(TB3)(TB4$^{\rm u}$)+(CAL)+ 両 detector の (W1)–(W5) と **(6′-ii)** + 補題 K5-a)。**(AB-1) と (6′-ii) が重複しても害はない** — theorem provenance と campaign evidence は役割が違うので両方に残す(便 48 F3.2)。
 > **(AB-3)** 両 dessin の BRIDGE-IN(**独立**成立)
 > **(AB-4)** Rule 1 §7.3 の gate $b_{\rm sq}=b_{\rm ns}$
 > **いずれかが閉じていなければ、分類は `FRAMEWORK-UNKNOWN` / `SCHEMA-OUT` / `MODEL-UNKNOWN` 等であって bridge falsifier ではない。**
+>
+> **★ 結果 record には `antecedent_bundle_id` を記録する**(`THEOREM-ANTECEDENT-Rcyc` / `FALSIFIER-ANTECEDENT-BFC`)。**どちらの帽子で判定したかを後から選べないようにする**(便 29 ★教材 3 の系)。
 
 ### 付随:manifest v1.6 の注記
 
@@ -148,10 +183,17 @@ b_rule_commitment        # Rule1-(7.1) digest         [凍結 1]
 b_value_sq, b_value_ns   # actual exponents           [凍結 2 / BRIDGE-IN]
 b_value_source           # c_i, ell_i の artifact ID
 b_observed_before_gk     # true/false(false or 欠落 ⇒ I-n)
+# 【v3・便 48 F3.1 の申し送り・予約欄】自己申告を補強する順序証拠
+freeze2_event_id         # 凍結 2 の event ID
+gk_observation_artifact_id
+order_log_digest         # append-only log の digest(順序を機械的に示す)
+
+# どの帽子で判定したか(A10)
+antecedent_bundle_id     # THEOREM-ANTECEDENT-Rcyc | FALSIFIER-ANTECEDENT-BFC
 
 # 証明書の三分離(F10.2)
 field_certificate                 # 核・固定体を証明する(exponent は証明しない)
-orientation_certificate           # 凍結済み (zeta10, tau_i, j_i, b_i) と Kummer root の向き
+orientation_certificate           # 下記 §4.1 の 5 束縛(boolean や field ID ではない)
 character_identity_certificate    # (5'_b) の character 恒等(全 gamma)
 
 # 既存
@@ -161,6 +203,39 @@ saturation_result    in {PROVED, REFUTED, NOT_PROVED}
 ```
 
 > **★ 三分離が防ぐもの**: `field_certificate` は核と固定体を証明するが **(5$'_b$) の exponent までは証明しない**。三つを別欄にすることで、**ord5 における「体が合ったから PASS」という誤 PASS を機械的に排除**できる(便 47 F10.2)。**PASS 宣言には `character_identity_certificate`(= C-i)または `orientation_certificate`(= C-ii)が必須**であり、**`field_certificate` 単独では不可**。
+
+### 4.1 【**v3・A11**】`orientation_certificate` の operational schema(便 48 F3.3)
+
+**`orientation_certificate` を boolean や field ID にしてはならない。** 実装者の提出物を一意にするため、**次の 5 束縛をすべて**含む構造体とする。
+
+```text
+orientation_certificate = {
+  # (1) source / target torsor の同定
+  source_torsor_id, source_torsor_digest,     # Fib_{01}(W_0^{(i)}) 側
+  target_torsor_id, target_torsor_digest,     # Lambda_i 側
+
+  # (2) 凍結済みパラメータと root の同定
+  zeta10_id,            # 原始根 zeta_10 := zeta_20^2(埋め込み (1.6) 込み)
+  tau_i_id, j_i_id,     # tau_i, j_i の凍結記録 ID
+  b_value_i,            # 8.4.0 (F2) の値(再 fitting 不可)
+  kummer_root_id,       # 選択した 10 乗根の ID(取り方の規約込み)
+
+  # (3) 写像の明示
+  phi_map,              # 全点写像 Phi_i、または基点像 + torsor 構造からの生成規則
+  basepoint_id,         # phi_map を基点像で与える場合に必須
+
+  # (4) mu_10-equivariance(向き)
+  mu10_equivariance_proof,   # Phi_i(xi . p) = tau_i(xi^{b_i}) Phi_i(p)  を全 xi in mu_10 で
+
+  # (5) G_K-equivariance(全 gamma)
+  gk_equivariance_proof      # Phi_i(gamma . p) = rho_i(Ih_N(gamma)) Phi_i(p)  を全 gamma in G_K で
+}
+```
+
+> **★ (4)(5) の二式が本体である**(便 48 F3.3): この二つを満たして初めて **C-ii は C-i と同じ character 情報を保持する**。
+> $$ \Phi_i(\xi\cdot p)=\tau_i\bigl(\xi^{\,b_i}\bigr)\Phi_i(p),\qquad \Phi_i(\gamma\cdot p)=\rho_i\bigl(\mathrm{Ih}_N(\gamma)\bigr)\Phi_i(p)\quad(\forall\gamma\in G_K). $$
+> **⛔ 不足として明示的に拒否するもの**: **有限個の $\gamma$ のサンプル**(較正であって証明ではない)/ **抽象的な field equality**(核しか記録せず unit-power の向きを忘れる)/ **(4) を欠いた (5) だけの提出**(指数 $b_i$ が拘束されない)。
+> **★ fail-closed**: 上記フィールドのいずれかが欠落・null・boolean のみであれば、`orientation_certificate` は**不成立**として扱い、PASS を宣言しない(欠落フィールドは §2 の **I-n** に準じて記録)。
 
 ---
 

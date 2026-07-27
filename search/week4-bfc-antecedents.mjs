@@ -1,4 +1,4 @@
-// B_FC 攻略 v1 — 精密化した前件 (W-1)..(W-5) の K^(3) 窓での整合検査。
+// B_FC 攻略(正本 = docs/week4-BFC攻略_opus_v2.md)— 精密化した前件 (W1)..(W5) の K^(3) 窓での整合検査。
 // search/r6act-check.mjs の G3 <= D3^3 再構成を流用し、追加で次を確認する:
 //   V1  [P:H] = 6 = M = ord(X)  かつ <X> は P/H 上推移的(全分岐)
 //   V2  N_P(H) = H(⇒ Fib -> Lambda が全単射・descent の cocycle 条件が自動)
@@ -8,7 +8,7 @@
 //   V5  Lambda は Phi(F_0)-安定(K-model の存在に効く)
 //   V6  Lambda は Phi(GT(K^(3))) 全 12 元でも安定(Q-model に効く・本稿の新規検査)
 //   V7  Lambda は Aut(G3) 全体では安定でない(6+6 融合)— V6 が自明でないことの対照
-//   V8  b-不変性の finite 版: 任意の b in (Z/6)^x に対し tau(z^b) の生成する群は tau(mu_6)
+//   V8  b-不変性の finite 版(正本 §10・系 B-8): 任意の b in (Z/6)^x に対し tau(z^b) の生成する群は tau(mu_6)
 //       で、ord(kappa) と ker(kappa) は b で不変(R^cyc_formal の結論が b に依存しない)
 let pass = 0, fail = 0;
 const ck = (n, ok, x = '') => { (ok ? pass++ : fail++); console.log(`[${ok ? 'PASS' : 'FAIL'}] ${n}${x ? '  ' + x : ''}`); };
