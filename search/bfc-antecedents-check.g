@@ -383,7 +383,7 @@ ComputeSha256File := function(relpath)
 end;;
 
 scriptSha256 := ComputeSha256File("search/bfc-antecedents-check.g");;
-inputMdSha256 := ComputeSha256File("docs/week4-BFC攻略_opus_v1.md");;
+inputMdSha256 := ComputeSha256File("docs/week4-BFC攻略_opus_v2.md");;
 nodeCertSha256 := ComputeSha256File("search/week4-bfc-antecedents.mjs");;
 
 # ================= 証明書 JSON =================
@@ -424,7 +424,7 @@ cert := Concatenation(
   ",\"fail_closed\":true",
   ",\"provenance\":{\"script_sha256\":\"", scriptSha256, "\"",
   ",\"input_doc_sha256\":\"", inputMdSha256, "\"",
-  ",\"input_doc_path\":\"docs/week4-BFC攻略_opus_v1.md\"",
+  ",\"input_doc_path\":\"docs/week4-BFC攻略_opus_v2.md\"",
   ",\"node_counterpart_sha256\":\"", nodeCertSha256, "\"",
   ",\"node_counterpart_path\":\"search/week4-bfc-antecedents.mjs\"}",
   ",\"elapsed_cpu_ms\":", String(GAPLIB_ElapsedMs()),
