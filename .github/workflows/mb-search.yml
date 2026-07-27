@@ -1,0 +1,169 @@
+name: mb-search
+
+# Model-Builder 探索の並列実行基盤(委嘱4のインフラ)。
+# 探索器の判定ロジックには一切触れない — job "plan" の integrity gate が
+# frozen_commit の凍結5文書と search/mb-*.mjs の sha256 を plan 記載値と
+# 照合し、不一致なら即 fail する。
+
+on:
+  push:
+    paths:
+      - 'search/mb-shard-plan.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.load.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate plan schema (a)
+        run: node search/mb-plan-validate.mjs search/mb-shard-plan.json
+
+      - name: Integrity gate (b)(c) — frozen docs + searcher files sha256
+        run: node search/mb-plan-integrity-check.mjs search/mb-shard-plan.json
+
+      - name: Load shard matrix (d)
+        id: load
+        run: |
+          set -euo pipefail
+          echo "shards=$(jq -c '.shards' search/mb-shard-plan.json)" >> "$GITHUB_OUTPUT"
+
+  search:
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    timeout-minutes: ${{ matrix.shard.timeout_minutes || 60 }}
+    env:
+      SHARD_ENV: ${{ toJSON(matrix.shard.env) }}
+      SHARD_SCRIPT: ${{ matrix.shard.script }}
+      SHARD_ID: ${{ matrix.shard.shard_id }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run shard
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p out
+          node -e "
+            const env = JSON.parse(process.env.SHARD_ENV || '{}') || {};
+            const lines = Object.entries(env).map(([k, v]) => k + '=' + String(v));
+            require('fs').writeFileSync('envfile.txt', lines.join('\n') + '\n');
+          "
+          set -a
+          source envfile.txt
+          set +a
+          START=$(date +%s%3N)
+          node "$SHARD_SCRIPT" > "out/${SHARD_ID}.json" 2> "out/${SHARD_ID}.err"
+          CODE=$?
+          END=$(date +%s%3N)
+          echo $((END - START)) > "out/${SHARD_ID}.elapsed_ms"
+          echo "exit_code=$CODE" >> "$GITHUB_OUTPUT"
+
+      - name: Write provenance sidecar
+        shell: bash
+        env:
+          EXIT_CODE: ${{ steps.run.outputs.exit_code }}
+        run: |
+          set -euo pipefail
+          ELAPSED=$(cat "out/${SHARD_ID}.elapsed_ms")
+          ELAPSED="$ELAPSED" node -e "
+            const fs = require('fs');
+            const prov = {
+              run_id: process.env.GITHUB_RUN_ID,
+              run_attempt: process.env.GITHUB_RUN_ATTEMPT,
+              sha: process.env.GITHUB_SHA,
+              runner_os: process.env.RUNNER_OS,
+              node_version: process.version,
+              shard_id: process.env.SHARD_ID,
+              exit_code: process.env.EXIT_CODE,
+              elapsed_ms: Number(process.env.ELAPSED),
+            };
+            fs.writeFileSync('out/' + process.env.SHARD_ID + '.provenance.json', JSON.stringify(prov, null, 2));
+          "
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mb-cert-${{ matrix.shard.shard_id }}
+          path: out/*
+          if-no-files-found: error
+
+  collect:
+    needs: [plan, search]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: downloaded
+
+      - name: Assemble certificates directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST="certificates/mb/actions/${{ github.run_id }}"
+          mkdir -p "$DEST"
+          shopt -s nullglob
+          for d in downloaded/mb-cert-*/; do
+            cp "$d"/* "$DEST"/
+          done
+          node search/mb-collect-summary.mjs "$DEST" search/mb-shard-plan.json > "$DEST/summary.json"
+          cat "$DEST/summary.json"
+
+      - name: Guard staged paths to certificates/mb/actions/** only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add "certificates/mb/actions/${{ github.run_id }}"
+          STAGED=$(git diff --cached --name-only)
+          echo "$STAGED"
+          if echo "$STAGED" | grep -v '^certificates/mb/actions/' | grep -q .; then
+            echo "PATH_GUARD_STOP: staged files outside certificates/mb/actions/**"
+            exit 1
+          fi
+
+      - name: Commit and push (1 commit)
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "mb-actions-bot"
+          git config user.email "mb-actions-bot@users.noreply.github.com"
+          if git diff --cached --quiet; then
+            echo "no changes to commit (no artifacts collected)"
+            exit 0
+          fi
+          git commit -m "mb-search Actions run collect: certificates/mb/actions/${{ github.run_id }}" \
+                      -m "Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
+          git pull --rebase origin master
+          git push origin HEAD:master

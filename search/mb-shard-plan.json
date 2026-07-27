@@ -1,0 +1,35 @@
+{
+  "schema": "mb/shard-plan/v1",
+  "frozen_commit": "578b4fe2030153dedac56016f0d57e947a0c8507",
+  "frozen_docs": [
+    { "path": "docs/week4-K5_Rule1_v1.md", "sha256": "8367ba7ac57876b490bbe775c56768747a519f3f5e4c1fe69dfab0c022cdf8db" },
+    { "path": "docs/manifest_k5_appendixA_v1.md", "sha256": "903bb9f31b27f61f2af0f4f2aeb9e4cf5c7e71e7db011bad447297495da90b75" },
+    { "path": "docs/manifest_k5_v1.md", "sha256": "2091dea7db6fca3cdc99fa5b688805b51a12cd86819d7b4f76df069d02a47b13" },
+    { "path": "docs/week4-K5_Rule1_impl_versions.md", "sha256": "6a65086e1c6d28424a572942176c8e697e430e0eff151d0c7c0db1ac3f799de9" },
+    { "path": "docs/week4-K5_S5設計_opus_v1.md", "sha256": "b5a14db3cd18412021fe64398a483e7dfeb4bbe7835ef499ca21108667a20555" }
+  ],
+  "searcher_files": [
+    { "path": "search/mb-frac.mjs", "sha256": "8bf878ca33c8dabaaaea396e8544aa553ad4e9a977ea89784835f689c7081d7b" },
+    { "path": "search/mb-naff-branch-search.mjs", "sha256": "c87e58ecc6afa7f450a2beb54b1d6e291e7118aef518d6ea5775f363025fbb5a" },
+    { "path": "search/mb-ninfty-branch-search.mjs", "sha256": "da61f6af033c2beba32502403937d85f4b940be7027ee55a1b2e018a0837e1a7" },
+    { "path": "search/mb-polyops-selftest.mjs", "sha256": "7c8d58eada072e91cac8c92f7c3bca20c4f403fc65a4db2ab637854731d07f5c" },
+    { "path": "search/mb-polyops.mjs", "sha256": "56a40c8fbea26eb236fac39f89543d57a6fb6e2fb2008703a11340098ec2bc03" },
+    { "path": "search/mb-w-branch-search-gaugefix.mjs", "sha256": "1f8554d063b332c6944d135497a40ab7e8e4de3097cd35b7703fa1a77e9b09de" },
+    { "path": "search/mb-w-branch-search-rational.mjs", "sha256": "e8c989965d2c05fec8bad18712cf063c82064cd62b921282ee0c7df870863115" },
+    { "path": "search/mb-w-branch-search.mjs", "sha256": "990147728313f9aac588de16942e21ded884287a499ce7b540ffbeba3de16821" }
+  ],
+  "shards": [
+    {
+      "shard_id": "smoke-naff-1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": { "MB_NAFF_BOUND": "1" },
+      "timeout_minutes": 10
+    },
+    {
+      "shard_id": "smoke-ninfty-1",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": { "MB_NINFTY_BOUND": "1" },
+      "timeout_minutes": 10
+    }
+  ]
+}
