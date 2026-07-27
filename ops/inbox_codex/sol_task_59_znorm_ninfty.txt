@@ -1,0 +1,30 @@
+便 59(二部): (A) Z-norm-seal/v1 の採用認可ゲート / (B) N∞ stage-2 spec v1 の監査
+
+Sol へ。司令塔より。対象は git HEAD(master・commit eaea178)。両部とも新規文書の初審。
+
+## Part A — Z-norm-seal/v1(便 55 F3 の「別の明示的認可」手続き)
+- docs/znorm_seal_draft.md(100 行・**drafted/unapproved**)
+  sha256 = c1ba4d16be08b741dde01daddd5d4ebb8b12b3d624a6d3422e5855b39f7d8a68
+- 認可の系譜: 研究者意向 2026-07-28(「1 行追加して定理にするのは難しいの?」→ 定理化 GO)が起点・本便が Sol ゲート・PASS 後に小版イベント(status/CLAIMS 全域更新)を別途実施。
+- 内容: scope=**profinite** の独立 seal(TB4 v2.4 §8.1 の 4 条を named-edge 様式で・(2) は for every n ≥ 1 を明示量化・(3) の rhs は canonical 根系へ一般化・(4) は窓横断量化)。Z-norm ⟹ Z20-link の導出+逆の witness(貴便 50 F3.1 の unit)。帰結列挙(TB4-B 発動 = ε=1 が root-normalization-relative theorem・**TB4-A20 の有限札は据え置き** — 前件の profinite 化は scope 逆行 = P55-2 違反、の理由つき・B_FC の関所表記が変わる候補 8 箇所の列挙のみ)。不変(A3 gate の逐語再掲・(5′_b)・測定規律)。
+- **起草者の precision 1 点(検分されたい)**: K³(M=6)の射程を委嘱文言の「閉じる」から**条件つき**へ弱めた — (2) で (TB2) 側は確定するが、b_op=1 にはその窓の Rule 側生成元が同じ ι̅ 経由で定まっている必要((4))。K³ には競合する ι₁₂ 凍結文が無いので定めれば従うが、**独立凍結済み埋め込みを持つ窓を自動で上書きしない**設計。出所対応表で adapted 申告済み。
+- 逆向き seal-scope lint(profinite 節への level_20 混入 0)実測済み。
+
+## Part B — N∞ stage-2 spec v1(裁定 66-6 再建線・貴便 54 F9/F12 の条文化)
+- docs/week4-NInfty_stage2_spec_v1.md(375 行)
+  sha256 = 77ed7131b147a777ab38dfc2c5b46db4a160e3735681e5089531a57b4a0181f2
+- **起草中に出た新数学(単系統・未監査 — 監査の中心)**:
+  1. **補題 N∞-F**: Pell 条件下で fiber 多項式が H_v(x) = −2v(a(x) − w)・w = (v²+ĉ_μ)/(2v) と畳める ⟹ **stage 2 は 5 次多項式 a の臨界値分解に帰着**(乱数係数で恒等式の数値健全性確認済)。
+  2. **系 N∞-P**: 貴便 F9.1-3 の 3 条件が a−w の重複度判定に落ち exact 有理演算で閉じる。
+  3. 8 hit の棄却の構造的説明(a′=ε5x²p ⟹ ord₀(a′)=2 ⟹ a−a(0) が x=0 で三重根 ⟹ partition 3·1² — 貴便 F6 (54.3) と一致)。
+  4. **補題 N∞-L**: sealing の必然性の独立導出(RH の Σ(e−1)=12+a′ の 4 根数え上げ → 有限分岐値 2 個が各々 ι-固定 → v²=ĉ_μ)— 貴便 F12.4 に ι-固定性の論証を追加した形。
+- **設計判断(検分されたい)**: 二次因子問題を経路分割で解消 — searcher v2 = fiber divisor 直接計算(baseline 概念を持たない)/ 照合器 = baseline multiplicity を一般補題で証明して除く(A)。同一述語の 2 実装で F9.2 の別実装要件を同時充足。
+- fixture 8 件は shard 名+index+**digest のみ**で登録(係数転記なし)・合格条件は verdict+partition+triple_gcd の 3 欄一致。EP 要件(実曲線陽性例まで partial predicate / UNKNOWN・EP は本番 tuple 禁止)。dependency-typed whitelist N∞ 節(挙証責任は新出力量を足す側)。前件表の型列挙・出所対応表つき。
+- 起草者の leakage 自己走査: 値・平方類・符号の出現 0(司令塔も -108・具体 tuple の出現 0 を独立 grep)。
+- 監査依頼は spec §11 の 6 点(必須 3・推奨 3)。**spec 凍結(PASS+ID/digest 発行)まで実装着手禁止**を条文化済み。
+
+## 依頼
+(A) 採用可否(可なら小版イベントの payload 指定)(B) N∞-F/P/L の監査と spec の PASS/差戻し・PASS なら spec 凍結 ID の発行様式。両部は独立判定でよい。
+
+## 返信様式
+sol/sol_reply_59_znorm_ninfty.md へ。F# 番号・Part 別判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
