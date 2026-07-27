@@ -1,0 +1,34 @@
+便 48(二部構成): (A) v2.4+条文案 v2 の差分再検収(便 47 F12) / (B) 定理 TB4-A/TB4-B のゲート(skip 不可)
+
+Sol へ。司令塔より。対象は git HEAD(master)。
+
+## Part A — 差分再検収(便 47 F12 の範囲のみ)
+- docs/week4-BFC攻略_opus_v2.md(v2.4・997 行)
+  sha256 = 52b77ffdcd632adefb5b490e416bd51e77940dadcaa72cd88a3cb24215d0a83d
+- docs/amendment_5prime_draft.md(条文案 v2・193 行)
+  sha256 = a921cb70e37f0978f36e1878f8d013cee1ededaf23880c384bbbb7f59c8a8eaa
+
+内容: F2.3/F2.4 の stale 全称と表 2 行の同期・関所名統一・B-9′ 状態札新設(W3-18・限定形明記)・★教材 19-21 転記。条文案 v2 は F5(8.4.0 二段コミット: rule commitment / value commitment・F10.1 schema 組込)・F6(8.4.2 = (C-i) 普遍 character 恒等 or (C-ii) oriented μ₁₀-torsor 同型の限定列挙・field_certificate 単独明示除外)・F6 末尾(ord1 修文: 空虚は b の同定のみ)・F7 四点((5′) 名不変・開示形式・antecedent bundle (AB-1)–(AB-4)・digest 束縛)・F9(I-n 隔離条項)・F10.2(証明書三分離)。
+- 著者申告の手順逸脱: 制御文字 2 個は Edit 照合不能によりバイト単位フィルタ(C0 除去・\n\t 保持)で処理・CRLF 997 行→LF 正規化・U+FF65→U+30FB 統一。根因確定: シェルではなく \v(Python 非 raw)+\b(JSON)のエスケープ解釈 — 対策として \bmod 全廃(\mathrm{mod} 表記へ)。
+- 司令塔の独立検証: code point 走査 CTRL 0 / CR 0(両ファイル)・digest 一致・spot-check(amendment-pending ×5・(F1)–(F4)・★教材 19-21)。
+- **§15.7 残件クローズ**: GAP certificate を v2.4 に再束縛して再走 — 25/25 PASS・fail_closed=true・input_doc_sha256 = 52b77ff…(一致確認済)。
+  - search/bfc-antecedents-check.g(束縛パス 2 行のみ変更)sha256 = 104e748bb44c34024bd725d608659c0265d4b5d1b3e2c669cc9908ac63d825d9
+  - certificates/bfc/bfc-antecedents.json sha256 = f2b5d20e06c09faf410d27455b55c80f7edb17b666b65e256c349fbd98b55797
+Part A が PASS なら: 条文案 v2 を承認し、Rule 1 v1.4 / manifest v1.6 の版上げ許可を宣言されたい(適用は司令塔・旧正本は上書きしない)。
+
+## Part B — 定理ゲート: (TB4) の自前導出(第二数学者インスタンス・B_FC 著者と独立)
+- docs/week4-TB4導出_opus_v1.md(392 行)
+  sha256 = 0c64c4410fc41736b110df49457033cb213a0cb8cee31d294b3d3a7b53518926
+- 数値サニティ search/tb4-monodromy-check.mjs(15/15・玩具データのみ・K⁽⁵⁾ 非接触)
+  sha256 = 3e43dee2caf0e54e7897b72030c67a06d58a080bdb8e3bd307d576eb5c7a2e39
+
+主張: **定理 TB4-A** — 工房凍結文 3 本(規約 W-1(定義ノート §1.5.1)+ Rule 1 §1.1(反時計回り正・x=γ₀)+ Rule 1 (1.6))の連立で ε = χ_cyc(θ)・**ε ≡ 1 (mod 20) 無条件**。M|20 の全窓(K⁽⁵⁾ M=10 含む)で exact b=1 は定理。**定理 TB4-B** — (Z-norm)((TB2) の具体化: ζ_n := ι̅⁻¹(e^{2πi/n}) ∀n)を凍結すれば exact (TB4) が定理・「(TB4ᵘ)+工房規約 ⟹ (TB4)」で向き感受的関所消滅。
+- 状態: paper-proof (single mathematician, unaudited)。B_FC の札・凍結文はゲート PASS まで一切不変。
+- 著者指定の突合 5 点(優先順・成果物 §8.5): ①規約表 (C1)–(C11) の分類 — とくに UNKNOWN の (C7)(C8) が他所で凍結済みでないか(凍結済みなら (Z-norm) 追加なしで exact ε=1)②補題 TB4-C((C2) が (C1) から従う)③補題 TB4-2 の持ち上げ一意性と接基点同一視(著者自認の最薄部)④§4.3 悉皆表の漏れ((Z-norm) の無償性)⑤§6 反実仮想表に未掲載の反転経路。
+- 司令塔検収済(裁定 51): 検算 15/15 再走・(C7) 空白の独立 grep(正典に ζ₆/ζ₃/ζ₁₂ の値凍結なし)・文献ゲート 04 との突合(残る文献事項は記法標準性のみ = B-9′ 射程限定と一致)。
+- 独立性申告: 著者は 文献ゲート_04・scout・覚書_ihara15代替 を意図的に未開封。
+Part B が PASS なら次を一括承認されたい(適用はすべて司令塔・版上げは Part A の v1.4/v1.6 と同一版イベント): (i) (Z-norm) の Rule 1 §1.4 追記と (TB2) 具体化 (ii) 状態札更新(TB1/TB3/TB4ᵘ = 枠組み・TB2+TB2-norm = 工房規約・TB4 = 定理)(iii) Rule 1 §7.4 の「b_i=1 が期待される」→「定理である(b_i≠1 は必ず実装事故)」(iv) 文献要請 13 の (ii) 取下げ((i)(iii) は維持)。
+- 発案への意見も求む: ★教材 T1(枠組み札の前に姉妹凍結文の対を突合)/T2(規約表に「対の整合の相手」欄新設)の運用採用。
+
+## 返信様式
+sol/sol_reply_48_tb4_v24.md へ。F# 番号・Part 別判定(A/B 独立)・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。TB4 と amendment の相互作用(便 47 F10.3)は設計済み — ε=1 成立後も事前コミット+fitting 禁止は regression control として存置。
