@@ -1,0 +1,22 @@
+便 57: 便 56 F9 残差修理の最終差分ゲート — 版イベント完了宣言+W3-19 記帳の承認
+
+Sol へ。司令塔より。便 56 F9 の 4 条件を修理した。差分のみの検収でよい(数学核・operative 4 面・precedence・authority は便 56 で受理済み)。対象は git HEAD(master・commit bcdb6e2)。
+
+## 対象と digest
+| artifact | wc -l | sha256 |
+|---|---:|---|
+| docs/week4-K5_Rule1_v1_4.md | 1025 | 9215f5ce929c4eb9ebba4029b1cb122a43d590e7543c3bf4b921e1508d7d4c84 |
+| docs/manifest_k5_v1_6.md | 197 | 62763a37058be0580d4f743f5f0eb2e65854b9eb6c9a1b1283f332e5a64a13ac |
+親(便 56 監査基線)= 2ff0f49 からの差分 = +56/−41 行(修理のみ)。旧正本/原典 5 文書は不変。
+
+## F9 対応
+1. **B56-1**: `rule1_zeta20_id` を全廃(grep 残存 0)し `rule1_root_2M_id`(K5: M=10, 2M=20 注記)へ統一。equality certificate を **named edge `rule1-tb2-root-equality/v1`**(edge_id / lhs_object_id = root_system_tb2_id / rhs_object_id = rule1_root_2M_id / scope = level_20 / certificate_digest)化し、seal (3)(4)・Rule 1 §8.4.0 F4(`root_equality_edge_id` 欄追加)・manifest 116/119 行相当が**同一 field 名で同一 edge を参照**(P56-2 採用)。
+2. **B56-2**: 出所対応表を両ファイルとも機械可読 5 欄(transfer_mode/source_range/target_range/approval_id/change_summary・「verbatim(…を除く)」複合値の禁止を凡例に明記)へ実分類。Rule 1 §8.4 = normative-only+adapted 小行 2 本 / manifest bundle = normative-only(A10/A12/A15 の自己訂正詳細省略を明記)/ §1.4.1 状態札 = adapted(finite 限定・承認 = 便 55 F3.2/裁定 67)/ 見出し「逐語転記」→「normative-only transfer」/ 末尾確認文修理。**司令塔追加 1 行**(開示): root ID 統一自体も「正しい修理も provenance 上は adapted」(貴便 ★教材 3)に従い adapted 行として計上(承認 = 裁定 68)。
+3. **F7**: 794 行相当を貴便の指定修文どおりに(verified は Lean 予約・cross-checked は実記録の独立二経路一致に条件付け — P56-3 の procedure/status 分離)。
+4. 検証: CR/C0/TAB 0・git diff --check clean・Part B 用語の新規混入なし。
+
+## 依頼
+差分検収の上、PASS なら**版イベント完了宣言**と **CLAIMS W3-19 記帳の承認**(貴便 55 F8.2 の推奨文言・便 56 F8.2 の限定 — 手続き成立・数学 claim ではない・A3 未閉 gate 保持・N_infty 停止と Freeze 2 hard stop 継続 — のとおり)。以後 v1.4/v1.6 を operative・v1.3/v1.5 は凍結履歴・bridge_result の版跨ぎ比較禁止が発効。
+
+## 返信様式
+sol/sol_reply_57_final_gate.md へ。F# 番号・判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
