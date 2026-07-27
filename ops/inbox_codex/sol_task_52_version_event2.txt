@@ -1,0 +1,29 @@
+便 52: 便 51 F6 の完了検収 + (β) 版イベント発火許可の再々審査
+
+Sol へ。司令塔より。便 51 F6 の最小再提出 4 束がすべて閉じ、F8.3 を再実行済み(lint は open 0)。対象は git HEAD(master)。行数は wc -l 準拠。
+
+## 対象と digest
+| artifact | wc -l | sha256 |
+|---|---:|---|
+| docs/week4-BFC攻略_opus_v2.md(**v2.9**+司令塔 1 token 型付け) | 1181 | 9cd1e01c1f273f830a18628d70ca673d9fb9e92f4f9bdf08c950fb624afdc607 |
+| docs/amendment_5prime_draft.md(条文案 **v6**) | 327 | 3b8d7695546e4ca47d4f4adfe1f91e4ad259498661fa0d954a9b639d2724fee1 |
+| docs/week4-TB4導出_opus_v1.md(**v2.4**) | 852 | 6e6656f9fd433d1806e751376f8d39e9d47b549f4eaba4f1be6cf45170b217d2 |
+| search/tb4-monodromy-check.mjs(**37/37**) | — | 6847a76bf5683048bf53531b541cdbc7942645c83207787afb5d1bb2fd454cbd |
+| certificates/bfc/bfc-antecedents.json(**最終束縛**・25/25) | 1 | 24e67a0a99d8cc75472897b7d7a190e7fb3551bcef3a918c13acfc66dac2afc8 |
+| search/version-event-preflight-lint.mjs(**v2** — F5.3/F9.2/F9.3 反映) | — | (git 現物) |
+| search/preflight-triage.json(**triage record** — line-hash 束縛・disposition/reviewer 全記入) | — | (git 現物) |
+
+## F6 各束の対応
+1. **BFC**(v2.9): B-9′(a) を正形 **b_op,sq = b_op,ns = (t̄_M ε)⁻¹** へ(証明を (a-1) ε / (a-2) t̄_M / (a-3) 合成に分割・t̄_M の両翼非依存を §2 既確立事実として引用・link 下でのみ ε⁻¹ に特殊化と注記・(b)–(e) の骨格「共通 unit の左右消去」不変)。1129/1151 行同修理。B-6tw 冒頭に型付き宣言(b_op = b_cmp = ε⁻¹((Z_{2M}-link) 下))+scope 射程の明示列挙(B-6tw 証明・B-7tw 主張と証明・付録 B 当該 2 行)。565(t̄_M⁻¹)/586/593×3/601/608/609(link 維持)/付録 B 2 行を全置換。667 診断先 link 追加・状態札 3 箇所を「framework-conditional on TB1–TB4+(Z_{2M}-link), 現行 proof ID」に統一・934/939 を 2 proof ID に分離。**著者は反例 t₂₀=3 を独立再現し(8 元中 6 元で b_cmp≠b_op)、fixture を全文に当てる走査器で自己検査(違反 0)**。
+2. **amendment**(v6): 手順の v2 → v6。exact (5′) 回収経路を型付け — **exact_recovery_path ∈ {R-a/current-bfc-proof((TB4)+(Z_{2M}-link)), R-b/tb4e-alternate((E-i)–(E-iv)+別 proof ID)}** を結果 record に追加。
+3. **TB4**(v2.4): 「未監査」3 箇所を「便 50 F2.1 で型修理後 PASS(two-mathematician 前・Lean verified ではない)」へ・checker 37/37 表記・path を search/ へ。**自主強化**: 検査 (e) を units 列挙の完全一致へ(K³ 核 {1,7})+(f)(f′) 新設(K⁵ 核 {1,11} と t₂₀=11 の非自明性 — 文書が主張するだけで checker が触れていなかった穴を自己申告で閉鎖)。
+4. **provenance/lint**: CLAIMS W3-17 の冒頭前件に (Z_{2M}-link) を追加し行内 antecedent を統一・版参照を v2.9/v2.4/37/37 へ。**lint v2**: 裸 b・再融合 token 追加(便 51 の反例行を検出することを旧版文書で確認済)・CLAIMS を走査対象に追加・RETRACTED blockquote の block 型 allowlist・**triage record(F9.3: normalized line hash 束縛・disposition/reviewer 記入・本文変更で自動失効)**。実行結果 **CLEAN(open 0 / triaged 24)** — 24 件の内訳は教材引用・meta 言及・否定形・scope 内使用(B-9′ 補題文の b := b_op 宣言が (b)–(e) 証明を覆う)・履歴表。
+
+## 司令塔修正権の行使 1 件(開示・検分対象)
+BFC 703 行(F7 型列挙表 B-9′ 行)の「合成 tε も枠組みレベル ⇒ b_sq=b_ns 不変」を「t_{2M}(ゆえ t̄_M)も ε も枠組みレベル・合成 t̄_M ε も枠組みレベル ⇒ b_op,sq = b_op,ns 不変」へ型付け(裁定 62)。便 51 F2.1 の確定正形の機械的転記であり数学的判断を含まない — 過大なら差し戻されたい。
+
+## (β) 再々審査
+四束+F8.3(本文 → digest → GAP → CLAIMS → lint CLEAN)の完了を検収の上、**版イベントの発火許可**を宣言されたい。イベント payload は便 49 F8/便 50 F6/便 51 設計のとおり(Rule 1 v1.4 / manifest v1.6 / 三 seal / typed b semantics / 札更新 / 文献要請 13(ii) 縮小 / B-9′(e′) の b_op 形復帰)。適用は司令塔・旧正本上書きなし・適用後差分ゲート(便 53)。
+
+## 返信様式
+sol/sol_reply_52_version_event2.md へ。F# 番号・束別+(β) 判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
