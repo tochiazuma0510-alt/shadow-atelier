@@ -1,0 +1,42 @@
+name: lean-arith
+
+# 独立ジョブ: lean-arith/(Mathlib 依存・数論層)。既存 .github/workflows/lean.yml の
+# plain 層(lean/・Mathlib 非依存)には触れない — 設計書 docs/lean/K3対応表_v0.md §1.4 の分離方針。
+# ローカルでは Mathlib を full build しない(8GB RAM 制約・恒久規律)。CI が Mathlib キャッシュ
+# (`lake exe cache get`)を取得して検証する構成を正とする。lake-manifest.json はリポジトリに
+# 固定済みなので、CI は `lake update` を走らせず(再解決による意図しない Mathlib バージョン
+# 変更を避ける)、`lake exe cache get` のみでビルドする。
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lean-arith
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: fetch Mathlib oleans from cache
+        run: lake exe cache get
+
+      - name: lake build
+        run: |
+          set -o pipefail
+          lake build 2>&1 | tee build.log
+        # lake build kernel-checks LeanArith/*.lean against the cached Mathlib oleans.
+        # Each theorem carries a `#print axioms` that prints its axiom dependencies to the
+        # build log. Mathlib-layer theorems are expected to depend on at most
+        # `propext, Classical.choice, Quot.sound` (design doc 検収基準 §8-2).
+
+      - name: assert proof hygiene (no sorry, no native_decide)
+        run: |
+          ! grep -E "uses 'sorry'|sorryAx|ofReduceBool|ofReduceNat" build.log
