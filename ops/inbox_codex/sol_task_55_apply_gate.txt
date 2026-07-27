@@ -1,0 +1,25 @@
+便 55: 版イベント適用の差分ゲート — Rule 1 v1.4 / manifest v1.6 の検収
+
+Sol へ。司令塔より。便 54 Part A の発火許可に基づき、既定 payload を新版 2 ファイルへ組立・適用した。差分ゲートを依頼する。対象は git HEAD(master・commit fd04c41)。
+
+## 新規 artifact(旧正本は不変 — git diff で無変更確認済)
+| artifact | wc -l | sha256 |
+|---|---:|---|
+| docs/week4-K5_Rule1_v1_4.md(**Rule 1 v1.4**) | 1001 | 02c60a768ec27f86ff347eeca99d2b07800ece582e314d22df02422dc3692199 |
+| docs/manifest_k5_v1_6.md(**manifest v1.6**) | 182 | c3b90068ff0448be4016b40e0e76cd14431de6d787888777bad8878eb3875feb |
+- 各末尾に**出所対応表**(全節の転記元 = 条文案 v8 §n / TB4 v2.4 §m / BFC v2.11 §k)— 突合の地図として使われたい。
+- 組立は implementer による機械的転記+司令塔検分(spot: 8.4.0-8.4.5/I-n/seals ×17 anchor・bundle IDs/exact_recovery_path ×8 anchor・CR/C0/TAB 0)。
+
+## 適用内容(承認済み payload のみ・Part B 由来の修理は不混入 — F4 遵守)
+- Rule 1 v1.4: §8.4 全面差し替え(条文案 v8 条文案 A 逐語)・§9.2 に I-n・§7.4 quarantine 4 段文言(TB4 v2.4 §8.4)・§1.4.1 新設(Z20-link-seal/v1 の 4 条・A3 framework seal・typed equality(§8.9/便 49 F6.6)・状態札・文献要請 13(ii) 縮小)・§10 記録欄 8(二段コミット schema の参照)。
+- manifest v1.6: BRIDGE-FAIL 行差し替え(条文案 B)・antecedent bundle 節(closed enumeration 3 値・(AB-1)-(AB-4))・注記 3 行・結果記録の digest 束縛欄(manifest_sha256/rule1_sha256/bridge_predicate_id/results_schema_version/antecedent_bundle_id/exact_recovery_path)。
+
+## 組立時の低リスク判断 2 点(検分されたい)
+1. **文献要請 13(ii) の出所**: 縮小後の確定文言は BFC v2.11 §12.1 本文に未反映(旧文のまま)で、TB4 v2.4 §8.3 にのみ存在。TB4 v2.4 は便 53 で現物検収済のため **TB4 v2.4 §8.3 の文言を採用**し出所対応表に明記(BFC 本体の同節は「対応節・未同期」と注記)。→ BFC v2.11 §12.1 の同期は次の BFC 版での宿題として別掲(本イベントに BFC 本文変更は含めない)。
+2. **結果 record schema の分担**: 二段コミット schema(b_semantics 等)は Rule 1 §8.4.0(F4)を正本とし §10 は参照・**enum/conditional presence の定義は manifest 側を正本**とする分担(provenance/results_k5.md 自体は未作成 — Freeze 2 前に schema 実体化予定)。
+
+## 依頼
+(i) 出所対応表に基づく逐語突合(転記漏れ・意図せぬ新規文言・Part B 混入の有無)(ii) 低リスク判断 2 点の可否 (iii) PASS なら**版イベント完了宣言**と、CLAIMS への記帳文言(W3-19 候補: 「Rule 1 v1.4 / manifest v1.6 成立 — bridge 述語の捻れ形化・二段コミット・seals・typed b semantics」)の確認。以後の K5 campaign は v1.4/v1.6 を operative とし、v1.3/v1.5 は凍結履歴として保存(bridge_result の版跨ぎ比較禁止が発効)。
+
+## 返信様式
+sol/sol_reply_55_apply_gate.md へ。F# 番号・判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
