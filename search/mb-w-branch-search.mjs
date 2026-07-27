@@ -148,6 +148,20 @@ function isPerfectSquarePair(rest) {
   return { ok: true, A, B, C, h };
 }
 
+// 汎用版(a を Frac[3] で直接受ける — 委嘱2 の非整数有理数拡張が再利用する)。
+export function testCandidateFrac(aFrac, label) {
+  const [a0f, a1f, a2f] = aFrac;
+  if (a0f.isZero() && a1f.isZero() && a2f.isZero()) return { skip: true, reason: 'a=0 identically' };
+  const { poly: D, consistent } = computeDiscriminantPoly(aFrac);
+  if (!consistent) return { skip: true, reason: 'interpolation self-check failed (degree bound exceeded?)' };
+  const { k, rest } = stripZeroRoot(D);
+  if (k === Infinity) return { skip: true, reason: 'D(v) identically zero (curve singular for all v?)' };
+  if (!isEvenPoly(rest)) return { ok: false, reason: 'R(v) not even (no +-s symmetry)', k };
+  const sq = isPerfectSquarePair(rest);
+  if (!sq.ok) return { ok: false, reason: sq.reason, k };
+  return { ok: true, k, h: sq.h.toString(), a0: a0f.toString(), a1: a1f.toString(), a2: a2f.toString(), label };
+}
+
 export function testCandidate(a0, a1, a2) {
   const a = [fr(a0), fr(a1), fr(a2)];
   if (a2 === 0 && a1 === 0 && a0 === 0) return { skip: true, reason: 'a=0 identically' };

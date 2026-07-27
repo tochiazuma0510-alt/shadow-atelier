@@ -1,0 +1,24 @@
+{
+  "schema": "mb/naff-branch-search/v1",
+  "branch": "N_aff",
+  "normal_form": "a(x)^2-c_N*x^5=f6(x)*p2(x)^2 (x0=0 by translation gauge, a5=+-1 by monic-f6 gauge, c_N NOT gauge-fixed)",
+  "search_bound": 3,
+  "a5_values": [
+    1,
+    -1
+  ],
+  "cn_range": [
+    -3,
+    3
+  ],
+  "tested": 201684,
+  "stage1_passes": 8,
+  "stage1_rejects": 201676,
+  "hits": [],
+  "error_count": 0,
+  "errors": [],
+  "internal_error_count": 0,
+  "internal_errors": [],
+  "elapsed_ms": 228520,
+  "contact_discipline": "本探索器は c_N の平方類・平方因子・符号、lambda=c*mu^2 の c、c_hat_mu=a^2-f6*p2^2 のいずれも計算・選択基準に使用していない。出力は a,c_N,p2,f6 の整数/有理係数(完全な曲線データ・A1 whitelist 内)と D(v) の構造検査結果(k,h)のみ。"
+}
