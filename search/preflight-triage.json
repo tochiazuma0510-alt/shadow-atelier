@@ -1,26 +1,10 @@
 {
-  "docs/week4-BFC攻略_opus_v2.md::02fb03bd9b973959::untyped-t-eps": {
-    "file": "docs/week4-BFC攻略_opus_v2.md",
-    "line": 154,
-    "token": "untyped-t-eps",
-    "text": "> | **B-9′** | **なし** | (a) の背骨は「単位が窓にも dessin にも依らない」こと。**$t$ も $\\varepsilon$ も枠組みレベル**なので合成 $t\\varepsilon$ も",
-    "disposition": "reviewed-legitimate",
-    "reviewer": "司令塔(裁定 62)"
-  },
   "docs/week4-BFC攻略_opus_v2.md::b379ff442354e61b::naked-b": {
     "file": "docs/week4-BFC攻略_opus_v2.md",
     "line": 155,
     "token": "naked-b",
     "text": "> | **系 B-8** | **なし** | $b$ が何であれ $\\xi\\mapsto\\xi^b$ が自己同型であることしか使わない |",
     "disposition": "lesson-quote: ★教材・履歴注での過去誤りの引用",
-    "reviewer": "司令塔(裁定 62)"
-  },
-  "docs/week4-BFC攻略_opus_v2.md::ec7efde4dc439ef7::re-fusion": {
-    "file": "docs/week4-BFC攻略_opus_v2.md",
-    "line": 204,
-    "token": "re-fusion",
-    "text": "| **I1(バグ)** | §10.1.2 (a) とその証明 | 「以下 $b:=b_{\\rm op}$(link-free)」と宣言した**直後に** $b_{\\rm sq}=b_{\\rm ns}=\\varepsi",
-    "disposition": "history-table: I1 変更履歴行(バグの引用)",
     "reviewer": "司令塔(裁定 62)"
   },
   "docs/week4-BFC攻略_opus_v2.md::4dd5edaa38a2df62::unadjusted": {
@@ -84,7 +68,7 @@
     "line": 676,
     "token": "naked-b",
     "text": "> **証明.** $\\xi\\mapsto\\xi^b$ は $\\mu_M$ の自己同型なので (i) $\\lvert\\kappa^b(G_K)\\rvert=\\lvert\\kappa(G_K)\\rvert=\\mathrm{",
-    "disposition": "scoped-usage: B-9′ 補題文が b := b_op を宣言((2.1) 事前固定)— 証明内の b は宣言射程内",
+    "disposition": "local-declaration: 系 B-8 の証明 — 673 行が b∈(ℤ/M)^× を局所宣言(便 52 F5.4-5 の訂正)",
     "reviewer": "司令塔(裁定 62)"
   },
   "docs/week4-BFC攻略_opus_v2.md::7986af6c9e901b67::unconditional": {
@@ -198,5 +182,21 @@
     "text": "> ### ★教材 T11(**v2.3 新設**・便 50 F7-5): **「無条件」は空の前件を意味する**",
     "disposition": "lesson-definition: ★教材 T11 の定義見出し",
     "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-TB4導出_opus_v1.md::5329dfab3fd2fae9::naked-b-eq1": {
+    "file": "docs/week4-TB4導出_opus_v1.md",
+    "line": 636,
+    "token": "naked-b-eq1",
+    "text": "\\text{現行:} & \\texttt{TB4 = unique orientation-sensitive literature gate for exact }b=1\\\\[4pt]",
+    "disposition": "history-table: 現行/提案の対比表示内の旧 status 文の引用",
+    "reviewer": "司令塔(裁定 63)"
+  },
+  "docs/week4-TB4導出_opus_v1.md::037ed1d95aab2699::naked-b-eq1": {
+    "file": "docs/week4-TB4導出_opus_v1.md",
+    "line": 846,
+    "token": "naked-b-eq1",
+    "text": "| **`NF-root-link/K5`** | full tuple $(10,11,1,11,1,1,\\textbf{false})$ — 「$b=1$ だから根も一致」は**どちらの $b$ でも偽** | TB",
+    "disposition": "meta-mention: fixture 表のスローガン引用(「b=1 だから根も一致」は偽、の否定文脈)",
+    "reviewer": "司令塔(裁定 63)"
   }
 }

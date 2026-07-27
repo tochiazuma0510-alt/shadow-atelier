@@ -1,0 +1,50 @@
+{
+  "schema": "preflight-receipt/v1",
+  "event_id": "rule1-v1.4_manifest-v1.6_2026-07",
+  "source_commit": "41415a756d72b1a099970aedd84998fb4ec3e00b",
+  "lint_version": "v3",
+  "artifacts": [
+    {
+      "path": "docs/week4-BFC攻略_opus_v2.md",
+      "sha256": "2a6a52b792ed919c19d2af02a423c4fa18bc2062dee5ef12d9f8fa580758f4a0",
+      "declared_version": "v2.10",
+      "header_ok": false
+    },
+    {
+      "path": "docs/amendment_5prime_draft.md",
+      "sha256": "ae5a59a9d3634eabbd4167bba03a33ffcd3d03360de3489aad8741f1276bf5c4",
+      "declared_version": "v7",
+      "header_ok": true
+    },
+    {
+      "path": "docs/week4-TB4導出_opus_v1.md",
+      "sha256": "ff71e9fbc162ee613713d9ad317e8fbea635c7e4fadeae189cff1656b52634f4",
+      "declared_version": "v2.5",
+      "header_ok": true
+    }
+  ],
+  "claims": [
+    {
+      "row_id": "W3-17",
+      "ok": true,
+      "row_hash": "ab63da93d206fa3e"
+    },
+    {
+      "row_id": "W3-18",
+      "ok": true,
+      "row_hash": "3daf3f9a2789f17d"
+    }
+  ],
+  "certificate_ok": false,
+  "hits": {
+    "open": 20,
+    "triaged": 25,
+    "orphans": 2
+  },
+  "failures": [
+    "VERSION-IDENTITY: docs/week4-BFC攻略_opus_v2.md の 1 行目が declared v2.10 と不一致",
+    "CERT-BINDING: certificate の input_doc 束縛が現物 digest と不一致(再束縛が必要)"
+  ],
+  "verdict": "BLOCKED",
+  "generated_note": "timestamp は commit が持つ(スクリプトは時刻を打刻しない)"
+}

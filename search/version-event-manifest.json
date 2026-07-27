@@ -1,0 +1,35 @@
+{
+  "event_id": "rule1-v1.4_manifest-v1.6_2026-07",
+  "artifacts": [
+    {
+      "path": "docs/week4-BFC攻略_opus_v2.md",
+      "declared_version": "v2.10",
+      "header_re": "v2\\.10"
+    },
+    {
+      "path": "docs/amendment_5prime_draft.md",
+      "declared_version": "v7",
+      "header_re": "v7"
+    },
+    {
+      "path": "docs/week4-TB4導出_opus_v1.md",
+      "declared_version": "v2.5",
+      "header_re": "v2\\.[45]"
+    }
+  ],
+  "claims": [
+    {
+      "row_id": "W3-17",
+      "must_contain": ["(Z_{2M}-link)", "b_op", "checker 37/37", "自前導出 v2.4"]
+    },
+    {
+      "row_id": "W3-18",
+      "must_contain": ["b_op,sq = b_op,ns = (t̄_M ε)⁻¹", "(2.1′)"]
+    }
+  ],
+  "certificate": {
+    "path": "certificates/bfc/bfc-antecedents.json",
+    "input_doc_path": "docs/week4-BFC攻略_opus_v2.md"
+  },
+  "note": "declared_version は各波の最終版に司令塔が更新する。lint v3 はこの manifest と本文 header・CLAIMS 行・certificate 束縛を equality 照合する(便 52 F9.1)。"
+}
