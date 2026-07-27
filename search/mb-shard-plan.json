@@ -2,34 +2,819 @@
   "schema": "mb/shard-plan/v1",
   "frozen_commit": "578b4fe2030153dedac56016f0d57e947a0c8507",
   "frozen_docs": [
-    { "path": "docs/week4-K5_Rule1_v1.md", "sha256": "8367ba7ac57876b490bbe775c56768747a519f3f5e4c1fe69dfab0c022cdf8db" },
-    { "path": "docs/manifest_k5_appendixA_v1.md", "sha256": "903bb9f31b27f61f2af0f4f2aeb9e4cf5c7e71e7db011bad447297495da90b75" },
-    { "path": "docs/manifest_k5_v1.md", "sha256": "2091dea7db6fca3cdc99fa5b688805b51a12cd86819d7b4f76df069d02a47b13" },
-    { "path": "docs/week4-K5_Rule1_impl_versions.md", "sha256": "6a65086e1c6d28424a572942176c8e697e430e0eff151d0c7c0db1ac3f799de9" },
-    { "path": "docs/week4-K5_S5設計_opus_v1.md", "sha256": "b5a14db3cd18412021fe64398a483e7dfeb4bbe7835ef499ca21108667a20555" }
+    {
+      "path": "docs/week4-K5_Rule1_v1.md",
+      "sha256": "8367ba7ac57876b490bbe775c56768747a519f3f5e4c1fe69dfab0c022cdf8db"
+    },
+    {
+      "path": "docs/manifest_k5_appendixA_v1.md",
+      "sha256": "903bb9f31b27f61f2af0f4f2aeb9e4cf5c7e71e7db011bad447297495da90b75"
+    },
+    {
+      "path": "docs/manifest_k5_v1.md",
+      "sha256": "2091dea7db6fca3cdc99fa5b688805b51a12cd86819d7b4f76df069d02a47b13"
+    },
+    {
+      "path": "docs/week4-K5_Rule1_impl_versions.md",
+      "sha256": "6a65086e1c6d28424a572942176c8e697e430e0eff151d0c7c0db1ac3f799de9"
+    },
+    {
+      "path": "docs/week4-K5_S5設計_opus_v1.md",
+      "sha256": "b5a14db3cd18412021fe64398a483e7dfeb4bbe7835ef499ca21108667a20555"
+    }
   ],
   "searcher_files": [
-    { "path": "search/mb-frac.mjs", "sha256": "8bf878ca33c8dabaaaea396e8544aa553ad4e9a977ea89784835f689c7081d7b" },
-    { "path": "search/mb-naff-branch-search.mjs", "sha256": "c87e58ecc6afa7f450a2beb54b1d6e291e7118aef518d6ea5775f363025fbb5a" },
-    { "path": "search/mb-ninfty-branch-search.mjs", "sha256": "da61f6af033c2beba32502403937d85f4b940be7027ee55a1b2e018a0837e1a7" },
-    { "path": "search/mb-polyops-selftest.mjs", "sha256": "7c8d58eada072e91cac8c92f7c3bca20c4f403fc65a4db2ab637854731d07f5c" },
-    { "path": "search/mb-polyops.mjs", "sha256": "56a40c8fbea26eb236fac39f89543d57a6fb6e2fb2008703a11340098ec2bc03" },
-    { "path": "search/mb-w-branch-search-gaugefix.mjs", "sha256": "1f8554d063b332c6944d135497a40ab7e8e4de3097cd35b7703fa1a77e9b09de" },
-    { "path": "search/mb-w-branch-search-rational.mjs", "sha256": "e8c989965d2c05fec8bad18712cf063c82064cd62b921282ee0c7df870863115" },
-    { "path": "search/mb-w-branch-search.mjs", "sha256": "990147728313f9aac588de16942e21ded884287a499ce7b540ffbeba3de16821" }
+    {
+      "path": "search/mb-frac.mjs",
+      "sha256": "8bf878ca33c8dabaaaea396e8544aa553ad4e9a977ea89784835f689c7081d7b"
+    },
+    {
+      "path": "search/mb-naff-branch-search.mjs",
+      "sha256": "c87e58ecc6afa7f450a2beb54b1d6e291e7118aef518d6ea5775f363025fbb5a"
+    },
+    {
+      "path": "search/mb-ninfty-branch-search.mjs",
+      "sha256": "da61f6af033c2beba32502403937d85f4b940be7027ee55a1b2e018a0837e1a7"
+    },
+    {
+      "path": "search/mb-polyops-selftest.mjs",
+      "sha256": "7c8d58eada072e91cac8c92f7c3bca20c4f403fc65a4db2ab637854731d07f5c"
+    },
+    {
+      "path": "search/mb-polyops.mjs",
+      "sha256": "56a40c8fbea26eb236fac39f89543d57a6fb6e2fb2008703a11340098ec2bc03"
+    },
+    {
+      "path": "search/mb-w-branch-search-gaugefix.mjs",
+      "sha256": "1f8554d063b332c6944d135497a40ab7e8e4de3097cd35b7703fa1a77e9b09de"
+    },
+    {
+      "path": "search/mb-w-branch-search-rational.mjs",
+      "sha256": "e8c989965d2c05fec8bad18712cf063c82064cd62b921282ee0c7df870863115"
+    },
+    {
+      "path": "search/mb-w-branch-search.mjs",
+      "sha256": "990147728313f9aac588de16942e21ded884287a499ce7b540ffbeba3de16821"
+    }
   ],
   "shards": [
     {
-      "shard_id": "smoke-naff-1",
+      "shard_id": "naff-b5-a5p-cnm5",
       "script": "search/mb-naff-branch-search.mjs",
-      "env": { "MB_NAFF_BOUND": "1" },
-      "timeout_minutes": 10
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-5",
+        "MB_NAFF_CN_MAX": "-5"
+      },
+      "timeout_minutes": 30
     },
     {
-      "shard_id": "smoke-ninfty-1",
+      "shard_id": "naff-b5-a5p-cnm4",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-4",
+        "MB_NAFF_CN_MAX": "-4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5p-cnm3",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-3",
+        "MB_NAFF_CN_MAX": "-3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5p-cnm2",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-2",
+        "MB_NAFF_CN_MAX": "-2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5p-cnm1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-1",
+        "MB_NAFF_CN_MAX": "-1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5p-cn1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "1",
+        "MB_NAFF_CN_MAX": "1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5p-cn2",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "2",
+        "MB_NAFF_CN_MAX": "2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5p-cn3",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "3",
+        "MB_NAFF_CN_MAX": "3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5p-cn4",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "4",
+        "MB_NAFF_CN_MAX": "4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5p-cn5",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "5",
+        "MB_NAFF_CN_MAX": "5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cnm5",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-5",
+        "MB_NAFF_CN_MAX": "-5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cnm4",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-4",
+        "MB_NAFF_CN_MAX": "-4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cnm3",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-3",
+        "MB_NAFF_CN_MAX": "-3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cnm2",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-2",
+        "MB_NAFF_CN_MAX": "-2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cnm1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-1",
+        "MB_NAFF_CN_MAX": "-1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cn1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "1",
+        "MB_NAFF_CN_MAX": "1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cn2",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "2",
+        "MB_NAFF_CN_MAX": "2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cn3",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "3",
+        "MB_NAFF_CN_MAX": "3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cn4",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "4",
+        "MB_NAFF_CN_MAX": "4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b5-a5m-cn5",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "5",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "5",
+        "MB_NAFF_CN_MAX": "5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cnm6",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-6",
+        "MB_NAFF_CN_MAX": "-6"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cnm5",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-5",
+        "MB_NAFF_CN_MAX": "-5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cnm4",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-4",
+        "MB_NAFF_CN_MAX": "-4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cnm3",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-3",
+        "MB_NAFF_CN_MAX": "-3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cnm2",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-2",
+        "MB_NAFF_CN_MAX": "-2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cnm1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "-1",
+        "MB_NAFF_CN_MAX": "-1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cn1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "1",
+        "MB_NAFF_CN_MAX": "1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cn2",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "2",
+        "MB_NAFF_CN_MAX": "2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cn3",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "3",
+        "MB_NAFF_CN_MAX": "3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cn4",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "4",
+        "MB_NAFF_CN_MAX": "4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cn5",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "5",
+        "MB_NAFF_CN_MAX": "5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5p-cn6",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "1",
+        "MB_NAFF_CN_MIN": "6",
+        "MB_NAFF_CN_MAX": "6"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cnm6",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-6",
+        "MB_NAFF_CN_MAX": "-6"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cnm5",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-5",
+        "MB_NAFF_CN_MAX": "-5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cnm4",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-4",
+        "MB_NAFF_CN_MAX": "-4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cnm3",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-3",
+        "MB_NAFF_CN_MAX": "-3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cnm2",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-2",
+        "MB_NAFF_CN_MAX": "-2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cnm1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "-1",
+        "MB_NAFF_CN_MAX": "-1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cn1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "1",
+        "MB_NAFF_CN_MAX": "1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cn2",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "2",
+        "MB_NAFF_CN_MAX": "2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cn3",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "3",
+        "MB_NAFF_CN_MAX": "3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cn4",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "4",
+        "MB_NAFF_CN_MAX": "4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cn5",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "5",
+        "MB_NAFF_CN_MAX": "5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "naff-b6-a5m-cn6",
+      "script": "search/mb-naff-branch-search.mjs",
+      "env": {
+        "MB_NAFF_BOUND": "6",
+        "MB_NAFF_A5": "-1",
+        "MB_NAFF_CN_MIN": "6",
+        "MB_NAFF_CN_MAX": "6"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p2m5",
       "script": "search/mb-ninfty-branch-search.mjs",
-      "env": { "MB_NINFTY_BOUND": "1" },
-      "timeout_minutes": 10
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "-5",
+        "MB_NINFTY_P2_MAX": "-5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p2m4",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "-4",
+        "MB_NINFTY_P2_MAX": "-4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p2m3",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "-3",
+        "MB_NINFTY_P2_MAX": "-3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p2m2",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "-2",
+        "MB_NINFTY_P2_MAX": "-2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p2m1",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "-1",
+        "MB_NINFTY_P2_MAX": "-1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p21",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "1",
+        "MB_NINFTY_P2_MAX": "1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p22",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "2",
+        "MB_NINFTY_P2_MAX": "2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p23",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "3",
+        "MB_NINFTY_P2_MAX": "3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p24",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "4",
+        "MB_NINFTY_P2_MAX": "4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5p-p25",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "1",
+        "MB_NINFTY_P2_MIN": "5",
+        "MB_NINFTY_P2_MAX": "5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p2m5",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "-5",
+        "MB_NINFTY_P2_MAX": "-5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p2m4",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "-4",
+        "MB_NINFTY_P2_MAX": "-4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p2m3",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "-3",
+        "MB_NINFTY_P2_MAX": "-3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p2m2",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "-2",
+        "MB_NINFTY_P2_MAX": "-2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p2m1",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "-1",
+        "MB_NINFTY_P2_MAX": "-1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p21",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "1",
+        "MB_NINFTY_P2_MAX": "1"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p22",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "2",
+        "MB_NINFTY_P2_MAX": "2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p23",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "3",
+        "MB_NINFTY_P2_MAX": "3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p24",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "4",
+        "MB_NINFTY_P2_MAX": "4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "ninfty-b5-a5m-p25",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "env": {
+        "MB_NINFTY_BOUND": "5",
+        "MB_NINFTY_A5": "-1",
+        "MB_NINFTY_P2_MIN": "5",
+        "MB_NINFTY_P2_MAX": "5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "wrat-num20-d2",
+      "script": "search/mb-w-branch-search-rational.mjs",
+      "env": {
+        "MB_WRAT_NUM_BOUND": "20",
+        "MB_WRAT_DENOMS": "2"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "wrat-num20-d3",
+      "script": "search/mb-w-branch-search-rational.mjs",
+      "env": {
+        "MB_WRAT_NUM_BOUND": "20",
+        "MB_WRAT_DENOMS": "3"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "wrat-num20-d4",
+      "script": "search/mb-w-branch-search-rational.mjs",
+      "env": {
+        "MB_WRAT_NUM_BOUND": "20",
+        "MB_WRAT_DENOMS": "4"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "wrat-num20-d5",
+      "script": "search/mb-w-branch-search-rational.mjs",
+      "env": {
+        "MB_WRAT_NUM_BOUND": "20",
+        "MB_WRAT_DENOMS": "5"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "wrat-num20-d6",
+      "script": "search/mb-w-branch-search-rational.mjs",
+      "env": {
+        "MB_WRAT_NUM_BOUND": "20",
+        "MB_WRAT_DENOMS": "6"
+      },
+      "timeout_minutes": 30
+    },
+    {
+      "shard_id": "wrat-num20-d7",
+      "script": "search/mb-w-branch-search-rational.mjs",
+      "env": {
+        "MB_WRAT_NUM_BOUND": "20",
+        "MB_WRAT_DENOMS": "7"
+      },
+      "timeout_minutes": 30
     }
   ]
 }

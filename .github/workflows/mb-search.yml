@@ -11,6 +11,13 @@ on:
       - 'search/mb-shard-plan.json'
   workflow_dispatch:
 
+# 複数 run が同時に collect の push を行うことによる競合(force-push でなく
+# 通常 push の衝突・commit 順序の乱れ)を防ぐ。cancel-in-progress は false
+# (実行中の探索を打ち切らない — 判定ロジックには無関係な運用ガード)。
+concurrency:
+  group: mb-search
+  cancel-in-progress: false
+
 permissions:
   contents: read
 
