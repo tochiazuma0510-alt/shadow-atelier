@@ -1,0 +1,202 @@
+{
+  "docs/week4-BFC攻略_opus_v2.md::02fb03bd9b973959::untyped-t-eps": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 154,
+    "token": "untyped-t-eps",
+    "text": "> | **B-9′** | **なし** | (a) の背骨は「単位が窓にも dessin にも依らない」こと。**$t$ も $\\varepsilon$ も枠組みレベル**なので合成 $t\\varepsilon$ も",
+    "disposition": "reviewed-legitimate",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::b379ff442354e61b::naked-b": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 155,
+    "token": "naked-b",
+    "text": "> | **系 B-8** | **なし** | $b$ が何であれ $\\xi\\mapsto\\xi^b$ が自己同型であることしか使わない |",
+    "disposition": "lesson-quote: ★教材・履歴注での過去誤りの引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::ec7efde4dc439ef7::re-fusion": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 204,
+    "token": "re-fusion",
+    "text": "| **I1(バグ)** | §10.1.2 (a) とその証明 | 「以下 $b:=b_{\\rm op}$(link-free)」と宣言した**直後に** $b_{\\rm sq}=b_{\\rm ns}=\\varepsi",
+    "disposition": "history-table: I1 変更履歴行(バグの引用)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::4dd5edaa38a2df62::unadjusted": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 211,
+    "token": "unadjusted",
+    "text": "> **提出前 self-lint(便 50 F8.1)を実施**: `未調整` / `要調整` / `現在は v1` / `残るのは…provenance` / version なし bundle ID / `b_{(",
+    "disposition": "meta-mention: self-lint の token リスト引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::4dd5edaa38a2df62::stale-v1-status": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 211,
+    "token": "stale-v1-status",
+    "text": "> **提出前 self-lint(便 50 F8.1)を実施**: `未調整` / `要調整` / `現在は v1` / `残るのは…provenance` / version なし bundle ID / `b_{(",
+    "disposition": "meta-mention: self-lint の token リスト引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::4dd5edaa38a2df62::stale-provenance": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 211,
+    "token": "stale-provenance",
+    "text": "> **提出前 self-lint(便 50 F8.1)を実施**: `未調整` / `要調整` / `現在は v1` / `残るのは…provenance` / version なし bundle ID / `b_{(",
+    "disposition": "meta-mention: self-lint の token リスト引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::4dd5edaa38a2df62::old-b-names": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 211,
+    "token": "old-b-names",
+    "text": "> **提出前 self-lint(便 50 F8.1)を実施**: `未調整` / `要調整` / `現在は v1` / `残るのは…provenance` / version なし bundle ID / `b_{(",
+    "disposition": "meta-mention: self-lint の token リスト引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::4dd5edaa38a2df62::untyped-t-eps": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 211,
+    "token": "untyped-t-eps",
+    "text": "> **提出前 self-lint(便 50 F8.1)を実施**: `未調整` / `要調整` / `現在は v1` / `残るのは…provenance` / version なし bundle ID / `b_{(",
+    "disposition": "meta-mention: self-lint の token リスト引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::0ebaaa05a09250d1::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 442,
+    "token": "unconditional",
+    "text": "> (b): $\\beta_\\gamma\\in\\Phi(\\mathrm{GT}(N))$ は無条件だから (W5$^\\mathbb Q$) が直接効く。**$\\mathfrak F_0$ への所属を経由しないので (W2",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::9c925314570324fc::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 623,
+    "token": "unconditional",
+    "text": "> **反例は campaign 自身の分岐**(便 46 F4): $\\mathrm{ord}([v_i]_{10})=1$(= `PASS(ord1)` 分岐)なら $\\kappa_i(G_K)=1$ で、$b\\in",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::3565a43782731b59::naked-b": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 676,
+    "token": "naked-b",
+    "text": "> **証明.** $\\xi\\mapsto\\xi^b$ は $\\mu_M$ の自己同型なので (i) $\\lvert\\kappa^b(G_K)\\rvert=\\lvert\\kappa(G_K)\\rvert=\\mathrm{",
+    "disposition": "scoped-usage: B-9′ 補題文が b := b_op を宣言((2.1) 事前固定)— 証明内の b は宣言射程内",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::7986af6c9e901b67::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 690,
+    "token": "unconditional",
+    "text": "> **⚠【v2.2・U3 で上の「$b$ は二 dessin 比較で load-bearing」を精密化】**: 上の警告は **「$b_{\\rm sq}\\ne b_{\\rm ns}$ なら崩れる」** という条件文と",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::5726f8452a4629f1::naked-b": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 749,
+    "token": "naked-b",
+    "text": "**(d)【v2.3・U6 で型を明瞭化(便 46 F3.4)】** $\\xi\\mapsto\\xi^b$ は $\\mu_M$ の自己同型なので $\\lvert\\mathrm{im}([b]\\kappa_i)\\rvert=",
+    "disposition": "scoped-usage: B-9′ 補題文が b := b_op を宣言((2.1) 事前固定)— 証明内の b は宣言射程内",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::485b61fa6d7faf96::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 759,
+    "token": "unconditional",
+    "text": "> **【v2.4・F2.3】** $K^{(5)}$ campaign の**測定計画**は名指しを一度も要求しないが、**現行 manifest / Rule 1 の bridge 述語(untwisted (5′)",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::31a044644fc17b05::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 868,
+    "token": "unconditional",
+    "text": "> **障害の正確な所在【v2・S1 で射程限定】**: **exact $\\varepsilon=1$ の向きについては (TB4) が第 $k$ 段**である(**【v2.4・F2.4】** 関所名は exact $",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::6764f31432c571da::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 1055,
+    "token": "unconditional",
+    "text": "補題 B-9′(§10.1)の帰結として、**$K^{(5)}$ campaign の Belyi-side 列挙量**((P1)(P2)(R6-full)・固定体・Kummer 証明書型)**は exact $\\var",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::f55047c6ad449802::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 1108,
+    "token": "unconditional",
+    "text": "10. **「$X$ を仮定すれば結論が $X$ に依らない」から「$X$ が存在する」は出ない。** 系 B-8 は (10.1) を**仮定したとき**の不変性補題である。v2 はそこから「単位 $b$ 版は無条件」",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::e8ca8e6cb1a5df14::naked-b": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 1109,
+    "token": "naked-b",
+    "text": "11. **凍結済みの規約と衝突したら、必ず凍結側に合わせる — しかも「$b$ か $b^{-1}$ か」は 1 行で検算できる。** v2 は付録 A で $\\tau(\\zeta_M^{b^{-1}})$、§10 で",
+    "disposition": "lesson-quote: ★教材・履歴注での過去誤りの引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::c5ed6940a1f6a4d1::naked-b": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 1120,
+    "token": "naked-b",
+    "text": "16. **パラメータの一意性は「式が決める」のではなく「先に決めて式に入れる」。** 私は $\\rho=\\tau(\\kappa^b)$ から「$\\tau$ 単射ゆえ $b$ 一意」と書いたが、**$\\kappa$ の像",
+    "disposition": "lesson-quote: ★教材・履歴注での過去誤りの引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::7bc534b64a683548::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 1145,
+    "token": "unconditional",
+    "text": "| $c$ | $G_K\\to\\mu_M$ | (5.1)。**【v2.1・T3】定理 B-3 の前件 (W1)–(W5) の下で存在**(v2 の「無条件に存在」は R2 と矛盾する stale statement だ",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::393b788104a67d77::naked-b": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 1156,
+    "token": "naked-b",
+    "text": "> **⚠【v2.1・T2】v2 の付録 A は $\\tau(\\zeta_M^{\\,b^{-1}})$ と定義しながら §10 では $\\kappa^b$ を使っており、Rule 1 と逆数で食い違っていた**(便 44",
+    "disposition": "lesson-quote: ★教材・履歴注での過去誤りの引用",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-BFC攻略_opus_v2.md::970ce4f8ce86230b::unconditional": {
+    "file": "docs/week4-BFC攻略_opus_v2.md",
+    "line": 1157,
+    "token": "unconditional",
+    "text": "> **⚠【v2.7・F5】v2.6 の記号表は単一の $b$ を (8.1) で定義しながら「$b=\\varepsilon^{-1}$」と無条件に同定していた — $b_{\\rm op}$ と $b_{\\rm cmp}",
+    "disposition": "negated-or-lesson: 否定形・教材・既検分の正当用法(裁定 60 の類別)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/amendment_5prime_draft.md::340255ba58d42178::unconditional": {
+    "file": "docs/amendment_5prime_draft.md",
+    "line": 146,
+    "token": "unconditional",
+    "text": "> **★ 版の区別**: **amendment 成立後**は `bridge_result_i` を含む campaign 全判定が $\\varepsilon$-free になる。**成立前は Belyi-side ",
+    "disposition": "correct-conditional: amendment 成立前後を正しく区別する文",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/amendment_5prime_draft.md::fafa71dbc144ca02::unversioned-bundle": {
+    "file": "docs/amendment_5prime_draft.md",
+    "line": 207,
+    "token": "unversioned-bundle",
+    "text": "> **未知の値・version なしの値(`THEOREM-ANTECEDENT-Rcyc` 等)は fail-closed**(記録を拒否し integrity stop)。**どちらの帽子で判定したかを後から選べな",
+    "disposition": "meta-mention: 禁止例の引用(fail-closed 規定文)",
+    "reviewer": "司令塔(裁定 62)"
+  },
+  "docs/week4-TB4導出_opus_v1.md::34db109575a34fee::unconditional": {
+    "file": "docs/week4-TB4導出_opus_v1.md",
+    "line": 792,
+    "token": "unconditional",
+    "text": "> ### ★教材 T11(**v2.3 新設**・便 50 F7-5): **「無条件」は空の前件を意味する**",
+    "disposition": "lesson-definition: ★教材 T11 の定義見出し",
+    "reviewer": "司令塔(裁定 62)"
+  }
+}
