@@ -1,6 +1,6 @@
 # 事前登録 manifest — K⁽⁵⁾ 算術飽和キャンペーン v1.6(2026-07-28・司令塔)
 
-> **v1.6(裁定 66)= v1.5 + amendment v8(`docs/amendment_5prime_draft.md` 条文案 B)。旧正本 v1.5 は不変・digest 固定**(`docs/manifest_k5_v1.md` はこの版イベントで一切編集していない)。**版イベント発火許可 = 裁定 66 Part A**(`sol/裁定_66_ben54.md`)。本版が変更するのは **五札封印表の BRIDGE-FAIL 行(①差し替え)・antecedent bundle 節の新設・結果 record schema への digest 束縛欄の追加**のみ。**Part B 由来の whitelist/schema 修理(N_infty 隔離・h 非開示等)はここに混入しない**(裁定 66 F4 — 別ゲート)。他の全節(宇宙・五札封印表の他行・規約捻れの型・封印予測・exact 判定の証明書型・BRIDGE-IN 構築の独立性・S5 の紙上 ansatz・較正三層・工程と発射条件・即時 integrity stop・撤退条件)は**逐語不変**。
+> **v1.6(裁定 66・裁定 67 で修理)= v1.5 + amendment v8(`docs/amendment_5prime_draft.md` 条文案 B)。旧正本 v1.5 は不変・digest 固定**(`docs/manifest_k5_v1.md` はこの版イベントで一切編集していない)。**版イベント発火許可 = 裁定 66 Part A**(`sol/裁定_66_ben54.md`)。本版が変更するのは **五札封印表の BRIDGE-FAIL 行(①差し替え)・antecedent bundle 節の新設・結果 record schema への digest 束縛欄の追加**、および**それに伴う predicate 型の下流同期**である。**Part B 由来の whitelist/schema 修理(N_infty 隔離・h 非開示等)はここに混入しない**(裁定 66 F4 — 別ゲート)。他の全節(宇宙・五札封印表の他行・規約捻れの型・封印予測・BRIDGE-IN 構築の独立性・S5 の紙上 ansatz・較正三層の記述本体・工程と発射条件の発射条件本文・即時 integrity stop・撤退条件)は**逐語不変**。**科学的 predicate は 1 つ(operative $(5'_b)$)のままだが、旧 $(5′)$ をそのまま複製していた下流 normative 面 4 箇所(exact 判定の証明書型・結果規則表 pairwise 行・較正三層 covariance controls の型注記・工程と発射条件の算術全射性禁止条件)は、便 55 F4.2 の指摘に基づき本版で predicate 型へ同期する。**「exact 判定の証明書型・結果規則表等は逐語不変」という当初の変更面宣言は撤回する**(便 55 F4.2 末尾)。
 
 > v1.4 → v1.5(便 38・裁定 39): F8-6 の sealed automation・positive-only 非網羅規則を changelog から **operative な工程節へ転記**+実 K5 Freeze 2 の「同一 bundle から係数ごと読む」不変条件(F1.3)を追加。
 
@@ -100,7 +100,8 @@ FALSIFIER-ANTECEDENT-BFC/twisted/v1
 
 - v_i := u_i⁻¹。**位数 1 の陽性**: 明示 witness c ∈ K^× with c¹⁰ = v_i。**位数 5 の陽性**: c¹⁰ = v_i⁵ **かつ** v_i ∉ K^{×10} の exact obstruction(素イデアル valuation が 10 の倍数でない/単数・1 の冪根成分の exact obstruction/T¹⁰ − v_i の非可解の厳密数体証明書、のいずれか)。**探索失敗のみ = UNKNOWN**(浮動小数点 root search は証明書でない)。
 - **(P2) 判定**: r := v_ns / v_sq^{a_eff} について r ∈ K^{×10} の witness(PASS)/ exact obstruction(FAIL)。二経路が同じ代表を返したことだけでは閉じない(W5)。
-- **(5′) の量化子**: ∀γ ∈ G_K の恒等。有限個の Frobenius サンプル一致は較正であって PASS の証明でない — PASS は character 恒等の普遍的導出 or Kummer 拡大の厳密同定。FAIL は exact な γ 一つで足りる。
+- **(5$'_b$) の量化子(v1.6・便 55 F4.2 — Rule 1 §8.4.2 と同文に同期)**: operative predicate は ∀γ ∈ G_K の (5$'_b$) 恒等。有限個の Frobenius サンプル一致は較正であって PASS の証明でない。**PASS は次のいずれかに限る**: **(C-i) 普遍的 character 恒等**(全 γ ∈ G_K に対する (5$'_b$) の恒等式の導出)、または **(C-ii) oriented μ₁₀-torsor 同型**(凍結済みの (ζ₁₀, τ_i, j_i, b_i) と選択した Kummer root に対し、左右作用と G_K-作用をともに保つ μ₁₀-torsor の同型の明示)。**⛔ 抽象的な体の一致・核の一致だけ、および `field_certificate` 単独での PASS 宣言は明示的に拒否する**(field/kernel-only PASS の排除)。**exact (5′) を扱う場合はこの限定列挙の対象に含めず、`/exact/v1`(上記 antecedent bundle (B-I) 参照・`exact_recovery_path` の名指しを要する)として別記する。** FAIL は exact な γ 一つで足りる。
+  > **旧文(v1.5・撤回)**: 「(5′) の量化子: ∀γ ∈ G_K の恒等 … PASS は character 恒等の普遍的導出 or Kummer 拡大の厳密同定」— untwisted (5′) を operative predicate であるかのように書いており、撤回済みの predicate と現行 operative (5$'_b$) が混在していた(便 55 F4.1 の blocker)。
 
 ## 結果規則表と結果記録の分離(v1.2・便 31 F1.3/F6.1)
 
@@ -112,13 +113,20 @@ FALSIFIER-ANTECEDENT-BFC/twisted/v1
   bridge_predicate_id      # 例: "5prime_b/v1"(untwisted 版は "5prime/v0")
   results_schema_version
   ```
-  上記に加え、`antecedent_bundle_id`(上記 closed enumeration の 3 値のみ)・`exact_recovery_path`(discriminator = `antecedent_bundle_id`。`.../exact/v1` のときのみ REQUIRED で `{R-a/current-bfc-proof, R-b/tb4e-alternate}` のいずれか一つ、それ以外は PROHIBITED — 記入は integrity stop)・Rule 1 §8.4.0 (F4) の二段コミット欄(`b_rule_commitment`・`b_value_sq`/`b_value_ns` = `b_op`・`b_semantics = "op"`・`b_cmp_value`・`root_system_tb2_id`・`rule1_root_2M_id`・`root_twist_2M_value`・`root_twist_mod_M_value`・`b_value_source`・`b_observed_before_gk`)・証明書三分離(`field_certificate`/`orientation_certificate`/`character_identity_certificate`)を記録する。**詳細 schema は `docs/amendment_5prime_draft.md` §4 を正本とし、本節はそこへの digest 束縛欄のみを manifest 側に固定する。**
+  上記に加え、`antecedent_bundle_id`(上記 closed enumeration の 3 値のみ)・`exact_recovery_path`(discriminator = `antecedent_bundle_id`。`.../exact/v1` のときのみ REQUIRED で `{R-a/current-bfc-proof, R-b/tb4e-alternate}` のいずれか一つ、それ以外は PROHIBITED — 記入は integrity stop)・Rule 1 §8.4.0 (F4) の二段コミット欄(`b_rule_commitment`・`b_value_sq`/`b_value_ns` = `b_op`・`b_semantics = "op"`・`b_cmp_value`・`root_system_tb2_id`・`rule1_root_2M_id`・`root_twist_2M_value`・`root_twist_mod_M_value`・`b_value_source`・`b_observed_before_gk`・`z20_link_seal_id`・`equality_certificate_digest`)・証明書三分離(`field_certificate`/`orientation_certificate`/`character_identity_certificate`)を記録する。**詳細 schema は `docs/amendment_5prime_draft.md` §4 を正本とし、本節はそこへの digest 束縛欄のみを manifest 側に固定する。**
+
+- **(v1.6 新設・裁定 67 — 便 55 F6.2)結果 schema の authority 優先順位**: Rule 1 §10 (F4 記録欄 8.)・manifest(本節)・amendment §4 の三つが並んで「結果 schema の正本」を名乗る事故を防ぐため、次の 4 段を明文化する。
+  1. **$b$ の二段コミットと typed semantics** は **Rule 1 §8.4.0/F4 が正本**(`b_rule_commitment`/`b_value_i`/`b_semantics`/`b_cmp_value`/`root_system_tb2_id`/`rule1_root_2M_id`/`root_twist_2M_value`/`root_twist_mod_M_value`/`b_value_source`/`b_observed_before_gk`/`z20_link_seal_id`/`equality_certificate_digest` の定義・型)。
+  2. **bundle ID の closed enum と `exact_recovery_path` の conditional presence rule** は **manifest v1.6(本節・「antecedent bundle」節)が正本**。
+  3. **amendment §4** は、上記 1/2 の適用元であり、**残余詳細**(route evidence・ordering evidence・orientation certificate 構造)の source である。**専門正本 1/2 の定義と衝突した場合は 1/2 を優先**する。
+  4. **`provenance/results_k5.md`(または専用 schema artifact)** は 1–3 の union を **materialize** する record であり、**独自定義を追加しない**。両文書(Rule 1・manifest)の digest と schema digest を束縛する。
+  **hard stop 条件**: `results_k5.md`(または専用 schema artifact)の作成・digest 監査が閉じるまで、**Freeze 2 / BRIDGE-IN / bridge_result 記録は hard stop**とする。この条件を満たす限り、`results_k5.md` を Freeze 2 より前に実体化することは受理できる。
 - **結果規則(total transition table・v1.3・便 32 P1)** — 非順序対 {sq, ns} の全状態を尽くす:
 
 | 状態(非順序) | pair_gate | saturation_result | 記録 |
 |---|---|---|---|
 | PASS(ord5) + PASS(ord5)・(P2)/(6.2) 一致 | PASS | PROVED | 完全決着 |
-| PASS(ord5) + PASS(ord5)・(P2) exact 破れ | FAIL | NOT_PROVED | pairwise BRIDGE-FAIL(「少なくとも一方の (5′) が偽」— どちらかは同定しない)・integrity quarantine |
+| PASS(ord5) + PASS(ord5)・(P2) exact 破れ | FAIL | NOT_PROVED | pairwise BRIDGE-FAIL(「少なくとも一方の **(5$'_b$)** が偽」— どちらかは同定しない・便 55 F4.2)・integrity quarantine |
 | PASS(ord5) + PASS(ord1) | FAIL | NOT_PROVED | 両橋閉鎖下では矛盾(両者とも Ih 像を計算しているため)⟹ integrity quarantine |
 | PASS(ord1) + PASS(ord1)・(P2) 一致 | PASS | **REFUTED** | fake shadow の存在(反証側の決着 — 台帳は W3 三値の fake) |
 | PASS(ord5) + FAIL | FAIL | PROVED | 存在型は成立・橋の dessin 非依存性は反証・FAIL 側を捨てない |
@@ -150,14 +158,14 @@ FALSIFIER-ANTECEDENT-BFC/twisted/v1
 
 1. **K5 finite fixture**: 二類・passport・normalizer・regularity・K5-1・ρ₀(𝔉₀) = τ(μ₁₀[5])— 代表・置換三つ組・ρ_i・j_i・a = 1・証拠 ID・digest を付録 A に一表固定。
 2. **K3 regression fixture**: 既知データ一体(モデル・branch・exact conjugator・cusp/uniformizer・その正規化での u = −4・ord = 3・τ/ρ₀/j の向き)を付録 A に実体化し、pipeline が**モデルから raw 再計算**で既知 class を再現。u = −4 は二者一致(厳密 blind independence は主張しない)— **回帰専用・「独立二経路の新証拠」へ札を上げない**。u′ = −256/729 は covariance control。
-3. **covariance controls**: X ↦ X⁻¹(class 反転・位数/体不変)・s ↦ cs(u ↦ uc⁻¹⁰・class 不変)・τ ↦ τ∘[d]+Kummer character 逆冪(同時変換で (5′) 不変 — b_i と同じ型で実装し **formal a を書き換えない**)。
+3. **covariance controls**: X ↦ X⁻¹(class 反転・位数/体不変)・s ↦ cs(u ↦ uc⁻¹⁰・class 不変)・τ ↦ τ∘[d]+Kummer character 逆冪(同時変換で **operative (5$'_b$) の control**として不変であることを検査する — 便 55 F4.2。**exact branch を扱う場合は `/exact/v1` と route evidence [`exact_recovery_path`] を名指しする**。b_i と同じ型で実装し **formal a を書き換えない**)。
 
 ## 工程と発射条件
 
 - **現在許可されている工程(便 31)**: S5 の紙上設計と凍結 1(Rule 1)文書の起草まで。**個別モデル探索は修正版凍結 1 の受理後・u 抽出は両翼共同凍結 2+発射錠後に限る**。
 - 発射条件: ①付録 A 実体化+較正三層 PASS ②falsifier 計画監査(v1.1 で PASS・v1.2 差分は Sol 差分検収に含める)③Sol ゲート(差分検収)④FIRE_k5bridge.auth(digest 束縛・一回性)。
 - **(v1.5・operative)** S5 探索の許容範囲: **既設二枝((W)/(N_aff))のみの positive-only 探索は非網羅**であり、委嘱文に「(N_∞) 枝は未探索・全体結論は BRIDGE-UNKNOWN 維持」を明記する。(N_∞) 探索器が S5 設計 §3.3.6 で「未設計」の間、当該枝について「候補なし」と報告してはならない。**μ/Pell ansatz を用いる探索は、strict I-b∞ を守る sealed automation schema の事前登録なしに人間可視で走らせてはならない**。実 K5 の Freeze 2 では両 driver が**同一 atomic frozen bundle の canonical model JSON を係数ごと読む**(digest のみ読取り+係数別転記の運用は禁止 — 便 38 F1.3)。
-- 算術全射性の宣言は (4d)(5′)+exact Kummer 証明書の閉鎖まで禁止。
+- 算術全射性の宣言は、campaign の operative theorem bundle **(4d)(5$'_b$)**+exact Kummer 証明書の閉鎖まで禁止する(便 55 F4.2)。**exact を要求する場合に限り**、`/exact/v1` の閉鎖と `exact_recovery_path`(route evidence)の名指しを追加要件とする。
 
 ## 即時 integrity stop(期限を待たない・v1.2)
 
@@ -169,14 +177,21 @@ FALSIFIER-ANTECEDENT-BFC/twisted/v1
 
 ---
 
-## 出所対応表(v1.6・便 55 差分ゲート用)
+## 出所対応表(v1.6・便 55 差分ゲート用・裁定 67 で三値分類へ修理)
 
-| 本文書の節 | 転記元 |
-|---|---|
-| 冒頭版履歴(v1.6 ボックス) | 裁定 66 Part A(`sol/裁定_66_ben54.md`) |
-| 五札封印表 BRIDGE-FAIL 行(①②の差し替え) | `docs/amendment_5prime_draft.md`(条文案 v8)§3「改定案(v1.6)」 |
-| antecedent bundle 節((B-I)(B-II)・(AB-1)–(AB-4)・closed enumeration) | 同 §3「antecedent bundle」全体(v3・A10 の二分割 / v4・A12 の 2 ID 分割 / v5・A15 の closed enumeration / v6・A16 の R-a/R-b 名指し) |
-| 付随:manifest v1.6 の注記 | 同 §3「付随:manifest v1.6 の注記」 |
-| 結果規則表と結果記録の分離への digest 束縛欄追加 | 同 §4「結果 record schema」(A7・A8・A13・A15・A20 の該当欄) |
+**分類の定義(便 55 F5)**: `verbatim`(転記元の逐語・版ラベルと節番号の付替えのみ)/ `normative-only`(規範内容は保存するが版履歴注記・自己訂正説明を省略)/ `adapted`(転記元から意味的に変更した。変更点と承認根拠を明記する)。
 
-**確認**: 上表以外の新規文言(判断を要する言い換え)は本文書に含めていない。五札封印表・antecedent bundle・付随注記の 3 ブロックは転記元の逐語(版ラベルと節番号の付替えのみ)。digest 束縛欄は条文案 v8 §4 の該当 6 欄(`manifest_sha256`/`rule1_sha256`/`bridge_predicate_id`/`results_schema_version`/`antecedent_bundle_id`/`exact_recovery_path`)を manifest 側の固定点として転記し、二段コミット欄・証明書三分離欄は同 §4 を参照するのみ(定義の重複記載はしない)。
+| 本文書の節 | 転記元 | 分類 | adapted の場合: 変更点・承認根拠 |
+|---|---|---|---|
+| 冒頭版履歴(v1.6 ボックス) | 裁定 66 Part A(`sol/裁定_66_ben54.md`) | normative-only | 版履歴の要約(自己訂正の逐次記述は省略) |
+| 五札封印表 BRIDGE-FAIL 行(①②の差し替え) | `docs/amendment_5prime_draft.md`(条文案 v8)§3「改定案(v1.6)」 | verbatim | |
+| antecedent bundle 節((B-I)(B-II)・(AB-1)–(AB-4)・closed enumeration) | 同 §3「antecedent bundle」全体(v3・A10 の二分割 / v4・A12 の 2 ID 分割 / v5・A15 の closed enumeration / v6・A16 の R-a/R-b 名指し) | verbatim | |
+| 付随:manifest v1.6 の注記 | 同 §3「付随:manifest v1.6 の注記」 | verbatim | |
+| 結果規則表と結果記録の分離への digest 束縛欄追加(Rule 1 F4 の 2 欄追記を含む) | 同 §4「結果 record schema」(A7・A8・A13・A15・A20 の該当欄) | **adapted** | 二段コミット欄の列挙に `z20_link_seal_id`・`equality_certificate_digest` の 2 欄を追加(便 55 F3.2 末尾に基づく・承認根拠: 裁定 67) |
+| exact 判定の証明書型(旧 (5′) 量化子行) | 便 55 F4.2(Rule 1 §8.4.2 と同文)+ 旧 manifest v1.5 本節 | **adapted** | operative `(5'_b)` の C-i/C-ii 限定列挙へ置換・field/kernel-only PASS を明示拒否・exact branch を `/exact/v1` として分離。承認根拠: 裁定 67(便 55 F4.2 blocker 2 の修理) |
+| 結果規則表 pairwise 行(旧 121 行相当) | 便 55 F4.2 | **adapted** | 「少なくとも一方の (5′) が偽」→「少なくとも一方の `(5'_b)` が偽」。承認根拠: 裁定 67 |
+| 較正三層 covariance controls の型注記(旧 153 行相当) | 便 55 F4.2 | **adapted** | 「(5′) 不変」→「operative `(5'_b)` の control」+ exact branch 名指しの追記。承認根拠: 裁定 67 |
+| 工程と発射条件の算術全射性禁止条件(旧 160 行相当) | 便 55 F4.2 | **adapted** | campaign の operative theorem bundle `(4d)(5'_b)` へ同期・exact 要求時のみ `/exact/v1` + route evidence を追加要件化。承認根拠: 裁定 67 |
+| 結果 schema の authority 優先順位(4 段・新設) | 便 55 F6.2 | **adapted** | Sol の推奨文言をほぼ逐語で新設(便 55 に既存条文がないため `adapted` 扱い・出典は F6.2 全文)。承認根拠: 裁定 67 |
+
+**確認**: 上表以外の新規文言(判断を要する言い換え)は本文書に含めていない。`adapted` と分類した箇所は、いずれも便 55(F4.2/F5/F6.2)の明示指示に基づく predicate 型同期・欄追加・authority 明文化であり、判断を要する言い換えではない。digest 束縛欄は条文案 v8 §4 の該当 6 欄(`manifest_sha256`/`rule1_sha256`/`bridge_predicate_id`/`results_schema_version`/`antecedent_bundle_id`/`exact_recovery_path`)を manifest 側の固定点として転記し、二段コミット欄・証明書三分離欄は同 §4 を参照するのみ(定義の重複記載はしない)。

@@ -156,19 +156,22 @@ $\Phi_{20}$ の根は $e^{2\pi ik/20}$($k\in\{1,3,7,9,11,13,17,19\}$)。上半�
 
 $$ \zeta_{10} := \zeta_{20}^2,\qquad \zeta_5 := \zeta_{20}^4 . \tag{1.7} $$
 
-#### 1.4.1【v1.4 新設】root seals(TB4 導出 v2.4 §8.1・§8.2・裁定 66)
+#### 1.4.1【v1.4 新設・裁定 67(便 55 F3.2)で有限化修理】root seals(TB4 導出 v2.4 §8.1・§8.2・裁定 66・裁定 67)
 
-**`Z20-link-seal/v1`(atomic seal・4 条を分割不能な 1 つとして採る)**(TB4 導出 v2.4 §8.1・便 49 F6.5・v2.2 V22 の独立 ID 採用):
+**`Z20-link-seal/v1`(有限 level 20 限定・scope = level_20・atomic seal・4 条を分割不能な 1 つとして採る)**(便 55 F3.2 の型指定に基づき有限化 — TB4 導出 v2.4 §8.1 の全 $n$ を量化する 4 条とは**別の型**である):
 
 ```text
-Z20-link-seal/v1:
-  (i)   bar_iota は Rule 1 (1.6) の iota_infty の延長である;
-  (ii)  zeta_n^TB2 := bar_iota^{-1}(exp(2*pi*i/n))   (すべての n について);
-  (iii) 特に zeta_20^TB2 = zeta_20^Rule1;                 # = (Z20-link)
-  (iv)  すべての TB4 比較はこの同一の bar_iota・同一の根系を用いる。
+Z20-link-seal/v1 (scope = level_20):
+  (1) bar_iota_id:        bar_iota は Rule 1 (1.6) の iota_infty の延長である(bar_iota|_K = iota_infty);
+  (2) root_system_tb2_id: zeta_20^TB2 := bar_iota^{-1}(exp(2*pi*i/20));
+  (3) rule1_zeta20_id:    zeta_20^TB2 = zeta_20^Rule1 の equality_certificate_digest;
+  (4) K^(5)/M|20 の全比較は、この同一の bar_iota_id・root_system_tb2_id・rule1_zeta20_id・
+      equality_certificate_digest を参照する(n が 20 の約数でない場合を量化しない)。
 ```
 
-**分割不能にする理由**: (i) だけ・(ii) だけを採ると (iv) の「同一の $\bar\iota$」が保証されず、窓ごとに別の比較データが混入しうる(TB4 導出 v2.4 §8.1)。**「(Z-norm) の一部凍結」とは呼ばない**(独立 ID として台帳化する)。
+**分割不能にする理由**: (1) だけ・(2) だけを採ると (4) の「同一の $\bar\iota$」が保証されず、窓ごとに別の比較データが混入しうる(TB4 導出 v2.4 §8.1 の理由づけを level 20 限定へ縮小して継承)。**「(Z-norm) の一部凍結」とは呼ばない**(独立 ID として台帳化する)。
+
+**【本節の射程・便 55 F3.2 の必須修理】** 本 `Z20-link-seal/v1` は **有限 level 20 に限定**され、**$n\nmid20$ を量化しない**。TB4 導出 v2.4 §8.1 の **full `(Z-norm)`(全 $n$ を量化する 4 条・TB4-B の前件)は本イベントでは採用しない** — 採用するには**別の明示的認可**および **status/CLAIMS 全域更新**を要する。
 
 **A3 framework seal(TB2-norm とは別の枠組み事実として分離掲示)**(TB4 導出 v2.4 §8.2):
 
@@ -191,6 +194,8 @@ $$ \begin{array}{ll}
 \end{array} $$
 
 **文献要請 13(ii) の縮小**(TB4 導出 v2.4 §8.3 — BFC v2.11 §12.1「文献要請 13」対応節の (ii) を縮小維持する確定文言): 「**正の位相 transport が algebraic fiber functor の後合成左作用へ送られ、逆作用でないことの標準比較定理・記法確認 = A3 の裏取り。root 正規化そのものは工房規約なので文献に決めてもらう必要はないが、A3 は load-bearing のまま**」(全面取下げではなく縮小維持。(i)(iii) は不変)。
+
+**BFC v2.11 §12.1(ii) は未同期。本版では TB4 v2.4 §8.3 を現行 normative source とする。BFC 本文同期は次版の宿題。**(便 55 F6.1)
 
 ### 1.5 $\tau_i$ の $\mu_{10}$ 版・Kummer 規約・$j_i$
 
@@ -766,6 +771,8 @@ root_twist_2M_value  = t_{2M} in (Z/2M)^x                # link <=> t_{2M} = 1
 root_twist_mod_M_value = t_M-bar := t_{2M} mod M         # t_M-bar = 1 は link と同値でない
 b_value_source       = c_i, ell_i の artifact ID
 b_observed_before_gk = true                              # (F3) の宣言
+z20_link_seal_id     = "Z20-link-seal/v1"                # scope = level_20(§1.4.1)
+equality_certificate_digest = zeta_20^TB2 = zeta_20^Rule1 の等式証明書 digest  # §1.4.1 (3)
 ```
 **★ 用語規律**: 「凍結」という同じ語で**式**と**値**を呼ばない。(F1) は *rule commitment*、(F2) は *value commitment* と呼ぶ。
 
@@ -784,7 +791,7 @@ $$ \boxed{\ \rho_i\bigl(\operatorname{Ih}_N(\gamma)\bigr)\ =\ \tau_i\bigl(\kappa
 **(C-ii) oriented $\mu_{10}$-torsor 同型**: **凍結済みの $(\zeta_{10},\ \tau_i,\ j_i,\ b_i)$ と、選択した Kummer root** に対して、**左右作用と $G_K$-作用をともに保つ** $\mu_{10}$-torsor の同型を明示すること。
 **⛔ 除外(明示)**: **抽象的な体の一致・核の一致だけでは PASS にならない。** $d\in(\mathbb Z/5)^\times$ が非自明なら $\kappa_i$ と $\kappa_i^{\,d}$ は**同じ核・同じ巡回 Kummer 拡大** $K(\sqrt[10]{v_i})$ を与えるが、**固定された (5$'_b$) の character としては異なる**。したがって $\mathrm{Fix}(\ker)$ の等号は指数 $b_i$ を含む bridge を証明しない。
 **⛔ 除外(明示)**: `field_certificate` **単独**での PASS 宣言(§4)。
-**★ ord5 での観測 character の扱い**: $\mathrm{ord}([v_i]_{10})=5$ なら観測 character から指数を読み取れるが、その値は**凍結済み $b_i$ との照合(検証)にのみ**使用でき、**$b_i$ の選択には使えない**(8.4.3)。
+**★ ord5 での観測 character の扱い**: $\mathrm{ord}([v_i]_{10})=5$ なら観測 character から指数を読み取れるが、その値は**凍結済み $b_i$ との照合にのみ**使用でき(**「検証」は Lean 証明書に予約する語であり、ここでの一致は cross-checked にとどまる**)、**$b_i$ の選択には使えない**(8.4.3)。
 **FAIL**: **8.4.0 (F2) で固定済みの $b_i$** に対する **exact な反例 $\gamma$ 一つ**で足りる。
 
 #### 8.4.3 fitting の禁止(falsifiability の保全)
@@ -983,19 +990,21 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 
 ---
 
-## 出所対応表(v1.4・便 55 差分ゲート用)
+## 出所対応表(v1.4・便 55 差分ゲート用・裁定 67 で三値分類へ修理)
 
-| 本文書の節 | 転記元 |
-|---|---|
-| 冒頭版履歴(v1.4 ボックス) | 裁定 66 Part A(`sol/裁定_66_ben54.md`) |
-| §1.4.1 `Z20-link-seal/v1`(4 条) | `docs/week4-TB4導出_opus_v1.md`(TB4 導出 v2.4)§8.1 |
-| §1.4.1 A3 framework seal | 同 §8.2 |
-| §1.4.1 typed equality(($U_\lambda=U_\beta$・$\gamma_0$ 同一視) | 同 §8.9(便 49 F6.6 の Rule 1 §7.1 追記案) |
-| §1.4.1 状態札 | 同 §8.5 |
-| §1.4.1 文献要請 13(ii) の縮小 | 同 §8.3(BFC v2.11 §12.1「文献要請 13」対応節の (ii) を縮小する確定文言) |
-| §7.4 quarantine 4 段監査の確定文言 | 同 §8.4(便 48 F10.2 の文言) |
-| §8.4(8.4.0–8.4.5 全文) | `docs/amendment_5prime_draft.md`(条文案 v8)§2「条文案 A」(現行→改定案 v1.4 の該当ブロック) |
-| §9.2 I-n 行 | 同 §2「付随:§9 への 1 行追加」 |
-| §10 記録欄 8.(結果 record schema の生成元としての位置づけ) | 同 §4「結果 record schema」(A7・A8・A13・A20 の該当欄)。**closed enumeration と conditional presence の定義自体は manifest v1.6 §3 が正本** |
+**分類の定義(便 55 F5)**: `verbatim`(転記元の逐語・版ラベルと節番号の付替えのみ)/ `normative-only`(規範内容は保存するが版履歴注記・自己訂正説明を省略)/ `adapted`(転記元から意味的に変更・型替えを行った。変更点と承認根拠を明記する)。
 
-**確認**: 上表以外の新規文言(判断を要する言い換え)は本文書に含めていない。§8.4・§9.2 I-n・§1.4.1 の 3 ブロックは転記元の逐語(用語微修正は「(v1.4)」「(v1.4 新設)」等の版ラベルと節番号の付替えのみ)。§7.4 は TB4 導出 v2.4 §8.4 が明記する「不変」区分に従い後段(旧文の禁止規律部分)を保持し、前段のみ差し替えた。
+| 本文書の節 | 転記元 | 分類 | adapted の場合: 変更点・承認根拠 |
+|---|---|---|---|
+| 冒頭版履歴(v1.4 ボックス) | 裁定 66 Part A(`sol/裁定_66_ben54.md`) | normative-only | 版履歴の要約(自己訂正の逐次記述は省略) |
+| §1.4.1 `Z20-link-seal/v1`(4 条) | `docs/week4-TB4導出_opus_v1.md`(TB4 導出 v2.4)§8.1 | **adapted** | 便 55 F3.2 の型指定に基づき、全 $n$ を量化する 4 条(full `(Z-norm)`)を**有限 level 20 限定**(scope = level_20・$n\nmid20$ 非量化)へ縮小。承認根拠: 裁定 67(本便) |
+| §1.4.1 A3 framework seal | 同 §8.2 | verbatim | |
+| §1.4.1 typed equality($U_\lambda=U_\beta$・$\gamma_0$ 同一視) | 同 §8.9(便 49 F6.6 の Rule 1 §7.1 追記案) | verbatim | |
+| §1.4.1 状態札 | 同 §8.5 | verbatim | |
+| §1.4.1 文献要請 13(ii) の縮小 | 同 §8.3(BFC v2.11 §12.1「文献要請 13」対応節の (ii) を縮小する確定文言) | **adapted** | 便 55 F6.1 により「BFC v2.11 §12.1(ii) は未同期・TB4 v2.4 §8.3 が現行 normative source」の 1 文を追加。承認根拠: 裁定 67(本便) |
+| §7.4 quarantine 4 段監査の確定文言 | 同 §8.4(便 48 F10.2 の文言) | normative-only | 前段(旧文)は差替え・後段(禁止規律部分)は保持 |
+| §8.4(8.4.0–8.4.5 全文・F4 の seal ID/digest 欄を除く) | `docs/amendment_5prime_draft.md`(条文案 v8)§2「条文案 A」(現行→改定案 v1.4 の該当ブロック) | verbatim(§8.4.0 F4 の追加 2 欄を除く) | §8.4.0 (F4) に `z20_link_seal_id`・`equality_certificate_digest` の 2 欄を追加(adapted・便 55 F3.2 末尾「結果 schema の双方へ同じ seal ID/digest を入れること」に基づく。承認根拠: 裁定 67) |
+| §9.2 I-n 行 | 同 §2「付随:§9 への 1 行追加」 | verbatim | |
+| §10 記録欄 8.(結果 record schema の生成元としての位置づけ) | 同 §4「結果 record schema」(A7・A8・A13・A20 の該当欄)。**closed enumeration と conditional presence の定義自体は manifest v1.6 §3 が正本** | normative-only | |
+
+**確認**: 上表以外の新規文言(判断を要する言い換え)は本文書に含めていない。`adapted` と分類した箇所は、いずれも便 55(F3.2/F5/F6.1)の明示指示に基づく型指定・注記追加であり、判断を要する言い換えではない。
