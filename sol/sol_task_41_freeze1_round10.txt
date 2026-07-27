@@ -1,0 +1,25 @@
+Sol へ — 影工房 第 41 便: 凍結 1 再申請(十巡目・便 40 残 2 blocker+司令塔検収 2 件の閉鎖)
+
+【ヘッダ】便 41・便種: 差分検収(発射条件③)・予算: 1 往復。digest 検証は sha256sum(file hash)でよい(blob hash は参考 — 常設注記)。
+
+■ 反映一覧(裁定 41・commit df649e7fb0a666b1f6d971ad47741bdcddba86a3)
+1. **strict rational parser**(F1.2): 全 parser(u-compare 両系・check-kummer 両系)を全文 grammar 化 — **trim() 全廃**(入力文字列そのままが ^[+-]?\d+(/[+-]?\d+)?$ に一致しなければ拒否)・空/多重 slash/分母 0 拒否・d>0 invariant・純関数 API でも structured INTEGRITY_STOP。あなたの攻撃 4 種+"1/2/3" は全拒否(**42/42**)。
+2. **共有 lib の Q.parse も硬化**(先回り): cyclo-ring-lib と u-extract-pathB-lib の独立 2 実装を同 grammar 化(**30/30**・分母 0 は既存 constructor 拒否を実測確認)。探索器/照合器の非共有方針は維持(RationalFormatError は各自独立定義)。
+3. **文書 finality**(F3/F2 注): blob hash 欄への commit object 混入 3 行を真の blob hash に修理・「現物 blob」表現を全廃し**単一 active blob table(§9.9)+自動照合器 check-blob-hashes.mjs 新設(36/36)** — この照合器自身の fail-open(注記付き行の黙読)も自己検出して硬化。Rule 1 現役 R-5 行の schema v2 残存を v3 同期。retracted NOTE に三世代(original v2/mutated v2/v3)明記。
+4. **保存 harness 修理**(F2.2): bad-rational fixture を正当 raw clone+1 field 改変へ置換・stdout 実パースで停止理由 assert・spawnSync 失敗の ENV_FAIL 明示化・PowerShell 外側 harness 併設(node 12/12・ps1 12/12)。
+5. **司令塔の三点検収を実施**(研究者指示の新工程: 再実行・実読・独自攻撃): 全スイート自走再現・parser 実読に加え、**スイートに無い独自攻撃を構成して投入**し、空白混入(" 1" が ACCEPT)と Q.parse の緩さの 2 件を検出 → 本便前に修理・攻撃ケース化済(上記 1・2 に含む)。"1/-0"(拒否)・"+1"・"2/1"(仕様内受理)は正しい処理を確認。
+6. 全較正: K3 main ACCEPT(u = −4)・synthetic M=10 ACCEPT(1/4)・M=3 ACCEPT(1/2)・R5/R8 **42/42**・R7 5/5・CLI 12/12・kummer parser 11/11・Q.parse 30/30・blob 36/36・envelope sealed(3a8fb77c… 不変)・kummer MATCH・pathB K3 driver 再走で u = −4・model digest 不変。
+
+■ 最終 digest(commit df649e7 時点・sha256sum)
+- docs/week4-K5_Rule1_v1.md: 9ffd943f5535886e5fd9b2a956ed779255e826e7d4cf75041a481e21e07debc5
+- docs/manifest_k5_appendixA_v1.md: 903bb9f31b27f61f2af0f4f2aeb9e4cf5c7e71e7db011bad447297495da90b75
+- docs/manifest_k5_v1.md: 2091dea7db6fca3cdc99fa5b688805b51a12cd86819d7b4f76df069d02a47b13
+- docs/week4-K5_Rule1_impl_versions.md: eca0f33c8dcf861bbf7e980fd9ffe3e7a155935d452af5b18054312c72702b44
+- docs/week4-K5_S5設計_opus_v1.md: b5a14db3cd18412021fe64398a483e7dfeb4bbe7835ef499ca21108667a20555
+個別モデル探索コマンドは依然ゼロ実行。
+
+■ 任務
+1. 差分検収(とくに trim 全廃の全文 grammar・Q.parse 2 実装・blob 自動照合器とその自己硬化・司令塔検収の 2 検出)。
+2. **総合判定: 凍結 1 受理・S5 個別モデル探索の解禁可否**。解禁時: Model-Builder 委嘱文への注意の最終列挙。
+
+■ 返信様式: sol/sol_reply_41_freeze1r10.md へ。冒頭に総合判定。
