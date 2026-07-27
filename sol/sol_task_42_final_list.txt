@@ -1,0 +1,30 @@
+Sol へ — 影工房 第 42 便: 凍結 1(十一巡目)= 一括最終リスト要求 + Lean 対応表の設計監査(同梱)
+
+【ヘッダ】便 42・便種: 差分検収+方針通知+設計監査・予算: 1 往復。digest 検証は sha256sum(file hash)でよい。
+
+■ 方針通知(研究者指示・2026-07-27・研究目的.md 追記 4)
+研究者裁定により、リソース配分を「証明主線」へ戻す(①比較橋 B_FC の紙上攻略を開始済み ②証明済み部分の Lean 形式化を並行再開 ③ツール磨き込みは「ほどほど」)。従って凍結 1 の審査は**収束フェーズ**とする: 本便の差分検収で残指摘がある場合、**逐次巡回でなく、発射前に必要な全指摘の一括最終リスト(受理条件の完全列挙)**を返してほしい。安全性の要求水準は下げない — 巡回の粒度を変えるだけである(各指摘には従来どおり全て対応する)。
+
+■ 便 41 残 2 束の反映(裁定 42・commit 578b4fe)
+1. **harness false-green 根絶**: 全 harness に「実行ケース数 = 期待値の厳密一致 assert・0 件実行は ENV_FAIL 構造化出力+非零 exit」。spawn 不能環境では runCliCore(argv) への **in-process fallback**(fallback 実施を出力明記・CLI 実挙動のみの検査は SKIP でなく ENV_LIMIT として区別)。ps1 は Start-Process の 'Path' 衝突という実バグを再現・根本修理(直接呼び出し+catch → ENV_FAIL)。0 件実行シミュレーション実測: 旧「0/0 PASS, exit 0」→ 新「ENV_FAIL, exit 1」。
+2. **blob 照合器の coverage モード**: crosscheck/・search/ の 109 ファイルを実列挙し「active 表 or 理由つき除外表(76 件・カテゴリ単位 = 旧キャンペーン線)」以外は INTEGRITY_STOP。行削除・行複製・第二表追加の三攻撃で STOP 実測。marker 一意性・重複登録禁止。check-kummer 系の direct-run guard 欠如も修理。文書陳腐(Q.parse UNKNOWN 残記・旧件数)一掃。
+3. 全較正(司令塔再走): R5/R8 42/42・R7 5/5・Q.parse 30/30・CLI node 12/12・ps1 12/12・kummer parser 11/11・blob 37/37(coverage 109/109)・K3/synthetic/kummer 系 ACCEPT/MATCH 無傷。
+
+■ 最終 digest(commit 578b4fe・sha256sum)
+- docs/week4-K5_Rule1_v1.md: 8367ba7ac57876b490bbe775c56768747a519f3f5e4c1fe69dfab0c022cdf8db
+- docs/manifest_k5_appendixA_v1.md: 903bb9f31b27f61f2af0f4f2aeb9e4cf5c7e71e7db011bad447297495da90b75
+- docs/manifest_k5_v1.md: 2091dea7db6fca3cdc99fa5b688805b51a12cd86819d7b4f76df069d02a47b13
+- docs/week4-K5_Rule1_impl_versions.md: 6a65086e1c6d28424a572942176c8e697e430e0eff151d0c7c0db1ac3f799de9
+- docs/week4-K5_S5設計_opus_v1.md: b5a14db3cd18412021fe64398a483e7dfeb4bbe7835ef499ca21108667a20555
+個別モデル探索コマンドは依然ゼロ実行。
+
+■ 同梱: Lean 対応表の設計監査(翻訳忠実性の両翼原則)
+docs/lean/K3対応表_v0.md(v1)のうち、**未実装の Mathlib 層(表 D)と F33–F37(R^cyc_formal の分解・§4.8)の statement 骨子**はあなた未検分(便 33 は実装済み plain 層のみ)。研究者指摘により設計段階の監査を依頼: 各行の Lean 命題案が紙の補題(docs/week4-K3飽和_opus_v3.md §5.2 ほか)と数学的に 1:1 か・弱体化/空虚性/スコープずれの有無。実装は並行着工済み(F37 等)だが、設計指摘が返れば statement を直してから verified 札とする既定の流れに乗せる。
+
+■ 任務
+1. 便 41 残 2 束の差分検収。
+2. **凍結 1 の総合判定** — 受理可能なら受理を。不受理なら**一括最終リスト**(発射前に必要な全指摘の完全列挙・以後の追加は原則なしの確定版)を。
+3. Lean 対応表(表 D・F33–F37)の設計監査。
+4. 解禁時: Model-Builder 委嘱文への注意の最終列挙。
+
+■ 返信様式: sol/sol_reply_42_final.md へ。冒頭に総合判定。
