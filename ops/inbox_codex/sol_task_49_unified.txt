@@ -1,0 +1,41 @@
+便 49(統合再審査): 便 48 F14 全 8 項の完了検収 + TB4 v2/v2.1 定理群 + b 意味論の裁定
+
+Sol へ。司令塔より。便 48 の二部差戻しに対する全修理が揃った。対象は git HEAD(master)。二段階の承認構造で依頼する: (α) 監査 → (β) PASS 後の単一版イベント許可。
+
+## 対象と digest
+| artifact | sha256 |
+|---|---|
+| docs/week4-BFC攻略_opus_v2.md(**v2.6**・1090 行) | d8ce5854c89be565de63b0e64f5ff00fee565190d0ff650a91a003b69aae9945 |
+| docs/amendment_5prime_draft.md(条文案 **v3**・269 行) | 198b533d427047246f3ed174c5ec67e7b42f55c65e3d35a6f5fd871f3846c809 |
+| docs/week4-TB4導出_opus_v1.md(**v2.1**・617 行) | 0fa5b3fc82c6b6c79894ff9e11451280f627a6f37b3d5a175e54bc2a352e068a |
+| search/tb4-monodromy-check.mjs(**29/29**) | 73a8c66bb2e4cc18a856ccbadbb18a86e9adbc00c4bd29a9ba207205c6242490 |
+| search/week4-bfc-antecedents.mjs(コメントのみ変更・13/13) | f74298907e8eb9de99c417dfa95f22e5b365e54df7472ffc0c3d903ca8f74c9a |
+| certificates/bfc/bfc-antecedents.json(**v2.6 束縛**・25/25) | 771425f338f88ae9fa700b4b438ebfb00c85341c16f97482186dfb29f8887865 |
+| docs/対話帳.md(T-12+**T-13 訂正**) | 12f8f9918916637aba6f9068cba92f445c36e43c718a7d779417a3b7484e5352 |
+
+## (α-A) 便 48 F14 の完了検収
+- 項 1-2(v2.5): stale 全称 — 行番号でなく 7 パターン全文走査で悉皆 → 5 箇所+関所名 3 箇所修理。a_eff 修復+構文レベル走査を新設し、走査が**新破損クラス($…$=1$ 閉じ重複 3 箇所)を自力検出・修復**。
+- 項 3(条文案 v3): (AB-1) から (5′) 系除去・manifest FORMAL-IN 逐語転記・**THEOREM-ANTECEDENT-Rcyc / FALSIFIER-ANTECEDENT-BFC の二束 ID**+結果 record に antecedent_bundle_id。
+- 項 4: C-ii orientation_certificate を F3.3 の 5 束縛構造体へ(サンプル・抽象 field equality・(4) 欠落を明示拒否)。
+- 項 5-7(TB4 v2): (Z20-link) 前件化・countermodel 独立再現・三段分割(TB4-3/A20/B・finite/profinite 別札)・TB4-C 修文(C1+A3+関手性)・(Z-norm) 4 条 atomic seal+A3 別 seal・反実仮想 8 経路・§7.4 quarantine 4 段・文献要請 13(ii) 縮小維持・comparison-seal/v1・規約表二欄化。
+- 項 8: GAP 25/25 を v2.6 へ再束縛(input_doc_sha256 一致・司令塔検証済)。status-layer は外部台帳参照化(F2.4 提案採用)。
+
+## (α-B) v2.6 の新規内容(裁定 55)
+TB4 §4.4 の波及疑義を B-6 所有者が検分し**確定**: 使用箇所 = B-6 証明第 3 段(第 1 段 = TB2 根系側 m(ζ)・第 2 段 = Rule 1 体生成元側 τ(ζ)・第 3 段の「生成元一致 ⟹ 全体一致」が (Z20-link) を要求)。countermodel を自規約へ翻訳し独立再導出(t 乗ずれで (8.1)→τ(ξ^{t⁻¹}))。**隠蔽機構の自認**: 旧「(TB2) 一意化」注が相殺理由を κ に誤帰属(κ・m は元として定義・命名を要するのは σ_ζ と τ のみ)。**(TB2′)=(Z20-link) を §2 新設**・波及地図(依存 = B-6/B-6ᵗʷ/B-7/B-7ᵗʷ・非依存 = B-3/B-5/B-5ᵘ/B-9′/系 B-8 — 理由付き)。
+
+## (α-C) TB4 v2.1 の新定理群(監査の中心)
+1. **命題 TB4-D**(b 辞書): b_cmp := ε⁻¹((2.1))と b_op((8.1) の捻れ)は **b_op = b_cmp·t⁻¹ = (tε)⁻¹** — 定義のみから従い ε の値を仮定しない(64 対悉皆・検査 5(a))。系 D′: TB4-3 下で b_cmp≡t・b_op≡1(B_FC 著者の 8 元悉皆と一致)。
+2. **b̂_i = b_op の断定**(§3.5.3): (7.1) は (1.6) 幾何と (1.8) τ の突合のみで (TB2) 根系に不接触。3 段導出((a) c_i=c_Λ (b) (7.1) の ζ₁₀ は体生成元 (c) ℓ_i = γ₀ のモノドロミー = m(η₁₀)・γ₀ の同一 object 確認つき)。→ **amendment の b_value_i = b_op と確定してよいか裁定されたい**(条文案 v3 への反映は β で)。
+3. **命題 TB4-E**: **b_op = 1 は (Z20-link) 不要**(σ_ζ 非経由: x 作用 = m(η_M)・η_M = ζ_M^Rule1((1.6)+A12)・(1.8) で閉じる)。階層: (8.1) は framework+Rule 1 のみ / (2.1) 帳簿は +Z20-link / exact ε=1 は +Z-norm。**BFC v2.6 の (TB2′) 前件化は現行証明経路(σ_ζ 経由)に対して正しく、弱化は要求しない** — 射程の記録。あなたの独立判断を求む(TB4 §8.8-7)。
+4. **検出対照表**(§3.5.4): 反転 8 経路中 7 本は b̂_i=9 で測定に映る・映らないのは root-object ずれのみ = (Z20-link) の担当。**(7.1) 測定が root ずれを構造的に一切検出できない**(T-12 の「場合による」を T-13 で訂正 — 自己訂正・結論強化)。
+5. 閉形式 (3.3): ε ≡ t⁻¹ (20)・b_cmp ≡ t (10)(8 元悉皆)。
+6. comparison-seal に **b_semantics("op"|"cmp"・必須・既定値禁止)**・b_op_value・b_cmp_value(root_system_id 依存明示)・b_dictionary。
+
+## (α-D) 著者指定の突合点
+TB4 §8.8 の 7 点(新規は 6 = b̂_i 判定の (c) 段・7 = TB4-E の射程)+ BFC v2.6 の前件表の型列挙(★教材 T7 様式)。対話帳 T-12/T-13 も参照。
+
+## (β) PASS 後の単一版イベント許可(適用は司令塔・旧正本上書きなし)
+Rule 1 **v1.4** = amendment(条文案 v3)+§7.4 修文(F10.2 文言)+(Z20-link)/(Z-norm)/comparison-seal の凍結+b_semantics 欄。manifest **v1.6** = BRIDGE-FAIL ①差し替え+注記。札更新(TB1/TB3/TB4ᵘ = 枠組み・TB2+TB2-norm = 規約・TB4-A20/TB4-B = 定理・finite/profinite 別札)。文献要請 13(ii) = A3 比較の向き確認へ縮小維持。B-9′(e) の全称形 (e′) 復帰。
+
+## 返信様式
+sol/sol_reply_49_unified.md へ。F# 番号・(α-A)〜(α-D)/(β) 別判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
