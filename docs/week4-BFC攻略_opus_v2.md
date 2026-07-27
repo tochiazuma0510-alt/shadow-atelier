@@ -1,4 +1,4 @@
-# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2.5 = 便 48 F14 項 1-2/5-6 反映版**)
+# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2.6 = 裁定 54: (Z20-link) を前件へ**)
 
 2026-07-27 起草(v1)・**同日 v2 / v2.1 / v2.2 改訂**: Claude(数学者レイヤー・Opus 5)。司令塔委嘱「$B_{\rm FC}$ の紙上攻略」。**v2 は `sol/sol_reply_43_bfc.md` の必須修理 R1–R6(裁定 44)、v2.1 は `sol/sol_reply_44_bfc_v2.md` の T1–T7(裁定 46)、v2.2 は `sol/sol_reply_45_bfc_final.md` の差戻し理由 1・2(= U1・U2)+ 司令塔委嘱「$K^{(5)}$ campaign の $\varepsilon$ 非依存性」(**発端 = 研究者の指摘**)を反映(裁定 47)。**
 **版の所在(便 45 F6 で実体 PASS)**: **`docs/week4-BFC攻略_opus_v1.md` は v1 原文(digest `659a9570…`)に復元済み・本ファイルが v2 系列の最終正本**である。**v2.1 が書いていた「`_v1_archive.md` に復元済み / path 改称は裁定事項」は現 tree では偽**なので削除した(便 45 F6 の指摘・**自認**)。
@@ -131,6 +131,32 @@ P4 "exact \$b=1\$|for exact b"
 
 > **v2.5 でも不変**: **B-9′ (a)–(e)・主定理 B-7・(B7tw)・B-5$^{\rm u}$・B-6$^{\rm tw}$・系 B-8・Node 13/13。** D1–D6 は**文言の限定・数式の修復・status の参照化・条文案の修理**であり、**数学は 1 行も動かない**。
 
+---
+
+## v2.5 → v2.6 差分(裁定 54 — TB4 導出 §4.4 の疑義への回答)
+
+> ### 判定: **疑義を認める(使用箇所を特定した)**
+> **補題 B-6 の証明第 3 段**(および B-6$^{\rm tw}$ の対応段)は、**(Z20-link)** $\zeta_{2M}^{\rm TB2}=\zeta_{2M}^{\rm Rule1}$ を**暗黙に使っていた**。TB4 導出 §4.4 の指摘は正しい。**自認。**
+> **結論は変わらない**((Z20-link) は無償の規約 — 新しい算術仮定ではなく**未指定だった比較データの選択**)。ただし**前件表に載せる必要がある**ので v2.6 で追加した。
+
+| # | 箇所 | v2.5 | v2.6 | 出所 |
+|---|---|---|---|---|
+| **E1** | §2 | (TB2) のみ | **(TB2$'$) = (Z20-link) を新設**($n=2M$ の 1 本で $n\mid 2M$ 全項を賄う)。正本は TB4 導出 §1.2 / §8.1 の **TB2-norm / comparison-root seal** への参照 | 裁定 54・TB4 導出 §4.4 |
+| **E2** | §2 の「(TB2) の一意化」注 | 「同じ $(\zeta_n)$ が $x$ の向きと **Kummer 指標 $\kappa$ の値**の両方を決めるので相殺する」 | **後半は偽。撤回**。$\kappa_w(\gamma)=\gamma(w^{1/M})/w^{1/M}$ も $m(\xi)$ も**元で添字づけられ生成元非依存**である。**生成元指定を要するのは (TB4) の $\sigma_\zeta$ と $\tau$ の命名だけ**で、**相殺するのはこの 2 つ = (Z20-link)**。**この誤帰属が前件を見えなくしていた**(★教材 22) | **本稿発**(疑義の検分中に発見) |
+| **E3** | §2 (2.1) | 単位は $\varepsilon$ 1 つ | **枠組み単位は 2 つ**: $\varepsilon$($x$ vs $\sigma_\zeta$)と $t$(根 object)。**(2.1$'$) $b=(t\varepsilon)^{-1}\bmod M$**。(Z20-link) は $t=1$、(TB4) は $\varepsilon=1$ | 本稿発 |
+| **E4** | §8・§8.1・§4・§9・§13.1・付録 A/B | B-6/B-6$^{\rm tw}$/B-7/B-7$^{\rm tw}$ の前件に (Z20-link) なし | **全部に追加**。**B-6 証明第 3 段に使用箇所の明示 box**(左辺は $m(\zeta_M^{\rm TB2}$)、右辺は $\tau(\zeta_M^{\rm Rule1})$)。付録 A に $t$ 行を新設 | 裁定 54 |
+
+> ### 波及しないもの(検分して確認)
+> | 補題 | (Z20-link) 依存 | 理由 |
+> |---|---|---|
+> | **B-5 / B-5$^{\rm u}$** | **なし** | (7.1)(7.2) は「$\gamma$ が $\beta^{1/M}$ を固定し係数に作用」と $\kappa$ の**元としての定義**しか使わない。**生成元命名を含まない** |
+> | **B-3($B_{\rm FC}$-I)** | **なし** | $\tau(\zeta_M)$ は現れるが、使うのは **$\tau(\mu_M)$ という部分群**と可換性だけで、**どの元が生成元かを使わない**(命題 B-1 の自己中心化論法) |
+> | **B-9′** | **なし** | (a) の背骨は「単位が窓にも dessin にも依らない」こと。**$t$ も $\varepsilon$ も枠組みレベル**なので合成 $t\varepsilon$ も枠組みレベル ⇒ $b_{\rm sq}=b_{\rm ns}$ は不変。(c)(d)(e) も不変 |
+> | **系 B-8** | **なし** | $b$ が何であれ $\xi\mapsto\xi^b$ が自己同型であることしか使わない |
+> **⇒ 影響は B-6/B-6$^{\rm tw}$ とそれを呼ぶ B-7/B-7$^{\rm tw}$ の前件欄のみ。数学的結論は 1 つも動かない。**
+
+> **v2.6 でも不変**: **B-9′ (a)–(e)・B-3・B-4・B-4c・B-5・B-5$^{\rm u}$・系 B-8・(B7tw) の式・Node 13/13。**
+
 > **v2.1 でも不変**: **主定理 B-7 の主張・(9.1)・証明・系 B-7′・補題 B-5 の計算・補題 B-6 の計算・系 B-8・二例との整合・Node 検算 13/13。** T1–T7 は**別番号定理の条件付け・規約の逆数統一・stale statement の除去・依存の分割**であり、**B-7 の真偽を動かさない**(便 44 F5 が同旨)。
 
 ---
@@ -198,6 +224,22 @@ $A_5$ v4 と $K^{(3)}$ v3.1 が **(5′) を閉じた論証**を段ごとに並�
 >
 > **(TB4) $\Longrightarrow$ (TB4$^{\rm u}$)** は明らか。逆は成り立たず、差は**ちょうど 1 つの単位**である: $x$ と $\iota(\sigma_\zeta)$ はどちらも同じ procyclic 群 $\overline{\langle x\rangle}$ の位相的生成元だから、**一意な $\varepsilon\in\hat{\mathbb Z}^\times$** があって
 > $$ x=\iota\bigl(\sigma_\zeta^{\,\varepsilon}\bigr),\qquad\text{そして}\qquad b:=\varepsilon^{-1}\bmod M\ \in(\mathbb Z/M)^\times \tag{2.1} $$
+>
+> **【v2.6・裁定 54】(2.1) は (Z20-link) を仮定した形である。** 一般には**枠組みレベルの単位が 2 つ**ある:
+> $$ \underbrace{\varepsilon\in\hat{\mathbb Z}^\times:\ x=\iota(\sigma_\zeta^{\,\varepsilon})}_{x\ \text{と}\ \sigma_\zeta^{\rm TB2}\ \text{のずれ}},\qquad \underbrace{t\in(\mathbb Z/2M)^\times:\ \zeta_{2M}^{\rm TB2}=\bigl(\zeta_{2M}^{\rm Rule1}\bigr)^{t}}_{\text{根 object のずれ}} $$
+> であり、§8 の計算から **(8.1) の意味での捻れ**は
+> $$ \boxed{\ b_{(8.1)}\ =\ (t\,\varepsilon)^{-1}\bmod M\ } \tag{2.1$'$} $$
+> となる(導出: $x$ は $\mathrm{Fib}$ 上で $m\bigl((\zeta_M^{\rm TB2})^{\varepsilon}\bigr)=m\bigl((\zeta_M^{\rm Rule1})^{t\varepsilon}\bigr)$、他方 $c_\Lambda$ による共役は $\tau(\zeta_M^{\rm Rule1})$ を与えるから)。**(Z20-link) は $t=1$、(TB4) は $\varepsilon=1$**、両方成立で $b=1$。**$t$ と $\varepsilon$ は別の自由度であり、片方だけを閉じても $b=1$ は出ない。**
+
+> ### 【v2.6・要調整】TB4 導出 (3.3) との $b$ の定義差 — **司令塔/Sol へ上げる**
+> TB4 導出 §3.4 の countermodel は $b:=\varepsilon^{-1}$(本稿 (2.1))を使い、$x$ を canonical loop に固定して $\varepsilon\equiv t^{-1}$、ゆえに **$b\equiv t$**(3.3) と結論する。一方、**同じ countermodel で本稿の $b_{(8.1)}$ は (2.1$'$) より $(t\varepsilon)^{-1}=1$** になる($t\varepsilon\equiv1$ だから)。**両者は因子 $t$ だけ食い違う**(検算: $t=1,3,7,9,11,13,17,19$ の 8 通りで $b_{\rm TB4}/b_{(8.1)}\equiv t\ (\mathrm{mod}\ 10)$ を整数演算で確認)。
+> **原因**: **$b$ の定義が 2 通りある**。
+> - **(2.1) の $b:=\varepsilon^{-1}$** — $x$ を $\sigma_\zeta^{\rm TB2}$ と比べる量。**根 object のずれを $\varepsilon$ が吸収する**ので $t$ が残らない。
+> - **(8.1) の $b$** — $m$(元で添字づけ)と $\tau$($\zeta^{\rm Rule1}$ で命名)の捻れ。**$t$ と $\varepsilon$ の両方を含む。**
+> **(Z20-link)($t=1$)の下では両者は一致する**ので、**v2.5 までの本文に矛盾はない**(そこでは暗黙に $t=1$ だった)。**$t\ne1$ を許した瞬間に (2.1) と (8.1) が別物になる**というのが v2.6 の発見である。
+> **⇒ 本稿は (Z20-link) を前件に置くので $b_{(8.1)}=b_{(2.1)}=\varepsilon^{-1}$ として扱う。** ただし **TB4 導出 (3.3) の「$b\equiv t$」と本稿 (2.1$'$) の「$b_{(8.1)}=(t\varepsilon)^{-1}$」のどちらを Rule 1 (7.1) の測定値 $\hat b_i$ に対応させるかは、両文書で規約を合わせる必要がある**(**未調整・司令塔裁定事項**)。**Rule 1 (7.1) は $c_i\ell_ic_i^{-1}=\tau_i(\zeta_{10}^{b_i})$ で、$\ell_i$ は canonical な正の向きの実 local monodromy なので、(8.1) 側の定義に近い**と私は見るが、**断定しない**。
+
+> **★ 重要(B-9′ への波及なし・確認済み)**: $t$ も $\varepsilon$ も**窓にも dessin にも依らない**($t$ は 2 つの根系の比較、$\varepsilon$ は $x$ と $\sigma_\zeta$ の比較で、どちらにも $N,H_i,\Lambda_i,c_i,u_i$ が現れない)。ゆえに**どちらの定義を採っても合成単位は枠組みレベル**であり、**補題 B-9′(a)($b_{\rm sq}=b_{\rm ns}$)とその帰結 (c)(d)(e) は 1 行も変わらない**(§10.1)。**上の要調整項目は B-9′ の真偽に触れない。**
 > と置ける。**$\varepsilon$ は窓にも dessin にも依らない — $U$・$x$・$(\zeta_n)$ だけで決まる枠組みレベルの 1 単位である**(この事実が §10.1 の補題 B-9′ の背骨になる)。
 >
 > **【v2.2・U1 で偽の同値を訂正】** v2.1 はここに「**(TB4) $\iff\varepsilon=1\iff b=1$**」と書いた。**後半は偽である**(便 45 F2.2)。正しくは
@@ -210,7 +252,14 @@ $A_5$ v4 と $K^{(3)}$ v3.1 が **(5′) を閉じた論証**を段ごとに並�
 
 > **★ (TB1)–(TB4) の身分**: これは**当工房が §1.1 で置いた規約**((TB2))と、**接基点の理論の標準事実**((TB1)(TB3)(TB4))の混合である。標準事実側が【GAP-TB】(§12.1)。**$A_5$ v4 §3.5 も $K^{(3)}$ §2.1 も、まさにこの 4 つを暗黙に使っていた** — 本稿は使用箇所を明示化しただけで、依存を増やしていない。
 
-> **(TB2) の一意化について**: $(\zeta_n)$ の選択は $\hat{\mathbb Z}^\times$ の自由度をもつが、**同じ $(\zeta_n)$ が $x$ の向き((TB4))と Kummer 指標 $\kappa$ の値の両方を決める**ので、選択は §8 でちょうど相殺する。**これが $b=1$ の正体である。**
+> **(TB2$'$)【v2.6 新設・(Z20-link)】根 object の typed equality.** (TB2) が固定する系の $n=2M$ 項を $\zeta_{2M}^{\rm TB2}$、Rule 1 (1.5) の**体生成元**を $\zeta_{2M}^{\rm Rule1}:=\bar T\in K=\mathbb Q[T]/(\Phi_{2M})$ とする。
+> $$ \boxed{\ \zeta_{2M}^{\rm TB2}\ =\ \zeta_{2M}^{\rm Rule1}\ \in\ K\subset\bar{\mathbb Q}\ }\tag{Z20-link} $$
+> **を前件に置く。** ($n\mid 2M$ の全項は (TB2) の整合性 $\zeta_{mn}^m=\zeta_n$ から従うので、$n=2M$ の 1 本で足りる — TB4 導出 §1.2 の注。)正本は `docs/week4-TB4導出_opus_v1.md` §1.2 / §8.1 の **TB2-norm / comparison-root seal**。
+
+> **⚠【v2.6・裁定 54】v2.5 までの「(TB2) の一意化」の説明は誤りだった。自認。** v2.5 はここに
+> > 「同じ $(\zeta_n)$ が $x$ の向き((TB4))と **Kummer 指標 $\kappa$ の値**の両方を決めるので選択は §8 で相殺する」
+> と書いていた。**後半が偽である**: $\kappa_w(\gamma)=\gamma(w^{1/M})/w^{1/M}\in\mu_M$ は $\mu_M$ の**元**として定義され、**生成元の指定を一切使わない**(§7 で私自身「$M$ 乗根の選び方に依らない」と書いている)。同様に $m(\xi)$ も**元で添字づけられ生成元非依存**である。
+> **⇒ 生成元指定を要する対象は 2 つだけ**: **(TB4) の $\sigma_\zeta$**($\zeta_n^{\rm TB2}$ を使う)と **$\tau$**($\tau(\zeta_M)=\mathrm{conj}_X$ という**命名** — その $\zeta_M$ は Rule 1 (1.7)(1.8) 経由で**体生成元側** $\zeta_{2M}^{\rm Rule1}$ の冪である)。**相殺するのはこの 2 つであり、その相殺こそが (Z20-link) である。** $\kappa$ に相殺の役を割り当てたことが、**この前件が見えなかった機構**である(★教材 22)。
 
 ---
 
@@ -251,7 +300,7 @@ $$ \boxed{\ B_{\rm FC}\ =\ \underbrace{B_{\rm FC}\text{-I}}_{\text{型: 平行�
 | **II-a$^\mathbb Q$** | $\mathbb Q$-モデル版 | **(W1)(W3)(W5$^\mathbb Q$)** + (CAL)(**(W2) 不要**) | 同上 | **§6・定理 B-4 で証明** |
 | **II-c$_0$**(局所補題・**$W_0$ を与えられたものとする**) | $\lambda^{-1}(0)=\{P_0\}$・$K$-有理・$e=M$、$\mathrm{Fib}$ の Kummer 表示、torsor 類 $=[u^{-1}]$ | **(TB1)(TB2)(TB3)(TB4)** + (W4) ← **R5 で (TB3)(TB4) 追加** | — | **§7・補題 B-5 で証明** |
 | **II-c**(窓から) | 上を窓データだけから主張する | II-c$_0$ + **II-a** | (W1)(W2)(W3)(W5)+(CAL) | 同上 |
-| **II-b** | $\Lambda\cong\mathrm{Fib}_{\vec{01}}(W_0)$ が $G_K$-集合としても $\mu_M$-torsor としても同型($b=1$) | **(TB1)(TB2)(TB3)(TB4)** + (W3)(W4) + (CAL) | **(W1)(W2)(W5)**(B-4c と B-5 を呼ぶため) | **§8・補題 B-6 で証明** |
+| **II-b** | $\Lambda\cong\mathrm{Fib}_{\vec{01}}(W_0)$ が $G_K$-集合としても $\mu_M$-torsor としても同型($b=1$) | **(TB1)(TB2)(TB3)(TB4)+(Z20-link)** ← **v2.6 で追加** + (W3)(W4) + (CAL) | **(W1)(W2)(W5)**(B-4c と B-5 を呼ぶため) | **§8・補題 B-6 で証明** |
 | **合成** | $c=\kappa_{u^{-1}}$、すなわち **(5′)** | 上の全部 | — | **§9・定理 B-7** |
 
 > **★ 分解の効き目**: これで「$B_{\rm FC}$ が UNKNOWN」という粗い札が、**「(TB4) の向きが未裏取り」という 1 点**に縮む。委嘱の言う「$B_{\rm FC}$ の第 $k$ 段に絞る」の答えは **$k=$ II-b の (TB4)** である。
@@ -451,8 +500,8 @@ $$ \boxed{\ \mathrm{im}(I_0)=\overline{\langle x\rangle}\ \text{と、その}\ \
 
 ## 8. $B_{\rm FC}$-II-b — torsor 比較と $b=1$
 
-> ### 補題 B-6(torsor 比較)【**v2・R4/R5 で依存欄を修理**】
-> (TB1)–(TB4)・**(W1)(W2)(W3)(W4)(W5)** と較正 (CAL) の下で(系 B-4c と補題 B-5 を呼ぶので (W2)(W5) も間接依存に入る)、系 B-4c の**左作用に統一した**同型 $c_\Lambda:\mathrm{Fib}_{\vec{01}}(W_0)\xrightarrow{\sim}\Lambda$ は
+> ### 補題 B-6(torsor 比較)【**v2・R4/R5 で依存欄を修理・v2.6 で (Z20-link) を追加**】
+> (TB1)–(TB4)・**(Z20-link)**・**(W1)(W2)(W3)(W4)(W5)** と較正 (CAL) の下で(系 B-4c と補題 B-5 を呼ぶので (W2)(W5) も間接依存に入る)、系 B-4c の**左作用に統一した**同型 $c_\Lambda:\mathrm{Fib}_{\vec{01}}(W_0)\xrightarrow{\sim}\Lambda$ は
 > $$ \boxed{\ c_\Lambda\circ m(\xi)\circ c_\Lambda^{-1}\ =\ \tau(\xi)\qquad(\forall\xi\in\mu_M)\ } \tag{8.1} $$
 > を満たす。すなわち **$b=1$**。
 
@@ -461,6 +510,11 @@ $$ \boxed{\ \mathrm{im}(I_0)=\overline{\langle x\rangle}\ \text{と、その}\ \
 $$ x\cdot p=\zeta_M\,p=m(\zeta_M)\,p . $$
 2. 系 B-4c より $c_\Lambda$ は $\hat F_2$-同変で、$x$ の $\Lambda$ 上の作用は $\tau(\zeta_M)$(命題 B-2)。ゆえに $c_\Lambda\circ m(\zeta_M)\circ c_\Lambda^{-1}=\tau(\zeta_M)$。
 3. $m,\tau$ はともに準同型 $\mu_M\to\mathrm{Sym}(\Lambda)$ で、$c_\Lambda$ による共役も準同型。生成元 $\zeta_M$ で一致するから全体で一致。∎
+
+> **⚠【v2.6・裁定 54】この第 3 段が (Z20-link) を使う — 使用箇所の特定。** 上の 1 と 2 が生む等式は、根 object を区別して書くと
+> $$ \underbrace{c_\Lambda\, m\bigl(\zeta_M^{\rm TB2}\bigr)\, c_\Lambda^{-1}}_{\text{1 段: }(TB4)\text{ の }\sigma_\zeta\text{ 由来}}\ =\ \underbrace{\tau\bigl(\zeta_M^{\rm Rule1}\bigr)}_{\text{2 段: }\tau\text{ の命名 }\tau(\zeta_M)=\mathrm{conj}_X} $$
+> である。**第 3 段の「生成元 $\zeta_M$ で一致するから」は、この左右の $\zeta_M$ が同じ元であることを要する** — すなわち **(Z20-link)**($\zeta^{\rm TB2}=\zeta^{\rm Rule1}$)。**もし $\zeta_M^{\rm TB2}=(\zeta_M^{\rm Rule1})^{t}$ なら結論は (8.1) ではなく $c_\Lambda m(\xi)c_\Lambda^{-1}=\tau(\xi^{t^{-1}})$ になる**(TB4 導出 §3.4 の countermodel を私の規約へ翻訳したもの — 本稿で独立に再導出)。
+> **⇒ 補題 B-6 の前件に (Z20-link) を追加する。** **自認**(TB4 導出 §4.4 の疑義は正しい)。**$m$ と $\kappa$ は元で添字づけられ生成元非依存**なので、**混用が起きたのは $\tau$ の側だけ**である。
 
 > **★ $b=1$ の正体**: (TB2) の $(\zeta_n)$ が **$x$ の向き**((TB4))と **$\kappa$ の値**((7.2))の**両方**を決めているので、$(\zeta_n)\mapsto(\zeta_n^t)$($t\in\hat{\mathbb Z}^\times$)に取り替えると $\tau$ の生成元と $\kappa$ の値が**同時に**ひねられて相殺する。**$b$ は「二つの独立な規約のずれ」ではなく、「一つの規約を二度使う」ことで消える。**
 >
@@ -480,7 +534,7 @@ $$ x\cdot p=\zeta_M\,p=m(\zeta_M)\,p . $$
 > を**仮定したとき**に位数・核・固定体が $b$ に依らないことを示す補題であって、**$\exists b\in(\mathbb Z/M)^\times$ で (10.1) が成り立つ、という存在命題を与えない**。**自認。** 正しくは、(TB4) を (TB4$^{\rm u}$) へ弱めた上で存在を**証明する**。
 
 > ### 補題 B-6$^{\rm tw}$(orientation-free torsor comparison).
-> **(TB1)(TB2)(TB3)(TB4$^{\rm u}$)**・(W1)–(W5)・(CAL) の下で、(2.1) の $b=\varepsilon^{-1}\bmod M$ について
+> **(TB1)(TB2)(TB3)(TB4$^{\rm u}$)**・**(Z20-link)**・(W1)–(W5)・(CAL) の下で、(2.1) の $b=\varepsilon^{-1}\bmod M$ について(**(Z20-link) を落とすなら (2.1$'$) の $b=(t\varepsilon)^{-1}$ を使う**)
 > $$ \boxed{\ c_\Lambda\circ m(\xi)\circ c_\Lambda^{-1}\ =\ \tau\bigl(\xi^{\,b}\bigr)\qquad(\forall\xi\in\mu_M)\ } \tag{8.2} $$
 
 **証明.** (TB4$^{\rm u}$) より $x$ の $\mathrm{Fib}$ 上の作用は $I_0$ の像に属し、$\sigma_\zeta$ は $m(\zeta_M)$ として作用する(補題 B-6 の 1 と同じ計算)。(2.1) より
@@ -490,7 +544,7 @@ $$ c_\Lambda\, m(\zeta_M^{\,\varepsilon})\, c_\Lambda^{-1}=\tau(\zeta_M). $$
 $\xi=\zeta_M^{\,k}$ と書き $k=\varepsilon j$ すなわち $j=bk$ と置き換えると $c_\Lambda m(\zeta_M^{\,k})c_\Lambda^{-1}=\tau(\zeta_M^{\,bk})=\tau\bigl((\zeta_M^{\,k})^b\bigr)$。∎
 
 > ### 定理 B-7$^{\rm tw}$(twisted comparison bridge).
-> **(TB1)(TB2)(TB3)(TB4$^{\rm u}$)**・(CAL)・(W1)–(W5) の下で、**(2.1) で先に定めた** $b:=\varepsilon^{-1}\bmod M\in(\mathbb Z/M)^\times$(**窓にも dessin にも依らず枠組みだけで決まる**)について
+> **(TB1)(TB2)(TB3)(TB4$^{\rm u}$)**・**(Z20-link)**・(CAL)・(W1)–(W5) の下で、**(2.1) で先に定めた** $b:=\varepsilon^{-1}\bmod M\in(\mathbb Z/M)^\times$(**窓にも dessin にも依らず枠組みだけで決まる**)について
 > $$ \boxed{\ \rho_\Lambda\bigl(\mathrm{Ih}_N(\gamma)\bigr)\ =\ \tau\bigl(\kappa_{u^{-1}}(\gamma)^{\,b}\bigr)\qquad(\forall\gamma\in G_K)\ } \tag{B7tw} $$
 > **証明【v2.2・U2 で連鎖を完結】.** 定理 B-7 の証明を 2 か所差し替える。
 > **(a)** (7.2)(= $G_K$ が $\mathrm{Fib}$ に $m(\kappa_{u^{-1}}(\gamma))$ で作用)を、**補題 B-5$^{\rm u}$**(§7.1)から取る — これで exact (TB4) を呼ばずに済む。
@@ -522,7 +576,7 @@ $\xi=\zeta_M^{\,k}$ と書き $k=\varepsilon j$ すなわち $j=bk$ と置き換
 ## 9. 主定理
 
 > ### 定理 B-7(比較橋 $B_{\rm FC}$).
-> **枠組み** (TB1)–(TB4)、**較正** $\alpha^{\rm Ih}=\alpha^{\rm std}$($A_5$ v4 §1.4・窓非依存)、**窓前件** (W1)(W2)(W3)(W4)(W5) の下で:
+> **枠組み** (TB1)–(TB4)**+(Z20-link)**(**v2.6**)、**較正** $\alpha^{\rm Ih}=\alpha^{\rm std}$($A_5$ v4 §1.4・窓非依存)、**窓前件** (W1)(W2)(W3)(W4)(W5) の下で:
 > **(a)** 一意な $K$-モデル $W_0\to U_K$ が存在し、$\lambda^{-1}(0)$ は唯一の $K$-有理点 $P_0$(分岐指数 $M$)。
 > **(b)** $[u]_M\in K^\times/K^{\times M}$ が窓のデータだけから定まる。
 > **(c)** すべての $\gamma\in G_K$ について
@@ -794,6 +848,7 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 |---|---|---|---|---|
 | **枠組み** | (TB1) | 接基点繊維関手の圏同値 | 標準事実 | **【GAP-TB】** |
 | | (TB2) | $(\zeta_n)$ 固定・$G_\mathbb Q$ は $\Omega$ に係数作用・$\beta^{1/n}$ 固定 | **当工房の規約** | 閉 |
+| | **(Z20-link)【v2.6】** | $\zeta_{2M}^{\rm TB2}=\zeta_{2M}^{\rm Rule1}\in K$(根 object の typed equality) | **規約(無償)** — 新しい算術仮定ではなく**未指定だった比較データの選択** | **未凍結**(TB4 導出 §8.1 の TB2-norm / comparison-root seal で凍結予定)。**B-6 の第 3 段が使う**(§8) |
 | | (TB3) | $\pi_1(U_{\bar{\mathbb Q}},\vec{01})=\hat F_2=\langle x,y\rangle$ | 標準事実 | **【GAP-TB】** |
 | | (TB4) | $x=$ $(\zeta_n)$ が定める $\hat{\mathbb Z}(1)$ の生成元の像・作用は**左作用としての後合成** | 標準事実 | **【GAP-TB】(exact $\varepsilon=1$ の向きの唯一の関所。$b=1$ はその $\mathrm{mod}\ M$ 帰結)** |
 | **較正** | (CAL) | $\alpha^{\rm Ih}=\alpha^{\rm std}$ | 証明済 | **閉**($A_5$ v4 §1.4・窓非依存) |
@@ -814,7 +869,7 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 > | B-4(a)($K$-descent) | (TB1)(TB2)(TB3) + (W1)(W2)(W3)(W5) + (CAL) |
 > | B-4(b)($\mathbb Q$-descent) | (TB1)(TB2)(TB3) + (W1)(W3)(W5$^\mathbb Q$) + (CAL)。**(W2) 不要** |
 > | B-5(局所・$W_0$ 所与) | (TB1)(TB2)(TB3)(TB4) + (W4) |
-> | B-6(torsor 比較) | (TB1)–(TB4) + (W1)–(W5) + (CAL) |
+> | B-6(torsor 比較) | (TB1)–(TB4) **+ (Z20-link)** + (W1)–(W5) + (CAL) |
 > **⇒ 主定理 B-7 の総前件はこれらの和集合であり、上の表と一致する**(便 43 F5.2 の要求)。
 
 ### 13.2 消えた前件(v3.1 からの差分)
@@ -984,6 +1039,12 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 20. **凍結する式と凍結する値を分ける。** 凍結 1 で algorithm を固定しても、**個別モデル由来の値まで存在するとは限らない**($c_i,\ell_i$ が未確定なのだから $b_i$ の値は書けない)。⇒ **二段凍結では provenance の型も二段にする**(F10.1 の `b_rule_commitment` / `b_value_i`)。**私は条文案で actual $b_i$ を「凍結 1 の記録項目」と書き、Rule 1 §9.3・§10-6 の既存規定と矛盾させた。自認。**
 21. **定理が parameter を結論から消しても、運用 predicate が自動で直るわけではない。** 補題 B-9′ が $\varepsilon$ を数学から消しても、**判定式・結果 record の意味を同じ version で同期して初めて偽 FAIL が消える**。⇒ **数学的不変性・実験の判定式・結果 record の三つを同じ版で動かす。**(★教材 17 の一般形。)
 
+### 【v2.6・裁定 54】
+
+22. **「相殺する」と書くときは、相殺する二つの**両方**が同じ選択に依存していることを確かめる。** 私は §2 で「$(\zeta_n)$ の選択は **$x$ の向きと $\kappa$ の値**の両方を決めるから相殺する」と書いた。**$\kappa$ は生成元非依存だった** — $\kappa_w(\gamma)=\gamma(w^{1/M})/w^{1/M}$ は $\mu_M$ の**元**であり、どの元を $\zeta_M$ と呼ぶかを一切使わない。**実際に相殺していたのは $\sigma_\zeta$ と $\tau$ の命名**であり、それが同じ元だという主張が **(Z20-link)** だった。⇒ **「相殺」の主張は、相殺する二項の**依存先**を名指しで書く。片方が実は無依存なら、相殺は起きておらず**隠れた前件**がある。**
+23. **同じ字形の記号が二つの文書で使われていることは typed equality ではない。** $\zeta_{20}$ は (TB2) では**根系の項**、Rule 1 (1.5) では**体生成元 $\bar T$** で、**両者を結ぶ条項は正典になかった**。★教材 2(★教材 12・便 29 系)「名前は不変量ではない」の**記号版**。⇒ **異なる文書の同名記号を証明の一行で同一視する箇所は、必ず typed equality の条項番号を引く。**
+24. **元で添字づけられた対象と、生成元で命名された対象を、同じ記法で書かない。** $m(\xi)$・$\kappa(\gamma)$ は前者、$\tau$ は後者だった。**同じ $\mu_M\to\mathrm{Sym}$ の形をしているので混用に気づけなかった。** ⇒ **生成元命名を要する写像には、命名に使った根の出所を記号に添える**(本稿は以後 $\tau$ の定義箇所に $\zeta^{\rm Rule1}$ を明記する)。
+
 ---
 
 ## 付録 A. 記号表(本稿で新規に導入したもの)
@@ -997,7 +1058,8 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 | $\mathfrak s(N,H)$ | $K^\times/K^{\times M}$ | **shadow 類** $=[c]$(5.2) |
 | $c_\Lambda$ | $\mathrm{Fib}\xrightarrow{\sim}\Lambda$ | 系 B-4c(= FC-3)の同型 |
 | $\tilde s$ | $K[[s]]$ の uniformizer | $s\,h^{1/M}$、$\tilde s^M=u^{-1}\beta$(補題 B-5(iii)) |
-| $\varepsilon$ | $\hat{\mathbb Z}^\times$ | **【v2.1・T1 新規】**$x=\iota(\sigma_\zeta^{\,\varepsilon})$ を定める一意な単位(2.1)。**(TB4) $\iff\varepsilon=1$** |
+| $\varepsilon$ | $\hat{\mathbb Z}^\times$ | **【v2.1・T1 新規】**$x=\iota(\sigma_\zeta^{\,\varepsilon})$ を定める一意な単位(2.1)。**(TB4) $\iff\varepsilon=1$**。**枠組みレベル**(窓にも dessin にも依らない) |
+| $t$ | $(\mathbb Z/2M)^\times$ | **【v2.6 新規】**根 object のずれ: $\zeta_{2M}^{\rm TB2}=(\zeta_{2M}^{\rm Rule1})^{t}$。**(Z20-link) $\iff t=1$**。**枠組みレベル**。$\varepsilon$ とは**独立の自由度**であり、$b=(t\varepsilon)^{-1}\bmod M$(2.1$'$) |
 | $b$ | $(\mathbb Z/M)^\times$ | **【v2.1・T2 で Rule 1 規約へ統一】** $$\boxed{\ c_\Lambda\, m(\zeta_M)\, c_\Lambda^{-1}\ =\ \tau\bigl(\zeta_M^{\,b}\bigr)\ }$$ で定義($b=\varepsilon^{-1}\bmod M$・(8.2))。**これは Rule 1 (7.1) $c_i\ell_ic_i^{-1}=\tau_i(\zeta_{10}^{\,b_i})$ および §10 (10.1) $\rho=\tau\circ[b]\circ\kappa$ と同一規約**。exact (TB4) は $\varepsilon=1$、すなわち **$b=1$** の特殊化(補題 B-6) |
 
 > **⚠【v2.1・T2】v2 の付録 A は $\tau(\zeta_M^{\,b^{-1}})$ と定義しながら §10 では $\kappa^b$ を使っており、Rule 1 と逆数で食い違っていた**(便 44 F7.3)。**Rule 1 は凍結済みなので Rule 1 側を正とし、BFC 側を上の形へ統一した。** 逆数規約を残すと (10.1) と $a_{\rm eff}$ を全部裏返す必要が生じるので採らない。**自認。**
@@ -1016,10 +1078,10 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 | **B-4** | 剛性 descent: (a) $K$-モデル / (b) $\mathbb Q$-モデルの存在と一意性 | (a) **(W1)(W2)(W3)(W5)**+(CAL)【R3】 / (b) (W1)(W3)(W5$^\mathbb Q$)+(CAL) | **V2・V5・V6** | (W2) 追加で PASS |
 | **B-4c** | FC-3(**左作用・左剰余類**)【R4】 | B-4 | **V4** | 記法修理で PASS |
 | **B-5** | 局所 Kummer: $\mathrm{Fib}$ の Kummer 表示と torsor 類 $[u^{-1}]$ | (TB1)–(TB4)+(W4)【R5】 | 紙上($A_5$ §3.5 と逐語一致) | PASS |
-| **B-6** | torsor 比較・**$b=1$((TB2)+(TB4) に相対的)** | (TB1)–(TB4)+(W1)–(W5)+(CAL) | 紙上 | (TB4) 条件つき PASS |
-| **B-6$^{\rm tw}$** | **【v2.1・T1 新規】**orientation-free torsor comparison: $c_\Lambda m(\xi)c_\Lambda^{-1}=\tau(\xi^b)$、$b=\varepsilon^{-1}$ (8.2) | (TB1)(TB2)(TB3)**(TB4$^{\rm u}$)**+(W1)–(W5)+(CAL) | 紙上 | 便 44 F7.2 の指定形 |
-| **B-7** | **$B_{\rm FC}$**: $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(\kappa_{u^{-1}}(\gamma))$ | (TB1)–(TB4)+(CAL)+(W1)–(W5) | 二例で逐語一致(§11) | **PASS(便 44 F5/F9 で確定)** |
-| **B-7$^{\rm tw}$** | **【v2.1・T1 新規】**twisted bridge (B7tw): $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(\kappa_{u^{-1}}(\gamma)^b)$ | (TB1)(TB2)(TB3)**(TB4$^{\rm u}$)**+(CAL)+(W1)–(W5) | — | **orientation-free だが (TB4$^{\rm u}$)-条件つき。「無条件」ではない** |
+| **B-6** | torsor 比較・**$b=1$((TB2)+(TB4)+**(Z20-link)** に相対的)** | (TB1)–(TB4)**+(Z20-link)**+(W1)–(W5)+(CAL) | 紙上 | (TB4) 条件つき PASS。**v2.6 で (Z20-link) 追加** |
+| **B-6$^{\rm tw}$** | orientation-free torsor comparison: $c_\Lambda m(\xi)c_\Lambda^{-1}=\tau(\xi^b)$ (8.2)。**(Z20-link) 下で $b=\varepsilon^{-1}$・一般には $b=(t\varepsilon)^{-1}$**(2.1$'$) | (TB1)(TB2)(TB3)**(TB4$^{\rm tw 用: TB4}^{\rm u}$)+(Z20-link)**+(W1)–(W5)+(CAL) | 紙上 | 便 44 F7.2 の指定形・**v2.6 で (Z20-link) 追加** |
+| **B-7** | **$B_{\rm FC}$**: $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(\kappa_{u^{-1}}(\gamma))$ | (TB1)–(TB4)**+(Z20-link)**+(CAL)+(W1)–(W5) | 二例で逐語一致(§11) | **PASS(便 44 F5/F9 で確定)** |
+| **B-7$^{\rm tw}$** | **【v2.1・T1 新規】**twisted bridge (B7tw): $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(\kappa_{u^{-1}}(\gamma)^b)$ | (TB1)(TB2)(TB3)**(TB4$^{\rm u}$)****+(Z20-link)**+(CAL)+(W1)–(W5) | — | **orientation-free だが (TB4$^{\rm u}$)-条件つき。「無条件」ではない** |
 | **B-7′** | 族定理 $R^{\rm cyc}$(前件 7 本) | B-7 + (2) + (F) | — | PASS |
 | **B-5$^{\rm u}$** | **【v2.2・U2 新規】**B-5 の (i)(ii-loc)(iii)(7.1)(7.2) は **(TB4$^{\rm u}$)** の下でも成立(exact (TB4) 不要) | (TB1)(TB2)(TB3)**(TB4$^{\rm u}$)**+(W4) | 紙上 | 便 45 F2.3 の要求形 |
 | **B-8** | $b$-頑健性(単一窓)。**(10.1) を仮定したときの不変性補題であり、$\exists b$ の存在命題ではない** | (10.1) | **V8** | PASS |
