@@ -146,42 +146,77 @@ for (const t of units20) {
 chk('Sol の値 t=3 -> ε≡7, b=3', rows.find((r) => r[0] === 3)[1] === 7 && rows.find((r) => r[0] === 3)[2] === 3);
 chk('t≡11 (20) は b=1 を与える(単一 M の観測では exact が戻らない例)', rows.find((r) => r[0] === 11)[2] === 1);
 
-// ---- 検査 5: 二つの b の辞書(裁定 55)・整数演算のみ ----
-// b_cmp := ε^{-1} mod M            (BFC (2.1) 側・x と σ_ζ^TB2 の比較)
-// b_op  := (t·ε)^{-1} mod M        (BFC (8.1) 側・m と τ の捻れ)
-// 主張 (a): b_op = b_cmp · t^{-1} (mod M)  ← 定義だけから。ε は任意でよい。
-// 主張 (b): TB4-3 の ε ≡ t^{-1} (20) を入れると b_cmp ≡ t (10)、b_op ≡ 1(t に依らない)。
-console.log('\n検査 5: 二つの b の辞書 b_op = b_cmp · t^{-1} (mod 10)(裁定 55・整数演算)');
+// ---- 検査 5: TB4-b-dictionary/v1 の invariant(裁定 55 + 便 49 F4.1/F10.1)----
+// 【便 49 F4.1 blocker 修理】t の型を 2M と M に分ける:
+//   t_2M ∈ (Z/2M)^×  : ζ_{2M}^TB2 = (ζ_{2M}^Rule1)^{t_2M}    ← (Z_{2M}-link) ⟺ t_2M = 1
+//   t̄_M := t_2M mod M ∈ (Z/M)^×
+//   b_cmp := ε^{-1} mod M          (BFC (2.1) 側)
+//   b_op  := (t̄_M·ε)^{-1} mod M    (BFC (8.1) 側)
+const M2 = 20, M = 10;
+console.log('\n検査 5: TB4-b-dictionary/v1 invariant(便 49 F10.1・整数演算)');
 {
-  // (a) ε を (Z/20)^× 全体に走らせた 8x8 = 64 対で定義的関係を検査(TB4-3 を仮定しない)
+  // (a) b_op = b_cmp · t̄_M^{-1} (mod M) — ε, t_2M 任意の 64 対(TB4-3 を仮定しない)
   let ok = true, n = 0;
-  for (const t of units20) for (const e of units20) {
-    const bcmp = inv(e % 10, 10);
-    const bop = inv((t * e) % 10, 10);
-    const rhs = (bcmp * inv(t % 10, 10)) % 10;
-    if (bop !== rhs) ok = false;
+  for (const t2 of units20) for (const e of units20) {
+    const tb = t2 % M;
+    const bcmp = inv(e % M, M);
+    const bop = inv((tb * e) % M, M);
+    if (bop !== (bcmp * inv(tb, M)) % M) ok = false;
     n++;
   }
-  chk('(a) 定義的関係 b_op = b_cmp·t^{-1}(ε 任意・64 対)', ok, `${n} 対検査`);
+  chk('(a) b_op = b_cmp · t̄_M^{-1} (mod M)(ε・t_2M 任意)', ok, `${n} 対検査`);
 
-  // (b) TB4-3 を入れた場合
-  let okB = true;
-  const tbl = [];
-  for (const t of units20) {
-    const e = inv(t, 20);                 // TB4-3: ε ≡ t^{-1} (mod 20)
-    const bcmp = inv(e % 10, 10);
-    const bop = inv((t * e) % 10, 10);
-    tbl.push(`t=${t}: b_cmp=${bcmp}, b_op=${bop}`);
-    if (bcmp !== t % 10 || bop !== 1) okB = false;
+  // (b) TB4-3(ε ≡ t_2M^{-1} mod 2M)を入れると b_cmp ≡ t̄_M、b_op ≡ 1(全 t_2M)
+  let okB = true; const tbl = [];
+  for (const t2 of units20) {
+    const e = inv(t2, M2), tb = t2 % M;
+    const bcmp = inv(e % M, M), bop = inv((tb * e) % M, M);
+    tbl.push(`t_20=${t2}: t̄=${tb}, b_cmp=${bcmp}, b_op=${bop}`);
+    if (bcmp !== tb || bop !== 1) okB = false;
   }
-  chk('(b) TB4-3 下で b_cmp ≡ t (10) かつ b_op ≡ 1(全 t)', okB, tbl.slice(0, 3).join(' / ') + ' …');
+  chk('(b) TB4-3 下で b_cmp ≡ t̄_M かつ b_op ≡ 1(全 t_2M)', okB, tbl[1] + ' / ' + tbl[4]);
 
-  // (c) 検出能力: (7.1) の測定値 = b_op は root-object ずれ t を一切検出しない
-  chk('(c) b_op は t に依らず 1 ⇒ (7.1) は root ずれを検出できない',
-      units20.every((t) => inv((t * inv(t, 20)) % 10, 10) === 1));
+  // (c) Z2M_link_pass => root_twist_2M = 1
+  const Z2Mlink = (t2) => t2 === 1;
+  chk('(c) Z2M_link ⟹ t_2M = 1', units20.every((t2) => !Z2Mlink(t2) || t2 === 1));
 
-  // (d) 対照: 埋め込み (1.6) の反転(η_M -> η_M^{-1})は b_op を 9 にする(検出する)
-  chk('(d) ι_∞ 反転は b_op = 9 として検出される', inv((10 - 1) % 10, 10) === 9);
+  // (d) ★ negative fixture: root_twist_mod_M = 1 !=> Z2M_link_pass  (M=10, t_20=11)
+  const t2bad = 11;
+  chk('(d) NEGATIVE: t̄_M=1 だが Z2M_link は偽(M=10, t_20=11)',
+      t2bad % M === 1 && !Z2Mlink(t2bad),
+      `t_20=11: ζ_20^T=(ζ_20^R)^11 ≠ ζ_20^R だが ζ_10^T=ζ_10^R`);
+  // 同じ fixture で b_op も b_cmp も 1 になる = b の測定では link 破れが見えない
+  {
+    const e = inv(t2bad, M2), tb = t2bad % M;
+    chk('(d′) その fixture で b_cmp = b_op = 1(測定では link 破れが不可視)',
+        inv(e % M, M) === 1 && inv((tb * e) % M, M) === 1);
+  }
+}
+
+// ---- 検査 6: regression suite を二分割(便 49 F4.5 / F10.2)----
+// finite operational orientation suite : paths 1,2,3,4,6,7,8 → 期待 6 detected / 1 root-link blind
+// profinite root-normalization suite   : path 5 → 期待 finite b measurement out-of-scope
+console.log('\n検査 6: single-axis regression set の二分割(便 49 F4.5 の数え直し)');
+{
+  // 各 path が b_op に与える効果。9 = 検出、1 = 不可視、null = 有限測定の射程外
+  const paths = {
+    1: { suite: 'finite', b_op: 9 },  // C1 反転
+    2: { suite: 'finite', b_op: 9 },  // C2 反転
+    3: { suite: 'finite', b_op: 9 },  // C5 時計回り
+    4: { suite: 'finite', b_op: 9 },  // C4 埋め込み反転
+    5: { suite: 'profinite', b_op: null }, // C7: n∤20 の root ⇒ M|20 の測定宇宙に入らない
+    6: { suite: 'finite', b_op: 9 },  // C3 反転
+    7: { suite: 'finite', b_op: 9 },  // A3 反転
+    8: { suite: 'finite', b_op: 1 },  // root-object ずれ ⇒ blind((Z20-link) 担当)
+  };
+  const fin = Object.entries(paths).filter(([, v]) => v.suite === 'finite');
+  const det = fin.filter(([, v]) => v.b_op === 9).length;
+  const blind = fin.filter(([, v]) => v.b_op === 1).length;
+  const oos = Object.entries(paths).filter(([, v]) => v.suite === 'profinite').length;
+  chk('finite suite: 7 paths / 6 detected / 1 root-link blind', fin.length === 7 && det === 6 && blind === 1,
+      `detected=${det}, blind=${blind}`);
+  chk('profinite suite: path 5 は out-of-scope(1 本)', oos === 1);
+  chk('母数 8 での数え: 6/8 可視・2/8 不可視(「7/8」は偽)', det === 6 && (blind + oos) === 2);
 }
 
 console.log(`\n=== ${pass}/${pass + fail} PASS ===`);

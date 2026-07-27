@@ -1,6 +1,6 @@
-# 修正条文案 **v3**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
+# 修正条文案 **v4**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
 
-**起草**: 2026-07-27(**v3 = 2026-07-28**)・Claude(数学者レイヤー・Opus 5)。**裁定 48-3 に基づく起草・v2 は便 47(`sol/sol_reply_47_amendment.md`)の blocker 2 件 + F7–F10 を反映(裁定 50)。**
+**起草**: 2026-07-27(**v3・v4 = 2026-07-28**)・Claude(数学者レイヤー・Opus 5)。**裁定 48-3 に基づく起草・v2 は便 47(`sol/sol_reply_47_amendment.md`)の blocker 2 件 + F7–F10 を反映(裁定 50)。**
 **身分**: **草案である。適用は司令塔** — 凍結正本(`docs/manifest_k5_v1.md` v1.5 / `docs/week4-K5_Rule1_v1.md` v1.3)を**上書きしてはならず**、**manifest v1.6 / Rule 1 v1.4 という新 version を作り差分ゲートを通す**。**本草案が PASS してから新 version を作る**(便 47 F12-5)。
 **根拠**: 便 46 F4・F5.2・F5.3 / **便 47 F4–F10** / `docs/week4-BFC攻略_opus_v2.md` §8.1(U5 注)・§10.1(補題 B-9′ = **two-mathematician PASS**)・§15.8。
 **発端**: **研究者の指摘**(2026-07-27)→ 司令塔委嘱 → 補題 B-9′ → 残留 1 述語の同定 → 本条文案。
@@ -30,6 +30,17 @@
 
 > **便 48 F3.1 の判定**: 8.4.0 の二段分離・F10.1 schema・8.4.1 の (5$'_b$)・ord1 修文・I-n・digest/predicate ID は**すべて PASS**。8.4.2 は **A11 を条件に PASS**。**v3 が直すのは A10(blocker)と A11 のみ。**
 > **F3.1 の申し送り(blocker ではない)**: `b_observed_before_gk = true` は必要だが**自己申告**でもある。将来は **凍結 2 event ID・観測 artifact ID・順序を示す append-only log digest** を併記するとより fail-closed になる。**§4 の schema に予約欄として記載**する。
+
+## v3 → v4 差分(裁定 57 — 便 49 F2.2・F4.3・F5・F10.3)
+
+| # | 箇所 | v3 | v4 | 出所 |
+|---|---|---|---|---|
+| **A12** | §3 theorem bundle | prose「**(5$'_b$) および exact (5′) を含む**」と code「`+ (5'_b)`」が**互いに矛盾**(**blocker**) | **F10.3 採用で 2 ID に分割**: **`THEOREM-ANTECEDENT-Rcyc/twisted/v1`**(base+(5$'_b$))と **`/exact/v1`**(base+(5′)+($b_i=1$))。**結果 record の `antecedent_bundle_id` は predicate version まで区別**。**自認** | 便 49 F2.2・F10.3 |
+| **A13** | §2 8.4.0 (F4)・§4 | `b_value_i` の意味論が未確定(裸の $b$) | **`b_value_i = b_op`・`b_semantics = "op"` 固定**(裸の $b$ を禁止)。**`b_cmp_value` は別欄**で `root_system_tb2_id` 必須。**F4.6 の型修理**: `root_twist_2M_value`($t_{2M}\in(\mathbb Z/2M)^\times$・link $\iff t_{2M}=1$)と `root_twist_mod_M_value`($\bar t_M$・**$\bar t_M=1$ は link と同値でない**) | 便 49 F4.3・F4.6・F5 |
+| **A14** | §4.1 | `orientation_certificate` の (5) 式中の写像が差し替え可能 | **任意採用(hardening)**: `rho_i_id` と `Ih_N_id` を **digest つきで束縛**。**blocker ではないが安い** | 便 49 F2.3 |
+
+> **便 49 F2.1 の判定**: `FALSIFIER-ANTECEDENT-BFC` は**正しい**((5′)/(5$'_b$) を含まず、便 48 の循環は閉じた)。**v4 が直すのは theorem 側の 1 行 blocker と schema の意味論のみ。**
+> **便 49 F5 の裁定(本草案も従う)**: **単一文字 $b$ を無注記で使うことを認めない。** $b_{\rm cmp}$ / $b_{\rm op}$ / $\hat b_i$ を名指しし、$\hat b_i=b_{\rm op}=b_{\rm cmp}\bar t_M^{-1}$。**一致する規約下で永久に同値に見えることは、同一記号へ融合してよい理由にならない。**
 
 ---
 
@@ -78,7 +89,13 @@
 > **(F4) 機械的検出のための schema**(凍結記録・結果 record 共通):
 > ```text
 > b_rule_commitment    = Rule1-(7.1) の digest             # 凍結 1
-> b_value_i            = actual exponent (i = sq, ns)      # 凍結 2 / BRIDGE-IN
+> b_value_i            = b_op (i = sq, ns)                 # 凍結 2 / BRIDGE-IN
+> b_semantics          = "op"                             # 固定(裸の b を禁止)
+> b_cmp_value          = eps^{-1} mod M                    # 別欄。root_system_tb2_id 必須
+> root_system_tb2_id   = (TB2) 根系の artifact ID
+> rule1_root_2M_id     = Rule 1 field-generator object の ID
+> root_twist_2M_value  = t_{2M} in (Z/2M)^x                # link <=> t_{2M} = 1
+> root_twist_mod_M_value = t_M-bar := t_{2M} mod M         # t_M-bar = 1 は link と同値でない
 > b_value_source       = c_i, ell_i の artifact ID
 > b_observed_before_gk = true                              # (F3) の宣言
 > ```
@@ -135,15 +152,19 @@
 >
 > **⇒ 便 48 F13.3 / 裁定 53 に従い、bundle を目的別に二つに分ける。同じ名前で兼用しない。**
 >
-> #### (B-I) `THEOREM-ANTECEDENT-Rcyc` — **定理を適用する側**
-> $R^{\rm cyc}_{\rm formal}$ / 補題 B-9′ の結論を**使う**ときの前件束。**(5$'_b$)(および exact (5′))を含む。**
+> #### (B-I) `THEOREM-ANTECEDENT-Rcyc/*` — **定理を適用する側**【**v4・A12 で 2 ID に分割**】
+> **⚠ v3 の blocker**: prose が「**(5$'_b$) および exact (5′) を含む**」と書きながら code は `+ (5'_b)` だけで、**互いに矛盾していた**(便 49 F2.2)。便 48 F13.3 の指定は後者。**operative K5 bridge は (5$'_b$)**、**exact (5′) は $b_i=1$ という追加前件下の特殊化**なので、**別 ID に一意化する**(便 49 F10.3)。**自認。**
 > ```text
-> THEOREM-ANTECEDENT-Rcyc
->   = FORMAL-IN(下記 B-II と同内容)
->   + (5'_b)            # ← 含む(定理の前件だから)
->   + B-9' の共通枠組み前件
+> base = FORMAL-IN(下記 B-II の (AB-1) と同内容)
+>      + B-9' の共通枠組み前件((AB-2) と同内容)
+>
+> THEOREM-ANTECEDENT-Rcyc/twisted/v1 = base + (5'_b)
+> THEOREM-ANTECEDENT-Rcyc/exact/v1   = base + (5')  + (b_i = 1)
 > ```
+> - **`/twisted/v1`** — K5 campaign が実際に使う側。**operative predicate = (5$'_b$)**。
+> - **`/exact/v1`** — exact (5′) を使う側。**追加前件 $b_i=1$ が要る**(それは $(Z_{2M}$-link$)$+(TB4) の帰結であって無償ではない)。
 > **この bundle の下で結論が破れたら、それは `THEOREM/RECORD-CONSISTENCY-FAIL`(証明か記録の誤り)であって橋の反証ではない。**
+> **★ 結果 record の `antecedent_bundle_id` は predicate version まで区別する**(`.../twisted/v1` と `.../exact/v1` を同一視しない)。
 >
 > #### (B-II) `FALSIFIER-ANTECEDENT-BFC` — **橋を試す側**
 > BRIDGE-FAIL ①② が参照するのは**こちら**。**(5′) 系を一切含まない。**
@@ -180,7 +201,13 @@ results_schema_version
 
 # b の二段コミット(F10.1)
 b_rule_commitment        # Rule1-(7.1) digest         [凍結 1]
-b_value_sq, b_value_ns   # actual exponents           [凍結 2 / BRIDGE-IN]
+b_value_sq, b_value_ns   # = b_op                     [凍結 2 / BRIDGE-IN]
+b_semantics              = "op"                       # 固定(裸の b を禁止・便 49 F5)
+b_cmp_value              # eps^{-1} mod M(別欄・root_system_tb2_id 必須)
+root_system_tb2_id
+rule1_root_2M_id
+root_twist_2M_value      # t_{2M} in (Z/2M)^x   ; link <=> t_{2M}=1
+root_twist_mod_M_value   # t_M-bar = t_{2M} mod M ; = 1 は link と同値でない
 b_value_source           # c_i, ell_i の artifact ID
 b_observed_before_gk     # true/false(false or 欠落 ⇒ I-n)
 # 【v3・便 48 F3.1 の申し送り・予約欄】自己申告を補強する順序証拠
@@ -229,6 +256,10 @@ orientation_certificate = {
 
   # (5) G_K-equivariance(全 gamma)
   gk_equivariance_proof      # Phi_i(gamma . p) = rho_i(Ih_N(gamma)) Phi_i(p)  を全 gamma in G_K で
+
+  # (6) 【v4・A14・任意 hardening】写像の差し替え余地を消す
+  rho_i_id, rho_i_digest,
+  Ih_N_id, Ih_N_digest
 }
 ```
 
