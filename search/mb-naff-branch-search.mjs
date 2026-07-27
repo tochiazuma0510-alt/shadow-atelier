@@ -227,6 +227,10 @@ function isPerfectSquarePair(rest) {
 }
 
 // --- 統合判定 ---
+// fail-closed: どの分岐でも {ok}/{skip} のいずれかを明示して返す。
+// 「戻り値の型が呼び出し側の if/else どちらにも一致せず黙って消える」経路を
+// 作らないこと(裁定・検収指摘: 旧版は consistent=false の skip 経路が
+// hits にも internal_errors にも入らず証明書から消えていた)。
 export function testCandidateNaff(a0, a1, a2, a3, a4, a5, cN) {
   if (a5 !== 1 && a5 !== -1) throw new Error('a5 must be +-1 (monic-f6 gauge)');
   if (cN === 0) return { skip: true, reason: 'c_N=0 (norm would be trivial)' };
@@ -239,7 +243,7 @@ export function testCandidateNaff(a0, a1, a2, a3, a4, a5, cN) {
 
   // 段階2: mu の分岐型
   const { poly: D, consistent } = computeDiscriminantPolyNaff(a, cNf);
-  if (!consistent) return { skip: true, reason: 'interpolation self-check failed (degree bound exceeded?)' };
+  if (!consistent) return { skip: true, stage: 2, reason: 'interpolation self-check failed (degree bound exceeded?)' };
   // 既知の線形因子 (c_N-2*a5*v)(= x=infty_- での射影的アーティファクト。
   // 幾何的分岐点ではない)を先に除去する。
   const { power: linPower, rest: Dcorr } = stripKnownLinearFactor(D, cNf, a[5]);
@@ -262,15 +266,113 @@ export function testCandidateNaff(a0, a1, a2, a3, a4, a5, cN) {
   };
 }
 
+// ============================================================
+// 較正(委嘱3・司令塔指示): positive/negative/adversarial の三分。
+// stage1(分解構造)・stage2(分岐型パターン検査)それぞれについて、
+// 「見つけるべきものを見つけられるか」「見つけてはいけないものを正しく
+// 棄却するか」「旧バグ(線形アーティファクト未除去)を再現しても正しく
+// 扱えるか」を確認し、証明書に記録する。
+// ============================================================
+export function runCalibration() {
+  const results = [];
+
+  // --- stage1 positive: 実探索(bound=3)で実際に見つかった stage1 通過
+  // タプルを regression fixture として使う(「合成」ではなく実例だが、
+  // 既知の正解を検出できるかの陽性コントロールとして機能する)。
+  {
+    const [a0, a1, a2, a3, a4, a5, cN] = [0, 2, 1, 0, -3, 1, 2];
+    const r = factorCheck([fr(a0), fr(a1), fr(a2), fr(a3), fr(a4), fr(a5)], fr(cN));
+    results.push({ id: 'stage1-positive-known-tuple', kind: 'positive', input: { a0, a1, a2, a3, a4, a5, cN }, expect: 'ok=true', got: r.ok === true, pass: r.ok === true, detail: r.ok ? { p2: r.p2.map(String), f6cand: r.f6cand.map(String) } : r });
+  }
+  // --- stage1 negative: 上のタプルを1箇所だけ摂動 → deg(gcd)!=2 で正しく棄却
+  {
+    const [a0, a1, a2, a3, a4, a5, cN] = [1, 2, 1, 0, -3, 1, 2]; // a0: 0->1
+    const r = factorCheck([fr(a0), fr(a1), fr(a2), fr(a3), fr(a4), fr(a5)], fr(cN));
+    results.push({ id: 'stage1-negative-perturbed', kind: 'negative', input: { a0, a1, a2, a3, a4, a5, cN }, expect: 'ok=false', got: r.ok === false, pass: r.ok === false, detail: r });
+  }
+  // --- stage2 positive: 判定サブルーチン(stripKnownLinearFactor→
+  // stripZeroRoot→isEvenPoly→isPerfectSquarePair)を、既知の答え
+  // (k0=5・線形因子べき1・h_target)から**逆算**で組み立てた合成
+  // D(v) 多項式で直接較正する(a,c_N からの実装出しではなく、パターン
+  // 検出ロジック自体の陽性コントロール — a,c_N 側から到達可能な真の解が
+  // 探索範囲内に存在しない以上、これが実行可能な最良の較正である。
+  // この境界は報告に明記する)。
+  {
+    const a5 = fr(1), cN = fr(7), hTarget = fr(9), k0 = 5;
+    // D_synth(v) := v^k0 * (cN - 2*a5*v) * (v^2 - hTarget)^2
+    const vPoly = [F0, F1]; // v
+    let vPowK = [F1];
+    for (let i = 0; i < k0; i++) vPowK = polyMul(vPowK, vPoly);
+    const linFactor = [cN, fr(-2).mul(a5)]; // cN - 2*a5*v
+    const vSqMinusH = [hTarget.neg(), F0, F1]; // v^2 - hTarget (low->high: -h,0,1)
+    const rPoly = polyMul(vSqMinusH, vSqMinusH); // (v^2-h)^2
+    const Dsynth = polyMul(polyMul(vPowK, linFactor), rPoly);
+    const { power: linPower, rest: Dcorr } = stripKnownLinearFactor(Dsynth, cN, a5);
+    const { k, rest } = stripZeroRoot(Dcorr);
+    const even = isEvenPoly(rest);
+    const sq = even ? isPerfectSquarePair(rest) : { ok: false, reason: 'not even' };
+    const pass = linPower === 1 && k === k0 && even && sq.ok && sq.h.eq(hTarget);
+    results.push({ id: 'stage2-positive-synthetic-pattern', kind: 'positive', input: { a5: '1', cN: '7', hTarget: '9', k0 }, expect: `linPower=1,k=${k0},even=true,h=9`, got: { linPower, k, even, sqOk: sq.ok, h: sq.ok ? sq.h.toString() : null }, pass });
+  }
+  // --- stage2 negative: 同じ構成に余分な因子 (v-1) を掛け、even 性が
+  // 破れて正しく棄却されることを確認する。
+  {
+    const a5 = fr(1), cN = fr(7), hTarget = fr(9), k0 = 5;
+    const vPoly = [F0, F1];
+    let vPowK = [F1];
+    for (let i = 0; i < k0; i++) vPowK = polyMul(vPowK, vPoly);
+    const linFactor = [cN, fr(-2).mul(a5)];
+    const vSqMinusH = [hTarget.neg(), F0, F1];
+    const rPoly = polyMul(vSqMinusH, vSqMinusH);
+    const extra = [fr(-1), F1]; // (v-1)
+    const Dsynth = polyMul(polyMul(polyMul(vPowK, linFactor), rPoly), extra);
+    const { rest: Dcorr } = stripKnownLinearFactor(Dsynth, cN, a5);
+    const { rest } = stripZeroRoot(Dcorr);
+    const even = isEvenPoly(rest);
+    results.push({ id: 'stage2-negative-broken-parity', kind: 'negative', input: { extra_factor: '(v-1)' }, expect: 'even=false (correctly rejected)', got: { even }, pass: even === false });
+  }
+  // --- stage2 adversarial: 委嘱2で発見・修正した実バグの再現。
+  // 既知の stage1 通過タプル(実探索での実例)について、線形アーティファクト
+  // 除去を**行わない**ナイーブな経路だと D(v) が v_0=c_N/(2 a5) で
+  // 見かけ上 0 になり、それを見た目「余分な根がある」と誤診断しかねない
+  // ことを、修正済みの経路(stripKnownLinearFactor 込み)と比較して示す。
+  {
+    const [a0, a1, a2, a3, a4, a5, cN] = [0, 2, 1, 0, -3, 1, 2];
+    const a = [fr(a0), fr(a1), fr(a2), fr(a3), fr(a4), fr(a5)];
+    const { poly: D, consistent } = computeDiscriminantPolyNaff(a, fr(cN));
+    const v0 = fr(cN).div(fr(2).mul(a5));
+    const naiveValueAtV0 = polyEval(D, v0); // D(v0) 直接評価(線形因子未除去の"素朴"経路)
+    const { power: linPower } = stripKnownLinearFactor(D, fr(cN), a5);
+    const pass = consistent && linPower >= 1 && naiveValueAtV0.isZero();
+    results.push({
+      id: 'stage2-adversarial-v0-artifact-regression',
+      kind: 'adversarial',
+      input: { a0, a1, a2, a3, a4, a5, cN },
+      expect: 'D(v0)=0 (見かけ上の消失を再現)かつ stripKnownLinearFactor が power>=1 を検出',
+      got: { D_at_v0: naiveValueAtV0.toString(), linPower },
+      pass,
+      note: 'v0 = c_N/(2*a5) = mu(infty_-) の値。D(v0)=0 は幾何的分岐点ではなく Sylvester 行列の射影的アーティファクト(委嘱2で発見・修正)。本テストはその再現を固定し、退行を防ぐレグレッションガードである。',
+    });
+  }
+
+  const allPass = results.every(r => r.pass);
+  return { schema: 'mb/naff-calibration/v1', all_pass: allPass, results };
+}
+
 // --- 探索本体 ---
 function main() {
   const BOUND = Number(process.env.MB_NAFF_BOUND || 2); // |a0..a4|,|c_N| <= BOUND
   const A5_VALUES = process.env.MB_NAFF_A5 ? [Number(process.env.MB_NAFF_A5)] : [1, -1];
   const CN_MIN = process.env.MB_NAFF_CN_MIN !== undefined ? Number(process.env.MB_NAFF_CN_MIN) : -BOUND;
   const CN_MAX = process.env.MB_NAFF_CN_MAX !== undefined ? Number(process.env.MB_NAFF_CN_MAX) : BOUND;
+
+  const calibration = runCalibration();
+
   const hits = [];
   const errors = [];
   const internalErrors = [];
+  const skips = [];
+  const stage1PassDetails = []; // fail-closed: stage1 を通過した全タプルの stage2 顛末を記録する
   let tested = 0;
   let stage1Rejects = 0;
   let stage1Passes = 0;
@@ -296,8 +398,19 @@ function main() {
                   }
                   stage1Passes++;
                   const r = testCandidateNaff(a0, a1, a2, a3, a4, a5, cN);
-                  if (r.ok) hits.push(r);
-                  else if (r.internal_error) internalErrors.push({ a0, a1, a2, a3, a4, a5, cN, reason: r.reason });
+                  // fail-closed: ok/skip/internal_error のどれであっても
+                  // 必ずどこかに記録する(黙って消える経路を作らない)。
+                  const tuple = { a0, a1, a2, a3, a4, a5, cN };
+                  if (r.ok) {
+                    hits.push(r);
+                    stage1PassDetails.push({ ...tuple, stage2: { ok: true, k: r.k, h: r.h } });
+                  } else if (r.skip) {
+                    skips.push({ ...tuple, stage: r.stage ?? null, reason: r.reason });
+                    stage1PassDetails.push({ ...tuple, stage2: { skip: true, reason: r.reason } });
+                  } else {
+                    stage1PassDetails.push({ ...tuple, stage2: { ok: false, reason: r.reason, k: r.k ?? null } });
+                    if (r.internal_error) internalErrors.push({ ...tuple, reason: r.reason });
+                  }
                 } catch (e) {
                   errors.push({ a0, a1, a2, a3, a4, a5, cN, error: String(e && e.message || e) });
                 }
@@ -309,25 +422,34 @@ function main() {
     }
   }
   const elapsedMs = Date.now() - t0;
+  const integrityFlag = skips.length > 0 || errors.length > 0 || internalErrors.length > 0 || !calibration.all_pass;
   const result = {
-    schema: 'mb/naff-branch-search/v1',
+    schema: 'mb/naff-branch-search/v2',
     branch: 'N_aff',
     normal_form: 'a(x)^2-c_N*x^5=f6(x)*p2(x)^2 (x0=0 by translation gauge, a5=+-1 by monic-f6 gauge, c_N NOT gauge-fixed)',
     search_bound: BOUND,
     a5_values: A5_VALUES,
     cn_range: [CN_MIN, CN_MAX],
+    calibration,
     tested,
     stage1_passes: stage1Passes,
     stage1_rejects: stage1Rejects,
+    stage1_pass_details: stage1PassDetails,
     hits,
+    skip_count: skips.length,
+    skips,
     error_count: errors.length,
     errors: errors.slice(0, 20),
     internal_error_count: internalErrors.length,
     internal_errors: internalErrors.slice(0, 20),
+    integrity_flag: integrityFlag,
     elapsed_ms: elapsedMs,
     contact_discipline: '本探索器は c_N の平方類・平方因子・符号、lambda=c*mu^2 の c、c_hat_mu=a^2-f6*p2^2 のいずれも計算・選択基準に使用していない。出力は a,c_N,p2,f6 の整数/有理係数(完全な曲線データ・A1 whitelist 内)と D(v) の構造検査結果(k,h)のみ。',
   };
   console.log(JSON.stringify(result, null, 2));
+  if (integrityFlag && (skips.length > 0 || errors.length > 0 || internalErrors.length > 0)) {
+    process.exitCode = 2; // fail-closed: skip/error/internal_error が1件でもあれば非零終了
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}` || import.meta.url.endsWith(process.argv[1]?.replace(/\\/g,'/'))) {

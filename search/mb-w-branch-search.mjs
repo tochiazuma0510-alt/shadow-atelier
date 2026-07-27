@@ -176,10 +176,14 @@ export function testCandidate(a0, a1, a2) {
 }
 
 // --- 探索本体 ---
+// fail-closed 修理(委嘱3・検収指摘と同型の穴を W 側でも発見・是正):
+// testCandidate の {skip:true} 経路が hits にも errors にも入らず証明書から
+// 黙って消えていた。skip_count/skips と integrity_flag を追加する。
 function main() {
   const BOUND = Number(process.env.MB_W_BOUND || 6); // 正の探索・非網羅: |a_i| <= BOUND の整数格子
   const hits = [];
   const errors = [];
+  const skips = [];
   let tested = 0;
   const t0 = Date.now();
   for (let a2 = -BOUND; a2 <= BOUND; a2++) {
@@ -190,6 +194,7 @@ function main() {
         try {
           const r = testCandidate(a0, a1, a2);
           if (r.ok) hits.push(r);
+          else if (r.skip) skips.push({ a0, a1, a2, reason: r.reason });
         } catch (e) {
           errors.push({ a0, a1, a2, error: String(e && e.message || e) });
         }
@@ -197,19 +202,24 @@ function main() {
     }
   }
   const elapsedMs = Date.now() - t0;
+  const integrityFlag = skips.length > 0 || errors.length > 0;
   const result = {
-    schema: 'mb/w-branch-search/v1',
+    schema: 'mb/w-branch-search/v2',
     branch: 'W',
     normal_form: 'y^2=a(x)^2+x^5, a=(a0,a1,a2), a2 x^2+a1 x+a0',
     search_bound: BOUND,
     tested,
     hits,
+    skip_count: skips.length,
+    skips,
     error_count: errors.length,
     errors: errors.slice(0, 20),
+    integrity_flag: integrityFlag,
     elapsed_ms: elapsedMs,
     contact_discipline: '本探索器は c(lambda=c*mu^2 の定数)の値・平方類・平方因子・符号を一切計算していない。出力は a(x) の整数係数と D(v) の構造検査結果(k, h)のみ。',
   };
   console.log(JSON.stringify(result, null, 2));
+  if (integrityFlag) process.exitCode = 2;
 }
 
 if (import.meta.url === `file://${process.argv[1]}` || import.meta.url.endsWith(process.argv[1]?.replace(/\\/g,'/'))) {

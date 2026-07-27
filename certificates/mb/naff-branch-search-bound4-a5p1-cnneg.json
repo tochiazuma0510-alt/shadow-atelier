@@ -4,7 +4,7 @@
   "normal_form": "a(x)^2-c_N*x^5=f6(x)*p2(x)^2 (x0=0 by translation gauge, a5=+-1 by monic-f6 gauge, c_N NOT gauge-fixed)",
   "search_bound": 4,
   "a5_values": [
-    -1
+    1
   ],
   "cn_range": [
     -4,
@@ -125,403 +125,11 @@
   "stage1_pass_details": [
     {
       "a0": 0,
-      "a1": -2,
-      "a2": -3,
-      "a3": -4,
-      "a4": -4,
-      "a5": -1,
-      "cN": -2,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 2,
-      "a2": 3,
-      "a3": -4,
-      "a4": -4,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 2,
-      "a2": 3,
-      "a3": -4,
-      "a4": -4,
-      "a5": -1,
-      "cN": -2,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 1,
-      "a2": -1,
-      "a3": -3,
-      "a4": -4,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 2,
-      "a2": 1,
-      "a3": -3,
-      "a4": -4,
-      "a5": -1,
-      "cN": -2,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 2,
-      "a2": 1,
-      "a3": -2,
-      "a4": -4,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 3,
-      "a2": 3,
-      "a3": -1,
-      "a4": -4,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -1,
-      "a2": -4,
-      "a3": -3,
-      "a4": -3,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 1,
-      "a2": 2,
-      "a3": -3,
-      "a4": -3,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 2,
-      "a2": 4,
-      "a3": -2,
-      "a4": -3,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 1,
-      "a2": 0,
-      "a3": -1,
-      "a4": -3,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -2,
-      "a2": 3,
-      "a3": -1,
-      "a4": -3,
-      "a5": -1,
-      "cN": -2,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -2,
-      "a2": 1,
-      "a3": 0,
-      "a4": -3,
-      "a5": -1,
-      "cN": -2,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 2,
-      "a2": 2,
-      "a3": 0,
-      "a4": -3,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 3,
-      "a2": 4,
-      "a3": 1,
-      "a4": -3,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -2,
-      "a2": -3,
-      "a3": -4,
-      "a4": -2,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -1,
-      "a2": -1,
-      "a3": -3,
-      "a4": -2,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -1,
-      "a2": -3,
-      "a3": -1,
-      "a4": -2,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 1,
-      "a2": 3,
-      "a3": -1,
-      "a4": -2,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 1,
-      "a2": 1,
-      "a3": 1,
-      "a4": -2,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 2,
-      "a2": 3,
-      "a3": 2,
-      "a4": -2,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -3,
-      "a2": -4,
-      "a3": -3,
-      "a4": -1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -2,
-      "a2": -2,
-      "a3": -2,
-      "a4": -1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -1,
-      "a2": 0,
-      "a3": -1,
-      "a4": -1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -2,
-      "a2": -4,
-      "a3": 0,
-      "a4": -1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": -2,
       "a1": 4,
-      "a2": -4,
-      "a3": 1,
-      "a4": -1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 4
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -1,
-      "a2": -2,
-      "a3": 1,
-      "a4": -1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 1,
-      "a2": 4,
-      "a3": 1,
-      "a4": -1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": 1,
       "a2": 2,
-      "a3": 3,
-      "a4": -1,
-      "a5": -1,
+      "a3": -4,
+      "a4": -3,
+      "a5": 1,
       "cN": -4,
       "stage2": {
         "ok": false,
@@ -532,52 +140,10 @@
     {
       "a0": 0,
       "a1": 2,
-      "a2": 4,
-      "a3": 4,
-      "a4": -1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -3,
-      "a2": -3,
-      "a3": -1,
-      "a4": 0,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": -1,
-      "a1": 2,
       "a2": -1,
-      "a3": -1,
-      "a4": 0,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 4
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -2,
-      "a2": -1,
-      "a3": 0,
-      "a4": 0,
-      "a5": -1,
+      "a3": -4,
+      "a4": -2,
+      "a5": 1,
       "cN": -4,
       "stage2": {
         "ok": false,
@@ -587,11 +153,11 @@
     },
     {
       "a0": 0,
-      "a1": -1,
+      "a1": 3,
       "a2": 1,
-      "a3": 1,
-      "a4": 0,
-      "a5": -1,
+      "a3": -3,
+      "a4": -2,
+      "a5": 1,
       "cN": -4,
       "stage2": {
         "ok": false,
@@ -601,11 +167,11 @@
     },
     {
       "a0": 0,
-      "a1": -2,
-      "a2": -3,
-      "a3": 2,
-      "a4": 0,
-      "a5": -1,
+      "a1": 4,
+      "a2": 3,
+      "a3": -2,
+      "a4": -2,
+      "a5": 1,
       "cN": -4,
       "stage2": {
         "ok": false,
@@ -614,124 +180,12 @@
       }
     },
     {
-      "a0": 0,
-      "a1": -1,
-      "a2": -1,
-      "a3": 3,
-      "a4": 0,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -4,
-      "a2": -4,
-      "a3": 0,
-      "a4": 1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": -2,
-      "a1": 2,
-      "a2": -4,
-      "a3": 1,
-      "a4": 1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 4
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -3,
-      "a2": -2,
-      "a3": 1,
-      "a4": 1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -2,
-      "a2": 0,
-      "a3": 2,
-      "a4": 1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -3,
-      "a2": -4,
-      "a3": 3,
-      "a4": 1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -1,
-      "a2": 2,
-      "a3": 3,
-      "a4": 1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": 0,
-      "a1": -2,
-      "a2": -2,
-      "a3": 4,
-      "a4": 1,
-      "a5": -1,
-      "cN": -4,
-      "stage2": {
-        "ok": false,
-        "reason": "R(v) not even (no +-s symmetry)",
-        "k": 5
-      }
-    },
-    {
-      "a0": -1,
+      "a0": 1,
       "a1": 0,
-      "a2": -1,
-      "a3": -1,
-      "a4": 2,
-      "a5": -1,
+      "a2": 1,
+      "a3": 1,
+      "a4": -2,
+      "a5": 1,
       "cN": -4,
       "stage2": {
         "ok": false,
@@ -741,11 +195,11 @@
     },
     {
       "a0": 0,
-      "a1": -4,
-      "a2": -3,
-      "a3": 2,
-      "a4": 2,
-      "a5": -1,
+      "a1": 2,
+      "a2": 2,
+      "a3": -4,
+      "a4": -1,
+      "a5": 1,
       "cN": -4,
       "stage2": {
         "ok": false,
@@ -755,11 +209,165 @@
     },
     {
       "a0": 0,
-      "a1": -3,
+      "a1": 1,
+      "a2": -2,
+      "a3": -3,
+      "a4": -1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 3,
+      "a2": 4,
+      "a3": -3,
+      "a4": -1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": 0,
+      "a3": -2,
+      "a4": -1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 3,
+      "a2": 2,
+      "a3": -1,
+      "a4": -1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 2,
+      "a1": -2,
+      "a2": 4,
+      "a3": -1,
+      "a4": -1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 4
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 4,
+      "a2": 4,
+      "a3": 0,
+      "a4": -1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 1,
+      "a2": 1,
+      "a3": -3,
+      "a4": 0,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": 3,
+      "a3": -2,
+      "a4": 0,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 1,
       "a2": -1,
-      "a3": 3,
-      "a4": 2,
-      "a5": -1,
+      "a3": -1,
+      "a4": 0,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": 1,
+      "a3": 0,
+      "a4": 0,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 1,
+      "a1": -2,
+      "a2": 1,
+      "a3": 1,
+      "a4": 0,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 4
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 3,
+      "a2": 3,
+      "a3": 1,
+      "a4": 0,
+      "a5": 1,
       "cN": -4,
       "stage2": {
         "ok": false,
@@ -770,10 +378,10 @@
     {
       "a0": 0,
       "a1": -2,
-      "a2": 1,
-      "a3": 4,
-      "a4": 2,
-      "a5": -1,
+      "a2": -4,
+      "a3": -4,
+      "a4": 1,
+      "a5": 1,
       "cN": -4,
       "stage2": {
         "ok": false,
@@ -783,12 +391,404 @@
     },
     {
       "a0": 0,
-      "a1": -4,
+      "a1": -1,
       "a2": -2,
-      "a3": 4,
-      "a4": 3,
-      "a5": -1,
+      "a3": -3,
+      "a4": 1,
+      "a5": 1,
       "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -1,
+      "a2": -4,
+      "a3": -1,
+      "a4": 1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 1,
+      "a2": 2,
+      "a3": -1,
+      "a4": 1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 2,
+      "a1": -4,
+      "a2": 4,
+      "a3": -1,
+      "a4": 1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 4
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": 4,
+      "a3": 0,
+      "a4": 1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 1,
+      "a2": 0,
+      "a3": 1,
+      "a4": 1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": 2,
+      "a3": 2,
+      "a4": 1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 3,
+      "a2": 4,
+      "a3": 3,
+      "a4": 1,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -2,
+      "a2": -3,
+      "a3": -2,
+      "a4": 2,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -1,
+      "a2": -1,
+      "a3": -1,
+      "a4": 2,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -1,
+      "a2": -3,
+      "a3": 1,
+      "a4": 2,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 1,
+      "a2": 3,
+      "a3": 1,
+      "a4": 2,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 1,
+      "a2": 1,
+      "a3": 3,
+      "a4": 2,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": 3,
+      "a3": 4,
+      "a4": 2,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -3,
+      "a2": -4,
+      "a3": -1,
+      "a4": 3,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -2,
+      "a2": -2,
+      "a3": 0,
+      "a4": 3,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": -1,
+      "a3": 0,
+      "a4": 3,
+      "a5": 1,
+      "cN": -2,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": -3,
+      "a3": 1,
+      "a4": 3,
+      "a5": 1,
+      "cN": -2,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -1,
+      "a2": 0,
+      "a3": 1,
+      "a4": 3,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -2,
+      "a2": -4,
+      "a3": 2,
+      "a4": 3,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -1,
+      "a2": -2,
+      "a3": 3,
+      "a4": 3,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 1,
+      "a2": 4,
+      "a3": 3,
+      "a4": 3,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -3,
+      "a2": -3,
+      "a3": 1,
+      "a4": 4,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -2,
+      "a2": -1,
+      "a3": 2,
+      "a4": 4,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -2,
+      "a2": -1,
+      "a3": 3,
+      "a4": 4,
+      "a5": 1,
+      "cN": -2,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -1,
+      "a2": 1,
+      "a3": 3,
+      "a4": 4,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -2,
+      "a2": -3,
+      "a3": 4,
+      "a4": 4,
+      "a5": 1,
+      "cN": -4,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": -2,
+      "a2": -3,
+      "a3": 4,
+      "a4": 4,
+      "a5": 1,
+      "cN": -2,
+      "stage2": {
+        "ok": false,
+        "reason": "R(v) not even (no +-s symmetry)",
+        "k": 5
+      }
+    },
+    {
+      "a0": 0,
+      "a1": 2,
+      "a2": 3,
+      "a3": 4,
+      "a4": 4,
+      "a5": 1,
+      "cN": -2,
       "stage2": {
         "ok": false,
         "reason": "R(v) not even (no +-s symmetry)",
@@ -804,6 +804,6 @@
   "internal_error_count": 0,
   "internal_errors": [],
   "integrity_flag": false,
-  "elapsed_ms": 296866,
+  "elapsed_ms": 299890,
   "contact_discipline": "本探索器は c_N の平方類・平方因子・符号、lambda=c*mu^2 の c、c_hat_mu=a^2-f6*p2^2 のいずれも計算・選択基準に使用していない。出力は a,c_N,p2,f6 の整数/有理係数(完全な曲線データ・A1 whitelist 内)と D(v) の構造検査結果(k,h)のみ。"
 }
