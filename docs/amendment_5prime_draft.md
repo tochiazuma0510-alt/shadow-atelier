@@ -1,7 +1,7 @@
-# 修正条文案 **v7**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
+# 修正条文案 **v8**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
 
 **起草**: 2026-07-27(**v3・v4 = 2026-07-28**)・Claude(数学者レイヤー・Opus 5)。**裁定 48-3 に基づく起草・v2 は便 47(`sol/sol_reply_47_amendment.md`)の blocker 2 件 + F7–F10 を反映(裁定 50)。**
-**身分**: **草案である。適用は司令塔** — 凍結正本(`docs/manifest_k5_v1.md` v1.5 / `docs/week4-K5_Rule1_v1.md` v1.3)を**上書きしてはならず**、**manifest v1.6 / Rule 1 v1.4 という新 version を作り差分ゲートを通す**。**本草案(v6)が PASS してから新 version を作る**(便 47 F12-5)。
+**身分**: **草案である。適用は司令塔** — 凍結正本(`docs/manifest_k5_v1.md` v1.5 / `docs/week4-K5_Rule1_v1.md` v1.3)を**上書きしてはならず**、**manifest v1.6 / Rule 1 v1.4 という新 version を作り差分ゲートを通す**。**本草案(現版)が PASS してから新 version を作る**(便 47 F12-5)。【**v8・A21**】 **自己言及は版非依存の「現版」表記を採る** — 「本草案 v6」のような**自版の明示は bump のたびに stale になる構造欠陥**であり、A17 で直した同じ欄が v7 で再び stale になった。**自己を指す参照だけは版番号を書かない**(他文書への参照は従来どおり版を固定する)。**自認。**
 **根拠**: 便 46 F4・F5.2・F5.3 / **便 47 F4–F10** / `docs/week4-BFC攻略_opus_v2.md` §8.1(U5 注)・§10.1(補題 B-9′ = **two-mathematician PASS**)・§15.8。
 **発端**: **研究者の指摘**(2026-07-27)→ 司令塔委嘱 → 補題 B-9′ → 残留 1 述語の同定 → 本条文案。
 
@@ -45,6 +45,13 @@
 | # | 箇所 | v4 | v5 | 出所 |
 |---|---|---|---|---|
 | **A15** | §3 の `antecedent_bundle_id` 注記・§4 の result schema | bundle ID が **version なしの旧名**(`THEOREM-ANTECEDENT-Rcyc` / `FALSIFIER-ANTECEDENT-BFC`)のままで、**A12 の `/twisted/v1`・`/exact/v1` を保存できなかった**(結果 record が A12 の修理を潰す) | **closed enumeration へ**: 許される値は **`THEOREM-ANTECEDENT-Rcyc/twisted/v1`・`THEOREM-ANTECEDENT-Rcyc/exact/v1`・`FALSIFIER-ANTECEDENT-BFC/twisted/v1`** の 3 つのみ。**未知値・version なし値は fail-closed**(記録拒否+integrity stop)。falsifier bundle の宣言名も versioned へ。**自認** | 便 50 F2.5 |
+
+## v7 → v8 差分(裁定 64 — 便 53 F7-2)
+
+| # | 箇所 | v7 | v8 | 出所 |
+|---|---|---|---|---|
+| **A21** | §0 身分・§6 手順 1 | 自版を「**本草案(v6)**」「**本草案 v6**」と明示 — **A17 で直した同じ欄が bump のたびに stale になる構造欠陥** | **版非依存の「本草案(現版)」へ**。**自己を指す参照だけ版番号を書かない**(他文書への参照は従来どおり版固定)。理由を本文に明記。**自認** | 便 53 F7-2 |
+| **A22** | §3 `/exact/v1`・§2 8.4.1・§5 | current source 参照が **BFC v2.9 / v2.4** のまま | **BFC v2.11 へ同期**し、**`current source` の身分を明示**(日付・版を固定した履歴引用とは区別する)。**自認** | 便 53 F7-2 |
 
 ## v6 → v7 差分(裁定 63 — 便 52 F7-2)
 
@@ -127,7 +134,7 @@
 > #### 8.4.1 判定式(捻れ形)
 > $$ \boxed{\ \rho_i\bigl(\operatorname{Ih}_N(\gamma)\bigr)\ =\ \tau_i\bigl(\kappa_i(\gamma)^{\,b_i}\bigr)\qquad(\forall\gamma\in G_K).\ } \tag{5$'_b$} $$
 > **$b_i$ は 8.4.0 (F2) の値。これが K5 campaign の operative bridge evaluation clause である。** 従来の exact **(5′)** は $b_i=1$ の特殊化であり、**次の 2 route のいずれかで回収される**【**v7・A18: normative 本文へ 2 route を転記**】:
-> > **(R-a) 現行 BFC proof を採る場合**: **(TB4)+$(Z_{2M}$-link$)$** の下で回収(BFC v2.10 §8・§8.1 の**現行 proof ID**)。**本 campaign が採るのはこちら。**
+> > **(R-a) 現行 BFC proof を採る場合**: **(TB4)+$(Z_{2M}$-link$)$** の下で回収(BFC v2.11 §8・§8.1 の**現行 proof ID**・**current source**)。**本 campaign が採るのはこちら。**
 > > **(R-b) TB4-E alternate を採る場合**: **(E-i)–(E-iv)+別 proof ID** の下で回収(TB4 導出側の別証)。**現行 BFC proof と前件を混ぜない。**
 > > いずれを採ったかは結果 record の `exact_recovery_path` に記録する(§4)。**(5′) という既存の名前は上書きしない**(BFC/K3/$R^{\rm cyc}$ の数学文書では `(5′)` は exact $b=1$ の等式、捻れ形は B-7$^{\rm tw}$ を指す)。
 >
@@ -154,7 +161,7 @@
 > 本節の捻れ化にかかわらず、次は $b_i$ の値に依存しない(BFC 系 B-8・補題 B-9′(c)(d)):
 > **(P1)** $\mathrm{ord}([v_i]_{10})$ / **(P2)** $[v_{\rm ns}]_{10}=[v_{\rm sq}]_{10}^{a_{\rm eff}}$ と $a_{\rm eff}=a=1$ / **(R6-full)** 全射判定 / 固定体 $K(v_i^{1/10})$ / §8.3 の exact certificate。
 > **⇒ 本 amendment は測定量を 1 つも変えない。**
-> **★ 版の区別**: **amendment 成立後**は `bridge_result_i` を含む campaign 全判定が $\varepsilon$-free になる。**成立前は Belyi-side の限定結論だけ**が無条件である(BFC v2.4 §10.1.2 (e))。
+> **★ 版の区別**: **amendment 成立後**は `bridge_result_i` を含む campaign 全判定が $\varepsilon$-free になる。**成立前は Belyi-side の限定結論だけ**が無条件である(BFC v2.11 §10.1.2 (e)・**current source**)。
 
 ### 付随:§9 への 1 行追加(Rule 1 v1.4)
 
@@ -189,7 +196,7 @@
 > ```
 > - **`/twisted/v1`** — K5 campaign が実際に使う側。**operative predicate = (5$'_b$)**。
 > - **`/exact/v1`** — exact (5′) を使う側。**追加前件 $b_i=1$ が要る**。**その回収経路は 2 通りあり、どちらを指すかを名指しする**【**v6・A16】:
->   - **(R-a) 現行 BFC proof を採る場合**: **(TB4)+$(Z_{2M}$-link$)$**(BFC v2.9 §8・§8.1 の**現行 proof ID**)。**本 campaign が採るのはこちら。**
+>   - **(R-a) 現行 BFC proof を採る場合**: **(TB4)+$(Z_{2M}$-link$)$**(BFC v2.11 §8・§8.1 の**現行 proof ID**・**current source**)。**本 campaign が採るのはこちら。**
 >   - **(R-b) TB4-E alternate を採る場合**: **(E-i)–(E-iv)+別 proof ID**(TB4 導出側の別証)。**現行 BFC proof と前件を混ぜない。**
 >   `bridge_predicate_id` と併せて **`exact_recovery_path` ∈ {`R-a/current-bfc-proof`, `R-b/tb4e-alternate`} を結果 record に記録**する。
 > **この bundle の下で結論が破れたら、それは `THEOREM/RECORD-CONSISTENCY-FAIL`(証明か記録の誤り)であって橋の反証ではない。**
@@ -326,13 +333,13 @@ orientation_certificate = {
 
 > **(e′)(amendment 成立後)** $K^{(5)}$ campaign の**全判定** — `bridge_result_i`(PASS/FAIL/UNKNOWN と $\mathrm{ord}_i$)・`pair_gate`・`saturation_result`・結果規則表の**全遷移** — が exact $\varepsilon$ に依存しない。
 
-**それまでは (e) は「(P1)(P2)(R6-full)・固定体・Kummer 証明書型・現行 Belyi-side 測定量」までに限定する**(BFC v2.4 §10.1.2・便 47 F2.3)。
+**それまでは (e) は「(P1)(P2)(R6-full)・固定体・Kummer 証明書型・現行 Belyi-side 測定量」までに限定する**(BFC v2.11 §10.1.2・便 47 F2.3・**current source**)。
 
 ---
 
 ## 6. 手続き(司令塔の作業)
 
-1. **本草案 v6 を差分ゲートに掛ける**(便 47 F12-5: 差分が PASS してから新 version を作る)。
+1. **本草案(現版)を差分ゲートに掛ける**(便 47 F12-5: 差分が PASS してから新 version を作る)。**A21 により自版番号は書かない。**
 2. **凍結正本を上書きしない。** `docs/manifest_k5_v1.md` → **v1.6**、`docs/week4-K5_Rule1_v1.md` → **v1.4** として新 version を作る(旧版は digest 込みで保存)。
 3. **凍結記録**(Rule 1 §10)に「amendment 適用日時・旧版 digest・変更した clause 名・`bridge_predicate_id`」を追記。
 4. 適用後、**BFC 本稿の (e) を (e′) へ更新**し、その版で final digest を取り直す(GAP certificate の `input_doc_path` 束縛も同時点)。
