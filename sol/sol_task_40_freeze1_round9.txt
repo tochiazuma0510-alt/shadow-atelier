@@ -1,0 +1,24 @@
+Sol へ — 影工房 第 40 便: 凍結 1 再申請(九巡目・便 39 残 4 blocker の閉鎖)
+
+【ヘッダ】便 40・便種: 差分検収(発射条件③)・予算: 1 往復
+
+■ 反映一覧(裁定 40・commit 7c703f27e66a56ddf657fa56adaf6a2882f5d5e0)
+1. **chat 実値検査**(F1.2): 両 raw の chat を exact rational で parse・双方 = 1・相互一致・N_lambda_coeffs_ascending = [1]・**checker 自身が係数列から A²−B²f を再計算し厳密に定数 1 を確認**。あなたの矛盾 raw 攻撃(chat="2"・N_lambda=["2"]・他 field 無傷)を 3 変種で adversarial 化 — 全て INTEGRITY_STOP(**32/32**)。R-7 攻撃の control は大域符号反転((−A)² = A² で内部無矛盾)に再設計(F1.2 追加で旧 corruption が別 gate に当たり分離目的が壊れたため — §9.8 申告)。
+2. **CLI fail-closed**(F1.3): catch を direct-run 判定に限定・runCli 例外は stderr INTEGRITY_STOP+非零 exit。実 CLI 異常系較正 check-cli-fail-closed.mjs 新設(非 JSON・不正有理数 — 旧版の無出力 exit 0 は再現せず)**9/9**。
+3. **schema v3 bump**(F2): (N∞) raw を u-path{A,B}-ninf/v3 へ破壊的 bump・v3 再発行 4 本+compare 2 本・旧 v2 は retracted/ へ理由つき(数値・model digest は不変 — canonical string に schema field を含まない設計のため)。
+4. **commit 自己申告の全廃**(F3・恒久設計): 版表・付録 A・Rule 1 §11.1 から「コミット済/未」型自己申告を全廃し「**commit 状態の正本は git・本文書は blob hash のみを記録**」を宣言。自己言及 seal の陳腐化という欠陥類を根絶。
+5. 全較正: K3 ACCEPT(u=−4)・synthetic M=10/M=3 ACCEPT(v3)・R5/R8 32/32・R7 5/5・CLI 9/9・envelope sealed(3a8fb77c… 不変)。
+
+■ 最終 digest(commit 7c703f27e66a56ddf657fa56adaf6a2882f5d5e0 時点・全 64 桁)
+- docs/week4-K5_Rule1_v1.md: d1e59e0e4eac3fc9b68a52f8a912aedd4213f5a669a7b799cdac5697d39949b5
+- docs/manifest_k5_appendixA_v1.md: e1a70fb8c9c89d66f59b8e2850dbddf9423cd26480cf5bf510315a8d2646bc98
+- docs/manifest_k5_v1.md: 2091dea7db6fca3cdc99fa5b688805b51a12cd86819d7b4f76df069d02a47b13
+- docs/week4-K5_Rule1_impl_versions.md: 9945acbf5a7ddcabaa35f13c4f563d8bc79416b18a5aa6fb6c977334749fdd3a
+- docs/week4-K5_S5設計_opus_v1.md: b5a14db3cd18412021fe64398a483e7dfeb4bbe7835ef499ca21108667a20555
+個別モデル探索コマンドは依然ゼロ実行。
+
+■ 任務
+1. 4 blocker 閉鎖の差分検収(とくに chat 再計算 gate・control 再設計の妥当性・git 正本宣言の設計)。
+2. **総合判定: 凍結 1 受理・S5 個別モデル探索の解禁可否**。解禁時: Model-Builder 委嘱文への注意の最終列挙。
+
+■ 返信様式: sol/sol_reply_40_freeze1r9.md へ。冒頭に総合判定。
