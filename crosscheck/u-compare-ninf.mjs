@@ -344,19 +344,37 @@ export function compareNinf(A, B, bundle, meta = {}) {
 // 予期しない例外は stderr に INTEGRITY_STOP メッセージを出して非零 exit
 // する(direct-run 判定自体は try で囲まない -- pathToFileURL/import.meta.url
 // の比較は通常例外を投げない静的 import なので、握りつぶす catch は不要)。 ---
-function runCli() {
-  const [pathAFile, pathBFile, bundleFile] = process.argv.slice(2);
+// 裁定42/便41 F4.2-F4.3 対応: u-compare.mjs と同様、判定ロジックを副作用なしの
+// runCliCore(argv) へ抽出して export する(保存 harness の in-process
+// fallback 用 -- この管理下環境で spawnSync/Start-Process が使えない場合に
+// 子プロセスを立てずに同じロジックを直接呼び出せるようにする)。
+export function runCliCore(argv) {
+  const [pathAFile, pathBFile, bundleFile] = argv;
   if (!pathAFile || !pathBFile || !bundleFile) {
-    console.error('usage: node u-compare-ninf.mjs <ninf pathA.json> <pathB.json> <bundle.json>');
-    console.error('(bundle.json is REQUIRED -- R-7/I-l: raw-only expected-digest self-comparison is not accepted, cf. Sol 便37 F2)');
-    process.exit(2);
+    return {
+      exitCode: 2, stdout: '',
+      stderr: 'usage: node u-compare-ninf.mjs <ninf pathA.json> <pathB.json> <bundle.json>\n' +
+        '(bundle.json is REQUIRED -- R-7/I-l: raw-only expected-digest self-comparison is not accepted, cf. Sol 便37 F2)\n',
+    };
   }
-  const A = JSON.parse(readFileSync(pathAFile, 'utf8'));
-  const B = JSON.parse(readFileSync(pathBFile, 'utf8'));
-  const bundle = JSON.parse(readFileSync(bundleFile, 'utf8'));
-  const report = compareNinf(A, B, bundle, { pathAFile, pathBFile, bundleFile });
-  console.log(JSON.stringify(report, null, 2));
-  if (report.result !== 'ACCEPT') process.exit(1);
+  try {
+    const A = JSON.parse(readFileSync(pathAFile, 'utf8'));
+    const B = JSON.parse(readFileSync(pathBFile, 'utf8'));
+    const bundle = JSON.parse(readFileSync(bundleFile, 'utf8'));
+    const report = compareNinf(A, B, bundle, { pathAFile, pathBFile, bundleFile });
+    return { exitCode: report.result !== 'ACCEPT' ? 1 : 0, stdout: JSON.stringify(report, null, 2), stderr: '', report };
+  } catch (e) {
+    return {
+      exitCode: 1, stdout: '',
+      stderr: `INTEGRITY_STOP: unhandled exception in u-compare-ninf.mjs CLI wrapper -- ${e && e.stack ? e.stack : e}\n`,
+    };
+  }
+}
+function runCli() {
+  const r = runCliCore(process.argv.slice(2));
+  if (r.stdout) console.log(r.stdout);
+  if (r.stderr) process.stderr.write(r.stderr.endsWith('\n') ? r.stderr.slice(0, -1) + '\n' : r.stderr);
+  if (r.exitCode !== 0) process.exit(r.exitCode);
 }
 function runCliGuarded() {
   try {

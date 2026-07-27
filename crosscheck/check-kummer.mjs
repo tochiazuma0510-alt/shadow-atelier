@@ -38,6 +38,7 @@
 // 出力: 独立算出した ord と一致するかどうかの照合レポート。
 
 import { readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 import { Q as RingQ, polyPowMod, polyEqConst, cyclotomicPolynomialAscending } from './cyclo-ring-lib.mjs';
 
 function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
@@ -230,27 +231,59 @@ function checkWitnessEquation(cert, w, ord, n, M) {
 }
 
 //////////////////// 実行 ////////////////////
-const certPath = process.argv[2];
-if (!certPath) {
-  console.error('usage: node check-kummer.mjs <kummer-decide cert JSON>');
-  process.exit(2);
+// 裁定42/便41 F4.2-F4.3 対応: u-compare 系と同水準の副作用なし Core 関数を
+// export する(保存 harness の in-process fallback 用)。旧版は判定ロジック
+// (runCheckKummer)の中で console.log/process.exit を直接呼んでおり、かつ
+// この 実行 セクションに direct-run guard が無かった(import しただけで
+// process.argv[2] を読んで走ってしまう)。本版は
+//   - runCheckKummerCore(cert, certPath): 副作用なし、{report, exitCode} を返す
+//   - runCliCore(argv): ファイル読み込み + RationalFormatError 変換込みの
+//     副作用なし版(harness は certPath だけ渡せばよい)
+// を export し、実際の CLI 実行は import.meta.url による direct-run guard の
+// 中でのみ発火する。
+export function runCheckKummerCore(cert, certPath) {
+  return runCheckKummer(cert, certPath);
 }
-const cert = JSON.parse(readFileSync(certPath, 'utf8'));
-// 司令塔追加委嘱: malformed rational は structured INTEGRITY_STOP に変換する
-// (u-compare 系と同水準 -- 生の例外/stack trace を吐いて終わらない)。
-try {
-  runCheckKummer(cert, certPath);
-} catch (e) {
-  if (e instanceof RationalFormatError) {
-    console.log(JSON.stringify({
-      schema: 'check-kummer/v2', certPath, result: 'INTEGRITY_STOP',
-      reason: `(strict rational parser) ${e.message}`,
-    }, null, 2));
-    process.exit(1);
+export function runCliCore(argv) {
+  const certPath = argv[0];
+  if (!certPath) {
+    return { exitCode: 2, stdout: '', stderr: 'usage: node check-kummer.mjs <kummer-decide cert JSON>\n' };
   }
-  throw e;
+  let cert;
+  try {
+    cert = JSON.parse(readFileSync(certPath, 'utf8'));
+  } catch (e) {
+    return { exitCode: 1, stdout: '', stderr: `INTEGRITY_STOP: unhandled exception in check-kummer.mjs CLI wrapper -- ${e && e.stack ? e.stack : e}\n` };
+  }
+  try {
+    const { report, exitCode } = runCheckKummerCore(cert, certPath);
+    return { exitCode, stdout: JSON.stringify(report, null, 2), stderr: '', report };
+  } catch (e) {
+    if (e instanceof RationalFormatError) {
+      const report = {
+        schema: 'check-kummer/v2', certPath, result: 'INTEGRITY_STOP',
+        reason: `(strict rational parser) ${e.message}`,
+      };
+      return { exitCode: 1, stdout: JSON.stringify(report, null, 2), stderr: '', report };
+    }
+    throw e;
+  }
+}
+function runCli() {
+  const r = runCliCore(process.argv.slice(2));
+  if (r.stdout) console.log(r.stdout);
+  if (r.stderr) process.stderr.write(r.stderr.endsWith('\n') ? r.stderr.slice(0, -1) + '\n' : r.stderr);
+  if (r.exitCode !== 0) process.exit(r.exitCode);
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  runCli();
 }
 
+// 裁定42/便41 F4.2-F4.3 対応: 旧版は各分岐で console.log + process.exit を
+// 直接呼んでいた(副作用あり・in-process fallback から結果だけを取り出せ
+// なかった)。本版は副作用なしで {report, exitCode} を返すのみとし、
+// 実際の print/exit は runCliCore/runCli 側でまとめて行う(exit code の
+// 対応関係は旧版のまま保存: UNKNOWN->0, MISMATCH/INTEGRITY_STOP->1, MATCH->0)。
 function runCheckKummer(cert, certPath) {
 const w = parseRatMaybeNumber(cert.w);
 const M = BigInt(cert.M);
@@ -273,15 +306,13 @@ const report = {
 if (!indep.decided) {
   report.result = 'UNKNOWN';
   report.reason = indep.reason;
-  console.log(JSON.stringify(report, null, 2));
-  process.exit(0);
+  return { report, exitCode: 0 };
 }
 
 if (Number(indep.ord) !== cert.ord) {
   report.result = 'MISMATCH';
   report.reason = `independent ord (${indep.ord}) != GAP ord (${cert.ord})`;
-  console.log(JSON.stringify(report, null, 2));
-  process.exit(1);
+  return { report, exitCode: 1 };
 }
 
 // 最小性 obstruction の独立検算
@@ -291,8 +322,7 @@ const obstructionsOk = obstructionChecks.every((r) => r.ok);
 if (!obstructionsOk) {
   report.result = 'MISMATCH';
   report.reason = 'independent recomputation could not confirm one or more minimality_obstructions entries';
-  console.log(JSON.stringify(report, null, 2));
-  process.exit(1);
+  return { report, exitCode: 1 };
 }
 // 証明書が主張する ord 未満の全ての約数(M の約数のうち ord より小さいもの)
 // について obstruction が記録されていること自体も検査する(取りこぼし禁止)。
@@ -306,8 +336,7 @@ if (!obstructionsOk) {
   if (missing.length > 0) {
     report.result = 'MISMATCH';
     report.reason = `minimality_obstructions does not cover all divisors of M smaller than ord: missing ${JSON.stringify(missing)}`;
-    console.log(JSON.stringify(report, null, 2));
-    process.exit(1);
+    return { report, exitCode: 1 };
   }
 }
 
@@ -317,16 +346,14 @@ report.witness_equation_check = witnessCheck;
 if (witnessCheck.checked && !witnessCheck.match) {
   report.result = 'MISMATCH';
   report.reason = `witness^M = w^ord failed independent recheck: ${JSON.stringify(witnessCheck)}`;
-  console.log(JSON.stringify(report, null, 2));
-  process.exit(1);
+  return { report, exitCode: 1 };
 }
 if (!witnessCheck.checked) {
   report.result = 'MISMATCH';
   report.reason = `witness equation could not be independently checked: ${witnessCheck.reason}`;
-  console.log(JSON.stringify(report, null, 2));
-  process.exit(1);
+  return { report, exitCode: 1 };
 }
 
 report.result = 'MATCH';
-console.log(JSON.stringify(report, null, 2));
+return { report, exitCode: 0 };
 } // end runCheckKummer

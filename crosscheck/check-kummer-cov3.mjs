@@ -18,6 +18,7 @@
 // 使い方: node crosscheck/check-kummer-cov3.mjs <cov3 cert JSON>
 
 import { readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 import { Q, polyMulMod, polyPowMod, polyAdd, polyMul, cyclotomicPolynomialAscending } from './cyclo-ring-lib.mjs';
 
 // --- 司令塔追加委嘱(裁定41 対応中・便40 F1.2 の水準を横展開): u-compare 系
@@ -83,27 +84,52 @@ function polyEq(a, b) {
 }
 
 //////////////////// 実行 ////////////////////
-const certPath = process.argv[2];
-if (!certPath) {
-  console.error('usage: node check-kummer-cov3.mjs <kummer-cov3 cert JSON>');
-  process.exit(2);
+// 裁定42/便41 F4.2-F4.3 対応: check-kummer.mjs と同様、副作用なし Core 関数を
+// export する(保存 harness の in-process fallback 用)。旧版は判定ロジックの
+// 中で console.log/process.exit を直接呼び、かつこの 実行 セクションに
+// direct-run guard が無かった。
+export function runCheckKummerCov3Core(cert, certPath) {
+  return runCheckKummerCov3(cert, certPath);
 }
-const cert = JSON.parse(readFileSync(certPath, 'utf8'));
-// 司令塔追加委嘱: malformed rational は structured INTEGRITY_STOP に変換する
-// (u-compare 系・check-kummer.mjs と同水準)。
-try {
-  runCheckKummerCov3(cert, certPath);
-} catch (e) {
-  if (e instanceof RationalFormatError) {
-    console.log(JSON.stringify({
-      schema: 'check-kummer-cov3/v1', certPath, result: 'INTEGRITY_STOP',
-      reason: `(strict rational parser) ${e.message}`,
-    }, null, 2));
-    process.exit(1);
+export function runCliCore(argv) {
+  const certPath = argv[0];
+  if (!certPath) {
+    return { exitCode: 2, stdout: '', stderr: 'usage: node check-kummer-cov3.mjs <kummer-cov3 cert JSON>\n' };
   }
-  throw e;
+  let cert;
+  try {
+    cert = JSON.parse(readFileSync(certPath, 'utf8'));
+  } catch (e) {
+    return { exitCode: 1, stdout: '', stderr: `INTEGRITY_STOP: unhandled exception in check-kummer-cov3.mjs CLI wrapper -- ${e && e.stack ? e.stack : e}\n` };
+  }
+  try {
+    const { report, exitCode } = runCheckKummerCov3Core(cert, certPath);
+    return { exitCode, stdout: JSON.stringify(report, null, 2), stderr: '', report };
+  } catch (e) {
+    if (e instanceof RationalFormatError) {
+      const report = {
+        schema: 'check-kummer-cov3/v1', certPath, result: 'INTEGRITY_STOP',
+        reason: `(strict rational parser) ${e.message}`,
+      };
+      return { exitCode: 1, stdout: JSON.stringify(report, null, 2), stderr: '', report };
+    }
+    throw e;
+  }
+}
+function runCli() {
+  const r = runCliCore(process.argv.slice(2));
+  if (r.stdout) console.log(r.stdout);
+  if (r.stderr) process.stderr.write(r.stderr.endsWith('\n') ? r.stderr.slice(0, -1) + '\n' : r.stderr);
+  if (r.exitCode !== 0) process.exit(r.exitCode);
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  runCli();
 }
 
+// 副作用なし版(裁定42/便41): 旧版は各分岐で console.log + process.exit を
+// 直接呼んでいた。本版は {report, exitCode} を返すのみ(exit code の対応は
+// 旧版のまま保存: MISMATCH/UNKNOWN(scope外)/INTEGRITY_STOP->該当コード、
+// MATCH->0)。
 function runCheckKummerCov3(cert, certPath) {
 const n = cert.field_n;
 const M = cert.M;
@@ -118,16 +144,14 @@ const wPowOrd = (() => { let r = new Q(1n); for (let i = 0; i < ord; i++) r = r.
 const eM = polyPowMod(witnessCoeffs, M, modPoly);
 const eMok = eM.length === 1 && eM[0].eq(wPowOrd);
 if (!eMok) {
-  console.log(JSON.stringify({ schema: 'check-kummer-cov3/v1', certPath, result: 'MISMATCH',
-    reason: `witness^M != w^ord independently: got ${eM.map(String)}, expected ${wPowOrd.toString()}` }, null, 2));
-  process.exit(1);
+  return { report: { schema: 'check-kummer-cov3/v1', certPath, result: 'MISMATCH',
+    reason: `witness^M != w^ord independently: got ${eM.map(String)}, expected ${wPowOrd.toString()}` }, exitCode: 1 };
 }
 
 // zeta_M の環内表現: zeta_M = a^{n/M} (n/M は整数、M|n を要求)
 if (n % M !== 0) {
-  console.log(JSON.stringify({ schema: 'check-kummer-cov3/v1', certPath, result: 'UNKNOWN',
-    reason: `M=${M} does not divide n=${n} -- out of scope for this checker` }, null, 2));
-  process.exit(0);
+  return { report: { schema: 'check-kummer-cov3/v1', certPath, result: 'UNKNOWN',
+    reason: `M=${M} does not divide n=${n} -- out of scope for this checker` }, exitCode: 0 };
 }
 const aVec = [new Q(0n), new Q(1n)];
 const zetaM = polyPowMod(aVec, n / M, modPoly);
@@ -147,9 +171,8 @@ for (const d of galoisUnits) {
     if (polyEq(sigE, rhs)) { found = k; break; }
   }
   if (found === null) {
-    console.log(JSON.stringify({ schema: 'check-kummer-cov3/v1', certPath, result: 'MISMATCH',
-      reason: `sigma_${d}(e) is not e * zeta_M^k for any k (independent recompute failed)` }, null, 2));
-    process.exit(1);
+    return { report: { schema: 'check-kummer-cov3/v1', certPath, result: 'MISMATCH',
+      reason: `sigma_${d}(e) is not e * zeta_M^k for any k (independent recompute failed)` }, exitCode: 1 };
   }
   kappaTable[d] = found;
 }
@@ -164,9 +187,8 @@ for (const d of galoisUnits) {
   }
 }
 if (kappaMismatches.length > 0) {
-  console.log(JSON.stringify({ schema: 'check-kummer-cov3/v1', certPath, result: 'MISMATCH',
-    reason: 'kappa table mismatch between independent recompute and GAP certificate', kappaMismatches }, null, 2));
-  process.exit(1);
+  return { report: { schema: 'check-kummer-cov3/v1', certPath, result: 'MISMATCH',
+    reason: 'kappa table mismatch between independent recompute and GAP certificate', kappaMismatches }, exitCode: 1 };
 }
 
 // 第三 covariance 本体: tau -> tau∘[d'] (zeta_M -> zeta_M^{d'}) と
@@ -211,6 +233,5 @@ const report = {
 if (report.result !== 'MATCH') {
   report.reason = `independent_all_match=${allMatch} vs cert.all_match=${cert.all_match}`;
 }
-console.log(JSON.stringify(report, null, 2));
-if (report.result !== 'MATCH') process.exit(1);
+return { report, exitCode: report.result !== 'MATCH' ? 1 : 0 };
 } // end runCheckKummerCov3

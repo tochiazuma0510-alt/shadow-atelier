@@ -17,29 +17,39 @@
 // runCliGuarded() の try/catch で囲み、例外は stderr に INTEGRITY_STOP
 // メッセージを出して非零 exit する。
 //
-// 実測上の注意(便38 F1.2 の教訓・裁定41/便40 F2.2 で harness 自体を修理):
-// この管理下 Windows セッションでは、ある node プロセスが nested に子 node
-// プロセスを spawn すると stdout 捕捉が EPERM で拒まれることがあった
-// (check-r7-bundle-attack.mjs の旧版で遭遇)。本ファイル自体は「node
-// crosscheck/check-cli-fail-closed.mjs」として**トップレベルから直接実行
-// される**ことを想定しており(ネストではない)、内部で spawn する子
-// process は一段のみである。
+// ============================================================================
+// 裁定42/便41 F4.2-F4.3 対応(本ファイルの主眼): 保存 harness 自体の false
+// green を根絶する。
 //
-// **裁定41/便40 F2.2 の指摘・修理**: 旧版は `spawnSync` が stdout を
-// 生成しない(`r.error` が立つ・`r.stdout` が `undefined`)場合に
-// `r.stdout.length` を無条件参照して `TypeError` で crash していた
-// (Sol が管理下 Windows セッションで実測)。本版は `safeRun()` でこれを
-// 明示的に検出し、**calibration の PASS には数えず**、`[ENV_FAIL]` として
-// 別枠報告する(黙って PASS 扱いにしない・crash もしない)。また
-// `bad-rational.json` fixture は旧版では `id` が正当 pathB と不一致で
-// あり、実際の停止理由が `id mismatch` であって有理数 parse にすら
-// 到達していなかった(Sol の指摘)。本版は**正当な raw 全体を clone**し、
-// 攻撃対象の 1 field だけを malformed rational へ書き換え、到達した停止
-// 理由が strict rational parser であることを assert する。
-// もし spawnSync の EPERM がこの環境で再発した場合は、
-// `crosscheck/check-cli-fail-closed.ps1`(本便で新設した PowerShell 版
-// 外側 harness・同じ攻撃を `node` 直接呼び出し + `$LASTEXITCODE` で判定)
-// を使うこと。
+// Sol が管理下 Windows セッションで実測した症状: この環境では nested な
+// node 子プロセスの spawnSync が EPERM 等で失敗し、旧版は
+//   - 6 件すべてが envFail (spawnSync 使用不能) として扱われる
+//   - pass=0, fail=0 のまま "=== 0/0 PASS ===" と表示
+//   - 末尾が `if (fail > 0) process.exitCode = 1;` だけなので exit 0
+// という「何も測っていないのに green に見える」状態になっていた。
+//
+// 本版の修理:
+//   1. spawnSync が使えない(EPERM 等で envFail 判定になる)場合、
+//      各ケースについて**その場で in-process fallback** に自動切替する。
+//      u-compare.mjs / u-compare-ninf.mjs は便41 対応で純関数
+//      runCliCore(argv) を export するようになった(副作用なし・
+//      readFileSync + compareMain/compareNinf 呼び出し + report/exitCode を
+//      返すだけ)。fallback はこの runCliCore を子プロセスを介さず直接呼ぶ
+//      ことで、"non-JSON arg1 は INTEGRITY_STOP になる" 等の判定ロジックを
+//      実際に exercise する。fallback したケースは [FALLBACK:in-process] と
+//      明記し、実行数・PASS/FAIL に正しく算入する(見なかったことにしない)。
+//   2. ただし fallback は「OS プロセスとして実際に node が起動し、
+//      process.exit/console.log の薄い CLI wrapper が正しく機能するか」
+//      という**真に CLI プロセス固有の挙動**までは検査できない
+//      (in-process 呼び出しは同一プロセス内の関数呼び出しであり、実際の
+//      exit code や stdout バイト列を OS 経由で観測していない)。この
+//      残差は各グループにつき一件、明示的な [ENV_LIMIT] として SKIP 扱いに
+//      し、PASS には数えない(黙って PASS に混ぜない)。
+//   3. 実行ケース数(spawn 実測 + in-process fallback で確定した判定数)が
+//      期待値(このファイルが定義する 12 件)と厳密に一致することを assert
+//      する。0 件はもちろん、11 件・13 件でも非零 exit + 構造化
+//      {"status":"ENV_FAIL"} を stdout に出す(0 件実行のまま exit 0 という
+//      false green を再発させない)。
 //
 // 実行: node crosscheck/check-cli-fail-closed.mjs
 //   (PowerShell fallback: powershell -File crosscheck/check-cli-fail-closed.ps1)
@@ -47,24 +57,32 @@
 import { spawnSync } from 'node:child_process';
 import { writeFileSync, readFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { tmpdir } from 'node:os';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const NODE = process.execPath;
 
-let pass = 0, fail = 0, envFail = 0;
+// このファイルが定義する「較正が実際に何かを測った」とみなすケース総数。
+// F5.1(裁定42 再申請要件 1): 「期待検査数が厳密に 12」を assert する。
+const EXPECTED_CASES = 12;
+
+let pass = 0, fail = 0;
+let fellBack = 0; // このうち in-process fallback で判定した件数(内訳表示用)
+let envLimit = 0; // 真の CLI プロセス挙動固有で in-process では検査不能だった件数(SKIP・PASSに数えない)
 function report(name, ok, extra = '') {
   if (ok) { pass++; console.log(`[PASS] ${name}${extra ? '  ' + extra : ''}`); }
   else { fail++; console.log(`[FAIL] ${name}${extra ? '  ' + extra : ''}`); }
 }
-// 裁定41/便40 F2.2: spawnSync 自体の失敗(EPERM 等)は calibration PASS/FAIL
-// に混ぜず、明示的な環境 FAIL として報告する(crash もしない・黙って
-// PASS にもしない)。
-function reportEnvFail(name, reason) {
-  envFail++;
-  console.log(`[ENV_FAIL] ${name} -- spawnSync did not produce usable output in this environment: ${reason} (この個別ケースは calibration PASS に数えない。crosscheck/check-cli-fail-closed.ps1 で代替実行すること)`);
+function reportFallback(name, ok, extra = '') {
+  fellBack++;
+  if (ok) { pass++; console.log(`[PASS][FALLBACK:in-process] ${name}${extra ? '  ' + extra : ''}`); }
+  else { fail++; console.log(`[FAIL][FALLBACK:in-process] ${name}${extra ? '  ' + extra : ''}`); }
+}
+function reportEnvLimit(name, reason) {
+  envLimit++;
+  console.log(`[ENV_LIMIT] ${name} -- 真の CLI プロセス挙動(OS exit code / stdout バイト列)は in-process fallback では検査できない: ${reason} (SKIP。PASS には数えない)`);
 }
 
 const tmpDir = mkdtempSync(join(tmpdir(), 'k5-cli-fail-closed-'));
@@ -109,27 +127,70 @@ function safeRun(script, args) {
   return { envFail: false, status: r.status, stdout: r.stdout, stderr: r.stderr };
 }
 
+// 裁定42/便41 F4.2 対応: spawnSync が使えない環境向けの in-process fallback。
+// u-compare.mjs / u-compare-ninf.mjs の副作用なし runCliCore(argv) を直接
+// import して呼ぶ(子プロセスを立てない)。戻り値の形は safeRun() の非
+// envFail ケースと揃えてある({ envFail:false, status, stdout, stderr }) の
+// で、以降の判定コードを spawn/fallback で共有できる。
+const coreModules = {
+  'u-compare-ninf.mjs': await import(pathToFileURL(join(ROOT, 'crosscheck', 'u-compare-ninf.mjs')).href),
+  'u-compare.mjs': await import(pathToFileURL(join(ROOT, 'crosscheck', 'u-compare.mjs')).href),
+};
+function fallbackRun(script, args) {
+  const mod = coreModules[script];
+  const r = mod.runCliCore(args);
+  return { envFail: false, status: r.exitCode, stdout: r.stdout, stderr: r.stderr };
+}
+// spawn を試み、envFail なら in-process fallback に自動切替する。戻り値に
+// usedFallback を付与して呼び出し側が表示を分けられるようにする。
+// spawn・fallback が両方とも使えない(fallback 自体が例外を投げる)場合は
+// crashed:true を返し、呼び出し側はこのケースを pass にも fail にも数え
+// ない(=executed が EXPECTED_CASES 未満になり、末尾の厳密一致 assert が
+// 機械的に ENV_FAIL を発報する。crash を握り潰して 0/0 green にしない)。
+function runWithFallback(script, args) {
+  const spawned = safeRun(script, args);
+  if (!spawned.envFail) return { ...spawned, usedFallback: false };
+  try {
+    const fb = fallbackRun(script, args);
+    return { ...fb, usedFallback: true, spawnEnvFailReason: spawned.reason };
+  } catch (e) {
+    return { crashed: true, spawnEnvFailReason: spawned.reason, fallbackError: e && e.stack ? e.stack : String(e) };
+  }
+}
+// 呼び出し元は spawn/fallback どちらの経路でも同じ report()/reportFallback()
+// で結果を記録できるよう、r.usedFallback を見て振り分けるヘルパー。
+// r.crashed の場合はこのケースの assertion 自体を実行不能として扱い、
+// pass/fail どちらにも数えない(executed カウントを意図的に減らす)。
+function reportEither(name, r, ok, extra = '') {
+  if (r.crashed) {
+    console.log(`[ENV_FAIL] ${name} -- spawnSync envFail (${r.spawnEnvFailReason}) かつ in-process fallback も例外で失敗: ${r.fallbackError} (このケースは pass/fail いずれにも数えない -- 実行不能)`);
+    return;
+  }
+  if (r.usedFallback) reportFallback(`${name} (spawnSync envFail: ${r.spawnEnvFailReason})`, ok, extra);
+  else report(name, ok, extra);
+}
+
 for (const [label, script, argsWithBad] of [
   ['u-compare-ninf.mjs (N_infty)', 'u-compare-ninf.mjs', [nonJsonFile, validNinfB, validNinfBundle]],
   ['u-compare.mjs (main)', 'u-compare.mjs', [nonJsonFile, validMainB, validMainBundle]],
 ]) {
-  const r = safeRun(script, argsWithBad);
-  if (r.envFail) { reportEnvFail(`裁定40 F1.3: ${label} -- 非 JSON な第一引数`, r.reason); continue; }
-  report(
+  const r = runWithFallback(script, argsWithBad);
+  reportEither(
     `裁定40 F1.3: ${label} -- 非 JSON な第一引数は非零 exit する`,
-    r.status !== 0,
-    `exit=${r.status} stdout.length=${r.stdout.length}`
+    r, r.status !== 0, `exit=${r.status} stdout.length=${r.stdout?.length}`
   );
-  report(
+  reportEither(
     `裁定40 F1.3: ${label} -- 非 JSON な第一引数で stdout は空(無出力・exit 0 の fail-open が再現しない)`,
-    r.stdout.length === 0,
-    `stdout=${JSON.stringify(r.stdout)}`
+    r, r.stdout?.length === 0, `stdout=${JSON.stringify(r.stdout)}`
   );
-  report(
+  reportEither(
     `裁定40 F1.3: ${label} -- 非 JSON な第一引数で stderr に INTEGRITY_STOP メッセージが出る`,
-    r.stderr.includes('INTEGRITY_STOP'),
-    `stderr(先頭200字)=${JSON.stringify(r.stderr.slice(0, 200))}`
+    r, !!r.stderr?.includes('INTEGRITY_STOP'), `stderr(先頭200字)=${JSON.stringify(r.stderr?.slice(0, 200))}`
   );
+  if (r.usedFallback) {
+    reportEnvLimit(`裁定40 F1.3: ${label} -- 実 OS プロセスとしての exit code/stdout(spawnSync 経路)`,
+      'in-process fallback は runCliCore の戻り値を直接検査しており、実際の子プロセス起動・process.exit・OS stdout 捕捉は exercise していない');
+  }
 }
 
 // ---- malformed rational (裁定41/便40 F2.2 修理: 正当な pathA raw を clone
@@ -137,80 +198,72 @@ for (const [label, script, argsWithBad] of [
 // `{id:'x',...}` は正当 pathB と id が食い違い、実際の停止理由が
 // `id mismatch` であって parser gate に到達していなかった。本版は stdout の
 // JSON report を実際に parse し、到達した停止理由が strict rational parser
-// であることを assert する)。両 checker(main/N_infty)で確認する。----
+// であることを assert する。両 checker(main/N_infty)で確認する。----
 {
-  const r = safeRun('u-compare-ninf.mjs', [badRationalNinfFile, validNinfB, validNinfBundle]);
-  if (r.envFail) {
-    reportEnvFail('裁定41 F2.2: u-compare-ninf.mjs -- malformed rational (chat)', r.reason);
-  } else {
-    report(
-      '裁定41 F2.2: u-compare-ninf.mjs -- malformed rational chat="not-a-number"(clone された正当 raw の 1 field だけ改変)は非零 exit する',
-      r.status !== 0,
-      `exit=${r.status}`
-    );
-    let reachedParserGate = false;
-    try {
-      const parsed = JSON.parse(r.stdout);
-      reachedParserGate = parsed.result === 'INTEGRITY_STOP' && /strict rational parser/.test(parsed.reason || '');
-    } catch { /* stdout not JSON -- reachedParserGate stays false, reported as FAIL below */ }
-    report(
-      '裁定41 F2.2: u-compare-ninf.mjs -- 停止理由が strict rational parser gate であることを assert(id mismatch 等の無関係な理由で止まっていない)',
-      reachedParserGate,
-      `stdout(先頭300字)=${JSON.stringify(r.stdout.slice(0, 300))}`
-    );
-  }
+  const r = runWithFallback('u-compare-ninf.mjs', [badRationalNinfFile, validNinfB, validNinfBundle]);
+  reportEither(
+    '裁定41 F2.2: u-compare-ninf.mjs -- malformed rational chat="not-a-number"(clone された正当 raw の 1 field だけ改変)は非零 exit する',
+    r, r.status !== 0, `exit=${r.status}`
+  );
+  let reachedParserGate = false;
+  try {
+    const parsed = JSON.parse(r.stdout);
+    reachedParserGate = parsed.result === 'INTEGRITY_STOP' && /strict rational parser/.test(parsed.reason || '');
+  } catch { /* stdout not JSON -- reachedParserGate stays false, reported as FAIL below */ }
+  reportEither(
+    '裁定41 F2.2: u-compare-ninf.mjs -- 停止理由が strict rational parser gate であることを assert(id mismatch 等の無関係な理由で止まっていない)',
+    r, reachedParserGate, `stdout(先頭300字)=${JSON.stringify(r.stdout?.slice(0, 300))}`
+  );
 }
 {
-  const r = safeRun('u-compare.mjs', [badRationalMainFile, validMainB, validMainBundle]);
-  if (r.envFail) {
-    reportEnvFail('裁定41 F2.2: u-compare.mjs -- malformed rational (u_pathA="1/0")', r.reason);
-  } else {
-    report(
-      '裁定41 F2.2: u-compare.mjs -- malformed rational u_pathA="1/0"(clone された正当 raw の 1 field だけ改変)は非零 exit する',
-      r.status !== 0,
-      `exit=${r.status}`
-    );
-    let reachedParserGate = false;
-    try {
-      const parsed = JSON.parse(r.stdout);
-      reachedParserGate = parsed.result === 'INTEGRITY_STOP' && /strict rational parser/.test(parsed.reason || '');
-    } catch { /* stdout not JSON -- reachedParserGate stays false, reported as FAIL below */ }
-    report(
-      '裁定41 F2.2: u-compare.mjs -- 停止理由が strict rational parser gate であることを assert(id mismatch 等の無関係な理由で止まっていない)',
-      reachedParserGate,
-      `stdout(先頭300字)=${JSON.stringify(r.stdout.slice(0, 300))}`
-    );
-  }
+  const r = runWithFallback('u-compare.mjs', [badRationalMainFile, validMainB, validMainBundle]);
+  reportEither(
+    '裁定41 F2.2: u-compare.mjs -- malformed rational u_pathA="1/0"(clone された正当 raw の 1 field だけ改変)は非零 exit する',
+    r, r.status !== 0, `exit=${r.status}`
+  );
+  let reachedParserGate = false;
+  try {
+    const parsed = JSON.parse(r.stdout);
+    reachedParserGate = parsed.result === 'INTEGRITY_STOP' && /strict rational parser/.test(parsed.reason || '');
+  } catch { /* stdout not JSON -- reachedParserGate stays false, reported as FAIL below */ }
+  reportEither(
+    '裁定41 F2.2: u-compare.mjs -- 停止理由が strict rational parser gate であることを assert(id mismatch 等の無関係な理由で止まっていない)',
+    r, reachedParserGate, `stdout(先頭300字)=${JSON.stringify(r.stdout?.slice(0, 300))}`
+  );
 }
 
 // ---- sanity: unmodified valid CLI invocation still exits 0 with ACCEPT (proves
 // the above failures are caused by the malformed input, not a general CLI break) ----
 {
-  const r = safeRun('u-compare-ninf.mjs', [validNinfA, validNinfB, validNinfBundle]);
-  if (r.envFail) {
-    reportEnvFail('sanity: u-compare-ninf.mjs -- 正当な入力', r.reason);
-  } else {
-    report(
-      'sanity: u-compare-ninf.mjs -- 正当な入力では exit 0 かつ stdout に ACCEPT が出る(CLI 自体は無傷)',
-      r.status === 0 && r.stdout.includes('"result": "ACCEPT"'),
-      `exit=${r.status}`
-    );
-  }
+  const r = runWithFallback('u-compare-ninf.mjs', [validNinfA, validNinfB, validNinfBundle]);
+  reportEither(
+    'sanity: u-compare-ninf.mjs -- 正当な入力では exit 0 かつ stdout に ACCEPT が出る(CLI 自体は無傷)',
+    r, r.status === 0 && !!r.stdout?.includes('"result": "ACCEPT"'), `exit=${r.status}`
+  );
 }
 {
-  const r = safeRun('u-compare.mjs', [validMainA, validMainB, validMainBundle]);
-  if (r.envFail) {
-    reportEnvFail('sanity: u-compare.mjs -- 正当な入力', r.reason);
-  } else {
-    report(
-      'sanity: u-compare.mjs -- 正当な入力では exit 0 かつ stdout に ACCEPT が出る(CLI 自体は無傷)',
-      r.status === 0 && r.stdout.includes('"result": "ACCEPT"'),
-      `exit=${r.status}`
-    );
-  }
+  const r = runWithFallback('u-compare.mjs', [validMainA, validMainB, validMainBundle]);
+  reportEither(
+    'sanity: u-compare.mjs -- 正当な入力では exit 0 かつ stdout に ACCEPT が出る(CLI 自体は無傷)',
+    r, r.status === 0 && !!r.stdout?.includes('"result": "ACCEPT"'), `exit=${r.status}`
+  );
 }
 
 rmSync(tmpDir, { recursive: true, force: true });
 
-console.log(`\n=== ${pass}/${pass + fail} PASS ===${envFail > 0 ? ` (${envFail} 件は ENV_FAIL -- calibration PASS/FAIL に含めない。crosscheck/check-cli-fail-closed.ps1 で代替実行すること)` : ''}`);
-if (fail > 0) process.exitCode = 1;
+const executed = pass + fail;
+console.log(`\n=== ${pass}/${executed} PASS ===${fellBack > 0 ? ` (うち ${fellBack} 件は in-process fallback で実行)` : ''}${envLimit > 0 ? ` (${envLimit} 件は ENV_LIMIT/SKIP -- 別枠。PASSに含めない)` : ''}`);
+
+// 裁定42/便41 F5.1 対応: 「実行ケース数 > 0」だけでなく「期待検査数と厳密に
+// 一致」まで assert する(0 件はもちろん、11 件・13 件でも false green
+// ではないことを機械的に保証する)。
+if (executed !== EXPECTED_CASES) {
+  console.log(JSON.stringify({
+    status: 'ENV_FAIL',
+    reason: `executed case count (${executed}) does not equal expected (${EXPECTED_CASES}) -- this harness measured nothing or an unexpected subset, and must not be reported as a passing calibration`,
+    executed, expected: EXPECTED_CASES, pass, fail, fellBack, envLimit,
+  }));
+  process.exitCode = 1;
+} else if (fail > 0) {
+  process.exitCode = 1;
+}

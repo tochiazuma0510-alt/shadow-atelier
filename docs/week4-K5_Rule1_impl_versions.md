@@ -882,19 +882,20 @@ F1.2 の 4 攻撃+`"1/2/3"`(二本以上の `/`)の main/(N∞) 両変種、計 
 | `crosscheck/u-extract-pathB-ninf-toy-driver.mjs` | (N∞) library unit test driver(経路 B-iii・M=3) | `ccf583bf789eccdd9dd602a98391214cd133f231` |
 | `search/u-extract-pathA-ninf-production-driver.g` | (N∞) production driver(経路 A∞・M=10) | `e989c42bcdb45f154a7edeab59c0ab5a091151fd` |
 | `crosscheck/u-extract-pathB-ninf-production-driver.mjs` | (N∞) production driver(経路 B-iii・M=10) | `c3dfc9261b35ce9d0b517cf83a5c095fd76bc0f4` |
-| `crosscheck/u-compare.mjs` | main-path 第三 checker(裁定41 F1.2: strict rational parser。司令塔独自攻撃対応で trim() 除去) | `95cea380a39ad9db9e6ee9aec0378696e5c7e34f` |
-| `crosscheck/check-kummer.mjs` | Kummer 判定の独立照合器(司令塔追加委嘱で strict rational parser 化・司令塔独自攻撃対応で trim() 除去) | `b65b2afc87d1361730a99e12c1adf3dbc21ae9aa` |
-| `crosscheck/check-kummer-cov3.mjs` | 撤回済み第三 covariance 照合器(dead code 残置。司令塔追加委嘱で strict rational parser 化・司令塔独自攻撃対応で trim() 除去) | `67447ff993d308b5806a10cdf62a381a9cfb0301` |
-| `crosscheck/check-kummer-rational-parser-fail-closed.mjs` | (新設)check-kummer.mjs/check-kummer-cov3.mjs の strict rational parser 攻撃(w="0/0"・w="1/0"・witness_coeffs="1/2/3"・trim 除去攻撃 2 件)+既存 MATCH 較正の無傷確認(11/11) | `5afdbea72f4e205405ecdae7fde5e95c1b08796d` |
+| `crosscheck/u-compare.mjs` | main-path 第三 checker(裁定42/便41 F4.2-F4.3: 判定ロジックを副作用なし runCliCore(argv) へ抽出・export -- 保存 harness の in-process fallback 用) | `932818e88d541a5dafc32a67f36018bc24d9f7f2` |
+| `crosscheck/check-kummer.mjs` | Kummer 判定の独立照合器(裁定42/便41 F4.2-F4.3: runCheckKummerCore/runCliCore を export し direct-run guard を追加 -- 保存 harness の in-process fallback 用) | `6ffd421bbae73fc45316064ae4024a3511e43265` |
+| `crosscheck/check-kummer-cov3.mjs` | 撤回済み第三 covariance 照合器(dead code 残置。裁定42/便41 F4.2-F4.3: runCheckKummerCov3Core/runCliCore を export し direct-run guard を追加) | `2292d42126202ec76eeb03a2d5d192d0643dd744` |
+| `crosscheck/check-kummer-rational-parser-fail-closed.mjs` | check-kummer.mjs/check-kummer-cov3.mjs の strict rational parser 攻撃(w="0/0"・w="1/0"・witness_coeffs="1/2/3"・trim 除去攻撃 2 件)+既存 MATCH 較正の無傷確認(11/11)。裁定42/便41 F4.2: spawnSync envFail 時は in-process fallback へ自動切替・実行ケース数(期待 11)の厳密一致を assert | `1ead05fa1778023a7d216029b2e25845e674c40f` |
 | `crosscheck/cyclo-ring-lib.mjs` | 円分多項式の環演算(共有インフラ。司令塔独自攻撃対応で Q.parse を strict rational grammar 化) | `173341a931c461087199f81c3c8c4d0906772d6f` |
 | `crosscheck/check-qparse-fail-closed.mjs` | (新設)u-extract-pathB-lib.mjs/cyclo-ring-lib.mjs の Q.parse への strict grammar 攻撃(二本以上の "/"・空白混入・空分子/分母・分母 0)+既存受理仕様(+1・非既約 2/1・1/-2)の無傷確認(30/30) | `b266e9522210615e33a42001fb0f20f6e8bf4c43` |
 | `crosscheck/check-kummer-cov3-actual.mjs` | 第三 covariance 後継の独立照合器 | `a2dda3173c5f4bbb432e942559cd36e584569f5a` |
-| `crosscheck/u-compare-ninf.mjs` | (N∞) 第三 checker(裁定41 F1.2: strict rational parser。司令塔独自攻撃対応で trim() 除去) | `75f4ab3855e4b69e6f6e2e94ac97b45155c8ee79` |
+| `crosscheck/u-compare-ninf.mjs` | (N∞) 第三 checker(裁定42/便41 F4.2-F4.3: 判定ロジックを副作用なし runCliCore(argv) へ抽出・export -- 保存 harness の in-process fallback 用) | `be536c3aed04bc3eb82849d94c1770991e7c3728` |
 | `crosscheck/check-r5-r8-ninf-fail-closed.mjs` | R-5/R-8 adversarial 較正(裁定41 F1.2 攻撃 6 件+司令塔独自攻撃 trim 除去 4 件追加・42/42) | `e5bdfefd14a04b6e30d336d7781fc2e583adff53` |
 | `crosscheck/check-covariance-envelope.mjs` | covariance sealed calibration envelope | `7bdee13dcecee6f417c5cb24364a1c3ab9b88fd5` |
 | `crosscheck/check-r7-bundle-attack.mjs` | R-7 bundle 束縛 adversarial 較正 | `2b9b843414e4fd3ae03c30630c726a583d5507a2` |
-| `crosscheck/check-cli-fail-closed.mjs` | CLI fail-closed adversarial 較正(裁定41 F2.2 修理) | `88ee9f4191dc729d5f48b1d0e355da25efc48a47` |
-| `crosscheck/check-cli-fail-closed.ps1` | 同上・PowerShell 外側 harness(新設・裁定41 F2.2) | `c18bbf1ba33570091039df150b1587ee1671c086` |
+| `crosscheck/check-cli-fail-closed.mjs` | CLI fail-closed adversarial 較正。裁定42/便41 F4.2: spawnSync envFail 時に u-compare(-ninf).mjs の runCliCore へ in-process fallback・実行ケース数(期待 12)の厳密一致を assert(0 件実行のまま green を返す旧穴の根絶) | `0d495a8f143a763a22f6714b5b23b89f0991270b` |
+| `crosscheck/check-cli-fail-closed.ps1` | 同上・PowerShell 外側 harness。裁定42/便41 F4.3: Start-Process(この環境で 'Path'/'PATH' 衝突により非 terminating error を投げ、Report が一度も呼ばれず 0/0 PASS になっていた)を廃止し、node を呼び出し演算子で直接呼ぶ形に変更。launch 失敗は try/catch で捕捉して ENV_FAIL に分類・実行ケース数(期待 12)の厳密一致を assert | `77c7e3e9d33e8ea70960311b332da7d6aeb879d9` |
+| `crosscheck/check-blob-hashes.mjs` | (裁定42/便41 F3.2: 本表に自己を追加)active blob table の自動照合器自身。coverage モード(crosscheck/*.mjs・crosscheck/*.ps1・search/*.g・search/*.mjs を実列挙し、本表または EXCLUDED-FILES 表のいずれかに載っていることを assert)・marker 一意性・path 重複禁止を追加 | `f352935f195bcfde8da2aa5c93bfd4f48a7599ca` |
 | `crosscheck/build-frozen-bundles.mjs` | 独立 bundle 生成器(R-7) | `d2a37fd630c38f3156e73c7a3b29324a2509af47` |
 | `crosscheck/covariance-lib.mjs` | 共有 covariance library | `690de2e5c910cdce6a1bb1f774eecbec1fda684f` |
 | `crosscheck/covariance-bridge-in.mjs` | 橋段 driver スタブ | `9fc7b9a12bc7487b29b8f3f0ae9a1b0dc10d2a79` |
@@ -905,10 +906,104 @@ F1.2 の 4 攻撃+`"1/2/3"`(二本以上の `/`)の main/(N∞) 両変種、計 
 | `search/week4-k3-v2-repairs.mjs` | K3 側 rho_0/F_0 の独立検算 | `c9f0cb5806b020e41d30ac6dc479d2826966e69c` |
 | `certificates/k5fixture/K3-regression-model.json` | K3-regression model-spec | `9d6c5c0fe359d6701ea0711557a5b1d51f95e777` |
 | `certificates/k5pipeline/retracted/NOTE.md` | 撤回証明書の三世代区別(裁定41修理) | `1f40e3626d3ebd77d0b6bc560e975bf7a6786669` |
-| `docs/week4-K5_Rule1_v1.md` | Rule 1 本文(R-5 行 v3 同期・R-8 行 38/38 同期) | `f9442b55486416cf6119362095df31aac6bc0ce5` |
+| `docs/week4-K5_Rule1_v1.md` | Rule 1 本文(裁定42/便41 F2: R-8 行の `38/38` を「裁定41時点」の履歴値と明記し現行 `42/42` を追記・陳腐化を解消) | `6b77983c7e622d0fb29464e7fa0ddbb9d7f8a554` |
 | `docs/manifest_k5_appendixA_v1.md` | Appendix A(§6 commit/blob 型誤記の修理) | `7dfb6d6ac423101b63793808c38c2ba704d42354` |
 
 <!-- ACTIVE-BLOB-TABLE-END -->
+
+### 除外ファイル一覧(裁定42/便41 F3.2: coverage モード対応)
+
+`crosscheck/check-blob-hashes.mjs` は本便より **coverage モード**を持つ:
+`crosscheck/*.mjs`・`crosscheck/*.ps1`・`search/*.g`・`search/*.mjs` を実列挙
+し、各ファイルが上の active blob table か、下の EXCLUDED-FILES 表の
+いずれかに載っていることを assert する(いずれにも載っていないファイルが
+一つでもあれば `INTEGRITY_STOP`)。以下は「K5/Rule1(Freeze 1)パイプライン
+の一部ではない」と判断し、理由つきで明示的に除外したファイル(依存関係は
+grep で確認済み -- これらのファイルを import/Read しているのは同一カテゴリ
+内のファイルのみで、active table 側のファイルからの参照は無い)。
+
+<!-- EXCLUDED-FILES-START -->
+
+| path | reason |
+|---|---|
+| `crosscheck/agree-tables.mjs` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `crosscheck/agree6-tables.mjs` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `crosscheck/check-e2-action.mjs` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `crosscheck/check-e2c6-common-data-drift.mjs` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `crosscheck/check-e2c6.mjs` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `crosscheck/check-e2c6j3.mjs` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `crosscheck/check-k5-ninf.mjs` | N∞ 排除証明書 checker(便36 世代)-- 本表が追跡する K3-regression main/(N∞) 経路対(u-compare.mjs/u-compare-ninf.mjs)とは別の排除証明書ライン(依存関係なし) |
+| `crosscheck/check-k5e.mjs` | K5e 負較正(negative calibration)ライン -- K3-regression/Freeze 1 本パイプラインとは別 |
+| `crosscheck/check-psl.mjs` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `crosscheck/check-twincell.mjs` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `crosscheck/check-v2.mjs` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `crosscheck/check.mjs` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/a5-dessin-crosscheck.g` | A5 dessin d'enfant crosscheck ライン -- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/e19.g` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/e2-sweep-r2.g` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/e2c6-common-data.g` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/e2c6-sweep.g` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/e2c6j3-sweep.g` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/k3-lambda-action.g` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/k5-ninf-exclusion.g` | N∞ 排除証明書 checker(便36 世代)-- 本表が追跡する K3-regression main/(N∞) 経路対(u-compare.mjs/u-compare-ninf.mjs)とは別の排除証明書ライン(依存関係なし) |
+| `search/k5e-negcal.g` | K5e 負較正(negative calibration)ライン -- K3-regression/Freeze 1 本パイプラインとは別 |
+| `search/patch-target-hash.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/r6act-check.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/sg32-admissibility.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/smallgroup32-scan-diag.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/smallgroup32-scan.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/smoke-test.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/suite-wp1.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/suite-wp2-explorer-q1836.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/suite-wp2-explorer.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/suite-wp2-shard-a.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/suite-wp2-shard-b.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/suite-wp2-shard-b1.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/suite-wp2-shard-b2.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/twincell-enum.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week1-kn-spotcheck.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/week3-L-explorer.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-M5-explorer.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-1a.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-1b.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-2a.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-2b.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-3.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-A1-v2_1.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-A1-v2_2.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-A1.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-A2.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-battery-common.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-psl-S1.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-psl-S2.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-psl-S3.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-psl-S4.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-psl-S5.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-psl-S6.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-psl-S7.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week3-psl-common.g` | Week 3 shadow atlas / dihedral 隣接探索(PSL・SmallGroup(32,*)・twin-cell 列挙・M5/L explorer・battery suite 群)-- K5/Rule1(Freeze 1)とは別の研究ライン |
+| `search/week4-19a19e.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/week4-a5-audit17-check.mjs` | A5 dessin d'enfant crosscheck ライン -- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/week4-a5-dessin-unique.mjs` | A5 dessin d'enfant crosscheck ライン -- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/week4-a5-node-check.mjs` | A5 dessin d'enfant crosscheck ライン -- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/week4-a5-u-extract.mjs` | A5 dessin d'enfant crosscheck ライン -- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/week4-d2d4-k3.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/week4-e2-routeG.g` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/week4-e2-vanish-check.mjs` | E2/E2C6/E2C6J3 作用表derivation ライン(裁定 04 系)-- K5/Rule1(Freeze 1)とは別キャンペーン |
+| `search/week4-k5-bridge-d1.g` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/week4-k5-bridge-d1.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/week4-kcong-check.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/week4-lambda-qexp-check.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/week4-level8-calib.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/week4-ob-c6-derive.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/week4-u-k3.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/wp-check.mjs` | Week 4 個別探索・橋渡し・派生スクリプト群 -- 凍結対象の K5/Rule1 パイプライン(u-extract/kummer-decide/check-*系)からは分離された一回性の調査スクリプト(依存関係なし) |
+| `search/wp2-rules-verify.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/wp2-scratch-convention.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/wp2-scratch-n3.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+| `search/wp2-scratch-n5.g` | G1 Week1/2 gate line(WP1/WP2 較正+gtsh-cert/v1/v2 独立照合器)-- tag v1.0-g1 で凍結済み・K5/Rule1(Freeze 1)パイプラインとは別の先行ライン |
+
+<!-- EXCLUDED-FILES-END -->
 
 `node crosscheck/check-blob-hashes.mjs` で上表を自動照合できる(実行結果は
 本便報告に原文記載)。
@@ -949,7 +1044,18 @@ F1.2 の 4 攻撃+`"1/2/3"`(二本以上の `/`)の main/(N∞) 両変種、計 
    denominator')`)ため「0/0 が任意の値と等しくなる」という核心の脆弱性は
    ここには存在しない。今回の追加委嘱は「`parseRatMaybeNumber` を使う
    箇所」に明示的に限定されており、`Q.parse` は別名・別コードであるため
-   本便のスコープには含めなかった。念のため報告する(UNKNOWN・要判断)。
+   本便のスコープには含めなかった。念のため報告する(**この段落は新設
+   時点(便40相当)の観測記録であり、以下の解消注のとおり現在は解消済み**)。
+
+   **解消注(裁定41続報・司令塔独自攻撃対応・裁定42/便41 で再確認)**:
+   `crosscheck/u-extract-pathB-lib.mjs` と `crosscheck/cyclo-ring-lib.mjs`
+   の両 `Q.parse` を、u-compare 系と同じ全文一致 strict rational grammar
+   (`^[+-]?\d+(?:\/[+-]?\d+)?$`・空白拒否・二本以上の `/` 拒否)へ硬化した。
+   新設 `crosscheck/check-qparse-fail-closed.mjs`(現行 **30/30 PASS**・
+   本文書 ACTIVE-BLOB-TABLE 掲載)で両実装に対して "1/2/3"・前後空白・
+   空分子/分母・分母 0 の攻撃、および仕様内入力(`+1`・非既約 `2/1`・
+   `1/-2`)の受理を確認済み。**この項目は UNKNOWN・要判断ではなく解消済み**
+   (裁定42/便41 F2 で司令塔がこの記述の陳腐化を指摘・本便で訂正)。
 
 ### §9.9 追記(司令塔追加委嘱・check-kummer 系の strict rational parser 化)
 
@@ -976,5 +1082,89 @@ JSON へ変換する形にした(u-compare 系の「純関数 API でも INTEGRI
 の正当 MATCH 較正)・`retracted/K3-regression-kummer-cov3.v1.json`
 (check-kummer-cov3.mjs の唯一の保存 fixture・dead code だが較正として
 現存)を clone し、`w="0/0"`・`w="1/0"`・`witness_coeffs_basis_powers_of_root`
-中の `"1/2/3"` を各ファイルに対して投入。結果: **9/9 PASS**(3 sanity
-MATCH 無傷 + 6 攻撃拒否)。
+中の `"1/2/3"` を各ファイルに対して投入。結果(本便・新設時点): **9/9 PASS**
+(3 sanity MATCH 無傷 + 6 攻撃拒否)。
+
+**更新注(裁定41続報・司令塔独自攻撃対応)**: この後 trim() 除去攻撃
+(`w=" -4"`・`w="-4 "`)を check-kummer.mjs/check-kummer-cov3.mjs にも
+1 件ずつ横展開し、**現行は 11/11 PASS**(上記 9/9 + trim 攻撃 2 件)。
+現行値は本文書冒頭の ACTIVE-BLOB-TABLE の該当行、および
+`node crosscheck/check-kummer-rational-parser-fail-closed.mjs` の実行結果を
+正本とする(この段落の 9/9 は新設時点の履歴値であり、現在の値ではない)。
+裁定42/便41 F4.2 でこの checker 自体に「実行ケース数(期待 11)の厳密一致
+assert」+ spawnSync envFail 時の in-process fallback を追加した(0 件実行の
+まま green を返す false green を根絶)。
+
+## 裁定42/便41 対応(実装担当・本便)
+
+裁定42 `sol/裁定_42_ben41.md` の残 blocker 2 束(保存 harness の false green・
+blob 照合器の網羅性+文書陳腐)への対応。実装のみ・数学的主張の変更なし
+(K3-regression の $u$・kummer ord・witness 等式はいずれも無変更)。
+
+**1. 保存 harness の false green 根絶**:
+- `crosscheck/u-compare.mjs`/`u-compare-ninf.mjs`: 判定ロジックを副作用なし
+  `runCliCore(argv)` へ抽出・export(readFileSync + compareMain/compareNinf
+  呼び出し + `{exitCode, stdout, stderr, report}` を返すのみ)。既存の
+  `runCli()`/CLI 挙動は不変(この関数を呼ぶだけの薄い wrapper に縮退)。
+- `crosscheck/check-kummer.mjs`/`check-kummer-cov3.mjs`: 元々 direct-run
+  guard が無く(import しただけで `process.argv[2]` を読んで走ってしまう
+  設計だった)、`runCheckKummer`/`runCheckKummerCov3` も console.log/
+  process.exit を直接呼んでいた。副作用なし Core 関数へ変更し、
+  `import.meta.url` による direct-run guard を新設、`runCliCore(argv)` を
+  export。
+- `crosscheck/check-cli-fail-closed.mjs`: spawnSync が envFail(この管理下
+  環境で EPERM 等により発生)の場合、上記 runCliCore を in-process で直接
+  呼ぶ fallback に自動切替(`[FALLBACK:in-process]` と明記)。spawn・
+  fallback の両方が使えない場合はそのケースを pass/fail いずれにも数え
+  ない。末尾で実行ケース数が期待値(12)と厳密に一致することを assert し、
+  0 件・不完全な件数はいずれも構造化 `{"status":"ENV_FAIL"}` + 非零 exit
+  にする(旧穴の「0 件実行のまま `=== 0/0 PASS ===`, exit 0」を根絶)。
+  実機シミュレーション(NODE 実行パスをダミーへ差し替えて spawnSync を
+  強制失敗させる/fallback 自体も強制失敗させる)で、fallback 経路
+  (12/12 PASS・fellBack=12・envLimit=2)と真の 0 件実行時の ENV_FAIL・
+  exit 1 の両方を確認済み(実測は本便報告に原文記載)。
+- `crosscheck/check-cli-fail-closed.ps1`: 旧版は `Start-Process
+  -RedirectStandardOutput/-Error` がこの環境で `'Path'/'PATH'` 衝突の
+  非 terminating error を投げ、`Report` が一度も呼ばれず
+  `=== 0/0 PASS ===`, exit 0 で終わっていた(Sol 実測どおり再現)。
+  `Start-Process` を廃止し、node を呼び出し演算子(`&`)で直接呼ぶ形に
+  変更、launch 失敗は try/catch で捕捉して `ENV_FAIL` に分類。末尾で
+  実行ケース数が期待値(12)と厳密に一致することを assert。実機
+  シミュレーション(node 実行パスをダミーへ差し替え)で 12 件すべてが
+  `ENV_FAIL`・`{"status":"ENV_FAIL"}`・exit 1 になることを確認済み。
+- `crosscheck/check-kummer-rational-parser-fail-closed.mjs`: 上記と同じ
+  修理パターン(check-kummer.mjs/check-kummer-cov3.mjs の runCliCore への
+  in-process fallback・実行ケース数(期待 11)の厳密一致 assert)。
+
+**2. blob 照合器の網羅性(coverage モード)**: `crosscheck/check-blob-hashes.mjs`
+に、`crosscheck/*.mjs`・`crosscheck/*.ps1`・`search/*.g`・`search/*.mjs`
+(計 109 ファイル)を実列挙し、各ファイルが ACTIVE-BLOB-TABLE か新設
+EXCLUDED-FILES 表(理由つき・76 エントリ)のいずれかに載っていることを
+assert する coverage モードを追加。あわせて marker 一意性
+(START/END が各ちょうど一回)・path 重複禁止(active table 内・exclusion
+list 内・両方への二重登録)を追加し、checker 自身
+(`crosscheck/check-blob-hashes.mjs`)も ACTIVE-BLOB-TABLE に加えた。
+行削除・行複製・第二 active table 追加の三攻撃をいずれも
+`INTEGRITY_STOP` + 非零 exit にすることを実機確認済み(実測は本便報告に
+原文記載)。
+
+**3. 文書陳腐の一掃**: 上記の Q.parse 解消注(§9.9 直前の「懸念」項目 3)・
+kummer-rational-parser の 9/9→11/11 更新注・`docs/week4-K5_Rule1_v1.md`
+R-8 行の 38/38→42/42 更新注を追加。R-5 行は既に「裁定41時点」と点時点
+明記済みだったため変更なし。
+
+**全較正の再実行結果(裁定42/便41 対応・本便・2026-07-27)**:
+
+- K3 回帰(主枝): `result: "ACCEPT"`(`u=-4`、無変更)。
+- (N∞) toy M=3: `result: "ACCEPT"`(`u=1/2`、無変更)。
+- `check-kummer.mjs`(u・uinv): いずれも `result: "MATCH"`(無変更)。
+- `check-kummer-cov3.mjs`: `result: "MATCH"`(無変更)。
+- `check-r5-r8-ninf-fail-closed.mjs`: **42/42 PASS**(無変更)。
+- `check-r7-bundle-attack.mjs`: **5/5 PASS**(無変更)。
+- `check-qparse-fail-closed.mjs`: **30/30 PASS**(無変更)。
+- `check-cli-fail-closed.mjs`: **12/12 PASS**(この管理下セッションでは
+  実 spawnSync が機能したため fallback 0 件・ENV_LIMIT 0 件)。
+- `check-cli-fail-closed.ps1`: **12/12 PASS**。
+- `check-kummer-rational-parser-fail-closed.mjs`: **11/11 PASS**。
+- `check-blob-hashes.mjs`: **37/37 PASS**(active blob table 37 行・
+  coverage 109/109 accounted for)。

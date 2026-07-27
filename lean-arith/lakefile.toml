@@ -1,0 +1,14 @@
+name = "shadow_atelier_lean_arith"
+defaultTargets = ["LeanArith"]
+
+# Mathlib 依存(数論層。8GB RAM 制約のためローカル full build はしない — CI 専用)。
+# lean/lean-toolchain と同じ v4.32.1 に固定された mathlib4 タグを使う(両パッケージの Lean
+# バージョンを一致させ、独立に更新しない — 設計書 §1.4 の分離方針)。
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "v4.32.1"
+
+[[lean_lib]]
+name = "LeanArith"
+globs = ["LeanArith.+"]

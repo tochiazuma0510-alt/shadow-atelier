@@ -265,19 +265,43 @@ export function compareMain(A, B, bundle, meta = {}) {
 // runCli() 本体の例外捕捉を分離し、予期しない例外は stderr へ
 // INTEGRITY_STOP メッセージを出して非零 exit する(無出力・exit 0 の
 // fail-open を禁止)。 ---
-function runCli() {
-  const [pathAFile, pathBFile, bundleFile] = process.argv.slice(2);
+//
+// 裁定42/便41 F4.2-F4.3 対応: 保存 harness(check-cli-fail-closed.mjs/.ps1)が
+// この管理下環境で spawnSync/Start-Process が使えず 0 件実行のまま
+// false-green になった。対応として、実際の判定ロジック(引数検証・JSON.parse・
+// compareMain 呼び出し・例外捕捉)を副作用なしの runCliCore(argv) へ抽出して
+// export する。これにより harness は子プロセスを spawn できない環境でも
+// 同じロジックを in-process で直接呼び出して較正できる(fallback したことは
+// harness 側が明記する)。runCli() 自身は runCliCore の結果を
+// stdout/stderr へ書いて process.exit するだけの薄い wrapper に縮退し、
+// 二重実装を避ける。
+export function runCliCore(argv) {
+  const [pathAFile, pathBFile, bundleFile] = argv;
   if (!pathAFile || !pathBFile || !bundleFile) {
-    console.error('usage: node u-compare.mjs <u_pathA.json> <u_pathB.json> <bundle-or-model-spec.json>');
-    console.error('(bundle is REQUIRED -- R-7/I-l: raw-only expected-digest self-comparison is not accepted, cf. 裁定38/便37 F2)');
-    process.exit(2);
+    return {
+      exitCode: 2, stdout: '',
+      stderr: 'usage: node u-compare.mjs <u_pathA.json> <u_pathB.json> <bundle-or-model-spec.json>\n' +
+        '(bundle is REQUIRED -- R-7/I-l: raw-only expected-digest self-comparison is not accepted, cf. 裁定38/便37 F2)\n',
+    };
   }
-  const A = JSON.parse(readFileSync(pathAFile, 'utf8'));
-  const B = JSON.parse(readFileSync(pathBFile, 'utf8'));
-  const bundle = JSON.parse(readFileSync(bundleFile, 'utf8'));
-  const report = compareMain(A, B, bundle, { pathAFile, pathBFile, bundleFile });
-  console.log(JSON.stringify(report, null, 2));
-  if (report.result !== 'ACCEPT') process.exit(1);
+  try {
+    const A = JSON.parse(readFileSync(pathAFile, 'utf8'));
+    const B = JSON.parse(readFileSync(pathBFile, 'utf8'));
+    const bundle = JSON.parse(readFileSync(bundleFile, 'utf8'));
+    const report = compareMain(A, B, bundle, { pathAFile, pathBFile, bundleFile });
+    return { exitCode: report.result !== 'ACCEPT' ? 1 : 0, stdout: JSON.stringify(report, null, 2), stderr: '', report };
+  } catch (e) {
+    return {
+      exitCode: 1, stdout: '',
+      stderr: `INTEGRITY_STOP: unhandled exception in u-compare.mjs CLI wrapper -- ${e && e.stack ? e.stack : e}\n`,
+    };
+  }
+}
+function runCli() {
+  const r = runCliCore(process.argv.slice(2));
+  if (r.stdout) console.log(r.stdout);
+  if (r.stderr) process.stderr.write(r.stderr.endsWith('\n') ? r.stderr.slice(0, -1) + '\n' : r.stderr);
+  if (r.exitCode !== 0) process.exit(r.exitCode);
 }
 function runCliGuarded() {
   try {
