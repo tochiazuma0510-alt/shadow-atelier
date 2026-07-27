@@ -1,6 +1,7 @@
-# (TB4) の自前導出 — 枠組条件 $\varepsilon=1$ の解消 **v2.2(便 49 F8 条件 1–3 修理版)**
+# (TB4) の自前導出 — 枠組条件 $\varepsilon=1$ の解消 **v2.3(便 50 束 3「表示・型付けの最終修文」)**
 
-2026-07-27 起草(v1)・2026-07-28 **v2**(便 48 Part B 修理)・**v2.1**(裁定 55)・**v2.2**(裁定 57 / 便 49 F4・F5・F6・F9・F10): Claude(数学者レイヤー・Opus 5・**第二インスタンス**)。司令塔委嘱「(TB4) の自前導出」。研究者 GO 済み。
+2026-07-27 起草(v1)・2026-07-28 **v2**(便 48 Part B 修理)・**v2.1**(裁定 55)・**v2.2**(裁定 57 / 便 49)・**v2.3**(裁定 59 / 便 50 F2.2・F3・F4・F5・F7・F8.2 + Sol T-15): Claude(数学者レイヤー・Opus 5・**第二インスタンス**)。司令塔委嘱「(TB4) の自前導出」。研究者 GO 済み。
+**便 50 の判定: 数学核は全 PASS**(TB4-D/D′・TB4-E・$\hat b_i=b_{\rm op}$・四段のはしごの骨格・検査 5(d′) の算術・$K^{(3)}$ 副次記録)。**v2.3 が直すのは表示と型付けだけで、定理は 1 ミリも動かない。**
 **v2 は `sol/sol_reply_48_tb4_v24.md` Part B(F4–F13)の監査を反映**(司令塔指示 1–8 / Sol F14 項 5–7+α)。**解析計算(補題 TB4-2)は開け直していない** — 便 48 F6 が「解析持ち上げは正しい」と判定した部分は不変である。
 **v2.1 は裁定 55**(§4.4 の波及指摘が B-6 所有者の検分で**確定**・BFC v2.6 で (TB2′)$=$(Z20-link) 前件化済)**の副産物「$b$ の定義差」を §3.5 に辞書として立てた**。
 
@@ -44,6 +45,20 @@
 | **V20** | §3.5.4・§6 の検出表 | 「8 経路中 **7 本**が可視・盲点は root-object の 1 本」 | **偽。数え直し。** 可視 **6 本**(1,2,3,4,6,7)/ **不可視 2 本**(path 8 $=$ root-link 担当・**path 5 $=$ $n\nmid20$ で有限測定の射程外**)。母数 2 通り(**6/8** または finite 射程の **6/7**)を明記。**「(7.1) は (Z20-link) の代替でないだけでなく (Z-norm) 全体の certificate にもならない」**を追加。「8 本ですべて」とは書かず **single-axis regression set** と呼ぶ | 便 49 **F4.5・F6.4** |
 | **V21** | §7・§8.6 | seal に $b$ 二欄・検査 5 は 4 項目 | **`TB4-b-dictionary/v1` schema**(F10.1 の 11 欄)へ差し替え。checker に **invariant 4 本**($b_{\rm cmp}=\varepsilon^{-1}$ / $b_{\rm op}=b_{\rm cmp}\bar t_M^{-1}$ / Z2M_link $\Rightarrow t_{2M}=1$ / **negative fixture: $\bar t_M=1\nRightarrow$ Z2M_link($M=10,t_{20}=11$)**)。regression 表を **finite operational suite**(期待 6 detected / 1 root-link blind)と **profinite root-normalization suite**(期待 out-of-scope)に**二分割**(検査 6) | 便 49 **F10.1・F10.2** |
 | **V22** | §3.2・§8.1・§8.5・§8.8 | 「$b=1$」「(Z20-link) の先行凍結 $=$ (Z-norm) の一部凍結」 | **F6 の 7 回答を本文へ同期**: (F6.1) 結論の $b$ は **$b_{\rm cmp}=b_{\rm op}=1$** と型付け / (F6.5) 先行凍結は**独立 ID `Z20-link-seal/v1`**(「(Z-norm) の一部凍結」と呼ばない)/ (F6.3) 「結論の最小前件」と「現行 proof artifact の前件」を**分けて台帳化** / (F6.6) $\ell_i$ と $x=\gamma_0$ の同一性を **Rule 1 v1.4 の条文に明記**(同じ glyph に戻さない) | 便 49 **F6.1–F6.7** |
+
+### v2.2 → v2.3 差分(裁定 59 / 便 50・束 3 = 表示・型付けの最終修文)
+
+| # | 箇所 | v2.2 | v2.3 | 出所 |
+|---|---|---|---|---|
+| **V23** | **§3.5.1a**(はしご) | 1 枚の表に**条件・結論・定理名を同列で混在**させ、行間に含意矢印がなかった | **条件鎖 (3.6)** ((Z-norm)$\Rightarrow$(Z$_{2M}$-link)$\Rightarrow$($\bar t_M=1$))と**結論鎖 (3.7)** ($\varepsilon=1\Rightarrow\varepsilon\equiv1(2M)\Rightarrow b_{\rm cmp}=1$)を**別行に分離**。「共通 package の下で **L4$\Rightarrow$L3$\Rightarrow$L2$\Rightarrow$L1**、各逆向きは witness により偽」と明記。**witness 3 本**を表に(L1$\nRightarrow$L2: $t_{20}=3$ / L2$\nRightarrow$L3: $t_{20}=11$ / **L3$\nRightarrow$L4: 便 50 提供の $\hat{\mathbb Z}^\times$ unit**(2・5 進成分 $1$、**3 進成分 $-1$**、他 $1$ — $\bmod\ 20$ で $1$ だが exact でない)) | 便 50 **F3.2** |
+| **V24** | 同上 | 命題 TB4-E を「**無条件**」と呼んだ | **全置換**: **root-link-free(ただし (E-i)–(E-iv) に相対的)**。**「無条件」は空の前件を意味する**(★教材 T11) | 便 50 **F3.2・F7-5** |
+| **V25** | §3.5.3 | 導出本文には (B-i)–(B-iv) を書いたが、**判定 statement 自体に前件欄がなかった** | **statement 直下に named antecedents 4 点を掲示**: (B-i) $c_i=c_\Lambda$ は Rule 1 §4.3/B-4c の actual intertwiner / (B-ii) $\ell_i$ は **§1.1 の同じ** $x=[\gamma_0]$ が Fib に誘導する作用 / (B-iii) (7.1) の $\zeta_{10}$ は Rule 1 field generator の冪 / (B-iv) $\tau_i$ は Rule 1 (1.8) の marking | 便 50 **F2.2** |
+| **V26** | **§3.5.1b 新設**・§3.5.4・§7 | (d′) を「$t_{20}=11\Rightarrow b=1$」という**普遍含意**に読める形で書いた | **full-tuple negative regression fixture 化**: `NF-root-link/K5` $=(M,t_{20},\bar t_{10},\varepsilon,b_{\rm cmp},b_{\rm op},\text{link})=(10,11,1,11,1,1,\textbf{false})$。**$\varepsilon$ の束縛(TB4-3)を明示**($t_{20}=11$ 単独からは $b_{\rm cmp}=1$ は出ない)。$K^{(3)}$ 同型 fixture `NF-root-link/K3` $=(6,7,1)$ も同形式で。**checker の実計算は初めからこの読みだった**ので修理は文書側と表示のみ | 便 50 **F4.2**・Sol **T-15** |
+| **V27** | §8.9 | Rule 1 条文案が「$\lambda$ の値域が $U$ の座標 $\beta$-線」— **map・base・接基点を一つの typed equality にしていない** | **便 50 F5-4 の型へ差し替え**: 底を $U_\lambda$ と書き、**座標同型 $\beta=\lambda$ により接基点 $\vec{01}$・標準向き・ループ $\gamma_0$ を保って $U_\beta$ と同一視**する。$\ell_i$ は**この同じ** $x=[\gamma_0]$ が $\mathrm{Fib}_{\vec{01}}(W_0^{(i)})$ に誘導する permutation であり、**別の local generator の再定義ではない** | 便 50 **F5-4** |
+| **V28** | §8.6a | dictionary schema に normalization 水準の欄がなかった | **`root_normalization_level = none \| mod_M \| level_2M \| profinite` を追加**し、各値に許される結論を固定(四段のはしごと 1:1)。**L2/L3 の同欄圧潰を schema が拒否できる** | 便 50 **F8.2** |
+| **V29** | §7 検算 | 33/33 | **34/34**(検査 5(d)(d′) を full-tuple 形へ・**(e) $K^{(3)}$ 同型 fixture を新設**) | 本便 |
+
+> **v2.3 でも不変(便 50 が PASS と判定した部分)**: **TB4-D/D′ の辞書と証明核**・**TB4-E の証明核と依存削減**(TB4-3 全体でなく TB4-2 orientation package で足りる)・**$\hat b_i=b_{\rm op}$**・**四段のはしごの数学的骨格**(F3.1「支持」)・**検査 5(d′) の算術**(F4.1・独立再計算で一致)・**$K^{(3)}$ 副次記録**(F4.3)・suite 二分割(F5-2)。**v2.3 は表示と型付けのみ。**
 
 > **v2.2 でも不変(便 49 が PASS と判定した部分)**: **TB4-D / D′ の辞書**(型修理後)・**$\hat b_i=b_{\rm op}$(F4.3 で確定)**・**TB4-E の証明核**(F4.4)・TB4-1/2/3・TB4-0・比較式 ($*$)・(Z-norm) 下の TB4-B・命題 TB4-E が (Z20-link) を要さないこと(F6.7)。修理は**型の分離・前件の明示・数え直し・schema 化**であり、定理核は動かない。
 
@@ -302,18 +317,53 @@ $$ c_\Lambda\,m(\xi)\,c_\Lambda^{-1}=\tau\bigl((\zeta_M^{\rm Rule1})^{j}\bigr)=\
 > $$ \boxed{\ b_{\rm cmp}\equiv\bar t_M,\qquad b_{\rm op}\equiv1\quad(\mathrm{mod}\ M)\ \ \text{— $b_{\rm op}$ は $t_{2M}$ に依らない.}\ } \tag{3.5} $$
 > **(検査 5(b): 8 元悉皆で確認。$B_{\rm FC}$ 著者の整数演算と一致。)**
 
-### 3.5.1a 【v2.2 新設】四段のはしご — 何が何を含意するか
+### 3.5.1a 【v2.2 新設・**v2.3 で表示修文**】四段のはしご — 条件鎖と結論鎖を分ける
 
-型分離の帰結を一枚にする。**下へ行くほど強い。**
+> **⚠ v2.2 の表示の欠陥(自認・便 50 F3.2)**: v2.2 は 1 枚の表に**条件・結論・定理名を同じ列で混ぜ**、行間に含意矢印を置かなかった。**数学的骨格は便 50 F3.1 が支持したが、表示は差し戻し。** また TB4-E を「**無条件**」と呼んだのは**過大**である — **「無条件」は空の前件を意味する**(★教材 T11)。正しくは **root-link-free(ただし (E-i)–(E-iv) に相対的)**。
 
-$$ \begin{array}{lll}
-\textbf{(L1)}\ b_{\rm op}=1 & \Longleftarrow & \text{命題 TB4-E(\textbf{無条件} — root 系に触れない)}\\
-\textbf{(L2)}\ b_{\rm cmp}=1\iff\bar t_M=1 & \Longleftarrow & \bmod M\ \text{の根一致(\textbf{link より弱い})}\\
-\textbf{(L3)}\ \varepsilon\equiv1\ (2M)\iff t_{2M}=1 & \Longleftarrow & \textbf{(Z}_{2M}\textbf{-link)}\ \text{= 定理 TB4-A20}\\
-\textbf{(L4)}\ \varepsilon=1 & \Longleftarrow & \textbf{(Z-norm)}\ \text{= 定理 TB4-B}
+**共通前件(package)**: 以下すべて、**命題 TB4-D の (D-i)–(D-iii)・命題 TB4-E の (E-i)–(E-iv)・定理 TB4-3** を共通に固定した下での話である。
+
+**四つの言明**
+$$ \begin{array}{ll}
+\textbf{L1}: & b_{\rm op}=1\\
+\textbf{L2}: & b_{\rm cmp}=1\iff\bar t_M=1\\
+\textbf{L3}: & \varepsilon\equiv1\ (\mathrm{mod}\ 2M)\iff t_{2M}=1\\
+\textbf{L4}: & \varepsilon=1
 \end{array} $$
 
-> **★ 便 49 F4.1 の要点は「(L2) と (L3) を同じ欄に潰していた」ことである。** 反例 $t_{20}=11$ はちょうど **(L2) を満たし (L3) を満たさない**点であり、しかも **(L1)(L2) の両方が $1$ になるので $b$ の測定にも帳簿にも映らない**(検査 5(d′))。**seal の equality level(= $2M$)と、定理が見る modulus(= $M$)を同じ欄に潰してはならない。**
+**条件鎖**(規約 seal の強さ):
+$$ \boxed{\ \textbf{(Z-norm)}\ \Longrightarrow\ \textbf{(Z}_{2M}\textbf{-link}:\ t_{2M}=1\textbf{)}\ \Longrightarrow\ \bigl(\bar t_M=1\bigr)\ } \tag{3.6} $$
+
+**結論鎖**(得られる等式の強さ):
+$$ \boxed{\ \varepsilon=1\ \Longrightarrow\ \varepsilon\equiv1\ (\mathrm{mod}\ 2M)\ \Longrightarrow\ b_{\rm cmp}=1,\qquad\text{他方}\quad b_{\rm op}=1\ \text{は{\bf 命題 TB4-E により root-link-free}}\ } \tag{3.7} $$
+
+> **⇒ 共通 package の下では $\textbf{L4}\Rightarrow\textbf{L3}\Rightarrow\textbf{L2}\Rightarrow\textbf{L1}$、そして各逆向きは下の witness により偽である。**
+
+**逆向きを断つ witness(3 本)**
+
+| 断つ含意 | witness | 内容 |
+|---|---|---|
+| $\textbf{L1}\nRightarrow\textbf{L2}$ | $M=10,\ t_{20}=3$ | TB4-3 下で $b_{\rm op}=1$ だが $b_{\rm cmp}=3$(検査 5(b)) |
+| $\textbf{L2}\nRightarrow\textbf{L3}$ | $M=10,\ t_{20}=11$ | $\bar t_{10}=1$ だが $t_{20}\ne1$(**§3.5.1 の反例**・検査 5(d)) |
+| $\textbf{L3}\nRightarrow\textbf{L4}$ | **$\hat{\mathbb Z}^\times$ の unit**: $2$-進・$5$-進成分 $=1$、**$3$-進成分 $=-1$**、他の素点は $1$ | $\bmod\ 20$ では $1$ だが exact に $1$ ではない(**便 50 F3.1 提供**) |
+
+> **★ 便 49 F4.1 の要点は「L2 と L3 を同じ欄に潰していた」ことである。** witness $t_{20}=11$ はちょうど **L2 を満たし L3 を満たさない**点であり、しかも **$b_{\rm cmp}$ も $b_{\rm op}$ も $1$ になるので $b$ の測定にも帳簿にも映らない**(§3.5.1b の negative fixture)。**seal の equality level($=2M$)と、定理が見る modulus($=M$)を同じ欄に潰してはならない。**
+>
+> **★ L3 $\nRightarrow$ L4 の witness の役割**: これは **(Z$_{2M}$-link) を凍結しても exact $\varepsilon=1$ は戻らない**ことの具体例であり、**`Z20-link-seal/v1` を (Z-norm) の「一部凍結」と呼んではならない**(便 49 F6.5)理由を数学的に裏づける。
+
+### 3.5.1b 【v2.3 新設】negative regression fixture(便 50 F4.2 / T-15 の full-tuple 形)
+
+> **⚠ v2.2 の書き方の欠陥(自認・便 50 F4.2)**: v2.2 は (d′) を「$t_{20}=11$ ならば $b_{\rm cmp}=b_{\rm op}=1$」という**普遍含意**のように読める形で書いた。**$t_{20}=11$ だけからは $b_{\rm cmp}=1$ は出ない** — $\varepsilon\equiv t_{20}^{-1}\ (20)$(= TB4-3)の束縛が要る。**反例の全自由変数を束縛した fixture として保存する**(★教材 T12)。**checker の実装(`e = inv(t2bad,20)`)は初めからこの正しい読みだった**ので、修理は文書側だけである。
+
+> ### negative regression fixture `NF-root-link/K5`
+> $$ \boxed{\ \bigl(M,\ t_{20},\ \bar t_{10},\ \varepsilon,\ b_{\rm cmp},\ b_{\rm op},\ \text{Z20-link}\bigr)\ =\ \bigl(10,\ 11,\ 1,\ 11,\ 1,\ 1,\ \textbf{false}\bigr)\ } \tag{3.8} $$
+> **束縛の出所**: $\varepsilon=11$ は TB4-3($\varepsilon\equiv t_{20}^{-1}$、$11^{-1}\equiv11\bmod20$)。$b_{\rm cmp}=\varepsilon^{-1}\equiv1\ (10)$、$b_{\rm op}=b_{\rm cmp}\bar t_{10}^{-1}=1$(命題 TB4-D)。
+> **主張**: $$ \boxed{\ \text{「}b\ \text{が }1\ \text{だから root object も一致する」は }b_{\rm cmp},\ b_{\rm op}\ \textbf{のどちらで読んでも偽}.\ } $$
+> **(便 50 F4.1 が独立再計算で一致・T-15 で採用。)**
+
+> ### 同型 fixture `NF-root-link/K3`(便 50 F4.3)
+> $$ \bigl(M,\ t_{12},\ \bar t_6\bigr)=\bigl(6,\ 7,\ 1\bigr),\qquad \ker\bigl((\mathbb Z/12)^\times\to(\mathbb Z/6)^\times\bigr)=\{1,7\} $$
+> **これは $K^{(3)}$ の既存判定を反転させる主張ではない** — **level $12$ の equality を level $6$ の指数から復元してはならない**という**型警告**である(便 50 F4.3)。
 
 ### 3.5.2 **$b_{\rm op}=1$ は (Z20-link) を要さない**(v2.1 の主たる新結果)
 
@@ -340,7 +390,15 @@ $$ c_\Lambda\,m\bigl(\zeta_M^{\rm Rule1}\bigr)\,c_\Lambda^{-1}\ =\ \tau\bigl(\ze
 
 ### 3.5.3 Rule 1 (7.1) の測定値 $\hat b_i$ はどちらか(裁定 55 依頼 2)
 
-> ### 判定: $\ \boxed{\hat b_i\ =\ b_{\rm op}}\ $ — **断定できる**($B_{\rm FC}$ 著者の見立てを支持)。
+> ### 判定: $\ \boxed{\hat b_i\ =\ b_{\rm op}}\ $ — **断定できる**($B_{\rm FC}$ 著者の見立てを支持・便 49 F4.3 で確定)。
+>
+> **前件(named antecedents)【v2.3・便 50 F2.2 で statement 直下へ掲示】**
+> **(B-i)** $c_i=c_\Lambda$ — Rule 1 §4.3 / 系 B-4c の **actual intertwiner**(同じ source/target・同じ $\hat F_2$-同変性)。
+> **(B-ii)** $\ell_i$ は **Rule 1 §1.1 の同じ** $x=[\gamma_0]$ が $\mathrm{Fib}_{\vec{01}}(W_0^{(i)})$ に誘導する作用である(**別の local generator の再定義ではない** — §8.9 の条文要請)。
+> **(B-iii)** (7.1) 右辺の $\zeta_{10}$ は **Rule 1 field generator $\zeta_{20}^{\rm Rule1}$ の冪**((1.7))であり、(TB2) の根系ではない。
+> **(B-iv)** $\tau_i$ は **Rule 1 (1.8) の marking** $\zeta_M^{\rm Rule1}\mapsto X$。
+>
+> **⚠ v2.2 の欠陥(自認・便 50 F2.2)**: 導出本文には (B-i)–(B-iv) を書いていたが、**statement 自体に前件欄がなかった**。**数学核の穴ではないが、TB4-E と同型の「証明本文にはあるが statement から落ちる」事故を残す**(★教材 T9)。
 
 **導出.** Rule 1 (7.1) は $c_i\,\ell_i\,c_i^{-1}=\tau_i\bigl(\zeta_{10}^{\,\hat b_i}\bigr)$ である。三つの記号の型を一つずつ辿る。
 
@@ -499,7 +557,7 @@ $K^{(3)}$ 回帰は $M=6$、$K=\mathbb Q(\zeta_{12})$、$6\nmid20$、$\zeta_6\no
 
 **本稿の証明は閉形式であり、機械計算に依存しない。** 以下は取り違え検出のための補助検査である。
 
-`scratchpad/tb4-monodromy-check.mjs`(node・**リポジトリ外**・**33/33 PASS**):
+`scratchpad/tb4-monodromy-check.mjs`(node・**リポジトリ外**・**34/34 PASS**):
 
 | 検査 | 内容 | 型 | 検証対象 |
 |---|---|---|---|
@@ -508,6 +566,7 @@ $K^{(3)}$ 回帰は $M=6$、$K=\mathbb Q(\zeta_{12})$、$6\nmid20$、$\zeta_6\no
 | **3** | 時計回りで標識が $0\mapsto n-1$($n=5,10,20$) | 浮動小数点 | §6 経路 1–3, 6 の符号敏感性 |
 | **4** | **【v2 追加】root-object ずれ $t\in(\mathbb Z/20)^\times$ の 8 元すべてで $\varepsilon\equiv t^{-1}\ (20)$・$b_{\rm cmp}\equiv t\ (10)$。$t=3\Rightarrow\varepsilon\equiv7,\ b_{\rm cmp}=3$** | **整数演算のみ** | **便 48 F7.2 countermodel の独立再現**(§3.4)$+$ 一般形 (3.3) の発見 |
 | **5** | **【v2.1 追加・v2.2 で型修理・`TB4-b-dictionary/v1` の invariant 4 本】(a) $b_{\rm op}=b_{\rm cmp}\cdot\bar t_M^{-1}$ を **$\varepsilon,t_{2M}$ 任意の 64 対**で(TB4-3 を仮定しない)/ (b) TB4-3 下で $b_{\rm cmp}\equiv\bar t_M$・**$b_{\rm op}\equiv1$(全 $t_{2M}$)** / (c) `Z2M_link` $\Rightarrow t_{2M}=1$ / **(d) NEGATIVE fixture: $\bar t_M=1\nRightarrow$ `Z2M_link`($M=10,\ t_{20}=11$)**+**(d′) その fixture で $b_{\rm cmp}=b_{\rm op}=1$** | **整数演算のみ** | **命題 TB4-D / D′ / E**(§3.5)・**§3.5.1 の型分離**(便 49 F10.1) |
+| **5(d)(d′)(e)** | **【v2.3 で full-tuple 化】(d) `NF-root-link/K5`$=(M,t_{20},\bar t_{10},\varepsilon,b_{\rm cmp},b_{\rm op},\text{link})=(10,11,1,11,1,1,\textbf{false})$ を**タプル一致**で検査($\varepsilon$ は TB4-3 で束縛 — 普遍含意ではない)/ (d′) 同 fixture で $b_{\rm cmp}=b_{\rm op}=1$ かつ link$=$false / **(e) `NF-root-link/K3`$=(6,7,1)$**($\ker((\mathbb Z/12)^\times\to(\mathbb Z/6)^\times)=\{1,7\}$)| **整数演算のみ** | **§3.5.1b**(便 50 F4.2 / T-15)。**実計算は v2.2 から不変・表示のみ同期** |
 | **6** | **【v2.2 追加・3 項目】single-axis regression set の二分割: **finite operational orientation suite**(7 経路・期待 **6 detected / 1 root-link blind**)/ **profinite root-normalization suite**(経路 5・期待 **out-of-scope**)/ 母数 8 での数え(**6/8 可視・2/8 不可視 — 「7/8」は偽**) | **整数演算のみ** | **§3.5.4 の検出表**(便 49 F4.5・F10.2)。**⚠ 数えを検査するだけで網羅性は検査していない** |
 
 **入力**: すべて一般の玩具データ($u,c_i$ は任意の小整数)と整数。**$K^{(5)}$ の個別モデル候補・係数・数値近似・database・$\lambda$・$u$・$c$ には一切接触していない。** 探索コマンドは実行していない。上記以外の機械計算は行っていない。
@@ -604,7 +663,19 @@ TB4-b-dictionary/v1
   b_dictionary_proof_id                        # 命題 TB4-D
   b_value_i = b_op_value                       # Rule 1 (7.1) の測定値(F4.3 で確定)
   b_semantics = "op"                           # 固定値。既定値への fallback 禁止
+  # ---- v2.3・便 50 F8.2 で追加 ----
+  root_normalization_level = none | mod_M | level_2M | profinite
 ```
+
+**`root_normalization_level` に許される結論(§3.5.1a の四段と 1:1)【v2.3・F8.2 採用】**:
+```text
+none       -> b_op = 1 only          # 命題 TB4-E(root-link-free)          = L1
+mod_M      -> b_cmp = 1              # t̄_M = 1                             = L2
+level_2M   -> epsilon = 1 mod 2M     # (Z_{2M}-link): t_{2M} = 1・定理 TB4-A20 = L3
+profinite  -> epsilon = 1            # (Z-norm)・定理 TB4-B                  = L4
+```
+
+> **★ この enum の効き目**: **四段のはしごを prose ではなく schema に載せることで、L2 と L3 の同欄圧潰を機械が拒否できる**(便 50 F8.2)。`mod_M` を宣言した record が $\varepsilon\equiv1\ (2M)$ を主張したら fail-closed で止まる — **v2.2 の blocker と同型の事故が二度と通らない。**
 
 **checker invariant(検査 5)**:
 ```text
@@ -640,9 +711,12 @@ $$ \boxed{\ \textbf{定理があることは、実装がその定理の規約を
 
 ### 8.9 【v2.2 新設】Rule 1 v1.4 への条文要請(便 49 F6.6)
 
-$\hat b_i=b_{\rm op}$ の根拠は「$\ell_i$ と $x=\gamma_0$ が**同じ底 $U$ の $0$-loop の fiber action**である」ことである。**この同一性を Rule 1 v1.4 の条文に明記されたい** — さもないと ★教材 T5 の言う「同じ glyph」に戻り、次の版で再び typed equality が失われる。
+$\hat b_i=b_{\rm op}$ の根拠は (B-ii)、すなわち「$\ell_i$ と $x=[\gamma_0]$ が**同じ対象**である」ことである。**この同一性を Rule 1 v1.4 の条文に明記されたい** — さもないと ★教材 T5 の言う「同じ glyph」に戻り、次の版で再び typed equality が失われる。
 
-> **Rule 1 §7.1 追記案**: 「$\ell_i$ の $\gamma_0$ は **§1.1 で定めた $\gamma_0$ と同一の対象**である($\lambda$ の値域が $U$ の座標 $\beta$-線であることによる)。**別個に定義し直してはならない。**」
+> **⚠ v2.2 の条文案の欠陥(自認・便 50 F5-4)**: v2.2 案「$\lambda$ の値域が $U$ の座標 $\beta$-線であることによる」は**意図は読めるが、map・base・接基点を一つの typed equality にしていない**。**★教材 T5 に耐えない。** 便 50 の推奨文へ差し替える。
+
+> **Rule 1 §7.1 追記案(v2.3・便 50 F5-4 の型)**:
+> 「Rule 1 §1.1 の底を $U_\lambda=\mathbf P^1_\lambda\smallsetminus\{0,1,\infty\}$ と書き、TB4/$B_{\rm FC}$ の $U_\beta$ と**座標同型 $\beta=\lambda$ により、接基点 $\vec{01}$・標準向き・ループ $\gamma_0$ を保って同一視する**。§7.1 の $\ell_i$ は、この**同じ** $x=[\gamma_0]$ が $\mathrm{Fib}_{\vec{01}}(W_0^{(i)})$ に誘導する permutation であり、**別の local generator を再定義したものではない**。」
 
 ### 8.10 Sol への突合依頼(**v2.2 の新規部分のみ**)
 
@@ -704,6 +778,16 @@ $\hat b_i=b_{\rm op}$ の根拠は「$\ell_i$ と $x=\gamma_0$ が**同じ底 $U
 > **⇒ 自認の重み**: $\ker\bigl((\mathbb Z/20)^\times\to(\mathbb Z/10)^\times\bigr)=\{1,11\}$ は **Rule 1 §1.6 が「$b_i$ とは別の項目であり混同しない」と名指しで警告していた**。私は**正典が警告している当の落とし穴に、その警告文を読んだ上で落ちた**。★教材 T1 が言う「凍結文どうしを突き合わせよ」は、**警告文にも適用しなければならない**。
 > **⇒ 検出法**: 「$X\bmod m$ が $1$」から「$X$ が $1$」を結論していないか、**射影の核が自明かを毎回明示せよ**。
 
+> ### ★教材 T11(**v2.3 新設**・便 50 F7-5): **「無条件」は空の前件を意味する**
+> 「**root-link を使わない**」と「**何も仮定しない**」は別である。命題 TB4-E は前者であって後者ではない((E-i)–(E-iv) に相対的)。
+> **⇒ 語の規律**: 定理を「無条件」と呼んでよいのは前件表が空のときだけ。**「$X$ を使わない」と言いたいときは「$X$-free(ただし $\{$前件$\}$ に相対的)」と書く。** 本稿は該当箇所を全置換した(V24)。
+> **⇒ ★教材 T2 の系**: 規約表の「対の整合の相手」欄が空でも、それは「無条件」ではなく「**その軸について**自由」にすぎない。
+
+> ### ★教材 T12(**v2.3 新設**・便 50 F7-3): **negative fixture は入力 1 個ではなく反例の全自由変数を束縛する**
+> $t_{20}=11$ **だけ**では $b_{\rm cmp}=1$ は出ない — $\varepsilon=11$(TB4-3 による束縛)と link$=$false を含めて初めて (d′) になる。
+> **⇒ 事故の型**: 反例を「入力 1 個 $\Rightarrow$ 出力」の**普遍含意**の形で書くと、**実際には成り立たない含意を主張してしまう**(本稿 v2.2 がそう書いた)。**⇒ negative fixture は必ずタプル全体+導出 proof-ID で保存し、checker もタプル一致で検査する。**
+> **★ 自己観察**: 今回**実装(checker)は初めから正しい読み($\varepsilon$ を `inv(t2bad,20)` で束縛)で、文書だけが緩い含意形になっていた。** ★教材 T9 の逆向きの事故 — **「証明本文にはあるが statement から落ちる」だけでなく、「実装にはあるが文書が緩い」も起きる。**
+
 > ### ★教材 T9(**v2.2 新設**・便 49 F9-2): **proof が named object を呼んだら、theorem statement の前件表にも出す**
 > 命題 TB4-E の最終行が正しくても、**$c_\Lambda$ の出所を前件から落とせば theorem gate は閉じない**。付録 A の一覧に載っていることは前件掲示の代替にならない。
 > **⇒ 逆向きの非対称性**: **前件を強く置きすぎるのは偽ではない**(TB4-E に A1 を載せていたのは無害)が、**使う前件を落とすのは許されない**。**⇒ 定理を書き終えたら、証明の各行が呼ぶ named object を機械的に拾って前件表と差分を取る。**
@@ -747,6 +831,9 @@ $\hat b_i=b_{\rm op}$ の根拠は「$\ell_i$ と $x=\gamma_0$ が**同じ底 $U
 | **TB4-E** | **$b_{\rm op}=1$ は (Z$_{2M}$-link) を要さない** | **(E-i)(E-ii)(E-iii)(E-iv)**(§3.5.2・**$c_\Lambda$ の出所を補填**) | 検査 5(b)(c) | **便 49 F4.4: 証明核 PASS / 定理文は v2.2 で修理** |
 | **判定** | **$\hat b_i$(Rule 1 (7.1) の測定値)$=b_{\rm op}$** | §3.5.3 の (a)(b)(c) | 検査 5・6 | **便 49 F4.3 で確定**(`b_value_i`$=b_{\rm op}$・`b_semantics="op"`) |
 | **検出表** | finite suite **6 detected / 1 root-link blind**、profinite suite **out-of-scope** | — | **検査 6** | **v2.2**(便 49 F4.5 の FAIL を受諾。**網羅性は未検査**) |
+| **はしご L1–L4** | 条件鎖 (3.6) / 結論鎖 (3.7)・**L4⇒L3⇒L2⇒L1**・逆は witness 3 本で偽 | 共通 package(D/E/TB4-3) | 検査 5(b)(d) | **便 50 F3.1 で骨格 PASS / 表示は v2.3 で修文** |
+| **`NF-root-link/K5`** | full tuple $(10,11,1,11,1,1,\textbf{false})$ — 「$b=1$ だから根も一致」は**どちらの $b$ でも偽** | TB4-D + TB4-3 | **検査 5(d)(d′)** | **便 50 F4.1 で PASS**(独立再計算一致・T-15 で採用) |
+| **`NF-root-link/K3`** | $(6,7,1)$・$\ker\bigl((\mathbb Z/12)^\times\to(\mathbb Z/6)^\times\bigr)=\{1,7\}$ | — | **検査 5(e)** | **便 50 F4.3 で PASS**(型警告であって K3 判定の反転ではない) |
 | ~~「8 中 7 可視」~~ | ~~盲点は root-object の 1 本だけ~~ | — | — | **v2.2 で撤回**(便 49 F4.5) |
 | ~~「(Z20-link)$\iff t=1$」~~ | ~~$t\in(\mathbb Z/M)^\times$~~ | — | — | **v2.2 で撤回**(便 49 F4.1 blocker) |
 | ~~TB4-D「定義だけから従う」~~ | — | — | — | **v2.2 で撤回**(便 49 F4.2) |

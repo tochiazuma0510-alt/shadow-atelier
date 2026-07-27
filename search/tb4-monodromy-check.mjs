@@ -180,16 +180,28 @@ console.log('\n検査 5: TB4-b-dictionary/v1 invariant(便 49 F10.1・整数演�
   const Z2Mlink = (t2) => t2 === 1;
   chk('(c) Z2M_link ⟹ t_2M = 1', units20.every((t2) => !Z2Mlink(t2) || t2 === 1));
 
-  // (d) ★ negative fixture: root_twist_mod_M = 1 !=> Z2M_link_pass  (M=10, t_20=11)
-  const t2bad = 11;
-  chk('(d) NEGATIVE: t̄_M=1 だが Z2M_link は偽(M=10, t_20=11)',
-      t2bad % M === 1 && !Z2Mlink(t2bad),
-      `t_20=11: ζ_20^T=(ζ_20^R)^11 ≠ ζ_20^R だが ζ_10^T=ζ_10^R`);
-  // 同じ fixture で b_op も b_cmp も 1 になる = b の測定では link 破れが見えない
+  // (d)(d′) ★ negative regression fixture `NF-root-link/K5`(便 50 F4.2 / T-15 の full-tuple 形)
+  // 普遍含意「t_20=11 => b=1」ではない。ε は TB4-3 (ε ≡ t_20^{-1} mod 20) で束縛される。
+  // 全自由変数: (M, t_20, t̄_10, ε, b_cmp, b_op, Z20-link)
   {
-    const e = inv(t2bad, M2), tb = t2bad % M;
-    chk('(d′) その fixture で b_cmp = b_op = 1(測定では link 破れが不可視)',
-        inv(e % M, M) === 1 && inv((tb * e) % M, M) === 1);
+    const t20 = 11;
+    const eps = inv(t20, M2);                  // ← TB4-3 の束縛(普遍含意ではない)
+    const tb = t20 % M;
+    const bcmp = inv(eps % M, M);
+    const bop = inv((tb * eps) % M, M);
+    const link = Z2Mlink(t20);
+    const tuple = [M, t20, tb, eps, bcmp, bop, link];
+    chk('(d) NF-root-link/K5 = (M,t_20,t̄_10,ε,b_cmp,b_op,link) = (10,11,1,11,1,1,false)',
+        JSON.stringify(tuple) === JSON.stringify([10, 11, 1, 11, 1, 1, false]),
+        `実測 = (${tuple.join(',')})`);
+    chk("(d′) 同 fixture で b_cmp = b_op = 1 かつ link = false(どちらの b でも link は戻らない)",
+        bcmp === 1 && bop === 1 && link === false);
+  }
+  // 同型 fixture NF-root-link/K3: level 12 の equality を level 6 の指数から復元しない(型警告)
+  {
+    const M3 = 6, M3x2 = 12, t12 = 7;
+    chk('(e) NF-root-link/K3 = (M,t_12,t̄_6) = (6,7,1)・ker((Z/12)^×→(Z/6)^×)={1,7}',
+        t12 % M3 === 1 && t12 !== 1 && (M3x2 / M3) === 2);
   }
 }
 
