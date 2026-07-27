@@ -41,11 +41,35 @@ import { readFileSync } from 'node:fs';
 import { Q as RingQ, polyPowMod, polyEqConst, cyclotomicPolynomialAscending } from './cyclo-ring-lib.mjs';
 
 function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
+// --- 司令塔追加委嘱(裁定41 対応中・便40 F1.2 の水準を横展開): u-compare 系
+// と同じ strict rational literal grammar(全文一致・符号付き整数 or 分子/
+// 分母一組だけ・分母 0 拒否・d>0 invariant)。malformed rational は
+// RationalFormatError を throw し、末尾の実行ブロックの catch が structured
+// INTEGRITY_STOP に変換する。
+// **司令塔独自攻撃(裁定41続報)修理**: trim を廃止し、入力文字列そのままが
+// 正規表現に一致することを要求する(先頭/末尾空白混入は拒否)。 ---
+class RationalFormatError extends Error {}
+const RATIONAL_LITERAL_RE = /^([+-]?\d+)(?:\/([+-]?\d+))?$/;
 function parseRatMaybeNumber(x) {
   if (typeof x === 'number') { return ratFromNumber(x); }
-  const s = String(x).trim();
-  if (s.includes('/')) { const [a, b] = s.split('/'); return norm(BigInt(a), BigInt(b)); }
-  return norm(BigInt(s), 1n);
+  const s = String(x);
+  const m = RATIONAL_LITERAL_RE.exec(s);
+  if (!m) {
+    throw new RationalFormatError(
+      `malformed rational literal ${JSON.stringify(x)}: must match ^[+-]?\\d+(/[+-]?\\d+)?$ ` +
+      `(signed integer, or exactly one numerator/denominator pair)`
+    );
+  }
+  const nRaw = BigInt(m[1]);
+  const dRaw = m[2] !== undefined ? BigInt(m[2]) : 1n;
+  if (dRaw === 0n) {
+    throw new RationalFormatError(`malformed rational literal ${JSON.stringify(x)}: denominator is zero`);
+  }
+  const r = norm(nRaw, dRaw);
+  if (r.d <= 0n) {
+    throw new RationalFormatError(`internal invariant violated: reduced denominator is not positive for ${JSON.stringify(x)} (n=${r.n}, d=${r.d})`);
+  }
+  return r;
 }
 function ratFromNumber(x) {
   if (!Number.isInteger(x)) throw new Error('non-integer JSON number encountered for w (unexpected for this fixture)');
@@ -188,7 +212,12 @@ function checkMinimalityObstructions(cert, w, M, n) {
 
 // 便 34 P6-K1: witness^M = w^ord を独立の円分多項式環演算で厳密に再検算する
 // (crosscheck/cyclo-ring-lib.mjs、GAP の AlgebraicExtension/Factors は不使用)。
-function checkWitnessEquation(cert, w, ord, n) {
+// 司令塔追加委嘱での execution-block リファクタ(グローバル const M を
+// runCheckKummer() のローカルへ移したことに伴う修理): 旧版はここで `M` を
+// 呼び出し元スコープのグローバル変数として暗黙参照していた(定義時は
+// たまたま動いていたが、関数の外から見える保証のない結合だった)。M を
+// 明示引数化する。
+function checkWitnessEquation(cert, w, ord, n, M) {
   const coeffsRaw = cert.witness_coeffs_basis_powers_of_root;
   if (!coeffsRaw) return { checked: false, reason: 'witness_coeffs_basis_powers_of_root missing from certificate' };
   const coeffs = coeffsRaw.map((s) => { const r = parseRatMaybeNumber(s); return new RingQ(r.n, r.d); });
@@ -207,6 +236,22 @@ if (!certPath) {
   process.exit(2);
 }
 const cert = JSON.parse(readFileSync(certPath, 'utf8'));
+// 司令塔追加委嘱: malformed rational は structured INTEGRITY_STOP に変換する
+// (u-compare 系と同水準 -- 生の例外/stack trace を吐いて終わらない)。
+try {
+  runCheckKummer(cert, certPath);
+} catch (e) {
+  if (e instanceof RationalFormatError) {
+    console.log(JSON.stringify({
+      schema: 'check-kummer/v2', certPath, result: 'INTEGRITY_STOP',
+      reason: `(strict rational parser) ${e.message}`,
+    }, null, 2));
+    process.exit(1);
+  }
+  throw e;
+}
+
+function runCheckKummer(cert, certPath) {
 const w = parseRatMaybeNumber(cert.w);
 const M = BigInt(cert.M);
 const n = cert.field_n;
@@ -267,7 +312,7 @@ if (!obstructionsOk) {
 }
 
 // witness^M = w^ord の独立再検算(円分体の環演算)
-const witnessCheck = checkWitnessEquation(cert, w, BigInt(cert.ord), n);
+const witnessCheck = checkWitnessEquation(cert, w, BigInt(cert.ord), n, M);
 report.witness_equation_check = witnessCheck;
 if (witnessCheck.checked && !witnessCheck.match) {
   report.result = 'MISMATCH';
@@ -284,3 +329,4 @@ if (!witnessCheck.checked) {
 
 report.result = 'MATCH';
 console.log(JSON.stringify(report, null, 2));
+} // end runCheckKummer

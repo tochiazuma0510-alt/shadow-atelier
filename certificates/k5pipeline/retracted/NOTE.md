@@ -130,6 +130,32 @@ u-compare}.json` を v3 として再発行した(数値 -- `f`/`A`/`B` 係数・
 `u_pathA_ninf`/`u_pathB_ninf`・`model_digest` -- はいずれも無変更。
 canonical string に schema field を含まないため digest は不変)。
 
+**三世代の明記(裁定41/便40 F2 注・Sol 便40 F5.2 の指摘への訂正)**: 上記
+「旧 v2 raw は `P0_type,a_M,b_Mm3` を欠いた」という記述は、実際には
+**このディレクトリの 4 ファイル自体**を指してはいない。正しくは三世代
+ある:
+
+1. **original v2**(`P0_type`/`a_M`/`b_Mm3` を欠いた本来の v2 raw)。この
+   世代の実体は commit `f766ba7` 側にあり、working tree・このディレクトリ
+   のいずれにも現物としては保存されていない(旧 commit の履歴としてのみ
+   参照可能)。
+2. **mutated v2**(同じ `/v2` という schema 文字列のまま `P0_type`・`a_M`・
+   `b_Mm3` を後から必須 field として追加した中間版)。**このディレクトリの
+   4 ファイル**(`toy-ninf-M3-pathA.v2.json`・`toy-ninf-M3-pathB.v2.json`・
+   `prod-ninf-M10-pathA.v2.json`・`prod-ninf-M10-pathB.v2.json`)は、直前
+   commit `f5e4b1d` の active raw と blob 単位で一致するこの世代であり、
+   `P0_type`/`a_M`/`b_Mm3` を**既に持っている**(Sol 便40 F5.2 の指摘どおり)。
+   これらは「同じ schema 名の下で受理言語を破壊的に変更した」ことの証拠
+   として撤回・保存している。
+3. **v3**(schema 文字列自体を `u-pathA-ninf/v3`/`u-pathB-ninf/v3` へ bump
+   した正式な現行版)。現行 `certificates/k5pipeline/{toy-ninf-M3,
+   prod-ninf-M10}-{pathA,pathB}.json` がこれに当たる。
+
+すなわち本ディレクトリの 4 ファイルは世代 2(mutated v2)であって世代 1
+(original v2)ではない。「旧 v2 raw が `P0_type`/`a_M`/`b_Mm3` を欠いた」
+という撤回理由の記述は世代 1 について正しいが、それをこのディレクトリの
+4 ファイル(世代 2)の同定として読んではならない。
+
 **裁定根拠**: `sol/sol_reply_39_freeze1r8.md` F2/F4・`sol/裁定_40_ben39.md`。
 後継は `search/kummer-cov3-actual.g` /
 `crosscheck/check-kummer-cov3-actual.mjs` が生成する

@@ -20,11 +20,32 @@
 import { readFileSync } from 'node:fs';
 import { Q, polyMulMod, polyPowMod, polyAdd, polyMul, cyclotomicPolynomialAscending } from './cyclo-ring-lib.mjs';
 
+// --- 司令塔追加委嘱(裁定41 対応中・便40 F1.2 の水準を横展開): u-compare 系
+// と同じ strict rational literal grammar(全文一致・分母 0 拒否)。malformed
+// rational は RationalFormatError を throw し、末尾の実行ブロックの catch が
+// structured INTEGRITY_STOP に変換する。
+// **司令塔独自攻撃(裁定41続報)修理**: trim を廃止し、入力文字列そのままが
+// 正規表現に一致することを要求する(先頭/末尾空白混入は拒否)。 ---
+class RationalFormatError extends Error {}
+const RATIONAL_LITERAL_RE = /^([+-]?\d+)(?:\/([+-]?\d+))?$/;
 function parseRatMaybeNumber(x) {
   if (typeof x === 'number') { if (!Number.isInteger(x)) throw new Error('non-integer'); return new Q(BigInt(x)); }
-  const s = String(x).trim();
-  if (s.includes('/')) { const [a, b] = s.split('/'); return new Q(BigInt(a), BigInt(b)); }
-  return new Q(BigInt(s));
+  const s = String(x);
+  const m = RATIONAL_LITERAL_RE.exec(s);
+  if (!m) {
+    throw new RationalFormatError(
+      `malformed rational literal ${JSON.stringify(x)}: must match ^[+-]?\\d+(/[+-]?\\d+)?$ ` +
+      `(signed integer, or exactly one numerator/denominator pair)`
+    );
+  }
+  const nRaw = BigInt(m[1]);
+  const dRaw = m[2] !== undefined ? BigInt(m[2]) : 1n;
+  if (dRaw === 0n) {
+    throw new RationalFormatError(`malformed rational literal ${JSON.stringify(x)}: denominator is zero`);
+  }
+  // Q の内部実装が既約化+分母正規化(d>0)を担う(cyclo-ring-lib.mjs 側の
+  // 既存 invariant)。ここでは grammar・分母 0 拒否だけを追加で担当する。
+  return new Q(nRaw, dRaw);
 }
 
 function gcd(a, b) { a = a < 0 ? -a : a; b = b < 0 ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
@@ -68,6 +89,22 @@ if (!certPath) {
   process.exit(2);
 }
 const cert = JSON.parse(readFileSync(certPath, 'utf8'));
+// 司令塔追加委嘱: malformed rational は structured INTEGRITY_STOP に変換する
+// (u-compare 系・check-kummer.mjs と同水準)。
+try {
+  runCheckKummerCov3(cert, certPath);
+} catch (e) {
+  if (e instanceof RationalFormatError) {
+    console.log(JSON.stringify({
+      schema: 'check-kummer-cov3/v1', certPath, result: 'INTEGRITY_STOP',
+      reason: `(strict rational parser) ${e.message}`,
+    }, null, 2));
+    process.exit(1);
+  }
+  throw e;
+}
+
+function runCheckKummerCov3(cert, certPath) {
 const n = cert.field_n;
 const M = cert.M;
 const w = parseRatMaybeNumber(cert.w);
@@ -176,3 +213,4 @@ if (report.result !== 'MATCH') {
 }
 console.log(JSON.stringify(report, null, 2));
 if (report.result !== 'MATCH') process.exit(1);
+} // end runCheckKummerCov3

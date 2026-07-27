@@ -68,12 +68,34 @@ Sol 便 34 の blocker 1(R1-T0: 枝 (N) の P0=ι(P∞) 排除・Rule 1 総体�
 再編集)・本便(裁定40/便39 対応・下記 §9.8)と、編集→未同期のサイクルが
 繰り返された。この経緯自体が本節冒頭の恒久設計変更の理由である。
 
+**active blob table の一本化(裁定41/便40 F5.3・恒久設計・2026-07-27)**:
+上記の恒久設計にもかかわらず、§1–§5・§9.6・§9.7・§9.8 の複数箇所に
+「本便で編集」「現物 blob」を名乗る版表が積み重なり、便が進むたびに
+どれが current かを目で追う必要がある構造になっていた(Sol 便40 F5.3 の
+指摘: active blob table が二重・三重)。これを構造的に絶つため、
+**唯一の active blob table を §9.9 に置く**。以下がその境界宣言である。
+
+- **§9.9 の表だけが「現在の値」を主張する。** `crosscheck/check-blob-hashes.mjs`
+  が §9.9 の表を機械的にパースし、各 path に対して実際に
+  `git hash-object <path>` を実行して値を自動照合する(便が進んで
+  ファイルを編集したら §9.9 を更新し、このチェッカーを再実行して確認する
+  運用)。
+- **§1–§5・§9.6・§9.7・§9.8 に残る blob hash の言及は、すべて「その値を
+  記録した時点(記録当時)の観測」という履歴注記であり、現在の値を主張
+  しない。** これらの節に以前あった「現物 blob」という表現は本便で
+  「記録当時の値(§9.9 参照)」へ書き換えた(F5.3 指摘のとおり、二実装に
+  同一値が付くような誤記も含めて Appendix A 側で別途修理済み)。
+- 本節より前の「commit 状態の正本宣言」(commit ID を主張しない・
+  `git log`/`git status`/`git diff` を見よ)は変更しない。今回変更したのは
+  「blob hash 自体の**現在値**をどこで読むか」という一点であり、
+  commit 状態の扱いとは別軸である。
+
 ## 1. library ファイル(凍結対象)
 
 | # | ファイル | 役割 | blob hash (`git hash-object`, 2026-07-27) |
 |---|---|---|---|
-| 1 | `search/u-extract-pathA.g` | 経路 A library(GAP・K[[t]] 冪級数・Hensel/Newton 持ち上げ・model_digest 計算。**便 36 で R-5 追加。裁定37対応で schema v2 へ production 化。便37(裁定38 対応)で main-path schema を v3 へ上げ branch/P0_type 分離**) | ~~`c9cb0e4ed22f76c827c9e85d94c51cdedc8b6007`(裁定37対応・記録当時)~~ → **§9.6 参照(現物 blob `6e30fd91897d4a91455bfc4d0449a281f7073bfa`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`・本便で無変更)** |
-| 2 | `crosscheck/u-extract-pathB-lib.mjs` | 経路 B library(node・多項式係数評価・Taylor 係数のみ・級数不使用・model_digest 計算。**便 36 で R-5 追加。裁定37対応で schema v2 へ production 化+ `loadModel` の R-8/I-m fail-closed 修理。便37(裁定38対応)で main-path schema v3 へ**) | ~~`7829b582ff4f71af35995ef54970ee39f3754588`(裁定37対応・記録当時)~~ → **§9.6 参照(現物 blob `7b7263498a96e0431eca940b2bc57520d5852a08`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`・本便で無変更)** |
+| 1 | `search/u-extract-pathA.g` | 経路 A library(GAP・K[[t]] 冪級数・Hensel/Newton 持ち上げ・model_digest 計算。**便 36 で R-5 追加。裁定37対応で schema v2 へ production 化。便37(裁定38 対応)で main-path schema を v3 へ上げ branch/P0_type 分離**) | ~~`c9cb0e4ed22f76c827c9e85d94c51cdedc8b6007`(裁定37対応・記録当時)~~ → **§9.6 参照(記録当時の値(§9.9 参照)`6e30fd91897d4a91455bfc4d0449a281f7073bfa`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`・本便で無変更)** |
+| 2 | `crosscheck/u-extract-pathB-lib.mjs` | 経路 B library(node・多項式係数評価・Taylor 係数のみ・級数不使用・model_digest 計算。**便 36 で R-5 追加。裁定37対応で schema v2 へ production 化+ `loadModel` の R-8/I-m fail-closed 修理。便37(裁定38対応)で main-path schema v3 へ**) | ~~`7829b582ff4f71af35995ef54970ee39f3754588`(裁定37対応・記録当時)~~ → **§9.6 参照(記録当時の値(§9.9 参照)`7b7263498a96e0431eca940b2bc57520d5852a08`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`・本便で無変更)** |
 | 3 | `search/kummer-decide.g` | exact Kummer 判定器 library(GAP・`AlgebraicExtension` 上 `Factors`・minimality obstruction 収集。**`KummerCovariance3Check` は便 36 で撤回(dead code として残置・呼び出し停止 — 下記 §9 参照)**) | `47d49f97ec53c3b3e342434ab058663861ffd5e3`(便36) |
 | 12 | `search/kummer-cov3-actual.g`(**便 36 新設**) | 第三 covariance 後継 library+driver(rho_0/tau/j の実値 covariance のみ・射程限定を明記 — 下記 §9) | `32f800a3edf2fd1e2bf46c8d0377ff37c9c99e07` |
 
@@ -87,25 +109,25 @@ Sol 便 34 の blocker 1(R1-T0: 枝 (N) の P0=ι(P∞) 排除・Rule 1 総体�
 | 4 | `search/u-extract-pathA-k3-driver.g` | 経路 A・K3 較正 driver(model literal・実行・QUIT) | `99875a3bcbae08825217e83aef55ee46c22d3778`(記録当時 commit `3b4e9dc801a3794ce9a0515a3b5be5d2b243b1fd`・便36 実測) |
 | 5 | `crosscheck/u-extract-pathB-k3-driver.mjs` | 経路 B・K3 較正 driver | `979a227866bc70f02e408765b98172a8f7708223`(記録当時 commit `3b4e9dc801a3794ce9a0515a3b5be5d2b243b1fd`・便36 実測) |
 | 6 | `search/kummer-decide-k3-driver.g` | Kummer 判定器・K3 較正 driver(RunK3Calibration。**便 36 で covariance-3 呼び出しを削除 — 下記 §9**) | `d7f1b9a436a6340e0a2136945e5c6295295c0318`(便36) |
-| 13 | `search/u-extract-pathA-ninf-toy-driver.g`(便 36 新設・R-5) | 経路 A∞・(N∞) **library unit test**(M=3・schema v2・chat=1 の passing fixture に更新 — 裁定 37 条件 1。**R-5 の production 較正ではない**、位置づけはファイル内コメントに明記) | ~~`bce1f65d54957020795246d5fad04f10b0328905`(裁定37対応・記録当時)~~ → **§9.6 参照(現物 blob `6e08cfc7211c0b0b1fe0659ff0dedcbb261c8d9b`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)** |
-| 14 | `crosscheck/u-extract-pathB-ninf-toy-driver.mjs`(便 36 新設・R-5) | 経路 B-iii・(N∞) **library unit test**(同上・SYNTHETIC・M=3・chat=1) | ~~`70c37e29561ad2ceaa6385207723bf122510e3b2`(裁定37対応・記録当時)~~ → **§9.6 参照(現物 blob `85b65ab876a0bd8ec40c2ab2c8733fdefcc9b898`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)** |
-| 17 | `search/u-extract-pathA-ninf-production-driver.g`(**裁定37新設・R-5**) | 経路 A∞・(N∞) **production 較正 driver**(M=10・Sol 提供 exact synthetic fixture・$p,a,f$ から $A,B$ をその場で導出・SYNTHETIC) | ~~`01f6ba4058214549910be1c79ec06bdb9d99afee`(記録当時)~~ → **§9.6 参照(現物 blob `a33b52a2fc289f0e9d5e22c06ffbd1e6f1c6a8d1`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)** |
-| 18 | `crosscheck/u-extract-pathB-ninf-production-driver.mjs`(**裁定37新設・R-5**) | 経路 B-iii・(N∞) **production 較正 driver**(同上・独立実装・SYNTHETIC) | ~~`d11093038fe4b0a37d98cc62b5944e9186839413`(記録当時)~~ → **§9.6 参照(現物 blob `99e160cc2d278f9ebabda18542d4f4cf5be7618d`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)** |
+| 13 | `search/u-extract-pathA-ninf-toy-driver.g`(便 36 新設・R-5) | 経路 A∞・(N∞) **library unit test**(M=3・schema v2・chat=1 の passing fixture に更新 — 裁定 37 条件 1。**R-5 の production 較正ではない**、位置づけはファイル内コメントに明記) | ~~`bce1f65d54957020795246d5fad04f10b0328905`(裁定37対応・記録当時)~~ → **§9.6 参照(記録当時の値(§9.9 参照)`6e08cfc7211c0b0b1fe0659ff0dedcbb261c8d9b`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)** |
+| 14 | `crosscheck/u-extract-pathB-ninf-toy-driver.mjs`(便 36 新設・R-5) | 経路 B-iii・(N∞) **library unit test**(同上・SYNTHETIC・M=3・chat=1) | ~~`70c37e29561ad2ceaa6385207723bf122510e3b2`(裁定37対応・記録当時)~~ → **§9.6 参照(記録当時の値(§9.9 参照)`85b65ab876a0bd8ec40c2ab2c8733fdefcc9b898`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)** |
+| 17 | `search/u-extract-pathA-ninf-production-driver.g`(**裁定37新設・R-5**) | 経路 A∞・(N∞) **production 較正 driver**(M=10・Sol 提供 exact synthetic fixture・$p,a,f$ から $A,B$ をその場で導出・SYNTHETIC) | ~~`01f6ba4058214549910be1c79ec06bdb9d99afee`(記録当時)~~ → **§9.6 参照(記録当時の値(§9.9 参照)`a33b52a2fc289f0e9d5e22c06ffbd1e6f1c6a8d1`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)** |
+| 18 | `crosscheck/u-extract-pathB-ninf-production-driver.mjs`(**裁定37新設・R-5**) | 経路 B-iii・(N∞) **production 較正 driver**(同上・独立実装・SYNTHETIC) | ~~`d11093038fe4b0a37d98cc62b5944e9186839413`(記録当時)~~ → **§9.6 参照(記録当時の値(§9.9 参照)`99e160cc2d278f9ebabda18542d4f4cf5be7618d`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)** |
 
 ## 3. 第三 checker(照合器・crosscheck/)
 
 | # | ファイル | 役割 | blob hash |
 |---|---|---|---|
-| 7 | `crosscheck/u-compare.mjs` | 経路 A/B raw の第三 checker(全フィールド一致・model_digest 独立再計算・curve_residual_zero・u≠0・u^(A)=u^(B)。裁定37対応(R-7)で bundle 束縛。**裁定39/便38 F2 対応(本便)で schema gate を fail-closed 化**(schema field 必須化+pathA/pathB 方向付き exact equality)し、`compareMain()` を純関数として export(便38 F1.2 の in-process 化対応)** | ~~`aec91efababfa16dfcf46f743b0bef230e7dc871`(裁定37対応・記録当時)~~ ~~`7f623a64669615099d25d071eef8cad639df3734`(便37/裁定38 対応・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)~~ → **現物 blob `6661afbd1976b98409dac5bb6c0574be32191204`(裁定39対応・本便で編集・現在の commit 状態は git 参照)** |
+| 7 | `crosscheck/u-compare.mjs` | 経路 A/B raw の第三 checker(全フィールド一致・model_digest 独立再計算・curve_residual_zero・u≠0・u^(A)=u^(B)。裁定37対応(R-7)で bundle 束縛。**裁定39/便38 F2 対応(本便)で schema gate を fail-closed 化**(schema field 必須化+pathA/pathB 方向付き exact equality)し、`compareMain()` を純関数として export(便38 F1.2 の in-process 化対応)** | ~~`aec91efababfa16dfcf46f743b0bef230e7dc871`(裁定37対応・記録当時)~~ ~~`7f623a64669615099d25d071eef8cad639df3734`(便37/裁定38 対応・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)~~ → **記録当時の値(§9.9 参照)`6661afbd1976b98409dac5bb6c0574be32191204`(裁定39対応・本便で編集・現在の commit 状態は git 参照)** |
 | 8 | `crosscheck/check-kummer.mjs` | Kummer 判定の独立照合器(node・factorization 不使用・別アルゴリズム・minimality obstruction 独立再判定・witness 等式独立再検算) | `d8c28b5d167e7ac90046f82dacb4a28e600c198e`(記録当時 commit `3b4e9dc801a3794ce9a0515a3b5be5d2b243b1fd`・便36 実測) |
 | 9 | `crosscheck/check-kummer-cov3.mjs` | **撤回(便 36・下記 §9)**。旧第三 covariance 照合器(GaloisCyc 相当を node で独立再構成していたが、要求された Kummer character ではない)。dead code として残置・呼び出し停止 | `fdcf28cf28f43d937a0fb02c910649b4e8d198fa`(記録当時 commit `3b4e9dc801a3794ce9a0515a3b5be5d2b243b1fd`・無変更) |
 | 10 | `crosscheck/cyclo-ring-lib.mjs` | 円分多項式の環演算(共有インフラ・#8 と旧#9 が使用・GAP コードは import しない) | `4509985e3ab269342cf182bf72c4a0f358f852b1`(記録当時 commit `3b4e9dc801a3794ce9a0515a3b5be5d2b243b1fd`・便36 実測) |
 | 15 | `crosscheck/check-kummer-cov3-actual.mjs`(**便 36 新設**) | 第三 covariance 後継の独立照合器(node・rho_0/tau/j の実値のみで再構成・GAP スクリプトと非共有) | `a2dda3173c5f4bbb432e942559cd36e584569f5a` |
 | 16 | ~~`crosscheck/u-compare-ninf-toy.mjs`~~(便 36 新設・R-5) | **裁定 37 対応で `crosscheck/u-compare-ninf.mjs`(#19)に supersede・削除**(schema v2 統一・M=3/M=10 共用の第三 checker へ一本化。旧ファイルは working tree から削除済み) | — |
-| 19 | `crosscheck/u-compare-ninf.mjs`(**裁定37新設・R-5/R-7**) | 経路 A∞/B-iii の第三 checker(schema v2・M=3 unit test と M=10 production 較正の両方に使う。model_digest 相互一致+独立再計算に加え **expected_model_digest 束縛(R-7/I-l)** を fail-closed に検査。**裁定39/便38 F2 対応(本便)で schema gate を fail-closed 化**(schema/P0_type 必須化+方向付き exact equality・x0/y0 禁止・a_M/b_Mm3 必須+係数列からの独立再抽出との一致)し、`compareNinf()` を純関数として export) | ~~`4a13f49ad8756416671bb4767d07b9ea826d7058`(記録当時)~~ ~~`797dc48a652bee0c184a1deed46572257387b783`(便37/裁定38 対応・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)~~ → **現物 blob `1a1c646579618004a353ce4d32dcfe4c48589c33`(裁定39対応・本便で編集・現在の commit 状態は git 参照)** |
-| 20 | `crosscheck/check-r5-r8-ninf-fail-closed.mjs`(**裁定37新設・R-5/R-8**) | R-5((N∞-1)–(N∞-4)・gcd・I-l)と R-8(`loadModel`/`loadModelNinf` の三値 fail-closed dispatch)の adversarial 自己確認。**裁定39/便38 F2 対応(本便)で第三 checker(u-compare/u-compare-ninf)への 5 schema-gate 攻撃(schema 欠落・pathA/pathB 交換・P0_type 欠落・x0/y0 混入・a_M/b_Mm3 欠落)を追加し 29/29 PASS**(旧 18/18 から拡張) | ~~`6758fa1ec30ba28e293b9e2c3b79629f7d4837f3`(記録当時)~~ ~~`fa6ceb49e68c421314b5e38c893859cae9624ef4`(便37/裁定38 対応・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)~~ → **現物 blob `b6ec66daedf7387eacf6fd015b68beb13d0e7217`(裁定39対応・本便で編集・現在の commit 状態は git 参照)** |
-| 21 | `crosscheck/check-covariance-envelope.mjs`(**裁定37新設・条件5**) | covariance の sealed calibration envelope(便 36 F4.2 の 3 点構成: (1) K3 actual rho0/tau/j artifact を JSON として取り込み (2) b/k の型レベル covariance(e=10・悉皆 40 通り) (3) formal a=1(Rule 1 §7.2・再導出しない)+ a_eff の d-reparametrization 不変性(悉皆 4x4x4=64 通り)) | ~~`7a7dd50f4959ec0e1ca7021619cc4e19cea32167`(記録当時)~~ → **§9.6 参照(現物 blob `7bdee13dcecee6f417c5cb24364a1c3ab9b88fd5`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`・本便で無変更)** |
-| 22 | `crosscheck/check-r7-bundle-attack.mjs`(**便37/裁定38新設・R-7**) | R-7 の bundle 束縛 adversarial 較正(裁定38/便37 F2 blocker 1)。**裁定39/便38 F1.2 対応(本便)で in-process 化**: 旧版の nested `execFileSync` harness がこの管理下 Windows セッションで `EPERM` を起こしていた問題(便38 F1.2)を、`crosscheck/u-compare-ninf.mjs` の export 関数 `compareNinf()` を直接呼ぶ形へ書き換えて解消。5/5 PASS(child process 不使用) | ~~`204ecb37e023955943021856873454ead1094d89`(便37/裁定38 対応・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)~~ → **現物 blob `45ffe412ba5f5d8d0b0a1d96273d9b0aa3539c8d`(裁定39対応・本便で編集・現在の commit 状態は git 参照)** |
+| 19 | `crosscheck/u-compare-ninf.mjs`(**裁定37新設・R-5/R-7**) | 経路 A∞/B-iii の第三 checker(schema v2・M=3 unit test と M=10 production 較正の両方に使う。model_digest 相互一致+独立再計算に加え **expected_model_digest 束縛(R-7/I-l)** を fail-closed に検査。**裁定39/便38 F2 対応(本便)で schema gate を fail-closed 化**(schema/P0_type 必須化+方向付き exact equality・x0/y0 禁止・a_M/b_Mm3 必須+係数列からの独立再抽出との一致)し、`compareNinf()` を純関数として export) | ~~`4a13f49ad8756416671bb4767d07b9ea826d7058`(記録当時)~~ ~~`797dc48a652bee0c184a1deed46572257387b783`(便37/裁定38 対応・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)~~ → **記録当時の値(§9.9 参照)`1a1c646579618004a353ce4d32dcfe4c48589c33`(裁定39対応・本便で編集・現在の commit 状態は git 参照)** |
+| 20 | `crosscheck/check-r5-r8-ninf-fail-closed.mjs`(**裁定37新設・R-5/R-8**) | R-5((N∞-1)–(N∞-4)・gcd・I-l)と R-8(`loadModel`/`loadModelNinf` の三値 fail-closed dispatch)の adversarial 自己確認。**裁定39/便38 F2 対応(本便)で第三 checker(u-compare/u-compare-ninf)への 5 schema-gate 攻撃(schema 欠落・pathA/pathB 交換・P0_type 欠落・x0/y0 混入・a_M/b_Mm3 欠落)を追加し 29/29 PASS**(旧 18/18 から拡張) | ~~`6758fa1ec30ba28e293b9e2c3b79629f7d4837f3`(記録当時)~~ ~~`fa6ceb49e68c421314b5e38c893859cae9624ef4`(便37/裁定38 対応・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)~~ → **記録当時の値(§9.9 参照)`b6ec66daedf7387eacf6fd015b68beb13d0e7217`(裁定39対応・本便で編集・現在の commit 状態は git 参照)** |
+| 21 | `crosscheck/check-covariance-envelope.mjs`(**裁定37新設・条件5**) | covariance の sealed calibration envelope(便 36 F4.2 の 3 点構成: (1) K3 actual rho0/tau/j artifact を JSON として取り込み (2) b/k の型レベル covariance(e=10・悉皆 40 通り) (3) formal a=1(Rule 1 §7.2・再導出しない)+ a_eff の d-reparametrization 不変性(悉皆 4x4x4=64 通り)) | ~~`7a7dd50f4959ec0e1ca7021619cc4e19cea32167`(記録当時)~~ → **§9.6 参照(記録当時の値(§9.9 参照)`7bdee13dcecee6f417c5cb24364a1c3ab9b88fd5`・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`・本便で無変更)** |
+| 22 | `crosscheck/check-r7-bundle-attack.mjs`(**便37/裁定38新設・R-7**) | R-7 の bundle 束縛 adversarial 較正(裁定38/便37 F2 blocker 1)。**裁定39/便38 F1.2 対応(本便)で in-process 化**: 旧版の nested `execFileSync` harness がこの管理下 Windows セッションで `EPERM` を起こしていた問題(便38 F1.2)を、`crosscheck/u-compare-ninf.mjs` の export 関数 `compareNinf()` を直接呼ぶ形へ書き換えて解消。5/5 PASS(child process 不使用) | ~~`204ecb37e023955943021856873454ead1094d89`(便37/裁定38 対応・記録当時 commit `16b18a7dc05fe94ec3b48967f1adad5a8a35013c`)~~ → **記録当時の値(§9.9 参照)`45ffe412ba5f5d8d0b0a1d96273d9b0aa3539c8d`(裁定39対応・本便で編集・現在の commit 状態は git 参照)** |
 
 ## 4. fixture
 
@@ -575,14 +597,14 @@ F1.2)。本便で `crosscheck/u-compare-ninf.mjs` の中核ロジックを純関
   - `search/u-extract-pathA.g`・`crosscheck/u-extract-pathB-lib.mjs`
     (§1 #1,#2)と (N∞) toy/production driver 4 本(§2 #13,#14,#17,#18)の
     「裁定37対応・未コミット」表記(すでに commit `16b18a7`(記録当時)で commit 済み
-    だった)を取消線化し、§9.6 参照+現物 blob hash へ差し替えた。
+    だった)を取消線化し、§9.6 参照+記録当時の blob hash 値(§9.9 参照) へ差し替えた。
   - `crosscheck/u-compare.mjs`・`u-compare-ninf.mjs`・
     `check-r5-r8-ninf-fail-closed.mjs`(§3 #7,#19,#20)の旧 blob hash 2 世代
     (裁定37時点・便37/裁定38時点)を取消線化し、本便の新 blob hash へ
     更新した(いずれも本便で編集したため — 現在の commit 状態は本文書が主張せず git を参照する。以下は本便時点の観測の記録)。
   - `crosscheck/check-covariance-envelope.mjs`(§3 #21)の blob hash を
     `7a7dd50f...`(旧・裁定37時点の値、便37修理後は更新されていなかった)
-    から現物 `7bdee13d...`(記録当時 commit `16b18a7`)へ修理し、§3 に
+    から記録当時の値(§9.9 参照) `7bdee13d...`(記録当時 commit `16b18a7`)へ修理し、§3 に
     `check-r7-bundle-attack.mjs`(#22)の行を追加した。
   - §5 の `K3-regression-cov1-k2-u-compare.json` を撤回済みとして取消線化
     (実体は `retracted/K3-regression-cov1-k2-u-compare.v2.json`、旧 digest
@@ -746,3 +768,213 @@ schema v2→v3 反映・「現状」行)も同じ設計に揃えた
    ($A\to-A,B\to-B$、$(-A)^2=A^2$ を保つ)へ変更し、bundle-binding
    機構を分離して検証する当初の目的を回復した。設計からの逸脱ではなく
    意図の保存のための再設計だが、念のため報告する。
+
+---
+
+## 9.9 裁定41(便40検収)残 2 blocker の修理(2026-07-27・実装担当)
+
+**対応 blocker**: `sol/sol_reply_40_freeze1r9.md` F1.2(strict rational
+parser)・F5.3(active blob table の一本化・Appendix の commit/blob 型誤記・
+Rule 1 R-5 の v2 残存・retracted provenance の三世代区別)・F2.2(保存
+harness の修理)・裁定_41_ben40.md。
+
+### F1.2: strict rational parser(全文 grammar・分母 0 拒否)
+
+`crosscheck/u-compare.mjs`・`crosscheck/u-compare-ninf.mjs` の `parseRat` は
+旧版で分数を `str.split('/')` して `BigInt(a)`/`BigInt(b)` するだけであり、
+分母 `0` を拒否しなかった。交差積等値判定 `a.n*b.d===b.n*a.d` の下では
+`0/0` が任意の有理数と等しいと判定され、`1/0` 同士も等しいと判定される
+(Sol 便40 F1.2 の指摘・4 攻撃で実証: production (N∞) `chat="0/0"`・
+`a_M=b_Mm3="0/0"`・(N∞)/main 両方の `u="1/0"`)。修理:
+
+1. 全文一致の正規表現 `^([+-]?\d+)(?:\/([+-]?\d+))?$` を導入し、符号付き
+   整数、または分子/分母一組だけを許す(空の分子・分母・二本以上の `/`は
+   正規表現が一致せず拒否される)。
+2. マッチ後に分母 `=== 0n` を明示的に拒否する。
+3. 分母を正に正規化してから gcd 既約化し、既約化後も `d > 0` であることを
+   invariant として assert する(内部不変条件違反も `RationalFormatError`)。
+4. malformed rational は新設 `class RationalFormatError extends Error` を
+   throw し、`compareMain`/`compareNinf` の最外 `catch` がこれを捕捉して
+   `report.result = 'INTEGRITY_STOP'` に変換する(**純関数 API でも
+   structured INTEGRITY_STOP になる** -- CLI wrapper 経由でなくても、
+   import して直接呼んだ呼び出し元に生の例外を投げない)。
+
+adversarial 較正: `crosscheck/check-r5-r8-ninf-fail-closed.mjs` に Sol 便40
+F1.2 の 4 攻撃+`"1/2/3"`(二本以上の `/`)の main/(N∞) 両変種、計 6 攻撃を
+追加し、全件 `INTEGRITY_STOP` を確認(下記「全較正の再実行結果」の
+38/38 PASS の内数)。
+
+### F2.2: 保存 harness の修理(malformed-rational fixture・spawnSync 失敗の処理)
+
+`crosscheck/check-cli-fail-closed.mjs` に 2 つの独立した欠陥があった
+(Sol 便40 F2.2 の指摘)。
+
+1. **`bad-rational.json` fixture の同定不良**: 旧版は
+   `{id:'x',branch:'N_infty',M:3,chat:'not-a-number'}` という手組みの
+   最小オブジェクトであり、正当 pathB の `id="toy-ninf-M3"` と一致しない
+   ため実際の停止理由は `id mismatch` であって、有理数 parse にすら到達
+   していなかった。修理: **正当な pathA raw 全体を clone**し、狙った 1
+   field(`chat` または `u_pathA`)だけを malformed rational へ書き換える
+   fixture に置換した。CLI の stdout を実際に JSON として parse し、
+   `report.result === 'INTEGRITY_STOP' && /strict rational parser/.test(
+   report.reason)` を assert することで、目的の gate(strict rational
+   parser)に実際に到達したことを検査する(main/(N∞) 両方)。
+2. **`spawnSync` 自体の失敗で crash していた**: この管理下 Windows
+   セッションでは一部の子プロセス起動で `r.stdout` が生成されず、
+   `r.stdout.length` の無条件参照が `TypeError` になっていた(Sol の実測)。
+   修理: `safeRun()` で `r.error`/`typeof r.stdout !== 'string'` を検出し、
+   その場合は `[ENV_FAIL]` として明示的に報告する(**calibration
+   PASS/FAIL のいずれにも数えない**・crash もしない)。
+3. 加えて、この環境で `spawnSync` の EPERM が再発した場合の代替として
+   `crosscheck/check-cli-fail-closed.ps1`(新設・ASCII コメントのみ --
+   CLAUDE.md の PS1 encoding 罠を踏まないため。試作時に日本語コメント/
+   文字列を含めたところ Windows PowerShell 5.1 の `Get-Content -Raw`
+   読み取りでエンコーディングが化け、単一引用符の対応がずれて
+   `ParseException` になったため ASCII 化した -- この節に事実として
+   記録する)を新設した。`Start-Process -RedirectStandardOutput/-Error`
+   を使い、native command の `2>&1` パイプ(NativeCommandError による
+   `$ErrorActionPreference='Stop'` 下の意図しない終了)を避けている。
+   実行結果: node 版 **12/12 PASS**、PowerShell 版 **12/12 PASS**(この
+   セッションでは `spawnSync` の EPERM は再現しなかったため `ENV_FAIL` は
+   0 件)。
+
+### F5.3: active blob table の一本化・Appendix 誤記・retracted 三世代
+
+1. **単一 active blob table**: 本文書 §0 に境界宣言を追加し、以下
+   `<!-- ACTIVE-BLOB-TABLE-START/END -->` の表だけを「現在の値」の正本と
+   した。§1–§5・§9.6–§9.8 に残る blob hash 言及はすべて「記録当時」の
+   履歴注記へ書き換えた(「現物 blob」という表現を除去)。新設
+   `crosscheck/check-blob-hashes.mjs` がこの表をパースし、各 path に対し
+   実際に `git hash-object <path>` を実行して自動照合する。
+2. **Appendix A §6 の commit/blob 型誤記**: `docs/manifest_k5_appendixA_v1.md`
+   §6 の `search/k5-blocks-check.g`・`crosscheck/check-k5-blocks.mjs`・
+   `search/week4-k3-v2-repairs.mjs` の 3 行は、列名が「blob hash
+   (`git hash-object`)」でありながら実際には `git cat-file -t` で
+   `commit` object の値が転記されていた(異なる二実装に同一値が付くという
+   不自然さも Sol が指摘)。`git hash-object` を実際に再実行し、真の blob
+   hash へ置き換えた(裁定41修理として明記)。
+3. **Rule 1 R-5 行の schema v2 残存**: `docs/week4-K5_Rule1_v1.md` §11.1
+   R-5 行が「schema v2 へ更新」と記す一方、R-8 行は v3 と記しており矛盾
+   していた(Sol 便40 F5.3 の指摘)。R-5 行を、初出時点(便36)は v2 だったが
+   裁定40/便39 F2 で v3 へ破壊的 version bump 済みである旨を明記する形に
+   修理した。
+4. **retracted NOTE の三世代区別**: `certificates/k5pipeline/retracted/NOTE.md`
+   の該当節に、original v2(field 欠落・commit `f766ba7` 側)・mutated v2
+   (`P0_type`/`a_M`/`b_Mm3` を後から必須化した中間版・**このディレクトリの
+   4 ファイルはこの世代**・commit `f5e4b1d` の active raw と blob 単位で
+   一致)・v3(正式な現行版)の三世代を明記し、旧文言が誤って「このディレ
+   クトリの 4 ファイル」を original v2 と同定していた読み方を訂正した
+   (実測: 4 ファイルはいずれも `P0_type`/`a_M`/`b_Mm3` を既に持つ -- node
+   で直接確認済み)。
+
+<!-- ACTIVE-BLOB-TABLE-START -->
+
+| path | role | blob hash |
+|---|---|---|
+| `search/u-extract-pathA.g` | 経路 A library(main/N∞ 共通・schema v3) | `fa145ea0b16e7dfe5b0a7e4806aa78ec1eddd227` |
+| `crosscheck/u-extract-pathB-lib.mjs` | 経路 B library(main/N∞ 共通・schema v3。司令塔独自攻撃対応で Q.parse を strict rational grammar 化) | `43b99cfeac5c013bafa279a48f270b2eb0130c09` |
+| `search/kummer-decide.g` | exact Kummer 判定器 library | `47d49f97ec53c3b3e342434ab058663861ffd5e3` |
+| `search/kummer-cov3-actual.g` | 第三 covariance 後継 library+driver | `32f800a3edf2fd1e2bf46c8d0377ff37c9c99e07` |
+| `search/u-extract-pathA-k3-driver.g` | K3 較正 driver(経路 A) | `ae54238485ab58b235af939f876062081cb777bb` |
+| `crosscheck/u-extract-pathB-k3-driver.mjs` | K3 較正 driver(経路 B) | `979a227866bc70f02e408765b98172a8f7708223` |
+| `search/kummer-decide-k3-driver.g` | Kummer 判定器 K3 較正 driver | `d7f1b9a436a6340e0a2136945e5c6295295c0318` |
+| `search/u-extract-pathA-ninf-toy-driver.g` | (N∞) library unit test driver(経路 A∞・M=3) | `1dfa8c6fdca09131441f0530293d4938bc20d409` |
+| `crosscheck/u-extract-pathB-ninf-toy-driver.mjs` | (N∞) library unit test driver(経路 B-iii・M=3) | `ccf583bf789eccdd9dd602a98391214cd133f231` |
+| `search/u-extract-pathA-ninf-production-driver.g` | (N∞) production driver(経路 A∞・M=10) | `e989c42bcdb45f154a7edeab59c0ab5a091151fd` |
+| `crosscheck/u-extract-pathB-ninf-production-driver.mjs` | (N∞) production driver(経路 B-iii・M=10) | `c3dfc9261b35ce9d0b517cf83a5c095fd76bc0f4` |
+| `crosscheck/u-compare.mjs` | main-path 第三 checker(裁定41 F1.2: strict rational parser。司令塔独自攻撃対応で trim() 除去) | `95cea380a39ad9db9e6ee9aec0378696e5c7e34f` |
+| `crosscheck/check-kummer.mjs` | Kummer 判定の独立照合器(司令塔追加委嘱で strict rational parser 化・司令塔独自攻撃対応で trim() 除去) | `b65b2afc87d1361730a99e12c1adf3dbc21ae9aa` |
+| `crosscheck/check-kummer-cov3.mjs` | 撤回済み第三 covariance 照合器(dead code 残置。司令塔追加委嘱で strict rational parser 化・司令塔独自攻撃対応で trim() 除去) | `67447ff993d308b5806a10cdf62a381a9cfb0301` |
+| `crosscheck/check-kummer-rational-parser-fail-closed.mjs` | (新設)check-kummer.mjs/check-kummer-cov3.mjs の strict rational parser 攻撃(w="0/0"・w="1/0"・witness_coeffs="1/2/3"・trim 除去攻撃 2 件)+既存 MATCH 較正の無傷確認(11/11) | `5afdbea72f4e205405ecdae7fde5e95c1b08796d` |
+| `crosscheck/cyclo-ring-lib.mjs` | 円分多項式の環演算(共有インフラ。司令塔独自攻撃対応で Q.parse を strict rational grammar 化) | `173341a931c461087199f81c3c8c4d0906772d6f` |
+| `crosscheck/check-qparse-fail-closed.mjs` | (新設)u-extract-pathB-lib.mjs/cyclo-ring-lib.mjs の Q.parse への strict grammar 攻撃(二本以上の "/"・空白混入・空分子/分母・分母 0)+既存受理仕様(+1・非既約 2/1・1/-2)の無傷確認(30/30) | `b266e9522210615e33a42001fb0f20f6e8bf4c43` |
+| `crosscheck/check-kummer-cov3-actual.mjs` | 第三 covariance 後継の独立照合器 | `a2dda3173c5f4bbb432e942559cd36e584569f5a` |
+| `crosscheck/u-compare-ninf.mjs` | (N∞) 第三 checker(裁定41 F1.2: strict rational parser。司令塔独自攻撃対応で trim() 除去) | `75f4ab3855e4b69e6f6e2e94ac97b45155c8ee79` |
+| `crosscheck/check-r5-r8-ninf-fail-closed.mjs` | R-5/R-8 adversarial 較正(裁定41 F1.2 攻撃 6 件+司令塔独自攻撃 trim 除去 4 件追加・42/42) | `e5bdfefd14a04b6e30d336d7781fc2e583adff53` |
+| `crosscheck/check-covariance-envelope.mjs` | covariance sealed calibration envelope | `7bdee13dcecee6f417c5cb24364a1c3ab9b88fd5` |
+| `crosscheck/check-r7-bundle-attack.mjs` | R-7 bundle 束縛 adversarial 較正 | `2b9b843414e4fd3ae03c30630c726a583d5507a2` |
+| `crosscheck/check-cli-fail-closed.mjs` | CLI fail-closed adversarial 較正(裁定41 F2.2 修理) | `88ee9f4191dc729d5f48b1d0e355da25efc48a47` |
+| `crosscheck/check-cli-fail-closed.ps1` | 同上・PowerShell 外側 harness(新設・裁定41 F2.2) | `c18bbf1ba33570091039df150b1587ee1671c086` |
+| `crosscheck/build-frozen-bundles.mjs` | 独立 bundle 生成器(R-7) | `d2a37fd630c38f3156e73c7a3b29324a2509af47` |
+| `crosscheck/covariance-lib.mjs` | 共有 covariance library | `690de2e5c910cdce6a1bb1f774eecbec1fda684f` |
+| `crosscheck/covariance-bridge-in.mjs` | 橋段 driver スタブ | `9fc7b9a12bc7487b29b8f3f0ae9a1b0dc10d2a79` |
+| `search/gaplib_common.g` | 共通 GAP infra | `12fb309d83721744dcc764969133a6e8257ffa12` |
+| `search/k5-fixture-serialize.mjs` | fixture 実体化・canonical serialization 生成器 | `41f3d9c86fdd7d3b99c4a75bc81c10dea78656af` |
+| `search/k5-blocks-check.g` | K5-sq/K5-ns GAP 側ブロック系検算 | `443225a3a8e8b5e69612b56ef15a26eb9d1958dd` |
+| `crosscheck/check-k5-blocks.mjs` | 同上 node 独立照合器 | `9ce7f44e2987ca50436115680a96f92948f556d3` |
+| `search/week4-k3-v2-repairs.mjs` | K3 側 rho_0/F_0 の独立検算 | `c9f0cb5806b020e41d30ac6dc479d2826966e69c` |
+| `certificates/k5fixture/K3-regression-model.json` | K3-regression model-spec | `9d6c5c0fe359d6701ea0711557a5b1d51f95e777` |
+| `certificates/k5pipeline/retracted/NOTE.md` | 撤回証明書の三世代区別(裁定41修理) | `1f40e3626d3ebd77d0b6bc560e975bf7a6786669` |
+| `docs/week4-K5_Rule1_v1.md` | Rule 1 本文(R-5 行 v3 同期・R-8 行 38/38 同期) | `f9442b55486416cf6119362095df31aac6bc0ce5` |
+| `docs/manifest_k5_appendixA_v1.md` | Appendix A(§6 commit/blob 型誤記の修理) | `7dfb6d6ac423101b63793808c38c2ba704d42354` |
+
+<!-- ACTIVE-BLOB-TABLE-END -->
+
+`node crosscheck/check-blob-hashes.mjs` で上表を自動照合できる(実行結果は
+本便報告に原文記載)。
+
+**全較正の再実行結果(本便・2026-07-27)**:
+
+- K3 回帰(主枝): `result: "ACCEPT"`(`u=-4`、無変更)。
+- synthetic M=10 production/M=3 unit test((N∞)・v3 raw): いずれも
+  `result: "ACCEPT"`(`u=1/4`/`u=1/2`、無変更・digest 無変更)。
+- `check-r5-r8-ninf-fail-closed.mjs`: **38/38 PASS**(旧 32/32 + 裁定41
+  F1.2 の strict rational parser 攻撃 6 件)。
+- `check-r7-bundle-attack.mjs`: **5/5 PASS**(無変更)。
+- `check-cli-fail-closed.mjs`: **12/12 PASS**(旧 9/9 + malformed-rational
+  fixture 修理で 2 件・main 側 malformed-rational 攻撃を新設で 1 件追加。
+  ENV_FAIL 0 件)。
+- `check-cli-fail-closed.ps1`(新設・PowerShell 外側 harness): **12/12
+  PASS**。
+- `check-covariance-envelope.mjs`: 無変更(本便では触れていない)。
+- `check-blob-hashes.mjs`(新設): 実行結果は本便報告に原文記載。
+
+**懸念・報告事項(実装担当より)**:
+
+1. `docs/week4-K5_Rule1_v1.md` §11.1 の運用注(「hashed 本文が正本・
+   再 hash してから閉じる」)により、本便で R-5 行・R-8 行を編集したため
+   司令塔による再 hash が必要(F3 のときと同じパターン)。
+2. `crosscheck/check-kummer.mjs`・`crosscheck/check-kummer-cov3.mjs` にも
+   `parseRatMaybeNumber` という独立実装の有理数 parser があり、分母 0 の
+   明示的拒否は行っていなかった(`BigInt(a)/BigInt(b)` のみ)。**司令塔が
+   この懸念を採用し追加委嘱、本便で解消済み(下記 §9.9 追記参照)** —
+   両ファイルとも u-compare 系と同水準の strict rational parser に硬化し、
+   `crosscheck/check-kummer-rational-parser-fail-closed.mjs`(新設)で
+   w="0/0"・w="1/0"・witness_coeffs="1/2/3" の 3 攻撃 × 2 ファイル+既存
+   MATCH 較正 3 件の無傷確認、計 **9/9 PASS**。
+3. `crosscheck/u-extract-pathB-lib.mjs`(探索器側・照合器ではない)が使う
+   `cyclo-ring-lib.mjs` の `Q.parse` にも同種の grammar の緩さ(`str.split('/')`
+   で二本以上の `/` を黙って先頭 2 要素だけ読む)が残っている。ただし
+   `Q` コンストラクタ自体は分母 0 を拒否する(`throw new Error('Q: zero
+   denominator')`)ため「0/0 が任意の値と等しくなる」という核心の脆弱性は
+   ここには存在しない。今回の追加委嘱は「`parseRatMaybeNumber` を使う
+   箇所」に明示的に限定されており、`Q.parse` は別名・別コードであるため
+   本便のスコープには含めなかった。念のため報告する(UNKNOWN・要判断)。
+
+### §9.9 追記(司令塔追加委嘱・check-kummer 系の strict rational parser 化)
+
+`crosscheck/check-kummer.mjs`・`crosscheck/check-kummer-cov3.mjs` の
+`parseRatMaybeNumber` を、`u-compare.mjs`/`u-compare-ninf.mjs` と同じ
+全文 grammar(`^[+-]?\d+(?:\/[+-]?\d+)?$`)・分母 0 拒否・malformed rational
+は `RationalFormatError` を throw する形へ硬化した。両ファイルはトップ
+レベルの直書きスクリプトで `compareMain`/`compareNinf` のような export
+された純関数を持たないため、実行本体を `runCheckKummer()`/
+`runCheckKummerCov3()` という関数へ包み、呼び出し元の `try/catch` が
+`RationalFormatError` を捕捉して `result: 'INTEGRITY_STOP'` の structured
+JSON へ変換する形にした(u-compare 系の「純関数 API でも INTEGRITY_STOP」
+という設計思想を、export のない CLI スクリプトへ移植したもの)。
+
+**リファクタで発覚した既存の潜在バグ**: `check-kummer.mjs` の
+`checkWitnessEquation()` はトップレベルの `const M` をクロージャで暗黙
+参照していた(定義時はたまたま動いていたが、関数の外から見える保証の
+ない結合)。実行本体を `runCheckKummer()` 関数へ包んだことでこの暗黙
+結合が破綻することが判明したため、`M` を明示引数化した(数値・判定結果に
+影響なし — 実行結果は硬化前と一致することを below の較正で確認)。
+
+**新設 adversarial 較正**: `crosscheck/check-kummer-rational-parser-fail-closed.mjs`。
+`K3-regression-kummer-u.json`・`K3-regression-kummer-uinv.json`(check-kummer.mjs
+の正当 MATCH 較正)・`retracted/K3-regression-kummer-cov3.v1.json`
+(check-kummer-cov3.mjs の唯一の保存 fixture・dead code だが較正として
+現存)を clone し、`w="0/0"`・`w="1/0"`・`witness_coeffs_basis_powers_of_root`
+中の `"1/2/3"` を各ファイルに対して投入。結果: **9/9 PASS**(3 sanity
+MATCH 無傷 + 6 攻撃拒否)。

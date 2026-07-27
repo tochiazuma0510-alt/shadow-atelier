@@ -59,14 +59,39 @@ import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 
 function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
+// --- 裁定41/便40 F1.2: strict rational literal grammar(全文一致・単一の
+// regex で符号付き整数 or 分子/分母一組だけを許す)。空の分子・分母・二本
+// 以上の '/'・分母 0 はすべて RationalFormatError として拒否する(交差積
+// 等値判定 ratEq に「0/0 は何にでも等しい」「1/0 同士は等しい」という穴を
+// 開けない -- Sol 便40 F1.2 の指摘)。malformed rational は純関数 API
+// (compareNinf)でも structured INTEGRITY_STOP になるよう、下の catch で
+// この Error クラスを捕捉して report へ変換する。
+// **司令塔独自攻撃(裁定41続報)修理**: trim を廃止し、入力文字列そのままが
+// 正規表現に一致することを要求する(先頭/末尾空白混入は拒否)。 ---
+class RationalFormatError extends Error {}
+const RATIONAL_LITERAL_RE = /^([+-]?\d+)(?:\/([+-]?\d+))?$/;
 function parseRat(s) {
-  const str = String(s).trim();
-  let n, d = 1n;
-  if (str.includes('/')) { const [a, b] = str.split('/'); n = BigInt(a); d = BigInt(b); }
-  else n = BigInt(str);
+  const str = String(s);
+  const m = RATIONAL_LITERAL_RE.exec(str);
+  if (!m) {
+    throw new RationalFormatError(
+      `malformed rational literal ${JSON.stringify(s)}: must match ^[+-]?\\d+(/[+-]?\\d+)?$ ` +
+      `(signed integer, or exactly one numerator/denominator pair -- empty numerator/denominator, ` +
+      `a second '/', and non-digit content are all rejected)`
+    );
+  }
+  let n = BigInt(m[1]);
+  let d = m[2] !== undefined ? BigInt(m[2]) : 1n;
+  if (d === 0n) {
+    throw new RationalFormatError(`malformed rational literal ${JSON.stringify(s)}: denominator is zero`);
+  }
   if (d < 0n) { n = -n; d = -d; }
   const g = gcdBig(n, d) || 1n;
-  return { n: n / g, d: d / g };
+  const rn = n / g, rd = d / g;
+  if (rd <= 0n) {
+    throw new RationalFormatError(`internal invariant violated: reduced denominator is not positive for ${JSON.stringify(s)} (rn=${rn}, rd=${rd})`);
+  }
+  return { n: rn, d: rd };
 }
 function ratEq(a, b) { return a.n * b.d === b.n * a.d; }
 function ratStr(a) { return a.d === 1n ? `${a.n}` : `${a.n}/${a.d}`; }
@@ -300,6 +325,13 @@ export function compareNinf(A, B, bundle, meta = {}) {
     return report;
   } catch (e) {
     if (e instanceof IntegrityStopSignal) return e.report;
+    // 裁定41/便40 F1.2 要求 4: malformed rational は純関数 API でも
+    // structured INTEGRITY_STOP にする(呼び出し元に生の例外を投げない)。
+    if (e instanceof RationalFormatError) {
+      report.result = 'INTEGRITY_STOP';
+      report.reason = `(strict rational parser) ${e.message}`;
+      return report;
+    }
     throw e;
   }
 }

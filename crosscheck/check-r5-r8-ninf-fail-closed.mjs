@@ -299,5 +299,106 @@ expectAccept('baseline: unmodified production (N_infty) raw ACCEPTs', compareNin
   );
 }
 
+// ============================================================================
+// 裁定41/便40 F1.2: strict rational parser の adversarial 較正(Sol 便40
+// F1.2 の指摘そのもの)。旧 parseRat は分母 0 を拒否せず、交差積等値判定
+// (a.n*b.d===b.n*a.d)の下で "0/0" が任意の有理数と等しいと判定され、
+// "1/0" 同士も等しいと判定されていた -- u の exact equality という第三
+// checker の核心を無効化する攻撃。ここでは正しい保存 raw/bundle の他の
+// フィールド・digest は一切変えず、攻撃対象の 1-2 field だけを書き換える。
+// ============================================================================
+
+// ---- attack: (N_infty) both chat="0/0" (declared N_lambda=[1] left intact) ----
+{
+  const badA = { ...ninfA, chat: '0/0' };
+  const badB = { ...ninfB, chat: '0/0' };
+  expectStop(
+    '裁定41 F1.2 攻撃: production (N_infty) 両 chat="0/0" は拒否される(旧交差積判定では 0/0 は任意の値と等値になり得た)',
+    compareNinf(badA, badB, ninfBundle)
+  );
+}
+
+// ---- attack: (N_infty) both a_M=b_Mm3="0/0" ----
+{
+  const badA = { ...ninfA, a_M: '0/0', b_Mm3: '0/0' };
+  const badB = { ...ninfB, a_M: '0/0', b_Mm3: '0/0' };
+  expectStop(
+    '裁定41 F1.2 攻撃: production (N_infty) 両 a_M=b_Mm3="0/0" は拒否される',
+    compareNinf(badA, badB, ninfBundle)
+  );
+}
+
+// ---- attack: (N_infty) u_pathA_ninf=u_pathB_ninf="1/0" (the core u-equality attack) ----
+{
+  const badA = { ...ninfA, u_pathA_ninf: '1/0' };
+  const badB = { ...ninfB, u_pathB_ninf: '1/0' };
+  expectStop(
+    '裁定41 F1.2 攻撃: production (N_infty) 両 u="1/0" は拒否される(旧版は 1/0 == 1/0 を ACCEPT した)',
+    compareNinf(badA, badB, ninfBundle)
+  );
+}
+
+// ---- attack: main (K3) u_pathA=u_pathB="1/0" (the core u-equality attack, main branch) ----
+{
+  const badA = { ...k3A, u_pathA: '1/0' };
+  const badB = { ...k3B, u_pathB: '1/0' };
+  expectStop(
+    '裁定41 F1.2 攻撃: main (K3) 両 u="1/0" は拒否される(第三 checker の核心である u exact equality を無効化する攻撃)',
+    compareMain(badA, badB, k3Bundle)
+  );
+}
+
+// ---- attack: "1/2/3" (two or more '/') must be rejected as a grammar violation,
+// independent of which field carries it ----
+{
+  const badA = { ...ninfA, chat: '1/2/3' };
+  expectStop(
+    '裁定41 F1.2 攻撃: (N_infty) chat="1/2/3"(二本以上の "/")は全文 grammar 違反として拒否される',
+    compareNinf(badA, ninfB, ninfBundle)
+  );
+}
+{
+  const badA = { ...k3A, x0: '1/2/3' };
+  expectStop(
+    '裁定41 F1.2 攻撃: main x0="1/2/3"(二本以上の "/")は全文 grammar 違反として拒否される',
+    compareMain(badA, k3B, k3Bundle)
+  );
+}
+
+// ============================================================================
+// 司令塔独自攻撃(裁定41続報): parseRat の trim() 除去。旧版は正規表現の
+// 前に String(s).trim() を呼んでおり、先頭/末尾空白が黙って正規化されて
+// ACCEPT されていた("全文 grammar" の趣旨に反する)。trim を廃止し、
+// 入力文字列そのままが ^[+-]?\d+(/[+-]?\d+)?$ に一致しなければ拒否する。
+// ============================================================================
+{
+  const badA = { ...ninfA, chat: ' 1' };
+  expectStop(
+    '司令塔独自攻撃: (N_infty) chat=" 1"(先頭空白)は拒否される',
+    compareNinf(badA, ninfB, ninfBundle)
+  );
+}
+{
+  const badA = { ...ninfA, chat: '1 ' };
+  expectStop(
+    '司令塔独自攻撃: (N_infty) chat="1 "(末尾空白)は拒否される',
+    compareNinf(badA, ninfB, ninfBundle)
+  );
+}
+{
+  const badA = { ...ninfA, chat: '1/ 2' };
+  expectStop(
+    '司令塔独自攻撃: (N_infty) chat="1/ 2"(分子/分母間の空白)は拒否される',
+    compareNinf(badA, ninfB, ninfBundle)
+  );
+}
+{
+  const badA = { ...k3A, x0: ' 1' };
+  expectStop(
+    '司令塔独自攻撃: main x0=" 1"(先頭空白)は拒否される',
+    compareMain(badA, k3B, k3Bundle)
+  );
+}
+
 console.log(`\n=== ${pass}/${pass + fail} PASS ===`);
 if (fail > 0) process.exitCode = 1;

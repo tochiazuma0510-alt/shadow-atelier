@@ -25,6 +25,17 @@ import { createHash } from 'node:crypto';
 
 //////////////////// BigInt 有理数 (pathA.g とは独立実装) ////////////////////
 function gcdBig(a, b) { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; }
+// --- 司令塔独自攻撃(裁定41続報)修理: Q.parse は旧版で `str.split('/')` の
+// 先頭 2 要素だけを黙って読んでいた("1/2/3" が黙って 1/2 として parse
+// され、" 1/2" のような空白混入も trim で通した)。u-compare 系/
+// check-kummer 系/crosscheck/cyclo-ring-lib.mjs の Q.parse と同じ全文一致
+// grammar(符号付き整数 or 分子/分母一組だけ・空白混入拒否)へ硬化する。
+// denominator 0 は既存の Q コンストラクタが引き続き拒否する(変更不要)。
+// このファイルは search/u-extract-pathA.g と関数・データ構造を共有しない
+// という既存方針を保つため、crosscheck/cyclo-ring-lib.mjs の
+// RationalFormatError を import せず、ここで独立に再定義する。 ---
+export class RationalFormatError extends Error {}
+const RATIONAL_LITERAL_RE = /^([+-]?\d+)(?:\/([+-]?\d+))?$/;
 export class Q {
   constructor(n, d = 1n) {
     if (typeof n === 'number') n = BigInt(n);
@@ -36,9 +47,18 @@ export class Q {
   }
   static parse(s) {
     if (typeof s === 'number') return Q.fromNumber(s);
-    const str = String(s).trim();
-    if (str.includes('/')) { const [a, b] = str.split('/'); return new Q(BigInt(a), BigInt(b)); }
-    return new Q(BigInt(str));
+    const str = String(s);
+    const m = RATIONAL_LITERAL_RE.exec(str);
+    if (!m) {
+      throw new RationalFormatError(
+        `malformed rational literal ${JSON.stringify(s)}: must match ^[+-]?\\d+(/[+-]?\\d+)?$ ` +
+        `(signed integer, or exactly one numerator/denominator pair -- whitespace, empty ` +
+        `numerator/denominator, and a second '/' are all rejected)`
+      );
+    }
+    const nRaw = BigInt(m[1]);
+    const dRaw = m[2] !== undefined ? BigInt(m[2]) : 1n;
+    return new Q(nRaw, dRaw);
   }
   static fromNumber(x) { return new Q(BigInt(x)); }
   add(o) { return new Q(this.n * o.d + o.n * this.d, this.d * o.d); }

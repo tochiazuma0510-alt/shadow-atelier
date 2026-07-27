@@ -232,10 +232,16 @@ P6 の u 二経路パイプライン一式は記録当時 commit
 複数回変化している(個々の blob hash は
 `docs/week4-K5_Rule1_impl_versions.md` §9.6/§9.7/§9.8 参照)。
 
-| component | 役割 | blob hash(`git hash-object`・記録当時の値) | 備考 |
+**裁定41/便40 F5.2 修理**: 以下 3 行は旧版で `git cat-file -t` すると実際には
+`commit` object(直前 commit ID を「blob hash」列に転記した誤り)であり、
+異なる二実装(`search/k5-blocks-check.g`・`crosscheck/check-k5-blocks.mjs`)
+に同一値が付くという不自然な状態だった(Sol 便40 F5.2 の指摘)。本便で
+`git hash-object <path>` を実際に実行し直し、真の blob hash へ置き換えた。
+
+| component | 役割 | blob hash(`git hash-object`・2026-07-27 実測・裁定41修理) | 備考 |
 |---|---|---|---|
 | `search/k5-fixture-serialize.mjs` | fixture 実体化・canonical serialization 生成器(PART 1/2/2c/3) | `41f3d9c86fdd7d3b99c4a75bc81c10dea78656af`(便 36 実測・本便で無変更) | 詳細は上記「履歴」参照 |
-| `search/k5-blocks-check.g` | K5-sq/K5-ns の GAP 側ブロック系検算(34/34) | `3eb0a70a48be9b897db08cb5a08ad907a3b03ae4` | 本便で無変更 |
-| `crosscheck/check-k5-blocks.mjs` | 同上の node 独立照合器(36/36・突合 13/13) | `3eb0a70a48be9b897db08cb5a08ad907a3b03ae4` | 本便で無変更 |
-| `search/week4-k3-v2-repairs.mjs` | K3 側 $\rho_0$/$\mathfrak F_0$ の独立検算(43/43・PART 2c の突合先) | `174dd5a967b6db1d496fc1fe79f7406143769183` | 本便で無変更(本便で再実行し 43/43 PASS を再確認) |
-| P6 $u$ 二経路・exact Kummer 判定パイプライン(library+driver+checker 一式) | 経路 A/B・第三 checker・Kummer 判定器・第三 covariance の library/driver/checker 一式 | (下記参照) | 詳細版表は `docs/week4-K5_Rule1_impl_versions.md`(v2・随時更新・§9.6/§9.7/§9.8 が最新)を正本とする(本表はそれを重複転記せず参照するのみ)。blob hash は commit の有無によらず不変 — 現物は同文書参照。commit 状態そのものは常に git を参照すること(本節・本表は主張しない)。 |
+| `search/k5-blocks-check.g` | K5-sq/K5-ns の GAP 側ブロック系検算(34/34) | `443225a3a8e8b5e69612b56ef15a26eb9d1958dd`(裁定41修理・旧版は commit object `3eb0a70a...` の誤記) | 本便で無変更(値のみ修理) |
+| `crosscheck/check-k5-blocks.mjs` | 同上の node 独立照合器(36/36・突合 13/13) | `9ce7f44e2987ca50436115680a96f92948f556d3`(裁定41修理・旧版は commit object `3eb0a70a...` の誤記) | 本便で無変更(値のみ修理) |
+| `search/week4-k3-v2-repairs.mjs` | K3 側 $\rho_0$/$\mathfrak F_0$ の独立検算(43/43・PART 2c の突合先) | `c9f0cb5806b020e41d30ac6dc479d2826966e69c`(裁定41修理・旧版は commit object `174dd5a9...` の誤記) | 本便で無変更(本便で再実行し 43/43 PASS を再確認・値のみ修理) |
+| P6 $u$ 二経路・exact Kummer 判定パイプライン(library+driver+checker 一式) | 経路 A/B・第三 checker・Kummer 判定器・第三 covariance の library/driver/checker 一式 | (下記参照) | 詳細版表は `docs/week4-K5_Rule1_impl_versions.md`(v2・随時更新・**§9.9 の単一 active blob table が現在の正本**)を正本とする(本表はそれを重複転記せず参照するのみ)。blob hash は commit の有無によらず不変 — 現物は同文書参照。commit 状態そのものは常に git を参照すること(本節・本表は主張しない)。 |
