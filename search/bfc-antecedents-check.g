@@ -81,6 +81,17 @@ ck("0a x_g*y_g*z_g = 1 (D1 (3.6) fixture, fail-closed -- 便44 F6.3 item 1)", xg
 ck("0a' z_g = (x_g y_g)^-1 は Phi による生座標の明示移送と一致(独立確認 -- 便44 F6.3 item 4)",
    zg = zgPhi);
 
+# ================= x-bar, y-bar の marked transport(便45 F4.3 修理) =================
+# 便44 F6.3 item 4 は「x,y,z,f_{m,k} の同時移送を証明書化」を要求していたが、
+# 旧版(v2 証明書)は z_phi_transport_check と kappa_phi_sign_check しか持たず、
+# x,y の生座標 (D1 (3.6): x-bar = (r,s,s), y-bar = (rs,r,rs)) を Phi=(phi1,id,phi3)
+# に通した結果が xg,yg と一致するか、独立に検査していなかった(Sol 便45 F4.3)。
+# 以下で x,y も z と同じ様式で fixture 化する。
+xgPhi := tr(Image(phi1, r), 1) * tr(s, 2) * tr(Image(phi3, s), 3);;
+ygPhi := tr(Image(phi1, r*s), 1) * tr(r, 2) * tr(Image(phi3, r*s), 3);;
+ck("0b x_g は D1 (3.6) 生座標 (r,s,s) の Phi 移送と一致(便45 F4.3)", xg = xgPhi);
+ck("0c y_g は D1 (3.6) 生座標 (rs,r,rs) の Phi 移送と一致(便45 F4.3)", yg = ygPhi);
+
 M := Order(xg);;
 ck("0 ord(X) = 6 = M", M = 6);
 
@@ -156,8 +167,10 @@ for Hc in allSubs do
   v3n := v3n + 1;
   if Normalizer(G3, Hc) <> Hc then v3bad := v3bad + 1; fi;
 od;
+# 便45 F4.2: 便44 F6.3 item 6 が要求したのは「v3n = 12」の明示 assert であり、
+# 旧版の `v3n > 0` は将来値がずれても無音で PASS してしまう(差戻し理由3)。
 ck(Concatenation("V3 <X> 推移的 かつ |Lambda| = ord(X) を満たす全 H で N_P(H) = H (該当 H = ",
-   String(v3n), " 個, 反例 = ", String(v3bad), ")"), v3bad = 0 and v3n > 0);
+   String(v3n), " 個, 反例 = ", String(v3bad), ", 期待値 12)"), v3bad = 0 and v3n = 12);
 
 # ================= Lambda(target の共役類・6 元)の構成 =================
 BuildLambda := function(H0)
@@ -241,15 +254,21 @@ ck("2a kappa(m) 第3スロットの符号 -kap は phi_3(r)=r^-1 の明示移送
    kapPhiCheck);
 
 BuildPhi := function(m, k)
-  local u, kap, kapExp, fk, imgX, imgY, phi;
+  local u, kap, kapExp, fk, fkRaw, fkPhi, fkTransportOk, imgX, imgY, phi;
   u := 2*m + 1;
   if m mod 2 = 1 then kap := (m + 1) mod 3; else kap := (-m) mod 3; fi;
   kapExp := (-kap) mod 3;
   fk := tr(r^(2*k), 1) * tr(r^(-2*k), 2) * tr(r^kapExp, 3);
+  # 便45 F4.3: f_{m,k} = (r^{2k}, r^{-2k}, r^{kappa(m)}) の生座標(第4.9)(4.12)式)
+  # に Phi=(phi1,id,phi3) を後合成した結果が fk(上で kapExp を使って組んだ実装値)
+  # と一致することを、抽象的な符号一致(kapPhiCheck、kap in {0,1,2} の総当り)とは
+  # 別に、実際にこの (m,k) で使う具体的な三成分すべてについて検査する。
+  fkPhi := tr(Image(phi1, r^(2*k)), 1) * tr(r^(-2*k), 2) * tr(Image(phi3, r^kap), 3);;
+  fkTransportOk := (fk = fkPhi);;
   imgX := xg^u;
   imgY := fk^-1 * (yg^u) * fk;
   phi := GroupHomomorphismByImages(G3, G3, [xg, yg], [imgX, imgY]);
-  return rec(m := m, k := k, kappa := kap, phi := phi);
+  return rec(m := m, k := k, kappa := kap, phi := phi, fkTransportOk := fkTransportOk);
 end;;
 
 GTel := [];;
@@ -263,6 +282,15 @@ for m in [0, 2, 3, 5] do
   od;
 od;
 ck("2 GT(K^(3)) の 12 元がすべて Aut(G3) の元(構成 + 全単射確認)", Length(GTel) = 12);
+ck("2b GT(K^(3)) 全 12 元の f_{m,k} が D1 (4.9)(4.12) 生座標の Phi 移送と一致(便45 F4.3)",
+   ForAll(GTel, e -> e.fkTransportOk));
+
+# 便45 F4.3: x,y,z,f_{m,k} の同時移送を単一の fail-closed fixture として集約する
+# (「Phi による全 marking の同時移送」の証明書化 -- 差戻し理由 3)。
+allMarkingsPhiTransportOk :=
+  (xg = xgPhi) and (yg = ygPhi) and (zg = zgPhi) and ForAll(GTel, e -> e.fkTransportOk);;
+ck("2c Phi による x,y,z,f_{m,k} の全 marking の同時移送(便45 F4.3・差戻し理由3)",
+   allMarkingsPhiTransportOk);
 
 StabLambda := function(phi)
   local C, img;
@@ -334,6 +362,14 @@ ck("F2.1c <X> は P/H 上推移的(便44 F6.3 item 3)", transCtr);
 
 Print("\n=== ", pass, "/", pass + failCount, " PASS ===\n");
 
+# ================= fail-closed gate(便45 F4.2 修理・差戻し理由3) =================
+# 旧版は ck() が failCount を数えるだけで、失敗があっても常に certificate を
+# 書き出していた(「fail-closed」と報告しながら実装されていなかった)。
+# ここで failCount <> 0 なら証明書を書かずに Error で停止する。
+if failCount <> 0 then
+  Error("*** FAIL-CLOSED: ", failCount, " 件の検査が FAIL した。証明書は書き出さない(便45 F4.2)。");
+fi;
+
 # ================= script/input digest(便44 F6.3 item 5) =================
 ComputeSha256File := function(relpath)
   local tmp, f, line;
@@ -352,19 +388,30 @@ nodeCertSha256 := ComputeSha256File("search/week4-bfc-antecedents.mjs");;
 
 # ================= 証明書 JSON =================
 cert := Concatenation(
-  "{\"schema\":\"bfc-antecedents-check/v2\"",
+  "{\"schema\":\"bfc-antecedents-check/v3\"",
   ",\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/bfc-antecedents-check.g\"}",
-  ",\"repair_note\":\"Sol 便44 F6 修理: z-bar を (x_g y_g)^-1 として Phi 移送つきで再構成し、",
-  "kapExp の符号を phi_3(r)=r^-1 の明示移送から導出。旧版(v1)は certificates/bfc/retracted/ へ。\"",
+  ",\"repair_note\":\"Sol 便45 F4 修理(裁定47・差戻し理由3,4): (1) x_g,y_g も z_g と同じ",
+  "様式で D1 (3.6) 生座標の Phi=(phi1,id,phi3) 移送と一致することを fixture 化",
+  "(旧版は z のみ)。(2) f_{m,k}(GT(K^(3)) 全12元)についても D1 (4.9)(4.12) 生座標の",
+  "Phi 移送と一致することを個別に検査し、x,y,z,f_{m,k} の同時移送を単一 fixture",
+  "(all_markings_phi_transport_check)として集約。(3) V3 の assert を v3n>0 から",
+  "v3n=12 の明示値一致へ強化。(4) certificate 書出し前に failCount<>0 なら Error",
+  "する fail-closed gate を実装(旧版は数えるだけで常に書き出していた)。",
+  "旧版(v1 は certificates/bfc/retracted/、本便直前の v2 も同ディレクトリへ撤回)。\"",
   ",\"target_group\":{\"name\":\"G3<=D3^3\",\"order\":", String(Size(G3)), "}",
   ",\"target_H\":{\"order\":", String(Size(H)), ",\"index\":", String(d), ",\"lambda_size\":", String(Length(Lam)), "}",
   ",\"pass_count\":", String(pass),
   ",\"fail_count\":", String(failCount),
   ",\"xyz_identity_check\":", JB(xg*yg*zg = One(G3)),
+  ",\"x_phi_transport_check\":", JB(xg = xgPhi),
+  ",\"y_phi_transport_check\":", JB(yg = ygPhi),
   ",\"z_phi_transport_check\":", JB(zg = zgPhi),
+  ",\"fk_phi_transport_check_all12\":", JB(ForAll(GTel, e -> e.fkTransportOk)),
+  ",\"all_markings_phi_transport_check\":", JB(allMarkingsPhiTransportOk),
   ",\"kappa_phi_sign_check\":", JB(kapPhiCheck),
   ",\"v3_matching_H_count\":", String(v3n),
   ",\"v3_counterexample_count\":", String(v3bad),
+  ",\"v3_expected_count\":12",
   ",\"aut_G3_order\":", String(autOrder),
   ",\"aut_G3_lambda_stabilizer_count\":", String(autStabCount),
   ",\"gt_k3_element_count\":", String(Length(GTel)),
@@ -374,6 +421,7 @@ cert := Concatenation(
   ",\"M\":", String(Mctr),
   ",\"N_P_H_eq_H\":", JB(NPH),
   ",\"X_transitive_on_P_over_H\":", JB(transCtr), "}",
+  ",\"fail_closed\":true",
   ",\"provenance\":{\"script_sha256\":\"", scriptSha256, "\"",
   ",\"input_doc_sha256\":\"", inputMdSha256, "\"",
   ",\"input_doc_path\":\"docs/week4-BFC攻略_opus_v1.md\"",

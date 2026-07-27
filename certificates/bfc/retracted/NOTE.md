@@ -48,5 +48,49 @@ z の修理前後で変わらなかったが、これは「z が旧版の target
 欠陥が無害だったことの証明ではない — 欠陥自体は実在し、今回の修理で閉じた。
 
 **裁定根拠**: `sol/sol_reply_44_bfc_v2.md` F6(F6.1/F6.2/F6.3)。
+後継は `bfc-antecedents_v2_retracted.json` を経て、現行版
+`certificates/bfc/bfc-antecedents.json`(schema `bfc-antecedents-check/v3`)。
+
+## bfc-antecedents_v2_retracted.json (旧 `certificates/bfc/bfc-antecedents.json`, schema `bfc-antecedents-check/v2`, 21/21 PASS)
+
+**撤回日**: 便45 検収対応(実装担当・2026-07-27)。
+
+**撤回理由**(`sol/sol_reply_45_bfc_final.md` F4・F5、裁定47 点3・4): 差戻し理由3
+「GAP 側の fail-closed・V3=12 の assert・Phi による全 marking の同時移送は、
+報告どおりには実装されていない」、および理由4「証明書の input digest が現在
+どの正本にも一致せず」。具体的には
+
+1. `ck()` は failCount を数えるだけで、失敗時に `Error` せず常に証明書を書き出していた
+   (fail-closed 未実装)。
+2. `V3` の判定が `v3bad = 0 and v3n > 0` のままで、便44 F6.3 が要求した
+   `v3n = 12` の明示 assert になっていなかった。
+3. `z_phi_transport_check`・`kappa_phi_sign_check` しか証明書化されておらず、
+   `x_g,y_g` の生座標移送、および `f_{m,k}`(GT(K^(3)) 全12元)の移送は
+   fixture 化されていなかった。
+4. `provenance.input_doc_sha256` (`8082effe...`) が、その時点で
+   `docs/week4-BFC攻略_opus_v1.md` に実在するファイル(`659a9570...`)と
+   不一致だった(バージョニング移動後に証明書を再発行していなかったため)。
+
+**帰結**: `search/bfc-antecedents-check.g` を修理し、
+
+1. `x_g,y_g` についても `z_g` と同じ様式で D1 (3.6) 生座標の
+   `Phi=(phi1,id,phi3)` 移送との一致を fixture 化(`x_phi_transport_check`,
+   `y_phi_transport_check`)。
+2. `BuildPhi` 内で `f_{m,k}` の D1 (4.9)(4.12) 生座標の Phi 移送を、実際に
+   使う 12 個の `(m,k)` すべてについて個別検査し(`fk_phi_transport_check_all12`)、
+   `x,y,z,f_{m,k}` の同時移送を単一 fixture `all_markings_phi_transport_check`
+   として集約。
+3. `V3` の assert を `v3n = 12` の明示値一致へ強化。
+4. 証明書書出し直前に `failCount <> 0` なら `Error` して停止する fail-closed
+   gate を実装(意図的に `v3n = 99999` へ壊して `Error` 発生・証明書
+   未更新・`exit code 1` を実測確認済み)。
+
+再走結果は **25/25 PASS**(旧 21 件 + 新規 4 件: `0b`,`0c`,`2b`,`2c`)。
+数値(`target_H` order 18・`|Aut(G3)|=1296`・`Lambda`-stabilizer `432`・
+`V3` 該当 `H=12`・`GT(K^(3))` 12 元)はいずれも不変。
+`provenance.input_doc_sha256` は現在の
+`docs/week4-BFC攻略_opus_v1.md`(`659a9570...`)と一致するよう再計算済み。
+
+**裁定根拠**: `sol/sol_reply_45_bfc_final.md` F4/F5、`sol/裁定_47_ben45.md` 点3・4。
 後継は `certificates/bfc/bfc-antecedents.json`(現行版、schema
-`bfc-antecedents-check/v2`)。
+`bfc-antecedents-check/v3`)。
