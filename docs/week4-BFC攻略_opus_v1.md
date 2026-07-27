@@ -1,28 +1,51 @@
-# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v1**)
+# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2 = 便 43 修理 R1–R6 反映版**)
 
-2026-07-27 起草: Claude(数学者レイヤー・Opus 5)。司令塔委嘱「$B_{\rm FC}$ の紙上攻略」。
-入力: `docs/week4-K3飽和_opus_v3.md`(v3.1–v3.3 = $B_{\rm FC}$ の定義・(5′) の型・§2.6)・`docs/week4-A5算術飽和_v4.md`(§1.4 較正・§3 FC-1〜FC-7)・`sol/sol_reply_29_v3delta.md` F1・`sol/sol_reply_31_manifest.md` F5・`docs/week4-K5_Rule1_v1.md` §1・§7。
-検算: `search/week4-bfc-antecedents.mjs`(**13/13 PASS**・本稿発)。
+2026-07-27 起草(v1)・**同日 v2 改訂**: Claude(数学者レイヤー・Opus 5)。司令塔委嘱「$B_{\rm FC}$ の紙上攻略」。**v2 は `sol/sol_reply_43_bfc.md`(条件付き PASS)の必須修理 R1–R6 を反映(裁定 44)。**
+入力: `docs/week4-K3飽和_opus_v3.md`(v3.1–v3.3 = $B_{\rm FC}$ の定義・(5′) の型・§2.6)・`docs/week4-A5算術飽和_v4.md`(§1.4 較正・§3 FC-1〜FC-7)・`sol/sol_reply_29_v3delta.md` F1・`sol/sol_reply_31_manifest.md` F5・`docs/week4-K5_Rule1_v1.md` §1・§7・**`sol/sol_reply_43_bfc.md`(全文)**。
+検算: `search/week4-bfc-antecedents.mjs`(**13/13 PASS**・本稿発・便 43 F1 が独立再走で再現)。**序列は `single-system candidate`** — 第二照合器(GAP)との一致がないので `cross-checked` とは名乗らない(便 43 F1)。
 **規律**: $K^{(5)}$ の個別モデル・$u$ には一切触れていない(紙上の一般論のみ)。外部文献は使っていない(§12 に【文献要請 13】を 1 本立てる)。
+
+---
+
+## v1 → v2 差分一覧(便 43 の必須修理 R1–R6)
+
+| # | 箇所 | v1 | v2 | 出所 |
+|---|---|---|---|---|
+| **R1** | §5 命題 B-2・§0-8・§3・§13.2・付録 B | 「$\lvert\Lambda\rvert=M\iff[P:H]=M\iff N_P(H)=H$」という**三者 pairwise 同値**(**偽**) | **(B2-corr) 結合形**へ置換: $\lvert\Lambda\rvert=M\iff\bigl([P:H]=M\ \text{かつ}\ N_P(H)=H\bigr)$。**Sol の反例 $P=S_3\times C_2$ を本文に採録**。「$P/H\to\Lambda$ 全単射 $\iff N_P(H)=H$」は $M$ と無関係に成立と明記 | 便 43 F2.1 |
+| **R2** | §5 定理 B-3・§0-1・§4 段表 | B-3 の前件を (W1)(W2)(W4)(W5) と書いた | **(W3) を追加**((W3) なしでは $\tau(\mu_M)$ が regular にならない。**Sol の反例 $P=C_M\times C_2,\ H=C_2$ を採録**)。「型は無料」の意味を「**regular detector (W3)(W4) を払った後は追加の幾何入力が不要**」に精密化 | 便 43 F2.2 |
+| **R3** | §6 定理 B-4・補題 B-4b | $K$-版の前件から (W2) が脱落 | **$K$-版に (W2) を追加**し、$\mathbb Q$-版((W5$^\mathbb Q$) 使用・(W2) 不要)と**定理文を分離**。F3.3 の「部分群の一意性 → 被覆の一意性」の一行も追加 | 便 43 F3.2・F3.3 |
+| **R4** | §6.3 系 B-4c・§8 | $\mathcal H\backslash\pi_1$・$\tilde H\backslash\hat F_2$ と書き、非正規部分群で左右剰余類を無根拠に同一視 | **全編を左作用・左剰余類 $\pi_1/\mathcal H$・$\hat F_2/\tilde H$ に統一**。$\mathrm{Stab}(g\tilde H)=g\tilde Hg^{-1}$ が左剰余類の公式であることと整合。**§8 の $b=1$ の向きを支える箇所ゆえ必須修理** | 便 43 F4 |
+| **R5** | §4 依存表 | II-c 欄が (TB1)(TB2)+(W4) だけ | **(TB3)(TB4) と間接依存を復帰**。さらに「**$W_0$ が与えられた局所補題**」版と「**窓から $W_0$ を構成する主定理**」版に段を分離 | 便 43 F5.2 |
+| **R6** | §13.3・§10・§12.1 | (W5) 不成立 ⇒ $K$-モデルなし / 証明書未取得 ⇒ MODEL-MISMATCH / $b\ne1$ ⇒ TB2 違反 | **三つとも過剰推論として修理**: (W5) は十分条件にすぎない・`MODEL-UNKNOWN` と `MODEL-MISMATCH` を分離・$b\ne1$ の診断先を **TB2/TB4/左右作用/共役 transport** へ拡張。**§13.3 を便 43 F9 の 6 層表に差し替え** | 便 43 F6.2・F9 |
+| **S1** | §12.1・§0-6 | 「(TB4) **だけ**が load-bearing」 | **射程限定**: 「**exact $b=1$ の向きについて唯一 load-bearing**」。(TB1)(TB3) も真に破れれば記法問題では済まない。札は `TB1–TB4 = global framework assumptions` / `TB4 = unique orientation-sensitive literature gate` | 便 43 F7 |
+| **S2** | §11.2・§0-7 | 「(W5) は 432/1296 で非自明」 | **(W5) 自体は包含条件**(3 元/12 元が 432 元の setwise stabilizer に入る)。432/1296 はそれが自明でないことを示す**周囲のデータ**。数値は `source-audited single-system candidate` | 便 43 F8.1 |
+| **S3** | §11.2・§15-5 | 「V6・V7 は定理 K3 §2.2 (P7) への独立な第二証明」 | **射程限定**: **(P7) の非標識 $\mathbb Q$-descent 部分**への第二証明。モデル認識・ordered passport・exact conjugator・$u$ 抽出は**置換しない**。また「有限群論だけ」ではなく **V6 + B-4 の descent 枠組みの合成** | 便 43 F8.2 |
+| **S4** | §14 論点 1・2 | 自己申告 A-1(cocycle の向き)・A-2((TB4) 適用) | **便 43 F3.1・F6.1 でいずれも閉鎖**。A-1 は無条件、A-2 は「(TB4) をこの向きで採用する限り」条件つき。§12.3 を判定つきに更新 | 便 43 F3.1・F6.1 |
+
+> **不変**: **主定理 B-7 の主張と結論・(9.1)・系 B-7′・補題 B-5・補題 B-6 の計算・系 B-8・§7 の全論証・二例との整合(§11.1・§11.3)・検算値 13/13。** R1–R6 は**前件欄の脱落補填・偽の同値の結合形化・剰余類記法の統一・札の射程限定**であり、**数学的結論を 1 ミリも動かさない**(便 43 F7 が同旨)。
+
+> **v2 の状態札**(便 43 F10):
+> $$ \boxed{\ B_{\rm FC}\ =\ \texttt{paper-proof (framework-conditional on TB1--TB4) / two-mathematician audit PASS}\ } $$
+> — ただし **(i) Lean `verified` ではない(未着手)**、**(ii) exact $b=1$ の向きは (TB4) 関所待ち**(単位 $b$ までの twisted 版は無条件)、**(iii) V6/V7 の数値は single-system candidate**。
 
 ---
 
 ## 0. 判定(先に 10 行)
 
-1. **$B_{\rm FC}$ は 2 段に分解する。第 1 段は無料、第 2 段が全内容である。**
- - **$B_{\rm FC}$-I**(型の段): $G_K$ 上で $\rho_\Lambda\circ\mathrm{Ih}_N$ が $\tau(\mu_M)$ 内の平行移動になる、すなわち $\exists!\,c\in\mathrm{Hom}(G_K,\mu_M)$ で $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(c(\gamma))$。→ **証明済み(§5・定理 B-3)。有限群論と (W2) だけで出る。較正も幾何も要らない。**
+1. **$B_{\rm FC}$ は 2 段に分解する。第 1 段は(regular detector を払った後は)無料、第 2 段が全内容である。**
+ - **$B_{\rm FC}$-I**(型の段): $G_K$ 上で $\rho_\Lambda\circ\mathrm{Ih}_N$ が $\tau(\mu_M)$ 内の平行移動になる、すなわち $\exists!\,c\in\mathrm{Hom}(G_K,\mu_M)$ で $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(c(\gamma))$。→ **証明済み(§5・定理 B-3)。前件は (W1)(W2)(W3)(W4)(W5) の有限群論だけで、追加の幾何入力(較正・モデル・cusp)を要さない**(**【v2・R2】**: v1 は (W3) を落としていた。$P=C_M\times C_2,\ H=C_2$ が反例 — 便 43 F2.2)。
  - **$B_{\rm FC}$-II**(同定の段): その $c$ が $\kappa_{u^{-1}}$ である。→ **本稿で証明した(§6–§9・定理 B-7)。**
 2. **$B_{\rm FC}$-II はさらに 3 枚に割れ、3 枚とも閉じた**: **II-a** 剛性 descent(§6・定理 B-4)/ **II-b** torsor 比較と $b=1$(§8・補題 B-6)/ **II-c** cusp の局所 Kummer(§7・補題 B-5)。
 3. **前件 (4) から「明示 $\mathbb Q$-モデル」「明示局所助変数」「actual marking(exact conjugator)」は消える。** これらは橋の前件ではなく、**$u$ を計算するための窓固有の作業**であり、橋の外にある(§12.2・命題 B-9 で分離)。
 4. **前件 (5)(FC-2b/FC-3)は残るが、FC-3 は前件ではなく帰結になる** — (W3)(W5) から $K$-モデルと $\mathrm{Fib}\cong\Lambda$ が**構成できる**(§6)。残る真の入力は較正 FC-2b($A_5$ v4 で証明済・窓非依存)のみ。
 5. **$b$ の自由度は二重に吸収される**: (i) 規約 (TB2) の下では $b=1$ が**定理**である(§8)。(ii) 仮に $b\ne1$ でも $R^{\rm cyc}_{\rm formal}$ の結論は $b$ で不変(§10・系 B-8・検算 V8)。Rule 1 (7.1)(7.2) の $b_i$ 欄は**規約監査**であって数学的穴ではない(ただし $K^{(5)}$ の二 dessin 比較 $a_{\rm eff}$ では依然 load-bearing)。
-6. **閉じなかったもの = 枠組み札ただ 1 枚**:【GAP-TB】= 接基点繊維関手の 4 性質 (TB1)–(TB4)。これは新しい穴ではなく、**$A_5$ v4 の【GAP-C3】(Deligne 1989 §15)を 4 項目に鋭くしたもの**である。両実例も暗黙に同じ 4 つを使っていた。
-7. **新しい前件を 1 本発見した**: **(W5) $\Lambda$ が $\Phi(\mathfrak F_0)$-安定**(v3.1 の (6′) 第 1 節)は、$K$-モデルの存在そのものを供給する。$\mathbb Q$-モデルには $\Phi(\mathrm{GT}(N))$-安定が要る。**$K^{(3)}$ でこれは自明でない**: $\lvert\mathrm{Aut}(G_3)\rvert=1296$ のうち $\Lambda$ を保つのは **432** 個だけで、$\Phi(\mathrm{GT})$ の 12 元はその中に入っている(**検算 V6・V7**)。
-8. **前件 (3) の一部は導出できる**: 「$\langle X\rangle$ が $P/H$ 上推移的(= 全分岐)かつ $\lvert\Lambda\rvert=\mathrm{ord}(X)$」から **$N_P(H)=H$ が自動**(命題 B-2)。$K^{(3)}$ で悉皆確認(**検算 V3**: 該当 12 個・反例 0)。
-9. **$R^{\rm cyc}$ の状態札は変わる**: $B_{\rm FC}$ は `candidate / UNKNOWN` から **`paper-proof (framework-conditional)`** へ。したがって $R^{\rm cyc}$ 全体(= $B_{\rm FC}+R^{\rm cyc}_{\rm formal}$)も同じ札になる。**`verified` ではない。二人監査も未了。**
-10. **五札(§5.2.5)は再構成が要る**: BRIDGE-FAIL の中身が変わり、**BRIDGE-UNKNOWN の入口は (W5) 不成立と【GAP-TB】の 2 つだけ**になる(§13)。
+6. **閉じなかったもの = 枠組み札ただ 1 枚**:【GAP-TB】= 接基点繊維関手の 4 性質 (TB1)–(TB4)。これは新しい穴ではなく、**$A_5$ v4 の【GAP-C3】(Deligne 1989 §15)を 4 項目に鋭くしたもの**である。両実例も暗黙に同じ 4 つを使っていた。**【v2・S1】札の書き方**: $\texttt{TB1--TB4} =$ 全体枠組み仮定 / $\texttt{TB4} =$ **exact $b=1$ の向きについて唯一 load-bearing な文献関所**。(TB1)(TB3) も真に破れれば「記法だけ」では済まない(便 43 F7)。
+7. **新しい前件を 1 本発見した**: **(W5) $\Lambda$ が $\Phi(\mathfrak F_0)$-安定**(v3.1 の (6′) 第 1 節)は、$K$-モデルの存在そのものを供給する。$\mathbb Q$-モデルには $\Phi(\mathrm{GT}(N))$-安定が要る。**$K^{(3)}$ でこれは自明でない**: $\lvert\mathrm{Aut}(G_3)\rvert=1296$ のうち $\Lambda$ を setwise に保つのは **432** 個で、$\Phi(\mathfrak F_0)$(3 元)も $\Phi(\mathrm{GT})$(12 元)もその中(**検算 V6・V7**)。**【v2・S2】(W5) 自体は「432/1296」ではなく「指定された像が 432 元の stabilizer に含まれる」という包含条件**であり、432/1296 は非自明性を示す周囲のデータである(便 43 F8.1)。
+8. **前件 (3) の一部は導出できる**(**【v2・R1】結合形に修正**): 「$\langle X\rangle$ が $P/H$ 上推移的かつ $\lvert\Lambda\rvert=\mathrm{ord}(X)=M$」から **$[P:H]=M$ と $N_P(H)=H$ が同時に**従う(命題 B-2 (B2-corr))。**逆向きの各個同値は偽** — $N_P(H)=H$ だけでは $\lvert\Lambda\rvert=M$ は出ない(反例 $P=S_3\times C_2$・便 43 F2.1)。$K^{(3)}$ で悉皆確認(**検算 V3**: 該当 12 個・反例 0 — V3 は初めから結合形を検査している)。
+9. **$R^{\rm cyc}$ の状態札は変わる**: $B_{\rm FC}$ は `candidate / UNKNOWN` から **`paper-proof (framework-conditional on TB1–TB4) / two-mathematician audit PASS`**(便 43 F10・裁定 44)へ。したがって $R^{\rm cyc}$ 全体(= $B_{\rm FC}+R^{\rm cyc}_{\rm formal}$)も同じ札になる。**`verified`(Lean)ではない。**
+10. **五札(§5.2.5)は再構成が要る**: **【v2・R6】**便 43 F9 の **6 層表**(GLOBAL-FRAMEWORK / WINDOW-SCHEMA / MODEL / EXTRACTION / BRIDGE / ARITHMETIC)へ差し替える(§13.3)。v1 が書いた「BRIDGE-UNKNOWN の入口は (W5) 不成立と【GAP-TB】の 2 つ」は**過剰推論**で、**(W5) 不成立は「この有限 schema を適用できない」までしか言えない**($K$-モデルの非存在ではない)。
 
-> **自制**: 本稿は**私一人の紙上証明**である。$A_5$ v4 §1.4 が一度「証明した」と書いてから Sol の指摘で 2 度書き直された前例(補題 B の循環・W133)を思えば、**§6 の descent と §8 の $b=1$ は特に監査を要する**(§14 で名指しする)。
+> **自制**: v1 は**私一人の紙上証明**だった。**v2 は便 43 の監査を通っている**が、閉じたのは「(TB1)–(TB4) を前件として採用した紙上証明」までである。$A_5$ v4 §1.4 が一度「証明した」と書いてから Sol の指摘で 2 度書き直された前例(補題 B の循環・W133)を忘れない。**v1 で私が立てた自己申告 2 件のうち、実際に修理が要ったのはそこではなく、私が申告していなかった 4 か所(B-2 の同値・B-3 の (W3)・B-4 の (W2)・B-4c の剰余類)だった** — ★教材 7。
 
 ---
 
@@ -64,7 +87,7 @@ $A_5$ v4 と $K^{(3)}$ v3.1 が **(5′) を閉じた論証**を段ごとに並�
 > は $\deg(W/U)$ 個の元をもつ集合で、$\mathrm{Fib}_{\vec{01}}$ は $\pi_1(U_k,\vec{01})$-集合の圏との同値を与える(Grothendieck–Galois)。
 > **(TB2)(基点規約と $\zeta$ 系)** 整合的な $1$ の冪根系 $(\zeta_n)_n$($\zeta_{mn}^m=\zeta_n$)を固定する。$G_\mathbb Q$ は $\Omega$ に**係数のみ**で作用し、すべての $\beta^{1/n}$ を固定する。これが分裂 $s_{\vec{01}}:G_\mathbb Q\to\pi_1(U_\mathbb Q,\vec{01})$ を与える(作用は $\Omega$ への後合成)。
 > **(TB3)(幾何的基本群)** $\pi_1(U_{\bar{\mathbb Q}},\vec{01})\cong\hat F_2=\langle x,y\rangle$、$x,y,z=(xy)^{-1}$ はそれぞれ $0,1,\infty$ の慣性生成元、$xyz=1$。
-> **(TB4)(慣性の正規化)** $x$ は $\mathrm{Gal}(\Omega/\bar{\mathbb Q}((\beta)))\cong\hat{\mathbb Z}(1)$ の、**$(\zeta_n)$ が定める**位相的生成元 $\sigma_\zeta:\beta^{1/n}\mapsto\zeta_n\beta^{1/n}$($\bar{\mathbb Q}$ 上恒等)の像である。$\hat{\mathbb Z}(1)$ は $\Omega$ への後合成で $\mathrm{Fib}_{\vec{01}}$ に作用する。
+> **(TB4)(慣性の正規化)** $x$ は $\mathrm{Gal}(\Omega/\bar{\mathbb Q}((\beta)))\cong\hat{\mathbb Z}(1)$ の、**$(\zeta_n)$ が定める**位相的生成元 $\sigma_\zeta:\beta^{1/n}\mapsto\zeta_n\beta^{1/n}$($\bar{\mathbb Q}$ 上恒等)の像である。$\hat{\mathbb Z}(1)$ は $\Omega$ への**後合成(= 左作用)**で $\mathrm{Fib}_{\vec{01}}$ に作用する — **【v2・R4】この「左」が全編の剰余類規約(§6.3 の $\pi_1/\mathcal H$・$\hat F_2/\tilde H$)と $b=1$ の向きを同時に決めている。**
 
 > **★ (TB1)–(TB4) の身分**: これは**当工房が §1.1 で置いた規約**((TB2))と、**接基点の理論の標準事実**((TB1)(TB3)(TB4))の混合である。標準事実側が【GAP-TB】(§12.1)。**$A_5$ v4 §3.5 も $K^{(3)}$ §2.1 も、まさにこの 4 つを暗黙に使っていた** — 本稿は使用箇所を明示化しただけで、依存を増やしていない。
 
@@ -86,7 +109,7 @@ $A_5$ v4 と $K^{(3)}$ v3.1 が **(5′) を閉じた論証**を段ごとに並�
 | **(W5$^{\mathbb Q}$)** | (任意) $\Lambda$ が **$\Phi(\mathrm{GT}(N))$-安定**($\mathbb Q$-モデルが欲しいとき) | 有限計算 | 窓ごと |
 
 > **v3.1 の (3)(4)(5)(6′) との対応**:
-> - v3.1 **(3)**(「$\mathrm{ord}(X)=\lvert\Lambda\rvert=M$ で $\langle X\rangle$ が単純推移」)$\Longleftarrow$ **(W3)+(W4)**(命題 B-2)。逆に (W4) + 「$\lvert\Lambda\rvert=M$」から (W3) が出る(**同値**)。
+> - v3.1 **(3)**(「$\mathrm{ord}(X)=\lvert\Lambda\rvert=M$ で $\langle X\rangle$ が単純推移」)$\Longleftarrow$ **(W3)+(W4)**(命題 B-2)。**【v2・R1】逆は結合形でのみ成立**: $\langle X\rangle$ が $P/H$ 上推移的なら $\lvert\Lambda\rvert=M\iff\bigl([P:H]=M\ \text{かつ}\ N_P(H)=H\bigr)$、すなわち **(W4) を仮定した上でなら (W3) $\iff\lvert\Lambda\rvert=M$**。**(W3) 単独から $\lvert\Lambda\rvert=M$ は出ない**(命題 B-2 の反例)。
 > - v3.1 **(4)**(明示 $\mathbb Q$-モデル・$\mathbb Q$-有理全分岐 cusp・actual marking)$\Longleftarrow$ **(W3)+(W4)+(W5)**(定理 B-4・補題 B-5)。**「明示」「actual marking」は不要**。
 > - v3.1 **(5)**(FC-2b/FC-3)$=$ **較正 (TB1)–(TB4) + $A_5$ v4 §1.4**。FC-3 は前件ではなく帰結(§6.3)。
 > - v3.1 **(6′)** の第 1 節(「$\Lambda$ が $\Phi(\mathfrak F_0)$-安定」)$=$ **(W5)**。**これが橋の前件でもあった**ことが本稿の発見。第 2 節(「$\rho_0$ 忠実」)は $R^{\rm cyc}_{\rm formal}$ 側の前件で、**橋には要らない**。
@@ -97,15 +120,20 @@ $A_5$ v4 と $K^{(3)}$ v3.1 が **(5′) を閉じた論証**を段ごとに並�
 
 $$ \boxed{\ B_{\rm FC}\ =\ \underbrace{B_{\rm FC}\text{-I}}_{\text{型: 平行移動である}}\ +\ \underbrace{B_{\rm FC}\text{-II}}_{\text{同定: その指標が }\kappa_{u^{-1}}} } $$
 
-| 段 | 主張 | 依存 | 状態 |
-|---|---|---|---|
-| **I** | $\exists!\,c\in\mathrm{Hom}_{\rm cont}(G_K,\mu_M)$: $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(c(\gamma))\ \forall\gamma\in G_K$ | (W1)(W2)(W4)(W5) のみ | **§5・定理 B-3 で証明** |
-| **II-a** | 一意な $K$-モデル $W_0\to U_K$ が存在(幾何的連結) | (W1)(W3)(W5) + 較正 | **§6・定理 B-4 で証明** |
-| **II-b** | $\Lambda\cong\mathrm{Fib}_{\vec{01}}(W_0)$ が $G_K$-集合としても $\mu_M$-torsor としても同型($b=1$) | (TB1)(TB3)(TB4) + (W3)(W4) + 較正 | **§8・補題 B-6 で証明** |
-| **II-c** | $\mathrm{Fib}_{\vec{01}}(W_0)$ の torsor 類 $=[u^{-1}]\in K^\times/K^{\times M}$ | (TB1)(TB2) + (W4) | **§7・補題 B-5 で証明** |
-| **合成** | $c=\kappa_{u^{-1}}$、すなわち **(5′)** | 上の全部 | **§9・定理 B-7** |
+**【v2・R2/R3/R5】依存欄を修理した。** 「$W_0$ が**与えられた**ときの局所補題」と「窓から $W_0$ を**構成する**主定理」を段で分ける(便 43 F5.2)。
 
-> **★ 分解の効き目**: これで「$B_{\rm FC}$ が UNKNOWN」という粗い札が、**「【GAP-TB】が未閉鎖」という 1 点**に縮む。委嘱の言う「$B_{\rm FC}$ の第 $k$ 段に絞る」の答えは **$k=$ II-b の (TB4)** である。
+| 段 | 主張 | 依存(**直接**) | 依存(**間接**) | 状態 |
+|---|---|---|---|---|
+| **I** | $\exists!\,c\in\mathrm{Hom}_{\rm cont}(G_K,\mu_M)$: $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(c(\gamma))\ \forall\gamma\in G_K$ | **(W1)(W2)(W3)(W4)(W5)** ← **R2 で (W3) 追加** | — | **§5・定理 B-3 で証明** |
+| **II-a** | 一意な $K$-モデル $W_0\to U_K$ が存在(幾何的連結) | **(W1)(W2)(W3)(W5)** + (CAL) ← **R3 で (W2) 追加** | (TB1)(TB2)(TB3) | **§6・定理 B-4 で証明** |
+| **II-a$^\mathbb Q$** | $\mathbb Q$-モデル版 | **(W1)(W3)(W5$^\mathbb Q$)** + (CAL)(**(W2) 不要**) | 同上 | **§6・定理 B-4 で証明** |
+| **II-c$_0$**(局所補題・**$W_0$ を与えられたものとする**) | $\lambda^{-1}(0)=\{P_0\}$・$K$-有理・$e=M$、$\mathrm{Fib}$ の Kummer 表示、torsor 類 $=[u^{-1}]$ | **(TB1)(TB2)(TB3)(TB4)** + (W4) ← **R5 で (TB3)(TB4) 追加** | — | **§7・補題 B-5 で証明** |
+| **II-c**(窓から) | 上を窓データだけから主張する | II-c$_0$ + **II-a** | (W1)(W2)(W3)(W5)+(CAL) | 同上 |
+| **II-b** | $\Lambda\cong\mathrm{Fib}_{\vec{01}}(W_0)$ が $G_K$-集合としても $\mu_M$-torsor としても同型($b=1$) | **(TB1)(TB2)(TB3)(TB4)** + (W3)(W4) + (CAL) | **(W1)(W2)(W5)**(B-4c と B-5 を呼ぶため) | **§8・補題 B-6 で証明** |
+| **合成** | $c=\kappa_{u^{-1}}$、すなわち **(5′)** | 上の全部 | — | **§9・定理 B-7** |
+
+> **★ 分解の効き目**: これで「$B_{\rm FC}$ が UNKNOWN」という粗い札が、**「(TB4) の向きが未裏取り」という 1 点**に縮む。委嘱の言う「$B_{\rm FC}$ の第 $k$ 段に絞る」の答えは **$k=$ II-b の (TB4)** である。
+> **【v2・S1】ただし射程を限定する**(便 43 F7): 「(TB4) だけが load-bearing」は **exact $b=1$ の向きについて**の話である。(TB1) の圏同値・(TB3) の慣性生成元同定は II-a/II-c$_0$ の土台であり、真に破れれば記法問題では済まない。**単位 $b$ までの twisted 版**((10.1) 形)は (TB4) の向きに依存せず先に定理化できる(便 43 F6.3)。
 
 ---
 
@@ -114,14 +142,29 @@ $$ \boxed{\ B_{\rm FC}\ =\ \underbrace{B_{\rm FC}\text{-I}}_{\text{型: 平行�
 > **命題 B-1(regular 可換部分群は自己中心化).** $A\le\mathrm{Sym}(\Omega)$ が可換かつ**正則**(単純推移)なら $C_{\mathrm{Sym}(\Omega)}(A)=A$。
 > **証明.** $\omega_0\in\Omega$ を固定し $\Omega\xrightarrow{\sim}A$, $a\cdot\omega_0\leftrightarrow a$ と同一視する。$A$ は左移動として作用。$\sigma\in C(A)$、$\sigma(\omega_0)=b\cdot\omega_0$ とすると $\sigma(a\cdot\omega_0)=a\cdot\sigma(\omega_0)=ab\cdot\omega_0$、すなわち $\sigma$ は右移動 $R_b$。$A$ 可換ゆえ $R_b=L_b\in A$。∎
 
-> **命題 B-2(指数の整合 — v3.1 (3) の分解).** $\langle X\rangle$ が $P/H$ 上推移的で $\mathrm{ord}(X)=M$ とする。このとき
-> $$ \lvert\Lambda\rvert=M\iff [P:H]=M\iff N_P(H)=H, $$
-> かつこのとき $P/H\to\Lambda,\ gH\mapsto gHg^{-1}$ は **$\langle X\rangle$-同変な全単射**であり、$\tau(\zeta_M)$(共役)は左移動 $L_X$ に対応する。
-> **証明.** 推移性から $[P:H]\le\lvert\langle X\rangle\rvert=M$。また $\lvert\Lambda\rvert=[P:N_P(H)]\le[P:H]$。よって $\lvert\Lambda\rvert\le[P:H]\le M$。$\lvert\Lambda\rvert=M$ なら全部等号で $N_P(H)=H$。逆も同様。写像 $gH\mapsto gHg^{-1}$ は well-defined・$P$-同変・全射で、単射性は $N_P(H)=H$ と同値。同変性から $\tau(\zeta_M)\leftrightarrow L_X$。∎
-> **⇒ (W3) は (W4) + 「$\lvert\Lambda\rvert=M$」の言い換えである。** 検算 **V3**($K^{(3)}$ で該当 $H$ が 12 個・$N_P(H)\ne H$ の反例 0)・**V4**(同変全単射)。
+> ### 命題 B-2(指数の整合 — v3.1 (3) の分解)【**v2・R1 で修理**】
+> $\langle X\rangle$ が $P/H$ 上推移的で $\mathrm{ord}(X)=M$ とする。このとき
+> $$ \boxed{\ \lvert\Lambda\rvert=M\ \iff\ \bigl([P:H]=M\ \textbf{かつ}\ N_P(H)=H\bigr)\ } \tag{B2-corr} $$
+> であり、さらに **$M$ と無関係に**
+> $$ P/H\longrightarrow\Lambda,\quad gH\mapsto gHg^{-1}\ \text{が全単射}\ \iff\ N_P(H)=H \tag{B2-bij} $$
+> が成り立つ。(B2-corr) の下では $P/H\to\Lambda$ は **$\langle X\rangle$-同変な全単射**で、$\tau(\zeta_M)$(共役)は左移動 $L_X$ に対応する。
 
-> ### 定理 B-3($B_{\rm FC}$-I).
-> (W1)(W2)(W4)(W5) の下で、$\rho_\Lambda\circ\mathrm{Ih}_N|_{G_K}$ の像は $\tau(\mu_M)$ に含まれる。すなわち**一意な連続準同型**
+**証明.** 推移性から $[P:H]\le\lvert\langle X\rangle\rvert=M$。また $\lvert\Lambda\rvert=[P:N_P(H)]\le[P:H]$。よって
+$$ \lvert\Lambda\rvert\ \le\ [P:H]\ \le\ M . \tag{B2-chain} $$
+$\lvert\Lambda\rvert=M$ なら (B2-chain) は全部等号で、$[P:H]=M$ かつ $[P:N_P(H)]=[P:H]$ すなわち $N_P(H)=H$。逆に $[P:H]=M$ かつ $N_P(H)=H$ なら $\lvert\Lambda\rvert=[P:N_P(H)]=[P:H]=M$。(B2-bij): 写像は well-defined・$P$-同変・全射で、$gHg^{-1}=g'Hg'^{-1}\iff g^{-1}g'\in N_P(H)$ だから単射性は $N_P(H)=H$ と同値。同変性から $\tau(\zeta_M)\leftrightarrow L_X$。∎
+
+> **⚠【v2・R1】v1 の「$\lvert\Lambda\rvert=M\iff[P:H]=M\iff N_P(H)=H$」という三者 pairwise 同値は偽である**(便 43 F2.1)。**Sol の反例**:
+> $$ P=S_3\times C_2,\qquad H=\langle(1\,2)\rangle\times C_2,\qquad X=\bigl((1\,2\,3),\,c\bigr) $$
+> ($c$ は $C_2$ の生成元)。$\mathrm{ord}(X)=6=M$、$[P:H]=3$、$X$ は $P/H$(3 点)上推移的($X^3=(e,c)\in H$ は自明に作用し $X$ は 3-サイクル)、$N_{S_3}(\langle(1\,2)\rangle)=\langle(1\,2)\rangle$ より $N_P(H)=H$。しかし
+> $$ \lvert\Lambda\rvert=[P:H]=3\ \ne\ 6=M. $$
+> **すなわち $N_P(H)=H$ だけでは $\lvert\Lambda\rvert=M$ は出ない。** 私は (B2-chain) の「全部等号」を、両端を止めずに各段で読んでいた。**自認**。
+>
+> **⇒ 正しい副産物の言明**: **(W4)(= $\langle X\rangle$ 推移的 **かつ** $[P:H]=M$)を仮定した上でなら**
+> $$ \boxed{\ (W3)\ \iff\ \lvert\Lambda\rvert=M\ } $$
+> である。**検算 V3 は初めからこの結合形**(「$\langle X\rangle$ 推移的 **かつ** $\lvert\Lambda\rvert=6$」⇒ $N_P(H)=H$)**を検査しており、誤った pairwise 同値を検査してはいない**(便 43 F2.1 が確認)。検算 **V3**($K^{(3)}$ で該当 $H$ が 12 個・反例 0)・**V4**(同変全単射)。
+
+> ### 定理 B-3($B_{\rm FC}$-I)【**v2・R2 で (W3) を追加**】
+> **(W1)(W2)(W3)(W4)(W5)** の下で、$\rho_\Lambda\circ\mathrm{Ih}_N|_{G_K}$ の像は $\tau(\mu_M)$ に含まれる。すなわち**一意な連続準同型**
 > $$ \boxed{\ c\ :=\ \tau^{-1}\circ\rho_\Lambda\circ\mathrm{Ih}_N|_{G_K}\ :\ G_K\longrightarrow\mu_M\ } \tag{5.1} $$
 > が定まり、$\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(c(\gamma))\ (\forall\gamma\in G_K)$。
 
@@ -129,8 +172,10 @@ $$ \boxed{\ B_{\rm FC}\ =\ \underbrace{B_{\rm FC}\text{-I}}_{\text{型: 平行�
 1. (W5) より $\Phi(\mathfrak F_0)$ は $\Lambda$ を保ち、(W2) より $\gamma\in G_K\Rightarrow\tilde\chi(\mathrm{Ih}_N(\gamma))=\chi_{2M}(\gamma)=1\Rightarrow\mathrm{Ih}_N(\gamma)\in\mathfrak F_0$。ゆえに $\rho_\Lambda(\mathrm{Ih}_N(\gamma))\in\mathrm{Sym}(\Lambda)$ が定義される。
 2. shadow の定義 $\Phi_{(m,f)}(X)=X^{2m+1}$ と $\tilde\chi(m,f)=2m+1$ より、$\varphi\in\mathfrak F_0$ なら $2m+1\equiv1\ (2M)$、とくに $\bmod\ M$ でも $1$ だから $\Phi_\varphi(X)=X$。
 3. ゆえに $H'\in\Lambda$ に対し $\Phi_\varphi(XH'X^{-1})=\Phi_\varphi(X)\Phi_\varphi(H')\Phi_\varphi(X)^{-1}=X\Phi_\varphi(H')X^{-1}$、すなわち $\rho_\Lambda(\varphi)$ は $\tau(\zeta_M)$ と**可換**。
-4. (W4)+命題 B-2 より $\tau(\mu_M)$ は $\Lambda$ 上の **regular 可換**部分群。命題 B-1 より $C_{\mathrm{Sym}(\Lambda)}(\tau(\mu_M))=\tau(\mu_M)$。ゆえに $\rho_\Lambda(\mathfrak F_0)\subseteq\tau(\mu_M)$、とくに $\rho_\Lambda(\mathrm{Ih}_N(G_K))\subseteq\tau(\mu_M)$。
+4. **(W3)+(W4)**+命題 B-2 より $\lvert\Lambda\rvert=M$ で $\tau(\mu_M)$ は $\Lambda$ 上の **regular 可換**部分群。命題 B-1 より $C_{\mathrm{Sym}(\Lambda)}(\tau(\mu_M))=\tau(\mu_M)$。ゆえに $\rho_\Lambda(\mathfrak F_0)\subseteq\tau(\mu_M)$、とくに $\rho_\Lambda(\mathrm{Ih}_N(G_K))\subseteq\tau(\mu_M)$。
 5. $\tau$ は単射(命題 B-2)だから $c$ は well-defined。$\rho_\Lambda\circ\mathrm{Ih}_N$ が連続準同型ゆえ $c$ も。∎
+
+> **⚠【v2・R2】(W3) は落とせない**(便 43 F2.2)。**Sol の反例**: $P=C_M\times C_2$、$H=C_2$、$X=(\text{$C_M$ の生成元},1)$。$[P:H]=M$ で $\langle X\rangle$ は $P/H$ 上推移的だから **(W4) は成立する**が、$H\trianglelefteq P$ ゆえ $\Lambda$ は 1 点、$\tau$ は忠実でも regular でもなく、第 4 段が崩れる。**v1 は前件欄で (W3) を落としていた**(主定理 B-7 の前件には入っていたので結論は無事)。**自認**。
 
 > **★ これは補題 $R'$(v3.1 §5.2.3)の $G_K$ 版であり、証明は逐語同じである。** v3.1 は補題 $R'$ を **(6′) の縮約**にしか使っていなかったが、**同じ補題が (5′) の「型」を無料で供給する**ことに気づいていなかった。これが本稿最大の構造的発見である。
 >
@@ -138,7 +183,8 @@ $$ \boxed{\ B_{\rm FC}\ =\ \underbrace{B_{\rm FC}\text{-I}}_{\text{型: 平行�
 > $$ \boxed{\ \mathfrak s(N,H)\ :=\ [c]\ \in\ K^\times/K^{\times M}\quad(\textbf{shadow 類})\ } \tag{5.2} $$
 > を与える。**$B_{\rm FC}$ とは「shadow 類 $=$ Belyi 類 $[u^{-1}]$」という主張に他ならない。**
 >
-> **注(較正はここでは要らない)**: 定理 B-3 は $\mathrm{Ih}_N$ の**存在と (W2)** しか使わない。$\alpha^{\rm Ih}=\alpha^{\rm std}$ が要るのは §8(幾何側との同定)である。**依存関係を正確にすると、較正の使用箇所は 1 か所だけになる。**
+> **注(較正はここでは要らない)【v2 で文言精密化】**: 定理 B-3 は $\mathrm{Ih}_N$ の**存在**と**有限群論的前件 (W1)–(W5)** しか使わない — $\alpha^{\rm Ih}=\alpha^{\rm std}$ も $\mathbb Q$-モデルも cusp も使わない。較正が要るのは **§6(descent の $\Lambda$-安定性)と §8(幾何側との同定)**である。
+> **⇒「型は無料」の正確な意味**(便 43 F2.2 の言い換えを採用): **regular detector (W3)(W4) を既に払った後は、$B_{\rm FC}$-I に追加の幾何入力が要らない。** 「前件ゼロで出る」という意味ではない。
 
 ---
 
@@ -151,13 +197,19 @@ $\tilde H:=\pi^{-1}(H)\le\hat F_2$(開)、$\tilde\Lambda:=\{\tilde H\text{ の }
 > **補題 B-4a.** (W3) $N_P(H)=H$ $\Longrightarrow$ $N_{\hat F_2}(\tilde H)=\tilde H$。
 > **証明.** $\bar N\trianglelefteq\hat F_2$ かつ $\bar N\subseteq\tilde H$ より、$n\in\bar N$, $h\in\tilde H$ に対し $nhn^{-1}=h\cdot(h^{-1}nhn^{-1})\in\tilde H\bar N=\tilde H$。ゆえに $\bar N\subseteq N_{\hat F_2}(\tilde H)$。$N_{\hat F_2}(\tilde H)/\bar N=N_P(H)=H$ だから $N_{\hat F_2}(\tilde H)=\tilde H$。∎
 
-> **補題 B-4b.** (W1)(W5) + 較正($\alpha^{\rm Ih}=\alpha^{\rm std}$)$\Longrightarrow$ $\tilde\Lambda$ は $\alpha^{\rm std}(G_K)$-安定。
-> **証明.** (W1) より $\alpha^{\rm std}_\gamma(\bar N)=\bar N$ で、誘導自己同型 $\beta_\gamma\in\mathrm{Aut}(P)$ が定まる。較正より $\alpha^{\rm std}=\alpha^{\rm Ih}$ だから $\beta_\gamma=\Phi(\mathrm{Ih}_N(\gamma))$($\Phi$ の定義式と (1.1) が逐語同一)。$\gamma\in G_K$ なら定理 B-3 の 1 より $\mathrm{Ih}_N(\gamma)\in\mathfrak F_0$、(W5) より $\beta_\gamma(\Lambda)=\Lambda$。$\alpha^{\rm std}_\gamma(\tilde H)$ は $\beta_\gamma(H)\in\Lambda$ の引き戻しゆえ $\tilde\Lambda$ に入る。∎
+> **補題 B-4b【v2・R3 で (W2) を追加】.**
+> **(a)($K$-版)** **(W1)(W2)(W5)** + 較正($\alpha^{\rm Ih}=\alpha^{\rm std}$)$\Longrightarrow$ $\tilde\Lambda$ は $\alpha^{\rm std}(G_K)$-安定。
+> **(b)($\mathbb Q$-版)** **(W1)(W5$^\mathbb Q$)** + 較正 $\Longrightarrow$ $\tilde\Lambda$ は $\alpha^{\rm std}(G_\mathbb Q)$-安定。**(W2) は不要。**
+> **証明.** (W1) より $\alpha^{\rm std}_\gamma(\bar N)=\bar N$ で、誘導自己同型 $\beta_\gamma\in\mathrm{Aut}(P)$ が定まる。較正より $\alpha^{\rm std}=\alpha^{\rm Ih}$ だから $\beta_\gamma=\Phi(\mathrm{Ih}_N(\gamma))$($\Phi$ の定義式と (1.1) が逐語同一)。
+> (a): $\gamma\in G_K$ なら **(W2)** より $\tilde\chi(\mathrm{Ih}_N(\gamma))=\chi_{2M}(\gamma)=1$、すなわち $\mathrm{Ih}_N(\gamma)\in\mathfrak F_0$。(W5) より $\beta_\gamma(\Lambda)=\Lambda$。
+> (b): $\beta_\gamma\in\Phi(\mathrm{GT}(N))$ は無条件だから (W5$^\mathbb Q$) が直接効く。**$\mathfrak F_0$ への所属を経由しないので (W2) を要さない**(便 43 F3.2)。
+> いずれも $\alpha^{\rm std}_\gamma(\tilde H)$ は $\beta_\gamma(H)\in\Lambda$ の引き戻しゆえ $\tilde\Lambda$ に入る。∎
 
 ### 6.2 定理
 
-> ### 定理 B-4(剛性 descent).
-> (TB1)–(TB3)・(W1)(W3)(W5) と較正の下で、$\tilde H$ に対応する $\bar{\mathbb Q}$-被覆 $W\to U_{\bar{\mathbb Q}}$ は **$K$ 上の幾何的連結モデル $W_0\to U_K$ をもち、それは(同型まで一意な同型を除いて)一意**である。**(W5$^{\mathbb Q}$) を仮定すれば $\mathbb Q$-モデルが取れる。**
+> ### 定理 B-4(剛性 descent)【**v2・R3 で $K$-版と $\mathbb Q$-版を分離**】
+> **(a)($K$-版)** (TB1)–(TB3)・**(W1)(W2)(W3)(W5)** と較正 (CAL) の下で、$\tilde H$ に対応する $\bar{\mathbb Q}$-被覆 $W\to U_{\bar{\mathbb Q}}$ は **$K$ 上の幾何的連結モデル $W_0\to U_K$ をもち、それは一意な同型を除いて一意**である。
+> **(b)($\mathbb Q$-版)** (TB1)–(TB3)・**(W1)(W3)(W5$^\mathbb Q$)** と (CAL) の下で、$\mathbb Q$-モデルが同様に取れる。**(W2) は要らない。**
 
 **証明.** (TB2) の分裂により $\pi_1(U_K,\vec{01})=\hat F_2\rtimes_{\alpha}G_K$($\alpha:=\alpha^{\rm std}$)と書ける。(TB1) より、求める $K$-モデルは
 $$ \mathcal H\le\hat F_2\rtimes G_K\ \text{開},\quad \mathcal H\cap\hat F_2=\tilde H,\quad \mathcal H\cdot\hat F_2=\pi_1(U_K,\vec{01}) $$
@@ -176,26 +228,43 @@ $$ \alpha_{\gamma\delta}(\tilde H)=\alpha_\gamma\bigl(c_\delta^{-1}\tilde Hc_\de
 **部分群であること.** $\mathcal H:=\{(hc_\gamma,\gamma):h\in\tilde H,\ \gamma\in G_K\}$ と置く。
 $$ (hc_\gamma,\gamma)(h'c_\delta,\delta)=\bigl(h\,c_\gamma\alpha_\gamma(h')\alpha_\gamma(c_\delta),\ \gamma\delta\bigr), $$
 $c_\gamma\alpha_\gamma(\tilde H)c_\gamma^{-1}=\tilde H$ より $c_\gamma\alpha_\gamma(h')=h''c_\gamma$($h''\in\tilde H$)、そして $c_\gamma\alpha_\gamma(c_\delta)\in\tilde Hc_{\gamma\delta}$。ゆえに積は $\mathcal H$ に入る。
-**閉性と開性**: $\mathcal H=\{(g,\gamma):\tilde Hg=\tilde Hc_\gamma\}$ は、連続写像 $(g,\gamma)\mapsto(\tilde Hg,\ \tilde Hc_\gamma)\in(\tilde H\backslash\hat F_2)^2$(**右辺は有限集合**)による対角線の逆像なので**閉**。$C_1=N_{\hat F_2}(\tilde H)=\tilde H$ より $c_1=1$ と取れて $\mathcal H\cap\hat F_2=\tilde H$、$\mathcal H\to G_K$ は全射ゆえ $\mathcal H\hat F_2=\pi_1$、したがって $[\pi_1:\mathcal H]=[\hat F_2:\tilde H]<\infty$。副有限群の有限指数閉部分群は**開**。閉かつ積で閉じた副有限群の部分集合は逆元でも閉じるので、$\mathcal H$ は開部分群。∎(存在)
+**閉性と開性**: $\mathcal H=\{(g,\gamma):\tilde Hg=\tilde Hc_\gamma\}$ は、連続写像 $(g,\gamma)\mapsto(\tilde Hg,\ \tilde Hc_\gamma)\in(\tilde H\backslash\hat F_2)^2$(**右辺は有限集合**)による対角線の逆像なので**閉**。
+【**v2・R4 の注意**】ここで現れる $\tilde H\backslash\hat F_2$ は **$C_\gamma=\tilde Hc_\gamma$ が右剰余類だから**であって、§6.3 で $\pi_1$ が作用する**左**剰余類空間 $\pi_1/\mathcal H$ とは別物である。**両者を混ぜない**(R4 の修理はこの区別を明示化したもので、本段は修理前から正しい)。$C_1=N_{\hat F_2}(\tilde H)=\tilde H$ より $c_1=1$ と取れて $\mathcal H\cap\hat F_2=\tilde H$、$\mathcal H\to G_K$ は全射ゆえ $\mathcal H\hat F_2=\pi_1$、したがって $[\pi_1:\mathcal H]=[\hat F_2:\tilde H]<\infty$。副有限群の有限指数閉部分群は**開**。
+**逆元(補題を一行明記・便 43 F3.1 の助言)**: *コンパクト位相群の空でない閉部分半群は部分群である*($a\in\mathcal H$ に対し $\overline{\{a^n:n\ge1\}}$ はコンパクト可換半群ゆえ群を含み、$a^{-1}$ を含む)。$\mathcal H$ は閉・非空・積で閉じているので部分群。∎(存在)
 
 **一意性.** $\mathcal H'$ を別の解とすると、$\gamma$ ごとに $(c'_\gamma,\gamma)\in\mathcal H'$ が取れ、$\mathcal H'\cap\hat F_2=\tilde H$ の正規性から $c'_\gamma\in C_\gamma=\tilde Hc_\gamma$。ゆえに $\mathcal H'=\mathcal H$。∎(一意性)
 
-**(W5$^{\mathbb Q}$) の場合**: 上の議論の $G_K$ を $G_\mathbb Q$ に置換すればよい(補題 B-4b の $\mathfrak F_0$ を $\mathrm{GT}(N)$ に置換)。∎
+**(b)($\mathbb Q$-版)**: 上の議論の $G_K$ を $G_\mathbb Q$、補題 B-4b(a) を (b) に置換すればよい。∎
+
+> **【v2・R3 / 便 43 F3.3】一意性の射程 — 「部分群の一意性」から「被覆の一意性」へ**: 上の一意性は、**幾何 stabilizer を文字どおり $\tilde H$ に固定した pointed 記述**での部分群の一意性である。非標識被覆へ戻すと別の幾何同定は $\hat F_2$-共役を生むが、
+> $$ \mathrm{Aut}_U(W)\ \cong\ N_{\hat F_2}(\tilde H)/\tilde H\ \overset{\text{補題 B-4a}}{=}\ 1 $$
+> なので、**$K$-モデルは一意な同型を除いて一意**になる。この一段を明示しないと、定理文の「一意な同型を除いて一意」が pointed 版の主張と混ざる。
 
 > **★ 何が起きたか**: これは Weil descent の**剛性版**($\mathrm{Aut}_U(W)=N_P(H)/H=1$ ゆえ descent データが一意 ⇒ cocycle 条件が自動)を、$\pi_1$ の言葉で直接書いたものである。**外部文献を引かずに閉じた。**
 >
 > **★ $A_5$/$K^{(3)}$ が払っていた代金との比較**: $A_5$ は「$H^1(G_\mathbb Q,\mathrm{Aut})=H^1(G_\mathbb Q,1)=1$」(FC-4(c))という**同じ論法**を使っていたが、「dessin の同型類が一意」(FC-4(b))という悉皆計算と抱き合わせだった。$K^{(3)}$ は明示モデルを外から持ってきた。**どちらも不要**だったことになる。
 >
-> **⚠ 注意(W5 の非自明性)**: $K^{(3)}$ では $\lvert\mathrm{Aut}(G_3)\rvert=1296$ のうち $\Lambda$ を保つのは **432 個**(検算 **V7**)。$\Phi(\mathrm{GT}(K^{(3)}))$ の 12 元はすべてその中(検算 **V6**)。**つまり (W5)/(W5$^{\mathbb Q}$) は「自明に成り立つ条件」ではない** — v3.1 §2.2 が記録した「$\mathrm{Aut}(G_3)$ が二つの $G_3$-類を融合する」現象は、まさにこの条件が破れうることの実例である。
+> **⚠ 注意(W5 の非自明性)【v2・S2 で射程限定】**: $K^{(3)}$ では $\lvert\mathrm{Aut}(G_3)\rvert=1296$ のうち $\Lambda$ を **setwise に**保つのは **432 個**(検算 **V7**)。$\Phi(\mathfrak F_0)$ の 3 元も $\Phi(\mathrm{GT}(K^{(3)}))$ の 12 元もすべてその中(検算 **V6**)。**つまり (W5)/(W5$^{\mathbb Q}$) は「自明に成り立つ条件」ではない** — v3.1 §2.2 が記録した「$\mathrm{Aut}(G_3)$ が二つの $G_3$-類を融合する」現象は、まさにこの条件が破れうることの実例である。
+> **ただし (W5) は「432/1296」という比ではない**(便 43 F8.1): **(W5) は「指定された 3 元(または 12 元)の像が、その 432 元の setwise stabilizer に含まれる」という包含条件**である。432/1296 は条件の非自明性を示す**周囲の有限群データ**であって、条件そのものではない。数値の状態札は **`source-audited single-system candidate`**。
 
 ### 6.3 FC-3 は帰結である
 
-> **系 B-4c(= FC-3).** 定理 B-4 の $W_0$ について、$p\mapsto\mathrm{Stab}_{\hat F_2}(p)$ は $G_K$-同型
-> $$ \mathrm{Fib}_{\vec{01}}(W_0)\ \xrightarrow{\ \sim\ }\ \tilde\Lambda\ \xrightarrow{\ \sim\ }\ \Lambda $$
-> を与える。$\hat F_2$-同変でもあり、左からの $X$-作用が $\tau(\zeta_M)$ に対応する。
-> **証明.** (TB1) より $\mathrm{Fib}_{\vec{01}}(W_0)\cong\mathcal H\backslash\pi_1(U_K,\vec{01})$、その $\hat F_2$-集合としての制限は $\tilde H\backslash\hat F_2\cong\hat F_2/\tilde H$($\hat F_2$ の推移性 = 幾何的連結性)。$\mathrm{Stab}(g\tilde H)=g\tilde Hg^{-1}$ で、補題 B-4a より全単射。$G_K$-同変性は $\mathrm{Stab}(s_v(\gamma)p)=s_v(\gamma)\mathrm{Stab}(p)s_v(\gamma)^{-1}=\alpha^{\rm std}_\gamma(\mathrm{Stab}(p))$(接基点の定義そのもの)。命題 B-2 で $\tilde\Lambda\cong\Lambda$ と $L_X\leftrightarrow\tau(\zeta_M)$。∎
+> ### 系 B-4c(= FC-3)【**v2・R4 で左作用・左剰余類へ統一**】
+> 定理 B-4 の $W_0$ について、$p\mapsto\mathrm{Stab}_{\hat F_2}(p)$ は $G_K$-同型
+> $$ c_\Lambda:\ \mathrm{Fib}_{\vec{01}}(W_0)\ \xrightarrow{\ \sim\ }\ \tilde\Lambda\ \xrightarrow{\ \sim\ }\ \Lambda $$
+> を与える。$\hat F_2$-同変でもあり、$x$ の作用が $\tau(\zeta_M)$ に対応する。
+
+**証明.** **(TB4) が採る「$\Omega$ への後合成」は左作用**なので、stabilizer $\mathcal H$ をもつ推移的 $\pi_1$-集合は**左剰余類空間**
+$$ \mathrm{Fib}_{\vec{01}}(W_0)\ \cong\ \pi_1(U_K,\vec{01})/\mathcal H,\qquad g\cdot(f\mathcal H)=gf\mathcal H $$
+である((TB1))。$\hat F_2$-集合としての制限は、$\mathcal H\cap\hat F_2=\tilde H$ と $\mathcal H\hat F_2=\pi_1$(幾何的連結性 = $\hat F_2$ の推移性)から
+$$ \mathrm{Fib}_{\vec{01}}(W_0)\big|_{\hat F_2}\ \cong\ \hat F_2/\tilde H . $$
+左剰余類の stabilizer は $\mathrm{Stab}(g\tilde H)=g\tilde Hg^{-1}$ で、これが $\tilde\Lambda$ への全単射になるのは補題 B-4a($N_{\hat F_2}(\tilde H)=\tilde H$)による。$G_K$-同変性は
+$$ \mathrm{Stab}\bigl(s_v(\gamma)\cdot p\bigr)=s_v(\gamma)\,\mathrm{Stab}(p)\,s_v(\gamma)^{-1}=\alpha^{\rm std}_\gamma\bigl(\mathrm{Stab}(p)\bigr) $$
+(接基点の定義そのもの)。最後に命題 B-2 (B2-bij) で $\tilde\Lambda\cong\Lambda$、左移動 $L_X\leftrightarrow\tau(\zeta_M)$。∎
+
+> **⚠【v2・R4】v1 は $\mathcal H\backslash\pi_1$・$\tilde H\backslash\hat F_2\cong\hat F_2/\tilde H$ と書いていた**(便 43 F4)。$\tilde H$ は非正規なので**左右剰余類を無根拠に同一視していた**。直後に使う $\mathrm{Stab}(g\tilde H)=g\tilde Hg^{-1}$ は**左**剰余類の公式であり、記法と整合していなかった。**組版の問題ではなく §8 の $b=1$ の向きを支える箇所**なので必須修理として直した。**自認。**
 >
-> **⇒ v3.1 の前件 (5) のうち FC-3 部分(と便 27 F5 が要求した (FC3-i)(FC3-ii)(FC3-iii))は、すべて (W3)(W5) からの帰結になった。** 前件に残るのは **FC-2b(較正)だけ**である。
+> **⇒ v3.1 の前件 (5) のうち FC-3 部分(と便 27 F5 が要求した (FC3-i)(FC3-ii)(FC3-iii))は、すべて (W1)(W2)(W3)(W5)+(CAL) からの帰結になった。** 前件に残る幾何入力は **FC-2b(較正)だけ**である。
 
 ---
 
@@ -211,7 +280,8 @@ $W_0^c$ を $W_0$ の滑らかな射影モデル($\mathbf P^1_K$ の $K(W_0)$ �
 > **補題 B-5b(幾何点 $\leftrightarrow$ 慣性軌道).** $\lambda^{-1}(0)$ の**幾何**点は $\mathrm{Fib}_{\vec{01}}(W_0)$ 上の $\langle x\rangle$-軌道と 1:1 に対応し、軌道の長さが分岐指数である。
 > **証明.** 補題 B-5a を $\bar{\mathbb Q}$ 上で読むと $\prod$ の各因子は $\bar{\mathbb Q}((s_P))/\bar{\mathbb Q}((\beta))$ で全分岐次数 $e_P$、その $\Omega$ への埋め込みは $e_P$ 個で $\mathrm{Gal}(\Omega/\bar{\mathbb Q}((\beta)))=\hat{\mathbb Z}(1)$ が推移的に置換する((TB4))。∎
 
-> ### 補題 B-5(局所 Kummer).
+> ### 補題 B-5(局所 Kummer)【**v2・R5 で依存欄を明記**】
+> **これは「$W_0$ が与えられたときの局所補題」である**(窓から $W_0$ を構成する部分は定理 B-4 が担う — 便 43 F5.2 の分離要求)。前件は **(TB1)(TB2)(TB3)(TB4) + (W4)**: B-5b が「$x$ が $0$-慣性で、局所 Galois 群が**後合成(左作用)**で $\mathrm{Fib}$ に作用する」を使うので、**v1 の (TB1)(TB2) だけでは足りない**。**自認。**
 > (W4) を仮定する。すると
 > **(i)** $\lambda^{-1}(0)$ はただ 1 点 $P_0$ からなり、$P_0$ は **$K$-有理**で分岐指数 $M$。
 > **(ii)** $P_0$ での任意の $K$-有理 uniformizer $s$ について $\lambda=u\,s^M(1+O(s))$、$u\in K^\times$。**$[u]_M\in K^\times/K^{\times M}$ は $s$ の選び方にも $K$-モデルの取り方にも依らない。**
@@ -235,8 +305,8 @@ $W_0^c$ を $W_0$ の滑らかな射影モデル($\mathbf P^1_K$ の $K(W_0)$ �
 
 ## 8. $B_{\rm FC}$-II-b — torsor 比較と $b=1$
 
-> ### 補題 B-6(torsor 比較).
-> (TB1)–(TB4)・(W1)(W3)(W4)(W5) と較正の下で、系 B-4c の同型 $c_\Lambda:\mathrm{Fib}_{\vec{01}}(W_0)\xrightarrow{\sim}\Lambda$ は
+> ### 補題 B-6(torsor 比較)【**v2・R4/R5 で依存欄を修理**】
+> (TB1)–(TB4)・**(W1)(W2)(W3)(W4)(W5)** と較正 (CAL) の下で(系 B-4c と補題 B-5 を呼ぶので (W2)(W5) も間接依存に入る)、系 B-4c の**左作用に統一した**同型 $c_\Lambda:\mathrm{Fib}_{\vec{01}}(W_0)\xrightarrow{\sim}\Lambda$ は
 > $$ \boxed{\ c_\Lambda\circ m(\xi)\circ c_\Lambda^{-1}\ =\ \tau(\xi)\qquad(\forall\xi\in\mu_M)\ } \tag{8.1} $$
 > を満たす。すなわち **$b=1$**。
 
@@ -248,7 +318,14 @@ $$ x\cdot p=\zeta_M\,p=m(\zeta_M)\,p . $$
 
 > **★ $b=1$ の正体**: (TB2) の $(\zeta_n)$ が **$x$ の向き**((TB4))と **$\kappa$ の値**((7.2))の**両方**を決めているので、$(\zeta_n)\mapsto(\zeta_n^t)$($t\in\hat{\mathbb Z}^\times$)に取り替えると $\tau$ の生成元と $\kappa$ の値が**同時に**ひねられて相殺する。**$b$ は「二つの独立な規約のずれ」ではなく、「一つの規約を二度使う」ことで消える。**
 >
-> **⚠ ただし実装では $b$ を記録せよ**: Rule 1 §7.4 の言うとおり、実装が (a) GAP の右共役規約、(b) 埋め込み (1.6) と別の原始根、(c) 惰性生成元の反転、のいずれかを踏むと $b\ne1$ が出る。**それは「(TB2) を破った」ことの検出器**であり、数学的発見ではない。**$b_i$ 欄の厳格運用(Rule 1 (7.1)・受理条件 (7.3))は本稿によっても撤回されない**(§10)。
+> **⚠【v2・R6/S1】$b=1$ の状態札を正確に**(便 43 F6.2): $b=1$ は「規約から独立な裸の定理」**ではない**。
+> $$ \boxed{\ b=1\ \text{は}\ \textbf{(TB2) の根系・係数分裂と (TB4) の }x=\sigma_\zeta\textbf{・後合成規約を同時に固定した枠組みに相対的な定理}\ } $$
+> である。**(TB4) はまさに結論の向きを含んでいる** — 原典照合で $x^{-1}$・前合成・右作用が採られていれば、単位 $b$ が出る。したがって **v1 の「$b_i\ne1$ は必ず (TB2) 違反」という診断は狭すぎた**。正しい診断先は
+> $$ \texttt{TB2 / TB4 / 左右作用 / 共役 transport 規約の不一致} $$
+> **全体の検出器**である。**自認。**
+> **⇒ $b_i$ 欄の厳格運用(Rule 1 (7.1)・受理条件 (7.3))は本稿によっても撤回されない**(§10)。実装が (a) GAP の右共役規約、(b) 埋め込み (1.6) と別の原始根、(c) 惰性生成元の反転を踏めば $b\ne1$ が出るが、それは**規約 transport の記録事項**であって数学的発見ではない。
+>
+> **★ 便 43 F6.1 の判定**: 左作用へ統一した後の上の計算は **PASS**。「半直積の向きによる追加の逆数は現れない」。自己申告 A-2 は **(TB4) をこの向きで採用する限り閉じた**。
 
 ---
 
@@ -271,7 +348,9 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 > が**前件から結論まで一貫した定理として**成立する。**これが「族定理 $R^{\rm cyc}$」の完成形である。**
 > **前件の総数は 7 本**: (W1)(W2)(W3)(W4)(W5) + (2) + 「$\rho_0$ 忠実」。**すべて有限計算か正典読み取りで決着する。**
 
-> **⚠ 状態札(誇張しない)**: 系 B-7′ は **`paper-proof (framework-conditional)`**。(i) **Lean `verified` ではない**、(ii) **Sol 監査未了**、(iii) **【GAP-TB】に条件つき**、(iv) $u$ の**計算**は依然窓固有(§12.2)。
+> **★【v2】B-7 の前件欄は v1 から不変である。** R2(B-3 の (W3))・R3(B-4 の (W2))はいずれも**下位補題の前件欄の脱落**であり、**主定理 B-7 は初めから (W1)–(W5) を全部仮定していた**ので、修理により結論は 1 ミリも動かない(便 43 F7 が同旨)。R4 の剰余類修理後も上の合成は同じ式になる(便 43 F7 が独立に再構成)。
+>
+> **⚠ 状態札(誇張しない)【v2 更新】**: 系 B-7′ は **`paper-proof (framework-conditional on TB1–TB4) / two-mathematician audit PASS`**(便 43 F10・裁定 44)。(i) **Lean `verified` ではない(未着手)**、(ii) **exact $b=1$ の向きは (TB4) 関所待ち**(単位 $b$ までの twisted 版 (10.1) は無条件)、(iii) $u$ の**計算**は依然窓固有(§12.2)、(iv) V1–V8 は `single-system candidate`。
 
 ---
 
@@ -288,11 +367,12 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 
 | 層 | 内容 | 帰結 |
 |---|---|---|
-| **第 1 層(数学)** | (TB2) の規約の下で **$b=1$ が定理**(補題 B-6) | 正しい実装なら $b_i=1$ が出る「はず」 |
+| **第 1 層(数学)** | **(TB2)+(TB4) の規約に相対的に** $b=1$ が定理(補題 B-6)【v2・R6 で「相対的」を明記】 | 規約どおりの実装なら $b_i=1$ が出る「はず」 |
 | **第 2 層(頑健性)** | $b\ne1$ でも結論不変(系 B-8) | 万一 $b_i\ne1$ でも**単一窓の $R^{\rm cyc}$ は生き残る** |
 
 > **⚠ ただし $K^{(5)}$ の二 dessin 比較 (P2) では $b$ は依然 load-bearing**: Sol 便 31 F5.2 の $a_{\rm eff}=[b_{\rm ns}]^{-1}a[b_{\rm sq}]$ は**二つの窓の間の比較**であり、系 B-8 の「単一窓では相殺」は効かない。$b_{\rm sq}\ne b_{\rm ns}$ なら $[u_{\rm ns}^{-1}]_{10}=[u_{\rm sq}^{-1}]_{10}$ という完全一致形が崩れる。**Rule 1 §7.3 の受理条件 $b_{\rm sq}=b_{\rm ns}$ は正しく、本稿は撤回を要求しない。**
-> **本稿が言えるのは 1 点だけ**: 「$b_i\ne1$ が出たら、それは**発見ではなく (TB2) 違反**である」— Rule 1 §7.4 (a)(b)(c) の診断リストが正しいことの理論的裏づけ。
+> **【v2・R6】本稿が言えることの正確な形**(便 43 F6.2・F6.3): 「$b_i\ne1$ が出たら、それは発見ではなく **TB2 / TB4 / 左右作用 / 共役 transport のいずれかの不一致**である」。v1 は診断先を **(TB2) 単独**に絞っていたが、**(TB4) の向き自体が結論の向きを含む**ので狭すぎた。**自認。**
+> **★ 段階的定理化**(便 43 F6.3): **(TB4) が文献関所で閉じる前でも、「ある単位 $b\in(\mathbb Z/M)^\times$ を伴う twisted bridge」((10.1) 形)は無条件に定理化できる。** exact $b=1$ だけが (TB4) 待ちである。
 
 ---
 
@@ -325,9 +405,12 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 | **V7** | **【新規】**$\lvert\mathrm{Aut}(G_3)\rvert=1296$、$\Lambda$ を保つのは **432 個**のみ ⇒ (W5) は自明でない | PASS |
 | **V8** | $b\in(\mathbb Z/6)^\times$ のひねりで $\mathrm{ord}(\kappa)$・$\ker\kappa$・$\tau(\mu_6)$ が不変(系 B-8) | PASS |
 
-> **★ V6 の意味(v3.1 への上向きの寄与)**: 定理 K3 §2.2 (P7) は「残留 descent なし」を、明示 $\mathbb Q$-モデル + exact marking + $N_G(H)/H=1$ に依拠して主張していた(W5 に従い「$\mathrm{Aut}=1$ 単独では不十分」と正しく限定した上で)。**V6 は、その主張を明示モデルに依らず有限群論だけで再導出する**。定理 K3 の (P7) に**独立な第二証明**が付いたことになる(数値結論は不変)。
+> **★ V6 の意味(v3.1 への上向きの寄与)【v2・S3 で射程限定】**: 定理 K3 §2.2 (P7) は「残留 descent なし」を、明示 $\mathbb Q$-モデル + exact marking + $N_G(H)/H=1$ に依拠して主張していた(W5 に従い「$\mathrm{Aut}=1$ 単独では不十分」と正しく限定した上で)。**V6 が埋めるのは「$\Phi(\mathrm{GT}(K^{(3)}))$ が標的の個々の $G_3$-共役類を保つ」という一点**であり、これと (W3)・較正・剛性 descent を合わせると、**標的の抽象的な非標識被覆が $\mathbb Q$ 上へ一意に下降することを、明示曲線なしに再導出できる**。
+> **⇒ 正確な記録**(便 43 F8.2): 「(P7) 全部を明示モデル非依存に置換」**ではなく**、
+> $$ \boxed{\text{(P7) の\ }\textbf{非標識 }\mathbb Q\textbf{-descent 部分}\text{\ に独立な抽象証明を追加}} $$
+> である。**次の 4 つは置換しない**: (i) 手元の明示曲線がその抽象被覆であるというモデル認識、(ii) ordered passport と actual marking、(iii) exact conjugator (P4)/(R-2)、(iv) そのモデル上の $u$ の抽出。また**「有限群論だけ」の証明でもない** — 有限事実 V6 に **B-4 の descent 枠組み**(較正込み)を合成した証明である。**v1 の「有限群論だけで再導出」は言い過ぎ。自認。**
 >
-> **★ V7 の意味**: $\Phi(\mathrm{GT})\subsetneq\{$ $\Lambda$ を保つ 432 元 $\}\subsetneq\mathrm{Aut}(G_3)$。**もし $\Phi(\mathrm{GT})$ が 432 の外にはみ出していたら $\mathbb Q$-モデルは存在せず、橋は $K$ 上でしか架からなかった。** 実例が「たまたま」ではないことの確認。
+> **★ V7 の意味**: $\Phi(\mathrm{GT})\subsetneq\{$ $\Lambda$ を setwise に保つ 432 元 $\}\subsetneq\mathrm{Aut}(G_3)$。**もし $\Phi(\mathrm{GT})$ が 432 の外にはみ出していたら (W5$^\mathbb Q$) が破れ、この経路では $\mathbb Q$-モデルを得られなかった。** 実例が「たまたま」ではないことの確認。**数値 432/1296 と V6 の機械状態は、第二系統(GAP)が付くまで `candidate`。**
 
 ### 11.3 整合の総括
 
@@ -344,9 +427,15 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 > - **(TB3)** $\pi_1(U_{\bar{\mathbb Q}},\vec{01})\cong\hat F_2$ と慣性生成元の指定。
 > - **(TB4)(最重要)** $\vec{01}$ における慣性が $\mathrm{Gal}(\Omega/\bar{\mathbb Q}((\beta)))\cong\hat{\mathbb Z}(1)$ と**正準に**同一視され、$\mathrm{Fib}$ への作用が $\Omega$ への後合成であること。
 >
-> **障害の正確な所在**: **(TB4) が第 $k$ 段**である。(TB1)(TB3) は圏同値と生成元の名づけで、破れても記法の問題にとどまる。**(TB4) が破れると補題 B-6 の 1(「$x\cdot p=\zeta_Mp$」)が出ず、$\Lambda$ と $\mathrm{Fib}$ の $\mu_M$-torsor 構造の同一視が失われる。すると (9.1) は「$\tau(\text{何か})$」までしか言えず、$\kappa_{u^{-1}}$ との同定ができない。**
+> **障害の正確な所在【v2・S1 で射程限定】**: **exact $b=1$ の向きについては (TB4) が第 $k$ 段**である。**(TB4) が破れると補題 B-6 の 1(「$x\cdot p=\zeta_Mp$」)の向きが決まらず、$\Lambda$ と $\mathrm{Fib}$ の $\mu_M$-torsor 構造の同一視が単位 $b$ だけずれる。すると (9.1) は「$\tau(\kappa_{u^{-1}}^{\,b})$」までしか言えない**(結論は系 B-8 で救われるが、二 dessin 比較には効く)。
+> **⚠ v1 の「(TB1)(TB3) は破れても記法の問題にとどまる」は言い過ぎ**(便 43 F7)。**(TB1) の圏同値も (TB3) の慣性生成元同定も、論理上は B-4/B-5 の土台**であり、真に破れれば記法では済まない。正しい札の書き方は
+> ```text
+> TB1–TB4 = global framework assumptions
+> TB4     = unique orientation-sensitive literature gate for exact b = 1
+> ```
+> **自認。**
 >
-> **新しい穴ではない**: $A_5$ v4 §6 の【GAP-C3】(「枠組みそのもの — 接基点での繊維関手の存在と Galois 同変性」)と同じもの。**本稿はそれを 4 項目に分解し、うち (TB4) だけが load-bearing であることを特定した。** これは前進(粗い札 → 名指しの 1 項目)。
+> **新しい穴ではない**: $A_5$ v4 §6 の【GAP-C3】(「枠組みそのもの — 接基点での繊維関手の存在と Galois 同変性」)と同じもの。**本稿はそれを 4 項目に分解し、うち (TB4) が向き感受性の唯一の関所であることを特定した。** これは前進(粗い札 → 名指しの 1 項目)。
 >
 > **両実例も同じ札に依存していた**: $A_5$ v4 §3.5 の「$\gamma$ は $\beta^{1/5}$ を固定し係数のみに作用」と「$\hat F_2$ の $\mathrm{Fib}$ への作用」の突合、$K^{(3)}$ §2.1 の「局所 Kummer」。**本稿は依存を増やしていない。**
 
@@ -372,14 +461,16 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 >
 > **★ これが両実例の「一番手間のかかった部分」の正体**: $A_5$ の (3.3)($h=(1\,3\,4\,5)$)も $K^{(3)}$ の (P4)($h=[6,1,5,4,2,3]$)も、**命題 B-9 の (R-2) そのもの**である。$K^{(3)}$ §3 の Möbius 正規化の数え方(ordered passport 保存 2 通り)は、(R-1) の「$0,1,\infty$ の順」を手元のデータベース記法に合わせる作業であった。
 >
-> **⇒ 運用上の帰結**: BRIDGE-IN の封印対象は「明示モデル」ではなく **(R-1)(R-2) の証明書**である。**橋(定理 B-7)は封印の外に出せる**(結果に依存しない一般論だから)。
+> **⇒ 運用上の帰結【v2・R6 で用語修正】**: 封印対象は「明示モデル」ではなく **MODEL 層の (R-1)(R-2) 証明書**である(§13.3)。**橋(定理 B-7)は封印の外に出せる**(結果に依存しない一般論だから)。**証明書が取れないのは `MODEL-UNKNOWN`、証明書が別の標的を指したときだけ `MODEL-MISMATCH`**(便 43 F9)。
 
-### 12.3 閉じたが監査を要する 2 か所(自己申告)
+### 12.3 自己申告 2 か所 —【**v2: 便 43 の判定を記入**】
 
-| # | 箇所 | 不安の内容 |
-|---|---|---|
-| **A-1** | **§6 定理 B-4 の cocycle 自動性** | (6.1) の一意性から cocycle 条件を導く 3 行。「$c_\gamma\alpha_\gamma(c_\delta)\in C_{\gamma\delta}$」の計算で $\alpha$ が**左作用**であること・$\rtimes$ の積の向きを取り違えていないか。**規約の向きに敏感な唯一の箇所。** |
-| **A-2** | **§8 補題 B-6 の 1** | (TB4) から「$x\cdot p=m(\zeta_M)p$」を出す段。**後合成が左作用であること**と、$\mathrm{Fib}$ の $\hat F_2$-作用が慣性については後合成で書けること。**【GAP-TB】と同じ場所に立っている。** |
+| # | 箇所 | v1 の不安 | **便 43 の判定** |
+|---|---|---|---|
+| **A-1** | **§6 定理 B-4 の cocycle 自動性** | (6.1) の一意性から cocycle 条件を導く 3 行。$\alpha$ が左作用であること・$\rtimes$ の積の向きの取り違え | **PASS(閉鎖)**。便 43 F3.1 が同じ半直積規約 $(g,\gamma)(g',\delta)=(g\alpha_\gamma(g'),\gamma\delta)$ で独立再計算し「**積順序・逆元位置の反転はない**」と確認。助言に従いコンパクト半群補題を一行明記した |
+| **A-2** | **§8 補題 B-6 の 1** | (TB4) から「$x\cdot p=m(\zeta_M)p$」を出す段。後合成が左作用であること | **条件つき PASS**。便 43 F6.1 が「**左作用修理(R4)後**は追加の逆数は現れない」と確認。ただし **(TB4) をこの向きで採用する限り**であり、向き自体は【GAP-TB】の関所に残る |
+
+> **★ 自己申告の当たり外れ(★教材 7 の素材)**: 私が申告した 2 件は**どちらも通った**。実際に修理が要ったのは**申告していなかった 4 か所**(B-2 の同値・B-3 の (W3)・B-4 の (W2)・B-4c の剰余類)だった。**「自分が不安な場所」と「実際に弱い場所」は別物である。** 前者は証明の最終段(派手な箇所)、後者は**前件欄と記法の統一**(地味な箇所)に集中した。
 
 > **さらに小さいが記録しておく点**: 補題 B-5(i) の「唯一の幾何点 ⇒ $\kappa(P_0)=K$」は標数 0 の分離性を使う(幾何点の個数 $=[\kappa(P_0):K]$)。$K$ 完全体ゆえ問題ないが、書いておく。
 
@@ -394,7 +485,7 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 | **枠組み** | (TB1) | 接基点繊維関手の圏同値 | 標準事実 | **【GAP-TB】** |
 | | (TB2) | $(\zeta_n)$ 固定・$G_\mathbb Q$ は $\Omega$ に係数作用・$\beta^{1/n}$ 固定 | **当工房の規約** | 閉 |
 | | (TB3) | $\pi_1(U_{\bar{\mathbb Q}},\vec{01})=\hat F_2=\langle x,y\rangle$ | 標準事実 | **【GAP-TB】** |
-| | (TB4) | $x=$ $(\zeta_n)$ が定める $\hat{\mathbb Z}(1)$ の生成元の像・作用は後合成 | 標準事実 | **【GAP-TB】(load-bearing)** |
+| | (TB4) | $x=$ $(\zeta_n)$ が定める $\hat{\mathbb Z}(1)$ の生成元の像・作用は**左作用としての後合成** | 標準事実 | **【GAP-TB】(exact $b=1$ の向きの唯一の関所)** |
 | **較正** | (CAL) | $\alpha^{\rm Ih}=\alpha^{\rm std}$ | 証明済 | **閉**($A_5$ v4 §1.4・窓非依存) |
 | **窓** | (W1) | $\bar N$ 開・$G_\mathbb Q$-安定 | 正典 | 窓ごと |
 | | (W2) | 完全列 + $\tilde\chi\circ\mathrm{Ih}=\chi_{2M}$ | 正典 | 窓ごと |
@@ -406,6 +497,16 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 
 **$u$ を数値で得るにはさらに**: **(R-1)(R-2)** モデル認識証明書(命題 B-9)+ 局所展開の計算。
 
+> **【v2】下位補題ごとの前件**(R2/R3/R5 の反映先・§4 の依存表と一致):
+> | 補題 | 前件 |
+> |---|---|
+> | B-3($B_{\rm FC}$-I) | (W1)(W2)(W3)(W4)(W5) |
+> | B-4(a)($K$-descent) | (TB1)(TB2)(TB3) + (W1)(W2)(W3)(W5) + (CAL) |
+> | B-4(b)($\mathbb Q$-descent) | (TB1)(TB2)(TB3) + (W1)(W3)(W5$^\mathbb Q$) + (CAL)。**(W2) 不要** |
+> | B-5(局所・$W_0$ 所与) | (TB1)(TB2)(TB3)(TB4) + (W4) |
+> | B-6(torsor 比較) | (TB1)–(TB4) + (W1)–(W5) + (CAL) |
+> **⇒ 主定理 B-7 の総前件はこれらの和集合であり、上の表と一致する**(便 43 F5.2 の要求)。
+
 ### 13.2 消えた前件(v3.1 からの差分)
 
 | v3.1 | 扱い |
@@ -415,48 +516,71 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 | (4)「actual marked identification」 | **橋の外へ移動**(命題 B-9 の (R-2)) |
 | (5) FC-3 | **削除**。(W3)(W5) から**導かれる**(系 B-4c) |
 | (5) FC-2b | **残る**(= (CAL))。ただし既に証明済・窓非依存 |
-| (3)「$\mathrm{ord}(X)=\lvert\Lambda\rvert=M$・単純推移」 | **(W3)+(W4) に分解**(命題 B-2 で同値) |
+| (3)「$\mathrm{ord}(X)=\lvert\Lambda\rvert=M$・単純推移」 | **(W3)+(W4) に分解**。**【v2・R1】同値は結合形でのみ**: (W4) の下で (W3) $\iff\lvert\Lambda\rvert=M$(命題 B-2 (B2-corr))。**各個 pairwise 同値は偽** |
 
-### 13.3 五札(v3.1 §5.2.5)の改訂案
+### 13.3 札の再構成 —【**v2・R6: 便 43 F9 の 6 層表を採用**】
 
-| 札 | v3.1 | **改訂** |
+> **v1 の三つの過剰推論を先に自認する**(便 43 F9):
+> 1. **「(W5) 不成立 ⇒ $K$-モデルなし」は偽。** (W5) は $\Phi(\mathfrak F_0)$ **全体**の安定性という、実際に必要な $\Phi(\mathrm{Ih}_N(G_K))$-安定性より**強い十分条件**である。$\mathfrak F_0$ に実 Galois 像へ来ない元があれば、**(W5) が破れても $K$-モデルは存在しうる**。不成立時に言えるのは「**この有限 schema では定理を適用できない**」までである。
+> 2. **「証明書が取れない ⇒ MODEL-MISMATCH」は偽。** 探索不成功は **`MODEL-UNKNOWN`**。**exact triple/conjugator が別の標的を指したときだけ** `MODEL-MISMATCH`。
+> 3. **「BRIDGE-FAIL を削除」は運用として乱暴。** 数学的ケースとしては空にしてよいが、**版管理つきで改名**するのが正しい。
+
+| 層 | IN(封印する内容) | OUT / UNKNOWN / conflict |
 |---|---|---|
-| **FORMAL-IN** | $(0)(1)(2)(3)(5')(6')$ | 不変(ただし $(3)$ は (W3)(W4) と読む) |
-| **BRIDGE-IN** | 明示モデル・cusp・助変数・marking・FC 規約 | **(W1)–(W5) + (CAL) + (TB1)–(TB4)**。**「明示」の語は全部落ちる** |
-| **BRIDGE-FAIL** | BRIDGE-IN を満たすのに (7.3) 破れ | **意味が変わる**: (W1)–(W5) を満たすのに (9.1) が破れたら、それは**定理 B-7 の証明の誤り**(= `proof consistency failure`)。**橋の「実験的反証」はもう存在しない** — 橋は定理になったから |
-| **BRIDGE-UNKNOWN** | 比較が閉じられない | **入口は 2 つだけ**: (i) **(W5) 不成立**(⇒ $K$-モデルなし・SCHEMA-OUT へ)、(ii) **【GAP-TB】が破れる**(枠組みの誤り) |
-| **SCHEMA-OUT** | regular detector 不在等 | 不変 + **(W3) 不成立**($N_P(H)\ne H$)を明示追加 |
-| **【新】MODEL-MISMATCH** | — | **(R-1)(R-2) の証明書が取れない / 取れたのに $u_C$ が別値** ⇒ モデル認識の失敗であって橋の反証ではない |
+| **GLOBAL-FRAMEWORK** | (TB1)–(TB4) + (CAL) を固定 | 原典未閉鎖は **`FRAMEWORK-UNKNOWN`**。**TB4 は exact orientation gate**(閉じる前は単位 $b$ までの twisted 版を使う) |
+| **WINDOW-SCHEMA** | (W1)–(W5)($R^{\rm cyc}$ ならさらに (2)(F)) | いずれか不成立は **`SCHEMA-OUT`**。**「$K$-モデルが存在しない」とは断言しない** |
+| **MODEL** | (R-1)(R-2) の exact 証明書 | 未取得は **`MODEL-UNKNOWN`**、反対証明書は **`MODEL-MISMATCH`** |
+| **EXTRACTION** | 同一 sealed model から $u$ の二経路一致 | 不一致は **`EXTRACTION-CONFLICT`** |
+| **BRIDGE** | **一般定理として封印の外** | 全前件を満たして等式が破れれば **`THEOREM/RECORD-CONSISTENCY-FAIL`** |
+| **ARITHMETIC** | $\mathrm{ord}([u^{-1}]_M)$ | **ここが窓固有の算術結果** |
 
-> **★ 運用への含意(重要)**: $K^{(5)}$ の封印は「$B_{\rm FC}$ が架かるか」を試す実験だと位置づけられてきたが、**本稿が正しければそれは試験にならない**。$K^{(5)}$ が実際に試すのは
-> (i) **(W1)–(W5) の有限検査**(封印前に済ませられる)、
-> (ii) **モデル認識 (R-1)(R-2)**、
-> (iii) **$u$ の抽出の二経路一致**、
-> (iv) **$\mathrm{ord}([u^{-1}]_{10})=5$ か否か**(= $R^{\rm cyc}$ の予測)
-> の 4 つである。**(iv) だけが本当の予測**であり、そこが外れたら疑うべきは(橋ではなく)**私の証明か、(W#) の検査か、$u$ の抽出**である。**司令塔の裁定を要する運用変更**なので §14 に上げる。
+> **legacy 改名**(削除しない):
+> ```text
+> legacy BRIDGE-FAIL
+>   -> THEOREM / CONVENTION / RECORD-CONSISTENCY-FAIL
+> ```
+>
+> **★ 運用への含意(重要)**: $K^{(5)}$ の封印は「$B_{\rm FC}$ が架かるか」を試す実験だと位置づけられてきたが、修理後にはそうではない。$K^{(5)}$ が実際に測るのは**四束**(便 43 F9 と一致):
+> (i) **(W1)–(W5)(および (2)(F))の有限 scope 検査**、
+> (ii) **(R-1)(R-2) によるモデル認識**、
+> (iii) **sealed model からの $u$ 二経路一致**、
+> (iv) **$\mathrm{ord}([u^{-1}]_{10})=5$**。
+> **(i)–(iii) は入口・同一性・完全性の検査であり、真の算術予測は (iv) だけ**である。そこが外れたら疑うべきは(橋ではなく)**私の証明か、(W#) の検査か、$u$ の抽出**である。二 dessin 比較ではさらに $b_{\rm sq},b_{\rm ns},a_{\rm eff}$ の **convention seal** を残す。**司令塔の裁定を要する運用変更**なので §14・§15 に上げる。
 
 ---
 
-## 14. Sol への論点(優先順)
+## 14. Sol への論点 —【**v2: 便 43 の回答を記入**】
 
-1. **【必須】§6 定理 B-4 の cocycle 自動性**(自己申告 A-1)。$\hat F_2\rtimes G_K$ の積の向き・$\alpha$ が左作用であることを含め、(6.1) → cocycle の 3 行を独立に再構成してほしい。**偽なら $B_{\rm FC}$-II-a が落ち、明示モデルが前件に戻る。**
-2. **【必須】§8 補題 B-6 の 1**(自己申告 A-2)。(TB4) から $x\cdot p=m(\zeta_M)p$ を出す段。**ここが $b=1$ の全根拠**である。**偽でも系 B-8 で単一窓の結論は救われるが、$K^{(5)}$ の $a_{\rm eff}$ には効く。**
-3. **【必須】定理 B-3 の射程**。補題 $R'$ を $\mathfrak F_0$ でなく $\mathrm{Ih}_N(G_K)$ に適用してよいか(私は (W2) から $\mathrm{Ih}_N(G_K)\subseteq\mathfrak F_0$ を使った)。**「(5′) の型は無料」という本稿最大の主張の根拠。**
-4. **【推奨】命題 B-2 の同値**($\langle X\rangle$ 推移 + $\lvert\Lambda\rvert=M$ $\iff$ $N_P(H)=H$)。v3.1 (3) の分解が正しいか。
-5. **【推奨】命題 B-9 の素描**。「3 点球面の標準生成三つ組は同時共役を除き一意」を私は証明していない(pure mapping class group の自明性に依拠)。**これは【文献要請 13】に含めるべきか、別立てか。**
-6. **【推奨】§13.3 の五札改訂**、とくに「BRIDGE-FAIL がもう存在しない」という主張。**橋が定理になったら、$K^{(5)}$ は何を試すのか** — Sol の見解を求む。
-7. **【共同設計者への発案要請】** 定理 B-7 の前件から (W3)($N_P(H)=H$)を外せるか。外せれば $\mathrm{Aut}_U(W)\ne1$ の窓(dessin に自己同型がある窓)まで射程が伸びる。私は descent の cocycle 条件が $H^2(G_K,N_P(H)/H)$ の障害に化けると見ているが、**$N_P(H)/H$ が可換なら $H^1$ の捻れで済み、しかも $\mathrm{Fib}\to\Lambda$ が $\lvert N_P(H)/H\rvert:1$ になるだけ**かもしれない。**この一般化に価値があるか、そもそも該当窓が族にあるか**を問いたい。
+| # | v1 の論点 | **便 43 の回答** | 残 |
+|---|---|---|---|
+| 1 | §6 cocycle 自動性(A-1) | **PASS**(F3.1)。同じ半直積規約で独立再計算・反転なし | 閉 |
+| 2 | §8 補題 B-6 の 1(A-2) | **条件つき PASS**(F6.1)。左作用修理後は追加の逆数なし。向きは (TB4) 依存 | (TB4) 関所 |
+| 3 | 定理 B-3 の射程(補題 $R'$ を $\mathrm{Ih}_N(G_K)$ へ) | **PASS**(F2.2)。ただし **(W3) を前件に足せ**。「型は無料」は「regular detector を払った後は追加の幾何入力が不要」の意 | R2 で反映 |
+| 4 | 命題 B-2 の同値 | **FAIL → 結合形で PASS**(F2.1)。反例 $P=S_3\times C_2$ | R1 で反映 |
+| 5 | 命題 B-9 の素描 | (直接の裁定なし。§12.2 の【GAP-TB】相乗り扱いは維持) | **論点として残す** |
+| 6 | 五札改訂 | **二つの過剰推論を指摘**(F9)。6 層表を採用 | R6 で反映 |
+| 7 | (W3) を外す一般化 | **回答あり**(F3.4)。下記 | 閉(結論: 外すな) |
+
+> **【便 43 F3.4 の回答・全文要旨】** $A:=N_P(H)/H$ が非自明なら $C_\gamma/\tilde H$ は一点でなく **$A$-torsor** になり、積のずれが **$A$ 値の 2-cocycle** になる。また $P/H\to\Lambda$ は $\lvert A\rvert:1$。**$A$ が可換でも存在障害は一般に $H^2(G_K,A)$ に残る。** $H^1(G_K,A)$ は「**障害が消えて descent が一つ存在した後の捻りの分類**」であって、「$A$ 可換なら $H^1$ だけで済む」わけではない。
+> **⇒ 私の見立て(「$A$ 可換なら $H^1$ の捻れで済む」)は誤りだった。自認。** 自己同型をもつ窓への拡張には価値があるが、**別の gerbe/descent 定理として別 schema にすべきで、現定理から (W3) を外してはならない。**
+
+### 14.1 v2 で残る論点(次便へ)
+
+1. **【推奨】命題 B-9(モデル認識)の素描を定理に格上げできるか。** 「3 点球面の pure mapping class group が自明ゆえ標準生成三つ組は同時共役を除き一意」を私は証明していない。**【文献要請 13】に含めるか別立てか**の判断を仰ぐ。**$K^{(5)}$ の MODEL 層の土台**なので優先度は上がった。
+2. **【推奨】単位 $b$ 版の定理化**(便 43 F6.3 の示唆)。「exact $b=1$」を (TB4) 関所待ちにしたまま、**「ある $b\in(\mathbb Z/M)^\times$ を伴う twisted bridge」を無条件定理として別番号(B-7$^{\rm tw}$)で立てる**べきか。立てるなら $K^{(5)}$ の BRIDGE 層は関所を待たずに閉じる。
+3. **【推奨】§13.3 の 6 層表の運用移管先**。この表は本稿(数学)ではなく **manifest / Rule 1 側の正本**に置くべきではないか。
 
 ---
 
 ## 15. 司令塔への提案
 
-1. **札の更新**: 【GAP-Rcyc】= $B_{\rm FC}$ を `candidate/UNKNOWN` → **`paper-proof (framework-conditional) / single-mathematician`**。二人監査で PASS すれば `paper-proof / two-mathematician audit PASS`。
-2. **【GAP-C3】と【GAP-TB】の統合**: 同じ札である。**(TB4) 単独が load-bearing** という本稿の同定を札に書き込む。
-3. **【文献要請 13】**(§12.1)を関所へ。優先度中。
-4. **$K^{(5)}$ 運用の再検討**(§13.3 の★): 封印が試す対象が変わる。**凍結 1/2 の内容自体は変更不要**(むしろ (R-1)(R-2) と $u$ 抽出に集中するのが正しい)だが、**「$K^{(5)}$ で $B_{\rm FC}$ を試す」という位置づけの文言**は裁定で更新すべき。
-5. **検算の恒久化**: `search/week4-bfc-antecedents.mjs`(13/13)。**V6・V7 は定理 K3 §2.2 (P7) への独立な第二証明**でもあるので、`provenance/LEDGER.md` へ。
+1. **札の更新【v2】**: 【GAP-Rcyc】= $B_{\rm FC}$ を `candidate/UNKNOWN` → **`paper-proof (framework-conditional on TB1–TB4) / two-mathematician audit PASS`**(便 43 F10・裁定 44)。**`verified`(Lean)ではない。**
+2. **【GAP-C3】と【GAP-TB】の統合**: 同じ札である。札の本文は便 43 F7 の 2 行(`TB1–TB4 = global framework assumptions` / `TB4 = unique orientation-sensitive literature gate for exact b=1`)をそのまま採る。
+3. **【文献要請 13】**(§12.1)を関所へ。優先度中。**§14.1-1(pure mapping class group の自明性)を同梱するか要判断。**
+4. **$K^{(5)}$ 運用の再検討**(§13.3): 封印が測る対象が四束に変わる。**凍結 1/2 の内容自体は変更不要**(むしろ (R-1)(R-2) と $u$ 抽出に集中するのが正しい)だが、**「$K^{(5)}$ で $B_{\rm FC}$ を試す」という位置づけの文言**は裁定で更新すべき。**§13.3 の 6 層表の正本を manifest 側へ移すかも同時に裁定を(§14.1-3)。**
+5. **検算の恒久化**: `search/week4-bfc-antecedents.mjs`(13/13・便 43 F1 が独立再走で再現)。序列は **`single-system candidate`**(第二照合器 GAP との一致がないので `cross-checked` ではない)。**V6 は定理 K3 §2.2 (P7) の非標識 $\mathbb Q$-descent 部分への第二証明**(モデル認識・marking・$u$ 抽出は置換しない)として `provenance/LEDGER.md` へ。
 6. **可視化**: 「shadow 類 = Belyi 類」という一行と、$B_{\rm FC}$-I/II-a/II-b/II-c の 4 枚分解は図にすると効く(🌒 の拡張候補)。
+7. **【v2 新規】第二系統の発注**: V1–V8 を GAP で再現する短い証明書(とくに **V6/V7 の 432/1296** と **V3 の悉皆**)。これがあれば数値が `cross-checked` に上がる。implementer 案件。
 
 ---
 
@@ -465,9 +589,15 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 1. **「未証明の橋」は分解すると型の段と同定の段に割れ、型の段は無料であることが多い。** $B_{\rm FC}$-I は既に手元にあった補題 $R'$ の別の適用先にすぎなかった。**同じ補題を二度使えることに気づかないと、未証明部を過大に見積もる。**
 2. **「明示モデル」は前件ではなく計算手段である。** 存在と一意性が言えれば橋は架かる。両実例が明示モデルから出発したので、それが前件に見えていた。**出発点と前件を混同しない。**
 3. **規約の自由度は、同じ規約を二度使うと消える。** $b$ は「$x$ の向き」と「$\kappa$ の値」の両方を $(\zeta_n)$ が決めるので相殺する。**独立に見える二つの規約が同一起源かを必ず問う。**
-4. **前件の非自明性は数えて確かめる。** (W5) は「$\mathrm{Aut}(P)$ の 1296 元のうち 432 元」という**明確に非自明な**条件だった(V7)。「たぶん成り立つ」で済ませていたら、族の一般化で最初に破れる項目を見逃していた。
-5. **橋が定理になると falsifier の宛先が消える。** ★教材 12(便 29)の裏面: **未証明部を証明したら、五札の BRIDGE-FAIL は空になり、代わりに `proof consistency failure` と MODEL-MISMATCH に置き換わる。** 実験の意味づけを同時に更新しないと、「何も試していない試験」を走らせることになる。
-6. **枠組み札は「粗いまま放置」ではなく「項目に割って load-bearing を名指し」する。**【GAP-C3】→ (TB1)–(TB4) → **(TB4) だけ**。同じ未閉鎖でも、次に何を取りに行くかが決まる。
+4. **前件の非自明性は数えて確かめる。ただし「数えた比」と「条件そのもの」を混同しない。** (W5) の非自明性は $\mathrm{Aut}(G_3)$ の 1296 元中 432 元という周囲データで示されるが、**(W5) 自体は「指定された 3 元/12 元がその 432 元に入る」という包含条件**である(便 43 F8.1)。「たぶん成り立つ」で済ませていたら族の一般化で最初に破れる項目を見逃したが、**比を条件そのものと呼ぶのも別の粗さ**である。
+5. **橋が定理になると falsifier の宛先が移る(消えるのではない)。** ★教材 12(便 29)の裏面: 未証明部を証明したら BRIDGE-FAIL は**数学的ケースとしては**空になるが、**削除ではなく版管理つきの改名** `THEOREM/CONVENTION/RECORD-CONSISTENCY-FAIL` が正しい(便 43 F9)。さらに**層を割る**と、失敗の宛先は `FRAMEWORK-UNKNOWN` / `SCHEMA-OUT` / `MODEL-UNKNOWN` / `MODEL-MISMATCH` / `EXTRACTION-CONFLICT` に**分配される**。実験の意味づけを同時に更新しないと、「何も試していない試験」を走らせることになる。**【v2 追記】v1 はここで「空になる」と書き、(W5) 不成立や証明書未取得を強い札に直結させた — 過剰推論だった。**
+6. **枠組み札は「粗いまま放置」ではなく「項目に割って load-bearing を名指し」する。**【GAP-C3】→ (TB1)–(TB4) → **(TB4) が向き感受性の関所**。同じ未閉鎖でも、次に何を取りに行くかが決まる。**ただし「名指ししなかった項目は無害」ではない**(v1 は (TB1)(TB3) を「記法の問題」と書いて言い過ぎた・便 43 F7)。**名指しは優先順位であって免責ではない。**
+
+### 【v2 追加】
+
+7. **自分が不安な場所と、実際に弱い場所は別物である。** v1 で自己申告した 2 件(cocycle の向き・(TB4) の適用)は**どちらも監査を通った**。実際に修理が要ったのは**申告していなかった 4 か所** — 命題 B-2 の同値・定理 B-3 の (W3)・定理 B-4 の (W2)・系 B-4c の剰余類。**不安は「証明の派手な段」に集まり、欠陥は「前件欄と記法の統一」という地味な場所に出た。** ⇒ 次回は**定理文の前件欄を、証明本文とは独立にもう一度読み直す**手順を入れる。
+8. **不等式の連鎖で「全部等号」を出したら、どの端を止めたから等号になったのかを書く。** 命題 B-2 の $\lvert\Lambda\rvert\le[P:H]\le M$ は、**両端を止めて初めて**中間が決まる。v1 は各段を独立の同値として読み、**pairwise 同値という偽の主張**を書いた。⇒ **「$\iff$ を 2 つ並べる前に、片方向の反例を 30 秒探す。」**
+9. **左右剰余類は、部分群が正規でない限り書き分ける。** $\mathcal H\backslash\pi_1$ と $\pi_1/\mathcal H$ を混ぜると、**その先の作用の向き($b$ の値)が決まらない**。作用が左なら剰余類も左に統一する。**組版に見えて、実は結論の向きを支えている。**
 
 ---
 
@@ -482,19 +612,22 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 | $\mathfrak s(N,H)$ | $K^\times/K^{\times M}$ | **shadow 類** $=[c]$(5.2) |
 | $c_\Lambda$ | $\mathrm{Fib}\xrightarrow{\sim}\Lambda$ | 系 B-4c(= FC-3)の同型 |
 | $\tilde s$ | $K[[s]]$ の uniformizer | $s\,h^{1/M}$、$\tilde s^M=u^{-1}\beta$(補題 B-5(iii)) |
-| $b$ | $(\mathbb Z/M)^\times$ | $c_\Lambda m(\zeta_M)c_\Lambda^{-1}=\tau(\zeta_M^{b^{-1}})$ で定義。**補題 B-6 より $b=1$** |
+| $b$ | $(\mathbb Z/M)^\times$ | $c_\Lambda m(\zeta_M)c_\Lambda^{-1}=\tau(\zeta_M^{b^{-1}})$ で定義。**補題 B-6 より $b=1$ — ただし (TB2)+(TB4) の規約に相対的**(便 43 F6.2)。単位 $b$ 版は §10 (10.1) |
 
 ## 付録 B. 番号つき主張の一覧(機械照合用)
 
 | # | 主張 | 検算 |
 |---|---|---|
-| **B-1** | regular 可換部分群は $\mathrm{Sym}$ 内で自己中心化 | 紙上(3 行) |
-| **B-2** | $\langle X\rangle$ 推移 + $\lvert\Lambda\rvert=\mathrm{ord}(X)$ $\iff$ $N_P(H)=H$、かつ $P/H\cong\Lambda$ | **V3・V4** |
-| **B-3** | $B_{\rm FC}$-I: $c\in\mathrm{Hom}(G_K,\mu_M)$ の存在と一意性 | **V5**(前件)・紙上 |
-| **B-4** | 剛性 descent: $K$-モデルの存在と一意性 | **V2・V5・V6** |
-| **B-5** | 局所 Kummer: $\mathrm{Fib}$ の Kummer 表示と torsor 類 $[u^{-1}]$ | 紙上($A_5$ §3.5 と逐語一致) |
-| **B-6** | torsor 比較・$b=1$ | 紙上 |
-| **B-7** | **$B_{\rm FC}$**: $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(\kappa_{u^{-1}}(\gamma))$ | 二例で逐語一致(§11) |
-| **B-7′** | 族定理 $R^{\rm cyc}$(前件 7 本) | — |
-| **B-8** | $b$-頑健性 | **V8** |
-| **B-9** | モデル認識(素描・【GAP-TB】相乗り) | $A_5$ (3.3)・$K^{(3)}$ (P4) |
+| # | 主張 | 前件 | 検算 | 便 43 判定 |
+|---|---|---|---|---|
+| **B-1** | regular 可換部分群は $\mathrm{Sym}$ 内で自己中心化 | — | 紙上(3 行) | PASS |
+| **B-2** | **【v2・R1】**(B2-corr): $\lvert\Lambda\rvert=M\iff([P:H]=M$ かつ $N_P(H)=H)$。**pairwise 同値ではない**。(B2-bij): $P/H\to\Lambda$ 全単射 $\iff N_P(H)=H$($M$ 無関係) | $\langle X\rangle$ 推移・$\mathrm{ord}(X)=M$ | **V3・V4** | v1 FAIL → 結合形 PASS |
+| **B-3** | $B_{\rm FC}$-I: $c\in\mathrm{Hom}(G_K,\mu_M)$ の存在と一意性 | **(W1)(W2)(W3)(W4)(W5)**【R2】 | **V5**(前件)・紙上 | (W3) 追加で PASS |
+| **B-4** | 剛性 descent: (a) $K$-モデル / (b) $\mathbb Q$-モデルの存在と一意性 | (a) **(W1)(W2)(W3)(W5)**+(CAL)【R3】 / (b) (W1)(W3)(W5$^\mathbb Q$)+(CAL) | **V2・V5・V6** | (W2) 追加で PASS |
+| **B-4c** | FC-3(**左作用・左剰余類**)【R4】 | B-4 | **V4** | 記法修理で PASS |
+| **B-5** | 局所 Kummer: $\mathrm{Fib}$ の Kummer 表示と torsor 類 $[u^{-1}]$ | (TB1)–(TB4)+(W4)【R5】 | 紙上($A_5$ §3.5 と逐語一致) | PASS |
+| **B-6** | torsor 比較・**$b=1$((TB2)+(TB4) に相対的)** | (TB1)–(TB4)+(W1)–(W5)+(CAL) | 紙上 | (TB4) 条件つき PASS |
+| **B-7** | **$B_{\rm FC}$**: $\rho_\Lambda(\mathrm{Ih}_N(\gamma))=\tau(\kappa_{u^{-1}}(\gamma))$ | (TB1)–(TB4)+(CAL)+(W1)–(W5) | 二例で逐語一致(§11) | **PASS(修理後)** |
+| **B-7′** | 族定理 $R^{\rm cyc}$(前件 7 本) | B-7 + (2) + (F) | — | PASS |
+| **B-8** | $b$-頑健性(単一窓) | — | **V8** | PASS |
+| **B-9** | モデル認識(**素描**・【GAP-TB】相乗り) | (R-1)(R-2) | $A_5$ (3.3)・$K^{(3)}$ (P4) | 未裁定(§14.1-1) |
