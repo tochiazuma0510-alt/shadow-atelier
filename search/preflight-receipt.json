@@ -1,33 +1,40 @@
 {
-  "schema": "preflight-receipt/v1",
+  "schema": "preflight-receipt/v2",
   "event_id": "rule1-v1.4_manifest-v1.6_2026-07",
-  "source_commit": "4e4e5fa42937b3a5beba4e11c4bba53d0414bda6",
-  "lint_version": "v3",
+  "source_commit": "38e4652543db051c580a4e37489c977ae2cc577c",
+  "source_tree": "edf1200e702b5fb402355b192d1e99ca95113a81",
+  "manifest_sha256": "95db2399d1ce6c6e005f89c37fadbdab0ed9de807fefad62f2cf03e33c5ee918",
+  "lint_sha256": "74801f4aaaf9b4a4a6d3ef3b783526494a44b960b684cad3622a95ec1c766599",
+  "triage_sha256": "5f3b9fecf41e2b16d4edcbdd8cd3852dba240d85a729ec3eb891e355a4baadb2",
+  "certificate_sha256": "d19b47f5c457d5cc1af5131206bf7cbb30e6a64d2afe65cb039234a83c8c85cc",
   "artifacts": [
     {
       "path": "docs/week4-BFC攻略_opus_v2.md",
-      "sha256": "b546b77fdbb04b3f585e4a46a4bc27af55b3adc4e7eb1386442a9da5f1fd3416",
-      "declared_version": "v2.10",
-      "header_ok": true
+      "parsed_version": "v2.11",
+      "input_version": "v2.11",
+      "header_ok": true,
+      "sha256": "2aa84e6762a643c10727cdca99556e660cd97ccab5088ce38262dd2679473acc"
     },
     {
       "path": "docs/amendment_5prime_draft.md",
-      "sha256": "84af2e0101a0561b9e6e958319ee2d96d32c04fd543b1e70c722c168e8d3f9a8",
-      "declared_version": "v7",
-      "header_ok": true
+      "parsed_version": "v8",
+      "input_version": "v8",
+      "header_ok": true,
+      "sha256": "ccba23a317fe6fb016d95d81143760fdd77d5edba2c2144cf6280ae23a776655"
     },
     {
       "path": "docs/week4-TB4導出_opus_v1.md",
-      "sha256": "ff71e9fbc162ee613713d9ad317e8fbea635c7e4fadeae189cff1656b52634f4",
-      "declared_version": "v2.5",
-      "header_ok": true
+      "parsed_version": "v2.4",
+      "input_version": "v2.4",
+      "header_ok": true,
+      "sha256": "ff71e9fbc162ee613713d9ad317e8fbea635c7e4fadeae189cff1656b52634f4"
     }
   ],
   "claims": [
     {
       "row_id": "W3-17",
       "ok": true,
-      "row_hash": "63eb0b52b6d2b9fd"
+      "row_hash": "37f94a9a64024ba2"
     },
     {
       "row_id": "W3-18",
@@ -35,13 +42,37 @@
       "row_hash": "3daf3f9a2789f17d"
     }
   ],
-  "certificate_ok": true,
+  "checkers": [
+    {
+      "path": "search/week4-bfc-antecedents.mjs",
+      "sha256": "f74298907e8eb9de99c417dfa95f22e5b365e54df7472ffc0c3d903ca8f74c9a",
+      "observed": "13/13",
+      "expected": "13/13",
+      "ok": true
+    },
+    {
+      "path": "search/tb4-monodromy-check.mjs",
+      "sha256": "6847a76bf5683048bf53531b541cdbc7942645c83207787afb5d1bb2fd454cbd",
+      "observed": "37/37",
+      "expected": "37/37",
+      "ok": true
+    }
+  ],
   "hits": {
     "open": 0,
-    "triaged": 45,
+    "triaged": 47,
     "orphans": 0
   },
+  "ordered_steps": [
+    "worktree-clean",
+    "version-equality",
+    "stale-tokens",
+    "claims-sync",
+    "certificate-asserts",
+    "checker-runs",
+    "token-scan+triage",
+    "receipt"
+  ],
   "failures": [],
-  "verdict": "CLEAN",
-  "generated_note": "timestamp は commit が持つ(スクリプトは時刻を打刻しない)"
+  "verdict": "CLEAN"
 }
