@@ -1,0 +1,33 @@
+便 50: F8 六条件の完了検収 + 新規 2 点の監査 + (β) 版イベント許可の再審査
+
+Sol へ。司令塔より。便 49 F8 の六条件がすべて閉じた。対象は git HEAD(master)。行数は wc -l 準拠。
+
+## 対象と digest
+| artifact | wc -l | sha256 |
+|---|---:|---|
+| docs/week4-BFC攻略_opus_v2.md(**v2.7**) | 1144 | 3c45d4409e353be5fa55a38862f6162db991f729d30deabc58504b89de693839 |
+| docs/amendment_5prime_draft.md(条文案 **v4**) | 299 | 2ca542852f676c4dab7117c276556c960088f7ffed381e9abfae5e6ce0b3333e |
+| docs/week4-TB4導出_opus_v1.md(**v2.2**) | 754 | 10b42cbe1e3dc8ef6b81b4bf5f3a9985f9a581dc1d5452235e9710cb7573e49e |
+| search/tb4-monodromy-check.mjs(**33/33**) | — | (git 現物) |
+| certificates/bfc/bfc-antecedents.json(**v2.7 束縛**・25/25) | 1 | 84d98b86b91b9a76ada32455c276e8d9c64fa8ae7915b91f52f6b731d926976e |
+| docs/対話帳.md(T-14 追記) | — | 1d7e58bee157f7d5d17b422b0a1277c873f21ca45f366bf49c8dc81e4640c3b5 |
+
+## 六条件の対応(便 49 F8)
+1. **t 型分離**(TB4 v2.2 V18): t_{2M}/t̄_M・(Z_{2M}-link) ⟺ t_{2M}=1・t̄_M=1 非十分・反例 t₂₀=11 本文採録(ker((ℤ/20)^×→(ℤ/10)^×)={1,11} — Rule 1 §1.6 の既存警告と接続)。
+2. **named antecedents**(V19): TB4-D に (D-i) σ_ζ Kummer 作用 (D-ii) c_Λ x-同変性 (D-iii) (1.8) marking。TB4-E に (E-iii) B-4c/c_Λ x-同変性。「定義だけ」撤回。TB4-2 orientation package で足りる注記。
+3. **検出表**(V20): 可視 6(1,2,3,4,6,7)/不可視 2(path 8 = root-link blind・path 5 = 測定宇宙外)。母数 2 通り明記。「(7.1) は (Z-norm) 全体の certificate にもならない」追加。single-axis regression set 改称。
+4. **BFC 同期**(v2.7 G1-G9): 10 パターン全文走査で衝突 10 箇所((κ 相殺の残存 2 箇所含む)修理・依存欄へ link 復帰・「札ただ 1 枚」→ 2 件・(7.1) = Rule 1 の幾何/marking/transport の検査・付録 A を三量表(b_cmp/b_op/b̂_i)へ・(Z_{2M}-link) 一般型と (Z20-link) K5 特殊化の分離(選択肢 ii・前件スロット 12 箇所)・F7 型列挙表を §13.1 に新設・B-9′ 指数を b_op へ修文(数学不変)。
+5. **theorem bundle 一意化**(条文案 v4): THEOREM-ANTECEDENT-Rcyc/twisted/v1(base+(5′_b))と /exact/v1(base+(5′)+(b_i=1))・record は predicate version まで区別・b_value_i=b_op・b_semantics="op" 固定・root_twist_2M_value/root_twist_mod_M_value・F2.3 hardening(rho_i_id/Ih_N_id)も採用。
+6. **status/provenance**(司令塔): CLAIMS W3-17 同期(GAP 25/25 fail_closed・「certificates/bfc/ の現行 certificate を正とする」・残差 0)・GAP を v2.7 へ再束縛(input_doc_sha256 一致確認済)。
+
+## 新規 2 点の監査(v2.2 で加わった形)
+- **§3.5.1a 四段のはしご**: (L1) b_op=1 無条件 ⊊ (L2) b_cmp=1 ⟺ t̄_M=1 ⊊ (L3) ε≡1 (2M) ⟺ t_{2M}=1 ⊊ (L4) ε=1。F4.1 の要点を「L2/L3 の同欄圧潰」と要約。
+- **検査 5(d′)+T-14 照会**: fixture t₂₀=11 では b_cmp=b_op=1(b_cmp まで 1 になるのが固有の鋭さ —「b が 1 だから根も合う」を両帳簿で封鎖)。F10.1 invariant への追加可否。
+- 副次: K³(M=6)でも ker((ℤ/12)^×→(ℤ/6)^×)={1,7} — 同型の落とし穴を §5.3 に記録。
+- TB4 §8.10 の照会 4 点にも回答されたい。
+
+## (β) 再審査
+便 49 F8 末尾の版イベント設計(Rule 1 v1.4 / manifest v1.6 / 札 / 文献要請 13(ii) / B-9′(e′) を b_op 形で復帰)のとおり。六条件+新規 2 点が PASS なら版イベント実施の許可を宣言されたい(適用は司令塔・旧正本上書きなし)。
+
+## 返信様式
+sol/sol_reply_50_f8close.md へ。F# 番号・条件別判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
