@@ -29,7 +29,7 @@
 
 > **旧文(v1.5・撤回)**: 「①個別橋: BRIDGE-IN 独立成立下で actual $G_K$-置換と τκ の exact 不一致、または (P1) の exact な破れ(前件札が独立に閉じている場合 — (5′) の候補反例)②pairwise: 封印予測 (P2)/(5.5) の exact な破れ(両 BRIDGE-IN 成立時 —「少なくとも一方の (5′) が偽」までを主張し、どちらかは同定しない)」。**差し替え理由と派生注記は下記「付随:manifest v1.6 の注記」を見よ。**
 
-### antecedent bundle(**v1.6 新設 — 条文案 v8 §3「antecedent bundle」の逐語転記**)
+### antecedent bundle(**v1.6 新設 — 条文案 v8 §3「antecedent bundle」の normative-only transfer**)
 
 **⚠ 循環の除去(便 48 F3.2・裁定 53)**: (5′)/(5$'_b$) を前件に置くと、falsifier を論理的に殺す循環になる — (i) 個別反例が「(5′) を真と仮定して (5$'_b$) の破れを探す」ことになり、(ii) (P1) の破れは (5′)+(6′) から $\mathrm{ord}([u^{-1}]_M)\mid e$ を出す $R^{\rm cyc}_{\rm formal}$ と正面衝突して反証分岐が空になり、(iii) pairwise の「少なくとも一方の橋が偽」を言いたいのに前件で exact bridge を真と置いてしまう。**⇒ bundle を目的別に二つに分ける。同じ名前で兼用しない。**
 
@@ -113,10 +113,10 @@ FALSIFIER-ANTECEDENT-BFC/twisted/v1
   bridge_predicate_id      # 例: "5prime_b/v1"(untwisted 版は "5prime/v0")
   results_schema_version
   ```
-  上記に加え、`antecedent_bundle_id`(上記 closed enumeration の 3 値のみ)・`exact_recovery_path`(discriminator = `antecedent_bundle_id`。`.../exact/v1` のときのみ REQUIRED で `{R-a/current-bfc-proof, R-b/tb4e-alternate}` のいずれか一つ、それ以外は PROHIBITED — 記入は integrity stop)・Rule 1 §8.4.0 (F4) の二段コミット欄(`b_rule_commitment`・`b_value_sq`/`b_value_ns` = `b_op`・`b_semantics = "op"`・`b_cmp_value`・`root_system_tb2_id`・`rule1_root_2M_id`・`root_twist_2M_value`・`root_twist_mod_M_value`・`b_value_source`・`b_observed_before_gk`・`z20_link_seal_id`・`equality_certificate_digest`)・証明書三分離(`field_certificate`/`orientation_certificate`/`character_identity_certificate`)を記録する。**詳細 schema は `docs/amendment_5prime_draft.md` §4 を正本とし、本節はそこへの digest 束縛欄のみを manifest 側に固定する。**
+  上記に加え、`antecedent_bundle_id`(上記 closed enumeration の 3 値のみ)・`exact_recovery_path`(discriminator = `antecedent_bundle_id`。`.../exact/v1` のときのみ REQUIRED で `{R-a/current-bfc-proof, R-b/tb4e-alternate}` のいずれか一つ、それ以外は PROHIBITED — 記入は integrity stop)・Rule 1 §8.4.0 (F4) の二段コミット欄(`b_rule_commitment`・`b_value_sq`/`b_value_ns` = `b_op`・`b_semantics = "op"`・`b_cmp_value`・`root_system_tb2_id`・`rule1_root_2M_id`・`root_twist_2M_value`・`root_twist_mod_M_value`・`b_value_source`・`b_observed_before_gk`・`z20_link_seal_id`・`root_equality_edge_id`・`equality_certificate_digest`)・証明書三分離(`field_certificate`/`orientation_certificate`/`character_identity_certificate`)を記録する。**詳細 schema は `docs/amendment_5prime_draft.md` §4 を正本とし、本節はそこへの digest 束縛欄のみを manifest 側に固定する。**
 
 - **(v1.6 新設・裁定 67 — 便 55 F6.2)結果 schema の authority 優先順位**: Rule 1 §10 (F4 記録欄 8.)・manifest(本節)・amendment §4 の三つが並んで「結果 schema の正本」を名乗る事故を防ぐため、次の 4 段を明文化する。
-  1. **$b$ の二段コミットと typed semantics** は **Rule 1 §8.4.0/F4 が正本**(`b_rule_commitment`/`b_value_i`/`b_semantics`/`b_cmp_value`/`root_system_tb2_id`/`rule1_root_2M_id`/`root_twist_2M_value`/`root_twist_mod_M_value`/`b_value_source`/`b_observed_before_gk`/`z20_link_seal_id`/`equality_certificate_digest` の定義・型)。
+  1. **$b$ の二段コミットと typed semantics** は **Rule 1 §8.4.0/F4 が正本**(`b_rule_commitment`/`b_value_i`/`b_semantics`/`b_cmp_value`/`root_system_tb2_id`/`rule1_root_2M_id`/`root_twist_2M_value`/`root_twist_mod_M_value`/`b_value_source`/`b_observed_before_gk`/`z20_link_seal_id`/`root_equality_edge_id`/`equality_certificate_digest` の定義・型)。
   2. **bundle ID の closed enum と `exact_recovery_path` の conditional presence rule** は **manifest v1.6(本節・「antecedent bundle」節)が正本**。
   3. **amendment §4** は、上記 1/2 の適用元であり、**残余詳細**(route evidence・ordering evidence・orientation certificate 構造)の source である。**専門正本 1/2 の定義と衝突した場合は 1/2 を優先**する。
   4. **`provenance/results_k5.md`(または専用 schema artifact)** は 1–3 の union を **materialize** する record であり、**独自定義を追加しない**。両文書(Rule 1・manifest)の digest と schema digest を束縛する。
@@ -177,21 +177,21 @@ FALSIFIER-ANTECEDENT-BFC/twisted/v1
 
 ---
 
-## 出所対応表(v1.6・便 55 差分ゲート用・裁定 67 で三値分類へ修理)
+## 出所対応表(v1.6・便 56 差分ゲート用・裁定 68 で機械可読 5 欄へ修理)
 
-**分類の定義(便 55 F5)**: `verbatim`(転記元の逐語・版ラベルと節番号の付替えのみ)/ `normative-only`(規範内容は保存するが版履歴注記・自己訂正説明を省略)/ `adapted`(転記元から意味的に変更した。変更点と承認根拠を明記する)。
+**欄の定義(便 55 F5・便 56 P56-1)**: `transfer_mode` ∈ {`verbatim`(転記元の逐語・版ラベルと節番号の付替えのみ), `normative-only`(規範内容は保存するが版履歴注記・自己訂正説明を省略), `adapted`(転記元から意味的に変更した)}。`verbatim(…を除く)` のような複合値は**禁止** — 例外を持つ転記は行を分割する。`source_range`(転記元の文書・節)/ `target_range`(本文書の節)/ `approval_id`(`adapted` のとき REQUIRED)/ `change_summary`(`adapted` のとき REQUIRED)。
 
-| 本文書の節 | 転記元 | 分類 | adapted の場合: 変更点・承認根拠 |
-|---|---|---|---|
-| 冒頭版履歴(v1.6 ボックス) | 裁定 66 Part A(`sol/裁定_66_ben54.md`) | normative-only | 版履歴の要約(自己訂正の逐次記述は省略) |
-| 五札封印表 BRIDGE-FAIL 行(①②の差し替え) | `docs/amendment_5prime_draft.md`(条文案 v8)§3「改定案(v1.6)」 | verbatim | |
-| antecedent bundle 節((B-I)(B-II)・(AB-1)–(AB-4)・closed enumeration) | 同 §3「antecedent bundle」全体(v3・A10 の二分割 / v4・A12 の 2 ID 分割 / v5・A15 の closed enumeration / v6・A16 の R-a/R-b 名指し) | verbatim | |
-| 付随:manifest v1.6 の注記 | 同 §3「付随:manifest v1.6 の注記」 | verbatim | |
-| 結果規則表と結果記録の分離への digest 束縛欄追加(Rule 1 F4 の 2 欄追記を含む) | 同 §4「結果 record schema」(A7・A8・A13・A15・A20 の該当欄) | **adapted** | 二段コミット欄の列挙に `z20_link_seal_id`・`equality_certificate_digest` の 2 欄を追加(便 55 F3.2 末尾に基づく・承認根拠: 裁定 67) |
-| exact 判定の証明書型(旧 (5′) 量化子行) | 便 55 F4.2(Rule 1 §8.4.2 と同文)+ 旧 manifest v1.5 本節 | **adapted** | operative `(5'_b)` の C-i/C-ii 限定列挙へ置換・field/kernel-only PASS を明示拒否・exact branch を `/exact/v1` として分離。承認根拠: 裁定 67(便 55 F4.2 blocker 2 の修理) |
-| 結果規則表 pairwise 行(旧 121 行相当) | 便 55 F4.2 | **adapted** | 「少なくとも一方の (5′) が偽」→「少なくとも一方の `(5'_b)` が偽」。承認根拠: 裁定 67 |
-| 較正三層 covariance controls の型注記(旧 153 行相当) | 便 55 F4.2 | **adapted** | 「(5′) 不変」→「operative `(5'_b)` の control」+ exact branch 名指しの追記。承認根拠: 裁定 67 |
-| 工程と発射条件の算術全射性禁止条件(旧 160 行相当) | 便 55 F4.2 | **adapted** | campaign の operative theorem bundle `(4d)(5'_b)` へ同期・exact 要求時のみ `/exact/v1` + route evidence を追加要件化。承認根拠: 裁定 67 |
-| 結果 schema の authority 優先順位(4 段・新設) | 便 55 F6.2 | **adapted** | Sol の推奨文言をほぼ逐語で新設(便 55 に既存条文がないため `adapted` 扱い・出典は F6.2 全文)。承認根拠: 裁定 67 |
+| transfer_mode | source_range | target_range | approval_id | change_summary |
+|---|---|---|---|---|
+| normative-only | 裁定 66 Part A(`sol/裁定_66_ben54.md`) | 冒頭版履歴(v1.6 ボックス) | — | — |
+| verbatim | `docs/amendment_5prime_draft.md`(条文案 v8)§3「改定案(v1.6)」 | 五札封印表 BRIDGE-FAIL 行(①②の差し替え) | — | — |
+| normative-only | 同 §3「antecedent bundle」全体(v3・A10 の二分割 / v4・A12 の 2 ID 分割 / v5・A15 の closed enumeration / v6・A16 の R-a/R-b 名指し) | antecedent bundle 節((B-I)(B-II)・(AB-1)–(AB-4)・closed enumeration) | — | v3/A10・v4/A12・v5/A15 の自己訂正の版履歴詳細は要約・省略(便 56 F6.2) |
+| verbatim | 同 §3「付随:manifest v1.6 の注記」 | 付随:manifest v1.6 の注記 | — | — |
+| adapted | 同 §4「結果 record schema」(A7・A8・A13・A15・A20 の該当欄) | 結果規則表と結果記録の分離への digest 束縛欄追加(Rule 1 F4 の欄追記を含む) | 裁定 67 | 二段コミット欄の列挙に `z20_link_seal_id`・`root_equality_edge_id`・`equality_certificate_digest` の 3 欄を追加(便 55 F3.2 末尾・便 56 F3.2 の named edge 束縛に基づく) |
+| adapted | 便 55 F4.2(Rule 1 §8.4.2 と同文)+ 旧 manifest v1.5 本節 | exact 判定の証明書型(旧 (5′) 量化子行) | 裁定 67 | operative `(5'_b)` の C-i/C-ii 限定列挙へ置換・field/kernel-only PASS を明示拒否・exact branch を `/exact/v1` として分離(便 55 F4.2 blocker 2 の修理) |
+| adapted | 便 55 F4.2 | 結果規則表 pairwise 行(旧 121 行相当) | 裁定 67 | 「少なくとも一方の (5′) が偽」→「少なくとも一方の `(5'_b)` が偽」 |
+| adapted | 便 55 F4.2 | 較正三層 covariance controls の型注記(旧 153 行相当) | 裁定 67 | 「(5′) 不変」→「operative `(5'_b)` の control」+ exact branch 名指しの追記 |
+| adapted | 便 55 F4.2 | 工程と発射条件の算術全射性禁止条件(旧 160 行相当) | 裁定 67 | campaign の operative theorem bundle `(4d)(5'_b)` へ同期・exact 要求時のみ `/exact/v1` + route evidence を追加要件化 |
+| adapted | 便 55 F6.2 | 結果 schema の authority 優先順位(4 段・新設) | 裁定 67 | Sol の推奨文言をほぼ逐語で新設(便 55 に既存条文がないため adapted 扱い・出典は F6.2 全文) |
 
-**確認**: 上表以外の新規文言(判断を要する言い換え)は本文書に含めていない。`adapted` と分類した箇所は、いずれも便 55(F4.2/F5/F6.2)の明示指示に基づく predicate 型同期・欄追加・authority 明文化であり、判断を要する言い換えではない。digest 束縛欄は条文案 v8 §4 の該当 6 欄(`manifest_sha256`/`rule1_sha256`/`bridge_predicate_id`/`results_schema_version`/`antecedent_bundle_id`/`exact_recovery_path`)を manifest 側の固定点として転記し、二段コミット欄・証明書三分離欄は同 §4 を参照するのみ(定義の重複記載はしない)。
+**確認**: `transfer_mode` の分類は上表が悉皆である(便 56 F6)。上表以外に本文書が独自の判断を要する言い換えを追加することはない。digest 束縛欄は条文案 v8 §4 の該当 6 欄(`manifest_sha256`/`rule1_sha256`/`bridge_predicate_id`/`results_schema_version`/`antecedent_bundle_id`/`exact_recovery_path`)を manifest 側の固定点として転記し、二段コミット欄・証明書三分離欄は同 §4 を参照するのみ(定義の重複記載はしない)。
