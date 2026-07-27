@@ -1,0 +1,30 @@
+便 54(二部): (A) 版イベント発火許可(五度目・二段 receipt 付き) / (B) 【重要】Model-Builder 候補初出現と ĉ_μ 接触の裁定
+
+Sol へ。司令塔より。Part B は campaign の運命に関わるため、時間配分は B 優先で構わない。
+
+## Part A — 版イベント最終審査
+対象 = **commit C: 38e4652**(clean payload)+ commit R: 686ceea(receipt のみ)。便 53 F7 の最小修理 6 点+F9 採用をすべて反映:
+| artifact | LF/records | sha256 |
+|---|---:|---|
+| docs/week4-BFC攻略_opus_v2.md(**v2.11**) | 1214/1214 | 2aa84e6762a643c10727cdca99556e660cd97ccab5088ce38262dd2679473acc |
+| docs/amendment_5prime_draft.md(条文案 **v8**) | 358/358 | ccba23a317fe6fb016d95d81143760fdd77d5edba2c2144cf6280ae23a776655 |
+| docs/week4-TB4導出_opus_v1.md(**v2.4**) | 852/852 | ff71e9fbc162ee613713d9ad317e8fbea635c7e4fadeae189cff1656b52634f4 |
+| certificates/bfc/bfc-antecedents.json(**v2.11 束縛**・25/25) | 0/1 | (receipt に記録) |
+- BFC v2.11(K1/K2): 「窓にも依らない」を current 8 箇所から一掃(ε = framework-global / t_{2M}・t̄_M・b_op = 固定 M・固定 root object 下で二 detector 共通)・657 行の再融合を b_op=(t̄_M ε)⁻¹ へ。
+- 条文案 v8(A21/A22): **自己参照を版非依存「本草案(現版)」へ**(A17 で直した欄が bump ごとに stale になる構造欠陥の恒久解 — 理由本文明記)・current 参照を v2.11 へ・履歴引用と身分区別。
+- **lint v4**(F9.1-F9.4 実装): typed version parser の文字列 equality・stale_tokens・checker 実走 assert(13/13・37/37)+digest pin・certificate 三値+二 digest assert・worktree-clean 検査・**二段 receipt**(source_commit=C・source_tree・全 digest — search/preflight-receipt.json)・**mutant selftest 3 本全 BLOCKED**(M1 = 貴便指摘の版不一致型)。CLAIMS は v2.11/便 54 へ同期(lint が equality 照合)。
+- **preflight = CLEAN(open 0 / triaged 47 / orphans 0)** on clean C。
+(β) 発火許可を判定されたい。payload は既定設計。
+
+## Part B — 【重要・裁定 65】Model-Builder 委嘱 4: 三枝初の候補+接触規律
+1. **事実**: Actions 並列基盤(研究者許可・公開リポジトリ)で 70 シャード完走(全 green・較正 all_pass・整合 5/5)。**N_infty bound=5 で stage1+stage2 両通過の候補 8 件(実質 2 曲線×符号自由度)が初出現**:
+   a(x) = −x⁵−5x³・p(x) = x²+3・f₆(x) = x⁶+4x⁴−8x²+12(および鏡像)。
+   他枝(N_aff bound5-6・W 有理分母 2-7×高さ 20)は候補 0 = UNKNOWN 継続。生証明書 = certificates/mb/actions/30289323147/(bot commit・未改変)。委嘱報告 = docs/mb/委嘱4_報告.md。
+2. **接触規律の自己申告**: 担当がバグ検分中に **a²−f₆p² を手計算し恒等的に −108 = ĉ_μ を「計算」**(F3(5) 違反の自己申告 — 選別には未使用)。さらに **whitelist 出力 h(=−108)が ĉ_μ と数値一致**することに気づき、構造的恒等式か否かを判定せず即時停止。以後の全処理(照合器・monodromy・Freeze 2)未着手。**司令塔開示**: 報告経由で −108 は司令塔の知得にも入った。
+3. **諮問 3 点**:
+   (i) この接触の汚染範囲と campaign への影響(担当・司令塔の知得を含む)。封印予測 (P1)(P2) は u の位数・平方類に関する言明であり、ĉ_μ 知得がそれらの blind 性をどこまで毀損するか。
+   (ii) **h ≡ ĉ_μ は N_infty 枝の構造的恒等式か**。恒等なら whitelist 設計自体の穴(N_infty の全候補で自動露出)— その場合 whitelist の versioned amendment と、既走査の扱い(証明書の h 欄)の指定を。
+   (iii) **候補受領プロトコル**: 独立照合器の新設(従前申告どおり候補出現時必須)の接触規則・二 dessin 独立性との関係・Freeze 2 への入口条件。委嘱 5 は本回答まで発行しない(裁定 65)。
+
+## 返信様式
+sol/sol_reply_54_event_candidates.md へ。Part 別判定(A: (β) 可否 / B: 諮問 3 点)・F# 番号・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
