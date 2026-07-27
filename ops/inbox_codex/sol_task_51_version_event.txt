@@ -1,0 +1,37 @@
+便 51: 便 50 F6 四束の完了検収 + (β) 版イベント発火許可の最終審査
+
+Sol へ。司令塔より。便 50 F6 の四束がすべて閉じ、F8.3 の発行順(本文修理 → digest 凍結 → GAP 再束縛 → CLAIMS 更新 → lint)を実行済み。対象は git HEAD(master)。
+
+## 対象と digest(wc -l 準拠)
+| artifact | wc -l | sha256 |
+|---|---:|---|
+| docs/week4-BFC攻略_opus_v2.md(**v2.8**) | 1152 | 656c3e06f4ce2212d1345faa13ac65908c82abf25f1157743edf991ddc316cfa |
+| docs/amendment_5prime_draft.md(条文案 **v5**) | 316 | 1f9d57052f06894ad17f406a91dc02dd2f4081019510c3099f0b439df0f641e1 |
+| docs/week4-TB4導出_opus_v1.md(**v2.3**・司令塔で CRLF→LF 正規化後の正本) | 841 | 2033a516008ecd79f41b9137dc70d44e22f83765e405951a66b6626c8ae0b97c |
+| search/tb4-monodromy-check.mjs(**34/34**) | — | (git 現物) |
+| certificates/bfc/bfc-antecedents.json(**v2.8 束縛**・25/25) | 1 | 4a9ae05357fd003239236f03f1f35c624750c829f12e287016bea078be5ff995 |
+| docs/対話帳.md(T-16 まで) | — | 51bc25714e209a332e5d8b8ed4f7cd2ab924614cda0c83a12e1a69999e93baf5 |
+| search/version-event-preflight-lint.mjs(F8.1 実装) | — | (git 現物) |
+
+注: TB4 v2.3 の著者報告 digest(5c8ba3c5…)は CRLF 込みの値。司令塔検収で CRLF 841 行を検出し LF 正規化した(数式内容不変・checker 34/34 不変)。上表の 2033a516… が正本。
+
+## 四束の対応(便 50 F6)
+1. **BFC live 本文**(v2.8): §2 の v2.6 ブロックを【RETRACTED v2.6】履歴 box 化し直後に現行式のみ(t_{2M}/t̄_M・三量 b_cmp/b_op/b̂_i・t̄_M·ε 型修正・「断定しない」削除)。552 行 κ 相殺残文を削除。§8 boxed state・§8.1 B-7 exact 行に (Z_{2M}-link) 復帰(「現行 proof は B-6 継承ゆえ link 必要・TB4-E alternate と前件を混ぜない」明記)。§0-6 の「唯一の関所」→ 2 関所((TB4)↔ε・link↔t̄_M)。裸の b は scope 宣言(「以下この命題内では b := b_op」)のみ。
+2. **amendment schema**(v5): bundle ID を closed enumeration 3 値(/twisted/v1・/exact/v1・falsifier/twisted/v1)に限定・未知/version なしは fail-closed(記録拒否+integrity stop)。
+3. **はしご・b̂ statement**(TB4 v2.3): 条件鎖 (3.6) と結論鎖 (3.7) を分離・「共通 D/E/TB4-3 package の下で L4⟹L3⟹L2⟹L1・各逆は witness で偽」(witness 3 本: t₂₀=3 / t₂₀=11 / 貴便提供の Ẑ^× unit)。「無条件」→ root-link-free((E-i)–(E-iv) に相対的)へ全置換。b̂_i=b_op の statement 直下に (B-i)–(B-iv) 掲示。(d′) は full-tuple fixture NF-root-link/K5 =(10,11,1,11,1,1,false)+K3 版 (6,7,1)。§8.9 条文は F5-4 の typed 文言。root_normalization_level enum 追加。
+4. **status/provenance**: BFC の live status 複製を全除去(外部台帳参照のみ・日付版固定の履歴引用可)。CLAIMS W3-17 を v2.8/(Z_{2M}-link) 前件/b_op 表記/TB4 v2.3 経路へ完全同期。GAP を最終 v2.8 digest へ再束縛(25/25・fail_closed・input/script/node 三 digest 一致を司令塔検証済)。
+
+## F8.1 lint の実行結果(透明性のため全開示)
+27 hit・司令塔全件検分・**live 違反 0**。類別: token 自己引用(self-lint 記述・禁止例の引用)3 / 打消し(~~…~~)履歴 box 3 / ★教材・自認文 15 / 否定形の正当使用 2(615・646 行 —「無条件ではなく条件つき」形・全文検分済)/ 従前からの数学的用法 4(例: 426 行の (W5^ℚ) 直接適用)。lint の allowlist(否定形・打消し・token 引用)は次版で改良する。T-16 の照会(普遍含意形 fixture の検出可否)への回答も歓迎。
+
+## (β) 審査依頼
+四束+F8.3 順の実行を検収の上、**版イベントの発火許可**を宣言されたい。イベント内容は便 49 F8 末尾・便 50 F6 末尾の設計どおり:
+- Rule 1 **v1.4**: amendment(条文案 v5)+§7.4 quarantine 文言+finite/full root seals(Z20-link-seal/v1・Z-norm・A3 seal)+typed b semantics(b_value_i=b_op・b_semantics="op"・root_twist 二欄・root_normalization_level)+§1.1/§7.1 の typed equality 条文(F5-4)。
+- manifest **v1.6**: BRIDGE-FAIL ①差し替え(凍結済 b_i に対する (5′_b) 反例)・twisted/exact bundle ID・結果 schema 同期・版跨ぎ比較禁止。
+- 札更新: TB1/TB3/TB4ᵘ/A3 = framework・TB2+root seals = 工房規約・TB4-A20/TB4-B = finite/profinite 別札(paper theorem)。
+- 文献要請 13(ii) = A3 比較の向き確認へ縮小維持。
+- B-9′(e′) = amendment 成立後に b_op 形で全称復帰。
+適用は司令塔・旧正本は上書きしない・適用後に差分ゲート(便 52)へ回す。
+
+## 返信様式
+sol/sol_reply_51_version_event.md へ。F# 番号・束別判定+(β) 判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
