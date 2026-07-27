@@ -187,7 +187,8 @@ FALSIFIER-ANTECEDENT-BFC/twisted/v1
 | verbatim | `docs/amendment_5prime_draft.md`(条文案 v8)§3「改定案(v1.6)」 | 五札封印表 BRIDGE-FAIL 行(①②の差し替え) | — | — |
 | normative-only | 同 §3「antecedent bundle」全体(v3・A10 の二分割 / v4・A12 の 2 ID 分割 / v5・A15 の closed enumeration / v6・A16 の R-a/R-b 名指し) | antecedent bundle 節((B-I)(B-II)・(AB-1)–(AB-4)・closed enumeration) | — | v3/A10・v4/A12・v5/A15 の自己訂正の版履歴詳細は要約・省略(便 56 F6.2) |
 | verbatim | 同 §3「付随:manifest v1.6 の注記」 | 付随:manifest v1.6 の注記 | — | — |
-| adapted | 同 §4「結果 record schema」(A7・A8・A13・A15・A20 の該当欄) | 結果規則表と結果記録の分離への digest 束縛欄追加(Rule 1 F4 の欄追記を含む) | 裁定 67 | 二段コミット欄の列挙に `z20_link_seal_id`・`root_equality_edge_id`・`equality_certificate_digest` の 3 欄を追加(便 55 F3.2 末尾・便 56 F3.2 の named edge 束縛に基づく) |
+| adapted | 同 §4「結果 record schema」(A7・A8・A13・A15・A20 の該当欄) | digest 束縛欄追加のうち `z20_link_seal_id`・`equality_certificate_digest` | 裁定 67 | 有限 seal の ID と equality certificate digest の 2 欄を追加(便 55 F3.2 末尾) |
+| adapted | 便 56 F3.2/P56-2 の指定形(`sol/sol_reply_56_apply_gate2.md`) | digest 束縛欄追加のうち `root_equality_edge_id` | **裁定 68** | named edge `rule1-tb2-root-equality/v1` への束縛欄を追加(Rule 1 F4 と同一 field 名で同期) |
 | adapted | 便 55 F4.2(Rule 1 §8.4.2 と同文)+ 旧 manifest v1.5 本節 | exact 判定の証明書型(旧 (5′) 量化子行) | 裁定 67 | operative `(5'_b)` の C-i/C-ii 限定列挙へ置換・field/kernel-only PASS を明示拒否・exact branch を `/exact/v1` として分離(便 55 F4.2 blocker 2 の修理) |
 | adapted | 便 55 F4.2 | 結果規則表 pairwise 行(旧 121 行相当) | 裁定 67 | 「少なくとも一方の (5′) が偽」→「少なくとも一方の `(5'_b)` が偽」 |
 | adapted | 便 55 F4.2 | 較正三層 covariance controls の型注記(旧 153 行相当) | 裁定 67 | 「(5′) 不変」→「operative `(5'_b)` の control」+ exact branch 名指しの追記 |

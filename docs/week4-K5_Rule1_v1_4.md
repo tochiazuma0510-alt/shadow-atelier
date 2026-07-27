@@ -1015,8 +1015,9 @@ $$ \text{(P1)}\ \iff\ c\in K^{\times2}\ \iff\ \operatorname{sqfree}(c)\in\{1,-1,
 | adapted | 同 §8.5 | §1.4.1 状態札 | 便 55 F3.2 / 裁定 67 | full seal の状態札を finite level-20 seal に限定(「TB2 + TB2-norm seal」→「TB2 + root seals(Z20-link-seal/v1)」)。正しい修理だが provenance 上は adapted(便 56 ★教材 3) |
 | adapted | 同 §8.3(BFC v2.11 §12.1「文献要請 13」対応節の (ii) を縮小する確定文言) | §1.4.1 文献要請 13(ii) の縮小 | 裁定 67 | 便 55 F6.1 により「BFC v2.11 §12.1(ii) は未同期・TB4 v2.4 §8.3 が現行 normative source」の 1 文を追加 |
 | normative-only | 同 §8.4(便 48 F10.2 の文言) | §7.4 quarantine 4 段監査の確定文言 | — | 前段(旧文)は差替え・後段(禁止規律部分)は保持 |
-| normative-only | `docs/amendment_5prime_draft.md`(条文案 v8)§2「条文案 A」(現行→改定案 v1.4 の該当ブロック) | §8.4(8.4.0 本文・8.4.1・8.4.3–8.4.5。F4 追加欄と 8.4.2 語彙修理を除く) | — | — |
-| adapted | 同上 §2「条文案 A」 | §8.4.0 (F4) 追加欄(`z20_link_seal_id`・`root_equality_edge_id`・`equality_certificate_digest`) | 便 55 F3.2 / 便 56 F3.2 | 結果 schema の双方(Rule 1 F4・manifest)へ同じ named edge(edge_id・lhs/rhs object ID・scope・certificate_digest)を入れるための欄追加 |
+| normative-only | `docs/amendment_5prime_draft.md`(条文案 v8)§2「条文案 A」(現行→改定案 v1.4 の該当ブロック) | §8.4(8.4.0 本文・8.4.1・**8.4.2 本文〔語彙修理行を除く〕**・8.4.3–8.4.5。F4 追加欄を除く) | — | — |
+| adapted | 同上 §2「条文案 A」 | §8.4.0 (F4) 追加欄のうち `z20_link_seal_id`・`equality_certificate_digest` | 便 55 F3.2(裁定 67) | 有限 seal の ID と equality certificate digest を結果 schema へ入れる欄追加 |
+| adapted | 便 56 F3.2/P56-2 の指定形(`sol/sol_reply_56_apply_gate2.md`) | §8.4.0 (F4) 追加欄のうち `root_equality_edge_id`(named edge の lhs/rhs/scope/digest 束縛) | **裁定 68** | named edge `rule1-tb2-root-equality/v1` を F4・manifest の双方が同一 field 名で参照するための欄追加 |
 | adapted | 同上 §2「条文案 A」 | §8.4.2 語彙(794 行「照合(検証)」の記述・cross-checked 自動付与の修理) | 便 55 F9-5 / 裁定 68 F7 | 「verified/検証済み」は Lean 証明書に予約する旨の注記を明記し、`cross-checked` の付与を実際に記録された独立経路と二経路一致に条件付ける(procedure と status の分離) |
 | adapted | 便 56 F3.2 の指定形(`sol/sol_reply_56_apply_gate2.md`) | §1.4.1 (3)(4) root ID 統一(`rule1_root_2M_id`)と named edge `rule1-tb2-root-equality/v1` | 裁定 68 | 同一文書内の識別子統一だが「正しい修理も provenance 上は adapted」(便 56 ★教材 3)に従い計上(司令塔追加行) |
 | verbatim | 同 §2「付随:§9 への 1 行追加」 | §9.2 I-n 行 | — | — |
