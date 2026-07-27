@@ -1,0 +1,36 @@
+{
+  "schema": "mb/actions-collect-summary/v1",
+  "plan_frozen_commit": "578b4fe2030153dedac56016f0d57e947a0c8507",
+  "shard_count": 2,
+  "shards": [
+    {
+      "shard_id": "smoke-naff-1",
+      "script": "search/mb-naff-branch-search.mjs",
+      "cert_exists": true,
+      "cert_parsed": true,
+      "cert_integrity_flag": false,
+      "err_exists": true,
+      "err_size_bytes": 0,
+      "exit_code": "0",
+      "elapsed_ms": 402,
+      "run_id": "30285677017",
+      "success": true
+    },
+    {
+      "shard_id": "smoke-ninfty-1",
+      "script": "search/mb-ninfty-branch-search.mjs",
+      "cert_exists": true,
+      "cert_parsed": true,
+      "cert_integrity_flag": false,
+      "err_exists": true,
+      "err_size_bytes": 0,
+      "exit_code": "0",
+      "elapsed_ms": 417,
+      "run_id": "30285677017",
+      "success": true
+    }
+  ],
+  "all_success": true,
+  "success_count": 2,
+  "failure_count": 0
+}
