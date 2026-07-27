@@ -55,7 +55,32 @@ gn := MakeGn(3);;
 G3 := gn.G;; xg := gn.x;; yg := gn.y;; r := gn.r;; s := gn.s;; tr := gn.tr;;
 Print("|G3| = ", Size(G3), " (expect 108)\n");
 if Size(G3) <> 108 then Error("G3 order mismatch"); fi;
-zg := tr(r^2*s, 1) * tr(r^-1*s, 2) * tr(r, 3);;
+
+# ================= z-bar の marked transport (Sol 便44 F6.1 修理) =================
+# D1 (3.6): z-bar = (x-bar y-bar)^{-1} = (r^2 s, r^-1 s, r)。x-bar,y-bar は
+# MakeGn 内部で「論文の rs は GAP の s*r」という移送規約(Sol 便01 F3,
+# Phi=(phi_1,id,phi_3), phi_1(r)=r, phi_1(s)=r^-2 s, phi_3(r)=r^-1, phi_3(s)=s)
+# を y-bar = tr(s*r,1)*tr(r,2)*tr(s*r,3) に既に適用して構成されている。
+# ところが旧版はここで z-bar だけ生の座標 (r^2 s, r^-1 s, r) を未移送のまま
+# tr() に渡していたため、x_g y_g z_g <> 1 になっていた(便44 F6.1 実測:
+# n=3 で (r,1,r^2))。安全な修理は zg を (xg*yg)^-1 として直接計算すること --
+# xg,yg は既に一貫して移送済みなので、積の逆元を取るだけで自動的に整合する。
+# 独立確認として、Phi を D_n 上の準同型として明示構成し、D1 (3.6) の生の
+# 座標に Phi を後合成した結果とも一致することを検査する(Phi による同時
+# 移送を certificate に残す -- 便44 F6.3 item 4)。
+Dn := Group(r, s);;
+phi1 := GroupHomomorphismByImages(Dn, Dn, [r, s], [r, r^-2*s]);;
+phi3 := GroupHomomorphismByImages(Dn, Dn, [r, s], [r^-1, s]);;
+if phi1 = fail or phi3 = fail then
+  Error("*** FORMULA-MISMATCH: phi1/phi3 (Sol 便01 Phi transport) は D_n の well-defined homomorphism にならない");
+fi;
+
+zg := (xg * yg)^-1;;
+zgPhi := tr(Image(phi1, r^2*s), 1) * tr(r^-1*s, 2) * tr(Image(phi3, r), 3);;
+ck("0a x_g*y_g*z_g = 1 (D1 (3.6) fixture, fail-closed -- 便44 F6.3 item 1)", xg*yg*zg = One(G3));
+ck("0a' z_g = (x_g y_g)^-1 は Phi による生座標の明示移送と一致(独立確認 -- 便44 F6.3 item 4)",
+   zg = zgPhi);
+
 M := Order(xg);;
 ck("0 ord(X) = 6 = M", M = 6);
 
@@ -197,18 +222,24 @@ ck("V4b tau は Lambda 上の 6-サイクル(単純推移)", CycleType(PermList(
 tauPerm := PermList(tauX);;
 
 # ================= Phi_{m,k}(GT(K^(3)) の 12 元)の構成 =================
-# カリブレーション注記(実装ログ):
-# D1 (4.9) の文字どおりの kappa(m)(奇 m: m+1、偶 m: -m、mod ord(r)=3)を
-# そのまま r^{kappa(m)} として第 3 スロットに使うと (m,k)=(2,0) 等で
-# GroupHomomorphismByImages が非全単射を返した(実測: kap in {0,2} は
-# bijective・kap=1 は非 bijective、m/u に依らず一貫)。
-# 検証の結果、本 tr()-embedding(MakeGn の (3.1)(3.6) 実装)では第 3 スロットの
-# 指数が kappa(m) ではなく -kappa(m) mod 3(= 2*kappa(m) mod 3)のときに
-# 一貫して bijective になることを全 12 元で確認した(下の Error ガードで
-# 保証・m=0 の既存 cert(gap18a.json, kappa(0)=0)とは値が一致するため無矛盾)。
-# これは MakeGn 実装内の座標付け規約(z-bar の向き)由来のカリブレーション差であり、
-# GT-shadow の定義自体を変更するものではない。数値は Error ガードで裏取りしている
-# ので、万一この規約が違えば以下は即座に FORMULA-MISMATCH で停止する。
+# kapExp の根拠(便44 F6.2 修理):
+# f_{m,k} = (r^{2k}, r^{-2k}, r^{kappa(m)}) は z-bar と同じ第 3 スロットの
+# 生座標パターンであり、z-bar と同じ Phi=(phi_1,id,phi_3) の移送(phi_3(r)=r^-1)
+# を第 3 スロットに適用しなければならない(移送を怠ると z-bar と同じ
+# x_g y_g z_g <> 1 型の不整合が起きる)。phi_3(r^kappa(m)) = r^{-kappa(m)} なので
+# kapExp = (-kap) mod 3 であり、「全単射になる符号を試して選んだ」のではなく
+# Phi の明示移送から導ける値である。下の kapPhiCheck で
+# Image(phi_3, r^kap) = r^kapExp を kap in {0,1,2} 全部について検査し、
+# 導出の正しさを certificate に残す(便44 F6.3 item 4)。IsBijective は
+# その後の独立な反証テスト(構成が本当に Aut(G3) の元になっているかの
+# fail-closed ガード)であり、符号の選定根拠ではない。
+kapPhiCheck := true;;
+for kapT in [0, 1, 2] do
+  if Image(phi3, r^kapT) <> r^((-kapT) mod 3) then kapPhiCheck := false; fi;
+od;
+ck("2a kappa(m) 第3スロットの符号 -kap は phi_3(r)=r^-1 の明示移送と一致(便44 F6.2)",
+   kapPhiCheck);
+
 BuildPhi := function(m, k)
   local u, kap, kapExp, fk, imgX, imgY, phi;
   u := 2*m + 1;
@@ -293,16 +324,47 @@ ck(Concatenation("F2.1 再現: |P|=", String(Size(Pprod)), ", |H|=", String(Size
 ck("F2.1 ★ [P:H] = 3 <> 6 = M(旧 B-2 の pairwise 同値「N_P(H)=H <=> [P:H]=M」は偽・反例確認)",
    idxPH <> Mctr and NPH);
 
+# 便44 F6.3 item 3: <X> が P/H 上推移的であることを明示に検査する
+# (旧版は位数・指数・normalizer だけで、<Xctr> の推移性を assert していなかった)。
+cosetsCtr := RightCosets(Pprod, Hctr);;
+homCtr := ActionHomomorphism(Pprod, cosetsCtr, OnRight);;
+pxCtr := Image(homCtr, Xctr);;
+transCtr := Length(Orbit(Group(pxCtr), 1)) = idxPH;;
+ck("F2.1c <X> は P/H 上推移的(便44 F6.3 item 3)", transCtr);
+
 Print("\n=== ", pass, "/", pass + failCount, " PASS ===\n");
+
+# ================= script/input digest(便44 F6.3 item 5) =================
+ComputeSha256File := function(relpath)
+  local tmp, f, line;
+  tmp := "search/.tmp_sha256_out_bfc.txt";;
+  Exec(Concatenation("sha256sum \"", relpath, "\" > \"", tmp, "\""));;
+  f := InputTextFile(tmp);;
+  line := ReadLine(f);;
+  CloseStream(f);;
+  Exec(Concatenation("rm -f \"", tmp, "\""));;
+  return line{[1..64]};
+end;;
+
+scriptSha256 := ComputeSha256File("search/bfc-antecedents-check.g");;
+inputMdSha256 := ComputeSha256File("docs/week4-BFC攻略_opus_v1.md");;
+nodeCertSha256 := ComputeSha256File("search/week4-bfc-antecedents.mjs");;
 
 # ================= 証明書 JSON =================
 cert := Concatenation(
-  "{\"schema\":\"bfc-antecedents-check/v1\"",
+  "{\"schema\":\"bfc-antecedents-check/v2\"",
   ",\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/bfc-antecedents-check.g\"}",
+  ",\"repair_note\":\"Sol 便44 F6 修理: z-bar を (x_g y_g)^-1 として Phi 移送つきで再構成し、",
+  "kapExp の符号を phi_3(r)=r^-1 の明示移送から導出。旧版(v1)は certificates/bfc/retracted/ へ。\"",
   ",\"target_group\":{\"name\":\"G3<=D3^3\",\"order\":", String(Size(G3)), "}",
   ",\"target_H\":{\"order\":", String(Size(H)), ",\"index\":", String(d), ",\"lambda_size\":", String(Length(Lam)), "}",
   ",\"pass_count\":", String(pass),
   ",\"fail_count\":", String(failCount),
+  ",\"xyz_identity_check\":", JB(xg*yg*zg = One(G3)),
+  ",\"z_phi_transport_check\":", JB(zg = zgPhi),
+  ",\"kappa_phi_sign_check\":", JB(kapPhiCheck),
+  ",\"v3_matching_H_count\":", String(v3n),
+  ",\"v3_counterexample_count\":", String(v3bad),
   ",\"aut_G3_order\":", String(autOrder),
   ",\"aut_G3_lambda_stabilizer_count\":", String(autStabCount),
   ",\"gt_k3_element_count\":", String(Length(GTel)),
@@ -310,7 +372,13 @@ cert := Concatenation(
   ",\"H_order\":", String(Size(Hctr)),
   ",\"index_P_H\":", String(idxPH),
   ",\"M\":", String(Mctr),
-  ",\"N_P_H_eq_H\":", JB(NPH), "}",
+  ",\"N_P_H_eq_H\":", JB(NPH),
+  ",\"X_transitive_on_P_over_H\":", JB(transCtr), "}",
+  ",\"provenance\":{\"script_sha256\":\"", scriptSha256, "\"",
+  ",\"input_doc_sha256\":\"", inputMdSha256, "\"",
+  ",\"input_doc_path\":\"docs/week4-BFC攻略_opus_v1.md\"",
+  ",\"node_counterpart_sha256\":\"", nodeCertSha256, "\"",
+  ",\"node_counterpart_path\":\"search/week4-bfc-antecedents.mjs\"}",
   ",\"elapsed_cpu_ms\":", String(GAPLIB_ElapsedMs()),
   "}"
 );;
