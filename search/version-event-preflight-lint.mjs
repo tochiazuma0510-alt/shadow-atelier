@@ -95,11 +95,12 @@ for (const f of files) {
 }
 
 // ③ orphan 検査
-const orphans = Object.keys(triage).filter(k => !activeKeys.has(k));
+let orphans = Object.keys(triage).filter(k => !activeKeys.has(k));
 if (orphans.length && pruneOrphans) {
   for (const k of orphans) delete triage[k];
   fs.writeFileSync(TRIAGE_PATH, JSON.stringify(triage, null, 2));
   console.log(`orphan triage ${orphans.length} 件を prune した`);
+  orphans = [];
 } else if (orphans.length) {
   failures.push(`ORPHAN-TRIAGE: 現 hit に対応しない record ${orphans.length} 件(--prune-orphans で整理)`);
 }
