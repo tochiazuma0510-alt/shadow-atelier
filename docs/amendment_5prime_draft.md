@@ -1,4 +1,4 @@
-# 修正条文案 **v4**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
+# 修正条文案 **v5**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
 
 **起草**: 2026-07-27(**v3・v4 = 2026-07-28**)・Claude(数学者レイヤー・Opus 5)。**裁定 48-3 に基づく起草・v2 は便 47(`sol/sol_reply_47_amendment.md`)の blocker 2 件 + F7–F10 を反映(裁定 50)。**
 **身分**: **草案である。適用は司令塔** — 凍結正本(`docs/manifest_k5_v1.md` v1.5 / `docs/week4-K5_Rule1_v1.md` v1.3)を**上書きしてはならず**、**manifest v1.6 / Rule 1 v1.4 という新 version を作り差分ゲートを通す**。**本草案が PASS してから新 version を作る**(便 47 F12-5)。
@@ -39,7 +39,15 @@
 | **A13** | §2 8.4.0 (F4)・§4 | `b_value_i` の意味論が未確定(裸の $b$) | **`b_value_i = b_op`・`b_semantics = "op"` 固定**(裸の $b$ を禁止)。**`b_cmp_value` は別欄**で `root_system_tb2_id` 必須。**F4.6 の型修理**: `root_twist_2M_value`($t_{2M}\in(\mathbb Z/2M)^\times$・link $\iff t_{2M}=1$)と `root_twist_mod_M_value`($\bar t_M$・**$\bar t_M=1$ は link と同値でない**) | 便 49 F4.3・F4.6・F5 |
 | **A14** | §4.1 | `orientation_certificate` の (5) 式中の写像が差し替え可能 | **任意採用(hardening)**: `rho_i_id` と `Ih_N_id` を **digest つきで束縛**。**blocker ではないが安い** | 便 49 F2.3 |
 
-> **便 49 F2.1 の判定**: `FALSIFIER-ANTECEDENT-BFC` は**正しい**((5′)/(5$'_b$) を含まず、便 48 の循環は閉じた)。**v4 が直すのは theorem 側の 1 行 blocker と schema の意味論のみ。**
+> **便 49 F2.1 の判定**: `FALSIFIER-ANTECEDENT-BFC/twisted/v1` は**正しい**((5′)/(5$'_b$) を含まず、便 48 の循環は閉じた)。**v4 が直すのは theorem 側の 1 行 blocker と schema の意味論のみ。**
+## v4 → v5 差分(裁定 59 — 便 50 F2.5)
+
+| # | 箇所 | v4 | v5 | 出所 |
+|---|---|---|---|---|
+| **A15** | §3 の `antecedent_bundle_id` 注記・§4 の result schema | bundle ID が **version なしの旧名**(`THEOREM-ANTECEDENT-Rcyc` / `FALSIFIER-ANTECEDENT-BFC`)のままで、**A12 の `/twisted/v1`・`/exact/v1` を保存できなかった**(結果 record が A12 の修理を潰す) | **closed enumeration へ**: 許される値は **`THEOREM-ANTECEDENT-Rcyc/twisted/v1`・`THEOREM-ANTECEDENT-Rcyc/exact/v1`・`FALSIFIER-ANTECEDENT-BFC/twisted/v1`** の 3 つのみ。**未知値・version なし値は fail-closed**(記録拒否+integrity stop)。falsifier bundle の宣言名も versioned へ。**自認** | 便 50 F2.5 |
+
+> **便 50 F2.5 の判定**: v4 の中心修理(2 ID・`b_value_i=b_op`・`b_semantics="op"`・2 つの root-twist 欄・`rho_i_id`/`Ih_N_id` hardening)は **PASS**。**v5 が直すのは result schema の enumeration だけ。**
+
 > **便 49 F5 の裁定(本草案も従う)**: **単一文字 $b$ を無注記で使うことを認めない。** $b_{\rm cmp}$ / $b_{\rm op}$ / $\hat b_i$ を名指しし、$\hat b_i=b_{\rm op}=b_{\rm cmp}\bar t_M^{-1}$。**一致する規約下で永久に同値に見えることは、同一記号へ融合してよい理由にならない。**
 
 ---
@@ -166,10 +174,10 @@
 > **この bundle の下で結論が破れたら、それは `THEOREM/RECORD-CONSISTENCY-FAIL`(証明か記録の誤り)であって橋の反証ではない。**
 > **★ 結果 record の `antecedent_bundle_id` は predicate version まで区別する**(`.../twisted/v1` と `.../exact/v1` を同一視しない)。
 >
-> #### (B-II) `FALSIFIER-ANTECEDENT-BFC` — **橋を試す側**
+> #### (B-II) `FALSIFIER-ANTECEDENT-BFC/twisted/v1` — **橋を試す側**
 > BRIDGE-FAIL ①② が参照するのは**こちら**。**(5′) 系を一切含まない。**
 > ```text
-> FALSIFIER-ANTECEDENT-BFC
+> FALSIFIER-ANTECEDENT-BFC/twisted/v1
 >   = (AB-1) + (AB-2) + (AB-3) + (AB-4)
 > ```
 > **(AB-1)** **現行 manifest v1.5 の FORMAL-IN(逐語転記)**:
@@ -180,7 +188,13 @@
 > **(AB-4)** Rule 1 §7.3 の gate $b_{\rm sq}=b_{\rm ns}$
 > **いずれかが閉じていなければ、分類は `FRAMEWORK-UNKNOWN` / `SCHEMA-OUT` / `MODEL-UNKNOWN` 等であって bridge falsifier ではない。**
 >
-> **★ 結果 record には `antecedent_bundle_id` を記録する**(`THEOREM-ANTECEDENT-Rcyc` / `FALSIFIER-ANTECEDENT-BFC`)。**どちらの帽子で判定したかを後から選べないようにする**(便 29 ★教材 3 の系)。
+> **★ 結果 record には `antecedent_bundle_id` を記録する**【**v5・A15: closed enumeration へ**】。**許される値は次の 3 つだけ**:
+> ```text
+> THEOREM-ANTECEDENT-Rcyc/twisted/v1
+> THEOREM-ANTECEDENT-Rcyc/exact/v1
+> FALSIFIER-ANTECEDENT-BFC/twisted/v1
+> ```
+> **未知の値・version なしの値(`THEOREM-ANTECEDENT-Rcyc` 等)は fail-closed**(記録を拒否し integrity stop)。**どちらの帽子で判定したかを後から選べないようにする**(便 29 ★教材 3 の系)。**version を落とすと A12 の分割が結果 record で潰れる**(便 50 F2.5)。
 
 ### 付随:manifest v1.6 の注記
 
@@ -216,7 +230,10 @@ gk_observation_artifact_id
 order_log_digest         # append-only log の digest(順序を機械的に示す)
 
 # どの帽子で判定したか(A10)
-antecedent_bundle_id     # THEOREM-ANTECEDENT-Rcyc | FALSIFIER-ANTECEDENT-BFC
+antecedent_bundle_id     # closed enum(下の 3 値のみ・未知/version なしは fail-closed)
+                         #   THEOREM-ANTECEDENT-Rcyc/twisted/v1
+                         #   THEOREM-ANTECEDENT-Rcyc/exact/v1
+                         #   FALSIFIER-ANTECEDENT-BFC/twisted/v1
 
 # 証明書の三分離(F10.2)
 field_certificate                 # 核・固定体を証明する(exponent は証明しない)

@@ -1,10 +1,10 @@
-# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2.7 = 裁定 57: 転記完遂・一般型 $(Z_{2M}$-link$)$・$b$ 三量分離**)
+# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2.8 = 裁定 59: live 本文の同期完遂**)
 
 2026-07-27 起草(v1)・**同日 v2 / v2.1 / v2.2 改訂**: Claude(数学者レイヤー・Opus 5)。司令塔委嘱「$B_{\rm FC}$ の紙上攻略」。**v2 は `sol/sol_reply_43_bfc.md` の必須修理 R1–R6(裁定 44)、v2.1 は `sol/sol_reply_44_bfc_v2.md` の T1–T7(裁定 46)、v2.2 は `sol/sol_reply_45_bfc_final.md` の差戻し理由 1・2(= U1・U2)+ 司令塔委嘱「$K^{(5)}$ campaign の $\varepsilon$ 非依存性」(**発端 = 研究者の指摘**)を反映(裁定 47)。**
 **版の所在(便 45 F6 で実体 PASS)**: **`docs/week4-BFC攻略_opus_v1.md` は v1 原文(digest `659a9570…`)に復元済み・本ファイルが v2 系列の最終正本**である。**v2.1 が書いていた「`_v1_archive.md` に復元済み / path 改称は裁定事項」は現 tree では偽**なので削除した(便 45 F6 の指摘・**自認**)。
 入力: `docs/week4-K3飽和_opus_v3.md`(v3.1–v3.3 = $B_{\rm FC}$ の定義・(5′) の型・§2.6)・`docs/week4-A5算術飽和_v4.md`(§1.4 較正・§3 FC-1〜FC-7)・`sol/sol_reply_29_v3delta.md` F1・`sol/sol_reply_31_manifest.md` F5・`docs/week4-K5_Rule1_v1.md` §1・§7・§9・`docs/manifest_k5_v1.md`(結果規則表)・**`sol/sol_reply_43_bfc.md`・`sol/sol_reply_45_bfc_final.md`(全文)**。
-検算: `search/week4-bfc-antecedents.mjs`(**Node 13/13 PASS**・便 43/44/45 F1 が独立再走で再現)+ `search/bfc-antecedents-check.g` / `certificates/bfc/bfc-antecedents.json`(**GAP 25/25**・`fail_closed: true`・schema `bfc-antecedents-check/v3`)。
-**【v2.2・U4】** 便 44 F6.1 の marked-fidelity blocker($z$ 未移送で $x_gy_gz_g\ne1$)は**数式として修理済**で、便 45 F4.1 が `zg := (xg*yg)^-1` と `kapExp := -kap` を**紙上 PASS** と判定した。**【v2.5・F2.4】有限計算 bundle の現況(pass 数・fail-closed・fixture・provenance 束縛)は本文に書かない。正は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` である。** 本文編集のたびに digest が変わり certificate が失効する自己参照ループを避けるため、status-layer は外部台帳に一本化する。**残るのは (iv) certificate の input digest を final path/digest へ束縛する 1 件のみ**(現在は v1 の `659a9570…` を指す)。**これは本稿の digest 確定後に再走・再発行する provenance 作業**であり、**本稿の数学的主張には掛からない**(§15.7)。
+検算: `search/week4-bfc-antecedents.mjs`(Node)+ `search/bfc-antecedents-check.g` / `certificates/bfc/bfc-antecedents.json`(GAP)。**現況は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` を正とする**(【v2.8・F2.6】**pass 数・fail-closed・schema・束縛先を本文に複製しない**)。
+**【v2.2・U4】** 便 44 F6.1 の marked-fidelity blocker($z$ 未移送で $x_gy_gz_g\ne1$)は**数式として修理済**で、便 45 F4.1 が `zg := (xg*yg)^-1` と `kapExp := -kap` を**紙上 PASS** と判定した。**【v2.5・F2.4】有限計算 bundle の現況(pass 数・fail-closed・fixture・provenance 束縛)は本文に書かない。正は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` である。** 本文編集のたびに digest が変わり certificate が失効する自己参照ループを避けるため、status-layer は外部台帳に一本化する。**【v2.8・F2.6】有限計算 bundle の現況(pass 数・fail-closed・fixture・certificate の束縛先)は本文に書かない。正は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` である。** 本文編集のたび digest が変わり、本文中の現況記述が**その編集自体で失効する**ため(§15.7)。
 **規律**: $K^{(5)}$ の個別モデル・$u$ には一切触れていない(紙上の一般論のみ)。外部文献は使っていない(§12 に【文献要請 13】を 1 本立てる)。
 
 ---
@@ -49,7 +49,7 @@
 > となる(**本稿で独立検算・Sol の値と完全一致**)。正しくは `zg := (xg*yg)^-1`、座標では
 > $$ (x_gy_g)^{-1}\ =\ (s,\ r^{-1}s,\ r^{-1}) $$
 > (**これも独立に再現・Sol の $\Phi(r^2s,r^{-1}s,r)=(s,r^{-1}s,r^{-1})$ と一致**)。**⇒ 当時の GAP checker は「同じ marked object を照合した」型を満たしていなかった。**
-> **【v2.2 追記】この数式修理は完了し、便 45 F4.1 が `zg := (xg*yg)^-1` と `kapExp := -kap`(後者は $\phi_3(r)=r^{-1}$ からの導出であり「自己同型になる符号を試した」ではない)を **PASS** と判定した。**残るのは fail-closed・assert・fixture・provenance の 4 件**(§15.7)。
+> **【v2.2 追記】この数式修理は完了し、便 45 F4.1 が `zg := (xg*yg)^-1` と `kapExp := -kap`(後者は $\phi_3(r)=r^{-1}$ からの導出であり「自己同型になる符号を試した」ではない)を **PASS** と判定した。**【v2.8・F2.6】以後の残件は本文に列挙しない** — **現況は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` を正とする**(§15.7)。
 
 ---
 
@@ -177,6 +177,23 @@ P4 "exact \$b=1\$|for exact b"
 
 > **v2.7 でも不変**: **B-9′ (a)–(e) の補題文と証明・主定理 B-7・(B7tw) の式・B-3・B-4・B-4c・B-5・B-5$^{\rm u}$・系 B-8・Node 13/13。** G1–G9 は**転記の完遂・前件型の一般化・記号の三量分離**であり、**数学は 1 行も動かない**(便 49 F3.1・F4.2 が診断と辞書を PASS)。
 
+---
+
+## v2.7 → v2.8 差分(裁定 59 — 便 50 F6 の束 1・束 4 前半)
+
+> **便 50 の判定**: **数学は閉じた**。残りは **live 本文の同期クラス**(履歴引用ではなく、現在形の定義・定理・状態欄に残った旧記述)。
+
+| # | 箇所 | v2.7 | v2.8 | 出所 |
+|---|---|---|---|---|
+| **H1** | §2(旧 246–260 行) | v2.6 の「**未調整・司令塔裁定事項**」「**断定しない**」ブロックが**現行定義として読める位置に残存**。裸の $b:=\varepsilon^{-1}$・$t\varepsilon$(型不整合)・$b_{(8.1)}$・$b_{\rm TB4}$・一般論での `(Z20-link)` | **全体を明示の 【RETRACTED v2.6】 履歴ボックスへ**落とし、**直後に現行式のみ**を置く($b_{\rm cmp}/b_{\rm op}/t_{2M}/\bar t_M$)。**型修正**: $t\varepsilon\to\bar t_M\varepsilon$。**「断定しない」を削除** — $\hat b_i=b_{\rm op}$ は便 50 F4.3 で**確定**。**自認** | 便 50 F2.4 blocker 4-a |
+| **H2** | §8「$b_{\rm op}=1$ の正体」段落末 | 「$\tau$ の生成元と **$\kappa$ の値**が同時にひねられて相殺」が**現役で残存**(G1 が撤回した命題そのもの) | **削除**。相殺するのは **$\sigma_\zeta^{\rm TB2}$ と $\tau$ の命名**であり、**$\kappa$ は元として生成元非依存**。**自認** | 便 50 F2.4 blocker 4-b |
+| **H3** | §8 boxed state・§8.1 状態表 B-7 exact 行・§0-6 | link 前件が脱落($(Z_{2M}$-link$)$ なし)・「TB4 が**唯一** load-bearing」が「札 2 件」と同段落で共存 | **link を復帰**(boxed state・B-7 exact 行)。**B-7 exact の現行 proof は B-6 を継承するので link が要る** —「**TB4-E alternate を採る別 proof とは前件を混ぜない**」と明記。§0-6 の「唯一」を **2 関所((TB4) $\leftrightarrow\varepsilon$、link $\leftrightarrow\bar t_M$)**へ | 便 50 F2.4 blocker 4-c |
+| **H4** | §8 (8.1)/(8.2)・(B7tw)・§0-5・§8 診断先 | 現行命題を**裸の $b$** で記述 | **(8.2)/(B7tw) を $b_{\rm op}$ へ**。(8.1) には **scope 宣言**「以下この命題内では $b:=b_{\rm op}$」を付す。**無宣言の裸の $b$ を残さない**。診断先に `Z_{2M}-link` を追加 | 便 50 F2.4 blocker 4-d |
+| **H5** | 冒頭 6 行・§0(旧 52 行)・§15.5・§15.7 | pass 数・fail-closed・fixture・「現在は v1 の `659a9570…` を指す」「残るのは 4 件 / provenance 1 件」等の **live status copy** | **すべて除去**し「**現況は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` を正とする**」参照のみに。**日付・版を固定した履歴引用は可**と明記。**7 行は現 certificate と直接矛盾していた。自認** | 便 50 F2.6 |
+
+> **v2.8 でも不変**: **B-9′ (a)–(e)・主定理 B-7・(B7tw) の式・B-3・B-4・B-4c・B-5・B-5$^{\rm u}$・B-6・B-6$^{\rm tw}$・系 B-8・Node 13/13。** H1–H5 は**履歴の隔離・記号の統一・前件の復帰・status の外部化**であり、**数学は 1 行も動かない**(便 50「数学は閉じた」)。
+> **提出前 self-lint(便 50 F8.1)を実施**: `未調整` / `要調整` / `現在は v1` / `残るのは…provenance` / version なし bundle ID / `b_{(8.1)}` / `b_{\rm TB4}` / `t\varepsilon`(型不整合)を全文走査し、**live 節での hit 0**(履歴 box と差分表の引用のみ)。
+
 > **v2.1 でも不変**: **主定理 B-7 の主張・(9.1)・証明・系 B-7′・補題 B-5 の計算・補題 B-6 の計算・系 B-8・二例との整合・Node 検算 13/13。** T1–T7 は**別番号定理の条件付け・規約の逆数統一・stale statement の除去・依存の分割**であり、**B-7 の真偽を動かさない**(便 44 F5 が同旨)。
 
 ---
@@ -189,8 +206,8 @@ P4 "exact \$b=1\$|for exact b"
 2. **$B_{\rm FC}$-II はさらに 3 枚に割れ、3 枚とも閉じた**: **II-a** 剛性 descent(§6・定理 B-4)/ **II-b** torsor 比較と $b=1$(§8・補題 B-6)/ **II-c** cusp の局所 Kummer(§7・補題 B-5)。
 3. **前件 (4) から「明示 $\mathbb Q$-モデル」「明示局所助変数」「actual marking(exact conjugator)」は消える。** これらは橋の前件ではなく、**$u$ を計算するための窓固有の作業**であり、橋の外にある(§12.2・命題 B-9 で分離)。
 4. **前件 (5)(FC-2b/FC-3)は残るが、FC-3 は前件ではなく帰結になる** — (W3)(W5) から $K$-モデルと $\mathrm{Fib}\cong\Lambda$ が**構成できる**(§6)。残る真の入力は較正 FC-2b($A_5$ v4 で証明済・窓非依存)のみ。
-5. **$b$ の自由度は三重に吸収される【v2.3・U8 で同期】**: (i) 規約 (TB2)+(TB4)**+$Z$**(**v2.7**)の下では $b_{\rm op}=1$ が**定理**である(§8)。**$Z$ は未凍結**なので札は TB 枠組みと合わせて 2 件。(ii) 仮に $b\ne1$ でも $R^{\rm cyc}_{\rm formal}$ の結論は $b$ で不変(§10・系 B-8・検算 V8)。(iii) **【v2.2・U3】二 dessin 比較でも消える** — $b_{\rm sq}=b_{\rm ns}$ が**定理**(補題 B-9′(a))なので $(\mathbb Z/5)^\times$ の可換性から $a_{\rm eff}=a=1$(§10.1)。**v2.2 までここに書いていた「$K^{(5)}$ の二 dessin 比較 $a_{\rm eff}$ では依然 load-bearing」は撤回する。** Rule 1 (7.1)(7.2) の $b_i$ 欄は**実装 transport の integrity 検査**であって数学的穴ではない(§10.1.3)。
-6. **閉じなかったもの = 枠組み札 2 件**【**v2.7・F3.3-4 で訂正**】: 【GAP-TB】= 接基点繊維関手の 4 性質 (TB1)–(TB4)、**および未凍結の $Z$**(根 object の typed equality)。**v2.6 まで「ただ 1 枚」と書いていたのは、$Z$ を札に載せ忘れていたため。自認。**これは新しい穴ではなく、**$A_5$ v4 の【GAP-C3】(Deligne 1989 §15)を 4 項目に鋭くしたもの**である。両実例も暗黙に同じ 4 つを使っていた。**【v2・S1】札の書き方**: $\texttt{TB1--TB4} =$ 全体枠組み仮定 / $\texttt{TB4} =$ **exact $\varepsilon=1$ の向きについて唯一 load-bearing な文献関所**(**【v2.3・U8】**v2.2 までの「exact $b=1$」表記は U1 のとおり不正確 — $b=1$ は $\varepsilon\equiv1\ (M)$ にすぎない)。(TB1)(TB3) も真に破れれば「記法だけ」では済まない(便 43 F7)。
+5. **$b$ の自由度は三重に吸収される【v2.3・U8 で同期】**: (i) 規約 (TB2)+(TB4)**+$Z$**(**v2.7**)の下では $b_{\rm op}=1$ が**定理**である(§8)。**$Z$ は未凍結**なので札は TB 枠組みと合わせて 2 件。(ii) 仮に $b_{\rm op}\ne1$ でも $R^{\rm cyc}_{\rm formal}$ の結論は $b_{\rm op}$ で不変(§10・系 B-8・検算 V8)。(iii) **【v2.2・U3】二 dessin 比較でも消える** — $b_{\rm sq}=b_{\rm ns}$ が**定理**(補題 B-9′(a))なので $(\mathbb Z/5)^\times$ の可換性から $a_{\rm eff}=a=1$(§10.1)。**v2.2 までここに書いていた「$K^{(5)}$ の二 dessin 比較 $a_{\rm eff}$ では依然 load-bearing」は撤回する。** Rule 1 (7.1)(7.2) の $b_i$ 欄は**実装 transport の integrity 検査**であって数学的穴ではない(§10.1.3)。
+6. **閉じなかったもの = 枠組み札 2 件**【**v2.7・F3.3-4 で訂正**】: 【GAP-TB】= 接基点繊維関手の 4 性質 (TB1)–(TB4)、**および未凍結の $Z$**(根 object の typed equality)。**v2.6 まで「ただ 1 枚」と書いていたのは、$Z$ を札に載せ忘れていたため。自認。**これは新しい穴ではなく、**$A_5$ v4 の【GAP-C3】(Deligne 1989 §15)を 4 項目に鋭くしたもの**である。両実例も暗黙に同じ 4 つを使っていた。**【v2.8・F2.4 blocker 4-c で「唯一」を解消】札の書き方**: $\texttt{TB1--TB4} =$ 全体枠組み仮定 / $\texttt{TB4} =$ **exact $\varepsilon=1$ の文献関所** / $\texttt{Z\_{2M}-link} =$ **$t_{2M}=1$ の規約関所(未凍結)**。**両者が $b_{\rm op}=(\bar t_M\varepsilon)^{-1}$ の二因子に対応し、どちらも単独では「唯一」ではない**(**【v2.3・U8】**v2.2 までの「exact $b=1$」表記は U1 のとおり不正確 — $b=1$ は $\varepsilon\equiv1\ (M)$ にすぎない)。(TB1)(TB3) も真に破れれば「記法だけ」では済まない(便 43 F7)。
 7. **新しい前件を 1 本発見した**: **(W5) $\Lambda$ が $\Phi(\mathfrak F_0)$-安定**(v3.1 の (6′) 第 1 節)は、$K$-モデルの存在そのものを供給する。$\mathbb Q$-モデルには $\Phi(\mathrm{GT}(N))$-安定が要る。**$K^{(3)}$ でこれは自明でない**: $\lvert\mathrm{Aut}(G_3)\rvert=1296$ のうち $\Lambda$ を setwise に保つのは **432** 個で、$\Phi(\mathfrak F_0)$(3 元)も $\Phi(\mathrm{GT})$(12 元)もその中(**検算 V6・V7**)。**【v2・S2】(W5) 自体は「432/1296」ではなく「指定された像が 432 元の stabilizer に含まれる」という包含条件**であり、432/1296 は非自明性を示す周囲のデータである(便 43 F8.1)。
 8. **前件 (3) の一部は導出できる**(**【v2・R1】結合形に修正**): 「$\langle X\rangle$ が $P/H$ 上推移的かつ $\lvert\Lambda\rvert=\mathrm{ord}(X)=M$」から **$[P:H]=M$ と $N_P(H)=H$ が同時に**従う(命題 B-2 (B2-corr))。**逆向きの各個同値は偽** — $N_P(H)=H$ だけでは $\lvert\Lambda\rvert=M$ は出ない(反例 $P=S_3\times C_2$・便 43 F2.1)。$K^{(3)}$ で悉皆確認(**検算 V3**: 該当 12 個・反例 0 — V3 は初めから結合形を検査している)。
 9. **$R^{\rm cyc}$ の状態札は変わる**: $B_{\rm FC}$ は `candidate / UNKNOWN` から **`paper-proof (framework-conditional on TB1–TB4) / two-mathematician audit PASS`**(便 43 F10・裁定 44)へ。したがって $R^{\rm cyc}$ 全体(= $B_{\rm FC}+R^{\rm cyc}_{\rm formal}$)も同じ札になる。**`verified`(Lean)ではない。**
@@ -243,24 +260,22 @@ $A_5$ v4 と $K^{(3)}$ v3.1 が **(5′) を閉じた論証**を段ごとに並�
 > **【v2.1・T1 新設】(TB4$^{\rm u}$)(慣性の比較・向き非依存版・便 44 F7.2)** 局所慣性 $I_0=\mathrm{Gal}(\Omega/\bar{\mathbb Q}((\beta)))$ の $\pi_1$ への像は $\overline{\langle x\rangle}$ であり、その作用は $\Omega$ への後合成(左作用)である。**ただし選んだ生成元 $\sigma_\zeta$ と $x$ の exact な一致は要求しない。**
 >
 > **(TB4) $\Longrightarrow$ (TB4$^{\rm u}$)** は明らか。逆は成り立たず、差は**ちょうど 1 つの単位**である: $x$ と $\iota(\sigma_\zeta)$ はどちらも同じ procyclic 群 $\overline{\langle x\rangle}$ の位相的生成元だから、**一意な $\varepsilon\in\hat{\mathbb Z}^\times$** があって
-> $$ x=\iota\bigl(\sigma_\zeta^{\,\varepsilon}\bigr),\qquad\text{そして}\qquad b:=\varepsilon^{-1}\bmod M\ \in(\mathbb Z/M)^\times \tag{2.1} $$
->
-> **【v2.6・裁定 54】(2.1) は (Z20-link) を仮定した形である。** 一般には**枠組みレベルの単位が 2 つ**ある:
-> $$ \underbrace{\varepsilon\in\hat{\mathbb Z}^\times:\ x=\iota(\sigma_\zeta^{\,\varepsilon})}_{x\ \text{と}\ \sigma_\zeta^{\rm TB2}\ \text{のずれ}},\qquad \underbrace{t\in(\mathbb Z/2M)^\times:\ \zeta_{2M}^{\rm TB2}=\bigl(\zeta_{2M}^{\rm Rule1}\bigr)^{t}}_{\text{根 object のずれ}} $$
-> であり、§8 の計算から **(8.1) の意味での捻れ**は
-> $$ \boxed{\ b_{\rm op}\ =\ (\bar t_M\,\varepsilon)^{-1}\ =\ b_{\rm cmp}\,\bar t_M^{-1}\bmod M\ } \tag{2.1$'$} $$
-> となる(導出: $x$ は $\mathrm{Fib}$ 上で $m\bigl((\zeta_M^{\rm TB2})^{\varepsilon}\bigr)=m\bigl((\zeta_M^{\rm Rule1})^{t\varepsilon}\bigr)$、他方 $c_\Lambda$ による共役は $\tau(\zeta_M^{\rm Rule1})$ を与えるから)。**(Z20-link) は $t=1$、(TB4) は $\varepsilon=1$**、両方成立で $b=1$。**$t$ と $\varepsilon$ は別の自由度であり、片方だけを閉じても $b=1$ は出ない。**
+> $$ x=\iota\bigl(\sigma_\zeta^{\,\varepsilon}\bigr) \tag{2.1} $$
 
-> ### 【v2.6・要調整】TB4 導出 (3.3) との $b$ の定義差 — **司令塔/Sol へ上げる**
-> TB4 導出 §3.4 の countermodel は $b:=\varepsilon^{-1}$(本稿 (2.1))を使い、$x$ を canonical loop に固定して $\varepsilon\equiv t^{-1}$、ゆえに **$b\equiv t$**(3.3) と結論する。一方、**同じ countermodel で本稿の $b_{(8.1)}$ は (2.1$'$) より $(t\varepsilon)^{-1}=1$** になる($t\varepsilon\equiv1$ だから)。**両者は因子 $t$ だけ食い違う**(検算: $t=1,3,7,9,11,13,17,19$ の 8 通りで $b_{\rm TB4}/b_{(8.1)}\equiv t\ (\mathrm{mod}\ 10)$ を整数演算で確認)。
-> **原因**: **$b$ の定義が 2 通りある**。
-> - **(2.1) の $b:=\varepsilon^{-1}$** — $x$ を $\sigma_\zeta^{\rm TB2}$ と比べる量。**根 object のずれを $\varepsilon$ が吸収する**ので $t$ が残らない。
-> - **(8.1) の $b$** — $m$(元で添字づけ)と $\tau$($\zeta^{\rm Rule1}$ で命名)の捻れ。**$t$ と $\varepsilon$ の両方を含む。**
-> **(Z20-link)($t=1$)の下では両者は一致する**ので、**v2.5 までの本文に矛盾はない**(そこでは暗黙に $t=1$ だった)。**$t\ne1$ を許した瞬間に (2.1) と (8.1) が別物になる**というのが v2.6 の発見である。
-> **⇒ 本稿は (Z20-link) を前件に置くので $b_{(8.1)}=b_{(2.1)}=\varepsilon^{-1}$ として扱う。** ただし **TB4 導出 (3.3) の「$b\equiv t$」と本稿 (2.1$'$) の「$b_{(8.1)}=(t\varepsilon)^{-1}$」のどちらを Rule 1 (7.1) の測定値 $\hat b_i$ に対応させるかは、両文書で規約を合わせる必要がある**(**未調整・司令塔裁定事項**)。**Rule 1 (7.1) は $c_i\ell_ic_i^{-1}=\tau_i(\zeta_{10}^{b_i})$ で、$\ell_i$ は canonical な正の向きの実 local monodromy なので、(8.1) 側の定義に近い**と私は見るが、**断定しない**。
+> ### 【v2.8】現行の定義 — 単位 2 つと三量
+> **枠組みレベルの単位は 2 つ**(どちらも窓にも dessin にも依らない):
+> $$ \underbrace{\varepsilon\in\hat{\mathbb Z}^\times:\ x=\iota(\sigma_\zeta^{\,\varepsilon})}_{x\ \text{と}\ \sigma_\zeta^{\rm TB2}\ \text{のずれ}},\qquad \underbrace{t_{2M}\in(\mathbb Z/2M)^\times:\ \zeta_{2M}^{\rm TB2}=\bigl(\zeta_{2M}^{\rm Rule1}\bigr)^{t_{2M}}}_{\text{根 object のずれ}},\qquad \bar t_M:=t_{2M}\bmod M $$
+> **三量**(付録 A の表が正本・**無注記の裸の $b$ は使わない**):
+> $$ b_{\rm cmp}:=\varepsilon^{-1}\bmod M,\qquad b_{\rm op}:=(\bar t_M\,\varepsilon)^{-1}=b_{\rm cmp}\,\bar t_M^{-1}\bmod M,\qquad \hat b_i=\text{Rule 1 (7.1) の実測} \tag{2.1$'$} $$
+> **確定した対応**(便 50 F4.3): $\boxed{\hat b_i=b_{\rm op}}$。**$(Z_{2M}$-link$)$ は $t_{2M}=1$、(TB4) は $\varepsilon=1$**、両方成立でのみ $b_{\rm op}=b_{\rm cmp}=1$。
+> **導出**(§8 で使う形): $x$ は $\mathrm{Fib}$ 上で $m\bigl((\zeta_M^{\rm TB2})^{\varepsilon}\bigr)=m\bigl((\zeta_M^{\rm Rule1})^{\bar t_M\varepsilon}\bigr)$ として作用し、他方 $c_\Lambda$ による共役は $\tau(\zeta_M^{\rm Rule1})$ を与える。
 
-> **★ 重要(B-9′ への波及なし・確認済み)**: $t$ も $\varepsilon$ も**窓にも dessin にも依らない**($t$ は 2 つの根系の比較、$\varepsilon$ は $x$ と $\sigma_\zeta$ の比較で、どちらにも $N,H_i,\Lambda_i,c_i,u_i$ が現れない)。ゆえに**どちらの定義を採っても合成単位は枠組みレベル**であり、**補題 B-9′(a)($b_{\rm sq}=b_{\rm ns}$)とその帰結 (c)(d)(e) は 1 行も変わらない**(§10.1)。**上の要調整項目は B-9′ の真偽に触れない。**
-> と置ける。**$\varepsilon$ は窓にも dessin にも依らない — $U$・$x$・$(\zeta_n)$ だけで決まる枠組みレベルの 1 単位である**(この事実が §10.1 の補題 B-9′ の背骨になる)。
+> ### 【RETRACTED v2.6】以下は履歴である — **現行の定義ではない**
+> **この box の内容は v2.6 時点の記述で、v2.7・v2.8 で置換された。参照専用。**
+> ~~「(2.1) は (Z20-link) を仮定した形である」「単位は $t\in(\mathbb Z/2M)^\times$」「$b_{(8.1)}$」「$b_{\rm TB4}$」「$b=(t\varepsilon)^{-1}$」~~ — **型が誤り**($t\varepsilon$ ではなく $\bar t_M\varepsilon$・$t$ ではなく $t_{2M}$ と $\bar t_M$ の 2 つ)。
+> ~~「TB4 導出 (3.3) の $b\equiv t$ と本稿の $b_{(8.1)}$ のどちらを $\hat b_i$ に対応させるかは**未調整**」「私は (8.1) 側に近いと見るが**断定しない**」~~ — **決着済み**: 便 50 F4.3 により $\hat b_i=b_{\rm op}$、TB4 の $b\equiv\bar t_M$ は $b_{\rm cmp}$ であって別量である(便 49 F5 の三量分離)。**未調整項目は残っていない。**
+> **★ 重要(B-9′ への波及なし・確認済み)**: $t_{2M}$ も $\varepsilon$ も**窓にも dessin にも依らない**($t_{2M}$ は 2 つの根系の比較、$\varepsilon$ は $x$ と $\sigma_\zeta^{\rm TB2}$ の比較で、どちらにも $N,H_i,\Lambda_i,c_i,u_i$ が現れない)。ゆえに**合成単位 $\bar t_M\varepsilon$ も枠組みレベル**であり、**補題 B-9′(a)($b_{\rm op,sq}=b_{\rm op,ns}$)とその帰結 (c)(d)(e) は 1 行も変わらない**(§10.1)。
+> **$\varepsilon$ も $t_{2M}$ も窓にも dessin にも依らない — $U$・$x$・$(\zeta_n)$・体生成元 object だけで決まる枠組みレベルの単位である**(この事実が §10.1 の補題 B-9′ の背骨になる)。
 >
 > **【v2.2・U1 で偽の同値を訂正】** v2.1 はここに「**(TB4) $\iff\varepsilon=1\iff b=1$**」と書いた。**後半は偽である**(便 45 F2.2)。正しくは
 > $$ \boxed{\ \text{(TB4)}\iff\varepsilon=1\ \Longrightarrow\ b=1,\qquad\text{他方}\quad b=1\iff\varepsilon\equiv1\ (\mathrm{mod}\ M).\ } \tag{2.2} $$
@@ -527,7 +542,7 @@ $$ \boxed{\ \mathrm{im}(I_0)=\overline{\langle x\rangle}\ \text{と、その}\ \
 
 > **★ なぜこの一段が要るか(便 45 F2.3)**: v2.1 は定理 B-7$^{\rm tw}$ の証明を「定理 B-7 の最終行で B-6 を B-6$^{\rm tw}$ に置換すればよい」で済ませていた。しかしその B-7 の証明は **(7.2)**、したがって **exact (TB4) を前件にもつ補題 B-5** を呼んでいる。**つまり B-7$^{\rm tw}$ の依存が (TB4$^{\rm u}$) だけで閉じていなかった。自認。** 補題 B-5$^{\rm u}$ を挟むことで連鎖は
 > $$ \text{(TB4}^{\rm u}\text{)}\ \Longrightarrow\ \text{B-5}^{\rm u}\ +\ \text{B-6}^{\rm tw}\ \Longrightarrow\ \text{B-7}^{\rm tw} $$
-> と閉じる。**exact (TB4) が残るのは補題 B-6 の「$b=1$」ただ 1 か所**である。
+> と閉じる。**exact (TB4) が残るのは補題 B-6 の「$b_{\rm op}=1$」ただ 1 か所**である【**v2.8**: ただし同じ箇所で $(Z_{2M}$-link$)$ も要る — **関所は 2 件**】。
 
 ---
 
@@ -536,6 +551,7 @@ $$ \boxed{\ \mathrm{im}(I_0)=\overline{\langle x\rangle}\ \text{と、その}\ \
 > ### 補題 B-6(torsor 比較)【**v2・R4/R5 依存欄修理・v2.6 link 追加・v2.7 一般型 $(Z_{2M}$-link$)$**】
 > (TB1)–(TB4)・**$(Z_{2M}$-link$)$**・**(W1)(W2)(W3)(W4)(W5)** と較正 (CAL) の下で(系 B-4c と補題 B-5 を呼ぶので (W2)(W5) も間接依存に入る)、系 B-4c の**左作用に統一した**同型 $c_\Lambda:\mathrm{Fib}_{\vec{01}}(W_0)\xrightarrow{\sim}\Lambda$ は
 > $$ \boxed{\ c_\Lambda\circ m(\xi)\circ c_\Lambda^{-1}\ =\ \tau(\xi)\qquad(\forall\xi\in\mu_M)\ } \tag{8.1} $$
+> **【v2.8・scope 宣言】以下この命題内では $b:=b_{\rm op}$**($(Z_{2M}$-link$)$ の下では $b_{\rm op}=b_{\rm cmp}$)。**無宣言の裸の $b$ は使わない**(便 49 F5)。
 > を満たす。すなわち **$b=1$**。
 
 **証明.**
@@ -549,14 +565,14 @@ $$ x\cdot p=\zeta_M\,p=m(\zeta_M)\,p . $$
 > である。**第 3 段の「生成元 $\zeta_M$ で一致するから」は、この左右の $\zeta_M$ が同じ元であることを要する** — すなわち **$(Z_{2M}$-link$)$**($\zeta_{2M}^{\rm TB2}=\zeta_{2M}^{\rm Rule1}$)。**もし $\zeta_M^{\rm TB2}=(\zeta_M^{\rm Rule1})^{t}$ なら結論は (8.1) ではなく $c_\Lambda m(\xi)c_\Lambda^{-1}=\tau(\xi^{t^{-1}})$ になる**(TB4 導出 §3.4 の countermodel を私の規約へ翻訳したもの — 本稿で独立に再導出)。
 > **⇒ 補題 B-6 の前件に $(Z_{2M}$-link$)$ を追加する。** **自認**(TB4 導出 §4.4 の疑義は正しい)。**$m$ と $\kappa$ は元で添字づけられ生成元非依存**なので、**混用が起きたのは $\tau$ の側だけ**である。
 
-> **★ $b_{\rm op}=1$ の正体【v2.7・F3.3-1 で全面修正】**: **v2.6 で撤回した「$\kappa$ と相殺」の説明がここに残っていた(自認)。** 正しくは: 生成元命名を要するのは **(TB4) の $\sigma_\zeta$**($\zeta^{\rm TB2}$)と **$\tau$ の命名**($\zeta^{\rm Rule1}$)の 2 つで、$\kappa$ と $m$ は**元で添字づけられ生成元非依存**である。相殺は $\sigma_\zeta$ と $\tau$ の間で起き、それを保証する条項が $Z$ である。~~(TB2) の $(\zeta_n)$ が $x$ の向きと $\kappa$ の値の両方を決めているので、~~$(\zeta_n)\mapsto(\zeta_n^t)$($t\in\hat{\mathbb Z}^\times$)に取り替えると $\tau$ の生成元と $\kappa$ の値が**同時に**ひねられて相殺する。**$b$ は「二つの独立な規約のずれ」ではなく、「一つの規約を二度使う」ことで消える。**
+> **★ $b_{\rm op}=1$ の正体【v2.7・F3.3-1 で全面修正】**: **v2.6 で撤回した「$\kappa$ と相殺」の説明がここに残っていた(自認)。** 正しくは: 生成元命名を要するのは **(TB4) の $\sigma_\zeta$**($\zeta^{\rm TB2}$)と **$\tau$ の命名**($\zeta^{\rm Rule1}$)の 2 つで、$\kappa$ と $m$ は**元で添字づけられ生成元非依存**である。相殺は $\sigma_\zeta$ と $\tau$ の間で起き、それを保証する条項が $Z$ である。~~(TB2) の $(\zeta_n)$ が $x$ の向きと $\kappa$ の値の両方を決めているので、~~$(\zeta_n)\mapsto(\zeta_n^t)$($t\in\hat{\mathbb Z}^\times$)に取り替えると、**$\sigma_\zeta^{\rm TB2}$ と $\tau$ の命名が同時にひねられて相殺する**【**v2.8・F2.4 blocker 4-b**: v2.7 まで「$\tau$ の生成元と **$\kappa$ の値**が同時にひねられて」と書いていたのは **G1 で撤回した命題そのもの**だった。**$\kappa$ は元として生成元非依存**である。**自認**】。**$b_{\rm op}$ は「二つの独立な規約のずれ」ではなく、「一つの根 object を二度使う」ことで消える** — その二度使いを保証する条項が $(Z_{2M}$-link$)$ である。
 >
 > **⚠【v2・R6/S1】$b=1$ の状態札を正確に**(便 43 F6.2): $b=1$ は「規約から独立な裸の定理」**ではない**。
-> $$ \boxed{\ b=1\ \text{は}\ \textbf{(TB2) の根系・係数分裂と (TB4) の }x=\sigma_\zeta\textbf{・後合成規約を同時に固定した枠組みに相対的な定理}\ } $$
-> である。**(TB4) はまさに結論の向きを含んでいる** — 原典照合で $x^{-1}$・前合成・右作用が採られていれば、単位 $b$ が出る。したがって **v1 の「$b_i\ne1$ は必ず (TB2) 違反」という診断は狭すぎた**。正しい診断先は
-> $$ \texttt{TB2 / TB4 / 左右作用 / 共役 transport 規約の不一致} $$
+> $$ \boxed{\ b_{\rm op}=1\ \text{は}\ \textbf{(TB2) の根系・係数分裂・(TB4) の }x=\sigma_\zeta\textbf{・後合成規約・および }(Z_{2M}\text{-link})\textbf{ を同時に固定した枠組みに相対的な定理}\ } $$
+> である【**v2.8・F2.4 blocker 4-c**: v2.7 まで link を落としていた。**自認**】。**(TB4) はまさに結論の向きを含んでいる** — 原典照合で $x^{-1}$・前合成・右作用が採られていれば単位が出る。したがって **v1 の「$\hat b_i\ne1$ は必ず (TB2) 違反」という診断は狭すぎた**。正しい診断先は
+> $$ \texttt{TB2 / TB4 / Z_{2M}-link / 左右作用 / 共役 transport 規約の不一致} $$
 > **全体の検出器**である。**自認。**
-> **⇒ $b_i$ 欄の厳格運用(Rule 1 (7.1)・受理条件 (7.3))は本稿によっても撤回されない**(§10)。実装が (a) GAP の右共役規約、(b) 埋め込み (1.6) と別の原始根、(c) 惰性生成元の反転を踏めば $b\ne1$ が出るが、それは**規約 transport の記録事項**であって数学的発見ではない。
+> **⇒ $b_i$ 欄の厳格運用(Rule 1 (7.1)・受理条件 (7.3))は本稿によっても撤回されない**(§10)。実装が (a) GAP の右共役規約、(b) 埋め込み (1.6) と別の原始根、(c) 惰性生成元の反転を踏めば $\hat b_i\ne1$ が出るが、それは**規約 transport の記録事項**であって数学的発見ではない。
 >
 > **★ 便 43 F6.1 の判定**: 左作用へ統一した後の上の計算は **PASS**。「半直積の向きによる追加の逆数は現れない」。自己申告 A-2 は **(TB4) をこの向きで採用する限り閉じた**。
 
@@ -568,7 +584,7 @@ $$ x\cdot p=\zeta_M\,p=m(\zeta_M)\,p . $$
 
 > ### 補題 B-6$^{\rm tw}$(orientation-free torsor comparison).
 > **(TB1)(TB2)(TB3)(TB4$^{\rm u}$)**・**$(Z_{2M}$-link$)$**・(W1)–(W5)・(CAL) の下で、(2.1) の $b=\varepsilon^{-1}\bmod M$ について(**$(Z_{2M}$-link$)$ を落とすなら (2.1$'$) の $b_{\rm op}=(\bar t_M\varepsilon)^{-1}$ を使う**)
-> $$ \boxed{\ c_\Lambda\circ m(\xi)\circ c_\Lambda^{-1}\ =\ \tau\bigl(\xi^{\,b}\bigr)\qquad(\forall\xi\in\mu_M)\ } \tag{8.2} $$
+> $$ \boxed{\ c_\Lambda\circ m(\xi)\circ c_\Lambda^{-1}\ =\ \tau\bigl(\xi^{\,b_{\rm op}}\bigr)\qquad(\forall\xi\in\mu_M)\ } \tag{8.2} $$
 
 **証明.** (TB4$^{\rm u}$) より $x$ の $\mathrm{Fib}$ 上の作用は $I_0$ の像に属し、$\sigma_\zeta$ は $m(\zeta_M)$ として作用する(補題 B-6 の 1 と同じ計算)。(2.1) より
 $$ x\ \text{の作用}\ =\ m(\zeta_M)^{\varepsilon}\ =\ m(\zeta_M^{\,\varepsilon}) $$
@@ -577,8 +593,8 @@ $$ c_\Lambda\, m(\zeta_M^{\,\varepsilon})\, c_\Lambda^{-1}=\tau(\zeta_M). $$
 $\xi=\zeta_M^{\,k}$ と書き $k=\varepsilon j$ すなわち $j=bk$ と置き換えると $c_\Lambda m(\zeta_M^{\,k})c_\Lambda^{-1}=\tau(\zeta_M^{\,bk})=\tau\bigl((\zeta_M^{\,k})^b\bigr)$。∎
 
 > ### 定理 B-7$^{\rm tw}$(twisted comparison bridge).
-> **(TB1)(TB2)(TB3)(TB4$^{\rm u}$)**・**$(Z_{2M}$-link$)$**・(CAL)・(W1)–(W5) の下で、**(2.1) で先に定めた** $b:=\varepsilon^{-1}\bmod M\in(\mathbb Z/M)^\times$(**窓にも dessin にも依らず枠組みだけで決まる**)について
-> $$ \boxed{\ \rho_\Lambda\bigl(\mathrm{Ih}_N(\gamma)\bigr)\ =\ \tau\bigl(\kappa_{u^{-1}}(\gamma)^{\,b}\bigr)\qquad(\forall\gamma\in G_K)\ } \tag{B7tw} $$
+> **(TB1)(TB2)(TB3)(TB4$^{\rm u}$)**・**$(Z_{2M}$-link$)$**・(CAL)・(W1)–(W5) の下で、**(2.1$'$) で先に定めた** $b_{\rm op}=(\bar t_M\varepsilon)^{-1}\bmod M\in(\mathbb Z/M)^\times$(**窓にも dessin にも依らず枠組みだけで決まる**・$(Z_{2M}$-link$)$ の下では $=b_{\rm cmp}=\varepsilon^{-1}$)について
+> $$ \boxed{\ \rho_\Lambda\bigl(\mathrm{Ih}_N(\gamma)\bigr)\ =\ \tau\bigl(\kappa_{u^{-1}}(\gamma)^{\,b_{\rm op}}\bigr)\qquad(\forall\gamma\in G_K)\ } \tag{B7tw} $$
 > **証明【v2.2・U2 で連鎖を完結】.** 定理 B-7 の証明を 2 か所差し替える。
 > **(a)** (7.2)(= $G_K$ が $\mathrm{Fib}$ に $m(\kappa_{u^{-1}}(\gamma))$ で作用)を、**補題 B-5$^{\rm u}$**(§7.1)から取る — これで exact (TB4) を呼ばずに済む。
 > **(b)** 最終行の補題 B-6 (8.1) を **補題 B-6$^{\rm tw}$ (8.2)** に置換する。
@@ -595,7 +611,7 @@ $\xi=\zeta_M^{\,k}$ と書き $k=\varepsilon j$ すなわち $j=bk$ と置き換
 > **★ 状態札(正確に)**:
 > | 主張 | 前件 | 状態 |
 > |---|---|---|
-> | **B-7**(exact, $b=1$) | (TB1)–(TB4)+(CAL)+(W1)–(W5) | `paper-proof / two-mathematician PASS`。**(TB4) が文献関所** |
+> | **B-7**(exact, $b_{\rm op}=1$) | (TB1)–(TB4)**+$(Z_{2M}$-link$)$**+(CAL)+(W1)–(W5)【**v2.8・F2.4 blocker 4-c で link 復帰**】 | `paper-proof / two-mathematician PASS`。**関所は 2 件**((TB4) と $(Z_{2M}$-link$)$)。**現行 proof は B-6 を継承するので link が要る** — **TB4-E alternate を採る別 proof とは前件を混ぜない** |
 > | **B-7$^{\rm tw}$**(orientation-free) | (TB1)(TB2)(TB3)**(TB4$^{\rm u}$)+$(Z_{2M}$-link$)$**+(CAL)+(W1)–(W5)【**v2.7・F3.3-3 で link 追加**】 | `paper-proof`。**「無条件」ではなく (TB4$^{\rm u}$)+link-条件つき**。**link を落とすなら指数は $b_{\rm op}=(\bar t_M\varepsilon)^{-1}$** |
 > | **系 B-8** | (10.1) を**仮定**したときの不変性 | 補題(存在命題ではない) |
 >
@@ -1002,7 +1018,7 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 2. **【GAP-C3】と【GAP-TB】の統合**: 同じ札である。札の本文は便 43 F7 の 2 行(`TB1–TB4 = global framework assumptions` / `TB4 = orientation-sensitive literature gate for exact eps=1` + `Z_{2M}-link = orientation-sensitive convention gate for t_{2M}=1`)を採る【**v2.7 で $Z$ 行を追加**】。**【v2.4・F2.4】** 便 43 の原文は `exact b=1` だが、U1 の (2.2) により **関所は exact $\varepsilon=1$**、$b=1$ はその $\mathrm{mod}\ M$ 帰結である。
 3. **【文献要請 13】**(§12.1)を関所へ。優先度中。**§14.1-1(pure mapping class group の自明性)を同梱するか要判断。**
 4. **$K^{(5)}$ 運用の再検討**(§13.3): 封印が測る対象が四束に変わる。**凍結 1/2 の内容自体は変更不要**(むしろ (R-1)(R-2) と $u$ 抽出に集中するのが正しい)だが、**「$K^{(5)}$ で $B_{\rm FC}$ を試す」という位置づけの文言**は裁定で更新すべき。**§13.3 の 6 層表の正本を manifest 側へ移すかも同時に裁定を(§14.1-3)。**
-5. **検算の恒久化**【**v2.2・U4 で現物へ同期**】: `search/week4-bfc-antecedents.mjs`(**Node 13/13**・便 43/44/45 F1 が独立再走で再現)+ `search/bfc-antecedents-check.g` / `certificates/bfc/bfc-antecedents.json`(**現況は certificate 現物を正とする**)。**両者は 1296/432/12 で一致**し、**marked-fidelity gate($xyz=1$・$\Phi$ の $x,y,z,f_{m,k}$ 同時移送・V3 の `=12` 明示 assert)は閉鎖済**。**`cross-checked` 昇格に残るのは certificate の provenance 束縛 1 件のみ**(§15.7)。**V6 は定理 K3 §2.2 (P7) の非標識 $\mathbb Q$-descent 部分への第二証明**(モデル認識・marking・$u$ 抽出は置換しない)として、**その 1 件の閉鎖後に登録**。
+5. **検算の恒久化**【**v2.8・F2.6 で status を外部化**】: `search/week4-bfc-antecedents.mjs`(Node)+ `search/bfc-antecedents-check.g` / `certificates/bfc/bfc-antecedents.json`(GAP)。**pass 数・fixture・gate の閉鎖状況・`cross-checked` 昇格の残件は本文に書かない** — **現況は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` を正とする**(§15.7)。**V6 は定理 K3 §2.2 (P7) の非標識 $\mathbb Q$-descent 部分への第二証明**(モデル認識・marking・$u$ 抽出は置換しない)として、**外部台帳が `cross-checked` を示した時点で登録**。
 6. **可視化**: 「shadow 類 = Belyi 類」という一行と、$B_{\rm FC}$-I/II-a/II-b/II-c の 4 枚分解は図にすると効く(🌒 の拡張候補)。**$B$-7 と $B$-7$^{\rm tw}$ の関係((TB4) と (TB4$^{\rm u}$) の差が単位 $\varepsilon$ 一つ)も図示候補。**
 
 ### 【v2.2・U3 で新規】8. Rule 1 / manifest 側の文言修理(**司令塔の裁定事項**)
@@ -1035,15 +1051,7 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 > **これを再走して再現した時点で V1–V8 bundle を `cross-checked` へ上げてよい。** implementer 案件。
 >
 > **【v2.2・U4 — 上記の履行状況(現物へ同期)】** 上の (1)(2)(4) と便 45 F7 の fail-closed 要求は**実装済**である。現 certificate(schema `bfc-antecedents-check/v3`)は
-> ```text
-> pass_count 25 / fail_count 0 / fail_closed true
-> xyz_identity_check true
-> x_phi_transport_check / y_phi_transport_check / z_phi_transport_check true
-> fk_phi_transport_check_all12 true / all_markings_phi_transport_check true
-> kappa_phi_sign_check true
-> v3_matching_H_count 12 / v3_expected_count 12 / v3_counterexample_count 0
-> aut_G3_order 1296 / aut_G3_lambda_stabilizer_count 432 / gt_k3_element_count 12
-> ```
+> **【v2.8・F2.6】現況値(pass 数・各 fixture・群位数)の本文への複製を削除した。** **現況は `certificates/bfc/` の現行 certificate と `provenance/CLAIMS.md` を正とする**。**履歴として値を引くときは日付と版を固定して引用する**(例: 「便 45 時点の certificate は schema v3」)。
 > を記録し、旧版 certificate は `certificates/bfc/retracted/` へ撤回済み。
 > **⇒【v2.5・F2.4】現況は本文に書かない。** certificate の `schema` / `pass_count` / `fail_closed` / 各 fixture / `provenance.input_doc_path` / `input_doc_sha256` の**現在値は `certificates/bfc/` の現行 certificate を正**とし、bundle の**公式札は `provenance/CLAIMS.md`** を正とする。**本稿はそれらを参照するだけで値を複製しない。**
 > **理由**: 本文を編集するたび BFC digest が変わり、本文中の「certificate は◯◯を指す」という記述が**その編集自体によって失効する**(自己参照ループ)。**status を本文から外部台帳へ移してループを断つ**(便 48 F2.4 の提案を採用)。
