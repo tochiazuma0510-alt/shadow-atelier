@@ -1,4 +1,4 @@
-# 修正条文案 **v6**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
+# 修正条文案 **v7**(草案)— bridge evaluation clause の捻れ形化(**(5′_b) amendment**)
 
 **起草**: 2026-07-27(**v3・v4 = 2026-07-28**)・Claude(数学者レイヤー・Opus 5)。**裁定 48-3 に基づく起草・v2 は便 47(`sol/sol_reply_47_amendment.md`)の blocker 2 件 + F7–F10 を反映(裁定 50)。**
 **身分**: **草案である。適用は司令塔** — 凍結正本(`docs/manifest_k5_v1.md` v1.5 / `docs/week4-K5_Rule1_v1.md` v1.3)を**上書きしてはならず**、**manifest v1.6 / Rule 1 v1.4 という新 version を作り差分ゲートを通す**。**本草案(v6)が PASS してから新 version を作る**(便 47 F12-5)。
@@ -45,6 +45,14 @@
 | # | 箇所 | v4 | v5 | 出所 |
 |---|---|---|---|---|
 | **A15** | §3 の `antecedent_bundle_id` 注記・§4 の result schema | bundle ID が **version なしの旧名**(`THEOREM-ANTECEDENT-Rcyc` / `FALSIFIER-ANTECEDENT-BFC`)のままで、**A12 の `/twisted/v1`・`/exact/v1` を保存できなかった**(結果 record が A12 の修理を潰す) | **closed enumeration へ**: 許される値は **`THEOREM-ANTECEDENT-Rcyc/twisted/v1`・`THEOREM-ANTECEDENT-Rcyc/exact/v1`・`FALSIFIER-ANTECEDENT-BFC/twisted/v1`** の 3 つのみ。**未知値・version なし値は fail-closed**(記録拒否+integrity stop)。falsifier bundle の宣言名も versioned へ。**自認** | 便 50 F2.5 |
+
+## v6 → v7 差分(裁定 63 — 便 52 F7-2)
+
+| # | 箇所 | v6 | v7 | 出所 |
+|---|---|---|---|---|
+| **A18** | §2 の 8.4.1(**normative 差し替え本文**) | 「exact (5′) は $b_i=1$ の特殊化であり **(TB4) の下で回収**」 — **R-a/R-b の 2 route が §3 の説明にしかなく、Rule 1 へ実際に転記される本文に入っていなかった** | **normative 本文へ 2 route を転記**(**R-a** = (TB4)+$(Z_{2M}$-link$)$ / **R-b** = (E-i)–(E-iv)+別 proof ID)。**イベントが Rule 1 へ転記するのはこの本文**。**自認** | 便 52 F7-2 |
+| **A19** | §2 の 8.4.4 | 「同じ枠組み単位 $\varepsilon$ の $\bmod 10$ 還元」(**BFC v2.8 型の再融合説明**) | 「**共通の $\varepsilon$ と $\bar t_{10}$ から $b_{\rm op}=(\bar t_{10}\varepsilon)^{-1}$ が共通**」へ。**自認** | 便 52 F7-2 |
+| **A20** | §4 result schema | `exact_recovery_path` を**全 record の通常欄**として追加しただけで presence condition が未定義(**twisted/falsifier に虚偽記入を強いる**か、**exact が route なしで通る**) | **`antecedent_bundle_id` を discriminator にした conditional presence** へ: `/exact/v1` なら **required**(R-a なら TB4/link evidence、R-b なら (E-i)–(E-iv)+alternate proof ID/digest を**同 branch に束縛**)、それ以外では **prohibited**(記入は integrity stop) | 便 52 F3.4・F9.2 |
 
 ## v5 → v6 差分(裁定 61 — 便 51 F6-2)
 
@@ -118,7 +126,10 @@
 >
 > #### 8.4.1 判定式(捻れ形)
 > $$ \boxed{\ \rho_i\bigl(\operatorname{Ih}_N(\gamma)\bigr)\ =\ \tau_i\bigl(\kappa_i(\gamma)^{\,b_i}\bigr)\qquad(\forall\gamma\in G_K).\ } \tag{5$'_b$} $$
-> **$b_i$ は 8.4.0 (F2) の値。これが K5 campaign の operative bridge evaluation clause である。** 従来の exact **(5′)** は $b_i=1$ の特殊化であり、**(TB4)(= 枠組み単位 $\varepsilon=1$)の下で回収される**。**(5′) という既存の名前は上書きしない**(BFC/K3/$R^{\rm cyc}$ の数学文書では `(5′)` は exact $b=1$ の等式、捻れ形は B-7$^{\rm tw}$ を指す)。
+> **$b_i$ は 8.4.0 (F2) の値。これが K5 campaign の operative bridge evaluation clause である。** 従来の exact **(5′)** は $b_i=1$ の特殊化であり、**次の 2 route のいずれかで回収される**【**v7・A18: normative 本文へ 2 route を転記**】:
+> > **(R-a) 現行 BFC proof を採る場合**: **(TB4)+$(Z_{2M}$-link$)$** の下で回収(BFC v2.10 §8・§8.1 の**現行 proof ID**)。**本 campaign が採るのはこちら。**
+> > **(R-b) TB4-E alternate を採る場合**: **(E-i)–(E-iv)+別 proof ID** の下で回収(TB4 導出側の別証)。**現行 BFC proof と前件を混ぜない。**
+> > いずれを採ったかは結果 record の `exact_recovery_path` に記録する(§4)。**(5′) という既存の名前は上書きしない**(BFC/K3/$R^{\rm cyc}$ の数学文書では `(5′)` は exact $b=1$ の等式、捻れ形は B-7$^{\rm tw}$ を指す)。
 >
 > #### 8.4.2 PASS の証明書型(**限定列挙**)
 > **有限個の Frobenius サンプル一致は較正であって PASS の証明ではない。** PASS は次の**いずれか**に限る。
@@ -137,7 +148,7 @@
 >
 > #### 8.4.4 pairwise 運用の順序
 > 二 dessin を比較する前に、まず **§7.3 の integrity gate $b_{\rm sq}=b_{\rm ns}$** を通す。
-> **数学的には $b_{\rm sq}=b_{\rm ns}$ は定理である**(同じ枠組み単位 $\varepsilon$ の $\bmod 10$ 還元 — BFC 補題 B-9′(a)。**前件は (TB4$^{\rm u}$) 等の共通枠組み前件であり framework-conditional である**)。**したがって §7.3 は「二つの独立 transport が共通値を実現したかを見る negative control」**であり、**不一致は新現象ではなく実装 transport の破損** ⇒ **既存 `I-d` の即時 integrity stop がそのまま正しい分類**である(§7.3 は撤回されず、役割が「規約」から「integrity 検査」へ明確化される)。
+> **数学的には $b_{\rm op,sq}=b_{\rm op,ns}$ は定理である**【**v7・A19**】(**共通の $\varepsilon$ と $\bar t_{10}$ から $b_{\rm op}=(\bar t_{10}\varepsilon)^{-1}$ が共通** — BFC 補題 B-9′(a)。**v6 の「同じ枠組み単位 $\varepsilon$ の $\bmod 10$ 還元」は BFC v2.8 型の再融合説明であり誤り。自認**。**前件は (TB4$^{\rm u}$) 等の共通枠組み前件であり framework-conditional である**)。**したがって §7.3 は「二つの独立 transport が共通値を実現したかを見る negative control」**であり、**不一致は新現象ではなく実装 transport の破損** ⇒ **既存 `I-d` の即時 integrity stop がそのまま正しい分類**である(§7.3 は撤回されず、役割が「規約」から「integrity 検査」へ明確化される)。
 >
 > #### 8.4.5 $\varepsilon$-free な結論(参考)
 > 本節の捻れ化にかかわらず、次は $b_i$ の値に依存しない(BFC 系 B-8・補題 B-9′(c)(d)):
@@ -221,7 +232,20 @@
 manifest_sha256          # 適用した manifest の digest
 rule1_sha256             # 適用した Rule 1 の digest
 bridge_predicate_id      # 例: "5prime_b/v1"(untwisted 版は "5prime/v0")
-exact_recovery_path      # {R-a/current-bfc-proof, R-b/tb4e-alternate}(A16)
+# --- exact_recovery_path は antecedent_bundle_id を discriminator にした
+# --- conditional presence(A20・fail-closed)---
+#   antecedent_bundle_id == THEOREM-ANTECEDENT-Rcyc/exact/v1
+#     => exact_recovery_path is REQUIRED, exactly one of {R-a, R-b}
+#        R-a => tb4_evidence_id, z2m_link_evidence_id   (同 branch に必須)
+#        R-b => e_i_iv_evidence_id, alternate_proof_id, alternate_proof_digest
+#   antecedent_bundle_id != THEOREM-ANTECEDENT-Rcyc/exact/v1
+#     => exact_recovery_path is PROHIBITED(欠落が正・記入は integrity stop)
+exact_recovery_path      # {R-a/current-bfc-proof, R-b/tb4e-alternate}(A16・条件付き)
+tb4_evidence_id          # R-a branch のみ
+z2m_link_evidence_id     # R-a branch のみ
+e_i_iv_evidence_id       # R-b branch のみ
+alternate_proof_id       # R-b branch のみ
+alternate_proof_digest   # R-b branch のみ
 results_schema_version
 
 # b の二段コミット(F10.1)
