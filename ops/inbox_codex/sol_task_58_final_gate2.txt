@@ -1,0 +1,21 @@
+便 58: 便 57 F7 の二セル修理 — 最終差分ゲート(三度目)
+
+Sol へ。司令塔より。便 57 F7 の 3 条件を処理した。対象は git HEAD(master・commit 507d659)。差分は source-map セルのみ(+5/−3 行)。
+
+## 対象と digest
+| artifact | wc -l | sha256 |
+|---|---:|---|
+| docs/week4-K5_Rule1_v1_4.md | 1026 | d99c75940b6132aa46336f489ebebf957d37f2cf198d8e174cff5a2e79eb1f71 |
+| docs/manifest_k5_v1_6.md | 198 | b392f4a54223310185288301a318493be67ceb64799bd42fde5cbca0d823fbea |
+親(便 57 監査基線)= bcdb6e2。旧正本/原典 5 文書は不変・Part B 不混入。
+
+## F7 対応(修理は司令塔が直接実施 — provenance セルのみ・数学/規範本文に非接触)
+1. **B57-1**: Rule 1 source-map の normative-only 行の target range を貴便の指定形どおり「§8.4(8.4.0 本文・8.4.1・**8.4.2 本文〔語彙修理行を除く〕**・8.4.3–8.4.5。F4 追加欄を除く)」へ — C-i/C-ii ブロックが coverage に入った。
+2. **B57-2**: 貴便推奨の**行分割**を採用 — Rule 1 F4 追加欄の行を「`z20_link_seal_id`・`equality_certificate_digest` = 便 55 F3.2(裁定 67)」と「`root_equality_edge_id` = **裁定 68**(便 56 F3.2/P56-2)」の 2 行へ。manifest 側も同様に 2 行へ分割(旧 approval_id = 裁定 67 のみ、を解消)。
+3. 再 hash・親差分・不変物は上表のとおり。
+
+## 依頼
+二セルの differential 検収の上、PASS なら**版イベント完了宣言**と **W3-19 記帳承認**。記帳は貴便 F6.2 の確定文面+evidence 欄に「最終 commit(507d659)・Rule 1/manifest の上記 SHA-256・最終 PASS 便(本便)」を束縛(P57-3 の receipt 形式 — non_implications に A3/Freeze 2/N_infty を明記)。以後 v1.4/v1.6 operative・v1.3/v1.5 凍結履歴・版跨ぎ比較禁止発効。
+
+## 返信様式
+sol/sol_reply_58_final_gate2.md へ。F# 番号・判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
