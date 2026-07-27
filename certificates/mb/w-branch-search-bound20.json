@@ -1,0 +1,12 @@
+{
+  "schema": "mb/w-branch-search/v1",
+  "branch": "W",
+  "normal_form": "y^2=a(x)^2+x^5, a=(a0,a1,a2), a2 x^2+a1 x+a0",
+  "search_bound": 20,
+  "tested": 68920,
+  "hits": [],
+  "error_count": 0,
+  "errors": [],
+  "elapsed_ms": 140521,
+  "contact_discipline": "本探索器は c(lambda=c*mu^2 の定数)の値・平方類・平方因子・符号を一切計算していない。出力は a(x) の整数係数と D(v) の構造検査結果(k, h)のみ。"
+}

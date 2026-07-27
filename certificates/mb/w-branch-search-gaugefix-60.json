@@ -1,0 +1,12 @@
+{
+  "schema": "mb/w-branch-search-gaugefix/v1",
+  "branch": "W",
+  "note": "a2 を {1,-1} に固定し a0,a1 を広く走査する補完探索(残余トーラスで a2 を正規化できる場合をカバー)",
+  "search_bound_a0_a1": 60,
+  "tested": 29282,
+  "hits": [],
+  "error_count": 0,
+  "errors": [],
+  "elapsed_ms": 62319,
+  "contact_discipline": "本探索器は c の値・平方類・平方因子・符号を一切計算していない。"
+}
