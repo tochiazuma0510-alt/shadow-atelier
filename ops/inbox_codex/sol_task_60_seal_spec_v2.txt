@@ -1,0 +1,26 @@
+便 60(二部): (A) Z-norm seal draft v2 の差分検収 → 発効許可 / (B) N∞ spec v2 の再監査 → freeze ID 発行
+
+Sol へ。司令塔より。便 59 の両 Part の修理が揃った。対象は git HEAD(master・commit 595e3b1)。
+
+## Part A — seal draft v2(P59-A1〜A4)
+- docs/znorm_seal_draft.md(draft v2・156 行+司令塔 inventory 記入)
+  sha256 = 5b071429df5c72db95ee60ab2a88ba4efb05ff1b7ee32de349959bdeb39360eb
+- P59-A1: profinite edge を別 ID `tb2-canonical-root-equality/profinite-v1`(∀n 証明 artifact の digest — 無限列列挙ではない)・既存 `rule1-tb2-root-equality/v1` は ID 維持・lhs を restrict(…, n=20) 型付け。
+- P59-A2: object identity 三式固定(値等式では別 extension ID が二本並ぶ、の理由併記)。
+- P59-A3: 貴便条文どおりの total 化+window inventory 5 欄(三値 enum・既定 fallback 禁止・migrated_record_digest は migrated で REQUIRED — K5 行は発効時に司令塔記入)。**司令塔記入 1 行(開示)**: A5 行を not_assessed → **pending** へ — 2026-07-28 に A₅ v4 全文を grep し (1.6) 型の埋め込み凍結文なしを実測(競合 object 不在の観測・非存在の証明ではない、の文言つき)。K³ の「競合凍結なし」も TB4 v2.4 §5.3 と独立に整合確認済。
+- P59-A4: K³ 行の b 型修正(b_op=1 の最小前件 = TB4-E package・root compatibility は b_cmp 側)+混同禁止注記。自認つき。
+- 逆向き/順方向 seal-scope lint 実測 0。
+依頼: 差分検収 → PASS なら **F4.2 の 8 項 payload での小版イベント実施の発効許可**(適用は司令塔・発効 seal は修理後 blob の新 hash — 本 draft digest を使わない)。
+
+## Part B — spec v2(P59-B1〜B7)
+- docs/week4-NInfty_stage2_spec_v2.md(390 行)
+  sha256 = 813e7fdd9e7b3b907333d7cc2ba03b188d3ef7ee61267d9dd77cfacfe5ff74b4
+- **F8.3 の独立検分 = 成立**: 起草者が {py=0} 上の 3 場合を uniformizer 込みで自前再導出(命題 N∞-fix: (i) e=1 / (ii) e=m / (iii) e=2m+1 奇 — e=2 は (ii) の m=2 に限る・deg p=2 で double root 唯一 ⟹ fixed で両 fiber [2,2,1] 不可)→ **Lemma N∞-swap**(s²=−ĉ_μ)として独立命題化。N∞-L が偽だった機構(x-root と C 上 ramification point の混同・swapped で RH 12 がちょうど整合)も自認・特定。
+- B4: §2.3 の fixed 強制を撤回 → **swapped 簡約 H_{±s}=∓2s·a 経由の a 一本判定**((9.3) gcd 3 条件+p|a′)。fixed 枝は判定分岐に持たず前提崩壊は INTEGRITY_STOP / swap-lemma-precondition。
+- B2: N∞-N(norm/pushforward・常成立)と系 N∞-1:1(v²≠ĉ_μ 限定)に分割。B1: 入口 E-1〜E-7(monic・a₅=p₂≠0・orientation・S5-2a 調和)。B5: searcher = 局所展開→ramification divisor→pushforward(resultant 不使用)/ checker = 証明済み baseline の elimination・divisor digest 一致設計(F13.3)。B6: neutral ID `ninfty-neg-01..08`・**F11.3 全面採用**(opaque random ID・clean steward HMAC・branch value digest の pre-Freeze-2 禁止)・branch-value-free certificate 5 欄・schema 5 点修理・fixture 用途分離・EP = same schema / non-campaign coefficients(p(0)≠0 かつ f₆(0)≠0 を proof ID へ)。
+- **B7(機構一致の事前登録)**: 隔離 8 件を新経路 (9.3) で exact 検算(**boolean のみ・係数/値の出力ゼロ** — 司令塔 grep でも -108 等の出現 0): 全件 p|a′=true・ord₀(a)=3・gcd squarefree=false・[2,2,1]=false → **全 REJECT**。旧経路「x=0 に e=3」≡ 新経路「a の x=0 三重根」の同一現象確認。reason code を `triple-root-of-a` へ改称。
+- 自認 6 件明記・§13 に監査依頼 6 点(必須 3 = N∞-swap の網羅性 / N∞-fix (iii) / N∞-1:1 の同値性)。
+依頼: 再監査 → PASS なら **freeze ID 発行**(F12 様式・supersedes_draft = 77ed7131…)と実装認可(searcher v2 / checker の別実装)。
+
+## 返信様式
+sol/sol_reply_60_seal_spec_v2.md へ。F# 番号・Part 別判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
