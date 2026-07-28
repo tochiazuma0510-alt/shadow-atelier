@@ -5,7 +5,7 @@
     "recompute_D1_D2": {
       "laneA": [
         {
-          "content_digest": "73446f72b6f160c33adaab0185ed5b2e420ceb990dd06adaa2f93e180cfc107f",
+          "content_digest": "fc0755a7f725d8b7bdfdcec0e5fb77804fe357081df454badfea8a0b78be9422",
           "source_ref": "search/ninfty-searcher-v2.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
@@ -15,7 +15,7 @@
           "d2_matches_declared": true
         },
         {
-          "content_digest": "c2f3e149a226d7af280ef88c1e8219be1649cc8511edf30254308959716426fe",
+          "content_digest": "b109f59d62d574bde7babea846cfe97b3b3cb6bdfb402bdca856a6e74388fe7f",
           "source_ref": "search/ninfty-verifier-a.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
@@ -35,8 +35,18 @@
           "d2_matches_declared": true
         },
         {
-          "content_digest": "63dde9cc41330855924e1c21becbbd39424b0182aa752de1f04d9ec60e01ad13",
+          "content_digest": "e488318d9289542a05da7afd9d53bf0bbb75d640eb0892b597efafbab2bd4540",
           "source_ref": "search/ninfty-selftest-lanea.mjs",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "content_digest": "20210168248695fd785ce75378f5a22601fba1680e55d12b2f28e5b8756a1959",
+          "source_ref": "search/certs/laneA_ep_export_sample.json",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
           "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -50,71 +60,72 @@
           "content_digest": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
           "source_ref": "search/ninfty-verifier-b.py",
           "recomputed_source_closure_digest": "29a487b5ab67c276bb095d3c8bfbc3f254e41e81279eec4e39b3ef19119b8bb1",
-          "recomputed_implementation_lineage_digest": "91b4d9d17620f8588bdfc7bec8d95135da6bed110c2eb53a208a391e77c7aac7",
-          "declared_source_closure_digest": null,
-          "declared_implementation_lineage_digest": null,
-          "d1_matches_declared": null,
-          "d2_matches_declared": null
+          "recomputed_implementation_lineage_digest": "0901d46fddf101aaf056ac295861061ddb6ca9867be78e5ba7273f73e5be61dd",
+          "declared_source_closure_digest": "29a487b5ab67c276bb095d3c8bfbc3f254e41e81279eec4e39b3ef19119b8bb1",
+          "declared_implementation_lineage_digest": "0901d46fddf101aaf056ac295861061ddb6ca9867be78e5ba7273f73e5be61dd",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
         },
         {
           "content_digest": "stdlib:fractions",
           "source_ref": "python stdlib: fractions",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-          "recomputed_implementation_lineage_digest": "baf841a31914bb0a1bfa407efdca0af80e83ac95536637d7dde0106e98901ec2",
-          "declared_source_closure_digest": null,
-          "declared_implementation_lineage_digest": null,
-          "d1_matches_declared": null,
-          "d2_matches_declared": null
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
         },
         {
           "content_digest": "stdlib:hashlib",
           "source_ref": "python stdlib: hashlib",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-          "recomputed_implementation_lineage_digest": "baf841a31914bb0a1bfa407efdca0af80e83ac95536637d7dde0106e98901ec2",
-          "declared_source_closure_digest": null,
-          "declared_implementation_lineage_digest": null,
-          "d1_matches_declared": null,
-          "d2_matches_declared": null
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
         },
         {
           "content_digest": "stdlib:json",
           "source_ref": "python stdlib: json",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-          "recomputed_implementation_lineage_digest": "baf841a31914bb0a1bfa407efdca0af80e83ac95536637d7dde0106e98901ec2",
-          "declared_source_closure_digest": null,
-          "declared_implementation_lineage_digest": null,
-          "d1_matches_declared": null,
-          "d2_matches_declared": null
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
         },
         {
           "content_digest": "stdlib:sys+argparse",
           "source_ref": "python stdlib: sys, argparse (CLI entry point only)",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-          "recomputed_implementation_lineage_digest": "baf841a31914bb0a1bfa407efdca0af80e83ac95536637d7dde0106e98901ec2",
-          "declared_source_closure_digest": null,
-          "declared_implementation_lineage_digest": null,
-          "d1_matches_declared": null,
-          "d2_matches_declared": null
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
         },
         {
           "content_digest": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
           "source_ref": "search/ninfty-checker.py",
           "recomputed_source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
-          "recomputed_implementation_lineage_digest": "1b47e6607d286bdce68b4e3034deb386b8249f49c95c9597f89be3da17720492",
-          "declared_source_closure_digest": null,
-          "declared_implementation_lineage_digest": null,
-          "d1_matches_declared": null,
-          "d2_matches_declared": null
+          "recomputed_implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013",
+          "declared_source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
+          "declared_implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
         }
       ]
     },
     "faces": {
       "laneA": {
         "binary": [
-          "63dde9cc41330855924e1c21becbbd39424b0182aa752de1f04d9ec60e01ad13",
-          "73446f72b6f160c33adaab0185ed5b2e420ceb990dd06adaa2f93e180cfc107f",
-          "c2f3e149a226d7af280ef88c1e8219be1649cc8511edf30254308959716426fe",
-          "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee"
+          "20210168248695fd785ce75378f5a22601fba1680e55d12b2f28e5b8756a1959",
+          "b109f59d62d574bde7babea846cfe97b3b3cb6bdfb402bdca856a6e74388fe7f",
+          "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee",
+          "e488318d9289542a05da7afd9d53bf0bbb75d640eb0892b597efafbab2bd4540",
+          "fc0755a7f725d8b7bdfdcec0e5fb77804fe357081df454badfea8a0b78be9422"
         ],
         "source": [],
         "build": [
@@ -135,7 +146,7 @@
           "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
         ],
         "build": [
-          "cpython-3.13-stdlib-only-no-external-packages"
+          "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1"
         ]
       }
     },
@@ -147,12 +158,10 @@
         "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2": true
       },
       "laneB": {
-        "cpython-3.13-stdlib-only-no-external-packages": false
+        "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1": true
       }
     },
-    "toolchain_digest_UNKNOWN_placeholders": [
-      "cpython-3.13-stdlib-only-no-external-packages"
-    ],
+    "toolchain_digest_UNKNOWN_placeholders": [],
     "reason_[11]_shared_helper_detected": false,
     "notes": [
       "D-3/D-4' (build_root_id/subject_build_binding_digest) recompute NOT attempted: both lanes declare build_record_present=false at top level and for all entries (QD-3 bootstrap leaf per [branch-contract]); per branch-contract false.recompute the receiving-side obligation is D-1/D-2 only, D-3/D-4' are ABSENT by design, not a gap in this recompute.",
@@ -362,7 +371,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -370,7 +379,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -403,8 +412,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -436,7 +445,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -444,7 +453,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -477,8 +486,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -510,7 +519,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -518,7 +527,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -551,8 +560,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -584,7 +593,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -592,7 +601,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -625,8 +634,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -658,7 +667,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -666,7 +675,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -699,8 +708,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -732,7 +741,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -740,7 +749,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -773,8 +782,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -806,7 +815,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -814,7 +823,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -847,8 +856,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -880,7 +889,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -888,7 +897,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -921,8 +930,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -954,7 +963,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -962,7 +971,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -995,8 +1004,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -1028,7 +1037,7 @@
         ],
         [
           "W-4",
-          "PASS"
+          "ABSENT"
         ],
         [
           "W-5",
@@ -1036,7 +1045,7 @@
         ],
         [
           "W-6",
-          "PASS"
+          "ABSENT"
         ]
       ],
       "R_B": [
@@ -1069,8 +1078,8 @@
           "ABSENT"
         ]
       ],
-      "R_A_eq_R_B": false,
-      "reason_[26]_candidate": true,
+      "R_A_eq_R_B": true,
+      "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
       "laneB_P3": "FAIL",
@@ -1182,7 +1191,7 @@
     "P-3.1 mismatch expected for all 5 lane-A cert fixtures under verifier B (lane A selftest certs use a placeholder predicate_spec_digest, not verifier B's EXPECTED_PINS digest) -- a genuine pin mismatch, not a converter defect"
   ],
   "reason_[11]_present": false,
-  "reason_[26]_present": true,
-  "ep_judgment_proposal": "PASS-partial (with UNKNOWNs; [26]-candidates present, see per-row conversion_gaps for whether schema-conversion-driven or genuine)",
+  "reason_[26]_present": false,
+  "ep_judgment_proposal": "PASS-partial (with UNKNOWNs, no [11]/no unexplained [26])",
   "ep_judgment_note": "This is a proposal for the commander/Sol gate to review, NOT a self-declared EP PASS. Per receipt: 'calibrated detector・complete search 宣言は EP 前 NOT AUTHORIZED'."
 }
