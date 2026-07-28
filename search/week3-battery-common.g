@@ -449,7 +449,18 @@ MakeP3 := function()
 end;;
 
 # ================= word-level (natural left-to-right) machinery -- stage A2 only =================
-# coordinator ruling 2026-07-26: A2 (c_in_N=false) MUST use word-level evaluation with the NATURAL
+# *** SUPERSEDED (裁定166・docs/notes/wcp5d_resolution_v1.md WDICT-4, 2026-07-29) ***
+# The "natural" ruling below is WITHDRAWN (撤回済み). It was superseded first by the
+# "prepend" ruling at L598-610 (which is itself the historically later, correct-per-WDICT-4
+# convention pick between the two word-level accumulation orders) -- but WCP5-D found a
+# THIRD, deeper bug that neither convention fixes: for c NOT IN N windows, tau (x->y,y->z)
+# generally does NOT descend to F2/N_F2 at all (Ad(delta) differs from the naive tau by a
+# c^{e(w)} factor, docs/notes/wcp5d_resolution_v1.md Prop 2) -- so BOTH word-level enumerators
+# below (natural AND prepend) can silently mis-evaluate the reduced hexagon on such windows,
+# independent of which left/right accumulation convention is chosen. The original 2026-07-26
+# ruling text is left below unmodified for the historical record; treat it as superseded, not
+# as current guidance.
+# coordinator ruling 2026-07-26 [SUPERSEDED, see above]: A2 (c_in_N=false) MUST use word-level evaluation with the NATURAL
 # left-to-right homomorphism convention (word [w1,...,wk] represents the F2 element w1*w2*...*wk,
 # phi(w1...wk)=phi(w1)*...*phi(wk) using Q's own multiplication in matching order -- the SAME side
 # established correct during stage 1a's crosscheck bug-hunt), explicitly NOT the "prepend"
@@ -507,6 +518,18 @@ end;;
 ThetaWordNatural := function(word) return Concatenation(List(word, ThetaLetterNatural)); end;;
 TauWordNatural := function(word) return Concatenation(List(word, TauLetterNatural)); end;;
 
+# *** WARNING (裁定166・docs/notes/wcp5d_resolution_v1.md, 2026-07-29): for c NOT IN N windows,
+# DO NOT use this function (or EnumerateWordLevelHexagonPrepend below) to decide the reduced
+# hexagon / shadow membership. tau (x->y, y->z=(xy)^-1) generally fails to descend to F2/N_F2
+# when c is not in N (the true descended map is Ad(delta), which differs from naive tau by a
+# c^{e(w)} twist depending on the BFS word's total exponent sum e(w) -- so the SAME group
+# element f can pass or fail (3.11) depending on which word represents it; docs/notes/
+# wcp5d_resolution_v1.md V5c gives an explicit reversal witness). Use the (F2) quotient rule
+# instead (PB3/N-internal, theta~ = Ad(Delta), tau~ = Ad(delta); see search/wall-miner-v4.g's
+# CorrectedShadows for the GAP implementation) for any c-not-in-N window. This function is left
+# in place uncut (not deleted, not Error()-stubbed) per the coordinator's instruction, purely
+# as a preserved historical artifact / negative fixture -- it is NOT safe to call on c-not-in-N
+# windows for a real lead/claim.
 # EnumerateWordLevelHexagon: word-level (3.10)/(3.11) via natural evaluation (mandatory when
 # c_in_N=false). Also computes the quotient-shortcut result per candidate as a DIAGNOSTIC ONLY
 # (A-F4: judged by word-level; quotient-shortcut recorded for comparison, quotient_eval_diff_count).
@@ -633,6 +656,12 @@ EvalWordInQ := function(word, xg, yg, idG)
   return val;
 end;;
 
+# *** WARNING (裁定166・docs/notes/wcp5d_resolution_v1.md WDICT-4, 2026-07-29): prepend IS the
+# correct left/right accumulation convention (definition note S1.5 convention W-2), but that is
+# a SEPARATE question from the c-not-in-N descent bug above EnumerateWordLevelHexagon. For
+# c-not-in-N windows this function is ALSO unsafe (same tau-does-not-descend root cause;
+# WDICT-4: "c not in N ではどちらも誤り"). Use the (F2) quotient rule (search/wall-miner-v4.g's
+# CorrectedShadows) for c-not-in-N windows instead. Left uncut per the coordinator's instruction.
 # EnumerateWordLevelHexagonPrepend: word-level (3.10)/(3.11) via prepend evaluation (the spec's
 # pre-registered convention for A2, per manifest_spec_v1.md's "M5実装と同一" instruction).
 EnumerateWordLevelHexagonPrepend := function(qrec, charmingSet)
