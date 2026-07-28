@@ -387,7 +387,15 @@ def _canon_mono(m):
 
 
 def mv_from_json(terms):
-    """terms: list of {"coeff": "n/d"|num, "mono": [e1,e2,...]}."""
+    """
+    terms: list of {"coeff": "n/d"|num, "mono": [e1,e2,...]}. RETAINED for
+    backward compatibility only -- 裁定133 (h) retires the flat
+    kind/tag-at-entry-level, sparse-multivariate-term shape this engine
+    was built for ("kind/tag を entry 直下に平置きする形は採らない"). No
+    current entry validator calls this; kept in case a future certificate
+    genuinely needs multivariate (2-chart, x/y) generators, which the v2
+    dense single-variable engine below (dp_*) cannot express.
+    """
     _require_list(terms, "polynomial term list")
     out = {}
     for i, t in enumerate(terms):
@@ -399,57 +407,74 @@ def mv_from_json(terms):
     return {m: c for m, c in out.items() if c != 0}
 
 
-def mv_add(a, b):
-    out = dict(a)
-    for m, c in b.items():
-        out[m] = out.get(m, Fraction(0)) + c
-    return {m: c for m, c in out.items() if c != 0}
+# --------------------------------------------------------------------------
+# 裁定133 (h): dense single-variable Q[x] engine (low-degree-first list of
+# Fraction). This is what the v2 nested witness shape actually carries
+# (dividend / divisor_monic / quotient / remainder, generator_P /
+# generator_Q / bezout_u / bezout_v -- all plain coefficient arrays, not
+# sparse {coeff,mono} terms). Self-contained (no import of
+# search/ninfty-checker.py or any other file) -- duplicated rather than
+# shared, to keep this file's own dependency closure exactly as declared
+# in search/certs/laneB_manifest.json.
+# --------------------------------------------------------------------------
 
 
-def mv_neg(a):
-    return {m: -c for m, c in a.items()}
+def dp_from_json(coeffs):
+    _require_list(coeffs, "polynomial coefficient list")
+    return _dp_trim([_F(c) for c in coeffs])
 
 
-def mv_sub(a, b):
-    return mv_add(a, mv_neg(b))
+def _dp_trim(c):
+    c = list(c)
+    while c and c[-1] == 0:
+        c.pop()
+    return c
 
 
-def mv_mono_mul(m1, m2):
-    n = max(len(m1), len(m2))
-    m1 = m1 + (0,) * (n - len(m1))
-    m2 = m2 + (0,) * (n - len(m2))
-    return _canon_mono(list(x + y for x, y in zip(m1, m2)))
+def dp_add(a, b):
+    n = max(len(a), len(b))
+    out = [Fraction(0)] * n
+    for i, v in enumerate(a):
+        out[i] += v
+    for i, v in enumerate(b):
+        out[i] += v
+    return _dp_trim(out)
 
 
-def mv_mul(a, b):
-    out = {}
-    for m1, c1 in a.items():
-        if c1 == 0:
+def dp_mul(a, b):
+    a, b = _dp_trim(a), _dp_trim(b)
+    if not a or not b:
+        return []
+    out = [Fraction(0)] * (len(a) + len(b) - 1)
+    for i, x in enumerate(a):
+        if x == 0:
             continue
-        for m2, c2 in b.items():
-            m = mv_mono_mul(m1, m2)
-            out[m] = out.get(m, Fraction(0)) + c1 * c2
-    return {m: c for m, c in out.items() if c != 0}
+        for j, y in enumerate(b):
+            out[i + j] += x * y
+    return _dp_trim(out)
 
 
-def mv_eq(a, b):
-    ac = {m: c for m, c in a.items() if c != 0}
-    bc = {m: c for m, c in b.items() if c != 0}
-    return ac == bc
+def dp_eq(a, b):
+    return _dp_trim(a) == _dp_trim(b)
 
 
-def mv_is_zero(a):
-    return all(c == 0 for c in a.values())
+def dp_is_zero(a):
+    return not _dp_trim(a)
 
 
-CONST_ONE = {(): Fraction(1)}
+DP_ONE = [Fraction(1)]
 
 
-def mv_is_one(a):
-    return mv_eq(a, CONST_ONE)
+def dp_is_one(a):
+    return dp_eq(a, DP_ONE)
+
+
+def _dp_out(poly):
+    return [str(c) for c in poly]
 
 
 def _terms_out(poly):
+    """Retained for mv_from_json backward-compat callers (none currently)."""
     return sorted(
         ({"mono": list(m), "coeff": str(c)} for m, c in poly.items()),
         key=lambda t: t["mono"],
@@ -457,103 +482,120 @@ def _terms_out(poly):
 
 
 # --------------------------------------------------------------------------
-# W-2 / W-2' per-entry validators (unchanged math content from 裁定127
-# repair; now called per-entry from the divisor_object-aware drivers below
-# instead of iterating the whole field directly).
+# W-2 / W-2' / W-3 per-entry validators (裁定133 (h): nested `witness`
+# object, dense single-variable polynomials; 裁定134 (j): W-3 field names
+# renamed searcher_mult/checker_mult).
 # --------------------------------------------------------------------------
 
 
-def _validate_representation_entry(witness):
-    _require_dict(witness, "representation witness")
-    _require_keys(witness, ["tag", "g", "u", "h"], "representation witness")
-    if witness["tag"] not in ("reduction-to-zero", "reduction-to-one"):
-        raise MalformedWitness(f"invalid/missing tag (P-1.5): {witness.get('tag')!r}")
-    g = mv_from_json(witness["g"])
-    us_raw = _require_list(witness["u"], "representation witness 'u'")
-    hs_raw = _require_list(witness["h"], "representation witness 'h'")
-    if len(us_raw) != len(hs_raw):
-        return "FAIL", {"reason": "u/h length mismatch", "len_u": len(us_raw), "len_h": len(hs_raw)}
-    us = [mv_from_json(u) for u in us_raw]
-    hs = [mv_from_json(h) for h in hs_raw]
-    acc = {}
-    for u, h in zip(us, hs):
-        acc = mv_add(acc, mv_mul(u, h))
-    ok = mv_eq(acc, g)
-    return ("PASS" if ok else "FAIL"), {"recomputed": _terms_out(acc), "claimed": _terms_out(g)}
+def _validate_ideal_equality_direction(direction, label):
+    """
+    direction = {tag, dividend, divisor_monic, quotient, remainder}
+    (裁定133 (h), literal field names). Re-derives
+    quotient*divisor_monic + remainder from scratch and checks it equals
+    dividend (never trusts the claimed quotient/remainder blindly), AND
+    that the tag's own claim (remainder == 0 for reduction-to-zero,
+    remainder == 1 for reduction-to-one) actually holds.
+    """
+    _require_dict(direction, f"{label} direction")
+    _require_keys(direction, ["tag", "dividend", "divisor_monic", "quotient", "remainder"], f"{label} direction")
+    if direction["tag"] not in ("reduction-to-zero", "reduction-to-one"):
+        raise MalformedWitness(f"{label}: invalid/missing tag (P-1.5): {direction.get('tag')!r}")
+    dividend = dp_from_json(direction["dividend"])
+    divisor_monic = dp_from_json(direction["divisor_monic"])
+    quotient = dp_from_json(direction["quotient"])
+    remainder = dp_from_json(direction["remainder"])
+    recomputed_dividend = dp_add(dp_mul(quotient, divisor_monic), remainder)
+    identity_ok = dp_eq(recomputed_dividend, dividend)
+    tag_ok = dp_is_zero(remainder) if direction["tag"] == "reduction-to-zero" else dp_is_one(remainder)
+    ok = identity_ok and tag_ok
+    return ok, {
+        "identity_ok": identity_ok, "tag_ok": tag_ok,
+        "recomputed_dividend": _dp_out(recomputed_dividend), "claimed_dividend": _dp_out(dividend),
+    }
 
 
-def _validate_reduction_entry(witness):
-    _require_dict(witness, "reduction witness")
-    _require_keys(witness, ["tag", "g"], "reduction witness")
-    if witness["tag"] not in ("reduction-to-zero", "reduction-to-one"):
-        raise MalformedWitness(f"invalid/missing tag (P-1.5): {witness.get('tag')!r}")
-    r = mv_from_json(witness["g"])
-    steps = witness.get("steps", [])
-    _require_list(steps, "reduction witness 'steps'")
-    for i, step in enumerate(steps):
-        _require_dict(step, f"reduction step[{i}]")
-        _require_keys(step, ["coeff", "mono", "generator"], f"reduction step[{i}]")
-        coeff = _F(step["coeff"])
-        mono = _canon_mono(step["mono"])
-        gen = mv_from_json(step["generator"])
-        term_poly = {mono: coeff}
-        r = mv_sub(r, mv_mul(term_poly, gen))
-    if witness["tag"] == "reduction-to-zero":
-        ok = mv_is_zero(r)
-    else:
-        ok = mv_is_one(r)
-    return ("PASS" if ok else "FAIL"), {"final_remainder": _terms_out(r)}
+def _validate_w2_entry(e):
+    """
+    W-2 entry (裁定133 (h)): {locus_type, divisor_object, witness: {kind,
+    forward: {...}, backward: {...}}}. `witness.ok` (if present) is a
+    producer CLAIM and is never trusted -- only the recomputed
+    forward/backward identities decide PASS/FAIL.
+    """
+    _require_dict(e, "W-2 entry")
+    _require_keys(e, ["witness"], "W-2 entry")
+    witness = _require_dict(e["witness"], "W-2 entry.witness")
+    if witness.get("kind") != "ideal-equality":
+        return "FAIL", {"reason": f"wrong kind for W-2 (must be ideal-equality, got {witness.get('kind')!r})"}
+    _require_keys(witness, ["forward", "backward"], "W-2 entry.witness")
+    fwd_ok, fwd_detail = _validate_ideal_equality_direction(witness["forward"], "forward")
+    bwd_ok, bwd_detail = _validate_ideal_equality_direction(witness["backward"], "backward")
+    ok = fwd_ok and bwd_ok
+    return ("PASS" if ok else "FAIL"), {"forward": fwd_detail, "backward": bwd_detail}
 
 
-def _validate_w2_entry(w):
-    _require_dict(w, "W-2 witness entry")
-    kind = w.get("kind")
-    if kind != "ideal-equality":
-        return "FAIL", {"reason": f"wrong kind for W-2 (must be ideal-equality, got {kind!r})"}
-    form = w.get("form")
-    if form == "representation":
-        return _validate_representation_entry(w)
-    if form == "reduction-to-zero":
-        return _validate_reduction_entry(w)
-    return "FAIL", {"reason": f"unrecognized form: {form!r}"}
-
-
-def _validate_w2prime_entry(w):
-    _require_dict(w, "W-2' witness entry")
-    kind = w.get("kind")
-    if kind != "disjointness":
-        return "FAIL", {"reason": f"wrong kind for W-2' (must be disjointness, got {kind!r})"}
-    _require_keys(w, ["u", "g"], "W-2' witness entry")
-    u_raw = _require_list(w["u"], "W-2' witness entry 'u'")
-    g_raw = _require_list(w["g"], "W-2' witness entry 'g'")
-    if len(u_raw) != len(g_raw):
-        return "FAIL", {"reason": "u/g length mismatch"}
-    u = [mv_from_json(x) for x in u_raw]
-    g = [mv_from_json(x) for x in g_raw]
-    acc = {}
-    for ui, gi in zip(u, g):
-        acc = mv_add(acc, mv_mul(ui, gi))
-    ok = mv_is_one(acc)
-    return ("PASS" if ok else "FAIL"), {"recomputed": _terms_out(acc)}
+def _validate_w2prime_entry(e):
+    """
+    W-2' entry (裁定133 (h) family, disjointness kind): {pair,
+    divisor_object, witness: {kind: "disjointness", generator_P,
+    generator_Q, bezout_u, bezout_v, reduction_tag}}. Recomputes
+    bezout_u*generator_P + bezout_v*generator_Q from scratch and checks it
+    equals the constant claimed by reduction_tag.
+    """
+    _require_dict(e, "W-2' entry")
+    _require_keys(e, ["witness"], "W-2' entry")
+    witness = _require_dict(e["witness"], "W-2' entry.witness")
+    if witness.get("kind") != "disjointness":
+        return "FAIL", {"reason": f"wrong kind for W-2' (must be disjointness, got {witness.get('kind')!r})"}
+    _require_keys(witness, ["generator_P", "generator_Q", "bezout_u", "bezout_v", "reduction_tag"],
+                   "W-2' entry.witness")
+    if witness["reduction_tag"] not in ("reduction-to-zero", "reduction-to-one"):
+        raise MalformedWitness(f"invalid/missing reduction_tag: {witness.get('reduction_tag')!r}")
+    p = dp_from_json(witness["generator_P"])
+    q = dp_from_json(witness["generator_Q"])
+    u = dp_from_json(witness["bezout_u"])
+    v = dp_from_json(witness["bezout_v"])
+    acc = dp_add(dp_mul(u, p), dp_mul(v, q))
+    ok = dp_is_one(acc) if witness["reduction_tag"] == "reduction-to-one" else dp_is_zero(acc)
+    return ("PASS" if ok else "FAIL"), {"recomputed": _dp_out(acc)}
 
 
 def _validate_w3_entry(e):
+    """
+    W-3 entry (裁定134 (j): searcher_mult/checker_mult -- mult_A/mult_B
+    retired). `equal` (if present) is a producer claim and is never
+    trusted; PASS/FAIL is decided solely by the independent int comparison.
+    """
     _require_dict(e, "W-3 entry")
-    _require_keys(e, ["mult_A", "mult_B"], "W-3 entry")
-    ma = _require_int(e["mult_A"], "W-3 entry.mult_A")
-    mb = _require_int(e["mult_B"], "W-3 entry.mult_B")
-    ok = ma == mb
-    return ("PASS" if ok else "FAIL"), {"mult_A": ma, "mult_B": mb}
+    _require_keys(e, ["searcher_mult", "checker_mult"], "W-3 entry")
+    sm = _require_int(e["searcher_mult"], "W-3 entry.searcher_mult")
+    cm = _require_int(e["checker_mult"], "W-3 entry.checker_mult")
+    ok = sm == cm
+    return ("PASS" if ok else "FAIL"), {"searcher_mult": sm, "checker_mult": cm}
 
 
 def _validate_w4_entry(e):
+    """
+    W-4 entry (裁定133 (i)): {divisor_object, status, per_overlap_witnesses:
+    [{chart_pair, component_in_chart_a, component_in_chart_b}, ...]}.
+    `status` (if present) is a producer claim and is never trusted; PASS
+    requires ALL per_overlap_witnesses entries to independently agree.
+    """
     _require_dict(e, "W-4 entry")
-    _require_keys(e, ["component_in_chart_a", "component_in_chart_b"], "W-4 entry")
-    ok = e["component_in_chart_a"] == e["component_in_chart_b"]
-    return ("PASS" if ok else "FAIL"), {
-        "component_in_chart_a": e["component_in_chart_a"],
-        "component_in_chart_b": e["component_in_chart_b"],
-    }
+    _require_keys(e, ["per_overlap_witnesses"], "W-4 entry")
+    overlaps = _require_list(e["per_overlap_witnesses"], "W-4 entry.per_overlap_witnesses")
+    if len(overlaps) == 0:
+        return "FAIL", {"reason": "per_overlap_witnesses is present but empty -- no overlap claim to verify"}
+    bad = []
+    for i, o in enumerate(overlaps):
+        if not isinstance(o, dict) or "component_in_chart_a" not in o or "component_in_chart_b" not in o:
+            bad.append({"index": i, "reason": "malformed (need component_in_chart_a, component_in_chart_b)"})
+            continue
+        if o["component_in_chart_a"] != o["component_in_chart_b"]:
+            bad.append({"index": i, "component_in_chart_a": o["component_in_chart_a"],
+                        "component_in_chart_b": o["component_in_chart_b"]})
+    ok = len(bad) == 0
+    return ("PASS" if ok else "FAIL"), {"mismatches": bad, "checked": len(overlaps)}
 
 
 @fail_closed_pairmap
@@ -581,174 +623,76 @@ def verify_W4(cert):
 
 
 # --------------------------------------------------------------------------
-# W-1 / W-5 / W-6: "singular" witnesses (裁定128 rule 4 -- 2-entry array,
-# one per divisor_object). W-1 and W-6 additionally cross-check against
-# W-5's per-object declared_total_components to close the exact
-# empty-vs-empty vacuous-PASS hole 裁定127 identified, now applied
-# per-object rather than once globally.
+# W-1 (裁定133 (g)): component_bijection is now itself a PLURAL field --
+# one entry per matched (searcher, checker) pair, tagged divisor_object.
+# The "exactly 1 entry per object" constraint is WITHDRAWN; instead
+# injectivity is checked ACROSS the whole per-object group (cannot be
+# decided entry-by-entry, unlike the other six witness types -- hence a
+# bespoke function rather than _check_plural_witness/_check_singular_witness),
+# and the total per-object entry count is cross-checked against W-5's
+# `matched_count` for the same divisor_object.
+#
+# W-5 / W-6 remain "singular" (2-entry array, one per object, 裁定128 rule
+# 4), but W-5's own entry shape now uses searcher_count/checker_count/
+# matched_count/no_extra (this implementer's adopted shape -- 裁定133/134
+# do not literally specify W-5's fields; flagged as a further spec-silence
+# point in the module docstring UNKNOWN list, alongside (e)/(f)), and W-6
+# now uses the 裁定133 (i) {status, points:[...]} shape.
 # --------------------------------------------------------------------------
 
 
-def _validate_bijection_entry_factory(declared_total):
-    def _validate(bij):
-        _require_dict(bij, "component_bijection entry")
-        _require_keys(bij, ["domain_components", "codomain_components", "mapping"], "component_bijection entry")
-        domain = _require_list(bij["domain_components"], "component_bijection entry.domain_components")
-        codomain = _require_list(bij["codomain_components"], "component_bijection entry.codomain_components")
-        mapping = _require_list(bij["mapping"], "component_bijection entry.mapping")
-        for i, m in enumerate(mapping):
-            if not isinstance(m, list) or len(m) != 2:
-                raise MalformedWitness(f"component_bijection entry.mapping[{i}] must be a 2-element "
-                                        f"[domain_id, codomain_id] array, got {m!r}")
-
-        if not domain and not codomain and not mapping:
-            if declared_total not in (0, None):
-                return "FAIL", {
-                    "reason": "component_bijection entry is entirely empty, but the matching "
-                              "total_coverage_and_no_extra_component_witness entry declares "
-                              f"declared_total_components={declared_total!r} (!= 0) -- refusing a "
-                              "vacuous empty-vs-empty PASS"
-                }
-
-        mapped_dom = [m[0] for m in mapping]
-        mapped_cod = [m[1] for m in mapping]
-        dom_set = set(domain)
-        cod_set = set(codomain)
-        total = set(mapped_dom) == dom_set and len(mapped_dom) == len(dom_set)
-        injective = len(set(mapped_cod)) == len(mapped_cod)
-        onto_declared_cod = set(mapped_cod) == cod_set
-        ok = total and injective and onto_declared_cod
-        detail = {
-            "total": total, "injective": injective, "onto_declared_codomain": onto_declared_cod,
-            "domain_size": len(dom_set), "codomain_size": len(cod_set), "mapping_size": len(mapping),
-        }
-        return ("PASS" if ok else "FAIL"), detail
-    return _validate
+def _actual_bijection_counts_and_groups(cert):
+    """Coerced-list-safe: returns (groups, unattributed) from the raw
+    component_bijection container, never raises."""
+    raw, coerced = _coerce_to_list(cert, "component_bijection")
+    groups, unattributed = _split_by_divisor_object(raw)
+    return groups, unattributed, coerced
 
 
-def _validate_coverage_entry_factory(matched_count):
+def _validate_bijection_group(entries, matched_count_claim):
     """
-    matched_count: the SAME-token component_bijection entry's mapping
-    length (or None if W-1's bijection entry for this token could not be
-    read) -- cross-referenced here so W-5's PASS genuinely requires (a)
-    declared_total_components to agree with W-1's actual matched count for
-    the SAME divisor_object, and (b) every extra candidate to carry a
-    distinctness_witness_ref. Fixing a regression caught during this
-    file's own 裁定128 reshape self-test: an earlier draft of this
-    function always returned PASS regardless of (a)/(b), silently
-    dropping the fail-open guard the pre-128 verify_W5 had.
+    entries: raw dicts already filtered to one divisor_object token, each
+    {searcher_index, checker_index, locus_type, divisor_object} (裁定133
+    (g)). matched_count_claim: W-5's claimed matched_count for this same
+    token (or None if unreadable) -- cross-checked here, NOT trusted
+    blindly; genuine injectivity is what actually decides PASS/FAIL.
     """
-    def _validate(w):
-        _require_dict(w, "total_coverage entry")
-        _require_keys(w, ["declared_total_components"], "total_coverage entry")
-        declared_total = _require_int(w["declared_total_components"],
-                                       "total_coverage entry.declared_total_components")
-        extras = w.get("extra_candidates", [])
-        if not isinstance(extras, list):
-            return "FAIL", {"reason": f"extra_candidates must be an array, got {type(extras).__name__}"}
-        extras_have_distinctness = True
-        for e in extras:
-            ref = e.get("distinctness_witness_ref") if isinstance(e, dict) else None
-            if not ref:
-                extras_have_distinctness = False
-        no_extra = len(extras) == 0
-        matched_ok = matched_count is None or declared_total == matched_count
-        ok = matched_ok and (no_extra or extras_have_distinctness)
-        detail = {
-            "declared_total": declared_total,
-            "matched_count_from_W1": matched_count,
-            "matched_ok": matched_ok,
-            "extras": len(extras),
-            "extras_have_distinctness_ref": extras_have_distinctness,
-        }
-        return ("PASS" if ok else "FAIL"), detail
-    return _validate
+    if len(entries) == 0:
+        if matched_count_claim not in (0, None):
+            return "FAIL", {"reason": "component_bijection has 0 entries for this divisor_object, but "
+                             f"the matching W-5 entry claims matched_count={matched_count_claim!r} "
+                             "(!= 0) -- refusing a vacuous empty PASS"}
+        return "ABSENT", {"reason": "no component_bijection entries for this divisor_object"}
+    bad = []
+    searcher_idx, checker_idx = [], []
+    for i, e in enumerate(entries):
+        if not isinstance(e, dict) or "searcher_index" not in e or "checker_index" not in e:
+            bad.append({"index": i, "reason": "malformed (need searcher_index, checker_index)"})
+            continue
+        try:
+            si = _require_int(e["searcher_index"], f"component_bijection entry[{i}].searcher_index")
+            ci = _require_int(e["checker_index"], f"component_bijection entry[{i}].checker_index")
+        except MalformedWitness as ex:
+            bad.append({"index": i, "reason": str(ex)})
+            continue
+        searcher_idx.append(si)
+        checker_idx.append(ci)
+    if bad:
+        return "FAIL", {"malformed_entries": bad}
+    injective_searcher = len(set(searcher_idx)) == len(searcher_idx)
+    injective_checker = len(set(checker_idx)) == len(checker_idx)
+    count_ok = matched_count_claim is None or len(entries) == matched_count_claim
+    ok = injective_searcher and injective_checker and count_ok
+    detail = {
+        "entry_count": len(entries), "injective_searcher_index": injective_searcher,
+        "injective_checker_index": injective_checker,
+        "matched_count_claimed_by_W5": matched_count_claim, "count_matches_W5": count_ok,
+    }
+    return ("PASS" if ok else "FAIL"), detail
 
 
-def _validate_pushforward_entry_factory(declared_total):
-    def _validate(w):
-        _require_dict(w, "pushforward entry")
-        _require_keys(w, ["ramification_points", "branch_points"], "pushforward entry")
-        ram = _require_list(w["ramification_points"], "pushforward entry.ramification_points")
-        branch = _require_list(w["branch_points"], "pushforward entry.branch_points")
-
-        if len(ram) == 0 and len(branch) == 0:
-            if declared_total not in (0, None):
-                return "FAIL", {
-                    "reason": "both ramification_points and branch_points are empty in this "
-                              "pushforward entry, but the matching total_coverage entry declares "
-                              f"declared_total_components={declared_total!r} (!= 0) -- refusing a "
-                              "vacuous empty-vs-empty PASS"
-                }
-
-        push = {}
-        for i, r in enumerate(ram):
-            if not isinstance(r, dict) or "maps_to_branch_value" not in r or "multiplicity" not in r:
-                raise MalformedWitness(f"ramification_points[{i}] malformed (need "
-                                        f"maps_to_branch_value, multiplicity): {r!r}")
-            bv = r["maps_to_branch_value"]
-            mult = _require_int(r["multiplicity"], f"ramification_points[{i}].multiplicity")
-            push[bv] = push.get(bv, 0) + mult
-
-        declared = {}
-        for i, b in enumerate(branch):
-            if not isinstance(b, dict) or "branch_value" not in b or "multiplicity" not in b:
-                raise MalformedWitness(f"branch_points[{i}] malformed (need "
-                                        f"branch_value, multiplicity): {b!r}")
-            bv = b["branch_value"]
-            mult = _require_int(b["multiplicity"], f"branch_points[{i}].multiplicity")
-            declared[bv] = mult
-
-        ok = set(push.keys()) == set(declared.keys()) and all(push[k] == declared[k] for k in push)
-        return ("PASS" if ok else "FAIL"), {"recomputed": push, "declared": declared}
-    return _validate
-
-
-def _matched_counts_by_object(cert):
-    """
-    Best-effort extraction of {token: len(mapping) or None} from the raw
-    (uncoerced) component_bijection container, for cross-checking W-5
-    against W-1's actual matched count. Never raises.
-    """
-    raw, _coerced = _coerce_to_list(cert, "component_bijection")
-    groups, _unattributed = _split_by_divisor_object(raw)
-    out = {}
-    for tok in DIVISOR_OBJECT_TOKENS:
-        entries = groups[tok]
-        val = None
-        if len(entries) == 1 and isinstance(entries[0], dict):
-            mapping = entries[0].get("mapping")
-            if isinstance(mapping, list):
-                val = len(mapping)
-        out[tok] = val
-    return out
-
-
-@fail_closed_pairmap
-def verify_W5(cert):
-    """W-5: total_coverage_and_no_extra_component_witness (裁定128 singular -> 2-entry array),
-    cross-checked against W-1's actual matched count for the same divisor_object."""
-    matched = _matched_counts_by_object(cert)
-    out = {}
-    for tok in DIVISOR_OBJECT_TOKENS:
-        result_pair = _check_singular_witness(
-            {"total_coverage_and_no_extra_component_witness":
-                cert.get("total_coverage_and_no_extra_component_witness")},
-            "total_coverage_and_no_extra_component_witness",
-            _validate_coverage_entry_factory(matched[tok]),
-        )
-        out[tok] = result_pair[tok]
-    return out
-
-
-def _declared_totals_by_object(cert):
-    """
-    Best-effort extraction of {token: declared_total_components or None}
-    from the raw (uncoerced) total_coverage container, for cross-checking
-    W-1/W-6 against W-5. Never raises -- any malformation here just yields
-    None for that token (the W-5 check itself independently reports the
-    malformation via verify_W5).
-    """
+def _matched_count_claimed_by_w5(cert):
+    """Best-effort {token: claimed matched_count or None} from the raw W-5 container."""
     raw, _coerced = _coerce_to_list(cert, "total_coverage_and_no_extra_component_witness")
     groups, _unattributed = _split_by_divisor_object(raw)
     out = {}
@@ -756,7 +700,7 @@ def _declared_totals_by_object(cert):
         entries = groups[tok]
         val = None
         if len(entries) == 1 and isinstance(entries[0], dict):
-            v = entries[0].get("declared_total_components")
+            v = entries[0].get("matched_count")
             if isinstance(v, int) and not isinstance(v, bool):
                 val = v
         out[tok] = val
@@ -765,29 +709,144 @@ def _declared_totals_by_object(cert):
 
 @fail_closed_pairmap
 def verify_W1(cert):
-    """W-1: component_bijection (裁定128 singular -> 2-entry array), cross-checked against W-5."""
-    totals = _declared_totals_by_object(cert)
+    """W-1: component_bijection (裁定133 (g): plural, per-pair entries;
+    injectivity checked across each per-object group; count cross-checked
+    against W-5's claimed matched_count)."""
+    groups, unattributed, coerced = _actual_bijection_counts_and_groups(cert)
+    if coerced:
+        reason = "component_bijection not supplied or not a list (coerced to [])"
+        return _absent_pair(reason)
+    matched_claims = _matched_count_claimed_by_w5(cert)
+    out = {}
+    for tok in DIVISOR_OBJECT_TOKENS:
+        status, detail = _validate_bijection_group(groups[tok], matched_claims[tok])
+        if unattributed and status != "FAIL":
+            status, detail = "FAIL", {"reason": f"{len(unattributed)} unattributed component_bijection "
+                                       "entries present (missing/unrecognized divisor_object tag)"}
+        out[tok] = (status, detail)
+    return out
+
+
+def _actual_bijection_entry_counts(cert):
+    """{token: actual number of component_bijection entries for that token}, never raises."""
+    groups, _unattributed, _coerced = _actual_bijection_counts_and_groups(cert)
+    return {tok: len(groups[tok]) for tok in DIVISOR_OBJECT_TOKENS}
+
+
+def _validate_coverage_entry_factory(actual_matched_count):
+    """
+    actual_matched_count: the ACTUAL (recomputed, not claimed) number of
+    component_bijection entries for this divisor_object -- cross-checked
+    here so W-5's PASS genuinely requires the claimed matched_count to
+    match reality, no_extra to be independently recomputed (not trusted),
+    and every extra candidate to carry a distinctness_witness_ref.
+    W-5's own entry shape (searcher_count/checker_count/matched_count/
+    no_extra/extra_candidates) is this implementer's adopted choice --
+    裁定133/134 do not literally specify W-5's fields (see module
+    docstring UNKNOWN list).
+    """
+    def _validate(w):
+        _require_dict(w, "total_coverage entry")
+        _require_keys(w, ["searcher_count", "checker_count", "matched_count"], "total_coverage entry")
+        sc = _require_int(w["searcher_count"], "total_coverage entry.searcher_count")
+        cc = _require_int(w["checker_count"], "total_coverage entry.checker_count")
+        mc = _require_int(w["matched_count"], "total_coverage entry.matched_count")
+        extras = w.get("extra_candidates", [])
+        if not isinstance(extras, list):
+            return "FAIL", {"reason": f"extra_candidates must be an array, got {type(extras).__name__}"}
+        extras_have_distinctness = True
+        for e in extras:
+            ref = e.get("distinctness_witness_ref") if isinstance(e, dict) else None
+            if not ref:
+                extras_have_distinctness = False
+        no_extra_recomputed = (mc == sc == cc)
+        matched_ok = actual_matched_count is None or mc == actual_matched_count
+        ok = matched_ok and no_extra_recomputed and (len(extras) == 0 or extras_have_distinctness)
+        detail = {
+            "searcher_count": sc, "checker_count": cc, "matched_count_claimed": mc,
+            "matched_count_actual_from_W1": actual_matched_count, "matched_ok": matched_ok,
+            "no_extra_recomputed": no_extra_recomputed,
+            "extras": len(extras), "extras_have_distinctness_ref": extras_have_distinctness,
+        }
+        return ("PASS" if ok else "FAIL"), detail
+    return _validate
+
+
+@fail_closed_pairmap
+def verify_W5(cert):
+    """W-5: total_coverage_and_no_extra_component_witness (singular, 2-entry
+    array), cross-checked against W-1's ACTUAL (recomputed) matched count."""
+    actual = _actual_bijection_entry_counts(cert)
     out = {}
     for tok in DIVISOR_OBJECT_TOKENS:
         result_pair = _check_singular_witness(
-            {"component_bijection": cert.get("component_bijection")},
-            "component_bijection",
-            _validate_bijection_entry_factory(totals[tok]),
+            {"total_coverage_and_no_extra_component_witness":
+                cert.get("total_coverage_and_no_extra_component_witness")},
+            "total_coverage_and_no_extra_component_witness",
+            _validate_coverage_entry_factory(actual[tok]),
         )
         out[tok] = result_pair[tok]
     return out
 
 
+def _validate_w6_entry_factory(actual_matched_count):
+    """
+    W-6 entry (裁定133 (i)): {divisor_object, status, points: [...]}.
+    `status` (if present) is a producer claim and is never trusted. Each
+    point is {role: "ramification"|"branch", multiplicity, and either
+    maps_to_branch_value (ramification) or branch_value (branch)} -- this
+    implementer's own reasonable reading of "points" (not literally
+    specified beyond the key name; flagged in module docstring UNKNOWN
+    list). PASS requires the pushforward sum recomputed from role=
+    "ramification" points to equal the declared role="branch" points,
+    AND (closing the exact empty-vs-empty vacuous-PASS hole 裁定127
+    identified in this function specifically) an entirely empty `points`
+    list is only accepted when W-1's actual matched count for this object
+    is also 0.
+    """
+    def _validate(w):
+        _require_dict(w, "W-6 entry")
+        _require_keys(w, ["points"], "W-6 entry")
+        points = _require_list(w["points"], "W-6 entry.points")
+        if len(points) == 0:
+            if actual_matched_count not in (0, None):
+                return "FAIL", {"reason": "points is empty, but W-1 shows "
+                                 f"matched_count={actual_matched_count!r} (!= 0) for this object -- "
+                                 "refusing a vacuous empty PASS"}
+        push, declared = {}, {}
+        for i, p in enumerate(points):
+            if not isinstance(p, dict) or "role" not in p or "multiplicity" not in p:
+                raise MalformedWitness(f"points[{i}] malformed (need role, multiplicity): {p!r}")
+            mult = _require_int(p["multiplicity"], f"points[{i}].multiplicity")
+            role = p["role"]
+            if role == "ramification":
+                if "maps_to_branch_value" not in p:
+                    raise MalformedWitness(f"points[{i}] role=ramification missing maps_to_branch_value")
+                bv = p["maps_to_branch_value"]
+                push[bv] = push.get(bv, 0) + mult
+            elif role == "branch":
+                if "branch_value" not in p:
+                    raise MalformedWitness(f"points[{i}] role=branch missing branch_value")
+                bv = p["branch_value"]
+                declared[bv] = mult
+            else:
+                raise MalformedWitness(f"points[{i}].role must be 'ramification' or 'branch', got {role!r}")
+        ok = set(push.keys()) == set(declared.keys()) and all(push[k] == declared[k] for k in push)
+        return ("PASS" if ok else "FAIL"), {"recomputed_pushforward": push, "declared_branch": declared}
+    return _validate
+
+
 @fail_closed_pairmap
 def verify_W6(cert):
-    """W-6: pushforward_compatibility_witness (裁定128 singular -> 2-entry array), cross-checked against W-5."""
-    totals = _declared_totals_by_object(cert)
+    """W-6: pushforward_compatibility_witness (裁定133 (i): {status, points}
+    shape), cross-checked against W-1's actual matched count."""
+    actual = _actual_bijection_entry_counts(cert)
     out = {}
     for tok in DIVISOR_OBJECT_TOKENS:
         result_pair = _check_singular_witness(
             {"pushforward_compatibility_witness": cert.get("pushforward_compatibility_witness")},
             "pushforward_compatibility_witness",
-            _validate_pushforward_entry_factory(totals[tok]),
+            _validate_w6_entry_factory(actual[tok]),
         )
         out[tok] = result_pair[tok]
     return out

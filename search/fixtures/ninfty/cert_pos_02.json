@@ -1,576 +1,579 @@
 {
-  "_description": "Self-made positive certificate fixture 2 (revised): two components (x=5, x=6), complete witness set (contract sec.4 requires ALL of W-1..W-6/W-2' to PASS for overall PASS -- ABSENT does not count as PASS, so every slot is populated here, unlike the single-component/no-distinctness-needed draft this replaced).",
+  "_description": "Self-made positive certificate fixture 2 (v2 shape), point loci at x=5 (mult 3) and x=6 (mult 1).",
   "certificate": {
     "predicate_spec_id": "mb/ninfty-stage2-predicate/v18",
     "predicate_spec_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
     "schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
-    "schema_digest": "placeholder-schema-digest-for-lane-b-unit-test",
-    "candidate_ref": "cert-pos-02",
-    "ambient_coordinate_ring_schema_id": "toy/Q[x]/v1",
-    "ambient_coordinate_ring_schema_digest": "toy-ring-digest-01",
-    "ambient_quotient_relations": "none (Q[x], no quotient)",
-    "coefficient_field_presentation_id": "Q/standard",
-    "coefficient_field_presentation_digest": "toy-field-digest-01",
-    "monomial_order_id": "lex-x",
-    "monomial_order_digest": "toy-order-digest-01",
-    "groebner_reduction_contract_id": "toy/reduce-to-zero/v1",
-    "groebner_reduction_contract_digest": "toy-reduction-digest-01",
-    "curve_model_digest": "toy-curve-digest-02",
+    "schema_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
+    "candidate_ref": "cert-pos-02-v2",
+    "curve_model_digest": "1adb0f33a8bc6b2f153c01e8df74f50fe31f62bb1f733de78597e0d7ad911259",
     "chart_ids": [
       "chart-A",
-      "chart-B",
-      "chart-C"
+      "chart-B"
+    ],
+    "ambient_coordinate_ring_schema_id": "mb/ninfty-laneb-toy/ambient-ring/v1",
+    "ambient_quotient_relations": "none (Q[x], no quotient) -- toy single-variable fixture",
+    "coefficient_field_presentation_id": "Q/standard",
+    "field_embedding_witness_schema_id": "mb/ninfty-laneb-toy/no-embedding-needed/v1",
+    "monomial_order_id": "lex-single-variable",
+    "groebner_reduction_contract_id": "mb/ninfty-laneb-toy/monic-poly-division/v1",
+    "ambient_coordinate_ring_schema_digest": "0982b60113401bb827fbe827141dd10998beb493ab85f8fa30db123063a844e0",
+    "coefficient_field_presentation_digest": "e985094b82cd3e3931e7f01bdb0626719adf19dc37587d135a45d724bfcbea4a",
+    "field_embedding_witness_schema_digest": "2d784be2928d822e22af06b077a2686e825babfea5580212867b0ead195b62f6",
+    "monomial_order_digest": "b3bbb342feb843f0ffe96c28e5eefd58dc25c201008cbd639a03ad2afea806bb",
+    "groebner_reduction_contract_digest": "2e9b4f3a7a75cc5fa1969cf5b9549ad14af4351b27f984559c40c15fbfc0f0b3",
+    "searcher_native": {
+      "ramification_divisor_on_C_ref": {
+        "components": [
+          {
+            "locus_type": "pt-x5",
+            "ideal_generator": [
+              "-5",
+              "1"
+            ],
+            "multiplicity": 3
+          },
+          {
+            "locus_type": "pt-x6",
+            "ideal_generator": [
+              "-6",
+              "1"
+            ],
+            "multiplicity": 1
+          }
+        ]
+      },
+      "branch_divisor_on_P1_ref": {
+        "components": [
+          {
+            "locus_type": "pt-x5",
+            "ideal_generator": [
+              "-5",
+              "1"
+            ],
+            "multiplicity": 3
+          },
+          {
+            "locus_type": "pt-x6",
+            "ideal_generator": [
+              "-6",
+              "1"
+            ],
+            "multiplicity": 1
+          }
+        ]
+      },
+      "native_schema_id": "mb/ninfty-laneb-toy/native-output/v1",
+      "native_schema_digest": null,
+      "native_artifact_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a"
+    },
+    "checker_native": {
+      "ramification_divisor_on_C_ref": {
+        "components": [
+          {
+            "locus_type": "pt-x5",
+            "ideal_generator": [
+              "-5",
+              "1"
+            ],
+            "multiplicity": 3
+          },
+          {
+            "locus_type": "pt-x6",
+            "ideal_generator": [
+              "-6",
+              "1"
+            ],
+            "multiplicity": 1
+          }
+        ]
+      },
+      "branch_divisor_on_P1_ref": {
+        "components": [
+          {
+            "locus_type": "pt-x5",
+            "ideal_generator": [
+              "-5",
+              "1"
+            ],
+            "multiplicity": 3
+          },
+          {
+            "locus_type": "pt-x6",
+            "ideal_generator": [
+              "-6",
+              "1"
+            ],
+            "multiplicity": 1
+          }
+        ]
+      },
+      "native_schema_id": "mb/ninfty-laneb-toy/native-output/v1",
+      "native_schema_digest": null,
+      "native_artifact_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a"
+    },
+    "component_bijection": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_index": 0,
+        "checker_index": 0,
+        "locus_type": "pt-x5"
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_index": 1,
+        "checker_index": 1,
+        "locus_type": "pt-x6"
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_index": 0,
+        "checker_index": 0,
+        "locus_type": "pt-x5"
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_index": 1,
+        "checker_index": 1,
+        "locus_type": "pt-x6"
+      }
     ],
     "exact_point_equality_witnesses": [
       {
-        "kind": "ideal-equality",
-        "form": "representation",
-        "tag": "reduction-to-zero",
-        "g": [
-          {
-            "coeff": 1,
-            "mono": [
-              1
-            ]
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "pt-x5",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-5",
+              "1"
+            ],
+            "divisor_monic": [
+              "-5",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
           },
-          {
-            "coeff": -5,
-            "mono": [
-              0
-            ]
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-5",
+              "1"
+            ],
+            "divisor_monic": [
+              "-5",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
           }
-        ],
-        "u": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "h": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                1
-              ]
-            },
-            {
-              "coeff": -5,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "divisor_object": "ramification_divisor_on_C_ref"
+        }
       },
       {
-        "kind": "ideal-equality",
-        "form": "representation",
-        "tag": "reduction-to-zero",
-        "g": [
-          {
-            "coeff": 1,
-            "mono": [
-              1
-            ]
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "pt-x6",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-6",
+              "1"
+            ],
+            "divisor_monic": [
+              "-6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
           },
-          {
-            "coeff": -6,
-            "mono": [
-              0
-            ]
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-6",
+              "1"
+            ],
+            "divisor_monic": [
+              "-6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
           }
-        ],
-        "u": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "h": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                1
-              ]
-            },
-            {
-              "coeff": -6,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "divisor_object": "ramification_divisor_on_C_ref"
+        }
       },
       {
-        "kind": "ideal-equality",
-        "form": "representation",
-        "tag": "reduction-to-zero",
-        "g": [
-          {
-            "coeff": 1,
-            "mono": [
-              1
-            ]
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "pt-x5",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-5",
+              "1"
+            ],
+            "divisor_monic": [
+              "-5",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
           },
-          {
-            "coeff": -5,
-            "mono": [
-              0
-            ]
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-5",
+              "1"
+            ],
+            "divisor_monic": [
+              "-5",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
           }
-        ],
-        "u": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "h": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                1
-              ]
-            },
-            {
-              "coeff": -5,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "divisor_object": "branch_divisor_on_P1_ref"
+        }
       },
       {
-        "kind": "ideal-equality",
-        "form": "representation",
-        "tag": "reduction-to-zero",
-        "g": [
-          {
-            "coeff": 1,
-            "mono": [
-              1
-            ]
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "pt-x6",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-6",
+              "1"
+            ],
+            "divisor_monic": [
+              "-6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
           },
-          {
-            "coeff": -6,
-            "mono": [
-              0
-            ]
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-6",
+              "1"
+            ],
+            "divisor_monic": [
+              "-6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
           }
-        ],
-        "u": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "h": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                1
-              ]
-            },
-            {
-              "coeff": -6,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "divisor_object": "branch_divisor_on_P1_ref"
+        }
       }
     ],
     "distinctness_witnesses": [
       {
-        "kind": "disjointness",
-        "u": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                0
-              ]
-            }
-          ],
-          [
-            {
-              "coeff": -1,
-              "mono": [
-                0
-              ]
-            }
-          ]
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "pair": [
+          0,
+          1
         ],
-        "g": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                1
-              ]
-            },
-            {
-              "coeff": -5,
-              "mono": [
-                0
-              ]
-            }
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "-5",
+            "1"
           ],
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                1
-              ]
-            },
-            {
-              "coeff": -6,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "divisor_object": "ramification_divisor_on_C_ref"
+          "generator_Q": [
+            "-6",
+            "1"
+          ],
+          "bezout_u": [
+            "1"
+          ],
+          "bezout_v": [
+            "-1"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
       },
       {
-        "kind": "disjointness",
-        "u": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                0
-              ]
-            }
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "pair": [
+          0,
+          1
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "-5",
+            "1"
           ],
-          [
-            {
-              "coeff": -1,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "g": [
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                1
-              ]
-            },
-            {
-              "coeff": -5,
-              "mono": [
-                0
-              ]
-            }
+          "generator_Q": [
+            "-6",
+            "1"
           ],
-          [
-            {
-              "coeff": 1,
-              "mono": [
-                1
-              ]
-            },
-            {
-              "coeff": -6,
-              "mono": [
-                0
-              ]
-            }
-          ]
-        ],
-        "divisor_object": "branch_divisor_on_P1_ref"
-      }
-    ],
-    "component_bijection": [
-      {
-        "domain_components": [
-          "S1",
-          "S2"
-        ],
-        "codomain_components": [
-          "T1",
-          "T2"
-        ],
-        "mapping": [
-          [
-            "S1",
-            "T1"
+          "bezout_u": [
+            "1"
           ],
-          [
-            "S2",
-            "T2"
-          ]
-        ],
-        "divisor_object": "ramification_divisor_on_C_ref"
-      },
-      {
-        "domain_components": [
-          "S1",
-          "S2"
-        ],
-        "codomain_components": [
-          "T1",
-          "T2"
-        ],
-        "mapping": [
-          [
-            "S1",
-            "T1"
+          "bezout_v": [
+            "-1"
           ],
-          [
-            "S2",
-            "T2"
-          ]
-        ],
-        "divisor_object": "branch_divisor_on_P1_ref"
+          "reduction_tag": "reduction-to-one"
+        }
       }
     ],
     "multiplicity_equalities": [
       {
-        "pair": [
-          "S1",
-          "T1"
-        ],
-        "mult_A": 3,
-        "mult_B": 3,
-        "divisor_object": "ramification_divisor_on_C_ref"
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "pt-x5",
+        "searcher_mult": 3,
+        "checker_mult": 3
       },
       {
-        "pair": [
-          "S2",
-          "T2"
-        ],
-        "mult_A": 1,
-        "mult_B": 1,
-        "divisor_object": "ramification_divisor_on_C_ref"
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "pt-x6",
+        "searcher_mult": 1,
+        "checker_mult": 1
       },
       {
-        "pair": [
-          "S1",
-          "T1"
-        ],
-        "mult_A": 3,
-        "mult_B": 3,
-        "divisor_object": "branch_divisor_on_P1_ref"
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "pt-x5",
+        "searcher_mult": 3,
+        "checker_mult": 3
       },
       {
-        "pair": [
-          "S2",
-          "T2"
-        ],
-        "mult_A": 1,
-        "mult_B": 1,
-        "divisor_object": "branch_divisor_on_P1_ref"
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "pt-x6",
+        "searcher_mult": 1,
+        "checker_mult": 1
       }
     ],
     "chart_overlap_witnesses": [
       {
-        "chart_pair": [
-          "chart-A",
-          "chart-B"
-        ],
-        "component_in_chart_a": "S1",
-        "component_in_chart_b": "S1",
-        "divisor_object": "ramification_divisor_on_C_ref"
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "status": "agree",
+        "per_overlap_witnesses": [
+          {
+            "chart_pair": [
+              "chart-A",
+              "chart-B"
+            ],
+            "component_in_chart_a": "pt-x5",
+            "component_in_chart_b": "pt-x5"
+          },
+          {
+            "chart_pair": [
+              "chart-A",
+              "chart-B"
+            ],
+            "component_in_chart_a": "pt-x6",
+            "component_in_chart_b": "pt-x6"
+          }
+        ]
       },
       {
-        "chart_pair": [
-          "chart-B",
-          "chart-C"
-        ],
-        "component_in_chart_a": "S2",
-        "component_in_chart_b": "S2",
-        "divisor_object": "ramification_divisor_on_C_ref"
-      },
-      {
-        "chart_pair": [
-          "chart-A",
-          "chart-B"
-        ],
-        "component_in_chart_a": "S1",
-        "component_in_chart_b": "S1",
-        "divisor_object": "branch_divisor_on_P1_ref"
-      },
-      {
-        "chart_pair": [
-          "chart-B",
-          "chart-C"
-        ],
-        "component_in_chart_a": "S2",
-        "component_in_chart_b": "S2",
-        "divisor_object": "branch_divisor_on_P1_ref"
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "status": "agree",
+        "per_overlap_witnesses": [
+          {
+            "chart_pair": [
+              "chart-A",
+              "chart-B"
+            ],
+            "component_in_chart_a": "pt-x5",
+            "component_in_chart_b": "pt-x5"
+          },
+          {
+            "chart_pair": [
+              "chart-A",
+              "chart-B"
+            ],
+            "component_in_chart_a": "pt-x6",
+            "component_in_chart_b": "pt-x6"
+          }
+        ]
       }
     ],
     "total_coverage_and_no_extra_component_witness": [
       {
-        "declared_total_components": 2,
-        "extra_candidates": [],
-        "divisor_object": "ramification_divisor_on_C_ref"
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_count": 2,
+        "checker_count": 2,
+        "matched_count": 2,
+        "no_extra": true,
+        "extra_candidates": []
       },
       {
-        "declared_total_components": 2,
-        "extra_candidates": [],
-        "divisor_object": "branch_divisor_on_P1_ref"
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_count": 2,
+        "checker_count": 2,
+        "matched_count": 2,
+        "no_extra": true,
+        "extra_candidates": []
       }
     ],
     "pushforward_compatibility_witness": [
       {
-        "ramification_points": [
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "status": "PASS",
+        "points": [
           {
-            "maps_to_branch_value": "bv5",
+            "role": "ramification",
+            "maps_to_branch_value": "pt-x5",
             "multiplicity": 3
           },
           {
-            "maps_to_branch_value": "bv6",
+            "role": "ramification",
+            "maps_to_branch_value": "pt-x6",
             "multiplicity": 1
-          }
-        ],
-        "branch_points": [
+          },
           {
-            "branch_value": "bv5",
+            "role": "branch",
+            "branch_value": "pt-x5",
             "multiplicity": 3
           },
           {
-            "branch_value": "bv6",
+            "role": "branch",
+            "branch_value": "pt-x6",
             "multiplicity": 1
           }
-        ],
-        "divisor_object": "ramification_divisor_on_C_ref"
+        ]
       },
       {
-        "ramification_points": [
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "status": "PASS",
+        "points": [
           {
-            "maps_to_branch_value": "bv5",
+            "role": "ramification",
+            "maps_to_branch_value": "pt-x5",
             "multiplicity": 3
           },
           {
-            "maps_to_branch_value": "bv6",
+            "role": "ramification",
+            "maps_to_branch_value": "pt-x6",
             "multiplicity": 1
-          }
-        ],
-        "branch_points": [
+          },
           {
-            "branch_value": "bv5",
+            "role": "branch",
+            "branch_value": "pt-x5",
             "multiplicity": 3
           },
           {
-            "branch_value": "bv6",
+            "role": "branch",
+            "branch_value": "pt-x6",
             "multiplicity": 1
           }
-        ],
-        "divisor_object": "branch_divisor_on_P1_ref"
+        ]
       }
     ],
-    "searcher_native": {
-      "native_schema_id": "mb/ninfty-stage2-predicate/v18#searcher-native-stand-in",
-      "native_schema_digest": "lane-b-stand-in-schema-not-authoritative",
-      "ramification_divisor_on_C_ref": "native_a.ramification_divisor_on_C",
-      "branch_divisor_on_P1_ref": "native_a.branch_divisor_on_P1",
-      "native_artifact_digest": "8d43a4283eae005387841e2760a15cada140dfdf65a7f738cc6aa453ba3e7072"
-    },
-    "checker_native": {
-      "native_schema_id": "search/ninfty-checker.py#run_checker-output/v1",
-      "native_schema_digest": "35682140d621e5657852014ccb1ff6c403622d87490d6262ee5fb123c0f3f207",
-      "ramification_divisor_on_C_ref": "native_b.rootpart_a / native_b.pushforward_detail",
-      "branch_divisor_on_P1_ref": "native_b.pushforward_detail.declared_branch",
-      "native_artifact_digest": "62d383e74433f23e6667accd4e3dc2d2869ddbef1d3f443a9d6fc02152835c29"
-    }
+    "certificate_digest": "77376e6eb4e7baefbefb69083ae54fea5927744b37c8449d3c7c53e84a19431b"
   },
   "native_a": {
-    "_stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
-    "candidate_ref": "cert-pos-02",
-    "lane": "A (searcher) -- STAND-IN, not authoritative",
-    "ramification_divisor_on_C": [
-      {
-        "maps_to_branch_value": "bv5",
-        "multiplicity": 3
-      },
-      {
-        "maps_to_branch_value": "bv6",
-        "multiplicity": 1
-      }
-    ],
-    "branch_divisor_on_P1": [
-      {
-        "branch_value": "bv5",
-        "multiplicity": 3
-      },
-      {
-        "branch_value": "bv6",
-        "multiplicity": 1
-      }
-    ]
+    "ramification_divisor_on_C_ref": {
+      "components": [
+        {
+          "locus_type": "pt-x5",
+          "ideal_generator": [
+            "-5",
+            "1"
+          ],
+          "multiplicity": 3
+        },
+        {
+          "locus_type": "pt-x6",
+          "ideal_generator": [
+            "-6",
+            "1"
+          ],
+          "multiplicity": 1
+        }
+      ]
+    },
+    "branch_divisor_on_P1_ref": {
+      "components": [
+        {
+          "locus_type": "pt-x5",
+          "ideal_generator": [
+            "-5",
+            "1"
+          ],
+          "multiplicity": 3
+        },
+        {
+          "locus_type": "pt-x6",
+          "ideal_generator": [
+            "-6",
+            "1"
+          ],
+          "multiplicity": 1
+        }
+      ]
+    }
   },
   "native_b": {
-    "checker_id": "search/ninfty-checker.py",
-    "algorithm": "euclid-gcd+yun-squarefree-elimination",
-    "precondition_detail": {
-      "pell_constant_is_nonzero": true
+    "ramification_divisor_on_C_ref": {
+      "components": [
+        {
+          "locus_type": "pt-x5",
+          "ideal_generator": [
+            "-5",
+            "1"
+          ],
+          "multiplicity": 3
+        },
+        {
+          "locus_type": "pt-x6",
+          "ideal_generator": [
+            "-6",
+            "1"
+          ],
+          "multiplicity": 1
+        }
+      ]
     },
-    "divisor_orientation_status": "attested-true",
-    "T1_detail": {
-      "deg_gcd_a_ap": 2,
-      "deg_gcd_a_ap_app": 0
-    },
-    "rootpart_a": [
-      2,
-      2,
-      1
-    ],
-    "T2_detail": {
-      "deg_pd": 4,
-      "deg_ap": 4
-    },
-    "pushforward_detail": {
-      "status": "UNKNOWN",
-      "reason": "no native artifact supplied"
-    },
-    "rh_identity_value": 12,
-    "stage": null,
-    "reason_codes": [],
-    "primary_reason_code": null,
-    "unknown": [
-      "T-3 (p-locus): point-level construction not implemented (needs root-finding over Qbar)",
-      "T-4 (Weierstrass locus): not implemented (needs root-finding over Qbar)",
-      "T-5 (two-infinity, e=5): not implemented",
-      "T-6 (harmonic pair): sealed value, out of scope by contact discipline",
-      "full checker_native divisor construction (ramification_divisor_on_C / branch_divisor_on_P1 from scratch): NOT IMPLEMENTED -- only pushforward consistency of an already-declared native artifact is checked",
-      "E-5 (divisor orientation): not re-derivable from (a,p,f6) alone; caller-attested only"
-    ],
-    "checker_native_digest": "c84b10a4f961e982dcf35e1836011d8750a6344d3c4619fee50abab8c1aca1ed",
-    "_provenance": "literal output of search/ninfty-checker.py run_checker() on search/fixtures/ninfty/checker_pos_02.json"
-  },
-  "_shape_note": "Certificate witness fields follow docs/notes/cert_shape_interpretation_v1.md (\u88c1\u5b9a128 interim interface): flat arrays with a 'divisor_object' tag per entry; component_bijection / total_coverage_and_no_extra_component_witness / pushforward_compatibility_witness are 2-entry arrays (one per token). Migrated by search/fixtures/ninfty/migrate_cert_shape_v128.py."
+    "branch_divisor_on_P1_ref": {
+      "components": [
+        {
+          "locus_type": "pt-x5",
+          "ideal_generator": [
+            "-5",
+            "1"
+          ],
+          "multiplicity": 3
+        },
+        {
+          "locus_type": "pt-x6",
+          "ideal_generator": [
+            "-6",
+            "1"
+          ],
+          "multiplicity": 1
+        }
+      ]
+    }
+  }
 }

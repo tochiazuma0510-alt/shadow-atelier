@@ -330,44 +330,50 @@ def plural_entries_for_token(c, field, tok):
     return [e for e in c[field] if isinstance(e, dict) and e.get("divisor_object") == tok]
 
 
-# --- W-1 (component_bijection, singular -> 2-entry array) ---
+# --- W-1 (component_bijection, 裁定133 (g): plural, per-pair entries) ---
 inject("W-1: key entirely deleted", "W-1",
        lambda c: c.pop("component_bijection"))
 inject("W-1: wrong type (string instead of array)", "W-1",
        lambda c: c.__setitem__("component_bijection", "not-an-array"))
-inject("W-1: both per-object entries missing 'mapping' sub-key", "W-1",
-       lambda c: [e.pop("mapping") for e in singular_entries(c, "component_bijection")])
-inject("W-1: mapping wrong type (dict instead of list, both entries)", "W-1",
-       lambda c: [e.__setitem__("mapping", {"Q1": "R1"}) for e in singular_entries(c, "component_bijection")])
-inject("W-1: malformed mapping entry (not a 2-element pair, both entries)", "W-1",
-       lambda c: [e.__setitem__("mapping", [["Q1"]]) for e in singular_entries(c, "component_bijection")])
-inject("W-1: adversarial empty-vs-empty (domain/codomain/mapping all cleared "
-       "on both per-object entries, but declared_total_components still "
-       "nonzero elsewhere)", "W-1",
-       lambda c: [(e.__setitem__("domain_components", []),
-                   e.__setitem__("codomain_components", []),
-                   e.__setitem__("mapping", []))
-                  for e in singular_entries(c, "component_bijection")])
-inject("W-1 [裁定128]: divisor_object tag removed from both entries "
+inject("W-1: all entries missing 'checker_index' sub-key", "W-1",
+       lambda c: [e.pop("checker_index") for e in c["component_bijection"]])
+inject("W-1 [裁定133]: duplicate searcher_index within one object (breaks "
+       "injectivity; only the ramification_divisor_on_C_ref token is "
+       "affected by construction)", "W-1",
+       lambda c: plural_entries_for_token(c, "component_bijection", TOKENS[0])[1]
+                 .__setitem__("searcher_index", 0),
+       require_all_objects_not_pass=False)
+inject("W-1: entirely emptied for both objects, but W-5 still claims nonzero "
+       "matched_count elsewhere (adversarial empty-vs-nonzero)", "W-1",
+       lambda c: c.__setitem__("component_bijection", []))
+inject("W-1 [裁定128]: divisor_object tag removed from all entries "
        "(unattributed -- must not be silently dropped)", "W-1",
-       lambda c: [e.pop("divisor_object") for e in singular_entries(c, "component_bijection")])
-inject("W-1 [裁定128]: duplicate entries for the same divisor_object token "
+       lambda c: [e.pop("divisor_object") for e in c["component_bijection"]])
+inject("W-1 [裁定133]: count mismatch vs W-5's claimed matched_count "
        "(only the ramification_divisor_on_C_ref token is affected by "
-       "construction -- the other token's single entry is untouched)", "W-1",
-       lambda c: c["component_bijection"].append(copy.deepcopy(c["component_bijection"][0])),
+       "construction -- an extra entry is appended for that token only)", "W-1",
+       lambda c: c["component_bijection"].append(
+           {"divisor_object": TOKENS[0], "searcher_index": 99, "checker_index": 99, "locus_type": "phantom"}),
        require_all_objects_not_pass=False)
 
-# --- W-2 (exact_point_equality_witnesses, plural, divisor_object-tagged) ---
+# --- W-2 (exact_point_equality_witnesses, 裁定133 (h): nested witness) ---
 inject("W-2: key entirely deleted", "W-2",
        lambda c: c.pop("exact_point_equality_witnesses"))
 inject("W-2: wrong type (dict instead of list -- lane-A-shape crash repro)", "W-2",
        lambda c: c.__setitem__("exact_point_equality_witnesses", {"w0": {"kind": "ideal-equality"}}))
 inject("W-2: list of strings instead of list of objects", "W-2",
        lambda c: c.__setitem__("exact_point_equality_witnesses", ["not-an-object", "also-not"]))
-inject("W-2: all entries missing 'u' key", "W-2",
-       lambda c: [e.pop("u", None) for e in c["exact_point_equality_witnesses"]])
-inject("W-2: all entries 'tag' invalid value", "W-2",
-       lambda c: [e.__setitem__("tag", "not-a-real-tag") for e in c["exact_point_equality_witnesses"]])
+inject("W-2: all entries missing nested 'witness' key", "W-2",
+       lambda c: [e.pop("witness") for e in c["exact_point_equality_witnesses"]])
+inject("W-2: witness present but 'forward' missing", "W-2",
+       lambda c: [e["witness"].pop("forward") for e in c["exact_point_equality_witnesses"]])
+inject("W-2: forward.tag invalid value", "W-2",
+       lambda c: [e["witness"]["forward"].__setitem__("tag", "not-a-real-tag")
+                  for e in c["exact_point_equality_witnesses"]])
+inject("W-2: forward dividend tampered so identity fails (claimed 'ok':true is "
+       "NOT trusted)", "W-2",
+       lambda c: [e["witness"]["forward"].__setitem__("dividend", ["999", "1"])
+                  for e in c["exact_point_equality_witnesses"]])
 inject("W-2 [裁定128]: divisor_object tag removed from all entries "
        "(unattributed -- must not be silently dropped)", "W-2",
        lambda c: [e.pop("divisor_object") for e in c["exact_point_equality_witnesses"]])
@@ -375,49 +381,58 @@ inject("W-2 [裁定128]: divisor_object tag set to an unrecognized value", "W-2"
        lambda c: [e.__setitem__("divisor_object", "not-a-real-token")
                   for e in c["exact_point_equality_witnesses"]])
 
-# --- W-2' (distinctness_witnesses, plural, divisor_object-tagged) ---
+# --- W-2' (distinctness_witnesses, 裁定133 (h) family, nested witness) ---
 inject("W-2': key entirely deleted", "W-2prime",
        lambda c: c.pop("distinctness_witnesses", None))
 inject("W-2': wrong type (dict instead of list)", "W-2prime",
        lambda c: c.__setitem__("distinctness_witnesses", {"d0": {}}))
-inject("W-2': all entries missing 'g' key", "W-2prime",
-       lambda c: c.__setitem__("distinctness_witnesses",
-                                [{"kind": "disjointness", "divisor_object": tok,
-                                  "u": [[{"coeff": 1, "mono": [0]}]]} for tok in TOKENS]))
+inject("W-2': all entries missing nested 'witness' key", "W-2prime",
+       lambda c: [e.pop("witness") for e in c["distinctness_witnesses"]])
+inject("W-2': bezout_u tampered so u*P+v*Q != 1 (claimed 'ok':true NOT trusted)", "W-2prime",
+       lambda c: [e["witness"].__setitem__("bezout_u", ["999"]) for e in c["distinctness_witnesses"]])
 
-# --- W-3 (multiplicity_equalities, plural, divisor_object-tagged) ---
+# --- W-3 (multiplicity_equalities, 裁定134 (j): searcher_mult/checker_mult) ---
 inject("W-3: key entirely deleted", "W-3",
        lambda c: c.pop("multiplicity_equalities"))
 inject("W-3: wrong type (dict instead of list -- lane-A-shape crash repro)", "W-3",
        lambda c: c.__setitem__("multiplicity_equalities", {"Q1": 1, "Q2": 2}))
-inject("W-3: entries missing 'mult_B'", "W-3",
+inject("W-3: entries missing 'checker_mult'", "W-3",
        lambda c: c.__setitem__("multiplicity_equalities",
-                                [{"pair": ["Q1", "R1"], "mult_A": 1, "divisor_object": tok} for tok in TOKENS]))
-inject("W-3: mult_A is a non-numeric string", "W-3",
+                                [{"locus_type": "pt-x1", "searcher_mult": 1, "divisor_object": tok}
+                                 for tok in TOKENS]))
+inject("W-3: searcher_mult is a non-numeric string", "W-3",
        lambda c: c.__setitem__("multiplicity_equalities",
-                                [{"pair": ["Q1", "R1"], "mult_A": "one", "mult_B": 1,
+                                [{"locus_type": "pt-x1", "searcher_mult": "one", "checker_mult": 1,
                                   "divisor_object": tok} for tok in TOKENS]))
 inject("W-3 [裁定128]: divisor_object tag removed from all entries", "W-3",
        lambda c: [e.pop("divisor_object") for e in c["multiplicity_equalities"]])
 
-# --- W-4 (chart_overlap_witnesses, plural, divisor_object-tagged) ---
+# --- W-4 (chart_overlap_witnesses, 裁定133 (i): {status, per_overlap_witnesses}) ---
 inject("W-4: wrong type (dict instead of list -- lane-A-shape crash repro)", "W-4",
        lambda c: c.__setitem__("chart_overlap_witnesses", {"c0": {}}))
-inject("W-4: entries missing 'component_in_chart_b'", "W-4",
-       lambda c: c.__setitem__("chart_overlap_witnesses",
-                                [{"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "Q1",
-                                  "divisor_object": tok} for tok in TOKENS]))
+inject("W-4: entries missing 'per_overlap_witnesses'", "W-4",
+       lambda c: [e.pop("per_overlap_witnesses") for e in c["chart_overlap_witnesses"]])
+inject("W-4: per_overlap_witnesses entry missing 'component_in_chart_b'", "W-4",
+       lambda c: [e.__setitem__("per_overlap_witnesses",
+                                 [{"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "Q1"}])
+                  for e in c["chart_overlap_witnesses"]])
+inject("W-4: per_overlap_witnesses present but empty (no overlap claim to verify)", "W-4",
+       lambda c: [e.__setitem__("per_overlap_witnesses", []) for e in c["chart_overlap_witnesses"]])
 
 # --- W-5 (total_coverage_and_no_extra_component_witness, singular -> 2-entry array) ---
 inject("W-5: key entirely deleted", "W-5",
        lambda c: c.pop("total_coverage_and_no_extra_component_witness"))
 inject("W-5: wrong type (dict instead of array)", "W-5",
        lambda c: c.__setitem__("total_coverage_and_no_extra_component_witness", {"a": 1}))
-inject("W-5: both per-object entries missing 'declared_total_components'", "W-5",
-       lambda c: [e.pop("declared_total_components")
+inject("W-5: both per-object entries missing 'matched_count'", "W-5",
+       lambda c: [e.pop("matched_count")
                   for e in singular_entries(c, "total_coverage_and_no_extra_component_witness")])
 inject("W-5: extra_candidates entry with no distinctness_witness_ref (both entries)", "W-5",
        lambda c: [e.__setitem__("extra_candidates", [{"id": "phantom"}])
+                  for e in singular_entries(c, "total_coverage_and_no_extra_component_witness")])
+inject("W-5: searcher_count/checker_count/matched_count deliberately inconsistent "
+       "(no_extra should recompute to false)", "W-5",
+       lambda c: [e.__setitem__("searcher_count", 99)
                   for e in singular_entries(c, "total_coverage_and_no_extra_component_witness")])
 inject("W-5 [裁定128]: duplicate entries for the same divisor_object token "
        "(only the ramification_divisor_on_C_ref token is affected by "
@@ -426,22 +441,25 @@ inject("W-5 [裁定128]: duplicate entries for the same divisor_object token "
            copy.deepcopy(c["total_coverage_and_no_extra_component_witness"][0])),
        require_all_objects_not_pass=False)
 
-# --- W-6 (pushforward_compatibility_witness, singular -> 2-entry array) ---
+# --- W-6 (pushforward_compatibility_witness, 裁定133 (i): {status, points}) ---
 inject("W-6: key entirely deleted", "W-6",
        lambda c: c.pop("pushforward_compatibility_witness"))
 inject("W-6: wrong type (dict instead of array -- lane-A-shape crash repro)", "W-6",
        lambda c: c.__setitem__("pushforward_compatibility_witness", {"a": 1}))
-inject("W-6: both per-object entries missing 'branch_points' sub-key", "W-6",
-       lambda c: [e.pop("branch_points")
+inject("W-6: both per-object entries missing 'points' sub-key", "W-6",
+       lambda c: [e.pop("points")
                   for e in singular_entries(c, "pushforward_compatibility_witness")])
-inject("W-6: adversarial empty-vs-empty (ramification_points/branch_points both "
-       "cleared on both per-object entries, but total_coverage still declares "
-       "nonzero components)", "W-6",
-       lambda c: [(e.__setitem__("ramification_points", []), e.__setitem__("branch_points", []))
+inject("W-6: adversarial empty-vs-empty (points cleared on both per-object "
+       "entries, but W-1 still shows nonzero matched components)", "W-6",
+       lambda c: [e.__setitem__("points", [])
                   for e in singular_entries(c, "pushforward_compatibility_witness")])
-inject("W-6: ramification_points entry with non-integer multiplicity (both entries)", "W-6",
-       lambda c: [e.__setitem__("ramification_points",
-                                 [{"maps_to_branch_value": "b1", "multiplicity": "two"}])
+inject("W-6: a 'ramification' point with non-integer multiplicity (both entries)", "W-6",
+       lambda c: [e.__setitem__("points",
+                                 [{"role": "ramification", "maps_to_branch_value": "b1", "multiplicity": "two"}])
+                  for e in singular_entries(c, "pushforward_compatibility_witness")])
+inject("W-6: a point with an unrecognized 'role' value (both entries)", "W-6",
+       lambda c: [e.__setitem__("points",
+                                 [{"role": "sideways", "maps_to_branch_value": "b1", "multiplicity": 1}])
                   for e in singular_entries(c, "pushforward_compatibility_witness")])
 inject("W-6 [裁定128]: divisor_object tag removed from both entries", "W-6",
        lambda c: [e.pop("divisor_object") for e in singular_entries(c, "pushforward_compatibility_witness")])

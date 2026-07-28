@@ -13,3 +13,6 @@ v1(裁定 128)の界面に **entry 内部の副形状**を追加裁定(witness-g
 
 ## 追補 (j)(裁定 134)
 (j) **multiplicity_equalities の entry 欄名** = `{locus_type, divisor_object, searcher_mult, checker_mult}`(lane の測定主体を明示する側を採用 — mult_A/mult_B 形は廃止)。
+
+## 追補 (k)(裁定 135)
+(k) **W-5 の欄名** = `{searcher_count, checker_count, matched_count, no_extra}`(lane B 実装者選択を追認・Sol 確認点に追加)。
