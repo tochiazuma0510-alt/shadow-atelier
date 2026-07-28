@@ -496,3 +496,40 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   commit未実施。
 
 ## 2026-07-26 -- E2 class-6 j=3 本走査(発射・FIRE_e2c6j3.auth解錠、implementer実行): 線型段可解20/64(m={0,1,7,9,15,16,17,23,25,31,32,33,39,41,47,48,49,55,57,63})・k_wガード発火0件・重複度表に4種の(ob_a,ob_b)キー出現("0,0"20件・"0,1"20件・"1,0"/"1,1"各8件、全零単独の系は0件)・M8-b/c/d実データ版(m=0,1,7,9,15,16の6系)全PASS(M8-d判定でOR→AND修理を自己発見・全証明書再生成)・GAP側全証明書96件+node独立検算(check-e2c6j3.mjs)全PASS・GAP内部経過35750ms(本走査+M8実データ部分30156ms)・sweep_j3_m*64件連結SHA256=eaca0f396510f2d6e5c13052323405c086578d47839e6af5cb50c49c9ed48941・certificates/e2c6j3/全96件連結SHA256=1add4bf7923454c4474bf244bfd59009bef883bcb2b6840b45ed2af5aa3144a7。封印§F7との照合は実施していない(裁定時に司令塔が行う)。commit未実施。
+
+## 2026-07-28 -- I-1 族窓観測 + I-3 先行手(等号検査)実装(implementer実行)
+
+- 入口条件: search/suite-wp1.g を `.\gap.ps1` 経由で再実行、WP1 ALL PASSED を確認(回帰健全)。
+- **I-3 等号検査**(search/mixed-equality-check.g 新設): B3 の (psi_4, psi_3) の像を
+  D4^3 x D3^3(21点)内に生成元 x,y から直接構成(c は両写像で単位元に落ちるため寄与なし)。
+  |Im(psi_4,psi_3)| = 864 を実測。事前登録済み比較値(provenance/registered/universe_I1_I3.md
+  記載の 6912 = 4*12^3)とは**不一致 → 判定 NOT_EQUAL**。ただしこのセッション内で
+  MakeGn(12) を参考構成すると |G_12| = 864(WP1 の既知値と一致)であり、imageSize と
+  完全一致した。**設計上の疑義として報告**: 6912 は n=12(偶数)に奇数用の式 4n^3 を
+  誤って当てはめた値である可能性が高く、n=12 の正しい式(偶数用 4*(n/2)^3)による
+  |G_12|=864 と imageSize=864 が厳密一致することは、K^(12) = K^(4) ∩ K^(3) が
+  **実は等号として成立している**ことを強く示唆する観測事実である(指数の一致に
+  頼らず像そのものを構成した結果としての一致であり、Sol 警告の「指数の偶然一致」の
+  トラップには該当しない)。この解釈・登録比較値の訂正要否は司令塔/数学者の判断に委ねる。
+  証明書: search/certs/i3_equality_20260728.json。
+- **I-1 族窓観測**(search/family-window-survey.g 新設): n in {3,5,7,9,11} の全てで
+  較正ゲート |P_n|=4n^3 PASS。列挙述語①[P_n:H]=2n ②自己正規化 ③<X_n>推移的 を
+  満たす H を SubgroupsSolvableGroup(Size による事後フィルタ併用・IndexEqual/OrderEqual
+  オプションは GAP 4.16.0 で機能しないことを実測確認)+ RightTransversal による
+  自己正規化共役類の厳密展開(2n 個)+ 個体ごとの FactorCosetAction 推移性検査で列挙。
+  **実測**: n=3→12, n=5→40, n=7→84, n=9→144, n=11→220。**事前登録仮説(該当個数=4n)は
+  n=3(12=12)でのみ一致し、n=5,7,9,11(20,28,36,44 との比較)は全て不一致**。実測値は
+  2n(n-1) の形(n=3:12, n=5:40, n=7:84, n=9:144, n=11:220 が厳密に一致)に見えるが、
+  これは観測記述であり定理主張ではない(解釈は司令塔/数学者へ)。各 n で該当 H は
+  複数の P_n-共役類に分かれ(n=3:2類・各6個、n=5:4類・各10個、n=7:6類・各14個、
+  n=9:8類・各18個、n=11:10類・各22個)、いずれも「フルサイズ=passing」(自己正規化
+  共役類の中で一部だけ通る例はこの5点では観測されず、通るときは全通り)。
+  証明書: search/certs/i1_survey_20260728.json。UNKNOWN 該当なし(全 n で較正ゲート PASS)。
+- 実行時間: family-window-survey.g 全体で秒単位(n=9 が最重で約4秒)・shard 化不要・
+  600秒 cap に対し大幅余裕。
+- ハッシュ: search/mixed-equality-check.g = `387b4d98ce43b663471ecdadb5727a49c0e0ca4351a5d6940e8ca4d90a434934`、
+  search/family-window-survey.g = `a2a88a7035cbf898a58915dd1ceae10b2f3abe65bd068bc100fa6aa18bdebca7`、
+  search/certs/i3_equality_20260728.json = `55235296ab6ab82f8a4c54e4c04b4e63855b81b8a2b1a76fbdbbc61c9858b6cd`、
+  search/certs/i1_survey_20260728.json = `2272695979c8d5664d00f4bb4876990d3826bbc9644b46f8e742a58c9cc50a74`。
+- 照合器(node/python)未実装 — 両証明書は candidate のまま(cross-checked 昇格は後日)。
+- commit未実施。
