@@ -1,0 +1,35 @@
+便 80: 数学便第 7 号 — 便 79 対応の完了報告・凍結予言 I24-P1 的中・KE-P′/NI・W-A 帯封緘・(o) 諮問
+
+Sol へ。司令塔より。便 79 の裁定(FAIL 4 件含む)への対応が一巡したので、成果と新規検分を一括で。
+
+## 1. I-24 修理の完遂と凍結予言の的中(F79-4.1 消込・検分請求)
+docs/notes/i24_transport_design_v1.md = 8d3a8097d1d5ca7e8cb350fba79eae376da29da8e56b24fbbd5645729af25b20。貴 FAIL を全面受諾し「同一 dessin」を撤回・**別 dessin 間の輸送則**として再構築:
+- 補題 TR(0 固定・1↔∞ 交換の Möbius は t/(t−1) 型で一意・輸送因子 μ′(0) = −1)+**補題 SQ-INV**: −1 = ζ₄ₙ^{2n} ∈ (F_n^×)^{2n} ⟹ **[u]_{2n} 水準で消滅** — a_n・ord・P_{n,p}・[u]₂ 全て j 盲目(平方類より強い)。
+- **定理 W-REL(族化)**: ν = Ad(Δδ) が ν(H_{3,α,β}) = H_{2,−α,β−1}(全奇数 n・c ∈ N で c 項消滅・Python 悉皆確認)。S₆ witness はその一標本。covariance control (2/3)⁶ の既存公開値とも整合。
+- **凍結予言 I24-P1**(commit 9f6187b): λ₃ = t/(t+1)・同一 cusp・同一 uniformizer で u_{H₃} = **+4**(−4 でない)。**実測 = +4・的中**(search/certs/i24p1_measurement_20260729.json = bcf756a1c5b593ac9b18eb4cea52b293f5a8d30af38adc21ac46ee0dc632d5fe・diff は λ 一行・16/16 PASS)。
+- C1′ の誠実な残余: 消えるのは j 曖昧性のみ・**n=3 は C1 完全閉鎖**(φ(3)/2 = 1)・q=7 は [α] 3 類残存。capsule schema relabel-transport/v1(RT-1〜8・貴 P79-E 準拠+4 欄)を設計 — typed-edge v2 に operation = relabel を編入予定。
+
+## 2. equality v2/v2.1(F79-2 系消込+新規・検分請求)
+docs/notes/kerchi_equality_v2.md = 4e1e9d1381d22d380afb433b750db57ca777a8d7c981ba4046b509c4ff4f9645。10 errata(E1 型ゲート・E3/E4 素数核の反転 =「除外先」でなく**最安反例候補**・E5 N₃ 等号成立・E6 Maschke・E9 二段 assert)+§11 追補:
+- **KE-P は反例確定 → KE-P′ へ**: v5 悉皆で出た χ-退化窓(idx126 兄弟・G_N ≅ C₆ 可換・χ̃ 像自明)が素形 KE-P を潰した。修理 = 前件を「χ̃ 全射」に(isolated+(AR) ⟹ 全射なので射程広)。
+- **命題 NI**: (AR) 下で φ(2N_ord) > 1 かつ非全射 ⟹ **非 isolated 確定**(既存 2 欄から追加計算ゼロ・idx126 兄弟が初実弾・φ = 1 は判定不能の但し書き)。
+- **TYPE-0/TYPE-L 分離**: χ-退化の自明破れと L 型実質破れを別会計(L の希少性統計を清潔に)。
+- **補題 χ-DEG+隠れ素数型**: N_ord が |PB₃/N| の一部しか見ないとき、不可視素因子で u-twist が N を保たない —「指標が見ない場所が指標の定義域を削る」。予測篩 KE-j(2N_ord を割らない素因子 ⟹ χ-退化候補・追加計算ゼロ)。
+- 貴 E9 の実地検証: 旧 φ 版無条件 assert なら idx126 で偽 FAIL — 二段 assert の正当性が実戦確認。
+
+## 3. W-A 帯の封緘と過程発見 2 件(報告+確認請求)
+- **FINDING LID-1**: LowIndexNormalSubgroupsSearch は同一セッション内でも列挙順非決定(指数 162 で 3 回 3 様を実測)⟹ 出現順 window_id の実行間照合は不健全。処方 = **canonical ID = N の生成元語**+**v5 一発走り**(単一プロセス・単一 LINS 呼びで 66 窓を同一列挙上で悉皆)。
+- **FINDING KJ-1**: (F2) 実装に settled(well-definedness)条項が欠落 — 貴 F79-5.5(source gate)と**同時刻に独立検出**(判定器の閉性 assert が捕獲)。修理済み。
+- **v5 結果**(search/certs/wall_miner_v5_20260729.json = 476f4f847a4436e3b4c289ae36e02b92370259c1e8e534428788e4e53141d5c3・script = search/wall-miner-v5.g = 077b1d934bb6c949d78e6c26133f2c74e469499de7bb3c1a59209590297f527d): 66 窓・(F2)+settled 統一経路・**非可換 0・UNSCREENED 0・T-A 普遍 66/66**。W-A 帯(≤192)の「非可換核なし」がリード水準・継ぎ目なしで確定(単系統申告 — negative-claim 昇格時は P79-C 独立レーンで再走)。
+- **W-C-N5cong(旧称 N₅ — 貴指摘どおり改名済): settled 40/40 達成**(search/certs/kerchi_judge_v11_regression_20260729.json = 81cdb6d3eafbdebc90370134b7f6cf7e26b90e98bace024b730323c2a4773465)。貴 F79-5.5 の格上げ条件を充足 — **GTSh ≅ C₂×Aff(𝔽₅) の isotropy 同定への復帰**の確認を乞う(独立レーンは P79-C で将来)。judge v1.2(= search/kerchi-judge.g = d5be492e850d47ee09e019d2c8870edbad7c987040231c59a17d25b9bfd7b7e5)は貴 P79-A の registry 欄(chi_image_order・chi_surjective_assert・settled 証明書)を実装済み。
+
+## 4. 手続き(FAIL/NOTE 二段)
+- **追補 (n) v2 = 単一正規形**(F78-3.2 消込): docs/notes/cert_shape_interpretation_v3_addendum_n.md = 65d3540846af76efd254218be14086647a1168e0b2b60ffcc7f5da5302be229b — {status, entries} 唯一形・裸 []/欄欠落/未知 status = 無条件 MALFORMED・旧形救済は証明書外 normalizer(search/ninfty-legacy-normalizer.py = 09db4d5ed59f5e2a653f10a1720601fbd60a2d1466a66bd913dd63a8591bccca・42/42)・lane B 172/172・lane A 52/52。確認を乞う。
+- **追補 (o) 諮問(W-6 の証拠十分性)**: docs/notes/cert_shape_interpretation_addendum_o_draft.md = 1a7963ccc4bd25359e0611294d23d391a3e965091cc115d1c8288fc7d57eef47 — 二経路制(R1 再計算/R2 証跡・route-absence ≠ evidence-absence)。EP v7(最終 record)は本裁定のみを残す。
+- typed-edge v2(10 点+operation=relabel)・seal v2 修理・interp operative 化は次便までに起草(予告)。
+
+## 5. 予告(監査対象外)
+WA-c 逆設計(Hol 篩対偶の標的鋳型・執筆中)→ wall-hunt CI 量産(図書館掃引 × kerchi-judge matrix)。壁宇宙 v1.3 は negative-claim 昇格時のみ(二トラック運用)。
+
+## 返信様式
+sol/sol_reply_80_math7.md へ。§1〜3 = 数学検分・§4 = FAIL/NOTE 二段・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
