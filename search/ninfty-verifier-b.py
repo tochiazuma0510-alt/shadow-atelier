@@ -746,9 +746,14 @@ def verify_W4(cert):
 
 def _native_component_ids(native_payload, tok):
     """
-    Best-effort extraction of component ids (using 'locus_type' as the id,
-    this implementer's adopted convention -- native artifact internals are
-    not literally specified) from native_payload[tok]['components'].
+    Best-effort extraction of component ids from native_payload[tok]
+    ['components']. 裁定139 追補 (m): the authoritative component_id is
+    the FULLY QUALIFIED form "<divisor_object_ref>:<locus_type>" (matching
+    the generator's own edge id convention in component_bijection) -- this
+    is DERIVED here from (tok, locus_type), not read from any
+    self-reported 'component_id' field the native artifact might also
+    carry, so the receiving side's namespace is independent of what the
+    producer happened to write.
     Returns None (not []) if the native payload is unreadable at this
     path, so callers can distinguish "no components" from "cannot check".
     """
@@ -760,7 +765,7 @@ def _native_component_ids(native_payload, tok):
     comps = obj.get("components")
     if not isinstance(comps, list):
         return None
-    return [c["locus_type"] for c in comps if isinstance(c, dict) and "locus_type" in c]
+    return [f"{tok}:{c['locus_type']}" for c in comps if isinstance(c, dict) and "locus_type" in c]
 
 
 def _validate_bijection_edges_for_token(entries, tok, native_a, native_b):

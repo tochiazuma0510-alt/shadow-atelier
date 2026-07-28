@@ -194,16 +194,20 @@ def assemble(candidate_ref, curve_label, points, mismatches=None):
 
     n = len(points)
 
-    # W-1 component_bijection (裁定139 item 6: EDGE list, native-digest bound).
+    # W-1 component_bijection (裁定139 item 6 + 追補 (m): EDGE list,
+    # native-digest bound, component_id = fully-qualified
+    # "<divisor_object_ref>:<locus_type>" matching verify_W1's
+    # independently-derived native reconstruction).
     component_bijection = []
     for tok in TOKENS:
         for (lt, gen, sm, cm) in points:
+            qualified_id = f"{tok}:{lt}"
             component_bijection.append({
                 "divisor_object": tok,
                 "searcher_native_digest": native_a_digest,
-                "searcher_component_id": lt,
+                "searcher_component_id": qualified_id,
                 "checker_native_digest": native_b_digest,
-                "checker_component_id": lt,
+                "checker_component_id": qualified_id,
             })
     cert["component_bijection"] = component_bijection
 

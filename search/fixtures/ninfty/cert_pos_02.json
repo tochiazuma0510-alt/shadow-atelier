@@ -136,30 +136,30 @@
       {
         "divisor_object": "ramification_divisor_on_C_ref",
         "searcher_native_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a",
-        "searcher_component_id": "pt-x5",
+        "searcher_component_id": "ramification_divisor_on_C_ref:pt-x5",
         "checker_native_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a",
-        "checker_component_id": "pt-x5"
+        "checker_component_id": "ramification_divisor_on_C_ref:pt-x5"
       },
       {
         "divisor_object": "ramification_divisor_on_C_ref",
         "searcher_native_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a",
-        "searcher_component_id": "pt-x6",
+        "searcher_component_id": "ramification_divisor_on_C_ref:pt-x6",
         "checker_native_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a",
-        "checker_component_id": "pt-x6"
+        "checker_component_id": "ramification_divisor_on_C_ref:pt-x6"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
         "searcher_native_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a",
-        "searcher_component_id": "pt-x5",
+        "searcher_component_id": "branch_divisor_on_P1_ref:pt-x5",
         "checker_native_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a",
-        "checker_component_id": "pt-x5"
+        "checker_component_id": "branch_divisor_on_P1_ref:pt-x5"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
         "searcher_native_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a",
-        "searcher_component_id": "pt-x6",
+        "searcher_component_id": "branch_divisor_on_P1_ref:pt-x6",
         "checker_native_digest": "25d2f0d6df6570af8385e9d2b3af548cdd04ae48c9833abc8dbf1d0d0144a24a",
-        "checker_component_id": "pt-x6"
+        "checker_component_id": "branch_divisor_on_P1_ref:pt-x6"
       }
     ],
     "exact_point_equality_witnesses": [
@@ -546,7 +546,7 @@
         }
       }
     ],
-    "certificate_digest": "9d3059e9213c9ba310b558b2d41a38ba9b8d9d62775a9f8d03e5fa0b063cb5b9"
+    "certificate_digest": "1f38def540e17bfa2b15bfef7e83a8933176260430ff0134506e620bb0d65197"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

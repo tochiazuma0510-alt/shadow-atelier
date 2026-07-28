@@ -168,44 +168,44 @@
       {
         "divisor_object": "ramification_divisor_on_C_ref",
         "searcher_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "searcher_component_id": "pt-x7",
+        "searcher_component_id": "ramification_divisor_on_C_ref:pt-x7",
         "checker_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "checker_component_id": "pt-x7"
+        "checker_component_id": "ramification_divisor_on_C_ref:pt-x7"
       },
       {
         "divisor_object": "ramification_divisor_on_C_ref",
         "searcher_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "searcher_component_id": "pt-x8",
+        "searcher_component_id": "ramification_divisor_on_C_ref:pt-x8",
         "checker_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "checker_component_id": "pt-x8"
+        "checker_component_id": "ramification_divisor_on_C_ref:pt-x8"
       },
       {
         "divisor_object": "ramification_divisor_on_C_ref",
         "searcher_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "searcher_component_id": "pt-x9",
+        "searcher_component_id": "ramification_divisor_on_C_ref:pt-x9",
         "checker_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "checker_component_id": "pt-x9"
+        "checker_component_id": "ramification_divisor_on_C_ref:pt-x9"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
         "searcher_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "searcher_component_id": "pt-x7",
+        "searcher_component_id": "branch_divisor_on_P1_ref:pt-x7",
         "checker_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "checker_component_id": "pt-x7"
+        "checker_component_id": "branch_divisor_on_P1_ref:pt-x7"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
         "searcher_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "searcher_component_id": "pt-x8",
+        "searcher_component_id": "branch_divisor_on_P1_ref:pt-x8",
         "checker_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "checker_component_id": "pt-x8"
+        "checker_component_id": "branch_divisor_on_P1_ref:pt-x8"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
         "searcher_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "searcher_component_id": "pt-x9",
+        "searcher_component_id": "branch_divisor_on_P1_ref:pt-x9",
         "checker_native_digest": "71a72ad9bf1f9f3198989f1ae81cd28209a752e19b8a20480adfa3e9293af882",
-        "checker_component_id": "pt-x9"
+        "checker_component_id": "branch_divisor_on_P1_ref:pt-x9"
       }
     ],
     "exact_point_equality_witnesses": [
@@ -808,7 +808,7 @@
         }
       }
     ],
-    "certificate_digest": "1e6913d117d18d20c8e15901e9c52a2e35793880e323ff73dd2dc89d5b5bb234"
+    "certificate_digest": "253ad3f103423dfa894e4dc61104483ce09bfaa8d401e5944c29d64b5f5f8b63"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

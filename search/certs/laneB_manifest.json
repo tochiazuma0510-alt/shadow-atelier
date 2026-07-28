@@ -10,13 +10,13 @@
     "note_scope": "This manifest covers verify-B's implementation closure (the object contract sec.7's independence requirement is about) as its primary subject, and lists ninfty-checker.py as a second, separately-produced artifact for the same lane. checker.py's own implementation closure is NOT subject to the two-verifier independence requirement (that requirement is specifically about verifier A vs verifier B, contract sec.7); it is included here for completeness/audit only.",
     "toolchain_provenance_note": "toolchain_digest = sha256 of the exact CPython 3.13 interpreter binary (sys.executable) used to run/test this lane-B code, computed by this maintenance script (search/certs/_apply_toolchain_fix.py) and machine-verifiable by any receiving side with access to the same interpreter binary. Path recorded for provenance (path is NOT part of identity per dependency-manifest v13 H-2d -- only the digest is). sys.executable path at generation time: C:\\Users\\81905\\AppData\\Local\\Programs\\Python\\Python313\\python.exe (size 105696 bytes).",
     "not_attempted_or_unknown_update": "toolchain_digest is now a real content digest (directive 115 fix 1); source_closure_digest (D-1) and implementation_lineage_digest (D-2) are now filled in per each entry (producer-declared reference values, sec.2.1/2.2 -- receiving side must still independently recompute and compare per E-8''; these are NOT a substitute for that recomputation).",
-    "subject_digest_refresh_note": "subject_code_digest and the corresponding entry refreshed from b6a1044b2eb96419e108734fc7c8d867b01ce03ec3eea9cfa2f959fe2342d9c1 to 980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7 after \u88c1\u5b9a127 (fail-open/crash fixes) and \u88c1\u5b9a128 (cert_shape_interpretation_v1 reshape) edits to search/ninfty-verifier-b.py."
+    "subject_digest_refresh_note": "subject_code_digest and the corresponding entry refreshed from 980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7 to dfa7643c96c1542b67d7a18787c28e88ef6111b90be353a7954d640150e12902 after \u88c1\u5b9a127 (fail-open/crash fixes) and \u88c1\u5b9a128 (cert_shape_interpretation_v1 reshape) edits to search/ninfty-verifier-b.py."
   },
   "dependency_manifest": {
     "schema_id": "mb/dependency-manifest/v13",
     "schema_digest": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
     "subject_id": "search/ninfty-verifier-b.py",
-    "subject_code_digest": "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7",
+    "subject_code_digest": "dfa7643c96c1542b67d7a18787c28e88ef6111b90be353a7954d640150e12902",
     "build_definition_blob_digest": null,
     "pinned_input_digests": [],
     "build_root_id": null,
@@ -26,17 +26,17 @@
     "build_record_present": false,
     "entries": [
       {
-        "content_digest": "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7",
+        "content_digest": "dfa7643c96c1542b67d7a18787c28e88ef6111b90be353a7954d640150e12902",
         "role": "math-helper",
         "_role_note": "The file's own multivariate polynomial engine (mv_add/mv_sub/mv_mul/mv_mono_mul/mv_eq/mv_is_zero/mv_is_one) and the ideal-equality/disjointness replay routines (verify_membership_by_representation, verify_membership_by_reduction, verify_W2/W2'/W1/W3/W4/W5/W6) are math-helper role by dependency-manifest sec.5.1 H-3a (canonicalizer/ideal-operation/reduction/divisor/partition logic). This is the entry that MUST have empty intersection with lane A's (verifier A, node runtime) closure under I-3a (contract sec.7 C-3'''/H-3).",
         "source_artifact_digests": [
-          "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7"
+          "dfa7643c96c1542b67d7a18787c28e88ef6111b90be353a7954d640150e12902"
         ],
         "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
         "build_step_digests": [],
         "build_record_present": false,
-        "source_closure_digest": "6c4555afbd13061021fc3a75ff3280b91da74eddc49cbce6eba7959041644b75",
-        "implementation_lineage_digest": "8cb614a07b16fd5ec3a9592de3ee44283641ac9843b2606564e00f9fc5b565d2",
+        "source_closure_digest": "3bcbf31723ee918d5550c5493a009b88c9b61bae12e15f3a1392a297e66fab87",
+        "implementation_lineage_digest": "5a925e7970cf51b179fab62af5cde162d75af865493817017d7c8da445362de4",
         "build_root_id": null,
         "implementation_family_id": null,
         "provenance": {
@@ -65,7 +65,7 @@
         "outgoing_dependency_attestation": "stdlib leaf; no further outgoing dependencies enumerated by this manifest (bootstrap leaf, sec.2.34 QD-3).",
         "depth": 1,
         "reached_via": [
-          "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7"
+          "dfa7643c96c1542b67d7a18787c28e88ef6111b90be353a7954d640150e12902"
         ]
       },
       {
@@ -85,7 +85,7 @@
         "outgoing_dependency_attestation": "stdlib leaf.",
         "depth": 1,
         "reached_via": [
-          "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7"
+          "dfa7643c96c1542b67d7a18787c28e88ef6111b90be353a7954d640150e12902"
         ]
       },
       {
@@ -105,7 +105,7 @@
         "outgoing_dependency_attestation": "stdlib leaf.",
         "depth": 1,
         "reached_via": [
-          "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7"
+          "dfa7643c96c1542b67d7a18787c28e88ef6111b90be353a7954d640150e12902"
         ]
       },
       {
@@ -125,7 +125,7 @@
         "outgoing_dependency_attestation": "stdlib leaf.",
         "depth": 1,
         "reached_via": [
-          "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7"
+          "dfa7643c96c1542b67d7a18787c28e88ef6111b90be353a7954d640150e12902"
         ]
       },
       {
