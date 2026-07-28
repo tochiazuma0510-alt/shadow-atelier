@@ -533,3 +533,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   search/certs/i1_survey_20260728.json = `2272695979c8d5664d00f4bb4876990d3826bbc9644b46f8e742a58c9cc50a74`。
 - 照合器(node/python)未実装 — 両証明書は candidate のまま(cross-checked 昇格は後日)。
 - commit未実施。
+
+## 2026-07-28 Actions 工場(壁キャンペーン)
+- 煙試験 PASS: run 30370327355(65 秒)。gap-actions/setup-gap@v3.8.0 で GAP **4.16.0** 公式 tarball(sha256 検証つき)をソースビルド・lins **0.9** — ローカルと完全同版。
+- 二環境一致: B₃ 正規部分群 指数≤24 = **33 本**(CI smoke)= ローカル probe(wall_probe_20260728.json)。
+- workflow: .github/workflows/wall-smoke.yml・証明書は artifact 回収方式。runner = ubuntu-latest(4 vCPU/16GB・public repo 無制限)。
