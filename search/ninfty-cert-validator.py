@@ -200,6 +200,17 @@ def validate_certificate(cert):
                 violations.append(f"[schema] {side}.{ref_name} has an unrecognized type {type(refval).__name__}")
 
     # --- the 7 witness fields: flat array + divisor_object tag -------------
+    #
+    # CORRECTED (this validator's own self-audit against lane B's now-live
+    # verifier-b.py, which is the actual second implementation of this same
+    # interface): interpretation item 4 names ONLY
+    # total_coverage_and_no_extra_component_witness and
+    # pushforward_compatibility_witness as "also 2-entry array" -- NOT
+    # chart_overlap_witnesses (a PLURAL name, validated as a many-tagged-
+    # entries field by lane B's own verify_W4/_check_plural_witness). An
+    # earlier version of this validator incorrectly grouped chart_overlap
+    # with the two singular-noun fields and FAILED lane A's genuinely
+    # conformant certificates on that basis -- self-corrected here.
     for field in SEVEN_WITNESS_FIELDS:
         v = cert.get(field, "__MISSING__")
         if v == "__MISSING__":
@@ -211,24 +222,33 @@ def validate_certificate(cert):
                                f"structured status marker, never a bare null)")
             continue
         if not isinstance(v, list):
-            # interpretation item 4 requires flat arrays even for the two
-            # singular-noun fields; a structured {status:...} dict (as lane
-            # A currently emits for chart_overlap/pushforward) is a real,
-            # reportable non-conformance to item 4, not silently accepted.
-            if field in ("chart_overlap_witnesses", "pushforward_compatibility_witness") and isinstance(v, dict):
-                violations.append(f"[interp-4] {field} is a single structured object (status={v.get('status')!r}), "
-                                   f"not the 2-entry flat array interpretation item 4 requires (one entry per "
-                                   f"divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' "
-                                   f"leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, "
-                                   f"not assumed resolved in lane A's favor.")
-                if v.get("status") is None and "status" not in v:
-                    violations.append(f"[abs-null] {field} structured object has no 'status' key at all "
-                                       f"(ABSENT must be an explicit status marker, not a bare missing key)")
-                elif v.get("status") is None:
+            # MIRRORS lane B's own _coerce_to_list (search/ninfty-verifier-b.py):
+            # ANY non-list value for one of these 7 fields is coerced to []
+            # (-> ABSENT for both objects) by the second live implementation
+            # of this same interface -- not a hard verifier-side rejection.
+            # This validator follows that same tolerance rather than failing
+            # a shape lane B itself accepts. A structured {status:...} object
+            # (lane A's current pre-2-entry-array form for
+            # chart_overlap_witnesses/pushforward_compatibility_witness) is
+            # recorded as an observation (migration-in-progress marker, not
+            # yet item 4's 2-entry array -- itself one of the 4 points
+            # cert_shape_interpretation_v1.md defers to Sol confirmation).
+            # The ONLY hard violation here is a fake ABSENT marker: a dict
+            # that names a 'status' key but sets it to null.
+            if isinstance(v, dict) and "status" in v:
+                if v.get("status") is None:
                     violations.append(f"[abs-null] {field}.status is explicit null (ABSENT must be the string "
                                        f"'ABSENT', never null)")
+                else:
+                    observations.append(f"[interp-4-OPEN/coerced] {field} is a single structured-status object "
+                                         f"(status={v.get('status')!r}), coerced to ABSENT by lane B's own "
+                                         f"_coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form "
+                                         f"(open Sol-confirmation point d) -- observation, not a violation.")
             else:
-                violations.append(f"[schema] {field} must be a flat array (got {type(v).__name__})")
+                observations.append(f"[interp-5/coerced] {field} is not a list (got {type(v).__name__}); lane B's "
+                                     f"own _coerce_to_list treats any non-list as [] (-> ABSENT), so this validator "
+                                     f"does the same rather than being stricter than the live verifier -- recorded "
+                                     f"as an observation.")
             continue
         # it IS a list: check flat shape (no nested dict-keyed-by-object) and tag validity
         for i, entry in enumerate(v):

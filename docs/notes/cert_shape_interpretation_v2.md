@@ -10,3 +10,6 @@ v1(裁定 128)の界面に **entry 内部の副形状**を追加裁定(witness-g
 
 ## Sol への確認点(v1 の 6 点に追加)
 (g)(h)(i) の副形状裁定の可否・特に nested witness と平置きの選択。
+
+## 追補 (j)(裁定 134)
+(j) **multiplicity_equalities の entry 欄名** = `{locus_type, divisor_object, searcher_mult, checker_mult}`(lane の測定主体を明示する側を採用 — mult_A/mult_B 形は廃止)。

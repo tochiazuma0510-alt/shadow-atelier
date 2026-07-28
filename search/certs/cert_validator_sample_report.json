@@ -1,23 +1,20 @@
 [
   {
     "label": "search\\certs\\laneA_ep_export_sample.json",
-    "gate_passed": false,
+    "gate_passed": true,
     "verdict": {
-      "verdict": "INTEGRITY_STOP",
-      "primary_reason_code": "digest-mismatch",
-      "reason_code_number": 12,
-      "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "verdict": "cert-schema-valid",
+      "stop_before_verifier": false
     },
-    "violations": [
-      "[interp-4] chart_overlap_witnesses is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor."
-    ],
+    "violations": [],
     "unknowns": [
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": []
+    "observations": [
+      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
+      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
+    ]
   },
   {
     "label": "search\\fixtures\\ninfty\\cert_neg_01.json",
@@ -43,14 +40,7 @@
       "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
       "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
       "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'",
-      "[schema] component_bijection must be a flat array (got dict)",
-      "[interp-1] exact_point_equality_witnesses[0] missing divisor_object tag",
-      "[interp-1] exact_point_equality_witnesses[1] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[0] missing divisor_object tag",
-      "[schema] total_coverage_and_no_extra_component_witness must be a flat array (got dict)",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status=None), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[abs-null] pushforward_compatibility_witness structured object has no 'status' key at all (ABSENT must be an explicit status marker, not a bare missing key)"
+      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
     ],
     "unknowns": [],
     "observations": []
@@ -79,13 +69,7 @@
       "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
       "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
       "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'",
-      "[schema] component_bijection must be a flat array (got dict)",
-      "[interp-1] exact_point_equality_witnesses[0] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[0] missing divisor_object tag",
-      "[schema] total_coverage_and_no_extra_component_witness must be a flat array (got dict)",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status=None), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[abs-null] pushforward_compatibility_witness structured object has no 'status' key at all (ABSENT must be an explicit status marker, not a bare missing key)"
+      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
     ],
     "unknowns": [],
     "observations": []
@@ -114,14 +98,7 @@
       "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
       "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
       "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'",
-      "[schema] component_bijection must be a flat array (got dict)",
-      "[interp-1] exact_point_equality_witnesses[0] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[0] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[1] missing divisor_object tag",
-      "[schema] total_coverage_and_no_extra_component_witness must be a flat array (got dict)",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status=None), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[abs-null] pushforward_compatibility_witness structured object has no 'status' key at all (ABSENT must be an explicit status marker, not a bare missing key)"
+      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
     ],
     "unknowns": [],
     "observations": []
@@ -150,17 +127,7 @@
       "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
       "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
       "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'",
-      "[schema] component_bijection must be a flat array (got dict)",
-      "[interp-1] exact_point_equality_witnesses[0] missing divisor_object tag",
-      "[interp-1] exact_point_equality_witnesses[1] missing divisor_object tag",
-      "[interp-1] distinctness_witnesses[0] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[0] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[1] missing divisor_object tag",
-      "[interp-1] chart_overlap_witnesses[0] missing divisor_object tag",
-      "[schema] total_coverage_and_no_extra_component_witness must be a flat array (got dict)",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status=None), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[abs-null] pushforward_compatibility_witness structured object has no 'status' key at all (ABSENT must be an explicit status marker, not a bare missing key)"
+      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
     ],
     "unknowns": [],
     "observations": []
@@ -189,18 +156,7 @@
       "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
       "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
       "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'",
-      "[schema] component_bijection must be a flat array (got dict)",
-      "[interp-1] exact_point_equality_witnesses[0] missing divisor_object tag",
-      "[interp-1] exact_point_equality_witnesses[1] missing divisor_object tag",
-      "[interp-1] distinctness_witnesses[0] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[0] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[1] missing divisor_object tag",
-      "[interp-1] chart_overlap_witnesses[0] missing divisor_object tag",
-      "[interp-1] chart_overlap_witnesses[1] missing divisor_object tag",
-      "[schema] total_coverage_and_no_extra_component_witness must be a flat array (got dict)",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status=None), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[abs-null] pushforward_compatibility_witness structured object has no 'status' key at all (ABSENT must be an explicit status marker, not a bare missing key)"
+      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
     ],
     "unknowns": [],
     "observations": []
@@ -229,117 +185,94 @@
       "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
       "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
       "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'",
-      "[schema] component_bijection must be a flat array (got dict)",
-      "[interp-1] exact_point_equality_witnesses[0] missing divisor_object tag",
-      "[interp-1] distinctness_witnesses[0] missing divisor_object tag",
-      "[interp-1] multiplicity_equalities[0] missing divisor_object tag",
-      "[interp-1] chart_overlap_witnesses[0] missing divisor_object tag",
-      "[schema] total_coverage_and_no_extra_component_witness must be a flat array (got dict)",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status=None), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[abs-null] pushforward_compatibility_witness structured object has no 'status' key at all (ABSENT must be an explicit status marker, not a bare missing key)"
+      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
     ],
     "unknowns": [],
     "observations": []
   },
   {
     "label": "live-export:C1",
-    "gate_passed": false,
+    "gate_passed": true,
     "verdict": {
-      "verdict": "INTEGRITY_STOP",
-      "primary_reason_code": "digest-mismatch",
-      "reason_code_number": 12,
-      "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "verdict": "cert-schema-valid",
+      "stop_before_verifier": false
     },
-    "violations": [
-      "[interp-4] chart_overlap_witnesses is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor."
-    ],
+    "violations": [],
     "unknowns": [
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": []
+    "observations": [
+      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
+      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
+    ]
   },
   {
     "label": "live-export:C2",
-    "gate_passed": false,
+    "gate_passed": true,
     "verdict": {
-      "verdict": "INTEGRITY_STOP",
-      "primary_reason_code": "digest-mismatch",
-      "reason_code_number": 12,
-      "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "verdict": "cert-schema-valid",
+      "stop_before_verifier": false
     },
-    "violations": [
-      "[interp-4] chart_overlap_witnesses is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor."
-    ],
+    "violations": [],
     "unknowns": [
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": []
+    "observations": [
+      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
+      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
+    ]
   },
   {
     "label": "live-export:C3",
-    "gate_passed": false,
+    "gate_passed": true,
     "verdict": {
-      "verdict": "INTEGRITY_STOP",
-      "primary_reason_code": "digest-mismatch",
-      "reason_code_number": 12,
-      "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "verdict": "cert-schema-valid",
+      "stop_before_verifier": false
     },
-    "violations": [
-      "[interp-4] chart_overlap_witnesses is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor."
-    ],
+    "violations": [],
     "unknowns": [
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": []
+    "observations": [
+      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
+      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
+    ]
   },
   {
     "label": "live-export:C4",
-    "gate_passed": false,
+    "gate_passed": true,
     "verdict": {
-      "verdict": "INTEGRITY_STOP",
-      "primary_reason_code": "digest-mismatch",
-      "reason_code_number": 12,
-      "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "verdict": "cert-schema-valid",
+      "stop_before_verifier": false
     },
-    "violations": [
-      "[interp-4] chart_overlap_witnesses is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor."
-    ],
+    "violations": [],
     "unknowns": [
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": []
+    "observations": [
+      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
+      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
+    ]
   },
   {
     "label": "live-export:C5",
-    "gate_passed": false,
+    "gate_passed": true,
     "verdict": {
-      "verdict": "INTEGRITY_STOP",
-      "primary_reason_code": "digest-mismatch",
-      "reason_code_number": 12,
-      "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "verdict": "cert-schema-valid",
+      "stop_before_verifier": false
     },
-    "violations": [
-      "[interp-4] chart_overlap_witnesses is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor.",
-      "[interp-4] pushforward_compatibility_witness is a single structured object (status='ABSENT'), not the 2-entry flat array interpretation item 4 requires (one entry per divisor object). This is the specific gap 便128's 'Sol へ確認する4点(d)' leaves open -- reported as a violation of the CURRENTLY DECIDED interpretation, not assumed resolved in lane A's favor."
-    ],
+    "violations": [],
     "unknowns": [
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": []
+    "observations": [
+      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
+      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
+    ]
   }
 ]

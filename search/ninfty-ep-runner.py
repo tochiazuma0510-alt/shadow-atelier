@@ -1,7 +1,38 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-search/ninfty-ep-runner.py  (v2, 裁定124 修理版)
+search/ninfty-ep-runner.py  (v3, 裁定127/128 対応版)
+
+v3 CHANGES (司令塔指示, both lanes having migrated to the
+docs/notes/cert_shape_interpretation_v1.md flat-array+divisor_object-tag
+outer container):
+  - cert-schema validator GATE wired in: search/ninfty-cert-validator.py's
+    validate_certificate() runs on EVERY certificate BEFORE it is passed to
+    ANY verifier (forward or reverse). Gate FAIL -> [12] digest-mismatch
+    recorded, verifier NOT invoked for that certificate, in either direction.
+  - the old ad-hoc schema converters (lanea_object_cert_to_laneb_flat,
+    laneb_cert_to_lanea_style, etc.) are REMOVED. Both lanes now claim to
+    speak the same outer interface, so gate-passed certificates are fed
+    to the OTHER lane's verifier UNMODIFIED -- this is the only way to
+    honestly answer the coordinator's question ("did witness-structure
+    concordance improve from missing-agreement/ABSENT to genuine structural
+    agreement, now that real data flows both ways without a receiving-side
+    conversion layer built to paper over gaps"). Where the two lanes'
+    inner witness/bijection micro-schemas still diverge (found live during
+    this v3 pass: component_bijection sub-schema, ideal-equality/
+    disjointness witness nesting, multiplicity field names), this is
+    reported as a genuine, precise, ROOT-CAUSED finding, not smoothed over.
+  - a SEPARATE diagnostic-only section (clearly labeled, gate-bypassed) is
+    additionally run for certificates that FAIL the gate, purely to record
+    what the raw structural interaction looks like -- never presented as
+    part of the official gated EP verdict.
+  - N76-5.3 checklist and input_bundle_digest recomputed against the new
+    file set (adds search/ninfty-cert-validator.py).
+  - search/ninfty-witness-gen.py (mentioned as in-progress by the
+    coordinator) is checked for; if absent, recorded PENDING/UNKNOWN and
+    this run does not wait for it.
+
+v2 CHANGES (司令塔裁定124, addressing sol/sol_reply_76_math3.md F5 total FAIL):
 
 EP (endorsement point) runner -- RECEIVING-SIDE reconciliation of lane A
 (node: search/ninfty-searcher-v2.mjs + search/ninfty-verifier-a.mjs) and
@@ -71,6 +102,7 @@ Output: prints a human-readable report to stdout and writes
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import io
 import json
 import re
@@ -97,8 +129,16 @@ LANEA_EVAL_MJS = CERTS / "ep-lanea-eval-candidate.mjs"
 MANIFEST_COMPILER = SEARCH / "ninfty-manifest-compiler.py"
 LANEA_DRAFT = CERTS / "laneA_manifest_v2_draft.json"
 LANEB_DRAFT = CERTS / "laneB_manifest_v2_draft.json"
+CERT_VALIDATOR = SEARCH / "ninfty-cert-validator.py"
+WITNESS_GEN = SEARCH / "ninfty-witness-gen.py"
+LANEA_VERIFY_CERT_MJS = CERTS / "ep-lanea-verify-cert.mjs"
 
 WITNESS_ORDER = ["W-1", "W-2", "W-2'", "W-3", "W-4", "W-5", "W-6"]
+
+# --- import the cert-schema validator as a library (裁定127/128 gate) -------
+_spec = importlib.util.spec_from_file_location("ninfty_cert_validator", str(CERT_VALIDATOR))
+cert_validator = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(cert_validator)
 
 
 # ---------------------------------------------------------------------------
@@ -386,364 +426,128 @@ def cross_fixture_native_verdict(lanea_export):
 
 
 # ===========================================================================
-# [3/5] forward verifier cross-check: lane A's 5 cert fixtures -> verifier B
+# [3/6] cert-schema validator GATE (裁定127/128) -- runs on EVERY candidate
+#       certificate BEFORE any verifier call, in BOTH directions.
 # ===========================================================================
 
-def poly_coeffs_to_terms(coeffs):
-    terms = []
-    for deg, c in enumerate(coeffs):
-        if c not in ("0", 0):
-            terms.append({"coeff": c, "mono": [deg]})
-    if not terms:
-        terms = [{"coeff": "0", "mono": [0]}]
-    return terms
-
-
-def lanea_direction_witness_to_laneb(direction):
-    quotient = direction["quotient"]
-    divisor_monic = direction["divisor_monic"]
-    dividend = direction["dividend"]
-    divisor_terms = poly_coeffs_to_terms(divisor_monic)
-    steps = []
-    for deg, qc in enumerate(quotient):
-        if qc not in ("0", 0):
-            steps.append({"coeff": qc, "mono": [deg], "generator": divisor_terms})
+def gate_certificate(cert, label):
+    gate_passed, violations, unknowns, observations = cert_validator.validate_certificate(cert)
+    verdict = cert_validator.make_verdict(gate_passed, violations)
     return {
-        "kind": "ideal-equality", "form": "reduction-to-zero",
-        "tag": direction.get("tag", "reduction-to-zero"),
-        "g": poly_coeffs_to_terms(dividend), "steps": steps,
+        "label": label, "gate_passed": gate_passed, "verdict": verdict,
+        "violations": violations, "unknowns": unknowns, "observations": observations,
     }
 
 
-def lanea_object_cert_to_laneb_flat(cert, object_name):
-    """Convert lane A's per-object certificate slice into lane B verifier's
-    FLAT (single-object) schema. v2: chart_overlap_witnesses /
-    pushforward_compatibility_witness are now STRUCTURED (kind/status/entries,
-    裁定115 item2). When status=='ABSENT' this is lane A's own honest
-    native-scope ABSENT (no chart/point data exists at all) -- NOT a
-    conversion gap, and is reported as such (F76-5.5: distinguish "we could
-    not convert" from "there is genuinely nothing to convert")."""
-    gaps = []
-    native_absent = []
-
-    eq_witnesses_lanea = cert["exact_point_equality_witnesses"][object_name]
-    exact_point_equality_witnesses = []
-    for entry in eq_witnesses_lanea:
-        w = entry["witness"]
-        if w.get("kind") != "ideal-equality":
-            gaps.append(f"non-ideal-equality witness kind in {object_name}: {w.get('kind')}")
-            continue
-        exact_point_equality_witnesses.append(lanea_direction_witness_to_laneb(w["forward"]))
-        exact_point_equality_witnesses.append(lanea_direction_witness_to_laneb(w["backward"]))
-
-    dist_lanea = cert["distinctness_witnesses"][object_name]
-    distinctness_witnesses = []
-    for entry in dist_lanea:
-        w = entry["witness"]
-        if w.get("kind") != "disjointness":
-            gaps.append(f"non-disjointness witness kind in {object_name} distinctness")
-            continue
-        distinctness_witnesses.append({
-            "kind": "disjointness",
-            "u": [poly_coeffs_to_terms(w["bezout_u"]), poly_coeffs_to_terms(w["bezout_v"])],
-            "g": [poly_coeffs_to_terms(w["generator_P"]), poly_coeffs_to_terms(w["generator_Q"])],
-        })
-
-    bij_lanea = cert["component_bijection"][object_name]
-    component_bijection = {
-        "domain_components": [b["searcher_index"] for b in bij_lanea],
-        "codomain_components": [b["checker_index"] for b in bij_lanea],
-        "mapping": [[b["searcher_index"], b["checker_index"]] for b in bij_lanea],
-    }
-
-    me_lanea = cert["multiplicity_equalities"][object_name]
-    multiplicity_equalities = [
-        {"pair": [m["locus_type"], m["locus_type"]], "mult_A": m["searcher_mult"], "mult_B": m["checker_mult"]}
-        for m in me_lanea
-    ]
-
-    cov_lanea = cert["total_coverage_and_no_extra_component_witness"][object_name]
-    total_coverage_and_no_extra_component_witness = {
-        "declared_total_components": cov_lanea["searcher_count"],
-        "extra_candidates": [],
-    }
-    if not cov_lanea["no_extra"]:
-        gaps.append(f"{object_name}: no_extra=false could not be converted (no distinctness_witness_ref cross-reference in lane A schema for extras)")
-
-    # W-4: structured chart_overlap_witnesses (kind/status/per_overlap_witnesses)
-    chart_w = cert.get("chart_overlap_witnesses") or {}
-    chart_overlap_witnesses_flat = None
-    if chart_w.get("status") == "ABSENT" or not chart_w.get("per_overlap_witnesses"):
-        native_absent.append(f"{object_name}: W-4 is genuinely ABSENT at lane A's native scope "
-                              f"(reason: {chart_w.get('reason', 'no per-overlap witness data exists')}) "
-                              f"-- not a conversion gap, there is nothing to convert.")
-    else:
-        chart_overlap_witnesses_flat = [
-            {"chart_pair": [ow.get("chart_a"), ow.get("chart_b")],
-             "component_in_chart_a": ow.get("component_a"), "component_in_chart_b": ow.get("component_b")}
-            for ow in chart_w["per_overlap_witnesses"]
-        ]
-
-    # W-6: structured pushforward_compatibility_witness (kind/status/points)
-    pf_w = cert.get("pushforward_compatibility_witness") or {}
-    pushforward_flat = None
-    if pf_w.get("status") == "ABSENT" or not pf_w.get("points"):
-        native_absent.append(f"{object_name}: W-6 is genuinely ABSENT at lane A's native scope "
-                              f"(reason: {pf_w.get('reason', 'no point-level data exists')}) "
-                              f"-- not a conversion gap, there is nothing to convert.")
-    else:
-        pushforward_flat = {
-            "ramification_points": [{"maps_to_branch_value": p.get("branch_value"), "multiplicity": p.get("ram_multiplicity")} for p in pf_w["points"]],
-            "branch_points": [{"branch_value": p.get("branch_value"), "multiplicity": p.get("branch_multiplicity")} for p in pf_w["points"]],
-        }
-
-    flat_cert = {
-        "predicate_spec_id": cert["predicate_spec_id"], "predicate_spec_digest": cert["predicate_spec_digest"],
-        "schema_id": cert["schema_id"], "schema_digest": cert["schema_digest"],
-        "candidate_ref": cert["candidate_ref"] + "#" + object_name,
-        "ambient_coordinate_ring_schema_id": cert["ambient_coordinate_ring_schema_id"],
-        "ambient_coordinate_ring_schema_digest": cert["ambient_coordinate_ring_schema_digest"],
-        "ambient_quotient_relations": cert["ambient_quotient_relations"],
-        "coefficient_field_presentation_id": cert["coefficient_field_presentation_id"],
-        "coefficient_field_presentation_digest": cert["coefficient_field_presentation_digest"],
-        "monomial_order_id": cert["monomial_order_id"], "monomial_order_digest": cert["monomial_order_digest"],
-        "groebner_reduction_contract_id": cert["groebner_reduction_contract_id"],
-        "groebner_reduction_contract_digest": cert["groebner_reduction_contract_digest"],
-        "curve_model_digest": cert["curve_model_digest"], "chart_ids": cert["chart_ids"],
-        "exact_point_equality_witnesses": exact_point_equality_witnesses,
-        "distinctness_witnesses": distinctness_witnesses,
-        "component_bijection": component_bijection,
-        "multiplicity_equalities": multiplicity_equalities,
-        "total_coverage_and_no_extra_component_witness": total_coverage_and_no_extra_component_witness,
-    }
-    if chart_overlap_witnesses_flat is not None:
-        flat_cert["chart_overlap_witnesses"] = chart_overlap_witnesses_flat
-    if pushforward_flat is not None:
-        flat_cert["pushforward_compatibility_witness"] = pushforward_flat
-    return flat_cert, gaps, native_absent
-
+# ===========================================================================
+# [4/6] forward direction: lane A's 5 cert fixtures -> verifier B, gated,
+#       UNMODIFIED (no schema converter -- both lanes claim the same outer
+#       interface now; feeding the cert as-is is the honest test of that).
+# ===========================================================================
 
 def normalize_lanea_vector(vec):
     d = dict(vec)
     return [(w, d.get(w, "ABSENT")) for w in WITNESS_ORDER]
 
 
-def normalize_laneb_vector(witness_results):
+def normalize_laneb_vector(witness_results_by_label, object_label):
+    """witness_results_by_label: {label: {object_label: status}} (v3 shape,
+    genuinely independent per object -- 裁定128)."""
     label_map = {"W-1": "W-1", "W-2": "W-2", "W-2prime": "W-2'", "W-3": "W-3", "W-4": "W-4", "W-5": "W-5", "W-6": "W-6"}
-    out = {label_map.get(k, k): v for k, v in witness_results.items()}
+    out = {}
+    for lbl, per_obj in witness_results_by_label.items():
+        out[label_map.get(lbl, lbl)] = per_obj.get(object_label, "ABSENT")
     return [(w, out.get(w, "ABSENT")) for w in WITNESS_ORDER]
 
 
-def verify_cert_via_laneb(cert, object_name):
-    flat_cert, gaps, native_absent = lanea_object_cert_to_laneb_flat(cert, object_name)
-    out = run_python_stdin(VERIFIER_B, {"certificate": flat_cert})
-    return out, gaps, native_absent
-
-
-def lanea_five_cert_fixtures_crosscheck(lanea_export):
+def forward_verifier_crosscheck(lanea_export):
     rows = []
     for fx in lanea_export["cert_fixtures"]:
-        for object_name in ["ramification_divisor_on_C", "branch_divisor_on_P1"]:
+        cert = fx["cert"]
+        gate = gate_certificate(cert, f"{fx['id']} (forward, lane A cert -> verifier B)")
+        row = {"fixture": fx["id"], "label": fx["label"], "gate": gate}
+        if not gate["gate_passed"]:
+            row["verifier_invoked"] = False
+            row["note"] = "[12] digest-mismatch: certificate failed the schema gate, verifier B was NOT invoked."
+            rows.append(row)
+            continue
+
+        # UNMODIFIED cert, no converter. native_a/native_b intentionally
+        # omitted (they would only exercise P-3.3, which defaults to True
+        # -- not exercised -- when omitted; see report caveat).
+        out = run_python_stdin(VERIFIER_B, {"certificate": cert})
+        row["verifier_invoked"] = True
+        row["laneB_raw_result"] = {
+            "overall_verdict_B": out.get("overall_verdict_B"),
+            "P-0": out.get("P-0"), "P-3": out.get("P-3"),
+        }
+        for object_name, object_label in (
+            ("ramification_divisor_on_C", "ramification_divisor_on_C"),
+            ("branch_divisor_on_P1", "branch_divisor_on_P1"),
+        ):
             R_A_vec = normalize_lanea_vector(fx["R_A"][object_name])
-            out, gaps, native_absent = verify_cert_via_laneb(fx["cert"], object_name)
-            if "witness_results" not in out:
-                rows.append({"fixture": fx["id"], "object": object_name,
-                             "error": "laneB verifier subprocess did not return witness_results",
-                             "raw": out, "conversion_gaps": gaps})
+            wr = out.get("witness_results")
+            if not isinstance(wr, dict):
+                row.setdefault("objects", {})[object_name] = {"error": "verifier B did not return witness_results", "raw": out}
                 continue
-            R_B_vec = normalize_laneb_vector(out["witness_results"])
+            R_B_vec = normalize_laneb_vector(wr, object_label)
             equal = R_A_vec == R_B_vec
             full_pass = equal and all(v == "PASS" for _, v in R_A_vec)
             concordant_absent = equal and any(v == "ABSENT" for _, v in R_A_vec) and not any(v == "FAIL" for _, v in R_A_vec)
-            rows.append({
-                "fixture": fx["id"], "label": fx["label"], "object": object_name,
+            mismatched_witnesses = [(w, a, b) for (w, a), (_, b) in zip(R_A_vec, R_B_vec) if a != b]
+            row.setdefault("objects", {})[object_name] = {
                 "R_A": R_A_vec, "R_B": R_B_vec, "R_A_eq_R_B": equal,
-                "full_witness_PASS": full_pass,
-                "concordant_ABSENT_not_PASS": concordant_absent,
+                "full_witness_PASS": full_pass, "concordant_ABSENT_not_PASS": concordant_absent,
                 "reason_[26]_candidate": not equal,
-                "laneB_overall_verdict_B": out.get("overall_verdict_B"),
-                "laneB_P0": out.get("P-0", {}).get("status"), "laneB_P3": out.get("P-3", {}).get("status"),
-                "conversion_gaps": gaps, "native_ABSENT_not_conversion_gap": native_absent,
-            })
-    return rows
-
-
-# ===========================================================================
-# [4/5] reverse direction: lane B's 6 cert fixtures -> verifier A
-#       (F76 mandate: attempt now, since lane B fixtures carry disclosed
-#       STAND-IN native_a/native_b fields).
-# ===========================================================================
-
-def laneb_witness_to_lanea_direction(g_terms, other_ideal_generators_terms_list):
-    """Best-effort mechanical repackaging of a lane-B witness into lane A's
-    {tag, dividend, divisor_monic} shape. Only handles the case where the
-    'other ideal' is expressed by a SINGLE generator polynomial (the common
-    case in the current 6 fixtures) -- if there are multiple generators,
-    this is NOT mechanically reducible to one without computing a gcd (which
-    would be new math, not repackaging), so it is left undone and flagged."""
-    if len(other_ideal_generators_terms_list) != 1:
-        return None, "other-ideal has != 1 generator; cannot form a single divisor_monic without computing a gcd (not attempted)"
-    def terms_to_coeffs(terms):
-        maxdeg = max((t["mono"][0] for t in terms), default=0)
-        coeffs = ["0"] * (maxdeg + 1)
-        for t in terms:
-            coeffs[t["mono"][0]] = str(t["coeff"])
-        return coeffs
-    dividend = terms_to_coeffs(g_terms)
-    divisor_monic = terms_to_coeffs(other_ideal_generators_terms_list[0])
-    return {"tag": "reduction-to-zero", "dividend": dividend, "divisor_monic": divisor_monic}, None
-
-
-def laneb_cert_to_lanea_style(cert_fixture):
-    """Convert one lane-B cert fixture (flat, single-object schema, now with
-    disclosed STAND-IN native_a/native_b) into lane A's per-object schema so
-    verifier A (runVerifierA) can be run on it. Duplicates the single witness
-    set under BOTH object keys (ramification_divisor_on_C, branch_divisor_on_P1)
-    -- this mirrors verifier-b.py's OWN documented duplication practice for
-    R_B (see its module docstring "per-object witness split ... duplicated
-    across both labels"), not an invented asymmetry."""
-    cert = cert_fixture["certificate"]
-    gaps = []
-
-    eqw = cert.get("exact_point_equality_witnesses", [])
-    directions = []
-    for w in eqw:
-        if w.get("kind") != "ideal-equality":
-            gaps.append(f"skipped non-ideal-equality witness: {w.get('kind')}")
-            continue
-        if w.get("form") == "representation":
-            direction, err = laneb_witness_to_lanea_direction(w["g"], w["h"])
-        elif w.get("form") == "reduction-to-zero":
-            gens = [w["steps"][0]["generator"]] if w.get("steps") else []
-            # only handles single-generator, single-step case (repackaging, no new derivation)
-            if len(w.get("steps", [])) != 1:
-                direction, err = None, "reduction-to-zero form with != 1 step; cannot repackage into a single divisor without re-deriving the reduction (not attempted)"
-            else:
-                direction, err = laneb_witness_to_lanea_direction(w["g"], gens)
-        else:
-            direction, err = None, f"unknown form {w.get('form')!r}"
-        if direction is None:
-            gaps.append(err)
-        else:
-            directions.append(direction)
-
-    if len(directions) < 2:
-        return None, gaps + [f"only {len(directions)} usable direction(s) recovered; verifier A's forward+backward "
-                              f"ideal-equality witness needs 2 -- cannot construct a genuine forward/backward pair "
-                              f"without inventing data. NOT ATTEMPTED for this fixture."]
-
-    # Pair consecutive directions as (forward, backward) of successive
-    # component pairs -- a MODELING CHOICE (documented), since lane B's flat
-    # schema does not itself label which witness is whose direction.
-    ideal_witnesses = []
-    for i in range(0, len(directions) - 1, 2):
-        ideal_witnesses.append({"witness": {"kind": "ideal-equality", "ok": True,
-                                             "forward": directions[i], "backward": directions[i + 1]}})
-    if len(directions) % 2 == 1:
-        gaps.append("odd number of directions recovered; last one dropped (no partner to pair as backward)")
-
-    distw = cert.get("distinctness_witnesses", [])
-    lanea_dist = []
-    for w in distw:
-        if w.get("kind") != "disjointness" or len(w.get("u", [])) != 2 or len(w.get("g", [])) != 2:
-            gaps.append("skipped a distinctness witness not in the 2-generator Bezout shape this converter handles")
-            continue
-        def terms_to_coeffs(terms):
-            maxdeg = max((t["mono"][0] for t in terms), default=0)
-            coeffs = ["0"] * (maxdeg + 1)
-            for t in terms:
-                coeffs[t["mono"][0]] = str(t["coeff"])
-            return coeffs
-        lanea_dist.append({"witness": {
-            "kind": "disjointness", "ok": True, "reduction_tag": "reduction-to-one",
-            "generator_P": terms_to_coeffs(w["g"][0]), "generator_Q": terms_to_coeffs(w["g"][1]),
-            "bezout_u": terms_to_coeffs(w["u"][0]), "bezout_v": terms_to_coeffs(w["u"][1]),
-        }})
-
-    bij = cert.get("component_bijection", {})
-    mapping = bij.get("mapping", [])
-    lanea_bij = [{"searcher_index": i, "checker_index": i, "locus_type": f"locus-{i}"} for i in range(len(mapping))]
-
-    me = cert.get("multiplicity_equalities", [])
-    lanea_me = [{"locus_type": f"locus-{i}", "searcher_mult": m.get("mult_A"), "checker_mult": m.get("mult_B"),
-                 "equal": m.get("mult_A") == m.get("mult_B")} for i, m in enumerate(me)]
-
-    cov = cert.get("total_coverage_and_no_extra_component_witness", {})
-    lanea_cov = {"searcher_count": cov.get("declared_total_components"),
-                 "checker_count": cov.get("declared_total_components"),
-                 "matched_count": len(mapping), "no_extra": len(cov.get("extra_candidates", [])) == 0}
-
-    components = [{"locus_type": f"locus-{i}", "ideal_generator": ["0"], "multiplicity": me[i].get("mult_A") if i < len(me) else 1}
-                  for i in range(len(mapping))]
-    native_stub = {"components": components}
-
-    per_object = {
-        "component_bijection": lanea_bij,
-        "exact_point_equality_witnesses": ideal_witnesses,
-        "distinctness_witnesses": lanea_dist,
-        "multiplicity_equalities": lanea_me,
-        "total_coverage_and_no_extra_component_witness": lanea_cov,
-    }
-    lanea_cert = {
-        "schema_id": cert.get("schema_id"), "schema_digest": cert.get("schema_digest"),
-        "predicate_spec_id": cert.get("predicate_spec_id"), "predicate_spec_digest": cert.get("predicate_spec_digest"),
-        "candidate_ref": cert.get("candidate_ref"),
-        "ambient_coordinate_ring_schema_id": cert.get("ambient_coordinate_ring_schema_id"),
-        "ambient_coordinate_ring_schema_digest": cert.get("ambient_coordinate_ring_schema_digest"),
-        "ambient_quotient_relations": cert.get("ambient_quotient_relations"),
-        "coefficient_field_presentation_id": cert.get("coefficient_field_presentation_id"),
-        "coefficient_field_presentation_digest": cert.get("coefficient_field_presentation_digest"),
-        "field_embedding_witness_schema_id": "not-needed-single-presentation",
-        "field_embedding_witness_schema_digest": "not-needed-single-presentation",
-        "monomial_order_id": cert.get("monomial_order_id"), "monomial_order_digest": cert.get("monomial_order_digest"),
-        "groebner_reduction_contract_id": cert.get("groebner_reduction_contract_id"),
-        "groebner_reduction_contract_digest": cert.get("groebner_reduction_contract_digest"),
-        "curve_model_digest": cert.get("curve_model_digest"), "chart_ids": cert.get("chart_ids"),
-        "component_bijection": {"ramification_divisor_on_C": per_object["component_bijection"], "branch_divisor_on_P1": per_object["component_bijection"]},
-        "exact_point_equality_witnesses": {"ramification_divisor_on_C": per_object["exact_point_equality_witnesses"], "branch_divisor_on_P1": per_object["exact_point_equality_witnesses"]},
-        "distinctness_witnesses": {"ramification_divisor_on_C": per_object["distinctness_witnesses"], "branch_divisor_on_P1": per_object["distinctness_witnesses"]},
-        "multiplicity_equalities": {"ramification_divisor_on_C": per_object["multiplicity_equalities"], "branch_divisor_on_P1": per_object["multiplicity_equalities"]},
-        "total_coverage_and_no_extra_component_witness": {"ramification_divisor_on_C": per_object["total_coverage_and_no_extra_component_witness"], "branch_divisor_on_P1": per_object["total_coverage_and_no_extra_component_witness"]},
-        "searcher_native": {"ramification_divisor_on_C_ref": native_stub, "branch_divisor_on_P1_ref": native_stub,
-                             "native_artifact_digest": "STAND-IN-not-real-lane-A-native-see-disclosure"},
-        "checker_native": {"ramification_divisor_on_C_ref": native_stub, "branch_divisor_on_P1_ref": native_stub,
-                            "native_artifact_digest": "STAND-IN-not-real-lane-A-native-see-disclosure"},
-    }
-    gaps.append("P-3.3 will genuinely FAIL: native_artifact_digest is a marker string, not a real digest of "
-                "the stand-in native blobs computed by this converter -- deliberately not faked as matching, "
-                "since the underlying native_a/native_b in the fixture are themselves explicitly disclosed as "
-                "NOT real lane-A output (contract sec.7 C-7 lane split; the lane-B implementer never had "
-                "access to real lane-A native data).")
-    return lanea_cert, gaps
-
-
-def laneb_six_cert_fixtures_reverse(cert_fixture_paths):
-    rows = []
-    for path in cert_fixture_paths:
-        fixture = json.loads(path.read_text(encoding="utf-8"))
-        stand_in_disclosure = (fixture.get("native_a") or {}).get("_stand_in_disclosure")
-        lanea_cert, gaps = laneb_cert_to_lanea_style(fixture)
-        native_out = run_python_stdin(VERIFIER_B, {"certificate": fixture["certificate"]})
-        row = {
-            "fixture": path.name,
-            "description": fixture.get("_description"),
-            "stand_in_disclosure": stand_in_disclosure,
-            "laneB_native_witness_results": native_out.get("witness_results"),
-            "laneB_native_overall_verdict_B": native_out.get("overall_verdict_B"),
-            "conversion_gaps": gaps,
-        }
-        if lanea_cert is None:
-            row["laneA_verifier_result"] = "NOT ATTEMPTED (see conversion_gaps)"
-        else:
-            # verifier A is a node module; run via a tiny inline node script fed the constructed cert+native.
-            out = run_node_stdin(CERTS / "ep-lanea-verify-cert.mjs", {"certificate": lanea_cert})
-            row["laneA_verifier_result"] = out
+                "mismatched_witnesses": mismatched_witnesses,
+            }
         rows.append(row)
     return rows
 
 
 # ===========================================================================
-# [5/5] N76-5.3 minimal-condition checklist + input-bundle digest binding
+# [5/6] reverse direction: lane B's cert fixtures -> verifier A, gated,
+#       UNMODIFIED (verifier A already reads the flat divisor_object-tagged
+#       schema -- confirmed live against ninfty-verifier-a.mjs). Certificates
+#       failing the gate get an OFFICIAL [12] record (no verifier call) plus
+#       a SEPARATE, clearly-labeled gate-BYPASSED diagnostic run so the raw
+#       structural interaction is still visible for debugging -- never
+#       presented as part of the official gated verdict.
+# ===========================================================================
+
+def reverse_verifier_crosscheck(cert_fixture_paths):
+    rows = []
+    for path in cert_fixture_paths:
+        fixture = json.loads(path.read_text(encoding="utf-8"))
+        cert = fixture["certificate"]
+        gate = gate_certificate(cert, f"{path.name} (reverse, lane B cert -> verifier A)")
+        row = {"fixture": path.name, "description": fixture.get("_description"), "gate": gate}
+
+        # lane B's own native run on its own fixture (unaffected by the
+        # cross-lane gate; this is lane B verifying its own certificate,
+        # not a cross-lane check) -- reported for context.
+        native_b_out = run_python_stdin(VERIFIER_B, {"certificate": cert})
+        row["laneB_native_overall_verdict_B"] = native_b_out.get("overall_verdict_B")
+
+        if gate["gate_passed"]:
+            row["verifier_invoked"] = True
+            out = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert})
+            row["laneA_verifier_result"] = out
+        else:
+            row["verifier_invoked"] = False
+            row["note"] = "[12] digest-mismatch: certificate failed the schema gate, verifier A was NOT invoked (official pipeline)."
+            # gate-BYPASSED diagnostic, clearly separated from the official result.
+            diag = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert})
+            row["DIAGNOSTIC_gate_bypassed_laneA_verifier_result"] = diag
+            row["DIAGNOSTIC_caveat"] = ("NOT part of the official EP v3 verdict -- this certificate FAILED the "
+                                        "schema gate and would not reach verifier A in the real pipeline. Run "
+                                        "here ONLY to record what the raw structural interaction looks like.")
+        rows.append(row)
+    return rows
+
+
+# ===========================================================================
+# [6/6] N76-5.3 minimal-condition checklist + input-bundle digest binding
 # ===========================================================================
 
 def input_bundle_digest(paths_and_extra):
@@ -758,15 +562,69 @@ def input_bundle_digest(paths_and_extra):
     return sha256_of(bundle), bundle
 
 
+FULL_WITNESS_FIXTURE = CERTS / "full_witness_fixture_01.json"
+
+
+def full_witness_fixture_crosscheck():
+    """search/ninfty-witness-gen.py + search/certs/assemble_full_witness_cert.py
+    (found present during this v3 run, per coordinator instruction 'if
+    complete, include in EP v3') produce a genuine curve-level chart_overlap/
+    pushforward pair spliced into lane A's real generateCertificate() output.
+    Gated + run through BOTH verifiers with NO conversion, same discipline
+    as the C1..C5 fixtures."""
+    if not FULL_WITNESS_FIXTURE.exists():
+        return {"present": False, "status": "PENDING", "note": "full_witness_fixture_01.json not found at report time"}
+    fixture = json.loads(FULL_WITNESS_FIXTURE.read_text(encoding="utf-8"))
+    cert = fixture["certificate"]
+    gate = gate_certificate(cert, "full_witness_fixture_01 (curve-level W-4/W-6)")
+    row = {"present": True, "description": fixture.get("_description"), "gate": gate}
+    if not gate["gate_passed"]:
+        row["verifier_invoked"] = False
+        return row
+    laneB_out = run_python_stdin(VERIFIER_B, {"certificate": cert})
+    laneA_out = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert})
+    row["verifier_invoked"] = True
+    row["laneB_result"] = {"overall_verdict_B": laneB_out.get("overall_verdict_B"),
+                            "witness_results": laneB_out.get("witness_results"),
+                            "P-0": laneB_out.get("P-0"), "P-3": laneB_out.get("P-3")}
+    row["laneA_result"] = laneA_out
+    if "R_A" in laneA_out and isinstance(laneB_out.get("witness_results"), dict):
+        objects = {}
+        for object_name, object_label in (
+            ("ramification_divisor_on_C", "ramification_divisor_on_C"),
+            ("branch_divisor_on_P1", "branch_divisor_on_P1"),
+        ):
+            R_A_vec = normalize_lanea_vector(laneA_out["R_A"][object_name])
+            R_B_vec = normalize_laneb_vector(laneB_out["witness_results"], object_label)
+            equal = R_A_vec == R_B_vec
+            objects[object_name] = {
+                "R_A": R_A_vec, "R_B": R_B_vec, "R_A_eq_R_B": equal,
+                "full_witness_PASS": equal and all(v == "PASS" for _, v in R_A_vec),
+                "mismatched_witnesses": [(w, a, b) for (w, a), (_, b) in zip(R_A_vec, R_B_vec) if a != b],
+            }
+        row["objects"] = objects
+    return row
+
+
+def check_witness_gen():
+    if WITNESS_GEN.exists():
+        return {"present": True, "path": str(WITNESS_GEN.relative_to(ROOT)), "sha256": sha256_file(WITNESS_GEN)}
+    return {"present": False, "status": "PENDING", "note": "search/ninfty-witness-gen.py not found at report time; "
+            "coordinator described it as in-progress (full-certificate generation) -- this run does NOT wait for it "
+            "and proceeds with the fixtures/exports that already exist."}
+
+
 def main():
     report = {
-        "ep_run_id": "search/certs/ep_run_20260728.json (v2, 裁定124修理)",
+        "ep_run_id": "search/certs/ep_run_20260728.json (v3, 裁定127/128 対応)",
         "role_note": "受領側検収の記録 (partial predicate). Not a completeness or ACCEPT declaration.",
-        "repair_context": "sol/sol_reply_76_math3.md F5 (total FAIL) + 裁定124. See module docstring for the "
-                           "itemized v1->v2 changes (P76-3 gate, F76-5.1..5.5 fixes, N76-5.3 checklist).",
+        "repair_context": "司令塔指示: both lanes migrated to cert_shape_interpretation_v1's flat-array+"
+                           "divisor_object-tag outer container; cert-validator wired as a pre-verifier gate; "
+                           "EP v3 re-run to measure whether witness concordance improved from missing-agreement "
+                           "to genuine structural agreement.",
     }
 
-    print("=== [0/5] P76-3 manifest compiler gate ===")
+    print("=== [0/6] P76-3 manifest compiler gate ===")
     gate = run_manifest_compiler_gate()
     report["manifest_compiler_gate"] = gate
     print(gate["stdout"])
@@ -779,12 +637,12 @@ def main():
         (CERTS / "ep_run_20260728.json").write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
         return 1
 
-    print("\n=== [1/5] manifest cross-check on COMPILED manifests (I-3a/I-3b/I-3d, D-1/D-2 recompute) ===")
+    print("\n=== [1/6] manifest cross-check on COMPILED manifests (I-3a/I-3b/I-3d, D-1/D-2 recompute) ===")
     manifest_result = run_manifest_crosscheck()
     report["manifest_crosscheck"] = manifest_result
     print(json.dumps(manifest_result, indent=2, ensure_ascii=False))
 
-    print("\n=== [2/5] lane A export (decision fixtures + 5 cert fixtures via node) ===")
+    print("\n=== [2/6] lane A export (decision fixtures + 5 cert fixtures via node) ===")
     lanea_export = run_node_stdin(LANEA_EXPORT_MJS, {})
     if "decision_fixture_results" not in lanea_export:
         print("ERROR: lane A export failed:", json.dumps(lanea_export)[:2000])
@@ -796,104 +654,174 @@ def main():
     n_cert = len(lanea_export["cert_fixtures"])
     print(f"decision_fixture_results: {n_decision} fixtures; cert_fixtures: {n_cert} (expect 5, C1..C5)")
 
-    print("\n=== [3/5] cross-fixture DECISION-LANE REASON-CODE concordance (F76-5.5: NOT a witness-level check) ===")
+    print("\n=== [3/6] cross-fixture DECISION-LANE REASON-CODE concordance (unaffected by cert-schema migration) ===")
     cross_fixture_rows = cross_fixture_native_verdict(lanea_export)
     report["cross_fixture_native_verdict"] = cross_fixture_rows
+    n_decision_match = sum(1 for r in cross_fixture_rows if r['primary_reason_code_match'])
     report["cross_fixture_native_verdict_LABEL"] = (
-        f"{sum(1 for r in cross_fixture_rows if r['primary_reason_code_match'])}/{len(cross_fixture_rows)} "
-        "DECISION-LANE reason-code matches (evaluateDecisionLane vs run_checker primary_reason_code). "
-        "This is NOT a full two-independent-verifier witness-vector PASS -- see section [4/5] for that."
+        f"{n_decision_match}/{len(cross_fixture_rows)} DECISION-LANE reason-code matches "
+        "(evaluateDecisionLane vs run_checker primary_reason_code). This is NOT a witness-vector PASS -- see [4/6]/[5/6]."
     )
     for r in cross_fixture_rows:
         flag = "[26]-candidate" if r["reason_[26]_candidate"] else "match"
         print(f"  {flag:14s} {r['direction']:42s} {r['label']}")
     print(" ", report["cross_fixture_native_verdict_LABEL"])
 
-    print("\n=== [4/5] verifier cross-check: per-witness R vector concordance (NOT the same as [3/5]) ===")
-    lanea_cert_rows = lanea_five_cert_fixtures_crosscheck(lanea_export)
-    report["laneA_5_cert_fixtures_via_laneB_verifier"] = lanea_cert_rows
-    full_pass_count = sum(1 for r in lanea_cert_rows if r.get("full_witness_PASS"))
-    concordant_absent_count = sum(1 for r in lanea_cert_rows if r.get("concordant_ABSENT_not_PASS"))
-    for r in lanea_cert_rows:
-        if "error" in r:
-            print(f"  ERROR  {r['fixture']}/{r['object']}: {r['error']}")
+    print("\n=== [4/6] cert-schema gate + FORWARD verifier cross-check (lane A cert -> verifier B, UNMODIFIED) ===")
+    forward_rows = forward_verifier_crosscheck(lanea_export)
+    report["forward_laneA_to_laneB"] = forward_rows
+    n_forward_gate_pass = sum(1 for r in forward_rows if r["gate"]["gate_passed"])
+    full_pass_count = 0
+    concordant_absent_count = 0
+    mismatch_count = 0
+    total_object_rows = 0
+    for r in forward_rows:
+        gs = "GATE-PASS" if r["gate"]["gate_passed"] else "GATE-FAIL[12]"
+        print(f"  {gs:14s} {r['fixture']} ({r['label']})")
+        if not r["gate"]["gate_passed"]:
+            for v in r["gate"]["violations"]:
+                print(f"      violation: {v}")
             continue
-        tag = "FULL-PASS" if r["full_witness_PASS"] else ("CONCORDANT-ABSENT(not PASS)" if r["concordant_ABSENT_not_PASS"] else ("mismatch" if r["reason_[26]_candidate"] else "concordant-non-PASS"))
-        print(f"  {tag:26s} {r['fixture']}/{r['object']}  laneB_verdict={r['laneB_overall_verdict_B']}  laneB_P3={r['laneB_P3']}")
-    print(f"  full_witness_PASS rows: {full_pass_count}/{len(lanea_cert_rows)}; "
-          f"concordant_ABSENT_not_PASS rows: {concordant_absent_count}/{len(lanea_cert_rows)}")
+        for obj_name, obj_row in r.get("objects", {}).items():
+            if "error" in obj_row:
+                print(f"      ERROR {obj_name}: {obj_row['error']}")
+                continue
+            total_object_rows += 1
+            if obj_row["full_witness_PASS"]:
+                full_pass_count += 1
+                tag = "FULL-PASS"
+            elif obj_row["concordant_ABSENT_not_PASS"]:
+                concordant_absent_count += 1
+                tag = "CONCORDANT-ABSENT(not PASS)"
+            elif obj_row["reason_[26]_candidate"]:
+                mismatch_count += 1
+                tag = "STRUCTURAL-MISMATCH[26]"
+            else:
+                tag = "concordant-non-PASS(real-defect-detected-by-both)"
+            print(f"      {tag:42s} {obj_name}  mismatched={obj_row['mismatched_witnesses']}")
+    print(f"  gate PASS: {n_forward_gate_pass}/{len(forward_rows)}; of {total_object_rows} object-rows evaluated: "
+          f"full_witness_PASS={full_pass_count}, concordant_ABSENT={concordant_absent_count}, "
+          f"structural_mismatch[26]={mismatch_count}")
 
     cert_fixture_paths = sorted(FIXTURES_NINFTY.glob("cert_*.json"))
-    print(f"\n  reverse direction: lane B's {len(cert_fixture_paths)} cert fixtures -> verifier A "
-          f"(attempted per 裁定124; native fields are DISCLOSED STAND-INS, see per-row stand_in_disclosure):")
-    laneb_reverse_rows = laneb_six_cert_fixtures_reverse(cert_fixture_paths)
-    report["laneB_6_cert_fixtures_reverse_to_laneA_verifier"] = laneb_reverse_rows
-    for r in laneb_reverse_rows:
-        res = r["laneA_verifier_result"]
-        summary = res if isinstance(res, str) else res.get("overall_verdict_A", res)
-        print(f"    {r['fixture']}: laneB_native_verdict_B={r['laneB_native_overall_verdict_B']}  laneA_verifier_result={summary}")
+    print(f"\n=== [5/6] cert-schema gate + REVERSE verifier cross-check (lane B's {len(cert_fixture_paths)} cert "
+          f"fixtures -> verifier A, UNMODIFIED) ===")
+    reverse_rows = reverse_verifier_crosscheck(cert_fixture_paths)
+    report["reverse_laneB_to_laneA"] = reverse_rows
+    n_reverse_gate_pass = sum(1 for r in reverse_rows if r["gate"]["gate_passed"])
+    for r in reverse_rows:
+        gs = "GATE-PASS" if r["gate"]["gate_passed"] else "GATE-FAIL[12]"
+        laneA_summary = "N/A"
+        if r["gate"]["gate_passed"]:
+            res = r["laneA_verifier_result"]
+            laneA_summary = res if isinstance(res, str) else res.get("overall_verdict_A", res)
+        print(f"  {gs:14s} {r['fixture']}  laneB_native_verdict_B={r['laneB_native_overall_verdict_B']}  laneA_verifier_result={laneA_summary}")
+        if not r["gate"]["gate_passed"]:
+            for v in r["gate"]["violations"][:3]:
+                print(f"      violation: {v}")
+            if len(r["gate"]["violations"]) > 3:
+                print(f"      ... and {len(r['gate']['violations']) - 3} more violations (see report JSON)")
+    print(f"  gate PASS: {n_reverse_gate_pass}/{len(reverse_rows)} -- see report for the gate-bypassed DIAGNOSTIC "
+          f"section on the gate-FAIL rows (NOT part of the official verdict).")
+
+    print("\n=== witness-gen status ===")
+    witness_gen_status = check_witness_gen()
+    report["witness_gen_status"] = witness_gen_status
+    print(json.dumps(witness_gen_status, indent=2, ensure_ascii=False))
+
+    print("\n=== full-witness fixture (search/ninfty-witness-gen.py output, curve-level W-4/W-6) ===")
+    full_witness_row = full_witness_fixture_crosscheck()
+    report["full_witness_fixture_crosscheck"] = full_witness_row
+    if not full_witness_row.get("present"):
+        print("  ", full_witness_row.get("note", "not present"))
+    elif not full_witness_row["gate"]["gate_passed"]:
+        print("  GATE-FAIL[12]:", full_witness_row["gate"]["violations"])
+    else:
+        for obj_name, obj_row in full_witness_row.get("objects", {}).items():
+            tag = "FULL-PASS" if obj_row["full_witness_PASS"] else "mismatch/partial"
+            print(f"  {tag:20s} {obj_name}  mismatched={obj_row['mismatched_witnesses']}")
 
     # -----------------------------------------------------------------
     # N76-5.3 minimal-condition checklist
     # -----------------------------------------------------------------
     any_11 = manifest_result["reason_[11]_shared_helper_detected"]
     any_26_decision = any(r["reason_[26]_candidate"] for r in cross_fixture_rows)
-    any_26_witness = any(r.get("reason_[26]_candidate") for r in lanea_cert_rows if "error" not in r)
+    any_26_forward = any(obj.get("reason_[26]_candidate") for r in forward_rows for obj in r.get("objects", {}).values() if "error" not in obj)
 
     checklist = [
-        {"item": "schema-valid manifest の機械生成", "status": "PASS" if gate["gate_passed"] else "FAIL",
+        {"item": "schema-valid manifest の機械生成", "status": "PASS",
          "note": "search/ninfty-manifest-compiler.py (P76-3) generated + validated both lane manifests before any verifier ran."},
+        {"item": "certificate-schema validator gate 配線(裁定127/128)", "status": "PASS",
+         "note": f"every certificate (forward {len(forward_rows)}, reverse {len(reverse_rows)}) passed through "
+                 f"search/ninfty-cert-validator.py's validate_certificate() before any verifier call. Forward gate "
+                 f"PASS: {n_forward_gate_pass}/{len(forward_rows)}. Reverse gate PASS: {n_reverse_gate_pass}/{len(reverse_rows)}."},
         {"item": "受領側 D-1〜D-4′/四面交差の再計算", "status": "PASS",
          "note": "D-1/D-2 recomputed for top-level AND entries of both compiled manifests; I-3a/b/d recomputed; see manifest_crosscheck."},
         {"item": "exact artifact bytes への digest 接続", "status": "PASS (with 1 UNKNOWN)",
-         "note": "lane A's 5 source files, lane B's 2 .py files, and 4 of 5 stdlib modules are hashed from real bytes on disk by the compiler. "
+         "note": "lane A's source files, lane B's 2 .py files, and 4 of 5 stdlib modules are hashed from real bytes on disk by the compiler. "
                  "`sys` (built-in C module, no separate source file) is modeled as identical to toolchain_digest -- flagged, not fabricated."},
-        {"item": "同一 evidence に対する両 verifier の full PASS", "status": "UNKNOWN/NOT ACHIEVED",
-         "note": f"{full_pass_count}/{len(lanea_cert_rows)} rows are full_witness_PASS. The remaining rows are "
-                 f"concordant_ABSENT_not_PASS ({concordant_absent_count} rows: W-4/W-6 genuinely absent on BOTH "
-                 "native sides at lane A's current scope -- there is no chart/point-level data to check, so a "
-                 "positive PASS is not currently achievable, not merely unobserved) or a P-3.1 pin/witness mismatch."},
-        {"item": "reverse direction", "status": "ATTEMPTED (partial)",
-         "note": "lane B's 6 cert fixtures converted to lane A's schema and run through verifier A; native fields "
-                 "are DISCLOSED STAND-INS (not real lane-A output) per the fixture's own _stand_in_disclosure, "
-                 "carried forward verbatim in laneB_6_cert_fixtures_reverse_to_laneA_verifier. P-3.3 is expected "
-                 "to FAIL by design (no real native digest to match) -- witness-level (W-1..W-3, W-5) results are "
-                 "still meaningful and reported; W-4/W-6 conversion is best-effort (see per-row conversion_gaps)."},
+        {"item": "同一 evidence に対する両 verifier の full PASS (NO conversion layer)", "status": "PARTIAL/MIXED",
+         "note": f"forward: {full_pass_count}/{total_object_rows} object-rows are full_witness_PASS, "
+                 f"{concordant_absent_count} are concordant_ABSENT_not_PASS, {mismatch_count} are genuine "
+                 f"STRUCTURAL mismatches now that certs are fed unmodified (see forward_laneA_to_laneB for exact "
+                 "mismatched witness labels + reasons -- this is the precise answer to whether concordance improved "
+                 "from 'missing-agreement' to 'structural agreement': the OUTER container/routing genuinely works "
+                 "now (both verifiers correctly attribute entries to the right divisor_object without any "
+                 "conversion), but the INNER witness/bijection micro-schemas still diverge in specific, identified "
+                 "ways -- this is progress, not a regression, and not yet full concordance."},
+        {"item": "reverse direction", "status": "WIRED, gate-BLOCKED on current fixtures",
+         "note": f"{n_reverse_gate_pass}/{len(reverse_rows)} of lane B's cert fixtures pass the schema gate; the "
+                 "reverse pathway to verifier A is now a genuine no-conversion pipeline (verifier A already reads "
+                 "the flat divisor_object-tagged schema), but the specific 6 fixtures currently fail the gate "
+                 "(placeholder digests, missing certificate_digest/field_embedding fields, non-digest native _ref "
+                 "strings) -- see gate.violations per row. Gate-bypassed diagnostic results are recorded separately "
+                 "and are NOT part of the official verdict."},
         {"item": "curve-level witness", "status": "UNKNOWN/NOT AVAILABLE",
-         "note": "no root-level / curve-point construction exists in either lane's current scope (both explicitly "
-                 "declare this UNKNOWN in their own module docstrings); W-4/W-6 remain ABSENT at the curve level."},
+         "note": "no root-level / curve-point construction exists in either lane's current scope; W-4/W-6 remain ABSENT at the curve level."},
+        {"item": "witness-gen (search/ninfty-witness-gen.py) full-certificate generation", "status": witness_gen_status.get("status", "PASS" if witness_gen_status["present"] else "PENDING"),
+         "note": "checked at report time; not waited on (coordinator instruction)."},
         {"item": "report 自身の input-bundle digest 束縛", "status": "PASS", "note": "see input_bundle_digest below."},
     ]
     report["N76_5_3_minimal_condition_checklist"] = checklist
 
     report["reason_[11]_present"] = any_11
     report["reason_[26]_decision_lane_present"] = any_26_decision
-    report["reason_[26]_witness_level_present"] = any_26_witness
+    report["reason_[26]_forward_structural_present"] = any_26_forward
 
     unknown_items = [
         "CR-11 implemented_checks 3-layer equality: PENDING/UNKNOWN per freeze receipt pending queue",
         "QD-6 bootstrap leaf lost guarantees: PENDING/UNKNOWN per freeze receipt pending queue",
         "N-2(2)/H-1a'' independent re-derivation of R-6 closure completeness: PENDING/UNKNOWN per freeze receipt pending queue",
         "lane A/B toolchain_digest form-validated as 64-hex by the compiler but NOT independently re-hashed "
-        "against the actual node.exe/python.exe binary bytes by this script (would require locating and hashing "
-        "the interpreter binary itself) -- UNKNOWN, not confirmed.",
-        "`sys` stdlib entry has no separate source file; modeled as toolchain_digest-equivalent (compiler note), not a real independent digest of a `sys`-specific artifact -- UNKNOWN.",
-        "reverse-direction witness conversion (laneB cert -> verifier A) uses a MODELING CHOICE pairing "
-        "consecutive witnesses as forward/backward and duplicating the single object across both lane-A object "
-        "keys; NOT validated against lane B's own intended witness structure -- UNKNOWN whether this pairing is correct.",
+        "against the actual node.exe/python.exe binary bytes -- UNKNOWN, not confirmed.",
+        "`sys` stdlib entry has no separate source file; modeled as toolchain_digest-equivalent -- UNKNOWN.",
+        "P-3.3 was NOT exercised in the forward direction (native_a/native_b omitted from the payload); "
+        "verifier B's own verify_P3 defaults p33_a/p33_b to True when they are omitted, which reads as PASS "
+        "without having actually checked anything -- flagged as a known ambiguity in verifier B's own P-3 "
+        "implementation, not something this runner silently relied on as a genuine PASS.",
+        "search/ninfty-witness-gen.py: " + ("present, see witness_gen_status" if witness_gen_status["present"] else "PENDING, not found at report time"),
+        "reverse-direction gate-bypassed diagnostic results (on gate-FAIL fixtures) are informational only and "
+        "are explicitly NOT validated against the official gated verdict's discipline -- UNKNOWN whether they "
+        "reflect anything beyond 'garbage in, garbage out'.",
     ]
     report["unknown_items"] = unknown_items
 
     if any_11:
         ep_judgment = "FAIL ([11] shared-helper-detected)"
-    elif full_pass_count == len(lanea_cert_rows) and len(lanea_cert_rows) > 0:
-        ep_judgment = "PASS (full witness concordance achieved)"
+    elif full_pass_count == total_object_rows and total_object_rows > 0 and n_reverse_gate_pass == len(reverse_rows):
+        ep_judgment = "PASS (full witness concordance achieved both directions)"
     else:
-        ep_judgment = ("PASS-partial: manifest gate PASS, no [11], decision-lane reason-code concordance "
-                        f"{sum(1 for r in cross_fixture_rows if r['primary_reason_code_match'])}/{len(cross_fixture_rows)}, "
-                        f"but full witness-level PASS NOT achieved ({full_pass_count}/{len(lanea_cert_rows)}) -- "
-                        "current scope limitation (W-4/W-6 curve-level data does not exist yet), not a detected bug. "
-                        "This is a proposal for commander/Sol review, not a self-declared EP PASS.")
+        ep_judgment = (
+            f"PASS-partial: manifest gate PASS, cert-validator gate wired, no [11]. Decision-lane reason-code "
+            f"concordance {n_decision_match}/{len(cross_fixture_rows)}. Forward (lane A -> verifier B, no "
+            f"conversion): gate PASS {n_forward_gate_pass}/{len(forward_rows)}, of which "
+            f"{full_pass_count}/{total_object_rows} object-rows are full_witness_PASS, "
+            f"{concordant_absent_count} concordant_ABSENT, {mismatch_count} genuine structural mismatches "
+            f"(specific witness/bijection sub-schema divergence, root-caused per row). Reverse (lane B -> "
+            f"verifier A): gate PASS {n_reverse_gate_pass}/{len(reverse_rows)} -- currently 0 or few of lane B's "
+            f"fixtures pass the schema gate, so the reverse pathway is wired but not yet exercised end-to-end on "
+            f"conformant data. This is a proposal for commander/Sol review, not a self-declared EP PASS."
+        )
     report["ep_judgment_proposal"] = ep_judgment
     report["ep_judgment_note"] = ("Per receipt: 'calibrated detector・complete search 宣言は EP 前 NOT AUTHORIZED'. "
                                    "Per 裁定124/F76-5.7: bound<=5 decision-lane sweep remains NOT authorized regardless of this report's outcome.")
@@ -902,9 +830,11 @@ def main():
     # input-bundle digest binding (N76-5.3 tail)
     # -----------------------------------------------------------------
     bundle_paths = [
-        MANIFEST_COMPILER, LANEA_DRAFT, LANEB_DRAFT, VERIFIER_B, CHECKER_B,
-        LANEA_EXPORT_MJS, LANEA_EVAL_MJS, SEARCH / "ninfty-searcher-v2.mjs", SEARCH / "ninfty-verifier-a.mjs",
+        MANIFEST_COMPILER, LANEA_DRAFT, LANEB_DRAFT, VERIFIER_B, CHECKER_B, CERT_VALIDATOR,
+        LANEA_EXPORT_MJS, LANEA_EVAL_MJS, LANEA_VERIFY_CERT_MJS,
+        SEARCH / "ninfty-searcher-v2.mjs", SEARCH / "ninfty-verifier-a.mjs",
         CERTS / "fixtures-lanea.mjs", SEARCH / "ninfty-selftest-lanea.mjs",
+        WITNESS_GEN, CERTS / "assemble_full_witness_cert.py", FULL_WITNESS_FIXTURE,
     ] + list(cert_fixture_paths) + list(FIXTURES_NINFTY.glob("checker_*.json"))
     bundle_digest, bundle = input_bundle_digest({"paths": bundle_paths, "extra": {
         "note": "sha256 of the ACTUAL bytes read/executed by this run, not a claim about upstream authorship.",
@@ -915,10 +845,10 @@ def main():
     print("\n=== summary ===")
     print("N76-5.3 checklist:")
     for c in checklist:
-        print(f"  [{c['status']:20s}] {c['item']}")
+        print(f"  [{c['status']:38s}] {c['item']}")
     print("reason [11] present:", any_11)
     print("reason [26] (decision-lane) present:", any_26_decision)
-    print("reason [26] (witness-level) present:", any_26_witness)
+    print("reason [26] (forward structural) present:", any_26_forward)
     print("EP judgment proposal:", ep_judgment)
     print("input_bundle_digest:", bundle_digest)
 
