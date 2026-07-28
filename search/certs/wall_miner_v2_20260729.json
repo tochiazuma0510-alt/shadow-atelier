@@ -1,0 +1,473 @@
+{
+  "generated_by": "search/wall-miner-v2.g",
+  "note": "Hol sieve pass on the 46 open W-A windows (B3-index 84..192); rough lead screening, NOT a ledger claim, no cross-check performed",
+  "in_range_processed": 46,
+  "out_of_range_skipped": 20,
+  "not_in_pb3_skipped": 252,
+  "total_excluded_metabelian": 20,
+  "total_open": 26,
+  "results": [
+  {
+    "window_id":"W-A-B3idx84-s1",
+    "abs_PN":14,
+    "ord_xbar":14,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx90-s1",
+    "abs_PN":15,
+    "ord_xbar":15,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx96-s1",
+    "abs_PN":16,
+    "ord_xbar":16,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx96-s2",
+    "abs_PN":8,
+    "ord_xbar":4,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx96-s3",
+    "abs_PN":8,
+    "ord_xbar":2,
+    "dl_C":-2,
+    "dl_Stab":-2,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"ord_xbar<=2: P_N dihedral-or-trivial, metabelian confirmed by Cor 7.2 (no sieve needed)"
+  },
+  {
+    "window_id":"W-A-B3idx96-s4",
+    "abs_PN":8,
+    "ord_xbar":4,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx96-s5",
+    "abs_PN":16,
+    "ord_xbar":4,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx102-s1",
+    "abs_PN":17,
+    "ord_xbar":17,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx108-s1",
+    "abs_PN":18,
+    "ord_xbar":6,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx108-s2",
+    "abs_PN":18,
+    "ord_xbar":18,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx114-s1",
+    "abs_PN":19,
+    "ord_xbar":19,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx120-s1",
+    "abs_PN":20,
+    "ord_xbar":20,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx120-s2",
+    "abs_PN":20,
+    "ord_xbar":10,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx126-s1",
+    "abs_PN":21,
+    "ord_xbar":21,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx126-s2",
+    "abs_PN":21,
+    "ord_xbar":3,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx126-s3",
+    "abs_PN":21,
+    "ord_xbar":3,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx132-s1",
+    "abs_PN":22,
+    "ord_xbar":22,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx138-s1",
+    "abs_PN":23,
+    "ord_xbar":23,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx144-s1",
+    "abs_PN":24,
+    "ord_xbar":6,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx144-s2",
+    "abs_PN":24,
+    "ord_xbar":24,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx144-s3",
+    "abs_PN":24,
+    "ord_xbar":3,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx144-s4",
+    "abs_PN":12,
+    "ord_xbar":6,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx144-s5",
+    "abs_PN":24,
+    "ord_xbar":6,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx144-s6",
+    "abs_PN":24,
+    "ord_xbar":12,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx144-s7",
+    "abs_PN":24,
+    "ord_xbar":12,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx150-s1",
+    "abs_PN":25,
+    "ord_xbar":25,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx150-s2",
+    "abs_PN":25,
+    "ord_xbar":5,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx156-s1",
+    "abs_PN":26,
+    "ord_xbar":26,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx162-s1",
+    "abs_PN":27,
+    "ord_xbar":3,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx162-s2",
+    "abs_PN":9,
+    "ord_xbar":3,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx162-s3",
+    "abs_PN":27,
+    "ord_xbar":9,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx162-s4",
+    "abs_PN":27,
+    "ord_xbar":9,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx162-s5",
+    "abs_PN":27,
+    "ord_xbar":9,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx162-s6",
+    "abs_PN":27,
+    "ord_xbar":27,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx168-s1",
+    "abs_PN":28,
+    "ord_xbar":28,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx168-s2",
+    "abs_PN":28,
+    "ord_xbar":14,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx174-s1",
+    "abs_PN":29,
+    "ord_xbar":29,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx180-s1",
+    "abs_PN":30,
+    "ord_xbar":30,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx186-s1",
+    "abs_PN":31,
+    "ord_xbar":31,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx192-s1",
+    "abs_PN":32,
+    "ord_xbar":32,
+    "dl_C":1,
+    "dl_Stab":0,
+    "dl_upper_bound":2,
+    "excluded_metabelian":true,
+    "reason":"Hol sieve: dl(C)+dl(Stab)<=1, dl(G_N)<=2, metabelian confirmed"
+  },
+  {
+    "window_id":"W-A-B3idx192-s2",
+    "abs_PN":16,
+    "ord_xbar":8,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx192-s3",
+    "abs_PN":16,
+    "ord_xbar":4,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx192-s4",
+    "abs_PN":16,
+    "ord_xbar":8,
+    "dl_C":1,
+    "dl_Stab":1,
+    "dl_upper_bound":3,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx192-s5",
+    "abs_PN":16,
+    "ord_xbar":4,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx192-s6",
+    "abs_PN":32,
+    "ord_xbar":4,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  },
+  {
+    "window_id":"W-A-B3idx192-s7",
+    "abs_PN":32,
+    "ord_xbar":4,
+    "dl_C":1,
+    "dl_Stab":2,
+    "dl_upper_bound":4,
+    "excluded_metabelian":false,
+    "reason":"Hol sieve did not close: dl(C)+dl(Stab)>1, dl_upper_bound>2, window stays OPEN"
+  }
+  ],
+  "skip_log": [
+  ]
+}
