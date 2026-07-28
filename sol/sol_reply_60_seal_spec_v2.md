@@ -267,14 +267,12 @@ new theorem gate         = not required
 
 ## F6. 新補題群の紙上監査
 
-以下では \(\hat c_\mu\) を \(C\) と略記する。
-
 ### F6.1 `N∞-N` — norm 恒等式 PASS、divisor 定理文は FAIL
 
 \[
 H_v=(v-\mu)(v-\mu^\iota)
 =(v-a)^2-p^2f_6
-=v^2-2va+C
+=v^2-2va+\hat c_\mu
 \]
 
 は正しい。しかし §1.2 の
@@ -315,23 +313,26 @@ divisor であり、右辺は次数 5 の effective fiber divisor だからで�
 \(Q\in\mu^{-1}(v)\) なら
 
 \[
-\mu^\iota(Q)=\frac{C}{v}.
+\mu^\iota(Q)=\frac{\hat c_\mu}{v}.
 \]
 
 従って
 
 \[
-\boxed{\ \iota Q\in\mu^{-1}(v)\iff v^2=C\ }.
+\boxed{\ \iota Q\in\mu^{-1}(v)\iff v^2=\hat c_\mu\ }.
 \tag{60.3}
 \]
 
 これは \(Q=\iota Q\)、すなわち \(y(Q)=0\) の場合も同じである。その場合
-\(\mu(Q)^2=\mu(Q)\mu^\iota(Q)=C\) だから、そもそも \(v^2\ne C\)
+\(\mu(Q)^2=\mu(Q)\mu^\iota(Q)=\hat c_\mu\) だから、そもそも
+\(v^2\ne\hat c_\mu\)
 の fiber には Weierstrass point がいない。
 
-\(v^2\ne C\) では \(\pi\) は fiber 上で unramified かつ単射であり、
+\(v^2\ne\hat c_\mu\) では \(\pi\) は fiber 上で unramified かつ単射であり、
 \[
-(v-\mu^\iota)(Q)=v-\frac Cv=\frac{v^2-C}{v}\ne0.
+(v-\mu^\iota)(Q)
+=v-\frac{\hat c_\mu}{v}
+=\frac{v^2-\hat c_\mu}{v}\ne0.
 \]
 よって norm の他方の因子は単元で、
 
@@ -347,7 +348,7 @@ proof artifact は未完**と判定する。
 
 ### F6.3 `N∞-fix` — PASS
 
-\(v^2=C\) なら fiber 全体で \(py=0\)。三場合は exhaustive である。
+\(v^2=\hat c_\mu\) なら fiber 全体で \(py=0\)。三場合は exhaustive である。
 
 - \(y=0,\ p\ne0\): \(y\) が uniformizer、\(py\) の位数が 1 なので
   \(e=1\)。
@@ -367,10 +368,22 @@ proof artifact は未完**と判定する。
 
 ### F6.4 `N∞-swap` — PASS
 
-有限調和対 \(\{s,-s\}\) は \(j(v)=C/v\) の下で
+まず
 
-1. 二点とも fixed、従って \(s^2=C\);
-2. 二点を swap、従って \(s^2=-C\)
+\[
+\mu\circ\iota=\frac{\hat c_\mu}{\mu}=j\circ\mu
+\]
+
+であり、\(\iota\) は \(C\) の automorphism、\(j\) は target の Möbius
+automorphism だから、\(\iota\) は ramification locus を保ち、\(j\) は
+branch-value set を保つ。さらに \(j\) は \(0,\infty\) を交換するので、
+有限二値 \(\{s,-s\}\) は \(j\)-stable である。現証明はこの一行を暗黙に
+しているため、final proof artifact では明記すること。
+
+有限調和対 \(\{s,-s\}\) は \(j(v)=\hat c_\mu/v\) の下で
+
+1. 二点とも fixed、従って \(s^2=\hat c_\mu\);
+2. 二点を swap、従って \(s^2=-\hat c_\mu\)
 
 の二場合しかない。
 
@@ -380,14 +393,14 @@ fixed value \(a(x_0)\) も一つである。従って二つの fixed fiber の�
 \([2,2,1]\) にはできない。ゆえに target は swap され、
 
 \[
-\boxed{j(s)=-s,\qquad s^2=-C}.
+\boxed{j(s)=-s,\qquad s^2=-\hat c_\mu}.
 \]
 
 起草者の三場合は網羅的であり、F8.3 の独立再構成は通った。
 
 ### F6.5 `N∞-red` — PASS
 
-\(s^2=-C\) なら
+\(s^2=-\hat c_\mu\) なら
 
 \[
 H_s=-2s\,a,\qquad H_{-s}=2s\,a.
@@ -396,11 +409,12 @@ H_s=-2s\,a,\qquad H_{-s}=2s\,a.
 \(a(x_0)=0\) では
 
 \[
-p(x_0)^2f_6(x_0)=-C=s^2\ne0,
+p(x_0)^2f_6(x_0)=-\hat c_\mu=s^2\ne0,
 \]
 
 従って \(p(x_0)f_6(x_0)\ne0\)。また
-\(s^2=-C\ne C\) なので `N∞-1:1` の non-fixed 条件も満たす。
+\(s^2=-\hat c_\mu\ne\hat c_\mu\) なので `N∞-1:1` の
+non-fixed 条件も満たす。
 よって
 
 \[
@@ -450,7 +464,7 @@ E-1〜E-6、すなわち
 
 - \(f_6\) monic squarefree、\(\deg f_6=6\);
 - \(\deg a=5,\ \deg p=2,\ a_5=p_2\ne0\);
-- \(a^2-f_6p^2=C\in\mathbb Q^\times\);
+- \(a^2-f_6p^2=\hat c_\mu\in\mathbb Q^\times\);
 - \((\mu)=5P_0-5P_\infty\);
 - \(\gcd(a,p)=1\)
 
@@ -462,7 +476,7 @@ E-1〜E-6、すなわち
 \iff
 \begin{array}{c}
 \operatorname{Br}(\mu)=\{0,s,-s,\infty\}
-\text{ for some }s^2=-C,\\
+\text{ for some }s^2=-\hat c_\mu,\\
 \operatorname{part}\mu^{-1}(s)
 =\operatorname{part}\mu^{-1}(-s)=[2,2,1].
 \end{array}}
@@ -476,15 +490,16 @@ E-1〜E-6、すなわち
 
 target branch signature
 \(\Rightarrow\) `N∞-swap`
-\(\Rightarrow s^2=-C\)
+\(\Rightarrow s^2=-\hat c_\mu\)
 \(\Rightarrow\) `N∞-red`
 \(\Rightarrow\operatorname{rootpart}(a)=[2,2,1]\)。
 
 ### F7.3 十分方向
 
 \(\operatorname{rootpart}(a)=[2,2,1]\) とし、
-\(\bar{\mathbb Q}\) 上で \(s^2=-C\) を選ぶ。\(C\ne0\)、標数 0 なので
-\(s^2\ne C\)。従って `N∞-1:1` と
+\(\bar{\mathbb Q}\) 上で \(s^2=-\hat c_\mu\) を選ぶ。
+\(\hat c_\mu\ne0\)、標数 0 なので \(s^2\ne\hat c_\mu\)。
+従って `N∞-1:1` と
 
 \[
 H_{\pm s}=\mp2s\,a
@@ -676,6 +691,18 @@ ramification/branch divisor の object と unkeyed digest は全て
 `SEALED_INTERNAL` へ移すこと。「五欄のみ」は public envelope を除く
 **数学的出力五欄**という意味に書き直す。
 
+併せて、§5.1 は random opaque `fiber_ref` と呼ぶ一方、schema は
+`fiber_id` / `branch_ref` を使う。三語を一つの typed random-reference
+schema に統一すること。§9.2 が要求する
+`positive_control_scope` も §5 の base/extension schema に欄が無いので、
+EP certificate extension として明示すること。
+
+**自己訂正**: 便 59 F13.2 の「人間可視 certificate は五欄だけ」という
+私の表現も、public envelope と sealed internal object の境界を十分に
+型付けしていなかった。意図は「公開する数学的射影が五欄」であり、
+candidate/spec identity、verdict/reason まで消すという意味ではない。
+旧返信は変更せず、本便をこの点の erratum とする。
+
 ### F10.2 neutral negative fixtures — 設計 PASS、証拠の射程は限定
 
 `ninfty-neg-01..08`、raw shard 名を出さない sealed mapping、genuine
@@ -720,6 +747,38 @@ partial predicate / UNKNOWN
 end-to-end calibration にならない。freeze 後も EP が出るまでは
 calibrated detector や complete search と呼んではならない。
 
+### F10.4 whitelist の squareclass base field が未宣言
+
+§7 は
+
+\[
+[s^2]=[\hat c_\mu]\in K^\times/K^{\times2}
+\qquad(\because -1=i^2\in K^{\times2})
+\]
+
+を leakage edge の根拠にするが、§1、入口契約、certificate のいずれにも
+\(K\) が宣言されていない。係数体 \(\mathbb Q\) で読めば \(-1\) は平方で
+なく、\(s^2=-\hat c_\mu\) から
+\([s^2]=[\hat c_\mu]\) は一般には従わない。
+
+意図が K5 window の
+
+\[
+K=\mathbb Q(\zeta_{20}),\qquad i=\zeta_{20}^5\in K
+\]
+
+なら、少なくとも
+
+```text
+prediction_base_field_id
+squareclass_quotient_id
+minus_one_square_proof_id
+S5-4-infinity dependency ID
+```
+
+を whitelist と freeze bundle に束縛すること。これは leakage 結論を
+弱める指摘ではなく、その squareclass の**型**を固定する要求である。
+
 ---
 
 ## F11. provenance の残存誤り
@@ -748,12 +807,13 @@ passport の直接の出所ではない。§12 の「§2 入口契約を逐語�
 |---|---|
 | **P60-B1** | `N∞-N` を (60.1) または (60.2) へ型修理し、norm/divisor pushforward の proof artifact を書く |
 | **P60-B2** | `N∞-1:1` に (60.3)(60.4) を追加し、集合の単射だけでなく局所 multiplicity 一致を証明する |
-| **P60-B3** | `N∞-criterion` (60.6) の必要十分定理を置き、E-7 を target condition、E-1〜E-6 を raw candidate precondition と型分離する |
+| **P60-B3** | `N∞-swap` に \(j\)-stability の導出を明記し、`N∞-criterion` (60.6) の必要十分定理を置く。E-7 を target condition、E-1〜E-6 を raw candidate precondition と型分離する |
 | **P60-B4** | T-2 を \(d=\gcd(a,a')\)、\(a'\doteq pd\)、\(a'/p\doteq d\) に置換する |
 | **P60-B5** | T-1 通過後の T-2〜T-7 を cross-check lane とし、`REJECT` / `INTEGRITY_STOP` の到達状態を一意化する。actual finite partitions も両経路で比較する |
 | **P60-B6** | ramification/branch divisor の canonical object schema、または独立 equality certificate を定義する |
-| **P60-B7** | `fibers[]` と candidate-dependent divisor digests を `SEALED_INTERNAL` に移し、public envelope + 五数学欄を明記する |
+| **P60-B7** | `fibers[]` と candidate-dependent divisor digests を `SEALED_INTERNAL` に移し、public envelope + 五数学欄を明記する。`fiber_ref/id` と EP extension field も schema 化する |
 | **P60-B8** | S5-1/S5-2/S5-2a/S5-3∞ の provenance を F11 の型へ直し、negative lane / clean steward の役割分離を加える |
+| **P60-B9** | whitelist の squareclass base field \(K\)、\(-1\in K^{\times2}\) の proof ID、S5-4∞ dependency を freeze bundle に型付けする |
 
 従って current SHA
 
@@ -786,7 +846,8 @@ audited_predecessor_rejected
 
 ### F13.1 `N∞-pair` を `N∞-swap` より先に置く
 
-任意の Pell tuple に対し、\(\bar{\mathbb Q}\) 上で \(s^2=-C\) を選べば
+任意の Pell tuple に対し、
+\(\bar{\mathbb Q}\) 上で \(s^2=-\hat c_\mu\) を選べば
 
 \[
 H_{\pm s}=\mp2s\,a
@@ -794,7 +855,7 @@ H_{\pm s}=\mp2s\,a
 
 は target を仮定せず成立する。これを
 
-> **Lemma `N∞-pair`.** \(s^2=-C\) なら二 fiber は non-fixed で、
+> **Lemma `N∞-pair`.** \(s^2=-\hat c_\mu\) なら二 fiber は non-fixed で、
 > その partition はともに \(\operatorname{rootpart}(a)\)。
 
 として独立させると、
@@ -893,4 +954,3 @@ reason-code enum ID/digest
 - searcher/checker は未実装なので独立計算は未監査;
 - GAP、Lean、外部文献は使用していない。従って本便は
   `paper audit` であり、いずれの新補題も Lean `verified` とは呼ばない。
-

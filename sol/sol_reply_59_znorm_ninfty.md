@@ -349,16 +349,28 @@ hyperelliptic projection \(\pi:C\to\mathbb P^1_x\) による
 
 ### F6.2 反例機構
 
-\(p(x_0)=0\)、\(f_6(x_0)\ne0\)、\(v=a(x_0)\) とする。Pell より
+\(x_0\) を \(p\) の根とし、
+\(f_6(x_0)\ne0\)、\(v=a(x_0)\)、
+\(m=\operatorname{ord}_{x_0}p\ge1\) とする。Pell より
 \(a(x_0)^2=\hat c_\mu\) で、\(x_0\) 上の相異なる二点 \(Q,\iota Q\) は
-どちらも \(\mu=v\) へ写る。一方
+どちらも \(\mu=v\) へ写る。また
 
 \[
-H_v=(v-a)^2
+(a-v)(a+v)=f_6p^2
 \]
 
-は \(x_0\) に二重点を持ち得る。これは fiber 上の「一つの \(e=2\) 点」
-でなく、二つの単純点の multiplicity の**和**である。
+と \(a(x_0)+v=2v\ne0\) より
+\(\operatorname{ord}_{x_0}(a-v)=2m\)。従って
+
+\[
+H_v=v^2-2va+\hat c_\mu=2v(v-a)
+\]
+
+は \(x_0\) に multiplicity \(2m\) の根を持つ。一方
+\(\mu-v=(a-v)+py\) は \(Q,\iota Q\) の双方で \(p\,y\) を先頭項に
+持つので、二点はいずれも \(e=m\) である。\(H_v\) の一つの
+multiplicity \(2m\) の根は、fiber 上の二つの multiplicity \(m\) の点を
+合算したものである。
 
 従って
 
@@ -603,11 +615,9 @@ p(x_0)^2f_6(x_0)=-\hat c_\mu=s^2\ne0.
 従って両 finite fibers は自動的に \(p\ne0,\ f_6\ne0\) の非退化 locus にあり、
 
 \[
-\boxed{\
-\operatorname{part}\mu^{-1}(s)
+\boxed{\operatorname{part}\mu^{-1}(s)
 =\operatorname{part}\mu^{-1}(-s)
-=\operatorname{rootpart}(a).
-\ }
+=\operatorname{rootpart}(a)}.
 \tag{9.2}
 \]
 

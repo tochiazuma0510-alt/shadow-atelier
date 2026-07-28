@@ -1,7 +1,7 @@
-# (TB4) の自前導出 — 枠組条件 $\varepsilon=1$ の解消 **v2.4(便 51 F4 status/provenance 同期版)**
+# (TB4) の自前導出 — 枠組条件 $\varepsilon=1$ の解消 **v2.5(裁定 71・`Z-norm-seal/v1` 発効に伴う TB4-B 札更新版)**
 
-2026-07-27 起草(v1)・2026-07-28 **v2**(便 48 Part B 修理)・**v2.1**(裁定 55)・**v2.2**(裁定 57 / 便 49)・**v2.3**(裁定 59 / 便 50 F2.2・F3・F4・F5・F7・F8.2 + Sol T-15)・**v2.4**(裁定 61 / 便 51 F4): Claude(数学者レイヤー・Opus 5・**第二インスタンス**)。司令塔委嘱「(TB4) の自前導出」。研究者 GO 済み。
-**便 50 の判定: 数学核は全 PASS**(TB4-D/D′・TB4-E・$\hat b_i=b_{\rm op}$・四段のはしごの骨格・検査 5(d′) の算術・$K^{(3)}$ 副次記録)。**便 51 F4 も束 3 の 8 項目すべてを PASS** と判定した。**v2.3 は表示と型付けのみ、v2.4 は live status/provenance の同期と checker のラベル整合のみ** — **どちらも定理を 1 ミリも動かさない**(現物 checker `search/tb4-monodromy-check.mjs` **37/37**)。
+2026-07-27 起草(v1)・2026-07-28 **v2**(便 48 Part B 修理)・**v2.1**(裁定 55)・**v2.2**(裁定 57 / 便 49)・**v2.3**(裁定 59 / 便 50 F2.2・F3・F4・F5・F7・F8.2 + Sol T-15)・**v2.4**(裁定 61 / 便 51 F4)・**v2.5**(裁定 71 / `docs/znorm_apply_patches_v1.md` P-1・`Z-norm-seal/v1` 発効に伴う TB4-B 札の適用): Claude(数学者レイヤー・Opus 5・**第二インスタンス**)。司令塔委嘱「(TB4) の自前導出」。研究者 GO 済み。
+**便 50 の判定: 数学核は全 PASS**(TB4-D/D′・TB4-E・$\hat b_i=b_{\rm op}$・四段のはしごの骨格・検査 5(d′) の算術・$K^{(3)}$ 副次記録)。**便 51 F4 も束 3 の 8 項目すべてを PASS** と判定した。**v2.3 は表示と型付けのみ、v2.4 は live status/provenance の同期と checker のラベル整合のみ、v2.5 は `Z-norm-seal/v1` 発効に伴う TB4-B の札更新のみ** — **いずれも定理を 1 ミリも動かさない**(現物 checker `search/tb4-monodromy-check.mjs` **37/37**・数値は不変)。
 **v2 は `sol/sol_reply_48_tb4_v24.md` Part B(F4–F13)の監査を反映**(司令塔指示 1–8 / Sol F14 項 5–7+α)。**解析計算(補題 TB4-2)は開け直していない** — 便 48 F6 が「解析持ち上げは正しい」と判定した部分は不変である。
 **v2.1 は裁定 55**(§4.4 の波及指摘が B-6 所有者の検分で**確定**・BFC v2.6 で (TB2′)$=$(Z20-link) 前件化済)**の副産物「$b$ の定義差」を §3.5 に辞書として立てた**。
 
@@ -75,6 +75,14 @@
 
 > **v2 でも不変(便 48 が PASS と判定した部分)**: **補題 TB4-1**(後合成の計算)・**補題 TB4-2 の解析持ち上げ**($w_j(t)=\bar\iota(\zeta_n)^j\delta^{1/n}e^{2\pi it/n}$ の一意性と終点)・**補題 TB4-0**(標識の平行移動は巡回 torsor の作用を変えない)・**比較式 (\*)**・**$\varepsilon=\chi_{\rm cyc}(\vartheta)$ の一般式**・**(Z-norm) 追加下の TB4-B**・**§6 の符号敏感性**・**★教材 T1/T2**(便 48 F12 が両方採用)。修理は**前件の型付け・定理の分割・条文の精密化**であり、解析計算は 1 ミリも動かない。
 
+### v2.4 → v2.5 差分(裁定 71・`docs/znorm_apply_patches_v1.md` P-1 の適用・**TB4-B の札更新のみ**)
+
+| # | 箇所 | v2.4 | v2.5 | 出所 |
+|---|---|---|---|---|
+| **V34** | §0 状態札の表・§3.3 定理 TB4-B・§8.5 状態札の更新案・付録 A の TB4-B 行 | 札 `paper-proof / conditional on (Z-norm)` | **`root-normalization-relative paper theorem / A3-framework-conditional`(relative to `Z-norm-seal/v1`)**。**TB4-A20 の札は不変(据え置く)** | 裁定 71(委嘱 4)・`docs/znorm_apply_patches_v1.md` P-1 |
+
+> **v2.5 で数学は一切動かない。** `Z-norm-seal/v1` の発効に伴う TB4-B の**札(status label)更新のみ**であり、TB4-3・TB4-A20・TB4-D/D′/E・はしご (3.6)(3.7)・negative fixture `NF-root-link/K5`・checker **37/37** はすべて不変(P-1「適用しないもの」: §3.5.2 命題 TB4-E の前件・札、§8.4 の測定規律・integrity quarantine、§8.7 の amendment 非削減条項、§12.1 文献要請 13(ii) の縮小維持は**一切変更していない**)。
+
 ---
 
 ## 用いた正典
@@ -113,7 +121,7 @@
 > | TB4-2(解析持ち上げ) | `paper-proof / A3-framework-conditional PASS`(便 48) |
 > | TB4-3 の比較式 (\*) | `paper-proof / framework-conditional PASS`(便 48) |
 > | **TB4-A20**($\varepsilon\equiv1\ (20)$) | **`paper-proof / conditional on (Z20-link)` — 便 50 F2.1 で型修理後 PASS**(**two-mathematician audit 前**・Lean `verified` ではない) |
-> | **TB4-B**($\varepsilon=1$) | **`paper-proof / conditional on (Z-norm)`**(便 48「条件付き PASS」) |
+> | **TB4-B**($\varepsilon=1$) | **`root-normalization-relative paper theorem / A3-framework-conditional`(relative to `Z-norm-seal/v1`)**(便 48「条件付き PASS」→ 裁定 71・`Z-norm-seal/v1` 発効に伴い札更新。**`verified`(Lean)ではない・「無条件」ではない**) |
 > | 数値 checker | **`37/37 sanity only`**(`search/tb4-monodromy-check.mjs`・**証明の一部ではない**・網羅性は検査していない) |
 >
 > **$B_{\rm FC}$ の状態札は、(Z20-link)/(Z-norm) が凍結されるまで更新しないこと**(便 48 F10.1「現時点ではまだ更新しない」)。
@@ -263,6 +271,14 @@ $$ \bar\iota\bigl(\zeta_{20}^{\rm TB2}\bigr)=\iota_\infty\bigl(\zeta_{20}^{\rm R
 > **(Z-norm) の実現可能性**: $\bar\iota_0$ を $\iota_\infty$ の任意の延長とし $\zeta_n:=\bar\iota_0^{-1}(e^{2\pi i/n})$ と**定義**すればよい。(i) 整合系 ✓ (ii) $n\mid20$ で Rule 1 (1.6)(1.7) と一致 ✓ (iii) (Z20-link) を含む ✓。**新しい算術仮定ではなく、未指定だった比較データの選択である**(便 48 F8)。
 
 > **★【v2・V2 / 便 48 F13.2】なぜ二段に分けるか**: $K^{(5)}$ 運用に必要なのは $\varepsilon\bmod10$ だけである。**(Z-norm)(全 $n$ の profinite normalization)の版上げ事故が、$M\mid20$ の finite 結論を巻き込まない**ようにする。**TB4-A20 と TB4-B は別札で管理すること。**
+
+> **【v2.5 新設・裁定 71・`Z-norm-seal/v1` 発効に伴う TB4-B 札更新】** 定理 TB4-B の $\varepsilon=1$ は、`Z-norm-seal/v1` の下で **root-normalization-relative な紙上定理**になった。
+> **1. `verified`(Lean)ではない。**
+> **2. A3-framework-conditional のまま** — `Z-norm` は A3(位相 forward transport $\leftrightarrow$ 代数 後合成左作用)を**証明しない**(本稿 §8.2・component 3 §6-4)。【GAP-TB】は残る。
+> **3. 「無条件」と呼ばない**(★教材 T11:「無条件」は空の前件を意味する)。正しくは「`Z-norm-seal/v1` に相対的」。
+> **4. 定理 TB4-A20 の札は据え置く。** `Z-norm` が `Z20-link` を含意しても、**有限定理の前件を profinite seal へ書き換えてはならない**(scope 逆行 = 便 55 P55-2 lint 違反)。
+> **5. 四段のはしご (3.6)(3.7) は不変。** $L3\nRightarrow L4$ の witness($2,5$ 進成分 $1$・$3$ 進成分 $-1$ の $\hat{\mathbb Z}^\times$ unit)は、**seal が発効しても「$L3$ から $L4$ は出ない」という論理事実**として残る — seal は $L4$ を**仮定**として供給するのであって、$L3$ から**導出**するのではない。
+> **6. `NF-root-link` 系 negative fixture は存続。** seal は「$t_{20}=11$ が起こらない」ことを保証するが、**「起こっても検出できる」ことは保証しない**(測定の盲点は seal では消えない・§3.5.4)。
 
 ### 3.4 【v2・V1 新設】blocker B1 の記録 — countermodel の独立再現
 
@@ -637,11 +653,13 @@ $$ \begin{array}{ll}
 \text{提案:} & \texttt{TB1, TB3, TB4}^{\rm u}\texttt{, A3 = global framework assumptions}\\
 & \texttt{TB2 + TB2-norm seal = workshop conventions}\\
 & \texttt{TB4-A20 = finite theorem (M | 20), conditional on Z20-link}\\
-& \texttt{TB4-B = profinite theorem, conditional on Z-norm}\\
+& \texttt{TB4-B = root-normalization-relative paper theorem / A3-framework-conditional (relative to Z-norm-seal/v1)}\\
 & \texttt{no root-selection literature gate remains; A3 orientation gate remains}
 \end{array} $$
 
 **便 48 F10.1「現時点ではまだ更新しない」に従う。** 加えて **§4.4 の $B_{\rm FC}$ 側への波及**((TB2) 条文への (Z20-link) 追記)を同一 version event で裁定されたい。
+
+> **【v2.5・裁定 71】上表の TB4-B 行は `Z-norm-seal/v1` 発効に伴い適用済み**(§3.3 の注・出所は `docs/znorm_apply_patches_v1.md` P-1)。**TB4-A20 行は不変のまま据え置く。**
 
 ### 8.6 【v2・V9】`TB4-comparison-seal/v1`(便 48 F13.1 を採用)
 
@@ -687,6 +705,28 @@ profinite  -> epsilon = 1            # (Z-norm)・定理 TB4-B                  
 ```
 
 > **★ この enum の効き目**: **四段のはしごを prose ではなく schema に載せることで、L2 と L3 の同欄圧潰を機械が拒否できる**(便 50 F8.2)。`mod_M` を宣言した record が $\varepsilon\equiv1\ (2M)$ を主張したら fail-closed で止まる — **v2.2 の blocker と同型の事故が二度と通らない。**
+
+> **【v2.5 新設・裁定 71・`docs/znorm_apply_patches_v1.md` P-2】`root_normalization_level = profinite` を宣言できる条件**:
+> ```text
+> root_normalization_level = profinite を宣言できるのは、当該 record が次を
+> すべて満たすときに限る:
+>
+>   (R1) znorm_seal_id           が実在し、operative な Z-norm-seal を指す;
+>   (R2) profinite_equality_edge が実在し、
+>          edge_id = "tb2-canonical-root-equality/profinite-v1"
+>          scope   = profinite
+>        であり、その certificate digest が解決できる;
+>   (R3) 当該 window が Z-norm-seal の window inventory で
+>          compatibility_status = migrated
+>        であり、migrated_record_digest が実値で解決できる。
+>
+> いずれかを欠く record が profinite を宣言した場合は fail-closed で停止する
+> (既定値へ落とさない)。
+> ```
+> **注 1.** `migrated` は昇格ではない。window inventory の `compatibility_status = migrated` は**root object の同一性**を言うだけで、その window の `root_normalization_level` を `profinite` にはしない。**昇格には (R1)(R2)(R3) の三つが揃うことが要る**(`docs/znorm_seal_final_v1.md` component 2 §5)。
+> **注 2.** `level_2M` を宣言した record が $\varepsilon=1$ を主張したら従来どおり fail-closed。本条文は逆向き(`profinite` の乱用)を塞ぐもので、既存の順方向 lint を置き換えない。
+> **注 3.** `b_semantics="op"` / `b_value_i = b_op_value` は不変(便 49 F4.3)。`b_cmp_value` は `root_system_tb2_id` を伴う別欄でのみ許す。
+> **注 4.** `pending` / `not_assessed` の window は (R3) を満たさない。**seal 発効だけでは `profinite` を宣言できない**($K^{(3)}$・$A_5$ が該当)。
 
 **checker invariant(検査 5)**:
 ```text
@@ -834,7 +874,7 @@ $\hat b_i=b_{\rm op}$ の根拠は (B-ii)、すなわち「$\ell_i$ と $x=[\gam
 | **TB4-2** | $x=[\gamma_0]$ は $\eta_n$ 倍で作用 | **C1, C5, chosen $\bar\iota$, radial comparison, A3** | 検査 1 | 便 48 **A3 条件付き PASS** |
 | **TB4-3** | 比較式 ($*$): $\zeta_n^{\,\varepsilon}=\eta_n$、$\varepsilon=\chi_{\rm cyc}(\vartheta)$ | A1–A3, C1, C5, C6, A12 | — | 便 48 **framework-conditional PASS** |
 | **TB4-A20** | **$\varepsilon\equiv1\ (20)$**、$M\mid20$ で $b_{\rm cmp}=b_{\rm op}=1$ | TB4-3 $+$ **A10 (Z20-link)** $+$ A6, A7 | 検査 1・4 | **便 50 F2.1 で型修理後 PASS**(two-mathematician 前) |
-| **TB4-B** | **$\varepsilon=1$**($=$ exact (TB4)) | TB4-3 $+$ **A11 (Z-norm)** | — | 便 48 **条件付き PASS** |
+| **TB4-B** | **$\varepsilon=1$**($=$ exact (TB4)) | TB4-3 $+$ **A11 (Z-norm)** | — | **`root-normalization-relative paper theorem / A3-framework-conditional`(relative to `Z-norm-seal/v1`)**・便 48 条件付き PASS(**v2.5・裁定 71 で札更新**) |
 | **(3.3)** | root-object ずれで $\varepsilon\equiv t_{20}^{-1}(20)$、**$b_{\rm cmp}\equiv\bar t_{10}\ (10)$** | TB4-3 | **検査 4**(8 元悉皆) | **便 49 F6.2 で PASS**($t_{20}$ を使えば正しい・型修理後) |
 | **型分離** | **$t_{2M}\in(\mathbb Z/2M)^\times$ と $\bar t_M$ の分離・(Z$_{2M}$-link)$\iff t_{2M}=1$・$\bar t_M=1$ は不十分** | — | **検査 5(c)(d)**(negative fixture $t_{20}=11$) | **v2.2**(便 49 F4.1 blocker を受諾) |
 | **TB4-D** | **辞書 $b_{\rm op}=b_{\rm cmp}\cdot\bar t_M^{-1}$** | **(D-i)(D-ii)(D-iii)**(§3.5.1・**「定義だけ」を撤回**) | **検査 5(a)**(64 対) | **便 49 F4.2 で PASS**(型修理後) |
