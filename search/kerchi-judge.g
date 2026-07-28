@@ -287,13 +287,48 @@ end;;
 CorrectedShadowsXi := function(W, charmingSet)
   local out, settledFails, failWitnesses, D, AutP, actFun, Stab, stabElts,
         m, u, alpha0, yu, Cyu, cElts, s, target, hRep, f0, c, f, scannedCount,
-        theoreticalBound, settledHom;
+        theoreticalBound, settledHom, fastAutN;
   out := [];  settledFails := 0;  failWitnesses := [];  scannedCount := 0;
   theoreticalBound := 0;
   D := DerivedSubgroup(W.PN);
-  AutP := AutomorphismGroup(W.PN);
-  actFun := function(pt, g) return Image(g, pt); end;
-  Stab := Stabilizer(AutP, W.x, actFun);
+
+  # PERFORMANCE fast-path (裁定181・strike-a16 prep, 2026-07-29): for P = A_n
+  # (n<>6), Aut(P) = S_n acting by ordinary conjugation -- this is explicitly
+  # noted in docs/notes/wac_reverse_design_v1.md S3.4 item 2 ("P=A_n なら S_n
+  # 内の共役元探索で足りる"). Using the GENERIC AutomorphismGroup(P) +
+  # Stabilizer(AutP, xbar, actFun) path for W-D-A16-11a (|Aut(P)|=16!~2e13)
+  # was found, while timing this window for the strike driver, to not
+  # complete Stabilizer() even after 90+ seconds. Two separate performance
+  # traps were found and fixed here, not just one:
+  #  (a) AutomorphismGroup(P) itself returns instantly (GAP recognizes A_n
+  #      and returns S_n's structure cheaply), but Stabilizer/
+  #      RepresentativeAction called on that abstract automorphism-group
+  #      OBJECT (even with a mathematically-correct custom action function)
+  #      does not get GAP's fast permutation-conjugacy algorithms.
+  #  (b) Even after switching AutP to a genuine permutation group
+  #      (Sym(support)) with actFun(pt,g):=pt^g (ordinary conjugation),
+  #      calling the GENERIC Stabilizer(AutP,xbar,actFun) /
+  #      RepresentativeAction(AutP,xbar,xbar^u,actFun) 4-argument forms
+  #      (custom action function supplied) was STILL too slow (still not
+  #      done after 60+ seconds) -- GAP's fast conjugacy-class algorithms are
+  #      only reliably invoked via the DEDICATED Centralizer(G,pt) /
+  #      RepresentativeAction(G,d,e) forms (no custom action function; GAP
+  #      then recognizes this is ordinary permutation conjugation and uses
+  #      its optimized centralizer/conjugacy machinery), which is what is
+  #      actually used below for the fastAutN branch -- confirmed instant
+  #      (0ms) on W-D-A16-11a. This was NOT part of the calibration in
+  #      search/kerchi-judge-v13-calibration.g (whose P's are SL(2,5)/
+  #      SL(2,7), not alternating), so it does not touch that already-
+  #      calibrated path (fastAutN = false there, generic branch unchanged).
+  fastAutN := IsNaturalAlternatingGroup(W.PN) and NrMovedPoints(W.PN) <> 6;
+  if fastAutN then
+    AutP := SymmetricGroup(MovedPoints(W.PN));
+    Stab := Centralizer(AutP, W.x);
+  else
+    AutP := AutomorphismGroup(W.PN);
+    actFun := function(pt, g) return Image(g, pt); end;
+    Stab := Stabilizer(AutP, W.x, actFun);
+  fi;
   stabElts := Elements(Stab);   # |Stab(xbar)| -- expected small (e.g. 1320 for A16-11a)
 
   for m in charmingSet do
@@ -303,13 +338,24 @@ CorrectedShadowsXi := function(W, charmingSet)
     cElts := Elements(Cyu);     # |C_P(ybar^u)| -- expected small (e.g. 660 for A16-11a)
     theoreticalBound := theoreticalBound + Length(stabElts) * Length(cElts);
 
-    alpha0 := RepresentativeAction(AutP, W.x, W.x^u, actFun);
+    if fastAutN then
+      alpha0 := RepresentativeAction(AutP, W.x, W.x^u);   # dedicated conjugacy search, no action fn
+    else
+      alpha0 := RepresentativeAction(AutP, W.x, W.x^u, actFun);
+    fi;
     if alpha0 = fail then
       continue;   # A_m empty for this m -- no candidates, per Prop 3.1
     fi;
 
     for s in stabElts do
-      target := Image(alpha0, Image(s, W.y));   # alpha(ybar), alpha = alpha0 composed with s
+      # alpha(ybar), alpha = alpha0 composed with s ("s first, then alpha0"):
+      # fastAutN uses GAP's right-action convention pt^(g1*g2)=(pt^g1)^g2, so
+      # "s first, then alpha0" is the product s*alpha0, NOT alpha0*s.
+      if fastAutN then
+        target := W.y ^ (s * alpha0);
+      else
+        target := Image(alpha0, Image(s, W.y));
+      fi;
       # solve f0 * yu * f0^-1 = target via GAP's standard OnPoints action
       # (pt^g = g^-1*pt*g) applied to h with (yu)^h = target, then f0 := h^-1:
       hRep := RepresentativeAction(W.PN, yu, target, OnPoints);
