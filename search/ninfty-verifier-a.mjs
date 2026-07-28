@@ -231,22 +231,72 @@ function checkAmbient(cert) {
 export function verifyChartOverlap_forTest(w) { return verifyChartOverlap(w); }
 export function classifyChartOverlapEntry_forTest(w) { return classifyChartOverlapEntry(w); }
 
+// 裁定189 F82-3.1 item 3: a SAFE (never-throwing) rational-coefficient
+// schema check, run BEFORE any arithmetic (Q.of/BigInt) ever sees the
+// value. Accepts a JS integer, or a string "n" or "n/d" (optional sign,
+// decimal digits only), with d provably != 0 -- checked via regex FIRST so
+// BigInt() is only ever called on already-validated digit strings (Sol's
+// crash probe: BigInt("bad") threw an uncaught SyntaxError before this
+// check existed).
+const _INT_STRING_RE = /^[+-]?\d+$/;
+function _isValidRationalCoeff(x) {
+  if (typeof x === 'number') return Number.isInteger(x);
+  if (typeof x !== 'string') return false;
+  const parts = x.split('/');
+  if (parts.length === 1) return _INT_STRING_RE.test(parts[0]);
+  if (parts.length === 2) {
+    if (!_INT_STRING_RE.test(parts[0]) || !_INT_STRING_RE.test(parts[1])) return false;
+    return BigInt(parts[1]) !== 0n; // safe: parts[1] already regex-validated digits-only
+  }
+  return false;
+}
+function _isValidGeneratorArray(g) {
+  return Array.isArray(g) && g.length > 0 && g.every(_isValidRationalCoeff);
+}
+
 // Validates ONE entries[] item's own required-field schema (裁定185
-// F81-3.1 item 3). Returns null if well-formed, else a reason string.
+// F81-3.1 item 3, sharpened by 裁定189 F82-3.1 items 1/3). v3 条項7 lists
+// FOUR+ONE required fields for a chart-overlap witness item:
+// `chart_pair`, `generator_chart_a`, `generator_chart_b`, `agree`,
+// `locus_type` -- ALL required now (the prior version only required
+// `agree`, treating chart_pair/locus_type as unchecked and the two
+// generators as jointly optional; Sol's direct probe showed
+// {agree:true} and {agree:true, chart_pair:[...]} both reaching PASS with
+// no independently-verifiable content at all). Returns null if
+// well-formed, else a reason string (never throws).
 function _validateChartOverlapInnerEntry(ow) {
   if (!ow || typeof ow !== 'object' || Array.isArray(ow)) {
     return 'entries[] item is not an object';
   }
+  if (typeof ow.locus_type !== 'string' || ow.locus_type === '') {
+    return "entries[] item missing 'locus_type' (or not a non-empty string) -- required per v3 条項7 (裁定189 F82-3.1 item 1)";
+  }
+  if (!Array.isArray(ow.chart_pair) || ow.chart_pair.length !== 2
+      || !ow.chart_pair.every((c) => typeof c === 'string' && c !== '')) {
+    return "entries[] item missing 'chart_pair' (or not a 2-element array of non-empty chart-id strings) -- required per v3 条項7 (裁定189 F82-3.1 item 1)";
+  }
   if (typeof ow.agree !== 'boolean') {
-    return "entries[] item missing 'agree' field, or 'agree' is not a boolean";
+    return "entries[] item missing 'agree' field, or 'agree' is not a boolean -- required per v3 条項7";
   }
-  const hasA = Object.prototype.hasOwnProperty.call(ow, 'generator_chart_a');
-  const hasB = Object.prototype.hasOwnProperty.call(ow, 'generator_chart_b');
-  if (hasA !== hasB) {
-    return 'entries[] item has only one of generator_chart_a/generator_chart_b (must be both present or neither)';
+  // 裁定189 F82-3.1 item 2: BOTH generators are now REQUIRED, unconditionally
+  // -- an omitted generator (or only one supplied) is a schema violation, not
+  // a "nothing to check, assume true" case (that was exactly the gap Sol's
+  // {agree:true}/{agree:true,chart_pair:[...]} probes exploited: a bare
+  // producer claim with no independently-recomputable evidence must never
+  // reach PASS).
+  if (!Object.prototype.hasOwnProperty.call(ow, 'generator_chart_a')
+      || !Object.prototype.hasOwnProperty.call(ow, 'generator_chart_b')) {
+    return "entries[] item missing generator_chart_a and/or generator_chart_b -- BOTH required per "
+           + "v3 条項7 (a bare {agree:true} claim is not independently re-verifiable evidence, "
+           + "裁定189 F82-3.1 item 2)";
   }
-  if (hasA && (!Array.isArray(ow.generator_chart_a) || !Array.isArray(ow.generator_chart_b))) {
-    return 'entries[] item generator_chart_a/generator_chart_b must both be arrays when present';
+  // 裁定189 F82-3.1 item 3: coefficient rational-schema check BEFORE any
+  // arithmetic ever runs (never a crash on malformed coefficients like "bad",
+  // never a silent zero-denominator throw either).
+  if (!_isValidGeneratorArray(ow.generator_chart_a) || !_isValidGeneratorArray(ow.generator_chart_b)) {
+    return "entries[] item generator_chart_a/generator_chart_b must be non-empty arrays of valid "
+           + "rational coefficients (a JS integer, or a string 'n' or 'n/d' with d != 0) -- "
+           + "裁定189 F82-3.1 item 3";
   }
   return null;
 }
@@ -300,17 +350,22 @@ function verifyChartOverlap(w) {
   if (c.status === 'ABSENT') return 'ABSENT';
   if (c.status === 'MALFORMED') return 'MALFORMED';
   // c.status === null: status==='PRESENT', entries is non-empty, and every
-  // item already passed schema validation above -- independent
-  // re-verification: each declared overlap witness must claim agreement
-  // AND (if it carries ideal generators for the two charts) must actually
-  // reduce to the same monic ideal.
-  const allOk = c.entries.every((ow) => {
-    if (ow.agree !== true) return false;
-    if (ow.generator_chart_a && ow.generator_chart_b) {
-      return reducesToZero(ow.generator_chart_a, ow.generator_chart_b) && reducesToZero(ow.generator_chart_b, ow.generator_chart_a);
-    }
-    return true;
-  });
+  // item already passed the schema gate above (chart_pair/locus_type/agree
+  // present+typed, BOTH generators present with schema-valid rational
+  // coefficients). 裁定189 F82-3.1 item 2: PASS is decided SOLELY by this
+  // receiver's OWN recomputed generator equivalence (mutual reduction to
+  // zero) -- the producer's `agree` claim is a required SCHEMA field (v3
+  // 条項7) but is NEVER itself trusted for the verdict, matching this
+  // codebase's "producer claim, never authoritative" discipline used
+  // everywhere else (lane B's witness/status handling, W-2/W-2' Bezout
+  // re-derivation, etc.). There is no more "generator omitted -> vacuously
+  // true" branch: the schema gate already REQUIRES both generators, so
+  // every entry reaching this point has real, independently-checkable
+  // content.
+  const allOk = c.entries.every((ow) => (
+    reducesToZero(ow.generator_chart_a, ow.generator_chart_b)
+    && reducesToZero(ow.generator_chart_b, ow.generator_chart_a)
+  ));
   return allOk ? 'PASS' : 'FAIL';
 }
 

@@ -46,13 +46,16 @@ v1(裁定145 処方・便78 §3 で Sol 提出)は「status 欄必読」と「�
   - 出力は変換の事実(`converted: bool`)+ 旧 blob の digest(`legacy_digest`/`legacy_certificate_digest`)+ 新 blob の digest(`canonical_digest`/`canonical_certificate_digest`)を記録する。
   - normalizer はいかなるファイルもその場で書き換えない(`normalize_certificate_w4` は deep copy を返す)。verifier(lane B)自体は旧形を一切受理しない — normalizer を経由しない限り旧形は MALFORMED のまま。
 
-## 適用先(裁定152 §3-1 スコープ)
+## 適用先(現行、裁定152 §3-1 → 177 F80-4.1 → 185 F81-3.1 → 189 F82-3.1 の累積)
 
-- lane B `ninfty-verifier-b.py` の `verify_W4`/`_validate_w4_entry`: 単一正規形の厳格検査へ更新済み。
+- lane B `ninfty-verifier-b.py` の `verify_W4`/`_validate_w4_entry`: 単一正規形の厳格検査(裁定152)+ retired key(`per_overlap_witnesses`)併存拒否(裁定177 F80-4.2 条件5 の lane B 側実装)へ更新済み。
 - lane A 生成側(`ninfty-searcher-v2.mjs` の `generateCertificate`)の chart_overlap_witnesses: `entries` キーへ改名済み(status は元々 `"ABSENT"` のみ)。
 - `search/ninfty-witness-gen.py`(full-witness fixture 生成の独立部品)も `entries`/`status:"PRESENT"` へ更新済み。
-- lane A の**検証側**(`ninfty-verifier-a.mjs` の `verifyChartOverlap`)は本ラウンドでは**不変**(status==="ABSENT" の早期リターンが配列キー名に依存しないため実害なし。真の PRESENT/PASS 経路の強化は別工程・別途判断)。
-- W-6(pushforward)は**追補 (o) 諮問中につき不変**(本改訂の対象外)。
+- **lane A の検証側(`ninfty-verifier-a.mjs` の `classifyChartOverlapEntry`/`verifyChartOverlap`)は現在 lane B と同等まで強化済み**(v1 発行時点の「本ラウンドでは不変」は失効 — 以下 4 便にわたり順次発効):
+  - 裁定177 F80-4.1: 条項1〜6 の六分岐(entries 読取り・status 欠落/未知値/ABSENT+非空/PRESENT+空 = MALFORMED・PRESENT+正常非空 = 再検証で PASS 可)を実装、W-4 MALFORMED はトップレベル `{malformed:true,...}` へ昇格(W-6 pushforward と同じパターン)。
+  - 裁定185 F81-3.1: (a) divisor_object ごと**重複 entry**(2 件以上)= MALFORMED(v3 条項7 の厳密 1 entry)、(b) retired key(`per_overlap_witnesses`)**併存** = MALFORMED(status/entries が単独では有効でも無条件拒否)、(c) PRESENT 内側 entry の**最小限**の必須欄(`agree` の型)+ crash 耐性を実装。
+  - 裁定189 F82-3.1: PRESENT 内側 entry の必須欄を v3 条項7 の完全な列挙(`chart_pair`・`generator_chart_a`/`generator_chart_b`・`agree`・`locus_type`、全て必須かつ型検査)へ拡張。**両 generator は必須**(片側のみ・両方省略のいずれも MALFORMED — 「generator 省略の `{agree:true}` を証拠なし PASS にしない」)。PASS は receiver が generator の同値(相互 reduces-to-zero)を**独立に再計算した場合のみ**(producer の `agree` 値そのものは判定に使わない — 本コードベース一貫の「producer claim は信任しない」規律)。係数は算術(BigInt 変換)前に有理数 schema(整数、または `"n/d"` で `d≠0`)を検査し、不正値は uncaught 例外でなく top-level MALFORMED。
+- W-6(pushforward)は**追補 (o) 諮問中につき不変**(本改訂・および上記 lane A 強化のいずれの対象外)。
 
 ## v1 → v2 差分まとめ
 
@@ -66,4 +69,10 @@ v1(裁定145 処方・便78 §3 で Sol 提出)は「status 欄必読」と「�
 
 ## 状態
 
-Sol F78-3.2 FAIL の是正として発効(裁定152 §3-1 実装完了・両 lane フルテスト+normalizer ユニットテスト実行済み)。v1 は本ファイル冒頭「経緯」節に履歴として残す(別ファイルへの退避はしない — 単一ファイルの改訂履歴として十分)。
+Sol F78-3.2 FAIL の是正として発効(裁定152 §3-1)。その後 Sol の一段外からの直接 probe で lane A 検証側の残差が 3 ラウンド連続で発見され、都度修理・回帰追加・フルテスト実行済み:
+
+- 裁定177(F80-4.1/4.2 FAIL → 修理・61/61 → 発効相当)
+- 裁定185(F81-3.1 FAIL → 修理・70/70 → 発効相当)
+- 裁定189(F82-3.1 FAIL → 修理・lane A 81/81・lane B 173/173・normalizer 51/51 → 本改訂で正本同期)
+
+いずれも「node search/ninfty-selftest-lanea.mjs」「python search/test_ninfty_laneB.py」「python search/test_ninfty_legacy_normalizer.py」のフル再走で確認。v1 は本ファイル冒頭「経緯」節に履歴として残す(別ファイルへの退避はしない — 単一ファイルの改訂履歴として十分)。**次の Sol probe で追加残差が見つかる可能性は排除しない**(このファイルの「適用先」節は都度そのラウンドの実装と同期させること — candidate/発効の境界は司令塔の裁定を正とする)。

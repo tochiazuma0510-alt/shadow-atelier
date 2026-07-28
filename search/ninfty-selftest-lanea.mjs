@@ -142,7 +142,10 @@ console.log('\n=== certificate / verifier-A fixtures ===');
     return {
       divisor_object: tag,
       status: 'PRESENT',
-      entries: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen }],
+      // 裁定189 F82-3.1 item 1: locus_type is now a required entries[]
+      // field too (v3 条項7's full field list), alongside chart_pair/
+      // agree/both generators.
+      entries: [{ locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen }],
       reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
     };
   }
@@ -551,7 +554,7 @@ for (const { label, entry, expect } of ADVERSARIAL_W4) {
   const ramGen4 = native4.ramification_divisor_on_C_ref.components[0].ideal_generator;
   const goodEntry = {
     divisor_object: RAM_TAG, status: 'PRESENT',
-    entries: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen4, generator_chart_b: ramGen4 }],
+    entries: [{ locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen4, generator_chart_b: ramGen4 }],
   };
   const got4 = verifyChartOverlap_forTest(goodEntry);
   check('裁定177 adversarial 4: status=PRESENT + correct non-empty entries -> PASS (isolated)', got4 === 'PASS', `got ${got4}`);
@@ -683,6 +686,89 @@ check('裁定185 case 3 (isolated): classifyChartOverlapEntry_forTest({status:PR
       })());
 check("裁定185 case 4 (isolated): classifyChartOverlapEntry_forTest({status:PRESENT, entries:[{}]}) -> MALFORMED (not FAIL)",
       classifyChartOverlapEntry_forTest({ status: 'PRESENT', entries: [{}] }).status === 'MALFORMED');
+
+// --- 裁定189 F82-3.1: PRESENT inner-entry schema was still not fully
+//     fail-closed even after 裁定185's fix -- Sol's direct probe found
+//     THREE gaps: (1) chart_pair/locus_type were never checked, so a bare
+//     {agree:true} or {agree:true, chart_pair:[...]} reached PASS with no
+//     independently-recomputable evidence at all; (2) the two generators
+//     were "both-or-neither" (jointly optional), so their joint omission
+//     was treated as vacuously true rather than MALFORMED; (3) coefficient
+//     values were never schema-checked before arithmetic, so a bad
+//     coefficient string ("bad") threw an UNCAUGHT SyntaxError
+//     (BigInt("bad")) instead of a clean top-level MALFORMED. Sol's three
+//     exact probes, plus generator one-sided omission and a zero
+//     denominator, end-to-end via runVerifierA.
+console.log('\n=== 裁定189 F82-3.1: PRESENT inner-entry required fields + rational schema ===');
+
+const F82_PROBES = [
+  { label: "Sol probe 1: {agree:true} only (no chart_pair/locus_type/generators)", entries: [{ agree: true }] },
+  { label: "Sol probe 2: {agree:true, chart_pair:[...]} (still no locus_type/generators)", entries: [{ agree: true, chart_pair: ['A', 'B'] }] },
+  {
+    label: 'Sol probe 3: bad coefficient string ("bad") in both generators',
+    entries: [{ agree: true, chart_pair: ['A', 'B'], locus_type: 'a-pair-locus', generator_chart_a: ['bad'], generator_chart_b: ['bad'] }],
+  },
+  {
+    label: 'generator one-sided omission: generator_chart_a present, generator_chart_b MISSING',
+    entries: [{ agree: true, chart_pair: ['A', 'B'], locus_type: 'a-pair-locus', generator_chart_a: ['1', '1'] }],
+  },
+  {
+    label: 'zero denominator: generator coefficient "1/0"',
+    entries: [{ agree: true, chart_pair: ['A', 'B'], locus_type: 'a-pair-locus', generator_chart_a: ['1/0'], generator_chart_b: ['1/0'] }],
+  },
+];
+
+for (const { label, entries } of F82_PROBES) {
+  // isolated-function probe, matching Sol's own direct-probe style, AND
+  // asserting it never throws (the historical bug for probe 3/zero-denom).
+  let threw = false;
+  let got;
+  try {
+    got = classifyChartOverlapEntry_forTest({ status: 'PRESENT', entries });
+  } catch (e) {
+    threw = true;
+  }
+  check(`裁定189 ${label} -> MALFORMED, no throw (isolated)`, !threw && got.status === 'MALFORMED', threw ? 'threw' : JSON.stringify(got));
+
+  // end-to-end via runVerifierA, both divisor_object slots.
+  const { native, cert } = freshCert();
+  cert.chart_overlap_witnesses = [
+    { divisor_object: RAM_TAG, status: 'PRESENT', entries },
+    { divisor_object: BRANCH_TAG, status: 'PRESENT', entries },
+  ];
+  let threwE2E = false;
+  let vAResult;
+  try {
+    vAResult = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  } catch (e) {
+    threwE2E = true;
+  }
+  check(`裁定189 ${label} -> runVerifierA escalates malformed=true, no throw (end-to-end)`,
+        !threwE2E && vAResult.malformed === true && Array.isArray(vAResult.malformed_fields) && vAResult.malformed_fields.length > 0,
+        threwE2E ? 'threw' : JSON.stringify(vAResult));
+}
+
+// positive control: a FULLY correct entry (all five v3 条項7 fields
+// present, generators genuinely agree) still reaches PASS -- confirms the
+// stricter schema gate does not also reject the honest case.
+{
+  const { native, cert } = freshCert();
+  const goodGen = native.ramification_divisor_on_C_ref.components[0].ideal_generator;
+  const goodEntryF82 = {
+    locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'],
+    agree: true, generator_chart_a: goodGen, generator_chart_b: goodGen,
+  };
+  cert.chart_overlap_witnesses = [
+    { divisor_object: RAM_TAG, status: 'PRESENT', entries: [goodEntryF82] },
+    { divisor_object: BRANCH_TAG, status: 'PRESENT', entries: [goodEntryF82] },
+  ];
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('裁定189 positive control: fully-schema-valid, genuinely agreeing entry -> W-4 PASS (not rejected by the stricter gate)',
+        vA.malformed !== true
+        && vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-4')[1] === 'PASS'
+        && vA.R_A.branch_divisor_on_P1.find(([k]) => k === 'W-4')[1] === 'PASS',
+        JSON.stringify(vA));
+}
 
 // --- Worked examples from the spec text itself (Sec.5.3.2 line 508 and
 //     contract Sec.5.1 F4.1/F4.2), tested directly against combine()'s
