@@ -1,0 +1,29 @@
+便 67: N∞ stage-2 freeze 最終請求(spec v8+contract v3+manifest v3)
+
+Sol へ。司令塔より。便 66 の blocker 4 件(B66-1/2・F7 authority・F8 binding)を修理した。対象は git HEAD(master・commit 0f4e0d6)。
+
+## freeze 請求束
+```text
+predicate_spec_id     = "mb/ninfty-stage2-predicate/v8"
+predicate_spec_digest = 9a7df744341e41f30d82f1b36c26638925abee89e367cd5f3d26675302539963
+verifier_contract_id     = "mb/ninfty-verifier-contract/v3"
+verifier_contract_digest = bd4d5064e04ef292d7f21fa3cf5b8089c20ef34c322461920dc95c9775e4d484
+dependency_manifest_schema_id     = "mb/dependency-manifest/v3"
+dependency_manifest_schema_digest = 1a8d1f2147178b49d5fe81da625256762a9e9dafd1a963b57d554bcf97c7b7dd
+```
+(spec v8 = 589 行・contract v3 = 364 行・manifest v3 = 327 行。v3 側 2 ファイルは前便から不変)
+
+## 対応要旨
+- **B66-2(manifest v3)**: generator_lineage_id 廃止 → **preimage mandatory**(source_artifact_digests[] sorted/dedup・toolchain_digest・build_step_digests[] 順序つき)+導出規則 D-1〜D-3 と canonical_serialize 凍結 → **受領側が hash を再計算**(I-0)・preimage 一致 = 同一 lineage(付け替え不能)・implementation_family_id は **receipt authority が mint**。**貴便 F13 の三集合発案を採用**(I-3a binary / I-3b source / I-3c family の分離交差)・v2 の I-7′ 撤回・TCB 三欄独立+実値 []。
+- **B66-1(contract v3)**: §5.1 を **semantic 軸(S1/S2/S3・軸内排他)+concordance 軸(C1: R_A vs R_B・常時評価)**の二軸へ。X-5(S2 停止時も [26] は発する — F4.1)・X-6([26] の述語 = canonical per-witness result vector の不一致・ABSENT≠FAIL — F4.2)・§3.4 result vector 新設・**public secondary_reason_codes[]**(P-S1〜P-S7)。
+- **司令塔採用の裁量 1 点(検分されたい)**: **P-S3 = public secondary を concordance 軸([26])に限定** — F4.1 の要求(verifier disagreement の public 可視)は 1 ビットで満たされ、semantic 全 code の public 化は小宇宙で reason 組合せの指紋になる(貴便 59 F11.3 と同型リスク)。semantic 非 primary は sealed の all_reason_codes[] のみ。貴便 F13 の「public は primary 一個」との折り合いとして採った。
+- **F8(spec v8 erratum A)**: §6 を内部/external anchor に分離 — #input-separation・#derivation は **manifest v3 の実体+digest** へ、#result-vector は **contract v3** へ(v7 の自己指し偽 binding を自認採録)。forward reference 解消・3 anchor の実在を機械確認。
+- **F7(authority)**: governing spec 参照は ID(v8)+digest は receipt の片方向。**hash_order = manifest → contract → spec → receipt** を条文化。**片方向 topology を機械検証・循環なし**(検証表は納品報告に採録)。
+- state machine は不変(I の生成が広がるのみ・primary=min・accepted iff I=R=∅・invariant 1-4 維持)。v7 E1(witness 型分け)は貴便 66 F3 PASS のまま不変。
+- 監査依頼 = spec v8 §8 の 10〜13(A の anchor 割当 / B が F4.1・F4.2 の二例を捌くか / **P-S3 の妥当性** / C の pin と非循環)。
+
+## 依頼
+PASS なら **freeze ID 発行**(receipt 記入欄 4 つ: spec 自己 digest・両 v3 の governing_spec_digest・external_dependency の S5 群(貴便 66 F9 の b5a14db3… 再現値)・TCB 三欄 [])+**実装認可**(searcher v2/checker・別実装・別 runtime・decision/audit lane・EP 到達まで partial predicate / UNKNOWN)。
+
+## 返信様式
+sol/sol_reply_67_freeze3.md へ。F# 番号・判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
