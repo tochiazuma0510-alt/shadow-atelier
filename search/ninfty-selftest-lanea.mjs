@@ -345,14 +345,24 @@ function freshCert() {
 //     which the prior resolveRef rejected outright (root cause of the
 //     reverse cross-check's 6/6 FAIL). These fixtures cover the json_pointer
 //     path directly.
-console.log('\n=== 裁定 142: json_pointer _ref fixtures ===');
+//
+// 裁定150 (sol/裁定_150_EPv6.md item 1) UPDATE: a searcher_native/
+// checker_native _ref's json_pointer resolves WITHIN THE NATIVE ARTIFACT
+// (the caller-supplied searcherNativeBlob/checkerNativeBlob -- EP runner's
+// native_a/native_b equivalent), NEVER within the certificate itself. C14/
+// C16 below previously planted their pointer target on `cert._external_store`
+// (the OLD, now-corrected rootDoc); they are updated here to plant it on
+// `native` instead, matching the new (and, per 裁定150, the only ever
+// correct) resolution root. C15/C17 are root-doc-independent and unchanged.
+console.log('\n=== 裁定 142 / 裁定150: json_pointer _ref fixtures ===');
 
 // C14 (positive): a json_pointer-only ref (no inline) resolving within the
-// certificate's own payload to content whose digest matches the declared one.
+// NATIVE ARTIFACT (searcherNativeBlob) to content whose digest matches the
+// declared one (裁定150 item 1: root = native artifact, not certificate).
 {
   const { native, cert } = freshCert();
   const content = { components: [{ locus_type: 'json-pointer-target', ideal_generator: ['1'], multiplicity: 1 }] };
-  cert._external_store = { searcherRam: content }; // "payload 内" location the pointer resolves against
+  native._external_store = { searcherRam: content }; // native artifact location the pointer resolves against
   cert.searcher_native.ramification_divisor_on_C_ref = {
     artifact_id: 'test-json-pointer/searcher-ram',
     digest: digestOf(content),
@@ -360,11 +370,12 @@ console.log('\n=== 裁定 142: json_pointer _ref fixtures ===');
     // no `inline` key: resolution must come from the pointer alone
   };
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
-  check('C14 json_pointer ref resolves + digest matches -> malformed=false', vA.malformed === false, JSON.stringify(vA));
+  check('C14 json_pointer ref resolves (within native artifact) + digest matches -> malformed=false', vA.malformed === false, JSON.stringify(vA));
 }
 
-// C15 (negative): json_pointer that does not resolve within the payload at
-// all -> malformed ('json-pointer-unresolvable'), not silently ABSENT.
+// C15 (negative, 裁定150 item 3 "両方不能"): json_pointer that does not
+// resolve within the native artifact AND carries no `inline` to fall back
+// on -> malformed ('json-pointer-unresolvable'), not silently ABSENT.
 {
   const { native, cert } = freshCert();
   cert.searcher_native.ramification_divisor_on_C_ref = {
@@ -374,26 +385,27 @@ console.log('\n=== 裁定 142: json_pointer _ref fixtures ===');
   };
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
   check(
-    'C15 unresolvable json_pointer -> malformed=true (json-pointer-unresolvable)',
+    'C15 unresolvable json_pointer, no inline fallback -> malformed=true (json-pointer-unresolvable, 裁定150 item 3)',
     vA.malformed === true && vA.malformed_fields.some((m) => m.field === 'searcher_native.ramification_divisor_on_C_ref' && m.reason === 'json-pointer-unresolvable'),
     JSON.stringify(vA),
   );
 }
 
-// C16: json_pointer resolves, but the resolved content's digest disagrees
-// with the ref's declared digest -> existing [12] digest-mismatch path
-// (p33=false), NOT malformed -- same discipline as the inline case (C13).
+// C16: json_pointer resolves (within the native artifact), but the resolved
+// content's digest disagrees with the ref's declared digest -> existing
+// [12] digest-mismatch path (p33=false), NOT malformed -- same discipline
+// as the inline case (C13).
 {
   const { native, cert } = freshCert();
   const content = { components: [{ locus_type: 'json-pointer-target-2', ideal_generator: ['1'], multiplicity: 1 }] };
-  cert._external_store = { searcherRam: content };
+  native._external_store = { searcherRam: content };
   cert.searcher_native.ramification_divisor_on_C_ref = {
     artifact_id: 'test-json-pointer/searcher-ram-mismatch',
     digest: '0'.repeat(64), // deliberately wrong
     json_pointer: '/_external_store/searcherRam',
   };
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
-  check('C16 json_pointer resolves but digest disagrees -> malformed=false, p33_ok=false (existing [12])', vA.malformed === false && vA.p33_ok === false, JSON.stringify(vA));
+  check('C16 json_pointer resolves (within native artifact) but digest disagrees -> malformed=false, p33_ok=false (existing [12])', vA.malformed === false && vA.p33_ok === false, JSON.stringify(vA));
 }
 
 // C17 (control): a ref with NEITHER object_id NOR json_pointer is still
@@ -403,6 +415,58 @@ console.log('\n=== 裁定 142: json_pointer _ref fixtures ===');
   cert.searcher_native.ramification_divisor_on_C_ref = { artifact_id: 'test/neither', digest: '0'.repeat(64) };
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
   check('C17 ref with neither object_id nor json_pointer -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.reason === 'ref-not-a-triple'), JSON.stringify(vA));
+}
+
+// --- 裁定150 items 2/3 new branches: pointer-unresolvable + inline fallback ---
+console.log('\n=== 裁定150 items 2/3: json_pointer-unresolvable + inline fallback fixtures ===');
+
+// C20 (裁定150 item 2, fallback success): json_pointer does NOT resolve
+// (wrong path, or resolves outside the native artifact), but a
+// digest-consistent `inline` IS also present -> falls back to inline,
+// malformed=false, p33_ok=true (no [12] either -- the fallback data is
+// genuinely correct).
+{
+  const { native, cert } = freshCert();
+  const content = { components: [{ locus_type: 'fallback-target', ideal_generator: ['1'], multiplicity: 1 }] };
+  cert.searcher_native.ramification_divisor_on_C_ref = {
+    artifact_id: 'test-fallback/searcher-ram',
+    digest: digestOf(content),
+    json_pointer: '/this/path/does/not/exist/in/native', // deliberately unresolvable
+    inline: content, // digest-consistent fallback
+  };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check(
+    'C20 unresolvable json_pointer + digest-matching inline -> falls back to inline, malformed=false',
+    vA.malformed === false,
+    JSON.stringify(vA),
+  );
+  check(
+    'C20 fallback data was genuinely used (p33_ok=true, no spurious [12])',
+    vA.p33_ok === true,
+    JSON.stringify(vA),
+  );
+}
+
+// C21 (裁定150 item 2, fallback + existing [12]): json_pointer unresolvable,
+// inline present but its OWN digest disagrees with the ref's declared
+// digest -- still falls back to inline as the data source (not malformed),
+// but surfaces as the pre-existing [12] digest-mismatch condition, exactly
+// as an inline-only ref with a bad digest would (C13/C16 symmetry).
+{
+  const { native, cert } = freshCert();
+  const content = { components: [{ locus_type: 'fallback-mismatch-target', ideal_generator: ['1'], multiplicity: 1 }] };
+  cert.searcher_native.ramification_divisor_on_C_ref = {
+    artifact_id: 'test-fallback/searcher-ram-mismatch',
+    digest: '0'.repeat(64), // deliberately wrong vs. content's real digest
+    json_pointer: '/this/path/does/not/exist/in/native',
+    inline: content,
+  };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check(
+    'C21 unresolvable json_pointer + digest-mismatched inline fallback -> malformed=false, p33_ok=false (existing [12], not malformed)',
+    vA.malformed === false && vA.p33_ok === false,
+    JSON.stringify(vA),
+  );
 }
 
 // --- 裁定145 残差2: generateCertificate's OWN W-6 map_ref.inline placeholder

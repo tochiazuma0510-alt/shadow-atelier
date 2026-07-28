@@ -237,6 +237,18 @@ export function resolveJsonPointer(root, pointer) {
   return { found: true, value: cur };
 }
 
+// 裁定150 items 2/3 (sol/裁定_150_EPv6.md): a json_pointer that fails to
+// resolve against `rootDoc` is NOT immediately malformed if the ref ALSO
+// carries a digest-consistent `inline` -- it falls back to `inline` (item
+// 2), exactly like the pre-existing inline-without-pointer path (a digest
+// MISMATCH on that inline is still the established [12] digestMismatch
+// condition, not malformed -- "digest 不一致は従来どおり [12]"). Only when
+// the pointer is unresolvable AND no `inline` exists at all does this stay
+// a fail-closed MALFORMED ('json-pointer-unresolvable', item 3 -- never
+// silently coerced into a vacuous pass). When the pointer DOES resolve,
+// the pre-existing priority is unchanged: `inline` (if present) is still
+// preferred over the pointer-resolved value for the digest check (裁定142
+// behavior, not altered by 裁定150).
 export function resolveRef(ref, rootDoc) {
   if (!ref || typeof ref !== 'object' || typeof ref.artifact_id !== 'string' || typeof ref.digest !== 'string') {
     return { malformed: true, reason: 'ref-not-a-triple' };
@@ -246,18 +258,27 @@ export function resolveRef(ref, rootDoc) {
   if (!hasObjectId && !hasJsonPointer) {
     return { malformed: true, reason: 'ref-not-a-triple' }; // neither valid third component present
   }
+  const hasInline = Object.prototype.hasOwnProperty.call(ref, 'inline');
 
-  // json_pointer path: resolve against the payload root first (regardless of
-  // whether inline is also present -- both are checked, per v3 条項 3's
-  // "canonical digest の一致が必須" applying to whichever data is available).
-  let pointerResolved;
+  let pointerFound = false, pointerResolved;
   if (hasJsonPointer) {
     const res = resolveJsonPointer(rootDoc, ref.json_pointer);
-    if (!res.found) return { malformed: true, reason: 'json-pointer-unresolvable' };
-    pointerResolved = res.value;
+    if (res.found) { pointerFound = true; pointerResolved = res.value; }
   }
 
-  if (Object.prototype.hasOwnProperty.call(ref, 'inline')) {
+  if (hasJsonPointer && !pointerFound) {
+    // 裁定150 item 2: unresolvable pointer -> fall back to inline (if any).
+    if (hasInline) {
+      const recomputed = digestOf(ref.inline);
+      if (recomputed !== ref.digest) return { malformed: false, digestMismatch: true, data: ref.inline };
+      return { malformed: false, digestMismatch: false, data: ref.inline };
+    }
+    // 裁定150 item 3: neither the pointer nor a fallback inline resolves ->
+    // fail-closed MALFORMED, never coerced into ABSENT/PASS.
+    return { malformed: true, reason: 'json-pointer-unresolvable' };
+  }
+
+  if (hasInline) {
     const recomputed = digestOf(ref.inline);
     if (recomputed !== ref.digest) return { malformed: false, digestMismatch: true, data: ref.inline };
     return { malformed: false, digestMismatch: false, data: ref.inline };
@@ -417,15 +438,28 @@ const SHAPE_CHECKS = [
   ['pushforward_compatibility_witness', 'native_side', VALID_NATIVE_SIDES],
 ];
 
-export function validateCertificateShapeV3(certificate) {
+// 裁定150 item 1 (sol/裁定_150_EPv6.md): a _ref triple's `json_pointer`
+// resolves WITHIN THE ARTIFACT `artifact_id` NAMES, never within the
+// certificate itself -- for searcher_native/checker_native's
+// ramification_divisor_on_C_ref / branch_divisor_on_P1_ref, that artifact
+// is the caller-supplied native artifact (EP runner's native_a/native_b,
+// or this file's own searcherNativeBlob/checkerNativeBlob params -- same
+// role). Using `certificate` as rootDoc here was the root cause of the
+// reverse cross-check's spurious json-pointer-unresolvable MALFORMED (a
+// pointer like "/ramification_divisor_on_C_ref" simply does not exist at
+// the certificate's own top level). Backward-compatible: the two new
+// params default to `certificate` (the old rootDoc) so any caller that
+// still only supplies one argument keeps its previous behavior exactly.
+export function validateCertificateShapeV3(certificate, searcherNativeArtifact = certificate, checkerNativeArtifact = certificate) {
   const malformed = [];
   for (const [fieldName, tagKey, validTags] of SHAPE_CHECKS) {
     const c = classifyTaggedArrayField(certificate[fieldName], tagKey, validTags);
     if (c.status === 'malformed') malformed.push({ field: fieldName, reason: c.reason });
   }
+  const NATIVE_ROOT_DOC = { searcher_native: searcherNativeArtifact, checker_native: checkerNativeArtifact };
   for (const nativeField of ['searcher_native', 'checker_native']) {
     for (const refField of ['ramification_divisor_on_C_ref', 'branch_divisor_on_P1_ref']) {
-      const r = resolveRef(certificate[nativeField] && certificate[nativeField][refField], certificate);
+      const r = resolveRef(certificate[nativeField] && certificate[nativeField][refField], NATIVE_ROOT_DOC[nativeField]);
       if (r.malformed) malformed.push({ field: nativeField + '.' + refField, reason: r.reason });
     }
   }
@@ -441,7 +475,7 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
   // 裁定 139 item 4: fail-closed schema/shape validation FIRST, before any
   // witness logic runs. A malformed certificate never reaches PASS/FAIL/ABSENT
   // scoring -- it stops here with a distinct result shape.
-  const shapeMalformed = validateCertificateShapeV3(certificate);
+  const shapeMalformed = validateCertificateShapeV3(certificate, searcherNativeBlob, checkerNativeBlob);
   if (shapeMalformed.length > 0) {
     return {
       malformed: true,
@@ -460,10 +494,14 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
   // P-3.3 (裁定 139 item 3): _ref triples resolved via resolveRef (shape
   // already validated above, so these calls cannot return malformed here).
   // An inline/digest mismatch is the EXISTING [12] condition, folded into p33.
-  const searcherRam = resolveRef(certificate.searcher_native.ramification_divisor_on_C_ref, certificate);
-  const searcherBranch = resolveRef(certificate.searcher_native.branch_divisor_on_P1_ref, certificate);
-  const checkerRam = resolveRef(certificate.checker_native.ramification_divisor_on_C_ref, certificate);
-  const checkerBranch = resolveRef(certificate.checker_native.branch_divisor_on_P1_ref, certificate);
+  // 裁定150 item 1: rootDoc = the caller-supplied native artifact
+  // (searcherNativeBlob/checkerNativeBlob), NOT `certificate` -- a
+  // json_pointer inside searcher_native/checker_native resolves within the
+  // artifact_id-named native artifact, never within the certificate itself.
+  const searcherRam = resolveRef(certificate.searcher_native.ramification_divisor_on_C_ref, searcherNativeBlob);
+  const searcherBranch = resolveRef(certificate.searcher_native.branch_divisor_on_P1_ref, searcherNativeBlob);
+  const checkerRam = resolveRef(certificate.checker_native.ramification_divisor_on_C_ref, checkerNativeBlob);
+  const checkerBranch = resolveRef(certificate.checker_native.branch_divisor_on_P1_ref, checkerNativeBlob);
   const refInlineDigestOk = ![searcherRam, searcherBranch, checkerRam, checkerBranch].some((r) => r.digestMismatch);
 
   const searcherDigestOk = digestOf({
