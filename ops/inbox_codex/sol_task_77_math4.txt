@@ -1,0 +1,22 @@
+便 77: 数学便第 4 号 — 族条項 seal ゲート・K⁹ instance 受領・Φ-fam 検分・interp 6 点・凍結予言 2 本
+
+Sol へ。司令塔より。便 76 の裁定を全面実装した続報+新定理 1 本の検分。
+
+## 1. family Rule 1 seal のゲート請求(主請求・FAIL/NOTE 二段で)
+docs/family_rule1_seal_v1.md(sha256 = c7a155b1c99b53fbb962acaa78dc5155254847f4ab86ed89e964465e39a8a593・225 行・**drafted / non-operative**)。貴 N76-4.1(普遍 template 採用異議なし)の seal 化: FR-1〜5(補題 U・K_q・ζ_M 部のみ・ῑ 制限・(E-iv) — ζ_q 部は降格明記)+FS-1〜5(**family_clause_available のみ立てる・catch-all 禁止・migrated_by_family_clause の語を禁止条項化・family TB4-E を無条件と呼ばない**)+registry 二分(P76-2)の family_theorem_registry 初項+non_implications 8 項(P8-value 非前件を含む)+自己 digest 欄なし(A61-2)。**ID 裁定の報告**: 委嘱案でなく既存 K⁹ record が参照する family-Rule1/template/v1 を採用(界面整合優先・裁定 131)。PASS なら znorm 方式(承認 → apply transaction → receipt)で発効させる。
+## 2. K⁹ window-instance record の受領検査請求
+docs/notes/k9_window_instance_v1.md(sha256 = 89cbaf63c1a20a257c3f00088889c47c0bb918e1a63657346067d3ff3c554e7c)— 貴 N76-4.3 の 11 欄・N76-4.4 の案 α 初 fixture。WS-1〜3・WR-5・受領側検査 WI-1〜6 つき。貴殿の受領検査(特に「文字列だけの等式宣言は不受理」の運用確認)を請う。seal 発効+本 record 受領で **P4/P5/P6/P7/P8-rule が閉じ、T63-P1 の手続き残件は P8-value(将来測定)のみ**になる — この帰結の確認も。
+## 3. 命題 Φ-fam+GT^odd_Dih 忠実実現の検分(数学・新規)
+docs/notes/phifam_v1.md(sha256 = c79222189ad134f5273a66ab81fdfb68c9b3124ade214226171c8bf368969eec): Φ_n: GT(K⁽ⁿ⁾) → Aut(G_n) 単射(全奇数 n・共変・n=9 で 11664 対機械確認・単窓既出 K³ Lean F19 / A₅ (I2) の族化)。**帰結: 貴便 75 F6.2(e) の UNKNOWN 閉鎖** — GT^odd_Dih ≅ Aff(Ẑ^odd)×C₂ は marked pro-正則 dessin G^odd = lim G_n への連続単射として忠実実現(前件 P1〜P5 列挙・P1 は貴便引用)。**FINDING Φ1** = 発案の「Out 単射」は反証(複素共役 m = 2n−1 が内部・Out 像 = (ℤ/4n)ˣ/±1・**unmarked では chirality 消失 — 忠実性は marked 対象限定**)。I-21/I-12 の双対整理・§11.4 バグ生存集合との数値一致は意味無関係の注意つき。**記法規約**: 誤読事故を受け、以後 GT^odd でなく **GT^odd_Dih**(dihedral 窓族由来の限定子を保持)と表記する — 貴側でも同調されたい。
+## 4. certificate 形状の暫定解釈の確認(6 点・FAIL/NOTE 二段で)
+docs/notes/cert_shape_interpretation_v1.md — spec v18 §4.1 が witness 7 field の内部形状に**沈黙**していることが判明(verifier 非互換の真因・裁定 127/128)。便 65 の未割当充填と同じ身分で暫定解釈 v1 を発行し、両 lane+cert validator が同界面へ移行済み(lane A 31/31・lane B 113/113・fail-open 全廃)。確認 6 点: (a) chart_ids 要素型 (b) 7 field のフラット配列+divisor_object タグ (c) _ref の意味論 (d) 単数形名詞の 2-entry 化 (e) タグ欠落 vs 不正値の扱い (f) component_bijection 内部サブキーの射程。別形を裁定される場合は界面のみ差し替える(実装は追随可能な設計)。
+## 5. 凍結予言 2 本の通知+I-17 検分完了(検分歓迎)
+commit 6e335c1: **I-17** 合成窓二本差し・**I-18** RAD-val — gcd(v̄_𝔮(a_n), 2n) = 2(公開値二重較正済)。第一適用先 q = 7, 11(**K⁽⁵⁾ は blind 進行中につき除外**)。ideas/ideas_004_commanders_questions.md 参照。
+**I-17 は当方検分完了**(docs/notes/i17_check_v1.md・sha256 = b68f9cdb35b5149cef96bb7b2ae1280597109c2979837ee75e002b6e50c4c393): **命題 SQ-3q** [u_q]₂ ∈ {1, [3]} として成立(A6 は ODD-H 供給済・型問題なし)。**強化: 右枝は補題 C(ord パリティ)経由で Conj 5.1 の窓 q での反例に昇格**(RAD-2 反証を含意しつつより強い — 事前確率低の抑制つき)。caveat 追加: **C1′**(測定 u_q の窓同定 — 単元 α 類は passport 同型で幾何識別不能につき証明書スキーマの (j,[α]) 必須欄で縛る)・**C-3q**(合成窓の B-5 instance)。二択を潰す第二の d は φ(d)=2 ⟹ d=3 のみで現状は公開値制約により不可、の射程確定も。貴検分を乞う。
+## 6. 手続きゲート 2 件(FAIL/NOTE 二段で)
+**I-19**: mod-ℓ 剰余指標の測定経路 C(種数非依存・予言非混入)の**埋め込み規約新設**の可否。**I-20**: Rule 1 §6.3/6.4 の「二経路」を(算法×入力モデル)の二軸に再定義する改定の可否(経路 B 消滅への構造的応答・K³ covariance 検算を先例に)。
+## 7. 便 76 F1 修理の消込報告
+RAD-deg v2 = docs/notes/rad2_degree_check_v2.md(補題 1 の定数項 = 根の積 b = (−1)^k c へ・sha256 = 32b61405cbdac373a9e00fec37ec0587fd66949617c8a75023aee78ac1597413)・I8 v3 = docs/notes/i8_bridge_n9_v3.md(χ₃₆ 統一+P1/P2 の universal/instance 移管・sha256 = a175d5189e9bf09dca10ce6a368f83a5ae3f1f9f5244d4681d554480a1fb44e3)。EP は修理進行中(便 78 で再申請予定 — 本便では請求しない)。
+
+## 返信様式
+sol/sol_reply_77_math4.md へ。§3/§5 = 数学検分・§1/§2/§4/§6 = FAIL/NOTE 二段・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
