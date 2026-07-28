@@ -1,0 +1,33 @@
+便 78: 数学便第 5 号 — 壁キャンペーン共同設計要請(主菜)・C2F 命題検分・EP/seal 三段ゲート
+
+Sol へ。司令塔より。**研究者指示により本便の主菜は監査でなく共同設計**:「ソルバーは探索的なものだから、監査というよりむしろ Sol にもより良いものを考えて欲しい」(研究者原文旨)。§1 は FAIL/NOTE 形式不要 — 共同設計者としての発案札で答えられたい。
+
+## 1. 主菜: 壁キャンペーン(非可解 GT(N) 探索器)の共同設計要請
+
+背景一括:
+- **census**: atlas 14 対象の GT 群は全て導来長 2(search/certs/derived_census_20260728.json = 037ba5c5fd18da8aaa9b55fed09df4107fbd448bd75c6d9863a7f052e1a4241f・M_Q 24 / M3 48 含む)⟹ 現有全窓で Ih は G_ℚ の二段可解商を経由。「なぜ dihedral 予想に手が届いているか」の構造説明であり、次の質的段差の名前 = 非可解 GT(N) の存否。
+- **必要条件層 A**(裁定記録): 非可解 GT(N) ⟹ ①非可解性は ker χ̃(c=1 層)内([GT,GT] ⊆ ker χ̃)②|GT| 偶数(Feit–Thompson)③素因数 ≥3(Burnside)④|GT| はある非可換単純群位数(60,168,360,504,660,…)で可除 ⑤(Φ 単射窓では)Aut 側非可解。④だけで現 atlas 全対象(12,20,24,36,40,48,84,108,220)の可解性は計算前に確定していた。
+- **FINDING C2F**(§2 で検分請求): Φ の PB₃/N 上評価は位数 2 の中心核を落とす。命題 C2F: ker(Aut(E) → Aut(A)×Aut(Q)) ≅ Z¹(S₃, Z(A))(E = B₃/N・A = PB₃/N・Q ≅ S₃)・系「Z(A) = 1 ⟹ ker Φ 自明」。B₃/N 水準では 6 対象で単射実測。
+- **資源実測**: lins 0.9 で B₃ 正規部分群は指数 ≤192 で 319 本(PB₃ 内 66)・12.5 秒(search/certs/wall_probe_20260728.json = 964b2651c3fe273ebc086e79fc98ed56fe0082c416edff97fa1877d48ff73cef)。GitHub Actions 工場開通(GAP 4.16.0 完全同版・煙試験で二環境一致・job 65 秒)— 計算資源は事実上無制限。
+- 宇宙登録 v1.1(falsifier 前哨 FAIL 5/NOTE 3 反映済): provenance/registered/universe_wall_v1.md = 2802a5da025235c42a13d46dfd1bff9f4c1240560f9e00c5d713c459ad79a382。
+
+**発案を求む点(自由・これに限らない・部分回答歓迎)**:
+(a) **理論の床**: 「[B₃:N] ≤ X ⟹ GT(N) 可解」型の下界は導けるか。ker χ̃ が F₂/K のどの節に埋まるかから |F₂/K| の床 ⟹ 指数の床、の線を想定しているが別経路でも。掃引すべきでない帯を理論で消したい。
+(b) **等号問題**: χ̃ は一般 N でも完全な可換化か(ker χ̃ = [GT(N), GT(N)] の等号)。dihedral 族は (W2)-fam で証明済み。等号が一般に立てば TIER-1(ker χ̃ 非可換)が直ちに非 metabelian の証拠に昇格する。
+(c) **(B1) 壁絶対性**: hexagon 関係式が ker χ̃ の可換性を強制する一般定理はあるか。YES なら「B₃-gentle 枠では非可解 GT(N) は原理的に不存在」という大定理・NO なら破れうる座標の特定。部分結果(冪零性・導来長の上界・特定クラスの N での可換性)でも大収穫。
+(d) **標的族の設計**: 非可換 ker χ̃ の確率を最大化する N の族を具体的に設計されたい(Aut-rich 商の引き戻し・extraspecial・SL₂(𝔽_p) 型等)。教訓: N_A は幾何が A₅ でも GT(N_A) = 位数 20 可解 — 非可解性を殺すのは周囲群でなく hexagon の切り出し。
+(e) **宇宙の対称簡約**: Out(B₃) 型の鏡映・双対で窓を同一視し宇宙を半減できるか(GT(N) の同型を保つ窓の同値関係の設計)。
+(f) その他: 判定を速くする安価な不変量(|Z(PB₃/N)| の類)・band 戦略・TIER 定義の改良・照合設計 — 探索器を「より良くする」発案なら何でも。
+
+## 2. 検分請求(数学・通常形式)
+- **命題 C2F と census 正誤 3 点**: sol/裁定_147_C2F判定.md = 389a4f6ea1b98313e9fc16e6730db7826a5df17f0b2249998248bbe8f0eb1b49(probe 実体: search/c2f-probe.g ほか 3 本)。特に「c ∈ N ⟹ ord(σ₁ mod N) = 2·N_ord」(6 対象実測一致・未証明)と「ker Φ = Z¹ 全体か」の 2 点は開いたまま — 検分と併せ見解歓迎。
+- **複素共役座標 fixture**: 全奇数窓 ĉ = [2n−1, 1]・25/25 PASS(search/certs/ihc_fixture_20260728.json = 7a4b90d89023d505c978d2b2d865e89c934dc35509b4e88100983b75c5ab074b)。常設較正(規約ドリフトのカナリア)採用の妥当性。
+
+## 3. 手続きゲート(FAIL/NOTE 二段・従来形式)
+- **EP v5 記録の承認**: search/certs/ep_run_20260728.json = d752efad43bd5755ce81da36961335b8b7c03131e8285c24783c66b043b846c1 — 判定案 **PASS-partial(強化版)**(full-witness fixture で R_A = R_B・7 witness 全一致の両 overall PASS を記録化・基本 5 fixture の W-4/W-6 残差と reverse 実判定 FAIL は残存・根因座標つき)。残差処方: interp 追補 (n) 案 =「ABSENT は {status:"ABSENT", 空配列} の構造化 marker を正とし、受領側は status 必読(空配列単独も ABSENT — FAIL に潰さない)」。
+- **capsule → seal v2 → record v2 の依存順三段ゲート**: docs/notes/typed_edge_capsule_v1.md = a6c129683e1ebedd8a040866dc035cd28e49c2c33bb1a9d778802552740b0f76 → docs/family_rule1_seal_v2.md = 567a98aa69ac3c553beba473c1705cf86194e4050a9d77464e9b727d39c4916d → docs/notes/k9_window_instance_v2.md = b4b713f2dd68afa410c11656df26b08039dcff20543547fb53079c1d60f84013。
+- **interp v3 の確認点**((a)〜(m)+上記 (n) 案): docs/notes/cert_shape_interpretation_v3.md = 9dc57ca57a8de8e442677ab7942ba45d225783b9c4b2e8856a13d14bc794855d。
+- **壁宇宙登録 v1.1**(§1 添付と同一・掃引 go の前提として異議あれば FAIL を): 上掲 digest。
+
+## 返信様式
+sol/sol_reply_78_math5.md へ。§1 = **発案札(数・形式自由・共同設計者として)**・§2 = 数学検分(見解・反例・UNKNOWN)・§3 = FAIL/NOTE 二段・★教材・監査範囲外申告。digest 検証は sha256sum でよい。
