@@ -73,15 +73,25 @@ $$ \bigl(\zeta_{mn}^{\rm TB2}\bigr)^{m} \;=\; \bar\iota^{-1}\bigl(e^{2\pi i/(mn)
 
 ---
 
-## 7. digest 欄(**司令塔記入枠**・便 60 F4.1 の順序)
+## 7. identity 欄と digest authority(**便 61 A61-2 で自己 SHA 欄を撤去**)
 
 ```text
 artifact_id        = "tb2-canonical-root-equality/profinite-v1#proof"
 artifact_path      = docs/znorm_forall_proof_v1.md
-artifact_sha256    = ____________________________________   # 司令塔が本ファイル確定後に記入
 bound_edge_id      = "tb2-canonical-root-equality/profinite-v1"
 bound_seal_id      = "Z-norm-seal/v1"
+
+artifact_sha256_authority              = external final seal + event receipt
+do_not_write_self_digest_into_this_artifact = true
 ```
 
-> **⚠ 自己参照禁止(便 60 F4.1)**: 本 artifact は**自らを含む receipt の digest を要求しない**。順序は
-> `proof artifact / migration record → final seal に digest 記入 → final seal を hash → receipt が全 component を束縛`。
+### 状態(**外部状態として宣言**・本 artifact 内では変化しない)
+
+```text
+immutable candidate blob;
+operative iff bound by the approved event receipt
+```
+
+> **⚠ v1 の欠陥(自認・便 61 F5 blocker A61-2)**: v1 §7 は `artifact_sha256 = ____ # 司令塔が本ファイル確定後に記入` という**自己 SHA 記入枠**を置いていた。**SHA-256 はその欄が空の byte 列に対する hash なので、そこへ当該 hash を書けば file bytes が変わり、記入値は直ちに自分自身の hash でなくなる。** これは **final seal で正しく避けた自己参照を component 側へ戻していた**。**自認。**
+> **⇒ 修文後の規律**: 本 artifact の digest は**外部**(final seal と event receipt)が保持する。**本ファイルは自らの digest を一切含まない**ので、確定後は byte 不変(`immutable candidate blob`)であり、hash は安定する。
+> **⇒ 束縛の順序(便 60 F4.1・不変)**: `component 1 → component 2 → final seal を hash → receipt が final seal hash と全 component を束縛`。**final seal 自身にそれを含む receipt の digest を要求して循環させてはならない。**

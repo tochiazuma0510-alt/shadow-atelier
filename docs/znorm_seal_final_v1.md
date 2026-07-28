@@ -16,7 +16,7 @@ draft_provenance  = docs/znorm_seal_draft.md (draft v2)
 # 発効時(司令塔が event receipt と同時に記入)
 status_on_apply   = ____________________   # "approved / operative"
 applied_at        = ____________________   # 発効時刻
-event_receipt_id  = ____________________
+event_receipt_id  = ____________________   # 事前 mint 値 "znorm-event-receipt/v1" と一致すること(§9)
 ```
 
 > **⚠ 状態文の分離(便 60 F4.2)**: 「commit していない」という**起草時の作業状態**を final へ持ち越さない。**履歴 draft の起草時状態と現時点の repository 状態は別**である。
@@ -87,7 +87,7 @@ derived_level20_edge_id                   = "rule1-tb2-root-equality/v1"
 
 | window_id | previous_level | rule_root_id | compatibility_status | migrated_record_digest |
 |---|---|---|---|---|
-| `K5`($M=10$, $2M=20$) | `level_20` | `rule1_root_2M_id`($\zeta_{20}^{\rm Rule1}$・Rule 1 (1.5)(1.6) で凍結済) | **`migrated`**(record 本体 = `docs/k5_migration_record_v1.md`) | `sha256:ae1e9ef051c04d02c78f23bfb16b358da2077bfe65b684b9da6c998adb291120`(component 2) |
+| `K5`($M=10$, $2M=20$) | `level_20` | `rule1_root_2M_id`($\zeta_{20}^{\rm Rule1}$・Rule 1 (1.5)(1.6) で凍結済) | **`migrated`**(record 本体 = `docs/k5_migration_record_v1.md`) | `sha256:160aebfeca0a5a732ea188e9b760e4b31b3f785115de0eaa72c407351a74cae4`(component 2) |
 | `K3`($M=6$, $2M=12$) | `level_none`(埋め込み未凍結) | **未凍結**($\iota_{12}$ の凍結文が存在しない — TB4 導出 v2.4 §5.3) | **`pending`** | — |
 | `A5`($M=5$, $2M=10$) | `level_none` | **未凍結**(司令塔実測 2026-07-28: A₅ v4 全文 grep で (1.6) 型の埋め込み凍結文なし — 競合 object 不在の**観測**であり非存在の証明ではない) | **`pending`**(裁定 70 追補・司令塔記入) | — |
 | **上記以外のすべての window**(**明示 catch-all rule**) | 各窓の従来値 | 各窓の値 | **`not_assessed`** | — |
@@ -176,16 +176,16 @@ TB4-comparison / orientation seal (framework, NOT implied by TB2-norm):
 ```text
 # 1) 先に hash する component
 component_1_path    = docs/znorm_forall_proof_v1.md          # forall n equality proof artifact
-component_1_sha256  = a8eee73829a8f66c925f1eee18a8cd92fd505a8709d526d20ed594ce7c0d9c55
+component_1_sha256  = c96efb7b1285130294beaa18d347193c2ca7a3ab177cf188b03c3b86d4d467ad
 component_2_path    = docs/k5_migration_record_v1.md         # K5 typed migration record
-component_2_sha256  = ae1e9ef051c04d02c78f23bfb16b358da2077bfe65b684b9da6c998adb291120
+component_2_sha256  = 160aebfeca0a5a732ea188e9b760e4b31b3f785115de0eaa72c407351a74cae4
 
 # 2) 上の digest を本 final に埋めてから本 final を hash
 final_seal_path     = docs/znorm_seal_final_v1.md
 final_seal_sha256   = (event receipt に記録 — 自己参照禁止につき本 artifact には記入しない)
 
 # 3) receipt が final seal hash と全 component を束縛(final は receipt digest を要求しない)
-event_receipt_id    = (event receipt 側で発行 — 同上)
+event_receipt_id    = "znorm-event-receipt/v1"   # 事前 mint(便 61 F5 が許可した差分)
 
 # 実在を要する ID 群(F4.1-3)
 bar_iota_id                 = "bar-iota/ext-of-iota-infty/v1"

@@ -75,15 +75,27 @@ $$ \boxed{\ \texttt{compatibility\_status = migrated}\ \ne\ \texttt{root\_normal
 
 ---
 
-## 6. digest 欄(**司令塔記入枠**・便 60 F4.1 の順序)
+## 6. identity 欄と digest authority(**便 61 A61-2 で自己 SHA 欄を撤去**)
 
 ```text
 artifact_id      = "k5-root-migration/v1"
 artifact_path    = docs/k5_migration_record_v1.md
-artifact_sha256  = ____________________________________   # 司令塔が本ファイル確定後に記入
 bound_seal_id    = "Z-norm-seal/v1"
 bound_edge_id    = "rule1-tb2-root-equality/v1"
-depends_on       = "tb2-canonical-root-equality/profinite-v1#proof"   # component 1(先に hash)
+depends_on       = "tb2-canonical-root-equality/profinite-v1#proof"   # component 1(ID 参照・digest は埋めない)
+
+artifact_sha256_authority              = external final seal + event receipt
+do_not_write_self_digest_into_this_artifact = true
 ```
 
-> **⚠ 順序(便 60 F4.1)**: 本 record は component 1 の digest に依存するので、**component 1 → component 2 → final seal → receipt** の順で hash すること。**`migrated` と空 digest の組合せを final artifact に残してはならない。**
+### 状態(**外部状態として宣言**・本 record 内では変化しない)
+
+```text
+immutable candidate blob;
+operative iff bound by the approved event receipt
+```
+
+> **⚠ v1 の欠陥(自認・便 61 F5 blocker A61-2)**: v1 §6 は `artifact_sha256 = ____ # 司令塔が本ファイル確定後に記入` という**自己 SHA 記入枠**を置いていた。**記入した瞬間に bytes が変わり、その値は自分自身の hash でなくなる。自認。**
+> **⇒ 修文後の規律**: 本 record の digest は**外部**(`Z-norm-seal/v1` §3 の `K5` 行 `migrated_record_digest` と event receipt)が保持する。**本ファイルは自らの digest を含まない**ので確定後は byte 不変。
+> **⇒ `depends_on` は ID 参照であって digest 参照ではない** — component 1 の digest を本 record へ埋め込むと、component 1 の修文のたびに本 record の hash が連鎖して動く。**ID で束ね、digest は final seal に一元化する。**
+> **⇒ 順序(便 60 F4.1・不変)**: `component 1 → component 2 → final seal → receipt`。**`migrated` と空 digest の組合せを final artifact に残してはならない**(final seal §3 の `K5` 行は本 record の実 digest で埋める)。
