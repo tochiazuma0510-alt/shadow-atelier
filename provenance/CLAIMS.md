@@ -64,3 +64,6 @@ I-3 等号検査(証明書 = search/certs/i3_equality_20260728.json): |Im(ψ₄,
 ## 昇格記録(2026-07-28・裁定 102)
 - **W3-22 → cross-checked(パラメータ化水準)**: python 独立照合器(search/verify-i1-i3.py・GAP と helper 非共有)が n=3..11 で個数 2n(n−1)・α=0 の自己正規化不成立・α≠0 の全 qualify を再現(証明書 search/certs/i1i3_crosscheck_20260728.json)。列挙の完全性は GAP 悉皆+ODD-H 紙上証明(独立監査中)の担当と scope 明記。**(W5) regression**: 全 20 類 PASS(search/certs/w5_regression_20260728.json)— Sol 便 73 (1.14) の紙上予言を実測で確認。
 - **W3-23 → cross-checked**: python 照合器が像の位数 864 を独立再構成(BFS 閉包・fail-closed 期待値 864・6912 は erratum 旧値として対象外)。加えて Sol 便 73 Q2.3 の紙上証明(δ: D₁₂↪D₄×D₃ 経由・位数比較不要)が第三の独立経路(candidate・独立監査待ち)。
+
+## W3-24(2026-07-28・paper-proof candidate・Sol 検分済 便 76 F3.2)
+**T63-P1/prediction = 数学的に閉鎖**: C1(裁定 107)+named framework 前件の下で P_{9,3} = TRUE・ord(a₉) = 9(FULL_p_DEPTH)。導出鎖 = (6.3-cls)(G3 = 便 75 F3.2)+W1-fam+(W2)-fam 両側+C4-T+res(a₃) = [−1/4]₆ の非自明性証明。**u₉ 非接触・凍結予言 82ca6b7 の紙上確定**。measurement receipt(full a₉ の独立測定・的中判定)は別線・未着(P8-value は前件でない — 便 76 ★教材 5)。Lean verified ではない。
