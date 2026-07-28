@@ -1,5 +1,24 @@
 #############################################################################
-## search/kerchi-judge.g -- kerchi-judge v1.1 (裁定167 原型・裁定169 KJ-1 修理)
+## search/kerchi-judge.g -- kerchi-judge v1.3 (version numbering unified per
+## 裁定171: what was internally v1.2 -- the 裁定170 settled-certificate /
+## chi_image_order / N5cong-rename pass -- is renumbered v1.3's predecessor;
+## the mathematician's blocker report had only seen v1.1. 裁定167 原型・
+## 裁定169 KJ-1 修理・裁定171 命題3.1 Xi-restriction 速達修理)
+##
+## v1.3 (裁定171・速達 blocker, 2026-07-29, spec: docs/notes/
+## wac_reverse_design_v1.md S3.4 命題3.1): CorrectedShadows's
+## "for f in Elements(DerivedSubgroup(P))" loop is infeasible for
+## non-solvable P with |[P,P]| ~ 10^13 (window W-D-A16-11a: |[P,P]|=|A16|).
+## Added CorrectedShadowsXi (the Prop 3.1 Xi-restricted scan: f ranges over
+## C_P(ybar^u)-cosets of Stab_{Aut(P)}(xbar)-indexed representatives, NOT
+## all of [P,P]) alongside the renamed CorrectedShadowsLegacy (unchanged
+## exhaustive path), auto-selected by a CorrectedShadows dispatcher on
+## |[P,P]|*|charmingSet| vs JUDGE_SCAN_THRESHOLD (overridable via
+## JUDGE_FORCE_SCAN_MODE := "legacy" / "xi_restricted"). New output fields:
+## scan_mode, scanned_count, legacy_candidate_count, compression. See
+## search/kerchi-judge-v13-calibration.g for the required regression
+## calibration (D1 p=5,7 congruence windows + N5cong: both scan modes must
+## give IDENTICAL shadow sets, forced via JUDGE_FORCE_SCAN_MODE on each side).
 ##
 ## Packages the (F2) quotient-rule machinery (proven out on 17 real windows in
 ## search/wall-miner-v4.g, itself lifted from the coordinator-cross-checked
@@ -167,7 +186,15 @@ end;;
 # hexagon-candidate count is Length(shadows) + settled_fail_count -- so
 # "40/40 settled" is exactly the statement settled_fail_count = 0 with
 # shadow_total = 40, reported without needing to enumerate 40 trivial passes.
-CorrectedShadows := function(W, charmingSet)
+# v1.3 (裁定171・速達blocker・docs/notes/wac_reverse_design_v1.md S3.4 命題3.1,
+# 2026-07-29): this is now the SLOW/EXHAUSTIVE path only (renamed from
+# "CorrectedShadows" to "CorrectedShadowsLegacy"). It literally calls
+# Elements(DerivedSubgroup(W.PN)), which is infeasible for non-solvable P
+# with |[P,P]| in the 10^13 range (W-D-A16-11a: |[P,P]|=|A16|~1.05e13 --
+# "Elements の時点でメモリ死"). Kept verbatim (unchanged logic) as the
+# ground-truth path for small/solvable-or-tractable P, and as the regression
+# baseline that CorrectedShadowsXi below is calibrated against.
+CorrectedShadowsLegacy := function(W, charmingSet)
   local out, f, m, u, settledFails, settledHom, failWitnesses;
   out := [];  settledFails := 0;  failWitnesses := [];
   for f in Elements(DerivedSubgroup(W.PN)) do
@@ -190,7 +217,179 @@ CorrectedShadows := function(W, charmingSet)
     od;
   od;
   return rec(shadows := Set(out), settled_fail_count := settledFails,
-             settled_fail_witnesses := failWitnesses);
+             settled_fail_witnesses := failWitnesses, scanned_count := -1);
+             # scanned_count filled in by the CorrectedShadows dispatcher below
+             # (legacy scan budget = |[P,P]| * |charmingSet|, computed there)
+end;;
+
+# v1.3 【修理仕様】命題3.1 (Xi-restriction), per docs/notes/wac_reverse_design_v1.md
+# S3.4 exactly (the 4 numbered items there are the normative spec; this
+# implementation follows them literally, not an independent re-derivation):
+#   1. Replace "for f in Elements(DerivedSubgroup(P))" with a per-m loop that
+#      constructs the candidate set C_m directly (below), instead of filtering
+#      the whole derived subgroup.
+#   2. Construct A_m WITHOUT building all of Aut(P): find one alpha0 in
+#      Aut(P) with alpha0(xbar) = xbar^u via RepresentativeAction (this is
+#      the general-purpose GAP analogue of "P=A_n の場合は S_n 内の共役元探索
+#      で足りる" -- RepresentativeAction on AutomorphismGroup(P) does exactly
+#      that search, not restricted to the A_n case specifically, since the
+#      spec's A_n remark is given as an implementation NOTE about how cheap
+#      that search is for A_n, not a restriction on which P this applies to).
+#      A_m = alpha0 . Stab(xbar) (a coset of the once-per-window-computed
+#      Stab_{Aut(P)}(xbar)).
+#   3. For each alpha = alpha0∘s (s ranging over Stab), find f0 with
+#      f0 * ybar^u * f0^-1 = alpha(ybar). This is computed as f0 := h^-1 where
+#      h := RepresentativeAction(P, ybar^u, alpha(ybar), OnPoints) (GAP's
+#      STANDARD pt^g=g^-1*pt*g action) -- i.e. h solves (ybar^u)^h=alpha(ybar)
+#      the ordinary way, then f0=h^-1 solves f0*ybar^u*f0^-1=alpha(ybar).
+#      IMPORTANT (found during calibration, 2026-07-29): calling
+#      RepresentativeAction directly with a hand-written REVERSED action
+#      function (pt,g)->g*pt*g^-1 instead of this h/inverse trick looked
+#      plausible and sometimes returned a "solution", but that solution did
+#      NOT always actually satisfy the requested equation (verified by direct
+#      substitution) -- i.e. RepresentativeAction with a non-standard custom
+#      action is not reliable here. Using GAP's own OnPoints (its
+#      best-supported, most heavily optimized action) and inverting the
+#      result algebraically is the robust fix, and is what is implemented
+#      below. This codebase's settled/hexagon formulas are all written via
+#      AbstractProd([f^-1, w, f]), which (per week3-battery-common.g's own
+#      "reversal convention" comment on AbstractProd, and gaplib_common.g
+#      trap (1)) actually EVALUATES to f*w*f^-1, not literally f^-1*w*f --
+#      an inconsistency discovered and fixed here (2026-07-29) while
+#      calibrating against CorrectedShadowsLegacy on the D1 p=5 fixture: an
+#      earlier draft of this function used the literal (non-reversed)
+#      f^-1*w*f convention and silently found only 1/5 of the true m=0 shadow
+#      layer for that fixture (isotropy_order 8 instead of 40) -- caught
+#      precisely by the required regression calibration, not left unnoticed.
+#      f then ranges over f0 . C_P(ybar^u) (a RIGHT coset of the centralizer,
+#      since (f0*c)*ybar^u*(f0*c)^-1 = f0*c*ybar^u*c^-1*f0^-1 =
+#      f0*ybar^u*f0^-1 = alpha(ybar) exactly when c centralizes ybar^u). The
+#      f in [P,P] test ("最後に置く" per the spec) is applied first among the
+#      post-generation filters purely for cost ordering (cheapest test
+#      first); mathematically it is still just one more filter, same as the
+#      original three (F2) conditions and the settled clause, ALL of which
+#      are still checked per-candidate exactly as in CorrectedShadowsLegacy
+#      (the Xi-restriction narrows WHERE f is searched, it does not weaken or
+#      replace any acceptance criterion).
+#   4. Fail-closed budget check: the theoretical per-m bound
+#      |Stab(xbar)| * |C_P(ybar^u)| is accumulated into
+#      theoretical_upper_bound_xi (summed over charming m) and compared
+#      against the actual scanned_count; Error() if scanned_count ever
+#      exceeds it (should be structurally impossible given the loop nesting
+#      below, but kept as an explicit assert per the spec, not silently
+#      trusted).
+# UNKNOWN / not invented here: the spec does not say what to do if
+# RepresentativeAction fails to find alpha0 or f0 for some m/s (only that
+# "A_m は空か... の剰余類" -- i.e. it MAY be empty). This implementation
+# treats that as "zero candidates from this (m) or (m,s) branch, move on" --
+# the natural reading, but it is an implementation choice where the spec
+# itself is silent, not a claim that the spec forced this exact behavior.
+CorrectedShadowsXi := function(W, charmingSet)
+  local out, settledFails, failWitnesses, D, AutP, actFun, Stab, stabElts,
+        m, u, alpha0, yu, Cyu, cElts, s, target, hRep, f0, c, f, scannedCount,
+        theoreticalBound, settledHom;
+  out := [];  settledFails := 0;  failWitnesses := [];  scannedCount := 0;
+  theoreticalBound := 0;
+  D := DerivedSubgroup(W.PN);
+  AutP := AutomorphismGroup(W.PN);
+  actFun := function(pt, g) return Image(g, pt); end;
+  Stab := Stabilizer(AutP, W.x, actFun);
+  stabElts := Elements(Stab);   # |Stab(xbar)| -- expected small (e.g. 1320 for A16-11a)
+
+  for m in charmingSet do
+    u := 2*m + 1;
+    yu := W.y^u;
+    Cyu := Centralizer(W.PN, yu);
+    cElts := Elements(Cyu);     # |C_P(ybar^u)| -- expected small (e.g. 660 for A16-11a)
+    theoreticalBound := theoreticalBound + Length(stabElts) * Length(cElts);
+
+    alpha0 := RepresentativeAction(AutP, W.x, W.x^u, actFun);
+    if alpha0 = fail then
+      continue;   # A_m empty for this m -- no candidates, per Prop 3.1
+    fi;
+
+    for s in stabElts do
+      target := Image(alpha0, Image(s, W.y));   # alpha(ybar), alpha = alpha0 composed with s
+      # solve f0 * yu * f0^-1 = target via GAP's standard OnPoints action
+      # (pt^g = g^-1*pt*g) applied to h with (yu)^h = target, then f0 := h^-1:
+      hRep := RepresentativeAction(W.PN, yu, target, OnPoints);
+      if hRep = fail then
+        continue;   # this alpha contributes no f -- move to the next s
+      fi;
+      f0 := hRep^-1;
+      for c in cElts do
+        f := f0 * c;
+        scannedCount := scannedCount + 1;
+        if scannedCount > theoreticalBound then
+          Error("kerchi-judge CorrectedShadowsXi: scanned_count exceeded the ",
+                "theoretical Prop-3.1 upper bound -- this should be structurally ",
+                "impossible given the loop nesting; fail-closed per the coordinator's ",
+                "instruction rather than silently continuing");
+        fi;
+        if not (f in D) then continue; fi;   # [P,P] membership, checked first (cheapest)
+        if AbstractProd([f, TH(W, f)]) <> Identity(W.Bq) then continue; fi;
+        if RtOf(W, m, f) <> W.c^m then continue; fi;
+        if Size(Group(W.x^u, AbstractProd([f^-1, W.y^u, f]))) <> Size(W.PN) then continue; fi;
+        settledHom := GroupHomomorphismByImages(W.Bq, W.Bq, [W.s1, W.s2],
+                        [W.s1^u, AbstractProd([f^-1, W.s2^u, f])]);
+        if settledHom = fail then
+          settledFails := settledFails + 1;
+          if Length(failWitnesses) < 20 then
+            Add(failWitnesses, rec(m := m, f := f));
+          fi;
+          continue;
+        fi;
+        Add(out, [m, f]);
+      od;
+    od;
+  od;
+  return rec(shadows := Set(out), settled_fail_count := settledFails,
+             settled_fail_witnesses := failWitnesses, scanned_count := scannedCount,
+             theoretical_upper_bound_xi := theoreticalBound);
+end;;
+
+# v1.3 dispatcher: chooses legacy (exhaustive, ground truth) vs xi_restricted
+# (Prop 3.1, for P too large to enumerate), auto-selected by |[P,P]|*|charmingSet|
+# against JUDGE_SCAN_THRESHOLD, or forced via JUDGE_FORCE_SCAN_MODE (legacy
+# strings "legacy" / "xi_restricted"). NOTE: the threshold VALUE below is an
+# ENGINEERING choice (how large a GAP Elements() call is comfortable to run),
+# not a mathematical spec point -- docs/notes/wac_reverse_design_v1.md does
+# not fix one, so this is not "invented math", just a practical cutoff,
+# clearly labeled as such and open to recalibration.
+if not IsBound(JUDGE_SCAN_THRESHOLD) then
+  JUDGE_SCAN_THRESHOLD := 100000;;   # |[P,P]| * |charmingSet| above this uses Xi-restriction
+fi;
+
+CorrectedShadows := function(W, charmingSet)
+  local sizePP, legacyCount, mode, res;
+  sizePP := Size(DerivedSubgroup(W.PN));
+  legacyCount := sizePP * Length(charmingSet);
+
+  if IsBound(JUDGE_FORCE_SCAN_MODE) then
+    mode := JUDGE_FORCE_SCAN_MODE;
+  elif legacyCount <= JUDGE_SCAN_THRESHOLD then
+    mode := "legacy";
+  else
+    mode := "xi_restricted";
+  fi;
+
+  if mode = "legacy" then
+    res := CorrectedShadowsLegacy(W, charmingSet);
+    res.scanned_count := legacyCount;
+  elif mode = "xi_restricted" then
+    res := CorrectedShadowsXi(W, charmingSet);
+  else
+    Error("kerchi-judge: JUDGE_FORCE_SCAN_MODE must be \"legacy\" or \"xi_restricted\", got ",
+          mode);
+  fi;
+  res.scan_mode := mode;
+  res.legacy_candidate_count := legacyCount;
+  if res.scanned_count > 0 then
+    res.compression := Float(legacyCount) / Float(res.scanned_count);
+  else
+    res.compression := -1;   # sentinel: undefined (zero candidates scanned)
+  fi;
+  return res;
 end;;
 
 GroupOfShadows := function(W, S)
@@ -278,6 +477,10 @@ JudgeWindow := function(s1in, s2in, label)
   corr := corrRes.shadows;
   r.settled_fail_count := corrRes.settled_fail_count;
   r.settled_fail_witnesses := corrRes.settled_fail_witnesses;
+  r.scan_mode := corrRes.scan_mode;
+  r.scanned_count := corrRes.scanned_count;
+  r.legacy_candidate_count := corrRes.legacy_candidate_count;
+  r.compression := corrRes.compression;
   r.shadow_total := Length(corr);
   kerList := Filtered(corr, k -> k[1] = 0);;
   r.ker_size := Length(kerList);
@@ -413,6 +616,13 @@ BoolOrNullJson := function(v)
   return JB(v);
 end;;
 
+# compression is a GAP float (or -1 sentinel = undefined, e.g. scanned_count=0);
+# GAP's String() on a float already yields a JSON-legal decimal literal.
+FloatOrNullJson := function(v)
+  if IsInt(v) and v = -1 then return "null"; fi;   # sentinel (int -1); floats can't compare to -1 directly in GAP
+  return String(v);
+end;;
+
 SettledFailWitnessesJson := function(ws)
   local items;
   items := List(ws, w -> Concatenation("{\"m\":", String(w.m),
@@ -434,6 +644,10 @@ ResultJson := function(r)
     "  \"settled_total_evaluated\":", String(r.settled_total_evaluated), ",\n",
     "  \"settled_all_pass\":", JB(r.settled_all_pass), ",\n",
     "  \"settled_fail_witnesses\":", SettledFailWitnessesJson(r.settled_fail_witnesses), ",\n",
+    "  \"scan_mode\":", JStr(r.scan_mode), ",\n",
+    "  \"scanned_count\":", String(r.scanned_count), ",\n",
+    "  \"legacy_candidate_count\":", String(r.legacy_candidate_count), ",\n",
+    "  \"compression\":", FloatOrNullJson(r.compression), ",\n",
     "  \"isotropy_order\":", String(r.isotropy_order), ",\n",
     "  \"ker_size\":", String(r.ker_size), ",\n",
     "  \"chi_image_order\":", String(r.chi_image_order), ",\n",
@@ -499,6 +713,9 @@ RunAndWrite := function(result, outfile)
   Print("\n=== VERDICT: ", result.verdict, " (", result.label, ") ===\n");
   Print("  c_in_N=", result.c_in_N, "  |B3/N|=", result.abs_Bq, " |P_N|=", result.abs_PN,
         "  N_ord=", result.N_ord, "\n");
+  Print("  scan_mode=", result.scan_mode, "  scanned_count=", result.scanned_count,
+        "  legacy_candidate_count=", result.legacy_candidate_count,
+        "  compression=", result.compression, "\n");
   Print("  shadow_total=", result.shadow_total, "  settled_fail_count=", result.settled_fail_count,
         " (", result.settled_total_evaluated - result.settled_fail_count, "/",
         result.settled_total_evaluated, " settled)",

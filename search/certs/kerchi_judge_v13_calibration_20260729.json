@@ -1,0 +1,56 @@
+{
+  "generated_by": "search/kerchi-judge-v13-calibration.g",
+  "note": "KJ-1.3 (ruling 171) regression calibration for CorrectedShadowsXi (Prop 3.1 Xi-restriction) vs CorrectedShadowsLegacy; W-C-N5cong is the SAME window as D1-p5 (both S3 x SL(2,F5)), checked again explicitly per the coordinator's named list rather than skipped as redundant -- see script header. NOT a ledger claim, no cross-check against an independently-implemented checker.",
+  "calibration_fails": 0,
+  "calibration_pass": true,
+  "windows": [
+  {
+    "label":"D1-p5",
+    "abs_Bq":720,
+    "abs_PN":120,
+    "N_ord":10,
+    "charming_count":8,
+    "legacy_shadow_total":40,
+    "xi_shadow_total":40,
+    "legacy_settled_fail_count":0,
+    "xi_settled_fail_count":0,
+    "xi_scanned_count":400,
+    "xi_theoretical_upper_bound":400,
+    "legacy_candidate_count":960,
+    "compression":2.3999999999999999,
+    "sets_equal":true
+  },
+  {
+    "label":"D1-p7",
+    "abs_Bq":2016,
+    "abs_PN":336,
+    "N_ord":14,
+    "charming_count":12,
+    "legacy_shadow_total":84,
+    "xi_shadow_total":84,
+    "legacy_settled_fail_count":0,
+    "xi_settled_fail_count":0,
+    "xi_scanned_count":1176,
+    "xi_theoretical_upper_bound":1176,
+    "legacy_candidate_count":4032,
+    "compression":3.4285714285714284,
+    "sets_equal":true
+  },
+  {
+    "label":"W-C-N5cong",
+    "abs_Bq":720,
+    "abs_PN":120,
+    "N_ord":10,
+    "charming_count":8,
+    "legacy_shadow_total":40,
+    "xi_shadow_total":40,
+    "legacy_settled_fail_count":0,
+    "xi_settled_fail_count":0,
+    "xi_scanned_count":400,
+    "xi_theoretical_upper_bound":400,
+    "legacy_candidate_count":960,
+    "compression":2.3999999999999999,
+    "sets_equal":true
+  }
+  ]
+}
