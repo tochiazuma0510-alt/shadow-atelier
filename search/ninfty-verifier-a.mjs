@@ -179,13 +179,35 @@ function checkAmbient(cert) {
 // under Sol advisement).
 //
 // W-4 (chart_overlap_witnesses): 追補 (n) v2 (裁定152 §3-1, sharpened by
-// 裁定177 F80-4.1 -- Sol's direct adversarial probe found this function
-// still reading the RETIRED `per_overlap_witnesses` key and reporting
-// ABSENT for every one of five adversarial shapes, including the one that
-// should re-verify to PASS). The ONLY valid shape is
-// {status: "ABSENT"|"PRESENT", entries: [...]}, both keys REQUIRED --
-// EXACTLY the same six branches as lane B's `_validate_w4_entry`
-// (ninfty-verifier-b.py), fail-closed:
+// 裁定177 F80-4.1, and sharpened AGAIN by 裁定185 F81-3.1 -- Sol's direct
+// adversarial probe found THREE remaining fail-closed gaps even after the
+// six-branch fix: (1) duplicate divisor_object-tagged entries were read as
+// ABSENT instead of MALFORMED, (2) a RETIRED `per_overlap_witnesses` key
+// coexisting with a valid canonical shape was not checked at all (a
+// canonical ABSENT + retired key read as ABSENT; a canonical PRESENT +
+// CONTRADICTING retired key read as PASS), (3) a PRESENT entry's inner
+// `entries[]` items were never schema-checked, so `entries:[null]` crashed
+// with a TypeError and `entries:[{}]` was silently scored as an ordinary
+// arithmetic FAIL rather than surfaced as a schema violation).
+//
+// The ONLY valid shape is {status: "ABSENT"|"PRESENT", entries: [...]},
+// both keys REQUIRED, with NO retired key present, and (when PRESENT) each
+// `entries[]` item itself well-formed -- fail-closed, matching lane B's
+// `_validate_w4_entry` (ninfty-verifier-b.py) branch-for-branch:
+//   0. `w` missing entirely, or NOT a dict -- ABSENT (outer-container
+//      concern: 0 matched divisor_object-tagged entries for this slot,
+//      unrelated to 追補(n) itself).
+//   0'. (裁定185 F81-3.1 item 1) MORE THAN ONE entry matched for this
+//       divisor_object -- MALFORMED, not ABSENT (v3 条項7 requires EXACTLY
+//       1; checked by the caller, see the duplicate-count scan in
+//       runVerifierA below, since classifyChartOverlapEntry itself only
+//       ever sees a single already-selected entry object).
+//   0''. (裁定185 F81-3.1 item 2) the RETIRED `per_overlap_witnesses` key
+//        is present AT ALL (regardless of what it contains, and
+//        regardless of whether status/entries otherwise look valid) --
+//        MALFORMED, unconditionally, checked FIRST (before status/entries
+//        are even read) -- lane A parity with lane B's / the normalizer's
+//        ambiguous-coexistence rejection (裁定177 F80-4.2 condition 4/5).
 //   1. status === 'ABSENT' && entries === [] -> ABSENT.
 //   2. `status` key MISSING entirely -> MALFORMED (unconditional).
 //   3. status === 'ABSENT' but entries is NON-empty -> MALFORMED (contradiction).
@@ -193,22 +215,57 @@ function checkAmbient(cert) {
 //      checked before entries' own content is even consulted).
 //   5. status === 'PRESENT' but entries === [] -> MALFORMED (self-contradiction,
 //      mirror of rule 3).
-//   6. status === 'PRESENT' and entries is non-empty -> re-verify: each
-//      declared overlap witness must claim agreement AND (if it carries
-//      ideal generators for the two charts) must actually reduce to the
-//      same monic ideal -- PASS iff all entries agree, else FAIL.
-// A missing entry object (0 or >1 matched divisor_object-tagged entries for
-// this witness slot -- an outer-container concern, unrelated to 追補(n))
-// remains ABSENT, unchanged.
+//   5'. (裁定185 F81-3.1 item 3) status === 'PRESENT' and entries is
+//       non-empty, but ANY entries[] item is not a well-formed object (not
+//       an object at all -- e.g. null -- or missing/mistyped its required
+//       `agree` field, or carries only ONE of generator_chart_a/
+//       generator_chart_b, or either generator is present but not an
+//       array) -- MALFORMED, never a crash and never silently scored as
+//       an ordinary chart-mismatch FAIL.
+//   6. status === 'PRESENT', entries is non-empty, and every entries[]
+//      item is well-formed -> re-verify: each declared overlap witness
+//      must claim agreement AND (if it carries ideal generators for the
+//      two charts) must actually reduce to the same monic ideal -- PASS
+//      iff all entries agree, else FAIL.
 
 export function verifyChartOverlap_forTest(w) { return verifyChartOverlap(w); }
 export function classifyChartOverlapEntry_forTest(w) { return classifyChartOverlapEntry(w); }
 
+// Validates ONE entries[] item's own required-field schema (裁定185
+// F81-3.1 item 3). Returns null if well-formed, else a reason string.
+function _validateChartOverlapInnerEntry(ow) {
+  if (!ow || typeof ow !== 'object' || Array.isArray(ow)) {
+    return 'entries[] item is not an object';
+  }
+  if (typeof ow.agree !== 'boolean') {
+    return "entries[] item missing 'agree' field, or 'agree' is not a boolean";
+  }
+  const hasA = Object.prototype.hasOwnProperty.call(ow, 'generator_chart_a');
+  const hasB = Object.prototype.hasOwnProperty.call(ow, 'generator_chart_b');
+  if (hasA !== hasB) {
+    return 'entries[] item has only one of generator_chart_a/generator_chart_b (must be both present or neither)';
+  }
+  if (hasA && (!Array.isArray(ow.generator_chart_a) || !Array.isArray(ow.generator_chart_b))) {
+    return 'entries[] item generator_chart_a/generator_chart_b must both be arrays when present';
+  }
+  return null;
+}
+
 // Returns {status: 'ABSENT'|'MALFORMED', reason?} for a terminal (non-scoring)
-// verdict, or {status: null, entries: [...]} meaning "status==='PRESENT' with
-// a genuinely non-empty entries array -- proceed to re-verify its contents".
+// verdict, or {status: null, entries: [...]} meaning "status==='PRESENT',
+// entries is genuinely non-empty, and every item is schema-valid --
+// proceed to re-verify its arithmetic content".
 function classifyChartOverlapEntry(w) {
   if (!w || typeof w !== 'object') return { status: 'ABSENT' };
+  if (Object.prototype.hasOwnProperty.call(w, 'per_overlap_witnesses')) {
+    return {
+      status: 'MALFORMED',
+      reason: "chart_overlap_witnesses entry carries the RETIRED 'per_overlap_witnesses' key "
+              + "alongside the canonical shape -- ambiguous regardless of whether it agrees with "
+              + "'entries', never silently ignored (裁定185 F81-3.1 item 2, lane A parity with "
+              + "lane B / the legacy normalizer's ambiguous-coexistence rejection)",
+    };
+  }
   const status = w.status;
   if (status === undefined) {
     return { status: 'MALFORMED', reason: "chart_overlap_witnesses entry missing 'status' field (追補(n) v2 rule 2, unconditional)" };
@@ -229,6 +286,12 @@ function classifyChartOverlapEntry(w) {
   if (w.entries.length === 0) {
     return { status: 'MALFORMED', reason: 'chart_overlap_witnesses entry.status=PRESENT but entries is empty -- declares presence while supplying no evidence (追補(n) v2 rule 5)' };
   }
+  for (let i = 0; i < w.entries.length; i++) {
+    const badReason = _validateChartOverlapInnerEntry(w.entries[i]);
+    if (badReason) {
+      return { status: 'MALFORMED', reason: `chart_overlap_witnesses entry.entries[${i}]: ${badReason} (裁定185 F81-3.1 item 3)` };
+    }
+  }
   return { status: null, entries: w.entries };
 }
 
@@ -236,10 +299,11 @@ function verifyChartOverlap(w) {
   const c = classifyChartOverlapEntry(w);
   if (c.status === 'ABSENT') return 'ABSENT';
   if (c.status === 'MALFORMED') return 'MALFORMED';
-  // c.status === null: status==='PRESENT' with a genuinely non-empty
-  // entries array -- independent re-check: each declared overlap witness
-  // must claim agreement AND (if it carries ideal generators for the two
-  // charts) must actually reduce to the same monic ideal.
+  // c.status === null: status==='PRESENT', entries is non-empty, and every
+  // item already passed schema validation above -- independent
+  // re-verification: each declared overlap witness must claim agreement
+  // AND (if it carries ideal generators for the two charts) must actually
+  // reduce to the same monic ideal.
   const allOk = c.entries.every((ow) => {
     if (ow.agree !== true) return false;
     if (ow.generator_chart_a && ow.generator_chart_b) {
@@ -606,16 +670,29 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
   const R_ram = objVerify(DIVISOR_OBJECT_RAM, certificate.searcher_native.native_artifact_digest, certificate.checker_native.native_artifact_digest);
   const R_branch = objVerify(DIVISOR_OBJECT_BRANCH, certificate.searcher_native.native_artifact_digest, certificate.checker_native.native_artifact_digest);
 
-  // 追補(n) v2 (裁定177 F80-4.1): W-4 MALFORMED is a schema violation --
-  // escalated to the SAME top-level {malformed:true, ...} shape W-6's
-  // pushforward MALFORMED already uses (consistency with this file's own
-  // established pattern), never left as a silent non-PASS buried only
-  // inside R_A. Re-derives the matched entry per divisor_object exactly the
-  // way objVerify's `chartOverlap` field does (0 or >1 matches -> ABSENT,
-  // not this check's concern).
+  // 追補(n) v2 (裁定177 F80-4.1, sharpened 裁定185 F81-3.1): W-4 MALFORMED
+  // is a schema violation -- escalated to the SAME top-level
+  // {malformed:true, ...} shape W-6's pushforward MALFORMED already uses
+  // (consistency with this file's own established pattern), never left as
+  // a silent non-PASS buried only inside R_A. Re-derives the matched
+  // entry/entries per divisor_object exactly the way objVerify's
+  // `chartOverlap` field selects them, EXCEPT that >1 matches (v3 条項7:
+  // exactly 1 entry per divisor_object) is now MALFORMED here too (裁定185
+  // F81-3.1 item 1 -- objVerify's own `e.length === 1 ? e[0] : undefined`
+  // still reads a duplicate as ABSENT downstream, which is why this
+  // top-level scan, not objVerify itself, is the fail-closed gate for it;
+  // 0 matches remains ABSENT, unaffected).
   const chartOverlapMalformed = [];
   for (const tag of [DIVISOR_OBJECT_RAM, DIVISOR_OBJECT_BRANCH]) {
     const matched = filterByObject(certificate.chart_overlap_witnesses, tag);
+    if (matched.length > 1) {
+      chartOverlapMalformed.push({
+        field: 'chart_overlap_witnesses.' + tag,
+        reason: `${matched.length} entries tagged divisor_object=${tag} -- v3 条項7 requires `
+                + 'EXACTLY 1 (裁定185 F81-3.1 item 1; MALFORMED, not ABSENT)',
+      });
+      continue;
+    }
     if (matched.length === 1) {
       const c = classifyChartOverlapEntry(matched[0]);
       if (c.status === 'MALFORMED') {

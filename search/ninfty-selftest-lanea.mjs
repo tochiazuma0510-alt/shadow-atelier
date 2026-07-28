@@ -12,7 +12,7 @@ import {
   evaluateDecisionLane, checkT1, buildSearcherNative, generateCertificate,
   loadFreezeReceiptDigests, DEFAULT_FREEZE_RECEIPT_PATH, digestOf,
 } from './ninfty-searcher-v2.mjs';
-import { runVerifierA, combine, vectorsEqual, verifyChartOverlap_forTest } from './ninfty-verifier-a.mjs';
+import { runVerifierA, combine, vectorsEqual, verifyChartOverlap_forTest, classifyChartOverlapEntry_forTest } from './ninfty-verifier-a.mjs';
 
 // Test-only ref-triple builder (裁定 139 item 3 shape: {artifact_id, digest,
 // object_id, inline}), used only to construct SYNTHETIC fixture data below --
@@ -573,6 +573,116 @@ for (const { label, entry } of ADVERSARIAL_W4) {
         vA.malformed === true && Array.isArray(vA.malformed_fields) && vA.malformed_fields.length > 0,
         JSON.stringify(vA));
 }
+
+// --- 裁定185 F81-3.1: three remaining fail-closed gaps Sol found even
+//     after the F80-4.1 six-branch fix (all reproduced directly against
+//     classifyChartOverlapEntry_forTest / verifyChartOverlap_forTest
+//     before this repair): (1) duplicate divisor_object-tagged W-4 entries
+//     read as ABSENT instead of MALFORMED (v3 条項7: exactly 1 entry);
+//     (2) a RETIRED per_overlap_witnesses key coexisting with a valid
+//     canonical shape was not checked at all; (3) a PRESENT entry's inner
+//     entries[] items were never schema-checked (entries:[null] crashed
+//     with a TypeError, entries:[{}] was silently scored as an ordinary
+//     arithmetic FAIL). Sol's four cases, end-to-end via runVerifierA.
+console.log('\n=== 裁定185 F81-3.1: duplicate entry / retired-key coexistence / inner schema ===');
+
+// case 1: duplicate entries for the SAME divisor_object -- MALFORMED, not ABSENT.
+{
+  const { native, cert } = freshCert();
+  cert.chart_overlap_witnesses = [
+    { divisor_object: RAM_TAG, status: 'ABSENT', entries: [] },
+    { divisor_object: RAM_TAG, status: 'ABSENT', entries: [] }, // duplicate tag
+    { divisor_object: BRANCH_TAG, status: 'ABSENT', entries: [] },
+  ];
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('裁定185 case 1: duplicate divisor_object-tagged W-4 entries -> runVerifierA escalates malformed=true (v3 条項7)',
+        vA.malformed === true && Array.isArray(vA.malformed_fields) && vA.malformed_fields.length > 0,
+        JSON.stringify(vA));
+}
+
+// case 2: retired per_overlap_witnesses key coexisting with a canonical
+// shape -- isolated probe of BOTH the "canonical ABSENT + retired key"
+// and "canonical PRESENT + CONTRADICTING retired key" shapes Sol used,
+// confirming they are no longer ABSENT/PASS respectively.
+{
+  const ramGenR185 = buildSearcherNative(positive1.candidate).ramification_divisor_on_C_ref.components[0].ideal_generator;
+  const absentPlusRetired = { divisor_object: RAM_TAG, status: 'ABSENT', entries: [], per_overlap_witnesses: [] };
+  const gotAbsentPlusRetired = classifyChartOverlapEntry_forTest(absentPlusRetired);
+  check('裁定185 case 2a: canonical ABSENT + retired per_overlap_witnesses=[] -> MALFORMED (was ABSENT)',
+        gotAbsentPlusRetired.status === 'MALFORMED', JSON.stringify(gotAbsentPlusRetired));
+
+  const presentPlusContradictingRetired = {
+    divisor_object: RAM_TAG, status: 'PRESENT',
+    entries: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGenR185, generator_chart_b: ramGenR185 }],
+    per_overlap_witnesses: [], // contradicts (empty) -- previously ignored, PASS leaked through
+  };
+  const gotPresentPlusRetired = classifyChartOverlapEntry_forTest(presentPlusContradictingRetired);
+  check('裁定185 case 2b: canonical PRESENT + CONTRADICTING retired per_overlap_witnesses -> MALFORMED (was PASS)',
+        gotPresentPlusRetired.status === 'MALFORMED', JSON.stringify(gotPresentPlusRetired));
+}
+// same case 2 (PRESENT + contradicting retired key), end-to-end.
+{
+  const { native, cert } = freshCert();
+  const ramGen2 = native.ramification_divisor_on_C_ref.components[0].ideal_generator;
+  const entry = {
+    status: 'PRESENT',
+    entries: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen2, generator_chart_b: ramGen2 }],
+    per_overlap_witnesses: [],
+  };
+  cert.chart_overlap_witnesses = [{ ...entry, divisor_object: RAM_TAG }, { ...entry, divisor_object: BRANCH_TAG }];
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('裁定185 case 2: retired-key coexistence -> runVerifierA escalates malformed=true (end-to-end)',
+        vA.malformed === true && Array.isArray(vA.malformed_fields) && vA.malformed_fields.length > 0,
+        JSON.stringify(vA));
+}
+
+// case 3: inner entries[] item is null -- must NOT crash (TypeError), must
+// resolve to MALFORMED end-to-end.
+{
+  const { native, cert } = freshCert();
+  cert.chart_overlap_witnesses = [
+    { divisor_object: RAM_TAG, status: 'PRESENT', entries: [null] },
+    { divisor_object: BRANCH_TAG, status: 'PRESENT', entries: [null] },
+  ];
+  let threw = false;
+  let vA;
+  try {
+    vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  } catch (e) {
+    threw = true;
+  }
+  check('裁定185 case 3: entries=[null] does NOT crash (no TypeError)', threw === false, threw ? 'threw' : 'no throw');
+  check('裁定185 case 3: entries=[null] -> runVerifierA escalates malformed=true (not a crash, not FAIL)',
+        !threw && vA.malformed === true && Array.isArray(vA.malformed_fields) && vA.malformed_fields.length > 0,
+        threw ? 'crashed' : JSON.stringify(vA));
+}
+
+// case 4: inner entries[] item is {} (missing required 'agree' field) --
+// must be MALFORMED, not a silently-scored arithmetic FAIL.
+{
+  const { native, cert } = freshCert();
+  cert.chart_overlap_witnesses = [
+    { divisor_object: RAM_TAG, status: 'PRESENT', entries: [{}] },
+    { divisor_object: BRANCH_TAG, status: 'PRESENT', entries: [{}] },
+  ];
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check("裁定185 case 4: entries=[{}] (missing 'agree') -> runVerifierA escalates malformed=true (was silently scored FAIL)",
+        vA.malformed === true && Array.isArray(vA.malformed_fields) && vA.malformed_fields.length > 0,
+        JSON.stringify(vA));
+}
+
+// isolated-function corroboration of cases 3/4 (matching Sol's own
+// direct-probe style).
+check('裁定185 case 3 (isolated): classifyChartOverlapEntry_forTest({status:PRESENT, entries:[null]}) -> MALFORMED (no throw)',
+      (() => {
+        try {
+          return classifyChartOverlapEntry_forTest({ status: 'PRESENT', entries: [null] }).status === 'MALFORMED';
+        } catch (e) {
+          return false;
+        }
+      })());
+check("裁定185 case 4 (isolated): classifyChartOverlapEntry_forTest({status:PRESENT, entries:[{}]}) -> MALFORMED (not FAIL)",
+      classifyChartOverlapEntry_forTest({ status: 'PRESENT', entries: [{}] }).status === 'MALFORMED');
 
 // --- Worked examples from the spec text itself (Sec.5.3.2 line 508 and
 //     contract Sec.5.1 F4.1/F4.2), tested directly against combine()'s
