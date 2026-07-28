@@ -1,6 +1,6 @@
 # 等号問題 $\ker\widetilde\chi=[\operatorname{GT}(N),\operatorname{GT}(N)]$ — 一般判定条件・dihedral 族での定理・**atlas 内の反例** **v2**
 
-**状態札: candidate(裁定前・未 commit)**
+**状態札: candidate(v2.3.1・repo commit 済 — Sol 便 82 F82-2.1 の小差分反映)**
 起草: Claude(数学者レイヤー・Opus 5)/ v1 = 2026-07-29 / **v2 = 2026-07-29(便 79 検収・裁定 170 の修理波)/ v2.1 = 2026-07-29(裁定 173 追補: §11 $\chi$-退化窓・予想 KE-P の反証)/ **v2.2 = 2026-07-29(裁定 177・便 80 F80-2 系: §12 KE-P$'$ 撤回・idx162-s1・census・$\chi$-DEG の型修正)/ v2.3 = 2026-07-29(裁定 185・便 81 F81-2.2/P81-D: 失効記録の封入・idx162 の cross-checked 確定・`abs_PN` の型分離・母集団分離・A16 = 第三標本)**
 設問: 司令塔委嘱(便 79 検分材料)/ `docs/notes/w2fam_v1.md`(dihedral 族での等号)の一般化
 **v2 の依拠(追加)**: `sol/sol_reply_79_math6.md` **F79-2.1 / F79-2.2 / F79-2.3 / F79-2.5 / F79-2.6 / P79-A / P79-B**、`search/certs/derived_census_v2_20260729.json`(census v2)。
@@ -525,7 +525,7 @@ isotropy 群に残るのは $m=0$ の 6 個だけ ⟹ $Q_N=1$。**これは F79-
 > **証明.** $T_{m,1}$ は $x\mapsto x^u$、$y\mapsto y^u$ で決まる**自由群 $F_2$ の**自己準同型なので、語 $w(x,y)$ に対し $P_N(T_{m,1}(w))=w(\bar x^{\,u},\bar y^{\,u})$。$A$ 可換なら右辺 $=\bigl(w(\bar x,\bar y)\bigr)^u$、すなわち $P_N\circ T_{m,1}=(\ \cdot\ )^u\circ P_N$。$\gcd(u,|A|)=1$ なら $u$ 乗は $A$ の自己同型だから核は $\ker P_N=N_{F_2}$。$\blacksquare$
 
 > ### ⛔ v2.1 の対偶(「$PB_3/N$ は非可換」)は **v2.2 で撤回**(F80-2.5)
-> v2.1 は補題の対象を $PB_3/N$ と書き、settled 失敗から $PB_3/N$ の非可換性を導いた。**型が違う。** 補題が支配するのは **$F_2$-source**($A=F_2/N_{F_2}$、この窓では $|A|$ は証明書に出ていない)であり、証明書の `settled` は **$B_3$-source**($\ker(\widehat P_N\circ T_{m,f}|_{B_3})=N$)を測っている。**両者を結ぶ橋は未証明**なので、対偶は成立しない。**$|PB_3/N|=21$ と $\gcd(5,21)=1$ から何も導けない。**
+> v2.1 は補題の対象を $PB_3/N$ と書き、settled 失敗から $PB_3/N$ の非可換性を導いた。**型が違う。** 補題が支配するのは **$F_2$-source**($A=F_2/N_{F_2}$ — $|A|$ は証明書の `abs_PN` 欄に出ており idx126 では $21$。**出ていないのではなく、$A$ の可換性と F2-source/B3-settled の BRIDGE がないため補題を適用できない**)であり、証明書の `settled` は **$B_3$-source**($\ker(\widehat P_N\circ T_{m,f}|_{B_3})=N$)を測っている。**両者を結ぶ橋は未証明**なので、対偶は成立しない。**$|PB_3/N|=21$ と $\gcd(5,21)=1$ から何も導けない。**
 > > **【open problem 橋補題(BRIDGE)】** $P_N\circ T_{m,1}$ の $F_2$-核が $N_{F_2}$ と一致することと、$(m,1)$ が **$B_3$-settled** であることの関係を決めよ。(a) 前者 ⟹ 後者 か、(b) 追加前件($c\in N$・$B_3$-正規性・full-source の hexagon)が要るか、(c) 独立か。**これが (a) なら補題 $\chi$-DEG は $\chi$-退化の判定器に昇格する。現状は昇格させない。**
 > 実測として残るのは「`settled_fail_witnesses` の $f$ が 7-サイクルで、7-部分が動いている」という**観察**のみ(構造の証明ではない)。
 
@@ -598,7 +598,7 @@ equality_type   = TYPE_0_TRIVIAL_EQUAL   if chi_degenerate and isotropy_order ==
 > $$\texttt{abs\_PN}=|F_2/N_{F_2}|,\qquad |PB_3/N|=\texttt{abs\_Bq}/6\quad(\text{別型・別の量}).$$
 > **v5 の 66 行中 10 行で両者は一致しない**(`idx48-s2`, `idx96-s2/s3/s4`, `idx144-s4`, `idx162-s2`, `idx192-s2/s3/s4/s5` — いずれも $\texttt{abs\_PN}<\texttt{abs\_Bq}/6$)。v2.1/v2.2 は `abs_PN` を $|PB_3/N|$ と読んでいた。**$PB_3$ 商が要る箇所では `abs_Bq/6` を別欄として導出すること**(`pb_quotient_order = abs_Bq / 6`)。下表の 4 行はたまたま両者が一致するが、**列は $|F_2/N_{F_2}|$ として読む**。
 
-**census(`wall_miner_v5_20260729.json` 全 66 行・機械抽出)**: **EQUAL 62 / TYPE-0 3 / TYPE-L 1**。**TYPE-0 / TYPE-L の全行**(= 非 EQUAL の全行):
+**census(`wall_miner_v5_20260729.json` 全 66 行・機械抽出)**: **EQUAL 62 / TYPE-0 3 / TYPE-L 1**。**TYPE-0 / TYPE-L の全行**(= 非 default enum `equality_type != EQUAL` の全行 — TYPE-0 には等号**成立**側の自明例 idx6-s1 を含む):
 
 | label | equality_type | $|B_3/N|$ | $|F_2/N_{F_2}|$ | $N_{\rm ord}$ | $|G_N|$ | $|\ker\widetilde\chi|$ | $|[G_N,G_N]|$ | `settled_all_pass` |
 |---|---|---|---|---|---|---|---|---|

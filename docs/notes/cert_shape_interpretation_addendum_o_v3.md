@@ -1,6 +1,11 @@
-# interp 追補 (o) v3 — 二経路合成の全域関数(Sol F81-3.2 反映・発効請求版)
+# interp 追補 (o) v3.1 — 二経路合成の全域関数(Sol F81-3.2/F82-4.1 反映・発効請求版)
 
-状態: proposal / candidate(v2 を置換)。合成器名 = evidence-union/fail-closed-**v2**(P81-E)。
+状態: proposal / candidate(v2/v3 を置換)。合成器名 = evidence-union/fail-closed-**v2**(P81-E)。
+
+## route blob の必須欄(F82-4.1 — blob→status も全域にする)
+- **PASS/FAIL(= 非 ABSENT の evidence route)は共通必須欄として `claim_digest`(固定長 SHA-256・64-hex)と `evidence_digest` を持つ。欠品・型不正(非 64-hex 等)は MALFORMED**(「undefined == undefined」の空虚一致を構造的に排除)。
+- 二本の evidence route があるときは、**receiver が再計算した claim_digest の一致**を status 合成の前に要求する(producer 申告の突合ではない)。
+- `evidence_digest` は route の証拠を最終 record へ束縛する(v2 由来の束縛を継承 — 廃止しない)。PASS の全域性は `checked_domain_count` と receiver-derived expected count の一致まで型付けする。
 
 ## 分類(受領側の義務)
 - **route_status は producer 入力でなく受領 verifier の出力欄**。各 route を受領側が ABSENT / MALFORMED / PASS / FAIL に分類する。
