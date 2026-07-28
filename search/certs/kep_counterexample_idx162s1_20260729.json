@@ -1,0 +1,172 @@
+{
+  "schema": "KEP-counterexample/v1",
+  "generated_by": "search/kep-cx-recheck.py",
+  "note": "Independent python-only reconstruction of W-A-B3idx162-s1 from canonical_id_words (LID-1 run-independent identity) recorded in search/certs/wall_miner_v5_20260729.json. Uses sympy's coset_enumeration_r (independent Todd-Coxeter implementation) to build B3/N from the presentation <a,b|aba=bab,w_1=1,...,w_29=1>; shares no GAP helper code, no GAP-computed table, and no multiplication table from any prior run. Not a ledger claim by itself -- a cross-check (per repo policy, 'cross-checked', not 'verified' -- that word is reserved for Lean).",
+  "window_uid": "W-A-B3idx162-s1",
+  "v5_source_cert": "search/certs/wall_miner_v5_20260729.json",
+  "v5_source_canonical_id_words": [
+    "a^-6",
+    "(a^-1*b^-1*a^-1)^2",
+    "b^-6",
+    "a*b^-6*a^-1",
+    "a^-1*b^-6*a",
+    "a^2*b^-6*a^-2",
+    "(a^-2*b*a^-2)^2",
+    "a^-2*b^-6*a^2",
+    "b*a^-1*b^5*a^-1*b*a",
+    "b^-1*a*b^-5*a*b^-1*a^-1",
+    "(b^-2*a*b^-2)^2",
+    "(a*b^-1)^2*b^-4*a*b^-1*a^-2",
+    "a*(b^-2*a*b^-2)^2*a^-1",
+    "a^-1*((b*a^-1)^2*b)^2*a^-1",
+    "a^-1*b*(a^-1*b^2*a^-1)^2*b*a^-1",
+    "(a^-1*b)^2*b^4*a^-1*b*a^2",
+    "a^-1*b^2*(a^-1*b*a^-1)^2*b^2*a^-1",
+    "a^-1*(b^-2*a*b^-2)^2*a",
+    "((b*a^-1)^2*b)^2*a^-2",
+    "b*(a^-1*b^2*a^-1)^2*b*a^-2",
+    "(b*a^-1*b)^2*a^-2*b^2*a^-2",
+    "b^2*(a^-1*b*a^-1)^2*b^2*a^-2",
+    "b^2*((a^-1*b)^2*a^-1)^2",
+    "b^-1*((a*b^-1)^2*a)^2*b^-1",
+    "((b^-1*a)^2*b^-1)^2*a^2",
+    "b^-1*(a*b^-2*a)^2*b^-1*a^2",
+    "(b^-1*a*b^-1)^2*a^2*b^-2*a^2",
+    "b^-2*(a*b^-1*a)^2*b^-2*a^2",
+    "b^-2*((a*b^-1)^2*a)^2"
+  ],
+  "reconstruction_generators": {
+    "note": "generators of N as words in the free group on a,b (parsed via sympy free_group)",
+    "words": [
+      "a^-6",
+      "(a^-1*b^-1*a^-1)^2",
+      "b^-6",
+      "a*b^-6*a^-1",
+      "a^-1*b^-6*a",
+      "a^2*b^-6*a^-2",
+      "(a^-2*b*a^-2)^2",
+      "a^-2*b^-6*a^2",
+      "b*a^-1*b^5*a^-1*b*a",
+      "b^-1*a*b^-5*a*b^-1*a^-1",
+      "(b^-2*a*b^-2)^2",
+      "(a*b^-1)^2*b^-4*a*b^-1*a^-2",
+      "a*(b^-2*a*b^-2)^2*a^-1",
+      "a^-1*((b*a^-1)^2*b)^2*a^-1",
+      "a^-1*b*(a^-1*b^2*a^-1)^2*b*a^-1",
+      "(a^-1*b)^2*b^4*a^-1*b*a^2",
+      "a^-1*b^2*(a^-1*b*a^-1)^2*b^2*a^-1",
+      "a^-1*(b^-2*a*b^-2)^2*a",
+      "((b*a^-1)^2*b)^2*a^-2",
+      "b*(a^-1*b^2*a^-1)^2*b*a^-2",
+      "(b*a^-1*b)^2*a^-2*b^2*a^-2",
+      "b^2*(a^-1*b*a^-1)^2*b^2*a^-2",
+      "b^2*((a^-1*b)^2*a^-1)^2",
+      "b^-1*((a*b^-1)^2*a)^2*b^-1",
+      "((b^-1*a)^2*b^-1)^2*a^2",
+      "b^-1*(a*b^-2*a)^2*b^-1*a^2",
+      "(b^-1*a*b^-1)^2*a^2*b^-2*a^2",
+      "b^-2*(a*b^-1*a)^2*b^-2*a^2",
+      "b^-2*((a*b^-1)^2*a)^2"
+    ]
+  },
+  "independent_recomputation": {
+    "abs_Bq": 162,
+    "N_ord": 3,
+    "c_in_N": true,
+    "charming_count": 2,
+    "abs_PN": 27,
+    "derived_subgroup_PN_order": 3,
+    "shadow_total": 6,
+    "settled_fail_count": 0,
+    "settled_total_evaluated": 6,
+    "ker_size_raw_m0_shadow_count": 3,
+    "chi_image_order": 2,
+    "closure_holds": true,
+    "G_N_order": 6,
+    "G_N_abelian": true,
+    "G_N_is_C6_claim": true,
+    "ker_chi_tilde_order": 3,
+    "ker_chi_tilde_commutes": true,
+    "verdict": "ABELIAN",
+    "chi_surjective_assert": true,
+    "ta_assert_holds": true
+  },
+  "v5_recorded": {
+    "abs_Bq": 162,
+    "N_ord": 3,
+    "c_in_N": true,
+    "isotropy_order": 6,
+    "ker_size": 3,
+    "chi_image_order": 2,
+    "chi_surjective_assert": true,
+    "ker_commutes": true,
+    "verdict": "ABELIAN",
+    "derived_series_orders": [
+      6,
+      1
+    ],
+    "derived_length": 1
+  },
+  "agreement": {
+    "abs_Bq": true,
+    "N_ord": true,
+    "c_in_N": true,
+    "shadow_total": true,
+    "settled_fail_count": true,
+    "isotropy_order_GN": true,
+    "ker_size_group_order": true,
+    "chi_image_order": true,
+    "ker_commutes": true,
+    "verdict": true,
+    "G_N_isomorphism_type_claim_C6": true,
+    "ker_isomorphism_type_claim_C3": true,
+    "Q_isomorphism_type_claim_C2": true
+  },
+  "all_agree": true,
+  "candidate_shadows": [
+    {
+      "m": 0,
+      "f_perm_as_x_y_word": [
+        "x",
+        "yinv",
+        "xinv",
+        "y"
+      ]
+    },
+    {
+      "m": 2,
+      "f_perm_as_x_y_word": [
+        "x",
+        "yinv",
+        "xinv",
+        "y"
+      ]
+    },
+    {
+      "m": 0,
+      "f_perm_as_x_y_word": [
+        "x",
+        "y",
+        "xinv",
+        "yinv"
+      ]
+    },
+    {
+      "m": 2,
+      "f_perm_as_x_y_word": [
+        "x",
+        "y",
+        "xinv",
+        "yinv"
+      ]
+    },
+    {
+      "m": 0,
+      "f_perm_as_x_y_word": []
+    },
+    {
+      "m": 2,
+      "f_perm_as_x_y_word": []
+    }
+  ]
+}

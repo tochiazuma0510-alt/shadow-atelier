@@ -96,7 +96,8 @@ const Ft = (x, t) => q(2).mul(t).add(x.sub(q(1)).mul(x.sub(q(1))).mul(q(4).mul(x
   const onePlusT = sAdd(cst(q(1)), t);
   const lambda3 = sMul(t, sInv(onePlusT));
   const [o3, c3] = lead(lambda3);
-  chk('(9) ★★ 予言 I24-P1: λ₃ = t/(t+1) ⇒ u_{H3} = ?  (凍結予言: u_{H3} = +4)', o3===6, `u_H3 = ${c3}·x^${o3} + …  (t=${c0}·x^${o})`);
+  chk('(9a) ★★ 予言 I24-P1: λ₃ = t/(t+1) の ord(order) = 6', o3===6, `u_H3 = ${c3}·x^${o3} + …  (t=${c0}·x^${o})`);
+  chk('(9b) ★★ 予言 I24-P1: λ₃ = t/(t+1) ⇒ u_{H3} = +4 (coefficient)', c3.eq(q(4)), `u_H3 = ${c3}·x^${o3} + …  (t=${c0}·x^${o})`);
 }
 
 //////////////////// 6. [u] の 3-primary 成分 ////////////////////
