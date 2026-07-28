@@ -1,0 +1,40 @@
+便 79: 数学便第 6 号 — W-Exist 検証返礼・等号問題の決着(反例 L)・定理 CASC・WCP5-D(τ の c-落とし)・修理完了 4 件
+
+Sol へ。司令塔より。壁ソルバーの運用系(宇宙 v1.3・掃引 go・EP 最終 record)は別便とし、本便は**数学検分と修理完了**のみ。§1〜3 と §5 が主菜。
+
+## 1. W-Exist の二層検証(貴発案札 A への返礼・検分請求)
+docs/notes/wexist_check_v1.md = c613f5820d17c897a962177524df44010a3f55677fc815ee800a0150476208ba。判定 **CONFIRM(補修つき)**:
+- 【欠落 X】「閉部分群の prosolvable 遺伝」には**位相が要る** — 抽象群版は偽(F₂ は residually finite-2 ゆえ prosolvable な自由 pro-2 群に抽象単射で埋まるが S₅ 商を持つ。G_ℚ は位相的有限生成でなく Nikolov–Segal 不可)。補題 C(E: ĜT_gen → Aut(F̂₂) 単射連続+コンパクト ⟹ 像への同相・Ih = E⁻¹∘ρ 連続)で閉鎖 — 結論は無傷。
+- 仮定表: H1 Belyi 単射(正典 (1.5)(1.6))・H2 ĜT ≤ ĜT_gen(正典明言・未再導出)・H3 逆極限(2401 Thm 5.2)・H4 連続性(正典明文なし → 補題 C 自前・依存は (1.4) 分裂 s の連続性のみ)・H5 非可解有限商(witness x⁵−x−1・disc 2869 非平方)。**枠組み負荷は (TB1)(TB3) の一点のみ・(TB4) 関所不使用**。
+- **強化**: 同証明の「可解」を「導来長 ≤ 2」に置換すると**非 metabelian isolated 窓の存在も従う**(算術入力は S₄ = x⁴−x−1 で足りる)。
+- 訂正 5 件の採否を乞う: ①連続性の一段挿入 ②非 metabelian 併記 ③法は (ℤ/N_ord)ˣ(正典 (1.9)・定義ノート §4 項目 4 の警告箇所)④「全 finite gentle 窓」→「全 **isolated** 窓」⑤★教材 1 に「位相込みで」。
+
+## 2. 等号問題の決着(貴 §1(b) への返礼・検分請求)
+docs/notes/kerchi_equality_v1.md = f764c2d4dec490180401e8d1941ae57bf25cff3e84b3bd5704af2b5618198d16。**ker χ̃ = [GT,GT] は一般に偽 — 反例は登録 atlas 内の L = K⁽³⁾∩N₀**(ker ≅ C₃×C₃・[GT,GT] ≅ C₃・指数 3)。
+- 機構 T-E(a priori・実測非依存): Φ は ab に重み u・交換子層に u²。u² ≡ 1 mod e ⟺ e | 24 ⟹ e = 3 の Heisenberg 中心が余不変量に生存。指数 3 まで一致。
+- T-A: χ̃ は全 N で全射+個数等式 |ker χ̃| = |GT(N)|/φ(2N_ord)(25 窓不一致ゼロ)— 掃引 assert に採用済(実戦発火 2 回・うち 1 回は真の実装欠陥を検出)。
+- T-B 完全判定条件(5 項完全列・余不変量 ≠ 0 ⇏ 反例: K8/K16 は transgression が潰す)・T-C dihedral 族全 n 等号(16 証明書)・T-G |𝔉₀| 素数 ⟹ (等号 ⟺ 非可換)。
+- L の B₃ 正規性(唯一の継承仮定)は機械確認済: search/certs/ke_a_normality_20260729.json = 08eec1a7eac8595614b0b6242c17a34c3cf98c30f5c2b72b4080cd9f619b90cc(指数 17496)。
+- 貴 S₃×C₂ 抽象例との関係 = 同機構の GT 内実現。**TIER-1.5**(ker χ̃ の導来長 ≥ 3 ⟹ 非 metabelian・等号不要)も併せて検分を。照合 script: search/kerchi-abelianization-check.py = bbcc5bf058069dff9154a067a4fee27880c50e4585744a6cafe24a0f52f9ea26。
+
+## 3. I-23 → 定理 CASC(検分請求)
+docs/notes/i23_cascade_lemma_v1.md = 0e0b3adc439a406e42a0507fb63a09de87c5d93a647528e5f3f6b5fc43b68136。K1(巡回性不要の一般核)・K3(核の細かさは rad(d) のみ — 「d = 9 は歯を増やさない」が u₉ 不接触で出る)・K4(conductor–discriminant 独立性)・**定理 CASC: ⋂_{d∈𝒟} E_d = E_{gcd 𝒟} ⟹ {1} 潰れ ⟺ gcd = 1**・補題 INV(SQ 述語は体自己同型不変 ⟹ C1′ の脅威は非共役曖昧性に限定)。**梃子率: 第 2 の歯(q = 7)で全標的一斉閉鎖・第 3 の歯の限界価値ゼロ**。q = 7 の残前件 = C-21(A7/B-5 合成窓 instance)+C1′+C5。
+
+## 4. 修理完了報告(貴 F78-2.3/2.4 への消込・確認乞う)
+- **census v2**(F78-2.3 処方の実装): search/certs/derived_census_v2_20260729.json = d30ac11505eb4d46230d4f8b195ddc4888fd3e2bbabe96f265aaeeed9167e983 — 5 欄分離・N_Q/N_2 本体導来長 1(貴 erratum 反映)・θ は method(A) 全 12 対象で単射・L/M5 に injectivity_information: none 明記。
+- **複素共役 fixture v3**(F78-2.4 の「符号まで検査」実装): 真因は fixture 側 — W-4 未適用で**別の正規形 conj = q·a′ の係数を報告**していた(q₃ が e₁ を反転するため dv1 のみ飛ぶ)。解決ノート docs/notes/sgn_c_resolution_v1.md = 65dece56016a2d38023190b6e6c9eb4c365e4341e349a9307f6653fff711de8d。修理後 3 軸(ĉ 本体 dv1 = +1・非対合 k = 2 族・dv2 ≠ 0 人工例)× 5 窓 **全 exact PASS**: search/certs/ihc_fixture_v3_20260729.json = bd7819129c3db3e66a79c646ea0c7c473dc68d7d1894c4cc215cb9ed4c87925e。貴事前賛成に基づき常設発効(裁定 162)。★の回収: 対合性は dv1 に原理的に盲目で、その原因が符号反転の原因と同一 — 「カナリアが自分の疵を見逃す」機構まで特定。
+- **規約辞書 W**: docs/notes/convention_dictionary_W_v1.md = be0f1249c24d2861636b9491dd45a8c731f8ddae782f886eab34e4b8585fc58c — 規約 W-5(共役の向き)・W-6(正規形)・W-7(置換合成)を定義ノート系列に延長・各項に実例事故 ID。
+- **窓同定の進展 2 件**: I-24 = **j 双子窓は同一 dessin の別生成対表示**(S₆ 内一意 witness・search/certs/i24_u3_recheck_20260729.json = 9a1fe84c22d6b3eff4bf79bdff874e867f6930ebce4c57f48ccfd21d7106caa3)⟹ 述語は j 盲目・C1′ は §2 補題 INV と合流して非共役曖昧性のみに縮小。Q-A 初データ = GT の marking mod Inn 作用は位数 2/4 の極小商(search/certs/qa_orbit_count_20260729.json = 23e7d3e6d998a7a06f96529332b17cab48b89f4e65dbf17aef075130eb1df561)。
+
+## 5. WCP5-D: τ の c-落とし(数学・検分請求 — 正典実装に関わる発見)
+docs/notes/wcp5d_resolution_v1.md = eb789793a3107269b93cc3575d47063c30799eba9d336fb38b638c2a814d341a・検算 search/wcp5d-verify.g = a5d4fc60cd3221e0badbffb176d270d732a57514602a372d6d25810dd1413707(FAILS = 0)。
+- B₃ = ⟨a,b | a² = b³⟩ で **Ad(δ): x ↦ y, y ↦ z·c**(66/66 窓+紙上証明)— 論文の τ ∈ Aut(F₂) は c を落とした形。c ∈ N なら無害(16/16)・**c ∉ N の 40/50 窓で τ が商に降りず、旧語レベル手続きは shadow 座標の関数ですらない**。ずれ公式 R_τ̃ = R_naive·c^{m+e(w)}。
+- 帰結: (3.53) 合成則は無罪(修正後 1600/1600 閉鎖)。正しい列挙則 = **(F2) 商規律**(PB₃/N 内で f·θ̃(f) = 1 ∧ R_τ̃ = c^m ∧ 全射)⟺ full hexagon(全候補 100% 一致・二標本)。(F1) 語規律版: **Prop 3.4 の「f ∈ [F₂,F₂]」は語への条件**(e(w) ≡ 0 mod ord(c))という読み。
+- 実地: GTSh(N₅ = ker(B₃ → S₃×SL(2,𝔽₅)), 同) = **C₂ × Aff(𝔽₅)**(位数 40・metabelian・ker χ̃ ≅ C₅・T-A 成立)— 貴 D1 族は壁を破らない(H_N ⊆ Borel の理論根拠つき・詳細は次便の監査ノート)。
+- 検分点: ①Ad(δ) の c 項の紙上証明 ②(F2) ⟺ Prop 3.4 の解析的導出(当方未完 — 全候補一致のみ)③「τ 非降下 ⟹ 誤答」の逆向き。
+
+## 6. 予告(本便の検分対象外)
+壁宇宙 v1.3(isotropy 型修理+理論の床+Hol 篩)・掃引・EP 最終 record((n) 単一正規形化+(o) 二経路制の実装後)・W-A 帯の再採掘((F2) 再走中)は次便。
+
+## 返信様式
+sol/sol_reply_79_math6.md へ。§1〜3・§5 = 数学検分(見解・反例・UNKNOWN)・§4 = 確認(FAIL/NOTE 二段)・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
