@@ -11,7 +11,7 @@
 | **§5 実測・昇格** | **申告範囲で受理** | GT\((K^{(9)})=108\)、W5、W3-22/23 は cross-checked。HF-1/2/3 は独立読解でも紙上 PASS。ただしいずれも Lean の意味の verified ではない。 |
 | **§6 I-6** | **奇×奇部分は紙上 PASS** | \(\chi_4([m,f])=2m+1\bmod4\) は odd 窓でも well-defined な全射準同型。互素奇数 \(a,b\) について窓の交差と \(\chi_4\)-fiber product を紙上で閉じられる。表示は \(\alpha=0,1\) の \(2\)-成分を除く区分記述に直す。 |
 | **§6 I-8** | **群論・逆極限部分は紙上 PASS** | 「各窓の isolated 性」は残件でなく Thm 4.3 の既知結論である。自然座標を使うと \(\mathrm{GT}^{\mathrm{odd}}\cong\mathrm{Aff}(\widehat{\mathbf Z}^{\mathrm{odd}})\times C_2\)。odd Conj 5.1 と \(\mathrm{Ih}^{\mathrm{odd}}\) 全射の同値もコンパクト性で閉じる。\(H^{\rm fun}\) 上の忠実な幾何作用だけは UNKNOWN。 |
-| **§6 I-10** | **一般主張は FAIL、\(\mathcal E_{12}\) は PASS** | 交差群が有限 \(2\)-群であることまではよいが、elementary abelian は従わない。一方 \(n=4\) では \(L_4=\mathbf Q(\zeta_8)\) が明示的に出るため、\(\mathcal E_{12}=1\) まで紙上で決まる。 |
+| **§6 I-10** | **提示証明 FAIL／一般定理 UNKNOWN、\(\mathcal E_{12}\) は PASS** | 交差群が有限 \(2\)-群であることまではよいが、odd 次数論法から elementary abelian は従わない。これは提示証明の反証であり、全 \(n\) に対する定理自体の反例はまだない。一方 \(n=4\) では \(L_4=\mathbf Q(\zeta_8)\) が明示的に出るため、\(\mathcal E_{12}=1\) まで紙上で決まる。 |
 | **freeze 付録** | **PASS — FAIL なし、NOTE あり** | B74-1–4 の現物修理、15 checks、mutation 14/14、full digest、pin topology を再検収した。exact bundle に freeze ID を発行し、下記 scope の実装を commander receipt 発行時に解錠してよい。 |
 
 本返信は paper / adversarial audit であり、Lean の意味での
@@ -165,17 +165,17 @@ j=2,\qquad \gcd(\alpha,n)=1
 
 過去返信は記録として変更せず、本返信で次を訂正する。
 
-1. **便 73 Q1.5**  
+1. **便 73 Q1.5**
    「\(j=2\) 固定後も \((n-1)/2\) 類」は誤り。
    同じ ordered passport を要求するなら \(\varphi(n)/2\) 類である。
 
-2. **★教材 73-1**  
+2. **★教材 73-1**
    三述語だけなら答えは \(n-1\) で正しい。しかし passport を窓仕様に
    加えると答えは \(\varphi(n)\) 側へ移る。正しい教材は
    「\(\mathbf Z/n\) を体扱いするな」だけでなく、
    **三述語と passport を同じ predicate として数えるな**、である。
 
-3. **便 73 Q1.6**  
+3. **便 73 Q1.6**
    `oddH_full_proof_v1.md` の F9 は、W3–W5 の定義を参照しなかったための
    保守的 UNKNOWN である。現正典と §11 を合成すれば、固定された odd \(n\)
    の全 \(\alpha\ne0\) 類について
@@ -240,7 +240,7 @@ cross-check である。旧 \(18/108\) は、
 の合成事故であり、数学側の反例ではない。ODD-H は \(\Phi\) を使わないため
 この事故から独立である。
 
-> **★教材 75-1**: 対称な誤答は強い。  
+> **★教材 75-1**: 対称な誤答は強い。
 > \(m+m'=17\) という整った対称性は構造の証拠に見えたが、実際には
 > 積順序の反転が作った保存量だった。美しい出力にも
 > homomorphism / bijectivity の fail-closed assertion が要る。
@@ -464,7 +464,7 @@ ord(a9)=9 as a present arithmetic fact        = UNKNOWN
 依然価値がある。従って「Freeze 2 を無条件に廃止」ではなく、
 **述語証明の必須経路から測定を外す**、が正確な運用変更である。
 
-> **★教材 75-2**: 予言と測定の役割は入れ替えられる。  
+> **★教材 75-2**: 予言と測定の役割は入れ替えられる。
 > 上段係数を測って tower 式を推測するのでなく、tower 式を幾何から証明し、
 > 上段係数をその独立反証器にする方が順序として強い。
 
@@ -511,9 +511,14 @@ marked maps と可換なので、kernel を取って
 \[
 \boxed{K^{(ab)}=K^{(a)}\cap K^{(b)}.}
 \]
-一般の \(a,b\) では同じ議論を \(\operatorname{lcm}(a,b)\) に適用して
+一般の奇数 \(a,b\) についても
+\(g=\gcd(a,b)\)、\(\ell=\operatorname{lcm}(a,b)\) と置けば、一般化 CRT が
 \[
-K^{(\operatorname{lcm}(a,b))}
+D_\ell\cong D_a\times_{D_g}D_b
+\]
+を与える。同じ marked-map の fiber-product 計算から
+\[
+K^{(\ell)}
 =K^{(a)}\cap K^{(b)}
 \]
 という格子式になる。
@@ -696,7 +701,7 @@ Conjecture の一括化はこの忠実性に依存しない。
 **有限 \(2\)-群**になる。しかし「odd radical の次数が奇数」というだけでは
 指数 \(2\) は出ない。Galois 閉包には反転作用が入り、odd 窓の
 \(\mathrm{Aff}(\mathbf Z/p)\) は例えば \(p=5\) で \(C_4\) quotient をもつ。
-従って
+従って、I-10(i) に提示された odd 次数論法はここで破綻する。
 \[
 \boxed{\mathcal E_n\text{ is a finite \(2\)-group}}
 \]
@@ -704,7 +709,15 @@ Conjecture の一括化はこの忠実性に依存しない。
 \[
 \boxed{\mathcal E_n\text{ is elementary abelian}}
 \]
-は追加の exponent-\(2\) 証明なしには **FAIL** である。
+は追加の exponent-\(2\) 証明なしには出ない。正確な状態札は
+
+```text
+the proposed odd-degree proof of elementary abelian = FAIL
+the elementary-abelian theorem for every n          = UNKNOWN
+```
+
+である。ここで挙げた \(C_4\) は「現論法が排除できない共通商」であり、
+実際の \(\mathcal E_n\) に \(C_4\) が生じる反例を構成した、という主張ではない。
 
 #### (b) \(L_4\) の明示
 
@@ -759,7 +772,7 @@ L_3=\mathbf Q(\zeta_{12},\sqrt[3]2),\qquad
 
 F3.2 を次の一般補題として保存するとよい。
 
-> **T63-G3.**  
+> **T63-G3.**
 > \(\bar N_n\subseteq\bar N_d\)、
 > \(\widetilde H_d=\widetilde H_n\bar N_d\)、
 > \(\alpha_\gamma(\bar N_d)=\bar N_d\) と、両段の剛性 descent があるとき、
@@ -858,7 +871,7 @@ exit 0
 
 | blocker | 検収 |
 |---|---|
-| **B74-1** | `canonicality` は source/pinned を `sorted-dedup-set`、build-step を `order-preserving-seq` とする。非辞書順 \([b,a]\) と重複 step が全 7 consumer で PASS、未 sort source が [12]。**閉鎖**。 |
+| **B74-1** | `canonicality` は source/pinned を `sorted-dedup-set`、build-step を `order-preserving-seq` とする。非辞書順 \([b,a]\) と重複 step が全 7 consumer で PASS、未 sort source は reason `[12]` で FAIL。**閉鎖**。 |
 | **B74-2** | QD の `kind` を実比較し、verdict は production validator の代表 record 評価から得る。QD-2/3 に list schema-validity も明記。`complete→missing` は kind mismatch になる。**閉鎖**。 |
 | **B74-3** | 正方向 `field in deps and not changed => FAIL` を追加。consumer literal / BC_USE_MAP / executable は 7/7/7 exact equality。全 7 consumer が共有 validator を通るため required/forbidden 依存も一致。**閉鎖**。 |
 | **B74-4** | 共通 production `build_face_projection()` を consumer と回帰が共有し、M72-1 は空 TCB \(\to[11]\)、toolchain を TCB に追加 \(\to\) PASS、projection から toolchain を落とす変異 \(\to\) 誤って PASS、まで実行する。別 clone は廃止。**閉鎖**。 |
@@ -967,24 +980,24 @@ N-2(2) / H-1a″ independent rederive   = PENDING / UNKNOWN
 
 ## F9. ★教材
 
-1. **三述語と passport は別 predicate である。**  
+1. **三述語と passport は別 predicate である。**
    前者は \(\alpha\ne0\)、後者を K3/K5 型に揃えると
    \(\alpha\in(\mathbf Z/n)^\times\) まで狭まる。
 
-2. **class 語の射影と character 語の冪は同じ glyph で書かない。**  
+2. **class 語の射影と character 語の冪は同じ glyph で書かない。**
    \([v]_{2n}\mapsto[v]_{2d}\) が character では \(n/d\) 乗に見える。
 
-3. **「GT 軌道が一点」は class set 上の話である。**  
+3. **「GT 軌道が一点」は class set 上の話である。**
    \(\beta\) は動くので、個々の部分群を pointwise に固定するという意味ではない。
 
-4. **isolated 性は conjectural gate に戻さない。**  
+4. **isolated 性は conjectural gate に戻さない。**
    既存 Thm 4.3 が全 \(K^{(n)}\) について閉じている。残件は有限段同型の
    naturality と幾何作用の忠実性である。
 
-5. **odd radical も Galois 閉包では \(2\)-成分を持つ。**  
+5. **odd radical も Galois 閉包では \(2\)-成分を持つ。**
    共通交差が \(2\)-群であることと elementary abelian であることは別である。
 
-6. **freeze の PASS は UNKNOWN を真にしない。**  
+6. **freeze の PASS は UNKNOWN を真にしない。**
    schema と実行規律を固定するだけで、CR-11、QD-6、N-2 は pending のまま
    receipt に運ばれる。
 

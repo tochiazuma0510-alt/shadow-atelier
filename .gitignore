@@ -19,3 +19,4 @@ ops/bin/wake_queue.lock
 *.g~
 *~
 .DS_Store
+search/__pycache__/

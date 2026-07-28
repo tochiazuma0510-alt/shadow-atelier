@@ -105,6 +105,26 @@ for fname in ["cert_pos_01.json", "cert_pos_02.json", "cert_pos_03.json"]:
     all_pass = all(v == "PASS" for v in result["witness_results"].values())
     record(f"verifier-b/{fname}: overall_verdict_B == PASS", ok and all_pass,
            json.dumps(result["witness_results"]))
+    # directive-115 fix 2: native_a/native_b are now populated (checker_native
+    # is the literal search/ninfty-checker.py run_checker() output on the
+    # paired curve fixture; searcher_native is an explicitly-labeled stand-in,
+    # see gen_native_fixtures.py) -- confirm P-3.3 actually recomputes and
+    # matches for BOTH slots, not just passing vacuously because the fields
+    # were absent.
+    p33_detail = result["P-3"]["detail"]
+    ok_p33 = p33_detail.get("P-3.3_searcher") is True and p33_detail.get("P-3.3_checker") is True
+    record(f"verifier-b/{fname}: P-3.3 recomputes+matches for BOTH native slots (non-vacuous)",
+           ok_p33, json.dumps(p33_detail))
+
+# tamper check: corrupt native_b content and confirm P-3.3_checker flips to
+# False (proves the digest check is real, not a no-op when fields are present).
+_tamper_payload = load_fixture("cert_pos_01.json")
+_tamper_payload["native_b"] = dict(_tamper_payload["native_b"])
+_tamper_payload["native_b"]["_tamper_marker"] = "directive-115-tamper-test"
+_tamper_result = ver.run_verifier_b(_tamper_payload)
+record("verifier-b/cert_pos_01.json (tampered native_b): P-3.3_checker flips to FAIL",
+       _tamper_result["P-3"]["detail"].get("P-3.3_checker") is False,
+       json.dumps(_tamper_result["P-3"]["detail"]))
 
 
 # --------------------------------------------------------------------------
