@@ -63,24 +63,89 @@
               ]
             }
           ]
-        ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "kind": "ideal-equality",
+        "form": "representation",
+        "tag": "reduction-to-zero",
+        "g": [
+          {
+            "coeff": 1,
+            "mono": [
+              1
+            ]
+          },
+          {
+            "coeff": -9,
+            "mono": [
+              0
+            ]
+          }
+        ],
+        "u": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "h": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -9,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
     "distinctness_witnesses": [],
-    "component_bijection": {
-      "domain_components": [
-        "M1"
-      ],
-      "codomain_components": [
-        "N1"
-      ],
-      "mapping": [
-        [
-          "M1",
+    "component_bijection": [
+      {
+        "domain_components": [
+          "M1"
+        ],
+        "codomain_components": [
           "N1"
-        ]
-      ]
-    },
+        ],
+        "mapping": [
+          [
+            "M1",
+            "N1"
+          ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "domain_components": [
+          "M1"
+        ],
+        "codomain_components": [
+          "N1"
+        ],
+        "mapping": [
+          [
+            "M1",
+            "N1"
+          ]
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
     "multiplicity_equalities": [
       {
         "pair": [
@@ -88,28 +153,64 @@
           "N1"
         ],
         "mult_A": 2,
-        "mult_B": 3
+        "mult_B": 3,
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "pair": [
+          "M1",
+          "N1"
+        ],
+        "mult_A": 2,
+        "mult_B": 3,
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
     "chart_overlap_witnesses": [],
-    "total_coverage_and_no_extra_component_witness": {
-      "declared_total_components": 1,
-      "extra_candidates": []
-    },
-    "pushforward_compatibility_witness": {
-      "ramification_points": [
-        {
-          "maps_to_branch_value": "bv9",
-          "multiplicity": 2
-        }
-      ],
-      "branch_points": [
-        {
-          "branch_value": "bv9",
-          "multiplicity": 2
-        }
-      ]
-    },
+    "total_coverage_and_no_extra_component_witness": [
+      {
+        "declared_total_components": 1,
+        "extra_candidates": [],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "declared_total_components": 1,
+        "extra_candidates": [],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
+    "pushforward_compatibility_witness": [
+      {
+        "ramification_points": [
+          {
+            "maps_to_branch_value": "bv9",
+            "multiplicity": 2
+          }
+        ],
+        "branch_points": [
+          {
+            "branch_value": "bv9",
+            "multiplicity": 2
+          }
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "ramification_points": [
+          {
+            "maps_to_branch_value": "bv9",
+            "multiplicity": 2
+          }
+        ],
+        "branch_points": [
+          {
+            "branch_value": "bv9",
+            "multiplicity": 2
+          }
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
     "searcher_native": {
       "native_schema_id": "mb/ninfty-stage2-predicate/v18#searcher-native-stand-in",
       "native_schema_digest": "lane-b-stand-in-schema-not-authoritative",
@@ -155,5 +256,6 @@
     "primary_reason_code": "precondition/pell-violation",
     "rootpart_a": null,
     "_provenance": "literal output of search/ninfty-checker.py run_checker() on search/fixtures/ninfty/checker_neg_02.json"
-  }
+  },
+  "_shape_note": "Certificate witness fields follow docs/notes/cert_shape_interpretation_v1.md (\u88c1\u5b9a128 interim interface): flat arrays with a 'divisor_object' tag per entry; component_bijection / total_coverage_and_no_extra_component_witness / pushforward_compatibility_witness are 2-entry arrays (one per token). Migrated by search/fixtures/ninfty/migrate_cert_shape_v128.py."
 }

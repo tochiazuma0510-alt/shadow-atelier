@@ -76,7 +76,19 @@ def build_searcher_stand_in(cert_candidate_ref, cert):
     its ONLY real purpose here is to give P-3.3 (native_artifact_digest
     recomputation) something concrete on the searcher_native side.
     """
-    pf = cert.get("pushforward_compatibility_witness", {})
+    # 裁定128: pushforward_compatibility_witness is now a 2-entry array
+    # (one entry per divisor_object token), not a single object. Use the
+    # first well-formed entry found (toy fixtures duplicate content across
+    # both tokens, so any single entry is representative).
+    pf_container = cert.get("pushforward_compatibility_witness", [])
+    pf = {}
+    if isinstance(pf_container, list):
+        for entry in pf_container:
+            if isinstance(entry, dict) and "ramification_points" in entry:
+                pf = entry
+                break
+    elif isinstance(pf_container, dict):
+        pf = pf_container  # pre-裁定128 shape, tolerated for robustness
     return {
         "_stand_in_disclosure": (
             "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. "

@@ -64,7 +64,8 @@
               ]
             }
           ]
-        ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
       },
       {
         "kind": "ideal-equality",
@@ -105,7 +106,96 @@
               }
             ]
           }
-        ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "kind": "ideal-equality",
+        "form": "representation",
+        "tag": "reduction-to-zero",
+        "g": [
+          {
+            "coeff": 1,
+            "mono": [
+              1
+            ]
+          },
+          {
+            "coeff": -1,
+            "mono": [
+              0
+            ]
+          }
+        ],
+        "u": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "h": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      },
+      {
+        "kind": "ideal-equality",
+        "form": "reduction-to-zero",
+        "tag": "reduction-to-zero",
+        "g": [
+          {
+            "coeff": 1,
+            "mono": [
+              1
+            ]
+          },
+          {
+            "coeff": -2,
+            "mono": [
+              0
+            ]
+          }
+        ],
+        "steps": [
+          {
+            "coeff": 1,
+            "mono": [
+              0
+            ],
+            "generator": [
+              {
+                "coeff": 1,
+                "mono": [
+                  1
+                ]
+              },
+              {
+                "coeff": -2,
+                "mono": [
+                  0
+                ]
+              }
+            ]
+          }
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
     "distinctness_witnesses": [
@@ -158,29 +248,106 @@
               ]
             }
           ]
-        ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "kind": "disjointness",
+        "u": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "coeff": -1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "g": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -1,
+              "mono": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -2,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
-    "component_bijection": {
-      "domain_components": [
-        "Q1",
-        "Q2"
-      ],
-      "codomain_components": [
-        "R1",
-        "R2"
-      ],
-      "mapping": [
-        [
+    "component_bijection": [
+      {
+        "domain_components": [
           "Q1",
-          "R1"
+          "Q2"
         ],
-        [
-          "Q2",
+        "codomain_components": [
+          "R1",
           "R2"
-        ]
-      ]
-    },
+        ],
+        "mapping": [
+          [
+            "Q1",
+            "R1"
+          ],
+          [
+            "Q2",
+            "R2"
+          ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "domain_components": [
+          "Q1",
+          "Q2"
+        ],
+        "codomain_components": [
+          "R1",
+          "R2"
+        ],
+        "mapping": [
+          [
+            "Q1",
+            "R1"
+          ],
+          [
+            "Q2",
+            "R2"
+          ]
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
     "multiplicity_equalities": [
       {
         "pair": [
@@ -188,7 +355,8 @@
           "R1"
         ],
         "mult_A": 1,
-        "mult_B": 1
+        "mult_B": 1,
+        "divisor_object": "ramification_divisor_on_C_ref"
       },
       {
         "pair": [
@@ -196,7 +364,26 @@
           "R2"
         ],
         "mult_A": 2,
-        "mult_B": 2
+        "mult_B": 2,
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "pair": [
+          "Q1",
+          "R1"
+        ],
+        "mult_A": 1,
+        "mult_B": 1,
+        "divisor_object": "branch_divisor_on_P1_ref"
+      },
+      {
+        "pair": [
+          "Q2",
+          "R2"
+        ],
+        "mult_A": 2,
+        "mult_B": 2,
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
     "chart_overlap_witnesses": [
@@ -206,35 +393,79 @@
           "chart-B"
         ],
         "component_in_chart_a": "Q1",
-        "component_in_chart_b": "Q1"
+        "component_in_chart_b": "Q1",
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "chart_pair": [
+          "chart-A",
+          "chart-B"
+        ],
+        "component_in_chart_a": "Q1",
+        "component_in_chart_b": "Q1",
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
-    "total_coverage_and_no_extra_component_witness": {
-      "declared_total_components": 2,
-      "extra_candidates": []
-    },
-    "pushforward_compatibility_witness": {
-      "ramification_points": [
-        {
-          "maps_to_branch_value": "b1",
-          "multiplicity": 1
-        },
-        {
-          "maps_to_branch_value": "b2",
-          "multiplicity": 2
-        }
-      ],
-      "branch_points": [
-        {
-          "branch_value": "b1",
-          "multiplicity": 1
-        },
-        {
-          "branch_value": "b2",
-          "multiplicity": 2
-        }
-      ]
-    },
+    "total_coverage_and_no_extra_component_witness": [
+      {
+        "declared_total_components": 2,
+        "extra_candidates": [],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "declared_total_components": 2,
+        "extra_candidates": [],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
+    "pushforward_compatibility_witness": [
+      {
+        "ramification_points": [
+          {
+            "maps_to_branch_value": "b1",
+            "multiplicity": 1
+          },
+          {
+            "maps_to_branch_value": "b2",
+            "multiplicity": 2
+          }
+        ],
+        "branch_points": [
+          {
+            "branch_value": "b1",
+            "multiplicity": 1
+          },
+          {
+            "branch_value": "b2",
+            "multiplicity": 2
+          }
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "ramification_points": [
+          {
+            "maps_to_branch_value": "b1",
+            "multiplicity": 1
+          },
+          {
+            "maps_to_branch_value": "b2",
+            "multiplicity": 2
+          }
+        ],
+        "branch_points": [
+          {
+            "branch_value": "b1",
+            "multiplicity": 1
+          },
+          {
+            "branch_value": "b2",
+            "multiplicity": 2
+          }
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
     "searcher_native": {
       "native_schema_id": "mb/ninfty-stage2-predicate/v18#searcher-native-stand-in",
       "native_schema_digest": "lane-b-stand-in-schema-not-authoritative",
@@ -313,5 +544,6 @@
     ],
     "checker_native_digest": "c84b10a4f961e982dcf35e1836011d8750a6344d3c4619fee50abab8c1aca1ed",
     "_provenance": "literal output of search/ninfty-checker.py run_checker() on search/fixtures/ninfty/checker_pos_01.json"
-  }
+  },
+  "_shape_note": "Certificate witness fields follow docs/notes/cert_shape_interpretation_v1.md (\u88c1\u5b9a128 interim interface): flat arrays with a 'divisor_object' tag per entry; component_bijection / total_coverage_and_no_extra_component_witness / pushforward_compatibility_witness are 2-entry arrays (one per token). Migrated by search/fixtures/ninfty/migrate_cert_shape_v128.py."
 }

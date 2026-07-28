@@ -98,11 +98,18 @@ for fname, (exp_stage, exp_reason) in EXPECTED_NEG.items():
 # 3. verifier-b.py positive certificate fixtures -- expect overall PASS,
 #    all witness results PASS.
 # --------------------------------------------------------------------------
+def _all_pass(witness_results):
+    """witness_results[label] is now {object_label: status} (裁定128)."""
+    return all(status == "PASS"
+               for per_obj in witness_results.values()
+               for status in per_obj.values())
+
+
 for fname in ["cert_pos_01.json", "cert_pos_02.json", "cert_pos_03.json"]:
     payload = load_fixture(fname)
     result = ver.run_verifier_b(payload)
     ok = result["overall_verdict_B"] == "PASS"
-    all_pass = all(v == "PASS" for v in result["witness_results"].values())
+    all_pass = _all_pass(result["witness_results"])
     record(f"verifier-b/{fname}: overall_verdict_B == PASS", ok and all_pass,
            json.dumps(result["witness_results"]))
     # directive-115 fix 2: native_a/native_b are now populated (checker_native
@@ -139,8 +146,10 @@ EXPECTED_CERT_NEG = {
 for fname, failing_witness in EXPECTED_CERT_NEG.items():
     payload = load_fixture(fname)
     result = ver.run_verifier_b(payload)
-    ok = (result["overall_verdict_B"] == "FAIL") and (result["witness_results"][failing_witness] == "FAIL")
-    record(f"verifier-b/{fname}: {failing_witness} == FAIL, overall FAIL",
+    per_obj = result["witness_results"][failing_witness]
+    fails_somewhere = any(status == "FAIL" for status in per_obj.values())
+    ok = (result["overall_verdict_B"] == "FAIL") and fails_somewhere
+    record(f"verifier-b/{fname}: {failing_witness} == FAIL (some object), overall FAIL",
            ok, json.dumps(result["witness_results"]))
 
 
@@ -252,6 +261,212 @@ t2_stage, t2_reason, t2_detail = chk.check_T2(a_ok, p_wrong)
 record("state-machine: check_T2 FAILS on a deliberately mismatched (a,p) pair "
        "(isolated-function test; unreachable via run_checker per 5e)",
        t2_reason == chk.INTEGRITY_PELL_DERIVATIVE_MISMATCH, str((t2_stage, t2_reason)))
+
+
+# --------------------------------------------------------------------------
+# 6. Sol 裁定 127 regression: crash-resistance + fail-open elimination.
+#
+# Ground truth: cert_pos_01.json is a fully well-formed, ALL-PASS
+# certificate (verified in section 3 above). Every sub-test below takes a
+# deep copy of that certificate, injects ONE structural defect (missing
+# key / wrong type / malformed entry / adversarial empty-vs-empty), and
+# asserts TWO things simultaneously for EVERY one of W-1..W-6 and W-2':
+#   (a) run_verifier_b() returns normally (a dict), i.e. NEVER raises --
+#       this is the crash-resistance fix (裁定127 finding (i): "verifier B
+#       は lane A の実形状でクラッシュ")
+#   (b) the specific witness under test is NOT "PASS" (either FAIL or, for
+#       the "entirely absent key" case, ABSENT -- but never a vacuous
+#       PASS produced by a missing/misnamed key silently defaulting to an
+#       empty structure that trivially satisfies an equality check --
+#       裁定127 finding (ii), the fail-open defect in W-1/W-6, generalized
+#       here to a full sweep across all seven witness checks).
+# --------------------------------------------------------------------------
+import copy
+
+
+def deep_cert():
+    payload = load_fixture("cert_pos_01.json")
+    return copy.deepcopy(payload)
+
+
+def run_and_get(payload):
+    """Runs verifier_b and returns (raised: bool, result_or_exception)."""
+    try:
+        result = ver.run_verifier_b(payload)
+        return False, result
+    except Exception as e:  # noqa: BLE001 -- this IS the crash-resistance test
+        return True, e
+
+
+INJECTIONS = []
+
+
+def inject(label, witness_label, mutate_fn, require_all_objects_not_pass=True):
+    """
+    mutate_fn(cert: dict) -> None, mutating in place.
+    require_all_objects_not_pass: normally the injection corrupts BOTH
+    per-object entries (this test suite duplicates content across both
+    divisor_object tokens for its toy fixtures), so both object channels
+    must move off PASS. A few injections (e.g. "append a duplicate entry
+    for one specific token") deliberately corrupt only ONE token by
+    construction -- pass False for those and check the affected token
+    explicitly via a separate assertion instead.
+    """
+    payload = deep_cert()
+    mutate_fn(payload["certificate"])
+    raised, result = run_and_get(payload)
+    INJECTIONS.append((label, witness_label, raised, result, require_all_objects_not_pass))
+
+
+TOKENS = ("ramification_divisor_on_C_ref", "branch_divisor_on_P1_ref")
+
+
+def singular_entries(c, field):
+    """The 裁定128 2-entry array for a singular witness field."""
+    return c[field]
+
+
+def plural_entries_for_token(c, field, tok):
+    return [e for e in c[field] if isinstance(e, dict) and e.get("divisor_object") == tok]
+
+
+# --- W-1 (component_bijection, singular -> 2-entry array) ---
+inject("W-1: key entirely deleted", "W-1",
+       lambda c: c.pop("component_bijection"))
+inject("W-1: wrong type (string instead of array)", "W-1",
+       lambda c: c.__setitem__("component_bijection", "not-an-array"))
+inject("W-1: both per-object entries missing 'mapping' sub-key", "W-1",
+       lambda c: [e.pop("mapping") for e in singular_entries(c, "component_bijection")])
+inject("W-1: mapping wrong type (dict instead of list, both entries)", "W-1",
+       lambda c: [e.__setitem__("mapping", {"Q1": "R1"}) for e in singular_entries(c, "component_bijection")])
+inject("W-1: malformed mapping entry (not a 2-element pair, both entries)", "W-1",
+       lambda c: [e.__setitem__("mapping", [["Q1"]]) for e in singular_entries(c, "component_bijection")])
+inject("W-1: adversarial empty-vs-empty (domain/codomain/mapping all cleared "
+       "on both per-object entries, but declared_total_components still "
+       "nonzero elsewhere)", "W-1",
+       lambda c: [(e.__setitem__("domain_components", []),
+                   e.__setitem__("codomain_components", []),
+                   e.__setitem__("mapping", []))
+                  for e in singular_entries(c, "component_bijection")])
+inject("W-1 [裁定128]: divisor_object tag removed from both entries "
+       "(unattributed -- must not be silently dropped)", "W-1",
+       lambda c: [e.pop("divisor_object") for e in singular_entries(c, "component_bijection")])
+inject("W-1 [裁定128]: duplicate entries for the same divisor_object token "
+       "(only the ramification_divisor_on_C_ref token is affected by "
+       "construction -- the other token's single entry is untouched)", "W-1",
+       lambda c: c["component_bijection"].append(copy.deepcopy(c["component_bijection"][0])),
+       require_all_objects_not_pass=False)
+
+# --- W-2 (exact_point_equality_witnesses, plural, divisor_object-tagged) ---
+inject("W-2: key entirely deleted", "W-2",
+       lambda c: c.pop("exact_point_equality_witnesses"))
+inject("W-2: wrong type (dict instead of list -- lane-A-shape crash repro)", "W-2",
+       lambda c: c.__setitem__("exact_point_equality_witnesses", {"w0": {"kind": "ideal-equality"}}))
+inject("W-2: list of strings instead of list of objects", "W-2",
+       lambda c: c.__setitem__("exact_point_equality_witnesses", ["not-an-object", "also-not"]))
+inject("W-2: all entries missing 'u' key", "W-2",
+       lambda c: [e.pop("u", None) for e in c["exact_point_equality_witnesses"]])
+inject("W-2: all entries 'tag' invalid value", "W-2",
+       lambda c: [e.__setitem__("tag", "not-a-real-tag") for e in c["exact_point_equality_witnesses"]])
+inject("W-2 [裁定128]: divisor_object tag removed from all entries "
+       "(unattributed -- must not be silently dropped)", "W-2",
+       lambda c: [e.pop("divisor_object") for e in c["exact_point_equality_witnesses"]])
+inject("W-2 [裁定128]: divisor_object tag set to an unrecognized value", "W-2",
+       lambda c: [e.__setitem__("divisor_object", "not-a-real-token")
+                  for e in c["exact_point_equality_witnesses"]])
+
+# --- W-2' (distinctness_witnesses, plural, divisor_object-tagged) ---
+inject("W-2': key entirely deleted", "W-2prime",
+       lambda c: c.pop("distinctness_witnesses", None))
+inject("W-2': wrong type (dict instead of list)", "W-2prime",
+       lambda c: c.__setitem__("distinctness_witnesses", {"d0": {}}))
+inject("W-2': all entries missing 'g' key", "W-2prime",
+       lambda c: c.__setitem__("distinctness_witnesses",
+                                [{"kind": "disjointness", "divisor_object": tok,
+                                  "u": [[{"coeff": 1, "mono": [0]}]]} for tok in TOKENS]))
+
+# --- W-3 (multiplicity_equalities, plural, divisor_object-tagged) ---
+inject("W-3: key entirely deleted", "W-3",
+       lambda c: c.pop("multiplicity_equalities"))
+inject("W-3: wrong type (dict instead of list -- lane-A-shape crash repro)", "W-3",
+       lambda c: c.__setitem__("multiplicity_equalities", {"Q1": 1, "Q2": 2}))
+inject("W-3: entries missing 'mult_B'", "W-3",
+       lambda c: c.__setitem__("multiplicity_equalities",
+                                [{"pair": ["Q1", "R1"], "mult_A": 1, "divisor_object": tok} for tok in TOKENS]))
+inject("W-3: mult_A is a non-numeric string", "W-3",
+       lambda c: c.__setitem__("multiplicity_equalities",
+                                [{"pair": ["Q1", "R1"], "mult_A": "one", "mult_B": 1,
+                                  "divisor_object": tok} for tok in TOKENS]))
+inject("W-3 [裁定128]: divisor_object tag removed from all entries", "W-3",
+       lambda c: [e.pop("divisor_object") for e in c["multiplicity_equalities"]])
+
+# --- W-4 (chart_overlap_witnesses, plural, divisor_object-tagged) ---
+inject("W-4: wrong type (dict instead of list -- lane-A-shape crash repro)", "W-4",
+       lambda c: c.__setitem__("chart_overlap_witnesses", {"c0": {}}))
+inject("W-4: entries missing 'component_in_chart_b'", "W-4",
+       lambda c: c.__setitem__("chart_overlap_witnesses",
+                                [{"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "Q1",
+                                  "divisor_object": tok} for tok in TOKENS]))
+
+# --- W-5 (total_coverage_and_no_extra_component_witness, singular -> 2-entry array) ---
+inject("W-5: key entirely deleted", "W-5",
+       lambda c: c.pop("total_coverage_and_no_extra_component_witness"))
+inject("W-5: wrong type (dict instead of array)", "W-5",
+       lambda c: c.__setitem__("total_coverage_and_no_extra_component_witness", {"a": 1}))
+inject("W-5: both per-object entries missing 'declared_total_components'", "W-5",
+       lambda c: [e.pop("declared_total_components")
+                  for e in singular_entries(c, "total_coverage_and_no_extra_component_witness")])
+inject("W-5: extra_candidates entry with no distinctness_witness_ref (both entries)", "W-5",
+       lambda c: [e.__setitem__("extra_candidates", [{"id": "phantom"}])
+                  for e in singular_entries(c, "total_coverage_and_no_extra_component_witness")])
+inject("W-5 [裁定128]: duplicate entries for the same divisor_object token "
+       "(only the ramification_divisor_on_C_ref token is affected by "
+       "construction -- the other token's single entry is untouched)", "W-5",
+       lambda c: c["total_coverage_and_no_extra_component_witness"].append(
+           copy.deepcopy(c["total_coverage_and_no_extra_component_witness"][0])),
+       require_all_objects_not_pass=False)
+
+# --- W-6 (pushforward_compatibility_witness, singular -> 2-entry array) ---
+inject("W-6: key entirely deleted", "W-6",
+       lambda c: c.pop("pushforward_compatibility_witness"))
+inject("W-6: wrong type (dict instead of array -- lane-A-shape crash repro)", "W-6",
+       lambda c: c.__setitem__("pushforward_compatibility_witness", {"a": 1}))
+inject("W-6: both per-object entries missing 'branch_points' sub-key", "W-6",
+       lambda c: [e.pop("branch_points")
+                  for e in singular_entries(c, "pushforward_compatibility_witness")])
+inject("W-6: adversarial empty-vs-empty (ramification_points/branch_points both "
+       "cleared on both per-object entries, but total_coverage still declares "
+       "nonzero components)", "W-6",
+       lambda c: [(e.__setitem__("ramification_points", []), e.__setitem__("branch_points", []))
+                  for e in singular_entries(c, "pushforward_compatibility_witness")])
+inject("W-6: ramification_points entry with non-integer multiplicity (both entries)", "W-6",
+       lambda c: [e.__setitem__("ramification_points",
+                                 [{"maps_to_branch_value": "b1", "multiplicity": "two"}])
+                  for e in singular_entries(c, "pushforward_compatibility_witness")])
+inject("W-6 [裁定128]: divisor_object tag removed from both entries", "W-6",
+       lambda c: [e.pop("divisor_object") for e in singular_entries(c, "pushforward_compatibility_witness")])
+
+for label, witness_label, raised, result, require_all in INJECTIONS:
+    ok_no_crash = not raised
+    record(f"裁定127+128/{label}: run_verifier_b does not raise", ok_no_crash,
+           f"raised {type(result).__name__}: {result}" if raised else "returned normally")
+    if not raised:
+        per_obj = result["witness_results"].get(witness_label) if isinstance(result, dict) else None
+        if require_all:
+            ok_not_pass = isinstance(per_obj, dict) and all(status != "PASS" for status in per_obj.values())
+            record(f"裁定127+128/{label}: {witness_label} != PASS for EITHER object (no vacuous PASS)",
+                   ok_not_pass, f"{witness_label} = {per_obj}")
+        else:
+            ok_not_pass = isinstance(per_obj, dict) and per_obj.get("ramification_divisor_on_C") != "PASS"
+            record(f"裁定127+128/{label}: {witness_label}.ramification_divisor_on_C != PASS (no vacuous PASS)",
+                   ok_not_pass, f"{witness_label} = {per_obj}")
+
+# Top-level malformed-payload gate: not a dict at all, or missing 'certificate'.
+for bad_payload in [None, "a string", [1, 2, 3], {}, {"certificate": "not-a-dict"}, {"certificate": None}]:
+    raised, result = run_and_get(bad_payload)
+    ok = (not raised) and isinstance(result, dict) and result.get("overall_verdict_B") != "PASS"
+    record(f"裁定127/top-level malformed payload {bad_payload!r}: no crash, verdict != PASS",
+           ok, f"raised={raised}, result={result if not raised else result}")
 
 
 # --------------------------------------------------------------------------

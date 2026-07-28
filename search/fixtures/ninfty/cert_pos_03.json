@@ -60,7 +60,50 @@
               }
             ]
           }
-        ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "kind": "ideal-equality",
+        "form": "reduction-to-zero",
+        "tag": "reduction-to-zero",
+        "g": [
+          {
+            "coeff": 1,
+            "mono": [
+              1
+            ]
+          },
+          {
+            "coeff": -7,
+            "mono": [
+              0
+            ]
+          }
+        ],
+        "steps": [
+          {
+            "coeff": 1,
+            "mono": [
+              0
+            ],
+            "generator": [
+              {
+                "coeff": 1,
+                "mono": [
+                  1
+                ]
+              },
+              {
+                "coeff": -7,
+                "mono": [
+                  0
+                ]
+              }
+            ]
+          }
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
     "distinctness_witnesses": [
@@ -113,23 +156,94 @@
               ]
             }
           ]
-        ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "kind": "disjointness",
+        "u": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "coeff": -1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "g": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -7,
+              "mono": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -8,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
-    "component_bijection": {
-      "domain_components": [
-        "U1"
-      ],
-      "codomain_components": [
-        "V1"
-      ],
-      "mapping": [
-        [
-          "U1",
+    "component_bijection": [
+      {
+        "domain_components": [
+          "U1"
+        ],
+        "codomain_components": [
           "V1"
-        ]
-      ]
-    },
+        ],
+        "mapping": [
+          [
+            "U1",
+            "V1"
+          ]
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "domain_components": [
+          "U1"
+        ],
+        "codomain_components": [
+          "V1"
+        ],
+        "mapping": [
+          [
+            "U1",
+            "V1"
+          ]
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
     "multiplicity_equalities": [
       {
         "pair": [
@@ -137,7 +251,17 @@
           "V1"
         ],
         "mult_A": 1,
-        "mult_B": 1
+        "mult_B": 1,
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "pair": [
+          "U1",
+          "V1"
+        ],
+        "mult_A": 1,
+        "mult_B": 1,
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
     "chart_overlap_witnesses": [
@@ -147,32 +271,73 @@
           "chart-B"
         ],
         "component_in_chart_a": "U1",
-        "component_in_chart_b": "U1"
+        "component_in_chart_b": "U1",
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "chart_pair": [
+          "chart-A",
+          "chart-B"
+        ],
+        "component_in_chart_a": "U1",
+        "component_in_chart_b": "U1",
+        "divisor_object": "branch_divisor_on_P1_ref"
       }
     ],
-    "total_coverage_and_no_extra_component_witness": {
-      "declared_total_components": 1,
-      "extra_candidates": [
-        {
-          "id": "extra-at-x8",
-          "distinctness_witness_ref": "dw-0"
-        }
-      ]
-    },
-    "pushforward_compatibility_witness": {
-      "ramification_points": [
-        {
-          "maps_to_branch_value": "bv7",
-          "multiplicity": 1
-        }
-      ],
-      "branch_points": [
-        {
-          "branch_value": "bv7",
-          "multiplicity": 1
-        }
-      ]
-    },
+    "total_coverage_and_no_extra_component_witness": [
+      {
+        "declared_total_components": 1,
+        "extra_candidates": [
+          {
+            "id": "extra-at-x8",
+            "distinctness_witness_ref": "dw-0"
+          }
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "declared_total_components": 1,
+        "extra_candidates": [
+          {
+            "id": "extra-at-x8",
+            "distinctness_witness_ref": "dw-0"
+          }
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
+    "pushforward_compatibility_witness": [
+      {
+        "ramification_points": [
+          {
+            "maps_to_branch_value": "bv7",
+            "multiplicity": 1
+          }
+        ],
+        "branch_points": [
+          {
+            "branch_value": "bv7",
+            "multiplicity": 1
+          }
+        ],
+        "divisor_object": "ramification_divisor_on_C_ref"
+      },
+      {
+        "ramification_points": [
+          {
+            "maps_to_branch_value": "bv7",
+            "multiplicity": 1
+          }
+        ],
+        "branch_points": [
+          {
+            "branch_value": "bv7",
+            "multiplicity": 1
+          }
+        ],
+        "divisor_object": "branch_divisor_on_P1_ref"
+      }
+    ],
     "searcher_native": {
       "native_schema_id": "mb/ninfty-stage2-predicate/v18#searcher-native-stand-in",
       "native_schema_digest": "lane-b-stand-in-schema-not-authoritative",
@@ -250,5 +415,6 @@
     ],
     "checker_native_digest": "c84b10a4f961e982dcf35e1836011d8750a6344d3c4619fee50abab8c1aca1ed",
     "_provenance": "literal output of search/ninfty-checker.py run_checker() on search/fixtures/ninfty/checker_pos_03.json"
-  }
+  },
+  "_shape_note": "Certificate witness fields follow docs/notes/cert_shape_interpretation_v1.md (\u88c1\u5b9a128 interim interface): flat arrays with a 'divisor_object' tag per entry; component_bijection / total_coverage_and_no_extra_component_witness / pushforward_compatibility_witness are 2-entry arrays (one per token). Migrated by search/fixtures/ninfty/migrate_cert_shape_v128.py."
 }
