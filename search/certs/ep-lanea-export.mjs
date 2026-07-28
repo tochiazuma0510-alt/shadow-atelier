@@ -29,8 +29,13 @@ import {
 import { runVerifierA } from '../ninfty-verifier-a.mjs';
 import { decisionLaneFixtures, positive1 } from './fixtures-lanea.mjs';
 
+// 裁定124 (便76 F76-5.4/5.5 修理): use the REAL freeze-receipt digests, not a
+// placeholder string, so P-3.1 is a genuine cross-lane pin check rather than
+// a guaranteed-mismatch artifact of this export script's own choice. Values
+// read verbatim from provenance/ninfty_freeze_receipt_sol75.md (receipt_id
+// mb/ninfty-stage2-freeze-receipt/sol75/e2c9c701-e41d51db-df59b25f).
 const PREDICATE_SPEC_ID = 'mb/ninfty-stage2-predicate/v18';
-const PREDICATE_SPEC_DIGEST_PLACEHOLDER = 'RECEIPT-ASSIGNED-DIGEST-NOT-YET-BOUND-IN-THIS-SELFTEST';
+const PREDICATE_SPEC_DIGEST_PLACEHOLDER = 'e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56';
 
 // --- 1. decision-lane fixtures (native verdict, lane A) --------------------
 

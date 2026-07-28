@@ -1,0 +1,89 @@
+{
+  "schema_id": "mb/dependency-manifest/v13",
+  "schema_digest": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
+  "_compiler_note": "MACHINE-GENERATED DRAFT by search/ninfty-manifest-compiler.py (裁定124/P76-3). Top-level uses the TRUE branch (F76-5.1 fix): build_definition_blob_digest/pinned_input_digests/build_root_id/subject_build_binding_digest are real computed digests, not null. subject_code_digest and pinned_input_digests are MODELING CHOICES (see build_definition/_build_definition_obj) pending lane-A author confirmation -- this is a draft, not an authoritative replacement.",
+  "toolchain_digest_note": "UNKNOWN: not independently re-hashed against the actual node.exe binary by this compiler (would require locating and hashing the node runtime binary itself); form-validated as 64-hex only.",
+  "build_record_present": true,
+  "build_definition_blob_digest": "f65b7f0cf760f104e145fef5d7d01b0fd09117f3e341577688360ebc9a488192",
+  "pinned_input_digests": [
+    "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2"
+  ],
+  "build_root_id": "237da37b281136c6ae6da392862b0da7dc221cb5741d7d389496bc075af355c9",
+  "subject_build_binding_digest": "fd35f51c9d432ee3c48d21b1105d9931421e1e2d33aa9c1fc5342b30c34293bb",
+  "source_artifact_digests": [],
+  "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+  "build_step_digests": [],
+  "_build_definition_obj": {
+    "kind": "direct-interpretation",
+    "description": "single ES module files executed directly by the node runtime named in toolchain_digest; no transpile/bundle/minify/codegen step exists for lane A."
+  },
+  "subject_id": "lane-A/ninfty-searcher-v2+verifier-a",
+  "subject_code_digest": "8f9253576770fc759277931dfdc25ec135b1598e9d72093046697f23411e784f",
+  "entries": [
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "content_digest": "fc0755a7f725d8b7bdfdcec0e5fb77804fe357081df454badfea8a0b78be9422",
+      "role": "math-helper",
+      "provenance": {
+        "source_ref": "search/ninfty-searcher-v2.mjs"
+      },
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "content_digest": "b109f59d62d574bde7babea846cfe97b3b3cb6bdfb402bdca856a6e74388fe7f",
+      "role": "math-helper",
+      "provenance": {
+        "source_ref": "search/ninfty-verifier-a.mjs"
+      },
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "content_digest": "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee",
+      "role": "data-table",
+      "provenance": {
+        "source_ref": "search/certs/fixtures-lanea.mjs"
+      },
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "content_digest": "e488318d9289542a05da7afd9d53bf0bbb75d640eb0892b597efafbab2bd4540",
+      "role": "build-tool",
+      "provenance": {
+        "source_ref": "search/ninfty-selftest-lanea.mjs"
+      },
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "content_digest": "20210168248695fd785ce75378f5a22601fba1680e55d12b2f28e5b8756a1959",
+      "role": "data-table",
+      "provenance": {
+        "source_ref": "search/certs/laneA_ep_export_sample.json"
+      },
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053"
+    }
+  ]
+}

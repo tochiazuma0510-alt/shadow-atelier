@@ -1,0 +1,127 @@
+{
+  "schema_id": "mb/dependency-manifest/v13",
+  "schema_digest": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
+  "_compiler_note": "MACHINE-GENERATED DRAFT by search/ninfty-manifest-compiler.py (裁定124/P76-3). Top-level uses the TRUE branch (F76-5.1 fix). stdlib entries now carry REAL 64-hex content digests (F76-5.3 fix) for fractions/hashlib/json/argparse (hashed directly from the running interpreter's stdlib files); `sys` has no separate source file and is modeled as identical to toolchain_digest (flagged). build_root_id is OMITTED (not null) from all false-branch entries (F76-5.2 fix).",
+  "toolchain_digest_note": "real sha256 of the running CPython interpreter binary (C:\\Users\\81905\\AppData\\Local\\Programs\\Python\\Python313\\python.exe)",
+  "stdlib_gap_notes": [],
+  "build_record_present": true,
+  "build_definition_blob_digest": "bbffb75ab941b6d2cd103af9f04999abfe1426c3327da9e5f7fd27366d1ae4bd",
+  "pinned_input_digests": [
+    "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1"
+  ],
+  "build_root_id": "72976d6862ac51ef59c7ce756e2aea8d78397435157f7f12a0dd4b35cd6cadbb",
+  "subject_build_binding_digest": "901803cae513c2503f2355a2799b86b2cdda245503e24e9c0429063b2925c7c3",
+  "source_artifact_digests": [],
+  "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+  "build_step_digests": [],
+  "_build_definition_obj": {
+    "kind": "direct-interpretation",
+    "description": "single interpreted .py files run directly by the CPython interpreter named in toolchain_digest; no compile/link/codegen step exists for lane B."
+  },
+  "subject_id": "search/ninfty-verifier-b.py",
+  "subject_code_digest": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
+  "entries": [
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [
+        "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b"
+      ],
+      "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "build_step_digests": [],
+      "content_digest": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
+      "role": "math-helper",
+      "provenance": {
+        "source_ref": "search/ninfty-verifier-b.py"
+      },
+      "_content_digest_note": null,
+      "source_closure_digest": "29a487b5ab67c276bb095d3c8bfbc3f254e41e81279eec4e39b3ef19119b8bb1",
+      "implementation_lineage_digest": "0901d46fddf101aaf056ac295861061ddb6ca9867be78e5ba7273f73e5be61dd"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [
+        "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
+      ],
+      "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "build_step_digests": [],
+      "content_digest": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
+      "role": "math-helper",
+      "provenance": {
+        "source_ref": "search/ninfty-checker.py"
+      },
+      "_content_digest_note": null,
+      "source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
+      "implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "build_step_digests": [],
+      "content_digest": "e11c8bd6dd626a8dc40e265c6968598633e9095e76c2782353d8c05d71eb5ec6",
+      "role": "runtime",
+      "provenance": {
+        "source_ref": "python stdlib: fractions"
+      },
+      "_content_digest_note": "real sha256 of C:\\Users\\81905\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\fractions.py",
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "build_step_digests": [],
+      "content_digest": "406f36c3db109c14f737a8d99e6897d3ab8620be454abdbb3a4ce09c95713388",
+      "role": "hash-primitive",
+      "provenance": {
+        "source_ref": "python stdlib: hashlib"
+      },
+      "_content_digest_note": "real sha256 of C:\\Users\\81905\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\hashlib.py",
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "build_step_digests": [],
+      "content_digest": "bc68a579fe440d42c27faa82505e29189b78179e31f5c13fb5da802bcb8d8754",
+      "role": "serialization",
+      "provenance": {
+        "source_ref": "python stdlib: json"
+      },
+      "_content_digest_note": "real sha256 of C:\\Users\\81905\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\json\\__init__.py",
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "build_step_digests": [],
+      "content_digest": "c1a876bf8a98b45840222527f993f3d7a15683a1ee39743e9ca48fdc7aff7d76",
+      "role": "runtime",
+      "provenance": {
+        "source_ref": "python stdlib: argparse"
+      },
+      "_content_digest_note": "real sha256 of C:\\Users\\81905\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\argparse.py",
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4"
+    },
+    {
+      "build_record_present": false,
+      "source_artifact_digests": [],
+      "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "build_step_digests": [],
+      "content_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "role": "runtime",
+      "provenance": {
+        "source_ref": "python stdlib: sys (see note)"
+      },
+      "_content_digest_note": "no separate source file; sys is compiled into the CPython interpreter binary itself -- content identity modeled as equal to toolchain_digest (compiler-side equivalence, flagged for review), not fabricated.",
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4"
+    }
+  ]
+}

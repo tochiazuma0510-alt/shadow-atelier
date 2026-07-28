@@ -1,10 +1,25 @@
 {
-  "ep_run_id": "search/certs/ep_run_20260728.json",
+  "ep_run_id": "search/certs/ep_run_20260728.json (v2, 裁定124修理)",
   "role_note": "受領側検収の記録 (partial predicate). Not a completeness or ACCEPT declaration.",
+  "repair_context": "sol/sol_reply_76_math3.md F5 (total FAIL) + 裁定124. See module docstring for the itemized v1->v2 changes (P76-3 gate, F76-5.1..5.5 fixes, N76-5.3 checklist).",
+  "manifest_compiler_gate": {
+    "gate_passed": true,
+    "returncode": 0,
+    "stdout": "=== laneA compiler gate: PASS ===\n  wrote C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\certs\\laneA_manifest_v2_draft.json\n=== laneB compiler gate: PASS ===\n  wrote C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\certs\\laneB_manifest_v2_draft.json\n\noverall gate: PASS\n",
+    "stderr": ""
+  },
   "manifest_crosscheck": {
+    "source": "compiled drafts (search/certs/laneA_manifest_v2_draft.json, laneB_manifest_v2_draft.json), NOT the hand-authored laneA_manifest.json/laneB_manifest.json",
     "recompute_D1_D2": {
       "laneA": [
         {
+          "record": "top-level",
+          "subject_id": "lane-A/ninfty-searcher-v2+verifier-a",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053"
+        },
+        {
+          "record": "entry",
           "content_digest": "fc0755a7f725d8b7bdfdcec0e5fb77804fe357081df454badfea8a0b78be9422",
           "source_ref": "search/ninfty-searcher-v2.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -15,6 +30,7 @@
           "d2_matches_declared": true
         },
         {
+          "record": "entry",
           "content_digest": "b109f59d62d574bde7babea846cfe97b3b3cb6bdfb402bdca856a6e74388fe7f",
           "source_ref": "search/ninfty-verifier-a.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -25,6 +41,7 @@
           "d2_matches_declared": true
         },
         {
+          "record": "entry",
           "content_digest": "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee",
           "source_ref": "search/certs/fixtures-lanea.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -35,6 +52,7 @@
           "d2_matches_declared": true
         },
         {
+          "record": "entry",
           "content_digest": "e488318d9289542a05da7afd9d53bf0bbb75d640eb0892b597efafbab2bd4540",
           "source_ref": "search/ninfty-selftest-lanea.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -45,6 +63,7 @@
           "d2_matches_declared": true
         },
         {
+          "record": "entry",
           "content_digest": "20210168248695fd785ce75378f5a22601fba1680e55d12b2f28e5b8756a1959",
           "source_ref": "search/certs/laneA_ep_export_sample.json",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -57,6 +76,13 @@
       ],
       "laneB": [
         {
+          "record": "top-level",
+          "subject_id": "search/ninfty-verifier-b.py",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4"
+        },
+        {
+          "record": "entry",
           "content_digest": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
           "source_ref": "search/ninfty-verifier-b.py",
           "recomputed_source_closure_digest": "29a487b5ab67c276bb095d3c8bfbc3f254e41e81279eec4e39b3ef19119b8bb1",
@@ -67,7 +93,19 @@
           "d2_matches_declared": true
         },
         {
-          "content_digest": "stdlib:fractions",
+          "record": "entry",
+          "content_digest": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
+          "source_ref": "search/ninfty-checker.py",
+          "recomputed_source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
+          "recomputed_implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013",
+          "declared_source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
+          "declared_implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "e11c8bd6dd626a8dc40e265c6968598633e9095e76c2782353d8c05d71eb5ec6",
           "source_ref": "python stdlib: fractions",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
@@ -77,7 +115,8 @@
           "d2_matches_declared": true
         },
         {
-          "content_digest": "stdlib:hashlib",
+          "record": "entry",
+          "content_digest": "406f36c3db109c14f737a8d99e6897d3ab8620be454abdbb3a4ce09c95713388",
           "source_ref": "python stdlib: hashlib",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
@@ -87,7 +126,8 @@
           "d2_matches_declared": true
         },
         {
-          "content_digest": "stdlib:json",
+          "record": "entry",
+          "content_digest": "bc68a579fe440d42c27faa82505e29189b78179e31f5c13fb5da802bcb8d8754",
           "source_ref": "python stdlib: json",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
@@ -97,8 +137,9 @@
           "d2_matches_declared": true
         },
         {
-          "content_digest": "stdlib:sys+argparse",
-          "source_ref": "python stdlib: sys, argparse (CLI entry point only)",
+          "record": "entry",
+          "content_digest": "c1a876bf8a98b45840222527f993f3d7a15683a1ee39743e9ca48fdc7aff7d76",
+          "source_ref": "python stdlib: argparse",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
           "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
@@ -107,12 +148,13 @@
           "d2_matches_declared": true
         },
         {
-          "content_digest": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
-          "source_ref": "search/ninfty-checker.py",
-          "recomputed_source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
-          "recomputed_implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013",
-          "declared_source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
-          "declared_implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013",
+          "record": "entry",
+          "content_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+          "source_ref": "python stdlib: sys (see note)",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
           "d1_matches_declared": true,
           "d2_matches_declared": true
         }
@@ -129,23 +171,26 @@
         ],
         "source": [],
         "build": [
-          "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2"
+          "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+          "f65b7f0cf760f104e145fef5d7d01b0fd09117f3e341577688360ebc9a488192"
         ]
       },
       "laneB": {
         "binary": [
+          "406f36c3db109c14f737a8d99e6897d3ab8620be454abdbb3a4ce09c95713388",
           "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
-          "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
-          "stdlib:fractions",
-          "stdlib:hashlib",
-          "stdlib:json",
-          "stdlib:sys+argparse"
+          "bc68a579fe440d42c27faa82505e29189b78179e31f5c13fb5da802bcb8d8754",
+          "c1a876bf8a98b45840222527f993f3d7a15683a1ee39743e9ca48fdc7aff7d76",
+          "e11c8bd6dd626a8dc40e265c6968598633e9095e76c2782353d8c05d71eb5ec6",
+          "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+          "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
         ],
         "source": [
           "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
           "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
         ],
         "build": [
+          "bbffb75ab941b6d2cd103af9f04999abfe1426c3327da9e5f7fd27366d1ae4bd",
           "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1"
         ]
       }
@@ -153,20 +198,23 @@
     "I-3a_binary_intersection": [],
     "I-3b_source_intersection": [],
     "I-3d_build_intersection": [],
-    "toolchain_digest_validity": {
-      "laneA": {
-        "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2": true
-      },
-      "laneB": {
-        "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1": true
-      }
+    "toolchain_digest": {
+      "laneA": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "laneB": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "laneA_valid_hex": true,
+      "laneB_valid_hex": true
     },
-    "toolchain_digest_UNKNOWN_placeholders": [],
+    "laneB_compiler_notes": {
+      "stdlib_gap_notes": [],
+      "toolchain_digest_note": "real sha256 of the running CPython interpreter binary (C:\\Users\\81905\\AppData\\Local\\Programs\\Python\\Python313\\python.exe)"
+    },
+    "laneA_compiler_notes": {
+      "toolchain_digest_note": "UNKNOWN: not independently re-hashed against the actual node.exe binary by this compiler (would require locating and hashing the node runtime binary itself); form-validated as 64-hex only."
+    },
     "reason_[11]_shared_helper_detected": false,
     "notes": [
-      "D-3/D-4' (build_root_id/subject_build_binding_digest) recompute NOT attempted: both lanes declare build_record_present=false at top level and for all entries (QD-3 bootstrap leaf per [branch-contract]); per branch-contract false.recompute the receiving-side obligation is D-1/D-2 only, D-3/D-4' are ABSENT by design, not a gap in this recompute.",
-      "Lane B's toolchain_digest ('cpython-3.13-stdlib-only-no-external-packages') is a placeholder identity string, not a content digest of the CPython interpreter binary -- flagged UNKNOWN per task instruction ('toolchain placeholder は UNKNOWN と記録'), not treated as a match or mismatch against lane A's real toolchain content digest.",
-      "family face (I-3c') is an audit flag only (M-3'), not computed here as a blocking check; implementation_family_id is null in both manifests (not yet minted by any receipt authority) so it is UNKNOWN, not empty-by-computation."
+      "D-3/D-4' now computed for BOTH top-level records (F76-5.1 fix: top-level is the TRUE branch, not a bootstrap leaf). Entry-level false-branch records omit the four build-preimage keys literally (F76-5.2 fix), verified by the compiler gate before this step ran at all.",
+      "family face (I-3c') remains an audit flag only (M-3'), not computed here as blocking; implementation_family_id is null in both compiled manifests (not yet minted by any receipt authority)."
     ]
   },
   "cross_fixture_native_verdict": [
@@ -347,6 +395,7 @@
       "reason_[26]_candidate": false
     }
   ],
+  "cross_fixture_native_verdict_LABEL": "17/17 DECISION-LANE reason-code matches (evaluateDecisionLane vs run_checker primary_reason_code). This is NOT a full two-independent-verifier witness-vector PASS -- see section [4/5] for that.",
   "laneA_5_cert_fixtures_via_laneB_verifier": [
     {
       "fixture": "C1",
@@ -413,13 +462,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "ramification_divisor_on_C: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "ramification_divisor_on_C: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "ramification_divisor_on_C: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "ramification_divisor_on_C: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -487,13 +539,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "branch_divisor_on_P1: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "branch_divisor_on_P1: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "branch_divisor_on_P1: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "branch_divisor_on_P1: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -561,13 +616,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "ramification_divisor_on_C: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "ramification_divisor_on_C: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "ramification_divisor_on_C: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "ramification_divisor_on_C: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -635,13 +693,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "branch_divisor_on_P1: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "branch_divisor_on_P1: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "branch_divisor_on_P1: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "branch_divisor_on_P1: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -709,13 +770,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": false,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "ramification_divisor_on_C: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "ramification_divisor_on_C: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "ramification_divisor_on_C: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "ramification_divisor_on_C: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -783,13 +847,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "branch_divisor_on_P1: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "branch_divisor_on_P1: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "branch_divisor_on_P1: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "branch_divisor_on_P1: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -857,13 +924,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "ramification_divisor_on_C: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "ramification_divisor_on_C: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "ramification_divisor_on_C: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "ramification_divisor_on_C: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -931,13 +1001,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "branch_divisor_on_P1: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "branch_divisor_on_P1: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "branch_divisor_on_P1: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "branch_divisor_on_P1: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -1005,13 +1078,16 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "ramification_divisor_on_C: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "ramification_divisor_on_C: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "ramification_divisor_on_C: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "ramification_divisor_on_C: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     },
     {
@@ -1079,20 +1155,24 @@
         ]
       ],
       "R_A_eq_R_B": true,
+      "full_witness_PASS": false,
+      "concordant_ABSENT_not_PASS": true,
       "reason_[26]_candidate": false,
       "laneB_overall_verdict_B": "FAIL",
       "laneB_P0": "PASS",
-      "laneB_P3": "FAIL",
-      "conversion_gaps": [
-        "branch_divisor_on_P1: W-4 chart_overlap_witnesses not convertible (lane A only declares a chart count, not per-overlap component agreement) -> lane B side will read ABSENT",
-        "branch_divisor_on_P1: W-6 pushforward_compatibility_witness not convertible (lane A only declares a single scope-level ok flag, not point-level ramification/branch multiplicities) -> lane B side will read ABSENT"
+      "laneB_P3": "PASS",
+      "conversion_gaps": [],
+      "native_ABSENT_not_conversion_gap": [
+        "branch_divisor_on_P1: W-4 is genuinely ABSENT at lane A's native scope (reason: lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert.",
+        "branch_divisor_on_P1: W-6 is genuinely ABSENT at lane A's native scope (reason: lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.) -- not a conversion gap, there is nothing to convert."
       ]
     }
   ],
-  "laneB_6_cert_fixtures_native": [
+  "laneB_6_cert_fixtures_reverse_to_laneA_verifier": [
     {
       "fixture": "cert_neg_01.json",
       "description": "Self-made negative certificate fixture 1: W-2 representation witness whose claimed generator does not actually match (g=x, claimed via u=[1], h=[x-1], recomputed = x-1 != x). Second witness deliberately submits kind=disjointness (a Bezout 1=1*x-1*(x-1) certificate, i.e. the erratum-E1 shape) INSIDE exact_point_equality_witnesses, to confirm verify_W2 rejects it purely on the wrong-kind check rather than ever evaluating whether the underlying arithmetic happens to hold (spec sec.4.2 erratum E1 / contract sec.3.1 historical note). Expected: W-2 = FAIL (both witnesses fail, for two different reasons).",
+      "stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
       "laneB_native_witness_results": {
         "W-1": "PASS",
         "W-2": "FAIL",
@@ -1103,11 +1183,16 @@
         "W-6": "PASS"
       },
       "laneB_native_overall_verdict_B": "FAIL",
-      "laneA_verifier_crosscheck": "NOT ATTEMPTED / UNKNOWN -- fixture has no searcher_native/checker_native/native_artifact_digest for verifier A's P-3.3 to check against; fabricating one would inject undeclared data"
+      "conversion_gaps": [
+        "skipped non-ideal-equality witness: disjointness",
+        "only 1 usable direction(s) recovered; verifier A's forward+backward ideal-equality witness needs 2 -- cannot construct a genuine forward/backward pair without inventing data. NOT ATTEMPTED for this fixture."
+      ],
+      "laneA_verifier_result": "NOT ATTEMPTED (see conversion_gaps)"
     },
     {
       "fixture": "cert_neg_02.json",
       "description": "Self-made negative certificate fixture 2: W-3 multiplicity_equalities has mult_A != mult_B for a declared pair, everything else PASS-shaped. Expected: W-3 = FAIL, other witnesses PASS.",
+      "stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
       "laneB_native_witness_results": {
         "W-1": "PASS",
         "W-2": "PASS",
@@ -1118,11 +1203,15 @@
         "W-6": "PASS"
       },
       "laneB_native_overall_verdict_B": "FAIL",
-      "laneA_verifier_crosscheck": "NOT ATTEMPTED / UNKNOWN -- fixture has no searcher_native/checker_native/native_artifact_digest for verifier A's P-3.3 to check against; fabricating one would inject undeclared data"
+      "conversion_gaps": [
+        "only 1 usable direction(s) recovered; verifier A's forward+backward ideal-equality witness needs 2 -- cannot construct a genuine forward/backward pair without inventing data. NOT ATTEMPTED for this fixture."
+      ],
+      "laneA_verifier_result": "NOT ATTEMPTED (see conversion_gaps)"
     },
     {
       "fixture": "cert_neg_03.json",
       "description": "Self-made negative certificate fixture 3: W-6 pushforward_compatibility_witness declares a branch multiplicity (5) that does not equal the recomputed sum of ramification multiplicities mapping to it (1+2=3). Everything else PASS-shaped. Expected: W-6 = FAIL.",
+      "stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
       "laneB_native_witness_results": {
         "W-1": "PASS",
         "W-2": "PASS",
@@ -1133,11 +1222,15 @@
         "W-6": "FAIL"
       },
       "laneB_native_overall_verdict_B": "FAIL",
-      "laneA_verifier_crosscheck": "NOT ATTEMPTED / UNKNOWN -- fixture has no searcher_native/checker_native/native_artifact_digest for verifier A's P-3.3 to check against; fabricating one would inject undeclared data"
+      "conversion_gaps": [
+        "only 1 usable direction(s) recovered; verifier A's forward+backward ideal-equality witness needs 2 -- cannot construct a genuine forward/backward pair without inventing data. NOT ATTEMPTED for this fixture."
+      ],
+      "laneA_verifier_result": "NOT ATTEMPTED (see conversion_gaps)"
     },
     {
       "fixture": "cert_pos_01.json",
       "description": "Self-made positive certificate fixture 1: two components, at x=1 and x=2, correctly identified/bijected. Exercises W-1..W-6 all-PASS path via verifier-b.py's own replay engine.",
+      "stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
       "laneB_native_witness_results": {
         "W-1": "PASS",
         "W-2": "PASS",
@@ -1148,11 +1241,84 @@
         "W-6": "PASS"
       },
       "laneB_native_overall_verdict_B": "PASS",
-      "laneA_verifier_crosscheck": "NOT ATTEMPTED / UNKNOWN -- fixture has no searcher_native/checker_native/native_artifact_digest for verifier A's P-3.3 to check against; fabricating one would inject undeclared data"
+      "conversion_gaps": [
+        "P-3.3 will genuinely FAIL: native_artifact_digest is a marker string, not a real digest of the stand-in native blobs computed by this converter -- deliberately not faked as matching, since the underlying native_a/native_b in the fixture are themselves explicitly disclosed as NOT real lane-A output (contract sec.7 C-7 lane split; the lane-B implementer never had access to real lane-A native data)."
+      ],
+      "laneA_verifier_result": {
+        "ambient_ok": true,
+        "ambient_missing": [],
+        "p31_ok": false,
+        "p33_ok": false,
+        "R_A": {
+          "ramification_divisor_on_C": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "branch_divisor_on_P1": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ]
+        },
+        "overall_verdict_A": "FAIL",
+        "result_digest_A": "2cf376f6e84237ad4fb0547913d462dfa721bc380e71e97d5dc73c11f72e0813"
+      }
     },
     {
       "fixture": "cert_pos_02.json",
       "description": "Self-made positive certificate fixture 2 (revised): two components (x=5, x=6), complete witness set (contract sec.4 requires ALL of W-1..W-6/W-2' to PASS for overall PASS -- ABSENT does not count as PASS, so every slot is populated here, unlike the single-component/no-distinctness-needed draft this replaced).",
+      "stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
       "laneB_native_witness_results": {
         "W-1": "PASS",
         "W-2": "PASS",
@@ -1163,11 +1329,84 @@
         "W-6": "PASS"
       },
       "laneB_native_overall_verdict_B": "PASS",
-      "laneA_verifier_crosscheck": "NOT ATTEMPTED / UNKNOWN -- fixture has no searcher_native/checker_native/native_artifact_digest for verifier A's P-3.3 to check against; fabricating one would inject undeclared data"
+      "conversion_gaps": [
+        "P-3.3 will genuinely FAIL: native_artifact_digest is a marker string, not a real digest of the stand-in native blobs computed by this converter -- deliberately not faked as matching, since the underlying native_a/native_b in the fixture are themselves explicitly disclosed as NOT real lane-A output (contract sec.7 C-7 lane split; the lane-B implementer never had access to real lane-A native data)."
+      ],
+      "laneA_verifier_result": {
+        "ambient_ok": true,
+        "ambient_missing": [],
+        "p31_ok": false,
+        "p33_ok": false,
+        "R_A": {
+          "ramification_divisor_on_C": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "branch_divisor_on_P1": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ]
+        },
+        "overall_verdict_A": "FAIL",
+        "result_digest_A": "2cf376f6e84237ad4fb0547913d462dfa721bc380e71e97d5dc73c11f72e0813"
+      }
     },
     {
       "fixture": "cert_pos_03.json",
       "description": "Self-made positive certificate fixture 3: exercises W-5's 'extra candidate excluded by distinctness witness' path (one candidate component considered and shown distinct from all matched components, so it correctly does not count toward the total). Includes a non-empty chart_overlap_witnesses entry so all 7 R_B slots (W-1,W-2,W-2',W-3,W-4,W-5,W-6) are non-ABSENT, matching contract sec.4's literal 'all components PASS' requirement for overall PASS.",
+      "stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
       "laneB_native_witness_results": {
         "W-1": "PASS",
         "W-2": "PASS",
@@ -1178,20 +1417,160 @@
         "W-6": "PASS"
       },
       "laneB_native_overall_verdict_B": "PASS",
-      "laneA_verifier_crosscheck": "NOT ATTEMPTED / UNKNOWN -- fixture has no searcher_native/checker_native/native_artifact_digest for verifier A's P-3.3 to check against; fabricating one would inject undeclared data"
+      "conversion_gaps": [
+        "only 1 usable direction(s) recovered; verifier A's forward+backward ideal-equality witness needs 2 -- cannot construct a genuine forward/backward pair without inventing data. NOT ATTEMPTED for this fixture."
+      ],
+      "laneA_verifier_result": "NOT ATTEMPTED (see conversion_gaps)"
     }
   ],
-  "unknown_items": [
-    "CR-11 implemented_checks 3-layer equality (contract/manifest sec.9.1): PENDING/UNKNOWN per freeze receipt pending queue",
-    "QD-6 bootstrap leaf lost guarantees (build_record_present=false in both lanes): PENDING/UNKNOWN per freeze receipt pending queue",
-    "N-2(2)/H-1a'' independent re-derivation of R-6 closure completeness: PENDING/UNKNOWN per freeze receipt pending queue",
-    "lane B toolchain_digest is a placeholder string, not a real content digest: UNKNOWN (see manifest_crosscheck.notes)",
-    "reverse direction (lane B's 6 cert fixtures -> verifier A): NOT ATTEMPTED, no native artifact data to satisfy P-3.3 -- UNKNOWN, not a PASS or FAIL",
-    "W-4/W-6 for lane A's 5 cert fixtures under verifier B: ABSENT due to schema conversion gaps (lane A's cert does not carry per-overlap / point-level data), not an independent verifier disagreement about identical evidence -- see per-row conversion_gaps",
-    "P-3.1 mismatch expected for all 5 lane-A cert fixtures under verifier B (lane A selftest certs use a placeholder predicate_spec_digest, not verifier B's EXPECTED_PINS digest) -- a genuine pin mismatch, not a converter defect"
+  "N76_5_3_minimal_condition_checklist": [
+    {
+      "item": "schema-valid manifest の機械生成",
+      "status": "PASS",
+      "note": "search/ninfty-manifest-compiler.py (P76-3) generated + validated both lane manifests before any verifier ran."
+    },
+    {
+      "item": "受領側 D-1〜D-4′/四面交差の再計算",
+      "status": "PASS",
+      "note": "D-1/D-2 recomputed for top-level AND entries of both compiled manifests; I-3a/b/d recomputed; see manifest_crosscheck."
+    },
+    {
+      "item": "exact artifact bytes への digest 接続",
+      "status": "PASS (with 1 UNKNOWN)",
+      "note": "lane A's 5 source files, lane B's 2 .py files, and 4 of 5 stdlib modules are hashed from real bytes on disk by the compiler. `sys` (built-in C module, no separate source file) is modeled as identical to toolchain_digest -- flagged, not fabricated."
+    },
+    {
+      "item": "同一 evidence に対する両 verifier の full PASS",
+      "status": "UNKNOWN/NOT ACHIEVED",
+      "note": "0/10 rows are full_witness_PASS. The remaining rows are concordant_ABSENT_not_PASS (9 rows: W-4/W-6 genuinely absent on BOTH native sides at lane A's current scope -- there is no chart/point-level data to check, so a positive PASS is not currently achievable, not merely unobserved) or a P-3.1 pin/witness mismatch."
+    },
+    {
+      "item": "reverse direction",
+      "status": "ATTEMPTED (partial)",
+      "note": "lane B's 6 cert fixtures converted to lane A's schema and run through verifier A; native fields are DISCLOSED STAND-INS (not real lane-A output) per the fixture's own _stand_in_disclosure, carried forward verbatim in laneB_6_cert_fixtures_reverse_to_laneA_verifier. P-3.3 is expected to FAIL by design (no real native digest to match) -- witness-level (W-1..W-3, W-5) results are still meaningful and reported; W-4/W-6 conversion is best-effort (see per-row conversion_gaps)."
+    },
+    {
+      "item": "curve-level witness",
+      "status": "UNKNOWN/NOT AVAILABLE",
+      "note": "no root-level / curve-point construction exists in either lane's current scope (both explicitly declare this UNKNOWN in their own module docstrings); W-4/W-6 remain ABSENT at the curve level."
+    },
+    {
+      "item": "report 自身の input-bundle digest 束縛",
+      "status": "PASS",
+      "note": "see input_bundle_digest below."
+    }
   ],
   "reason_[11]_present": false,
-  "reason_[26]_present": false,
-  "ep_judgment_proposal": "PASS-partial (with UNKNOWNs, no [11]/no unexplained [26])",
-  "ep_judgment_note": "This is a proposal for the commander/Sol gate to review, NOT a self-declared EP PASS. Per receipt: 'calibrated detector・complete search 宣言は EP 前 NOT AUTHORIZED'."
+  "reason_[26]_decision_lane_present": false,
+  "reason_[26]_witness_level_present": false,
+  "unknown_items": [
+    "CR-11 implemented_checks 3-layer equality: PENDING/UNKNOWN per freeze receipt pending queue",
+    "QD-6 bootstrap leaf lost guarantees: PENDING/UNKNOWN per freeze receipt pending queue",
+    "N-2(2)/H-1a'' independent re-derivation of R-6 closure completeness: PENDING/UNKNOWN per freeze receipt pending queue",
+    "lane A/B toolchain_digest form-validated as 64-hex by the compiler but NOT independently re-hashed against the actual node.exe/python.exe binary bytes by this script (would require locating and hashing the interpreter binary itself) -- UNKNOWN, not confirmed.",
+    "`sys` stdlib entry has no separate source file; modeled as toolchain_digest-equivalent (compiler note), not a real independent digest of a `sys`-specific artifact -- UNKNOWN.",
+    "reverse-direction witness conversion (laneB cert -> verifier A) uses a MODELING CHOICE pairing consecutive witnesses as forward/backward and duplicating the single object across both lane-A object keys; NOT validated against lane B's own intended witness structure -- UNKNOWN whether this pairing is correct."
+  ],
+  "ep_judgment_proposal": "PASS-partial: manifest gate PASS, no [11], decision-lane reason-code concordance 17/17, but full witness-level PASS NOT achieved (0/10) -- current scope limitation (W-4/W-6 curve-level data does not exist yet), not a detected bug. This is a proposal for commander/Sol review, not a self-declared EP PASS.",
+  "ep_judgment_note": "Per receipt: 'calibrated detector・complete search 宣言は EP 前 NOT AUTHORIZED'. Per 裁定124/F76-5.7: bound<=5 decision-lane sweep remains NOT authorized regardless of this report's outcome.",
+  "input_bundle_digest": "a6c485b445f2bb911fb816d376c558a3f34e7f68130e2d39be30cf40b763907d",
+  "input_bundle": {
+    "files": [
+      {
+        "path": "search\\certs\\ep-lanea-eval-candidate.mjs",
+        "sha256": "4a6bad6d1b80a8dc6ccdf58056f6c391a14a2a4994a65a557518061ac7500bdd"
+      },
+      {
+        "path": "search\\certs\\ep-lanea-export.mjs",
+        "sha256": "db4079fe38b8515257efd522ee9fd6a33fa5e65844b5cd0c9da5c08478af276c"
+      },
+      {
+        "path": "search\\certs\\fixtures-lanea.mjs",
+        "sha256": "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee"
+      },
+      {
+        "path": "search\\certs\\laneA_manifest_v2_draft.json",
+        "sha256": "f5b78b976e43c7cdc6ff245abad2eb2327bee38e751bd8c0d5387a7967411747"
+      },
+      {
+        "path": "search\\certs\\laneB_manifest_v2_draft.json",
+        "sha256": "a4e9b9cd80cc06ec7263ada21a947b9b8f219c6c0aa40d8336a920ddffa8f0b1"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_neg_01.json",
+        "sha256": "d0b747377f4d4650c4232812a132848fe8bdad57a18a85f08859ab515c624cfa"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_neg_02.json",
+        "sha256": "b0e830a0f18f59ff231d4db43346c96e5a0cab1e055c70a5efaedcfe4fd56990"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_neg_03.json",
+        "sha256": "4a24173bb140a88ddc15d2b095adcd2d7518365591128e4d63849e067d4a8924"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_pos_01.json",
+        "sha256": "a24b34e7857a686d7dea17107ccaf73994c29cbccefa3ae78e7ee83590a73a4c"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_pos_02.json",
+        "sha256": "ba2807ecfd81d2a7f369f1ac94ce171236dcceec849842bed1b810c633aed8ed"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_pos_03.json",
+        "sha256": "7334c1a4f0d1f5aa9adc8f8b8a61e68dfe7bd95156fd5c2d831c65479e1b43f4"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_neg_01.json",
+        "sha256": "8a704c5c5d5b7beca23b929a5315a0afac87d3fa51a4d116a0f3903402ca3ce7"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_neg_02.json",
+        "sha256": "ffaa6bebc8202987970d10d3357c77759002fe5ee2f75a0d9154949717f0983d"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_neg_03.json",
+        "sha256": "3df0ac1fe3a2f548d311d970c634dcfab0277dfc3c69abfe7874ed2eb06858e3"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_pos_01.json",
+        "sha256": "4952d435e3da7c9ba0aee13f670a61484aef43edb6c0d3e2bef0a1d5362f8094"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_pos_02.json",
+        "sha256": "fb6f9710ddec24854463fa6c0f4c61b6e3915339fa39202adafdf8eacb753b0d"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_pos_03.json",
+        "sha256": "d80bafc801cb33d5f7c6ef857420dbd5ce514bd47a2e67f3c06a4b9165a23e0a"
+      },
+      {
+        "path": "search\\ninfty-checker.py",
+        "sha256": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
+      },
+      {
+        "path": "search\\ninfty-manifest-compiler.py",
+        "sha256": "2e18a7fb723e3d43c076c8bfa06469d527020827fdeefdef6ace0edc74d9b0af"
+      },
+      {
+        "path": "search\\ninfty-searcher-v2.mjs",
+        "sha256": "fc0755a7f725d8b7bdfdcec0e5fb77804fe357081df454badfea8a0b78be9422"
+      },
+      {
+        "path": "search\\ninfty-selftest-lanea.mjs",
+        "sha256": "e488318d9289542a05da7afd9d53bf0bbb75d640eb0892b597efafbab2bd4540"
+      },
+      {
+        "path": "search\\ninfty-verifier-a.mjs",
+        "sha256": "b109f59d62d574bde7babea846cfe97b3b3cb6bdfb402bdca856a6e74388fe7f"
+      },
+      {
+        "path": "search\\ninfty-verifier-b.py",
+        "sha256": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b"
+      }
+    ],
+    "extra": {
+      "note": "sha256 of the ACTUAL bytes read/executed by this run, not a claim about upstream authorship."
+    }
+  }
 }
