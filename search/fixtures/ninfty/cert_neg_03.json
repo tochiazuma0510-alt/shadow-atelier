@@ -1,0 +1,55 @@
+{
+  "_description": "Self-made negative certificate fixture 3: W-6 pushforward_compatibility_witness declares a branch multiplicity (5) that does not equal the recomputed sum of ramification multiplicities mapping to it (1+2=3). Everything else PASS-shaped. Expected: W-6 = FAIL.",
+  "certificate": {
+    "predicate_spec_id": "mb/ninfty-stage2-predicate/v18",
+    "predicate_spec_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
+    "schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
+    "schema_digest": "placeholder-schema-digest-for-lane-b-unit-test",
+    "candidate_ref": "cert-neg-03",
+
+    "ambient_coordinate_ring_schema_id": "toy/Q[x]/v1",
+    "ambient_coordinate_ring_schema_digest": "toy-ring-digest-01",
+    "ambient_quotient_relations": "none (Q[x], no quotient)",
+    "coefficient_field_presentation_id": "Q/standard",
+    "coefficient_field_presentation_digest": "toy-field-digest-01",
+    "monomial_order_id": "lex-x",
+    "monomial_order_digest": "toy-order-digest-01",
+    "groebner_reduction_contract_id": "toy/reduce-to-zero/v1",
+    "groebner_reduction_contract_digest": "toy-reduction-digest-01",
+    "curve_model_digest": "toy-curve-digest-neg03",
+    "chart_ids": ["chart-A"],
+
+    "exact_point_equality_witnesses": [
+      {
+        "kind": "ideal-equality", "form": "representation", "tag": "reduction-to-zero",
+        "g": [{"coeff": 1, "mono": [1]}, {"coeff": -11, "mono": [0]}],
+        "u": [[{"coeff": 1, "mono": [0]}]],
+        "h": [[{"coeff": 1, "mono": [1]}, {"coeff": -11, "mono": [0]}]]
+      }
+    ],
+    "distinctness_witnesses": [],
+    "component_bijection": {
+      "domain_components": ["K1", "K2"],
+      "codomain_components": ["L1", "L2"],
+      "mapping": [["K1", "L1"], ["K2", "L2"]]
+    },
+    "multiplicity_equalities": [
+      {"pair": ["K1", "L1"], "mult_A": 1, "mult_B": 1},
+      {"pair": ["K2", "L2"], "mult_A": 2, "mult_B": 2}
+    ],
+    "chart_overlap_witnesses": [],
+    "total_coverage_and_no_extra_component_witness": {
+      "declared_total_components": 2,
+      "extra_candidates": []
+    },
+    "pushforward_compatibility_witness": {
+      "ramification_points": [
+        {"maps_to_branch_value": "bvX", "multiplicity": 1},
+        {"maps_to_branch_value": "bvX", "multiplicity": 2}
+      ],
+      "branch_points": [
+        {"branch_value": "bvX", "multiplicity": 5}
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "_description": "Self-made negative fixture 2: correct degrees/monic/leading-coeff/squarefree-f6, but Pell violated -- f6 deliberately swapped for a value that does NOT satisfy a^2 - f6*p^2 = constant for the given (a,p) (a,p taken from checker_pos_01's genuine solution; f6 replaced by x^6+1, which is NOT the f6 that solves Pell for this a,p). Expected: REJECT precondition/pell-violation.",
+  "a": ["192/1", "352/1", "252/1", "88/1", "15/1", "1/1"],
+  "p": ["44/5", "6/1", "1/1"],
+  "f6": ["1/1", "0/1", "0/1", "0/1", "0/1", "0/1", "1/1"],
+  "divisor_orientation_attested": true
+}

@@ -1,0 +1,9 @@
+{
+  "_description": "Self-made positive fixture 1: a genuinely Pell-consistent (a,p,f6,C) quintuple constructed by (i) choosing a with rootpart [2,2,1] directly (double roots at x=-4,-2, simple root at x=-3), (ii) defining p := a'/d rescaled to a5 (T-2 holds by construction, d=gcd(a,a')), (iii) scanning small integer root triples until a^2 mod p^2 came out to be an honest nonzero constant (Pell/E-4). All of E-1..E-6 and T-1/T-2 are expected to PASS (checker returns stage=null).",
+  "a": ["192/1", "352/1", "252/1", "88/1", "15/1", "1/1"],
+  "p": ["44/5", "6/1", "1/1"],
+  "f6": ["59504/125", "27408/25", "25628/25", "2484/5", "657/5", "18/1", "1/1"],
+  "divisor_orientation_attested": true,
+  "genus": 2,
+  "deg_mu": 5
+}

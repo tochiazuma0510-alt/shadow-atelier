@@ -1,0 +1,67 @@
+{
+  "_description": "Self-made positive certificate fixture 3: exercises W-5's 'extra candidate excluded by distinctness witness' path (one candidate component considered and shown distinct from all matched components, so it correctly does not count toward the total). Includes a non-empty chart_overlap_witnesses entry so all 7 R_B slots (W-1,W-2,W-2',W-3,W-4,W-5,W-6) are non-ABSENT, matching contract sec.4's literal 'all components PASS' requirement for overall PASS.",
+  "certificate": {
+    "predicate_spec_id": "mb/ninfty-stage2-predicate/v18",
+    "predicate_spec_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
+    "schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
+    "schema_digest": "placeholder-schema-digest-for-lane-b-unit-test",
+    "candidate_ref": "cert-pos-03",
+
+    "ambient_coordinate_ring_schema_id": "toy/Q[x]/v1",
+    "ambient_coordinate_ring_schema_digest": "toy-ring-digest-01",
+    "ambient_quotient_relations": "none (Q[x], no quotient)",
+    "coefficient_field_presentation_id": "Q/standard",
+    "coefficient_field_presentation_digest": "toy-field-digest-01",
+    "monomial_order_id": "lex-x",
+    "monomial_order_digest": "toy-order-digest-01",
+    "groebner_reduction_contract_id": "toy/reduce-to-zero/v1",
+    "groebner_reduction_contract_digest": "toy-reduction-digest-01",
+    "curve_model_digest": "toy-curve-digest-03",
+    "chart_ids": ["chart-A", "chart-B"],
+
+    "exact_point_equality_witnesses": [
+      {
+        "kind": "ideal-equality", "form": "reduction-to-zero", "tag": "reduction-to-zero",
+        "g": [{"coeff": 1, "mono": [1]}, {"coeff": -7, "mono": [0]}],
+        "steps": [
+          {"coeff": 1, "mono": [0], "generator": [{"coeff": 1, "mono": [1]}, {"coeff": -7, "mono": [0]}]}
+        ]
+      }
+    ],
+    "distinctness_witnesses": [
+      {
+        "kind": "disjointness",
+        "u": [[{"coeff": 1, "mono": [0]}], [{"coeff": -1, "mono": [0]}]],
+        "g": [
+          [{"coeff": 1, "mono": [1]}, {"coeff": -7, "mono": [0]}],
+          [{"coeff": 1, "mono": [1]}, {"coeff": -8, "mono": [0]}]
+        ]
+      }
+    ],
+    "component_bijection": {
+      "domain_components": ["U1"],
+      "codomain_components": ["V1"],
+      "mapping": [["U1", "V1"]]
+    },
+    "multiplicity_equalities": [
+      {"pair": ["U1", "V1"], "mult_A": 1, "mult_B": 1}
+    ],
+    "chart_overlap_witnesses": [
+      {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "U1", "component_in_chart_b": "U1"}
+    ],
+    "total_coverage_and_no_extra_component_witness": {
+      "declared_total_components": 1,
+      "extra_candidates": [
+        {"id": "extra-at-x8", "distinctness_witness_ref": "dw-0"}
+      ]
+    },
+    "pushforward_compatibility_witness": {
+      "ramification_points": [
+        {"maps_to_branch_value": "bv7", "multiplicity": 1}
+      ],
+      "branch_points": [
+        {"branch_value": "bv7", "multiplicity": 1}
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "_description": "Self-made positive fixture 2: same construction method as checker_pos_01 (rootpart [2,2,1] by construction, p=a'/d rescaled, Pell verified by exact search over integer root triples), different root triple (-6,-4,-5), k=1.",
+  "a": ["2880/1", "2976/1", "1220/1", "248/1", "25/1", "1/1"],
+  "p": ["124/5", "10/1", "1/1"],
+  "f6": ["1685744/125", "84976/5", "220988/25", "2428/1", "1857/5", "30/1", "1/1"],
+  "divisor_orientation_attested": true,
+  "genus": 2,
+  "deg_mu": 5
+}

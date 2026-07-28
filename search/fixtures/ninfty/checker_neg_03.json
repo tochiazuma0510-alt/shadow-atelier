@@ -1,0 +1,7 @@
+{
+  "_description": "Self-made negative fixture 3: a genuinely Pell-consistent (a,p,f6,C) quintuple (constructed via the 'fixed fiber' method, sec.1.4 of the spec: a-w has a double root at x=-3, a+w has a double root at x=-2, p=(x+3)(x+2), f6 derived exactly) where E-1..E-6 all PASS but T-1 fails: a itself is squarefree (rootpart = [1,1,1,1,1], not [2,2,1]) since the double roots belong to a-w/a+w, not to a. Expected: REJECT a-partition-mismatch (deg gcd(a,a') = 0, not 2). This fixture also independently confirms (via checker_neg_02 and this one both reaching a REJECT distinct from T-1's own precondition set) that T-1 is a genuinely separate condition from E-1..E-6.",
+  "a": ["25/2", "-12/1", "-20/1", "1/1", "5/1", "1/1"],
+  "p": ["6/1", "5/1", "1/1"],
+  "f6": ["4/1", "-15/1", "11/1", "10/1", "-10/1", "0/1", "1/1"],
+  "divisor_orientation_attested": true
+}

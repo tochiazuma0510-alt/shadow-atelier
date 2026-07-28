@@ -1,0 +1,6 @@
+{
+  "_description": "Self-made negative fixture 1: degree mismatch (deg a = 3, not 5). Expected: REJECT precondition/degree-mismatch.",
+  "a": ["1/1", "0/1", "0/1", "1/1"],
+  "p": ["1/1", "0/1", "1/1"],
+  "f6": ["1/1", "0/1", "0/1", "0/1", "0/1", "0/1", "1/1"]
+}

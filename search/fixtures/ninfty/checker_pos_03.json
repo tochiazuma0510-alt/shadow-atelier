@@ -1,0 +1,20 @@
+{
+  "_description": "Self-made positive fixture 3: same construction method as checker_pos_01/02, root triple (-6,-2,-4), k=1. Also carries a hand-built native_artifact so the optional W-6-style pushforward consistency check (check_native_pushforward) is exercised on a PASS path.",
+  "a": ["576/1", "912/1", "544/1", "152/1", "20/1", "1/1"],
+  "p": ["76/5", "8/1", "1/1"],
+  "f6": ["179456/125", "75904/25", "63248/25", "5248/5", "1128/5", "24/1", "1/1"],
+  "divisor_orientation_attested": true,
+  "genus": 2,
+  "deg_mu": 5,
+  "native_artifact": {
+    "ramification_divisor_on_C": [
+      {"point": "P_r1", "maps_to_branch_value": "b1", "multiplicity": 1},
+      {"point": "P_r2", "maps_to_branch_value": "b1", "multiplicity": 1},
+      {"point": "P_r3", "maps_to_branch_value": "b2", "multiplicity": 2}
+    ],
+    "branch_divisor_on_P1": [
+      {"branch_value": "b1", "multiplicity": 2},
+      {"branch_value": "b2", "multiplicity": 2}
+    ]
+  }
+}

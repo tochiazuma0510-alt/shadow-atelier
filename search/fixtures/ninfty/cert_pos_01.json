@@ -1,0 +1,74 @@
+{
+  "_description": "Self-made positive certificate fixture 1: two components, at x=1 and x=2, correctly identified/bijected. Exercises W-1..W-6 all-PASS path via verifier-b.py's own replay engine.",
+  "certificate": {
+    "predicate_spec_id": "mb/ninfty-stage2-predicate/v18",
+    "predicate_spec_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
+    "schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
+    "schema_digest": "placeholder-schema-digest-for-lane-b-unit-test",
+    "candidate_ref": "cert-pos-01",
+
+    "ambient_coordinate_ring_schema_id": "toy/Q[x]/v1",
+    "ambient_coordinate_ring_schema_digest": "toy-ring-digest-01",
+    "ambient_quotient_relations": "none (Q[x], no quotient)",
+    "coefficient_field_presentation_id": "Q/standard",
+    "coefficient_field_presentation_digest": "toy-field-digest-01",
+    "monomial_order_id": "lex-x",
+    "monomial_order_digest": "toy-order-digest-01",
+    "groebner_reduction_contract_id": "toy/reduce-to-zero/v1",
+    "groebner_reduction_contract_digest": "toy-reduction-digest-01",
+    "curve_model_digest": "toy-curve-digest-01",
+    "chart_ids": ["chart-A", "chart-B"],
+
+    "exact_point_equality_witnesses": [
+      {
+        "kind": "ideal-equality", "form": "representation", "tag": "reduction-to-zero",
+        "g": [{"coeff": 1, "mono": [1]}, {"coeff": -1, "mono": [0]}],
+        "u": [[{"coeff": 1, "mono": [0]}]],
+        "h": [[{"coeff": 1, "mono": [1]}, {"coeff": -1, "mono": [0]}]]
+      },
+      {
+        "kind": "ideal-equality", "form": "reduction-to-zero", "tag": "reduction-to-zero",
+        "g": [{"coeff": 1, "mono": [1]}, {"coeff": -2, "mono": [0]}],
+        "steps": [
+          {"coeff": 1, "mono": [0], "generator": [{"coeff": 1, "mono": [1]}, {"coeff": -2, "mono": [0]}]}
+        ]
+      }
+    ],
+    "distinctness_witnesses": [
+      {
+        "kind": "disjointness",
+        "u": [[{"coeff": 1, "mono": [0]}], [{"coeff": -1, "mono": [0]}]],
+        "g": [
+          [{"coeff": 1, "mono": [1]}, {"coeff": -1, "mono": [0]}],
+          [{"coeff": 1, "mono": [1]}, {"coeff": -2, "mono": [0]}]
+        ]
+      }
+    ],
+    "component_bijection": {
+      "domain_components": ["Q1", "Q2"],
+      "codomain_components": ["R1", "R2"],
+      "mapping": [["Q1", "R1"], ["Q2", "R2"]]
+    },
+    "multiplicity_equalities": [
+      {"pair": ["Q1", "R1"], "mult_A": 1, "mult_B": 1},
+      {"pair": ["Q2", "R2"], "mult_A": 2, "mult_B": 2}
+    ],
+    "chart_overlap_witnesses": [
+      {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "Q1", "component_in_chart_b": "Q1"}
+    ],
+    "total_coverage_and_no_extra_component_witness": {
+      "declared_total_components": 2,
+      "extra_candidates": []
+    },
+    "pushforward_compatibility_witness": {
+      "ramification_points": [
+        {"maps_to_branch_value": "b1", "multiplicity": 1},
+        {"maps_to_branch_value": "b2", "multiplicity": 2}
+      ],
+      "branch_points": [
+        {"branch_value": "b1", "multiplicity": 1},
+        {"branch_value": "b2", "multiplicity": 2}
+      ]
+    }
+  }
+}

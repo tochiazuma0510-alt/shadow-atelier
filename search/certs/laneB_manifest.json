@@ -1,0 +1,168 @@
+{
+  "_meta": {
+    "purpose": "Lane B (audit lane B checker + independent verifier B) dependency manifest, following mb/dependency-manifest/v13 sec.7 record shape. Authored by the lane-B implementer for its own two artifacts. This is NOT a freeze-time exact_freeze_bundle record -- no receipt has issued for it, and per the schema's own lifecycle rule it is NOT operative/authoritative until a commander receipt binds its digest. It is submitted so the receiving side can intersect this closure against lane A's (node) closure per spec sec.4.4 / contract sec.7.",
+    "schema_id_pin": "mb/dependency-manifest/v13",
+    "schema_digest_pin": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
+    "governing_spec_pin": "mb/ninfty-stage2-predicate/v18",
+    "governing_spec_digest_pin": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
+    "verifier_contract_pin": "mb/ninfty-verifier-contract/v13",
+    "verifier_contract_digest_pin": "e41d51dbdbdcf66efaff2ccd073bbfba9bff12bbfff435ca290a4248abcf5022",
+    "note_scope": "This manifest covers verify-B's implementation closure (the object contract sec.7's independence requirement is about) as its primary subject, and lists ninfty-checker.py as a second, separately-produced artifact for the same lane. checker.py's own implementation closure is NOT subject to the two-verifier independence requirement (that requirement is specifically about verifier A vs verifier B, contract sec.7); it is included here for completeness/audit only."
+  },
+
+  "dependency_manifest": {
+    "schema_id": "mb/dependency-manifest/v13",
+    "schema_digest": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
+    "subject_id": "search/ninfty-verifier-b.py",
+    "subject_code_digest": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
+
+    "build_definition_blob_digest": null,
+    "pinned_input_digests": [],
+    "build_root_id": null,
+    "subject_build_binding_digest": null,
+    "build_attestation": null,
+    "_build_face_note": "No build step exists: this is a single interpreted .py file run directly by the CPython interpreter (no compile/link/codegen step, no build_definition). Per sec.2.34 [branch-contract], this record declares build_record_present=false and the four build-preimage fields (build_definition_blob_digest, pinned_input_digests[], build_root_id, subject_build_binding_digest) are ABSENT (key not present with a null placeholder value) at the TOP LEVEL as well -- see build_record_present below; the four keys above are kept as explicit nulls ONLY for JSON schema readability in this hand-authored file and MUST be treated as ABSENT (not as the QD-4 'nonempty-null' violation) by any consumer that implements the branch-contract's exact QD-3/QD-4 distinction. A machine-generated instance of this manifest at freeze time should literally omit these four keys rather than null them.",
+    "build_record_present": false,
+
+    "entries": [
+      {
+        "content_digest": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
+        "role": "math-helper",
+        "_role_note": "The file's own multivariate polynomial engine (mv_add/mv_sub/mv_mul/mv_mono_mul/mv_eq/mv_is_zero/mv_is_one) and the ideal-equality/disjointness replay routines (verify_membership_by_representation, verify_membership_by_reduction, verify_W2/W2'/W1/W3/W4/W5/W6) are math-helper role by dependency-manifest sec.5.1 H-3a (canonicalizer/ideal-operation/reduction/divisor/partition logic). This is the entry that MUST have empty intersection with lane A's (verifier A, node runtime) closure under I-3a (contract sec.7 C-3'''/H-3).",
+        "source_artifact_digests": ["617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b"],
+        "toolchain_digest": "cpython-3.13-stdlib-only-no-external-packages",
+        "_toolchain_note": "Placeholder identity string, not a content digest of the actual CPython 3.13 interpreter binary -- filling this with the real interpreter build's exact content digest is a freeze-time/build-provenance action out of this partial-predicate implementer's reach (no build system exists for a directly-interpreted script). Flagged as UNKNOWN in the report; must be replaced with an exact digest before this manifest can support a real freeze receipt.",
+        "build_step_digests": [],
+        "build_record_present": false,
+        "source_closure_digest": null,
+        "implementation_lineage_digest": null,
+        "build_root_id": null,
+        "implementation_family_id": null,
+        "provenance": {"source_ref": "search/ninfty-verifier-b.py"},
+        "outgoing_dependency_attestation": "This entry imports only Python stdlib modules (fractions.Fraction, hashlib, json, sys, argparse) at module scope; no other local or third-party module is imported. It does not import search/ninfty-checker.py or any file authored for lane A (node), and has never read lane A's code (per the implementer's own operating constraint).",
+        "depth": 0,
+        "reached_via": ["subject"]
+      },
+      {
+        "content_digest": "stdlib:fractions",
+        "role": "runtime",
+        "source_artifact_digests": [],
+        "toolchain_digest": "cpython-3.13-stdlib-only-no-external-packages",
+        "build_step_digests": [],
+        "build_record_present": false,
+        "source_closure_digest": null,
+        "implementation_lineage_digest": null,
+        "build_root_id": null,
+        "implementation_family_id": null,
+        "provenance": {"source_ref": "python stdlib: fractions"},
+        "outgoing_dependency_attestation": "stdlib leaf; no further outgoing dependencies enumerated by this manifest (bootstrap leaf, sec.2.34 QD-3).",
+        "depth": 1,
+        "reached_via": ["617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b"]
+      },
+      {
+        "content_digest": "stdlib:hashlib",
+        "role": "hash-primitive",
+        "source_artifact_digests": [],
+        "toolchain_digest": "cpython-3.13-stdlib-only-no-external-packages",
+        "build_step_digests": [],
+        "build_record_present": false,
+        "source_closure_digest": null,
+        "implementation_lineage_digest": null,
+        "build_root_id": null,
+        "implementation_family_id": null,
+        "provenance": {"source_ref": "python stdlib: hashlib"},
+        "outgoing_dependency_attestation": "stdlib leaf.",
+        "depth": 1,
+        "reached_via": ["617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b"]
+      },
+      {
+        "content_digest": "stdlib:json",
+        "role": "serialization",
+        "source_artifact_digests": [],
+        "toolchain_digest": "cpython-3.13-stdlib-only-no-external-packages",
+        "build_step_digests": [],
+        "build_record_present": false,
+        "source_closure_digest": null,
+        "implementation_lineage_digest": null,
+        "build_root_id": null,
+        "implementation_family_id": null,
+        "provenance": {"source_ref": "python stdlib: json"},
+        "outgoing_dependency_attestation": "stdlib leaf.",
+        "depth": 1,
+        "reached_via": ["617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b"]
+      },
+      {
+        "content_digest": "stdlib:sys+argparse",
+        "role": "runtime",
+        "source_artifact_digests": [],
+        "toolchain_digest": "cpython-3.13-stdlib-only-no-external-packages",
+        "build_step_digests": [],
+        "build_record_present": false,
+        "source_closure_digest": null,
+        "implementation_lineage_digest": null,
+        "build_root_id": null,
+        "implementation_family_id": null,
+        "provenance": {"source_ref": "python stdlib: sys, argparse (CLI entry point only)"},
+        "outgoing_dependency_attestation": "stdlib leaf.",
+        "depth": 1,
+        "reached_via": ["617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b"]
+      },
+      {
+        "content_digest": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
+        "role": "math-helper",
+        "_role_note": "search/ninfty-checker.py, lane B's OTHER deliverable (the audit-lane-B checker / native producer). Listed here for audit completeness only -- it is NOT imported by ninfty-verifier-b.py (grep-verifiable: verifier-b.py has no import of any local module besides the stdlib ones above) and is not part of verifier B's own independence-relevant closure under contract sec.7. It is its own separate role (native artifact generator for lane B, cross-checked against lane A's searcher native, not one of the two witness verifiers).",
+        "source_artifact_digests": ["fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"],
+        "toolchain_digest": "cpython-3.13-stdlib-only-no-external-packages",
+        "build_step_digests": [],
+        "build_record_present": false,
+        "source_closure_digest": null,
+        "implementation_lineage_digest": null,
+        "build_root_id": null,
+        "implementation_family_id": null,
+        "provenance": {"source_ref": "search/ninfty-checker.py"},
+        "outgoing_dependency_attestation": "Imports only Python stdlib (fractions.Fraction, hashlib, json, sys, argparse). Does not import search/ninfty-verifier-b.py or any lane A file.",
+        "depth": 0,
+        "reached_via": ["subject-adjacent (separate lane-B artifact, not a runtime dependency of verifier-b.py)"]
+      }
+    ],
+
+    "declared_untrusted_inputs": [
+      "divisor_equality_certificate",
+      "searcher_native_artifact",
+      "checker_native_artifact",
+      "governing_spec_blob",
+      "contract_blob"
+    ],
+    "allowed_shared_tcb": [],
+    "allowed_shared_source_tcb": [],
+    "allowed_shared_build_tcb": [],
+    "allowed_shared_family": [],
+    "closure_attested": true,
+    "_closure_attested_note": "Attested for THIS implementer's own code only (self-inspection of the two files' import statements, confirmed by direct reading of both files in full). No claim is made about lane A's closure, which this implementer has never read and does not import.",
+    "build_promotion_attested": false,
+    "_build_promotion_attested_note": "R-6 (output-affecting build-time artifact promotion) does not apply: there is no build step (interpreted script, no codegen/compile/link). Set to false rather than true since 'promotion is complete' presumes a build exists to promote from; UNKNOWN/N-A is the honest status, recorded here as false with this note rather than a bare true.",
+    "produced_at_receipt": null
+  },
+
+  "conformance_record_self_report": {
+    "_note": "This is the lane-B implementer's own self-report against dependency-manifest v13's conformance schema (sec.8). It is NOT a receipt-issued conformance_record and does not claim freeze-time authority; it is offered so a reviewer can see which clauses this manifest instance actually attempts to satisfy.",
+    "schema_id": "mb/dependency-manifest/v13",
+    "schema_digest": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
+    "attempted_clauses": [
+      "E-1", "E-1'", "E-2", "E-2'", "E-3", "E-4",
+      "E-5", "E-6", "E-9'", "E-10'",
+      "H-2", "H-2a", "H-2c", "H-2d",
+      "H-3", "H-3a", "H-3b", "H-3c",
+      "H-5c", "H-5e",
+      "T-1''", "Y-1", "Y-2", "Y-3", "Y-4", "Y-4a", "Y-4d",
+      "QD-3", "QD-5'"
+    ],
+    "not_attempted_or_unknown": [
+      "E-7'''/E-8'' (D-1..D-4' recomputation): NOT independently exercised by this JSON (no executable receipt-side recompute harness exists yet; the entries[] preimages are supplied so a receiving-side recompute CAN be run, but this implementer has not built that recompute tool)",
+      "H-1'/H-1a'' (fixpoint completeness re-derivation): UNKNOWN -- no receiving-side independent re-derivation tool exists (same CR-11 'implemented_checks layer PENDING/UNKNOWN' status as the freeze receipt's own pending queue)",
+      "I-0''/I-0c''/I-3a/I-3b/I-3d/I-5' (actual intersection against lane A's closure): CANNOT be computed by this implementer -- lane A's closure is not visible to lane B by design (runtime/independence separation); intersection must be computed by the receiving side once both closures exist",
+      "toolchain_digest as an exact content digest of the CPython interpreter binary: placeholder string only, see entries[].toolchain_digest note above",
+      "SB-1'..SB-7 / build_attestation (sec.2.5): N/A, no build step exists for a directly-interpreted script; build_record_present=false throughout, per QD-3/QD-5'"
+    ]
+  }
+}
