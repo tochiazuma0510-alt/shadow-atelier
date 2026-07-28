@@ -368,8 +368,16 @@ JudgeWindow := function(s1in, s2in, label)
   # theta/tau homomorphisms, not Ad(Delta)/Ad(delta) conjugation), so a mismatch here
   # would be a real red flag, not a tautology -- both paths share only the ambient
   # group W.PN and AbstractProd, not the enumeration logic itself.
+  # v1.2 opt-out (裁定171・LID-1 processed alongside): bind
+  # JUDGE_SKIP_LEGACY_CROSSCHECK := true;; before Read()-ing this file to
+  # disable this block entirely (e.g. search/wall-miner-v5.g does this --
+  # the coordinator's instruction there is explicit that EnumerateReducedHexagon
+  # should not be relied on at all for the all-66-windows consolidation pass,
+  # since KJ-1 raised the possibility that its own hex310/hex311 conditions
+  # have the same missing-settled-check gap on the c_in_N side too). Default
+  # (flag unbound) is unchanged from v1/v1.1: the crosscheck still runs.
   r.crosscheck_vs_EnumerateReducedHexagon := fail;
-  if r.c_in_N then
+  if r.c_in_N and not (IsBound(JUDGE_SKIP_LEGACY_CROSSCHECK) and JUDGE_SKIP_LEGACY_CROSSCHECK = true) then
     qrecCk := rec(x := W.x, y := W.y, G := W.PN);
     hexres := fail;
     if GAPLIB_CheckCap(300.0, Concatenation(label, "-crosscheck")) then
