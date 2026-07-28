@@ -1,0 +1,86 @@
+{
+  "schema": "i1i3-crosscheck/v1",
+  "generated_by": {
+    "tool": "python 3.13.14",
+    "script": "search/verify-i1-i3.py"
+  },
+  "generated_at_utc": "2026-07-28T07:21:25.769291+00:00",
+  "i3": {
+    "schema": "i3-crosscheck/v1",
+    "input_cert_path": "search/certs/i3_equality_20260728.json",
+    "input_cert_sha256": "55235296ab6ab82f8a4c54e4c04b4e63855b81b8a2b1a76fbdbbc61c9858b6cd",
+    "generators_used": {
+      "x_pair": "(1,2,3,4)(6,8)(10,12)(13,14,15)(17,18)(20,21)",
+      "y_pair": "(1,2)(3,4)(5,6,7,8)(9,10)(11,12)(13,14)(16,17,18)(19,20)"
+    },
+    "npoints": 21,
+    "recomputed_image_size": 864,
+    "expected_fixed_value": 864,
+    "expected_fixed_value_note": "Sol 便 73 Q2 承認値。証明書内 registered_target=6912 は odd 分岐の誤適用による erratum 済み旧値であり、本照合では比較対象にしない(fail-closed)。",
+    "verdict": "CROSS_CHECK_PASS",
+    "old_registered_target_in_cert": 6912,
+    "old_registered_target_note": "erratum 済み旧値・照合対象外として記録するのみ"
+  },
+  "i1": {
+    "schema": "i1-partial-crosscheck/v1",
+    "universe": [
+      3,
+      5,
+      7,
+      9,
+      11
+    ],
+    "scope_note": "これは「列挙の完全性」(他に該当 H が無いこと)の照合ではない。H_{j,alpha,beta} (sol_reply_73_math.md (1.2)) というパラメータ化族の各員について述語①②③+自己正規化を直接計算で確認したものであり、GAP 悉皆列挙(SubgroupsSolvableGroup)+ODD-H 証明が担当する「他に該当 H が無い」ことの証拠ではない。",
+    "results": [
+      {
+        "n": 3,
+        "expected_alpha_nonzero_qualifying_count": 12,
+        "measured_qualifying_count": 12,
+        "measured_qualifying_alpha_nonzero_count": 12,
+        "matches_expected_count": true,
+        "alpha_zero_all_self_normalizing_fail": true,
+        "alpha_nonzero_all_qualify_and_self_normalizing": true
+      },
+      {
+        "n": 5,
+        "expected_alpha_nonzero_qualifying_count": 40,
+        "measured_qualifying_count": 40,
+        "measured_qualifying_alpha_nonzero_count": 40,
+        "matches_expected_count": true,
+        "alpha_zero_all_self_normalizing_fail": true,
+        "alpha_nonzero_all_qualify_and_self_normalizing": true
+      },
+      {
+        "n": 7,
+        "expected_alpha_nonzero_qualifying_count": 84,
+        "measured_qualifying_count": 84,
+        "measured_qualifying_alpha_nonzero_count": 84,
+        "matches_expected_count": true,
+        "alpha_zero_all_self_normalizing_fail": true,
+        "alpha_nonzero_all_qualify_and_self_normalizing": true
+      },
+      {
+        "n": 9,
+        "expected_alpha_nonzero_qualifying_count": 144,
+        "measured_qualifying_count": 144,
+        "measured_qualifying_alpha_nonzero_count": 144,
+        "matches_expected_count": true,
+        "alpha_zero_all_self_normalizing_fail": true,
+        "alpha_nonzero_all_qualify_and_self_normalizing": true
+      },
+      {
+        "n": 11,
+        "expected_alpha_nonzero_qualifying_count": 220,
+        "measured_qualifying_count": 220,
+        "measured_qualifying_alpha_nonzero_count": 220,
+        "matches_expected_count": true,
+        "alpha_zero_all_self_normalizing_fail": true,
+        "alpha_nonzero_all_qualify_and_self_normalizing": true
+      }
+    ]
+  },
+  "note_discipline": "探索器(GAP)と照合器(この python)は helper を共有しない。本ファイルの群構造実装(g_mult/g_pow/subgroup_closure 等)はGAP 側の MakeGn/MakeDn とは独立に、sol_reply_73_math.md の紙上の式から書き起こした。u・c 平方類・c_mu には触れていない。",
+  "provenance": {
+    "script_sha256": "905ec1a3821ffcf4118bfa4fad22e0dada7940a491f08433e2748e311335abe2"
+  }
+}

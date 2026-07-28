@@ -60,3 +60,7 @@ I-1 族窓観測(宇宙 = provenance/registered/universe_I1_I3.md・証明書 = 
 
 ## W3-23(2026-07-28・candidate・単系統 GAP・登録正誤表つき)
 I-3 等号検査(証明書 = search/certs/i3_equality_20260728.json): |Im(ψ₄,ψ₃)| = 864(D₄³×D₃³ 内の直接構成)。事前登録比較値 6912 は司令塔の導出ミス(奇数公式の誤適用・正 = |G₁₂| = 864 = WP1 既知値)— 裁定 98 正誤表。K⁽¹²⁾ ⊆ K⁽⁴⁾∩K⁽³⁾ の下で位数一致につき **K⁽¹²⁾ = K⁽⁴⁾∩K⁽³⁾ の成立を示唆**。独立照合器で cross-checked 昇格待ち。
+
+## 昇格記録(2026-07-28・裁定 102)
+- **W3-22 → cross-checked(パラメータ化水準)**: python 独立照合器(search/verify-i1-i3.py・GAP と helper 非共有)が n=3..11 で個数 2n(n−1)・α=0 の自己正規化不成立・α≠0 の全 qualify を再現(証明書 search/certs/i1i3_crosscheck_20260728.json)。列挙の完全性は GAP 悉皆+ODD-H 紙上証明(独立監査中)の担当と scope 明記。**(W5) regression**: 全 20 類 PASS(search/certs/w5_regression_20260728.json)— Sol 便 73 (1.14) の紙上予言を実測で確認。
+- **W3-23 → cross-checked**: python 照合器が像の位数 864 を独立再構成(BFS 閉包・fail-closed 期待値 864・6912 は erratum 旧値として対象外)。加えて Sol 便 73 Q2.3 の紙上証明(δ: D₁₂↪D₄×D₃ 経由・位数比較不要)が第三の独立経路(candidate・独立監査待ち)。
