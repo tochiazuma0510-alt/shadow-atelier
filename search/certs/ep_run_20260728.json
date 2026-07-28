@@ -20,7 +20,7 @@
         },
         {
           "record": "entry",
-          "content_digest": "628ace582a3f5a8975e4a753b6f60aed79777caffcb770eda5f543f028fee63d",
+          "content_digest": "86378c77c3ba2add84166047e953d73b5a78c12cbb1b8795f0df8a5deb977b4c",
           "source_ref": "search/ninfty-searcher-v2.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
@@ -31,7 +31,7 @@
         },
         {
           "record": "entry",
-          "content_digest": "cebfa49e976e54adfba6af81365b24846d393842f3f8f4e9b5a08ecdcdfe7100",
+          "content_digest": "0caf553fb6824511de633334c00319696e62e3227a68f42b2bf23133c61dca96",
           "source_ref": "search/ninfty-verifier-a.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
@@ -53,7 +53,7 @@
         },
         {
           "record": "entry",
-          "content_digest": "6fce465edde2a710fcd765b8bd875aa4497515bd0ea1bc5f28c3340a1bf5ceae",
+          "content_digest": "562eaeb3d15312b7e42cd349aeb4c6c88a96f0495614fa1962211d47864c2af1",
           "source_ref": "search/ninfty-selftest-lanea.mjs",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
@@ -64,7 +64,7 @@
         },
         {
           "record": "entry",
-          "content_digest": "6a17e883a107ac89e870081d682d8ebad9ea91f8050663952d99ed2635133178",
+          "content_digest": "85c3f1ca359c97e93b00cbd84ec0e9697204c4829c1610e11913c924898ce9c2",
           "source_ref": "search/certs/laneA_ep_export_sample.json",
           "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
           "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
@@ -83,12 +83,12 @@
         },
         {
           "record": "entry",
-          "content_digest": "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7",
+          "content_digest": "1e585d77bac22a540cedceca28753996589ce01237e7d57d46709f3001228859",
           "source_ref": "search/ninfty-verifier-b.py",
-          "recomputed_source_closure_digest": "6c4555afbd13061021fc3a75ff3280b91da74eddc49cbce6eba7959041644b75",
-          "recomputed_implementation_lineage_digest": "8cb614a07b16fd5ec3a9592de3ee44283641ac9843b2606564e00f9fc5b565d2",
-          "declared_source_closure_digest": "6c4555afbd13061021fc3a75ff3280b91da74eddc49cbce6eba7959041644b75",
-          "declared_implementation_lineage_digest": "8cb614a07b16fd5ec3a9592de3ee44283641ac9843b2606564e00f9fc5b565d2",
+          "recomputed_source_closure_digest": "c17bd28f7409f05635a230131a7d6301f2d30c0792b4b7b05ab213b9526c14f5",
+          "recomputed_implementation_lineage_digest": "cebe583a4b0840c0fea978fae6841d902a4253da856c17a198e36276ebf32779",
+          "declared_source_closure_digest": "c17bd28f7409f05635a230131a7d6301f2d30c0792b4b7b05ab213b9526c14f5",
+          "declared_implementation_lineage_digest": "cebe583a4b0840c0fea978fae6841d902a4253da856c17a198e36276ebf32779",
           "d1_matches_declared": true,
           "d2_matches_declared": true
         },
@@ -163,10 +163,10 @@
     "faces": {
       "laneA": {
         "binary": [
-          "628ace582a3f5a8975e4a753b6f60aed79777caffcb770eda5f543f028fee63d",
-          "6a17e883a107ac89e870081d682d8ebad9ea91f8050663952d99ed2635133178",
-          "6fce465edde2a710fcd765b8bd875aa4497515bd0ea1bc5f28c3340a1bf5ceae",
-          "cebfa49e976e54adfba6af81365b24846d393842f3f8f4e9b5a08ecdcdfe7100",
+          "0caf553fb6824511de633334c00319696e62e3227a68f42b2bf23133c61dca96",
+          "562eaeb3d15312b7e42cd349aeb4c6c88a96f0495614fa1962211d47864c2af1",
+          "85c3f1ca359c97e93b00cbd84ec0e9697204c4829c1610e11913c924898ce9c2",
+          "86378c77c3ba2add84166047e953d73b5a78c12cbb1b8795f0df8a5deb977b4c",
           "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee"
         ],
         "source": [],
@@ -177,8 +177,8 @@
       },
       "laneB": {
         "binary": [
+          "1e585d77bac22a540cedceca28753996589ce01237e7d57d46709f3001228859",
           "406f36c3db109c14f737a8d99e6897d3ab8620be454abdbb3a4ce09c95713388",
-          "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7",
           "bc68a579fe440d42c27faa82505e29189b78179e31f5c13fb5da802bcb8d8754",
           "c1a876bf8a98b45840222527f993f3d7a15683a1ee39743e9ca48fdc7aff7d76",
           "e11c8bd6dd626a8dc40e265c6968598633e9095e76c2782353d8c05d71eb5ec6",
@@ -186,7 +186,7 @@
           "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
         ],
         "source": [
-          "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7",
+          "1e585d77bac22a540cedceca28753996589ce01237e7d57d46709f3001228859",
           "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
         ],
         "build": [
@@ -436,14 +436,14 @@
           "detail": {
             "P-3.1": true,
             "P-3.2": true,
-            "P-3.3_checker": false,
-            "P-3.3_searcher": false,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": true,
             "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "checker_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
             "searcher_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "searcher_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406"
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
           },
-          "status": "FAIL"
+          "status": "PASS"
         }
       },
       "objects": {
@@ -481,7 +481,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -513,11 +513,6 @@
           "concordant_ABSENT_not_PASS": false,
           "reason_[26]_candidate": true,
           "mismatched_witnesses": [
-            [
-              "W-1",
-              "PASS",
-              "MALFORMED"
-            ],
             [
               "W-4",
               "ABSENT",
@@ -564,7 +559,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -596,11 +591,6 @@
           "concordant_ABSENT_not_PASS": false,
           "reason_[26]_candidate": true,
           "mismatched_witnesses": [
-            [
-              "W-1",
-              "PASS",
-              "MALFORMED"
-            ],
             [
               "W-4",
               "ABSENT",
@@ -654,12 +644,12 @@
           "detail": {
             "P-3.1": true,
             "P-3.2": true,
-            "P-3.3_checker": false,
+            "P-3.3_checker": true,
             "P-3.3_searcher": false,
             "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "checker_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
             "searcher_native_declared_digest": "0000000000000000000000000000000000000000000000000000000000000000",
-            "searcher_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406"
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
           },
           "status": "FAIL"
         }
@@ -699,7 +689,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -734,7 +724,7 @@
             [
               "W-1",
               "FAIL",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-4",
@@ -782,7 +772,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -817,7 +807,7 @@
             [
               "W-1",
               "FAIL",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-4",
@@ -872,14 +862,14 @@
           "detail": {
             "P-3.1": true,
             "P-3.2": true,
-            "P-3.3_checker": false,
-            "P-3.3_searcher": false,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": true,
             "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "checker_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
             "searcher_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "searcher_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406"
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
           },
-          "status": "FAIL"
+          "status": "PASS"
         }
       },
       "objects": {
@@ -917,7 +907,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -949,11 +939,6 @@
           "concordant_ABSENT_not_PASS": false,
           "reason_[26]_candidate": true,
           "mismatched_witnesses": [
-            [
-              "W-1",
-              "PASS",
-              "MALFORMED"
-            ],
             [
               "W-4",
               "ABSENT",
@@ -1000,7 +985,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -1032,11 +1017,6 @@
           "concordant_ABSENT_not_PASS": false,
           "reason_[26]_candidate": true,
           "mismatched_witnesses": [
-            [
-              "W-1",
-              "PASS",
-              "MALFORMED"
-            ],
             [
               "W-4",
               "ABSENT",
@@ -1090,14 +1070,14 @@
           "detail": {
             "P-3.1": true,
             "P-3.2": true,
-            "P-3.3_checker": false,
-            "P-3.3_searcher": false,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": true,
             "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "checker_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
             "searcher_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "searcher_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406"
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
           },
-          "status": "FAIL"
+          "status": "PASS"
         }
       },
       "objects": {
@@ -1135,7 +1115,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -1167,11 +1147,6 @@
           "concordant_ABSENT_not_PASS": false,
           "reason_[26]_candidate": true,
           "mismatched_witnesses": [
-            [
-              "W-1",
-              "PASS",
-              "MALFORMED"
-            ],
             [
               "W-4",
               "ABSENT",
@@ -1218,7 +1193,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -1250,11 +1225,6 @@
           "concordant_ABSENT_not_PASS": false,
           "reason_[26]_candidate": true,
           "mismatched_witnesses": [
-            [
-              "W-1",
-              "PASS",
-              "MALFORMED"
-            ],
             [
               "W-4",
               "ABSENT",
@@ -1308,14 +1278,14 @@
           "detail": {
             "P-3.1": true,
             "P-3.2": true,
-            "P-3.3_checker": false,
-            "P-3.3_searcher": false,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": true,
             "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "checker_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
             "searcher_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
-            "searcher_native_recomputed_digest": "831253cbe736c5cbfd0cb20c4f4b014c4bf11b57e8ee2e15bdbbc14aebc80406"
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
           },
-          "status": "FAIL"
+          "status": "PASS"
         }
       },
       "objects": {
@@ -1353,7 +1323,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -1385,11 +1355,6 @@
           "concordant_ABSENT_not_PASS": false,
           "reason_[26]_candidate": true,
           "mismatched_witnesses": [
-            [
-              "W-1",
-              "PASS",
-              "MALFORMED"
-            ],
             [
               "W-4",
               "ABSENT",
@@ -1436,7 +1401,7 @@
           "R_B": [
             [
               "W-1",
-              "MALFORMED"
+              "PASS"
             ],
             [
               "W-2",
@@ -1468,11 +1433,6 @@
           "concordant_ABSENT_not_PASS": false,
           "reason_[26]_candidate": true,
           "mismatched_witnesses": [
-            [
-              "W-1",
-              "PASS",
-              "MALFORMED"
-            ],
             [
               "W-4",
               "ABSENT",
@@ -1544,23 +1504,33 @@
         "malformed_fields": [
           {
             "field": "searcher_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "searcher_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           }
         ],
         "provisional_reason_code": "schema-invalid",
-        "overall_verdict_A": "FAIL"
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
       }
     },
     {
@@ -1618,23 +1588,33 @@
         "malformed_fields": [
           {
             "field": "searcher_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "searcher_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           }
         ],
         "provisional_reason_code": "schema-invalid",
-        "overall_verdict_A": "FAIL"
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
       }
     },
     {
@@ -1692,23 +1672,33 @@
         "malformed_fields": [
           {
             "field": "searcher_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "searcher_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           }
         ],
         "provisional_reason_code": "schema-invalid",
-        "overall_verdict_A": "FAIL"
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
       }
     },
     {
@@ -1766,23 +1756,33 @@
         "malformed_fields": [
           {
             "field": "searcher_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "searcher_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           }
         ],
         "provisional_reason_code": "schema-invalid",
-        "overall_verdict_A": "FAIL"
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
       }
     },
     {
@@ -1840,23 +1840,33 @@
         "malformed_fields": [
           {
             "field": "searcher_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "searcher_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           }
         ],
         "provisional_reason_code": "schema-invalid",
-        "overall_verdict_A": "FAIL"
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
       }
     },
     {
@@ -1914,23 +1924,33 @@
         "malformed_fields": [
           {
             "field": "searcher_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "searcher_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.ramification_divisor_on_C_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           },
           {
             "field": "checker_native.branch_divisor_on_P1_ref",
-            "reason": "ref-not-a-triple"
+            "reason": "json-pointer-unresolvable"
           }
         ],
         "provisional_reason_code": "schema-invalid",
-        "overall_verdict_A": "FAIL"
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
       }
     }
   ],
@@ -1959,11 +1979,11 @@
     },
     "verifier_invoked": true,
     "laneB_result": {
-      "overall_verdict_B": "FAIL",
+      "overall_verdict_B": "PASS",
       "witness_results": {
         "W-1": {
-          "branch_divisor_on_P1": "FAIL",
-          "ramification_divisor_on_C": "FAIL"
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
         },
         "W-2": {
           "branch_divisor_on_P1": "PASS",
@@ -2087,7 +2107,17 @@
         ]
       },
       "overall_verdict_A": "PASS",
-      "result_digest_A": "e40207b7177b24f0c164c4fab06e63ae37498866f2512857fc93b609d4151954"
+      "result_digest_A": "e40207b7177b24f0c164c4fab06e63ae37498866f2512857fc93b609d4151954",
+      "_ep_ref_resolution": {
+        "searcher": {
+          "ramification_malformed": false,
+          "branch_malformed": false
+        },
+        "checker": {
+          "ramification_malformed": false,
+          "branch_malformed": false
+        }
+      }
     },
     "objects": {
       "ramification_divisor_on_C": {
@@ -2124,7 +2154,7 @@
         "R_B": [
           [
             "W-1",
-            "FAIL"
+            "PASS"
           ],
           [
             "W-2",
@@ -2151,15 +2181,9 @@
             "PASS"
           ]
         ],
-        "R_A_eq_R_B": false,
-        "full_witness_PASS": false,
-        "mismatched_witnesses": [
-          [
-            "W-1",
-            "PASS",
-            "FAIL"
-          ]
-        ]
+        "R_A_eq_R_B": true,
+        "full_witness_PASS": true,
+        "mismatched_witnesses": []
       },
       "branch_divisor_on_P1": {
         "R_A": [
@@ -2195,7 +2219,7 @@
         "R_B": [
           [
             "W-1",
-            "FAIL"
+            "PASS"
           ],
           [
             "W-2",
@@ -2222,15 +2246,9 @@
             "PASS"
           ]
         ],
-        "R_A_eq_R_B": false,
-        "full_witness_PASS": false,
-        "mismatched_witnesses": [
-          [
-            "W-1",
-            "PASS",
-            "FAIL"
-          ]
-        ]
+        "R_A_eq_R_B": true,
+        "full_witness_PASS": true,
+        "mismatched_witnesses": []
       }
     }
   },
@@ -2296,7 +2314,7 @@
   ],
   "ep_judgment_proposal": "PASS-partial: manifest gate PASS, cert-validator gate wired, no [11]. Decision-lane reason-code concordance 17/17. Forward (lane A -> verifier B, no conversion): gate PASS 5/5, of which 0/10 object-rows are full_witness_PASS, 0 concordant_ABSENT, 10 genuine structural mismatches (specific witness/bijection sub-schema divergence, root-caused per row). Reverse (lane B -> verifier A): gate PASS 6/6 -- currently 0 or few of lane B's fixtures pass the schema gate, so the reverse pathway is wired but not yet exercised end-to-end on conformant data. This is a proposal for commander/Sol review, not a self-declared EP PASS.",
   "ep_judgment_note": "Per receipt: 'calibrated detector・complete search 宣言は EP 前 NOT AUTHORIZED'. Per 裁定124/F76-5.7: bound<=5 decision-lane sweep remains NOT authorized regardless of this report's outcome.",
-  "input_bundle_digest": "a50baaf0c088696da28d0ccd2c2d5a5d91daabdf18f86c4e787cd526fe0ba907",
+  "input_bundle_digest": "89690a5d2b41db953a4b9388061eb3c1fb0a8367a894161ce626fb7188a99fbd",
   "input_bundle": {
     "files": [
       {
@@ -2313,7 +2331,7 @@
       },
       {
         "path": "search\\certs\\ep-lanea-verify-cert.mjs",
-        "sha256": "e95067e486535280570f4bd1dedce21a9a3bff8882f21411b48175775495bb7a"
+        "sha256": "7ebd9112df4ef8ecd26a21d164c07f0f0ff5983840c6f04dc2ad6bb5b0540f7a"
       },
       {
         "path": "search\\certs\\fixtures-lanea.mjs",
@@ -2325,35 +2343,35 @@
       },
       {
         "path": "search\\certs\\laneA_manifest_v2_draft.json",
-        "sha256": "cce2d2f9eabfc1ac28ffa9c9a298704fc39804a1008c07e5ef8980381130a55f"
+        "sha256": "5b14c03f96392d0384b72019c7ce7badbe9e4fb0bc738e280de8ab7850db8204"
       },
       {
         "path": "search\\certs\\laneB_manifest_v2_draft.json",
-        "sha256": "d5e5db16a564daaf3deb4eb9f15ec792e7ea0c9d0f85050ae8f7bbfbf0f2c8bf"
+        "sha256": "885c39e725bd3747925085267cf6dfef542adfdaffe8b4ac32bc1bb6d18b7efc"
       },
       {
         "path": "search\\fixtures\\ninfty\\cert_neg_01.json",
-        "sha256": "c591c03f055fbab959c63347a3bbcd945de025ce46d960ca091da6337cfcd5df"
+        "sha256": "ab20a0a36d5a3e0ef04d7f07ca7fac42ce762b2632272d1822e2a7d44d258d3b"
       },
       {
         "path": "search\\fixtures\\ninfty\\cert_neg_02.json",
-        "sha256": "4df7589afda1224bdfbd1d2d73ac8888d576dce735c2e202a6aff362c60629f7"
+        "sha256": "43daeca86e5ae72cc50f1cae6d03f92852568ba60e588118c64973235da3df1f"
       },
       {
         "path": "search\\fixtures\\ninfty\\cert_neg_03.json",
-        "sha256": "431765b88a80f812e1eda03046f128e98ee497fa74a96b2f226ad7bce3efcf5d"
+        "sha256": "057c642343a45f6dddb12770be91216ba1a09688d92549a87bc874bd195d460e"
       },
       {
         "path": "search\\fixtures\\ninfty\\cert_pos_01.json",
-        "sha256": "12eb56860c6ec1ee9aa78b9fca76d34d8eb4120906576ffe95e76872a13a0486"
+        "sha256": "de4c8d369520dfff65bc9bd3ce400ca399fdda175546e218e6e809ac45b26189"
       },
       {
         "path": "search\\fixtures\\ninfty\\cert_pos_02.json",
-        "sha256": "e7ea88e6cebaedbe7fad25c3723c878f5daecea19dd36b2e3aa4fecf539f5320"
+        "sha256": "d44a7494eb8d9b92494e422b445b0185fbd93fe0f24b40ae74aac4cc8bd895dc"
       },
       {
         "path": "search\\fixtures\\ninfty\\cert_pos_03.json",
-        "sha256": "086e4347a539a9147872801b61d9fa21fc063daf2f94545550f623f31803202f"
+        "sha256": "a1e981fb974e8613c650c49ae8330b95d1db498fcba4c399a5fd79703a9ac2b8"
       },
       {
         "path": "search\\fixtures\\ninfty\\checker_neg_01.json",
@@ -2393,19 +2411,19 @@
       },
       {
         "path": "search\\ninfty-searcher-v2.mjs",
-        "sha256": "628ace582a3f5a8975e4a753b6f60aed79777caffcb770eda5f543f028fee63d"
+        "sha256": "86378c77c3ba2add84166047e953d73b5a78c12cbb1b8795f0df8a5deb977b4c"
       },
       {
         "path": "search\\ninfty-selftest-lanea.mjs",
-        "sha256": "6fce465edde2a710fcd765b8bd875aa4497515bd0ea1bc5f28c3340a1bf5ceae"
+        "sha256": "562eaeb3d15312b7e42cd349aeb4c6c88a96f0495614fa1962211d47864c2af1"
       },
       {
         "path": "search\\ninfty-verifier-a.mjs",
-        "sha256": "cebfa49e976e54adfba6af81365b24846d393842f3f8f4e9b5a08ecdcdfe7100"
+        "sha256": "0caf553fb6824511de633334c00319696e62e3227a68f42b2bf23133c61dca96"
       },
       {
         "path": "search\\ninfty-verifier-b.py",
-        "sha256": "980aaf4e890bba96821ad7a40eb794acc8b189ef3f43523bb45795cb90103db7"
+        "sha256": "1e585d77bac22a540cedceca28753996589ce01237e7d57d46709f3001228859"
       },
       {
         "path": "search\\ninfty-witness-gen.py",

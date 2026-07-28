@@ -479,7 +479,17 @@ def forward_verifier_crosscheck(lanea_export):
         # pushforward maps (裁定139 items 6/2); omitting them (as v3's EP run
         # did) leaves W-1/W-6 unable to do anything but read ABSENT/FAIL from
         # a degenerate comparison. This also exercises P-3.3 genuinely now.
-        out = run_python_stdin(VERIFIER_B, {"certificate": cert, "native_a": fx["native"], "native_b": fx["native"]})
+        # native_artifact_digest is computed (by lane A's own buildSearcherNative)
+        # over ONLY {ramification_divisor_on_C_ref, branch_divisor_on_P1_ref}
+        # -- fx["native"] additionally carries native_schema_id/_digest/
+        # native_artifact_digest wrapper metadata. Passing the WHOLE wrapper
+        # as native_a/native_b would hash those extra keys too (a self-
+        # referential digest bug on THIS EP script's part, confirmed live:
+        # sha256(fx["native"]) != native_artifact_digest, while
+        # sha256({the two _ref keys only}) == native_artifact_digest exactly).
+        native_slim = {"ramification_divisor_on_C_ref": fx["native"]["ramification_divisor_on_C_ref"],
+                       "branch_divisor_on_P1_ref": fx["native"]["branch_divisor_on_P1_ref"]}
+        out = run_python_stdin(VERIFIER_B, {"certificate": cert, "native_a": native_slim, "native_b": native_slim})
         row["verifier_invoked"] = True
         row["laneB_raw_result"] = {
             "overall_verdict_B": out.get("overall_verdict_B"),
@@ -540,13 +550,13 @@ def reverse_verifier_crosscheck(cert_fixture_paths):
 
         if gate["gate_passed"]:
             row["verifier_invoked"] = True
-            out = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert})
+            out = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert, "native_a": native_a, "native_b": native_b})
             row["laneA_verifier_result"] = out
         else:
             row["verifier_invoked"] = False
             row["note"] = "[12] digest-mismatch: certificate failed the schema gate, verifier A was NOT invoked (official pipeline)."
             # gate-BYPASSED diagnostic, clearly separated from the official result.
-            diag = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert})
+            diag = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert, "native_a": native_a, "native_b": native_b})
             row["DIAGNOSTIC_gate_bypassed_laneA_verifier_result"] = diag
             row["DIAGNOSTIC_caveat"] = ("NOT part of the official EP v3 verdict -- this certificate FAILED the "
                                         "schema gate and would not reach verifier A in the real pipeline. Run "
@@ -593,7 +603,7 @@ def full_witness_fixture_crosscheck():
     native_a = fixture.get("native_a")
     native_b = fixture.get("native_b")
     laneB_out = run_python_stdin(VERIFIER_B, {"certificate": cert, "native_a": native_a, "native_b": native_b})
-    laneA_out = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert})
+    laneA_out = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert, "native_a": native_a, "native_b": native_b})
     row["verifier_invoked"] = True
     row["laneB_result"] = {"overall_verdict_B": laneB_out.get("overall_verdict_B"),
                             "witness_results": laneB_out.get("witness_results"),
