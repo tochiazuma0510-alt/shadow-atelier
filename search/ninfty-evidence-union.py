@@ -4,40 +4,68 @@
 search/ninfty-evidence-union.py
 
 evidence-union/fail-closed-v2 (追補(o) v3.1,
-docs/notes/cert_shape_interpretation_addendum_o_v3.md; Sol F81-3.2/F82-4.1,
-sol/sol_reply_82_math9.md N82-4.1). A GENERAL two-route composition
-function -- NOT W-6-specific (P80-D/P81-E: "複数証明経路の共通規則") --
-for combining two independent evidence routes (e.g. R1 = recomputation
-route, R2 = witness-coverage route) into ONE overall status, fail-closed
-and TOTAL (defined on every input pair) and SWAP-SYMMETRIC.
+docs/notes/cert_shape_interpretation_addendum_o_v3.md; sharpened by Sol
+F83-2.1/2.2/2.3 -> N83-2.3 -> sol/裁定_192_便83検収.md, sol/sol_reply_83_math10.md).
+A GENERAL two-route composition function -- NOT W-6-specific (P80-D/P81-E:
+"複数証明経路の共通規則") -- for combining two independent evidence routes
+(R1 = recomputation route, R2 = witness-coverage route) into ONE overall
+status, fail-closed and TOTAL (defined on every input pair) and
+SWAP-SYMMETRIC.
 
-SCOPE NOTE (read before extending): this is a NEW component, not a repair
-of an existing bug. The addendum text specifies the COMPOSITION function
-(`compose_route_statuses` below) precisely and completely: 4 ordered
-rules, total over the 4x4 = 16 status-pair domain, swap-symmetric -- this
-is implemented LITERALLY and is the part with a crisp, fully-specified
-contract (table-driven-tested exhaustively, see
-search/test_ninfty_evidence_union.py).
+裁定192 REDESIGN (N83-2.3 "二層化", replacing the prior single-layer
+`classify_route(blob)`): Sol's F83-2.2 finding was that a generic
+"classify an ambiguous raw blob by reading its self-declared `evidence_kind`
+field" function is inherently a VERDICT-SELECTOR vulnerability -- a
+producer can plant PASS-shaped fields alongside a FAIL-shaped
+`counterexample_locus` and the presence/absence of `evidence_kind` alone
+flips the outcome. The fix is architectural, not a patch: DISPATCH (which
+Python object/constructor was actually invoked) fixes route_id and
+route_status, never a self-declared field inside the evidence blob.
 
-The route-BLOB shape and the blob -> route_status CLASSIFICATION function
-(`classify_route` below) are NOT fully pinned by the addendum text (it
-states required-field RULES -- "PASS/FAIL の共通必須欄は claim_digest +
-evidence_digest", "PASS は checked_domain_count + coverage_digest の
-receiver-derived expected domain digest との一致" -- but not a literal
-JSON schema for the route blob itself, nor whether the raw blob carries
-any self-declared "what kind of route is this" hint at all). This
-implementer's `classify_route` is this file's OWN concretization of those
-required-field rules, documented explicitly in its docstring, flagged as
-interpretation/candidate exactly like the schema itself -- pending Sol
-confirmation, same status as the addendum document it implements.
+  - A `RouteResult` is a dict built ONLY via the four constructors below
+    (route_result_pass/fail/absent/malformed), each of which independently
+    validates ITS OWN required fields and raises internally (never
+    silently accepting a bad shape) if the invariants are not met -- there
+    is no path from "arbitrary producer blob" directly to a route_status
+    without going through code that ALREADY decided which status applies.
+  - `coerce_to_route_result(obj)` re-validates an ALREADY-BUILT (or
+    foreign/untrusted) RouteResult-shaped value at the combinator's own
+    entry point (defense in depth, per N83-2.3: "combinator は
+    RouteResult の constructor/private validation を通った値だけを受ける
+    か、入口で同じ invariant を再検査する") -- a non-object, a missing/
+    unrecognized route_status, or CO-PRESENT fields belonging to a
+    DIFFERENT status's shape (F83-2.2: "status-specific shape の併存") are
+    ALL MALFORMED, never silently resolved to ABSENT (F83-2.2's "非 object
+    blob が ABSENT" bug is closed here: only `None` is ABSENT; any other
+    non-RouteResult-shaped value is MALFORMED).
+  - `compose_route_statuses` (the crisp, Sol-confirmed-PASS 4-rule core,
+    N83-2.1) is UNCHANGED in its rule structure, but now ALSO defends
+    itself at the low level (F83-2.2's "低水準 API でも
+    compose_route_statuses(PASS, None, PASS, None) -> PASS" gap): a
+    PASS/FAIL status paired with a digest that is not exact 64-hex is
+    ITSELF escalated to INTEGRITY_STOP, even when this function is called
+    directly (bypassing coerce_to_route_result).
+  - PASS now REQUIRES `expected_domain_count`/`expected_domain_digest` as
+    part of the RouteResult's OWN shape (not optional caller arguments
+    threaded in after the fact, F83-2.1's core finding) -- the PASS
+    constructor validates `expected_domain_count == checked_domain_count`
+    and `expected_domain_digest == coverage_digest` ITSELF; a route-
+    specific verifier that cannot establish these equalities must call
+    route_result_fail(...) (if it has genuine counterexample evidence) or
+    route_result_absent(...)/route_result_malformed(...) instead -- it must
+    never call route_result_pass(...) with mismatched counts/digests
+    hoping the constructor will paper over it (it will raise instead,
+    surfacing as a MALFORMED-shaped result via the fail-closed wrapper).
 
-Per the coordinator's task scope for this round: the W-6 connection point
-(`route_from_verifier_b_w6` below) is an ARMATURE ONLY -- it adapts
-ninfty-verifier-b.py's verify_W6_single(...) output into a route blob this
-module's classify_route can consume, but is NOT wired into the EP runner
-in this round (EP v7 wiring is a separate, later step). It is a
-placeholder bridge, not a claim that W-6's real R1/R2 evidence has been
-fully migrated to this route-blob schema.
+SCOPE NOTE -- W-6 armature (unchanged from v3.1's task boundary):
+`route_from_verifier_b_w6` adapts ninfty-verifier-b.py's
+verify_W6_single(...) output into a RouteResult via the constructors
+above, but remains an ARMATURE/PLACEHOLDER (per F83-2.3: this is NOT
+"proof of real EP wiring") -- claim_digest/evidence_digest/
+expected_domain_count are still derived from the detail dict itself
+(sha256_of(detail)) or a hardcoded placeholder count, not from the actual
+native/map digests. Full EP v7 wiring (binding these to genuine per-side
+point/component data) is explicitly deferred to a later, separate step.
 
 runtime = python (stdlib only: hashlib, json, re, sys, argparse).
 """
@@ -52,6 +80,14 @@ HEX64 = re.compile(r'^[0-9a-f]{64}$', re.IGNORECASE)
 
 ROUTE_STATUSES = ("ABSENT", "MALFORMED", "PASS", "FAIL")
 OVERALL_STATUSES = ("ABSENT", "INTEGRITY_STOP", "CONFLICT", "PASS", "FAIL")
+
+HEADER_FIELDS = ("schema_id", "route_id", "route_status")
+PASS_ONLY_FIELDS = ("expected_domain_count", "checked_domain_count", "expected_domain_digest", "coverage_digest")
+FAIL_ONLY_FIELDS = ("counterexample_loci", "expected_witness", "observed_witness")
+ABSENT_ONLY_FIELDS = ("missing_mask",)
+MALFORMED_ONLY_FIELDS = ("schema_errors",)
+COMMON_PF_FIELDS = ("claim_digest", "evidence_digest", "claim_source_ref", "evidence_refs")
+SCHEMA_ID = "mb/ninfty-evidence-union/route-result/v1"
 
 
 def canonical_serialize(obj):
@@ -69,143 +105,239 @@ def _is_64hex(x):
     return isinstance(x, str) and bool(HEX64.match(x))
 
 
+class RouteResultSchemaError(Exception):
+    """Raised internally by the route_result_* constructors when their own
+    REQUIRED invariants are not met (e.g. route_result_pass called with
+    expected_domain_count != checked_domain_count). Always caught by the
+    public constructor wrappers, which return a MALFORMED RouteResult
+    instead of propagating -- a caller can never accidentally construct an
+    internally-inconsistent "PASS" RouteResult."""
+
+
 # ============================================================================
-# Classification (受領側の義務): route blob -> (route_status, claim_digest,
-# detail). route_status is ALWAYS a RECEIVER output, never trusted from a
-# producer-supplied field (追補(o) v3.1 "分類": "route_status は producer
-# 入力でなく受領 verifier の出力欄").
+# RouteResult constructors (裁定192 N83-2.3 "二層化"): the ONLY way to build
+# a RouteResult. Dispatch (which constructor got called) fixes route_status
+# -- no self-declared producer field ever selects the branch.
 # ============================================================================
 
 
-def classify_route(blob, expected_domain_digest=None):
+def _route_header(route_id, route_status):
+    if not isinstance(route_id, str) or not route_id:
+        raise RouteResultSchemaError(f"route_id must be a non-empty string, got {route_id!r}")
+    return {"schema_id": SCHEMA_ID, "route_id": route_id, "route_status": route_status}
+
+
+def route_result_pass(route_id, claim_digest, evidence_digest, expected_domain_count, checked_domain_count,
+                       expected_domain_digest, coverage_digest, claim_source_ref=None, evidence_refs=None):
     """
-    Classifies ONE evidence route blob into (route_status, claim_digest,
-    detail). route_status in {"ABSENT","MALFORMED","PASS","FAIL"}.
-    claim_digest is the route's own claim_digest string when route_status
-    in {"PASS","FAIL"}, else None.
-
-    Adopted route blob shape (this file's interpretation, see module
-    docstring SCOPE NOTE):
-      {
-        "evidence_kind": "PASS"|"FAIL"|"ABSENT"|None,  # producer's own
-            # claim of what kind of route this is -- used ONLY to decide
-            # which required-field set to structurally check against;
-            # NEVER trusted as the final route_status. A blob with no
-            # `evidence_kind` at all is classified purely from which
-            # fields are structurally present (see below).
-        "claim_digest": "<64-hex>",       # REQUIRED for PASS/FAIL (F82-4.1)
-        "evidence_digest": "<64-hex>",    # REQUIRED for PASS/FAIL (v2, kept)
-        "checked_domain_count": <int>,    # REQUIRED for PASS
-        "coverage_digest": "<64-hex>",    # REQUIRED for PASS
-        "counterexample_locus": <any, not None>,  # REQUIRED for FAIL
-      }
-    `expected_domain_digest` (a 64-hex string, or None if the caller has no
-    independently-derived expected-domain digest to check against) is
-    supplied BY THE CALLER (this module never derives it itself -- the
-    real native-artifact-derived expected domain digest computation is out
-    of this module's scope, matching v3.1's "expected domain は native
-    divisor/map digest から受領側が導出する" -- that derivation belongs to
-    whichever caller holds the native artifacts, e.g. lane B's verifier).
-    If supplied and it disagrees with the route's own coverage_digest, the
-    route's claimed full coverage is FALSIFIED by the receiver's own
-    derivation -- this is scored as FAIL (a substantive/evidentiary
-    disagreement), not MALFORMED (the blob's own shape is still
-    well-formed; only its coverage CLAIM is contradicted).
-
-    Never raises: any input this function cannot make sense of is
-    classified MALFORMED or ABSENT, never an uncaught exception.
+    Builds a PASS RouteResult. VALIDATES (raises RouteResultSchemaError,
+    caught by the wrapper below, on failure) that:
+      - claim_digest/evidence_digest/expected_domain_digest/coverage_digest
+        are all exact 64-hex (F82-4.1/F83-2.1 common + PASS-specific
+        required fields).
+      - expected_domain_count/checked_domain_count are non-negative ints
+        AND EQUAL (F83-2.1: PASS requires this equality to ALREADY hold --
+        a route-specific verifier that cannot establish it must call
+        route_result_fail/_absent/_malformed instead, never this
+        constructor with mismatched values).
+      - expected_domain_digest == coverage_digest (F83-2.1/N82-4.1: the
+        receiver-derived canonical domain digest must equal the route's
+        own coverage_digest).
+    A caller that already knows these don't hold should NOT call this
+    constructor at all -- see route_result_fail's coverage-mismatch note.
     """
     try:
-        return _classify_route_inner(blob, expected_domain_digest)
-    except Exception as e:  # noqa: BLE001 -- deliberate blanket catch, fail-closed by design
-        return "MALFORMED", None, {
-            "reason": "unexpected exception while classifying route -- treated as MALFORMED "
-                      f"(schema/processing problem, never a crash or silent PASS): {type(e).__name__}: {e}",
-        }
+        result = _route_header(route_id, "PASS")
+        for name, val in (("claim_digest", claim_digest), ("evidence_digest", evidence_digest),
+                          ("expected_domain_digest", expected_domain_digest), ("coverage_digest", coverage_digest)):
+            if not _is_64hex(val):
+                raise RouteResultSchemaError(f"PASS RouteResult.{name} must be exact 64-hex, got {val!r}")
+        for name, val in (("expected_domain_count", expected_domain_count), ("checked_domain_count", checked_domain_count)):
+            if not isinstance(val, int) or isinstance(val, bool) or val < 0:
+                raise RouteResultSchemaError(f"PASS RouteResult.{name} must be a non-negative int, got {val!r}")
+        if expected_domain_count != checked_domain_count:
+            raise RouteResultSchemaError(
+                f"PASS RouteResult requires expected_domain_count == checked_domain_count "
+                f"(got {expected_domain_count!r} != {checked_domain_count!r}) -- the caller must not claim "
+                "PASS when this equality does not already hold (F83-2.1)"
+            )
+        if expected_domain_digest != coverage_digest:
+            raise RouteResultSchemaError(
+                "PASS RouteResult requires expected_domain_digest == coverage_digest -- the caller must "
+                "not claim PASS when the receiver-derived expected domain digest disagrees with the "
+                "route's own coverage_digest (F83-2.1/N82-4.1)"
+            )
+        result.update({
+            "claim_digest": claim_digest, "evidence_digest": evidence_digest,
+            "claim_source_ref": claim_source_ref, "evidence_refs": evidence_refs,
+            "expected_domain_count": expected_domain_count, "checked_domain_count": checked_domain_count,
+            "expected_domain_digest": expected_domain_digest, "coverage_digest": coverage_digest,
+        })
+        return result
+    except RouteResultSchemaError as e:
+        return route_result_malformed(route_id, [str(e)])
 
 
-def _classify_route_inner(blob, expected_domain_digest):
-    if blob is None or not isinstance(blob, dict):
-        return "ABSENT", None, {
-            "reason": "route blob is missing or not an object -- receiver-derived ABSENT "
-                      "(no producer self-report trusted for this determination)",
-        }
+def route_result_fail(route_id, claim_digest, evidence_digest, counterexample_loci,
+                       claim_source_ref=None, evidence_refs=None, expected_witness=None, observed_witness=None):
+    """Builds a FAIL RouteResult. VALIDATES claim_digest/evidence_digest
+    (64-hex) and counterexample_loci (non-empty list, F83-2.1's structured
+    requirement) -- otherwise falls back to MALFORMED (never silently
+    accepts a FAIL with no actual counterexample evidence)."""
+    if not _is_64hex(claim_digest) or not _is_64hex(evidence_digest):
+        return route_result_malformed(route_id, [
+            f"FAIL RouteResult requires claim_digest/evidence_digest as exact 64-hex, got "
+            f"{claim_digest!r}/{evidence_digest!r}",
+        ])
+    if not isinstance(counterexample_loci, list) or len(counterexample_loci) == 0:
+        return route_result_malformed(route_id, [
+            f"FAIL RouteResult requires a non-empty 'counterexample_loci' array, got {counterexample_loci!r}",
+        ])
+    result = _route_header(route_id, "FAIL")
+    result.update({
+        "claim_digest": claim_digest, "evidence_digest": evidence_digest,
+        "claim_source_ref": claim_source_ref, "evidence_refs": evidence_refs,
+        "counterexample_loci": counterexample_loci,
+        "expected_witness": expected_witness, "observed_witness": observed_witness,
+    })
+    return result
 
-    kind = blob.get("evidence_kind")
-    if kind not in ("PASS", "FAIL", "ABSENT", None):
-        return "MALFORMED", None, {"reason": f"evidence_kind has an unrecognized value: {kind!r}"}
 
-    evidence_field_names = (
-        "claim_digest", "evidence_digest", "checked_domain_count",
-        "coverage_digest", "counterexample_locus",
-    )
-    has_any_evidence_field = any(k in blob for k in evidence_field_names)
+def route_result_absent(route_id, missing_mask):
+    """Builds an ABSENT RouteResult. `missing_mask` is RECEIVER-DERIVED
+    (never a producer self-report) and REQUIRED (non-None) -- an ABSENT
+    result with no missing_mask at all is itself a schema violation
+    (MALFORMED), not a silently-accepted ABSENT."""
+    if missing_mask is None:
+        return route_result_malformed(route_id, ["ABSENT RouteResult requires a non-None 'missing_mask' (receiver-derived)"])
+    result = _route_header(route_id, "ABSENT")
+    result["missing_mask"] = missing_mask
+    return result
 
-    # Structural absence: no self-declared non-ABSENT kind AND no evidence
-    # fields present at all -- receiver-derived ABSENT (mirrors 追補(o) v2's
-    # "route_absent は producer 自己申告を信じず受領側が入力欄から導出").
-    if kind in (None, "ABSENT") and not has_any_evidence_field:
-        return "ABSENT", None, {"reason": "no evidence fields present at all -- receiver-derived ABSENT"}
 
-    # From here the blob claims (or structurally exhibits) non-ABSENT
-    # evidence -- PASS/FAIL both share the F82-4.1 common required fields.
-    claim_digest = blob.get("claim_digest")
-    evidence_digest = blob.get("evidence_digest")
-    if not _is_64hex(claim_digest):
-        return "MALFORMED", None, {
-            "reason": f"claim_digest missing or not exact 64-hex: {claim_digest!r} (F82-4.1 common "
-                      "required field for any non-ABSENT evidence route)",
-        }
-    if not _is_64hex(evidence_digest):
-        return "MALFORMED", None, {
-            "reason": f"evidence_digest missing or not exact 64-hex: {evidence_digest!r} (v2 binding, "
-                      "kept -- required for any non-ABSENT evidence route)",
-        }
-
-    is_fail_shaped = (kind == "FAIL") or (kind is None and blob.get("counterexample_locus") is not None)
-    if is_fail_shaped:
-        counterexample_locus = blob.get("counterexample_locus")
-        if counterexample_locus is None:
-            return "MALFORMED", None, {"reason": "FAIL-shaped route missing 'counterexample_locus'"}
-        return "FAIL", claim_digest, {"counterexample_locus": counterexample_locus}
-
-    # PASS-shaped path (kind == "PASS", or kind is None with PASS-only
-    # evidence fields present).
-    checked_domain_count = blob.get("checked_domain_count")
-    if not isinstance(checked_domain_count, int) or isinstance(checked_domain_count, bool) or checked_domain_count < 0:
-        return "MALFORMED", None, {
-            "reason": f"checked_domain_count missing or not a non-negative int: {checked_domain_count!r} "
-                      "(PASS requires a genuine domain-count claim, not just 'undefined==undefined')",
-        }
-    coverage_digest = blob.get("coverage_digest")
-    if not _is_64hex(coverage_digest):
-        return "MALFORMED", None, {"reason": f"coverage_digest missing or not exact 64-hex: {coverage_digest!r}"}
-
-    if expected_domain_digest is not None:
-        if not _is_64hex(expected_domain_digest):
-            raise ValueError(f"expected_domain_digest supplied by caller is not exact 64-hex: {expected_domain_digest!r}")
-        if coverage_digest != expected_domain_digest:
-            # 追補(o) v3.1: "coverage_digest はその canonical domain の
-            # digest と一致することを PASS 条件に含める" -- receiver's own
-            # derivation disagrees, so the claimed full coverage is
-            # falsified -- FAIL, not MALFORMED (schema is fine, substance
-            # is wrong).
-            return "FAIL", claim_digest, {
-                "reason": "coverage_digest does not match the receiver-derived expected_domain_digest -- "
-                          "the route's claimed full coverage is falsified",
-                "counterexample_locus": "coverage-mismatch",
-                "coverage_digest": coverage_digest,
-                "expected_domain_digest": expected_domain_digest,
-            }
-
-    return "PASS", claim_digest, {"checked_domain_count": checked_domain_count, "coverage_digest": coverage_digest}
+def route_result_malformed(route_id, schema_errors):
+    """Builds a MALFORMED RouteResult. `schema_errors` must be a non-empty
+    list (if the caller somehow supplies an empty/invalid one, a generic
+    fallback error is substituted -- MALFORMED can never end up with an
+    empty error list, since that would itself be a schema violation with
+    nothing to show for it)."""
+    if not isinstance(schema_errors, list) or len(schema_errors) == 0:
+        schema_errors = ["MALFORMED RouteResult constructed with no schema_errors -- generic fallback recorded"]
+    try:
+        result = _route_header(route_id, "MALFORMED")
+    except RouteResultSchemaError:
+        result = {"schema_id": SCHEMA_ID, "route_id": route_id if isinstance(route_id, str) else "unknown", "route_status": "MALFORMED"}
+    result["schema_errors"] = schema_errors
+    return result
 
 
 # ============================================================================
-# Composition (追補(o) v3.1 "合成の全域関数"): TOTAL over the 4x4=16
-# (route_status, route_status) domain, swap-symmetric, exactly the 4
-# ordered rules below. This is the crisp, fully-specified part of the
-# addendum -- implemented literally, table-driven-tested exhaustively.
+# Re-validation entry point (裁定192 N83-2.3): the combinator calls THIS,
+# not any raw producer field, to determine (route_status, claim_digest,
+# detail) for an already-built-or-foreign RouteResult-shaped value. This is
+# the SAME invariant the constructors above enforce, re-checked at the
+# combinator's own boundary (defense in depth) -- a value that never went
+# through the constructors (e.g. deserialized from disk, or maliciously
+# hand-crafted) is held to the identical standard.
+# ============================================================================
+
+
+def coerce_to_route_result(obj):
+    """
+    Returns (route_status, claim_digest, detail). route_status in
+    ROUTE_STATUSES; claim_digest is the route's own claim_digest when
+    route_status in {PASS, FAIL}, else None. NEVER raises.
+
+    裁定192 F83-2.2 fixes, all enforced here:
+      - a non-dict value (INCLUDING an explicit non-None "garbage"/list/
+        string) is MALFORMED, NOT ABSENT -- only `None` (or a dict that
+        structurally declares route_status="ABSENT" with a missing_mask)
+        is ABSENT. "Existence of *something* that isn't a valid RouteResult
+        shape" is a schema problem, not evidence-absence.
+      - route_status is read from the RouteResult's OWN header field, never
+        inferred from `evidence_kind` or any other producer hint -- there
+        is no `evidence_kind` field in this schema at all anymore.
+      - co-presence of ANOTHER status's shape-specific fields (e.g. a
+        route declaring route_status="PASS" while ALSO carrying
+        `counterexample_loci`) is MALFORMED, regardless of which status
+        "wins" -- never silently resolved by preferring one field set.
+    """
+    if obj is None:
+        return "ABSENT", None, {"reason": "route result is None -- receiver-derived ABSENT (no producer self-report trusted)"}
+    if not isinstance(obj, dict):
+        return "MALFORMED", None, {"schema_errors": [f"route result is not an object: {obj!r} (F83-2.2: non-object is MALFORMED, not ABSENT)"]}
+
+    status = obj.get("route_status")
+    if status not in ROUTE_STATUSES:
+        return "MALFORMED", None, {"schema_errors": [f"route_status missing or unrecognized: {status!r}"]}
+
+    shape_fields = {"PASS": PASS_ONLY_FIELDS, "FAIL": FAIL_ONLY_FIELDS, "ABSENT": ABSENT_ONLY_FIELDS, "MALFORMED": MALFORMED_ONLY_FIELDS}
+    foreign = []
+    for other_status, fields in shape_fields.items():
+        if other_status == status:
+            continue
+        for f in fields:
+            if f in obj:
+                foreign.append(f)
+    if foreign:
+        return "MALFORMED", None, {
+            "schema_errors": [
+                f"route result declares route_status={status!r} but ALSO carries foreign status-shape "
+                f"field(s) {foreign!r} (F83-2.2: status-specific shape co-presence is MALFORMED, never "
+                "silently resolved by preferring one)",
+            ],
+        }
+
+    if status == "ABSENT":
+        if obj.get("missing_mask") is None:
+            return "MALFORMED", None, {"schema_errors": ["ABSENT route result missing non-None 'missing_mask'"]}
+        return "ABSENT", None, {"missing_mask": obj["missing_mask"]}
+
+    if status == "MALFORMED":
+        errs = obj.get("schema_errors")
+        if not isinstance(errs, list) or len(errs) == 0:
+            return "MALFORMED", None, {"schema_errors": ["MALFORMED route result missing non-empty 'schema_errors'"]}
+        return "MALFORMED", None, {"schema_errors": errs}
+
+    # PASS or FAIL: common digest fields required (F82-4.1/F83-2.1).
+    claim_digest = obj.get("claim_digest")
+    evidence_digest = obj.get("evidence_digest")
+    if not _is_64hex(claim_digest) or not _is_64hex(evidence_digest):
+        return "MALFORMED", None, {"schema_errors": [
+            f"{status} route result missing/ill-typed claim_digest ({claim_digest!r}) or evidence_digest "
+            f"({evidence_digest!r})",
+        ]}
+
+    if status == "FAIL":
+        loci = obj.get("counterexample_loci")
+        if not isinstance(loci, list) or len(loci) == 0:
+            return "MALFORMED", None, {"schema_errors": ["FAIL route result missing non-empty 'counterexample_loci'"]}
+        return "FAIL", claim_digest, {"counterexample_loci": loci}
+
+    # PASS
+    edc = obj.get("expected_domain_count")
+    cdc = obj.get("checked_domain_count")
+    edd = obj.get("expected_domain_digest")
+    cvd = obj.get("coverage_digest")
+    for name, val in (("expected_domain_count", edc), ("checked_domain_count", cdc)):
+        if not isinstance(val, int) or isinstance(val, bool) or val < 0:
+            return "MALFORMED", None, {"schema_errors": [f"PASS route result.{name} must be a non-negative int, got {val!r}"]}
+    if not _is_64hex(edd) or not _is_64hex(cvd):
+        return "MALFORMED", None, {"schema_errors": [f"PASS route result expected_domain_digest/coverage_digest must be exact 64-hex, got {edd!r}/{cvd!r}"]}
+    if edc != cdc:
+        return "MALFORMED", None, {"schema_errors": [f"PASS route result expected_domain_count != checked_domain_count ({edc!r} != {cdc!r}) -- F83-2.1"]}
+    if edd != cvd:
+        return "MALFORMED", None, {"schema_errors": [f"PASS route result expected_domain_digest != coverage_digest -- F83-2.1/N82-4.1"]}
+    return "PASS", claim_digest, {"expected_domain_count": edc, "checked_domain_count": cdc, "expected_domain_digest": edd, "coverage_digest": cvd}
+
+
+# ============================================================================
+# Composition (追補(o) v3.1 "合成の全域関数", N83-2.1 confirmed PASS): TOTAL
+# over the 4x4=16 (route_status, route_status) domain, swap-symmetric,
+# exactly the 4 ordered rules below -- UNCHANGED in structure. 裁定192
+# F83-2.2 adds ONE defensive layer: a PASS/FAIL status paired with a
+# non-64-hex digest is ITSELF escalated to INTEGRITY_STOP even when this
+# low-level function is called directly (bypassing coerce_to_route_result).
 # ============================================================================
 
 
@@ -213,27 +345,32 @@ def compose_route_statuses(status1, claim_digest1, status2, claim_digest2):
     """
     Composes two ALREADY-CLASSIFIED route statuses into ONE overall
     status. TOTAL (defined for every (status1, status2) in
-    ROUTE_STATUSES x ROUTE_STATUSES) and SWAP-SYMMETRIC (compose(a,b) ==
-    compose(b,a) with arguments swapped in pairs). Rules, IN ORDER
-    (追補(o) v3.1 "合成の全域関数"):
+    ROUTE_STATUSES x ROUTE_STATUSES) and SWAP-SYMMETRIC. Rules, IN ORDER:
 
+      0. (裁定192 F83-2.2, defense in depth) a PASS/FAIL status paired with
+         a digest that is not exact 64-hex -> INTEGRITY_STOP (this low-level
+         API must not be more permissive than coerce_to_route_result, even
+         when called directly).
       1. Either route MALFORMED -> INTEGRITY_STOP (regardless of
          direction/order).
       2. Both routes non-ABSENT (i.e. each in {PASS, FAIL}) -> compare
          claim_digest BEFORE composing status: mismatch -> CONFLICT
-         (applies to PASS/PASS, FAIL/FAIL, AND FAIL/PASS alike -- not just
-         the PASS/PASS case).
+         (applies to PASS/PASS, FAIL/FAIL, AND FAIL/PASS alike).
       3. Both non-ABSENT, claim_digest agrees, but the two statuses
          DISAGREE (one PASS, one FAIL) -> CONFLICT.
       4. Otherwise: any FAIL present -> FAIL; else any PASS present ->
          PASS; else (both ABSENT) -> ABSENT.
 
-    Returns one of OVERALL_STATUSES: "INTEGRITY_STOP","CONFLICT","PASS",
-    "FAIL","ABSENT".
+    Returns one of OVERALL_STATUSES.
     """
     for s in (status1, status2):
         if s not in ROUTE_STATUSES:
             raise ValueError(f"compose_route_statuses: not a valid route_status: {s!r}")
+
+    # Rule 0 (defense in depth).
+    for s, d in ((status1, claim_digest1), (status2, claim_digest2)):
+        if s in ("PASS", "FAIL") and not _is_64hex(d):
+            return "INTEGRITY_STOP"
 
     # Rule 1.
     if status1 == "MALFORMED" or status2 == "MALFORMED":
@@ -243,46 +380,40 @@ def compose_route_statuses(status1, claim_digest1, status2, claim_digest2):
 
     if len(non_absent) == 2:
         (s_a, d_a), (s_b, d_b) = non_absent
-        # Rule 2: claim_digest comparison BEFORE status composition,
-        # regardless of which of PASS/FAIL combination this is.
         if d_a != d_b:
             return "CONFLICT"
-        # Rule 3: same claim, but statuses disagree (PASS vs FAIL).
         if s_a != s_b:
             return "CONFLICT"
-        # Same claim, same status -- PASS/PASS or FAIL/FAIL.
         return s_a
 
     if len(non_absent) == 1:
-        # Rule 4 (one ABSENT, one non-ABSENT): the non-ABSENT status wins.
         return non_absent[0][0]
 
-    # Rule 4 (both ABSENT).
     return "ABSENT"
 
 
 # ============================================================================
-# Top-level entry point: classify both routes, then compose.
+# Top-level entry point: coerce/re-validate both RouteResults, then compose.
 # ============================================================================
 
 
-def evidence_union_fail_closed_v2(route1_blob, route2_blob, expected_domain_digest=None):
+def evidence_union_fail_closed_v2(route1, route2):
     """
-    Top-level evidence-union/fail-closed-v2 composition (追補(o) v3.1).
-    Classifies BOTH route blobs independently (see classify_route), then
-    composes their statuses (see compose_route_statuses). Returns a dict:
+    Top-level evidence-union/fail-closed-v2 composition (追補(o) v3.1,
+    RouteResult two-layer per 裁定192 N83-2.3). `route1`/`route2` should be
+    RouteResult dicts built via the route_result_* constructors (R1/R2, per
+    dispatch); this function re-validates them regardless (see
+    coerce_to_route_result) so a foreign/hand-crafted value is held to the
+    same invariant, never trusted blindly. Returns:
       {
         "route1_status": ..., "route1_detail": ...,
         "route2_status": ..., "route2_detail": ...,
         "overall_status": ...,
       }
-    Never raises (classify_route is itself fail-closed/never-throwing;
-    compose_route_statuses only raises on a status value classify_route
-    could never actually produce, i.e. an internal-contract violation, not
-    a possible external input).
+    Never raises.
     """
-    s1, d1, detail1 = classify_route(route1_blob, expected_domain_digest)
-    s2, d2, detail2 = classify_route(route2_blob, expected_domain_digest)
+    s1, d1, detail1 = coerce_to_route_result(route1)
+    s2, d2, detail2 = coerce_to_route_result(route2)
     overall = compose_route_statuses(s1, d1, s2, d2)
     return {
         "route1_status": s1, "route1_detail": detail1,
@@ -292,80 +423,63 @@ def evidence_union_fail_closed_v2(route1_blob, route2_blob, expected_domain_dige
 
 
 # ============================================================================
-# W-6 connection point (ARMATURE ONLY this round -- see module docstring
-# SCOPE NOTE; NOT wired into the EP runner here, EP v7 wiring is a later,
-# separate step). Adapts ninfty-verifier-b.py's verify_W6_single(...)
-# (status, detail) output into a route blob this module's classify_route
-# can consume.
+# W-6 connection point (ARMATURE ONLY -- see module docstring SCOPE NOTE;
+# NOT wired into the EP runner here, EP v7 wiring is a later, separate
+# step). Adapts ninfty-verifier-b.py's verify_W6_single(...) (status,
+# detail) output into a RouteResult via the constructors above (never a
+# raw ad hoc blob).
 # ============================================================================
 
 
-def route_from_verifier_b_w6(w6_status, w6_detail):
+def route_from_verifier_b_w6(w6_status, w6_detail, route_id):
     """
     ARMATURE / PLACEHOLDER (not full EP wiring): adapts one
     ninfty-verifier-b.py verify_W6_single(cert, native_a, native_b) result
     -- a (status, detail) pair with status in
-    {"ABSENT","MALFORMED","PASS","FAIL"} -- into a route blob this file's
-    classify_route can consume as one of the two evidence routes (R1 or
-    R2; the caller decides which slot this fills and supplies the OTHER
-    route separately -- this function only builds ONE side).
+    {"ABSENT","MALFORMED","PASS","FAIL"} -- into a RouteResult built via
+    the constructors above (route_id = "R1"/"R2", FIXED by the caller's
+    dispatch, never inferred from the blob).
 
-    verify_W6_single predates this addendum's route-blob schema (it has no
-    claim_digest/evidence_digest/checked_domain_count/coverage_digest
-    fields of its own) -- this adapter DERIVES placeholder digests from
-    the detail dict itself (sha256_of(detail)) so classify_route's
-    required-field checks are satisfiable, but this is NOT a claim that
-    W-6's real evidence has been migrated to the v3.1 route-blob schema;
-    it exists solely so the composition function (the crisp, addendum-
-    specified part) has a real, non-synthetic input to be exercised
-    against in regression tests. Full EP v7 wiring (real
-    claim_digest/evidence_digest bound to the actual native/map digests
-    per v3.1's "evidence_digest は route の証拠を最終 record へ束縛する")
-    is explicitly deferred, per this round's task scope.
+    verify_W6_single predates this addendum's RouteResult schema (it has no
+    claim_digest/evidence_digest/expected_domain_count/expected_domain_digest
+    fields of its own) -- this adapter DERIVES placeholder digests from the
+    detail dict itself (sha256_of(detail)) and a hardcoded
+    expected_domain_count=checked_domain_count=1 so the PASS constructor's
+    OWN invariants (which it always checks) are satisfiable, but this is
+    NOT a claim that W-6's real evidence has been migrated to the v3.1
+    RouteResult schema -- it exists solely so the composition function (the
+    crisp, addendum-specified part) has a real, non-synthetic input to be
+    exercised against in regression tests. Full EP v7 wiring (real
+    claim_digest/evidence_digest/expected_domain_count bound to the actual
+    native/map digests and per-side point/component counts) is explicitly
+    deferred, per this round's task scope.
     """
     if w6_status == "ABSENT":
-        return {"evidence_kind": "ABSENT"}
+        return route_result_absent(route_id, {"reason": (w6_detail or {}).get("reason", "W-6 ABSENT") if isinstance(w6_detail, dict) else "W-6 ABSENT"})
     if w6_status == "MALFORMED":
-        # A MALFORMED verify_W6_single result has no claim_digest/
-        # evidence_digest either -- but classify_route's MALFORMED
-        # detection for a PASS/FAIL-shaped blob already requires those
-        # fields, so simply declaring evidence_kind=PASS with nothing else
-        # naturally reaches MALFORMED via the missing-field check (never
-        # needs a dedicated evidence_kind="MALFORMED" branch in the
-        # adopted schema -- MALFORMED is always a receiver DERIVATION, per
-        # the addendum, never a self-declared producer kind).
-        return {"evidence_kind": "PASS"}  # deliberately incomplete -> classify_route -> MALFORMED
+        errs = [str((w6_detail or {}).get("reason", w6_detail))] if isinstance(w6_detail, dict) else [str(w6_detail)]
+        return route_result_malformed(route_id, errs)
     detail_digest = sha256_of(w6_detail if isinstance(w6_detail, dict) else {"detail": w6_detail})
     if w6_status == "FAIL":
-        return {
-            "evidence_kind": "FAIL",
-            "claim_digest": detail_digest,
-            "evidence_digest": detail_digest,
-            "counterexample_locus": w6_detail,
-        }
+        return route_result_fail(route_id, detail_digest, detail_digest, [w6_detail if w6_detail is not None else "W-6 FAIL (no detail supplied)"])
     # w6_status == "PASS"
-    return {
-        "evidence_kind": "PASS",
-        "claim_digest": detail_digest,
-        "evidence_digest": detail_digest,
-        "checked_domain_count": 1,  # PLACEHOLDER (armature only, see docstring) -- EP v7 must
-                                    # bind this to the real per-side point/component count.
-        "coverage_digest": detail_digest,
-    }
+    return route_result_pass(
+        route_id, detail_digest, detail_digest,
+        expected_domain_count=1, checked_domain_count=1,  # PLACEHOLDER (armature only, see docstring)
+        expected_domain_digest=detail_digest, coverage_digest=detail_digest,
+    )
 
 
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("payload_json", help="path to a JSON payload {route1, route2[, expected_domain_digest]}, or '-' for stdin")
+    ap.add_argument("payload_json", help="path to a JSON payload {route1, route2} (already-built RouteResult dicts), or '-' for stdin")
     args = ap.parse_args(argv)
     if args.payload_json == "-":
         payload = json.load(sys.stdin)
     else:
         with open(args.payload_json, "r", encoding="utf-8") as f:
             payload = json.load(f)
-    result = evidence_union_fail_closed_v2(
-        payload.get("route1"), payload.get("route2"), payload.get("expected_domain_digest"),
-    )
+    result = evidence_union_fail_closed_v2(payload.get("route1"), payload.get("route2"))
     print(canonical_serialize(result))
     return 0
 

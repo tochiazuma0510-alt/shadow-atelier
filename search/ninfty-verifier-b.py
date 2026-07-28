@@ -117,8 +117,41 @@ from __future__ import annotations
 from fractions import Fraction
 import hashlib
 import json
+import math
+import re
 import sys
 import argparse
+
+# 裁定192 (sol/裁定_192_便83検収.md, F83-1.1/1.2 -> W-4 authority binding):
+# a coefficient is accepted ONLY as a CANONICAL rational STRING (never a raw
+# JSON/JS number at all -- this closes F83-1.2's unsafe-integer round-trip
+# gap by construction, matching the rest of this codebase's own convention
+# of always using string coefficients for native ideal_generator arrays).
+# Canonical form: optional '-', then '0' or a no-leading-zero digit run
+# (the integer part); OPTIONALLY '/' then a no-leading-zero positive digit
+# run (the denominator) -- and if a denominator IS present, it must be > 1
+# and the fraction must already be in lowest terms (gcd(|n|,d) == 1).
+# Rejects (never canonicalizes) "+1", "01", "2/2", "1/01", "1/1" etc. --
+# each distinct non-canonical byte string is refused, not silently rewritten,
+# so canonical-form equality can be decided by plain string comparison.
+_CANONICAL_RATIONAL_RE = re.compile(r'^(-?(?:0|[1-9]\d*))(?:/([1-9]\d*))?$')
+
+
+def _is_canonical_rational_string(s):
+    if not isinstance(s, str):
+        return False
+    m = _CANONICAL_RATIONAL_RE.match(s)
+    if not m:
+        return False
+    n_str, d_str = m.group(1), m.group(2)
+    if d_str is None:
+        return True
+    n, d = int(n_str), int(d_str)
+    if n == 0:
+        return False  # "0/d" is not canonical -- must be written as bare "0"
+    if d == 1:
+        return False  # "n/1" is not canonical -- must be written as bare "n"
+    return math.gcd(abs(n), d) == 1
 
 # ============================================================================
 # CERTIFICATE SHAPE (裁定128 interim interface, docs/notes/
@@ -672,112 +705,191 @@ def _validate_w3_entry(e):
     return ("PASS" if ok else "FAIL"), {"searcher_mult": sm, "checker_mult": cm}
 
 
-def _validate_w4_entry(e):
+def _validate_w4_inner_item(o, i, chart_ids, native_a, native_b):
     """
-    W-4 entry (裁定139 item 7 = v2 (l) maintained: EXACTLY 1 entry per
-    divisor_object -- see verify_W4 using _check_singular_witness, not
-    _check_plural_witness).
+    裁定192 (sol/裁定_192_便83検収.md F83-1.1, (n) re-effectuation condition
+    1-5): validates ONE entries[] item against the UNIFIED, authority-bound
+    item schema -- the SAME schema lane A's ninfty-verifier-a.mjs
+    classifyChartOverlapEntry now requires (promoted to v3 条項7 in full):
 
-    追補 (n) v2 (裁定152 §3-1, Sol F78-3.2 FAIL -> sol/裁定_152_便78検収.md,
-    docs/notes/cert_shape_interpretation_v3_addendum_n.md v2): the ONLY
-    valid shape is the SINGLE canonical form
+        {chart_pair: [id_a, id_b],       # 2 DISTINCT strings, BOTH resolved
+                                          # against certificate.chart_ids
+                                          # (chart REGISTRY digest resolution
+                                          # beyond membership is UNKNOWN --
+                                          # F78-3.6's minimal schema does not
+                                          # exist yet; not invented here)
+         locus_type: <str>,               # must resolve to a REAL native
+                                          # component (searcher AND checker)
+                                          # for this divisor_object
+         component_in_chart_a: <str>,     # == locus_type (this payload has
+         component_in_chart_b: <str>,     # only ONE native representation
+                                          # per side, not a genuine per-chart
+                                          # local-naming registry -- distinct
+                                          # per-chart local ids are UNKNOWN/
+                                          # out of scope pending a real chart
+                                          # registry, condition 4)
+         agree: <bool>,                   # producer claim, unscored
+         generator_chart_a: [<canonical rational str>, ...],
+         generator_chart_b: [<canonical rational str>, ...]}
 
-        {divisor_object, status: "ABSENT"|"PRESENT",
-         entries: [{chart_pair, component_in_chart_a, component_in_chart_b}, ...]}
-
-    `status` and `entries` are BOTH REQUIRED. This RETIRES 追補(n) v1's
-    rule 2 ("a bare `[]` with no status field is also ABSENT") -- Sol's
-    FAIL diagnosis: having both "receiver must read status" AND "a bare
-    empty array is a second, status-free encoding of the same ABSENT
-    meaning" gives ONE semantic meaning TWO distinct byte encodings, which
-    splits canonical digest authority (two different blobs would have to
-    hash to being "the same fact"). There is now exactly one encoding:
-
-      1. status == "ABSENT" and entries == [] -> ABSENT (the sole
-         structured-absence marker; [25] insufficient-evidence route, not
-         FAIL).
-      2. `status` key MISSING entirely -> MALFORMED, UNCONDITIONALLY (v1
-         rule 2 retired: no more bare-[]-is-ABSENT fallback of any kind).
-      3. status == "ABSENT" but entries is NON-empty -> the status
-         contradicts the data -> MALFORMED (fail-closed, unchanged from
-         v1).
-      4. status is present but is NEITHER "ABSENT" NOR "PRESENT" (this
-         includes v1-era free-text producer-claims like "agree"/
-         "disagree" -- NO LONGER tolerated even when entries is
-         non-empty) -> MALFORMED, UNCONDITIONALLY (v1 rule 4 was scoped to
-         the empty-entries case only; v2 checks `status` FIRST, before
-         even looking at `entries`' contents).
-      5. status == "PRESENT" but entries == [] -> MALFORMED (裁定149,
-         unchanged): "declares PRESENT while supplying no evidence" is the
-         mirror self-contradiction of rule 3.
-      6. status == "PRESENT" and entries is non-empty -> the canonical
-         PRESENT/evidence path; PASS requires ALL entries to independently
-         agree.
-      7. `entries` key MISSING entirely (e.g. an unconverted legacy blob
-         still using the retired `per_overlap_witnesses` key name), `null`,
-         or not an array -> MALFORMED. An OLD-shape certificate is NEVER
-         accepted here directly -- it must first be translated by the
-         separate, outside-the-certificate
-         search/ninfty-legacy-normalizer.py (裁定152 item 2: the frozen
-         certificate itself is never rewritten in place; the normalizer
-         records the conversion fact + both digests instead).
-
-    Malformed sub-entries inside a genuinely PRESENT `entries` array are
-    still a schema violation (raises MalformedWitness -> MALFORMED),
-    distinct from a genuine chart-mismatch FAIL.
-
-    裁定177 F80-4.2 condition 5 (sol/sol_reply_80_math7.md): co-presence of
-    the retired `per_overlap_witnesses` key ALONGSIDE a well-formed
-    `entries` key is REJECTED here too (not just by the normalizer) --
-    ambiguous regardless of whether the two arrays happen to agree, never
-    silently ignored just because `entries` also validates.
+    Raises MalformedWitness for ANY schema violation (missing/mistyped
+    field, unresolvable chart_pair/locus_type, non-canonical coefficient
+    string, raw JSON number coefficient -- F83-1.2 closed by construction:
+    _is_canonical_rational_string never accepts a Python int/float at all,
+    only an already-canonical string). Returns True/False (agrees /
+    disagrees) when the item is well-formed and its generators are
+    resolvable: 裁定192 condition 3 -- generator_chart_a/b are no longer
+    compared to EACH OTHER (a producer self-consistency check); each is
+    independently compared, by EXACT canonical-string-list equality, against
+    the RECEIVER-DERIVED native ideal_generator for `locus_type` on the
+    searcher side (for generator_chart_a) and the checker side (for
+    generator_chart_b) respectively -- disagreement is a genuine
+    native-binding FAILURE (this item disagrees), not a schema violation.
+    Coordinate TRANSITION TRANSPORT across genuinely distinct charts
+    (condition 4) is UNKNOWN with the current payload (there is only one
+    native representation per side, not a second chart's native data to
+    transport into) -- this binds chart_pair[0]/[1] to the searcher/checker
+    SIDES respectively (the only native duality this payload actually
+    supplies), not to two genuinely different coordinate charts.
     """
-    _require_dict(e, "W-4 entry")
-    if "per_overlap_witnesses" in e:
+    if not isinstance(o, dict):
+        raise MalformedWitness(f"entries[{i}] is not an object")
+
+    chart_pair = o.get("chart_pair")
+    if not isinstance(chart_pair, list) or len(chart_pair) != 2 or not all(isinstance(c, str) and c for c in chart_pair):
+        raise MalformedWitness(f"entries[{i}].chart_pair must be an array of exactly 2 non-empty strings")
+    if chart_pair[0] == chart_pair[1]:
+        raise MalformedWitness(f"entries[{i}].chart_pair must name two DISTINCT chart ids, got {chart_pair!r} twice (裁定192 F83-1.1 condition 2)")
+    if not isinstance(chart_ids, list) or chart_pair[0] not in chart_ids or chart_pair[1] not in chart_ids:
         raise MalformedWitness(
-            "W-4 entry carries the RETIRED 'per_overlap_witnesses' key alongside the "
-            "canonical shape -- ambiguous regardless of whether it agrees with 'entries', "
-            "never silently ignored (裁定177 F80-4.2 condition 5; run "
-            "search/ninfty-legacy-normalizer.py first if this is genuinely legacy data)"
+            f"entries[{i}].chart_pair {chart_pair!r} references a chart id not present in "
+            f"certificate.chart_ids={chart_ids!r} (裁定192 F83-1.1 condition 2; full chart-registry-digest "
+            "resolution beyond this membership check is UNKNOWN -- F78-3.6's minimal schema does not exist yet)"
         )
-    _require_keys(e, ["status", "entries"], "W-4 entry")
-    status = e["status"]
-    if status not in ("ABSENT", "PRESENT"):
-        raise MalformedWitness(
-            f"W-4 entry.status must be exactly 'ABSENT' or 'PRESENT' (追補(n) v2 -- no bare "
-            f"array default, no free-text producer-claim vocabulary), got {status!r}"
-        )
-    entries = _require_list(e["entries"], "W-4 entry.entries")
-    if status == "ABSENT":
-        if len(entries) != 0:
+
+    locus_type = o.get("locus_type")
+    if not isinstance(locus_type, str) or not locus_type:
+        raise MalformedWitness(f"entries[{i}].locus_type must be a non-empty string")
+
+    for field in ("component_in_chart_a", "component_in_chart_b"):
+        v = o.get(field)
+        if not isinstance(v, str) or not v:
+            raise MalformedWitness(f"entries[{i}].{field} must be a non-empty string")
+        if v != locus_type:
             raise MalformedWitness(
-                f"W-4 entry.status=ABSENT but entries is non-empty ({len(entries)} entries) -- "
-                "contradicts the ABSENT declaration (追補(n) v2 rule 3)"
+                f"entries[{i}].{field}={v!r} != locus_type={locus_type!r} -- this payload has only one "
+                "native representation per side, so distinct per-chart local component naming is UNKNOWN "
+                "(out of scope pending a real chart registry, 裁定192 F83-1.1 condition 4)"
             )
-        return "ABSENT", {
-            "reason": e.get(
-                "reason",
-                "structured ABSENT marker (追補(n) v2 rule 1): status=ABSENT, entries=[] -- "
-                "insufficient evidence, not FAIL",
+
+    if not isinstance(o.get("agree"), bool):
+        raise MalformedWitness(f"entries[{i}].agree must be a boolean")
+
+    for field in ("generator_chart_a", "generator_chart_b"):
+        g = o.get(field)
+        if not isinstance(g, list) or len(g) == 0 or not all(_is_canonical_rational_string(c) for c in g):
+            raise MalformedWitness(
+                f"entries[{i}].{field} must be a non-empty array of CANONICAL rational strings "
+                "(integer or reduced 'n/d' with d>1, no leading zeros, no explicit '+', no raw JSON "
+                f"numbers at all -- 裁定192 F83-1.1 condition 5 / F83-1.2), got {g!r}"
             )
-        }
-    # status == "PRESENT"
-    if len(entries) == 0:
+
+    searcher_gen = _native_component_by_locus(native_a, o["divisor_object"], locus_type) if isinstance(o.get("divisor_object"), str) else None
+    checker_gen = _native_component_by_locus(native_b, o["divisor_object"], locus_type) if isinstance(o.get("divisor_object"), str) else None
+    if searcher_gen is None or checker_gen is None:
         raise MalformedWitness(
-            "W-4 entry.status=PRESENT but entries is empty -- declares presence while "
-            "supplying no evidence, the mirror self-contradiction of rule 3 (追補(n) v2 rule 5, "
-            "裁定149)"
+            f"entries[{i}].locus_type={locus_type!r} does not resolve to a real native component on "
+            f"{'the searcher side' if searcher_gen is None else 'the checker side'} for this divisor_object "
+            "-- unresolvable reference (裁定192 F83-1.1 condition 3)"
         )
-    for i, o in enumerate(entries):
-        if not isinstance(o, dict) or "component_in_chart_a" not in o or "component_in_chart_b" not in o:
-            raise MalformedWitness(f"entries[{i}] malformed "
-                                    "(need component_in_chart_a, component_in_chart_b)")
-    bad = [
-        {"index": i, "component_in_chart_a": o["component_in_chart_a"], "component_in_chart_b": o["component_in_chart_b"]}
-        for i, o in enumerate(entries) if o["component_in_chart_a"] != o["component_in_chart_b"]
-    ]
-    ok = len(bad) == 0
-    return ("PASS" if ok else "FAIL"), {"mismatches": bad, "checked": len(entries)}
+
+    return o["generator_chart_a"] == searcher_gen and o["generator_chart_b"] == checker_gen
+
+
+def _make_w4_entry_validator(chart_ids, native_a, native_b):
+    """
+    Factory producing the `validate_entry(e)` closure `_check_singular_witness`
+    calls -- reads `e["divisor_object"]` itself (already present on every
+    chart_overlap_witnesses entry) to select the correct native components
+    per side, so a single closure serves BOTH divisor_object tokens without
+    needing _check_singular_witness itself to change.
+    """
+    def validate_entry(e):
+        """
+        W-4 entry (裁定139 item 7 = v2 (l) maintained: EXACTLY 1 entry per
+        divisor_object). 追補(n) v2 (裁定152 §3-1) ABSENT/PRESENT marker
+        rules 1-7 are UNCHANGED (see docs/notes/
+        cert_shape_interpretation_v3_addendum_n.md v2); this factory adds
+        裁定192 F83-1.1's authority-bound inner-item schema on top, for the
+        PRESENT/non-empty path only.
+        """
+        _require_dict(e, "W-4 entry")
+        if "per_overlap_witnesses" in e:
+            raise MalformedWitness(
+                "W-4 entry carries the RETIRED 'per_overlap_witnesses' key alongside the "
+                "canonical shape -- ambiguous regardless of whether it agrees with 'entries', "
+                "never silently ignored (裁定177 F80-4.2 condition 5; run "
+                "search/ninfty-legacy-normalizer.py first if this is genuinely legacy data)"
+            )
+            # (unreachable safety net -- kept identical to the pre-192 logic)
+        _require_keys(e, ["status", "entries"], "W-4 entry")
+        status = e["status"]
+        if status not in ("ABSENT", "PRESENT"):
+            raise MalformedWitness(
+                f"W-4 entry.status must be exactly 'ABSENT' or 'PRESENT' (追補(n) v2 -- no bare "
+                f"array default, no free-text producer-claim vocabulary), got {status!r}"
+            )
+        entries = _require_list(e["entries"], "W-4 entry.entries")
+        if status == "ABSENT":
+            if len(entries) != 0:
+                raise MalformedWitness(
+                    f"W-4 entry.status=ABSENT but entries is non-empty ({len(entries)} entries) -- "
+                    "contradicts the ABSENT declaration (追補(n) v2 rule 3)"
+                )
+            return "ABSENT", {
+                "reason": e.get(
+                    "reason",
+                    "structured ABSENT marker (追補(n) v2 rule 1): status=ABSENT, entries=[] -- "
+                    "insufficient evidence, not FAIL",
+                )
+            }
+        # status == "PRESENT"
+        if len(entries) == 0:
+            raise MalformedWitness(
+                "W-4 entry.status=PRESENT but entries is empty -- declares presence while "
+                "supplying no evidence, the mirror self-contradiction of rule 3 (追補(n) v2 rule 5, "
+                "裁定149)"
+            )
+        # 裁定192: divisor_object must be present on the entry itself so the
+        # inner-item validator can select the right native side (it always
+        # is, per the generator's own tagging convention -- but this is
+        # re-checked here defensively, not assumed).
+        tag = e.get("divisor_object")
+        if not isinstance(tag, str) or not tag:
+            raise MalformedWitness("W-4 entry missing/invalid 'divisor_object' -- required to resolve native binding")
+        # each entries[] item inherits the outer entry's own divisor_object
+        # tag (not itself individually tagged) -- used only to select which
+        # native side's components to resolve against.
+        agrees = [
+            _validate_w4_inner_item({**o, "divisor_object": tag} if isinstance(o, dict) else o, i, chart_ids, native_a, native_b)
+            for i, o in enumerate(entries)
+        ]
+        bad = [{"index": i} for i, ok in enumerate(agrees) if not ok]
+        overall_ok = len(bad) == 0
+        return ("PASS" if overall_ok else "FAIL"), {"mismatches": bad, "checked": len(entries)}
+
+    return validate_entry
+
+
+@fail_closed_pairmap
+def verify_W4(cert, native_a, native_b):
+    """W-4: chart_overlap_witnesses (裁定139 item 7: exactly 1 entry per
+    divisor_object -- layering lives inside entries[], 追補(n) v2 裁定152).
+    裁定192 F83-1.1: now receives native_a/native_b so the inner entries[]
+    schema can be bound to REAL native divisor data (chart_ids come from
+    `cert` itself)."""
+    chart_ids = cert.get("chart_ids") if isinstance(cert, dict) else None
+    return _check_singular_witness(cert, "chart_overlap_witnesses", _make_w4_entry_validator(chart_ids, native_a, native_b))
 
 
 @fail_closed_pairmap
@@ -796,13 +908,6 @@ def verify_W2prime(cert):
 def verify_W3(cert):
     """W-3: multiplicity_equalities (裁定128 flat array + divisor_object tag, plural)."""
     return _check_plural_witness(cert, "multiplicity_equalities", _validate_w3_entry)
-
-
-@fail_closed_pairmap
-def verify_W4(cert):
-    """W-4: chart_overlap_witnesses (裁定139 item 7: exactly 1 entry per
-    divisor_object -- layering lives inside entries[], 追補(n) v2 裁定152)."""
-    return _check_singular_witness(cert, "chart_overlap_witnesses", _validate_w4_entry)
 
 
 # --------------------------------------------------------------------------
@@ -846,6 +951,30 @@ def _native_component_ids(native_payload, tok):
     if not isinstance(comps, list):
         return None
     return [f"{tok}:{c['locus_type']}" for c in comps if isinstance(c, dict) and "locus_type" in c]
+
+
+def _native_component_by_locus(native_payload, tok, locus_type):
+    """
+    裁定192 (F83-1.1 condition 3): looks up the REAL native component
+    matching `locus_type` for divisor_object `tok`, returning its
+    `ideal_generator` (a list) -- or None if native_payload/tok/components
+    is unreadable, or no component with that locus_type exists at all
+    (native data does not attest this locus -- an unresolvable reference,
+    distinct from "resolvable but the generator disagrees").
+    """
+    if not isinstance(native_payload, dict):
+        return None
+    obj = native_payload.get(tok)
+    if not isinstance(obj, dict):
+        return None
+    comps = obj.get("components")
+    if not isinstance(comps, list):
+        return None
+    for c in comps:
+        if isinstance(c, dict) and c.get("locus_type") == locus_type:
+            gen = c.get("ideal_generator")
+            return gen if isinstance(gen, list) else None
+    return None
 
 
 def _validate_bijection_edges_for_token(entries, tok, native_a, native_b):
@@ -1347,7 +1476,7 @@ def run_verifier_b(payload):
         "W-2": verify_W2(cert),
         "W-2prime": verify_W2prime(cert),
         "W-3": verify_W3(cert),
-        "W-4": verify_W4(cert),
+        "W-4": verify_W4(cert, native_a, native_b),
         "W-5": verify_W5(cert),
         "W-6": verify_W6(cert, native_a, native_b),
     }

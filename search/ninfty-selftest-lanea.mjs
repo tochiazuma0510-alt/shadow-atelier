@@ -145,7 +145,11 @@ console.log('\n=== certificate / verifier-A fixtures ===');
       // 裁定189 F82-3.1 item 1: locus_type is now a required entries[]
       // field too (v3 条項7's full field list), alongside chart_pair/
       // agree/both generators.
-      entries: [{ locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen }],
+      entries: [{
+        locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'],
+        component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
+        agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen,
+      }],
       reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
     };
   }
@@ -164,6 +168,12 @@ console.log('\n=== certificate / verifier-A fixtures ===');
       }),
     };
   }
+  // 裁定192 F83-1.1 condition 2: chart_pair members must resolve against
+  // certificate.chart_ids -- the real generator only ever registers
+  // ['x-chart-single'], so the synthetic second chart used below must be
+  // added here too (this is exactly the registry-membership check the
+  // real single-chart lane A scope never otherwise exercises).
+  cert.chart_ids = [...cert.chart_ids, 'x-chart-hypothetical-2'];
   cert.chart_overlap_witnesses = [
     syntheticChartOverlapEntry('ramification_divisor_on_C_ref'),
     syntheticChartOverlapEntry('branch_divisor_on_P1_ref'),
@@ -554,10 +564,20 @@ for (const { label, entry, expect } of ADVERSARIAL_W4) {
   const ramGen4 = native4.ramification_divisor_on_C_ref.components[0].ideal_generator;
   const goodEntry = {
     divisor_object: RAM_TAG, status: 'PRESENT',
-    entries: [{ locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen4, generator_chart_b: ramGen4 }],
+    entries: [{
+      locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'],
+      component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
+      agree: true, generator_chart_a: ramGen4, generator_chart_b: ramGen4,
+    }],
   };
-  const got4 = verifyChartOverlap_forTest(goodEntry);
-  check('裁定177 adversarial 4: status=PRESENT + correct non-empty entries -> PASS (isolated)', got4 === 'PASS', `got ${got4}`);
+  // 裁定192 F83-1.1: verifyChartOverlap now requires chart_ids +
+  // searcher/checker native components too (authority-bound schema) --
+  // supply the same-native-both-sides MOCK this fixture already uses.
+  const got4 = verifyChartOverlap_forTest(
+    goodEntry, ['x-chart-single', 'x-chart-hypothetical-2'],
+    native4.ramification_divisor_on_C_ref.components, native4.ramification_divisor_on_C_ref.components,
+  );
+  check('裁定177 adversarial 4: status=PRESENT + correct non-empty, native-bound entries -> PASS (isolated)', got4 === 'PASS', `got ${got4}`);
 }
 
 // End-to-end: each MALFORMED adversarial shape, wired into BOTH
@@ -756,8 +776,11 @@ for (const { label, entries } of F82_PROBES) {
   const goodGen = native.ramification_divisor_on_C_ref.components[0].ideal_generator;
   const goodEntryF82 = {
     locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'],
+    component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
     agree: true, generator_chart_a: goodGen, generator_chart_b: goodGen,
   };
+  // 裁定192 F83-1.1 condition 2: register the synthetic second chart id.
+  cert.chart_ids = [...cert.chart_ids, 'x-chart-hypothetical-2'];
   cert.chart_overlap_witnesses = [
     { divisor_object: RAM_TAG, status: 'PRESENT', entries: [goodEntryF82] },
     { divisor_object: BRANCH_TAG, status: 'PRESENT', entries: [goodEntryF82] },
@@ -767,6 +790,121 @@ for (const { label, entries } of F82_PROBES) {
         vA.malformed !== true
         && vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-4')[1] === 'PASS'
         && vA.R_A.branch_divisor_on_P1.find(([k]) => k === 'W-4')[1] === 'PASS',
+        JSON.stringify(vA));
+}
+
+// --- 裁定192 (sol/裁定_192_便83検収.md F83-1.1, sol/sol_reply_83_math10.md):
+//     Sol's four adversarial W-4 blobs, end-to-end via runVerifierA
+//     (real cert_pos_01-equivalent native context via freshCert()), each
+//     with the RETURNED STATUS explicitly asserted (便83 ★4: "crash しない
+//     負例は fail-closed の負例ではない" -- assert the status, not just
+//     "did not throw").
+console.log('\n=== 裁定192 F83-1.1: Sol\'s four adversarial W-4 blobs (end-to-end) ===');
+
+function _w4e2e(entry) {
+  const { native, cert } = freshCert();
+  cert.chart_ids = [...cert.chart_ids, 'x-chart-hypothetical-2'];
+  cert.chart_overlap_witnesses = [
+    { ...entry, divisor_object: RAM_TAG },
+    { ...entry, divisor_object: BRANCH_TAG },
+  ];
+  return runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+}
+
+// adversarial 1: superset forgery -- all lane-A + lane-B fields present,
+// same-chart pair, invented locus/component names, generator NOT bound to
+// any real native data -> malformed=true (chart_pair not distinct AND
+// unresolvable chart id AND unresolvable locus_type).
+{
+  const vA = _w4e2e({
+    status: 'PRESENT',
+    entries: [{
+      chart_pair: ['A', 'A'], locus_type: 'invented',
+      component_in_chart_a: 'invented', component_in_chart_b: 'invented',
+      agree: true, generator_chart_a: ['1'], generator_chart_b: ['1'],
+    }],
+  });
+  check('裁定192 adversarial 1 (superset forgery): runVerifierA malformed=true (returned status asserted)',
+        vA.malformed === true, JSON.stringify(vA));
+}
+
+// adversarial 2: same-chart pair alone (otherwise a real, resolvable
+// locus/chart_ids) -> malformed=true (chart_pair must be 2 DISTINCT chart
+// ids, 裁定192 condition 2).
+{
+  const { native, cert } = freshCert();
+  cert.chart_ids = [...cert.chart_ids, 'x-chart-hypothetical-2'];
+  const dupPairEntry = {
+    chart_pair: ['x-chart-single', 'x-chart-single'], locus_type: 'a-pair-locus',
+    component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
+    agree: true,
+    generator_chart_a: native.ramification_divisor_on_C_ref.components[0].ideal_generator,
+    generator_chart_b: native.ramification_divisor_on_C_ref.components[0].ideal_generator,
+  };
+  cert.chart_overlap_witnesses = [
+    { ...dupPairEntry, divisor_object: RAM_TAG }, { ...dupPairEntry, divisor_object: BRANCH_TAG },
+  ];
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('裁定192 adversarial 2 (same-chart pair): runVerifierA malformed=true (returned status asserted)',
+        vA.malformed === true, JSON.stringify(vA));
+}
+
+// adversarial 3: native-unbound generator (well-formed shape, resolvable
+// chart_pair/locus_type, but generator_chart_a/b do NOT match the real
+// native ideal_generator) -> W-4 FAIL (native-binding falsification), NOT
+// a silent PASS, and NOT malformed.
+{
+  const vA = _w4e2e({
+    status: 'PRESENT',
+    entries: [{
+      chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], locus_type: 'a-pair-locus',
+      component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
+      agree: true, generator_chart_a: ['99', '1'], generator_chart_b: ['99', '1'],
+    }],
+  });
+  check('裁定192 adversarial 3 (native-unbound generator): W-4 FAIL for both objects (not silently PASS)',
+        vA.malformed !== true
+        && vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-4')[1] === 'FAIL'
+        && vA.R_A.branch_divisor_on_P1.find(([k]) => k === 'W-4')[1] === 'FAIL',
+        JSON.stringify(vA));
+}
+
+// adversarial 4: raw JS-number coefficients (NOT canonical rational
+// strings at all) -> malformed=true (this lane accepts ONLY canonical
+// rational STRINGS, 裁定192 condition 5 / F83-1.2 -- closes the
+// unsafe-integer round-trip gap by construction: no number is ever
+// accepted regardless of magnitude).
+{
+  const vA = _w4e2e({
+    status: 'PRESENT',
+    entries: [{
+      chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], locus_type: 'a-pair-locus',
+      component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
+      agree: true, generator_chart_a: [9007199254740993, 1], generator_chart_b: [9007199254740993, 1],
+    }],
+  });
+  check('裁定192 adversarial 4 (raw JS number coefficients, unsafe-integer-shaped): runVerifierA malformed=true',
+        vA.malformed === true, JSON.stringify(vA));
+}
+
+// adversarial 4b: the LITERAL Sol probe value AS A CANONICAL STRING (not a
+// number) -- schema-valid (this lane never parses coefficients as
+// numbers), but native-unbound (does not match real native data), so it
+// resolves to FAIL, not a crash and not a silent PASS.
+{
+  const vA = _w4e2e({
+    status: 'PRESENT',
+    entries: [{
+      chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], locus_type: 'a-pair-locus',
+      component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
+      agree: true, generator_chart_a: ['9007199254740993'], generator_chart_b: ['9007199254740993'],
+    }],
+  });
+  check('裁定192 adversarial 4b (Sol\'s literal probe value as a canonical STRING, 9007199254740993 > 2^53): '
+        + 'schema-valid but native-unbound -> W-4 FAIL, not crash/PASS',
+        vA.malformed !== true
+        && vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-4')[1] === 'FAIL'
+        && vA.R_A.branch_divisor_on_P1.find(([k]) => k === 'W-4')[1] === 'FAIL',
         JSON.stringify(vA));
 }
 

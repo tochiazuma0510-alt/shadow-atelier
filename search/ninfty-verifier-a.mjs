@@ -228,84 +228,168 @@ function checkAmbient(cert) {
 //      two charts) must actually reduce to the same monic ideal -- PASS
 //      iff all entries agree, else FAIL.
 
-export function verifyChartOverlap_forTest(w) { return verifyChartOverlap(w); }
-export function classifyChartOverlapEntry_forTest(w) { return classifyChartOverlapEntry(w); }
+// 裁定192 (sol/裁定_192_便83検収.md F83-1.1, sol/sol_reply_83_math10.md):
+// _forTest wrappers now accept OPTIONAL chartIds/searcherComponents/
+// checkerComponents so isolated probes can still exercise the schema-only
+// branches (all of which fail before this context is ever consulted) with
+// no context at all, while PASS/FAIL probes supply real native context.
+export function verifyChartOverlap_forTest(w, chartIds, searcherComponents, checkerComponents) {
+  return verifyChartOverlap(w, chartIds, searcherComponents, checkerComponents);
+}
+export function classifyChartOverlapEntry_forTest(w, chartIds, searcherComponents, checkerComponents) {
+  return classifyChartOverlapEntry(w, chartIds, searcherComponents, checkerComponents);
+}
 
-// 裁定189 F82-3.1 item 3: a SAFE (never-throwing) rational-coefficient
-// schema check, run BEFORE any arithmetic (Q.of/BigInt) ever sees the
-// value. Accepts a JS integer, or a string "n" or "n/d" (optional sign,
-// decimal digits only), with d provably != 0 -- checked via regex FIRST so
-// BigInt() is only ever called on already-validated digit strings (Sol's
-// crash probe: BigInt("bad") threw an uncaught SyntaxError before this
-// check existed).
-const _INT_STRING_RE = /^[+-]?\d+$/;
-function _isValidRationalCoeff(x) {
-  if (typeof x === 'number') return Number.isInteger(x);
-  if (typeof x !== 'string') return false;
-  const parts = x.split('/');
-  if (parts.length === 1) return _INT_STRING_RE.test(parts[0]);
-  if (parts.length === 2) {
-    if (!_INT_STRING_RE.test(parts[0]) || !_INT_STRING_RE.test(parts[1])) return false;
-    return BigInt(parts[1]) !== 0n; // safe: parts[1] already regex-validated digits-only
-  }
-  return false;
+// 裁定192 F83-1.1/F83-1.2: a coefficient is accepted ONLY as a CANONICAL
+// rational STRING -- a raw JS/JSON number is NEVER accepted at all (closes
+// F83-1.2's unsafe-integer round-trip gap by construction: JSON.parse
+// rounds an integer beyond Number.MAX_SAFE_INTEGER to the nearest
+// representable double BEFORE this function ever runs, so accepting
+// numbers at all would silently accept already-corrupted values; this also
+// matches the rest of this codebase's own convention of always using
+// string coefficients for native ideal_generator arrays). Canonical form:
+// optional '-', then '0' or a no-leading-zero digit run (numerator) --
+// optionally '/' then a no-leading-zero positive digit run (denominator),
+// which if present must be > 1 with the fraction already in lowest terms
+// (gcd(|n|,d) == 1). Rejects (never canonicalizes) "+1", "01", "2/2",
+// "1/01", "1/1" -- each distinct non-canonical byte string is refused, not
+// silently rewritten, so canonical-form equality reduces to plain string
+// equality.
+const _CANONICAL_RATIONAL_RE = /^(-?(?:0|[1-9]\d*))(?:\/([1-9]\d*))?$/;
+function _isCanonicalRationalString(s) {
+  if (typeof s !== 'string') return false;
+  const m = _CANONICAL_RATIONAL_RE.exec(s);
+  if (!m) return false;
+  if (m[2] === undefined) return true;
+  const n = BigInt(m[1]); // safe: m[1] already regex-validated digits-only (+ optional '-')
+  const d = BigInt(m[2]); // safe: m[2] already regex-validated digits-only
+  if (n === 0n) return false; // "0/d" is not canonical -- must be bare "0"
+  if (d === 1n) return false; // "n/1" is not canonical -- must be bare "n"
+  return gcdBig(n < 0n ? -n : n, d) === 1n;
 }
 function _isValidGeneratorArray(g) {
-  return Array.isArray(g) && g.length > 0 && g.every(_isValidRationalCoeff);
+  return Array.isArray(g) && g.length > 0 && g.every(_isCanonicalRationalString);
 }
 
-// Validates ONE entries[] item's own required-field schema (裁定185
-// F81-3.1 item 3, sharpened by 裁定189 F82-3.1 items 1/3). v3 条項7 lists
-// FOUR+ONE required fields for a chart-overlap witness item:
-// `chart_pair`, `generator_chart_a`, `generator_chart_b`, `agree`,
-// `locus_type` -- ALL required now (the prior version only required
-// `agree`, treating chart_pair/locus_type as unchecked and the two
-// generators as jointly optional; Sol's direct probe showed
-// {agree:true} and {agree:true, chart_pair:[...]} both reaching PASS with
-// no independently-verifiable content at all). Returns null if
-// well-formed, else a reason string (never throws).
-function _validateChartOverlapInnerEntry(ow) {
-  if (!ow || typeof ow !== 'object' || Array.isArray(ow)) {
-    return 'entries[] item is not an object';
-  }
-  if (typeof ow.locus_type !== 'string' || ow.locus_type === '') {
-    return "entries[] item missing 'locus_type' (or not a non-empty string) -- required per v3 条項7 (裁定189 F82-3.1 item 1)";
-  }
-  if (!Array.isArray(ow.chart_pair) || ow.chart_pair.length !== 2
-      || !ow.chart_pair.every((c) => typeof c === 'string' && c !== '')) {
-    return "entries[] item missing 'chart_pair' (or not a 2-element array of non-empty chart-id strings) -- required per v3 条項7 (裁定189 F82-3.1 item 1)";
-  }
-  if (typeof ow.agree !== 'boolean') {
-    return "entries[] item missing 'agree' field, or 'agree' is not a boolean -- required per v3 条項7";
-  }
-  // 裁定189 F82-3.1 item 2: BOTH generators are now REQUIRED, unconditionally
-  // -- an omitted generator (or only one supplied) is a schema violation, not
-  // a "nothing to check, assume true" case (that was exactly the gap Sol's
-  // {agree:true}/{agree:true,chart_pair:[...]} probes exploited: a bare
-  // producer claim with no independently-recomputable evidence must never
-  // reach PASS).
-  if (!Object.prototype.hasOwnProperty.call(ow, 'generator_chart_a')
-      || !Object.prototype.hasOwnProperty.call(ow, 'generator_chart_b')) {
-    return "entries[] item missing generator_chart_a and/or generator_chart_b -- BOTH required per "
-           + "v3 条項7 (a bare {agree:true} claim is not independently re-verifiable evidence, "
-           + "裁定189 F82-3.1 item 2)";
-  }
-  // 裁定189 F82-3.1 item 3: coefficient rational-schema check BEFORE any
-  // arithmetic ever runs (never a crash on malformed coefficients like "bad",
-  // never a silent zero-denominator throw either).
-  if (!_isValidGeneratorArray(ow.generator_chart_a) || !_isValidGeneratorArray(ow.generator_chart_b)) {
-    return "entries[] item generator_chart_a/generator_chart_b must be non-empty arrays of valid "
-           + "rational coefficients (a JS integer, or a string 'n' or 'n/d' with d != 0) -- "
-           + "裁定189 F82-3.1 item 3";
+// 裁定192 F83-1.1 condition 3: looks up the REAL native ideal_generator for
+// `locusType` among `components` (searcherComponents or checkerComponents,
+// as supplied by the caller) -- or null if unresolvable (native data does
+// not attest this locus at all).
+function _nativeGeneratorByLocus(components, locusType) {
+  if (!Array.isArray(components)) return null;
+  for (const c of components) {
+    if (c && typeof c === 'object' && c.locus_type === locusType) {
+      return Array.isArray(c.ideal_generator) ? c.ideal_generator : null;
+    }
   }
   return null;
 }
+function _rationalArraysEqual(a, b) {
+  return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((v, i) => v === b[i]);
+}
+
+// Validates ONE entries[] item against the UNIFIED, authority-bound item
+// schema (裁定192 F83-1.1's "(n) 再発効条件" 1-5 -- the SAME schema lane B's
+// ninfty-verifier-b.py `_validate_w4_inner_item` now requires):
+//
+//   {chart_pair: [id_a, id_b],       // 2 DISTINCT strings, BOTH resolved
+//                                    // against certificate.chart_ids
+//                                    // (full chart-registry-digest
+//                                    // resolution beyond this membership
+//                                    // check is UNKNOWN -- F78-3.6's
+//                                    // minimal schema does not exist yet,
+//                                    // not invented here)
+//    locus_type: <str>,              // must resolve to a REAL native
+//                                    // component on BOTH sides
+//    component_in_chart_a: <str>,    // == locus_type (this payload has
+//    component_in_chart_b: <str>,    // only ONE native representation per
+//                                    // side, not a genuine per-chart
+//                                    // local-naming registry -- distinct
+//                                    // per-chart local ids are UNKNOWN,
+//                                    // condition 4)
+//    agree: <bool>,                  // producer claim, unscored
+//    generator_chart_a: [<canonical rational str>, ...],
+//    generator_chart_b: [<canonical rational str>, ...]}
+//
+// Returns {reason: <string>} on ANY schema violation (never throws).
+// Returns {ok: true, agrees: <bool>} when well-formed and resolvable:
+// 裁定192 condition 3 -- generator_chart_a/b are no longer compared to EACH
+// OTHER (a producer self-consistency check); each is independently
+// compared, by EXACT canonical-string-list equality, against the
+// RECEIVER-DERIVED native ideal_generator for `locus_type` on the searcher
+// side (generator_chart_a) and the checker side (generator_chart_b) --
+// disagreement is a genuine native-binding FAILURE (this item disagrees),
+// not a schema violation. Coordinate TRANSITION TRANSPORT across
+// genuinely distinct charts (condition 4) is UNKNOWN with the current
+// payload (only one native representation per side exists, not a second
+// chart's native data to transport into) -- chart_pair[0]/[1] are bound to
+// the searcher/checker SIDES respectively (the only native duality this
+// payload actually supplies), not to two genuinely different coordinate
+// charts.
+function _validateChartOverlapInnerEntry(ow, chartIds, searcherComponents, checkerComponents) {
+  if (!ow || typeof ow !== 'object' || Array.isArray(ow)) {
+    return { reason: 'entries[] item is not an object' };
+  }
+  if (typeof ow.locus_type !== 'string' || ow.locus_type === '') {
+    return { reason: "entries[] item missing 'locus_type' (or not a non-empty string) -- required per v3 条項7 (裁定189 F82-3.1 item 1)" };
+  }
+  if (!Array.isArray(ow.chart_pair) || ow.chart_pair.length !== 2
+      || !ow.chart_pair.every((c) => typeof c === 'string' && c !== '')) {
+    return { reason: "entries[] item missing 'chart_pair' (or not a 2-element array of non-empty chart-id strings) -- required per v3 条項7 (裁定189 F82-3.1 item 1)" };
+  }
+  if (ow.chart_pair[0] === ow.chart_pair[1]) {
+    return { reason: `entries[] item.chart_pair must name two DISTINCT chart ids, got ${JSON.stringify(ow.chart_pair)} twice (裁定192 F83-1.1 condition 2)` };
+  }
+  if (!Array.isArray(chartIds) || !chartIds.includes(ow.chart_pair[0]) || !chartIds.includes(ow.chart_pair[1])) {
+    return { reason: `entries[] item.chart_pair ${JSON.stringify(ow.chart_pair)} references a chart id not present in certificate.chart_ids ${JSON.stringify(chartIds)} (裁定192 F83-1.1 condition 2; full chart-registry-digest resolution beyond this membership check is UNKNOWN -- F78-3.6's minimal schema does not exist yet)` };
+  }
+  for (const field of ['component_in_chart_a', 'component_in_chart_b']) {
+    if (typeof ow[field] !== 'string' || ow[field] === '') {
+      return { reason: `entries[] item.${field} must be a non-empty string` };
+    }
+    if (ow[field] !== ow.locus_type) {
+      return { reason: `entries[] item.${field}=${JSON.stringify(ow[field])} != locus_type=${JSON.stringify(ow.locus_type)} -- this payload has only one native representation per side, so distinct per-chart local component naming is UNKNOWN (out of scope pending a real chart registry, 裁定192 F83-1.1 condition 4)` };
+    }
+  }
+  if (typeof ow.agree !== 'boolean') {
+    return { reason: "entries[] item missing 'agree' field, or 'agree' is not a boolean -- required per v3 条項7" };
+  }
+  if (!Object.prototype.hasOwnProperty.call(ow, 'generator_chart_a')
+      || !Object.prototype.hasOwnProperty.call(ow, 'generator_chart_b')) {
+    return {
+      reason: "entries[] item missing generator_chart_a and/or generator_chart_b -- BOTH required per "
+              + "v3 条項7 (a bare {agree:true} claim is not independently re-verifiable evidence, "
+              + "裁定189 F82-3.1 item 2)",
+    };
+  }
+  if (!_isValidGeneratorArray(ow.generator_chart_a) || !_isValidGeneratorArray(ow.generator_chart_b)) {
+    return {
+      reason: "entries[] item generator_chart_a/generator_chart_b must be non-empty arrays of CANONICAL "
+              + "rational strings (integer or reduced 'n/d' with d>1, no leading zeros, no explicit '+', "
+              + `no raw JSON numbers at all -- 裁定192 F83-1.1 condition 5 / F83-1.2), got ${JSON.stringify(ow.generator_chart_a)}/${JSON.stringify(ow.generator_chart_b)}`,
+    };
+  }
+  const searcherGen = _nativeGeneratorByLocus(searcherComponents, ow.locus_type);
+  const checkerGen = _nativeGeneratorByLocus(checkerComponents, ow.locus_type);
+  if (searcherGen === null || checkerGen === null) {
+    return {
+      reason: `entries[] item.locus_type=${JSON.stringify(ow.locus_type)} does not resolve to a real native `
+              + `component on the ${searcherGen === null ? 'searcher' : 'checker'} side -- unresolvable `
+              + 'reference (裁定192 F83-1.1 condition 3)',
+    };
+  }
+  return {
+    ok: true,
+    agrees: _rationalArraysEqual(ow.generator_chart_a, searcherGen) && _rationalArraysEqual(ow.generator_chart_b, checkerGen),
+  };
+}
 
 // Returns {status: 'ABSENT'|'MALFORMED', reason?} for a terminal (non-scoring)
-// verdict, or {status: null, entries: [...]} meaning "status==='PRESENT',
-// entries is genuinely non-empty, and every item is schema-valid --
-// proceed to re-verify its arithmetic content".
-function classifyChartOverlapEntry(w) {
+// verdict, or {status: null, agrees: [...]} meaning "status==='PRESENT',
+// entries is genuinely non-empty, and every item is schema-valid AND
+// native-resolvable -- `agrees[i]` records whether item i's generators
+// actually match native data".
+function classifyChartOverlapEntry(w, chartIds, searcherComponents, checkerComponents) {
   if (!w || typeof w !== 'object') return { status: 'ABSENT' };
   if (Object.prototype.hasOwnProperty.call(w, 'per_overlap_witnesses')) {
     return {
@@ -336,36 +420,31 @@ function classifyChartOverlapEntry(w) {
   if (w.entries.length === 0) {
     return { status: 'MALFORMED', reason: 'chart_overlap_witnesses entry.status=PRESENT but entries is empty -- declares presence while supplying no evidence (追補(n) v2 rule 5)' };
   }
+  const agrees = [];
   for (let i = 0; i < w.entries.length; i++) {
-    const badReason = _validateChartOverlapInnerEntry(w.entries[i]);
-    if (badReason) {
-      return { status: 'MALFORMED', reason: `chart_overlap_witnesses entry.entries[${i}]: ${badReason} (裁定185 F81-3.1 item 3)` };
+    const r = _validateChartOverlapInnerEntry(w.entries[i], chartIds, searcherComponents, checkerComponents);
+    if (!r.ok) {
+      return { status: 'MALFORMED', reason: `chart_overlap_witnesses entry.entries[${i}]: ${r.reason} (裁定192 F83-1.1)` };
     }
+    agrees.push(r.agrees);
   }
-  return { status: null, entries: w.entries };
+  return { status: null, agrees };
 }
 
-function verifyChartOverlap(w) {
-  const c = classifyChartOverlapEntry(w);
+function verifyChartOverlap(w, chartIds, searcherComponents, checkerComponents) {
+  const c = classifyChartOverlapEntry(w, chartIds, searcherComponents, checkerComponents);
   if (c.status === 'ABSENT') return 'ABSENT';
   if (c.status === 'MALFORMED') return 'MALFORMED';
-  // c.status === null: status==='PRESENT', entries is non-empty, and every
-  // item already passed the schema gate above (chart_pair/locus_type/agree
-  // present+typed, BOTH generators present with schema-valid rational
-  // coefficients). 裁定189 F82-3.1 item 2: PASS is decided SOLELY by this
-  // receiver's OWN recomputed generator equivalence (mutual reduction to
-  // zero) -- the producer's `agree` claim is a required SCHEMA field (v3
-  // 条項7) but is NEVER itself trusted for the verdict, matching this
-  // codebase's "producer claim, never authoritative" discipline used
-  // everywhere else (lane B's witness/status handling, W-2/W-2' Bezout
-  // re-derivation, etc.). There is no more "generator omitted -> vacuously
-  // true" branch: the schema gate already REQUIRES both generators, so
-  // every entry reaching this point has real, independently-checkable
-  // content.
-  const allOk = c.entries.every((ow) => (
-    reducesToZero(ow.generator_chart_a, ow.generator_chart_b)
-    && reducesToZero(ow.generator_chart_b, ow.generator_chart_a)
-  ));
+  // c.status === null: status==='PRESENT', entries is non-empty, every item
+  // passed the schema+native-resolution gate above. 裁定192 F83-1.1
+  // condition 3: PASS is decided SOLELY by whether EACH item's declared
+  // generator_chart_a/b EXACTLY matches the RECEIVER-DERIVED native
+  // ideal_generator (searcher side / checker side respectively) -- this
+  // replaces the old "compare the two producer-supplied generators to each
+  // other" self-consistency check (Sol's superset-forgery probe exploited
+  // exactly that: two invented, mutually-consistent, but native-UNBOUND
+  // generators used to reach PASS).
+  const allOk = c.agrees.every((a) => a === true);
   return allOk ? 'PASS' : 'FAIL';
 }
 
@@ -530,7 +609,7 @@ function verifyComponentBijectionEdges(edges, searcherComponents, checkerCompone
   return 'PASS';
 }
 
-function verifyObject(certObj, searcherComponents, checkerComponents) {
+function verifyObject(certObj, searcherComponents, checkerComponents, chartIds) {
   const R = {}; // per-witness result: PASS / FAIL / ABSENT
 
   // W-1: edge-form bijection re-check (裁定 139 item 2, see function above).
@@ -559,7 +638,7 @@ function verifyObject(certObj, searcherComponents, checkerComponents) {
   // W-4 (裁定 115 item 2, v3 条項 7 -- unchanged): structured chart-atlas /
   // per-overlap re-check, divisor_object-keyed 1 entry, per_overlap_witnesses[]
   // carries the layering. status='ABSENT' is read literally as ABSENT.
-  R['W-4'] = verifyChartOverlap(certObj.chartOverlap);
+  R['W-4'] = verifyChartOverlap(certObj.chartOverlap, chartIds, searcherComponents, checkerComponents);
 
   // W-5: coverage / no extra
   const cov = certObj.coverage;
@@ -717,7 +796,7 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
       chartOverlap: (() => { const e = filterByObject(certificate.chart_overlap_witnesses, tag); return e.length === 1 ? e[0] : undefined; })(),
       coverage: coverageEntries.length === 1 ? coverageEntries[0] : undefined, // 0 or >1 entries -> ABSENT, not a guess
       pushforwardResult: pushforward.result, // shared W-6 verdict (裁定 139 item 1)
-    }, (searcherNativeBlob[tag] && searcherNativeBlob[tag].components) || [], (checkerNativeBlob[tag] && checkerNativeBlob[tag].components) || []);
+    }, (searcherNativeBlob[tag] && searcherNativeBlob[tag].components) || [], (checkerNativeBlob[tag] && checkerNativeBlob[tag].components) || [], certificate.chart_ids);
   }
 
   const DIVISOR_OBJECT_RAM = 'ramification_divisor_on_C_ref';
@@ -749,7 +828,11 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
       continue;
     }
     if (matched.length === 1) {
-      const c = classifyChartOverlapEntry(matched[0]);
+      const c = classifyChartOverlapEntry(
+        matched[0], certificate.chart_ids,
+        (searcherNativeBlob[tag] && searcherNativeBlob[tag].components) || [],
+        (checkerNativeBlob[tag] && checkerNativeBlob[tag].components) || [],
+      );
       if (c.status === 'MALFORMED') {
         chartOverlapMalformed.push({ field: 'chart_overlap_witnesses.' + tag, reason: c.reason });
       }

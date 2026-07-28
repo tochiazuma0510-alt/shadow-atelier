@@ -691,14 +691,26 @@ record("裁定142/full_witness_fixture_01.json WITHOUT native_a/native_b (self-c
 # any `status` value other than exactly "ABSENT"/"PRESENT" is now
 # MALFORMED unconditionally (not just when entries happens to be empty, as
 # v1 rule 4 was scoped) -- schema violation, never silently read as
-# ABSENT. Direct unit tests on ver._validate_w4_entry (isolated-function
-# tests, matching the style of the 裁定142 _parse_ref_triple tests above).
+# ABSENT. Direct unit tests on ver._make_w4_entry_validator(...)(...) --
+# 裁定192 turned _validate_w4_entry into a factory (chart_ids/native_a/
+# native_b context needed for the authority-bound inner-item schema, see
+# below) -- isolated-function tests, matching the style of the 裁定142
+# _parse_ref_triple tests above. Branches that fail BEFORE ever reaching
+# the inner entries[] items (1-5, 7, 8, co-presence) pass None/None/None
+# for chart_ids/native_a/native_b since that context is never consulted;
+# branch 6 (the genuine PASS path) needs REAL native-bound context, so it
+# reuses cert_pos_01.json's own chart_ids/native_a/native_b.
 # --------------------------------------------------------------------------
+
+
+def _w4_validator(chart_ids=None, native_a=None, native_b=None):
+    return ver._make_w4_entry_validator(chart_ids, native_a, native_b)
+
 
 # v2 branch 1: status:"ABSENT" + entries:[] -> exactly ABSENT (the sole
 # canonical ABSENT marker; matches the lane-A shape once regenerated per
 # 裁定152, see search/ninfty-searcher-v2.mjs).
-_n1_status, _n1_detail = ver._validate_w4_entry({
+_n1_status, _n1_detail = _w4_validator()({
     "divisor_object": "ramification_divisor_on_C_ref",
     "status": "ABSENT",
     "entries": [],
@@ -713,7 +725,7 @@ record("追補(n) v2 branch 1: status=ABSENT + entries=[] -> exactly ABSENT (not
 # default: Sol F78-3.2 called this a second, digest-splitting encoding of
 # the same meaning).
 try:
-    ver._validate_w4_entry({"divisor_object": "ramification_divisor_on_C_ref", "entries": []})
+    _w4_validator()({"divisor_object": "ramification_divisor_on_C_ref", "entries": []})
     _n2_raised = False
 except ver.MalformedWitness:
     _n2_raised = True
@@ -724,11 +736,13 @@ record("追補(n) v2 branch 2 (v1 rule 2 RETIRED): entries=[] with NO status fie
 # v2 branch 3: status:"ABSENT" + NON-empty entries -> contradiction ->
 # MalformedWitness (unchanged from v1 rule 3).
 try:
-    ver._validate_w4_entry({
+    _w4_validator()({
         "divisor_object": "ramification_divisor_on_C_ref",
         "status": "ABSENT",
         "entries": [
-            {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+            {"chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+             "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+             "agree": True, "generator_chart_a": ["1"], "generator_chart_b": ["1"]}
         ],
     })
     _n3_raised = False
@@ -743,11 +757,13 @@ record("追補(n) v2 branch 3: status=ABSENT + non-empty entries -> MalformedWit
 # entries' own emptiness, since status is validated before entries'
 # content is even consulted).
 try:
-    ver._validate_w4_entry({
+    _w4_validator()({
         "divisor_object": "ramification_divisor_on_C_ref",
         "status": "agree",  # pre-追補(n) free-text producer-claim convention -- no longer accepted at all
         "entries": [
-            {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+            {"chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+             "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+             "agree": True, "generator_chart_a": ["1"], "generator_chart_b": ["1"]}
         ],
     })
     _n4_raised = False
@@ -761,7 +777,7 @@ record("追補(n) v2 branch 4 (v1 rule 4, now unconditional): status='agree' (pr
 # v2 branch 5 (裁定149 rule 5, unchanged in spirit): status:"PRESENT" +
 # entries:[] -> MalformedWitness (self-contradiction, mirror of rule 3).
 try:
-    ver._validate_w4_entry({
+    _w4_validator()({
         "divisor_object": "ramification_divisor_on_C_ref",
         "status": "PRESENT",
         "entries": [],
@@ -774,15 +790,26 @@ record("追補(n) v2 branch 5 (裁定149): status=PRESENT + entries=[] -> "
        _n5_raised, "raised" if _n5_raised else "did NOT raise (BUG)")
 
 # v2 branch 6 (the genuine, canonical PRESENT/PASS path): status:"PRESENT" +
-# non-empty, internally-consistent entries -> PASS.
-_n6_status, _n6_detail = ver._validate_w4_entry({
+# non-empty, AUTHORITY-BOUND entries (裁定192 F83-1.1) -> PASS. Reuses
+# cert_pos_01.json's own real chart_ids/native_a/native_b so the
+# generator_chart_a/b actually match native ideal_generator data (locus
+# "pt-x1" -> ["-1","1"], see search/fixtures/ninfty/build_v3_fixtures.py).
+_cert_pos_01_for_w4 = load_fixture("cert_pos_01.json")
+_w4_real_validator = _w4_validator(
+    chart_ids=_cert_pos_01_for_w4["certificate"]["chart_ids"],
+    native_a=_cert_pos_01_for_w4["native_a"],
+    native_b=_cert_pos_01_for_w4["native_b"],
+)
+_n6_status, _n6_detail = _w4_real_validator({
     "divisor_object": "ramification_divisor_on_C_ref",
     "status": "PRESENT",
     "entries": [
-        {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+        {"chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+         "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+         "agree": True, "generator_chart_a": ["-1", "1"], "generator_chart_b": ["-1", "1"]}
     ],
 })
-record("追補(n) v2 branch 6: status=PRESENT + non-empty, agreeing entries -> PASS (canonical form)",
+record("追補(n) v2 branch 6: status=PRESENT + non-empty, native-bound-agreeing entries -> PASS (canonical form)",
        _n6_status == "PASS", f"got {_n6_status!r}: {_n6_detail}")
 
 # v2 branch 7: `entries` key missing entirely (e.g. an UNCONVERTED legacy
@@ -792,7 +819,7 @@ record("追補(n) v2 branch 6: status=PRESENT + non-empty, agreeing entries -> P
 # normalizer.py) rather than having this verifier itself tolerate the old
 # key name.
 try:
-    ver._validate_w4_entry({
+    _w4_validator()({
         "divisor_object": "ramification_divisor_on_C_ref",
         "status": "ABSENT",
         "per_overlap_witnesses": [],  # retired key name -- NOT recognized as `entries`
@@ -806,7 +833,7 @@ record("追補(n) v2 branch 7: legacy `per_overlap_witnesses` key (no `entries` 
 
 # v2 branch 8: `entries` present but not an array (e.g. null) -> MalformedWitness.
 try:
-    ver._validate_w4_entry({"divisor_object": "ramification_divisor_on_C_ref", "status": "ABSENT", "entries": None})
+    _w4_validator()({"divisor_object": "ramification_divisor_on_C_ref", "status": "ABSENT", "entries": None})
     _n8_raised = False
 except ver.MalformedWitness:
     _n8_raised = True
@@ -858,7 +885,7 @@ record("追補(n) v2 integration: UNCONVERTED legacy-shape W-4 (per_overlap_witn
 # when the two arrays are byte-identical (ambiguous either way, never
 # silently ignored just because `entries` alone validates).
 try:
-    ver._validate_w4_entry({
+    _w4_validator()({
         "divisor_object": "ramification_divisor_on_C_ref",
         "status": "PRESENT",
         "entries": [
@@ -874,6 +901,119 @@ except ver.MalformedWitness:
 record("裁定177 F80-4.2 condition 5: entries + per_overlap_witnesses co-presence (even if "
        "byte-identical) -> MalformedWitness (MALFORMED)",
        _n_coexist_raised, "raised" if _n_coexist_raised else "did NOT raise (BUG)")
+
+
+# --------------------------------------------------------------------------
+# 裁定192 (sol/裁定_192_便83検収.md F83-1.1, sol/sol_reply_83_math10.md):
+# Sol's four adversarial W-4 blobs, end-to-end via run_verifier_b (using
+# cert_pos_01.json's real chart_ids/native_a/native_b context), each with
+# the RETURNED STATUS explicitly asserted (not merely "did not crash" --
+# 便83 ★4: "crash しない負例は fail-closed の負例ではない").
+# --------------------------------------------------------------------------
+
+def _w4_e2e_status(entry_ram, entry_branch=None):
+    """Wires one (or two, one per divisor_object) W-4 entries into
+    cert_pos_01.json's real context via run_verifier_b, returns
+    witness_results['W-4'] per-object statuses."""
+    payload = deep_cert()
+    entry_branch = entry_branch if entry_branch is not None else entry_ram
+    payload["certificate"]["chart_overlap_witnesses"] = [
+        {**entry_ram, "divisor_object": "ramification_divisor_on_C_ref"},
+        {**entry_branch, "divisor_object": "branch_divisor_on_P1_ref"},
+    ]
+    result = ver.run_verifier_b(payload)
+    return result["witness_results"]["W-4"], result["overall_verdict_B"]
+
+# adversarial 1: superset forgery (all lane-A + lane-B fields present,
+# same-chart pair, invented locus/component names, generator NOT bound to
+# any real native data) -> MALFORMED (chart_pair not distinct AND
+# unresolvable chart id AND unresolvable locus_type, any one of which is
+# already fatal).
+_superset_forgery = {
+    "status": "PRESENT",
+    "entries": [{
+        "chart_pair": ["A", "A"], "locus_type": "invented",
+        "component_in_chart_a": "invented", "component_in_chart_b": "invented",
+        "agree": True, "generator_chart_a": ["1"], "generator_chart_b": ["1"],
+    }],
+}
+_w4_res, _overall = _w4_e2e_status(_superset_forgery)
+record("裁定192 adversarial 1 (superset forgery): W-4 -> MALFORMED for both objects (returned status asserted)",
+       _w4_res["ramification_divisor_on_C"] == "MALFORMED" and _w4_res["branch_divisor_on_P1"] == "MALFORMED",
+       json.dumps(_w4_res) + f" overall={_overall!r}")
+
+# adversarial 2: same-chart pair alone (otherwise a real, native-bound,
+# genuinely resolvable locus) -> MALFORMED (chart_pair must be 2 DISTINCT
+# chart ids, 裁定192 condition 2).
+_same_chart_pair = {
+    "status": "PRESENT",
+    "entries": [{
+        "chart_pair": ["chart-A", "chart-A"], "locus_type": "pt-x1",
+        "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+        "agree": True, "generator_chart_a": ["-1", "1"], "generator_chart_b": ["-1", "1"],
+    }],
+}
+_w4_res2, _overall2 = _w4_e2e_status(_same_chart_pair)
+record("裁定192 adversarial 2 (same-chart pair): W-4 -> MALFORMED for both objects (returned status asserted)",
+       _w4_res2["ramification_divisor_on_C"] == "MALFORMED" and _w4_res2["branch_divisor_on_P1"] == "MALFORMED",
+       json.dumps(_w4_res2) + f" overall={_overall2!r}")
+
+# adversarial 3: native-unbound generator (well-formed shape, resolvable
+# chart_pair/locus_type, but generator_chart_a/b do NOT match the real
+# native ideal_generator ["-1","1"] for locus "pt-x1") -> FAIL (a genuine
+# native-binding falsification), NOT a silent PASS.
+_native_unbound = {
+    "status": "PRESENT",
+    "entries": [{
+        "chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+        "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+        "agree": True, "generator_chart_a": ["99", "1"], "generator_chart_b": ["99", "1"],
+    }],
+}
+_w4_res3, _overall3 = _w4_e2e_status(_native_unbound)
+record("裁定192 adversarial 3 (native-unbound generator): W-4 -> FAIL for both objects (not silently PASS)",
+       _w4_res3["ramification_divisor_on_C"] == "FAIL" and _w4_res3["branch_divisor_on_P1"] == "FAIL",
+       json.dumps(_w4_res3) + f" overall={_overall3!r}")
+
+# adversarial 4: unsafe/raw-number coefficient (JSON number, not a
+# canonical rational string at all) -> MALFORMED (this lane accepts ONLY
+# canonical rational STRINGS for generator coefficients, 裁定192 condition
+# 5 / F83-1.2 -- a raw JSON number is never accepted, closing the
+# unsafe-integer round-trip gap by construction).
+_unsafe_integer = {
+    "status": "PRESENT",
+    "entries": [{
+        "chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+        "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+        "agree": True, "generator_chart_a": [-1, 1], "generator_chart_b": [-1, 1],  # raw JSON numbers, not strings
+    }],
+}
+_w4_res4, _overall4 = _w4_e2e_status(_unsafe_integer)
+record("裁定192 adversarial 4 (raw JSON number coefficients, incl. unsafe-integer-shaped): "
+       "W-4 -> MALFORMED for both objects (returned status asserted; strings-only schema)",
+       _w4_res4["ramification_divisor_on_C"] == "MALFORMED" and _w4_res4["branch_divisor_on_P1"] == "MALFORMED",
+       json.dumps(_w4_res4) + f" overall={_overall4!r}")
+
+# also the LITERAL Sol probe: a JS-unsafe integer ENCODED AS A STRING
+# (canonical-looking digit run, but exceeding Number.MAX_SAFE_INTEGER) --
+# since this lane never parses coefficients as numbers at all (string
+# canonical-form comparison only), this is accepted at the schema level
+# exactly like any other canonical integer string; it is native-UNBOUND
+# (does not match native ["-1","1"]) so it resolves to FAIL, not a schema
+# violation and not a crash.
+_unsafe_integer_as_string = {
+    "status": "PRESENT",
+    "entries": [{
+        "chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+        "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+        "agree": True, "generator_chart_a": ["9007199254740993"], "generator_chart_b": ["9007199254740993"],
+    }],
+}
+_w4_res5, _overall5 = _w4_e2e_status(_unsafe_integer_as_string)
+record("裁定192 adversarial 4b (Sol's literal probe value as a canonical STRING, "
+       "9007199254740993 > 2^53): schema-valid but native-unbound -> FAIL, not crash/PASS",
+       _w4_res5["ramification_divisor_on_C"] == "FAIL" and _w4_res5["branch_divisor_on_P1"] == "FAIL",
+       json.dumps(_w4_res5) + f" overall={_overall5!r}")
 
 
 # --------------------------------------------------------------------------
