@@ -13,7 +13,7 @@
 // (P-3.3 is expected to fail in this reverse-direction use since those are
 // STAND-IN values, not real digests -- this script does not paper over that).
 
-import { runVerifierA } from '../ninfty-verifier-a.mjs';
+import { runVerifierA, resolveRef } from '../ninfty-verifier-a.mjs';
 
 let raw = '';
 process.stdin.setEncoding('utf8');
@@ -28,14 +28,25 @@ process.stdin.on('end', () => {
   }
   try {
     const cert = payload.certificate;
-    const searcherNativeBlob = {
-      ramification_divisor_on_C_ref: cert.searcher_native.ramification_divisor_on_C_ref,
-      branch_divisor_on_P1_ref: cert.searcher_native.branch_divisor_on_P1_ref,
-    };
-    const checkerNativeBlob = {
-      ramification_divisor_on_C_ref: cert.checker_native.ramification_divisor_on_C_ref,
-      branch_divisor_on_P1_ref: cert.checker_native.branch_divisor_on_P1_ref,
-    };
+    // 裁定139 item 3: searcher_native/checker_native's *_ref fields are now
+    // {artifact_id, digest, object_id, inline} triples (see
+    // ninfty-verifier-a.mjs resolveRef), not the raw {components:[...]}
+    // object directly. This EP helper is not a lane file (it is a thin
+    // receiving-side CLI wrapper around runVerifierA, same status as
+    // search/certs/gen_full_cert_base.mjs), so it is updated here to
+    // resolve the ref's inline content before handing the native blob to
+    // runVerifierA -- runVerifierA itself has no way to know what "the
+    // blob this caller actually read" was except what's passed in.
+    function resolvedNativeBlob(nativeSide) {
+      const ram = resolveRef(nativeSide.ramification_divisor_on_C_ref);
+      const branch = resolveRef(nativeSide.branch_divisor_on_P1_ref);
+      return {
+        ramification_divisor_on_C_ref: ram.malformed ? undefined : ram.data,
+        branch_divisor_on_P1_ref: branch.malformed ? undefined : branch.data,
+      };
+    }
+    const searcherNativeBlob = resolvedNativeBlob(cert.searcher_native);
+    const checkerNativeBlob = resolvedNativeBlob(cert.checker_native);
     const result = runVerifierA({ certificate: cert, searcherNativeBlob, checkerNativeBlob });
     process.stdout.write(JSON.stringify(result));
   } catch (e) {

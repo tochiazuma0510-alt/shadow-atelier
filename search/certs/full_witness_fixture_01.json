@@ -24,196 +24,234 @@
     "groebner_reduction_contract_digest": "e0dceacf6ac79f56c8f47ac7f25358958ae403232927cd469d266bb471fb0a87",
     "searcher_native": {
       "ramification_divisor_on_C_ref": {
-        "components": [
-          {
-            "locus_type": "a-pair-locus",
-            "ideal_generator": [
-              "8",
-              "6",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "p-locus",
-            "ideal_generator": [
-              "44/5",
-              "6",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "weierstrass-locus",
-            "ideal_generator": [
-              "59504/125",
-              "27408/25",
-              "25628/25",
-              "2484/5",
-              "657/5",
-              "18",
-              "1"
-            ],
-            "multiplicity": 1
-          }
-        ]
+        "artifact_id": "mb/ninfty-lanea/inline-artifact/searcher-ramification_divisor_on_C_ref",
+        "digest": "e8656f2b19caafbc3707a721641debae3a1b1239f7cebf0f743dd5e7840adb75",
+        "object_id": "searcher-ramification_divisor_on_C_ref",
+        "inline": {
+          "components": [
+            {
+              "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+              "locus_type": "a-pair-locus",
+              "ideal_generator": [
+                "8",
+                "6",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "component_id": "ramification_divisor_on_C_ref:p-locus",
+              "locus_type": "p-locus",
+              "ideal_generator": [
+                "44/5",
+                "6",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+              "locus_type": "weierstrass-locus",
+              "ideal_generator": [
+                "59504/125",
+                "27408/25",
+                "25628/25",
+                "2484/5",
+                "657/5",
+                "18",
+                "1"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
       },
       "branch_divisor_on_P1_ref": {
-        "components": [
-          {
-            "locus_type": "a-pair-locus",
-            "ideal_generator": [
-              "8",
-              "6",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "a-pair-locus"
-          },
-          {
-            "locus_type": "p-locus",
-            "ideal_generator": [
-              "44/5",
-              "6",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "p-locus"
-          },
-          {
-            "locus_type": "weierstrass-locus",
-            "ideal_generator": [
-              "59504/125",
-              "27408/25",
-              "25628/25",
-              "2484/5",
-              "657/5",
-              "18",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "weierstrass-locus"
-          }
-        ]
+        "artifact_id": "mb/ninfty-lanea/inline-artifact/searcher-branch_divisor_on_P1_ref",
+        "digest": "7e20634855cf7819827594b01e00347291ba6bbfcac5d8013709632634af4762",
+        "object_id": "searcher-branch_divisor_on_P1_ref",
+        "inline": {
+          "components": [
+            {
+              "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+              "locus_type": "a-pair-locus",
+              "ideal_generator": [
+                "8",
+                "6",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "a-pair-locus"
+            },
+            {
+              "component_id": "branch_divisor_on_P1_ref:p-locus",
+              "locus_type": "p-locus",
+              "ideal_generator": [
+                "44/5",
+                "6",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "p-locus"
+            },
+            {
+              "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+              "locus_type": "weierstrass-locus",
+              "ideal_generator": [
+                "59504/125",
+                "27408/25",
+                "25628/25",
+                "2484/5",
+                "657/5",
+                "18",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "weierstrass-locus"
+            }
+          ]
+        }
       },
       "native_schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
       "native_schema_digest": null,
-      "native_artifact_digest": "de774450509ac930e6813b590e2e5bb725cd9aa8714cc7680fc1a15ec4482195"
+      "native_artifact_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf"
     },
     "checker_native": {
       "ramification_divisor_on_C_ref": {
-        "components": [
-          {
-            "locus_type": "a-pair-locus",
-            "ideal_generator": [
-              "8",
-              "6",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "p-locus",
-            "ideal_generator": [
-              "44/5",
-              "6",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "weierstrass-locus",
-            "ideal_generator": [
-              "59504/125",
-              "27408/25",
-              "25628/25",
-              "2484/5",
-              "657/5",
-              "18",
-              "1"
-            ],
-            "multiplicity": 1
-          }
-        ]
+        "artifact_id": "mb/ninfty-lanea/inline-artifact/checker-ramification_divisor_on_C_ref",
+        "digest": "e8656f2b19caafbc3707a721641debae3a1b1239f7cebf0f743dd5e7840adb75",
+        "object_id": "checker-ramification_divisor_on_C_ref",
+        "inline": {
+          "components": [
+            {
+              "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+              "locus_type": "a-pair-locus",
+              "ideal_generator": [
+                "8",
+                "6",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "component_id": "ramification_divisor_on_C_ref:p-locus",
+              "locus_type": "p-locus",
+              "ideal_generator": [
+                "44/5",
+                "6",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+              "locus_type": "weierstrass-locus",
+              "ideal_generator": [
+                "59504/125",
+                "27408/25",
+                "25628/25",
+                "2484/5",
+                "657/5",
+                "18",
+                "1"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
       },
       "branch_divisor_on_P1_ref": {
-        "components": [
-          {
-            "locus_type": "a-pair-locus",
-            "ideal_generator": [
-              "8",
-              "6",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "a-pair-locus"
-          },
-          {
-            "locus_type": "p-locus",
-            "ideal_generator": [
-              "44/5",
-              "6",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "p-locus"
-          },
-          {
-            "locus_type": "weierstrass-locus",
-            "ideal_generator": [
-              "59504/125",
-              "27408/25",
-              "25628/25",
-              "2484/5",
-              "657/5",
-              "18",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "weierstrass-locus"
-          }
-        ]
+        "artifact_id": "mb/ninfty-lanea/inline-artifact/checker-branch_divisor_on_P1_ref",
+        "digest": "7e20634855cf7819827594b01e00347291ba6bbfcac5d8013709632634af4762",
+        "object_id": "checker-branch_divisor_on_P1_ref",
+        "inline": {
+          "components": [
+            {
+              "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+              "locus_type": "a-pair-locus",
+              "ideal_generator": [
+                "8",
+                "6",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "a-pair-locus"
+            },
+            {
+              "component_id": "branch_divisor_on_P1_ref:p-locus",
+              "locus_type": "p-locus",
+              "ideal_generator": [
+                "44/5",
+                "6",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "p-locus"
+            },
+            {
+              "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+              "locus_type": "weierstrass-locus",
+              "ideal_generator": [
+                "59504/125",
+                "27408/25",
+                "25628/25",
+                "2484/5",
+                "657/5",
+                "18",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "weierstrass-locus"
+            }
+          ]
+        }
       },
       "native_schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
       "native_schema_digest": null,
-      "native_artifact_digest": "de774450509ac930e6813b590e2e5bb725cd9aa8714cc7680fc1a15ec4482195"
+      "native_artifact_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf"
     },
     "component_bijection": [
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "searcher_index": 0,
-        "checker_index": 0,
-        "locus_type": "a-pair-locus"
+        "searcher_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "searcher_component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+        "checker_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "checker_component_id": "ramification_divisor_on_C_ref:a-pair-locus"
       },
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "searcher_index": 1,
-        "checker_index": 1,
-        "locus_type": "p-locus"
+        "searcher_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "searcher_component_id": "ramification_divisor_on_C_ref:p-locus",
+        "checker_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "checker_component_id": "ramification_divisor_on_C_ref:p-locus"
       },
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "searcher_index": 2,
-        "checker_index": 2,
-        "locus_type": "weierstrass-locus"
+        "searcher_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "searcher_component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+        "checker_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "checker_component_id": "ramification_divisor_on_C_ref:weierstrass-locus"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "searcher_index": 0,
-        "checker_index": 0,
-        "locus_type": "a-pair-locus"
+        "searcher_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "searcher_component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+        "checker_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "checker_component_id": "branch_divisor_on_P1_ref:a-pair-locus"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "searcher_index": 1,
-        "checker_index": 1,
-        "locus_type": "p-locus"
+        "searcher_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "searcher_component_id": "branch_divisor_on_P1_ref:p-locus",
+        "checker_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "checker_component_id": "branch_divisor_on_P1_ref:p-locus"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "searcher_index": 2,
-        "checker_index": 2,
-        "locus_type": "weierstrass-locus"
+        "searcher_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "searcher_component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+        "checker_native_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+        "checker_component_id": "branch_divisor_on_P1_ref:weierstrass-locus"
       }
     ],
     "exact_point_equality_witnesses": [
@@ -978,138 +1016,187 @@
     ],
     "pushforward_compatibility_witness": [
       {
-        "divisor_object": "ramification_divisor_on_C_ref",
-        "status": "PASS",
-        "points": [
-          {
-            "role": "ramification",
-            "locus_type": "a-pair-locus",
-            "point_ref": "a-pair-locus",
-            "maps_to_branch_value": "a-pair-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "branch",
-            "locus_type": "a-pair-locus",
-            "branch_value": "a-pair-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "ramification",
-            "locus_type": "p-locus",
-            "point_ref": "p-locus",
-            "maps_to_branch_value": "p-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "branch",
-            "locus_type": "p-locus",
-            "branch_value": "p-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "ramification",
-            "locus_type": "weierstrass-locus",
-            "point_ref": "weierstrass-locus",
-            "maps_to_branch_value": "weierstrass-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "branch",
-            "locus_type": "weierstrass-locus",
-            "branch_value": "weierstrass-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
+        "native_side": "searcher",
+        "ramification_ref": {
+          "artifact_id": "search/ninfty-witness-gen.py#pushforward-v3",
+          "digest": "7dcb531713998d55816dfcd2e01f59e56f00b9b219e113ed5556d6c6b0cad85e",
+          "object_id": "searcher:ramification_divisor_on_C",
+          "inline": [
+            {
+              "locus_type": "a-pair-locus",
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "p-locus",
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "weierstrass-locus",
+              "multiplicity": 1
+            }
+          ]
+        },
+        "branch_ref": {
+          "artifact_id": "search/ninfty-witness-gen.py#pushforward-v3",
+          "digest": "7dcb531713998d55816dfcd2e01f59e56f00b9b219e113ed5556d6c6b0cad85e",
+          "object_id": "searcher:branch_divisor_on_P1",
+          "inline": [
+            {
+              "locus_type": "a-pair-locus",
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "p-locus",
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "weierstrass-locus",
+              "multiplicity": 1
+            }
+          ]
+        },
+        "map_ref": {
+          "artifact_id": "search/ninfty-witness-gen.py#pushforward-v3",
+          "digest": "42ede2bb4f55b282bf80c12e9cc6104bfb3bb200c995e3c0f383a64c69952065",
+          "object_id": "searcher:pushforward_map",
+          "inline": [
+            {
+              "branch_value": "a-pair-locus",
+              "multiplicity": 1
+            },
+            {
+              "branch_value": "p-locus",
+              "multiplicity": 1
+            },
+            {
+              "branch_value": "weierstrass-locus",
+              "multiplicity": 1
+            }
+          ]
+        },
+        "witness_ref": {
+          "artifact_id": "search/ninfty-witness-gen.py#pushforward-v3",
+          "digest": "15f2d1006e3e4b6126b7a2071d5ff214954c72026e76b6d39f91680b64b33a19",
+          "object_id": "searcher:pushforward_witness",
+          "inline": {
+            "points": [
+              {
+                "locus_type": "a-pair-locus",
+                "ram_multiplicity": 1,
+                "branch_multiplicity": 1,
+                "match": true
+              },
+              {
+                "locus_type": "p-locus",
+                "ram_multiplicity": 1,
+                "branch_multiplicity": 1,
+                "match": true
+              },
+              {
+                "locus_type": "weierstrass-locus",
+                "ram_multiplicity": 1,
+                "branch_multiplicity": 1,
+                "match": true
+              }
+            ]
           }
-        ]
+        }
       },
       {
-        "divisor_object": "branch_divisor_on_P1_ref",
-        "status": "PASS",
-        "points": [
-          {
-            "role": "ramification",
-            "locus_type": "a-pair-locus",
-            "point_ref": "a-pair-locus",
-            "maps_to_branch_value": "a-pair-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "branch",
-            "locus_type": "a-pair-locus",
-            "branch_value": "a-pair-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "ramification",
-            "locus_type": "p-locus",
-            "point_ref": "p-locus",
-            "maps_to_branch_value": "p-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "branch",
-            "locus_type": "p-locus",
-            "branch_value": "p-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "ramification",
-            "locus_type": "weierstrass-locus",
-            "point_ref": "weierstrass-locus",
-            "maps_to_branch_value": "weierstrass-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
-          },
-          {
-            "role": "branch",
-            "locus_type": "weierstrass-locus",
-            "branch_value": "weierstrass-locus",
-            "multiplicity": 1,
-            "match": true,
-            "ram_multiplicity": 1,
-            "branch_multiplicity": 1
+        "native_side": "checker",
+        "ramification_ref": {
+          "artifact_id": "search/ninfty-witness-gen.py#pushforward-v3",
+          "digest": "7dcb531713998d55816dfcd2e01f59e56f00b9b219e113ed5556d6c6b0cad85e",
+          "object_id": "checker:ramification_divisor_on_C",
+          "inline": [
+            {
+              "locus_type": "a-pair-locus",
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "p-locus",
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "weierstrass-locus",
+              "multiplicity": 1
+            }
+          ]
+        },
+        "branch_ref": {
+          "artifact_id": "search/ninfty-witness-gen.py#pushforward-v3",
+          "digest": "7dcb531713998d55816dfcd2e01f59e56f00b9b219e113ed5556d6c6b0cad85e",
+          "object_id": "checker:branch_divisor_on_P1",
+          "inline": [
+            {
+              "locus_type": "a-pair-locus",
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "p-locus",
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "weierstrass-locus",
+              "multiplicity": 1
+            }
+          ]
+        },
+        "map_ref": {
+          "artifact_id": "search/ninfty-witness-gen.py#pushforward-v3",
+          "digest": "42ede2bb4f55b282bf80c12e9cc6104bfb3bb200c995e3c0f383a64c69952065",
+          "object_id": "checker:pushforward_map",
+          "inline": [
+            {
+              "branch_value": "a-pair-locus",
+              "multiplicity": 1
+            },
+            {
+              "branch_value": "p-locus",
+              "multiplicity": 1
+            },
+            {
+              "branch_value": "weierstrass-locus",
+              "multiplicity": 1
+            }
+          ]
+        },
+        "witness_ref": {
+          "artifact_id": "search/ninfty-witness-gen.py#pushforward-v3",
+          "digest": "15f2d1006e3e4b6126b7a2071d5ff214954c72026e76b6d39f91680b64b33a19",
+          "object_id": "checker:pushforward_witness",
+          "inline": {
+            "points": [
+              {
+                "locus_type": "a-pair-locus",
+                "ram_multiplicity": 1,
+                "branch_multiplicity": 1,
+                "match": true
+              },
+              {
+                "locus_type": "p-locus",
+                "ram_multiplicity": 1,
+                "branch_multiplicity": 1,
+                "match": true
+              },
+              {
+                "locus_type": "weierstrass-locus",
+                "ram_multiplicity": 1,
+                "branch_multiplicity": 1,
+                "match": true
+              }
+            ]
           }
-        ]
+        }
       }
     ],
-    "certificate_digest": "cb7460ecdc5708a374d018072dec2fcebd92ef3cbbd70d1f80f6a253d1393c3b"
+    "certificate_digest": "ea2d25715f7fdb09df171e872bc4a63f67944812b1b0abe2216e434e664ad1a9"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {
       "components": [
         {
+          "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
           "locus_type": "a-pair-locus",
           "ideal_generator": [
             "8",
@@ -1119,6 +1206,7 @@
           "multiplicity": 1
         },
         {
+          "component_id": "ramification_divisor_on_C_ref:p-locus",
           "locus_type": "p-locus",
           "ideal_generator": [
             "44/5",
@@ -1128,6 +1216,7 @@
           "multiplicity": 1
         },
         {
+          "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
           "locus_type": "weierstrass-locus",
           "ideal_generator": [
             "59504/125",
@@ -1145,6 +1234,7 @@
     "branch_divisor_on_P1_ref": {
       "components": [
         {
+          "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
           "locus_type": "a-pair-locus",
           "ideal_generator": [
             "8",
@@ -1155,6 +1245,7 @@
           "pushforward_of": "a-pair-locus"
         },
         {
+          "component_id": "branch_divisor_on_P1_ref:p-locus",
           "locus_type": "p-locus",
           "ideal_generator": [
             "44/5",
@@ -1165,6 +1256,7 @@
           "pushforward_of": "p-locus"
         },
         {
+          "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
           "locus_type": "weierstrass-locus",
           "ideal_generator": [
             "59504/125",
@@ -1185,6 +1277,7 @@
     "ramification_divisor_on_C_ref": {
       "components": [
         {
+          "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
           "locus_type": "a-pair-locus",
           "ideal_generator": [
             "8",
@@ -1194,6 +1287,7 @@
           "multiplicity": 1
         },
         {
+          "component_id": "ramification_divisor_on_C_ref:p-locus",
           "locus_type": "p-locus",
           "ideal_generator": [
             "44/5",
@@ -1203,6 +1297,7 @@
           "multiplicity": 1
         },
         {
+          "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
           "locus_type": "weierstrass-locus",
           "ideal_generator": [
             "59504/125",
@@ -1220,6 +1315,7 @@
     "branch_divisor_on_P1_ref": {
       "components": [
         {
+          "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
           "locus_type": "a-pair-locus",
           "ideal_generator": [
             "8",
@@ -1230,6 +1326,7 @@
           "pushforward_of": "a-pair-locus"
         },
         {
+          "component_id": "branch_divisor_on_P1_ref:p-locus",
           "locus_type": "p-locus",
           "ideal_generator": [
             "44/5",
@@ -1240,6 +1337,7 @@
           "pushforward_of": "p-locus"
         },
         {
+          "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
           "locus_type": "weierstrass-locus",
           "ideal_generator": [
             "59504/125",

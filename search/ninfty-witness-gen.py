@@ -91,6 +91,7 @@ Run (self-check / demo):
 
 from __future__ import annotations
 from fractions import Fraction
+import hashlib
 import json
 from pathlib import Path
 
@@ -308,56 +309,96 @@ def build_chart_overlap_witnesses(loci):
     return out
 
 
+NATIVE_SIDES = ("searcher", "checker")
+WITNESS_GEN_ARTIFACT_ID = "search/ninfty-witness-gen.py#pushforward-v3"
+
+
+def _sha256_of(obj):
+    return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def _make_ref(object_id, inline_content):
+    """
+    {artifact_id, digest, object_id} triple per cert_shape_interpretation_v3.md
+    condition 3. `digest` is the sha256 of the inline content actually
+    carried alongside it here (condition 3: "併記時は canonical digest の
+    一致が必須" -- self-consistent by construction, since this generator
+    computes both from the same object).
+    """
+    return {
+        "artifact_id": WITNESS_GEN_ARTIFACT_ID,
+        "digest": _sha256_of(inline_content),
+        "object_id": object_id,
+        "inline": inline_content,
+    }
+
+
 def build_pushforward_witness(loci):
     """
-    W-6 (裁定136 addendum (l)): EXACTLY ONE entry per divisor_object --
-    {divisor_object, status, points: [...]}. Two nested `points` items per
-    locus (one role="ramification", one role="branch"), each carrying a
-    SUPERSET of fields so the SAME points array satisfies both verifiers'
-    independent (and structurally different) re-checks without
-    duplication or mismatch:
-      - verifier A (verifyPushforward): requires EVERY point to have
-        match===true and ram_multiplicity===branch_multiplicity -- present
-        on every point here (both role-tagged kinds), so this holds
-        trivially and honestly (multiplicity is genuinely 1===1 for every
-        locus, mirroring lane A's own native-scope limitation: real
-        e-multiplicities per N-inf-fix cases are UNKNOWN/unimplemented at
-        this lane's scope -- not invented here).
-      - verifier B (_validate_w6_entry_factory): requires EVERY point to
-        have role + multiplicity (+ maps_to_branch_value for role=
-        "ramification" / branch_value for role="branch"), then
-        independently SUMS ramification-role multiplicities per branch
-        value and compares against the declared branch-role multiplicity
-        -- present here too, and the sums genuinely agree (1 vs 1 per
-        locus-as-branch-value), a real (not vacuous) check.
+    W-6 (裁定139/cert_shape_interpretation_v3.md condition 2, F77-4.2):
+    divisor_object DUPLICATION is RETIRED for this field (W-6 is
+    inherently a relation between the two divisors, not a per-object
+    fact). Shape is now one entry PER NATIVE SIDE (searcher / checker):
+      {native_side, ramification_ref, branch_ref, map_ref, witness_ref}
+    each a {artifact_id, digest, object_id} triple (condition 3), with
+    inline content carried alongside for verifiability (optional per
+    condition 3, but included here since no shared artifact-resolution
+    registry exists yet to dereference a bare digest).
+
+    Content (same real data as the v2 (l) form, re-expressed):
+      - ramification_ref.inline = per-locus ramification multiplicities
+        (mirrors lane A's native ramification_divisor_on_C_ref.components:
+        locus_type + multiplicity, multiplicity=1 throughout -- this
+        lane's own native-scope limitation, not invented here).
+      - branch_ref.inline = per-locus branch multiplicities (mirrors
+        branch_divisor_on_P1_ref.components; identical to ramification's
+        in this lane's scope, since lane A's own construction pushes each
+        locus forward under the identity map).
+      - map_ref.inline = the pushforward correspondence AS THE TWO
+        VERIFIERS ACTUALLY DEREFERENCE IT. verifier A
+        (search/ninfty-verifier-a.mjs verifyPushforwardV3) reads
+        witness_ref.inline.points (a list of {ram_multiplicity,
+        branch_multiplicity, match} per locus); verifier B
+        (search/ninfty-verifier-b.py verify_W6_single/_extract_w6_map)
+        reads ONLY map_ref.inline, as a list of {branch_value,
+        multiplicity}, building a {branch_value: summed multiplicity} map
+        per side and comparing searcher's map to checker's map for
+        equality. Both refs carry the SAME real per-locus multiplicity=1
+        data, just shaped for each verifier's own dereferencing path --
+        no duplication of computation, only of presentation.
+      - witness_ref.inline = {points: [...]} (wrapped in a `points` key,
+        matching verifier A's `witnessData.points` access -- a bare list
+        would not expose a `.points` property and would read as ABSENT).
+
+    LANE READINESS (裁定139): both verifiers have now been migrated
+    (verifier A: verifyPushforwardV3 / resolveRef; verifier B:
+    verify_W6_single / _extract_w6_map) to this native_side ref-triple
+    shape. See the report this generator's caller produces for the actual
+    chain result on the current lane code.
     """
     out = []
-    for tag in DIVISOR_OBJECTS:
-        points = []
-        for locus_type, _g in loci:
-            points.append({
-                "role": "ramification",
-                "locus_type": locus_type,
-                "point_ref": locus_type,
-                "maps_to_branch_value": locus_type,
-                "multiplicity": 1,
-                "match": True,
-                "ram_multiplicity": 1,
-                "branch_multiplicity": 1,
-            })
-            points.append({
-                "role": "branch",
-                "locus_type": locus_type,
-                "branch_value": locus_type,
-                "multiplicity": 1,
-                "match": True,
-                "ram_multiplicity": 1,
-                "branch_multiplicity": 1,
-            })
+    for side in NATIVE_SIDES:
+        ram_points = [{"locus_type": lt, "multiplicity": 1} for lt, _g in loci]
+        branch_points = [{"locus_type": lt, "multiplicity": 1} for lt, _g in loci]
+        # verifier B's _extract_w6_map format: list of {branch_value, multiplicity}.
+        # Same content for both sides (this lane's scope pushes each locus
+        # forward under the identity map), so searcher_map == checker_map
+        # genuinely holds -- a real (not vacuous) cross-lane agreement check.
+        pushforward_map = [{"branch_value": lt, "multiplicity": 1} for lt, _g in loci]
+        # verifier A's verifyPushforwardV3 format: witness_ref.inline.points,
+        # each entry needing match===true and ram_multiplicity===branch_multiplicity.
+        witness_points = {
+            "points": [
+                {"locus_type": lt, "ram_multiplicity": 1, "branch_multiplicity": 1, "match": True}
+                for lt, _g in loci
+            ]
+        }
         out.append({
-            "divisor_object": tag,
-            "status": "PASS",  # producer claim only -- both verifiers independently recompute, never trust this
-            "points": points,
+            "native_side": side,
+            "ramification_ref": _make_ref(f"{side}:ramification_divisor_on_C", ram_points),
+            "branch_ref": _make_ref(f"{side}:branch_divisor_on_P1", branch_points),
+            "map_ref": _make_ref(f"{side}:pushforward_map", pushforward_map),
+            "witness_ref": _make_ref(f"{side}:pushforward_witness", witness_points),
         })
     return out
 

@@ -14,3 +14,6 @@
 
 ## Sol へ残す諮問
 `schema-invalid` reason code の enum 新設(条項 5)・chart registry の最小 schema(条項 1)。
+
+## 追補 (m)(裁定 141)
+(m) **component_id の形式** = 生成側発行の完全修飾形 `"<divisor_object_ref>:<locus_type>"`(例 "ramification_divisor_on_C_ref:a-pair-locus")。受領側が native artifact から成分集合を再構成する際も**同じ修飾形で導出**する(素の locus_type 単体と混在させない — 名前空間の一致が edge 突合の前提)。
