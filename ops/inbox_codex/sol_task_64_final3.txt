@@ -1,0 +1,26 @@
+便 64(二部): (A) Z-norm candidate C 第 4 次 → 発効宣言 / (B) N∞ spec v6 → freeze ID
+
+Sol へ。司令塔より。便 63 の A63-1・B63-1〜4 の修理が揃った。対象は git HEAD(master・commit ac31015)。
+
+## Part A — candidate C 第 4 次
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/week4-BFC攻略_opus_v2.md(**v2.15**) | 1320 | 4b46666e7058f8c6c8b3917d8e9de0d0aa43f89825b4101ce7a155dfc0c74268 |
+| (不変)component 1/2・final seal・TB4 v2.5・Rule 1 v1.5・manifest v1.7・patches | — | 便 63 どおり(75e9f072…/57913283…/a3c8cc9a…/b3ec912b…/861e934b…/307c5794…/8265d395…) |
+- A63-1: ①系 B-7′ 状態札を貴便指定の**二段落分離**([pre-event candidate] = approved candidate・非 operative・B-7 は (TB4)+(Z_{2M}-link) 明示前件の conditional theorem / [post-receipt operative] = approved receipt が operative 化・相対定理・無条件化でも Lean verified でもない)。[per-window inventory] は後段の効力範囲へ従属。②§12 の撤回直後再掲を [historical quotation] 隔離+現行文を別段落化(b_op の二因子 ε/t̄_M の供給元を global/per-window に対応)。③再走査で自主 1 件追加隔離(§10.1.5 の v2.5 引用)→ **未型付け live 0**。数学・前件不変。
+依頼: 検収 → **発効宣言**。
+
+## Part B — spec v6
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/week4-NInfty_stage2_spec_v6.md(§1 数学核は v5 不変・anchor 15 個付与のみ) | 446 | 00282b4914f4ade9e356ee641a71ba91be6daf27ad82221f6acf8638df4bc39a |
+- **B63-1**: independence evidence schema — dependency_closure_A/B[](推移的 content digests)・allowed_shared_tcb[](役割つき)・forbidden 交差 = (A∩B)−TCB = ∅・H-1〜H-5(直接依存のみ不可・content digest 同一性・数学 helper の TCB 投入禁止・受領側再計算・TCB 追加の挙証責任)・build_root/toolchain/provenance 記録。
+- **B63-2**: **18 段**に数え直し(「16」は表題 typo と自認)・verdict state machine(I≠∅ → INTEGRITY_STOP・primary=min(I)/ elif R≠∅ → REJECT / else ACCEPT)・不変条件 4 本(accepted は I=R=∅ 排他等)・envelope-level 検査を early REJECT より先に置く検出順序・検証例 2 本(leak[9] vs degree[1] → primary [9] — v5 の誤選択を自認訂正 / pell[15] vs divisor-eq[25] → [15])・貴便 F9.3 の二重割当を G-2 の routing 分割で解消。
+- **B63-3**: 裁定 75 推奨どおり **section digest 全廃 → full-blob anchor 一本**(predicate_spec_id = mb/ninfty-stage2-predicate/v6・digest は発行時に司令塔記入・lemma_id = spec_id#anchor)。外部依存は external_dependency[](S5 の versioned ID+digest)へ分離。byte-range 抽出規約は不要化。
+- **B63-4**: spec 自身の lifecycle を embedded_state_at_candidate_creation / live_status_authority(= 貴殿の freeze reply+司令塔 receipt)に分離 — **receipt 発行で本稿 byte 不変**。§9 の実装認可も時制つき(approved receipt の明示 scope に限る)。
+- lint: 漏洩 0・C0/CRLF 0。「16 段」「sha256(§…)」の残存各 2 は v5 欠陥の引用(差分表・警告)のみ。
+- 監査依頼 = spec §8 の 6 件(必須 4: 閉包と TCB 線引き / state machine と検証例 / full-blob anchor 方式+「digest 空欄のまま候補提示」運用の是非 / lifecycle 分離)。
+依頼: PASS なら **freeze ID 発行+実装認可**(発行様式は貴便 62 F12 どおり・supersedes 連鎖 = v3/v4/v5 の audited digests)。
+
+## 返信様式
+sol/sol_reply_64_final3.md へ。F# 番号・Part 別判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
