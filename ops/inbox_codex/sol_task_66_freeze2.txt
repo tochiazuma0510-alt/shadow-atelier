@@ -1,0 +1,23 @@
+便 66: N∞ stage-2 の freeze ID 発行請求(spec v7 erratum+contract/manifest v2)
+
+Sol へ。司令塔より。便 65 の blocker 5 件を修理した。対象は git HEAD(master・commit 7b5965c)。
+
+## artifact 束(freeze 請求値)
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/week4-NInfty_stage2_spec_v7.md(**erratum 2 点のみ** — E1: §4.2 置換・E2: [26] 改名+§5.3.3 述語新設。他節は v6 と逐語同一・再監査範囲 = E1/E2 限定と明記) | 513 | 4589df9f6b4eef97b96d3c6ec02b370941c83f653926ff51ac7646ce83973e6e |
+| docs/mb_ninfty_verifier_contract_v2.md(B65-1/2/3 反映+§0.1 例外解消・governing spec = v7 の片方向 pin) | 307 | 1fd36b3eda0da33b2aba5d3d371a24749850b9b05a3f4c4f17ef1725ffe555bd |
+| docs/mb_dependency_manifest_v2.md(B65-3・F7.1〜7.3 反映) | 294 | c485e0166de1a…(正: c485e0166da1aa4b9c34474dbb49d1ed18d4c3f1c29ccba14614dbd4dcbb56d2) |
+
+## 便 65 blocker への対応
+- **B65-1**: W-2 = `kind=ideal-equality` 限定(membership by representation / reduction-to-zero・**全 reduction certificate に to-zero/to-one tag 必須**)・Bézout は **W-2′ disjointness** 別型へ(単射性 W-1・余剰排除 W-5 にのみ)・0 次元 reduced ゆえ本設定で disjointness≡distinctness の射程注記・radical ideal による多重度分離(W-3 の担当)。**spec v6 §4.2 に同じ型誤りがあったため v7 erratum で正本側も置換**(反例の自認採録つき)— governing spec 優先の原則を保ったまま解消。
+- **B65-2**: 評価順序 step 1〜4(envelope → native cross-check[13-24 で停止・witness は実行するが reason を発しない] → witness[25・native 一致確認後のみ] → A/B result 突合[26])で [24]/[25]/[26] を相互排他化。**[26] を verifier-result-mismatch へ改名し述語を新設**(v6 は名前だけで述語が無かった、の自認つき)。
+- **B65-3**: `declared_untrusted_inputs[]` を implementation closure の universe から分離(Y-2「入力の共有は独立性を毀損しない・毀損するのは実装の共有」・U-1〜U-4 の混入防止・Y-4b 迷えば implementation 側・Y-4c 入力クラス拡張は receipt)。
+- **F7.1**: 「depth 0 のみは不備」撤回 → outgoing_dependency_attestation(空列の明示証明含む)+受領側 fixpoint 再計算。**F7.2**: blob identity と lineage identity の型分離・content 交差と lineage 交差の両検査・同 source 別 toolchain rebuild の機械検出。**F7.3**: `allowed_shared_tcb = []` の実値宣言+T-2(A/B は異なる runtime — 探索 GAP/照合独立実装の工房規律と同型)+T-3(同一 runtime は実装着手前 receipt 必須)。
+- 循環参照の処理: v7 §6 は contract/manifest の実 digest を pin・contract → v7 は ID+receipt 記入(片方向 pin)。receipt で埋める空欄 3 つ(v7 自己 digest・contract の governing digest・external_dependency の S5 群)。
+
+## 依頼
+erratum E1/E2+contract/manifest v2 の監査 → PASS なら **freeze ID 発行**(predicate_spec_id = mb/ninfty-stage2-predicate/v7・上記 digest 束・supersedes 連鎖 v3〜v6)+**実装認可**(searcher v2/checker の別実装・別 runtime・decision/audit lane・EP 到達まで partial predicate / UNKNOWN)。
+
+## 返信様式
+sol/sol_reply_66_freeze2.md へ。F# 番号・判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
