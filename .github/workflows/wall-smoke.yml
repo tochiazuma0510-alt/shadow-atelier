@@ -1,0 +1,20 @@
+name: wall-smoke
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    container:
+      image: gapsystem/gap-docker:master
+      options: --user 0
+    steps:
+      - uses: actions/checkout@v4
+      - name: GAP smoke (version + lins + B3 minimal enumeration)
+        run: |
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 12g ci/smoke.g
+      - uses: actions/upload-artifact@v4
+        with:
+          name: smoke-out
+          path: ci/out/
