@@ -1,0 +1,206 @@
+{
+  "stage_index_bound": 24,
+  "lins_elapsed_ms_Runtime": 297,
+  "normal_subgroup_count": 33,
+  "pb3_count": 5,
+  "records": [
+    {
+      "index": 1,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [],
+      "quotient_structure_description": "1"
+    },
+    {
+      "index": 2,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [2],
+      "quotient_structure_description": "C2"
+    },
+    {
+      "index": 3,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [3],
+      "quotient_structure_description": "C3"
+    },
+    {
+      "index": 4,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [4],
+      "quotient_structure_description": "C4"
+    },
+    {
+      "index": 5,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [5],
+      "quotient_structure_description": "C5"
+    },
+    {
+      "index": 6,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [2, 3],
+      "quotient_structure_description": "C6"
+    },
+    {
+      "index": 6,
+      "in_PB3": true,
+      "quotient_abelian_invariants": [2],
+      "quotient_structure_description": "S3"
+    },
+    {
+      "index": 7,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [7],
+      "quotient_structure_description": "C7"
+    },
+    {
+      "index": 8,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [8],
+      "quotient_structure_description": "C8"
+    },
+    {
+      "index": 9,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [9],
+      "quotient_structure_description": "C9"
+    },
+    {
+      "index": 10,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [2, 5],
+      "quotient_structure_description": "C10"
+    },
+    {
+      "index": 11,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [11],
+      "quotient_structure_description": "C11"
+    },
+    {
+      "index": 12,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [3, 4],
+      "quotient_structure_description": "C12"
+    },
+    {
+      "index": 12,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [3],
+      "quotient_structure_description": "A4"
+    },
+    {
+      "index": 12,
+      "in_PB3": true,
+      "quotient_abelian_invariants": [4],
+      "quotient_structure_description": "C3 : C4"
+    },
+    {
+      "index": 13,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [13],
+      "quotient_structure_description": "C13"
+    },
+    {
+      "index": 14,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [2, 7],
+      "quotient_structure_description": "C14"
+    },
+    {
+      "index": 15,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [3, 5],
+      "quotient_structure_description": "C15"
+    },
+    {
+      "index": 16,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [16],
+      "quotient_structure_description": "C16"
+    },
+    {
+      "index": 17,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [17],
+      "quotient_structure_description": "C17"
+    },
+    {
+      "index": 18,
+      "in_PB3": true,
+      "quotient_abelian_invariants": [2, 3],
+      "quotient_structure_description": "C3 x S3"
+    },
+    {
+      "index": 18,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [2, 9],
+      "quotient_structure_description": "C18"
+    },
+    {
+      "index": 19,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [19],
+      "quotient_structure_description": "C19"
+    },
+    {
+      "index": 20,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [4, 5],
+      "quotient_structure_description": "C20"
+    },
+    {
+      "index": 21,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [3, 7],
+      "quotient_structure_description": "C21"
+    },
+    {
+      "index": 22,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [2, 11],
+      "quotient_structure_description": "C22"
+    },
+    {
+      "index": 23,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [23],
+      "quotient_structure_description": "C23"
+    },
+    {
+      "index": 24,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [3, 8],
+      "quotient_structure_description": "C24"
+    },
+    {
+      "index": 24,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [2, 3],
+      "quotient_structure_description": "C2 x A4"
+    },
+    {
+      "index": 24,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [3],
+      "quotient_structure_description": "SL(2,3)"
+    },
+    {
+      "index": 24,
+      "in_PB3": false,
+      "quotient_abelian_invariants": [3],
+      "quotient_structure_description": "SL(2,3)"
+    },
+    {
+      "index": 24,
+      "in_PB3": true,
+      "quotient_abelian_invariants": [8],
+      "quotient_structure_description": "C3 : C8"
+    },
+    {
+      "index": 24,
+      "in_PB3": true,
+      "quotient_abelian_invariants": [2],
+      "quotient_structure_description": "S4"
+    }
+  ]
+}
