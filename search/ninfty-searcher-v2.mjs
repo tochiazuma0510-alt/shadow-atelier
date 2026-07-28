@@ -31,15 +31,19 @@
 // are checkable here) — those require the checker (lane B, python, out of scope
 // for this file) and the fuller ramification-divisor computation.
 //
-// KNOWN GAP (flagged for commander/mathematician review, not silently decided):
-// precondition E-5 ("divisor orientation", spec Sec.2, sourced from external
-// dependency S5/prop-S5-1) is NOT algebraically derivable from (a,p,f6) alone
-// without the external S5 curve/dessin data, which is outside this lane's
-// literature-gate scope. This implementation therefore treats E-5 as an
-// EXPLICIT DECLARED INPUT FLAG (`candidate.orientation_declared_ok`, boolean,
-// required) rather than a computed predicate. Absence of the flag is
-// fail-closed (treated as E-5 violation, code [6]). This is a design
-// simplification, not a claim that E-5 has been derived.
+// E-5 (divisor orientation) — DERIVED, per 裁定 113 / docs/notes/e5_interpretation_v1.md
+// (Prop E5-D): under E-1..E-4, div(mu) = 5(inf_-) - 5(inf_+) automatically,
+// with orientation fixed by E-3's sign (a5 = +p2 => P0 = inf_-, P_inf = inf_+;
+// this implementation only ever accepts the a5=+p2 branch, per E-3's literal
+// equality, so the derived orientation is always the standard one whenever
+// E-1..E-4 hold). The four checks V-E5.1..V-E5.4 are exactly the f6/degree/
+// leading-coeff/Pell checks already computed for E-1..E-4 — no new algebra is
+// needed. `candidate.orientation_declared_ok` is now an OPTIONAL cross-check
+// input (spec Sec.3.2 of the note's minimal-repair form): absent -> derived
+// value is used and REJECT[6] is never raised on that basis; present and
+// disagreeing with the derived value -> REJECT[6]; if the V-E5.1..4 premises
+// themselves are false, the corresponding precondition code ([1]-[5]) already
+// fires and no separate orientation check is attempted.
 
 import { createHash } from 'node:crypto';
 
@@ -320,9 +324,23 @@ export function evaluateDecisionLane(candidate) {
     if (!pellOk) R.add('precondition/pell-violation');
   }
 
-  // E-5: divisor orientation — DECLARED INPUT FLAG (see file header KNOWN GAP).
-  const orientationOk = candidate.orientation_declared_ok === true;
-  if (!orientationOk) R.add('precondition/divisor-orientation');
+  // E-5: divisor orientation — DERIVED (Prop E5-D, 裁定 113 / e5_interpretation_v1.md).
+  // V-E5.1..V-E5.4 are exactly the f6/degree/leading-coeff/Pell checks above.
+  const e5PremisesHold = degF6 === 6 && f6Monic && f6Squarefree && degA === 5 && degP === 2 && leadingMatch && pellOk;
+  let orientationOk = null; // null = premises not decidable here (some earlier code already fired)
+  if (e5PremisesHold) {
+    // derived orientation is always the standard one (P0=inf_-, P_inf=inf_+),
+    // since leadingMatch as checked above only accepts a5=+p2 (E-3 literal equality).
+    const derivedOrientationOk = true;
+    orientationOk = derivedOrientationOk;
+    if (typeof candidate.orientation_declared_ok === 'boolean' && candidate.orientation_declared_ok !== derivedOrientationOk) {
+      R.add('precondition/divisor-orientation'); // declared cross-check disagrees with the derivation
+      orientationOk = false;
+    }
+    // orientation_declared_ok absent (undefined): derived value is authoritative, no REJECT.
+  }
+  // If e5PremisesHold is false, V-E5.1..4 already surfaced their own codes
+  // ([1]/[2]/[3]/[4]/[5] as applicable) above; E-5 is not separately checked.
 
   // E-6: gcd(a,p)=1 is automatic from E-4 + C != 0 (spec Sec.2). If Pell passed
   // but gcd(a,p) != 1 anyway, that is a theorem-forced-identity break =>

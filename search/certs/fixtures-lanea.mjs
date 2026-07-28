@@ -14,15 +14,25 @@
 // integers for the ones that ALSO satisfy T-1 (rootpart(a)=[2,2,1]) or its
 // negation, as documented per fixture below.
 //
-// FIXTURE-DESIGN NOTE (reported to commander, not silently decided): a
-// genuine Pell-consistent (a,p,f6,C) example with a TRIPLE root or a
-// non-squarefree gcd(a,a') (reject code [7] "triple-root-of-a") was NOT found
-// within this constructive family up to |b|,|c|,|k|,|s0| <= 7. Code [7] is
-// therefore tested in ISOLATION against the `checkT1` sub-routine only
-// (fixture `t1IsolatedTripleRoot` below), using a synthetic a(x) with a known
-// triple root, WITHOUT an accompanying Pell-consistent (p,f6,C) triple. This
-// is flagged as a scope gap, not asserted as a full end-to-end REJECT[7]
-// candidate test.
+// FIXTURE-DESIGN NOTE (superseded by 裁定 113): a genuine Pell-consistent
+// (a,p,f6,C) example with a TRIPLE root (reject code [7] "triple-root-of-a")
+// was NOT found within the earlier constructive family search up to
+// |b|,|c|,|k|,|s0| <= 7. docs/notes/e5_interpretation_v1.md Sec.4 explains why
+// (the "branch I" triple-root family a=x^5+5g*x^3, p=x^2+3g,
+// f6=x^6+4g*x^4-8g^2*x^2+12g^3 has minimal integer height 12 at |g|=1, outside
+// that search box) and supplies a closed form. `negTripleRootCandidate` below
+// uses g=2 (per commander instruction, avoiding the g=1 / C=-108 sealed-adjacent
+// value) as a full end-to-end candidate-level REJECT[7] fixture, in addition
+// to the isolated `t1IsolatedTripleRoot` unit test kept for regression.
+//
+// CORRECTION NOTE: the commander's dispatch message gave f6 = x^6+16x^4-32x^2+96
+// for g=2, but independent recomputation here (a^2 mod p^2 with a=x^5+10x^3,
+// p=x^2+6) gives quotient f6 = x^6+8x^4-32x^2+96 with remainder C=-3456 (the
+// x^4 coefficient is 8, matching the note's own formula 4g|_{g=2}=8, not 16;
+// the C=-3456 value matches). Using the dispatched 16x^4 value would break the
+// Pell identity and make the fixture hit REJECT[5] (pell-violation) instead of
+// [7], defeating its purpose -- flagged here rather than silently "fixed".
+// The corrected, verified value is used below.
 
 export const positive1 = {
   label: 'positive-1 (b=-3,c=1,k=1,s0=-4)',
@@ -102,7 +112,7 @@ export const negPellViolation = {
 };
 
 export const negDivisorOrientation = {
-  label: 'neg-divisor-orientation [6] (declared flag false; see searcher file KNOWN GAP)',
+  label: 'neg-divisor-orientation [6] (declared flag false disagrees with derived E-5=true, 裁定 113)',
   candidate: {
     a: ['-3', '-5', '5', '5', '-5', '1'],
     p: ['1', '-3', '1'],
@@ -110,6 +120,29 @@ export const negDivisorOrientation = {
     orientation_declared_ok: false,
   },
   expect: { verdict: 'REJECT', primary_reason_code: 'precondition/divisor-orientation' },
+};
+
+export const positive3OmittedOrientationFlag = {
+  label: 'positive-3 (same as positive-1, orientation_declared_ok OMITTED -- derived E-5 accepted, 裁定 113)',
+  candidate: {
+    a: ['-3', '-5', '5', '5', '-5', '1'],
+    p: ['1', '-3', '1'],
+    f6: ['-7', '-12', '0', '10', '0', '-4', '1'],
+    // orientation_declared_ok intentionally absent: this is exactly the case
+    // 裁定 113 / e5_interpretation_v1.md Sec.3.2 says must NOT be REJECT[6].
+  },
+  expect: { verdict: 'ACCEPT', primary_reason_code: 'accepted' },
+};
+
+export const negTripleRootCandidate = {
+  label: 'neg-triple-root-of-a [7] (branch I, g=2: a=x^5+10x^3, p=x^2+6, f6=x^6+8x^4-32x^2+96, C=-3456)',
+  candidate: {
+    a: ['0', '0', '0', '10', '0', '1'],
+    p: ['6', '0', '1'],
+    f6: ['96', '0', '-32', '0', '8', '0', '1'],
+    orientation_declared_ok: true,
+  },
+  expect: { verdict: 'REJECT', primary_reason_code: 'triple-root-of-a' },
 };
 
 export const negAPartitionMismatch = {
@@ -131,6 +164,7 @@ export const t1IsolatedTripleRoot = {
 };
 
 export const decisionLaneFixtures = [
-  positive1, positive2, negDegreeMismatch, negF6NotMonic, negCurveNotSquarefree,
-  negLeadingCoeffMismatch, negPellViolation, negDivisorOrientation, negAPartitionMismatch,
+  positive1, positive2, positive3OmittedOrientationFlag, negDegreeMismatch, negF6NotMonic,
+  negCurveNotSquarefree, negLeadingCoeffMismatch, negPellViolation, negDivisorOrientation,
+  negTripleRootCandidate, negAPartitionMismatch,
 ];
