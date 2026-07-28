@@ -1,0 +1,2394 @@
+{
+  "ep_run_id": "search/certs/ep_run_20260728.json (v3, 裁定127/128 対応)",
+  "role_note": "受領側検収の記録 (partial predicate). Not a completeness or ACCEPT declaration.",
+  "repair_context": "司令塔指示: both lanes migrated to cert_shape_interpretation_v1's flat-array+divisor_object-tag outer container; cert-validator wired as a pre-verifier gate; EP v3 re-run to measure whether witness concordance improved from missing-agreement to genuine structural agreement.",
+  "manifest_compiler_gate": {
+    "gate_passed": true,
+    "returncode": 0,
+    "stdout": "=== laneA compiler gate: PASS ===\n  wrote C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\certs\\laneA_manifest_v2_draft.json\n=== laneB compiler gate: PASS ===\n  wrote C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\certs\\laneB_manifest_v2_draft.json\n\noverall gate: PASS\n",
+    "stderr": ""
+  },
+  "manifest_crosscheck": {
+    "source": "compiled drafts (search/certs/laneA_manifest_v2_draft.json, laneB_manifest_v2_draft.json), NOT the hand-authored laneA_manifest.json/laneB_manifest.json",
+    "recompute_D1_D2": {
+      "laneA": [
+        {
+          "record": "top-level",
+          "subject_id": "lane-A/ninfty-searcher-v2+verifier-a",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053"
+        },
+        {
+          "record": "entry",
+          "content_digest": "28efd2eaa4baa852791867b8578eb0b344c75811efd16797d41de8ce5fbb0c18",
+          "source_ref": "search/ninfty-searcher-v2.mjs",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "0caf553fb6824511de633334c00319696e62e3227a68f42b2bf23133c61dca96",
+          "source_ref": "search/ninfty-verifier-a.mjs",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee",
+          "source_ref": "search/certs/fixtures-lanea.mjs",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "8e175dbe1ef1e17f2b1e914faf454d15b90112060ef9c112bc42d0e3569c981f",
+          "source_ref": "search/ninfty-selftest-lanea.mjs",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "85c3f1ca359c97e93b00cbd84ec0e9697204c4829c1610e11913c924898ce9c2",
+          "source_ref": "search/certs/laneA_ep_export_sample.json",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        }
+      ],
+      "laneB": [
+        {
+          "record": "top-level",
+          "subject_id": "search/ninfty-verifier-b.py",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4"
+        },
+        {
+          "record": "entry",
+          "content_digest": "d362c207a5a478887c284ab7f20da0088f51aa609d8dae04f4f298a4f66905d3",
+          "source_ref": "search/ninfty-verifier-b.py",
+          "recomputed_source_closure_digest": "c8fd8fe9086980763525ef735f5a8730c10e2c5b601de88ab4b4ae531a4e76cd",
+          "recomputed_implementation_lineage_digest": "8952ab60fabf9d8c6fbe2cb80974ddd9271bd7ceb28935b44650ca55b0451a54",
+          "declared_source_closure_digest": "c8fd8fe9086980763525ef735f5a8730c10e2c5b601de88ab4b4ae531a4e76cd",
+          "declared_implementation_lineage_digest": "8952ab60fabf9d8c6fbe2cb80974ddd9271bd7ceb28935b44650ca55b0451a54",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
+          "source_ref": "search/ninfty-checker.py",
+          "recomputed_source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
+          "recomputed_implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013",
+          "declared_source_closure_digest": "69a4ac956ea1bc6bc0881736ec51092f09d4a181027522805ef4a9846f4868f8",
+          "declared_implementation_lineage_digest": "6c6b6972d4babde5dec38815b9f26ecce94219c354e9fd23e8cedca799d08013",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "e11c8bd6dd626a8dc40e265c6968598633e9095e76c2782353d8c05d71eb5ec6",
+          "source_ref": "python stdlib: fractions",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "406f36c3db109c14f737a8d99e6897d3ab8620be454abdbb3a4ce09c95713388",
+          "source_ref": "python stdlib: hashlib",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "bc68a579fe440d42c27faa82505e29189b78179e31f5c13fb5da802bcb8d8754",
+          "source_ref": "python stdlib: json",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "c1a876bf8a98b45840222527f993f3d7a15683a1ee39743e9ca48fdc7aff7d76",
+          "source_ref": "python stdlib: argparse",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        },
+        {
+          "record": "entry",
+          "content_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+          "source_ref": "python stdlib: sys (see note)",
+          "recomputed_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "recomputed_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "declared_source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "declared_implementation_lineage_digest": "f49abf51cfcf2f20b388e70482eaab50587538e57ea86d65fd895c219e1c4dc4",
+          "d1_matches_declared": true,
+          "d2_matches_declared": true
+        }
+      ]
+    },
+    "faces": {
+      "laneA": {
+        "binary": [
+          "0caf553fb6824511de633334c00319696e62e3227a68f42b2bf23133c61dca96",
+          "28efd2eaa4baa852791867b8578eb0b344c75811efd16797d41de8ce5fbb0c18",
+          "85c3f1ca359c97e93b00cbd84ec0e9697204c4829c1610e11913c924898ce9c2",
+          "8e175dbe1ef1e17f2b1e914faf454d15b90112060ef9c112bc42d0e3569c981f",
+          "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee"
+        ],
+        "source": [],
+        "build": [
+          "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+          "f65b7f0cf760f104e145fef5d7d01b0fd09117f3e341577688360ebc9a488192"
+        ]
+      },
+      "laneB": {
+        "binary": [
+          "406f36c3db109c14f737a8d99e6897d3ab8620be454abdbb3a4ce09c95713388",
+          "bc68a579fe440d42c27faa82505e29189b78179e31f5c13fb5da802bcb8d8754",
+          "c1a876bf8a98b45840222527f993f3d7a15683a1ee39743e9ca48fdc7aff7d76",
+          "d362c207a5a478887c284ab7f20da0088f51aa609d8dae04f4f298a4f66905d3",
+          "e11c8bd6dd626a8dc40e265c6968598633e9095e76c2782353d8c05d71eb5ec6",
+          "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+          "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
+        ],
+        "source": [
+          "d362c207a5a478887c284ab7f20da0088f51aa609d8dae04f4f298a4f66905d3",
+          "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
+        ],
+        "build": [
+          "bbffb75ab941b6d2cd103af9f04999abfe1426c3327da9e5f7fd27366d1ae4bd",
+          "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1"
+        ]
+      }
+    },
+    "I-3a_binary_intersection": [],
+    "I-3b_source_intersection": [],
+    "I-3d_build_intersection": [],
+    "toolchain_digest": {
+      "laneA": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "laneB": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
+      "laneA_valid_hex": true,
+      "laneB_valid_hex": true
+    },
+    "laneB_compiler_notes": {
+      "stdlib_gap_notes": [],
+      "toolchain_digest_note": "real sha256 of the running CPython interpreter binary (C:\\Users\\81905\\AppData\\Local\\Programs\\Python\\Python313\\python.exe)"
+    },
+    "laneA_compiler_notes": {
+      "toolchain_digest_note": "UNKNOWN: not independently re-hashed against the actual node.exe binary by this compiler (would require locating and hashing the node runtime binary itself); form-validated as 64-hex only."
+    },
+    "reason_[11]_shared_helper_detected": false,
+    "notes": [
+      "D-3/D-4' now computed for BOTH top-level records (F76-5.1 fix: top-level is the TRUE branch, not a bootstrap leaf). Entry-level false-branch records omit the four build-preimage keys literally (F76-5.2 fix), verified by the compiler gate before this step ran at all.",
+      "family face (I-3c') remains an audit flag only (M-3'), not computed here as blocking; implementation_family_id is null in both compiled manifests (not yet minted by any receipt authority)."
+    ]
+  },
+  "cross_fixture_native_verdict": [
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "positive-1 (b=-3,c=1,k=1,s0=-4)",
+      "laneA_native_verdict": "ACCEPT",
+      "laneA_native_primary": "accepted",
+      "laneB_checker_stage": "ACCEPT-shaped(no-reason)",
+      "laneB_checker_primary": null,
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "positive-2 (b=-1,c=-1,k=-3,s0=4)",
+      "laneA_native_verdict": "ACCEPT",
+      "laneA_native_primary": "accepted",
+      "laneB_checker_stage": "ACCEPT-shaped(no-reason)",
+      "laneB_checker_primary": null,
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "positive-3 (same as positive-1, orientation_declared_ok OMITTED -- derived E-5 accepted, 裁定 113)",
+      "laneA_native_verdict": "ACCEPT",
+      "laneA_native_primary": "accepted",
+      "laneB_checker_stage": "ACCEPT-shaped(no-reason)",
+      "laneB_checker_primary": null,
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "neg-degree-mismatch [1] (a truncated to degree 4)",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "precondition/degree-mismatch",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "precondition/degree-mismatch",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "neg-f6-not-monic [2] (positive1.f6 scaled by 2)",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "precondition/f6-not-monic",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "precondition/f6-not-monic",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "neg-curve-not-squarefree [3] (f6=(x-1)^2(x-2)(x-3)(x-4)(x-5))",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "precondition/curve-not-squarefree",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "precondition/curve-not-squarefree",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "neg-leading-coeff-mismatch [4] (a5=2, p2=1)",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "precondition/leading-coeff-mismatch",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "precondition/leading-coeff-mismatch",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "neg-pell-violation [5] (positive1.f6 constant term perturbed by +1)",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "precondition/pell-violation",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "precondition/pell-violation",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "neg-divisor-orientation [6] (declared flag false disagrees with derived E-5=true, 裁定 113)",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "precondition/divisor-orientation",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "precondition/divisor-orientation",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "neg-triple-root-of-a [7] (branch I, g=2: a=x^5+10x^3, p=x^2+6, f6=x^6+8x^4-32x^2+96, C=-3456)",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "triple-root-of-a",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "triple-root-of-a",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneA-decision-fixture -> laneB-checker",
+      "label": "neg-a-partition-mismatch [8] (b=-4,c=-4,k=-4,s0=-4; gcd(a,a\") has degree 0)",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "a-partition-mismatch",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "a-partition-mismatch",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneB-checker-fixture -> laneA-decision-lane",
+      "label": "checker_neg_01.json",
+      "description": "Self-made negative fixture 1: degree mismatch (deg a = 3, not 5). Expected: REJECT precondition/degree-mismatch.",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "precondition/degree-mismatch",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "precondition/degree-mismatch",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneB-checker-fixture -> laneA-decision-lane",
+      "label": "checker_neg_02.json",
+      "description": "Self-made negative fixture 2: correct degrees/monic/leading-coeff/squarefree-f6, but Pell violated -- f6 deliberately swapped for a value that does NOT satisfy a^2 - f6*p^2 = constant for the given (a,p) (a,p taken from checker_pos_01's genuine solution; f6 replaced by x^6+1, which is NOT the f6 that solves Pell for this a,p). Expected: REJECT precondition/pell-violation.",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "precondition/pell-violation",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "precondition/pell-violation",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneB-checker-fixture -> laneA-decision-lane",
+      "label": "checker_neg_03.json",
+      "description": "Self-made negative fixture 3: a genuinely Pell-consistent (a,p,f6,C) quintuple (constructed via the 'fixed fiber' method, sec.1.4 of the spec: a-w has a double root at x=-3, a+w has a double root at x=-2, p=(x+3)(x+2), f6 derived exactly) where E-1..E-6 all PASS but T-1 fails: a itself is squarefree (rootpart = [1,1,1,1,1], not [2,2,1]) since the double roots belong to a-w/a+w, not to a. Expected: REJECT a-partition-mismatch (deg gcd(a,a') = 0, not 2). This fixture also independently confirms (via checker_neg_02 and this one both reaching a REJECT distinct from T-1's own precondition set) that T-1 is a genuinely separate condition from E-1..E-6.",
+      "laneB_checker_stage": "REJECT",
+      "laneB_checker_primary": "a-partition-mismatch",
+      "laneA_native_verdict": "REJECT",
+      "laneA_native_primary": "a-partition-mismatch",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneB-checker-fixture -> laneA-decision-lane",
+      "label": "checker_pos_01.json",
+      "description": "Self-made positive fixture 1: a genuinely Pell-consistent (a,p,f6,C) quintuple constructed by (i) choosing a with rootpart [2,2,1] directly (double roots at x=-4,-2, simple root at x=-3), (ii) defining p := a'/d rescaled to a5 (T-2 holds by construction, d=gcd(a,a')), (iii) scanning small integer root triples until a^2 mod p^2 came out to be an honest nonzero constant (Pell/E-4). All of E-1..E-6 and T-1/T-2 are expected to PASS (checker returns stage=null).",
+      "laneB_checker_stage": "ACCEPT-shaped(no-reason)",
+      "laneB_checker_primary": null,
+      "laneA_native_verdict": "ACCEPT",
+      "laneA_native_primary": "accepted",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneB-checker-fixture -> laneA-decision-lane",
+      "label": "checker_pos_02.json",
+      "description": "Self-made positive fixture 2: same construction method as checker_pos_01 (rootpart [2,2,1] by construction, p=a'/d rescaled, Pell verified by exact search over integer root triples), different root triple (-6,-4,-5), k=1.",
+      "laneB_checker_stage": "ACCEPT-shaped(no-reason)",
+      "laneB_checker_primary": null,
+      "laneA_native_verdict": "ACCEPT",
+      "laneA_native_primary": "accepted",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    },
+    {
+      "direction": "laneB-checker-fixture -> laneA-decision-lane",
+      "label": "checker_pos_03.json",
+      "description": "Self-made positive fixture 3: same construction method as checker_pos_01/02, root triple (-6,-2,-4), k=1. Also carries a hand-built native_artifact so the optional W-6-style pushforward consistency check (check_native_pushforward) is exercised on a PASS path.",
+      "laneB_checker_stage": "ACCEPT-shaped(no-reason)",
+      "laneB_checker_primary": null,
+      "laneA_native_verdict": "ACCEPT",
+      "laneA_native_primary": "accepted",
+      "primary_reason_code_match": true,
+      "reason_[26]_candidate": false
+    }
+  ],
+  "cross_fixture_native_verdict_LABEL": "17/17 DECISION-LANE reason-code matches (evaluateDecisionLane vs run_checker primary_reason_code). This is NOT a witness-vector PASS -- see [4/6]/[5/6].",
+  "forward_laneA_to_laneB": [
+    {
+      "fixture": "C1",
+      "label": "clean-PASS",
+      "gate": {
+        "label": "C1 (forward, lane A cert -> verifier B)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "verifier_invoked": true,
+      "laneB_raw_result": {
+        "overall_verdict_B": "FAIL",
+        "P-0": {
+          "detail": {
+            "P-0.1": true,
+            "P-0.2": true,
+            "P-0.3": true,
+            "P-0.4": true,
+            "P-0.5": true,
+            "P-0.6": true,
+            "P-0.7": true,
+            "P-0.8": true,
+            "field_embedding_witness_present": true
+          },
+          "status": "PASS"
+        },
+        "P-3": {
+          "detail": {
+            "P-3.1": true,
+            "P-3.2": true,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": true,
+            "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
+          },
+          "status": "PASS"
+        }
+      },
+      "objects": {
+        "ramification_divisor_on_C": {
+          "R_A": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        },
+        "branch_divisor_on_P1": {
+          "R_A": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "fixture": "C2",
+      "label": "digest-mismatch-[12]",
+      "gate": {
+        "label": "C2 (forward, lane A cert -> verifier B)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "verifier_invoked": true,
+      "laneB_raw_result": {
+        "overall_verdict_B": "FAIL",
+        "P-0": {
+          "detail": {
+            "P-0.1": true,
+            "P-0.2": true,
+            "P-0.3": true,
+            "P-0.4": true,
+            "P-0.5": true,
+            "P-0.6": true,
+            "P-0.7": true,
+            "P-0.8": true,
+            "field_embedding_witness_present": true
+          },
+          "status": "PASS"
+        },
+        "P-3": {
+          "detail": {
+            "P-3.1": true,
+            "P-3.2": true,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": false,
+            "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_declared_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
+          },
+          "status": "FAIL"
+        }
+      },
+      "objects": {
+        "ramification_divisor_on_C": {
+          "R_A": [
+            [
+              "W-1",
+              "FAIL"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-1",
+              "FAIL",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        },
+        "branch_divisor_on_P1": {
+          "R_A": [
+            [
+              "W-1",
+              "FAIL"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-1",
+              "FAIL",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "fixture": "C3",
+      "label": "divisor-equality-failure-[25]",
+      "gate": {
+        "label": "C3 (forward, lane A cert -> verifier B)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "verifier_invoked": true,
+      "laneB_raw_result": {
+        "overall_verdict_B": "FAIL",
+        "P-0": {
+          "detail": {
+            "P-0.1": true,
+            "P-0.2": true,
+            "P-0.3": true,
+            "P-0.4": true,
+            "P-0.5": true,
+            "P-0.6": true,
+            "P-0.7": true,
+            "P-0.8": true,
+            "field_embedding_witness_present": true
+          },
+          "status": "PASS"
+        },
+        "P-3": {
+          "detail": {
+            "P-3.1": true,
+            "P-3.2": true,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": true,
+            "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
+          },
+          "status": "PASS"
+        }
+      },
+      "objects": {
+        "ramification_divisor_on_C": {
+          "R_A": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "FAIL"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "FAIL"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        },
+        "branch_divisor_on_P1": {
+          "R_A": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "fixture": "C4",
+      "label": "clean-for-concordance-check",
+      "gate": {
+        "label": "C4 (forward, lane A cert -> verifier B)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "verifier_invoked": true,
+      "laneB_raw_result": {
+        "overall_verdict_B": "FAIL",
+        "P-0": {
+          "detail": {
+            "P-0.1": true,
+            "P-0.2": true,
+            "P-0.3": true,
+            "P-0.4": true,
+            "P-0.5": true,
+            "P-0.6": true,
+            "P-0.7": true,
+            "P-0.8": true,
+            "field_embedding_witness_present": true
+          },
+          "status": "PASS"
+        },
+        "P-3": {
+          "detail": {
+            "P-3.1": true,
+            "P-3.2": true,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": true,
+            "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
+          },
+          "status": "PASS"
+        }
+      },
+      "objects": {
+        "ramification_divisor_on_C": {
+          "R_A": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        },
+        "branch_divisor_on_P1": {
+          "R_A": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "fixture": "C5",
+      "label": "clean-for-concordance-check-2",
+      "gate": {
+        "label": "C5 (forward, lane A cert -> verifier B)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "verifier_invoked": true,
+      "laneB_raw_result": {
+        "overall_verdict_B": "FAIL",
+        "P-0": {
+          "detail": {
+            "P-0.1": true,
+            "P-0.2": true,
+            "P-0.3": true,
+            "P-0.4": true,
+            "P-0.5": true,
+            "P-0.6": true,
+            "P-0.7": true,
+            "P-0.8": true,
+            "field_embedding_witness_present": true
+          },
+          "status": "PASS"
+        },
+        "P-3": {
+          "detail": {
+            "P-3.1": true,
+            "P-3.2": true,
+            "P-3.3_checker": true,
+            "P-3.3_searcher": true,
+            "checker_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "checker_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_declared_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+            "searcher_native_recomputed_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
+          },
+          "status": "PASS"
+        }
+      },
+      "objects": {
+        "ramification_divisor_on_C": {
+          "R_A": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        },
+        "branch_divisor_on_P1": {
+          "R_A": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "ABSENT"
+            ]
+          ],
+          "R_B": [
+            [
+              "W-1",
+              "PASS"
+            ],
+            [
+              "W-2",
+              "PASS"
+            ],
+            [
+              "W-2'",
+              "PASS"
+            ],
+            [
+              "W-3",
+              "PASS"
+            ],
+            [
+              "W-4",
+              "ABSENT"
+            ],
+            [
+              "W-5",
+              "PASS"
+            ],
+            [
+              "W-6",
+              "PASS"
+            ]
+          ],
+          "R_A_eq_R_B": false,
+          "full_witness_PASS": false,
+          "concordant_ABSENT_not_PASS": false,
+          "reason_[26]_candidate": true,
+          "mismatched_witnesses": [
+            [
+              "W-6",
+              "ABSENT",
+              "PASS"
+            ]
+          ]
+        }
+      }
+    }
+  ],
+  "reverse_laneB_to_laneA": [
+    {
+      "fixture": "cert_neg_01.json",
+      "description": "Self-made negative certificate fixture 1 (v3 shape): W-2 forward reduction identity deliberately broken for locus 'pt-x1'. Expect W-2 = FAIL, other witnesses PASS.",
+      "gate": {
+        "label": "cert_neg_01.json (reverse, lane B cert -> verifier A)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "laneB_native_overall_verdict_B": "FAIL",
+      "laneB_native_witness_results": {
+        "W-1": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2": {
+          "branch_divisor_on_P1": "FAIL",
+          "ramification_divisor_on_C": "FAIL"
+        },
+        "W-2prime": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-3": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-4": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-5": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-6": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        }
+      },
+      "verifier_invoked": true,
+      "laneA_verifier_result": {
+        "malformed": true,
+        "malformed_fields": [
+          {
+            "field": "searcher_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "searcher_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          }
+        ],
+        "provisional_reason_code": "schema-invalid",
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
+      }
+    },
+    {
+      "fixture": "cert_neg_02.json",
+      "description": "Self-made negative certificate fixture 2 (v3 shape): W-3 multiplicity_equalities deliberately mismatched for locus 'pt-x1'. Expect W-3 = FAIL.",
+      "gate": {
+        "label": "cert_neg_02.json (reverse, lane B cert -> verifier A)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "laneB_native_overall_verdict_B": "FAIL",
+      "laneB_native_witness_results": {
+        "W-1": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2prime": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-3": {
+          "branch_divisor_on_P1": "FAIL",
+          "ramification_divisor_on_C": "FAIL"
+        },
+        "W-4": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-5": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-6": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        }
+      },
+      "verifier_invoked": true,
+      "laneA_verifier_result": {
+        "malformed": true,
+        "malformed_fields": [
+          {
+            "field": "searcher_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "searcher_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          }
+        ],
+        "provisional_reason_code": "schema-invalid",
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
+      }
+    },
+    {
+      "fixture": "cert_neg_03.json",
+      "description": "Self-made negative certificate fixture 3 (v3 shape): W-6 checker lane's map_ref.inline multiplicity deliberately mismatched for the first locus (searcher says 1, checker says 2) -- cross-lane map comparison must FAIL.",
+      "gate": {
+        "label": "cert_neg_03.json (reverse, lane B cert -> verifier A)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "laneB_native_overall_verdict_B": "FAIL",
+      "laneB_native_witness_results": {
+        "W-1": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2prime": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-3": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-4": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-5": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-6": {
+          "branch_divisor_on_P1": "FAIL",
+          "ramification_divisor_on_C": "FAIL"
+        }
+      },
+      "verifier_invoked": true,
+      "laneA_verifier_result": {
+        "malformed": true,
+        "malformed_fields": [
+          {
+            "field": "searcher_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "searcher_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          }
+        ],
+        "provisional_reason_code": "schema-invalid",
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
+      }
+    },
+    {
+      "fixture": "cert_pos_01.json",
+      "description": "Self-made positive certificate fixture 1, rebuilt in cert_shape_interpretation_v3.md shape (裁定139): component_bijection is now an edge list bound to the actual recomputed native_a/native_b digests; pushforward_compatibility_witness is native_side-tagged (exactly 2 entries: searcher, checker) with ref-triple fields carrying inline content. All scalar id/digest fields required by search/ninfty-cert-validator.py are present (fixture-synthetic digests, documented as such). Two toy point loci at x=1 (mult 1) and x=2 (mult 2); expect verifier-b overall PASS.",
+      "gate": {
+        "label": "cert_pos_01.json (reverse, lane B cert -> verifier A)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "laneB_native_overall_verdict_B": "PASS",
+      "laneB_native_witness_results": {
+        "W-1": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2prime": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-3": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-4": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-5": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-6": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        }
+      },
+      "verifier_invoked": true,
+      "laneA_verifier_result": {
+        "malformed": true,
+        "malformed_fields": [
+          {
+            "field": "searcher_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "searcher_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          }
+        ],
+        "provisional_reason_code": "schema-invalid",
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
+      }
+    },
+    {
+      "fixture": "cert_pos_02.json",
+      "description": "Self-made positive certificate fixture 2 (v3 shape), point loci at x=5 (mult 3) and x=6 (mult 1).",
+      "gate": {
+        "label": "cert_pos_02.json (reverse, lane B cert -> verifier A)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "laneB_native_overall_verdict_B": "PASS",
+      "laneB_native_witness_results": {
+        "W-1": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2prime": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-3": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-4": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-5": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-6": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        }
+      },
+      "verifier_invoked": true,
+      "laneA_verifier_result": {
+        "malformed": true,
+        "malformed_fields": [
+          {
+            "field": "searcher_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "searcher_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          }
+        ],
+        "provisional_reason_code": "schema-invalid",
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
+      }
+    },
+    {
+      "fixture": "cert_pos_03.json",
+      "description": "Self-made positive certificate fixture 3 (v3 shape), three point loci (x=7,8,9), exercising a 3-component bijection/coverage/pushforward all at once.",
+      "gate": {
+        "label": "cert_pos_03.json (reverse, lane B cert -> verifier A)",
+        "gate_passed": true,
+        "verdict": {
+          "verdict": "cert-schema-valid",
+          "stop_before_verifier": false
+        },
+        "violations": [],
+        "unknowns": [
+          "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+          "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+          "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+        ],
+        "observations": []
+      },
+      "laneB_native_overall_verdict_B": "PASS",
+      "laneB_native_witness_results": {
+        "W-1": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2prime": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-3": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-4": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-5": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-6": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        }
+      },
+      "verifier_invoked": true,
+      "laneA_verifier_result": {
+        "malformed": true,
+        "malformed_fields": [
+          {
+            "field": "searcher_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "searcher_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.ramification_divisor_on_C_ref",
+            "reason": "json-pointer-unresolvable"
+          },
+          {
+            "field": "checker_native.branch_divisor_on_P1_ref",
+            "reason": "json-pointer-unresolvable"
+          }
+        ],
+        "provisional_reason_code": "schema-invalid",
+        "overall_verdict_A": "FAIL",
+        "_ep_ref_resolution": {
+          "searcher": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          },
+          "checker": {
+            "ramification_malformed": false,
+            "branch_malformed": false
+          }
+        }
+      }
+    }
+  ],
+  "witness_gen_status": {
+    "present": true,
+    "path": "search\\ninfty-witness-gen.py",
+    "sha256": "2da2667c4f33edb62c6aa5e7b70ef1f5a8ff6609ebb09fed8723d9b47a41576f"
+  },
+  "full_witness_fixture_crosscheck": {
+    "present": true,
+    "description": "Full-witness positive certificate (裁定126/127/128): base fields from lane A's own real generateCertificate() on the genuine Pell fixture checker_pos_01.json (already flat + divisor_object-tagged for W-1/W-2/W-2prime/W-3/W-5 per 裁定127/128); chart_overlap_witnesses (W-4) and pushforward_compatibility_witness (W-6) REPLACED with independently-generated content from search/ninfty-witness-gen.py (ideal-equality / reciprocal-chart construction, no Qbar root-finding).",
+    "gate": {
+      "label": "full_witness_fixture_01 (curve-level W-4/W-6)",
+      "gate_passed": true,
+      "verdict": {
+        "verdict": "cert-schema-valid",
+        "stop_before_verifier": false
+      },
+      "violations": [],
+      "unknowns": [
+        "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+        "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+        "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+      ],
+      "observations": []
+    },
+    "verifier_invoked": true,
+    "laneB_result": {
+      "overall_verdict_B": "PASS",
+      "witness_results": {
+        "W-1": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-2prime": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-3": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-4": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-5": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        },
+        "W-6": {
+          "branch_divisor_on_P1": "PASS",
+          "ramification_divisor_on_C": "PASS"
+        }
+      },
+      "P-0": {
+        "detail": {
+          "P-0.1": true,
+          "P-0.2": true,
+          "P-0.3": true,
+          "P-0.4": true,
+          "P-0.5": true,
+          "P-0.6": true,
+          "P-0.7": true,
+          "P-0.8": true,
+          "field_embedding_witness_present": true
+        },
+        "status": "PASS"
+      },
+      "P-3": {
+        "detail": {
+          "P-3.1": true,
+          "P-3.2": true,
+          "P-3.3_checker": true,
+          "P-3.3_searcher": true,
+          "checker_native_declared_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+          "checker_native_recomputed_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+          "searcher_native_declared_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf",
+          "searcher_native_recomputed_digest": "b16911a25034ade78a9c6aef4206a06ae4addd489d0f3ab8e7c1d097a6db0fbf"
+        },
+        "status": "PASS"
+      }
+    },
+    "laneA_result": {
+      "malformed": false,
+      "ambient_ok": true,
+      "ambient_missing": [],
+      "p31_ok": true,
+      "p33_ok": true,
+      "R_A": {
+        "ramification_divisor_on_C": [
+          [
+            "W-1",
+            "PASS"
+          ],
+          [
+            "W-2",
+            "PASS"
+          ],
+          [
+            "W-2'",
+            "PASS"
+          ],
+          [
+            "W-3",
+            "PASS"
+          ],
+          [
+            "W-4",
+            "PASS"
+          ],
+          [
+            "W-5",
+            "PASS"
+          ],
+          [
+            "W-6",
+            "PASS"
+          ]
+        ],
+        "branch_divisor_on_P1": [
+          [
+            "W-1",
+            "PASS"
+          ],
+          [
+            "W-2",
+            "PASS"
+          ],
+          [
+            "W-2'",
+            "PASS"
+          ],
+          [
+            "W-3",
+            "PASS"
+          ],
+          [
+            "W-4",
+            "PASS"
+          ],
+          [
+            "W-5",
+            "PASS"
+          ],
+          [
+            "W-6",
+            "PASS"
+          ]
+        ]
+      },
+      "overall_verdict_A": "PASS",
+      "result_digest_A": "e40207b7177b24f0c164c4fab06e63ae37498866f2512857fc93b609d4151954",
+      "_ep_ref_resolution": {
+        "searcher": {
+          "ramification_malformed": false,
+          "branch_malformed": false
+        },
+        "checker": {
+          "ramification_malformed": false,
+          "branch_malformed": false
+        }
+      }
+    },
+    "objects": {
+      "ramification_divisor_on_C": {
+        "R_A": [
+          [
+            "W-1",
+            "PASS"
+          ],
+          [
+            "W-2",
+            "PASS"
+          ],
+          [
+            "W-2'",
+            "PASS"
+          ],
+          [
+            "W-3",
+            "PASS"
+          ],
+          [
+            "W-4",
+            "PASS"
+          ],
+          [
+            "W-5",
+            "PASS"
+          ],
+          [
+            "W-6",
+            "PASS"
+          ]
+        ],
+        "R_B": [
+          [
+            "W-1",
+            "PASS"
+          ],
+          [
+            "W-2",
+            "PASS"
+          ],
+          [
+            "W-2'",
+            "PASS"
+          ],
+          [
+            "W-3",
+            "PASS"
+          ],
+          [
+            "W-4",
+            "PASS"
+          ],
+          [
+            "W-5",
+            "PASS"
+          ],
+          [
+            "W-6",
+            "PASS"
+          ]
+        ],
+        "R_A_eq_R_B": true,
+        "full_witness_PASS": true,
+        "mismatched_witnesses": []
+      },
+      "branch_divisor_on_P1": {
+        "R_A": [
+          [
+            "W-1",
+            "PASS"
+          ],
+          [
+            "W-2",
+            "PASS"
+          ],
+          [
+            "W-2'",
+            "PASS"
+          ],
+          [
+            "W-3",
+            "PASS"
+          ],
+          [
+            "W-4",
+            "PASS"
+          ],
+          [
+            "W-5",
+            "PASS"
+          ],
+          [
+            "W-6",
+            "PASS"
+          ]
+        ],
+        "R_B": [
+          [
+            "W-1",
+            "PASS"
+          ],
+          [
+            "W-2",
+            "PASS"
+          ],
+          [
+            "W-2'",
+            "PASS"
+          ],
+          [
+            "W-3",
+            "PASS"
+          ],
+          [
+            "W-4",
+            "PASS"
+          ],
+          [
+            "W-5",
+            "PASS"
+          ],
+          [
+            "W-6",
+            "PASS"
+          ]
+        ],
+        "R_A_eq_R_B": true,
+        "full_witness_PASS": true,
+        "mismatched_witnesses": []
+      }
+    }
+  },
+  "N76_5_3_minimal_condition_checklist": [
+    {
+      "item": "schema-valid manifest の機械生成",
+      "status": "PASS",
+      "note": "search/ninfty-manifest-compiler.py (P76-3) generated + validated both lane manifests before any verifier ran."
+    },
+    {
+      "item": "certificate-schema validator gate 配線(裁定127/128)",
+      "status": "PASS",
+      "note": "every certificate (forward 5, reverse 6) passed through search/ninfty-cert-validator.py's validate_certificate() before any verifier call. Forward gate PASS: 5/5. Reverse gate PASS: 6/6."
+    },
+    {
+      "item": "受領側 D-1〜D-4′/四面交差の再計算",
+      "status": "PASS",
+      "note": "D-1/D-2 recomputed for top-level AND entries of both compiled manifests; I-3a/b/d recomputed; see manifest_crosscheck."
+    },
+    {
+      "item": "exact artifact bytes への digest 接続",
+      "status": "PASS (with 1 UNKNOWN)",
+      "note": "lane A's source files, lane B's 2 .py files, and 4 of 5 stdlib modules are hashed from real bytes on disk by the compiler. `sys` (built-in C module, no separate source file) is modeled as identical to toolchain_digest -- flagged, not fabricated."
+    },
+    {
+      "item": "同一 evidence に対する両 verifier の full PASS (NO conversion layer)",
+      "status": "PARTIAL/MIXED",
+      "note": "forward: 0/10 object-rows are full_witness_PASS, 0 are concordant_ABSENT_not_PASS, 10 are genuine STRUCTURAL mismatches now that certs are fed unmodified (see forward_laneA_to_laneB for exact mismatched witness labels + reasons -- this is the precise answer to whether concordance improved from 'missing-agreement' to 'structural agreement': the OUTER container/routing genuinely works now (both verifiers correctly attribute entries to the right divisor_object without any conversion), but the INNER witness/bijection micro-schemas still diverge in specific, identified ways -- this is progress, not a regression, and not yet full concordance."
+    },
+    {
+      "item": "reverse direction",
+      "status": "WIRED, gate-BLOCKED on current fixtures",
+      "note": "6/6 of lane B's cert fixtures pass the schema gate; the reverse pathway to verifier A is now a genuine no-conversion pipeline (verifier A already reads the flat divisor_object-tagged schema), but the specific 6 fixtures currently fail the gate (placeholder digests, missing certificate_digest/field_embedding fields, non-digest native _ref strings) -- see gate.violations per row. Gate-bypassed diagnostic results are recorded separately and are NOT part of the official verdict."
+    },
+    {
+      "item": "curve-level witness",
+      "status": "UNKNOWN/NOT AVAILABLE",
+      "note": "no root-level / curve-point construction exists in either lane's current scope; W-4/W-6 remain ABSENT at the curve level."
+    },
+    {
+      "item": "witness-gen (search/ninfty-witness-gen.py) full-certificate generation",
+      "status": "PASS",
+      "note": "checked at report time; not waited on (coordinator instruction)."
+    },
+    {
+      "item": "report 自身の input-bundle digest 束縛",
+      "status": "PASS",
+      "note": "see input_bundle_digest below."
+    }
+  ],
+  "reason_[11]_present": false,
+  "reason_[26]_decision_lane_present": false,
+  "reason_[26]_forward_structural_present": true,
+  "unknown_items": [
+    "CR-11 implemented_checks 3-layer equality: PENDING/UNKNOWN per freeze receipt pending queue",
+    "QD-6 bootstrap leaf lost guarantees: PENDING/UNKNOWN per freeze receipt pending queue",
+    "N-2(2)/H-1a'' independent re-derivation of R-6 closure completeness: PENDING/UNKNOWN per freeze receipt pending queue",
+    "lane A/B toolchain_digest form-validated as 64-hex by the compiler but NOT independently re-hashed against the actual node.exe/python.exe binary bytes -- UNKNOWN, not confirmed.",
+    "`sys` stdlib entry has no separate source file; modeled as toolchain_digest-equivalent -- UNKNOWN.",
+    "P-3.3 was NOT exercised in the forward direction (native_a/native_b omitted from the payload); verifier B's own verify_P3 defaults p33_a/p33_b to True when they are omitted, which reads as PASS without having actually checked anything -- flagged as a known ambiguity in verifier B's own P-3 implementation, not something this runner silently relied on as a genuine PASS.",
+    "search/ninfty-witness-gen.py: present, see witness_gen_status",
+    "reverse-direction gate-bypassed diagnostic results (on gate-FAIL fixtures) are informational only and are explicitly NOT validated against the official gated verdict's discipline -- UNKNOWN whether they reflect anything beyond 'garbage in, garbage out'."
+  ],
+  "ep_judgment_proposal": "PASS-partial: manifest gate PASS, cert-validator gate wired, no [11]. Decision-lane reason-code concordance 17/17. Forward (lane A -> verifier B, no conversion): gate PASS 5/5, of which 0/10 object-rows are full_witness_PASS, 0 concordant_ABSENT, 10 genuine structural mismatches (specific witness/bijection sub-schema divergence, root-caused per row). Reverse (lane B -> verifier A): gate PASS 6/6 -- currently 0 or few of lane B's fixtures pass the schema gate, so the reverse pathway is wired but not yet exercised end-to-end on conformant data. This is a proposal for commander/Sol review, not a self-declared EP PASS.",
+  "ep_judgment_note": "Per receipt: 'calibrated detector・complete search 宣言は EP 前 NOT AUTHORIZED'. Per 裁定124/F76-5.7: bound<=5 decision-lane sweep remains NOT authorized regardless of this report's outcome.",
+  "input_bundle_digest": "0a9a22dcf79bcf4fbf85b4289ba8eae3d5b83f77f991c724252270870e0287c0",
+  "input_bundle": {
+    "files": [
+      {
+        "path": "search\\certs\\assemble_full_witness_cert.py",
+        "sha256": "aaa816a4e27591707f2ba98da3345475aaa14c2383ff33f48f3e61e2040f07b8"
+      },
+      {
+        "path": "search\\certs\\ep-lanea-eval-candidate.mjs",
+        "sha256": "4a6bad6d1b80a8dc6ccdf58056f6c391a14a2a4994a65a557518061ac7500bdd"
+      },
+      {
+        "path": "search\\certs\\ep-lanea-export.mjs",
+        "sha256": "21f715931560300eef09b5200d71f7f8db3c22398e45c6585b11a6f3d4c5343a"
+      },
+      {
+        "path": "search\\certs\\ep-lanea-verify-cert.mjs",
+        "sha256": "7ebd9112df4ef8ecd26a21d164c07f0f0ff5983840c6f04dc2ad6bb5b0540f7a"
+      },
+      {
+        "path": "search\\certs\\fixtures-lanea.mjs",
+        "sha256": "d3b7585ae99bb729b89f0e327778fb5255b5f6d4f2e272459e13d48b10d667ee"
+      },
+      {
+        "path": "search\\certs\\full_witness_fixture_01.json",
+        "sha256": "03a7229b49745719aa5acac9a9a64310ca9b6f8bb2442f492ee02d570f03837b"
+      },
+      {
+        "path": "search\\certs\\laneA_manifest_v2_draft.json",
+        "sha256": "42eb92112cee952c01f2d31f18c532495e1a1a12ff5a281acd830fd547d57185"
+      },
+      {
+        "path": "search\\certs\\laneB_manifest_v2_draft.json",
+        "sha256": "b99978bc08b7134ce11578ed23bf86ede78d9b9290fb0de5e3e068ce72ee6ef0"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_neg_01.json",
+        "sha256": "ab20a0a36d5a3e0ef04d7f07ca7fac42ce762b2632272d1822e2a7d44d258d3b"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_neg_02.json",
+        "sha256": "43daeca86e5ae72cc50f1cae6d03f92852568ba60e588118c64973235da3df1f"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_neg_03.json",
+        "sha256": "057c642343a45f6dddb12770be91216ba1a09688d92549a87bc874bd195d460e"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_pos_01.json",
+        "sha256": "de4c8d369520dfff65bc9bd3ce400ca399fdda175546e218e6e809ac45b26189"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_pos_02.json",
+        "sha256": "d44a7494eb8d9b92494e422b445b0185fbd93fe0f24b40ae74aac4cc8bd895dc"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\cert_pos_03.json",
+        "sha256": "a1e981fb974e8613c650c49ae8330b95d1db498fcba4c399a5fd79703a9ac2b8"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_neg_01.json",
+        "sha256": "8a704c5c5d5b7beca23b929a5315a0afac87d3fa51a4d116a0f3903402ca3ce7"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_neg_02.json",
+        "sha256": "ffaa6bebc8202987970d10d3357c77759002fe5ee2f75a0d9154949717f0983d"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_neg_03.json",
+        "sha256": "3df0ac1fe3a2f548d311d970c634dcfab0277dfc3c69abfe7874ed2eb06858e3"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_pos_01.json",
+        "sha256": "4952d435e3da7c9ba0aee13f670a61484aef43edb6c0d3e2bef0a1d5362f8094"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_pos_02.json",
+        "sha256": "fb6f9710ddec24854463fa6c0f4c61b6e3915339fa39202adafdf8eacb753b0d"
+      },
+      {
+        "path": "search\\fixtures\\ninfty\\checker_pos_03.json",
+        "sha256": "d80bafc801cb33d5f7c6ef857420dbd5ce514bd47a2e67f3c06a4b9165a23e0a"
+      },
+      {
+        "path": "search\\ninfty-cert-validator.py",
+        "sha256": "c4fb686926ddab9141ded9cfc19579ab1836635c0de2c267bc31234971ac2a67"
+      },
+      {
+        "path": "search\\ninfty-checker.py",
+        "sha256": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac"
+      },
+      {
+        "path": "search\\ninfty-manifest-compiler.py",
+        "sha256": "2e18a7fb723e3d43c076c8bfa06469d527020827fdeefdef6ace0edc74d9b0af"
+      },
+      {
+        "path": "search\\ninfty-searcher-v2.mjs",
+        "sha256": "28efd2eaa4baa852791867b8578eb0b344c75811efd16797d41de8ce5fbb0c18"
+      },
+      {
+        "path": "search\\ninfty-selftest-lanea.mjs",
+        "sha256": "8e175dbe1ef1e17f2b1e914faf454d15b90112060ef9c112bc42d0e3569c981f"
+      },
+      {
+        "path": "search\\ninfty-verifier-a.mjs",
+        "sha256": "0caf553fb6824511de633334c00319696e62e3227a68f42b2bf23133c61dca96"
+      },
+      {
+        "path": "search\\ninfty-verifier-b.py",
+        "sha256": "d362c207a5a478887c284ab7f20da0088f51aa609d8dae04f4f298a4f66905d3"
+      },
+      {
+        "path": "search\\ninfty-witness-gen.py",
+        "sha256": "2da2667c4f33edb62c6aa5e7b70ef1f5a8ff6609ebb09fed8723d9b47a41576f"
+      }
+    ],
+    "extra": {
+      "note": "sha256 of the ACTUAL bytes read/executed by this run, not a claim about upstream authorship."
+    }
+  },
+  "reverse_direction_root_cause_analysis": {
+    "finding": "verifier A (search/ninfty-verifier-a.mjs) resolves searcher_native/checker_native _ref fields via resolveRef(ref, rootDoc=certificate) at the TOP of runVerifierA (line ~463-464), separately from any native_a/native_b the caller supplies. Lane B fixtures declare these _ref fields with json_pointer (e.g. \"/ramification_divisor_on_C_ref\") + inline content both present.",
+    "mechanism": "resolveRef(ref, rootDoc) attempts json_pointer resolution FIRST whenever ref.json_pointer is present, and returns {malformed:true, reason:\"json-pointer-unresolvable\"} immediately if that resolution fails -- it does NOT fall back to using ref.inline on its own even though inline is present and independently digest-verifiable. Since rootDoc=certificate has no top-level key matching the pointer path (the path targets a native document, not the certificate object), resolution always fails for lane B fixtures, and the presence of valid inline content is never reached.",
+    "confirmed_by": "direct node invocation of ep-lanea-verify-cert.mjs on cert_pos_01.json: this EP script's own resolvedNativeBlob() helper (which DOES pass native_a/native_b as rootDoc) resolves successfully (_ep_ref_resolution: all malformed=false), but runVerifierA's OWN internal top-level check (independent code path, rootDoc=certificate) still reports json-pointer-unresolvable and sets overall_verdict_A=FAIL with provisional_reason_code=schema-invalid.",
+    "classification": "lane A (verifier-a.mjs) design gap, not an EP-runner or lane-B defect. Not fixed here (EP runner must not modify lane files) -- reported for lane A author / Sol disposition.",
+    "reason_code_detail": "provisional_reason_code=\"schema-invalid\" (pending Sol enum, v3 条項5 lineage), overall_verdict_A=FAIL, all 4 native _ref fields (searcher/checker x ramification/branch) affected identically across all 6 lane-B fixtures."
+  }
+}

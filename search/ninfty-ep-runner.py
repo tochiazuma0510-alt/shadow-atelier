@@ -105,6 +105,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
 import re
 import subprocess
 import sys
@@ -115,6 +116,7 @@ if sys.stdout.encoding is None or sys.stdout.encoding.lower() != "utf-8":
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
 ROOT = Path(__file__).resolve().parent.parent
+OUT_NAME = os.environ.get("EP_OUT_NAME", "ep_run_20260728.json")
 SEARCH = ROOT / "search"
 CERTS = SEARCH / "certs"
 FIXTURES_NINFTY = SEARCH / "fixtures" / "ninfty"
@@ -655,7 +657,7 @@ def main():
         print("\nGATE FAILED. Per P76-3 mandate, verifiers are NOT invoked. Aborting.")
         report["aborted_after_gate_failure"] = True
         report["ep_judgment_proposal"] = "FAIL (manifest compiler gate)"
-        (CERTS / "ep_run_20260728.json").write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+        (CERTS / OUT_NAME).write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
         return 1
 
     print("\n=== [1/6] manifest cross-check on COMPILED manifests (I-3a/I-3b/I-3d, D-1/D-2 recompute) ===")
@@ -669,7 +671,7 @@ def main():
         print("ERROR: lane A export failed:", json.dumps(lanea_export)[:2000])
         report["error"] = "lanea_export_failed"
         report["lanea_export_raw"] = lanea_export
-        (CERTS / "ep_run_20260728.json").write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+        (CERTS / OUT_NAME).write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
         return 1
     n_decision = len(lanea_export["decision_fixture_results"])
     n_cert = len(lanea_export["cert_fixtures"])
@@ -873,7 +875,7 @@ def main():
     print("EP judgment proposal:", ep_judgment)
     print("input_bundle_digest:", bundle_digest)
 
-    out_path = CERTS / "ep_run_20260728.json"
+    out_path = CERTS / OUT_NAME
     out_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"\nwrote {out_path}")
     return 0
