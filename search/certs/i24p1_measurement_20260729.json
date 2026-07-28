@@ -1,0 +1,33 @@
+{
+  "schema_id": "i24p1-measurement/v1",
+  "task": "凍結予言 I24-P1 の的中判定測定(裁定 173・凍結 commit 9f6187b)",
+  "design_doc": "docs/notes/i24_transport_design_v1.md §7.4(予言 I24-P1)",
+  "source_script": "search/week4-u-k3.mjs",
+  "new_script": "search/i24p1-u-h3.mjs",
+  "diff_summary": "λ の定義のみ差し替え: 元スクリプトの u 抽出行 `chk('(9) ★★ λ = −t ⇒ u = −4', o===6 && c0.mul(q(-1)).eq(q(-4)), ...)` を、λ₃ := t/(t+1)(μ(w)=w/(w−1), λ₂=−t の合成 μ(λ₂)=(−t)/(−t−1)=t/(t+1))の冪級数計算に差し替え。t(x) を解く冪級数ロジック(F=0 の反復解法)・section 6(3-primary 成分)・section 7(u′=−256/729 の Möbius 不変性検査)はバイト同一(git diff --no-index で確認)。同一 plane model(t²+(x−1)²(4x−1)t+4x⁶=0, LMFDB 6T9-6_6_2.2.1.1-a)・同一 cusp P0=(x,t)=(0,0)・同一 uniformizer s=x。",
+  "measurement": {
+    "t_series": "t = 4x^6 + 24x^7 + O(x^8)",
+    "lambda3_definition": "lambda3 := t/(t+1)",
+    "lambda3_series_leading_term": {
+      "order": 6,
+      "coefficient": "4"
+    },
+    "u_H3_measured": "+4"
+  },
+  "frozen_prediction": {
+    "source": "docs/notes/i24_transport_design_v1.md §7.4 予言 I24-P1",
+    "u_H3_predicted": "+4",
+    "freeze_commit": "9f6187b"
+  },
+  "verdict": {
+    "hit_or_miss": "的中(HIT)",
+    "note": "実測 u_H3 = +4、予言 u_H3 = +4。一致。"
+  },
+  "seals_compliance": {
+    "policy": "公開値のみ",
+    "values_touched": ["u_3 = -4 (公開・manifest_k5_appendixA_v1.md §2)", "u_H3 = +4 (公開扱い・本測定対象・裁定173)"],
+    "sealed_quantities_touched": "なし(u_9/a_9 の値・c の平方類・ĉ_μ には一切触れていない)"
+  },
+  "run_command": "node search/i24p1-u-h3.mjs",
+  "run_result_raw": "PASS  (9) ★★ 予言 I24-P1: λ₃ = t/(t+1) ⇒ u_{H3} = ?  (凍結予言: u_{H3} = +4)  :: u_H3 = 4·x^6 + …  (t=4·x^6)\n\n==== 16/16 PASS ===="
+}
