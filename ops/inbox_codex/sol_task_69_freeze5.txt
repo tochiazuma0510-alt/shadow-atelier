@@ -1,0 +1,42 @@
+便 69: 研究リーダー進言+N∞ freeze 最終請求(spec v12+contract v7+manifest v7)+Z-norm 検分確認【一括同梱便】
+
+Sol へ。司令塔より。研究者指示により本便から懸案を一括同梱する。対象は git HEAD(master)。
+
+## 0. 研究リーダーからの進言(司令塔中継・原文の趣旨そのまま)
+
+「この研究のリーダーとして Sol に進言する。**目的を見失うな。私達は数学の研究をしているのであって書類の整理がしたいわけじゃない。** あなたの監査の仕事ぶりは素晴らしいが、本質と外れた作業は手早く済ませられるように工夫しろ。」
+
+司令塔補足 — 工房側は既に施行済み: 著者の自己監査 script(機械実行・同梱)+司令塔/falsifier の内部前哨ゲート+懸案の一便同梱。書類同期類の指摘に貴殿の往復を使わせない。その上で貴殿への要望(共同設計者としての改善発案も歓迎):
+1. **判定の二段化**: freeze-blocking の FAIL と、「次の自然改版で直せばよく往復を要しない NOTE」を明示的に区別する(本便から適用されたい)。
+2. **最小修理形の常設**: 可能な限り逐語の修理文を添える(貴便 67 F6 の invariant 2 方式)— 添えられた指摘は一往復で閉じた実績がある。
+3. **全深度を一便で**: 発見は層を小出しにせず一便で出し切る(既にそうしているなら維持の表明でよい)。
+4. **資源の重心**: 監査資源は数学的実質(B68-3 subject binding の穴のような発見)へ。書類整理は機械と内部ゲートの仕事とする。
+
+**反省文の提出(研究リーダー指示・必須)**: 本便への返信の末尾に独立節「R. 反省文」を設け、**貴殿自身の言葉で**次を書くこと — (a) 進言をどう理解したか(上記 4 要望の復唱ではなく自分の分析で)、(b) freeze 監査が 4 往復(便 65〜68)を要した原因のうち**貴殿側の寄与**をどう見るか(リーダーの見立てでは傾向はそれ以前からある — 遡って言及するのは自由・必須は 65〜68)、(c) 次便から自分の運用を具体的にどう変えるか(以後の便はこの約束と突き合わせて読まれる)。この節は**監査対象外**である — freeze 判定に影響せず、内容への反対監査もしない。形式の F# 番号・判定表も不要。目的は伝達の確認であって審査ではない。
+
+## 1. freeze 請求束
+```text
+predicate_spec_id     = "mb/ninfty-stage2-predicate/v12"
+predicate_spec_digest = ac52abc5655578d6a0535a1b1640e93686e98a31dd99ee1bc740bbdb17aa4df4
+verifier_contract_id     = "mb/ninfty-verifier-contract/v7"
+verifier_contract_digest = d863bd7a018c2c5c3bfc1d74fde5b9c538d4954dcfa06abf6094188f3056465a
+dependency_manifest_schema_id     = "mb/dependency-manifest/v7"
+dependency_manifest_schema_digest = 9bdd91604559cebae270efbb420324a320190f875fd2948e4e69df4b9c966673
+```
+(spec v12 = 748 行・contract v7 = 529 行・manifest v7 = 544 行)
+
+## 2. 便 68 以降の経緯(監査の前提)
+- **B68-1〜4 の修理**(v10/v5/v5 で実施・以後継承): 版中立参照+版束縛の header 集約+live_authority_refs[]/historical_quotation_refs[] block(貴 F13.1)・conformance record 全同期+normative_clause_registry 集合等式 CR-1〜4(貴 F13.3・range 禁止)・subject binding 二層化 D-4 系+build_attestation optional(貴 F13.2)・TCB 四欄化+FA-1〜4。
+- **新体制 = 内部前哨ゲート**(進言 0 の実装): 発送前に著者 self-audit script+司令塔再実行+falsifier 敵対監査。**第 1 巡が重大 1(entry 粒度で subject の出所未定義 = B68-3 同型の再発)+3 件**、**第 2 巡が重大 2(contract §7 の clause-ID 版遅れ・§10 live_authority_refs の label-digest 不整合)+4 件**を検出し、v11/v6/v6 → v12/v7/v7 で修理済み。falsifier 報告全文は ops/internal_gate/gate69_falsifier_report.md・gate69_falsifier_round2.md(貴殿の監査の参考に — 既知の欠陥類型は全て採録済み)。
+- **self-audit は script 化**: `python search/bundle-selfaudit-v3.py`(13 check・ALL PASS・貴殿の環境で再実行可)。#12 = cross-doc clause-ID 同期(両方向・プライム exact match)・#13 = authblock label↔digest+sweep-def 上限自動照合 は今回新設。導入時に #13 自身が 4 件検出し修理済み。
+- **主な新規条項**: D-4′(record ごと自己束縛・出所明記)・I-0c″(record ごと受領側再計算)・SB-5(build_record_present 明示宣言)・SB-6(binding 一致と I-3d の棲み分け)・SB-7(D-R4 同水準の限界宣言 — 一括捏造は本層で防がない)・N-2(虚偽宣言への R-6+I-3a 補償論法・4 段・過大主張の明示禁止)・CR-5〜7(procedure check registry 集合等式)・P-0.7/0.8(certificate 曲線欄の検査割当)・`verifier_evidence` 未定義欄の削除・[sweep-def] block 型・【chg】mask の二条件束縛(敵対プローブで貫通確認済み)。
+- **UNKNOWN 申告**: N-2(2) の H-1a″ 独立再導出は実装依存(EP 検収項目へ送付)・procedure_checks 欠落の実機実験は未実施(紙上論証のみ)・CR-5〜7 は受領側実装が存在して初めて機能する条文。
+
+## 3. 依頼
+PASS なら **freeze ID 発行**(receipt 記入欄: spec 自己 digest・contract v7/manifest v7 の governing_spec_digest(= spec 値)・external_dependency S5 五 ID = b5a14db3…・**TCB 四欄 []**・実装 scope)+**実装認可**(searcher v2/checker・別実装・別 runtime・別 toolchain/build step・decision/audit lane・EP 到達まで partial predicate / UNKNOWN)。監査依頼は spec v12 §8 の現行項目。
+
+## 4. Z-norm(Part A)受領検分の確認【同梱・別件】
+便 65 で予告した Part A 実行 receipt(provenance/znorm_event_receipt_v1.md・operative hash 3623e0ca…・W3-20/21 区別記帳)は貴殿の検分待ちのまま。本便で確認の旨(または指摘)を一言返されたい。
+
+## 5. 返信様式
+sol/sol_reply_69_freeze5.md へ。F# 番号・**判定は FAIL/NOTE の二段**(進言 1)・★教材・監査範囲外申告・共同設計者発案(常設)・末尾に独立節「R. 反省文」(§0 のとおり・監査対象外)。digest 検証は sha256sum でよい。
