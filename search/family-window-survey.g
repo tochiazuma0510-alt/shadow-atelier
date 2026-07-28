@@ -24,8 +24,14 @@
 #   事後フィルタを併用する(この事実を scratchpad で確認済み・本スクリプトのコメントに記録)。
 #   自己正規化 (2) が成り立つ代表は N_{P_n}(H)=H よりその P_n-共役類のサイズが
 #   ちょうど [P_n:H]=2n であることが保証されるので、RightTransversal で厳密に
-#   2n 個の共役を展開してから各共役について (3) を個別に検査する
-#   (条件(3)は X_n を固定するため共役不変ではない — 共役類内で一部だけ通ることがある)。
+#   2n 個の共役を展開してから各共役について (3) を個別に検査する。
+#   [裁定109 F5 修理] 旧版の本注記は「条件(3)は共役不変でない」としていたが誤り
+#   (偽注記)。正しくは: G-集合同型 P_n/H ≅ P_n/(gHg^-1)(xH |-> xg^-1・gHg^-1)は
+#   P_n 全体に対して同変なので、その部分群 <X_n> への制限に対しても同変であり、
+#   したがって <X_n> の P_n/H 上の推移性は共役 gHg^-1 についても保存される
+#   (条件(3)は共役不変)。個体ごとの検査はこの不変性を破っているわけではなく、
+#   不変性ゆえ同一共役類内では全個体が同じ判定(全通過 or 全不通過)になることの
+#   直接検算として行っている(理論的に導出済みの事実の実測確認)。
 #
 # 規律: 宇宙は事前登録どおり固定。u・c 平方類・ĉ_μ には触れない。観測の解釈はしない。
 
@@ -291,7 +297,12 @@ cert := Concatenation(
   ",\"predicates\":{\"p1\":\"[P_n:H]=2n\",\"p2\":\"N_Pn(H)=H\",\"p3\":\"<X_n> transitive on P_n/H\"}",
   ",\"implementation_note\":\"SubgroupsSolvableGroup の IndexEqual/OrderEqual オプションは",
   " GAP 4.16.0 でフィルタとして機能しない(実測確認済み)ため Size による事後フィルタを併用。",
-  " 条件(3)は共役不変でないため自己正規化クラスを RightTransversal で厳密展開し個体ごとに検査。\"",
+  " 自己正規化クラスを RightTransversal で厳密展開し個体ごとに検査する",
+  "(裁定109 F5 修理: 旧版はここで「条件(3)は共役不変でない」と記していたが偽注記であった。",
+  " 正しくは G-集合同型 P_n/H≅P_n/(gHg^-1) が P_n 全体で同変であることから",
+  " <X_n> への制限でも同変となり、条件(3)は共役不変である。個体ごとの検査は",
+  " この不変性を前提とせず理論的帰結として実測確認するために行っている)。\"",
+  ",\"supersedes\":\"search/certs/i1_survey_20260728.json\"",
   ",\"results\":[", JoinStringsWithSeparator(perNParts, ","), "]",
   ",\"provenance\":{\"script_sha256\":\"", scriptSha256, "\"",
   ",\"universe_doc_sha256\":\"", universeDocSha256, "\"",
@@ -299,7 +310,7 @@ cert := Concatenation(
   "}"
 );;
 
-outPath := "search/certs/i1_survey_20260728.json";;
+outPath := "search/certs/i1_survey_20260728_r2.json";;
 WriteFile(outPath, cert);;   # WriteFile は生バイト書出し(PrintTo/OutputTextFile は
                               # 長い行を "\<改行>" で折り返し JSON を破壊するため不使用)
 Print("\n証明書を書き出した: ", outPath, "\n");

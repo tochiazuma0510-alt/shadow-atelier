@@ -215,13 +215,23 @@ Print("  n=9 版 CAL は「定義に必要な入力が未整備」につき UNKN
 Print("\n--- 補足(bonus): 108 shadow 全件での Phi_{m,f}(H_9^fun) ~ H_9^fun の直接検算 ---\n");
 w5BonusFail := 0;;
 w5BonusChecked := 0;;
+w5BonusNonBijective := 0;;
 for sh in gtResult9.shadows do
   u := 2*sh.m + 1;;
   f := sh.f;;
-  PhiHom := GroupHomomorphismByImages(P9.G, P9.G, [P9.X, P9.Y], [P9.X^u, f^-1 * P9.Y^u * f]);;
+  # F10 修理(裁定 109): paper-word "f^-1 Y^u f" は AbstractProd(week3-battery-common.g、
+  # BuildPn 内のコメント・W-4 規約)の反転を経て GAP 積 f * Y^u * f^-1 に対応する。
+  # 素朴な GAP 積 f^-1 * Y^u * f をそのまま書くのは規約違反(F10 バグ)だったため修正。
+  PhiHom := GroupHomomorphismByImages(P9.G, P9.G, [P9.X, P9.Y], [P9.X^u, AbstractProd([f^-1, P9.Y^u, f])]);;
   if PhiHom = fail then
     Print("[FAIL] m=", sh.m, ": Phi_{m,f} の構成に失敗(自己同型のはずが homomorphism 不成立)\n");
     w5BonusFail := w5BonusFail + 1;
+  elif not IsBijective(PhiHom) then
+    # F11 修理(裁定 109): GroupHomomorphismByImages <> fail は自己同型を意味しない
+    # (準同型として構成できただけで単射・全射は別途保証が要る)。IsBijective を必須検査にする。
+    Print("[FAIL] m=", sh.m, ": Phi_{m,f} は準同型として構成できたが IsBijective=false(自己同型でない)\n");
+    w5BonusFail := w5BonusFail + 1;
+    w5BonusNonBijective := w5BonusNonBijective + 1;
   else
     PhiH9 := Image(PhiHom, H9);;
     conj := IsConjugate(P9.G, PhiH9, H9);;
@@ -232,8 +242,8 @@ for sh in gtResult9.shadows do
     fi;
   fi;
 od;
-Print("[", PF(w5BonusFail = 0), "] 108 shadow 中 ", w5BonusChecked, " 件で Phi_{m,f}(H_9^fun) ~ H_9^fun (不一致 ",
-      w5BonusFail, " 件)\n");
+Print("[", PF(w5BonusFail = 0), "] 108 shadow 中 ", w5BonusChecked, " 件で Phi_{m,f}(H_9^fun) ~ H_9^fun を検査、",
+      "非単射で除外 ", w5BonusNonBijective, " 件、不一致(非単射込み) ", w5BonusFail, " 件\n");
 if w5BonusFail <> 0 then failures := failures + 1; fi;
 
 # ====================================================================
@@ -361,6 +371,7 @@ cert := Concatenation(
     ",\"w2_status\":\"UNKNOWN\",\"w2_reason\":\"arithmetic-side (exact sequence + chi_2M compatibility); not GAP-computable\"",
     ",\"cal_status\":\"UNKNOWN\",\"cal_reason\":\"n=9 Rule-1-style intertwiner / Z_36-link / chi_36 concrete form not present in docs/\"",
     ",\"w5_bonus_checked\":", String(w5BonusChecked), ",\"w5_bonus_fail\":", String(w5BonusFail),
+    ",\"w5_bonus_nonbijective\":", String(w5BonusNonBijective),
     ",\"w5_bonus_all_pass\":", JB(w5BonusFail = 0),
   "}",
   ",\"task3_hf2_functoriality\":{",
@@ -372,11 +383,15 @@ cert := Concatenation(
   "}",
   ",\"overall_failures\":", String(failures),
   ",\"elapsed_wall_ms\":", String(t1-t0),
+  ",\"supersedes\":\"search/certs/k9_package_20260728.json\"",
+  ",\"repair_note\":\"裁定109 ODD-H監査 F10/F11 修理後の再発行。F10: L221 の f^-1*Y^u*f を",
+   " AbstractProd([f^-1,Y^u,f])(=f*Y^u*f^-1、week3-battery-common.g W-4 反転規約)へ修正。",
+   " F11: GroupHomomorphismByImages<>fail を自己同型と誤読していた点を修理し IsBijective を必須assert化。\"",
   ",\"provenance\":{\"script_sha256\":\"", scriptSha256, "\"}",
   "}"
 );;
 
-outPath := "search/certs/k9_package_20260728.json";;
+outPath := "search/certs/k9_package_20260728_r2.json";;
 WriteFile(outPath, cert);;
 
 Print("\n証明書を書き出した: ", outPath, "\n");
