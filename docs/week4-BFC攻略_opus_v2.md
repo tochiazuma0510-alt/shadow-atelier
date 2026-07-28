@@ -1,4 +1,4 @@
-# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2.14 = 裁定 74: live status の 4 分類型付け(A62-1)**)
+# 比較橋 $B_{\rm FC}$ の紙上攻略 — 前件の精密化と一般証明(**v2.15 = 裁定 75: 時制衝突の二段落分離(A63-1)**)
 
 2026-07-27 起草(v1)・**同日 v2 / v2.1 / v2.2 改訂**: Claude(数学者レイヤー・Opus 5)。司令塔委嘱「$B_{\rm FC}$ の紙上攻略」。**v2 は `sol/sol_reply_43_bfc.md` の必須修理 R1–R6(裁定 44)、v2.1 は `sol/sol_reply_44_bfc_v2.md` の T1–T7(裁定 46)、v2.2 は `sol/sol_reply_45_bfc_final.md` の差戻し理由 1・2(= U1・U2)+ 司令塔委嘱「$K^{(5)}$ campaign の $\varepsilon$ 非依存性」(**発端 = 研究者の指摘**)を反映(裁定 47)。**
 **版の所在(便 45 F6 で実体 PASS)**: **`docs/week4-BFC攻略_opus_v1.md` は v1 原文(digest `659a9570…`)に復元済み・本ファイルが v2 系列の最終正本**である。**v2.1 が書いていた「`_v1_archive.md` に復元済み / path 改称は裁定事項」は現 tree では偽**なので削除した(便 45 F6 の指摘・**自認**)。
@@ -301,6 +301,21 @@ P4 "exact \$b=1\$|for exact b"
 | **P4** | §8.1・§10.1.5・§12.1・§12.3・§14・§15・§16 の残り 8 箇所 | 「関所」語彙が無型で live | **各出現に [global] / [pre-event candidate] / [historical] を付与**。「関所」→「供給依存」「項目」へ語彙同期 | 便 62 F4 |
 
 > **v2.14 でも不変**: **B-9′ (a)–(e)・主定理 B-7 の主張と証明・(B7tw)・B-6・B-6$^{\rm tw}$・B-5$^{\rm u}$・系 B-8・Node 13/13・前件の集合。** P1–P4 は **live status への分類型の付与**であり、**数学は 1 行も動かない**。
+
+---
+
+## v2.14 → v2.15 差分(裁定 75 — 便 63 F4 blocker A63-1)
+
+> **便 63 F4 の指摘**: **label は付いたが live 文の意味がまだ衝突している。** 4 分類ラベルを**並べる**だけでは、**どの節がどの時制に属するか**が指定されず矛盾は消えない。**自認。**
+
+| # | 箇所 | v2.14 | v2.15 | 出所 |
+|---|---|---|---|---|
+| **Q1** | **系 B-7′ 直後の状態札 (ii)** | `[global][per-window][pre-event]` の**三ラベル併記**に「根の正規化は `Z-norm-seal/v1` で**採用済み**」が同居 — **`pre-event candidate` なら seal は operative でなく「採用済み」は post-receipt の文**(時制衝突) | **二段落へ分離**。**[pre-event candidate]**「seal-relative theorem と $K^{(5)}$ migration は **approved candidate であって operative ではない**」/ **[post-receipt operative]**「**approved receipt が** 名指しの seal と migration を operative にする」。**[per-window inventory]** は後段の効力範囲として従属 | 便 63 F4.1 |
+| **Q2** | **§12 の撤回直後** | 「v2.13 までの表現は撤回する」と書いた**直後の同じ段落**に、【v2.7・F3.3-4】として「$Z$(未凍結)も同じ向き感受性の**関所**」を**無分類の現行文で再掲**(撤回した旧状態をその場で復活) | **[historical quotation] で隔離**し「**この status 語彙は撤回済みで現行文ではない**」と明記。**現行の言い方**を別段落に置き、$b_{\rm op}=(\bar t_M\varepsilon)^{-1}$ の**二因子への供給元対応**を [global] / [per-window] で書く(**二項目の名指しという前進は保持**) | 便 63 F4.2 |
+
+> **便 63 F4 の裁定**: 「全 15 箇所を再び開ける必要はなく、**上の二 live 文を意味単位で直す小差分で足りる**」。**Q1・Q2 のみ。**
+
+> **v2.15 でも不変**: **B-9′ (a)–(e)・B-7 の主張と証明・(B7tw)・B-6・B-6$^{\rm tw}$・B-5$^{\rm u}$・系 B-8・Node 13/13・前件の集合・v2.14 の 4 分類規約。**
 > **提出前の自己検査(便 51 ★教材 F8-2「宣言直後こそ fixture を当てる」)**: 反例 $t_{20}=3,\varepsilon=7$($b_{\rm cmp}=3\ne b_{\rm op}=1$)を**全文の $b$ 関連記述に当てて走査**し、**$b_{\rm op}$ と $b_{\rm cmp}$ を等号で結ぶ live 記述が残っていないこと**を確認した(§下記 lint)。
 > **提出前 self-lint(便 50 F8.1)を実施**: `未調整` / `要調整` / `現在は v1` / `残るのは…provenance` / version なし bundle ID / `b_{(8.1)}` / `b_{\rm TB4}` / `t\varepsilon`(型不整合)を全文走査し、**live 節での hit 0**(履歴 box と差分表の引用のみ)。
 
@@ -762,7 +777,13 @@ $\tau$ 単射より $c=\kappa_{u^{-1}}$。∎
 
 > **★【v2】B-7 の前件欄は v1 から不変である。** R2(B-3 の (W3))・R3(B-4 の (W2))はいずれも**下位補題の前件欄の脱落**であり、**主定理 B-7 は初めから (W1)–(W5) を全部仮定していた**ので、修理により結論は 1 ミリも動かない(便 43 F7 が同旨)。R4 の剰余類修理後も上の合成は同じ式になる(便 43 F7 が独立に再構成)。
 >
-> **⚠ 状態札(誇張しない)【v2 更新】**: 系 B-7′ は **`paper-proof (framework-conditional on TB1–TB4 + (Z_2M-link), 現行 proof ID) / two-mathematician audit PASS`**(便 43 F10・裁定 44)。(i) **Lean `verified` ではない(未着手)**、(ii) **[global seal-relative]****[per-window inventory]****[pre-event candidate]** **根の正規化は `Z-norm-seal/v1` で採用済み ⟹ **root-normalization-relative theorem****(**無条件化ではない・Lean `verified` でもない**)【**v2.12**】(**【v2.5・F2.2】**関所名は exact $\varepsilon=1$。$b=1$ はその $\mathrm{mod}\ M$ 帰結であって同値ではない — (2.2)。その手前は **定理 B-7$^{\rm tw}$**(§8.1)が **(TB4$^{\rm u}$)-条件つき**で使える — **「無条件」ではない**)、(iii) $u$ の**計算**は依然窓固有(§12.2)、(iv) **有限計算 bundle の現況は `certificates/bfc/` と `provenance/CLAIMS.md` を正とする**(§15.7・**【v2.5・F2.4】本文に現況を書かない**)。**【v2.4・F2.3】**$K^{(5)}$ campaign の **Belyi-side 限定結論**は exact $\varepsilon$ に依存しない(補題 B-9′(e))。**bridge/result の全称は `amendment-pending`。**
+> **⚠ 状態札(誇張しない)【v2 更新】**: 系 B-7′ は **`paper-proof (framework-conditional on TB1–TB4 + (Z_2M-link), 現行 proof ID) / two-mathematician audit PASS`**(便 43 F10・裁定 44)。(i) **Lean `verified` ではない(未着手)**、(ii) **根の正規化の身分は次の二段落に分ける【v2.15・A63-1】**
+>
+> > **[pre-event candidate]** **seal-relative theorem と $K^{(5)}$ migration は approved candidate であって operative ではない。** この状態では B-7 は **(TB4)・$(Z_{2M}$-link$)$ を明示前件に持つ conditional theorem** として読む。
+> >
+> > **[post-receipt operative]** **approved receipt が、名指しの seal(`Z-norm-seal/v1`)と $K^{(5)}$ migration を operative にする。** その receipt の下でのみ B-7 は **root-normalization-relative theorem** として読める(**無条件化ではない・Lean `verified` でもない**)。**[per-window inventory]** その効力は `inventory(window)=migrated` の窓に限られる($K^{(5)}$ supplied / $K^{(3)}$・$A_5$ pending)。
+>
+> 【**v2.12**】(**[historical quotation]【v2.15】 以下は v2.5 の語彙のまま引用 — 「関所」は撤回済み語彙。**【v2.5・F2.2】**項目名は exact $\varepsilon=1$。$b=1$ はその $\mathrm{mod}\ M$ 帰結であって同値ではない — (2.2)。その手前は **定理 B-7$^{\rm tw}$**(§8.1)が **(TB4$^{\rm u}$)-条件つき**で使える — **「無条件」ではない**)、(iii) $u$ の**計算**は依然窓固有(§12.2)、(iv) **有限計算 bundle の現況は `certificates/bfc/` と `provenance/CLAIMS.md` を正とする**(§15.7・**【v2.5・F2.4】本文に現況を書かない**)。**【v2.4・F2.3】**$K^{(5)}$ campaign の **Belyi-side 限定結論**は exact $\varepsilon$ に依存しない(補題 B-9′(e))。**bridge/result の全称は `amendment-pending`。**
 
 ---
 
@@ -989,7 +1010,9 @@ $$ \ker\bigl(\mathrm{Ih}_N|_{G_K}\bigr)=\ker\bigl(j_i\circ[b]\circ\kappa_i\bigr)
 > ```
 > **自認。**
 >
-> **新しい穴ではない**: $A_5$ v4 §6 の【GAP-C3】(「枠組みそのもの — 接基点での繊維関手の存在と Galois 同変性」)と同じもの。**本稿はそれを 4 項目に分解し、うち (TB4) が向き感受性の項目であることを特定した。**【**v2.14・A62-1 で型付け**】 **[global seal-relative status]** (TB4) は `Z-norm-seal/v1` + retained TB4-3/A3 framework が供給・**[per-window inventory status]** $(Z_{2M}$-link$)$ は `inventory=migrated` の窓のみ($K^{(5)}$ supplied / $K^{(3)}$・$A_5$ pending)・**[pre-event candidate state]** seal candidate 未発効の間は候補状態で、**receipt 発効後に operative**。**「$Z$(未凍結)も同じ関所」という v2.13 までの表現は per-window 型を持たない古い記述であり撤回する(自認)。** 【**v2.7・F3.3-4**】**ただし「唯一」ではない** — **$Z$(未凍結)も同じ向き感受性の関所**であり、$b_{\rm op}=(\bar t_M\varepsilon)^{-1}$ の両因子に 1 つずつ対応する((TB4) は $\varepsilon$、link は $\bar t_M$)。これは前進(粗い札 → 名指しの **2** 項目)。
+> **新しい穴ではない**: $A_5$ v4 §6 の【GAP-C3】(「枠組みそのもの — 接基点での繊維関手の存在と Galois 同変性」)と同じもの。**本稿はそれを 4 項目に分解し、うち (TB4) が向き感受性の項目であることを特定した。**【**v2.14・A62-1 で型付け**】 **[global seal-relative status]** (TB4) は `Z-norm-seal/v1` + retained TB4-3/A3 framework が供給・**[per-window inventory status]** $(Z_{2M}$-link$)$ は `inventory=migrated` の窓のみ($K^{(5)}$ supplied / $K^{(3)}$・$A_5$ pending)・**[pre-event candidate state]** seal candidate 未発効の間は候補状態で、**receipt 発効後に operative**。**「$Z$(未凍結)も同じ関所」という v2.13 までの表現は per-window 型を持たない古い記述であり撤回する(自認)。** **[historical quotation]【v2.15・A63-1】** 【**v2.7・F3.3-4**】は「ただし『唯一』ではない — $Z$(未凍結)も同じ向き感受性の**関所**」と書いていた。**この status 語彙は撤回済みであり、現行文ではない。** 
+>
+> **現行の言い方**: $b_{\rm op}=(\bar t_M\varepsilon)^{-1}$ の**二因子に一つずつ供給元が対応する** — **[global seal-relative]** $\varepsilon$ 側は `Z-norm-seal/v1` + retained TB4-3/A3 framework が供給・**[per-window inventory]** $\bar t_M$ 側($Z$-link)は `inventory=migrated` の窓のみ供給($K^{(5)}$ supplied / $K^{(3)}$・$A_5$ pending)。**二項目の名指し**という前進はそのまま残る。
 >
 > **両実例も同じ札に依存していた**: $A_5$ v4 §3.5 の「$\gamma$ は $\beta^{1/5}$ を固定し係数のみに作用」と「$\hat F_2$ の $\mathrm{Fib}$ への作用」の突合、$K^{(3)}$ §2.1 の「局所 Kummer」。**本稿は依存を増やしていない。**
 
