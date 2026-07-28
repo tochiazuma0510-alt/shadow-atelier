@@ -1,0 +1,1189 @@
+{
+  "_description": "Full-witness positive certificate (裁定126/127/128): base fields from lane A's own real generateCertificate() on the genuine Pell fixture checker_pos_01.json (already flat + divisor_object-tagged for W-1/W-2/W-2prime/W-3/W-5 per 裁定127/128); chart_overlap_witnesses (W-4) and pushforward_compatibility_witness (W-6) REPLACED with independently-generated content from search/ninfty-witness-gen.py (ideal-equality / reciprocal-chart construction, no Qbar root-finding).",
+  "certificate": {
+    "schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
+    "schema_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
+    "predicate_spec_id": "mb/ninfty-stage2-predicate/v18",
+    "predicate_spec_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
+    "candidate_ref": "full-witness-fixture-01",
+    "curve_model_digest": "25c6cadfa5d2793870498e9571df672479ba0e58c9696bdccd3eabe6bb5dc930",
+    "chart_ids": [
+      "x-chart-single",
+      "x-chart-secondary-affine"
+    ],
+    "ambient_coordinate_ring_schema_id": "mb/ninfty-lanea/ambient-ring/v1",
+    "ambient_coordinate_ring_schema_digest": "cefc0708b28a777b48189da8d49fc449bce6316bd9b8681c41004856c71911d7",
+    "ambient_quotient_relations": "y^2 - f6(x) = 0 (curve model); component ideals below are pulled back to Q[x] via the x-coordinate projection",
+    "coefficient_field_presentation_id": "Q/standard",
+    "coefficient_field_presentation_digest": "e985094b82cd3e3931e7f01bdb0626719adf19dc37587d135a45d724bfcbea4a",
+    "field_embedding_witness_schema_id": "mb/ninfty-lanea/no-embedding-needed/v1",
+    "field_embedding_witness_schema_digest": "4232c87477cd45a1a142a223f067b010d8ca3d096a2251efcd96290d100bd7f1",
+    "monomial_order_id": "lex-single-variable",
+    "monomial_order_digest": "b3bbb342feb843f0ffe96c28e5eefd58dc25c201008cbd639a03ad2afea806bb",
+    "groebner_reduction_contract_id": "mb/ninfty-lanea/pid-monic-reduction/v1",
+    "groebner_reduction_contract_digest": "e0dceacf6ac79f56c8f47ac7f25358958ae403232927cd469d266bb471fb0a87",
+    "searcher_native": {
+      "ramification_divisor_on_C_ref": {
+        "components": [
+          {
+            "locus_type": "a-pair-locus",
+            "ideal_generator": [
+              "8",
+              "6",
+              "1"
+            ],
+            "multiplicity": 1
+          },
+          {
+            "locus_type": "p-locus",
+            "ideal_generator": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "multiplicity": 1
+          },
+          {
+            "locus_type": "weierstrass-locus",
+            "ideal_generator": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "multiplicity": 1
+          }
+        ]
+      },
+      "branch_divisor_on_P1_ref": {
+        "components": [
+          {
+            "locus_type": "a-pair-locus",
+            "ideal_generator": [
+              "8",
+              "6",
+              "1"
+            ],
+            "multiplicity": 1,
+            "pushforward_of": "a-pair-locus"
+          },
+          {
+            "locus_type": "p-locus",
+            "ideal_generator": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "multiplicity": 1,
+            "pushforward_of": "p-locus"
+          },
+          {
+            "locus_type": "weierstrass-locus",
+            "ideal_generator": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "multiplicity": 1,
+            "pushforward_of": "weierstrass-locus"
+          }
+        ]
+      },
+      "native_schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
+      "native_schema_digest": null,
+      "native_artifact_digest": "de774450509ac930e6813b590e2e5bb725cd9aa8714cc7680fc1a15ec4482195"
+    },
+    "checker_native": {
+      "ramification_divisor_on_C_ref": {
+        "components": [
+          {
+            "locus_type": "a-pair-locus",
+            "ideal_generator": [
+              "8",
+              "6",
+              "1"
+            ],
+            "multiplicity": 1
+          },
+          {
+            "locus_type": "p-locus",
+            "ideal_generator": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "multiplicity": 1
+          },
+          {
+            "locus_type": "weierstrass-locus",
+            "ideal_generator": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "multiplicity": 1
+          }
+        ]
+      },
+      "branch_divisor_on_P1_ref": {
+        "components": [
+          {
+            "locus_type": "a-pair-locus",
+            "ideal_generator": [
+              "8",
+              "6",
+              "1"
+            ],
+            "multiplicity": 1,
+            "pushforward_of": "a-pair-locus"
+          },
+          {
+            "locus_type": "p-locus",
+            "ideal_generator": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "multiplicity": 1,
+            "pushforward_of": "p-locus"
+          },
+          {
+            "locus_type": "weierstrass-locus",
+            "ideal_generator": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "multiplicity": 1,
+            "pushforward_of": "weierstrass-locus"
+          }
+        ]
+      },
+      "native_schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
+      "native_schema_digest": null,
+      "native_artifact_digest": "de774450509ac930e6813b590e2e5bb725cd9aa8714cc7680fc1a15ec4482195"
+    },
+    "component_bijection": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_index": 0,
+        "checker_index": 0,
+        "locus_type": "a-pair-locus"
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_index": 1,
+        "checker_index": 1,
+        "locus_type": "p-locus"
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_index": 2,
+        "checker_index": 2,
+        "locus_type": "weierstrass-locus"
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_index": 0,
+        "checker_index": 0,
+        "locus_type": "a-pair-locus"
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_index": 1,
+        "checker_index": 1,
+        "locus_type": "p-locus"
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_index": 2,
+        "checker_index": 2,
+        "locus_type": "weierstrass-locus"
+      }
+    ],
+    "exact_point_equality_witnesses": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "a-pair-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "8",
+              "6",
+              "1"
+            ],
+            "divisor_monic": [
+              "8",
+              "6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "8",
+              "6",
+              "1"
+            ],
+            "divisor_monic": [
+              "8",
+              "6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "p-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "divisor_monic": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "divisor_monic": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "weierstrass-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "divisor_monic": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "divisor_monic": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "a-pair-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "8",
+              "6",
+              "1"
+            ],
+            "divisor_monic": [
+              "8",
+              "6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "8",
+              "6",
+              "1"
+            ],
+            "divisor_monic": [
+              "8",
+              "6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "p-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "divisor_monic": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "divisor_monic": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "weierstrass-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "divisor_monic": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "divisor_monic": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      }
+    ],
+    "distinctness_witnesses": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "pair": [
+          0,
+          1
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "8",
+            "6",
+            "1"
+          ],
+          "generator_Q": [
+            "44/5",
+            "6",
+            "1"
+          ],
+          "bezout_u": [
+            "-5/4"
+          ],
+          "bezout_v": [
+            "5/4"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "pair": [
+          0,
+          2
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "8",
+            "6",
+            "1"
+          ],
+          "generator_Q": [
+            "59504/125",
+            "27408/25",
+            "25628/25",
+            "2484/5",
+            "657/5",
+            "18",
+            "1"
+          ],
+          "bezout_u": [
+            "465",
+            "5775/8",
+            "6425/16",
+            "375/4",
+            "125/16"
+          ],
+          "bezout_v": [
+            "-125/16"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "pair": [
+          1,
+          2
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "44/5",
+            "6",
+            "1"
+          ],
+          "generator_Q": [
+            "59504/125",
+            "27408/25",
+            "25628/25",
+            "2484/5",
+            "657/5",
+            "18",
+            "1"
+          ],
+          "bezout_u": [
+            "339/8",
+            "1095/16",
+            "1265/32",
+            "75/8",
+            "25/32"
+          ],
+          "bezout_v": [
+            "-25/32"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "pair": [
+          0,
+          1
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "8",
+            "6",
+            "1"
+          ],
+          "generator_Q": [
+            "44/5",
+            "6",
+            "1"
+          ],
+          "bezout_u": [
+            "-5/4"
+          ],
+          "bezout_v": [
+            "5/4"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "pair": [
+          0,
+          2
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "8",
+            "6",
+            "1"
+          ],
+          "generator_Q": [
+            "59504/125",
+            "27408/25",
+            "25628/25",
+            "2484/5",
+            "657/5",
+            "18",
+            "1"
+          ],
+          "bezout_u": [
+            "465",
+            "5775/8",
+            "6425/16",
+            "375/4",
+            "125/16"
+          ],
+          "bezout_v": [
+            "-125/16"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "pair": [
+          1,
+          2
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "44/5",
+            "6",
+            "1"
+          ],
+          "generator_Q": [
+            "59504/125",
+            "27408/25",
+            "25628/25",
+            "2484/5",
+            "657/5",
+            "18",
+            "1"
+          ],
+          "bezout_u": [
+            "339/8",
+            "1095/16",
+            "1265/32",
+            "75/8",
+            "25/32"
+          ],
+          "bezout_v": [
+            "-25/32"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      }
+    ],
+    "multiplicity_equalities": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "a-pair-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "p-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "weierstrass-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "a-pair-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "p-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "weierstrass-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      }
+    ],
+    "chart_overlap_witnesses": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "chart_pair": [
+          "x-chart-single",
+          "x-chart-secondary-affine"
+        ],
+        "component_in_chart_a": "a-pair-locus",
+        "component_in_chart_b": "a-pair-locus",
+        "agree": true,
+        "generator_chart_a": [
+          "8",
+          "6",
+          "1"
+        ],
+        "generator_chart_b": [
+          "8",
+          "6",
+          "1"
+        ],
+        "_secondary_chart_u_transform": {
+          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+          "u_chart_id": "u-chart-infinity-reciprocal",
+          "h_u_coeffs": [
+            "1/8",
+            "3/4",
+            "1"
+          ]
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "chart_pair": [
+          "x-chart-single",
+          "x-chart-secondary-affine"
+        ],
+        "component_in_chart_a": "p-locus",
+        "component_in_chart_b": "p-locus",
+        "agree": true,
+        "generator_chart_a": [
+          "44/5",
+          "6",
+          "1"
+        ],
+        "generator_chart_b": [
+          "44/5",
+          "6",
+          "1"
+        ],
+        "_secondary_chart_u_transform": {
+          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+          "u_chart_id": "u-chart-infinity-reciprocal",
+          "h_u_coeffs": [
+            "5/44",
+            "15/22",
+            "1"
+          ]
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "chart_pair": [
+          "x-chart-single",
+          "x-chart-secondary-affine"
+        ],
+        "component_in_chart_a": "weierstrass-locus",
+        "component_in_chart_b": "weierstrass-locus",
+        "agree": true,
+        "generator_chart_a": [
+          "59504/125",
+          "27408/25",
+          "25628/25",
+          "2484/5",
+          "657/5",
+          "18",
+          "1"
+        ],
+        "generator_chart_b": [
+          "59504/125",
+          "27408/25",
+          "25628/25",
+          "2484/5",
+          "657/5",
+          "18",
+          "1"
+        ],
+        "_secondary_chart_u_transform": {
+          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+          "u_chart_id": "u-chart-infinity-reciprocal",
+          "h_u_coeffs": [
+            "125/59504",
+            "1125/29752",
+            "16425/59504",
+            "15525/14876",
+            "32035/14876",
+            "8565/3719",
+            "1"
+          ]
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "chart_pair": [
+          "x-chart-single",
+          "x-chart-secondary-affine"
+        ],
+        "component_in_chart_a": "a-pair-locus",
+        "component_in_chart_b": "a-pair-locus",
+        "agree": true,
+        "generator_chart_a": [
+          "8",
+          "6",
+          "1"
+        ],
+        "generator_chart_b": [
+          "8",
+          "6",
+          "1"
+        ],
+        "_secondary_chart_u_transform": {
+          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+          "u_chart_id": "u-chart-infinity-reciprocal",
+          "h_u_coeffs": [
+            "1/8",
+            "3/4",
+            "1"
+          ]
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "chart_pair": [
+          "x-chart-single",
+          "x-chart-secondary-affine"
+        ],
+        "component_in_chart_a": "p-locus",
+        "component_in_chart_b": "p-locus",
+        "agree": true,
+        "generator_chart_a": [
+          "44/5",
+          "6",
+          "1"
+        ],
+        "generator_chart_b": [
+          "44/5",
+          "6",
+          "1"
+        ],
+        "_secondary_chart_u_transform": {
+          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+          "u_chart_id": "u-chart-infinity-reciprocal",
+          "h_u_coeffs": [
+            "5/44",
+            "15/22",
+            "1"
+          ]
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "chart_pair": [
+          "x-chart-single",
+          "x-chart-secondary-affine"
+        ],
+        "component_in_chart_a": "weierstrass-locus",
+        "component_in_chart_b": "weierstrass-locus",
+        "agree": true,
+        "generator_chart_a": [
+          "59504/125",
+          "27408/25",
+          "25628/25",
+          "2484/5",
+          "657/5",
+          "18",
+          "1"
+        ],
+        "generator_chart_b": [
+          "59504/125",
+          "27408/25",
+          "25628/25",
+          "2484/5",
+          "657/5",
+          "18",
+          "1"
+        ],
+        "_secondary_chart_u_transform": {
+          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+          "u_chart_id": "u-chart-infinity-reciprocal",
+          "h_u_coeffs": [
+            "125/59504",
+            "1125/29752",
+            "16425/59504",
+            "15525/14876",
+            "32035/14876",
+            "8565/3719",
+            "1"
+          ]
+        }
+      }
+    ],
+    "total_coverage_and_no_extra_component_witness": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_count": 3,
+        "checker_count": 3,
+        "matched_count": 3,
+        "no_extra": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_count": 3,
+        "checker_count": 3,
+        "matched_count": 3,
+        "no_extra": true
+      }
+    ],
+    "pushforward_compatibility_witness": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "ramification_points": [
+          {
+            "point_ref": "a-pair-locus",
+            "maps_to_branch_value": "a-pair-locus",
+            "multiplicity": 1
+          },
+          {
+            "point_ref": "p-locus",
+            "maps_to_branch_value": "p-locus",
+            "multiplicity": 1
+          },
+          {
+            "point_ref": "weierstrass-locus",
+            "maps_to_branch_value": "weierstrass-locus",
+            "multiplicity": 1
+          }
+        ],
+        "branch_points": [
+          {
+            "branch_value": "a-pair-locus",
+            "multiplicity": 1
+          },
+          {
+            "branch_value": "p-locus",
+            "multiplicity": 1
+          },
+          {
+            "branch_value": "weierstrass-locus",
+            "multiplicity": 1
+          }
+        ]
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "ramification_points": [
+          {
+            "point_ref": "a-pair-locus",
+            "maps_to_branch_value": "a-pair-locus",
+            "multiplicity": 1
+          },
+          {
+            "point_ref": "p-locus",
+            "maps_to_branch_value": "p-locus",
+            "multiplicity": 1
+          },
+          {
+            "point_ref": "weierstrass-locus",
+            "maps_to_branch_value": "weierstrass-locus",
+            "multiplicity": 1
+          }
+        ],
+        "branch_points": [
+          {
+            "branch_value": "a-pair-locus",
+            "multiplicity": 1
+          },
+          {
+            "branch_value": "p-locus",
+            "multiplicity": 1
+          },
+          {
+            "branch_value": "weierstrass-locus",
+            "multiplicity": 1
+          }
+        ]
+      }
+    ],
+    "certificate_digest": "d63e40b4497c9302a65968c225dbc4c7ecee755777655ac960d513bb0be01e7c"
+  },
+  "native_a": {
+    "ramification_divisor_on_C_ref": {
+      "components": [
+        {
+          "locus_type": "a-pair-locus",
+          "ideal_generator": [
+            "8",
+            "6",
+            "1"
+          ],
+          "multiplicity": 1
+        },
+        {
+          "locus_type": "p-locus",
+          "ideal_generator": [
+            "44/5",
+            "6",
+            "1"
+          ],
+          "multiplicity": 1
+        },
+        {
+          "locus_type": "weierstrass-locus",
+          "ideal_generator": [
+            "59504/125",
+            "27408/25",
+            "25628/25",
+            "2484/5",
+            "657/5",
+            "18",
+            "1"
+          ],
+          "multiplicity": 1
+        }
+      ]
+    },
+    "branch_divisor_on_P1_ref": {
+      "components": [
+        {
+          "locus_type": "a-pair-locus",
+          "ideal_generator": [
+            "8",
+            "6",
+            "1"
+          ],
+          "multiplicity": 1,
+          "pushforward_of": "a-pair-locus"
+        },
+        {
+          "locus_type": "p-locus",
+          "ideal_generator": [
+            "44/5",
+            "6",
+            "1"
+          ],
+          "multiplicity": 1,
+          "pushforward_of": "p-locus"
+        },
+        {
+          "locus_type": "weierstrass-locus",
+          "ideal_generator": [
+            "59504/125",
+            "27408/25",
+            "25628/25",
+            "2484/5",
+            "657/5",
+            "18",
+            "1"
+          ],
+          "multiplicity": 1,
+          "pushforward_of": "weierstrass-locus"
+        }
+      ]
+    }
+  },
+  "native_b": {
+    "ramification_divisor_on_C_ref": {
+      "components": [
+        {
+          "locus_type": "a-pair-locus",
+          "ideal_generator": [
+            "8",
+            "6",
+            "1"
+          ],
+          "multiplicity": 1
+        },
+        {
+          "locus_type": "p-locus",
+          "ideal_generator": [
+            "44/5",
+            "6",
+            "1"
+          ],
+          "multiplicity": 1
+        },
+        {
+          "locus_type": "weierstrass-locus",
+          "ideal_generator": [
+            "59504/125",
+            "27408/25",
+            "25628/25",
+            "2484/5",
+            "657/5",
+            "18",
+            "1"
+          ],
+          "multiplicity": 1
+        }
+      ]
+    },
+    "branch_divisor_on_P1_ref": {
+      "components": [
+        {
+          "locus_type": "a-pair-locus",
+          "ideal_generator": [
+            "8",
+            "6",
+            "1"
+          ],
+          "multiplicity": 1,
+          "pushforward_of": "a-pair-locus"
+        },
+        {
+          "locus_type": "p-locus",
+          "ideal_generator": [
+            "44/5",
+            "6",
+            "1"
+          ],
+          "multiplicity": 1,
+          "pushforward_of": "p-locus"
+        },
+        {
+          "locus_type": "weierstrass-locus",
+          "ideal_generator": [
+            "59504/125",
+            "27408/25",
+            "25628/25",
+            "2484/5",
+            "657/5",
+            "18",
+            "1"
+          ],
+          "multiplicity": 1,
+          "pushforward_of": "weierstrass-locus"
+        }
+      ]
+    }
+  }
+}
