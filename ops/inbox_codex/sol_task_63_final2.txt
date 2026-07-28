@@ -1,0 +1,31 @@
+便 63(二部): (A) Z-norm apply candidate C(第 3 次)→ 発効宣言 / (B) N∞ spec v5 → freeze ID
+
+Sol へ。司令塔より。便 62 の A62-1/A62-2・B62-1〜4+F7.1 の修理が揃った。対象は git HEAD(master・commit be1c394)。
+
+## Part A — candidate C(第 3 次・再 hash 連鎖済)
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/znorm_forall_proof_v1.md(**A62-2 修文**: embedded_state_at_candidate_creation / live_operative_status_authority の時制分離) | 106 | 75e9f072a900d5b66851193aeca153af67d59a7f7265e88893d95f2e53faa20f |
+| docs/k5_migration_record_v1.md(同) | 110 | 57913283efc1fd2c7748c03bcbcd5e7c410f355ee1216f34bea67c2a8d831dce |
+| docs/znorm_seal_final_v1.md | 211 | a3c8cc9a7198ac61b90422bdd369e67fa490ed6b160e8f797be39c08780afc26 |
+| docs/week4-BFC攻略_opus_v2.md(**v2.14**・A62-1) | 1297 | 3676a3fec3cbba206222016e7da8c9619562df051408d5117b8359c8ab20383a |
+| (不変)TB4 v2.5 / Rule 1 v1.5 / manifest v1.7 / patches | — | 前便どおり |
+- A62-2: 無時制 live 状態欄を撤去(snapshot と authority の分離)・旧 digest 残存 0・突合全一致・「immutable artifact に可変 lifecycle state を埋めない」を型教訓として条文化。
+- A62-1(v2.14): §0 直後に**型付け凡例**を新設し、「未凍結/文献関所/関所」系の live 全出現(15 箇所)に 4 分類([global seal-relative]/[per-window inventory]/[pre-event candidate ⟷ post-receipt operative]/[historical quotation])を明示付与。§0 第 5・6 項と §12 は三層+pre/post 区別で書き直し・「K5 supplied と Z unfreezed の同時正本化」「相対定理と文献関所の無限定併記」を解消。未型付け live 出現 0(著者走査+司令塔 spot 確認: 分類ラベル 10 出現)。数学・前件不変。
+依頼: 検収 → **発効宣言**(以後の手順は従前どおり: status 記入 → operative hash → receipt R → CLAIMS)。
+
+## Part B — spec v5
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/week4-NInfty_stage2_spec_v5.md | 388 | 290c7d5768f95e9a1b9412fea123cfa36527f7e3917a1b656fe4479065d9428b |
+- **自己完結性(前便 F12 問 6)**: 全文再掲を採用 — normative body は本稿 §1 のみ・v3/v4 import は記録目的の manifest(節 digest+precedence v5>v4>v3)に限定。
+- F7.1: **4 体の型宣言**(curve coefficient field = ℚ / geometric working field k = ℚ̄ / v ∈ k^× / prediction field K = ℚ(ζ₂₀))・valuation の整数正規化明記。
+- B62-1: ambient algebra 5 欄+groebner_reduction_contract(ring+term order 固定による一意性)。native ref を searcher/checker 各々二対象(C 上・P¹ 上)に修理。
+- B62-2: verifier evidence schema(A/B の ID+code_digest+result_digest・generator 分離・dependency manifest・**shared_helper_intersection = ∅ の受領時機械検査** — 非空は INTEGRITY_STOP / shared-helper-detected)。
+- B62-3: **INTEGRITY_STOP 全 16 段の全順序**(設計理由 5 群: 証拠不信 → 定理強制恒等式 → chart/locus → 大域整合 → 二経路照合)。同時成立例の primary = pell-derivative。public = 単数 primary_reason_code / sealed = canonical all_reason_codes[](前便 F12 問 4 の様式)。
+- B62-4: freeze bundle 実値化 — 7 補題+schema 7 本を省略なしで全列挙・各 ID を本稿の節に固定・digest = 節本文 sha256(自ファイル全文 digest のみ発行時に司令塔記入)。criterion の dependency_closure に 6 補題実名。
+- 監査依頼 = spec §8 の 6 点(必須 3: 体の型 / ambient 5 欄の一意性 / 16 段全順序の設計と primary 選定)。
+依頼: PASS なら **freeze ID 発行+実装認可**。
+
+## 返信様式
+sol/sol_reply_63_final2.md へ。F# 番号・Part 別判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
