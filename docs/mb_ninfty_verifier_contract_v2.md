@@ -19,18 +19,19 @@ live_freeze_and_authorization_authority = approved freeze receipt
 contract_id     = "mb/ninfty-verifier-contract/v2"
 contract_digest = <64 hex: 本稿 exact blob の sha256 — 発行時に司令塔が記入>
 encoding        = UTF-8, LF, no BOM, no normalization
-governing_spec  = "mb/ninfty-stage2-predicate/v6"
-governing_spec_digest = 00282b4914f4ade9e356ee641a71ba91be6daf27ad82221f6acf8638df4bc39a
+governing_spec  = "mb/ninfty-stage2-predicate/v7"
+governing_spec_digest = <64 hex: v7 の digest — 発行時に司令塔が記入>
+# 注: v7 §6 が本稿の digest を実値で pin するため、本欄は receipt 側で埋める(相互 pin による循環を断つ)
 supersedes      = "mb/ninfty-verifier-contract/v1"
 supersedes_digest = ae7950f3dec9081029dbda8c60e7fb8bc8e23030d8fa555915ea1eea012d136d   # 監査 FAIL の candidate
 ```
 **接触規律**: 値に依存しない。$C$・$h$・$a_5$・平方類・符号・分岐値・具体係数・raw shard 命名パターンを**一切書かない**。
 
-### 0.1 優先関係と **1 点の例外**【便 65 F4】{#precedence}
+### 0.1 優先関係【便 65 F4 → **裁定 78 で解消**】{#precedence}
 
 **原則**: 本稿と governing spec が矛盾した場合、**governing spec が優先**する。本稿は spec §4.1–§4.4 の**手続き的具体化**であって、新しい数学的前件を導入しない。
 
-> **⚠ 例外(数学的誤りの訂正)**: **spec v6 §4.2 の `Bézout / reduction certificate` という未型付けの witness 記述は数学的に誤っている**(§3.1 で詳述)。**この一点に限り本稿 §3.1 が優先する。** 原則の適用は「誤りの伝播」を意味するため、**spec v7 erratum による同期を要請する**(§8 に erratum 案の全文)。
+> **✅ 例外は解消済み(裁定 78)**: v2 起草時、spec v6 §4.2 の未型付け witness 記述が数学的に誤っていたため「この一点に限り本稿 §3.1 が優先する」という例外を置いていた。**`mb/ninfty-stage2-predicate/v7`(erratum E1)が §4.2 を本稿 §3.1・§3.1.2 と同じ 2 kind 型分けへ差し替えたので、例外は不要になった。** **現在 governing spec と本稿は同じ型分けを述べており、原則(governing spec 優先)がそのまま成り立つ。** §8 の erratum 案は **v7 で発行済み**。
 
 ---
 
@@ -222,7 +223,7 @@ step 4  A/B result 突合
 | verifier が sealed 値を public 面に露出させた | **`sealed-field-leak` [9]** |
 | **native cross-check の specific な失敗**(step 2) | **[13]–[24] の該当 code** |
 | **witness の欠落・不成立**(P-0.2・P-0.6・P-1.*・W-1〜W-6 のいずれか)を A/B がともに確認 | **`divisor-equality-failure` [25]** |
-| **同一入力に対する A/B verifier result の不一致** | **[26]**(spec v6 の名称は `checker-mismatch`。**§8 で改名を要請**) |
+| **同一入力に対する A/B verifier result の不一致** | **`verifier-result-mismatch` [26]**(v7 §5.3.3 と同期) |
 
 **上記はすべて `INTEGRITY_STOP` であり、REJECT ではない。** verdict の決定と primary の選択は spec v6 §5.3 の state machine が行う — **本稿は reason code を供給するだけで、自ら verdict を宣言しない。**
 
@@ -268,7 +269,9 @@ declared_untrusted_inputs[] = {
 
 ---
 
-## 8. governing spec への erratum 要請【便 65 F4】{#erratum}
+## 8. governing spec への erratum 要請【便 65 F4】— **v7 で発行済み**{#erratum}
+
+> **【状態】裁定 78 により `mb/ninfty-stage2-predicate/v7` として発行済み。** 以下は要請時の原文(記録)であり、**v7 §4.2 が逐語適用済み**である。
 
 **spec v6 §4.2 の witness メニューは本稿と同じ数学的誤りを含む。** governing spec 優先の原則により、**spec 側を直さなければ誤りが正本に残る。** 次の差し替えを要請する。
 
@@ -282,6 +285,8 @@ declared_untrusted_inputs[] = {
 > - **すべての reduction certificate は `reduction-to-zero` / `reduction-to-one` の tag を持たねばならない。** tag 無しは FAIL。
 
 **併せて要請**: spec v6 §5.3.2 の **[26] の名称 `checker-mismatch` は、本稿 §5.1 step 4 の意味(同一入力に対する A/B verifier result の不一致)と齟齬**する。**`verifier-result-mismatch` への改名**、または spec 側で [26] の述語を明記することを求める。
+
+> **【状態】v7 で実施済み** — `[26] verifier-result-mismatch` へ改名され、**v7 §5.3.3 に [24]/[25]/[26] の相互排他な述語と評価順序**(本稿 §5.1 X-1〜X-4 と同期)が明記された。**本稿 §5.2 の routing 表の「§8 で改名を要請」注記は解消。**
 
 ---
 
