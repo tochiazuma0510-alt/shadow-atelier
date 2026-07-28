@@ -1,0 +1,156 @@
+{
+  "schema_id": "mb/dependency-manifest/v13",
+  "schema_digest": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
+  "subject_id": "lane-A/ninfty-searcher-v2+verifier-a",
+  "subject_code_digest": "cbf6fe042ba9ebeff45990c4b6ee58e5d6944878097de40ae9127f808a5fc9d3",
+  "build_definition_blob_digest": null,
+  "pinned_input_digests": [],
+  "build_root_id": null,
+  "subject_build_binding_digest": null,
+  "build_attestation": null,
+  "build_record_present": false,
+  "entries": [
+    {
+      "content_digest": "46d66f668cd4aa2343b345d6b5434d0bb024d79dc81ee7894277d43276a9c8fe",
+      "role": "math-helper",
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "build_record_present": false,
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+      "implementation_family_id": null,
+      "provenance": {
+        "source_ref": "search/ninfty-searcher-v2.mjs",
+        "note": "stage-2 predicate + D-2 certificate generator + witness builders"
+      },
+      "outgoing_dependency_attestation": {
+        "loads_nothing": true,
+        "proof": "single-file, no import statements beyond node:crypto builtin"
+      },
+      "depth": 0,
+      "reached_via": [
+        "mb/ninfty-searcher-v2",
+        "mb/ninfty-verifier-a"
+      ]
+    },
+    {
+      "content_digest": "c2f3e149a226d7af280ef88c1e8219be1649cc8511edf30254308959716426fe",
+      "role": "math-helper",
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "build_record_present": false,
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+      "implementation_family_id": null,
+      "provenance": {
+        "source_ref": "search/ninfty-verifier-a.mjs",
+        "note": "verifier A contract Sec.3 procedure + verdict state machine combine()"
+      },
+      "outgoing_dependency_attestation": {
+        "loads_nothing": true,
+        "proof": "single-file, no import statements beyond node:crypto builtin"
+      },
+      "depth": 0,
+      "reached_via": [
+        "mb/ninfty-searcher-v2",
+        "mb/ninfty-verifier-a"
+      ]
+    },
+    {
+      "content_digest": "3ec2f74fec441a2602714575929d9affb509e4ab30207aa7a4669770bd5586c7",
+      "role": "data-table",
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "build_record_present": false,
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+      "implementation_family_id": null,
+      "provenance": {
+        "source_ref": "search/certs/fixtures-lanea.mjs",
+        "note": "self-authored fixture data (candidate tuples + expected outcomes)"
+      },
+      "outgoing_dependency_attestation": {
+        "loads_nothing": true,
+        "proof": "single-file, no import statements beyond node:crypto builtin"
+      },
+      "depth": 0,
+      "reached_via": [
+        "mb/ninfty-searcher-v2",
+        "mb/ninfty-verifier-a"
+      ]
+    },
+    {
+      "content_digest": "63dde9cc41330855924e1c21becbbd39424b0182aa752de1f04d9ec60e01ad13",
+      "role": "build-tool",
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "build_record_present": false,
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+      "implementation_family_id": null,
+      "provenance": {
+        "source_ref": "search/ninfty-selftest-lanea.mjs",
+        "note": "self-test harness (not part of the frozen predicate/verifier logic itself)"
+      },
+      "outgoing_dependency_attestation": {
+        "loads_nothing": true,
+        "proof": "single-file, no import statements beyond node:crypto builtin"
+      },
+      "depth": 0,
+      "reached_via": [
+        "mb/ninfty-searcher-v2",
+        "mb/ninfty-verifier-a"
+      ]
+    }
+  ],
+  "declared_untrusted_inputs": [
+    "divisor_equality_certificate",
+    "searcher_native_artifact",
+    "checker_native_artifact",
+    "governing_spec_blob",
+    "contract_blob"
+  ],
+  "allowed_shared_tcb": [],
+  "allowed_shared_source_tcb": [],
+  "allowed_shared_build_tcb": [],
+  "allowed_shared_family": [],
+  "closure_attested": true,
+  "build_promotion_attested": false,
+  "produced_at_receipt": "PENDING (not yet submitted to commander/Sol freeze; this is lane-A implementer output only)",
+  "notes": {
+    "scope": "lane A = search/ninfty-searcher-v2.mjs + search/ninfty-verifier-a.mjs (node runtime). Fixtures/selftest included as declared build-tool/data-table entries, not part of the frozen predicate/verifier logic.",
+    "tcb_status": "all four TCB columns EMPTY, as required by the freeze receipt (allowed_shared_* = []).",
+    "lane_b_status": "python lane B (checker + verifier B) is OUT OF SCOPE for this implementer task; independence_evidence.dependency_closure_B is therefore UNKNOWN/NOT YET PRODUCED from this side.",
+    "build_record_present_false_rationale": "QD-3 bootstrap leaf: this manifest documents source authorship, not a reproducible build pipeline. D-3/D-4 (build_root_id/subject_build_binding_digest) are therefore ABSENT per branch-contract false.forbidden_keys, and this is UNKNOWN (not verified) per manifest Sec.2.35 QD-6 -- NOT claimed as a stronger guarantee.",
+    "partial_manifest_status": "PARTIAL / UNKNOWN per manifest Sec.8: uncovered_clauses/uncovered_checks below are non-empty; this manifest is NOT a full-conformance manifest and must not be used alone as independence evidence."
+  },
+  "self_audit": {
+    "covered_clauses": [],
+    "covered_procedure_checks": [
+      "D-1",
+      "D-2"
+    ],
+    "uncovered_checks": [
+      "D-3",
+      "D-4-prime",
+      "R-1",
+      "R-2",
+      "R-3",
+      "R-4",
+      "R-5",
+      "R-6",
+      "U-1",
+      "U-2",
+      "U-3",
+      "U-4"
+    ],
+    "uncovered_clauses": [
+      "ALL -- see notes.partial_manifest_status"
+    ]
+  },
+  "self_digest": "04731e6f420703d004d18156a4cb5cb1facc87b21a875d3bc0d5a1d850709d48"
+}
