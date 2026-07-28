@@ -8,13 +8,11 @@
     },
     "violations": [],
     "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": [
-      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
-      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
-    ]
+    "observations": []
   },
   {
     "label": "search\\fixtures\\ninfty\\cert_neg_01.json",
@@ -24,26 +22,36 @@
       "primary_reason_code": "digest-mismatch",
       "reason_code_number": 12,
       "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "note": "certificate-schema validator gate FAILED (裁定127/128/139) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check). Contains MALFORMED findings alongside digest/schema violations if any -- see violations[] for the full, tagged list."
     },
     "violations": [
-      "[schema] required id field 'field_embedding_witness_schema_id' is missing",
-      "[64-hex] required digest field 'schema_digest' = 'placeholder-schema-digest-for-lane-b-unit-test' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'curve_model_digest' = 'toy-curve-digest-neg01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'ambient_coordinate_ring_schema_digest' = 'toy-ring-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'coefficient_field_presentation_digest' = 'toy-field-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'field_embedding_witness_schema_digest' is missing",
-      "[64-hex] required digest field 'monomial_order_digest' = 'toy-order-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'groebner_reduction_contract_digest' = 'toy-reduction-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'certificate_digest' is missing",
-      "[64-hex] searcher_native.native_schema_digest = 'lane-b-stand-in-schema-not-authoritative' present but not exact 64-hex",
-      "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
-      "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
-      "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
+      "[schema] searcher_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] searcher_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[MALFORMED] pushforward_compatibility_witness[0] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)",
+      "[MALFORMED] pushforward_compatibility_witness[1] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)"
     ],
-    "unknowns": [],
-    "observations": []
+    "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+      "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+      "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+    ],
+    "observations": [
+      "[interp-6-OPEN] component_bijection[0] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[1] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[2] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[3] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[ABSENT] pushforward_compatibility_witness has no entry for native_side(s) ['checker', 'searcher'] -- ABSENT for that side specifically, not a violation for the whole field"
+    ]
   },
   {
     "label": "search\\fixtures\\ninfty\\cert_neg_02.json",
@@ -53,26 +61,36 @@
       "primary_reason_code": "digest-mismatch",
       "reason_code_number": 12,
       "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "note": "certificate-schema validator gate FAILED (裁定127/128/139) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check). Contains MALFORMED findings alongside digest/schema violations if any -- see violations[] for the full, tagged list."
     },
     "violations": [
-      "[schema] required id field 'field_embedding_witness_schema_id' is missing",
-      "[64-hex] required digest field 'schema_digest' = 'placeholder-schema-digest-for-lane-b-unit-test' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'curve_model_digest' = 'toy-curve-digest-neg02' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'ambient_coordinate_ring_schema_digest' = 'toy-ring-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'coefficient_field_presentation_digest' = 'toy-field-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'field_embedding_witness_schema_digest' is missing",
-      "[64-hex] required digest field 'monomial_order_digest' = 'toy-order-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'groebner_reduction_contract_digest' = 'toy-reduction-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'certificate_digest' is missing",
-      "[64-hex] searcher_native.native_schema_digest = 'lane-b-stand-in-schema-not-authoritative' present but not exact 64-hex",
-      "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
-      "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
-      "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
+      "[schema] searcher_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] searcher_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[MALFORMED] pushforward_compatibility_witness[0] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)",
+      "[MALFORMED] pushforward_compatibility_witness[1] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)"
     ],
-    "unknowns": [],
-    "observations": []
+    "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+      "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+      "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+    ],
+    "observations": [
+      "[interp-6-OPEN] component_bijection[0] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[1] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[2] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[3] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[ABSENT] pushforward_compatibility_witness has no entry for native_side(s) ['checker', 'searcher'] -- ABSENT for that side specifically, not a violation for the whole field"
+    ]
   },
   {
     "label": "search\\fixtures\\ninfty\\cert_neg_03.json",
@@ -82,26 +100,36 @@
       "primary_reason_code": "digest-mismatch",
       "reason_code_number": 12,
       "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "note": "certificate-schema validator gate FAILED (裁定127/128/139) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check). Contains MALFORMED findings alongside digest/schema violations if any -- see violations[] for the full, tagged list."
     },
     "violations": [
-      "[schema] required id field 'field_embedding_witness_schema_id' is missing",
-      "[64-hex] required digest field 'schema_digest' = 'placeholder-schema-digest-for-lane-b-unit-test' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'curve_model_digest' = 'toy-curve-digest-neg03' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'ambient_coordinate_ring_schema_digest' = 'toy-ring-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'coefficient_field_presentation_digest' = 'toy-field-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'field_embedding_witness_schema_digest' is missing",
-      "[64-hex] required digest field 'monomial_order_digest' = 'toy-order-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'groebner_reduction_contract_digest' = 'toy-reduction-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'certificate_digest' is missing",
-      "[64-hex] searcher_native.native_schema_digest = 'lane-b-stand-in-schema-not-authoritative' present but not exact 64-hex",
-      "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
-      "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
-      "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
+      "[schema] searcher_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] searcher_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[MALFORMED] pushforward_compatibility_witness[0] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)",
+      "[MALFORMED] pushforward_compatibility_witness[1] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)"
     ],
-    "unknowns": [],
-    "observations": []
+    "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+      "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+      "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+    ],
+    "observations": [
+      "[interp-6-OPEN] component_bijection[0] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[1] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[2] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[3] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[ABSENT] pushforward_compatibility_witness has no entry for native_side(s) ['checker', 'searcher'] -- ABSENT for that side specifically, not a violation for the whole field"
+    ]
   },
   {
     "label": "search\\fixtures\\ninfty\\cert_pos_01.json",
@@ -111,26 +139,36 @@
       "primary_reason_code": "digest-mismatch",
       "reason_code_number": 12,
       "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "note": "certificate-schema validator gate FAILED (裁定127/128/139) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check). Contains MALFORMED findings alongside digest/schema violations if any -- see violations[] for the full, tagged list."
     },
     "violations": [
-      "[schema] required id field 'field_embedding_witness_schema_id' is missing",
-      "[64-hex] required digest field 'schema_digest' = 'placeholder-schema-digest-for-lane-b-unit-test' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'curve_model_digest' = 'toy-curve-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'ambient_coordinate_ring_schema_digest' = 'toy-ring-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'coefficient_field_presentation_digest' = 'toy-field-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'field_embedding_witness_schema_digest' is missing",
-      "[64-hex] required digest field 'monomial_order_digest' = 'toy-order-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'groebner_reduction_contract_digest' = 'toy-reduction-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'certificate_digest' is missing",
-      "[64-hex] searcher_native.native_schema_digest = 'lane-b-stand-in-schema-not-authoritative' present but not exact 64-hex",
-      "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
-      "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
-      "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
+      "[schema] searcher_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] searcher_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[MALFORMED] pushforward_compatibility_witness[0] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)",
+      "[MALFORMED] pushforward_compatibility_witness[1] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)"
     ],
-    "unknowns": [],
-    "observations": []
+    "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+      "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+      "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+    ],
+    "observations": [
+      "[interp-6-OPEN] component_bijection[0] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[1] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[2] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[3] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[ABSENT] pushforward_compatibility_witness has no entry for native_side(s) ['checker', 'searcher'] -- ABSENT for that side specifically, not a violation for the whole field"
+    ]
   },
   {
     "label": "search\\fixtures\\ninfty\\cert_pos_02.json",
@@ -140,26 +178,36 @@
       "primary_reason_code": "digest-mismatch",
       "reason_code_number": 12,
       "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "note": "certificate-schema validator gate FAILED (裁定127/128/139) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check). Contains MALFORMED findings alongside digest/schema violations if any -- see violations[] for the full, tagged list."
     },
     "violations": [
-      "[schema] required id field 'field_embedding_witness_schema_id' is missing",
-      "[64-hex] required digest field 'schema_digest' = 'placeholder-schema-digest-for-lane-b-unit-test' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'curve_model_digest' = 'toy-curve-digest-02' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'ambient_coordinate_ring_schema_digest' = 'toy-ring-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'coefficient_field_presentation_digest' = 'toy-field-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'field_embedding_witness_schema_digest' is missing",
-      "[64-hex] required digest field 'monomial_order_digest' = 'toy-order-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'groebner_reduction_contract_digest' = 'toy-reduction-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'certificate_digest' is missing",
-      "[64-hex] searcher_native.native_schema_digest = 'lane-b-stand-in-schema-not-authoritative' present but not exact 64-hex",
-      "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
-      "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
-      "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
+      "[schema] searcher_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] searcher_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[MALFORMED] pushforward_compatibility_witness[0] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)",
+      "[MALFORMED] pushforward_compatibility_witness[1] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)"
     ],
-    "unknowns": [],
-    "observations": []
+    "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+      "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+      "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+    ],
+    "observations": [
+      "[interp-6-OPEN] component_bijection[0] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[1] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[2] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[3] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[ABSENT] pushforward_compatibility_witness has no entry for native_side(s) ['checker', 'searcher'] -- ABSENT for that side specifically, not a violation for the whole field"
+    ]
   },
   {
     "label": "search\\fixtures\\ninfty\\cert_pos_03.json",
@@ -169,26 +217,38 @@
       "primary_reason_code": "digest-mismatch",
       "reason_code_number": 12,
       "stop_before_verifier": true,
-      "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check)."
+      "note": "certificate-schema validator gate FAILED (裁定127/128/139) -- this certificate MUST NOT be passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful P-3.* re-check). Contains MALFORMED findings alongside digest/schema violations if any -- see violations[] for the full, tagged list."
     },
     "violations": [
-      "[schema] required id field 'field_embedding_witness_schema_id' is missing",
-      "[64-hex] required digest field 'schema_digest' = 'placeholder-schema-digest-for-lane-b-unit-test' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'curve_model_digest' = 'toy-curve-digest-03' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'ambient_coordinate_ring_schema_digest' = 'toy-ring-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'coefficient_field_presentation_digest' = 'toy-field-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'field_embedding_witness_schema_digest' is missing",
-      "[64-hex] required digest field 'monomial_order_digest' = 'toy-order-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'groebner_reduction_contract_digest' = 'toy-reduction-digest-01' is not an exact 64-hex digest",
-      "[64-hex] required digest field 'certificate_digest' is missing",
-      "[64-hex] searcher_native.native_schema_digest = 'lane-b-stand-in-schema-not-authoritative' present but not exact 64-hex",
-      "[interp-3] searcher_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_a.ramification_divisor_on_C'",
-      "[interp-3] searcher_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_a.branch_divisor_on_P1'",
-      "[interp-3] checker_native.ramification_divisor_on_C_ref is a bare string but not a 64-hex digest reference: 'native_b.rootpart_a / native_b.pushforward_detail'",
-      "[interp-3] checker_native.branch_divisor_on_P1_ref is a bare string but not a 64-hex digest reference: 'native_b.pushforward_detail.declared_branch'"
+      "[schema] searcher_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] searcher_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] searcher_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] searcher_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.ramification_divisor_on_C_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.ramification_divisor_on_C_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.ramification_divisor_on_C_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[schema] checker_native.branch_divisor_on_P1_ref.artifact_id missing or not a non-empty string",
+      "[64-hex] checker_native.branch_divisor_on_P1_ref.digest = None is not an exact 64-hex digest",
+      "[schema] checker_native.branch_divisor_on_P1_ref has neither json_pointer nor object_id (_ref requires exactly one)",
+      "[MALFORMED] pushforward_compatibility_witness[0] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)",
+      "[MALFORMED] pushforward_compatibility_witness[1] missing native_side tag (条項2: W-6 uses native_side, NOT divisor_object)"
     ],
-    "unknowns": [],
-    "observations": []
+    "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
+      "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
+      "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
+    ],
+    "observations": [
+      "[interp-6-OPEN] component_bijection[0] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[1] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[2] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[3] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[4] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[interp-6-OPEN] component_bijection[5] uses the index-based v2(g) shape (searcher_index/checker_index/locus_type) rather than v3's target 'edge' shape with searcher_native_digest/checker_native_digest -- tolerated for now (structural upgrade pending), not a hard violation.",
+      "[ABSENT] pushforward_compatibility_witness has no entry for native_side(s) ['checker', 'searcher'] -- ABSENT for that side specifically, not a violation for the whole field"
+    ]
   },
   {
     "label": "live-export:C1",
@@ -199,13 +259,11 @@
     },
     "violations": [],
     "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": [
-      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
-      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
-    ]
+    "observations": []
   },
   {
     "label": "live-export:C2",
@@ -216,13 +274,11 @@
     },
     "violations": [],
     "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": [
-      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
-      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
-    ]
+    "observations": []
   },
   {
     "label": "live-export:C3",
@@ -233,13 +289,11 @@
     },
     "violations": [],
     "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": [
-      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
-      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
-    ]
+    "observations": []
   },
   {
     "label": "live-export:C4",
@@ -250,13 +304,11 @@
     },
     "violations": [],
     "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": [
-      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
-      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
-    ]
+    "observations": []
   },
   {
     "label": "live-export:C5",
@@ -267,12 +319,10 @@
     },
     "violations": [],
     "unknowns": [
+      "chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own chart registry / individual chart digest, uniquely pinning coordinate ring + open set + transition map) is NOT independently checkable from the certificate alone -- this validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not assumed satisfied.",
       "searcher_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS.",
       "checker_native.native_schema_digest is null -- documented exception (pending receipt-time pinning), recorded as UNKNOWN, not a violation and not a PASS."
     ],
-    "observations": [
-      "[interp-4-OPEN/coerced] chart_overlap_witnesses is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation.",
-      "[interp-4-OPEN/coerced] pushforward_compatibility_witness is a single structured-status object (status='ABSENT'), coerced to ABSENT by lane B's own _coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form (open Sol-confirmation point d) -- observation, not a violation."
-    ]
+    "observations": []
   }
 ]

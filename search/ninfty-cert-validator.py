@@ -1,56 +1,81 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-search/ninfty-cert-validator.py
+search/ninfty-cert-validator.py  (v3, 裁定139対応)
 
-Certificate-schema validator GATE (裁定127/128), same pattern as P76-3's
+Certificate-schema validator GATE (裁定127/128/139), same pattern as P76-3's
 search/ninfty-manifest-compiler.py: a small, standalone receiving-side check
 that runs BEFORE a divisor_equality_certificate is allowed to reach either
 verifier. If the gate fails, the certificate is stopped with a
-`digest-mismatch [12]`-equivalent verdict and MUST NOT be passed to
+`digest-mismatch [12]`-equivalent verdict (or, for MALFORMED input, a
+provisional schema-invalid gate-stop -- see below) and MUST NOT be passed to
 verifier A / verifier B.
 
-Conformance target (task brief, verbatim):
-  "準拠先 = spec v18 §4.1 の明文 + docs/notes/cert_shape_interpretation_v1.md
-  (暫定解釈 v1)の界面。"
+Conformance target (裁定139, verbatim): "docs/notes/cert_shape_interpretation_v3.md"
+(supersedes v1/v2 as the LIVE interface; v1/v2 kept as historical record).
+v3 conditions implemented here:
+  1. chart_ids: array of non-empty opaque strings (full resolution against the
+     curve_model_digest's chart registry is NOT independently checkable from
+     the certificate alone -- recorded as UNKNOWN, not assumed satisfied).
+  2/7. W-1..W-5 (component_bijection, exact_point_equality_witnesses,
+     distinctness_witnesses, multiplicity_equalities, chart_overlap_witnesses)
+     keep the flat array + per-entry `divisor_object` tag (v1/v2, W-4 multiplicity
+     unchanged from v2(l): strict exactly-1-entry-per-divisor_object, checked
+     structurally here as an observation, not enforced as a hard count).
+  2. W-6 (pushforward_compatibility_witness) is EXEMPTED from divisor_object
+     tagging (条項2: "divisor_object 複製禁止") -- it is tagged instead by
+     `native_side` in {searcher, checker}, one entry per side, each entry
+     shaped {native_side, ramification_ref, branch_ref, map_ref, witness_ref}.
+  3. `_ref` triple: {artifact_id, digest, (json_pointer | object_id)}. `inline`
+     coexistence is allowed but its canonical digest (same canonical_serialize
+     scheme used project-wide: UTF-8/sorted-keys/no-whitespace) MUST match the
+     declared `digest` -- mismatch is an INTEGRITY_STOP [12] digest-mismatch,
+     neither value silently preferred.
+  4. total_coverage_and_no_extra_component_witness stays a normal
+     divisor_object-tagged field (2 entries naturally, one per object) --
+     pushforward's old "singular 2-entry" treatment is WITHDRAWN (moved to
+     native_side, condition 2).
+  5. ABSENT != MALFORMED (条項5, NEW distinction from v1's leniency):
+       missing key, OR present as an explicit `[]`           -> ABSENT (observation)
+       explicit `null`                                        -> MALFORMED (violation)
+       present but not an array                               -> MALFORMED (violation)
+       entry missing its tag (divisor_object / native_side)   -> MALFORMED (violation)
+       entry with an unrecognized tag value                   -> MALFORMED (violation)
+     MALFORMED is a fail-closed PARSE/SCHEMA-layer stop, distinct from a
+     content-level ABSENT (evidence-insufficiency, which routes to [25] at the
+     verifier layer, not here). The dedicated `schema-invalid` reason-code
+     enum is still pending Sol confirmation (v3's own "Sol へ残す諮問"); until
+     then this validator reports MALFORMED findings with an explicit
+     `[MALFORMED]` tag and STILL fails the gate (stop_before_verifier=True),
+     but keeps the code distinguishable in `violations[]` from digest/schema
+     violations so a future enum can be slotted in without re-deriving which
+     findings belong to it.
+       NOTE: this supersedes this validator's OWN v1 self-correction, which
+       mirrored lane B verifier's `_coerce_to_list` leniency (any non-list ->
+       silently ABSENT). v3 is a deliberate interface tightening over that
+       lenient behavior; this validator now enforces the NEW rule regardless
+       of whether either lane's verifier has caught up yet (that gap, if any,
+       is an EP finding to surface separately, not something for the gate to
+       paper over).
+  6. component_bijection "edge" form: entries are NOT required (yet) to carry
+     `searcher_native_digest`/`checker_native_digest` (the v3 target shape) --
+     the still-common index-based v2(g) shape ({divisor_object, searcher_index,
+     checker_index, locus_type}) is tolerated as an observation (structural
+     upgrade pending). What IS checked and WARNED on: any entry (or the field
+     as a whole) carrying a self-declared summary list (`domain_components`,
+     `codomain_components`, or a top-level `mapping` array) -- the pre-v1
+     "authority is the producer's own summary" anti-pattern condition 6
+     explicitly disclaims ("自己申告の domain/codomain リストを authority に
+     しない").
+  8. multiplicity_equalities field names (searcher_mult/checker_mult) and
+     total_coverage_and_no_extra_component_witness field names
+     (searcher_count/checker_count/matched_count/no_extra) unchanged from
+     v2(j)/(k) -- checked as before (structural presence only, not exact key
+     names -- see NOTE in code).
 
-docs/notes/cert_shape_interpretation_v1.md (状態: interpretation/candidate,
-Sol確認待ち, 裁定128) fixes 5 points for the 7 witness fields the frozen
-spec v18 sec.4.1 is silent on:
-  1. FLAT array + per-entry `divisor_object` tag (values are the spec's own
-     literal tokens `ramification_divisor_on_C_ref` / `branch_divisor_on_P1_ref`).
-     No object-keyed nesting.
-  2. chart_ids = array of string ids.
-  3. `_ref` fields: digest reference is the primary meaning; inline
-     materialization is optional (may coexist; on conflict the digest wins).
-  4. Singular-noun witnesses (`total_coverage_and_no_extra_component_witness`,
-     `pushforward_compatibility_witness`) are ALSO 2-entry arrays (one per
-     object), consistent with the other 5 fields -- NOT a special case.
-  5. Missing/malformed witness fields are read, receiving-side, as an empty
-     array -> the EXISTING "0 entries = ABSENT" branch (no exception raised,
-     no fail-open promotion to PASS). ABSENT != FAIL != PASS is preserved.
-
-This validator implements checks (task brief, verbatim):
-  - 必須スカラー欄の実在と 64-hex (required scalar fields exist and are exact
-    64-hex digests, except the one lane-A-documented exception:
-    native_schema_digest, which is explicitly allowed to be null pending
-    receipt-time pinning -- flagged UNKNOWN, not PASS, not a violation).
-  - witness 7 field のフラット配列形状 と divisor_object タグの正当値
-    (all 7 witness fields must be a flat list; every entry must carry
-    divisor_object in {ramification_divisor_on_C_ref, branch_divisor_on_P1_ref}).
-  - native object の形 (searcher_native / checker_native: native_artifact_digest
-    present + 64-hex; the two *_ref fields present, either as an inline
-    {components:[...]} object or a bare digest string per item 3).
-  - 欠落キーの扱い (ABSENT は明示 status のみ・null 禁止): if a witness field
-    is missing or not a list, this validator does NOT raise and does NOT
-    treat it as PASS -- it records `fallback_to_empty_array` (item 5) as an
-    observation, and separately checks that no field anywhere carries an
-    explicit `null` where an ABSENT/status marker was structurally required
-    (null is a bare falsy value, not a status -- forbidden by name).
-
-Any violation -> `gate_passed=False`, verdict `digest-mismatch [12]`
-(mirrors contract sec.5.2's routing table entry for digest-mismatch), and
-the caller must not invoke a verifier on this certificate.
+Any violation -> `gate_passed=False`; verdict is `digest-mismatch [12]` for
+digest/schema violations, or a provisional MALFORMED/schema-invalid gate-stop
+for condition-5 findings (both set `stop_before_verifier=True`).
 
 Usage:
   python search/ninfty-cert-validator.py <path-to-cert-json-or-export-sample>
@@ -59,14 +84,17 @@ Usage:
     known current export samples/fixtures and prints a summary table)
 
 The input JSON may be either a bare `divisor_equality_certificate` object, or
-a wrapper object with a `.certificate` key (as in laneA_ep_export_sample.json)
-or a `{"certificate": {...}}` payload (as in search/fixtures/ninfty/*.json).
+a wrapper object with a `.certificate` key (as in laneA_ep_export_sample.json
+or search/certs/full_witness_fixture_01.json) or a `{"certificate": {...}}`
+payload (as in search/fixtures/ninfty/*.json).
 """
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -79,41 +107,85 @@ SEARCH = ROOT / "search"
 CERTS = SEARCH / "certs"
 FIXTURES_NINFTY = SEARCH / "fixtures" / "ninfty"
 
-HEX64 = None
-import re
 HEX64 = re.compile(r"^[0-9a-f]{64}$", re.IGNORECASE)
 
 DIVISOR_OBJECT_VALUES = {"ramification_divisor_on_C_ref", "branch_divisor_on_P1_ref"}
+NATIVE_SIDE_VALUES = {"searcher", "checker"}
+PUSHFORWARD_REF_KEYS = ["ramification_ref", "branch_ref", "map_ref", "witness_ref"]
+BIJECTION_SELF_DECLARED_KEYS = ("domain_components", "codomain_components", "mapping")
 
 # --- required scalar fields (spec v18 sec.4.1 literal + governing pins) ----
-# name -> (nullable_documented_exception: bool)
-REQUIRED_SCALAR_DIGESTS = {
-    "predicate_spec_digest": False,
-    "schema_digest": False,
-    "curve_model_digest": False,
-    "ambient_coordinate_ring_schema_digest": False,
-    "coefficient_field_presentation_digest": False,
-    "field_embedding_witness_schema_digest": False,
-    "monomial_order_digest": False,
-    "groebner_reduction_contract_digest": False,
-    "certificate_digest": False,
-}
+REQUIRED_SCALAR_DIGESTS = [
+    "predicate_spec_digest", "schema_digest", "curve_model_digest",
+    "ambient_coordinate_ring_schema_digest", "coefficient_field_presentation_digest",
+    "field_embedding_witness_schema_digest", "monomial_order_digest",
+    "groebner_reduction_contract_digest", "certificate_digest",
+]
 REQUIRED_SCALAR_IDS = [
     "predicate_spec_id", "schema_id", "candidate_ref",
     "ambient_coordinate_ring_schema_id", "coefficient_field_presentation_id",
     "field_embedding_witness_schema_id", "monomial_order_id", "groebner_reduction_contract_id",
 ]
 
-# the 7 witness fields spec v18 sec.4.1 leaves silent (interpretation v1 sec."裁定した形状")
-SEVEN_WITNESS_FIELDS = [
+# the 6 divisor_object-tagged witness fields (v3 条項2: W-6 pushforward is
+# EXEMPT from divisor_object tagging -- it uses native_side, checked separately)
+DIVISOR_OBJECT_WITNESS_FIELDS = [
     "component_bijection",
     "exact_point_equality_witnesses",
     "distinctness_witnesses",
     "multiplicity_equalities",
     "chart_overlap_witnesses",
     "total_coverage_and_no_extra_component_witness",
-    "pushforward_compatibility_witness",
 ]
+NATIVE_SIDE_WITNESS_FIELD = "pushforward_compatibility_witness"
+
+
+def canonical_serialize(obj):
+    """Project-wide canonical form: UTF-8, sorted keys, explicit array order,
+    no whitespace -- same convention used by search/ninfty-ep-runner.py and
+    search/ninfty-manifest-compiler.py. Confirmed by direct computation
+    against search/certs/full_witness_fixture_01.json's own inline/digest
+    pairs (see task report) before being relied on here for [12] checks."""
+    def sort(x):
+        if isinstance(x, list):
+            return [sort(y) for y in x]
+        if isinstance(x, dict):
+            return {k: sort(x[k]) for k in sorted(x.keys())}
+        return x
+    return json.dumps(sort(obj), separators=(",", ":"), ensure_ascii=True)
+
+
+def sha256_of(obj):
+    return hashlib.sha256(canonical_serialize(obj).encode("utf-8")).hexdigest()
+
+
+def validate_ref_triple(ref, label):
+    """v3 条項3: _ref = {artifact_id, digest, (json_pointer | object_id)},
+    inline optional but its canonical digest MUST match `digest` if present.
+    Returns a list of violation strings (empty if the ref is well-formed)."""
+    violations = []
+    if not isinstance(ref, dict):
+        return [f"[MALFORMED] {label} is not an object (_ref must be "
+                f"{{artifact_id, digest, json_pointer|object_id}}), got {type(ref).__name__}"]
+    artifact_id = ref.get("artifact_id")
+    if not (isinstance(artifact_id, str) and artifact_id):
+        violations.append(f"[schema] {label}.artifact_id missing or not a non-empty string")
+    digest = ref.get("digest")
+    digest_ok = isinstance(digest, str) and HEX64.match(digest)
+    if not digest_ok:
+        violations.append(f"[64-hex] {label}.digest = {digest!r} is not an exact 64-hex digest")
+    has_pointer = isinstance(ref.get("json_pointer"), str) and ref.get("json_pointer")
+    has_object_id = isinstance(ref.get("object_id"), str) and ref.get("object_id")
+    if not (has_pointer or has_object_id):
+        violations.append(f"[schema] {label} has neither json_pointer nor object_id "
+                           f"(_ref requires exactly one)")
+    if "inline" in ref and digest_ok:
+        recomputed = sha256_of(ref["inline"])
+        if recomputed != digest:
+            violations.append(f"[12/digest-mismatch] {label}.inline canonical digest "
+                               f"{recomputed} != declared digest {digest} (interpretation v3 "
+                               f"条項3: integrity stop, neither value silently preferred)")
+    return violations
 
 
 def unwrap_certificate(payload):
@@ -142,7 +214,7 @@ def validate_certificate(cert):
             violations.append(f"[schema] required id field {f!r} is not a non-empty string (got {v!r})")
 
     # --- required scalar digest fields: must exist, non-null, exact 64-hex ---
-    for f, _ in REQUIRED_SCALAR_DIGESTS.items():
+    for f in REQUIRED_SCALAR_DIGESTS:
         v = cert.get(f, "__MISSING__")
         if v == "__MISSING__":
             violations.append(f"[64-hex] required digest field {f!r} is missing")
@@ -152,12 +224,18 @@ def validate_certificate(cert):
         elif not isinstance(v, str) or not HEX64.match(v):
             violations.append(f"[64-hex] required digest field {f!r} = {v!r} is not an exact 64-hex digest")
 
-    # --- chart_ids: array of string ids (interpretation item 2) -----------
+    # --- chart_ids: array of non-empty opaque strings (v3 条項1) -----------
     chart_ids = cert.get("chart_ids", "__MISSING__")
     if chart_ids == "__MISSING__":
         violations.append("[schema] chart_ids is missing")
-    elif not isinstance(chart_ids, list) or not all(isinstance(x, str) and x for x in chart_ids):
-        violations.append(f"[interp-2] chart_ids must be an array of non-empty strings, got {chart_ids!r}")
+    elif not isinstance(chart_ids, list) or not chart_ids or not all(isinstance(x, str) and x for x in chart_ids):
+        violations.append(f"[interp-1] chart_ids must be a non-empty array of non-empty strings, got {chart_ids!r}")
+    else:
+        unknowns.append("chart_ids 条項1 full requirement (each id resolves into the curve_model_digest's own "
+                         "chart registry / individual chart digest, uniquely pinning coordinate ring + open set + "
+                         "transition map) is NOT independently checkable from the certificate alone -- this "
+                         "validator only checks the string-array SHAPE, not registry resolution. UNKNOWN, not "
+                         "assumed satisfied.")
 
     # --- native objects: searcher_native / checker_native ------------------
     for side in ("searcher_native", "checker_native"):
@@ -181,17 +259,27 @@ def validate_certificate(cert):
                              f"pinning), recorded as UNKNOWN, not a violation and not a PASS.")
         elif not (isinstance(nsd, str) and HEX64.match(nsd)):
             violations.append(f"[64-hex] {side}.native_schema_digest = {nsd!r} present but not exact 64-hex")
-        # *_ref fields: item 3, digest-reference primary, inline optional.
+        # *_ref fields: v3 条項3 -- either a bare 64-hex digest-reference
+        # string, OR a full {artifact_id, digest, json_pointer|object_id,
+        # inline?} triple (as lane A's now-migrated generateCertificate()
+        # produces). Both forms accepted; a dict form is checked with the
+        # SAME validate_ref_triple used for W-6's ref fields, plus a
+        # native-specific requirement that inline (if present) carries a
+        # 'components' array.
         for ref_name in ("ramification_divisor_on_C_ref", "branch_divisor_on_P1_ref"):
             refval = nat.get(ref_name, "__MISSING__")
             if refval == "__MISSING__":
                 violations.append(f"[schema] {side}.{ref_name} is missing")
             elif refval is None:
-                violations.append(f"[interp-3] {side}.{ref_name} is explicit null (must be either an inline "
-                                   f"object or a digest-reference string, never null)")
+                violations.append(f"[MALFORMED] {side}.{ref_name} is explicit null (must be either an inline "
+                                   f"_ref triple or a digest-reference string, never null)")
             elif isinstance(refval, dict):
-                if "components" not in refval or not isinstance(refval.get("components"), list):
-                    violations.append(f"[schema] {side}.{ref_name} inline object missing a 'components' array")
+                violations.extend(validate_ref_triple(refval, f"{side}.{ref_name}"))
+                inline = refval.get("inline")
+                if inline is not None and (not isinstance(inline, dict) or "components" not in inline
+                                           or not isinstance(inline.get("components"), list)):
+                    violations.append(f"[schema] {side}.{ref_name}.inline missing a 'components' array "
+                                       f"(native _ref inline must carry the component list)")
             elif isinstance(refval, str):
                 if not HEX64.match(refval):
                     violations.append(f"[interp-3] {side}.{ref_name} is a bare string but not a 64-hex digest "
@@ -199,71 +287,103 @@ def validate_certificate(cert):
             else:
                 violations.append(f"[schema] {side}.{ref_name} has an unrecognized type {type(refval).__name__}")
 
-    # --- the 7 witness fields: flat array + divisor_object tag -------------
+    # --- the 6 divisor_object-tagged witness fields (v3 条項2/4/6/7/8) ------
     #
-    # CORRECTED (this validator's own self-audit against lane B's now-live
-    # verifier-b.py, which is the actual second implementation of this same
-    # interface): interpretation item 4 names ONLY
-    # total_coverage_and_no_extra_component_witness and
-    # pushforward_compatibility_witness as "also 2-entry array" -- NOT
-    # chart_overlap_witnesses (a PLURAL name, validated as a many-tagged-
-    # entries field by lane B's own verify_W4/_check_plural_witness). An
-    # earlier version of this validator incorrectly grouped chart_overlap
-    # with the two singular-noun fields and FAILED lane A's genuinely
-    # conformant certificates on that basis -- self-corrected here.
-    for field in SEVEN_WITNESS_FIELDS:
+    # v3 条項5 (NEW, supersedes this validator's own v1 self-correction):
+    # ABSENT (missing key, or explicit []) is now DISTINCT from MALFORMED
+    # (null / non-array / missing-tag / unknown-tag). MALFORMED is a
+    # fail-closed parse/schema-layer stop -- it does NOT get coerced to
+    # ABSENT/[] the way this validator previously tolerated (mirroring lane
+    # B's old _coerce_to_list leniency). That leniency is deliberately
+    # withdrawn here: v3 is a stricter interface than v1/v2 on this point,
+    # and the gate must reflect the CURRENT interpretation, not whichever
+    # lane's verifier happens to still be lenient.
+    for field in DIVISOR_OBJECT_WITNESS_FIELDS:
         v = cert.get(field, "__MISSING__")
         if v == "__MISSING__":
-            observations.append(f"[interp-5] {field} key missing -- receiving side treats as ABSENT/[] "
-                                 f"(fallback_to_empty_array), not a hard violation, not promoted to PASS")
+            observations.append(f"[ABSENT] {field} key missing -- ABSENT per v3 条項5 "
+                                 f"(evidence-insufficiency, not a schema violation)")
+            continue
+        if isinstance(v, list) and len(v) == 0:
+            observations.append(f"[ABSENT] {field} is an explicit empty array -- ABSENT per v3 条項5")
             continue
         if v is None:
-            violations.append(f"[interp-5] {field} is explicit null (ABSENT must be an empty array or a "
-                               f"structured status marker, never a bare null)")
+            violations.append(f"[MALFORMED] {field} is explicit null --条項5: null is MALFORMED, "
+                               f"NOT ABSENT (ABSENT is missing-key or explicit [] only)")
             continue
         if not isinstance(v, list):
-            # MIRRORS lane B's own _coerce_to_list (search/ninfty-verifier-b.py):
-            # ANY non-list value for one of these 7 fields is coerced to []
-            # (-> ABSENT for both objects) by the second live implementation
-            # of this same interface -- not a hard verifier-side rejection.
-            # This validator follows that same tolerance rather than failing
-            # a shape lane B itself accepts. A structured {status:...} object
-            # (lane A's current pre-2-entry-array form for
-            # chart_overlap_witnesses/pushforward_compatibility_witness) is
-            # recorded as an observation (migration-in-progress marker, not
-            # yet item 4's 2-entry array -- itself one of the 4 points
-            # cert_shape_interpretation_v1.md defers to Sol confirmation).
-            # The ONLY hard violation here is a fake ABSENT marker: a dict
-            # that names a 'status' key but sets it to null.
-            if isinstance(v, dict) and "status" in v:
-                if v.get("status") is None:
-                    violations.append(f"[abs-null] {field}.status is explicit null (ABSENT must be the string "
-                                       f"'ABSENT', never null)")
-                else:
-                    observations.append(f"[interp-4-OPEN/coerced] {field} is a single structured-status object "
-                                         f"(status={v.get('status')!r}), coerced to ABSENT by lane B's own "
-                                         f"_coerce_to_list (not a FAIL there); not yet item 4's 2-entry array form "
-                                         f"(open Sol-confirmation point d) -- observation, not a violation.")
-            else:
-                observations.append(f"[interp-5/coerced] {field} is not a list (got {type(v).__name__}); lane B's "
-                                     f"own _coerce_to_list treats any non-list as [] (-> ABSENT), so this validator "
-                                     f"does the same rather than being stricter than the live verifier -- recorded "
-                                     f"as an observation.")
+            violations.append(f"[MALFORMED] {field} is not an array (got {type(v).__name__}) -- 条項5: "
+                               f"a non-array value is MALFORMED, NOT silently coerced to ABSENT/[]")
             continue
-        # it IS a list: check flat shape (no nested dict-keyed-by-object) and tag validity
+        # it IS a non-empty list: check flat shape and divisor_object tag validity
         for i, entry in enumerate(v):
             if not isinstance(entry, dict):
-                violations.append(f"[schema] {field}[{i}] is not an object")
+                violations.append(f"[MALFORMED] {field}[{i}] is not an object")
                 continue
             tag = entry.get("divisor_object", "__MISSING__")
             if tag == "__MISSING__":
-                violations.append(f"[interp-1] {field}[{i}] missing divisor_object tag")
+                violations.append(f"[MALFORMED] {field}[{i}] missing divisor_object tag (条項5: "
+                                   f"missing tag is MALFORMED, not silently dropped/ABSENT)")
             elif tag not in DIVISOR_OBJECT_VALUES:
-                violations.append(f"[interp-1] {field}[{i}].divisor_object = {tag!r} is not one of "
-                                   f"{sorted(DIVISOR_OBJECT_VALUES)}")
-        if field == "total_coverage_and_no_extra_component_witness" and len(v) not in (0, 2):
-            observations.append(f"[interp-4] {field} has {len(v)} entries, not the expected 2 (one per object) "
-                                 f"-- not necessarily a violation (0 is ABSENT-equivalent per item 5) but flagged")
+                violations.append(f"[MALFORMED] {field}[{i}].divisor_object = {tag!r} is not one of "
+                                   f"{sorted(DIVISOR_OBJECT_VALUES)} (unrecognized tag = MALFORMED)")
+            # v3 条項6: component_bijection entries must not carry a
+            # self-declared domain/codomain summary (the pre-v1 anti-pattern
+            # condition 6 explicitly disclaims as non-authoritative).
+            if field == "component_bijection":
+                declared_keys = [k for k in BIJECTION_SELF_DECLARED_KEYS if k in entry]
+                if declared_keys:
+                    violations.append(f"[WARN/interp-6] component_bijection[{i}] carries self-declared "
+                                       f"summary key(s) {declared_keys} -- interpretation v3 条項6: "
+                                       f"'自己申告の domain/codomain リストを authority にしない'; the "
+                                       f"receiving side must reconstruct component sets from the native "
+                                       f"artifacts, not trust this list.")
+                if not ({"searcher_native_digest", "checker_native_digest"} <= entry.keys()):
+                    observations.append(f"[interp-6-OPEN] component_bijection[{i}] uses the index-based "
+                                         f"v2(g) shape (searcher_index/checker_index/locus_type) rather "
+                                         f"than v3's target 'edge' shape with searcher_native_digest/"
+                                         f"checker_native_digest -- tolerated for now (structural upgrade "
+                                         f"pending), not a hard violation.")
+    # --- W-6 pushforward_compatibility_witness: native_side tag (v3 条項2) --
+    pf_field = NATIVE_SIDE_WITNESS_FIELD
+    v = cert.get(pf_field, "__MISSING__")
+    if v == "__MISSING__":
+        observations.append(f"[ABSENT] {pf_field} key missing -- ABSENT per v3 条項5")
+    elif isinstance(v, list) and len(v) == 0:
+        observations.append(f"[ABSENT] {pf_field} is an explicit empty array -- ABSENT per v3 条項5")
+    elif v is None:
+        violations.append(f"[MALFORMED] {pf_field} is explicit null -- 条項5: null is MALFORMED, not ABSENT")
+    elif not isinstance(v, list):
+        violations.append(f"[MALFORMED] {pf_field} is not an array (got {type(v).__name__})")
+    else:
+        seen_sides = set()
+        for i, entry in enumerate(v):
+            if not isinstance(entry, dict):
+                violations.append(f"[MALFORMED] {pf_field}[{i}] is not an object")
+                continue
+            side = entry.get("native_side", "__MISSING__")
+            if side == "__MISSING__":
+                violations.append(f"[MALFORMED] {pf_field}[{i}] missing native_side tag (条項2: W-6 uses "
+                                   f"native_side, NOT divisor_object)")
+                continue
+            if side not in NATIVE_SIDE_VALUES:
+                violations.append(f"[MALFORMED] {pf_field}[{i}].native_side = {side!r} is not one of "
+                                   f"{sorted(NATIVE_SIDE_VALUES)}")
+                continue
+            if side in seen_sides:
+                violations.append(f"[schema] {pf_field}[{i}]: duplicate native_side={side!r} entry "
+                                   f"(exactly one entry per side)")
+            seen_sides.add(side)
+            for key in PUSHFORWARD_REF_KEYS:
+                refval = entry.get(key, "__MISSING__")
+                if refval == "__MISSING__":
+                    violations.append(f"[schema] {pf_field}[{i}] ({side}) missing required ref key {key!r}")
+                    continue
+                violations.extend(validate_ref_triple(refval, f"{pf_field}[{i}]({side}).{key}"))
+        missing_sides = NATIVE_SIDE_VALUES - seen_sides
+        if missing_sides:
+            observations.append(f"[ABSENT] {pf_field} has no entry for native_side(s) {sorted(missing_sides)} "
+                                 f"-- ABSENT for that side specifically, not a violation for the whole field")
 
     gate_passed = len(violations) == 0
     return gate_passed, violations, unknowns, observations
@@ -272,12 +392,29 @@ def validate_certificate(cert):
 def make_verdict(gate_passed, violations):
     if gate_passed:
         return {"verdict": "cert-schema-valid", "stop_before_verifier": False}
+    malformed = [v for v in violations if v.startswith("[MALFORMED]") or v.startswith("[WARN/interp-6]")]
+    digest_or_schema = [v for v in violations if v not in malformed]
+    if malformed and not digest_or_schema:
+        # v3 条項5: MALFORMED gets its own provisional gate-stop, distinct
+        # from digest-mismatch [12] -- the dedicated `schema-invalid` enum
+        # value is still pending Sol confirmation (v3's own "Sol へ残す諮問"),
+        # so this is explicitly marked PROVISIONAL rather than silently
+        # reusing [12]'s semantics for a different failure class.
+        return {"verdict": "INTEGRITY_STOP", "primary_reason_code": "schema-invalid (PROVISIONAL, pending Sol enum)",
+                "reason_code_number": None, "stop_before_verifier": True,
+                "note": "certificate-schema validator gate FAILED with MALFORMED findings ONLY (v3 条項5: "
+                        "null/non-array/missing-tag/unknown-tag) -- this certificate MUST NOT be passed to "
+                        "verifier A or verifier B. A dedicated `schema-invalid` reason-code enum is still "
+                        "pending Sol confirmation (cert_shape_interpretation_v3.md's own open referral); this "
+                        "is a provisional gate-stop, NOT [12] digest-mismatch (that code is reserved for "
+                        "genuine digest/pin mismatches, see [64-hex]/[12/digest-mismatch]-tagged findings)."}
     return {"verdict": "INTEGRITY_STOP", "primary_reason_code": "digest-mismatch",
             "reason_code_number": 12, "stop_before_verifier": True,
-            "note": "certificate-schema validator gate FAILED (裁定127/128) -- this certificate MUST NOT be "
+            "note": "certificate-schema validator gate FAILED (裁定127/128/139) -- this certificate MUST NOT be "
                     "passed to verifier A or verifier B. Treated as [12] digest-mismatch-equivalent per "
                     "contract sec.5.2 routing (a structurally invalid certificate cannot support a meaningful "
-                    "P-3.* re-check)."}
+                    "P-3.* re-check). Contains MALFORMED findings alongside digest/schema violations if any "
+                    "-- see violations[] for the full, tagged list."}
 
 
 def apply_to_sample(label, payload):
