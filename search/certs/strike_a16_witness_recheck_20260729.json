@@ -1,0 +1,226 @@
+{
+  "schema": "strike-witness-recheck/v1",
+  "label": "W-D-A16-11a witness independent recheck (python/sympy only, no GAP import)",
+  "generated_by": {
+    "tool": "python3+sympy",
+    "sympy_version": "1.14.0",
+    "script": "search/strike-witness-recheck.py"
+  },
+  "source_certificate": "search/certs/strike_a16_full_20260729.json",
+  "source_generators": "docs/notes/wac_reverse_design_v1.md S3.2 (JUDGE_S1_IMG/JUDGE_S2_IMG, 19 points)",
+  "witness": {
+    "m1": 0,
+    "f1_perm": "(5,9)(12,13)",
+    "m2": 0,
+    "f2_perm": "(3,5)(9,11)(12,14)(13,15)"
+  },
+  "convention_selfchecks": {
+    "sympy_mult_is_apply_left_then_right": true,
+    "Ad_h_g_defined_as": "h*g*h**-1"
+  },
+  "basic_asserts": {
+    "braid_relation_holds": true,
+    "c_eq_delta_cubed": true,
+    "c_eq_identity": true,
+    "ord_x": 11,
+    "ord_y": 11
+  },
+  "f2_conditions": {
+    "f1": {
+      "cond1_f_theta_f_eq_1": true,
+      "cond2_Rtau_eq_c0": true,
+      "cond3_generates_P": true,
+      "generated_order": 10461394944000,
+      "cond4_settled_P_level_h_exists": true,
+      "settled_note": "P-level proxy only -- full Bq(E)-level well-definedness NOT independently rechecked here, see module docstring",
+      "all_three_original_F2_conditions_pass": true,
+      "h_conjugator": "(16)(12 13)"
+    },
+    "f2": {
+      "cond1_f_theta_f_eq_1": true,
+      "cond2_Rtau_eq_c0": true,
+      "cond3_generates_P": true,
+      "generated_order": 10461394944000,
+      "cond4_settled_P_level_h_exists": true,
+      "settled_note": "P-level proxy only -- full Bq(E)-level well-definedness NOT independently rechecked here, see module docstring",
+      "all_three_original_F2_conditions_pass": true,
+      "h_conjugator": "(16)(12 14)(13 15)"
+    }
+  },
+  "bq_settled_constructive": {
+    "f1": {
+      "H_found": true,
+      "H_perm": "(19)(12 13)"
+    },
+    "f2": {
+      "H_found": true,
+      "H_perm": "(19)(12 14)(13 15)"
+    },
+    "centralizer_C_Sym19_s1_size": 1056,
+    "note": "H found ==> T_{0,f} restricted to Bq equals the inner automorphism Ad(H) of Sym(19) restricted to Bq=<s1,s2>, hence IS a well-defined automorphism of Bq -- full constructive settled proof at the Bq level (not just P), for that witness. H NOT found is a one-directional non-result (does not imply T_{0,f} is unsettled) per the coordinator's instruction."
+  },
+  "centralizer_C_S16_x_size": 1320,
+  "composition_recheck": {
+    "h1_found": true,
+    "h2_found": true,
+    "f1_dot_E01_f2": [
+      [
+        3,
+        5,
+        11,
+        9
+      ],
+      [
+        12,
+        14,
+        13,
+        15
+      ]
+    ],
+    "f2_dot_E02_f1": [
+      [
+        3,
+        9,
+        11,
+        5
+      ],
+      [
+        12,
+        15,
+        13,
+        14
+      ]
+    ],
+    "noncommutative": true
+  },
+  "all_asserts": [
+    {
+      "name": "braid relation s1*s2*s1 == s2*s1*s2",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "c == delta**3 (Delta^2 = delta^3, both = c, central)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "c == identity (c in N for this window)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ord(x) == 11",
+      "ok": true,
+      "detail": "actual=11"
+    },
+    {
+      "name": "ord(y) == 11",
+      "ok": true,
+      "detail": "actual=11"
+    },
+    {
+      "name": "Ad(Delta)(x) == y  [theta~ = Ad(Delta)]",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Ad(Delta)(y) == x  [theta~ = Ad(Delta)]",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Ad(delta)(x) == y  [tau~ = Ad(delta)]",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Ad(delta)(y) == z*c (== z since c=1 here)  [tau~ = Ad(delta)]",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "f1 embeds correctly (16-pt and 19-pt agree on 1..16, fixes 17-19)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "f2 embeds correctly (16-pt and 19-pt agree on 1..16, fixes 17-19)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "|C_Sym(19)(s1)| computed generically (wreath-product, self-checked)",
+      "ok": true,
+      "detail": "actual=1056"
+    },
+    {
+      "name": "[f1] Bq-level settled (constructive): exists H in Sym(19) with H(s1)=s1, H(s2)=f1^-1 s2 f1",
+      "ok": true,
+      "detail": "H found"
+    },
+    {
+      "name": "[f2] Bq-level settled (constructive): exists H in Sym(19) with H(s1)=s1, H(s2)=f2^-1 s2 f2",
+      "ok": true,
+      "detail": "H found"
+    },
+    {
+      "name": "[f1] (F2)-1: f . theta~(f) = 1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[f1] (F2)-2: R_tau~(0,f) = c^0 = id",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[f1] generation: <x, f^-1 y f> = P (|A16|=10461394944000)",
+      "ok": true,
+      "detail": "computed order=10461394944000"
+    },
+    {
+      "name": "[f1] settled (P-level proxy): exists h in Aut(P) realizing T_0,f on <x,y>",
+      "ok": true,
+      "detail": "h found"
+    },
+    {
+      "name": "[f2] (F2)-1: f . theta~(f) = 1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[f2] (F2)-2: R_tau~(0,f) = c^0 = id",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[f2] generation: <x, f^-1 y f> = P (|A16|=10461394944000)",
+      "ok": true,
+      "detail": "computed order=10461394944000"
+    },
+    {
+      "name": "[f2] settled (P-level proxy): exists h in Aut(P) realizing T_0,f on <x,y>",
+      "ok": true,
+      "detail": "h found"
+    },
+    {
+      "name": "|C_S16(x)| == 1320 (11 * 5!)",
+      "ok": true,
+      "detail": "actual=1320"
+    },
+    {
+      "name": "both h1 (for E_{0,f1}) and h2 (for E_{0,f2}) found -- composition computable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[0,f1] o [0,f2] f-component != [0,f2] o [0,f1] f-component  (NONCOMMUTATIVE)",
+      "ok": true,
+      "detail": "f1.E01(f2)=[[3, 5, 11, 9], [12, 14, 13, 15]]  f2.E02(f1)=[[3, 9, 11, 5], [12, 15, 13, 14]]"
+    }
+  ],
+  "all_asserts_pass": true,
+  "witness_valid": true,
+  "scope_note": "Bq(E)-level settled/well-definedness is now addressed constructively for both witnesses (see bq_settled_constructive): an explicit H in Sym(19) was found for f1 and for f2 with H(s1)=s1 and H(s2)=f^-1 s2 f, so T_{0,f} restricted to Bq=<s1,s2> literally equals Ad(H)|_Bq, a genuine inner automorphism of Sym(19) -- this is a full constructive settled proof at the Bq level for both witnesses, not merely the P=A16 level proxy from the original pass (still recorded below as cond4_settled_P_level_h_exists). Both remain single independent python computations (cross-checked against, not sharing code with, the GAP judge's settled_all_pass=true)."
+}
