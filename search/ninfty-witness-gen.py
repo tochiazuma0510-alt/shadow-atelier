@@ -263,18 +263,28 @@ CHART_B_ID = "x-chart-secondary-affine"  # genuine second affine chart (finite, 
 
 def build_chart_overlap_witnesses(loci):
     """
-    W-4 (裁定136 addendum (l), docs/notes/cert_shape_interpretation_v2.md):
-    EXACTLY ONE entry per divisor_object -- {divisor_object, status,
-    per_overlap_witnesses: [...]}. The per-locus layering moves INSIDE
-    per_overlap_witnesses (one nested item per locus), not across
-    top-level entries. Consumed by:
-      - verifier A (verifyChartOverlap): reads w.status/w.per_overlap_witnesses
-        directly off the single matched entry, checks EVERY nested item has
-        agree===true and (if generator_chart_a/b present) that they mutually
-        reduce to zero.
-      - verifier B (_validate_w4_entry): reads the SAME single entry's
-        per_overlap_witnesses, checks EVERY nested item's
-        component_in_chart_a == component_in_chart_b.
+    W-4 (裁定136 addendum (l), docs/notes/cert_shape_interpretation_v2.md;
+    field renamed + status vocabulary made strict by 裁定152 §3-1 / 追補(n)
+    v2, sol/裁定_152_便78検収.md): EXACTLY ONE entry per divisor_object --
+    {divisor_object, status: "ABSENT"|"PRESENT", entries: [...]}. The
+    per-locus layering moves INSIDE `entries` (one nested item per locus),
+    not across top-level entries. Consumed by:
+      - verifier A (verifyChartOverlap, ninfty-verifier-a.mjs): reads
+        w.status/w.per_overlap_witnesses off the single matched entry
+        UNCHANGED by this revision -- that function's ABSENT short-circuit
+        (`w.status === 'ABSENT'`) never inspects the array-field name, and
+        lane A's own generator (ninfty-searcher-v2.mjs) never emits a
+        non-ABSENT W-4 entry, so this file's field rename is invisible to
+        it in practice; verifyChartOverlap itself is intentionally left
+        unchanged (裁定152's task scope is lane B's verifier + lane A's
+        GENERATOR only -- W-6 and lane A's general re-check function are
+        out of scope this round).
+      - verifier B (_validate_w4_entry, ninfty-verifier-b.py): now requires
+        the strict {status, entries} shape (裁定152 §3-1) -- reads
+        `entries`, checks EVERY nested item's component_in_chart_a ==
+        component_in_chart_b, and requires status to be exactly
+        "ABSENT"/"PRESENT" (no more free-text producer-claim vocabulary
+        like the old "PASS"/"agree").
     Both checks are satisfied by the SAME nested item shape (superset of
     fields), so no duplication/mismatch between the two verifiers' reads.
     """
@@ -303,8 +313,12 @@ def build_chart_overlap_witnesses(loci):
             })
         out.append({
             "divisor_object": tag,
-            "status": "PASS",  # producer claim only -- both verifiers independently recompute, never trust this
-            "per_overlap_witnesses": per_overlap,
+            # 追補(n) v2: canonical "PRESENT" (not "PASS"/"agree" -- neither
+            # verifier trusts this value for the PASS/FAIL verdict either
+            # way, but lane B's verifier now REQUIRES it to be exactly
+            # "ABSENT"/"PRESENT" or the whole entry is MALFORMED).
+            "status": "PRESENT",
+            "entries": per_overlap,
         })
     return out
 

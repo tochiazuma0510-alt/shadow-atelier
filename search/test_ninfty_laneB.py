@@ -423,17 +423,18 @@ inject("W-3: searcher_mult is a non-numeric string", "W-3",
 inject("W-3 [裁定128]: divisor_object tag removed from all entries", "W-3",
        lambda c: [e.pop("divisor_object") for e in c["multiplicity_equalities"]])
 
-# --- W-4 (chart_overlap_witnesses, 裁定133 (i): {status, per_overlap_witnesses}) ---
+# --- W-4 (chart_overlap_witnesses, 追補(n) v2 裁定152: {status, entries}) ---
 inject("W-4: wrong type (dict instead of list -- lane-A-shape crash repro)", "W-4",
        lambda c: c.__setitem__("chart_overlap_witnesses", {"c0": {}}))
-inject("W-4: entries missing 'per_overlap_witnesses'", "W-4",
-       lambda c: [e.pop("per_overlap_witnesses") for e in c["chart_overlap_witnesses"]])
-inject("W-4: per_overlap_witnesses entry missing 'component_in_chart_b'", "W-4",
-       lambda c: [e.__setitem__("per_overlap_witnesses",
+inject("W-4: entries missing 'entries' key", "W-4",
+       lambda c: [e.pop("entries") for e in c["chart_overlap_witnesses"]])
+inject("W-4: entries entry missing 'component_in_chart_b'", "W-4",
+       lambda c: [e.__setitem__("entries",
                                  [{"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "Q1"}])
                   for e in c["chart_overlap_witnesses"]])
-inject("W-4: per_overlap_witnesses present but empty (no overlap claim to verify)", "W-4",
-       lambda c: [e.__setitem__("per_overlap_witnesses", []) for e in c["chart_overlap_witnesses"]])
+inject("W-4 [追補(n) v2]: entries present but empty while status stays PRESENT "
+       "(self-contradiction -- MALFORMED, not FAIL)", "W-4",
+       lambda c: [e.__setitem__("entries", []) for e in c["chart_overlap_witnesses"]])
 
 # --- W-5 (total_coverage_and_no_extra_component_witness, singular -> 2-entry array) ---
 inject("W-5: key entirely deleted", "W-5",
@@ -680,121 +681,177 @@ record("裁定142/full_witness_fixture_01.json WITHOUT native_a/native_b (self-c
 
 
 # --------------------------------------------------------------------------
-# 追補 (n) (裁定145 残差1, docs/notes/cert_shape_interpretation_v3_addendum_n.md):
-# ABSENT-vs-MALFORMED disambiguation for a W-4 entry's own `status` field
-# when per_overlap_witnesses is empty. Direct unit tests on
-# ver._validate_w4_entry (isolated-function tests, matching the style of
-# the 裁定142 _parse_ref_triple tests above), covering all four addendum
-# branches plus the one addendum-silent combination this implementer
-# resolved conservatively (see the function's own docstring "scoping
-# note").
+# 追補 (n) v2 (裁定152 §3-1, Sol F78-3.2 FAIL -> sol/裁定_152_便78検収.md,
+# docs/notes/cert_shape_interpretation_v3_addendum_n.md v2): the ONLY valid
+# marker shape is the SINGLE canonical form {status: "ABSENT"|"PRESENT",
+# entries: [...]}, both keys REQUIRED. 追補(n) v1's rule 2 ("bare [] with no
+# status field is also ABSENT") is RETIRED -- Sol's FAIL: two byte
+# encodings of the same meaning split canonical digest authority. A bare
+# [], a missing `entries`/`status` key, `null`, a non-array `entries`, or
+# any `status` value other than exactly "ABSENT"/"PRESENT" is now
+# MALFORMED unconditionally (not just when entries happens to be empty, as
+# v1 rule 4 was scoped) -- schema violation, never silently read as
+# ABSENT. Direct unit tests on ver._validate_w4_entry (isolated-function
+# tests, matching the style of the 裁定142 _parse_ref_triple tests above).
 # --------------------------------------------------------------------------
 
-# branch 1: status:"ABSENT" + per_overlap_witnesses:[] -> exactly ABSENT
-# (the literal lane-A marker shape from search/certs/laneA_ep_export_sample.json).
+# v2 branch 1: status:"ABSENT" + entries:[] -> exactly ABSENT (the sole
+# canonical ABSENT marker; matches the lane-A shape once regenerated per
+# 裁定152, see search/ninfty-searcher-v2.mjs).
 _n1_status, _n1_detail = ver._validate_w4_entry({
     "divisor_object": "ramification_divisor_on_C_ref",
     "status": "ABSENT",
-    "per_overlap_witnesses": [],
+    "entries": [],
     "reason": "lane A native declares a single chart; no second chart exists",
 })
-record("追補(n) branch 1: status=ABSENT + per_overlap_witnesses=[] -> exactly ABSENT (not FAIL)",
+record("追補(n) v2 branch 1: status=ABSENT + entries=[] -> exactly ABSENT (not FAIL)",
        _n1_status == "ABSENT", f"got {_n1_status!r}: {_n1_detail}")
 
-# branch 2: no status field + per_overlap_witnesses:[] -> exactly ABSENT
-# (v3 条項5 default, unchanged by 追補(n)).
-_n2_status, _n2_detail = ver._validate_w4_entry({
-    "divisor_object": "ramification_divisor_on_C_ref",
-    "per_overlap_witnesses": [],
-})
-record("追補(n) branch 2: no status field + per_overlap_witnesses=[] -> exactly ABSENT",
-       _n2_status == "ABSENT", f"got {_n2_status!r}: {_n2_detail}")
+# v2 branch 2 (RETIRED v1 rule 2, now the OPPOSITE result): entries:[] with
+# NO status field at all -> MALFORMED, not ABSENT -- `status` is now a
+# REQUIRED key unconditionally (裁定152 retires the old bare-[]-is-ABSENT
+# default: Sol F78-3.2 called this a second, digest-splitting encoding of
+# the same meaning).
+try:
+    ver._validate_w4_entry({"divisor_object": "ramification_divisor_on_C_ref", "entries": []})
+    _n2_raised = False
+except ver.MalformedWitness:
+    _n2_raised = True
+record("追補(n) v2 branch 2 (v1 rule 2 RETIRED): entries=[] with NO status field -> "
+       "MalformedWitness (MALFORMED, no longer ABSENT)",
+       _n2_raised, "raised" if _n2_raised else "did NOT raise (BUG -- v1 default leaked through)")
 
-# branch 3: status:"ABSENT" + NON-empty per_overlap_witnesses -> contradiction
-# -> MalformedWitness (which callers turn into MALFORMED).
+# v2 branch 3: status:"ABSENT" + NON-empty entries -> contradiction ->
+# MalformedWitness (unchanged from v1 rule 3).
 try:
     ver._validate_w4_entry({
         "divisor_object": "ramification_divisor_on_C_ref",
         "status": "ABSENT",
-        "per_overlap_witnesses": [
+        "entries": [
             {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
         ],
     })
     _n3_raised = False
 except ver.MalformedWitness:
     _n3_raised = True
-record("追補(n) branch 3: status=ABSENT + non-empty per_overlap_witnesses -> MalformedWitness (MALFORMED)",
+record("追補(n) v2 branch 3: status=ABSENT + non-empty entries -> MalformedWitness (MALFORMED)",
        _n3_raised, "raised" if _n3_raised else "did NOT raise (BUG)")
 
-# branch 4: status = unrecognized value (neither ABSENT nor PRESENT) WHILE
-# per_overlap_witnesses is empty -> MalformedWitness (MALFORMED); the empty
-# array leaves status as the only signal, so an unrecognized value cannot
-# be resolved to ABSENT or PRESENT.
+# v2 branch 4: status = unrecognized value (neither ABSENT nor PRESENT) ->
+# MalformedWitness UNCONDITIONALLY now (v1 scoped this to the empty-entries
+# case only; v2 requires status in {ABSENT, PRESENT} regardless of
+# entries' own emptiness, since status is validated before entries'
+# content is even consulted).
 try:
     ver._validate_w4_entry({
         "divisor_object": "ramification_divisor_on_C_ref",
-        "status": "not-a-real-status",
-        "per_overlap_witnesses": [],
+        "status": "agree",  # pre-追補(n) free-text producer-claim convention -- no longer accepted at all
+        "entries": [
+            {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+        ],
     })
     _n4_raised = False
 except ver.MalformedWitness:
     _n4_raised = True
-record("追補(n) branch 4: status=unrecognized value + per_overlap_witnesses=[] -> MalformedWitness (MALFORMED)",
-       _n4_raised, "raised" if _n4_raised else "did NOT raise (BUG)")
+record("追補(n) v2 branch 4 (v1 rule 4, now unconditional): status='agree' (pre-v2 free-text "
+       "convention) with NON-empty entries -> MalformedWitness (MALFORMED; v1 tolerated this, "
+       "v2 does not)",
+       _n4_raised, "raised" if _n4_raised else "did NOT raise (BUG -- old free-text status leaked through)")
 
-# branch 5 (裁定149, 追補(n) rule 5): status:"PRESENT" + per_overlap_witnesses:[]
-# -> MalformedWitness (MALFORMED). This combination was originally an
-# addendum-silent gap that this implementer resolved conservatively as
-# ABSENT (flagged UNKNOWN); 裁定149 has now settled it as the mirror
-# self-contradiction of rule 3 (ABSENT + non-empty) -- "declares PRESENT
-# while supplying no evidence" is fail-closed, NOT collapsed into ABSENT.
+# v2 branch 5 (裁定149 rule 5, unchanged in spirit): status:"PRESENT" +
+# entries:[] -> MalformedWitness (self-contradiction, mirror of rule 3).
 try:
     ver._validate_w4_entry({
         "divisor_object": "ramification_divisor_on_C_ref",
         "status": "PRESENT",
-        "per_overlap_witnesses": [],
+        "entries": [],
     })
     _n5_raised = False
 except ver.MalformedWitness:
     _n5_raised = True
-record("追補(n) branch 5 (裁定149): status=PRESENT + per_overlap_witnesses=[] -> "
+record("追補(n) v2 branch 5 (裁定149): status=PRESENT + entries=[] -> "
        "MalformedWitness (MALFORMED, not ABSENT)",
        _n5_raised, "raised" if _n5_raised else "did NOT raise (BUG)")
 
-# non-empty per_overlap_witnesses with an UNRELATED status value (the
-# pre-追補(n) "agree"/"disagree" convention used by this repo's own
-# self-made fixtures, e.g. cert_pos_01.json) must be UNCHANGED: status is
-# still ignored as a producer claim, not re-validated against the
-# ABSENT/PRESENT vocabulary, when there IS overlap evidence to check.
+# v2 branch 6 (the genuine, canonical PRESENT/PASS path): status:"PRESENT" +
+# non-empty, internally-consistent entries -> PASS.
 _n6_status, _n6_detail = ver._validate_w4_entry({
     "divisor_object": "ramification_divisor_on_C_ref",
-    "status": "agree",
-    "per_overlap_witnesses": [
+    "status": "PRESENT",
+    "entries": [
         {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
     ],
 })
-record("追補(n) regression: non-empty per_overlap_witnesses + pre-existing 'agree' status "
-       "convention -> still validated normally (PASS here), status not re-checked against "
-       "ABSENT/PRESENT vocabulary",
+record("追補(n) v2 branch 6: status=PRESENT + non-empty, agreeing entries -> PASS (canonical form)",
        _n6_status == "PASS", f"got {_n6_status!r}: {_n6_detail}")
 
-# integration-level check: the same branch-1 shape, wired through the full
-# verify_W4 -> run_verifier_b path via cert_pos_01.json, confirms the
-# result surfaces correctly end-to-end (not just at the isolated-function
-# level) and does not escalate to INTEGRITY_STOP (ABSENT is not MALFORMED).
+# v2 branch 7: `entries` key missing entirely (e.g. an UNCONVERTED legacy
+# blob still using the retired `per_overlap_witnesses` key name) ->
+# MalformedWitness. This is exactly why 裁定152 mandates a SEPARATE,
+# outside-the-certificate legacy normalizer (search/ninfty-legacy-
+# normalizer.py) rather than having this verifier itself tolerate the old
+# key name.
+try:
+    ver._validate_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "status": "ABSENT",
+        "per_overlap_witnesses": [],  # retired key name -- NOT recognized as `entries`
+    })
+    _n7_raised = False
+except ver.MalformedWitness:
+    _n7_raised = True
+record("追補(n) v2 branch 7: legacy `per_overlap_witnesses` key (no `entries` key at all) -> "
+       "MalformedWitness (MALFORMED; must go through ninfty-legacy-normalizer.py first)",
+       _n7_raised, "raised" if _n7_raised else "did NOT raise (BUG -- legacy key silently tolerated)")
+
+# v2 branch 8: `entries` present but not an array (e.g. null) -> MalformedWitness.
+try:
+    ver._validate_w4_entry({"divisor_object": "ramification_divisor_on_C_ref", "status": "ABSENT", "entries": None})
+    _n8_raised = False
+except ver.MalformedWitness:
+    _n8_raised = True
+record("追補(n) v2 branch 8: entries=null (non-array) -> MalformedWitness (MALFORMED)",
+       _n8_raised, "raised" if _n8_raised else "did NOT raise (BUG)")
+
+# integration-level check: the canonical {status:"ABSENT", entries:[]}
+# shape, wired through the full verify_W4 -> run_verifier_b path via
+# cert_pos_01.json (now regenerated in v2 shape), confirms the result
+# surfaces correctly end-to-end (not just at the isolated-function level)
+# and does not escalate to INTEGRITY_STOP (ABSENT is not MALFORMED).
 _n_integration_payload = deep_cert()
 _n_integration_payload["certificate"]["chart_overlap_witnesses"] = [
-    {"divisor_object": tok, "status": "ABSENT", "per_overlap_witnesses": [],
+    {"divisor_object": tok, "status": "ABSENT", "entries": [],
      "reason": "no second chart exists"}
     for tok in TOKENS
 ]
 _n_integration_result = ver.run_verifier_b(_n_integration_payload)
-record("追補(n) integration: full structured-ABSENT W-4 (both objects) via run_verifier_b "
-       "-> W-4 exactly ABSENT for both objects, overall_verdict_B != INTEGRITY_STOP",
+record("追補(n) v2 integration: full structured-ABSENT W-4 (both objects, canonical shape) via "
+       "run_verifier_b -> W-4 exactly ABSENT for both objects, overall_verdict_B != INTEGRITY_STOP",
        _n_integration_result["witness_results"]["W-4"]["ramification_divisor_on_C"] == "ABSENT"
        and _n_integration_result["witness_results"]["W-4"]["branch_divisor_on_P1"] == "ABSENT"
        and _n_integration_result["overall_verdict_B"] != "INTEGRITY_STOP",
        json.dumps(_n_integration_result["witness_results"]["W-4"]) + f" overall={_n_integration_result['overall_verdict_B']!r}")
+
+# integration-level NEGATIVE check: an UNCONVERTED legacy-shape
+# chart_overlap_witnesses field (per_overlap_witnesses key, free-text
+# status) fed directly into run_verifier_b (no normalizer applied) MUST
+# escalate to INTEGRITY_STOP/schema-invalid, never silently pass -- this is
+# the concrete guarantee 裁定152 item 2 relies on (frozen certificates are
+# never rewritten in place; only a separate normalizer step may translate
+# them, and this verifier must never do so implicitly).
+_n_legacy_payload = deep_cert()
+_n_legacy_payload["certificate"]["chart_overlap_witnesses"] = [
+    {"divisor_object": tok, "status": "agree",
+     "per_overlap_witnesses": [
+         {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+     ]}
+    for tok in TOKENS
+]
+_n_legacy_result = ver.run_verifier_b(_n_legacy_payload)
+record("追補(n) v2 integration: UNCONVERTED legacy-shape W-4 (per_overlap_witnesses + free-text "
+       "status) via run_verifier_b -> overall_verdict_B == INTEGRITY_STOP (never silently accepted)",
+       _n_legacy_result["overall_verdict_B"] == "INTEGRITY_STOP",
+       json.dumps(_n_legacy_result["witness_results"]["W-4"]) + f" overall={_n_legacy_result['overall_verdict_B']!r}")
 
 
 # --------------------------------------------------------------------------

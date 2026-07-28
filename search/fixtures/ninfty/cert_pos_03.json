@@ -637,8 +637,8 @@
     "chart_overlap_witnesses": [
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "status": "agree",
-        "per_overlap_witnesses": [
+        "status": "PRESENT",
+        "entries": [
           {
             "chart_pair": [
               "chart-A",
@@ -667,8 +667,8 @@
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "status": "agree",
-        "per_overlap_witnesses": [
+        "status": "PRESENT",
+        "entries": [
           {
             "chart_pair": [
               "chart-A",
@@ -808,7 +808,7 @@
         }
       }
     ],
-    "certificate_digest": "253ad3f103423dfa894e4dc61104483ce09bfaa8d401e5944c29d64b5f5f8b63"
+    "certificate_digest": "26e32336df7171a8f88ac8355ed9e16e2818a2e696c24f3440975c421ec073b9"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

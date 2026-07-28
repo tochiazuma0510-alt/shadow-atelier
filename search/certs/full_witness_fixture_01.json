@@ -789,8 +789,8 @@
     "chart_overlap_witnesses": [
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "status": "PASS",
-        "per_overlap_witnesses": [
+        "status": "PRESENT",
+        "entries": [
           {
             "locus_type": "a-pair-locus",
             "chart_pair": [
@@ -894,8 +894,8 @@
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "status": "PASS",
-        "per_overlap_witnesses": [
+        "status": "PRESENT",
+        "entries": [
           {
             "locus_type": "a-pair-locus",
             "chart_pair": [
@@ -1190,7 +1190,7 @@
         }
       }
     ],
-    "certificate_digest": "ea2d25715f7fdb09df171e872bc4a63f67944812b1b0abe2216e434e664ad1a9"
+    "certificate_digest": "00115a44bd72c2da04397043d6bd0360be2bd75e8a2ffe1eab03ce2d3bc0561b"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

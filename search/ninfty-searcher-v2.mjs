@@ -786,24 +786,28 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
     exact_point_equality_witnesses: [...tagAll(ram.exact_point_equality_witnesses, DIVISOR_OBJECT_RAM), ...tagAll(branch.exact_point_equality_witnesses, DIVISOR_OBJECT_BRANCH)],
     distinctness_witnesses: [...tagAll(ram.distinctness_witnesses, DIVISOR_OBJECT_RAM), ...tagAll(branch.distinctness_witnesses, DIVISOR_OBJECT_BRANCH)],
     multiplicity_equalities: [...tagAll(ram.multiplicity_equalities, DIVISOR_OBJECT_RAM), ...tagAll(branch.multiplicity_equalities, DIVISOR_OBJECT_BRANCH)],
-    // W-4 (裁定 133: docs/notes/cert_shape_interpretation_v2.md (i)) --
+    // W-4 (裁定 133: docs/notes/cert_shape_interpretation_v2.md (i); field
+    // renamed 裁定152 §3-1 / 追補(n) v2, sol/裁定_152_便78検収.md) --
     // FLAT array of 2 entries (one per divisor_object, same outer shape as
-    // the other 6 fields), each entry = {divisor_object, status,
-    // per_overlap_witnesses:[...]}. This lane's native scope declares only
-    // ONE chart (x-chart-single), so there is no second chart to produce a
-    // genuine per-overlap witness against -- STRUCTURED ABSENT per entry,
-    // not an implied PASS.
+    // the other 6 fields), each entry = {divisor_object, status, entries:
+    // [...]} -- the SOLE canonical marker shape (both status and entries
+    // REQUIRED; the old `per_overlap_witnesses` key name is retired -- a
+    // bare `[]` or a missing `status` is now MALFORMED, not ABSENT, per
+    // 追補(n) v2). This lane's native scope declares only ONE chart
+    // (x-chart-single), so there is no second chart to produce a genuine
+    // per-overlap witness against -- STRUCTURED ABSENT per entry, not an
+    // implied PASS.
     chart_overlap_witnesses: [
       {
         divisor_object: DIVISOR_OBJECT_RAM,
         status: 'ABSENT',
-        per_overlap_witnesses: [], // would list {chart_pair, agree, generator_chart_a, generator_chart_b, ...} entries if >=2 charts existed
+        entries: [], // would list {chart_pair, agree, generator_chart_a, generator_chart_b, ...} entries if >=2 charts existed
         reason: 'lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.',
       },
       {
         divisor_object: DIVISOR_OBJECT_BRANCH,
         status: 'ABSENT',
-        per_overlap_witnesses: [],
+        entries: [],
         reason: 'lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.',
       },
     ],

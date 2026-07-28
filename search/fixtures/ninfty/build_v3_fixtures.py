@@ -259,14 +259,18 @@ def assemble(candidate_ref, curve_label, points, mismatches=None):
             })
     cert["multiplicity_equalities"] = w3
 
-    # W-4 chart_overlap_witnesses (裁定133 (i)/裁定139 item 7 -- unchanged in v3).
+    # W-4 chart_overlap_witnesses (裁定133 (i)/裁定139 item 7 shape unchanged;
+    # field renamed + status vocabulary made strict by 裁定152 §3-1 /
+    # 追補(n) v2, sol/裁定_152_便78検収.md: {status: "ABSENT"|"PRESENT",
+    # entries: [...]} is now the ONLY accepted shape -- the old free-text
+    # "agree" status and "per_overlap_witnesses" key are retired).
     w4 = []
     for tok in TOKENS:
         overlaps = [
             {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": lt, "component_in_chart_b": lt}
             for (lt, gen, sm, cm) in points
         ]
-        w4.append({"divisor_object": tok, "status": "agree", "per_overlap_witnesses": overlaps})
+        w4.append({"divisor_object": tok, "status": "PRESENT", "entries": overlaps})
     cert["chart_overlap_witnesses"] = w4
 
     # W-5 total_coverage_and_no_extra_component_witness (unchanged in v3).

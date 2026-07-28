@@ -676,84 +676,95 @@ def _validate_w4_entry(e):
     """
     W-4 entry (裁定139 item 7 = v2 (l) maintained: EXACTLY 1 entry per
     divisor_object -- see verify_W4 using _check_singular_witness, not
-    _check_plural_witness): {divisor_object, status, per_overlap_witnesses:
-    [{chart_pair, component_in_chart_a, component_in_chart_b}, ...]}.
+    _check_plural_witness).
 
-    追補 (n) (裁定145 残差1, docs/notes/cert_shape_interpretation_v3_addendum_n.md):
-    `status` is now READ when per_overlap_witnesses is EMPTY -- it
-    distinguishes a genuine structured ABSENT declaration
-    ({status:"ABSENT", per_overlap_witnesses:[]}, e.g. lane A's "only one
-    chart exists, no overlap to witness" case -- [25] insufficient-evidence,
-    NOT a FAIL) from a schema violation:
-      1. status == "ABSENT" and per_overlap_witnesses == [] -> ABSENT.
-      2. status absent entirely and per_overlap_witnesses == [] -> ABSENT
-         (v3 条項5 default, unchanged).
-      3. status == "ABSENT" but per_overlap_witnesses is NON-empty -> the
-         status contradicts the data -> MALFORMED (fail-closed).
-      4. status present with an unrecognized value (neither "ABSENT" nor
-         "PRESENT") WHILE per_overlap_witnesses == [] -> MALFORMED (the
-         empty array leaves the entry's own status as the only signal of
-         what it means, so an unrecognized value cannot be resolved).
-      5. status == "PRESENT" but per_overlap_witnesses == [] -> MALFORMED
-         (裁定149, 追補(n) rule 5): "declares PRESENT while supplying no
-         evidence" is the mirror self-contradiction of rule 3 (ABSENT +
-         non-empty) -- fail-closed, NOT collapsed into ABSENT. (裁定149
-         supersedes this implementer's earlier interim ABSENT reading of
-         this combination, which was flagged UNKNOWN pending confirmation
-         and has now been resolved.)
-    When per_overlap_witnesses is NON-empty, `status` is NOT re-validated
-    against the ABSENT/PRESENT vocabulary and is treated exactly as
-    before 追補(n) -- a producer claim that is never trusted for PASS/FAIL
-    (self-made fixtures predating 追補(n) use an unrelated "agree"/
-    "disagree" convention for this case; 追補(n) does not touch it).
-    PASS requires ALL per_overlap_witnesses entries to independently
-    agree. Malformed sub-entries are a schema violation (raises
-    MalformedWitness -> MALFORMED), distinct from a genuine chart-mismatch
-    FAIL.
+    追補 (n) v2 (裁定152 §3-1, Sol F78-3.2 FAIL -> sol/裁定_152_便78検収.md,
+    docs/notes/cert_shape_interpretation_v3_addendum_n.md v2): the ONLY
+    valid shape is the SINGLE canonical form
+
+        {divisor_object, status: "ABSENT"|"PRESENT",
+         entries: [{chart_pair, component_in_chart_a, component_in_chart_b}, ...]}
+
+    `status` and `entries` are BOTH REQUIRED. This RETIRES 追補(n) v1's
+    rule 2 ("a bare `[]` with no status field is also ABSENT") -- Sol's
+    FAIL diagnosis: having both "receiver must read status" AND "a bare
+    empty array is a second, status-free encoding of the same ABSENT
+    meaning" gives ONE semantic meaning TWO distinct byte encodings, which
+    splits canonical digest authority (two different blobs would have to
+    hash to being "the same fact"). There is now exactly one encoding:
+
+      1. status == "ABSENT" and entries == [] -> ABSENT (the sole
+         structured-absence marker; [25] insufficient-evidence route, not
+         FAIL).
+      2. `status` key MISSING entirely -> MALFORMED, UNCONDITIONALLY (v1
+         rule 2 retired: no more bare-[]-is-ABSENT fallback of any kind).
+      3. status == "ABSENT" but entries is NON-empty -> the status
+         contradicts the data -> MALFORMED (fail-closed, unchanged from
+         v1).
+      4. status is present but is NEITHER "ABSENT" NOR "PRESENT" (this
+         includes v1-era free-text producer-claims like "agree"/
+         "disagree" -- NO LONGER tolerated even when entries is
+         non-empty) -> MALFORMED, UNCONDITIONALLY (v1 rule 4 was scoped to
+         the empty-entries case only; v2 checks `status` FIRST, before
+         even looking at `entries`' contents).
+      5. status == "PRESENT" but entries == [] -> MALFORMED (裁定149,
+         unchanged): "declares PRESENT while supplying no evidence" is the
+         mirror self-contradiction of rule 3.
+      6. status == "PRESENT" and entries is non-empty -> the canonical
+         PRESENT/evidence path; PASS requires ALL entries to independently
+         agree.
+      7. `entries` key MISSING entirely (e.g. an unconverted legacy blob
+         still using the retired `per_overlap_witnesses` key name), `null`,
+         or not an array -> MALFORMED. An OLD-shape certificate is NEVER
+         accepted here directly -- it must first be translated by the
+         separate, outside-the-certificate
+         search/ninfty-legacy-normalizer.py (裁定152 item 2: the frozen
+         certificate itself is never rewritten in place; the normalizer
+         records the conversion fact + both digests instead).
+
+    Malformed sub-entries inside a genuinely PRESENT `entries` array are
+    still a schema violation (raises MalformedWitness -> MALFORMED),
+    distinct from a genuine chart-mismatch FAIL.
     """
     _require_dict(e, "W-4 entry")
-    _require_keys(e, ["per_overlap_witnesses"], "W-4 entry")
-    overlaps = _require_list(e["per_overlap_witnesses"], "W-4 entry.per_overlap_witnesses")
-    status = e.get("status")
-    if len(overlaps) == 0:
-        if status is None:
-            return "ABSENT", {
-                "reason": "per_overlap_witnesses is present but empty "
-                          "(no status field -- 追補(n) rule 2 / v3 条項5 default)"
-            }
-        if status == "PRESENT":
-            raise MalformedWitness(
-                "W-4 entry.status=PRESENT but per_overlap_witnesses is empty -- declares "
-                "presence while supplying no evidence, the mirror self-contradiction of "
-                "rule 3 (追補(n) rule 5, 裁定149)"
-            )
-        if status == "ABSENT":
-            return "ABSENT", {
-                "reason": e.get(
-                    "reason",
-                    "structured ABSENT marker (追補(n) rule 1): status=ABSENT, "
-                    "per_overlap_witnesses=[] -- insufficient evidence, not FAIL",
-                )
-            }
+    _require_keys(e, ["status", "entries"], "W-4 entry")
+    status = e["status"]
+    if status not in ("ABSENT", "PRESENT"):
         raise MalformedWitness(
-            f"W-4 entry.status has unrecognized value {status!r} (expected 'ABSENT' or "
-            "'PRESENT') while per_overlap_witnesses is empty -- 追補(n) rule 4"
+            f"W-4 entry.status must be exactly 'ABSENT' or 'PRESENT' (追補(n) v2 -- no bare "
+            f"array default, no free-text producer-claim vocabulary), got {status!r}"
         )
+    entries = _require_list(e["entries"], "W-4 entry.entries")
     if status == "ABSENT":
+        if len(entries) != 0:
+            raise MalformedWitness(
+                f"W-4 entry.status=ABSENT but entries is non-empty ({len(entries)} entries) -- "
+                "contradicts the ABSENT declaration (追補(n) v2 rule 3)"
+            )
+        return "ABSENT", {
+            "reason": e.get(
+                "reason",
+                "structured ABSENT marker (追補(n) v2 rule 1): status=ABSENT, entries=[] -- "
+                "insufficient evidence, not FAIL",
+            )
+        }
+    # status == "PRESENT"
+    if len(entries) == 0:
         raise MalformedWitness(
-            f"W-4 entry.status=ABSENT but per_overlap_witnesses is non-empty "
-            f"({len(overlaps)} entries) -- contradicts the ABSENT declaration (追補(n) rule 3)"
+            "W-4 entry.status=PRESENT but entries is empty -- declares presence while "
+            "supplying no evidence, the mirror self-contradiction of rule 3 (追補(n) v2 rule 5, "
+            "裁定149)"
         )
-    for i, o in enumerate(overlaps):
+    for i, o in enumerate(entries):
         if not isinstance(o, dict) or "component_in_chart_a" not in o or "component_in_chart_b" not in o:
-            raise MalformedWitness(f"per_overlap_witnesses[{i}] malformed "
+            raise MalformedWitness(f"entries[{i}] malformed "
                                     "(need component_in_chart_a, component_in_chart_b)")
     bad = [
         {"index": i, "component_in_chart_a": o["component_in_chart_a"], "component_in_chart_b": o["component_in_chart_b"]}
-        for i, o in enumerate(overlaps) if o["component_in_chart_a"] != o["component_in_chart_b"]
+        for i, o in enumerate(entries) if o["component_in_chart_a"] != o["component_in_chart_b"]
     ]
     ok = len(bad) == 0
-    return ("PASS" if ok else "FAIL"), {"mismatches": bad, "checked": len(overlaps)}
+    return ("PASS" if ok else "FAIL"), {"mismatches": bad, "checked": len(entries)}
 
 
 @fail_closed_pairmap
@@ -777,7 +788,7 @@ def verify_W3(cert):
 @fail_closed_pairmap
 def verify_W4(cert):
     """W-4: chart_overlap_witnesses (裁定139 item 7: exactly 1 entry per
-    divisor_object -- layering lives inside per_overlap_witnesses[])."""
+    divisor_object -- layering lives inside entries[], 追補(n) v2 裁定152)."""
     return _check_singular_witness(cert, "chart_overlap_witnesses", _validate_w4_entry)
 
 
