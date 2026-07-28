@@ -472,10 +472,14 @@ def forward_verifier_crosscheck(lanea_export):
             rows.append(row)
             continue
 
-        # UNMODIFIED cert, no converter. native_a/native_b intentionally
-        # omitted (they would only exercise P-3.3, which defaults to True
-        # -- not exercised -- when omitted; see report caveat).
-        out = run_python_stdin(VERIFIER_B, {"certificate": cert})
+        # UNMODIFIED cert, no converter. v4: native_a/native_b are now
+        # supplied (fx["native"], the raw unwrapped native blob lane A's own
+        # export produced) -- v3's W-1 edge-form and W-6 native_side checks
+        # BOTH require native_a/native_b to reconstruct component sets /
+        # pushforward maps (裁定139 items 6/2); omitting them (as v3's EP run
+        # did) leaves W-1/W-6 unable to do anything but read ABSENT/FAIL from
+        # a degenerate comparison. This also exercises P-3.3 genuinely now.
+        out = run_python_stdin(VERIFIER_B, {"certificate": cert, "native_a": fx["native"], "native_b": fx["native"]})
         row["verifier_invoked"] = True
         row["laneB_raw_result"] = {
             "overall_verdict_B": out.get("overall_verdict_B"),
@@ -525,9 +529,14 @@ def reverse_verifier_crosscheck(cert_fixture_paths):
 
         # lane B's own native run on its own fixture (unaffected by the
         # cross-lane gate; this is lane B verifying its own certificate,
-        # not a cross-lane check) -- reported for context.
-        native_b_out = run_python_stdin(VERIFIER_B, {"certificate": cert})
+        # not a cross-lane check) -- reported for context. v4: pass the
+        # fixture's own top-level native_a/native_b (present in all 6
+        # fixtures post-v3-migration) so W-1/W-6 are genuinely exercised.
+        native_a = fixture.get("native_a")
+        native_b = fixture.get("native_b")
+        native_b_out = run_python_stdin(VERIFIER_B, {"certificate": cert, "native_a": native_a, "native_b": native_b})
         row["laneB_native_overall_verdict_B"] = native_b_out.get("overall_verdict_B")
+        row["laneB_native_witness_results"] = native_b_out.get("witness_results")
 
         if gate["gate_passed"]:
             row["verifier_invoked"] = True
@@ -581,7 +590,9 @@ def full_witness_fixture_crosscheck():
     if not gate["gate_passed"]:
         row["verifier_invoked"] = False
         return row
-    laneB_out = run_python_stdin(VERIFIER_B, {"certificate": cert})
+    native_a = fixture.get("native_a")
+    native_b = fixture.get("native_b")
+    laneB_out = run_python_stdin(VERIFIER_B, {"certificate": cert, "native_a": native_a, "native_b": native_b})
     laneA_out = run_node_stdin(LANEA_VERIFY_CERT_MJS, {"certificate": cert})
     row["verifier_invoked"] = True
     row["laneB_result"] = {"overall_verdict_B": laneB_out.get("overall_verdict_B"),
