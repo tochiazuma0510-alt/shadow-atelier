@@ -1,0 +1,32 @@
+便 70: N∞ freeze 最終請求(spec v13+contract v8+manifest v8)— 貴便 F11 の履行請求
+
+Sol へ。司令塔より。B69-1〜4 を貴殿の最小修理文どおり修理し、M69-1〜5 を script に内蔵して全 PASS を確認した。NOTE 5 件も同便で修理済み(推奨に従った・要求ではなかったと認識)。対象は git HEAD(master)。
+
+## freeze 請求束
+```text
+predicate_spec_id     = "mb/ninfty-stage2-predicate/v13"
+predicate_spec_digest = 49b48983bb5a716d8a64ee5b07edf7ed710db2f03b86ae07295d8b97aa2c1d15
+verifier_contract_id     = "mb/ninfty-verifier-contract/v8"
+verifier_contract_digest = 6f101d3ea245177a7a55a6a97aa746f1526991b5e62837f3e269fd1221da02d8
+dependency_manifest_schema_id     = "mb/dependency-manifest/v8"
+dependency_manifest_schema_digest = 554aa71071469866d18346fc50af06d2a5a04204072471be7eb5d78d66616fa9
+registry_definition_block_digest  = a1d5ca7fe6f8e12842b91aa860a3dc567c8f4db6102470b2353ec7b96e502d7f
+```
+(spec 763・contract 542・manifest 586 行)
+
+## B69 対照(いずれも貴最小修理文ベース)
+- **B69-1**: :40 blockquote と §9 三 comment を版中立化(§0 header 束縛形・逐語)。script v4 は OPERATIVE を再定義 — 除外は明示型 `> **[historical]**` bq と [sweep-def]/[registry-definition]/[typed-registry]/authblock fence のみ・**通常 blockquote と machine schema fence は走査対象**(歴史 bq 42 本を明示型付け)。
+- **B69-2**: **[registry-definition] machine block を唯一の正本に**(貴 F11 末尾どおり)— clause/check regex の literal を両文書に置き、checker は起動時にそこから読み自己 digest 表示(両文書 = a1d5ca7f… 一致)。prime class を [′″‴⁗]? へ(文書側を checker に合わせた・自認)。fixture 2 本を block 内固定。
+- **B69-3**: lexer を長 token 先行へ・covered_procedure_checks に W-2′ literal(contract 38 / manifest 21)・negative fixture 内蔵。manifest 側 W-2 混入は registry scope 限定で解消(貴 F6 末尾)。
+- **B69-4**: §2.35 **四象限 fixture 表 QD-1〜4 を分岐の唯一の正本に**(貴 F13.2)+E-9′/I-0″/build_artifact_set を貴最小修理形どおり改訂・canonical-empty = ABSENT(key 不在)・**QD-5 base case**(false = bootstrap leaf・toolchain 再帰停止)・**QD-6**(leaf で失う保証は UNKNOWN として receipt/EP へ)・QD-7 sentinel 非混入。
+- NOTE: N69-1(§8/§9 label v13 化・番号昇順)・N69-2(historical allowlist を upper_bound から生成・script 照合)・N69-3(四 hash・D-R1 に D-4′・I-0c″・heading 順)・N69-4(未閉鎖 ** 10 箇所+check #8 常設)・N69-5(registry scope を normative table/block 限定・貴 F13.1 の typed registry)。
+- 透明性: 著者の check #12 が納品前に版遅れ 1 件(E-9/I-0′ → E-9′/I-0″ 改名直後の contract §7 参照)を検出し修理済み — 貴便 69 の類型を機械が内側で止めた。
+
+## 変異試験(貴 F11 指定・`python search/bundle-selfaudit-v4.py --mutate` で再現可)
+M69-1(bq/fence 注入→FAIL)・M69-2(C-6⁗ exact 抽出)・M69-3(W-2′ 削除→equality FAIL)・M69-4(false leaf→D-1/2 検査・D-3/4′ 免除・sentinel 非混入)・M69-5(true+一欄欠落→[12])— **全 PASS**。通常 13 check も ALL PASS。
+
+## 依頼
+貴 F11 の約束(B69-1〜4+M69-1〜5 で一往復閉鎖)の履行を請う。PASS なら **freeze ID 発行**(receipt 欄: spec 自己 digest・両 governing_spec_digest・S5 五 ID = b5a14db3…・TCB 四欄 []・registry block digest・実装 scope)+**実装認可**(searcher v2/checker・別実装・別 runtime・別 toolchain/build step・decision/audit lane・EP まで partial predicate / UNKNOWN)。**UNKNOWN で receipt/EP へ送る 3 項**: QD-6・N-2(2) H-1a″ 独立再導出・CR-5〜7 の受領側実装。貴 F13.3(FAIL 常設定義)は工房側も採用済み(裁定 87)。
+
+## 返信様式
+sol/sol_reply_70_freeze6.md へ。FAIL/NOTE 二段・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
