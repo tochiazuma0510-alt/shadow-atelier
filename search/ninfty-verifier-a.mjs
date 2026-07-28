@@ -171,6 +171,44 @@ function checkAmbient(cert) {
   return { pass: missing.length === 0, missing };
 }
 
+// --- W-4 / W-6 structured re-check (裁定 115 item 2) ------------------------
+//
+// Both witnesses are read as PASS/FAIL/ABSENT from their OWN declared
+// `status` field plus (if present) independent re-verification of the
+// per-overlap / per-point entries. A missing object, or status==='ABSENT',
+// is read as ABSENT -- never silently promoted to PASS. This is what makes
+// the certificate readable "without transformation" by verifier B: the shape
+// (kind/status/entries) is the schema contract, not an implementation detail
+// of lane A.
+
+export function verifyChartOverlap_forTest(w) { return verifyChartOverlap(w); }
+export function verifyPushforward_forTest(w) { return verifyPushforward(w); }
+
+function verifyChartOverlap(w) {
+  if (!w || typeof w !== 'object') return 'ABSENT';
+  if (w.status === 'ABSENT') return 'ABSENT';
+  if (!Array.isArray(w.per_overlap_witnesses) || w.per_overlap_witnesses.length === 0) return 'ABSENT';
+  // Independent re-check: each declared overlap witness must claim agreement
+  // AND (if it carries ideal generators for the two charts) must actually
+  // reduce to the same monic ideal.
+  const allOk = w.per_overlap_witnesses.every((ow) => {
+    if (ow.agree !== true) return false;
+    if (ow.generator_chart_a && ow.generator_chart_b) {
+      return reducesToZero(ow.generator_chart_a, ow.generator_chart_b) && reducesToZero(ow.generator_chart_b, ow.generator_chart_a);
+    }
+    return true;
+  });
+  return allOk ? 'PASS' : 'FAIL';
+}
+
+function verifyPushforward(w) {
+  if (!w || typeof w !== 'object') return 'ABSENT';
+  if (w.status === 'ABSENT') return 'ABSENT';
+  if (!Array.isArray(w.points) || w.points.length === 0) return 'ABSENT';
+  const allOk = w.points.every((p) => p.match === true && p.ram_multiplicity === p.branch_multiplicity);
+  return allOk ? 'PASS' : 'FAIL';
+}
+
 // --- W-1..W-6 for one object (ramification_divisor_on_C / branch_divisor_on_P1)
 
 function verifyObject(certObj, searcherComponents, checkerComponents) {
@@ -208,15 +246,18 @@ function verifyObject(certObj, searcherComponents, checkerComponents) {
   const me = certObj.multiplicityEqualities || [];
   R['W-3'] = me.length === 0 ? 'ABSENT' : (me.every((m) => m.equal === true) ? 'PASS' : 'FAIL');
 
-  // W-4: chart overlap (single chart declared in this lane's scope -> trivially PASS if declared)
-  R['W-4'] = certObj.chartOverlapDeclared ? 'PASS' : 'ABSENT';
+  // W-4 (裁定 115 item 2): structured chart-atlas / per-overlap re-check.
+  // status='ABSENT' is read literally as ABSENT (not PASS) -- honest
+  // reporting of "lane A has no genuine multi-chart overlap data" rather than
+  // a vacuous-PASS reading of "single chart declared".
+  R['W-4'] = verifyChartOverlap(certObj.chartOverlap);
 
   // W-5: coverage / no extra
   const cov = certObj.coverage;
   R['W-5'] = cov ? (cov.no_extra === true ? 'PASS' : 'FAIL') : 'ABSENT';
 
-  // W-6: pushforward compatibility
-  R['W-6'] = certObj.pushforwardOk === undefined ? 'ABSENT' : (certObj.pushforwardOk ? 'PASS' : 'FAIL');
+  // W-6 (裁定 115 item 2): structured point-level pushforward re-check.
+  R['W-6'] = verifyPushforward(certObj.pushforward);
 
   return R;
 }
@@ -249,9 +290,9 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
       exactWitnesses: certificate.exact_point_equality_witnesses[objName],
       distinctness: certificate.distinctness_witnesses[objName],
       multiplicityEqualities: certificate.multiplicity_equalities[objName],
-      chartOverlapDeclared: certificate.chart_overlap_witnesses && certificate.chart_overlap_witnesses.charts >= 1,
+      chartOverlap: certificate.chart_overlap_witnesses,
       coverage: certificate.total_coverage_and_no_extra_component_witness[objName],
-      pushforwardOk: certificate.pushforward_compatibility_witness && certificate.pushforward_compatibility_witness.ok,
+      pushforward: certificate.pushforward_compatibility_witness,
     }, searcherNativeBlob[objName + '_ref'].components, checkerNativeBlob[objName + '_ref'].components);
   }
 

@@ -2,7 +2,7 @@
   "schema_id": "mb/dependency-manifest/v13",
   "schema_digest": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
   "subject_id": "lane-A/ninfty-searcher-v2+verifier-a",
-  "subject_code_digest": "e35419a1c2a315734ee82961d0bed7e3c11c62923934b758d9e120d481c301ee",
+  "subject_code_digest": "791027c36c32b9e5d56e953d77f83f676547f6e5b7c5a4e52425289d96c699c6",
   "build_definition_blob_digest": null,
   "pinned_input_digests": [],
   "build_root_id": null,
@@ -11,7 +11,7 @@
   "build_record_present": false,
   "entries": [
     {
-      "content_digest": "73446f72b6f160c33adaab0185ed5b2e420ceb990dd06adaa2f93e180cfc107f",
+      "content_digest": "fc0755a7f725d8b7bdfdcec0e5fb77804fe357081df454badfea8a0b78be9422",
       "role": "math-helper",
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
@@ -22,11 +22,11 @@
       "implementation_family_id": null,
       "provenance": {
         "source_ref": "search/ninfty-searcher-v2.mjs",
-        "note": "stage-2 predicate (E-5 now DERIVED per 裁定 113 / e5_interpretation_v1.md Prop E5-D, orientation_declared_ok downgraded to optional cross-check) + D-2 certificate generator + witness builders"
+        "note": "stage-2 predicate (E-5 derived, 裁定113) + D-2 certificate generator now pinning predicate_spec_id/digest from provenance/ninfty_freeze_receipt_sol75.md via loadFreezeReceiptDigests() (裁定115 item1) + W-4/W-6 structured-ABSENT schema fields (裁定115 item2)"
       },
       "outgoing_dependency_attestation": {
         "loads_nothing": true,
-        "proof": "single-file, no import statements beyond node:crypto builtin"
+        "proof": "single-file, no import statements beyond node:fs/node:path/node:url/node:crypto builtins"
       },
       "depth": 0,
       "reached_via": [
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "content_digest": "c2f3e149a226d7af280ef88c1e8219be1649cc8511edf30254308959716426fe",
+      "content_digest": "b109f59d62d574bde7babea846cfe97b3b3cb6bdfb402bdca856a6e74388fe7f",
       "role": "math-helper",
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
@@ -46,11 +46,11 @@
       "implementation_family_id": null,
       "provenance": {
         "source_ref": "search/ninfty-verifier-a.mjs",
-        "note": "verifier A contract Sec.3 procedure + verdict state machine combine() (unchanged this pass)"
+        "note": "verifier A contract Sec.3 procedure incl. verifyChartOverlap/verifyPushforward structured ABSENT re-check (裁定115 item2) + verdict state machine combine()"
       },
       "outgoing_dependency_attestation": {
         "loads_nothing": true,
-        "proof": "single-file, no import statements beyond node:crypto builtin"
+        "proof": "single-file, no import statements beyond node:fs/node:path/node:url/node:crypto builtins"
       },
       "depth": 0,
       "reached_via": [
@@ -70,11 +70,11 @@
       "implementation_family_id": null,
       "provenance": {
         "source_ref": "search/certs/fixtures-lanea.mjs",
-        "note": "self-authored fixture data incl. positive-3 (omitted orientation flag) and branch-I g=2 triple-root REJECT[7] candidate (裁定 113 item 2)"
+        "note": "self-authored fixture data incl. positive-3, branch-I g=2 triple-root REJECT[7] candidate (裁定113)"
       },
       "outgoing_dependency_attestation": {
         "loads_nothing": true,
-        "proof": "single-file, no import statements beyond node:crypto builtin"
+        "proof": "single-file, no import statements beyond node:fs/node:path/node:url/node:crypto builtins"
       },
       "depth": 0,
       "reached_via": [
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "content_digest": "63dde9cc41330855924e1c21becbbd39424b0182aa752de1f04d9ec60e01ad13",
+      "content_digest": "e488318d9289542a05da7afd9d53bf0bbb75d640eb0892b597efafbab2bd4540",
       "role": "build-tool",
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
@@ -94,11 +94,35 @@
       "implementation_family_id": null,
       "provenance": {
         "source_ref": "search/ninfty-selftest-lanea.mjs",
-        "note": "self-test harness (not part of the frozen predicate/verifier logic itself)"
+        "note": "self-test harness incl. 裁定115 pin-sourcing check + C1(honest-incomplete)/C1b(synthetic-PASS) fixtures"
       },
       "outgoing_dependency_attestation": {
         "loads_nothing": true,
-        "proof": "single-file, no import statements beyond node:crypto builtin"
+        "proof": "single-file, no import statements beyond node:fs/node:path/node:url/node:crypto builtins"
+      },
+      "depth": 0,
+      "reached_via": [
+        "mb/ninfty-searcher-v2",
+        "mb/ninfty-verifier-a"
+      ]
+    },
+    {
+      "content_digest": "20210168248695fd785ce75378f5a22601fba1680e55d12b2f28e5b8756a1959",
+      "role": "data-table",
+      "source_artifact_digests": [],
+      "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
+      "build_step_digests": [],
+      "build_record_present": false,
+      "source_closure_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "implementation_lineage_digest": "92f6e9e6323ff3a9eb49a1fdd2c2a1340de766e7960b391dc511056fe1f05053",
+      "implementation_family_id": null,
+      "provenance": {
+        "source_ref": "search/certs/laneA_ep_export_sample.json",
+        "note": "sample generated certificate + verifier-A result for lane-B/EP review (裁定115 item3), NOT a real EP run"
+      },
+      "outgoing_dependency_attestation": {
+        "loads_nothing": true,
+        "proof": "static data file, no code"
       },
       "depth": 0,
       "reached_via": [
@@ -121,14 +145,15 @@
   "closure_attested": true,
   "build_promotion_attested": false,
   "produced_at_receipt": "PENDING (not yet submitted to commander/Sol freeze; this is lane-A implementer output only)",
-  "revision_note": "裁定 113 revision: E-5 moved from declared-flag to derived (Prop E5-D); orientation_declared_ok downgraded to optional cross-check. [7] fixture set extended with a full Pell-consistent branch-I (g=2) candidate per commander instruction; a transcription discrepancy in the dispatched f6 (16x^4 vs the independently-recomputed and verified 8x^4) was caught and corrected, documented in fixtures-lanea.mjs.",
+  "revision_note": "裁定 115 revision: (1) certificate predicate_spec_id/digest now DEFAULT to values machine-parsed from provenance/ninfty_freeze_receipt_sol75.md via loadFreezeReceiptDigests(), replacing the prior hand-typed placeholder string used in selftest. (2) chart_overlap_witnesses (W-4) and pushforward_compatibility_witness (W-6) now carry full structured schema (kind/chart_atlas/per_overlap_witnesses or kind/points, plus explicit status) with STRUCTURED ABSENT as the honest default for lane A native scope (single chart, no explicit point enumeration) -- verifier A reads status literally rather than inferring PASS from a boolean flag. Consequence: overall_verdict_A for lane A native certificates is now honestly FAIL (ABSENT != PASS per contract Sec.4), routing combine() to divisor-equality-failure [25] rather than a false ACCEPT; a synthetic fixture (C1b) confirms the PASS/ACCEPT path still works when genuine multi-chart/point data is supplied.",
   "notes": {
-    "scope": "lane A = search/ninfty-searcher-v2.mjs + search/ninfty-verifier-a.mjs (node runtime). Fixtures/selftest included as declared build-tool/data-table entries, not part of the frozen predicate/verifier logic.",
+    "scope": "lane A = search/ninfty-searcher-v2.mjs + search/ninfty-verifier-a.mjs (node runtime). Fixtures/selftest/EP-export-sample included as declared build-tool/data-table entries, not part of the frozen predicate/verifier logic.",
     "tcb_status": "all four TCB columns EMPTY, as required by the freeze receipt (allowed_shared_* = []).",
     "lane_b_status": "python lane B (checker + verifier B) is OUT OF SCOPE for this implementer task; independence_evidence.dependency_closure_B is therefore UNKNOWN/NOT YET PRODUCED from this side.",
     "build_record_present_false_rationale": "QD-3 bootstrap leaf: this manifest documents source authorship, not a reproducible build pipeline. D-3/D-4 (build_root_id/subject_build_binding_digest) are therefore ABSENT per branch-contract false.forbidden_keys, and this is UNKNOWN (not verified) per manifest Sec.2.35 QD-6 -- NOT claimed as a stronger guarantee.",
     "partial_manifest_status": "PARTIAL / UNKNOWN per manifest Sec.8: uncovered_clauses/uncovered_checks below are non-empty; this manifest is NOT a full-conformance manifest and must not be used alone as independence evidence.",
-    "e5_status": "E-5 (divisor orientation) is now DERIVED from E-1..E-4 (Prop E5-D, docs/notes/e5_interpretation_v1.md), not an external oracle call and not a math-helper import from elsewhere -- the four checks V-E5.1..V-E5.4 reuse values already computed for E-1..E-4 within the same self-contained file. No new dependency-closure entries were introduced by this change."
+    "e5_status": "E-5 (divisor orientation) is DERIVED from E-1..E-4 (Prop E5-D, docs/notes/e5_interpretation_v1.md), not an external oracle call and not a math-helper import from elsewhere.",
+    "w4_w6_status": "W-4/W-6 are honestly ABSENT for all certificates lane A currently generates from its own native scope (ideal/locus-polynomial representation, single chart). PASS is reachable only when genuine multi-chart or point-level data is supplied (demonstrated only by the synthetic C1b regression fixture, never asserted as lane A real output)."
   },
   "self_audit": {
     "covered_clauses": [],
@@ -154,5 +179,5 @@
       "ALL -- see notes.partial_manifest_status"
     ]
   },
-  "self_digest": "87af2347e7106ee4aba9b72b355f706dc0b61a69f4d5c304eb6b31b786616f03"
+  "self_digest": "95babf38e0a5f4e469c50ddeb592f36a0fc2bba69f8696d2d401552b828c23af"
 }

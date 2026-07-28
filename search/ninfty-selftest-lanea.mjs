@@ -10,6 +10,7 @@
 
 import {
   evaluateDecisionLane, checkT1, buildSearcherNative, generateCertificate,
+  loadFreezeReceiptDigests, DEFAULT_FREEZE_RECEIPT_PATH,
 } from './ninfty-searcher-v2.mjs';
 import { runVerifierA, combine, vectorsEqual } from './ninfty-verifier-a.mjs';
 import {
@@ -55,27 +56,92 @@ console.log('\n=== isolated T-1 fixture (checkT1) ===');
 // Certificate / verifier-A fixtures
 // ---------------------------------------------------------------------------
 
-const PREDICATE_SPEC_ID = 'mb/ninfty-stage2-predicate/v18';
-const PREDICATE_SPEC_DIGEST_PLACEHOLDER = 'RECEIPT-ASSIGNED-DIGEST-NOT-YET-BOUND-IN-THIS-SELFTEST';
+console.log('\n=== 裁定 115 item 1: certificate pin sourced from freeze receipt ===');
+{
+  const receipt = loadFreezeReceiptDigests();
+  const native = buildSearcherNative(positive1.candidate);
+  const cert = generateCertificate({
+    candidateRef: 'lanea-cert-pin-check',
+    searcherNative: native,
+    checkerNative: native,
+    // predicateSpecId/predicateSpecDigest DELIBERATELY OMITTED: defaults must
+    // come from provenance/ninfty_freeze_receipt_sol75.md (machine-parsed),
+    // never a hand-typed literal.
+  });
+  check(
+    `cert.predicate_spec_id === receipt (${DEFAULT_FREEZE_RECEIPT_PATH})`,
+    cert.predicate_spec_id === receipt.predicate_spec_id,
+    `cert=${cert.predicate_spec_id} receipt=${receipt.predicate_spec_id}`,
+  );
+  check(
+    'cert.predicate_spec_digest === receipt.predicate_spec_digest (exact 64-hex)',
+    cert.predicate_spec_digest === receipt.predicate_spec_digest,
+    `cert=${cert.predicate_spec_digest} receipt=${receipt.predicate_spec_digest}`,
+  );
+  check('cert.schema_digest === predicate_spec_digest (internal anchor, spec Sec.6)', cert.schema_digest === receipt.predicate_spec_digest);
+  console.log('  sample cert pin: predicate_spec_id=' + cert.predicate_spec_id + ' predicate_spec_digest=' + cert.predicate_spec_digest);
+}
 
 console.log('\n=== certificate / verifier-A fixtures ===');
 
-// --- Fixture C1: clean PASS (searcher_native == checker_native, i.e. a mock
-//     "independent" lane B agreeing exactly). Verifies ACCEPT-shaped result.
+// --- Fixture C1: certificate exactly as lane A's native scope actually
+//     produces it (searcher_native == checker_native MOCK for the
+//     concordance-agreement case). 裁定 115 item 2: W-4/W-6 are now
+//     STRUCTURED ABSENT (this lane declares one chart and no explicit
+//     points), so overall_verdict_A is honestly FAIL and combine() routes to
+//     divisor-equality-failure [25] -- NOT a false ACCEPT. This is the
+//     correct EP-pre posture: lane A alone cannot certify full witness
+//     completeness yet.
 {
   const native = buildSearcherNative(positive1.candidate);
   const cert = generateCertificate({
     candidateRef: 'lanea-cert-fixture-c1',
     searcherNative: native,
     checkerNative: native, // MOCK: stands in for an independent lane-B native artifact that happens to agree exactly
-    predicateSpecId: PREDICATE_SPEC_ID,
-    predicateSpecDigest: PREDICATE_SPEC_DIGEST_PLACEHOLDER,
   });
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
   const vB_mock = vA; // MOCK: identical R_B for the concordance-agreement case
   const combined = combine({ semanticS1S2Reasons: [], rejectReasons: [], R_A: vA.R_A, R_B: vB_mock.R_A });
-  check('C1 clean-PASS: overall_verdict_A=PASS', vA.overall_verdict_A === 'PASS', JSON.stringify(vA.R_A));
-  check('C1 clean-PASS: combine -> ACCEPT', combined.verdict === 'ACCEPT' && combined.primary_reason_code === 'accepted', JSON.stringify(combined));
+  check('C1 W-4=ABSENT (structured, not PASS)', vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-4')[1] === 'ABSENT', JSON.stringify(vA.R_A.ramification_divisor_on_C));
+  check('C1 W-6=ABSENT (structured, not PASS)', vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-6')[1] === 'ABSENT', JSON.stringify(vA.R_A.ramification_divisor_on_C));
+  check('C1 honest-incomplete: overall_verdict_A=FAIL (W-4/W-6 ABSENT, not PASS)', vA.overall_verdict_A === 'FAIL', JSON.stringify(vA.R_A));
+  check('C1 honest-incomplete: combine -> INTEGRITY_STOP/[25] (not a false ACCEPT)', combined.verdict === 'INTEGRITY_STOP' && combined.primary_reason_code === 'divisor-equality-failure', JSON.stringify(combined));
+}
+
+// --- Fixture C1b: SYNTHETIC/HYPOTHETICAL -- confirms the W-4/W-6 re-check
+//     logic itself reaches PASS/ACCEPT when genuine (non-ABSENT) chart-overlap
+//     and point-level data ARE supplied. This is NOT lane A's actual native
+//     scope (this lane never produces a second chart or explicit points); it
+//     is a regression test of runVerifierA's re-check code path only.
+{
+  const native = buildSearcherNative(positive1.candidate);
+  const cert = generateCertificate({
+    candidateRef: 'lanea-cert-fixture-c1b-synthetic',
+    searcherNative: native,
+    checkerNative: native,
+  });
+  // Inject SYNTHETIC genuine chart-overlap data: a second hypothetical chart
+  // whose ideal generator for the a-pair-locus component is identical to the
+  // first chart's (so mutual reduction-to-zero holds both ways).
+  const ramGen = native.ramification_divisor_on_C_ref.components[0].ideal_generator;
+  cert.chart_overlap_witnesses = {
+    kind: 'chart-overlap',
+    chart_atlas: [{ chart_id: 'x-chart-single', coordinate: 'x' }, { chart_id: 'x-chart-hypothetical-2', coordinate: 'x' }],
+    per_overlap_witnesses: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen }],
+    status: 'PASS',
+    reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
+  };
+  cert.pushforward_compatibility_witness = {
+    kind: 'pushforward-compatibility',
+    points: [{ point_ref: 'synthetic-point-1', ram_multiplicity: 1, branch_multiplicity: 1, match: true }],
+    status: 'PASS',
+    reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
+  };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  const combined = combine({ semanticS1S2Reasons: [], rejectReasons: [], R_A: vA.R_A, R_B: vA.R_A });
+  check('C1b synthetic: W-4=PASS, W-6=PASS', vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-4')[1] === 'PASS' && vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-6')[1] === 'PASS', JSON.stringify(vA.R_A));
+  check('C1b synthetic: overall_verdict_A=PASS', vA.overall_verdict_A === 'PASS', JSON.stringify(vA.R_A));
+  check('C1b synthetic: combine -> ACCEPT', combined.verdict === 'ACCEPT' && combined.primary_reason_code === 'accepted', JSON.stringify(combined));
 }
 
 // --- Fixture C2: digest-mismatch [12] -- certificate declares a wrong
@@ -86,8 +152,6 @@ console.log('\n=== certificate / verifier-A fixtures ===');
     candidateRef: 'lanea-cert-fixture-c2',
     searcherNative: native,
     checkerNative: native,
-    predicateSpecId: PREDICATE_SPEC_ID,
-    predicateSpecDigest: PREDICATE_SPEC_DIGEST_PLACEHOLDER,
   });
   cert.searcher_native.native_artifact_digest = '0'.repeat(64); // corrupt
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
@@ -106,8 +170,6 @@ console.log('\n=== certificate / verifier-A fixtures ===');
     candidateRef: 'lanea-cert-fixture-c3',
     searcherNative: native,
     checkerNative: native,
-    predicateSpecId: PREDICATE_SPEC_ID,
-    predicateSpecDigest: PREDICATE_SPEC_DIGEST_PLACEHOLDER,
   });
   // Corrupt the first ideal-equality witness's forward divisor so reduction fails.
   const w = cert.exact_point_equality_witnesses.ramification_divisor_on_C[0].witness;
@@ -128,8 +190,6 @@ console.log('\n=== certificate / verifier-A fixtures ===');
     candidateRef: 'lanea-cert-fixture-c4',
     searcherNative: native,
     checkerNative: native,
-    predicateSpecId: PREDICATE_SPEC_ID,
-    predicateSpecDigest: PREDICATE_SPEC_DIGEST_PLACEHOLDER,
   });
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
   const R_B_mock = JSON.parse(JSON.stringify(vA.R_A));
@@ -151,8 +211,6 @@ console.log('\n=== certificate / verifier-A fixtures ===');
     candidateRef: 'lanea-cert-fixture-c5',
     searcherNative: native,
     checkerNative: native,
-    predicateSpecId: PREDICATE_SPEC_ID,
-    predicateSpecDigest: PREDICATE_SPEC_DIGEST_PLACEHOLDER,
   });
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
   const R_B_mock = JSON.parse(JSON.stringify(vA.R_A));

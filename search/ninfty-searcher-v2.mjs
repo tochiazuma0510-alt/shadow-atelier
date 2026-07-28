@@ -46,6 +46,69 @@
 // fires and no separate orientation check is attempted.
 
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+// ---------------------------------------------------------------------------
+// Freeze-receipt digest loader (裁定 115 item 1): certificates must pin the
+// EXACT digests recorded in provenance/ninfty_freeze_receipt_sol75.md, read
+// and parsed by code -- never hand-transcribed into a literal string here.
+// The receipt's own header states "以下の exact block は返信ファイル F8.4
+// から機械転記(sed 抽出・手写しなし)"; this loader applies the same
+// discipline on the lane-A consuming side.
+// ---------------------------------------------------------------------------
+
+const THIS_DIR = dirname(fileURLToPath(import.meta.url));
+export const DEFAULT_FREEZE_RECEIPT_PATH = join(THIS_DIR, '..', 'provenance', 'ninfty_freeze_receipt_sol75.md');
+
+// Extracts `key = value` or `key =\n  value` scalar assignments from the
+// receipt's fenced ```text ... ``` block. Only scalar (non-array) fields are
+// needed for certificate pinning; array fields (external_dependencies[],
+// allowed_shared_*[]) are intentionally left to other consumers.
+export function parseFreezeReceiptFields(text) {
+  const fenceMatch = text.match(/```text\n([\s\S]*?)\n```/);
+  if (!fenceMatch) throw new Error('parseFreezeReceiptFields: no ```text fenced block found in receipt');
+  const body = fenceMatch[1];
+  const lines = body.split('\n');
+  const fields = {};
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const m = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.*)$/);
+    if (!m) continue;
+    const key = m[1];
+    let rhs = m[2].trim();
+    if (rhs === '' || rhs === '[') {
+      // value lives on the next non-empty line (receipt's two-line style),
+      // or this is an array opener we deliberately skip (rhs === '[').
+      if (rhs === '[') continue;
+      let j = i + 1;
+      while (j < lines.length && lines[j].trim() === '') j++;
+      rhs = (lines[j] || '').trim();
+    }
+    rhs = rhs.replace(/^"(.*)"$/, '$1'); // strip surrounding quotes if present
+    if (/^[0-9a-fA-F]+$/.test(rhs) || /^[a-zA-Z0-9/_.\-]+$/.test(rhs)) {
+      fields[key] = rhs;
+    }
+  }
+  return fields;
+}
+
+let _freezeReceiptCache = null;
+export function loadFreezeReceiptDigests(path = DEFAULT_FREEZE_RECEIPT_PATH) {
+  if (_freezeReceiptCache && _freezeReceiptCache.path === path) return _freezeReceiptCache.fields;
+  const text = readFileSync(path, 'utf8');
+  const fields = parseFreezeReceiptFields(text);
+  const required = [
+    'predicate_spec_id', 'predicate_spec_digest',
+    'verifier_contract_id', 'verifier_contract_digest',
+    'dependency_manifest_schema_id', 'dependency_manifest_schema_digest',
+  ];
+  const missing = required.filter((k) => !fields[k]);
+  if (missing.length > 0) throw new Error('loadFreezeReceiptDigests: missing required fields: ' + missing.join(', '));
+  _freezeReceiptCache = { path, fields };
+  return fields;
+}
 
 // ---------------------------------------------------------------------------
 // Exact rational arithmetic (BigInt numerator/denominator, always reduced).
@@ -563,6 +626,15 @@ export function buildDisjointnessWitness(genP, genQ) {
 // ---------------------------------------------------------------------------
 
 export function generateCertificate({ candidateRef, searcherNative, checkerNative, predicateSpecId, predicateSpecDigest }) {
+  // 裁定 115 item 1: pin from the freeze receipt (machine-parsed), never a
+  // hand-typed placeholder. Caller may still override explicitly (e.g. for
+  // negative/digest-mismatch fixtures that deliberately corrupt the pin), but
+  // the DEFAULT is always the receipt's own recorded values.
+  if (predicateSpecId === undefined || predicateSpecDigest === undefined) {
+    const receipt = loadFreezeReceiptDigests();
+    if (predicateSpecId === undefined) predicateSpecId = receipt.predicate_spec_id;
+    if (predicateSpecDigest === undefined) predicateSpecDigest = receipt.predicate_spec_digest;
+  }
   const ambient = {
     ambient_coordinate_ring_schema_id: 'mb/ninfty-lanea/ambient-ring/v1',
     ambient_coordinate_ring_schema_digest: sha256Hex('Q[x] (single chart, x-coordinate ideals only; y determined by locus type)'),
@@ -653,11 +725,30 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
     exact_point_equality_witnesses: { ramification_divisor_on_C: ram.exact_point_equality_witnesses, branch_divisor_on_P1: branch.exact_point_equality_witnesses },
     distinctness_witnesses: { ramification_divisor_on_C: ram.distinctness_witnesses, branch_divisor_on_P1: branch.distinctness_witnesses },
     multiplicity_equalities: { ramification_divisor_on_C: ram.multiplicity_equalities, branch_divisor_on_P1: branch.multiplicity_equalities },
-    chart_overlap_witnesses: { note: 'single chart declared (chart_ids has one entry); no overlap to witness', charts: 1 },
+    // W-4 (裁定 115 item 2): full chart-atlas / per-overlap schema shape, so
+    // verifier B can read it without transformation. This lane's native scope
+    // declares only ONE chart (x-chart-single), so there is no second chart
+    // to produce a genuine per-overlap witness against -- this is a
+    // STRUCTURED ABSENT (kind + status explicit), not an implied PASS.
+    chart_overlap_witnesses: {
+      kind: 'chart-overlap',
+      chart_atlas: [{ chart_id: 'x-chart-single', coordinate: 'x' }],
+      per_overlap_witnesses: [], // would list {chart_pair, component_ref, agree} entries if >=2 charts existed
+      status: 'ABSENT',
+      reason: 'lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.',
+    },
     total_coverage_and_no_extra_component_witness: { ramification_divisor_on_C: ram.total_coverage_and_no_extra_component_witness, branch_divisor_on_P1: branch.total_coverage_and_no_extra_component_witness },
+    // W-6 (裁定 115 item 2): point-level schema shape (per-branch-point
+    // multiplicity comparison). This lane represents branch data by IDEALS
+    // (locus polynomials), never by explicit root/point enumeration over
+    // Qbar (searcher does not factor / root-find, per its resultant-free,
+    // pure-Q-arithmetic design) -- so no genuine point-level witness exists
+    // yet. STRUCTURED ABSENT.
     pushforward_compatibility_witness: {
-      note: 'x-only scope: pushforward is the identity on x-coordinate ideals in this lane',
-      ok: true,
+      kind: 'pushforward-compatibility',
+      points: [], // would list {point_ref, ram_multiplicity, branch_multiplicity, match} entries if point-level data existed
+      status: 'ABSENT',
+      reason: 'lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.',
     },
   };
   cert.certificate_digest = digestOf(cert);
