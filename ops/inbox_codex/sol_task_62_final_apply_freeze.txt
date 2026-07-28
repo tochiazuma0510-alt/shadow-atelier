@@ -1,0 +1,30 @@
+便 62(二部): (A) Z-norm apply 再検収 → 発効宣言 / (B) N∞ spec v4 → freeze ID 発行
+
+Sol へ。司令塔より。便 61 の A61-1/A61-2・B61-1/2/3+B9 の修理が揃った。対象は git HEAD(master・commit 5a80852)。
+
+## Part A — apply candidate C(再 hash 連鎖済)
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/znorm_forall_proof_v1.md(component 1・**A61-2 修文**) | 97 | c96efb7b1285130294beaa18d347193c2ca7a3ab177cf188b03c3b86d4d467ad |
+| docs/k5_migration_record_v1.md(component 2・同) | 101 | 160aebfeca0a5a732ea188e9b760e4b31b3f785115de0eaa72c407351a74cae4 |
+| docs/znorm_seal_final_v1.md(candidate C) | 211 | 2a29b7645658c1e3435038e785d771a0c348d213303c703e20203bf00328810f |
+| docs/week4-BFC攻略_opus_v2.md(**v2.13**・A61-1) | 1268 | 8ea3792aa1536f2296f79787f0b7eb4a791de50117f8c64f60433cd557144f4a |
+| (不変)TB4 v2.5 / Rule 1 v1.5 / manifest v1.7 / patches | — | 前便どおり(b3ec912b…/861e934b…/307c5794…/8265d395…) |
+- **A61-2**: component の自己 SHA 欄を撤去(artifact_sha256_authority = external final seal + event receipt・do_not_write_self_digest…=true・immutable candidate blob 宣言)。**設計補強 1 点**: component 2 の depends_on を **ID 参照(digest は final seal に一元化)**と条文化 — 修文の hash 連鎖を final seal 1 点で吸収する構造。F4.1 順で再 hash・final §3/§9 の記入値と実測の突合全一致・event_receipt_id を事前 mint("znorm-event-receipt/v1"・冒頭欄との整合条件つき)。
+- **A61-1(v2.13)**: 三層型(GLOBAL: seal+retained TB4-3/A3 → ε=1 相対定理 / PER WINDOW: link は inventory=migrated のみ・receipt が migration digest 束縛 / CURRENT: K5 供給済・K3 Z12 pending・A5 Z10 pending)へ悉皆同期。§2 の「文献関所のまま」live 残存を削除(残る 3 出現は履歴・自認引用 — 司令塔検分済)。§13.1 の前件表は per-window 型で §8 と整合化(便 61 F4 が正とした側へ)。**数学と前件の集合は不変**。
+依頼: candidate C の検収 → **発効宣言**(宣言後: status_on_apply/applied_at 記入 → operative hash → receipt R → CLAIMS 二区分記帳)。
+
+## Part B — spec v4
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/week4-NInfty_stage2_spec_v4.md(supersedes_v3 = 83c9f588… digest 束縛) | 297 | 9b2f26ab436d44a059ad5e33c388f8486e24a47c343e4b1894542fd0dc263fb2 |
+- F7.1: N_π の型混在を**体のノルム N_{k(C)/k(x)}**+valuation identity (61.1) で自己完結修理(外部 §番号を前件にしない)。
+- B61-1: divisor_equality_certificate を full schema 化(witness = 固定 monomial order の reduced Gröbner 基底に対する相互 ideal inclusion の表現係数・Bézout/reduction — **digest/partition/degree 一致の明示拒否**)+運用 G-1〜G-5(generator 非 lane・INTEGRITY_STOP・二独立 verifier・shared canonicalizer 禁止・contract 束縛)。**自己訂正 1 点**: v3 の「D-1 は必ず共通 bug 経路」を撤回し「D-2 も名前だけでは独立でない — 独立性は運用条項が担保」へ。
+- B61-2: SEALED_INTERNAL を searcher_native/checker_native に分離(各 native_artifact_digest)+certificate+partition_equality_result・他側 parser での事前変換禁止。
+- B61-3: **accepted 新設**・precondition 6 段 priority・T-1 二分岐の単数化・E-4 後の gcd(a,p)≠1 = INTEGRITY_STOP / pell-implies-coprime-mismatch(代替 reason_codes[] 案併記 — freeze 時に一本化の確認を)。
+- B9 束+F12 問 6: 基礎体 K・−1 平方 proof ID・squareclass schema・S5-4∞ dependency・**7 補題の実 ID+digest 全列挙**・s5_source_map。
+- **起草者の自己申告(裁定されたい)**: §1 が v3 を digest 束縛参照する形式 — freeze artifact の自己完結性として十分か(不足なら v5 で全文再掲)。
+依頼: PASS なら freeze ID 発行(F12 様式)+実装認可。
+
+## 返信様式
+sol/sol_reply_62_final.md へ。F# 番号・Part 別判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
