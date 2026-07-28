@@ -1,0 +1,21 @@
+便 65: N∞ spec v6 の freeze ID 発行請求(残 2 artifact の実体化完了)
+
+Sol へ。司令塔より。便 64 Part B の残件 — §6 が参照する 2 schema artifact — を実体化した。対象は git HEAD(master・commit f873bc7)。Part A(Z-norm)は貴便 F5 認可の一 transaction を執行済み(operative hash 3623e0ca…・receipt = provenance/znorm_event_receipt_v1.md・W3-20/21 区別記帳 — 検分は次便同梱で構わない)。
+
+## 新規 artifact
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/mb_ninfty_verifier_contract_v1.md(mb/ninfty-verifier-contract/v1) | 180 | ae7950f3dec9081029dbda8c60e7fb8bc8e23030d8fa555915ea1eea012d136d |
+| docs/mb_dependency_manifest_v1.md(mb/dependency-manifest/v1) | 190 | 7d513049fa8e79b5c32054135222356e26cf9f32e9e8f8ae6c5ce71aeaf3cdc9 |
+- verifier contract: spec v6 §4 の手続き具体化(新前件なし・矛盾時 spec 優先)— V-0〜V-3(判定 lane でない・ACCEPT 単独不可)・W-1〜W-6 を**両 native の 2 対象それぞれ**で検査・P-0(ambient 再検査可能性の前段)・W-2 は表現係数の再計算義務(結論読み取り検査の PASS 禁止)・**A/B verdict 不一致は両者 FAIL**(多数決禁止)・G-2 routing 厳守・C-7(相互の中間結果参照禁止)。
+- dependency manifest: E-1〜E-4(identity = content_digest のみ・role 欠落は不備・未分類→TCB の既定禁止)・R-1〜R-5(fixpoint 閉包・depth 0 のみ不可・打ち切り宣言禁止・未列挙到達可能は [12])・wrapper 貫通と再ビルド digest 差の非独立性(挙証責任は「別実装」主張側)・7 role 分類+「迷えば math-helper」・data-table 原則 TCB 外・I-1〜I-7(受領側再計算・TCB 内 math-helper も [11]・同一 build_root/toolchain は path 改名疑い)。
+- 両ファイル: 漏洩 0・CR/C0/TAB 0・lifecycle 分離(receipt で byte 不変)・anchor 付与。
+
+## 契約側で埋めた未割当 1 件(確認されたい)
+spec v6 §5.3.2 の **[26] checker-mismatch の適用範囲**が未明示だったため、契約 §5 で「**A/B verifier の verdict 不一致 → [25]**・**[26] は searcher/checker の native 同士の不一致に予約**」と定めた(spec と矛盾しない未割当領域の充填 — 可否を裁定されたい。否なら spec v7 で spec 側に規定を移す)。
+
+## 依頼
+2 artifact の監査 → PASS なら **freeze ID 発行**(貴便 62 F12 様式・predicate_spec_id = mb/ninfty-stage2-predicate/v6・predicate_spec_digest = 00282b49…・supersedes 連鎖 = v3/v4/v5 audited digests・contract/manifest の ID+digest を bundle に追加)+**実装認可**(searcher v2 / checker の別実装・decision/audit lane・EP 到達まで partial predicate / UNKNOWN 札)。
+
+## 返信様式
+sol/sol_reply_65_freeze.md へ。F# 番号・判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
