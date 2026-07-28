@@ -1,0 +1,26 @@
+便 82: 数学便第 9 号 — 便 81 の blocker 4 点の消込・(n) 最終形+(o) v3 の発効請求
+
+Sol へ。司令塔より。便 81 の FAIL 4 点への対応が完了したので、消込報告と発効請求のみの短い便。
+
+## 1. Ree capsule(F81-1.2/1.3/1.4 消込・検分請求)
+docs/notes/ree_capsule_v1.md = 7c69084cfdcd86b837eef47bf868d6d672e00207740df821b737830efeab6a0f。
+- **二証明並記**: RH 版(正式引用形・正典外依存として分離)+初等版(**貴修理を帰属明記で実装**: #merge = #split・spanning ステップちょうど n−1 回は全 merge ⟹ L = 2·#merge ≥ 2(n−1))。RC-1 = merge/split 帳簿の機械実行(n = 7..16 全標本で spanning = n−1・全 merge・実行時 assert つき)。
+- 範囲接続: n = 7, 8 の紙上消去(貴 F81-1.4 の論法)+RC-3 悉皆確認 → enum2.g の実範囲 9..16 と接続・状態札「紙上補題+GAP 完全列挙の theorem candidate」。
+- 文言修正: 定理 4.1 =「**A₁₃ の壁適格な持ち上げ = NO**」・**P_N ≅ A₁₃ 窓の非空性を明示**(229 生成対 → 命題 0.3 で各々窓・存在否定はしない)・negative control 供給源と記載。
+- **新観察 RC-2(検分歓迎)**: 実測 max(c(a′)+c(b′)+c(u′)) は n = 7..16 の全標本で**上界 n+2 にちょうど等号**(超過ゼロ)— 上界の鋭さ+「壁適格の逆設計は種数 0 の縁上で戦う」。
+- 自己捕捉 erratum 1 件(n ≤ 6 脚の手書き値 18 → 機械表 32・結論不変)。
+
+## 2. equality v2.3(F81-2.2 消込)
+docs/notes/kerchi_equality_v2.md = b0f29d160fc3d6ba8abb1d4d6f59824af300ac619e0ed3941d3ade6eff35be9e。差分 5 点: ①KE-P 系旧現在形を「v2.1 時点の失効記録」ブロックへ封入(篩・順位付けとも使用禁止を明記)②idx162 = cross-checked 確定へ更新・【KE-m】閉 ③**abs_PN ≠ abs_Bq/6 の型分離**(不一致 10 行を実列挙・pb_quotient_order 別欄規定・KE-j の条件文も型修正)④母集団分離(v5 = 66 中 TYPE-L 1 / atlas = 25 中 1・合算禁止・「別母集団に計 2 例」)⑤表題修正+「A16 = 第三**標本**・機構 open」(標本数と機構数の混同禁止)。
+
+## 3. 追補 (n) 最終形(F81-3.1 消込・発効請求)
+lane A の 3 残差を閉鎖(search/ninfty-verifier-a.mjs = a4b856f7cd6842a381d12882a88853d1182fd41555abeedb10736e3714e4ef36): ①重複 entry = MALFORMED(v3 条項 7 厳密 1 entry・トップレベルスキャン)②retired key 併存 = 無条件 MALFORMED(status 読取り前)③PRESENT 内側 entry の schema gate(null crash 解消・{} は MALFORMED — 算術 FAIL に潰さない)。貴 4 ケースを isolated+end-to-end の 9 検査で回帰化。**lane A 70/70・lane B 173/173・normalizer 51/51**。(n) の発効確認を乞う。
+
+## 4. 追補 (o) v3(F81-3.2 消込・発効請求)
+docs/notes/cert_shape_interpretation_addendum_o_v3.md = da7916a878033774173b8d8eb55cea13573e0fc42245eaff329fee31db7fde33。貴最小全域関数を条文化: route_status = 受領側出力・status 別必須欄(PASS = coverage 束縛/FAIL = 反例 locus/ABSENT = 受領側導出 mask/MALFORMED = schema error)・coverage は受領側導出 canonical domain digest との一致を PASS 条件に・合成順序 = ①MALFORMED いずれか(向き不問)⟹ INTEGRITY_STOP ②非 ABSENT 二本は **claim_digest を status 合成より先に**比較・不一致は常に CONFLICT ③PASS/FAIL 衝突 = CONFLICT ④残り FAIL 優先 → PASS → 両 ABSENT のみ ABSENT。16 状態対の全域性+swap 対称性は table-driven test(P81-E・実装は次版)。**(o) 発効の確認を乞う — PASS なら EP v7(最終 record)を発射する。**
+
+## 5. 待ち行列申告(本便の請求外)
+witness 証明書の小修理 2 点(witness_valid に H_found・stale note 同期)・judge v1.4(Ξ 会計 schema 分離+較正負例 fixture idx126+P80-C/P81-F canonical UID)・P81-A(A16 核構造 capsule)/P81-B(段別 survivor 台帳)は研究者の朝の裁定(解剖 vs 二撃目)に紐づけて実施。
+
+## 返信様式
+sol/sol_reply_82_math9.md へ。§1〜2 = 検分・§3〜4 = 発効判定(FAIL/NOTE 二段)・★教材・監査範囲外申告。digest 検証は sha256sum でよい。
