@@ -751,201 +751,213 @@
     "chart_overlap_witnesses": [
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "chart_pair": [
-          "x-chart-single",
-          "x-chart-secondary-affine"
-        ],
-        "component_in_chart_a": "a-pair-locus",
-        "component_in_chart_b": "a-pair-locus",
-        "agree": true,
-        "generator_chart_a": [
-          "8",
-          "6",
-          "1"
-        ],
-        "generator_chart_b": [
-          "8",
-          "6",
-          "1"
-        ],
-        "_secondary_chart_u_transform": {
-          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
-          "u_chart_id": "u-chart-infinity-reciprocal",
-          "h_u_coeffs": [
-            "1/8",
-            "3/4",
-            "1"
-          ]
-        }
-      },
-      {
-        "divisor_object": "ramification_divisor_on_C_ref",
-        "chart_pair": [
-          "x-chart-single",
-          "x-chart-secondary-affine"
-        ],
-        "component_in_chart_a": "p-locus",
-        "component_in_chart_b": "p-locus",
-        "agree": true,
-        "generator_chart_a": [
-          "44/5",
-          "6",
-          "1"
-        ],
-        "generator_chart_b": [
-          "44/5",
-          "6",
-          "1"
-        ],
-        "_secondary_chart_u_transform": {
-          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
-          "u_chart_id": "u-chart-infinity-reciprocal",
-          "h_u_coeffs": [
-            "5/44",
-            "15/22",
-            "1"
-          ]
-        }
-      },
-      {
-        "divisor_object": "ramification_divisor_on_C_ref",
-        "chart_pair": [
-          "x-chart-single",
-          "x-chart-secondary-affine"
-        ],
-        "component_in_chart_a": "weierstrass-locus",
-        "component_in_chart_b": "weierstrass-locus",
-        "agree": true,
-        "generator_chart_a": [
-          "59504/125",
-          "27408/25",
-          "25628/25",
-          "2484/5",
-          "657/5",
-          "18",
-          "1"
-        ],
-        "generator_chart_b": [
-          "59504/125",
-          "27408/25",
-          "25628/25",
-          "2484/5",
-          "657/5",
-          "18",
-          "1"
-        ],
-        "_secondary_chart_u_transform": {
-          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
-          "u_chart_id": "u-chart-infinity-reciprocal",
-          "h_u_coeffs": [
-            "125/59504",
-            "1125/29752",
-            "16425/59504",
-            "15525/14876",
-            "32035/14876",
-            "8565/3719",
-            "1"
-          ]
-        }
-      },
-      {
-        "divisor_object": "branch_divisor_on_P1_ref",
-        "chart_pair": [
-          "x-chart-single",
-          "x-chart-secondary-affine"
-        ],
-        "component_in_chart_a": "a-pair-locus",
-        "component_in_chart_b": "a-pair-locus",
-        "agree": true,
-        "generator_chart_a": [
-          "8",
-          "6",
-          "1"
-        ],
-        "generator_chart_b": [
-          "8",
-          "6",
-          "1"
-        ],
-        "_secondary_chart_u_transform": {
-          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
-          "u_chart_id": "u-chart-infinity-reciprocal",
-          "h_u_coeffs": [
-            "1/8",
-            "3/4",
-            "1"
-          ]
-        }
+        "status": "PASS",
+        "per_overlap_witnesses": [
+          {
+            "locus_type": "a-pair-locus",
+            "chart_pair": [
+              "x-chart-single",
+              "x-chart-secondary-affine"
+            ],
+            "component_in_chart_a": "a-pair-locus",
+            "component_in_chart_b": "a-pair-locus",
+            "agree": true,
+            "generator_chart_a": [
+              "8",
+              "6",
+              "1"
+            ],
+            "generator_chart_b": [
+              "8",
+              "6",
+              "1"
+            ],
+            "_secondary_chart_u_transform": {
+              "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+              "u_chart_id": "u-chart-infinity-reciprocal",
+              "h_u_coeffs": [
+                "1/8",
+                "3/4",
+                "1"
+              ]
+            }
+          },
+          {
+            "locus_type": "p-locus",
+            "chart_pair": [
+              "x-chart-single",
+              "x-chart-secondary-affine"
+            ],
+            "component_in_chart_a": "p-locus",
+            "component_in_chart_b": "p-locus",
+            "agree": true,
+            "generator_chart_a": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "generator_chart_b": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "_secondary_chart_u_transform": {
+              "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+              "u_chart_id": "u-chart-infinity-reciprocal",
+              "h_u_coeffs": [
+                "5/44",
+                "15/22",
+                "1"
+              ]
+            }
+          },
+          {
+            "locus_type": "weierstrass-locus",
+            "chart_pair": [
+              "x-chart-single",
+              "x-chart-secondary-affine"
+            ],
+            "component_in_chart_a": "weierstrass-locus",
+            "component_in_chart_b": "weierstrass-locus",
+            "agree": true,
+            "generator_chart_a": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "generator_chart_b": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "_secondary_chart_u_transform": {
+              "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+              "u_chart_id": "u-chart-infinity-reciprocal",
+              "h_u_coeffs": [
+                "125/59504",
+                "1125/29752",
+                "16425/59504",
+                "15525/14876",
+                "32035/14876",
+                "8565/3719",
+                "1"
+              ]
+            }
+          }
+        ]
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "chart_pair": [
-          "x-chart-single",
-          "x-chart-secondary-affine"
-        ],
-        "component_in_chart_a": "p-locus",
-        "component_in_chart_b": "p-locus",
-        "agree": true,
-        "generator_chart_a": [
-          "44/5",
-          "6",
-          "1"
-        ],
-        "generator_chart_b": [
-          "44/5",
-          "6",
-          "1"
-        ],
-        "_secondary_chart_u_transform": {
-          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
-          "u_chart_id": "u-chart-infinity-reciprocal",
-          "h_u_coeffs": [
-            "5/44",
-            "15/22",
-            "1"
-          ]
-        }
-      },
-      {
-        "divisor_object": "branch_divisor_on_P1_ref",
-        "chart_pair": [
-          "x-chart-single",
-          "x-chart-secondary-affine"
-        ],
-        "component_in_chart_a": "weierstrass-locus",
-        "component_in_chart_b": "weierstrass-locus",
-        "agree": true,
-        "generator_chart_a": [
-          "59504/125",
-          "27408/25",
-          "25628/25",
-          "2484/5",
-          "657/5",
-          "18",
-          "1"
-        ],
-        "generator_chart_b": [
-          "59504/125",
-          "27408/25",
-          "25628/25",
-          "2484/5",
-          "657/5",
-          "18",
-          "1"
-        ],
-        "_secondary_chart_u_transform": {
-          "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
-          "u_chart_id": "u-chart-infinity-reciprocal",
-          "h_u_coeffs": [
-            "125/59504",
-            "1125/29752",
-            "16425/59504",
-            "15525/14876",
-            "32035/14876",
-            "8565/3719",
-            "1"
-          ]
-        }
+        "status": "PASS",
+        "per_overlap_witnesses": [
+          {
+            "locus_type": "a-pair-locus",
+            "chart_pair": [
+              "x-chart-single",
+              "x-chart-secondary-affine"
+            ],
+            "component_in_chart_a": "a-pair-locus",
+            "component_in_chart_b": "a-pair-locus",
+            "agree": true,
+            "generator_chart_a": [
+              "8",
+              "6",
+              "1"
+            ],
+            "generator_chart_b": [
+              "8",
+              "6",
+              "1"
+            ],
+            "_secondary_chart_u_transform": {
+              "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+              "u_chart_id": "u-chart-infinity-reciprocal",
+              "h_u_coeffs": [
+                "1/8",
+                "3/4",
+                "1"
+              ]
+            }
+          },
+          {
+            "locus_type": "p-locus",
+            "chart_pair": [
+              "x-chart-single",
+              "x-chart-secondary-affine"
+            ],
+            "component_in_chart_a": "p-locus",
+            "component_in_chart_b": "p-locus",
+            "agree": true,
+            "generator_chart_a": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "generator_chart_b": [
+              "44/5",
+              "6",
+              "1"
+            ],
+            "_secondary_chart_u_transform": {
+              "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+              "u_chart_id": "u-chart-infinity-reciprocal",
+              "h_u_coeffs": [
+                "5/44",
+                "15/22",
+                "1"
+              ]
+            }
+          },
+          {
+            "locus_type": "weierstrass-locus",
+            "chart_pair": [
+              "x-chart-single",
+              "x-chart-secondary-affine"
+            ],
+            "component_in_chart_a": "weierstrass-locus",
+            "component_in_chart_b": "weierstrass-locus",
+            "agree": true,
+            "generator_chart_a": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "generator_chart_b": [
+              "59504/125",
+              "27408/25",
+              "25628/25",
+              "2484/5",
+              "657/5",
+              "18",
+              "1"
+            ],
+            "_secondary_chart_u_transform": {
+              "note": "genuine u=1/x reciprocal-chart generator, pure coefficient reversal + monic rescale (no root-finding); supplementary evidence of the real second-chart structure, NOT itself re-verified by either verifier's current W-4 code path (see this file's module docstring UNKNOWN section)",
+              "u_chart_id": "u-chart-infinity-reciprocal",
+              "h_u_coeffs": [
+                "125/59504",
+                "1125/29752",
+                "16425/59504",
+                "15525/14876",
+                "32035/14876",
+                "8565/3719",
+                "1"
+              ]
+            }
+          }
+        ]
       }
     ],
     "total_coverage_and_no_extra_component_witness": [
@@ -967,74 +979,132 @@
     "pushforward_compatibility_witness": [
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "ramification_points": [
+        "status": "PASS",
+        "points": [
           {
+            "role": "ramification",
+            "locus_type": "a-pair-locus",
             "point_ref": "a-pair-locus",
             "maps_to_branch_value": "a-pair-locus",
-            "multiplicity": 1
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
           },
           {
+            "role": "branch",
+            "locus_type": "a-pair-locus",
+            "branch_value": "a-pair-locus",
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
+          },
+          {
+            "role": "ramification",
+            "locus_type": "p-locus",
             "point_ref": "p-locus",
             "maps_to_branch_value": "p-locus",
-            "multiplicity": 1
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
           },
           {
+            "role": "branch",
+            "locus_type": "p-locus",
+            "branch_value": "p-locus",
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
+          },
+          {
+            "role": "ramification",
+            "locus_type": "weierstrass-locus",
             "point_ref": "weierstrass-locus",
             "maps_to_branch_value": "weierstrass-locus",
-            "multiplicity": 1
-          }
-        ],
-        "branch_points": [
-          {
-            "branch_value": "a-pair-locus",
-            "multiplicity": 1
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
           },
           {
-            "branch_value": "p-locus",
-            "multiplicity": 1
-          },
-          {
+            "role": "branch",
+            "locus_type": "weierstrass-locus",
             "branch_value": "weierstrass-locus",
-            "multiplicity": 1
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
           }
         ]
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "ramification_points": [
+        "status": "PASS",
+        "points": [
           {
+            "role": "ramification",
+            "locus_type": "a-pair-locus",
             "point_ref": "a-pair-locus",
             "maps_to_branch_value": "a-pair-locus",
-            "multiplicity": 1
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
           },
           {
+            "role": "branch",
+            "locus_type": "a-pair-locus",
+            "branch_value": "a-pair-locus",
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
+          },
+          {
+            "role": "ramification",
+            "locus_type": "p-locus",
             "point_ref": "p-locus",
             "maps_to_branch_value": "p-locus",
-            "multiplicity": 1
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
           },
           {
+            "role": "branch",
+            "locus_type": "p-locus",
+            "branch_value": "p-locus",
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
+          },
+          {
+            "role": "ramification",
+            "locus_type": "weierstrass-locus",
             "point_ref": "weierstrass-locus",
             "maps_to_branch_value": "weierstrass-locus",
-            "multiplicity": 1
-          }
-        ],
-        "branch_points": [
-          {
-            "branch_value": "a-pair-locus",
-            "multiplicity": 1
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
           },
           {
-            "branch_value": "p-locus",
-            "multiplicity": 1
-          },
-          {
+            "role": "branch",
+            "locus_type": "weierstrass-locus",
             "branch_value": "weierstrass-locus",
-            "multiplicity": 1
+            "multiplicity": 1,
+            "match": true,
+            "ram_multiplicity": 1,
+            "branch_multiplicity": 1
           }
         ]
       }
     ],
-    "certificate_digest": "d63e40b4497c9302a65968c225dbc4c7ecee755777655ac960d513bb0be01e7c"
+    "certificate_digest": "cb7460ecdc5708a374d018072dec2fcebd92ef3cbbd70d1f80f6a253d1393c3b"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

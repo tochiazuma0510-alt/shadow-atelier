@@ -747,35 +747,52 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
     exact_point_equality_witnesses: [...tagAll(ram.exact_point_equality_witnesses, DIVISOR_OBJECT_RAM), ...tagAll(branch.exact_point_equality_witnesses, DIVISOR_OBJECT_BRANCH)],
     distinctness_witnesses: [...tagAll(ram.distinctness_witnesses, DIVISOR_OBJECT_RAM), ...tagAll(branch.distinctness_witnesses, DIVISOR_OBJECT_BRANCH)],
     multiplicity_equalities: [...tagAll(ram.multiplicity_equalities, DIVISOR_OBJECT_RAM), ...tagAll(branch.multiplicity_equalities, DIVISOR_OBJECT_BRANCH)],
-    // W-4 (裁定 115 item 2): full chart-atlas / per-overlap schema shape, so
-    // verifier B can read it without transformation. This lane's native scope
-    // declares only ONE chart (x-chart-single), so there is no second chart
-    // to produce a genuine per-overlap witness against -- this is a
-    // STRUCTURED ABSENT (kind + status explicit), not an implied PASS.
-    chart_overlap_witnesses: {
-      kind: 'chart-overlap',
-      chart_atlas: [{ chart_id: 'x-chart-single', coordinate: 'x' }],
-      per_overlap_witnesses: [], // would list {chart_pair, component_ref, agree} entries if >=2 charts existed
-      status: 'ABSENT',
-      reason: 'lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.',
-    },
-    // FLAT (裁定 127): array of 2 entries, one per divisor object, each tagged.
+    // W-4 (裁定 133: docs/notes/cert_shape_interpretation_v2.md (i)) --
+    // FLAT array of 2 entries (one per divisor_object, same outer shape as
+    // the other 6 fields), each entry = {divisor_object, status,
+    // per_overlap_witnesses:[...]}. This lane's native scope declares only
+    // ONE chart (x-chart-single), so there is no second chart to produce a
+    // genuine per-overlap witness against -- STRUCTURED ABSENT per entry,
+    // not an implied PASS.
+    chart_overlap_witnesses: [
+      {
+        divisor_object: DIVISOR_OBJECT_RAM,
+        status: 'ABSENT',
+        per_overlap_witnesses: [], // would list {chart_pair, agree, generator_chart_a, generator_chart_b, ...} entries if >=2 charts existed
+        reason: 'lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.',
+      },
+      {
+        divisor_object: DIVISOR_OBJECT_BRANCH,
+        status: 'ABSENT',
+        per_overlap_witnesses: [],
+        reason: 'lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.',
+      },
+    ],
+    // FLAT: array of 2 entries, one per divisor object, each tagged.
     total_coverage_and_no_extra_component_witness: [
       { divisor_object: DIVISOR_OBJECT_RAM, ...ram.total_coverage_and_no_extra_component_witness },
       { divisor_object: DIVISOR_OBJECT_BRANCH, ...branch.total_coverage_and_no_extra_component_witness },
     ],
-    // W-6 (裁定 115 item 2): point-level schema shape (per-branch-point
-    // multiplicity comparison). This lane represents branch data by IDEALS
+    // W-6 (裁定 133 (i)) -- FLAT array of 2 entries, each = {divisor_object,
+    // status, points:[...]}. This lane represents branch data by IDEALS
     // (locus polynomials), never by explicit root/point enumeration over
     // Qbar (searcher does not factor / root-find, per its resultant-free,
     // pure-Q-arithmetic design) -- so no genuine point-level witness exists
-    // yet. STRUCTURED ABSENT.
-    pushforward_compatibility_witness: {
-      kind: 'pushforward-compatibility',
-      points: [], // would list {point_ref, ram_multiplicity, branch_multiplicity, match} entries if point-level data existed
-      status: 'ABSENT',
-      reason: 'lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.',
-    },
+    // yet. STRUCTURED ABSENT per entry.
+    pushforward_compatibility_witness: [
+      {
+        divisor_object: DIVISOR_OBJECT_RAM,
+        status: 'ABSENT',
+        points: [], // would list {point_ref, ram_multiplicity, branch_multiplicity, match} entries if point-level data existed
+        reason: 'lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.',
+      },
+      {
+        divisor_object: DIVISOR_OBJECT_BRANCH,
+        status: 'ABSENT',
+        points: [],
+        reason: 'lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.',
+      },
+    ],
   };
   cert.certificate_digest = digestOf(cert);
   return cert;

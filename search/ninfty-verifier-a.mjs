@@ -306,9 +306,18 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
       exactWitnesses: filterByObject(certificate.exact_point_equality_witnesses, tag),
       distinctness: filterByObject(certificate.distinctness_witnesses, tag),
       multiplicityEqualities: filterByObject(certificate.multiplicity_equalities, tag),
-      chartOverlap: certificate.chart_overlap_witnesses, // single declared object, not per-tag (see file header note)
+      // 裁定 133: chart_overlap_witnesses / pushforward_compatibility_witness
+      // are now FLAT arrays per docs/notes/cert_shape_interpretation_v2.md
+      // (i) -- one entry per divisor_object, each entry = {divisor_object,
+      // status, per_overlap_witnesses[] / points[]}. Same filterByObject
+      // pattern as the other 5 fields; the existing verifyChartOverlap /
+      // verifyPushforward logic (unchanged) reads the matched entry's own
+      // status/nested-array fields. Exactly 0 or >1 matches -> undefined
+      // (verifyChartOverlap/verifyPushforward already read undefined as
+      // ABSENT) rather than guessing which entry is authoritative.
+      chartOverlap: (() => { const e = filterByObject(certificate.chart_overlap_witnesses, tag); return e.length === 1 ? e[0] : undefined; })(),
       coverage: coverageEntries.length === 1 ? coverageEntries[0] : undefined, // 0 or >1 entries -> ABSENT, not a guess
-      pushforward: certificate.pushforward_compatibility_witness,
+      pushforward: (() => { const e = filterByObject(certificate.pushforward_compatibility_witness, tag); return e.length === 1 ? e[0] : undefined; })(),
     }, (searcherNativeBlob[tag] && searcherNativeBlob[tag].components) || [], (checkerNativeBlob[tag] && checkerNativeBlob[tag].components) || []);
   }
 

@@ -9,7 +9,7 @@
     "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2"
   ],
   "build_root_id": "237da37b281136c6ae6da392862b0da7dc221cb5741d7d389496bc075af355c9",
-  "subject_build_binding_digest": "fd35f51c9d432ee3c48d21b1105d9931421e1e2d33aa9c1fc5342b30c34293bb",
+  "subject_build_binding_digest": "2c12100f5f48735a257da2de066c059d317f94267d84249386e0a5341bdc98a1",
   "source_artifact_digests": [],
   "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
   "build_step_digests": [],
@@ -18,14 +18,14 @@
     "description": "single ES module files executed directly by the node runtime named in toolchain_digest; no transpile/bundle/minify/codegen step exists for lane A."
   },
   "subject_id": "lane-A/ninfty-searcher-v2+verifier-a",
-  "subject_code_digest": "8f9253576770fc759277931dfdc25ec135b1598e9d72093046697f23411e784f",
+  "subject_code_digest": "6ac339c9ec9cd892794d63c1e9ac157bc0ff390a214e7846f09316cae1946b67",
   "entries": [
     {
       "build_record_present": false,
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
       "build_step_digests": [],
-      "content_digest": "fc0755a7f725d8b7bdfdcec0e5fb77804fe357081df454badfea8a0b78be9422",
+      "content_digest": "d8c60dd7f3347d8c2cad72f85c2bd42a27a1bcfcc3c4f299075be326b2da8719",
       "role": "math-helper",
       "provenance": {
         "source_ref": "search/ninfty-searcher-v2.mjs"
@@ -38,7 +38,7 @@
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
       "build_step_digests": [],
-      "content_digest": "b109f59d62d574bde7babea846cfe97b3b3cb6bdfb402bdca856a6e74388fe7f",
+      "content_digest": "52a5a7c909c966a12323cca62b389498f351e6717df144fabe764cb6a2c13f0f",
       "role": "math-helper",
       "provenance": {
         "source_ref": "search/ninfty-verifier-a.mjs"
@@ -64,7 +64,7 @@
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
       "build_step_digests": [],
-      "content_digest": "e488318d9289542a05da7afd9d53bf0bbb75d640eb0892b597efafbab2bd4540",
+      "content_digest": "b2929865c76cc268e4a1203edf359aa59a9b45a70c02bd6b05f3e033a5306872",
       "role": "build-tool",
       "provenance": {
         "source_ref": "search/ninfty-selftest-lanea.mjs"
@@ -77,7 +77,7 @@
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
       "build_step_digests": [],
-      "content_digest": "20210168248695fd785ce75378f5a22601fba1680e55d12b2f28e5b8756a1959",
+      "content_digest": "51337f4f67d18065689f3c27c631df649c77b6c5de83ebf347641539db3ad5c2",
       "role": "data-table",
       "provenance": {
         "source_ref": "search/certs/laneA_ep_export_sample.json"

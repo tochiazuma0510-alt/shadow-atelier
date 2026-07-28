@@ -123,20 +123,35 @@ console.log('\n=== certificate / verifier-A fixtures ===');
   // Inject SYNTHETIC genuine chart-overlap data: a second hypothetical chart
   // whose ideal generator for the a-pair-locus component is identical to the
   // first chart's (so mutual reduction-to-zero holds both ways).
+  // 裁定 133: both fields are now FLAT arrays with one entry per
+  // divisor_object (docs/notes/cert_shape_interpretation_v2.md (i)) --
+  // inject one PASS-shaped entry per tag, matching generateCertificate's
+  // current output shape.
   const ramGen = native.ramification_divisor_on_C_ref.components[0].ideal_generator;
-  cert.chart_overlap_witnesses = {
-    kind: 'chart-overlap',
-    chart_atlas: [{ chart_id: 'x-chart-single', coordinate: 'x' }, { chart_id: 'x-chart-hypothetical-2', coordinate: 'x' }],
-    per_overlap_witnesses: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen }],
-    status: 'PASS',
-    reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
-  };
-  cert.pushforward_compatibility_witness = {
-    kind: 'pushforward-compatibility',
-    points: [{ point_ref: 'synthetic-point-1', ram_multiplicity: 1, branch_multiplicity: 1, match: true }],
-    status: 'PASS',
-    reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
-  };
+  function syntheticChartOverlapEntry(tag) {
+    return {
+      divisor_object: tag,
+      status: 'PASS',
+      per_overlap_witnesses: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen }],
+      reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
+    };
+  }
+  function syntheticPushforwardEntry(tag) {
+    return {
+      divisor_object: tag,
+      status: 'PASS',
+      points: [{ point_ref: 'synthetic-point-1', ram_multiplicity: 1, branch_multiplicity: 1, match: true }],
+      reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
+    };
+  }
+  cert.chart_overlap_witnesses = [
+    syntheticChartOverlapEntry('ramification_divisor_on_C_ref'),
+    syntheticChartOverlapEntry('branch_divisor_on_P1_ref'),
+  ];
+  cert.pushforward_compatibility_witness = [
+    syntheticPushforwardEntry('ramification_divisor_on_C_ref'),
+    syntheticPushforwardEntry('branch_divisor_on_P1_ref'),
+  ];
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
   const combined = combine({ semanticS1S2Reasons: [], rejectReasons: [], R_A: vA.R_A, R_B: vA.R_A });
   check('C1b synthetic: W-4=PASS, W-6=PASS', vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-4')[1] === 'PASS' && vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-6')[1] === 'PASS', JSON.stringify(vA.R_A));

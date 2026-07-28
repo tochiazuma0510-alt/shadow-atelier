@@ -10,7 +10,7 @@
     "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1"
   ],
   "build_root_id": "72976d6862ac51ef59c7ce756e2aea8d78397435157f7f12a0dd4b35cd6cadbb",
-  "subject_build_binding_digest": "901803cae513c2503f2355a2799b86b2cdda245503e24e9c0429063b2925c7c3",
+  "subject_build_binding_digest": "a86113b1eea2b94a41fbb6f79e61550ea7fa98a1f3dc13cac962907f3eb23b2d",
   "source_artifact_digests": [],
   "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
   "build_step_digests": [],
@@ -19,23 +19,23 @@
     "description": "single interpreted .py files run directly by the CPython interpreter named in toolchain_digest; no compile/link/codegen step exists for lane B."
   },
   "subject_id": "search/ninfty-verifier-b.py",
-  "subject_code_digest": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
+  "subject_code_digest": "6a76cba38e87520d3b5f3c4c12b50c45bc7cdb9ed66b6fe70f3baab9e8debe8b",
   "entries": [
     {
       "build_record_present": false,
       "source_artifact_digests": [
-        "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b"
+        "6a76cba38e87520d3b5f3c4c12b50c45bc7cdb9ed66b6fe70f3baab9e8debe8b"
       ],
       "toolchain_digest": "ef8f51028ac5329641985112f8efb1c2d4c47c86b8011ddf7e6fae21e2b4e5a1",
       "build_step_digests": [],
-      "content_digest": "617df1029386d53dc1702c45502dd42e4be0b669bf267bf02d87487b9a20480b",
+      "content_digest": "6a76cba38e87520d3b5f3c4c12b50c45bc7cdb9ed66b6fe70f3baab9e8debe8b",
       "role": "math-helper",
       "provenance": {
         "source_ref": "search/ninfty-verifier-b.py"
       },
       "_content_digest_note": null,
-      "source_closure_digest": "29a487b5ab67c276bb095d3c8bfbc3f254e41e81279eec4e39b3ef19119b8bb1",
-      "implementation_lineage_digest": "0901d46fddf101aaf056ac295861061ddb6ca9867be78e5ba7273f73e5be61dd"
+      "source_closure_digest": "3e4677d95e52c46986c4964578ed2913e85a57e3efef14900bf87f2b4779a0d0",
+      "implementation_lineage_digest": "d19c8fab15d5d876164783b829db4f491ebf8dbd9220727724457eed66851468"
     },
     {
       "build_record_present": false,
