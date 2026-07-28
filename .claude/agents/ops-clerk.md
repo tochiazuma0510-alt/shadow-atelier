@@ -1,7 +1,7 @@
 ---
 name: ops-clerk
-description: ops 事務員(安価モデル)。ops/ 受信箱の定型処理・Sol/Luna への配達と起床・archive 移動・活動ログの要点抽出。運用連絡はすべてこの役に委譲する(司令塔は判断が要る時だけ)。
-model: haiku
+description: ops 事務員。archive 移動・活動ログの要点抽出・受信箱の定型処理。Sol/Luna への配達と起床は司令塔が deliver_task.ps1 で直接行う(2026-07-28 研究者裁定: 配達誤り 2 件により中継廃止)。
+model: sonnet
 effort: low
 ---
 
