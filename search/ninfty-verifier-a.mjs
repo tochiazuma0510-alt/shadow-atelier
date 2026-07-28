@@ -182,7 +182,6 @@ function checkAmbient(cert) {
 // of lane A.
 
 export function verifyChartOverlap_forTest(w) { return verifyChartOverlap(w); }
-export function verifyPushforward_forTest(w) { return verifyPushforward(w); }
 
 function verifyChartOverlap(w) {
   if (!w || typeof w !== 'object') return 'ABSENT';
@@ -201,30 +200,99 @@ function verifyChartOverlap(w) {
   return allOk ? 'PASS' : 'FAIL';
 }
 
-function verifyPushforward(w) {
-  if (!w || typeof w !== 'object') return 'ABSENT';
-  if (w.status === 'ABSENT') return 'ABSENT';
-  if (!Array.isArray(w.points) || w.points.length === 0) return 'ABSENT';
-  const allOk = w.points.every((p) => p.match === true && p.ram_multiplicity === p.branch_multiplicity);
-  return allOk ? 'PASS' : 'FAIL';
+// --- 裁定 139 item 3: _ref = {artifact_id, digest, object_id, inline?} ------
+//
+// Structural malformation (not a triple at all) is reported as `malformed`
+// (裁定 139 item 4: MALFORMED != ABSENT -- fail-closed, never coerced).
+// A present `inline` whose digest disagrees with the declared `digest` is a
+// SEPARATE, pre-existing condition: existing code [12] digest-mismatch
+// (v3 Sec.5: "digest/inline 不一致のみ既存 [12]" -- neither side is silently
+// preferred).
+export function resolveRef(ref) {
+  if (!ref || typeof ref !== 'object' || typeof ref.artifact_id !== 'string' || typeof ref.digest !== 'string' || typeof ref.object_id !== 'string') {
+    return { malformed: true, reason: 'ref-not-a-triple' };
+  }
+  if (Object.prototype.hasOwnProperty.call(ref, 'inline')) {
+    const recomputed = digestOf(ref.inline);
+    if (recomputed !== ref.digest) return { malformed: false, digestMismatch: true, data: ref.inline };
+    return { malformed: false, digestMismatch: false, data: ref.inline };
+  }
+  return { malformed: false, digestMismatch: false, data: undefined };
+}
+
+// --- 裁定 139 item 1: W-6 pushforward -- native_side-tagged (searcher/checker),
+// NOT divisor_object-tagged (that duplication is now forbidden by
+// docs/notes/cert_shape_interpretation_v3.md 条項 2). Each of the 2 entries
+// carries its own ramification_ref/branch_ref/map_ref/witness_ref (all _ref
+// triples, resolved via resolveRef). The witness_ref's inline `points` list
+// (if genuinely populated) is checked the same way as before; per-side result
+// is ABSENT when the side has no real point data, FAIL on any inconsistency,
+// PASS only when real per-point data all agrees. The two sides are combined
+// into ONE overall W-6 verdict (FAIL beats ABSENT beats PASS), which this
+// lane's R_A vector places in BOTH the ramification and branch slots (the
+// certificate-level data is no longer per-divisor-object, but contract
+// Sec.3.4's canonical vector shape still has one W-6 slot per object -- see
+// this file's docstring on that pre-existing, still-unresolved distinction).
+export function verifyPushforwardV3(field) {
+  if (!Array.isArray(field)) return { result: 'ABSENT', malformed: [] };
+  const malformed = [];
+  function sideResult(side) {
+    const entries = field.filter((e) => e && e.native_side === side);
+    if (entries.length !== 1) return 'ABSENT'; // 0 or >1 -- not a guess, not malformed (tag itself was valid)
+    const e = entries[0];
+    const refs = ['ramification_ref', 'branch_ref', 'map_ref', 'witness_ref'].map((k) => ({ k, r: resolveRef(e[k]) }));
+    for (const { k, r } of refs) {
+      if (r.malformed) { malformed.push({ field: 'pushforward_compatibility_witness.' + side + '.' + k, reason: r.reason }); return 'MALFORMED'; }
+    }
+    const digestMismatch = refs.some(({ r }) => r.digestMismatch);
+    if (digestMismatch) return 'FAIL'; // existing [12] territory, surfaced as FAIL at this per-side level
+    const witnessData = refs.find(({ k }) => k === 'witness_ref').r.data;
+    if (!witnessData || !Array.isArray(witnessData.points) || witnessData.points.length === 0) return 'ABSENT';
+    const allOk = witnessData.points.every((p) => p.match === true && p.ram_multiplicity === p.branch_multiplicity);
+    return allOk ? 'PASS' : 'FAIL';
+  }
+  const s = sideResult('searcher');
+  const c = sideResult('checker');
+  if (malformed.length > 0) return { result: 'MALFORMED', malformed };
+  const rank = { FAIL: 0, ABSENT: 1, PASS: 2 };
+  const combined = [s, c].reduce((worst, r) => (rank[r] < rank[worst] ? r : worst), 'PASS');
+  return { result: combined, malformed: [] };
 }
 
 // --- W-1..W-6 for one object (ramification_divisor_on_C / branch_divisor_on_P1)
 
+// 裁定 139 item 2: component_bijection entries are EDGES naming both native
+// digests + component_ids explicitly. The verifier does NOT trust this list
+// as a self-declared domain/codomain -- it reconstructs the two REAL
+// component-id sets from the native artifacts (searcherComponents /
+// checkerComponents, already carrying component_id per ninfty-searcher-v2.mjs)
+// and checks: (a) every edge's declared native digests match the ACTUAL
+// native digests this verifier is holding, (b) every edge's component_id
+// exists in the corresponding real set, (c) no component_id is used twice on
+// either side (in-degree = out-degree = 1 for every vertex the edge list
+// touches). This is exactly "受領側が native artifact から両成分集合を再構成し、
+// 各頂点の入次数・出次数 = 1 を検査する" (v3 条項 6).
+function verifyComponentBijectionEdges(edges, searcherComponents, checkerComponents, expectedSearcherDigest, expectedCheckerDigest) {
+  if (!edges || edges.length === 0) return 'ABSENT';
+  const sIds = new Set(searcherComponents.map((c) => c.component_id));
+  const cIds = new Set(checkerComponents.map((c) => c.component_id));
+  const seenS = new Map(), seenC = new Map();
+  for (const e of edges) {
+    if (e.searcher_native_digest !== expectedSearcherDigest || e.checker_native_digest !== expectedCheckerDigest) return 'FAIL';
+    if (!sIds.has(e.searcher_component_id) || !cIds.has(e.checker_component_id)) return 'FAIL';
+    seenS.set(e.searcher_component_id, (seenS.get(e.searcher_component_id) || 0) + 1);
+    seenC.set(e.checker_component_id, (seenC.get(e.checker_component_id) || 0) + 1);
+  }
+  for (const v of seenS.values()) if (v !== 1) return 'FAIL';
+  for (const v of seenC.values()) if (v !== 1) return 'FAIL';
+  return 'PASS';
+}
+
 function verifyObject(certObj, searcherComponents, checkerComponents) {
   const R = {}; // per-witness result: PASS / FAIL / ABSENT
 
-  // W-1: recheck bijection independently from ideal-equality witnesses only
-  // (contract Sec.3.2: "constructed independently from W-2's point identity").
-  const bij = certObj.bijection || [];
-  let w1 = bij.length > 0 ? 'PASS' : 'ABSENT';
-  const seenS = new Set(), seenC = new Set();
-  for (const b of bij) {
-    if (seenS.has(b.searcher_index) || seenC.has(b.checker_index)) { w1 = 'FAIL'; break; }
-    seenS.add(b.searcher_index); seenC.add(b.checker_index);
-    if (searcherComponents[b.searcher_index]?.locus_type !== checkerComponents[b.checker_index]?.locus_type) { w1 = 'FAIL'; break; }
-  }
-  R['W-1'] = w1;
+  // W-1: edge-form bijection re-check (裁定 139 item 2, see function above).
+  R['W-1'] = verifyComponentBijectionEdges(certObj.bijection, searcherComponents, checkerComponents, certObj.expectedSearcherDigest, certObj.expectedCheckerDigest);
 
   // W-2: ideal-equality witnesses
   const eqW = certObj.exactWitnesses || [];
@@ -246,20 +314,70 @@ function verifyObject(certObj, searcherComponents, checkerComponents) {
   const me = certObj.multiplicityEqualities || [];
   R['W-3'] = me.length === 0 ? 'ABSENT' : (me.every((m) => m.equal === true) ? 'PASS' : 'FAIL');
 
-  // W-4 (裁定 115 item 2): structured chart-atlas / per-overlap re-check.
-  // status='ABSENT' is read literally as ABSENT (not PASS) -- honest
-  // reporting of "lane A has no genuine multi-chart overlap data" rather than
-  // a vacuous-PASS reading of "single chart declared".
+  // W-4 (裁定 115 item 2, v3 条項 7 -- unchanged): structured chart-atlas /
+  // per-overlap re-check, divisor_object-keyed 1 entry, per_overlap_witnesses[]
+  // carries the layering. status='ABSENT' is read literally as ABSENT.
   R['W-4'] = verifyChartOverlap(certObj.chartOverlap);
 
   // W-5: coverage / no extra
   const cov = certObj.coverage;
   R['W-5'] = cov ? (cov.no_extra === true ? 'PASS' : 'FAIL') : 'ABSENT';
 
-  // W-6 (裁定 115 item 2): structured point-level pushforward re-check.
-  R['W-6'] = verifyPushforward(certObj.pushforward);
+  // W-6 (裁定 139 item 1): no longer computed per divisor_object -- caller
+  // passes in the single, already-combined native_side-based verdict
+  // (verifyPushforwardV3), duplicated into both R vectors' W-6 slot.
+  R['W-6'] = certObj.pushforwardResult;
 
   return R;
+}
+
+// --- 裁定 139 item 4: MALFORMED != ABSENT (v3 条項 5) ------------------------
+//
+// A field that is `undefined` (missing) or explicit `[]` is ABSENT-eligible
+// (evidence simply not present). A field that is `null`, not an array, or an
+// array containing an entry with a missing/unknown tag is MALFORMED -- a
+// schema/contract violation, reported as a fail-closed STOP (provisional
+// reason code `schema-invalid`, per v3 Sec.5 pending a dedicated enum from
+// Sol), never silently coerced into an empty array.
+const VALID_DIVISOR_OBJECTS = ['ramification_divisor_on_C_ref', 'branch_divisor_on_P1_ref'];
+const VALID_NATIVE_SIDES = ['searcher', 'checker'];
+
+function classifyTaggedArrayField(field, tagKey, validTags) {
+  if (field === undefined) return { status: 'empty' };
+  if (field === null) return { status: 'malformed', reason: 'null' };
+  if (!Array.isArray(field)) return { status: 'malformed', reason: 'not-an-array' };
+  if (field.length === 0) return { status: 'empty' };
+  for (const e of field) {
+    if (!e || typeof e !== 'object') return { status: 'malformed', reason: 'entry-not-an-object' };
+    if (!Object.prototype.hasOwnProperty.call(e, tagKey)) return { status: 'malformed', reason: 'missing-tag:' + tagKey };
+    if (!validTags.includes(e[tagKey])) return { status: 'malformed', reason: 'unknown-tag-value:' + String(e[tagKey]) };
+  }
+  return { status: 'ok' };
+}
+
+const SHAPE_CHECKS = [
+  ['component_bijection', 'divisor_object', VALID_DIVISOR_OBJECTS],
+  ['exact_point_equality_witnesses', 'divisor_object', VALID_DIVISOR_OBJECTS],
+  ['distinctness_witnesses', 'divisor_object', VALID_DIVISOR_OBJECTS],
+  ['multiplicity_equalities', 'divisor_object', VALID_DIVISOR_OBJECTS],
+  ['chart_overlap_witnesses', 'divisor_object', VALID_DIVISOR_OBJECTS],
+  ['total_coverage_and_no_extra_component_witness', 'divisor_object', VALID_DIVISOR_OBJECTS],
+  ['pushforward_compatibility_witness', 'native_side', VALID_NATIVE_SIDES],
+];
+
+export function validateCertificateShapeV3(certificate) {
+  const malformed = [];
+  for (const [fieldName, tagKey, validTags] of SHAPE_CHECKS) {
+    const c = classifyTaggedArrayField(certificate[fieldName], tagKey, validTags);
+    if (c.status === 'malformed') malformed.push({ field: fieldName, reason: c.reason });
+  }
+  for (const nativeField of ['searcher_native', 'checker_native']) {
+    for (const refField of ['ramification_divisor_on_C_ref', 'branch_divisor_on_P1_ref']) {
+      const r = resolveRef(certificate[nativeField] && certificate[nativeField][refField]);
+      if (r.malformed) malformed.push({ field: nativeField + '.' + refField, reason: r.reason });
+    }
+  }
+  return malformed;
 }
 
 // --- top-level contract Sec.3 procedure -------------------------------------
@@ -268,12 +386,34 @@ function verifyObject(certObj, searcherComponents, checkerComponents) {
 // searcherNativeBlob/checkerNativeBlob are the ACTUAL blobs verifier A read
 // (for P-3.3 digest re-check against the certificate's declared digests).
 export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlob }) {
+  // 裁定 139 item 4: fail-closed schema/shape validation FIRST, before any
+  // witness logic runs. A malformed certificate never reaches PASS/FAIL/ABSENT
+  // scoring -- it stops here with a distinct result shape.
+  const shapeMalformed = validateCertificateShapeV3(certificate);
+  if (shapeMalformed.length > 0) {
+    return {
+      malformed: true,
+      malformed_fields: shapeMalformed,
+      provisional_reason_code: 'schema-invalid', // v3 Sec.5: dedicated enum pending Sol
+      overall_verdict_A: 'FAIL',
+    };
+  }
+
   const ambient = checkAmbient(certificate);
 
   // P-3.1 / P-3.2: predicate_spec_id/digest, schema_id/digest present & self-consistent.
   const p31 = certificate.predicate_spec_id === certificate.schema_id.split('#')[0] &&
               certificate.predicate_spec_digest === certificate.schema_digest;
-  // P-3.3: native_artifact_digest matches what verifier A actually read.
+
+  // P-3.3 (裁定 139 item 3): _ref triples resolved via resolveRef (shape
+  // already validated above, so these calls cannot return malformed here).
+  // An inline/digest mismatch is the EXISTING [12] condition, folded into p33.
+  const searcherRam = resolveRef(certificate.searcher_native.ramification_divisor_on_C_ref);
+  const searcherBranch = resolveRef(certificate.searcher_native.branch_divisor_on_P1_ref);
+  const checkerRam = resolveRef(certificate.checker_native.ramification_divisor_on_C_ref);
+  const checkerBranch = resolveRef(certificate.checker_native.branch_divisor_on_P1_ref);
+  const refInlineDigestOk = ![searcherRam, searcherBranch, checkerRam, checkerBranch].some((r) => r.digestMismatch);
+
   const searcherDigestOk = digestOf({
     ramification_divisor_on_C_ref: searcherNativeBlob.ramification_divisor_on_C_ref,
     branch_divisor_on_P1_ref: searcherNativeBlob.branch_divisor_on_P1_ref,
@@ -282,49 +422,49 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
     ramification_divisor_on_C_ref: checkerNativeBlob.ramification_divisor_on_C_ref,
     branch_divisor_on_P1_ref: checkerNativeBlob.branch_divisor_on_P1_ref,
   }) === certificate.checker_native.native_artifact_digest;
-  const p33 = searcherDigestOk && checkerDigestOk;
+  const p33 = searcherDigestOk && checkerDigestOk && refInlineDigestOk;
 
-  // 裁定 127: spec Sec.4.1's literal schema has NO object-keyed nesting for
-  // the witness-group fields -- they are single flat fields. This verifier
-  // therefore reads them as FLAT ARRAYS and filters by each entry's own
-  // `divisor_object` tag (using the exact literal tokens spec Sec.4.1 already
-  // uses for the native sub-schema: `ramification_divisor_on_C_ref` /
-  // `branch_divisor_on_P1_ref`), instead of indexing into an invented
-  // per-locus sub-object. A field that is missing or not an array is treated
-  // as an EMPTY array (never crashes, never silently matches some other
-  // default) -- which resolves to ABSENT downstream, never a vacuous PASS
-  // (裁定 127 item 3: fail-open removal).
+  // 裁定 127 (fields other than W-6): spec Sec.4.1's literal schema has no
+  // object-keyed nesting for the witness-group fields -- flat arrays, filtered
+  // by each entry's own `divisor_object` tag. A field that is missing or not
+  // an array is treated as empty (shape-validated above; this is now only a
+  // defensive fallback) -- resolves to ABSENT downstream, never a vacuous PASS.
   function filterByObject(field, tag) {
     if (!Array.isArray(field)) return [];
     return field.filter((e) => e && e.divisor_object === tag);
   }
 
-  function objVerify(tag) {
+  // 裁定 139 item 1: W-6 is native_side-tagged, NOT divisor_object-tagged --
+  // computed ONCE (not per divisor object) and duplicated into both R vectors.
+  const pushforward = verifyPushforwardV3(certificate.pushforward_compatibility_witness);
+  if (pushforward.result === 'MALFORMED') {
+    return {
+      malformed: true,
+      malformed_fields: pushforward.malformed,
+      provisional_reason_code: 'schema-invalid',
+      overall_verdict_A: 'FAIL',
+    };
+  }
+
+  function objVerify(tag, expectedSearcherDigest, expectedCheckerDigest) {
     const coverageEntries = filterByObject(certificate.total_coverage_and_no_extra_component_witness, tag);
     return verifyObject({
       bijection: filterByObject(certificate.component_bijection, tag),
+      expectedSearcherDigest, expectedCheckerDigest,
       exactWitnesses: filterByObject(certificate.exact_point_equality_witnesses, tag),
       distinctness: filterByObject(certificate.distinctness_witnesses, tag),
       multiplicityEqualities: filterByObject(certificate.multiplicity_equalities, tag),
-      // 裁定 133: chart_overlap_witnesses / pushforward_compatibility_witness
-      // are now FLAT arrays per docs/notes/cert_shape_interpretation_v2.md
-      // (i) -- one entry per divisor_object, each entry = {divisor_object,
-      // status, per_overlap_witnesses[] / points[]}. Same filterByObject
-      // pattern as the other 5 fields; the existing verifyChartOverlap /
-      // verifyPushforward logic (unchanged) reads the matched entry's own
-      // status/nested-array fields. Exactly 0 or >1 matches -> undefined
-      // (verifyChartOverlap/verifyPushforward already read undefined as
-      // ABSENT) rather than guessing which entry is authoritative.
+      // W-4 (v3 条項 7, unchanged from 裁定 133): divisor_object-keyed 1 entry.
       chartOverlap: (() => { const e = filterByObject(certificate.chart_overlap_witnesses, tag); return e.length === 1 ? e[0] : undefined; })(),
       coverage: coverageEntries.length === 1 ? coverageEntries[0] : undefined, // 0 or >1 entries -> ABSENT, not a guess
-      pushforward: (() => { const e = filterByObject(certificate.pushforward_compatibility_witness, tag); return e.length === 1 ? e[0] : undefined; })(),
+      pushforwardResult: pushforward.result, // shared W-6 verdict (裁定 139 item 1)
     }, (searcherNativeBlob[tag] && searcherNativeBlob[tag].components) || [], (checkerNativeBlob[tag] && checkerNativeBlob[tag].components) || []);
   }
 
   const DIVISOR_OBJECT_RAM = 'ramification_divisor_on_C_ref';
   const DIVISOR_OBJECT_BRANCH = 'branch_divisor_on_P1_ref';
-  const R_ram = objVerify(DIVISOR_OBJECT_RAM);
-  const R_branch = objVerify(DIVISOR_OBJECT_BRANCH);
+  const R_ram = objVerify(DIVISOR_OBJECT_RAM, certificate.searcher_native.native_artifact_digest, certificate.checker_native.native_artifact_digest);
+  const R_branch = objVerify(DIVISOR_OBJECT_BRANCH, certificate.searcher_native.native_artifact_digest, certificate.checker_native.native_artifact_digest);
 
   // canonical per-witness result vector (contract Sec.3.4)
   const WITNESS_ORDER = ['W-1', 'W-2', "W-2'", 'W-3', 'W-4', 'W-5', 'W-6'];
@@ -345,6 +485,7 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
   });
 
   return {
+    malformed: false,
     ambient_ok: ambient.pass, ambient_missing: ambient.missing,
     p31_ok: p31, p33_ok: p33,
     R_A, overall_verdict_A, result_digest_A,

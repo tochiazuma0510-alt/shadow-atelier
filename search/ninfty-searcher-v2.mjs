@@ -512,17 +512,27 @@ export function buildSearcherNative(candidate) {
   const ad = polyDerivative(a);
   const d = polyMonic(polyGCD(a, ad)); // finite non-fixed branch-pair locus (T-1/T-2)
 
+  // 裁定 139 item 2: each component carries an explicit component_id, minted
+  // by the generator, so the verifier can reconstruct the two native
+  // component sets from the native artifacts themselves rather than trusting
+  // a certificate-declared domain/codomain list. IDs are scoped per native
+  // object (ram vs branch) since a bijection edge always names both sides
+  // explicitly.
   const ramComponents = [
-    { locus_type: 'a-pair-locus', ideal_generator: polyToCoeffStrings(d), multiplicity: 1 },
-    { locus_type: 'p-locus', ideal_generator: polyToCoeffStrings(polyMonic(p)), multiplicity: 1 },
-    { locus_type: 'weierstrass-locus', ideal_generator: polyToCoeffStrings(polyMonic(f6)), multiplicity: 1 },
+    { component_id: 'ramification_divisor_on_C_ref:a-pair-locus', locus_type: 'a-pair-locus', ideal_generator: polyToCoeffStrings(d), multiplicity: 1 },
+    { component_id: 'ramification_divisor_on_C_ref:p-locus', locus_type: 'p-locus', ideal_generator: polyToCoeffStrings(polyMonic(p)), multiplicity: 1 },
+    { component_id: 'ramification_divisor_on_C_ref:weierstrass-locus', locus_type: 'weierstrass-locus', ideal_generator: polyToCoeffStrings(polyMonic(f6)), multiplicity: 1 },
   ];
   // branch divisor on P1: for this scope (x-only ideal data), the pushforward
   // of each locus is itself (identity map on the x-coordinate ideal); we tag
   // it distinctly to keep the two "native objects" of the certificate schema
   // (spec Sec.4.1) structurally separate even though the underlying ideals
   // coincide in this restricted scope.
-  const branchComponents = ramComponents.map((c) => ({ ...c, pushforward_of: c.locus_type }));
+  const branchComponents = ramComponents.map((c) => ({
+    ...c,
+    component_id: 'branch_divisor_on_P1_ref:' + c.locus_type,
+    pushforward_of: c.locus_type,
+  }));
 
   const native = {
     ramification_divisor_on_C_ref: { components: ramComponents },
@@ -649,6 +659,15 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
     groebner_reduction_contract_digest: sha256Hex('Q[x] is a PID: reduced Groebner basis of a principal ideal is {monic(generator)}'),
   };
 
+  // 裁定 139 item 3: a _ref is a triple {artifact_id, digest, object_id},
+  // with an OPTIONAL inline copy whose digest must match exactly (mismatch ->
+  // existing [12] digest-mismatch, never silently preferring one side).
+  // This lane has no external artifact store, so every ref carries its inline
+  // copy and a locally-minted artifact_id.
+  function makeRef(objectId, inlineData) {
+    return { artifact_id: 'mb/ninfty-lanea/inline-artifact/' + objectId, digest: digestOf(inlineData), object_id: objectId, inline: inlineData };
+  }
+
   function objectsOf(native) {
     return {
       ramification_divisor_on_C: native.ramification_divisor_on_C_ref.components,
@@ -666,7 +685,16 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
       const j = cc.findIndex((x, idx) => !usedC.has(idx) && x.locus_type === sc[i].locus_type);
       if (j >= 0) { matched.push([i, j]); usedC.add(j); }
     }
-    const bijection = matched.map(([i, j]) => ({ searcher_index: i, checker_index: j, locus_type: sc[i].locus_type }));
+    // 裁定 139 item 2: component_bijection entries are EDGES naming both
+    // sides' native digest + component_id explicitly, so the verifier can
+    // reconstruct the vertex sets from the native artifacts and check
+    // in/out-degree = 1 WITHOUT trusting this list as authority.
+    const bijection = matched.map(([i, j]) => ({
+      searcher_native_digest: searcherNative.native_artifact_digest,
+      searcher_component_id: sc[i].component_id,
+      checker_native_digest: checkerNative.native_artifact_digest,
+      checker_component_id: cc[j].component_id,
+    }));
     const exactWitnesses = matched.map(([i, j]) => ({
       locus_type: sc[i].locus_type,
       witness: buildIdealEqualityWitness(sc[i].ideal_generator, cc[j].ideal_generator),
@@ -728,16 +756,18 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
     curve_model_digest: sha256Hex('y^2 = f6(x), mu = a(x)+p(x)y (lane A candidate-scoped model)'),
     chart_ids: ['x-chart-single'],
     ...ambient,
+    // 裁定 139 item 3: _ref fields are now {artifact_id, digest, object_id, inline}
+    // triples (inline included since this lane has no external artifact store).
     searcher_native: {
-      ramification_divisor_on_C_ref: searcherNative.ramification_divisor_on_C_ref,
-      branch_divisor_on_P1_ref: searcherNative.branch_divisor_on_P1_ref,
+      ramification_divisor_on_C_ref: makeRef('searcher-ramification_divisor_on_C_ref', searcherNative.ramification_divisor_on_C_ref),
+      branch_divisor_on_P1_ref: makeRef('searcher-branch_divisor_on_P1_ref', searcherNative.branch_divisor_on_P1_ref),
       native_schema_id: searcherNative.native_schema_id,
       native_schema_digest: searcherNative.native_schema_digest,
       native_artifact_digest: searcherNative.native_artifact_digest,
     },
     checker_native: {
-      ramification_divisor_on_C_ref: checkerNative.ramification_divisor_on_C_ref,
-      branch_divisor_on_P1_ref: checkerNative.branch_divisor_on_P1_ref,
+      ramification_divisor_on_C_ref: makeRef('checker-ramification_divisor_on_C_ref', checkerNative.ramification_divisor_on_C_ref),
+      branch_divisor_on_P1_ref: makeRef('checker-branch_divisor_on_P1_ref', checkerNative.branch_divisor_on_P1_ref),
       native_schema_id: checkerNative.native_schema_id,
       native_schema_digest: checkerNative.native_schema_digest,
       native_artifact_digest: checkerNative.native_artifact_digest,
@@ -773,24 +803,31 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
       { divisor_object: DIVISOR_OBJECT_RAM, ...ram.total_coverage_and_no_extra_component_witness },
       { divisor_object: DIVISOR_OBJECT_BRANCH, ...branch.total_coverage_and_no_extra_component_witness },
     ],
-    // W-6 (裁定 133 (i)) -- FLAT array of 2 entries, each = {divisor_object,
-    // status, points:[...]}. This lane represents branch data by IDEALS
-    // (locus polynomials), never by explicit root/point enumeration over
-    // Qbar (searcher does not factor / root-find, per its resultant-free,
-    // pure-Q-arithmetic design) -- so no genuine point-level witness exists
-    // yet. STRUCTURED ABSENT per entry.
+    // W-6 (裁定 139 item 1, docs/notes/cert_shape_interpretation_v3.md 条項 2/9):
+    // divisor_object duplication is FORBIDDEN for pushforward (it relates the
+    // TWO divisors + a map on ONE side, not a per-divisor-object fact) --
+    // native_side-tagged 2 entries (searcher / checker), each
+    // {native_side, ramification_ref, branch_ref, map_ref, witness_ref}
+    // (all four are _ref triples per item 3). This lane represents components
+    // by IDEALS (locus polynomials), never explicit root/point enumeration
+    // over Qbar, so witness_ref.inline.points is honestly empty (STRUCTURED
+    // ABSENT), while ramification_ref/branch_ref/map_ref carry real inline
+    // data (the native divisors themselves + the identity pushforward map
+    // description for this lane's single-chart scope).
     pushforward_compatibility_witness: [
       {
-        divisor_object: DIVISOR_OBJECT_RAM,
-        status: 'ABSENT',
-        points: [], // would list {point_ref, ram_multiplicity, branch_multiplicity, match} entries if point-level data existed
-        reason: 'lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.',
+        native_side: 'searcher',
+        ramification_ref: makeRef('searcher-pushforward-ramification', searcherNative.ramification_divisor_on_C_ref),
+        branch_ref: makeRef('searcher-pushforward-branch', searcherNative.branch_divisor_on_P1_ref),
+        map_ref: makeRef('searcher-pushforward-map', { description: 'x-coordinate identity pushforward (single-chart scope, no root-level map computed)' }),
+        witness_ref: makeRef('searcher-pushforward-witness', { points: [], status: 'ABSENT', reason: 'lane A represents components by ideals, not explicit points; no point-level pushforward witness computed yet.' }),
       },
       {
-        divisor_object: DIVISOR_OBJECT_BRANCH,
-        status: 'ABSENT',
-        points: [],
-        reason: 'lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS.',
+        native_side: 'checker',
+        ramification_ref: makeRef('checker-pushforward-ramification', checkerNative.ramification_divisor_on_C_ref),
+        branch_ref: makeRef('checker-pushforward-branch', checkerNative.branch_divisor_on_P1_ref),
+        map_ref: makeRef('checker-pushforward-map', { description: 'x-coordinate identity pushforward (single-chart scope, no root-level map computed)' }),
+        witness_ref: makeRef('checker-pushforward-witness', { points: [], status: 'ABSENT', reason: 'lane A represents components by ideals, not explicit points; no point-level pushforward witness computed yet.' }),
       },
     ],
   };

@@ -10,9 +10,16 @@
 
 import {
   evaluateDecisionLane, checkT1, buildSearcherNative, generateCertificate,
-  loadFreezeReceiptDigests, DEFAULT_FREEZE_RECEIPT_PATH,
+  loadFreezeReceiptDigests, DEFAULT_FREEZE_RECEIPT_PATH, digestOf,
 } from './ninfty-searcher-v2.mjs';
 import { runVerifierA, combine, vectorsEqual } from './ninfty-verifier-a.mjs';
+
+// Test-only ref-triple builder (裁定 139 item 3 shape: {artifact_id, digest,
+// object_id, inline}), used only to construct SYNTHETIC fixture data below --
+// not part of the frozen generator/verifier logic.
+function makeTestRef(objectId, inlineData) {
+  return { artifact_id: 'test-inline/' + objectId, digest: digestOf(inlineData), object_id: objectId, inline: inlineData };
+}
 import {
   decisionLaneFixtures, t1IsolatedTripleRoot, positive1,
 } from './certs/fixtures-lanea.mjs';
@@ -136,12 +143,19 @@ console.log('\n=== certificate / verifier-A fixtures ===');
       reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
     };
   }
-  function syntheticPushforwardEntry(tag) {
+  // 裁定 139 item 1: pushforward_compatibility_witness is now native_side-tagged
+  // (searcher/checker), NOT divisor_object-tagged -- 2 entries total, each
+  // {native_side, ramification_ref, branch_ref, map_ref, witness_ref} (all
+  // _ref triples per item 3).
+  function syntheticPushforwardEntry(side) {
     return {
-      divisor_object: tag,
-      status: 'PASS',
-      points: [{ point_ref: 'synthetic-point-1', ram_multiplicity: 1, branch_multiplicity: 1, match: true }],
-      reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
+      native_side: side,
+      ramification_ref: makeTestRef(side + '-synthetic-ram', native.ramification_divisor_on_C_ref),
+      branch_ref: makeTestRef(side + '-synthetic-branch', native.branch_divisor_on_P1_ref),
+      map_ref: makeTestRef(side + '-synthetic-map', { description: 'SYNTHETIC identity map' }),
+      witness_ref: makeTestRef(side + '-synthetic-witness', {
+        points: [{ point_ref: 'synthetic-point-1', ram_multiplicity: 1, branch_multiplicity: 1, match: true }],
+      }),
     };
   }
   cert.chart_overlap_witnesses = [
@@ -149,8 +163,8 @@ console.log('\n=== certificate / verifier-A fixtures ===');
     syntheticChartOverlapEntry('branch_divisor_on_P1_ref'),
   ];
   cert.pushforward_compatibility_witness = [
-    syntheticPushforwardEntry('ramification_divisor_on_C_ref'),
-    syntheticPushforwardEntry('branch_divisor_on_P1_ref'),
+    syntheticPushforwardEntry('searcher'),
+    syntheticPushforwardEntry('checker'),
   ];
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
   const combined = combine({ semanticS1S2Reasons: [], rejectReasons: [], R_A: vA.R_A, R_B: vA.R_A });
@@ -245,6 +259,85 @@ console.log('\n=== certificate / verifier-A fixtures ===');
       && JSON.stringify(combined.secondary_reason_codes) === JSON.stringify(['verifier-result-mismatch']),
     JSON.stringify(combined),
   );
+}
+
+// --- 裁定 139 item 4 (v3 条項 5): MALFORMED != ABSENT. Each fixture below
+//     confirms a distinct malformation trigger yields runVerifierA's
+//     fail-closed {malformed:true, ...} result, NEVER silently coerced to an
+//     empty-array ABSENT reading.
+console.log('\n=== 裁定 139 item 4: MALFORMED != ABSENT fixtures ===');
+
+function freshCert() {
+  const native = buildSearcherNative(positive1.candidate);
+  return { native, cert: generateCertificate({ candidateRef: 'lanea-cert-malformed-fixture', searcherNative: native, checkerNative: native }) };
+}
+
+// C6: null field (not missing, not []) -> MALFORMED
+{
+  const { native, cert } = freshCert();
+  cert.component_bijection = null;
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C6 null field -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.field === 'component_bijection' && m.reason === 'null'), JSON.stringify(vA));
+}
+
+// C7: non-array field (an object instead of an array) -> MALFORMED
+{
+  const { native, cert } = freshCert();
+  cert.exact_point_equality_witnesses = { oops: 'not an array' };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C7 non-array field -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.field === 'exact_point_equality_witnesses' && m.reason === 'not-an-array'), JSON.stringify(vA));
+}
+
+// C8: entry missing its tag key entirely -> MALFORMED
+{
+  const { native, cert } = freshCert();
+  delete cert.multiplicity_equalities[0].divisor_object;
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C8 missing-tag entry -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.field === 'multiplicity_equalities' && m.reason === 'missing-tag:divisor_object'), JSON.stringify(vA));
+}
+
+// C9: entry with an unknown tag VALUE -> MALFORMED
+{
+  const { native, cert } = freshCert();
+  cert.distinctness_witnesses[0].divisor_object = 'some-made-up-object';
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C9 unknown-tag-value entry -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.field === 'distinctness_witnesses' && m.reason.startsWith('unknown-tag-value')), JSON.stringify(vA));
+}
+
+// C10: pushforward_compatibility_witness entry with unknown native_side -> MALFORMED
+{
+  const { native, cert } = freshCert();
+  cert.pushforward_compatibility_witness[0].native_side = 'nobody';
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C10 unknown native_side -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.field === 'pushforward_compatibility_witness'), JSON.stringify(vA));
+}
+
+// C11 (control): explicit [] on a field is ABSENT-eligible, NOT malformed --
+// confirms the empty-array case is still allowed through to normal scoring.
+{
+  const { native, cert } = freshCert();
+  cert.distinctness_witnesses = [];
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C11 explicit [] -> malformed=false (ABSENT-eligible, not a schema violation)', vA.malformed === false, JSON.stringify(vA));
+  check("C11 explicit [] -> W-2' reads ABSENT", vA.R_A.ramification_divisor_on_C.find(([k]) => k === "W-2'")[1] === 'ABSENT', JSON.stringify(vA.R_A));
+}
+
+// C12: native _ref not a triple at all (raw object, pre-裁定139 shape) -> MALFORMED
+{
+  const { native, cert } = freshCert();
+  cert.searcher_native.ramification_divisor_on_C_ref = { components: [] }; // old-shape raw object, no artifact_id/digest/object_id
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C12 non-triple native _ref -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.field === 'searcher_native.ramification_divisor_on_C_ref' && m.reason === 'ref-not-a-triple'), JSON.stringify(vA));
+}
+
+// C13: native _ref IS a well-formed triple, but inline disagrees with its own
+// declared digest -> existing [12] digest-mismatch path (p33=false), NOT
+// malformed (v3 Sec.5: "digest/inline 不一致のみ既存 [12]").
+{
+  const { native, cert } = freshCert();
+  cert.searcher_native.ramification_divisor_on_C_ref.inline = { components: [{ locus_type: 'tampered', ideal_generator: ['1'], multiplicity: 1 }] };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C13 ref inline/digest mismatch -> malformed=false, p33_ok=false (existing [12])', vA.malformed === false && vA.p33_ok === false, JSON.stringify(vA));
 }
 
 // --- Worked examples from the spec text itself (Sec.5.3.2 line 508 and
