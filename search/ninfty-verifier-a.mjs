@@ -208,15 +208,67 @@ function verifyChartOverlap(w) {
 // SEPARATE, pre-existing condition: existing code [12] digest-mismatch
 // (v3 Sec.5: "digest/inline 不一致のみ既存 [12]" -- neither side is silently
 // preferred).
-export function resolveRef(ref) {
-  if (!ref || typeof ref !== 'object' || typeof ref.artifact_id !== 'string' || typeof ref.digest !== 'string' || typeof ref.object_id !== 'string') {
+//
+// 裁定 142 fix: v3 条項 3 explicitly allows EITHER `object_id` OR
+// `json_pointer` as the third triple component ("json_pointer または
+// object_id") -- the prior implementation only accepted `object_id`,
+// rejecting every legitimate json_pointer-form ref as malformed. That was the
+// root cause of the reverse cross-check's 6/6 FAIL (lane B's _ref values all
+// use json_pointer). Fixed: a json_pointer is resolved via the simple RFC 6901
+// algorithm against the certificate's OWN root document ("payload 内 pointer
+// の解決で足りる" -- no external artifact store is required or assumed for
+// this lane's scope). If the pointer resolves, its digest is checked against
+// `ref.digest` (this gives the pointer path the same identity guarantee an
+// `inline` copy gives the object_id path) -- disagreement is the SAME
+// existing-[12] digestMismatch condition, not malformed. If the pointer does
+// not resolve within the payload at all, that IS a structural failure
+// (malformed, reason 'json-pointer-unresolvable') -- distinct from a value
+// that resolves but merely has the wrong digest.
+export function resolveJsonPointer(root, pointer) {
+  if (pointer === '') return { found: true, value: root };
+  if (typeof pointer !== 'string' || pointer[0] !== '/') return { found: false };
+  const parts = pointer.split('/').slice(1).map((p) => p.replace(/~1/g, '/').replace(/~0/g, '~'));
+  let cur = root;
+  for (const p of parts) {
+    if (cur === undefined || cur === null || typeof cur !== 'object') return { found: false };
+    if (!Object.prototype.hasOwnProperty.call(cur, p)) return { found: false };
+    cur = cur[p];
+  }
+  return { found: true, value: cur };
+}
+
+export function resolveRef(ref, rootDoc) {
+  if (!ref || typeof ref !== 'object' || typeof ref.artifact_id !== 'string' || typeof ref.digest !== 'string') {
     return { malformed: true, reason: 'ref-not-a-triple' };
   }
+  const hasObjectId = typeof ref.object_id === 'string';
+  const hasJsonPointer = typeof ref.json_pointer === 'string';
+  if (!hasObjectId && !hasJsonPointer) {
+    return { malformed: true, reason: 'ref-not-a-triple' }; // neither valid third component present
+  }
+
+  // json_pointer path: resolve against the payload root first (regardless of
+  // whether inline is also present -- both are checked, per v3 条項 3's
+  // "canonical digest の一致が必須" applying to whichever data is available).
+  let pointerResolved;
+  if (hasJsonPointer) {
+    const res = resolveJsonPointer(rootDoc, ref.json_pointer);
+    if (!res.found) return { malformed: true, reason: 'json-pointer-unresolvable' };
+    pointerResolved = res.value;
+  }
+
   if (Object.prototype.hasOwnProperty.call(ref, 'inline')) {
     const recomputed = digestOf(ref.inline);
     if (recomputed !== ref.digest) return { malformed: false, digestMismatch: true, data: ref.inline };
     return { malformed: false, digestMismatch: false, data: ref.inline };
   }
+  if (hasJsonPointer) {
+    const recomputed = digestOf(pointerResolved);
+    if (recomputed !== ref.digest) return { malformed: false, digestMismatch: true, data: pointerResolved };
+    return { malformed: false, digestMismatch: false, data: pointerResolved };
+  }
+  // object_id only, no inline: a pure external reference this lane's scope
+  // cannot resolve (no artifact store) -- not malformed, just unresolvable data.
   return { malformed: false, digestMismatch: false, data: undefined };
 }
 
@@ -233,14 +285,14 @@ export function resolveRef(ref) {
 // certificate-level data is no longer per-divisor-object, but contract
 // Sec.3.4's canonical vector shape still has one W-6 slot per object -- see
 // this file's docstring on that pre-existing, still-unresolved distinction).
-export function verifyPushforwardV3(field) {
+export function verifyPushforwardV3(field, rootDoc) {
   if (!Array.isArray(field)) return { result: 'ABSENT', malformed: [] };
   const malformed = [];
   function sideResult(side) {
     const entries = field.filter((e) => e && e.native_side === side);
     if (entries.length !== 1) return 'ABSENT'; // 0 or >1 -- not a guess, not malformed (tag itself was valid)
     const e = entries[0];
-    const refs = ['ramification_ref', 'branch_ref', 'map_ref', 'witness_ref'].map((k) => ({ k, r: resolveRef(e[k]) }));
+    const refs = ['ramification_ref', 'branch_ref', 'map_ref', 'witness_ref'].map((k) => ({ k, r: resolveRef(e[k], rootDoc) }));
     for (const { k, r } of refs) {
       if (r.malformed) { malformed.push({ field: 'pushforward_compatibility_witness.' + side + '.' + k, reason: r.reason }); return 'MALFORMED'; }
     }
@@ -373,7 +425,7 @@ export function validateCertificateShapeV3(certificate) {
   }
   for (const nativeField of ['searcher_native', 'checker_native']) {
     for (const refField of ['ramification_divisor_on_C_ref', 'branch_divisor_on_P1_ref']) {
-      const r = resolveRef(certificate[nativeField] && certificate[nativeField][refField]);
+      const r = resolveRef(certificate[nativeField] && certificate[nativeField][refField], certificate);
       if (r.malformed) malformed.push({ field: nativeField + '.' + refField, reason: r.reason });
     }
   }
@@ -408,10 +460,10 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
   // P-3.3 (裁定 139 item 3): _ref triples resolved via resolveRef (shape
   // already validated above, so these calls cannot return malformed here).
   // An inline/digest mismatch is the EXISTING [12] condition, folded into p33.
-  const searcherRam = resolveRef(certificate.searcher_native.ramification_divisor_on_C_ref);
-  const searcherBranch = resolveRef(certificate.searcher_native.branch_divisor_on_P1_ref);
-  const checkerRam = resolveRef(certificate.checker_native.ramification_divisor_on_C_ref);
-  const checkerBranch = resolveRef(certificate.checker_native.branch_divisor_on_P1_ref);
+  const searcherRam = resolveRef(certificate.searcher_native.ramification_divisor_on_C_ref, certificate);
+  const searcherBranch = resolveRef(certificate.searcher_native.branch_divisor_on_P1_ref, certificate);
+  const checkerRam = resolveRef(certificate.checker_native.ramification_divisor_on_C_ref, certificate);
+  const checkerBranch = resolveRef(certificate.checker_native.branch_divisor_on_P1_ref, certificate);
   const refInlineDigestOk = ![searcherRam, searcherBranch, checkerRam, checkerBranch].some((r) => r.digestMismatch);
 
   const searcherDigestOk = digestOf({
@@ -436,7 +488,7 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
 
   // 裁定 139 item 1: W-6 is native_side-tagged, NOT divisor_object-tagged --
   // computed ONCE (not per divisor object) and duplicated into both R vectors.
-  const pushforward = verifyPushforwardV3(certificate.pushforward_compatibility_witness);
+  const pushforward = verifyPushforwardV3(certificate.pushforward_compatibility_witness, certificate);
   if (pushforward.result === 'MALFORMED') {
     return {
       malformed: true,

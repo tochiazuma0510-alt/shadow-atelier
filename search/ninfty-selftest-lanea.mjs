@@ -340,6 +340,71 @@ function freshCert() {
   check('C13 ref inline/digest mismatch -> malformed=false, p33_ok=false (existing [12])', vA.malformed === false && vA.p33_ok === false, JSON.stringify(vA));
 }
 
+// --- 裁定 142: v3 条項 3 allows EITHER `object_id` OR `json_pointer` as the
+//     _ref triple's third component -- lane B's refs all use json_pointer,
+//     which the prior resolveRef rejected outright (root cause of the
+//     reverse cross-check's 6/6 FAIL). These fixtures cover the json_pointer
+//     path directly.
+console.log('\n=== 裁定 142: json_pointer _ref fixtures ===');
+
+// C14 (positive): a json_pointer-only ref (no inline) resolving within the
+// certificate's own payload to content whose digest matches the declared one.
+{
+  const { native, cert } = freshCert();
+  const content = { components: [{ locus_type: 'json-pointer-target', ideal_generator: ['1'], multiplicity: 1 }] };
+  cert._external_store = { searcherRam: content }; // "payload 内" location the pointer resolves against
+  cert.searcher_native.ramification_divisor_on_C_ref = {
+    artifact_id: 'test-json-pointer/searcher-ram',
+    digest: digestOf(content),
+    json_pointer: '/_external_store/searcherRam',
+    // no `inline` key: resolution must come from the pointer alone
+  };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C14 json_pointer ref resolves + digest matches -> malformed=false', vA.malformed === false, JSON.stringify(vA));
+}
+
+// C15 (negative): json_pointer that does not resolve within the payload at
+// all -> malformed ('json-pointer-unresolvable'), not silently ABSENT.
+{
+  const { native, cert } = freshCert();
+  cert.searcher_native.ramification_divisor_on_C_ref = {
+    artifact_id: 'test-json-pointer/dangling',
+    digest: '0'.repeat(64),
+    json_pointer: '/this/path/does/not/exist',
+  };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check(
+    'C15 unresolvable json_pointer -> malformed=true (json-pointer-unresolvable)',
+    vA.malformed === true && vA.malformed_fields.some((m) => m.field === 'searcher_native.ramification_divisor_on_C_ref' && m.reason === 'json-pointer-unresolvable'),
+    JSON.stringify(vA),
+  );
+}
+
+// C16: json_pointer resolves, but the resolved content's digest disagrees
+// with the ref's declared digest -> existing [12] digest-mismatch path
+// (p33=false), NOT malformed -- same discipline as the inline case (C13).
+{
+  const { native, cert } = freshCert();
+  const content = { components: [{ locus_type: 'json-pointer-target-2', ideal_generator: ['1'], multiplicity: 1 }] };
+  cert._external_store = { searcherRam: content };
+  cert.searcher_native.ramification_divisor_on_C_ref = {
+    artifact_id: 'test-json-pointer/searcher-ram-mismatch',
+    digest: '0'.repeat(64), // deliberately wrong
+    json_pointer: '/_external_store/searcherRam',
+  };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C16 json_pointer resolves but digest disagrees -> malformed=false, p33_ok=false (existing [12])', vA.malformed === false && vA.p33_ok === false, JSON.stringify(vA));
+}
+
+// C17 (control): a ref with NEITHER object_id NOR json_pointer is still
+// correctly rejected as malformed (both-missing case unaffected by the fix).
+{
+  const { native, cert } = freshCert();
+  cert.searcher_native.ramification_divisor_on_C_ref = { artifact_id: 'test/neither', digest: '0'.repeat(64) };
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check('C17 ref with neither object_id nor json_pointer -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.reason === 'ref-not-a-triple'), JSON.stringify(vA));
+}
+
 // --- Worked examples from the spec text itself (Sec.5.3.2 line 508 and
 //     contract Sec.5.1 F4.1/F4.2), tested directly against combine()'s
 //     priority ordering (sanity-check of INTEGRITY_PRIORITY table, not a

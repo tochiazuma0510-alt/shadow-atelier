@@ -1,6 +1,6 @@
 {
-  "export_id": "lane-A/ep-export-sample/02",
-  "generated_at_note": "lane A implementer output, 裁定127 revision (flat certificate schema per spec v18 Sec.4.1 literal reading) -- NOT an EP run, a structural sample for lane-B/EP review",
+  "export_id": "lane-A/ep-export-sample/04",
+  "generated_at_note": "裁定142 revision (resolveRef accepts json_pointer per v3 clause 3; lane A generator policy: object_id + always-inline, self-contained) -- NOT an EP run, a structural sample for lane-B/EP review",
   "candidate_label": "positive-1 (b=-3,c=1,k=1,s0=-4)",
   "candidate": {
     "a": [
@@ -50,196 +50,234 @@
     "groebner_reduction_contract_digest": "e0dceacf6ac79f56c8f47ac7f25358958ae403232927cd469d266bb471fb0a87",
     "searcher_native": {
       "ramification_divisor_on_C_ref": {
-        "components": [
-          {
-            "locus_type": "a-pair-locus",
-            "ideal_generator": [
-              "-1",
-              "-1",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "p-locus",
-            "ideal_generator": [
-              "1",
-              "-3",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "weierstrass-locus",
-            "ideal_generator": [
-              "-7",
-              "-12",
-              "0",
-              "10",
-              "0",
-              "-4",
-              "1"
-            ],
-            "multiplicity": 1
-          }
-        ]
+        "artifact_id": "mb/ninfty-lanea/inline-artifact/searcher-ramification_divisor_on_C_ref",
+        "digest": "202e3ee74b81195c9e3863c9766f5e4afbc6e89f3f1b6651fce1e96b1dd757f1",
+        "object_id": "searcher-ramification_divisor_on_C_ref",
+        "inline": {
+          "components": [
+            {
+              "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+              "locus_type": "a-pair-locus",
+              "ideal_generator": [
+                "-1",
+                "-1",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "component_id": "ramification_divisor_on_C_ref:p-locus",
+              "locus_type": "p-locus",
+              "ideal_generator": [
+                "1",
+                "-3",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+              "locus_type": "weierstrass-locus",
+              "ideal_generator": [
+                "-7",
+                "-12",
+                "0",
+                "10",
+                "0",
+                "-4",
+                "1"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
       },
       "branch_divisor_on_P1_ref": {
-        "components": [
-          {
-            "locus_type": "a-pair-locus",
-            "ideal_generator": [
-              "-1",
-              "-1",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "a-pair-locus"
-          },
-          {
-            "locus_type": "p-locus",
-            "ideal_generator": [
-              "1",
-              "-3",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "p-locus"
-          },
-          {
-            "locus_type": "weierstrass-locus",
-            "ideal_generator": [
-              "-7",
-              "-12",
-              "0",
-              "10",
-              "0",
-              "-4",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "weierstrass-locus"
-          }
-        ]
+        "artifact_id": "mb/ninfty-lanea/inline-artifact/searcher-branch_divisor_on_P1_ref",
+        "digest": "bbde065194fdee3a9e6ffdf06ed3a8d68ca707258d67acec19466b168a7b6d58",
+        "object_id": "searcher-branch_divisor_on_P1_ref",
+        "inline": {
+          "components": [
+            {
+              "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+              "locus_type": "a-pair-locus",
+              "ideal_generator": [
+                "-1",
+                "-1",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "a-pair-locus"
+            },
+            {
+              "component_id": "branch_divisor_on_P1_ref:p-locus",
+              "locus_type": "p-locus",
+              "ideal_generator": [
+                "1",
+                "-3",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "p-locus"
+            },
+            {
+              "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+              "locus_type": "weierstrass-locus",
+              "ideal_generator": [
+                "-7",
+                "-12",
+                "0",
+                "10",
+                "0",
+                "-4",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "weierstrass-locus"
+            }
+          ]
+        }
       },
       "native_schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
       "native_schema_digest": null,
-      "native_artifact_digest": "7f868da16b0aa1959d5c3fdca25f39954a60bb9155c04b2e23fcb0d19f1483e5"
+      "native_artifact_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
     },
     "checker_native": {
       "ramification_divisor_on_C_ref": {
-        "components": [
-          {
-            "locus_type": "a-pair-locus",
-            "ideal_generator": [
-              "-1",
-              "-1",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "p-locus",
-            "ideal_generator": [
-              "1",
-              "-3",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "weierstrass-locus",
-            "ideal_generator": [
-              "-7",
-              "-12",
-              "0",
-              "10",
-              "0",
-              "-4",
-              "1"
-            ],
-            "multiplicity": 1
-          }
-        ]
+        "artifact_id": "mb/ninfty-lanea/inline-artifact/checker-ramification_divisor_on_C_ref",
+        "digest": "202e3ee74b81195c9e3863c9766f5e4afbc6e89f3f1b6651fce1e96b1dd757f1",
+        "object_id": "checker-ramification_divisor_on_C_ref",
+        "inline": {
+          "components": [
+            {
+              "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+              "locus_type": "a-pair-locus",
+              "ideal_generator": [
+                "-1",
+                "-1",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "component_id": "ramification_divisor_on_C_ref:p-locus",
+              "locus_type": "p-locus",
+              "ideal_generator": [
+                "1",
+                "-3",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+              "locus_type": "weierstrass-locus",
+              "ideal_generator": [
+                "-7",
+                "-12",
+                "0",
+                "10",
+                "0",
+                "-4",
+                "1"
+              ],
+              "multiplicity": 1
+            }
+          ]
+        }
       },
       "branch_divisor_on_P1_ref": {
-        "components": [
-          {
-            "locus_type": "a-pair-locus",
-            "ideal_generator": [
-              "-1",
-              "-1",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "a-pair-locus"
-          },
-          {
-            "locus_type": "p-locus",
-            "ideal_generator": [
-              "1",
-              "-3",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "p-locus"
-          },
-          {
-            "locus_type": "weierstrass-locus",
-            "ideal_generator": [
-              "-7",
-              "-12",
-              "0",
-              "10",
-              "0",
-              "-4",
-              "1"
-            ],
-            "multiplicity": 1,
-            "pushforward_of": "weierstrass-locus"
-          }
-        ]
+        "artifact_id": "mb/ninfty-lanea/inline-artifact/checker-branch_divisor_on_P1_ref",
+        "digest": "bbde065194fdee3a9e6ffdf06ed3a8d68ca707258d67acec19466b168a7b6d58",
+        "object_id": "checker-branch_divisor_on_P1_ref",
+        "inline": {
+          "components": [
+            {
+              "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+              "locus_type": "a-pair-locus",
+              "ideal_generator": [
+                "-1",
+                "-1",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "a-pair-locus"
+            },
+            {
+              "component_id": "branch_divisor_on_P1_ref:p-locus",
+              "locus_type": "p-locus",
+              "ideal_generator": [
+                "1",
+                "-3",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "p-locus"
+            },
+            {
+              "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+              "locus_type": "weierstrass-locus",
+              "ideal_generator": [
+                "-7",
+                "-12",
+                "0",
+                "10",
+                "0",
+                "-4",
+                "1"
+              ],
+              "multiplicity": 1,
+              "pushforward_of": "weierstrass-locus"
+            }
+          ]
+        }
       },
       "native_schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
       "native_schema_digest": null,
-      "native_artifact_digest": "7f868da16b0aa1959d5c3fdca25f39954a60bb9155c04b2e23fcb0d19f1483e5"
+      "native_artifact_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34"
     },
     "component_bijection": [
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "searcher_index": 0,
-        "checker_index": 0,
-        "locus_type": "a-pair-locus"
+        "searcher_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "searcher_component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+        "checker_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "checker_component_id": "ramification_divisor_on_C_ref:a-pair-locus"
       },
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "searcher_index": 1,
-        "checker_index": 1,
-        "locus_type": "p-locus"
+        "searcher_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "searcher_component_id": "ramification_divisor_on_C_ref:p-locus",
+        "checker_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "checker_component_id": "ramification_divisor_on_C_ref:p-locus"
       },
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "searcher_index": 2,
-        "checker_index": 2,
-        "locus_type": "weierstrass-locus"
+        "searcher_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "searcher_component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+        "checker_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "checker_component_id": "ramification_divisor_on_C_ref:weierstrass-locus"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "searcher_index": 0,
-        "checker_index": 0,
-        "locus_type": "a-pair-locus"
+        "searcher_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "searcher_component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+        "checker_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "checker_component_id": "branch_divisor_on_P1_ref:a-pair-locus"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "searcher_index": 1,
-        "checker_index": 1,
-        "locus_type": "p-locus"
+        "searcher_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "searcher_component_id": "branch_divisor_on_P1_ref:p-locus",
+        "checker_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "checker_component_id": "branch_divisor_on_P1_ref:p-locus"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "searcher_index": 2,
-        "checker_index": 2,
-        "locus_type": "weierstrass-locus"
+        "searcher_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "searcher_component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+        "checker_native_digest": "9c6cf68317dd3ac199cbe101b64ce2267b8ad668db68b01e71e372934dec9c34",
+        "checker_component_id": "branch_divisor_on_P1_ref:weierstrass-locus"
       }
     ],
     "exact_point_equality_witnesses": [
@@ -786,18 +824,20 @@
         "equal": true
       }
     ],
-    "chart_overlap_witnesses": {
-      "kind": "chart-overlap",
-      "chart_atlas": [
-        {
-          "chart_id": "x-chart-single",
-          "coordinate": "x"
-        }
-      ],
-      "per_overlap_witnesses": [],
-      "status": "ABSENT",
-      "reason": "lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS."
-    },
+    "chart_overlap_witnesses": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "status": "ABSENT",
+        "per_overlap_witnesses": [],
+        "reason": "lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS."
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "status": "ABSENT",
+        "per_overlap_witnesses": [],
+        "reason": "lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS."
+      }
+    ],
     "total_coverage_and_no_extra_component_witness": [
       {
         "divisor_object": "ramification_divisor_on_C_ref",
@@ -814,15 +854,232 @@
         "no_extra": true
       }
     ],
-    "pushforward_compatibility_witness": {
-      "kind": "pushforward-compatibility",
-      "points": [],
-      "status": "ABSENT",
-      "reason": "lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS."
-    },
-    "certificate_digest": "924fddbbc194ec8e8929f0515641067418ae52d77118afb873c037063e9d73cd"
+    "pushforward_compatibility_witness": [
+      {
+        "native_side": "searcher",
+        "ramification_ref": {
+          "artifact_id": "mb/ninfty-lanea/inline-artifact/searcher-pushforward-ramification",
+          "digest": "202e3ee74b81195c9e3863c9766f5e4afbc6e89f3f1b6651fce1e96b1dd757f1",
+          "object_id": "searcher-pushforward-ramification",
+          "inline": {
+            "components": [
+              {
+                "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+                "locus_type": "a-pair-locus",
+                "ideal_generator": [
+                  "-1",
+                  "-1",
+                  "1"
+                ],
+                "multiplicity": 1
+              },
+              {
+                "component_id": "ramification_divisor_on_C_ref:p-locus",
+                "locus_type": "p-locus",
+                "ideal_generator": [
+                  "1",
+                  "-3",
+                  "1"
+                ],
+                "multiplicity": 1
+              },
+              {
+                "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+                "locus_type": "weierstrass-locus",
+                "ideal_generator": [
+                  "-7",
+                  "-12",
+                  "0",
+                  "10",
+                  "0",
+                  "-4",
+                  "1"
+                ],
+                "multiplicity": 1
+              }
+            ]
+          }
+        },
+        "branch_ref": {
+          "artifact_id": "mb/ninfty-lanea/inline-artifact/searcher-pushforward-branch",
+          "digest": "bbde065194fdee3a9e6ffdf06ed3a8d68ca707258d67acec19466b168a7b6d58",
+          "object_id": "searcher-pushforward-branch",
+          "inline": {
+            "components": [
+              {
+                "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+                "locus_type": "a-pair-locus",
+                "ideal_generator": [
+                  "-1",
+                  "-1",
+                  "1"
+                ],
+                "multiplicity": 1,
+                "pushforward_of": "a-pair-locus"
+              },
+              {
+                "component_id": "branch_divisor_on_P1_ref:p-locus",
+                "locus_type": "p-locus",
+                "ideal_generator": [
+                  "1",
+                  "-3",
+                  "1"
+                ],
+                "multiplicity": 1,
+                "pushforward_of": "p-locus"
+              },
+              {
+                "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+                "locus_type": "weierstrass-locus",
+                "ideal_generator": [
+                  "-7",
+                  "-12",
+                  "0",
+                  "10",
+                  "0",
+                  "-4",
+                  "1"
+                ],
+                "multiplicity": 1,
+                "pushforward_of": "weierstrass-locus"
+              }
+            ]
+          }
+        },
+        "map_ref": {
+          "artifact_id": "mb/ninfty-lanea/inline-artifact/searcher-pushforward-map",
+          "digest": "bd5fc7f00d4d7d0c17cf4197f42e286d3043d14721d9767bf4ee51dc9cd42175",
+          "object_id": "searcher-pushforward-map",
+          "inline": {
+            "description": "x-coordinate identity pushforward (single-chart scope, no root-level map computed)"
+          }
+        },
+        "witness_ref": {
+          "artifact_id": "mb/ninfty-lanea/inline-artifact/searcher-pushforward-witness",
+          "digest": "0e62dcd28f137b115c3d45f85c6b4204530d9badbd1e14df903baa767e44e2a4",
+          "object_id": "searcher-pushforward-witness",
+          "inline": {
+            "points": [],
+            "status": "ABSENT",
+            "reason": "lane A represents components by ideals, not explicit points; no point-level pushforward witness computed yet."
+          }
+        }
+      },
+      {
+        "native_side": "checker",
+        "ramification_ref": {
+          "artifact_id": "mb/ninfty-lanea/inline-artifact/checker-pushforward-ramification",
+          "digest": "202e3ee74b81195c9e3863c9766f5e4afbc6e89f3f1b6651fce1e96b1dd757f1",
+          "object_id": "checker-pushforward-ramification",
+          "inline": {
+            "components": [
+              {
+                "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+                "locus_type": "a-pair-locus",
+                "ideal_generator": [
+                  "-1",
+                  "-1",
+                  "1"
+                ],
+                "multiplicity": 1
+              },
+              {
+                "component_id": "ramification_divisor_on_C_ref:p-locus",
+                "locus_type": "p-locus",
+                "ideal_generator": [
+                  "1",
+                  "-3",
+                  "1"
+                ],
+                "multiplicity": 1
+              },
+              {
+                "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+                "locus_type": "weierstrass-locus",
+                "ideal_generator": [
+                  "-7",
+                  "-12",
+                  "0",
+                  "10",
+                  "0",
+                  "-4",
+                  "1"
+                ],
+                "multiplicity": 1
+              }
+            ]
+          }
+        },
+        "branch_ref": {
+          "artifact_id": "mb/ninfty-lanea/inline-artifact/checker-pushforward-branch",
+          "digest": "bbde065194fdee3a9e6ffdf06ed3a8d68ca707258d67acec19466b168a7b6d58",
+          "object_id": "checker-pushforward-branch",
+          "inline": {
+            "components": [
+              {
+                "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+                "locus_type": "a-pair-locus",
+                "ideal_generator": [
+                  "-1",
+                  "-1",
+                  "1"
+                ],
+                "multiplicity": 1,
+                "pushforward_of": "a-pair-locus"
+              },
+              {
+                "component_id": "branch_divisor_on_P1_ref:p-locus",
+                "locus_type": "p-locus",
+                "ideal_generator": [
+                  "1",
+                  "-3",
+                  "1"
+                ],
+                "multiplicity": 1,
+                "pushforward_of": "p-locus"
+              },
+              {
+                "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+                "locus_type": "weierstrass-locus",
+                "ideal_generator": [
+                  "-7",
+                  "-12",
+                  "0",
+                  "10",
+                  "0",
+                  "-4",
+                  "1"
+                ],
+                "multiplicity": 1,
+                "pushforward_of": "weierstrass-locus"
+              }
+            ]
+          }
+        },
+        "map_ref": {
+          "artifact_id": "mb/ninfty-lanea/inline-artifact/checker-pushforward-map",
+          "digest": "bd5fc7f00d4d7d0c17cf4197f42e286d3043d14721d9767bf4ee51dc9cd42175",
+          "object_id": "checker-pushforward-map",
+          "inline": {
+            "description": "x-coordinate identity pushforward (single-chart scope, no root-level map computed)"
+          }
+        },
+        "witness_ref": {
+          "artifact_id": "mb/ninfty-lanea/inline-artifact/checker-pushforward-witness",
+          "digest": "0e62dcd28f137b115c3d45f85c6b4204530d9badbd1e14df903baa767e44e2a4",
+          "object_id": "checker-pushforward-witness",
+          "inline": {
+            "points": [],
+            "status": "ABSENT",
+            "reason": "lane A represents components by ideals, not explicit points; no point-level pushforward witness computed yet."
+          }
+        }
+      }
+    ],
+    "certificate_digest": "ed3aec7e2575a674b5a9876ae755c8c1e0faac3f2424f0d4eebcea4f275c833f"
   },
   "verifier_a_result": {
+    "malformed": false,
     "ambient_ok": true,
     "ambient_missing": [],
     "p31_ok": true,
@@ -890,13 +1147,16 @@
       ]
     },
     "overall_verdict_A": "FAIL",
-    "result_digest_A": "e2fa59a74c92bf620b4491d0a672fb9643636137aa7b69a070576ef85e563590"
+    "result_digest_A": "15651aba58ad819e4bd6e167bac986166189729249439798bc78ad000d02e677"
   },
   "caveats": [
     "checker_native above is a MOCK (identical to searcher_native), not real lane-B output.",
-    "component_bijection / exact_point_equality_witnesses / distinctness_witnesses / multiplicity_equalities / total_coverage_and_no_extra_component_witness are FLAT ARRAYS per spec Sec.4.1 literal schema (no object-keyed nesting); each entry carries an explicit divisor_object tag (ramification_divisor_on_C_ref / branch_divisor_on_P1_ref).",
-    "chart_overlap_witnesses / pushforward_compatibility_witness are STRUCTURED ABSENT (status=ABSENT) -- lane A native scope has one chart and no explicit point enumeration.",
+    "component_bijection entries are EDGES {divisor_object, searcher_native_digest, searcher_component_id, checker_native_digest, checker_component_id} per docs/notes/cert_shape_interpretation_v3.md clause 6 -- verifier reconstructs vertex sets from native components, does not trust this list as authority.",
+    "pushforward_compatibility_witness (W-6) is native_side-tagged (searcher/checker), NOT divisor_object-tagged, per v3 clause 2 -- 2 entries total, each with ramification_ref/branch_ref/map_ref/witness_ref as _ref triples.",
+    "_ref fields are {artifact_id, digest, object_id, inline} triples per v3 clause 3; inline/digest mismatch routes to existing [12], never silently preferring one side.",
+    "chart_overlap_witnesses / pushforward_compatibility_witness witness_ref are STRUCTURED ABSENT (status=ABSENT / empty points) -- lane A native scope has one chart and no explicit point enumeration.",
     "overall_verdict_A is FAIL for this reason (ABSENT != PASS); this is the honest EP-pre state, not a defect.",
+    "MALFORMED (null/non-array/missing-tag/unknown-tag fields) is now a distinct fail-closed stop, never coerced to ABSENT -- see runVerifierA malformed:true branch.",
     "predicate_spec_id/predicate_spec_digest are machine-read from provenance/ninfty_freeze_receipt_sol75.md at generation time."
   ]
 }

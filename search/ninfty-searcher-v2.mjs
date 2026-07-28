@@ -659,11 +659,20 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
     groebner_reduction_contract_digest: sha256Hex('Q[x] is a PID: reduced Groebner basis of a principal ideal is {monic(generator)}'),
   };
 
-  // 裁定 139 item 3: a _ref is a triple {artifact_id, digest, object_id},
-  // with an OPTIONAL inline copy whose digest must match exactly (mismatch ->
-  // existing [12] digest-mismatch, never silently preferring one side).
-  // This lane has no external artifact store, so every ref carries its inline
-  // copy and a locally-minted artifact_id.
+  // 裁定 139 item 3 / 裁定 142 item 3 (confirmed policy, self-contained by
+  // construction): a _ref is a triple {artifact_id, digest, object_id OR
+  // json_pointer}, with an OPTIONAL inline copy whose digest must match
+  // exactly (mismatch -> existing [12] digest-mismatch, never silently
+  // preferring one side). THIS LANE'S POLICY: every _ref this generator
+  // produces uses the `object_id` variant AND ALWAYS carries `inline` --
+  // never a bare external reference. This means every certificate lane A
+  // emits is self-contained: a receiving verifier (verifier B included) can
+  // resolve every _ref's data from the certificate blob alone, with no
+  // external artifact store, no json_pointer lookup, and no round-trip back
+  // to lane A. (lane A's OWN verifier A additionally accepts the
+  // json_pointer variant when READING a certificate -- see
+  // ninfty-verifier-a.mjs resolveRef -- for cross-lane/EP certificates that
+  // legitimately choose that form; this generator itself just never emits it.)
   function makeRef(objectId, inlineData) {
     return { artifact_id: 'mb/ninfty-lanea/inline-artifact/' + objectId, digest: digestOf(inlineData), object_id: objectId, inline: inlineData };
   }

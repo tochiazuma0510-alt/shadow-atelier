@@ -2,7 +2,7 @@
   "schema_id": "mb/dependency-manifest/v13",
   "schema_digest": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e",
   "subject_id": "lane-A/ninfty-searcher-v2+verifier-a",
-  "subject_code_digest": "a242a3e2d0264eb5b3e1c30c8582bcd87d844237c36396b16e250b45b405de1d",
+  "subject_code_digest": "40c5e5c875211770437fa9df6b441c37ccd3b5f02a7dec5e3648500824e9c0f3",
   "build_definition_blob_digest": null,
   "pinned_input_digests": [],
   "build_root_id": null,
@@ -11,7 +11,7 @@
   "build_record_present": false,
   "entries": [
     {
-      "content_digest": "d8c60dd7f3347d8c2cad72f85c2bd42a27a1bcfcc3c4f299075be326b2da8719",
+      "content_digest": "86378c77c3ba2add84166047e953d73b5a78c12cbb1b8795f0df8a5deb977b4c",
       "role": "math-helper",
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "content_digest": "52a5a7c909c966a12323cca62b389498f351e6717df144fabe764cb6a2c13f0f",
+      "content_digest": "0caf553fb6824511de633334c00319696e62e3227a68f42b2bf23133c61dca96",
       "role": "math-helper",
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "content_digest": "b2929865c76cc268e4a1203edf359aa59a9b45a70c02bd6b05f3e033a5306872",
+      "content_digest": "562eaeb3d15312b7e42cd349aeb4c6c88a96f0495614fa1962211d47864c2af1",
       "role": "build-tool",
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
@@ -107,7 +107,7 @@
       ]
     },
     {
-      "content_digest": "51337f4f67d18065689f3c27c631df649c77b6c5de83ebf347641539db3ad5c2",
+      "content_digest": "85c3f1ca359c97e93b00cbd84ec0e9697204c4829c1610e11913c924898ce9c2",
       "role": "data-table",
       "source_artifact_digests": [],
       "toolchain_digest": "17eb1fb58bd26a28850ff0e39c4baa09054d45a819cf2ec3a0ed41917c549bb2",
@@ -145,7 +145,8 @@
   "closure_attested": true,
   "build_promotion_attested": false,
   "produced_at_receipt": "PENDING (not yet submitted to commander/Sol freeze; this is lane-A implementer output only)",
-  "revision_note": "裁定 127 revision (supersedes 裁定115 shape choices for the witness-group fields): reverse testing found lane A (object-keyed) and lane B (flat) certificates mutually incompatible; spec v18 Sec.4.1 literal text lists component_bijection / exact_point_equality_witnesses / distinctness_witnesses / multiplicity_equalities / total_coverage_and_no_extra_component_witness as SINGLE flat fields with no object-keyed nesting anywhere in the schema text. Lane A now emits FLAT ARRAYS for all five fields, each entry tagged with an explicit divisor_object (ramification_divisor_on_C_ref / branch_divisor_on_P1_ref, the exact literal tokens spec Sec.4.1 already uses for native sub-schema) rather than an invented per-locus wrapper object. verifier A now filters by this tag instead of indexing a nested object, and treats a missing/malformed field as an empty array (never a crash, never a vacuous default-match PASS). Prior 裁定115 revision_note items 1-2 (freeze-receipt pin sourcing, W-4/W-6 structured ABSENT) remain unchanged by this pass.",
+  "revision_note": "裁定 142 revision: resolveRef() now accepts EITHER `object_id` OR `json_pointer` as the _ref triple third component (v3 clause 3 explicitly allows both; the prior implementation only accepted object_id, which was the root cause of the reverse cross-check reporting 6/6 FAIL against lane B, whose refs all use json_pointer). json_pointer is resolved via a simple RFC 6901 walk against the certificate root document (payload-internal resolution only, no external artifact store); an unresolvable pointer is malformed (json-pointer-unresolvable), while a resolvable pointer whose content digest disagrees with the declared digest is the pre-existing [12] digest-mismatch condition, not malformed -- same discipline as the inline path. Confirmed and documented policy (item 3 of 142): this lane generator (ninfty-searcher-v2.mjs makeRef) always emits object_id + inline (self-contained, no external lookup needed by any receiving verifier); it does not itself emit json_pointer refs, though verifier A now reads them when present in a certificate it did not generate. Prior 裁定139 revision note (superseded/retained below) unchanged except for the resolveRef signature now threading a rootDoc parameter through validateCertificateShapeV3 / runVerifierA / verifyPushforwardV3.",
+  "revision_note_139": "裁定 139 revision (docs/notes/cert_shape_interpretation_v3.md is now current; v1/v2 are historical): (1) W-6 pushforward is native_side-tagged (searcher/checker, 2 entries), NOT divisor_object-tagged -- each entry = {native_side, ramification_ref, branch_ref, map_ref, witness_ref}, combined into ONE shared W-6 verdict placed in both R vector slots. (2) component_bijection entries are now EDGES {divisor_object, searcher_native_digest, searcher_component_id, checker_native_digest, checker_component_id}; native components now carry an explicit component_id (minted by the generator); the verifier reconstructs both vertex sets from the native artifacts and checks in/out-degree=1, never trusting the certificate edge list as authority. (3) _ref fields are {artifact_id, digest, object_id, inline} triples; inline/digest disagreement routes to the EXISTING [12] digest-mismatch (never silently preferring either side). (4) MALFORMED != ABSENT: null / non-array / missing-tag / unknown-tag-value fields now trigger a distinct fail-closed {malformed:true, malformed_fields, provisional_reason_code:\"schema-invalid\"} stop in runVerifierA, checked BEFORE any witness scoring; explicit [] remains ABSENT-eligible. Prior revision_note items (裁定115 freeze-receipt pin sourcing; 裁定127 flat divisor_object-tagged arrays for W-1/2/2prime/3/5) remain unchanged except where superseded above.",
   "notes": {
     "scope": "lane A = search/ninfty-searcher-v2.mjs + search/ninfty-verifier-a.mjs (node runtime). Fixtures/selftest/EP-export-sample included as declared build-tool/data-table entries, not part of the frozen predicate/verifier logic.",
     "tcb_status": "all four TCB columns EMPTY, as required by the freeze receipt (allowed_shared_* = []).",
@@ -179,5 +180,5 @@
       "ALL -- see notes.partial_manifest_status"
     ]
   },
-  "self_digest": "3dbc656e0f0f71ff75dc4ace57be47aa0c8aedfb94b9a341d57594e4986fcfe9"
+  "self_digest": "4aec39d90a56daaec0a7c88823fd2fa06ac7d6e4721cc4c5370444d603cc334e"
 }
