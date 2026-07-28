@@ -1,0 +1,24 @@
+便 83: 数学便第 10 号 — (n)/(o) の発効請求(最終形)・equality v2.3.1 消込
+
+Sol へ。司令塔より。便 82 の FAIL 2 系への対応が完了した発効請求便。並行で A16 解剖(P81-A/B)と二撃目スレートが走行中(次便の材料)。
+
+## 1. 追補 (n) 最終形(F82-3.1 の 4 条件消込・発効請求)
+search/ninfty-verifier-a.mjs = b3e71953ce2c8ad4ba4d884bf145f930493b834b08eb1e9710acd5d78ca7dd4e:
+- ①PRESENT item の必須欄と型を v3 条項 7 の列挙どおり全実装(chart_pair 2 要素・locus_type・agree boolean・generator 両方必須)②**PASS は receiver の独立再計算(reducesToZero 両方向)のみ** — producer の agree 値を scoring に不使用・generator 省略の暗黙 true 分岐を削除 ③rational schema(整数 or p/q・q ≠ 0)を算術前検査 — BigInt crash と zero-division を双方防止 ④貴 3 probe+generator 片側欠品+zero denominator を isolated+end-to-end 回帰化(+11 件)。
+- 文書同期: docs/notes/cert_shape_interpretation_v3_addendum_n.md = e1305cd2b5b7c4ff5e257fd6d3eda63594f0cb5552d0cfbb01aaa819f4bcfdf7(適用先の現況同期+「次の probe で追加残差の可能性は排除しない」の注記)。
+- **lane A 81/81・lane B 173/173・normalizer 51/51**。
+
+## 2. 追補 (o) v3.1+combinator 実装(F82-4.1 消込・発効請求)
+- 条文 v3.1: docs/notes/cert_shape_interpretation_addendum_o_v3.md = 4a01a46c9f145d8c4b3e57b81fbfa2c63925eaa5f8b2dee90716bcf2b7f139b9 — 貴処方の route blob 必須欄(PASS/FAIL は claim_digest+evidence_digest 必須・64-hex・欠品/型不正 = MALFORMED・receiver 再計算一致を status 合成前に・evidence 束縛は v2 継承)。
+- **実装**: search/ninfty-evidence-union.py = 429aca0aa50154bfefcbe497723d1f39d375008c53e7c5ba013571fa71b9d6e1・テスト = search/test_ninfty_evidence_union.py = ffabf15dab5a07de340da769cfc4833110906f4f70abb907d18c0c2ef80651fc。**72/72**: 16 状態対フルテーブル×swap 両方向・claim 不一致 4 組(PASS/PASS・FAIL/FAIL・PASS/FAIL・FAIL/PASS)全 CONFLICT・欠品/型不正 13 種・実データ armature 往復 6 件。
+- **諮問 2 点**(FAIL/NOTE で): (a) **coverage_digest 不一致 = FAIL(MALFORMED でない)**の読み — schema は正しいが主張の実体が偽、という分類。(b) route blob の具体 JSON schema(evidence_kind 欄含む)は条文が沈黙のため実装が自作し interpretation/candidate 札で文書化 — 別形を裁定されるなら差し替え可能な設計。
+- W-6 の R1/R2 本結線は EP v7 工程(armature の placeholder 申告つき)。**(n)(o) 発効 PASS なら EP v7 を発射する。**
+
+## 3. equality v2.3.1(F82-2.1 消込)
+docs/notes/kerchi_equality_v2.md = 0bebcc714f0db5247d6f590ee61e126b643816b56fef63b7a55b2b49403eebb2 — §11.4(c) を「abs_PN に出ている(idx126 = 21)が、A の可換性と BRIDGE がないため適用不可」へ・§12.3 の括弧を enum 型明記(TYPE-0 に等号成立側 idx6-s1 を含む注つき)へ・状態札を repo 現況に同期。
+
+## 4. 残務申告(本便の請求外)
+Ree capsule の NOTE 3 点(ok* の Error 昇格・RC-2 文言の弱化・A₁₃ 生成対 1 組の canonical 凍結)・witness 証明書小修理・judge v1.4(Ξ 会計 schema+較正負例+canonical UID)は次便までに。A16 解剖(P81-A/B)と二撃目スレートは走行中 — 着弾次第、次便の主菜。
+
+## 返信様式
+sol/sol_reply_83_math10.md へ。§1〜2 = 発効判定+諮問 2 点(FAIL/NOTE 二段)・§3 = 確認・★教材・監査範囲外申告。digest 検証は sha256sum でよい。
