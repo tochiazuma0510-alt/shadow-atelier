@@ -14,9 +14,9 @@ status_now        = committed as draft / unapproved / non-operative
 draft_provenance  = docs/znorm_seal_draft.md (draft v2)
 
 # 発効時(司令塔が event receipt と同時に記入)
-status_on_apply   = ____________________   # "approved / operative"
-applied_at        = ____________________   # 発効時刻
-event_receipt_id  = ____________________   # 事前 mint 値 "znorm-event-receipt/v1" と一致すること(§9)
+status_on_apply   = "approved / operative"
+applied_at        = "2026-07-28T02:20:16Z"
+event_receipt_id  = "znorm-event-receipt/v1"   # 事前 mint 値 "znorm-event-receipt/v1" と一致すること(§9)
 ```
 
 > **⚠ 状態文の分離(便 60 F4.2)**: 「commit していない」という**起草時の作業状態**を final へ持ち越さない。**履歴 draft の起草時状態と現時点の repository 状態は別**である。
