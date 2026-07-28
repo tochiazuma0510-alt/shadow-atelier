@@ -333,6 +333,7 @@ CorrectedShadowsXi := function(W, charmingSet)
 
   for m in charmingSet do
     u := 2*m + 1;
+    Print("  [Xi] m=", m, " (u=", u, ") starting...\n");
     yu := W.y^u;
     Cyu := Centralizer(W.PN, yu);
     cElts := Elements(Cyu);     # |C_P(ybar^u)| -- expected small (e.g. 660 for A16-11a)
@@ -344,6 +345,7 @@ CorrectedShadowsXi := function(W, charmingSet)
       alpha0 := RepresentativeAction(AutP, W.x, W.x^u, actFun);
     fi;
     if alpha0 = fail then
+      Print("  [Xi] m=", m, ": A_m empty (alpha0 not found), 0 candidates, next m\n");
       continue;   # A_m empty for this m -- no candidates, per Prop 3.1
     fi;
 
@@ -388,6 +390,8 @@ CorrectedShadowsXi := function(W, charmingSet)
         Add(out, [m, f]);
       od;
     od;
+    Print("  [Xi] m=", m, " done. scanned_so_far=", scannedCount,
+          " shadows_so_far=", Length(out), " settled_fail_so_far=", settledFails, "\n");
   od;
   return rec(shadows := Set(out), settled_fail_count := settledFails,
              settled_fail_witnesses := failWitnesses, scanned_count := scannedCount,
@@ -519,7 +523,13 @@ JudgeWindow := function(s1in, s2in, label)
   r.charming_count := Length(charmingSet);
   r.phi_2Nord := Phi(2 * W.Nord);
 
+  Print("[judge] ", label, ": phase=CorrectedShadows starting (|Bq|=", Size(W.Bq),
+        " |PN|=", Size(W.PN), " N_ord=", W.Nord, " charming_count=",
+        Length(charmingSet), ")\n");
   corrRes := CorrectedShadows(W, charmingSet);;
+  Print("[judge] ", label, ": phase=CorrectedShadows done (scan_mode=",
+        corrRes.scan_mode, " shadow_total=", Length(corrRes.shadows),
+        " settled_fail_count=", corrRes.settled_fail_count, ")\n");
   corr := corrRes.shadows;
   r.settled_fail_count := corrRes.settled_fail_count;
   r.settled_fail_witnesses := corrRes.settled_fail_witnesses;
@@ -543,7 +553,9 @@ JudgeWindow := function(s1in, s2in, label)
   # set corr (post-settled-filter) -- not assumed to be phi(2*N_ord).
   r.chi_image_order := Length(Set(List(corr, k -> (2*k[1] + 1) mod (2*W.Nord))));
 
+  Print("[judge] ", label, ": phase=GroupOfShadows starting (n_shadows=", Length(corr), ")\n");
   gi := GroupOfShadows(W, corr);;
+  Print("[judge] ", label, ": phase=GroupOfShadows done (closed=", gi.closed, ")\n");
   r.closure_353_holds := gi.closed;
 
   if gi.closed then
@@ -627,6 +639,10 @@ JudgeWindow := function(s1in, s2in, label)
   # (flag unbound) is unchanged from v1/v1.1: the crosscheck still runs.
   r.crosscheck_vs_EnumerateReducedHexagon := fail;
   if r.c_in_N and not (IsBound(JUDGE_SKIP_LEGACY_CROSSCHECK) and JUDGE_SKIP_LEGACY_CROSSCHECK = true) then
+    Print("[judge] ", label, ": phase=crosscheck_vs_EnumerateReducedHexagon starting ",
+          "(WARNING: this calls BFSWords over the WHOLE of P_N -- |PN|=", Size(W.PN),
+          " -- infeasible if P_N is large; set JUDGE_SKIP_LEGACY_CROSSCHECK:=true;; ",
+          "to skip this block for large-P windows)\n");
     qrecCk := rec(x := W.x, y := W.y, G := W.PN);
     hexres := fail;
     if GAPLIB_CheckCap(300.0, Concatenation(label, "-crosscheck")) then
@@ -636,6 +652,12 @@ JudgeWindow := function(s1in, s2in, label)
       hexSet := Set(List(hexres.shadows, s -> [s.m, s.f]));
       r.crosscheck_vs_EnumerateReducedHexagon := (hexSet = corr);
     fi;
+    Print("[judge] ", label, ": phase=crosscheck_vs_EnumerateReducedHexagon done (result=",
+          r.crosscheck_vs_EnumerateReducedHexagon, ")\n");
+  else
+    Print("[judge] ", label, ": phase=crosscheck_vs_EnumerateReducedHexagon SKIPPED ",
+          "(c_in_N=", r.c_in_N, ", JUDGE_SKIP_LEGACY_CROSSCHECK=",
+          IsBound(JUDGE_SKIP_LEGACY_CROSSCHECK) and JUDGE_SKIP_LEGACY_CROSSCHECK, ")\n");
   fi;
 
   r.status := "computed";

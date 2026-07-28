@@ -179,8 +179,22 @@ STAGE2_FULL_RESULT := fail;;
 if IsBound(STRIKE_RUN_STAGE2) and STRIKE_RUN_STAGE2 = true then
   Print("\n=== STAGE 2 (FULL RUN -- STRIKE_RUN_STAGE2 bound true) ===\n");
   JUDGE_FORCE_SCAN_MODE := "xi_restricted";;
+  # *** CRITICAL FIX (found diagnosing CI run 30392894007's 29-minute silent
+  # hang, 2026-07-29): this window has c_in_N=true, so JudgeWindow's
+  # crosscheck_vs_EnumerateReducedHexagon block fires unless explicitly
+  # disabled. That block calls EnumerateReducedHexagon, whose BFSWords tries
+  # to enumerate the WHOLE of P_N via x,y-words -- for |P_N|=|A16|~1.05e13
+  # this cannot finish (the CI run was very likely still slowly thrashing
+  # toward the 2g heap cap when the 30-minute CI timeout killed it, matching
+  # the observed "STAGE 2 (FULL RUN) printed, then total silence" symptom --
+  # the earlier local timing trial never hit this because it called
+  # CorrectedShadowsXi directly, bypassing JudgeWindow's crosscheck block
+  # entirely). search/wall-miner-v5.g already sets this same flag for the
+  # same reason. Without this line, stage 2 will hang again exactly as it
+  # did in the CI run.
+  JUDGE_SKIP_LEGACY_CROSSCHECK := true;;
   STAGE2_FULL_RESULT := JudgeWindow(s1, s2, "W-D-A16-11a");;
-  RunAndWrite(STAGE2_FULL_RESULT, "search/certs/kerchi_judge_WDA16_11a.json");
+  RunAndWrite(STAGE2_FULL_RESULT, "search/certs/strike_a16_full_20260729.json");
 else
   Print("\n(STRIKE_RUN_STAGE2 not set -- full stage 2 skipped, as instructed for the local run)\n");
 fi;

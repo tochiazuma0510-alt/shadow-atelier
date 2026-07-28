@@ -538,3 +538,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 煙試験 PASS: run 30370327355(65 秒)。gap-actions/setup-gap@v3.8.0 で GAP **4.16.0** 公式 tarball(sha256 検証つき)をソースビルド・lins **0.9** — ローカルと完全同版。
 - 二環境一致: B₃ 正規部分群 指数≤24 = **33 本**(CI smoke)= ローカル probe(wall_probe_20260728.json)。
 - workflow: .github/workflows/wall-smoke.yml・証明書は artifact 回収方式。runner = ubuntu-latest(4 vCPU/16GB・public repo 無制限)。
+
+## 2026-07-29 第一撃 W-D-A16-11a
+- CI run 30392894007(gap-run)は 30 分 timeout で cancel(真因 = legacy crosscheck の 10¹³ BFS)。修理(JUDGE_SKIP_LEGACY_CROSSCHECK)後**ローカル本走で完走**(数分)。証明書 = search/certs/strike_a16_full_20260729.json。
+- 判定: shadow 880(settled 全)・ker χ̃ 位数 88 **非可換**(witness 2 置換)・G_N 導来列 [880,22,1]。scan_mode = xi_restricted・scanned 8,712,000・圧縮 1.2×10⁷。GAP 4.16.0・単系統(witness 独立検算を別途)。
