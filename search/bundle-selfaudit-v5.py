@@ -15,10 +15,10 @@
 import os, re, sys, hashlib
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 D = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-F = {"spec":     "docs/week4-NInfty_stage2_spec_v14.md",
-     "contract": "docs/mb_ninfty_verifier_contract_v9.md",
-     "manifest": "docs/mb_dependency_manifest_v9.md"}
-CUR = {"spec": "v14", "contract": "v9", "manifest": "v9"}
+F = {"spec":     "docs/week4-NInfty_stage2_spec_v15.md",
+     "contract": "docs/mb_ninfty_verifier_contract_v10.md",
+     "manifest": "docs/mb_dependency_manifest_v10.md"}
+CUR = {"spec": "v15", "contract": "v10", "manifest": "v10"}
 ORD = {"manifest": 0, "contract": 1, "spec": 2}
 T = {k: open(os.path.join(D, p), encoding='utf-8').read() for k, p in F.items()}
 Bb = {k: open(os.path.join(D, p), 'rb').read() for k, p in F.items()}
@@ -125,6 +125,13 @@ def _fence_spans(txt):
             if st is None: st = i
             else: out.append((st, i, "\n".join(lines[st:st+4]))); st = None
     return out
+OWN = {"manifest": ("D-", "R-", "U-"), "contract": ("P-", "W-", "S1", "S2", "S3", "C1")}
+def own_filter(name, ids):
+    """CR-8b(per-document scope): その文書に normative 定義がある check だけを残す。
+       相互の義務は clause 散文(contract C-6⁗ 等)で表現する。"""
+    pre = OWN.get(name)
+    if not pre: return set(ids)
+    return set(x for x in ids if x.startswith(pre))
 def extract_checks(txt, ck_re):
     """CR-8: defined_procedure_checks は明示タグ block と normative table 行だけから抽出。
        covered/uncovered/registry-definition/branch-contract/conformance の meta fence は母体から除く。"""
@@ -149,7 +156,7 @@ for name, cl, ck in (("contract", CL_RE, CK_RE), ("manifest", CL_RE_M, CK_RE_M))
     good = (not [c for c in cov | unc if ".." in c]) and (cov & unc == set()) and (cov | unc == reg)
     d2.append("%s: reg=%d cov=%d eq=%s" % (name, len(reg), len(cov), good))
     if not good: ok2 = False; d2.append("  reg-cov=%s cov-reg=%s" % (sorted(reg - cov)[:8], sorted(cov - reg)[:8]))
-    creg = extract_checks(txt, ck); ccov = setof(txt, "covered_procedure_checks") or set(); cunc = setof(txt, "uncovered_checks") or set()
+    creg = own_filter(name, extract_checks(txt, ck)); ccov = setof(txt, "covered_procedure_checks") or set(); cunc = setof(txt, "uncovered_checks") or set()
     cgood = (ccov & cunc == set()) and (ccov | cunc == creg)
     d3.append("%s: reg=%d cov=%d eq=%s" % (name, len(creg), len(ccov), cgood))
     if not cgood: ok3 = False; d3.append("  reg-cov=%s cov-reg=%s" % (sorted(creg - ccov)[:8], sorted(ccov - creg)[:8]))
@@ -248,6 +255,16 @@ for name in F:
         tgt = SLUG.get(slug)
         dok = (tgt == name or ORD[tgt] > ORD[name]) if dg.startswith("receipt:") else (dg == DG[tgt])
         if not (ver == CUR[tgt] and dok): ok13 = False; r13.append("%s->%s label=%s dok=%s" % (name, tgt, ver, dok))
+    hb = re.search(r"historical_quotation_refs\[\] = \[(.*?)\n\]", T[name], re.S)
+    if hb:
+        for e in re.finditer(r'artifact_id: "([^"]+)/v(\d+)\.\.v(\d+)"', hb.group(1)):
+            slug, lo, hi = e.group(1), int(e.group(2)), int(e.group(3))
+            tgt = SLUG.get(slug)
+            top = int(CUR[tgt][1:]) - (1 if tgt == name else 0)
+            if not (lo >= 1 and hi <= int(CUR[tgt][1:]) and hi >= lo):
+                ok13 = False; r13.append("%s historical %s v%d..v%d 範囲不正" % (name, tgt, lo, hi))
+        if re.search(r'historical_quotation_refs.*?artifact_id: "[^"]+/v\d+", digest', hb.group(0), re.S):
+            ok13 = False; r13.append("%s: historical に単一版 label + digest(誤記型)" % name)
     sd = re.search(r'current_version\s*=\s*"v(\d+)".*?historical_upper_bound\s*=\s*"v(\d+)"', T[name], re.S)
     if not sd or int(sd.group(2)) != int(sd.group(1)) - 1 or "v" + sd.group(1) != CUR[name]:
         ok13 = False; r13.append("%s: sweep-def 版不整合" % name)
@@ -413,7 +430,7 @@ if "--mutate" in sys.argv:
     ct = T["contract"]
     # M70-1 covered へ未知 W-9 -> extra-covered FAIL
     t1 = ct.replace("covered_procedure_checks = [", "covered_procedure_checks = [W-9, ", 1)
-    d1 = extract_checks(t1, CK_RE); c1 = setof(t1, "covered_procedure_checks")
+    d1 = own_filter("contract", extract_checks(t1, CK_RE)); c1 = setof(t1, "covered_procedure_checks")
     print(("PASS" if ("W-9" in c1 and "W-9" not in d1) else "FAIL"),
           "| M70-1 covered へ未知 W-9 -> extra-covered |", "covered に W-9=%s / defined に W-9=%s(定義母体に混入しない)" % ("W-9" in c1, "W-9" in d1))
     # M70-2 normative W-2′ 定義削除・covered 維持 -> undefined-covered FAIL
@@ -430,13 +447,13 @@ if "--mutate" in sys.argv:
     for i in corpus:
         L2[i-1] = L2[i-1].replace("W-2" + chr(0x2032), "W-2X")
     t2 = chr(10).join(L2)
-    d2 = extract_checks(t2, CK_RE); c2 = setof(t2, "covered_procedure_checks")
+    d2 = own_filter("contract", extract_checks(t2, CK_RE)); c2 = setof(t2, "covered_procedure_checks")
     print(("PASS" if ("W-2" + chr(0x2032) in c2 and "W-2" + chr(0x2032) not in d2) else "FAIL"),
           "| M70-2 normative 定義を全削除・covered 維持 -> undefined-covered |",
           "covered=%s defined=%s (母体行 %d 本を改変)" % ("W-2" + chr(0x2032) in c2, "W-2" + chr(0x2032) in d2, len(corpus)))
     # M70-3 covered enumeration を母体から除いても registry 不変
     t3 = re.sub(r"covered_procedure_checks = \[.*?\]", "covered_procedure_checks = []", ct, flags=re.S)
-    d3a = extract_checks(ct, CK_RE); d3b = extract_checks(t3, CK_RE)
+    d3a = own_filter("contract", extract_checks(ct, CK_RE)); d3b = own_filter("contract", extract_checks(t3, CK_RE))
     print(("PASS" if d3a == d3b else "FAIL"), "| M70-3 covered を空にしても defined 不変 |",
           "defined=%d -> %d 差分=%s" % (len(d3a), len(d3b), sorted(d3a ^ d3b)))
     # M70-4 W-2′ token 一貫性: 全て U+2032 / 母体へ U+0027 を一件注入 -> FAIL
@@ -449,7 +466,7 @@ if "--mutate" in sys.argv:
             L4[i-1] = L4[i-1].replace("W-2" + chr(0x2032), "W-2" + chr(0x27), 1); injected = i; break
     t4 = chr(10).join(L4)
     caught = len(tokscan(t4)) > 0
-    d4 = extract_checks(t4, CK_RE); c4 = setof(t4, "covered_procedure_checks")
+    d4 = own_filter("contract", extract_checks(t4, CK_RE)); c4 = setof(t4, "covered_procedure_checks")
     print(("PASS" if (clean and caught) else "FAIL"),
           "| M70-4 token 一貫性 / 母体へ U+0027 一件注入 -> FAIL |",
           "三文書とも非 U+2032 変種=0 -> %s / 注入行=%s -> token gate 検出=%s / 注入後 registry equality=%s"

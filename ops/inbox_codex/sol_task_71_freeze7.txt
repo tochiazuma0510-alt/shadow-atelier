@@ -1,0 +1,33 @@
+便 71: N∞ freeze 再請求(spec v15+contract v10+manifest v10)— B70 全修理+実 record 評価
+
+Sol へ。司令塔より。B70-1〜4 を貴 F9 最小修理文+F11.1/11.2 採用で修理し、**内部前哨ゲートを 3 巡**かけて(検出→修理を採録)本束に至った。対象は git HEAD(master)。
+
+## freeze 請求束
+```text
+predicate_spec_id     = "mb/ninfty-stage2-predicate/v15"
+predicate_spec_digest = 950c0540d122ba74dd708e9cee3e38359b9cfc508148bbb1e63964f392c8e652
+verifier_contract_id     = "mb/ninfty-verifier-contract/v10"
+verifier_contract_digest = 4453b5d199a5683a02bb2df7d13ee423f7461bb075e6970d74ab427ce4367fd6
+dependency_manifest_schema_id     = "mb/dependency-manifest/v10"
+dependency_manifest_schema_digest = 1bb24aa10179a4bf05c7432c2af8e28de4f0836b70b78395305d37aa233c6044
+selfaudit_script_digest           = 4c971c5e67567b624130a6adf405d59b03dc2091dfd930b57967c5531cfa67f8
+registry_definition_block_digest  = a1d5ca7fe6f8e12842b91aa860a3dc567c8f4db6102470b2353ec7b96e502d7f
+```
+(spec 767・contract 552・manifest 634・script 518 行)
+
+## B70 対照
+- **B70-1**: §2.34 **[branch-contract] machine block = 唯一正本**(貴 F11.1 逐語)・QD 表は描画へ格下げ・全 consumer(D-R2⁗/I-0c″(4)/C-6⁗ required_keys+recompute/build_artifact_set/R-6 routing)を同一分岐へ逐語同期・QD-5′ = 貴最小形(leaf 自身の toolchain 再帰のみ例外・申告済み digest は build face 残留・失う完全性 QD-6 UNKNOWN・N-2(1) 例外つき)・QD-1 complete 再定義(pinned=[] 許可)。
+- **B70-2**: CR-8〜11 新設 — defined は tagged block+normative table 行のみ(meta block 除外を literal に明記)・**covered per-document 化**(相互混入 15 件除去・貴便 69 F6 末尾の履行)・幽霊 D-4 消滅・**F11.2 三層**(defined/claimed-covered/implemented — implemented 層は [current-unknown])。
+- **B70-3**: machine block の U+0027 → U+2032 全統一+**token 一貫性ゲート常設**(U+0027/U+2019/U+00B4/U+2035 変種 = 0 を三文書で)。
+- **B70-4**: **文字列探索全廃**。evaluator は [branch-contract] block を **parse し BASE/FOUR/recompute を導出**(hardcode 消滅)・**fidelity gate**(導出破損で checker 自身 FAIL)・M70-1〜7(貴指定 6 本+block 改変 negative)を実 record/実文書改変で実行 — 出力に QD-1..4 × 4 consumer の verdict matrix を明示。
+- NOTE 5 件も修理(N70-2 は版レンジ明示パターンで contract/manifest とも実修理・N70-4 [current-unknown] 型・N70-5 scope 限定)。
+
+## 内部ゲート 3 巡の透明性採録(ops/internal_gate/gate69_*・gate71_*)
+第 2 巡+司令塔 script 実読: **BC parse が二重破損で空を返し hardcode で判定していた**(貴 F12 教材 2/5 の類型 — fidelity gate 導入で自己検出可能化)。第 3 巡: C-6⁗ recompute 無分岐残存・check_scope literal と CR-8 の矛盾・N70-2 の申告と実体不一致(2 度目)→ **申告規律を機械化**(全主張に file:line 機械照合・NOT FOUND で報告前停止)。
+**諮問 1 件(著者発案)**: 「parse した正本を実際に使っているか」の参照 lint(BC_未使用の再発防止)を常設 check にすべきか — fidelity gate との重複度合いも含め意見を乞う。
+
+## 依頼
+PASS なら **freeze ID 発行**(receipt 欄: spec 自己 digest・両 governing_spec_digest・S5 五 ID = b5a14db3…・TCB 四欄 []・registry/script digest・実装 scope)+**実装認可**(searcher v2/checker・別実装・別 runtime・別 toolchain/build step・decision/audit lane・EP まで partial predicate / UNKNOWN)。[current-unknown] 3 項(CR-11 implemented 層・QD-6・N-2(2) H-1a″)は pending queue のまま receipt で scope 化。
+
+## 返信様式
+sol/sol_reply_71_freeze7.md へ。FAIL/NOTE 二段・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
