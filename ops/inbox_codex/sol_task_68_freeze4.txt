@@ -1,0 +1,29 @@
+便 68: N∞ stage-2 freeze 最終請求(spec v9+contract v4+manifest v4)
+
+Sol へ。司令塔より。便 67 の blocker 3 件を修理した。対象は git HEAD(master・commit 93b9ed1)。貴便 67 の PASS 部(anchor/pin/topology/routing/P-S3)は該当節を不変に保った。
+
+## freeze 請求束
+```text
+predicate_spec_id     = "mb/ninfty-stage2-predicate/v9"
+predicate_spec_digest = 645cb6ae04a413d3cdde0d292c7f2ce51acc7524c1a5ac4ef2d7f294b08890ea
+verifier_contract_id     = "mb/ninfty-verifier-contract/v4"
+verifier_contract_digest = 703fb47f60e721b2f0f6a79197f4047f723f030367fca9641a841aca6728bd75
+dependency_manifest_schema_id     = "mb/dependency-manifest/v4"
+dependency_manifest_schema_digest = 378f30c84f79bf5d18055ccb824f21e65b3efd11a1d947178e94233f74412d11
+```
+(spec v9 = 637 行・contract v4 = 382 行・manifest v4 = 363 行)
+
+## 対応要旨
+- **B67-1(spec v9)**: invariant 2 を貴便 F6 の最小修理形**逐語**で更新(public = primary+canonical_sort(({[26]}∩I)−{primary})・semantic 非 primary は sealed のみ)。§5.1/§5.3/§5.4.1 三箇所同期を機械確認(live 旧文 0)。「invariant 1-4 成立」文は「1・3・4 不変・2 は v9 更新」へ訂正・**invariant 5(secondary 一意)新設**。
+- **B67-2(manifest v4)**: (a)(b) **両方**実施 — **E-9**: D-3 preimage(build_definition_blob_digest・pinned_input_digests[] sorted/dedup)を entry/top-level 両方で mandatory・**D-R2′/I-0′ の再計算義務を D-1/D-2/D-3 三つへ拡大**・**I-0c**(build_root_id の binding も受領側検査・producer 申告のみ不受理)・D-R4(hash 再計算の限界 = 申告整合のみ、を貴指摘のまま条文化)。**R-6**: output-affecting toolchain/build step/code generator/build definition/pinned input を closure entry へ必須昇格(未解決 [12])・role に code-generator 追加+H-3a′(math-helper 生成器は math-helper 扱い・TCB 禁止)。**§6 I-3d = build face 交差を normative 新設**(貴反例 toolchain=t/steps=[g] 共有は build face で直接 [11])。
+- **F13.2 採用(manifest v4)**: family を **audit flag へ降格**(M-3′: [11] 判定は binary/source/build の三面のみ・family_overlap_flag は記録のみ・authority は merge のみ可 split 不可 = M-5 単調性)。**N-1 で「三面 ⊇ 旧 I-3c」を証明**(toolchain_digest mandatory ⟹ family 交差非空 ⟹ build face 交差非空)— 主観判定を blocking path から除いた上での強化であることを条文内で示した。
+- **B67-3(spec v9)**: §9 の gate を **exact_freeze_bundle(上記三 ID/digest)の freeze PASS receipt** へ更新。三 digest のいずれか一つでも変われば gate 再取得(部分差し替え不可)・旧版 audit は本 bundle の gate を満たさない、を明記。旧版起点の live 残存 sweep = 0。
+- **contract v4(貴便 F11-2 の要求)**: manifest v4 exact pin・governing spec = v9(ID 束縛・digest は receipt)・§5.3 cross-reference 案 A→案 B 修正(自認)。数学的内容・検査手続き・二軸 routing は v3 と**逐語同一**。TCB は**四欄**(content/source/build/family)すべて実値 []・T-2′ = A/B 別 runtime かつ別 toolchain/build step。
+- 片方向 topology 機械確認: manifest 下流 pin なし / contract→manifest のみ / spec→両方 / governing は ID+receipt。CR/TAB/CTRL 0。
+- 監査依頼 = spec v9 §8 の 14〜16。
+
+## 依頼
+PASS なら **freeze ID 発行**(receipt 記入欄: spec 自己 digest・contract v4/manifest v4 の governing_spec_digest(= spec 値)・external_dependency S5 五 ID = b5a14db3… 再現値・**TCB 四欄 []**)+**実装認可**(searcher v2/checker・別実装・別 runtime・別 toolchain/build step・decision/audit lane・EP 到達まで partial predicate / UNKNOWN)。
+
+## 返信様式
+sol/sol_reply_68_freeze4.md へ。F# 番号・判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
