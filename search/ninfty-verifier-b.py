@@ -164,6 +164,18 @@ class MalformedWitness(Exception):
     the caller (裁定127 fix (i): crash resistance)."""
 
 
+class RefDigestMismatch(MalformedWitness):
+    """
+    裁定139 item 3: a ref-triple ({artifact_id, digest, json_pointer|
+    object_id}) that ALSO carries inline content whose recomputed digest
+    disagrees with the ref's own declared digest. This is a MalformedWitness
+    subtype (still caught the same way) but is tagged so callers can route
+    the more specific, ALREADY-established `digest-mismatch [12]` reason
+    code rather than the new (Sol-pending) generic `schema-invalid` one --
+    'どちらかを黙って優先しない': both are surfaced, never silently resolved.
+    """
+
+
 def _require_dict(x, what):
     if not isinstance(x, dict):
         raise MalformedWitness(f"{what} must be an object/dict, got {type(x).__name__}: {x!r}")
@@ -193,30 +205,88 @@ def _require_int(x, what):
 
 
 # --------------------------------------------------------------------------
-# 裁定128 rule-5 machinery: coerce-to-empty-array-or-ABSENT, then split by
-# divisor_object tag. Shared by all seven witness checkers.
+# 裁定139 item 3: `_ref` triple = {artifact_id, digest, json_pointer |
+# object_id}. Inline materialization ("inline" sibling key) is optional;
+# WHEN present, its recomputed digest must equal the ref's declared
+# `digest` exactly, or this is an integrity stop ([12] digest-mismatch),
+# never a silently-preferred side. Dereferencing an ABSENT-inline,
+# digest-only reference (i.e. actually walking `json_pointer` into a
+# native artifact, or looking up `object_id`) is NOT implemented by this
+# partial verifier -- flagged UNKNOWN (see callers), not silently assumed
+# to PASS.
 # --------------------------------------------------------------------------
 
 
-def _coerce_to_list(cert, field_name):
-    """Missing/None/wrong-type -> ([], True). Present list -> (list, False)."""
-    v = cert.get(field_name, None)
+def _parse_ref_triple(ref, what):
+    _require_dict(ref, what)
+    _require_keys(ref, ["artifact_id", "digest"], what)
+    if "json_pointer" not in ref and "object_id" not in ref:
+        raise MalformedWitness(f"{what} must carry one of json_pointer/object_id (裁定139 item 3)")
+    return ref
+
+
+def _check_ref_inline_consistency(ref, what):
+    """Returns the inline value if present and digest-consistent; None if
+    no inline content was supplied (digest-only reference). Raises
+    RefDigestMismatch if inline content's digest disagrees."""
+    if "inline" not in ref:
+        return None
+    recomputed = sha256_of(ref["inline"])
+    declared = ref.get("digest")
+    if recomputed != declared:
+        raise RefDigestMismatch(f"{what}: inline content digest {recomputed} != declared digest {declared!r}")
+    return ref["inline"]
+
+
+# --------------------------------------------------------------------------
+# 裁定139 (v3 item 5, F77-4.3): ABSENT and MALFORMED are DISTINCT statuses,
+# not both folded into "FAIL":
+#   - key entirely missing, OR present as an explicit []  -> ABSENT
+#     (evidence insufficiency; still prevents overall PASS, but is not a
+#     schema violation)
+#   - key present as null, a non-array, OR an entry lacking/carrying an
+#     unrecognized tag -> MALFORMED (a contract/schema violation; stops at
+#     the parse/schema layer and is never silently folded into ABSENT or
+#     an ordinary witness FAIL)
+# MALFORMED anywhere escalates the overall verdict to INTEGRITY_STOP
+# (schema-invalid gate stop) in run_verifier_b, taking priority over a
+# plain per-witness FAIL -- see SCHEMA_INVALID_DETECTED / _record_malformed.
+# --------------------------------------------------------------------------
+
+
+def _read_container(cert, field_name):
+    """
+    Returns (kind, value):
+      kind="missing"       value=[]      -- key not present at all
+      kind="empty"         value=[]      -- key present, explicit []
+      kind="malformed_null" value=None   -- key present, explicit null
+      kind="malformed_type" value=<raw>  -- key present, not null, not a list
+      kind="list"          value=<list>  -- key present, well-typed nonempty list
+    """
+    if field_name not in cert:
+        return "missing", []
+    v = cert[field_name]
+    if v is None:
+        return "malformed_null", None
     if isinstance(v, list):
-        return v, False
-    return [], True
+        return ("empty", []) if len(v) == 0 else ("list", v)
+    return "malformed_type", v
 
 
-def _split_by_divisor_object(entries):
+def _split_by_divisor_object(entries, tag_field="divisor_object", tag_values=None):
     """
-    Groups entries by their 'divisor_object' tag. Entries that are not
-    dicts, lack the tag, or carry an unrecognized value are collected as
-    'unattributed' -- NEVER silently dropped (that would reopen a
-    fail-open hole); callers FAIL the relevant object channel(s) instead.
+    Groups entries by their tag (default 'divisor_object', values default
+    to DIVISOR_OBJECT_TOKENS -- overridable for W-6's 'native_side' tag).
+    Entries that are not dicts, lack the tag, or carry an unrecognized
+    value are collected as 'unattributed' -- these make the field
+    MALFORMED (裁定139 item 5), never silently dropped and never folded
+    into an ordinary witness FAIL.
     """
-    groups = {tok: [] for tok in DIVISOR_OBJECT_TOKENS}
+    values = tag_values if tag_values is not None else DIVISOR_OBJECT_TOKENS
+    groups = {v: [] for v in values}
     unattributed = []
     for i, e in enumerate(entries):
-        tag = e.get("divisor_object") if isinstance(e, dict) else None
+        tag = e.get(tag_field) if isinstance(e, dict) else None
         if tag in groups:
             groups[tag].append(e)
         else:
@@ -228,19 +298,42 @@ def _absent_pair(reason):
     return {tok: ("ABSENT", {"reason": reason}) for tok in DIVISOR_OBJECT_TOKENS}
 
 
+def _malformed_pair(reason):
+    return {tok: ("MALFORMED", {"reason": reason}) for tok in DIVISOR_OBJECT_TOKENS}
+
+
+def _container_gate(cert, field_name):
+    """
+    Shared first step for both plural and singular witness checkers:
+    resolves the ABSENT-vs-MALFORMED-vs-well-typed-list question for the
+    top-level container. Returns either a completed pair-map (for the
+    ABSENT/MALFORMED terminal cases) or None (meaning: proceed with the
+    well-typed, nonempty `raw` list returned alongside it).
+    """
+    kind, raw = _read_container(cert, field_name)
+    if kind in ("missing", "empty"):
+        return _absent_pair(f"{field_name} {'not supplied' if kind == 'missing' else 'is explicit []'} "
+                             "(ABSENT, 裁定139 item 5)"), None
+    if kind == "malformed_null":
+        return _malformed_pair(f"{field_name} is explicit null (MALFORMED, 裁定139 item 5 -- "
+                                "null is never a valid ABSENT/status marker)"), None
+    if kind == "malformed_type":
+        return _malformed_pair(f"{field_name} must be an array, got {type(raw).__name__} "
+                                f"(MALFORMED, 裁定139 item 5)"), None
+    return None, raw
+
+
 def _check_plural_witness(cert, field_name, validate_entry):
     """
     For W-2/W-2'/W-3/W-4 style fields: any number of entries per object,
-    ALL must PASS for that object's channel to PASS. 0 entries for a
-    given object (after a well-typed, nonempty container is split) ->
-    ABSENT for that object specifically (still a legitimate "no claim").
+    ALL must PASS for that object's channel to PASS. Schema violations
+    (missing/unrecognized divisor_object tag, or a MalformedWitness raised
+    by validate_entry) yield MALFORMED for the affected object(s), kept
+    distinct from an ordinary arithmetic FAIL.
     """
-    raw, coerced = _coerce_to_list(cert, field_name)
-    if len(raw) == 0:
-        reason = f"{field_name} not supplied or empty"
-        if coerced:
-            reason += " (coerced from missing/wrong-typed container, cert_shape_interpretation_v1 rule 5)"
-        return _absent_pair(reason)
+    terminal, raw = _container_gate(cert, field_name)
+    if terminal is not None:
+        return terminal
 
     groups, unattributed = _split_by_divisor_object(raw)
     unattributed_reason = None
@@ -248,7 +341,7 @@ def _check_plural_witness(cert, field_name, validate_entry):
         unattributed_reason = (
             f"{len(unattributed)} entr{'y' if len(unattributed) == 1 else 'ies'} in {field_name} "
             f"lack a recognized 'divisor_object' tag and cannot be attributed to either native "
-            f"object -- FAIL (not silently dropped, 裁定127 fail-open fix generalized to 裁定128 shape)"
+            f"object -- MALFORMED (schema violation, 裁定139 item 5), not silently dropped"
         )
 
     out = {}
@@ -258,20 +351,25 @@ def _check_plural_witness(cert, field_name, validate_entry):
             out[tok] = ("ABSENT", {"reason": f"no {field_name} entries tagged divisor_object={tok!r}"})
             continue
         details = []
+        any_malformed = False
         all_ok = True
         for i, e in enumerate(entries):
             try:
                 status, detail = validate_entry(e)
             except MalformedWitness as ex:
-                status, detail = "FAIL", {"malformed": True, "reason": str(ex)}
+                status, detail = "MALFORMED", {"reason": str(ex), "digest_mismatch": isinstance(ex, RefDigestMismatch)}
             details.append({"index": i, "status": status, "detail": detail})
+            if status == "MALFORMED":
+                any_malformed = True
             if status != "PASS":
                 all_ok = False
         if unattributed:
-            all_ok = False
+            any_malformed = True
             details.append({"unattributed_entries": len(unattributed), "reason": unattributed_reason})
         if not entries and unattributed:
-            out[tok] = ("FAIL", {"entries": details})
+            out[tok] = ("MALFORMED", {"entries": details})
+        elif any_malformed:
+            out[tok] = ("MALFORMED", {"entries": details})
         else:
             out[tok] = ("PASS" if all_ok else "FAIL", {"entries": details})
     return out
@@ -279,17 +377,14 @@ def _check_plural_witness(cert, field_name, validate_entry):
 
 def _check_singular_witness(cert, field_name, validate_entry):
     """
-    For W-1/W-5/W-6 style fields (裁定128 rule 4: singular-noun witnesses
-    become a 2-entry array, one per object). Exactly one entry per object
-    is expected; 0 -> ABSENT for that object, >1 -> FAIL (ambiguous
-    duplicate singular claim -- Sol-confirmation point (d), see docstring).
+    For W-1/W-5 style fields (2-entry array, one per object). Exactly one
+    entry per object is expected; 0 -> ABSENT, >1 or a MalformedWitness
+    raised by validate_entry -> MALFORMED (schema violation), kept
+    distinct from an ordinary arithmetic FAIL.
     """
-    raw, coerced = _coerce_to_list(cert, field_name)
-    if len(raw) == 0:
-        reason = f"{field_name} not supplied or empty"
-        if coerced:
-            reason += " (coerced from missing/wrong-typed container, cert_shape_interpretation_v1 rule 5)"
-        return _absent_pair(reason)
+    terminal, raw = _container_gate(cert, field_name)
+    if terminal is not None:
+        return terminal
 
     groups, unattributed = _split_by_divisor_object(raw)
     out = {}
@@ -298,21 +393,19 @@ def _check_singular_witness(cert, field_name, validate_entry):
         if len(entries) == 0:
             out[tok] = ("ABSENT", {"reason": f"no {field_name} entry tagged divisor_object={tok!r}"})
         elif len(entries) > 1:
-            out[tok] = ("FAIL", {"reason": f"{field_name} has {len(entries)} entries tagged "
-                                  f"divisor_object={tok!r}, expected exactly 1 (singular witness, "
-                                  "cert_shape_interpretation_v1 rule 4)"})
+            out[tok] = ("MALFORMED", {"reason": f"{field_name} has {len(entries)} entries tagged "
+                                       f"divisor_object={tok!r}, expected exactly 1 (singular witness)"})
         else:
             try:
                 status, detail = validate_entry(entries[0])
             except MalformedWitness as ex:
-                status, detail = "FAIL", {"malformed": True, "reason": str(ex)}
+                status, detail = "MALFORMED", {"reason": str(ex), "digest_mismatch": isinstance(ex, RefDigestMismatch)}
             out[tok] = (status, detail)
     if unattributed:
         reason = (f"{len(unattributed)} unattributed entries present in {field_name} "
-                  "(missing/unrecognized divisor_object tag) -- FAIL, not silently dropped")
+                  "(missing/unrecognized divisor_object tag) -- MALFORMED, not silently dropped")
         for tok in DIVISOR_OBJECT_TOKENS:
-            if out[tok][0] != "FAIL":
-                out[tok] = ("FAIL", {"reason": reason})
+            out[tok] = ("MALFORMED", {"reason": reason})
     return out
 
 
@@ -328,16 +421,21 @@ def fail_closed_pairmap(fn):
     def wrapped(*args, **kwargs):
         try:
             return fn(*args, **kwargs)
+        except MalformedWitness as e:
+            detail = {"reason": f"schema violation while checking this witness type: {e}",
+                      "digest_mismatch": isinstance(e, RefDigestMismatch)}
+            return {tok: ("MALFORMED", detail) for tok in DIVISOR_OBJECT_TOKENS}
         except Exception as e:  # noqa: BLE001 -- deliberate blanket catch, fail-closed by design
             detail = {
                 "crashed": True,
                 "exception_type": type(e).__name__,
                 "exception": str(e),
                 "reason": "unexpected exception while checking this witness type -- "
-                          "treated as FAIL for both object channels, never a crash or "
-                          "silent PASS (裁定127 fix (i))",
+                          "treated as MALFORMED for both object channels (裁定139: an "
+                          "unexpected processing failure is a schema/processing problem, "
+                          "not a mathematical FAIL), never a crash or silent PASS (裁定127 fix (i))",
             }
-            return {tok: ("FAIL", detail) for tok in DIVISOR_OBJECT_TOKENS}
+            return {tok: ("MALFORMED", detail) for tok in DIVISOR_OBJECT_TOKENS}
     wrapped.__name__ = fn.__name__
     wrapped.__doc__ = fn.__doc__
     return wrapped
@@ -526,7 +624,7 @@ def _validate_w2_entry(e):
     _require_keys(e, ["witness"], "W-2 entry")
     witness = _require_dict(e["witness"], "W-2 entry.witness")
     if witness.get("kind") != "ideal-equality":
-        return "FAIL", {"reason": f"wrong kind for W-2 (must be ideal-equality, got {witness.get('kind')!r})"}
+        raise MalformedWitness(f"wrong kind for W-2 (must be ideal-equality, got {witness.get('kind')!r})")
     _require_keys(witness, ["forward", "backward"], "W-2 entry.witness")
     fwd_ok, fwd_detail = _validate_ideal_equality_direction(witness["forward"], "forward")
     bwd_ok, bwd_detail = _validate_ideal_equality_direction(witness["backward"], "backward")
@@ -546,7 +644,7 @@ def _validate_w2prime_entry(e):
     _require_keys(e, ["witness"], "W-2' entry")
     witness = _require_dict(e["witness"], "W-2' entry.witness")
     if witness.get("kind") != "disjointness":
-        return "FAIL", {"reason": f"wrong kind for W-2' (must be disjointness, got {witness.get('kind')!r})"}
+        raise MalformedWitness(f"wrong kind for W-2' (must be disjointness, got {witness.get('kind')!r})")
     _require_keys(witness, ["generator_P", "generator_Q", "bezout_u", "bezout_v", "reduction_tag"],
                    "W-2' entry.witness")
     if witness["reduction_tag"] not in ("reduction-to-zero", "reduction-to-one"):
@@ -576,24 +674,28 @@ def _validate_w3_entry(e):
 
 def _validate_w4_entry(e):
     """
-    W-4 entry (裁定133 (i)): {divisor_object, status, per_overlap_witnesses:
+    W-4 entry (裁定139 item 7 = v2 (l) maintained: EXACTLY 1 entry per
+    divisor_object -- see verify_W4 using _check_singular_witness, not
+    _check_plural_witness): {divisor_object, status, per_overlap_witnesses:
     [{chart_pair, component_in_chart_a, component_in_chart_b}, ...]}.
     `status` (if present) is a producer claim and is never trusted; PASS
     requires ALL per_overlap_witnesses entries to independently agree.
+    Malformed sub-entries are a schema violation (raises MalformedWitness
+    -> MALFORMED), distinct from a genuine chart-mismatch FAIL.
     """
     _require_dict(e, "W-4 entry")
     _require_keys(e, ["per_overlap_witnesses"], "W-4 entry")
     overlaps = _require_list(e["per_overlap_witnesses"], "W-4 entry.per_overlap_witnesses")
     if len(overlaps) == 0:
         return "FAIL", {"reason": "per_overlap_witnesses is present but empty -- no overlap claim to verify"}
-    bad = []
     for i, o in enumerate(overlaps):
         if not isinstance(o, dict) or "component_in_chart_a" not in o or "component_in_chart_b" not in o:
-            bad.append({"index": i, "reason": "malformed (need component_in_chart_a, component_in_chart_b)"})
-            continue
-        if o["component_in_chart_a"] != o["component_in_chart_b"]:
-            bad.append({"index": i, "component_in_chart_a": o["component_in_chart_a"],
-                        "component_in_chart_b": o["component_in_chart_b"]})
+            raise MalformedWitness(f"per_overlap_witnesses[{i}] malformed "
+                                    "(need component_in_chart_a, component_in_chart_b)")
+    bad = [
+        {"index": i, "component_in_chart_a": o["component_in_chart_a"], "component_in_chart_b": o["component_in_chart_b"]}
+        for i, o in enumerate(overlaps) if o["component_in_chart_a"] != o["component_in_chart_b"]
+    ]
     ok = len(bad) == 0
     return ("PASS" if ok else "FAIL"), {"mismatches": bad, "checked": len(overlaps)}
 
@@ -618,8 +720,9 @@ def verify_W3(cert):
 
 @fail_closed_pairmap
 def verify_W4(cert):
-    """W-4: chart_overlap_witnesses (裁定128 flat array + divisor_object tag, plural)."""
-    return _check_plural_witness(cert, "chart_overlap_witnesses", _validate_w4_entry)
+    """W-4: chart_overlap_witnesses (裁定139 item 7: exactly 1 entry per
+    divisor_object -- layering lives inside per_overlap_witnesses[])."""
+    return _check_singular_witness(cert, "chart_overlap_witnesses", _validate_w4_entry)
 
 
 # --------------------------------------------------------------------------
@@ -641,95 +744,118 @@ def verify_W4(cert):
 # --------------------------------------------------------------------------
 
 
-def _actual_bijection_counts_and_groups(cert):
-    """Coerced-list-safe: returns (groups, unattributed) from the raw
-    component_bijection container, never raises."""
-    raw, coerced = _coerce_to_list(cert, "component_bijection")
-    groups, unattributed = _split_by_divisor_object(raw)
-    return groups, unattributed, coerced
-
-
-def _validate_bijection_group(entries, matched_count_claim):
+def _native_component_ids(native_payload, tok):
     """
-    entries: raw dicts already filtered to one divisor_object token, each
-    {searcher_index, checker_index, locus_type, divisor_object} (裁定133
-    (g)). matched_count_claim: W-5's claimed matched_count for this same
-    token (or None if unreadable) -- cross-checked here, NOT trusted
-    blindly; genuine injectivity is what actually decides PASS/FAIL.
+    Best-effort extraction of component ids (using 'locus_type' as the id,
+    this implementer's adopted convention -- native artifact internals are
+    not literally specified) from native_payload[tok]['components'].
+    Returns None (not []) if the native payload is unreadable at this
+    path, so callers can distinguish "no components" from "cannot check".
+    """
+    if not isinstance(native_payload, dict):
+        return None
+    obj = native_payload.get(tok)
+    if not isinstance(obj, dict):
+        return None
+    comps = obj.get("components")
+    if not isinstance(comps, list):
+        return None
+    return [c["locus_type"] for c in comps if isinstance(c, dict) and "locus_type" in c]
+
+
+def _validate_bijection_edges_for_token(entries, tok, native_a, native_b):
+    """
+    裁定139 item 6: component_bijection is an EDGE list -- entries =
+    {divisor_object, searcher_native_digest, searcher_component_id,
+    checker_native_digest, checker_component_id}. Self-reported domain/
+    codomain lists are NOT the authority: both component sets are
+    reconstructed here from the actual native_a/native_b payload (via
+    _native_component_ids), and in/out-degree = 1 (injectivity + full
+    coverage) is checked against THAT reconstruction, not against
+    anything the certificate merely claims. searcher_native_digest /
+    checker_native_digest are cross-checked against the ACTUAL recomputed
+    digest of native_a/native_b (RefDigestMismatch, i.e. integrity-stop
+    [12], on disagreement -- distinct from an ordinary schema MALFORMED).
     """
     if len(entries) == 0:
-        if matched_count_claim not in (0, None):
-            return "FAIL", {"reason": "component_bijection has 0 entries for this divisor_object, but "
-                             f"the matching W-5 entry claims matched_count={matched_count_claim!r} "
-                             "(!= 0) -- refusing a vacuous empty PASS"}
-        return "ABSENT", {"reason": "no component_bijection entries for this divisor_object"}
-    bad = []
-    searcher_idx, checker_idx = [], []
+        return "ABSENT", {"reason": f"no component_bijection edges for divisor_object={tok!r}"}
+
+    searcher_ids_actual = _native_component_ids(native_a, tok)
+    checker_ids_actual = _native_component_ids(native_b, tok)
+    searcher_digest_actual = sha256_of(native_a) if isinstance(native_a, dict) else None
+    checker_digest_actual = sha256_of(native_b) if isinstance(native_b, dict) else None
+
+    searcher_used, checker_used = [], []
     for i, e in enumerate(entries):
-        if not isinstance(e, dict) or "searcher_index" not in e or "checker_index" not in e:
-            bad.append({"index": i, "reason": "malformed (need searcher_index, checker_index)"})
-            continue
-        try:
-            si = _require_int(e["searcher_index"], f"component_bijection entry[{i}].searcher_index")
-            ci = _require_int(e["checker_index"], f"component_bijection entry[{i}].checker_index")
-        except MalformedWitness as ex:
-            bad.append({"index": i, "reason": str(ex)})
-            continue
-        searcher_idx.append(si)
-        checker_idx.append(ci)
-    if bad:
-        return "FAIL", {"malformed_entries": bad}
-    injective_searcher = len(set(searcher_idx)) == len(searcher_idx)
-    injective_checker = len(set(checker_idx)) == len(checker_idx)
-    count_ok = matched_count_claim is None or len(entries) == matched_count_claim
-    ok = injective_searcher and injective_checker and count_ok
+        _require_dict(e, f"component_bijection edge[{i}]")
+        _require_keys(e, ["searcher_native_digest", "searcher_component_id",
+                          "checker_native_digest", "checker_component_id"],
+                       f"component_bijection edge[{i}]")
+        if searcher_digest_actual is not None and e["searcher_native_digest"] != searcher_digest_actual:
+            raise RefDigestMismatch(
+                f"component_bijection edge[{i}].searcher_native_digest {e['searcher_native_digest']!r} "
+                f"!= actual recomputed native_a digest {searcher_digest_actual!r}")
+        if checker_digest_actual is not None and e["checker_native_digest"] != checker_digest_actual:
+            raise RefDigestMismatch(
+                f"component_bijection edge[{i}].checker_native_digest {e['checker_native_digest']!r} "
+                f"!= actual recomputed native_b digest {checker_digest_actual!r}")
+        searcher_used.append(e["searcher_component_id"])
+        checker_used.append(e["checker_component_id"])
+
+    injective_searcher = len(set(searcher_used)) == len(searcher_used)
+    injective_checker = len(set(checker_used)) == len(checker_used)
+    covers_searcher = searcher_ids_actual is None or set(searcher_used) == set(searcher_ids_actual)
+    covers_checker = checker_ids_actual is None or set(checker_used) == set(checker_ids_actual)
+    ok = injective_searcher and injective_checker and covers_searcher and covers_checker
     detail = {
-        "entry_count": len(entries), "injective_searcher_index": injective_searcher,
-        "injective_checker_index": injective_checker,
-        "matched_count_claimed_by_W5": matched_count_claim, "count_matches_W5": count_ok,
+        "edge_count": len(entries),
+        "injective_searcher_component_id": injective_searcher,
+        "injective_checker_component_id": injective_checker,
+        "covers_all_searcher_native_components": covers_searcher,
+        "covers_all_checker_native_components": covers_checker,
+        "searcher_component_ids_actual": searcher_ids_actual,
+        "checker_component_ids_actual": checker_ids_actual,
     }
     return ("PASS" if ok else "FAIL"), detail
 
 
-def _matched_count_claimed_by_w5(cert):
-    """Best-effort {token: claimed matched_count or None} from the raw W-5 container."""
-    raw, _coerced = _coerce_to_list(cert, "total_coverage_and_no_extra_component_witness")
-    groups, _unattributed = _split_by_divisor_object(raw)
-    out = {}
-    for tok in DIVISOR_OBJECT_TOKENS:
-        entries = groups[tok]
-        val = None
-        if len(entries) == 1 and isinstance(entries[0], dict):
-            v = entries[0].get("matched_count")
-            if isinstance(v, int) and not isinstance(v, bool):
-                val = v
-        out[tok] = val
-    return out
-
-
 @fail_closed_pairmap
-def verify_W1(cert):
-    """W-1: component_bijection (裁定133 (g): plural, per-pair entries;
-    injectivity checked across each per-object group; count cross-checked
-    against W-5's claimed matched_count)."""
-    groups, unattributed, coerced = _actual_bijection_counts_and_groups(cert)
-    if coerced:
-        reason = "component_bijection not supplied or not a list (coerced to [])"
-        return _absent_pair(reason)
-    matched_claims = _matched_count_claimed_by_w5(cert)
+def verify_W1(cert, native_a, native_b):
+    """
+    W-1: component_bijection (裁定139 item 6: edge list, native-artifact
+    reconstruction -- self-reported domain/codomain lists are NOT used).
+    """
+    kind, raw = _read_container(cert, "component_bijection")
+    if kind in ("missing", "empty"):
+        return _absent_pair(f"component_bijection {'not supplied' if kind == 'missing' else 'is explicit []'} "
+                             "(ABSENT)")
+    if kind == "malformed_null":
+        return _malformed_pair("component_bijection is explicit null (MALFORMED)")
+    if kind == "malformed_type":
+        return _malformed_pair(f"component_bijection must be an array, got {type(raw).__name__} (MALFORMED)")
+
+    groups, unattributed = _split_by_divisor_object(raw)
     out = {}
     for tok in DIVISOR_OBJECT_TOKENS:
-        status, detail = _validate_bijection_group(groups[tok], matched_claims[tok])
-        if unattributed and status != "FAIL":
-            status, detail = "FAIL", {"reason": f"{len(unattributed)} unattributed component_bijection "
-                                       "entries present (missing/unrecognized divisor_object tag)"}
+        try:
+            status, detail = _validate_bijection_edges_for_token(groups[tok], tok, native_a, native_b)
+        except MalformedWitness as ex:
+            status, detail = "MALFORMED", {"reason": str(ex), "digest_mismatch": isinstance(ex, RefDigestMismatch)}
+        if unattributed and status != "MALFORMED":
+            status, detail = "MALFORMED", {"reason": f"{len(unattributed)} unattributed component_bijection "
+                                            "edges present (missing/unrecognized divisor_object tag)"}
         out[tok] = (status, detail)
     return out
 
 
 def _actual_bijection_entry_counts(cert):
-    """{token: actual number of component_bijection entries for that token}, never raises."""
-    groups, _unattributed, _coerced = _actual_bijection_counts_and_groups(cert)
+    """{token: actual number of component_bijection EDGES for that token}
+    (raw count, independent of whether verify_W1 itself PASSes) -- used
+    only for W-5's matched_count cross-check. Never raises."""
+    kind, raw = _read_container(cert, "component_bijection")
+    if kind not in ("missing", "empty", "list"):
+        return {tok: None for tok in DIVISOR_OBJECT_TOKENS}
+    groups, _unattributed = _split_by_divisor_object(raw)
     return {tok: len(groups[tok]) for tok in DIVISOR_OBJECT_TOKENS}
 
 
@@ -789,67 +915,96 @@ def verify_W5(cert):
     return out
 
 
-def _validate_w6_entry_factory(actual_matched_count):
+NATIVE_SIDE_VALUES = ("searcher", "checker")
+
+
+def _extract_w6_map(entry, native_payload, label):
     """
-    W-6 entry (裁定133 (i)): {divisor_object, status, points: [...]}.
-    `status` (if present) is a producer claim and is never trusted. Each
-    point is {role: "ramification"|"branch", multiplicity, and either
-    maps_to_branch_value (ramification) or branch_value (branch)} -- this
-    implementer's own reasonable reading of "points" (not literally
-    specified beyond the key name; flagged in module docstring UNKNOWN
-    list). PASS requires the pushforward sum recomputed from role=
-    "ramification" points to equal the declared role="branch" points,
-    AND (closing the exact empty-vs-empty vacuous-PASS hole 裁定127
-    identified in this function specifically) an entirely empty `points`
-    list is only accepted when W-1's actual matched count for this object
-    is also 0.
+    Reads ONE W-6 lane entry: {native_side, ramification_ref, branch_ref,
+    map_ref, witness_ref} (裁定139 item 2). Each of the four ref fields
+    must be a valid ref-triple (item 3); inline/digest consistency is
+    checked for all four, but only map_ref's inline content (if present)
+    is actually dereferenced into a {branch_value: multiplicity} map for
+    cross-lane comparison -- dereferencing a digest-only ref via
+    json_pointer/object_id into `native_payload` is NOT implemented (UNKNOWN,
+    see module docstring), so a map_ref with no inline content yields
+    (None, <unknown-reason>) rather than a silent PASS or a crash.
     """
-    def _validate(w):
-        _require_dict(w, "W-6 entry")
-        _require_keys(w, ["points"], "W-6 entry")
-        points = _require_list(w["points"], "W-6 entry.points")
-        if len(points) == 0:
-            if actual_matched_count not in (0, None):
-                return "FAIL", {"reason": "points is empty, but W-1 shows "
-                                 f"matched_count={actual_matched_count!r} (!= 0) for this object -- "
-                                 "refusing a vacuous empty PASS"}
-        push, declared = {}, {}
-        for i, p in enumerate(points):
-            if not isinstance(p, dict) or "role" not in p or "multiplicity" not in p:
-                raise MalformedWitness(f"points[{i}] malformed (need role, multiplicity): {p!r}")
-            mult = _require_int(p["multiplicity"], f"points[{i}].multiplicity")
-            role = p["role"]
-            if role == "ramification":
-                if "maps_to_branch_value" not in p:
-                    raise MalformedWitness(f"points[{i}] role=ramification missing maps_to_branch_value")
-                bv = p["maps_to_branch_value"]
-                push[bv] = push.get(bv, 0) + mult
-            elif role == "branch":
-                if "branch_value" not in p:
-                    raise MalformedWitness(f"points[{i}] role=branch missing branch_value")
-                bv = p["branch_value"]
-                declared[bv] = mult
-            else:
-                raise MalformedWitness(f"points[{i}].role must be 'ramification' or 'branch', got {role!r}")
-        ok = set(push.keys()) == set(declared.keys()) and all(push[k] == declared[k] for k in push)
-        return ("PASS" if ok else "FAIL"), {"recomputed_pushforward": push, "declared_branch": declared}
-    return _validate
+    _require_dict(entry, f"W-6 {label} entry")
+    _require_keys(entry, ["ramification_ref", "branch_ref", "map_ref", "witness_ref"], f"W-6 {label} entry")
+    for key in ("ramification_ref", "branch_ref", "map_ref", "witness_ref"):
+        ref = _parse_ref_triple(entry[key], f"W-6 {label} entry.{key}")
+        _check_ref_inline_consistency(ref, f"W-6 {label} entry.{key}")  # raises RefDigestMismatch on conflict
+
+    map_ref = entry["map_ref"]
+    map_inline = _check_ref_inline_consistency(map_ref, f"W-6 {label} entry.map_ref")
+    if map_inline is None:
+        return None, (f"{label}.map_ref has no inline content to re-verify (digest-only reference; "
+                       "dereferencing json_pointer/object_id into the native artifact is NOT "
+                       "implemented by this partial verifier -- UNKNOWN, not a silent PASS)")
+    if not isinstance(map_inline, list):
+        raise MalformedWitness(f"{label}.map_ref.inline must be an array of "
+                                f"{{branch_value, multiplicity}}, got {type(map_inline).__name__}")
+    m = {}
+    for i, e in enumerate(map_inline):
+        if not isinstance(e, dict) or "branch_value" not in e or "multiplicity" not in e:
+            raise MalformedWitness(f"{label}.map_ref.inline[{i}] malformed (need branch_value, multiplicity)")
+        mult = _require_int(e["multiplicity"], f"{label}.map_ref.inline[{i}].multiplicity")
+        m[e["branch_value"]] = m.get(e["branch_value"], 0) + mult
+    return m, None
+
+
+def verify_W6_single(cert, native_a, native_b):
+    """
+    W-6: pushforward_compatibility_witness (裁定139 item 2: NO
+    divisor_object duplication -- native_side-tagged, exactly one entry
+    each for 'searcher'/'checker', representing a SINGLE cross-lane
+    pushforward comparison). Returns a single (status, detail) pair, NOT
+    a per-divisor_object pair-map (unlike the other six witness types) --
+    the caller duplicates this single result across both display columns
+    (see run_verifier_b), since the field is no longer partitioned by
+    divisor_object at all.
+    """
+    kind, raw = _read_container(cert, "pushforward_compatibility_witness")
+    if kind in ("missing", "empty"):
+        return "ABSENT", {"reason": "pushforward_compatibility_witness not supplied (ABSENT)"}
+    if kind == "malformed_null":
+        return "MALFORMED", {"reason": "pushforward_compatibility_witness is explicit null"}
+    if kind == "malformed_type":
+        return "MALFORMED", {"reason": f"must be an array, got {type(raw).__name__}"}
+
+    groups, unattributed = _split_by_divisor_object(raw, tag_field="native_side", tag_values=NATIVE_SIDE_VALUES)
+    if unattributed:
+        return "MALFORMED", {"reason": f"{len(unattributed)} entries lack a recognized 'native_side' tag "
+                              f"(expected one of {NATIVE_SIDE_VALUES})"}
+    for side in NATIVE_SIDE_VALUES:
+        if len(groups[side]) == 0:
+            return "ABSENT", {"reason": f"no pushforward entry for native_side={side!r}"}
+        if len(groups[side]) > 1:
+            return "MALFORMED", {"reason": f"{len(groups[side])} entries for native_side={side!r}, "
+                                  "expected exactly 1"}
+
+    try:
+        searcher_map, searcher_unknown = _extract_w6_map(groups["searcher"][0], native_a, "searcher")
+        checker_map, checker_unknown = _extract_w6_map(groups["checker"][0], native_b, "checker")
+    except MalformedWitness as ex:
+        return "MALFORMED", {"reason": str(ex), "digest_mismatch": isinstance(ex, RefDigestMismatch)}
+
+    if searcher_unknown or checker_unknown:
+        return "ABSENT", {"reason": "one or both lanes have no dereferenceable map content",
+                          "searcher_unknown": searcher_unknown, "checker_unknown": checker_unknown}
+    ok = searcher_map == checker_map
+    return ("PASS" if ok else "FAIL"), {"searcher_map": searcher_map, "checker_map": checker_map}
 
 
 @fail_closed_pairmap
-def verify_W6(cert):
-    """W-6: pushforward_compatibility_witness (裁定133 (i): {status, points}
-    shape), cross-checked against W-1's actual matched count."""
-    actual = _actual_bijection_entry_counts(cert)
-    out = {}
-    for tok in DIVISOR_OBJECT_TOKENS:
-        result_pair = _check_singular_witness(
-            {"pushforward_compatibility_witness": cert.get("pushforward_compatibility_witness")},
-            "pushforward_compatibility_witness",
-            _validate_w6_entry_factory(actual[tok]),
-        )
-        out[tok] = result_pair[tok]
-    return out
+def verify_W6(cert, native_a, native_b):
+    """Wraps verify_W6_single's single result into the (token -> (status,
+    detail)) pair-map shape the rest of this file's plumbing expects,
+    duplicating it identically across both object labels (裁定139 item 2:
+    W-6 is no longer divisor_object-partitioned)."""
+    status, detail = verify_W6_single(cert, native_a, native_b)
+    return {tok: (status, detail) for tok in DIVISOR_OBJECT_TOKENS}
 
 
 # --------------------------------------------------------------------------
@@ -1012,7 +1167,7 @@ def run_verifier_b(payload):
         return {
             "verifier_id": VERIFIER_ID,
             "overall_verdict_B": "INTEGRITY_STOP",
-            "primary_reason_code_hint": "digest-mismatch",
+            "gate_stop_reason": "schema-invalid [pending Sol enum, 裁定139 item 5]",
             "reason": "payload is not an object, or payload['certificate'] is missing/not "
                       "an object -- fail-closed rejection before any witness processing",
             "witness_results": {label: {tok: "ABSENT" for tok in OBJECT_LABELS.values()}
@@ -1028,13 +1183,13 @@ def run_verifier_b(payload):
     p3_status, p3_detail = verify_P3(cert, native_a, native_b, EXPECTED_PINS)
 
     per_witness_pairmaps = {
-        "W-1": verify_W1(cert),
+        "W-1": verify_W1(cert, native_a, native_b),
         "W-2": verify_W2(cert),
         "W-2prime": verify_W2prime(cert),
         "W-3": verify_W3(cert),
         "W-4": verify_W4(cert),
         "W-5": verify_W5(cert),
-        "W-6": verify_W6(cert),
+        "W-6": verify_W6(cert, native_a, native_b),
     }
 
     # witness_results[label][object_label] = status ; kept both in this
@@ -1053,11 +1208,32 @@ def run_verifier_b(payload):
     for tok, obj_label in OBJECT_LABELS.items():
         R_B[obj_label] = [(label, per_witness_pairmaps[label][tok][0]) for label in WITNESS_LABELS]
 
+    # 裁定139 item 4/5: MALFORMED is a SCHEMA/PARSE-LAYER gate stop, kept
+    # distinct from an ordinary witness FAIL. If ANY witness/object shows
+    # MALFORMED, the overall verdict escalates to INTEGRITY_STOP rather
+    # than being folded into a plain FAIL -- and the specific reason is
+    # `digest-mismatch [12]` (an established code) if any of the
+    # MALFORMED detections were a ref/inline or native-digest conflict
+    # (RefDigestMismatch), else the new (Sol-pending) `schema-invalid`.
+    malformed_found = False
+    digest_mismatch_found = False
+    for pairmap in per_witness_pairmaps.values():
+        for status, detail in pairmap.values():
+            if status == "MALFORMED":
+                malformed_found = True
+                if isinstance(detail, dict) and detail.get("digest_mismatch"):
+                    digest_mismatch_found = True
+
     all_pass_ram = all(witness_results[label]["ramification_divisor_on_C"] == "PASS" for label in WITNESS_LABELS)
     all_pass_branch = all(witness_results[label]["branch_divisor_on_P1"] == "PASS" for label in WITNESS_LABELS)
     ambient_ok = p0_status == "PASS" and p3_status == "PASS"
 
-    verdict_B = "PASS" if (ambient_ok and all_pass_ram and all_pass_branch) else "FAIL"
+    if malformed_found:
+        verdict_B = "INTEGRITY_STOP"
+        gate_reason = "digest-mismatch" if digest_mismatch_found else "schema-invalid [pending Sol enum, 裁定139 item 5]"
+    else:
+        verdict_B = "PASS" if (ambient_ok and all_pass_ram and all_pass_branch) else "FAIL"
+        gate_reason = None
 
     result = {
         "verifier_id": VERIFIER_ID,
@@ -1068,6 +1244,8 @@ def run_verifier_b(payload):
         "R_B": R_B,
         "overall_verdict_B": verdict_B,
     }
+    if gate_reason is not None:
+        result["gate_stop_reason"] = gate_reason
     result["result_digest_B"] = sha256_of(
         {
             "verifier_contract_id": EXPECTED_PINS["verifier_contract_id"],
@@ -1079,12 +1257,11 @@ def run_verifier_b(payload):
     )
 
     result["unknown"] = [
-        "[裁定128, Sol confirmation pending] certificate shape follows "
-        "docs/notes/cert_shape_interpretation_v1.md (interim interface, "
-        "NOT a spec revision) -- see this module's docstring for the four "
-        "carried-over Sol-confirmation points (a)-(d) plus two additional "
-        "spec-silence points (e)-(f) this implementer noticed while "
-        "reshaping.",
+        "[裁定139, Sol confirmation pending] certificate shape follows "
+        "docs/notes/cert_shape_interpretation_v3.md (current interface, "
+        "supersedes v1/v2 -- NOT a spec revision). Two points remain open "
+        "per v3's own 'Sol へ残す諮問': the `schema-invalid` reason code "
+        "enum (item 5) and the chart registry minimal schema (item 1).",
         "P-0.6/P-1.4 field embedding: only presence is checked, not the "
         "embedding map itself (out of scope for this partial verifier)",
         "W-4 chart atlas: only internal consistency of declared overlaps "
@@ -1094,9 +1271,15 @@ def run_verifier_b(payload):
         "R_A vs R_B concordance ([26]): NOT computed by this file (contract "
         "C-7: belongs to the receiving side that holds both R_A and R_B "
         "independently)",
-        "P-3.3 `_ref` semantics (裁定128 rule 3): only the whole-blob "
-        "native_artifact_digest is checked; a finer per-_ref sub-digest "
-        "recomputation is NOT implemented (see verify_P3 docstring)",
+        "W-6 map_ref dereferencing (裁定139 item 2): only inline map_ref "
+        "content is re-verified; walking json_pointer/object_id into the "
+        "native artifact when no inline content is supplied is NOT "
+        "implemented (see verify_W6_single docstring) -- yields ABSENT, "
+        "not a silent PASS.",
+        "chart_ids registry resolution (裁定139 item 1): this verifier "
+        "does not resolve chart_ids against any curve_model_digest-keyed "
+        "chart registry; only non-empty-string presence is checked "
+        "(P-0.7) -- registry resolution is UNKNOWN/out of scope.",
     ]
     return result
 

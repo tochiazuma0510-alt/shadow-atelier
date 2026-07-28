@@ -330,30 +330,46 @@ def plural_entries_for_token(c, field, tok):
     return [e for e in c[field] if isinstance(e, dict) and e.get("divisor_object") == tok]
 
 
-# --- W-1 (component_bijection, 裁定133 (g): plural, per-pair entries) ---
+# --- W-1 (component_bijection, 裁定139 item 6: EDGE list, native-digest bound) ---
 inject("W-1: key entirely deleted", "W-1",
        lambda c: c.pop("component_bijection"))
 inject("W-1: wrong type (string instead of array)", "W-1",
        lambda c: c.__setitem__("component_bijection", "not-an-array"))
-inject("W-1: all entries missing 'checker_index' sub-key", "W-1",
-       lambda c: [e.pop("checker_index") for e in c["component_bijection"]])
-inject("W-1 [裁定133]: duplicate searcher_index within one object (breaks "
-       "injectivity; only the ramification_divisor_on_C_ref token is "
-       "affected by construction)", "W-1",
+inject("W-1: all edges missing 'checker_component_id' sub-key", "W-1",
+       lambda c: [e.pop("checker_component_id") for e in c["component_bijection"]])
+inject("W-1 [裁定139]: duplicate searcher_component_id within one object "
+       "(breaks injectivity; only the ramification_divisor_on_C_ref token "
+       "is affected by construction)", "W-1",
        lambda c: plural_entries_for_token(c, "component_bijection", TOKENS[0])[1]
-                 .__setitem__("searcher_index", 0),
+                 .__setitem__("searcher_component_id",
+                              plural_entries_for_token(c, "component_bijection", TOKENS[0])[0]["searcher_component_id"]),
        require_all_objects_not_pass=False)
-inject("W-1: entirely emptied for both objects, but W-5 still claims nonzero "
-       "matched_count elsewhere (adversarial empty-vs-nonzero)", "W-1",
+inject("W-1: entirely emptied for both objects (ABSENT, not MALFORMED -- "
+       "explicit [] per 裁定139 item 5)", "W-1",
        lambda c: c.__setitem__("component_bijection", []))
-inject("W-1 [裁定128]: divisor_object tag removed from all entries "
-       "(unattributed -- must not be silently dropped)", "W-1",
+inject("W-1 [裁定128]: divisor_object tag removed from all edges "
+       "(unattributed -- MALFORMED, must not be silently dropped)", "W-1",
        lambda c: [e.pop("divisor_object") for e in c["component_bijection"]])
-inject("W-1 [裁定133]: count mismatch vs W-5's claimed matched_count "
-       "(only the ramification_divisor_on_C_ref token is affected by "
-       "construction -- an extra entry is appended for that token only)", "W-1",
-       lambda c: c["component_bijection"].append(
-           {"divisor_object": TOKENS[0], "searcher_index": 99, "checker_index": 99, "locus_type": "phantom"}),
+inject("W-1 [裁定139 item 3/6]: searcher_native_digest tampered so it no "
+       "longer matches the actual recomputed native_a digest (integrity "
+       "stop -- digest-mismatch, not a generic schema-invalid)", "W-1",
+       lambda c: [e.__setitem__("searcher_native_digest", "0" * 64) for e in c["component_bijection"]])
+def _remove_one_edge_for_token(c, tok):
+    """plural_entries_for_token returns a filtered COPY; mutate the real
+    list in place by index instead."""
+    bij = c["component_bijection"]
+    for i, e in enumerate(bij):
+        if isinstance(e, dict) and e.get("divisor_object") == tok:
+            bij.pop(i)
+            return
+    raise KeyError(tok)
+
+
+inject("W-1 [裁定139]: edges fail to cover all of native_a's actual "
+       "components (an edge is deleted, leaving one native component "
+       "unmatched -- only the ramification_divisor_on_C_ref token is "
+       "affected by construction)", "W-1",
+       lambda c: _remove_one_edge_for_token(c, TOKENS[0]),
        require_all_objects_not_pass=False)
 
 # --- W-2 (exact_point_equality_witnesses, 裁定133 (h): nested witness) ---
@@ -441,28 +457,46 @@ inject("W-5 [裁定128]: duplicate entries for the same divisor_object token "
            copy.deepcopy(c["total_coverage_and_no_extra_component_witness"][0])),
        require_all_objects_not_pass=False)
 
-# --- W-6 (pushforward_compatibility_witness, 裁定133 (i): {status, points}) ---
+# --- W-6 (pushforward_compatibility_witness, 裁定139 item 2: native_side
+#     tag, EXACTLY 2 entries total, ref-triples with inline map content) ---
+def w6_entries(c):
+    return c["pushforward_compatibility_witness"]
+
+
+def w6_entry_for_side(c, side):
+    for e in w6_entries(c):
+        if e.get("native_side") == side:
+            return e
+    raise KeyError(side)
+
+
 inject("W-6: key entirely deleted", "W-6",
        lambda c: c.pop("pushforward_compatibility_witness"))
 inject("W-6: wrong type (dict instead of array -- lane-A-shape crash repro)", "W-6",
        lambda c: c.__setitem__("pushforward_compatibility_witness", {"a": 1}))
-inject("W-6: both per-object entries missing 'points' sub-key", "W-6",
-       lambda c: [e.pop("points")
-                  for e in singular_entries(c, "pushforward_compatibility_witness")])
-inject("W-6: adversarial empty-vs-empty (points cleared on both per-object "
-       "entries, but W-1 still shows nonzero matched components)", "W-6",
-       lambda c: [e.__setitem__("points", [])
-                  for e in singular_entries(c, "pushforward_compatibility_witness")])
-inject("W-6: a 'ramification' point with non-integer multiplicity (both entries)", "W-6",
-       lambda c: [e.__setitem__("points",
-                                 [{"role": "ramification", "maps_to_branch_value": "b1", "multiplicity": "two"}])
-                  for e in singular_entries(c, "pushforward_compatibility_witness")])
-inject("W-6: a point with an unrecognized 'role' value (both entries)", "W-6",
-       lambda c: [e.__setitem__("points",
-                                 [{"role": "sideways", "maps_to_branch_value": "b1", "multiplicity": 1}])
-                  for e in singular_entries(c, "pushforward_compatibility_witness")])
-inject("W-6 [裁定128]: divisor_object tag removed from both entries", "W-6",
-       lambda c: [e.pop("divisor_object") for e in singular_entries(c, "pushforward_compatibility_witness")])
+inject("W-6: both entries missing 'map_ref' sub-key", "W-6",
+       lambda c: [e.pop("map_ref") for e in w6_entries(c)])
+inject("W-6: entirely emptied (ABSENT, not MALFORMED -- explicit [] per "
+       "裁定139 item 5)", "W-6",
+       lambda c: c.__setitem__("pushforward_compatibility_witness", []))
+inject("W-6 [裁定139]: native_side tag removed from both entries "
+       "(unattributed -- MALFORMED, must not be silently dropped)", "W-6",
+       lambda c: [e.pop("native_side") for e in w6_entries(c)])
+inject("W-6 [裁定139]: map_ref.inline tampered so its digest no longer "
+       "matches map_ref.digest (integrity stop -- digest-mismatch, not a "
+       "generic schema-invalid)", "W-6",
+       lambda c: w6_entry_for_side(c, "checker")["map_ref"].__setitem__(
+           "inline", [{"branch_value": "tampered", "multiplicity": 999}]))
+inject("W-6: map_ref present with NO inline content (digest-only reference "
+       "-- this partial verifier cannot dereference json_pointer into the "
+       "native artifact, so this must be ABSENT, not a silent PASS)", "W-6",
+       lambda c: w6_entry_for_side(c, "checker")["map_ref"].pop("inline"))
+inject("W-6: a map_ref.inline entry with non-integer multiplicity", "W-6",
+       lambda c: w6_entry_for_side(c, "searcher")["map_ref"].__setitem__(
+           "inline", [{"branch_value": "b1", "multiplicity": "two"}]))
+inject("W-6: duplicate native_side='searcher' entries (MALFORMED -- expected "
+       "exactly 1 per side)", "W-6",
+       lambda c: w6_entries(c).append(copy.deepcopy(w6_entry_for_side(c, "searcher"))))
 
 for label, witness_label, raised, result, require_all in INJECTIONS:
     ok_no_crash = not raised
@@ -478,6 +512,71 @@ for label, witness_label, raised, result, require_all in INJECTIONS:
             ok_not_pass = isinstance(per_obj, dict) and per_obj.get("ramification_divisor_on_C") != "PASS"
             record(f"裁定127+128/{label}: {witness_label}.ramification_divisor_on_C != PASS (no vacuous PASS)",
                    ok_not_pass, f"{witness_label} = {per_obj}")
+
+
+# --------------------------------------------------------------------------
+# 裁定139 item 4/5 explicit regression: ABSENT and MALFORMED must be the
+# EXACT status strings for the two respective classes of input, not just
+# "some non-PASS status" -- verified precisely here (the sweep above only
+# checks "!= PASS", which both ABSENT and MALFORMED satisfy; this section
+# checks the SPECIFIC label expected in each case).
+# --------------------------------------------------------------------------
+EXACT_STATUS_CASES = [
+    # (label, witness_label, mutate_fn, expected_exact_status)
+    ("W-3 field missing entirely -> exactly ABSENT", "W-3",
+     lambda c: c.pop("multiplicity_equalities"), "ABSENT"),
+    ("W-3 field explicit [] -> exactly ABSENT (not MALFORMED)", "W-3",
+     lambda c: c.__setitem__("multiplicity_equalities", []), "ABSENT"),
+    ("W-3 field explicit null -> exactly MALFORMED (not ABSENT)", "W-3",
+     lambda c: c.__setitem__("multiplicity_equalities", None), "MALFORMED"),
+    ("W-3 field wrong type (string) -> exactly MALFORMED (not ABSENT)", "W-3",
+     lambda c: c.__setitem__("multiplicity_equalities", "not-a-list"), "MALFORMED"),
+    ("W-4 field explicit [] -> exactly ABSENT", "W-4",
+     lambda c: c.__setitem__("chart_overlap_witnesses", []), "ABSENT"),
+    ("W-4 field explicit null -> exactly MALFORMED", "W-4",
+     lambda c: c.__setitem__("chart_overlap_witnesses", None), "MALFORMED"),
+    ("W-5 field explicit [] -> exactly ABSENT", "W-5",
+     lambda c: c.__setitem__("total_coverage_and_no_extra_component_witness", []), "ABSENT"),
+    ("W-5 field explicit null -> exactly MALFORMED", "W-5",
+     lambda c: c.__setitem__("total_coverage_and_no_extra_component_witness", None), "MALFORMED"),
+]
+for label, witness_label, mutate_fn, expected in EXACT_STATUS_CASES:
+    payload = deep_cert()
+    mutate_fn(payload["certificate"])
+    raised, result = run_and_get(payload)
+    ok_no_crash = not raised
+    record(f"裁定139/{label}: run_verifier_b does not raise", ok_no_crash,
+           f"raised {type(result).__name__}: {result}" if raised else "returned normally")
+    if not raised:
+        per_obj = result["witness_results"].get(witness_label, {})
+        actual = per_obj.get("ramification_divisor_on_C")
+        record(f"裁定139/{label}: status == {expected!r} exactly",
+               actual == expected, f"got {actual!r}")
+
+
+# --------------------------------------------------------------------------
+# 裁定139 item 4: overall_verdict_B escalation. ANY MALFORMED anywhere must
+# escalate to INTEGRITY_STOP (not a plain FAIL), and the gate_stop_reason
+# must distinguish an established digest-mismatch [12] cause from the new
+# generic schema-invalid one.
+# --------------------------------------------------------------------------
+_p1 = deep_cert()
+_p1["certificate"]["multiplicity_equalities"] = None  # generic schema violation
+_r1 = ver.run_verifier_b(_p1)
+record("裁定139/escalation: generic MALFORMED (null field) -> overall INTEGRITY_STOP",
+       _r1["overall_verdict_B"] == "INTEGRITY_STOP", _r1["overall_verdict_B"])
+record("裁定139/escalation: generic MALFORMED -> gate_stop_reason is schema-invalid (not digest-mismatch)",
+       "schema-invalid" in _r1.get("gate_stop_reason", ""), _r1.get("gate_stop_reason"))
+
+_p2 = deep_cert()
+for e in _p2["certificate"]["component_bijection"]:
+    e["searcher_native_digest"] = "0" * 64  # RefDigestMismatch
+_r2 = ver.run_verifier_b(_p2)
+record("裁定139/escalation: RefDigestMismatch (native digest tampered) -> overall INTEGRITY_STOP",
+       _r2["overall_verdict_B"] == "INTEGRITY_STOP", _r2["overall_verdict_B"])
+record("裁定139/escalation: RefDigestMismatch -> gate_stop_reason is EXACTLY 'digest-mismatch' "
+       "(the established [12] code, not the generic schema-invalid one)",
+       _r2.get("gate_stop_reason") == "digest-mismatch", _r2.get("gate_stop_reason"))
 
 # Top-level malformed-payload gate: not a dict at all, or missing 'certificate'.
 for bad_payload in [None, "a string", [1, 2, 3], {}, {"certificate": "not-a-dict"}, {"certificate": None}]:

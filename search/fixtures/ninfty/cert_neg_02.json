@@ -1,11 +1,11 @@
 {
-  "_description": "Self-made negative certificate fixture 2 (v2 shape): W-3 multiplicity_equalities deliberately mismatched for locus 'pt-x1' (checker_mult off by one from searcher_mult). Expect W-3 = FAIL.",
+  "_description": "Self-made negative certificate fixture 2 (v3 shape): W-3 multiplicity_equalities deliberately mismatched for locus 'pt-x1'. Expect W-3 = FAIL.",
   "certificate": {
     "predicate_spec_id": "mb/ninfty-stage2-predicate/v18",
     "predicate_spec_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
     "schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
     "schema_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
-    "candidate_ref": "cert-neg-02-v2",
+    "candidate_ref": "cert-neg-02-v3",
     "curve_model_digest": "544bcc6570f2151ae579e60df0c6a02bc97bc277792bd80397bb2915c7035901",
     "chart_ids": [
       "chart-A",
@@ -24,44 +24,54 @@
     "groebner_reduction_contract_digest": "2e9b4f3a7a75cc5fa1969cf5b9549ad14af4351b27f984559c40c15fbfc0f0b3",
     "searcher_native": {
       "ramification_divisor_on_C_ref": {
-        "components": [
-          {
-            "locus_type": "pt-x1",
-            "ideal_generator": [
-              "-1",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "pt-x2",
-            "ideal_generator": [
-              "-2",
-              "1"
-            ],
-            "multiplicity": 2
-          }
-        ]
+        "artifact_id": "native_a",
+        "digest": "003a783040ca9243faacb5369aee7c59bc8e94d1cda672fb0ebd35adffacee3c",
+        "json_pointer": "/ramification_divisor_on_C_ref",
+        "inline": {
+          "components": [
+            {
+              "locus_type": "pt-x1",
+              "ideal_generator": [
+                "-1",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "pt-x2",
+              "ideal_generator": [
+                "-2",
+                "1"
+              ],
+              "multiplicity": 2
+            }
+          ]
+        }
       },
       "branch_divisor_on_P1_ref": {
-        "components": [
-          {
-            "locus_type": "pt-x1",
-            "ideal_generator": [
-              "-1",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "pt-x2",
-            "ideal_generator": [
-              "-2",
-              "1"
-            ],
-            "multiplicity": 2
-          }
-        ]
+        "artifact_id": "native_a",
+        "digest": "003a783040ca9243faacb5369aee7c59bc8e94d1cda672fb0ebd35adffacee3c",
+        "json_pointer": "/branch_divisor_on_P1_ref",
+        "inline": {
+          "components": [
+            {
+              "locus_type": "pt-x1",
+              "ideal_generator": [
+                "-1",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "pt-x2",
+              "ideal_generator": [
+                "-2",
+                "1"
+              ],
+              "multiplicity": 2
+            }
+          ]
+        }
       },
       "native_schema_id": "mb/ninfty-laneb-toy/native-output/v1",
       "native_schema_digest": null,
@@ -69,44 +79,54 @@
     },
     "checker_native": {
       "ramification_divisor_on_C_ref": {
-        "components": [
-          {
-            "locus_type": "pt-x1",
-            "ideal_generator": [
-              "-1",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "pt-x2",
-            "ideal_generator": [
-              "-2",
-              "1"
-            ],
-            "multiplicity": 2
-          }
-        ]
+        "artifact_id": "native_b",
+        "digest": "003a783040ca9243faacb5369aee7c59bc8e94d1cda672fb0ebd35adffacee3c",
+        "json_pointer": "/ramification_divisor_on_C_ref",
+        "inline": {
+          "components": [
+            {
+              "locus_type": "pt-x1",
+              "ideal_generator": [
+                "-1",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "pt-x2",
+              "ideal_generator": [
+                "-2",
+                "1"
+              ],
+              "multiplicity": 2
+            }
+          ]
+        }
       },
       "branch_divisor_on_P1_ref": {
-        "components": [
-          {
-            "locus_type": "pt-x1",
-            "ideal_generator": [
-              "-1",
-              "1"
-            ],
-            "multiplicity": 1
-          },
-          {
-            "locus_type": "pt-x2",
-            "ideal_generator": [
-              "-2",
-              "1"
-            ],
-            "multiplicity": 2
-          }
-        ]
+        "artifact_id": "native_b",
+        "digest": "003a783040ca9243faacb5369aee7c59bc8e94d1cda672fb0ebd35adffacee3c",
+        "json_pointer": "/branch_divisor_on_P1_ref",
+        "inline": {
+          "components": [
+            {
+              "locus_type": "pt-x1",
+              "ideal_generator": [
+                "-1",
+                "1"
+              ],
+              "multiplicity": 1
+            },
+            {
+              "locus_type": "pt-x2",
+              "ideal_generator": [
+                "-2",
+                "1"
+              ],
+              "multiplicity": 2
+            }
+          ]
+        }
       },
       "native_schema_id": "mb/ninfty-laneb-toy/native-output/v1",
       "native_schema_digest": null,
@@ -115,27 +135,31 @@
     "component_bijection": [
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "searcher_index": 0,
-        "checker_index": 0,
-        "locus_type": "pt-x1"
+        "searcher_native_digest": "3311eb275a9a4bad9ac56568e02ac7fc373fc802e3294dcaca5f900f3ecdab10",
+        "searcher_component_id": "pt-x1",
+        "checker_native_digest": "3311eb275a9a4bad9ac56568e02ac7fc373fc802e3294dcaca5f900f3ecdab10",
+        "checker_component_id": "pt-x1"
       },
       {
         "divisor_object": "ramification_divisor_on_C_ref",
-        "searcher_index": 1,
-        "checker_index": 1,
-        "locus_type": "pt-x2"
+        "searcher_native_digest": "3311eb275a9a4bad9ac56568e02ac7fc373fc802e3294dcaca5f900f3ecdab10",
+        "searcher_component_id": "pt-x2",
+        "checker_native_digest": "3311eb275a9a4bad9ac56568e02ac7fc373fc802e3294dcaca5f900f3ecdab10",
+        "checker_component_id": "pt-x2"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "searcher_index": 0,
-        "checker_index": 0,
-        "locus_type": "pt-x1"
+        "searcher_native_digest": "3311eb275a9a4bad9ac56568e02ac7fc373fc802e3294dcaca5f900f3ecdab10",
+        "searcher_component_id": "pt-x1",
+        "checker_native_digest": "3311eb275a9a4bad9ac56568e02ac7fc373fc802e3294dcaca5f900f3ecdab10",
+        "checker_component_id": "pt-x1"
       },
       {
         "divisor_object": "branch_divisor_on_P1_ref",
-        "searcher_index": 1,
-        "checker_index": 1,
-        "locus_type": "pt-x2"
+        "searcher_native_digest": "3311eb275a9a4bad9ac56568e02ac7fc373fc802e3294dcaca5f900f3ecdab10",
+        "searcher_component_id": "pt-x2",
+        "checker_native_digest": "3311eb275a9a4bad9ac56568e02ac7fc373fc802e3294dcaca5f900f3ecdab10",
+        "checker_component_id": "pt-x2"
       }
     ],
     "exact_point_equality_witnesses": [
@@ -438,59 +462,91 @@
     ],
     "pushforward_compatibility_witness": [
       {
-        "divisor_object": "ramification_divisor_on_C_ref",
-        "status": "PASS",
-        "points": [
-          {
-            "role": "ramification",
-            "maps_to_branch_value": "pt-x1",
-            "multiplicity": 1
-          },
-          {
-            "role": "ramification",
-            "maps_to_branch_value": "pt-x2",
-            "multiplicity": 2
-          },
-          {
-            "role": "branch",
-            "branch_value": "pt-x1",
-            "multiplicity": 1
-          },
-          {
-            "role": "branch",
-            "branch_value": "pt-x2",
-            "multiplicity": 2
+        "native_side": "searcher",
+        "ramification_ref": {
+          "artifact_id": "native_a",
+          "digest": "d16214254a7b4836a79a94136c5ef8dc4b93b9c1507f7b57457c0e0091aa573f",
+          "json_pointer": "/ramification_divisor_on_C_ref",
+          "inline": {
+            "note": "ramification evidence (searcher)"
           }
-        ]
+        },
+        "branch_ref": {
+          "artifact_id": "native_a",
+          "digest": "ce0250e6007400e8eb2541b08335dce4b8c6654b35063cb5f7522d10a5612efb",
+          "json_pointer": "/branch_divisor_on_P1_ref",
+          "inline": {
+            "note": "branch evidence (searcher)"
+          }
+        },
+        "map_ref": {
+          "artifact_id": "native_a",
+          "digest": "9ffa1b2fcf02431538401fd8b18d8ef9506359208ea30cdd416d013ed8bd3424",
+          "json_pointer": "/pushforward_map",
+          "inline": [
+            {
+              "branch_value": "pt-x1",
+              "multiplicity": 1
+            },
+            {
+              "branch_value": "pt-x2",
+              "multiplicity": 2
+            }
+          ]
+        },
+        "witness_ref": {
+          "artifact_id": "native_a",
+          "digest": "f7f8c18f5b0546fa00b445e2d929848ad6a78ba8aeda12cd63cce3fb7e0c2ad2",
+          "json_pointer": "/witness",
+          "inline": {
+            "note": "witness evidence (searcher)"
+          }
+        }
       },
       {
-        "divisor_object": "branch_divisor_on_P1_ref",
-        "status": "PASS",
-        "points": [
-          {
-            "role": "ramification",
-            "maps_to_branch_value": "pt-x1",
-            "multiplicity": 1
-          },
-          {
-            "role": "ramification",
-            "maps_to_branch_value": "pt-x2",
-            "multiplicity": 2
-          },
-          {
-            "role": "branch",
-            "branch_value": "pt-x1",
-            "multiplicity": 1
-          },
-          {
-            "role": "branch",
-            "branch_value": "pt-x2",
-            "multiplicity": 2
+        "native_side": "checker",
+        "ramification_ref": {
+          "artifact_id": "native_b",
+          "digest": "4dc1a335f97caf96ab225a41de3b8b3f7632eac719f4c461f4bf0b77dc5a23f8",
+          "json_pointer": "/ramification_divisor_on_C_ref",
+          "inline": {
+            "note": "ramification evidence (checker)"
           }
-        ]
+        },
+        "branch_ref": {
+          "artifact_id": "native_b",
+          "digest": "92007a7cee4749e2282000ca79872873c082ff410a1cc2afee2db56c7eb4d559",
+          "json_pointer": "/branch_divisor_on_P1_ref",
+          "inline": {
+            "note": "branch evidence (checker)"
+          }
+        },
+        "map_ref": {
+          "artifact_id": "native_b",
+          "digest": "9ffa1b2fcf02431538401fd8b18d8ef9506359208ea30cdd416d013ed8bd3424",
+          "json_pointer": "/pushforward_map",
+          "inline": [
+            {
+              "branch_value": "pt-x1",
+              "multiplicity": 1
+            },
+            {
+              "branch_value": "pt-x2",
+              "multiplicity": 2
+            }
+          ]
+        },
+        "witness_ref": {
+          "artifact_id": "native_b",
+          "digest": "897696b050c2997fee713602be5d0f16b84953442c6538d1d00790565903227d",
+          "json_pointer": "/witness",
+          "inline": {
+            "note": "witness evidence (checker)"
+          }
+        }
       }
     ],
-    "certificate_digest": "25b0761e9f7b534c9213479575c2973cb170d6c8ecafe066fd05f4beb58a736a"
+    "certificate_digest": "9ac53c965928c7c9c2ed72bed27d233673b1263863a31b6528c6a2c6460b3340"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {
