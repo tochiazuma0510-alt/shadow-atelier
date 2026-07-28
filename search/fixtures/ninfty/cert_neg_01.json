@@ -6,7 +6,6 @@
     "schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
     "schema_digest": "placeholder-schema-digest-for-lane-b-unit-test",
     "candidate_ref": "cert-neg-01",
-
     "ambient_coordinate_ring_schema_id": "toy/Q[x]/v1",
     "ambient_coordinate_ring_schema_digest": "toy-ring-digest-01",
     "ambient_quotient_relations": "none (Q[x], no quotient)",
@@ -17,33 +16,129 @@
     "groebner_reduction_contract_id": "toy/reduce-to-zero/v1",
     "groebner_reduction_contract_digest": "toy-reduction-digest-01",
     "curve_model_digest": "toy-curve-digest-neg01",
-    "chart_ids": ["chart-A"],
-
+    "chart_ids": [
+      "chart-A"
+    ],
     "exact_point_equality_witnesses": [
       {
-        "kind": "ideal-equality", "form": "representation", "tag": "reduction-to-zero",
-        "g": [{"coeff": 1, "mono": [1]}],
-        "u": [[{"coeff": 1, "mono": [0]}]],
-        "h": [[{"coeff": 1, "mono": [1]}, {"coeff": -1, "mono": [0]}]]
+        "kind": "ideal-equality",
+        "form": "representation",
+        "tag": "reduction-to-zero",
+        "g": [
+          {
+            "coeff": 1,
+            "mono": [
+              1
+            ]
+          }
+        ],
+        "u": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
+        "h": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ]
       },
       {
-        "kind": "disjointness", "form": "representation", "tag": "reduction-to-one",
-        "g": [{"coeff": 1, "mono": [0]}],
-        "u": [[{"coeff": 1, "mono": [0]}], [{"coeff": -1, "mono": [0]}]],
+        "kind": "disjointness",
+        "form": "representation",
+        "tag": "reduction-to-one",
+        "g": [
+          {
+            "coeff": 1,
+            "mono": [
+              0
+            ]
+          }
+        ],
+        "u": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "coeff": -1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
         "h": [
-          [{"coeff": 1, "mono": [1]}],
-          [{"coeff": 1, "mono": [1]}, {"coeff": -1, "mono": [0]}]
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            }
+          ],
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -1,
+              "mono": [
+                0
+              ]
+            }
+          ]
         ]
       }
     ],
     "distinctness_witnesses": [],
     "component_bijection": {
-      "domain_components": ["Q0"],
-      "codomain_components": ["R0"],
-      "mapping": [["Q0", "R0"]]
+      "domain_components": [
+        "Q0"
+      ],
+      "codomain_components": [
+        "R0"
+      ],
+      "mapping": [
+        [
+          "Q0",
+          "R0"
+        ]
+      ]
     },
     "multiplicity_equalities": [
-      {"pair": ["Q0", "R0"], "mult_A": 1, "mult_B": 1}
+      {
+        "pair": [
+          "Q0",
+          "R0"
+        ],
+        "mult_A": 1,
+        "mult_B": 1
+      }
     ],
     "chart_overlap_witnesses": [],
     "total_coverage_and_no_extra_component_witness": {
@@ -51,8 +146,67 @@
       "extra_candidates": []
     },
     "pushforward_compatibility_witness": {
-      "ramification_points": [{"maps_to_branch_value": "b0", "multiplicity": 1}],
-      "branch_points": [{"branch_value": "b0", "multiplicity": 1}]
+      "ramification_points": [
+        {
+          "maps_to_branch_value": "b0",
+          "multiplicity": 1
+        }
+      ],
+      "branch_points": [
+        {
+          "branch_value": "b0",
+          "multiplicity": 1
+        }
+      ]
+    },
+    "searcher_native": {
+      "native_schema_id": "mb/ninfty-stage2-predicate/v18#searcher-native-stand-in",
+      "native_schema_digest": "lane-b-stand-in-schema-not-authoritative",
+      "ramification_divisor_on_C_ref": "native_a.ramification_divisor_on_C",
+      "branch_divisor_on_P1_ref": "native_a.branch_divisor_on_P1",
+      "native_artifact_digest": "035144a3054951c5e2158219776937db8b4564603bf2cac3b0d720b2ddc3c2e7"
+    },
+    "checker_native": {
+      "native_schema_id": "search/ninfty-checker.py#run_checker-output/v1",
+      "native_schema_digest": "35682140d621e5657852014ccb1ff6c403622d87490d6262ee5fb123c0f3f207",
+      "ramification_divisor_on_C_ref": "native_b.rootpart_a / native_b.pushforward_detail",
+      "branch_divisor_on_P1_ref": "native_b.pushforward_detail.declared_branch",
+      "native_artifact_digest": "248af4dacba1501fcd15a704a689c8a7b9953bee41b08328dd749fb48a793d6b"
     }
+  },
+  "native_a": {
+    "_stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
+    "candidate_ref": "cert-neg-01",
+    "lane": "A (searcher) -- STAND-IN, not authoritative",
+    "ramification_divisor_on_C": [
+      {
+        "maps_to_branch_value": "b0",
+        "multiplicity": 1
+      }
+    ],
+    "branch_divisor_on_P1": [
+      {
+        "branch_value": "b0",
+        "multiplicity": 1
+      }
+    ]
+  },
+  "native_b": {
+    "checker_id": "search/ninfty-checker.py",
+    "algorithm": "euclid-gcd+yun-squarefree-elimination",
+    "precondition_detail": {
+      "degrees": {
+        "deg_f6": 6,
+        "deg_a": 3,
+        "deg_p": 2
+      }
+    },
+    "stage": "REJECT",
+    "reason_codes": [
+      "precondition/degree-mismatch"
+    ],
+    "primary_reason_code": "precondition/degree-mismatch",
+    "rootpart_a": null,
+    "_provenance": "literal output of search/ninfty-checker.py run_checker() on search/fixtures/ninfty/checker_neg_01.json"
   }
 }

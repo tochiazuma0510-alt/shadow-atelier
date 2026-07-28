@@ -6,7 +6,6 @@
     "schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
     "schema_digest": "placeholder-schema-digest-for-lane-b-unit-test",
     "candidate_ref": "cert-pos-03",
-
     "ambient_coordinate_ring_schema_id": "toy/Q[x]/v1",
     "ambient_coordinate_ring_schema_digest": "toy-ring-digest-01",
     "ambient_quotient_relations": "none (Q[x], no quotient)",
@@ -17,51 +16,239 @@
     "groebner_reduction_contract_id": "toy/reduce-to-zero/v1",
     "groebner_reduction_contract_digest": "toy-reduction-digest-01",
     "curve_model_digest": "toy-curve-digest-03",
-    "chart_ids": ["chart-A", "chart-B"],
-
+    "chart_ids": [
+      "chart-A",
+      "chart-B"
+    ],
     "exact_point_equality_witnesses": [
       {
-        "kind": "ideal-equality", "form": "reduction-to-zero", "tag": "reduction-to-zero",
-        "g": [{"coeff": 1, "mono": [1]}, {"coeff": -7, "mono": [0]}],
+        "kind": "ideal-equality",
+        "form": "reduction-to-zero",
+        "tag": "reduction-to-zero",
+        "g": [
+          {
+            "coeff": 1,
+            "mono": [
+              1
+            ]
+          },
+          {
+            "coeff": -7,
+            "mono": [
+              0
+            ]
+          }
+        ],
         "steps": [
-          {"coeff": 1, "mono": [0], "generator": [{"coeff": 1, "mono": [1]}, {"coeff": -7, "mono": [0]}]}
+          {
+            "coeff": 1,
+            "mono": [
+              0
+            ],
+            "generator": [
+              {
+                "coeff": 1,
+                "mono": [
+                  1
+                ]
+              },
+              {
+                "coeff": -7,
+                "mono": [
+                  0
+                ]
+              }
+            ]
+          }
         ]
       }
     ],
     "distinctness_witnesses": [
       {
         "kind": "disjointness",
-        "u": [[{"coeff": 1, "mono": [0]}], [{"coeff": -1, "mono": [0]}]],
+        "u": [
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "coeff": -1,
+              "mono": [
+                0
+              ]
+            }
+          ]
+        ],
         "g": [
-          [{"coeff": 1, "mono": [1]}, {"coeff": -7, "mono": [0]}],
-          [{"coeff": 1, "mono": [1]}, {"coeff": -8, "mono": [0]}]
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -7,
+              "mono": [
+                0
+              ]
+            }
+          ],
+          [
+            {
+              "coeff": 1,
+              "mono": [
+                1
+              ]
+            },
+            {
+              "coeff": -8,
+              "mono": [
+                0
+              ]
+            }
+          ]
         ]
       }
     ],
     "component_bijection": {
-      "domain_components": ["U1"],
-      "codomain_components": ["V1"],
-      "mapping": [["U1", "V1"]]
+      "domain_components": [
+        "U1"
+      ],
+      "codomain_components": [
+        "V1"
+      ],
+      "mapping": [
+        [
+          "U1",
+          "V1"
+        ]
+      ]
     },
     "multiplicity_equalities": [
-      {"pair": ["U1", "V1"], "mult_A": 1, "mult_B": 1}
+      {
+        "pair": [
+          "U1",
+          "V1"
+        ],
+        "mult_A": 1,
+        "mult_B": 1
+      }
     ],
     "chart_overlap_witnesses": [
-      {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "U1", "component_in_chart_b": "U1"}
+      {
+        "chart_pair": [
+          "chart-A",
+          "chart-B"
+        ],
+        "component_in_chart_a": "U1",
+        "component_in_chart_b": "U1"
+      }
     ],
     "total_coverage_and_no_extra_component_witness": {
       "declared_total_components": 1,
       "extra_candidates": [
-        {"id": "extra-at-x8", "distinctness_witness_ref": "dw-0"}
+        {
+          "id": "extra-at-x8",
+          "distinctness_witness_ref": "dw-0"
+        }
       ]
     },
     "pushforward_compatibility_witness": {
       "ramification_points": [
-        {"maps_to_branch_value": "bv7", "multiplicity": 1}
+        {
+          "maps_to_branch_value": "bv7",
+          "multiplicity": 1
+        }
       ],
       "branch_points": [
-        {"branch_value": "bv7", "multiplicity": 1}
+        {
+          "branch_value": "bv7",
+          "multiplicity": 1
+        }
       ]
+    },
+    "searcher_native": {
+      "native_schema_id": "mb/ninfty-stage2-predicate/v18#searcher-native-stand-in",
+      "native_schema_digest": "lane-b-stand-in-schema-not-authoritative",
+      "ramification_divisor_on_C_ref": "native_a.ramification_divisor_on_C",
+      "branch_divisor_on_P1_ref": "native_a.branch_divisor_on_P1",
+      "native_artifact_digest": "12cf8b512528d8f1bb3755492f12b091d686cfed6dd948a2ebf6a91527a05b99"
+    },
+    "checker_native": {
+      "native_schema_id": "search/ninfty-checker.py#run_checker-output/v1",
+      "native_schema_digest": "35682140d621e5657852014ccb1ff6c403622d87490d6262ee5fb123c0f3f207",
+      "ramification_divisor_on_C_ref": "native_b.rootpart_a / native_b.pushforward_detail",
+      "branch_divisor_on_P1_ref": "native_b.pushforward_detail.declared_branch",
+      "native_artifact_digest": "880812443accbd3979c4b83ddbcc5fc5b6d20948cefdbdd563b94c42d9ddf05f"
     }
+  },
+  "native_a": {
+    "_stand_in_disclosure": "THIS IS NOT REAL LANE-A (searcher, node runtime) OUTPUT. Lane A is invisible to this lane-B implementer by design (contract sec.7 C-7 / spec sec.3 lane split); no such data was available to generate. This object exists solely so verifier-b.py's P-3.3 native_artifact_digest check has concrete content on the searcher_native side to recompute and compare against for lane-B unit testing.",
+    "candidate_ref": "cert-pos-03",
+    "lane": "A (searcher) -- STAND-IN, not authoritative",
+    "ramification_divisor_on_C": [
+      {
+        "maps_to_branch_value": "bv7",
+        "multiplicity": 1
+      }
+    ],
+    "branch_divisor_on_P1": [
+      {
+        "branch_value": "bv7",
+        "multiplicity": 1
+      }
+    ]
+  },
+  "native_b": {
+    "checker_id": "search/ninfty-checker.py",
+    "algorithm": "euclid-gcd+yun-squarefree-elimination",
+    "precondition_detail": {
+      "pell_constant_is_nonzero": true
+    },
+    "divisor_orientation_status": "attested-true",
+    "T1_detail": {
+      "deg_gcd_a_ap": 2,
+      "deg_gcd_a_ap_app": 0
+    },
+    "rootpart_a": [
+      2,
+      2,
+      1
+    ],
+    "T2_detail": {
+      "deg_pd": 4,
+      "deg_ap": 4
+    },
+    "pushforward_detail": {
+      "pushforward": {
+        "b1": 2,
+        "b2": 2
+      },
+      "declared_branch": {
+        "b1": 2,
+        "b2": 2
+      },
+      "match": true
+    },
+    "rh_identity_value": 12,
+    "stage": null,
+    "reason_codes": [],
+    "primary_reason_code": null,
+    "unknown": [
+      "T-3 (p-locus): point-level construction not implemented (needs root-finding over Qbar)",
+      "T-4 (Weierstrass locus): not implemented (needs root-finding over Qbar)",
+      "T-5 (two-infinity, e=5): not implemented",
+      "T-6 (harmonic pair): sealed value, out of scope by contact discipline",
+      "full checker_native divisor construction (ramification_divisor_on_C / branch_divisor_on_P1 from scratch): NOT IMPLEMENTED -- only pushforward consistency of an already-declared native artifact is checked",
+      "E-5 (divisor orientation): not re-derivable from (a,p,f6) alone; caller-attested only"
+    ],
+    "checker_native_digest": "c84b10a4f961e982dcf35e1836011d8750a6344d3c4619fee50abab8c1aca1ed",
+    "_provenance": "literal output of search/ninfty-checker.py run_checker() on search/fixtures/ninfty/checker_pos_03.json"
   }
 }
