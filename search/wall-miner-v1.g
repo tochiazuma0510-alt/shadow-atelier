@@ -262,7 +262,11 @@ Print("Task A done: processed=", countProcessedA, " skipped_not_in_PB3=", countS
       " elapsed_ms=", t1A - t0A, "\n");
 
 #############################################################################
-## ---------------------- Task B: W-C band, N5 = ker(B3->S3xSL(2,F5)) ------
+## ---------------------- Task B: W-C band, N5cong = ker(B3->S3xSL(2,F5)) --
+## (NOTE 裁定170, 2026-07-29: window_id below renamed "W-C-N5" -> "W-C-N5cong"
+## to avoid collision with week1-定義ノート.md's own, DIFFERENT N5 = ker(beta_5)
+## [S3 x C5, order 30] -- this script's N5/N5cong has always been the
+## SL(2,F5)-based construction, order 720; only the label changed, not the math.)
 #############################################################################
 Print("=== Task B: congruence window N5 = ker(B3 -> S3 x SL(2,F5)) ===\n");
 t0B := GAPLIB_WallElapsedMs();
@@ -290,14 +294,14 @@ Print("|B3/N5| = ", Size(DP5), "\n");
 
 homB3DP5 := GroupHomomorphismByImages(B3, DP5, [ga, gb], [xDP5, yDP5]);;
 if homB3DP5 = fail then
-  RecordSkip("W-C-N5", "GroupHomomorphismByImages B3->S3xSL(2,F5) failed unexpectedly");
+  RecordSkip("W-C-N5cong", "GroupHomomorphismByImages B3->S3xSL(2,F5) failed unexpectedly");
 else
   A_N5 := Image(homB3DP5, PB3);;
   ximg_N5 := Image(homB3DP5, x0);;
   yimg_N5 := Image(homB3DP5, y0);;
   cimg_N5 := Image(homB3DP5, c0);;
   Print("|PB3/N5| = ", Size(A_N5), "  StructureDescription = ", StructureDescription(A_N5), "\n");
-  recN5 := ProcessWindow("W-C-N5", "W-C", Size(DP5), A_N5, ximg_N5, yimg_N5, cimg_N5);
+  recN5 := ProcessWindow("W-C-N5cong", "W-C", Size(DP5), A_N5, ximg_N5, yimg_N5, cimg_N5);
   Add(WINDOW_RECORDS, recN5);
 fi;
 

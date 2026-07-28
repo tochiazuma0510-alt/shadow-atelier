@@ -1,5 +1,5 @@
 #############################################################################
-## search/kerchi-judge.g -- kerchi-judge v1 (裁定167・自動判定器)
+## search/kerchi-judge.g -- kerchi-judge v1.1 (裁定167 原型・裁定169 KJ-1 修理)
 ##
 ## Packages the (F2) quotient-rule machinery (proven out on 17 real windows in
 ## search/wall-miner-v4.g, itself lifted from the coordinator-cross-checked
@@ -7,6 +7,19 @@
 ## reusable script: given ONE window (however specified), decide whether
 ## ker(chi-tilde) (the m=0 layer of G_N=GTSh(N,N)) is ABELIAN or NONABELIAN,
 ## with every intermediate assert reported, fail-closed.
+##
+## v1.1 (KJ-1, 裁定169, 2026-07-29): added a settled/well-definedness clause
+## to the (F2) predicate. Window W-A-B3idx126-s2 was found (while testing
+## v1) to satisfy all three original (F2) conditions for a candidate that is
+## NOT actually well-defined as a homomorphism (GroupHomomorphismByImages
+## genuinely fails on it) -- so v1's shadow set could silently include
+## ill-defined "shadows". The fix: for every candidate that passes the
+## original three conditions, additionally require
+##   GroupHomomorphismByImages(Bq, Bq, [s1,s2], [s1^u, f^-1*s2^u*f]) <> fail
+## at the Bq=B3/N level (the same level theta~/tau~ already live on), not at
+## the P_N level. Candidates failing this are dropped and counted in the new
+## settled_fail_count output field. See search/kerchi-judge-v11-regression.g
+## for the regression check against v1's/wall-miner-v4.g's recorded numbers.
 ##
 ## Policy unchanged throughout this campaign: rough is fine, no polish
 ## required, but the asserts stay -- this script's entire point is to be an
@@ -54,7 +67,9 @@
 ##   out_dir:  search/certs
 ##
 ##   -- or, for a congruence window built from explicit matrices (example:
-##      N5 = ker(B3 -> S3 x SL(2,F5)), same construction as wall-miner-v1/v4):
+##      N5cong (written N5^cong; renamed 裁定170 from "N5" to avoid collision with
+##      week1-定義ノート.md's own N5 = ker(beta_5)) = ker(B3 -> S3 x SL(2,F5)),
+##      same construction as wall-miner-v1/v4):
 ##
 ##   preamble: JUDGE_S1_IMG:=Image(Embedding(DirectProduct(
 ##               Image(IsomorphismPermGroup(Group([[1,1],[0,1]]*One(GF(2)),
@@ -68,7 +83,7 @@
 ##               wrapper .g file that builds JUDGE_S1_IMG/JUDGE_S2_IMG with
 ##               ordinary multi-line GAP and then Read()s this file, rather
 ##               than inlining a one-line preamble for matrix windows)
-##   JUDGE_ID: "N5-SL2F5"
+##   JUDGE_ID: "N5cong-SL2F5"
 ##
 ##   -- or, for the self-test:
 ##
@@ -77,13 +92,25 @@
 ## ---------------------------------------------------------------------
 ## OUTPUT: JUDGE_OUTFILE, a JSON record with fields:
 ##   verdict (one of "ABELIAN" | "NONABELIAN" | "UNSCREENED"), c_in_N,
-##   abs_Bq, abs_PN, N_ord, charming_count, shadow_total, isotropy_order
-##   (= |G_N| = |GTSh(N,N)|), ker_size, phi_2Nord, ta_predicted_ker,
-##   ta_assert_holds, closure_353_holds, ker_commutes, witness (null unless
-##   NONABELIAN), derived_series_orders, derived_length (or -1 if not
-##   solvable), crosscheck_vs_EnumerateReducedHexagon (null unless c_in_N;
-##   for c_in_N windows this cross-checks the (F2) shadow set against the
-##   pre-existing quotient-shortcut enumerator in week3-battery-common.g,
+##   abs_Bq, abs_PN, N_ord, charming_count, shadow_total,
+##   settled_fail_count / settled_total_evaluated / settled_all_pass /
+##   settled_fail_witnesses (裁定170: per-candidate settled certificate --
+##   settled_all_pass=true and settled_fail_count=0 together mean
+##   "shadow_total/shadow_total settled", i.e. every hexagon-candidate that
+##   passed the three original (F2) conditions was ALSO well-defined;
+##   settled_fail_witnesses lists up to 20 of the rejected (m,f) candidates),
+##   isotropy_order (= |G_N| = |GTSh(N,N)|), ker_size, chi_image_order
+##   (= |Im chi~|, computed directly from the realized shadow set, NOT
+##   assumed equal to phi_2Nord), phi_2Nord, ta_predicted_ker (legacy,
+##   assumed-surjective reading), ta_assert_holds (裁定170: UNIVERSAL form
+##   |ker chi~| * |Im chi~| = |G_N|, always meaningful once (3.53) closes),
+##   chi_surjective_assert (null unless c_in_N -- see the code comment on why
+##   c_in_N is used as a documented proxy for "isolated相当" rather than a
+##   genuine isolated-ness check), closure_353_holds, ker_commutes, witness
+##   (null unless NONABELIAN), derived_series_orders, derived_length (or -1
+##   if not solvable), crosscheck_vs_EnumerateReducedHexagon (null unless
+##   c_in_N; for c_in_N windows this cross-checks the (F2) shadow set against
+##   the pre-existing quotient-shortcut enumerator in week3-battery-common.g,
 ##   which is valid precisely when c_in_N -- see that file's own comments).
 #############################################################################
 
@@ -115,19 +142,55 @@ RtOf := function(W, m, f)
   return AbstractProd([TT(W, TT(W, Wd)), TT(W, Wd), Wd]);
 end;;
 
+# *** KJ-1 FIX (裁定169, 2026-07-29): settled/well-definedness clause added ***
+# docs/notes/ (KJ-1 audit, 札B): the three original (F2) conditions (f*theta~(f)=1,
+# Rt=c^m, generation) do NOT by themselves guarantee that T_{m,f} (x->x^u,
+# y->f^-1 y^u f) is an actual well-defined homomorphism -- window
+# W-A-B3idx126-s2 is a concrete counterexample found while testing
+# kerchi-judge v1 (m=2, f=identity there: all three old conditions passed,
+## but GroupHomomorphismByImages on P_N genuinely failed). The fix is to test
+# well-definedness explicitly, and to do it at the Bq=B3/N level (same
+# ambient group theta~/tau~ already live in), not at the P_N level -- per the
+# coordinator's ruling 169. A candidate that fails this settled check is
+# dropped (not added to the shadow set), and counted in settled_fail_count.
+# Return shape changed from v1 (a bare Set) to v1.1 (a record) precisely so
+# this count can be reported without a second global/side-channel.
+# v1.2 (裁定170・Sol F79-5.5/F79-2.1, 2026-07-29): per-candidate settled certificate.
+# CorrectedShadows now also tracks EVERY candidate that passed the three original
+# (F2) conditions (the "hexagon-candidate" set, before the settled filter), so
+# that "N/N settled" can be reported honestly (e.g. W-C-N5cong's known 40
+# candidates). Rather than dumping every candidate's settled=true trivially
+# (which would bloat the certificate for windows with hundreds of candidates,
+# e.g. W-C-N5cong has 960), only the FAILING candidates are kept as an explicit
+# witness list (settled_fail_witnesses); the passing count is inferred from
+# Length(shadows) (all of which are settled=true by construction) and the total
+# hexagon-candidate count is Length(shadows) + settled_fail_count -- so
+# "40/40 settled" is exactly the statement settled_fail_count = 0 with
+# shadow_total = 40, reported without needing to enumerate 40 trivial passes.
 CorrectedShadows := function(W, charmingSet)
-  local out, f, m, u;
-  out := [];
+  local out, f, m, u, settledFails, settledHom, failWitnesses;
+  out := [];  settledFails := 0;  failWitnesses := [];
   for f in Elements(DerivedSubgroup(W.PN)) do
     if AbstractProd([f, TH(W, f)]) <> Identity(W.Bq) then continue; fi;
     for m in charmingSet do
       u := 2*m + 1;
       if RtOf(W, m, f) <> W.c^m then continue; fi;
       if Size(Group(W.x^u, AbstractProd([f^-1, W.y^u, f]))) <> Size(W.PN) then continue; fi;
+      # settled/well-definedness clause (Bq level, per ruling 169):
+      settledHom := GroupHomomorphismByImages(W.Bq, W.Bq, [W.s1, W.s2],
+                      [W.s1^u, AbstractProd([f^-1, W.s2^u, f])]);
+      if settledHom = fail then
+        settledFails := settledFails + 1;
+        if Length(failWitnesses) < 20 then   # cap the witness list, not the count
+          Add(failWitnesses, rec(m := m, f := f));
+        fi;
+        continue;
+      fi;
       Add(out, [m, f]);
     od;
   od;
-  return Set(out);
+  return rec(shadows := Set(out), settled_fail_count := settledFails,
+             settled_fail_witnesses := failWitnesses);
 end;;
 
 GroupOfShadows := function(W, S)
@@ -175,7 +238,7 @@ end;;
 # result record; never Errors on a bad/degenerate window (records UNSCREENED
 # instead) except for genuinely-broken input (e.g. braid relation not satisfied).
 JudgeWindow := function(s1in, s2in, label)
-  local s1, s2, Gtmp, iso, W, charmingSet, r, corr, kerList, gi, dseries,
+  local s1, s2, Gtmp, iso, W, charmingSet, r, corr, corrRes, kerList, gi, dseries,
         crosscheck, qrecCk, hexres, hexSet;
   r := rec(label := label);
 
@@ -211,19 +274,25 @@ JudgeWindow := function(s1in, s2in, label)
   r.charming_count := Length(charmingSet);
   r.phi_2Nord := Phi(2 * W.Nord);
 
-  corr := CorrectedShadows(W, charmingSet);;
+  corrRes := CorrectedShadows(W, charmingSet);;
+  corr := corrRes.shadows;
+  r.settled_fail_count := corrRes.settled_fail_count;
+  r.settled_fail_witnesses := corrRes.settled_fail_witnesses;
   r.shadow_total := Length(corr);
   kerList := Filtered(corr, k -> k[1] = 0);;
   r.ker_size := Length(kerList);
+  # "N/N settled" reporting (裁定170): every candidate that passed the three
+  # original (F2) conditions is either in the final shadow set (settled=true,
+  # implicitly -- shadow_total of them) or in settled_fail_witnesses/counted
+  # in settled_fail_count (settled=false). Total hexagon-candidates evaluated
+  # = shadow_total + settled_fail_count.
+  r.settled_total_evaluated := r.shadow_total + r.settled_fail_count;
+  r.settled_all_pass := (r.settled_fail_count = 0);
 
-  if r.phi_2Nord = 0 then
-    r.ta_predicted_ker := -1; r.ta_assert_holds := false;
-  elif r.shadow_total mod r.phi_2Nord <> 0 then
-    r.ta_predicted_ker := -1; r.ta_assert_holds := false;
-  else
-    r.ta_predicted_ker := r.shadow_total / r.phi_2Nord;
-    r.ta_assert_holds := (r.ta_predicted_ker = r.ker_size);
-  fi;
+  # chi_image_order (裁定170 F79-2.1): |Im chi~| computed directly as the number
+  # of DISTINCT u=2m+1 (mod 2*N_ord) values realized among the actual shadow
+  # set corr (post-settled-filter) -- not assumed to be phi(2*N_ord).
+  r.chi_image_order := Length(Set(List(corr, k -> (2*k[1] + 1) mod (2*W.Nord))));
 
   gi := GroupOfShadows(W, corr);;
   r.closure_353_holds := gi.closed;
@@ -256,6 +325,39 @@ JudgeWindow := function(s1in, s2in, label)
     r.derived_length := -1;
     r.verdict := "UNSCREENED";
     r.unscreened_reason := "(3.53) closure FAILED (E hom fail or shadow set not closed)";
+  fi;
+
+  # ---- T-A assert, universal form (裁定170 F79-2.1) ----
+  # |ker chi~| * |Im chi~| = |G_N| (isotropy_order), checked against the ACTUAL
+  # image order (chi_image_order), not an assumed-surjective phi(2*N_ord). This
+  # is the form that should ALWAYS hold when (3.53) closes (it is just
+  # |G_N| = |ker| * |image| for a homomorphism G_N -> (Z/2N_ord)^x), independent
+  # of whether chi~ happens to be surjective onto its full nominal codomain.
+  if gi.closed then
+    r.ta_assert_holds := (r.ker_size * r.chi_image_order = r.isotropy_order);
+  else
+    r.ta_assert_holds := false;   # isotropy_order undefined (-1), assert can't be evaluated
+  fi;
+  # legacy field, kept for backward compatibility with v1/v1.1 certs/callers
+  # (predicted ker under the ASSUMED-surjective-onto-phi(2N_ord) reading):
+  if r.phi_2Nord = 0 or r.shadow_total mod r.phi_2Nord <> 0 then
+    r.ta_predicted_ker := -1;
+  else
+    r.ta_predicted_ker := r.shadow_total / r.phi_2Nord;
+  fi;
+
+  # ---- chi~ surjectivity assert (裁定170): |Im chi~| =?= phi(2*N_ord) ----
+  # Only "fires" (is evaluated/reported as non-null) for c_in_N windows, which
+  # is the readily-available proxy this campaign has used throughout for
+  # "isolated相当" -- genuine isolated-ness (ker(T_{m,f})=N for every shadow)
+  # has never been independently verified anywhere in this campaign (see
+  # docs/notes/wcp5d_resolution_v1.md GAP-4: "GTSh no 2 hyohon ha isolated-sei
+  # wo dokuritsu kensho shite inai"), so this is a DELIBERATE, documented
+  # simplification, not a claim that c_in_N literally implies isolated.
+  if r.c_in_N then
+    r.chi_surjective_assert := (r.chi_image_order = r.phi_2Nord);
+  else
+    r.chi_surjective_assert := fail;   # not applicable / not evaluated -- null in JSON
   fi;
 
   # ---- c_in_N crosscheck against the pre-existing quotient-shortcut enumerator ----
@@ -298,6 +400,18 @@ CrosscheckJson := function(v)
   return JB(v);
 end;;
 
+BoolOrNullJson := function(v)
+  if v = fail then return "null"; fi;
+  return JB(v);
+end;;
+
+SettledFailWitnessesJson := function(ws)
+  local items;
+  items := List(ws, w -> Concatenation("{\"m\":", String(w.m),
+                                        ",\"f_perm\":", JStr(String(w.f)), "}"));
+  return JArr(items);
+end;;
+
 ResultJson := function(r)
   return Concatenation("{\n",
     "  \"label\":", JStr(r.label), ",\n",
@@ -308,11 +422,17 @@ ResultJson := function(r)
     "  \"N_ord\":", String(r.N_ord), ",\n",
     "  \"charming_count\":", String(r.charming_count), ",\n",
     "  \"shadow_total\":", String(r.shadow_total), ",\n",
+    "  \"settled_fail_count\":", String(r.settled_fail_count), ",\n",
+    "  \"settled_total_evaluated\":", String(r.settled_total_evaluated), ",\n",
+    "  \"settled_all_pass\":", JB(r.settled_all_pass), ",\n",
+    "  \"settled_fail_witnesses\":", SettledFailWitnessesJson(r.settled_fail_witnesses), ",\n",
     "  \"isotropy_order\":", String(r.isotropy_order), ",\n",
     "  \"ker_size\":", String(r.ker_size), ",\n",
+    "  \"chi_image_order\":", String(r.chi_image_order), ",\n",
     "  \"phi_2Nord\":", String(r.phi_2Nord), ",\n",
     "  \"ta_predicted_ker\":", String(r.ta_predicted_ker), ",\n",
     "  \"ta_assert_holds\":", JB(r.ta_assert_holds), ",\n",
+    "  \"chi_surjective_assert\":", BoolOrNullJson(r.chi_surjective_assert), ",\n",
     "  \"closure_353_holds\":", JB(r.closure_353_holds), ",\n",
     "  \"ker_commutes\":", JB(r.ker_commutes), ",\n",
     "  \"witness\":", WitnessJson(r.witness), ",\n",
@@ -371,10 +491,15 @@ RunAndWrite := function(result, outfile)
   Print("\n=== VERDICT: ", result.verdict, " (", result.label, ") ===\n");
   Print("  c_in_N=", result.c_in_N, "  |B3/N|=", result.abs_Bq, " |P_N|=", result.abs_PN,
         "  N_ord=", result.N_ord, "\n");
-  Print("  shadow_total=", result.shadow_total, "  isotropy_order=", result.isotropy_order,
-        "  ker_size=", result.ker_size, "\n");
-  Print("  T-A assert holds=", result.ta_assert_holds, "  (3.53) closure=",
-        result.closure_353_holds, "  ker_commutes=", result.ker_commutes, "\n");
+  Print("  shadow_total=", result.shadow_total, "  settled_fail_count=", result.settled_fail_count,
+        " (", result.settled_total_evaluated - result.settled_fail_count, "/",
+        result.settled_total_evaluated, " settled)",
+        "  isotropy_order=", result.isotropy_order, "  ker_size=", result.ker_size,
+        "  chi_image_order=", result.chi_image_order, "\n");
+  Print("  T-A assert (|ker|*|Im chi~|=|G_N|) holds=", result.ta_assert_holds,
+        "  chi~ surjective onto phi(2N_ord) (c_in_N gate)=", result.chi_surjective_assert,
+        "  (3.53) closure=", result.closure_353_holds,
+        "  ker_commutes=", result.ker_commutes, "\n");
   Print("  derived_series_orders=", result.derived_series_orders,
         "  derived_length=", result.derived_length, "\n");
   Print("  crosscheck_vs_EnumerateReducedHexagon=", result.crosscheck_vs_EnumerateReducedHexagon, "\n");
@@ -385,7 +510,9 @@ end;;
 #############################################################################
 ## ---------------------- self-test (JUDGE_SELFTEST := true) -----------------
 #############################################################################
-# Fixture 1: W-C-p5 = N5 = ker(B3 -> S3 x SL(2,F5)) (c NOT in N; known answer per
+# Fixture 1: W-C-N5cong (N5cong = ker(B3 -> S3 x SL(2,F5)); renamed 裁定170 from
+#            "N5" to avoid collision with week1-定義ノート.md's own N5=ker(beta_5))
+#            (c NOT in N; known answer per
 #            docs/notes/wcp5d_resolution_v1.md S4: GTSh = C2 x Aff(F5), order 40,
 #            ABELIAN ker chi~ (= C5)).
 # Fixture 2: a K(3)-style c IN N control. NOTE (honesty over convenience): the
@@ -402,11 +529,21 @@ end;;
 #            cross-validated three times over (wall-miner-v1/v3/v4: SL(2,3),
 #            N_ord=6, all (F2) asserts held in v4) -- as the c-in-N control,
 #            clearly labeled as a substitution, not literally "K(3)".
-if IsBound(JUDGE_SELFTEST) and JUDGE_SELFTEST = true then
+if IsBound(JUDGE_LIBRARY_ONLY) and JUDGE_LIBRARY_ONLY = true then
+  # KJ-1 (裁定169) addition: define MakeWindow/JudgeWindow/JudgeFromLinsNode/etc.
+  # and return control to the caller without running any single-window or
+  # self-test dispatch. Intended for driver scripts (e.g.
+  # search/kerchi-judge-v11-regression.g) that want to call JudgeWindow /
+  # JudgeFromLinsNode directly, many times, with their own comparison logic,
+  # rather than going through the "process exactly one window and write one
+  # outfile" path below.
+  Print("kerchi-judge.g loaded in JUDGE_LIBRARY_ONLY mode (no window processed here).\n");
+
+elif IsBound(JUDGE_SELFTEST) and JUDGE_SELFTEST = true then
   Print("=== kerchi-judge.g SELF-TEST ===\n");
   SELFTEST_FAILS := 0;;
 
-  Print("\n--- fixture 1: W-C-p5 (N5 = ker(B3 -> S3 x SL(2,F5))) ---\n");
+  Print("\n--- fixture 1: W-C-N5cong (N5cong = ker(B3 -> S3 x SL(2,F5))) ---\n");
   psi2 := IsomorphismPermGroup(Group([[1,1],[0,1]]*One(GF(2)), [[1,0],[1,1]]*One(GF(2))));;
   psi5 := IsomorphismPermGroup(Group([[1,1],[0,1]]*One(GF(5)), [[1,0],[4,1]]*One(GF(5))));;
   DP := DirectProduct(Image(psi2), Image(psi5));;
@@ -414,7 +551,7 @@ if IsBound(JUDGE_SELFTEST) and JUDGE_SELFTEST = true then
           Image(Embedding(DP,2), Image(psi5,[[1,1],[0,1]]*One(GF(5))));;
   s2p5 := Image(Embedding(DP,1), Image(psi2,[[1,0],[1,1]]*One(GF(2)))) *
           Image(Embedding(DP,2), Image(psi5,[[1,0],[4,1]]*One(GF(5))));;
-  resP5 := JudgeWindow(s1p5, s2p5, "W-C-p5-selftest");;
+  resP5 := JudgeWindow(s1p5, s2p5, "W-C-N5cong-selftest");;
   RunAndWrite(resP5, "search/certs/kerchi_judge_selftest_p5.json");
   if resP5.verdict <> "ABELIAN" then
     SELFTEST_FAILS := SELFTEST_FAILS + 1;
@@ -425,7 +562,7 @@ if IsBound(JUDGE_SELFTEST) and JUDGE_SELFTEST = true then
     Print("  [FAIL] expected |GTSh|=40, got ", resP5.isotropy_order, "\n");
   fi;
   Print("  [", PF(resP5.verdict = "ABELIAN" and resP5.isotropy_order = 40),
-        "] fixture 1 (W-C-p5): verdict=", resP5.verdict, " |GTSh|=", resP5.isotropy_order, "\n");
+        "] fixture 1 (W-C-N5cong): verdict=", resP5.verdict, " |GTSh|=", resP5.isotropy_order, "\n");
 
   Print("\n--- fixture 2: c-in-N control (W-A-B3idx144-s5, substituting for K(3) -- see comment above) ---\n");
   resK3 := JudgeFromLinsNode(192, "W-A-B3idx144-s5");;
