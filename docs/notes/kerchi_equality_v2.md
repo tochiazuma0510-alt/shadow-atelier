@@ -1,7 +1,7 @@
 # 等号問題 $\ker\widetilde\chi=[\operatorname{GT}(N),\operatorname{GT}(N)]$ — 一般判定条件・dihedral 族での定理・**atlas 内の反例** **v2**
 
 **状態札: candidate(v2.3.1・repo commit 済 — Sol 便 82 F82-2.1 の小差分反映)**
-起草: Claude(数学者レイヤー・Opus 5)/ v1 = 2026-07-29 / **v2 = 2026-07-29(便 79 検収・裁定 170 の修理波)/ v2.1 = 2026-07-29(裁定 173 追補: §11 $\chi$-退化窓・予想 KE-P の反証)/ **v2.2 = 2026-07-29(裁定 177・便 80 F80-2 系: §12 KE-P$'$ 撤回・idx162-s1・census・$\chi$-DEG の型修正)/ v2.3 = 2026-07-29(裁定 185・便 81 F81-2.2/P81-D: 失効記録の封入・idx162 の cross-checked 確定・`abs_PN` の型分離・母集団分離・A16 = 第三標本)**
+起草: Claude(数学者レイヤー・Opus 5)/ v1 = 2026-07-29 / **v2 = 2026-07-29(便 79 検収・裁定 170 の修理波)/ v2.1 = 2026-07-29(裁定 173 追補: §11 $\chi$-退化窓・予想 KE-P の反証)/ **v2.2 = 2026-07-29(裁定 177・便 80 F80-2 系: §12 KE-P$'$ 撤回・idx162-s1・census・$\chi$-DEG の型修正)/ v2.3 = 2026-07-29(裁定 185・便 81 F81-2.2/P81-D: 失効記録の封入・idx162 の cross-checked 確定・`abs_PN` の型分離・母集団分離・A16 = 第三標本)/ **v2.4 = 2026-07-29(裁定 195: §13 A16 の機構同定 = B2 型・非可換核 instance・命題 ABS・部分生存)**
 設問: 司令塔委嘱(便 79 検分材料)/ `docs/notes/w2fam_v1.md`(dihedral 族での等号)の一般化
 **v2 の依拠(追加)**: `sol/sol_reply_79_math6.md` **F79-2.1 / F79-2.2 / F79-2.3 / F79-2.5 / F79-2.6 / P79-A / P79-B**、`search/certs/derived_census_v2_20260729.json`(census v2)。
 正典・依拠(v1 から継承):
@@ -610,6 +610,7 @@ equality_type   = TYPE_0_TRIVIAL_EQUAL   if chi_degenerate and isotropy_order ==
 **TIER 昇格・反例カウント・§7.5 の探索優先度は `TYPE_L_SUBSTANTIVE` にゲートする**(§11.3 のまま)。
 
 > **★ A16 は第三の標本(第三の機構ではない)**: 別途報告された **A16 は等号破れの第三 *標本*** として記録する。**その機構は open** であり、$L$ 型(重み 2・$\Lambda^2Q\ne0$)/ idx162 型($Q$ 巡回・$\Lambda^2Q=0$)のどちらでもない**第三の機構**とはまだ呼ばない。**機構の命名は P81-A capsule(機構同定の型付き証明書)を通してから行う** — 標本を数えることと機構を数えることを混同しない。
+> **→ v2.4(§13)で判定済み: A16 は「B2 型・非可換核 instance」。第三機構ではない。機構は 2 つ(B2/B3)・標本は 3 つ。**
 
 ### 12.4 ④ 【KE-j】の格下げ
 
@@ -623,4 +624,68 @@ equality_type   = TYPE_0_TRIVIAL_EQUAL   if chi_degenerate and isotropy_order ==
 
 * 【KE-l・新設】**橋補題 BRIDGE**($F_2$-source と $B_3$-settled の関係・§11.4)— これが閉じるまで $\chi$-退化の機構は UNKNOWN。
 * 【KE-m・**v2.3 で閉**】idx162-s1 の独立レーン再構成 → **全 13 項一致・Sol F81-2.1 公認 ⟹ cross-checked 第二反例(確定)**。残るのは Lean 化のみ($L$ と同水準)。
-* 【KE-n・新設】idx162-s1 の $N$ の**同定**($|B_3/N|=162$、$|PB_3/N|=27$、$c\in N$、$N_{\rm ord}=3$)と、$L$ 型($\Lambda^2Q\ne0$・重み 2)/ idx162 型($Q$ 巡回・$\Lambda^2Q=0$)の**二機構の対比**の記述。§7.5 の priority 2(巡回 $Q$)がここで当たっている。
+* 【KE-n・新設】idx162-s1 の $N$ の**同定**($|B_3/N|=162$、$|F_2/N_{F_2}|=27$、$c\in N$、$N_{\rm ord}=3$)と、$L$ 型($\Lambda^2Q\ne0$・重み 2)/ idx162 型($Q$ 巡回・$\Lambda^2Q=0$)の**二機構の対比**の記述。§7.5 の priority 2(巡回 $Q$)がここで当たっている。
+
+---
+
+# 13. 【v2.4 追補】A16 の機構同定 — T-B の非可換核 instance(**第三機構ではない**)
+
+**追補: 2026-07-29(裁定 195)。入力 = `search/certs/a16_kernel_structure_20260729.json`(P81-A structural capsule・`search/a16-kernel-structure.g`・GAP 単系統・capsule 自身が `NOT a ledger claim, no cross-check` と申告)。**
+
+### 13.1 入力(capsule からの機械転写)と T-B への代入
+
+| 量 | capsule 値 | T-B の記号 |
+|---|---|---|
+| `G_order` | 880 | $|G_N|$ |
+| `K_order` / `K_is_abelian` / `K_struct` | 88 / **false** / **$C_{11}\times D_8$** | $|\mathfrak F_0|$・**初の非可換核** |
+| `Kprime_order` | 2 | $|[K,K]|$ ⟹ $K^{\rm ab}=C_{11}\times C_2^2$(位数 **44**) |
+| `Gprime_order` / `Gprime_subset_of_K` | 22 / true | $|[G,G]|$ |
+| `ZK_order` / `ZK_equals_Gprime` | 22 / **true** | $Z(K)=[G,G]=C_{11}\times C_2$ |
+| `KmodGprime_struct` | **$C_2\times C_2$** | $\ker\widetilde\chi/[G,G]$ ← **破れの実体** |
+| `GmodGprime_invariant_factors` | [2,2,2,5] | $|G^{\rm ab}|=40$($=880/22$ ✓) |
+| $|Q|=|G|/|K|$ | $880/88=\mathbf{10}=\varphi(22)$ | $N_{\rm ord}=11$、$Q=(\mathbf Z/22)^\times$ **全射** |
+| `Syl11_normal_in_K` / `complement_struct` / `complement_action_exponents_on_Syl11` | true / $D_8$ / **[1,1,1]** | $D_8$ は $C_{11}$ に**自明に作用** ⟹ 直積 |
+
+**$Q$ は巡回**: $(\mathbf Z/22)^\times\cong(\mathbf Z/11)^\times\cong C_{10}$。$\Rightarrow\ \boxed{\Lambda^2Q=0}$。
+
+### 13.2 T-B の検証(**成立**)
+
+$\Lambda^2Q=0$ より T-B は
+$$\ker\widetilde\chi/[G,G]\ \cong\ \operatorname{coker}\bigl(0\to(K^{\rm ab})_Q\bigr)=(K^{\rm ab})_Q$$
+を予言する。実測は $C_2\times C_2$(位数 4)。$K^{\rm ab}=C_{11}\times C_2^2$(位数 44)なので、**一致は次の 2 条件と同値**:
+
+1. $\bigl(C_{11}\bigr)_Q=0$ — $Q$ が $C_{11}$ に**非自明**に作用すること($u-1$ が可逆な $u\in Q$ が 1 つあれば十分)。$C_{11}\le Z(K)=[G,G]$ という capsule の実測が独立にこれを裏づける(**奇部分は $[G,G]$ に吸収されて死ぬ**)。
+2. $\bigl(C_2^2\bigr)_Q=C_2^2$ — $Q$ が $K^{\rm ab}$ の **2-部分に自明に作用**すること。$K/G'=K/Z(K)\cong D_8/Z(D_8)\cong C_2^2$ という実測がこれを強制する。
+
+$$\Longrightarrow\ (K^{\rm ab})_Q=0\oplus C_2^2=C_2^2\ =\ \text{実測}\quad\checkmark$$
+
+> **★ これは T-B の初の非可換核での検証**である(L・idx162 の核はいずれも可換)。T-B の証明(LHS 5 項)は $K$ の可換性を一切使っていないので理論的には想定内だが、**実データで確認されたのは初**。
+> **⚠ capsule に欠けている 1 欄**: **$Q$ の $K^{\rm ab}$ への作用行列**が capsule にない。`complement_action_exponents_on_Syl11 = [1,1,1]` は **$K$ の内部**($D_8$ 補群 → $C_{11}$)の作用であって、**$Q=G/K$ の作用ではない**(別物)。上の条件 1・2 は現在**実測から逆算**しており、直接測っていない。→【KE-o】
+
+### 13.3 **命名判定 — 第三機構ではない。「B2 型・非可換核 instance」**
+
+| 標本 | $Q$ | $\Lambda^2Q$ | 核 | 生存層 | **機構** |
+|---|---|---|---|---|---|
+| $L$ | $(\mathbf Z/12)^\times\cong C_2^2$ | $C_2\ne0$ | $C_3^2$(可換) | 重み 2 の $C_3$($\gcd(3,2)=1$) | **B3 型** |
+| `idx162-s1` | $C_2$(巡回) | $0$ | $C_3$(可換) | 核**全部**($G$ 可換ゆえ作用自明) | **B2 型** |
+| **A16** | $C_{10}$(**巡回**) | $\mathbf 0$ | $C_{11}\times D_8$(**非可換**) | $K^{\rm ab}$ の **2-部分 $C_2^2$**(奇部分は死ぬ) | **B2 型**(非可換核 instance) |
+
+**判定: 命名しない。** 理由 3 点:
+1. **破れの機構が同一**: $Q$ が巡回 ⟹ $\Lambda^2Q=0$ ⟹ **transgression が構造的に存在しない** ⟹ 非零な余不変量は必ず生き残る。idx162 と**逐語同じ**。新しい定理も新しい前件も要らない。
+2. **非可換性は機構ではなく吸収**: $[K,K]\subseteq[G,G]$ は**常に**成り立つ(自明)。ゆえに等号問題は**常に $K^{\rm ab}$ しか見ない**。非可換核は「難しい場合」ではなく「**部分的に自己吸収する場合**」であり、T-B の枠内で完結する。
+3. **F81-1.7 の命名条件を満たさない**: 新機構と呼べるのは「T-B の (B1)(B2)(B3) のいずれでも説明できない破れ」または「$\Lambda^2Q$ 以外の障害が要る破れ」に限る。A16 はそのどちらでもない。
+
+**代わりに立てるべきは *機構* でなく *層* の語彙**:
+
+> ### 命題 ABS(自明だが常設すべき整理・v2.4)
+> 任意の窓で $[K,K]\subseteq[G,G]$(∵ $K\le G$)。ゆえに
+> $$\ker\widetilde\chi=[G,G]\iff (K^{\rm ab})_Q\ \text{が}\ \mathrm{tg}\ \text{で潰される}$$
+> であり、**核の非可換部分は自動的に等号側へ吸収される**。等号問題の全内容は $K^{\rm ab}$ 上にある。
+
+**A16 の固有の新しさ(サブラベルとして記録)**: **「部分生存(partial survival)」** — $C_{N_{\rm ord}}=C_{11}$ の層が $[G,G]$ に死に、$K^{\rm ab}$ の **2-部分だけが生き残る**。idx162 は核が丸ごと生存だったので、**層ごとに生死が分かれる初の標本**。生死を分けているのは $\bigl(C_{p}\bigr)_Q$ の消滅($Q\to\operatorname{Aut}(C_{11})$ が非自明)対 2-部分の $Q$-自明性である。**この「奇は死に 2 は生きる」の非対称は §14 の予言 A20 の主柱になる。**
+
+### 13.4 v2.4 の未閉鎖項
+
+* 【KE-o・新設】**A16 capsule に $Q$-作用欄を追加**(`Q_action_on_Kab`: $Q$ の生成元の $K^{\rm ab}=C_{11}\times C_2^2$ 上の行列)。これで §13.2 の条件 1・2 が逆算でなく**直接測定**になる。
+* 【KE-p・新設】A16 capsule は**単系統・cross-check なし**(capsule 自身の申告)。$L$/idx162 と同水準にするには独立レーンが要る。**現状 A16 は「標本」であって「反例(確定)」ではない。**
+* 【KE-q・新設】命題 ABS を §3(T-B の直後)へ昇格するかの判断 — **司令塔案件**(本節では §13 内に置いた)。
