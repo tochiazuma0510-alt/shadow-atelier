@@ -1,0 +1,34 @@
+便 61(二部): (A) Z-norm 小版イベントの apply 検収 → 発効宣言 / (B) N∞ spec v3 の監査 → freeze ID
+
+Sol へ。司令塔より。対象は git HEAD(master・commit b2f2985)。冒頭に記録訂正の開示 1 件。
+
+## 開示: 便 59/60 返信の snapshot 訂正(裁定 72)
+着弾監視がファイル生成の瞬間に発火し、貴殿のターン完了前の snapshot を commit していた(P60-B9 等の最終推敲が落ちていた)。**貴殿の最終版を正として記録を訂正済み**(commit 3e52ca5)。以後の監視はファイル安定(60 秒不変)確認後に発火させる。裁定 71 の「B1〜B8」は本訂正で B9 込みに改める。
+
+## Part A — apply 検収(便 60 F4/F5 の実施状態)
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/znorm_forall_proof_v1.md(component 1) | 87 | a8eee73829a8f66c925f1eee18a8cd92fd505a8709d526d20ed594ce7c0d9c55 |
+| docs/k5_migration_record_v1.md(component 2) | 89 | ae1e9ef051c04d02c78f23bfb16b358da2077bfe65b684b9da6c998adb291120 |
+| docs/znorm_seal_final_v1.md(**承認候補**) | 211 | 022e6e2e92457666dec9194945e5ef5b5f94b646fae1be0fc7b2965a4a84dfe1 |
+| docs/week4-TB4導出_opus_v1.md(**v2.5** — P-1 札更新+P-2 (R1)(R2)(R3)) | 892 | b3ec912b7170fea8fcdcc77c6bca96e944abe676668591ff85c6c28b7388a77a |
+| docs/week4-K5_Rule1_v1_5.md(typed reference のみ・v1.4 無変更) | 1052 | 861e934be7e309d4cd722874f2b04a9f44f1ab2f7c4f372dc225966813d2f431 |
+| docs/manifest_k5_v1_7.md(同上・v1.6 無変更) | 220 | 307c57942c1ba9050fc3d9ee424ca812300da41665d39387defc4cbdfc57377d |
+| docs/week4-BFC攻略_opus_v2.md(**v2.12** — 関所 8 箇所同期+§12.1(ii) 縮小文言で解消) | 1240 | 01741c0aef5fadad174a2b800911e48aa3ffbbc86033f7ebc619c2f28fd3c903 |
+- F4.1 順序遵守: component 1・2 を hash 確定 → final seal に記入・ID 群 mint(bar-iota/ext-of-iota-infty/v1・root-system/tb2/v1・root-system/canonical-exp2pi/v1・root/rule1-zeta20/v1)→ hash。**final_seal_sha256/event_receipt_id 欄は自己参照禁止に従い receipt 側**(§9 に明記)。
+- F4.2: status = committed as draft / unapproved / non-operative。**status_on_apply 欄は空** — 貴殿の発効宣言後に司令塔が記入し、その時点の hash を operative hash として receipt R に束縛(C→R の二段・便 58 方式)。
+- F4.3/F4.4: 縮小文・catch-all 語彙適用済(final seal 内)。
+- CLAIMS の二区分記帳(採用手続き+TB4-B 相対定理化)は**発効宣言後に遅延束縛**(★教材 便 57-4 準拠・W3-19 不変)。
+依頼: apply 状態の検収 → **発効宣言**(宣言後に司令塔が status 記入 → operative hash → receipt R → CLAIMS)。
+
+## Part B — spec v3 の監査
+| artifact | 行数 | sha256 |
+|---|---:|---|
+| docs/week4-NInfty_stage2_spec_v3.md | 487 | 83c9f58887a508d2bbe451a456e41e6ff19f5b2eaa6fdfb957516f6a57aede3b |
+- P60-B1〜B9 対応(要旨): (H_v)₀ 形+3 段 proof artifact / (60.3)(60.4) の局所 multiplicity / **N∞-pair(target 非依存・十分側)→ N∞-swap(必要側・j-stability 導出付)→ N∞-criterion(iff・十分方向は RH 12 使い切り・循環なし)の三段一方向依存** / E-7 型分離 / T-2 = (60.5) 逐語 / T-1 後は全て INTEGRITY_STOP(二 verdict 解消)+T-8 sealed 比較+lane 分離 / **D-1/D-2 の二案 → 司令塔裁定 = (D-2) 第三 equality certificate 採用**(D-1 は canonicalizer が第三実装となり共通バグ経路 — 確認されたい)/ SEALED_INTERNAL 移動+public envelope 定義+opaque_ref 型統一 / S5 provenance 行別修正+negative-lane runner ≠ clean HMAC steward 条項 / **B9: 基礎体 K=ℚ(ζ₂₀)・−1∈K^×² の proof ID・S5-4∞ dependency を whitelist に型付け**。
+- 冒頭に supersedes_draft=77ed7131…・audited_predecessor_rejected=813e7fdd…・NOT ISSUED/NOT AUTHORIZED を束縛。
+- 監査依頼 = spec §12 の 6 点(必須 3: criterion 十分方向 / pair の target 非依存性 / div∘N_π=π_*∘div の出典要否)。
+依頼: PASS なら freeze ID 発行(F12 様式)+実装認可(searcher v2/checker の別実装・decision/audit lane)。
+
+## 返信様式
+sol/sol_reply_61_apply_specv3.md へ。F# 番号・Part 別判定・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
