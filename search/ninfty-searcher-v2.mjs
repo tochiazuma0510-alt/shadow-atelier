@@ -823,19 +823,31 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
     // ABSENT), while ramification_ref/branch_ref/map_ref carry real inline
     // data (the native divisors themselves + the identity pushforward map
     // description for this lane's single-chart scope).
+    // map_ref.inline (interp v3 条項2's W-6 entry shape: {native_side,
+    // ramification_ref, branch_ref, map_ref, witness_ref}): an ARRAY of
+    // {branch_value, multiplicity} entries -- one per branch-divisor
+    // component, branch_value = its locus_type, multiplicity = its
+    // declared multiplicity for this lane's identity (x-coordinate)
+    // pushforward -- NOT a single descriptive dict. This matches the
+    // shape lane B's verifier (search/ninfty-verifier-b.py
+    // _extract_w6_map) parses, and the shape the witness-gen-merged
+    // full-witness fixture (search/certs/full_witness_fixture_01.json)
+    // already carries; the prior single-dict `{description: ...}`
+    // placeholder was a schema mismatch (裁定145 残差2), not a genuine
+    // alternate interpretation.
     pushforward_compatibility_witness: [
       {
         native_side: 'searcher',
         ramification_ref: makeRef('searcher-pushforward-ramification', searcherNative.ramification_divisor_on_C_ref),
         branch_ref: makeRef('searcher-pushforward-branch', searcherNative.branch_divisor_on_P1_ref),
-        map_ref: makeRef('searcher-pushforward-map', { description: 'x-coordinate identity pushforward (single-chart scope, no root-level map computed)' }),
+        map_ref: makeRef('searcher-pushforward-map', searcherNative.branch_divisor_on_P1_ref.components.map((c) => ({ branch_value: c.locus_type, multiplicity: c.multiplicity }))),
         witness_ref: makeRef('searcher-pushforward-witness', { points: [], status: 'ABSENT', reason: 'lane A represents components by ideals, not explicit points; no point-level pushforward witness computed yet.' }),
       },
       {
         native_side: 'checker',
         ramification_ref: makeRef('checker-pushforward-ramification', checkerNative.ramification_divisor_on_C_ref),
         branch_ref: makeRef('checker-pushforward-branch', checkerNative.branch_divisor_on_P1_ref),
-        map_ref: makeRef('checker-pushforward-map', { description: 'x-coordinate identity pushforward (single-chart scope, no root-level map computed)' }),
+        map_ref: makeRef('checker-pushforward-map', checkerNative.branch_divisor_on_P1_ref.components.map((c) => ({ branch_value: c.locus_type, multiplicity: c.multiplicity }))),
         witness_ref: makeRef('checker-pushforward-witness', { points: [], status: 'ABSENT', reason: 'lane A represents components by ideals, not explicit points; no point-level pushforward witness computed yet.' }),
       },
     ],

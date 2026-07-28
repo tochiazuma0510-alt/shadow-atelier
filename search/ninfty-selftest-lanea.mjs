@@ -405,6 +405,52 @@ console.log('\n=== 裁定 142: json_pointer _ref fixtures ===');
   check('C17 ref with neither object_id nor json_pointer -> malformed=true', vA.malformed === true && vA.malformed_fields.some((m) => m.reason === 'ref-not-a-triple'), JSON.stringify(vA));
 }
 
+// --- 裁定145 残差2: generateCertificate's OWN W-6 map_ref.inline placeholder
+//     must be the ARRAY-of-{branch_value, multiplicity} shape (interp v3
+//     条項2's W-6 entry shape; the shape lane B's verifier
+//     search/ninfty-verifier-b.py _extract_w6_map parses, and the shape
+//     the witness-gen-merged full-witness fixture already carries) -- NOT
+//     a single descriptive dict ({description: ...}), which was a schema
+//     mismatch, not a genuine alternate interpretation.
+console.log('\n=== 裁定145 残差2: W-6 map_ref.inline is array-shaped ===');
+
+// C18: both native_side entries' map_ref.inline are arrays (not a bare
+// object), and every element carries branch_value + an integer multiplicity.
+{
+  const { cert } = freshCert();
+  for (const entry of cert.pushforward_compatibility_witness) {
+    const inline = entry.map_ref.inline;
+    const isArray = Array.isArray(inline);
+    check(
+      `C18 map_ref.inline is an array (native_side=${entry.native_side})`,
+      isArray,
+      JSON.stringify(inline),
+    );
+    if (isArray) {
+      const allShaped = inline.every((e) => e && typeof e === 'object' && 'branch_value' in e && Number.isInteger(e.multiplicity));
+      check(
+        `C18 every map_ref.inline entry has {branch_value, multiplicity:int} (native_side=${entry.native_side})`,
+        allShaped,
+        JSON.stringify(inline),
+      );
+    }
+  }
+}
+
+// C19: the map_ref.inline entries agree (branch_value + multiplicity) with
+// the corresponding native branch_divisor_on_P1_ref.components -- the array
+// is genuinely derived from native data, not an arbitrary/hardcoded literal.
+{
+  const { native, cert } = freshCert();
+  const searcherEntry = cert.pushforward_compatibility_witness.find((e) => e.native_side === 'searcher');
+  const expected = native.branch_divisor_on_P1_ref.components.map((c) => ({ branch_value: c.locus_type, multiplicity: c.multiplicity }));
+  check(
+    'C19 searcher map_ref.inline matches native branch_divisor_on_P1_ref.components (locus_type/multiplicity)',
+    JSON.stringify(searcherEntry.map_ref.inline) === JSON.stringify(expected),
+    `got=${JSON.stringify(searcherEntry.map_ref.inline)} expected=${JSON.stringify(expected)}`,
+  );
+}
+
 // --- Worked examples from the spec text itself (Sec.5.3.2 line 508 and
 //     contract Sec.5.1 F4.1/F4.2), tested directly against combine()'s
 //     priority ordering (sanity-check of INTEGRITY_PRIORITY table, not a

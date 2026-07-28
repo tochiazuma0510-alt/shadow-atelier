@@ -678,16 +678,72 @@ def _validate_w4_entry(e):
     divisor_object -- see verify_W4 using _check_singular_witness, not
     _check_plural_witness): {divisor_object, status, per_overlap_witnesses:
     [{chart_pair, component_in_chart_a, component_in_chart_b}, ...]}.
-    `status` (if present) is a producer claim and is never trusted; PASS
-    requires ALL per_overlap_witnesses entries to independently agree.
-    Malformed sub-entries are a schema violation (raises MalformedWitness
-    -> MALFORMED), distinct from a genuine chart-mismatch FAIL.
+
+    追補 (n) (裁定145 残差1, docs/notes/cert_shape_interpretation_v3_addendum_n.md):
+    `status` is now READ when per_overlap_witnesses is EMPTY -- it
+    distinguishes a genuine structured ABSENT declaration
+    ({status:"ABSENT", per_overlap_witnesses:[]}, e.g. lane A's "only one
+    chart exists, no overlap to witness" case -- [25] insufficient-evidence,
+    NOT a FAIL) from a schema violation:
+      1. status == "ABSENT" and per_overlap_witnesses == [] -> ABSENT.
+      2. status absent entirely and per_overlap_witnesses == [] -> ABSENT
+         (v3 条項5 default, unchanged).
+      3. status == "ABSENT" but per_overlap_witnesses is NON-empty -> the
+         status contradicts the data -> MALFORMED (fail-closed).
+      4. status present with an unrecognized value (neither "ABSENT" nor
+         "PRESENT") WHILE per_overlap_witnesses == [] -> MALFORMED (the
+         empty array leaves the entry's own status as the only signal of
+         what it means, so an unrecognized value cannot be resolved).
+      5. status == "PRESENT" but per_overlap_witnesses == [] -> MALFORMED
+         (裁定149, 追補(n) rule 5): "declares PRESENT while supplying no
+         evidence" is the mirror self-contradiction of rule 3 (ABSENT +
+         non-empty) -- fail-closed, NOT collapsed into ABSENT. (裁定149
+         supersedes this implementer's earlier interim ABSENT reading of
+         this combination, which was flagged UNKNOWN pending confirmation
+         and has now been resolved.)
+    When per_overlap_witnesses is NON-empty, `status` is NOT re-validated
+    against the ABSENT/PRESENT vocabulary and is treated exactly as
+    before 追補(n) -- a producer claim that is never trusted for PASS/FAIL
+    (self-made fixtures predating 追補(n) use an unrelated "agree"/
+    "disagree" convention for this case; 追補(n) does not touch it).
+    PASS requires ALL per_overlap_witnesses entries to independently
+    agree. Malformed sub-entries are a schema violation (raises
+    MalformedWitness -> MALFORMED), distinct from a genuine chart-mismatch
+    FAIL.
     """
     _require_dict(e, "W-4 entry")
     _require_keys(e, ["per_overlap_witnesses"], "W-4 entry")
     overlaps = _require_list(e["per_overlap_witnesses"], "W-4 entry.per_overlap_witnesses")
+    status = e.get("status")
     if len(overlaps) == 0:
-        return "FAIL", {"reason": "per_overlap_witnesses is present but empty -- no overlap claim to verify"}
+        if status is None:
+            return "ABSENT", {
+                "reason": "per_overlap_witnesses is present but empty "
+                          "(no status field -- 追補(n) rule 2 / v3 条項5 default)"
+            }
+        if status == "PRESENT":
+            raise MalformedWitness(
+                "W-4 entry.status=PRESENT but per_overlap_witnesses is empty -- declares "
+                "presence while supplying no evidence, the mirror self-contradiction of "
+                "rule 3 (追補(n) rule 5, 裁定149)"
+            )
+        if status == "ABSENT":
+            return "ABSENT", {
+                "reason": e.get(
+                    "reason",
+                    "structured ABSENT marker (追補(n) rule 1): status=ABSENT, "
+                    "per_overlap_witnesses=[] -- insufficient evidence, not FAIL",
+                )
+            }
+        raise MalformedWitness(
+            f"W-4 entry.status has unrecognized value {status!r} (expected 'ABSENT' or "
+            "'PRESENT') while per_overlap_witnesses is empty -- 追補(n) rule 4"
+        )
+    if status == "ABSENT":
+        raise MalformedWitness(
+            f"W-4 entry.status=ABSENT but per_overlap_witnesses is non-empty "
+            f"({len(overlaps)} entries) -- contradicts the ABSENT declaration (追補(n) rule 3)"
+        )
     for i, o in enumerate(overlaps):
         if not isinstance(o, dict) or "component_in_chart_a" not in o or "component_in_chart_b" not in o:
             raise MalformedWitness(f"per_overlap_witnesses[{i}] malformed "
@@ -787,6 +843,28 @@ def _validate_bijection_edges_for_token(entries, tok, native_a, native_b):
 
     searcher_ids_actual = _native_component_ids(native_a, tok)
     checker_ids_actual = _native_component_ids(native_b, tok)
+
+    # 裁定142 self-audit finding: when native reconstruction is entirely
+    # unavailable for one or both sides (native_a/native_b is None or
+    # unreadable -- e.g. self-contained resolution failed and the runner
+    # supplied nothing either), the coverage check used to be SKIPPED
+    # (treated as vacuously satisfied) rather than reported as
+    # insufficient evidence -- reopening exactly the "self-reported list
+    # is not authority" gap item 6 exists to close, in this one fallback
+    # case. Fixed here: no independent native reconstruction on EITHER
+    # side means this witness cannot legitimately PASS at all -- ABSENT
+    # (insufficient evidence), not a silent pass-by-omission.
+    if searcher_ids_actual is None or checker_ids_actual is None:
+        return "ABSENT", {
+            "reason": "native_a and/or native_b could not be independently reconstructed for this "
+                      "divisor_object (neither runner-supplied nor self-resolvable from the "
+                      "certificate's embedded refs) -- W-1 requires native reconstruction "
+                      "(裁定139 item 6: self-reported lists are not authority), so this is "
+                      "insufficient evidence, not a PASS",
+            "searcher_ids_resolvable": searcher_ids_actual is not None,
+            "checker_ids_resolvable": checker_ids_actual is not None,
+        }
+
     searcher_digest_actual = sha256_of(native_a) if isinstance(native_a, dict) else None
     checker_digest_actual = sha256_of(native_b) if isinstance(native_b, dict) else None
 
@@ -809,8 +887,8 @@ def _validate_bijection_edges_for_token(entries, tok, native_a, native_b):
 
     injective_searcher = len(set(searcher_used)) == len(searcher_used)
     injective_checker = len(set(checker_used)) == len(checker_used)
-    covers_searcher = searcher_ids_actual is None or set(searcher_used) == set(searcher_ids_actual)
-    covers_checker = checker_ids_actual is None or set(checker_used) == set(checker_ids_actual)
+    covers_searcher = set(searcher_used) == set(searcher_ids_actual)
+    covers_checker = set(checker_used) == set(checker_ids_actual)
     ok = injective_searcher and injective_checker and covers_searcher and covers_checker
     detail = {
         "edge_count": len(entries),
@@ -1156,6 +1234,45 @@ def sha256_of(obj):
     return hashlib.sha256(canonical_serialize(obj).encode("utf-8")).hexdigest()
 
 
+def _resolve_native_from_cert_embedded(cert, side):
+    """
+    裁定142 item 2: self-contained fallback. When the runner does not
+    separately supply native_a/native_b, derive an equivalent
+    {tok: {"components": [...]}, ...} payload from the certificate's OWN
+    embedded searcher_native/checker_native ref-triples (item 3:
+    {artifact_id, digest, json_pointer|object_id[, inline]}) -- so a
+    certificate can be verified on its own, without depending on the
+    runner wiring up native_a/native_b out-of-band.
+
+    Never raises: any parse/digest failure along the way makes this
+    return None (the caller's existing None-native code paths already
+    handle "cannot determine native content" honestly, as ABSENT/UNKNOWN
+    -- this fallback never fabricates a PASS from an unresolvable ref).
+    Only inline-carrying refs can be resolved this way; a pure digest-only
+    reference (no inline) is NOT dereferenced (walking json_pointer/
+    object_id into a third-party artifact store is out of scope, per the
+    module docstring's existing UNKNOWN note) -- also yields None here.
+    """
+    key = "searcher_native" if side == "searcher" else "checker_native"
+    nat = cert.get(key)
+    if not isinstance(nat, dict):
+        return None
+    out = {}
+    for tok in DIVISOR_OBJECT_TOKENS:
+        ref = nat.get(tok)
+        if not isinstance(ref, dict):
+            return None
+        try:
+            _parse_ref_triple(ref, f"{key}.{tok}")  # accepts json_pointer OR object_id (裁定142 item 1 re-confirmed)
+            inline = _check_ref_inline_consistency(ref, f"{key}.{tok}")
+        except MalformedWitness:
+            return None
+        if inline is None:
+            return None
+        out[tok] = inline
+    return out
+
+
 def run_verifier_b(payload):
     """
     payload = {
@@ -1163,6 +1280,12 @@ def run_verifier_b(payload):
       "native_a": {...searcher native raw content, optional...},
       "native_b": {...checker native raw content, optional...}
     }
+    native_a/native_b are OPTIONAL (裁定142 item 2): if the runner does not
+    supply them, this function falls back to resolving them from the
+    certificate's OWN embedded searcher_native/checker_native ref-triples
+    (_resolve_native_from_cert_embedded), so a certificate is verifiable
+    self-contained, not only when an external runner separately wires up
+    the native artifacts.
     **Never raises**: the outermost gate rejects a non-dict payload/
     certificate as a clean FAIL/INTEGRITY_STOP-style result before any
     witness processing; every per-witness-type function is additionally
@@ -1183,6 +1306,14 @@ def run_verifier_b(payload):
     cert = payload["certificate"]
     native_a = payload.get("native_a")
     native_b = payload.get("native_b")
+    native_a_self_resolved = False
+    native_b_self_resolved = False
+    if native_a is None:
+        native_a = _resolve_native_from_cert_embedded(cert, "searcher")
+        native_a_self_resolved = native_a is not None
+    if native_b is None:
+        native_b = _resolve_native_from_cert_embedded(cert, "checker")
+        native_b_self_resolved = native_b is not None
 
     p0_status, p0_detail = verify_P0(cert, EXPECTED_PINS)
     p3_status, p3_detail = verify_P3(cert, native_a, native_b, EXPECTED_PINS)
@@ -1248,6 +1379,8 @@ def run_verifier_b(payload):
         "witness_detail": witness_detail,
         "R_B": R_B,
         "overall_verdict_B": verdict_B,
+        "native_a_self_resolved": native_a_self_resolved,
+        "native_b_self_resolved": native_b_self_resolved,
     }
     if gate_reason is not None:
         result["gate_stop_reason"] = gate_reason
@@ -1285,6 +1418,14 @@ def run_verifier_b(payload):
         "does not resolve chart_ids against any curve_model_digest-keyed "
         "chart registry; only non-empty-string presence is checked "
         "(P-0.7) -- registry resolution is UNKNOWN/out of scope.",
+        "native_a/native_b self-contained resolution (裁定142 item 2): "
+        "see native_a_self_resolved/native_b_self_resolved fields -- when "
+        "the runner does not supply native_a/native_b directly, this "
+        "verifier falls back to resolving them from the certificate's own "
+        "embedded searcher_native/checker_native ref-triples, but ONLY "
+        "when those refs carry inline content; a pure digest-only "
+        "embedded ref (no inline) is NOT dereferenced (same "
+        "json_pointer/object_id walking gap as W-6's map_ref).",
     ]
     return result
 

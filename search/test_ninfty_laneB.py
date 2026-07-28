@@ -587,6 +587,217 @@ for bad_payload in [None, "a string", [1, 2, 3], {}, {"certificate": "not-a-dict
 
 
 # --------------------------------------------------------------------------
+# 裁定142: (1) _ref triples accept object_id as well as json_pointer,
+# (2) native_a/native_b self-contained resolution from the certificate's
+# own embedded searcher_native/checker_native ref-triples when the runner
+# does not supply them separately.
+# --------------------------------------------------------------------------
+
+# (1) object_id-only ref triple must be accepted (not raise, not require json_pointer).
+try:
+    ver._parse_ref_triple({"artifact_id": "x", "digest": "0" * 64, "object_id": "some:id"}, "test ref")
+    _object_id_ok = True
+except ver.MalformedWitness as e:
+    _object_id_ok = False
+record("裁定142(1): _parse_ref_triple accepts object_id-only ref (no json_pointer)",
+       _object_id_ok, "accepted" if _object_id_ok else "rejected (BUG)")
+try:
+    ver._parse_ref_triple({"artifact_id": "x", "digest": "0" * 64, "json_pointer": "/a"}, "test ref")
+    _json_pointer_ok = True
+except ver.MalformedWitness:
+    _json_pointer_ok = False
+record("裁定142(1): _parse_ref_triple accepts json_pointer-only ref (no object_id)",
+       _json_pointer_ok, "accepted" if _json_pointer_ok else "rejected (BUG)")
+try:
+    ver._parse_ref_triple({"artifact_id": "x", "digest": "0" * 64}, "test ref")
+    _neither_rejected = False
+except ver.MalformedWitness:
+    _neither_rejected = True
+record("裁定142(1): _parse_ref_triple REJECTS a ref with NEITHER json_pointer nor object_id",
+       _neither_rejected, "rejected (correct)" if _neither_rejected else "accepted (BUG)")
+
+# (2) self-contained resolution: strip native_a/native_b from a genuine
+# all-PASS toy fixture's payload and confirm verify_b still reaches PASS
+# by resolving native content from the certificate's own embedded refs.
+_self_contained_payload = load_fixture("cert_pos_01.json")
+_stripped_payload = {"certificate": _self_contained_payload["certificate"]}  # no native_a/native_b key at all
+_self_result = ver.run_verifier_b(_stripped_payload)
+record("裁定142(2): cert_pos_01.json verifies PASS with NO native_a/native_b supplied "
+       "(self-contained resolution from embedded refs)",
+       _self_result["overall_verdict_B"] == "PASS", json.dumps(_self_result["witness_results"]))
+record("裁定142(2): native_a_self_resolved / native_b_self_resolved report True in that case",
+       _self_result.get("native_a_self_resolved") is True and _self_result.get("native_b_self_resolved") is True,
+       f"native_a_self_resolved={_self_result.get('native_a_self_resolved')!r}, "
+       f"native_b_self_resolved={_self_result.get('native_b_self_resolved')!r}")
+
+# same fixture, WITH native_a/native_b supplied -> should NOT be flagged self-resolved.
+_normal_result = ver.run_verifier_b(_self_contained_payload)
+record("裁定142(2): same fixture WITH native_a/native_b supplied -> native_*_self_resolved False "
+       "(uses the supplied native content, not the fallback)",
+       _normal_result.get("native_a_self_resolved") is False and _normal_result.get("native_b_self_resolved") is False,
+       f"native_a_self_resolved={_normal_result.get('native_a_self_resolved')!r}, "
+       f"native_b_self_resolved={_normal_result.get('native_b_self_resolved')!r}")
+
+# self-contained resolution must fail gracefully (-> ABSENT, not a crash or
+# fabricated PASS) when the embedded ref has no inline content to resolve.
+# Self-audit catch during this very fix: an earlier draft of
+# _validate_bijection_edges_for_token treated an unresolvable native side
+# as "nothing to check against" and defaulted the coverage check to
+# vacuously true, so W-1 still reached PASS here even with NO independent
+# native evidence at all -- a fail-open reopening of exactly the gap item
+# 6 exists to close. Fixed (see _validate_bijection_edges_for_token): W-1
+# is now ABSENT in this case, and ABSENT correctly keeps overall_verdict_B
+# off PASS.
+_no_inline_payload = copy.deepcopy(_stripped_payload)
+_no_inline_payload["certificate"]["searcher_native"]["ramification_divisor_on_C_ref"].pop("inline")
+_no_inline_result = ver.run_verifier_b(_no_inline_payload)
+record("裁定142(2): embedded ref with NO inline content -> self-resolution fails gracefully "
+       "(native_a_self_resolved False, no crash, no fabricated PASS)",
+       _no_inline_result.get("native_a_self_resolved") is False,
+       f"native_a_self_resolved={_no_inline_result.get('native_a_self_resolved')!r}, "
+       f"overall={_no_inline_result['overall_verdict_B']!r}")
+record("裁定142(2) self-audit fix: with NO native evidence resolvable at all, "
+       "W-1.ramification_divisor_on_C is exactly ABSENT (not a vacuous PASS)",
+       _no_inline_result["witness_results"]["W-1"]["ramification_divisor_on_C"] == "ABSENT",
+       f"W-1 = {_no_inline_result['witness_results']['W-1']}")
+record("裁定142(2) self-audit fix: overall_verdict_B is NOT PASS when W-1 is ABSENT "
+       "due to unresolvable native evidence",
+       _no_inline_result["overall_verdict_B"] != "PASS", _no_inline_result["overall_verdict_B"])
+
+# full_witness_fixture_01.json itself, both ways.
+_fw_path = os.path.join(HERE, "certs", "full_witness_fixture_01.json")
+with open(_fw_path, "r", encoding="utf-8") as f:
+    _fw_payload = json.load(f)
+_fw_result_with_native = ver.run_verifier_b(_fw_payload)
+record("裁定142/full_witness_fixture_01.json WITH native_a/native_b: overall PASS",
+       _fw_result_with_native["overall_verdict_B"] == "PASS",
+       json.dumps(_fw_result_with_native["witness_results"]))
+_fw_stripped = {"certificate": _fw_payload["certificate"]}
+_fw_result_self = ver.run_verifier_b(_fw_stripped)
+record("裁定142/full_witness_fixture_01.json WITHOUT native_a/native_b (self-contained): overall PASS",
+       _fw_result_self["overall_verdict_B"] == "PASS",
+       json.dumps(_fw_result_self["witness_results"]))
+
+
+# --------------------------------------------------------------------------
+# 追補 (n) (裁定145 残差1, docs/notes/cert_shape_interpretation_v3_addendum_n.md):
+# ABSENT-vs-MALFORMED disambiguation for a W-4 entry's own `status` field
+# when per_overlap_witnesses is empty. Direct unit tests on
+# ver._validate_w4_entry (isolated-function tests, matching the style of
+# the 裁定142 _parse_ref_triple tests above), covering all four addendum
+# branches plus the one addendum-silent combination this implementer
+# resolved conservatively (see the function's own docstring "scoping
+# note").
+# --------------------------------------------------------------------------
+
+# branch 1: status:"ABSENT" + per_overlap_witnesses:[] -> exactly ABSENT
+# (the literal lane-A marker shape from search/certs/laneA_ep_export_sample.json).
+_n1_status, _n1_detail = ver._validate_w4_entry({
+    "divisor_object": "ramification_divisor_on_C_ref",
+    "status": "ABSENT",
+    "per_overlap_witnesses": [],
+    "reason": "lane A native declares a single chart; no second chart exists",
+})
+record("追補(n) branch 1: status=ABSENT + per_overlap_witnesses=[] -> exactly ABSENT (not FAIL)",
+       _n1_status == "ABSENT", f"got {_n1_status!r}: {_n1_detail}")
+
+# branch 2: no status field + per_overlap_witnesses:[] -> exactly ABSENT
+# (v3 条項5 default, unchanged by 追補(n)).
+_n2_status, _n2_detail = ver._validate_w4_entry({
+    "divisor_object": "ramification_divisor_on_C_ref",
+    "per_overlap_witnesses": [],
+})
+record("追補(n) branch 2: no status field + per_overlap_witnesses=[] -> exactly ABSENT",
+       _n2_status == "ABSENT", f"got {_n2_status!r}: {_n2_detail}")
+
+# branch 3: status:"ABSENT" + NON-empty per_overlap_witnesses -> contradiction
+# -> MalformedWitness (which callers turn into MALFORMED).
+try:
+    ver._validate_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "status": "ABSENT",
+        "per_overlap_witnesses": [
+            {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+        ],
+    })
+    _n3_raised = False
+except ver.MalformedWitness:
+    _n3_raised = True
+record("追補(n) branch 3: status=ABSENT + non-empty per_overlap_witnesses -> MalformedWitness (MALFORMED)",
+       _n3_raised, "raised" if _n3_raised else "did NOT raise (BUG)")
+
+# branch 4: status = unrecognized value (neither ABSENT nor PRESENT) WHILE
+# per_overlap_witnesses is empty -> MalformedWitness (MALFORMED); the empty
+# array leaves status as the only signal, so an unrecognized value cannot
+# be resolved to ABSENT or PRESENT.
+try:
+    ver._validate_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "status": "not-a-real-status",
+        "per_overlap_witnesses": [],
+    })
+    _n4_raised = False
+except ver.MalformedWitness:
+    _n4_raised = True
+record("追補(n) branch 4: status=unrecognized value + per_overlap_witnesses=[] -> MalformedWitness (MALFORMED)",
+       _n4_raised, "raised" if _n4_raised else "did NOT raise (BUG)")
+
+# branch 5 (裁定149, 追補(n) rule 5): status:"PRESENT" + per_overlap_witnesses:[]
+# -> MalformedWitness (MALFORMED). This combination was originally an
+# addendum-silent gap that this implementer resolved conservatively as
+# ABSENT (flagged UNKNOWN); 裁定149 has now settled it as the mirror
+# self-contradiction of rule 3 (ABSENT + non-empty) -- "declares PRESENT
+# while supplying no evidence" is fail-closed, NOT collapsed into ABSENT.
+try:
+    ver._validate_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "status": "PRESENT",
+        "per_overlap_witnesses": [],
+    })
+    _n5_raised = False
+except ver.MalformedWitness:
+    _n5_raised = True
+record("追補(n) branch 5 (裁定149): status=PRESENT + per_overlap_witnesses=[] -> "
+       "MalformedWitness (MALFORMED, not ABSENT)",
+       _n5_raised, "raised" if _n5_raised else "did NOT raise (BUG)")
+
+# non-empty per_overlap_witnesses with an UNRELATED status value (the
+# pre-追補(n) "agree"/"disagree" convention used by this repo's own
+# self-made fixtures, e.g. cert_pos_01.json) must be UNCHANGED: status is
+# still ignored as a producer claim, not re-validated against the
+# ABSENT/PRESENT vocabulary, when there IS overlap evidence to check.
+_n6_status, _n6_detail = ver._validate_w4_entry({
+    "divisor_object": "ramification_divisor_on_C_ref",
+    "status": "agree",
+    "per_overlap_witnesses": [
+        {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+    ],
+})
+record("追補(n) regression: non-empty per_overlap_witnesses + pre-existing 'agree' status "
+       "convention -> still validated normally (PASS here), status not re-checked against "
+       "ABSENT/PRESENT vocabulary",
+       _n6_status == "PASS", f"got {_n6_status!r}: {_n6_detail}")
+
+# integration-level check: the same branch-1 shape, wired through the full
+# verify_W4 -> run_verifier_b path via cert_pos_01.json, confirms the
+# result surfaces correctly end-to-end (not just at the isolated-function
+# level) and does not escalate to INTEGRITY_STOP (ABSENT is not MALFORMED).
+_n_integration_payload = deep_cert()
+_n_integration_payload["certificate"]["chart_overlap_witnesses"] = [
+    {"divisor_object": tok, "status": "ABSENT", "per_overlap_witnesses": [],
+     "reason": "no second chart exists"}
+    for tok in TOKENS
+]
+_n_integration_result = ver.run_verifier_b(_n_integration_payload)
+record("追補(n) integration: full structured-ABSENT W-4 (both objects) via run_verifier_b "
+       "-> W-4 exactly ABSENT for both objects, overall_verdict_B != INTEGRITY_STOP",
+       _n_integration_result["witness_results"]["W-4"]["ramification_divisor_on_C"] == "ABSENT"
+       and _n_integration_result["witness_results"]["W-4"]["branch_divisor_on_P1"] == "ABSENT"
+       and _n_integration_result["overall_verdict_B"] != "INTEGRITY_STOP",
+       json.dumps(_n_integration_result["witness_results"]["W-4"]) + f" overall={_n_integration_result['overall_verdict_B']!r}")
+
+
+# --------------------------------------------------------------------------
 # report
 # --------------------------------------------------------------------------
 def main():
