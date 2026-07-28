@@ -1,0 +1,138 @@
+{
+  "generated_by": "search/a16-filter-ledger.g",
+  "note": "P81-B filter ledger for W-D-A16-11a: per-charming-m stage survivor counts. pre_xi is a reference figure only (|[P,P]|, never enumerated); post_xi are the real, actually-computed per-stage counts from the Prop 3.1 restricted scan. NOT a ledger claim, no cross-check performed.",
+  "charming_count": 10,
+  "stab_order": 1320,
+  "rows": [
+  {
+    "m":0,
+    "u":1,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":1,
+    "u":3,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":2,
+    "u":5,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":3,
+    "u":7,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":4,
+    "u":9,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":6,
+    "u":13,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":7,
+    "u":15,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":8,
+    "u":17,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":9,
+    "u":19,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  },
+  {
+    "m":10,
+    "u":21,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":10461394944000},
+    "post_xi": {
+      "xi_raw":871200,
+      "in_derived":871200,
+      "theta_inv":1320,
+      "r_tau":88,
+      "generation":88,
+      "bq_settled":88
+    }
+  }
+  ]
+}
