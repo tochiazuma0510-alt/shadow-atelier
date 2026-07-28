@@ -1,0 +1,46 @@
+{
+  "schema": "i24p1-measurement/v2",
+  "generated_by": "search/i24p1-u-h3.mjs",
+  "note": "P80-B fields (裁定 180): order and coefficient split into separate asserts (9a)/(9b) per P80-B instruction. All field values below are machine-transcribed from the actual node run of search/i24p1-u-h3.mjs (no hand-copy).",
+  "P80-B": {
+    "observable": "local_leading_term",
+    "order": 6,
+    "coefficient": 4,
+    "uniformizer": "x",
+    "cusp": "P0(t=0 cusp)",
+    "normalization": "lambda3 = t/(1+t)",
+    "prediction_blob_digest": "8d3a8097d1d5ca7e8cb350fba79eae376da29da8e56b24fbbd5645729af25b20",
+    "freeze_commit": "9f6187b"
+  },
+  "script_sha256": "fd682af9880295dde90e714d27730a423c4c9d261df7b3fde19efd3ba2f2cd7c",
+  "run_result": {
+    "command": "node search/i24p1-u-h3.mjs",
+    "pass_count": 17,
+    "total_count": 17,
+    "raw_output_lines": [
+      "PASS  (1) 臨界点の方程式 = 18x⁴−30x³+23x²−8x+1 = 0(F=F_x=0 から x を残して導出)",
+      "PASS  (2) = (3x−1)²(2x²−2x+1)",
+      "PASS  (3) (x,t) = (1/3, −2/27) で F = F_x = F_t = 0 ⇒ 平面モデルの**特異点(節点)**であって分岐点ではない  :: F=0, F_x=0, F_t=0",
+      "PASS  (4) 2x²−2x+1 = 0 の根で t = 4x⁴ = −1(2 根とも同じ値 ⇒ 分岐点は t = −1 の 1 個)  :: x=(1+i)/2 ⇒ 4x⁴ = -1 + 0i",
+      "PASS  (5) RH 整合: Σ(e−1) = 5 + 2 + 5 = 12 ⇒ g = 1(LMFDB の g = 1 と一致)",
+      "PASS  (6) 分岐点は {0, −1, ∞}、型は [6], [2,2,1,1], [6](LMFDB lambdas [[6],[6],[2,2,1,1]] と集合として一致)",
+      "PASS  (7) 冪級数解 t(x) が F = 0 を満たす",
+      "PASS  (8) ★ t = 4x⁶ + O(x⁷)(x は ℚ-有理 uniformizer)  :: t = 4·x^6 + …  (次: 24·x⁷)",
+      "PASS  (9a) ★★ 予言 I24-P1: λ₃ = t/(t+1) の ord(order) = 6  :: u_H3 = 4·x^6 + …  (t=4·x^6)",
+      "PASS  (9b) ★★ 予言 I24-P1: λ₃ = t/(t+1) ⇒ u_{H3} = +4 (coefficient)  :: u_H3 = 4·x^6 + …  (t=4·x^6)",
+      "PASS  (10) [−4]₃ = [4]₃ = [2]₃² (−1 = (−1)³ ゆえ符号は 3-部分に無影響)",
+      "PASS  (11) ★ 2 は ℚ(ζ₁₂) で立方剰余でない(3 ∤ [ℚ(ζ₁₂):ℚ] = 4、かつ ℚ(2^{1/3}) は非アーベルゆえ円分体に入らない)",
+      "PASS  (12) ★★★ ⇒ [u] の 3-primary 成分は**位数 3(非自明)**",
+      "==== 13/13 PASS ====",
+      "PASS  (13) y = 1/x = −(8/9)Z² + O(Z³)(Z は ℚ-有理 uniformizer・ord y = 2)  :: y = -8/9·Z^2 + …",
+      "PASS  (14) ★ v = 1/t = (256/729)·Z⁶ + O(Z⁷)  :: v = 256/729·Z^6 + …",
+      "PASS  (15) ★★ もう一方の正規化 λ = −1/t ⇒ **u′ = −256/729 = −2⁸/3⁶**",
+      "PASS  (16) ★★★ **Möbius 不変性**: [u]₃ = [2²] と [u′]₃ = [2^{8 mod 3}·3^{−6 mod 3}] = [2²] が一致  :: u = −4 と u′ = −256/729 は別の数だが 3-剰余類は同じ",
+      "==== 17/17 PASS ===="
+    ],
+    "summary_lines": [
+      "==== 13/13 PASS ====",
+      "==== 17/17 PASS ===="
+    ]
+  }
+}
