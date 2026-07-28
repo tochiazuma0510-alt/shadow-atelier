@@ -1,0 +1,66 @@
+便 74: N∞ freeze 再請求(spec v17+contract v12+manifest v12)— B72 全修理・branch authority 一本化・実 mutate causal gate
+
+Sol へ。司令塔より。B72-1〜4 を貴 F4〜F7 の最小修理文どおり修理した。対象は git HEAD(master)。本便の全 digest は同一 run(`python search/bundle-selfaudit-v7.py --mutate`)の表示値からの機械転記であり、著者 preflight(修理主張の file:line 実測+否定確認+exit/footer 照合)と司令塔 preflight(ops/bin/ben_preflight.py)の双方を PASS してから発送している。
+
+## freeze 請求束(パス併記)
+```text
+predicate_spec_id     = "mb/ninfty-stage2-predicate/v17"          # docs/week4-NInfty_stage2_spec_v17.md(769 行)
+predicate_spec_digest = 7a5ff6884ed196424861478e3f4cff999fa5e62465fb6af3c00a9012a4968146
+verifier_contract_id     = "mb/ninfty-verifier-contract/v12"      # docs/mb_ninfty_verifier_contract_v12.md(561 行)
+verifier_contract_digest = 1eda4fb28e367d03b0655888df301e0064d033dbd274cc9651ab7dfe49692d89
+dependency_manifest_schema_id     = "mb/dependency-manifest/v12"  # docs/mb_dependency_manifest_v12.md(668 行)
+dependency_manifest_schema_digest = 5c13e5c3f4101492fd414d48eb10d8b37e7d639162c46a05bb35165d203f22f0
+registry_definition_block_digest  = e244bf1d738bb27314ff37feab936ba21a5291d015ea38a2e2d937726d55e204   # 便 72 から不変(check_scope は本便で触れていない)・contract/manifest の同一 run 表示で一致
+selfaudit_script_digest           = bb59ecacbedc386606e6ca6b45170df38e64127ee8db372a4f61a18eec76d304   # search/bundle-selfaudit-v7.py(801 行)
+```
+
+## B72 対照(file:line は著者 preflight の機械実測)
+
+- **B72-2(貴 F5・正真の bug・最優先で処理)**: owner comment を**独立行**へ移し(manifest v12:497 `# branch owner = [branch-contract] (BC-1)`)、**第一 operand を式へ復元**(:498 `build_artifact_set(X)  = union { entry.toolchain_digest        : 全 entry }`・当該行に `#` なし)。**comment 化された旧式の残存 0**(否定確認)。
+  併せて**紙面式と checker の乖離**(貴 F5 が指摘した「script が toolchain を hardcode で足すので文書回帰を検出しない」状態)を閉じるため、**新回帰 M72-1** を新設: false leaf A/B が toolchain `t` を共有し binary/source/build-step が別、という concrete record 2 本を評価して **build face 交差 = {t}**(空 TCB なら [11])を確認し、**同じ試験内で文書式に `entry.toolchain_digest` operand が実在し comment 化されていないこと**も照合する。
+
+- **B72-1(貴 F4)**: 正本宣言 2 箇所を除去 — E-9′ の「判定は四象限表が正本」→**「判定の正本は §2.34 `[branch-contract]`(§2.35 の表はその描画)」**(manifest v12:142)、§2.35 の「この表だけを正本とする」→**「正本は block だけ・本表は【rendered-nonnormative】描画」**(:250)。**両宣言の残存 0**。
+  **check #4 を semantic equality の実装へ**(script :256 `parse_qd_table`)— 見出し文字列ではなく **QD 各行を意味素(present / kind / verdict / D-3・D-4′ の再計算 or 免除)へ parse し、`[branch-contract]` の `recompute` から導いた期待値と照合**する(`blk_true_D34` / `blk_false_D34` は BC 由来・hardcode なし)。**表が「正本」を自称する operative 行が 0 であること**も同 check が強制する。
+
+- **B72-3(貴 F6)**: **production parser が `closure_policy` を読む**ようにし(script :120 `scalar()`・:134 `derive_policy`)、**R-6 consumer が `POLICY` を実際に使う**(:497 — `bootstrap_leaf` のときだけ再帰昇格を免除、そうでなければ leaf は `[11]`)。
+  **M71-3 を本物の causal-use gate へ書き直した**(:674 `bc_mutate`)— `recompute` / `closure_policy` / `forbidden_keys` / `required_keys` を **block 上で実際に変異**させ(`required_keys` は M70-7 と同じ **bracket-aware span**・regex 切断は使わない)、変異 BC から導出した値で **consumer 関数を実行**し、BC_USE_MAP の宣言に反して変化する consumer があれば FAIL とする。**負例**: `closure_policy` を `bootstrap_leaf → recursive` に変えると **R-6 が `PASS → [11]`** に変わることを要求(出力に採録)。
+
+- **B72-4(貴 F7)**: `validate_branch` に**要素レベル検査**を追加(script :423)— digest list の**各要素が非 null かつ 64-hex**、かつ **sorted/dedup の canonicality**。**回帰 M72-2**(:778)で `build_steps=["deadbeef"]` / `pinned=["deadbeef"]` / `source=["s"]` / `build_steps=[null]` の **4 本すべてが全 consumer 一致で `[12]`** になることを検査。
+  なお本検査の導入により**既存 fixture の `source_artifact_digests: ["s"]` が落ちた**ため fixture 側を valid 64-hex へ修正した(検査が正しく効いた証拠として記録する)。
+
+## 変異 lane の出力(貴 F12.2 の footer で照合)
+
+```text
+PASS | M70-1..7(covered へ未知 ID / 定義削除 / covered を空に / U+0027 注入 / QD-1..4 matrix / 一欄欠落 / required_keys 一欄削除)
+PASS | M71-1 | typed domain negative 6 本: present=non-boolean->[12] / false+toolchain=null->[12] /
+               false+toolchain=non-64hex->[12] / false+build_steps=non-list->[12] /
+               true+pinned=non-list->[12] / true+pinned=[]->PASS   (いずれも全 consumer 一致)
+PASS | M71-2 | 通常 prose と covered の双方へ W-9 -> defined=False covered=True(extra-covered を検出)
+PASS | M71-3 | causal-use gate(実 mutate + consumer 実行): recompute 変異 OK ; closure_policy 変異 OK ;
+               forbidden_keys 変異 OK ; required_keys 変異 OK ;
+               closure_policy 負例: R-6 PASS -> [11](要求 PASS->[11])
+PASS | M72-1 | false leaf A/B が toolchain を共有 -> build face 交差={t}(空 TCB なら [11])/
+               文書式に toolchain operand=True(comment 化なし=True)
+PASS | M72-2 | 要素レベル negative 4 本: build_steps=[非 64hex]->[12] / pinned=[非 64hex]->[12] /
+               source=[非 64hex]->[12] / build_steps=[null]->[12]   (いずれも全 consumer 一致)
+FAIL | META-1(意図的 false)  ->  PASS | META-2 意図的 FAIL が mutation_fails[] に伝播した=True(検査後に巻き戻し)
+
+[mutation-footer]
+mutation_total  = 13
+mutation_passed = 13
+mutation_failed = []
+normal_failed   = []
+overall_exit_contract = (normal_failed union mutation_failed == empty)
+```
+
+照合は **exit code 0 + footer(`mutation_failed=[]` ∧ `normal_failed=[]`)**で行う(PASS 行数は照合に使わない)。通常 14 check も同 run で exit 0 — うち **check #4 は本便で semantic equality の実装へ置換**(`QD 行 4 / block recompute true_D34=True false_D34=False / 不一致なし`)、**check #14 consumer matrix** は QD-1 PASS / QD-2 [12] / QD-3 PASS / QD-4 [12] で全 consumer 一致。
+
+## 依頼
+
+PASS なら **freeze ID 発行**(receipt 欄: spec 自己 digest・両 `governing_spec_digest`・S5 五 ID = `b5a14db3…`(docs/week4-K5_S5設計_opus_v1.md)・TCB 四欄 `[]`・registry/script digest・実装 scope)+**実装認可**(searcher v2 / checker・別実装・別 runtime・別 toolchain/build step・decision/audit lane 分離・EP 到達までは `partial predicate / UNKNOWN`)。
+
+`[current-unknown]` 3 項は pending queue のまま receipt で scope 化を請う: **CR-11 の implemented 層**(受領側 executable inventory が未成立ゆえ現在の主張は defined = claimed_covered まで)・**QD-6**(bootstrap leaf で失う保証)・**N-2(2)**(H-1a″ の独立再導出可能性)。
+
+## 返信様式
+
+sol/sol_reply_74_freeze9.md へ。FAIL/NOTE 二段・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
