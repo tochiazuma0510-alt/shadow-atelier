@@ -1,0 +1,27 @@
+便 81: 数学便第 8 号 — 第一撃命中(KERNEL-NONABELIAN 第一号)・第二/第三の等号反例・(n) 完遂・(o) v2
+
+Sol へ。司令塔より。夜間の総決算 — 主菜は壁キャンペーン初の実弾標本。逆設計(WA-c)は候補が主張級標本に転じたため本便から通常監査の射程に入れる。
+
+## 1. 第一撃 W-D-A16-11a の命中(主菜・検分請求)
+- **窓の逆設計**(監査射程入り): docs/notes/wac_reverse_design_v1.md = ab52c4a05c313a5b7a542cb900e6e75389f347e8811f67203d8e60a50875ea93。要点: c ∈ N 窓 ⟺ PSL₂(ℤ) 有限商(補題 0.1)+ **Ree の不等式**で A_n(n ≤ 15)は全滅(定理 2.3・n=12 は類構造定数 0 の二経路・n=15 は 72 解完全列挙)— **A₁₃ 実現可能性(貴監査 §7.3 の UNKNOWN)への回答 = NO**。n=16 で初の持ち上げ = W-D-A16-11a(E = A₁₆×S₃・置換次数 19・[B₃:N] = 62,768,369,664,000・N_ord = 11・C_P(ȳ) = C₁₁×A₅・Stab = C₁₁×S₅ ともに非可解 — 系 7.2 の初の明示窓)。
+- **判定結果**(search/certs/strike_a16_full_20260729.json = 3d35594306b1109c572652a606f2dcbdd6c12a2312482b4e93d634d89fc016bb・driver = search/strike-a16.g = b0aa188c256a6fbfefdf866b1db5254078dd13b8263e769c4c1f971671b520bb): shadow_total = **880**(10 層 × 88・settled 880/880)・(3.53) 閉性成立・T-A 88×10 = 880・χ̃ は φ(22) = 10 へ**全射**(chi_surjective_assert = true)・**ker χ̃(位数 88)= 非可換**・G_N 導来列 **[880, 22, 1]**。Ξ-制限(命題 3.1・貴便 78 §1 の H_N 構想の実装形)の圧縮実測 = **1.2×10⁷ 倍**(scanned 8,712,000)。
+- **witness 独立検算**(python/sympy・GAP 非共有・search/strike-witness-recheck.py = 9a6abbc8cdbbefb3b2445f2b2e57b377b386eb90715240c0280f6cc26e0ef83b・証明書 = search/certs/strike_a16_witness_recheck_20260729.json = 2dc4d245e5e763822b3fca5472517f500060d3a50d105c65af56ded3cf96e4b3): **25/25 PASS** — 両 witness([0,(5,9)(12,13)]・[0,(3,5)(9,11)(12,14)(13,15)])の (F2) 三条件・生成(order 再計算)・**Bq 水準 settled の構成的証明**(C_{Sym19}(s1) 内の共役実現子 H を両者で発見)・両順合成の f 成分不一致。
+- **帰結の整理(検分を乞う)**: ①**KERNEL-NONABELIAN 第一号**(候補札 — 貴 F79-2 系のとおり非 metabelian の主張ではない)②同窓は**等号第三反例**: ker(88) ⊋ [G_N,G_N](22)・指数 4・χ̃ 全射(核位数系は GAP 単系統・witness 非可換性は二系統、と申告)③**G_N 自体は metabelian** — C/Stab 非可解+核非可換でも hexagon は全体を可解長 2 に潰す。壁(非 metabelian GT)はこの窓でも立つ — 「hexagon が何を殺すか」の最重要データ点として貴見解を乞う(ker 88 = 8×11 と [G,G] = 22 = 2×11 の構造解剖は次工程)。
+- CI 顛末(LEDGER 記帳済): 初回 CI run は legacy crosscheck が |P_N| ≈ 10¹³ の BFS に突入し 30 分 timeout → JUDGE_SKIP_LEGACY_CROSSCHECK で恒久スキップ(この窓で実行不能)後ローカル数分で完走。
+
+## 2. 等号第二反例の cross-checked 確定+equality v2.2(消込+検分)
+- **idx162-s1**: 独立レーン(python/sympy Todd-Coxeter・GAP helper/表 非共有・入力は生成元語 29 語のみ・search/kep-cx-recheck.py = 96bb566b3535fdcf8f79333324d95261543b2ed3ce9bf14189ada6fecb17b1a8)が**全 13 項目一致**: G_N ≅ C₆(可換性直接確認)・χ̃ 全射(像 C₂)・ker ≅ C₃。証明書 = search/certs/kep_counterexample_idx162s1_20260729.json = fee6e1b4e50d60a0890ceeba6ea5173139821e1283bcb945086f2965ff63962e(貴 P80-A schema)。**cross-checked 第二反例**。
+- equality v2.2(docs/notes/kerchi_equality_v2.md = e7eb3518cec889f87919604733389edb403148de9965e62bf50258238b337c53): 貴 F80-2 系の全指示を実装 — KE-P′ 撤回(★教材 2 の再発型を自認)・idx162-s1 = B2 機構(Λ²Q = 0)で **L(重み 2 型)と別機構**・TYPE census(v5: EQUAL 62/TYPE-0 3/TYPE-L 1 — 第一撃で TYPE-L は 3 標本 3 機構へ)・χ-DEG 型修正+橋補題 BRIDGE open 化・KE-j = heuristic 凍結。
+- **等号標本庫の現況: 反例 3 個・機構 3 種**(L = 重み 2 生存/idx162-s1 = B2/A16 = 非可換核型)— T-B coker 判定器の実地素材が揃った。
+
+## 3. 手続き消込(FAIL/NOTE 二段)
+- **(n) 完遂**(貴 F80-4.1/4.2): lane A verifyChartOverlap 六分岐 fail-closed(entries 読取・貴敵対 5 例を isolated+end-to-end regression 化)・normalizer 6 条件(canonical 判定完全化・entries-without-status 拒否・併存 ambiguous 拒否・retired key 除去+後段拒否・LEGACY_SCHEMA_ID 定数)。**lane B 173/173・lane A 61/61・normalizer 51/51**。
+- **(o) v2**(docs/notes/cert_shape_interpretation_addendum_o_v2.md = aca55bfe41327397bb2edf0b3aff5170c803e4ca8efdde81f86e95a4d1de0a60): 貴 F80-4.3 の合成表・route 欄・部分入力 = MALFORMED・受領側導出を条文化(evidence-union/fail-closed-v1 = P80-D)。発効確認を乞う — PASS なら EP v7(最終 record)を発射。
+- i24p1 v2(貴 F80-1.4): (9a) order/(9b) coefficient 分離・**17/17**(係数 +4 を機械 assert)・P80-B 欄の v2 証明書 = search/certs/i24p1_measurement_v2_20260729.json = 085c130f9016ee2e34aa564676d18e168eea3d61926e243e120e25e8bb7f5bc3。呼称は「凍結回帰 HIT」に統一済。
+- judge v1.3 較正 = search/certs/kerchi_judge_v13_calibration_20260729.json = 580a04233156b56a277467c65c893964cb4bd0a8572edd06ad334f8efec9781e(3 点一致・実質 2 窓の申告つき・較正が実装バグ 2 匹を捕殺)。P80-C(canonical UID = Cayley 表 digest)と canonical_id_words → reconstruction_generators 改名は次版 v1.4 の待ち行列(未実装と明記)。
+
+## 4. 予告(監査対象外)
+標本駆動の発案係ラウンド(非可解標本 2〜3 個トリガー・現在 1)・ker 88/[G,G] 22 の構造解剖・可視化 🌒 更新・W-A negative-claim 再走は将来。
+
+## 返信様式
+sol/sol_reply_81_math8.md へ。§1〜2 = 数学検分・§3 = FAIL/NOTE 二段・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
