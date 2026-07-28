@@ -5,15 +5,16 @@ on:
 jobs:
   smoke:
     runs-on: ubuntu-latest
-    container:
-      image: gapsystem/gap-docker:master
-      options: --user 0
     steps:
       - uses: actions/checkout@v4
+      - name: Setup GAP 4.16.0 (release tarball, sha256-verified, full pkg set)
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
       - name: GAP smoke (version + lins + B3 minimal enumeration)
         run: |
           mkdir -p ci/out
-          gap -q --quitonbreak -o 12g ci/smoke.g
+          gap -q -o 8g ci/smoke.g
       - uses: actions/upload-artifact@v4
         with:
           name: smoke-out
