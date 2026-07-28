@@ -1,7 +1,7 @@
 # 等号問題 $\ker\widetilde\chi=[\operatorname{GT}(N),\operatorname{GT}(N)]$ — 一般判定条件・dihedral 族での定理・**atlas 内の反例** **v2**
 
 **状態札: candidate(裁定前・未 commit)**
-起草: Claude(数学者レイヤー・Opus 5)/ v1 = 2026-07-29 / **v2 = 2026-07-29(便 79 検収・裁定 170 の修理波)**
+起草: Claude(数学者レイヤー・Opus 5)/ v1 = 2026-07-29 / **v2 = 2026-07-29(便 79 検収・裁定 170 の修理波)/ v2.1 = 2026-07-29(裁定 173 追補: §11 $\chi$-退化窓・予想 KE-P の反証)**
 設問: 司令塔委嘱(便 79 検分材料)/ `docs/notes/w2fam_v1.md`(dihedral 族での等号)の一般化
 **v2 の依拠(追加)**: `sol/sol_reply_79_math6.md` **F79-2.1 / F79-2.2 / F79-2.3 / F79-2.5 / F79-2.6 / P79-A / P79-B**、`search/certs/derived_census_v2_20260729.json`(census v2)。
 正典・依拠(v1 から継承):
@@ -125,9 +125,12 @@ $$H_2(G)\to H_2(Q)\xrightarrow{\ \mathrm{tg}\ }H_0\bigl(Q,H_1(\mathfrak F_0)\big
 
 F79-2.5 は「GT isotropy 群に限って『可換なら核は自明』とする追加定理が将来立てば限定版は救える」と書いた。その定理の候補を明示しておく。
 
-> ### 予想 KE-P(candidate・**未証明**)
-> $G_N=GTSh(N,N)$ が**可換**ならば $\widetilde\chi_{2M}$ は**単射**、すなわち $\mathfrak F_0=1$。
-> 同値に: $G_N$ が可換なら $G_N\cong Q_N\le(\mathbf Z/2M)^\times$。
+> ### ⛔ 予想 KE-P(素形)は **v2.1 で反証された** — §11 を先に読むこと
+> 以下の素形は **`W-A-B3idx126-s2/s3` により偽**である。生き残るのは §11 の**全射ゲート版 KE-P$'$** のみ。素形を篩に使ってはならない。
+
+> ### 予想 KE-P(素形・**反証済み**・§11)
+> ~~$G_N=GTSh(N,N)$ が**可換**ならば $\widetilde\chi_{2M}$ は**単射**、すなわち $\mathfrak F_0=1$。~~
+> ~~同値に: $G_N$ が可換なら $G_N\cong Q_N\le(\mathbf Z/2M)^\times$。~~
 
 **支持データ(atlas 内で可換な窓は 3 つ、すべて $\mathfrak F_0=1$)**:
 
@@ -423,3 +426,112 @@ kerchi_equals_derived                 # abelianization_order == chi_image_order 
 | §3 「$\Lambda^2Q$ は $N_{\rm ord}$ の算術関数として先に表にできる」 | **限定**($Q_N$ が実像のため、全射未確定の窓では不可) | §3 末尾・【KE-c】 |
 
 **変更していないもの(v1 のまま有効)**: T-A(1)(2)(3)、T-B の同型と (B1)(B2)(B3)、T-C の全証明、T-D の実測値と反例性、T-E(命題 W2)、§7.1 TIER-0、§7.2 FAIL-2 の訂正文言、K8/K16 の「余不変量だけでは足りない」註。
+
+---
+
+# 11. 【v2.1 追補】$\chi$-退化窓 — 予想 KE-P の反証・TYPE-0 の新設・機構
+
+**追補: 2026-07-29(裁定 173・司令塔追補検分)。入力 = `search/certs/wall_miner_v5_20260729.json`(v5 一発走り・GAP 一レーン)。**
+
+### 11.0 データ(証明書からの機械転写)
+
+| 欄 | `W-A-B3idx6-s1` | **`W-A-B3idx126-s2`** | **`W-A-B3idx126-s3`** |
+|---|---|---|---|
+| `abs_Bq` / `abs_PN` | 6 / 1 | 126 / **21** | 126 / **21** |
+| `N_ord` | 1 | **3** | **3** |
+| `c_in_N` | true | true | true |
+| `charming_count` / `shadow_total` | 1 / 1 | 2 / 6 | 2 / 6 |
+| `settled_total_evaluated` / `settled_fail_count` | 1 / 0 | **12 / 6** | **12 / 6** |
+| `settled_fail_witnesses` | — | **全 6 件が $m=2$**(先頭は $f=()$) | **全 6 件が $m=2$** |
+| `isotropy_order` / `ker_size` | 1 / 1 | **6 / 6** | **6 / 6** |
+| `chi_image_order` / `phi_2Nord` | 1 / 1 | **1 / 2** | **1 / 2** |
+| `ta_predicted_ker` / `ta_assert_holds` | 1 / true | **3 / true** | **3 / true** |
+| `chi_surjective_assert` | true | **false** | **false** |
+| `derived_series_orders` / `derived_length` | [1] / 0 | **[6,1] / 1**(可換) | **[6,1] / 1**(可換) |
+
+$M=N_{\rm ord}=3$、$2M=6$、charming は $\gcd(2m+1,3)=1$ すなわち $m\in\{0,2\}$(✓ `charming_count = 2`)。
+
+> **★ E9(二段 assert)の実地検証**: この窓で `ta_predicted_ker = |G|/\varphi(2N_{\rm ord}) = 6/2 = 3` は**実測 `ker_size = 6` と食い違う**。にもかかわらず `ta_assert_holds = true` — v5 miner が焚いているのが**普遍形** $|\ker|\cdot|Q_N|=6\cdot1=6=|G_N|$ だからである。**v1 のまま $\varphi$ 版を無条件 assert していれば、この窓で偽の FAIL が出て掃引が止まっていた。** E1/E9 の型ゲートは机上の慎重さではなく、**実際に発火する分岐**だった。
+
+### 11.1 ① 予想 KE-P は**反証された**(射程外ではない)
+
+$G_N$ は可換(`derived_length = 1`)で $|G_N|=6$、$\mathfrak F_0=\ker\widetilde\chi=G_N$ は位数 6 $\ne1$。**§3.2 に書いた素形の KE-P はこれで偽である。** 「射程外」で逃げない — **私が書いた命題がそのまま反証された**。
+
+正しい修理は**全射ゲート**であり、isolated ではなく $\widetilde\chi$ の全射性を前件に置く:
+
+> ### 予想 KE-P$'$(全射ゲート版・candidate・未証明)
+> $G_N=GTSh(N,N)$ が**可換**かつ **$\widetilde\chi_{2M}$ が全射**($Q_N=(\mathbf Z/2M)^\times$)ならば $\mathfrak F_0=1$、同値に $|G_N|=\varphi(2N_{\rm ord})$。
+
+* **反例は KE-P$'$ に触れない**: `idx126-s2/s3` は `chi_surjective_assert = false`(むしろ $Q_N=1$ で最大に非全射)。したがって**前件を満たさない**。
+* **篩としての用途は保たれる**: 全射証明書のある窓で $|\mathfrak F_0|=|G_N|/\varphi(2M)$ が素数 $p>1$ なら、KE-P$'$ から $G_N$ は非可換、補題 P より**等号成立**。§7.5 の priority 1 の箱が(全射窓に限って)空になる、という v1 の狙いはそのまま残る。**依然として未証明であり、篩に使ってはならない。**
+* **isolated ゲートでも同じ**: T-A(4′) より isolated + (AR) ⟹ 全射なので、KE-P$'$ は isolated 窓を含む。**より弱い前件(全射)で書くほうが射程が広い。**
+
+### 11.2 **副産物 — $\chi$-退化は非 isolated の無料の証明書**
+
+> **命題 NI(non-isolation detector).** (AR) の下で、$\varphi(2N_{\rm ord})>1$ かつ $\operatorname{Im}\widetilde\chi_{2M}\ne(\mathbf Z/2M)^\times$ なる $N$ は **isolated ではない**。
+> **証明.** $N$ が isolated なら T-A(4′) より $\widetilde\chi$ は全射。対偶。$\blacksquare$
+
+`idx126-s2/s3` は $\varphi(6)=2>1$ かつ $Q_N=1$ ゆえ **非 isolated が確定**する(【KE-g】への最初の実弾)。逆に `idx6-s1` は $\varphi(2)=1$ なので**何も言えない**(全射は自明に成立)— **$\varphi(2N_{\rm ord})>1$ の但し書きは load-bearing**。
+掃引 schema に `not_isolated_certified = (phi_2Nord > 1) and (chi_image_order != phi_2Nord)` を足すことを提案する(既存 2 欄からの導出・追加計算ゼロ)。
+
+### 11.3 ② 分類 — TYPE-0(自明型)を新設し、反例の勘定から分ける
+
+**採用可**。ただし「数えない」ではなく「**別の型として数える**」。根拠は T-B が $Q_N=1$ でこの窓を**計算なしに予言してしまう**ことである:
+
+$$Q_N=1\ \Longrightarrow\ \Lambda^2Q_N=0,\quad (\mathfrak F_0^{\rm ab})_{Q_N}=G_N^{\rm ab}
+\ \Longrightarrow\ \ker\widetilde\chi/[G_N,G_N]\ \cong\ G_N^{\rm ab}.$$
+
+したがって:
+
+> ### 分類(v2.1)
+> * **TYPE-0($\chi$-退化型)**: $Q_N=\operatorname{Im}\widetilde\chi=1$。このとき $\ker\widetilde\chi=G_N$ で
+>   $$\text{等号}\iff G_N=[G_N,G_N]\iff G_N\ \text{は完全群}.$$
+>   $G_N$ が可解(観測範囲では常に)なら **$G_N=1$ のとき等号成立・$G_N\ne1$ のとき等号破れ**、という**自明な二分**になる。
+>   - `idx6-s1`: $G_N=1$ ⟹ **等号成立**(自明)。
+>   - `idx126-s2/s3`: $G_N\cong C_6\ne1$ ⟹ **等号破れ(TYPE-0)**。
+> * **TYPE-L(実質型)**: $Q_N\ne1$ で破れる。$L01$ がこれ($Q_L=(\mathbf Z/12)^\times$ 全射で破れ)。**T-B の coker を実際に計算しないと判定できない**のはこちらだけ。
+
+**分ける理由(3 つ)**:
+1. **数学的内容が違う**: 等号問題の内容は「円分指標の核が交換子群と一致するか」であり、$Q_N=1$ では指標が何も見ていない。残る主張「$G_N$ が完全群か」は**算術的内容ゼロ**の純群論。
+2. **命題 NI により TYPE-0($\varphi(2N_{\rm ord})>1$)は非 isolated** — $GTSh(N,N)$ は $\operatorname{Ih}$ の受け皿ですらない。壁キャンペーンの推論規則(TIER 昇格)は Ihara 像の話なので、**この窓に適用する意味がない**。
+3. **反例の希少性の統計を汚す**: 「25 窓中 1 例」という L の希少性は TYPE-L の中での希少性である。TYPE-0 を同じ箱に入れると混ざる。
+
+**schema への反映**(既存欄から導出・追加計算ゼロ):
+
+```text
+chi_degenerate      = (chi_image_order == 1)
+equality_type       = TYPE_0_TRIVIAL   if chi_degenerate
+                    | TYPE_L_SUBSTANTIVE if (!chi_degenerate && !kerchi_equals_derived)
+                    | EQUAL              otherwise
+```
+**TIER 昇格・反例カウント・§7.5 の探索優先度は `equality_type == TYPE_L_SUBSTANTIVE` にゲートする。**
+
+### 11.4 ③ 機構 — $u$-twist が商へ降りない($T_{m,1}$ の非降下)
+
+**(a) $G_N$ の実体**: 位数 6 の可換群は $C_6$ のみ(`derived_series_orders = [6,1]` が可換を確定)。$C_2\times C_3=C_6$ なので**同じもの**。すなわち $G_N=\mathfrak F_0\cong C_6$、$[G_N,G_N]=1$。
+
+**(b) なぜ $\widetilde\chi$ が完全に潰れるか — 証明書が直接示す**: `settled_total_evaluated = 12` は charming 2 層($m=0,2$)$\times$ 6 個。`settled_fail_witnesses` の**6 件すべてが $m=2$**。すなわち
+
+$$\boxed{\ \text{full hexagon を通る候補は $m=0$ と $m=2$ に 6 個ずつあるが、$m=2$ の層は\textbf{全滅}(source kernel $\ne N$)}\ }$$
+
+isotropy 群に残るのは $m=0$ の 6 個だけ ⟹ $Q_N=1$。**これは F79-2.1 が警告した「source が $N$ とは限らない」現象が、$m\ne0$ 層に集中して起きた実例**である。
+
+**(c) 一段だけ掘る — 非降下の群論的な理由(証明つき)**: 失敗 witness の先頭が $(m,f)=(2,\ ())$、すなわち **$f$ 補正なしの純 twist** であることが効く。
+
+> **補題 $\chi$-DEG.** $A:=PB_3/N$、$u:=2m+1$ とする。**$A$ が可換で $\gcd(u,|A|)=1$ ならば $(m,1)$ は settled**(source kernel $=N$)。
+> **証明.** $T_{m,1}$ は $x\mapsto x^u$、$y\mapsto y^u$ で決まる自由群の自己準同型なので、語 $w(x,y)$ に対し $P_N(T_{m,1}(w))=w(\bar x^{\,u},\bar y^{\,u})$。$A$ が可換なら右辺 $=\bigl(w(\bar x,\bar y)\bigr)^u$、すなわち $P_N\circ T_{m,1}=(\ \cdot\ )^u\circ P_N$。$\gcd(u,|A|)=1$ なら $u$ 乗写像は $A$ の自己同型だから $\ker(P_N\circ T_{m,1})=\ker P_N=N$。$\blacksquare$
+> **対偶(この窓への適用)**: $|A|=21$、$u=2\cdot2+1=5$、$\gcd(5,21)=1$。しかし $(2,1)$ は settled に**失敗している**。ゆえに
+> $$\boxed{\ PB_3/N\ \text{は\textbf{非可換}(位数 21 = $C_7\rtimes C_3$ 型)}\ }$$
+> が**証明書から従う**(証明書は $|PB_3/N|=21$ しか報告していないが、settled 失敗が構造を決める)。実際 `settled_fail_witnesses` の $f$ は 7-サイクル(`(4,5,8,6,7,9,10)` 等)で、7-部分が動いていることと整合する。
+
+**(d) 分類の言葉(これで十分と判断)**:
+
+> **「隠れ素数型 $\chi$-退化」**: $N_{\rm ord}=3$ は $PB_3/N$ の位数 $21=3\cdot7$ の **$3$-部分しか見ていない**。細分指標が住む水準 $2N_{\rm ord}=6$ は $7$ と互いに素なので、**$7$-部分は $\widetilde\chi$ から完全に不可視**である。一方 $u$-twist($u\ne1$)は $7$-部分に非可換的に作用し、$N$ を保たない。結果として「指標が見ない場所が、指標の定義域そのものを削る」— **$m\ne0$ 層が settled で全滅し、$\widetilde\chi$ が潰れる。**
+> **予測(未検証・安価)**: この機構が正しいなら、**$\gcd$ が $1$ でない大きな素因子を $|PB_3/N|$ に持ち、かつその素因子が $2N_{\rm ord}$ を割らない窓**が $\chi$-退化の候補である。掃引は $|PB_3/N|$ と $N_{\rm ord}$ を既に全窓で持つので、**追加計算ゼロで候補を先に列挙できる**。→【KE-j】
+
+### 11.5 v2.1 の未閉鎖項
+
+* 【KE-i′】(KE-i を差し替え)**予想 KE-P$'$(全射ゲート版)の証明または反証**。素形は死んだ。
+* 【KE-j・新設】$\chi$-退化の予測($|PB_3/N|$ の「隠れ素因子」)を掃引で先読み検査(追加計算ゼロ)。
+* 【KE-k・新設】`not_isolated_certified` 欄と `equality_type` 欄の schema 追加(いずれも既存欄からの導出)。
+* **根拠の質**: 本節の入力 `wall_miner_v5_20260729.json` は **GAP 一レーン・v5 の一発走り**。補題 $\chi$-DEG は紙上証明だが、それが適用する事実(`settled` 失敗)は単系統。**「$PB_3/N$ は非可換」は単系統証明書に依存する導出**である。二系統化は $PB_3/N$(位数 21)の可換性を node で 1 行測れば足りる。
