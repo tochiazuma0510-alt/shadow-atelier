@@ -84,7 +84,11 @@ const cert_fixtures = [];
 // C3: divisor-equality-failure [25] -- corrupt first ideal-equality witness's forward divisor
 {
   const { native, cert } = makeBaseCert('lanea-cert-fixture-c3');
-  const w = cert.exact_point_equality_witnesses.ramification_divisor_on_C[0].witness;
+  // 裁定127: exact_point_equality_witnesses is now a FLAT array with a
+  // per-entry divisor_object tag (not nested by object name) -- find the
+  // first ramification-object entry instead of indexing a removed nesting.
+  const entry = cert.exact_point_equality_witnesses.find((e) => e.divisor_object === 'ramification_divisor_on_C_ref');
+  const w = entry.witness;
   w.forward.divisor_monic = ['1', '1'];
   w.forward.remainder = ['1'];
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
