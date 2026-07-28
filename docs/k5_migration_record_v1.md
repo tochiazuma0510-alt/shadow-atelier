@@ -2,7 +2,16 @@
 
 2026-07-28 起草: Claude(数学者レイヤー・Opus 5・第二インスタンス)。司令塔委嘱・裁定 71。
 **身分**: `Z-norm-seal/v1` §3 window inventory の `K5` 行が参照する **migration record 本体**(component 2)。便 60 F4.1-2 の要求物。
-**状態**: `drafted / unapproved / non-operative`。
+**状態欄**【**便 62 A62-2 で時制と authority を分離**】:
+
+```text
+embedded_state_at_candidate_creation = drafted / unapproved / non-operative
+live_operative_status_authority      = approved event receipt
+```
+
+> **⚠ v1 の欠陥(自認・便 62 F5 blocker A62-2)**: v1 冒頭は「**状態**: `drafted / unapproved / non-operative`」と**無時制**で書いていた。本 record は末尾 §6 で `immutable candidate blob` を宣言しており **receipt 発行後も byte 不変**なので、無時制の `non-operative` は **post-receipt の外部状態と衝突する**。**自認。**
+> **⇒ 修文後の読み方**: 上の欄は **candidate 作成時の snapshot**。**live な operative 状態の authority は approved event receipt にある。**
+> **⇒ 型としての教訓**: **immutable artifact に可変 lifecycle state を埋めない**(A61-2 の digest 外部化と同型の分離)。
 
 > **本 record が主張すること**: $K^{(5)}$ 窓の root object は、**既存の finite edge `rule1-tb2-root-equality/v1`(scope = `level_20`)を経由して、`Z-norm-seal/v1` の profinite root system と同一 object 化済み**である。
 > **本 record が主張しないこと**: $K^{(5)}$ 窓の `root_normalization_level` を `profinite` へ昇格させること(§5 参照)。

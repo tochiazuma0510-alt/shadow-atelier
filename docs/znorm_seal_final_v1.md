@@ -87,7 +87,7 @@ derived_level20_edge_id                   = "rule1-tb2-root-equality/v1"
 
 | window_id | previous_level | rule_root_id | compatibility_status | migrated_record_digest |
 |---|---|---|---|---|
-| `K5`($M=10$, $2M=20$) | `level_20` | `rule1_root_2M_id`($\zeta_{20}^{\rm Rule1}$・Rule 1 (1.5)(1.6) で凍結済) | **`migrated`**(record 本体 = `docs/k5_migration_record_v1.md`) | `sha256:160aebfeca0a5a732ea188e9b760e4b31b3f785115de0eaa72c407351a74cae4`(component 2) |
+| `K5`($M=10$, $2M=20$) | `level_20` | `rule1_root_2M_id`($\zeta_{20}^{\rm Rule1}$・Rule 1 (1.5)(1.6) で凍結済) | **`migrated`**(record 本体 = `docs/k5_migration_record_v1.md`) | `sha256:57913283efc1fd2c7748c03bcbcd5e7c410f355ee1216f34bea67c2a8d831dce`(component 2) |
 | `K3`($M=6$, $2M=12$) | `level_none`(埋め込み未凍結) | **未凍結**($\iota_{12}$ の凍結文が存在しない — TB4 導出 v2.4 §5.3) | **`pending`** | — |
 | `A5`($M=5$, $2M=10$) | `level_none` | **未凍結**(司令塔実測 2026-07-28: A₅ v4 全文 grep で (1.6) 型の埋め込み凍結文なし — 競合 object 不在の**観測**であり非存在の証明ではない) | **`pending`**(裁定 70 追補・司令塔記入) | — |
 | **上記以外のすべての window**(**明示 catch-all rule**) | 各窓の従来値 | 各窓の値 | **`not_assessed`** | — |
@@ -176,9 +176,9 @@ TB4-comparison / orientation seal (framework, NOT implied by TB2-norm):
 ```text
 # 1) 先に hash する component
 component_1_path    = docs/znorm_forall_proof_v1.md          # forall n equality proof artifact
-component_1_sha256  = c96efb7b1285130294beaa18d347193c2ca7a3ab177cf188b03c3b86d4d467ad
+component_1_sha256  = 75e9f072a900d5b66851193aeca153af67d59a7f7265e88893d95f2e53faa20f
 component_2_path    = docs/k5_migration_record_v1.md         # K5 typed migration record
-component_2_sha256  = 160aebfeca0a5a732ea188e9b760e4b31b3f785115de0eaa72c407351a74cae4
+component_2_sha256  = 57913283efc1fd2c7748c03bcbcd5e7c410f355ee1216f34bea67c2a8d831dce
 
 # 2) 上の digest を本 final に埋めてから本 final を hash
 final_seal_path     = docs/znorm_seal_final_v1.md

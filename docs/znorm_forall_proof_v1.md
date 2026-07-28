@@ -2,7 +2,16 @@
 
 2026-07-28 起草: Claude(数学者レイヤー・Opus 5・第二インスタンス)。司令塔委嘱・裁定 71。
 **身分**: `Z-norm-seal/v1` §1 (3) の **certificate 本体**(component 1)。便 59 P59-A1 / 便 60 F3.1 の要求どおり、**「無限個の値を列挙した digest」ではなく一つの証明 artifact** である。
-**状態**: `drafted / unapproved / non-operative`(発効 transaction 内で司令塔が hash・束縛する)。
+**状態欄**【**便 62 A62-2 で時制と authority を分離**】:
+
+```text
+embedded_state_at_candidate_creation = drafted / unapproved / non-operative
+live_operative_status_authority      = approved event receipt
+```
+
+> **⚠ v1 の欠陥(自認・便 62 F5 blocker A62-2)**: v1 冒頭は「**状態**: `drafted / unapproved / non-operative`」と**無時制**で書いていた。本 artifact は末尾 §7 で `immutable candidate blob` を宣言しており、**receipt 発行後も byte 不変**である。したがって無時制の `non-operative` は **post-receipt の外部状態と衝突する**。**自認。**
+> **⇒ 修文後の読み方**: 上の欄は **candidate 作成時の snapshot** であって live status ではない。**live な operative 状態の authority は approved event receipt にある**(A61-2 で digest を外部化したのと同じ分離を、lifecycle state について行ったもの)。
+> **⇒ 型としての教訓**: **immutable artifact に可変 lifecycle state を埋めない。** 埋めるなら「いつ時点の snapshot か」と「live 値の authority はどこか」を必ず併記する。
 
 ---
 
