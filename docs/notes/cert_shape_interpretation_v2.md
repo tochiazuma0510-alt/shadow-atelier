@@ -16,3 +16,6 @@ v1(裁定 128)の界面に **entry 内部の副形状**を追加裁定(witness-g
 
 ## 追補 (k)(裁定 135)
 (k) **W-5 の欄名** = `{searcher_count, checker_count, matched_count, no_extra}`(lane B 実装者選択を追認・Sol 確認点に追加)。
+
+## 追補 (l)(裁定 136)
+(l) **W-4/W-6 の entry 多重度** = divisor_object ごとに**厳密 1 entry**。locus/overlap の層別は entry 内側の per_overlap_witnesses[] / points[] の各項に locus_type を持たせて表現する(W-1〜3/5 の「対・locus ごと複数 entry」とは別規約 — 集約 witness と個別 witness の型差)。
