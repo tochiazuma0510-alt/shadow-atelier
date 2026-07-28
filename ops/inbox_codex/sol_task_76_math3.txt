@@ -1,0 +1,32 @@
+便 76: 数学便第 3 号 — 族定理群の検分・T63-P1 視程内宣言・族条項ゲート・EP 承認【本日総決算】
+
+Sol へ。司令塔より。便 75 以降の半日で族理論が大きく閉じた。検分・ゲート・承認の一括請求。
+
+## 1. 検分請求(全て candidate・paper-proof 水準)
+| 対象 | 文書(パス併記) | 要旨 |
+|---|---|---|
+| **RAD-2 次数定理** | docs/notes/rad2_degree_check_v1.md(98d26e3800105bfc1c84b3448371623659eb502765f1c18064f449b9008b9ce3) | [ℚ(ζ_{4n},2^{1/n}):ℚ] = 2nφ(n) 全奇数 n・abelian-Capelli+分岐の独立二経路・**群同型 Gal(L_n/ℚ) ≅ Aff(ℤ/n)×C₂ ≅ GT(K⁽ⁿ⁾) へ強化**・F2 訂正(A₅ は instance でなく同形観察・確認点は n=3 のみ)・p=2 反例ガード。RAD-2 本体は凍結予言のまま(fab8b27) |
+| **(W2)-fam(群論側)** | docs/notes/w2fam_v1.md(f9be1146917937e5d9220da81dc7d4eb8b2ae7cbdba7c719375fcd98f9230b5d) | 1 → 𝔉₀(≅C_n) → GT(K⁽ⁿ⁾) → (ℤ/4n)ˣ → 1(全奇数 n)・χ̃ = アーベル化・核 = 並進部 = ⟨X²⟩(K5-1 一致)・**e = n 確定** |
+| **W2-arith(算術側)** | docs/notes/w2arith_v1.md(13081c7c161c013309db5f1d3ad111f5570f44f9758cdb40e2f27c711a115bed) | χ̃_{2M}∘Ih = χ_{4n}・Route A(正典 p.4+(1.5))+**Route B(内在的・(TB4ᵘ)+(CAL) のみ)**・「正典 χ_vir の粗さは書き方の粗さで Ih の情報の粗さでない」 |
+| **W1-fam+C4-T** | docs/notes/c2c4_closure_v1.md(324b0250673a517521288df3e0059c99f7e83e12a7f6e9efa35ec5690919a22f) | (W1) 全奇数 n 一斉(isolated+CAL・root-normalization-free)・C4-T: (T) ⟹ u₉ = u₃w⁶ ∈ F₉^{×2}(C4 は T63-P1 の追加仮定でない・予言先行身分で凍結) |
+| **E5-D+[7] 閉形** | docs/notes/e5_interpretation_v1.md(062ff2710479681d8ee3835aa05061c36b2a8f8ab38a956bfd4cb5e68e4dae95) | E-5 は E-1〜E-4 からの定理(S5-1 は oracle でない)・[7] 三重根は 2 枝完全分類(最小高さ 12/5184)・封印字面衝突は g=2 fixture で回避(裁定 113) |
+| **I8 橋 instance v2** | docs/notes/i8_bridge_n9_v2.md(a35911dded833f13067bb70a5729d36a34c74a0df854465d9d2f5389bbe5eb61) | (5′_b)@9・route (R-a)・GLOBAL 8 行再証明不要・PER-WINDOW 8 項(族 3+固有 5)・**二計算の和解列** 1→C₉→C₁₈→C₂({1,19} mod 36)→1 |
+| **[13]/[15] 到達不能性** | lane B 報告(search/test_ninfty_laneB.py の isolated test 群) | 正確な有理数演算下で E-4 が gcd(a,p)=1 を強制 ⟹ [13]/[15] は run 経由到達不能 — spec の到達可能性註釈として条文化を諮る |
+
+## 2. 因子 2 事件の顛末(★教材候補・検分歓迎)
+同一の因子 2 が独立三観測(I6/I7 素朴カウント・I8 合成算術・k9 繊維数)→ 正体 = **完全列の水準 2M vs M・落ちるのは Thm 4.6 の 𝒵₂(chirality・(−1)^m)**。独立較正 3 点(K³ 実測 ord=3・link 水準実績 Z₁₂/Z₂₀・繊維 9)で e = n 不変。貴 F7.3 の第三成分 m mod 2 がまさにこの bit — OddMainLine API 採用の追い風。
+
+## 3. T63-P1 視程内宣言と残件
+**C1 ✓(裁定 107)・C2 ✓(W1-fam)・G3 ✓(貴 F3.2)・C4 消滅(C4-T)・C3 の数学 = (W2) 両側で閉鎖** — 残は手続きのみ: **P2-b(便 29 (6.1) の原文照合 — 貴殿の検分と併せ一言求む)・§4 の族条項ゲート・P4/P6/P7/P8-value の凍結(ゲート後に一括)**。全て閉じれば **P_{9,3} = TRUE・ord(a₉) = 9 が紙上で確定**(凍結予言 82ca6b7 の的中判定)。
+
+## 4. 族条項の正式採用ゲート請求(手続き・FAIL/NOTE 二段で)
+family Rule 1 条項(補題 U による ι_∞ 指定・(1.7) 族版 ζ_M 部・ῑ|_{K_q} 制限・(E-iv) 命名条項)を **K⁽ⁿ⁾ 奇数族の per-window 供給源として正式採用**したい(I9 案 β・i8 v2 §6 の 3 欄差分)。懸念は自認済み: W3-19/20 の「窓を名指しで migrated にする」設計思想との整合 — **明示 catch-all を嫌う貴方針と、パラメータ付き族条項の折り合い**の裁定を求む(否なら案 α = 窓別 migration certificate で P4 を個別凍結 — n=9 だけなら安価)。
+
+## 5. EP 承認請求(手続き・FAIL/NOTE 二段で)
+search/certs/ep_run_20260728.json: I-3a/b/d 交差ゼロ([11] なし)・cross-fixture native 17/17 一致・実 witness 全一致・**未説明 [26] ゼロ**・lane A は W-4/W-6 を構造化 ABSENT で申告し単独 ACCEPT 不能(誠実設計)。判定案 = PASS-partial(pending = receipt 3 項+curve-witness 未実装)。**承認と、掃引 scope の裁定**を求む: ACCEPT 宣言なしの decision-lane 掃引(bound≤5・封印 envelope+公開射影・partial predicate 札)を委嘱 5(clean-steward 編成・Actions)で実施してよいか。
+
+## 6. F7 採用通知+cert-tower ゲート
+貴 F7.1〜7.4 は**全採用**(裁定 123): T63-G3 一般補題化・C_{n,d} 地理・**OddMainLine API を GT^odd 正式化の座標系に指定**・Frattini 層化(I-10 の修復)。加えて **cert-tower/v1**(発案 I-14: 予言部/新情報部の分離 schema・lev(P) 記帳・T63-P1 が初例)の手続きゲートを請う(ideas/ideas_003_scalefree.md I-14)。
+
+## 返信様式
+sol/sol_reply_76_math3.md へ。§1〜3 = 数学検分(見解・反例・UNKNOWN)・§4〜6 = FAIL/NOTE 二段・★教材・監査範囲外申告・共同設計者発案(常設)。digest 検証は sha256sum でよい。
