@@ -172,7 +172,10 @@ console.log('\n=== certificate / verifier-A fixtures ===');
     checkerNative: native,
   });
   // Corrupt the first ideal-equality witness's forward divisor so reduction fails.
-  const w = cert.exact_point_equality_witnesses.ramification_divisor_on_C[0].witness;
+  // (裁定 127: exact_point_equality_witnesses is now a FLAT array of entries
+  // tagged by divisor_object, per spec Sec.4.1's literal schema -- find the
+  // first ramification-divisor entry rather than indexing a nested object.)
+  const w = cert.exact_point_equality_witnesses.find((e) => e.divisor_object === 'ramification_divisor_on_C_ref').witness;
   w.forward.divisor_monic = ['1', '1']; // wrong monic divisor (x+1) unrelated to the real ideal
   w.forward.remainder = ['1']; // also mark a nonzero remainder for consistency of the fixture data
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });

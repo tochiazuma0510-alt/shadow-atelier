@@ -284,20 +284,38 @@ export function runVerifierA({ certificate, searcherNativeBlob, checkerNativeBlo
   }) === certificate.checker_native.native_artifact_digest;
   const p33 = searcherDigestOk && checkerDigestOk;
 
-  function objVerify(objName) {
-    return verifyObject({
-      bijection: certificate.component_bijection[objName],
-      exactWitnesses: certificate.exact_point_equality_witnesses[objName],
-      distinctness: certificate.distinctness_witnesses[objName],
-      multiplicityEqualities: certificate.multiplicity_equalities[objName],
-      chartOverlap: certificate.chart_overlap_witnesses,
-      coverage: certificate.total_coverage_and_no_extra_component_witness[objName],
-      pushforward: certificate.pushforward_compatibility_witness,
-    }, searcherNativeBlob[objName + '_ref'].components, checkerNativeBlob[objName + '_ref'].components);
+  // 裁定 127: spec Sec.4.1's literal schema has NO object-keyed nesting for
+  // the witness-group fields -- they are single flat fields. This verifier
+  // therefore reads them as FLAT ARRAYS and filters by each entry's own
+  // `divisor_object` tag (using the exact literal tokens spec Sec.4.1 already
+  // uses for the native sub-schema: `ramification_divisor_on_C_ref` /
+  // `branch_divisor_on_P1_ref`), instead of indexing into an invented
+  // per-locus sub-object. A field that is missing or not an array is treated
+  // as an EMPTY array (never crashes, never silently matches some other
+  // default) -- which resolves to ABSENT downstream, never a vacuous PASS
+  // (裁定 127 item 3: fail-open removal).
+  function filterByObject(field, tag) {
+    if (!Array.isArray(field)) return [];
+    return field.filter((e) => e && e.divisor_object === tag);
   }
 
-  const R_ram = objVerify('ramification_divisor_on_C');
-  const R_branch = objVerify('branch_divisor_on_P1');
+  function objVerify(tag) {
+    const coverageEntries = filterByObject(certificate.total_coverage_and_no_extra_component_witness, tag);
+    return verifyObject({
+      bijection: filterByObject(certificate.component_bijection, tag),
+      exactWitnesses: filterByObject(certificate.exact_point_equality_witnesses, tag),
+      distinctness: filterByObject(certificate.distinctness_witnesses, tag),
+      multiplicityEqualities: filterByObject(certificate.multiplicity_equalities, tag),
+      chartOverlap: certificate.chart_overlap_witnesses, // single declared object, not per-tag (see file header note)
+      coverage: coverageEntries.length === 1 ? coverageEntries[0] : undefined, // 0 or >1 entries -> ABSENT, not a guess
+      pushforward: certificate.pushforward_compatibility_witness,
+    }, (searcherNativeBlob[tag] && searcherNativeBlob[tag].components) || [], (checkerNativeBlob[tag] && checkerNativeBlob[tag].components) || []);
+  }
+
+  const DIVISOR_OBJECT_RAM = 'ramification_divisor_on_C_ref';
+  const DIVISOR_OBJECT_BRANCH = 'branch_divisor_on_P1_ref';
+  const R_ram = objVerify(DIVISOR_OBJECT_RAM);
+  const R_branch = objVerify(DIVISOR_OBJECT_BRANCH);
 
   // canonical per-witness result vector (contract Sec.3.4)
   const WITNESS_ORDER = ['W-1', 'W-2', "W-2'", 'W-3', 'W-4', 'W-5', 'W-6'];

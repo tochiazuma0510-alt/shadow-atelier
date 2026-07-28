@@ -1,6 +1,6 @@
 {
-  "export_id": "lane-A/ep-export-sample/01",
-  "generated_at_note": "lane A implementer output, 裁定 115 item 3 -- NOT an EP run, a structural sample for lane-B/EP review",
+  "export_id": "lane-A/ep-export-sample/02",
+  "generated_at_note": "lane A implementer output, 裁定127 revision (flat certificate schema per spec v18 Sec.4.1 literal reading) -- NOT an EP run, a structural sample for lane-B/EP review",
   "candidate_label": "positive-1 (b=-3,c=1,k=1,s0=-4)",
   "candidate": {
     "a": [
@@ -204,371 +204,138 @@
       "native_schema_digest": null,
       "native_artifact_digest": "7f868da16b0aa1959d5c3fdca25f39954a60bb9155c04b2e23fcb0d19f1483e5"
     },
-    "component_bijection": {
-      "ramification_divisor_on_C": [
-        {
-          "searcher_index": 0,
-          "checker_index": 0,
-          "locus_type": "a-pair-locus"
-        },
-        {
-          "searcher_index": 1,
-          "checker_index": 1,
-          "locus_type": "p-locus"
-        },
-        {
-          "searcher_index": 2,
-          "checker_index": 2,
-          "locus_type": "weierstrass-locus"
-        }
-      ],
-      "branch_divisor_on_P1": [
-        {
-          "searcher_index": 0,
-          "checker_index": 0,
-          "locus_type": "a-pair-locus"
-        },
-        {
-          "searcher_index": 1,
-          "checker_index": 1,
-          "locus_type": "p-locus"
-        },
-        {
-          "searcher_index": 2,
-          "checker_index": 2,
-          "locus_type": "weierstrass-locus"
-        }
-      ]
-    },
-    "exact_point_equality_witnesses": {
-      "ramification_divisor_on_C": [
-        {
-          "locus_type": "a-pair-locus",
-          "witness": {
-            "kind": "ideal-equality",
-            "ok": true,
-            "forward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "-1",
-                "-1",
-                "1"
-              ],
-              "divisor_monic": [
-                "-1",
-                "-1",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            },
-            "backward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "-1",
-                "-1",
-                "1"
-              ],
-              "divisor_monic": [
-                "-1",
-                "-1",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            }
-          }
-        },
-        {
-          "locus_type": "p-locus",
-          "witness": {
-            "kind": "ideal-equality",
-            "ok": true,
-            "forward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "1",
-                "-3",
-                "1"
-              ],
-              "divisor_monic": [
-                "1",
-                "-3",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            },
-            "backward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "1",
-                "-3",
-                "1"
-              ],
-              "divisor_monic": [
-                "1",
-                "-3",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            }
-          }
-        },
-        {
-          "locus_type": "weierstrass-locus",
-          "witness": {
-            "kind": "ideal-equality",
-            "ok": true,
-            "forward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "-7",
-                "-12",
-                "0",
-                "10",
-                "0",
-                "-4",
-                "1"
-              ],
-              "divisor_monic": [
-                "-7",
-                "-12",
-                "0",
-                "10",
-                "0",
-                "-4",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            },
-            "backward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "-7",
-                "-12",
-                "0",
-                "10",
-                "0",
-                "-4",
-                "1"
-              ],
-              "divisor_monic": [
-                "-7",
-                "-12",
-                "0",
-                "10",
-                "0",
-                "-4",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            }
-          }
-        }
-      ],
-      "branch_divisor_on_P1": [
-        {
-          "locus_type": "a-pair-locus",
-          "witness": {
-            "kind": "ideal-equality",
-            "ok": true,
-            "forward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "-1",
-                "-1",
-                "1"
-              ],
-              "divisor_monic": [
-                "-1",
-                "-1",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            },
-            "backward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "-1",
-                "-1",
-                "1"
-              ],
-              "divisor_monic": [
-                "-1",
-                "-1",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            }
-          }
-        },
-        {
-          "locus_type": "p-locus",
-          "witness": {
-            "kind": "ideal-equality",
-            "ok": true,
-            "forward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "1",
-                "-3",
-                "1"
-              ],
-              "divisor_monic": [
-                "1",
-                "-3",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            },
-            "backward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "1",
-                "-3",
-                "1"
-              ],
-              "divisor_monic": [
-                "1",
-                "-3",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            }
-          }
-        },
-        {
-          "locus_type": "weierstrass-locus",
-          "witness": {
-            "kind": "ideal-equality",
-            "ok": true,
-            "forward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "-7",
-                "-12",
-                "0",
-                "10",
-                "0",
-                "-4",
-                "1"
-              ],
-              "divisor_monic": [
-                "-7",
-                "-12",
-                "0",
-                "10",
-                "0",
-                "-4",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            },
-            "backward": {
-              "tag": "reduction-to-zero",
-              "dividend": [
-                "-7",
-                "-12",
-                "0",
-                "10",
-                "0",
-                "-4",
-                "1"
-              ],
-              "divisor_monic": [
-                "-7",
-                "-12",
-                "0",
-                "10",
-                "0",
-                "-4",
-                "1"
-              ],
-              "quotient": [
-                "1"
-              ],
-              "remainder": []
-            }
-          }
-        }
-      ]
-    },
-    "distinctness_witnesses": {
-      "ramification_divisor_on_C": [
-        {
-          "pair": [
-            0,
-            1
-          ],
-          "witness": {
-            "kind": "disjointness",
-            "ok": true,
-            "generator_P": [
+    "component_bijection": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_index": 0,
+        "checker_index": 0,
+        "locus_type": "a-pair-locus"
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_index": 1,
+        "checker_index": 1,
+        "locus_type": "p-locus"
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "searcher_index": 2,
+        "checker_index": 2,
+        "locus_type": "weierstrass-locus"
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_index": 0,
+        "checker_index": 0,
+        "locus_type": "a-pair-locus"
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_index": 1,
+        "checker_index": 1,
+        "locus_type": "p-locus"
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "searcher_index": 2,
+        "checker_index": 2,
+        "locus_type": "weierstrass-locus"
+      }
+    ],
+    "exact_point_equality_witnesses": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "a-pair-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
               "-1",
               "-1",
               "1"
             ],
-            "generator_Q": [
+            "divisor_monic": [
+              "-1",
+              "-1",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-1",
+              "-1",
+              "1"
+            ],
+            "divisor_monic": [
+              "-1",
+              "-1",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "p-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
               "1",
               "-3",
               "1"
             ],
-            "bezout_u": [
-              "-1",
-              "1/2"
-            ],
-            "bezout_v": [
-              "0",
-              "-1/2"
-            ],
-            "reduction_tag": "reduction-to-one"
-          }
-        },
-        {
-          "pair": [
-            0,
-            2
-          ],
-          "witness": {
-            "kind": "disjointness",
-            "ok": true,
-            "generator_P": [
-              "-1",
-              "-1",
+            "divisor_monic": [
+              "1",
+              "-3",
               "1"
             ],
-            "generator_Q": [
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "1",
+              "-3",
+              "1"
+            ],
+            "divisor_monic": [
+              "1",
+              "-3",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "weierstrass-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
               "-7",
               "-12",
               "0",
@@ -577,35 +344,7 @@
               "-4",
               "1"
             ],
-            "bezout_u": [
-              "5/2",
-              "7/4",
-              "-9/4",
-              "-1",
-              "5/4",
-              "-1/4"
-            ],
-            "bezout_v": [
-              "-1/2",
-              "1/4"
-            ],
-            "reduction_tag": "reduction-to-one"
-          }
-        },
-        {
-          "pair": [
-            1,
-            2
-          ],
-          "witness": {
-            "kind": "disjointness",
-            "ok": true,
-            "generator_P": [
-              "1",
-              "-3",
-              "1"
-            ],
-            "generator_Q": [
+            "divisor_monic": [
               "-7",
               "-12",
               "0",
@@ -614,66 +353,14 @@
               "-4",
               "1"
             ],
-            "bezout_u": [
-              "3/10",
-              "-1/8",
-              "-3/8",
-              "0",
-              "1/8",
-              "-1/40"
-            ],
-            "bezout_v": [
-              "-1/10",
-              "1/40"
-            ],
-            "reduction_tag": "reduction-to-one"
-          }
-        }
-      ],
-      "branch_divisor_on_P1": [
-        {
-          "pair": [
-            0,
-            1
-          ],
-          "witness": {
-            "kind": "disjointness",
-            "ok": true,
-            "generator_P": [
-              "-1",
-              "-1",
+            "quotient": [
               "1"
             ],
-            "generator_Q": [
-              "1",
-              "-3",
-              "1"
-            ],
-            "bezout_u": [
-              "-1",
-              "1/2"
-            ],
-            "bezout_v": [
-              "0",
-              "-1/2"
-            ],
-            "reduction_tag": "reduction-to-one"
-          }
-        },
-        {
-          "pair": [
-            0,
-            2
-          ],
-          "witness": {
-            "kind": "disjointness",
-            "ok": true,
-            "generator_P": [
-              "-1",
-              "-1",
-              "1"
-            ],
-            "generator_Q": [
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
               "-7",
               "-12",
               "0",
@@ -682,35 +369,7 @@
               "-4",
               "1"
             ],
-            "bezout_u": [
-              "5/2",
-              "7/4",
-              "-9/4",
-              "-1",
-              "5/4",
-              "-1/4"
-            ],
-            "bezout_v": [
-              "-1/2",
-              "1/4"
-            ],
-            "reduction_tag": "reduction-to-one"
-          }
-        },
-        {
-          "pair": [
-            1,
-            2
-          ],
-          "witness": {
-            "kind": "disjointness",
-            "ok": true,
-            "generator_P": [
-              "1",
-              "-3",
-              "1"
-            ],
-            "generator_Q": [
+            "divisor_monic": [
               "-7",
               "-12",
               "0",
@@ -719,65 +378,414 @@
               "-4",
               "1"
             ],
-            "bezout_u": [
-              "3/10",
-              "-1/8",
-              "-3/8",
-              "0",
-              "1/8",
-              "-1/40"
+            "quotient": [
+              "1"
             ],
-            "bezout_v": [
-              "-1/10",
-              "1/40"
-            ],
-            "reduction_tag": "reduction-to-one"
+            "remainder": []
           }
         }
-      ]
-    },
-    "multiplicity_equalities": {
-      "ramification_divisor_on_C": [
-        {
-          "locus_type": "a-pair-locus",
-          "searcher_mult": 1,
-          "checker_mult": 1,
-          "equal": true
-        },
-        {
-          "locus_type": "p-locus",
-          "searcher_mult": 1,
-          "checker_mult": 1,
-          "equal": true
-        },
-        {
-          "locus_type": "weierstrass-locus",
-          "searcher_mult": 1,
-          "checker_mult": 1,
-          "equal": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "a-pair-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-1",
+              "-1",
+              "1"
+            ],
+            "divisor_monic": [
+              "-1",
+              "-1",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-1",
+              "-1",
+              "1"
+            ],
+            "divisor_monic": [
+              "-1",
+              "-1",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
         }
-      ],
-      "branch_divisor_on_P1": [
-        {
-          "locus_type": "a-pair-locus",
-          "searcher_mult": 1,
-          "checker_mult": 1,
-          "equal": true
-        },
-        {
-          "locus_type": "p-locus",
-          "searcher_mult": 1,
-          "checker_mult": 1,
-          "equal": true
-        },
-        {
-          "locus_type": "weierstrass-locus",
-          "searcher_mult": 1,
-          "checker_mult": 1,
-          "equal": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "p-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "1",
+              "-3",
+              "1"
+            ],
+            "divisor_monic": [
+              "1",
+              "-3",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "1",
+              "-3",
+              "1"
+            ],
+            "divisor_monic": [
+              "1",
+              "-3",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
         }
-      ]
-    },
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "weierstrass-locus",
+        "witness": {
+          "kind": "ideal-equality",
+          "ok": true,
+          "forward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-7",
+              "-12",
+              "0",
+              "10",
+              "0",
+              "-4",
+              "1"
+            ],
+            "divisor_monic": [
+              "-7",
+              "-12",
+              "0",
+              "10",
+              "0",
+              "-4",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          },
+          "backward": {
+            "tag": "reduction-to-zero",
+            "dividend": [
+              "-7",
+              "-12",
+              "0",
+              "10",
+              "0",
+              "-4",
+              "1"
+            ],
+            "divisor_monic": [
+              "-7",
+              "-12",
+              "0",
+              "10",
+              "0",
+              "-4",
+              "1"
+            ],
+            "quotient": [
+              "1"
+            ],
+            "remainder": []
+          }
+        }
+      }
+    ],
+    "distinctness_witnesses": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "pair": [
+          0,
+          1
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "-1",
+            "-1",
+            "1"
+          ],
+          "generator_Q": [
+            "1",
+            "-3",
+            "1"
+          ],
+          "bezout_u": [
+            "-1",
+            "1/2"
+          ],
+          "bezout_v": [
+            "0",
+            "-1/2"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "pair": [
+          0,
+          2
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "-1",
+            "-1",
+            "1"
+          ],
+          "generator_Q": [
+            "-7",
+            "-12",
+            "0",
+            "10",
+            "0",
+            "-4",
+            "1"
+          ],
+          "bezout_u": [
+            "5/2",
+            "7/4",
+            "-9/4",
+            "-1",
+            "5/4",
+            "-1/4"
+          ],
+          "bezout_v": [
+            "-1/2",
+            "1/4"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "pair": [
+          1,
+          2
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "1",
+            "-3",
+            "1"
+          ],
+          "generator_Q": [
+            "-7",
+            "-12",
+            "0",
+            "10",
+            "0",
+            "-4",
+            "1"
+          ],
+          "bezout_u": [
+            "3/10",
+            "-1/8",
+            "-3/8",
+            "0",
+            "1/8",
+            "-1/40"
+          ],
+          "bezout_v": [
+            "-1/10",
+            "1/40"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "pair": [
+          0,
+          1
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "-1",
+            "-1",
+            "1"
+          ],
+          "generator_Q": [
+            "1",
+            "-3",
+            "1"
+          ],
+          "bezout_u": [
+            "-1",
+            "1/2"
+          ],
+          "bezout_v": [
+            "0",
+            "-1/2"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "pair": [
+          0,
+          2
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "-1",
+            "-1",
+            "1"
+          ],
+          "generator_Q": [
+            "-7",
+            "-12",
+            "0",
+            "10",
+            "0",
+            "-4",
+            "1"
+          ],
+          "bezout_u": [
+            "5/2",
+            "7/4",
+            "-9/4",
+            "-1",
+            "5/4",
+            "-1/4"
+          ],
+          "bezout_v": [
+            "-1/2",
+            "1/4"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "pair": [
+          1,
+          2
+        ],
+        "witness": {
+          "kind": "disjointness",
+          "ok": true,
+          "generator_P": [
+            "1",
+            "-3",
+            "1"
+          ],
+          "generator_Q": [
+            "-7",
+            "-12",
+            "0",
+            "10",
+            "0",
+            "-4",
+            "1"
+          ],
+          "bezout_u": [
+            "3/10",
+            "-1/8",
+            "-3/8",
+            "0",
+            "1/8",
+            "-1/40"
+          ],
+          "bezout_v": [
+            "-1/10",
+            "1/40"
+          ],
+          "reduction_tag": "reduction-to-one"
+        }
+      }
+    ],
+    "multiplicity_equalities": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "a-pair-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "p-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "locus_type": "weierstrass-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "a-pair-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "p-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      },
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
+        "locus_type": "weierstrass-locus",
+        "searcher_mult": 1,
+        "checker_mult": 1,
+        "equal": true
+      }
+    ],
     "chart_overlap_witnesses": {
       "kind": "chart-overlap",
       "chart_atlas": [
@@ -790,27 +798,29 @@
       "status": "ABSENT",
       "reason": "lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS."
     },
-    "total_coverage_and_no_extra_component_witness": {
-      "ramification_divisor_on_C": {
+    "total_coverage_and_no_extra_component_witness": [
+      {
+        "divisor_object": "ramification_divisor_on_C_ref",
         "searcher_count": 3,
         "checker_count": 3,
         "matched_count": 3,
         "no_extra": true
       },
-      "branch_divisor_on_P1": {
+      {
+        "divisor_object": "branch_divisor_on_P1_ref",
         "searcher_count": 3,
         "checker_count": 3,
         "matched_count": 3,
         "no_extra": true
       }
-    },
+    ],
     "pushforward_compatibility_witness": {
       "kind": "pushforward-compatibility",
       "points": [],
       "status": "ABSENT",
       "reason": "lane A represents components by ideals (locus polynomials), not by explicit points; a genuine point-level pushforward-compatibility witness requires root-level data this lane does not compute. Structured ABSENT, not PASS."
     },
-    "certificate_digest": "3b07333d0df915ed2ddd7588cd268c559c9b70e4e09aeec2feeb6ab27c0a907b"
+    "certificate_digest": "924fddbbc194ec8e8929f0515641067418ae52d77118afb873c037063e9d73cd"
   },
   "verifier_a_result": {
     "ambient_ok": true,
@@ -880,10 +890,11 @@
       ]
     },
     "overall_verdict_A": "FAIL",
-    "result_digest_A": "848be8e613e9e1d8f3c081cba74a0cb25bb7ddf6dd86e629a202dec7aa1701c0"
+    "result_digest_A": "e2fa59a74c92bf620b4491d0a672fb9643636137aa7b69a070576ef85e563590"
   },
   "caveats": [
     "checker_native above is a MOCK (identical to searcher_native), not real lane-B output.",
+    "component_bijection / exact_point_equality_witnesses / distinctness_witnesses / multiplicity_equalities / total_coverage_and_no_extra_component_witness are FLAT ARRAYS per spec Sec.4.1 literal schema (no object-keyed nesting); each entry carries an explicit divisor_object tag (ramification_divisor_on_C_ref / branch_divisor_on_P1_ref).",
     "chart_overlap_witnesses / pushforward_compatibility_witness are STRUCTURED ABSENT (status=ABSENT) -- lane A native scope has one chart and no explicit point enumeration.",
     "overall_verdict_A is FAIL for this reason (ABSENT != PASS); this is the honest EP-pre state, not a defect.",
     "predicate_spec_id/predicate_spec_digest are machine-read from provenance/ninfty_freeze_receipt_sol75.md at generation time."

@@ -695,6 +695,27 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
     };
   }
 
+  // 裁定 127: spec Sec.4.1's literal schema lists component_bijection /
+  // exact_point_equality_witnesses / distinctness_witnesses /
+  // multiplicity_equalities / total_coverage_and_no_extra_component_witness
+  // as SINGLE flat fields -- there is no object-keyed (per-locus) nesting
+  // anywhere in that literal text. The earlier lane-A shape
+  // ({ramification_divisor_on_C: [...], branch_divisor_on_P1: [...]}) added
+  // a nesting layer the schema does not specify, which is exactly the kind
+  // of unlicensed shape the coordinator's dispatch flags. Contract Sec.2
+  // separately requires "both of the two native objects" to be checked by
+  // W-1..W-6, without specifying HOW a flat field distinguishes the two --
+  // this is UNKNOWN and is not silently resolved by adding a nesting layer;
+  // instead each entry in each flat array carries an explicit
+  // `divisor_object` tag using the EXACT literal token names spec/contract
+  // already use (`ramification_divisor_on_C_ref` / `branch_divisor_on_P1_ref`
+  // from spec Sec.4.1's own searcher_native/checker_native sub-schema),
+  // rather than inventing new vocabulary.
+  const DIVISOR_OBJECT_RAM = 'ramification_divisor_on_C_ref';
+  const DIVISOR_OBJECT_BRANCH = 'branch_divisor_on_P1_ref';
+
+  function tagAll(arr, tag) { return arr.map((e) => ({ divisor_object: tag, ...e })); }
+
   const ram = buildForObject('ramification_divisor_on_C');
   const branch = buildForObject('branch_divisor_on_P1');
 
@@ -721,10 +742,11 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
       native_schema_digest: checkerNative.native_schema_digest,
       native_artifact_digest: checkerNative.native_artifact_digest,
     },
-    component_bijection: { ramification_divisor_on_C: ram.component_bijection, branch_divisor_on_P1: branch.component_bijection },
-    exact_point_equality_witnesses: { ramification_divisor_on_C: ram.exact_point_equality_witnesses, branch_divisor_on_P1: branch.exact_point_equality_witnesses },
-    distinctness_witnesses: { ramification_divisor_on_C: ram.distinctness_witnesses, branch_divisor_on_P1: branch.distinctness_witnesses },
-    multiplicity_equalities: { ramification_divisor_on_C: ram.multiplicity_equalities, branch_divisor_on_P1: branch.multiplicity_equalities },
+    // FLAT per spec Sec.4.1 literal schema (裁定 127); per-entry divisor_object tag.
+    component_bijection: [...tagAll(ram.component_bijection, DIVISOR_OBJECT_RAM), ...tagAll(branch.component_bijection, DIVISOR_OBJECT_BRANCH)],
+    exact_point_equality_witnesses: [...tagAll(ram.exact_point_equality_witnesses, DIVISOR_OBJECT_RAM), ...tagAll(branch.exact_point_equality_witnesses, DIVISOR_OBJECT_BRANCH)],
+    distinctness_witnesses: [...tagAll(ram.distinctness_witnesses, DIVISOR_OBJECT_RAM), ...tagAll(branch.distinctness_witnesses, DIVISOR_OBJECT_BRANCH)],
+    multiplicity_equalities: [...tagAll(ram.multiplicity_equalities, DIVISOR_OBJECT_RAM), ...tagAll(branch.multiplicity_equalities, DIVISOR_OBJECT_BRANCH)],
     // W-4 (裁定 115 item 2): full chart-atlas / per-overlap schema shape, so
     // verifier B can read it without transformation. This lane's native scope
     // declares only ONE chart (x-chart-single), so there is no second chart
@@ -737,7 +759,11 @@ export function generateCertificate({ candidateRef, searcherNative, checkerNativ
       status: 'ABSENT',
       reason: 'lane A native declares a single chart; no second chart exists to produce a genuine per-overlap witness. Structured ABSENT, not PASS.',
     },
-    total_coverage_and_no_extra_component_witness: { ramification_divisor_on_C: ram.total_coverage_and_no_extra_component_witness, branch_divisor_on_P1: branch.total_coverage_and_no_extra_component_witness },
+    // FLAT (裁定 127): array of 2 entries, one per divisor object, each tagged.
+    total_coverage_and_no_extra_component_witness: [
+      { divisor_object: DIVISOR_OBJECT_RAM, ...ram.total_coverage_and_no_extra_component_witness },
+      { divisor_object: DIVISOR_OBJECT_BRANCH, ...branch.total_coverage_and_no_extra_component_witness },
+    ],
     // W-6 (裁定 115 item 2): point-level schema shape (per-branch-point
     // multiplicity comparison). This lane represents branch data by IDEALS
     // (locus polynomials), never by explicit root/point enumeration over
