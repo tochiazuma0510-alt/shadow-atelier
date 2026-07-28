@@ -1,0 +1,21 @@
+{
+  "label":"W-A-B3idx144-s5",
+  "verdict":"ABELIAN",
+  "c_in_N":true,
+  "abs_Bq":144,
+  "abs_PN":24,
+  "N_ord":6,
+  "charming_count":4,
+  "shadow_total":12,
+  "isotropy_order":12,
+  "ker_size":3,
+  "phi_2Nord":4,
+  "ta_predicted_ker":3,
+  "ta_assert_holds":true,
+  "closure_353_holds":true,
+  "ker_commutes":true,
+  "witness":null,
+  "derived_series_orders":[12,3,1],
+  "derived_length":2,
+  "crosscheck_vs_EnumerateReducedHexagon":true
+}

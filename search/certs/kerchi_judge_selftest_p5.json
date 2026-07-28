@@ -1,0 +1,21 @@
+{
+  "label":"W-C-p5-selftest",
+  "verdict":"ABELIAN",
+  "c_in_N":false,
+  "abs_Bq":720,
+  "abs_PN":120,
+  "N_ord":10,
+  "charming_count":8,
+  "shadow_total":40,
+  "isotropy_order":40,
+  "ker_size":5,
+  "phi_2Nord":8,
+  "ta_predicted_ker":5,
+  "ta_assert_holds":true,
+  "closure_353_holds":true,
+  "ker_commutes":true,
+  "witness":null,
+  "derived_series_orders":[40,5,1],
+  "derived_length":2,
+  "crosscheck_vs_EnumerateReducedHexagon":null
+}
