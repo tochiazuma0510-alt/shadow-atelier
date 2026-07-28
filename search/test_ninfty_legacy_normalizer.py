@@ -280,6 +280,119 @@ record("CLI main(['-']): sibling fields (e.g. native_a) preserved through the wr
 
 
 # --------------------------------------------------------------------------
+# 7. 裁定177 F80-4.2 (sol/sol_reply_80_math7.md): Sol's five adversarial
+#    inputs, directly reproduced against normalize_w4_entry. Before this
+#    repair, all five were WRONGLY accepted/converted; kept here as
+#    NEGATIVE regression (all five must now be refused, not silently
+#    resolved) -- the pre-existing 42 tests above remain as ordinary
+#    regression but are NOT, on their own, adversarial coverage (Sol's own
+#    framing: "42/42 は回帰として残すが、adversarial coverage の証明には
+#    用いない").
+# --------------------------------------------------------------------------
+print()  # (no-op, keeps this section visually separated when run standalone)
+
+# F80-4.2 adversarial 1: status=ABSENT, entries=[...] (non-empty) -- the
+# prior `is_canonical_w4_entry` wrongly accepted this as "already canonical,
+# converted=false" (status/entries correspondence was never checked).
+try:
+    norm.normalize_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref", "status": "ABSENT",
+        "entries": [{"chart_pair": ["a", "b"], "component_in_chart_a": "x", "component_in_chart_b": "x"}],
+    })
+    _f80_1_raised = False
+except norm.UnconvertibleLegacyEntry:
+    _f80_1_raised = True
+record("裁定177 F80-4.2 adversarial 1: status=ABSENT + entries non-empty (canonical KEYS, "
+       "contradictory VALUES) -> UnconvertibleLegacyEntry (was wrongly ACCEPTed before)",
+       _f80_1_raised, "raised" if _f80_1_raised else "did NOT raise (BUG)")
+
+# F80-4.2 adversarial 2: status=PRESENT, entries=[] -- prior bug: wrongly
+# accepted as "already canonical, converted=false".
+try:
+    norm.normalize_w4_entry({"divisor_object": "ramification_divisor_on_C_ref", "status": "PRESENT", "entries": []})
+    _f80_2_raised = False
+except norm.UnconvertibleLegacyEntry:
+    _f80_2_raised = True
+record("裁定177 F80-4.2 adversarial 2: status=PRESENT + entries=[] (canonical KEYS, "
+       "contradictory VALUES) -> UnconvertibleLegacyEntry (was wrongly ACCEPTed before)",
+       _f80_2_raised, "raised" if _f80_2_raised else "did NOT raise (BUG)")
+
+# F80-4.2 adversarial 3: status MISSING, entries=[] (no legacy key at all)
+# -- prior bug: silently treated as legacy and converted to ABSENT (wrong:
+# this never had the retired per_overlap_witnesses key, so it is not a
+# legacy shape -- refuse, per conditions 2/3).
+try:
+    norm.normalize_w4_entry({"divisor_object": "ramification_divisor_on_C_ref", "entries": []})
+    _f80_3_raised = False
+except norm.UnconvertibleLegacyEntry:
+    _f80_3_raised = True
+record("裁定177 F80-4.2 adversarial 3: status missing + entries=[] (new key, no legacy key) "
+       "-> UnconvertibleLegacyEntry (was wrongly converted to ABSENT before -- 'legacy' "
+       "requires the frozen per_overlap_witnesses key, conditions 2/3)",
+       _f80_3_raised, "raised" if _f80_3_raised else "did NOT raise (BUG)")
+
+# F80-4.2 adversarial 4: old per_overlap_witnesses AND new entries BOTH
+# present (byte-identical content) -- prior bug: silently picked the
+# legacy array and converted to PRESENT. Must be ambiguous-refused
+# regardless of agreement.
+_coexist_entries = [{"chart_pair": ["a", "b"], "component_in_chart_a": "x", "component_in_chart_b": "x"}]
+try:
+    norm.normalize_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "per_overlap_witnesses": _coexist_entries,
+        "entries": _coexist_entries,
+    })
+    _f80_4_raised = False
+except norm.UnconvertibleLegacyEntry:
+    _f80_4_raised = True
+record("裁定177 F80-4.2 adversarial 4: per_overlap_witnesses AND entries co-present "
+       "(byte-identical) -> UnconvertibleLegacyEntry (was wrongly resolved by silently "
+       "preferring the legacy array before -- condition 4)",
+       _f80_4_raised, "raised" if _f80_4_raised else "did NOT raise (BUG)")
+
+# co-presence with DISAGREEING content must ALSO be refused (not just the
+# equal case) -- same condition 4, different data.
+try:
+    norm.normalize_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "per_overlap_witnesses": _coexist_entries,
+        "entries": [],
+    })
+    _f80_4b_raised = False
+except norm.UnconvertibleLegacyEntry:
+    _f80_4b_raised = True
+record("裁定177 F80-4.2 adversarial 4b: per_overlap_witnesses AND entries co-present "
+       "(DISAGREEING) -> UnconvertibleLegacyEntry (ambiguous either way, condition 4)",
+       _f80_4b_raised, "raised" if _f80_4b_raised else "did NOT raise (BUG)")
+
+# F80-4.2 adversarial 5: legacy status=PRESENT, per_overlap_witnesses=[]
+# (empty) -- prior bug: silently converted to ABSENT (discarding the
+# legacy data's own self-contradiction). Must refuse instead.
+try:
+    norm.normalize_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref", "status": "PRESENT", "per_overlap_witnesses": [],
+    })
+    _f80_5_raised = False
+except norm.UnconvertibleLegacyEntry:
+    _f80_5_raised = True
+record("裁定177 F80-4.2 adversarial 5: legacy status=PRESENT + per_overlap_witnesses=[] "
+       "-> UnconvertibleLegacyEntry (was wrongly converted to ABSENT before, discarding the "
+       "legacy data's own self-contradiction)",
+       _f80_5_raised, "raised" if _f80_5_raised else "did NOT raise (BUG)")
+
+# is_canonical_w4_entry itself, probed directly (matching Sol's own
+# direct-probe style): must reject all the canonical-looking-but-broken
+# shapes above, standalone.
+record("裁定177 F80-4.2: is_canonical_w4_entry(status=ABSENT, entries=non-empty) -> False",
+       norm.is_canonical_w4_entry({"status": "ABSENT", "entries": _coexist_entries}) is False)
+record("裁定177 F80-4.2: is_canonical_w4_entry(status=PRESENT, entries=[]) -> False",
+       norm.is_canonical_w4_entry({"status": "PRESENT", "entries": []}) is False)
+record("裁定177 F80-4.2: is_canonical_w4_entry(retired key co-present alongside valid entries) -> False",
+       norm.is_canonical_w4_entry({"status": "PRESENT", "entries": _coexist_entries,
+                                    "per_overlap_witnesses": _coexist_entries}) is False)
+
+
+# --------------------------------------------------------------------------
 # report
 # --------------------------------------------------------------------------
 def main():

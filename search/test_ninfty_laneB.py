@@ -853,6 +853,28 @@ record("追補(n) v2 integration: UNCONVERTED legacy-shape W-4 (per_overlap_witn
        _n_legacy_result["overall_verdict_B"] == "INTEGRITY_STOP",
        json.dumps(_n_legacy_result["witness_results"]["W-4"]) + f" overall={_n_legacy_result['overall_verdict_B']!r}")
 
+# 裁定177 F80-4.2 condition 5: retired `per_overlap_witnesses` key
+# COEXISTING alongside a well-formed `entries` key must be MALFORMED, even
+# when the two arrays are byte-identical (ambiguous either way, never
+# silently ignored just because `entries` alone validates).
+try:
+    ver._validate_w4_entry({
+        "divisor_object": "ramification_divisor_on_C_ref",
+        "status": "PRESENT",
+        "entries": [
+            {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+        ],
+        "per_overlap_witnesses": [
+            {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1"}
+        ],
+    })
+    _n_coexist_raised = False
+except ver.MalformedWitness:
+    _n_coexist_raised = True
+record("裁定177 F80-4.2 condition 5: entries + per_overlap_witnesses co-presence (even if "
+       "byte-identical) -> MalformedWitness (MALFORMED)",
+       _n_coexist_raised, "raised" if _n_coexist_raised else "did NOT raise (BUG)")
+
 
 # --------------------------------------------------------------------------
 # report

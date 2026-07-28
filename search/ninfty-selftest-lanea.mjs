@@ -12,7 +12,7 @@ import {
   evaluateDecisionLane, checkT1, buildSearcherNative, generateCertificate,
   loadFreezeReceiptDigests, DEFAULT_FREEZE_RECEIPT_PATH, digestOf,
 } from './ninfty-searcher-v2.mjs';
-import { runVerifierA, combine, vectorsEqual } from './ninfty-verifier-a.mjs';
+import { runVerifierA, combine, vectorsEqual, verifyChartOverlap_forTest } from './ninfty-verifier-a.mjs';
 
 // Test-only ref-triple builder (裁定 139 item 3 shape: {artifact_id, digest,
 // object_id, inline}), used only to construct SYNTHETIC fixture data below --
@@ -130,16 +130,19 @@ console.log('\n=== certificate / verifier-A fixtures ===');
   // Inject SYNTHETIC genuine chart-overlap data: a second hypothetical chart
   // whose ideal generator for the a-pair-locus component is identical to the
   // first chart's (so mutual reduction-to-zero holds both ways).
-  // 裁定 133: both fields are now FLAT arrays with one entry per
-  // divisor_object (docs/notes/cert_shape_interpretation_v2.md (i)) --
-  // inject one PASS-shaped entry per tag, matching generateCertificate's
-  // current output shape.
+  // 裁定 133: both fields are FLAT arrays with one entry per divisor_object
+  // (docs/notes/cert_shape_interpretation_v2.md (i)); field renamed +
+  // status vocabulary made strict by 裁定152 §3-1 / 追補(n) v2 (sharpened
+  // 裁定177 F80-4.1): {status: "PRESENT", entries: [...]} is now the ONLY
+  // shape verifyChartOverlap accepts for a genuine PASS/FAIL re-check --
+  // the old `status: "PASS"` + `per_overlap_witnesses` shape is now
+  // MALFORMED (retired).
   const ramGen = native.ramification_divisor_on_C_ref.components[0].ideal_generator;
   function syntheticChartOverlapEntry(tag) {
     return {
       divisor_object: tag,
-      status: 'PASS',
-      per_overlap_witnesses: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen }],
+      status: 'PRESENT',
+      entries: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen }],
       reason: 'SYNTHETIC for regression testing only -- not lane A native scope',
     };
   }
@@ -513,6 +516,62 @@ console.log('\n=== 裁定145 残差2: W-6 map_ref.inline is array-shaped ===');
     JSON.stringify(searcherEntry.map_ref.inline) === JSON.stringify(expected),
     `got=${JSON.stringify(searcherEntry.map_ref.inline)} expected=${JSON.stringify(expected)}`,
   );
+}
+
+// --- 裁定177 F80-4.1: Sol's five adversarial W-4 (chart_overlap_witnesses)
+//     probes against verifyChartOverlap. Direct probe found ALL FIVE
+//     returning 'ABSENT' before this fix -- the first three (and the fifth)
+//     should be MALFORMED, and the fourth (status=PRESENT + genuinely
+//     non-empty, agreeing entries) should re-verify to PASS. Tested both
+//     as isolated-function calls (verifyChartOverlap_forTest, matching
+//     Sol's own direct-probe style) AND, for the MALFORMED cases,
+//     end-to-end through runVerifierA to confirm the top-level
+//     {malformed:true, ...} escalation actually fires.
+console.log("\n=== 裁定177 F80-4.1: Sol's five adversarial W-4 probes ===");
+
+const RAM_TAG = 'ramification_divisor_on_C_ref';
+const BRANCH_TAG = 'branch_divisor_on_P1_ref';
+
+const ADVERSARIAL_W4 = [
+  { label: 'adversarial 1: status missing entirely + entries=[]', entry: { divisor_object: RAM_TAG, entries: [] }, expect: 'MALFORMED' },
+  { label: 'adversarial 2: status=ABSENT + entries non-empty', entry: { divisor_object: RAM_TAG, status: 'ABSENT', entries: [{ chart_pair: ['a', 'b'], agree: true }] }, expect: 'MALFORMED' },
+  { label: 'adversarial 3: status=PRESENT + entries=[]', entry: { divisor_object: RAM_TAG, status: 'PRESENT', entries: [] }, expect: 'MALFORMED' },
+  { label: 'adversarial 5: unknown status + entries=[]', entry: { divisor_object: RAM_TAG, status: 'not-a-real-status', entries: [] }, expect: 'MALFORMED' },
+];
+for (const { label, entry, expect } of ADVERSARIAL_W4) {
+  const got = verifyChartOverlap_forTest(entry);
+  check(`裁定177 ${label} -> ${expect} (isolated verifyChartOverlap_forTest)`, got === expect, `got ${got}`);
+}
+
+// adversarial 4 (POSITIVE regression): status=PRESENT + genuinely correct,
+// non-empty entries -> PASS (not ABSENT). Reuses the same synthetic
+// agreeing-generator construction as fixture C1b.
+{
+  const native4 = buildSearcherNative(positive1.candidate);
+  const ramGen4 = native4.ramification_divisor_on_C_ref.components[0].ideal_generator;
+  const goodEntry = {
+    divisor_object: RAM_TAG, status: 'PRESENT',
+    entries: [{ chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], agree: true, generator_chart_a: ramGen4, generator_chart_b: ramGen4 }],
+  };
+  const got4 = verifyChartOverlap_forTest(goodEntry);
+  check('裁定177 adversarial 4: status=PRESENT + correct non-empty entries -> PASS (isolated)', got4 === 'PASS', `got ${got4}`);
+}
+
+// End-to-end: each MALFORMED adversarial shape, wired into BOTH
+// divisor_object slots of a real certificate, must escalate runVerifierA's
+// TOP-LEVEL result to {malformed:true, ...} (not just a buried non-PASS
+// inside R_A, which C1b/objVerify alone would not distinguish from an
+// ordinary FAIL).
+for (const { label, entry } of ADVERSARIAL_W4) {
+  const { native, cert } = freshCert();
+  cert.chart_overlap_witnesses = [
+    { ...entry, divisor_object: RAM_TAG },
+    { ...entry, divisor_object: BRANCH_TAG },
+  ];
+  const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
+  check(`裁定177 end-to-end ${label} -> runVerifierA escalates malformed=true`,
+        vA.malformed === true && Array.isArray(vA.malformed_fields) && vA.malformed_fields.length > 0,
+        JSON.stringify(vA));
 }
 
 // --- Worked examples from the spec text itself (Sec.5.3.2 line 508 and

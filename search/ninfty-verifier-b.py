@@ -725,8 +725,21 @@ def _validate_w4_entry(e):
     Malformed sub-entries inside a genuinely PRESENT `entries` array are
     still a schema violation (raises MalformedWitness -> MALFORMED),
     distinct from a genuine chart-mismatch FAIL.
+
+    裁定177 F80-4.2 condition 5 (sol/sol_reply_80_math7.md): co-presence of
+    the retired `per_overlap_witnesses` key ALONGSIDE a well-formed
+    `entries` key is REJECTED here too (not just by the normalizer) --
+    ambiguous regardless of whether the two arrays happen to agree, never
+    silently ignored just because `entries` also validates.
     """
     _require_dict(e, "W-4 entry")
+    if "per_overlap_witnesses" in e:
+        raise MalformedWitness(
+            "W-4 entry carries the RETIRED 'per_overlap_witnesses' key alongside the "
+            "canonical shape -- ambiguous regardless of whether it agrees with 'entries', "
+            "never silently ignored (裁定177 F80-4.2 condition 5; run "
+            "search/ninfty-legacy-normalizer.py first if this is genuinely legacy data)"
+        )
     _require_keys(e, ["status", "entries"], "W-4 entry")
     status = e["status"]
     if status not in ("ABSENT", "PRESENT"):

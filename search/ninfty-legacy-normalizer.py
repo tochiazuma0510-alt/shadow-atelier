@@ -56,6 +56,15 @@ LEGACY_ARRAY_KEY = "per_overlap_witnesses"
 CANONICAL_ARRAY_KEY = "entries"
 CANONICAL_STATUSES = ("ABSENT", "PRESENT")
 
+# 裁定177 F80-4.2 condition 2: a FROZEN, versioned label identifying "the
+# legacy per_overlap_witnesses shape this tool recognizes" -- recorded in
+# conversion notes for provenance (this is what makes legacy recognition a
+# pinned, versioned concept rather than an implicit "whatever isn't
+# canonical" catch-all, which was the root of the F80-4.2 bugs: legacy
+# recognition must REQUIRE the frozen key's presence, never merely infer
+# "legacy" from the absence of a valid canonical shape).
+LEGACY_SCHEMA_ID = "mb/ninfty-w4-legacy-per_overlap_witnesses/v1"
+
 
 def canonical_serialize(obj):
     """Project-wide canonical form: UTF-8, sorted keys, no whitespace --
@@ -76,14 +85,35 @@ class UnconvertibleLegacyEntry(Exception):
 
 
 def is_canonical_w4_entry(entry):
-    """True iff entry ALREADY satisfies 追補(n) v2's strict {status,
-    entries} shape (status in {ABSENT, PRESENT}, entries a list, no
-    inspection of the legacy key needed)."""
-    return (
-        isinstance(entry, dict)
-        and entry.get("status") in CANONICAL_STATUSES
-        and isinstance(entry.get("entries"), list)
-    )
+    """
+    True iff entry ALREADY satisfies 追補(n) v2's strict {status, entries}
+    shape -- 裁定177 F80-4.2 condition 1: this is now a FULL check, not just
+    "the right keys with the right types":
+      - status in {ABSENT, PRESENT} and entries is a list (as before), AND
+      - status/entries actually CORRESPOND (ABSENT <-> entries==[],
+        PRESENT <-> entries non-empty) -- an entry with status='ABSENT'
+        and a NON-empty entries array, or status='PRESENT' with an EMPTY
+        entries array, is NOT "already canonical": it is a self-
+        contradictory blob wearing canonical keys, and normalize_w4_entry
+        must refuse it (never silently accept it as valid, never silently
+        "fix" it either), AND
+      - the RETIRED legacy key (`per_overlap_witnesses`) is NOT also
+        present (condition 5: retired-key coexistence disqualifies
+        "already canonical" even when status/entries alone look fine).
+    """
+    if not isinstance(entry, dict):
+        return False
+    if LEGACY_ARRAY_KEY in entry:
+        return False
+    status = entry.get("status")
+    entries = entry.get("entries")
+    if status not in CANONICAL_STATUSES or not isinstance(entries, list):
+        return False
+    if status == "ABSENT" and len(entries) != 0:
+        return False
+    if status == "PRESENT" and len(entries) == 0:
+        return False
+    return True
 
 
 def _build_canonical(entry, raw_entries):
@@ -108,42 +138,108 @@ def normalize_w4_entry(entry):
     """
     Converts ONE legacy-shape chart_overlap_witnesses entry (a dict) into
     the 追補(n) v2 canonical shape. Returns (canonical_entry, record) where
-    record = {converted: bool, legacy_digest, canonical_digest, note}.
-    Raises UnconvertibleLegacyEntry if the legacy data is genuinely
-    self-contradictory, or carries neither a legacy nor a canonical array
-    at all -- never silently resolved.
+    record = {converted: bool, legacy_digest, canonical_digest, note[,
+    legacy_schema_id]}. Raises UnconvertibleLegacyEntry if the legacy data
+    is genuinely self-contradictory, ambiguous, or carries neither a legacy
+    nor a valid canonical shape at all -- never silently resolved.
+
+    裁定177 F80-4.2 (Sol's adversarial-probe FAIL on the PRIOR version of
+    this function) repair conditions, all implemented here:
+      1. the "already canonical" check is now a FULL status/entries
+         correspondence check (see is_canonical_w4_entry) -- a blob using
+         the canonical KEYS but a self-contradictory VALUE combination
+         (status=ABSENT + non-empty entries, or status=PRESENT + empty
+         entries) is NOT accepted as already-canonical; nor is it treated
+         as legacy (it uses the new keys, not the retired one) -- it is
+         refused outright (condition 1 below).
+      2. the legacy branch REQUIRES the frozen LEGACY_ARRAY_KEY
+         (`per_overlap_witnesses`) to be present as a NECESSARY condition
+         -- "not already canonical" is no longer sufficient by itself to
+         call something legacy.
+      3. an entry with a valid `entries` array but NO legacy array and NO
+         valid status is therefore NOT treated as legacy at all (it fails
+         condition 2's necessary condition) -- refused, not silently
+         "rescued" as if it were an old blob.
+      4. co-presence of BOTH `entries` and `per_overlap_witnesses` is
+         ALWAYS ambiguous -- refused REGARDLESS of whether the two arrays
+         happen to be equal, never resolved by silently preferring one.
+      5. `_build_canonical` already excludes the retired key from its
+         output (unchanged); the companion requirement ("後段 verifier も
+         retired key の併存拒否") is implemented in
+         ninfty-verifier-b.py's `_validate_w4_entry`, which now rejects an
+         entry carrying `per_overlap_witnesses` alongside `entries` even
+         when both are independently well-formed.
+      6. adversarial regression coverage lives in
+         search/test_ninfty_legacy_normalizer.py (5 cases from
+         sol/sol_reply_80_math7.md F80-4.2, all now correctly refused/
+         converted).
     """
     if not isinstance(entry, dict):
         raise UnconvertibleLegacyEntry(f"W-4 entry is not an object: {entry!r}")
 
     legacy_digest = sha256_of(entry)
 
+    has_legacy_array = isinstance(entry.get(LEGACY_ARRAY_KEY), list)
+    has_entries_array = isinstance(entry.get(CANONICAL_ARRAY_KEY), list)
+
+    # Condition 4: ANY co-presence of both arrays is ambiguous -- checked
+    # FIRST, before even asking whether the entry looks canonical, since an
+    # entry could otherwise look "canonical" (valid status+entries) while
+    # ALSO smuggling in a retired per_overlap_witnesses array.
+    if has_legacy_array and has_entries_array:
+        raise UnconvertibleLegacyEntry(
+            f"W-4 entry carries BOTH the retired {LEGACY_ARRAY_KEY!r} array and the "
+            f"canonical {CANONICAL_ARRAY_KEY!r} array -- ambiguous regardless of whether "
+            "the two agree, refusing to silently pick one (裁定177 F80-4.2 condition 4)"
+        )
+
     if is_canonical_w4_entry(entry):
-        # Already canonical -- pass through unchanged (still a fresh dict,
-        # never the same object reference, so callers can't accidentally
-        # alias into caller-owned data), but still report identical
-        # digests so callers have a uniform record shape regardless of
-        # whether a conversion actually happened.
+        # Already canonical (status/entries correspond, no retired key
+        # present) -- pass through unchanged (still a fresh dict, never the
+        # same object reference, so callers can't accidentally alias into
+        # caller-owned data), but still report identical digests so
+        # callers have a uniform record shape regardless of whether a
+        # conversion actually happened.
         return dict(entry), {
             "converted": False,
             "legacy_digest": legacy_digest,
             "canonical_digest": legacy_digest,
-            "note": "already canonical (追補(n) v2 shape {status, entries}); no conversion performed",
+            "note": "already canonical (追補(n) v2 shape {status, entries}, status/entries "
+                    "correspond, no retired key present); no conversion performed",
         }
 
-    has_legacy_array = isinstance(entry.get(LEGACY_ARRAY_KEY), list)
-    has_entries_array = isinstance(entry.get(CANONICAL_ARRAY_KEY), list)
-    legacy_status = entry.get("status")
+    status_field = entry.get("status")
 
-    if not has_legacy_array and not has_entries_array:
+    # Condition 1: the entry uses the CANONICAL keys (valid status literal
+    # + a well-typed entries array) but FAILS the status/entries
+    # correspondence check (is_canonical_w4_entry already ruled this out
+    # above) -- this is a self-contradictory blob wearing canonical
+    # clothing, NOT a legacy shape (it never had the retired key at all).
+    # Refuse outright rather than silently invent a resolution.
+    if status_field in CANONICAL_STATUSES and has_entries_array and not has_legacy_array:
         raise UnconvertibleLegacyEntry(
-            f"W-4 entry has neither a well-typed legacy {LEGACY_ARRAY_KEY!r} array nor a "
-            f"well-typed canonical {CANONICAL_ARRAY_KEY!r} array -- nothing to normalize: {entry!r}"
+            f"W-4 entry already uses the canonical keys (status={status_field!r}, "
+            f"{CANONICAL_ARRAY_KEY!r}) but status/entries are self-contradictory "
+            f"(status={status_field!r} with {'non-empty' if entry.get(CANONICAL_ARRAY_KEY) else 'empty'} "
+            f"entries) -- this is not a legacy shape, refusing to silently resolve "
+            "(裁定177 F80-4.2 condition 1)"
         )
 
-    # Prefer the legacy array when BOTH are present (an unusual, presumably
-    # hand-edited intermediate state) -- documented, not silently guessed.
-    raw_entries = entry[LEGACY_ARRAY_KEY] if has_legacy_array else entry[CANONICAL_ARRAY_KEY]
+    # Conditions 2/3: the legacy branch REQUIRES the frozen legacy array key
+    # to be present. An entry that merely lacks a valid canonical shape but
+    # ALSO lacks the legacy key (e.g. `entries` present with no/invalid
+    # status, or neither key present at all) is NOT recognized as legacy --
+    # refused, never guessed at.
+    if not has_legacy_array:
+        raise UnconvertibleLegacyEntry(
+            f"W-4 entry is not already canonical and does not carry the frozen legacy "
+            f"{LEGACY_ARRAY_KEY!r} array ({LEGACY_SCHEMA_ID}) -- the legacy branch requires "
+            f"{LEGACY_ARRAY_KEY!r} to be present as a necessary condition (裁定177 F80-4.2 "
+            f"conditions 2/3); nothing to normalize: {entry!r}"
+        )
+
+    raw_entries = entry[LEGACY_ARRAY_KEY]
+    legacy_status = status_field
 
     if legacy_status == "ABSENT" and len(raw_entries) != 0:
         # Genuine contradiction pre-dating this tool (matches
@@ -155,16 +251,27 @@ def normalize_w4_entry(entry):
             f"{len(raw_entries)} entries -- self-contradictory legacy data, refusing to "
             "silently resolve (never invent evidence, never discard the contradiction)"
         )
+    if legacy_status == "PRESENT" and len(raw_entries) == 0:
+        # Symmetric contradiction (mirrors 追補(n) v2 rule 5 / 裁定149): the
+        # legacy data itself declares presence while supplying no evidence
+        # -- silently re-deriving "ABSENT" from the empty array would
+        # discard this contradiction rather than surface it. Refuse
+        # instead (this was Sol's fifth F80-4.2 adversarial example).
+        raise UnconvertibleLegacyEntry(
+            f"legacy W-4 entry declares status='PRESENT' but its witness array is empty -- "
+            "self-contradictory legacy data (mirrors 追補(n) v2 rule 5), refusing to "
+            "silently resolve to ABSENT"
+        )
 
     canonical = _build_canonical(entry, raw_entries)
     canonical_digest = sha256_of(canonical)
-    key_used = LEGACY_ARRAY_KEY if has_legacy_array else CANONICAL_ARRAY_KEY
     return canonical, {
         "converted": True,
+        "legacy_schema_id": LEGACY_SCHEMA_ID,
         "legacy_digest": legacy_digest,
         "canonical_digest": canonical_digest,
         "note": (
-            f"legacy shape ({key_used!r} key"
+            f"legacy shape ({LEGACY_SCHEMA_ID}, {LEGACY_ARRAY_KEY!r} key"
             + (f", status={legacy_status!r}" if legacy_status is not None else ", no status field")
             + ") converted to 追補(n) v2 canonical form {status, entries}; status "
               "RE-DERIVED from the witness array's own emptiness (the legacy status "
