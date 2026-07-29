@@ -96,10 +96,25 @@ def _load_ref_value(ref, native_doc, what):
     Independent ref-triple reader: {artifact_id, digest, json_pointer |
     object_id [, inline]}. Native artifact (`native_doc`) is authoritative
     when its json_pointer resolves -- `inline` is only a fallback CACHE,
-    consulted when the pointer is absent or does not resolve (mirrors
+    consulted ONLY when `json_pointer` was never supplied at all (mirrors
     ninfty-verifier-b.py's _dereference_native_ref priority, independently
     coded here). Returns (value, ok, why_not_ok_or_None). Raises
-    W6R2Error on an actual digest disagreement (never a silent PASS).
+    W6R2Error on an actual digest disagreement OR an unresolved
+    json_pointer (never a silent PASS).
+
+    Sol 便87 P87-1 item 1 (F87-1.2): the prior version fell back to
+    `inline` whenever `json_pointer` was present but did not resolve --
+    an attacker-forged, self-digest-consistent inline map with NO
+    counterpart in `native_doc` at all would be accepted as if it were
+    the receiver-held native content (UNRESOLVED_POINTER_INLINE_ATTACK,
+    sol/sol_reply_87_math14.md F87-1.2: R1, R2, and overall all reached
+    PASS on Sol's `json_pointer="/definitely_missing"` probe). FIX: a
+    json_pointer that is present but unresolvable is now UNCONDITIONALLY
+    a MALFORMED-raising error here (via W6R2Error) -- inline is never
+    consulted in that case, regardless of whether it is itself digest-
+    consistent. inline fallback survives ONLY for the case where
+    `json_pointer` was never supplied in the first place (裁定150 items
+    2/3's legacy/offline semantics, unaffected).
     """
     if not isinstance(ref, dict):
         raise W6R2Error(f"{what}: ref is not an object, got {type(ref).__name__}")
@@ -112,16 +127,23 @@ def _load_ref_value(ref, native_doc, what):
     pointer = ref.get("json_pointer")
     if isinstance(pointer, str):
         found, val = _pointer_lookup(native_doc, pointer)
-        if found:
-            got = _digest(val)
-            declared = ref.get("digest")
-            if got != declared:
-                raise W6R2Error(
-                    f"{what}: native artifact dereference at json_pointer={pointer!r} digest "
-                    f"{got} != declared digest {declared!r} (independent R2 native-binding check)"
-                )
-            return val, True, None
+        if not found:
+            raise W6R2Error(
+                f"{what}: json_pointer {pointer!r} did not resolve within the pinned native artifact "
+                f"(artifact_id={ref.get('artifact_id')!r}); inline is never consulted as a fallback "
+                "authority for an unresolved pointer (Sol 便87 P87-1 item 1 fix, closing "
+                "UNRESOLVED_POINTER_INLINE_ATTACK)"
+            )
+        got = _digest(val)
+        declared = ref.get("digest")
+        if got != declared:
+            raise W6R2Error(
+                f"{what}: native artifact dereference at json_pointer={pointer!r} digest "
+                f"{got} != declared digest {declared!r} (independent R2 native-binding check)"
+            )
+        return val, True, None
 
+    # json_pointer absent entirely -- legacy/offline inline-only path.
     if "inline" in ref:
         got = _digest(ref["inline"])
         declared = ref.get("digest")
@@ -129,12 +151,8 @@ def _load_ref_value(ref, native_doc, what):
             raise W6R2Error(f"{what}: inline digest {got} != declared digest {declared!r}")
         return ref["inline"], True, None
 
-    reason = (
-        f"{what}: json_pointer {pointer!r} unresolvable against the pinned native artifact and no "
-        "inline cache present" if isinstance(pointer, str) else
-        f"{what}: no json_pointer and no inline content -- object_id-only external artifact stores "
-        "are out of scope for this independent verifier (UNKNOWN, not a silent PASS)"
-    )
+    reason = (f"{what}: no json_pointer and no inline content -- object_id-only external artifact stores "
+              "are out of scope for this independent verifier (UNKNOWN, not a silent PASS)")
     return None, False, reason
 
 

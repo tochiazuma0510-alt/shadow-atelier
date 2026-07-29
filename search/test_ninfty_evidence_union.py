@@ -1073,6 +1073,83 @@ record("Sol 便86 P86-2 NOTE (CLI): `python ninfty-evidence-union.py <matching-f
 
 
 # --------------------------------------------------------------------------
+# 12. Sol 便87 P87-1 item 1 (F87-1.2, sol/sol_reply_87_math14.md):
+#     UNRESOLVED_POINTER_INLINE_ATTACK -- json_pointer PRESENT but
+#     UNRESOLVABLE against the pinned native artifact, paired with a
+#     self-digest-consistent FORGED inline that has NO counterpart in
+#     native_a/native_b at all. Sol's exact probe (json_pointer=
+#     "/definitely_missing", native_a=native_b={}) reached R1=R2=
+#     overall=PASS pre-fix; the 481-negative suite only ever exercised
+#     pointers that DO resolve, never this branch. Reproduced here through
+#     R1 alone, R2 alone, and the end-to-end public facade.
+# --------------------------------------------------------------------------
+
+UPIA_FORGED_MAP = [{"branch_value": "sol-forged", "multiplicity": 87}]
+UPIA_FORGED_DIGEST = eu.sha256_of(UPIA_FORGED_MAP)
+_upia_map_ref_a = {"artifact_id": "native_a", "digest": UPIA_FORGED_DIGEST,
+                    "json_pointer": "/definitely_missing", "inline": UPIA_FORGED_MAP}
+_upia_map_ref_b = {"artifact_id": "native_b", "digest": UPIA_FORGED_DIGEST,
+                    "json_pointer": "/definitely_missing", "inline": UPIA_FORGED_MAP}
+_upia_cert = _synthetic_cert(_upia_map_ref_a, _upia_map_ref_b)
+_upia_native_a = {}
+_upia_native_b = {}
+
+_upia_r1_status, _upia_r1_detail = verb.verify_W6_single(_upia_cert, _upia_native_a, _upia_native_b)
+record("Sol 便87 P87-1 item 1 (F87-1.2 UNRESOLVED_POINTER_INLINE_ATTACK, R1 alone): "
+       "verify_W6_single(json_pointer='/definitely_missing', native_a=native_b={}, self-consistent forged "
+       "inline) -> MALFORMED (was PASS pre-fix -- Sol's exact probe)",
+       _upia_r1_status == "MALFORMED", f"got {_upia_r1_status!r}: {_upia_r1_detail}")
+
+_upia_r2_status, _upia_r2_detail = r2mod.verify_W6_single_r2(_upia_cert, _upia_native_a, _upia_native_b)
+record("Sol 便87 P87-1 item 1 (F87-1.2 UNRESOLVED_POINTER_INLINE_ATTACK, R2 alone): "
+       "verify_W6_single_r2(SAME probe) -> MALFORMED (was PASS pre-fix -- Sol's exact probe)",
+       _upia_r2_status == "MALFORMED", f"got {_upia_r2_status!r}: {_upia_r2_detail}")
+
+_upia_raw = {"schema_id": RAW_SCHEMA, "certificate": _upia_cert, "native_a": _upia_native_a, "native_b": _upia_native_b}
+_upia_result = eu.evidence_union_from_raw_w6(_upia_raw)
+record("Sol 便87 P87-1 item 1 (F87-1.2 UNRESOLVED_POINTER_INLINE_ATTACK, end-to-end public facade): "
+       "evidence_union_from_raw_w6(SAME probe) -> overall INTEGRITY_STOP (was PASS/PASS/PASS pre-fix, "
+       "sol/sol_reply_87_math14.md F87-1.2 literal reproduction)",
+       _upia_result["overall_status"] == "INTEGRITY_STOP", _upia_result)
+
+_upia_cli_rc, _upia_cli_out, _upia_cli_err = _run_cli(_upia_raw)
+record("Sol 便87 P87-1 item 1 (F87-1.2 UNRESOLVED_POINTER_INLINE_ATTACK, CLI): "
+       "`python ninfty-evidence-union.py <UPIA raw>` -> exit code NONZERO (was 0/PASS pre-fix)",
+       _upia_cli_rc != 0, f"rc={_upia_cli_rc} stdout={_upia_cli_out!r} stderr={_upia_cli_err!r}")
+
+# --- items 2-3: native_registry_status is an honest, non-gating UNKNOWN
+#     declaration attached to every evidence_union_from_raw_w6 call -- no
+#     receiver-held native-artifact registry exists in this codebase, so
+#     this reports the gap instead of fabricating one (裁定232 P87-1).
+record("Sol 便87 P87-1 items 2-3: evidence_union_from_raw_w6(genuine PASS raw).native_registry_status.status "
+       "== 'UNKNOWN' (honest declaration, no registry implemented anywhere in this codebase, not fabricated)",
+       result_from_raw_pos.get("native_registry_status", {}).get("status") == "UNKNOWN",
+       result_from_raw_pos.get("native_registry_status"))
+record("Sol 便87 P87-1 items 2-3 (present on every overall_status, not just PASS): "
+       "evidence_union_from_raw_w6(UPIA attack raw).native_registry_status.status == 'UNKNOWN'",
+       _upia_result.get("native_registry_status", {}).get("status") == "UNKNOWN",
+       _upia_result.get("native_registry_status"))
+
+# --- item 3 gap regression guard: artifact_id is NOT checked against any
+#     pinned identity today (there is nothing implemented to check it
+#     against) -- a map_ref whose artifact_id string matches neither
+#     "native_a" nor "native_b" still dereferences successfully via
+#     json_pointer against whichever native payload the caller positionally
+#     supplied. This is exactly the gap native_registry_status declares
+#     UNKNOWN above; the assertion below is a regression guard that this
+#     gap stays honestly declared rather than silently assumed fixed by a
+#     string comparison that was never added.
+_mismatched_artifact_id_ref_a = dict(_map_ref_a_deref_only, artifact_id="totally-unrelated-label")
+_mismatched_artifact_id_ref_b = dict(_map_ref_b_deref_only, artifact_id="also-unrelated-label")
+_cert_mismatched_artifact_id = _synthetic_cert(_mismatched_artifact_id_ref_a, _mismatched_artifact_id_ref_b)
+_mismatch_status, _mismatch_detail = verb.verify_W6_single(_cert_mismatched_artifact_id, _native_a_real, _native_b_real)
+record("Sol 便87 P87-1 item 3 gap regression guard: verify_W6_single with map_ref.artifact_id matching NO "
+       "pinned identity (none is implemented) still dereferences via json_pointer and reaches PASS -- this IS "
+       "the exact gap native_registry_status declares UNKNOWN, not a silent claim that artifact_id is checked",
+       _mismatch_status == "PASS", f"got {_mismatch_status!r}: {_mismatch_detail}")
+
+
+# --------------------------------------------------------------------------
 # report
 # --------------------------------------------------------------------------
 def main():

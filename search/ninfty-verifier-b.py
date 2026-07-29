@@ -310,9 +310,22 @@ def _dereference_native_ref(ref, native_payload, what):
     resolves WITHIN the artifact named by `artifact_id`, i.e. within
     `native_payload` itself (mirrors ninfty-verifier-a.mjs's `resolveRef`).
 
+    Sol 便87 P87-1 item 1 (F87-1.2, closing the残り half of B86-o3): the
+    prior version of this function fell back to `inline` whenever
+    `json_pointer` was present but did NOT resolve inside `native_payload`
+    -- an attacker could supply `json_pointer="/definitely_missing"` plus
+    a self-consistent (`sha256(inline) == declared digest`) FORGED inline
+    map that has no counterpart in the receiver-held native artifact at
+    all, and this function would happily hand that forged value back as
+    if it were authoritative (UNRESOLVED_POINTER_INLINE_ATTACK -- R1, R2,
+    and overall all reached PASS on Sol's probe). `inline` is a CACHE for
+    cross-checking an ALREADY-RESOLVED pointer value -- never an
+    independent fallback authority for a pointer that failed to resolve.
+    ★教材 1 (F87-1.2): cache は authority の複製であって、authority が
+    見つからない時に authority へ昇格するものではない.
+
     Priority (the native artifact is AUTHORITATIVE; `inline` is a CACHE,
-    consulted only as a fallback -- never preferred over a pointer that
-    actually resolves):
+    consulted only when `json_pointer` was never supplied at all):
       1. `json_pointer` present and resolves inside `native_payload` ->
          that dereferenced value is the candidate; its recomputed digest
          MUST equal `ref['digest']` (RefDigestMismatch -- the existing
@@ -321,45 +334,52 @@ def _dereference_native_ref(ref, native_payload, what):
          supply a self-consistent `inline` map that has no counterpart in
          `native_a`/`native_b` (closes B86-o3's "matching forged inline
          maps" and "swapped native refs" attacks).
-      2. `json_pointer` absent or unresolvable, but `inline` present ->
-         falls back to the pre-existing inline-digest-consistency check
-         (裁定150 items 2/3's fallback semantics, unchanged for the
+      2. `json_pointer` present but UNRESOLVABLE inside `native_payload`
+         -> MalformedWitness, unconditionally (裁定232 P87-1 item 1: no
+         inline fallback here at all, regardless of whether `inline` is
+         present or digest-consistent with itself -- an unresolved
+         pointer is a contract violation, not mere evidence insufficiency,
+         and is never a cache-eligible situation).
+      3. `json_pointer` absent entirely, but `inline` present -> falls
+         back to the pre-existing inline-digest-consistency check (裁定150
+         items 2/3's legacy/offline fallback semantics, unchanged for the
          existing fixtures whose native payloads do not carry the pointed-
-         to key at all) -- CACHE only, never authoritative when a pointer
-         that DOES resolve disagrees with it.
-      3. neither resolves -> (None, <reason>): UNKNOWN, never a silent
-         PASS (unchanged posture from the pre-B86-o3 code for the
-         genuinely unresolvable case; `object_id`-only external artifact
+         to key at all and never claimed a `json_pointer` in the first
+         place).
+      4. neither `json_pointer` nor `inline` present -> (None, <reason>):
+         UNKNOWN, never a silent PASS (`object_id`-only external artifact
          stores remain out of scope for this partial verifier).
 
     Returns (data_or_None, unknown_reason_or_None). Raises
-    RefDigestMismatch on an actual digest disagreement.
+    MalformedWitness (RefDigestMismatch on an actual digest disagreement;
+    a plain MalformedWitness on an unresolved json_pointer).
     """
     json_pointer = ref.get("json_pointer") if isinstance(ref.get("json_pointer"), str) else None
     if json_pointer is not None:
         found, resolved = _resolve_json_pointer(native_payload, json_pointer)
-        if found:
-            recomputed = sha256_of(resolved)
-            declared = ref.get("digest")
-            if recomputed != declared:
-                raise RefDigestMismatch(
-                    f"{what}: native artifact dereference at json_pointer={json_pointer!r} digest "
-                    f"{recomputed} != declared digest {declared!r} (Sol 便86 B86-o3 native-binding check)"
-                )
-            return resolved, None
-    # pointer absent or unresolvable against the pinned native artifact --
-    # fall back to inline as a CACHE (existing digest-consistency check;
-    # still raises RefDigestMismatch on an inline/declared-digest
-    # disagreement).
+        if not found:
+            raise MalformedWitness(
+                f"{what}: json_pointer {json_pointer!r} did not resolve within the pinned native "
+                f"artifact (artifact_id={ref.get('artifact_id')!r}); inline is never consulted as a "
+                "fallback authority for an unresolved pointer (Sol 便87 P87-1 item 1 fix, closing "
+                "UNRESOLVED_POINTER_INLINE_ATTACK)"
+            )
+        recomputed = sha256_of(resolved)
+        declared = ref.get("digest")
+        if recomputed != declared:
+            raise RefDigestMismatch(
+                f"{what}: native artifact dereference at json_pointer={json_pointer!r} digest "
+                f"{recomputed} != declared digest {declared!r} (Sol 便86 B86-o3 native-binding check)"
+            )
+        return resolved, None
+    # json_pointer absent entirely -- legacy/offline inline-only path,
+    # unchanged from before (existing fixtures rely on this; CACHE only,
+    # never reached when a json_pointer was supplied at all).
     inline = _check_ref_inline_consistency(ref, what)
     if inline is not None:
         return inline, None
-    if json_pointer is not None:
-        reason = (f"{what}: json_pointer {json_pointer!r} unresolvable against the pinned native artifact "
-                  "and no inline cache present")
-    else:
-        reason = (f"{what}: no json_pointer and no inline content -- object_id-only external artifact "
-                  "stores are out of scope for this partial verifier (UNKNOWN, not a silent PASS)")
+    reason = (f"{what}: no json_pointer and no inline content -- object_id-only external artifact "
+              "stores are out of scope for this partial verifier (UNKNOWN, not a silent PASS)")
     return None, reason
 
 

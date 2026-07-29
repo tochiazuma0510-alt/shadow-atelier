@@ -179,6 +179,35 @@ found in 便85's v5 repair, three further fixes:
     dereferences to the WRONG map, so the digest disagrees with what the
     certificate's ref pinned).
 
+Sol 便87 P87-1 (docs/notes/cert_shape_interpretation_addendum_o_v7.md,
+sol/sol_reply_87_math14.md F87-1.2): 便86's B86-o3 fix left HALF of the
+attack surface open -- both `ninfty-verifier-b._dereference_native_ref`
+(R1) and `ninfty-verifier-w6-r2._load_ref_value` (R2) fell back to
+`inline` whenever `json_pointer` was PRESENT but failed to resolve inside
+the pinned native artifact, so a producer could hand a self-digest-
+consistent FORGED inline map (with NO counterpart in native_a/native_b at
+all) alongside `json_pointer="/definitely_missing"` and reach R1=R2=
+overall=PASS (UNRESOLVED_POINTER_INLINE_ATTACK; the existing 481-negative
+suite only ever exercised POINTERS THAT RESOLVE, never this unresolved-
+pointer-plus-inline branch). Two fixes, both items P87-1 1/2:
+
+  1. `_dereference_native_ref`/`_load_ref_value`: an unresolved
+     `json_pointer` is now UNCONDITIONALLY a MalformedWitness/W6R2Error
+     (-> MALFORMED) -- inline is consulted ONLY when `json_pointer` was
+     never supplied in the first place (legacy/offline path, unchanged,
+     裁定150 items 2/3). inline is a cache for cross-checking an ALREADY-
+     resolved pointer value, never an independent fallback authority.
+  2. `_native_provenance_status` (items 2-3): an honest, non-gating
+     UNKNOWN annotation (`native_registry_status` on the return value)
+     documenting that this codebase has no receiver-held native-artifact
+     registry to confirm native_a/native_b provenance or check
+     artifact_id against a pinned identity -- not fabricated.
+
+New negatives (search/test_ninfty_evidence_union.py 12): Sol's exact
+UNRESOLVED_POINTER_INLINE_ATTACK probe reproduced through R1 alone, R2
+alone, and the end-to-end public facade -- all three now MALFORMED/
+MALFORMED/INTEGRITY_STOP (were PASS/PASS/PASS pre-fix).
+
 CLI NOTE (P86-2's "NOTE"): `main()` now returns a NONZERO exit code for
 any `overall_status` other than "PASS" (previously always returned 0
 regardless of status) -- a fail-closed CLI, not merely a fail-closed
@@ -1049,6 +1078,50 @@ def _cross_check_refs_against_raw(route, raw):
     return route
 
 
+def _native_provenance_status(raw):
+    """
+    Sol 便87 P87-1 items 2-3 (F87-1.2, sol/sol_reply_87_math14.md): Sol's
+    finding was that because `raw` itself carries `native_a`/`native_b`
+    (and each map_ref's `artifact_id` is only ever compared against the
+    OTHER field-values inside the same raw blob, never against anything
+    the receiver independently pins), this module cannot distinguish
+    "native_a/native_b are the receiver-held, pinned artifacts" from
+    "native_a/native_b are whatever the caller felt like attaching to this
+    one raw payload" -- and `artifact_id` is never checked against any
+    pinned registry identity at all.
+
+    This codebase does not implement any receiver-held native-artifact
+    registry or manifest anywhere (grep over search/ confirms no such
+    component exists). Per 裁定232/P87-1's instruction not to fabricate
+    the missing piece, this function does NOT invent a registry. It
+    honestly reports the gap as a structural, non-gating UNKNOWN
+    annotation on the union result: `native_a`/`native_b` are caller-
+    supplied fields inside the SAME raw blob as the certificate, there is
+    no independent channel this codebase consults to confirm they were
+    not substituted/forged wholesale before evaluation, and `artifact_id`
+    strings on individual refs are read for dereference/logging purposes
+    only -- never checked against a pinned identity. This status does NOT
+    participate in `_compose_route_statuses`'s PASS/FAIL/ABSENT/
+    INTEGRITY_STOP state machine (widening that enum to a genuine
+    registry-backed verdict is a separate, larger design decision, out of
+    scope here) -- it is surfaced so a caller can see the gap rather than
+    assume registry-backed provenance that does not exist.
+
+    Returns a small dict, always present on `evidence_union_from_raw_w6`'s
+    return value under the key "native_registry_status".
+    """
+    return {
+        "status": "UNKNOWN",
+        "reason": (
+            "no receiver-held native-artifact registry/manifest is implemented anywhere in this "
+            "codebase; native_a/native_b arrive as caller-supplied fields inside the same raw "
+            "evidence blob as the certificate (not from an independent pinned channel), and each "
+            "map_ref's artifact_id is not checked against any pinned registry identity -- "
+            "Sol 便87 P87-1 items 2-3 / sol_reply_87_math14.md F87-1.2, not fabricated"
+        ),
+    }
+
+
 def evidence_union_from_raw_w6(raw):
     """
     THE public trust-boundary entry point (Sol 便85 P85-5 items 1/6/7; the
@@ -1066,7 +1139,11 @@ def evidence_union_from_raw_w6(raw):
          ninfty-verifier-b.verify_W6_single, R2 calls the independently
          written ninfty-verifier-w6-r2.verify_W6_single_r2 (Sol 便86
          P86-2 item 2/B86-o2) -- there is no path from "caller claims a
-         verifier already said X" to a route's status (B85-o1).
+         verifier already said X" to a route's status (B85-o1). Both, in
+         turn, resolve every map_ref's json_pointer against the pinned
+         native artifact ONLY -- an unresolved json_pointer is now an
+         unconditional MALFORMED, never an inline fallback (Sol 便87
+         P87-1 item 1, closing UNRESOLVED_POINTER_INLINE_ATTACK).
       2. `_cross_check_refs_against_raw` resolves each route's provenance
          refs against the SAME `raw` this function was actually called
          with, recomputing the digest rather than trusting the route's
@@ -1078,13 +1155,20 @@ def evidence_union_from_raw_w6(raw):
       4. `_evidence_union_fail_closed_v2` re-validates both routes through
          `_coerce_to_route_result` (shape/slot/enum, defense in depth) and
          composes via the unchanged 4-rule `_compose_route_statuses`.
+      5. `_native_provenance_status(raw)` (Sol 便87 P87-1 items 2-3) is
+         attached under `native_registry_status` -- an honest, non-gating
+         UNKNOWN declaration that this codebase has no receiver-held
+         native-artifact registry to confirm provenance/artifact_id
+         identity against (not fabricated).
 
     Never raises.
     """
     route1 = _cross_check_refs_against_raw(_build_R1(raw), raw)
     route2 = _cross_check_refs_against_raw(_build_R2(raw), raw)
     route1, route2 = _require_distinct_implementations(route1, route2)
-    return _evidence_union_fail_closed_v2(route1, route2)
+    result = _evidence_union_fail_closed_v2(route1, route2)
+    result["native_registry_status"] = _native_provenance_status(raw)
+    return result
 
 
 def main(argv):

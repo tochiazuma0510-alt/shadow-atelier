@@ -1,5 +1,5 @@
 {
-  "_description": "Self-made positive certificate fixture 1, rebuilt in cert_shape_interpretation_v3.md shape (\u88c1\u5b9a139): component_bijection is now an edge list bound to the actual recomputed native_a/native_b digests; pushforward_compatibility_witness is native_side-tagged (exactly 2 entries: searcher, checker) with ref-triple fields carrying inline content. All scalar id/digest fields required by search/ninfty-cert-validator.py are present (fixture-synthetic digests, documented as such). Two toy point loci at x=1 (mult 1) and x=2 (mult 2); expect verifier-b overall PASS.",
+  "_description": "Self-made positive certificate fixture 1, rebuilt in cert_shape_interpretation_v3.md shape (裁定139): component_bijection is now an edge list bound to the actual recomputed native_a/native_b digests; pushforward_compatibility_witness is native_side-tagged (exactly 2 entries: searcher, checker) with ref-triple fields carrying inline content. All scalar id/digest fields required by search/ninfty-cert-validator.py are present (fixture-synthetic digests, documented as such). Two toy point loci at x=1 (mult 1) and x=2 (mult 2); expect verifier-b overall PASS.",
   "certificate": {
     "predicate_spec_id": "mb/ninfty-stage2-predicate/v18",
     "predicate_spec_digest": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56",
@@ -522,7 +522,6 @@
         "map_ref": {
           "artifact_id": "native_a",
           "digest": "9ffa1b2fcf02431538401fd8b18d8ef9506359208ea30cdd416d013ed8bd3424",
-          "json_pointer": "/pushforward_map",
           "inline": [
             {
               "branch_value": "pt-x1",
@@ -532,7 +531,8 @@
               "branch_value": "pt-x2",
               "multiplicity": 2
             }
-          ]
+          ],
+          "object_id": "pushforward-map-inline-only"
         },
         "witness_ref": {
           "artifact_id": "native_a",
@@ -564,7 +564,6 @@
         "map_ref": {
           "artifact_id": "native_b",
           "digest": "9ffa1b2fcf02431538401fd8b18d8ef9506359208ea30cdd416d013ed8bd3424",
-          "json_pointer": "/pushforward_map",
           "inline": [
             {
               "branch_value": "pt-x1",
@@ -574,7 +573,8 @@
               "branch_value": "pt-x2",
               "multiplicity": 2
             }
-          ]
+          ],
+          "object_id": "pushforward-map-inline-only"
         },
         "witness_ref": {
           "artifact_id": "native_b",

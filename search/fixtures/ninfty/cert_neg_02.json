@@ -522,7 +522,6 @@
         "map_ref": {
           "artifact_id": "native_a",
           "digest": "9ffa1b2fcf02431538401fd8b18d8ef9506359208ea30cdd416d013ed8bd3424",
-          "json_pointer": "/pushforward_map",
           "inline": [
             {
               "branch_value": "pt-x1",
@@ -532,7 +531,8 @@
               "branch_value": "pt-x2",
               "multiplicity": 2
             }
-          ]
+          ],
+          "object_id": "pushforward-map-inline-only"
         },
         "witness_ref": {
           "artifact_id": "native_a",
@@ -564,7 +564,6 @@
         "map_ref": {
           "artifact_id": "native_b",
           "digest": "9ffa1b2fcf02431538401fd8b18d8ef9506359208ea30cdd416d013ed8bd3424",
-          "json_pointer": "/pushforward_map",
           "inline": [
             {
               "branch_value": "pt-x1",
@@ -574,7 +573,8 @@
               "branch_value": "pt-x2",
               "multiplicity": 2
             }
-          ]
+          ],
+          "object_id": "pushforward-map-inline-only"
         },
         "witness_ref": {
           "artifact_id": "native_b",
