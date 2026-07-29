@@ -1,0 +1,46 @@
+{
+  "schema": "ladder-xi-recheck-manifest/v1",
+  "driver_spec_sha256": "c62519a85ca0f9e3db0959f579909aac22ee0ad606ad7d5b5b14d5ca1db9af90",
+  "windows": [
+    {
+      "wid": "W-E-A10-9t1",
+      "cert_path": "search/certs/ladder_xi_recheck_W-E-A10-9t1_20260730.json",
+      "cert_sha256": "fa2469eb285ce55f2d48dbe72251f25c97b26e53960b5fcd7ac8aed1ef96e706",
+      "scanned_count": 486,
+      "accepted_count": 54,
+      "settled_fail_count": 0,
+      "accepted_set_digest_sha256": "8caa3eb948bfb85989e0210b06ad4d1f375a67cd0438e675c6dadffc8752a884",
+      "fail_witness_set_digest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "wid": "W-E-A13-9t4",
+      "cert_path": "search/certs/ladder_xi_recheck_W-E-A13-9t4_20260730.json",
+      "cert_sha256": "8e66ccbc66cce360a32eba885c86240399c4835c6816f8861c991d1db44c6d78",
+      "scanned_count": 139968,
+      "accepted_count": 432,
+      "settled_fail_count": 0,
+      "accepted_set_digest_sha256": "5e6adc8640c7b4f4ddb81eb01c0245d50c5e5782bdd30acff0302c12a32b467a",
+      "fail_witness_set_digest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "wid": "W-E-A11-9t2",
+      "cert_path": "search/certs/ladder_xi_recheck_W-E-A11-9t2_20260730.json",
+      "cert_sha256": "54c70f107cde31107655061616328f2c33079c331f755eba32736862ec969d64",
+      "scanned_count": 972,
+      "accepted_count": 108,
+      "settled_fail_count": 0,
+      "accepted_set_digest_sha256": "40c4a08b516009b59b2f0bd423e0c59d7907c284941bf34692d9c7fb67cbdbd2",
+      "fail_witness_set_digest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "wid": "W-E-A12-9t3",
+      "cert_path": "search/certs/ladder_xi_recheck_W-E-A12-9t3_20260730.json",
+      "cert_sha256": "1a1814b962195e3e52b85c3c168d59ad13424385825f3cc6adcc69532d37d11b",
+      "scanned_count": 8748,
+      "accepted_count": 108,
+      "settled_fail_count": 0,
+      "accepted_set_digest_sha256": "7449040abfce9dd50b0e5fe64c886d2b5bb99e1263a94432f997238929383987",
+      "fail_witness_set_digest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
