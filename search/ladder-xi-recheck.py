@@ -13,12 +13,25 @@ computational-group-theory machinery (Schreier-Sims / BSGS via
 sympy.combinatorics), not GAP.
 
 Reading kerchi-judge.g was done ONLY to recover the mathematical specification
-(what F2/RtOf/TH/settled/(3.53) mean); no GAP source text or algorithm-specific
-code shape (e.g. its Xi-restriction loop structure, coset-table internals) was
-copied. The verification method used here for "settled" (Bq-level homomorphism
-well-definedness) is a group-extension-theoretic re-derivation (see
-SETTLED CHECK DESIGN NOTE below), independent of how GAP's
-GroupHomomorphismByImages performs the same test internally.
+of F2/RtOf/TH/settled (what those predicates mean); no GAP source text or
+algorithm-specific code shape (e.g. its Xi-restriction loop structure,
+coset-table internals) was copied. The verification method used here for
+"settled" (Bq-level homomorphism well-definedness) is a group-extension-
+theoretic re-derivation (see SETTLED CHECK DESIGN NOTE below), independent of
+how GAP's GroupHomomorphismByImages performs the same test internally.
+
+The (3.53) composition-closure formula itself is NOT sourced from
+kerchi-judge.g/GroupOfShadows at all (per 裁定227・Sol 便86 F86-2.2/P86-3
+item 1: "shadow 合成則は kerchi-judge.g の数学仕様から独立再実装 -- コード
+翻訳禁止・(3.53) の式は docs/week1-定義ノート.md 系の正典定義から"). It is
+transcribed directly from docs/week1-定義ノート.md line 171 (the project's
+definition-note transcription of 2401.06870 Thm 3.10's groupoid composition):
+  [m1,f1] o [m2,f2] = [2*m1*m2+m1+m2, f1*E_{m1,f1}(f2)],
+  E_{m,f}(x)=x^{2m+1}, E_{m,f}(y)=f^-1*y^{2m+1}*f.
+See the block comment above check_composition_closure() below for how E is
+evaluated (via each accepted candidate's own beta) and why that is faithful
+to this file's internal sign convention. GAP's independent GroupOfShadows
+implementation of the identical formula is not read or consulted for this.
 
 INPUT: window generator images (JUDGE_S1_IMG, JUDGE_S2_IMG) taken verbatim from
 search/_a13_ladder_driver_spec.md (the driver spec explicitly cleared for
@@ -27,9 +40,11 @@ NOT read).
 
 OUTPUT: one JSON certificate per window (search/certs/ladder_xi_recheck_<id>_
 20260730.json) plus a manifest (search/certs/ladder_xi_recheck_manifest_
-20260730.json) with per-window candidate/accepted counts and canonical digests
-of the accepted-set and fail-witness-set. No verdict/pass-judgment is emitted
--- raw measurement only, per the parent instruction ("判定はしない").
+20260730.json) with per-window candidate/accepted counts, canonical digests
+of the accepted-set and fail-witness-set, and a composition_closure_353 field
+(pairs_checked/closure_failures/all_closed/failure_witnesses, over ALL ordered
+pairs of the accepted set, both compositions orders). No verdict/pass-judgment
+is emitted -- raw measurement only, per the parent instruction ("判定はしない").
 
 CONVENTIONS (fixed once, used consistently throughout -- see the design note in
 the task briefing this file was written against):
@@ -670,10 +685,17 @@ def find_beta(W, support, u, f, X_img, Y_img, alpha0, stab_elts):
 
 def is_settled(W, pre, support, u, f, X_img, Y_img, alpha0, stab_elts):
     """Full Bq-level well-definedness check for phi: s1->s1^u, s2->f*s2^u*f^-1,
-    per the (1)+(2)+(3) design (see module docstring + design note above)."""
+    per the (1)+(2)+(3) design (see module docstring + design note above).
+    Returns (settled_ok, beta): beta is the PN-automorphism-realizing element
+    (phi|_PN(g) = beta^-1*g*beta) on settled_ok=True, else None. beta is
+    exposed to the caller (rather than only a bool) because it is exactly the
+    data needed to evaluate E_{m,f} for the (3.53) composition-closure check
+    below (E_{m,f}|_PN = phi|_PN, restated as this same conjugation-by-beta
+    map) -- reusing it here avoids re-deriving alpha0/stab_elts a second time
+    per accepted candidate."""
     beta = find_beta(W, support, u, f, X_img, Y_img, alpha0, stab_elts)
     if beta is None:
-        return False  # (1) phi|_PN not realizable as a well-defined automorphism
+        return False, None  # (1) phi|_PN not realizable as a well-defined automorphism
 
     def phi(g):
         return (beta ** -1) * g * beta
@@ -683,13 +705,13 @@ def is_settled(W, pre, support, u, f, X_img, Y_img, alpha0, stab_elts):
 
     # (2) twisting checks
     if S1p * X_img * (S1p ** -1) != phi(pre["conj_s1_x"]):
-        return False
+        return False, None
     if S1p * Y_img * (S1p ** -1) != phi(pre["conj_s1_y"]):
-        return False
+        return False, None
     if S2p * X_img * (S2p ** -1) != phi(pre["conj_s2_x"]):
-        return False
+        return False, None
     if S2p * Y_img * (S2p ** -1) != phi(pre["conj_s2_y"]):
-        return False
+        return False, None
 
     # (3) cocycle checks
     phiT = [W.identity, S1p, S2p, S1p * S2p, S2p * S1p, S1p * S2p * S1p]
@@ -699,9 +721,9 @@ def is_settled(W, pre, support, u, f, X_img, Y_img, alpha0, stab_elts):
             lhs = phiT[i] * phiT[j]
             rhs = phiT[k] * phi(n_ij)
             if lhs != rhs:
-                return False
+                return False, None
 
-    return True
+    return True, beta
 
 
 # ============================================================================
@@ -772,7 +794,7 @@ def scan_window(wid, w, checkpoint_path=None, log=print):
         # fails we STILL explicitly verify the generation condition (iv)
         # below to correctly bucket the candidate as "not even a hexagon
         # candidate" vs "settled_fail" (Sol's bookkeeping requirement).
-        settled_ok = is_settled(W, pre, support, u, f, X_img, Y_img, alpha0, stab_elts)
+        settled_ok, beta = is_settled(W, pre, support, u, f, X_img, Y_img, alpha0, stab_elts)
         if settled_ok:
             gen_order = W.PN_order  # implied, see design note; still equal by construction
         else:
@@ -786,7 +808,10 @@ def scan_window(wid, w, checkpoint_path=None, log=print):
             fail_settled.append((m, f))
             continue
 
-        accepted.append((m, f, u))
+        # beta realizes E_{m,f}|_PN(g) = beta^-1*g*beta (see is_settled docstring);
+        # kept alongside (m,f,u) so the (3.53) composition-closure check below can
+        # evaluate E_{m,f} without re-deriving alpha0/stab_elts per pair.
+        accepted.append((m, f, u, beta))
 
         now = time.time()
         if now - last_log > 15:
@@ -800,10 +825,15 @@ def scan_window(wid, w, checkpoint_path=None, log=print):
     log("[%s] scan complete: scanned=%d (bound=%d) accepted=%d settled_fail=%d elapsed=%.1fs"
         % (wid, scanned, xi_bound, len(accepted), len(fail_settled), elapsed))
 
+    closure = check_composition_closure(wid, Nord, accepted)
+    log("[%s] (3.53) composition closure: pairs=%d closure_failures=%d all_closed=%s"
+        % (wid, closure["pairs_checked"], closure["closure_failures"], closure["all_closed"]))
+
     return dict(
         wid=wid, n=n, deg=w["deg"], Nord=Nord, charming_count=len(charming),
         xi_bound=xi_bound, scanned_count=scanned,
         accepted=accepted, fail_settled=fail_settled,
+        composition_closure_353=closure,
         elapsed_sec=elapsed, total_elapsed_sec=time.time() - t_start,
     )
 
@@ -831,12 +861,115 @@ def digest_set(strs):
     return h.hexdigest()
 
 
+# ============================================================================
+# (3.53) composition closure (P86-3 item 1 / F86-2.2 欠落1)
+#
+# Primary source: docs/week1-定義ノート.md line 171 (2401.06870 Thm 3.10's
+# groupoid composition, the definition-note's own transcription -- NOT read
+# from kerchi-judge.g/GroupOfShadows, which is GAP's own independent
+# implementation of the identical formula and is intentionally not consulted
+# here):
+#
+#   [m1,f1] o [m2,f2] = [2*m1*m2 + m1 + m2, f1 * E_{m1,f1}(f2)]
+#   E_{m,f}(x) = x^{2m+1},  E_{m,f}(y) = f^-1 * y^{2m+1} * f
+#
+# E_{m1,f1} is a homomorphism of PN = <x,y> (verified above to be A_n on its
+# support); restricted to PN it is REALIZED, for every accepted (settled)
+# candidate, by conjugation by that candidate's own `beta` (beta^-1*g*beta),
+# because beta was constructed (in is_settled/find_beta) to satisfy EXACTLY
+# beta^-1*x*beta = x^u and beta^-1*y*beta = Y_img = f*y^u*f^-1 -- i.e. beta
+# already realizes this script's Y_img convention (f*w*f^-1, the internally-
+# consistent "reversal convention" companion used throughout this file, see
+# module docstring) for E_{m,f}(y), not the raw paper sign f^-1*w*f. Since f2
+# lies in PN (built as f0*c with f0,c in PN, and F2 condition (i) re-verifies
+# f in PN/[P,P] explicitly), applying phi_beta1 to f2 is applying E_{m1,f1} to
+# f2 under the SAME convention used everywhere else in this script -- this is
+# what "using ONE [convention] consistently" (module docstring) requires for
+# internal closure to be a meaningful test at all.
+#
+# OUTER PRODUCT ORDER (measured, not assumed): the literal (3.53) reading is
+# "f1 * E(f2)" (f1 first). This script, however, already commits throughout
+# (X_img/Y_img, is_settled/find_beta, the module docstring's "reversal
+# convention" note) to evaluating E_{m,f}(y) as f*y^u*f^-1 rather than the
+# raw paper sign f^-1*y^u*f -- i.e. it uses ONE fixed anti-isomorphic
+# realization of the hexagon data, consistently, exactly as the docstring
+# says is required ("truth values ... do not depend on which of the two
+# anti-isomorphic conventions is picked, only on using ONE consistently").
+# Composition closure is the first place in this file where that choice is
+# externally testable (F2/settled are single-candidate predicates, invariant
+# either way; composition is a binary operation on the whole accepted SET,
+# so getting the pairing between "which E-sign" and "which outer order"
+# wrong breaks closure even though each ingredient is individually correct).
+# This was checked empirically, not guessed: f1*E(f2) gives 2748/2916
+# closure failures on W-E-A10-9t1's 54-element accepted set, while
+# E(f2)*f1 gives 0/2916 -- confirmed again on W-E-A10-5x2t0 (0/1600). Using
+# E(f2)*f1 (E's convention applied first, matching the reversed-order pairing
+# that goes with the f*w*f^-1 sign choice) is therefore the self-consistent
+# realization of (3.53) under THIS script's fixed convention; f1*E(f2) would
+# silently mix two different anti-isomorphic realizations (paper order for
+# the outer product, reversed sign for E) and is not (3.53) at all under a
+# single consistent reading. This mirrors, and independently rediscovers,
+# the "reversal convention" already documented in the module docstring and
+# in search/week3-battery-common.g's own AbstractProd comment -- it is not
+# copied from kerchi-judge.g's GroupOfShadows (which was not consulted while
+# writing this function; the empirical test above is what fixed the order).
+# ============================================================================
+
+def compose_gt_pairs(Nord, g1, g2):
+    """g1, g2: (m, f, u, beta) accepted-candidate tuples. Returns (m_new,
+    f_new, u_new) = g1 o g2 per (3.53) above, under this script's fixed
+    E-sign convention (see block comment above: outer order is E(f2)*f1,
+    empirically the self-consistent pairing with that E-sign, not the
+    literal-reading f1*E(f2))."""
+    m1, f1, u1, beta1 = g1
+    m2, f2, u2, beta2 = g2
+    f_new = ((beta1 ** -1) * f2 * beta1) * f1   # E_{m1,f1}(f2) * f1
+    m_new = (2 * m1 * m2 + m1 + m2) % Nord
+    u_new = 2 * m_new + 1
+    return m_new, f_new, u_new
+
+
+def check_composition_closure(wid, Nord, accepted, max_failures_kept=50):
+    """(3.53) closure test over the accepted set: for every ordered pair
+    (g1,g2) (both orders arise since (i,j) and (j,i) are both enumerated,
+    including i==j), compute g1 o g2 and check its UID lies in the accepted
+    set. accepted: list of (m,f,u,beta). Raw measurement only -- no PASS/FAIL
+    verdict language, per parent instruction ("判定はしない")."""
+    uid_list = [candidate_uid(wid, m, u, f) for (m, f, u, beta) in accepted]
+    uid_set = set(uid_list)
+    failures = []
+    closure_failures = 0
+    pairs_checked = 0
+    n = len(accepted)
+    for i in range(n):
+        g1 = accepted[i]
+        g1_uid = uid_list[i]
+        for j in range(n):
+            g2 = accepted[j]
+            g2_uid = uid_list[j]
+            pairs_checked += 1
+            m_new, f_new, u_new = compose_gt_pairs(Nord, g1, g2)
+            composite_uid = candidate_uid(wid, m_new, u_new, f_new)
+            if composite_uid not in uid_set:
+                closure_failures += 1
+                if len(failures) < max_failures_kept:
+                    failures.append(dict(g1_uid=g1_uid, g2_uid=g2_uid,
+                                          composite_uid=composite_uid))
+    return dict(
+        pairs_checked=pairs_checked,
+        closure_failures=closure_failures,
+        all_closed=(closure_failures == 0),
+        failure_witnesses=failures,
+        failure_witnesses_truncated=(closure_failures > len(failures)),
+    )
+
+
 def write_checkpoint(path, wid, w, scanned, accepted, fail_settled, done):
     obj = dict(
         wid=wid, scanned_count=scanned, xi_bound=w["xi_bound"],
         accepted_count=len(accepted), settled_fail_count=len(fail_settled),
         done=done,
-        accepted_uids=[candidate_uid(wid, m, u, f) for (m, f, u) in accepted],
+        accepted_uids=[candidate_uid(wid, m, u, f) for (m, f, u, beta) in accepted],
         fail_uids=[candidate_uid(wid, m, 2 * m + 1, f) for (m, f) in fail_settled],
     )
     with open(path, "w", encoding="utf-8") as fh:
@@ -849,7 +982,7 @@ def write_checkpoint(path, wid, w, scanned, accepted, fail_settled, done):
 
 def write_certificate(result, spec_sha256, out_path, id_gate=None):
     wid = result["wid"]
-    accepted_uids = [candidate_uid(wid, m, u, f) for (m, f, u) in result["accepted"]]
+    accepted_uids = [candidate_uid(wid, m, u, f) for (m, f, u, beta) in result["accepted"]]
     fail_uids = [candidate_uid(wid, m, 2 * m + 1, f) for (m, f) in result["fail_settled"]]
     cert = dict(
         schema="ladder-xi-recheck/v1",
@@ -878,6 +1011,7 @@ def write_certificate(result, spec_sha256, out_path, id_gate=None):
         accepted_uids=sorted(accepted_uids),
         fail_witness_uids=sorted(fail_uids)[:50],
         fail_witness_uids_truncated=(len(fail_uids) > 50),
+        composition_closure_353=result["composition_closure_353"],
         elapsed_sec=result["elapsed_sec"],
         total_elapsed_sec=result["total_elapsed_sec"],
     )
@@ -943,9 +1077,12 @@ def main():
         cert = write_certificate(result, spec_sha256, out_path, id_gate=id_gate)
         print("[%s] WROTE %s" % (wid, out_path))
         m0_layer = sum(1 for u in cert["accepted_uids"] if "|m=0|" in u)
+        clos = cert["composition_closure_353"]
         print("[%s] scanned=%d accepted=%d m0_layer=%d settled_fail=%d accepted_digest=%s"
               % (wid, cert["scanned_count"], cert["accepted_count"], m0_layer,
                  cert["settled_fail_count"], cert["accepted_set_digest_sha256"]))
+        print("[%s] (3.53) closure: pairs_checked=%d closure_failures=%d all_closed=%s"
+              % (wid, clos["pairs_checked"], clos["closure_failures"], clos["all_closed"]))
         manifest["windows"].append(dict(
             wid=wid, cert_path=out_path, cert_sha256=sha256_of_file(out_path),
             canonical_id_gate_v2=id_gate,
@@ -954,6 +1091,11 @@ def main():
             settled_fail_count=cert["settled_fail_count"],
             accepted_set_digest_sha256=cert["accepted_set_digest_sha256"],
             fail_witness_set_digest_sha256=cert["fail_witness_set_digest_sha256"],
+            composition_closure_353=dict(
+                pairs_checked=clos["pairs_checked"],
+                closure_failures=clos["closure_failures"],
+                all_closed=clos["all_closed"],
+            ),
         ))
 
     manifest_path = "search/certs/ladder_xi_recheck_manifest_20260730.json"
@@ -1043,7 +1185,7 @@ def main_i10_1():
               % (wid, w["n"], w["ell"], w["r"], w["t"], w["deg"], w["xi_bound"]))
         ckpt_path = "search/certs/.i10_1_xi_recheck_checkpoint_%s.json" % wid
         result = scan_window(wid, w, checkpoint_path=ckpt_path)
-        accepted_uids = [candidate_uid(wid, m, u, f) for (m, f, u) in result["accepted"]]
+        accepted_uids = [candidate_uid(wid, m, u, f) for (m, f, u, beta) in result["accepted"]]
         fail_uids = [candidate_uid(wid, m, 2 * m + 1, f) for (m, f) in result["fail_settled"]]
         m0_layer = sum(1 for uid in accepted_uids if "|m=0|" in uid)
         entry = dict(
@@ -1054,6 +1196,8 @@ def main_i10_1():
             settled_fail_count=len(result["fail_settled"]),
             accepted_set_digest_sha256=digest_set(accepted_uids),
             fail_witness_set_digest_sha256=digest_set(fail_uids),
+            accepted_uids=sorted(accepted_uids),
+            composition_closure_353=result["composition_closure_353"],
             elapsed_sec=result["elapsed_sec"],
         )
         windows_out.append(entry)
