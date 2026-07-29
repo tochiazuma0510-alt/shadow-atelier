@@ -1,0 +1,1301 @@
+{
+  "schema": "strike-witness-recheck-a13ladder/v1",
+  "label": "A13 N_ord=9 ladder (13 windows) independent recheck (python/sympy only, no GAP import, no shared helper code with search/strike-a13-ladder.g or search/kerchi-judge.g -- fresh reimplementation of the Prop 0.3 embedding formula from the driver's own comments)",
+  "generated_by": {
+    "tool": "python3+sympy",
+    "sympy_version": "1.14.0",
+    "script": "search/strike-witness-recheck-a13ladder.py"
+  },
+  "priority_window": "W-E-A13-9t4",
+  "scope_note": "See module docstring. Full generation-pair-derived structural recheck (braid, c=identity, N_ord, theta~/tau~, |Bq|=6|A_n|, |P|=|A_n|) done for all 13 windows and independently matches the certificates in every case checked below. The (F2) three-condition / P-Bq settled / (3.53) two-order-mismatch witness-pair checks used for A16/A18/A20 are NOT APPLICABLE here: these 13 certificates do not name individual shadow witnesses, only an aggregate Xi-restricted-scan settled_fail_count. Reproducing that aggregate claim independently would require reimplementing kerchi-judge.g's full CorrectedShadowsXi enumeration (up to 139,968 candidates for the t=4 window) from scratch, which this pass does NOT attempt -- flagged for the coordinator rather than silently skipped or fabricated.",
+  "windows": [
+    {
+      "window_id": "W-E-A13-9t4",
+      "n": 13,
+      "t": 4,
+      "source_certificate": "search/certs/a13_ladder_W_E_A13_9t4_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(10,11)(12,13)(14,15)  cert=(1,2,3,4,5,6,7,8,9)(10,11)(12,13)(14,15)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,10,8,12,6,5,13,3,11)(2,9)(4,7)(15,16)  cert=(1,10,8,12,6,5,13,3,11)(2,9)(4,7)(15,16)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_13|",
+            "ok": true,
+            "detail": "computed=18681062400 expected=6*|A_13|=18681062400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_13|",
+            "ok": true,
+            "detail": "computed=3113510400 expected=3113510400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 432,
+        "xi_count_measured_11": 139968,
+        "settled_fail_count": 0,
+        "shadow_total": 432
+      }
+    },
+    {
+      "window_id": "W-E-A10-9t1",
+      "n": 10,
+      "t": 1,
+      "source_certificate": "search/certs/a13_ladder_W_E_A10_9t1_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(11,12)  cert=(1,2,3,4,5,6,7,8,9)(11,12)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,5,10,3,9,7,8,6,2)(12,13)  cert=(1,5,10,3,9,7,8,6,2)(12,13)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_10|",
+            "ok": true,
+            "detail": "computed=10886400 expected=6*|A_10|=10886400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_10|",
+            "ok": true,
+            "detail": "computed=1814400 expected=1814400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 54,
+        "xi_count_measured_11": 486,
+        "settled_fail_count": 0,
+        "shadow_total": 54
+      }
+    },
+    {
+      "window_id": "W-E-A10-9t1-o2",
+      "n": 10,
+      "t": 1,
+      "source_certificate": "search/certs/a13_ladder_W_E_A10_9t1_o2_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(11,12)  cert=(1,2,3,4,5,6,7,8,9)(11,12)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,2,9,6,10,4,8,7,3)(12,13)  cert=(1,2,9,6,10,4,8,7,3)(12,13)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_10|",
+            "ok": true,
+            "detail": "computed=10886400 expected=6*|A_10|=10886400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_10|",
+            "ok": true,
+            "detail": "computed=1814400 expected=1814400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 54,
+        "xi_count_measured_11": 486,
+        "settled_fail_count": 0,
+        "shadow_total": 54
+      }
+    },
+    {
+      "window_id": "W-E-A10-9t1-o3",
+      "n": 10,
+      "t": 1,
+      "source_certificate": "search/certs/a13_ladder_W_E_A10_9t1_o3_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(11,12)  cert=(1,2,3,4,5,6,7,8,9)(11,12)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,3,2,9,5,8,10,6,4)(12,13)  cert=(1,3,2,9,5,8,10,6,4)(12,13)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_10|",
+            "ok": true,
+            "detail": "computed=10886400 expected=6*|A_10|=10886400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_10|",
+            "ok": true,
+            "detail": "computed=1814400 expected=1814400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 54,
+        "xi_count_measured_11": 486,
+        "settled_fail_count": 0,
+        "shadow_total": 54
+      }
+    },
+    {
+      "window_id": "W-E-A10-9t1-o4",
+      "n": 10,
+      "t": 1,
+      "source_certificate": "search/certs/a13_ladder_W_E_A10_9t1_o4_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(11,12)  cert=(1,2,3,4,5,6,7,8,9)(11,12)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,3,2,9,7,10,5,8,4)(12,13)  cert=(1,3,2,9,7,10,5,8,4)(12,13)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_10|",
+            "ok": true,
+            "detail": "computed=10886400 expected=6*|A_10|=10886400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_10|",
+            "ok": true,
+            "detail": "computed=1814400 expected=1814400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 54,
+        "xi_count_measured_11": 486,
+        "settled_fail_count": 0,
+        "shadow_total": 54
+      }
+    },
+    {
+      "window_id": "W-E-A10-9t1-o5",
+      "n": 10,
+      "t": 1,
+      "source_certificate": "search/certs/a13_ladder_W_E_A10_9t1_o5_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(11,12)  cert=(1,2,3,4,5,6,7,8,9)(11,12)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,4,10,2,9,7,6,8,5)(12,13)  cert=(1,4,10,2,9,7,6,8,5)(12,13)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_10|",
+            "ok": true,
+            "detail": "computed=10886400 expected=6*|A_10|=10886400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_10|",
+            "ok": true,
+            "detail": "computed=1814400 expected=1814400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 54,
+        "xi_count_measured_11": 486,
+        "settled_fail_count": 0,
+        "shadow_total": 54
+      }
+    },
+    {
+      "window_id": "W-E-A10-9t1-o6",
+      "n": 10,
+      "t": 1,
+      "source_certificate": "search/certs/a13_ladder_W_E_A10_9t1_o6_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(11,12)  cert=(1,2,3,4,5,6,7,8,9)(11,12)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,6,4,3,5,2,9,10,7)(12,13)  cert=(1,6,4,3,5,2,9,10,7)(12,13)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_10|",
+            "ok": true,
+            "detail": "computed=10886400 expected=6*|A_10|=10886400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_10|",
+            "ok": true,
+            "detail": "computed=1814400 expected=1814400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 54,
+        "xi_count_measured_11": 486,
+        "settled_fail_count": 0,
+        "shadow_total": 54
+      }
+    },
+    {
+      "window_id": "W-E-A11-9t2",
+      "n": 11,
+      "t": 2,
+      "source_certificate": "search/certs/a13_ladder_W_E_A11_9t2_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(10,11)(12,13)  cert=(1,2,3,4,5,6,7,8,9)(10,11)(12,13)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,11,8,5,4,7,6,3,10)(2,9)(13,14)  cert=(1,11,8,5,4,7,6,3,10)(2,9)(13,14)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_11|",
+            "ok": true,
+            "detail": "computed=119750400 expected=6*|A_11|=119750400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_11|",
+            "ok": true,
+            "detail": "computed=19958400 expected=19958400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 108,
+        "xi_count_measured_11": 972,
+        "settled_fail_count": 0,
+        "shadow_total": 108
+      }
+    },
+    {
+      "window_id": "W-E-A11-9t2-o2",
+      "n": 11,
+      "t": 2,
+      "source_certificate": "search/certs/a13_ladder_W_E_A11_9t2_o2_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(10,11)(12,13)  cert=(1,2,3,4,5,6,7,8,9)(10,11)(12,13)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,3,2,9,10,7,6,11,4)(5,8)(13,14)  cert=(1,3,2,9,10,7,6,11,4)(5,8)(13,14)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_11|",
+            "ok": true,
+            "detail": "computed=119750400 expected=6*|A_11|=119750400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_11|",
+            "ok": true,
+            "detail": "computed=19958400 expected=19958400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 108,
+        "xi_count_measured_11": 972,
+        "settled_fail_count": 0,
+        "shadow_total": 108
+      }
+    },
+    {
+      "window_id": "W-E-A11-9t2-o3",
+      "n": 11,
+      "t": 2,
+      "source_certificate": "search/certs/a13_ladder_W_E_A11_9t2_o3_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(10,11)(12,13)  cert=(1,2,3,4,5,6,7,8,9)(10,11)(12,13)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,7,10,5,4,11,2,9,8)(3,6)(13,14)  cert=(1,7,10,5,4,11,2,9,8)(3,6)(13,14)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_11|",
+            "ok": true,
+            "detail": "computed=119750400 expected=6*|A_11|=119750400"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_11|",
+            "ok": true,
+            "detail": "computed=19958400 expected=19958400"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 108,
+        "xi_count_measured_11": 972,
+        "settled_fail_count": 0,
+        "shadow_total": 108
+      }
+    },
+    {
+      "window_id": "W-E-A12-9t3",
+      "n": 12,
+      "t": 3,
+      "source_certificate": "search/certs/a13_ladder_W_E_A12_9t3_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(10,11)(13,14)  cert=(1,2,3,4,5,6,7,8,9)(10,11)(13,14)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,2,9,11,7,12,5,10,3)(4,8)(14,15)  cert=(1,2,9,11,7,12,5,10,3)(4,8)(14,15)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_12|",
+            "ok": true,
+            "detail": "computed=1437004800 expected=6*|A_12|=1437004800"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_12|",
+            "ok": true,
+            "detail": "computed=239500800 expected=239500800"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 108,
+        "xi_count_measured_11": 8748,
+        "settled_fail_count": 0,
+        "shadow_total": 108
+      }
+    },
+    {
+      "window_id": "W-E-A12-9t3-o2",
+      "n": 12,
+      "t": 3,
+      "source_certificate": "search/certs/a13_ladder_W_E_A12_9t3_o2_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(10,11)(13,14)  cert=(1,2,3,4,5,6,7,8,9)(10,11)(13,14)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,4,12,2,9,10,7,11,5)(6,8)(14,15)  cert=(1,4,12,2,9,10,7,11,5)(6,8)(14,15)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_12|",
+            "ok": true,
+            "detail": "computed=1437004800 expected=6*|A_12|=1437004800"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_12|",
+            "ok": true,
+            "detail": "computed=239500800 expected=239500800"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 108,
+        "xi_count_measured_11": 8748,
+        "settled_fail_count": 0,
+        "shadow_total": 108
+      }
+    },
+    {
+      "window_id": "W-E-A12-9t3-o3",
+      "n": 12,
+      "t": 3,
+      "source_certificate": "search/certs/a13_ladder_W_E_A12_9t3_o3_20260730.json",
+      "reconstructed_generation_pair_checks": {
+        "asserts": [
+          {
+            "name": "a1^2 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "b1^3 = identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "reconstructed s1 (independent Prop 0.3 embedding) == certificate's s1",
+            "ok": true,
+            "detail": "reconstructed=(1,2,3,4,5,6,7,8,9)(10,11)(13,14)  cert=(1,2,3,4,5,6,7,8,9)(10,11)(13,14)"
+          },
+          {
+            "name": "reconstructed s2 (independent Prop 0.3 embedding) == certificate's s2",
+            "ok": true,
+            "detail": "reconstructed=(1,6,10,4,11,2,9,12,7)(3,5)(14,15)  cert=(1,6,10,4,11,2,9,12,7)(3,5)(14,15)"
+          },
+          {
+            "name": "braid relation s1*s2*s1 == s2*s1*s2",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c := (s1 s2 s1)^2 == identity",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "c == (s1 s2)^3 (delta-cubed form)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "ord(x) == 9 (x = s1^2)",
+            "ok": true,
+            "detail": "ord(x)=9"
+          },
+          {
+            "name": "ord(y) == 9 (y = s2^2)",
+            "ok": true,
+            "detail": "ord(y)=9"
+          },
+          {
+            "name": "N_ord recomputed = lcm(ord(x),ord(y),1) == certificate's N_ord",
+            "ok": true,
+            "detail": "recomputed=9 cert=9"
+          },
+          {
+            "name": "theta~(x) == y  [theta~ = Ad(Delta), Delta=s1 s2 s1]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "theta~(y) == x",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(x) == y  [tau~ = Ad(delta), delta=s1 s2]",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "tau~(y) == z*c  (z=(xy)^-1)",
+            "ok": true,
+            "detail": ""
+          },
+          {
+            "name": "|Bq| = |<s1,s2>| == 6*|A_12|",
+            "ok": true,
+            "detail": "computed=1437004800 expected=6*|A_12|=1437004800"
+          },
+          {
+            "name": "|P| = |<x,y>| == |A_12|",
+            "ok": true,
+            "detail": "computed=239500800 expected=239500800"
+          }
+        ],
+        "all_pass": true
+      },
+      "F2_witness_level_check": "NOT_APPLICABLE -- no (m,f) witness pair is recorded in this certificate to independently recheck the (F2) three conditions / P-level settled / Bq-level settled / (3.53) noncommutative-composition comparison against (unlike the A16/A18/A20 second-strike certs, which each name exactly two explicit shadow witnesses). This certificate instead reports an aggregate scan over the window's full Xi-restricted candidate set. See this script's module docstring SCOPE NOTE.",
+      "certificate_aggregate_fields_recorded_verbatim": {
+        "N_ord": 9,
+        "group_order_1": 108,
+        "xi_count_measured_11": 8748,
+        "settled_fail_count": 0,
+        "shadow_total": 108
+      }
+    }
+  ],
+  "all_windows_generation_pair_checks_pass": true
+}
