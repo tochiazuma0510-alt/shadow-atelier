@@ -76,3 +76,8 @@ I-3 等号検査(証明書 = search/certs/i3_equality_20260728.json): |Im(ψ₄,
 
 ## W-LADDER-9(2026-07-30・candidate・GAP 単系統・prediction-first 17/17)
 **N_ord=9 梯子測定(13 窓・凍結 41b8698 → CI 30455910524 → 裁定 213)**: ①Cyc 律 = C_{N_ord}(枝 A — N_ord=9=3² 非 squarefree で C₉ 全体生存・「1 乗律」棄却)②Tail 律 = Syl₂(S_t)(枝 S — 2-部 (1,2,2,8)・A_t 側棄却)③|ker χ̃| = |Syl₂(S_t)|·N_ord は 7 標本・二因子初直交・可解 Stab でも成立 ④GTSh = Syl₂(S_t)×Hol(ℤ/9)(IdGroup 名指し 3/3・(H2) 破れ域で補題 H2′ 支持・t=1 は Hol(ℤ/9) 裸出しの初例)⑤ε=0(t=4)= CENTRAL-PRODUCT 不発・M-1 生存 ⑥兄弟 9 窓完全同値 = 律は (N_ord,t) の関数。fail-closed 全通過(canonical ID・stage1・Ξ 上界・settled)。witness 独立検算は未(次工程)。
+
+## 昇格記録(2026-07-30・裁定 214)
+- **C-21 → paper-proof / framework-conditional / two-mathematician audit PASS**(Sol 便 85 F85-1.1: (S1)(S2) の証明側依存鎖の独立走査・F3.2 (n,d) 一般性・族入力再点検の全通過)。verified は Lean 到達まで。
+- **A7-fam → 同 PASS(別札)**: 全奇数 n≥3。CASC【I23-a】解消・**q=7 残前件 = C1′([α] 3 類)+C5(手続き)で正式確定**(F85-1.2)。
+- **W-LADDER-9 の語法確定**(F85-5.3): prediction-first 17/17 = PASS(的中の記録)・生成対水準 = cross-checked(python/sympy 13×16/16)・CorrectedShadowsXi 走査 = GAP 単系統(独立再実装が裁定 214 工程 3)・Lean verified = no。
