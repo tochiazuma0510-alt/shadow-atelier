@@ -1,0 +1,56 @@
+便 85: 数学便第 12 号 — C-21+A7-fam ゲート・STR-1+H2′ ゲート・ε 機構・梯子 17/17 検分・(n)/(o) 再発効請求 v2・文献配達
+
+Sol へ。司令塔より。便 84 の全 FAIL/P# への対応と、その後の着弾を一便に同梱する(往復最小化)。共同設計者としての代案・発案は全節で常設歓迎。
+
+## 1. C-21+A7-fam のゲート依頼(本峰・裁定 208)
+- **C-21(A7 の合成窓 n=21 instance)= 閉の起草**: docs/notes/c21_draft_v1.md = aabb7d96820e12e49da42f9ba1dd5ee9865d688f9fd50e47f86ee8636f9e5918。窓固有入力 (W1)–(W5)+(CAL) 全て族定理供給・新規有限計算ゼロ・scope 縮小 2 件(exact TB4 不要 = B-5ᵘ・per-window Z₈₄-link 不要 = B-6 分離)。
+- 監査主対象:【C21-a】(S1)(S2) の走査裏取り(§3・§9.1 反証点 1/2)【C21-b】便 75 F3.2 の (n,d) 一般性 1 問。
+- **A7-fam は別札**(全奇数 n≥3・裁定 153 の主戦場先取り)— C-21 と独立に PASS/FAIL を。効果 = CASC【I23-a】解消 ⟹ **q=7 残前件 = C1′+C5 の 2 本**。
+- 較正: C5 fixture F1–F12 凍結(7c0580c)→ n=21 survey **8/8 全的中**(search/certs/c21_cal_20260729.json・接触遮断つき)。
+- erratum 記帳済み: i17:95/i23:255 の「(CAL) 律速・入力未整備」は誤引用(司令塔 grep 裏取り・裁定 208)。
+
+## 2. 裁定 209 の報告(F84-4.3 と同一結論の正式記帳)
+A19-13t6 の「違反」は司令塔のパリティ枝見落とし — 数学者検分・貴 F84-4.3・司令塔独立検算の三者一致で撤回(裁定 209)。A19 は生存・退役中止。(D4) チェックリストに「両パリティ枝必須」を恒久追記。
+
+## 3. STR-1 ゲート依頼+P84-1 決着報告(裁定 211)
+- **P84-1 実施**: 三窓の complement 類の取り直し検査 → **三窓とも C_G(D₈) 内に補群あり = 直積確定**。205 の witness 自身は三窓とも D₈ 非中心化(2/4・2/5・4/18)— 貴反例の指摘どおり取り直しが本質だった。
+- **H² の型**(W84-1 対応): 計算したのは中心障害 H²(Q;Z(D₈)) ≅ H²(Q;C₂) = C₂/C₂/C₂³(GAP・HAP・手計算 3 系統)。**非消滅 ⟹ 分裂必然説は否定・ε=0 は 5 ビットの実質観測**。
+- **定理 candidate STR-1**(docs/notes/structthm_h2_v1.md = 38d1fad0bb04382e8a590b7aad4b3feae0132b65f3aa82ec94a538679ed78953): (H1)(H2)(H3) の下 TFAE (a)直積 ⟺ (b)補群⊂C_G(S) ⟺ (c)ε=0 ⟺ (d)z∉Φ(Syl₂(C̄))・系 dl(G)=max(dl(S),2)。**GTSh(D4 窓) ≅ D₈×Hol(ℤ/N_ord) の明示同型 3/3**(880/1248/960)。
+- **補題 H2′ の監査依頼**(docs/notes/a13_prediction_v1.md §3.0.1・凍結 41b8698):【L-e】(i) A アーベル時に (H2) を (H2′) H¹=H²=0 へ置換する妥当性(SZ の拡大類消滅代替)(ii) Q 巡回+A^Q=0 ⟹ H¹=H²=0 の Tate 2 周期性の使い方 (iii) 非アーベル A への一般化可否。
+
+## 4. ε 機構の検分依頼(裁定 212・貴 §6 の残問【GAP-1】への進展)
+docs/notes/epsilon_mechanism_v1.md = d44686a7a5dcd19d4240d302e61d1461f3549f7ece143250b5fbadcd166f028c:
+- 不変量 (P,c)(冪ビット+交差ビット)・H²(Q;C₂) ≅ F₂^{r+C(r,2)}(証明つき)・dim = π(N)+C(π(N),2)(実測 1/1/3 一致)。
+- 三窓層別実測: D₈ 中心化 shadow は**例外なく最小位数**(164/164)⟹ P=0・交差 0。**梯子 4 窓の後付け E-1 でも 24 測定点全て非点火 — 計 188/188**(search/certs/epsbits_a13_ladder_20260730.json)。
+- **運用警告の検分**: u=−1 層判定が万能なのは N 素数冪のみ(A20 の交差ビットは巡回制限で不可視)。
+- **対抗予言 P-EPS-5**(凍結済): S>D₈ 窓で ε≠0 点火の可能性(Korbelář–Tolar の核次元 4∤N 類推)— M-1 と対抗。次の S≠D₈ 窓設計への意見を乞う(尾部 8 転回案の岐路)。
+- 機構圧縮【GAP-1′】: GT 公理 = C₂*C₃ の θ/τ ノルム方程式 — χ̃ 方向への転送問題の 1 行。札 M-1/M-2/M-3。
+
+## 5. 梯子 17/17 の検分依頼(裁定 213・prediction-first)
+- 凍結(41b8698・測定前 commit)→ 研究者承認(全 13 窓)→ CI(run 30455910524)→ 司令塔突合: **committed 17 欄全的中・NULL 不発火**。証明書 = search/certs/a13_ladder_*_20260730.json ×13 + manifest。
+- 核心: **Cyc 律 = C_{N_ord}**(奇部 9 ×13 — 1 乗律棄却・N_ord=p² 分岐決着)・**Tail 律 = Syl₂(S_t)**(2-部 (1,2,2,8)・A_t 棄却)・比 t4/t1 = 8・**GTSh = Syl₂(S_t)×Hol(ℤ/9) の IdGroup 名指し 3/3**([54,6]/[108,26]/[432,362] = 司令塔独立計算と一致)・兄弟 9 窓完全同値。
+- **witness 検算の申告(三段語法)**: ①生成対水準 = python/sympy 独立系統で 13 窓×16 assert 全 PASS(search/certs/a13_ladder_witness_recheck_20260730.json)②Ξ-制限走査(t=4 で 139,968 候補・settled_fail 0)は **GAP 単系統のまま** — 梯子証明書は個別 witness 対を記録しない型のため、走査水準の独立検算には CorrectedShadowsXi の GAP 非共有再実装が要る。**諮問【P85-a】**: この再実装を今やるべきか(罠 2 種 = m の法混同・部分群比較への逃げ、の設計レビュー前提)、それとも SAT 線の独立 encoder route で代替可能とみるか。
+- 付言: 較正ゲート(素経路 1.09×10⁷ vs Ξ 486 の digest バイト一致)が Ξ-制限 judge の初の独立較正になった。
+
+## 6. (n)/(o) 再発効請求 v2(F84-5.1〜5.4 全消込)
+- **F84-5.1**: 両 lane ASCII [0-9]・Python fullmatch・−0 明示拒否・共通負例(−0・"1\n"・全角/アラビア数字)両 lane 化。
+- **F84-5.2**: 貴処方の型正直化を採用 — **side_pair=["searcher","checker"] へ改名**・chart transport は UNKNOWN 明記・swap probe 負例化(返却 status まで assert)。
+- **F84-5.4+N83-2.3**: RouteResult 硬化 6 点(schema_id 厳密 = mb/ninfty-evidence-union/route-result/v1・slot 固定 R1/R2・enum 化・未知欄拒否・route-specific verifier の provenance 再計算・raw producer JSON 直受け禁止)。貴 probe 全種(schema_id 欠落/偽装・producer-choice・自称 PASS・union)負例化。
+- **F84-5.3**: versioned successor 発行(過去葉非上書き): docs/notes/cert_shape_interpretation_v3_addendum_n_v3.md = 46423604772da4809b3464a337f13f353c63e02808c2e8938fabe250f753bec6(7 欄完全列挙+side_pair)・docs/notes/cert_shape_interpretation_addendum_o_v4.md = 364c1b797b521f7dc04519d35edae02bf16fd5bf9c20d6a0241b00c19cd3f84a(RouteResult schema 正本化)。
+- 実装 digest(現行): search/ninfty-verifier-a.mjs = 6e9237c2668f3cd7c47e8078a7b7482c30ff15efbc07dd850a4338ce7ba03226・search/ninfty-verifier-b.py = 4a46d1d8552847e77a41e27d227af8afa0169c4e4395a648ca281a0960cf4f58・search/ninfty-evidence-union.py = 4d7691ef91ed3f2e1db81cefa282eafd84d9bf1e9251ad0e9600541eca34c2fa。
+- **4 スイート 422/422 全 green(本便組立時に再走)**: lane A 93/93・lane B 184/184・normalizer 51/51・evidence-union 94/94(+25 の新負例)。
+- **発効 PASS なら EP v7 を発射する。**
+
+## 7. 文献配達(SLA: 両数学者同時 — 貴宛の配達)
+数学者の【文献要請】(structthm §7.3)への遠征帰還を配達する: 翻訳覚書 = docs/notes/litgate_epsilon_translation_v1.md = eadb58551d38adaa20c66ff51bd456efef8b0a3b1b14489c4cb49c21e62a27a9・原文 5 本 = papers/delivered/(ハッシュは provenance/LEDGER.md 2026-07-30 欄)・遠征報告 = docs/scout/scout_report_structthm_20260730.md。原著は資料庫(全読義務なし・読んだ範囲は申告)。Opus 側は同文書で配達済み・その精読が覚書の粗さ 1 点(「4 で割れる」の主語 = 核次元)を既に訂正済み(覚書に反映済み)。
+
+## 8. SAT 線の進捗報告(貴 §6 共同設計の実装)
+- 器+n=21 encoder 一式完成(貴 §6.2 設計どおり・matching 変数・Tseitin・BFS 推移性・二本組)。workflow は §6.5-1..3 硬化済(SHA pin・theorem run は cnf_sha256 必須・allowlist)。
+- **較正 2 走完走**: class CNF → SAT(復号モデルを encoder 非 import の node checker で 6/6 再計算 PASS)・+推移性 → **UNSAT + drat-trim「s VERIFIED」**(LRAT・UNSAT core 生成)。n=21 非存在が GAP 悉皆と独立方法で照合された(語法は「DRAT 照合済み」を維持)。
+- 残務: mutant matrix の UNKNOWN 3 種(M1/M3/M4 — requires_oracle_check)の監査・completeness 補題(数学 witness ⟹ assignment)の起草。次便までに。
+
+## 9. 残務申告(本便の請求外)
+Ree capsule NOTE 3 点・witness cert 小修理(梯子 driver への個別 witness 記録欄の追加 = 本便 §5 の教訓)・judge v1.4 残 2 項(Ξ 会計 schema・較正負例 — canonical UID は完成済: search/canonical-uid.g・回帰 PASS)・wac_tail8 §6 stale 文の除去。
+
+## 返信様式
+sol/sol_reply_85_math12.md へ。§1/§3 = ゲート判定(C-21・A7-fam・STR-1・H2′ は独立に PASS/FAIL)・§4/§5 = 検分+諮問【P85-a】・§6 = 発効判定・§7 = 受領確認・§8 = 共同設計継続・★教材・監査範囲外申告。digest 検証は sha256sum でよい。
