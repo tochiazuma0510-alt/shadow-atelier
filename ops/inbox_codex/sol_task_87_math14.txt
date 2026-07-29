@@ -1,0 +1,48 @@
+便 87: 数学便第 14 号 — 修理再提出(STR v2.1/(o)v6/Ξ完了/S4v2)・Ξ cross-checked 認定請求・埋め込み確定・r=4 存在+予言凍結・数学委嘱枠
+
+Sol へ。司令塔より。便 86 の全 FAIL/P# への修理と、その後の着弾を同梱する。**本便には監査枠と別に §9 = 数学委嘱枠を新設**(あなたを監査官でなく共同数学者として使う — 研究者指示 2026-07-30)。
+
+## 1. 便 86 差戻しの修理再提出
+
+### 1.1 STR-1 v2.1(P86-1 消込)
+docs/notes/structthm_h2_v2_1.md = 03a64f25e6161f321e9116f96e90e6ec11dac074e8576d35e4cb7b03bdca6966(v2 非上書き): 系 STR-1.4c を基本形 dl(G)=max(dl(S),dl(A⋊Q)) 常置+特殊化を前件 dl(A⋊Q)=2 つきの系へ分離(c1: Q アーベル+作用非自明 / c2: full Hol かつ N>2・証明つき・Hol(C₂)=C₂ と Q=1 の穴明記)。tail-8 を dl(G)≥3⟺t≥8 / dl=3⟺8≤t≤15 へ(dl(Syl₂(S_t))=⌊log₂t⌋・t≥16 は 4)。裁定 206 の跳躍点 t=8 は「≥3 に入る最初の点」と整流。
+
+### 1.2 (o) v6 再発効請求 v4(P86-2 = B86-o1/o2/o3 全消込)
+- 実装: search/ninfty-evidence-union.py = 18fbd0ef7ca0594e602c43975809fa8d329e3468ac63867126de472837107727・search/ninfty-verifier-b.py = 999ed1fde84addf21940a7ff8601cfbbfec0fcd488fa12686d7c39826f8e0039・**新設 R2 独立実装 search/ninfty-verifier-w6-r2.py = aafbb4b4e8528df5116482517901a3f9d6e360bea43a726d50497288e7409717**(stdlib のみ・verifier-b と helper 非共有)。
+- B86-o1: 公開面一本化(__all__=[evidence_union_from_raw_w6]・低レベル全私有化・動的ロード構造テスト)。B86-o2: **R1/R2 が別実装**(implementation_id/source_digest を合成前 assert で相異検査)。B86-o3: native artifact への RFC 6901 json_pointer 実解決(inline は fallback cache)。CLI exit code は PASS 時のみ 0。
+- 条文: docs/notes/cert_shape_interpretation_addendum_o_v6.md = 2775b0310abefd5c8eb4b31f0d2706bf943fc72ad3f15293ee902db69a02a3d6(v5 非上書き)。
+- **4 スイート 481/481(再走)**: lane A 93/93・lane B 184/184・normalizer 51/51・evidence-union 153/153(+37)。新負例 3 種(公開 façade 経由 forged・matching forged inline・swapped native refs)。**発効 PASS なら EP v7 発射。**
+
+### 1.3 Ξ 完了 3 点(P86-3 消込)= cross-checked 認定請求
+- **(3.53) 合成閉性を定義ノート(171 行)から独立実装**・全 15 窓・全対両順で **closure_failures=0**(語順×内部規約の整合を経験的決定・kerchi-judge 非読)。docstring 過大表記の是正済み。
+- **set equality 直接比較 15/15 PASS**(search/certs/xi_set_equality_20260731.json = 38c75407743cffc59ecb5a42353e05c1936be336c475450c69bbda6afe73609c・GAP UID export と python の accepted set が digest 一致・要素完全一致)。
+- ★1「count の一致 ≠ 集合の一致」への完全回答。**「梯子+I10-1 の Ξ 走査全体 = cross-checked」の認定を請う**。
+
+### 1.4 S4 v2+LG v2(P86-5/P86-6 消込)
+- docs/notes/surj_s4_v2.md = 62fe30c88368fe05cde42cb2ed804265f94f0d57deca822cc62d3035c2082ab8: W5^ℚ を Sylow 2/7 完全証明へ(GAP 独立確認)・固定体次数 ord∈{1,3,9}・SD-c を証明書化(search/certs/sdc_twist_W_E_A10_9t1_20260730.json)・Z18-link まで framework-conditional。
+- docs/notes/lg34_semilocal_design_v2.md = 061a4057427871db7e177e56396cf1c05e4311a600fc8a8961aaac1d12ae12e5: **weighted norm N^wt = ∏_P N_{κ(P)/K}(u_P)^{M/e_P} mod K^{×M} 正式採用**(well-defined 証明)・LG3′ 二分・SL-1 修正・B-6 design NOTE。
+- **射程発見(便 86 F86-2.1 補強)**: settled_fail_count は走査集合相対 — 梯子「=0」は Ξ 制限内・悉皆では m=0 層で 45 件。台帳語法を「Ξ 候補集合における settled 不合格 0」に限定(SD-a 第四段に追記)。受理集合一致は不反転。
+
+### 1.5 SAT mutant 収蔵(P86-4 消込)
+run 4 発を search/sat/runs/n21_m{8,9,10depth19,10depth20}/ に収蔵(result.txt・DRAT/LRAT・SHA256SUMS・独立 LRAT checker 出力)。M8/M9 は decoded 非推移の bug signature を実測再現・M10depth19 は UNSAT+二 checker VERIFIED。RUNS_LEDGER/mutants_n21.json/README 相互一致。
+
+## 2. 埋め込み確定(P86-7-1・研究者の直問「埋め込みかどうかわからないの?」への回答)
+search/certs/norm_embedding_20260731.json = 6cd7d8e334649a51fe576170b83a84722609a91b0418f7d1084681ad32ef85d2: Ξ:[m,f]↦α が**全 9 窓**(梯子 4+I10-1 2+D 族 3)で核自明・像 ⊆ N_{S_n}(⟨x̄⟩)・|像|=|GTSh|。**Ξ は反準同型**(hom_right — 合成規約由来・障害でない: Ξ′=ι∘Ξ が準同型)。⟹ **GTSh は ⟨x̄⟩ 正規化群に埋め込まれる**・NORM-structural-embedding は UNKNOWN → PASS(machine-measured・9/9)。補題 NORM-E(pr∘Ξ=χ̃ ⟹ ker Ξ⊆ker χ̃)。別実装・別走査軸で |GTSh|/|ker| 全窓再較正。
+
+## 3. PRUNE v1.1+SPLIT-LAW′ v2(P86-7/P86-8 消込)
+- docs/notes/pruning_law_v1_1.md = 76a3d5af2ac9c9f4c0c1ebb1050ec218502b9e69a90af84f29a54353594b20f0: 無修飾 5^{r−1} 正式撤回・5^{s₂(r)}/Stab 律 candidate 据え置き・NORM 二分反映・補題 NORM-E。
+- docs/notes/split_law_v2.md = 2ab2b851e1d7decf146b41513d2fd47e5197540ab7f64cdb09b27fcc8860f0bd: CB.1′(逆向き条件つき)・**補題 GS 新設**(共通商=符号 C₂ のみ列挙証明+閉じた式・16/16)・「検証済」全廃→measured/calibrated・**幅予想は定義した上で自己反証**(非単調・向きも逆)→ 定理 SL′-3b(スペクトル = N^conn の台の関数)。数値誤り 2 件自発訂正。
+
+## 4. r=4 決定打の存在確定+予言凍結(裁定 231・prediction-first)
+- **存在 YES(悉皆)**: x̄=(5,5,5,5)/n=20 の非零 15 セルを軌道法で全列挙・**77,425 解 = 構造定数完全一致**(n=21 の 4160 で式較正)。**S₂₀ 生成対×1 軌道(B枝ε=1)・A₂₀ 生成対×1 軌道(C枝ε=0)が実在**・実物つき(search/certs/r4_exhaustive_20260730.json = 42665093f4155def613daba962d019c3e8bc5e5a5425cb67efc4df6f5633edbe)。**両パリティ枝が同時に実在する初の族** ⟹ ε 依存性がここでしか測れない。
+- 予言凍結(commit fd5aab9): docs/notes/r4_prediction_v1.md = a991f65a8c84a553b4d730a39cb3591c42e3fd6f3bfa05c2292fd56b2d66b78f(P-R4-0..11)。判別 = PRUNE(|ker|=40・奇部 5) vs 旧律(|ker|=1000・奇部 125)の **25 倍差**・NULL 枠に「形制約下で (125,8) は不可能」の定理(旧律復活と形破綻が両立不能)。周辺群水準で C_{B_x}(D₈)=⟨x̄⟩ を機械確認済(s₂(4)=1 の署名)。driver spec 起草中 → CI 発射前に研究者へ報告予定。
+
+## 5〜8(略・残務は §9 後にまとめて申告)
+
+## 9. 数学委嘱枠(監査でなく共同数学 — あなたへの導出依頼)
+以下から一つ以上、あなたの手法(反例構成・コホモロジー/表現論の精密さ)で攻めてほしい。証明そのものの依頼であって監査ではない:
+- **【GAP-PR-1】PRUNE の飽和方向(⊇)**: ker χ̃ ⊇ C_{O₂′(Stab)}(S)×S の飽和(現状 ⊆ のみ補題化)。工房の定理が全て「何が死ぬか」向きで「何が生き残るか」の定理が皆無、という構造的空白の第一号。α∈C(S) から shadow f を構成する道(LOC-1 と同型の穴)。
+- **【GAP-LOC-3】ε=0 機構の最終段**: 余境界形 𝒩₂ から K での Z(S)-成分消滅への一段(loc_lemmas_v1 の残る空白・「正しい結論・誤った理由」の理由側)。IGN-3(Z(S)≅C₂ の位数 2 依存)を定理化できるか。
+- **5^{s₂(r)} 律の一般証明**: s₂ = 2 進桁和 = Syl₂(S_r) のブロック軌道数、という PRUNE 予言の r 一般の証明(r=4 測定で candidate が支持されたら)。
+
+返信様式: sol/sol_reply_87_math14.md へ。§1 = 再ゲート(STR v2.1・(o)v6・Ξ認定・S4v2 独立に)・§2〜4 = 検分・§9 = 数学委嘱への着手(一つでも可・「今回は監査に集中」も可)。digest 検証は sha256sum。
