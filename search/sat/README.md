@@ -181,8 +181,45 @@ kissat/drat-trim のローカル実行は RAM 8GB 制約により行っていな
    bash 配列(`read -ra`)経由で kissat に渡すよう変更 — 自由な shell 展開・
    コマンド注入・パス脱出を防ぐ。
 
-未着手(Sol 6.5 点 4): drat-trim 自身とは別の独立 LRAT checker で証明を再読する
-工程はまだ配線していない。
+Sol 6.5 点 4(drat-trim 自身とは別の独立 LRAT checker)は裁定 214 工程 4 で実装済み
+(`search/sat/lrat_check.py`、下記「CI artifact の収蔵と n=21 の cross-check」節)。
+CI workflow への自動配線(theorem run で必須段にする)はまだ未着手 — 現状は手動実行。
+
+## CI artifact の収蔵と n=21 の cross-check(裁定 214 工程 4・2026-07-30)
+
+Sol 便 85 §8(`sol/sol_reply_85_math12.md` F85-8.1〜8.5・P85-6)への対応:
+
+- **artifact 収蔵**: run `30454823288`(class, SAT)・`30454826413`(transitive, UNSAT、
+  同一 commit `0b148018a058efdbdd2737a375de76853189e0f6`)を `gh run download` で取得し
+  `search/sat/runs/n21_class/` / `search/sat/runs/n21_transitive/` に配置。ハッシュ・
+  kissat/drat-trim の pin commit・CNF sha256 の manifest との一致は
+  `search/sat/runs/RUNS_LEDGER.md` に機械出力で記録。
+- **completeness 補題の収蔵**: Sol が便 85 §8.2/8.3 で供給した証明(witness ⟹ CNF
+  assignment の 6 段+固定 u で十分な理由)を `docs/notes/sat_completeness_n21_v1.md` に
+  正典転記(paper-proof PASS・Sol 供給・数学者未監査、と明記)。
+- **独立 LRAT checker**: `search/sat/lrat_check.py`(drat-trim を import しない、
+  ゼロから実装した LRAT checker。reference `lrat-check.c` のアルゴリズム — leading
+  RUP hint による直接証明を先に試み、失敗したら pivot の RAT ブロックを"累積 trail"
+  (leading run の結果を全ブロックで共有し、各ブロック固有の追加仮定だけをロールバック)
+  で検査、negative marker の完全性は文字通り信用せず literal occurrence index で
+  独立に確認 — を踏襲)。`--self-test` で 3 ケース(純 RUP・意図的に壊れた証明の拒否・
+  fresh pivot の vacuous RAT)を確認済み。実物の
+  `search/sat/runs/n21_transitive/proof.lrat.gz`(33626 行)に対し実行し
+  `s VERIFIED`(3.3 秒)を得た — drat-trim 自身の `drat_verify.txt` の `s VERIFIED`
+  と**独立実装で一致**。改竄コントロール(1 ヒント id を破壊したコピー)では
+  即座に `s NOT VERIFIED` を返すことも確認(fail-closed の動作確認)。
+  **theorem run(`run_label=theorem`)の必須段として、この独立 LRAT checker を
+  proof.lrat に対して実行し合格することを要求する**(まだ `.github/workflows/sat-run.yml`
+  への自動配線はしていない — 現状は手動実行。配線は次段)。
+- **mutant matrix の増強**: `search/sat/mutants_n21.json` に M8〜M12 を追加
+  (Sol P85-6 の優先順どおり): M8/M9 = reverse-clause-drop mutant(reachability/edge、
+  `search/sat/gen_mutants_reverse_drop.py` でローカル生成、紙上 SAT 期待・kissat 未実行)、
+  M10 = 21 頂点 path の合成 diameter-20 境界 fixture(`search/sat/encode_diam20_path21.py`、
+  depth19 UNSAT / depth20 SAT を紙上 PROVEN、M6 を置換 — M6 自体は削除せず「弱い」との
+  Sol 評価つきで歴史行として保持)、M11 = n=5,7 の itertools 悉皆較正
+  (`search/sat/calibrate_small_n.py`、ローカル実走・秒単位、n=5 は encoding-fidelity
+  spot check 0 節違反、n=7 は u=7-cycle でのこの制約下で witness 皆無という悉皆の
+  誠実な陰性結果)、M12 = 独立 LRAT checker そのものの登録(上記)。
 
 ## 未着手(次段)
 
@@ -191,6 +228,11 @@ kissat/drat-trim のローカル実行は RAM 8GB 制約により行っていな
 - 標的 (a) dl≥3 shadow witness: settled/well-definedness・(3.53) composition・
   二重交換子非自明性を含む別世代の encoder が必要(Sol 6.4)。着手していない。
 - kissat/drat-trim バイナリのキャッシュ化(現状は毎回ソース clone + ビルド)。
-- drat-trim とは独立な LRAT checker(Sol 6.5 点 4)。
-- completeness 方向(数学 witness ⇒ CNF assignment)の紙上補題の別監査
-  (manifest に「未」と明記済み・数学者担当)。
+- 独立 LRAT checker(`search/sat/lrat_check.py`)を CI workflow の theorem run に
+  自動配線する(裁定 214 工程 4 時点では実装済み・手動実行のみ)。
+- completeness 方向(数学 witness ⇒ CNF assignment)の紙上補題は Sol 供給分が
+  `docs/notes/sat_completeness_n21_v1.md` に収蔵済み(paper-proof PASS)だが、
+  数学者による独立監査はまだ未実施。
+- M8/M9/M10(reverse-clause-drop・synthetic diameter fixture)は CNF 生成と
+  紙上予言の事前登録まで(裁定 214 工程 4)。kissat 実走と予言との突合は次段
+  (CI 発射は司令塔)。

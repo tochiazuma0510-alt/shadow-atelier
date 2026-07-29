@@ -1,0 +1,50 @@
+c parsing input formula with 9723 variables and 50128 clauses
+c WARNING: detected and deleted duplicate literal -232 at position 1 of proof line 5525
+c WARNING: detected and deleted duplicate literal -254 at position 1 of proof line 5988
+c WARNING: detected and deleted duplicate literal -276 at position 1 of proof line 6451
+c WARNING: detected and deleted duplicate literal -298 at position 1 of proof line 6914
+c WARNING: detected and deleted duplicate literal -320 at position 1 of proof line 7377
+c WARNING: detected and deleted duplicate literal -342 at position 1 of proof line 7840
+c WARNING: detected and deleted duplicate literal -364 at position 1 of proof line 8303
+c WARNING: detected and deleted duplicate literal -386 at position 1 of proof line 8766
+c WARNING: detected and deleted duplicate literal -408 at position 1 of proof line 9229
+c WARNING: detected and deleted duplicate literal -430 at position 1 of proof line 9692
+c WARNING: detected and deleted duplicate literal -452 at position 1 of proof line 10155
+c WARNING: detected and deleted duplicate literal -474 at position 1 of proof line 10618
+c WARNING: detected and deleted duplicate literal -496 at position 1 of proof line 11081
+c WARNING: detected and deleted duplicate literal -518 at position 1 of proof line 11544
+c WARNING: detected and deleted duplicate literal -540 at position 1 of proof line 12007
+c WARNING: detected and deleted duplicate literal -562 at position 1 of proof line 12470
+c WARNING: detected and deleted duplicate literal -584 at position 1 of proof line 12933
+c WARNING: detected and deleted duplicate literal -606 at position 1 of proof line 13396
+c WARNING: detected and deleted duplicate literal -628 at position 1 of proof line 13859
+c WARNING: detected and deleted duplicate literal -650 at position 1 of proof line 14322
+c WARNING: detected and deleted duplicate literal -672 at position 1 of proof line 14785
+c WARNING: detected and deleted duplicate literal -232 at position 1 of proof line 50129
+c WARNING: detected and deleted duplicate literal -254 at position 1 of proof line 50130
+c WARNING: detected and deleted duplicate literal -276 at position 1 of proof line 50131
+c WARNING: detected and deleted duplicate literal -298 at position 1 of proof line 50132
+c WARNING: detected and deleted duplicate literal -320 at position 1 of proof line 50133
+c WARNING: detected and deleted duplicate literal -342 at position 1 of proof line 50134
+c WARNING: detected and deleted duplicate literal -364 at position 1 of proof line 50135
+c WARNING: detected and deleted duplicate literal -386 at position 1 of proof line 50136
+c WARNING: detected and deleted duplicate literal -408 at position 1 of proof line 50137
+c WARNING: detected and deleted duplicate literal -430 at position 1 of proof line 50138
+c WARNING: detected and deleted duplicate literal -452 at position 1 of proof line 50139
+c WARNING: detected and deleted duplicate literal -474 at position 1 of proof line 50140
+c WARNING: detected and deleted duplicate literal -496 at position 1 of proof line 50141
+c WARNING: detected and deleted duplicate literal -518 at position 1 of proof line 50142
+c WARNING: detected and deleted duplicate literal -540 at position 1 of proof line 50143
+c WARNING: detected and deleted duplicate literal -562 at position 1 of proof line 50144
+c WARNING: detected and deleted duplicate literal -584 at position 1 of proof line 50145
+c WARNING: detected and deleted duplicate literal -606 at position 1 of proof line 50146
+c WARNING: detected and deleted duplicate literal -628 at position 1 of proof line 50147
+c WARNING: detected and deleted duplicate literal -650 at position 1 of proof line 50148
+c WARNING: detected and deleted duplicate literal -672 at position 1 of proof line 50149
+c finished parsing
+c detected empty clause; start verification via backward checking
+c 16364 of 50128 clauses in core                            
+c 20477 of 32475 lemmas in core using 2262363 resolution steps
+c 5321 RAT lemmas in core; 0 redundant literals in core lemmas
+s VERIFIED
+c verification time: 2.993 seconds
