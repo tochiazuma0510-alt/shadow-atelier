@@ -1,0 +1,48 @@
+{
+  "schema": "i10-1-xi-recheck/v1",
+  "generated_by": {
+    "tool": "python3+sympy",
+    "script": "search/ladder-xi-recheck.py (I10-1 extension)",
+    "date": "2026-07-30T00:42:40+0900"
+  },
+  "independence_note": "GAP not invoked; no GAP source imported or translated. Same independent method as the A13 ladder scan (see module docstring); reused unchanged for these epsilon=1 (fiber-product) windows -- the scan derives PN normality / Bq-PN transversal / cocycle data directly from s1,s2 by computation, it does not assume a direct-product ambient structure anywhere.",
+  "driver_spec_sha256": "4524497359c9685d04b85666744333b7cdf7baf812c907eed54bf754f7857bf9",
+  "windows": [
+    {
+      "wid": "W-E-A10-5x2t0",
+      "n": 10,
+      "ell": 5,
+      "r": 2,
+      "t": 0,
+      "deg": 13,
+      "N_ord": 5,
+      "charming_count": 4,
+      "xi_bound": 5000,
+      "scanned_count": 5000,
+      "accepted_count": 40,
+      "m0_layer_count": 10,
+      "settled_fail_count": 0,
+      "accepted_set_digest_sha256": "af40e897b256234b3e5c0e783005141a2b0f6af823db3b0b1b854531cfb43066",
+      "fail_witness_set_digest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_sec": 0.22591757774353027
+    },
+    {
+      "wid": "W-E-A15-5x3t0",
+      "n": 15,
+      "ell": 5,
+      "r": 3,
+      "t": 0,
+      "deg": 18,
+      "N_ord": 5,
+      "charming_count": 4,
+      "xi_bound": 1125000,
+      "scanned_count": 1125000,
+      "accepted_count": 200,
+      "m0_layer_count": 50,
+      "settled_fail_count": 0,
+      "accepted_set_digest_sha256": "2ff05fdebaee2d17d2d34cbacd893d4df79bfb95237f47a48c1a45ce24de89d1",
+      "fail_witness_set_digest_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_sec": 43.942219972610474
+    }
+  ]
+}

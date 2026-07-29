@@ -962,5 +962,130 @@ def main():
     print("\nWROTE manifest %s" % manifest_path)
 
 
+# ============================================================================
+# I10-1 extension (裁定220 続行2): N_ord=5 discriminating windows, epsilon=1
+# fiber-product windows (E = S3 x_C2 S_n, not S3 x S_n -- per
+# search/_i10_1_driver_spec.md's explicit warning). Reuses ALL of the core
+# machinery above (build_window/compute_support/verify_PN_is_alternating/
+# charming_set/build_settled_precompute/xi_restricted_candidates/is_settled)
+# unchanged -- that machinery derives everything (normality of PN, the
+# Bq/PN=6 transversal, cocycle data) directly from s1,s2 by computation, it
+# never assumes a direct-product shape, so the epsilon=1 fiber-product
+# structure does not require any change to the scan itself. Only the
+# canonical-string field names differ (|ell=|r=|t= instead of |t=), which is
+# irrelevant here since the ID gate is a binding check against the GAP cert's
+# own recorded canonical_string (format-agnostic).
+# ============================================================================
+
+I10_1_GAP_CERT_FILENAMES = {
+    "W-E-A10-5x2t0": "i10_1_W_E_A10_5x2t0_20260730.json",
+    "W-E-A15-5x3t0": "i10_1_W_E_A15_5x3t0_20260730.json",
+}
+
+I10_1_XI_BOUND = {
+    "W-E-A10-5x2t0": 5000,
+    "W-E-A15-5x3t0": 1125000,
+}
+
+
+def load_i10_1_gap_cert(wid):
+    path = "%s/%s" % (GAP_CERT_DIR, I10_1_GAP_CERT_FILENAMES[wid])
+    with open(path, "r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def i10_1_binding_check(wid):
+    cert = load_i10_1_gap_cert(wid)
+    s = cert["canonical_string"]
+    computed = hashlib.sha256(s.encode("utf-8")).hexdigest()
+    recorded = cert["canonical_id_sha256"]
+    return (computed == recorded), computed, recorded
+
+
+def build_i10_1_window_spec(wid):
+    cert = load_i10_1_gap_cert(wid)
+    S1 = parse_gap_cycles(cert["s1"])
+    S2 = parse_gap_cycles(cert["s2"])
+    a1 = parse_gap_cycles(cert["a1"])
+    b1 = parse_gap_cycles(cert["b1"])
+    deg = max(max(pt for c in S1 for pt in c), max(pt for c in S2 for pt in c))
+    return dict(n=cert["n"], deg=deg, ell=cert["ell"], r=cert["r"], t=cert["t"],
+                a1=a1, b1=b1, S1=S1, S2=S2, xi_bound=I10_1_XI_BOUND[wid])
+
+
+def main_i10_1():
+    print("\n\n=== I10-1 extension (裁定220 続行2): N_ord=5 discriminating windows ===")
+    print("Prediction file (i10_1_prediction_v1.md) NOT read.")
+
+    spec_path = "search/_i10_1_driver_spec.md"
+    spec_sha256 = sha256_of_file(spec_path)
+    print("[spec] %s sha256=%s" % (spec_path, spec_sha256))
+
+    id_mismatches = []
+    for wid in I10_1_GAP_CERT_FILENAMES:
+        ok, computed, recorded = i10_1_binding_check(wid)
+        status = "MATCH" if ok else "MISMATCH"
+        if not ok:
+            id_mismatches.append(wid)
+        print("[i10-1 canonical-id binding] %s: computed=%s recorded=%s %s"
+              % (wid, computed, recorded, status))
+    if id_mismatches:
+        raise SystemExit(
+            "FATAL: I10-1 canonical-ID binding check MISMATCH for: %s -- refusing "
+            "to proceed (fail-closed)." % id_mismatches)
+
+    order = ["W-E-A10-5x2t0", "W-E-A15-5x3t0"]  # smaller Xi bound first
+    windows_out = []
+
+    for wid in order:
+        w = build_i10_1_window_spec(wid)
+        print("\n--- I10-1 window %s (n=%d, ell=%d, r=%d, t=%d, deg=%d, xi_bound=%d) ---"
+              % (wid, w["n"], w["ell"], w["r"], w["t"], w["deg"], w["xi_bound"]))
+        ckpt_path = "search/certs/.i10_1_xi_recheck_checkpoint_%s.json" % wid
+        result = scan_window(wid, w, checkpoint_path=ckpt_path)
+        accepted_uids = [candidate_uid(wid, m, u, f) for (m, f, u) in result["accepted"]]
+        fail_uids = [candidate_uid(wid, m, 2 * m + 1, f) for (m, f) in result["fail_settled"]]
+        m0_layer = sum(1 for uid in accepted_uids if "|m=0|" in uid)
+        entry = dict(
+            wid=wid, n=w["n"], ell=w["ell"], r=w["r"], t=w["t"], deg=w["deg"],
+            N_ord=result["Nord"], charming_count=result["charming_count"],
+            xi_bound=w["xi_bound"], scanned_count=result["scanned_count"],
+            accepted_count=len(result["accepted"]), m0_layer_count=m0_layer,
+            settled_fail_count=len(result["fail_settled"]),
+            accepted_set_digest_sha256=digest_set(accepted_uids),
+            fail_witness_set_digest_sha256=digest_set(fail_uids),
+            elapsed_sec=result["elapsed_sec"],
+        )
+        windows_out.append(entry)
+        print("[%s] scanned=%d accepted=%d m0_layer=%d settled_fail=%d accepted_digest=%s"
+              % (wid, entry["scanned_count"], entry["accepted_count"], entry["m0_layer_count"],
+                 entry["settled_fail_count"], entry["accepted_set_digest_sha256"]))
+
+    out = dict(
+        schema="i10-1-xi-recheck/v1",
+        generated_by=dict(tool="python3+sympy", script="search/ladder-xi-recheck.py (I10-1 extension)",
+                           date=time.strftime("%Y-%m-%dT%H:%M:%S%z")),
+        independence_note=(
+            "GAP not invoked; no GAP source imported or translated. Same "
+            "independent method as the A13 ladder scan (see module docstring); "
+            "reused unchanged for these epsilon=1 (fiber-product) windows -- "
+            "the scan derives PN normality / Bq-PN transversal / cocycle data "
+            "directly from s1,s2 by computation, it does not assume a "
+            "direct-product ambient structure anywhere."
+        ),
+        driver_spec_sha256=spec_sha256,
+        windows=windows_out,
+    )
+    out_path = "search/certs/i10_1_xi_recheck_20260730.json"
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(out, fh, indent=2, ensure_ascii=False)
+    print("\nWROTE %s" % out_path)
+    for e in windows_out:
+        print("[i10-1 result] %s scanned=%d accepted=%d m0_layer=%d settled_fail=%d accepted_digest=%s"
+              % (e["wid"], e["scanned_count"], e["accepted_count"], e["m0_layer_count"],
+                 e["settled_fail_count"], e["accepted_set_digest_sha256"]))
+
+
 if __name__ == "__main__":
     main()
+    main_i10_1()
