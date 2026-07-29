@@ -1,6 +1,6 @@
 # 読解: Guillot「有限群の Grothendieck-Teichmüller 群と G-dessins d'enfants」
 
-- 状態: **candidate**(検疫圏・文献ゲート②常務読み。数学者読み取り禁止圏)
+- 状態: **candidate(開示済み — 2026-07-30 裁定 212 で検疫解除)**。原文 2 本が文献ゲート配達(LEDGER 2026-07-30)で papers/delivered/ に降りたため、本 digest の数学者閲覧可。ただし**同名別物ゲートは未架橋**(Guillot 系は λ 座標を持たず ε 対応物なし — 機構輸入不可の判断は epsilon_mechanism_v1.md §8)・輸入時は司令塔の定義橋設計が前提。
 - 読解日: 2026-07-25 / 読解者: reader(精密読解係)
 - 主対象: arXiv **1407.3112v3**(P. Guillot, "The Grothendieck-Teichmüller group of a finite group and G-dessins d'enfants", 2015-12-03, 25 頁, SIGMAP proceedings 版)
 - 補助対象: arXiv **1604.04415v1**(P. Guillot, "The Grothendieck-Teichmüller group of PSL(2,q)", 2016-04-15, 7 頁)

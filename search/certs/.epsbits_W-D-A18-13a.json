@@ -1,0 +1,1 @@
+{"schema":"eps-bits/v1","window_id":"W-D-A18-13a","N_ord":13,"tildeG_struct":"C12 x C2","tildeG_abelian":true,"layers":[{"u":5,"m":2,"ord_Q":4,"layer_size":104,"centralizing":26,"same_order_lifts":26,"P_bit":false},{"u":25,"m":12,"ord_Q":2,"layer_size":104,"centralizing":26,"same_order_lifts":26,"P_bit":false}],"cross_bit_nonzero":"false"}
