@@ -67,3 +67,9 @@ I-3 等号検査(証明書 = search/certs/i3_equality_20260728.json): |Im(ψ₄,
 
 ## W3-24(2026-07-28・paper-proof candidate・Sol 検分済 便 76 F3.2)
 **T63-P1/prediction = 数学的に閉鎖**: C1(裁定 107)+named framework 前件の下で P_{9,3} = TRUE・ord(a₉) = 9(FULL_p_DEPTH)。導出鎖 = (6.3-cls)(G3 = 便 75 F3.2)+W1-fam+(W2)-fam 両側+C4-T+res(a₃) = [−1/4]₆ の非自明性証明。**u₉ 非接触・凍結予言 82ca6b7 の紙上確定**。measurement receipt(full a₉ の独立測定・的中判定)は別線・未着(P8-value は前件でない — 便 76 ★教材 5)。Lean verified ではない。
+
+## C-21(2026-07-29・paper-proof candidate・framework-conditional・単系統・Sol 監査前)
+**A7 の合成窓 n=21 instance = 閉**: (TB1)(TB2)(TB3)(TB4ᵘ)+(CAL) の下、窓 (K⁽²¹⁾, H_{2,1,0}) で BFC 補題 B-5 全結論(λ⁻¹(0) 唯一 F₂₁-有理点・M=42・[u₂₁]₄₂ が uniformizer/モデル非依存・2|42 で平方類 [u₂₁]₂ well-defined)。窓固有入力 (W1)–(W5)+(CAL) は全て族定理供給・新規有限計算ゼロ。**exact (TB4)・per-window (Z₈₄-link) を要さない**(B-5ᵘ+B-6 分離 — Z-norm-seal inventory 非相続)。b_op=1・(5′)・u の値は射程外。CASC §5 の A7 行を閉じ **q=7 残前件 = C1′+C5**。証拠 = docs/notes/c21_draft_v1.md(§4 供給表・§9 自己監査 R1–R11)。裁定 208。C5 fixture F1–F12 は本行の commit で凍結。
+
+## A7-fam(2026-07-29・paper-proof candidate・framework-conditional・単系統・Sol 監査前・C-21 と別札)
+**A7 の族閉鎖(裁定 153 の「次の主戦場」)**: 同前件の下、A7 は全奇数 n≥3 の窓 (K⁽ⁿ⁾, H_n^fun) で成立(c21_draft §7 命題 A7-fam — §4 の証明が n=21 を不使用のため)。⟹ CASC【I23-a】(唯一の実質的律速)解消・§6.3-R1 ●→○。歯×標的対ごとの instance 複製が O(1) に。残る対仕事でない項目 = C1′(m)(標的ごと)・C5(一括)・G3(便 75 F3.2 の (n,d) 一般性 =【C21-b】未確認)。裁定 208。
