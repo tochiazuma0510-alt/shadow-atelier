@@ -71,3 +71,5 @@
 | 配車記録(追加) | `ops/wake_dispatch.log`(自動生成・gitignore) |
 
 - [ ] Claude サブエージェントの完了通知消失(2026-07-26・委嘱 21 — 成果物は書かれたが通知が来ず 63 分未検知。研究者の指摘で発覚)。対策候補: 重要委嘱には成果物ファイルの出現監視(reply-file watcher の subagent 版)を並設
+
+- [2026-07-29] sat-run.yml の solver_args は自由文字列を kissat へ素通し(workflow_dispatch = write 権限者のみ発火につき実害小)。encoder 導入時に許容フラグの whitelist 化を検討(W6 implementer 指摘)。

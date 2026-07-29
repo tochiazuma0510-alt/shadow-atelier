@@ -1,0 +1,132 @@
+# 影工房 SAT 線(W6): 証明書つき SAT パイプライン。
+# ES7 (atelier_lean/.github/workflows/es7_abstract_sat.yml, es7_sat_matrix.yml) の
+# 流儀を踏襲 — kissat で解いて DRAT を出し、UNSAT なら drat-trim で独立検証してから
+# core/LRAT を保存する。SAT なら model を保存する。
+#
+# encoder はまだ配線しない(標的選定は Sol 便待ち)。今回は「CNF を渡せば証明書一式が
+# 出てくる」器のみ。cnf_sha256 を渡せば改竄・取り違えゲートとして機能する(ES7 と同じ
+# 作法)。入力は既存 gap-run.yml の script/preamble/out_dir/timeout_min に合わせた形。
+name: sat-run
+on:
+  workflow_dispatch:
+    inputs:
+      cnf_path:
+        description: "CNF path (repo-relative, DIMACS .cnf or gzip .cnf.gz)"
+        required: true
+        type: string
+      cnf_sha256:
+        description: "Expected SHA-256 of the (decompressed) CNF; empty = skip gate"
+        required: false
+        type: string
+        default: ""
+      solver_args:
+        description: "Extra kissat CLI args (space-separated, appended after the CNF path)"
+        required: false
+        type: string
+        default: ""
+      out_dir:
+        description: "Artifact directory to collect (repo-relative, need not exist)"
+        required: false
+        type: string
+        default: "search/sat/out"
+      timeout_min:
+        description: "Job timeout minutes"
+        required: false
+        type: string
+        default: "60"
+
+jobs:
+  sat:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(inputs.timeout_min) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build kissat and drat-trim
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/arminbiere/kissat.git tools-kissat
+          cd tools-kissat && ./configure && make -j2 && cd ..
+          git clone --depth 1 https://github.com/marijnheule/drat-trim.git tools-drat
+          cd tools-drat && make && cd ..
+          tools-kissat/build/kissat --version
+
+      - name: Resolve and verify CNF
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          SRC="${{ inputs.cnf_path }}"
+          if [[ "$SRC" == *.gz ]]; then
+            gunzip -c "$SRC" > ci/out/problem.cnf
+          else
+            cp "$SRC" ci/out/problem.cnf
+          fi
+          EXPECT="${{ inputs.cnf_sha256 }}"
+          if [ -n "$EXPECT" ]; then
+            echo "$EXPECT  ci/out/problem.cnf" | sha256sum -c -
+          else
+            echo "cnf_sha256 not supplied — skipping integrity gate (record the printed hash below manually)"
+          fi
+          sha256sum ci/out/problem.cnf
+          head -n 1 ci/out/problem.cnf
+
+      - name: Run kissat with DRAT proof
+        id: solve
+        run: |
+          set +e
+          /usr/bin/time -v tools-kissat/build/kissat ci/out/problem.cnf ci/out/proof.drat --no-binary ${{ inputs.solver_args }} \
+            > ci/out/kissat_out.txt 2> ci/out/kissat_time.txt
+          code=$?
+          set -e
+          echo "exit=$code" | tee ci/out/result.txt
+          tail -n 30 ci/out/kissat_out.txt
+          if [ "$code" = "10" ]; then echo "verdict=SAT" >> ci/out/result.txt;
+          elif [ "$code" = "20" ]; then echo "verdict=UNSAT" >> ci/out/result.txt;
+          else echo "verdict=UNKNOWN" >> ci/out/result.txt; fi
+          cat ci/out/result.txt
+
+      - name: Extract model (if SAT)
+        run: |
+          set -euo pipefail
+          if grep -q "verdict=SAT" ci/out/result.txt; then
+            grep "^v " ci/out/kissat_out.txt > ci/out/model_vlines.txt || true
+            wc -l ci/out/model_vlines.txt
+          else
+            echo "not SAT — skip"
+          fi
+
+      - name: Verify DRAT proof, extract core and LRAT (if UNSAT)
+        run: |
+          set -euo pipefail
+          if grep -q "verdict=UNSAT" ci/out/result.txt; then
+            tools-drat/drat-trim ci/out/problem.cnf ci/out/proof.drat -c ci/out/core.cnf -L ci/out/proof.lrat \
+              | tee ci/out/drat_verify.txt
+            grep -q "s VERIFIED" ci/out/drat_verify.txt \
+              && echo "PROOF VERIFIED" \
+              || (echo "PROOF VERIFICATION FAILED" && exit 1)
+            wc -l ci/out/core.cnf || true
+            gzip -9 ci/out/proof.drat ci/out/core.cnf ci/out/proof.lrat
+          else
+            echo "not UNSAT — skip"
+          fi
+
+      - name: SHA-256 manifest of all artifacts
+        run: |
+          set -euo pipefail
+          cd ci/out
+          sha256sum * > SHA256SUMS.txt 2>/dev/null || true
+          cat SHA256SUMS.txt
+
+      - name: Stage into out_dir
+        run: |
+          set -euo pipefail
+          mkdir -p "${{ inputs.out_dir }}"
+          cp ci/out/* "${{ inputs.out_dir }}/" 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sat-run-out
+          path: |
+            ${{ inputs.out_dir }}/
+            ci/out/
+          if-no-files-found: warn
