@@ -542,3 +542,15 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-29 第一撃 W-D-A16-11a
 - CI run 30392894007(gap-run)は 30 分 timeout で cancel(真因 = legacy crosscheck の 10¹³ BFS)。修理(JUDGE_SKIP_LEGACY_CROSSCHECK)後**ローカル本走で完走**(数分)。証明書 = search/certs/strike_a16_full_20260729.json。
 - 判定: shadow 880(settled 全)・ker χ̃ 位数 88 **非可換**(witness 2 置換)・G_N 導来列 [880,22,1]。scan_mode = xi_restricted・scanned 8,712,000・圧縮 1.2×10⁷。GAP 4.16.0・単系統(witness 独立検算を別途)。
+
+## 2026-07-30 文献ゲート配達(きっかけ = ① 要請駆動: structthm_h2_v1.md §7.3【文献要請】)
+- 配達物 = 翻訳覚書 docs/notes/litgate_epsilon_translation_v1.md + 原文 5 本(papers/delivered/):
+  - arxiv_2603.24743.pdf (Galindo, Clifford 拡大の分裂 ⟺ 4∤|A|) sha256 eadee8a8b79e61d36b1f03d443fd494406e1a9e8b724b9b28ee2e00c7df63890
+  - arxiv_2305.13178.pdf (Korbelář–Tolar, 巡回の場合の初等決定) sha256 583504d03ee08645cef25f38b8d228020d289f08b753e054c9b27ce7dec4893d
+  - arxiv_1604.04415.pdf (Guillot, GT₁(PSL(2,q))) sha256 16a2496e4c4929570bbc8d330070dea92f0a08cb0d1dad01a2a9dbcee834cdea
+  - arxiv_1407.3112.pdf (Guillot) sha256 416c0a91ef7bbb2eb7b8e615d8d209083232965f1151c3e2832256110806784b
+  - arxiv_math_0606374.pdf (Pakianathan–Yalçın) sha256 940d9d3fa40b1bbd509e75a9a2cdf925330ebc19d9f7e30bf5e9f9d662c2af2d
+  - Griess 1973 (Pacific J. Math. 48, 403–422) は誌面のみ — 書誌+入手経路注記で代替。
+- 一工夫(翻訳)= 型 I の字面不適合の突合(4||Q| でも分裂 ⟹ 方法のみ輸入)・型 II = STR-1.6 の外部検算・本命 = ε 閉形式(【LG-1】【LG-2】)。型 III(Guillot)は同名別物ゲート未架橋のため設問化保留。
+- 配達先 = 両数学者(Opus = SendMessage 済・Sol = 便 85 同梱)。scout 報告書は docs/scout/ へ移設(開示済みアーカイブ)。
+- **工程反省**: 遠征報告書を金庫 scout でなくリポジトリ(ops/)に直接置かせた(配置図規則 (2)(5) 違反)・初回配達が覚書のみだった(「論文+覚書のセット」既定の違反)。本記帳で是正。以後 hunter/scout の出力先は委嘱時に金庫パスを指定する。
