@@ -199,3 +199,41 @@ b70f5c10f578a5addc58babb6e3d6d9b0401d0ec4311aed698d89f4c7993a34c *result.txt
   (`proof.drat` はソルバーが `--no-binary` で常時出力するが、SAT verdict では
   drat-trim による検証ステップ自体が走らない設計 — `search/sat/README.md` のパイプライン図
   参照)。
+
+---
+
+# 追補: n=25 ell=17 2-transitivity 標的(裁定 210 系・commander task・Sol 便 84 sec 6.3)
+
+## Run metadata
+
+| | class run | 2transitive(depth=5)run |
+|---|---|---|
+| GitHub Actions run ID | `30467980820` | `30467990745` |
+| workflow | `sat-run` | 同左 |
+| workflow_dispatch `run_label` | `calibration` | `calibration` |
+| CNF input | `search/sat/out/a25_class.cnf` | `search/sat/out/a25_2transitive_depth5.cnf` |
+| CNF sha256(`search/sat/manifest_a25.json` と一致) | `9422163fcf9aab843cb1ecfd31ef6f2fde02560ddc29770585a9628ebf389f2a` | `0408f2d67ab3d64a12032299bd8355715b58a7942ba3f671d9bd82890bfa3286` |
+| CNF sha256 再計算(artifact 内 `problem.cnf`) | 同上 — **一致** | 同上 — **一致** |
+| verdict(`result.txt` 原文) | `exit=10` / `verdict=SAT` | `exit=20` / `verdict=UNSAT` |
+| kissat wall time | 0.00s(即座、`kissat_time.txt`) | UNSAT verdict 到達まで含め run 全体 12m47s |
+| drat-trim 検証(UNSAT のみ) | N/A(SAT run) | `s VERIFIED`(`943526/1898102` 節が core、`464638/1604226` lemma が core、`95172296` resolution steps、検証時間 467.971 秒) |
+| 独立照合(`check_model_a25.mjs`、encoder 非 import) | class 側 6 項目 **全 true**(a 型 2¹²1・model B と再計算 b の一致・b³=1・固定点ちょうど 1・b 型 3⁸1) | 未実施(UNSAT のため decode 対象モデルなし) |
+| local storage | `search/sat/runs/a25_class/` | `search/sat/runs/a25_2transitive_depth5/` |
+
+## 解釈上の注記(depth=5 の非情報性)
+
+`a25_2transitive_depth5.cnf` の UNSAT は **「点対 (1,2) から 5 手(対角生成元 3 個の
+BFS)以内には 600 個の順序対全てへ到達する解が存在しない」という事実**のみを証明する
+(drat-trim 独立検証済み)。depth=5 は独立に発見済みの実 witness の真の直径 43
+(`search/sat/fixtures/witness_a25_2transitive.json`)よりはるかに浅いため、
+**この UNSAT は 2-transitivity の非存在の証拠にはならない**(`mutants_a25.json` M5 に
+事前登録済みの通り)。存在問題そのものは、この SAT run とは独立に、直接構成
++ 無制限 BFS による Python 照合で既に解決している(下記コミットメッセージ・README 参照)。
+
+## 除外ファイル
+
+`search/sat/runs/a25_2transitive_depth5/proof.lrat.gz`(260,287,433 バイト、sha256
+`bd251e9b83a3831d5856be23a4ea623cd43d41a84609d06fd4dd17f64d7a4d1f`)は GitHub の
+1 ファイル 100MB 上限を超えるため commit していない — 詳細は同ディレクトリの
+`NOTE.md`。`proof.drat.gz`(21,039,286 バイト)・`core.cnf.gz`(4,179,187 バイト)は
+committed。
