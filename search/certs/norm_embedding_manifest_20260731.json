@@ -1,0 +1,201 @@
+{
+ "schema": "norm-embedding-manifest/v1",
+ "generated_by": {
+  "tool": "python3",
+  "script": "search/norm-embedding-seal-build.py"
+ },
+ "note": "P87-3 seal (sol_reply_87_math14.md F87-2.2 / P87-3): binds the fixed search/probe/wac_v1/norm_embedding.g (extra `fi` removed -- see script diff) and its regenerated certificate search/certs/norm_embedding_20260731.json into one manifest, with per-window canonical-id hashes parsed directly from the script's own DoWindow(...) call arguments, and a cross-check against GTSh order / kernel order values already recorded in OTHER certs that do not import this script (a13_ladder_* for the E-family ladder windows, i10_1_xi_recheck for the two I10-1 windows, w62_splitting for the D-family windows). 'measured PASS' (F87-2.1, 9/9) becomes 'artifact confirmed' only once this manifest and the underlying script/cert are committed together.",
+ "gap_version": "4.16.0",
+ "script": {
+  "path": "search/probe/wac_v1/norm_embedding.g",
+  "sha256": "d0ff00906552fb06c696389edd579910e3d238bb3705f7a89109b4d7ab0941cd"
+ },
+ "certificate": {
+  "path": "search/certs/norm_embedding_20260731.json",
+  "sha256": "9be7747d3ec2fee3d8f56a5f63832d94477f282aefbae836f58e007b4ac414f8"
+ },
+ "windows_processed": 9,
+ "windows": [
+  {
+   "window_id": "W-E-A10-9t1",
+   "n": 10,
+   "canonical_id_sha256": "a6b662a1c266f1eebeaa6989ea6fc27b4b2ae2b399ad7b1aff6391631fc775cf",
+   "shadow_total": 54,
+   "ker_size": 9,
+   "distinct_alphas": 54,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/a13_ladder_W_E_A10_9t1_20260730.json",
+    "group_order": 54,
+    "ker_size": 9
+   },
+   "reference_matches_norm_embedding": true
+  },
+  {
+   "window_id": "W-E-A11-9t2",
+   "n": 11,
+   "canonical_id_sha256": "c1e41ec7e462a029cfd6d29cc169d86e84a2d74d85cd95f830c50de4203130ce",
+   "shadow_total": 108,
+   "ker_size": 18,
+   "distinct_alphas": 108,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/a13_ladder_W_E_A11_9t2_20260730.json",
+    "group_order": 108,
+    "ker_size": 18
+   },
+   "reference_matches_norm_embedding": true
+  },
+  {
+   "window_id": "W-E-A12-9t3",
+   "n": 12,
+   "canonical_id_sha256": "2b765ab70a9579050540ab36d113925cedc9e26a5a97db865338d19a8eced02b",
+   "shadow_total": 108,
+   "ker_size": 18,
+   "distinct_alphas": 108,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/a13_ladder_W_E_A12_9t3_20260730.json",
+    "group_order": 108,
+    "ker_size": 18
+   },
+   "reference_matches_norm_embedding": true
+  },
+  {
+   "window_id": "W-E-A13-9t4",
+   "n": 13,
+   "canonical_id_sha256": "99a244eccfedaa668bb0f556beb3600ae0a192ef235ddbe0cb486b502fd8f96c",
+   "shadow_total": 432,
+   "ker_size": 72,
+   "distinct_alphas": 432,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/a13_ladder_W_E_A13_9t4_20260730.json",
+    "group_order": 432,
+    "ker_size": 72
+   },
+   "reference_matches_norm_embedding": true
+  },
+  {
+   "window_id": "W-E-A10-5x2t0",
+   "n": 10,
+   "canonical_id_sha256": "8a746abb7b0a94c23fdb15c915c105ae790b3ab113721d3b5b671a6270c8572b",
+   "shadow_total": 40,
+   "ker_size": 10,
+   "distinct_alphas": 40,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/i10_1_xi_recheck_20260730.json (window W-E-A10-5x2t0)",
+    "group_order": 40,
+    "ker_size": 10
+   },
+   "reference_matches_norm_embedding": true
+  },
+  {
+   "window_id": "W-E-A15-5x3t0",
+   "n": 15,
+   "canonical_id_sha256": "103262eff256f16c97a9f4de197962a59934d53ef6a13f765e1e925853270dfd",
+   "shadow_total": 200,
+   "ker_size": 50,
+   "distinct_alphas": 200,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/i10_1_xi_recheck_20260730.json (window W-E-A15-5x3t0)",
+    "group_order": 200,
+    "ker_size": 50
+   },
+   "reference_matches_norm_embedding": true
+  },
+  {
+   "window_id": "W-D-A16-11a",
+   "n": 16,
+   "canonical_id_sha256": "a6e6a516130ecad604ac762cf2fae125b7938322ece280088afa5f331201ab1e",
+   "shadow_total": 880,
+   "ker_size": 88,
+   "distinct_alphas": 880,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/w62_splitting_20260729.json (results[wid=W-D-A16-11a])",
+    "group_order": 880,
+    "ker_size": 88
+   },
+   "reference_matches_norm_embedding": true
+  },
+  {
+   "window_id": "W-D-A18-13a",
+   "n": 18,
+   "canonical_id_sha256": "8787febe75d9934d304b89e508d55cffd8c18744233fe7ebfbe90b13b1118b9b",
+   "shadow_total": 1248,
+   "ker_size": 104,
+   "distinct_alphas": 1248,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/w62_splitting_20260729.json (results[wid=W-D-A18-13a])",
+    "group_order": 1248,
+    "ker_size": 104
+   },
+   "reference_matches_norm_embedding": true
+  },
+  {
+   "window_id": "W-D-A20-15a",
+   "n": 20,
+   "canonical_id_sha256": "d0e0a07b3fbf39ed1b83a30ba1c37f0af7689816faa3666ac2c6064dc852c5ec",
+   "shadow_total": 960,
+   "ker_size": 120,
+   "distinct_alphas": 960,
+   "kernel_trivial": true,
+   "hom_left": false,
+   "hom_right": true,
+   "image_order_eq_gtsh": true,
+   "image_is_subgroup_of_normalizer": true,
+   "nine_property_checks_pass": true,
+   "independent_reference": {
+    "source": "search/certs/w62_splitting_20260729.json (results[wid=W-D-A20-15a])",
+    "group_order": 960,
+    "ker_size": 120
+   },
+   "reference_matches_norm_embedding": true
+  }
+ ],
+ "all_nine_windows_pass_and_match_independent_reference": true
+}

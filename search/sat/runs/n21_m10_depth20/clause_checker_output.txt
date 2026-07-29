@@ -1,0 +1,13 @@
+{
+  "tool": "search/sat/tools/verify_generic_cnf_model.mjs",
+  "cnf_path": "search/sat/runs/n21_m10_depth20/problem.cnf",
+  "model_path": "search/sat/runs/n21_m10_depth20/model_vlines.txt",
+  "nvars": 9723,
+  "declared_clauses": 34692,
+  "parsed_clauses": 34692,
+  "assigned": 9723,
+  "missing_vars": 0,
+  "model_had_terminating_zero": true,
+  "unsatisfied_count": 0,
+  "unsatisfied_sample": []
+}

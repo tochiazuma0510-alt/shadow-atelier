@@ -9,6 +9,7 @@
 ##        (c) 核 = 1  (d) 像が N_{S_n}(<xbar>) の部分群で位数 = |GTSh|
 ##  Single lane (GAP 4.16.0). NOT a ledger claim. No commit.
 #############################################################################
+SizeScreen([4096, 0]);;
 OUT := "search/certs/norm_embedding_20260731.json";;
 recs := [];;
 
@@ -51,7 +52,6 @@ DoWindow := function(nn, a1, b1, wid)
             fi;
           fi;
         od;
-      fi;
     od;
   od;
   tot := Length(sh);

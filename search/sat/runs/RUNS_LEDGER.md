@@ -154,7 +154,8 @@ f7f55c9281045e79a5e7016b0b229fdd33551726e9087a59b8d6165eec67f163 *result.txt
 96111b4844620785eaec7f2fd4495c2ea279439ac6534d787ba57df3636f544a *run_label.txt
 ```
 
-`search/sat/runs/n21_m10_depth20/SHA256SUMS.txt`:
+`search/sat/runs/n21_m10_depth20/SHA256SUMS.txt`(2026-07-31 P87-5 item 3 で
+`clause_checker_output.txt` を追加・他 8 行は不変):
 ```
 1508c9272ce5fd4334d0144f45f708c3cb0e2b71a89751d6ad4aeefa70aa45a0 *check_model_output.txt
 3c6c45b617d5068c6f93b866f1375de7be0d6e5f2e32767b651a93878c81b4e3 *kissat_out.txt
@@ -164,6 +165,7 @@ befa6f1b05a4a3633f751abd030d913da2dc41d59567b91dd94c92c68b531cc6 *problem.cnf
 a19d7d365332396138aa0f689071f836e8f2d2e83534fa42dabdda3f6684d468 *proof.drat
 b70f5c10f578a5addc58babb6e3d6d9b0401d0ec4311aed698d89f4c7993a34c *result.txt
 96111b4844620785eaec7f2fd4495c2ea279439ac6534d787ba57df3636f544a *run_label.txt
+cedf5b7d57c3f4b469f577e00e2cdd301542325d1024bdc63b5a411e268bfe56 *clause_checker_output.txt
 ```
 
 ### 独立照合(この節作成時にローカルで実施)
@@ -189,6 +191,21 @@ b70f5c10f578a5addc58babb6e3d6d9b0401d0ec4311aed698d89f4c7993a34c *result.txt
   正しさ(固定 path グラフの BFS 到達性)とは無関係な、チェッカーの前提が合わない
   ことによる `ok:false` である。生出力は `check_model_output.txt` に保存し、
   「対象外」の理由を明記した。
+- 上記の意味論チェッカーが対象外である depth20 fixture について、`sol_reply_87_math14.md`
+  F87-1.6(独立監査)が求めた「独立 clause evaluator」を
+  `node search/sat/tools/verify_generic_cnf_model.mjs search/sat/runs/n21_m10_depth20/problem.cnf
+  search/sat/runs/n21_m10_depth20/model_vlines.txt` として実装・収蔵した(P87-5 item 3)。
+  この tool はエンコーディングの意味を一切知らず、DIMACS `p cnf <nvars> <nclauses>` と
+  `v` 行だけから素の充足判定を行う(=X/D/B の配線非対応とは無関係の、全 clause に対する
+  literal-level 再評価)。出力は `search/sat/runs/n21_m10_depth20/clause_checker_output.txt`
+  に保存済み:
+  ```
+  nvars=9723  declared_clauses=34692  parsed_clauses=34692
+  assigned=9723  missing_vars=0  unsatisfied_count=0
+  ```
+  Sol 側が便 87 監査で独自に報告した同一の数値(`nvars=9723` 等)と一致する
+  (このリポジトリ内の実装は Sol の checker コードを import したものではなく、
+  問題設定だけを共有する独立実装 — 探索器/照合器分離の原則どおり)。
 
 ## 未収蔵・既知の欠落
 

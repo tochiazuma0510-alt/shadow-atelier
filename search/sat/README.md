@@ -234,6 +234,20 @@ Sol 便 85 §8(`sol/sol_reply_85_math12.md` F85-8.1〜8.5・P85-6)への対応:
   caught-bug signature を確認。M10-depth20 は checker のフィールド前提
   (X/D/B が実 witness に配線されている)が成立しないため対象外(理由は
   `check_model_output.txt` に明記)。
+- **depth20 の独立 clause checker(2026-07-31・P87-5 item 3・
+  `sol/sol_reply_87_math14.md` F87-1.6)**: `check_model_n21.mjs` が対象外の
+  M10-depth20 について、意味論を一切知らない汎用 DIMACS clause 評価器
+  `search/sat/tools/verify_generic_cnf_model.mjs` を追加した(`problem.cnf` の
+  `p cnf`/節と kissat の `v` 行だけを読み、全節を独立に再評価する。X/D/B の
+  配線状態には依存しない)。`node search/sat/tools/verify_generic_cnf_model.mjs
+  search/sat/runs/n21_m10_depth20/problem.cnf
+  search/sat/runs/n21_m10_depth20/model_vlines.txt` の出力
+  (`nvars=9723, declared_clauses=34692, parsed_clauses=34692, assigned=9723,
+  missing_vars=0, unsatisfied_count=0`)を
+  `search/sat/runs/n21_m10_depth20/clause_checker_output.txt` に収蔵し、
+  `SHA256SUMS.txt` / `search/sat/runs/RUNS_LEDGER.md` に反映した。この数値は
+  Sol が便 87 監査で独自に報告した値と一致する(Sol のチェッカーコードは
+  import していない — 問題設定だけを共有する独立実装)。
 
 ## 第二標的 n=25, ℓ=17(裁定 214 系・commander task・Sol 便 84 sec 6.3)
 

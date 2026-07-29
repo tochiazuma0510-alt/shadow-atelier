@@ -1,0 +1,301 @@
+{
+ "schema": "xi-closure-seal/v1",
+ "generated_by": {
+  "tool": "python3",
+  "script": "search/xi-closure-seal-build.py"
+ },
+ "note": "Seal binding the input certificate SHA-256 hashes (15 GAP-side xi_uid_gap_* certs, GAP-side manifest, 13 python-side ladder_xi_recheck_* certs + the shared i10_1_xi_recheck cert covering the 2 I10-1 windows, and the 3 scripts involved: GAP export, python recheck, python comparison) that produced the 15/15 accepted-set equality result recorded in search/certs/xi_set_equality_20260731.json. Sol_reply_87_math14.md P87-2: fixes which cert hashes the set-equality 15/15 came from, so the equality receipt cannot silently drift from the underlying data. Also independently re-sums the per-window (3.53) composition-closure counts already stored in the python certs (not a re-scan -- pure aggregation of already-written fields) to reproduce the cross-check total.",
+ "equality_receipt": {
+  "path": "search/certs/xi_set_equality_20260731.json",
+  "sha256": "38c75407743cffc59ecb5a42353e05c1936be336c475450c69bbda6afe73609c",
+  "all_windows_digest_match": true,
+  "all_windows_set_equal": true,
+  "windows_checked": 15
+ },
+ "gap_manifest": {
+  "path": "search/certs/xi_uid_gap_manifest_20260731.json",
+  "sha256": "852a8d9287c0fb4ab7faa281580ef107ac6749cd26eeaf9b1e232a70980cc2c0"
+ },
+ "generator_scripts": {
+  "gap_export": {
+   "path": "search/xi-uid-export.g",
+   "sha256": "24c04900080a2a0937a5edfb450b8c0717ab938670128cca0aa80fdaafa2f41d"
+  },
+  "python_recheck": {
+   "path": "search/ladder-xi-recheck.py",
+   "sha256": "340d0f387c47f72545a926e2b8f359ef4e2f407ff23c60ec564526f5f834e39f"
+  },
+  "comparison": {
+   "path": "search/xi-set-equality-check.py",
+   "sha256": "c854129de00c1632dc89851f03bcdfc93d1d3413fc062667abd8b6177109e89f"
+  }
+ },
+ "windows": [
+  {
+   "wid": "W-E-A10-9t1",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A10_9t1_20260731.json",
+   "gap_cert_sha256": "d7d297e7a17202bddbbe2f7354e2eb6064cc4f5b4a99b312610b740a5ba311f8",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A10-9t1_20260730.json",
+   "python_cert_sha256": "e4a9a0d7092d0018bd42590242250d372f2021d2f403b97de1b12863f1e5d51c",
+   "accepted_count": 54,
+   "accepted_set_digest_sha256": "8caa3eb948bfb85989e0210b06ad4d1f375a67cd0438e675c6dadffc8752a884",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 2916,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A10-9t1-o2",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A10_9t1_o2_20260731.json",
+   "gap_cert_sha256": "52b57d92b19975ed70b296090b41c72de87eaaba6374f9b620a79be364bad21a",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A10-9t1-o2_20260730.json",
+   "python_cert_sha256": "90af0ac6e7e11dc35ba10b16e130829a30063614093cf6e51ea420112510d8f6",
+   "accepted_count": 54,
+   "accepted_set_digest_sha256": "39f4bf05ad7f55986e00fa7e1b452cc8a88390907faaf0bd6ba76d8110bc8f3b",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 2916,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A10-9t1-o3",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A10_9t1_o3_20260731.json",
+   "gap_cert_sha256": "ab15ef7252a9cbfd53a9fa7c6f1a91df5ef4a38c543fe5ecbab6c822ec0e8adb",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A10-9t1-o3_20260730.json",
+   "python_cert_sha256": "e9518b811b850bbc3f151dd4831691ff07f462a1a3261a3b86526fa82f772260",
+   "accepted_count": 54,
+   "accepted_set_digest_sha256": "c2b349f1e62db209dd5b9fe3fcbfa683d9bb64f63cd6aea1660f7f03d3e8d1ad",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 2916,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A10-9t1-o4",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A10_9t1_o4_20260731.json",
+   "gap_cert_sha256": "ecd35011a3c7f1d559ef616e00c841aced1e7c89b1f9ee2dc57087341af72503",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A10-9t1-o4_20260730.json",
+   "python_cert_sha256": "e3aeb0437065e8fc42a0f453e1166ebfae408bbd278d8fe3120a07bc28f76693",
+   "accepted_count": 54,
+   "accepted_set_digest_sha256": "bb3c25d3db650f448db4c5a152462247355cc7829eacd76f704623e7d4e2c2fe",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 2916,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A10-9t1-o5",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A10_9t1_o5_20260731.json",
+   "gap_cert_sha256": "ab30d4dd8e88fc12797cf61df7ac3c69c7db0802057d5fb4d36f9a9d3a228e16",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A10-9t1-o5_20260730.json",
+   "python_cert_sha256": "66f020da6d84e64a032e9e88ef6c19e95909dddd1ec9e4396a17650d0665f010",
+   "accepted_count": 54,
+   "accepted_set_digest_sha256": "f260c1d4a50be95a838098753d5b78fa9aa4a87e33817e86e3f2799c8ea2f714",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 2916,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A10-9t1-o6",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A10_9t1_o6_20260731.json",
+   "gap_cert_sha256": "df4f6fa08b4cae62d6c1be4301fde201e0b3a098f0d0ef60a49f528d6e4392d7",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A10-9t1-o6_20260730.json",
+   "python_cert_sha256": "a547638ef0848484af3ca28631f3518fcf49db36ff096949b9b8c9ffeef75cd6",
+   "accepted_count": 54,
+   "accepted_set_digest_sha256": "0d227d1e4c30574a3cc427f57bac265bc6b7d6a668ab655b7a8a13346d845d09",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 2916,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A11-9t2",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A11_9t2_20260731.json",
+   "gap_cert_sha256": "e2f175cd76c5bfe7807616f0a9789dd55caf532ccae177f6fa7f591ab6457e4f",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A11-9t2_20260730.json",
+   "python_cert_sha256": "ac8ac7af9cb50ab35554262e26b9ea53d6021897649236b139bdad911fa7f826",
+   "accepted_count": 108,
+   "accepted_set_digest_sha256": "40c4a08b516009b59b2f0bd423e0c59d7907c284941bf34692d9c7fb67cbdbd2",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 11664,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A11-9t2-o2",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A11_9t2_o2_20260731.json",
+   "gap_cert_sha256": "dab47c007705eeadbdf4917e65876c0f87bcadea23d54fed945f86c3a1f9f866",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A11-9t2-o2_20260730.json",
+   "python_cert_sha256": "87267b65eaf20e043edf5b66cdf2ff9e73039d444a2e5b6cb8fdde925bee7dd4",
+   "accepted_count": 108,
+   "accepted_set_digest_sha256": "6c297f957517f261189d7856426f6733eaec0c0a23d822a83424448260137089",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 11664,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A11-9t2-o3",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A11_9t2_o3_20260731.json",
+   "gap_cert_sha256": "fef4522a841e977788ccbd2ed5a66f7d84b4aa7124223a925b1bc3ed54fcd576",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A11-9t2-o3_20260730.json",
+   "python_cert_sha256": "e3911f2a53d54cdb6e0f7109c0b53bf7a15fbb39a3de08a0d13c4ab29c50a2d9",
+   "accepted_count": 108,
+   "accepted_set_digest_sha256": "ce28a4107d3201aa27455ee492502c7298d3320d489ce6709b672ad0a997928c",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 11664,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A12-9t3",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A12_9t3_20260731.json",
+   "gap_cert_sha256": "63e00fe5555a289e45380484e395909284db769ffe0777c73f694e30bd011165",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A12-9t3_20260730.json",
+   "python_cert_sha256": "2fac73d6be99af5103ebd656ae58eaf8d4f8e7783577bf9f47996728e485f746",
+   "accepted_count": 108,
+   "accepted_set_digest_sha256": "7449040abfce9dd50b0e5fe64c886d2b5bb99e1263a94432f997238929383987",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 11664,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A12-9t3-o2",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A12_9t3_o2_20260731.json",
+   "gap_cert_sha256": "c12b2e114aa37120b06e0981cae3f21ee7a504ab7fe4d9f742607a44529e0b48",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A12-9t3-o2_20260730.json",
+   "python_cert_sha256": "dfc7d6b71a3ddc7e7e7a6048747a4262bd4026cd85a8843f1e346c9075fdc46a",
+   "accepted_count": 108,
+   "accepted_set_digest_sha256": "bda1baa180b0be7af0dca957232d15cc62604f82ccec0148f3664b3c50be8887",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 11664,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A12-9t3-o3",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A12_9t3_o3_20260731.json",
+   "gap_cert_sha256": "44957be8bcb28bb95c9661986352fa57bb5ff2b946c6e6daa3535bbd927c76cd",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A12-9t3-o3_20260730.json",
+   "python_cert_sha256": "73e017d67b24ab469c691c7d979f28510800bf0d5ec53f2fb7eeafaaa49d2148",
+   "accepted_count": 108,
+   "accepted_set_digest_sha256": "a9890e8e6cc1588f9e0e71d19b3ce0cb8706e4a102c674e5fef10243790171ad",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 11664,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A13-9t4",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A13_9t4_20260731.json",
+   "gap_cert_sha256": "8234edebf3f3add860b9fdbf48beabc56b4cd68da0913bf4a3ca14a88b868481",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/ladder_xi_recheck_W-E-A13-9t4_20260730.json",
+   "python_cert_sha256": "80cd45e26d36287e37fcad9c20a8c25996331476139683530a60d85333f17c1e",
+   "accepted_count": 432,
+   "accepted_set_digest_sha256": "5e6adc8640c7b4f4ddb81eb01c0245d50c5e5782bdd30acff0302c12a32b467a",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 186624,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A10-5x2t0",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A10_5x2t0_20260731.json",
+   "gap_cert_sha256": "b8d571b093ad1819808424e5e8d338e747fc69cc79633d0fea41ef0b08295796",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/i10_1_xi_recheck_20260730.json",
+   "python_cert_sha256": "84a9b22859d4c9d76e1515bf6d4c5b5d733afb5a2296e0f7befdb693a68f4fbb",
+   "accepted_count": 40,
+   "accepted_set_digest_sha256": "af40e897b256234b3e5c0e783005141a2b0f6af823db3b0b1b854531cfb43066",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 1600,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  },
+  {
+   "wid": "W-E-A15-5x3t0",
+   "gap_cert": "search/certs/xi_uid_gap_W_E_A15_5x3t0_20260731.json",
+   "gap_cert_sha256": "e88241a48ab6d1b5d9ffb793bc76e09bfd6a13613295492e6f1659068b374779",
+   "gap_cert_sha256_matches_manifest": true,
+   "python_cert": "search/certs/i10_1_xi_recheck_20260730.json",
+   "python_cert_sha256": "84a9b22859d4c9d76e1515bf6d4c5b5d733afb5a2296e0f7befdb693a68f4fbb",
+   "accepted_count": 200,
+   "accepted_set_digest_sha256": "2ff05fdebaee2d17d2d34cbacd893d4df79bfb95237f47a48c1a45ce24de89d1",
+   "digest_match": true,
+   "set_equal": true,
+   "composition_closure_353": {
+    "pairs_checked": 40000,
+    "closure_failures": 0,
+    "all_closed": true
+   }
+  }
+ ],
+ "composition_closure_353_total": {
+  "ordered_pairs_checked": 315704,
+  "closure_failures": 0,
+  "note": "Sum of composition_closure_353.pairs_checked / .closure_failures already recorded in each per-window python cert, re-added here independently of any GAP/python re-run. Matches the sol_reply_87_math14.md F87-1.3 audit figure of 315,704 ordered pairs / 0 failures."
+ },
+ "anti_isomorphism_coordinate_derivation": {
+  "note": "Per sol_reply_87_math14.md F87-1.3: the python-side internal coordinate is f = F^{-1} where F is the paper's (3.53) coordinate. For F_new = F1 . E1(F2), taking inverses gives f_new = F_new^{-1} = (F1.E1(F2))^{-1} = E1(F2)^{-1}.F1^{-1} = E1(F2^{-1}).F1^{-1} = E1(f2).f1. So the script's `E(f2)*f1` is the anti-isomorphic coordinate representation of paper (3.53), derived formally from f := F^{-1} BEFORE any measurement -- the observed 0 closure failures is a consequence of this derivation, not the basis for choosing the formula (this replaces the earlier 'measured, not assumed' framing that sol_reply_87_math14.md flagged as backwards)."
+ },
+ "settled_fail_count_scope": {
+  "note": "settled_fail_count=0 in every underlying xi_uid_gap_* / ladder_xi_recheck_* cert is scoped to the scanned candidate universe of that window (the m in [0,N_ord) x f-scan bound recorded in each cert), per P87-2 item 4. It is read as 'no failures inside the Xi candidate universe that was scanned', not as a proof of non-existence of failures outside that universe."
+ }
+}
