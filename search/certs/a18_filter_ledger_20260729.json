@@ -1,0 +1,164 @@
+{
+  "generated_by": "search/a18-filter-ledger.g",
+  "note": "filter ledger for W-D-A18-13a: per-charming-m stage survivor counts. pre_xi is a reference figure only (|[P,P]|, never enumerated); post_xi are the real, actually-computed per-stage counts from the Prop 3.1 restricted scan. NOT a ledger claim, no cross-check performed.",
+  "charming_count": 12,
+  "stab_order": 1560,
+  "rows": [
+  {
+    "m":0,
+    "u":1,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":1,
+    "u":3,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":2,
+    "u":5,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":3,
+    "u":7,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":4,
+    "u":9,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":5,
+    "u":11,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":7,
+    "u":15,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":8,
+    "u":17,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":9,
+    "u":19,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":10,
+    "u":21,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":11,
+    "u":23,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  },
+  {
+    "m":12,
+    "u":25,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":3201186852864000},
+    "post_xi": {
+      "xi_raw":1216800,
+      "in_derived":1216800,
+      "theta_inv":1560,
+      "r_tau":104,
+      "generation":104,
+      "bq_settled":104
+    }
+  }
+  ]
+}

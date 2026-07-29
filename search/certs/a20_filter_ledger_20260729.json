@@ -1,0 +1,112 @@
+{
+  "generated_by": "search/a20-filter-ledger.g",
+  "note": "filter ledger for W-D-A20-15a: per-charming-m stage survivor counts. pre_xi is a reference figure only (|[P,P]|, never enumerated); post_xi are the real, actually-computed per-stage counts from the Prop 3.1 restricted scan. NOT a ledger claim, no cross-check performed.",
+  "charming_count": 8,
+  "stab_order": 1800,
+  "rows": [
+  {
+    "m":0,
+    "u":1,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":1216451004088320000},
+    "post_xi": {
+      "xi_raw":1620000,
+      "in_derived":1620000,
+      "theta_inv":1800,
+      "r_tau":120,
+      "generation":120,
+      "bq_settled":120
+    }
+  },
+  {
+    "m":3,
+    "u":7,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":1216451004088320000},
+    "post_xi": {
+      "xi_raw":1620000,
+      "in_derived":1620000,
+      "theta_inv":1800,
+      "r_tau":120,
+      "generation":120,
+      "bq_settled":120
+    }
+  },
+  {
+    "m":5,
+    "u":11,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":1216451004088320000},
+    "post_xi": {
+      "xi_raw":1620000,
+      "in_derived":1620000,
+      "theta_inv":1800,
+      "r_tau":120,
+      "generation":120,
+      "bq_settled":120
+    }
+  },
+  {
+    "m":6,
+    "u":13,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":1216451004088320000},
+    "post_xi": {
+      "xi_raw":1620000,
+      "in_derived":1620000,
+      "theta_inv":1800,
+      "r_tau":120,
+      "generation":120,
+      "bq_settled":120
+    }
+  },
+  {
+    "m":8,
+    "u":17,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":1216451004088320000},
+    "post_xi": {
+      "xi_raw":1620000,
+      "in_derived":1620000,
+      "theta_inv":1800,
+      "r_tau":120,
+      "generation":120,
+      "bq_settled":120
+    }
+  },
+  {
+    "m":9,
+    "u":19,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":1216451004088320000},
+    "post_xi": {
+      "xi_raw":1620000,
+      "in_derived":1620000,
+      "theta_inv":1800,
+      "r_tau":120,
+      "generation":120,
+      "bq_settled":120
+    }
+  },
+  {
+    "m":11,
+    "u":23,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":1216451004088320000},
+    "post_xi": {
+      "xi_raw":1620000,
+      "in_derived":1620000,
+      "theta_inv":1800,
+      "r_tau":120,
+      "generation":120,
+      "bq_settled":120
+    }
+  },
+  {
+    "m":14,
+    "u":29,
+    "pre_xi": {"legacy_pp_reference_NOT_enumerated":1216451004088320000},
+    "post_xi": {
+      "xi_raw":1620000,
+      "in_derived":1620000,
+      "theta_inv":1800,
+      "r_tau":120,
+      "generation":120,
+      "bq_settled":120
+    }
+  }
+  ]
+}

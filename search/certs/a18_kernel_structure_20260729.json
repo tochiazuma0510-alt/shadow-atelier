@@ -1,0 +1,36 @@
+{
+  "generated_by": "search/a18-kernel-structure.g",
+  "note": "kernel-structure capsule for GTSh(W-D-A18-13a), field names per docs/notes/a20_prediction_v1.md S A18-4; NOT a ledger claim, no cross-check performed (single implementation)",
+  "group_order": 1248,
+  "ker_size": 104,
+  "chi_image_order": 12,
+  "Q_struct": "C12",
+  "Q_invariant_factors": [3,4],
+  "K_struct": "C13 x D8",
+  "K_is_abelian": false,
+  "Kprime_order": 2,
+  "Gprime_order": 26,
+  "Gprime_struct": "C26",
+  "ZK_order": 26,
+  "ZK_equals_Gprime": true,
+  "Gprime_subset_of_K": true,
+  "KmodGprime_struct": "C2 x C2",
+  "KmodGprime_order": 4,
+  "derived_length_G": 2,
+  "GmodGprime_invariant_factors": [2,2,3,4],
+  "Kab_order": 52,
+  "Kab_struct": "C26 x C2",
+  "Kab_invariant_factors": [2,2,13],
+  "Q_action_on_Kab": [
+    {"q_gen_index":1,"q_gen_order":4,"images":[{"kab_gen_index":1,"kab_gen_order":26,"conj_in_K":true,"image_in_Kab":"f1*f2"},{"kab_gen_index":2,"kab_gen_order":13,"conj_in_K":true,"image_in_Kab":"f2^5"},{"kab_gen_index":3,"kab_gen_order":2,"conj_in_K":true,"image_in_Kab":"f3"}]},
+    {"q_gen_index":2,"q_gen_order":2,"images":[{"kab_gen_index":1,"kab_gen_order":26,"conj_in_K":true,"image_in_Kab":"f1*f2^6"},{"kab_gen_index":2,"kab_gen_order":13,"conj_in_K":true,"image_in_Kab":"f2^12"},{"kab_gen_index":3,"kab_gen_order":2,"conj_in_K":true,"image_in_Kab":"f3"}]},
+    {"q_gen_index":3,"q_gen_order":3,"images":[{"kab_gen_index":1,"kab_gen_order":26,"conj_in_K":true,"image_in_Kab":"f1*f2^7"},{"kab_gen_index":2,"kab_gen_order":13,"conj_in_K":true,"image_in_Kab":"f2^3"},{"kab_gen_index":3,"kab_gen_order":2,"conj_in_K":true,"image_in_Kab":"f3"}]}
+  ],
+  "witness_generators": [
+    {"shadow_idx":21,"m":0,"f_perm":"(1,3,14,17,12,7,6,4,2,16,10)(5,11,18,15,13,9,8)"},
+    {"shadow_idx":19,"m":0,"f_perm":"(1,3,5)(2,6,18,9,11)(4,8,12,7,16,10,13)(14,17,15)"},
+    {"shadow_idx":28,"m":0,"f_perm":"(1,5,7,16,15,17,10,13,4,8,12)(2,6,18,9,11)"},
+    {"shadow_idx":29,"m":0,"f_perm":"(1,5,11,18,15,17,12,7,6,4,2,16,10)(3,14,13,9,8)"},
+    {"shadow_idx":22,"m":0,"f_perm":"(1,3,14,17,10,7,6,4,2,16,12)(5,11,18,15,13,9,8)"}
+  ]
+}
