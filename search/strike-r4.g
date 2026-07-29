@@ -622,7 +622,14 @@ MeasureWindow := function(w, st, scanRes)
   splitND := (complAll > 0) and (complInCGS = 0);;
   zInPhi := fail;;  centralWit := "null";;
   if Size(S) > 1 then
-    AnormInCGS := IsNormal(CGS, A);;
+    # 2026-07-30 postmortem (window C CI run, run 30481912368): A=O_2'(K) has
+    # no a priori reason to be a SUBGROUP of CGS=C_G(S) (only normal in K) --
+    # IsNormal(CGS,A) alone returned true incorrectly (or GAP's internal
+    # precondition check disagreed with it), and NaturalHomomorphismByNormal-
+    # Subgroup(CGS,A) then errored fail-closed with "<N> must be a normal
+    # subgroup of <G>", killing the entire ~49min measurement run. Fixed by
+    # requiring containment explicitly before trusting normality.
+    AnormInCGS := IsSubset(CGS, A) and IsNormal(CGS, A);;
     if AnormInCGS then
       natCGSA := NaturalHomomorphismByNormalSubgroup(CGS, A);;
       CGSmodA := Image(natCGSA);;
