@@ -1,0 +1,29 @@
+{
+  "_purpose": "SAT-checker self-test fixture for the n=25, ell=17 second SAT target (sol/sol_reply_84_math11.md sec 6.3). This (a,b) pair was found via a simulated-annealing LOCAL SEARCH over the class constraints only (search/sat/tools/local_search_a25.g -- NOT a uniform random search: a direct GAP character-table computation, search/sat/tools/structure_const_a25.g, shows the class-only solution count for this exact fixed u is 82688 out of |class(2^12,1)|=7905853580625, i.e. probability ~1.05e-8 per uniform-random conjugate, so a plain random search analogous to extract_witness_n21.g needed ~1e8+ tries to expect one hit; local search converged in 16824 moves instead). It was found to ALSO be 2-transitive (an unplanned bonus: local search targeted only the class constraints, not transitivity) -- independently confirmed by scratchpad/verify_a25_witness.py (pure Python, no GAP import) via an UNBOUNDED iterate-to-fixpoint BFS over the diagonal action of {a,b,b^-1} on all 600 ordered pairs starting from (1,2): the orbit closure reached all 600 ordered pairs, with TRUE BFS diameter 43. GAP independently corroborates via a totally different computation: |<a,b>| = 7755605021665492992000000 = 25!/2 = |A_25| exactly. This fixture therefore witnesses UNCONDITIONALLY (no SAT/DRAT pipeline needed for this existence direction) that a genuine (a,b) pair of the required types generating A_25 EXISTS for this fixed u -- see the commander/Sol write-up for how this affects the priority of building the full CNF#2 2-transitivity BFS SAT encoding. Used to calibrate check_model_a25.mjs: it must ACCEPT this as a valid CNF#1 class-only model AND (in transitive/2-transitive mode) report 2-transitivity as TRUE.",
+  "n": 25,
+  "ell": 17,
+  "u_cycle_notation": "(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)(18,19)(20,21)(22,23)(24,25)",
+  "u_images_1indexed": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,1,19,18,21,20,23,22,25,24],
+  "uinv_images_1indexed": [17,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,18,21,20,23,22,25,24],
+  "a_images_1indexed": [21,7,23,5,4,22,2,20,17,18,15,24,13,25,11,19,9,10,16,8,1,6,3,12,14],
+  "b_images_1indexed": [20,6,22,4,3,23,1,21,16,19,14,25,12,24,10,18,8,9,15,7,17,5,2,11,13],
+  "a_cycle_type": "2^12 1 (fixed point at 13)",
+  "b_cycle_type": "3^8 1 (fixed point at 4)",
+  "gap_reported_group_order": "7755605021665492992000000",
+  "gap_reported_group_order_equals_A25": true,
+  "gap_reported_transitive": true,
+  "python_independent_pair_orbit_size": 600,
+  "python_independent_2transitive": true,
+  "python_independent_true_bfs_diameter_from_(1,2)": 43,
+  "class_only_solution_count_exact": {
+    "value": 82688,
+    "method": "GAP character table of Symmetric(25) (1958 classes) via ClassMultiplicationCoefficient(class(3^8,1), class(17,2,2,2,2), class(2^12,1)) * |class(2^12,1)| / |class(17,2,2,2,2)|, derived from the standard class-algebra structure-constant identity (independent of, and computed before, this specific witness). Script: search/sat/tools/structure_const_a25.g.",
+    "note": "This is the exact analogue of tail8_exact.g's 4160 for n=21 -- an external oracle for CNF#1's expected solution count, NOT a CNF axiom."
+  },
+  "gap_source_scripts": {
+    "local_search": "search/sat/tools/local_search_a25.g",
+    "structure_constant": "search/sat/tools/structure_const_a25.g"
+  },
+  "gap_local_search_hit_at_move": 16824,
+  "python_verification_script": "scratchpad/verify_a25_witness.py (not committed to repo -- scratchpad; rerun to reproduce)"
+}

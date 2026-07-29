@@ -1,0 +1,72 @@
+{
+  "_schema": "shadow-atelier/sat-mutant-matrix/v1",
+  "_purpose": "Pre-registered mutant matrix for the n=25, ell=17 2-transitivity SAT target (search/sat/encode_a25.py, sol/sol_reply_84_math11.md sec 6.3). Adapted from search/sat/mutants_n21.json's core mutants (M1-M5) to this target's differences: b requires EXACTLY ONE fixed point (not fixed-point-free), and the transitivity apparatus is a pair-graph 2-transitivity BFS (not a point-graph transitivity BFS). Baseline: search/sat/out/a25_class.cnf (950 vars, 25002 clauses, expected SAT, exact solution count 82688 per search/sat/tools/structure_const_a25.g) and search/sat/out/a25_2transitive_depth5.cnf (482825 vars, 1898102 clauses, depth=5). IMPORTANT SCOPE NOTE: depth=5 is far below the one known true diameter (43, search/sat/fixtures/witness_a25_2transitive.json) -- the depth5 CNF is a PIPELINE-EXERCISE / calibration artifact, not expected to be existence-informative (see search/sat/README.md and encode_a25.py module docstring for the full depth-bound sizing analysis and why depth>=43 was not committed).",
+  "mutants": [
+    {
+      "id": "M1_u_inverse_dropped",
+      "description": "Drop u^-1 entirely: alias B to A's own matrix (B[i][k] <-> D[i] if k==i else X[i,k]), same construction as mutants_n21.json's M2.",
+      "target_cnf": "class only (structurally propagates to any 2-transitive CNF built on top, since it is a superset)",
+      "prediction": {
+        "class_cnf_verdict": "UNSAT",
+        "class_cnf_confidence": "PROVEN",
+        "class_cnf_argument": "With this alias, b_cubed_equals_identity forces (a)^3=identity, but a is an involution (a^2=identity) with a SINGLE fixed point (not all fixed), so a^3=a != identity for any non-fixed point -- direct unit-propagation-level contradiction with the b_diagonal_exactly_one_fixed_point / a_diagonal_exactly_one_fixed_point structure (an involution of type 2^12 1 cannot also have order dividing 3 unless it is the identity, which it is not, since it has 12 nontrivial 2-cycles). Expected essentially immediate UNSAT.",
+        "requires_oracle_check": false
+      }
+    },
+    {
+      "id": "M2_a_diagonal_exactly_one_dropped",
+      "description": "Drop the GLOBAL diagonal exactly-one-of-25 constraint on D[i] (a's fixed-point count), keeping only per-row exactly-one. Mirrors mutants_n21.json's M3.",
+      "target_cnf": "class only",
+      "prediction": {
+        "class_cnf_verdict": "SAT",
+        "class_cnf_confidence": "PROVEN",
+        "class_cnf_argument": "Strict weakening of an already-SAT instance (dropping a clause group cannot make a SAT instance UNSAT).",
+        "decoded_counterexample_property": "check_model_a25.mjs's a_is_type_2^12_1 check is expected to be able to report ok:false for the decoded model (search space now includes any odd-fixed-point involution, e.g. 3, 5, ... fixed points), since nothing biases the solver toward exactly type 2^12 1 anymore.",
+        "requires_oracle_check": true
+      }
+    },
+    {
+      "id": "M3_b_cubed_or_diagonal_exactly_one_dropped",
+      "description": "Drop EITHER b_cubed_equals_identity (M3a) OR b_diagonal_exactly_one_fixed_point (M3b). Note M3b is the DEPARTURE-POINT mutant from n=21's M4b (there the analogous group forbade ALL fixed points; here it requires EXACTLY ONE) -- dropping it here means b's fixed-point count becomes UNCONSTRAINED (any count, including the degenerate case of many fixed points), not 'fixed-point-free' as in the n=21 target.",
+      "target_cnf": "class only",
+      "prediction": {
+        "class_cnf_verdict": "SAT",
+        "class_cnf_confidence": "PROVEN",
+        "class_cnf_argument": "Strict weakening of an already-SAT instance (same argument as M2).",
+        "decoded_counterexample_property": "If M3a (b^3=1 dropped): decoded b need not have order dividing 3 -- checker's b_cubed_equals_identity check may report false. If M3b (diagonal exactly-one dropped): decoded b's fixed-point count is unconstrained by this clause group (though b_cubed_equals_identity alone still forces every non-fixed point into a 3-cycle, so the fixed-point count can still only be a value with 25-count divisible by 3, i.e. count in {1,4,7,...,25} -- NOT literally 'any count', a subtlety worth noting for interpretation).",
+        "requires_oracle_check": true
+      }
+    },
+    {
+      "id": "M4_2transitivity_apparatus_dropped",
+      "description": "Drop the entire pair-BFS apparatus (base case, all per-timestep TEMP/RNEW/R groups, goal clauses) from a25_2transitive_depth5.cnf, i.e. reduces exactly to a25_class.cnf. Mirrors mutants_n21.json's M5.",
+      "target_cnf": "2transitive only",
+      "prediction": {
+        "verdict": "SAT",
+        "confidence": "PROVEN",
+        "argument": "By construction this mutant's clause set (restricted to variables 1..950) is byte-identical to a25_class.cnf's clause set, whose SAT status is established (search/sat/fixtures/witness_a25_2transitive.json is an explicit satisfying assignment, independently checked in scratchpad/verify_a25_class_cnf.mjs: 0/25002 clauses violated).",
+        "requires_oracle_check": false
+      }
+    },
+    {
+      "id": "M5_depth_insufficiency_is_not_a_mutant_but_a_registered_scope_caveat",
+      "description": "NOT a code mutation -- a registered PREDICTION about the committed depth=5 CNF itself, so that its expected UNSAT (if it comes out that way) is not mistaken for a negative existence result.",
+      "target_cnf": "2transitive (depth=5, the actually-committed file)",
+      "prediction": {
+        "verdict": "UNKNOWN (not PROVEN either way)",
+        "confidence": "REASONED",
+        "argument": "depth=5 is far below the one known true diameter for a genuine witness (43, search/sat/fixtures/witness_a25_2transitive.json). It is plausible depth=5 is insufficient for ANY (a,b) satisfying the class constraints (not just the one known witness), making UNSAT likely -- but this is not proven, and even if depth=5 happens to come out SAT for some OTHER witness with a shorter word, that would be a genuine, informative, independently-checkable positive result. An UNSAT verdict at depth=5 must be read as 'no witness reachable within 5 diagonal-generator steps', NOT as 'no 2-transitive witness exists' -- the latter is already known to be FALSE regardless of this CNF's verdict (see witness_a25_2transitive.json).",
+        "requires_oracle_check": false
+      }
+    },
+    {
+      "id": "M6_settled_condition_dropped",
+      "description": "N/A for this target (mirrors mutants_n21.json's M7). Belongs to the THIRD SAT target (dl>=3 shadow witness), not built here.",
+      "target_cnf": "N/A",
+      "prediction": {
+        "status": "NOT APPLICABLE to encode_a25.py",
+        "note": "Listed only to keep the full Sol 6.5 mutant list visible in one place."
+      }
+    }
+  ]
+}

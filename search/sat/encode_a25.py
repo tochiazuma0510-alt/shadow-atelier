@@ -1,0 +1,693 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+search/sat/encode_a25.py
+
+Encoder for the SECOND SAT calibration target (ell=17, n=25 existence),
+per commander's task spec transcribing sol/sol_reply_84_math11.md sec 6.3,
+converting encode_tail8_n21.py's design to this new passport. Fresh
+implementation (not a copy-paste), same surrounding harness/conventions.
+
+Produces TWO DIMACS CNF files from a shared "class" prefix:
+
+  1. <out_prefix>_class.cnf        -- class constraints only.
+                                       Expected SAT: an EXACT count of
+                                       82688 solutions is known a priori
+                                       from an independent GAP character-
+                                       table computation (external oracle,
+                                       search/sat/tools/structure_const_a25.g;
+                                       NOT a CNF axiom), so this is a much
+                                       stronger calibration than "we expect
+                                       SAT" -- decoded models are one of a
+                                       KNOWN-SIZE finite set.
+  2. <out_prefix>_2transitive.cnf  -- class constraints + bounded-BFS
+                                       2-transitivity goal on ordered pairs.
+                                       SAT/UNSAT is the actual quantity
+                                       under test PER SOL 6.3 -- BUT see
+                                       the IMPORTANT CAVEAT below: a
+                                       genuine witness has ALREADY been
+                                       found and independently verified
+                                       WITHOUT this CNF (see
+                                       search/sat/fixtures/witness_a25_2transitive.json),
+                                       so existence for THIS fixed u is
+                                       already settled by direct
+                                       construction; this CNF's role is
+                                       downgraded to calibration/
+                                       methodology (build the reusable SAT
+                                       machinery, sanity-check it against
+                                       the known witness) rather than being
+                                       the discovery mechanism.
+
+=====================================================================
+DESIGN FIDELITY NOTES
+=====================================================================
+
+Fixed data (NOT variables):
+  u = (1..17)(18,19)(20,21)(22,23)(24,25), 1-indexed, N=25.
+
+Differences from encode_tail8_n21.py (do not conflate the two targets):
+  - a: type 2^12 1 (12 disjoint transpositions, ONE fixed point) --
+    same STYLE as n=21's a (matching variables X/D, global diagonal
+    exactly-one for the fixed point), just N=25 instead of 21.
+  - b := a*u^-1: type 3^8 1 -- b^3=1 AND EXACTLY ONE FIXED POINT. This is
+    the celebrated departure from n=21 (there b was FIXED-POINT-FREE,
+    type 3^7). Encoded via a GLOBAL DIAGONAL EXACTLY-ONE constraint over
+    B[i][i], i=1..25 -- structurally the same Tseitin machinery as a's
+    D[i] diagonal-exactly-one, just applied to B's diagonal instead of
+    forbidding it outright. Combined with b^3=1 (forcing every non-fixed
+    point into a 3-cycle, since order-dividing-3 permutations only have
+    1-cycles and 3-cycles), exactly one fixed point pins the remaining
+    24 points into exactly eight 3-cycles: type 3^8 1 exactly.
+  - Transitivity target: NOT plain single-point transitivity (as in
+    n=21's tail-8 target). Sol sec 6.3 requires the DIAGONAL action of
+    {a,b,b^-1} on ORDERED DISTINCT PAIRS (25*24=600 "pair-vertices") to
+    be transitive, i.e. full 2-transitivity of <a,b> on {1..25}. Sol's
+    own argument for why this equivalence holds: u^2 is a 17-cycle (so
+    a Sylow-17 element sits inside <a,b>), 2-transitive => primitive,
+    Jordan's theorem with a prime p=17 <= 25-3 forces the generated
+    group to contain A_25; conversely a,b are both even (a: 12
+    transpositions -> even; b: 8 three-cycles -> even), so <a,b> <= A_25.
+    Hence 2-transitive <=> <a,b> = A_25 for this passport.
+
+DEPTH-BOUND / SIZE ANALYSIS -- READ BEFORE CHANGING THE DEFAULT DEPTH
+=====================================================================
+Unlike n=21's point-graph BFS (21 vertices, depth bound N-1=20 is BOTH
+a rigorous completeness bound -- any two points of a connected graph on
+21 vertices are within distance 20 -- AND small enough for a cheap
+"any-pair-adjacent" dense encoding), the n=25 target's BFS runs on the
+PAIR-graph: N*(N-1) = 600 vertices. The fully rigorous completeness
+bound for a bounded-depth BFS over an ARBITRARY connected graph on 600
+vertices is 599 (orbit size - 1) -- but no smaller bound is provable in
+general for an arbitrary Schreier graph generated by 3 permutations
+(worst case is a single long cycle, diameter ~orbit_size/2). A dense
+"any-pair-of-pair-vertices adjacent" E-table (mirroring encode_tail8_n21.py's
+E[i][j] literally) would need C(600,2)=179700 edge variables and, per
+BFS timestep, O(600^2)=360000 STEP variables -- at depth 599 this is
+~215 MILLION variables, utterly infeasible to generate/store/commit.
+
+This encoder instead uses a SPARSER two-stage "relabel one coordinate,
+then the other" Tseitin construction per generator (see
+_group_pair_bfs_one_generator below): O(N^3) auxiliary variables per
+generator per BFS timestep instead of O(N^4), which is the best this
+implementer could derive without inventing a new, unreviewed diameter
+theorem. Even so, empirically (measured via this file's own manifest
+generation, printed by --manifest-out) this costs roughly 95000-130000
+new variables and ~380000 new clauses PER TIMESTEP (all 3 generators
+combined) -- so covering anywhere near the fully rigorous bound of 599
+is still off the table (>200M clauses).
+
+CONCRETE DATA POINT (empirical, not a universal bound): an actual
+witness for THIS EXACT u was found by direct search (NOT via this SAT
+encoder) and independently verified in pure Python (scratchpad/
+verify_a25_witness.py, not GAP) via an UNBOUNDED (iterate-to-fixpoint,
+no depth cap) BFS: the pair-orbit of (1,2) under {a,b,b^-1} covers all
+600 ordered pairs, with TRUE diameter exactly 43 from (1,2). This is
+ONE data point for ONE witness, not a proof that 43 (or any bound near
+it) suffices for every (a,b) pair satisfying the class constraints --
+a different witness (if one exists with a much longer required word)
+could in principle need a much larger depth, and UNSAT at any bounded
+depth D does NOT prove non-existence (see mutants_a25.json and the
+manifest's "depth_bound_completeness" field, which is explicitly marked
+UNPROVEN/REASONED, not PROVEN, unlike n=21's rigorous N-1 bound).
+
+DEFAULT_2TRANS_DEPTH below is chosen as 2*(N-1)=48 -- comfortably above
+the one measured true diameter (43) -- as a REASONED (Sol/mutants_n21.json
+vocabulary), not PROVEN, practical choice. A CNF#2 UNSAT verdict at this
+depth must be read as INCONCLUSIVE about existence in general (though for
+THIS specific u we already independently know a witness with diameter 43
+< 48 exists, so if the encoding/checker pipeline is correct, CNF#2 at
+D=48 is expected/predicted to be SAT and to decode to a permutation of
+this witness or a different one -- see mutants_a25.json's registered
+prediction). This is registered here BEFORE any solver run, per project
+mutant-matrix discipline.
+"""
+import argparse
+import hashlib
+import json
+import os
+import sys
+
+N = 25
+
+# ---------------------------------------------------------------------
+# Fixed data: u and u^-1 (NOT SAT variables).
+# ---------------------------------------------------------------------
+
+def build_u():
+    u = {}
+    for i in range(1, 17):
+        u[i] = i + 1
+    u[17] = 1
+    for a, b in [(18, 19), (20, 21), (22, 23), (24, 25)]:
+        u[a] = b
+        u[b] = a
+    return u
+
+
+U = build_u()
+UINV = {v: k for k, v in U.items()}
+
+_FIXTURE_PATH = os.path.join(os.path.dirname(__file__), "fixtures",
+                              "witness_a25_2transitive.json")
+
+
+def _check_convention_against_fixture():
+    with open(_FIXTURE_PATH, "r", encoding="utf-8") as f:
+        fx = json.load(f)
+    u_img = fx["u_images_1indexed"]
+    uinv_img = fx["uinv_images_1indexed"]
+    for k in range(1, N + 1):
+        assert U[k] == u_img[k - 1], f"u mismatch at {k}"
+        assert UINV[k] == uinv_img[k - 1], f"u^-1 mismatch at {k}"
+    a_img = fx["a_images_1indexed"]
+    b_img = fx["b_images_1indexed"]
+    for k in range(1, N + 1):
+        assert UINV[a_img[k - 1]] == b_img[k - 1], (
+            f"product-order convention mismatch at point {k}: "
+            f"expected b(k)=u^-1(a(k))={UINV[a_img[k-1]]}, "
+            f"fixture has b(k)={b_img[k-1]}"
+        )
+
+
+# ---------------------------------------------------------------------
+# Variable allocation (1-indexed DIMACS variable ids), CLASS part.
+# Mirrors encode_tail8_n21.py's X/D/B scheme exactly, just at N=25.
+# ---------------------------------------------------------------------
+
+def pair_index_table():
+    pairs = []
+    for i in range(1, N + 1):
+        for j in range(i + 1, N + 1):
+            pairs.append((i, j))
+    idx = {p: k + 1 for k, p in enumerate(pairs)}
+    return pairs, idx
+
+
+PAIRS, PAIR_IDX = pair_index_table()
+NUM_PAIRS = len(PAIRS)  # C(25,2) = 300
+
+X_BASE = 0
+X_COUNT = NUM_PAIRS
+
+
+def X(i, j):
+    if i == j:
+        raise ValueError("X(i,i) undefined")
+    if i > j:
+        i, j = j, i
+    return X_BASE + PAIR_IDX[(i, j)]
+
+
+D_BASE = X_BASE + X_COUNT
+D_COUNT = N
+
+
+def D(i):
+    return D_BASE + i
+
+
+B_BASE = D_BASE + D_COUNT
+B_COUNT = N * N  # 625
+
+
+def B(i, k):
+    return B_BASE + (i - 1) * N + k
+
+
+CLASS_VAR_COUNT = B_BASE + B_COUNT  # 300 + 25 + 625 = 950
+assert CLASS_VAR_COUNT == 950, CLASS_VAR_COUNT
+
+# ---------------------------------------------------------------------
+# Variable allocation, 2-TRANSITIVITY part (pair-graph BFS).
+# Ordered pair-vertices (i,j) i!=j indexed PV(i,j) = (i-1)*N + j (1..625,
+# 600 of which are "valid" i.e. i!=j; the i==j slots are simply never
+# targeted by base-case or goal clauses, they exist only as harmless
+# unused ids to keep indexing arithmetic simple).
+# ---------------------------------------------------------------------
+
+def PV(i, j):
+    return (i - 1) * N + j
+
+
+PV_COUNT = N * N  # 625 slots (600 valid + 25 unused diagonal)
+
+GENERATORS = ["a", "b", "binv"]
+
+
+def gen_literal(g, i, ip):
+    """Literal for 'generator g maps point i to point i-prime', reusing
+    EXISTING class-cnf variables -- no new variables needed for this
+    (mirrors encode_tail8_n21.py's underlying_literal_for_B)."""
+    if g == "a":
+        if i == ip:
+            return D(i)
+        return X(i, ip)
+    if g == "b":
+        return B(i, ip)
+    if g == "binv":
+        return B(ip, i)
+    raise ValueError(g)
+
+
+class ClauseSet:
+    def __init__(self):
+        self.clauses = []
+        self.groups = []
+
+    def add(self, clause):
+        self.clauses.append(list(clause))
+
+    def add_group(self, name, clauses):
+        start = len(self.clauses) + 1
+        for c in clauses:
+            self.add(c)
+        end = len(self.clauses)
+        self.groups.append({"name": name, "start": start, "end": end, "count": end - start + 1})
+
+    def nclauses(self):
+        return len(self.clauses)
+
+
+def underlying_literal_for_B(i, k):
+    j = U[k]  # b(i)=k  <=>  a(i) = u(k)
+    if j == i:
+        return D(i)
+    return X(i, j)
+
+
+def group_row_exactly_one(cs):
+    clauses = []
+    for i in range(1, N + 1):
+        lits = []
+        for j in range(1, N + 1):
+            if j == i:
+                continue
+            lits.append(X(i, j))
+        lits.append(D(i))
+        clauses.append(list(lits))
+        for a in range(len(lits)):
+            for b in range(a + 1, len(lits)):
+                clauses.append([-lits[a], -lits[b]])
+    cs.add_group("a_row_exactly_one", clauses)
+
+
+def group_diagonal_exactly_one(cs):
+    clauses = []
+    dvars = [D(i) for i in range(1, N + 1)]
+    clauses.append(list(dvars))
+    for a in range(len(dvars)):
+        for b in range(a + 1, len(dvars)):
+            clauses.append([-dvars[a], -dvars[b]])
+    cs.add_group("a_diagonal_exactly_one_fixed_point", clauses)
+
+
+def group_b_definition(cs):
+    clauses = []
+    for i in range(1, N + 1):
+        for k in range(1, N + 1):
+            lit = underlying_literal_for_B(i, k)
+            bvar = B(i, k)
+            clauses.append([-bvar, lit])
+            clauses.append([-lit, bvar])
+    cs.add_group("b_definition_tseitin", clauses)
+
+
+def group_b_cubed_identity(cs):
+    clauses = []
+    for i in range(1, N + 1):
+        for k1 in range(1, N + 1):
+            for k2 in range(1, N + 1):
+                clauses.append([-B(i, k1), -B(k1, k2), B(k2, i)])
+    cs.add_group("b_cubed_equals_identity", clauses)
+
+
+def group_b_diagonal_exactly_one_fixed_point(cs):
+    """DEPARTURE FROM n=21: b here needs EXACTLY ONE fixed point (type
+    3^8 1), not zero (n=21's b was fixed-point-free, type 3^7). Same
+    Tseitin shape as group_diagonal_exactly_one (a's D[i]), applied to
+    B's diagonal B(i,i) instead."""
+    clauses = []
+    bdiag = [B(i, i) for i in range(1, N + 1)]
+    clauses.append(list(bdiag))
+    for a in range(len(bdiag)):
+        for b in range(a + 1, len(bdiag)):
+            clauses.append([-bdiag[a], -bdiag[b]])
+    cs.add_group("b_diagonal_exactly_one_fixed_point", clauses)
+
+
+def build_class_clauses():
+    cs = ClauseSet()
+    group_row_exactly_one(cs)
+    group_diagonal_exactly_one(cs)
+    group_b_definition(cs)
+    group_b_cubed_identity(cs)
+    group_b_diagonal_exactly_one_fixed_point(cs)
+    return cs
+
+
+# ---------------------------------------------------------------------
+# 2-transitivity: pair-graph BFS via a two-stage per-generator relabel.
+#
+# For a generator g, define (per BFS timestep t):
+#   TEMP_g[t][i'][j] <-> EXISTS i : R[t-1][i][j] & Lg(i,i')
+#     (relabel ONLY the first coordinate; second coordinate j untouched)
+#   RNEW_g[t][i'][j'] <-> EXISTS j : TEMP_g[t][i'][j] & Lg(j,j')
+#     (relabel the second coordinate using the SAME generator g)
+# so RNEW_g[t][i'][j'] is true iff some (i,j) with R[t-1][i][j] has
+# (g(i),g(j)) = (i',j') -- i.e. the g-successor pair-vertex of a
+# previously-reached pair-vertex. This costs O(N^3) new
+# variables+clauses per generator per timestep instead of the O(N^4)
+# a fully dense "any (i,j)-to-(i',j') edge" table would need.
+# Both EXISTS-quantifier definitions above are encoded as FULL
+# biconditionals (both directions) -- the necessary direction matters
+# for soundness exactly as in encode_tail8_n21.py's R/STEP machinery
+# (see that file's "CRITICAL SOUNDNESS POINT" docstring section): without
+# it a solver could set TEMP/RNEW/R true "for free" with no real BFS
+# justification, silently turning an UNSAT instance SAT for the wrong
+# reason.
+# ---------------------------------------------------------------------
+
+def _var_pool(start):
+    """Simple incrementing id allocator starting at `start`."""
+    n = [start]
+
+    def alloc():
+        n[0] += 1
+        return n[0]
+    return alloc, n
+
+
+def build_2transitive_clauses(depth, var_pool_start):
+    """Returns (ClauseSet, total_var_count, var_layout) where var_layout
+    documents every allocated variable range for the manifest. R[0] base
+    case is anchored at the fixed start pair (1,2)."""
+    cs = build_class_clauses()
+    alloc, cur = _var_pool(var_pool_start)
+
+    layout = {"R": {}, "per_timestep": []}
+
+    # R[0][i][j] variables: allocate all N*N slots for indexing symmetry,
+    # even though only (i,j), i!=j are ever constrained.
+    R = {}
+    R[0] = {}
+    r0_start = cur[0] + 1
+    for i in range(1, N + 1):
+        for j in range(1, N + 1):
+            R[0][(i, j)] = alloc()
+    r0_end = cur[0]
+    layout["R"][0] = {"start": r0_start, "end": r0_end, "count": r0_end - r0_start + 1}
+
+    base_clauses = []
+    START = (1, 2)
+    base_clauses.append([R[0][START]])
+    for i in range(1, N + 1):
+        for j in range(1, N + 1):
+            if (i, j) != START:
+                base_clauses.append([-R[0][(i, j)]])
+    cs.add_group("pair_bfs_base_case_t0_start_(1,2)", base_clauses)
+
+    for t in range(1, depth + 1):
+        R[t] = {}
+        step_layout = {"t": t, "generators": {}}
+
+        rnew_lits_by_target = {(ip, jp): [] for ip in range(1, N + 1) for jp in range(1, N + 1)}
+
+        for g in GENERATORS:
+            gen_clauses = []
+            gen_var_start = cur[0] + 1
+
+            # Stage 1: TEMP_g[t][i'][j]
+            TEMP = {}
+            aux1_clauses = 0
+            for ip in range(1, N + 1):
+                for j in range(1, N + 1):
+                    TEMP[(ip, j)] = alloc()
+            for ip in range(1, N + 1):
+                for j in range(1, N + 1):
+                    temp_var = TEMP[(ip, j)]
+                    aux1_lits = []
+                    for i in range(1, N + 1):
+                        if i == j:
+                            continue
+                        aux_var = alloc()
+                        r_prev = R[t - 1][(i, j)]
+                        lg = gen_literal(g, i, ip)
+                        # AUX1 <-> R[t-1][i][j] & Lg(i,i')
+                        gen_clauses.append([-aux_var, r_prev])
+                        gen_clauses.append([-aux_var, lg])
+                        gen_clauses.append([-r_prev, -lg, aux_var])
+                        aux1_lits.append(aux_var)
+                        aux1_clauses += 3
+                    # TEMP <-> OR(aux1_lits)
+                    for al in aux1_lits:
+                        gen_clauses.append([-al, temp_var])
+                    gen_clauses.append([-temp_var] + aux1_lits)
+
+            # Stage 2: RNEW_g[t][i'][j']
+            RNEW = {}
+            for ip in range(1, N + 1):
+                for jp in range(1, N + 1):
+                    RNEW[(ip, jp)] = alloc()
+            for ip in range(1, N + 1):
+                for jp in range(1, N + 1):
+                    rnew_var = RNEW[(ip, jp)]
+                    aux2_lits = []
+                    for j in range(1, N + 1):
+                        aux_var = alloc()
+                        temp_var = TEMP[(ip, j)]
+                        lg = gen_literal(g, j, jp)
+                        gen_clauses.append([-aux_var, temp_var])
+                        gen_clauses.append([-aux_var, lg])
+                        gen_clauses.append([-temp_var, -lg, aux_var])
+                        aux2_lits.append(aux_var)
+                    for al in aux2_lits:
+                        gen_clauses.append([-al, rnew_var])
+                    gen_clauses.append([-rnew_var] + aux2_lits)
+                    rnew_lits_by_target[(ip, jp)].append(rnew_var)
+
+            gen_var_end = cur[0]
+            cs.add_group(f"pair_bfs_t{t}_gen_{g}", gen_clauses)
+            step_layout["generators"][g] = {
+                "var_start": gen_var_start, "var_end": gen_var_end,
+                "var_count": gen_var_end - gen_var_start + 1,
+                "clause_count": len(gen_clauses),
+            }
+
+        # R[t][i'][j'] <-> R[t-1][i'][j'] OR OR_g RNEW_g[t][i'][j']
+        r_clauses = []
+        for ip in range(1, N + 1):
+            for jp in range(1, N + 1):
+                r_var = alloc()
+                R[t][(ip, jp)] = r_var
+                r_prev = R[t - 1][(ip, jp)]
+                sources = [r_prev] + rnew_lits_by_target[(ip, jp)]
+                for s in sources:
+                    r_clauses.append([-s, r_var])
+                r_clauses.append([-r_var] + sources)
+        cs.add_group(f"pair_bfs_t{t}_r_aggregate", r_clauses)
+        step_layout["r_var_count"] = N * N
+        layout["per_timestep"].append(step_layout)
+
+    # Goal: all 600 valid ordered pairs reached by t=depth.
+    goal_clauses = []
+    for i in range(1, N + 1):
+        for j in range(1, N + 1):
+            if i == j:
+                continue
+            goal_clauses.append([R[depth][(i, j)]])
+    cs.add_group("two_transitivity_goal_all_600_pairs_reached", goal_clauses)
+
+    return cs, cur[0], layout
+
+
+DEFAULT_2TRANS_DEPTH = 2 * (N - 1)  # 48; REASONED not PROVEN, see module docstring.
+
+
+# ---------------------------------------------------------------------
+# DIMACS output.
+# ---------------------------------------------------------------------
+
+def write_dimacs(path, nvars, clauseset, comment_lines):
+    with open(path, "w", encoding="ascii", newline="\n") as f:
+        for c in comment_lines:
+            f.write("c " + c + "\n")
+        f.write(f"p cnf {nvars} {clauseset.nclauses()}\n")
+        for cl in clauseset.clauses:
+            f.write(" ".join(str(x) for x in cl) + " 0\n")
+
+
+def sha256_of_file(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def sha256_of_source():
+    with open(__file__, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--out-dir", default=os.path.join(os.path.dirname(__file__), "out"))
+    ap.add_argument("--prefix", default="a25")
+    ap.add_argument("--skip-fixture-check", action="store_true")
+    ap.add_argument("--manifest-out", default=None)
+    ap.add_argument("--depth", type=int, default=DEFAULT_2TRANS_DEPTH,
+                     help="BFS depth bound for the 2-transitivity CNF "
+                          "(default 2*(N-1)=48; REASONED not PROVEN sufficient "
+                          "-- see module docstring).")
+    ap.add_argument("--class-only", action="store_true",
+                     help="Only generate the class CNF (skip the 2-transitivity "
+                          "CNF, which is large -- useful for quick iteration).")
+    args = ap.parse_args()
+
+    if not args.skip_fixture_check:
+        _check_convention_against_fixture()
+
+    os.makedirs(args.out_dir, exist_ok=True)
+
+    class_cs = build_class_clauses()
+    class_path = os.path.join(args.out_dir, f"{args.prefix}_class.cnf")
+    write_dimacs(
+        class_path, CLASS_VAR_COUNT, class_cs,
+        [
+            "n=25 ell=17 SAT existence target -- CLASS CONSTRAINTS ONLY.",
+            "Expected: SAT, EXACT solution count 82688 (external oracle: "
+            "search/sat/tools/structure_const_a25.g, GAP character table).",
+            "Source: sol/sol_reply_84_math11.md sec 6.3.",
+            "Generated by search/sat/encode_a25.py -- do not hand-edit.",
+        ],
+    )
+
+    stats = {
+        "class_cnf": {
+            "path": os.path.relpath(class_path).replace("\\", "/"),
+            "num_vars": CLASS_VAR_COUNT,
+            "num_clauses": class_cs.nclauses(),
+            "sha256": sha256_of_file(class_path),
+            "groups": class_cs.groups,
+        },
+        "encoder_source_sha256": sha256_of_source(),
+        "depth_used": args.depth,
+    }
+
+    if not args.class_only:
+        trans_cs, trans_var_count, layout = build_2transitive_clauses(args.depth, CLASS_VAR_COUNT)
+        trans_path = os.path.join(args.out_dir, f"{args.prefix}_2transitive_depth{args.depth}.cnf")
+        write_dimacs(
+            trans_path, trans_var_count, trans_cs,
+            [
+                f"n=25 ell=17 SAT existence target -- CLASS + 2-TRANSITIVITY, depth={args.depth}.",
+                "Verdict UNKNOWN a priori for the CNF; NOTE a genuine witness for this",
+                "exact u has ALREADY been found and independently verified OUTSIDE this",
+                "SAT pipeline (search/sat/fixtures/witness_a25_2transitive.json, true BFS",
+                f"diameter 43 < depth {args.depth}) -- see encoder module docstring.",
+                "depth_bound_completeness: REASONED not PROVEN (unlike n=21's rigorous N-1 bound).",
+                "Source: sol/sol_reply_84_math11.md sec 6.3.",
+                "Generated by search/sat/encode_a25.py -- do not hand-edit.",
+            ],
+        )
+        stats["trans_cnf"] = {
+            "path": os.path.relpath(trans_path).replace("\\", "/"),
+            "num_vars": trans_var_count,
+            "num_clauses": trans_cs.nclauses(),
+            "sha256": sha256_of_file(trans_path),
+            "groups": trans_cs.groups,
+            "depth": args.depth,
+            "layout": layout,
+        }
+
+    print(json.dumps({k: v for k, v in stats.items() if k != "trans_cnf"} |
+                      ({"trans_cnf_summary": {
+                          "num_vars": stats["trans_cnf"]["num_vars"],
+                          "num_clauses": stats["trans_cnf"]["num_clauses"],
+                          "sha256": stats["trans_cnf"]["sha256"],
+                          "path": stats["trans_cnf"]["path"],
+                      }} if "trans_cnf" in stats else {}), indent=2, ensure_ascii=False))
+
+    if args.manifest_out:
+        manifest = build_manifest(stats, args.depth, args.class_only)
+        with open(args.manifest_out, "w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+        print(f"manifest written to {args.manifest_out}", file=sys.stderr)
+
+
+def build_manifest(stats, depth, class_only):
+    m = {
+        "schema": "shadow-atelier/sat-encoder-manifest/v1",
+        "target": "W-D-A25-17-2trans n=25 ell=17 2-transitivity existence "
+                  "(commander task, transcribing sol/sol_reply_84_math11.md sec 6.3)",
+        "encoder_source": "search/sat/encode_a25.py",
+        "encoder_source_sha256": stats["encoder_source_sha256"],
+        "universe": {"n": N, "ell": 17, "points": "1..25 (1-indexed)"},
+        "fixed_u": {
+            "cycle_notation": "(1,...,17)(18,19)(20,21)(22,23)(24,25)",
+            "images_1indexed": [U[k] for k in range(1, N + 1)],
+            "inverse_images_1indexed": [UINV[k] for k in range(1, N + 1)],
+        },
+        "product_order_convention": {
+            "statement": "b := a * u^-1 under GAP's right-action convention: "
+                          "i^(a*u^-1) = (i^a)^u^-1, i.e. b(i) = u^-1(a(i)). "
+                          "Same convention as encode_tail8_n21.py.",
+            "cross_checked_against": "search/sat/fixtures/witness_a25_2transitive.json",
+        },
+        "target_classes": {
+            "a": "involution, cycle type 2^12 1 (12 transpositions, 1 fixed point)",
+            "b": "cycle type 3^8 1 (b=a*u^-1, b^3=1, EXACTLY ONE fixed point -- "
+                 "NOT fixed-point-free, unlike the n=21 target's b -- see module "
+                 "docstring group_b_diagonal_exactly_one_fixed_point).",
+            "class_solution_count_exact_oracle": {
+                "value": 82688,
+                "source": "search/sat/tools/structure_const_a25.g (GAP character "
+                          "table structure constant, NOT a CNF axiom).",
+            },
+            "2transitive_equiv_A25_generation": "Sol sec 6.3: u^2 is a 17-cycle "
+                "(Sylow-17 witness); 2-transitive => primitive; Jordan's theorem "
+                "(17 <= 25-3) forces <a,b> superset A_25; a,b both even => <a,b> "
+                "<= A_25; hence 2-transitive <=> <a,b>=A_25 for this passport. "
+                "Neither A_25-generation nor the group order is a CNF axiom here "
+                "-- only the diagonal-pair-transitivity goal is encoded.",
+        },
+        "class_cnf_variable_families": [
+            {"name": "X[i][j]", "ids": [X_BASE + 1, X_BASE + X_COUNT], "count": X_COUNT},
+            {"name": "D[i]", "ids": [D_BASE + 1, D_BASE + D_COUNT], "count": D_COUNT},
+            {"name": "B[i][k]", "ids": [B_BASE + 1, B_BASE + B_COUNT], "count": B_COUNT},
+        ],
+        "class_cnf": stats["class_cnf"],
+        "depth_bound": {
+            "value_used": depth,
+            "default": DEFAULT_2TRANS_DEPTH,
+            "fully_rigorous_completeness_bound": N * (N - 1) - 1,
+            "rigorous_bound_infeasible_because": "at N*(N-1)-1=599, even this "
+                "encoder's sparser O(N^3)-per-generator-per-timestep relabeling "
+                "scheme (vs. a naive O(N^4) dense pair-adjacency table) would "
+                "need on the order of 2*10^8 clauses -- not committable/tractable.",
+            "depth_bound_completeness_status": "REASONED, NOT PROVEN. Unlike n=21's "
+                "rigorous point-graph diameter bound (N-1, trivially complete for "
+                "any connected graph on N vertices), no proof is supplied here that "
+                "depth=48 (or any value well below 599) suffices for EVERY (a,b) "
+                "pair satisfying the class constraints -- only ONE concrete witness "
+                "is known to need depth<=43 (search/sat/fixtures/witness_a25_2transitive.json, "
+                "independently verified via UNBOUNDED BFS in scratchpad/verify_a25_witness.py). "
+                "A CNF#2 UNSAT verdict at this depth must be read as INCONCLUSIVE about "
+                "existence, not as a negative result, until a depth-sufficiency lemma is "
+                "supplied and reviewed (mathematician/Sol item, not settled by this encoder). "
+                "A SAT verdict IS fully informative (any decoded model is independently "
+                "checkable, exactly as in the n=21 target).",
+            "escalation_note": "This is flagged to the commander per CLAUDE.md's "
+                "'silent cap 禁止' rule: the depth bound is a narrowing of the search "
+                "universe relative to the fully rigorous bound, made for tractability, "
+                "and is reported rather than silently chosen as if settled.",
+        },
+    }
+    if not class_only and "trans_cnf" in stats:
+        m["trans_cnf"] = stats["trans_cnf"]
+    return m
+
+
+if __name__ == "__main__":
+    main()

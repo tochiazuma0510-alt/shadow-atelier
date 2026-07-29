@@ -1,0 +1,455 @@
+{
+  "schema": "shadow-atelier/sat-encoder-manifest/v1",
+  "target": "W-D-A25-17-2trans n=25 ell=17 2-transitivity existence (commander task, transcribing sol/sol_reply_84_math11.md sec 6.3)",
+  "encoder_source": "search/sat/encode_a25.py",
+  "encoder_source_sha256": "a29633895969d2af6a387416fe671e51bd123edb6c3a6c2603c7e309c0830d4a",
+  "universe": {
+    "n": 25,
+    "ell": 17,
+    "points": "1..25 (1-indexed)"
+  },
+  "fixed_u": {
+    "cycle_notation": "(1,...,17)(18,19)(20,21)(22,23)(24,25)",
+    "images_1indexed": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      1,
+      19,
+      18,
+      21,
+      20,
+      23,
+      22,
+      25,
+      24
+    ],
+    "inverse_images_1indexed": [
+      17,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      19,
+      18,
+      21,
+      20,
+      23,
+      22,
+      25,
+      24
+    ]
+  },
+  "product_order_convention": {
+    "statement": "b := a * u^-1 under GAP's right-action convention: i^(a*u^-1) = (i^a)^u^-1, i.e. b(i) = u^-1(a(i)). Same convention as encode_tail8_n21.py.",
+    "cross_checked_against": "search/sat/fixtures/witness_a25_2transitive.json"
+  },
+  "target_classes": {
+    "a": "involution, cycle type 2^12 1 (12 transpositions, 1 fixed point)",
+    "b": "cycle type 3^8 1 (b=a*u^-1, b^3=1, EXACTLY ONE fixed point -- NOT fixed-point-free, unlike the n=21 target's b -- see module docstring group_b_diagonal_exactly_one_fixed_point).",
+    "class_solution_count_exact_oracle": {
+      "value": 82688,
+      "source": "search/sat/tools/structure_const_a25.g (GAP character table structure constant, NOT a CNF axiom)."
+    },
+    "2transitive_equiv_A25_generation": "Sol sec 6.3: u^2 is a 17-cycle (Sylow-17 witness); 2-transitive => primitive; Jordan's theorem (17 <= 25-3) forces <a,b> superset A_25; a,b both even => <a,b> <= A_25; hence 2-transitive <=> <a,b>=A_25 for this passport. Neither A_25-generation nor the group order is a CNF axiom here -- only the diagonal-pair-transitivity goal is encoded."
+  },
+  "class_cnf_variable_families": [
+    {
+      "name": "X[i][j]",
+      "ids": [
+        1,
+        300
+      ],
+      "count": 300
+    },
+    {
+      "name": "D[i]",
+      "ids": [
+        301,
+        325
+      ],
+      "count": 25
+    },
+    {
+      "name": "B[i][k]",
+      "ids": [
+        326,
+        950
+      ],
+      "count": 625
+    }
+  ],
+  "class_cnf": {
+    "path": "search/sat/out/a25_class.cnf",
+    "num_vars": 950,
+    "num_clauses": 25002,
+    "sha256": "9422163fcf9aab843cb1ecfd31ef6f2fde02560ddc29770585a9628ebf389f2a",
+    "groups": [
+      {
+        "name": "a_row_exactly_one",
+        "start": 1,
+        "end": 7525,
+        "count": 7525
+      },
+      {
+        "name": "a_diagonal_exactly_one_fixed_point",
+        "start": 7526,
+        "end": 7826,
+        "count": 301
+      },
+      {
+        "name": "b_definition_tseitin",
+        "start": 7827,
+        "end": 9076,
+        "count": 1250
+      },
+      {
+        "name": "b_cubed_equals_identity",
+        "start": 9077,
+        "end": 24701,
+        "count": 15625
+      },
+      {
+        "name": "b_diagonal_exactly_one_fixed_point",
+        "start": 24702,
+        "end": 25002,
+        "count": 301
+      }
+    ]
+  },
+  "depth_bound": {
+    "value_used": 5,
+    "default": 48,
+    "fully_rigorous_completeness_bound": 599,
+    "rigorous_bound_infeasible_because": "at N*(N-1)-1=599, even this encoder's sparser O(N^3)-per-generator-per-timestep relabeling scheme (vs. a naive O(N^4) dense pair-adjacency table) would need on the order of 2*10^8 clauses -- not committable/tractable.",
+    "depth_bound_completeness_status": "REASONED, NOT PROVEN. Unlike n=21's rigorous point-graph diameter bound (N-1, trivially complete for any connected graph on N vertices), no proof is supplied here that depth=48 (or any value well below 599) suffices for EVERY (a,b) pair satisfying the class constraints -- only ONE concrete witness is known to need depth<=43 (search/sat/fixtures/witness_a25_2transitive.json, independently verified via UNBOUNDED BFS in scratchpad/verify_a25_witness.py). A CNF#2 UNSAT verdict at this depth must be read as INCONCLUSIVE about existence, not as a negative result, until a depth-sufficiency lemma is supplied and reviewed (mathematician/Sol item, not settled by this encoder). A SAT verdict IS fully informative (any decoded model is independently checkable, exactly as in the n=21 target).",
+    "escalation_note": "This is flagged to the commander per CLAUDE.md's 'silent cap 禁止' rule: the depth bound is a narrowing of the search universe relative to the fully rigorous bound, made for tractability, and is reported rather than silently chosen as if settled."
+  },
+  "trans_cnf": {
+    "path": "search/sat/out/a25_2transitive_depth5.cnf",
+    "num_vars": 482825,
+    "num_clauses": 1898102,
+    "sha256": "0408f2d67ab3d64a12032299bd8355715b58a7942ba3f671d9bd82890bfa3286",
+    "groups": [
+      {
+        "name": "a_row_exactly_one",
+        "start": 1,
+        "end": 7525,
+        "count": 7525
+      },
+      {
+        "name": "a_diagonal_exactly_one_fixed_point",
+        "start": 7526,
+        "end": 7826,
+        "count": 301
+      },
+      {
+        "name": "b_definition_tseitin",
+        "start": 7827,
+        "end": 9076,
+        "count": 1250
+      },
+      {
+        "name": "b_cubed_equals_identity",
+        "start": 9077,
+        "end": 24701,
+        "count": 15625
+      },
+      {
+        "name": "b_diagonal_exactly_one_fixed_point",
+        "start": 24702,
+        "end": 25002,
+        "count": 301
+      },
+      {
+        "name": "pair_bfs_base_case_t0_start_(1,2)",
+        "start": 25003,
+        "end": 25627,
+        "count": 625
+      },
+      {
+        "name": "pair_bfs_t1_gen_a",
+        "start": 25628,
+        "end": 149377,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t1_gen_b",
+        "start": 149378,
+        "end": 273127,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t1_gen_binv",
+        "start": 273128,
+        "end": 396877,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t1_r_aggregate",
+        "start": 396878,
+        "end": 400002,
+        "count": 3125
+      },
+      {
+        "name": "pair_bfs_t2_gen_a",
+        "start": 400003,
+        "end": 523752,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t2_gen_b",
+        "start": 523753,
+        "end": 647502,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t2_gen_binv",
+        "start": 647503,
+        "end": 771252,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t2_r_aggregate",
+        "start": 771253,
+        "end": 774377,
+        "count": 3125
+      },
+      {
+        "name": "pair_bfs_t3_gen_a",
+        "start": 774378,
+        "end": 898127,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t3_gen_b",
+        "start": 898128,
+        "end": 1021877,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t3_gen_binv",
+        "start": 1021878,
+        "end": 1145627,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t3_r_aggregate",
+        "start": 1145628,
+        "end": 1148752,
+        "count": 3125
+      },
+      {
+        "name": "pair_bfs_t4_gen_a",
+        "start": 1148753,
+        "end": 1272502,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t4_gen_b",
+        "start": 1272503,
+        "end": 1396252,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t4_gen_binv",
+        "start": 1396253,
+        "end": 1520002,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t4_r_aggregate",
+        "start": 1520003,
+        "end": 1523127,
+        "count": 3125
+      },
+      {
+        "name": "pair_bfs_t5_gen_a",
+        "start": 1523128,
+        "end": 1646877,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t5_gen_b",
+        "start": 1646878,
+        "end": 1770627,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t5_gen_binv",
+        "start": 1770628,
+        "end": 1894377,
+        "count": 123750
+      },
+      {
+        "name": "pair_bfs_t5_r_aggregate",
+        "start": 1894378,
+        "end": 1897502,
+        "count": 3125
+      },
+      {
+        "name": "two_transitivity_goal_all_600_pairs_reached",
+        "start": 1897503,
+        "end": 1898102,
+        "count": 600
+      }
+    ],
+    "depth": 5,
+    "layout": {
+      "R": {
+        "0": {
+          "start": 951,
+          "end": 1575,
+          "count": 625
+        }
+      },
+      "per_timestep": [
+        {
+          "t": 1,
+          "generators": {
+            "a": {
+              "var_start": 1576,
+              "var_end": 33450,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "b": {
+              "var_start": 33451,
+              "var_end": 65325,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "binv": {
+              "var_start": 65326,
+              "var_end": 97200,
+              "var_count": 31875,
+              "clause_count": 123750
+            }
+          },
+          "r_var_count": 625
+        },
+        {
+          "t": 2,
+          "generators": {
+            "a": {
+              "var_start": 97826,
+              "var_end": 129700,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "b": {
+              "var_start": 129701,
+              "var_end": 161575,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "binv": {
+              "var_start": 161576,
+              "var_end": 193450,
+              "var_count": 31875,
+              "clause_count": 123750
+            }
+          },
+          "r_var_count": 625
+        },
+        {
+          "t": 3,
+          "generators": {
+            "a": {
+              "var_start": 194076,
+              "var_end": 225950,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "b": {
+              "var_start": 225951,
+              "var_end": 257825,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "binv": {
+              "var_start": 257826,
+              "var_end": 289700,
+              "var_count": 31875,
+              "clause_count": 123750
+            }
+          },
+          "r_var_count": 625
+        },
+        {
+          "t": 4,
+          "generators": {
+            "a": {
+              "var_start": 290326,
+              "var_end": 322200,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "b": {
+              "var_start": 322201,
+              "var_end": 354075,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "binv": {
+              "var_start": 354076,
+              "var_end": 385950,
+              "var_count": 31875,
+              "clause_count": 123750
+            }
+          },
+          "r_var_count": 625
+        },
+        {
+          "t": 5,
+          "generators": {
+            "a": {
+              "var_start": 386576,
+              "var_end": 418450,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "b": {
+              "var_start": 418451,
+              "var_end": 450325,
+              "var_count": 31875,
+              "clause_count": 123750
+            },
+            "binv": {
+              "var_start": 450326,
+              "var_end": 482200,
+              "var_count": 31875,
+              "clause_count": 123750
+            }
+          },
+          "r_var_count": 625
+        }
+      ]
+    }
+  }
+}

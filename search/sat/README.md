@@ -221,6 +221,96 @@ Sol 便 85 §8(`sol/sol_reply_85_math12.md` F85-8.1〜8.5・P85-6)への対応:
   spot check 0 節違反、n=7 は u=7-cycle でのこの制約下で witness 皆無という悉皆の
   誠実な陰性結果)、M12 = 独立 LRAT checker そのものの登録(上記)。
 
+## 第二標的 n=25, ℓ=17(裁定 214 系・commander task・Sol 便 84 sec 6.3)
+
+n=21 encoder(`encode_tail8_n21.py`)を Sol 便 84 sec 6.3 の passport へ転用した。固定
+u=(1..17)(18,19)(20,21)(22,23)(24,25)、a: 型 2¹²1、b=a·u⁻¹: 型 3⁸1(**n=21 と違い
+fixed-point-free でなく厳密に固定点 1 個** — b の対角に a の D[i] と同型の
+global exactly-one 制約を張って強制)。目標は単純推移性でなく **2-transitivity**
+(順序対 600 個への対角作用の推移性) — Sol 6.3 の議論(u² が 17-cycle・Jordan の
+定理・a,b が偶置換)により、この passport では 2-transitive ⟺ ⟨a,b⟩=A₂₅。
+
+### 重要な先行結果: witness が SAT パイプライン外で既に見つかった
+
+encoder 実装前の較正として一様ランダム探索(`tools/extract_witness_a25.g`、
+n=21 の `extract_witness_n21.g` と同型)を budget 5,000,000 で試したが
+NOT_FOUND だった。原因を GAP の指標表(`CharacterTable("Symmetric",25)`、1958
+類)で厳密計算したところ、この固定 u に対する class-only 解の個数は
+**厳密に 82688 個**(`tools/structure_const_a25.g`、class multiplication
+coefficient 由来)、|class(2¹²1)|=7,905,853,580,625 に対する的中率
+≈1.05×10⁻⁸ — 一様ランダムでは 10⁸ 回超必要と判明した。そこで
+simulated-annealing 局所探索(`tools/local_search_a25.g`、12 対の組み替え+
+固定点移動を近傍とし、b の非 3-cycle 点数を目的関数に)に切り替えたところ
+**16824 手で収束**。
+
+この witness は class 制約だけを狙ったにもかかわらず、**副産物として
+2-transitive でもあった**: GAP は ⟨a,b⟩ の位数を
+7,755,605,021,665,492,992,000,000 = 25!/2 = |A₂₅| と報告し(=⟨a,b⟩=A₂₅)、
+これと完全に独立な Python(`scratchpad/verify_a25_witness.py`、GAP 非依存・
+非 import)による無制限(depth cap なし・fixpoint まで反復)BFS が、
+点対 (1,2) から出発して 600 個の順序対**全て**に到達することを確認した
+(真の BFS 直径 43)。つまり **n=25, ℓ=17 の存在問題(標的 (b))は、SAT/DRAT
+パイプラインを介さずに、直接構成+独立照合という自己完結した形で既に解決
+している**(`fixtures/witness_a25_2transitive.json` に機械記録)。
+
+### CNF 生成物と depth 上界の sizing 分析
+
+- `encode_a25.py` — class 制約 CNF(`out/a25_class.cnf`、950 変数・25002
+  節・SAT 期待・厳密解数 82688)と、2-transitivity 付き CNF
+  (`out/a25_2transitive_depth{D}.cnf`)の 2 本を出す。後者は n=21 の
+  E[i,j]+STEP 方式(N 頂点の**任意対**隣接)をそのまま 600 頂点(順序対)へ
+  拡大すると O(N⁴) 変数に爆発するため、**座標を 1 つずつ relabel する
+  2 段 Tseitin 分解**(生成元ごとに TEMP[i'][j] → RNEW[i'][j'])で
+  O(N³)/生成元/timestep に抑えた自前設計を実装した。
+- **depth 上界は「保守的完全性」を保てなかった**: 厳密に完全な上界は
+  N(N-1)-1=599(600 頂点の任意連結グラフの直径上界)だが、実測クレーズ数は
+  1 timestep あたり約 374,375 節・約 96,250 変数(3 生成元合計) — depth=48
+  で総節数 ≈1800 万・変数 ≈462 万・生の CNF ファイルサイズ推定 ≈325MB
+  (GitHub の 1 ファイル 100MB 上限を超過)。depth=43(実測されたただ 1 個の
+  witness の真の直径)でも同程度の規模になる。したがって **depth=48(あるいは
+  それに近い値)を「完全性を保った上界」として commit することはできなかった**
+  — これは CLAUDE.md の「宇宙の事前登録・絞りが必要なら実装せず報告」に該当する
+  局面であり、司令塔へ報告済み(下記)。
+- 実際に commit したのは **depth=5**(`out/a25_2transitive_depth5.cnf`、
+  482825 変数・1,898,102 節・35MB)— これは真の直径 43 よりはるかに浅く、
+  **existence を判定する目的では情報量がない**(depth 不足による UNSAT は
+  非存在の証拠にならない)。目的はもっぱら encoder+checker のパイプライン
+  疎通確認(machinery calibration)であり、`mutants_a25.json` の
+  M5 に明記した。
+- `manifest_a25.json` — 上記 encoder が自己生成。`depth_bound` 節に
+  「REASONED, NOT PROVEN」の完全性ステータスと sizing 根拠を明記。
+- `check_model_a25.mjs` — 照合器(node、encoder 非 import)。class 側は
+  n=21 と同型の再計算(a 型 2¹²1・b=u⁻¹(a(·))・b³=1・**固定点ちょうど1個**)。
+  2-transitive 側は CNF の depth-bounded な TEMP/RNEW/R 変数を一切読まず、
+  **無制限(depth cap なし)の独自 BFS**で 600 順序対到達を再計算する —
+  CNF の depth 上界が「REASONED, NOT PROVEN」である以上、この checker の
+  無制限 BFS だけが 2-transitivity 判定の信頼できる審判である。
+  `--self-test` で `fixtures/witness_a25_2transitive.json` を読み、
+  class 制約 OK・2-transitive TRUE・直径 43 の一致を確認済み(pass:true)。
+- `mutants_a25.json` — n=21 の M1-M5 相当を本標的の差分(b は
+  fixed-point-free でなく exactly-one-fixed-point、推移性でなく
+  2-transitivity)に合わせて再登録。M5 で depth=5 の非情報性を事前登録。
+- `fixtures/witness_a25_2transitive.json` — 上記 witness 一式(a,b,u の
+  images・GAP 群位数・Python 独立 BFS 結果・厳密解数 82688 の一次資料)。
+
+### ローカルで確認したこと
+
+```
+python search/sat/encode_a25.py --class-only --manifest-out ... (fixture 検算込み)
+  -> class_cnf: 950 vars, 25002 clauses
+
+node search/sat/check_model_a25.mjs --self-test  -> pass:true
+
+node scratchpad/verify_a25_class_cnf.mjs
+  -> out/a25_class.cnf の実ファイルを fixture 由来の割当てで評価:
+     25002/25002 節、違反 0
+
+GAP: |<a,b>| = 7755605021665492992000000 = 25!/2 = |A_25|
+Python(GAP 非依存): 順序対 BFS が 600/600 到達、真の直径 43
+```
+
+kissat/drat-trim のローカル実行は行っていない(RAM 8GB 制約・CI で実施)。
+
 ## 未着手(次段)
 
 - 標的 (b) ℓ=17,n=25 existence: 同じ encoder family を 2-transitive BFS へ
