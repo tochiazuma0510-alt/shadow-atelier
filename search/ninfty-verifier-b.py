@@ -281,6 +281,88 @@ def _check_ref_inline_consistency(ref, what):
     return ref["inline"]
 
 
+def _resolve_json_pointer(root, pointer):
+    """
+    Sol 便86 P86-2 item 3 (B86-o3): RFC 6901 pointer resolution against
+    `root`, ported independently from ninfty-verifier-a.mjs's own
+    `resolveJsonPointer` (same algorithm -- '~1'->'/', '~0'->'~' escaping
+    -- separate code, this file's own copy). Returns (found: bool, value).
+    """
+    if pointer == "":
+        return True, root
+    if not isinstance(pointer, str) or pointer[:1] != "/":
+        return False, None
+    node = root
+    for step in pointer.split("/")[1:]:
+        step = step.replace("~1", "/").replace("~0", "~")
+        if not isinstance(node, dict) or step not in node:
+            return False, None
+        node = node[step]
+    return True, node
+
+
+def _dereference_native_ref(ref, native_payload, what):
+    """
+    Sol 便86 P86-2 item 3 / B86-o3 fix: resolves a `_ref` triple's
+    `artifact_id`+`json_pointer`/`object_id` against the RECEIVER-HELD
+    PINNED native artifact (`native_payload`) -- not merely the ref's own
+    self-carried `inline` copy. 裁定150 item 1 convention: `json_pointer`
+    resolves WITHIN the artifact named by `artifact_id`, i.e. within
+    `native_payload` itself (mirrors ninfty-verifier-a.mjs's `resolveRef`).
+
+    Priority (the native artifact is AUTHORITATIVE; `inline` is a CACHE,
+    consulted only as a fallback -- never preferred over a pointer that
+    actually resolves):
+      1. `json_pointer` present and resolves inside `native_payload` ->
+         that dereferenced value is the candidate; its recomputed digest
+         MUST equal `ref['digest']` (RefDigestMismatch -- the existing
+         [12] condition -- on disagreement). This is what actually BINDS
+         the map to the pinned native artifact: a producer can no longer
+         supply a self-consistent `inline` map that has no counterpart in
+         `native_a`/`native_b` (closes B86-o3's "matching forged inline
+         maps" and "swapped native refs" attacks).
+      2. `json_pointer` absent or unresolvable, but `inline` present ->
+         falls back to the pre-existing inline-digest-consistency check
+         (裁定150 items 2/3's fallback semantics, unchanged for the
+         existing fixtures whose native payloads do not carry the pointed-
+         to key at all) -- CACHE only, never authoritative when a pointer
+         that DOES resolve disagrees with it.
+      3. neither resolves -> (None, <reason>): UNKNOWN, never a silent
+         PASS (unchanged posture from the pre-B86-o3 code for the
+         genuinely unresolvable case; `object_id`-only external artifact
+         stores remain out of scope for this partial verifier).
+
+    Returns (data_or_None, unknown_reason_or_None). Raises
+    RefDigestMismatch on an actual digest disagreement.
+    """
+    json_pointer = ref.get("json_pointer") if isinstance(ref.get("json_pointer"), str) else None
+    if json_pointer is not None:
+        found, resolved = _resolve_json_pointer(native_payload, json_pointer)
+        if found:
+            recomputed = sha256_of(resolved)
+            declared = ref.get("digest")
+            if recomputed != declared:
+                raise RefDigestMismatch(
+                    f"{what}: native artifact dereference at json_pointer={json_pointer!r} digest "
+                    f"{recomputed} != declared digest {declared!r} (Sol 便86 B86-o3 native-binding check)"
+                )
+            return resolved, None
+    # pointer absent or unresolvable against the pinned native artifact --
+    # fall back to inline as a CACHE (existing digest-consistency check;
+    # still raises RefDigestMismatch on an inline/declared-digest
+    # disagreement).
+    inline = _check_ref_inline_consistency(ref, what)
+    if inline is not None:
+        return inline, None
+    if json_pointer is not None:
+        reason = (f"{what}: json_pointer {json_pointer!r} unresolvable against the pinned native artifact "
+                  "and no inline cache present")
+    else:
+        reason = (f"{what}: no json_pointer and no inline content -- object_id-only external artifact "
+                  "stores are out of scope for this partial verifier (UNKNOWN, not a silent PASS)")
+    return None, reason
+
+
 # --------------------------------------------------------------------------
 # 裁定139 (v3 item 5, F77-4.3): ABSENT and MALFORMED are DISTINCT statuses,
 # not both folded into "FAIL":
@@ -1178,34 +1260,38 @@ def _extract_w6_map(entry, native_payload, label):
     """
     Reads ONE W-6 lane entry: {native_side, ramification_ref, branch_ref,
     map_ref, witness_ref} (裁定139 item 2). Each of the four ref fields
-    must be a valid ref-triple (item 3); inline/digest consistency is
-    checked for all four, but only map_ref's inline content (if present)
-    is actually dereferenced into a {branch_value: multiplicity} map for
-    cross-lane comparison -- dereferencing a digest-only ref via
-    json_pointer/object_id into `native_payload` is NOT implemented (UNKNOWN,
-    see module docstring), so a map_ref with no inline content yields
-    (None, <unknown-reason>) rather than a silent PASS or a crash.
+    must be a valid ref-triple (item 3); ramification_ref/branch_ref/
+    witness_ref are still checked for inline/digest consistency ONLY (that
+    scope is unchanged by 便86 -- Sol's B86-o3 finding was specifically
+    about map_ref).
+
+    Sol 便86 P86-2 item 3 (B86-o3 fix): map_ref is now DEREFERENCED
+    against the RECEIVER-HELD pinned `native_payload` via
+    `_dereference_native_ref` (json_pointer resolved into the actual
+    native artifact, authoritative; `inline` is a cache fallback only) --
+    NOT merely read from its self-carried `inline` copy. A map_ref that
+    neither resolves via json_pointer/object_id into native_payload nor
+    carries a digest-consistent inline cache yields (None, <unknown-
+    reason>), same as before, rather than a silent PASS or a crash.
     """
     _require_dict(entry, f"W-6 {label} entry")
     _require_keys(entry, ["ramification_ref", "branch_ref", "map_ref", "witness_ref"], f"W-6 {label} entry")
-    for key in ("ramification_ref", "branch_ref", "map_ref", "witness_ref"):
+    for key in ("ramification_ref", "branch_ref", "witness_ref"):
         ref = _parse_ref_triple(entry[key], f"W-6 {label} entry.{key}")
         _check_ref_inline_consistency(ref, f"W-6 {label} entry.{key}")  # raises RefDigestMismatch on conflict
 
-    map_ref = entry["map_ref"]
-    map_inline = _check_ref_inline_consistency(map_ref, f"W-6 {label} entry.map_ref")
-    if map_inline is None:
-        return None, (f"{label}.map_ref has no inline content to re-verify (digest-only reference; "
-                       "dereferencing json_pointer/object_id into the native artifact is NOT "
-                       "implemented by this partial verifier -- UNKNOWN, not a silent PASS)")
-    if not isinstance(map_inline, list):
-        raise MalformedWitness(f"{label}.map_ref.inline must be an array of "
-                                f"{{branch_value, multiplicity}}, got {type(map_inline).__name__}")
+    map_ref = _parse_ref_triple(entry["map_ref"], f"W-6 {label} entry.map_ref")
+    map_data, unknown_reason = _dereference_native_ref(map_ref, native_payload, f"W-6 {label} entry.map_ref")
+    if map_data is None:
+        return None, unknown_reason
+    if not isinstance(map_data, list):
+        raise MalformedWitness(f"{label}.map_ref dereferenced value must be an array of "
+                                f"{{branch_value, multiplicity}}, got {type(map_data).__name__}")
     m = {}
-    for i, e in enumerate(map_inline):
+    for i, e in enumerate(map_data):
         if not isinstance(e, dict) or "branch_value" not in e or "multiplicity" not in e:
-            raise MalformedWitness(f"{label}.map_ref.inline[{i}] malformed (need branch_value, multiplicity)")
-        mult = _require_int(e["multiplicity"], f"{label}.map_ref.inline[{i}].multiplicity")
+            raise MalformedWitness(f"{label}.map_ref[{i}] malformed (need branch_value, multiplicity)")
+        mult = _require_int(e["multiplicity"], f"{label}.map_ref[{i}].multiplicity")
         m[e["branch_value"]] = m.get(e["branch_value"], 0) + mult
     return m, None
 
@@ -1582,11 +1668,16 @@ def run_verifier_b(payload):
         "R_A vs R_B concordance ([26]): NOT computed by this file (contract "
         "C-7: belongs to the receiving side that holds both R_A and R_B "
         "independently)",
-        "W-6 map_ref dereferencing (裁定139 item 2): only inline map_ref "
-        "content is re-verified; walking json_pointer/object_id into the "
-        "native artifact when no inline content is supplied is NOT "
-        "implemented (see verify_W6_single docstring) -- yields ABSENT, "
-        "not a silent PASS.",
+        "W-6 map_ref dereferencing (裁定139 item 2; Sol 便86 P86-2 item 3 / "
+        "B86-o3 FIX applied): map_ref's json_pointer/object_id IS now "
+        "walked into the receiver-held pinned native artifact via "
+        "_dereference_native_ref (native content authoritative, inline is "
+        "a cache fallback only) -- a map_ref that resolves neither via "
+        "the pointer nor a digest-consistent inline still yields ABSENT, "
+        "not a silent PASS. This closes the prior 'inline-only' gap for "
+        "map_ref specifically; the OTHER json_pointer/object_id gaps "
+        "listed below (self-contained native resolution) are separate "
+        "code paths and remain open.",
         "chart_ids registry resolution (裁定139 item 1): this verifier "
         "does not resolve chart_ids against any curve_model_digest-keyed "
         "chart registry; only non-empty-string presence is checked "
