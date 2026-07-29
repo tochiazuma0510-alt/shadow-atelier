@@ -261,17 +261,23 @@ def assemble(candidate_ref, curve_label, points, mismatches=None):
 
     # W-4 chart_overlap_witnesses (裁定133 (i)/裁定139 item 7 shape unchanged;
     # field renamed + status vocabulary made strict by 裁定152 §3-1 /
-    # 追補(n) v2; UNIFIED, authority-bound item schema per 裁定192 F83-1.1:
-    # chart_pair/locus_type/component_in_chart_a/b/agree/generator_chart_a/b
-    # ALL required, generator_chart_a/b must equal the REAL native
-    # ideal_generator for this locus_type (poly_str(gen) -- exactly what
-    # build_native_side below emits, since native_a/native_b share the same
-    # `native_side` object in this fixture builder).
+    # 追補(n) v2; UNIFIED, authority-bound item schema per v3 successor
+    # 条項7 (docs/notes/cert_shape_interpretation_v3_addendum_n_v3.md,
+    # Sol 便84 F84-5.2/P84-3, superseding 裁定192 F83-1.1's chart_pair
+    # name): side_pair/locus_type/component_in_chart_a/b/agree/
+    # generator_chart_a/b ALL required. side_pair is the FIXED literal
+    # ["searcher","checker"] (NOT two chart ids -- this fixture builder
+    # never had a real chart registry either, so 'chart-A'/'chart-B' was
+    # always describing searcher-side vs checker-side native data, never a
+    # genuine second coordinate chart). generator_chart_a/b must equal the
+    # REAL native ideal_generator for this locus_type (poly_str(gen) --
+    # exactly what build_native_side below emits, since native_a/native_b
+    # share the same `native_side` object in this fixture builder).
     w4 = []
     for tok in TOKENS:
         overlaps = [
             {
-                "chart_pair": ["chart-A", "chart-B"],
+                "side_pair": ["searcher", "checker"],
                 "locus_type": lt,
                 "component_in_chart_a": lt,
                 "component_in_chart_b": lt,

@@ -264,12 +264,20 @@ result_malformed = eu.evidence_union_fail_closed_v2(_malformed_r2, _pass_r1)
 record("evidence_union_fail_closed_v2(MALFORMED R2, PASS R1) -> overall INTEGRITY_STOP",
        result_malformed["overall_status"] == "INTEGRITY_STOP", result_malformed)
 
-result_absent_absent = eu.evidence_union_fail_closed_v2(None, {"route_status": "ABSENT", "missing_mask": {"x": True}})
-record("evidence_union_fail_closed_v2(None, ABSENT) -> overall ABSENT",
+_absent_r2 = eu.route_result_absent("R2", {"x": True})
+result_absent_absent = eu.evidence_union_fail_closed_v2(None, _absent_r2)
+record("evidence_union_fail_closed_v2(None, ABSENT[R2]) -> overall ABSENT",
        result_absent_absent["overall_status"] == "ABSENT", result_absent_absent)
 
-result_absent_pass = eu.evidence_union_fail_closed_v2(None, _pass_r1)
-record("evidence_union_fail_closed_v2(None, PASS) -> overall PASS",
+# Sol 便84 P84-5.4 item 2: the second argument slot must carry route_id="R2"
+# -- _pass_r1 (route_id="R1") does not belong in the second slot, so a
+# properly R2-tagged route is built here instead (a bare hand-rolled dict
+# without schema_id/route_id, as this test used to pass directly, is no
+# longer a valid RouteResult at all under the hardened gate -- see the
+# P84-5.4 probes below for that exact adversarial case).
+_pass_r2_solo = eu.route_result_pass("R2", DIGEST_A, DIGEST_B, 3, 3, DIGEST_C, DIGEST_C)
+result_absent_pass = eu.evidence_union_fail_closed_v2(None, _pass_r2_solo)
+record("evidence_union_fail_closed_v2(None, PASS[R2]) -> overall PASS",
        result_absent_pass["overall_status"] == "PASS", result_absent_pass)
 
 # foreign/malicious input directly at the top level -> MALFORMED -> INTEGRITY_STOP.
@@ -328,6 +336,80 @@ r2_agreeing = eu.route_from_verifier_b_w6(w6_status_real, w6_detail_real, "R2") 
 combined = eu.evidence_union_fail_closed_v2(route_from_real_w6, r2_agreeing)
 record("evidence_union_fail_closed_v2(real-W6-PASS-via-connector R1, agreeing R2) -> overall PASS",
        combined["overall_status"] == "PASS", combined)
+
+
+# --------------------------------------------------------------------------
+# 6. Sol 便84 P84-5.4 hardening -- the LITERAL adversarial probes from
+#    sol/sol_reply_84_math11.md F84-5.4 (schema_id missing/foreign,
+#    route_id missing/producer-chosen/wrong-slot, unknown header fields),
+#    each asserted to the RETURNED status (not just "no crash"), including
+#    the end-to-end combinator overall_status.
+# --------------------------------------------------------------------------
+
+# F84-5.4 literal probe 1: schema_id missing, route_id missing,
+# route_status="PASS" -- used to reach PASS; must now be MALFORMED.
+_probe_no_schema_id = {"route_status": "PASS", "claim_digest": DIGEST_A, "evidence_digest": DIGEST_B,
+                        "expected_domain_count": 3, "checked_domain_count": 3,
+                        "expected_domain_digest": DIGEST_C, "coverage_digest": DIGEST_C}
+status, digest, detail = eu.coerce_to_route_result(_probe_no_schema_id, expected_route_id="R1")
+record("P84-5.4 probe: {schema_id missing, route_id missing, route_status=PASS} -> MALFORMED (was PASS)",
+       status == "MALFORMED", f"got {status!r}: {detail}")
+
+# F84-5.4 literal probe 2: schema_id="evil/v9", route_id="producer-choice".
+_probe_evil_schema = dict(_probe_no_schema_id, schema_id="evil/v9", route_id="producer-choice")
+status, digest, detail = eu.coerce_to_route_result(_probe_evil_schema, expected_route_id="R1")
+record('P84-5.4 probe: {schema_id="evil/v9", route_id="producer-choice"} -> MALFORMED (was PASS)',
+       status == "MALFORMED", f"got {status!r}: {detail}")
+
+# F84-5.4 literal probe 3: the union of the two forged routes above -- was
+# overall PASS, must now be overall INTEGRITY_STOP (both sides MALFORMED).
+result_forged_union = eu.evidence_union_fail_closed_v2(_probe_no_schema_id, _probe_evil_schema)
+record("P84-5.4 probe: evidence_union_fail_closed_v2(forged-no-schema_id, forged-evil-schema_id) -> "
+       "overall INTEGRITY_STOP (was overall PASS)",
+       result_forged_union["overall_status"] == "INTEGRITY_STOP", result_forged_union)
+
+# F84-5.4 item 3: route_result_pass("producer-choice", ...) itself must
+# refuse (constructor-level enum), falling back to MALFORMED.
+_producer_choice_pass = eu.route_result_pass("producer-choice", DIGEST_A, DIGEST_B, 3, 3, DIGEST_C, DIGEST_C)
+record('P84-5.4 item 3: route_result_pass("producer-choice", ...) -> route_status=MALFORMED (constructor refuses)',
+       _producer_choice_pass.get("route_status") == "MALFORMED", _producer_choice_pass)
+_producer_choice_fail = eu.route_result_fail("also-not-r1-or-r2", DIGEST_A, DIGEST_B, [{"locus": "x=1"}])
+record('P84-5.4 item 3: route_result_fail("also-not-r1-or-r2", ...) -> route_status=MALFORMED (constructor refuses)',
+       _producer_choice_fail.get("route_status") == "MALFORMED", _producer_choice_fail)
+_producer_choice_absent = eu.route_result_absent("bogus-id", {"reason": "x"})
+record('P84-5.4 item 3: route_result_absent("bogus-id", ...) -> route_status=MALFORMED (constructor refuses)',
+       _producer_choice_absent.get("route_status") == "MALFORMED", _producer_choice_absent)
+
+# F84-5.4 item 2: top-level slot binding -- first argument must be
+# route_id="R1", second must be "R2", even when BOTH routes are otherwise
+# perfectly well-formed. Swapping them must not silently succeed.
+_r1_route = eu.route_result_pass("R1", DIGEST_A, DIGEST_B, 3, 3, DIGEST_C, DIGEST_C)
+_r2_route = eu.route_result_pass("R2", DIGEST_A, DIGEST_B, 3, 3, DIGEST_C, DIGEST_C)
+status_wrong_slot, _, detail_wrong_slot = eu.coerce_to_route_result(_r2_route, expected_route_id="R1")
+record("P84-5.4 item 2: a well-formed route_id='R2' route placed in the FIRST (R1) slot -> MALFORMED",
+       status_wrong_slot == "MALFORMED", f"got {status_wrong_slot!r}: {detail_wrong_slot}")
+result_swapped_slots = eu.evidence_union_fail_closed_v2(_r2_route, _r1_route)  # R2 first, R1 second -- swapped
+record("P84-5.4 item 2: evidence_union_fail_closed_v2(R2-route, R1-route) [swapped slots] -> overall INTEGRITY_STOP",
+       result_swapped_slots["overall_status"] == "INTEGRITY_STOP", result_swapped_slots)
+result_correct_slots = eu.evidence_union_fail_closed_v2(_r1_route, _r2_route)  # control: correct order
+record("P84-5.4 item 2 control: evidence_union_fail_closed_v2(R1-route, R2-route) [correct slots] -> overall PASS",
+       result_correct_slots["overall_status"] == "PASS", result_correct_slots)
+
+# F84-5.4 item 4: an unknown/foreign header field on an otherwise
+# well-formed PASS route -- must be MALFORMED, not silently ignored.
+_probe_unknown_field = dict(_r1_route)
+_probe_unknown_field["evil_extra_field"] = "smuggled-in"
+status, digest, detail = eu.coerce_to_route_result(_probe_unknown_field, expected_route_id="R1")
+record('P84-5.4 item 4: well-formed PASS route ALSO carrying "evil_extra_field" -> MALFORMED',
+       status == "MALFORMED", f"got {status!r}: {detail}")
+
+# F84-5.4 item 5: route_from_verifier_b_w6 now populates claim_source_ref/
+# evidence_refs from the raw evidence (never left as None).
+_w6_route_for_refs = eu.route_from_verifier_b_w6(w6_status_real, w6_detail_real, "R1")
+record("P84-5.4 item 5: route_from_verifier_b_w6(...) populates claim_source_ref (not None)",
+       _w6_route_for_refs.get("claim_source_ref") is not None, _w6_route_for_refs.get("claim_source_ref"))
+record("P84-5.4 item 5: route_from_verifier_b_w6(...) populates evidence_refs (not None)",
+       _w6_route_for_refs.get("evidence_refs") is not None, _w6_route_for_refs.get("evidence_refs"))
 
 
 # --------------------------------------------------------------------------

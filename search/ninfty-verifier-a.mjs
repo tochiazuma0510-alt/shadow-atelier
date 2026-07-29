@@ -255,14 +255,24 @@ export function classifyChartOverlapEntry_forTest(w, chartIds, searcherComponent
 // "1/01", "1/1" -- each distinct non-canonical byte string is refused, not
 // silently rewritten, so canonical-form equality reduces to plain string
 // equality.
-const _CANONICAL_RATIONAL_RE = /^(-?(?:0|[1-9]\d*))(?:\/([1-9]\d*))?$/;
+// Sol 便84 F84-5.1/P84-4: (1) ASCII [0-9] ONLY -- explicit character class,
+// never \d (which is ASCII-only in JS without the /u flag, but spelled out
+// here so the grammar is self-evidently ASCII, matching lane B's fix
+// exactly rather than relying on an engine default); (2) '-0' is EXPLICITLY
+// rejected below (the regex alone cannot distinguish it from a legitimate
+// bare integer, since '-0' parses as numerator '-0' with no denominator --
+// '-0' and '0' are the SAME rational number, so admitting both would give
+// canonical form two distinct byte-strings for one value, which is exactly
+// what "canonical" is supposed to rule out).
+const _CANONICAL_RATIONAL_RE = /^(-?(?:0|[1-9][0-9]*))(?:\/([1-9][0-9]*))?$/;
 function _isCanonicalRationalString(s) {
   if (typeof s !== 'string') return false;
   const m = _CANONICAL_RATIONAL_RE.exec(s);
   if (!m) return false;
+  if (m[1] === '-0') return false; // F84-5.1: '-0' is not canonical -- same value as bare '0'
   if (m[2] === undefined) return true;
-  const n = BigInt(m[1]); // safe: m[1] already regex-validated digits-only (+ optional '-')
-  const d = BigInt(m[2]); // safe: m[2] already regex-validated digits-only
+  const n = BigInt(m[1]); // safe: m[1] already regex-validated ASCII digits-only (+ optional '-')
+  const d = BigInt(m[2]); // safe: m[2] already regex-validated ASCII digits-only
   if (n === 0n) return false; // "0/d" is not canonical -- must be bare "0"
   if (d === 1n) return false; // "n/1" is not canonical -- must be bare "n"
   return gcdBig(n < 0n ? -n : n, d) === 1n;
@@ -289,16 +299,29 @@ function _rationalArraysEqual(a, b) {
 }
 
 // Validates ONE entries[] item against the UNIFIED, authority-bound item
-// schema (裁定192 F83-1.1's "(n) 再発効条件" 1-5 -- the SAME schema lane B's
-// ninfty-verifier-b.py `_validate_w4_inner_item` now requires):
+// schema (v3 successor 条項7 per docs/notes/cert_shape_interpretation_v3_addendum_n_v3.md,
+// Sol 便84 F84-5.2/P84-3 -- the SAME schema lane B's ninfty-verifier-b.py
+// `_validate_w4_inner_item` now requires):
 //
-//   {chart_pair: [id_a, id_b],       // 2 DISTINCT strings, BOTH resolved
-//                                    // against certificate.chart_ids
-//                                    // (full chart-registry-digest
-//                                    // resolution beyond this membership
-//                                    // check is UNKNOWN -- F78-3.6's
-//                                    // minimal schema does not exist yet,
-//                                    // not invented here)
+//   {side_pair: ["searcher","checker"], // FIXED literal pair, in this
+//                                    // exact order -- NOT two chart ids.
+//                                    // Sol F84-5.2: the prior 'chart_pair'
+//                                    // name/shape (two distinct chart_ids)
+//                                    // implied a real chart-transport
+//                                    // claim this payload cannot back up
+//                                    // (no registry binds a chart id to a
+//                                    // native side/digest/coordinate ring,
+//                                    // so 'swap the two chart ids' could
+//                                    // never actually be rejected). What
+//                                    // IS actually checked below is
+//                                    // searcher-side vs checker-side
+//                                    // native equality -- side_pair says
+//                                    // exactly that and nothing more;
+//                                    // swapping it (["checker","searcher"])
+//                                    // is REJECTED as MALFORMED, not
+//                                    // silently accepted (chart transport
+//                                    // across genuinely distinct charts
+//                                    // remains UNKNOWN with this payload).
 //    locus_type: <str>,              // must resolve to a REAL native
 //                                    // component on BOTH sides
 //    component_in_chart_a: <str>,    // == locus_type (this payload has
@@ -319,13 +342,12 @@ function _rationalArraysEqual(a, b) {
 // RECEIVER-DERIVED native ideal_generator for `locus_type` on the searcher
 // side (generator_chart_a) and the checker side (generator_chart_b) --
 // disagreement is a genuine native-binding FAILURE (this item disagrees),
-// not a schema violation. Coordinate TRANSITION TRANSPORT across
-// genuinely distinct charts (condition 4) is UNKNOWN with the current
-// payload (only one native representation per side exists, not a second
-// chart's native data to transport into) -- chart_pair[0]/[1] are bound to
-// the searcher/checker SIDES respectively (the only native duality this
-// payload actually supplies), not to two genuinely different coordinate
-// charts.
+// not a schema violation. This is a searcher/checker-SIDE-native-equality
+// check (W-4's real name per Sol 便84 F84-5.2), NOT a chart-overlap /
+// chart-transport proof -- chart transport across genuinely distinct
+// coordinate charts remains UNKNOWN with this payload (only one native
+// representation per side exists, not a second chart's native data to
+// transport into).
 function _validateChartOverlapInnerEntry(ow, chartIds, searcherComponents, checkerComponents) {
   if (!ow || typeof ow !== 'object' || Array.isArray(ow)) {
     return { reason: 'entries[] item is not an object' };
@@ -333,15 +355,9 @@ function _validateChartOverlapInnerEntry(ow, chartIds, searcherComponents, check
   if (typeof ow.locus_type !== 'string' || ow.locus_type === '') {
     return { reason: "entries[] item missing 'locus_type' (or not a non-empty string) -- required per v3 条項7 (裁定189 F82-3.1 item 1)" };
   }
-  if (!Array.isArray(ow.chart_pair) || ow.chart_pair.length !== 2
-      || !ow.chart_pair.every((c) => typeof c === 'string' && c !== '')) {
-    return { reason: "entries[] item missing 'chart_pair' (or not a 2-element array of non-empty chart-id strings) -- required per v3 条項7 (裁定189 F82-3.1 item 1)" };
-  }
-  if (ow.chart_pair[0] === ow.chart_pair[1]) {
-    return { reason: `entries[] item.chart_pair must name two DISTINCT chart ids, got ${JSON.stringify(ow.chart_pair)} twice (裁定192 F83-1.1 condition 2)` };
-  }
-  if (!Array.isArray(chartIds) || !chartIds.includes(ow.chart_pair[0]) || !chartIds.includes(ow.chart_pair[1])) {
-    return { reason: `entries[] item.chart_pair ${JSON.stringify(ow.chart_pair)} references a chart id not present in certificate.chart_ids ${JSON.stringify(chartIds)} (裁定192 F83-1.1 condition 2; full chart-registry-digest resolution beyond this membership check is UNKNOWN -- F78-3.6's minimal schema does not exist yet)` };
+  if (!Array.isArray(ow.side_pair) || ow.side_pair.length !== 2
+      || ow.side_pair[0] !== 'searcher' || ow.side_pair[1] !== 'checker') {
+    return { reason: `entries[] item.side_pair must be EXACTLY ["searcher","checker"] in this fixed order (Sol 便84 F84-5.2/P84-3: this records searcher/checker-side native equality, not a swappable chart-id pair -- chart transport across genuinely distinct charts is UNKNOWN with this payload), got ${JSON.stringify(ow.side_pair)}` };
   }
   for (const field of ['component_in_chart_a', 'component_in_chart_b']) {
     if (typeof ow[field] !== 'string' || ow[field] === '') {

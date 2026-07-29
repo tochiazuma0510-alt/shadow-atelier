@@ -134,16 +134,26 @@ import argparse
 # Rejects (never canonicalizes) "+1", "01", "2/2", "1/01", "1/1" etc. --
 # each distinct non-canonical byte string is refused, not silently rewritten,
 # so canonical-form equality can be decided by plain string comparison.
-_CANONICAL_RATIONAL_RE = re.compile(r'^(-?(?:0|[1-9]\d*))(?:/([1-9]\d*))?$')
+# Sol 便84 F84-5.1/P84-4 fix (was: re.match with bare \d, both gaps found by
+# Sol's adversarial probe): (1) re.ASCII forces \d/\w/\s to ASCII-only, and
+# the character classes below are ALSO spelled out as [0-9] explicitly, so
+# a Unicode digit (e.g. full-width or Arabic-indic) is rejected by
+# construction, not merely by an easily-dropped flag; (2) fullmatch (not
+# match) so a trailing "\n" (which Python's `$` anchor treats as matching
+# just before a final newline, NOT as end-of-string) can no longer sneak a
+# non-canonical byte string past the grammar.
+_CANONICAL_RATIONAL_RE = re.compile(r'^(-?(?:0|[1-9][0-9]*))(?:/([1-9][0-9]*))?$', re.ASCII)
 
 
 def _is_canonical_rational_string(s):
     if not isinstance(s, str):
         return False
-    m = _CANONICAL_RATIONAL_RE.match(s)
+    m = _CANONICAL_RATIONAL_RE.fullmatch(s)
     if not m:
         return False
     n_str, d_str = m.group(1), m.group(2)
+    if n_str == "-0":
+        return False  # F84-5.1: '-0' is not canonical -- same value as bare '0'
     if d_str is None:
         return True
     n, d = int(n_str), int(d_str)
@@ -707,17 +717,31 @@ def _validate_w3_entry(e):
 
 def _validate_w4_inner_item(o, i, chart_ids, native_a, native_b):
     """
-    裁定192 (sol/裁定_192_便83検収.md F83-1.1, (n) re-effectuation condition
-    1-5): validates ONE entries[] item against the UNIFIED, authority-bound
-    item schema -- the SAME schema lane A's ninfty-verifier-a.mjs
-    classifyChartOverlapEntry now requires (promoted to v3 条項7 in full):
+    v3 successor 条項7 (docs/notes/cert_shape_interpretation_v3_addendum_n_v3.md,
+    Sol 便84 F84-5.2/P84-3, superseding 裁定192 F83-1.1's chart_pair name):
+    validates ONE entries[] item against the UNIFIED, authority-bound item
+    schema -- the SAME schema lane A's ninfty-verifier-a.mjs
+    classifyChartOverlapEntry now requires:
 
-        {chart_pair: [id_a, id_b],       # 2 DISTINCT strings, BOTH resolved
-                                          # against certificate.chart_ids
-                                          # (chart REGISTRY digest resolution
-                                          # beyond membership is UNKNOWN --
-                                          # F78-3.6's minimal schema does not
-                                          # exist yet; not invented here)
+        {side_pair: ["searcher","checker"],  # FIXED literal pair, in this
+                                          # exact order -- NOT two chart ids.
+                                          # Sol F84-5.2: the prior
+                                          # 'chart_pair' name/shape (two
+                                          # distinct chart_ids) implied a
+                                          # real chart-transport claim this
+                                          # payload cannot back up (no
+                                          # registry binds a chart id to a
+                                          # native side/digest/coordinate
+                                          # ring, so a swapped chart-id pair
+                                          # could never actually be
+                                          # rejected). What IS actually
+                                          # checked below is searcher-side
+                                          # vs checker-side native equality
+                                          # -- side_pair says exactly that.
+                                          # Swapping it
+                                          # (["checker","searcher"]) is
+                                          # REJECTED as MALFORMED, not
+                                          # silently accepted.
          locus_type: <str>,               # must resolve to a REAL native
                                           # component (searcher AND checker)
                                           # for this divisor_object
@@ -733,11 +757,11 @@ def _validate_w4_inner_item(o, i, chart_ids, native_a, native_b):
          generator_chart_b: [<canonical rational str>, ...]}
 
     Raises MalformedWitness for ANY schema violation (missing/mistyped
-    field, unresolvable chart_pair/locus_type, non-canonical coefficient
-    string, raw JSON number coefficient -- F83-1.2 closed by construction:
-    _is_canonical_rational_string never accepts a Python int/float at all,
-    only an already-canonical string). Returns True/False (agrees /
-    disagrees) when the item is well-formed and its generators are
+    field, wrong/swapped side_pair, unresolvable locus_type, non-canonical
+    coefficient string, raw JSON number coefficient -- F83-1.2 closed by
+    construction: _is_canonical_rational_string never accepts a Python
+    int/float at all, only an already-canonical string). Returns True/False
+    (agrees / disagrees) when the item is well-formed and its generators are
     resolvable: 裁定192 condition 3 -- generator_chart_a/b are no longer
     compared to EACH OTHER (a producer self-consistency check); each is
     independently compared, by EXACT canonical-string-list equality, against
@@ -745,26 +769,22 @@ def _validate_w4_inner_item(o, i, chart_ids, native_a, native_b):
     searcher side (for generator_chart_a) and the checker side (for
     generator_chart_b) respectively -- disagreement is a genuine
     native-binding FAILURE (this item disagrees), not a schema violation.
-    Coordinate TRANSITION TRANSPORT across genuinely distinct charts
-    (condition 4) is UNKNOWN with the current payload (there is only one
-    native representation per side, not a second chart's native data to
-    transport into) -- this binds chart_pair[0]/[1] to the searcher/checker
-    SIDES respectively (the only native duality this payload actually
-    supplies), not to two genuinely different coordinate charts.
+    This is a searcher/checker-SIDE-native-equality check (W-4's real name
+    per Sol 便84 F84-5.2), NOT a chart-overlap / chart-transport proof --
+    coordinate TRANSITION TRANSPORT across genuinely distinct charts
+    remains UNKNOWN with the current payload (there is only one native
+    representation per side, not a second chart's native data to transport
+    into).
     """
     if not isinstance(o, dict):
         raise MalformedWitness(f"entries[{i}] is not an object")
 
-    chart_pair = o.get("chart_pair")
-    if not isinstance(chart_pair, list) or len(chart_pair) != 2 or not all(isinstance(c, str) and c for c in chart_pair):
-        raise MalformedWitness(f"entries[{i}].chart_pair must be an array of exactly 2 non-empty strings")
-    if chart_pair[0] == chart_pair[1]:
-        raise MalformedWitness(f"entries[{i}].chart_pair must name two DISTINCT chart ids, got {chart_pair!r} twice (裁定192 F83-1.1 condition 2)")
-    if not isinstance(chart_ids, list) or chart_pair[0] not in chart_ids or chart_pair[1] not in chart_ids:
+    side_pair = o.get("side_pair")
+    if not isinstance(side_pair, list) or side_pair != ["searcher", "checker"]:
         raise MalformedWitness(
-            f"entries[{i}].chart_pair {chart_pair!r} references a chart id not present in "
-            f"certificate.chart_ids={chart_ids!r} (裁定192 F83-1.1 condition 2; full chart-registry-digest "
-            "resolution beyond this membership check is UNKNOWN -- F78-3.6's minimal schema does not exist yet)"
+            f"entries[{i}].side_pair must be EXACTLY ['searcher','checker'] in this fixed order (Sol 便84 "
+            "F84-5.2/P84-3: this records searcher/checker-side native equality, not a swappable chart-id "
+            f"pair -- chart transport across genuinely distinct charts is UNKNOWN with this payload), got {side_pair!r}"
         )
 
     locus_type = o.get("locus_type")

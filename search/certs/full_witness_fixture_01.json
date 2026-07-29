@@ -793,9 +793,9 @@
         "entries": [
           {
             "locus_type": "a-pair-locus",
-            "chart_pair": [
-              "x-chart-single",
-              "x-chart-secondary-affine"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "component_in_chart_a": "a-pair-locus",
             "component_in_chart_b": "a-pair-locus",
@@ -822,9 +822,9 @@
           },
           {
             "locus_type": "p-locus",
-            "chart_pair": [
-              "x-chart-single",
-              "x-chart-secondary-affine"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "component_in_chart_a": "p-locus",
             "component_in_chart_b": "p-locus",
@@ -851,9 +851,9 @@
           },
           {
             "locus_type": "weierstrass-locus",
-            "chart_pair": [
-              "x-chart-single",
-              "x-chart-secondary-affine"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "component_in_chart_a": "weierstrass-locus",
             "component_in_chart_b": "weierstrass-locus",
@@ -898,9 +898,9 @@
         "entries": [
           {
             "locus_type": "a-pair-locus",
-            "chart_pair": [
-              "x-chart-single",
-              "x-chart-secondary-affine"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "component_in_chart_a": "a-pair-locus",
             "component_in_chart_b": "a-pair-locus",
@@ -927,9 +927,9 @@
           },
           {
             "locus_type": "p-locus",
-            "chart_pair": [
-              "x-chart-single",
-              "x-chart-secondary-affine"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "component_in_chart_a": "p-locus",
             "component_in_chart_b": "p-locus",
@@ -956,9 +956,9 @@
           },
           {
             "locus_type": "weierstrass-locus",
-            "chart_pair": [
-              "x-chart-single",
-              "x-chart-secondary-affine"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "component_in_chart_a": "weierstrass-locus",
             "component_in_chart_b": "weierstrass-locus",

@@ -640,9 +640,9 @@
         "status": "PRESENT",
         "entries": [
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x7",
             "component_in_chart_a": "pt-x7",
@@ -658,9 +658,9 @@
             ]
           },
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x8",
             "component_in_chart_a": "pt-x8",
@@ -676,9 +676,9 @@
             ]
           },
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x9",
             "component_in_chart_a": "pt-x9",
@@ -700,9 +700,9 @@
         "status": "PRESENT",
         "entries": [
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x7",
             "component_in_chart_a": "pt-x7",
@@ -718,9 +718,9 @@
             ]
           },
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x8",
             "component_in_chart_a": "pt-x8",
@@ -736,9 +736,9 @@
             ]
           },
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x9",
             "component_in_chart_a": "pt-x9",
@@ -868,7 +868,7 @@
         }
       }
     ],
-    "certificate_digest": "8baad451209c935f843cfc8f75a2eaa93aec8196b1f647c900070b67f6350d55"
+    "certificate_digest": "dfa8493b8e977516f50d6fc67b7fce05e81b52e2c1051234e80678868e23e8cb"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

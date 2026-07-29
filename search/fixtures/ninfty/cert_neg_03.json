@@ -402,9 +402,9 @@
         "status": "PRESENT",
         "entries": [
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x1",
             "component_in_chart_a": "pt-x1",
@@ -420,9 +420,9 @@
             ]
           },
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x2",
             "component_in_chart_a": "pt-x2",
@@ -444,9 +444,9 @@
         "status": "PRESENT",
         "entries": [
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x1",
             "component_in_chart_a": "pt-x1",
@@ -462,9 +462,9 @@
             ]
           },
           {
-            "chart_pair": [
-              "chart-A",
-              "chart-B"
+            "side_pair": [
+              "searcher",
+              "checker"
             ],
             "locus_type": "pt-x2",
             "component_in_chart_a": "pt-x2",
@@ -586,7 +586,7 @@
         }
       }
     ],
-    "certificate_digest": "498ea241e24b68b7e6c05f62fb1e1fd623b905a0a4b07cd90b0953a632f695ef"
+    "certificate_digest": "56991b1db7940f4014c3f6aec730b81084a69a61ffde9cdc0eb3a21c0e6986b6"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

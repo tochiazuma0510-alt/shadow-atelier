@@ -804,7 +804,9 @@ _n6_status, _n6_detail = _w4_real_validator({
     "divisor_object": "ramification_divisor_on_C_ref",
     "status": "PRESENT",
     "entries": [
-        {"chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+        # Sol 便84 F84-5.2/P84-3: field renamed chart_pair -> side_pair, FIXED
+        # literal ["searcher","checker"] (not two chart ids).
+        {"side_pair": ["searcher", "checker"], "locus_type": "pt-x1",
          "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
          "agree": True, "generator_chart_a": ["-1", "1"], "generator_chart_b": ["-1", "1"]}
     ],
@@ -942,30 +944,51 @@ record("裁定192 adversarial 1 (superset forgery): W-4 -> MALFORMED for both ob
        _w4_res["ramification_divisor_on_C"] == "MALFORMED" and _w4_res["branch_divisor_on_P1"] == "MALFORMED",
        json.dumps(_w4_res) + f" overall={_overall!r}")
 
-# adversarial 2: same-chart pair alone (otherwise a real, native-bound,
-# genuinely resolvable locus) -> MALFORMED (chart_pair must be 2 DISTINCT
-# chart ids, 裁定192 condition 2).
-_same_chart_pair = {
+# adversarial 2 (Sol 便84 F84-5.2/P84-3 SWAP PROBE, repurposed from 裁定192's
+# now-retired chart_pair-distinctness case): side_pair SWAPPED
+# (["checker","searcher"] instead of the fixed ["searcher","checker"]),
+# otherwise a real, native-bound, genuinely resolvable/agreeing locus ->
+# MALFORMED. This is the LITERAL probe Sol ran directly against the old
+# field (chart_pair=['B','A'] used to reach PASS, F84-5.2) -- confirms the
+# renamed/fixed-order side_pair field genuinely rejects the swap, with the
+# RETURNED STATUS asserted end-to-end.
+_swapped_side_pair = {
     "status": "PRESENT",
     "entries": [{
-        "chart_pair": ["chart-A", "chart-A"], "locus_type": "pt-x1",
+        "side_pair": ["checker", "searcher"], "locus_type": "pt-x1",
         "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
         "agree": True, "generator_chart_a": ["-1", "1"], "generator_chart_b": ["-1", "1"],
     }],
 }
-_w4_res2, _overall2 = _w4_e2e_status(_same_chart_pair)
-record("裁定192 adversarial 2 (same-chart pair): W-4 -> MALFORMED for both objects (returned status asserted)",
+_w4_res2, _overall2 = _w4_e2e_status(_swapped_side_pair)
+record("Sol 便84 F84-5.2 swap probe: side_pair=['checker','searcher'] (swapped) -> W-4 MALFORMED for "
+       "both objects (was PASS under chart_pair)",
        _w4_res2["ramification_divisor_on_C"] == "MALFORMED" and _w4_res2["branch_divisor_on_P1"] == "MALFORMED",
        json.dumps(_w4_res2) + f" overall={_overall2!r}")
 
+# control: the CORRECT order still reaches PASS (confirms the swap
+# rejection is genuinely about order, not a blanket rejection).
+_correct_side_pair = {
+    "status": "PRESENT",
+    "entries": [{
+        "side_pair": ["searcher", "checker"], "locus_type": "pt-x1",
+        "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+        "agree": True, "generator_chart_a": ["-1", "1"], "generator_chart_b": ["-1", "1"],
+    }],
+}
+_w4_res2c, _overall2c = _w4_e2e_status(_correct_side_pair)
+record("Sol 便84 F84-5.2 swap probe control: side_pair=['searcher','checker'] (correct order) -> W-4 PASS",
+       _w4_res2c["ramification_divisor_on_C"] == "PASS" and _w4_res2c["branch_divisor_on_P1"] == "PASS",
+       json.dumps(_w4_res2c) + f" overall={_overall2c!r}")
+
 # adversarial 3: native-unbound generator (well-formed shape, resolvable
-# chart_pair/locus_type, but generator_chart_a/b do NOT match the real
+# side_pair/locus_type, but generator_chart_a/b do NOT match the real
 # native ideal_generator ["-1","1"] for locus "pt-x1") -> FAIL (a genuine
 # native-binding falsification), NOT a silent PASS.
 _native_unbound = {
     "status": "PRESENT",
     "entries": [{
-        "chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+        "side_pair": ["searcher", "checker"], "locus_type": "pt-x1",
         "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
         "agree": True, "generator_chart_a": ["99", "1"], "generator_chart_b": ["99", "1"],
     }],
@@ -983,7 +1006,7 @@ record("裁定192 adversarial 3 (native-unbound generator): W-4 -> FAIL for both
 _unsafe_integer = {
     "status": "PRESENT",
     "entries": [{
-        "chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+        "side_pair": ["searcher", "checker"], "locus_type": "pt-x1",
         "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
         "agree": True, "generator_chart_a": [-1, 1], "generator_chart_b": [-1, 1],  # raw JSON numbers, not strings
     }],
@@ -1004,7 +1027,7 @@ record("裁定192 adversarial 4 (raw JSON number coefficients, incl. unsafe-inte
 _unsafe_integer_as_string = {
     "status": "PRESENT",
     "entries": [{
-        "chart_pair": ["chart-A", "chart-B"], "locus_type": "pt-x1",
+        "side_pair": ["searcher", "checker"], "locus_type": "pt-x1",
         "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
         "agree": True, "generator_chart_a": ["9007199254740993"], "generator_chart_b": ["9007199254740993"],
     }],
@@ -1014,6 +1037,65 @@ record("裁定192 adversarial 4b (Sol's literal probe value as a canonical STRIN
        "9007199254740993 > 2^53): schema-valid but native-unbound -> FAIL, not crash/PASS",
        _w4_res5["ramification_divisor_on_C"] == "FAIL" and _w4_res5["branch_divisor_on_P1"] == "FAIL",
        json.dumps(_w4_res5) + f" overall={_overall5!r}")
+
+
+# --------------------------------------------------------------------------
+# Sol 便84 F84-5.1/P84-4: canonical-rational-string grammar corpus -- the
+# SAME negative corpus as search/ninfty-selftest-lanea.mjs (shared across
+# both lanes, each with its own independent implementation of
+# _is_canonical_rational_string). Exercised via _w4_real_validator's
+# generator_chart_a array (real chart_ids/native context from
+# cert_pos_01.json, so a genuinely-canonical control clears the grammar
+# gate and reaches PASS).
+# --------------------------------------------------------------------------
+_RATIONAL_GRAMMAR_NEGATIVES = [
+    ("'-0' (same value as bare '0' -- two byte-strings for one rational, F84-5.1's genuine gap)", "-0"),
+    ("'1\\n' (trailing newline -- Python's $ anchor matches before a final "
+     "newline unless fullmatch is used, F84-5.1's OTHER genuine gap)", "1\n"),
+    ("'\\uFF11' (full-width Unicode digit U+FF11, not ASCII)", "１"),
+    ("'\\u0663' (Arabic-indic digit U+0663, not ASCII)", "٣"),
+]
+for _label, _value in _RATIONAL_GRAMMAR_NEGATIVES:
+    # _make_w4_entry_validator's inner-item validator RAISES MalformedWitness
+    # for a genuinely malformed entries[] item (uncaught by this raw
+    # factory -- the @fail_closed_pairmap wrapper only lives on verify_W4
+    # itself, not on this test-local factory), matching the try/except
+    # style already used for branches 2/3/4/5/7/8 above.
+    try:
+        _w4_real_validator({
+            "divisor_object": "ramification_divisor_on_C_ref",
+            "status": "PRESENT",
+            "entries": [
+                {"side_pair": ["searcher", "checker"], "locus_type": "pt-x1",
+                 "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+                 "agree": True, "generator_chart_a": [_value], "generator_chart_b": ["1"]}
+            ],
+        })
+        _n_raised = False
+    except ver.MalformedWitness:
+        _n_raised = True
+    # ascii(), not repr(): some corpus entries are non-ASCII (Unicode
+    # digits) -- ascii() backslash-escapes them so the console's codepage
+    # (cp932 on this Windows box) can print the report line without a
+    # UnicodeEncodeError crashing the test run before its summary prints.
+    record(f"P84-4 rational grammar negative: generator_chart_a=[{ascii(_value)}] ({_label}) -> "
+           "MalformedWitness (MALFORMED)",
+           _n_raised, "raised" if _n_raised else "did NOT raise (BUG)")
+
+# positive control: a genuinely canonical string clears the grammar gate
+# and (since it also matches real native data for pt-x1) reaches PASS.
+_n_control_status, _n_control_detail = _w4_real_validator({
+    "divisor_object": "ramification_divisor_on_C_ref",
+    "status": "PRESENT",
+    "entries": [
+        {"side_pair": ["searcher", "checker"], "locus_type": "pt-x1",
+         "component_in_chart_a": "pt-x1", "component_in_chart_b": "pt-x1",
+         "agree": True, "generator_chart_a": ["-1", "1"], "generator_chart_b": ["-1", "1"]}
+    ],
+})
+record("P84-4 control: canonical, native-bound generator_chart_a/b -> PASS (grammar gate does not "
+       "over-reject the honest case)",
+       _n_control_status == "PASS", f"got {_n_control_status!r}: {_n_control_detail}")
 
 
 # --------------------------------------------------------------------------

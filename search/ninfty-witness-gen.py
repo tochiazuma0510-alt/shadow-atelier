@@ -295,7 +295,13 @@ def build_chart_overlap_witnesses(loci):
             h_u = p_reverse_reciprocal(g)
             per_overlap.append({
                 "locus_type": locus_type,
-                "chart_pair": [CHART_A_ID, CHART_B_ID],
+                # Sol 便84 F84-5.2/P84-3: renamed from 'chart_pair' --
+                # CHART_A_ID/CHART_B_ID never had a real registry binding a
+                # chart id to a native side/digest/coordinate ring, so this
+                # was always describing searcher-side vs checker-side
+                # native equality, not a genuine second-chart transport
+                # claim. side_pair is the FIXED literal pair, in order.
+                "side_pair": ["searcher", "checker"],
                 "component_in_chart_a": locus_type,
                 "component_in_chart_b": locus_type,
                 "agree": True,

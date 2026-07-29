@@ -143,10 +143,12 @@ console.log('\n=== certificate / verifier-A fixtures ===');
       divisor_object: tag,
       status: 'PRESENT',
       // 裁定189 F82-3.1 item 1: locus_type is now a required entries[]
-      // field too (v3 条項7's full field list), alongside chart_pair/
-      // agree/both generators.
+      // field too (v3 successor 条項7's full field list), alongside
+      // side_pair/agree/both generators. Sol 便84 F84-5.2/P84-3: field
+      // renamed chart_pair -> side_pair, FIXED literal ["searcher","checker"]
+      // (not two chart ids -- see docs/notes/cert_shape_interpretation_v3_addendum_n_v3.md).
       entries: [{
-        locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'],
+        locus_type: 'a-pair-locus', side_pair: ['searcher', 'checker'],
         component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
         agree: true, generator_chart_a: ramGen, generator_chart_b: ramGen,
       }],
@@ -168,11 +170,10 @@ console.log('\n=== certificate / verifier-A fixtures ===');
       }),
     };
   }
-  // 裁定192 F83-1.1 condition 2: chart_pair members must resolve against
-  // certificate.chart_ids -- the real generator only ever registers
-  // ['x-chart-single'], so the synthetic second chart used below must be
-  // added here too (this is exactly the registry-membership check the
-  // real single-chart lane A scope never otherwise exercises).
+  // (chart_ids extended here for historical parity with earlier fixtures --
+  // side_pair no longer resolves against certificate.chart_ids at all, Sol
+  // 便84 F84-5.2: it is a fixed ["searcher","checker"] literal, not a pair
+  // of chart ids, so this extension is inert but harmless.)
   cert.chart_ids = [...cert.chart_ids, 'x-chart-hypothetical-2'];
   cert.chart_overlap_witnesses = [
     syntheticChartOverlapEntry('ramification_divisor_on_C_ref'),
@@ -565,7 +566,7 @@ for (const { label, entry, expect } of ADVERSARIAL_W4) {
   const goodEntry = {
     divisor_object: RAM_TAG, status: 'PRESENT',
     entries: [{
-      locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'],
+      locus_type: 'a-pair-locus', side_pair: ['searcher', 'checker'],
       component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
       agree: true, generator_chart_a: ramGen4, generator_chart_b: ramGen4,
     }],
@@ -573,6 +574,8 @@ for (const { label, entry, expect } of ADVERSARIAL_W4) {
   // 裁定192 F83-1.1: verifyChartOverlap now requires chart_ids +
   // searcher/checker native components too (authority-bound schema) --
   // supply the same-native-both-sides MOCK this fixture already uses.
+  // (chart_ids arg retained for call-site compatibility; side_pair no
+  // longer resolves against it, Sol 便84 F84-5.2.)
   const got4 = verifyChartOverlap_forTest(
     goodEntry, ['x-chart-single', 'x-chart-hypothetical-2'],
     native4.ramification_divisor_on_C_ref.components, native4.ramification_divisor_on_C_ref.components,
@@ -775,7 +778,7 @@ for (const { label, entries } of F82_PROBES) {
   const { native, cert } = freshCert();
   const goodGen = native.ramification_divisor_on_C_ref.components[0].ideal_generator;
   const goodEntryF82 = {
-    locus_type: 'a-pair-locus', chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'],
+    locus_type: 'a-pair-locus', side_pair: ['searcher', 'checker'],
     component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
     agree: true, generator_chart_a: goodGen, generator_chart_b: goodGen,
   };
@@ -812,9 +815,9 @@ function _w4e2e(entry) {
 }
 
 // adversarial 1: superset forgery -- all lane-A + lane-B fields present,
-// same-chart pair, invented locus/component names, generator NOT bound to
-// any real native data -> malformed=true (chart_pair not distinct AND
-// unresolvable chart id AND unresolvable locus_type).
+// an invented (retired) 'chart_pair' field standing in for side_pair,
+// invented locus/component names, generator NOT bound to any real native
+// data -> malformed=true (missing side_pair AND unresolvable locus_type).
 {
   const vA = _w4e2e({
     status: 'PRESENT',
@@ -828,36 +831,56 @@ function _w4e2e(entry) {
         vA.malformed === true, JSON.stringify(vA));
 }
 
-// adversarial 2: same-chart pair alone (otherwise a real, resolvable
-// locus/chart_ids) -> malformed=true (chart_pair must be 2 DISTINCT chart
-// ids, 裁定192 condition 2).
+// adversarial 2 (Sol 便84 F84-5.2/P84-3 SWAP PROBE, repurposed from 裁定192's
+// now-retired chart_pair-distinctness case): side_pair SWAPPED
+// (["checker","searcher"] instead of the fixed ["searcher","checker"]),
+// otherwise a real, resolvable, genuinely-agreeing entry -> malformed=true.
+// This is the LITERAL probe Sol ran directly against the old field
+// (chart_pair=['B','A'] used to reach PASS, F84-5.2) -- confirms the
+// renamed/fixed-order side_pair field genuinely rejects the swap, with the
+// RETURNED STATUS asserted end-to-end, not just "no crash".
 {
   const { native, cert } = freshCert();
-  cert.chart_ids = [...cert.chart_ids, 'x-chart-hypothetical-2'];
-  const dupPairEntry = {
-    chart_pair: ['x-chart-single', 'x-chart-single'], locus_type: 'a-pair-locus',
+  const swappedEntry = {
+    side_pair: ['checker', 'searcher'], locus_type: 'a-pair-locus',
     component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
     agree: true,
     generator_chart_a: native.ramification_divisor_on_C_ref.components[0].ideal_generator,
     generator_chart_b: native.ramification_divisor_on_C_ref.components[0].ideal_generator,
   };
   cert.chart_overlap_witnesses = [
-    { ...dupPairEntry, divisor_object: RAM_TAG }, { ...dupPairEntry, divisor_object: BRANCH_TAG },
+    { ...swappedEntry, divisor_object: RAM_TAG }, { ...swappedEntry, divisor_object: BRANCH_TAG },
   ];
   const vA = runVerifierA({ certificate: cert, searcherNativeBlob: native, checkerNativeBlob: native });
-  check('裁定192 adversarial 2 (same-chart pair): runVerifierA malformed=true (returned status asserted)',
+  check('Sol 便84 F84-5.2 swap probe: side_pair=["checker","searcher"] (swapped) -> runVerifierA malformed=true (was PASS under chart_pair)',
         vA.malformed === true, JSON.stringify(vA));
+  // isolated-function corroboration, matching Sol's own direct-probe style.
+  const isolatedSwapped = classifyChartOverlapEntry_forTest(
+    { divisor_object: RAM_TAG, status: 'PRESENT', entries: [swappedEntry] },
+    cert.chart_ids, native.ramification_divisor_on_C_ref.components, native.ramification_divisor_on_C_ref.components,
+  );
+  check('Sol 便84 F84-5.2 swap probe (isolated): classifyChartOverlapEntry_forTest(side_pair swapped) -> MALFORMED',
+        isolatedSwapped.status === 'MALFORMED', JSON.stringify(isolatedSwapped));
+  // control: the CORRECT order still reaches PASS (confirms the swap
+  // rejection is genuinely about order, not a blanket rejection).
+  const correctEntry = { ...swappedEntry, side_pair: ['searcher', 'checker'] };
+  const isolatedCorrect = verifyChartOverlap_forTest(
+    { divisor_object: RAM_TAG, status: 'PRESENT', entries: [correctEntry] },
+    cert.chart_ids, native.ramification_divisor_on_C_ref.components, native.ramification_divisor_on_C_ref.components,
+  );
+  check('Sol 便84 F84-5.2 swap probe control (isolated): side_pair=["searcher","checker"] (correct order) -> PASS',
+        isolatedCorrect === 'PASS', JSON.stringify(isolatedCorrect));
 }
 
 // adversarial 3: native-unbound generator (well-formed shape, resolvable
-// chart_pair/locus_type, but generator_chart_a/b do NOT match the real
+// side_pair/locus_type, but generator_chart_a/b do NOT match the real
 // native ideal_generator) -> W-4 FAIL (native-binding falsification), NOT
 // a silent PASS, and NOT malformed.
 {
   const vA = _w4e2e({
     status: 'PRESENT',
     entries: [{
-      chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], locus_type: 'a-pair-locus',
+      side_pair: ['searcher', 'checker'], locus_type: 'a-pair-locus',
       component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
       agree: true, generator_chart_a: ['99', '1'], generator_chart_b: ['99', '1'],
     }],
@@ -878,7 +901,7 @@ function _w4e2e(entry) {
   const vA = _w4e2e({
     status: 'PRESENT',
     entries: [{
-      chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], locus_type: 'a-pair-locus',
+      side_pair: ['searcher', 'checker'], locus_type: 'a-pair-locus',
       component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
       agree: true, generator_chart_a: [9007199254740993, 1], generator_chart_b: [9007199254740993, 1],
     }],
@@ -895,7 +918,7 @@ function _w4e2e(entry) {
   const vA = _w4e2e({
     status: 'PRESENT',
     entries: [{
-      chart_pair: ['x-chart-single', 'x-chart-hypothetical-2'], locus_type: 'a-pair-locus',
+      side_pair: ['searcher', 'checker'], locus_type: 'a-pair-locus',
       component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
       agree: true, generator_chart_a: ['9007199254740993'], generator_chart_b: ['9007199254740993'],
     }],
@@ -906,6 +929,53 @@ function _w4e2e(entry) {
         && vA.R_A.ramification_divisor_on_C.find(([k]) => k === 'W-4')[1] === 'FAIL'
         && vA.R_A.branch_divisor_on_P1.find(([k]) => k === 'W-4')[1] === 'FAIL',
         JSON.stringify(vA));
+}
+
+// --- Sol 便84 F84-5.1/P84-4: canonical-rational-string grammar corpus --
+//     a shared negative corpus run against BOTH lanes (this file for lane
+//     A; search/test_ninfty_laneB.py carries the SAME corpus for lane B),
+//     exercised via a W-4 entry's generator_chart_a array (the only place
+//     this lane exposes _isCanonicalRationalString's behavior, since the
+//     function itself is not exported). '-0' was the genuine gap (F84-5.1:
+//     '-0' and '0' are the SAME rational number, so admitting both broke
+//     "canonical form" of coefficient equality); the newline/Unicode-digit
+//     cases are asserted here too for parity even though this lane's JS
+//     regex ($ without /m, and explicit [0-9] classes rather than \d) was
+//     already correctly rejecting them before this round's fix.
+console.log('\n=== Sol 便84 F84-5.1/P84-4: canonical rational grammar corpus ===');
+
+const RATIONAL_GRAMMAR_NEGATIVES = [
+  { label: "'-0' (same value as bare '0' -- two byte-strings for one rational, F84-5.1's genuine gap)", value: '-0' },
+  { label: "'1\\n' (trailing newline)", value: '1\n' },
+  { label: "'\\uFF11' (full-width Unicode digit U+FF11, not ASCII)", value: '１' },
+  { label: "'\\u0663' (Arabic-indic digit U+0663, not ASCII)", value: '٣' },
+];
+for (const { label, value } of RATIONAL_GRAMMAR_NEGATIVES) {
+  const entry = {
+    locus_type: 'a-pair-locus', side_pair: ['searcher', 'checker'],
+    component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
+    agree: true, generator_chart_a: [value], generator_chart_b: ['1'],
+  };
+  const got = classifyChartOverlapEntry_forTest({ divisor_object: RAM_TAG, status: 'PRESENT', entries: [entry] });
+  check(`P84-4 rational grammar negative: generator_chart_a=[${JSON.stringify(value)}] (${label}) -> MALFORMED`,
+        got.status === 'MALFORMED', JSON.stringify(got));
+}
+// positive control: a genuinely canonical string clears the GRAMMAR gate
+// (this isolated call supplies no native context, so it still ends up
+// MALFORMED downstream at native resolution -- the control asserts the
+// REASON is native-unresolvability, not the rational grammar, confirming
+// the negatives above are genuinely caught by the grammar check and not
+// some unrelated failure).
+{
+  const controlEntry = {
+    locus_type: 'a-pair-locus', side_pair: ['searcher', 'checker'],
+    component_in_chart_a: 'a-pair-locus', component_in_chart_b: 'a-pair-locus',
+    agree: true, generator_chart_a: ['-3/7'], generator_chart_b: ['1'],
+  };
+  const got = classifyChartOverlapEntry_forTest({ divisor_object: RAM_TAG, status: 'PRESENT', entries: [controlEntry] });
+  check("P84-4 control: generator_chart_a=['-3/7'] (canonical) clears the grammar gate "
+        + '(MALFORMED reason is native-unresolvability, not the rational grammar)',
+        got.status === 'MALFORMED' && !/CANONICAL/.test(got.reason || ''), JSON.stringify(got));
 }
 
 // --- Worked examples from the spec text itself (Sec.5.3.2 line 508 and

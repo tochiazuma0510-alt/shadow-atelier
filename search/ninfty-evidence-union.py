@@ -57,6 +57,31 @@ route_status, never a self-declared field inside the evidence blob.
     hoping the constructor will paper over it (it will raise instead,
     surfacing as a MALFORMED-shaped result via the fail-closed wrapper).
 
+Sol 便84 P84-5.4 HARDENING (docs/notes/cert_shape_interpretation_addendum_o_v4.md,
+sol/sol_reply_84_math11.md F84-5.4): the nominal gate that used to be open --
+`coerce_to_route_result` checked `route_status` and status-specific fields
+but NEVER `schema_id`/`route_id` -- is now closed:
+  1. `schema_id` must equal SCHEMA_ID exactly (missing, or e.g. "evil/v9",
+     is MALFORMED).
+  2. the combinator's first argument slot must carry route_id="R1", the
+     second must carry route_id="R2" (slot-bound, not just "any two
+     distinct strings").
+  3. `route_id` is enum-restricted to {"R1","R2"} at the CONSTRUCTOR level
+     too (`_route_header` / VALID_ROUTE_IDS) -- `route_result_pass(
+     "producer-choice", ...)` now refuses and falls back to MALFORMED.
+  4. any field not part of the current status's own shape is rejected
+     (subsumes the old cross-status co-presence check and additionally
+     catches wholly invented field names).
+  5. `route_from_verifier_b_w6` populates `claim_source_ref`/`evidence_refs`
+     from the raw (status,detail) it was handed, recomputing the digest
+     fresh each call, rather than leaving them at the constructors' `None`
+     default.
+  6. `evidence_union_fail_closed_v2` is the ONLY public combination entry
+     point (used by both the CLI and any in-process caller) and it ALWAYS
+     re-validates through the hardened `coerce_to_route_result` -- there is
+     no path that accepts a raw producer JSON blob as an already-valid
+     RouteResult.
+
 SCOPE NOTE -- W-6 armature (unchanged from v3.1's task boundary):
 `route_from_verifier_b_w6` adapts ninfty-verifier-b.py's
 verify_W6_single(...) output into a RouteResult via the constructors
@@ -88,6 +113,14 @@ ABSENT_ONLY_FIELDS = ("missing_mask",)
 MALFORMED_ONLY_FIELDS = ("schema_errors",)
 COMMON_PF_FIELDS = ("claim_digest", "evidence_digest", "claim_source_ref", "evidence_refs")
 SCHEMA_ID = "mb/ninfty-evidence-union/route-result/v1"
+
+# Sol 便84 P84-5.4 item 3: route_id is DISPATCH-FIXED (which slot/constructor
+# call site is used), never a producer-chosen free string. R1 = the
+# recomputation route, R2 = the witness-coverage route (追補(o) v3.1 "R1 =
+# recomputation route, R2 = witness-coverage route"); the combinator's two
+# argument slots are bound to exactly these two ids, in this fixed order
+# (P84-5.4 item 2).
+VALID_ROUTE_IDS = ("R1", "R2")
 
 
 def canonical_serialize(obj):
@@ -122,8 +155,11 @@ class RouteResultSchemaError(Exception):
 
 
 def _route_header(route_id, route_status):
-    if not isinstance(route_id, str) or not route_id:
-        raise RouteResultSchemaError(f"route_id must be a non-empty string, got {route_id!r}")
+    if route_id not in VALID_ROUTE_IDS:
+        raise RouteResultSchemaError(
+            f"route_id must be one of {VALID_ROUTE_IDS!r} (dispatch-fixed by which constructor/slot was "
+            f"used, never a producer-chosen free string -- Sol 便84 P84-5.4 item 3), got {route_id!r}"
+        )
     return {"schema_id": SCHEMA_ID, "route_id": route_id, "route_status": route_status}
 
 
@@ -193,7 +229,10 @@ def route_result_fail(route_id, claim_digest, evidence_digest, counterexample_lo
         return route_result_malformed(route_id, [
             f"FAIL RouteResult requires a non-empty 'counterexample_loci' array, got {counterexample_loci!r}",
         ])
-    result = _route_header(route_id, "FAIL")
+    try:
+        result = _route_header(route_id, "FAIL")
+    except RouteResultSchemaError as e:
+        return route_result_malformed(route_id, [str(e)])
     result.update({
         "claim_digest": claim_digest, "evidence_digest": evidence_digest,
         "claim_source_ref": claim_source_ref, "evidence_refs": evidence_refs,
@@ -210,7 +249,10 @@ def route_result_absent(route_id, missing_mask):
     (MALFORMED), not a silently-accepted ABSENT."""
     if missing_mask is None:
         return route_result_malformed(route_id, ["ABSENT RouteResult requires a non-None 'missing_mask' (receiver-derived)"])
-    result = _route_header(route_id, "ABSENT")
+    try:
+        result = _route_header(route_id, "ABSENT")
+    except RouteResultSchemaError as e:
+        return route_result_malformed(route_id, [str(e)])
     result["missing_mask"] = missing_mask
     return result
 
@@ -242,11 +284,20 @@ def route_result_malformed(route_id, schema_errors):
 # ============================================================================
 
 
-def coerce_to_route_result(obj):
+def coerce_to_route_result(obj, expected_route_id=None):
     """
     Returns (route_status, claim_digest, detail). route_status in
     ROUTE_STATUSES; claim_digest is the route's own claim_digest when
     route_status in {PASS, FAIL}, else None. NEVER raises.
+
+    `expected_route_id`, when supplied (Sol 便84 P84-5.4 item 2: the
+    combinator's first argument slot MUST be route_id="R1", the second
+    MUST be "R2"), additionally requires obj["route_id"] == expected_route_id
+    -- a route result that is otherwise perfectly well-formed but sits in
+    the WRONG slot (e.g. an "R2" route passed as the combinator's first
+    argument) is MALFORMED, not silently accepted under a mismatched
+    identity. `None` is left un-gated by this (see below): a route that is
+    genuinely absent has no slot identity to check.
 
     裁定192 F83-2.2 fixes, all enforced here:
       - a non-dict value (INCLUDING an explicit non-None "garbage"/list/
@@ -261,6 +312,29 @@ def coerce_to_route_result(obj):
         route declaring route_status="PASS" while ALSO carrying
         `counterexample_loci`) is MALFORMED, regardless of which status
         "wins" -- never silently resolved by preferring one field set.
+
+    Sol 便84 F84-5.4/P84-5 fixes, all enforced here (RouteResult nominal
+    gate hardening -- a bare dict with a self-declared route_status alone
+    is no longer sufficient to reach PASS/FAIL/ABSENT):
+      1. `schema_id` MUST equal SCHEMA_ID exactly ("mb/ninfty-evidence-union
+         /route-result/v1") -- a missing schema_id, or any other value
+         (including a plausible-looking "evil/v9"), is MALFORMED. Closes
+         Sol's literal probe: {schema_id missing, route_id missing,
+         route_status="PASS"} used to reach PASS; it is MALFORMED now.
+      2. `route_id` MUST be in the slot the caller expects (see
+         `expected_route_id` above) -- P84-5.4 item 2.
+      3. `route_id` MUST be one of VALID_ROUTE_IDS ("R1","R2") -- P84-5.4
+         item 3, mirrors the same enum the constructors enforce (_route_header).
+      4. ANY field on `obj` that is not part of {schema_id, route_id,
+         route_status} plus this status's own shape fields (plus
+         claim_digest/evidence_digest/claim_source_ref/evidence_refs for
+         PASS/FAIL) is an unrecognized/foreign field -- MALFORMED. This
+         SUBSUMES the pre-existing co-presence check below (a foreign
+         status's shape field is, by construction, not in the current
+         status's allowed set either) and additionally rejects a
+         completely made-up field name like "evil_extra_field" that the
+         old co-presence check alone would not have caught -- P84-5.4
+         item 4.
     """
     if obj is None:
         return "ABSENT", None, {"reason": "route result is None -- receiver-derived ABSENT (no producer self-report trusted)"}
@@ -271,20 +345,37 @@ def coerce_to_route_result(obj):
     if status not in ROUTE_STATUSES:
         return "MALFORMED", None, {"schema_errors": [f"route_status missing or unrecognized: {status!r}"]}
 
+    schema_id = obj.get("schema_id")
+    if schema_id != SCHEMA_ID:
+        return "MALFORMED", None, {"schema_errors": [
+            f"schema_id must be exactly {SCHEMA_ID!r}, got {schema_id!r} (Sol 便84 P84-5.4 item 1)",
+        ]}
+
+    route_id = obj.get("route_id")
+    if route_id not in VALID_ROUTE_IDS:
+        return "MALFORMED", None, {"schema_errors": [
+            f"route_id must be one of {VALID_ROUTE_IDS!r} (dispatch-fixed, never producer-chosen), "
+            f"got {route_id!r} (Sol 便84 P84-5.4 item 3)",
+        ]}
+    if expected_route_id is not None and route_id != expected_route_id:
+        return "MALFORMED", None, {"schema_errors": [
+            f"route_id={route_id!r} does not match the required slot {expected_route_id!r} -- the "
+            "combinator's first argument must be route_id='R1', the second must be 'R2' (Sol 便84 "
+            "P84-5.4 item 2)",
+        ]}
+
     shape_fields = {"PASS": PASS_ONLY_FIELDS, "FAIL": FAIL_ONLY_FIELDS, "ABSENT": ABSENT_ONLY_FIELDS, "MALFORMED": MALFORMED_ONLY_FIELDS}
-    foreign = []
-    for other_status, fields in shape_fields.items():
-        if other_status == status:
-            continue
-        for f in fields:
-            if f in obj:
-                foreign.append(f)
-    if foreign:
+    allowed = set(HEADER_FIELDS) | set(shape_fields[status])
+    if status in ("PASS", "FAIL"):
+        allowed |= set(COMMON_PF_FIELDS)
+    unrecognized = sorted(k for k in obj.keys() if k not in allowed)
+    if unrecognized:
         return "MALFORMED", None, {
             "schema_errors": [
-                f"route result declares route_status={status!r} but ALSO carries foreign status-shape "
-                f"field(s) {foreign!r} (F83-2.2: status-specific shape co-presence is MALFORMED, never "
-                "silently resolved by preferring one)",
+                f"route result declares route_status={status!r} but carries unrecognized/foreign field(s) "
+                f"{unrecognized!r} not part of this status's own shape (Sol 便84 P84-5.4 item 4; this "
+                "subsumes the prior F83-2.2 status-shape co-presence check -- e.g. a PASS-shaped result "
+                "also carrying counterexample_loci is caught here too)",
             ],
         }
 
@@ -399,12 +490,22 @@ def compose_route_statuses(status1, claim_digest1, status2, claim_digest2):
 
 def evidence_union_fail_closed_v2(route1, route2):
     """
-    Top-level evidence-union/fail-closed-v2 composition (追補(o) v3.1,
-    RouteResult two-layer per 裁定192 N83-2.3). `route1`/`route2` should be
-    RouteResult dicts built via the route_result_* constructors (R1/R2, per
-    dispatch); this function re-validates them regardless (see
-    coerce_to_route_result) so a foreign/hand-crafted value is held to the
-    same invariant, never trusted blindly. Returns:
+    Top-level evidence-union/fail-closed-v2 composition (追補(o) v4,
+    docs/notes/cert_shape_interpretation_addendum_o_v4.md, RouteResult
+    two-layer per 裁定192 N83-2.3, hardened by Sol 便84 P84-5.4).
+    `route1`/`route2` should be RouteResult dicts built via the
+    route_result_* constructors, route1 with route_id="R1" (the
+    recomputation route) and route2 with route_id="R2" (the
+    witness-coverage route) -- this is the ONLY public entry point this
+    module exposes for composing two routes (both the CLI `main()` reading
+    raw producer JSON and any in-process caller go through this SAME
+    function), and it ALWAYS re-validates both arguments via
+    coerce_to_route_result with the slot bound (see `expected_route_id`
+    there) -- there is no bypass path that trusts route1/route2 as
+    already-valid just because they look like RouteResult dicts (Sol 便84
+    P84-5.4 item 6: raw producer JSON is never accepted as a RouteResult
+    directly -- it is held to the exact same schema_id/route_id/shape gate
+    a freshly-constructed RouteResult would have to pass). Returns:
       {
         "route1_status": ..., "route1_detail": ...,
         "route2_status": ..., "route2_detail": ...,
@@ -412,8 +513,8 @@ def evidence_union_fail_closed_v2(route1, route2):
       }
     Never raises.
     """
-    s1, d1, detail1 = coerce_to_route_result(route1)
-    s2, d2, detail2 = coerce_to_route_result(route2)
+    s1, d1, detail1 = coerce_to_route_result(route1, expected_route_id="R1")
+    s2, d2, detail2 = coerce_to_route_result(route2, expected_route_id="R2")
     overall = compose_route_statuses(s1, d1, s2, d2)
     return {
         "route1_status": s1, "route1_detail": detail1,
@@ -446,13 +547,22 @@ def route_from_verifier_b_w6(w6_status, w6_detail, route_id):
     detail dict itself (sha256_of(detail)) and a hardcoded
     expected_domain_count=checked_domain_count=1 so the PASS constructor's
     OWN invariants (which it always checks) are satisfiable, but this is
-    NOT a claim that W-6's real evidence has been migrated to the v3.1
+    NOT a claim that W-6's real evidence has been migrated to the v3.1/v4
     RouteResult schema -- it exists solely so the composition function (the
     crisp, addendum-specified part) has a real, non-synthetic input to be
     exercised against in regression tests. Full EP v7 wiring (real
     claim_digest/evidence_digest/expected_domain_count bound to the actual
     native/map digests and per-side point/component counts) is explicitly
     deferred, per this round's task scope.
+
+    Sol 便84 P84-5.4 item 5: `claim_source_ref`/`evidence_refs` are now
+    populated FROM THE RAW w6_detail itself (never left as the constructors'
+    None default) -- both the digest AND the refs are freshly recomputed
+    from w6_detail on every call, so a stale/cached digest computed
+    elsewhere can never be substituted here. This remains armature-level
+    (the ref still names the (status,detail) pair this adapter was handed,
+    not a genuine per-side native/map artifact identity), consistent with
+    the SCOPE NOTE above.
     """
     if w6_status == "ABSENT":
         return route_result_absent(route_id, {"reason": (w6_detail or {}).get("reason", "W-6 ABSENT") if isinstance(w6_detail, dict) else "W-6 ABSENT"})
@@ -460,13 +570,20 @@ def route_from_verifier_b_w6(w6_status, w6_detail, route_id):
         errs = [str((w6_detail or {}).get("reason", w6_detail))] if isinstance(w6_detail, dict) else [str(w6_detail)]
         return route_result_malformed(route_id, errs)
     detail_digest = sha256_of(w6_detail if isinstance(w6_detail, dict) else {"detail": w6_detail})
+    claim_source_ref = {"source": "ninfty-verifier-b.verify_W6_single", "raw_detail_digest": detail_digest}
+    evidence_refs = [{"source": "ninfty-verifier-b.verify_W6_single.detail", "digest": detail_digest}]
     if w6_status == "FAIL":
-        return route_result_fail(route_id, detail_digest, detail_digest, [w6_detail if w6_detail is not None else "W-6 FAIL (no detail supplied)"])
+        return route_result_fail(
+            route_id, detail_digest, detail_digest,
+            [w6_detail if w6_detail is not None else "W-6 FAIL (no detail supplied)"],
+            claim_source_ref=claim_source_ref, evidence_refs=evidence_refs,
+        )
     # w6_status == "PASS"
     return route_result_pass(
         route_id, detail_digest, detail_digest,
         expected_domain_count=1, checked_domain_count=1,  # PLACEHOLDER (armature only, see docstring)
         expected_domain_digest=detail_digest, coverage_digest=detail_digest,
+        claim_source_ref=claim_source_ref, evidence_refs=evidence_refs,
     )
 
 
