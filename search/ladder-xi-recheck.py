@@ -299,7 +299,9 @@ CANONICAL_WINDOWS = {
 }
 
 # canonical-ID SHA-256 expected values (fail-closed identity gate, per driver
-# spec S "canonical ID"). Recomputed and compared before any measurement.
+# spec S "canonical ID"), for the 4 canonical windows only (the driver spec
+# itself only lists these 4; sibling windows are checked via the GAP-cert
+# binding method below, uniformly for all 13).
 CANONICAL_ID_SHA256 = {
     "W-E-A10-9t1": "6092f5f0bae86188d1f46ede81e1dad2aebbb097d6d3c9cae46229b67e853f4b",
     "W-E-A11-9t2": "ddc23c556d760adeab1dcdab24887719b5ab0a0b8e137fcea4b2df8077984649",
@@ -308,36 +310,101 @@ CANONICAL_ID_SHA256 = {
 }
 
 
-def gap_cycle_print(cycles):
-    """Render a cycle list in GAP's printed form, e.g. ( 1, 2)( 3, 5) --
-    matching the driver spec's canonical-ID string convention closely enough
-    to attempt the identity gate. NOTE: this is a best-effort re-derivation of
-    the print convention from the spec text; if it does not reproduce the
-    listed SHA-256 values this is reported, not silently ignored."""
-    parts = []
-    for c in cycles:
-        parts.append("(" + ",".join(str(x) for x in c) + ")")
-    return "".join(parts)
+# ============================================================================
+# canonical-ID gate v2 (裁定216 続行指示 point 2): GAP印字の独立再現はやめ、GAP
+# 証明書 (search/certs/a13_ladder_*_20260730.json) に既に記録されている
+# /canonical_string フィールドの SHA-256 を再計算し、同じ証明書に記録済みの
+# /canonical_id_sha256 フィールドと一致するかだけを検査する (a binding check,
+# not an independent re-derivation of the print convention). This is applied
+# uniformly to all 13 windows (4 canonical + 9 sibling), reading window-
+# identifying metadata only (canonical_string, canonical_id_sha256, s1, s2,
+# a1, b1, n, t) -- per the coordinator's ruling this is identifying
+# information, not a measurement, and reading it does not violate the
+# measurement-side isolation from the frozen prediction file.
+# ============================================================================
+
+GAP_CERT_DIR = "search/certs"
+
+GAP_CERT_FILENAMES = {
+    "W-E-A10-9t1":    "a13_ladder_W_E_A10_9t1_20260730.json",
+    "W-E-A10-9t1-o2": "a13_ladder_W_E_A10_9t1_o2_20260730.json",
+    "W-E-A10-9t1-o3": "a13_ladder_W_E_A10_9t1_o3_20260730.json",
+    "W-E-A10-9t1-o4": "a13_ladder_W_E_A10_9t1_o4_20260730.json",
+    "W-E-A10-9t1-o5": "a13_ladder_W_E_A10_9t1_o5_20260730.json",
+    "W-E-A10-9t1-o6": "a13_ladder_W_E_A10_9t1_o6_20260730.json",
+    "W-E-A11-9t2":    "a13_ladder_W_E_A11_9t2_20260730.json",
+    "W-E-A11-9t2-o2": "a13_ladder_W_E_A11_9t2_o2_20260730.json",
+    "W-E-A11-9t2-o3": "a13_ladder_W_E_A11_9t2_o3_20260730.json",
+    "W-E-A12-9t3":    "a13_ladder_W_E_A12_9t3_20260730.json",
+    "W-E-A12-9t3-o2": "a13_ladder_W_E_A12_9t3_o2_20260730.json",
+    "W-E-A12-9t3-o3": "a13_ladder_W_E_A12_9t3_o3_20260730.json",
+    "W-E-A13-9t4":    "a13_ladder_W_E_A13_9t4_20260730.json",
+}
+
+XI_BOUND_BY_T = {1: 486, 2: 972, 3: 8748, 4: 139968}
 
 
-def canonical_id_string(wid, w):
-    return "%s|n=%d|t=%d|a1=%s|b1=%s|S1=%s|S2=%s" % (
-        wid, w["n"], w["t"],
-        gap_cycle_print(w["a1"]), gap_cycle_print(w["b1"]),
-        gap_cycle_print(w["S1"]), gap_cycle_print(w["S2"]),
-    )
+def parse_gap_cycles(s):
+    """Parse a GAP-printed permutation string like
+    '( 1, 2, 3, 4, 5, 6, 7, 8, 9)(11,12)' into [[1,2,...,9],[11,12]]
+    (1-indexed ints, as consumed by mkperm)."""
+    cycles = []
+    for grp in s.split(")("):
+        grp = grp.strip("()")
+        pts = [int(x.strip()) for x in grp.split(",") if x.strip() != ""]
+        if pts:
+            cycles.append(pts)
+    return cycles
 
 
-def check_canonical_ids():
+def load_gap_cert(wid):
+    path = "%s/%s" % (GAP_CERT_DIR, GAP_CERT_FILENAMES[wid])
+    with open(path, "r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def gap_cert_binding_check(wid):
+    """裁定216 point 2: recompute SHA-256 of the GAP cert's own recorded
+    canonical_string and compare to the GAP cert's own recorded
+    canonical_id_sha256. No independent re-derivation of GAP's print
+    convention. Returns (ok, computed_sha256, recorded_sha256)."""
+    cert = load_gap_cert(wid)
+    s = cert["canonical_string"]
+    computed = hashlib.sha256(s.encode("utf-8")).hexdigest()
+    recorded = cert["canonical_id_sha256"]
+    return (computed == recorded), computed, recorded
+
+
+def all_window_ids():
+    return list(GAP_CERT_FILENAMES.keys())
+
+
+def build_window_spec_from_gap_cert(wid):
+    """Build the same dict shape as CANONICAL_WINDOWS entries, but sourced
+    from the GAP cert's s1/s2/a1/b1/n/t fields (identifying data only -- see
+    module note above). Used uniformly for canonical AND sibling windows
+    under the coordinator's point-1 instruction."""
+    cert = load_gap_cert(wid)
+    S1 = parse_gap_cycles(cert["s1"])
+    S2 = parse_gap_cycles(cert["s2"])
+    a1 = parse_gap_cycles(cert["a1"])
+    b1 = parse_gap_cycles(cert["b1"])
+    deg = max(max(pt for c in S1 for pt in c), max(pt for c in S2 for pt in c))
+    t = cert["t"]
+    return dict(n=cert["n"], deg=deg, t=t, a1=a1, b1=b1, S1=S1, S2=S2,
+                xi_bound=XI_BOUND_BY_T[t])
+
+
+def check_all_canonical_ids_v2():
+    """Binding check (point 2) for all 13 windows."""
     mismatches = []
-    for wid, w in CANONICAL_WINDOWS.items():
-        s = canonical_id_string(wid, w)
-        h = hashlib.sha256(s.encode("utf-8")).hexdigest()
-        expect = CANONICAL_ID_SHA256[wid]
-        status = "MATCH" if h == expect else "MISMATCH"
-        if h != expect:
+    for wid in all_window_ids():
+        ok, computed, recorded = gap_cert_binding_check(wid)
+        status = "MATCH" if ok else "MISMATCH"
+        if not ok:
             mismatches.append(wid)
-        print("[canonical-id] %s: computed=%s expected=%s %s" % (wid, h, expect, status))
+        print("[canonical-id-v2 binding] %s: computed=%s recorded=%s %s"
+              % (wid, computed, recorded, status))
     return mismatches
 
 
@@ -780,7 +847,7 @@ def write_checkpoint(path, wid, w, scanned, accepted, fail_settled, done):
 # certificate writer
 # ============================================================================
 
-def write_certificate(result, spec_sha256, out_path):
+def write_certificate(result, spec_sha256, out_path, id_gate=None):
     wid = result["wid"]
     accepted_uids = [candidate_uid(wid, m, u, f) for (m, f, u) in result["accepted"]]
     fail_uids = [candidate_uid(wid, m, 2 * m + 1, f) for (m, f) in result["fail_settled"]]
@@ -793,10 +860,13 @@ def write_certificate(result, spec_sha256, out_path):
             "(independent CAS) for BSGS/Schreier-Sims primitives only "
             "(PermutationGroup.order/contains/generator_product/centralizer). "
             "Settled check is an independently re-derived group-extension "
-            "argument, not a port of GAP's GroupHomomorphismByImages."
+            "argument, not a port of GAP's GroupHomomorphismByImages. Window "
+            "s1/s2/a1/b1 sourced verbatim from the GAP driver cert's own "
+            "identifying fields (裁定216 point 1), not re-derived."
         ),
         window_id=wid,
         driver_spec_sha256=spec_sha256,
+        canonical_id_gate_v2=id_gate,   # 裁定216 point 2: binding check, see gap_cert_binding_check
         n=result["n"], deg=result["deg"], N_ord=result["Nord"],
         charming_count=result["charming_count"],
         xi_bound=result["xi_bound"],
@@ -829,38 +899,58 @@ def sha256_of_file(path):
 
 def main():
     print("=== search/ladder-xi-recheck.py: independent Xi-restricted ladder scan ===")
+    print("(裁定216 続行: sibling 9 windows sourced from GAP certs' s1/s2/a1/b1 "
+          "identifying fields; canonical-ID gate v2 = binding check against the "
+          "GAP cert's own recorded canonical_string/canonical_id_sha256)")
     run_selftests()
 
-    mismatches = check_canonical_ids()
-    if mismatches:
-        print("WARNING: canonical-ID gate MISMATCH for: %s -- proceeding anyway since "
-              "this script's own scan does not depend on the ID string, but the "
-              "orchestrator should be told the ID re-derivation in this script does "
-              "not reproduce the driver spec's recorded hash (likely a GAP cycle-print "
-              "formatting difference, e.g. spacing, not a data error)." % mismatches)
+    id_mismatches = check_all_canonical_ids_v2()
+    if id_mismatches:
+        raise SystemExit(
+            "FATAL: canonical-ID gate v2 (binding check) MISMATCH for: %s -- a GAP "
+            "cert's own canonical_string does not hash to its own recorded "
+            "canonical_id_sha256. Refusing to proceed (this is a corrupted/tampered "
+            "identity field, fail-closed per the driver spec's own convention)."
+            % id_mismatches)
 
     spec_path = "search/_a13_ladder_driver_spec.md"
     spec_sha256 = sha256_of_file(spec_path)
     print("[spec] %s sha256=%s" % (spec_path, spec_sha256))
 
-    order = ["W-E-A10-9t1", "W-E-A13-9t4", "W-E-A11-9t2", "W-E-A12-9t3"]
+    # execution order per Sol 便85: A10 canonical calibration -> A13 canonical
+    # stress -> A11/A12 canonical -> sibling 9 (grouped by t family, canonical
+    # first in each family since that is already validated).
+    order = (
+        ["W-E-A10-9t1", "W-E-A13-9t4", "W-E-A11-9t2", "W-E-A12-9t3"] +
+        ["W-E-A10-9t1-o2", "W-E-A10-9t1-o3", "W-E-A10-9t1-o4", "W-E-A10-9t1-o5", "W-E-A10-9t1-o6"] +
+        ["W-E-A11-9t2-o2", "W-E-A11-9t2-o3"] +
+        ["W-E-A12-9t3-o2", "W-E-A12-9t3-o3"]
+    )
+    assert set(order) == set(all_window_ids())
+
     manifest = dict(schema="ladder-xi-recheck-manifest/v1",
                      driver_spec_sha256=spec_sha256, windows=[])
 
     for wid in order:
-        w = CANONICAL_WINDOWS[wid]
-        print("\n--- window %s (n=%d, deg=%d, xi_bound=%d) ---" % (wid, w["n"], w["deg"], w["xi_bound"]))
+        w = build_window_spec_from_gap_cert(wid)
+        id_ok, id_computed, id_recorded = gap_cert_binding_check(wid)
+        id_gate = dict(ok=id_ok, computed_sha256=id_computed, recorded_sha256=id_recorded)
+        print("\n--- window %s (n=%d, deg=%d, t=%d, xi_bound=%d) ---"
+              % (wid, w["n"], w["deg"], w["t"], w["xi_bound"]))
         ckpt_path = "search/certs/.ladder_xi_recheck_checkpoint_%s.json" % wid
         result = scan_window(wid, w, checkpoint_path=ckpt_path)
         out_path = "search/certs/ladder_xi_recheck_%s_20260730.json" % wid
-        cert = write_certificate(result, spec_sha256, out_path)
+        cert = write_certificate(result, spec_sha256, out_path, id_gate=id_gate)
         print("[%s] WROTE %s" % (wid, out_path))
-        print("[%s] scanned=%d accepted=%d settled_fail=%d accepted_digest=%s"
-              % (wid, cert["scanned_count"], cert["accepted_count"],
+        m0_layer = sum(1 for u in cert["accepted_uids"] if "|m=0|" in u)
+        print("[%s] scanned=%d accepted=%d m0_layer=%d settled_fail=%d accepted_digest=%s"
+              % (wid, cert["scanned_count"], cert["accepted_count"], m0_layer,
                  cert["settled_fail_count"], cert["accepted_set_digest_sha256"]))
         manifest["windows"].append(dict(
             wid=wid, cert_path=out_path, cert_sha256=sha256_of_file(out_path),
+            canonical_id_gate_v2=id_gate,
             scanned_count=cert["scanned_count"], accepted_count=cert["accepted_count"],
+            m0_layer_count=m0_layer,
             settled_fail_count=cert["settled_fail_count"],
             accepted_set_digest_sha256=cert["accepted_set_digest_sha256"],
             fail_witness_set_digest_sha256=cert["fail_witness_set_digest_sha256"],
@@ -870,21 +960,6 @@ def main():
     with open(manifest_path, "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=2, ensure_ascii=False)
     print("\nWROTE manifest %s" % manifest_path)
-
-    print("\n=== SIBLING 9 WINDOWS: NOT PROCESSED ===")
-    print(
-        "The driver spec (search/_a13_ladder_driver_spec.md) gives only a1 for the 9 "
-        "sibling windows (b1 := a1*w0^-1) and instructs constructing JUDGE_S1_IMG/"
-        "JUDGE_S2_IMG '同 t の canonical と同型に構成' (same procedure as the "
-        "canonical window of the same t), but does not state that procedure -- the "
-        "canonical windows' S1/S2 images are NOT a simple function of their listed "
-        "a1/b1 (verified: a1 has order 2 / disjoint transpositions on n points, while "
-        "canonical x=S1^2 has order N_ord=9 on the same support -- these are two "
-        "distinct concrete representations of the window, not one derived from the "
-        "other by an obvious rule). Guessing at the construction risks a false "
-        "cross-check mismatch that looks like a computation bug rather than a spec "
-        "gap. Flagging this back rather than fabricating the 9 sibling S1/S2 images."
-    )
 
 
 if __name__ == "__main__":
