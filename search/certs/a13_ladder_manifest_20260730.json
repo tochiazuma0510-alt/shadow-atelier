@@ -1,0 +1,21 @@
+{
+  "generated_by": "search/strike-a13-ladder.g",
+  "note": "A13 ladder manifest -- 13 windows per search/_a13_ladder_driver_spec.md. Raw measurement summary only.",
+  "smoke_test": false,
+  "windows_processed": 13,
+  "windows": [
+    {"id":"W-E-A10-9t1","outfile":"search/certs/a13_ladder_W_E_A10_9t1_20260730.json","canonical_id_sha256":"6092f5f0bae86188d1f46ede81e1dad2aebbb097d6d3c9cae46229b67e853f4b","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"e6b8850e8fd6e0039aad609f55b7d5751ae2dd92bd1841fa40b3748401250c96"},
+    {"id":"W-E-A11-9t2","outfile":"search/certs/a13_ladder_W_E_A11_9t2_20260730.json","canonical_id_sha256":"ddc23c556d760adeab1dcdab24887719b5ab0a0b8e137fcea4b2df8077984649","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"a156ce6bf6ae8b2fcfd5c6bcfbacc34c194781d600544c262200a26ebb4d85c9"},
+    {"id":"W-E-A12-9t3","outfile":"search/certs/a13_ladder_W_E_A12_9t3_20260730.json","canonical_id_sha256":"b127a9048c4659b74f5c2c9257e5e3dedfab66761b7ce3947195ef21c3749c79","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"93ffdda6f6613b7e0159f1ba9dbaa9a49068a5be8d17f0ee11c87e8a59b8b465"},
+    {"id":"W-E-A13-9t4","outfile":"search/certs/a13_ladder_W_E_A13_9t4_20260730.json","canonical_id_sha256":"a11f207d3a6e31d118830ac94cad6fc2e9429582c49620efb52e8b268b7f941f","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"951d014641aee8eb6bf031203076c9d416018bceb824c9de502a66167f35e0fd"},
+    {"id":"W-E-A10-9t1-o2","outfile":"search/certs/a13_ladder_W_E_A10_9t1_o2_20260730.json","canonical_id_sha256":"cc04ddab700203e74b204281b17b78f2b4265d01996fa6350c0d61e8d3fe7184","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"235c687ff366109db281c10681671d82edd7b81a93d97568035ee16689c1828c"},
+    {"id":"W-E-A10-9t1-o3","outfile":"search/certs/a13_ladder_W_E_A10_9t1_o3_20260730.json","canonical_id_sha256":"91d8a5f3976fb90abb06cd0d690abde8c51af640c2d0d004cae725ba7343aaa6","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"e34d4296e157e71d972eec949da1010139fffff696552b1e640648b7c8e3f60e"},
+    {"id":"W-E-A10-9t1-o4","outfile":"search/certs/a13_ladder_W_E_A10_9t1_o4_20260730.json","canonical_id_sha256":"a5332de5e2cc0898f204e015b62dc69e6d52bb87e8cf43ca976c078225ea0e4a","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"788a6ed5fce9bcea96c11a6f3434af0d6b448fdc659fc967fb00b8b29a89b5ee"},
+    {"id":"W-E-A10-9t1-o5","outfile":"search/certs/a13_ladder_W_E_A10_9t1_o5_20260730.json","canonical_id_sha256":"4861ee033a3f255b073de88a29ec129da1b2760c30cf327b3686a8c238d4a44a","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"13e7d480afbe92018a3b859205c358794f620ebbd116ad26a2a89156ba2ceb05"},
+    {"id":"W-E-A10-9t1-o6","outfile":"search/certs/a13_ladder_W_E_A10_9t1_o6_20260730.json","canonical_id_sha256":"4c74477d2e507ce63e8ee89d85bd9ffc89aa197e4b8f71bc193e8ff614cbb5a2","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"ab43392efde38331fca716ac429b544b37d3ae9540e6d07689c2f21514fc2971"},
+    {"id":"W-E-A11-9t2-o2","outfile":"search/certs/a13_ladder_W_E_A11_9t2_o2_20260730.json","canonical_id_sha256":"6e61d1eb7b9d91fb559b136d6724da7e77fcbcdb1021990dcaa53cf8345ffe45","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"60254b0bb598ead4f61746723c5f90a3e38cf5897151ab58fc2c053e0ad9df34"},
+    {"id":"W-E-A11-9t2-o3","outfile":"search/certs/a13_ladder_W_E_A11_9t2_o3_20260730.json","canonical_id_sha256":"6d8ac101b4963ab5a60b7c7802f3dfe9341cfbb88542e2af4a3289be4dd0411e","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"977f9ee2ac436dd3cfe982c1562fc1ec15d75891f1b90f166d6b9bc31ee6dc45"},
+    {"id":"W-E-A12-9t3-o2","outfile":"search/certs/a13_ladder_W_E_A12_9t3_o2_20260730.json","canonical_id_sha256":"d28f66d1977584a8b997da7324d3b73eb541a95a02ec25d2df1b56d853e2d0e7","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"836910bb3f7fbe845b8fc313a8e5bb629734fc300d4cdee9fa4cf022264e36ec"},
+    {"id":"W-E-A12-9t3-o3","outfile":"search/certs/a13_ladder_W_E_A12_9t3_o3_20260730.json","canonical_id_sha256":"8136132f17d19db1db19b4d1cb49686acf844ae31d8cf19c4640722af0f9fd18","stage1_all_pass":true,"gate_pass":true,"cert_sha256":"614ba5a896f74ad5155f97c79f01630e357bb120ce0e2edc96261731985428fe"}
+  ]
+}
