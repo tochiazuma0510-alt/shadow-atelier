@@ -19,3 +19,7 @@
 - 便 85 積荷に追加: epsilon_mechanism_v1.md(M 札+P-EPS-5)+ 層別実測の検分依頼。
 - E-1 は梯子着弾後の後付け probe として司令塔が発注。
 - STR-1.6 の適用範囲注記(素数冪限定)は structthm 次版で(凍結扱い・erratum 方式)。
+
+## 追記(同日・E-1 の結果)
+
+梯子 4 窓への層別 probe 着弾(`search/_probe_epsilon_bits_a13ladder.g` → `search/certs/epsbits_a13_ladder_20260730.json`・接触遮断維持): **4 窓×6 層 = 24 測定点すべてで冪ビット非点火**(S 中心化 shadow に同位数持ち上げが常在・t=1 は vacuous 明示)。O-1「例外なく最小位数」は 164/164 → **188/188** へ拡大(N_ord=9 域込み)。**M-1 は E-1 判定を生存** — 残る決着点は P-EPS-5(S>D₈ 窓)のみ。
