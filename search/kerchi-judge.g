@@ -687,8 +687,12 @@ end;;
 # compression is a GAP float (or -1 sentinel = undefined, e.g. scanned_count=0);
 # GAP's String() on a float already yields a JSON-legal decimal literal.
 FloatOrNullJson := function(v)
+  local s;
   if IsInt(v) and v = -1 then return "null"; fi;   # sentinel (int -1); floats can't compare to -1 directly in GAP
-  return String(v);
+  s := String(v);
+  # GAP prints Float(1.0) as "1." (trailing dot, no digits) -- invalid JSON.
+  if Length(s) > 0 and s[Length(s)] = '.' then s := Concatenation(s, "0"); fi;
+  return s;
 end;;
 
 SettledFailWitnessesJson := function(ws)
