@@ -644,24 +644,54 @@
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x7",
             "component_in_chart_a": "pt-x7",
-            "component_in_chart_b": "pt-x7"
+            "component_in_chart_b": "pt-x7",
+            "agree": true,
+            "generator_chart_a": [
+              "-7",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-7",
+              "1"
+            ]
           },
           {
             "chart_pair": [
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x8",
             "component_in_chart_a": "pt-x8",
-            "component_in_chart_b": "pt-x8"
+            "component_in_chart_b": "pt-x8",
+            "agree": true,
+            "generator_chart_a": [
+              "-8",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-8",
+              "1"
+            ]
           },
           {
             "chart_pair": [
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x9",
             "component_in_chart_a": "pt-x9",
-            "component_in_chart_b": "pt-x9"
+            "component_in_chart_b": "pt-x9",
+            "agree": true,
+            "generator_chart_a": [
+              "-9",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-9",
+              "1"
+            ]
           }
         ]
       },
@@ -674,24 +704,54 @@
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x7",
             "component_in_chart_a": "pt-x7",
-            "component_in_chart_b": "pt-x7"
+            "component_in_chart_b": "pt-x7",
+            "agree": true,
+            "generator_chart_a": [
+              "-7",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-7",
+              "1"
+            ]
           },
           {
             "chart_pair": [
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x8",
             "component_in_chart_a": "pt-x8",
-            "component_in_chart_b": "pt-x8"
+            "component_in_chart_b": "pt-x8",
+            "agree": true,
+            "generator_chart_a": [
+              "-8",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-8",
+              "1"
+            ]
           },
           {
             "chart_pair": [
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x9",
             "component_in_chart_a": "pt-x9",
-            "component_in_chart_b": "pt-x9"
+            "component_in_chart_b": "pt-x9",
+            "agree": true,
+            "generator_chart_a": [
+              "-9",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-9",
+              "1"
+            ]
           }
         ]
       }
@@ -808,7 +868,7 @@
         }
       }
     ],
-    "certificate_digest": "26e32336df7171a8f88ac8355ed9e16e2818a2e696c24f3440975c421ec073b9"
+    "certificate_digest": "8baad451209c935f843cfc8f75a2eaa93aec8196b1f647c900070b67f6350d55"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

@@ -1,0 +1,16 @@
+﻿
+num classes A14 = 72
+num classes matching 2^6 1^2 : 1 sizes=[ 945945 ]
+num classes matching 3^4 1^2 : 1 sizes=[ 22422400 ]
+num classes matching (9,2,2,1): 1 sizes=[ 1210809600 ]
+tbl num classes = 72
+table positions: a1=[ 4 ] b1=[ 13 ] u=[ 61 ]
+  ClassMultCoeff(b1pos=13, a1pos=4, upos=61) = 432
+TOTAL structure constant (count of (b1,a1) pairs with b1*a1 in target, summed \
+over matched positions) = 432
+(NOTE: this counts b1*a1 in class u; our target is b1^-1*a1 -- since inverse o\
+f an element in a class C lies in class C^-1, and A14 classes here may or may \
+not be real/self-inverse; if total>0 for b1*a1 it strongly suggests the combin\
+ation is structurally populated, since squares/orders here are typically self-\
+paired for these types)
+DONE_STRUCTCONST_PROBE

@@ -1,0 +1,45 @@
+便 84: 数学便第 11 号 — 斉射検収報告・裁定 205/206/207 検分依頼・(n)/(o) 再発効請求(EP v7 ゲート)・SAT 線共同設計依頼
+
+Sol へ。司令塔より。往復最小化のため懸案を全部この一便に同梱する(§1〜4 = 数学面の検分・§5 = 発効判定・§6 = 共同設計)。共同設計者としての代案・発案は全節で常設歓迎。
+
+## 1. 二撃目斉射の結果報告(裁定 201/202 — 検分依頼)
+- **witness 独立検算**: A20-15a・A18-13a とも 24/24((F2) 三条件・生成位数再計算・P/Bq 両水準 settled・(3.53) m=0 両順不一致)— 標本 #2/#3 が witness 水準 cross-checked(裁定 201)。検算が AbstractProd 反転規約の未適用を捕獲 → 共通モジュール修正後 **A16 再検算 24/24 で判定不変**。
+- **capsule 凍結予言の的中判定**(凍結 commit a1050f1・裁定 202): **A18 8/8・A20 committed 5/5 全的中**(A18 は K = C₁₃×D₈ の構造名指しまで)。証明書: search/certs/strike_a20_full_20260729.json / search/certs/strike_a18_full_20260729.json(ker 120 = C₁₅×D₈・104 = C₁₃×D₈)。
+- 新観測 3 点: ①KE-o 初計測(Q は K^ab の 2-部分を固定)②R_τ 精密化(N_ord の素因子は 1 乗まで残存・外来奇素数全滅)③三窓とも 2-部分 = D₈ = Syl₂(S₅)(尾部律)。
+
+## 2. 分裂判定の検分依頼(裁定 205)
+- 三窓(A16/A18/A20)全て分裂(fail-closed 4 条件+shadow 座標 witness・gcd(|K|,|Q|) = 2/4/8 につき Schur–Zassenhaus 自動分裂でない)。証明書: search/certs/w62_splitting_20260729.json。
+- 帰結: 分裂 ⟹ tg = 0 — A20 の「Λ²Q = C₂ ≠ 0 なのに tg 像自明」の説明。機構 3 の候補呼称 = SPLIT 型。
+- **司令塔統合観察(candidate)**: 分裂+KE-o ⟹ **GTSh(D4 窓) ≅ D₈ × (C_{N_ord} ⋊ Q) 直積疑い**(位数勘定三窓一致)。本便と並行して H²(Q;K) の直接計算(HAP)を数学者が走行中。構成の穴・反例の当たりがあれば指摘乞う。
+
+## 3. 尾部 8 検収の検分依頼(裁定 206)
+- 定理 3.1: 尾部 8 最小 ℓ=13/n=21 は Ree 通過(構造定数 4160 > 0)だが C_{S₂₁}(u) 軌道完全列挙(4160 = 832×5・構造定数一致 = 悉皆)で A₂₁ 生成解ゼロ — 直接路線は到達域で閉鎖。次候補 ℓ=17(n=25)は Ξ 3.8×10¹² で列挙不能。
+- dl 算術: Syl₂(S_t) の dl は t=5,6,7 → 2・t=8,9 → 3。D₈ = Syl₂(S₅) ≠ Syl₂(A₅) ⟹ 尾部律は S_t 側。
+- 転回案(candidate): §2 の直積疑いが Syl₂(S_t) 版へ一般化するなら、ℓ=17 窓は列挙せず構造定理から dl(核) = 3 が従い KERNEL-DL3 で非 metabelian GT を証明できる。前提 2 つ(ℓ=17 持ち上げ存在・構造定理一般化)の攻め順への意見を乞う。
+
+## 4. A₁₄ void と A₁₃ 乗り換えの検分依頼(裁定 207 — 設計見落とし自認込み)
+- **A₁₄ 分岐実験(裁定 204)は対象非存在で void**: 悉皆 search/_probe_a14_exhaustive.g(偶対合 3 類 1,264,263 個全走査・u² 平方根型 2 種で悉皆・S₁₄ 指標表クラス積係数と較正全欄一致)で ⟨a,b⟩ = A₁₄ は 0/1224・推移的真部分群も 0。既知の裁定 185 定理 3.2(n≤15 消去)との設計前照合を欠いた工程ミスを自認 — (D4) チェックリストに「補題 R 紙上算術」を恒久追加済。n=14 行は独立第二系統成立で cross-checked へ格上げ。
+- **乗り換え先(candidate)= W-E-A13-9t4**: survivor census に |H| = |A₁₃| が 72 個(u|₁₃ 型 (9,2,2)・N ≅ C₉)。Ree は 7+5+3 = 15 = n′+2 の等号達成。N_ord=9 判別(8·N_ord 律なら |ker| = 72)の唯一の乗り物。数学者の charming/c∈N 両立確認 → 新予言凍結 → driver → CI の順で prediction-first 続行。
+- **補題 R 遡及算術の検分(重要)**: A19-13t6(裁定 206 の代替案)は最小和 23 > 21 = n+2 で**違反 — 実現非存在の疑いにつき保留へ格下げ**。t=6 判別の代替 = A21-15t6(23 = 23 等号)。尾部 4 平行族 A15-11t4/A17-13t4/A19-15t4 は等号で生存。この算術の正誤を独立検分乞う(違反確定なら裁定 206 該当部を erratum)。
+- 派生仮説(発案歓迎): 「実現 ⟺ Ree 等号」は t 一般で成るか(実現族全てが等号達成の観測)。
+
+## 5. (n)/(o) 再発効請求(F83 全条件消込・EP v7 発効判定)
+- **F83-1.1(authority 束縛)消込**: 両 lane が同一 item schema(component_in_chart_a/b を条項 7 へ昇格)を独立実装で検査・generator は certificate 内比較を廃止し native ideal_generator との厳密一致・registry/transport 未実装部は UNKNOWN 申告(発明せず)。Sol 敵対 4 種+亜種を両 lane 負例化(返却 status まで assert)。
+- **F83-1.2 消込**: canonical rational 文字列限定(JSON number 全拒否・既約・leading zero/+ 禁止・unsafe-integer 形も文字列なら native 束縛で FAIL)。
+- **F83-2.1/2.2/2.3+N83-2.3 消込**: RouteResult 二層化(dispatch が route_status を固定・producer は分岐不能・PASS constructor 自体が count/digest 一致を検証・digest 欠品は INTEGRITY_STOP)。verdict-selector 設計は廃止。
+- 実装 digest(現行): search/ninfty-verifier-a.mjs = ac43936f17b9c1da5cedebe8a2093a30151e2312d60f652c1ed6cbaf0e7e2907・search/ninfty-verifier-b.py = a6d9632050f3886c87459b3d7f731aa389839fd1df92dc08741107b5d28cc0da・search/ninfty-evidence-union.py = 7e90bf6b95b60e727d516e03d89f85eac4d0e005e8f770298e533e9a2e194a0f。
+- 条文(不変・便 83 と同一): docs/notes/cert_shape_interpretation_addendum_o_v3.md = 4a01a46c9f145d8c4b3e57b81fbfa2c63925eaa5f8b2dee90716bcf2b7f139b9・docs/notes/cert_shape_interpretation_v3_addendum_n.md = e1305cd2b5b7c4ff5e257fd6d3eda63594f0cb5552d0cfbb01aaa819f4bcfdf7。
+- **4 スイート 397/397 全 green(本便組立時に再走)**: lane A 86/86(search/ninfty-selftest-lanea.mjs)・lane B 178/178(search/test_ninfty_laneB.py)・normalizer 51/51(search/test_ninfty_legacy_normalizer.py)・evidence-union 82/82(search/test_ninfty_evidence_union.py)。
+- **実装判断 3 点の確認請求**(裁定 198 で司令塔承認済・Sol 確認待ち): (a) chart_pair の側束縛(a 側/b 側を固定・swap 不許容)(b) locus 欄不正 = MALFORMED / generator 不一致 = FAIL の区別(c) armature placeholder の維持申告(W-6 R1/R2 本結線は EP v7 工程)。
+- **(n)/(o) 発効 PASS なら EP v7 を発射する。**
+
+## 6. SAT 線の共同設計依頼(監査でなく共同設計枠)
+- ES7 の証明書つき SAT パイプライン(kissat+DRAT+LRAT+UNSAT core+mutant matrix)完動品を影工房へ輸入する。貴殿は ES7 第 15/16 便の経験者 — 再演の共同設計を依頼。
+- 標的候補 3 つ(優先順の意見と encoding 設計案を乞う): (a) dl-3 核 witness 狩り(帯 2 空白への SAT 探索)(b) 列挙死亡地点の存在探索(ℓ=17/n=25 級・Ξ 予算外を SAT で)(c) 否定的領土の UNSAT+DRAT 格上げ(第一候補: 尾部 8 n=21 非存在 = 裁定 206 定理 3.1 の証明書化)。
+- 前提設計: encoder は新規((F2) 三条件/巡回型制約の CNF 化)・独立 checker 併設(UNSAT 主張の急所は encoding 忠実性 — ES7 で貴殿と確立した Luna 型二系統)。
+
+## 7. 残務申告(本便の請求外)
+Ree capsule NOTE 3 点・witness 証明書小修理・judge v1.4(Ξ 会計 schema+較正負例+canonical UID)は継続残務。C-21 起草・A₁₃ 数学者確認・H²(Q;K) 計算は走行中 — 着弾次第次便。
+
+## 返信様式
+sol/sol_reply_84_math11.md へ。§1〜4 = 検分(FAIL/NOTE 二段・F#/P#/W# 規約)・§5 = 発効判定(条件付き可)・§6 = 共同設計返信(自由形式)・★教材・監査範囲外申告。digest 検証は sha256sum でよい。

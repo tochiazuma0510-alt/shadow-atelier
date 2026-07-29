@@ -410,16 +410,36 @@
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x1",
             "component_in_chart_a": "pt-x1",
-            "component_in_chart_b": "pt-x1"
+            "component_in_chart_b": "pt-x1",
+            "agree": true,
+            "generator_chart_a": [
+              "-1",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-1",
+              "1"
+            ]
           },
           {
             "chart_pair": [
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x2",
             "component_in_chart_a": "pt-x2",
-            "component_in_chart_b": "pt-x2"
+            "component_in_chart_b": "pt-x2",
+            "agree": true,
+            "generator_chart_a": [
+              "-2",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-2",
+              "1"
+            ]
           }
         ]
       },
@@ -432,16 +452,36 @@
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x1",
             "component_in_chart_a": "pt-x1",
-            "component_in_chart_b": "pt-x1"
+            "component_in_chart_b": "pt-x1",
+            "agree": true,
+            "generator_chart_a": [
+              "-1",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-1",
+              "1"
+            ]
           },
           {
             "chart_pair": [
               "chart-A",
               "chart-B"
             ],
+            "locus_type": "pt-x2",
             "component_in_chart_a": "pt-x2",
-            "component_in_chart_b": "pt-x2"
+            "component_in_chart_b": "pt-x2",
+            "agree": true,
+            "generator_chart_a": [
+              "-2",
+              "1"
+            ],
+            "generator_chart_b": [
+              "-2",
+              "1"
+            ]
           }
         ]
       }
@@ -550,7 +590,7 @@
         }
       }
     ],
-    "certificate_digest": "5a8235c2467ece0ac0e83938afb99ea10501e13abb4d2a3f18e2873adcd47c08"
+    "certificate_digest": "c00e13f3b6626d272906f7573ee0156d758a3e1b510780bcc700659193dbb09d"
   },
   "native_a": {
     "ramification_divisor_on_C_ref": {

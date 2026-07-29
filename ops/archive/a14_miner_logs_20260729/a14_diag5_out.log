@@ -1,0 +1,11 @@
+﻿
+N=8000 genCount=2927 time_ms=3219
+hit19 (type [1,2,2,9] AMONG generating pairs) = 0
+u-type tally among generating pairs:
+  [ 4, 10 ] : 420
+  [ 2, 12 ] : 483
+  [ 3, 11 ] : 409
+  [ 1, 13 ] : 992
+  [ 5, 9 ] : 352
+  [ 6, 8 ] : 271
+DONE_DIAG5

@@ -261,13 +261,24 @@ def assemble(candidate_ref, curve_label, points, mismatches=None):
 
     # W-4 chart_overlap_witnesses (裁定133 (i)/裁定139 item 7 shape unchanged;
     # field renamed + status vocabulary made strict by 裁定152 §3-1 /
-    # 追補(n) v2, sol/裁定_152_便78検収.md: {status: "ABSENT"|"PRESENT",
-    # entries: [...]} is now the ONLY accepted shape -- the old free-text
-    # "agree" status and "per_overlap_witnesses" key are retired).
+    # 追補(n) v2; UNIFIED, authority-bound item schema per 裁定192 F83-1.1:
+    # chart_pair/locus_type/component_in_chart_a/b/agree/generator_chart_a/b
+    # ALL required, generator_chart_a/b must equal the REAL native
+    # ideal_generator for this locus_type (poly_str(gen) -- exactly what
+    # build_native_side below emits, since native_a/native_b share the same
+    # `native_side` object in this fixture builder).
     w4 = []
     for tok in TOKENS:
         overlaps = [
-            {"chart_pair": ["chart-A", "chart-B"], "component_in_chart_a": lt, "component_in_chart_b": lt}
+            {
+                "chart_pair": ["chart-A", "chart-B"],
+                "locus_type": lt,
+                "component_in_chart_a": lt,
+                "component_in_chart_b": lt,
+                "agree": True,
+                "generator_chart_a": poly_str(gen),
+                "generator_chart_b": poly_str(gen),
+            }
             for (lt, gen, sm, cm) in points
         ]
         w4.append({"divisor_object": tok, "status": "PRESENT", "entries": overlaps})
