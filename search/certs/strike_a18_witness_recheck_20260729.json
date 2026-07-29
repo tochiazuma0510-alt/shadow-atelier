@@ -1,0 +1,235 @@
+{
+  "schema": "strike-witness-recheck/v1",
+  "label": "W-D-A18-13a witness independent recheck (python/sympy only, no GAP import)",
+  "generated_by": {
+    "tool": "python3+sympy",
+    "sympy_version": "1.14.0",
+    "script": "search/strike_witness_common.py"
+  },
+  "source_certificate": "search/certs/strike_a18_full_20260729.json",
+  "source_generators": "search/strike-a18.g JUDGE_S1_IMG_SLATE/JUDGE_S2_IMG_SLATE (21 points)",
+  "witness": {
+    "m1": 0,
+    "f1_perm": "[[3, 5], [14, 15]]",
+    "m2": 0,
+    "f2_perm": "[[2, 6, 18, 9, 11], [3, 7, 16, 14, 15, 10, 13, 4, 8, 12, 5]]"
+  },
+  "convention_selfchecks": {
+    "sympy_mult_is_apply_left_then_right": true,
+    "Ad_h_g_defined_as": "h*g*h**-1"
+  },
+  "basic_asserts": {
+    "braid_relation_holds": true,
+    "c_eq_delta_cubed": true,
+    "c_eq_identity": true,
+    "ord_x": 13,
+    "ord_y": 13
+  },
+  "f2_conditions": {
+    "f1": {
+      "cond1_f_theta_f_eq_1": true,
+      "cond2_Rtau_eq_c0": true,
+      "cond3_generates_P": true,
+      "generated_order": 3201186852864000,
+      "cond4_settled_P_level_h_exists": true,
+      "h_conjugator": "(18)(14 15)",
+      "all_three_original_F2_conditions_pass": true
+    },
+    "f2": {
+      "cond1_f_theta_f_eq_1": true,
+      "cond2_Rtau_eq_c0": true,
+      "cond3_generates_P": true,
+      "generated_order": 3201186852864000,
+      "cond4_settled_P_level_h_exists": true,
+      "h_conjugator": "(18)(1 3 5 7 9 11 13 2 4 6 8 10 12)(14 16 15 17)",
+      "all_three_original_F2_conditions_pass": true
+    }
+  },
+  "bq_settled_constructive": {
+    "f1": {
+      "H_found": true,
+      "H_perm": "(21)(14 15)"
+    },
+    "f2": {
+      "H_found": true,
+      "H_perm": "(21)(1 3 5 7 9 11 13 2 4 6 8 10 12)(14 16 15 17)"
+    },
+    "centralizer_C_Sym_degree_s1_size": 1248,
+    "note": "H found ==> T_{0,f} restricted to Bq equals the inner automorphism Ad(H) of Sym(degree) restricted to Bq=<s1,s2>, a full constructive settled proof at the Bq level for that witness. H NOT found is one-directional (does not imply non-settled)."
+  },
+  "centralizer_C_Sn_alt_x_size": 1560,
+  "composition_recheck": {
+    "h1_found": true,
+    "h2_found": true,
+    "f1_dot_E01_f2": [
+      [
+        2,
+        6,
+        18,
+        9,
+        11
+      ],
+      [
+        3,
+        7,
+        16,
+        14,
+        10,
+        13,
+        4,
+        8,
+        12
+      ]
+    ],
+    "f2_dot_E02_f1": [
+      [
+        1,
+        7,
+        16,
+        17,
+        14,
+        15,
+        10,
+        13,
+        4,
+        8,
+        12,
+        5,
+        3
+      ],
+      [
+        2,
+        6,
+        18,
+        9,
+        11
+      ]
+    ],
+    "noncommutative": true
+  },
+  "all_asserts": [
+    {
+      "name": "braid relation s1*s2*s1 == s2*s1*s2",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "c == delta**3",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "c == identity (c in N for this window)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ord(x) == ord(y)",
+      "ok": true,
+      "detail": "ord(x)=13 ord(y)=13"
+    },
+    {
+      "name": "Ad(Delta)(x) == y  [theta~ = Ad(Delta)]",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Ad(Delta)(y) == x  [theta~ = Ad(Delta)]",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Ad(delta)(x) == y  [tau~ = Ad(delta)]",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Ad(delta)(y) == z*c  [tau~ = Ad(delta)]",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "f1 embeds correctly (n_alt-pt and full-deg agree on 1..n_alt, fixes the rest)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "f2 embeds correctly (n_alt-pt and full-deg agree on 1..n_alt, fixes the rest)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "|C_Sym(degree)(s1)| computed generically (wreath-product, self-checked)",
+      "ok": true,
+      "detail": "actual=1248"
+    },
+    {
+      "name": "[f1] Bq-level settled (constructive): exists H in Sym(degree) with H(s1)=s1, H(s2)=f1^-1 s2 f1",
+      "ok": true,
+      "detail": "H found"
+    },
+    {
+      "name": "[f2] Bq-level settled (constructive): exists H in Sym(degree) with H(s1)=s1, H(s2)=f2^-1 s2 f2",
+      "ok": true,
+      "detail": "H found"
+    },
+    {
+      "name": "|C_S_n_alt(x)| computed generically (wreath-product, self-checked)",
+      "ok": true,
+      "detail": "actual=1560"
+    },
+    {
+      "name": "[f1] (F2)-1: f . theta~(f) = 1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[f1] (F2)-2: R_tau~(0,f) = c^0 = id",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[f1] generation: <x, f^-1 y f> = P (|A_18|=3201186852864000)",
+      "ok": true,
+      "detail": "computed order=3201186852864000"
+    },
+    {
+      "name": "[f1] settled (P-level proxy): exists h in Aut(P) realizing T_0,f on <x,y>",
+      "ok": true,
+      "detail": "h found"
+    },
+    {
+      "name": "[f2] (F2)-1: f . theta~(f) = 1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[f2] (F2)-2: R_tau~(0,f) = c^0 = id",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[f2] generation: <x, f^-1 y f> = P (|A_18|=3201186852864000)",
+      "ok": true,
+      "detail": "computed order=3201186852864000"
+    },
+    {
+      "name": "[f2] settled (P-level proxy): exists h in Aut(P) realizing T_0,f on <x,y>",
+      "ok": true,
+      "detail": "h found"
+    },
+    {
+      "name": "both h1 (for E_{0,f1}) and h2 (for E_{0,f2}) found -- composition computable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "[0,f1] o [0,f2] f-component != [0,f2] o [0,f1] f-component  (NONCOMMUTATIVE)",
+      "ok": true,
+      "detail": "f1.E01(f2)=[[2, 6, 18, 9, 11], [3, 7, 16, 14, 10, 13, 4, 8, 12]]  f2.E02(f1)=[[1, 7, 16, 17, 14, 15, 10, 13, 4, 8, 12, 5, 3], [2, 6, 18, 9, 11]]"
+    }
+  ],
+  "all_asserts_pass": true,
+  "witness_valid": true,
+  "scope_note": "Both P-level (A_n) and Bq-level (full ambient group) settled checks are constructive (explicit conjugator found) for this witness pair. Single independent python computation (cross-checked against, not sharing code with, the GAP judge)."
+}
