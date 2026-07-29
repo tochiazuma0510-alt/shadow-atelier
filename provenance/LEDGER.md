@@ -554,3 +554,15 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 一工夫(翻訳)= 型 I の字面不適合の突合(4||Q| でも分裂 ⟹ 方法のみ輸入)・型 II = STR-1.6 の外部検算・本命 = ε 閉形式(【LG-1】【LG-2】)。型 III(Guillot)は同名別物ゲート未架橋のため設問化保留。
 - 配達先 = 両数学者(Opus = SendMessage 済・Sol = 便 85 同梱)。scout 報告書は docs/scout/ へ移設(開示済みアーカイブ)。
 - **工程反省**: 遠征報告書を金庫 scout でなくリポジトリ(ops/)に直接置かせた(配置図規則 (2)(5) 違反)・初回配達が覚書のみだった(「論文+覚書のセット」既定の違反)。本記帳で是正。以後 hunter/scout の出力先は委嘱時に金庫パスを指定する。
+
+## 2026-07-30 文献ゲート配達 2(きっかけ = ① 要請駆動: surj_d4_t1_v1.md【文献要請】= 半局所 Kummer)
+- 配達物 = 翻訳覚書 docs/notes/litgate_semilocal_kummer_v1.md + 原文 6 本(papers/delivered/):
+  - arxiv_1301.4429.pdf (Borne–Emsalem–Stix, packet+torsor) sha256 95faad8f8dc971c22a781360ddefe5d5b64bc5316579182be3f68f4f6f105ae3
+  - arxiv_0809.0017.pdf (Stix, cuspidal sections) sha256 b456de5edf8dcbd52b5e414d24a87ff942908aac6f06fe2b7f175b32695d21bb
+  - arxiv_1507.07208.pdf (Callegaro–Gaiffi–Lochak) sha256 f8ee1666d8b952f3b8419b855183fbe3829fe524c68601e13bb7bd74ec5490fc
+  - arxiv_2408.13108.pdf (Dupont–Panzer–Pym) sha256 886997fa9d99b60c50fe3d5c08d88f5fb33916e8ea054b642b18e25bf49bd3b6
+  - arxiv_1504.02814.pdf (Sijsling–Voight) sha256 979ac2166c4989901d01334684c8a5192c0b896fa306d5636b2ccd1b1ddd1644
+  - arxiv_2506.11310.pdf (O'Dorney) sha256 f1d59eb8d50a1f48214f38e125eb2f0fe764689cbf39265f05418e34c94cbea0
+  - Jacobson–Vélez 1990 (manuscripta math. 67, 271–284, DOI 10.1007/BF02568433) は誌面のみ — 書誌+入手経路注記。
+- 一工夫 = NORM-U/MARK-U の候補定義対・型 C(束ねない)警戒・新規性警報(層 II は古典既決の疑い — 突合義務)・LG-3/LG-4 設問化。
+- 手順 = 金庫 scout 出力 → 配達判断 → docs/scout/ 移設(是正プロトコルの初の完全適用)。配達先 = 両数学者(Opus = SendMessage・Sol = 便 86 同梱)。
