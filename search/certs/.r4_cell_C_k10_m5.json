@@ -1,0 +1,20 @@
+{
+  "cell": "type-C_(10,10)_k10_m5",
+  "w0_type": "type-C_(10,10)",
+  "k": 10,
+  "m": 5,
+  "target_structconst": 300,
+  "w0": "(1,2,3,4,5,6,7,8,9,10)(11,12,13,14,15,16,17,18,19,20)",
+  "a0": "(1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)",
+  "centralizer_order": 200,
+  "tries": 5456346,
+  "elapsed_sec": 30.469,
+  "enumerated": 300,
+  "complete": true,
+  "timed_out": false,
+  "num_orbits": 2,
+  "orbit_reps": [
+    {"a": "(1,10)(2,19)(3,12)(4,5)(6,11)(7,8)(9,20)(13,18)(14,15)(16,17)", "b": "(1,9,19)(2,18,12)(3,11,5)(6,20,8)(13,17,15)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 20 ], "transitive": true, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,2)(3,8)(4,5)(6,7)(9,10)(11,18)(12,15)(13,19)(14,20)(16,17)", "b": "(2,10,8)(3,7,5)(11,17,15)(12,14,19)(13,18,20)", "orbit_size_under_Cw0": 100, "group_order": 43200, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false}
+  ]
+}

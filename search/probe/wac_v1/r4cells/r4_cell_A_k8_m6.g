@@ -1,0 +1,11 @@
+CELL_LABEL := "type-A_(5,5,5,5)_k8_m6";;
+W0LABEL := "type-A_(5,5,5,5)";;
+W0CYC := [5, 5, 5, 5];;
+K := 8;;
+M := 6;;
+TARGET := 12500;;
+OUTFILE := "search/certs/.r4_cell_A_k8_m6.json";;
+REPSFILE := "search/certs/.r4_cell_A_k8_m6_reps.g";;
+TRY_CAP := 600000000;;
+TIME_CAP_SEC := 900;;
+Read("search/probe/wac_v1/r4_cell_logic.g");;

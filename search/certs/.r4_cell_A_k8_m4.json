@@ -1,0 +1,19 @@
+{
+  "cell": "type-A_(5,5,5,5)_k8_m4",
+  "w0_type": "type-A_(5,5,5,5)",
+  "k": 8,
+  "m": 4,
+  "target_structconst": 625,
+  "w0": "(1,2,3,4,5)(6,7,8,9,10)(11,12,13,14,15)(16,17,18,19,20)",
+  "a0": "(1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)",
+  "centralizer_order": 15000,
+  "tries": 31618862,
+  "elapsed_sec": 190.437,
+  "enumerated": 625,
+  "complete": true,
+  "timed_out": false,
+  "num_orbits": 1,
+  "orbit_reps": [
+    {"a": "(1,5)(3,4)(6,7)(9,10)(12,13)(14,15)(17,18)(19,20)", "b": "(1,4,2)(7,10,8)(11,15,13)(16,20,18)", "orbit_size_under_Cw0": 625, "group_order": 60, "orbit_lengths": [ 5, 5, 5, 5 ], "transitive": false, "eq_A20": false, "eq_S20": false}
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "cell": "type-C_(10,10)_k8_m5",
+  "w0_type": "type-C_(10,10)",
+  "k": 8,
+  "m": 5,
+  "target_structconst": 500,
+  "w0": "(1,2,3,4,5,6,7,8,9,10)(11,12,13,14,15,16,17,18,19,20)",
+  "a0": "(1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)",
+  "centralizer_order": 200,
+  "tries": 276059676,
+  "elapsed_sec": 1540.375,
+  "enumerated": 500,
+  "complete": true,
+  "timed_out": false,
+  "num_orbits": 5,
+  "post_hoc_repair_note": "original raw output had a spurious 6th orbit_rep with a=() (identity), orbit_size 1, enumerated=501, complete=false. Root cause: the resume-checkpoint writer in r4_cell_logic.g appended a stray identity permutation as a trailing list-syntax placeholder in the REPSFILE (.r4_cell_C_k8_m5_reps.g, written by the first (timed-out) pass); the resume loader in the second pass then treated it as a genuine solution without validating it against the target condition (b=a*w0^-1 must have Order 3 -- the identity's b=w0^-1 has order 10, clearly invalid). Fixed here by hand: removed the bogus entry, corrected enumerated/complete/num_orbits. The 5 remaining orbit_reps (100 each = 500 = target_structconst exactly) are the genuine machine-found solutions, unmodified. The generator script (r4_cell_logic.g) was also patched to (a) stop emitting the stray placeholder and (b) validate every resumed rep against the target condition before trusting it, so this cannot recur.",
+  "orbit_reps": [
+    {"a": "(2,9)(3,7)(5,6)(11,20)(12,13)(14,19)(15,16)(17,18)", "b": "(1,10,9)(2,8,7)(3,6,4)(11,19,13)(14,18,16)", "orbit_size_under_Cw0": 100, "group_order": 217728000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(2,6)(4,5)(7,10)(11,16)(12,13)(14,15)(17,18)(19,20)", "b": "(1,10,6)(2,5,3)(7,9,8)(11,15,13)(16,20,18)", "orbit_size_under_Cw0": 100, "group_order": 217728000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,10)(2,3)(4,9)(5,6)(7,8)(11,12)(13,16)(17,20)", "b": "(1,9,3)(4,8,6)(12,20,16)(13,15,14)(17,19,18)", "orbit_size_under_Cw0": 100, "group_order": 217728000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,6)(2,3)(4,5)(7,8)(9,10)(12,15)(16,20)(17,18)", "b": "(1,5,3)(6,10,8)(11,20,15)(12,14,13)(16,19,18)", "orbit_size_under_Cw0": 100, "group_order": 217728000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,10)(2,7)(3,4)(5,6)(8,9)(11,15)(12,13)(16,19)", "b": "(1,9,7)(2,6,4)(11,14,13)(15,20,19)(16,18,17)", "orbit_size_under_Cw0": 100, "group_order": 217728000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false}
+  ]
+}

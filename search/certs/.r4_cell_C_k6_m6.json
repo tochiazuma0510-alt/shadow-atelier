@@ -1,0 +1,33 @@
+{
+  "cell": "type-C_(10,10)_k6_m6",
+  "w0_type": "type-C_(10,10)",
+  "k": 6,
+  "m": 6,
+  "target_structconst": 2500,
+  "w0": "(1,2,3,4,5,6,7,8,9,10)(11,12,13,14,15,16,17,18,19,20)",
+  "a0": "(1,2)(3,4)(5,6)(7,8)(9,10)(11,12)",
+  "centralizer_order": 200,
+  "tries": 53995429,
+  "elapsed_sec": 324.531,
+  "enumerated": 2500,
+  "complete": true,
+  "timed_out": false,
+  "num_orbits": 15,
+  "orbit_reps": [
+    {"a": "(1,4)(5,9)(7,8)(11,14)(15,19)(16,17)", "b": "(1,3,2)(4,10,9)(5,8,6)(11,13,12)(14,20,19)(15,18,17)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,7)(2,5)(8,9)(12,16)(13,14)(17,20)", "b": "(1,6,5)(2,4,3)(7,10,9)(11,20,16)(12,15,14)(17,19,18)", "orbit_size_under_Cw0": 100, "group_order": 3628800, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,10)(2,5)(6,9)(11,15)(13,14)(17,20)", "b": "(1,9,5)(2,4,3)(6,8,7)(11,14,12)(15,20,16)(17,19,18)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(2,9)(3,4)(5,8)(11,12)(13,16)(17,20)", "b": "(1,10,9)(2,8,4)(5,7,6)(12,20,16)(13,15,14)(17,19,18)", "orbit_size_under_Cw0": 100, "group_order": 3628800, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,7)(2,5)(9,10)(11,18)(13,17)(14,15)", "b": "(1,6,5)(2,4,3)(7,10,8)(11,17,12)(13,16,15)(18,20,19)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,2)(4,10)(6,9)(11,17)(12,15)(18,19)", "b": "(2,10,3)(4,9,5)(6,8,7)(11,16,15)(12,14,13)(17,20,19)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,2)(3,6)(7,10)(12,13)(14,20)(15,18)", "b": "(2,10,6)(3,5,4)(7,9,8)(11,20,13)(14,19,18)(15,17,16)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,8)(2,6)(3,4)(11,12)(13,19)(14,17)", "b": "(1,7,6)(2,5,4)(8,10,9)(12,20,19)(13,18,17)(14,16,15)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,8)(2,5)(6,7)(11,17)(13,16)(18,19)", "b": "(1,7,5)(2,4,3)(8,10,9)(11,16,12)(13,15,14)(17,20,19)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(2,5)(6,10)(8,9)(11,18)(13,17)(14,15)", "b": "(1,10,5)(2,4,3)(6,9,7)(11,17,12)(13,16,15)(18,20,19)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,4)(6,10)(8,9)(11,14)(15,19)(17,18)", "b": "(1,3,2)(4,10,5)(6,9,7)(11,13,12)(14,20,19)(15,18,16)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,4)(6,10)(7,8)(11,18)(12,15)(16,17)", "b": "(1,3,2)(4,10,5)(6,9,8)(11,17,15)(12,14,13)(18,20,19)", "orbit_size_under_Cw0": 200, "group_order": 6584094720000, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(2,5)(6,10)(8,9)(12,13)(14,20)(16,19)", "b": "(1,10,5)(2,4,3)(6,9,7)(11,20,13)(14,19,15)(16,18,17)", "orbit_size_under_Cw0": 100, "group_order": 3628800, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(1,2)(4,10)(6,9)(11,14)(15,19)(16,17)", "b": "(2,10,3)(4,9,5)(6,8,7)(11,13,12)(14,20,19)(15,18,17)", "orbit_size_under_Cw0": 100, "group_order": 3628800, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false},
+    {"a": "(2,9)(4,8)(6,7)(12,16)(14,15)(17,20)", "b": "(1,10,9)(2,8,3)(4,7,5)(11,20,16)(12,15,13)(17,19,18)", "orbit_size_under_Cw0": 100, "group_order": 3628800, "orbit_lengths": [ 10, 10 ], "transitive": false, "eq_A20": false, "eq_S20": false}
+  ]
+}

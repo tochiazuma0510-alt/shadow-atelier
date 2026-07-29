@@ -1,0 +1,11 @@
+CELL_LABEL := "type-C_(10,10)_k10_m5";;
+W0LABEL := "type-C_(10,10)";;
+W0CYC := [10, 10];;
+K := 10;;
+M := 5;;
+TARGET := 300;;
+OUTFILE := "search/certs/.r4_cell_C_k10_m5.json";;
+REPSFILE := "search/certs/.r4_cell_C_k10_m5_reps.g";;
+TRY_CAP := 600000000;;
+TIME_CAP_SEC := 900;;
+Read("search/probe/wac_v1/r4_cell_logic.g");;
