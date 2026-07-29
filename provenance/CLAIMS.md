@@ -73,3 +73,6 @@ I-3 等号検査(証明書 = search/certs/i3_equality_20260728.json): |Im(ψ₄,
 
 ## A7-fam(2026-07-29・paper-proof candidate・framework-conditional・単系統・Sol 監査前・C-21 と別札)
 **A7 の族閉鎖(裁定 153 の「次の主戦場」)**: 同前件の下、A7 は全奇数 n≥3 の窓 (K⁽ⁿ⁾, H_n^fun) で成立(c21_draft §7 命題 A7-fam — §4 の証明が n=21 を不使用のため)。⟹ CASC【I23-a】(唯一の実質的律速)解消・§6.3-R1 ●→○。歯×標的対ごとの instance 複製が O(1) に。残る対仕事でない項目 = C1′(m)(標的ごと)・C5(一括)・G3(便 75 F3.2 の (n,d) 一般性 =【C21-b】未確認)。裁定 208。
+
+## W-LADDER-9(2026-07-30・candidate・GAP 単系統・prediction-first 17/17)
+**N_ord=9 梯子測定(13 窓・凍結 41b8698 → CI 30455910524 → 裁定 213)**: ①Cyc 律 = C_{N_ord}(枝 A — N_ord=9=3² 非 squarefree で C₉ 全体生存・「1 乗律」棄却)②Tail 律 = Syl₂(S_t)(枝 S — 2-部 (1,2,2,8)・A_t 側棄却)③|ker χ̃| = |Syl₂(S_t)|·N_ord は 7 標本・二因子初直交・可解 Stab でも成立 ④GTSh = Syl₂(S_t)×Hol(ℤ/9)(IdGroup 名指し 3/3・(H2) 破れ域で補題 H2′ 支持・t=1 は Hol(ℤ/9) 裸出しの初例)⑤ε=0(t=4)= CENTRAL-PRODUCT 不発・M-1 生存 ⑥兄弟 9 窓完全同値 = 律は (N_ord,t) の関数。fail-closed 全通過(canonical ID・stage1・Ξ 上界・settled)。witness 独立検算は未(次工程)。
