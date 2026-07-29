@@ -1,0 +1,8 @@
+c parsing input formula with 9723 variables and 34692 clauses
+c finished parsing
+c UNSAT via unit propagation on the input instance
+c 4201 of 34692 clauses in core                            
+c 1 of 9582 lemmas in core using 4201 resolution steps
+c 0 RAT lemmas in core; 0 redundant literals in core lemmas
+s VERIFIED
+c verification time: 0.069 seconds

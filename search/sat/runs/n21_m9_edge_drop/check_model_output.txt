@@ -1,0 +1,189 @@
+{
+  "checks": [
+    {
+      "name": "a_decodes_to_total_function",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "a_is_involution_type_2^10_1",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "lengths": [
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "expected": [
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "name": "model_B_agrees_with_independently_recomputed_b=u^-1(a(.))",
+      "ok": true,
+      "detail": {
+        "model_B": [
+          18,
+          4,
+          9,
+          10,
+          1,
+          19,
+          12,
+          7,
+          11,
+          2,
+          3,
+          8,
+          6,
+          16,
+          21,
+          20,
+          15,
+          5,
+          13,
+          14,
+          17
+        ],
+        "recomputed_b": [
+          18,
+          4,
+          9,
+          10,
+          1,
+          19,
+          12,
+          7,
+          11,
+          2,
+          3,
+          8,
+          6,
+          16,
+          21,
+          20,
+          15,
+          5,
+          13,
+          14,
+          17
+        ]
+      }
+    },
+    {
+      "name": "b_cubed_equals_identity",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "b_is_fixed_point_free",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "b_is_type_3^7",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "lengths": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "expected": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ]
+      }
+    },
+    {
+      "name": "generated_group_is_transitive_on_1..21",
+      "ok": false,
+      "detail": {
+        "transitive": false,
+        "orbits": [
+          6,
+          15
+        ]
+      }
+    }
+  ],
+  "ok": false,
+  "decoded": {
+    "a": [
+      19,
+      5,
+      10,
+      11,
+      2,
+      18,
+      13,
+      8,
+      12,
+      3,
+      4,
+      9,
+      7,
+      17,
+      20,
+      21,
+      14,
+      6,
+      1,
+      15,
+      16
+    ],
+    "b": [
+      18,
+      4,
+      9,
+      10,
+      1,
+      19,
+      12,
+      7,
+      11,
+      2,
+      3,
+      8,
+      6,
+      16,
+      21,
+      20,
+      15,
+      5,
+      13,
+      14,
+      17
+    ]
+  }
+}

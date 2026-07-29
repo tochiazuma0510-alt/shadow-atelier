@@ -1,0 +1,47 @@
+check_model_n21.mjs --mode transitive --model model_vlines.txt
+
+対象外 (N/A): このフィクスチャ (tail8_diam20_path21_depth20.cnf) は
+X/D/B (a/b/u witness) 変数を「宣言のみ・未使用」で確保しているだけで、
+実際の a/b/u witness に配線されていない (mutants_n21.json M10 の
+generated_cnf コメント参照)。check_model_n21.mjs は X/D 行を one-hot
+witness として復号しようとするため、下記の通り全 21 行で
+「exactly one of X/D true」制約違反 (21/21 both true) を報告して
+ok=false になる。これはチェッカーの誤りではなく、このフィクスチャが
+そもそも check_model_n21.mjs の対象外であることの確認である
+(depth19/depth20 は経路グラフの固定 BFS 到達性のみを検証する設計 —
+独立検算は LRAT (depth19, UNSAT) および kissat 自身の SAT 判定
+(depth20) が担う)。生出力を下に保存する。
+
+--- raw stdout ---
+{
+  "checks": [
+    {
+      "name": "a_decodes_to_total_function",
+      "ok": false,
+      "detail": [
+        "row 1: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 2: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 3: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 4: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 5: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 6: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 7: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 8: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 9: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 10: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 11: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 12: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 13: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 14: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 15: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 16: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 17: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 18: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 19: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 20: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)",
+        "row 21: expected exactly one of X/D true, found 21 (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21)"
+      ]
+    }
+  ],
+  "ok": false
+}

@@ -213,13 +213,27 @@ Sol 便 85 §8(`sol/sol_reply_85_math12.md` F85-8.1〜8.5・P85-6)への対応:
   への自動配線はしていない — 現状は手動実行。配線は次段)。
 - **mutant matrix の増強**: `search/sat/mutants_n21.json` に M8〜M12 を追加
   (Sol P85-6 の優先順どおり): M8/M9 = reverse-clause-drop mutant(reachability/edge、
-  `search/sat/gen_mutants_reverse_drop.py` でローカル生成、紙上 SAT 期待・kissat 未実行)、
+  `search/sat/gen_mutants_reverse_drop.py` でローカル生成)、
   M10 = 21 頂点 path の合成 diameter-20 境界 fixture(`search/sat/encode_diam20_path21.py`、
-  depth19 UNSAT / depth20 SAT を紙上 PROVEN、M6 を置換 — M6 自体は削除せず「弱い」との
-  Sol 評価つきで歴史行として保持)、M11 = n=5,7 の itertools 悉皆較正
+  M6 を置換 — M6 自体は削除せず「弱い」との Sol 評価つきで歴史行として保持)、
+  M11 = n=5,7 の itertools 悉皆較正
   (`search/sat/calibrate_small_n.py`、ローカル実走・秒単位、n=5 は encoding-fidelity
   spot check 0 節違反、n=7 は u=7-cycle でのこの制約下で witness 皆無という悉皆の
   誠実な陰性結果)、M12 = 独立 LRAT checker そのものの登録(上記)。
+  **M8/M9/M10(depth19・depth20)は 2026-07-29 に `sat-run` workflow で実走済み**
+  (run ID `30462013453`/`30462017651`/`30462021827`/`30462026033`、head SHA
+  `5be1f07b579c01c1537725f61f79b64f56e5a3f1`)— M8 SAT・M9 SAT・M10-depth19
+  UNSAT(drat-trim + 独立 `lrat_check.py` の両方が `s VERIFIED`)・M10-depth20 SAT、
+  4/4 とも紙上 PROVEN prediction と一致。artifact は
+  `search/sat/runs/n21_m8_reach_drop/`・`n21_m9_edge_drop/`・`n21_m10_depth19/`・
+  `n21_m10_depth20/` に収蔵、台帳は `search/sat/runs/RUNS_LEDGER.md`(裁定 227・
+  Sol `sol_reply_86_math13.md` P86-4 への対応。同便 F86-3.3 は先行版の「4/4
+  完走」claim を artifact 未収蔵につき FAIL としていた — 本収蔵で解消)。
+  M8/M9 は `check_model_n21.mjs --mode transitive` を実 model に対して実行し、
+  事前登録どおり「decoded a,b は妥当だが生成群が非推移的(orbits [6,15])」という
+  caught-bug signature を確認。M10-depth20 は checker のフィールド前提
+  (X/D/B が実 witness に配線されている)が成立しないため対象外(理由は
+  `check_model_output.txt` に明記)。
 
 ## 第二標的 n=25, ℓ=17(裁定 214 系・commander task・Sol 便 84 sec 6.3)
 
@@ -323,6 +337,8 @@ kissat/drat-trim のローカル実行は行っていない(RAM 8GB 制約・CI 
 - completeness 方向(数学 witness ⇒ CNF assignment)の紙上補題は Sol 供給分が
   `docs/notes/sat_completeness_n21_v1.md` に収蔵済み(paper-proof PASS)だが、
   数学者による独立監査はまだ未実施。
-- M8/M9/M10(reverse-clause-drop・synthetic diameter fixture)は CNF 生成と
-  紙上予言の事前登録まで(裁定 214 工程 4)。kissat 実走と予言との突合は次段
-  (CI 発射は司令塔)。
+- M8/M9/M10(reverse-clause-drop・synthetic diameter fixture)は 2026-07-29 に
+  実走・4/4 とも紙上 PROVEN 予言と一致(上記・`search/sat/runs/RUNS_LEDGER.md`)。
+  未着手として残るのは、M8/M9 の `check_model_n21.mjs` E 変数側の fabricated-edge
+  直接照合(現状は生成群の非推移性という間接 signature のみ確認)と、
+  独立 LRAT checker の CI workflow への自動配線(現状は手動実行)。

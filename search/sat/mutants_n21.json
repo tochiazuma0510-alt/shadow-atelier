@@ -110,7 +110,7 @@
         "num_clauses": 49708,
         "sha256": "175671de52bcfceb8e35d8f016d8b384be04374153d4da606fd13452e29d01fe",
         "generated_locally": true,
-        "kissat_run": "NOT PERFORMED in this pass (RAM 8GB; CI dispatch is the commander's job). CNF generation and expected-verdict registration only."
+        "kissat_run": "PERFORMED 2026-07-29 via .github/workflows/sat-run.yml (workflow_dispatch, run_label=calibration). See actual_run below; artifact collected 2026-07-30 per Sol P86-4 (sol/sol_reply_86_math13.md F86-3.3)."
       },
       "prediction": {
         "class_cnf_verdict": "N/A",
@@ -119,6 +119,17 @@
         "transitive_cnf_argument": "Dropping R[t][v] => R[t-1][v] v (OR_w STEP[t][w][v]) removes the only constraint that could ever force an R variable to FALSE; every R[t][v] can be set true with zero justification (the kept sufficient direction is an implication INTO R, satisfied vacuously by R=true). Setting all R[t>=1][v]=true in particular satisfies the transitivity goal clauses (R[20][v] for all v) regardless of the actual graph structure -- a solver should find this trivially SAT, and this is exactly the 'BFS free-true' bug the mutant is designed to catch: if a run on THIS mutant instead comes out UNSAT, that is a definite bug signal in the R-variable wiring (not a coincidence needing an oracle check).",
         "decoded_counterexample_property": "If SAT: the decoded R assignment is expected to NOT correspond to any honest BFS reachability set (check_model_n21.mjs's independent BFS recomputation, run against this mutant's model, is expected to disagree with the model's own R/STEP variables for at least the un-actually-reached vertices -- that disagreement is the signature of the caught bug, not evidence against the mutant).",
         "requires_oracle_check": false
+      },
+      "actual_run": {
+        "github_actions_run_id": "30462013453",
+        "head_sha": "5be1f07b579c01c1537725f61f79b64f56e5a3f1",
+        "cnf_path_used": "search/sat/out/mutants/tail8_n21_mutant_reach_reverse_drop.cnf",
+        "problem_cnf_sha256_rehashed": "175671de52bcfceb8e35d8f016d8b384be04374153d4da606fd13452e29d01fe (matches generated_cnf.sha256 above -- verified)",
+        "result": "exit=10 / verdict=SAT",
+        "prediction_match": "matches PROVEN prediction (transitive_cnf_verdict=SAT)",
+        "check_model_n21_mjs": "run --mode transitive against the SAT model: overall ok=false -- decoded a,b satisfy all involution/order/type checks and the independently recomputed b=u^-1(a(.)) agrees with the model's B variables, BUT the generated group <a,b> is NOT transitive on 1..21 (orbits [6,15]). This is exactly the predicted bug signature (decoded_counterexample_property): the SAT model's own R/reachability variables claim full reachability while the underlying permutation group demonstrably is not transitive, confirming the R-wiring bug the mutant targets.",
+        "local_storage": "search/sat/runs/n21_m8_reach_drop/",
+        "artifact_note": "SAT model (kissat 'v ...' lines) preserved as model_vlines.txt; check_model_n21.mjs raw output preserved as check_model_output.txt."
       }
     },
     {
@@ -131,7 +142,7 @@
         "num_clauses": 49918,
         "sha256": "dfae54b8d9bb02827c28570dc808890f062705a3ec32b81e704d69c6f66b0fc4",
         "generated_locally": true,
-        "kissat_run": "NOT PERFORMED in this pass (RAM 8GB; CI dispatch is the commander's job). CNF generation and expected-verdict registration only."
+        "kissat_run": "PERFORMED 2026-07-29 via .github/workflows/sat-run.yml (workflow_dispatch, run_label=calibration). See actual_run below; artifact collected 2026-07-30 per Sol P86-4 (sol/sol_reply_86_math13.md F86-3.3)."
       },
       "prediction": {
         "class_cnf_verdict": "N/A",
@@ -140,6 +151,17 @@
         "transitive_cnf_argument": "Dropping E[i][j] => X[i][j] v B[i][j] v B[j][i] removes the only constraint that could ever force an E variable to FALSE; every E[i][j] can be set true with zero justification. Setting all E[i][j]=true turns the Cayley graph into the complete graph K_21 (diameter 1), so the still-intact R/STEP Tseitin machinery correctly derives R[t][v]=true for all v already at t=1<=20, satisfying the transitivity goal regardless of the actual {a,b,b^-1} adjacency. If a run on this mutant instead comes out UNSAT, that is a definite bug signal in the E-variable wiring.",
         "decoded_counterexample_property": "If SAT: decoded E is expected to include pairs that are NOT actually adjacent via {a,b,b^-1} for the decoded a,b (check_model_n21.mjs's independent adjacency recomputation is expected to disagree with the model's E variables for the fabricated edges).",
         "requires_oracle_check": false
+      },
+      "actual_run": {
+        "github_actions_run_id": "30462017651",
+        "head_sha": "5be1f07b579c01c1537725f61f79b64f56e5a3f1",
+        "cnf_path_used": "search/sat/out/mutants/tail8_n21_mutant_edge_reverse_drop.cnf",
+        "problem_cnf_sha256_rehashed": "dfae54b8d9bb02827c28570dc808890f062705a3ec32b81e704d69c6f66b0fc4 (matches generated_cnf.sha256 above -- verified)",
+        "result": "exit=10 / verdict=SAT",
+        "prediction_match": "matches PROVEN prediction (transitive_cnf_verdict=SAT)",
+        "check_model_n21_mjs": "run --mode transitive against the SAT model: overall ok=false -- decoded a,b pass all involution/order/type checks and the independently recomputed b=u^-1(a(.)) agrees with the model's B variables, BUT the generated group <a,b> is NOT transitive on 1..21 (orbits [6,15]) -- the same bug signature as M8, confirming the E-wiring bug the mutant targets (check_model does not separately re-verify E adjacency against a fabricated-edge criterion, but the non-transitivity of the decoded group under a claimed-transitive model is itself the caught inconsistency).",
+        "local_storage": "search/sat/runs/n21_m9_edge_drop/",
+        "artifact_note": "SAT model preserved as model_vlines.txt; check_model_n21.mjs raw output preserved as check_model_output.txt."
       }
     },
     {
@@ -162,7 +184,7 @@
           "goal": "R[20][v] for all v=1..21"
         },
         "generated_locally": true,
-        "kissat_run": "NOT PERFORMED in this pass (RAM 8GB; CI dispatch is the commander's job). CNF generation and expected-verdict registration only."
+        "kissat_run": "PERFORMED 2026-07-29 via .github/workflows/sat-run.yml (workflow_dispatch, run_label=calibration; two separate runs, one per depth CNF). See actual_run below; artifact collected 2026-07-30 per Sol P86-4 (sol/sol_reply_86_math13.md F86-3.3)."
       },
       "prediction": {
         "depth19_verdict": "UNSAT",
@@ -172,6 +194,31 @@
         "depth20_confidence": "PROVEN",
         "depth20_argument": "Every vertex is within distance <=20 of vertex 1 on this graph (vertex 21 needs exactly 20, all others fewer); the unique BFS-consistent assignment satisfies R[20][v] for all v, hence all goal clauses. This is a TIGHT witness that the encoder's own depth bound (0..20 for a 21-point graph) is not off-by-one in EITHER direction.",
         "requires_oracle_check": false
+      },
+      "actual_run": {
+        "depth19": {
+          "github_actions_run_id": "30462021827",
+          "head_sha": "5be1f07b579c01c1537725f61f79b64f56e5a3f1",
+          "cnf_path_used": "search/sat/out/mutants/tail8_diam20_path21_depth19.cnf",
+          "problem_cnf_sha256_rehashed": "e9bb1713fa0456b865f9a8ac11687640c511979cfb22dadab32e197a79a8669b (matches generated_cnf.depth19.sha256 above -- verified)",
+          "result": "exit=20 / verdict=UNSAT",
+          "prediction_match": "matches PROVEN prediction (depth19_verdict=UNSAT)",
+          "drat_trim": "s VERIFIED (4201 of 34692 clauses in core; 1 of 9582 lemmas in core using 4201 resolution steps; 0 RAT lemmas; verification time 0.069s)",
+          "independent_lrat_checker": "search/sat/lrat_check.py (from-scratch, does not import drat-trim) run against proof.lrat.gz --> 's VERIFIED' (lines_processed=2, elapsed_seconds=0.102). Cross-checked against drat-trim's own s VERIFIED -- not Lean-verified.",
+          "local_storage": "search/sat/runs/n21_m10_depth19/",
+          "artifact_note": "core.cnf.gz, drat_verify.txt, proof.drat.gz, proof.lrat.gz all collected; lrat_check_output.txt added (independent checker output)."
+        },
+        "depth20": {
+          "github_actions_run_id": "30462026033",
+          "head_sha": "5be1f07b579c01c1537725f61f79b64f56e5a3f1",
+          "cnf_path_used": "search/sat/out/mutants/tail8_diam20_path21_depth20.cnf",
+          "problem_cnf_sha256_rehashed": "befa6f1b05a4a3633f751abd030d913da2dc41d59567b91dd94c92c68b531cc6 (matches generated_cnf.depth20.sha256 above -- verified)",
+          "result": "exit=10 / verdict=SAT",
+          "prediction_match": "matches PROVEN prediction (depth20_verdict=SAT)",
+          "check_model_n21_mjs": "N/A -- this fixture's X/D/B variables are declared but unused (no real a/b/u witness; see generated_cnf description), so check_model_n21.mjs's --mode transitive one-hot X/D decode is not applicable to this fixture: running it produces 'expected exactly one of X/D true, found 21' on all 21 rows (both X and D true everywhere, since neither is constrained), i.e. ok=false for a reason unrelated to correctness of this fixture's actual claim (fixed-path BFS reachability). Confirmed out-of-scope, not treated as a failed cross-check. Raw output preserved.",
+          "local_storage": "search/sat/runs/n21_m10_depth20/",
+          "artifact_note": "SAT model preserved as model_vlines.txt; check_model_n21.mjs raw output (showing N/A applicability) preserved as check_model_output.txt."
+        }
       }
     },
     {
