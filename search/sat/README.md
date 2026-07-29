@@ -100,9 +100,97 @@ trivial_unsat.cnf: ab97e6c2fc8e5717bf279716a4f333951300385bf188b90ac1749fdd9fd69
 4. どちらも `SHA256SUMS.txt` が出力に含まれ、成果物一式のハッシュが揃っていることを
    確認してから `provenance/LEDGER.md` へ転記する。
 
+## 第一標的 n=21(裁定 210 工程 1-B・Sol 便 84 sec 6.2)
+
+標的選定は Sol 便 84 ⑥ の回答(優先順 (c) n=21 UNSAT calibration → (b) ℓ=17,n=25
+existence → (a) dl≥3 shadow witness)に従い、(c) を実装した。設計は
+`sol/sol_reply_84_math11.md` sec 6.2/6.5 準拠(節の丸写しでなく、以下の実装ファイル
+のドキュメント文字列内に一次設計根拠として引用している)。
+
+### 成果物
+
+- `encode_tail8_n21.py` — 探索器側。固定 u=(1..13)(14 15)(16 17)(18 19)(20 21) の
+  もとで、a を involution (matching 変数 X_ij=X_ji + 対角 D_i)、b=a·u⁻¹ を Tseitin
+  導出の 21×21 行列 B、b³=1・fixed-point-free で型 3⁷ を強制し、推移性は点 1 からの
+  bounded BFS (t=0..20 の reachability 変数 R、STEP Tseitin 変数)で符号化する。
+  2 本の DIMACS を出力: `out/tail8_n21_class.cnf`(class 制約のみ・SAT 期待、
+  672 変数・14806 節)と `out/tail8_n21_transitive.cnf`(+ 推移性・UNSAT 期待、
+  9723 変数・50128 節)。構造定数 4160 や C(u)-軌道は公理に入れない(外部 oracle)。
+  `--manifest-out` で `manifest_tail8_n21.json` を自己生成する(手打ち転記なし)。
+- `manifest_tail8_n21.json` — 上記 encoder が自分の内部状態から機械生成した証明書
+  マニフェスト(宇宙・固定 u・積順規約・変数族ごとの ID 範囲・制約グループごとの
+  節番号範囲・symmetry reduction の申告・encoder ソース SHA-256)。
+  `completeness 補題は別監査(未)` と明記(Sol 6.5 点 7)。
+- `check_model_n21.mjs` — 照合器側(node、**encoder を import しない**独立実装・
+  言語も分離)。kissat の `v ...` 行を読み、decode した a,b について
+  involution 型 2¹⁰1・b=u⁻¹(a(·)) の再計算・b³=1・fixed-point-free・型 3⁷・
+  (transitive モードのみ)点 1 からの独自 BFS 推移性、を全て**モデルの
+  B/E/STEP/R 変数を信用せず**再計算して検査する。`--self-test` で
+  `fixtures/witness_n21_nontransitive.json`(GAP の bounded random search で
+  機械抽出した実 witness、`scratchpad/extract_witness_n21.g` 由来、手写しなし)を
+  読み、class 制約は満たし・推移性は GAP 報告どおり false になることを較正する。
+- `mutants_n21.json` — Sol 6.5 の変異列挙(b=au⁻¹ 左右反転・u⁻¹ 落とし・
+  対角 exactly-one 落とし・b³=1/fpf 落とし・推移性丸ごと落とし・BFS depth 1-off・
+  settled 落とし=第三標的なので N/A)を、期待 SAT/UNSAT と根拠(PROVEN/REASONED/
+  UNKNOWN の確信度つき)・decoded 反例に期待する性質まで事前登録した。UNKNOWN の
+  行は「ソルバー結果が出ても単独では信用しない・小規模オラクルで裏取りが要る」と
+  明記してある。
+- `fixtures/witness_n21_nontransitive.json` — 上記較正専用の GAP 機械抽出 witness
+  (悉皆census である `tail8_exact.g` の代替にはならない。5 軌道代表の 1 個ではなく、
+  bounded random search で独立に見つけた 1 個で、たまたま同じ軌道分割 [6,15] を
+  持つことを確認した — この一致自体が非独立な `tail8_exact.g` 依存ではないことの
+  傍証)。
+
+### ローカル煙試験で確認したこと(kissat 実行なし・CI 側で実施)
+
+```
+python search/sat/encode_tail8_n21.py --manifest-out search/sat/manifest_tail8_n21.json
+  -> class_cnf:      672 vars, 14806 clauses
+  -> transitive_cnf: 9723 vars, 50128 clauses
+  (manifest の各 clause group start/end と一致)
+
+node search/sat/check_model_n21.mjs --self-test
+  -> pass:true (witness fixture を class 制約 OK・推移性 false=GAP 報告と一致
+     と判定)
+```
+
+さらに、encoder が実際に書き出した DIMACS ファイル(生成されたコード経由ではなく
+ファイルそのもの)を、fixture から独立に構築した割当てで評価する追加スクリプトを
+scratchpad に置いて実行した(node、encoder 非 import):
+
+- `tail8_n21_class.cnf` 全 14806 節 → 0 節違反(fixture が真に生成 CNF#1 を
+  充足することを確認)。
+- `tail8_n21_transitive.cnf` 全 50128 節 → 違反はちょうど 6 節、かつ
+  transitivity goal 節群(節番号 50108-50128 のうち末尾 6 本)に一致し、
+  独立 BFS が報告する未到達点 [16,17,18,19,20,21] と 1 対 1 対応した。
+  推移性以外の 50122 節は honest な割当てで全て充足 — class+BFS の配線が
+  ソルバーを一切呼ばずに整合していることの強い状況証拠。
+
+kissat/drat-trim のローカル実行は RAM 8GB 制約により行っていない(CI で実施)。
+
+## workflow 硬化(2026-07-29)
+
+`.github/workflows/sat-run.yml` を Sol 便 84 sec 6.5 点 1-3 に従い改修した:
+
+1. kissat / drat-trim / actions/checkout / actions/upload-artifact を tag でなく
+   commit SHA に pin(2026-07-29 時点の各 `master`/`v4` HEAD)。
+2. 新規 `run_label` 入力(`calibration` / `theorem`)。`theorem` を選ぶと
+   `cnf_sha256` 空欄で fail-fast する検証ステップを追加(理論的主張に使う run は
+   改竄検知ゲートを迂回できない)。
+3. `cnf_path` / `out_dir` / `solver_args` を allowlist 正規表現で検証したうえで
+   bash 配列(`read -ra`)経由で kissat に渡すよう変更 — 自由な shell 展開・
+   コマンド注入・パス脱出を防ぐ。
+
+未着手(Sol 6.5 点 4): drat-trim 自身とは別の独立 LRAT checker で証明を再読する
+工程はまだ配線していない。
+
 ## 未着手(次段)
 
-- encoder(F2 三条件/巡回型制約 → DIMACS CNF)。標的選定は Sol 便 84 ⑥ 待ち。
-- encoder 完成後: 独立照合器(node/python、encoder 非 import)の実装。
-- kissat/drat-trim バイナリのキャッシュ化(現状は毎回ソース clone + ビルド。ES7 と
-  同じ流儀を踏襲しているだけで、高速化が必要になったら別途相談)。
+- 標的 (b) ℓ=17,n=25 existence: 同じ encoder family を 2-transitive BFS へ
+  parameter 変更するだけで済む(Sol 6.3)。
+- 標的 (a) dl≥3 shadow witness: settled/well-definedness・(3.53) composition・
+  二重交換子非自明性を含む別世代の encoder が必要(Sol 6.4)。着手していない。
+- kissat/drat-trim バイナリのキャッシュ化(現状は毎回ソース clone + ビルド)。
+- drat-trim とは独立な LRAT checker(Sol 6.5 点 4)。
+- completeness 方向(数学 witness ⇒ CNF assignment)の紙上補題の別監査
+  (manifest に「未」と明記済み・数学者担当)。

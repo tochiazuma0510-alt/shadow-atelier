@@ -1,0 +1,14 @@
+{
+  "_purpose": "SAT-checker self-test fixture ONLY. NOT a ledger claim, NOT part of the 4160-solution census (that remains search/probe/wac_v1/tail8_exact.g / wac_tail8_v1.md, single-lane GAP theorem-candidate). This single (a,b) pair was extracted by a bounded random search (scratchpad/extract_witness_n21.g, budget 5,000,000 tries, hit at try=2083734) mirroring tail8_exact.g's generation step, machine-printed by GAP, and copied verbatim (not hand-derived) into this file. It satisfies the CNF#1 class-only constraints (a in 2^10 1, b=a*u^-1 in 3^7) and is NOT transitive (orbits [6,15], matching the 5 known C(u)-orbit representatives reported in sol/sol_reply_84_math11.md F84-3.1). Used to calibrate check_model_n21.mjs: it must ACCEPT this as a valid CNF#1 model and must REPORT non-transitivity if asked to check the transitivity goal.",
+  "n": 21,
+  "u_cycle_notation": "(1,2,3,4,5,6,7,8,9,10,11,12,13)(14,15)(16,17)(18,19)(20,21)",
+  "u_images_1indexed": [2,3,4,5,6,7,8,9,10,11,12,13,1,15,14,17,16,19,18,21,20],
+  "uinv_images_1indexed": [13,1,2,3,4,5,6,7,8,9,10,11,12,15,14,17,16,19,18,21,20],
+  "a_images_1indexed": [15,8,6,11,12,3,7,2,14,13,4,5,10,9,1,21,19,20,17,18,16],
+  "b_images_1indexed": [14,7,5,10,11,2,6,1,15,12,3,4,9,8,13,20,18,21,16,19,17],
+  "gap_reported_orbits": [6, 15],
+  "gap_reported_transitive": false,
+  "gap_source_script": "scratchpad/extract_witness_n21.g",
+  "gap_try_index": 2083734,
+  "gap_search_budget": 5000000
+}

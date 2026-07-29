@@ -3,29 +3,47 @@
 # 流儀を踏襲 — kissat で解いて DRAT を出し、UNSAT なら drat-trim で独立検証してから
 # core/LRAT を保存する。SAT なら model を保存する。
 #
-# encoder はまだ配線しない(標的選定は Sol 便待ち)。今回は「CNF を渡せば証明書一式が
-# 出てくる」器のみ。cnf_sha256 を渡せば改竄・取り違えゲートとして機能する(ES7 と同じ
-# 作法)。入力は既存 gap-run.yml の script/preamble/out_dir/timeout_min に合わせた形。
+# 2026-07-29 硬化(裁定 210 工程 1-B・Sol 便 84 sec 6.5 点 1-3 に従う):
+#   1. kissat / drat-trim / actions を tag でなく commit SHA に pin。
+#   2. run_label=theorem のときは cnf_sha256 を必須にする(空なら fail-fast)。
+#      calibration run(標定・自己校正目的、n=21 のような既知比較対象がある実行)は
+#      引き続き cnf_sha256 省略を許すが、その場合ジョブサマリに明示ラベルを残す。
+#   3. solver_args / cnf_path / out_dir の自由 shell 展開をやめ、文字クラス
+#      allowlist で検証したうえで配列引数として kissat に渡す(shell injection・
+#      パス脱出の防止)。
+#
+# 未着手(Sol 6.5 点 4-7、このパッチの対象外): drat-trim が生成した LRAT を、
+# drat-trim 自身とは別の独立 LRAT checker で読む工程。encoder manifest・
+# import しない model checker・completeness 補題の別監査明記は
+# search/sat/manifest_tail8_n21.json / search/sat/check_model_n21.mjs 側で対応済み。
 name: sat-run
 on:
   workflow_dispatch:
     inputs:
       cnf_path:
-        description: "CNF path (repo-relative, DIMACS .cnf or gzip .cnf.gz)"
+        description: "CNF path (repo-relative, DIMACS .cnf or gzip .cnf.gz). Must match [A-Za-z0-9_./-]+\\.(cnf|cnf.gz), no leading '/', no '..'."
         required: true
         type: string
       cnf_sha256:
-        description: "Expected SHA-256 of the (decompressed) CNF; empty = skip gate"
+        description: "Expected SHA-256 of the (decompressed) CNF. Required when run_label=theorem; optional (but recorded) for run_label=calibration."
         required: false
         type: string
         default: ""
+      run_label:
+        description: "calibration = self-check / known-comparison run (cnf_sha256 optional). theorem = a run whose verdict may be cited as a result (cnf_sha256 REQUIRED, job fails fast otherwise)."
+        required: true
+        type: choice
+        options:
+          - calibration
+          - theorem
+        default: calibration
       solver_args:
-        description: "Extra kissat CLI args (space-separated, appended after the CNF path)"
+        description: "Extra kissat CLI args, space-separated. Allowlisted charset only: [A-Za-z0-9=_.:-]. Anything else (quotes, $, backticks, ;, |, &, etc.) is rejected before the solver ever runs."
         required: false
         type: string
         default: ""
       out_dir:
-        description: "Artifact directory to collect (repo-relative, need not exist)"
+        description: "Artifact directory to collect (repo-relative, need not exist). Must match [A-Za-z0-9_./-]+, no leading '/', no '..'."
         required: false
         type: string
         default: "search/sat/out"
@@ -40,22 +58,83 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: ${{ fromJSON(inputs.timeout_min) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 (pinned 2026-07-29)
 
-      - name: Build kissat and drat-trim
+      - name: Validate inputs (allowlist gate; no free-form shell interpolation past this point)
+        id: validate
         run: |
           set -euo pipefail
-          git clone --depth 1 https://github.com/arminbiere/kissat.git tools-kissat
-          cd tools-kissat && ./configure && make -j2 && cd ..
-          git clone --depth 1 https://github.com/marijnheule/drat-trim.git tools-drat
-          cd tools-drat && make && cd ..
+
+          CNF_PATH="${{ inputs.cnf_path }}"
+          OUT_DIR="${{ inputs.out_dir }}"
+          SOLVER_ARGS="${{ inputs.solver_args }}"
+          RUN_LABEL="${{ inputs.run_label }}"
+          CNF_SHA="${{ inputs.cnf_sha256 }}"
+
+          fail() { echo "VALIDATION FAILED: $1" >&2; exit 1; }
+
+          # --- cnf_path: relative, .cnf or .cnf.gz, safe charset, no traversal ---
+          case "$CNF_PATH" in
+            /*) fail "cnf_path must be repo-relative (no leading /): $CNF_PATH" ;;
+          esac
+          case "$CNF_PATH" in
+            *..*) fail "cnf_path must not contain '..': $CNF_PATH" ;;
+          esac
+          if ! [[ "$CNF_PATH" =~ ^[A-Za-z0-9_./-]+\.(cnf|cnf\.gz)$ ]]; then
+            fail "cnf_path has disallowed characters or extension: $CNF_PATH"
+          fi
+
+          # --- out_dir: relative, safe charset, no traversal ---
+          case "$OUT_DIR" in
+            /*) fail "out_dir must be repo-relative (no leading /): $OUT_DIR" ;;
+          esac
+          case "$OUT_DIR" in
+            *..*) fail "out_dir must not contain '..': $OUT_DIR" ;;
+          esac
+          if ! [[ "$OUT_DIR" =~ ^[A-Za-z0-9_./-]+$ ]]; then
+            fail "out_dir has disallowed characters: $OUT_DIR"
+          fi
+
+          # --- solver_args: allowlisted charset, no shell metacharacters ---
+          if [ -n "$SOLVER_ARGS" ]; then
+            if ! [[ "$SOLVER_ARGS" =~ ^[A-Za-z0-9=_.:\ -]+$ ]]; then
+              fail "solver_args has disallowed characters (only [A-Za-z0-9=_.:-] and spaces permitted): $SOLVER_ARGS"
+            fi
+          fi
+
+          # --- theorem run must carry an integrity hash ---
+          if [ "$RUN_LABEL" = "theorem" ] && [ -z "$CNF_SHA" ]; then
+            fail "run_label=theorem requires a non-empty cnf_sha256 (Sol 84 sec 6.5 point 2). Use run_label=calibration for exploratory/self-check runs."
+          fi
+
+          echo "cnf_path=$CNF_PATH" >> "$GITHUB_OUTPUT"
+          echo "out_dir=$OUT_DIR" >> "$GITHUB_OUTPUT"
+          echo "run_label=$RUN_LABEL" >> "$GITHUB_OUTPUT"
+          echo "validation passed: cnf_path, out_dir, solver_args charset OK; run_label/cnf_sha256 gate OK"
+
+      - name: Build kissat and drat-trim (pinned commits)
+        run: |
+          set -euo pipefail
+          # kissat @ arminbiere/kissat, commit resolved 2026-07-29 from `master` HEAD.
+          KISSAT_SHA=8af8e56f174b778aef3aa45af9f739b2a5f492c2
+          # drat-trim @ marijnheule/drat-trim, commit resolved 2026-07-29 from `master` HEAD.
+          DRAT_SHA=2e3b2dc0ecf938addbd779d42877b6ed69d9a985
+
+          git clone https://github.com/arminbiere/kissat.git tools-kissat
+          git -C tools-kissat checkout "$KISSAT_SHA"
+          ( cd tools-kissat && ./configure && make -j2 )
+
+          git clone https://github.com/marijnheule/drat-trim.git tools-drat
+          git -C tools-drat checkout "$DRAT_SHA"
+          ( cd tools-drat && make )
+
           tools-kissat/build/kissat --version
 
       - name: Resolve and verify CNF
         run: |
           set -euo pipefail
           mkdir -p ci/out
-          SRC="${{ inputs.cnf_path }}"
+          SRC="${{ steps.validate.outputs.cnf_path }}"
           if [[ "$SRC" == *.gz ]]; then
             gunzip -c "$SRC" > ci/out/problem.cnf
           else
@@ -65,16 +144,21 @@ jobs:
           if [ -n "$EXPECT" ]; then
             echo "$EXPECT  ci/out/problem.cnf" | sha256sum -c -
           else
-            echo "cnf_sha256 not supplied — skipping integrity gate (record the printed hash below manually)"
+            echo "cnf_sha256 not supplied — run_label=${{ steps.validate.outputs.run_label }}, integrity gate skipped (calibration-only path; record the printed hash below manually before citing this as a theorem run)"
           fi
           sha256sum ci/out/problem.cnf
           head -n 1 ci/out/problem.cnf
+          echo "run_label=${{ steps.validate.outputs.run_label }}" > ci/out/run_label.txt
 
-      - name: Run kissat with DRAT proof
+      - name: Run kissat with DRAT proof (array-argument invocation, no shell interpolation of user input)
         id: solve
         run: |
           set +e
-          /usr/bin/time -v tools-kissat/build/kissat ci/out/problem.cnf ci/out/proof.drat --no-binary ${{ inputs.solver_args }} \
+          # Split the allowlisted solver_args string into a bash array (word
+          # splitting only, no glob/command substitution risk since the
+          # charset was validated to exclude $ ` ; | & ( ) etc.)
+          read -ra SOLVER_ARGV <<< "${{ inputs.solver_args }}"
+          /usr/bin/time -v tools-kissat/build/kissat ci/out/problem.cnf ci/out/proof.drat --no-binary "${SOLVER_ARGV[@]}" \
             > ci/out/kissat_out.txt 2> ci/out/kissat_time.txt
           code=$?
           set -e
@@ -120,13 +204,13 @@ jobs:
       - name: Stage into out_dir
         run: |
           set -euo pipefail
-          mkdir -p "${{ inputs.out_dir }}"
-          cp ci/out/* "${{ inputs.out_dir }}/" 2>/dev/null || true
+          mkdir -p "${{ steps.validate.outputs.out_dir }}"
+          cp ci/out/* "${{ steps.validate.outputs.out_dir }}/" 2>/dev/null || true
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4 (pinned 2026-07-29)
         with:
           name: sat-run-out
           path: |
-            ${{ inputs.out_dir }}/
+            ${{ steps.validate.outputs.out_dir }}/
             ci/out/
           if-no-files-found: warn

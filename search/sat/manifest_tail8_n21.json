@@ -1,0 +1,264 @@
+{
+  "schema": "shadow-atelier/sat-encoder-manifest/v1",
+  "target": "W-D-A21-13t8 n=21 tail-8 SAT calibration (裁定 210 工程 1-B, sol/sol_reply_84_math11.md sec 6.2)",
+  "encoder_source": "search/sat/encode_tail8_n21.py",
+  "encoder_source_sha256": "ec77e287c7779944a2c1e8a516ff0ee03796c26fa136f5cd84b43b71ad26748d",
+  "universe": {
+    "n": 21,
+    "points": "1..21 (1-indexed, matches GAP convention throughout search/probe/wac_v1/tail8*.g)"
+  },
+  "fixed_u": {
+    "cycle_notation": "(1,2,3,4,5,6,7,8,9,10,11,12,13)(14,15)(16,17)(18,19)(20,21)",
+    "images_1indexed": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      1,
+      15,
+      14,
+      17,
+      16,
+      19,
+      18,
+      21,
+      20
+    ],
+    "inverse_images_1indexed": [
+      13,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      15,
+      14,
+      17,
+      16,
+      19,
+      18,
+      21,
+      20
+    ],
+    "note": "u is a fixed constant, not a CNF variable (sealed symbol, same representative as search/probe/wac_v1/tail8_exact.g)."
+  },
+  "product_order_convention": {
+    "statement": "b := a * u^-1 under GAP's right-action convention: i^(a*u^-1) = (i^a)^u^-1, i.e. apply a first, then u^-1. Equivalently b(i) = u^-1(a(i)).",
+    "cross_checked_against": "search/sat/fixtures/witness_n21_nontransitive.json (machine-extracted GAP witness; encoder asserts this at import time unless --skip-fixture-check is passed)"
+  },
+  "target_classes": {
+    "a": "involution, cycle type 2^10 1 (10 disjoint transpositions, 1 fixed point)",
+    "b": "cycle type 3^7 (b = a*u^-1, b^3=1, fixed-point-free)",
+    "a21_generation_not_encoded": "generation of A_21 by <a,b> is NOT a CNF axiom; Sol 6.2 notes A_21-generation implies transitivity, so UNSAT of the strictly weaker transitivity requirement already proves 'no A_21-generating solution'.",
+    "oracle_not_encoded": "structure constant 4160 and the C(u)-orbit census (search/probe/wac_v1/tail8_exact.g, wac_tail8_v1.md) are external oracles, used only to interpret CNF#1 SAT models after decoding -- never CNF axioms."
+  },
+  "variable_families": {
+    "class_cnf": {
+      "total_vars": 672,
+      "families": [
+        {
+          "name": "X[i][j]",
+          "meaning": "a swaps i and j (i<j, involution transposition variable; A_ij=A_ji per Sol 6.2, encoded as a single shared boolean rather than two)",
+          "ids": [
+            1,
+            210
+          ],
+          "count": 210,
+          "index_order": "row-major over 1<=i<j<=21"
+        },
+        {
+          "name": "D[i]",
+          "meaning": "a fixes i",
+          "ids": [
+            211,
+            231
+          ],
+          "count": 21,
+          "index_order": "i=1..21"
+        },
+        {
+          "name": "B[i][k]",
+          "meaning": "b(i)=k (Tseitin-derived from X/D via fixed u)",
+          "ids": [
+            232,
+            672
+          ],
+          "count": 441,
+          "index_order": "i outer 1..21, k inner 1..21, id = B_BASE + (i-1)*21 + k"
+        }
+      ]
+    },
+    "transitive_cnf_additional": {
+      "total_additional_vars": 9051,
+      "families": [
+        {
+          "name": "E[i][j]",
+          "meaning": "i,j Cayley-graph-adjacent via {a,b,b^-1} (i<j, symmetric by construction)",
+          "ids": [
+            673,
+            882
+          ],
+          "count": 210,
+          "index_order": "row-major over 1<=i<j<=21"
+        },
+        {
+          "name": "STEP[t][w][v]",
+          "meaning": "Tseitin AND-gate: E[w,v] & R[t-1][w] (w!=v, t=1..20)",
+          "ids": [
+            883,
+            9282
+          ],
+          "count": 8400,
+          "index_order": "t outer (1..20), then ordered pairs (w,v), w!=v, row-major, 420 per t"
+        },
+        {
+          "name": "R[t][v]",
+          "meaning": "v reached from point 1 within t BFS steps (t=0..20)",
+          "ids": [
+            9283,
+            9723
+          ],
+          "count": 441,
+          "index_order": "t outer (0..20), v inner (1..21), id = R_BASE + t*21 + v"
+        }
+      ]
+    }
+  },
+  "clause_groups": {
+    "class_cnf": [
+      {
+        "name": "a_row_exactly_one",
+        "start": 1,
+        "end": 4431,
+        "count": 4431
+      },
+      {
+        "name": "a_diagonal_exactly_one_fixed_point",
+        "start": 4432,
+        "end": 4642,
+        "count": 211
+      },
+      {
+        "name": "b_definition_tseitin",
+        "start": 4643,
+        "end": 5524,
+        "count": 882
+      },
+      {
+        "name": "b_cubed_equals_identity",
+        "start": 5525,
+        "end": 14785,
+        "count": 9261
+      },
+      {
+        "name": "b_fixed_point_free",
+        "start": 14786,
+        "end": 14806,
+        "count": 21
+      }
+    ],
+    "transitive_cnf": [
+      {
+        "name": "a_row_exactly_one",
+        "start": 1,
+        "end": 4431,
+        "count": 4431
+      },
+      {
+        "name": "a_diagonal_exactly_one_fixed_point",
+        "start": 4432,
+        "end": 4642,
+        "count": 211
+      },
+      {
+        "name": "b_definition_tseitin",
+        "start": 4643,
+        "end": 5524,
+        "count": 882
+      },
+      {
+        "name": "b_cubed_equals_identity",
+        "start": 5525,
+        "end": 14785,
+        "count": 9261
+      },
+      {
+        "name": "b_fixed_point_free",
+        "start": 14786,
+        "end": 14806,
+        "count": 21
+      },
+      {
+        "name": "cayley_edge_definition",
+        "start": 14807,
+        "end": 15646,
+        "count": 840
+      },
+      {
+        "name": "reachability_base_case_t0",
+        "start": 15647,
+        "end": 15667,
+        "count": 21
+      },
+      {
+        "name": "bfs_step_definition",
+        "start": 15668,
+        "end": 40867,
+        "count": 25200
+      },
+      {
+        "name": "reachability_step_recurrence",
+        "start": 40868,
+        "end": 50107,
+        "count": 9240
+      },
+      {
+        "name": "transitivity_goal_all_reached_by_t20",
+        "start": 50108,
+        "end": 50128,
+        "count": 21
+      }
+    ]
+  },
+  "cnf_files": {
+    "class": {
+      "path": "search/sat/out/tail8_n21_class.cnf",
+      "num_vars": 672,
+      "num_clauses": 14806,
+      "sha256": "6b5df42974877b91de8317d4285d89b3517461d9ae1dc2da36cc00623dc40a33",
+      "expected_verdict": "SAT",
+      "expected_model_property": "decodes to one of the 4160 known class-only solutions (external oracle: search/probe/wac_v1/tail8_exact.g); transitivity is NOT required and the decoded model is expected to be non-transitive (all 5 known C(u)-orbit representatives have orbit partition [6,15] per sol/sol_reply_84_math11.md F84-3.1)."
+    },
+    "transitive": {
+      "path": "search/sat/out/tail8_n21_transitive.cnf",
+      "num_vars": 9723,
+      "num_clauses": 50128,
+      "sha256": "02fcc56722880ccba8c6dcf83c80886b009d3b0f454d0d44a0c96874eba17113",
+      "expected_verdict": "UNSAT",
+      "theorem_reading": "no (a,b) with a in 2^10 1, b=a*u^-1 in 3^7 generates a transitive subgroup of S_21 for this fixed u; since A_21-generation implies transitivity, this also rules out A_21-generation (W-D-A21-13t8 negative result, Sol F84-3.1 theorem-candidate)."
+    }
+  },
+  "symmetry_reduction": {
+    "applied": "u is fixed to a single explicit conjugacy representative (same representative as tail8_exact.g); no further row/column symmetry breaking (e.g. lexicographic leader clauses on X) is applied. C(u)-orbit symmetry (the centralizer action used by tail8_exact.g to enumerate 5 orbits instead of 4160 individual permutations) is NOT encoded as CNF symmetry-breaking clauses -- it remains purely in the external GAP oracle.",
+    "rationale": "Sol 6.2 does not request in-CNF symmetry breaking for this target; adding it would need a separate soundness argument (a symmetry-breaking predicate must not remove genuine models) that has not been done here. Left for a follow-up if solver runtime demands it."
+  },
+  "audit_status": {
+    "soundness_direction_of_encoding": "checked informally in this file's docstring and via search/sat/check_model_n21.mjs (independent, non-importing re-derivation of a, b, and reachability from a decoded SAT model).",
+    "completeness_direction": "NOT AUDITED HERE. The completeness lemma ('a genuine mathematical witness always induces a satisfying CNF assignment') is a paper-audit item per Sol 6.5 point 7, assigned to the mathematician role, not this encoder or its checker. Do not treat a CNF#2 UNSAT result as a verified non-existence claim until that lemma is written down and reviewed."
+  }
+}
