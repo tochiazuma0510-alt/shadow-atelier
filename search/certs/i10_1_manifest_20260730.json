@@ -1,0 +1,10 @@
+{
+  "generated_by": "search/strike-i10-1.g",
+  "note": "I10-1 driver manifest -- 2 windows per search/_i10_1_driver_spec.md. Raw measurement summary only.",
+  "smoke_test": false,
+  "windows_processed": 2,
+  "windows": [
+    {"id":"W-E-A10-5x2t0","outfile":"search/certs/i10_1_W_E_A10_5x2t0_20260730.json","canonical_id_sha256":"5848b4bffe7878f048a34379cd4042d1efbed1df6596aa0b5106694f46589df4","stage1_all_pass":true,"calibration_gate_pass":true,"cert_sha256":"64072773c455d09465108edd8736d3922fd83c63dfb13eda27cf27986f549a66"},
+    {"id":"W-E-A15-5x3t0","outfile":"search/certs/i10_1_W_E_A15_5x3t0_20260730.json","canonical_id_sha256":"47d73376614720d4cc4b14bdbbc83ef77ba984b71bd2100fcaf9709f59fe26f0","stage1_all_pass":true,"calibration_gate_pass":true,"cert_sha256":"b01b3ab53cb851235e80bc5220866ae90cc228ad955b13b2f59131c6e4c37c9b"}
+  ]
+}
