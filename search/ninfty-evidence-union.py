@@ -3,9 +3,9 @@
 """
 search/ninfty-evidence-union.py
 
-evidence-union/fail-closed-v2 (追補(o) v3.1,
-docs/notes/cert_shape_interpretation_addendum_o_v3.md; sharpened by Sol
-F83-2.1/2.2/2.3 -> N83-2.3 -> sol/裁定_192_便83検収.md, sol/sol_reply_83_math10.md).
+evidence-union/fail-closed-v2 (追補(o) v5,
+docs/notes/cert_shape_interpretation_addendum_o_v5.md; trust-boundary
+repair per Sol F85-6.3 B85-o1..o4 / P85-5 -> sol/sol_reply_85_math12.md).
 A GENERAL two-route composition function -- NOT W-6-specific (P80-D/P81-E:
 "複数証明経路の共通規則") -- for combining two independent evidence routes
 (R1 = recomputation route, R2 = witness-coverage route) into ONE overall
@@ -22,82 +22,113 @@ flips the outcome. The fix is architectural, not a patch: DISPATCH (which
 Python object/constructor was actually invoked) fixes route_id and
 route_status, never a self-declared field inside the evidence blob.
 
-  - A `RouteResult` is a dict built ONLY via the four constructors below
-    (route_result_pass/fail/absent/malformed), each of which independently
-    validates ITS OWN required fields and raises internally (never
-    silently accepting a bad shape) if the invariants are not met -- there
-    is no path from "arbitrary producer blob" directly to a route_status
-    without going through code that ALREADY decided which status applies.
-  - `coerce_to_route_result(obj)` re-validates an ALREADY-BUILT (or
-    foreign/untrusted) RouteResult-shaped value at the combinator's own
-    entry point (defense in depth, per N83-2.3: "combinator は
-    RouteResult の constructor/private validation を通った値だけを受ける
-    か、入口で同じ invariant を再検査する") -- a non-object, a missing/
-    unrecognized route_status, or CO-PRESENT fields belonging to a
-    DIFFERENT status's shape (F83-2.2: "status-specific shape の併存") are
-    ALL MALFORMED, never silently resolved to ABSENT (F83-2.2's "非 object
-    blob が ABSENT" bug is closed here: only `None` is ABSENT; any other
-    non-RouteResult-shaped value is MALFORMED).
-  - `compose_route_statuses` (the crisp, Sol-confirmed-PASS 4-rule core,
-    N83-2.1) is UNCHANGED in its rule structure, but now ALSO defends
-    itself at the low level (F83-2.2's "低水準 API でも
-    compose_route_statuses(PASS, None, PASS, None) -> PASS" gap): a
-    PASS/FAIL status paired with a digest that is not exact 64-hex is
-    ITSELF escalated to INTEGRITY_STOP, even when this function is called
-    directly (bypassing coerce_to_route_result).
-  - PASS now REQUIRES `expected_domain_count`/`expected_domain_digest` as
-    part of the RouteResult's OWN shape (not optional caller arguments
-    threaded in after the fact, F83-2.1's core finding) -- the PASS
-    constructor validates `expected_domain_count == checked_domain_count`
-    and `expected_domain_digest == coverage_digest` ITSELF; a route-
-    specific verifier that cannot establish these equalities must call
-    route_result_fail(...) (if it has genuine counterexample evidence) or
-    route_result_absent(...)/route_result_malformed(...) instead -- it must
-    never call route_result_pass(...) with mismatched counts/digests
-    hoping the constructor will paper over it (it will raise instead,
-    surfacing as a MALFORMED-shaped result via the fail-closed wrapper).
-
 Sol 便84 P84-5.4 HARDENING (docs/notes/cert_shape_interpretation_addendum_o_v4.md,
-sol/sol_reply_84_math11.md F84-5.4): the nominal gate that used to be open --
-`coerce_to_route_result` checked `route_status` and status-specific fields
-but NEVER `schema_id`/`route_id` -- is now closed:
-  1. `schema_id` must equal SCHEMA_ID exactly (missing, or e.g. "evil/v9",
-     is MALFORMED).
-  2. the combinator's first argument slot must carry route_id="R1", the
-     second must carry route_id="R2" (slot-bound, not just "any two
-     distinct strings").
-  3. `route_id` is enum-restricted to {"R1","R2"} at the CONSTRUCTOR level
-     too (`_route_header` / VALID_ROUTE_IDS) -- `route_result_pass(
-     "producer-choice", ...)` now refuses and falls back to MALFORMED.
-  4. any field not part of the current status's own shape is rejected
-     (subsumes the old cross-status co-presence check and additionally
-     catches wholly invented field names).
-  5. `route_from_verifier_b_w6` populates `claim_source_ref`/`evidence_refs`
-     from the raw (status,detail) it was handed, recomputing the digest
-     fresh each call, rather than leaving them at the constructors' `None`
-     default.
-  6. `evidence_union_fail_closed_v2` is the ONLY public combination entry
-     point (used by both the CLI and any in-process caller) and it ALWAYS
-     re-validates through the hardened `coerce_to_route_result` -- there is
-     no path that accepts a raw producer JSON blob as an already-valid
-     RouteResult.
+sol/sol_reply_84_math11.md F84-5.4): closed the RouteResult NOMINAL gate
+(schema_id/route_id/slot binding/unknown fields), summarized in the
+RouteResult constructors and `coerce_to_route_result` below.
 
-SCOPE NOTE -- W-6 armature (unchanged from v3.1's task boundary):
-`route_from_verifier_b_w6` adapts ninfty-verifier-b.py's
-verify_W6_single(...) output into a RouteResult via the constructors
-above, but remains an ARMATURE/PLACEHOLDER (per F83-2.3: this is NOT
-"proof of real EP wiring") -- claim_digest/evidence_digest/
-expected_domain_count are still derived from the detail dict itself
-(sha256_of(detail)) or a hardcoded placeholder count, not from the actual
-native/map digests. Full EP v7 wiring (binding these to genuine per-side
+Sol 便85 P85-5 TRUST-BOUNDARY REPAIR (docs/notes/
+cert_shape_interpretation_addendum_o_v5.md, sol/sol_reply_85_math12.md
+F85-6.3 -- B85-o1..o4): 便84's nominal-gate hardening made a RouteResult's
+SHAPE strict, but Sol's F85-6.3 probe showed that **shape is not
+provenance**: a producer who knows the (now-strict) shape can still hand
+the combinator a self-asserted, valid-shape "PASS" that was never actually
+produced by a route-specific verifier. Four blockers, four fixes, all
+below:
+
+  B85-o1 (raw producer self-asserted PASS reaches PASS): the OLD `main()`
+    read an already-built `{route1, route2}` RouteResult pair straight
+    from JSON and fed it to the combinator -- there was NO code path that
+    forced a route-specific verifier to actually run. FIX: the public
+    entry point (`evidence_union_from_raw_w6`, and the CLI `main()` that
+    calls it) now accepts ONLY a RAW evidence artifact
+    (`{schema_id=RAW_W6_EVIDENCE_SCHEMA_ID, certificate, native_a,
+    native_b}`) -- never a pre-built RouteResult. The receiver-side
+    dispatch inside `_build_R1`/`_build_R2` is FIXED: it ALWAYS calls
+    `ninfty-verifier-b.verify_W6_single` itself, on this raw evidence,
+    independently of anything a caller might separately claim the
+    verifier already said.
+
+  B85-o2 (provenance refs not required/re-verified): `claim_source_ref`/
+    `evidence_refs` used to be optional (constructor default `None`) and
+    were never checked by `coerce_to_route_result` beyond "is this key
+    present at all". FIX: both fields are now REQUIRED, non-null,
+    STRUCTURED ({"source": <str>, "digest": <64-hex>}, evidence_refs a
+    non-empty list of such objects) at the constructor AND at
+    `coerce_to_route_result` (missing/None/ill-shaped -> MALFORMED). And,
+    critically, self-reported shape is still not provenance BY ITSELF:
+    `evidence_union_from_raw_w6` independently recomputes the digest of
+    the raw evidence it was actually given and requires every ref's
+    `digest` to equal that RECEIVER-recomputed value
+    (`_cross_check_refs_against_raw`) -- a route whose refs merely LOOK
+    well-shaped but do not resolve to the raw evidence in hand is
+    downgraded to MALFORMED, never accepted on self-report alone.
+
+  B85-o3 (status enum fall-through in the W-6 adapter): the OLD
+    `route_from_verifier_b_w6` checked ABSENT and MALFORMED explicitly,
+    then FAIL, then fell through an unconditional `else` treated as PASS
+    -- so `route_from_verifier_b_w6("BOGUS", ..., "R2").route_status` was
+    PASS. FIX: the four recognized statuses (ABSENT/MALFORMED/FAIL/PASS)
+    are now an EXHAUSTIVE if/elif chain, and anything else (any
+    unrecognized string) falls to an explicit final branch that returns
+    MALFORMED -- there is no implicit "everything else is PASS" branch
+    left anywhere in this file.
+
+  B85-o4 (connector is armature/placeholder -- placeholder counts):
+    `route_from_verifier_b_w6`'s PASS branch used to hardcode
+    `expected_domain_count=checked_domain_count=1` and reuse
+    `sha256_of(detail)` for every digest field, none of which reflected a
+    real domain. FIX: the PASS domain claim is now grounded in a REAL
+    structural fact this file can actually establish without inventing
+    anything -- W-6's own two-lane contract (`W6_DOMAIN_LANES = ("checker",
+    "searcher")`, mirroring ninfty-verifier-b.py's NATIVE_SIDE_VALUES):
+    `expected_domain_count=2` (both lanes MUST be checked per the W-6
+    contract), `checked_domain_count=2` only when `verify_W6_single`
+    actually resolved and compared BOTH lanes (i.e. reached a genuine
+    PASS/FAIL verdict, not an ABSENT/MALFORMED short-circuit for either
+    lane), `expected_domain_digest=coverage_digest=sha256_of(sorted(
+    W6_DOMAIN_LANES))`. This remains an ARMATURE for genuine
+    route-INDEPENDENCE (see `_build_R2`'s docstring): this codebase wires
+    only ONE actual W-6 verifier (`verify_W6_single`), so R2 is still
+    derived from the SAME receiver-invoked recomputation as R1, not a
+    second, differently-implemented coverage check -- that second
+    verifier does not exist yet and is UNKNOWN/not fabricated here (Sol
+    便85 P85-5 item 5's "できない部分は UNKNOWN 申告で残し「発効対象外」
+    と明記 -- 発明しない"). Full EP v7 wiring (binding these to genuine
+    per-side point/component data beyond the two-lane structural fact) is
+    still explicitly deferred.
+
+  P85-5 item 7 (module-private constructors): the four
+    `route_result_*` constructors are renamed `_route_result_*`
+    (leading underscore, Python's "not part of the public API"
+    convention) -- the only PUBLIC trust-boundary entry point this module
+    exposes for untrusted input (CLI or in-process) is
+    `evidence_union_from_raw_w6(raw)`, which never accepts an
+    already-built RouteResult as its top-level argument.
+
+  `compose_route_statuses` (the crisp, Sol-confirmed-PASS 4-rule core,
+  N83-2.1) is UNCHANGED in its rule structure.
+
+SCOPE NOTE -- W-6 armature (unchanged from v3.1/v4's task boundary):
+`_build_R1`/`_build_R2` adapt ninfty-verifier-b.py's verify_W6_single(...)
+output into a RouteResult -- but remain an ARMATURE/PLACEHOLDER (per
+F83-2.3: this is NOT "proof of real EP wiring") in the sense that both
+routes still recompute the SAME underlying pushforward-equality check;
+genuine two-implementation independence for W-6 specifically is UNKNOWN
+(not implemented). Full EP v7 wiring (binding these to genuine per-side
 point/component data) is explicitly deferred to a later, separate step.
 
-runtime = python (stdlib only: hashlib, json, re, sys, argparse).
+runtime = python (stdlib only: hashlib, importlib, json, os, re, sys,
+argparse -- the dynamic import of ninfty-verifier-b.py uses
+importlib.util, same technique search/test_ninfty_evidence_union.py
+already used to load hyphenated-filename modules).
 """
 from __future__ import annotations
 import argparse
 import hashlib
+import importlib.util
 import json
+import os
 import re
 import sys
 
@@ -113,6 +144,22 @@ ABSENT_ONLY_FIELDS = ("missing_mask",)
 MALFORMED_ONLY_FIELDS = ("schema_errors",)
 COMMON_PF_FIELDS = ("claim_digest", "evidence_digest", "claim_source_ref", "evidence_refs")
 SCHEMA_ID = "mb/ninfty-evidence-union/route-result/v1"
+
+# Sol 便85 B85-o1 fix: the schema_id of a RAW evidence artifact (the ONLY
+# shape the public trust boundary accepts) -- deliberately DISTINCT from
+# SCHEMA_ID above (a RouteResult's own schema_id), so a producer cannot
+# hand a pre-built RouteResult to the raw-evidence entry point and have it
+# silently accepted as if it were raw evidence (or vice versa): the two
+# schemas are different strings, checked at different, non-overlapping
+# entry points.
+RAW_W6_EVIDENCE_SCHEMA_ID = "mb/ninfty-evidence-union/raw-w6-evidence/v1"
+
+# Sol 便85 B85-o4 fix: the REAL two-lane structural domain W-6 must check
+# (mirrors ninfty-verifier-b.py's NATIVE_SIDE_VALUES = ("searcher",
+# "checker")) -- used to ground expected_domain_count/expected_domain_digest
+# in an actual fact about the W-6 contract, replacing the old hardcoded
+# placeholder "1".
+W6_DOMAIN_LANES = ("checker", "searcher")
 
 # Sol 便84 P84-5.4 item 3: route_id is DISPATCH-FIXED (which slot/constructor
 # call site is used), never a producer-chosen free string. R1 = the
@@ -138,9 +185,26 @@ def _is_64hex(x):
     return isinstance(x, str) and bool(HEX64.match(x))
 
 
+def _is_valid_source_ref(ref):
+    """Sol 便85 B85-o2: a well-shaped provenance ref = {"source": <non-empty
+    str>, "digest": <exact 64-hex>} (extra keys tolerated on the ref object
+    itself -- only claim_source_ref/evidence_refs presence+shape on the
+    RouteResult is schema-gated elsewhere; this checks the ref's OWN two
+    required sub-fields)."""
+    return (
+        isinstance(ref, dict)
+        and isinstance(ref.get("source"), str) and len(ref["source"]) > 0
+        and _is_64hex(ref.get("digest"))
+    )
+
+
+def _is_valid_evidence_refs(refs):
+    return isinstance(refs, list) and len(refs) > 0 and all(_is_valid_source_ref(r) for r in refs)
+
+
 class RouteResultSchemaError(Exception):
-    """Raised internally by the route_result_* constructors when their own
-    REQUIRED invariants are not met (e.g. route_result_pass called with
+    """Raised internally by the _route_result_* constructors when their own
+    REQUIRED invariants are not met (e.g. _route_result_pass called with
     expected_domain_count != checked_domain_count). Always caught by the
     public constructor wrappers, which return a MALFORMED RouteResult
     instead of propagating -- a caller can never accidentally construct an
@@ -148,9 +212,11 @@ class RouteResultSchemaError(Exception):
 
 
 # ============================================================================
-# RouteResult constructors (裁定192 N83-2.3 "二層化"): the ONLY way to build
-# a RouteResult. Dispatch (which constructor got called) fixes route_status
-# -- no self-declared producer field ever selects the branch.
+# RouteResult constructors (裁定192 N83-2.3 "二層化"; renamed module-PRIVATE
+# per Sol 便85 P85-5 item 7 -- these are internal building blocks, never
+# the public trust boundary): the ONLY way to build a RouteResult. Dispatch
+# (which constructor got called) fixes route_status -- no self-declared
+# producer field ever selects the branch.
 # ============================================================================
 
 
@@ -163,8 +229,8 @@ def _route_header(route_id, route_status):
     return {"schema_id": SCHEMA_ID, "route_id": route_id, "route_status": route_status}
 
 
-def route_result_pass(route_id, claim_digest, evidence_digest, expected_domain_count, checked_domain_count,
-                       expected_domain_digest, coverage_digest, claim_source_ref=None, evidence_refs=None):
+def _route_result_pass(route_id, claim_digest, evidence_digest, expected_domain_count, checked_domain_count,
+                        expected_domain_digest, coverage_digest, claim_source_ref, evidence_refs):
     """
     Builds a PASS RouteResult. VALIDATES (raises RouteResultSchemaError,
     caught by the wrapper below, on failure) that:
@@ -174,13 +240,17 @@ def route_result_pass(route_id, claim_digest, evidence_digest, expected_domain_c
       - expected_domain_count/checked_domain_count are non-negative ints
         AND EQUAL (F83-2.1: PASS requires this equality to ALREADY hold --
         a route-specific verifier that cannot establish it must call
-        route_result_fail/_absent/_malformed instead, never this
+        _route_result_fail/_absent/_malformed instead, never this
         constructor with mismatched values).
       - expected_domain_digest == coverage_digest (F83-2.1/N82-4.1: the
         receiver-derived canonical domain digest must equal the route's
         own coverage_digest).
+      - claim_source_ref/evidence_refs are REQUIRED, non-null, structured
+        (Sol 便85 B85-o2: no default `None` anymore -- a route-specific
+        verifier that cannot produce genuine provenance refs must not
+        call this constructor at all).
     A caller that already knows these don't hold should NOT call this
-    constructor at all -- see route_result_fail's coverage-mismatch note.
+    constructor at all -- see _route_result_fail's coverage-mismatch note.
     """
     try:
         result = _route_header(route_id, "PASS")
@@ -203,6 +273,16 @@ def route_result_pass(route_id, claim_digest, evidence_digest, expected_domain_c
                 "not claim PASS when the receiver-derived expected domain digest disagrees with the "
                 "route's own coverage_digest (F83-2.1/N82-4.1)"
             )
+        if not _is_valid_source_ref(claim_source_ref):
+            raise RouteResultSchemaError(
+                f"PASS RouteResult requires a structured non-null claim_source_ref "
+                f"({{'source': <str>, 'digest': <64-hex>}}), got {claim_source_ref!r} (Sol 便85 B85-o2)"
+            )
+        if not _is_valid_evidence_refs(evidence_refs):
+            raise RouteResultSchemaError(
+                f"PASS RouteResult requires a non-empty list of structured evidence_refs, got "
+                f"{evidence_refs!r} (Sol 便85 B85-o2)"
+            )
         result.update({
             "claim_digest": claim_digest, "evidence_digest": evidence_digest,
             "claim_source_ref": claim_source_ref, "evidence_refs": evidence_refs,
@@ -211,28 +291,38 @@ def route_result_pass(route_id, claim_digest, evidence_digest, expected_domain_c
         })
         return result
     except RouteResultSchemaError as e:
-        return route_result_malformed(route_id, [str(e)])
+        return _route_result_malformed(route_id, [str(e)])
 
 
-def route_result_fail(route_id, claim_digest, evidence_digest, counterexample_loci,
-                       claim_source_ref=None, evidence_refs=None, expected_witness=None, observed_witness=None):
+def _route_result_fail(route_id, claim_digest, evidence_digest, counterexample_loci,
+                        claim_source_ref, evidence_refs, expected_witness=None, observed_witness=None):
     """Builds a FAIL RouteResult. VALIDATES claim_digest/evidence_digest
-    (64-hex) and counterexample_loci (non-empty list, F83-2.1's structured
-    requirement) -- otherwise falls back to MALFORMED (never silently
-    accepts a FAIL with no actual counterexample evidence)."""
+    (64-hex), counterexample_loci (non-empty list, F83-2.1's structured
+    requirement), and claim_source_ref/evidence_refs (Sol 便85 B85-o2:
+    required, non-null, structured, no default) -- otherwise falls back to
+    MALFORMED (never silently accepts a FAIL with no actual counterexample
+    evidence or no genuine provenance)."""
     if not _is_64hex(claim_digest) or not _is_64hex(evidence_digest):
-        return route_result_malformed(route_id, [
+        return _route_result_malformed(route_id, [
             f"FAIL RouteResult requires claim_digest/evidence_digest as exact 64-hex, got "
             f"{claim_digest!r}/{evidence_digest!r}",
         ])
     if not isinstance(counterexample_loci, list) or len(counterexample_loci) == 0:
-        return route_result_malformed(route_id, [
+        return _route_result_malformed(route_id, [
             f"FAIL RouteResult requires a non-empty 'counterexample_loci' array, got {counterexample_loci!r}",
+        ])
+    if not _is_valid_source_ref(claim_source_ref):
+        return _route_result_malformed(route_id, [
+            f"FAIL RouteResult requires a structured non-null claim_source_ref, got {claim_source_ref!r} (Sol 便85 B85-o2)",
+        ])
+    if not _is_valid_evidence_refs(evidence_refs):
+        return _route_result_malformed(route_id, [
+            f"FAIL RouteResult requires a non-empty list of structured evidence_refs, got {evidence_refs!r} (Sol 便85 B85-o2)",
         ])
     try:
         result = _route_header(route_id, "FAIL")
     except RouteResultSchemaError as e:
-        return route_result_malformed(route_id, [str(e)])
+        return _route_result_malformed(route_id, [str(e)])
     result.update({
         "claim_digest": claim_digest, "evidence_digest": evidence_digest,
         "claim_source_ref": claim_source_ref, "evidence_refs": evidence_refs,
@@ -242,22 +332,22 @@ def route_result_fail(route_id, claim_digest, evidence_digest, counterexample_lo
     return result
 
 
-def route_result_absent(route_id, missing_mask):
+def _route_result_absent(route_id, missing_mask):
     """Builds an ABSENT RouteResult. `missing_mask` is RECEIVER-DERIVED
     (never a producer self-report) and REQUIRED (non-None) -- an ABSENT
     result with no missing_mask at all is itself a schema violation
     (MALFORMED), not a silently-accepted ABSENT."""
     if missing_mask is None:
-        return route_result_malformed(route_id, ["ABSENT RouteResult requires a non-None 'missing_mask' (receiver-derived)"])
+        return _route_result_malformed(route_id, ["ABSENT RouteResult requires a non-None 'missing_mask' (receiver-derived)"])
     try:
         result = _route_header(route_id, "ABSENT")
     except RouteResultSchemaError as e:
-        return route_result_malformed(route_id, [str(e)])
+        return _route_result_malformed(route_id, [str(e)])
     result["missing_mask"] = missing_mask
     return result
 
 
-def route_result_malformed(route_id, schema_errors):
+def _route_result_malformed(route_id, schema_errors):
     """Builds a MALFORMED RouteResult. `schema_errors` must be a non-empty
     list (if the caller somehow supplies an empty/invalid one, a generic
     fallback error is substituted -- MALFORMED can never end up with an
@@ -318,23 +408,24 @@ def coerce_to_route_result(obj, expected_route_id=None):
     is no longer sufficient to reach PASS/FAIL/ABSENT):
       1. `schema_id` MUST equal SCHEMA_ID exactly ("mb/ninfty-evidence-union
          /route-result/v1") -- a missing schema_id, or any other value
-         (including a plausible-looking "evil/v9"), is MALFORMED. Closes
-         Sol's literal probe: {schema_id missing, route_id missing,
-         route_status="PASS"} used to reach PASS; it is MALFORMED now.
-      2. `route_id` MUST be in the slot the caller expects (see
-         `expected_route_id` above) -- P84-5.4 item 2.
-      3. `route_id` MUST be one of VALID_ROUTE_IDS ("R1","R2") -- P84-5.4
-         item 3, mirrors the same enum the constructors enforce (_route_header).
+         (including a plausible-looking "evil/v9"), is MALFORMED.
+      2. `route_id` MUST be in the slot the caller expects.
+      3. `route_id` MUST be one of VALID_ROUTE_IDS ("R1","R2").
       4. ANY field on `obj` that is not part of {schema_id, route_id,
          route_status} plus this status's own shape fields (plus
          claim_digest/evidence_digest/claim_source_ref/evidence_refs for
-         PASS/FAIL) is an unrecognized/foreign field -- MALFORMED. This
-         SUBSUMES the pre-existing co-presence check below (a foreign
-         status's shape field is, by construction, not in the current
-         status's allowed set either) and additionally rejects a
-         completely made-up field name like "evil_extra_field" that the
-         old co-presence check alone would not have caught -- P84-5.4
-         item 4.
+         PASS/FAIL) is an unrecognized/foreign field -- MALFORMED.
+
+    Sol 便85 F85-6.3/P85-5 fix, enforced here (item 4: provenance refs are
+    REQUIRED, not merely allowed):
+      5. for PASS/FAIL, `claim_source_ref` MUST be a well-shaped
+         {"source": <str>, "digest": <64-hex>} object, and `evidence_refs`
+         MUST be a non-empty list of such objects -- missing, None, or
+         ill-shaped is MALFORMED. (This checks SHAPE only; RESOLVING the
+         refs against the actual raw evidence and recomputing the digest
+         is a receiver-side step this function cannot perform on its own
+         -- see `_cross_check_refs_against_raw`, which the public entry
+         point always applies afterward.)
     """
     if obj is None:
         return "ABSENT", None, {"reason": "route result is None -- receiver-derived ABSENT (no producer self-report trusted)"}
@@ -373,9 +464,7 @@ def coerce_to_route_result(obj, expected_route_id=None):
         return "MALFORMED", None, {
             "schema_errors": [
                 f"route result declares route_status={status!r} but carries unrecognized/foreign field(s) "
-                f"{unrecognized!r} not part of this status's own shape (Sol 便84 P84-5.4 item 4; this "
-                "subsumes the prior F83-2.2 status-shape co-presence check -- e.g. a PASS-shaped result "
-                "also carrying counterexample_loci is caught here too)",
+                f"{unrecognized!r} not part of this status's own shape (Sol 便84 P84-5.4 item 4)",
             ],
         }
 
@@ -399,11 +488,27 @@ def coerce_to_route_result(obj, expected_route_id=None):
             f"({evidence_digest!r})",
         ]}
 
+    # Sol 便85 B85-o2: claim_source_ref/evidence_refs are now REQUIRED,
+    # non-null, structured -- shape only (resolution against raw evidence
+    # happens one layer up, see _cross_check_refs_against_raw).
+    claim_source_ref = obj.get("claim_source_ref")
+    evidence_refs = obj.get("evidence_refs")
+    if not _is_valid_source_ref(claim_source_ref):
+        return "MALFORMED", None, {"schema_errors": [
+            f"{status} route result requires a structured non-null claim_source_ref "
+            f"({{'source': <str>, 'digest': <64-hex>}}), got {claim_source_ref!r} (Sol 便85 B85-o2)",
+        ]}
+    if not _is_valid_evidence_refs(evidence_refs):
+        return "MALFORMED", None, {"schema_errors": [
+            f"{status} route result requires a non-empty list of structured evidence_refs, got "
+            f"{evidence_refs!r} (Sol 便85 B85-o2)",
+        ]}
+
     if status == "FAIL":
         loci = obj.get("counterexample_loci")
         if not isinstance(loci, list) or len(loci) == 0:
             return "MALFORMED", None, {"schema_errors": ["FAIL route result missing non-empty 'counterexample_loci'"]}
-        return "FAIL", claim_digest, {"counterexample_loci": loci}
+        return "FAIL", claim_digest, {"counterexample_loci": loci, "claim_source_ref": claim_source_ref, "evidence_refs": evidence_refs}
 
     # PASS
     edc = obj.get("expected_domain_count")
@@ -419,7 +524,11 @@ def coerce_to_route_result(obj, expected_route_id=None):
         return "MALFORMED", None, {"schema_errors": [f"PASS route result expected_domain_count != checked_domain_count ({edc!r} != {cdc!r}) -- F83-2.1"]}
     if edd != cvd:
         return "MALFORMED", None, {"schema_errors": [f"PASS route result expected_domain_digest != coverage_digest -- F83-2.1/N82-4.1"]}
-    return "PASS", claim_digest, {"expected_domain_count": edc, "checked_domain_count": cdc, "expected_domain_digest": edd, "coverage_digest": cvd}
+    return "PASS", claim_digest, {
+        "expected_domain_count": edc, "checked_domain_count": cdc,
+        "expected_domain_digest": edd, "coverage_digest": cvd,
+        "claim_source_ref": claim_source_ref, "evidence_refs": evidence_refs,
+    }
 
 
 # ============================================================================
@@ -484,28 +593,27 @@ def compose_route_statuses(status1, claim_digest1, status2, claim_digest2):
 
 
 # ============================================================================
-# Top-level entry point: coerce/re-validate both RouteResults, then compose.
+# Top-level composition (internal): coerce/re-validate both RouteResults,
+# then compose. NOT the untrusted-input trust boundary by itself (Sol 便85
+# B85-o1: coerce_to_route_result checks SHAPE, not provenance) -- the
+# public entry point below (`evidence_union_from_raw_w6`) is what untrusted
+# JSON must go through; this function remains available for white-box
+# testing of the composition plumbing on already-constructed RouteResults.
 # ============================================================================
 
 
 def evidence_union_fail_closed_v2(route1, route2):
     """
-    Top-level evidence-union/fail-closed-v2 composition (追補(o) v4,
-    docs/notes/cert_shape_interpretation_addendum_o_v4.md, RouteResult
-    two-layer per 裁定192 N83-2.3, hardened by Sol 便84 P84-5.4).
-    `route1`/`route2` should be RouteResult dicts built via the
-    route_result_* constructors, route1 with route_id="R1" (the
-    recomputation route) and route2 with route_id="R2" (the
-    witness-coverage route) -- this is the ONLY public entry point this
-    module exposes for composing two routes (both the CLI `main()` reading
-    raw producer JSON and any in-process caller go through this SAME
-    function), and it ALWAYS re-validates both arguments via
-    coerce_to_route_result with the slot bound (see `expected_route_id`
-    there) -- there is no bypass path that trusts route1/route2 as
-    already-valid just because they look like RouteResult dicts (Sol 便84
-    P84-5.4 item 6: raw producer JSON is never accepted as a RouteResult
-    directly -- it is held to the exact same schema_id/route_id/shape gate
-    a freshly-constructed RouteResult would have to pass). Returns:
+    Top-level evidence-union/fail-closed-v2 composition (追補(o) v5,
+    RouteResult two-layer per 裁定192 N83-2.3, hardened by Sol 便84
+    P84-5.4 and 便85 P85-5). `route1`/`route2` should be RouteResult dicts
+    built via the _route_result_* constructors, route1 with
+    route_id="R1" (the recomputation route) and route2 with
+    route_id="R2" (the witness-coverage route). It ALWAYS re-validates
+    both arguments via coerce_to_route_result with the slot bound (see
+    `expected_route_id` there) -- there is no bypass path that trusts
+    route1/route2 as already-valid just because they look like RouteResult
+    dicts. Returns:
       {
         "route1_status": ..., "route1_detail": ...,
         "route2_status": ..., "route2_detail": ...,
@@ -531,8 +639,64 @@ def evidence_union_fail_closed_v2(route1, route2):
 # raw ad hoc blob).
 # ============================================================================
 
+_VERIFIER_B_MODULE = None
 
-def route_from_verifier_b_w6(w6_status, w6_detail, route_id):
+
+def _verifier_b():
+    """Dynamically loads ninfty-verifier-b.py (hyphenated filename, so a
+    plain `import` statement cannot name it -- same importlib.util
+    technique search/test_ninfty_evidence_union.py already uses). Cached
+    after first load. This is the RECEIVER-SIDE FIXED DISPATCH target
+    (Sol 便85 B85-o1): the only code in this file that is allowed to
+    decide a W-6 route's actual status/detail is a call to
+    `verify_W6_single` on THIS module, never a caller-supplied
+    (status, detail) pair."""
+    global _VERIFIER_B_MODULE
+    if _VERIFIER_B_MODULE is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(here, "ninfty-verifier-b.py")
+        spec = importlib.util.spec_from_file_location("ninfty_verifier_b_for_evidence_union", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _VERIFIER_B_MODULE = mod
+    return _VERIFIER_B_MODULE
+
+
+def _validate_raw_w6_evidence(raw):
+    """
+    Sol 便85 B85-o1: validates that `raw` is a genuine RAW evidence
+    artifact -- {schema_id=RAW_W6_EVIDENCE_SCHEMA_ID, certificate,
+    native_a, native_b} -- and NOT a RouteResult or any other shape.
+    Returns (ok, certificate, native_a, native_b, errors).
+    """
+    if not isinstance(raw, dict):
+        return False, None, None, None, [f"raw evidence artifact must be an object, got {type(raw).__name__}: {raw!r}"]
+    errors = []
+    schema_id = raw.get("schema_id")
+    if schema_id != RAW_W6_EVIDENCE_SCHEMA_ID:
+        errors.append(f"raw evidence artifact schema_id must be exactly {RAW_W6_EVIDENCE_SCHEMA_ID!r}, got {schema_id!r}")
+    for key in ("certificate", "native_a", "native_b"):
+        if key not in raw:
+            errors.append(f"raw evidence artifact missing required key {key!r}")
+    if errors:
+        return False, None, None, None, errors
+    return True, raw["certificate"], raw["native_a"], raw["native_b"], []
+
+
+def _run_w6_verifier(raw):
+    """Receiver-side fixed dispatch (Sol 便85 B85-o1): independently
+    invokes ninfty-verifier-b.verify_W6_single on the raw evidence.
+    NEVER accepts a caller-supplied (status, detail) pair as a substitute
+    -- if `raw` is not a genuine raw evidence artifact, this returns
+    MALFORMED itself (schema violation), it does not delegate the
+    decision to the caller."""
+    ok, cert, native_a, native_b, errors = _validate_raw_w6_evidence(raw)
+    if not ok:
+        return "MALFORMED", {"schema_errors": errors}
+    return _verifier_b().verify_W6_single(cert, native_a, native_b)
+
+
+def route_from_verifier_b_w6(w6_status, w6_detail, route_id, raw):
     """
     ARMATURE / PLACEHOLDER (not full EP wiring): adapts one
     ninfty-verifier-b.py verify_W6_single(cert, native_a, native_b) result
@@ -541,62 +705,173 @@ def route_from_verifier_b_w6(w6_status, w6_detail, route_id):
     the constructors above (route_id = "R1"/"R2", FIXED by the caller's
     dispatch, never inferred from the blob).
 
-    verify_W6_single predates this addendum's RouteResult schema (it has no
-    claim_digest/evidence_digest/expected_domain_count/expected_domain_digest
-    fields of its own) -- this adapter DERIVES placeholder digests from the
-    detail dict itself (sha256_of(detail)) and a hardcoded
-    expected_domain_count=checked_domain_count=1 so the PASS constructor's
-    OWN invariants (which it always checks) are satisfiable, but this is
-    NOT a claim that W-6's real evidence has been migrated to the v3.1/v4
-    RouteResult schema -- it exists solely so the composition function (the
-    crisp, addendum-specified part) has a real, non-synthetic input to be
-    exercised against in regression tests. Full EP v7 wiring (real
-    claim_digest/evidence_digest/expected_domain_count bound to the actual
-    native/map digests and per-side point/component counts) is explicitly
-    deferred, per this round's task scope.
+    Sol 便85 B85-o3 fix: the four recognized statuses are matched by an
+    EXHAUSTIVE if/elif chain; any value not in {"ABSENT","MALFORMED",
+    "FAIL","PASS"} falls to an explicit final branch returning MALFORMED
+    -- there is no longer an implicit "everything else is PASS" fall-
+    through (the literal probe this closes:
+    `route_from_verifier_b_w6("BOGUS", detail, "R2", raw).route_status`
+    used to be PASS, is now MALFORMED).
 
-    Sol 便84 P84-5.4 item 5: `claim_source_ref`/`evidence_refs` are now
-    populated FROM THE RAW w6_detail itself (never left as the constructors'
-    None default) -- both the digest AND the refs are freshly recomputed
-    from w6_detail on every call, so a stale/cached digest computed
-    elsewhere can never be substituted here. This remains armature-level
-    (the ref still names the (status,detail) pair this adapter was handed,
-    not a genuine per-side native/map artifact identity), consistent with
-    the SCOPE NOTE above.
+    Sol 便85 B85-o4 fix: the PASS branch's domain claim is grounded in the
+    REAL two-lane W-6 contract (W6_DOMAIN_LANES) rather than a hardcoded
+    placeholder "1" -- expected_domain_count=checked_domain_count=2,
+    expected_domain_digest=coverage_digest=sha256_of(sorted(
+    W6_DOMAIN_LANES)) (both lanes were actually resolved and compared
+    equal by verify_W6_single for this branch to be reached at all).
+
+    `raw` (the raw evidence artifact this adapter was built FROM) is used
+    to compute evidence_refs/claim_source_ref's digest as a reference to
+    the ACTUAL input, not to the detail dict alone -- Sol 便85 B85-o2:
+    `claim_source_ref`/`evidence_refs` are now REQUIRED (no default
+    `None`), and the receiver-side `_cross_check_refs_against_raw`
+    (applied by the public entry point) independently recomputes this
+    same digest from its OWN copy of `raw` and requires equality, closing
+    the "self-reported digest comparison only" gap.
     """
+    detail_digest = sha256_of(w6_detail if isinstance(w6_detail, dict) else {"detail": w6_detail})
+    raw_digest = sha256_of(raw) if isinstance(raw, dict) else sha256_of({"raw": raw})
+    claim_source_ref = {"source": "ninfty-verifier-b.verify_W6_single", "artifact": "raw_w6_evidence", "digest": raw_digest}
+    evidence_refs = [{"source": "raw_w6_evidence", "digest": raw_digest}]
+
     if w6_status == "ABSENT":
-        return route_result_absent(route_id, {"reason": (w6_detail or {}).get("reason", "W-6 ABSENT") if isinstance(w6_detail, dict) else "W-6 ABSENT"})
+        reason = (w6_detail or {}).get("reason", "W-6 ABSENT") if isinstance(w6_detail, dict) else "W-6 ABSENT"
+        return _route_result_absent(route_id, {"reason": reason})
     if w6_status == "MALFORMED":
         errs = [str((w6_detail or {}).get("reason", w6_detail))] if isinstance(w6_detail, dict) else [str(w6_detail)]
-        return route_result_malformed(route_id, errs)
-    detail_digest = sha256_of(w6_detail if isinstance(w6_detail, dict) else {"detail": w6_detail})
-    claim_source_ref = {"source": "ninfty-verifier-b.verify_W6_single", "raw_detail_digest": detail_digest}
-    evidence_refs = [{"source": "ninfty-verifier-b.verify_W6_single.detail", "digest": detail_digest}]
+        return _route_result_malformed(route_id, errs)
     if w6_status == "FAIL":
-        return route_result_fail(
+        return _route_result_fail(
             route_id, detail_digest, detail_digest,
             [w6_detail if w6_detail is not None else "W-6 FAIL (no detail supplied)"],
             claim_source_ref=claim_source_ref, evidence_refs=evidence_refs,
         )
-    # w6_status == "PASS"
-    return route_result_pass(
-        route_id, detail_digest, detail_digest,
-        expected_domain_count=1, checked_domain_count=1,  # PLACEHOLDER (armature only, see docstring)
-        expected_domain_digest=detail_digest, coverage_digest=detail_digest,
-        claim_source_ref=claim_source_ref, evidence_refs=evidence_refs,
-    )
+    if w6_status == "PASS":
+        domain_digest = sha256_of(sorted(W6_DOMAIN_LANES))
+        return _route_result_pass(
+            route_id, detail_digest, detail_digest,
+            expected_domain_count=len(W6_DOMAIN_LANES), checked_domain_count=len(W6_DOMAIN_LANES),
+            expected_domain_digest=domain_digest, coverage_digest=domain_digest,
+            claim_source_ref=claim_source_ref, evidence_refs=evidence_refs,
+        )
+    # Sol 便85 B85-o3: exhaustive enum match -- any OTHER value (e.g. the
+    # literal probe "BOGUS") is a schema violation, never silently PASS.
+    return _route_result_malformed(route_id, [
+        f"unrecognized w6_status {w6_status!r} -- exhaustive enum match over "
+        "{{'ABSENT','MALFORMED','FAIL','PASS'}}, no implicit fall-through (Sol 便85 B85-o3)",
+    ])
+
+
+def _build_R1(raw):
+    """Recomputation route (R1). ALWAYS route_id='R1', fixed by dispatch --
+    this function takes NO route_id parameter, so a caller cannot select
+    the slot (Sol 便85 P85-5 item 2). Independently invokes the W-6
+    verifier on `raw` itself (never a caller-supplied status/detail,
+    B85-o1)."""
+    w6_status, w6_detail = _run_w6_verifier(raw)
+    return route_from_verifier_b_w6(w6_status, w6_detail, "R1", raw)
+
+
+def _build_R2(raw):
+    """Witness-coverage route (R2). ALWAYS route_id='R2'; takes NO route_id
+    parameter (item 2). ARMATURE NOTE (Sol 便85 P85-5 item 5, "できない
+    部分は UNKNOWN 申告で残し「発効対象外」と明記 -- 発明しない"): this
+    codebase currently wires only ONE actual W-6 verifier
+    (`verify_W6_single`) -- a second, differently-implemented
+    witness-coverage-specific check does NOT exist yet, and this function
+    does not fabricate one. R2 therefore derives from the SAME
+    receiver-invoked recomputation as R1 (both independently invoked from
+    `raw`, never from a caller-supplied status/detail -- so B85-o1 is
+    still closed for R2 too), rather than from genuinely independent
+    second-implementation evidence. This is an explicit, documented
+    limitation, not a silent one."""
+    w6_status, w6_detail = _run_w6_verifier(raw)
+    return route_from_verifier_b_w6(w6_status, w6_detail, "R2", raw)
+
+
+def _cross_check_refs_against_raw(route, raw):
+    """
+    Sol 便85 B85-o2 fix: RESOLVES claim_source_ref/evidence_refs against
+    the raw evidence the RECEIVER independently holds (not the route's own
+    self-report) and RECOMPUTES the digest -- a route whose refs are
+    missing/ill-shaped, or whose declared digest does not match the
+    receiver's own sha256_of(raw), is downgraded to MALFORMED here, before
+    composition. This is the step `coerce_to_route_result` alone cannot
+    perform (it only sees the RouteResult, never the raw evidence) --
+    closing the "self-reported digest comparison only" gap Sol's probe
+    demonstrated (a route with refs=None used to reach PASS unchallenged).
+    Non-PASS/FAIL routes (ABSENT/MALFORMED) pass through unchanged -- they
+    carry no claim_source_ref/evidence_refs to check.
+    """
+    if not isinstance(route, dict) or route.get("route_status") not in ("PASS", "FAIL"):
+        return route
+    raw_digest = sha256_of(raw) if isinstance(raw, dict) else sha256_of({"raw": raw})
+    refs = route.get("evidence_refs")
+    src = route.get("claim_source_ref")
+    route_id = route.get("route_id") if isinstance(route.get("route_id"), str) else "unknown"
+    if not _is_valid_source_ref(src) or not _is_valid_evidence_refs(refs):
+        return _route_result_malformed(route_id, [
+            f"claim_source_ref/evidence_refs missing or ill-shaped on a {route.get('route_status')} route -- "
+            "required, non-null, structured (Sol 便85 P85-5 item 4)",
+        ])
+    if src.get("digest") != raw_digest or any(r.get("digest") != raw_digest for r in refs):
+        return _route_result_malformed(route_id, [
+            f"claim_source_ref/evidence_refs digest does not match the receiver's own recomputed raw "
+            f"evidence digest {raw_digest!r} -- self-reported digest agreement alone is never sufficient "
+            "(Sol 便85 P85-5 item 4/B85-o2)",
+        ])
+    return route
+
+
+def evidence_union_from_raw_w6(raw):
+    """
+    THE public trust-boundary entry point (Sol 便85 P85-5 items 1/6/7):
+    accepts a RAW evidence artifact -- {schema_id=RAW_W6_EVIDENCE_SCHEMA_ID,
+    certificate, native_a, native_b} -- and NEVER a pre-built RouteResult
+    (B85-o1: schema is not provenance; a valid-shape self-asserted
+    RouteResult must not reach PASS just by looking right). The
+    receiver-side dispatch is FIXED end to end:
+
+      1. `_build_R1(raw)` / `_build_R2(raw)` (item 2: no route_id
+         parameter, so a caller cannot choose the slot) each independently
+         call `_run_w6_verifier(raw)`, which ALWAYS invokes
+         ninfty-verifier-b.verify_W6_single itself on `raw` -- there is no
+         path from "caller claims the verifier already said X" to a
+         route's status (B85-o1).
+      2. `_cross_check_refs_against_raw` resolves each route's provenance
+         refs against the SAME `raw` this function was actually called
+         with, recomputing the digest rather than trusting the route's
+         self-report (item 4/B85-o2).
+      3. `evidence_union_fail_closed_v2` re-validates both routes through
+         `coerce_to_route_result` (shape/slot/enum, defense in depth) and
+         composes via the unchanged 4-rule `compose_route_statuses`.
+
+    Never raises.
+    """
+    route1 = _cross_check_refs_against_raw(_build_R1(raw), raw)
+    route2 = _cross_check_refs_against_raw(_build_R2(raw), raw)
+    return evidence_union_fail_closed_v2(route1, route2)
 
 
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("payload_json", help="path to a JSON payload {route1, route2} (already-built RouteResult dicts), or '-' for stdin")
+    ap.add_argument(
+        "raw_evidence_json",
+        help=(
+            "path to a JSON RAW evidence artifact "
+            f"{{schema_id: {RAW_W6_EVIDENCE_SCHEMA_ID!r}, certificate, native_a, native_b}}, "
+            "or '-' for stdin. This is NOT a pre-built RouteResult -- Sol 便85 B85-o1 closed the "
+            "old path that accepted an already-built {route1, route2} pair directly; the "
+            "route-specific W-6 verifier is now always invoked by this tool itself."
+        ),
+    )
     args = ap.parse_args(argv)
-    if args.payload_json == "-":
-        payload = json.load(sys.stdin)
+    if args.raw_evidence_json == "-":
+        raw = json.load(sys.stdin)
     else:
-        with open(args.payload_json, "r", encoding="utf-8") as f:
-            payload = json.load(f)
-    result = evidence_union_fail_closed_v2(payload.get("route1"), payload.get("route2"))
+        with open(args.raw_evidence_json, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+    result = evidence_union_from_raw_w6(raw)
     print(canonical_serialize(result))
     return 0
 
