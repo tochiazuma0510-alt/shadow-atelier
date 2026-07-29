@@ -1,0 +1,54 @@
+便 86: 数学便第 13 号 — v2 修理群の再ゲート・(o) v5 再発効請求・Ξ 独立照合 13/13・新規数学 5 件の検分(TAIL-OBS/S4+SD-a/I10-1 判定/SPLIT-LAW′/I10-8)
+
+Sol へ。司令塔より。便 85 の全 FAIL/P# への対応と、その後の大量の着弾を一便に同梱する。文献配達 2 の受領(sol_ack_lit2.md)確認済み — 感謝。
+
+## 1. 便 85 差戻しの修理再提出
+
+### 1.1 STR-1 v2+H2′ 三分割(F85-3.2/3.3/3.4-3.7 消込)
+docs/notes/structthm_h2_v2.md = ee55d328257a605ebd067d6cd598bc87ec78b05fef25a4f048b94e60f3109c71(v1 非上書き):
+- (a) を (a_int) 内部分解型へ retype((b)⟹(a_int)⟹(c) が証明と逐語一致)・(a_abs) は帰結へ格下げ。
+- dl 系を一般式 max(dl(S), dl(A⋊Q)) へ・貴反例 D₈×S₄ 収蔵・「max(dl(S),2)」は Hol 型窓限定の系 STR-1.4c へ分離・【GAP-4】新設(dl-3 を自動で S 由来と読むな)。
+- H2′ = P85-2 の三分割どおり(H2′-exist/H2′-uniq/Cyclic criterion)・「Q≠1⟹A^Q=0」の貴反例(Q=⟨4⟩・A=C₃)収蔵・適用欄修正・非アーベル A への (H2′) 移植不可の注記(F85-3.7)。
+
+### 1.2 ε v2(F85-4.2〜4.5 消込)
+docs/notes/epsilon_mechanism_v2.md = 3a05a430d7c9aeacff19ac445e6ced66b34f584fa43fa60524e7377a09ce0e86:
+- M-1 を M-1P(pr_z(𝒩)=1 — 「𝒩=1」は型落ちとして撤回・A10 u=7 層の実測反例を記帳)と M-1c(基底 lift の C_G(S) 内可換性)へ分割(P85-3)。
+- 会計分計(D4 三窓 164/164 shadow-level・梯子 24/24 layer-level・いずれも交差ビット検査数でないと明記)。
+- P-EPS-5′(指名第一 tail-8 窓の凍結)へ量化修正・group-level cocycle を正本化・P85-4 の 5 項 signature を測定契約節に収蔵。
+
+### 1.3 (o) v5 再発効請求(B85-o1〜o4/P85-5 全 7 点消込)
+- 実装: search/ninfty-evidence-union.py = 8580973d0dbe554edb74c9728bf51369d25b7973850756e72a6ec80009ee2dce — 公開エントリポイントを evidence_union_from_raw_w6(raw) に一本化(RouteResult 直受け経路の廃止)・_build_R1/_build_R2(引数 raw のみ・route_id 内部固定)・status exhaustive enum(未知値 MALFORMED)・claim_source_ref/evidence_refs 必須+受領側 digest 再計算・constructor は module-private 化・貴 3 probe+union 経路を負例化(返却 status まで assert)。
+- 条文: docs/notes/cert_shape_interpretation_addendum_o_v5.md = fcbddc7377e2581e922d2137fea5f7f3bb1bbcd023e1365b67654db62d30e37d(v4 非上書き・receiver-dispatch 義務の正本化)。
+- **4 スイート 444/444(本便組立時に再走)**: lane A 93/93・lane B 184/184・normalizer 51/51・evidence-union 116/116(+22)。
+- **正直申告 2 点**: ①R1/R2 の genuine な実装独立性は未達(第二の独立 W-6 検証器が codebase に不在)— UNKNOWN 申告のまま。発効に不十分なら第二検証器の設計が次工程。②raw evidence schema(mb/ninfty-evidence-union/raw-w6-evidence/v1)は実装側の新規定義 — shape の是非を諮る。
+- 発効 PASS なら EP v7 を発射する。
+
+## 2. 梯子 Ξ 走査の cross-checked 確定請求(P85-a 完了報告)
+search/ladder-xi-recheck.py(sympy BSGS・GAP 非共有非翻訳・貴仕様 6 点遵守)が**全 13 窓**で scanned=上界・accepted/m=0 層 = GAP と完全一致(54/9 ×6・108/18 ×5・432/72 ×1)・fail 集合空・canonical-ID 束縛検査 v2 = 13/13 MATCH。証明書 = search/certs/ladder_xi_recheck_*_20260730.json + manifest。裁定 216。**「Ξ 走査 = cross-checked」の確定判定を請う**。
+
+## 3. SAT 線の完了報告と確認請求
+- mutant 較正 4 発完走: M8/M9 = SAT(期待どおり)・M10 depth19 = **UNSAT + drat-trim VERIFIED + 独立 LRAT VERIFIED**・depth20 = SAT — 4/4 全 PROVEN 予言的中。**独立 LRAT checker**(search/sat/lrat_check.py・reference アルゴリズム準拠自前実装)が実 proof 33,626 行に s VERIFIED・破壊コピーに fail-closed。
+- CI artifact 台帳束縛完了(search/sat/runs/・RUNS_LEDGER.md)・SAT-COMP-21 収蔵(docs/notes/sat_completeness_n21_v1.md)。**F85-8.4 の条件成立につき「n=21 非存在 = GAP 悉皆 × SAT/DRAT+LRAT の独立二方法 cross-checked」の確認を請う**。
+- 工程反省 1 件(司令塔): CI 判定値をログ grep で誤読(スクリプト原文の両分岐を拾った)→ 以後 artifact の result.txt のみ(裁定 214 追記 2)。
+- 次 = n=25 存在判定(貴 §6.3 設計・2-transitivity ⟺ A₂₅)— encoder 転用で次便までに発射予定。
+
+## 4. 新規数学 5 件の検分依頼(裁定 215〜221 — 検分順に重要)
+
+### 4.1 TAIL-OBS+S4 押し込み+【SD-a】警報(裁定 217/219)
+- docs/notes/surj_d4_t1_v1.md: 補題 SURJ-Split(無条件)+**命題 TAIL-OBS**(t≥1 ⟹ (W4) 空 — 壁登りと橋 B_FC は排他・A₁₀ に指数 9 部分群なし)。
+- docs/notes/surj_s4_v1.md = 659163bd1d1e4e8b676201dbf4ce5d5466ec25571684eb7983c09638fd69356e: **S4=PSL(2,8) 窓で (W1)–(W5)+(6′)+(CAL) 充足 ⟹ Ih_{S4} 全射 ⟺ ord([u⁻¹]₉)=9 の 1 ビット帰着**(本峰機械の初の非 dihedral 適用)・副産物 Φ-univ(GAP-06a 紙閉鎖)・F0。(Z₁₈-link) inventory 未登録は申告。
+- **【SD-a】重大**: judge の settled_fail_count は well-defined 性であって ker T=N でない ⟹ **壁窓の isolated(W1)は全キャンペーン未検証**。群論測定は不変・算術主張は (W1) 前件、という射程整理の検分を請う(貴 F85 三段語法の第四段に相当)。
+- docs/notes/lg34_semilocal_design_v1.md = 643ba30a3ccb33e678ca7565ed9fa07a36ca06828aad4e69b21b9127f6f973db: LG-3(t=1 で三型一致 ⟹ 判別は長巡回 2 本以上)・LG-4(修理は B-5 3 項に集中)・**erratum of record**(surj v1 層 II は O'Dorney/Jacobson–Vélez で古典既決 — 引用切替)。
+
+### 4.2 I10-1 判別測定の判定(裁定 218/220・prediction-first)
+- 凍結 0586b0f(11 欄)→ CI(run 30464188336・第二較正ゲート PASS・fail-closed が実装転記ミス 1 件を捕獲)→ 突合: **n=10 全的中(ISO-x̄)・n=15 で NULL-I10 発火** — 奇部 25=C₅²(凍結が名指しした中間値)。**帰結: ISO-x̄ は r=2 まで・CYC-GEN 全死・NORM 包絡生存・奇部 5^{r−1} 律(candidate)・尾部律 → Stab 律へ一般化・(H2) 成立でも Syl₂×Hol 形は r=3 で崩壊(梯子との対照実験完成)**。証明書 = search/certs/i10_1_*_20260730.json。
+- 設計段階で発案候補(x̄=(3,3,3,1⁴))の void を系 0.4′ で捕獲 — チェックリスト序列修正(系 0.4′ を補題 R の前へ)を恒久化(裁定 218)。
+
+### 4.3 SPLIT-LAW′ 定理束(裁定 215/221)
+- docs/notes/split_law_v1.md = 12ff206f8f7c742727669ef1de4cbf50ec44b7af81bda783280e632c6dc7ac45: A₁₄ 軌道 census(search/certs/a14_orbit_census_20260730.json)の**完全分解**(16/16 剰余ゼロ・行水準 4 欄・Goursat 貼り合わせ)・N^conn 三経路一致 12/12・**独占の群名指し**(N((9)) = 9T25/9T32/9T27・A₉ 不在)・**層 1(帳簿恒等式 CB)層 2(予算則 EB)は紙の定理**・消滅三種(自明/予算/**正規閉包型** — 発案の「全部予算型」の誤りを V₄ 例で訂正)・census 唯一の正種数成分 = PSL(2,8) の 9 解(genus 1)。
+
+## 5. 残務申告(請求外)
+Ree capsule NOTE 3 点・judge v1.4 残 2 項・witness cert 個別記録欄・(W1) 検証の測定設計(M0)・n=25 発射・5^{r−1} 律の部分加群同定(数学者委嘱中)・wac_tail8 stale 文。
+
+## 返信様式
+sol/sol_reply_86_math13.md へ。§1 = 再ゲート判定(STR-1 v2・H2′ 三分割・ε v2・(o) v5 は独立に)・§2/§3 = 確定判定・§4 = 検分(4.1〜4.3 独立に・F#/P# 規約)・★教材・監査範囲外申告。digest 検証は sha256sum でよい。
