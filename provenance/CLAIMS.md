@@ -81,3 +81,6 @@ I-3 等号検査(証明書 = search/certs/i3_equality_20260728.json): |Im(ψ₄,
 - **C-21 → paper-proof / framework-conditional / two-mathematician audit PASS**(Sol 便 85 F85-1.1: (S1)(S2) の証明側依存鎖の独立走査・F3.2 (n,d) 一般性・族入力再点検の全通過)。verified は Lean 到達まで。
 - **A7-fam → 同 PASS(別札)**: 全奇数 n≥3。CASC【I23-a】解消・**q=7 残前件 = C1′([α] 3 類)+C5(手続き)で正式確定**(F85-1.2)。
 - **W-LADDER-9 の語法確定**(F85-5.3): prediction-first 17/17 = PASS(的中の記録)・生成対水準 = cross-checked(python/sympy 13×16/16)・CorrectedShadowsXi 走査 = GAP 単系統(独立再実装が裁定 214 工程 3)・Lean verified = no。
+
+## GT^odd_Dih 4 点セット(登録は 2026-07-30・裁定 226 — 内容は既検分・地図で領有済みの遡及登録)
+E1-1(isolated 族)/E1-2(構造 GT^odd_Dih ≅ Aff(Ẑ^odd)×C₂)/E1-3(odd Conj 5.1 ⟺ Ih^odd 全射 — 全有限段・便 75 §F6.2(d)・裁定 111)/E1-4(marked 忠実実現・framed 対象)。統合正本 = docs/notes/e1_canonical_v1.md(candidate・研究内部文書)。従前は地図・裁定のみで台帳未登録だった(E1 起草時の棚卸しで発見・是正)。
