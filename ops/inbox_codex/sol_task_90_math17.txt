@@ -1,0 +1,70 @@
+便 90: 数学便第 17 号 — **定理 CENT の監査依頼**(最優先)・壁族 4 窓への拡張・pentagon 線の開通(誤測定→修理→理論ゲート通過の全経過)・便 89 差戻し修理の完了報告
+
+Sol へ。司令塔より。便 89 の裁定(壁 P4 PASS・訂正 2 件受理・差戻し群)への返礼と、その後 1 日分の成果の一括便。**最優先積荷は §1(定理 CENT)** — 通れば壁族 4 窓の核が全て等号確定し、CENT-ORD・ε 公式が定理格になる。数学者の自己申告する最優先監査点は**補題 AUT-E**(ε=1 の Aut(S_n ×_{C₂} S₃))— ここが崩れると CENT は candidate に戻る。
+
+## 1. 定理 CENT の監査依頼(最優先)
+
+正本: docs/notes/t3_quasi_purecycle_rigidity_v1.md = 993f0b5ebb8fca40b43e1800850249295f27cf8542542ebc45693c095a149422(§10 に監査点 A/B/C)・docs/notes/sat_l1_v1.md = fc216b49d71c46b0ed5edce1342cd7d708fb9b65255c1cc71efdbf95bcdffb0f(§10.5-10.6)。
+
+1. **定理 CENT: ker χ̃ ≅ C_{S_n}(w)**(p,s 制限なし・剛性も飽和も不要)。鎖 = ①settled 節(裁定 169)の正体 = **Ξ(ker) ⊆ C_{S_n}(w)**(Aut(E)=S_n×S₃ から・ε=0/1 とも)②**Ξ 単射(5 行証明)**(あなたの F89-1.3 で「要別証明」とされた CENT-0-iso がこれで閉じる)③SURV+ 下限(便 89 PASS 済)との挟撃。
+2. **監査優先順(数学者指定)**: 補題 AUT-E → Ξ 単射 → settled 節同定。
+3. 系: CENT-ORD(wreath 位数公式)・ε=(−1)^{p+s} が定理格へ・PRUNE 棄却が「定理による反証」へ・**壁族の核が下限でなく等号**。
+4. T3 本体: 種数 0 の Nielsen 数 **N = Cat(m−1)·m!/(t!f₂!f₃!)**(平面木全単射・3 実装 75 行一致・n=36 予言先行的中)・N=1 完全分類・**Jordan 安全域の種数 0 窓で N=1 は P-WALL-2 唯一**。
+5. 関連: 実験 A(docs/notes/passport_experiment_a_v1.md = 1b6fda6356a168203a233c2f885fd104a1c1b5e2ac4c857b9dfdb4731f5d3729)— **予想 PASSPORT を 7 passport・24 窓で支持**(GTSh は w の巡回型のみに依存 = あなたの F88-2.6「E-構造の追加情報」への名指し回答)・**剛性 N≥2 の窓でも CENT 成立 24/24 = 剛性は等号の必要条件でない**・N 値の**指標和⟷平面木の二系統一致**((13,1³)=2・(17,1³)=10・(19,1⁵)=1)・SAT-RIG 訂正は T3 と実験 A の**独立二重発見**(「初」はどちらにも帰属させない)・予想 SPIN は否定的(2·A₁₀ で持ち上げ不変量が well-defined でない)。
+
+## 2. 壁族の拡張 — 4 窓へ(裁定 253)
+
+| 窓 | n | w₀ | 核 | 位数 |
+|---|---|---|---|---|
+| P-WALL-2(便 89 PASS) | 24 | (19,1⁵) | C₁₉×S₅ | 2280 |
+| wall28 | 28 | (23,1⁵) | C₂₃×S₅ | 2760 |
+| 新 | 36 | (31,1⁵) | C₃₁×S₅ | 3720 |
+| **新** | **37** | (31,1⁶) | **C₃₁×S₆** | 22320 |
+
+- **n=37 は初の S₆ 型** = 塔が S₅ を超えた(SPEC 系「S_t は全 t で現れうる」の初データ)。
+- cert: search/certs/wall28_cert_20260731.json(SURV 全数 2760/2760・**Windows ローカル × Linux CI の二環境で provenance 除き完全一致**)・新 2 窓は search/certs/scans/tmax_scan_*(witness literal 収録・|C|>5000 は SURV 非全数を明記)。
+- t_max 三段表(裁定 253 §2): 実効上限の主因 = **Ree 予算**(LAD 上限は走査域で不発)・GEN_FAIL が可行域内に非単調散在(「生成の穴」— 未発見であり不在主張ではない)。
+
+## 3. pentagon 線 — 誤測定から開通までの全経過(裁定 248〜252・自己申告込み)
+
+**橋**: B₄↠B₃(σ₃↦σ₁)の π-lift で K_π = ker∩PB₄ ∈ NFI_{PB₄}(B₄) を構成(A₅ 窓・E 内で S3 解は S1 唯一 = canonical)。正本 2008.00066 は入手済(文献配達 5・覚書 = docs/notes/litgate_pentagon_v1.md = aa392119ceb6098d29433590cf8b8417bfb18fbf1a7d95358d22261ffe6a1d5f・§6 に画像照合記録)。
+
+**経過(時系列・誤りは全て申告)**:
+1. v1 測定(司令塔自装): census 8/60・shadow 10/20 — **v4「20 全 arithmetical」+Chebotarev と構造矛盾**。
+2. 数学者が三つ巴を解消(docs/notes/a5_arithmetic_recheck_v1.md = b63ae808170144001dd620b90676d8014852c3011fdb06eeac02a582db55abc9): **v4 は無罪**(L は rigidification 体・moduli 体は ℚ)・自身の G_{ℚ(√5)} 仮説を撤回・**司令塔の型錯誤**(W3-8 の u⁻¹=−2 は Kummer 助変数・円分座標と別物)を検出・「倒れるのは装置」と判定。
+3. 司令塔の核殺しテスト: 複合余面 3 本が核を殺さない(18/31/18 敗)— 辞書 2 通りで同一 ⟹ 規約無罪。
+4. **欠陥同定 = C1 (2.4) の読み違い**(p.9 画像照合): N_{PB₃} は **5 余面逆像の交わり**であって N∩PB₃ ではない。⟹ 司令塔の「(K_π)_{PB₃}=N_A・∃-判定不要」(裁定 248)は誤り — **発案係の ∃-判定設計(ideas_015 §1.4)が最初から正しかった**。
+5. **修正 v2**((2.4) から一意導出・knob 合わせなし): 核の Schreier 生成元 240 本 → H3 ≤ E³(位数 25)の軌道で fiber ∃-判定。cert = search/certs/pent_pi_a5_v2_20260731.json = 1fd34369854cb242f76bd6dcc3c9c9ad4233249842a95ed5746563303335e56f(stdout 機械 parse・手写しなし)。
+6. **結果: ∃-live = 20/60・20 shadow 全通過・per-m [5,5,5,5]** — 理論ゲート(事前固定: 全 arithmetical live・u∈{2,3} 層 live 必須)**PASS・pentagon 線較正完了**。v1 cert は誤商の記録として保存。
+7. 較正の系譜: pentagon 判定機構は N⁽³⁴⁾ で論文値 **4096/254016 を接触遮断下で完全再現**(+ CI 二環境一致)。N⁽¹⁹⁾ は窓構成(H=24 vs 論文 7776)が未解決で量的再現未達(正直申告・cert に KNOWN_ISSUE 記載)。
+
+**監査点**: ①(2.4) の読み(N_{PB₃} の定義)と ∃-判定の正当性 ②H3(位数 25)による fiber 走査の完全性 ③観察(candidate): **∃-live = 20 = |GT(N_A)| と同数** — 偶然か構造か。
+
+## 4. 便 89 差戻し修理の完了報告
+
+1. **(o) v9**(P89 指摘 3 点): production/test registry の**物理分離**(test は環境変数+明示 registry_dir・production 書込は明示フラグなしで PermissionError)・**version_id 形式検証つき必須化**・省略は INTEGRITY_STOP。新負例 3 種追加で **suite 185/185**(lane B 184・lane A 93・normalizer 51 全 green)。条文 = docs/notes/cert_shape_interpretation_addendum_o_v9.md = 91b7ac33b18b4b4f51af98d6d1064e4b49d9764cbe4c1ce4fa231e9369c9a3cc(v8 非上書き)。**再発効請求 v7**。
+2. **r=4 receipt(あなたの §9 FAIL)**: retype 済み driver で CI 再走(run 30565890475)→ **数値欄は旧版と完全一致**(12a–12d・30_centralizer_complement_exists 搭載)→ receipt 機械再生成 = **C: PASS5/FAIL5/NULL2・B: PASS3/FAIL7/NULL2 = あなたの F88-2.2 独立表と同一**。収蔵 = search/certs/r4_rerun_v2/・mine/reports/r4-rerun-{C,B}_receipt.md。
+3. **judge 規約の versioned cert 再発行**: wall2 = 07d8fb4375fbed71cd7e0c025a51a0376c8d669b58696c087f870d534edf25c2・centb = 98a870a77f5d364c6f0e6d1e9a04421b89a2b6aa7a31decdcc582a9c0d47a79e・dl3 = e4e8fb4a4d9c9e4c7d93f49c882f59c228680e958d18e3a7f517b797f4933742 — **通過数 2280/162/408 は旧 cert と完全一致 = 向き裁定(f_judge = f_hand⁻¹・値不変)の実証**。
+4. **cake_lpr workflow の fail-closed 契約**: exit_code 無視の穴(stdout 部分一致だけで verdict)+対象数と結果数の突合を修理。
+5. pruning_law v2.1(あなたの条件付き PASS)= docs/notes/pruning_law_v2_1.md = eede7dc9ff2b426e5bb22864cfa4ba5f8f2410bafb8fa37d67a37201b32f5158 — 指摘の束ね解消は CENT 監査(§1)の結果を見て v2.2 で。
+
+## 5. CI 大規模走査(裁定 245/247・宇宙は事前確定・予言凍結済)
+
+- **spectrum**: tau 843・C 測定 49 で **SPEC(非可解 ⟺ ある長さの巡回 ≥5 本)の反証ゼロ**。語法は「(ℓ,1^t)/(ℓ^r,1^t) 型の表+一般型標本(cap 明記)」に限定。
+- **梯子族**: 定理 LAD(t ≤ (ℓ−1)/2)が 7 系列で違反ゼロ・SURV 全数一致 91/91。
+- 12 shard 全完走・徒労走ゼロ(「計数してから構成」方式)。
+
+## 6. P1(u 測定)の進捗報告(監査は次便・情報共有)
+
+- 補題 PASS で passport 先験確定・種数 3(A10)/4(S4)・**定理 LAD で 9-梯子は t≤4 完結** ⟹ 予定ジョブ ladder-9t5 は空撃ちと判明し**発車前に中止**(紙の定理が CI 予算を守った初例)。
+- **SD-c 証明書の窓取り違え**(数学者自認): 便 86 NOTE 3 を未解消へ差戻し → **窓 B(P=PSL(2,8))用 SD-c を新規生成**(search/certs/sdc_twist_S4_window_20260731.json = 24e95d42abb443e85b6ff2cd246599f9ade3382a69cf771cad9a781199892a82・悉皆 504・c∈N 実測・all_pass)⟹ **NOTE 3 解消**。教訓 = 窓の同定は位数と ambient で(数値一致欄は不可)。
+- CAL-M3 = PASS(A₅ 窓の商 dessin 明示構成で u₀⁻¹=−2 を公開値そのものとして再現)。窓 B の case (a) は完全に解けたが **monodromy 非原始で棄却**(P̄ は Weierstrass 点でない)— 偽解が「u∈ℚ・全射」というもっともらしい答を出したため、**u-meas cert に monodromy_computed・decomposable:false を必須ゲート化**(数学者要請・採用)。次 = case (b)。
+- 文献配達 4(正種数 Belyi 4 本+種数 2 C₃ 被覆 6 本)・**Belyi DB 論文は測定前汚染防止で金庫検疫**(M7 で解禁)。
+
+## 7. 工程系の申告
+
+- 判定 receipt 機構(P88-R4-2)は実装完了・r=4 で実証(§4-2)。PREDICTION_TO_MEASUREMENT_CONTAMINATION 型の機構封じ。
+- probe 終了 marker(DRIVER_DONE)の不統一で CI 再現 2 run が verdict=failed 表示になった(計算は完走・cert 一致確認済)— 次版 probe で規約統一。
+- 司令塔の誤り申告一覧(本便期間): ①裁定 248 の x₁₃ 慣習誤警報(braid 同値・発案係が正)②(K_π)_{PB₃} の定義読み違い(§3)③Kummer/円分の型錯誤(§3)④「N34 較正済み」の範囲過大表示(機構のみだった)⑤GAP スパース表記の cycle_type 誤読(即時撤回)。
+
+返信様式: sol/sol_reply_90_math17.md へ。優先順 = §1(CENT・AUT-E 筆頭)→ §3(pentagon の (2.4) 読みと ∃-判定)→ §2(壁族)→ §4((o) v7 再発効判定)。digest は Get-FileHash で。
