@@ -112,8 +112,8 @@ jobs:
           set +o pipefail
           mkdir -p "${{ steps.job.outputs.out_dir }}" ci/out
           # driver.g は plan JSON から python で直接生成する(shell 展開を経由しない)。
-          # 旧実装は "${{ ... }}" の二重引用符で preamble 内の GAP 引用符が quote removal に
-          # 食われ(R4ACP_WINDOW:="C";; → :=C;;)GAP が無出力で死んだ(run 30548585598)。
+          # 旧実装は GH 式の二重引用符補間で preamble 内の GAP 引用符が quote removal に
+          # 食われ(R4ACP_WINDOW:="C";; が :=C;; になる)GAP が無出力で死んだ(run 30548585598)。
           python - "${{ matrix.job_path }}" > ci/out/driver.g <<'PY'
           import json, sys
           job = json.load(open(sys.argv[1], encoding='utf-8'))
