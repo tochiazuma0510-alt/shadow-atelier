@@ -251,9 +251,27 @@ jobs:
               )
               elapsed = round(time.time() - t0, 3)
               stdout = proc.stdout
-              verdict = "VERIFIED" if "VERIFIED UNSAT" in stdout else "NOT_VERIFIED"
+              # Sol 便89 §6 是正: 旧実装は stdout の部分文字列一致だけで verdict を
+              # 決めており、cake_lpr が非 0 終了した場合(クラッシュ・タイムアウト後の
+              # 部分書き出し・FFI 異常等)でも、たまたま "VERIFIED UNSAT" という文字列が
+              # stdout のどこかに残っていれば VERIFIED 扱いになりうる fail-open な穴が
+              # あった。fail-closed にするには終了コードも AND 条件にする -- exit_code
+              # が 0 でなければ、stdout に何が書かれていようと NOT_VERIFIED。
+              stdout_says_verified = "VERIFIED UNSAT" in stdout
+              exit_ok = (proc.returncode == 0)
+              verdict = "VERIFIED" if (stdout_says_verified and exit_ok) else "NOT_VERIFIED"
               if verdict != "VERIFIED":
                   any_fail = True
+              exit_code_mismatch_note = (
+                  "n/a"
+                  if exit_ok == stdout_says_verified
+                  else (
+                      f"DOWNGRADED: stdout contained \"VERIFIED UNSAT\" but cake_lpr exit code was "
+                      f"{proc.returncode} (nonzero) -- treated as NOT_VERIFIED (fail-closed)"
+                      if stdout_says_verified else
+                      f"cake_lpr exited 0 but stdout did not contain \"VERIFIED UNSAT\" -- NOT_VERIFIED"
+                  )
+              )
 
               os.remove(lrat_plain)
 
@@ -270,6 +288,7 @@ jobs:
                   f.write(f"proof_lrat_gz_manifest_check={lrat_note}\n")
                   f.write(f"proof_lrat_decompressed_sha256={lrat_plain_sha}\n")
                   f.write(f"cake_lpr_exit_code={proc.returncode}\n")
+                  f.write(f"fail_closed_exit_code_check={exit_code_mismatch_note}\n")
                   f.write(f"elapsed_seconds={elapsed}\n")
                   f.write(f"cake_lpr_stdout_tail={tail_line}\n")
                   f.write(
@@ -285,6 +304,24 @@ jobs:
 
           print("=== summary ===")
           print(json.dumps(summary, ensure_ascii=False, indent=2))
+
+          # Sol 便89 §6 是正: fail-closed の「1つも見つからない場合」は discover
+          # ステップの DISCOVERY_STOP (targets が空なら exit 1) で既にカバー済みだが、
+          # ここでも念のため二重に確認する -- targets が空のままこの点に到達すること
+          # 自体があってはならない(discover ステップの契約が破れた場合の防御線)。
+          if not targets:
+              print("RECHECK_STOP: targets list is empty at the point cake_lpr results should exist "
+                    "-- discover step's fail-closed contract was violated", file=sys.stderr)
+              sys.exit(1)
+
+          # summary は for ループ内で対象ごとに無条件 append されるので通常は
+          # len(summary) == len(targets) が自明に成り立つが、将来ここに continue/break
+          # が入って「result.txt を書かずに次へ進む」経路が紛れ込んでも黙って見逃さない
+          # よう、明示的に突き合わせる(result.txt を書かずに成功扱いになる経路の防止)。
+          if len(summary) != len(targets):
+              print(f"RECHECK_STOP: processed {len(summary)} of {len(targets)} discovered targets -- "
+                    "some target was silently skipped without writing cakelpr_result.txt", file=sys.stderr)
+              sys.exit(1)
 
           if any_fail:
               print("RECHECK_STOP: at least one theorem-target UNSAT run was NOT_VERIFIED by cake_lpr", file=sys.stderr)
@@ -367,6 +404,26 @@ jobs:
           cp ci_negative/negative_test_result.txt ci_out/negative_test_result.txt
           cp ci_negative/corrupted.lrat ci_out/negative_test_corrupted.lrat
           cp ci_discover_out.json ci_out/discover_out.json
+
+          # Sol 便89 §6 是正: 「result.txt を書かずに成功扱いになる経路」の一般防止線
+          # -- discover ステップが確定した対象数と、実際に *_cakelpr_result.txt が
+          # 収集できた本数を突き合わせる。前段の「Run cake_lpr」ステップ自体は
+          # 対象ごとに無条件で cakelpr_result.txt を書くので通常は一致するはずだが、
+          # ここで独立に数え直すことで、前段のロジックが将来変化して黙って一部を
+          # スキップしても、このジョブ全体が success で終わることを防ぐ(fail-closed
+          # を「途中の1ステップの契約」でなく「ジョブ全体の最終契約」として二重化する)。
+          EXPECTED_N=$(python3 -c "import json; print(len(json.load(open('ci_discover_out.json'))['targets']))")
+          ACTUAL_N=$(find ci_out -maxdepth 1 -name '*_cakelpr_result.txt' -type f | wc -l | tr -d ' ')
+          echo "discovered targets = ${EXPECTED_N}   collected cakelpr_result.txt files = ${ACTUAL_N}"
+          if [ "${EXPECTED_N}" != "${ACTUAL_N}" ]; then
+            echo "MANIFEST_STOP: expected ${EXPECTED_N} cakelpr_result.txt files (one per discovered target) but only ${ACTUAL_N} were collected -- some target's result was silently missing (success-without-result.txt path)" >&2
+            exit 1
+          fi
+          if [ "${EXPECTED_N}" = "0" ]; then
+            echo "MANIFEST_STOP: 0 targets were discovered -- this step must not be reached with an empty target set (discover step's fail-closed contract should already have stopped the job earlier)" >&2
+            exit 1
+          fi
+
           ( cd ci_out && sha256sum * > SHA256SUMS.txt )
           cat ci_out/SHA256SUMS.txt
 

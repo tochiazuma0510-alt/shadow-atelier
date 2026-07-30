@@ -78,6 +78,20 @@ r2mod = _load_module("ninfty_verifier_w6_r2_for_eu_test", "ninfty-verifier-w6-r2
 # own docstring.
 reg = _load_module("ninfty_native_registry_for_eu_test", "ninfty-native-registry.py")
 
+# Sol 便89 fix (test/production registry store separation, docs/notes/
+# cert_shape_interpretation_addendum_o_v9.md): this test process's own
+# registry store is a FRESH tempdir, wholly distinct from
+# reg.PRODUCTION_REGISTRY_DIR (search/certs/ep_registry/). Every
+# reg.write_entry(...) call in this file passes registry_dir=TEST_REGISTRY_DIR
+# explicitly (write_entry has no default registry_dir any more -- a
+# caller cannot forget). The NINFTY_EP_REGISTRY_DIR env var is set so that
+# reg.resolve(...) -- including the copy of resolve() evidence-union.py's
+# own _registry() dynamically loads and calls with NO dir parameter of its
+# own -- also reads from this same tempdir, never from production, for the
+# whole duration of this test run.
+TEST_REGISTRY_DIR = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_")
+os.environ["NINFTY_EP_REGISTRY_DIR"] = TEST_REGISTRY_DIR
+
 RESULTS = []
 
 
@@ -971,8 +985,8 @@ record("Sol 便86 P86-2 item 3 positive control: verify_W6_single with map_ref c
 # "正当な artifact では従来どおり PASS すること"). reg.write_entry is the
 # receiver's OUT-OF-BAND provisioning step -- it never runs as part of
 # processing a caller-supplied raw evidence artifact.
-_REG_DIGEST_NATIVE_A = reg.write_entry("native_a", "native_a", "v1", _native_a_real)
-_REG_DIGEST_NATIVE_B = reg.write_entry("native_b", "native_b", "v1", _native_b_real)
+_REG_DIGEST_NATIVE_A = reg.write_entry("native_a", "native_a", "v1", _native_a_real, registry_dir=TEST_REGISTRY_DIR)
+_REG_DIGEST_NATIVE_B = reg.write_entry("native_b", "native_b", "v1", _native_b_real, registry_dir=TEST_REGISTRY_DIR)
 _registry_refs_deref_only = {
     "native_a": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1"},
     "native_b": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1"},
@@ -1056,7 +1070,7 @@ _native_b_different = _synthetic_native(DIFFERENT_MAP)
 # probe, both depend on) with different content under the same id.
 _map_ref_b_different = {"artifact_id": "native_b_alt", "digest": DIFFERENT_MAP_DIGEST, "json_pointer": "/pushforward_map"}
 _cert_two_real_maps = _synthetic_cert(_map_ref_a_deref_only, _map_ref_b_different)  # legit cert, two genuinely different maps
-_REG_DIGEST_NATIVE_B_ALT = reg.write_entry("native_b_alt", "native_b", "v1", _native_b_different)
+_REG_DIGEST_NATIVE_B_ALT = reg.write_entry("native_b_alt", "native_b", "v1", _native_b_different, registry_dir=TEST_REGISTRY_DIR)
 
 # control: correct (unswapped) assignment -> legitimate FAIL (real
 # disagreement, not a schema violation) -- confirms dereference works
@@ -1338,10 +1352,11 @@ record("P88-o negative (d) A/B swap: native_registry_refs['native_a'] claims the
 
 # --- 13e. registry store absent entirely.
 import shutil as _shutil
-_index_had = os.path.isfile(reg.INDEX_PATH)
-_index_backup_path = reg.INDEX_PATH + ".p88o_test_backup"
+_test_index_path = reg.index_path(TEST_REGISTRY_DIR)
+_index_had = os.path.isfile(_test_index_path)
+_index_backup_path = _test_index_path + ".p88o_test_backup"
 if _index_had:
-    _shutil.move(reg.INDEX_PATH, _index_backup_path)
+    _shutil.move(_test_index_path, _index_backup_path)
 try:
     _registry_refs_no_store = {
         "native_a": {"artifact_id": "native_a", "whole_artifact_digest": "2" * 64, "version_id": "v1"},
@@ -1357,7 +1372,7 @@ try:
            _result_no_store)
 finally:
     if _index_had:
-        _shutil.move(_index_backup_path, reg.INDEX_PATH)
+        _shutil.move(_index_backup_path, _test_index_path)
 
 # --- 13f. legacy object_id+inline: a correctly-registered artifact (role,
 #     digest, artifact_id all matching) whose CERTIFICATE map_ref still
@@ -1365,8 +1380,8 @@ finally:
 #     cert_pos_01's own shape. Registering its actual native content does
 #     NOT make it operative: the registry is never touched by dereference
 #     when there is no json_pointer to resolve.
-reg.write_entry("native_a", "native_a", "v1", _cert_pos_01["native_a"])
-reg.write_entry("native_b", "native_b", "v1", _cert_pos_01["native_b"])
+reg.write_entry("native_a", "native_a", "v1", _cert_pos_01["native_a"], registry_dir=TEST_REGISTRY_DIR)
+reg.write_entry("native_b", "native_b", "v1", _cert_pos_01["native_b"], registry_dir=TEST_REGISTRY_DIR)
 _registry_refs_legacy = {
     "native_a": {"artifact_id": "native_a", "whole_artifact_digest": reg.resolve("native_a")["whole_artifact_digest"], "version_id": "v1"},
     "native_b": {"artifact_id": "native_b", "whole_artifact_digest": reg.resolve("native_b")["whole_artifact_digest"], "version_id": "v1"},
@@ -1389,6 +1404,80 @@ record("P88-o negative (f) legacy object_id+inline: EVEN WITH a correctly-regist
 # only because it is the LAST registry mutation in this file; nothing
 # below this point (only the final report) depends on the earlier 10a/10d
 # content under those same ids.
+
+# --------------------------------------------------------------------------
+# 14. Sol 便89 registry hardening (docs/notes/cert_shape_interpretation_
+#     addendum_o_v9.md): 3 new negatives closing the 3 blockers found in
+#     v8's registry -- test/production store separation, version_id
+#     format validation, version_id omission no longer bypassing the
+#     version check.
+# --------------------------------------------------------------------------
+
+# --- 14a. test attempts to write into the PRODUCTION registry directory
+#     without operator opt-in -> PermissionError, and the production store
+#     is provably untouched (file count under it is unchanged before/after
+#     the attempt, and NINFTY_EP_ALLOW_PRODUCTION_WRITE is confirmed unset
+#     for the whole duration of this test run).
+assert os.environ.get(reg.ENV_ALLOW_PRODUCTION_WRITE) != "1", (
+    "test process must never set NINFTY_EP_ALLOW_PRODUCTION_WRITE=1 -- this is the precondition 14a checks"
+)
+os.makedirs(reg.PRODUCTION_REGISTRY_DIR, exist_ok=True)
+_prod_files_before = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
+_prod_write_raised = None
+try:
+    reg.write_entry("attacker_artifact", "native_a", "v1", {"forged": "content"}, registry_dir=reg.PRODUCTION_REGISTRY_DIR)
+except PermissionError as e:
+    _prod_write_raised = e
+_prod_files_after = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
+record("Sol 便89 negative 1: write_entry(registry_dir=PRODUCTION_REGISTRY_DIR) without "
+       "NINFTY_EP_ALLOW_PRODUCTION_WRITE=1 raises PermissionError",
+       isinstance(_prod_write_raised, PermissionError), repr(_prod_write_raised))
+record("Sol 便89 negative 1b: the production registry directory's file listing is BYTE-IDENTICAL before/after "
+       "the rejected write attempt (no partial/leaked write occurred)",
+       _prod_files_before == _prod_files_after,
+       {"before": _prod_files_before, "after": _prod_files_after})
+record("Sol 便89 negative 1c: resolve('attacker_artifact') against the production store finds nothing "
+       "(the rejected write never reached it)",
+       reg.resolve("attacker_artifact", registry_dir=reg.PRODUCTION_REGISTRY_DIR) is None, "n/a")
+
+# --- 14b. version_id omitted from a raw evidence artifact's
+#     native_registry_refs claim -> MISSING (not a silent skip-the-check
+#     that could still reach PASS pre-fix), overall != PASS. Uses the
+#     already-registered 13f-era "native_a"/"native_b" content, TEST store.
+_registry_refs_no_version = {
+    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": reg.resolve("native_a")["whole_artifact_digest"]},
+    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": reg.resolve("native_b")["whole_artifact_digest"]},
+}
+_raw_no_version = {
+    "schema_id": RAW_SCHEMA, "certificate": _cert_deref_only,
+    "native_a": _native_a_real, "native_b": _native_b_real,
+    "native_registry_refs": _registry_refs_no_version,
+}
+_result_no_version = eu.evidence_union_from_raw_w6(_raw_no_version)
+record("Sol 便89 negative 2: native_registry_refs[...] with version_id OMITTED entirely -> "
+       "native_registry_status MISSING (was silently skipping the version check and could still reach "
+       "PASS pre-fix), overall != PASS",
+       _result_no_version.get("native_registry_status", {}).get("status") == "MISSING"
+       and _result_no_version["overall_status"] != "PASS",
+       _result_no_version.get("native_registry_status"))
+
+# --- 14c. malformed version_id formats at write_entry (registry
+#     provisioning level) -> ValueError, none reach the store.
+for _bad_version, _bad_label in (
+    (None, "None"), ("", "empty string"), ("   ", "whitespace-only"),
+    ("has spaces", "contains a space"), ("../../etc/passwd", "path-traversal-shaped"),
+    ("a" * 65, "too long (65 chars)"), (42, "non-string (int)"),
+):
+    _raised = None
+    try:
+        reg.write_entry("bad_version_probe", "native_a", _bad_version, {"x": 1}, registry_dir=TEST_REGISTRY_DIR)
+    except ValueError as e:
+        _raised = e
+    record(f"Sol 便89 negative 3 ({_bad_label}): write_entry(version_id={_bad_version!r}) raises ValueError",
+           isinstance(_raised, ValueError), repr(_raised))
+record("Sol 便89 negative 3 (no leakage): none of the malformed-version write_entry attempts left a resolvable "
+       "'bad_version_probe' entry in the TEST store",
+       reg.resolve("bad_version_probe", registry_dir=TEST_REGISTRY_DIR) is None, "n/a")
 
 
 # --------------------------------------------------------------------------

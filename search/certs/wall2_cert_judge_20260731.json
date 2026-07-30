@@ -1,0 +1,65 @@
+{
+  "schema":"wac_v1-wall2-cert/v2-judge",
+  "generated_by":"search/probe/wac_v1/wall2_cert_judge.g",
+  "window_label":"P-WALL-2",
+  "f_orientation":"judge",
+  "source_witness":"ops/express/20260731_数学者Opus_壁到達と窓2枚.md 窓A(壁P4), 逐語(wall2_cert.g と同一witness)",
+  "note":"raw measurements only -- 予言値/期待値はコードに書かず、全て計算値をそのまま記録する。W(x,y,c,Bq,PN,N_ord)は search/probe/wac_v1/_judge_core_extract.g(kerchi-judge.g 146-165行のsed逐語抽出、改変ゼロ)のMakeWindowを再利用。hexagon判定はjudgeの実物条件(AbstractProd([fj,TH(W,fj)])=1 かつ RtOf(W,0,fj)=c^0)をfj=a1*(a1^z)(訂正版定理SURV, judge規約, docs/notes/hexagon_orientation_ruling_v1.md §3)に適用 -- fj = f_hand^{-1}(同note §1.4)。sat_l1_probe17.gが実証済みの式をcert化しただけで判定ロジック自体は無改変。旧cert wall2_cert_20260731.json(mathematician_handwritten, f_orientation欄なし)は非上書き・履歴として残置。",
+  "n":24,
+  "a1":"(1,13)(2,9)(3,5)(4,24)(6,8)(7,21)(10,12)(11,20)(14,16)(15,22)(17,19)(18,23)",
+  "b1":"(1,12,9)(2,8,5)(3,4,24)(6,7,21)(10,11,20)(13,19,16)(14,15,22)(17,18,23)",
+  "window_asserts":{
+    "a1_sq_eq_1":true,
+    "b1_cube_eq_1":true,
+    "k":12,
+    "j":8,
+    "sign_a1":1,
+    "a1_cycle_type":"[ 12 ]",
+    "b1_cycle_type":"[ , 8 ]",
+    "w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]",
+    "w0_order":19,
+    "xbar_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]",
+    "xbar_order":19,
+    "gen_eq_An":true,
+    "ree_sum":26,
+    "ree_n_plus_2":26,
+    "ree_genus":0,
+    "braid_holds":true,
+    "c_eq_identity":true,
+    "P_eq_An":true,
+    "E_size":1861345205199718318080000,
+    "E_eq_6_An":true,
+    "N_ord":19,
+    "charming_count":18
+  },
+  "centralizer_w0":{
+    "size":2280,
+    "structure_description":"C19 x S5",
+    "solvable":false
+  },
+  "centralizer_xbar":{
+    "size":2280,
+    "solvable":false
+  },
+  "surv_scan":{
+    "Cv_size":2280,
+    "pass_count":2280,
+    "hexagon_fail_count":0,
+    "generation_fail_count":0,
+    "total_checked":2280
+  },
+  "xi_image":{
+    "size":2280,
+    "structure_description":"C19 x S5",
+    "solvable":false,
+    "eq_centralizer_w0":true
+  },
+  "lid1":{
+    "canonical_string":"LID1/v1|id=P-WALL-2|orient=judge|n=24|a1=(1,13)(2,9)(3,5)(4,24)(6,8)(7,21)(10,12)(11,20)(14,16)(15,22)(17,19)(18,23)|b1=(1,12,9)(2,8,5)(3,4,24)(6,7,21)(10,11,20)(13,19,16)(14,15,22)(17,18,23)|S1=(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)(25,26)|S2=(1,16,22,14,19,23,17,13,9,5,24,3,8,21,6,2,12,20,10)(26,27)",
+    "sha256":"3f7c0c26ec06d520a0406112b234df68e9f2250406eacecf7ea387a8a0dedf27"
+  },
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"9ce284ac4f39875649400ec3bf515439fa3088327ee5c022d9d0ead8aec2d36d"
+  }
+}

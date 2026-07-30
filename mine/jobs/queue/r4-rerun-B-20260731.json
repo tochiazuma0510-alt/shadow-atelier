@@ -1,0 +1,48 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "r4-rerun-B-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P3"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "N_ord": 5,
+      "windows": 1,
+      "window_id": "W-E-A20-5x4t0-B",
+      "note": "Sol 便89 §9 是正(sol/裁定_246_便89検収と定理CENT.md 差戻し4「r=4 receipt の修理完了申告=FAIL」): search/strike-r4.g の欄が P88-R4-1(裁定239 便88)で 12/30 retype 済みだが、B 枝の cert/manifest/receipt(search/certs/r4_W_E_A20_5x4t0_B_20260730.json・search/certs/r4_manifest_B_20260730.json・mine/reports/r4-B_receipt.md)は旧欄のまま(司令塔の完了申告が driver 更新=完了と先走った)。本 job は retype 後の driver で B 枝を撃ち直し、新しい欄で cert/manifest を再生成する(A₂₀ 級・ローカル実行不可・CI 必須)。C 枝の兄弟 job(r4-rerun-C-20260731)。窓構成・仕様はモードA既定(裁定231 search/_r4_driver_spec.md)を変更しない -- 単なる撃ち直し。"
+    },
+    "frozen_docs": [
+      { "path": "search/strike-r4.g", "sha256": "01783f77fc30991c69be8da65b4419146c8f46b6d960024f708f540ef1b3c81e" },
+      { "path": "search/_r4_driver_spec.md", "sha256": "4cc776694a7bbfc81e0c7937324df98e13aee1fed1f5b1b824e1cf2a74b62f16" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "R4-STRIKE-RERUN",
+      "version": 1,
+      "params": { "driver": "search/strike-r4.g", "window": "B", "note": "v0: 述語カード未起票(§7-1)。P88-R4-1 retype 後の欄で B 枝を再測定 -- driver 自体はモードA既定(裁定231)から無改変、preamble R4_ONLY_WINDOW のみで対象窓を選択。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "撃ち直し job -- 新しい予言は立てない(裁定236追記 で B 窓は既に P-R4-8 判定済み、retype 後欄での cert/manifest/receipt 再生成のみが目的)"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": "none (1 window per job via preamble R4_ONLY_WINDOW; C/B は別 job -- 裁定231 発注時の窓分割方針を踏襲)",
+    "timeout_min": 120,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/strike-r4.g",
+      "sha256": "01783f77fc30991c69be8da65b4419146c8f46b6d960024f708f540ef1b3c81e",
+      "preamble": "R4_ONLY_WINDOW := \"B\";;"
+    }
+  },
+  "outputs": {
+    "cert_schema": "r4-window-cert (正本は search/strike-r4.g 自身のヘッダコメント + search/_r4_driver_spec.md)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}

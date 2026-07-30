@@ -1,0 +1,65 @@
+{
+  "schema":"wac_v1-centb-cert/v2-judge",
+  "generated_by":"search/probe/wac_v1/centb_cert_judge.g",
+  "window_label":"W-CENT-B",
+  "f_orientation":"judge",
+  "source_witness":"ops/express/20260731_数学者Opus_壁到達と窓2枚.md 窓B(判別), 逐語(centb_cert.g と同一witness)",
+  "note":"raw measurements only -- 予言値/期待値はコードに書かず、全て計算値をそのまま記録する。W(x,y,c,Bq,PN,N_ord)は search/probe/wac_v1/_judge_core_extract.g(kerchi-judge.g 146-165行のsed逐語抽出、改変ゼロ)のMakeWindowを再利用。hexagon判定はjudgeの実物条件(AbstractProd([fj,TH(W,fj)])=1 かつ RtOf(W,0,fj)=c^0)をfj=a1*(a1^z)(訂正版定理SURV, judge規約, docs/notes/hexagon_orientation_ruling_v1.md §3)に適用 -- fj = f_hand^{-1}(同note §1.4)。sat_l1_probe17.gが実証済みの式をcert化しただけで判定ロジック自体は無改変。旧cert centb_cert_20260731.json(mathematician_handwritten, f_orientation欄なし)は非上書き・履歴として残置。",
+  "n":18,
+  "a1":"(1,2)(3,4)(5,9)(6,18)(7,15)(8,10)(11,14)(16,17)",
+  "b1":"(2,9,4)(5,8,18)(6,17,15)(7,14,10)(11,13,12)",
+  "window_asserts":{
+    "a1_sq_eq_1":true,
+    "b1_cube_eq_1":true,
+    "k":8,
+    "j":5,
+    "sign_a1":1,
+    "a1_cycle_type":"[ 8 ]",
+    "b1_cycle_type":"[ , 5 ]",
+    "w0_cycle_type":"[ , , , , , , , 2 ]",
+    "w0_order":9,
+    "xbar_cycle_type":"[ , , , , , , , 2 ]",
+    "xbar_order":9,
+    "gen_eq_An":true,
+    "ree_sum":20,
+    "ree_n_plus_2":20,
+    "ree_genus":0,
+    "braid_holds":true,
+    "c_eq_identity":true,
+    "P_eq_An":true,
+    "E_size":19207121117184000,
+    "E_eq_6_An":true,
+    "N_ord":9,
+    "charming_count":6
+  },
+  "centralizer_w0":{
+    "size":162,
+    "structure_description":"C9 x D18",
+    "solvable":true
+  },
+  "centralizer_xbar":{
+    "size":162,
+    "solvable":true
+  },
+  "surv_scan":{
+    "Cv_size":162,
+    "pass_count":162,
+    "hexagon_fail_count":0,
+    "generation_fail_count":0,
+    "total_checked":162
+  },
+  "xi_image":{
+    "size":162,
+    "structure_description":"C9 x D18",
+    "solvable":true,
+    "eq_centralizer_w0":true
+  },
+  "lid1":{
+    "canonical_string":"LID1/v1|id=W-CENT-B|orient=judge|n=18|a1=(1,2)(3,4)(5,9)(6,18)(7,15)(8,10)(11,14)(16,17)|b1=(2,9,4)(5,8,18)(6,17,15)(7,14,10)(11,13,12)|S1=(1,2,3,4,5,6,7,8,9)(10,11,12,13,14,15,16,17,18)(19,20)|S2=(1,4,3,9,18,15,10,5,2)(6,8,14,12,13,11,7,17,16)(20,21)",
+    "sha256":"56b8e9ba773351451243ccb73c500a5708d9664c4cfb9c9b537911732b71e965"
+  },
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"36b7a01e315d3f4ccc19de24aaf37e2447d54ecafcd472f1c1fae4b3bd1ce55a"
+  }
+}

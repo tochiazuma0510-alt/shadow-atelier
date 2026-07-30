@@ -1057,14 +1057,21 @@ def _resolve_native_registry(raw):
     contents = {}
     for reg_side, cert_side in (("native_a", "searcher"), ("native_b", "checker")):
         ref = refs.get(reg_side) if isinstance(refs, dict) else None
-        if not (isinstance(ref, dict) and _is_nonempty_str(ref.get("artifact_id")) and _is_64hex(ref.get("whole_artifact_digest"))):
+        if not (
+            isinstance(ref, dict)
+            and _is_nonempty_str(ref.get("artifact_id"))
+            and _is_64hex(ref.get("whole_artifact_digest"))
+            and _is_nonempty_str(ref.get("version_id"))
+        ):
             side_results[reg_side] = {
                 "status": "MISSING",
                 "reason": (
                     f"raw carries no well-shaped native_registry_refs[{reg_side!r}] "
-                    "({'artifact_id': <str>, 'whole_artifact_digest': <64hex>}) -- receiver-held registry "
-                    "lookup was never attempted; raw's own native_a/native_b fields are never authority "
-                    "(Sol 便88 P88-o item 1)"
+                    "({'artifact_id': <str>, 'whole_artifact_digest': <64hex>, 'version_id': <non-empty str>}) "
+                    "-- receiver-held registry lookup was never attempted; raw's own native_a/native_b fields "
+                    "are never authority (Sol 便88 P88-o item 1). version_id is REQUIRED (Sol 便89 fix: an "
+                    "omitted version_id used to silently skip the version check below and could still reach "
+                    "PASS -- now it fails closed here instead, same bucket as an omitted artifact_id)"
                 ),
             }
             continue
@@ -1107,7 +1114,12 @@ def _resolve_native_registry(raw):
             }
             continue
         claimed_version = ref.get("version_id")
-        if claimed_version is not None and claimed_version != entry.get("version_id"):
+        # Sol 便89 fix: version_id is now REQUIRED-and-well-shaped by the
+        # well-shaped-ref gate above (an omitted/empty version_id already
+        # produced MISSING and `continue`d before reaching this line) --
+        # so this comparison is now UNCONDITIONAL, no more "skip if
+        # absent" branch that could bypass the version check entirely.
+        if claimed_version != entry.get("version_id"):
             side_results[reg_side] = {
                 "status": "STALE",
                 "reason": f"raw's claimed version_id {claimed_version!r} does not match the pinned version {entry.get('version_id')!r}",
