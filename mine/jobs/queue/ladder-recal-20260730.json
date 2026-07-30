@@ -1,0 +1,51 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "ladder-recal-20260730",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P3"], "band": 1 },
+  "universe": {
+    "generator": "ladder-family",
+    "params": {
+      "N_ord": 9,
+      "windows": 13,
+      "note": "第一号=較正再走(裁定237 修正1)。新窓ではなく既存13窓のCI再発車。既知結果との一致がv0受け入れ試験。"
+    },
+    "frozen_docs": [
+      { "path": "search/_a13_ladder_driver_spec.md", "sha256": "c62519a85ca0f9e3db0959f579909aac22ee0ad606ad7d5b5b14d5ca1db9af90" },
+      { "path": "search/strike-a13-ladder.g", "sha256": "fa209588621791ad07b1e5a111e9d9f056aba9529592bc013059c204ea5285db" },
+      { "path": "docs/notes/a13_prediction_v1.md", "sha256": "1bdaf891af275ce27890df7d948d10da6445d953a21bdacb92c34b44aec7ff38" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "A13-LADDER-RECAL",
+      "version": 1,
+      "params": { "driver": "search/strike-a13-ladder.g", "note": "v0: 述語カード未起票(§7-1「カード化は走った後でよい」)。driverへの名前付きポインタのみ。" }
+    }
+  ],
+  "predictions": {
+    "frozen": "docs/notes/a13_prediction_v1.md",
+    "sha256": "1bdaf891af275ce27890df7d948d10da6445d953a21bdacb92c34b44aec7ff38"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": "none (strike-a13-ladder.g に窓選択knobなし。裁定237 修正2により非分割1job)",
+    "timeout_min": 60,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/strike-a13-ladder.g",
+      "sha256": "fa209588621791ad07b1e5a111e9d9f056aba9529592bc013059c204ea5285db",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "a13-ladder-cert (raw measurement; 正本は search/_a13_ladder_driver_spec.md)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "auto-pair",
+    "checker_backend": "py-ci",
+    "checker_certs_glob": "search/certs/ladder_xi_recheck_*_20260730.json"
+  },
+  "ep_handoff": null
+}

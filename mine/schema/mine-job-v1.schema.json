@@ -1,0 +1,175 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "mine/schema/mine-job-v1.schema.json",
+  "title": "mine-job/v1",
+  "description": "採掘場(mine)ジョブ仕様 v0。宇宙の事前登録を機械可読にしたもの(ideas/ideas_013_solver_platform.md §4.3・裁定237 で採用)。このスキーマは文書としての正本。preflight.py の実チェックは stdlib のみで自前実装しており(jsonschema 非依存)、本スキーマの意図をコードで再現する。両者が乖離したら preflight.py 側を疑うこと。",
+  "type": "object",
+  "required": [
+    "schema",
+    "job_id",
+    "claim_class",
+    "map_ref",
+    "universe",
+    "pipeline",
+    "predictions",
+    "resources",
+    "outputs",
+    "crosscheck",
+    "ep_handoff"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema": { "const": "mine-job/v1" },
+    "job_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "claim_class": {
+      "type": "string",
+      "enum": ["exploration", "negative-claim"],
+      "description": "ソルバー哲学(2026-07-29 裁定)の機械化。exploration=候補発見・バグ許容。negative-claim=登録レジーム(重装備)。"
+    },
+    "map_ref": {
+      "type": "object",
+      "required": ["polestar", "band"],
+      "properties": {
+        "polestar": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "band": { "type": "integer" }
+      },
+      "additionalProperties": true
+    },
+    "universe": {
+      "type": "object",
+      "required": ["generator", "params", "frozen_docs"],
+      "properties": {
+        "generator": {
+          "type": "string",
+          "enum": ["lins-band", "ladder-family", "cell-family", "direct-windows", "cnf-manifest"],
+          "description": "少数の登録制。位数・生成系を動かす変更 = params の変更 = 事前登録の変更(§4.3)。"
+        },
+        "params": { "type": "object" },
+        "frozen_docs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "claim_class=negative-claim のみ必須: 宇宙全体の焼き込みハッシュ(cert へ焼き込む値)。"
+        }
+      },
+      "additionalProperties": true
+    },
+    "pipeline": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["predicate", "version"],
+        "properties": {
+          "predicate": { "type": "string", "minLength": 1 },
+          "version": { "type": "integer", "minimum": 1 },
+          "params": { "type": "object" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "predictions": {
+      "description": "非空(frozen+sha256)か、または declared_none の明示宣言が必須(prediction-first の機械化)。",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["frozen", "sha256"],
+          "properties": {
+            "frozen": { "type": "string", "minLength": 1 },
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["declared_none"],
+          "properties": {
+            "declared_none": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "resources": {
+      "type": "object",
+      "required": ["backend", "timeout_min"],
+      "properties": {
+        "backend": { "type": "string", "enum": ["gap-ci", "sat-ci", "py-ci"] },
+        "shards": {
+          "type": ["string", "integer"],
+          "description": "v0: driver に window 選択 knob が無い限り非分割(裁定237 修正2)。'auto-by-window' 等は knob 実装後(v1+)。"
+        },
+        "timeout_min": { "type": "integer", "minimum": 1 },
+        "checkpoint": { "type": "boolean" },
+        "v0_driver": {
+          "type": "object",
+          "description": "v0 の橋渡し欄(述語カード化=v1 までの暫定)。GAP driver スクリプトを直接指す。driver 自体の改変は禁止 -- ここは既存 driver への名前付きポインタ。",
+          "required": ["script", "sha256"],
+          "properties": {
+            "script": { "type": "string", "minLength": 1 },
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "preamble": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["cert_schema", "out_dir"],
+      "properties": {
+        "cert_schema": { "type": "string", "minLength": 1 },
+        "out_dir": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "crosscheck": {
+      "type": "object",
+      "required": ["mode"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["auto-pair", "manual", "none"] },
+        "checker_backend": { "type": "string" },
+        "checker_certs_glob": {
+          "type": "string",
+          "description": "collector が対付けする既存 checker cert 群の glob(例: search/certs/ladder_xi_recheck_*_20260730.json)。"
+        }
+      },
+      "additionalProperties": true
+    },
+    "ep_handoff": {
+      "type": ["null", "object"],
+      "description": "EP(ninfty-*)接続点の予約のみ。v0 は null 固定(§1.8・裁定237: 統合しない)。"
+    }
+  },
+  "if": {
+    "properties": { "claim_class": { "const": "negative-claim" } }
+  },
+  "then": {
+    "properties": {
+      "universe": {
+        "required": ["generator", "params", "frozen_docs", "sha256"]
+      }
+    },
+    "required": ["universe"]
+  }
+}

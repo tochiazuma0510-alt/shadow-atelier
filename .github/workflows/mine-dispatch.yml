@@ -1,0 +1,162 @@
+name: mine-dispatch
+
+# 採掘場(mine)の統一配車 -- v0(裁定237)。mb-search.yml の複製改造。
+# 探索器の判定ロジックには一切触れない -- job "gate" が
+# mine/preflight.py(schema/integrity/予言の3ゲート)をそのまま実行し、
+# 1つでも不一致なら発車しない。v0 は backend=gap-ci のみを扱う
+# (sat-ci/py-ci は§4.5の設計に予約済みだが本 workflow の実装対象外)。
+
+on:
+  push:
+    paths:
+      - 'mine/jobs/queue/*.json'
+  workflow_dispatch:
+    inputs:
+      job_path:
+        description: "mine job JSON のパス(repo-relative)。省略時は push で変更された mine/jobs/queue/*.json を自動発見。"
+        required: false
+        type: string
+        default: ""
+
+# mb-search.yml と同じ理由: push 競合を避けるが、実行中の探索は打ち切らない。
+concurrency:
+  group: mine-dispatch
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      jobs: ${{ steps.discover.outputs.jobs }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Discover job plan(s)
+        id: discover
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${{ inputs.job_path }}" ]; then
+            FILES="${{ inputs.job_path }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            FILES=$(git diff --name-only --diff-filter=ACM "${{ github.event.before }}" "${{ github.event.after }}" -- 'mine/jobs/queue/*.json' || true)
+          else
+            FILES=""
+          fi
+          if [ -z "$FILES" ]; then
+            echo "PLAN_DISCOVERY_STOP: no mine job JSON found (push diff empty and no job_path input given)" >&2
+            exit 1
+          fi
+          JSON_ARR=$(printf '%s\n' "$FILES" | node -e "
+            const lines = require('fs').readFileSync(0, 'utf8').split('\n').filter(Boolean);
+            console.log(JSON.stringify(lines));
+          ")
+          echo "jobs=$JSON_ARR" >> "$GITHUB_OUTPUT"
+          echo "discovered: $JSON_ARR"
+
+  gate-and-run:
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        job_path: ${{ fromJSON(needs.plan.outputs.jobs) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Preflight -- (a) schema (b) integrity (c) prediction gate
+        run: python mine/preflight.py "${{ matrix.job_path }}"
+
+      - name: Load job fields for downstream steps
+        id: job
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "${{ matrix.job_path }}" <<'PY' >> "$GITHUB_OUTPUT"
+          import json, sys
+          job = json.load(open(sys.argv[1], encoding='utf-8'))
+          res = job.get('resources', {})
+          backend = res.get('backend')
+          if backend != 'gap-ci':
+              print(f"ERROR: mine-dispatch v0 only supports backend=gap-ci, got {backend!r}", file=sys.stderr)
+              sys.exit(1)
+          drv = res.get('v0_driver') or {}
+          if not drv.get('script'):
+              print("ERROR: resources.v0_driver.script is required for backend=gap-ci in v0", file=sys.stderr)
+              sys.exit(1)
+          print(f"job_id={job['job_id']}")
+          print(f"script={drv['script']}")
+          print(f"preamble={drv.get('preamble', '')}")
+          print(f"out_dir={job['outputs']['out_dir']}")
+          print(f"timeout_min={res.get('timeout_min', 60)}")
+          PY
+
+      - name: Setup GAP 4.16.0 (release tarball, sha256-verified)
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Run GAP driver (search/*.g は不可侵 -- 既存 driver をそのまま Read するのみ)
+        id: run
+        shell: bash
+        run: |
+          set +o pipefail
+          mkdir -p "${{ steps.job.outputs.out_dir }}" ci/out
+          {
+            if [ -n "${{ steps.job.outputs.preamble }}" ]; then printf '%s\n' "${{ steps.job.outputs.preamble }}"; fi
+            printf 'Read("%s");\n' "${{ steps.job.outputs.script }}"
+          } > ci/out/driver.g
+          TIMEOUT_SEC=$(( ${{ steps.job.outputs.timeout_min }} * 60 ))
+          set +e
+          timeout "$TIMEOUT_SEC" gap -q -o 12g ci/out/driver.g | tee ci/out/run.log
+          GAP_EXIT="${PIPESTATUS[0]}"
+          set -e
+          echo "gap_exit=$GAP_EXIT" >> "$GITHUB_OUTPUT"
+
+      - name: Write result.txt (DRIVER_DONE marker detection)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -q "DRIVER_DONE" ci/out/run.log; then
+            VERDICT=done
+          else
+            VERDICT=failed
+          fi
+          {
+            echo "verdict=$VERDICT"
+            echo "job_id=${{ steps.job.outputs.job_id }}"
+            echo "gap_exit_code=${{ steps.run.outputs.gap_exit }}"
+            echo "run_id=${{ github.run_id }}"
+            echo "sha=${{ github.sha }}"
+          } > ci/out/result.txt
+          cat ci/out/result.txt
+
+      - name: SHA256SUMS.txt over out_dir contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${{ steps.job.outputs.out_dir }}"
+          if compgen -G "$OUT"'/*' > /dev/null; then
+            ( cd "$OUT" && sha256sum -- * > SHA256SUMS.txt )
+          else
+            echo "# (out_dir にファイルなし)" > "$OUT/SHA256SUMS.txt"
+          fi
+          cat "$OUT/SHA256SUMS.txt"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mine-run-${{ steps.job.outputs.job_id }}
+          path: |
+            ${{ steps.job.outputs.out_dir }}/
+            ci/out/run.log
+            ci/out/result.txt
+          if-no-files-found: error
