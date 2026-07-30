@@ -22,6 +22,7 @@
 - **certs メモ化索引**: `mine/collector/build_index.py` -- `search/certs/` を走査し `(window_id/canonical_id_sha256, generated_by, script_sha256)` の索引を `mine/index/certs_index.json` へ構築。完全な (UID×述語×版×impl_sha) 鍵は v1 後半に伸ばす(§4.7)。
 - **LEDGER 行・地図 delta 案の下書き**: `collect.py --emit-ledger-draft` -- 検収レポートに加えて `mine/reports/<job_id>_ledger_draft.md`(LEDGER.md 様式の下書き+地図 delta 案 1 行)を機械生成する。**貼るのは人**。
 - **述語台帳(最小)**: `mine/registry/` に XI-SCAN・PRUNE-ODD の 2 カード。preflight の (d) registry ゲートが、plan の `pipeline[*].predicate` がカード id を指す場合のみ `impl_sha256` の現物一致を検査する(カード無し述語は従来どおり無検査)。
+- **[小修理] collector の checker cert 出所**: 対付け(§4.6)の checker(python)側 cert は `--artifact-dir` からでなく、常に `plan.crosscheck.checker_certs_glob` を repo ルート相対で glob して取る(v1 の staged out_dir には explorer 側 cert しか入らず対付けが 0/0 に落ちる事故の修理)。同じ window_id が artifact-dir 側にもあれば artifact 版を優先(v0 互換)。
 
 ## v0_driver 欄について
 

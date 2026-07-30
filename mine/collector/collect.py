@@ -13,6 +13,16 @@
 #   - 片系統しかない項目は candidate、両系統一致は "cross-checked 候補"
 #     (最終昇格の裁定は人 -- このスクリプトは裁定しない)。
 #
+# checker cert の出所(v1 修理・司令塔便): explorer(GAP)側 cert は
+# --artifact-dir から、checker(python)側 cert は plan.crosscheck.
+# checker_certs_glob を repo ルート相対で常に glob して取る。v1 の staged
+# out_dir(mine/out/<job_id>/)には driver が書く explorer cert しか入らず、
+# checker は元々 GAP CI の生成物ではないため artifact に含まれる保証が無い
+# (v0 の artifact = search/certs 全体、というたまたまの一致で対付けできて
+# いただけ)。選択: artifact-dir 側に同じ window_id の checker cert が
+# あればそちらを優先し、無い window_id だけ repo glob 版で補う
+# (merge_checker_windows)。
+#
 # usage:
 #   python mine/collector/collect.py --artifact-dir <dir> --plan <plan.json>
 #   python mine/collector/collect.py --artifact-dir search/certs --plan mine/jobs/queue/ladder-recal-20260730.json --dry-run
@@ -71,6 +81,47 @@ def discover_certs(dir_path):
         kind = classify(obj)
         buckets[kind].append((path, obj))
     return buckets
+
+
+def discover_checker_certs_from_repo(glob_pattern):
+    """checker 側 cert は常に repo 収蔵版(plan.crosscheck.checker_certs_glob
+    を repo ルート相対で glob)から取る。v1 の staged out_dir(mine/out/
+    <job_id>/)には explorer(GAP)側の新規 cert しか入らない(driver がそこ
+    にしか書かない)ため、artifact-dir だけを見ると対付けが 0/0 に落ちる
+    事故があった(司令塔便・修理指示)。checker は GAP CI の生成物ではなく
+    独立に走らせた python 照合器の収蔵物なので、そもそも artifact に
+    含まれる保証がない -- repo を正とするのが筋。"""
+    buckets = {"checker_window": [], "checker_manifest": []}
+    if not glob_pattern:
+        return buckets
+    for path in sorted(glob.glob(os.path.join(ROOT, glob_pattern), recursive=True)):
+        try:
+            obj = load_json(path)
+        except Exception:
+            continue
+        kind = classify(obj)
+        if kind in buckets:
+            buckets[kind].append((path, obj))
+    return buckets
+
+
+def merge_checker_windows(artifact_windows, repo_windows):
+    """window_id をキーに artifact-dir 側と repo-glob 側の checker cert を
+    マージする。**選択: artifact-dir 側を優先**(同じ window_id が両方に
+    あれば artifact 版を採用)し、artifact に無い window_id だけ repo 版で
+    補う。v0(artifact が search/certs 全体を含む)では実質的に同一内容な
+    ので影響なし。v1(staged out_dir)では artifact 側に checker cert が
+    無いので、常に repo 版が使われる。"""
+    merged = {}
+    for path, obj in repo_windows:
+        wid = obj.get("window_id")
+        if wid:
+            merged[wid] = (path, obj)
+    for path, obj in artifact_windows:
+        wid = obj.get("window_id")
+        if wid:
+            merged[wid] = (path, obj)
+    return list(merged.values())
 
 
 def field_diff_table(a, b, keys):
@@ -318,12 +369,25 @@ def main():
 
     buckets = discover_certs(args.artifact_dir)
 
+    # checker 側は artifact-dir でなく repo 収蔵版(plan.crosscheck.
+    # checker_certs_glob)から常に取る(v1 staged out_dir 対策・司令塔便の
+    # 修理指示)。artifact-dir 側に checker cert があればそちらを優先し、
+    # 無い window_id だけ repo 版で補う(merge_checker_windows)。
+    checker_glob = (plan.get("crosscheck") or {}).get("checker_certs_glob")
+    repo_checker_buckets = discover_checker_certs_from_repo(checker_glob)
+    buckets["checker_window"] = merge_checker_windows(buckets["checker_window"], repo_checker_buckets["checker_window"])
+    existing_manifest_paths = {p for p, _ in buckets["checker_manifest"]}
+    for path, obj in repo_checker_buckets["checker_manifest"]:
+        if path not in existing_manifest_paths:
+            buckets["checker_manifest"].append((path, obj))
+
     lines = []
     lines.append(f"# mine 検収レポート -- {job_id}\n")
     lines.append(f"- 生成: {datetime.now(timezone.utc).isoformat()}(UTC)")
     lines.append(f"- plan: `{plan_path}`")
     lines.append(f"- artifact-dir: `{args.artifact_dir}`" + ("(dry-run: repo cert を artifact に見立てた自己検収)" if args.dry_run else ""))
     lines.append(f"- claim_class: `{plan.get('claim_class')}`")
+    lines.append(f"- checker cert 出所: repo glob `{checker_glob}`(artifact-dir 側に同じ window_id の checker cert があれば artifact 版を優先。v1 staged out_dir では常に repo 版)" if checker_glob else "- checker cert 出所: (plan.crosscheck.checker_certs_glob 未指定)")
     lines.append("")
     lines.append("machine-piped 規約: 本レポートは cert JSON の値のみから生成した。run.log は参照していない。\n")
 
