@@ -1,0 +1,10 @@
+{
+  "generated_by": "search/strike-r4.g",
+  "note": "r=4 driver manifest -- windows processed in THIS run per search/_r4_driver_spec.md. Raw measurement summary only. See r4_gate_<date>.json for the S0 entry-gate node (shared across runs, not duplicated here).",
+  "entry_gate_file": "search/certs/r4_gate_20260730.json",
+  "entry_gate_all_pass": true,
+  "windows_processed": 1,
+  "windows": [
+    {"id":"W-E-A20-5x4t0-C","outfile":"search/certs/r4_W_E_A20_5x4t0_C_20260730.json","canonical_id_sha256":"d49d2556efa837b5f811072c42b06271ffab900f7240319ad87c000041ccdb84","stage1_all_pass":true,"shadow_total":800,"xi_count_measured_total":450000000,"cert_sha256":"e40f55af42a9fd7823ccb68b2bbaf75356e93f5b49f499bc34bb23def4fe86a9"}
+  ]
+}

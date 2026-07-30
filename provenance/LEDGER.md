@@ -689,3 +689,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 修正((2.4) から一意・knob 合わせでない): Schreier 生成元 240 本 → H3 ≤ E³(位数 25)の軌道で fiber ∃-判定。
 - **v2 確定測定**(cert = search/certs/pent_pi_a5_v2_20260731.json・stdout 機械 parse): **∃-live = 20/60・20 shadow 全通過・per-m [5,5,5,5]** — 理論ゲート(Chebotarev・v4)PASS・**pentagon 線較正完了**。v1 cert は誤商の記録として保存(上書きせず)。v1 の u-平方パターンは artifact(符合の誘惑・実物教材 2 例目)。
 - 観察(candidate): ∃-live = 20 = |GT(N_A)| と同数 — 数学者検分へ。
+
+## 2026-07-31 t_max 走査・壁族 4 窓・r=4 receipt 完了(裁定 253)
+- **壁族拡張**: 非可解核 2 窓を新発見 — (ℓ=31,t=5) C₃₁×S₅(3720)と **(ℓ=31,t=6) C₃₁×S₆(22320・n=37)= 初の S₆ 型**。族 = n∈{24,28,36,37}。SPEC 系(S_t 全 t 出現 = 普遍性方向)の初データ。収蔵 = search/certs/scans/tmax_scan_*(4 shard)。
+- **t_max 三段表**: 主因 = Ree 予算(LAD 上限は走査域で不発)・GEN_FAIL は非単調に散在(可行域内の「生成の穴」— 未発見であり不在主張ではない)。新標的 = 予算閉包の閉形・G 穴の層別。
+- **r=4 receipt 修理完了**: retype driver の CI 再走(30565890475)→ 数値欄完全一致・receipt 再生成 = Sol F88-2.2 と同一(C: 5/5/2・B: 3/7/2)。収蔵 = search/certs/r4_rerun_v2/。
+- **二環境再現**: pentagon 較正(N34 4096)と wall28(2760/2760)の CI 版 cert がローカル版と provenance 除き完全一致 = Windows×Linux 再現。verdict=failed は DRIVER_DONE marker 不一致のみ(計算完走・次版で規約統一)。

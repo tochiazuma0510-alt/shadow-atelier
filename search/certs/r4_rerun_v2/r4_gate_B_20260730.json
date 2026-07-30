@@ -1,0 +1,7 @@
+{
+  "generated_by": "search/strike-r4.g",
+  "note": "S0 entry gate (fail-closed) for the r=4 measurement -- G1=W-E-A10-9t1, G2=W-E-A10-5x2t0, per search/_r4_driver_spec.md S0.",
+  "g1": {"label":"G1-W-E-A10-9t1","pass":true,"canonical_id_sha256":"6092f5f0bae86188d1f46ede81e1dad2aebbb097d6d3c9cae46229b67e853f4b","naive_shadow_digest":"55691fa57d1f389a921ebe67c6a3ac9e30c5c700ed11509dc0702df68ea9881f","xi_shadow_digest":"55691fa57d1f389a921ebe67c6a3ac9e30c5c700ed11509dc0702df68ea9881f","naive_shadow_total":54,"xi_shadow_total":54,"naive_elapsed_sec":3.1800000000000002,"xi_elapsed_sec":0.075999999999999998,"xi_scanned_count":486,"xi_bound":486,"reason":null},
+  "g2": {"label":"G2-W-E-A10-5x2t0","pass":true,"canonical_id_sha256":"5848b4bffe7878f048a34379cd4042d1efbed1df6596aa0b5106694f46589df4","naive_shadow_digest":"7a7e95159e5fc0c1793aa0818cf381323e553c90de2faf510902b835229a136d","xi_shadow_digest":"7a7e95159e5fc0c1793aa0818cf381323e553c90de2faf510902b835229a136d","naive_shadow_total":40,"xi_shadow_total":40,"naive_elapsed_sec":2.5630000000000002,"xi_elapsed_sec":0.111,"xi_scanned_count":5000,"xi_bound":5000,"reason":null},
+  "all_pass": true
+}
