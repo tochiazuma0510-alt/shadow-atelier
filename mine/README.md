@@ -69,6 +69,32 @@ collector は **CI の外**(実行係のローカル)で、DL した artifact �
 - `prediction` 欄: 的中/外れ/NULL。外れは負の結果として地図 delta 案に自動反映(裁定で確定 — v0 は手動確定)。
 - negative-claim: 三段 checker(drat-trim・lrat_check・cake_lpr)全通過 + mutant matrix 全緑 + 宇宙 sha 一致が昇格の必要条件(v0 は未実装 — v2 以降)。
 
+## 判定 receipt(P88-R4-2・sol_reply_88_math15.md §2)
+
+裁定235型「`PREDICTION_TO_MEASUREMENT_CONTAMINATION`」(予言値を実測欄へ手書き転記する事故)の恒久処方。
+`mine/collector/receipt.py` が凍結 prediction 文書と cert JSON を**別入力**として読み、`mine/reports/<job_id>_receipt.md` を機械生成する。
+
+- **実測欄は cert JSON からのみ機械抽出**(prediction 文書の値は予言欄にのみ引用として現れる。実測欄への手書き転記は経路自体が無い)。
+- **恒等式 assert**: `|G|=|K||Q|`・`|K|=|K|_odd|K|_2`・`|Ξ(G)|=|G|`・`layer sum = total` を、cert に該当欄がある場合のみ評価して記帳する。
+- **fail-closed な出所検査**: (1) `--prediction-doc` の実 SHA-256 が `--prediction-sha256` と一致しない、(2) `--prediction-map` の `source_sha256` が prediction-doc の実 SHA-256 と一致しない、(3) `--manifest` が `--cert` の実 SHA-256 を `windows[].cert_sha256` で束縛していない、のいずれかなら **`RECEIPT_GENERATION_STOPPED` で終了し md を書かない**。
+- **予言欄・実測欄・派生判定欄は md 上でも節が分離**(§「予言欄」§「実測欄」§「恒等式 assert」§「派生判定欄」)。派生判定は予言欄の予言値と実測欄の cert 値を比較した結果(PASS/FAIL/NULL)のみを表示する。
+
+予言側は prediction 文書を直接パースせず、`mine/collector/r4_prediction_map_v1.json`(`P-R4-0`..`P-R4-11` を cert フィールドへ対付ける表・予言値の引用のみで実測値は持たない・`source_doc`/`source_sha256` で凍結文書に束縛)を介す。単一 cert から判定できない予言(座標リスト本体が必要な `P-R4-4`・両枝比較が必要な `P-R4-8`)は `NULL` として誠実に記帳する(fabricate しない)。
+
+使用例(検収実行時の実コマンド):
+
+```
+python mine/collector/receipt.py `
+  --prediction-doc docs/notes/r4_prediction_v1.md `
+  --prediction-sha256 a991f65a8c84a553b4d730a39cb3591c42e3fd6f3bfa05c2292fd56b2d66b78f `
+  --prediction-map mine/collector/r4_prediction_map_v1.json `
+  --cert search/certs/r4_W_E_A20_5x4t0_C_20260730.json `
+  --manifest search/certs/r4_manifest_C_20260730.json `
+  --job-id r4-C
+```
+
+`r=4` の C 枝・B 枝両方で実走し、`mine/reports/r4-C_receipt.md` / `mine/reports/r4-B_receipt.md` を検収済み(派生判定は Sol 便88 F88-2.2 の独立判定表と完全一致 -- C: PASS5/FAIL5/NULL2、B: PASS3/FAIL7/NULL2)。
+
 ## 第一号ジョブ
 
 `mine/jobs/queue/ladder-recal-20260730.json` -- 梯子走査(T2)の**較正再走**(新窓ではなく既存 13 窓の CI 再発車、裁定237 修正1)。

@@ -389,7 +389,9 @@ ComputeAutPStab := function(PN, x)
 end;;
 
 MeasureWindow := function(w, st, scanRes)
-  local W, corr, gi, G, K, Q, oddp, A, S, natGK, QInv, chiImgOrd, CGA, faithful,
+  local W, corr, gi, G, K, Q, oddp, A, S, natGK, QInv, chiImgOrd, CGA,
+        KCentralizesA, QActionOnADefined, QActionOnAKernelOrder, QActionOnAFaithful,
+        XbarCyclotomicFaithful,
         Kidgrp, Kidgrp_note, AidgrpJson, idG, dlG, dseries, ASlist,
         alphas, i, m1, f1, u1, correctedY, alpha, distinctAlphas, alphaWellDefined,
         kernelTrivial, xiImageOrder, xiImage, xiImageInNorm, NX, StabInfo, StabG,
@@ -455,9 +457,28 @@ MeasureWindow := function(w, st, scanRes)
   QInv := AbelianInvariants(Q);;
   Print("  chi_image_order(=|Q|)=", chiImgOrd, "  Q_struct(invariant_factors)=", QInv, "\n");
 
-  # ---- 12: Q_action_faithful_on_A ----
+  # ---- 12a-12d: Q-action-on-A retype (P88-R4-1, sol_reply_88_math15.md §2) ----
+  # 12a: does K centralize A? only then does the G-conjugation action on A
+  # factor through Q=G/K at all (F88-2.3: K not<=C_G(A) means "Q acts on A"
+  # is simply undefined, independent of any size comparison).
   CGA := Centralizer(G, A);;
-  faithful := (Size(CGA) = Size(K));;
+  KCentralizesA := IsSubset(CGA, K);;
+  # 12b: Q-action-on-A is defined iff 12a holds.
+  QActionOnADefined := KCentralizesA;;
+  # 12c: only meaningful when 12b is true -- ker(Q -> Aut(A)) = C_G(A)/K,
+  # faithful iff C_G(A) = K. Left as fail (-> JSON null) when undefined.
+  if QActionOnADefined then
+    QActionOnAKernelOrder := Size(CGA) / Size(K);;
+    QActionOnAFaithful := (Size(CGA) = Size(K));;
+  else
+    QActionOnAKernelOrder := fail;;
+    QActionOnAFaithful := fail;;
+  fi;;
+  # 12d: cyclotomic action of Q on <xbar> (order N_ord) -- unrelated to A/K
+  # centralizing question. u = 2m+1 mod N_ord for m in the charming set;
+  # faithful iff m -> u mod N_ord is injective on the charming set.
+  XbarCyclotomicFaithful := (Length(Set(List(R4_CHARMING_SET,
+      m -> (2*m+1) mod W.Nord))) = Length(R4_CHARMING_SET));;
 
   # ---- 13: gtsh_idgroup ----
   idG := fail;;
@@ -684,7 +705,11 @@ MeasureWindow := function(w, st, scanRes)
     A_order := Size(A), A_idgroup_json := AidgrpJson,
     S_struct := Sstruct, S_order := Size(S),
     chi_image_order := chiImgOrd, Q_struct := QInv,
-    Q_action_faithful_on_A := faithful,
+    K_centralizes_A := KCentralizesA,
+    Q_action_on_A_defined := QActionOnADefined,
+    Q_action_on_A_kernel_order := QActionOnAKernelOrder,
+    Q_action_on_A_faithful := QActionOnAFaithful,
+    xbar_cyclotomic_action_faithful := XbarCyclotomicFaithful,
     gtsh_idgroup := idG,
     derived_length_G := dlG, derived_series_G := List(dseries, Size),
     Stab_order := Size(StabG), Syl2_Stab_struct := Syl2StabStruct, Syl2_Stab_order := Syl2StabOrder,
@@ -699,7 +724,7 @@ MeasureWindow := function(w, st, scanRes)
     S_block_status := S2block_status,
     ZS_order := ZSord, G_over_CG_S := GoverCGS, Inn_S_order := InnSord, H3_holds := H3holds,
     compl_classes_all := complAll, compl_classes_in_CG_S := complInCGS,
-    epsilon_zero := epsZero, z_in_Frattini := zInPhi,
+    centralizer_complement_exists := epsZero, z_in_Frattini := zInPhi,
     central_product_witness := centralWit, split_but_not_direct := splitND,
     u_minus1_involutions := invCount, m0_layer := m0
   );
@@ -722,6 +747,11 @@ end;;
 BoolOrNull := function(v)
   if v = fail then return "null"; fi;
   return JB(v);
+end;;
+
+IntOrNull := function(v)
+  if v = fail then return "null"; fi;
+  return String(v);
 end;;
 
 ShardManifestJson := function(perM)
@@ -779,7 +809,11 @@ WriteWindowCert := function(w, st, scanRes, meas, outfile)
   Add(outParts, Concatenation("  \"10_S_order\": ", String(meas.S_order), ",\n"));
   Add(outParts, Concatenation("  \"11_chi_image_order\": ", String(meas.chi_image_order), ",\n"));
   Add(outParts, Concatenation("  \"11_Q_struct_invariant_factors\": ", JArr(List(meas.Q_struct, String)), ",\n"));
-  Add(outParts, Concatenation("  \"12_Q_action_faithful_on_A\": ", JB(meas.Q_action_faithful_on_A), ",\n"));
+  Add(outParts, Concatenation("  \"12a_K_centralizes_A\": ", JB(meas.K_centralizes_A), ",\n"));
+  Add(outParts, Concatenation("  \"12b_Q_action_on_A_defined\": ", JB(meas.Q_action_on_A_defined), ",\n"));
+  Add(outParts, Concatenation("  \"12c_Q_action_on_A_kernel_order\": ", IntOrNull(meas.Q_action_on_A_kernel_order), ",\n"));
+  Add(outParts, Concatenation("  \"12c_Q_action_on_A_faithful\": ", BoolOrNull(meas.Q_action_on_A_faithful), ",\n"));
+  Add(outParts, Concatenation("  \"12d_xbar_cyclotomic_action_faithful\": ", JB(meas.xbar_cyclotomic_action_faithful), ",\n"));
   Add(outParts, Concatenation("  \"13_gtsh_idgroup\": ", meas.gtsh_idgroup, ",\n"));
   Add(outParts, Concatenation("  \"14_derived_length_G\": ", String(meas.derived_length_G), ",\n"));
   Add(outParts, Concatenation("  \"15_derived_series_G\": ", JArr(List(meas.derived_series_G, String)), ",\n"));
@@ -806,7 +840,7 @@ WriteWindowCert := function(w, st, scanRes, meas, outfile)
   Add(outParts, Concatenation("  \"27_H3_holds\": ", JB(meas.H3_holds), ",\n"));
   Add(outParts, Concatenation("  \"28_compl_classes_all\": ", String(meas.compl_classes_all), ",\n"));
   Add(outParts, Concatenation("  \"29_compl_classes_in_CG_S\": ", String(meas.compl_classes_in_CG_S), ",\n"));
-  Add(outParts, Concatenation("  \"30_epsilon_zero\": ", JB(meas.epsilon_zero), ",\n"));
+  Add(outParts, Concatenation("  \"30_centralizer_complement_exists\": ", JB(meas.centralizer_complement_exists), ",\n"));
   Add(outParts, Concatenation("  \"31_z_in_Frattini\": ", BoolOrNull(meas.z_in_Frattini), ",\n"));
   Add(outParts, Concatenation("  \"32_central_product_witness\": ", meas.central_product_witness, ",\n"));
   Add(outParts, Concatenation("  \"33_split_but_not_direct\": ", JB(meas.split_but_not_direct), ",\n"));

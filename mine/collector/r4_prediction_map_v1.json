@@ -1,0 +1,89 @@
+{
+  "_comment_ja": "docs/notes/r4_prediction_v1.md (P-R4-0..11) を receipt.py が読める形へ機械照合用に写した対応表。予言値そのもの(boxed statement の引用)と、対応する cert フィールド名のみを持つ -- 実測値はここには置かない(receipt.py が cert JSON から都度抽出する)。P88-R4-2 (sol_reply_88_math15.md) の恒久処方に基づく。作成: implementer(worktree)・2026-07-31。",
+  "source_doc": "docs/notes/r4_prediction_v1.md",
+  "source_sha256": "a991f65a8c84a553b4d730a39cb3591c42e3fd6f3bfa05c2292fd56b2d66b78f",
+  "predictions": {
+    "P-R4-0": {
+      "statement": "canonical ID SHA-256 が窓表と一致し、窓 assert が全項 PASS",
+      "kind": "canonical_id_and_stage1",
+      "cert_fields": ["canonical_id_sha256", "stage1_all_pass"],
+      "note": "canonical_id_sha256 の期待値は窓ごとに R4_CANONICAL_SHA (strike-r4.g) / prediction doc SS1.1 に凍結済み -- ここでは cert 自身の canonical_id_sha256_gate 欄(driver がその場で束縛した期待値)と canonical_id_sha256 の一致、および stage1_all_pass=true を見る。"
+    },
+    "P-R4-1": {
+      "statement": "|ker chi~| = 40 (B枝・C枝とも)",
+      "kind": "eq",
+      "cert_field": "3_ker_size",
+      "expected": 40
+    },
+    "P-R4-2": {
+      "statement": "|ker chi~| の奇部 = 5",
+      "kind": "eq",
+      "cert_field": "4_ker_odd_part_order",
+      "expected": 5
+    },
+    "P-R4-3": {
+      "statement": "|ker chi~| の2-部 = 8 かつ Syl_2(ker) ≅ D8",
+      "kind": "eq_multi",
+      "checks": [
+        {"cert_field": "5_ker_2_part_order", "expected": 8},
+        {"cert_field": "10_S_struct", "expected": "D8"}
+      ]
+    },
+    "P-R4-4": {
+      "statement": "Xi(ker)の奇部 = <xbar>(全対角)であり、B_x 座標が (a,a,a,a) 型",
+      "kind": "unavailable",
+      "note": "cert に座標リスト本体が無い(22b_A_coords_status='computed' はカウントのみで literal 配列は別ファイル r4_acoords_{B,C}_20260730.json 側)。receipt.py は cert 単体からは判定しない -- NULL として記帳。"
+    },
+    "P-R4-5": {
+      "statement": "ker chi~ ≅ C5 x D8, IdGroup=[40,10]",
+      "kind": "idgroup_eq",
+      "cert_field": "7b_K_idgroup",
+      "expected": [40, 10]
+    },
+    "P-R4-6": {
+      "statement": "GTSh(N,N) の IdGroup=[160,207] かつ |GTSh|=160 かつ dl=2",
+      "kind": "eq_multi",
+      "checks": [
+        {"cert_field": "13_gtsh_idgroup", "expected": {"idgroup": [160, 207]}},
+        {"cert_field": "2_group_order", "expected": 160},
+        {"cert_field": "14_derived_length_G", "expected": 2}
+      ]
+    },
+    "P-R4-7": {
+      "statement": "|Q| = phi(5) = 4, Q ≅ C4 が <xbar> に忠実",
+      "kind": "eq_multi",
+      "checks": [
+        {"cert_field": "11_chi_image_order", "expected": 4},
+        {"cert_field": "11_Q_struct_invariant_factors", "expected": [4]}
+      ],
+      "note": "『<xbar> に忠実』の部分は P88-R4-1 retype 後の 12d_xbar_cyclotomic_action_faithful 欄で追加照合する(旧 12_Q_action_faithful_on_A は F88-2.3 により <xbar> への作用とは別物と裁定済み -- P-R4-7 の判定条件には元々含まれない)。"
+    },
+    "P-R4-8": {
+      "statement": "B枝とC枝で |ker|・奇部・2-部・|GTSh|・IdGroup が全一致",
+      "kind": "cross_branch",
+      "cert_fields": ["2_group_order", "3_ker_size", "4_ker_odd_part_order", "5_ker_2_part_order", "7b_K_idgroup", "13_gtsh_idgroup"],
+      "note": "単一 cert からは判定不能(両枝の cert が要る)。receipt.py は単一 branch receipt では NULL として記帳する。"
+    },
+    "P-R4-9": {
+      "statement": "Xi: GTSh -> N_{S20}(<xbar>) が ker Xi=1、像が N(60000) の部分群",
+      "kind": "eq_multi",
+      "checks": [
+        {"cert_field": "20_xi_kernel_trivial", "expected": true},
+        {"cert_field": "21b_xi_image_in_normalizer", "expected": true},
+        {"cert_field": "21_xi_image_order", "expected_eq_field": "2_group_order"}
+      ]
+    },
+    "P-R4-10": {
+      "statement": "u=-1 層に位数2かつSを中心化するshadowがちょうど2ell=10個",
+      "kind": "eq",
+      "cert_field": "34_u_minus1_involutions",
+      "expected": 10
+    },
+    "P-R4-11": {
+      "statement": "(奇部,2-部) が SS3.0 表のいずれかの行に一致する(ker = C_B(S')xS' の形が保たれる)",
+      "kind": "pair_in_set",
+      "cert_field_pair": ["4_ker_odd_part_order", "5_ker_2_part_order"],
+      "allowed_pairs": [[5, 8], [5, 4], [25, 4], [25, 2], [125, 2], [625, 1]]
+    }
+  }
+}
