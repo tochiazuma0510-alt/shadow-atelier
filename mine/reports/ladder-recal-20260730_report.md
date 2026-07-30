@@ -1,113 +1,12 @@
 # mine 検収レポート -- ladder-recal-20260730
 
-- 生成: 2026-07-30T13:31:41.069960+00:00(UTC)
+- 生成: 2026-07-30T14:12:51.165807+00:00(UTC)
 - plan: `mine/jobs/queue/ladder-recal-20260730.json`
-- artifact-dir: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs`
+- artifact-dir: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730`
 - claim_class: `exploration`
+- checker cert 出所: repo glob `search/certs/ladder_xi_recheck_*_20260730.json`(artifact-dir 側に同じ window_id の checker cert があれば artifact 版を優先。v1 staged out_dir では常に repo 版)
 
 machine-piped 規約: 本レポートは cert JSON の値のみから生成した。run.log は参照していない。
-
-## 分類不能な json (99 件 -- artifact-dir 内の無関係な cert。内容は表示しない、パスのみ)
-
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_witness_recheck_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a14_orbit_census_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a16_filter_ledger_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a16_kernel_structure_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a18_filter_ledger_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a18_kernel_structure_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a20_filter_ledger_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a20_kernel_structure_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\c1_class_check_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\c21_cal_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\canonical_uid_selftest_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\cert_validator_sample_report.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\derived_census_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\derived_census_v2_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\ep_run_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\ep_run_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\epsbits_a13_ladder_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\epsbits_v2_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\full_witness_fixture_01.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\holmg_census_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i10_1_W_E_A10_5x2t0_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i10_1_W_E_A15_5x3t0_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i10_1_manifest_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i10_1_xi_recheck_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i1_survey_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i1_survey_20260728_r2.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i1i3_crosscheck_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i24_u3_recheck_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i24p1_measurement_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i24p1_measurement_v2_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i3_equality_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\i6i7_check_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\ihc_fixture_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\ihc_fixture_v2_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\ihc_fixture_v3_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\k9_package_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\k9_package_20260728_r2.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\ke_a_normality_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\kep_counterexample_idx162s1_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\kerchi_judge_selftest_cinN_control.json` (parse error: Expecting ',' delimiter: line 17 column 18 (char 368))
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\kerchi_judge_selftest_p5.json` (parse error: Expecting ',' delimiter: line 17 column 18 (char 377))
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\kerchi_judge_v11_regression_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\kerchi_judge_v13_calibration_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\laneA_ep_export_sample.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\laneA_manifest.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\laneA_manifest_v2_draft.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\laneB_manifest.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\laneB_manifest_v2_draft.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\norm_embedding_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\norm_embedding_manifest_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\qa_orbit_count_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\r4_W_E_A20_5x4t0_C_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\r4_exhaustive_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\r4_existence_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\r4_gate_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\r4_manifest_C_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\sdc_twist_W_E_A10_9t1_20260730.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\ss_sp45_realization_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a16_full_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a16_stage1_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a16_witness_recheck_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a18_full_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a18_stage1_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a18_witness_recheck_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a20_full_20260729.json` (parse error: Expecting ',' delimiter: line 17 column 29 (char 444))
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a20_stage1_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\strike_a20_witness_recheck_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\w5_regression_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\w62_splitting_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_census_192_360_20260730.json` (parse error: Expecting ',' delimiter: line 41 column 18 (char 1604))
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_miner_leads_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_miner_v2_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_miner_v3_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_miner_v4_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_miner_v5_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_probe_20260728.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_probe_20260728_stage_192.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_probe_20260728_stage_24.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_probe_20260728_stage_48.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wall_probe_20260728_stage_96.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\wcp5_confirmation_20260729.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_closure_seal_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_set_equality_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A10_5x2t0_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A10_9t1_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A10_9t1_o2_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A10_9t1_o3_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A10_9t1_o4_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A10_9t1_o5_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A10_9t1_o6_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A11_9t2_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A11_9t2_o2_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A11_9t2_o3_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A12_9t3_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A12_9t3_o2_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A12_9t3_o3_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A13_9t4_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_W_E_A15_5x3t0_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
-- `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\xi_uid_gap_manifest_20260731.json` (schema/generated_by が本ジョブの様式と一致しない)
 
 ## (a) 再現照合 -- artifact cert ⟷ repo 収蔵済み cert(同名ファイル)
 
@@ -115,7 +14,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A10-9t1
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A10_9t1_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A10_9t1_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A10_9t1_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -149,7 +48,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A10-9t1-o2
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A10_9t1_o2_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A10_9t1_o2_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A10_9t1_o2_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -183,7 +82,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A10-9t1-o3
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A10_9t1_o3_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A10_9t1_o3_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A10_9t1_o3_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -217,7 +116,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A10-9t1-o4
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A10_9t1_o4_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A10_9t1_o4_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A10_9t1_o4_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -251,7 +150,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A10-9t1-o5
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A10_9t1_o5_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A10_9t1_o5_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A10_9t1_o5_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -285,7 +184,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A10-9t1-o6
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A10_9t1_o6_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A10_9t1_o6_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A10_9t1_o6_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -319,7 +218,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A11-9t2
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A11_9t2_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A11_9t2_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A11_9t2_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -353,7 +252,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A11-9t2-o2
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A11_9t2_o2_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A11_9t2_o2_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A11_9t2_o2_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -387,7 +286,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A11-9t2-o3
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A11_9t2_o3_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A11_9t2_o3_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A11_9t2_o3_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -421,7 +320,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A12-9t3
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A12_9t3_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A12_9t3_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A12_9t3_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -455,7 +354,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A12-9t3-o2
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A12_9t3_o2_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A12_9t3_o2_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A12_9t3_o2_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -489,7 +388,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A12-9t3-o3
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A12_9t3_o3_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A12_9t3_o3_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A12_9t3_o3_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
@@ -523,7 +422,7 @@ machine-piped 規約: 本レポートは cert JSON の値のみから生成し�
 
 ### W-E-A13-9t4
 
-- artifact: `C:/Users/81905/AppData/Local/Temp/mine_recal_dl/search/certs\a13_ladder_W_E_A13_9t4_20260730.json`
+- artifact: `C:/Users/81905/AppData/Local/Temp/recal2/mine-run-ladder-recal-20260730/mine/out/ladder-recal-20260730\a13_ladder_W_E_A13_9t4_20260730.json`
 - repo baseline: `search/certs\a13_ladder_W_E_A13_9t4_20260730.json`
 
 | 欄 | artifact 値 | repo baseline 値 | 一致 |
