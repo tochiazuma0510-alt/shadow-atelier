@@ -1,0 +1,48 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "r4-acoords-B-20260730",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P3"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "N_ord": 5,
+      "windows": 1,
+      "window_id": "W-E-A20-5x4t0-B",
+      "note": "裁定236 発注: NULL-R4 発火後の Xi(ker) B_x-座標読み取り probe。r=4 判別窓 B 枝 (search/_r4_driver_spec.md 記載の window table) を、m=0 層のみの Xi-restricted 走査 (fail-closed 上界 112,500,000) で ker chi-tilde を直接構成し、O_2'(K) の B_x=C5^4 座標を生値のまま出力する。C 枝の兄弟 job (r4-acoords-C-20260730)。B 枝の座標データは P-R4-8 (eps 依存性) の未判定に対する追加の生値。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/r4_acoords_probe.g", "sha256": "546ebecfdb2f2ce1de69b749edc0f89255394dc4aa5d2864292650de828fe308" },
+      { "path": "search/strike-r4.g", "sha256": "118a14e043f13b396d98fd88a162601ee5257ef7348a81905447a29a6f25e7b9" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "R4-ACOORDS-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/r4_acoords_probe.g", "window": "B", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。strike-r4.g は R4_LIBRARY_ONLY 経由で無改変再利用。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "NULL-R4 後続の生値読み取り probe -- 予言なしを明示宣言"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": "none (1 window per job via preamble R4ACP_WINDOW; C/B は別 job として提出 -- 裁定236 発注時の窓分割方針)",
+    "timeout_min": 60,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/r4_acoords_probe.g",
+      "sha256": "546ebecfdb2f2ce1de69b749edc0f89255394dc4aa5d2864292650de828fe308",
+      "preamble": "R4ACP_WINDOW := \"B\";;"
+    }
+  },
+  "outputs": {
+    "cert_schema": "r4-acoords-cert (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント + 裁定236)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
