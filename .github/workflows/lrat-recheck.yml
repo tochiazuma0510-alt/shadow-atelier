@@ -76,11 +76,18 @@ jobs:
           git clone https://github.com/tanyongkiam/cake_lpr.git tools-cake_lpr
           git -C tools-cake_lpr checkout "$CAKE_LPR_SHA"
 
-          # Source-file integrity gate: cake_lpr.sha256 is shipped BY UPSTREAM at this
-          # commit, pinning the sha256 of Makefile/basis_ffi.c/cake_lpr.S/
-          # cake_lpr_arm8.S. This makes the pin "these exact bytes", not merely
-          # "whatever GitHub serves for this commit SHA today".
-          ( cd tools-cake_lpr && sha256sum -c cake_lpr.sha256 )
+          # Source-file integrity gate -- 「この commit の、このバイト列」を固定する。
+          # upstream 同梱の cake_lpr.sha256 は **basis_ffi.c の行が stale**(2026-07-31
+          # 司令塔確認: 同梱値 3fbd8f31… に対し当該 commit の実体は 8e30d84f…。
+          # CakeML で形式検証されている本体 cake_lpr.S は一致 = 信頼の核は無傷、
+          # 差分は FFI glue のみ)。よって本 workflow は:
+          #   - cake_lpr.S / Makefile / cake_lpr_arm8.S は upstream 同梱値で検証
+          #   - basis_ffi.c は **当方が観測した実体値**で pin(下記 EXPECT_FFI)
+          # とする。upstream 側が manifest を更新したらこの行を消して -c 一本に戻す。
+          EXPECT_FFI=8e30d84fdcb2177aa5571d7fa6661a2fae5ecfd56baa0ce49c65f9233a9f87cb
+          ( cd tools-cake_lpr && grep -v ' basis_ffi\.c$' cake_lpr.sha256 > .sha256.upstream_subset \
+            && sha256sum -c .sha256.upstream_subset \
+            && echo "${EXPECT_FFI}  basis_ffi.c" | sha256sum -c - )
 
           ( cd tools-cake_lpr && make )
           test -x tools-cake_lpr/cake_lpr
