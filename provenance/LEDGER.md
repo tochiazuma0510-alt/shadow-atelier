@@ -618,3 +618,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **fail-closed 負例 = CORRECTLY_REJECTED**(破壊 LRAT は検証されない)。
 - ⟹ n=21 非存在の証明経路は **drat-trim × 自前 lrat_check.py × cake_lpr(CakeML で形式検証されたバイナリ)の三系統**で一致。語法は cross-checked(「verified」は Lean 予約のまま)。
 - 初回 run 30557129007 は upstream 同梱 sha256 の basis_ffi.c 行 stale(実体 8e30d84f…≠同梱 3fbd8f31…)で fail-closed 停止 → 検証核 cake_lpr.S は一致を確認の上、当該 1 行のみ当方観測値で pin して再走(修理 commit あり)。gate は fail-closed のまま。
+
+## 2026-07-31 標的 T5 決着 — 導来長ちょうど 3 の核の初実例(裁定 242)
+- cert: search/certs/dl3_cert_20260731.json = aa75c5d9619b18f4ccdcaa71a8dd8f33cc2f75643f31d03e3d3eaa4d935a16ee(probe = search/probe/wac_v1/dl3_search.g・ローカル完走)。
+- 窓 T5-dl3(n=21・ℓ=17・w₀=(17,1⁴)・種数 0・⟨a₁,b₁⟩=A₂₁): 窓 assert 全通過・**C_{S₂₁}(w₀)=408=C₁₇×S₄・導来長 3**・**SURV 408/408 通過**(落ち 0)・Ξ 像 = C(w₀)。CENT-0 適用域(p=s=0)につき等号は定理。
+- ⟹ **帯 2 の名指し空白「dl ちょうど 3 の核の実例ゼロ」を消込**(内部標的)。dl 2 ⟷ dl 3(本件)⟷ 非可解(P-WALL-2)が同一パラメータ族の隣接値であることを実物 2 個で確認 = spectrum 予想(ideas_014 H4)の支持データ。
+- 効率: ℓ=7,11,13 は Ree 予算+符号パリティで feasible k 空 → 探索起動前に紙で棄却・ℓ=17 初回ハント即ヒット(「計数してから構成」3 例目)。ℓ=19,23 は未走査(正直記載)。
+- 残務: cert の f_orientation 欄(hexagon 向き規約)未適用 — wall2/centb と一括で追加。
