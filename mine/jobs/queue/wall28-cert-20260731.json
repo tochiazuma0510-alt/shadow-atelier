@@ -1,0 +1,43 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "wall28-cert-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "裁定247 で発見された第二の非可解窓(n=28, ell=23, t=5, C23 x S5, |C(w0)|=2760)の正式 cert 化。witness (a1,b1) は search/certs/scans/wall_family_ell-mid2_20260731.json の n=28 レコード(result=HIT)から逐語。wall2_cert.g(P-WALL-2, n=24)と同型の検算一式(窓 assert・braid・c=1・P=A28・|E|=6|A28|・N_ord=23・Ree・C_S28(w0) の位数/構造/可解性・SURV 全数検算・LID-1)。ローカル smoke で完走・数値一致を確認済み(SURV 全数 2760 通過、C(w0)=2760=C23xS5)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/wall28_cert.g", "sha256": "7adce45615f4874b4c328b7de37ab53d6ab8cf50bfff4efd9f4080e4bb3947ce" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "WALL28-CERT-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/wall28_cert.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。ローカルでフル実行済み・完走(SURV 2760/2760 通過、C(w0)=2760=C23xS5, N_ord=23)。CI 発車は再現性確認・恒久記録のため。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "cert 化(既存 wall_family scan の再検算) -- 予言は司令塔が別途凍結"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "timeout_min": 120,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/wall28_cert.g",
+      "sha256": "7adce45615f4874b4c328b7de37ab53d6ab8cf50bfff4efd9f4080e4bb3947ce",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-wall28-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}

@@ -1,0 +1,19 @@
+{
+  "schema":"wac_v1-pentagon-calibration-cert/v1",
+  "generated_by":"search/probe/wac_v1/pentagon_check.g",
+  "window_label":"PENTAGON-CALIBRATION",
+  "f_orientation":"abstractprod_reversed_matching_paB_compAll",
+  "KNOWN_ISSUE_N_F2_DOMAIN_UNRESOLVED":true,
+  "note":"raw measurements only -- 予言値(216/36/4096/243)はコードに書かない(接触遮断)。式(2.20)の評価規約は PaB.py の comp(s,t):=t*s / compAll (reversed product) を式から独立に読み解いて再構成(コード翻訳ではない、詳細はスクリプトヘッダ)。**重要な未解決点**: 論文 (2.62) の N_F2:=N_PB3∩F2 を素朴な部分群共通部分と解釈すると、第二同型定理により |F2:N_F2| は |PB4:N| を割り切るはずだが、論文 Table 1 は N(19) で |F2:N_F2|=7776 > |PB4:N(19)|=216 と記しており矛盾する(実測: Size(Group(g12,g23))=24 のみ、Table1 の 7776 とは一致しない)。NFI_PB4(B4) が PaB4 上の compatible equivalence relation(§2.1-2.2)であり N_PB3 は insertion map を介した誘導関係である可能性が高く、単純な部分群共通部分ではないと推定(未確証)。よって本 cert の pentagon_pass_count_OVER_IMAGE_NOT_N_F2 / pentagon_total_count_OVER_IMAGE_NOT_N_F2 は「F2 の PB4/N への像 <g12,g23>(N34 はその DerivedSubgroup)上で測った pentagon 充足数」であり、論文の F2/N_F2 上の測定(216/36/4096/243 の対象)とは異なる集合上の値である。量的再現としては未達 -- 司令塔裁定・追加読解待ち。pentagon_and_hexagon_count は本 pass ではスコープ外(理由: hexagon 判定機構は x13 を AbstractProd([x,y])^-1 として内部導出する規約を前提にしており、pentagon 側で独立に与えられる g13 との整合が未検証 -- sanity.g13_eq_derived_z で実測のみ報告)。N(34) の g14=g23, g34=g12 は原文 pdftotext 抽出(2系統照合)+ PDF ページ画像の直接目視で literal に一致することを確認済み(誤植ではない) -- 数学的に意外な一致として明記のみ。",
+  "params":{
+    "windows":["N19","N34"],
+    "max_elements_cap":300000,
+    "max_closure_rounds":50
+  },
+  "results":[{"window_label":"N19","window_label_full":"N(19) Philadelphia subgroup","source":"arxiv_2008.00066 (4.3), degree 9","target_kind":"full","sanity":{"H_size":24,"Gimg_size":216,"g13_eq_derived_z":false},"result":"OK","target":{"mode":"full","target_size_measured":24,"capped":false},"domain_validity_note":"UNRESOLVED: H=<g12,g23> is NOT F2/N_F2 (measured H size != paper's |F2:N_F2|); the map F2/N_F2->H is not known to be injective here, so this count is over the coarser image H, not over F2/N_F2 itself.","pentagon_pass_count":1,"pentagon_total_count":24,"pentagon_and_hexagon_count":"NOT_COMPUTED_THIS_PASS"},{"window_label":"N34","window_label_full":"N(34) Mighty Dandy","source":"arxiv_2008.00066 (4.4), degree 18","target_kind":"commutator","sanity":{"H_size":762048,"Gimg_size":762048,"g13_eq_derived_z":false},"result":"OK","target":{"mode":"commutator","target_size_measured":254016,"capped":false},"domain_validity_note":"CANDIDATE_MATCH: measured |DerivedSubgroup(H)| matched paper's |[F2/N_F2,F2/N_F2]| exactly for this window (raw fact, not asserted as proof of correctness); if the map F2/N_F2->H is injective on commutator subgroups here, this count is over the same set as the paper's [F2/N_F2,F2/N_F2].","pentagon_pass_count":4096,"pentagon_total_count":254016,"pentagon_and_hexagon_count":"NOT_COMPUTED_THIS_PASS"}],
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"1ed39fb8143f76554ab033dfdb73501c5520db7ac4b4573ec3163977827e2ea4",
+    "gap_invocation":"gap -q -o 2g search/probe/wac_v1/pentagon_check.g (preamble optionally sets PENTA_WINDOWS for shard)"
+  }
+}

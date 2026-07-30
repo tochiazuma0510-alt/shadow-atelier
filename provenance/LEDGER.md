@@ -666,3 +666,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 実データ(C1 §4): N⁽¹⁹⁾(N_ord=6)= pentagon 満たす f が 216・うち hexagon も 36。N⁽³⁴⁾(N_ord=9)= pentagon 4096・うち hexagon も 243・GT(N⁽³⁴⁾) 位数 486=(ℤ₂×ℤ₃)⋉(ℤ₉×ℤ₉)。
 - **同名別物ゲートの対応表を原文で確定**: 本来系 ĜT = B₄/PaB(≤4)・hexagon×2+pentagon・窓は **NFI_{PB₄}(B₄)** / gentle 系 ĜT_gen(工房)= B₃・hexagon のみ・窓は **NFI_{PB₃}(B₃)** / coarse 系 ĜT₀ = pentagon を落としたもの(Guillot が研究)。**窓の圏そのものが違う** ⟹ 橋の第一段は「B₃ 窓から B₄ 窓をどう作るか」であり、ここを飛ばす翻訳は罠。
 - 予想外の収穫: **Furusho property(pentagon ⟹ hexagon)の profinite 版は一般には偽**(C1 §4.3・35 例で機械判定・強 11/弱 13)。⟹ hexagon を pentagon で代替はできないが「どの窓で Furusho 性が成り立つか」が新しい問い。
+
+## 2026-07-31 PENT-π 第一実測(裁定 249・司令塔自身が実装)— pentagon は刈る・較正ゲート発動
+- 成果物: search/probe/wac_v1/pent_pi_a5.g ほか 4 probe・cert = search/certs/pent_pi_a5_20260731.json(json.load 検証済)。
+- **確定測定**: A₅ 窓の π-lift(σ₃↦σ₁・K_π ∈ NFI_{PB₄}(B₄) 正真)で **pentagon (2.20) は A₅ の 60 元中 8 元のみ通す**(rev 辞書・機構は N⁽³⁴⁾ 4096/254016 再現で較正済・**類不変性 60 元×3 変形で違反 0 を実証**)。⟹ 発案係の破綻点 1(潰れ)否定 = **第三の歯は本物**。
+- **P-PENT-1 発動 = FAIL で停止**(予言の指示どおり): v4 の「GT(N_A) 20 元全て arithmetical」+算術鎖 ⟹ 20/20 が必要だが、辞書×語順×反転の全 8 組合せで 10/20・live 8 元 < 必要 f ≥10 で構造的に不可能。**未較正部分を「gentle(2401)↔B₄(2008) の (m,f) 径数対応(m 依存 recoding の署名 = per-m [5,0,0,5])」1 箇所に同定** — knob 合わせ禁止・紙上導出を数学者へ委嘱。
+- 観察(candidate): readA ラベルで live ⟺ u∈{±1}(平方類)・live 集合は m=0 hexagon 解 5 個を全含。

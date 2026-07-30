@@ -1,0 +1,43 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "pentagon-calibration-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P6"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "pentagon(B4本来系)第一実験。窓は arxiv_2008.00066 (4.3)(4.4) から逐語: N(19) Philadelphia subgroup(PB4->S9)・N(34) Mighty Dandy(PB4->S18)。両窓とも既定 preamble で同一 job 内に走査(shard 不要 -- ローカル smoke で両窓とも数分以内に完走を確認済み)。pentagon 判定式は同論文 (2.20) を、papers/delivered/PackageGT.zip の PaB.py(comp/compAll の反転積規約)を式から独立に読み解いて再構成(コード翻訳ではない)。N(19)は F2/N_F2(Property 4.2 用・target_kind=full)、N(34)は [F2/N_F2,F2/N_F2](Property 4.3 用・target_kind=commutator)を走査する設計だが、実装中に N19 の走査対象(H=<g12,g23>、実測位数24)が論文の |F2:N_F2^(19)|=7776 と一致しないという未解決の逸脱が判明した(F2/N_F2 -> H が単射でないため、N19 の pentagon_pass_count は F2/N_F2 の再現ではない)。N(34) は DerivedSubgroup(H) の位数が論文の |[F2/N_F2,F2/N_F2]|=254016 と厳密一致し、pentagon_pass_count=4096 のローカル実測もあり(cert 内 domain_validity_note に候補一致として明記、コードには予言値を書いていない -- 接触遮断)。cert の KNOWN_ISSUE_N_F2_DOMAIN_UNRESOLVED フラグと窓ごとの domain_validity_note を必ず参照して判定すること。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/pentagon_check.g", "sha256": "1ed39fb8143f76554ab033dfdb73501c5520db7ac4b4573ec3163977827e2ea4" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "PENTAGON-CALIBRATION-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/pentagon_check.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。ローカルで両窓(N19,N34)ともスモーク済み・完走(N19: pentagon 1/24、N34: pentagon 4096/254016)。CI 発車は再現性確認・恒久記録のため。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "較正実験 -- 予言は司令塔が別途凍結(接触遮断のためコードにも本 plan にも期待値は書かない)"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "timeout_min": 180,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/pentagon_check.g",
+      "sha256": "1ed39fb8143f76554ab033dfdb73501c5520db7ac4b4573ec3163977827e2ea4",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-pentagon-calibration-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}

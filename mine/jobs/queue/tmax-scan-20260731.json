@@ -1,0 +1,49 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "tmax-scan-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "裁定247 の新問題: 実効上限 t_max(ell) の走査。定理 LAD は t<=(ell-1)/2 を与えるが、実測の最大 t はもっと小さい(ell=25 で上限12に対し実現4)。ell in {11,13,17,19,23,25,29,31} x t=0..(ell-1)/2 の全域で、各 (ell,t) を (a) Ree予算のみ(パリティ抜き) (b) 予算+パリティ (c) 2-opt生成 の3段階に分けて判定し、どの段で落ちるかを記録する(BUDGET_FAIL/PARITY_FAIL/GEN_FAIL/HIT)。hexagon 判定・SURV 全数検算はスコープ外(目的は障害切り分けのみ)。shard は ell を4分割(各2 ell)。ローカル smoke(ell=11 のみ・時間cap短縮)で3段階判定(BUDGET_FAIL/PARITY_FAIL相当の枝分かれ含む・GEN_FAIL・HIT)がいずれも正しく出力されることを確認済み。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/tmax_scan.g", "sha256": "5f43b514318d79656ea281cb13909a46522a3fbab04a5bd38387fcf08babc887" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "TMAX-SCAN-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/tmax_scan.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。ローカルでは smoke(ell=11・時間cap短縮)のみ確認済み(BUDGET_FAIL/GEN_FAIL/HITの3種を実測)・フル走査は未実行(CI発車で初めて完走)。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "探索的走査(障害切り分け) -- 予言は司令塔が別途凍結"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "ell11-13", "preamble": "TMAX_ELLS := [11,13];;\nTMAX_SHARD := \"ell11-13\";;\n" },
+      { "name": "ell17-19", "preamble": "TMAX_ELLS := [17,19];;\nTMAX_SHARD := \"ell17-19\";;\n" },
+      { "name": "ell23-25", "preamble": "TMAX_ELLS := [23,25];;\nTMAX_SHARD := \"ell23-25\";;\n" },
+      { "name": "ell29-31", "preamble": "TMAX_ELLS := [29,31];;\nTMAX_SHARD := \"ell29-31\";;\n" }
+    ],
+    "timeout_min": 180,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/tmax_scan.g",
+      "sha256": "5f43b514318d79656ea281cb13909a46522a3fbab04a5bd38387fcf08babc887",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-tmax-scan-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
