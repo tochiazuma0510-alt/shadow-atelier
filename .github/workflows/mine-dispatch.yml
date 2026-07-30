@@ -1,10 +1,20 @@
 name: mine-dispatch
 
-# 採掘場(mine)の統一配車 -- v0(裁定237)。mb-search.yml の複製改造。
+# 採掘場(mine)の統一配車 -- v0/v1(裁定237)。mb-search.yml の複製改造。
 # 探索器の判定ロジックには一切触れない -- job "gate" が
-# mine/preflight.py(schema/integrity/予言の3ゲート)をそのまま実行し、
-# 1つでも不一致なら発車しない。v0 は backend=gap-ci のみを扱う
+# mine/preflight.py(schema/integrity/予言/registry の4ゲート)をそのまま
+# 実行し、1つでも不一致なら発車しない。v0/v1 は backend=gap-ci のみを扱う
 # (sat-ci/py-ci は§4.5の設計に予約済みだが本 workflow の実装対象外)。
+#
+# v1 差分(裁定237 v1 範囲): resources.shards が配列 [{name,preamble}, ...]
+# のとき matrix でシャード並列する(各シャードの preamble は
+# v0_driver.preamble に連結して実行)。out_dir(既定 search/certs)は既存 cert
+# を含む共有チェックアウトのままなので、実行後に「今回の実行で新規/更新
+# されたファイルだけ」を mtime 比較で mine/out/<job_id>[/<shard>]/ へ回収し、
+# artifact はそちら(SHA256SUMS.txt 込み)を収蔵する(分類不能 cert 混入の
+# 解消)。driver.g は plan JSON から python で直接生成する(shell 展開を
+# 経由しない -- 旧実装は preamble 内の GAP 引用符が bash quote removal に
+# 食われる欠陥があった。恒久対策として python heredoc 方式に統一)。
 
 on:
   push:
@@ -30,13 +40,17 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     outputs:
-      jobs: ${{ steps.discover.outputs.jobs }}
+      entries: ${{ steps.discover.outputs.entries }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Discover job plan(s)
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Discover job plan(s) and expand shard matrix
         id: discover
         shell: bash
         run: |
@@ -52,12 +66,36 @@ jobs:
             echo "PLAN_DISCOVERY_STOP: no mine job JSON found (push diff empty and no job_path input given)" >&2
             exit 1
           fi
-          JSON_ARR=$(printf '%s\n' "$FILES" | node -e "
-            const lines = require('fs').readFileSync(0, 'utf8').split('\n').filter(Boolean);
-            console.log(JSON.stringify(lines));
-          ")
-          echo "jobs=$JSON_ARR" >> "$GITHUB_OUTPUT"
-          echo "discovered: $JSON_ARR"
+          printf '%s\n' "$FILES" > ci_discovered_files.txt
+          # entries は {job_path, shard_name, shard_preamble} の配列。
+          # resources.shards が配列なら shard ごとに 1 entry、そうでなければ
+          # 非分割 1 entry(shard_name/shard_preamble は空文字)-- v0 の
+          # 非分割動作をそのまま entries の 1 要素として表現するので、
+          # gate-and-run 側のロジックは v0/v1 共通のまま扱える。
+          python - ci_discovered_files.txt > ci_discovered_entries.json <<'PY'
+          import json, sys
+          files = [l.strip() for l in open(sys.argv[1], encoding='utf-8') if l.strip()]
+          entries = []
+          for fp in files:
+              job = json.load(open(fp, encoding='utf-8'))
+              shards = (job.get('resources') or {}).get('shards')
+              if isinstance(shards, list) and shards and all(isinstance(s, dict) for s in shards):
+                  for s in shards:
+                      entries.append({
+                          "job_path": fp,
+                          "shard_name": s.get("name", ""),
+                          "shard_preamble": s.get("preamble", ""),
+                      })
+              else:
+                  entries.append({"job_path": fp, "shard_name": "", "shard_preamble": ""})
+          if len(entries) > 256:
+              print(f"SHARD_MATRIX_STOP: {len(entries)} matrix entries exceeds GHA cap of 256", file=sys.stderr)
+              sys.exit(1)
+          print(json.dumps(entries))
+          PY
+          ENTRIES=$(cat ci_discovered_entries.json)
+          echo "entries=$ENTRIES" >> "$GITHUB_OUTPUT"
+          echo "discovered entries: $ENTRIES"
 
   gate-and-run:
     needs: plan
@@ -65,7 +103,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        job_path: ${{ fromJSON(needs.plan.outputs.jobs) }}
+        entry: ${{ fromJSON(needs.plan.outputs.entries) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -73,15 +111,15 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Preflight -- (a) schema (b) integrity (c) prediction gate
-        run: python mine/preflight.py "${{ matrix.job_path }}"
+      - name: Preflight -- (a) schema (b) integrity (c) prediction (d) registry gate
+        run: python mine/preflight.py "${{ matrix.entry.job_path }}"
 
       - name: Load job fields for downstream steps
         id: job
         shell: bash
         run: |
           set -euo pipefail
-          python - "${{ matrix.job_path }}" <<'PY' >> "$GITHUB_OUTPUT"
+          python - "${{ matrix.entry.job_path }}" <<'PY' >> "$GITHUB_OUTPUT"
           import json, sys
           job = json.load(open(sys.argv[1], encoding='utf-8'))
           res = job.get('resources', {})
@@ -100,6 +138,20 @@ jobs:
           print(f"timeout_min={res.get('timeout_min', 60)}")
           PY
 
+      - name: Compute shard-qualified stage dir / artifact name
+        id: shard
+        shell: bash
+        run: |
+          set -euo pipefail
+          SHARD_NAME="${{ matrix.entry.shard_name }}"
+          if [ -n "$SHARD_NAME" ]; then
+            echo "stage_dir=mine/out/${{ steps.job.outputs.job_id }}/${SHARD_NAME}" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=mine-run-${{ steps.job.outputs.job_id }}-${SHARD_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            echo "stage_dir=mine/out/${{ steps.job.outputs.job_id }}" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=mine-run-${{ steps.job.outputs.job_id }}" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup GAP 4.16.0 (release tarball, sha256-verified)
         uses: gap-actions/setup-gap@v3.8.0
         with:
@@ -114,16 +166,33 @@ jobs:
           # driver.g は plan JSON から python で直接生成する(shell 展開を経由しない)。
           # 旧実装は GH 式の二重引用符補間で preamble 内の GAP 引用符が quote removal に
           # 食われ(R4ACP_WINDOW:="C";; が :=C;; になる)GAP が無出力で死んだ(run 30548585598)。
-          python - "${{ matrix.job_path }}" > ci/out/driver.g <<'PY'
+          # shard の preamble も同じ罠を踏むため argv では渡さない -- argv は shard の
+          # 「名前」だけ(shell-safe 前提・preflight が構造検査)にし、preamble 本文は
+          # plan JSON から python 内で引く。
+          python - "${{ matrix.entry.job_path }}" "${{ matrix.entry.shard_name }}" > ci/out/driver.g <<'PY'
           import json, sys
           job = json.load(open(sys.argv[1], encoding='utf-8'))
+          shard_name = sys.argv[2] if len(sys.argv) > 2 else ''
           drv = job['resources']['v0_driver']
           pre = drv.get('preamble', '')
           if pre:
               print(pre)
+          if shard_name:
+              shards = (job.get('resources') or {}).get('shards') or []
+              match = [s for s in shards if isinstance(s, dict) and s.get('name') == shard_name]
+              if not match:
+                  print(f"SHARD_LOOKUP_STOP: shard {shard_name!r} not in plan", file=sys.stderr)
+                  sys.exit(1)
+              sp = match[0].get('preamble', '')
+              if sp:
+                  print(sp)
           print(f'Read("{drv["script"]}");')
           PY
           echo "--- ci/out/driver.g ---"; cat ci/out/driver.g; echo "-----------------------"
+          # out_dir は既存チェックアウト済み cert を含む共有ディレクトリなので、
+          # 実行前に基準マーカーを打っておき、後段で mtime 比較により
+          # 「今回の実行で新規/更新されたファイルだけ」を判別する。
+          touch ci/out/.baseline_marker
           TIMEOUT_SEC=$(( ${{ steps.job.outputs.timeout_min }} * 60 ))
           set +e
           timeout "$TIMEOUT_SEC" gap -q -o 12g ci/out/driver.g | tee ci/out/run.log
@@ -143,29 +212,35 @@ jobs:
           {
             echo "verdict=$VERDICT"
             echo "job_id=${{ steps.job.outputs.job_id }}"
+            echo "shard_name=${{ matrix.entry.shard_name }}"
             echo "gap_exit_code=${{ steps.run.outputs.gap_exit }}"
             echo "run_id=${{ github.run_id }}"
             echo "sha=${{ github.sha }}"
           } > ci/out/result.txt
           cat ci/out/result.txt
 
-      - name: SHA256SUMS.txt over out_dir contents
+      - name: Stage new/changed out_dir files into job-scoped dir (mtime diff)
         shell: bash
         run: |
           set -euo pipefail
           OUT="${{ steps.job.outputs.out_dir }}"
+          STAGE="${{ steps.shard.outputs.stage_dir }}"
+          mkdir -p "$STAGE"
           if compgen -G "$OUT"'/*' > /dev/null; then
-            ( cd "$OUT" && sha256sum -- * > SHA256SUMS.txt )
-          else
-            echo "# (out_dir にファイルなし)" > "$OUT/SHA256SUMS.txt"
+            find "$OUT" -maxdepth 1 -type f -newer ci/out/.baseline_marker -exec cp -t "$STAGE" {} +
           fi
-          cat "$OUT/SHA256SUMS.txt"
+          if compgen -G "$STAGE"'/*' > /dev/null; then
+            ( cd "$STAGE" && sha256sum -- * > SHA256SUMS.txt )
+          else
+            echo "# (このジョブ/シャードで新規・更新された cert なし)" > "$STAGE/SHA256SUMS.txt"
+          fi
+          echo "staged files:"; ls -la "$STAGE"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: mine-run-${{ steps.job.outputs.job_id }}
+          name: ${{ steps.shard.outputs.artifact_name }}
           path: |
-            ${{ steps.job.outputs.out_dir }}/
+            ${{ steps.shard.outputs.stage_dir }}/
             ci/out/run.log
             ci/out/result.txt
           if-no-files-found: error

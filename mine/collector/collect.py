@@ -19,6 +19,7 @@
 
 import argparse
 import glob
+import hashlib
 import json
 import os
 import sys
@@ -218,11 +219,96 @@ def section_b_pairing(gap_windows, checker_windows):
     return lines, {"agreement": f"{agree_count}/{both}", "total_windows": len(all_wids), "pairs": pair_rows}
 
 
+def sha256_of_file(path):
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+def parse_result_txt(path):
+    """result.txt は machine-piped な key=value マーカー(verdict/job_id/
+    gap_exit_code/run_id/sha)であり、run.log(生ログ)ではない -- §4.5 の
+    「collector に log reader を実装しない」は run.log にのみ適用される。"""
+    fields = {}
+    if not path or not os.path.isfile(path):
+        return fields
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if "=" in line:
+                k, v = line.split("=", 1)
+                fields[k.strip()] = v.strip()
+    return fields
+
+
+def generate_ledger_draft(job_id, plan, buckets, a_results, b_summary, result_fields, out_path):
+    """mine/reports/<job_id>_ledger_draft.md -- provenance/LEDGER.md の直近
+    エントリ様式(## <日付> <見出し>・箇条書き)に合わせた記帳"下書き"。
+    貼るのは人(このスクリプトは LEDGER.md 自体には一切書き込まない)。
+    地図 delta 案(1行様式)を同ファイル末尾に添える(裁定番号は空欄)。"""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    map_ref = plan.get("map_ref", {})
+    polestar = ",".join(map_ref.get("polestar", []) or [])
+    band = map_ref.get("band")
+
+    all_certs = []
+    for kind in ("gap_window", "gap_manifest", "checker_window", "checker_manifest"):
+        for path, _obj in buckets.get(kind, []):
+            try:
+                sha = sha256_of_file(path)
+            except OSError:
+                sha = "(読取不能)"
+            all_certs.append((kind, path, sha))
+
+    repro_match = sum(1 for r in a_results if r["verdict"] == "REPRO_MATCH")
+    repro_total = len(a_results)
+
+    lines = []
+    lines.append("# LEDGER 追記行 案(下書き) -- 貼るのは人")
+    lines.append("")
+    lines.append("**この節は機械生成の下書きであり、provenance/LEDGER.md への貼付・裁定番号の記入は人(司令塔/研究者)が行う。"
+                  "このスクリプトは LEDGER.md を直接編集しない。**")
+    lines.append("")
+    lines.append(f"## {today} {job_id}(mine)")
+    lines.append(f"- ジョブ: `{job_id}`(claim_class=`{plan.get('claim_class')}`・map_ref: polestar=[{polestar}] band={band})")
+    if result_fields:
+        run_id = result_fields.get("run_id", "(不明)")
+        verdict = result_fields.get("verdict", "(不明)")
+        gap_exit = result_fields.get("gap_exit_code", "(不明)")
+        sha = result_fields.get("sha", "(不明)")
+        lines.append(f"- CI run: run_id={run_id}・verdict={verdict}・gap_exit_code={gap_exit}・commit sha={sha}")
+    else:
+        lines.append("- CI run: (result.txt 未指定 -- --result-file で渡すと run_id/verdict/gap_exit_code を記帳できる)")
+    lines.append(f"- 再現照合: {repro_match}/{repro_total} REPRO_MATCH")
+    lines.append(f"- 対付け: agreement {b_summary['agreement']}(全窓数 {b_summary.get('total_windows', 0)})")
+    if all_certs:
+        lines.append("- 収蔵証明書(artifact 側 sha256):")
+        for kind, path, sha in all_certs:
+            lines.append(f"  - `{path}` ({kind}) = {sha}")
+    else:
+        lines.append("- 収蔵証明書: (artifact-dir から cert が見つからなかった)")
+    lines.append("")
+
+    lines.append("---")
+    lines.append("")
+    lines.append("## 地図 delta 案(1行様式・裁定番号は空欄)")
+    lines.append("")
+    lines.append(f"- {today} {job_id}: agreement {b_summary['agreement']}・再現照合 {repro_match}/{repro_total}・裁定番号 = ")
+    lines.append("")
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+    return out_path
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--artifact-dir", required=True, help="CI artifact を展開したディレクトリ(dry-run では search/certs で代用可)")
     ap.add_argument("--plan", required=True, help="mine-job/v1 plan JSON へのパス")
     ap.add_argument("--dry-run", action="store_true", help="レポート名に _dryrun を付ける(repo cert を artifact に見立てた自己検収用)")
+    ap.add_argument("--emit-ledger-draft", action="store_true",
+                     help="検収レポートに加え、mine/reports/<job_id>_ledger_draft.md(LEDGER 追記行+地図delta案の下書き)を生成する。貼るのは人。")
+    ap.add_argument("--result-file", default=None,
+                     help="result.txt へのパス(任意)。verdict/run_id/gap_exit_code を ledger draft に記帳する(machine-piped な key=value ファイルであり run.log ではない)。")
     args = ap.parse_args()
 
     plan_path = args.plan
@@ -273,6 +359,13 @@ def main():
 
     print(f"WROTE: {out_path}")
     print(f"repro: {repro_match}/{repro_total} REPRO_MATCH; pairing agreement: {b_summary['agreement']}")
+
+    if args.emit_ledger_draft:
+        result_fields = parse_result_txt(args.result_file)
+        ledger_suffix = "_dryrun" if args.dry_run else ""
+        ledger_path = os.path.join(ROOT, "mine", "reports", f"{job_id}{ledger_suffix}_ledger_draft.md")
+        generate_ledger_draft(job_id, plan, buckets, a_results, b_summary, result_fields, ledger_path)
+        print(f"WROTE: {ledger_path} (貼るのは人)")
 
 
 if __name__ == "__main__":

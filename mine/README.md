@@ -14,6 +14,15 @@
 - 述語台帳(`mine/registry/`)は v0 では未整備。§7-1 の官僚化防止条項どおり「カード化は走った後でよい」— plan の `pipeline` は driver への名前付きポインタで代用する。
 - LEDGER 行・地図 delta 案の自動生成は v1 以降(§6)。
 
+## v1 配管で追加した物(裁定237 v1 範囲)
+
+- **梯子 driver の窓選択 knob**: `search/strike-a13-ladder.g` に `LADDER_ONLY_WINDOWS`(窓 ID 文字列のリスト)を追加。bound なら窓をフィルタするだけ(判定ロジック・走査・cert 内容は無改変。未 bound なら従来と完全同一動作)。
+- **shard matrix**: `resources.shards` が配列 `[{"name", "preamble"}, ...]` のとき、`mine-dispatch.yml` が matrix でシャード並列実行する(各シャードの preamble は `v0_driver.preamble` の後に連結)。driver.g 生成は python heredoc 直接生成方式(shell 展開を経由しない -- master 側の修理を踏襲)。
+- **ジョブ専用 out_dir**: driver は引き続き `search/certs` 固定で書くが、実行前後の mtime 比較で「今回の実行で新規・更新された cert だけ」を `mine/out/<job_id>[/<shard>]/` へ回収し、artifact はそちらを収蔵する(分類不能 cert 混入の解消)。
+- **certs メモ化索引**: `mine/collector/build_index.py` -- `search/certs/` を走査し `(window_id/canonical_id_sha256, generated_by, script_sha256)` の索引を `mine/index/certs_index.json` へ構築。完全な (UID×述語×版×impl_sha) 鍵は v1 後半に伸ばす(§4.7)。
+- **LEDGER 行・地図 delta 案の下書き**: `collect.py --emit-ledger-draft` -- 検収レポートに加えて `mine/reports/<job_id>_ledger_draft.md`(LEDGER.md 様式の下書き+地図 delta 案 1 行)を機械生成する。**貼るのは人**。
+- **述語台帳(最小)**: `mine/registry/` に XI-SCAN・PRUNE-ODD の 2 カード。preflight の (d) registry ゲートが、plan の `pipeline[*].predicate` がカード id を指す場合のみ `impl_sha256` の現物一致を検査する(カード無し述語は従来どおり無検査)。
+
 ## v0_driver 欄について
 
 `resources.v0_driver`(`{script, sha256, preamble}`)は **v1 の述語カード化までの橋**。述語台帳が無いあいだ、plan は GAP driver を直接指す(名前付きポインタ)。**driver 自体の改変は禁止** — plan.universe.frozen_docs / resources.v0_driver.sha256 で「plan 凍結時から driver が 1 バイトも変わっていない」ことを preflight/CI integrity gate が強制する。v1 で述語台帳が棚入れされたら、`pipeline` は driver 直参照ではなくカード参照へ移行し、この欄は縮退させる。

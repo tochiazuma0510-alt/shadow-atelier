@@ -12,7 +12,7 @@
     },
     "frozen_docs": [
       { "path": "search/_a13_ladder_driver_spec.md", "sha256": "c62519a85ca0f9e3db0959f579909aac22ee0ad606ad7d5b5b14d5ca1db9af90" },
-      { "path": "search/strike-a13-ladder.g", "sha256": "fa209588621791ad07b1e5a111e9d9f056aba9529592bc013059c204ea5285db" },
+      { "path": "search/strike-a13-ladder.g", "sha256": "be44299f221d50aa66e9a415ebd2daeb0d363e87d187ca8e245818916d7f6323" },
       { "path": "docs/notes/a13_prediction_v1.md", "sha256": "1bdaf891af275ce27890df7d948d10da6445d953a21bdacb92c34b44aec7ff38" }
     ]
   },
@@ -34,7 +34,7 @@
     "checkpoint": false,
     "v0_driver": {
       "script": "search/strike-a13-ladder.g",
-      "sha256": "fa209588621791ad07b1e5a111e9d9f056aba9529592bc013059c204ea5285db",
+      "sha256": "be44299f221d50aa66e9a415ebd2daeb0d363e87d187ca8e245818916d7f6323",
       "preamble": ""
     }
   },

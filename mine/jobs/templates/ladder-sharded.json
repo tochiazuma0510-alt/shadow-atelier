@@ -1,0 +1,61 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "ladder-shard-demo-v1",
+  "_comment_status": "v1 配管の見本(queue には置かない -- REPLACE-ME 無しの具体値入りで、これ単独で preflight PASS することを検収項目にしている)。裁定237 v1 範囲: shard 配列 + registry 参照 + 専用 out_dir の三点セット。",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P3"], "band": 1 },
+  "universe": {
+    "generator": "ladder-family",
+    "params": {
+      "N_ord": 9,
+      "windows": 13,
+      "note": "v1 見本: 既存13窓を canon(4窓)/siblings(9窓)の2シャードに分割して並列実行するデモ。梯子較正再走(mine/jobs/queue/ladder-recal-20260730.json)と同一 driver・同一13窓 -- 分割方式が異なるだけ。"
+    },
+    "frozen_docs": [
+      { "path": "search/_a13_ladder_driver_spec.md", "sha256": "c62519a85ca0f9e3db0959f579909aac22ee0ad606ad7d5b5b14d5ca1db9af90" },
+      { "path": "search/strike-a13-ladder.g", "sha256": "be44299f221d50aa66e9a415ebd2daeb0d363e87d187ca8e245818916d7f6323" },
+      { "path": "docs/notes/a13_prediction_v1.md", "sha256": "1bdaf891af275ce27890df7d948d10da6445d953a21bdacb92c34b44aec7ff38" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "A13-LADDER-RECAL",
+      "version": 1,
+      "params": { "driver": "search/strike-a13-ladder.g", "note": "v0 スタイル(driverへの名前付きポインタ)。窓選択は resources.shards[*].preamble の LADDER_ONLY_WINDOWS knob で行う。" }
+    },
+    {
+      "predicate": "XI-SCAN",
+      "version": 1,
+      "params": { "note": "v1 見本: registry カード参照(mine/registry/XI-SCAN.json)。preflight の (d) registry ゲートが card.explorer/checker.impl_sha256 を現物照合する。" }
+    }
+  ],
+  "predictions": {
+    "frozen": "docs/notes/a13_prediction_v1.md",
+    "sha256": "1bdaf891af275ce27890df7d948d10da6445d953a21bdacb92c34b44aec7ff38"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "canon", "preamble": "LADDER_ONLY_WINDOWS := [\"W-E-A10-9t1\",\"W-E-A11-9t2\",\"W-E-A12-9t3\",\"W-E-A13-9t4\"];;" },
+      { "name": "siblings", "preamble": "LADDER_ONLY_WINDOWS := [\"W-E-A10-9t1-o2\",\"W-E-A10-9t1-o3\",\"W-E-A10-9t1-o4\",\"W-E-A10-9t1-o5\",\"W-E-A10-9t1-o6\",\"W-E-A11-9t2-o2\",\"W-E-A11-9t2-o3\",\"W-E-A12-9t3-o2\",\"W-E-A12-9t3-o3\"];;" }
+    ],
+    "timeout_min": 60,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/strike-a13-ladder.g",
+      "sha256": "be44299f221d50aa66e9a415ebd2daeb0d363e87d187ca8e245818916d7f6323",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "a13-ladder-cert (raw measurement; 正本は search/_a13_ladder_driver_spec.md)",
+    "out_dir": "mine/out/ladder-shard-demo-v1",
+    "_comment_out_dir": "v1 見本: ジョブ専用 out_dir 欄(§3)。driver 自体は strike系規約により search/certs に書く(この欄を変えても driver の書き先は変わらない)ので、mine-dispatch.yml は実行前後で search/certs を mtime 比較し、新規/更新分だけを mine/out/<job_id>/<shard>/ へ回収する -- ステージング先は現状 job_id から常に導出し、この欄自体はまだ dispatch には読ませていない(記述的・将来 backend が out_dir に直接書く方式に切り替わったときのための欄)。"
+  },
+  "crosscheck": {
+    "mode": "auto-pair",
+    "checker_backend": "py-ci",
+    "checker_certs_glob": "search/certs/ladder_xi_recheck_*_20260730.json"
+  },
+  "ep_handoff": null
+}

@@ -1,12 +1,15 @@
 # mine/preflight.py -- 採掘場(mine)ジョブのローカル前哨(裁定237・ideas_013 §5.2 手順①)。
 #
-# 3 ゲートを実行する:
+# 4 ゲートを実行する:
 #   (a) schema 検査   -- mine-job-v1.schema.json の要旨を stdlib のみで再現
 #                          (jsonschema 未導入・依存追加はしない方針)
 #   (b) integrity 検査 -- universe.frozen_docs と resources.v0_driver.script の
 #                          sha256 を、plan 記載値と "今この場で" 再計算して照合
 #   (c) 予言ゲート     -- predictions.frozen+sha256 が非空、または
 #                          predictions.declared_none の明示宣言があること
+#   (d) registry ゲート -- pipeline[*].predicate が mine/registry/*.json の
+#                          カード id を指す場合のみ、explorer/checker.file の
+#                          impl_sha256 を再計算して照合(v1・裁定237)
 #
 # 全 PASS で exit 0。1 つでも違反があれば理由を全部印字して exit 1
 # (fail-closed -- 部分合格という状態を作らない)。
@@ -111,6 +114,22 @@ def gate_schema(job):
         if v0d is not None:
             if not isinstance(v0d, dict) or not is_nonempty_str(v0d.get("script")) or not HEX64.match(v0d.get("sha256", "")):
                 errs.append("resources.v0_driver, when present, must be {script: non-empty string, sha256: 64-hex[, preamble]}")
+        shards = resources.get("shards")
+        if isinstance(shards, list):
+            if len(shards) == 0 or len(shards) > 256:
+                errs.append("resources.shards (array form) must have 1..256 items (GHA matrix cap)")
+            valid_names = []
+            for i, sh in enumerate(shards):
+                if not isinstance(sh, dict) or not is_nonempty_str(sh.get("name")) \
+                        or not re.match(r"^[A-Za-z0-9_-]+$", sh.get("name", "")) \
+                        or "preamble" not in sh or not isinstance(sh.get("preamble"), str):
+                    errs.append(f"resources.shards[{i}] must be {{name: [A-Za-z0-9_-]+, preamble: string}}")
+                else:
+                    valid_names.append(sh["name"])
+            if len(set(valid_names)) != len(valid_names):
+                errs.append("resources.shards (array form) shard names must be unique")
+        elif shards is not None and not isinstance(shards, (str, int)):
+            errs.append("resources.shards must be a string, integer, or array of {name, preamble}")
 
     outputs = job.get("outputs")
     if not isinstance(outputs, dict) or not is_nonempty_str(outputs.get("cert_schema")) or not is_nonempty_str(outputs.get("out_dir")):
@@ -174,6 +193,63 @@ def gate_predictions(job):
     return errs
 
 
+# ---------------------------------------------------------------------------
+# (d) registry gate -- plan の pipeline[*].predicate が mine/registry/*.json
+#     のカード id を指す場合のみ発動: カードの explorer/checker.file の
+#     impl_sha256 を「今この場で」再計算して照合する。カード無しの述語
+#     (v0 driver 直参照)はここでは何もしない -- §7-1「カード化は走った後で
+#     よい」により合法。
+# ---------------------------------------------------------------------------
+def load_registry_cards():
+    cards = {}
+    reg_dir = os.path.join(ROOT, "mine", "registry")
+    if not os.path.isdir(reg_dir):
+        return cards
+    for fn in sorted(os.listdir(reg_dir)):
+        if not fn.endswith(".json"):
+            continue
+        fp = os.path.join(reg_dir, fn)
+        try:
+            with open(fp, encoding="utf-8") as f:
+                card = json.load(f)
+        except Exception:
+            continue
+        cid = card.get("id")
+        if is_nonempty_str(cid):
+            cards[cid] = card
+    return cards
+
+
+def gate_registry(job):
+    errs = []
+    cards = load_registry_cards()
+    pipeline = job.get("pipeline")
+    if not isinstance(pipeline, list):
+        return errs
+    for i, item in enumerate(pipeline):
+        if not isinstance(item, dict):
+            continue
+        pred = item.get("predicate")
+        card = cards.get(pred)
+        if card is None:
+            continue  # v0 driver 直参照のカード無し述語 -- 合法(§7-1)
+        for role in ("explorer", "checker"):
+            role_spec = card.get(role)
+            if not isinstance(role_spec, dict):
+                continue
+            file_path = role_spec.get("file")
+            expected = role_spec.get("impl_sha256")
+            if not is_nonempty_str(file_path) or not is_nonempty_str(expected):
+                continue
+            actual = sha256_of(file_path)
+            if actual is None:
+                errs.append(f"REGISTRY_STOP: pipeline[{i}] predicate={pred!r} card.{role}.file {file_path}: file not found")
+            elif actual != expected:
+                errs.append(f"REGISTRY_STOP: pipeline[{i}] predicate={pred!r} card.{role}.file {file_path}: "
+                             f"impl_sha256 mismatch (expected {expected}, got {actual}) -- 実装が card 記載時から変更されている")
+    return errs
+
+
 def main():
     if len(sys.argv) != 2:
         print("usage: python mine/preflight.py <job.json path>")
@@ -196,6 +272,7 @@ def main():
     # 出せる範囲までは試みる(fail-closed だが診断は最大限出す)。
     all_errs += [f"(b) {e}" for e in gate_integrity(job)]
     all_errs += [f"(c) {e}" for e in gate_predictions(job)]
+    all_errs += [f"(d) {e}" for e in gate_registry(job)]
 
     if all_errs:
         print(f"STOP: {job_path} failed preflight ({len(all_errs)} violation(s)):")
