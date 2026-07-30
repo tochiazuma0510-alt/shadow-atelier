@@ -1,0 +1,27 @@
+{
+  "schema":"wac_v1-wall-family-cert/v1",
+  "generated_by":"search/probe/wac_v1/wall_family_scan.g",
+  "window_label":"WALL-FAMILY-SCAN",
+  "f_orientation":"mathematician_handwritten",
+  "note":"raw measurements only -- interpretation-free. P-WALL-2(n=24)以外に非可解核の窓があるか(族的確認)。可解性は測定するだけで判定条件には使わない(assert しない)。hexagon 判定は search/probe/wac_v1/sat_l1_probe11.g / wall2_cert.g と同じ検算済み手書き式(kerchi-judge.g の RtOf は不採用)。W(x,y,c,Bq,PN,N_ord)は search/kerchi-judge.g (JUDGE_LIBRARY_ONLY) の MakeWindow を再利用。a1 は 2-opt 山登り(dl3_search.g の Hunt をそのまま流用)。|C_Sn(w0)|>5000 の場合は SURV をランダム抽出に切り替え、全数でないことを surv.mode に明記する。NOT a ledger claim.",
+  "params":{
+    "n_min":20,
+    "n_max":34,
+    "ell_min":16,
+    "ell_max":21,
+    "shard":"ell-mid1",
+    "seed":20260731,
+    "max_restart":60,
+    "max_step":1500,
+    "time_cap_per_k_ms":8000,
+    "total_time_cap_ms":10200000,
+    "random_sample_n":200
+  },
+  "total_time_cap_hit":false,
+  "records":[{"n":22,"ell":17,"t":5,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":6,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":23,"ell":17,"t":6,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":7,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":24,"ell":17,"t":7,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":8,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":24,"ell":19,"t":5,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":6,"feasible_k":[12],"result":"HIT","k":12,"j":8,"gen_label":"A_n","a1":"(1,18)(2,4)(3,23)(5,17)(6,13)(7,9)(8,20)(10,12)(11,21)(14,16)(15,22)(19,24)","b1":"(1,17,4)(2,3,23)(5,16,13)(6,12,9)(7,8,20)(10,11,21)(14,15,22)(18,19,24)","window_asserts":{"braid_holds":true,"c_eq_identity":true,"P_eq_An":true,"E_size":1861345205199718318080000,"N_ord":19},"centralizer_w0":{"size":2280,"structure_description":"C19 x S5","solvable":false,"derived_length":-1},"surv":{"mode":"full","cv_size":2280,"sample_size":2280,"pass_count":2280,"hex_fail":0,"gen_fail":0}},{"n":25,"ell":17,"t":8,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":9,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":25,"ell":19,"t":6,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":7,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":26,"ell":17,"t":9,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":10,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":26,"ell":19,"t":7,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":8,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":27,"ell":17,"t":10,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":11,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":27,"ell":19,"t":8,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":9,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":28,"ell":17,"t":11,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":12,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":28,"ell":19,"t":9,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":10,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":29,"ell":17,"t":12,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":13,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":29,"ell":19,"t":10,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":11,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":30,"ell":17,"t":13,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":14,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":30,"ell":19,"t":11,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":12,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":31,"ell":17,"t":14,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":15,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":31,"ell":19,"t":12,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":13,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":32,"ell":17,"t":15,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":16,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":32,"ell":19,"t":13,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":14,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":33,"ell":17,"t":16,"w0_cycle_type":"[ , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":17,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":33,"ell":19,"t":14,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":15,"feasible_k":[],"result":"SKIPPED_BUDGET"},{"n":34,"ell":19,"t":15,"w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]","sign_w0":1,"NC_w0":16,"feasible_k":[],"result":"SKIPPED_BUDGET"}],
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"b076c80ec10020b9467eceaa110cee53f4fd0dc5c73e564f8a46c80d6267d6b4",
+    "gap_invocation":"gap -q -o 2g search/probe/wac_v1/wall_family_scan.g (preamble sets WALL_N_MIN/MAX/ELL_MIN/ELL_MAX/SHARD)"
+  }
+}
