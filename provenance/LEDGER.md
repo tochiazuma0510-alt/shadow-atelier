@@ -672,3 +672,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **確定測定**: A₅ 窓の π-lift(σ₃↦σ₁・K_π ∈ NFI_{PB₄}(B₄) 正真)で **pentagon (2.20) は A₅ の 60 元中 8 元のみ通す**(rev 辞書・機構は N⁽³⁴⁾ 4096/254016 再現で較正済・**類不変性 60 元×3 変形で違反 0 を実証**)。⟹ 発案係の破綻点 1(潰れ)否定 = **第三の歯は本物**。
 - **P-PENT-1 発動 = FAIL で停止**(予言の指示どおり): v4 の「GT(N_A) 20 元全て arithmetical」+算術鎖 ⟹ 20/20 が必要だが、辞書×語順×反転の全 8 組合せで 10/20・live 8 元 < 必要 f ≥10 で構造的に不可能。**未較正部分を「gentle(2401)↔B₄(2008) の (m,f) 径数対応(m 依存 recoding の署名 = per-m [5,0,0,5])」1 箇所に同定** — knob 合わせ禁止・紙上導出を数学者へ委嘱。
 - 観察(candidate): readA ラベルで live ⟺ u∈{±1}(平方類)・live 集合は m=0 hexagon 解 5 個を全含。
+
+## 2026-07-31 recoding 恒等の決着と v4 再検分の開始(裁定 250)
+- 数学者(docs/notes/pent_recoding_v1.md・紙導出): **gentle(2401)↔B₄(2008) の径数対応は恒等**(hexagon 対の原文突合・c 中心性経由で両辺同一)⟹ PENT-π 実測 10/20 は確定・knob は不在。read A を部分群規準で採択(live = χ̃⁻¹({±1}) 指数 2 部分群・read B は 4∤10 で棄却)。
+- 司令塔の lift census(_pent_pi_liftcensus.g): B₄ 関係式を満たす S3 ∈ E は **S1 ただ一つ ⟹ π-lift は最小レベルで唯一(canonical)** — live 8 は lift 選択の artifact でない。
+- **含意(candidate・主張未確定)**: live = 「√5 を固定する側」。円分全射性との衝突により **week4 v4 L521「20 全 arithmetical」はこのままでは保持できない** — 最有力仮説 = N_A の dessin は G_{ℚ(√5)}-安定のみ・算術像 = live の 10 個。数学者へ v4 飽和計算の再検分を委嘱(moduli 体の明示計算)・便 90 の最優先積荷へ昇格。pentagon 橋の初仕事が工房自身の旗艦主張の監査になる可能性。
