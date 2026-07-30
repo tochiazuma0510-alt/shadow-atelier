@@ -677,3 +677,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 数学者(docs/notes/pent_recoding_v1.md・紙導出): **gentle(2401)↔B₄(2008) の径数対応は恒等**(hexagon 対の原文突合・c 中心性経由で両辺同一)⟹ PENT-π 実測 10/20 は確定・knob は不在。read A を部分群規準で採択(live = χ̃⁻¹({±1}) 指数 2 部分群・read B は 4∤10 で棄却)。
 - 司令塔の lift census(_pent_pi_liftcensus.g): B₄ 関係式を満たす S3 ∈ E は **S1 ただ一つ ⟹ π-lift は最小レベルで唯一(canonical)** — live 8 は lift 選択の artifact でない。
 - **含意(candidate・主張未確定)**: live = 「√5 を固定する側」。円分全射性との衝突により **week4 v4 L521「20 全 arithmetical」はこのままでは保持できない** — 最有力仮説 = N_A の dessin は G_{ℚ(√5)}-安定のみ・算術像 = live の 10 個。数学者へ v4 飽和計算の再検分を委嘱(moduli 体の明示計算)・便 90 の最優先積荷へ昇格。pentagon 橋の初仕事が工房自身の旗艦主張の監査になる可能性。
+
+## 2026-07-31 三つ巴の解消(裁定 251)— v4 無罪・pentagon 実測を装置疑いへ降格
+- 数学者(docs/notes/a5_arithmetic_recheck_v1.md): **v4 は正しい**(L は rigidification 体・moduli 体は (I1) より ℚ・「20 全 arithmetical」は ℚ 上の主張として正・erratum 不要)。**G_{ℚ(√5)} 仮説は数学者が自己撤回**(R-PENT-1・Chebotarev が逃げ道を塞ぐ)。司令塔の「u≡3 = 非平方類」は **Kummer 助変数と円分座標の型錯誤**(記録)。
+- 決定的論証(v4/W3-8 不使用): G_ℚ の pentagon は profinite 恒等式 ⟹ 全 K で成立・χ̃∘Ih は Chebotarev で全射 ⟹ **u∈{2,3} の pentagon-live shadow は存在必須**。実測 0 ⟹ **装置が偽**。⟹ **裁定 249/250 の census 8/60 を「確定測定」から「装置バグ疑い・再較正待ち」へ降格**(本追記が正・過去エントリは非改変)。
+- 欠陥候補(優先順): ①f↔f⁻¹ 向き ②K_π 定義(消込済) ③(A.3) 全数検査 ④θ 落ち(φ₂₃₄↝θ — pentagon が hexagon 再言の危険・紙で兆候) ⑤**π-lift 構成段が較正外**(N34 較正は機構のみ)。教訓 = 較正主張には範囲を明記・符合の誘惑に Chebotarev 級の重い定理での即検査。
+- 格の教訓(研究者の問いへの回答として記録): v4 = two-mathematician audit PASS(candidate より二段上)vs 攻撃 = candidate — **監査済みが生き残り candidate が倒れた = 梯子の順序どおりの決着**。
