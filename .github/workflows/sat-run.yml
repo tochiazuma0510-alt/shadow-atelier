@@ -16,6 +16,20 @@
 # drat-trim 自身とは別の独立 LRAT checker で読む工程。encoder manifest・
 # import しない model checker・completeness 補題の別監査明記は
 # search/sat/manifest_tail8_n21.json / search/sat/check_model_n21.mjs 側で対応済み。
+#
+# 2026-07-31 追加(ideas_013 §2.1・cake_lpr 遡及検証は別 workflow lrat-recheck.yml):
+#   solver 選択入力(kissat[既定] | cadical)を追加。kissat 経路(build/solve/
+#   drat-trim 検証の各ステップ)は一切変更していない -- 各既存ステップに
+#   `if: solver==kissat` を追加しただけで、solver=kissat(既定)実行時の中身・
+#   出力は無変更。cadical 選択時は CaDiCaL 2.x を commit SHA pin でビルドし、
+#   `--lrat`(LRAT フォーマット出力を有効にするブールオプション。CaDiCaL の
+#   CLI は "cadical [option] [input [proof]]" で proof の出力先自体は位置引数
+#   -- README/NEWS.md を実読して確認、"--lrat=proof.lrat" という単一フラグは
+#   存在しない)で proof.lrat を solver から直接出力させ、drat-trim 変換段を
+#   飛ばす。UNSAT 時の core 抽出は cadical 経路では省略(instructions 通り)。
+#   incremental(iCNF)対応: TODO -- 次の実弾の encoder 側 fragment 化(ideas_013
+#   §4.4)と同時に設計する。CaDiCaL 自体は IPASIR/iCNF に対応済みだが、本
+#   workflow は単発 CNF の配線のみで incremental ソルバー状態の再利用はしない。
 name: sat-run
 on:
   workflow_dispatch:
@@ -52,6 +66,14 @@ on:
         required: false
         type: string
         default: "60"
+      solver:
+        description: "SAT solver. kissat = 現行既定(DRAT -> drat-trim で LRAT 変換). cadical = CaDiCaL 2.x(--lrat で LRAT を native 出力、drat-trim 変換段を飛ばす)。"
+        required: false
+        type: choice
+        options:
+          - kissat
+          - cadical
+        default: kissat
 
 jobs:
   sat:
@@ -110,9 +132,11 @@ jobs:
           echo "cnf_path=$CNF_PATH" >> "$GITHUB_OUTPUT"
           echo "out_dir=$OUT_DIR" >> "$GITHUB_OUTPUT"
           echo "run_label=$RUN_LABEL" >> "$GITHUB_OUTPUT"
-          echo "validation passed: cnf_path, out_dir, solver_args charset OK; run_label/cnf_sha256 gate OK"
+          echo "solver=${{ inputs.solver }}" >> "$GITHUB_OUTPUT"
+          echo "validation passed: cnf_path, out_dir, solver_args charset OK; run_label/cnf_sha256 gate OK; solver=${{ inputs.solver }}"
 
       - name: Build kissat and drat-trim (pinned commits)
+        if: steps.validate.outputs.solver == 'kissat'
         run: |
           set -euo pipefail
           # kissat @ arminbiere/kissat, commit resolved 2026-07-29 from `master` HEAD.
@@ -129,6 +153,21 @@ jobs:
           ( cd tools-drat && make )
 
           tools-kissat/build/kissat --version
+
+      - name: Build CaDiCaL (pinned commit)
+        if: steps.validate.outputs.solver == 'cadical'
+        run: |
+          set -euo pipefail
+          # CaDiCaL @ arminbiere/cadical, tag rel-2.2.1 (2.x per instructions),
+          # commit resolved 2026-07-31 via `git ls-remote --tags`.
+          CADICAL_SHA=4198d817d0dcde5b1240eefbff70b555b7df2af9
+
+          git clone https://github.com/arminbiere/cadical.git tools-cadical
+          git -C tools-cadical checkout "$CADICAL_SHA"
+          ( cd tools-cadical && ./configure && make )
+
+          test -x tools-cadical/build/cadical
+          tools-cadical/build/cadical --version || true
 
       - name: Resolve and verify CNF
         run: |
@@ -152,6 +191,7 @@ jobs:
 
       - name: Run kissat with DRAT proof (array-argument invocation, no shell interpolation of user input)
         id: solve
+        if: steps.validate.outputs.solver == 'kissat'
         run: |
           set +e
           # Split the allowlisted solver_args string into a bash array (word
@@ -169,7 +209,31 @@ jobs:
           else echo "verdict=UNKNOWN" >> ci/out/result.txt; fi
           cat ci/out/result.txt
 
-      - name: Extract model (if SAT)
+      - name: Run CaDiCaL with native LRAT proof (array-argument invocation, no shell interpolation of user input)
+        id: solve_cadical
+        if: steps.validate.outputs.solver == 'cadical'
+        run: |
+          set +e
+          # Same allowlisted-charset argv-array pattern as the kissat step above.
+          # CaDiCaL CLI: "cadical [option]... [input [proof]]" -- the proof PATH is
+          # a positional argument (not a --lrat=<path> flag); --lrat is a separate
+          # boolean option that switches the proof FORMAT written to that path from
+          # DRAT to LRAT (verified against options.hpp/NEWS.md upstream, commit
+          # rel-2.2.1 -- there is no single "--lrat=<path>" flag in this solver).
+          read -ra SOLVER_ARGV <<< "${{ inputs.solver_args }}"
+          tools-cadical/build/cadical ci/out/problem.cnf ci/out/proof.lrat --lrat "${SOLVER_ARGV[@]}" \
+            > ci/out/cadical_out.txt 2> ci/out/cadical_time.txt
+          code=$?
+          set -e
+          echo "exit=$code" | tee ci/out/result.txt
+          tail -n 30 ci/out/cadical_out.txt
+          if [ "$code" = "10" ]; then echo "verdict=SAT" >> ci/out/result.txt;
+          elif [ "$code" = "20" ]; then echo "verdict=UNSAT" >> ci/out/result.txt;
+          else echo "verdict=UNKNOWN" >> ci/out/result.txt; fi
+          cat ci/out/result.txt
+
+      - name: Extract model (if SAT, kissat)
+        if: steps.validate.outputs.solver == 'kissat'
         run: |
           set -euo pipefail
           if grep -q "verdict=SAT" ci/out/result.txt; then
@@ -179,7 +243,19 @@ jobs:
             echo "not SAT — skip"
           fi
 
-      - name: Verify DRAT proof, extract core and LRAT (if UNSAT)
+      - name: Extract model (if SAT, cadical)
+        if: steps.validate.outputs.solver == 'cadical'
+        run: |
+          set -euo pipefail
+          if grep -q "verdict=SAT" ci/out/result.txt; then
+            grep "^v " ci/out/cadical_out.txt > ci/out/model_vlines.txt || true
+            wc -l ci/out/model_vlines.txt
+          else
+            echo "not SAT — skip"
+          fi
+
+      - name: Verify DRAT proof, extract core and LRAT (if UNSAT, kissat)
+        if: steps.validate.outputs.solver == 'kissat'
         run: |
           set -euo pipefail
           if grep -q "verdict=UNSAT" ci/out/result.txt; then
@@ -190,6 +266,19 @@ jobs:
               || (echo "PROOF VERIFICATION FAILED" && exit 1)
             wc -l ci/out/core.cnf || true
             gzip -9 ci/out/proof.drat ci/out/core.cnf ci/out/proof.lrat
+          else
+            echo "not UNSAT — skip"
+          fi
+
+      - name: Package native LRAT proof (if UNSAT, cadical -- no drat-trim conversion step, core extraction omitted per instructions)
+        if: steps.validate.outputs.solver == 'cadical'
+        run: |
+          set -euo pipefail
+          if grep -q "verdict=UNSAT" ci/out/result.txt; then
+            test -s ci/out/proof.lrat || { echo "CADICAL_LRAT_MISSING: --lrat was requested but proof.lrat is empty/absent" >&2; exit 1; }
+            wc -l ci/out/proof.lrat
+            gzip -9 ci/out/proof.lrat
+            echo "native LRAT proof.lrat.gz staged (checkable downstream by search/sat/lrat_check.py exactly like the kissat/drat-trim path, and by .github/workflows/lrat-recheck.yml's cake_lpr third-stage recheck)"
           else
             echo "not UNSAT — skip"
           fi

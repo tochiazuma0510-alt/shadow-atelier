@@ -70,6 +70,36 @@ drat-trim の `s VERIFIED` は「この CNF から矛盾が導ける」ことし
 - この意味で「照合済み(cross-checked)」は名乗れるが「検証済み(verified)」は
   Lean 化して初めて名乗れる(CLAUDE.md の語法規約)。
 
+## 三段 checker 体制と solver 選択(2026-07-31 追加・ideas_013 §2.1/§2.2)
+
+UNSAT 主張は三段構えで独立に確かめる(どの段も他段のコード・中間状態を import しない
+— 探索器/照合器の分離規律のまま三段に拡張しただけ):
+
+1. **drat-trim**(`sat-run.yml`、現用)— proof.drat を生成した直後に自分自身の
+   DRAT checker で検証(`s VERIFIED`)。生成側と同じツールなので「自己検証」の域。
+2. **`lrat_check.py`**(このディレクトリ、現用)— drat-trim が出した proof.lrat
+   だけを入力に、drat-trim のコードを一切読まない自前 python 実装で再検算。
+3. **cake_lpr**(`.github/workflows/lrat-recheck.yml`、新規・`workflow_dispatch`)—
+   CakeML でバイナリまで形式検証された checker(SAT Competition 2025 公式)で
+   `search/sat/runs/` に収蔵済みの UNSAT run を遡及的に再検査する。commit SHA pin
+   に加え、upstream 同梱の `cake_lpr.sha256` でソースファイル自体の sha256 も検証
+   してからビルドする(二重ピン)。fail-closed 負例(hint id を存在しないクローズ
+   ID に書き換えた破壊 LRAT)が正しく `NOT_VERIFIED` になることも同 workflow 内で
+   確認する。判定は各 run ディレクトリの `cakelpr_result.txt` に
+   `verdict=VERIFIED|NOT_VERIFIED` として記録(3 系統一致でも語彙は
+   cross-checked どまり — 「検証済み(verified)」は Lean 専用)。
+
+`sat-run.yml` の solver 選択(`workflow_dispatch` の `solver` 入力、既定 `kissat`):
+
+- `kissat`(既定・無変更): 従来どおり DRAT を出して drat-trim で LRAT に変換。
+- `cadical`: CaDiCaL 2.x(commit SHA pin)を `--lrat` オプション付きで実行し、
+  LRAT を **solver から直接**出力(drat-trim 変換段を飛ばす)。出力先の
+  `proof.lrat.gz` は kissat 経路と同じファイル名・同じ SHA256SUMS.txt 規約なので、
+  `lrat_check.py` にも `lrat-recheck.yml` の cake_lpr 段にもそのまま渡せる。
+  UNSAT 時の core 抽出は cadical 経路では省略(native LRAT があるため drat-trim
+  自体を呼ばない)。incremental(iCNF)配線は未着手(次の実弾の encoder
+  fragment 化と同時に設計 — `sat-run.yml` 冒頭コメントの TODO 参照)。
+
 ## 煙試験(smoke test)
 
 `search/sat/smoke/` に自明な CNF を 2 本置いてある(workflow の動作確認用。数学的な

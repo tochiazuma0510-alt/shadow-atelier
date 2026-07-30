@@ -1,0 +1,372 @@
+# 影工房 SAT 線: cake_lpr による遡及三段目再検査(裁定なし・ideas_013 §2.2 に基づく実装投入)。
+#
+# 目的: search/sat/runs/ に既に収蔵されている UNSAT run の proof.lrat(drat-trim が
+# 生成し、search/sat/lrat_check.py が自前実装で独立検算したもの)を、CakeML で
+# バイナリまで形式検証された第三の checker cake_lpr(tanyongkiam/cake_lpr、SAT
+# Competition 2025 公式 checker)で再検査する。三段構え:
+#
+#   drat-trim(生成+自己検証、現用・sat-run.yml)
+#     -> lrat_check.py(自前 python、drat-trim の出力のみを読む独立実装、現用)
+#     -> cake_lpr(形式検証済みバイナリ、本 workflow・新規)
+#
+# 探索器/照合器の分離規律(CLAUDE.md): この workflow は search/sat/ の GAP/encoder
+# コードを一切 import・実行しない -- SHA256SUMS.txt 付きの証明書(problem.cnf +
+# proof.lrat.gz)だけを入力にする。三系統目が一致しても「検証(verified)」の語は
+# 使わない(その語は Lean 専用)-- cake_lpr 自身は形式検証済みだが、この照合が
+# 三系統一致であることの意味づけは cross-checked どまり(誰が読んでも Lean の
+# 意味論的検証と混同しないよう、出力ファイルにも verdict=VERIFIED/NOT_VERIFIED の
+# 語彙のみを使い「検証済み」とは書かない)。
+#
+# cake_lpr のピン方式: tanyongkiam/cake_lpr の commit を SHA 固定。ビルドは重くない
+# -- CakeML コンパイラ/HOL4 で cake_lpr.S(検証済みチェッカーの機械生成アセンブリ)を
+# 再生成する必要はなく、その .S ファイル自体が当該 commit にコミット済みで、
+# `gcc -O2 basis_ffi.c cake_lpr.S -o cake_lpr -std=c99` だけでビルドできる(repo の
+# Makefile を実読して確認・2026-07-31)。ソースファイル自体の改竄検知として、
+# upstream が同梱している cake_lpr.sha256(Makefile/basis_ffi.c/cake_lpr.S/
+# cake_lpr_arm8.S の sha256)を `sha256sum -c` で検証してからビルドする -- commit
+# pin に加えてバイト単位の pin を二重にかけている。
+#
+# fail-closed 負例: 収蔵済み run の proof.lrat.gz を 1 本(最小サイズの
+# n21_m10_depth19)複製し、addition line の hint id 1 個を存在しないクローズ ID に
+# 書き換えてから cake_lpr に投げ、"s VERIFIED UNSAT" が出ないことを同一 workflow
+# 内で確認する(search/sat/lrat_check.py の自前 checker が同型の不正 hint
+# ("hint clause id not active in database")を拒否する自己テストと同じ破壊パターン)。
+# この負例チェック自体が失敗(=壊れた証明が VERIFIED 判定される)した場合は
+# workflow 全体を fail させる -- 「壊れたチェッカーで安心する」事故の防止。
+name: lrat-recheck
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_dirs:
+        description: >-
+          再検査対象の run ディレクトリ(repo 相対・search/sat/runs/ 配下)を
+          カンマまたは空白区切りで列挙。空欄(既定)なら search/sat/runs/*/result.txt の
+          verdict=UNSAT かつ problem.cnf・proof.lrat.gz が両方存在する run を自動発見して
+          全件対象にする。明示指定した run は該当ファイルが無ければ fail-closed で
+          workflow を止める(自動発見時は SKIPPED として記録するだけで継続する)。
+        required: false
+        type: string
+        default: ""
+      timeout_min:
+        description: "Job timeout minutes"
+        required: false
+        type: string
+        default: "60"
+
+jobs:
+  lrat-recheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(inputs.timeout_min) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 (pinned 2026-07-29, matching sat-run.yml)
+
+      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: '3.x'
+
+      - name: Build cake_lpr (pinned commit; source-file sha256 gate; no CakeML/HOL4 rebuild needed)
+        id: build_cake
+        shell: bash
+        run: |
+          set -euo pipefail
+          # cake_lpr @ tanyongkiam/cake_lpr, commit resolved 2026-07-31 from `master` HEAD.
+          CAKE_LPR_SHA=a36874a8b750b43fe4b385b8ddbf5b033e46a3fa
+
+          git clone https://github.com/tanyongkiam/cake_lpr.git tools-cake_lpr
+          git -C tools-cake_lpr checkout "$CAKE_LPR_SHA"
+
+          # Source-file integrity gate: cake_lpr.sha256 is shipped BY UPSTREAM at this
+          # commit, pinning the sha256 of Makefile/basis_ffi.c/cake_lpr.S/
+          # cake_lpr_arm8.S. This makes the pin "these exact bytes", not merely
+          # "whatever GitHub serves for this commit SHA today".
+          ( cd tools-cake_lpr && sha256sum -c cake_lpr.sha256 )
+
+          ( cd tools-cake_lpr && make )
+          test -x tools-cake_lpr/cake_lpr
+
+          BIN_SHA256=$(sha256sum tools-cake_lpr/cake_lpr | cut -d' ' -f1)
+          echo "commit_sha=$CAKE_LPR_SHA" >> "$GITHUB_OUTPUT"
+          echo "binary_sha256=$BIN_SHA256" >> "$GITHUB_OUTPUT"
+          echo "cake_lpr commit=$CAKE_LPR_SHA binary_sha256=$BIN_SHA256"
+
+          # Build sanity: verify the repo's own example (example.cnf + example.lpr)
+          # BEFORE trusting this binary on any real target.
+          OUT=$(tools-cake_lpr/cake_lpr tools-cake_lpr/example.cnf tools-cake_lpr/example.lpr)
+          echo "$OUT"
+          echo "$OUT" | grep -q "VERIFIED UNSAT" || {
+            echo "BUILD_SANITY_FAILED: freshly built cake_lpr did not verify the repo's own example.cnf/example.lpr" >&2
+            exit 1
+          }
+
+      - name: Discover target run directories
+        id: discover
+        shell: bash
+        env:
+          RUN_DIRS: ${{ inputs.run_dirs }}
+        run: |
+          set -euo pipefail
+          python - <<'PY' > ci_discover_out.json
+          import json, os, re, sys
+
+          ROOT = "search/sat/runs"
+          run_dirs_env = os.environ.get("RUN_DIRS", "").strip()
+
+          def read_verdict(run_dir):
+              rp = os.path.join(run_dir, "result.txt")
+              if not os.path.isfile(rp):
+                  return None
+              for line in open(rp, encoding="utf-8"):
+                  line = line.strip()
+                  if line.startswith("verdict="):
+                      return line.split("=", 1)[1]
+              return None
+
+          targets = []
+          skipped = []
+
+          if run_dirs_env:
+              raw = [p.strip() for p in re.split(r"[,\s]+", run_dirs_env) if p.strip()]
+              for rd in raw:
+                  if not re.match(r"^[A-Za-z0-9_./-]+$", rd):
+                      print(f"VALIDATION FAILED: run_dirs entry has disallowed characters: {rd}", file=sys.stderr)
+                      sys.exit(1)
+                  if ".." in rd or rd.startswith("/") or not rd.startswith(ROOT + "/"):
+                      print(f"VALIDATION FAILED: run_dirs entry must be repo-relative, under {ROOT}/, no '..': {rd}", file=sys.stderr)
+                      sys.exit(1)
+                  cnf = os.path.join(rd, "problem.cnf")
+                  lrat = os.path.join(rd, "proof.lrat.gz")
+                  verdict = read_verdict(rd)
+                  if verdict != "UNSAT":
+                      print(f"VALIDATION FAILED: explicitly requested run {rd} has no verdict=UNSAT in result.txt (got {verdict!r})", file=sys.stderr)
+                      sys.exit(1)
+                  if not os.path.isfile(cnf) or not os.path.isfile(lrat):
+                      print(f"VALIDATION FAILED: explicitly requested run {rd} is missing problem.cnf and/or proof.lrat.gz", file=sys.stderr)
+                      sys.exit(1)
+                  targets.append({"run_dir": rd, "cnf": cnf, "lrat_gz": lrat})
+          else:
+              for name in sorted(os.listdir(ROOT)):
+                  rd = os.path.join(ROOT, name).replace("\\", "/")
+                  if not os.path.isdir(rd):
+                      continue
+                  verdict = read_verdict(rd)
+                  if verdict != "UNSAT":
+                      continue
+                  cnf = os.path.join(rd, "problem.cnf")
+                  lrat = os.path.join(rd, "proof.lrat.gz")
+                  if os.path.isfile(cnf) and os.path.isfile(lrat):
+                      targets.append({"run_dir": rd, "cnf": cnf, "lrat_gz": lrat})
+                  else:
+                      reason = []
+                      if not os.path.isfile(cnf):
+                          reason.append("problem.cnf missing (e.g. excluded for size -- see run dir NOTE.md)")
+                      if not os.path.isfile(lrat):
+                          reason.append("proof.lrat.gz missing (e.g. excluded for size -- see run dir NOTE.md)")
+                      skipped.append({"run_dir": rd, "reason": ", ".join(reason)})
+
+          if not targets:
+              print("DISCOVERY_STOP: no UNSAT run directories with both problem.cnf and proof.lrat.gz found", file=sys.stderr)
+              sys.exit(1)
+
+          result = {"targets": targets, "skipped": skipped}
+          print(json.dumps(result, ensure_ascii=False, indent=2), file=sys.stderr)
+          print(json.dumps(result))
+          PY
+          echo "--- discovered targets/skipped ---"
+          cat ci_discover_out.json
+          {
+            echo "targets_json<<DISCOVER_EOF"
+            cat ci_discover_out.json
+            echo "DISCOVER_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run cake_lpr against each target run (retroactive third-stage recheck)
+        id: run
+        shell: bash
+        env:
+          TARGETS_JSON: ${{ steps.discover.outputs.targets_json }}
+          CAKE_LPR_COMMIT: ${{ steps.build_cake.outputs.commit_sha }}
+          CAKE_LPR_BIN_SHA256: ${{ steps.build_cake.outputs.binary_sha256 }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import gzip, hashlib, json, os, shutil, subprocess, sys, time
+
+          targets = json.loads(os.environ["TARGETS_JSON"])["targets"]
+          cake_bin = os.path.abspath("tools-cake_lpr/cake_lpr")
+          commit_sha = os.environ["CAKE_LPR_COMMIT"]
+          bin_sha256 = os.environ["CAKE_LPR_BIN_SHA256"]
+
+          def sha256_file(p):
+              h = hashlib.sha256()
+              with open(p, "rb") as f:
+                  for chunk in iter(lambda: f.read(1 << 20), b""):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          def check_manifest(run_dir, fname, actual_sha):
+              man = os.path.join(run_dir, "SHA256SUMS.txt")
+              if not os.path.isfile(man):
+                  return "no SHA256SUMS.txt in run dir -- NOT cross-checked against a manifest"
+              for line in open(man, encoding="utf-8"):
+                  parts = line.split()
+                  if len(parts) == 2 and parts[1].lstrip("*") == fname:
+                      expect = parts[0]
+                      if expect != actual_sha:
+                          raise SystemExit(
+                              f"INTEGRITY FAILED: {run_dir}/{fname} sha256 {actual_sha} "
+                              f"!= SHA256SUMS.txt value {expect}"
+                          )
+                      return f"matches SHA256SUMS.txt ({expect})"
+              return f"{fname} not listed in SHA256SUMS.txt -- NOT cross-checked against a manifest"
+
+          any_fail = False
+          summary = []
+          for t in targets:
+              run_dir = t["run_dir"]
+              cnf_path = t["cnf"]
+              lrat_gz_path = t["lrat_gz"]
+
+              cnf_sha = sha256_file(cnf_path)
+              lrat_gz_sha = sha256_file(lrat_gz_path)
+              cnf_note = check_manifest(run_dir, "problem.cnf", cnf_sha)
+              lrat_note = check_manifest(run_dir, "proof.lrat.gz", lrat_gz_sha)
+
+              lrat_plain = os.path.join(run_dir, "_cakelpr_tmp_proof.lrat")
+              with gzip.open(lrat_gz_path, "rb") as fin, open(lrat_plain, "wb") as fout:
+                  shutil.copyfileobj(fin, fout)
+              lrat_plain_sha = sha256_file(lrat_plain)
+
+              t0 = time.time()
+              proc = subprocess.run(
+                  [cake_bin, cnf_path, lrat_plain],
+                  capture_output=True, text=True, timeout=3000,
+              )
+              elapsed = round(time.time() - t0, 3)
+              stdout = proc.stdout
+              verdict = "VERIFIED" if "VERIFIED UNSAT" in stdout else "NOT_VERIFIED"
+              if verdict != "VERIFIED":
+                  any_fail = True
+
+              os.remove(lrat_plain)
+
+              out_path = os.path.join(run_dir, "cakelpr_result.txt")
+              tail_line = stdout.strip().splitlines()[-1] if stdout.strip() else "(empty stdout)"
+              with open(out_path, "w", encoding="utf-8") as f:
+                  f.write(f"verdict={verdict}\n")
+                  f.write(f"cake_lpr_commit={commit_sha}\n")
+                  f.write(f"cake_lpr_binary_sha256={bin_sha256}\n")
+                  f.write(f"run_dir={run_dir}\n")
+                  f.write(f"cnf_sha256={cnf_sha}\n")
+                  f.write(f"cnf_manifest_check={cnf_note}\n")
+                  f.write(f"proof_lrat_gz_sha256={lrat_gz_sha}\n")
+                  f.write(f"proof_lrat_gz_manifest_check={lrat_note}\n")
+                  f.write(f"proof_lrat_decompressed_sha256={lrat_plain_sha}\n")
+                  f.write(f"cake_lpr_exit_code={proc.returncode}\n")
+                  f.write(f"elapsed_seconds={elapsed}\n")
+                  f.write(f"cake_lpr_stdout_tail={tail_line}\n")
+                  f.write(
+                      "note=cross-checked (drat-trim x lrat_check.py x cake_lpr); "
+                      "\"verified\" is reserved for Lean per CLAUDE.md\n"
+                  )
+              print(f"=== {run_dir}: {verdict} (exit={proc.returncode}, {elapsed}s) ===")
+              print(stdout[-2000:])
+              if proc.stderr:
+                  print("--- stderr (tail) ---")
+                  print(proc.stderr[-2000:])
+              summary.append({"run_dir": run_dir, "verdict": verdict})
+
+          print("=== summary ===")
+          print(json.dumps(summary, ensure_ascii=False, indent=2))
+
+          if any_fail:
+              print("RECHECK_STOP: at least one theorem-target UNSAT run was NOT_VERIFIED by cake_lpr", file=sys.stderr)
+              sys.exit(1)
+          PY
+
+      - name: Fail-closed negative test -- a corrupted LRAT proof must NOT verify
+        id: negative
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_RUN="search/sat/runs/n21_m10_depth19"
+          test -f "$BASE_RUN/problem.cnf" -a -f "$BASE_RUN/proof.lrat.gz" || {
+            echo "NEGATIVE_TEST_SETUP_FAILED: $BASE_RUN is missing problem.cnf/proof.lrat.gz" >&2
+            exit 1
+          }
+          mkdir -p ci_negative
+          python - "$BASE_RUN" <<'PY'
+          import gzip, os, sys
+
+          base = sys.argv[1]
+          src = os.path.join(base, "proof.lrat.gz")
+          with gzip.open(src, "rt") as f:
+              lines = f.readlines()
+
+          # Corrupt the FIRST hint id of an addition line (not a deletion line) past
+          # the proof's midpoint, replacing it with a value that cannot be an active
+          # clause id -- the same failure class search/sat/lrat_check.py's own
+          # propagate() rejects with "hint clause id not active in database".
+          mid = len(lines) // 2
+          target = None
+          for i in range(mid, len(lines)):
+              toks = lines[i].split()
+              if len(toks) >= 4 and toks[1] != "d":
+                  zero_idx = toks.index("0")
+                  if zero_idx + 1 < len(toks) - 1:
+                      target = i
+                      break
+          if target is None:
+              print("NEGATIVE_TEST_SETUP_FAILED: no suitable addition line with a hint found", file=sys.stderr)
+              sys.exit(1)
+
+          toks = lines[target].split()
+          zero_idx = toks.index("0")
+          original_hint = toks[zero_idx + 1]
+          toks[zero_idx + 1] = "999999999"
+          lines[target] = " ".join(toks) + "\n"
+
+          with open("ci_negative/corrupted.lrat", "w") as f:
+              f.writelines(lines)
+          print(f"corrupted line {target}: hint {original_hint} -> 999999999")
+          PY
+          cp "$BASE_RUN/problem.cnf" ci_negative/problem.cnf
+
+          set +e
+          OUT=$(tools-cake_lpr/cake_lpr ci_negative/problem.cnf ci_negative/corrupted.lrat 2>&1)
+          CODE=$?
+          set -e
+          echo "$OUT"
+          {
+            echo "base_run=$BASE_RUN"
+            echo "exit=$CODE"
+          } > ci_negative/negative_test_result.txt
+          if echo "$OUT" | grep -q "VERIFIED UNSAT"; then
+            echo "verdict=UNEXPECTED_VERIFIED" >> ci_negative/negative_test_result.txt
+            echo "NEGATIVE_TEST_FAILED: cake_lpr accepted a deliberately corrupted LRAT proof (a hint pointed at a nonexistent clause id). The fail-closed guarantee does not hold -- this is a blocking finding, not a thing to silently continue past." >&2
+            exit 1
+          fi
+          echo "verdict=CORRECTLY_REJECTED" >> ci_negative/negative_test_result.txt
+          echo "fail-closed check PASSED: corrupted LRAT was rejected (no \"VERIFIED UNSAT\" in cake_lpr output)"
+          cat ci_negative/negative_test_result.txt
+
+      - name: SHA-256 manifest of new artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci_out
+          find search/sat/runs -maxdepth 1 -mindepth 1 -type d -exec test -e '{}/cakelpr_result.txt' \; -print \
+            | while read -r d; do cp "$d/cakelpr_result.txt" "ci_out/$(basename "$d")_cakelpr_result.txt"; done
+          cp ci_negative/negative_test_result.txt ci_out/negative_test_result.txt
+          cp ci_negative/corrupted.lrat ci_out/negative_test_corrupted.lrat
+          cp ci_discover_out.json ci_out/discover_out.json
+          ( cd ci_out && sha256sum * > SHA256SUMS.txt )
+          cat ci_out/SHA256SUMS.txt
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4 (pinned 2026-07-29, matching sat-run.yml)
+        with:
+          name: lrat-recheck-out
+          path: |
+            ci_out/
+            search/sat/runs/**/cakelpr_result.txt
+          if-no-files-found: error
