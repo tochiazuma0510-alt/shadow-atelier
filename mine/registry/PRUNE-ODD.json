@@ -1,0 +1,24 @@
+{
+  "id": "PRUNE-ODD",
+  "version": 2,
+  "statement": "odd(|ker chi~|) = 5^{s2(r)} (D 型窓・出典: 裁定233 SOL87-FIX相互監査 -- 紙Sol×機械Opus・r=1..8 全一致・定理格 PRUNE-FIX は抽象群側)。",
+  "explorer": {
+    "lang": "gap",
+    "file": "search/kerchi-judge.g",
+    "symbol": "GroupOfShadows (gi.ker = ker chi~ の直接計算。呼び出し元 driver は窓族ごとに異なる -- 例: search/strike-i10-1.g(r=2,3系)・search/strike-r4.g(r=4系)、いずれも本ファイルを Read して JUDGE_LIBRARY_ONLY モードで再利用)",
+    "impl_sha256": "ead7bfb199692fa1aa9107fd5bb8ad8a6cb435dfe94bc6e7600e71b1a6081877"
+  },
+  "checker": {
+    "lang": "python",
+    "file": "search/ladder-xi-recheck.py",
+    "symbol": "module-level scan (Ξ-restricted 部の独立再実装。ker の奇部/2部の計算そのものは checker の対象外 -- explorer 側の GAP 生測定値(odd_part_order 等)を cert から突合するのみ。checker 欄はΞ走査の crosscheck に限定される点に注意)",
+    "impl_sha256": "340d0f387c47f72545a926e2b8f359ef4e2f407ff23c60ec564526f5f834e39f"
+  },
+  "fixtures": [
+    "search/certs/i10_1_W_E_A15_5x3t0_20260730.json",
+    "search/certs/r4_W_E_A20_5x4t0_C_20260730.json"
+  ],
+  "fixtures_note": "正例(i10_1_W_E_A15_5x3t0, r=3): 3_ker_odd_part_order=25=5^2=5^{s2(3)}(s2(3)=2)-- 律成立。負例(r4_W_E_A20_5x4t0_C, r=4,t=0): 実測|ker|=200・奇部25=5^2 だが 5^{s2(4)}=5^1=5 (s2(4)=1) と不一致 -- 裁定236 の反例そのもの(NULL-R4 発火)。",
+  "scope": "D 型窓(N_ord=5 系・fiber-product epsilon=1)。t≥1 実測支持・t=0 で偽 -- 裁定236 の反例は (r=4, t=0)。**注意(本カード起票時の付記)**: 本リポジトリに実在する r=2,3 の cert(i10_1_W_E_A10_5x2t0 / -A15_5x3t0)はいずれも t=0 系列でありながら律を満たしており、反例が『t=0 系列全体』でなく r=4 に固有かどうかは本 cert 群だけでは確定できない -- scope 欄の『t=0 で偽』は裁定236 原文の記述を踏襲した表現であり、機械的な r 全数検査ではないことを明記する。r=1,5..8 の SOL87-FIX 相互監査(裁定233)は本リポジトリに cert として未収蔵(数学者相互監査記録 -- 出典は sol/裁定_233 系)。定理格 PRUNE-FIX(抽象群側)自体は無傷(裁定236 でも変わらず)。",
+  "map_ref": { "polestar": ["P3"], "band": 1 }
+}

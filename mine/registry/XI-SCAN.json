@@ -1,0 +1,24 @@
+{
+  "id": "XI-SCAN",
+  "version": 1,
+  "statement": "Xi-restricted 走査(kerchi-judge.g v1.3 の CorrectedShadowsXi、Prop 3.1 の Xi 制限に基づく縮小走査)は naive 全走査(CorrectedShadowsLegacy)と同じ受理集合(shadow 集合)を返す。出典: 裁定213(prediction-first 17/17 実績)・裁定216(GAP explorer と python checker の二系統一致 13/13 実績)。",
+  "explorer": {
+    "lang": "gap",
+    "file": "search/kerchi-judge.g",
+    "symbol": "CorrectedShadowsXi",
+    "impl_sha256": "ead7bfb199692fa1aa9107fd5bb8ad8a6cb435dfe94bc6e7600e71b1a6081877"
+  },
+  "checker": {
+    "lang": "python",
+    "file": "search/ladder-xi-recheck.py",
+    "symbol": "module-level scan (F2/RtOf/TH/settled/(3.53) 合成閉包の数学仕様からの独立再実装。コード翻訳禁止をスクリプト冒頭で宣言 -- 探索器と照合器の分離を機構で担保)",
+    "impl_sha256": "340d0f387c47f72545a926e2b8f359ef4e2f407ff23c60ec564526f5f834e39f"
+  },
+  "fixtures": [
+    "search/certs/a13_ladder_W_E_A10_9t1_20260730.json",
+    "search/certs/a13_ladder_W_E_A10_9t1_o2_20260730.json"
+  ],
+  "fixtures_note": "正例1(a13_ladder_W_E_A10_9t1): canonical 4窓の1つ・naive(26)=xi(27)較正ゲート通過・settled_fail_count=0・二系統一致(裁定216)。負例相当1(a13_ladder_W_E_A10_9t1_o2): 兄弟窓(shaKey=fail -- 事前の canonical-id 表による同定なしで走る唯一の区別点)を、既知literal S1/S2との照合という『強い正解データ』無しに独立照合器だけで通す経路の fixture として採用した。**注**: 本リポジトリの梯子 corpus には settled_fail_count>0 の真の陰性例が実在しない(全13窓 PASS)ため、字義どおりの『負例』は今回引けなかった -- カード起票時点の判断であり、真の陰性 fixture が別途見つかれば version を上げて差し替える。",
+  "scope": "梯子族(N_ord=9系・A13 driver、13窓)で実測(裁定213/216)。Xi-restricted 走査の適用範囲は Prop 3.1 の charming m 集合内(charming_count=phi(2*N_ord)の m のみ走査)。I10系(N_ord=5系)・r4系など他 window 族への本カードの適用は個別に fixture 追加が必要(未検証)。",
+  "map_ref": { "polestar": ["P3"], "band": 1 }
+}

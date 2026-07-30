@@ -115,8 +115,25 @@
       "properties": {
         "backend": { "type": "string", "enum": ["gap-ci", "sat-ci", "py-ci"] },
         "shards": {
-          "type": ["string", "integer"],
-          "description": "v0: driver に window 選択 knob が無い限り非分割(裁定237 修正2)。'auto-by-window' 等は knob 実装後(v1+)。"
+          "description": "v0: 文字列/整数のみ(非分割、裁定237 修正2)。v1: driver に窓選択 knob(例: LADDER_ONLY_WINDOWS)がある場合、配列 [{name, preamble}, ...] で matrix 並列シャードを許す(各要素の preamble は v0_driver.preamble に連結して実行)。要素数は 256 以下(GHA matrix 上限)。",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "integer" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 256,
+              "items": {
+                "type": "object",
+                "required": ["name", "preamble"],
+                "properties": {
+                  "name": { "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9_-]+$" },
+                  "preamble": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            }
+          ]
         },
         "timeout_min": { "type": "integer", "minimum": 1 },
         "checkpoint": { "type": "boolean" },
