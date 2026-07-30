@@ -208,6 +208,84 @@ UNRESOLVED_POINTER_INLINE_ATTACK probe reproduced through R1 alone, R2
 alone, and the end-to-end public facade -- all three now MALFORMED/
 MALFORMED/INTEGRITY_STOP (were PASS/PASS/PASS pre-fix).
 
+Sol 便88 P88-o (docs/notes/cert_shape_interpretation_addendum_o_v8.md,
+sol/sol_reply_88_math15.md F88-3.2): 便87's v7 closed the unresolved-
+pointer fallback, but left `native_registry_status` a NON-GATING, honest
+"UNKNOWN" annotation -- this function still fed the RAW evidence's OWN
+`native_a`/`native_b` straight into both verifiers as if they were
+receiver-pinned content. Sol's F88-3.2 probe replaced certificate,
+native_a, native_b, and the two refs' digests WHOLESALE with a
+self-consistent forged world (including an `artifact_id` matching no
+pinned identity) and reached R1=R2=overall=PASS, with
+`native_registry_status={"status":"UNKNOWN"}` merely along for the ride.
+P88-o's five conditions, all closed here:
+
+  1. `_resolve_native_registry(raw)` (new): the receiver's native content
+     is now resolved from `search/ninfty-native-registry.py`'s
+     file-backed store (search/certs/ep_registry/) by `artifact_id`,
+     NEVER from `raw["native_a"]`/`raw["native_b"]` -- `_run_w6_verifier_r1`/
+     `_run_w6_verifier_r2` extract `cert` from `raw` as before but
+     DISCARD `raw`'s own native_a/native_b immediately, feeding the
+     verifiers ONLY the registry-resolved content (or `{}` when
+     resolution fails, which the verifiers already treat as
+     ABSENT/MALFORMED -- fail-closed by construction, not a new special
+     case).
+  2. the registry (search/ninfty-native-registry.py) pins artifact
+     identity (`artifact_id`), a whole-artifact digest (freshly
+     recomputed from the pinned `content` on every lookup, never trusted
+     from a caller claim or even the registry file's own self-reported
+     digest field), and a version/freeze id (`version_id`) per entry.
+     `raw`'s new, REQUIRED-for-PASS `native_registry_refs` field is the
+     caller's CLAIM about which artifact_id/digest/version it expects;
+     `_resolve_native_registry` cross-checks that claim against the
+     registry's actual pinned values (STALE on disagreement) and against
+     the certificate's OWN `map_ref.artifact_id` for that lane
+     (ARTIFACT_ID_MISMATCH on disagreement) and against the registry
+     entry's own pinned `role` (ROLE_MISMATCH -- the A/B-swap guard).
+  3. the pointer resolution itself is UNCHANGED (still
+     `_dereference_native_ref`/`_load_ref_value` inside the two
+     verifiers) -- it now simply resolves within the REGISTRY-pinned
+     artifact instead of the raw-supplied one, and already re-checks the
+     resolved value's digest (裁定139/Sol 便86 B86-o3, unaffected).
+     `_resolve_native_registry` additionally requires the certificate's
+     map_ref to actually CARRY a `json_pointer` at all for that lane
+     (LEGACY_UNVERIFIED_REF otherwise, P88-o item 5(f)) -- the legacy
+     object_id/inline path never touches the pinned registry artifact, so
+     it cannot certify native provenance no matter how well-shaped the
+     registry claim is.
+  4. `native_registry_status.status == "PASS"` (both `native_a`/`native_b`
+     lanes independently PASS in `_resolve_native_registry`) is now a
+     GATING precondition for `overall_status == "PASS"`:
+     `evidence_union_from_raw_w6` downgrades an otherwise-PASS
+     `overall_status` to `"INTEGRITY_STOP"` whenever the registry status
+     is not PASS (MISSING/UNKNOWN/STALE/REVOKED/ROLE_MISMATCH/
+     ARTIFACT_ID_MISMATCH/LEGACY_UNVERIFIED_REF/MALFORMED, all non-PASS).
+     A FAIL/CONFLICT/ABSENT overall_status is left as-is (already
+     non-operative, not silently upgraded, not forced to INTEGRITY_STOP
+     either -- an explicit FAIL/CONFLICT/ABSENT is itself the "明示的
+     non-operative status" P88-o item 4 allows). `main()`'s existing
+     fail-closed CLI (nonzero exit for anything but PASS) covers this
+     automatically, no separate change needed there.
+  5. search/test_ninfty_evidence_union.py section 13 adds all six P88-o
+     item 5 negatives (a: full certificate+native_a/native_b replacement,
+     b: unknown artifact_id, c: stale digest, d: A/B swap, e: registry
+     store absent entirely, f: legacy object_id+inline bypass) plus a
+     literal reproduction of Sol's F88-3.2 probe -- all confirmed
+     overall_status != "PASS" post-fix. Section 10a's existing positive
+     control is upgraded to provision a genuine registry entry and
+     confirm overall PASS is still reachable for a properly-registered
+     artifact (including a direct demonstration that `raw`'s own,
+     deliberately-corrupted top-level `native_a`/`native_b` fields are
+     never consulted at all once `native_registry_refs` resolves).
+
+SCOPE NOTE: `search/ninfty-verifier-b.py` and `search/ninfty-verifier-w6-r2.py`
+are UNCHANGED by this repair -- P88-o's gating is entirely a
+FACADE-level concern (which native content is handed to an otherwise-
+unmodified verifier), so their own direct callers (e.g.
+search/test_ninfty_laneB.py, which exercises verify_W6_single directly
+against fixture-supplied native content, never through the registry) are
+unaffected by construction.
+
 CLI NOTE (P86-2's "NOTE"): `main()` now returns a NONZERO exit code for
 any `overall_status` other than "PASS" (previously always returned 0
 regardless of status) -- a fail-closed CLI, not merely a fail-closed
@@ -821,6 +899,7 @@ def _evidence_union_fail_closed_v2(route1, route2):
 
 _VERIFIER_B_MODULE = None
 _VERIFIER_R2_MODULE = None
+_NATIVE_REGISTRY_MODULE = None
 
 
 def _verifier_b():
@@ -862,6 +941,206 @@ def _verifier_r2():
     return _VERIFIER_R2_MODULE
 
 
+def _registry():
+    """Sol 便88 P88-o item 1: dynamically loads the receiver-held native
+    registry (search/ninfty-native-registry.py) -- same importlib
+    technique as `_verifier_b`/`_verifier_r2`. This module calls ONLY
+    `resolve(artifact_id)` on it, never `write_entry` -- provisioning the
+    registry is an out-of-band receiver step this facade never performs
+    while processing a caller-supplied `raw` evidence artifact."""
+    global _NATIVE_REGISTRY_MODULE
+    if _NATIVE_REGISTRY_MODULE is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(here, "ninfty-native-registry.py")
+        spec = importlib.util.spec_from_file_location("ninfty_native_registry_for_evidence_union", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _NATIVE_REGISTRY_MODULE = mod
+    return _NATIVE_REGISTRY_MODULE
+
+
+def _cert_side_artifact_ids(cert):
+    """
+    Sol 便88 P88-o item 2 support: reads, PURELY DESCRIPTIVELY (this
+    function raises nothing and tolerates any shape), the certificate's
+    OWN `pushforward_compatibility_witness` entries to learn, per lane
+    ("searcher"/"checker"), (a) the `map_ref.artifact_id` the certificate
+    itself declares and (b) whether that `map_ref` carries a `json_pointer`
+    at all. `_resolve_native_registry` uses (a) to cross-check against the
+    raw's `native_registry_refs` claim (ARTIFACT_ID_MISMATCH on
+    disagreement) and (b) to detect the legacy object_id/inline bypass
+    (LEGACY_UNVERIFIED_REF, P88-o item 5(f)) -- a lane whose map_ref never
+    carries a json_pointer never actually dereferences against the pinned
+    registry artifact, no matter how well the registry claim itself
+    checks out.
+    """
+    ids, has_ptr = {}, {}
+    if not isinstance(cert, dict):
+        return ids, has_ptr
+    entries = cert.get("pushforward_compatibility_witness")
+    if not isinstance(entries, list):
+        return ids, has_ptr
+    for e in entries:
+        if not isinstance(e, dict):
+            continue
+        side = e.get("native_side")
+        if side not in ("searcher", "checker") or side in ids:
+            continue
+        map_ref = e.get("map_ref")
+        if not isinstance(map_ref, dict):
+            continue
+        ids[side] = map_ref.get("artifact_id")
+        has_ptr[side] = isinstance(map_ref.get("json_pointer"), str)
+    return ids, has_ptr
+
+
+# Sol 便88 P88-o item 4: the full set of non-PASS native_registry_status
+# values this facade can report, in a fixed priority order used to pick
+# ONE overall status when native_a/native_b disagree on their own status
+# (e.g. one side PASS, one side STALE) -- earlier entries win. All of
+# these are non-operative for gating purposes (see
+# `evidence_union_from_raw_w6`): only "PASS" (both lanes PASS) permits an
+# otherwise-PASS union to remain overall PASS.
+_REGISTRY_STATUS_PRIORITY = (
+    "MALFORMED", "MISSING", "UNKNOWN", "REVOKED", "ROLE_MISMATCH",
+    "ARTIFACT_ID_MISMATCH", "STALE", "LEGACY_UNVERIFIED_REF",
+)
+
+
+def _resolve_native_registry(raw):
+    """
+    Sol 便88 P88-o items 1-3/5: resolves the ACTUAL native_a/native_b
+    content this facade will hand to the two W-6 verifiers, from the
+    receiver-held registry (`_registry().resolve`) -- `raw`'s own
+    `native_a`/`native_b` fields are NEVER read here at all (P88-o item 1:
+    "raw 内の native_a/native_b を authority として受け取らない" --
+    literally, this function's body never once indexes into
+    `raw["native_a"]`/`raw["native_b"]`).
+
+    `raw["native_registry_refs"]` is the caller's CLAIM about which
+    registry artifact backs each slot:
+      {"native_a": {"artifact_id": <str>, "whole_artifact_digest": <64hex>,
+                     "version_id": <str, optional>},
+       "native_b": {...}}
+    This claim is cross-checked, never trusted:
+      - ref missing/ill-shaped                                -> MISSING
+      - artifact_id not registered, registry store absent      -> MISSING
+      - artifact_id not registered, registry store present     -> UNKNOWN
+      - registry entry status != ACTIVE                        -> REVOKED
+      - registry entry's pinned role != this slot (A/B swap)   -> ROLE_MISMATCH
+      - claimed whole_artifact_digest != receiver's actual one -> STALE
+      - claimed version_id (if given) != receiver's actual one -> STALE
+      - certificate's own map_ref.artifact_id for this lane
+        disagrees with the claimed artifact_id                 -> ARTIFACT_ID_MISMATCH
+      - certificate's map_ref for this lane has no json_pointer
+        (legacy object_id/inline path, never touches registry) -> LEGACY_UNVERIFIED_REF
+      - otherwise                                               -> PASS
+
+    Returns (overall_status, native_a_content, native_b_content, detail):
+    overall_status is "PASS" iff BOTH lanes are "PASS"; otherwise the
+    highest-priority non-PASS status across both lanes (`_REGISTRY_STATUS_PRIORITY`).
+    native_a_content/native_b_content are the REGISTRY-pinned `content`
+    for lanes that resolved PASS, else `{}` (the verifiers already treat
+    a non-dict/empty native payload as ABSENT/MALFORMED, so this is not a
+    new special case). `detail` is `{"native_a": {...}, "native_b": {...}}`,
+    each with its own "status"/"reason".
+    """
+    if not isinstance(raw, dict):
+        d = {"status": "MALFORMED", "reason": "raw evidence artifact is not an object"}
+        return "MALFORMED", {}, {}, {"native_a": d, "native_b": d}
+
+    refs = raw.get("native_registry_refs")
+    cert_ids, cert_has_ptr = _cert_side_artifact_ids(raw.get("certificate"))
+    reg = _registry()
+
+    side_results = {}
+    contents = {}
+    for reg_side, cert_side in (("native_a", "searcher"), ("native_b", "checker")):
+        ref = refs.get(reg_side) if isinstance(refs, dict) else None
+        if not (isinstance(ref, dict) and _is_nonempty_str(ref.get("artifact_id")) and _is_64hex(ref.get("whole_artifact_digest"))):
+            side_results[reg_side] = {
+                "status": "MISSING",
+                "reason": (
+                    f"raw carries no well-shaped native_registry_refs[{reg_side!r}] "
+                    "({'artifact_id': <str>, 'whole_artifact_digest': <64hex>}) -- receiver-held registry "
+                    "lookup was never attempted; raw's own native_a/native_b fields are never authority "
+                    "(Sol 便88 P88-o item 1)"
+                ),
+            }
+            continue
+        entry = reg.resolve(ref["artifact_id"])
+        if entry is None:
+            if not reg.index_exists():
+                side_results[reg_side] = {
+                    "status": "MISSING",
+                    "reason": "the receiver-held registry store itself is absent entirely (no index) -- P88-o item 5(e)",
+                }
+            else:
+                side_results[reg_side] = {
+                    "status": "UNKNOWN",
+                    "reason": f"artifact_id {ref['artifact_id']!r} is not registered in the receiver-held registry -- P88-o item 5(b)",
+                }
+            continue
+        if entry.get("status") != "ACTIVE":
+            side_results[reg_side] = {
+                "status": "REVOKED",
+                "reason": f"artifact_id {ref['artifact_id']!r} has registry status {entry.get('status')!r}, not ACTIVE",
+            }
+            continue
+        if entry.get("role") != reg_side:
+            side_results[reg_side] = {
+                "status": "ROLE_MISMATCH",
+                "reason": (
+                    f"artifact_id {ref['artifact_id']!r} is pinned in the registry with role "
+                    f"{entry.get('role')!r}, but native_registry_refs used it for {reg_side!r} -- "
+                    "A/B swap guard, P88-o item 5(d)"
+                ),
+            }
+            continue
+        if entry.get("whole_artifact_digest") != ref["whole_artifact_digest"]:
+            side_results[reg_side] = {
+                "status": "STALE",
+                "reason": (
+                    f"raw's claimed whole_artifact_digest for {reg_side!r} does not match the receiver's "
+                    "currently-pinned artifact digest -- P88-o item 5(c)"
+                ),
+            }
+            continue
+        claimed_version = ref.get("version_id")
+        if claimed_version is not None and claimed_version != entry.get("version_id"):
+            side_results[reg_side] = {
+                "status": "STALE",
+                "reason": f"raw's claimed version_id {claimed_version!r} does not match the pinned version {entry.get('version_id')!r}",
+            }
+            continue
+        cert_artifact_id = cert_ids.get(cert_side)
+        if cert_artifact_id != ref["artifact_id"]:
+            side_results[reg_side] = {
+                "status": "ARTIFACT_ID_MISMATCH",
+                "reason": (
+                    f"certificate's {cert_side} map_ref.artifact_id ({cert_artifact_id!r}) does not match "
+                    f"native_registry_refs[{reg_side!r}].artifact_id ({ref['artifact_id']!r})"
+                ),
+            }
+            continue
+        if not cert_has_ptr.get(cert_side):
+            side_results[reg_side] = {
+                "status": "LEGACY_UNVERIFIED_REF",
+                "reason": (
+                    f"certificate's {cert_side} map_ref has no json_pointer -- the legacy object_id/inline "
+                    "path never dereferences against the pinned registry artifact, so it cannot certify "
+                    "native provenance -- P88-o item 5(f)"
+                ),
+            }
+            continue
+        side_results[reg_side] = {"status": "PASS", "reason": "resolved against the pinned registry artifact"}
+        contents[reg_side] = entry["content"]
+
+    statuses = {v["status"] for v in side_results.values()}
+    overall = "PASS" if statuses == {"PASS"} else next(s for s in _REGISTRY_STATUS_PRIORITY if s in statuses)
+    return overall, contents.get("native_a", {}), contents.get("native_b", {}), side_results
+
+
 def _validate_raw_w6_evidence(raw):
     """
     Sol 便85 B85-o1: validates that `raw` is a genuine RAW evidence
@@ -889,10 +1168,18 @@ def _run_w6_verifier_r1(raw):
     NEVER accepts a caller-supplied (status, detail) pair as a substitute
     -- if `raw` is not a genuine raw evidence artifact, this returns
     MALFORMED itself (schema violation), it does not delegate the
-    decision to the caller."""
-    ok, cert, native_a, native_b, errors = _validate_raw_w6_evidence(raw)
+    decision to the caller.
+
+    Sol 便88 P88-o item 1: `raw`'s OWN native_a/native_b (returned by
+    `_validate_raw_w6_evidence` as `_raw_native_a`/`_raw_native_b` below)
+    are intentionally DISCARDED -- never passed to the verifier. Instead,
+    `_resolve_native_registry(raw)` resolves the receiver-held, registry-
+    pinned content (or `{}` per lane when resolution fails, which the
+    verifier already treats as ABSENT/MALFORMED)."""
+    ok, cert, _raw_native_a, _raw_native_b, errors = _validate_raw_w6_evidence(raw)
     if not ok:
         return "MALFORMED", {"schema_errors": errors}
+    _, native_a, native_b, _ = _resolve_native_registry(raw)
     return _verifier_b().verify_W6_single(cert, native_a, native_b)
 
 
@@ -901,10 +1188,12 @@ def _run_w6_verifier_r2(raw):
     -- independently invokes ninfty-verifier-w6-r2.verify_W6_single_r2 (a
     SEPARATE implementation from R1's verify_W6_single, sharing no helper
     code) on the SAME raw evidence. Same fail-closed non-raw-evidence
-    handling as _run_w6_verifier_r1."""
-    ok, cert, native_a, native_b, errors = _validate_raw_w6_evidence(raw)
+    handling as _run_w6_verifier_r1, and the SAME Sol 便88 P88-o item 1
+    discard-and-resolve-from-registry treatment of native_a/native_b."""
+    ok, cert, _raw_native_a, _raw_native_b, errors = _validate_raw_w6_evidence(raw)
     if not ok:
         return "MALFORMED", {"schema_errors": errors}
+    _, native_a, native_b, _ = _resolve_native_registry(raw)
     return _verifier_r2().verify_W6_single_r2(cert, native_a, native_b)
 
 
@@ -1078,60 +1367,20 @@ def _cross_check_refs_against_raw(route, raw):
     return route
 
 
-def _native_provenance_status(raw):
-    """
-    Sol 便87 P87-1 items 2-3 (F87-1.2, sol/sol_reply_87_math14.md): Sol's
-    finding was that because `raw` itself carries `native_a`/`native_b`
-    (and each map_ref's `artifact_id` is only ever compared against the
-    OTHER field-values inside the same raw blob, never against anything
-    the receiver independently pins), this module cannot distinguish
-    "native_a/native_b are the receiver-held, pinned artifacts" from
-    "native_a/native_b are whatever the caller felt like attaching to this
-    one raw payload" -- and `artifact_id` is never checked against any
-    pinned registry identity at all.
-
-    This codebase does not implement any receiver-held native-artifact
-    registry or manifest anywhere (grep over search/ confirms no such
-    component exists). Per 裁定232/P87-1's instruction not to fabricate
-    the missing piece, this function does NOT invent a registry. It
-    honestly reports the gap as a structural, non-gating UNKNOWN
-    annotation on the union result: `native_a`/`native_b` are caller-
-    supplied fields inside the SAME raw blob as the certificate, there is
-    no independent channel this codebase consults to confirm they were
-    not substituted/forged wholesale before evaluation, and `artifact_id`
-    strings on individual refs are read for dereference/logging purposes
-    only -- never checked against a pinned identity. This status does NOT
-    participate in `_compose_route_statuses`'s PASS/FAIL/ABSENT/
-    INTEGRITY_STOP state machine (widening that enum to a genuine
-    registry-backed verdict is a separate, larger design decision, out of
-    scope here) -- it is surfaced so a caller can see the gap rather than
-    assume registry-backed provenance that does not exist.
-
-    Returns a small dict, always present on `evidence_union_from_raw_w6`'s
-    return value under the key "native_registry_status".
-    """
-    return {
-        "status": "UNKNOWN",
-        "reason": (
-            "no receiver-held native-artifact registry/manifest is implemented anywhere in this "
-            "codebase; native_a/native_b arrive as caller-supplied fields inside the same raw "
-            "evidence blob as the certificate (not from an independent pinned channel), and each "
-            "map_ref's artifact_id is not checked against any pinned registry identity -- "
-            "Sol 便87 P87-1 items 2-3 / sol_reply_87_math14.md F87-1.2, not fabricated"
-        ),
-    }
-
-
 def evidence_union_from_raw_w6(raw):
     """
     THE public trust-boundary entry point (Sol 便85 P85-5 items 1/6/7; the
     ONLY name this module exports, Sol 便86 P86-2 item 1/B86-o1, see
     __all__): accepts a RAW evidence artifact --
-    {schema_id=RAW_W6_EVIDENCE_SCHEMA_ID, certificate, native_a, native_b}
-    -- and NEVER a pre-built RouteResult (B85-o1: schema is not
-    provenance; a valid-shape self-asserted RouteResult must not reach
-    PASS just by looking right). The receiver-side dispatch is FIXED end
-    to end:
+    {schema_id=RAW_W6_EVIDENCE_SCHEMA_ID, certificate, native_a, native_b,
+    native_registry_refs (optional; Sol 便88 P88-o -- REQUIRED for
+    overall_status to reach PASS, see step 5 below)} -- and NEVER a
+    pre-built RouteResult (B85-o1: schema is not provenance; a valid-shape
+    self-asserted RouteResult must not reach PASS just by looking right).
+    `native_a`/`native_b` remain required KEYS for backward-compatible raw
+    shape validation (`_validate_raw_w6_evidence`), but their VALUES are
+    never used as native-content authority any more (P88-o item 1) -- see
+    step 1. The receiver-side dispatch is FIXED end to end:
 
       1. `_build_R1(raw)` / `_build_R2(raw)` (item 2: no route_id
          parameter, so a caller cannot choose the slot) each independently
@@ -1143,7 +1392,11 @@ def evidence_union_from_raw_w6(raw):
          turn, resolve every map_ref's json_pointer against the pinned
          native artifact ONLY -- an unresolved json_pointer is now an
          unconditional MALFORMED, never an inline fallback (Sol 便87
-         P87-1 item 1, closing UNRESOLVED_POINTER_INLINE_ATTACK).
+         P87-1 item 1, closing UNRESOLVED_POINTER_INLINE_ATTACK). Sol 便88
+         P88-o item 1: "the pinned native artifact" here means the
+         REGISTRY-resolved content from `_resolve_native_registry(raw)`,
+         never `raw["native_a"]`/`raw["native_b"]` themselves (see
+         `_run_w6_verifier_r1`/`_run_w6_verifier_r2`).
       2. `_cross_check_refs_against_raw` resolves each route's provenance
          refs against the SAME `raw` this function was actually called
          with, recomputing the digest rather than trusting the route's
@@ -1155,11 +1408,22 @@ def evidence_union_from_raw_w6(raw):
       4. `_evidence_union_fail_closed_v2` re-validates both routes through
          `_coerce_to_route_result` (shape/slot/enum, defense in depth) and
          composes via the unchanged 4-rule `_compose_route_statuses`.
-      5. `_native_provenance_status(raw)` (Sol 便87 P87-1 items 2-3) is
-         attached under `native_registry_status` -- an honest, non-gating
-         UNKNOWN declaration that this codebase has no receiver-held
-         native-artifact registry to confirm provenance/artifact_id
-         identity against (not fabricated).
+      5. Sol 便88 P88-o: `_resolve_native_registry(raw)` is now a GATING
+         check, not a non-gating annotation -- `native_a`/`native_b` fed
+         to BOTH verifiers in step 1 already came exclusively from this
+         same resolution (see `_run_w6_verifier_r1`/`_run_w6_verifier_r2`;
+         `raw`'s own `native_a`/`native_b` fields are never consulted for
+         W-6 native content at all). Here, if `overall_status` reached
+         "PASS" from step 4 but `native_registry_status` is anything other
+         than "PASS" (MISSING/UNKNOWN/STALE/REVOKED/ROLE_MISMATCH/
+         ARTIFACT_ID_MISMATCH/LEGACY_UNVERIFIED_REF/MALFORMED),
+         `overall_status` is downgraded to "INTEGRITY_STOP" -- P88-o item
+         4's gating precondition, closing F88-3.2's full-replacement
+         attack (which relied on `native_registry_status` being present
+         but non-gating). A non-PASS `overall_status` (FAIL/CONFLICT/
+         ABSENT/INTEGRITY_STOP) is left as-is: already non-operative, not
+         silently upgraded, and itself an explicit "non-operative status"
+         per P88-o item 4's own wording.
 
     Never raises.
     """
@@ -1167,7 +1431,10 @@ def evidence_union_from_raw_w6(raw):
     route2 = _cross_check_refs_against_raw(_build_R2(raw), raw)
     route1, route2 = _require_distinct_implementations(route1, route2)
     result = _evidence_union_fail_closed_v2(route1, route2)
-    result["native_registry_status"] = _native_provenance_status(raw)
+    registry_status, _, _, registry_detail = _resolve_native_registry(raw)
+    if result.get("overall_status") == "PASS" and registry_status != "PASS":
+        result["overall_status"] = "INTEGRITY_STOP"
+    result["native_registry_status"] = {"status": registry_status, "detail": registry_detail}
     return result
 
 
