@@ -594,3 +594,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **実測**: A(奇部・C₅²)の 25 座標 = **{(a,a,b,b) : a,b∈ℤ/5} 全体**(型集計: diagonal 5・AABB_{12|34} 20・ABAB 0・ABBA 0・other 0)。S=D₈ の共役作用の軌道は size 1/2(a↔b 交換)。
 - 司令塔読み(candidate): A = B^{⟨(12),(34)⟩} = **D₈ の可換鏡映部分群の固定空間** — 刈り込みに効いているのは S の可換部分のみ、という「非可換 Syl₂ 境界」仮説(裁定 236 追記 2)の精密化と整合。解釈の確定は数学者(SAT-L1 線)へ。
 - 配車の教訓 2 件: ①preamble の GH 式補間で GAP 引用符が食われる欠陥 → plan JSON から python 直接生成へ恒久修理(初回 run 30548585598 は両ジョブ無出力死・result.txt が fail-visible に捕捉)②concurrency 単一グループの pending 1 枠仕様で B 窓 run 30548910493 が後続 push に追い出され cancel → plan 単位グループへ修理。B 窓 probe は再発射。
+
+## 2026-07-30 A 座標 probe B 窓着弾(三重照合成立)+ P-CENT-1 実現探索陰性 + 文献回収(裁定 238 追記 2)
+- B 窓 probe(mine・run 30550189874・verdict=done): search/certs/r4_acoords_B_20260730.json = e72df35c758bb063429449d0524e5ebe2831e69ee7e4b7e7f2aa5b8deb9b7b77。A の 125 座標 = {(a,a,c,d)} 全体(diagonal 5・AABB 20・other 100)・[125,5]・会計 112,500,000 上界内。**三重照合**: CI probe = 数学者独立 probe(sat_l1_probe2.g・CI 着弾前測定 = prediction-first)= 仮説 Y 予言。機構 Y(w の 2ℓ-巡回のブロック束ね)確定・X 説反証。
+- cent1 実現探索(ローカル・類完備): search/certs/cent1_existence_20260730.json = 68989a887a2898ee4ff9d9704261700a125b5dc43a4a39b11d9460df26a1574b。a₁ 類 4725 全数・適合 50 対の生成群は全て位数 60(A₅ 型)・exists=false — **n=10 判別窓は不存在(陰性・一級)**。判別は n=15 候補へ。probe = search/probe/wac_v1/cent1_existence_search.g。
+- 文献回収(剛性/Hurwitz 遠征・配達準備): papers/delivered/ に arxiv_math_0609118.pdf = 4e457fe5475a661d8e3771438c0382cc4542fbddb168562b97221955b7ef4103・arxiv_math_0304376.pdf = 5b05a2b6ea43bfc960d0cc3734f8955db23a48f8234b6947de545545e80551cb・arxiv_1012.5297.pdf = d7801c497f7732396e328c3539168f431e1cc9733f7bab6b142326504740958a(いずれも %PDF 有効)。Hall 1936 一次確認 = DOI 10.1093/qmath/os-7.1.134。覚書(一工夫)起草後に両数学者へ同時配達。

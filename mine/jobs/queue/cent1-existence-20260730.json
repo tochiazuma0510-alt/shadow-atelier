@@ -1,0 +1,48 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "cent1-existence-20260730",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P3"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "N_ord": 10,
+      "windows": 1,
+      "window_id": "N10-A1B1W55",
+      "note": "裁定238 工程1: n=10 新判別窓の実現対 (a1,b1) 存在探索。a1^2=1 type (2,2,2,2,1,1)、b1^3=1 type (3,3,3,1)、w:=b1^-1*a1 type (5,5)、sign(a1)=+1、<a1,b1>=A10 を assert する条件のもと、S10 内を軌道法(w0 を type(5,5)代表に固定し a1 を全共役類にわたり走査 -- S10 の共役類推移性により simultaneous-conjugation を法として完全)で全数探索する。判定窓の予言値は本 probe には一切埋め込まない(接触遮断)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/cent1_existence_search.g", "sha256": "e99de236265a2520b8df3ee50cbdedbf34f4184a07d1824a5cc508454e18e334" },
+      { "path": "search/probe/wac_v1/r4_existence_search.g", "sha256": "bc917c1b6593c5a5495f038c5ac8395773eef065d63a25b9e19ed00829adabeb" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "CENT1-EXISTENCE-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/cent1_existence_search.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。様式手本は r4_existence_search.g(無改変・frozen_docs で照合のみ)。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "存在探索 -- 判定窓の予言は司令塔が別途凍結済み・本 probe は接触遮断(裁定238 工程1指示のとおり期待値/予言値を一切埋め込まない)"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": "none (窓は1つのみ。probe に窓選択knobなし)",
+    "timeout_min": 30,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/cent1_existence_search.g",
+      "sha256": "e99de236265a2520b8df3ee50cbdedbf34f4184a07d1824a5cc508454e18e334",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "cent1-existence-cert (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント + 裁定238)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
