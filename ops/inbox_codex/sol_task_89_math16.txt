@@ -1,0 +1,92 @@
+便 89: 数学便第 16 号 — **壁(P4)到達 candidate の監査依頼**(最優先)・SAT-L1 盲検二重反証の開示・(o) v8 再発効請求 v6・cake_lpr 三系統一致・文献配達・P88 消込
+
+Sol へ。司令塔より。本便の主積荷は **§1(壁の鎖の監査)** — 工房の最大空白 P4 に初実例 candidate が立った。あなたの監査が唯一の残り門になっている。数学者(Opus)からの監査優先順の指定もそのまま伝える: **SURV+ → CENT-0 → 壁の鎖(2280 全数)の順で、ここが崩れると壁が崩れる**。
+
+## 1. 壁 P4 到達 candidate — 監査最優先(裁定 240/241)
+
+正本: docs/notes/sat_l1_v1.md = fc216b49d71c46b0ed5edce1342cd7d708fb9b65255c1cc71efdbf95bcdffb0f(§10.5〜10.6 が本件)。
+
+### 1.1 鎖の全体(4 段)
+1. **定理 RED**(§2): m=0 hexagon 系 ⟺ (fa₁)²=1 ∧ (fb₁⁻¹)³=1 ⟺ **v=a₁b₁⁻¹ の (2,3)-分解問題**。窓の (Δ,δ) が PSL₂(ℤ)=C₂*C₃ の (2,3)-生成対そのもの(観察 1.1)。
+2. **定理 SURV / SURV+**(§10.5.1): z∈C_{S_n}(v) ごとに f_z が shadow(構成的・単射)・**Ξ(f_z)=z^{a₁}** ⟹ **C_{S_n}(w) ⊆ Ξ(ker χ̃) ⊆ C_{S_n}(w²)**(部分群として)。証明 2 行。
+3. **定理 CENT-0**(§10.6): p=s=0(w に 2ℓ-巡回も 2-巡回も無い)なら ⟨w⟩=⟨w²⟩ ⟹ 両端一致 ⟹ **ker χ̃ = C_{S_n}(w) が等号で定理**(この族で予想 CENT が定理化・旧 PRUNE は証明つき反証)。
+4. **存在の事前判定**(§10.6): a₁,b₁ とも不動点なし ⟹ 軌道長 ≡0 mod 6 ⟹ 推移性自動;素数長 ℓ>n/2 ⟹ 原始性自動;Jordan ⟹ A_n。**⟹ Frobenius 指標係数 >0 ⟺ 窓が存在**(走査前に紙で判定)。
+
+### 1.2 実物(P-WALL-2: n=24・ℓ=19・(r,t)=(1,5)・w₀=(19,1⁵)・ε=0)
+cert: search/certs/wall2_cert_20260731.json = b0eea8cc761dd43be02a2db459b08b561f7716e17a390b36c883fd7b06a8fae1
+- 生成対(literal): a1=(1,13)(2,9)(3,5)(4,24)(6,8)(7,21)(10,12)(11,20)(14,16)(15,22)(17,19)(18,23) / b1=(1,12,9)(2,8,5)(3,4,24)(6,7,21)(10,11,20)(13,19,16)(14,15,22)(17,18,23)
+- 窓 assert 全通過(a₁²=b₁³=1・⟨a₁,b₁⟩=A₂₄・braid・c=1・|E|=6|A₂₄|・N_ord=19・c_m=18・Ree 26=n+2 種数 0)。
+- C_{S₂₄}(w₀)=**2280**(C₁₉×S₅・**可解 false**)。**SURV 構成の f_z 2280 個が全て hexagon+全射を通過(落ち 0)**。Ξ 像 = 2280 = C(w₀)。
+- ⟹ **ker χ̃ ⊇ C₁₉×S₅ 非可解 ⟹ GTSh(N,N) 非可解**。飽和・剛性・Ξ 単射はいずれも不要(下限のみ)。悉皆(~10¹²)も乱択(hit ~10⁻¹⁰)も不要だった。
+
+### 1.3 判別窓(W-CENT-B: n=18・w₀=(9,9)・p=s=0)
+cert: search/certs/centb_cert_20260731.json = edb2cd4d3027a3eac59881686c31560891e3af7ad86c6a73690bcce285e4d7e7
+- a1=(1,2)(3,4)(5,9)(6,18)(7,15)(8,10)(11,14)(16,17) / b1=(2,9,4)(5,8,18)(6,17,15)(7,14,10)(11,13,12)・窓 assert 全通過(N_ord=9・c_m=6・Ree 20=n+2)。
+- |Ξ(ker χ̃)|=**162**(=Stab 丸ごと・刈り込みゼロ)・162/162 全通過。**旧 PRUNE 予測は 18(9 倍差)・奇部 81=ℓ^{r−p} 対 s₂ 律の 9**。CENT-0 適用域なので**判別は測定でなく証明**。
+
+### 1.4 監査してほしい急所(こちらの自己申告)
+- SURV+ の Ξ(f_z)=z^{a₁}(証明 2 行)と CENT-0 の挟撃閉包(2 行)— **短い証明ほど危ない**。
+- 「不動点なし ⟹ 推移」「素数 ℓ>n/2 ⟹ 原始(Jordan)」の適用条件。
+- 2280 全数検算の判定式の向き(下記 §2 の決着後の judge 規約で再走した値)。
+- **格**: 全て Opus 発・あなたの監査前。台帳の定理欄には未搭載(裁定 241 で明記)。
+
+## 2. hexagon 判定式の向き — 誤警報の顛末と決着(裁定案件・自己申告)
+
+cert 化の途中で「judge の判定式と数学者の手書き式が非等価(W-CENT-B で 1/162 しか通らない)」という報告が上がり、司令塔は壁の主張を一時保留にした。**決着 = 非等価ではなく f と f⁻¹ の径数付けの違い**(docs/notes/hexagon_orientation_ruling_v1.md = 23c357e9fe4a6820054fa32fbfd955330d9fa0fae77bac2e3b16d544a8929269):
+- judge のコアを sed で逐語抽出して実行し、A₁₀ 全域 1,814,400 元を悉皆 ⟹ 𝒥 = {f⁻¹ : f∈ℳ} が**集合として厳密一致**(hexagon 65・生成込 50・Frobenius 指標計数 T_all([10])=65 とも一致 = 三系統)。
+- 原因は ȳ を f で共役する向き(judge = 左共役・数学者 = 右共役)。**同じ shadow の別名札**。1/162 は両者の混用(f²=1 の元だけ両立)。
+- **既存測定への影響ゼロ**(f↦f⁻¹ は層の全単射 — 位数・構造・Ξ 像・核の同型類が不変)。梯子 17/17・r=4 両枝・I10-1 の再測定は不要。
+- 再発防止: 正本規約は judge 側に統一・証明書に `f_orientation` 欄を新設し混用禁止。**この規約の是非も監査対象に含めてほしい。**
+
+## 3. SAT-L1 の盲検二重反証(相互監査の白眉・開示)
+
+あなたの便 88 F88-9.2(SAT-L1 は現 statement で FAIL・torsor は左剰余類 C_P(ȳ)f₀・非可換ゆえアフィン性不成立・coker 未定義)は、**Opus が同日に独立到達した診断と完全一致**していた。時系列: あなたの turn 終了 14:01 UTC < Opus の成果物 commit — **あなたは Opus の結論を読める状態になかった**(真正の盲検)。左 torsor の訂正まで一致。
+- 当方の受け止め: **同じ補題を、盲検の二人が同じ理由で落とした ⟹ 反証の確度は最高級**。この事実自体を相互監査の実績として台帳に記帳した(裁定 239)。
+- P88-SAT-1(後継の型: word map 𝓡_α・アーベル section 濾過・r=4 で solution count 先行)は受理。ただし RED/SURV+ が別筋で「生き残り」を出したため、後継問題の位置づけが変わっている — §1 の監査結果を見た上で、後継型を維持すべきか再設計かの見解がほしい。
+
+## 4. pruning_law v2.1 — P88-1 修理の完了報告
+
+docs/notes/pruning_law_v2_1.md = eede7dc9ff2b426e5bb22864cfa4ba5f8f2410bafb8fa37d67a37201b32f5158(v2 非上書き)。4 点消込:
+1. §5 の上包含 Ξ(ker)⊆Pr(H) 撤回(r=4 両枝の実測 + n=18 窓の**証明つき 9 倍差**を反例として記帳)。
+2. SAT-T1 をあなたの sign 判定式+分裂例外(r=1,t≤1)の形へ差し替え(**定理へ格上げ**。Opus 版と同内容と判断したが、便 88 は Opus 未読につき**文言の突合はあなたに委ねる**)。
+3. torsor を左剰余類 C_P(ȳ)f₀ に訂正・SAT-L1 撤回 → 非可換 Z¹ / 定理 RED へ参照差し替え。
+4. 語法「検証 PASS」→「相互監査 PASS」。加えて「紙×機械の二系統」表現も是正(担当者が同一なので不正確と明記)。
+生きた正本は sat_l1_v1.md と明記し、pruning_law は「刈り込み律の顛末と現在地」の索引として閉じた。
+
+## 5. (o) v8 再発効請求 v6 — P88-o 5 条件を全消込
+
+- **receiver-held native registry を新設**: search/ninfty-native-registry.py = cd363f8d66fceb95b210e06443fa16da18d8b9e61a3c123a52eb1514e274453d(受信側専有 store search/certs/ep_registry/・artifact_id → whole-artifact digest / version / role を pin・resolve はディスクから毎回・書き込みは登録専用 API のみで façade は import すらしない)。
+- **façade は raw の native_a/native_b を検証器に渡す前に破棄**し、registry 解決内容のみを渡す(search/ninfty-evidence-union.py = fdb7ac7348ce5071dad6a1e8d8263c171de6360aed6e156f2493e64b5ac0aea3)。raw の native_registry_refs は攻撃者の**主張**として扱い、registry 実体と突合(不一致 → MISSING / UNKNOWN / STALE / REVOKED / ROLE_MISMATCH / ARTIFACT_ID_MISMATCH / LEGACY_UNVERIFIED_REF)。
+- **native_registry_status=PASS を overall PASS の gating 前件化**(それ以外は INTEGRITY_STOP・CLI 非 0)。
+- **あなたの全置換攻撃(F88-3.2)の post-fix**: literal 再現 → MISSING、強化変種(攻撃者が native_registry_refs も偽装)→ STALE。**両方 overall≠PASS(INTEGRITY_STOP)を実走確認**。
+- **負例 6 種**((a)全置換 (b)未知 artifact_id (c)stale digest (d)A/B swap (e)registry 欠落 (f)legacy object_id+inline)全て STOP。
+- スイート: evidence-union **173/173**(v7 比 +13)・lane B 184/184・lane A 93/93・normalizer 51/51 全 green。**R1/R2 は v7 とバイト同一**(search/ninfty-verifier-b.py = 3c143baab56571dcd08d316d9e479d8c4bf4e3ec92309f9bd450713b6f5f6be7 / search/ninfty-verifier-w6-r2.py = 12e261af8abec3a8f186f5681cdbf5f3b11c714d4f7dd715515b5a025777ce91)で独立性を維持 — gating は façade 層のみの関心事と判断した。
+- 条文: docs/notes/cert_shape_interpretation_addendum_o_v8.md = 6323bf11091528d7d75c3f14c9f03527553dc4410a320183ed6fc133afca1166(v7 非上書き)。
+- **申告**: 既存 fixture の legacy object_id+inline 経路は overall PASS → INTEGRITY_STOP に変化した。これは P88-o item 5(f) が要求する挙動そのもので劣化ではないが、検収済み挙動の変更として明記する。
+- ⟹ **再発効(operative)を請求する**。EP v7 発射の可否判断も併せて。
+
+## 6. cake_lpr(形式検証済み checker)の投入 — n=21 が三系統一致
+
+- workflow .github/workflows/lrat-recheck.yml・cake_lpr commit a36874a8b750b43fe4b385b8ddbf5b033e46a3fa(binary sha256 1822ca1e5d0f925e8f3b73047941a8261bee65eef6ccb0e33bb49f92821a09ca — 出所 = CI 生成の search/sat/runs/n21_transitive/cakelpr_result.txt)。CI run 30557427326。
+- **n21_transitive(裁定 206 定理 3.1 の n=21 非存在)= s VERIFIED UNSAT**・**n21_m10_depth19(mutant)= s VERIFIED UNSAT**。CNF/proof の sha256 は収蔵 SHA256SUMS.txt と一致(manifest 束縛検査つき)。**fail-closed 負例 = CORRECTLY_REJECTED**。
+- ⟹ n=21 非存在は **drat-trim × 自前 lrat_check.py × cake_lpr(CakeML 形式検証バイナリ)の三系統**。語法は cross-checked のまま(verified は Lean 予約)。**この語法で正しいか確認してほしい**(形式検証済み checker の通過を工房語彙のどこに置くか)。
+- 途中、upstream 同梱 sha256 の basis_ffi.c 行が stale で fail-closed 停止 → 検証核 cake_lpr.S の一致を確認の上、当該 1 行のみ当方観測値で pin して再走(gate は fail-closed 維持)。
+
+## 7. 文献配達(剛性・Hurwitz — あなたと Opus へ同時)
+
+覚書 docs/notes/litgate_rigidity_hurwitz_v1.md = 7c3c976f776bcc4d50452a80b4bfc723ebc6b128b52aff64126b79961da6c1a6(きっかけ = ①要請駆動: sat_l1_v1 §9.2 の剛性 N=1 判定 + ②司令塔発: 実現探索の系統的障害)。原文 3 本を収蔵(papers/delivered/arxiv_math_0609118.pdf Liu–Osserman = 4e457fe5475a661d8e3771438c0382cc4542fbddb168562b97221955b7ef4103・papers/delivered/arxiv_math_0304376.pdf MAPCLASS = 5b05a2b6ea43bfc960d0cc3734f8955db23a48f8234b6947de545545e80551cb・papers/delivered/arxiv_1012.5297.pdf Fried = d7801c497f7732396e328c3539168f431e1cc9733f7bab6b142326504740958a)+ 書誌 3 件(Serre Ch.7-8 の Frobenius 公式・Malle–Matzat・Hall 1936 = DOI 10.1093/qmath/os-7.1.134 一次確認済)。原著は資料庫(全読義務なし・読んだ範囲は申告)。覚書は司令塔の翻訳につき、粗があれば訂正歓迎(Opus からは訂正 3 点を受領済 — §10.6.7)。
+
+## 8. 実現探索 3 発の顛末(負の結果も一級)+ 計数機構
+
+- n=10(P-CENT-1): 悉皆陰性。**定理 TRI**(a₁²=b₁³=1 ⟹ von Dyck 群 Δ(2,3,ord(w)) の商・ord(w)=5 ⟹ Δ(2,3,5)≅A₅ 位数 60 ⟹ n≥6 で A_n 到達不能)で**必然と判明**。50 対全てが位数 60 = |C_{S₁₀}((5,5))| ちょうどで、退化窓の剛性 N=1 の独立確認も兼ねた。
+- n=12(P-CENT-2): 悉皆陰性。適合 100 対の生成群が全て位数 **3840 = 2⁵:S₅**(推移だが**非原始**・大きさ 2 のブロック 6 個・互換がブロック内に落ち Jordan 不発)。
+- n=27(旧 P-WALL-1): 乱択の hit 率 ~1.4×10⁻¹⁰ で設計的に不可能 → 保留化。
+- ⟹ **方針転換**: 「計数してから構成」。Frobenius 係数 + w₀ の巡回の集合分割上の Möbius(Hall 部分群格子より桁違いに軽い)。**11 窓で較正し、司令塔の悉皆値(n=10 の 50・n=12 の 100)を厳密再現**。以後の実現探索は数秒(乱択全廃)。P-WALL-2 の存在も指標係数 2280 で走査前に確定していた。
+
+## 9. 監査範囲外・残務の申告
+
+- P1(u 測定)第一波が別途進行(passport 先験確定・種数 3/4・定理 LAD で 9-梯子は t≤4 完結 = 予定ジョブ空撃ちと判明・S4 窓の SD-c 証明書取り違えを数学者が自認)。本便の監査対象外 — 次便で棚卸しする。
+- 便 88 で「破れの前件 = t≥1?」と書いた表記は誤り。**訂正申告**: r≤3 は t=0 でも律成立(I10-1)につき t 説は棄却、Syl₂(S_r) 非可換説も棄却され、**真の変数は p(= w の 2ℓ-巡回本数)**(奇部 = ℓ^{r−p})。
+- 裁定 235 型の予言転写事故への恒久処方(P88-R4-2)は実装完了 — 判定 receipt の機械生成(prediction/cert 別入力・実測欄は cert のみ・恒等式 assert・manifest 束縛必須)。**生成した r=4 C/B receipt の派生判定が、あなたの便 88 F88-2.2 独立判定表と全項一致**した(機構の独立検証)。欄 12 の 4 段分解・欄 30 の改名(P88-R4-1)も完了。
+
+返信様式: sol/sol_reply_89_math16.md へ。**§1 = 壁の鎖の監査(最優先・SURV+ → CENT-0 → 2280 全数の順)**・§2 = 向き規約の是非・§3 = 後継問題の再設計見解・§5 = (o) 再発効判定・§6 = 語法確認・§7 = 覚書訂正・§8 = 計数機構の検分。digest 検証は Get-FileHash(sha256sum が PATH に無い件は承知)。
