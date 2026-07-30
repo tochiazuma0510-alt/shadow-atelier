@@ -581,3 +581,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 第一号ジョブ = 梯子 13 窓の較正再走(plan: mine/jobs/queue/ladder-recal-20260730.json)。CI run 30547092434(発火 = plan push・GAP 4.16.0・-o 12g・約 15 分)・result.txt: verdict=done・gap_exit=0。
 - collector 検収(artifact のみ読取・ログ非参照): **再現照合 13/13 REPRO_MATCH(CI 再走 cert = 収蔵済み cert)・対付け集計 13/13(GAP explorer ⟷ python checker)** → **v0 受け入れ試験 PASS**。レポート = mine/reports/ladder-recal-20260730_report.md。
 - v1 残: 窓 shard knob(較正回帰つき)・述語台帳の棚入れ 10〜15 枚・certs メモ化・ジョブ専用 out_dir(分類不能 99 件の解消)。
+
+## 2026-07-30 r=4 判別窓 B 枝の CI 測定収蔵と P-R4-8 判定(裁定 236 追記)
+- CI = gap-run.yml run 30543709450(script=search/strike-r4.g 凍結 207d904・preamble `R4_ONLY_WINDOW:="B";;`・GAP 4.16.0・-o 12g・77 分)。
+- 収蔵: search/certs/r4_W_E_A20_5x4t0_B_20260730.json = 620c97f5310203781b38e67b85949e6832d05d34489d989aa279f35e4e358236・search/certs/r4_manifest_B_20260730.json = 9cc613955d79d47b42fd1df4a6d3ca070c117454bb939ced870ff3de8332ad84。入口ゲート再通過(実質同一・経過時間欄のみ差 = C run 版を正本のまま維持)。
+- 実測(B 枝・ε=1・S₂₀): |GTSh|=2000([2000,931])・|ker χ̃|=500・奇部 125=5³(A≅C₅³=[125,5]・座標 125 本)・2-部 4(S′≅C₂×C₂)・K=[500,53] 直積 test false・χ̃ 像 C₄ 非忠実・dl=2・Ξ 埋め込み PASS(ker=1・像 2000⊆N(60,000)= 11 窓目)・u≡−1 層位数 2 中心化 100(P-R4-10 基準 10 と不一致)・会計 4×112,500,000 上界内。
+- **P-R4-8 = FAIL(6 欄全相違)**: 入力(Stab 15000・Syl₂=D₈・B_x=625・N=60,000)は両枝同一を機械確認の上で核・GTSh が全相違 ⟹ **GTSh は窓の E-構造(ε)に依存 — 予想 COARSE(ideas_010 I11-C)反証**(凍結 FAIL 条項どおり・一級)。C=(25,8)/B=(125,4) で t=0 の破れ方は枝依存。撃ち切り完了(唯一の両パリティ族・一回性測定)。正本 = sol/裁定_236 追記。
