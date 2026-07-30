@@ -5,6 +5,8 @@
   "result":"HIT",
   "found_ell":17,
   "note":"raw measurements only -- 予言値/期待値はコードに書かず、全て計算値をそのまま記録する。W(x,y,c,Bq,PN,N_ord)は search/kerchi-judge.g (JUDGE_LIBRARY_ONLY) の MakeWindow を再利用。hexagon判定は同ファイルの RtOf ではなく search/probe/wac_v1/sat_l1_probe11.g の検算済み手書き式(s1*f^-1*s2*f=f^-1*s1*s2 かつ f^-1*s2*f*s1=s2*s1*f)をそのまま採用(wall2_cert.g と同じ judge 規約)。a1 は 2-opt 山登り(probe12 の Hunt を一般化)で構成、seed=20260731。",
+  "f_orientation":"mathematician_handwritten",
+  "f_orientation_note":"向き決着 = docs/notes/hexagon_orientation_ruling_v1.md・値は向きに依らず不変(f↦f⁻¹ は層の全単射)。本cert の hexagon 判定式 s1*f^-1*s2*f=f^-1*s1*s2 かつ f^-1*s2*f*s1=s2*s1*f は右共役(手書き式)規約 -- note欄の『judge 規約』表記は wall2_cert.g と同一式である旨を指すのみで、judge(AbstractProd/RtOf)規約そのものではない。",
   "n":21,
   "a1":"(1,16)(2,9)(3,5)(4,20)(6,8)(7,21)(10,15)(11,13)(12,18)(17,19)",
   "b1":"(1,15,9)(2,8,5)(3,4,20)(6,7,21)(10,14,13)(11,12,18)(16,17,19)",

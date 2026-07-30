@@ -625,3 +625,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ⟹ **帯 2 の名指し空白「dl ちょうど 3 の核の実例ゼロ」を消込**(内部標的)。dl 2 ⟷ dl 3(本件)⟷ 非可解(P-WALL-2)が同一パラメータ族の隣接値であることを実物 2 個で確認 = spectrum 予想(ideas_014 H4)の支持データ。
 - 効率: ℓ=7,11,13 は Ree 予算+符号パリティで feasible k 空 → 探索起動前に紙で棄却・ℓ=17 初回ハント即ヒット(「計数してから構成」3 例目)。ℓ=19,23 は未走査(正直記載)。
 - 残務: cert の f_orientation 欄(hexagon 向き規約)未適用 — wall2/centb と一括で追加。
+
+## 2026-07-31 実験 B(拡大類の初データ)+ f_orientation 欄の適用(裁定 243 工程 2)
+- search/certs/extension_class_20260731.json = c5b5238b2587a54992a52266e412857ebc917c2959af8b263c37ffd101d365a8: **r=4 C 枝(800/200/4)= split=true**(既存欄 28_compl_classes_all=5 から抽出・GAP 再走なし)・**B 枝(2000/500/4)= split=true**(同 4)。T5-dl3 / W-CENT-B は **UNKNOWN**(probe が m=0 層のみで全 charming 層の shadow list 未構成 — 一般化は別実装・silent cap でなく明示)。⟹ 構造論の「最後の未知」= 拡大類の最初の実測点は **両枝とも分裂**。
+- f_orientation 欄を 3 cert に追加(数値不変・欄追加のみ): wall2 = bdbd750d75e21ae8f9e6b657ed57d4db1568c2671994b1d2bd306e10ff2cc2e2・centb = 794d87253616b79982b0a2df624fc095a17a6fcf3f54464cc68764614c8bb930・dl3 = 8928e063c7fa03b6ff5211b1bfa73436f06bd3b7f0ededfbfd3d43b7ef32787e。**3 本とも値は `mathematician_handwritten`(右共役)**(コード実読で判定 — dl3 のコメント「judge 規約」は式が wall2 と同一という意味で AbstractProd 左共役ではない、と注記)。向き決着により値は向きに依らず不変。

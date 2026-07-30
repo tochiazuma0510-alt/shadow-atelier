@@ -1,0 +1,70 @@
+{
+  "schema": "extension-class-cert/v1",
+  "generated_by": "implementer (裁定243工程2/裁定242残務・仕事1) -- 手作業での既存certからの抽出。GAPを新規実行していない窓は re-run していない(下記 method 欄参照)。",
+  "note": "raw measurements only -- 予言値/期待値はコードに書かず、既存 cert の測定値をそのまま転記または既存欄から論理的に直ちに従う事実のみを記す(新規解釈・分裂律の一般化はしない)。NOT a ledger claim by itself。拡大 1 -> ker(chi~) -> GTSh -> Q -> 1 の拡大類の初測定点。",
+  "windows": [
+    {
+      "window_id": "W-E-A20-5x4t0-C",
+      "source_cert": "search/certs/r4_W_E_A20_5x4t0_C_20260730.json",
+      "method": "既存 cert の抽出のみ(GAP 再実行なし)。r=4 driver (search/strike-r4.g) が MeasureWindow 内で ComplementClassesRepresentatives(G, K) を既に計算済み(欄 28_compl_classes_all)。判定ロジック(strike-r4.g の走査部・GroupOfShadows)は読み取りのみ、変更・再実行していない。",
+      "G_order": 800,
+      "K_order": 200,
+      "Q_order": 4,
+      "Q_struct_invariant_factors": [4],
+      "K_struct": "C5 x ((C10 x C2) : C2)",
+      "K_idgroup": [200, 31],
+      "gtsh_idgroup": [800, 1034],
+      "GK_cong_Q": "true (定義により Q := G/K なので自明に成立。natGK := NaturalHomomorphismByNormalSubgroup(G,K) からの構成)",
+      "split": true,
+      "split_evidence": "compl_classes_all = ComplementClassesRepresentatives(G, K) の長さ = 5 (> 0 につき split)。ソース: r4 cert 欄 \"28_compl_classes_all\": 5",
+      "complement_isomorphism_type_note": "拡大理論の一般事実(補群 H は H∩K=1 かつ HK=G を満たし、自然写像 G->G/K=Q の H への制限は単射かつ全射)により、任意の補群 H は Q に同型。Q の invariant factors=[4] (巡回 C4) なので補群 ≅ C4。conjugacy class 数=5 は複数の非共役な補群が存在することを示すのみで、同型型自体は全て Q に一致(標準事実であり新規計算ではない)。",
+      "compl_classes_all": 5,
+      "compl_classes_in_CG_S": 2,
+      "K_centralized_by_G": "UNKNOWN (未測定) -- Centralizer(G,K) を strike-r4.g は直接計算・記録していない。既存欄からの代替信号(重複可・別物である点に注意): 12_Q_action_faithful_on_A=false (K の奇部分 A への Q 作用が忠実でない、が K 全体の中心化とは別命題)。K 全体の中心化を主張するには新規計算が必要 -- 今回はしていない。"
+    },
+    {
+      "window_id": "W-E-A20-5x4t0-B",
+      "source_cert": "search/certs/r4_W_E_A20_5x4t0_B_20260730.json",
+      "method": "既存 cert の抽出のみ(GAP 再実行なし)。同上。",
+      "G_order": 2000,
+      "K_order": 500,
+      "Q_order": 4,
+      "Q_struct_invariant_factors": [4],
+      "K_struct": "C5 x C10 x D10",
+      "K_idgroup": [500, 53],
+      "gtsh_idgroup": [2000, 931],
+      "GK_cong_Q": "true (定義により Q := G/K なので自明に成立)",
+      "split": true,
+      "split_evidence": "compl_classes_all = ComplementClassesRepresentatives(G, K) の長さ = 4 (> 0 につき split)。ソース: r4 cert 欄 \"28_compl_classes_all\": 4",
+      "complement_isomorphism_type_note": "同上の一般事実により補群 ≅ Q ≅ C4 (invariant factors=[4])。",
+      "compl_classes_all": 4,
+      "compl_classes_in_CG_S": 4,
+      "K_centralized_by_G": "UNKNOWN (未測定) -- 同上。12_Q_action_faithful_on_A=false (K の奇部分 A への Q 作用が忠実でない、K 全体の中心化とは別命題)。"
+    },
+    {
+      "window_id": "T5-dl3",
+      "source_cert": "search/certs/dl3_cert_20260731.json",
+      "method": "拡張断念、UNKNOWN(計算量/未構成)。理由: dl3_search.g は m=0 層(C_P(v) 上の hexagon+全射生存者スキャン)のみを行い、GroupOfShadows(kerchi-judge.g)が要求する「全 charming m(この窓は charming_count=16)にわたる shadow 全リスト」を構成していない。r=4 driver 相当の ScanWindowXi は A_20 専用に作られており(search/strike-r4.g の走査境界・shard 会計は r=4 窓固有)、T5-dl3(n=21, N_ord=17)への一般化は本タスクの範囲で新規実装が必要になり、不可侵指定(strike-r4.g の走査部は読み取りのみ)とも衝突しないよう慎重な設計判断を要する。従って今回は G, K を構成せず split 判定を行っていない。",
+      "G_order": "UNKNOWN (G未構成)",
+      "K_order": "UNKNOWN (K未構成)",
+      "Q_order": "UNKNOWN",
+      "split": "UNKNOWN (計算量/未構成)",
+      "available_proxy_data": "xi_image (m=0層の生存者集合) の位数=408, structure_description=C17 x S4, eq_centralizer_w0=true。ただしこれは G,K の意味での拡大データではない。"
+    },
+    {
+      "window_id": "W-CENT-B",
+      "source_cert": "search/certs/centb_cert_20260731.json",
+      "method": "同上、UNKNOWN(計算量/未構成)。centb_cert.g も m=0 層のみのスキャン(Cv_size=162)であり、charming_count=6 の全層にわたる GroupOfShadows 用シャドウリストを構成していない。",
+      "G_order": "UNKNOWN (G未構成)",
+      "K_order": "UNKNOWN (K未構成)",
+      "Q_order": "UNKNOWN",
+      "split": "UNKNOWN (計算量/未構成)",
+      "available_proxy_data": "xi_image (m=0層の生存者集合) の位数=162, structure_description=C9 x D18, eq_centralizer_w0=true。ただしこれは G,K の意味での拡大データではない。"
+    }
+  ],
+  "summary_raw": "測定できた 2 窓(r=4 C, B)は両方とも split=true (補群が存在, それぞれ 5 / 4 個の非共役 conjugacy class)。T5-dl3, W-CENT-B は本タスクの範囲では G,K 未構成のため UNKNOWN。これは非存在の証明ではない。",
+  "provenance": {
+    "gap_version_of_source_certs": "4.16.0 (r4 certs, dl3/centb certs 共通)",
+    "no_new_gap_run": true
+  }
+}
