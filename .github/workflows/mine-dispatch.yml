@@ -28,9 +28,12 @@ on:
         type: string
         default: ""
 
-# mb-search.yml と同じ理由: push 競合を避けるが、実行中の探索は打ち切らない。
+# concurrency は plan 単位でグループ化する(同一 plan の二重走行のみ防ぐ)。
+# 全体で 1 グループにすると「pending は 1 枠だけ・新しい pending が古い pending を
+# 追い出して cancel する」GitHub 仕様により、待機中のジョブが後続 push で
+# 静かに消される(実害: B 窓 probe run 30548910493 が recal 再走に追い出された)。
 concurrency:
-  group: mine-dispatch
+  group: mine-dispatch-${{ inputs.job_path != '' && inputs.job_path || github.sha }}
   cancel-in-progress: false
 
 permissions:

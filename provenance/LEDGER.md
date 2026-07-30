@@ -587,3 +587,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 収蔵: search/certs/r4_W_E_A20_5x4t0_B_20260730.json = 620c97f5310203781b38e67b85949e6832d05d34489d989aa279f35e4e358236・search/certs/r4_manifest_B_20260730.json = 9cc613955d79d47b42fd1df4a6d3ca070c117454bb939ced870ff3de8332ad84。入口ゲート再通過(実質同一・経過時間欄のみ差 = C run 版を正本のまま維持)。
 - 実測(B 枝・ε=1・S₂₀): |GTSh|=2000([2000,931])・|ker χ̃|=500・奇部 125=5³(A≅C₅³=[125,5]・座標 125 本)・2-部 4(S′≅C₂×C₂)・K=[500,53] 直積 test false・χ̃ 像 C₄ 非忠実・dl=2・Ξ 埋め込み PASS(ker=1・像 2000⊆N(60,000)= 11 窓目)・u≡−1 層位数 2 中心化 100(P-R4-10 基準 10 と不一致)・会計 4×112,500,000 上界内。
 - **P-R4-8 = FAIL(6 欄全相違)**: 入力(Stab 15000・Syl₂=D₈・B_x=625・N=60,000)は両枝同一を機械確認の上で核・GTSh が全相違 ⟹ **GTSh は窓の E-構造(ε)に依存 — 予想 COARSE(ideas_010 I11-C)反証**(凍結 FAIL 条項どおり・一級)。C=(25,8)/B=(125,4) で t=0 の破れ方は枝依存。撃ち切り完了(唯一の両パリティ族・一回性測定)。正本 = sol/裁定_236 追記。
+
+## 2026-07-30 r=4 A 座標 probe(C 窓)着弾 — A = {(a,a,b,b)} の同定(裁定 236 追記 3)
+- mine 経由(plan: mine/jobs/queue/r4-acoords-C-20260730.json)・CI run 30548906952・verdict=done。probe = search/probe/wac_v1/r4_acoords_probe.g(m=0 層のみ再走査・ker=層群の fail-closed 同値 assert つき)。
+- 収蔵: search/certs/r4_acoords_C_20260730.json(会計 m=0 走査 112,500,000 上界ちょうど・accepted 200・ker_size 200・同値 check true)。
+- **実測**: A(奇部・C₅²)の 25 座標 = **{(a,a,b,b) : a,b∈ℤ/5} 全体**(型集計: diagonal 5・AABB_{12|34} 20・ABAB 0・ABBA 0・other 0)。S=D₈ の共役作用の軌道は size 1/2(a↔b 交換)。
+- 司令塔読み(candidate): A = B^{⟨(12),(34)⟩} = **D₈ の可換鏡映部分群の固定空間** — 刈り込みに効いているのは S の可換部分のみ、という「非可換 Syl₂ 境界」仮説(裁定 236 追記 2)の精密化と整合。解釈の確定は数学者(SAT-L1 線)へ。
+- 配車の教訓 2 件: ①preamble の GH 式補間で GAP 引用符が食われる欠陥 → plan JSON から python 直接生成へ恒久修理(初回 run 30548585598 は両ジョブ無出力死・result.txt が fail-visible に捕捉)②concurrency 単一グループの pending 1 枠仕様で B 窓 run 30548910493 が後続 push に追い出され cancel → plan 単位グループへ修理。B 窓 probe は再発射。
