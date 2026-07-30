@@ -943,11 +943,15 @@ def _verifier_r2():
 
 def _registry():
     """Sol 便88 P88-o item 1: dynamically loads the receiver-held native
-    registry (search/ninfty-native-registry.py) -- same importlib
-    technique as `_verifier_b`/`_verifier_r2`. This module calls ONLY
-    `resolve(artifact_id)` on it, never `write_entry` -- provisioning the
-    registry is an out-of-band receiver step this facade never performs
-    while processing a caller-supplied `raw` evidence artifact."""
+    registry RESOLVER (search/ninfty-native-registry.py) -- same importlib
+    technique as `_verifier_b`/`_verifier_r2`. Sol 便90 F90-4.1 blocker 2
+    (docs/notes/cert_shape_interpretation_addendum_o_v10.md) split
+    provisioning (`write_entry`) OUT of this module entirely, into
+    `search/ninfty-native-registry-provisioning.py` -- this facade loads
+    ONLY the resolver-only module and calls ONLY `resolve(artifact_id)` on
+    it; `write_entry` does not exist in the module this function loads at
+    all (not merely "unused" -- structurally absent), so provisioning the
+    registry cannot be reached from this facade even by accident."""
     global _NATIVE_REGISTRY_MODULE
     if _NATIVE_REGISTRY_MODULE is None:
         here = os.path.dirname(os.path.abspath(__file__))

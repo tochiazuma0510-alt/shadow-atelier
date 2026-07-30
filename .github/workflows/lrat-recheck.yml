@@ -14,8 +14,15 @@
 # proof.lrat.gz)だけを入力にする。三系統目が一致しても「検証(verified)」の語は
 # 使わない(その語は Lean 専用)-- cake_lpr 自身は形式検証済みだが、この照合が
 # 三系統一致であることの意味づけは cross-checked どまり(誰が読んでも Lean の
-# 意味論的検証と混同しないよう、出力ファイルにも verdict=VERIFIED/NOT_VERIFIED の
-# 語彙のみを使い「検証済み」とは書かない)。
+# 意味論的検証と混同しないよう、出力ファイルの最上位 verdict 欄には
+# verdict=CROSS_CHECKED_PASS/CROSS_CHECKED_FAIL の語彙のみを使い「検証済み」とは
+# 書かない -- Sol 便90 F90-4.4 是正・旧稿は verdict=VERIFIED/NOT_VERIFIED と書いて
+# おり、予約語との衝突が残っていた。cake_lpr 自身が出す生の stdout 文字列
+# "s VERIFIED UNSAT" はツール自身の語彙なので変更しない)。
+#
+# accepted token(Sol 便90 F90-4.4 是正): cake_lpr の出力行の EXACT 一致
+# "s VERIFIED UNSAT" を採択条件にする(部分文字列一致ではない -- 部分文字列一致
+# だと "s NOT VERIFIED UNSAT" のような拒否メッセージにもマッチしてしまう)。
 #
 # cake_lpr のピン方式: tanyongkiam/cake_lpr の commit を SHA 固定。ビルドは重くない
 # -- CakeML コンパイラ/HOL4 で cake_lpr.S(検証済みチェッカーの機械生成アセンブリ)を
@@ -28,11 +35,17 @@
 #
 # fail-closed 負例: 収蔵済み run の proof.lrat.gz を 1 本(最小サイズの
 # n21_m10_depth19)複製し、addition line の hint id 1 個を存在しないクローズ ID に
-# 書き換えてから cake_lpr に投げ、"s VERIFIED UNSAT" が出ないことを同一 workflow
-# 内で確認する(search/sat/lrat_check.py の自前 checker が同型の不正 hint
-# ("hint clause id not active in database")を拒否する自己テストと同じ破壊パターン)。
-# この負例チェック自体が失敗(=壊れた証明が VERIFIED 判定される)した場合は
-# workflow 全体を fail させる -- 「壊れたチェッカーで安心する」事故の防止。
+# 書き換えてから cake_lpr に投げ、EXACT な行 "s VERIFIED UNSAT" が出ないこと、かつ
+# 終了コードが非ゼロであること(Sol 便90 F90-4.4 是正: どちらか片方だけでは
+# CORRECTLY_REJECTED と認めない -- v9 は accepted token の不在だけで判定していた)を
+# 同一 workflow 内で確認する(search/sat/lrat_check.py の自前 checker が同型の不正
+# hint ("hint clause id not active in database")を拒否する自己テストと同じ破壊
+# パターン)。この負例チェック自体が失敗(=壊れた証明が accepted 判定される、または
+# 拒否の意味論が曖昧)した場合は workflow 全体を fail させる -- 「壊れたチェッカーで
+# 安心する」事故の防止。負例の corrupted.lrat/problem.cnf は sha256 を
+# negative_test_result.txt に記録し(独立監査用の receipt)、この負例が示すのは
+# 「この一種類の破壊パターンに対する拒否」であって一般的健全性の証明ではない、という
+# TCB 限定文もあわせて記録する(Sol 便90 F90-4.4 是正 item 5)。
 name: lrat-recheck
 
 on:
@@ -99,10 +112,16 @@ jobs:
 
           # Build sanity: verify the repo's own example (example.cnf + example.lpr)
           # BEFORE trusting this binary on any real target.
+          # Sol 便90 F90-4.4 是正 (docs/notes/cert_shape_interpretation_addendum_o_v10.md):
+          # the accepted token is the EXACT SAT-competition-style output line
+          # "s VERIFIED UNSAT", not a bare substring match -- a substring check
+          # against "VERIFIED UNSAT" would also accept a line such as
+          # "s NOT VERIFIED UNSAT" (which CONTAINS "VERIFIED UNSAT" as a
+          # substring) as if it were acceptance.
           OUT=$(tools-cake_lpr/cake_lpr tools-cake_lpr/example.cnf tools-cake_lpr/example.lpr)
           echo "$OUT"
-          echo "$OUT" | grep -q "VERIFIED UNSAT" || {
-            echo "BUILD_SANITY_FAILED: freshly built cake_lpr did not verify the repo's own example.cnf/example.lpr" >&2
+          echo "$OUT" | grep -qxF "s VERIFIED UNSAT" || {
+            echo "BUILD_SANITY_FAILED: freshly built cake_lpr did not print the exact line \"s VERIFIED UNSAT\" for the repo's own example.cnf/example.lpr" >&2
             exit 1
           }
 
@@ -256,20 +275,37 @@ jobs:
               # 部分書き出し・FFI 異常等)でも、たまたま "VERIFIED UNSAT" という文字列が
               # stdout のどこかに残っていれば VERIFIED 扱いになりうる fail-open な穴が
               # あった。fail-closed にするには終了コードも AND 条件にする -- exit_code
-              # が 0 でなければ、stdout に何が書かれていようと NOT_VERIFIED。
-              stdout_says_verified = "VERIFIED UNSAT" in stdout
+              # が 0 でなければ、stdout に何が書かれていようと非採択。
+              #
+              # Sol 便90 F90-4.4 是正 (2点、docs/notes/
+              # cert_shape_interpretation_addendum_o_v10.md):
+              #   (1) accepted token を EXACT な SAT-competition 出力行
+              #       "s VERIFIED UNSAT" の厳密一致に変更 -- 旧実装の部分文字列一致
+              #       "VERIFIED UNSAT" in stdout は "s NOT VERIFIED UNSAT" のような
+              #       行にも(部分文字列として)マッチしてしまう穴があった。
+              #   (2) 最上位の verdict 値そのものから "VERIFIED"/"NOT_VERIFIED" の
+              #       語を除去 -- CLAUDE.md の「"検証(verified)"は Lean に予約」
+              #       規律に、cake_lpr 単体の形式検証済み性とこの三系統一致
+              #       (cross-checked)を混同させる語を実データの verdict 欄に残さない
+              #       ため。CROSS_CHECKED_PASS / CROSS_CHECKED_FAIL に改名(cake_lpr
+              #       自身の生 stdout に現れる語彙 "VERIFIED UNSAT" はツール自身の
+              #       出力なので変更しない -- 変更するのは「この workflow が採択した
+              #       という意味で使う語彙」だけ)。
+              stdout_lines = [ln.strip() for ln in stdout.splitlines()]
+              stdout_says_verified = "s VERIFIED UNSAT" in stdout_lines
               exit_ok = (proc.returncode == 0)
-              verdict = "VERIFIED" if (stdout_says_verified and exit_ok) else "NOT_VERIFIED"
-              if verdict != "VERIFIED":
+              verdict = "CROSS_CHECKED_PASS" if (stdout_says_verified and exit_ok) else "CROSS_CHECKED_FAIL"
+              if verdict != "CROSS_CHECKED_PASS":
                   any_fail = True
               exit_code_mismatch_note = (
                   "n/a"
                   if exit_ok == stdout_says_verified
                   else (
-                      f"DOWNGRADED: stdout contained \"VERIFIED UNSAT\" but cake_lpr exit code was "
-                      f"{proc.returncode} (nonzero) -- treated as NOT_VERIFIED (fail-closed)"
+                      f"DOWNGRADED: stdout contained the exact line \"s VERIFIED UNSAT\" but cake_lpr exit "
+                      f"code was {proc.returncode} (nonzero) -- treated as CROSS_CHECKED_FAIL (fail-closed)"
                       if stdout_says_verified else
-                      f"cake_lpr exited 0 but stdout did not contain \"VERIFIED UNSAT\" -- NOT_VERIFIED"
+                      f"cake_lpr exited 0 but stdout did not contain the exact line \"s VERIFIED UNSAT\" -- "
+                      f"CROSS_CHECKED_FAIL"
                   )
               )
 
@@ -376,6 +412,15 @@ jobs:
           PY
           cp "$BASE_RUN/problem.cnf" ci_negative/problem.cnf
 
+          # Sol 便90 F90-4.4 是正 item 5 (docs/notes/cert_shape_interpretation_
+          # addendum_o_v10.md): a receiver-recomputed sha256 of the corrupted
+          # artifact pair, recorded in the receipt below, so an independent
+          # (out-of-band) reviewer can recompute cake_lpr's rejection against
+          # the EXACT bytes this run produced, not merely trust this job's own
+          # PASS/FAIL summary of itself.
+          CORRUPTED_LRAT_SHA=$(sha256sum ci_negative/corrupted.lrat | cut -d' ' -f1)
+          NEG_CNF_SHA=$(sha256sum ci_negative/problem.cnf | cut -d' ' -f1)
+
           set +e
           OUT=$(tools-cake_lpr/cake_lpr ci_negative/problem.cnf ci_negative/corrupted.lrat 2>&1)
           CODE=$?
@@ -384,14 +429,42 @@ jobs:
           {
             echo "base_run=$BASE_RUN"
             echo "exit=$CODE"
+            echo "corrupted_lrat_sha256=$CORRUPTED_LRAT_SHA"
+            echo "negative_problem_cnf_sha256=$NEG_CNF_SHA"
           } > ci_negative/negative_test_result.txt
-          if echo "$OUT" | grep -q "VERIFIED UNSAT"; then
-            echo "verdict=UNEXPECTED_VERIFIED" >> ci_negative/negative_test_result.txt
-            echo "NEGATIVE_TEST_FAILED: cake_lpr accepted a deliberately corrupted LRAT proof (a hint pointed at a nonexistent clause id). The fail-closed guarantee does not hold -- this is a blocking finding, not a thing to silently continue past." >&2
+
+          # Sol 便90 F90-4.4 是正 item 1 (accepted token を厳密一致に): 部分文字列
+          # "VERIFIED UNSAT" は "s NOT VERIFIED UNSAT" のような拒否メッセージにも
+          # マッチしうる -- 厳密に "s VERIFIED UNSAT" という行そのものの有無で判定する。
+          ACCEPTED_LINE_PRESENT=0
+          if echo "$OUT" | grep -qxF "s VERIFIED UNSAT"; then
+            ACCEPTED_LINE_PRESENT=1
+          fi
+
+          if [ "$ACCEPTED_LINE_PRESENT" = "1" ]; then
+            echo "verdict=UNEXPECTED_ACCEPTED" >> ci_negative/negative_test_result.txt
+            echo "NEGATIVE_TEST_FAILED: cake_lpr accepted a deliberately corrupted LRAT proof (a hint pointed at a nonexistent clause id) -- printed the exact line \"s VERIFIED UNSAT\". The fail-closed guarantee does not hold -- this is a blocking finding, not a thing to silently continue past." >&2
             exit 1
           fi
-          echo "verdict=CORRECTLY_REJECTED" >> ci_negative/negative_test_result.txt
-          echo "fail-closed check PASSED: corrupted LRAT was rejected (no \"VERIFIED UNSAT\" in cake_lpr output)"
+
+          # Sol 便90 F90-4.4 是正 item 4 (rejection token と exit semantics の固定):
+          # v9 は「accepted token が無いだけ」で CORRECTLY_REJECTED としていた --
+          # これはタイムアウト・クラッシュ・FFI 異常など「たまたま何も出なかった」
+          # 場合まで無差別に「正しく拒否した」と読み違える余地を残す。固定する契約は
+          # 「accepted line が無い」かつ「終了コードが非ゼロ」の両方 -- cake_lpr が
+          # 拒否を検知すると非ゼロで終了する、という exit-code 側の事実も併せて
+          # チェックし、どちらか片方だけでは CORRECTLY_REJECTED と認めない。
+          if [ "$CODE" = "0" ]; then
+            echo "verdict=AMBIGUOUS_REJECTION" >> ci_negative/negative_test_result.txt
+            echo "NEGATIVE_TEST_FAILED: cake_lpr exited 0 (success) on the deliberately corrupted LRAT proof, even though it did not print the accepted line \"s VERIFIED UNSAT\" -- this is an ambiguous, unfixed rejection semantics case (exit-code side of the fail-closed contract), not the CORRECTLY_REJECTED case this negative test is meant to demonstrate. Blocking, not a thing to silently continue past." >&2
+            exit 1
+          fi
+
+          {
+            echo "verdict=CORRECTLY_REJECTED"
+            echo "tcb_note=this negative test's own corruption-generation script (this workflow step) and the cake_lpr binary itself are both part of THIS test's trusted computing base (TCB); a CORRECTLY_REJECTED verdict demonstrates cake_lpr rejects THIS ONE crafted corruption pattern (one addition-line hint id replaced with a nonexistent clause id) with a nonzero exit code and no \"s VERIFIED UNSAT\" line, not general soundness against arbitrary malformed LRAT proofs. corrupted_lrat_sha256/negative_problem_cnf_sha256 above let an out-of-band reviewer recompute this exact result independently, outside this job."
+          } >> ci_negative/negative_test_result.txt
+          echo "fail-closed check PASSED: corrupted LRAT was rejected (exit=$CODE, no exact line \"s VERIFIED UNSAT\" in cake_lpr output)"
           cat ci_negative/negative_test_result.txt
 
       - name: SHA-256 manifest of new artifacts

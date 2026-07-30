@@ -72,17 +72,23 @@ eu = _load_module("ninfty_evidence_union", "ninfty-evidence-union.py")
 verb = _load_module("ninfty_verifier_b_for_eu_test", "ninfty-verifier-b.py")
 r2mod = _load_module("ninfty_verifier_w6_r2_for_eu_test", "ninfty-verifier-w6-r2.py")
 # Sol 便88 P88-o: the receiver-held native-artifact registry -- THIS test
-# file is the "receiver" doing out-of-band provisioning (reg.write_entry)
+# file is the "receiver" doing out-of-band provisioning (prov.write_entry)
 # ahead of building any `raw` evidence artifact; evidence-union.py itself
 # never calls write_entry (only resolve), see ninfty-native-registry.py's
-# own docstring.
+# own docstring. Sol 便90 F90-4.1 blocker 2 (docs/notes/
+# cert_shape_interpretation_addendum_o_v10.md): resolve/index_exists and
+# write_entry now live in TWO SEPARATE modules -- `reg` (resolver-only,
+# the same module evidence-union.py itself loads) and `prov`
+# (provisioning-only, loaded ONLY by this test file / a future operator
+# CLI, never by evidence-union.py).
 reg = _load_module("ninfty_native_registry_for_eu_test", "ninfty-native-registry.py")
+prov = _load_module("ninfty_native_registry_provisioning_for_eu_test", "ninfty-native-registry-provisioning.py")
 
 # Sol 便89 fix (test/production registry store separation, docs/notes/
 # cert_shape_interpretation_addendum_o_v9.md): this test process's own
 # registry store is a FRESH tempdir, wholly distinct from
 # reg.PRODUCTION_REGISTRY_DIR (search/certs/ep_registry/). Every
-# reg.write_entry(...) call in this file passes registry_dir=TEST_REGISTRY_DIR
+# prov.write_entry(...) call in this file passes registry_dir=TEST_REGISTRY_DIR
 # explicitly (write_entry has no default registry_dir any more -- a
 # caller cannot forget). The NINFTY_EP_REGISTRY_DIR env var is set so that
 # reg.resolve(...) -- including the copy of resolve() evidence-union.py's
@@ -91,6 +97,15 @@ reg = _load_module("ninfty_native_registry_for_eu_test", "ninfty-native-registry
 # whole duration of this test run.
 TEST_REGISTRY_DIR = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_")
 os.environ["NINFTY_EP_REGISTRY_DIR"] = TEST_REGISTRY_DIR
+
+# Sol 便90 F90-4.1 blocker 5/8 (docs/notes/cert_shape_interpretation_
+# addendum_o_v10.md): captured as early as possible (before this run does
+# anything else at all) and compared, in section 15, against the SAME
+# digest recomputed at the very end of this run -- a stronger replacement
+# for v9's negative 14a, which only compared the sorted FILE-NAME list
+# under PRODUCTION_REGISTRY_DIR (a same-named file with silently mutated
+# bytes would not have been caught by that weaker check).
+_PROD_SNAPSHOT_DIGEST_AT_START = reg.production_snapshot_digest(registry_dir=reg.PRODUCTION_REGISTRY_DIR)
 
 RESULTS = []
 
@@ -985,8 +1000,8 @@ record("Sol 便86 P86-2 item 3 positive control: verify_W6_single with map_ref c
 # "正当な artifact では従来どおり PASS すること"). reg.write_entry is the
 # receiver's OUT-OF-BAND provisioning step -- it never runs as part of
 # processing a caller-supplied raw evidence artifact.
-_REG_DIGEST_NATIVE_A = reg.write_entry("native_a", "native_a", "v1", _native_a_real, registry_dir=TEST_REGISTRY_DIR)
-_REG_DIGEST_NATIVE_B = reg.write_entry("native_b", "native_b", "v1", _native_b_real, registry_dir=TEST_REGISTRY_DIR)
+_REG_DIGEST_NATIVE_A = prov.write_entry("native_a", "native_a", "v1", _native_a_real, registry_dir=TEST_REGISTRY_DIR)["whole_artifact_digest"]
+_REG_DIGEST_NATIVE_B = prov.write_entry("native_b", "native_b", "v1", _native_b_real, registry_dir=TEST_REGISTRY_DIR)["whole_artifact_digest"]
 _registry_refs_deref_only = {
     "native_a": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1"},
     "native_b": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1"},
@@ -1070,7 +1085,7 @@ _native_b_different = _synthetic_native(DIFFERENT_MAP)
 # probe, both depend on) with different content under the same id.
 _map_ref_b_different = {"artifact_id": "native_b_alt", "digest": DIFFERENT_MAP_DIGEST, "json_pointer": "/pushforward_map"}
 _cert_two_real_maps = _synthetic_cert(_map_ref_a_deref_only, _map_ref_b_different)  # legit cert, two genuinely different maps
-_REG_DIGEST_NATIVE_B_ALT = reg.write_entry("native_b_alt", "native_b", "v1", _native_b_different, registry_dir=TEST_REGISTRY_DIR)
+_REG_DIGEST_NATIVE_B_ALT = prov.write_entry("native_b_alt", "native_b", "v1", _native_b_different, registry_dir=TEST_REGISTRY_DIR)["whole_artifact_digest"]
 
 # control: correct (unswapped) assignment -> legitimate FAIL (real
 # disagreement, not a schema violation) -- confirms dereference works
@@ -1380,8 +1395,15 @@ finally:
 #     cert_pos_01's own shape. Registering its actual native content does
 #     NOT make it operative: the registry is never touched by dereference
 #     when there is no json_pointer to resolve.
-reg.write_entry("native_a", "native_a", "v1", _cert_pos_01["native_a"], registry_dir=TEST_REGISTRY_DIR)
-reg.write_entry("native_b", "native_b", "v1", _cert_pos_01["native_b"], registry_dir=TEST_REGISTRY_DIR)
+# Sol 便90 F90-4.1 blocker 3: "native_a"/"native_b" already hold DIFFERENT
+# content from 10a/10d above -- overwriting them now requires an explicit
+# supersede=True (a default-reject write_entry call would raise
+# ValueError here); this is exactly the legitimate, audited re-
+# provisioning use case the supersede path exists for (see section 15
+# below for the corresponding negative: an overwrite WITHOUT supersede
+# raises).
+prov.write_entry("native_a", "native_a", "v1", _cert_pos_01["native_a"], registry_dir=TEST_REGISTRY_DIR, supersede=True)
+prov.write_entry("native_b", "native_b", "v1", _cert_pos_01["native_b"], registry_dir=TEST_REGISTRY_DIR, supersede=True)
 _registry_refs_legacy = {
     "native_a": {"artifact_id": "native_a", "whole_artifact_digest": reg.resolve("native_a")["whole_artifact_digest"], "version_id": "v1"},
     "native_b": {"artifact_id": "native_b", "whole_artifact_digest": reg.resolve("native_b")["whole_artifact_digest"], "version_id": "v1"},
@@ -1418,14 +1440,14 @@ record("P88-o negative (f) legacy object_id+inline: EVEN WITH a correctly-regist
 #     is provably untouched (file count under it is unchanged before/after
 #     the attempt, and NINFTY_EP_ALLOW_PRODUCTION_WRITE is confirmed unset
 #     for the whole duration of this test run).
-assert os.environ.get(reg.ENV_ALLOW_PRODUCTION_WRITE) != "1", (
+assert os.environ.get(prov.ENV_ALLOW_PRODUCTION_WRITE) != "1", (
     "test process must never set NINFTY_EP_ALLOW_PRODUCTION_WRITE=1 -- this is the precondition 14a checks"
 )
 os.makedirs(reg.PRODUCTION_REGISTRY_DIR, exist_ok=True)
 _prod_files_before = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
 _prod_write_raised = None
 try:
-    reg.write_entry("attacker_artifact", "native_a", "v1", {"forged": "content"}, registry_dir=reg.PRODUCTION_REGISTRY_DIR)
+    prov.write_entry("attacker_artifact", "native_a", "v1", {"forged": "content"}, registry_dir=reg.PRODUCTION_REGISTRY_DIR)
 except PermissionError as e:
     _prod_write_raised = e
 _prod_files_after = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
@@ -1470,7 +1492,7 @@ for _bad_version, _bad_label in (
 ):
     _raised = None
     try:
-        reg.write_entry("bad_version_probe", "native_a", _bad_version, {"x": 1}, registry_dir=TEST_REGISTRY_DIR)
+        prov.write_entry("bad_version_probe", "native_a", _bad_version, {"x": 1}, registry_dir=TEST_REGISTRY_DIR)
     except ValueError as e:
         _raised = e
     record(f"Sol 便89 negative 3 ({_bad_label}): write_entry(version_id={_bad_version!r}) raises ValueError",
@@ -1478,6 +1500,228 @@ for _bad_version, _bad_label in (
 record("Sol 便89 negative 3 (no leakage): none of the malformed-version write_entry attempts left a resolvable "
        "'bad_version_probe' entry in the TEST store",
        reg.resolve("bad_version_probe", registry_dir=TEST_REGISTRY_DIR) is None, "n/a")
+
+
+# --------------------------------------------------------------------------
+# 15. Sol 便90 F90-4.1 (o) 残 4 項 (docs/notes/cert_shape_interpretation_
+#     addendum_o_v10.md): resolver/provisioning split, default-reject
+#     same-artifact_id overwrite (+ supersede), atomic/locked entry+index
+#     updates, malformed-JSON handling inside resolve(), and the stronger
+#     whole-tree production_snapshot_digest replacing v9's file-name-list
+#     comparison.
+# --------------------------------------------------------------------------
+
+import shutil as _shutil15
+import time as _time15
+
+_15_DIR = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_15_")
+
+# --- 15a. default-reject: writing a DIFFERENT-content entry under an
+#     artifact_id that already exists (same role, different content) with
+#     no supersede flag raises ValueError, and the EXISTING entry is left
+#     completely unchanged (resolve still returns the OLD content).
+prov.write_entry("dup_probe", "native_a", "v1", {"payload": "original"}, registry_dir=_15_DIR)
+_dup_before = reg.resolve("dup_probe", registry_dir=_15_DIR)
+_dup_raised = None
+try:
+    prov.write_entry("dup_probe", "native_a", "v1", {"payload": "DIFFERENT"}, registry_dir=_15_DIR)
+except ValueError as e:
+    _dup_raised = e
+_dup_after = reg.resolve("dup_probe", registry_dir=_15_DIR)
+record("Sol 便90 F90-4.1 blocker 3 negative (default-reject overwrite): write_entry(same artifact_id, "
+       "DIFFERENT content, no supersede) raises ValueError",
+       isinstance(_dup_raised, ValueError), repr(_dup_raised))
+record("Sol 便90 F90-4.1 blocker 3 negative (no silent overwrite): rejected write left the EXISTING entry's "
+       "content byte-identical (whole_artifact_digest unchanged)",
+       _dup_before is not None and _dup_after is not None
+       and _dup_before["whole_artifact_digest"] == _dup_after["whole_artifact_digest"] == reg._digest({"payload": "original"}),
+       {"before": _dup_before, "after": _dup_after})
+
+# --- 15b. supersede=True: succeeds, resolve() now returns the NEW
+#     content, and the OLD version is preserved (archived file + index
+#     'superseded' history entry), never deleted.
+_dup_old_digest = _dup_before["whole_artifact_digest"]
+_super_result = prov.write_entry("dup_probe", "native_a", "v2", {"payload": "SUPERSEDED"}, registry_dir=_15_DIR, supersede=True)
+_dup_after_super = reg.resolve("dup_probe", registry_dir=_15_DIR)
+record("Sol 便90 F90-4.1 blocker 3 (supersede=True succeeds): write_entry(..., supersede=True) does not raise, "
+       "reports superseded=True",
+       _super_result.get("superseded") is True, _super_result)
+record("Sol 便90 F90-4.1 blocker 3 (supersede=True): resolve() now returns the NEW content",
+       _dup_after_super is not None and _dup_after_super["content"] == {"payload": "SUPERSEDED"}
+       and _dup_after_super["version_id"] == "v2",
+       _dup_after_super)
+_super_index = reg._load_index(_15_DIR)
+_super_hist = (_super_index.get("artifacts", {}).get("dup_probe", {}) or {}).get("superseded", [])
+record("Sol 便90 F90-4.1 blocker 3 (old version preserved, not deleted): the index's 'superseded' history for "
+       "'dup_probe' contains exactly one entry, recording the OLD whole_artifact_digest",
+       len(_super_hist) == 1 and _super_hist[0].get("whole_artifact_digest") == _dup_old_digest,
+       _super_hist)
+_archive_dir = os.path.join(_15_DIR, "_superseded")
+_archive_files = os.listdir(_archive_dir) if os.path.isdir(_archive_dir) else []
+_archived_old_content = None
+for _af in _archive_files:
+    with open(os.path.join(_archive_dir, _af), "r", encoding="utf-8") as _f:
+        _archived_entry = json.load(_f)
+    if _archived_entry.get("artifact_id") == "dup_probe" and _archived_entry.get("whole_artifact_digest") == _dup_old_digest:
+        _archived_old_content = _archived_entry.get("content")
+record("Sol 便90 F90-4.1 blocker 3 (archived file, byte-for-byte): an archived copy of the OLD 'dup_probe' "
+       "entry ({'payload': 'original'}) exists on disk under _superseded/",
+       _archived_old_content == {"payload": "original"}, {"archive_files": _archive_files, "found": _archived_old_content})
+
+# --- 15c. idempotent re-write: SAME content, SAME role, no supersede
+#     flag -> succeeds silently (not a content change), superseded=False,
+#     no history entry appended.
+_idem_result = prov.write_entry("dup_probe", "native_a", "v2", {"payload": "SUPERSEDED"}, registry_dir=_15_DIR)
+_idem_index = reg._load_index(_15_DIR)
+_idem_hist = (_idem_index.get("artifacts", {}).get("dup_probe", {}) or {}).get("superseded", [])
+record("Sol 便90 F90-4.1 blocker 3 (idempotent same-content re-write): write_entry(identical role+content) does "
+       "not raise and reports superseded=False",
+       _idem_result.get("superseded") is False, _idem_result)
+record("Sol 便90 F90-4.1 blocker 3 (idempotent re-write appends no new history): the 'superseded' history is "
+       "still exactly the one entry from 15b (unchanged by the idempotent re-write)",
+       len(_idem_hist) == 1, _idem_hist)
+
+# --- 15d. locked updates: a held lock file blocks a concurrent write_entry
+#     call (RegistryLockTimeout within a short caller-supplied timeout);
+#     removing the lock lets a subsequent call through immediately.
+_lock_dir = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_15d_")
+_held_lock_path = prov._lock_path(_lock_dir)
+os.makedirs(_lock_dir, exist_ok=True)
+with open(_held_lock_path, "w", encoding="utf-8") as _f:
+    _f.write("held-by-test-15d")
+_lock_timeout_raised = None
+try:
+    with prov._acquire_lock(_lock_dir, timeout=0.3, poll=0.05):
+        pass
+except prov.RegistryLockTimeout as e:
+    _lock_timeout_raised = e
+record("Sol 便90 F90-4.1 blocker 4 (locked updates): a pre-held lock file blocks a second lock acquisition, "
+       "raising RegistryLockTimeout within the caller's own short timeout",
+       isinstance(_lock_timeout_raised, prov.RegistryLockTimeout), repr(_lock_timeout_raised))
+os.remove(_held_lock_path)
+_lock_after_release_ok = False
+try:
+    with prov._acquire_lock(_lock_dir, timeout=1.0, poll=0.02):
+        _lock_after_release_ok = True
+except prov.RegistryLockTimeout:
+    _lock_after_release_ok = False
+record("Sol 便90 F90-4.1 blocker 4 (lock released): once the held lock file is removed, a subsequent "
+       "_acquire_lock succeeds immediately",
+       _lock_after_release_ok, "n/a")
+_shutil15.rmtree(_lock_dir, ignore_errors=True)
+
+# --- 15e. atomic writes: after a normal write_entry call, no stray
+#     '.tmp-*' file is left behind under the registry directory (a crash
+#     mid-write is the ONLY thing that should ever produce one, and this
+#     run performs no crash).
+prov.write_entry("atomic_probe", "native_a", "v1", {"x": 1}, registry_dir=_15_DIR)
+_tmp_leftovers = [n for n in os.listdir(_15_DIR) if ".tmp-" in n]
+record("Sol 便90 F90-4.1 blocker 4 (atomic writes, no partial files): no '.tmp-*' file remains under the "
+       "registry directory after a normal write_entry call",
+       _tmp_leftovers == [], _tmp_leftovers)
+
+# --- 15f. malformed JSON handling: resolve() must fail closed (return
+#     None), never propagate json.JSONDecodeError/OSError, when an entry
+#     file or the index itself is corrupted on disk.
+prov.write_entry("corrupt_probe", "native_a", "v1", {"y": 2}, registry_dir=_15_DIR)
+_corrupt_index = reg._load_index(_15_DIR)
+_corrupt_fname = _corrupt_index["artifacts"]["corrupt_probe"]["file"]
+_corrupt_entry_path = os.path.join(_15_DIR, _corrupt_fname)
+with open(_corrupt_entry_path, "w", encoding="utf-8") as _f:
+    _f.write("{not valid json at all")
+_corrupt_resolve_raised = None
+_corrupt_resolve_result = "SENTINEL_NOT_SET"
+try:
+    _corrupt_resolve_result = reg.resolve("corrupt_probe", registry_dir=_15_DIR)
+except Exception as e:  # noqa: BLE001 -- this IS the "must never raise" probe
+    _corrupt_resolve_raised = e
+record("Sol 便90 F90-4.1 blocker 6 (malformed entry JSON, resolve() fails closed): resolve() against a "
+       "hand-corrupted entry file returns None and raises NOTHING (was an uncaught JSONDecodeError pre-fix)",
+       _corrupt_resolve_raised is None and _corrupt_resolve_result is None,
+       {"raised": repr(_corrupt_resolve_raised), "result": _corrupt_resolve_result})
+
+_malformed_index_dir = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_15f_")
+with open(reg.index_path(_malformed_index_dir), "w", encoding="utf-8") as _f:
+    _f.write("{{{ this is not json")
+_index_malformed_raised = None
+_index_malformed_result = "SENTINEL_NOT_SET"
+try:
+    _index_malformed_result = reg.resolve("anything", registry_dir=_malformed_index_dir)
+except Exception as e:  # noqa: BLE001
+    _index_malformed_raised = e
+record("Sol 便90 F90-4.1 blocker 6 (malformed index.json, resolve() fails closed): resolve() against a "
+       "hand-corrupted index.json returns None and raises NOTHING",
+       _index_malformed_raised is None and _index_malformed_result is None,
+       {"raised": repr(_index_malformed_raised), "result": _index_malformed_result})
+_shutil15.rmtree(_malformed_index_dir, ignore_errors=True)
+
+# --- 15g. production_snapshot_digest is byte-identical at the START and
+#     END of this whole test run -- STRONGER than v9's negative 14a (which
+#     only compared sorted FILE NAMES; a same-named file with silently
+#     mutated bytes would slip past that check but not this one). No test
+#     in this file writes into PRODUCTION_REGISTRY_DIR successfully (14a's
+#     own attempt is rejected with PermissionError before touching disk;
+#     15h below is rejected with ValueError before touching disk, same
+#     reasoning).
+_PROD_SNAPSHOT_DIGEST_AT_END = reg.production_snapshot_digest(registry_dir=reg.PRODUCTION_REGISTRY_DIR)
+record("Sol 便90 F90-4.1 blocker 5/8 (production tree whole-byte digest unchanged across the WHOLE test run): "
+       "production_snapshot_digest(PRODUCTION_REGISTRY_DIR) at the very start of this run == at the very end",
+       _PROD_SNAPSHOT_DIGEST_AT_START == _PROD_SNAPSHOT_DIGEST_AT_END,
+       {"start": _PROD_SNAPSHOT_DIGEST_AT_START, "end": _PROD_SNAPSHOT_DIGEST_AT_END})
+
+# --- 15h. production writes require freeze_id: even WITH the production
+#     write opt-in set, omitting freeze_id raises ValueError before any
+#     file is touched -- production directory listing/digest unaffected.
+_prod_files_before_15h = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
+os.environ[prov.ENV_ALLOW_PRODUCTION_WRITE] = "1"
+_freeze_missing_raised = None
+try:
+    prov.write_entry("freeze_id_probe", "native_a", "v1", {"z": 3}, registry_dir=reg.PRODUCTION_REGISTRY_DIR)
+except ValueError as e:
+    _freeze_missing_raised = e
+finally:
+    del os.environ[prov.ENV_ALLOW_PRODUCTION_WRITE]
+_prod_files_after_15h = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
+record("Sol 便90 F90-4.1 blocker 7 (production write requires freeze_id): write_entry(registry_dir=PRODUCTION, "
+       "ALLOW_PRODUCTION_WRITE=1, freeze_id OMITTED) raises ValueError",
+       isinstance(_freeze_missing_raised, ValueError), repr(_freeze_missing_raised))
+record("Sol 便90 F90-4.1 blocker 7 (no leakage): the rejected freeze_id-less write left PRODUCTION_REGISTRY_DIR's "
+       "file listing byte-identical",
+       _prod_files_before_15h == _prod_files_after_15h,
+       {"before": _prod_files_before_15h, "after": _prod_files_after_15h})
+record("Sol 便90 F90-4.1 blocker 7 (no leakage, resolve confirms): resolve('freeze_id_probe') against "
+       "PRODUCTION_REGISTRY_DIR finds nothing",
+       reg.resolve("freeze_id_probe", registry_dir=reg.PRODUCTION_REGISTRY_DIR) is None, "n/a")
+
+# --- 15i. structural: no OTHER production file under search/ dynamically
+#     loads the provisioning module at all (mirrors section 8's check for
+#     ninfty-evidence-union.py's own private names) -- the facade's
+#     resolver-only import is not merely a convention, nothing else in
+#     the tree can reach write_entry either.
+_PROV_LOAD_MARKER = '"ninfty-native-registry-provisioning.py"'
+_PROV_EXEMPT_FILES = {"ninfty-native-registry-provisioning.py", "test_ninfty_evidence_union.py"}
+_prov_loaders_found = []
+for fn in sorted(os.listdir(HERE)):
+    full = os.path.join(HERE, fn)
+    if not os.path.isfile(full) or fn in _PROV_EXEMPT_FILES or not fn.endswith((".py", ".mjs")):
+        continue
+    try:
+        with open(full, "r", encoding="utf-8", errors="ignore") as f:
+            content = f.read()
+    except OSError:
+        continue
+    if _PROV_LOAD_MARKER in content:
+        _prov_loaders_found.append(fn)
+record("Sol 便90 F90-4.1 blocker 2 (resolver/provisioning separation, structural): no file directly under "
+       "search/ (excluding this test and the provisioning module itself) dynamically loads "
+       "ninfty-native-registry-provisioning.py -- in particular ninfty-evidence-union.py does not",
+       _prov_loaders_found == [], _prov_loaders_found)
+record("Sol 便90 F90-4.1 blocker 2 (resolver module has no write_entry attribute at all): "
+       "hasattr(reg, 'write_entry') is False -- not merely unused, structurally absent from the module the "
+       "facade actually loads",
+       not hasattr(reg, "write_entry"), hasattr(reg, "write_entry"))
+
+_shutil15.rmtree(_15_DIR, ignore_errors=True)
 
 
 # --------------------------------------------------------------------------
