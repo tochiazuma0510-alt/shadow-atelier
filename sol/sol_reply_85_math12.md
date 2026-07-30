@@ -115,6 +115,10 @@ HF-2 と両段の (W1)。従って \((21,3)\) と \((21,7)\) の双方へその�
 `ba0e3dfb7e33cc7bd5a9667ec0aacfdafec5de18b58a514bcf0c107549ba3e33`。
 q1–q8 の survey は記録値と整合し、8/8 の較正申告を受ける。ただしこれは
 **GAP 単系統の較正**であり、C-21 の紙上証明を機械的に cross-check したという意味ではない。
+fixture 凍結 `7c0580c625ee31e780901074d2edad35f0f75bce` は
+2026-07-29 21:32:48 +09:00、survey commit
+`0c071220232df1c595f8ffc437b1bbd338875bca` は同日 21:41:46 +09:00 で、
+commit 順でも freeze-before-measurement を確認した。
 
 ### F85-1.2 — A7-fam: PASS
 
@@ -444,7 +448,10 @@ P(u)=\operatorname{pr}_{\langle z\rangle}
 \text{centralizing}\Rightarrow\mathcal N_{T,n}(f)=1
 \]
 
-は現データによって既に反証されている。
+は、少なくとも本便が M-1 の E-1 として追加した梯子まで含む scope では
+現データによって既に反証されている。もし札を「\(S=D_8\) の三窓だけ」に
+後退させるなら未反証に戻るが、それでも \(P=0\Rightarrow\mathcal N=1\) という
+導出は成立せず、主張を \(\mathcal N\in A\) へ直す必要がある。
 
 ### F85-4.3 — M-1 の blocker 2: 冪ビットから交差ビットは出ない
 
@@ -601,6 +608,12 @@ sha256 = b9d2b02d021e53e6a63fc6d5d2ac47c4b7ad7aeed8731da54a63d89add03eb4a
 H2′ の §3.0.1 に上で見つけた誤りは、実測 \(Q=C_6\) では
 \(A^Q=0\) が成立するため、梯子の構造的中自体を反転させない。
 
+A10 の較正欄では、素経路と Ξ 経路の shadow digest がともに
+`55691fa57d1f389a921ebe67c6a3ac9e30c5c700ed11509dc0702df68ea9881f`
+で、`26_eq_27=true`。従って 1.09×10\(^7\) の素経路と Ξ=486 の
+制限経路が同じ集合を返す path calibration は PASS。ただし両者は GAP 内の経路であり、
+これだけを GAP 非共有の独立実装とは数えない。
+
 ### F85-5.3 — 三段語法
 
 `a13_ladder_witness_recheck_20260730.json` の SHA-256 は
@@ -659,8 +672,10 @@ fresh Node/Python 実装は次を満たすべきである。
 2. \(P\), \(B_q\), \(\widetilde\theta,\widetilde\tau\)、action を
    generator image から独立に構成する。
 3. \(m\) は \(\mathbf Z/N_{\rm ord}\) の class、
-   \(u=2m+1\) は \((\mathbf Z/2N_{\rm ord})^\times\) の元として型を分ける。
-   action で \(u\) を早まって mod \(N_{\rm ord}\) に落とさない。
+   \(u_{2N}=2m+1\) は \((\mathbf Z/2N_{\rm ord})^\times\) の元、
+   \(u_N=u_{2N}\bmod N_{\rm ord}\) は action 用の reduction として三者を分ける。
+   \(\widetilde\chi\) の像計数には \(u_{2N}\)、\(P\) への作用には宣言した
+   \(u_N\) を使い、黙って同じ型に潰さない。
 4. subgroup は位数だけで同一視しない。生成部分群の相互包含または canonical element set で比較する。
 5. F2 三条件、settled homomorphism の existence、(3.53) の両順を全 candidate ごとに再計算する。
 6. 比較値は総数だけでなく、canonical UID を付けた accepted set と
@@ -796,11 +811,11 @@ source docstring は、この connector が
 `docs/scout/scout_report_structthm_20260730.md` を読み、配達 PDF 5 本の SHA-256 を
 `provenance/LEDGER.md` 2026-07-30 欄と照合した。全て一致した。
 
-- `arxiv_2603.24743.pdf`: `eadee8...63890`
-- `arxiv_2305.13178.pdf`: `583504...893d`
-- `arxiv_1604.04415.pdf`: `16a249...dea`
-- `arxiv_1407.3112.pdf`: `416c0a...84b`
-- `arxiv_math_0606374.pdf`: `940d9d...af2d`
+- `arxiv_2603.24743.pdf`: `eadee8a8b79e61d36b1f03d443fd494406e1a9e8b724b9b28ee2e00c7df63890`
+- `arxiv_2305.13178.pdf`: `583504d03ee08645cef25f38b8d228020d289f08b753e054c9b27ce7dec4893d`
+- `arxiv_1604.04415.pdf`: `16a2496e4c4929570bbc8d330070dea92f0a08cb0d1dad01a2a9dbcee834cdea`
+- `arxiv_1407.3112.pdf`: `416c0a91ef7bbb2eb7b8e615d8d209083232965f1151c3e2832256110806784b`
+- `arxiv_math_0606374.pdf`: `940d9d3fa40b1bbd509e75a9a2cdf925330ebc19d9f7e30bf5e9f9d662c2af2d`
 
 覚書の訂正、すなわち Korbelář–Tolar/Galindo の
 「4 で割れる」の主語は \(|Q|\) でなく Heisenberg kernel の dimension parameter \(N\)、
@@ -826,6 +841,9 @@ P-EPS-5 の証明ではない。
 `node search/sat/check_model_n21.mjs --self-test` も PASS。
 fixture から再計算した \(a\) は \(2^{10}1\)、\(b\) は \(3^7\)、
 product convention は \(b(i)=u^{-1}(a(i))\)、orbit partition は \([6,15]\)。
+dispatch の class SAT model に対する独立 checker 6/6 PASS も受領するが、
+その CI model artifact 自体は本 checkout にないため、本返信でのローカル再走は
+上記 committed fixture の self-test までである。
 
 workflow の theorem run で hash 必須、tool/action SHA pin、input allowlist を置く修理も確認した。
 

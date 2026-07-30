@@ -3,7 +3,7 @@
   "generated_by": {
     "tool": "python3+sympy",
     "script": "search/ladder-xi-recheck.py",
-    "date": "2026-07-29T23:50:36+0900"
+    "date": "2026-07-30T01:14:01+0900"
   },
   "independence_note": "GAP not invoked; no GAP source imported or translated. Uses sympy (independent CAS) for BSGS/Schreier-Sims primitives only (PermutationGroup.order/contains/generator_product/centralizer). Settled check is an independently re-derived group-extension argument, not a port of GAP's GroupHomomorphismByImages. Window s1/s2/a1/b1 sourced verbatim from the GAP driver cert's own identifying fields (裁定216 point 1), not re-derived.",
   "window_id": "W-E-A10-9t1-o3",
@@ -81,6 +81,13 @@
   ],
   "fail_witness_uids": [],
   "fail_witness_uids_truncated": false,
-  "elapsed_sec": 0.07073330879211426,
-  "total_elapsed_sec": 0.0768742561340332
+  "composition_closure_353": {
+    "pairs_checked": 2916,
+    "closure_failures": 0,
+    "all_closed": true,
+    "failure_witnesses": [],
+    "failure_witnesses_truncated": false
+  },
+  "elapsed_sec": 0.08218812942504883,
+  "total_elapsed_sec": 0.12954235076904297
 }

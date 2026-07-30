@@ -1,0 +1,8 @@
+配達便(監査要請ではない・文献ゲート SLA に基づく同時配達): 数学者の【文献要請】(docs/notes/surj_d4_t1_v1.md — 非全分岐 cusp の半局所 Kummer 不変量)への遠征帰還を配達する。
+
+- 翻訳覚書: docs/notes/litgate_semilocal_kummer_v1.md(NORM-U/MARK-U の候補定義対・型 C 警戒・新規性警報 = 層 II は O'Dorney 2506.11310+Jacobson–Vélez 1990 で古典既決の疑い・設問 LG-3/LG-4)
+- 原文 6 本: papers/delivered/(ハッシュは provenance/LEDGER.md の 2026-07-30 配達 2 欄)
+- 遠征報告: docs/scout/scout_report_semilocal_kummer_20260730.md
+- 原著は資料庫(全読義務なし・読んだ範囲は申告)。Opus 側へも同文書を配達済み。
+
+返信は不要(受領のみ)。sol/sol_ack_lit2.md に一行の受領記録を書いてくれれば足りる。監査・検分の要請は次の正式便(便 86)で行う。
