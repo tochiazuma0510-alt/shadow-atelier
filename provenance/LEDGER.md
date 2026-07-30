@@ -573,5 +573,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - search/certs/r4_W_E_A20_5x4t0_C_20260730.json = cf8221381267fafd0900865ed560d9b50bd122e9b3806af329ea8b5b49a0e47a
   - search/certs/r4_gate_20260730.json = d580bcb3314a343e5f75d73b463244a6d197ebed5ecbd868ba946d34a444c847
   - search/certs/r4_manifest_C_20260730.json = e9f663776ed2830a06d89644364db898dec368575afe56b91e0f2641e10506dc
-- 判定(裁定 235・突合先 = docs/notes/r4_prediction_v1.md 凍結 fd5aab9): |ker χ̃|=40(PRUNE 予言 40 的中・旧律 1000 棄却 = 25 倍判別)・奇部 5=5^{s₂(4)}・2-部 8・16 項 assert all_pass・settled_fail 0・shadow_total 200。canonical_id_sha256 欄の None 出力は記録漏れ(窓同定は生成対一致で担保・修理は残務)。
+- 判定(**裁定 236 — 初版記帳は裁定 235 の誤値転写につき本行で訂正**・突合先 = docs/notes/r4_prediction_v1.md 凍結 fd5aab9): 実測 = |GTSh|=800・|ker χ̃|=**200**・奇部 **25=5²**・2-部 8・IdGroup ker=[200,31]/GTSh=[800,1034]・A≅C₅×C₅・K 直積 test false・Q(C₄)の A 作用非忠実・canonical_id_sha256=d49d2556…(凍結表一致・P-R4-0 PASS)・stage1 all_pass・Ξ 走査 4×112,500,000(上界内)。**NULL-R4 発火((25,8)=形破綻枠)= PRUNE(40)も旧律(1000)も FAIL・核側 s₂ 律は (r=4,t=0) で偽**。P-R4-9(Ξ 埋め込み)・P-R4-10(STR-1.6 判定・ε=0)は PASS。定理 PRUNE-FIX(抽象群側)は無傷。正本 = sol/裁定_236_r4C窓真判定_235撤回.md。
 - **B 枝(ε=1・S₂₀)発射記録**: run 30543709450(同 driver・preamble `R4_ONLY_WINDOW:="B";;`・timeout 120 分・2026-07-30 12:42 UTC)。着弾で P-R4-8(ε 依存性)判定へ。
