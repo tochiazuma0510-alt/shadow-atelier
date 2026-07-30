@@ -642,3 +642,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 測定(全 26 assert PASS・all_pass=true): |Bq|=3024=6·504・**|P|=504=PSL(2,8)**・ord_x=ord_y=9・**c_in_N=true(Δ² の実置換計算で実測 — 構築の仮定でない)**・N_ord=9・C_{S₉}(X)=9・N_{S₉}(⟨X⟩)=54=[54,6]・scan_mode=exhaustive_over_P(504 悉皆)・F0_size=9・settled_fail=0・j_values=[0,1,8,4,5,3,2,7,6](全単射)・phi_F0_bijective_onto_inn_X=true。
 - **A₁₀ 窓との異同**: C(X)=9・N=54・[54,6]・F0_size=9 は**数値一致**(surj_s4_v2 が指摘した偶然)。異なるのは |Bq|(3024 vs 10886400)・|P|(504 vs 1814400)・ambient(S₉ vs S₁₀)・j 値の並び。⟹ **窓の同定は位数と ambient で行う**(数値一致欄では不可)を教訓として記帳。
 - **工程事故と恒久対策**: 初版 cert が JSON parse 不能(GAP の出力整形が `\`+改行を挿入)。原因 = **SizeScreen の列幅上限 4096**(実測確認)を窓 B の長い置換文字列が超過。A₁₀ 窓で効いた SizeScreen 単独では不足。修理 = OutputTextFile + SetPrintFormattingStatus(f,false) で整形自体を無効化。**以後 cert 生成の必須手順に「生成後の json.load 検証」を追加**(実装者へ指示済)。測定ロジックは無関係につき値は不変。
+
+## 2026-07-31 実験 A(裁定 243 工程 1)— 予想 PASSPORT 支持・剛性は等号の必要条件でない・SPIN 否定
+- 成果物: docs/notes/passport_experiment_a_v1.md(予言凍結 → 測定 → 判定)・cert = search/certs/expA_passport_20260731.json / expA_passport_batch_20260731.json(f_orientation="judge")・probe = search/probe/wac_v1/expA_{scan,verify,measure,batch,spin}.g + expA_treecheck.py・対話帳 T-18。
+- **最小 passport = n=10**(n≤9 は N_gen≤1 と厳密排除)。n=10 に N_gen≥2 が 5 本((9,1)=6・(10)=5・(8,2)=3・(7,3)=3・(6,4)=3)⟹ **剛性の破れは例外でなく常態**。
+- **予想 PASSPORT = 支持**: n=10,11 の 7 passport・**24 窓**(21 窓が N_gen≥2 側)で |GTSh|・IdGroup・ker IdGroup・|Ξ(ker)|・N_ord・charming が passport ごとに完全一致。**CENT も 24/24 成立 ⟹ 剛性は等号の必要条件でない**(Sol F88-2.6「E-構造の追加情報」への名指し回答 = 追加情報の正体は w の巡回型)。
+- **定理 SAT-RIG (a)(c)(d) の訂正**: n=10・(9,1) で hexagon+全射 54/54 に対し shadow は 9/54(基点軌道のみ)・N_shadow=1 ≠ N_gen=6。犯人は settled 節(T が自己準同型 ⟺ f∈C(ȳ)C(x̄))。**同日 T3 稿が別経路で同一訂正に到達 — 二重発見につき「初」はどちらにも帰属させない**(数学者自身の申告)。
+- **N 値の二系統一致(cross-checked)**: Frobenius 指標和+集合分割 Möbius(実験 A)と平面木の Catalan 計数(T3)が (13,1³)=2・(17,1³)=10・(19,1⁵)=1 で完全一致 — **指標理論と組合せ論という別道具**による一致。
+- **予想 SPIN(H2)= 否定的**: 2·A₁₀ で対合類 2⁴1² の原像が割れず、持ち上げ不変量が well-defined ですらない。
+- **新規性の自己申告**: 梯子の sibling 窓 o2–o6 が本稿の Nielsen 軌道 #2–#6 と permutation 一致 ⟹ **2026-07-30 の梯子キャンペーンが既に「同 passport・別 Nielsen 類の 6 窓が同じ GTSh」を取得していた**。新規部分は 4 点のみ(完全代表系の証明つき同定・CENT-0 外への拡張・n≤9 の厳密排除・F88-2.6 への回答)。

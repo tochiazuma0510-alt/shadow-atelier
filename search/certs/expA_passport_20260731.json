@@ -1,0 +1,24 @@
+{
+  "schema": "expA-passport/v1",
+  "f_orientation": "judge",
+  "generated_by": {"tool":"GAP 4.16.0","script":"search/probe/wac_v1/expA_measure.g","date":"2026-07-31"},
+  "note": "single lane (GAP only). NOT a ledger claim. NOT Lean-verified.",
+  "partA": {
+    "n": 10, "lambda": [9,1],
+    "base_window": "W-E-A10-9t1",
+    "C_v_order": 9,
+    "F_v_size": 54,
+    "N_gen": 6,
+    "N_shadow": 1,
+    "shadow_total_m0": 9,
+    "per_orbit": [{"orbit":1,"size":9,"hex310":9,"hex311":9,"surjective":9,"settled":0,"shadow":0},{"orbit":2,"size":9,"hex310":9,"hex311":9,"surjective":9,"settled":9,"shadow":9},{"orbit":3,"size":9,"hex310":9,"hex311":9,"surjective":9,"settled":0,"shadow":0},{"orbit":4,"size":9,"hex310":9,"hex311":9,"surjective":9,"settled":0,"shadow":0},{"orbit":5,"size":9,"hex310":9,"hex311":9,"surjective":9,"settled":0,"shadow":0},{"orbit":6,"size":9,"hex310":9,"hex311":9,"surjective":9,"settled":0,"shadow":0}]
+  },
+  "partB": {
+    "n": 10, "lambda": [7,3],
+    "C_w0_order": 21,
+    "N_gen": 3,
+    "F_size": 63,
+    "windows": [{"label":"W-P-A10-73-o1","a1":"(2,3)(4,7)(5,8)(6,9)","b1":"(1,7,3)(4,6,8)(5,10,9)","gtsh_order":252,"gtsh_idgroup":[252,26],"gtsh_struct":"S3 x (C7 : C6)","ker_size":21,"ker_idgroup":[21,2],"ker_struct":"C21","xi_image_order":21,"xi_image_struct":"C21","stab_xbar_order":21,"N_ord":21,"charming_count":12,"shadow_total":252,"settled_fail_count":0,"sgn_a1":1,"ambient":"A10"},{"label":"W-P-A10-73-o2","a1":"(2,5)(3,8)(4,9)(6,7)","b1":"(1,7,5)(2,4,8)(3,10,9)","gtsh_order":252,"gtsh_idgroup":[252,26],"gtsh_struct":"S3 x (C7 : C6)","ker_size":21,"ker_idgroup":[21,2],"ker_struct":"C21","xi_image_order":21,"xi_image_struct":"C21","stab_xbar_order":21,"N_ord":21,"charming_count":12,"shadow_total":252,"settled_fail_count":0,"sgn_a1":1,"ambient":"A10"},{"label":"W-P-A10-73-o3","a1":"(2,8)(4,10)(5,6)(7,9)","b1":"(1,7,8)(2,10,3)(4,9,6)","gtsh_order":252,"gtsh_idgroup":[252,26],"gtsh_struct":"S3 x (C7 : C6)","ker_size":21,"ker_idgroup":[21,2],"ker_struct":"C21","xi_image_order":21,"xi_image_struct":"C21","stab_xbar_order":21,"N_ord":21,"charming_count":12,"shadow_total":252,"settled_fail_count":0,"sgn_a1":1,"ambient":"A10"}],
+    "all_windows_agree": true
+  }
+}
