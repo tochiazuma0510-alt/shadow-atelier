@@ -111,10 +111,19 @@ jobs:
         run: |
           set +o pipefail
           mkdir -p "${{ steps.job.outputs.out_dir }}" ci/out
-          {
-            if [ -n "${{ steps.job.outputs.preamble }}" ]; then printf '%s\n' "${{ steps.job.outputs.preamble }}"; fi
-            printf 'Read("%s");\n' "${{ steps.job.outputs.script }}"
-          } > ci/out/driver.g
+          # driver.g は plan JSON から python で直接生成する(shell 展開を経由しない)。
+          # 旧実装は "${{ ... }}" の二重引用符で preamble 内の GAP 引用符が quote removal に
+          # 食われ(R4ACP_WINDOW:="C";; → :=C;;)GAP が無出力で死んだ(run 30548585598)。
+          python - "${{ matrix.job_path }}" > ci/out/driver.g <<'PY'
+          import json, sys
+          job = json.load(open(sys.argv[1], encoding='utf-8'))
+          drv = job['resources']['v0_driver']
+          pre = drv.get('preamble', '')
+          if pre:
+              print(pre)
+          print(f'Read("{drv["script"]}");')
+          PY
+          echo "--- ci/out/driver.g ---"; cat ci/out/driver.g; echo "-----------------------"
           TIMEOUT_SEC=$(( ${{ steps.job.outputs.timeout_min }} * 60 ))
           set +e
           timeout "$TIMEOUT_SEC" gap -q -o 12g ci/out/driver.g | tee ci/out/run.log
