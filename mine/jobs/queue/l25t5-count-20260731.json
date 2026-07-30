@@ -1,0 +1,43 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "l25t5-count-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "生成の穴(裁定254相当・docs/notes/tmax_budget_and_holes_v1.md §2.3)の残り1点 ell=25,t=5(n=30) の厳密計数。ell=25 は非素数につき補題HOLE(Jordan)が使えず、40回の2-optハントが全て非推移だった唯一のUNKNOWN窓。発注仕様は docs/notes/pent_exists_level_v1.md #7「付録 -- ell=25,t=5 の T_trans 計数の発注仕様」(裁定_255_PENT委嘱3検収.md 項目7で受理)。機構は search/probe/wac_v1/sat_l1_probe8.g と同一(指標表 class multiplication coefficient による T_all + 巡回の集合分割上の Moebius 反転による T_trans)を search/probe/wac_v1/l25t5_count.g に自己完結的に再定義。較正規律を厳守: 同一スクリプトで既知 (23,1^3)(n=26, 既に A_26 witness あり)を先に流し T_trans>0 を確認してから本番 (25,1^5)(n=30) へ進む(fail-closedでT_trans<=0ならメインはスキップされ、その旨がcertに記録される)。ローカルではsat_l1_probe8.g較正窓5件([9,1],[9,2],[9,2,1],[9,2,2],[11,2,2,1])のみのsmoke(L25T5_SMOKE_ONLY:=true;;)で機構の疎通を確認済み -- 元スクリプトsat_l1_probe8.gの実行結果とT_all/T_transが完全一致(byte一致)。S_26/S_30の指標表計算(較正本番/本番フェーズ)はローカル8GBでは走らせていない(ピーク8-16GB見込みにつきCI専)。期待値・不在/存在の予言はコード・本plan双方に書いていない(接触遮断)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/l25t5_count.g", "sha256": "4c6565b763a83564edc1652a8419d1552feae8f9167f716b31517af63ced7173" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "L25T5-COUNT-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/l25t5_count.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。ローカルではsmoke(既知5窓の再現)のみ確認済み(元スクリプトsat_l1_probe8.gとT_all/T_trans一致)。較正本番(23,1^3, n=26)・本番(25,1^5, n=30)はいずれも未実行(CI発車で初めて完走)。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "厳密計数(T_trans([25,1^5])>0かT_trans=0か)-- 予言は司令塔が別途凍結(接触遮断のためコードにも本plan にも期待値は書かない)"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "timeout_min": 300,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/l25t5_count.g",
+      "sha256": "4c6565b763a83564edc1652a8419d1552feae8f9167f716b31517af63ced7173",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-l25t5-count-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
