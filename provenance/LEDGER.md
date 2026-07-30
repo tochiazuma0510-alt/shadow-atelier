@@ -629,3 +629,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-31 実験 B(拡大類の初データ)+ f_orientation 欄の適用(裁定 243 工程 2)
 - search/certs/extension_class_20260731.json = c5b5238b2587a54992a52266e412857ebc917c2959af8b263c37ffd101d365a8: **r=4 C 枝(800/200/4)= split=true**(既存欄 28_compl_classes_all=5 から抽出・GAP 再走なし)・**B 枝(2000/500/4)= split=true**(同 4)。T5-dl3 / W-CENT-B は **UNKNOWN**(probe が m=0 層のみで全 charming 層の shadow list 未構成 — 一般化は別実装・silent cap でなく明示)。⟹ 構造論の「最後の未知」= 拡大類の最初の実測点は **両枝とも分裂**。
 - f_orientation 欄を 3 cert に追加(数値不変・欄追加のみ): wall2 = bdbd750d75e21ae8f9e6b657ed57d4db1568c2671994b1d2bd306e10ff2cc2e2・centb = 794d87253616b79982b0a2df624fc095a17a6fcf3f54464cc68764614c8bb930・dl3 = 8928e063c7fa03b6ff5211b1bfa73436f06bd3b7f0ededfbfd3d43b7ef32787e。**3 本とも値は `mathematician_handwritten`(右共役)**(コード実読で判定 — dl3 のコメント「judge 規約」は式が wall2 と同一という意味で AbstractProd 左共役ではない、と注記)。向き決着により値は向きに依らず不変。
+
+## 2026-07-31 文献ゲート配達 4(P1 線・正種数 Belyi と種数 2 の C₃-被覆)
+- きっかけ = ①要請駆動: u_meas_m3_design_v1 §5【文献要請 1・3】(裁定 244 で発注承認)。覚書 = docs/notes/litgate_positive_genus_belyi_v1.md。
+- 配達 10 本(papers/delivered/・sha256 は覚書の表が正本): 軸 A = arxiv_1311.2529(Sijsling–Voight・手続きの正本)・arxiv_1311.2081(KMSV・数値経路 = M7 候補)・arxiv_1212.3803・arxiv_1908.10459(single-cycle Belyi = 我々の (9) 成分に最近)/ 軸 B = arxiv_2102.04319・arxiv_2411.17930・arxiv_math_0508174・arxiv_2306.02147(Sophie Germain 型巡回被覆 = 型が最も近い)・arxiv_2503.23041・arxiv_2410.14454(有理捻れ = 篩の実装源)。
+- **検疫**: A3 = arxiv_1805.07751(A Database of Belyi Maps)は**配達せず金庫 quarantine へ隔離**(裁定 244 の【文献要請 2】保留対象 = 測定前に引くと汚染)。M3 で候補を自前構成後、M7 の位置で司令塔が解禁。
+- 一工夫 = ①我々の設定(次数 9・種数 2・PSL(2,8)・剛・div_∞=9P̄)への落とし込み ②**型 C 警戒**(B1/B5 のフル ℤ₃×ℤ₃ と我々の単一 C₃-被覆は別物 — 束ねない)③要請 1(b)(剛性下の 0 次元化)に直接答える文献は未特定 = 自前規約を凍結する方針を提案。
+- scout 報告書 2 本(rigidity_hurwitz・positive_genus_belyi)を金庫 → docs/scout/ へ移設(配達完了に伴う開示)。
