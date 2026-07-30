@@ -1,0 +1,10 @@
+P1 := NormedRowVectors(GF(8)^2);;
+act := ActionHomomorphism(SL(2,8), P1, OnLines);;
+P := Image(act);;
+S9 := SymmetricGroup(9);;
+N := Normalizer(S9, P);;
+Print("|P| = ", Size(P), "   |N_S9(P)| = ", Size(N), "\n");
+ct := function(g) local l; l := List(Orbits(Group(g),[1..9]),Length); Sort(l); return Reversed(l); end;;
+Print("cycle types in PSL(2,8)      : ", Set(List(ConjugacyClasses(P), c -> ct(Representative(c)))), "\n");
+Print("cycle types in PGammaL(2,8)  : ", Set(List(ConjugacyClasses(N), c -> ct(Representative(c)))), "\n");
+QUIT;
