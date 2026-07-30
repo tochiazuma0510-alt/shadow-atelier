@@ -575,3 +575,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - search/certs/r4_manifest_C_20260730.json = e9f663776ed2830a06d89644364db898dec368575afe56b91e0f2641e10506dc
 - 判定(**裁定 236 — 初版記帳は裁定 235 の誤値転写につき本行で訂正**・突合先 = docs/notes/r4_prediction_v1.md 凍結 fd5aab9): 実測 = |GTSh|=800・|ker χ̃|=**200**・奇部 **25=5²**・2-部 8・IdGroup ker=[200,31]/GTSh=[800,1034]・A≅C₅×C₅・K 直積 test false・Q(C₄)の A 作用非忠実・canonical_id_sha256=d49d2556…(凍結表一致・P-R4-0 PASS)・stage1 all_pass・Ξ 走査 4×112,500,000(上界内)。**NULL-R4 発火((25,8)=形破綻枠)= PRUNE(40)も旧律(1000)も FAIL・核側 s₂ 律は (r=4,t=0) で偽**。P-R4-9(Ξ 埋め込み)・P-R4-10(STR-1.6 判定・ε=0)は PASS。定理 PRUNE-FIX(抽象群側)は無傷。正本 = sol/裁定_236_r4C窓真判定_235撤回.md。
 - **B 枝(ε=1・S₂₀)発射記録**: run 30543709450(同 driver・preamble `R4_ONLY_WINDOW:="B";;`・timeout 120 分・2026-07-30 12:42 UTC)。着弾で P-R4-8(ε 依存性)判定へ。
+
+## 2026-07-30 採掘場 mine v0 発足(裁定 237)と受け入れ試験 PASS
+- ideas_013(発案係)採用 → implementer 実装(worktree・merge 74bf5d7): mine-job/v1 schema・preflight 3 ゲート(schema/integrity/予言)・統一配車 mine-dispatch.yml(plan push 駆動)・collector 最小・miner 係職務規程。判定ロジック側は無改変。
+- 第一号ジョブ = 梯子 13 窓の較正再走(plan: mine/jobs/queue/ladder-recal-20260730.json)。CI run 30547092434(発火 = plan push・GAP 4.16.0・-o 12g・約 15 分)・result.txt: verdict=done・gap_exit=0。
+- collector 検収(artifact のみ読取・ログ非参照): **再現照合 13/13 REPRO_MATCH(CI 再走 cert = 収蔵済み cert)・対付け集計 13/13(GAP explorer ⟷ python checker)** → **v0 受け入れ試験 PASS**。レポート = mine/reports/ladder-recal-20260730_report.md。
+- v1 残: 窓 shard knob(較正回帰つき)・述語台帳の棚入れ 10〜15 枚・certs メモ化・ジョブ専用 out_dir(分類不能 99 件の解消)。
