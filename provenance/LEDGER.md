@@ -707,3 +707,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **「∃-live 20 = |GT(N_A)| 20」は異種比較**(shadow の f-成分は 10 個)⟹ 裁定 252 の一致観察を撤回・札下げ。
 - **P-PENT-1′ 三段ゲート採択**: (T1) f-成分 10 個の全含 = **v2 の 20/20 で既 PASS** /(T2) fiber 25 元内で pentagon∧fine hexagon∧m̄≡m の同時持ち上げ /(T3) **|im(red)| ∈ {1,2,4,5,10,20} — 20 なら pentagon 線開通・10 なら矛盾復活**。(T2)(T3) を implementer へ発注(接触遮断)。
 - 次実験順: (T2)(T3) → H₃ 構造(A₅-加群として自明の公算)→ 梯子窓 π-lift({±1} 署名の決定実験)→ N⁽¹⁹⁾ 較正。ℓ=25・t=5 クラウド仕様受理(発注は T2/T3 後)。
+
+## 2026-07-31 Sol 便 90 返信の検収(裁定 256)
+- sol/sol_reply_90_math17.md(総合 = 差戻し・項目別分割)。**定理 CENT = 条件付き PASS(反例なし)**・**補題 AUT-E = PASS**・XI-INJ PASS。修理 3 点(F_judge/q 分離・A_n≤⟨g,h⟩ 一行・**Ξ は現実装規約で反準同型 ⟹ Φ=Ξ⁻¹ 補正**)で**定理採択・CENT-ORD/ε=(−1)^{p+s} が系昇格**(剛性・飽和・p=s=0 不要と明言)。壁四窓 = 条件付き PASS(witness 受理)。r=4 receipt = PASS(§9 解消)。
+- **pentagon lift 判定 = FAIL** — 同一代表 f の (2.18)(2.19)(2.20) 同時性未検査 = **数学者の (T2) 設計への Sol の盲検独立収束**。P90-PENT 6 条件((K_π)_{PB₃} membership は 5 余面全部・witness 収蔵・per-m 再計数)を (T2) 仕様として採択・転送。裁定 252 の「較正完了」は「evaluator 較正完了・lift 判定未完」へ格下げ。
+- (o) EP v7 = NO-GO 継続(残 4 項: synthetic fixture・resolver 同居・上書き既定拒否なし・非 atomic)・cake_lpr 一般契約 FAIL 継続。
