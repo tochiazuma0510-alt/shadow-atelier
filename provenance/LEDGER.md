@@ -712,3 +712,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - sol/sol_reply_90_math17.md(総合 = 差戻し・項目別分割)。**定理 CENT = 条件付き PASS(反例なし)**・**補題 AUT-E = PASS**・XI-INJ PASS。修理 3 点(F_judge/q 分離・A_n≤⟨g,h⟩ 一行・**Ξ は現実装規約で反準同型 ⟹ Φ=Ξ⁻¹ 補正**)で**定理採択・CENT-ORD/ε=(−1)^{p+s} が系昇格**(剛性・飽和・p=s=0 不要と明言)。壁四窓 = 条件付き PASS(witness 受理)。r=4 receipt = PASS(§9 解消)。
 - **pentagon lift 判定 = FAIL** — 同一代表 f の (2.18)(2.19)(2.20) 同時性未検査 = **数学者の (T2) 設計への Sol の盲検独立収束**。P90-PENT 6 条件((K_π)_{PB₃} membership は 5 余面全部・witness 収蔵・per-m 再計数)を (T2) 仕様として採択・転送。裁定 252 の「較正完了」は「evaluator 較正完了・lift 判定未完」へ格下げ。
 - (o) EP v7 = NO-GO 継続(残 4 項: synthetic fixture・resolver 同居・上書き既定拒否なし・非 atomic)・cake_lpr 一般契約 FAIL 継続。
+
+## 2026-07-31 ℓ=25・t=5 の厳密計数着弾(CI run 30586246024)— 最後の穴は「取りこぼし」側
+- cert = search/certs/l25t5_count_20260731.json(3 フェーズ: smoke 既知 5 窓再現・較正 (23,1³) T_trans=173,880>0 = 既知 A₂₆ witness と整合・本番)。
+- **本番 (25,1⁵) n=30: T_all = 22,116,500・T_trans = 378,000 > 0**(分割 203・|C|=3000・54 秒)⟹ 推移分解は大量に実在 = 「真の不在」ではなく 2-opt の取りこぼし(密度 1.7%)。ℓ=25 非素数につき補題 HOLE 不適用 — **生成(A₃₀ 到達)の可否のみが残る問い**(推移だが非原始に落ちる可能性は残る: n=30 は約数が多い)→ 狙い撃ち再ハント発注。
