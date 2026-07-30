@@ -1,0 +1,64 @@
+{
+  "schema":"wac_v1-wall2-cert/v1",
+  "generated_by":"search/probe/wac_v1/wall2_cert.g",
+  "window_label":"P-WALL-2",
+  "source_witness":"ops/express/20260731_数学者Opus_壁到達と窓2枚.md 窓A(壁P4), 逐語",
+  "note":"raw measurements only -- 予言値/期待値はコードに書かず、全て計算値をそのまま記録する。W(x,y,c,Bq,PN,N_ord)は search/kerchi-judge.g (JUDGE_LIBRARY_ONLY) の MakeWindow を再利用。hexagon判定は同ファイルの RtOf ではなく search/probe/wac_v1/sat_l1_probe11.g の検算済み手書き式(s1*f^-1*s2*f=f^-1*s1*s2 かつ f^-1*s2*f*s1=s2*s1*f)をそのまま採用 -- RtOf(m=0)は AbstractProd の反転規約下で実データ上この式と不一致(診断: scratchpad/diag_hex.g)。要司令塔裁定、逸脱として報告済み。",
+  "n":24,
+  "a1":"(1,13)(2,9)(3,5)(4,24)(6,8)(7,21)(10,12)(11,20)(14,16)(15,22)(17,19)(18,23)",
+  "b1":"(1,12,9)(2,8,5)(3,4,24)(6,7,21)(10,11,20)(13,19,16)(14,15,22)(17,18,23)",
+  "window_asserts":{
+    "a1_sq_eq_1":true,
+    "b1_cube_eq_1":true,
+    "k":12,
+    "j":8,
+    "sign_a1":1,
+    "a1_cycle_type":"[ 12 ]",
+    "b1_cycle_type":"[ , 8 ]",
+    "w0_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]",
+    "w0_order":19,
+    "xbar_cycle_type":"[ , , , , , , , , , , , , , , , , , 1 ]",
+    "xbar_order":19,
+    "gen_eq_An":true,
+    "ree_sum":26,
+    "ree_n_plus_2":26,
+    "ree_genus":0,
+    "braid_holds":true,
+    "c_eq_identity":true,
+    "P_eq_An":true,
+    "E_size":1861345205199718318080000,
+    "E_eq_6_An":true,
+    "N_ord":19,
+    "charming_count":18
+  },
+  "centralizer_w0":{
+    "size":2280,
+    "structure_description":"C19 x S5",
+    "solvable":false
+  },
+  "centralizer_xbar":{
+    "size":2280,
+    "solvable":false
+  },
+  "surv_scan":{
+    "Cv_size":2280,
+    "pass_count":2280,
+    "hexagon_fail_count":0,
+    "generation_fail_count":0,
+    "total_checked":2280
+  },
+  "xi_image":{
+    "size":2280,
+    "structure_description":"C19 x S5",
+    "solvable":false,
+    "eq_centralizer_w0":true
+  },
+  "lid1":{
+    "canonical_string":"LID1/v1|id=P-WALL-2|n=24|a1=(1,13)(2,9)(3,5)(4,24)(6,8)(7,21)(10,12)(11,20)(14,16)(15,22)(17,19)(18,23)|b1=(1,12,9)(2,8,5)(3,4,24)(6,7,21)(10,11,20)(13,19,16)(14,15,22)(17,18,23)|S1=(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)(25,26)|S2=(1,16,22,14,19,23,17,13,9,5,24,3,8,21,6,2,12,20,10)(26,27)",
+    "sha256":"627f1699d169261cc68b904a4a94b8ce57c78b50d664907d2a5ed8d8c1843235"
+  },
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"ed38900788bf1c4bd37410ff02235ce36cb840ffbfd3a05b09d7635f62650a2a"
+  }
+}

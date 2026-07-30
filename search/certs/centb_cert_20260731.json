@@ -1,0 +1,64 @@
+{
+  "schema":"wac_v1-centb-cert/v1",
+  "generated_by":"search/probe/wac_v1/centb_cert.g",
+  "window_label":"W-CENT-B",
+  "source_witness":"ops/express/20260731_数学者Opus_壁到達と窓2枚.md 窓B(判別), 逐語",
+  "note":"raw measurements only -- 予言値/期待値はコードに書かず、全て計算値をそのまま記録する。W(x,y,c,Bq,PN,N_ord)は search/kerchi-judge.g (JUDGE_LIBRARY_ONLY) の MakeWindow を再利用。hexagon判定は同ファイルの RtOf ではなく search/probe/wac_v1/sat_l1_probe13.g の検算済み手書き式(s1*f^-1*s2*f=f^-1*s1*s2 かつ f^-1*s2*f*s1=s2*s1*f)をそのまま採用 -- RtOf(m=0)は AbstractProd の反転規約下で実データ上この式と不一致(診断: scratchpad/diag_hex.g)。要司令塔裁定、逸脱として報告済み。",
+  "n":18,
+  "a1":"(1,2)(3,4)(5,9)(6,18)(7,15)(8,10)(11,14)(16,17)",
+  "b1":"(2,9,4)(5,8,18)(6,17,15)(7,14,10)(11,13,12)",
+  "window_asserts":{
+    "a1_sq_eq_1":true,
+    "b1_cube_eq_1":true,
+    "k":8,
+    "j":5,
+    "sign_a1":1,
+    "a1_cycle_type":"[ 8 ]",
+    "b1_cycle_type":"[ , 5 ]",
+    "w0_cycle_type":"[ , , , , , , , 2 ]",
+    "w0_order":9,
+    "xbar_cycle_type":"[ , , , , , , , 2 ]",
+    "xbar_order":9,
+    "gen_eq_An":true,
+    "ree_sum":20,
+    "ree_n_plus_2":20,
+    "ree_genus":0,
+    "braid_holds":true,
+    "c_eq_identity":true,
+    "P_eq_An":true,
+    "E_size":19207121117184000,
+    "E_eq_6_An":true,
+    "N_ord":9,
+    "charming_count":6
+  },
+  "centralizer_w0":{
+    "size":162,
+    "structure_description":"C9 x D18",
+    "solvable":true
+  },
+  "centralizer_xbar":{
+    "size":162,
+    "solvable":true
+  },
+  "surv_scan":{
+    "Cv_size":162,
+    "pass_count":162,
+    "hexagon_fail_count":0,
+    "generation_fail_count":0,
+    "total_checked":162
+  },
+  "xi_image":{
+    "size":162,
+    "structure_description":"C9 x D18",
+    "solvable":true,
+    "eq_centralizer_w0":true
+  },
+  "lid1":{
+    "canonical_string":"LID1/v1|id=W-CENT-B|n=18|a1=(1,2)(3,4)(5,9)(6,18)(7,15)(8,10)(11,14)(16,17)|b1=(2,9,4)(5,8,18)(6,17,15)(7,14,10)(11,13,12)|S1=(1,2,3,4,5,6,7,8,9)(10,11,12,13,14,15,16,17,18)(19,20)|S2=(1,4,3,9,18,15,10,5,2)(6,8,14,12,13,11,7,17,16)(20,21)",
+    "sha256":"decb0ac2b614fe8bc46018ef6e405373e7d864af563f4827db78603d33358f46"
+  },
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"e689b43d2e2282d9da8356f181ae8976a510524f9df90a2c6397b5fda2dacb5e"
+  }
+}

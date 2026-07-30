@@ -611,3 +611,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-31 壁(P4)到達 candidate(裁定 241)+ mine v1.5 完成
 - **P-WALL-2**(n=24・ℓ=19・w₀=(19,1⁵)・ε=0): 存在を紙で事前確定(不動点なし ⟹ 推移・素数 19>n/2 ⟹ 原始 ⟹ Jordan・指標係数 2280)・witness 実物対(2-opt 山登り)・窓 assert 全通過・**SURV 構成 f_z 2280 個全通過 ⟹ Ξ(ker χ̃) ⊇ C₁₉×S₅(非可解)**・定理 CENT-0(p=s=0 ⟹ CENT 等号定理化)で ker=C(w₀) 確定 ⟹ **GTSh 非可解の初実例 candidate**(Opus 発・Sol 監査待ち・正本 = docs/notes/sat_l1_v1.md §10.6+速達)。W-CENT-B(n=18・9 倍判別)も同梱・162/162。3840 障害の正体 = 2⁵:S₅ 非原始。計数機構(Frobenius+分割 Möbius)11 窓較正・悉皆値厳密再現 — 実現探索は乱択全廃・数秒化。
 - mine v1.5 完成(merge e451cee): 判定 receipt 機構(prediction/cert 別入力・恒等式 assert・manifest 束縛必須・fail-closed 負例確認)— **r=4 C/B receipt が Sol F88-2.2 独立判定表と全項一致**(機構の独立再検証)。r=4 driver 欄 12 を 4 段分解・欄 30 改名(P88-R4-1/2 消込)・driver 新 sha = 01783f77fc30991c69be8da65b4419146c8f46b6d960024f708f540ef1b3c81e。
+
+## 2026-07-31 cake_lpr(形式検証済み checker)による遡及三段目検査 = 全 VERIFIED
+- workflow = .github/workflows/lrat-recheck.yml(cake_lpr commit a36874a8b750b43fe4b385b8ddbf5b033e46a3fa・binary sha256 1822ca1e5d0f925e8f3b73047941a8261bee65eef6ccb0e33bb49f92821a09ca)。CI run 30557427326。
+- **n21_transitive(裁定 206 定理 3.1 の n=21 非存在)= s VERIFIED UNSAT**・**n21_m10_depth19(mutant)= s VERIFIED UNSAT**。両者とも CNF/proof の sha256 が収蔵 SHA256SUMS.txt と一致(manifest 束縛検査つき)。
+- **fail-closed 負例 = CORRECTLY_REJECTED**(破壊 LRAT は検証されない)。
+- ⟹ n=21 非存在の証明経路は **drat-trim × 自前 lrat_check.py × cake_lpr(CakeML で形式検証されたバイナリ)の三系統**で一致。語法は cross-checked(「verified」は Lean 予約のまま)。
+- 初回 run 30557129007 は upstream 同梱 sha256 の basis_ffi.c 行 stale(実体 8e30d84f…≠同梱 3fbd8f31…)で fail-closed 停止 → 検証核 cake_lpr.S は一致を確認の上、当該 1 行のみ当方観測値で pin して再走(修理 commit あり)。gate は fail-closed のまま。
