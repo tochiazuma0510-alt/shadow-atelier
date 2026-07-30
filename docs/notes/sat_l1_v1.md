@@ -6,6 +6,12 @@
 - 実測入力: `search/certs/norm_embedding_20260731.json`(9 窓)/ `search/certs/r4_W_E_A20_5x4t0_C_20260730.json` / `..._B_20260730.json`
 - **Sol 便は読んでいない**(委嘱指示どおり sol_reply_87 まで)。
 
+> ### ⚠ 向きの注記(2026-07-31 追記・裁定ノート `hexagon_orientation_ruling_v1.md` 参照)
+> **本稿の $f$ は judge(`kerchi-judge.g`)の $f$ の逆元である。** 本稿は $\bar y^{\,f}=f^{-1}\bar yf$(右共役)で書き、judge は paper 語 $f^{-1}\bar yf$ を `AbstractProd` 反転規約で GAP `f*ybar*f^-1`(左共役)と書く。$f_{\rm judge}=f_{\rm mine}^{-1}$ とおくと**写像 $T_{0,f}$ は完全に一致**し、$\Xi$ の値 $\alpha$ も同一 — **同じ shadow の別ラベル**である。
+> したがって**本稿の個数・群構造・$\Xi$ 像・結論はすべてそのまま正しい**。judge 規約で書き直すときは定理 SURV を
+> $$f_z:=a_1\cdot\bigl(a_1^{\,z}\bigr)\qquad(\text{本稿の }f_z=(a_1^{\,z})a_1\ \text{の逆元})$$
+> と置き換えればよい(この向きで judge の実物条件が P-WALL-2 で 2280/2280、W-CENT-B で 162/162 を生成条件込みで通過)。**手書き式で得た $f$ を judge の式に入れない**こと(混用が唯一の実害)。
+
 ---
 
 ## 0. 結論(先出し)
