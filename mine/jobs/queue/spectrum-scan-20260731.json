@@ -1,0 +1,49 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "spectrum-scan-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P3", "P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "CI大規模走査(ローカル RAM 8GB では不可能)。n=10..30 全域について w0 の巡回型 tau を (ell,1^t) 型 -> (ell^r,1^t) 型 -> 一般型(Partitions(n) から非A/B型を最大 SPEC_GENERAL_CAP 個・n ごと)の順に枚挙し、各 tau で Ree 予算(dl3_search.g 由来)チェック -> feasible なら 2-opt Hunt(dl3_search.g 由来)で実現対探索 -> HIT なら C_Sn(w0) の位数/構造/可解性/導来長・|C_Sn(w0)|<=5000 のときのみ SURV 全数検算。raw measurements only、解釈なし。shards は n の範囲で4分割(各 shard の preamble で SPEC_N_MIN/SPEC_N_MAX/SPEC_SHARD を設定)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/spectrum_scan.g", "sha256": "6a738c28be35aa881533e64ae0d12b9c000e3f4159663cba804a6e616052424e" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "SPECTRUM-SCAN-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/spectrum_scan.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。ローカルではスモーク(n=10 のみ・小予算)のみ確認済み・フル走査は未実行(ローカル禁止・本 plan の CI 発車で初めて完走)。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "探索的走査 -- 予言は司令塔が別途凍結"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "n10-15", "preamble": "SPEC_N_MIN := 10;;\nSPEC_N_MAX := 15;;\nSPEC_SHARD := \"n10-15\";;\n" },
+      { "name": "n16-20", "preamble": "SPEC_N_MIN := 16;;\nSPEC_N_MAX := 20;;\nSPEC_SHARD := \"n16-20\";;\n" },
+      { "name": "n21-25", "preamble": "SPEC_N_MIN := 21;;\nSPEC_N_MAX := 25;;\nSPEC_SHARD := \"n21-25\";;\n" },
+      { "name": "n26-30", "preamble": "SPEC_N_MIN := 26;;\nSPEC_N_MAX := 30;;\nSPEC_SHARD := \"n26-30\";;\n" }
+    ],
+    "timeout_min": 180,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/spectrum_scan.g",
+      "sha256": "6a738c28be35aa881533e64ae0d12b9c000e3f4159663cba804a6e616052424e",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-spectrum-scan-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "wall-family-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 1 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "CI大規模走査(ローカル RAM 8GB では不可能)。P-WALL-2(n=24)以外に非可解核の窓があるか(族的確認)。w0 型=(ell,1^t)、t>=5(C(w0)超群 ⊇ S_t が非可解になりうる域)、ell は奇素数で ell>n/2(原始性が自動)、n=ell+t を 20..34 で枚挙。予算チェック -> 2-opt Hunt -> 窓 assert(braid/c=1/P=A_n/|E|/N_ord) -> C_Sn(w0) の位数/構造/可解性(測定のみ・assert しない)/導来長 -> |C_Sn(w0)|<=5000 なら SURV 全数検算・超えるならランダム200個の f_z(WALL_RANDOM_SAMPLE_N)を検算し非全数を明記。raw measurements only、解釈なし。shards は ell の範囲で4分割(WALL_ELL_MIN/WALL_ELL_MAX で該当素数だけを候補にする)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/wall_family_scan.g", "sha256": "b076c80ec10020b9467eceaa110cee53f4fd0dc5c73e564f8a46c80d6267d6b4" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "WALL-FAMILY-SCAN-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/wall_family_scan.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。ローカルではスモーク(n=20 のみ・小予算・ell=11,13 とも SKIPPED_BUDGET を確認)のみ確認済み・フル走査は未実行(ローカル禁止・本 plan の CI 発車で初めて完走)。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "探索的走査 -- 予言は司令塔が別途凍結"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "ell-lo", "preamble": "WALL_ELL_MIN := 0;;\nWALL_ELL_MAX := 15;;\nWALL_SHARD := \"ell-lo\";;\n" },
+      { "name": "ell-mid1", "preamble": "WALL_ELL_MIN := 16;;\nWALL_ELL_MAX := 21;;\nWALL_SHARD := \"ell-mid1\";;\n" },
+      { "name": "ell-mid2", "preamble": "WALL_ELL_MIN := 22;;\nWALL_ELL_MAX := 25;;\nWALL_SHARD := \"ell-mid2\";;\n" },
+      { "name": "ell-hi", "preamble": "WALL_ELL_MIN := 26;;\nWALL_ELL_MAX := 1000000000;;\nWALL_SHARD := \"ell-hi\";;\n" }
+    ],
+    "timeout_min": 180,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/wall_family_scan.g",
+      "sha256": "b076c80ec10020b9467eceaa110cee53f4fd0dc5c73e564f8a46c80d6267d6b4",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-wall-family-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}

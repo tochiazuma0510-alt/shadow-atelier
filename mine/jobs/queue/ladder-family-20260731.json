@@ -1,0 +1,49 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "ladder-family-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P3"], "band": 2 },
+  "universe": {
+    "generator": "ladder-family",
+    "params": {
+      "note": "CI大規模走査(ローカル RAM 8GB では不可能)。既存 13 窓(N_ord=9)の外 -- N_ord in {11,13,15,17,19,21,25}(ell:=N_ord、既存 strike-a13-ladder.g の N_ord=9 系と同じ規約)で (ell,1^t) 窓を t=LADDER_T_MIN..LADDER_T_MAX で全域走査し、核の律(|ker|=|C_Sn(w0)|と構造)の表を作る。予算チェック -> 2-opt Hunt -> HIT なら C_Sn(w0) の位数/構造/導来長・|C_Sn(w0)|<=5000 のとき SURV 全数通過数。既存 search/strike-a13-ladder.g は無改変・未参照(新規実装)。raw measurements only、解釈なし。t の範囲は preamble の LADDER_T_MIN/LADDER_T_MAX で fail-closed cap(既定 0..12、'全域' の計算資源上の上限として明記)。shards は ell(=N_ord)の集合で4分割。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/ladder_family_scan.g", "sha256": "033aeb6f027d6936d416949a55e652ad26447d1e434e8b015e4579b719318eb6" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "LADDER-FAMILY-SCAN-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/ladder_family_scan.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。ローカルではスモーク(ell=11・t=0..4・小予算、t=0,2 で HIT を確認)のみ確認済み・フル走査は未実行(ローカル禁止・本 plan の CI 発車で初めて完走)。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "探索的走査 -- 予言は司令塔が別途凍結"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "ell11-13", "preamble": "LADDER_ELLS := [11, 13];;\nLADDER_T_MIN := 0;;\nLADDER_T_MAX := 12;;\nLADDER_SHARD := \"ell11-13\";;\n" },
+      { "name": "ell15-17", "preamble": "LADDER_ELLS := [15, 17];;\nLADDER_T_MIN := 0;;\nLADDER_T_MAX := 12;;\nLADDER_SHARD := \"ell15-17\";;\n" },
+      { "name": "ell19-21", "preamble": "LADDER_ELLS := [19, 21];;\nLADDER_T_MIN := 0;;\nLADDER_T_MAX := 12;;\nLADDER_SHARD := \"ell19-21\";;\n" },
+      { "name": "ell25", "preamble": "LADDER_ELLS := [25];;\nLADDER_T_MIN := 0;;\nLADDER_T_MAX := 12;;\nLADDER_SHARD := \"ell25\";;\n" }
+    ],
+    "timeout_min": 180,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/ladder_family_scan.g",
+      "sha256": "033aeb6f027d6936d416949a55e652ad26447d1e434e8b015e4579b719318eb6",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-ladder-family-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
