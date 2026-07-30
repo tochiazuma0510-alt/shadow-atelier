@@ -164,6 +164,13 @@ od;;
 # for the gate), then siblings in spec-listed order.
 WINDOWS := Concatenation(CANON, SIBS);;
 
+# v1 shard knob (mine/ 配車用・裁定237 v1範囲): LADDER_ONLY_WINDOWS が bound
+# なら window ID でフィルタするだけ。判定ロジック・走査・cert 内容には無関係。
+# 未 bound なら従来と完全同一動作 (13窓フル走)。
+if IsBound(LADDER_ONLY_WINDOWS) then
+  WINDOWS := Filtered(WINDOWS, w -> w.id in LADDER_ONLY_WINDOWS);;
+fi;;
+
 #############################################################################
 ## ---------------------- per-window structural asserts (16-item style,
 ##   search/strike-a18.g convention) -----------------------------------------
