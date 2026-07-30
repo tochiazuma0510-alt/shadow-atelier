@@ -636,3 +636,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **検疫**: A3 = arxiv_1805.07751(A Database of Belyi Maps)は**配達せず金庫 quarantine へ隔離**(裁定 244 の【文献要請 2】保留対象 = 測定前に引くと汚染)。M3 で候補を自前構成後、M7 の位置で司令塔が解禁。
 - 一工夫 = ①我々の設定(次数 9・種数 2・PSL(2,8)・剛・div_∞=9P̄)への落とし込み ②**型 C 警戒**(B1/B5 のフル ℤ₃×ℤ₃ と我々の単一 C₃-被覆は別物 — 束ねない)③要請 1(b)(剛性下の 0 次元化)に直接答える文献は未特定 = 自前規約を凍結する方針を提案。
 - scout 報告書 2 本(rigidity_hurwitz・positive_genus_belyi)を金庫 → docs/scout/ へ移設(配達完了に伴う開示)。
+
+## 2026-07-31 窓 B(S4 = PSL(2,8))の SD-c 証明書 — 便 86 NOTE 3 の解消(裁定 244 工程 1)
+- cert: search/certs/sdc_twist_S4_window_20260731.json = 24e95d42abb443e85b6ff2cd246599f9ade3382a69cf771cad9a781199892a82(probe = search/probe/wac_v1/sdc_twist_s4_window.g・GF(8) 上のモデルを judge/week3 系を Read せず独立実装)。
+- 測定(全 26 assert PASS・all_pass=true): |Bq|=3024=6·504・**|P|=504=PSL(2,8)**・ord_x=ord_y=9・**c_in_N=true(Δ² の実置換計算で実測 — 構築の仮定でない)**・N_ord=9・C_{S₉}(X)=9・N_{S₉}(⟨X⟩)=54=[54,6]・scan_mode=exhaustive_over_P(504 悉皆)・F0_size=9・settled_fail=0・j_values=[0,1,8,4,5,3,2,7,6](全単射)・phi_F0_bijective_onto_inn_X=true。
+- **A₁₀ 窓との異同**: C(X)=9・N=54・[54,6]・F0_size=9 は**数値一致**(surj_s4_v2 が指摘した偶然)。異なるのは |Bq|(3024 vs 10886400)・|P|(504 vs 1814400)・ambient(S₉ vs S₁₀)・j 値の並び。⟹ **窓の同定は位数と ambient で行う**(数値一致欄では不可)を教訓として記帳。
+- **工程事故と恒久対策**: 初版 cert が JSON parse 不能(GAP の出力整形が `\`+改行を挿入)。原因 = **SizeScreen の列幅上限 4096**(実測確認)を窓 B の長い置換文字列が超過。A₁₀ 窓で効いた SizeScreen 単独では不足。修理 = OutputTextFile + SetPrintFormattingStatus(f,false) で整形自体を無効化。**以後 cert 生成の必須手順に「生成後の json.load 検証」を追加**(実装者へ指示済)。測定ロジックは無関係につき値は不変。
