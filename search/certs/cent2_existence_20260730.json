@@ -1,0 +1,70 @@
+{
+  "generated_by": "search/probe/wac_v1/cent2_existence_search.g",
+  "note": "n=12 realization-pair existence search (裁定240 工程1). a1^2=1 type (2,2,2,2,2,1,1), b1^3=1 type (3,3,3,3), w:=b1^-1*a1 type (5,5,2), generation target <a1,b1>=S12 (checked, not assumed); sign(a1) is MEASURED and recorded, not asserted. Raw measurements only -- no judgement, no interpretation, no comparison to any external prediction (contact isolation -- docs/notes/sat_l1_v1.md, r4_prediction_v1.md, ideas/, sol/ were NOT read while writing this probe). NOT a ledger claim. Not committed.",
+  "script_sha256": "d075c2f2362a19db2ddbe5ebdda3957f5a9f469368493a61e5902a67429255f9",
+  "gap_invocation": ".\\gap.ps1 search\\probe\\wac_v1\\cent2_existence_search.g",
+  "window_params": {
+    "n": 12,
+    "a1_type": [1, 1, 2, 2, 2, 2, 2],
+    "a1_class_label": "k=5 transpositions, 2 fixed points",
+    "b1_type": [3, 3, 3, 3],
+    "b1_class_label": "j=4 3-cycles, 0 fixed points",
+    "w_definition": "w := b1^-1 * a1",
+    "w_target_type": [2, 5, 5],
+    "sign_a1_required": null,
+    "sign_a1_note": "sign(a1) is measured and recorded, not asserted as a generation condition (裁定240 工程1 instruction).",
+    "generation_target": "S12 (order 12! = 479001600)"
+  },
+  "method_note": "Fixed a single representative w0 of type (5,5,2): w0=(1,2,3,4,5)(6,7,8,9,10)(11,12). Since w = b1^-1*a1 => b1 = a1*w0^-1, and every pair (a1,b1) with w of type (5,5,2) is S12-conjugate to a pair with w = w0 exactly (S12 acts transitively on the (5,5,2) conjugacy class), scanning a1 over the FULL conjugacy class of a0 = (1,2)(3,4)(5,6)(7,8)(9,10) [type (2,2,2,2,2,1,1)] and setting b1 := a1*w0^-1 is exhaustive up to simultaneous conjugation of the pair -- no S12-conjugacy-class of realization pair is missed by this scan design (mirrors search/probe/wac_v1/cent1_existence_search.g's fixed-w0-scan-a pattern).",
+  "step0_fixed_representatives": {
+    "w0": "( 1, 2, 3, 4, 5)( 6, 7, 8, 9,10)(11,12)",
+    "w0_type": [2, 5, 5],
+    "sign_w0": -1,
+    "ord_w0": 10,
+    "a0": "( 1, 2)( 3, 4)( 5, 6)( 7, 8)( 9,10)",
+    "a0_type": [1, 1, 2, 2, 2, 2, 2],
+    "sign_a0": -1,
+    "ord_a0": 2,
+    "a1_class_size": 62370,
+    "centralizer_S12_w0_order": 100
+  },
+  "step1_scan": {
+    "mode": "EXHAUSTIVE",
+    "tries": 62370,
+    "tries_equals_class_size": true,
+    "b1_type_hits": 100,
+    "elapsed_sec": 4.781
+  },
+  "step2_generation_check": {
+    "generation_S12_hits": 0,
+    "generation_other_hits": 100,
+    "other_hit_group_orders_distinct": [3840],
+    "other_hit_group_order_counts": [{"order": 3840, "count": 100}],
+    "sign_a1_distribution_over_all_b1_hits": [{"sign": -1, "count": 100}]
+  },
+  "step3_realization_hits": {
+    "count": 0,
+    "note": "No (a1,b1) pair satisfying all window conditions generates S12 for this fixed-w0 exhaustive scan. All 100 b1-type hits generate a subgroup of order 3840."
+  },
+  "step4_orbit_classification": {
+    "note": "C_S12(w0)-conjugation orbits on the a1-components of realization hits (bonus; count only, no interpretation).",
+    "centralizer_S12_w0_order": 100,
+    "realization_hit_count": 0,
+    "orbit_count": 0,
+    "vacuous_because_no_realization_hits": true
+  },
+  "step5_lid1_hashes": {
+    "note": "LID-1-style literal-word canonical string + SHA-256, per hit (裁定171 convention adapted to this window family). Vacuous here -- no realization hits to hash.",
+    "hits_hashed": 0,
+    "entries": []
+  },
+  "summary": {
+    "a1_class_size": 62370,
+    "scan_mode": "EXHAUSTIVE (tries = full a1-class size, complete up to simultaneous S12-conjugation of (a1,b1) via fixed-w0 representative argument)",
+    "b1_type_hits": 100,
+    "generation_S12_hits": 0,
+    "generation_other_hits": 100,
+    "exists_realization_pair": false
+  },
+  "scope_caveat": "This scan is exhaustive over the full conjugacy class of a1 (62,370 elements, class-size check confirmed tries=class size) against a single fixed representative w0 of the target (5,5,2) w-type. By the S12-conjugacy-transitivity argument in method_note, this covers every S12-conjugacy-class of triple (a1,b1,w) satisfying the stated type constraints -- so within THIS scan design (fixed a1-type (2,2,2,2,2,1,1), fixed b1-type (3,3,3,3), fixed w-type (5,5,2)), the result exists_realization_pair=false is a complete negative result over conjugacy classes, not a sample. It is NOT a claim about other a1/b1/w cycle-type combinations, nor about non-conjugate representative choices of w0 within the same type (which the transitivity argument shows are unnecessary to check separately), nor any interpretation beyond the raw counts above. sign(a1) was measured only (all 100 b1-type hits had sign(a1)=-1) -- this was NOT used as a filter or generation condition anywhere in the scan. No judgement or comparison to any external document is drawn."
+}

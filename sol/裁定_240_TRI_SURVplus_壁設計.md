@@ -24,3 +24,9 @@ P-WALL-1 の実現対が見つかれば、鎖は「実現対 → SURV+ 下限(�
 2. 凍結: P-CENT-2/P-WALL-1 の予言は sat_l1_v1.md §10.5(本 commit)をもって凍結。
 3. 便 89 に本裁定・TRI/SURV+ を監査積荷として追加(SURV+ は壁の鍵につき最優先監査対象と明記)。
 4. 実現対が出たら: 判定窓 driver(strike-r4 様式の縮小版)を設計 → mine 発射。P-WALL-1 は f_z 構成検算(7.5×10⁵)を driver に含める。
+
+## 追記 2(同日深夜・実現探索の結果と方針転換)
+
+- **P-CENT-2(n=12)= 悉皆陰性**(cert = search/certs/cent2_existence_20260730.json): a₁ 類 62,370 全数・b₁ 型適合 100 対の生成群は**全て位数 3840** — S₁₂ 到達ゼロ。TRI では説明されない(ord(w)=10 ⟹ Δ(2,3,10) は無限)**第三の系統的障害**。3840 = 2⁸·3·5 の正体(imprimitivity? ブロック系?)の同定を数学者へ。
+- **P-WALL-1(n=27)= 乱択設計は絶望**: b₁ 型 (3⁹) の類密度から 1 試行の hit 確率 ~1.4×10⁻¹⁰(300,000 試行 smoke で 0 hit・整合)。CI 本走(10⁷)でも期待 hit ~10⁻³。**plan は mine/jobs/hold/ へ保留**(徒労走を発射しない)。
+- **方針転換(裁定)**: 実現問題は乱択から「**計数してから構成する**」へ — ①Frobenius 指標和(class-multiplication coefficient)で (2 類, 3 類, w 類) の分解数を**走査前に厳密計算**(GAP CTblLib で S₁₂/S₂₇ 機械計算可能なはず)②非生成分は Hall/Möbius で差引 ③正なら構成的 (2,3)-分解(巡回の張り合わせ設計)で witness を作る。回収済みの剛性/Hurwitz 文献(scout 帰還・裁定 239 工程)がこの急所に直結 — **文献配達を critical path 扱いに昇格**(覚書 = docs/notes/litgate_rigidity_hurwitz_v1.md)。障害の解明(A₅・3840)自体が「どの窓が実現可能か」の族論に育つ見込み。

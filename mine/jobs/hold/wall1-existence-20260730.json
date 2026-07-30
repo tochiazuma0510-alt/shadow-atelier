@@ -1,0 +1,52 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "wall1-existence-20260730",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "N_ord": 27,
+      "windows": 1,
+      "window_id": "N27-A1B1W55555_2",
+      "note": "裁定240 工程1: n=27 実現対 (a1,b1) 存在探索。a1^2=1 type (2,2,2,2,2,2,2,2,2,2,2,2,2,1)(k=13 互換・固定点1)、b1^3=1 type (3,3,3,3,3,3,3,3,3)(j=9 3-巡回)、w:=b1^-1*a1 type (5,5,5,5,5,2)、生成目標 <a1,b1>=S27(order 27!、hit ごとに checked)。a1-共役類が悉皆不可能な規模のため、乱択(w0 を type(5,5,5,5,5,2)代表に固定し a1:=a0^Random(Sn) で type(2^13,1) 類上を一様サンプル)で b1 type=(3^9) を篩う。試行数上限 1e7・時間 cap 900秒(15分)、hit で即時打ち切り。判定窓の予言値は本 probe には一切埋め込まない(接触遮断)。この探索設計は完備でない -- 陰性主張はしない(scope_caveat)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/wall1_existence_search.g", "sha256": "1691bdb62c4bf6fdffe132ff9ebf76f38145a7700c056bdc6c209d4f170860bc" },
+      { "path": "search/gaplib_common.g", "sha256": "f80eeeae71c4e39f8b3d62d997d18635f5ea8fb339a6d0578e834300ea4d4911" },
+      { "path": "search/probe/wac_v1/r4_existence_search.g", "sha256": "bc917c1b6593c5a5495f038c5ac8395773eef065d63a25b9e19ed00829adabeb" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "WALL1-EXISTENCE-PROBE",
+      "version": 1,
+      "params": {
+        "driver": "search/probe/wac_v1/wall1_existence_search.g",
+        "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。乱択(RANDOMIZED, NOT exhaustive)-- 生成目標 S27 の hit 検出まで打ち切りなし継続。ローカルでは reduced smoke test (trial_cap=300000, time_cap_sec=90.0, seed=20260730) のみ完走済み(0 hits, elapsed 41.521s) -- 本走(driver 既定値: trial_cap=1e7, time_cap_sec=900.0, seed=20260730)は本 plan の CI 実行(timeout_min=60)へ委譲する。"
+      }
+    }
+  ],
+  "predictions": {
+    "declared_none": "存在探索 -- 判定窓の予言は司令塔が別途凍結済み・本 probe は接触遮断(裁定240 工程1指示のとおり期待値/予言値を一切埋め込まない)"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": "none (窓は1つのみ。probe に窓選択knobなし。乱択の再現性は seed で担保)",
+    "timeout_min": 60,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/wall1_existence_search.g",
+      "sha256": "1691bdb62c4bf6fdffe132ff9ebf76f38145a7700c056bdc6c209d4f170860bc",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wall1-existence-cert (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント + 裁定240)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
