@@ -566,3 +566,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
   - Jacobson–Vélez 1990 (manuscripta math. 67, 271–284, DOI 10.1007/BF02568433) は誌面のみ — 書誌+入手経路注記。
 - 一工夫 = NORM-U/MARK-U の候補定義対・型 C(束ねない)警戒・新規性警報(層 II は古典既決の疑い — 突合義務)・LG-3/LG-4 設問化。
 - 手順 = 金庫 scout 出力 → 配達判断 → docs/scout/ 移設(是正プロトコルの初の完全適用)。配達先 = 両数学者(Opus = SendMessage・Sol = 便 86 同梱)。
+
+## 2026-07-30 r=4 判別窓 C 枝の CI 測定収蔵(裁定 235)
+- CI = gap-run.yml run 30494156803(workflow_dispatch・script=search/strike-r4.g・preamble `R4_ONLY_WINDOW:="C";;`・GAP 4.16.0(gap-actions/setup-gap\@v3.8.0)・-o 12g・47 分)。driver 凍結 = commit 207d904(接触遮断仕様 search/_r4_driver_spec.md)。
+- 収蔵証明書(artifact `gap-run-out` から司令塔回収・sha256):
+  - search/certs/r4_W_E_A20_5x4t0_C_20260730.json = cf8221381267fafd0900865ed560d9b50bd122e9b3806af329ea8b5b49a0e47a
+  - search/certs/r4_gate_20260730.json = d580bcb3314a343e5f75d73b463244a6d197ebed5ecbd868ba946d34a444c847
+  - search/certs/r4_manifest_C_20260730.json = e9f663776ed2830a06d89644364db898dec368575afe56b91e0f2641e10506dc
+- 判定(裁定 235・突合先 = docs/notes/r4_prediction_v1.md 凍結 fd5aab9): |ker χ̃|=40(PRUNE 予言 40 的中・旧律 1000 棄却 = 25 倍判別)・奇部 5=5^{s₂(4)}・2-部 8・16 項 assert all_pass・settled_fail 0・shadow_total 200。canonical_id_sha256 欄の None 出力は記録漏れ(窓同定は生成対一致で担保・修理は残務)。
+- **B 枝(ε=1・S₂₀)発射記録**: run 30543709450(同 driver・preamble `R4_ONLY_WINDOW:="B";;`・timeout 120 分・2026-07-30 12:42 UTC)。着弾で P-R4-8(ε 依存性)判定へ。

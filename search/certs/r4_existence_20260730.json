@@ -1,0 +1,127 @@
+{
+  "generated_by": "search/probe/wac_v1/r4_existence_search.g",
+  "note": "PRUNE-law r=4 window realization-pair existence search. xbar type (5,5,5,5), n=20, ell=5, r=4, t=0. Raw measurements only -- no judgement, no interpretation, no comparison to pruning_law_v1.md or ideas/ (contact isolation per instruction). NOT a ledger claim. Not committed.",
+  "script_sha256": "bc917c1b6593c5a5495f038c5ac8395773eef065d63a25b9e19ed00829adabeb",
+  "gap_invocation": ".\\gap.ps1 -o 2g search\\probe\\wac_v1\\r4_existence_search.g",
+  "window_params": {"n": 20, "ell": 5, "r": 4, "t": 0, "xbar_type_target": [5,5,5,5]},
+  "step0_w0_type_classification": {
+    "method_note": "squaring an m-cycle with m odd returns an m-cycle; squaring a 2k-cycle returns two k-cycles. Only cycle lengths 5 (odd, stays a 5-cycle) and 10 (even, splits into two 5-cycles) can contribute 5-cycles to w0^2. Partitions of n=20 into parts from {5,10}: 4x5, 2x5+1x10, 2x10 -- exactly the three candidate w0 types below.",
+    "types": [
+      {
+        "label": "type-A_(5,5,5,5)",
+        "w0": "( 1, 2, 3, 4, 5)( 6, 7, 8, 9,10)(11,12,13,14,15)(16,17,18,19,20)",
+        "w0_type": [5,5,5,5],
+        "sign_w0": 1,
+        "ord_w0": 5,
+        "w0sq_type": [5,5,5,5],
+        "ord_w0sq": 5,
+        "w0sq_type_matches_target": true
+      },
+      {
+        "label": "type-B_(10,5,5)",
+        "w0": "( 1, 2, 3, 4, 5, 6, 7, 8, 9,10)(11,12,13,14,15)(16,17,18,19,20)",
+        "w0_type": [5,5,10],
+        "sign_w0": -1,
+        "ord_w0": 10,
+        "w0sq_type": [5,5,5,5],
+        "ord_w0sq": 5,
+        "w0sq_type_matches_target": true
+      },
+      {
+        "label": "type-C_(10,10)",
+        "w0": "( 1, 2, 3, 4, 5, 6, 7, 8, 9,10)(11,12,13,14,15,16,17,18,19,20)",
+        "w0_type": [10,10],
+        "sign_w0": 1,
+        "ord_w0": 10,
+        "w0sq_type": [5,5,5,5],
+        "ord_w0sq": 5,
+        "w0sq_type_matches_target": true
+      }
+    ]
+  },
+  "step1_parity_accounting": {
+    "method_note": "b := a*w0^-1, a an involution = product of k disjoint transpositions (sign(a) = (-1)^k). ord(b)=3 forces b even (sign(b)=+1). sign(b) = sign(a)*sign(w0) => sign(a) must equal sign(w0). Required parity of k: even if sign(w0)=+1, odd if sign(w0)=-1.",
+    "types": [
+      {"label": "type-A_(5,5,5,5)", "sign_w0": 1,  "required_k_parity": "even", "a_class": "a in A20"},
+      {"label": "type-B_(10,5,5)",  "sign_w0": -1, "required_k_parity": "odd",  "a_class": "a odd permutation (a not in A20)"},
+      {"label": "type-C_(10,10)",   "sign_w0": 1,  "required_k_parity": "even", "a_class": "a in A20"}
+    ]
+  },
+  "step2_search_config": {
+    "exhaustive_threshold": 1000000,
+    "random_sample_size_per_k": 200000,
+    "a_generator": "WacBlock(k,2) conjugated: exhaustive = AsList(ConjugacyClass(Sn, WacBlock(k,2))); random = WacBlock(k,2)^Random(Sn) (uniform on the conjugacy class since conjugation by a uniform Random(Sn) element pushes forward to uniform on the orbit)",
+    "hit_condition": "b <> () and b^3 = () and Order(b) = 3",
+    "generation_categories": ["A20", "S20", "other"]
+  },
+  "step2_results": {
+    "type-A_(5,5,5,5)": {
+      "per_k": [
+        {"k": 2,  "class_size": 14535,      "mode": "EXHAUSTIVE", "tries": 14535,  "hits": 0, "elapsed_sec": 0.125},
+        {"k": 4,  "class_size": 13226850,   "mode": "RANDOM",     "tries": 200000, "hits": 0, "elapsed_sec": 1.125},
+        {"k": 6,  "class_size": 1309458150, "mode": "RANDOM",     "tries": 200000, "hits": 0, "elapsed_sec": 1.110},
+        {"k": 8,  "class_size": 9820936125, "mode": "RANDOM",     "tries": 200000, "hits": 1, "elapsed_sec": 1.078},
+        {"k": 10, "class_size": 654729075,  "mode": "RANDOM",     "tries": 200000, "hits": 4, "elapsed_sec": 1.109}
+      ],
+      "total_tries": 814535,
+      "total_hits": 5,
+      "exists_pair_generating_A20": false,
+      "exists_pair_generating_S20": false,
+      "hit_examples": [
+        {"k": 8,  "gen": "other", "size_ab": 60,
+         "a": "( 1, 2)( 3,15)( 4,13)( 5,11)( 6,16)( 7,19)( 8,17)( 9,10)",
+         "b": "( 2, 5,15)( 3,14,13)( 4,12,11)( 6,20,19)( 7,18,17)( 8,16,10)"},
+        {"k": 10, "gen": "other", "size_ab": 60,
+         "a": "( 1,16)( 2,15)( 3,18)( 4,10)( 5, 7)( 6,17)( 8, 9)(11,20)(12,13)(14,19)",
+         "b": "( 1,20,15)( 2,14,18)( 3,17,10)( 4, 9, 7)( 5, 6,16)(11,19,13)"},
+        {"k": 10, "gen": "other", "size_ab": 60,
+         "a": "( 1,16)( 2, 9)( 3, 6)( 4,19)( 5,13)( 7, 8)(10,20)(11,15)(12,17)(14,18)",
+         "b": "( 1,20, 9)( 2, 8, 6)( 3,10,19)( 4,18,13)( 5,12,16)(11,14,17)"},
+        {"k": 10, "gen": "other", "size_ab": 60,
+         "a": "( 1, 6)( 2, 8)( 3,18)( 4,11)( 5,20)( 7,19)( 9,10)(12,17)(13,14)(15,16)",
+         "b": "( 1,10, 8)( 2, 7,18)( 3,17,11)( 4,15,20)( 5,19, 6)(12,16,14)"},
+        {"k": 10, "gen": "other", "size_ab": 60,
+         "a": "( 1,20)( 2,17)( 3, 9)( 4,11)( 5, 6)( 7,15)( 8,12)(10,16)(13,14)(18,19)",
+         "b": "( 1,19,17)( 2,16, 9)( 3, 8,11)( 4,15, 6)( 5,10,20)( 7,14,12)"}
+      ]
+    },
+    "type-B_(10,5,5)": {
+      "per_k": [
+        {"k": 1, "class_size": 190,      "mode": "EXHAUSTIVE", "tries": 190,    "hits": 0, "elapsed_sec": 0.032},
+        {"k": 3, "class_size": 581400,   "mode": "EXHAUSTIVE", "tries": 581400, "hits": 0, "elapsed_sec": 4.171},
+        {"k": 5, "class_size": 174594420,  "mode": "RANDOM", "tries": 200000, "hits": 0, "elapsed_sec": 1.110},
+        {"k": 7, "class_size": 5237832600, "mode": "RANDOM", "tries": 200000, "hits": 0, "elapsed_sec": 1.094},
+        {"k": 9, "class_size": 6547290750, "mode": "RANDOM", "tries": 200000, "hits": 0, "elapsed_sec": 1.125}
+      ],
+      "total_tries": 1181590,
+      "total_hits": 0,
+      "exists_pair_generating_A20": false,
+      "exists_pair_generating_S20": false,
+      "hit_examples": []
+    },
+    "type-C_(10,10)": {
+      "per_k": [
+        {"k": 2,  "class_size": 14535,      "mode": "EXHAUSTIVE", "tries": 14535,  "hits": 0, "elapsed_sec": 0.125},
+        {"k": 4,  "class_size": 13226850,   "mode": "RANDOM",     "tries": 200000, "hits": 0, "elapsed_sec": 1.093},
+        {"k": 6,  "class_size": 1309458150, "mode": "RANDOM",     "tries": 200000, "hits": 0, "elapsed_sec": 1.110},
+        {"k": 8,  "class_size": 9820936125, "mode": "RANDOM",     "tries": 200000, "hits": 0, "elapsed_sec": 1.125},
+        {"k": 10, "class_size": 654729075,  "mode": "RANDOM",     "tries": 200000, "hits": 1, "elapsed_sec": 1.093}
+      ],
+      "total_tries": 814535,
+      "total_hits": 1,
+      "exists_pair_generating_A20": false,
+      "exists_pair_generating_S20": false,
+      "hit_examples": [
+        {"k": 10, "gen": "other", "size_ab": 3420,
+         "a": "( 1,19)( 2,20)( 3,10)( 4,15)( 5,12)( 6,17)( 7, 8)( 9,16)(11,18)(13,14)",
+         "b": "( 1,18,20)( 2,19,10)( 3, 9,15)( 4,14,12)( 5,11,17)( 6,16, 8)"}
+      ]
+    }
+  },
+  "summary": {
+    "type-A_(5,5,5,5)": {"total_tries": 814535,  "total_hits": 5, "exists_A20_or_S20_pair": false},
+    "type-B_(10,5,5)":   {"total_tries": 1181590, "total_hits": 0, "exists_A20_or_S20_pair": false},
+    "type-C_(10,10)":    {"total_tries": 814535,  "total_hits": 1, "exists_A20_or_S20_pair": false}
+  },
+  "scope_caveat": "k=2 (types A,C) and k=1,3 (type B) were exhaustive (full conjugacy-class enumeration); all other k (4/6/8/10 for A,C and 5/7/9 for B) were random samples of 200000 out of very large classes (up to ~9.8e9), not exhaustive. Absence of an A20/S20-generating hit in this search is NOT a proof of non-existence for those k -- UNKNOWN outside the exhaustively covered k. No judgement or interpretation is drawn beyond the raw counts above."
+}
