@@ -658,3 +658,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **spectrum: 予想 SPEC の反証ゼロ**(tau 843・C 測定 49)。非可解は上記 2 件のみでいずれも t=5(長さ 1 の巡回 5 本)= 予言どおり。多重度 ≤4 は全て可解。**語法は「(ℓ,1^t)/(ℓ^r,1^t) 型の表+一般型の標本(cap 20/n・truncated 明記)」に限定**(裁定 245)。
 - **梯子族: 定理 LAD が 7 系列全てで成立**(ℓ=11..25・上限超え HIT なし)。ただし実際の最大 t は理論上限より小さく、**実効障害が別にある**(新しい問い = t_max(ℓ) の閉形)。**SURV 全数一致 91/91**(HIT 28 件)。
 - **司令塔の一次読み取りミスの申告**: cycle_type 欄(GAP スパース表記)を誤読し「SPEC 違反 2 件」と一度読んだ。実物レコードを開いて t=5 を確認し撤回。教訓 = **machine-piped は「機械値を読む」だけでなく「機械値の書式を確かめる」まで**。
+
+## 2026-07-31 文献ゲート配達 5(pentagon = 副線の定義正本・P6 井原への橋)
+- きっかけ = ②司令塔発(研究者裁可・井原予想 P6 への直撃路)。遠征 = paper-hunter(金庫 hunt/ 出力 → 配達判断 → docs/scout/ 移設)。覚書 = docs/notes/litgate_pentagon_v1.md。
+- 配達: **papers/delivered/arxiv_2008.00066.pdf = c44eba890f83c1ac84a44a5b52fd5c6849250b242331d7eaaff9dd983167fb33**(Dolgushev–Le–Lorenz "What are GT-shadows?"・AGT 24 (2024) 2721–2777・**長らく未入手だった副線の定義正本**)・papers/delivered/arxiv_2106.06645.pdf = be6afb208b09d79716119fcb479bf74175a1c0ade1fa47d6c9727b01aa2d8f52・**papers/delivered/PackageGT.zip = c3124483cb1464b9010c091011370db091a76561a2af923a38efb6900f645f95**(Dolgushev の Python 実装・旧 URL は 308 で死亡・2106.06645 の参考文献 [7] 経由で取得)。Harbater–Schneps 2000 は**未達**(正直申告)。
+- **成果の核**: pentagon の明示形(C1 式 (2.20))+ **余面 5 本が PB₃ 生成元上の値だけで決まる**((A.18))⟹ **PB₄/N を 6 置換で持ち、f を語として評価し 5 本の積を比較するだけ = GAP で書ける**(コホモロジー不要)。実装 `PaB.py: def penta()` が同一判定を既に実装・`NotUsed.py` に第二実装(cross-check 可)。
+- 実データ(C1 §4): N⁽¹⁹⁾(N_ord=6)= pentagon 満たす f が 216・うち hexagon も 36。N⁽³⁴⁾(N_ord=9)= pentagon 4096・うち hexagon も 243・GT(N⁽³⁴⁾) 位数 486=(ℤ₂×ℤ₃)⋉(ℤ₉×ℤ₉)。
+- **同名別物ゲートの対応表を原文で確定**: 本来系 ĜT = B₄/PaB(≤4)・hexagon×2+pentagon・窓は **NFI_{PB₄}(B₄)** / gentle 系 ĜT_gen(工房)= B₃・hexagon のみ・窓は **NFI_{PB₃}(B₃)** / coarse 系 ĜT₀ = pentagon を落としたもの(Guillot が研究)。**窓の圏そのものが違う** ⟹ 橋の第一段は「B₃ 窓から B₄ 窓をどう作るか」であり、ここを飛ばす翻訳は罠。
+- 予想外の収穫: **Furusho property(pentagon ⟹ hexagon)の profinite 版は一般には偽**(C1 §4.3・35 例で機械判定・強 11/弱 13)。⟹ hexagon を pentagon で代替はできないが「どの窓で Furusho 性が成り立つか」が新しい問い。
