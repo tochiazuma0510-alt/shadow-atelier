@@ -461,6 +461,10 @@ $$A=\mathrm{GT}(K^{(ab)})\iff \lvert E\rvert=2\iff L_a\cap L_b=\mathbb Q(i)$$
 > **裁定 101 ⑤ は「算術側は固定体交差 $L_2\cap L_{\rm odd}=\mathbb Q(\zeta_4)$ が UNKNOWN」と記録した。その残件は便 75 が $n=12$ に限り閉じている。** しかし **1–4 を Goursat で束ねて「$\mathrm{Ih}_{K^{(12)}}$ 全射」を結論する一段は、工房のどこにも書かれていない**(grep 済: `provenance/CLAIMS.md`・`sol/裁定_*.md`・`docs/` に該当なし)。
 > **本稿は委嘱の規律に従い、この含意を主張しない。** 一段を書く価値があるか(および $L_3$ が $\ker\mathrm{Ih}$ の固定体であることが (K4) $\Phi$ 単射に依存する点の確認)は司令塔の裁定事項として上申する。
 > **状態: 未接続**(部品は揃っている・接続は未起草)。
+>
+> **【追記 2026-07-31・裁定 257 の委嘱で閉鎖】** 続稿 `docs/notes/n12_goursat_v1.md` で閉じた。結論は $n=12$ 単体ではなく **$\alpha=2$ 層の条件付き族定理**:
+> $$\textbf{定理 MIX-4}:\ n_0>1\ \text{奇},\ \mathrm{Ih}_{K^{(n_0)}}\ \text{全射}\ \Longrightarrow\ \mathrm{Ih}_{K^{(4n_0)}}\ \text{全射}\quad\Longrightarrow\quad\textbf{系 MIX-12}:\ \mathrm{Ih}_{K^{(12)}}\ \text{全射}.$$
+> 上の部品 4 のうち **$\mathcal E_{12}=1$ は入力として不要**になった(続稿 補題 AB「$L_n^{\rm ab}=\mathbb Q(\zeta_{4n})$」+ 補題 SQ2 が全奇数 $n_0$ で再導出;便 75 F6.3(c) とは独立二経路で一致)。$\alpha\ge3$ は続稿【n12-GAP-1】として**未閉鎖**(単一の十分条件 (U2) へ縮約済・【文献要請】)。**状態は paper-proof candidate / framework-conditional / Sol 未監査。**
 
 ### 5.7 q=7 の「勘定」(**帰結の型だけ**)
 
