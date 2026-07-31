@@ -1,0 +1,3288 @@
+{
+  "schema": "u7-fire-secondsys/v1",
+  "generated_by": {
+    "tool": "python3+sympy / GAP 4.16.0",
+    "sympy_version": "1.14.0",
+    "assembler_script": "search/probe/wac_v1/u7_fire_secondsys_assemble_v1.py"
+  },
+  "purpose": "u7発火走(2026-08-01 司令塔指示)の第二系統担当分(a)(b)(c)。司令塔裁定(同日): 経路Bの論理の橋(Phi(F_0)ブロック安定化->[gamma]の含意)と経路Aのn=7明示模型構成は数学者(twist doc起草者)の領分に確定。実装担当の役割は第二系統(下ごしらえの機械値)に限定。",
+  "authority": {
+    "commander_order_1": "u7発火走(2026-08-01・裁定300執行) — 経路A(twist doc SS5 DET-4)・経路B(twist doc SS7 系B-4c)を実行し[gamma]=[u7]_2を独立に出し一致判定を機械で行え",
+    "commander_order_2_scope_ruling": "両論点とも判断が正しい — 裁定: 経路Bの論理の橋と経路Aのn=7明示模型構成は創出であり数学者の領分。発火執行の数学部はtwist docを書いた数学者(Opus2)に移す。あなたの役割は第二系統に確定: (a)(b)(c)の下ごしらえをそのまま完遂し、cert=search/certs/u7_fire_secondsys_20260801.jsonに機械値で収蔵して報告・終了せよ。[gamma]/[delta]/u7の評価は引き続き禁止。",
+    "primary_source": {
+      "path": "docs/notes/u7_twist_determination_v1.md",
+      "sha256": "f9585e738da06cf85c13abad359235adff7c76311d11720369b266df6f0c5d23"
+    },
+    "secondary_source": {
+      "path": "docs/notes/u7_meas_design_v1.md",
+      "sha256": "ee87734a8c88a1d237c5765d5555e989ea083a83bd01e1caf9750e66b7844dff"
+    },
+    "phi_F0_definition_source": {
+      "path": "docs/notes/phifam_v1.md",
+      "sha256": "c79222189ad134f5273a66ab81fdfb68c9b3124ade214226171c8bf368969eec",
+      "quote": "Phi(F_0) = inn(<X^2>) (命題K5-1・w2fam SS3.5で再確認). <X^2>=<a_1> は deck群 G_n の中の並進 C_n"
+    },
+    "prefire_cert_ref": {
+      "path": "search/certs/u7_prefire_20260801.json",
+      "sha256": "a79ce7d87658007ebb5e24820c8a4fdb9365bf079b9583c10b4f5e586d4a754a"
+    }
+  },
+  "scope_guard": {
+    "gamma_delta_u7_evaluated": false,
+    "n5_K5_touched": false,
+    "u7_value_or_conjecture_written": false,
+    "ignition_performed": false,
+    "pathB_logical_bridge_drawn (Phi(F_0)-stabilizes-blocks => [gamma]=1)": false,
+    "pathA_explicit_n7_model_constructed (numeric kappa,mu / F-descent)": false,
+    "note": "本certは第二系統の機械値のみを収蔵する。経路A・Bの数学的結論([gamma]の値・その導出の妥当性)には一切踏み込んでいない。"
+  },
+  "task_a_b_gap_independent_system_and_new_mechanical_fact": {
+    "purpose": "second-system (a)+(b): GAP-vs-python cross-check of T-W1/T-W2 (twist doc sec.9) for n=3,7,9,11,13, all alpha, PLUS new mechanical fact: does <X^2> (=Phi(F_0) generator, phifam_v1.md L67 Phi(F_0)=inn(<X^2>)) stabilize each AH-block of Lambda=G_n/H. Pure finite-group data. Does NOT evaluate [gamma]/[delta]/u7.",
+    "n_windows_checked": 19,
+    "n5_excluded": true,
+    "gap_script": "search/probe/wac_v1/u7_pathB_gap_v2.g",
+    "gap_script_sha256": "ced420db992b35960ee0b17df2809e64b55c6d1e4ebec83d4e3365e7359d6693",
+    "python_reference_scripts": {
+      "tw_blocks.py": {
+        "path": "search/probe/wac_v1/tw_blocks.py",
+        "sha256": "4c84fef8500f13156e59da4de15df2ee1014e9400a77f6d313614d298f23e2c7"
+      },
+      "tw_orient.py": {
+        "path": "search/probe/wac_v1/tw_orient.py",
+        "sha256": "a160b58d0b4b6ac2c0f910b23983acc75e7566d9706334b7d67f72e26af4ea23"
+      }
+    },
+    "gap_internal_summary_pass": true,
+    "cross_check_all_pass": true,
+    "X2_stabilizes_all_blocks_in_all_19_windows": true,
+    "n7_alpha1_window_detail (H_7^fun)": {
+      "n": 7,
+      "alpha": 1,
+      "X2_stabilizes_all_blocks_GAP": true,
+      "cross_check_pass": true,
+      "checks": {
+        "sizeG": {
+          "gap": 1372,
+          "python": 1372,
+          "match": true
+        },
+        "sizeH": {
+          "gap": 98,
+          "python": 98,
+          "match": true
+        },
+        "L": {
+          "gap": 14,
+          "python": 14,
+          "match": true
+        },
+        "NG_eq_H": {
+          "gap": true,
+          "python": true,
+          "match": true
+        },
+        "core_is_a2": {
+          "gap": true,
+          "python": true,
+          "match": true
+        },
+        "sizeM": {
+          "gap": 196,
+          "python": 196,
+          "match": true
+        },
+        "blocks": {
+          "gap": [
+            7,
+            7
+          ],
+          "python": [
+            7,
+            7
+          ],
+          "match": true
+        },
+        "X_swaps_blocks": {
+          "gap": true,
+          "python": true,
+          "match": true
+        },
+        "typeY": {
+          "gap": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "python": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "match": true
+        },
+        "fixY_per_block": {
+          "gap": [
+            1,
+            1
+          ],
+          "python": [
+            1,
+            1
+          ],
+          "match": true
+        },
+        "typeY_per_block_sorted": {
+          "gap": [
+            [
+              2,
+              2,
+              2,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              1
+            ]
+          ],
+          "python": [
+            [
+              2,
+              2,
+              2,
+              1
+            ],
+            [
+              2,
+              2,
+              2,
+              1
+            ]
+          ],
+          "match": true
+        },
+        "ratios_r0_rinf_per_block_sorted": {
+          "gap": [
+            1,
+            6
+          ],
+          "python": [
+            1,
+            6
+          ],
+          "match": true
+        },
+        "ratio_translation_consistent": {
+          "gap": [
+            true,
+            true
+          ],
+          "python": [
+            true,
+            true
+          ],
+          "match": true
+        },
+        "sum_ratios_mod_n": {
+          "gap": 0,
+          "python": 0,
+          "match": true
+        }
+      }
+    },
+    "per_window": [
+      {
+        "n": 3,
+        "alpha": 1,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 108,
+            "python": 108,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 18,
+            "python": 18,
+            "match": true
+          },
+          "L": {
+            "gap": 6,
+            "python": 6,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 36,
+            "python": 36,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              3,
+              3
+            ],
+            "python": [
+              3,
+              3
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              1,
+              2
+            ],
+            "python": [
+              1,
+              2
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 7,
+        "alpha": 1,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 1372,
+            "python": 1372,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 98,
+            "python": 98,
+            "match": true
+          },
+          "L": {
+            "gap": 14,
+            "python": 14,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 196,
+            "python": 196,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              7,
+              7
+            ],
+            "python": [
+              7,
+              7
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              1,
+              6
+            ],
+            "python": [
+              1,
+              6
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 7,
+        "alpha": 2,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 1372,
+            "python": 1372,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 98,
+            "python": 98,
+            "match": true
+          },
+          "L": {
+            "gap": 14,
+            "python": 14,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 196,
+            "python": 196,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              7,
+              7
+            ],
+            "python": [
+              7,
+              7
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              2,
+              5
+            ],
+            "python": [
+              2,
+              5
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 7,
+        "alpha": 3,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 1372,
+            "python": 1372,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 98,
+            "python": 98,
+            "match": true
+          },
+          "L": {
+            "gap": 14,
+            "python": 14,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 196,
+            "python": 196,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              7,
+              7
+            ],
+            "python": [
+              7,
+              7
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              3,
+              4
+            ],
+            "python": [
+              3,
+              4
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 9,
+        "alpha": 1,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 2916,
+            "python": 2916,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 162,
+            "python": 162,
+            "match": true
+          },
+          "L": {
+            "gap": 18,
+            "python": 18,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 324,
+            "python": 324,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              9,
+              9
+            ],
+            "python": [
+              9,
+              9
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              1,
+              8
+            ],
+            "python": [
+              1,
+              8
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 9,
+        "alpha": 2,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 2916,
+            "python": 2916,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 162,
+            "python": 162,
+            "match": true
+          },
+          "L": {
+            "gap": 18,
+            "python": 18,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 324,
+            "python": 324,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              9,
+              9
+            ],
+            "python": [
+              9,
+              9
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              2,
+              7
+            ],
+            "python": [
+              2,
+              7
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 9,
+        "alpha": 3,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 2916,
+            "python": 2916,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 162,
+            "python": 162,
+            "match": true
+          },
+          "L": {
+            "gap": 18,
+            "python": 18,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": false,
+            "python": false,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 108,
+            "python": 108,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              9,
+              9
+            ],
+            "python": [
+              9,
+              9
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              3,
+              6
+            ],
+            "python": [
+              3,
+              6
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 9,
+        "alpha": 4,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 2916,
+            "python": 2916,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 162,
+            "python": 162,
+            "match": true
+          },
+          "L": {
+            "gap": 18,
+            "python": 18,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 324,
+            "python": 324,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              9,
+              9
+            ],
+            "python": [
+              9,
+              9
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              4,
+              5
+            ],
+            "python": [
+              4,
+              5
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 11,
+        "alpha": 1,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 5324,
+            "python": 5324,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 242,
+            "python": 242,
+            "match": true
+          },
+          "L": {
+            "gap": 22,
+            "python": 22,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 484,
+            "python": 484,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              11,
+              11
+            ],
+            "python": [
+              11,
+              11
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              1,
+              10
+            ],
+            "python": [
+              1,
+              10
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 11,
+        "alpha": 2,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 5324,
+            "python": 5324,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 242,
+            "python": 242,
+            "match": true
+          },
+          "L": {
+            "gap": 22,
+            "python": 22,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 484,
+            "python": 484,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              11,
+              11
+            ],
+            "python": [
+              11,
+              11
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              2,
+              9
+            ],
+            "python": [
+              2,
+              9
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 11,
+        "alpha": 3,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 5324,
+            "python": 5324,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 242,
+            "python": 242,
+            "match": true
+          },
+          "L": {
+            "gap": 22,
+            "python": 22,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 484,
+            "python": 484,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              11,
+              11
+            ],
+            "python": [
+              11,
+              11
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              3,
+              8
+            ],
+            "python": [
+              3,
+              8
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 11,
+        "alpha": 4,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 5324,
+            "python": 5324,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 242,
+            "python": 242,
+            "match": true
+          },
+          "L": {
+            "gap": 22,
+            "python": 22,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 484,
+            "python": 484,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              11,
+              11
+            ],
+            "python": [
+              11,
+              11
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              4,
+              7
+            ],
+            "python": [
+              4,
+              7
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 11,
+        "alpha": 5,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 5324,
+            "python": 5324,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 242,
+            "python": 242,
+            "match": true
+          },
+          "L": {
+            "gap": 22,
+            "python": 22,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 484,
+            "python": 484,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              11,
+              11
+            ],
+            "python": [
+              11,
+              11
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              5,
+              6
+            ],
+            "python": [
+              5,
+              6
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 13,
+        "alpha": 1,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 8788,
+            "python": 8788,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 338,
+            "python": 338,
+            "match": true
+          },
+          "L": {
+            "gap": 26,
+            "python": 26,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 676,
+            "python": 676,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              13,
+              13
+            ],
+            "python": [
+              13,
+              13
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              1,
+              12
+            ],
+            "python": [
+              1,
+              12
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 13,
+        "alpha": 2,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 8788,
+            "python": 8788,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 338,
+            "python": 338,
+            "match": true
+          },
+          "L": {
+            "gap": 26,
+            "python": 26,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 676,
+            "python": 676,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              13,
+              13
+            ],
+            "python": [
+              13,
+              13
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              2,
+              11
+            ],
+            "python": [
+              2,
+              11
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 13,
+        "alpha": 3,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 8788,
+            "python": 8788,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 338,
+            "python": 338,
+            "match": true
+          },
+          "L": {
+            "gap": 26,
+            "python": 26,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 676,
+            "python": 676,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              13,
+              13
+            ],
+            "python": [
+              13,
+              13
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              3,
+              10
+            ],
+            "python": [
+              3,
+              10
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 13,
+        "alpha": 4,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 8788,
+            "python": 8788,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 338,
+            "python": 338,
+            "match": true
+          },
+          "L": {
+            "gap": 26,
+            "python": 26,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 676,
+            "python": 676,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              13,
+              13
+            ],
+            "python": [
+              13,
+              13
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              4,
+              9
+            ],
+            "python": [
+              4,
+              9
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 13,
+        "alpha": 5,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 8788,
+            "python": 8788,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 338,
+            "python": 338,
+            "match": true
+          },
+          "L": {
+            "gap": 26,
+            "python": 26,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 676,
+            "python": 676,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              13,
+              13
+            ],
+            "python": [
+              13,
+              13
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              5,
+              8
+            ],
+            "python": [
+              5,
+              8
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      },
+      {
+        "n": 13,
+        "alpha": 6,
+        "X2_stabilizes_all_blocks_GAP": true,
+        "cross_check_pass": true,
+        "checks": {
+          "sizeG": {
+            "gap": 8788,
+            "python": 8788,
+            "match": true
+          },
+          "sizeH": {
+            "gap": 338,
+            "python": 338,
+            "match": true
+          },
+          "L": {
+            "gap": 26,
+            "python": 26,
+            "match": true
+          },
+          "NG_eq_H": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "core_is_a2": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "sizeM": {
+            "gap": 676,
+            "python": 676,
+            "match": true
+          },
+          "blocks": {
+            "gap": [
+              13,
+              13
+            ],
+            "python": [
+              13,
+              13
+            ],
+            "match": true
+          },
+          "X_swaps_blocks": {
+            "gap": true,
+            "python": true,
+            "match": true
+          },
+          "typeY": {
+            "gap": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "python": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1
+            ],
+            "match": true
+          },
+          "fixY_per_block": {
+            "gap": [
+              1,
+              1
+            ],
+            "python": [
+              1,
+              1
+            ],
+            "match": true
+          },
+          "typeY_per_block_sorted": {
+            "gap": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "python": [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                1
+              ]
+            ],
+            "match": true
+          },
+          "ratios_r0_rinf_per_block_sorted": {
+            "gap": [
+              6,
+              7
+            ],
+            "python": [
+              6,
+              7
+            ],
+            "match": true
+          },
+          "ratio_translation_consistent": {
+            "gap": [
+              true,
+              true
+            ],
+            "python": [
+              true,
+              true
+            ],
+            "match": true
+          },
+          "sum_ratios_mod_n": {
+            "gap": 0,
+            "python": 0,
+            "match": true
+          }
+        }
+      }
+    ],
+    "diffs": [],
+    "caveats": [
+      "cross-checked (2 independent implementations: python+GAP), NOT 'verified' (that word reserved for Lean).",
+      "X2_stabilizes_all_blocks is a NEW check (no prior python probe existed for it before this run); it is GAP-only data, reported as such, not cross-checked against a second implementation here.",
+      "This script does not evaluate [gamma],[delta],[delta_0], or u7. It only reports finite-group/permutation facts about G_n, H, Lambda, and the block system.",
+      "The logical bridge from 'X^2 stabilizes blocks' (mechanical fact, this cert) to any conclusion about [gamma] via the SS7.2 sufficient condition (Phi(F_0) subset Stab(blocks) => [gamma]=1) is EXPLICITLY NOT drawn here -- that bridge was ruled mathematician-territory by the commander (2026-08-01) and is out of scope for this second-system cert."
+    ]
+  },
+  "task_c_kummer_symbolic_construction": {
+    "purpose": "second-system prep (c): symbolic Kummer h(k) construction for n=7,[alpha]=[1] from Thm KUM-n boxed formula + Lemma EXP (r0,r_inf)=(1,-alpha). kappa,mu kept FORMAL (no F-descent / no numeric substitution). Does NOT evaluate [gamma],[delta],[u7].",
+    "n": 7,
+    "alpha": 1,
+    "r0": 1,
+    "r_inf_signed": -1,
+    "h_formula_latex": "h = (k-\\kappa)^{r_0}(k+\\kappa)^{-r_0}(k-\\mu)^{r_\\infty}(k+\\mu)^{-r_\\infty}",
+    "h_simplified_sympy_str": "(k - kappa)*(k + mu)/((k + kappa)*(k - mu))",
+    "kummer_equation": "y^7 = h(k),  h(k) = (k-kappa)(k+mu) / [(k+kappa)(k-mu)]   [C=1, r0=1, r_inf=-1]",
+    "divisor_orders_at_branch_points": {
+      "+kappa": {
+        "order": 1,
+        "leading_coeff": "1"
+      },
+      "-kappa": {
+        "order": -1,
+        "leading_coeff": "1"
+      },
+      "+mu": {
+        "order": -1,
+        "leading_coeff": "1"
+      },
+      "-mu": {
+        "order": 1,
+        "leading_coeff": "1"
+      }
+    },
+    "divisor_orders_expected": {
+      "+kappa": 1,
+      "-kappa": -1,
+      "+mu": -1,
+      "-mu": 1
+    },
+    "divisor_orders_match": {
+      "+kappa": true,
+      "-kappa": true,
+      "+mu": true,
+      "-mu": true
+    },
+    "divisor_all_match": true,
+    "iota_B_pullback_h_equals_hinv (C=1 reflection check)": true,
+    "n_odd (rigidity precondition, KUM-n(4) proof)": true,
+    "kappa_mu_are_formal_symbols_not_evaluated": true,
+    "gamma_delta_u7_evaluated": false,
+    "_self_script_sha256": "b539b85186b8454faa275de9f242acc51f0cfeb482602c2a7d1669f2ceccc76c"
+  },
+  "gap_raw_output_file": {
+    "path": "search_gap_v2_output.txt (scratch, not committed to git by this cert)",
+    "sha256": "5d9f27a8216b86b1375b09037af4e8976ec2e4d112c37a4a1c1ce110e69a8a4d"
+  },
+  "overall_pass": true,
+  "verdict": "SECOND-SYSTEM PREP PASS (a)(b)(c) 完遂・全19窓cross-check一致・<X^2>ブロック安定化を全窓で確認・Kummer h(k)記号構成の因子検算一致。経路A/B本体の実行と[gamma]評価は数学者へ移管(本cert対象外)。",
+  "caveats": [
+    "本certは第二系統担当分(a)(b)(c)のみ。経路A(DET-4・n=7明示模型)・経路B(SS7.2論理の橋)の実行は数学者(twist doc起草者)へ移管済み — 本certはその結果を含まない。",
+    "(a)(b): GAP(独立実装)とpython(tw_blocks.py/tw_orient.py、単系統として既存)の cross-check。cross-checked であって verified ではない(Lean 未実施)。",
+    "(b)の新規事実(<X^2>が全19窓でブロックを安定化)はGAP単独の機械値であり、python側に対応する既存probeが無いため「新規データ」として報告する(cross-checkedではない)。この事実からの[gamma]への含意は一切導出していない(司令塔裁定によりmathematician領分)。",
+    "(c)のkappa,muは形式記号のまま(数値代入なし)。定理KUM-nの箱囲み公式の機械的instantiationのみで、n=7のF-descent/明示模型構成ではない。",
+    "u7/K^(5)に一切接触していない。"
+  ],
+  "generated_at_utc": "2026-07-31T16:16:23.734437+00:00"
+}
