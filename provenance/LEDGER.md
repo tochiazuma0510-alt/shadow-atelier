@@ -777,3 +777,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 帰結: 容疑 (i) は disc 検算で棄却済(裁定 263)だったので **(ii) I₂=−27/8 非厳密が確定**(高さ 27 は法 1729 の限界 ≈29 すれすれ — 届いていなかった)。p=31,37 の生存者 0 を完全説明。**I₁=1/4(e=0)は 3 素数一致+構造的理由で温存** — 棄却は c の値のみ。
 - ★教材候補(実装係発案): 「CRT の高さ限界すれすれの再構成は確定と呼ばない」— 追補 2 が「強い候補」止まりにした判断が fail-closed と併せて誤伝播を阻止。
 - 次手(裁可)= **NEWTON-5**: a=2,b=1 保持・c を第 5 未知数へ(基底は e=0 ゆえ不変)。6 式 5 未知数・F₇ 悉皆 7⁵=16807 点 → 持ち上げ枝 7⁹⁶ → c 有理再構成 → 分母 → 厳密検算 → mod 13,19 突合 → ℚ 持ち上げ判定 → U-LOC 上申。予備: I₁ も未知数化(6 変数)→ 偶六次正規化の再監査。
+
+## 2026-07-31 便 91 検収(裁定 266)— 定理 CENT 正式採択(erratum pin)・壁族 4 窓確定・E1-2/E1-3 採択・**PENT 衝突本物化(v4 と fine-lift=4 を両 suspension)**・EP blocker 11 件
+- **定理 3 件が確定**: CENT(F91-1.2 erratum 束縛・系 CENT-ORD/ε も)・E1-2・E1-3。壁族 4 窓(n=24/28/36/37)の核等式確定。
+- **(T2)(T3) の 4 を Sol が独立実装で完全再現**(helper 不使用・Burau で defect 紙上照合・4 写像の積閉 C₄ 直接確認)+ 算術鎖 PASS(F91-2.6)⟹ v4「20 全算術」と真衝突。**両 ledger 結論を suspension/reopen**(F91-2.7)。診断照準 = source kernel K_π^s・witness cert・C₅ Kummer generator 追跡・f-orientation 3 元 unit test。
+- 型付け訂正: GT(K_π) は isolated 性未証明につき群と呼ばない・im_red_order → coarse_target_lift_set_size 改名。
+- 条件付き PASS: MIX-4(前件明示)・MIX-12(直接経路を正典化)・SURJ-K7(定理/APPLY gate 分離・全射性 UNKNOWN)。(U2) は Thm 5.3 から出ない(反例 ℚ(√3))。G7-NOGO 射程修文。F91-5.4 訂正 5 点受理。
+- 差戻し継続: T3-N0(t=0 母関数穴は未解決)・EP v10 NO-GO(新規静的 blocker 11 件 → P91-4 generation-commit 方式採択)・cake_lpr FAIL(3 点)。
+- ★教材 2 件: 「個数が位数を割る≠部分群」・「独立実装一致は code bug を排除・共有仕様解釈 bug は排除しない」。
+- 正本: sol/裁定_266_便91検収.md
