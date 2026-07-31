@@ -951,3 +951,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-31 EP race 修理完了(裁定 288)— resolve_bundle 新設・race 負例 3 本(旧経路のバグ実証 16a+新経路免疫 16b/16c)・suite 555/555・W92-8 (a)(b) 充足
 - v12 条文 = cert_shape_interpretation_addendum_o_v12.md(v11 非上書き)。resolve_bundle = CURRENT/index/receipt を一回だけ読み同一世代から全 artifact 解決(generation_id/freeze_id を返り値に)。consumer は side 毎 resolve の for ループを全廃。FREEZE_MISMATCH は防御的維持。
 - suite 227+184+93+51 = **555/555**(司令塔再実行で 227/227 確認)。W92-8 の残 = (c) 実 A/B production artifacts(研究者認可待ちの実物指定)(d) 実 CI run receipt。旧 flat 3 ファイルの quarantine は provisioning 時実施と v12 に明記。
+
+## 2026-07-31 発案係 ideas_016 着弾(裁定 289)— 16 札。筆頭 = SETTLED-CENT「settled 4 行 = C_{F₂₀}(ĉ)(複素共役の中心化群)」(GAP 1 発判定可)
+- 正本 = ideas/ideas_016_post_bridge.md(全 candidate・検証コストと北極星付き)。
+- 問い 1: I16-1a SETTLED-CENT((4,())=ĉ・profile 完全一致・A₅ 飽和補題 A の二択との接続)・1b FLIP-REAL(鏡映不変・バグ残像リスク自己指摘つき)・1c KER-QUANT(非 settled 商 125 = A₅ 因子が核に落ちる量子化)・1d STAR-LAG(star 層化 20=4×5)。
+- 問い 2 優先順: PENT-LADDER(s₃≠s₁)+c≠1 対照 > K⁽³⁾ 対照(安価)> 著者 35 窓地図。K⁽⁷⁾ は pentagon 非前件で二巡目・壁族は SURV-P 紙が先(負の理由明記)。
+- 問い 3: n=7 の 3 束縛・**Hol(ℤ/9) 合流(T63-P1 の ord(a₉)=9 と u₀ 実測が同標的 — 同値なら u₀ 1 点が n=9 窓へ転写)**・u-スクリーニング(全射証明器の対偶を P5 算術哨戒に)。
+- 問い 4 予想札: VAL-PAT(凍結用・弱)・PENT-REDUND・GAL-STAB(settled 率 = 算術性測度)・TORSOR-1。
+- 推奨採択: I16-1a/1c/1d を v3.1 延長の 1 probe で同時判定(発車)。ĉ 中心化群の手計算は要数学者検分。
