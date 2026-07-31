@@ -900,3 +900,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 壁族の最終形: n=24(2280)・n=28(2760)・n=36(3720)・n=37(22320)— **4/4 窓 SURV 悉皆・全数 pass・二環境(n=28)+CI(全窓)**。
 - 事実記録 2 点(裁定): ①schema 欄が両 cert とも wac_v1-wall28-cert/v1 のまま(逐語複製の残り・**表示のみの cosmetic・次回 driver 編集時に窓別文字列へ**)②result.txt の verdict=failed は完走マーカー名の形式不一致(WALL36/37_CERT_DONE vs DRIVER_DONE・裁定 253 §3 と同型の既知パターン・計算は完走)— どちらも数値の効力に影響なし。
 - run 30628177350 の failure は queue 清掃 push による PLAN_DISCOVERY_STOP(fail-closed 設計どおり・無害)。
+
+## 2026-07-31 pentagon v3 修理走 完了(裁定 280)— ★ 全 20 行 pass(c1..c5=[5,5,5,1,125])・著者 20 witness 受理 20/20・回帰テストが実弾で第二の罠を検出
+- probe = pent_t2t3_v3_20260731.g(e6e1f67d…)・cert = pent_t2t3_v3_20260731.json(e9a1f798…)。旧 v2 は誤りの記録として残置(note に SUPERSEDED 注記)。
+- 修理 = 数学者指定どおり粗ラベル計算を forward coarse_of(MappedWord・Rev なし)へ統一(Psi/Chk6 は無変更)。**lifted_total = 20/20・coarse_target_lift_set_size = 20・distinct f 10・c5 は全行 125** — 診断書 §5 の予言 5 項目と完全一致(予測値はコードに不記載のまま)。
+- **回帰 unit test 第 4 元(自己逆元でない f=(2,3,4) の往復 assert)が初日に実戦検出**: 実装係が「redMap 準同型の近道」を試み — Psi が反準同型のため旧バグと代数的に同一 — Error() で停止・cert 未発行。修理して通過。経緯は cert の repairs 欄に機械記録。旧 pr1 像と redMap 像(いずれも (1,3,5))は informative として収録。
+- 残工程: settled(K_π^s)の 20 行拡張(現在 4 行分)・Sol 再監査(便 92)。

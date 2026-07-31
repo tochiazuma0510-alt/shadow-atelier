@@ -1,5 +1,7 @@
 # (T2)(T3) fine 水準の実測 — $\lvert\mathrm{im}(\mathrm{red})\rvert=4$、per-m $=[1,1,1,1]$、$H_3$ は中心的 $C_5^3$
 
+> **【SUPERSEDED — 裁定 278/280(2026-07-31)】** 本稿の測定値 4/20・im(red)≅C₄ は**粗↔精の語順規約食い違い(f と f⁻¹ の fiber 取り違え)による誤測定**として撤回。正値は **20/20**(`pent_t2t3_v3_20260731.{g,json}`・著者 witness 20/20 受理・回帰 unit test 第 4 元つき)。診断の正本 = `pent_conflict_diagnosis_v2.md`。構造値(7500/1500/125・H₃=C₅³ central・Ψ(c) 位数 5)は生存。本稿は誤りの記録として保存。
+
 - 起草: 影工房 数学者(Claude / Opus 5)/ 2026-07-31
 - probe: `search/probe/wac_v1/pent_t2t3_run2.g` / cert: `search/certs/pent_t2t3_20260731.json`(`json.load` 検証済・`DRIVER_DONE` marker あり)
 - 前走 `pent_t2t3_v1.md`(設計前提の誤り = fine≠coarse)を修理した本走。**接触遮断**(期待値 20/10/$\{\pm1\}$ を述語に一切使用せず)。
