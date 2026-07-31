@@ -1,0 +1,34 @@
+{
+ "authorisation": "coordinator ruling 268 (conditional)",
+ "gate_schema_v2": {
+  "N_tau1_factor_multiplicities": [
+   1
+  ],
+  "N_tau2_factor_multiplicities": [
+   1
+  ],
+  "PASS": false,
+  "deg_N_tau1": 9,
+  "deg_N_tau2": 9,
+  "deg_f6": 6,
+  "f6_squarefree": true,
+  "frobenius_patterns": {},
+  "patterns_outside_PGammaL": [],
+  "saw_7_cycle": false
+ },
+ "model": {
+  "A_of_x": "3*(474609375*x**9 - 227812500*x**7 + 34931250*x**5 - 2038500*x**3 + 39015*x + 256)/512",
+  "B_of_x": "3375*(421875*x**6 - 118125*x**4 + 7425*x**2 - 71)/512",
+  "c": "-512/421875",
+  "c3": "192375/512",
+  "c5": "2278125/512",
+  "c7": "170859375/1024",
+  "c9": "1423828125/2048",
+  "curve": "y^2 = (x^3 - x/5)^2 - 512/421875"
+ },
+ "schema": "u-meas-uloc/v1",
+ "status": "gate_failed_no_fire",
+ "sympy_version": "1.14.0",
+ "u_touched": false,
+ "uniqueness_claimed": false
+}

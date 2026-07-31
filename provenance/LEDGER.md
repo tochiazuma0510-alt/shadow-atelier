@@ -807,3 +807,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-31 mine queue 清掃: r4-acoords-B/C の stale plan 2 件を hold へ退避
 - preflight STOP(strike-r4.g sha256 mismatch)の正体 = mine v1.5 の retype(e451cee)による正当な driver 変更。plan は retype 前の凍結ハッシュを保持した残骸(該当測定は retype 済み plan の run 30565890475 で再走・検収済み = 便 90 §4.2 receipt PASS)。
 - 処置: queue → hold へ .stale 付きで退避(履歴保全・queue の全 plan preflight green を回復)。
+
+## 2026-07-31 U-LOC Gate 1 fail-closed(発火せず・u 未接触)— 数学 PASS・計器不備のみ
+- cert = u_meas_uloc_20260731.json(status gate_failed_no_fire)・probe = u_meas_uloc_fire.py。数学側は決定的検算で通過: deg 𝒩=9 両方 ✓・𝒩_{τ1}=κg³ 厳密(gcd 法)✓・h 偶 6 次 ✓・f₆ squarefree 種数 2 ✓ —「積が立方でも各因子が立方とは限らない」懸念は明示的に解消。
+- 停止原因 = sympy 高水準 API(factor_list extension / Poly modulus 経路)の空振りで monodromy 再検査が未実施。修理 = gcd 法へ差替+自前 F_p factor_pattern で p=11..43((7,1,1) 型 → Jordan で 2-推移 ⟹ 原始・非分解)。preregistration は未凍結のまま(gate 通過後に凍結 → 発火の順序を維持)。
