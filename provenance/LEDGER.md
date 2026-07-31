@@ -821,3 +821,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 意義: ①P1 の u 測定パイプライン M0→M6 が初完走(実データ点 1 号)②非二面体窓(PΓL(2,8)・Hol(ℤ/9))の飽和 candidate = P1 型の新領土 ③同装置が n=7 の下界(E1-GAP-6 の穴)へ転用可能に。
 - **M7 解禁**: Belyi DB 論文 arxiv_1805.07751 を金庫 quarantine から papers/delivered/ へ(M3 自前構成完了後の解禁 = 汚染防止手順どおり)。第二系統照合に投入。
 - ★教材(実装係): 「検証済みの自前実装があるとき高水準 API に差し替えない」受理。
+
+## 2026-07-31 P91-2 pentagon 診断装置 着弾(裁定 270)— 4 lift 全て settled(K_π^s=K_π)・16 死は全部 fine hexagon・witness cert v2 完備
+- probe = pent_t2t3_v2_20260731.g(helper 非共有の再構成)・cert = pent_t2t3_v2_20260731.json(schema v2・im_red_order → coarse_target_lift_set_size 改名済・digest 2 本)。
+- **① source kernel**: 4 lift 全てで |PB3/K_π^s|=7500=|PB3/K_π|・settled=true(指数差 1)。**注意: T_{m,f} は週1定義ノート(gentle 正本)の式を PB₃ へ借用した構成** — C1(2008.00066・B4 系)の正本定義と literally 同一かは未確認 ⟹ 数学者確認待ち(確認されれば F91-2.5 blocker の「isolated 性」が 4 lift について実測解消)。
+- **② witness 行 20/20**: lift 4 行は witness 語+五余面像収録・**死んだ 16 行は全て c1=c2=0(fine hexagon defect (2.18)(2.19))・pentagon(c3)は一度も殺していない** — 「律速は fine hexagon」を第三系統でも再確認。
+- **④ 3 元 unit test**: identity lift ✓/「cyclotomic 候補」(m=1,f=1) は **そもそも coarse GT(N_A) に不在**(Hex(1,1) 不成立)/「Kummer 候補」(m=0,f=(2,3,4)) は coarse 存在・fine lift なし(c1=c2=c5=0)。期待値非接触(構造的選別のみ)。
+- 数値は旧 cert・数学者ノートと完全一致(独立追加計算内 cross-check)。GAP 静的警告 2 件は実害なし判定(値一致)。
+- 残 = P91-2 ③(C₅ Kummer 生成元の辞書追跡・数学者共同)+ T_{m,f} 借用定義の正否確認(数学者)→ その後 v4 衝突の最終診断。
