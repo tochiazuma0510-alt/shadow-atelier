@@ -990,3 +990,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 報告 = ops/reports/scout_u7_twist_20260801.md(候補 10 件・4 角度検索)。最有力: **Kontogeorgis 2009**(JTNB・cyclic cover y^n=f(x) の moduli vs definition・D_δ 込み reduced automorphism — KUM-n の y⁷=h(k) にほぼ直結)・**Hidalgo 2022**(arXiv:2202.12668・p-gonal で定義体拡大は高々 2 次 = 「二次捻れ類」と語まで一致)。骨格 = Dèbes–Douai 1997・Dèbes–Emsalem 1999・Sijsling–Voight 2015 の三段。
 - 注意: いずれも巡回 1 段向け — D₇ 全体(4 点分岐・塔 2 段・捻れ 2 個)を直接覆う論文は不在(翻訳作業が要る見込み)。U7-2(二面体 necklace dessin の明示表)は UNKNOWN。
 - **配達判断は保留**: 第二数学者の自前導出(走行中)の帰還後に二経路比較 — 走行中の独立経路を汚染しないため。
+
+## 2026-08-01 n=3 較正走 PASS(裁定 296)— u₃=−4 厳密再現(16/16)・γ(n=3)=−1 の実測・近道の一般性は要注意
+- probe = u3_calib_v1.py・cert = u3_calib_20260801.json(sympy 厳密・浮動小数点なし・単系統)。
+- 中間関数 m=(2x³+t)/(3x−1) を ansatz で構成的発見 — **厳密恒等式 (2x³+t)²−(3x−1)²t ≡ F(x,t)** により λ=γm²・**γ=−1 が不変量として確定**。u₃=γ·c_loc²=(−1)·4=**−4 = 既知値一致**。副検査 UB-GEOM(helper 非共有)も [γ]₂=[−1] と整合。
+- **装置較正 PASS**: TOWER-n+系 SPLIT の抽出則は n=3 端点で正確。注意(実装係申告): KUM-n の Kummer 構成でなく関数体 ansatz の近道 — 完全平方トリックが n=3 固有の可能性あり・n=7 への外挿は数学者判断。
+- γ(n=3)=−1 は U7-13(決定機構・第二数学者走行中)の**較正標的**として帰還後に提供(独立導出の汚染防止のため走行中は渡さない)。

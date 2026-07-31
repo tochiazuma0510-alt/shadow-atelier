@@ -1,0 +1,146 @@
+{
+  "schema": "u3-calib/v1",
+  "generated_by": {
+    "tool": "python3+sympy",
+    "sympy_version": "1.14.0",
+    "script": "search/probe/wac_v1/u3_calib_v1.py"
+  },
+  "purpose": "u7 測定装置(n=7 転用設計 docs/notes/u7_meas_design_v1.md)の CAL-7 較正走(n=3 窓・deg6・genus1・既知値 u3=-4 との突合・較正ゲート = 接触遮断の例外)",
+  "universe": {
+    "n": 3,
+    "note": "u7 に一切接触していない。K^(5) 非接触。"
+  },
+  "model": {
+    "plane_model": "F(x,t) = t^2 + (x-1)^2(4x-1) t + 4x^6 = 0  (LMFDB 6T9-a, search/week4-u-k3.mjs と同一の正典モデル)",
+    "lambda_assignment": "lambda := -t",
+    "cusp_P0": "(x,t) = (0,0), lambda=0 上の唯一の全分岐点 (e=6)",
+    "canonical_uniformizer_tau": "x"
+  },
+  "tower_construction": {
+    "method": "ansatz m = p(x)+q(x)t with p=2x^3 q, solved via 4x^3-A(x)=(3x-1)^2",
+    "m_formula": "m = (2x^3 + t) / (3x - 1)   (gauge k=1)",
+    "exact_identity": "(2x^3+t)^2 - (3x-1)^2 t == F(x,t)  [polynomial identity, verified]",
+    "consequence": "lambda = -t = -m^2 = gamma*m^2 with gamma = -1 EXACTLY (not just mod squares)",
+    "gamma": "-1",
+    "divisor_of_m": "3*P0 - 3*P_infty (deg 3, matches TOWER-3 local type (n)=(3) at P0,P_infty)"
+  },
+  "local_expansion_at_P0": {
+    "t_series_leading": "t = 4*x^6 + O(x^7)",
+    "m_series_leading": "m = c_loc * x^3 + O(x^4), c_loc = -2",
+    "u3_extraction_formula": "u3 = gamma * c_loc^2  (系 SPLIT)"
+  },
+  "u3_extracted": "-4",
+  "u3_known_public_value": "-4",
+  "u3_reproduced": true,
+  "ub_geom_secondary_check": {
+    "unramified_points_over_lambda1": [
+      {
+        "root": "-1 - I",
+        "re": "-1",
+        "im_coeff": "-1",
+        "individually_F3_rational": true
+      },
+      {
+        "root": "-1 + I",
+        "re": "-1",
+        "im_coeff": "1",
+        "individually_F3_rational": true
+      }
+    ],
+    "individually_F3_rational": true,
+    "predicted_by_design_doc": "[u3]_2=1 <=> 2 非分岐点が個別に F_3-有理 (docs/notes/u7_meas_design_v1.md L254-256)"
+  },
+  "checks": [
+    {
+      "name": "(0) F(x,t) = t^2 + (x-1)^2(4x-1) t + 4x^6 の構成",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "(0b) A(x) = 4x^3 - 9x^2 + 6x - 1",
+      "pass": true,
+      "detail": "4*x**3 - 9*x**2 + 6*x - 1"
+    },
+    {
+      "name": "(1a) 4x^3 - A(x) = (3x-1)^2 (完全平方 -- q が有理関数になるための必要条件)",
+      "pass": true,
+      "detail": "9*x**2 - 6*x + 1"
+    },
+    {
+      "name": "(1b) m := (2x^3 + t) / (3x - 1) の構成",
+      "pass": true,
+      "detail": "(t + 2*x**3)/(3*x - 1)"
+    },
+    {
+      "name": "(2) 厳密恒等式: (2x^3+t)^2 - (3x-1)^2 t == F(x,t)  (多項式として完全一致、mod F ではない)",
+      "pass": true,
+      "detail": "identity_lhs - F = 0"
+    },
+    {
+      "name": "(2b) ゆえに m^2 = t (恒等的) ⇒ lambda = -t = gamma * m^2, gamma = -1 (厳密値・k=1 ゲージ)",
+      "pass": true,
+      "detail": "gamma = -1"
+    },
+    {
+      "name": "(3a) t(x) 級数解が F(x,t)=0 を満たす(mod x^22)",
+      "pass": true,
+      "detail": "O(x**22)"
+    },
+    {
+      "name": "(3b) t = 4x^6 + O(x^7) (P0 での正準一意化変数 x による既存較正 week4-u-k3.mjs と一致)",
+      "pass": true,
+      "detail": "(6, 4)"
+    },
+    {
+      "name": "(3c) m = c_loc * x^3 + O(x^4) (deg=3 の全分岐、定理 TOWER-3(3) の局所型 (n)=(3) と整合)",
+      "pass": true,
+      "detail": "(3, -2)"
+    },
+    {
+      "name": "(3d) c_loc = -2 (機械抽出値)",
+      "pass": true,
+      "detail": "-2"
+    },
+    {
+      "name": "(3e) m^2 の級数展開が t の級数展開と一致(局所レベルでの恒等式再確認)",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "(4) ★★ u3 = gamma * c_loc^2 = -1 * (-2)^2 = -4  (既知値 u3=-4 と一致)",
+      "pass": true,
+      "detail": "u3_extracted = -4, u3_known = -4"
+    },
+    {
+      "name": "(5a) F(x,-1) = (2x^2-2x+1)^2 * q(x), 余り0 (分岐部分の分離)",
+      "pass": true,
+      "detail": "quotient=x**2 + 2*x + 2, remainder=Poly(0, x, domain='ZZ')"
+    },
+    {
+      "name": "(5b) 非分岐 2 点の定義方程式 q(x) = x^2+2x+2",
+      "pass": true,
+      "detail": "x**2 + 2*x + 2"
+    },
+    {
+      "name": "(5c) UB-GEOM: 2 個の非分岐点 x=-1+-i が個別に Q(i) subset F_3 有理 (交換で入れ替わらない)",
+      "pass": true,
+      "detail": "[{\"root\": \"-1 - I\", \"re\": \"-1\", \"im_coeff\": \"-1\", \"individually_F3_rational\": true}, {\"root\": \"-1 + I\", \"re\": \"-1\", \"im_coeff\": \"1\", \"individually_F3_rational\": true}]"
+    },
+    {
+      "name": "(5d) [gamma]_2 = [-1]_2 = 1 in F_3 (i=zeta_12^3 in F_3 ゆえ -1=i^2) -- UB-GEOM の予測と整合",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "overall_pass": true,
+  "verdict": "CAL-7 PASS (装置較正成功・本番 gate 通過可)",
+  "caveats": [
+    "単系統(sympy 厳密演算)。cross-checked ではない。Lean 検証ではない。",
+    "本証明書は n=3 のみに関する較正結果。u7 の値・予想には一切触れていない。",
+    "\\tilde W (Galois 閉包)/B の明示構成は経由していない -- m を直接 ansatz で発見し厳密恒等式で正当化する近道を取った(結果は KUM-3/系 SPLIT の予言と完全一致)。"
+  ],
+  "generated_at_utc": "2026-07-31T15:12:58.087780Z",
+  "provenance": {
+    "script_sha256": "08e940af6bde409a7035ea4eedf615168ed46430b5364b4cda6d438eebdeeeb8"
+  }
+}
