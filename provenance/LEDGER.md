@@ -893,3 +893,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **帰結**: red は全射(20/20)・**v4 と算術鎖 F91-2.6 は両立・PENT 衝突消滅**。裁定 266 の両 suspension は「fine-lift=4」側の撤回で解除(v4 無罪)。Sol の localization 候補②「FC-2b の座標辞書」が正解だった(Sol の独立器も同じ辞書規約を共有 = ★教材どおり)。
 - 修理指定(実装係へ): 粗ラベル計算を粗列挙と同一の語順規約に統一(MappedWord 順方向 or Psi の Rev 除去のどちらか一方)+ 回帰 = **自己逆元でない粗 f の粗↔精ラベル往復 assert を unit test 第 4 元に**(既存 3 元はこの罠を検出不能だった)。
 - ★教材: 「**evaluator が正しいこと」と「evaluator を正しい対象に当てていること」は別物** — v1 は前者を三重検証し後者を一度も検証しなかった。
+
+## 2026-07-31 壁 36/37 悉皆 CI 着弾(裁定 279)— ★ 凍結予言 2 本とも的中: **3720/3720・22320/22320 全数 pass** — 壁族 4 窓が全て悉皆水準で完結(初の S₆ 型含む)
+- run 30627964869(success・20m17s)→ collector 検収レポート 2 本(mine/reports/wall3{6,7}-cert-20260731_report.md)・cert を search/certs/ へ正規収蔵。
+- **司令塔の機械再抽出**: wall36 = pass 3720/3720・wall37 = pass 22320/22320・hexagon_fail 0・generation_fail 0・**xi_image.eq_centralizer_w0 = true 両方** = 定理 CENT の等号の実データが S₆ 型(C₃₁×S₆)まで完成。凍結予言(裁定 279 前・plan 非接触)完全的中。
+- 壁族の最終形: n=24(2280)・n=28(2760)・n=36(3720)・n=37(22320)— **4/4 窓 SURV 悉皆・全数 pass・二環境(n=28)+CI(全窓)**。
+- 事実記録 2 点(裁定): ①schema 欄が両 cert とも wac_v1-wall28-cert/v1 のまま(逐語複製の残り・**表示のみの cosmetic・次回 driver 編集時に窓別文字列へ**)②result.txt の verdict=failed は完走マーカー名の形式不一致(WALL36/37_CERT_DONE vs DRIVER_DONE・裁定 253 §3 と同型の既知パターン・計算は完走)— どちらも数値の効力に影響なし。
+- run 30628177350 の failure は queue 清掃 push による PLAN_DISCOVERY_STOP(fail-closed 設計どおり・無害)。
