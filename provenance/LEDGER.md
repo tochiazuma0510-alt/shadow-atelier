@@ -985,3 +985,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - run 30636849192 success・verdict=done 両窓(gap-ci の合格状態は done — passed は py-ci 専用と workflow 実装で確認)・DRIVER_DONE marker・schema 窓別・SURV 3720/3720・22320/22320(r1 と完全一致)。
 - CLAIMS へ C-WALL-FAM 登録(格 = cross-checked・定理 CENT×悉皆実測)。レポート = mine/reports/wall3{6,7}-cert-20260731-r2_report.md。collect.py の WALL 系 schema 未対応は既知制約(別件)。
 - 工程教訓(二度目の確定): エージェントの「バックグラウンド監視」宣言は turn 終了で停止する — 司令塔が完走見積時刻に自分で run を確認し即 resume する運用へ(研究者の指摘で回収)。
+
+## 2026-08-01 U7-1 文献探索 着弾(裁定 295)— 最有力 2 本を特定・配達は自前導出の帰還後に判断
+- 報告 = ops/reports/scout_u7_twist_20260801.md(候補 10 件・4 角度検索)。最有力: **Kontogeorgis 2009**(JTNB・cyclic cover y^n=f(x) の moduli vs definition・D_δ 込み reduced automorphism — KUM-n の y⁷=h(k) にほぼ直結)・**Hidalgo 2022**(arXiv:2202.12668・p-gonal で定義体拡大は高々 2 次 = 「二次捻れ類」と語まで一致)。骨格 = Dèbes–Douai 1997・Dèbes–Emsalem 1999・Sijsling–Voight 2015 の三段。
+- 注意: いずれも巡回 1 段向け — D₇ 全体(4 点分岐・塔 2 段・捻れ 2 個)を直接覆う論文は不在(翻訳作業が要る見込み)。U7-2(二面体 necklace dessin の明示表)は UNKNOWN。
+- **配達判断は保留**: 第二数学者の自前導出(走行中)の帰還後に二経路比較 — 走行中の独立経路を汚染しないため。
