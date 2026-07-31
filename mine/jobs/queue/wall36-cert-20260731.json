@@ -1,0 +1,43 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "wall36-cert-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "裁定253(tmax走査)で発見された壁族第3窓(n=36, ell=31, t=5, C31 x S5, |C(w0)|=3720)の正式 cert 化。witness (a1,b1) は search/certs/scans/tmax_scan_29-31_ell29-31_20260731.json の records[ell=31].t_records[t=5](n=36, stage=HIT)から逐語。wall28_cert.g(P-WALL-28, n=28)と同型の検算一式(窓 assert・braid・c=1・P=A36・|E|=6|A36|・N_ord=31・Ree・C_S36(w0) の位数/構造/可解性・SURV 全数検算・LID-1)。driver は implementer が新規実装(wall28_cert.g 逐語複製・n/witness/出力名のみ差替・commit ba4f55a・smoke検証PASS)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/wall36_cert.g", "sha256": "61f2bcd551dae2cf32f9e6c0d8453a7aa221b82dbf18464ee86cbdde6e1e3794" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "WALL36-CERT-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/wall36_cert.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。wall28_cert.g の同型複製(implementer実装・commit ba4f55a)。CI 発車は初回フル実行(全数)・恒久記録のため。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "cert 化(裁定253の新窓の正式cert)。凍結予言(定理CENTによりSURV全数pass 3720/3720)はチェッカー/driverへ非接触のまま司令塔側で保持(接触遮断・裁定253/司令塔便による)。的中/外れの判定は司令塔が cert 実測値と別途照合する。"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "timeout_min": 120,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/wall36_cert.g",
+      "sha256": "61f2bcd551dae2cf32f9e6c0d8453a7aa221b82dbf18464ee86cbdde6e1e3794",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-wall36-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}

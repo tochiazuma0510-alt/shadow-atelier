@@ -1,0 +1,43 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "wall37-cert-20260731",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "裁定253(tmax走査)で発見された壁族第4窓(n=37, ell=31, t=6, C31 x S6, |C(w0)|=22320・初のS6型)の正式 cert 化。witness (a1,b1) は search/certs/scans/tmax_scan_29-31_ell29-31_20260731.json の records[ell=31].t_records[t=6](n=37, stage=HIT)から逐語。wall28_cert.g(P-WALL-28, n=28)と同型の検算一式(窓 assert・braid・c=1・P=A37・|E|=6|A37|・N_ord=31・Ree・C_S37(w0) の位数/構造/可解性・SURV 全数検算・LID-1)。driver は implementer が新規実装(wall28_cert.g 逐語複製・n/witness/出力名のみ差替・commit ba4f55a・smoke検証PASS)。timeout 見積もり: wall28 実績(CI run 30568861370・gate-and-run ジョブ全体 98秒、GAP実行はその一部)から SURV 要素数比(22320/2760 ≈ 8.09倍)で外挿すると実行時間は十数分規模。driver に窓/範囲分割 knob が無い(smoke truncate はローカル専用でCIでは無効)ため shard は組めず、非分割 1 job のまま timeout_min を保守的に拡大して GHA job既定上限(360分)内に収める。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/wall37_cert.g", "sha256": "ccf6d610636c700977417146e92d9a7343c383d046cb1cb0318e5a2349517a42" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "WALL37-CERT-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/wall37_cert.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。wall28_cert.g の同型複製(implementer実装・commit ba4f55a)。CI 発車は初回フル実行(全数)・恒久記録のため。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "cert 化(裁定253の新窓の正式cert・初のS6型)。凍結予言(定理CENTによりSURV全数pass 22320/22320)はチェッカー/driverへ非接触のまま司令塔側で保持(接触遮断・裁定253/司令塔便による)。的中/外れの判定は司令塔が cert 実測値と別途照合する。"
+    },
+  "resources": {
+    "backend": "gap-ci",
+    "timeout_min": 300,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/wall37_cert.g",
+      "sha256": "ccf6d610636c700977417146e92d9a7343c383d046cb1cb0318e5a2349517a42",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-wall37-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
