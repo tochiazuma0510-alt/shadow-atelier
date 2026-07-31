@@ -906,3 +906,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 修理 = 数学者指定どおり粗ラベル計算を forward coarse_of(MappedWord・Rev なし)へ統一(Psi/Chk6 は無変更)。**lifted_total = 20/20・coarse_target_lift_set_size = 20・distinct f 10・c5 は全行 125** — 診断書 §5 の予言 5 項目と完全一致(予測値はコードに不記載のまま)。
 - **回帰 unit test 第 4 元(自己逆元でない f=(2,3,4) の往復 assert)が初日に実戦検出**: 実装係が「redMap 準同型の近道」を試み — Psi が反準同型のため旧バグと代数的に同一 — Error() で停止・cert 未発行。修理して通過。経緯は cert の repairs 欄に機械記録。旧 pr1 像と redMap 像(いずれも (1,3,5))は informative として収録。
 - 残工程: settled(K_π^s)の 20 行拡張(現在 4 行分)・Sol 再監査(便 92)。
+
+## 2026-07-31 文献探索 2 件 着弾(裁定 281)— scout 報告収蔵・いずれも定理番号水準は UNVERIFIED(深読み待ち)
+- 報告 = ops/reports/scout_u2_g73_20260731.md。
+- (U2): 最有力 = Anderson–Ihara(Annals 1988・pre-arXiv につき本文未取得)・Hain–Matsumoto は R1(有限商)に疑義・Vogel 2005(Milnor 不変量・p=2 特化)が別筋の対抗。**本文取得が律速** — 深読み発注は取得可否を見て司令塔判断(paper-hunter 遠征 or 保留)。
+- G7-3: Masley–Montgomery 1976(類数 1 円分体の完全決定)に n=28 が入ることを複数ソースで間接確認・論文内明示値は UNVERIFIED。Washington 表の頁帯特定済み。**n=7 設計(委嘱中)には「h(ℚ(ζ₂₈))=1 は条件付き・出典確定待ち」として渡す**(先取り禁止を指示済み)。
+- 文献ゲート運用: 数学者への配達はなし(candidate リスト止まり・採否は司令塔専権のまま)。
