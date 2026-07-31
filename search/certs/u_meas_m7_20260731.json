@@ -1,0 +1,83 @@
+{
+ "S1_db_coverage": {
+  "genus2_column": {
+   "d5": "2/2",
+   "d6": "7/7",
+   "d7": "7/13",
+   "d8": "0/84",
+   "d9": "0/163"
+  },
+  "reading": "at degree 9 and genus 2 there are 163 passports enumerated and ZERO computed; genus-2 maps are computed only up to degree 7",
+  "row_d9": {
+   "g0": "410/583",
+   "g1": "33/427",
+   "g2": "0/163",
+   "g3": "0/28",
+   "g>=4": "0/6",
+   "total": "443/1207"
+  },
+  "source": "MSSV 1805.07751 Table (1.3.1), page 2 (computed/total passports by degree d and genus g)"
+ },
+ "S2_lookup": {
+  "reason": "the whole (d=9, g=2) cell is 0/163 computed, so no such map is in the database",
+  "result": "ABSENT",
+  "target": "degree 9, genus 2, 9T27 = PSL(2,8), ramification (3^3, 3^3, 9)"
+ },
+ "S3_S4": {
+  "status": "not applicable - nothing to compare against"
+ },
+ "S5_verdict": {
+  "M7_via_database": "ABSENT (a first-class result, not a failure)",
+  "measurement_grade": "remains candidate (single system); NOT cross-checked",
+  "next_second_systems": [
+   "M7-B1 norm path on the same genus-2 hyperelliptic model (helper-disjoint from the series path)",
+   "M7-B3 reduction checks at many good primes (soundness gate, not a second system)",
+   "M7-B4 Jac(C)^v[3] rational 3-torsion sieve",
+   "M7-B6 numerical uniformisation (KMSV 1311.2081)"
+  ]
+ },
+ "db_paper": {
+  "expected_sha256": "0b82da494c561b30c29b69474507771e00c349d9ce42dd74882848de789f5944",
+  "hash_matches": true,
+  "path": "papers/delivered/arxiv_1805.07751.pdf",
+  "sha256": "0b82da494c561b30c29b69474507771e00c349d9ce42dd74882848de789f5944"
+ },
+ "no_judgement_rule": "this cert records the comparison only; the M6 verdict stays with the coordinator",
+ "novelty_note": "the table shows the (d=9,g=2) cell uncomputed by MSSV; any claim of novelty for our map requires the workshop grep/ledger procedure and is NOT asserted here",
+ "our_object": {
+  "cover": "C -> P^1_t, degree 9, genus 2",
+  "field_of_definition": "Q (Prop U-Q)",
+  "measured": {
+   "u_0": "-256/1423828125",
+   "u_0_inverse": "-1423828125/256 = -3^6*5^9/2^8"
+  },
+  "model": "C: y^2 = (x^3 - x/5)^2 - 512/421875 ; t = 3/2 + c3*th + c5*x^2*th + c7*x*th^2 + c9*th^3",
+  "monodromy": "PSL(2,8) = 9T27 (GAP TransitiveIdentification)",
+  "nielsen_class_count_in_passport": 1,
+  "ordered_passport": [
+   [
+    3,
+    3,
+    3
+   ],
+   [
+    3,
+    3,
+    3
+   ],
+   [
+    9
+   ]
+  ]
+ },
+ "procedure_frozen": [
+  "S1 determine the DB coverage (max degree, genus range, which fields) from the paper itself; if degree 9 / genus 2 is outside the coverage, the outcome is ABSENT and that is a result",
+  "S2 within coverage, look up degree 9, genus 2, transitive group 9T27, ramification (3^3, 3^3, 9)",
+  "S3 if found, record their model and the coordinate change to ours (Q-isomorphism or quadratic twist); the two models may differ by x -> alpha x + beta and y -> gamma y",
+  "S4 compare the CLASS [u_0^{-1}] modulo cubes in K^x, not the value: u_0 changes by a 9th power under a change of local parameter (Lemma SL-2), so only the class is an invariant. Report the exponent vector mod 3 of their u and ours.",
+  "S5 agree => M7 PASS (measurement rises to cross-checked). disagree => record the difference of the two models and STOP, escalate without judgement. absent => record ABSENT."
+ ],
+ "schema": "u-meas-m7/v1",
+ "status": "comparison_done_absent",
+ "u_touched": true
+}
