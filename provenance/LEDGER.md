@@ -811,3 +811,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-31 U-LOC Gate 1 fail-closed(発火せず・u 未接触)— 数学 PASS・計器不備のみ
 - cert = u_meas_uloc_20260731.json(status gate_failed_no_fire)・probe = u_meas_uloc_fire.py。数学側は決定的検算で通過: deg 𝒩=9 両方 ✓・𝒩_{τ1}=κg³ 厳密(gcd 法)✓・h 偶 6 次 ✓・f₆ squarefree 種数 2 ✓ —「積が立方でも各因子が立方とは限らない」懸念は明示的に解消。
 - 停止原因 = sympy 高水準 API(factor_list extension / Poly modulus 経路)の空振りで monodromy 再検査が未実施。修理 = gcd 法へ差替+自前 F_p factor_pattern で p=11..43((7,1,1) 型 → Jordan で 2-推移 ⟹ 原始・非分解)。preregistration は未凍結のまま(gate 通過後に凍結 → 発火の順序を維持)。
+
+## 2026-07-31 ★★ U-LOC 発火・u 実測第 1 号(裁定 269)— u₀⁻¹ = −3⁶·5⁹/2⁸ ⟹ ord([u₀⁻¹]₉)=9 ⟹ **Ih_{S4} 全射(candidate)**・M7 解禁
+- cert = u_meas_uloc_v2_20260731.json(v1 = gate_failed 記録として保存)・probe = u_meas_uloc_fire2.py。
+- **Gate PASS**: deg 𝒩=9 両方・𝒩_{τᵢ}=κg³(gcd 法・radical 3)・h 偶・f₆ squarefree。**Frobenius 240 標本(p=11..43・自前 F_p 実装)全て PΓL(2,8) 型表内・(7,1,1) 出現(初出 p=17)⟹ Jordan で 2-推移 ⟹ 原始・非分解** = schema-v2 ゲート閉。
+- **preregistration 凍結後に測定**(cusp ∞₊・s=1/x・u₀=−c_lead⁻¹・単数性は主張せず全付値報告・C1′ は別行隔離)— F91-5.3/5.4 完全準拠。
+- **測定値(機械)**: c_lead=1423828125/256(c_lead−8c₉=0 ✓)・u₀⁻¹=−3⁶·5⁹/2⁸・付値 v₃=6, v₅=9, v₂=−8・squarefree part −5。
+- **M6 判定(司令塔・機械検算)**: 指数 mod 3 = {3:0, 5:0, 2:1} ⟹ **u₀⁻¹ は有理立方でない** ⟹ 系 4.1(surj_s4_v2・便 86 監査系譜)により **ord([u₀⁻¹]₉)=9 ⟹ Ih_{S4}: G_ℚ ↠ Hol(ℤ/9)(54/54)全射 — candidate**(残る前件 = C1′ 接続の監査+M7 第二系統照合)。
+- 意義: ①P1 の u 測定パイプライン M0→M6 が初完走(実データ点 1 号)②非二面体窓(PΓL(2,8)・Hol(ℤ/9))の飽和 candidate = P1 型の新領土 ③同装置が n=7 の下界(E1-GAP-6 の穴)へ転用可能に。
+- **M7 解禁**: Belyi DB 論文 arxiv_1805.07751 を金庫 quarantine から papers/delivered/ へ(M3 自前構成完了後の解禁 = 汚染防止手順どおり)。第二系統照合に投入。
+- ★教材(実装係): 「検証済みの自前実装があるとき高水準 API に差し替えない」受理。
