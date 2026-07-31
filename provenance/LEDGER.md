@@ -1004,3 +1004,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 4. **C1′ 設計**(c1prime_s4_design_v1.md): **9T27=PSL(2,8)(504)・9T32=PΓL(2,8) — 便 92 の群名表記は誤記**(工房が正)。安い経路 2 本の死亡を確定(passport 上界は A₉/S₉ を排除不能・有理性は 6 個を分けない = branch cycle lemma の C₃ が Out の C₃ と一致)⟹ 生存 = fibre 積 W=C×_{P¹}P¹ の構成的経路 1 本(P92-4 ①③統合)。予言 3 本中 2 外れも記録(正直)。
 - 5. **EP 初回案**(ep_first_candidate_design_v1.md): sol75 L55 が禁じるのは**宣言**であって lane 実走でない ⟹ 「事前登録済み 1 点への単発実走」で循環は新認可なしに破れる(**司令塔裁定: この読みを採用** — 探索でなく検証の単発)。推奨 = α(negative fixture)+β(stage1 通過 288 の辞書順最小・REJECT 保証)の 2 点 bundle。副産物: 裁定 292 の「W-6 系宇宙」は誤記(訂正)・**事前登録宇宙に正例 0(86,410,020 走査・stage2 通過 0)** ⟹ 「正例が存在しうるか」の紙を EP 投資の前に置く順序を次波で検討。
 - 速達 2 通(ops/express/20260801a・b)受領・9T27 訂正と SETTLED 格下げは便 93 で Sol へ。格 = 全て単系統+紙・Sol 監査前。
+
+## 2026-08-01 settled v3.2 再測定(裁定 298)— ★ 整合規約 T' で well_defined=20/20・settled=20/20(4/8/8 は混成規約の artifact と確定的)・K_π isolated 復活(candidate)
+- probe = pent_t2t3_v32_20260801.g・cert = pent_t2t3_v32_20260801.json(両規約併記・数学者ノート/express の digest 束縛・machine-piped)。
+- T(混成・informative)= 4/8/8 を再現・**T'(整合)= 20/20/0** — 定理 SC の予想どおり。⟹ settled サーガ完結の方向: K_π は isolated(candidate)・GT(K_π) の群化と red の準同型化(W92-1)が全面解決しうる。規約の正否の最終判定は Sol(便 93)。
+- 実装係の捕獲(要数学者検討): 数学者指定の「1 行 assert」式は T' でも非自己逆元 f で不成立(4/20・代数的に ρ(T'(Ψ(y)))=(ȳ^u)^{ĉ(f)} — 式の側の再検討材料として cert に全行 lhs/rhs 記録)。settled 主測定と assert 式は独立の結果として分離記録 — 便 93 の監査点に同梱。
+- f/f⁻¹ 型バグ族の 3 例目も、下流依存ゼロのまま内部で捕獲・修理完了(1 例目 = Sol+著者パッケージ・2 例目 = probe ラベル・3 例目 = settled 規約)。
