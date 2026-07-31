@@ -964,3 +964,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 壁 driver: schema 窓別化+マーカーを yml 判定(grep DRIVER_DONE)に適合・smoke で機械確認。フル再走は miner へ(本裁定で発注)。
 - v3/v3.1: PENDING_POSTPROCESS を実 SHA-256 で充填(ComputeSha256File 機械計算)・redMap 正当化コメントを「誤りの経緯」へ修正・unit_test キーを legacy_redMap_image_equals_f へ改名。再実行で全数値再現(20/20・settled 4/8)・差分照合で変更フィールドが意図の 3 種のみ確認。**注記: v3.g はヘッダ修理でバイト変化 — v31 cert の base_probe_v3_sha256(e6e1f67d…)は修理前 v3 の履歴値・base_probe_digest_sha256(411940a8…)は修理後を指す(意図的に別時点)**。
 - m7b v2: u_meas_m7b1_checker.py(helper 非 import・式再導出コメント・多項式除算で機械導出)→ u₀⁻¹=−1423828125/256 を独立再現・cert = u_meas_m7b_v2_20260731.json(generated_by digest・再現 command・raw log・入力 cert digest 収録)= F92-5.2 の再提出セット完成。
+
+## 2026-07-31 EP 実物指定の研究者認可(裁定 291)— 「どんどんやって」により認可・provisioning 発車
+- 研究者が EP 本番 store への実物指定を認可(本日)。implementer へ provisioning 委任: STAND-IN 開示の追跡による実物同定(曖昧なら停止)→ commit_generation(実 freeze_id・bundle receipt)→ 旧 synthetic は _quarantine_synthetic/ へ → resolve_bundle/union 実走検証 → (d) 実 CI receipt の準備。W92-8 (c)(d) の充足が目的・完了後に便 93 で Sol へ再発効請求 v10。
