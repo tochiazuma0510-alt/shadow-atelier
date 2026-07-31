@@ -147,6 +147,16 @@
             "preamble": { "type": "string" }
           },
           "additionalProperties": false
+        },
+        "py_driver": {
+          "type": "object",
+          "description": "backend=py-ci 用の橋渡し欄(v0_driver の python 版・述語カード化=v1 までの暫定)。python 照合器スクリプトを直接指す。script 自体の改変は禁止 -- ここは既存スクリプトへの名前付きポインタ。CLI 引数(例: primes リスト)は pipeline[0].params から取る(§4.5 の「plan の params から渡す」に対応・v0_driver の preamble に相当する固定欄はここには置かない)。",
+          "required": ["script", "sha256"],
+          "properties": {
+            "script": { "type": "string", "minLength": 1 },
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": true

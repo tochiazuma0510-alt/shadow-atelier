@@ -114,6 +114,10 @@ def gate_schema(job):
         if v0d is not None:
             if not isinstance(v0d, dict) or not is_nonempty_str(v0d.get("script")) or not HEX64.match(v0d.get("sha256", "")):
                 errs.append("resources.v0_driver, when present, must be {script: non-empty string, sha256: 64-hex[, preamble]}")
+        pyd = resources.get("py_driver")
+        if pyd is not None:
+            if not isinstance(pyd, dict) or not is_nonempty_str(pyd.get("script")) or not HEX64.match(pyd.get("sha256", "")):
+                errs.append("resources.py_driver, when present, must be {script: non-empty string, sha256: 64-hex}")
         shards = resources.get("shards")
         if isinstance(shards, list):
             if len(shards) == 0 or len(shards) > 256:
@@ -170,6 +174,16 @@ def gate_integrity(job):
             errs.append(f"INTEGRITY_STOP: v0_driver.script {script}: file not found")
         elif actual != expected:
             errs.append(f"INTEGRITY_STOP: v0_driver.script {script}: sha256 mismatch (expected {expected}, got {actual}) -- driver が plan 記載時から変更されている")
+
+    pyd = ((job.get("resources") or {}).get("py_driver")) or {}
+    py_script = pyd.get("script")
+    py_expected = pyd.get("sha256")
+    if py_script and py_expected:
+        actual = sha256_of(py_script)
+        if actual is None:
+            errs.append(f"INTEGRITY_STOP: py_driver.script {py_script}: file not found")
+        elif actual != py_expected:
+            errs.append(f"INTEGRITY_STOP: py_driver.script {py_script}: sha256 mismatch (expected {py_expected}, got {actual}) -- script が plan 記載時から変更されている")
 
     return errs
 

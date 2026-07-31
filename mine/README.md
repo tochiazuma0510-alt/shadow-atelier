@@ -24,6 +24,19 @@
 - **述語台帳(最小)**: `mine/registry/` に XI-SCAN・PRUNE-ODD の 2 カード。preflight の (d) registry ゲートが、plan の `pipeline[*].predicate` がカード id を指す場合のみ `impl_sha256` の現物一致を検査する(カード無し述語は従来どおり無検査)。
 - **[小修理] collector の checker cert 出所**: 対付け(§4.6)の checker(python)側 cert は `--artifact-dir` からでなく、常に `plan.crosscheck.checker_certs_glob` を repo ルート相対で glob して取る(v1 の staged out_dir には explorer 側 cert しか入らず対付けが 0/0 に落ちる事故の修理)。同じ window_id が artifact-dir 側にもあれば artifact 版を優先(v0 互換)。
 
+## backend=py-ci(§4.5 予約設計の実装)
+
+`resources.backend: "py-ci"` で python 照合器スクリプトを CI 上で走らせる。`v0_driver`(gap-ci)と対の橋渡し欄
+`resources.py_driver`(`{script, sha256}`)がスクリプトを指し、CLI 引数(primes 等)は `pipeline[0].params` から渡す
+(§4.5「plan の params から渡す」に対応 -- スクリプト側は `preamble` に相当する固定欄を持たない)。最初の消費者は
+`search/probe/wac_v1/u_meas_caseb_locus2.py`(CLI: `<logpath> <primes...>`)。
+
+- **fail-closed**: exit code が非 0、または run.log 中の `=== p = N ===` 見出しの出現数が `primes` 数と不一致なら
+  `verdict=failed`(gap-ci の `DRIVER_DONE` マーカー検出と同水準の構造チェック。数学的な当否の判定はしない)。
+- **provenance**: python バージョン・スクリプト sha256(preflight の integrity gate とは別に実行時点で再計算)・
+  引数(primes)を run.log 先頭と result.txt に機械記録する。
+- **収蔵**: スクリプトが書く log ファイル(out_dir 直下)を gap-ci と同じ mtime-diff ステージングで回収する。
+
 ## v0_driver 欄について
 
 `resources.v0_driver`(`{script, sha256, preamble}`)は **v1 の述語カード化までの橋**。述語台帳が無いあいだ、plan は GAP driver を直接指す(名前付きポインタ)。**driver 自体の改変は禁止** — plan.universe.frozen_docs / resources.v0_driver.sha256 で「plan 凍結時から driver が 1 バイトも変わっていない」ことを preflight/CI integrity gate が強制する。v1 で述語台帳が棚入れされたら、`pipeline` は driver 直参照ではなくカード参照へ移行し、この欄は縮退させる。
@@ -51,8 +64,8 @@ CI(`.github/workflows/mine-dispatch.yml`)は `mine/jobs/queue/*.json` の push(�
 
 1. **plan 発見**: push 差分(または `job_path` 入力)から対象 plan を特定。
 2. **preflight**: `mine/preflight.py` をそのまま実行((a) schema (b) integrity (c) 予言ゲート)。1 つでも FAIL なら発車しない。
-3. **backend=gap-ci 実行**: `setup-gap@v3.8.0`(GAP 4.16.0)で `resources.v0_driver.script`(+`preamble`)を `-o 12g`・`resources.timeout_min` 分の timeout で実行。
-4. **収蔵**: `outputs.out_dir` の cert 群 + `run.log` + `SHA256SUMS.txt` + `result.txt`(`DRIVER_DONE` マーカー検出で `verdict=done`、無ければ `failed`)を artifact として upload。
+3. **backend 分岐**(§4.5): `gap-ci`(`setup-gap@v3.8.0` で `resources.v0_driver.script`(+`preamble`)を `-o 12g`・`resources.timeout_min` 分の timeout で実行)/ `py-ci`(`resources.py_driver.script` を `pipeline[0].params.primes` を引数に `-o 12g` 相当の timeout 付きで実行 -- 最初の消費者は `search/probe/wac_v1/u_meas_caseb_locus2.py`)。`sat-ci` は §4.5 の設計に予約済みだが未実装。
+4. **収蔵**: `outputs.out_dir` の cert 群(py-ci はスクリプトが書く log ファイルを含む)+ `run.log` + `SHA256SUMS.txt` + `result.txt`(gap-ci: `DRIVER_DONE` マーカー検出、py-ci: exit code + 結果数/対象数突合で `verdict=done`/`failed`)を artifact として upload。
 
 collector は **CI の外**(実行係のローカル)で、DL した artifact に対して手動実行する(§5.2)。
 

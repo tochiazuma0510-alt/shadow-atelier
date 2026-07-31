@@ -3,8 +3,19 @@ name: mine-dispatch
 # 採掘場(mine)の統一配車 -- v0/v1(裁定237)。mb-search.yml の複製改造。
 # 探索器の判定ロジックには一切触れない -- job "gate" が
 # mine/preflight.py(schema/integrity/予言/registry の4ゲート)をそのまま
-# 実行し、1つでも不一致なら発車しない。v0/v1 は backend=gap-ci のみを扱う
-# (sat-ci/py-ci は§4.5の設計に予約済みだが本 workflow の実装対象外)。
+# 実行し、1つでも不一致なら発車しない。backend は gap-ci / py-ci を扱う
+# (sat-ci は§4.5の設計に予約済みだが本 workflow の実装対象外)。
+#
+# py-ci 差分(§4.5「py-ci(照合器用 python/node)」の実装): resources.
+# py_driver({script, sha256} -- v0_driver の python 版・述語カード化までの
+# 橋渡し欄)が指す python スクリプトを、pipeline[0].params.primes(plan の
+# params から渡す非空整数配列)を CLI 引数にして起動する。最初の消費者は
+# search/probe/wac_v1/u_meas_caseb_locus2.py(CLI: <logpath> <primes...>)。
+# fail-closed: exit code が非 0、または「=== p = N ===」見出しの出現数が
+# primes 数と不一致なら verdict=failed(gap-ci の DRIVER_DONE マーカー検出
+# と同水準の構造チェック -- 数学的な当否の判定はしない)。provenance
+# (python バージョン・スクリプト sha256・引数)は run.log 先頭と
+# result.txt に機械記録する。
 #
 # v1 差分(裁定237 v1 範囲): resources.shards が配列 [{name,preamble}, ...]
 # のとき matrix でシャード並列する(各シャードの preamble は
@@ -127,18 +138,42 @@ jobs:
           job = json.load(open(sys.argv[1], encoding='utf-8'))
           res = job.get('resources', {})
           backend = res.get('backend')
-          if backend != 'gap-ci':
-              print(f"ERROR: mine-dispatch v0 only supports backend=gap-ci, got {backend!r}", file=sys.stderr)
-              sys.exit(1)
-          drv = res.get('v0_driver') or {}
-          if not drv.get('script'):
-              print("ERROR: resources.v0_driver.script is required for backend=gap-ci in v0", file=sys.stderr)
+          if backend not in ('gap-ci', 'py-ci'):
+              print(f"ERROR: mine-dispatch supports backend=gap-ci or backend=py-ci only "
+                    f"(sat-ci is reserved by ideas_013 §4.5 but not implemented), got {backend!r}", file=sys.stderr)
               sys.exit(1)
           print(f"job_id={job['job_id']}")
-          print(f"script={drv['script']}")
-          print(f"preamble={drv.get('preamble', '')}")
+          print(f"backend={backend}")
           print(f"out_dir={job['outputs']['out_dir']}")
           print(f"timeout_min={res.get('timeout_min', 60)}")
+          if backend == 'gap-ci':
+              drv = res.get('v0_driver') or {}
+              if not drv.get('script'):
+                  print("ERROR: resources.v0_driver.script is required for backend=gap-ci", file=sys.stderr)
+                  sys.exit(1)
+              print(f"script={drv['script']}")
+              print(f"preamble={drv.get('preamble', '')}")
+          elif backend == 'py-ci':
+              # py-ci: script は resources.py_driver(v0_driver の python 版・
+              # 述語カード化までの橋渡し欄)、CLI 引数(primes 等)は
+              # pipeline[0].params から取る(ideas_013 §4.5 「plan の params
+              # から渡す」に対応)。最初の消費者(u_meas_caseb_locus2.py)の
+              # CLI は `<logpath> <primes...>` の形なので、ここでは primes
+              # 配列だけを空白区切りで渡す(logpath は CI 側が out_dir から
+              # 組み立てる)。
+              pyd = res.get('py_driver') or {}
+              if not pyd.get('script'):
+                  print("ERROR: resources.py_driver.script is required for backend=py-ci", file=sys.stderr)
+                  sys.exit(1)
+              pipeline = job.get('pipeline') or []
+              params = (pipeline[0].get('params') if pipeline and isinstance(pipeline[0], dict) else None) or {}
+              primes = params.get('primes')
+              if not isinstance(primes, list) or not primes or not all(isinstance(p, int) for p in primes):
+                  print("ERROR: pipeline[0].params.primes must be a non-empty array of integers for backend=py-ci", file=sys.stderr)
+                  sys.exit(1)
+              print(f"py_script={pyd['script']}")
+              print(f"py_args={' '.join(str(p) for p in primes)}")
+              print(f"py_nprimes={len(primes)}")
           PY
 
       - name: Compute shard-qualified stage dir / artifact name
@@ -156,11 +191,13 @@ jobs:
           fi
 
       - name: Setup GAP 4.16.0 (release tarball, sha256-verified)
+        if: steps.job.outputs.backend == 'gap-ci'
         uses: gap-actions/setup-gap@v3.8.0
         with:
           gap-version: '4.16.0'
 
       - name: Run GAP driver (search/*.g は不可侵 -- 既存 driver をそのまま Read するのみ)
+        if: steps.job.outputs.backend == 'gap-ci'
         id: run
         shell: bash
         run: |
@@ -203,23 +240,94 @@ jobs:
           set -e
           echo "gap_exit=$GAP_EXIT" >> "$GITHUB_OUTPUT"
 
-      - name: Write result.txt (DRIVER_DONE marker detection)
+      - name: Run python checker (py-ci -- search/*.py は不可侵、既存スクリプトをそのまま CLI 起動するのみ)
+        if: steps.job.outputs.backend == 'py-ci'
+        id: pyrun
+        shell: bash
+        run: |
+          set +o pipefail
+          mkdir -p "${{ steps.job.outputs.out_dir }}" ci/out
+          # out_dir は既存チェックアウト済み cert を含む共有ディレクトリなので、
+          # gap-ci と同じ mtime-diff ステージング(次段)のため基準マーカーを打つ。
+          touch ci/out/.baseline_marker
+          SCRIPT="${{ steps.job.outputs.py_script }}"
+          PRIMES="${{ steps.job.outputs.py_args }}"
+          SHARD_NAME="${{ matrix.entry.shard_name }}"
+          if [ -n "$SHARD_NAME" ]; then
+            LOGNAME="${{ steps.job.outputs.job_id }}-${SHARD_NAME}.log"
+          else
+            LOGNAME="${{ steps.job.outputs.job_id }}.log"
+          fi
+          LOGPATH="${{ steps.job.outputs.out_dir }}/${LOGNAME}"
+          PY_VERSION=$(python --version 2>&1)
+          SCRIPT_SHA256=$(sha256sum "$SCRIPT" | awk '{print $1}')
+          # provenance(python バージョン・スクリプト SHA-256・引数)を run.log の
+          # 先頭に機械的に記録する(preflight が script 本体の sha256 は既に
+          # integrity gate で照合済み -- ここは実行時点の記録のための再計算)。
+          {
+            echo "=== py-ci provenance ==="
+            echo "python_version: $PY_VERSION"
+            echo "script: $SCRIPT"
+            echo "script_sha256: $SCRIPT_SHA256"
+            echo "args (primes): $PRIMES"
+            echo "log_path: $LOGPATH"
+            echo "========================="
+          } | tee ci/out/run.log
+          TIMEOUT_SEC=$(( ${{ steps.job.outputs.timeout_min }} * 60 ))
+          set +e
+          timeout "$TIMEOUT_SEC" python "$SCRIPT" "$LOGPATH" $PRIMES 2>&1 | tee -a ci/out/run.log
+          PY_EXIT="${PIPESTATUS[0]}"
+          set -e
+          # fail-closed: 結果数と対象数の突合(「=== p = N ===」ヘッダの出現数
+          # が要求 primes 数と一致するか -- u_meas_caseb_locus2.py は primes
+          # を 1 つ処理するごとにこの見出しを 1 回出力する)。判定ロジック
+          # (数学的な当否)ではなく完走の構造チェックであり、gap-ci の
+          # DRIVER_DONE マーカー検出と同水準。
+          RESULT_COUNT=$(grep -c '^=== p = ' ci/out/run.log || true)
+          echo "py_exit=$PY_EXIT" >> "$GITHUB_OUTPUT"
+          echo "py_result_count=$RESULT_COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Write result.txt (DRIVER_DONE marker detection for gap-ci / exit-code+count check for py-ci)
         shell: bash
         run: |
           set -euo pipefail
-          if grep -q "DRIVER_DONE" ci/out/run.log; then
-            VERDICT=done
-          else
-            VERDICT=failed
+          BACKEND="${{ steps.job.outputs.backend }}"
+          if [ "$BACKEND" = "gap-ci" ]; then
+            if grep -q "DRIVER_DONE" ci/out/run.log; then
+              VERDICT=done
+            else
+              VERDICT=failed
+            fi
+            {
+              echo "verdict=$VERDICT"
+              echo "job_id=${{ steps.job.outputs.job_id }}"
+              echo "shard_name=${{ matrix.entry.shard_name }}"
+              echo "backend=$BACKEND"
+              echo "gap_exit_code=${{ steps.run.outputs.gap_exit }}"
+              echo "run_id=${{ github.run_id }}"
+              echo "sha=${{ github.sha }}"
+            } > ci/out/result.txt
+          elif [ "$BACKEND" = "py-ci" ]; then
+            PY_EXIT="${{ steps.pyrun.outputs.py_exit }}"
+            RESULT_COUNT="${{ steps.pyrun.outputs.py_result_count }}"
+            TARGET_COUNT="${{ steps.job.outputs.py_nprimes }}"
+            if [ "$PY_EXIT" = "0" ] && [ -n "$RESULT_COUNT" ] && [ "$RESULT_COUNT" = "$TARGET_COUNT" ]; then
+              VERDICT=done
+            else
+              VERDICT=failed
+            fi
+            {
+              echo "verdict=$VERDICT"
+              echo "job_id=${{ steps.job.outputs.job_id }}"
+              echo "shard_name=${{ matrix.entry.shard_name }}"
+              echo "backend=$BACKEND"
+              echo "py_exit_code=$PY_EXIT"
+              echo "py_result_count=$RESULT_COUNT"
+              echo "py_target_count=$TARGET_COUNT"
+              echo "run_id=${{ github.run_id }}"
+              echo "sha=${{ github.sha }}"
+            } > ci/out/result.txt
           fi
-          {
-            echo "verdict=$VERDICT"
-            echo "job_id=${{ steps.job.outputs.job_id }}"
-            echo "shard_name=${{ matrix.entry.shard_name }}"
-            echo "gap_exit_code=${{ steps.run.outputs.gap_exit }}"
-            echo "run_id=${{ github.run_id }}"
-            echo "sha=${{ github.sha }}"
-          } > ci/out/result.txt
           cat ci/out/result.txt
 
       - name: Stage new/changed out_dir files into job-scoped dir (mtime diff)
