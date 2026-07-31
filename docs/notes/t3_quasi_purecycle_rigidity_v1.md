@@ -309,3 +309,6 @@ $\sigma_1\leftrightarrow(w,\tau_1)$、$\sigma_2\leftrightarrow(v,\tau_2)$、$f\i
   → **閉鎖済**: `docs/notes/t3_quasi_purecycle_rigidity_v1_addendum_t0.md`(**定理 T3-N0′** = 任意の葉で根付けて $m+1$ で割る一様版。$t=0$ を含む $m\ge2$ の全域で同じ閉形。記号計算 155 件 + 群論ブルート $t=0$ 6 行で不一致 0)。
   旧証明は撤回ではなく**特別な根付けとして吸収**($t\ge1$ で 116 件一致)。
 - 本追補は **定理 CENT の格に何も足さない**(CENT は T3 の計数公式に非依存・F91-1.5)。
+- **【重み付き修文】**(Sol 便 92 **W92-3** の採択条件・2026-07-31 追記): 本体は「$N$」の 1 記号を **3 つの別の量**(重み付き推移計数 $\mathcal N^{\mathrm w}$ / 無重み推移計数 $\mathcal N^{\mathrm{tr}}$ / 生成計数 $N^{\mathrm{gen}}$)に使っていた。分離・修文・(J) 域での三者一致の証明(**補題 J-AUT**)・$m=1$ 層の穴の閉鎖は
+  → `docs/notes/t3_quasi_purecycle_rigidity_v1_addendum_weighted.md`(**系 T3-WALL は無傷**)。
+  とくに **§2.3 の表の「$N$(実測)」列は $\mathcal N^{\mathrm w}=T_{\rm trans}/\lvert C\rvert$ と読むこと**($1/3,1/2$ という非整数値がその証拠)。**§0 の ⑥ の「$N=1$」も $\mathcal N^{\mathrm w}=1$ と読む。**
