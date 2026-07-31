@@ -219,7 +219,7 @@ fi;
 
 cert := Concatenation(
   "{\n",
-  "  \"schema\":\"wac_v1-wall28-cert/v1\",\n",
+  "  \"schema\":\"wac_v1-wall36-cert/v1\",\n",
   "  \"generated_by\":\"search/probe/wac_v1/wall36_cert.g\",\n",
   "  \"window_label\":\"P-WALL-36\",\n",
   "  \"f_orientation\":\"probe11_handwritten_hexagon\",\n",
@@ -289,5 +289,5 @@ cert := Concatenation(
 WriteFile(outName, cert);;
 ValidateJsonFile(outName);;
 Print("\nWrote ", outName, " (json.load OK)\n");
-Print("\nWALL36_CERT_DONE\n");
+Print("\nWALL36_DRIVER_DONE\n");
 QUIT;

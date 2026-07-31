@@ -959,3 +959,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 問い 3: n=7 の 3 束縛・**Hol(ℤ/9) 合流(T63-P1 の ord(a₉)=9 と u₀ 実測が同標的 — 同値なら u₀ 1 点が n=9 窓へ転写)**・u-スクリーニング(全射証明器の対偶を P5 算術哨戒に)。
 - 問い 4 予想札: VAL-PAT(凍結用・弱)・PENT-REDUND・GAL-STAB(settled 率 = 算術性測度)・TORSOR-1。
 - 推奨採択: I16-1a/1c/1d を v3.1 延長の 1 probe で同時判定(発車)。ĉ 中心化群の手計算は要数学者検分。
+
+## 2026-07-31 provenance 一括修理 完了(裁定 290)— 壁 driver 窓別 schema+DRIVER_DONE 化・v3/v3.1 cert digest 充填・m7b v2 独立 checker(値一致)
+- 壁 driver: schema 窓別化+マーカーを yml 判定(grep DRIVER_DONE)に適合・smoke で機械確認。フル再走は miner へ(本裁定で発注)。
+- v3/v3.1: PENDING_POSTPROCESS を実 SHA-256 で充填(ComputeSha256File 機械計算)・redMap 正当化コメントを「誤りの経緯」へ修正・unit_test キーを legacy_redMap_image_equals_f へ改名。再実行で全数値再現(20/20・settled 4/8)・差分照合で変更フィールドが意図の 3 種のみ確認。**注記: v3.g はヘッダ修理でバイト変化 — v31 cert の base_probe_v3_sha256(e6e1f67d…)は修理前 v3 の履歴値・base_probe_digest_sha256(411940a8…)は修理後を指す(意図的に別時点)**。
+- m7b v2: u_meas_m7b1_checker.py(helper 非 import・式再導出コメント・多項式除算で機械導出)→ u₀⁻¹=−1423828125/256 を独立再現・cert = u_meas_m7b_v2_20260731.json(generated_by digest・再現 command・raw log・入力 cert digest 収録)= F92-5.2 の再提出セット完成。

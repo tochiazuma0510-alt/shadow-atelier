@@ -57,6 +57,19 @@
 ##  Single GAP lane. NOT a ledger claim -- report to commander for review.
 #############################################################################
 
+## ---- provenance helper: SHA-256 of a repo-relative file, machine-computed
+## via external sha256sum (same pattern as wall36_cert.g/wall37_cert.g and
+## pent_t2t3_v3_20260731.g) -- used below to fill source_digest_sha256 (this
+## script) and base_probe_digest_sha256 (the base probe this file extends).
+ComputeSha256File := function(relpath)
+  local tmp, f, line;
+  tmp := "search/.tmp_pent_v31_selfsha.txt";
+  Exec(Concatenation("sha256sum \"", relpath, "\" > \"", tmp, "\""));
+  f := InputTextFile(tmp);  line := ReadLine(f);  CloseStream(f);
+  Exec(Concatenation("rm -f \"", tmp, "\""));
+  return line{[1 .. 64]};
+end;;
+
 ## ---- window (byte-identical to pent_t2t3_v3_20260731.g / v2) ----
 n := 5;;
 tt := (1,2,3);; aa := (1,4,5);;
@@ -487,10 +500,10 @@ WriteUnitRow := function(outS, r)
     AppendTo(outS, ",\"witness_h_word\":",JStr(r.witness_h_word),
       ",\"five_coface_images\":",JList(r.five_coface_images),
       ",\"reduction_image_in_PN\":",JStr(r.reduction_image_in_PN),
-      ",\"reduction_image_equals_f\":",JBool(r.reduction_image_equals_f));
+      ",\"legacy_redMap_image_equals_f\":",JBool(r.reduction_image_equals_f));
   else
     AppendTo(outS, ",\"witness_h_word\":null,\"five_coface_images\":null",
-      ",\"reduction_image_in_PN\":null,\"reduction_image_equals_f\":null");
+      ",\"reduction_image_in_PN\":null,\"legacy_redMap_image_equals_f\":null");
   fi;
   AppendTo(outS, "}");
 end;;
@@ -574,8 +587,10 @@ AppendTo(outJ,"\"legacy_redMap_image_informative_only\":",JStr(String(r4_f_legac
 AppendTo(outJ,"},");
 AppendTo(outJ,"\"base_probe_v3_sha256\":\"e6e1f67dd903a25dfc9a86fdb8b1419f37e54f39e7ddb7115e0e3b4546afcddf\",");
 AppendTo(outJ,"\"base_probe_v2_sha256\":\"ff9e6f8b4801b861cfc1fabdf005a7e7de74b19d1eeb41516df0d76f9e98df19\",");
-AppendTo(outJ,"\"source_digest_sha256\":\"PENDING_POSTPROCESS\",");
-AppendTo(outJ,"\"base_probe_digest_sha256\":\"PENDING_POSTPROCESS\"");
+sourceSelfSha := ComputeSha256File("search/probe/wac_v1/pent_t2t3_v31_20260731.g");;
+baseProbeSha := ComputeSha256File("search/probe/wac_v1/pent_t2t3_v3_20260731.g");;
+AppendTo(outJ,"\"source_digest_sha256\":",JStr(sourceSelfSha),",");
+AppendTo(outJ,"\"base_probe_digest_sha256\":",JStr(baseProbeSha));
 AppendTo(outJ,"}");
 CloseStream(outJ);;
 outF := OutputTextFile("search/certs/pent_t2t3_v31_20260731.json", false);;

@@ -1,0 +1,82 @@
+{
+ "M7_B1": {
+  "agrees_with_series_path": true,
+  "agrees_with_target_by_tau": {
+   "tau1": true,
+   "tau2": true
+  },
+  "c_lead_identity": "1423828125/256",
+  "method": "norm path: N_tau(x) = (A-tau)^2 - f6(x)*B(x)^2, kappa = leading coeff (x^9) of N_tau, delta = tau - 3/2, u_0^{-1} = kappa/delta. No series expansion, no sp.limit.",
+  "per_tau": {
+   "tau1": {
+    "N_tau_degree": 9,
+    "delta": "3*sqrt(3)*I/2",
+    "delta_squared": "-27/4",
+    "delta_squared_is_minus_27_over_4": true,
+    "kappa": "-4271484375*sqrt(3)*I/512",
+    "u_0_inverse_norm_path": "-1423828125/256"
+   },
+   "tau2": {
+    "N_tau_degree": 9,
+    "delta": "-3*sqrt(3)*I/2",
+    "delta_squared": "-27/4",
+    "delta_squared_is_minus_27_over_4": true,
+    "kappa": "4271484375*sqrt(3)*I/512",
+    "u_0_inverse_norm_path": "-1423828125/256"
+   }
+  },
+  "u_0_inverse_target_minus_c_lead": "-1423828125/256"
+ },
+ "M7_B4_role": "M7-B4 (point counts of Y=C/psibar over several primes, testing 3 | #Y(F_p) for Prop CB-3T) is a curve-integrity / model-consistency check, not an independent computation of u_0^{-1}. It is not re-executed by this script; see search/certs/u_meas_m7b_20260731.json field B4 for the original point-count record.",
+ "generated_by": {
+  "path": "search/probe/wac_v1/u_meas_m7b1_checker.py",
+  "sha256": "3841d729e7bd34c92f89231e6729a40613541764ff3fec8446fff33ceb84c074"
+ },
+ "helper_disjoint": true,
+ "helper_disjoint_note": "does not import or exec() search/probe/wac_v1/u_meas_uloc_fire2.py or u_meas_caseb_search2.py; all formulas re-derived and re-typed independently (see header comment).",
+ "input": {
+  "curve_cert_path": "search/certs/u_meas_caseb_a5_20260731.json",
+  "curve_cert_sha256": "871f8c821e518e3487af9056e032ac93563f1effae82264e05ceb2ca2ec178aa"
+ },
+ "measurement": {
+  "exponent_vector_mod_3": {
+   "2": 1,
+   "3": 0,
+   "5": 0
+  },
+  "sign": -1,
+  "u_0_inverse": "-1423828125/256",
+  "valuations": {
+   "2": -8,
+   "3": 6,
+   "5": 9
+  }
+ },
+ "note": "machine values only, no interpretation, no ledger claim.",
+ "python_version": "3.13.14",
+ "raw_output": [
+  "=== u_meas_m7b1_checker.py -- M7-B1 norm-path independent re-check ===",
+  "python: 3.13.14",
+  "sympy_version: 1.14.0",
+  "input curve cert: search/certs/u_meas_caseb_a5_20260731.json",
+  "input curve cert sha256: 871f8c821e518e3487af9056e032ac93563f1effae82264e05ceb2ca2ec178aa",
+  "c  = -512/421875",
+  "c3 = 192375/512   c5 = 2278125/512   c7 = 170859375/1024   c9 = 1423828125/2048",
+  "deg_x(A) = 9   deg_x(B) = 6   deg_x(f6) = 6",
+  "[tau1] delta = 3*sqrt(3)*I/2   delta^2 = -27/4 (expect -27/4)",
+  "[tau1] deg N_tau = 9   kappa (coeff x^9) = -4271484375*sqrt(3)*I/512",
+  "[tau1] u_0^{-1} (norm path, = kappa/delta) = -1423828125/256",
+  "[tau2] delta = -3*sqrt(3)*I/2   delta^2 = -27/4 (expect -27/4)",
+  "[tau2] deg N_tau = 9   kappa (coeff x^9) = 4271484375*sqrt(3)*I/512",
+  "[tau2] u_0^{-1} (norm path, = kappa/delta) = -1423828125/256",
+  "c_lead (:= 8*c9, algebraic identity) = 1423828125/256",
+  "u_0^{-1} target (:= -c_lead) = -1423828125/256",
+  "[tau1] agrees with -c_lead target? True",
+  "[tau2] agrees with -c_lead target? True",
+  "u_0^{-1} = -1423828125/256   sign = -1   valuations = {'3': 6, '5': 9, '2': -8}",
+  "exponent vector mod 3 = {'3': 0, '5': 0, '2': 1}"
+ ],
+ "reproduce_command": "python search/probe/wac_v1/u_meas_m7b1_checker.py search/certs/u_meas_caseb_a5_20260731.json search/certs/u_meas_m7b_v2_20260731.json",
+ "schema": "u-meas-m7b1-checker/v2",
+ "sympy_version": "1.14.0"
+}

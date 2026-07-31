@@ -10,38 +10,51 @@
 ##  so probe only ever found lifts for self-inverse f (4/20 survivors,
 ##  exactly the self-inverse f's -- diagnosis sec 1.3).
 ##
-##  FIX CHOSEN (one of the two options offered, "minimal repair" path):
-##  keep Psi/PsiAt exactly as in v2 (Rev before forward map) -- this half of
-##  the machinery is independently validated correct in the diagnosis
-##  (our D1/D2/Pent/c1-c5 evaluator accepts the author's 20 witnesses 20/20
-##  when fed their words as-is). Only the coarse-labelling of a fine element
-##  q in QP is changed: instead of Image(pr1,q), use the group homomorphism
-##  redMap: QP -> PN, gensQP |-> [xb,yb,()] (forward, same convention as
-##  Hex). This is algebraically IDENTICAL to the diagnosis's suggested fix
+##  FIRST-ATTEMPT PLAN, LATER FOUND WRONG (kept here verbatim as a record of
+##  the error -- superseded below; see the comment block above coarse_of's
+##  definition [~line 105] and the cert "repairs" field for the correction
+##  actually applied). The reasoning below was the initial "minimal repair"
+##  plan: keep Psi/PsiAt exactly as in v2 (Rev before forward map) -- this
+##  half of the machinery is independently validated correct in the
+##  diagnosis (our D1/D2/Pent/c1-c5 evaluator accepts the author's 20
+##  witnesses 20/20 when fed their words as-is). Only the coarse-labelling
+##  of a fine element q in QP was to be changed: instead of Image(pr1,q),
+##  use the group homomorphism redMap: QP -> PN, gensQP |-> [xb,yb,()]
+##  (forward, same convention as Hex). This was REASONED (incorrectly) to be
+##  algebraically IDENTICAL to the diagnosis's suggested fix
 ##    coarse_of(w) := MappedWord(w,[gx,gy,gc],[xb,yb,()])   (no Rev)
-##  applied to a preimage word of q: since epiP(w)=Psi(w) by construction of
-##  epiP, and gensQP=[Psi(gx),Psi(gy),Psi(gc)] maps to [xb,yb,()] under
-##  redMap by definition, redMap(Psi(w)) = coarse_of(w) for EVERY w (two
-##  homomorphisms out of the free group agreeing on generators agree
-##  everywhere) -- so Image(redMap,q) computes exactly the forward coarse
-##  label, well-defined on q directly (no preimage-representative choice
-##  involved, unlike WordOf(q)+coarse_of). This is provably the same
-##  quantity the diagnosis's fix computes, and is what redMap already did
-##  in v2 (previously only used downstream for reduction_image_in_PN) --
-##  v3 promotes it to the ALSO the fiber-selection label, replacing pr1.
+##  applied to a preimage word of q -- the claimed argument was: since
+##  epiP(w)=Psi(w) by construction of epiP, and gensQP=[Psi(gx),Psi(gy),
+##  Psi(gc)] maps to [xb,yb,()] under redMap by definition, redMap(Psi(w))
+##  = coarse_of(w) for EVERY w. THIS ARGUMENT IS WRONG: Psi is an
+##  ANTI-homomorphism, not a homomorphism, so an epiP-preimage w0 of q
+##  satisfies epiP(w0) = Psi(Rev(w0)), not Psi(w0); consequently
+##  Image(redMap,q) = coarse_of(Rev(WordOf(q))), which is algebraically
+##  IDENTICAL to the OLD (v2, pr1-based) reversed-fiber bug, not a fix of
+##  it. The in-file regression test (element 4, below) caught this on the
+##  first run of this file (redMap output equalled the legacy pr1 output)
+##  and the script halted before writing a cert. redMap is therefore NOT
+##  used for fiber selection anywhere in the code below -- fiber selection
+##  uses coarse_of(WordOf(q)) directly (see coarseLabelOf, ~line 245),
+##  applied to the word WordOf(q) itself, not via any QP->PN homomorphism
+##  shortcut. redMap is retained only for its original v2 purpose
+##  (reduction_image_in_PN in the unit-test rows), which is unaffected.
 ##
-##  No formula in Chk6 (P0,R0,D1,D2,Pent,c1-c5) is touched. This is "option
-##  1" of the diagnosis's two offered fixes -- NOT mixed with "option 2"
+##  No formula in Chk6 (P0,R0,D1,D2,Pent,c1-c5) is touched. The fix actually
+##  applied is "option 1" of the diagnosis's two offered fixes (relabel the
+##  fiber, don't touch Psi's Rev convention) -- NOT mixed with "option 2"
 ##  (removing Rev from Psi and rewriting D1/D2/Pent in GAP order).
 ##
 ##  Regression unit test element 4 (mandatory per diagnosis sec.5): a
 ##  self-inverse-free coarse f (the diagnosis's own Kummer witness,
 ##  m=0, author word bits [1,0,0,1,0,0,0,1,1,1] = y x^2 y x^3 y^3, forward
 ##  coarse label a 3-cycle) is round-tripped coarse->fine(Psi)->coarse
-##  (redMap) and asserted (GAP Error() on failure -- hard regression gate)
-##  to return to the same label. Under the OLD (v2, pr1-based) method this
-##  element would have surfaced f^{-1} != f, i.e. this is exactly the
-##  bug detector the diagnosis calls for.
+##  (via coarse_of o WordOf, THE FIX actually used -- NOT redMap, see above)
+##  and asserted (GAP Error() on failure -- hard regression gate) to return
+##  to the same label. Under the OLD (v2, pr1-based) method, and under the
+##  dead-end redMap-based first attempt above, this element would have
+##  surfaced f^{-1} != f, i.e. this is exactly the bug detector the
+##  diagnosis calls for.
 ##
 ##  Additional cross-check (diagnosis committee item 4 / instruction 5):
 ##  the 20 author charming witnesses (search/certs/pent_thirdparty_gt_20260731.json,
@@ -55,6 +68,19 @@
 ##  invariant, not a research-value prediction, is asserted).
 ##  Single GAP lane. NOT a ledger claim -- report to commander for review.
 #############################################################################
+
+## ---- provenance helper: SHA-256 of a repo-relative file, machine-computed
+## via external sha256sum (same pattern as wall36_cert.g/wall37_cert.g) --
+## used below to fill source_digest_sha256 (this script) and
+## base_probe_digest_sha256 (the base probe this file repairs/extends).
+ComputeSha256File := function(relpath)
+  local tmp, f, line;
+  tmp := "search/.tmp_pent_v3_selfsha.txt";
+  Exec(Concatenation("sha256sum \"", relpath, "\" > \"", tmp, "\""));
+  f := InputTextFile(tmp);  line := ReadLine(f);  CloseStream(f);
+  Exec(Concatenation("rm -f \"", tmp, "\""));
+  return line{[1 .. 64]};
+end;;
 
 ## ---- window (identical construction to pent_t2t3_v2_20260731.g) ----
 n := 5;;
@@ -526,10 +552,10 @@ WriteUnitRow := function(outS, r)
     AppendTo(outS, ",\"witness_h_word\":",JStr(r.witness_h_word),
       ",\"five_coface_images\":",JList(r.five_coface_images),
       ",\"reduction_image_in_PN\":",JStr(r.reduction_image_in_PN),
-      ",\"reduction_image_equals_f\":",JBool(r.reduction_image_equals_f));
+      ",\"legacy_redMap_image_equals_f\":",JBool(r.reduction_image_equals_f));
   else
     AppendTo(outS, ",\"witness_h_word\":null,\"five_coface_images\":null",
-      ",\"reduction_image_in_PN\":null,\"reduction_image_equals_f\":null");
+      ",\"reduction_image_in_PN\":null,\"legacy_redMap_image_equals_f\":null");
   fi;
   AppendTo(outS, "}");
 end;;
@@ -624,8 +650,10 @@ AppendTo(outJ,"\"accepted_count\":",JNum(authorWitnessAcceptedCount),",");
 AppendTo(outJ,"\"total\":",JNum(Length(authorWitnessRows)));
 AppendTo(outJ,"},");
 AppendTo(outJ,"\"base_probe_v2_sha256\":\"ff9e6f8b4801b861cfc1fabdf005a7e7de74b19d1eeb41516df0d76f9e98df19\",");
-AppendTo(outJ,"\"source_digest_sha256\":\"PENDING_POSTPROCESS\",");
-AppendTo(outJ,"\"base_probe_digest_sha256\":\"PENDING_POSTPROCESS\"");
+sourceSelfSha := ComputeSha256File("search/probe/wac_v1/pent_t2t3_v3_20260731.g");;
+baseProbeSha := ComputeSha256File("search/probe/wac_v1/pent_t2t3_v2_20260731.g");;
+AppendTo(outJ,"\"source_digest_sha256\":",JStr(sourceSelfSha),",");
+AppendTo(outJ,"\"base_probe_digest_sha256\":",JStr(baseProbeSha));
 AppendTo(outJ,"}");
 CloseStream(outJ);;
 outF := OutputTextFile("search/certs/pent_t2t3_v3_20260731.json", false);;
