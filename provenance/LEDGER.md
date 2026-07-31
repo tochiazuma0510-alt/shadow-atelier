@@ -859,3 +859,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **MIX-12 直接経路の正典化**: P-e(candidate)/P-f(framework-conditional)を依存から除去。第三の ℰ₁₂=1 導出(明示体・3∤φ(24) ⟹ x³−2 既約)で**三経路一致**。(U2) は F91-4.3 pin+要請票 (R1)(R2)(R3) のみ(文献未接触)。
 - **q7 修文**: SURJ-K7 / SURJ-K7-APPLY(G-1 C1′・G-2 C5・G-3 モデル束縛・G-4 provenance)分離・G7-NOGO′ 射程限定・訂正 5 点逐条。**補題 LB-RES(新規)**: 下界の梯子は「付値 → Cl(F₇)[7] → 単数」の 3 段(M2⁻ 空振りが何も決めない理由の式化)。G6-GAP-3′(S-unit bound)・G7-3(h(ℚ(ζ₂₈)) の 7-可除性)新設。
 - 残 UNKNOWN(正直): GAP-S1 の p,s>0 窓・(U2)・種数 ≥1 の N 閉形・h(ℚ(ζ₂₈)) の正典出典。各追補末尾に Sol 監査点を優先順で配置 → 便 92 へ。
+
+## 2026-07-31 ★★ 第三実装判別(裁定 275)— 著者パッケージ GT(Dolgushev・PaB.py)が K_π 窓で **charming = 20・per-m [5,5,5,5]** ⟹ 我々 3 系統の「4」は共有仕様バグ側で確定的・v4 復権方向
+- cert = pent_thirdparty_gt_20260731.json・bootstrap = gt_thirdparty_bootstrap.py(AUX 予約名の Windows 制約回避・**著者ファイルは 3 本ともバイト無編集** — sha256/diff で確認・inert コピー AuxSafe.py のみ追加)・σ 輸出 = pent_pi_a5_export_sigmas.g。zip hash は LEDGER 既登録値と一致(c3124483…f645f95)。
+- **較正(本番前・必須)**: N19 "Philadelphia" をパッケージ自身の penta/hexa1/hexa2 でゼロから再計算 → **pentagon f = 216(論文一致)・hexagon m あり f = 36(論文一致)**。N34 同梱 charming リスト長 = **486 = 公刊 |GT(N34)| 一致**。(N34 の 4096/243 再計数は indF₂=2 千万で 8GB/30 分規律により中断 — 正直申告・較正は 486 一致で成立。)
+- **窓移送の検証**: GAP から σ₁σ₂σ₃ 像を輸出し、**パッケージ自身の relB4/relPB4 が True**・不変量 ind4=60/ind3=7500/indF2=1500/N_ord=5 が我々の cert と完全一致 = 同一窓 K_π の確認。手変換なし(合成規約の混入なし)。
+- **本番(接触遮断)**: gener_GT_charm(pentagon+hexagon+charming)= **20・per-m [5,5,5,5]・distinct words 10** = 粗窓 GT(N_A) の構造と完全一致。gener_GT_pr/sh(full F₂)= 100(per-m 25)・gener_GT_penta(m=0 交換子)= 16。
+- **判定(司令塔)**: 著者自身の定義解釈で **GT(K_π) は 20 元・全 coarse shadow が持ち上がる** ⟹ 我々の fine-lift=4(数学者 GAP・Sol 独立器・診断装置の 3 系統一致)は**共有仕様読みの誤り側でほぼ確定**。本命仮説(c 方向の過剰制約: defect を F₂ 水準 fiber 25 でなく PB₃ 水準 fiber 125 で読んだ)と整合 — 我々の粗 ∃-判定(F₂ 水準)が 20/20 だったことと辻褄が合う。**v4 復権方向**。正式な suspension 解除は①数学者の紙上診断(盲検進行中 — パッケージ値は見せない)②Sol の再監査(便 92)の二段で。
+- ★教材の実証: 「独立実装の一致は共有仕様バグを排除しない」— 3 系統一致の 4 が第三者(著者)実装で覆った教科書的事例。
