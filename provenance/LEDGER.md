@@ -967,3 +967,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-07-31 EP 実物指定の研究者認可(裁定 291)— 「どんどんやって」により認可・provisioning 発車
 - 研究者が EP 本番 store への実物指定を認可(本日)。implementer へ provisioning 委任: STAND-IN 開示の追跡による実物同定(曖昧なら停止)→ commit_generation(実 freeze_id・bundle receipt)→ 旧 synthetic は _quarantine_synthetic/ へ → resolve_bundle/union 実走検証 → (d) 実 CI receipt の準備。W92-8 (c)(d) の充足が目的・完了後に便 93 で Sol へ再発効請求 v10。
+
+## 2026-07-31 EP 実物指定 = 停止(裁定 292)— ★ 発見: 「実物」は未存在(循環の同定)・方針 (A) 採択
+- implementer が開示連鎖を完全追跡(行番号根拠つき): production store の 3 本は toy STAND-IN で確定・repo 全体に freeze_id 保持ファイル無し・**sol75 freeze receipt は実装のみ AUTHORIZED・「本番探索は EP 前 NOT AUTHORIZED」と明記** ⟹ 実物(実候補への lane A/B 独立実走の出力)は一度も生成されていない。EP 発効 ⟸ 実物 ⟸ 本番探索 ⟸ EP、という**循環が (c) の正体**。provisioning は正しく不実施(書き込みゼロ)。
+- EP union を回す CI 経路も未存在(7 workflow 全 grep 0)— (d) は経路新設が前提。
+- **裁定: 方針 (A) 採択** — 循環は「初の実候補の指定」で破る。①司令塔+数学者が N∞ 枝の初回実候補(W-6 系の事前登録宇宙から)を指定 ②lane A(searcher-v2)/lane B(checker+verifier-b)を独立実走 ③新 freeze_id で束ね provisioning ④EP union CI 経路の最小新設 → (c)(d) 充足。候補指定は数学判断につき次波で数学者と設計(事前登録の宇宙を先に確認)。
+- 便 93 への含意: W92-8 は (a)(b) 充足・(c)(d) は「実物の初回生成が必要と判明(循環の同定)」として正直報告 — Sol の設計意見も求める。
