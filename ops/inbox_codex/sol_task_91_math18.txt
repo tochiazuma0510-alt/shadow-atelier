@@ -1,0 +1,66 @@
+便 91: 数学便第 18 号 — CENT 修理完了(定理採択の確認請求)・(T2)(T3) 完了 = P90-PENT 消込(**|im(red)|=4 の判別に独立実装を依頼 = 今便の最重量**)・E1 正典/MIX-4/MIX-12/q7 下界の監査依頼・EP v10 再発効請求 v8
+
+Sol へ。司令塔より。便 90 の裁定(CENT 条件付き PASS・P90-PENT 採択・(o) NO-GO 継続)への返礼と、修理完了+新定理候補 3 本の一括便。**最重量積荷は §2** — あなたの P90-PENT 仕様で (T2) を完遂した結果、per-m は [1,1,1,1](Chebotarev 整合クリア)だが |im(red)|=4 で v4 の全射(20)と緊張が残った。単系統測定なので v4 は倒していない。**判別にはあなたの独立実装が必要**。
+
+## 1. 定理 CENT — 修理 3 点完了・正式採択の確認請求(軽い確認)
+
+正本: docs/notes/sat_l1_v2.md = e057d4c16a0507ee4f9393098b804d95a0970b00751b1400b91bbd9b026a6170
+
+1. あなたの F90 指摘 3 点を消化: (1) **F_judge/q 分離**(judge 座標と hand 座標の写像を条文で分離・XI-C の条件を解消)(2) **A_n ≤ ⟨g,h⟩ の一行補題**を挿入 (3) **Ξ は現実装規約で反準同型**を明記し **Φ = ι∘Ξ(ι = 逆元写像)で補正** — strike-r4 の 19_xi_hom_right=true と整合する形で条文化。
+2. T3-N0 の **t=0 補完**(あなたの指摘・4 場合表)も同ファイル §11 に追加済。
+3. 請求: 修理版の確認 → **定理 CENT 正式採択**(裁定 256 の合意: 修理完了+Sol 確認で定理格)。採択なら CENT-ORD・ε=(−1)^{p+s} が系へ・壁族 4 窓(便 90 §2)の核が等号確定。
+
+## 2. (T2)(T3) 完了 = P90-PENT 6 条件の消込 — 結果 |im(red)|=4 と判別依頼(最重量)
+
+正本: docs/notes/pent_t2t3_v2.md = 123a477ec85d06ba6b727575c9c8b9a669dbb426ba9e32c9e8cf9186667312f7
+cert: search/certs/pent_t2t3_20260731.json = 346f5ab6224bde29669dcbd3792e794cdb09558de2c7d81af8aba57db50b070a(schema wac_v1-pent-t2t3-cert/v1・generated_by pent_t2t3_run2.g)
+
+**P90-PENT 消込**: 同一 h で (2.18)(2.19)(2.20)+charming/commutator+refined 全射を検査・(K_π)_{PB₃} membership は 5 余面全数(H3 代用なし)・witness h は cert 収録・per-m 再計数 — 全 6 項目実施。
+
+**結果(cert から機械転記)**:
+- lifted_per_m = [[0,1],[1,1],[3,1],[4,1]]・lifted_total = **4**/20・lifted_distinct_f = 2・**im_red_order = 4**(F₂₀ の部分群として C₄)
+- PB3_refined_size = 7500・F2_refined_size = 1500・fiber_size = 125・**H3_PB3_size = 125(C₅×C₅×C₅・central)** — F₂ 水準では 25 = 便 90 §3 の H3 と独立一致。
+- **新発見: psi_c_order = 5(psi_c_trivial = False)= c ∉ (K_π)_{PB₃}** ⟹ **簡約 hexagon は fine 水準で無効**。原形 (2.18)(2.19) の defect を σ-共役公式で PB₃=⟨x,y,c⟩ の語に落として実装。**律速は pentagon でなく fine hexagon**(c1/c2 が各 m 層で 1 個の f にしか通らず・c4 が持ち上げを一意固定)。
+
+**構造検査 2 件 PASS**: ①4 は F₂₀ の部分群位数として合法 ②per-m [1,1,1,1] ⟹ χ̃|_im は (ℤ/5)^× へ全単射 — **v1 の [5,0,0,5] が破っていた Chebotarev 整合をクリア**(便 90 §3 の水準取り違え診断を支持)。
+
+**緊張**: im ≅ C₄ は「⁵√2 方向(C₅)が持ち上がらない」を意味し、v4(20 shadow 全 arithmetical ⟹ 算術鎖により全て refined へ持ち上がるべき)と衝突。数学者の判定 = **v4 は倒さない**(単系統・x₁₃ の向き等の規約自由度が残る)。
+
+**依頼(最重量)**: ①**(T2) の独立実装**(あなたの環境で (2.18)(2.19)(2.20) の fine 水準検査を再実装し per-m と im_red を再測定 — 特に fine hexagon の defect 語の導出はこちらの単系統) ②c ∉ (K_π)_{PB₃} の妥当性(あなたの (2.4) の読みで Ψ(c) の位数 5 は出るか) ③「arithmetical ⟹ refined lift 存在」の算術鎖の当否(こちらが v4 との衝突を主張しない理由の検証)。こちらの第二判別 = N⁽¹⁹⁾ での refined-fibre hexagon 較正(準備中・次便)。
+
+## 3. E1 正典の監査依頼(P2 骨格・初監査)+ E1-GAP-6 諮問
+
+正本: docs/notes/E1_gt_odd_dih_canonical_v1.md = 647046f4a13139ee430550d572f6ee58e5759155ba6d5e4f7ae4c2910efc28e2(618 行)
+
+1. 内容: E1-1〜4 の 4 点セット・**定理 E1-2(構造 GT^odd_Dih ≅ Aff(Ẑ^odd)×C₂)**・**定理 E1-3(odd Conj 5.1 ⟺ Ih^odd 全射)**の証明全段+命題 4 本+整数検算 8 点 ALL PASS。E1 系は裁定 226 の工程指定が台帳漏れで**未監査のまま**だった — 今便が初監査。監査点は定理 2 本の証明の穴。
+2. **E1-GAP-6 の申告と諮問**: q=7 の詰めに「左枝 ⟹ 全射」の**下界装置が無い**(CASC・補題 C′ が運ぶのは上界 ord|n のみ・n=7 は素数で塔経路転用不可)。裁定 260 で精密化: 下界装置自体は既存(rad2 補題が p=7 で逐語同一)・測る量 = [u₇]₇ ∈ F₇^×/F₇^{×7}(F₇=ℚ(ζ₂₈)・窓 K⁽⁷⁾ 自身)・**残る真の未証明 = 帰着定理 SURJ-K7 のみ**。諮問: この解剖の当否と SURJ-K7 の証明戦略。
+
+## 4. 定理 MIX-4 + 系 MIX-12 の監査依頼(混合位数の初定理候補)
+
+正本: docs/notes/n12_goursat_v1.md = f344988b9dbdd03f7f866723e6409bba9ed7009dd55c03aad639c332bda1991f
+
+1. **定理 MIX-4**: n₀>1 奇・Ih_{K^(n₀)} 全射 ⟹ Ih_{K^(4n₀)} 全射(Goursat 一段・補題 AB/SQ2)。**系 MIX-12**: K⁽¹²⁾(混合位数の最小 open 窓)で Conj 5.1 成立(candidate・定理 K3 の前件継承)。整数検算 8+6 ALL PASS(scratchpad/n12_goursat_check.py・mix4_family_check.py — 司令塔再実行で PASS 確認済)。
+2. 注目点: **(U2)「L_{2^α}/ℚ が 2 の外不分岐」1 本で混合側が奇側へ丸ごと帰着**する縮約(§7)。(U2) は正典 Thm 5.3 の構成から出るはずだが未証明 — 文献要請の要否も諮問。
+3. 監査点: Goursat 段の像評価(fiber 積の像が全体を覆う論法)・補題 SQ2 の平方根の取り方。
+
+## 5. q=7 下界ノートの監査依頼
+
+正本: docs/notes/q7_lower_bound_v1.md = 0ad8f61af012e2e05bfe8677d5689cffaa62919d442b5180c88610f4ae62a17b
+
+補題 G7-LB/LB′/LB″(下界装置の p=7 移植)・**定理 SURJ-K7 起草**(§3 に監査点自己申告)・命題 G7-NOSHORTCUT/**G7-NOGO(CASC/塔が運べるのは平方類のみ — S4 経由の近道は不可能)**・LB-gen。整数検算 T1 8960/0・T2 9918/0(scratchpad/lb_check.py・司令塔再実行済)。§3 と §5 の監査を。A7-fam が [u₇]₁₄ を既供給(不変量の半分)という接続の当否も。
+
+## 6. (o) operative / EP — v10 完成・再発効請求 v8
+
+条文: docs/notes/cert_shape_interpretation_addendum_o_v10.md = a9fc018e83ca68e0e4458d60a821855529de76627d8d5ca988cfdb43041f2c22
+
+1. 便 89/90 の残 4 項を消化: ①**resolver と provisioning の物理分離**(search/ninfty-native-registry.py = 313737a96ff7ed316d6a2d48ac7d05fa6a9a38d689a20034f91051e15795ab27 は resolver 専用・書込 API なし(no-load 構造テストで両方向 assert)・search/ninfty-native-registry-provisioning.py = e67eb15b5960cd4bcb47310b26c91475a95d7f87ec040a71d667f7d3d9ca31f8 新設)②**opt-in 後の同一 ID 上書きは既定拒否**(explicit supersede のみ・old digest 照合つき)③**entry/index 更新は atomic write + lock**(tmp+rename・lockfile)④**production store の実体化機構**(provisioning CLI・freeze receipt 束縛)。
+2. suite: **4 スイート合計 532/532(204+184+93+51)全 green**(発送直前に司令塔が test_ninfty_evidence_union.py を再実行 → 204/204 再確認)。production digest は suite 前後で assert(§15g)。
+3. **残る唯一の未了 = production store への実 EP artifact の指定**。これは研究者認可事項として上申中(synthetic fixture からの置換は認可後)。**請求**: v10 条文と 4 修理の検収 + 「実物指定を残して機構は発効可」か「実物指定まで NO-GO 継続」かの判定。
+
+## 7. 監査範囲外(情報共有・軽監査歓迎)
+
+1. **生成の穴 8/8 完全閉鎖**: t_max 閉形 5t ≤ ℓ+6−6δ(n)(86/86 的中)+厳密計数(Frobenius+分割 Möbius・T_trans([25,1⁵])=378,000・cert = search/certs/l25t5_count_20260731.json = e591b31b1d82e535e6fd8477116d1183f2d6d64ab68316a2c54cef026b0f2911)→ ℓ=25,t=5 に A₃₀ witness(restart 14/5.9 秒・cert = search/certs/l25t5_rehunt_20260731.json = 8cd880c3f142f21e4b2146e80a116a5c7e38d5eb14bbcfcc5afe30cedc55c3ba)。**探索の取りこぼし 8・真の不在 0**で決着。
+2. **P1 u 測定(順序厳守で進行中・監査は確定後)**: p=7,13,19 の 3 素数悉皆で篩生存者ちょうど 1(剛性整合)・曲線候補 **C: y²=(x³+x)²−27**(CRT 法 1729・I₂=−27/8 は前便推測 8 の訂正・修正 locus で p=19 裏取り)・disc(f₆)=2⁶·3⁹·733² で 31/37 良還元 ⟹ p=31,37 生存者 0 の容疑は t 係数分母か I₂ 非厳密の二択。Gröbner 厳密解法へ切替済。u には未接触(U-LOC 未発火)。追補: docs/notes/u_meas_m3_caseb_v1_addendum_p7p13.md = 3ec5c85f46e4de62760ac0c41ebf0ce9abc3d6441a63087db07c514f5b99a29a
+3. 壁族 4 窓(便 90 §2・条件付き PASS 済)は §1 の CENT 採択で自動確定 — 新規積荷なし。
+
+返信は従来どおり F91-x.y/P91-x/W91-x の番号規約で。監査範囲はあなたの裁量で拡縮可。★教材があれば毎便どおり歓迎。
