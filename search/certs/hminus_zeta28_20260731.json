@@ -1,0 +1,227 @@
+{
+  "task": "hminus_zeta28_analytic",
+  "sympy_version": "1.14.0",
+  "convention": {
+    "formula": "h^- = Q * w * prod_{chi odd} ( -B_{1,chi} / 2 )",
+    "B1_definition": "B_{1,chi} = (1/f) sum_{a=1}^{f} chi(a) a, chi primitive mod f=conductor(chi)",
+    "w_rule": "w = n if n even, w = 2n if n odd  (order of mu(Q(zeta_n)))",
+    "Q_rule": "Q = 1 if n is a prime power, else Q = 2  (Hasse unit index convention, Washington Thm 4.12/Cor 4.13)",
+    "arithmetic": "exact, done in Q[x]/Phi_L(x) (L = exponent of (Z/nZ)^*), no floating point"
+  },
+  "calibration": {
+    "n=23": {
+      "expected_hminus": 3,
+      "computed_hminus": "3",
+      "match": true
+    },
+    "n=20": {
+      "expected_hminus": 1,
+      "computed_hminus": "1",
+      "match": true
+    }
+  },
+  "results": {
+    "23": {
+      "n": 23,
+      "L_exponent": 22,
+      "num_odd_characters": 11,
+      "char_records": [
+        {
+          "ks": [
+            1
+          ],
+          "conductor": 23,
+          "B1_poly": "-6*x**9/23 + 14*x**8/23 + 6*x**7/23 - 2*x**6/23 + 12*x**5/23 - 10*x**4/23 - 8*x**3/23 - 14*x**2/23 - 18*x/23 - 16/23"
+        },
+        {
+          "ks": [
+            3
+          ],
+          "conductor": 23,
+          "B1_poly": "-14*x**9/23 + 6*x**8/23 - 4*x**7/23 - 8*x**6/23 - 12*x**5/23 - 6*x**4/23 - 24*x**3/23 + 20*x**2/23 + 4*x/23 - 10/23"
+        },
+        {
+          "ks": [
+            5
+          ],
+          "conductor": 23,
+          "B1_poly": "-4*x**9/23 + 12*x**8/23 - 28*x**7/23 + 14*x**6/23 - 32*x**5/23 + 22*x**4/23 - 2*x**3/23 + 8*x**2/23 - 20*x/23 - 2/23"
+        },
+        {
+          "ks": [
+            7
+          ],
+          "conductor": 23,
+          "B1_poly": "10*x**9/23 - 2*x**8/23 - 10*x**7/23 - 18*x**6/23 + 14*x**5/23 - 8*x**4/23 + 22*x**3/23 - 20*x**2/23 - 6*x/23 - 24/23"
+        },
+        {
+          "ks": [
+            9
+          ],
+          "conductor": 23,
+          "B1_poly": "-20*x**9/23 - 4*x**8/23 + 12*x**7/23 + 16*x**6/23 - 10*x**5/23 + 8*x**4/23 + 8*x**3/23 + 2*x**2/23 + 10*x/23 - 14/23"
+        },
+        {
+          "ks": [
+            11
+          ],
+          "conductor": 23,
+          "B1_poly": "-3"
+        },
+        {
+          "ks": [
+            13
+          ],
+          "conductor": 23,
+          "B1_poly": "-12*x**9/23 + 2*x**8/23 - 18*x**7/23 + 20*x**6/23 - 26*x**5/23 - 2*x**4/23 - 6*x**3/23 + 30*x**2/23 - 10*x/23 - 4/23"
+        },
+        {
+          "ks": [
+            15
+          ],
+          "conductor": 23,
+          "B1_poly": "26*x**9/23 - 28*x**8/23 + 14*x**7/23 - 20*x**6/23 + 24*x**5/23 + 4*x**4/23 + 8*x**3/23 - 16*x**2/23 + 6*x/23 - 30/23"
+        },
+        {
+          "ks": [
+            17
+          ],
+          "conductor": 23,
+          "B1_poly": "12*x**9/23 - 18*x**8/23 - 2*x**7/23 + 12*x**6/23 + 6*x**5/23 + 8*x**4/23 + 8*x**3/23 - 16*x**2/23 + 20*x/23 - 22/23"
+        },
+        {
+          "ks": [
+            19
+          ],
+          "conductor": 23,
+          "B1_poly": "-24*x**9/23 + 28*x**8/23 + 2*x**7/23 + 16*x**6/23 + 4*x**5/23 + 8*x**4/23 - 10*x**3/23 + 18*x**2/23 - 4*x/23 - 6/23"
+        },
+        {
+          "ks": [
+            21
+          ],
+          "conductor": 23,
+          "B1_poly": "32*x**9/23 - 10*x**8/23 + 28*x**7/23 - 30*x**6/23 + 20*x**5/23 - 24*x**4/23 + 4*x**3/23 - 12*x**2/23 + 18*x/23 - 34/23"
+        }
+      ],
+      "product_poly": "3/46",
+      "product_is_rational_constant": true,
+      "product_value": "3/46",
+      "w": 46,
+      "Q": 1,
+      "hminus_raw": "3",
+      "hminus": "3",
+      "hminus_is_integer": true
+    },
+    "20": {
+      "n": 20,
+      "L_exponent": 4,
+      "num_odd_characters": 4,
+      "char_records": [
+        {
+          "ks": [
+            0,
+            1
+          ],
+          "conductor": 5,
+          "B1_poly": "1/5 - 3*x/5"
+        },
+        {
+          "ks": [
+            0,
+            3
+          ],
+          "conductor": 5,
+          "B1_poly": "3*x/5 + 1/5"
+        },
+        {
+          "ks": [
+            1,
+            0
+          ],
+          "conductor": 4,
+          "B1_poly": "-1/2"
+        },
+        {
+          "ks": [
+            1,
+            2
+          ],
+          "conductor": 20,
+          "B1_poly": "-2"
+        }
+      ],
+      "product_poly": "1/40",
+      "product_is_rational_constant": true,
+      "product_value": "1/40",
+      "w": 20,
+      "Q": 2,
+      "hminus_raw": "1",
+      "hminus": "1",
+      "hminus_is_integer": true
+    },
+    "28": {
+      "n": 28,
+      "L_exponent": 6,
+      "num_odd_characters": 6,
+      "char_records": [
+        {
+          "ks": [
+            0,
+            1
+          ],
+          "conductor": 7,
+          "B1_poly": "6/7 - 2*x/7"
+        },
+        {
+          "ks": [
+            0,
+            3
+          ],
+          "conductor": 7,
+          "B1_poly": "-1"
+        },
+        {
+          "ks": [
+            0,
+            5
+          ],
+          "conductor": 7,
+          "B1_poly": "2*x/7 + 4/7"
+        },
+        {
+          "ks": [
+            1,
+            0
+          ],
+          "conductor": 4,
+          "B1_poly": "-1/2"
+        },
+        {
+          "ks": [
+            1,
+            2
+          ],
+          "conductor": 28,
+          "B1_poly": "2*x - 2"
+        },
+        {
+          "ks": [
+            1,
+            4
+          ],
+          "conductor": 28,
+          "B1_poly": "-2*x"
+        }
+      ],
+      "product_poly": "1/56",
+      "product_is_rational_constant": true,
+      "product_value": "1/56",
+      "w": 28,
+      "Q": 2,
+      "hminus_raw": "1",
+      "hminus": "1",
+      "hminus_is_integer": true
+    }
+  }
+}

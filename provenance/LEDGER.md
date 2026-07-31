@@ -919,3 +919,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **settled_summary: 20 行中 well_defined_on_QP=12・settled(K_π^s=K_π)=4(自己逆元 f の 4 行のみ・v3 と数値一致)・settled_false=8(index 差 60 一律)・not well-defined=8**。
 - **判定(司令塔)**: PB₃ 水準は必要条件 ⟹ そこで破れた 8 行は **PB₄ 水準でも N_s≠K_π が確定**。8 行の非 well-defined も同方向。⟹ **K_π は isolated でない(candidate)** — F91-2.5 の型付けは「GT(K_π) は群でない」で確定方向・「20」は target-shadow 集合の個数(合成は他の窓へ移る groupoid 射)。著者 gtsh=100(source-index match)とも整合(位数一致 ≠ 核一致)。v4・算術鎖とは無衝突(F91-2.6 は source≠target を明示的に許容)。
 - 自己逆元 4 行だけが settled という構造は要注視(偶然か対合の構造か)— 数学者の次の観察対象として記録。
+
+## 2026-07-31 h⁻(ℚ(ζ₂₈)) = 1 機械計算(裁定 283)— 較正 2 件(n=23→3・n=20→1)一致の厳密解析的類数公式・G7-3 の半分が機械側で確定
+- cert = search/certs/hminus_zeta28_20260731.json・実装 = scratchpad/hminus_analytic.py(sympy 1.14.0・Q[x]/Φ_L 厳密演算・浮動小数点なし)。
+- 規約(cert 明記): h⁻=Q·w·∏(−B_{1,χ}/2)・B_{1,χ} は導手還元後の原始指標・w=28・Q=2(28 は素数冪でない・Washington Thm 4.12/Cor 4.13)。
+- **較正が実装バグを 1 発捕獲**: 初版は Q 規約が逆で n=23 が h⁻=6(≠既知 3)→ 修正 → 較正 2 件厳密一致 → 本番。「較正が合わないうちは本番値を報告しない」の実演。
+- **結果: 奇指標 6 個の B_{1,χ} 積 = 1/56(有理定数へ帰着)⟹ h⁻ = 2·28·(1/56) = 1**。
+- 帰結(司令塔): h(ℚ(ζ₂₈)) = h⁺·h⁻ の負部が消えた。**7|h ⟺ 7|h⁺ に縮約** — LB-RES の 3 段梯子の類群段は「7∤h⁺(ℚ(ζ₂₈)⁺)」だけに依存。h⁺=1 は Masley–Montgomery/Washington 表で間接確認済(本文 UNVERIFIED・裁定 281)。機械+文献の挟み撃ちで**類群段の消滅は強 candidate** — 正式採択は文献本文か h⁺ 機械検算のどちらかで。n=7 設計(委嘱中)へはこの格のまま渡す。
