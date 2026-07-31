@@ -850,3 +850,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - cake_lpr 3 点(manifest fail-closed・拒否 token 必須+TIMEOUT/CRASHED/LOADER_FAILURE 分類・NOT_VERIFIED 語彙除去)は静的検証まで(実 CI receipt は次回 run で)。
 - 設計判断(便 92 で Sol 確認へ): 旧 flat 3 ファイルは inert 残置・旧 API write_production_receipt は NotImplementedError スタブ・generation 内 artifact は同一 freeze_id の任意個(A/B 二 lane の一般化)。
 - 実物指定は対象外継続(研究者認可待ち)。
+
+## 2026-07-31 便 91 数学修理 4 点 完了(裁定 274)— T3-N0 の t=0 閉鎖・系 GEN-2 で GAP-S1 部分閉鎖(壁族カバー)・MIX-12 が P-e/P-f 非依存に・q7 は APPLY 分離+補題 LB-RES
+- 修理正本: sat_l1_v2.md(§2 を F91-1.2 の一段へ置換・旧文は付録 A 退避・冒頭に定理 CENT 採択 pin)+ 追補 3 本(t3_..._addendum_t0.md / n12_..._addendum_mix12.md / q7_..._addendum_f91.md・本体はポインタ追記のみ)。検算 3 本 = scratchpad/gen_lemma_check.py・t3_t0_check.py・t3_gf_check.py(ハッシュはノート内)。
+- §2 置換の要 = 記号衝突の解消(F91-1.2 の hand 座標 q は v1 の f・v2 の q ではない)。生成等式は前件でなく**結論**として導出(sgn(b₁)=+1 の 2 行)。
+- **系 GEN-2(新規)**: ord(w) 奇(p=s=0)なら【GAP-S1】が閉じる(v∈⟨v²⟩≤H・H^g=H・[K:H]≤2・A_n 単純 ⟹ A_n≤H)— **壁 P-WALL-2・W-CENT-B・梯子族はこの範囲**。p,s>0 は未閉(正直申告)。独立機械照合(Python+sympy・GAP 非依存)で 5 窓悉皆・(90,54)/(65,50) 再現・反例 0。
+- **T3-N0 t=0 閉鎖**: 「ループ付き黒葉根付け+t 除算」を「任意の葉根付け+(m+1) 除算」の一様版へ。R=sW−2λ(u+z)−λ²・補正項は s-次数 2 で m≥2 では消滅・t=0 は m≥2 自動。**穴は t=0 より深かった**(t=f₃=0 の passport が実在し旧根付けは原理的不可能)— 旧証明は特別根付けとして吸収。検算: 恒等式 True・passport 155 一致・旧証明照合 116 一致・t=0 ブルート 6 行+較正 2 行一致・不一致 0。
+- **MIX-12 直接経路の正典化**: P-e(candidate)/P-f(framework-conditional)を依存から除去。第三の ℰ₁₂=1 導出(明示体・3∤φ(24) ⟹ x³−2 既約)で**三経路一致**。(U2) は F91-4.3 pin+要請票 (R1)(R2)(R3) のみ(文献未接触)。
+- **q7 修文**: SURJ-K7 / SURJ-K7-APPLY(G-1 C1′・G-2 C5・G-3 モデル束縛・G-4 provenance)分離・G7-NOGO′ 射程限定・訂正 5 点逐条。**補題 LB-RES(新規)**: 下界の梯子は「付値 → Cl(F₇)[7] → 単数」の 3 段(M2⁻ 空振りが何も決めない理由の式化)。G6-GAP-3′(S-unit bound)・G7-3(h(ℚ(ζ₂₈)) の 7-可除性)新設。
+- 残 UNKNOWN(正直): GAP-S1 の p,s>0 窓・(U2)・種数 ≥1 の N 閉形・h(ℚ(ζ₂₈)) の正典出典。各追補末尾に Sol 監査点を優先順で配置 → 便 92 へ。
