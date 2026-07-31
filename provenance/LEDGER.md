@@ -930,3 +930,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-31 便 92 検収(裁定 284)— PENT 決着を Sol 確認(4 撤回・集合水準 20/20 = cross-checked・suspension 正式解除)・CENT/GEN-2/T3-N0′(weighted)採択・h(ℚ(ζ₂₈))=1 採択(類群段消滅確定)・EP は同一 freeze 世代混成 race で FAIL・壁 cert「cosmetic」判定は却下
 - 正本 = sol/裁定_284_便92検収.md。主要: ①PENT = F92-1 で Sol 自身の 4 を撤回・20/20 を cross-checked 採択・v4/算術鎖の suspension 解除(型付け W92-1 = 群化/PB₄ isolated/準同型性は UNKNOWN 継続)②T3-N0′ は weighted(Σ1/|Aut|)採択・T3-WALL は Aut 自明域で定理 ③SURJ-K7 定理部採択+**h(ℚ(ζ₂₈))=1 を Masley–Montgomery 出典で採択** — 残件は単数段 C₇⁶(P92-3 が最短路)④u₀⁻¹ の値は紙上採択・cross-checked 格上げと C1′ は差戻し(P92-4 の 4 点証明書が要件)⑤EP = W92-6 の TOCTOU(A/B を別々に resolve・CURRENT 再読で同一 freeze 異世代混成が通る)で FAIL — P92-6 resolve_bundle が必須修理 ⑥壁 cert = W92-9 で「schema 欄と verdict=failed は fail-closed consumer には正式失敗」— 裁定 279 の cosmetic 判定を訂正・driver 修理+再走で verdict=passed receipt を得るまで CLAIMS 確定記載しない。
 - ★教材 2 本採択+P92-1(三角形 assert の必須 fixture 化)採択。
+
+## 2026-07-31 N19 fine 較正の試み = 構造的停止で終了(裁定 285)— σ データ不在確定・合成規約辞書を資産化
+- docs/notes/pent_n19_calib_attempt_v1.md: PackageGT の窓データ(subGrPB4_org35)は PB₄ 6 生成元のみ保持(行番号根拠つき)・B₄ σ 像なし ⟹ v3 Chk6(Aut1/Aut2 が σ 依存)の N19 移植は構造的に不能。縮小版は実施せず終了(裁定 278/284 後は限界効用低・需要駆動)。
+- **資産**: 実測確定の合成規約辞書(GAP S*T = PaB comp(S,T)・xb⇔x24・yb⇔x23・X13v⇔x12)+ A5 窓 π-lift の縮退記録(6 生成元中 4 独立)— 今後の GAP⇔python 突合の共通参照。
