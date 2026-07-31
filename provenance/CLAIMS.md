@@ -84,3 +84,9 @@ I-3 等号検査(証明書 = search/certs/i3_equality_20260728.json): |Im(ψ₄,
 
 ## GT^odd_Dih 4 点セット(登録は 2026-07-30・裁定 226 — 内容は既検分・地図で領有済みの遡及登録)
 E1-1(isolated 族)/E1-2(構造 GT^odd_Dih ≅ Aff(Ẑ^odd)×C₂)/E1-3(odd Conj 5.1 ⟺ Ih^odd 全射 — 全有限段・便 75 §F6.2(d)・裁定 111)/E1-4(marked 忠実実現・framed 対象)。統合正本 = docs/notes/e1_canonical_v1.md(candidate・研究内部文書)。従前は地図・裁定のみで台帳未登録だった(E1 起草時の棚卸しで発見・是正)。
+
+## C-WALL-FAM(登録 2026-07-31・裁定 294)— 壁族 4 窓の核等式・SURV 悉皆(定理 CENT の実データ完成形)
+- **主張**: n=24/28/36/37(w₀=(19,1⁵)/(23,1⁵)/(31,1⁵)/(31,1⁶))の 4 窓で ker χ̃ ≅ C_{S_n}(w₀)(= C₁₉×S₅ / C₂₃×S₅ / C₃₁×S₅ / C₃₁×S₆・位数 2280/2760/3720/22320)— **定理 CENT(正式採択・裁定 284)による等号+SURV 全数実測 4/4**(2280/2760 は便 89/90 検収済・3720/3720 と 22320/22320 は本日)。n=37 は初の S₆ 型。
+- 格: **cross-checked**(紙 = 定理 CENT(Sol 採択・erratum pin)× 機械 = SURV 悉皆・hexagon/generation fail 0・eq_centralizer_w0=true 全窓・wall28 は二環境一致)。verified(Lean)ではない。
+- cert(W92-9 修理版・verdict=done 受領): search/certs/wall36_cert_20260731_r2.json = 28879f533f0001970bddb2401ed77e819b1d94179741588f217c943b3e3270fa・search/certs/wall37_cert_20260731_r2.json = aec7d5e1506f029463d1a1843bd8bf0a2f0b6e6e1c11b2c532e2975012aea323(schema 窓別・DRIVER_DONE marker・run 30636849192)。旧 r1 cert は数値照合対象として保存(裁定 279/284)。
+- 注記: gap-ci backend の合格 verdict 文字列は「done」(「passed」は py-ci 専用)— W92-9 の趣旨(fail-closed gate 通過)は verdict=done で充足・便 93 で Sol へ用語注記つき報告。

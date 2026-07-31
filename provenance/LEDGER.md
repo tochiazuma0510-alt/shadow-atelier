@@ -980,3 +980,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **I16-1c(KER-QUANT)**: settled_false 8 行全て K≅A₅・QP/K≅C₅³・C_QP(K)≅C₅³ — 「A₅ が丸ごと核・C₅³ 無傷」の量子化を一律確認。
 - **I16-1d(STAR-LAG)**: well-defined 12 行の核クラスは**ちょうど 2 種**(自明×4・A₅×8)+ non-well-defined 8 = **4+8+8 構造** — 予言の 20=4×5 形は**外れ**(層化データ自体は取得)。
 - 意味(candidate): **settled = 複素共役と可換な「実」部分** — 非 isolated 窓の settled 軌跡が実構造で説明される形。GAL-STAB(settled 率 = 算術性測度)への強い足がかり。紙上定式化+一般窓予言は数学者へ(次波: T3 weighted 修文・C1′ 証明書・(U2) 配達と同便)。
+
+## 2026-07-31 壁族 4/4 CLAIMS 確定(裁定 294)— r2 再走 verdict=done(failed→反転)・全数値再現・C-WALL-FAM 登録
+- run 30636849192 success・verdict=done 両窓(gap-ci の合格状態は done — passed は py-ci 専用と workflow 実装で確認)・DRIVER_DONE marker・schema 窓別・SURV 3720/3720・22320/22320(r1 と完全一致)。
+- CLAIMS へ C-WALL-FAM 登録(格 = cross-checked・定理 CENT×悉皆実測)。レポート = mine/reports/wall3{6,7}-cert-20260731-r2_report.md。collect.py の WALL 系 schema 未対応は既知制約(別件)。
+- 工程教訓(二度目の確定): エージェントの「バックグラウンド監視」宣言は turn 終了で停止する — 司令塔が完走見積時刻に自分で run を確認し即 resume する運用へ(研究者の指摘で回収)。
