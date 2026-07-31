@@ -173,3 +173,64 @@ $\mathbf Q$ 持ち上げが立っていないので **命題 U-LOC は発火さ�
 | **CB-16** | 設計 | $t$ の係数は mod-$p$ 再構成が効かない($J_3$ が $(1,1,0)$)⟹ **曲線固定 + Gröbner の厳密解法へ切替を提案**(【CB-j】) |
 
 **出所追加**: `search/probe/wac_v1/u_meas_caseb_sieve19.py`(p=19 篩 + 3 素数 CRT)/ `u_meas_caseb_locus2.py`(修正 locus 走査)/ ログ `scratchpad_caseb_p19.log`・`scratchpad_caseb_locus2.log`。**単系統・Sol 監査前・Lean 検証ではない。**
+
+---
+
+# 追補 3 — Gröbner 厳密解法(裁定 263 発注)の実行と**未完走**報告(2026-07-31)
+
+**状態札: `partial / 系の有理化と h 消去は成功・厳密解は未取得`**
+
+## A. 系の有理化に成功($\delta$ を消去した)
+
+司令塔の発注どおり曲線を $C:y^2=f_6=(x^3+x)^2-27$ に固定($a=2,b=1,c=-27$、$e=0$、$\theta\bar\theta=-27$)。
+$t=\tfrac32+c_3\theta+c_5x^2\theta+c_7x\theta^2+c_9\theta^3=A+By$ とすると、$\bar\psi:(x,y)\mapsto(-x,-y)$ と $t^{\bar\psi}=3-t$ から
+
+$$U:=A-\tfrac32\ \textbf{は奇},\qquad B\ \textbf{は偶}\qquad(\text{機械確認: 奇数次係数はすべて }0)$$
+
+$\delta:=\tau-\tfrac32$($\delta^2=-\tfrac{27}4$)として $\mathcal N_\tau=P-2\delta U$、$P:=U^2-B^2f_6-\tfrac{27}4$(**偶・次数 8**)。ゆえに
+
+$$\boxed{\ \mathcal N_{\tau_1}\mathcal N_{\tau_2}=P^2+27U^2\ \ (\textbf{完全に有理}),\qquad \text{分岐条件}\iff P^2+27U^2=432c_9^2\,h(x)^3\ }$$
+
+$h$ は**モニック偶 6 次**($P^2+27U^2$ が偶 ⟹ $h^3$ 偶 ⟹ $\mathbf Q$ 上 $h$ 偶)⟹ **未知数は $h_4,h_2,h_0$ の 3 個だけ**。
+機械確認: $\deg U=9$・$\deg B=6$・$\deg P=8$・$\deg(P^2+27U^2)=18$、$432c_9^2h^3$ と最高次が相殺して $\deg E=16$、**奇数次係数はすべて 0**。
+
+## B. $h$ の閉じた形での消去(成功)
+
+$x^{16},x^{14},x^{12}$ の係数から $h_4,h_2,h_0$ が**逐次線形に解ける**(cert に全式収蔵):
+$$h_4=\frac{27c_5^2c_9+c_7+6c_9}{3c_9},\qquad
+h_2=\frac{648c_3c_5c_9^2-2916c_5^4c_9^2+108c_5^2c_7c_9+6c_5c_9-c_7^2+12c_7c_9+36c_9^2}{36c_9^2},$$
+$h_0$ も同様(3 行・cert 参照)。
+
+## C. 残る系は重く、**3 通りの試行がいずれも未完走**
+
+| # | 方法 | 上限 | 結果 |
+|---|---|---|---|
+| 1 | `sympy.solve`(9 式 / 7 未知数・$h$ 込み) | 1500 s | **未完走** |
+| 2 | $h$ 消去後 `sympy.solve`(6 式 / 4 未知数) | 570 s | **未完走** |
+| 3 | $h$ 消去後 `groebner(grevlex)`(6 式 / 4 未知数) | 560 s | **未完走** |
+
+残差系の規模(機械測定): 全次数 **12, 15, 18, 21, 24, 27**、単項式数 **31, 62, 111, 174, 247, 283**($c_9$ の共通冪は無し = 既に飽和済)。**30 分規律に従い、ここで状況報告に切り替える。**
+
+$$\boxed{\ \textbf{厳密解は未取得。したがって分母の素因数(容疑 (i))も未判定。}u\ \textbf{には触れていない(U-LOC 未発火)。}\ }$$
+
+## D. 再発車の設計(優先順)
+
+1. **★ $p$ 進 Newton 持ち上げ(本命)**: **$p=7$ の生存者 $(a,b,c)=(2,1,1)$ は正規化後の曲線そのもの**($-27\equiv1\bmod7$)で、$(c_3,c_5,c_7,c_9)=(1,5,1,5)$ が**そのまま初期シードに使える**。$h$ 消去後の 6 式 4 未知数に対し 7 進 Newton を回せば、Jacobian が可逆な限り数十秒で $7^{k}$ 精度まで上がり、有理再構成で厳密値が出る。**Gröbner の爆発を完全に回避できる。**
+2. **終結式による逐次消去**: 低次の 2 式(次数 12・15)から $c_3$ を消去(見た目 $c_3$ は低次)→ 3 変数へ。sympy の `resultant` は Gröbner より軽い場合が多い。
+3. **数値解 → 代数認識**: `nsolve` で複素解を全部拾い、PSLQ/`nsimplify` で認識。M7 の数値経路(KMSV)と同系統なので、**独立第二系統としての価値も兼ねる**。
+4. 上記 1 が通れば、そのまま (a) 分母の素因数(31/37 の容疑判定)(b) mod 7,13,19 残差との突合 → $\mathbf Q$ 持ち上げ判定($\deg\mathcal N=9$・Frobenius 型再確認)へ進む。
+
+## E. 出所
+
+`search/certs/u_meas_caseb_groebner_20260731.json`(machine-piped・`status: PARTIAL`・sympy 1.14.0・$h$ 消去の閉形式・残差系の次数と項数・3 試行の記録・`u_touched: false`)。
+probe: `u_meas_caseb_groebner.py` / `u_meas_caseb_groebner2.py` / `u_meas_caseb_groebner3.py` / `u_meas_caseb_cert.py`。ログ: `scratchpad_caseb_groebner.log`・`scratchpad_caseb_gb3.log`。
+**自認**: `groebner2.py` 初版に係数の次数割当バグ(`all_coeffs()` の先頭を $x^{18}$ と誤認 — 実際は先頭項が相殺して $\deg E=16$)。修正済で、修正後は $h$ 消去が一発で通った。
+
+## F. FINDING(追補 3)
+
+| # | 格 | 内容 |
+|---|---|---|
+| **CB-17** | **proof + 機械** | **系の有理化**: $U$ 奇・$B$ 偶 ⟹ $\mathcal N_{\tau_1}\mathcal N_{\tau_2}=P^2+27U^2$、分岐条件は $\mathbf Q$ 係数の $=432c_9^2h^3$($h$ モニック偶 6 次)。**$\delta=\sqrt{-3}$ 系が完全に消えた** |
+| **CB-18** | 機械 | $h_4,h_2,h_0$ を $c$ の有理式として**閉じた形で消去**(cert に収蔵)。残り 6 式 4 未知数 |
+| **CB-19** | **未閉鎖** | 残差系(次数 12–27・最大 283 項)は sympy の solve/groebner で未完走(3 試行)。**$p$ 進 Newton 持ち上げへ切替を提案**(§D-1) |
+| **CB-20** | 自認 | 係数次数割当のバグ 1 件(修正済) |

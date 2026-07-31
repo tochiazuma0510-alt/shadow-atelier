@@ -761,3 +761,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 未確定: 修正 locus 上でも p=31,37 は生存者 0。**司令塔の 1 行検算: disc(f₆)=2⁶·3⁹·733² — 31 も 37 も割らない = 曲線は 31/37 で良還元**につき「悪い還元」説は曲線については棄却 — 容疑は t 係数(c₃,c₅,c₇,c₉ 未再構成・J₃ 残差 (1,1,0))の分母か I₂ 非厳密(高さ 27 は限界 √(1729/2)≈29 の直下)の二択へ。
 - **u には未接触(U-LOC 未発火・順序厳守)** ✓。追補 = docs/notes/u_meas_m3_caseb_v1_addendum_p7p13.md 追補 2・probe = u_meas_caseb_sieve19.py/u_meas_caseb_locus2.py。
 - 再発車: mod-p 走査 → **sympy Gröbner 厳密解法へ切替**(未知数 4・条件 6)— 厳密解が出れば t 分母と I₂ の両容疑を同時に裁ける。
+
+## 2026-07-31 u測定 Gröbner 走(裁定 264)— PARTIAL: 有理化 CB-17(√−3 完全消去)+ h 線形消去 CB-18 成功・残差系 6式4未知数は爆発 → 7進 Newton へ切替
+- cert = search/certs/u_meas_caseb_groebner_20260731.json(status PARTIAL・u_touched false・machine-piped)・追補 3 = u_meas_m3_caseb_v1_addendum_p7p13.md・probe = u_meas_caseb_groebner{,2,3}.py。
+- **CB-17**: t^ψ̄=3−t から U:=A−3/2 奇・B 偶(奇数次係数全 0 を機械確認)⟹ 分岐条件が ℚ 係数の P²+27U²=432c₉²h³(h モニック偶 6 次)へ — **δ=√−3 が消えた**。
+- **CB-18**: x^16,x^14,x^12 係数から h₄,h₂,h₀ が逐次線形に解け閉形式収蔵。
+- **CB-19**: 残差系 6 式 4 未知数(全次数 12..27・単項式 31〜283・c₉ 冪は飽和済)。solve 1500s/solve 570s/groebner(grevlex) 560s の 3 試行未完走 — 30 分規律で報告切替。分母素因数(容疑(i))未判定・u 未接触。
+- 実装係の自認バグ 1 件(groebner2.py の係数次数割当 — 先頭項相殺で deg E=16。修正後 h 消去一発)— 修正済・cert は修正版由来。
+- 次手(裁可): **7 進 Newton 持ち上げ** — p=7 生存者 (a,b,c)=(2,1,1) は正規化曲線そのもの(−27≡1 mod 7)で (c₃,c₅,c₇,c₉)=(1,5,1,5) がシード。有理再構成 → 分母素因数 → mod 7,13,19 突合 → ℚ 持ち上げ判定の一直線。

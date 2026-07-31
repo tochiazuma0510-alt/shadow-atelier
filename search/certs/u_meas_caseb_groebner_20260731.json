@@ -1,0 +1,87 @@
+{
+ "attempts": [
+  {
+   "method": "sympy.solve on 9 eqs / 7 unknowns",
+   "result": "did not finish",
+   "wall_limit_s": 1500
+  },
+  {
+   "method": "staged h-elimination + sympy.solve on 6 eqs / 4 unknowns",
+   "result": "did not finish",
+   "wall_limit_s": 570
+  },
+  {
+   "method": "staged h-elimination + groebner(grevlex) on 6 eqs / 4 unknowns",
+   "result": "did not finish",
+   "wall_limit_s": 560
+  }
+ ],
+ "basis_L9Pbar_minus": [
+  "theta = y + q",
+  "x^2*theta",
+  "x*theta^2",
+  "theta^3"
+ ],
+ "curve": "y^2 = f6(x), f6 = (x^3+x)^2 - 27   [a=2, b=1, c=-27; e=0; theta*thetabar = -27]",
+ "curve_source": "CRT over p=7,13,19 of I1=b/a^2=1/4 and I2=c/a^3=-27/8 (addendum 2); NOT yet proved exact",
+ "disc_f6_note": "coordinator: disc(f6) = 2^6 * 3^9 * 733^2 ; 31,37 do not divide -> curve has good reduction there",
+ "gap_version": "4.16.0 (monodromy sieve only)",
+ "h_elimination_closed_form": {
+  "h0": "(-9*c5*c7*c9*(9*c5*c7 + 1) + 2*c7**3 + 1458*c9**3*(2*c3**2 - 72*c3*c5**3 + 270*c5**6 + 36*c5**4 + 54*c5*c7 - 3) + 54*c9**2*(36*c3*c5*c7 + c3 - 162*c5**4*c7 + 9*c5**3 - 18*c5**2*c7))/(324*c9**3)",
+  "h2": "18*c3*c5 - 81*c5**4 + 3*c5**2*c7/c9 + c5/(6*c9) - c7**2/(36*c9**2) + c7/(3*c9) + 1",
+  "h4": "9*c5**2 + c7/(3*c9) + 2"
+ },
+ "note": "Raw machine output only. Single implementation (sympy). NOT cross-checked, NOT Lean-verified. u has NOT been read (U-LOC not fired).",
+ "rationalisation": {
+  "B": "even",
+  "P": "U^2 - B^2 f6 - 27/4 (even, deg 8)",
+  "U": "A - 3/2 (odd)",
+  "branch_condition": "P^2 + 27 U^2 = 432 c9^2 h(x)^3, h monic even deg 6",
+  "identity": "N_tau1 * N_tau2 = P^2 + 27 U^2"
+ },
+ "residual_system": [
+  {
+   "from_coeff_of": "x^10",
+   "n_monomials": 31,
+   "total_degree": 12
+  },
+  {
+   "from_coeff_of": "x^8",
+   "n_monomials": 62,
+   "total_degree": 15
+  },
+  {
+   "from_coeff_of": "x^6",
+   "n_monomials": 111,
+   "total_degree": 18
+  },
+  {
+   "from_coeff_of": "x^4",
+   "n_monomials": 174,
+   "total_degree": 21
+  },
+  {
+   "from_coeff_of": "x^2",
+   "n_monomials": 247,
+   "total_degree": 24
+  },
+  {
+   "from_coeff_of": "x^0",
+   "n_monomials": 283,
+   "total_degree": 27
+  }
+ ],
+ "schema": "u-meas-caseb-groebner/v1",
+ "status": "PARTIAL - exact solve not completed",
+ "sympy_version": "1.14.0",
+ "t": "t = 3/2 + c3*theta + c5*x^2*theta + c7*x*theta^2 + c9*theta^3, c9 != 0",
+ "u_touched": false,
+ "verified_degrees": {
+  "deg_B": 6,
+  "deg_E_after_leading_cancel": 16,
+  "deg_LHS": 18,
+  "deg_P": 8,
+  "deg_U": 9,
+  "odd_coefficients_all_zero": true
+ }
+}
