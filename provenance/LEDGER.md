@@ -926,3 +926,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **較正が実装バグを 1 発捕獲**: 初版は Q 規約が逆で n=23 が h⁻=6(≠既知 3)→ 修正 → 較正 2 件厳密一致 → 本番。「較正が合わないうちは本番値を報告しない」の実演。
 - **結果: 奇指標 6 個の B_{1,χ} 積 = 1/56(有理定数へ帰着)⟹ h⁻ = 2·28·(1/56) = 1**。
 - 帰結(司令塔): h(ℚ(ζ₂₈)) = h⁺·h⁻ の負部が消えた。**7|h ⟺ 7|h⁺ に縮約** — LB-RES の 3 段梯子の類群段は「7∤h⁺(ℚ(ζ₂₈)⁺)」だけに依存。h⁺=1 は Masley–Montgomery/Washington 表で間接確認済(本文 UNVERIFIED・裁定 281)。機械+文献の挟み撃ちで**類群段の消滅は強 candidate** — 正式採択は文献本文か h⁺ 機械検算のどちらかで。n=7 設計(委嘱中)へはこの格のまま渡す。
+
+## 2026-07-31 便 92 検収(裁定 284)— PENT 決着を Sol 確認(4 撤回・集合水準 20/20 = cross-checked・suspension 正式解除)・CENT/GEN-2/T3-N0′(weighted)採択・h(ℚ(ζ₂₈))=1 採択(類群段消滅確定)・EP は同一 freeze 世代混成 race で FAIL・壁 cert「cosmetic」判定は却下
+- 正本 = sol/裁定_284_便92検収.md。主要: ①PENT = F92-1 で Sol 自身の 4 を撤回・20/20 を cross-checked 採択・v4/算術鎖の suspension 解除(型付け W92-1 = 群化/PB₄ isolated/準同型性は UNKNOWN 継続)②T3-N0′ は weighted(Σ1/|Aut|)採択・T3-WALL は Aut 自明域で定理 ③SURJ-K7 定理部採択+**h(ℚ(ζ₂₈))=1 を Masley–Montgomery 出典で採択** — 残件は単数段 C₇⁶(P92-3 が最短路)④u₀⁻¹ の値は紙上採択・cross-checked 格上げと C1′ は差戻し(P92-4 の 4 点証明書が要件)⑤EP = W92-6 の TOCTOU(A/B を別々に resolve・CURRENT 再読で同一 freeze 異世代混成が通る)で FAIL — P92-6 resolve_bundle が必須修理 ⑥壁 cert = W92-9 で「schema 欄と verdict=failed は fail-closed consumer には正式失敗」— 裁定 279 の cosmetic 判定を訂正・driver 修理+再走で verdict=passed receipt を得るまで CLAIMS 確定記載しない。
+- ★教材 2 本採択+P92-1(三角形 assert の必須 fixture 化)採択。
