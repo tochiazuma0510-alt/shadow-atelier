@@ -1,0 +1,39 @@
+{
+  "schema":"wac_v1-l25t5-rehunt-cert/v1",
+  "generated_by":"search/probe/wac_v1/l25t5_rehunt.g",
+  "window_label":"L25T5-REHUNT",
+  "f_orientation":"n_a",
+  "note":"raw measurements only -- interpretation-free. ell=25,t=5,n=30 の狙い撃ち再ハント(生成の穴の最後の1点、裁定254/tmax_budget_and_holes_v1.md §2.3)。厳密計数 search/certs/l25t5_count_20260731.json で T_trans([25,1^5])=378000>0 が確定済み(推移な分解は実在)。旧ハント(tmax_holes_hunt2.g, max_restart=40,max_step=6000)は40 hit全て非推移(軌道[28,1,1]/[29,1])で取りこぼした可能性がある。本 probe は非生成 hit だけでなく非推移 hit・A_n/S_n でない推移 hit も『捨てて続行』し、全ての落ち先(gen_label/群位数/軌道長)を landing_distribution に記録する。期待値/予言はコードに書いていない。result=UNKNOWN は非存在の証明ではない(一級の結果)。",
+  "target":{"ell":25,"t":5,"n":30},
+  "budget":{
+    "NC_w0":6,
+    "sign_w0":1,
+    "closed_form_delta_n":1,
+    "closed_form_5t":25,
+    "closed_form_rhs":25,
+    "closed_form_feasible":true,
+    "budget_feasible_k":[14,15],
+    "budget_and_parity_feasible_k":[14]
+  },
+  "search_params":{
+    "seed":20260731,
+    "max_restart":2000,
+    "max_step":20000,
+    "time_cap_ms_total":1200000,
+    "time_cap_ms_per_k":1200000,
+    "total_elapsed_ms":5859
+  },
+  "result":"HIT",
+  "witness":{
+    "k":14,
+    "gen_label":"A_n",
+    "a1":"(2,9)(3,5)(4,29)(6,8)(7,26)(10,25)(11,21)(12,17)(14,16)(15,28)(18,20)(19,27)(22,24)(23,30)",
+    "b1":"(1,25,9)(2,8,5)(3,4,29)(6,7,26)(10,24,21)(11,20,17)(12,16,13)(14,15,28)(18,19,27)(22,23,30)"
+  },
+  "k_results":[{"k":14,"found":true,"restarts_used":14,"hits":1,"timed_out":false,"landing_distribution":[{"key":"A_n|order=132626429906095529318154240000000|orbits=[ 30 ]","count":1}]}],
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"45b3a0d6b7d774f1da826fe6faaecef1f3a200126b4ac5282fe139650c24bb1b",
+    "gap_invocation":"gap -q -o 4g search/probe/wac_v1/l25t5_rehunt.g"
+  }
+}
