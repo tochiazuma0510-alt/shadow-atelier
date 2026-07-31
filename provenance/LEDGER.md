@@ -803,3 +803,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **Sol F91-7.2 の容疑(モデル/正規化の接続不良)は厳密検算 PASS で消滅**。
 - 実装係の自認: 1 回目の座標差し替え sed 漏れ(混成モデル)を fail-closed が即捕捉・2 回目で修正 — 規律の勝利をまた 1 件。
 - 残工程: ℚ 持ち上げ判定(deg 𝒩=9)+ 厳密モデル上の monodromy 再検査(9T27・原始・非分解 = schema-v2 ゲート)→ 通れば U-LOC 発火可能状態。**U-LOC 発火は裁定 268 で条件付き裁可**(下記)。
+
+## 2026-07-31 mine queue 清掃: r4-acoords-B/C の stale plan 2 件を hold へ退避
+- preflight STOP(strike-r4.g sha256 mismatch)の正体 = mine v1.5 の retype(e451cee)による正当な driver 変更。plan は retype 前の凍結ハッシュを保持した残骸(該当測定は retype 済み plan の run 30565890475 で再走・検収済み = 便 90 §4.2 receipt PASS)。
+- 処置: queue → hold へ .stale 付きで退避(履歴保全・queue の全 plan preflight green を回復)。
