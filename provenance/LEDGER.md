@@ -947,3 +947,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **C1′(7) 9 項要件表**(中核 = 回転指数比 [r∞/r₀]=[α])・較正は A₅ でなく **n=3 窓(u₃=−4・C1′ 非依存の純装置較正)**・**n=5 は封印につき経路除去(凍結 U7-NO5)** — blind 規律の自主遵守を確認。
 - **⚠ 上申受理(裁定)**: 残未知は離散 3 類([γ],[δ],[α])のみで、固定後は 3 行の局所展開で u₇ が出る = 設計と測定の境目が消失。数学者は局所展開を**実行せず**停止(値・予想の記載なし ✓)。**C5 凍結を先に置く順序を裁可** — §6 の P-1〜P-12+N-1〜N-10 を本 commit で事前登録として凍結(本 LEDGER 追記+設計書ハッシュが凍結証跡)。以後この線の委嘱は凍結内容に拘束される。
 - UNKNOWN 2 件(正直申告): U7-13 = [γ],[δ] の決定機構なし(→【文献要請 U7-1】新規・次便で発注)・U7-14 = [α]=[1] は規約であって定理でない。LB-RES との接続: 測定が決めるのは付値段のみ・**u₇∈ℚ^× なら 2・3 段が丸ごと消える**ため「類でなく値を取る」設計を最優先。T-19(Sol への上界層第二系統照会)は対話帳へ・便 93 に同梱。格 = 全て単系統・Sol 監査前。
+
+## 2026-07-31 EP race 修理完了(裁定 288)— resolve_bundle 新設・race 負例 3 本(旧経路のバグ実証 16a+新経路免疫 16b/16c)・suite 555/555・W92-8 (a)(b) 充足
+- v12 条文 = cert_shape_interpretation_addendum_o_v12.md(v11 非上書き)。resolve_bundle = CURRENT/index/receipt を一回だけ読み同一世代から全 artifact 解決(generation_id/freeze_id を返り値に)。consumer は side 毎 resolve の for ループを全廃。FREEZE_MISMATCH は防御的維持。
+- suite 227+184+93+51 = **555/555**(司令塔再実行で 227/227 確認)。W92-8 の残 = (c) 実 A/B production artifacts(研究者認可待ちの実物指定)(d) 実 CI run receipt。旧 flat 3 ファイルの quarantine は provisioning 時実施と v12 に明記。

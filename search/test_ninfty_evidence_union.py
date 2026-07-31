@@ -72,15 +72,23 @@ eu = _load_module("ninfty_evidence_union", "ninfty-evidence-union.py")
 verb = _load_module("ninfty_verifier_b_for_eu_test", "ninfty-verifier-b.py")
 r2mod = _load_module("ninfty_verifier_w6_r2_for_eu_test", "ninfty-verifier-w6-r2.py")
 # Sol 便88 P88-o: the receiver-held native-artifact registry -- THIS test
-# file is the "receiver" doing out-of-band provisioning (prov.write_entry)
+# file is the "receiver" doing out-of-band provisioning (prov.commit_generation)
 # ahead of building any `raw` evidence artifact; evidence-union.py itself
-# never calls write_entry (only resolve), see ninfty-native-registry.py's
-# own docstring. Sol 便90 F90-4.1 blocker 2 (docs/notes/
-# cert_shape_interpretation_addendum_o_v10.md): resolve/index_exists and
-# write_entry now live in TWO SEPARATE modules -- `reg` (resolver-only,
+# never calls commit_generation/resolve_bundle-as-provisioner (only
+# resolve/resolve_bundle, read-only), see ninfty-native-registry.py's own
+# docstring. Sol 便90 F90-4.1 blocker 2 (docs/notes/
+# cert_shape_interpretation_addendum_o_v10.md), superseded in shape (not in
+# the underlying separation) by Sol 便91 P91-4's generation-commit redesign
+# (docs/notes/cert_shape_interpretation_addendum_o_v11.md, `write_entry` ->
+# `commit_generation`): resolve/resolve_bundle/index_exists and
+# commit_generation now live in TWO SEPARATE modules -- `reg` (resolver-only,
 # the same module evidence-union.py itself loads) and `prov`
 # (provisioning-only, loaded ONLY by this test file / a future operator
-# CLI, never by evidence-union.py).
+# CLI, never by evidence-union.py). NOTE (Sol 便92 F92-6.2 item 2): this
+# comment block previously still said "prov.write_entry" here, describing
+# the pre-便91 mutable-entry API that no longer exists in either module --
+# corrected to `commit_generation`, the generation-commit call this file
+# actually uses throughout (see `_commit15`/section 15/section 16 below).
 reg = _load_module("ninfty_native_registry_for_eu_test", "ninfty-native-registry.py")
 prov = _load_module("ninfty_native_registry_provisioning_for_eu_test", "ninfty-native-registry-provisioning.py")
 
@@ -88,11 +96,12 @@ prov = _load_module("ninfty_native_registry_provisioning_for_eu_test", "ninfty-n
 # cert_shape_interpretation_addendum_o_v9.md): this test process's own
 # registry store is a FRESH tempdir, wholly distinct from
 # reg.PRODUCTION_REGISTRY_DIR (search/certs/ep_registry/). Every
-# prov.write_entry(...) call in this file passes registry_dir=TEST_REGISTRY_DIR
-# explicitly (write_entry has no default registry_dir any more -- a
-# caller cannot forget). The NINFTY_EP_REGISTRY_DIR env var is set so that
-# reg.resolve(...) -- including the copy of resolve() evidence-union.py's
-# own _registry() dynamically loads and calls with NO dir parameter of its
+# prov.commit_generation(...) call in this file passes
+# registry_dir=<some tempdir> explicitly (commit_generation has no default
+# registry_dir any more -- a caller cannot forget; keyword-only, required).
+# The NINFTY_EP_REGISTRY_DIR env var is set so that reg.resolve(...)/
+# reg.resolve_bundle(...) -- including the copy evidence-union.py's own
+# _registry() dynamically loads and calls with NO dir parameter of its
 # own -- also reads from this same tempdir, never from production, for the
 # whole duration of this test run.
 TEST_REGISTRY_DIR = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_")
@@ -1955,6 +1964,22 @@ class _StubReg:
     def index_exists(registry_dir=None):
         return True
 
+    @staticmethod
+    def resolve_bundle(artifact_ids, registry_dir=None):
+        # Sol 便92 P92-6: the consumer now calls resolve_bundle, not
+        # resolve, per side -- this stub double mirrors that (fanning out
+        # to the same per-id resolve() above) so the FREEZE_MISMATCH
+        # consumer-layer cross-side check (deliberately exercised via a
+        # STUB whose two artifacts disagree on freeze_id, something the
+        # real generation-commit registry cannot produce in one call) is
+        # still reached through the code path the fixed facade actually
+        # uses.
+        return {
+            "generation_id": "stub-gen",
+            "freeze_id": "stub-gen-freeze",
+            "artifacts": {aid: _StubReg.resolve(aid) for aid in artifact_ids},
+        }
+
 
 _orig_registry_module = eu._NATIVE_REGISTRY_MODULE
 eu._NATIVE_REGISTRY_MODULE = _StubReg
@@ -2116,6 +2141,155 @@ record("Sol 便90 F90-4.1 blocker 2 (resolver module has no commit_generation/wr
        {"commit_generation": hasattr(reg, "commit_generation"), "write_entry": hasattr(reg, "write_entry")})
 
 _shutil15.rmtree(_15_DIR, ignore_errors=True)
+
+
+# --------------------------------------------------------------------------
+# 16. Sol 便92 P92-6 (sol/sol_reply_92_math19.md W92-6/F92-6.1, docs/notes/
+#     cert_shape_interpretation_addendum_o_v12.md): same-freeze,
+#     different-generation TOCTOU race. Two SEPARATE resolve() calls (one
+#     per A/B lane), each independently re-reading CURRENT.json, can
+#     straddle a publisher's atomic generation swap and return artifacts
+#     from TWO DIFFERENT generations that happen to share one freeze_id --
+#     no bundle receipt binds that specific cross-generation pair, and the
+#     consumer's own freeze-STRING-equality cross-check (blocker 10, 便91)
+#     cannot catch it (both freeze_id strings genuinely agree). The
+#     PREVIOUS negative suite (15j) only ever tried a DIFFERENT-freeze
+#     mismatch. `resolve_bundle` closes this by reading CURRENT exactly
+#     once and resolving every requested artifact from that ONE captured
+#     generation.
+# --------------------------------------------------------------------------
+_16_DIR = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_16_")
+
+_gen16_0 = prov.commit_generation(
+    [{"artifact_id": "race_a", "role": "native_a", "version_id": "v0", "content": {"gen": 0, "x": 1}},
+     {"artifact_id": "race_b", "role": "native_b", "version_id": "v0", "content": {"gen": 0, "x": 2}}],
+    "freeze-race", registry_dir=_16_DIR,
+)
+_gen16_1 = prov.commit_generation(
+    [{"artifact_id": "race_a", "role": "native_a", "version_id": "v1", "content": {"gen": 1, "x": 10}},
+     {"artifact_id": "race_b", "role": "native_b", "version_id": "v1", "content": {"gen": 1, "x": 20}}],
+    "freeze-race", registry_dir=_16_DIR, publish=False,
+)
+_gen16_2 = prov.commit_generation(
+    [{"artifact_id": "race_a", "role": "native_a", "version_id": "v2", "content": {"gen": 2, "x": 100}},
+     {"artifact_id": "race_b", "role": "native_b", "version_id": "v2", "content": {"gen": 2, "x": 200}}],
+    "freeze-race", registry_dir=_16_DIR, publish=False,
+)
+record("Sol 便92 P92-6 fixture: gen16_0/1/2 all share ONE freeze_id ('freeze-race') but are THREE DISTINCT "
+       "generations -- nothing in the schema forbids two generations from reusing the same freeze_id, which is "
+       "exactly what makes the freeze-STRING-equality cross-check (blocker 10) insufficient on its own",
+       len({_gen16_0["generation_id"], _gen16_1["generation_id"], _gen16_2["generation_id"]}) == 3
+       and _gen16_0["freeze_id"] == _gen16_1["freeze_id"] == _gen16_2["freeze_id"] == "freeze-race",
+       {"gen0": _gen16_0["generation_id"], "gen1": _gen16_1["generation_id"], "gen2": _gen16_2["generation_id"]})
+
+# --- 16a. the OLD/vulnerable pattern (two SEPARATE resolve() calls, a
+#     publish landing between them) DOES yield a same-freeze, mixed-
+#     generation pair -- CURRENT starts at gen16_0.
+_race_entry_a_old = reg.resolve("race_a", registry_dir=_16_DIR)   # reads CURRENT == gen16_0
+prov.publish_generation(_gen16_1["generation_id"], registry_dir=_16_DIR)   # atomic swap: CURRENT -> gen16_1
+_race_entry_b_old = reg.resolve("race_b", registry_dir=_16_DIR)   # reads CURRENT == gen16_1
+record("Sol 便92 W92-6 (bug class reproduced at the resolve() primitive): two separate resolve() calls "
+       "straddling a CURRENT swap return artifacts from TWO DIFFERENT generations (gen16_0's race_a, gen16_1's "
+       "race_b) that nonetheless share ONE freeze_id -- exactly the reader-atomicity break W92-6 describes; "
+       "the previous negative suite (15j) only ever tried DIFFERENT freeze pairs and never caught this",
+       _race_entry_a_old is not None and _race_entry_b_old is not None
+       and _race_entry_a_old["freeze_id"] == _race_entry_b_old["freeze_id"] == "freeze-race"
+       and _race_entry_a_old["content"] == {"gen": 0, "x": 1}
+       and _race_entry_b_old["content"] == {"gen": 1, "x": 20},
+       {"a": _race_entry_a_old, "b": _race_entry_b_old})
+
+# --- 16b. the FIX: resolve_bundle([...]) reads CURRENT exactly once, so a
+#     publish landing AT THE EARLIEST POSSIBLE POINT -- as a side effect of
+#     that single CURRENT read itself -- still cannot split the call's
+#     result across two generations. CURRENT is currently gen16_1 (16a's
+#     publish); this simulates the swap to gen16_2 happening the instant
+#     resolve_bundle's one _read_current() call fires.
+_orig_read_current_reg = reg._read_current
+_swap16b_done = [False]
+
+
+def _read_current_and_swap_16b(registry_dir=None):
+    gen_id = _orig_read_current_reg(registry_dir)
+    if not _swap16b_done[0]:
+        _swap16b_done[0] = True
+        prov.publish_generation(_gen16_2["generation_id"], registry_dir=_16_DIR)
+    return gen_id
+
+
+reg._read_current = _read_current_and_swap_16b
+try:
+    _bundle16b = reg.resolve_bundle(["race_a", "race_b"], registry_dir=_16_DIR)
+finally:
+    reg._read_current = _orig_read_current_reg
+_current16b_after = reg._read_current(registry_dir=_16_DIR)
+record("Sol 便92 P92-6 (resolve_bundle immune to the same swap-during-read interleaving): despite the swap to "
+       "gen16_2 firing AS A SIDE EFFECT of resolve_bundle's own (single) CURRENT read, the returned bundle is "
+       "bound entirely to gen16_1 (the generation that read actually named) -- generation_id matches, and BOTH "
+       "race_a/race_b content come from gen16_1 (x=10/x=20), never mixed with gen16_2's x=100/x=200, even "
+       "though CURRENT.json now points at gen16_2 on disk by the time this assertion runs",
+       _bundle16b is not None
+       and _bundle16b["generation_id"] == _gen16_1["generation_id"]
+       and _bundle16b["freeze_id"] == "freeze-race"
+       and _bundle16b["artifacts"]["race_a"]["content"] == {"gen": 1, "x": 10}
+       and _bundle16b["artifacts"]["race_b"]["content"] == {"gen": 1, "x": 20}
+       and _current16b_after == _gen16_2["generation_id"],
+       {"bundle": _bundle16b, "current_after": _current16b_after})
+
+# --- 16c. the FIX at the CONSUMER layer: `_resolve_native_registry` (the
+#     function P92-6 actually asked to be repaired) uses `eu._registry()`'s
+#     OWN loaded module instance, not the test's `reg` -- patch THAT
+#     instance's _read_current the same way, and confirm the fixed
+#     facade's result is likewise bound entirely to gen16_1 (its own
+#     CURRENT read, which happens once, before the swap-to-gen16_2 that
+#     read's own side effect performs), reaching overall PASS with
+#     gen16_1's content only.
+prov.publish_generation(_gen16_1["generation_id"], registry_dir=_16_DIR)  # CURRENT back to gen16_1 for a clean run
+_eu_reg = eu._registry()
+_orig_read_current_eu = _eu_reg._read_current
+_swap16c_done = [False]
+
+
+def _read_current_and_swap_16c(registry_dir=None):
+    gen_id = _orig_read_current_eu(registry_dir)
+    if not _swap16c_done[0]:
+        _swap16c_done[0] = True
+        prov.publish_generation(_gen16_2["generation_id"], registry_dir=_16_DIR)
+    return gen_id
+
+
+_race_cert = _synthetic_cert(
+    {"artifact_id": "race_a", "digest": eu.sha256_of({"note": "n/a"}), "json_pointer": "/pushforward_map"},
+    {"artifact_id": "race_b", "digest": eu.sha256_of({"note": "n/a"}), "json_pointer": "/pushforward_map"},
+)
+_race_refs = {
+    "native_a": {"artifact_id": "race_a", "whole_artifact_digest": _gen16_1["artifacts"]["race_a"],
+                 "version_id": "v1", "freeze_id": "freeze-race"},
+    "native_b": {"artifact_id": "race_b", "whole_artifact_digest": _gen16_1["artifacts"]["race_b"],
+                 "version_id": "v1", "freeze_id": "freeze-race"},
+}
+_race_raw = {"schema_id": RAW_SCHEMA, "certificate": _race_cert, "native_a": {}, "native_b": {},
+             "native_registry_refs": _race_refs}
+_prior_env_registry_dir_16 = os.environ.get("NINFTY_EP_REGISTRY_DIR")
+os.environ["NINFTY_EP_REGISTRY_DIR"] = _16_DIR
+_eu_reg._read_current = _read_current_and_swap_16c
+try:
+    _race_overall, _race_native_a, _race_native_b, _race_detail = eu._resolve_native_registry(_race_raw)
+finally:
+    _eu_reg._read_current = _orig_read_current_eu
+    if _prior_env_registry_dir_16 is not None:
+        os.environ["NINFTY_EP_REGISTRY_DIR"] = _prior_env_registry_dir_16
+    else:
+        del os.environ["NINFTY_EP_REGISTRY_DIR"]
+record("Sol 便92 P92-6 (fixed consumer, _resolve_native_registry, immune to the same swap-during-read "
+       "interleaving): overall PASS, and BOTH native_a/native_b content are gen16_1's (x=10/x=20) -- never a "
+       "mix with gen16_2's x=100/x=200 -- even though the publish-to-gen16_2 fires as a side effect of the "
+       "facade's own single underlying CURRENT read",
+       _race_overall == "PASS"
+       and _race_native_a == {"gen": 1, "x": 10}
+       and _race_native_b == {"gen": 1, "x": 20},
+       {"overall": _race_overall, "native_a": _race_native_a, "native_b": _race_native_b, "detail": _race_detail})
+
+_shutil15.rmtree(_16_DIR, ignore_errors=True)
 
 
 # --------------------------------------------------------------------------

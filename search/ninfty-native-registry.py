@@ -566,11 +566,99 @@ def index_exists(registry_dir=None):
     return isinstance(index_doc.get("artifacts"), dict) and bool(index_doc["artifacts"])
 
 
+def resolve_bundle(artifact_ids, registry_dir=None):
+    """
+    Sol 便92 P92-6 (docs/notes/cert_shape_interpretation_addendum_o_v12.md,
+    W92-6/F92-6.1): resolves MULTIPLE artifact_ids from ONE single
+    generation-load, closing a TOCTOU that `resolve()` (called once per
+    artifact_id, by a consumer that wants an A/B *pair*) leaves open --
+    each `resolve()` call independently re-reads `CURRENT.json`, so a
+    publisher's atomic `CURRENT` replace landing BETWEEN two separate
+    `resolve()` calls can hand the first call an artifact from generation
+    G0 and the second an artifact from a *different* generation G1, with
+    no receipt ever binding that specific (G0-artifact, G1-artifact) pair
+    together. If G0 and G1 happen to share a `freeze_id` (nothing in the
+    schema forbids two generations from reusing the same freeze_id), the
+    resulting mixed pair passes a freeze-equality check that only compares
+    the two `freeze_id` STRINGS, not the generations they actually came
+    from -- this is exactly W92-6's "同一 freeze・異世代混成" reader-
+    atomicity break, and it is not caught by any earlier "different
+    freeze" negative test.
+
+    This function closes it BY CONSTRUCTION rather than by an extra check:
+    `CURRENT.json` is read exactly ONCE (a single `_read_current` call),
+    the ONE generation_id that read names is captured into a local
+    variable, and `_load_and_verify_generation` is then called exactly
+    ONCE against that single captured generation_id -- every artifact this
+    function can possibly return, for every id in `artifact_ids`, is
+    necessarily looked up inside that ONE already-loaded-and-verified
+    `generation["artifacts"]` dict. There is no second `CURRENT.json` read
+    anywhere in this function's body, so a publisher swapping `CURRENT` at
+    ANY point during (or after) this call's execution cannot change which
+    generation the artifacts returned by THIS call came from -- a
+    concurrent publish can only affect the NEXT call to `resolve_bundle`/
+    `resolve`, never split the current call across two generations.
+
+    `artifact_ids`: any iterable of artifact_id strings (list/tuple/set).
+    Order is not significant; the same artifact_id may repeat (returned
+    once, keyed by id, in the result).
+
+    Returns `None` if `artifact_ids` is not a list/tuple/set, or if
+    `CURRENT.json` fails to resolve to a generation_id (fail-closed, same
+    as `resolve()`), or if that one generation fails
+    `_load_and_verify_generation` (schema/path-confinement/receipt-digest
+    failure, same fail-closed semantics as `resolve()`).
+
+    On success, returns:
+      {"generation_id": <str>,        # the ONE generation every artifact
+                                       # below was resolved from -- Sol
+                                       # 便92 P92-6's "返り値にも
+                                       # generation ID を含める".
+       "freeze_id": <str>,            # that generation's single shared
+                                       # freeze_id (same value every
+                                       # artifact in it carries).
+       "artifacts": {<artifact_id>: <entry dict, see `resolve()`'s own
+                      docstring for the entry shape> | None, ...}}
+                                       # one key per `artifact_ids` input,
+                                       # None for any id absent from this
+                                       # ONE generation (mirrors
+                                       # `resolve()`'s per-id None-on-
+                                       # absent behavior -- a caller must
+                                       # still check each value, but every
+                                       # non-None value it gets back is
+                                       # guaranteed to share the same
+                                       # `generation_id`/`freeze_id` above).
+    """
+    if not isinstance(artifact_ids, (list, tuple, set, frozenset)):
+        return None
+    gen_id = _read_current(registry_dir)
+    if gen_id is None:
+        return None
+    generation = _load_and_verify_generation(registry_dir, gen_id)
+    if generation is None:
+        return None
+    artifacts = {aid: generation["artifacts"].get(aid) for aid in artifact_ids}
+    return {"generation_id": gen_id, "freeze_id": generation["freeze_id"], "artifacts": artifacts}
+
+
 def resolve(artifact_id, registry_dir=None):
     """
     Looks up `artifact_id` in the receiver-held registry, reading straight
     from disk on EVERY call -- never cached, never from any caller-
     supplied value. Resolution path (便91 P91-4 generation-commit design):
+
+    CAUTION (Sol 便92 P92-6/W92-6): a caller that needs an A/B *pair*
+    (or any set of artifacts that must all come from the SAME generation)
+    must NOT call this function once per artifact_id -- each call
+    independently re-reads `CURRENT.json`, so a publisher's atomic
+    generation swap landing between two such calls can hand them artifacts
+    from two DIFFERENT generations that merely happen to share a
+    freeze_id (no receipt binds that specific cross-generation pair
+    together -- see `resolve_bundle`'s own docstring for the full TOCTOU).
+    Use `resolve_bundle(artifact_ids, registry_dir=...)` instead for any
+    multi-artifact lookup that must be atomic against a concurrent
+    publish; this single-id `resolve` remains correct and unchanged for
+    genuinely single-artifact lookups.
 
       1. read CURRENT.json -> generation_id (fail-closed to None on any
          doubt about THIS file, see `_read_current`).

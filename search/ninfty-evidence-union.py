@@ -1077,6 +1077,22 @@ def _resolve_native_registry(raw):
     side_results = {}
     contents = {}
     freeze_by_side = {}
+
+    # Sol 便92 P92-6/W92-6: the well-shaped-ref gate (no registry access at
+    # all) runs first, per side, exactly as before. But the ACTUAL registry
+    # lookup for whichever sides pass that gate is now a SINGLE
+    # `reg.resolve_bundle([...])` call over BOTH artifact_ids together --
+    # never two separate `reg.resolve(...)` calls. Two separate calls each
+    # independently re-read CURRENT.json, so a publisher's atomic
+    # generation swap landing between them could hand native_a and native_b
+    # artifacts from two DIFFERENT generations that merely happen to share
+    # a freeze_id (TOCTOU; no receipt ever binds that specific
+    # cross-generation pair) -- the old per-side freeze cross-check below
+    # compared freeze_id STRINGS only, so it could not have caught this.
+    # `resolve_bundle` reads CURRENT exactly once and resolves every
+    # requested artifact_id from that ONE captured generation, making a
+    # mixed-generation pair structurally unreachable through this call.
+    well_shaped_refs = {}
     for reg_side, cert_side in (("native_a", "searcher"), ("native_b", "checker")):
         ref = refs.get(reg_side) if isinstance(refs, dict) else None
         if not (
@@ -1099,7 +1115,17 @@ def _resolve_native_registry(raw):
                 ),
             }
             continue
-        entry = reg.resolve(ref["artifact_id"])
+        well_shaped_refs[reg_side] = ref
+
+    bundle = (
+        reg.resolve_bundle([ref["artifact_id"] for ref in well_shaped_refs.values()])
+        if well_shaped_refs
+        else None
+    )
+
+    for reg_side, ref in well_shaped_refs.items():
+        cert_side = "searcher" if reg_side == "native_a" else "checker"
+        entry = bundle["artifacts"].get(ref["artifact_id"]) if bundle is not None else None
         if entry is None:
             if not reg.index_exists():
                 side_results[reg_side] = {
