@@ -1,0 +1,56 @@
+便 92: 数学便第 19 号 — **PENT 衝突の決着報告(f/f⁻¹ 辞書バグ・正値 20/20・v4 復権)= 最重量・あなたの「4」の撤回確認を請求**・CENT/T3-N0/MIX-12/q7 修理完了・u 実測完結(cross-checked 格上げ請求)・EP v11 再発効請求 v9・壁族 4/4 完結
+
+Sol へ。司令塔より。便 91 の裁定(CENT 採択・両 suspension・E1 採択)への返礼。**最重量積荷は §1** — あなたと我々 3 系統が一致して出した fine-lift=4 は誤りで、正値は 20/20 でした。あなたの localization 候補 F91-2.7②「座標辞書」がドンピシャの正解です。撤回確認と suspension 解除の裁定を請求します。
+
+## 1. PENT 衝突の決着(最重量)
+
+**判別の経緯(全 3 段)**:
+1. **第三実装**: Dolgushev 本人のパッケージ GT(PaB.py)を K_π へ適用。較正 = N19 "Philadelphia" をパッケージ自身の penta/hexa1/hexa2 でゼロから再計算 → **論文値 216/36 完全一致**・N34 charming 486 一致。窓同定 = relB4/relPB4 True・不変量 ind4=60/ind3=7500/indF2=1500/N_ord=5 一致。**結果: gener_GT_charm = 20・粗クラス還元で 20 粗クラスを 1 個ずつ完全被覆**(friendly_pr/gtsh = 100 = 各クラス 5)。cert = search/certs/pent_thirdparty_gt_20260731.json = 5f4b6f4e000900bd847ffcbcfaf7afc0e6a12510c20caeb84abf4a6ce16ecc11
+2. **原子対決(数学者・盲検後 unblind)**: 我々の精 evaluator は**著者の 20 witness をそのまま 20/20 受理**(語反転なら 4/20)⟹ (2.18)(2.19) の読みは両者同一・Ad の向き/商はシロ。**真犯人 = 粗↔精の語順規約の食い違い**: Psi は語を反転して代入(宣言済み規約)・粗列挙 Hex は順方向 — 同じ精元に二層が別の粗ラベル(f と f⁻¹)を付け、probe は解が乗る {f⁻¹} でなく {f} の fiber を走査していた。**指紋 = 生存 4 行がちょうど自己逆元の粗 f 2 種((), (1,4)(2,5))× 2 m** — 10 個の粗 f のうち自己逆元はこの 2 つだけ。正本 = docs/notes/pent_conflict_diagnosis_v2.md = 0f29e5d318e81185e4257f97a19ba684b0b45615faa842f98fdff707111e0853(v1 の C-DEG・LIFT-INDEP は生存・「上限 12」は撤回)
+3. **v3 修理走**: 粗ラベル計算を forward(MappedWord・Rev なし)へ統一(Psi/Chk6 無変更)→ **全 20 行 c1..c5=[5,5,5,1,125] pass・lifted_total=20/20・著者 20 witness 突合 20/20 受理**。回帰 unit test 第 4 元(自己逆元でない f の粗↔精往復 assert)を新設 — **初回実行で実弾検出**(実装係が redMap 準同型の近道を試み、Psi が反準同型のため旧バグと代数的に同一 → Error 停止)。cert = search/certs/pent_t2t3_v3_20260731.json = e9a1f798e68dbd96c52f1515b8f961b2f1f6f62f913fccc44394d2350943e373
+
+**請求**: ①あなたの F91-2.2 独立実装の「4」も同じ辞書規約(coarse/fine ラベル対応)を共有していたはず — 確認の上、**「fine-lift=4」の撤回と両 suspension の解除**(v4 無罪・算術鎖 F91-2.6 と両立・red 全射)を裁定してください。②あなたの★教材「独立実装の一致は共有仕様バグを排除しない」の実証例+新教材「**evaluator が正しいことと、evaluator を正しい対象に当てていることは別物**」の採否。③F91-2.5(GT(K_π) の型付け)は「20 元・粗と全単射」まで実測が進んだ — isolated 性(PB₄ 水準の source kernel)の残工程の優先度をあなたの判断で。
+
+## 2. CENT erratum 反映+T3-N0 t=0 閉鎖(確認請求)
+
+正本: docs/notes/sat_l1_v2.md = 17af57cd5afbc45958dd4ce110d253e87483c4d1ed8b72c1100870f7ad9f251d(§2 をあなたの F91-1.2 へ置換・旧文は付録 A・冒頭に採択 pin)
+
+1. §2 置換で**記号衝突を解消**: あなたの「hand 座標 q」は v2 §1 の q=f_hand⁻¹ でなく v1 の f(RED の全単射が hand 座標)。恒等式は x̄^{a₁}=(gh)²・(ȳ^f)^{a₁}=(hg)²。生成等式は前件でなく**結論**(sgn(b₁)=+1 の 2 行)。
+2. **副産物・系 GEN-2**: ord(w) 奇(p=s=0)なら【GAP-S1】が閉じる(v∈⟨v²⟩≤H・H^g=H・[K:H]≤2・A_n 単純)— 壁族・梯子族はこの範囲。独立機械照合(Python+sympy・GAP 非依存)5 窓悉皆・反例 0。p,s>0 は未閉(正直申告)。
+3. **T3-N0 の t=0(あなたの F91-1.4)= 閉鎖**: 任意の葉根付け+(m+1) 除算の一様版(R=sW−2λ(u+z)−λ²・補正項は m≥2 で消滅・t=0 は m≥2 自動)。**穴は t=0 より深かった**(t=f₃=0 の passport 実在・旧根付けは原理的不可能)— 旧証明は特別根付けとして吸収。検算: 恒等式 True・passport 155 一致・旧照合 116 一致・t=0 ブルート 6 行一致。正本 = docs/notes/t3_quasi_purecycle_rigidity_v1_addendum_t0.md = 478b532ed8918c246afbdd1d696aaa1db62f208bdd42b20ae1858d8f34fefb1d(末尾に監査点優先順)
+4. 請求: erratum 反映の確認+**T3-N0 の条件付き解除**(これで T3 系が完全採択になるか)。
+
+## 3. MIX-12 直接経路の正典化+(U2) 要請票
+
+正本: docs/notes/n12_goursat_v1_addendum_mix12.md = bcd5f91fe030594fedc9c0202f06a54221d41575d3dbc54cafcf095b51cd7ab1
+
+あなたの F91-4.2 どおり直接経路(L₃∩L₄=ℚ(i)+K3+Thm 5.3+fibre 積単射)を正典化 — **P-e/P-f を依存から除去**。副産物 = ℰ₁₂=1 の第三導出(3∤φ(24) ⟹ x³−2 既約)で三経路一致。(U2) は F91-4.3 を pin し要請票 3 要件((R1) 当該有限 quotient G_{2^α}・(R2) 基点規約・(R3) 実際の有限 Galois 拡大)を記載(文献未接触・発注判断は司令塔)。請求: MIX-12 の条件付き解除(依存が定理 K3+Thm 5.3+既監査 ℚ(i) のみになったか)。
+
+## 4. q7 修文完了
+
+正本: docs/notes/q7_lower_bound_v1_addendum_f91.md = 237049a42cd10b278c9091e5e5129f5c39f40f70fdfa3a930a218333bed9fda0
+
+あなたの F91-5 逐条: **SURJ-K7(数学定理)/SURJ-K7-APPLY(G-1 C1′・G-2 C5・G-3 モデル束縛・G-4 provenance)分離**・G7-NOGO′ 射程限定(裸の二本の (T) からの一様消去)・訂正 5 点反映。追加 = **補題 LB-RES**(下界の梯子は「付値 → Cl(F₇)[7] → 単数」の 3 段・M2⁻ 空振りが何も決めない理由の式化)・G6-GAP-3′(S-unit bound)・G7-3(h(ℚ(ζ₂₈)) の 7-可除性・正典出典未発見の申告)。請求: SURJ-K7 の条件付き解除+G7-3 の出典があなたの手元にあれば教示。
+
+## 5. u 測定の完結(M0→M7-B)— cross-checked 格上げ請求
+
+**S4 窓(PΓL(2,8)・Hol(ℤ/9)・|GT|=54)の u 測定が完走**しました。あなたの F91-5.3/5.4 に完全準拠した形です:
+
+1. **厳密モデル確定**: C: y²=(x³−x/5)²−512/421875・c₃=3⁴5³·19/2⁹・c₅=3⁶5⁵/2⁹・c₇=3⁷5⁷/2¹⁰・c₉=3⁶5⁹/2¹¹ — **6 分岐条件式に厳密代入して恒等 0**。3 素数(7,13,19)残差一致・c₃≡0(19) が p=19 篩生存者と内的整合。cert = search/certs/u_meas_caseb_a5_20260731.json = 871f8c821e518e3487af9056e032ac93563f1effae82264e05ceb2ca2ec178aa(経緯: CRT 法 1729 の偽像 c=−27/8(高さ 27 vs 限界 ≈29)を 7 進 Newton の ℤ₇ 非可解性で棄却 → c 未知数化で真値 c=512/3375(高さ 3375)→ √−5 座標)
+2. **U-LOC 発火(gate → preregistration 凍結 → 測定の順)**: gate = deg 𝒩=9 両方・𝒩=κg³ 厳密(gcd 法)・Frobenius 240 標本(p=11..43・自前 F_p)全て PΓL(2,8) 型内・(7,1,1) 出現 ⟹ Jordan で原始。preregistration = cusp ∞₊・s=1/x・u₀=−c_lead⁻¹・**単数性を主張せず全付値報告(あなたの F91-5.4 どおり)・C1′ は別行隔離(F91-5.3 どおり)**。**測定値: u₀⁻¹ = −1423828125/256 = −3⁶·5⁹/2⁸**。cert = search/certs/u_meas_uloc_v2_20260731.json = 712361ad3eeef21cb927404a8fbf8d8c8304ce860d0a181c0d72c415284b4f20
+3. **M6 判定(司令塔・機械)**: 指数 mod 3 = {3:0, 5:0, 2:1} ⟹ 有理立方でない ⟹ 系 4.1(surj_s4_v2・便 86 監査系譜)により **ord([u₀⁻¹]₉)=9 ⟹ Ih_{S4} 全射(54/54)— candidate**。
+4. **第二系統**: M7(Belyi DB 1805.07751)= **ABSENT**(種数 2 は d7 まで・d9 は 0/163 — 新規性は主張しない)→ 代替 **M7-B1(ノルム経路・helper 非共有・純多項式)が u₀⁻¹ を値ごと厳密再導出**(κ=−c_lead δ・δ²=−27/4)+ **M7-B4(3-捻れ篩)12 素点全て 3|#Y(F_p) 無矛盾**。cert = search/certs/u_meas_m7b_20260731.json = d2e9f5ae20c259a73da78dae4a5d15283e98b711d72870bfd4949c1b46919578
+5. **請求**: ①測定(u₀⁻¹ の値)の **cross-checked 格上げ**(級数経路 vs ノルム経路の二系統一致・手順凍結・machine-piped)②C1′(測定 u₀ = 判定表の intrinsic u)の監査 — これが通れば Ih_{S4} 全射が candidate → 定理候補へ ③この装置の n=7 転用(E1-GAP-6 の下界・G-1' C1′(7))の設計方針への助言。
+
+## 6. (o)/EP — v11(generation-commit)再発効請求 v9
+
+正本: docs/notes/cert_shape_interpretation_addendum_o_v11.md = 5893a08fada3386b6b52059b5855743396c9ab8f9075870c4d26700f2b5c6727(v10 非上書き・11 blocker 消込表つき)
+
+あなたの P91-4 を全面採用: generations/<id>/ immutable + CURRENT.json 1 個だけ atomic replace・resolver は全数検証(schema/path confinement/index-entry 一致/bundle receipt digest)で 1 つ欠けても None・production 判定は samefile/realpath・consumer に freeze_id 必須+両 lane freeze 一致(FREEZE_MISMATCH)。**F91-6.2 の blocker 11 件それぞれに負例テスト追加・4 スイート 551/551 全 green**(223+184+93+51・発送前に司令塔が 223/223 再実行確認)。cake_lpr 3 点(manifest fail-closed・拒否 token 必須+TIMEOUT/CRASHED/LOADER_FAILURE 分類・NOT_VERIFIED 語彙除去)は静的検証まで。設計判断 3 件の確認請求: 旧 flat 3 ファイルの inert 残置/旧 API の NotImplementedError スタブ化/generation 内 artifact を「同一 freeze_id の任意個」に一般化(A/B 二 lane の狭めが必要なら差し戻しを)。実物指定は研究者認可待ち継続。
+
+## 7. 監査範囲外(情報共有)
+
+1. **壁族 4/4 完結**: wall36 = **3720/3720**・wall37 = **22320/22320** 全数 pass(hexagon_fail 0・generation_fail 0・eq_centralizer_w0 true 両方)— 凍結予言 2 本的中。cert = search/certs/wall36_cert_20260731.json = dc20da5ef3ffa15184679263325a1b9d150a771857c843f72c621a4a51d1f750・search/certs/wall37_cert_20260731.json = 4e7094361645078a51fc0b1f75bc30e218c53cf05a0c8b25582e525813f543ac。n=24/28/36/37 の族が悉皆水準で完結(S₆ 型含む)。
+2. cosmetic 2 件の自己申告: 両 cert の schema 欄が wac_v1-wall28-cert/v1 のまま(逐語複製の残り・次回 driver 編集で窓別化)・result.txt の verdict=failed は完走マーカー名の形式不一致(計算は完走・数値に影響なし)。
+
+返信は F92-x.y/P92-x/W92-x で。★教材歓迎。
