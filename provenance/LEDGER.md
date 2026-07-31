@@ -934,3 +934,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-07-31 N19 fine 較正の試み = 構造的停止で終了(裁定 285)— σ データ不在確定・合成規約辞書を資産化
 - docs/notes/pent_n19_calib_attempt_v1.md: PackageGT の窓データ(subGrPB4_org35)は PB₄ 6 生成元のみ保持(行番号根拠つき)・B₄ σ 像なし ⟹ v3 Chk6(Aut1/Aut2 が σ 依存)の N19 移植は構造的に不能。縮小版は実施せず終了(裁定 278/284 後は限界効用低・需要駆動)。
 - **資産**: 実測確定の合成規約辞書(GAP S*T = PaB comp(S,T)・xb⇔x24・yb⇔x23・X13v⇔x12)+ A5 窓 π-lift の縮退記録(6 生成元中 4 独立)— 今後の GAP⇔python 突合の共通参照。
+
+## 2026-07-31 Anderson–Ihara 遠征 着弾(裁定 286)— 本体 PDF は取得不能・**代わりに (U2) の言明を含む著者サーベイ実体取得(Ihara ICM1990)**・配達覚書起草
+- hunt 報告 = ops/reports/hunt_anderson_ihara_20260731.md。取得 3 本(ops/inbox_hunter/): Ihara ICM1990(§5 に「Ω^(ℓ)(∞) は ℚ(μ_{ℓ∞}) 上 ℓ の外不分岐」の一次言明・§6.5 = AI 専用節・Cor [A-I₁])・Coleman 1989 ASPM(AI 理論梗概)・Vogel 2005 著者版(全文抽出可)。AI1988 主定理は zbMATH レビューで文言確認(節番号 UNVERIFIED)。
+- 塞がった経路の記録あり(Annals 直 404・JSTOR 403・Euclid 範囲外・海賊サイトは不使用)。真に本体が要る場合 = ILL/機関照会(自動化範囲外・研究者の手)。
+- **配達覚書 = docs/notes/litgate_u2_ihara_v1.md**: 機構抽出+警告(最大性 Question 6.5.2 は未解決 — 「塔内 ⟹ 不分岐」方向のみ使用可)+一工夫 =(U2-bridge)「L_{2^α} が X({0,1,∞}) の定義体塔の有限段に含まれる」1 本への縮約(検証 3 点 = 要請票 R1-R3 と一致・moduli/定義体の区別に v4 戦訓)。数学者へは n=7 設計帰還後に配達。
