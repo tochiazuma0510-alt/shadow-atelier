@@ -1,0 +1,43 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "wall36-cert-20260731-r2",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "wall36-cert-20260731 の再走(裁定290・W92-9修理版)。旧 plan の frozen_docs ハッシュは driver 修理(窓別 schema 文字列+DRIVER_DONE マーカー統一・commit 519ea94)で失効したため新ハッシュで新 plan として起票。宇宙・witness・検算ロジックは無改変(裁定253由来、n=36, ell=31, t=5, C31 x S5, |C(w0)|=3720)。今回の要件は result.txt の verdict=passed 化のみ(数値は前回実測 3720/3720 と同一の見込み)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/wall36_cert.g", "sha256": "3b9b151db8a7cfa5ebd3d47476920f191d1ec2efcbf5347738a81ae8874d412a" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "WALL36-CERT-PROBE",
+      "version": 2,
+      "params": { "driver": "search/probe/wac_v1/wall36_cert.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。裁定290修理版(窓別schema+DRIVER_DONEマーカー・implementer実装・commit 519ea94)。検算ロジック自体は無改変(provenance欄・出力名整形のみ)。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "cert 化再走(裁定253の新窓の正式cert・W92-9修理版での再現)。凍結予言(定理CENTによりSURV全数pass 3720/3720)はチェッカー/driverへ非接触のまま司令塔側で保持(接触遮断・裁定253/司令塔便による)。的中/外れの判定は司令塔が cert 実測値と別途照合する。"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "timeout_min": 120,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/wall36_cert.g",
+      "sha256": "3b9b151db8a7cfa5ebd3d47476920f191d1ec2efcbf5347738a81ae8874d412a",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-wall36-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
