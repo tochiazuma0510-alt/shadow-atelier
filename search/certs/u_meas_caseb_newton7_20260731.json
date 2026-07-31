@@ -1,0 +1,50 @@
+{
+ "branch_note": "This is the solution of the p=7 BRANCH; uniqueness over Q is NOT claimed here.",
+ "checker_eq_indices": [
+  4,
+  5
+ ],
+ "checkpoints": [
+  {
+   "c_mod_7k": [
+    22,
+    12,
+    22,
+    5
+   ],
+   "checker_7valuations": [
+    1,
+    1
+   ],
+   "driver_zero": true,
+   "k": 2
+  }
+ ],
+ "curve": "y^2 = (x^3+x)^2 - 27",
+ "newton_driver_eq_indices": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "prime": 7,
+ "residual_degrees": [
+  12,
+  15,
+  18,
+  21,
+  24,
+  27
+ ],
+ "schema": "u-meas-caseb-newton7/v1",
+ "seed_mod_7": {
+  "c3": 1,
+  "c5": 5,
+  "c7": 1,
+  "c9": 5
+ },
+ "seed_source": "p=7 survivor of the schema-v2 sieve (monodromy 9T27-compatible, non-decomposable)",
+ "status": "checker_fail",
+ "sympy_version": "1.14.0",
+ "u_touched": false
+}
