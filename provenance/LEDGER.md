@@ -973,3 +973,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - EP union を回す CI 経路も未存在(7 workflow 全 grep 0)— (d) は経路新設が前提。
 - **裁定: 方針 (A) 採択** — 循環は「初の実候補の指定」で破る。①司令塔+数学者が N∞ 枝の初回実候補(W-6 系の事前登録宇宙から)を指定 ②lane A(searcher-v2)/lane B(checker+verifier-b)を独立実走 ③新 freeze_id で束ね provisioning ④EP union CI 経路の最小新設 → (c)(d) 充足。候補指定は数学判断につき次波で数学者と設計(事前登録の宇宙を先に確認)。
 - 便 93 への含意: W92-8 は (a)(b) 充足・(c)(d) は「実物の初回生成が必要と判明(循環の同定)」として正直報告 — Sol の設計意見も求める。
+
+## 2026-07-31 SETTLED-CENT 判定 probe 着弾(裁定 293)— ★ I16-1a 的中(20/20 完全一致: settled ⟺ Φ 像 ∈ C_H(ĉ))・I16-1c 的中(8 行一律 K≅A₅・QP/K≅C₅³)・I16-1d の 4×5 形は外れ(実構造 = 4+8+8)
+- probe = pent_settled_struct_20260731.g(v3.1 継承・回帰第 4 元 PASS・settled 4/8/8 再現 = cross-check)・cert = pent_settled_struct_20260731.json(v3.1 の probe/cert 両 sha256 束縛)。
+- **I16-1a(SETTLED-CENT)**: H=⟨Φ(m,f)⟩ ≅ C5:C4(|H|=20)・ĉ=Φ(4,()) 位数 2・C_H(ĉ) ≅ C4 — **20 行全てで「Φ 像 ∈ C_H(ĉ) ⟺ settled_true」が一致**(assert せず生データ・接触遮断維持)。実装は Aut(PN)(≅S₅)内で構成(発案係の Hol(ℤ/5) 座標との対応は数学者検分待ち)。
+- **I16-1c(KER-QUANT)**: settled_false 8 行全て K≅A₅・QP/K≅C₅³・C_QP(K)≅C₅³ — 「A₅ が丸ごと核・C₅³ 無傷」の量子化を一律確認。
+- **I16-1d(STAR-LAG)**: well-defined 12 行の核クラスは**ちょうど 2 種**(自明×4・A₅×8)+ non-well-defined 8 = **4+8+8 構造** — 予言の 20=4×5 形は**外れ**(層化データ自体は取得)。
+- 意味(candidate): **settled = 複素共役と可換な「実」部分** — 非 isolated 窓の settled 軌跡が実構造で説明される形。GAL-STAB(settled 率 = 算術性測度)への強い足がかり。紙上定式化+一般窓予言は数学者へ(次波: T3 weighted 修文・C1′ 証明書・(U2) 配達と同便)。
