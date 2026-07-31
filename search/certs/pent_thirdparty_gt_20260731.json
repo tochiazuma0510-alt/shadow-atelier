@@ -3471,5 +3471,1380 @@
     "gap": "4.16.0 (used only for pent_pi_a5_export_sigmas.g, to export sigma1/sigma2/sigma3 images of K_pi; GAP itself never computes pentagon/hexagon/charming counts in this cert)",
     "os": "Windows 10 (10.0.19045)"
   },
-  "aux_py_windows_workaround": "Aux.py could not be placed in the repo, opened, or imported by native Windows tools (kernel32/CRT reserved DOS device name AUX, blocks even with .py extension and \\\\?\\ prefix). Git-Bash/MSYS cp/diff/sha256sum CAN handle it (different underlying file API), which is how a byte-identical Aux.py landed in search/thirdparty/PackageGT/ at all. gt_thirdparty_bootstrap.py works around the import failure by exec-ing a byte-identical sibling copy (AuxSafe.py) into sys.modules[\"Aux\"] BEFORE PaB.py/NotUsed.py are loaded via importlib -- so PaB.py, NotUsed.py and Aux.py are all left 100 percent unedited (byte-for-byte identical to the zip); only our own bootstrap script performs the workaround."
+  "aux_py_windows_workaround": "Aux.py could not be placed in the repo, opened, or imported by native Windows tools (kernel32/CRT reserved DOS device name AUX, blocks even with .py extension and \\\\?\\ prefix). Git-Bash/MSYS cp/diff/sha256sum CAN handle it (different underlying file API), which is how a byte-identical Aux.py landed in search/thirdparty/PackageGT/ at all. gt_thirdparty_bootstrap.py works around the import failure by exec-ing a byte-identical sibling copy (AuxSafe.py) into sys.modules[\"Aux\"] BEFORE PaB.py/NotUsed.py are loaded via importlib -- so PaB.py, NotUsed.py and Aux.py are all left 100 percent unedited (byte-for-byte identical to the zip); only our own bootstrap script performs the workaround.",
+  "coarse_reduction": {
+    "schema": "wac_v1-pent-thirdparty-coarse-reduction/v1",
+    "generated_by": "search/probe/wac_v1/pent_thirdparty_coarse_reduction.py",
+    "note": "Coarse reduction of the third-party package's K_pi charming/friendly_pr/gtsh (w,m) entries onto the coarse window N_A = <t[0],t[1]> (fi123(t), the identity coface). Uses the package's own w2g() and the SAME word tuples the package itself produced -- no re-derivation of word semantics. No determination made here; raw histogram only.",
+    "coarse_window_group_order_measured": 60,
+    "charming": {
+      "total_entries": 20,
+      "distinct_coarse_mf_classes": 20,
+      "histogram": [
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            0,
+            2,
+            4,
+            3,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            1,
+            3,
+            0,
+            4,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            1,
+            3,
+            2,
+            0,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            3,
+            2,
+            0,
+            4,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            2,
+            0,
+            4,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            2,
+            4,
+            1,
+            0,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            3,
+            4,
+            1,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            4,
+            0,
+            3,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            4,
+            1,
+            3,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            2,
+            0,
+            4,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            2,
+            4,
+            1,
+            0,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            3,
+            4,
+            1,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            4,
+            0,
+            3,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            4,
+            1,
+            3,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            0,
+            2,
+            4,
+            3,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            1,
+            3,
+            0,
+            4,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            1,
+            3,
+            2,
+            0,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            3,
+            2,
+            0,
+            4,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 1
+        }
+      ],
+      "per_entry_rows": [
+        {
+          "word": [],
+          "m": 0,
+          "coarse_f_array_form": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[]"
+        },
+        {
+          "word": [],
+          "m": 4,
+          "coarse_f_array_form": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[]"
+        },
+        {
+          "word": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1
+          ],
+          "m": 1,
+          "coarse_f_array_form": [
+            4,
+            0,
+            3,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 4, 2, 3, 1]]"
+        },
+        {
+          "word": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1
+          ],
+          "m": 3,
+          "coarse_f_array_form": [
+            4,
+            0,
+            3,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 4, 2, 3, 1]]"
+        },
+        {
+          "word": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "m": 0,
+          "coarse_f_array_form": [
+            3,
+            2,
+            0,
+            4,
+            1,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 3, 4, 1, 2]]"
+        },
+        {
+          "word": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "m": 4,
+          "coarse_f_array_form": [
+            3,
+            2,
+            0,
+            4,
+            1,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 3, 4, 1, 2]]"
+        },
+        {
+          "word": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1
+          ],
+          "m": 0,
+          "coarse_f_array_form": [
+            1,
+            3,
+            0,
+            4,
+            2,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 1, 3, 4, 2]]"
+        },
+        {
+          "word": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1
+          ],
+          "m": 4,
+          "coarse_f_array_form": [
+            1,
+            3,
+            0,
+            4,
+            2,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 1, 3, 4, 2]]"
+        },
+        {
+          "word": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "m": 1,
+          "coarse_f_array_form": [
+            3,
+            4,
+            1,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 3, 2, 1, 4]]"
+        },
+        {
+          "word": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "m": 3,
+          "coarse_f_array_form": [
+            3,
+            4,
+            1,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 3, 2, 1, 4]]"
+        },
+        {
+          "word": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "m": 0,
+          "coarse_f_array_form": [
+            0,
+            2,
+            4,
+            3,
+            1,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[1, 2, 4]]"
+        },
+        {
+          "word": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "m": 4,
+          "coarse_f_array_form": [
+            0,
+            2,
+            4,
+            3,
+            1,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[1, 2, 4]]"
+        },
+        {
+          "word": [
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "m": 1,
+          "coarse_f_array_form": [
+            2,
+            0,
+            4,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 2, 4, 3, 1]]"
+        },
+        {
+          "word": [
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "m": 3,
+          "coarse_f_array_form": [
+            2,
+            0,
+            4,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 2, 4, 3, 1]]"
+        },
+        {
+          "word": [
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "m": 1,
+          "coarse_f_array_form": [
+            2,
+            4,
+            1,
+            0,
+            3,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 2, 1, 4, 3]]"
+        },
+        {
+          "word": [
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "m": 3,
+          "coarse_f_array_form": [
+            2,
+            4,
+            1,
+            0,
+            3,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 2, 1, 4, 3]]"
+        },
+        {
+          "word": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "m": 0,
+          "coarse_f_array_form": [
+            1,
+            3,
+            2,
+            0,
+            4,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 1, 3]]"
+        },
+        {
+          "word": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "m": 4,
+          "coarse_f_array_form": [
+            1,
+            3,
+            2,
+            0,
+            4,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 1, 3]]"
+        },
+        {
+          "word": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "m": 1,
+          "coarse_f_array_form": [
+            4,
+            1,
+            3,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 4], [2, 3]]"
+        },
+        {
+          "word": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "m": 3,
+          "coarse_f_array_form": [
+            4,
+            1,
+            3,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "coarse_f_cyclic_form": "[[0, 4], [2, 3]]"
+        }
+      ]
+    },
+    "friendly_pr": {
+      "total_entries": 100,
+      "distinct_coarse_mf_classes": 20,
+      "histogram": [
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            0,
+            2,
+            4,
+            3,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            1,
+            3,
+            0,
+            4,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            1,
+            3,
+            2,
+            0,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            3,
+            2,
+            0,
+            4,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            2,
+            0,
+            4,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            2,
+            4,
+            1,
+            0,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            3,
+            4,
+            1,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            4,
+            0,
+            3,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            4,
+            1,
+            3,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            2,
+            0,
+            4,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            2,
+            4,
+            1,
+            0,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            3,
+            4,
+            1,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            4,
+            0,
+            3,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            4,
+            1,
+            3,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            0,
+            2,
+            4,
+            3,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            1,
+            3,
+            0,
+            4,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            1,
+            3,
+            2,
+            0,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            3,
+            2,
+            0,
+            4,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        }
+      ]
+    },
+    "gtsh": {
+      "total_entries": 100,
+      "distinct_coarse_mf_classes": 20,
+      "histogram": [
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            0,
+            2,
+            4,
+            3,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            1,
+            3,
+            0,
+            4,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            1,
+            3,
+            2,
+            0,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 0,
+          "coarse_f_array_form": [
+            3,
+            2,
+            0,
+            4,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            2,
+            0,
+            4,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            2,
+            4,
+            1,
+            0,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            3,
+            4,
+            1,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            4,
+            0,
+            3,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 1,
+          "coarse_f_array_form": [
+            4,
+            1,
+            3,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            2,
+            0,
+            4,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            2,
+            4,
+            1,
+            0,
+            3,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            3,
+            4,
+            1,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            4,
+            0,
+            3,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 3,
+          "coarse_f_array_form": [
+            4,
+            1,
+            3,
+            2,
+            0,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            0,
+            2,
+            4,
+            3,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            1,
+            3,
+            0,
+            4,
+            2,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            1,
+            3,
+            2,
+            0,
+            4,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        },
+        {
+          "m": 4,
+          "coarse_f_array_form": [
+            3,
+            2,
+            0,
+            4,
+            1,
+            5,
+            6,
+            7
+          ],
+          "count": 5
+        }
+      ]
+    },
+    "order_note": "Follow-up measurement ordered 2026-07-31 (ruling 275 follow-up), same session/environment as the main cert. Reduces the K_pi (fine window) charming/friendly_pr/gtsh (w,m) entries onto the coarse window N_A = <t[0],t[1]> using the package's own w2g() on the package's own word tuples (no re-derivation of word semantics -- see script docstring for the exact PaB.py line citations proving the 0/1 -> generator-index correspondence). No determination made; raw histogram only."
+  }
 }
