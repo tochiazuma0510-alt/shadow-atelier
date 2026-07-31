@@ -867,3 +867,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **本番(接触遮断)**: gener_GT_charm(pentagon+hexagon+charming)= **20・per-m [5,5,5,5]・distinct words 10** = 粗窓 GT(N_A) の構造と完全一致。gener_GT_pr/sh(full F₂)= 100(per-m 25)・gener_GT_penta(m=0 交換子)= 16。
 - **判定(司令塔)**: 著者自身の定義解釈で **GT(K_π) は 20 元・全 coarse shadow が持ち上がる** ⟹ 我々の fine-lift=4(数学者 GAP・Sol 独立器・診断装置の 3 系統一致)は**共有仕様読みの誤り側でほぼ確定**。本命仮説(c 方向の過剰制約: defect を F₂ 水準 fiber 25 でなく PB₃ 水準 fiber 125 で読んだ)と整合 — 我々の粗 ∃-判定(F₂ 水準)が 20/20 だったことと辻褄が合う。**v4 復権方向**。正式な suspension 解除は①数学者の紙上診断(盲検進行中 — パッケージ値は見せない)②Sol の再監査(便 92)の二段で。
 - ★教材の実証: 「独立実装の一致は共有仕様バグを排除しない」— 3 系統一致の 4 が第三者(著者)実装で覆った教科書的事例。
+
+## 2026-07-31 pentagon 盲検紙診断(裁定 276)— 本命(c 方向過剰制約)棄却・補題 C-DEG/LIFT-INDEP・「どんな hexagon 読みでも上限 12/20」・矛盾の所在は c5(refined 全射性)へ移動
+- 正本 = pent_conflict_diagnosis_v1.md(256 行・PackageGT 結果は盲検のまま作成)・検算 = scratchpad/pent_cdeg_check.py(500 試行 mismatch 0)。
+- **T_{m,f} 借用 = C1 (2.26) と逐語一致(PASS)**・c↦c^{2m+1} は Cor 2.8 (2.29) で正しい(ただし命題であり hexagon 通過後のみ適用可)・(2.18)(2.19)=gentle (3.3)(3.4) 同一。差分記録: C1 の f は PB₃ 類/charming(c4)は C1 Def 2.9 に無い過剰条件(無害)。settled 測定は PB₃ 水準=必要条件のみ(C1 Prop 2.11 は PB₄ 水準)— F91-2.5 は部分解消止まり。
+- **補題 C-DEG**: deg_c(D₁)=deg_c(f)・deg_c(D₂)=−deg_c(f)(証明 2 本+機械 500/0)⟹ c 読み替え(C₅³/(c))でも死 16 行は 1 つも復活しない = **本命仮説棄却**。c 方向は過剰でなく正しく 1 点固定(生存行 c1/c2=5・c4=1/125・witness の c 指数 0)。
+- 窓構造確定: Q_P ≅ A₅×C₅³・Ψ(F₂) ≅ A₅×C₅² — fine 持ち上げは F₅ 上のアフィン方程式・生死は F₂ 成分 2 本。
+- **補題 LIFT-INDEP**: H₃ 中心的 ⟹ c5(refined 全射性)は fiber 定数(実測 {0,125} のみ・予言一致)⟹ c5 は粗 shadow の不変量・hexagon の読み替えで不動。c5=0 は 8 行(3-巡回 4+5-巡回 4)⟹ **evaluator が正しい前提でどんな hexagon 緩和でも上限 12/20**。衝突の所在は fine hexagon → refined 全射性へ移動(今回最重要の所見)。
+- 反証可能予言(接触遮断): C₅³/(c) 版再測定で c1/c2 は 4 行 5→25・死 16 行 0→0・lifted_total=4 のまま。死行で c1>0 が出れば C-DEG 誤りで撤回。
+- Kummer 生成元 (m=0,f=(2,3,4)) の死因 = F₂ 方向+c5=0。m 方向シロ・c5 の水準(F₂ 1500 vs C1 (2.34) 7500)は同値証明済み。
+- **⟹ 裁定 275(著者パッケージ = 20)との対決**: 紙(盲検)= 上限 12 vs 著者実装 = 20。両者とも較正済みのため、発散点は「gener_GT_charm が要求する全射性/charming の対象」と我々の c5 の差にほぼ確定 — 突合フェーズへ。
