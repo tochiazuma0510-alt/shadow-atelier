@@ -984,6 +984,21 @@ REAL_MAP_DIGEST = eu.sha256_of(REAL_MAP)
 _native_a_real = _synthetic_native(REAL_MAP)
 _native_b_real = _synthetic_native(REAL_MAP)  # same map both sides -> legitimate PASS
 
+# Sol 便91 P91-4 (sol/sol_reply_91_math18.md F91-6.2, docs/notes/
+# cert_shape_interpretation_addendum_o_v11.md): registry content now
+# enters via `prov.commit_generation` -- a whole GENERATION (one or more
+# artifacts, all bound to ONE shared freeze_id) is built and self-verified
+# off to the side, then published as a single atomic CURRENT-pointer
+# swap. `_native_b_different`/`DIFFERENT_MAP` (originally computed later,
+# at what was section 10d) is hoisted up here so it can be committed in
+# the SAME generation as native_a/native_b -- all three artifacts
+# (native_a, native_b, native_b_alt) need to be simultaneously resolvable
+# throughout sections 10-13 below, which is only possible if they live in
+# ONE generation (resolve() only ever reads the CURRENT generation).
+DIFFERENT_MAP = [{"branch_value": "pt-9", "multiplicity": 7}]
+DIFFERENT_MAP_DIGEST = eu.sha256_of(DIFFERENT_MAP)
+_native_b_different = _synthetic_native(DIFFERENT_MAP)
+
 # --- 10a. positive control: json_pointer resolves into the real native
 #     artifact, NO inline at all on map_ref -- proves dereference itself
 #     (not merely inline) drives the result.
@@ -997,14 +1012,28 @@ record("Sol 便86 P86-2 item 3 positive control: verify_W6_single with map_ref c
 
 # Sol 便88 P88-o positive control: this IS the "properly-registered
 # artifact still reaches PASS" demonstration (P88-o completion condition
-# "正当な artifact では従来どおり PASS すること"). reg.write_entry is the
-# receiver's OUT-OF-BAND provisioning step -- it never runs as part of
-# processing a caller-supplied raw evidence artifact.
-_REG_DIGEST_NATIVE_A = prov.write_entry("native_a", "native_a", "v1", _native_a_real, registry_dir=TEST_REGISTRY_DIR)["whole_artifact_digest"]
-_REG_DIGEST_NATIVE_B = prov.write_entry("native_b", "native_b", "v1", _native_b_real, registry_dir=TEST_REGISTRY_DIR)["whole_artifact_digest"]
+# "正当な artifact では従来どおり PASS すること"). prov.commit_generation is
+# the receiver's OUT-OF-BAND provisioning step -- it never runs as part of
+# processing a caller-supplied raw evidence artifact. Sol 便91 P91-4: ONE
+# generation, bundling native_a/native_b/native_b_alt together under ONE
+# shared freeze_id (native_b_alt is needed by section 10d/13d below, and
+# must be simultaneously resolvable alongside native_a/native_b -- see the
+# hoisting note above REAL_MAP).
+GEN10_FREEZE_ID = "freeze-sec10-13"
+_gen10 = prov.commit_generation(
+    [
+        {"artifact_id": "native_a", "role": "native_a", "version_id": "v1", "content": _native_a_real},
+        {"artifact_id": "native_b", "role": "native_b", "version_id": "v1", "content": _native_b_real},
+        {"artifact_id": "native_b_alt", "role": "native_b", "version_id": "v1", "content": _native_b_different},
+    ],
+    GEN10_FREEZE_ID, registry_dir=TEST_REGISTRY_DIR,
+)
+_REG_DIGEST_NATIVE_A = _gen10["artifacts"]["native_a"]
+_REG_DIGEST_NATIVE_B = _gen10["artifacts"]["native_b"]
+_REG_DIGEST_NATIVE_B_ALT = _gen10["artifacts"]["native_b_alt"]
 _registry_refs_deref_only = {
-    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1"},
-    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1"},
+    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
+    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
 }
 _raw_deref_only = {"schema_id": RAW_SCHEMA, "certificate": _cert_deref_only, "native_a": _native_a_real, "native_b": _native_b_real,
                     "native_registry_refs": _registry_refs_deref_only}
@@ -1076,16 +1105,17 @@ record("Sol 便86 P86-2 item 4 NEW negative (matching forged inline maps, end-to
 #     different) content; swapping which native artifact is passed as
 #     native_a/native_b makes each side's json_pointer resolve to the
 #     WRONG map, disagreeing with the digest the certificate pinned.
-DIFFERENT_MAP = [{"branch_value": "pt-9", "multiplicity": 7}]
-DIFFERENT_MAP_DIGEST = eu.sha256_of(DIFFERENT_MAP)
-_native_b_different = _synthetic_native(DIFFERENT_MAP)
+# DIFFERENT_MAP/_native_b_different were hoisted above (before the
+# combined 10a commit_generation call, Sol 便91 P91-4) so that
+# "native_b_alt" could be committed in the SAME generation as native_a/
+# native_b -- both must be simultaneously resolvable, and resolve() only
+# ever reads the CURRENT generation.
 # Sol 便88 P88-o: a DISTINCT artifact_id ("native_b_alt") from 10a's
 # already-registered "native_b" -- avoids overwriting 10a's registry
 # entry (which 10a's own PASS assertions, and section 11's CLI PASS
 # probe, both depend on) with different content under the same id.
 _map_ref_b_different = {"artifact_id": "native_b_alt", "digest": DIFFERENT_MAP_DIGEST, "json_pointer": "/pushforward_map"}
 _cert_two_real_maps = _synthetic_cert(_map_ref_a_deref_only, _map_ref_b_different)  # legit cert, two genuinely different maps
-_REG_DIGEST_NATIVE_B_ALT = prov.write_entry("native_b_alt", "native_b", "v1", _native_b_different, registry_dir=TEST_REGISTRY_DIR)["whole_artifact_digest"]
 
 # control: correct (unswapped) assignment -> legitimate FAIL (real
 # disagreement, not a schema violation) -- confirms dereference works
@@ -1105,16 +1135,16 @@ record("Sol 便86 P86-2 item 4 NEW negative 3 (swapped native refs): verify_W6_s
        _swapped_status == "MALFORMED", f"got {_swapped_status!r}: {_swapped_detail}")
 
 _registry_refs_correct = {
-    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1"},
-    "native_b": {"artifact_id": "native_b_alt", "whole_artifact_digest": _REG_DIGEST_NATIVE_B_ALT, "version_id": "v1"},
+    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
+    "native_b": {"artifact_id": "native_b_alt", "whole_artifact_digest": _REG_DIGEST_NATIVE_B_ALT, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
 }
 # Sol 便88 P88-o item 5(d) A/B swap: the registry REFS (not raw's inert
 # top-level native_a/native_b) are what now carries the "which artifact
 # backs which slot" claim -- swapping THEM is the v8-era equivalent of
 # the old "runner-argument-level swap" this negative originally tested.
 _registry_refs_swapped = {
-    "native_a": {"artifact_id": "native_b_alt", "whole_artifact_digest": _REG_DIGEST_NATIVE_B_ALT, "version_id": "v1"},
-    "native_b": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1"},
+    "native_a": {"artifact_id": "native_b_alt", "whole_artifact_digest": _REG_DIGEST_NATIVE_B_ALT, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
+    "native_b": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
 }
 _raw_swapped = {"schema_id": RAW_SCHEMA, "certificate": _cert_two_real_maps, "native_a": _native_b_different, "native_b": _native_a_real,
                 "native_registry_refs": _registry_refs_swapped}
@@ -1309,8 +1339,8 @@ _sol_cert2 = _synthetic_cert(_sol_map_ref_a2, _sol_map_ref_b2)
 _sol_raw_strengthened = {
     "schema_id": RAW_SCHEMA, "certificate": _sol_cert2, "native_a": _sol_native_a, "native_b": _sol_native_b,
     "native_registry_refs": {
-        "native_a": {"artifact_id": "native_a", "whole_artifact_digest": eu.sha256_of(_sol_native_a), "version_id": "v1"},
-        "native_b": {"artifact_id": "native_b", "whole_artifact_digest": eu.sha256_of(_sol_native_b), "version_id": "v1"},
+        "native_a": {"artifact_id": "native_a", "whole_artifact_digest": eu.sha256_of(_sol_native_a), "version_id": "v1", "freeze_id": "attacker-guessed-freeze"},
+        "native_b": {"artifact_id": "native_b", "whole_artifact_digest": eu.sha256_of(_sol_native_b), "version_id": "v1", "freeze_id": "attacker-guessed-freeze"},
     },
 }
 _sol_result_strengthened = eu.evidence_union_from_raw_w6(_sol_raw_strengthened)
@@ -1326,8 +1356,8 @@ record("P88-o negative (a) strengthened: native_registry_status.status == 'STALE
 
 # --- 13b. unknown artifact_id.
 _registry_refs_unknown = {
-    "native_a": {"artifact_id": "does-not-exist-in-registry", "whole_artifact_digest": "0" * 64, "version_id": "v1"},
-    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1"},
+    "native_a": {"artifact_id": "does-not-exist-in-registry", "whole_artifact_digest": "0" * 64, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
+    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
 }
 _raw_unknown_artifact = {"schema_id": RAW_SCHEMA, "certificate": _cert_deref_only, "native_a": {}, "native_b": {},
                           "native_registry_refs": _registry_refs_unknown}
@@ -1339,8 +1369,8 @@ record("P88-o negative (b) unknown artifact_id: native_registry_refs['native_a']
 
 # --- 13c. stale digest.
 _registry_refs_stale = {
-    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": "1" * 64, "version_id": "v1"},  # WRONG, doesn't match actual registered content
-    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1"},
+    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": "1" * 64, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},  # WRONG digest, doesn't match actual registered content
+    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
 }
 _raw_stale = {"schema_id": RAW_SCHEMA, "certificate": _cert_deref_only, "native_a": {}, "native_b": {},
               "native_registry_refs": _registry_refs_stale}
@@ -1354,8 +1384,8 @@ record("P88-o negative (c) stale digest: native_registry_refs['native_a'].whole_
 #     cert that legitimately points both lanes at "native_a"/"native_b"
 #     but the registry claim swaps which role each id was pinned under).
 _registry_refs_ab_swap = {
-    "native_a": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1"},
-    "native_b": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1"},
+    "native_a": {"artifact_id": "native_b", "whole_artifact_digest": _REG_DIGEST_NATIVE_B, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
+    "native_b": {"artifact_id": "native_a", "whole_artifact_digest": _REG_DIGEST_NATIVE_A, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
 }
 _raw_ab_swap = {"schema_id": RAW_SCHEMA, "certificate": _cert_deref_only, "native_a": {}, "native_b": {},
                  "native_registry_refs": _registry_refs_ab_swap}
@@ -1365,29 +1395,31 @@ record("P88-o negative (d) A/B swap: native_registry_refs['native_a'] claims the
        _result_ab_swap.get("native_registry_status", {}).get("status") == "ROLE_MISMATCH" and _result_ab_swap["overall_status"] != "PASS",
        _result_ab_swap)
 
-# --- 13e. registry store absent entirely.
+# --- 13e. registry store absent entirely. Sol 便91 P91-4: "absent" now
+#     means CURRENT.json (the single mutable pointer) is missing --
+#     temporarily rename it away and back.
 import shutil as _shutil
-_test_index_path = reg.index_path(TEST_REGISTRY_DIR)
-_index_had = os.path.isfile(_test_index_path)
-_index_backup_path = _test_index_path + ".p88o_test_backup"
-if _index_had:
-    _shutil.move(_test_index_path, _index_backup_path)
+_test_current_path = reg.current_path(TEST_REGISTRY_DIR)
+_current_had = os.path.isfile(_test_current_path)
+_current_backup_path = _test_current_path + ".p88o_test_backup"
+if _current_had:
+    _shutil.move(_test_current_path, _current_backup_path)
 try:
     _registry_refs_no_store = {
-        "native_a": {"artifact_id": "native_a", "whole_artifact_digest": "2" * 64, "version_id": "v1"},
-        "native_b": {"artifact_id": "native_b", "whole_artifact_digest": "2" * 64, "version_id": "v1"},
+        "native_a": {"artifact_id": "native_a", "whole_artifact_digest": "2" * 64, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
+        "native_b": {"artifact_id": "native_b", "whole_artifact_digest": "2" * 64, "version_id": "v1", "freeze_id": GEN10_FREEZE_ID},
     }
     _raw_no_store = {"schema_id": RAW_SCHEMA, "certificate": _cert_deref_only, "native_a": {}, "native_b": {},
                       "native_registry_refs": _registry_refs_no_store}
     _result_no_store = eu.evidence_union_from_raw_w6(_raw_no_store)
-    record("P88-o negative (e) registry store absent entirely (index.json removed): native_registry_status "
+    record("P88-o negative (e) registry store absent entirely (CURRENT.json removed): native_registry_status "
            "MISSING (distinct from (b)'s UNKNOWN -- the store itself, not merely this artifact_id, is absent), "
            "overall != PASS",
            _result_no_store.get("native_registry_status", {}).get("status") == "MISSING" and _result_no_store["overall_status"] != "PASS",
            _result_no_store)
 finally:
-    if _index_had:
-        _shutil.move(_index_backup_path, _test_index_path)
+    if _current_had:
+        _shutil.move(_current_backup_path, _test_current_path)
 
 # --- 13f. legacy object_id+inline: a correctly-registered artifact (role,
 #     digest, artifact_id all matching) whose CERTIFICATE map_ref still
@@ -1395,18 +1427,27 @@ finally:
 #     cert_pos_01's own shape. Registering its actual native content does
 #     NOT make it operative: the registry is never touched by dereference
 #     when there is no json_pointer to resolve.
-# Sol 便90 F90-4.1 blocker 3: "native_a"/"native_b" already hold DIFFERENT
-# content from 10a/10d above -- overwriting them now requires an explicit
-# supersede=True (a default-reject write_entry call would raise
-# ValueError here); this is exactly the legitimate, audited re-
-# provisioning use case the supersede path exists for (see section 15
-# below for the corresponding negative: an overwrite WITHOUT supersede
-# raises).
-prov.write_entry("native_a", "native_a", "v1", _cert_pos_01["native_a"], registry_dir=TEST_REGISTRY_DIR, supersede=True)
-prov.write_entry("native_b", "native_b", "v1", _cert_pos_01["native_b"], registry_dir=TEST_REGISTRY_DIR, supersede=True)
+# Sol 便91 P91-4: "native_a"/"native_b" already hold DIFFERENT content
+# from 10a/10d above (the generation committed there, GEN10_FREEZE_ID) --
+# there is no "overwrite an existing entry" concept any more (blocker 3):
+# re-provisioning new content is always a BRAND NEW generation, committed
+# and self-verified off to the side, then published via a single atomic
+# CURRENT-pointer swap. This is exactly the legitimate re-provisioning use
+# case the old supersede path existed for, now realized without any
+# in-place mutation at all -- the 10a/10d generation's own files remain
+# byte-identical on disk, simply no longer CURRENT (see section 15b below
+# for the corresponding regression guard).
+GEN13F_FREEZE_ID = "freeze-sec13f"
+_gen13f = prov.commit_generation(
+    [
+        {"artifact_id": "native_a", "role": "native_a", "version_id": "v2", "content": _cert_pos_01["native_a"]},
+        {"artifact_id": "native_b", "role": "native_b", "version_id": "v2", "content": _cert_pos_01["native_b"]},
+    ],
+    GEN13F_FREEZE_ID, registry_dir=TEST_REGISTRY_DIR,
+)
 _registry_refs_legacy = {
-    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": reg.resolve("native_a")["whole_artifact_digest"], "version_id": "v1"},
-    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": reg.resolve("native_b")["whole_artifact_digest"], "version_id": "v1"},
+    "native_a": {"artifact_id": "native_a", "whole_artifact_digest": reg.resolve("native_a")["whole_artifact_digest"], "version_id": "v2", "freeze_id": GEN13F_FREEZE_ID},
+    "native_b": {"artifact_id": "native_b", "whole_artifact_digest": reg.resolve("native_b")["whole_artifact_digest"], "version_id": "v2", "freeze_id": GEN13F_FREEZE_ID},
 }
 _raw_legacy_object_id = {
     "schema_id": RAW_SCHEMA, "certificate": _cert_pos_01["certificate"],
@@ -1421,11 +1462,16 @@ record("P88-o negative (f) legacy object_id+inline: EVEN WITH a correctly-regist
        and _result_legacy["overall_status"] != "PASS",
        _result_legacy)
 
-# NOTE: 13f's reg.write_entry calls above rewrite the "native_a"/"native_b"
-# registry entries (to cert_pos_01's own native content) -- this is safe
-# only because it is the LAST registry mutation in this file; nothing
-# below this point (only the final report) depends on the earlier 10a/10d
-# content under those same ids.
+# NOTE: 13f's commit_generation call above publishes a NEW generation
+# (GEN13F_FREEZE_ID) that becomes CURRENT for artifact_ids "native_a"/
+# "native_b" going forward -- this is safe (unlike the old mutable-entry
+# design's supersede path) precisely BECAUSE nothing is mutated in place:
+# the 10a/10d generation (GEN10_FREEZE_ID, holding "native_a"/"native_b"/
+# "native_b_alt" under their ORIGINAL content) is left completely
+# untouched on disk, byte for byte, under generations/ -- it is simply no
+# longer what CURRENT.json points to. Section 15 below commits further
+# generations into TEST_REGISTRY_DIR; each is independently verified not
+# to disturb any earlier one's on-disk bytes (see 15b).
 
 # --------------------------------------------------------------------------
 # 14. Sol 便89 registry hardening (docs/notes/cert_shape_interpretation_
@@ -1447,11 +1493,14 @@ os.makedirs(reg.PRODUCTION_REGISTRY_DIR, exist_ok=True)
 _prod_files_before = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
 _prod_write_raised = None
 try:
-    prov.write_entry("attacker_artifact", "native_a", "v1", {"forged": "content"}, registry_dir=reg.PRODUCTION_REGISTRY_DIR)
+    prov.commit_generation(
+        [{"artifact_id": "attacker_artifact", "role": "native_a", "version_id": "v1", "content": {"forged": "content"}}],
+        "attacker-freeze", registry_dir=reg.PRODUCTION_REGISTRY_DIR,
+    )
 except PermissionError as e:
     _prod_write_raised = e
 _prod_files_after = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
-record("Sol 便89 negative 1: write_entry(registry_dir=PRODUCTION_REGISTRY_DIR) without "
+record("Sol 便89 negative 1 (Sol 便91 P91-4 API): commit_generation(registry_dir=PRODUCTION_REGISTRY_DIR) without "
        "NINFTY_EP_ALLOW_PRODUCTION_WRITE=1 raises PermissionError",
        isinstance(_prod_write_raised, PermissionError), repr(_prod_write_raised))
 record("Sol 便89 negative 1b: the production registry directory's file listing is BYTE-IDENTICAL before/after "
@@ -1483,8 +1532,10 @@ record("Sol 便89 negative 2: native_registry_refs[...] with version_id OMITTED 
        and _result_no_version["overall_status"] != "PASS",
        _result_no_version.get("native_registry_status"))
 
-# --- 14c. malformed version_id formats at write_entry (registry
-#     provisioning level) -> ValueError, none reach the store.
+# --- 14c. malformed version_id formats at commit_generation (registry
+#     provisioning level) -> ValueError, none reach the store (Sol 便91
+#     P91-4 API: a rejected commit never creates the generation directory
+#     at all -- validated BEFORE any file is written).
 for _bad_version, _bad_label in (
     (None, "None"), ("", "empty string"), ("   ", "whitespace-only"),
     ("has spaces", "contains a space"), ("../../etc/passwd", "path-traversal-shaped"),
@@ -1492,111 +1543,478 @@ for _bad_version, _bad_label in (
 ):
     _raised = None
     try:
-        prov.write_entry("bad_version_probe", "native_a", _bad_version, {"x": 1}, registry_dir=TEST_REGISTRY_DIR)
+        prov.commit_generation(
+            [{"artifact_id": "bad_version_probe", "role": "native_a", "version_id": _bad_version, "content": {"x": 1}}],
+            "freeze-14c", registry_dir=TEST_REGISTRY_DIR,
+        )
     except ValueError as e:
         _raised = e
-    record(f"Sol 便89 negative 3 ({_bad_label}): write_entry(version_id={_bad_version!r}) raises ValueError",
+    record(f"Sol 便89 negative 3 ({_bad_label}): commit_generation(version_id={_bad_version!r}) raises ValueError",
            isinstance(_raised, ValueError), repr(_raised))
-record("Sol 便89 negative 3 (no leakage): none of the malformed-version write_entry attempts left a resolvable "
-       "'bad_version_probe' entry in the TEST store",
+record("Sol 便89 negative 3 (no leakage): none of the malformed-version commit_generation attempts left a "
+       "resolvable 'bad_version_probe' entry in the TEST store (CURRENT still points at GEN13F_FREEZE_ID)",
        reg.resolve("bad_version_probe", registry_dir=TEST_REGISTRY_DIR) is None, "n/a")
 
 
 # --------------------------------------------------------------------------
-# 15. Sol 便90 F90-4.1 (o) 残 4 項 (docs/notes/cert_shape_interpretation_
-#     addendum_o_v10.md): resolver/provisioning split, default-reject
-#     same-artifact_id overwrite (+ supersede), atomic/locked entry+index
-#     updates, malformed-JSON handling inside resolve(), and the stronger
-#     whole-tree production_snapshot_digest replacing v9's file-name-list
-#     comparison.
+# 15. Sol 便91 P91-4 (sol/sol_reply_91_math18.md F91-6.2, docs/notes/
+#     cert_shape_interpretation_addendum_o_v11.md): the generation-commit
+#     registry redesign. Each subsection is labeled with the F91-6.2
+#     blocker number(s) it targets (11 total, all numbered 1-11 in that
+#     finding) plus the consumer-side freeze gate (blocker 10).
 # --------------------------------------------------------------------------
 
 import shutil as _shutil15
-import time as _time15
 
 _15_DIR = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_15_")
 
-# --- 15a. default-reject: writing a DIFFERENT-content entry under an
-#     artifact_id that already exists (same role, different content) with
-#     no supersede flag raises ValueError, and the EXISTING entry is left
-#     completely unchanged (resolve still returns the OLD content).
-prov.write_entry("dup_probe", "native_a", "v1", {"payload": "original"}, registry_dir=_15_DIR)
-_dup_before = reg.resolve("dup_probe", registry_dir=_15_DIR)
-_dup_raised = None
+
+def _commit15(artifacts, freeze_id, **kw):
+    return prov.commit_generation(artifacts, freeze_id, registry_dir=_15_DIR, **kw)
+
+
+# --- 15a. blocker 1 (fail-open on a corrupted "existing" entry):
+#     commit_generation NEVER reads or depends on any prior state to
+#     decide what to write. (i) a fresh, unrelated commit succeeds and
+#     publishes even though an EARLIER (no-longer-CURRENT) generation has
+#     been hand-corrupted on disk; (ii) an explicit generation_id that
+#     COLLIDES with an existing (even corrupted) directory is refused
+#     outright (FileExistsError) -- there is no "treat it as absent and
+#     overwrite" path to fail open on.
+_gen15a_1 = _commit15(
+    [{"artifact_id": "a1", "role": "native_a", "version_id": "v1", "content": {"n": 1}},
+     {"artifact_id": "b1", "role": "native_b", "version_id": "v1", "content": {"n": 2}}],
+    "freeze-15a",
+)
+_gen15a_1_dir = os.path.join(reg.generations_dir(_15_DIR), _gen15a_1["generation_id"])
+_gen15a_1_index = json.load(open(os.path.join(_gen15a_1_dir, "index.json"), encoding="utf-8"))
+_gen15a_1_a1_file = _gen15a_1_index["artifacts"]["a1"]["file"]
+with open(os.path.join(_gen15a_1_dir, _gen15a_1_a1_file), "w", encoding="utf-8") as _f:
+    _f.write("{not valid json at all, corrupted on purpose")
+
+_gen15a_2 = _commit15(
+    [{"artifact_id": "a2", "role": "native_a", "version_id": "v1", "content": {"n": 3}},
+     {"artifact_id": "b2", "role": "native_b", "version_id": "v1", "content": {"n": 4}}],
+    "freeze-15a-2",
+)
+record("Sol 便91 F91-6.2 blocker 1 (a corrupted PAST generation does not block or corrupt a fresh commit): "
+       "commit_generation for a brand-new generation succeeds and publishes despite an unrelated earlier "
+       "generation being hand-corrupted on disk",
+       _gen15a_2["published"] is True, _gen15a_2)
+record("Sol 便91 F91-6.2 blocker 1 (the corrupted past generation resolves to nothing, not silently 'fixed'): "
+       "resolve('a1') against CURRENT (now gen 2) finds nothing -- gen 1 is simply no longer live",
+       reg.resolve("a1", registry_dir=_15_DIR) is None, "n/a")
+
+_collide_raised = None
 try:
-    prov.write_entry("dup_probe", "native_a", "v1", {"payload": "DIFFERENT"}, registry_dir=_15_DIR)
-except ValueError as e:
-    _dup_raised = e
-_dup_after = reg.resolve("dup_probe", registry_dir=_15_DIR)
-record("Sol 便90 F90-4.1 blocker 3 negative (default-reject overwrite): write_entry(same artifact_id, "
-       "DIFFERENT content, no supersede) raises ValueError",
-       isinstance(_dup_raised, ValueError), repr(_dup_raised))
-record("Sol 便90 F90-4.1 blocker 3 negative (no silent overwrite): rejected write left the EXISTING entry's "
-       "content byte-identical (whole_artifact_digest unchanged)",
-       _dup_before is not None and _dup_after is not None
-       and _dup_before["whole_artifact_digest"] == _dup_after["whole_artifact_digest"] == reg._digest({"payload": "original"}),
-       {"before": _dup_before, "after": _dup_after})
+    prov.commit_generation(
+        [{"artifact_id": "x", "role": "native_a", "version_id": "v1", "content": {}}],
+        "freeze-15a-collide", registry_dir=_15_DIR, generation_id=_gen15a_1["generation_id"],
+    )
+except FileExistsError as e:
+    _collide_raised = e
+record("Sol 便91 F91-6.2 blocker 1 (no fail-open on generation_id collision): commit_generation with an "
+       "EXPLICIT generation_id that already exists on disk (even corrupted) raises FileExistsError, never "
+       "silently overwrites",
+       isinstance(_collide_raised, FileExistsError), repr(_collide_raised))
 
-# --- 15b. supersede=True: succeeds, resolve() now returns the NEW
-#     content, and the OLD version is preserved (archived file + index
-#     'superseded' history entry), never deleted.
-_dup_old_digest = _dup_before["whole_artifact_digest"]
-_super_result = prov.write_entry("dup_probe", "native_a", "v2", {"payload": "SUPERSEDED"}, registry_dir=_15_DIR, supersede=True)
-_dup_after_super = reg.resolve("dup_probe", registry_dir=_15_DIR)
-record("Sol 便90 F90-4.1 blocker 3 (supersede=True succeeds): write_entry(..., supersede=True) does not raise, "
-       "reports superseded=True",
-       _super_result.get("superseded") is True, _super_result)
-record("Sol 便90 F90-4.1 blocker 3 (supersede=True): resolve() now returns the NEW content",
-       _dup_after_super is not None and _dup_after_super["content"] == {"payload": "SUPERSEDED"}
-       and _dup_after_super["version_id"] == "v2",
-       _dup_after_super)
-_super_index = reg._load_index(_15_DIR)
-_super_hist = (_super_index.get("artifacts", {}).get("dup_probe", {}) or {}).get("superseded", [])
-record("Sol 便90 F90-4.1 blocker 3 (old version preserved, not deleted): the index's 'superseded' history for "
-       "'dup_probe' contains exactly one entry, recording the OLD whole_artifact_digest",
-       len(_super_hist) == 1 and _super_hist[0].get("whole_artifact_digest") == _dup_old_digest,
-       _super_hist)
-_archive_dir = os.path.join(_15_DIR, "_superseded")
-_archive_files = os.listdir(_archive_dir) if os.path.isdir(_archive_dir) else []
-_archived_old_content = None
-for _af in _archive_files:
-    with open(os.path.join(_archive_dir, _af), "r", encoding="utf-8") as _f:
-        _archived_entry = json.load(_f)
-    if _archived_entry.get("artifact_id") == "dup_probe" and _archived_entry.get("whole_artifact_digest") == _dup_old_digest:
-        _archived_old_content = _archived_entry.get("content")
-record("Sol 便90 F90-4.1 blocker 3 (archived file, byte-for-byte): an archived copy of the OLD 'dup_probe' "
-       "entry ({'payload': 'original'}) exists on disk under _superseded/",
-       _archived_old_content == {"payload": "original"}, {"archive_files": _archive_files, "found": _archived_old_content})
+# --- 15b. blocker 2 (entry-before-index non-atomicity / cross-generation
+#     mutation): committing a SECOND, unrelated generation must not touch
+#     ANY byte of an EARLIER generation's own files.
+_gen15b_1 = _commit15(
+    [{"artifact_id": "keep_a", "role": "native_a", "version_id": "v1", "content": {"stable": True}},
+     {"artifact_id": "keep_b", "role": "native_b", "version_id": "v1", "content": {"stable": True}}],
+    "freeze-15b-1",
+)
+_gen15b_1_dir = os.path.join(reg.generations_dir(_15_DIR), _gen15b_1["generation_id"])
+_gen15b_1_bytes_before = {
+    fn: open(os.path.join(_gen15b_1_dir, fn), "rb").read() for fn in sorted(os.listdir(_gen15b_1_dir))
+}
+_gen15b_2 = _commit15(
+    [{"artifact_id": "other_a", "role": "native_a", "version_id": "v1", "content": {"different": True}},
+     {"artifact_id": "other_b", "role": "native_b", "version_id": "v1", "content": {"different": True}}],
+    "freeze-15b-2",
+)
+_gen15b_1_bytes_after = {
+    fn: open(os.path.join(_gen15b_1_dir, fn), "rb").read() for fn in sorted(os.listdir(_gen15b_1_dir))
+}
+record("Sol 便91 F91-6.2 blocker 2 (no cross-generation mutation): every byte of generation 1's own files "
+       "(index.json + entries + receipt.json) is IDENTICAL before and after committing an unrelated "
+       "generation 2",
+       _gen15b_1_bytes_before == _gen15b_1_bytes_after,
+       {"before_names": sorted(_gen15b_1_bytes_before), "after_names": sorted(_gen15b_1_bytes_after),
+        "equal": _gen15b_1_bytes_before == _gen15b_1_bytes_after})
 
-# --- 15c. idempotent re-write: SAME content, SAME role, no supersede
-#     flag -> succeeds silently (not a content change), superseded=False,
-#     no history entry appended.
-_idem_result = prov.write_entry("dup_probe", "native_a", "v2", {"payload": "SUPERSEDED"}, registry_dir=_15_DIR)
-_idem_index = reg._load_index(_15_DIR)
-_idem_hist = (_idem_index.get("artifacts", {}).get("dup_probe", {}) or {}).get("superseded", [])
-record("Sol 便90 F90-4.1 blocker 3 (idempotent same-content re-write): write_entry(identical role+content) does "
-       "not raise and reports superseded=False",
-       _idem_result.get("superseded") is False, _idem_result)
-record("Sol 便90 F90-4.1 blocker 3 (idempotent re-write appends no new history): the 'superseded' history is "
-       "still exactly the one entry from 15b (unchanged by the idempotent re-write)",
-       len(_idem_hist) == 1, _idem_hist)
+# --- 15c. blocker 3 (silent metadata drift): the SAME content committed
+#     twice with DIFFERENT version_id is always TWO distinct generations
+#     (never an in-place metadata update) -- neither mutates the other.
+_gen15c_1 = _commit15(
+    [{"artifact_id": "drift_a", "role": "native_a", "version_id": "v1", "content": {"same": "content"}},
+     {"artifact_id": "drift_b", "role": "native_b", "version_id": "v1", "content": {"same": "content"}}],
+    "freeze-15c-1", publish=False,
+)
+_gen15c_2 = _commit15(
+    [{"artifact_id": "drift_a", "role": "native_a", "version_id": "v2-DRIFTED", "content": {"same": "content"}},
+     {"artifact_id": "drift_b", "role": "native_b", "version_id": "v2-DRIFTED", "content": {"same": "content"}}],
+    "freeze-15c-2", publish=False,
+)
+record("Sol 便91 F91-6.2 blocker 3 (no silent metadata drift): two generations with IDENTICAL content but "
+       "DIFFERENT version_id get DISTINCT generation_ids (same content digest, but never merged/mutated)",
+       _gen15c_1["generation_id"] != _gen15c_2["generation_id"]
+       and _gen15c_1["artifacts"]["drift_a"] == _gen15c_2["artifacts"]["drift_a"],
+       {"gen1": _gen15c_1["generation_id"], "gen2": _gen15c_2["generation_id"]})
+_gen15c_1_dir = os.path.join(reg.generations_dir(_15_DIR), _gen15c_1["generation_id"])
+_gen15c_1_index = json.load(open(os.path.join(_gen15c_1_dir, "index.json"), encoding="utf-8"))
+record("Sol 便91 F91-6.2 blocker 3 (gen 1's own on-disk metadata is untouched by gen 2's commit): "
+       "gen 1's index.json still records version_id='v1' for drift_a, not 'v2-DRIFTED'",
+       _gen15c_1_index["artifacts"]["drift_a"]["version_id"] == "v1", _gen15c_1_index["artifacts"]["drift_a"])
 
-# --- 15d. locked updates: a held lock file blocks a concurrent write_entry
-#     call (RegistryLockTimeout within a short caller-supplied timeout);
-#     removing the lock lets a subsequent call through immediately.
-_lock_dir = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_15d_")
+# --- 15d. blocker 4/5 (non-transactional commit / resolver ignoring
+#     index-vs-entry disagreement): hand-tamper ONE cached field in
+#     index.json (leaving the entry file itself untouched) -> resolve()
+#     must fail closed (None) for the WHOLE generation, not silently
+#     trust either copy.
+_gen15d = _commit15(
+    [{"artifact_id": "meta_a", "role": "native_a", "version_id": "v1", "content": {"m": 1}},
+     {"artifact_id": "meta_b", "role": "native_b", "version_id": "v1", "content": {"m": 2}}],
+    "freeze-15d",
+)
+_gen15d_dir = os.path.join(reg.generations_dir(_15_DIR), _gen15d["generation_id"])
+_gen15d_index_path = os.path.join(_gen15d_dir, "index.json")
+_gen15d_index = json.load(open(_gen15d_index_path, encoding="utf-8"))
+_gen15d_index["artifacts"]["meta_a"]["status"] = "REVOKED"  # entry file itself still says ACTIVE
+with open(_gen15d_index_path, "w", encoding="utf-8") as _f:
+    json.dump(_gen15d_index, _f)
+record("Sol 便91 F91-6.2 blocker 4/5 (index-vs-entry metadata disagreement fails closed): hand-tampering "
+       "index.json's cached 'status' for one artifact (leaving the entry file itself unchanged) makes "
+       "resolve() for THAT artifact return None",
+       reg.resolve("meta_a", registry_dir=_15_DIR) is None, "n/a")
+record("Sol 便91 F91-6.2 blocker 4/5 (whole generation invalidated, not just the tampered artifact): "
+       "the OTHER artifact in the SAME (now-inconsistent) generation also fails to resolve",
+       reg.resolve("meta_b", registry_dir=_15_DIR) is None, "n/a")
+
+# --- 15e. blocker 5 (resolver schema not checked): a battery of
+#     structurally-malformed generations, each must resolve to None.
+def _fresh_gen15e(label):
+    r = _commit15(
+        [{"artifact_id": f"se_a_{label}", "role": "native_a", "version_id": "v1", "content": {"k": label}},
+         {"artifact_id": f"se_b_{label}", "role": "native_b", "version_id": "v1", "content": {"k": label}}],
+        f"freeze-15e-{label}",
+    )
+    return r, os.path.join(reg.generations_dir(_15_DIR), r["generation_id"])
+
+
+_r15e, _d15e = _fresh_gen15e("wrong_index_schema")
+_idx15e = json.load(open(os.path.join(_d15e, "index.json"), encoding="utf-8"))
+_idx15e["schema_id"] = "not/the/right/schema"
+with open(os.path.join(_d15e, "index.json"), "w", encoding="utf-8") as _f:
+    json.dump(_idx15e, _f)
+record("Sol 便91 F91-6.2 blocker 5 (wrong index.json schema_id): resolve() returns None",
+       reg.resolve("se_a_wrong_index_schema", registry_dir=_15_DIR) is None, "n/a")
+
+_r15e, _d15e = _fresh_gen15e("wrong_entry_schema")
+_idx15e = json.load(open(os.path.join(_d15e, "index.json"), encoding="utf-8"))
+_fn15e = _idx15e["artifacts"]["se_a_wrong_entry_schema"]["file"]
+_ent15e = json.load(open(os.path.join(_d15e, _fn15e), encoding="utf-8"))
+_ent15e["schema_id"] = "not/the/right/schema"
+with open(os.path.join(_d15e, _fn15e), "w", encoding="utf-8") as _f:
+    json.dump(_ent15e, _f)
+record("Sol 便91 F91-6.2 blocker 5 (wrong entry schema_id): resolve() returns None",
+       reg.resolve("se_a_wrong_entry_schema", registry_dir=_15_DIR) is None, "n/a")
+
+_r15e, _d15e = _fresh_gen15e("bad_role")
+_idx15e = json.load(open(os.path.join(_d15e, "index.json"), encoding="utf-8"))
+_idx15e["artifacts"]["se_a_bad_role"]["role"] = "native_c"
+with open(os.path.join(_d15e, "index.json"), "w", encoding="utf-8") as _f:
+    json.dump(_idx15e, _f)
+record("Sol 便91 F91-6.2 blocker 5 (invalid role in index metadata): resolve() returns None",
+       reg.resolve("se_a_bad_role", registry_dir=_15_DIR) is None, "n/a")
+
+_r15e, _d15e = _fresh_gen15e("bad_version_shape")
+_idx15e = json.load(open(os.path.join(_d15e, "index.json"), encoding="utf-8"))
+_idx15e["artifacts"]["se_a_bad_version_shape"]["version_id"] = "has spaces"
+with open(os.path.join(_d15e, "index.json"), "w", encoding="utf-8") as _f:
+    json.dump(_idx15e, _f)
+record("Sol 便91 F91-6.2 blocker 5 (malformed version_id in index metadata): resolve() returns None",
+       reg.resolve("se_a_bad_version_shape", registry_dir=_15_DIR) is None, "n/a")
+
+_r15e, _d15e = _fresh_gen15e("malformed_entry_json")
+_idx15e = json.load(open(os.path.join(_d15e, "index.json"), encoding="utf-8"))
+_fn15e = _idx15e["artifacts"]["se_a_malformed_entry_json"]["file"]
+with open(os.path.join(_d15e, _fn15e), "w", encoding="utf-8") as _f:
+    _f.write("{not valid json at all")
+_malformed_entry_raised = None
+_malformed_entry_result = "SENTINEL_NOT_SET"
+try:
+    _malformed_entry_result = reg.resolve("se_a_malformed_entry_json", registry_dir=_15_DIR)
+except Exception as e:  # noqa: BLE001 -- this IS the "must never raise" probe
+    _malformed_entry_raised = e
+record("Sol 便91 F91-6.2 blocker 5 (malformed entry JSON, resolve() fails closed, never raises): "
+       "resolve() against a hand-corrupted entry file returns None and raises NOTHING",
+       _malformed_entry_raised is None and _malformed_entry_result is None,
+       {"raised": repr(_malformed_entry_raised), "result": _malformed_entry_result})
+
+_r15e, _d15e = _fresh_gen15e("malformed_index_json")
+with open(os.path.join(_d15e, "index.json"), "w", encoding="utf-8") as _f:
+    _f.write("{{{ this is not json")
+_malformed_index_raised = None
+_malformed_index_result = "SENTINEL_NOT_SET"
+try:
+    _malformed_index_result = reg.resolve("se_a_malformed_index_json", registry_dir=_15_DIR)
+except Exception as e:  # noqa: BLE001
+    _malformed_index_raised = e
+record("Sol 便91 F91-6.2 blocker 5 (malformed index.json, resolve() fails closed, never raises): "
+       "resolve() against a hand-corrupted index.json returns None and raises NOTHING",
+       _malformed_index_raised is None and _malformed_index_result is None,
+       {"raised": repr(_malformed_index_raised), "result": _malformed_index_result})
+
+# --- 15f. blocker 6 (path confinement): index.json's 'file' field
+#     rewritten to point OUTSIDE the generation directory -> resolve()
+#     returns None, and the out-of-bounds sentinel file's content is
+#     never returned.
+_r15f, _d15f = _fresh_gen15e("escape")
+_sentinel_path = os.path.join(_15_DIR, "OUTSIDE_SENTINEL.json")
+with open(_sentinel_path, "w", encoding="utf-8") as _f:
+    json.dump({"schema_id": reg.GEN_ENTRY_SCHEMA_ID, "generation_id": _r15f["generation_id"],
+               "artifact_id": "se_a_escape", "role": "native_a", "version_id": "v1",
+               "freeze_id": "freeze-15e-escape", "status": "ACTIVE",
+               "whole_artifact_digest": reg._digest("SENTINEL"), "content": "SENTINEL"}, _f)
+_idx_path15f = os.path.join(_d15f, "index.json")
+_idx15f_base = json.load(open(_idx_path15f, encoding="utf-8"))
+for _escape_value in ("../OUTSIDE_SENTINEL.json", os.path.join("..", "..", "OUTSIDE_SENTINEL.json"),
+                       os.path.abspath(_sentinel_path)):
+    _idx15f = json.loads(json.dumps(_idx15f_base))
+    _idx15f["artifacts"]["se_a_escape"]["file"] = _escape_value
+    with open(_idx_path15f, "w", encoding="utf-8") as _f:
+        json.dump(_idx15f, _f)
+    _escape_result = reg.resolve("se_a_escape", registry_dir=_15_DIR)
+    record(f"Sol 便91 F91-6.2 blocker 6 (path confinement, file={_escape_value!r}): resolve() returns None, "
+           "never reads/returns the out-of-bounds sentinel content",
+           _escape_result is None, _escape_result)
+os.remove(_sentinel_path)
+
+# --- 15g. blocker 7 (production-directory alias bypass): a directory
+#     JUNCTION pointing AT PRODUCTION_REGISTRY_DIR (different path
+#     STRING, same filesystem object) must still be treated as
+#     production and refused without opt-in -- a bare string/abspath
+#     comparison would miss this. Junctions need no elevation on NTFS; if
+#     junction creation itself is unavailable in this sandbox, the check
+#     is skipped honestly rather than faked.
+_alias_parent = tempfile.mkdtemp(prefix="ninfty_ep_alias_")
+_alias_dir = os.path.join(_alias_parent, "prod_alias")
+_junction_ok = False
+if sys.platform == "win32":
+    _mk = subprocess.run(["cmd", "/c", "mklink", "/J", _alias_dir, reg.PRODUCTION_REGISTRY_DIR],
+                          capture_output=True, text=True)
+    _junction_ok = _mk.returncode == 0 and os.path.isdir(_alias_dir)
+if _junction_ok:
+    _alias_write_raised = None
+    try:
+        prov.commit_generation(
+            [{"artifact_id": "alias_attacker", "role": "native_a", "version_id": "v1", "content": {}}],
+            "freeze-alias", registry_dir=_alias_dir,
+        )
+    except PermissionError as e:
+        _alias_write_raised = e
+    record("Sol 便91 F91-6.2 blocker 7 (production alias bypass via junction): commit_generation through a "
+           "directory JUNCTION pointing at PRODUCTION_REGISTRY_DIR still raises PermissionError without "
+           "opt-in (samefile-based detection, not a string comparison)",
+           isinstance(_alias_write_raised, PermissionError), repr(_alias_write_raised))
+else:
+    record("Sol 便91 F91-6.2 blocker 7 (production alias bypass via junction) -- SKIPPED: this sandbox could "
+           "not create a directory junction (mklink /J failed or non-Windows); _is_production_dir's "
+           "samefile/realpath logic is exercised indirectly by every OTHER production-directory check in "
+           "this suite (14a, 15o) but the alias-specific case could not be constructed here",
+           True, "SKIPPED, not a failure")
+_shutil15.rmtree(_alias_parent, ignore_errors=True)
+
+# --- 15h. blocker 8 (receipt self-reference): receipt.json is EXCLUDED
+#     from generation_digest's own file set -- tampering a receipt field
+#     NOT used by the digest (issued_at) must NOT break resolve(), while
+#     tampering the receipt's OWN generation_digest field (which IS
+#     checked, just not self-referentially hashed) MUST break it.
+_gen15h = _commit15(
+    [{"artifact_id": "recv_a", "role": "native_a", "version_id": "v1", "content": {"r": 1}},
+     {"artifact_id": "recv_b", "role": "native_b", "version_id": "v1", "content": {"r": 2}}],
+    "freeze-15h",
+)
+_gen15h_dir = os.path.join(reg.generations_dir(_15_DIR), _gen15h["generation_id"])
+_receipt_path = os.path.join(_gen15h_dir, "receipt.json")
+_receipt = json.load(open(_receipt_path, encoding="utf-8"))
+_receipt["issued_at"] = "2099-01-01T00:00:00+00:00"  # not part of generation_digest's domain
+with open(_receipt_path, "w", encoding="utf-8") as _f:
+    json.dump(_receipt, _f)
+record("Sol 便91 F91-6.2 blocker 8 (receipt excluded from its own hash domain): tampering receipt.json's "
+       "'issued_at' field (not part of generation_digest's file set) does NOT break resolve()",
+       reg.resolve("recv_a", registry_dir=_15_DIR) is not None, "n/a")
+_receipt["generation_digest"] = "0" * 64  # now tamper the field that IS checked
+with open(_receipt_path, "w", encoding="utf-8") as _f:
+    json.dump(_receipt, _f)
+record("Sol 便91 F91-6.2 blocker 8 (receipt's OWN generation_digest field IS verified): tampering "
+       "receipt.json's 'generation_digest' value makes resolve() return None",
+       reg.resolve("recv_a", registry_dir=_15_DIR) is None, "n/a")
+
+# --- 15i. blocker 9 (bundle receipt binds ALL artifacts + shared freeze +
+#     generation_digest together, in ONE file): structural check on a
+#     fresh generation's own receipt.json, plus a tamper test showing the
+#     binding is PER-GENERATION (tampering one artifact's digest inside
+#     the receipt invalidates the WHOLE generation, not just that one
+#     artifact).
+_gen15i = _commit15(
+    [{"artifact_id": "bund_a", "role": "native_a", "version_id": "v1", "content": {"i": 1}},
+     {"artifact_id": "bund_b", "role": "native_b", "version_id": "v1", "content": {"i": 2}}],
+    "freeze-15i",
+)
+_gen15i_dir = os.path.join(reg.generations_dir(_15_DIR), _gen15i["generation_id"])
+_bundle_receipt = json.load(open(os.path.join(_gen15i_dir, "receipt.json"), encoding="utf-8"))
+_bundle_ids = {e["artifact_id"] for e in _bundle_receipt.get("artifacts", [])}
+record("Sol 便91 F91-6.2 blocker 9 (one bundle receipt lists EVERY artifact in the generation): "
+       "receipt.json's 'artifacts' list contains BOTH bund_a and bund_b, plus the shared freeze_id and "
+       "generation_digest, all in ONE file",
+       _bundle_ids == {"bund_a", "bund_b"} and _bundle_receipt.get("freeze_id") == "freeze-15i"
+       and reg.HEX64.match(_bundle_receipt.get("generation_digest", "")) is not None,
+       _bundle_receipt)
+_receipt_path_i = os.path.join(_gen15i_dir, "receipt.json")
+_tampered_receipt = json.loads(json.dumps(_bundle_receipt))
+for _e in _tampered_receipt["artifacts"]:
+    if _e["artifact_id"] == "bund_a":
+        _e["whole_artifact_digest"] = "f" * 64
+with open(_receipt_path_i, "w", encoding="utf-8") as _f:
+    json.dump(_tampered_receipt, _f)
+record("Sol 便91 F91-6.2 blocker 9 (tampering ONE artifact's digest inside the bundle receipt invalidates "
+       "the WHOLE generation): resolve('bund_b') -- a DIFFERENT artifact in the SAME generation -- also "
+       "returns None, not just resolve('bund_a')",
+       reg.resolve("bund_a", registry_dir=_15_DIR) is None and reg.resolve("bund_b", registry_dir=_15_DIR) is None,
+       "n/a")
+
+# --- 15j. blocker 10 (consumer freeze gate): native_registry_refs must
+#     carry freeze_id, and it must match the registry's pinned value.
+_gen15j = _commit15(
+    [{"artifact_id": "fz_a", "role": "native_a", "version_id": "v1", "content": {"f": 1}},
+     {"artifact_id": "fz_b", "role": "native_b", "version_id": "v1", "content": {"f": 2}}],
+    "freeze-15j",
+)
+_fz_cert = _synthetic_cert(
+    {"artifact_id": "fz_a", "digest": eu.sha256_of({"note": "n/a"}), "json_pointer": "/pushforward_map"},
+    {"artifact_id": "fz_b", "digest": eu.sha256_of({"note": "n/a"}), "json_pointer": "/pushforward_map"},
+)
+_fz_a_digest = reg.resolve("fz_a", registry_dir=_15_DIR)["whole_artifact_digest"]
+_fz_b_digest = reg.resolve("fz_b", registry_dir=_15_DIR)["whole_artifact_digest"]
+_prior_env_registry_dir = os.environ.get("NINFTY_EP_REGISTRY_DIR")
+os.environ["NINFTY_EP_REGISTRY_DIR"] = _15_DIR
+try:
+    _refs_no_freeze = {
+        "native_a": {"artifact_id": "fz_a", "whole_artifact_digest": _fz_a_digest, "version_id": "v1"},
+        "native_b": {"artifact_id": "fz_b", "whole_artifact_digest": _fz_b_digest, "version_id": "v1"},
+    }
+    _raw_no_freeze = {"schema_id": RAW_SCHEMA, "certificate": _fz_cert, "native_a": {}, "native_b": {},
+                       "native_registry_refs": _refs_no_freeze}
+    _result_no_freeze = eu.evidence_union_from_raw_w6(_raw_no_freeze)
+    record("Sol 便91 F91-6.2 blocker 10 (freeze_id omitted from native_registry_refs): native_registry_status "
+           "MISSING (same bucket as an omitted version_id), overall != PASS",
+           _result_no_freeze.get("native_registry_status", {}).get("status") == "MISSING"
+           and _result_no_freeze["overall_status"] != "PASS",
+           _result_no_freeze.get("native_registry_status"))
+
+    _refs_wrong_freeze = {
+        "native_a": {"artifact_id": "fz_a", "whole_artifact_digest": _fz_a_digest, "version_id": "v1", "freeze_id": "not-the-real-freeze"},
+        "native_b": {"artifact_id": "fz_b", "whole_artifact_digest": _fz_b_digest, "version_id": "v1", "freeze_id": "freeze-15j"},
+    }
+    _raw_wrong_freeze = {"schema_id": RAW_SCHEMA, "certificate": _fz_cert, "native_a": {}, "native_b": {},
+                          "native_registry_refs": _refs_wrong_freeze}
+    _result_wrong_freeze = eu.evidence_union_from_raw_w6(_raw_wrong_freeze)
+    record("Sol 便91 F91-6.2 blocker 10 (claimed freeze_id disagrees with the registry's pinned value): "
+           "native_registry_status STALE for the disagreeing lane, overall != PASS",
+           _result_wrong_freeze.get("native_registry_status", {}).get("status") == "STALE"
+           and _result_wrong_freeze["overall_status"] != "PASS",
+           _result_wrong_freeze.get("native_registry_status"))
+finally:
+    if _prior_env_registry_dir is not None:
+        os.environ["NINFTY_EP_REGISTRY_DIR"] = _prior_env_registry_dir
+
+# consumer-layer cross-side check (both lanes individually PASS, but their
+# RESOLVED freeze_id values disagree with EACH OTHER): unit-tested via a
+# stub registry double, since the real generation-commit registry makes a
+# genuine cross-generation A/B pairing structurally unreachable through
+# ONE resolve() session (a generation binds every artifact it contains to
+# ONE shared freeze_id, and resolve() only ever reads the CURRENT
+# generation -- see the resolver module's own blocker-10 docstring note).
+# This isolates and exercises the CONSUMER's OWN comparison code directly.
+class _StubReg:
+    @staticmethod
+    def resolve(artifact_id, registry_dir=None):
+        if artifact_id == "stub_a":
+            return {"role": "native_a", "status": "ACTIVE", "version_id": "v1", "freeze_id": "freeze-X",
+                    "whole_artifact_digest": "a" * 64, "content": {}}
+        if artifact_id == "stub_b":
+            return {"role": "native_b", "status": "ACTIVE", "version_id": "v1", "freeze_id": "freeze-Y",
+                    "whole_artifact_digest": "b" * 64, "content": {}}
+        return None
+
+    @staticmethod
+    def index_exists(registry_dir=None):
+        return True
+
+
+_orig_registry_module = eu._NATIVE_REGISTRY_MODULE
+eu._NATIVE_REGISTRY_MODULE = _StubReg
+try:
+    _stub_cert = _synthetic_cert(
+        {"artifact_id": "stub_a", "digest": "z" * 64, "json_pointer": "/pushforward_map"},
+        {"artifact_id": "stub_b", "digest": "z" * 64, "json_pointer": "/pushforward_map"},
+    )
+    _stub_refs = {
+        "native_a": {"artifact_id": "stub_a", "whole_artifact_digest": "a" * 64, "version_id": "v1", "freeze_id": "freeze-X"},
+        "native_b": {"artifact_id": "stub_b", "whole_artifact_digest": "b" * 64, "version_id": "v1", "freeze_id": "freeze-Y"},
+    }
+    _stub_overall, _, _, _stub_detail = eu._resolve_native_registry(
+        {"native_registry_refs": _stub_refs, "certificate": _stub_cert}
+    )
+    record("Sol 便91 F91-6.2 blocker 10 (consumer cross-side check, stub registry double): native_a resolved "
+           "with freeze_id='freeze-X', native_b with freeze_id='freeze-Y' (both individually well-formed "
+           "PASS-shaped refs) -> overall FREEZE_MISMATCH, both sides downgraded",
+           _stub_overall == "FREEZE_MISMATCH"
+           and _stub_detail["native_a"]["status"] == "FREEZE_MISMATCH"
+           and _stub_detail["native_b"]["status"] == "FREEZE_MISMATCH",
+           _stub_detail)
+finally:
+    eu._NATIVE_REGISTRY_MODULE = _orig_registry_module
+
+# --- 15k. blocker 11 (production store's old flat-shape entries are no
+#     longer resolvable at all): PRODUCTION_REGISTRY_DIR still contains
+#     the pre-便91 flat index.json + 3 entry files (inert leftovers of the
+#     retired schema -- untouched by this task per the standing "no
+#     production-store content changes without commander authorization"
+#     instruction) but the NEW resolver never even looks at that shape --
+#     it only ever looks for CURRENT.json + generations/, neither of
+#     which exists yet under PRODUCTION_REGISTRY_DIR.
+record("Sol 便91 F91-6.2 blocker 11 (old flat-shape production entries are inert under the new schema): "
+       "reg.index_exists(PRODUCTION_REGISTRY_DIR) is False -- no CURRENT.json exists there yet",
+       reg.index_exists(registry_dir=reg.PRODUCTION_REGISTRY_DIR) is False, "n/a")
+for _old_id in ("native_a", "native_b", "native_b_alt"):
+    record(f"Sol 便91 F91-6.2 blocker 11 (old production entry {_old_id!r} unresolvable under the new schema): "
+           "resolve() against PRODUCTION_REGISTRY_DIR returns None",
+           reg.resolve(_old_id, registry_dir=reg.PRODUCTION_REGISTRY_DIR) is None, "n/a")
+
+# --- 15l. locked CURRENT-pointer publish: a held lock file blocks a
+#     concurrent commit_generation's publish step (RegistryLockTimeout
+#     within a short caller-supplied timeout via the same _acquire_lock
+#     primitive commit_generation itself uses around the CURRENT.json
+#     swap); removing the lock lets a subsequent acquisition through
+#     immediately.
+_lock_dir = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_15l_")
 _held_lock_path = prov._lock_path(_lock_dir)
 os.makedirs(_lock_dir, exist_ok=True)
 with open(_held_lock_path, "w", encoding="utf-8") as _f:
-    _f.write("held-by-test-15d")
+    _f.write("held-by-test-15l")
 _lock_timeout_raised = None
 try:
     with prov._acquire_lock(_lock_dir, timeout=0.3, poll=0.05):
         pass
 except prov.RegistryLockTimeout as e:
     _lock_timeout_raised = e
-record("Sol 便90 F90-4.1 blocker 4 (locked updates): a pre-held lock file blocks a second lock acquisition, "
-       "raising RegistryLockTimeout within the caller's own short timeout",
+record("Sol 便91 F91-6.2 blocker 2/4 (locked CURRENT-pointer publish): a pre-held lock file blocks a second "
+       "lock acquisition, raising RegistryLockTimeout within the caller's own short timeout",
        isinstance(_lock_timeout_raised, prov.RegistryLockTimeout), repr(_lock_timeout_raised))
 os.remove(_held_lock_path)
 _lock_after_release_ok = False
@@ -1605,99 +2023,74 @@ try:
         _lock_after_release_ok = True
 except prov.RegistryLockTimeout:
     _lock_after_release_ok = False
-record("Sol 便90 F90-4.1 blocker 4 (lock released): once the held lock file is removed, a subsequent "
+record("Sol 便91 F91-6.2 blocker 2/4 (lock released): once the held lock file is removed, a subsequent "
        "_acquire_lock succeeds immediately",
        _lock_after_release_ok, "n/a")
 _shutil15.rmtree(_lock_dir, ignore_errors=True)
 
-# --- 15e. atomic writes: after a normal write_entry call, no stray
-#     '.tmp-*' file is left behind under the registry directory (a crash
-#     mid-write is the ONLY thing that should ever produce one, and this
-#     run performs no crash).
-prov.write_entry("atomic_probe", "native_a", "v1", {"x": 1}, registry_dir=_15_DIR)
-_tmp_leftovers = [n for n in os.listdir(_15_DIR) if ".tmp-" in n]
-record("Sol 便90 F90-4.1 blocker 4 (atomic writes, no partial files): no '.tmp-*' file remains under the "
-       "registry directory after a normal write_entry call",
+# --- 15m. atomic writes: after a normal commit_generation call, no stray
+#     '.tmp-*' file is left behind anywhere under the registry directory
+#     (a crash mid-write is the ONLY thing that should ever produce one,
+#     and this run performs no crash).
+_commit15(
+    [{"artifact_id": "atomic_a", "role": "native_a", "version_id": "v1", "content": {"x": 1}},
+     {"artifact_id": "atomic_b", "role": "native_b", "version_id": "v1", "content": {"x": 2}}],
+    "freeze-atomic",
+)
+_tmp_leftovers = []
+for _dirpath, _dirnames, _filenames in os.walk(_15_DIR):
+    _tmp_leftovers.extend(n for n in _filenames if ".tmp-" in n)
+record("Sol 便91 F91-6.2 blocker 2/4 (atomic writes, no partial files): no '.tmp-*' file remains anywhere "
+       "under the registry directory after a normal commit_generation call",
        _tmp_leftovers == [], _tmp_leftovers)
 
-# --- 15f. malformed JSON handling: resolve() must fail closed (return
-#     None), never propagate json.JSONDecodeError/OSError, when an entry
-#     file or the index itself is corrupted on disk.
-prov.write_entry("corrupt_probe", "native_a", "v1", {"y": 2}, registry_dir=_15_DIR)
-_corrupt_index = reg._load_index(_15_DIR)
-_corrupt_fname = _corrupt_index["artifacts"]["corrupt_probe"]["file"]
-_corrupt_entry_path = os.path.join(_15_DIR, _corrupt_fname)
-with open(_corrupt_entry_path, "w", encoding="utf-8") as _f:
-    _f.write("{not valid json at all")
-_corrupt_resolve_raised = None
-_corrupt_resolve_result = "SENTINEL_NOT_SET"
-try:
-    _corrupt_resolve_result = reg.resolve("corrupt_probe", registry_dir=_15_DIR)
-except Exception as e:  # noqa: BLE001 -- this IS the "must never raise" probe
-    _corrupt_resolve_raised = e
-record("Sol 便90 F90-4.1 blocker 6 (malformed entry JSON, resolve() fails closed): resolve() against a "
-       "hand-corrupted entry file returns None and raises NOTHING (was an uncaught JSONDecodeError pre-fix)",
-       _corrupt_resolve_raised is None and _corrupt_resolve_result is None,
-       {"raised": repr(_corrupt_resolve_raised), "result": _corrupt_resolve_result})
-
-_malformed_index_dir = tempfile.mkdtemp(prefix="ninfty_ep_registry_test_15f_")
-with open(reg.index_path(_malformed_index_dir), "w", encoding="utf-8") as _f:
-    _f.write("{{{ this is not json")
-_index_malformed_raised = None
-_index_malformed_result = "SENTINEL_NOT_SET"
-try:
-    _index_malformed_result = reg.resolve("anything", registry_dir=_malformed_index_dir)
-except Exception as e:  # noqa: BLE001
-    _index_malformed_raised = e
-record("Sol 便90 F90-4.1 blocker 6 (malformed index.json, resolve() fails closed): resolve() against a "
-       "hand-corrupted index.json returns None and raises NOTHING",
-       _index_malformed_raised is None and _index_malformed_result is None,
-       {"raised": repr(_index_malformed_raised), "result": _index_malformed_result})
-_shutil15.rmtree(_malformed_index_dir, ignore_errors=True)
-
-# --- 15g. production_snapshot_digest is byte-identical at the START and
-#     END of this whole test run -- STRONGER than v9's negative 14a (which
-#     only compared sorted FILE NAMES; a same-named file with silently
-#     mutated bytes would slip past that check but not this one). No test
-#     in this file writes into PRODUCTION_REGISTRY_DIR successfully (14a's
-#     own attempt is rejected with PermissionError before touching disk;
-#     15h below is rejected with ValueError before touching disk, same
-#     reasoning).
+# --- 15n. production_snapshot_digest is byte-identical at the START and
+#     END of this whole test run -- unaffected by the 便91 registry
+#     redesign (this function is deliberately schema-agnostic). No test in
+#     this file writes into PRODUCTION_REGISTRY_DIR successfully (14a's
+#     own attempt, 15g's junction attempt if run, and 15o below are all
+#     rejected before touching disk).
 _PROD_SNAPSHOT_DIGEST_AT_END = reg.production_snapshot_digest(registry_dir=reg.PRODUCTION_REGISTRY_DIR)
-record("Sol 便90 F90-4.1 blocker 5/8 (production tree whole-byte digest unchanged across the WHOLE test run): "
-       "production_snapshot_digest(PRODUCTION_REGISTRY_DIR) at the very start of this run == at the very end",
+record("Sol 便90 F90-4.1 blocker 5/8 (production tree whole-byte digest unchanged across the WHOLE test run, "
+       "carried forward under 便91): production_snapshot_digest(PRODUCTION_REGISTRY_DIR) at the very start "
+       "of this run == at the very end",
        _PROD_SNAPSHOT_DIGEST_AT_START == _PROD_SNAPSHOT_DIGEST_AT_END,
        {"start": _PROD_SNAPSHOT_DIGEST_AT_START, "end": _PROD_SNAPSHOT_DIGEST_AT_END})
 
-# --- 15h. production writes require freeze_id: even WITH the production
-#     write opt-in set, omitting freeze_id raises ValueError before any
-#     file is touched -- production directory listing/digest unaffected.
-_prod_files_before_15h = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
+# --- 15o. production commits require freeze_id UNCONDITIONALLY (carried
+#     forward from 便90 blocker 7, now unconditional for every store, not
+#     just production -- see 14c's malformed-version loop for the general
+#     case; this checks the specific "freeze_id entirely omitted" shape
+#     against PRODUCTION_REGISTRY_DIR).
+_prod_files_before_15o = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
 os.environ[prov.ENV_ALLOW_PRODUCTION_WRITE] = "1"
 _freeze_missing_raised = None
 try:
-    prov.write_entry("freeze_id_probe", "native_a", "v1", {"z": 3}, registry_dir=reg.PRODUCTION_REGISTRY_DIR)
-except ValueError as e:
+    prov.commit_generation(
+        [{"artifact_id": "freeze_id_probe", "role": "native_a", "version_id": "v1", "content": {"z": 3}}],
+        None, registry_dir=reg.PRODUCTION_REGISTRY_DIR,
+    )
+except (ValueError, TypeError) as e:
     _freeze_missing_raised = e
 finally:
     del os.environ[prov.ENV_ALLOW_PRODUCTION_WRITE]
-_prod_files_after_15h = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
-record("Sol 便90 F90-4.1 blocker 7 (production write requires freeze_id): write_entry(registry_dir=PRODUCTION, "
-       "ALLOW_PRODUCTION_WRITE=1, freeze_id OMITTED) raises ValueError",
-       isinstance(_freeze_missing_raised, ValueError), repr(_freeze_missing_raised))
-record("Sol 便90 F90-4.1 blocker 7 (no leakage): the rejected freeze_id-less write left PRODUCTION_REGISTRY_DIR's "
-       "file listing byte-identical",
-       _prod_files_before_15h == _prod_files_after_15h,
-       {"before": _prod_files_before_15h, "after": _prod_files_after_15h})
+_prod_files_after_15o = sorted(os.listdir(reg.PRODUCTION_REGISTRY_DIR))
+record("Sol 便90 F90-4.1 blocker 7 (carried forward, now unconditional): commit_generation(registry_dir="
+       "PRODUCTION, ALLOW_PRODUCTION_WRITE=1, freeze_id=None) raises",
+       isinstance(_freeze_missing_raised, (ValueError, TypeError)), repr(_freeze_missing_raised))
+record("Sol 便90 F90-4.1 blocker 7 (no leakage): the rejected freeze_id-less commit left "
+       "PRODUCTION_REGISTRY_DIR's file listing byte-identical",
+       _prod_files_before_15o == _prod_files_after_15o,
+       {"before": _prod_files_before_15o, "after": _prod_files_after_15o})
 record("Sol 便90 F90-4.1 blocker 7 (no leakage, resolve confirms): resolve('freeze_id_probe') against "
        "PRODUCTION_REGISTRY_DIR finds nothing",
        reg.resolve("freeze_id_probe", registry_dir=reg.PRODUCTION_REGISTRY_DIR) is None, "n/a")
 
-# --- 15i. structural: no OTHER production file under search/ dynamically
+# --- 15p. structural: no OTHER production file under search/ dynamically
 #     loads the provisioning module at all (mirrors section 8's check for
 #     ninfty-evidence-union.py's own private names) -- the facade's
 #     resolver-only import is not merely a convention, nothing else in
-#     the tree can reach write_entry either.
+#     the tree can reach commit_generation either.
 _PROV_LOAD_MARKER = '"ninfty-native-registry-provisioning.py"'
 _PROV_EXEMPT_FILES = {"ninfty-native-registry-provisioning.py", "test_ninfty_evidence_union.py"}
 _prov_loaders_found = []
@@ -1712,14 +2105,15 @@ for fn in sorted(os.listdir(HERE)):
         continue
     if _PROV_LOAD_MARKER in content:
         _prov_loaders_found.append(fn)
-record("Sol 便90 F90-4.1 blocker 2 (resolver/provisioning separation, structural): no file directly under "
-       "search/ (excluding this test and the provisioning module itself) dynamically loads "
+record("Sol 便90 F90-4.1 blocker 2 (resolver/provisioning separation, structural, carried forward): no file "
+       "directly under search/ (excluding this test and the provisioning module itself) dynamically loads "
        "ninfty-native-registry-provisioning.py -- in particular ninfty-evidence-union.py does not",
        _prov_loaders_found == [], _prov_loaders_found)
-record("Sol 便90 F90-4.1 blocker 2 (resolver module has no write_entry attribute at all): "
-       "hasattr(reg, 'write_entry') is False -- not merely unused, structurally absent from the module the "
-       "facade actually loads",
-       not hasattr(reg, "write_entry"), hasattr(reg, "write_entry"))
+record("Sol 便90 F90-4.1 blocker 2 (resolver module has no commit_generation/write_entry attribute at all): "
+       "hasattr(reg, 'commit_generation') is False and hasattr(reg, 'write_entry') is False -- not merely "
+       "unused, structurally absent from the module the facade actually loads",
+       not hasattr(reg, "commit_generation") and not hasattr(reg, "write_entry"),
+       {"commit_generation": hasattr(reg, "commit_generation"), "write_entry": hasattr(reg, "write_entry")})
 
 _shutil15.rmtree(_15_DIR, ignore_errors=True)
 

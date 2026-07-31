@@ -231,9 +231,21 @@ jobs:
               return h.hexdigest()
 
           def check_manifest(run_dir, fname, actual_sha):
+              # Sol 便91 F91-6.3 item 1 (sol/sol_reply_91_math18.md; docs/notes/
+              # cert_shape_interpretation_addendum_o_v11.md): this REVERSES 便90's
+              # (docs/notes/cert_shape_interpretation_addendum_o_v10.md) prior
+              # ruling to keep a missing/unlisted manifest as a NOTE-and-continue --
+              # Sol 便91 judged the manifest a REQUIRED input: a missing
+              # SHA256SUMS.txt, or a target file the manifest does not list, must
+              # stop the run (fail-closed), not merely annotate it and let the
+              # cake_lpr recheck proceed uncross-checked against provenance.
               man = os.path.join(run_dir, "SHA256SUMS.txt")
               if not os.path.isfile(man):
-                  return "no SHA256SUMS.txt in run dir -- NOT cross-checked against a manifest"
+                  raise SystemExit(
+                      f"MANIFEST_STOP: {run_dir}/SHA256SUMS.txt is missing -- the manifest is a REQUIRED "
+                      f"input (Sol 便91 F91-6.3 item 1), this run cannot proceed uncross-checked against "
+                      f"provenance for {fname}"
+                  )
               for line in open(man, encoding="utf-8"):
                   parts = line.split()
                   if len(parts) == 2 and parts[1].lstrip("*") == fname:
@@ -244,7 +256,11 @@ jobs:
                               f"!= SHA256SUMS.txt value {expect}"
                           )
                       return f"matches SHA256SUMS.txt ({expect})"
-              return f"{fname} not listed in SHA256SUMS.txt -- NOT cross-checked against a manifest"
+              raise SystemExit(
+                  f"MANIFEST_STOP: {fname} is not listed in {run_dir}/SHA256SUMS.txt -- the manifest must "
+                  f"list every target file (Sol 便91 F91-6.3 item 1), this run cannot proceed uncross-checked "
+                  f"against provenance for {fname}"
+              )
 
           any_fail = False
           summary = []
@@ -360,7 +376,12 @@ jobs:
               sys.exit(1)
 
           if any_fail:
-              print("RECHECK_STOP: at least one theorem-target UNSAT run was NOT_VERIFIED by cake_lpr", file=sys.stderr)
+              # Sol 便91 F91-6.3 item 3 (docs/notes/cert_shape_interpretation_
+              # addendum_o_v11.md; 便90 F90-4.4 item 4 flagged this SAME line and
+              # it was missed then): "NOT_VERIFIED" removed from even the
+              # diagnostic stderr text, matching the CROSS_CHECKED_PASS/FAIL
+              # vocabulary the verdict field itself already uses.
+              print("RECHECK_STOP: at least one theorem-target UNSAT run was CROSS_CHECKED_FAIL by cake_lpr", file=sys.stderr)
               sys.exit(1)
           PY
 
@@ -421,8 +442,12 @@ jobs:
           CORRUPTED_LRAT_SHA=$(sha256sum ci_negative/corrupted.lrat | cut -d' ' -f1)
           NEG_CNF_SHA=$(sha256sum ci_negative/problem.cnf | cut -d' ' -f1)
 
+          # Sol 便91 F91-6.3 item 2 (docs/notes/cert_shape_interpretation_
+          # addendum_o_v11.md): bound the run with `timeout` so a hang is
+          # distinguishable (exit 124) from other failure modes, rather than
+          # blocking indefinitely up to the job-level timeout.
           set +e
-          OUT=$(tools-cake_lpr/cake_lpr ci_negative/problem.cnf ci_negative/corrupted.lrat 2>&1)
+          OUT=$(timeout 300 tools-cake_lpr/cake_lpr ci_negative/problem.cnf ci_negative/corrupted.lrat 2>&1)
           CODE=$?
           set -e
           echo "$OUT"
@@ -447,24 +472,53 @@ jobs:
             exit 1
           fi
 
-          # Sol 便90 F90-4.4 是正 item 4 (rejection token と exit semantics の固定):
-          # v9 は「accepted token が無いだけ」で CORRECTLY_REJECTED としていた --
-          # これはタイムアウト・クラッシュ・FFI 異常など「たまたま何も出なかった」
-          # 場合まで無差別に「正しく拒否した」と読み違える余地を残す。固定する契約は
-          # 「accepted line が無い」かつ「終了コードが非ゼロ」の両方 -- cake_lpr が
-          # 拒否を検知すると非ゼロで終了する、という exit-code 側の事実も併せて
-          # チェックし、どちらか片方だけでは CORRECTLY_REJECTED と認めない。
+          # Sol 便91 F91-6.3 item 2: require the CHECKER'S OWN defined
+          # rejection token, not merely "accepted token absent" -- v9/便90
+          # treated ANY nonzero exit with no accepted line as CORRECTLY_REJECTED,
+          # which cannot distinguish "cake_lpr examined the proof and correctly
+          # rejected it" from "cake_lpr crashed/timed out/failed to load before
+          # ever reaching a verdict" (segfault, OOM-kill, FFI failure, etc. all
+          # also produce "nonzero exit, no accepted line"). cake_lpr's own
+          # SAT-competition-style rejection line is the exact counterpart of
+          # the accepted line: "s NOT VERIFIED UNSAT".
+          REJECTED_LINE_PRESENT=0
+          if echo "$OUT" | grep -qxF "s NOT VERIFIED UNSAT"; then
+            REJECTED_LINE_PRESENT=1
+          fi
+
+          if [ "$CODE" = "124" ]; then
+            echo "verdict=TIMEOUT" >> ci_negative/negative_test_result.txt
+            echo "NEGATIVE_TEST_FAILED: cake_lpr did not finish within the 300s bound on the deliberately corrupted LRAT proof -- a timeout is NOT a demonstration of correct rejection (it never reached a verdict at all). Blocking, not a thing to silently continue past." >&2
+            exit 1
+          fi
+          if [ "$CODE" -ge 128 ]; then
+            SIGNAL_NUM=$((CODE - 128))
+            echo "verdict=CRASHED" >> ci_negative/negative_test_result.txt
+            echo "crash_signal=$SIGNAL_NUM" >> ci_negative/negative_test_result.txt
+            echo "NEGATIVE_TEST_FAILED: cake_lpr terminated by signal $SIGNAL_NUM (exit code $CODE, e.g. a segfault) on the deliberately corrupted LRAT proof, not a clean checker-issued rejection -- a crash is NOT a demonstration of correct rejection (it never reached a verdict at all). Blocking, not a thing to silently continue past." >&2
+            exit 1
+          fi
+          if [ "$REJECTED_LINE_PRESENT" != "1" ]; then
+            echo "verdict=LOADER_FAILURE_OR_UNCLASSIFIED_REJECTION" >> ci_negative/negative_test_result.txt
+            echo "NEGATIVE_TEST_FAILED: cake_lpr exited nonzero (exit=$CODE) but printed neither the accepted line \"s VERIFIED UNSAT\" NOR the checker-defined rejection line \"s NOT VERIFIED UNSAT\" -- this could be a loader/argument/FFI failure that never actually examined the proof, not a demonstrated correct rejection. Blocking, not a thing to silently continue past." >&2
+            exit 1
+          fi
+
+          # Sol 便90 F90-4.4 是正 item 4 (rejection token と exit semantics の固定,
+          # Sol 便91 F91-6.3 item 2 でさらに厳格化): 固定する契約は「checker 定義の
+          # 拒否行 "s NOT VERIFIED UNSAT" がある」かつ「終了コードが非ゼロ」の両方 --
+          # どちらか片方だけでは CORRECTLY_REJECTED と認めない。
           if [ "$CODE" = "0" ]; then
             echo "verdict=AMBIGUOUS_REJECTION" >> ci_negative/negative_test_result.txt
-            echo "NEGATIVE_TEST_FAILED: cake_lpr exited 0 (success) on the deliberately corrupted LRAT proof, even though it did not print the accepted line \"s VERIFIED UNSAT\" -- this is an ambiguous, unfixed rejection semantics case (exit-code side of the fail-closed contract), not the CORRECTLY_REJECTED case this negative test is meant to demonstrate. Blocking, not a thing to silently continue past." >&2
+            echo "NEGATIVE_TEST_FAILED: cake_lpr exited 0 (success) on the deliberately corrupted LRAT proof, even though it printed the checker-defined rejection line \"s NOT VERIFIED UNSAT\" (not the accepted line) -- this is an ambiguous, unfixed rejection semantics case (exit-code side of the fail-closed contract), not the CORRECTLY_REJECTED case this negative test is meant to demonstrate. Blocking, not a thing to silently continue past." >&2
             exit 1
           fi
 
           {
             echo "verdict=CORRECTLY_REJECTED"
-            echo "tcb_note=this negative test's own corruption-generation script (this workflow step) and the cake_lpr binary itself are both part of THIS test's trusted computing base (TCB); a CORRECTLY_REJECTED verdict demonstrates cake_lpr rejects THIS ONE crafted corruption pattern (one addition-line hint id replaced with a nonexistent clause id) with a nonzero exit code and no \"s VERIFIED UNSAT\" line, not general soundness against arbitrary malformed LRAT proofs. corrupted_lrat_sha256/negative_problem_cnf_sha256 above let an out-of-band reviewer recompute this exact result independently, outside this job."
+            echo "tcb_note=this negative test's own corruption-generation script (this workflow step) and the cake_lpr binary itself are both part of THIS test's trusted computing base (TCB); a CORRECTLY_REJECTED verdict demonstrates cake_lpr rejects THIS ONE crafted corruption pattern (one addition-line hint id replaced with a nonexistent clause id) with the checker-defined rejection line \"s NOT VERIFIED UNSAT\" and a nonzero exit code, not general soundness against arbitrary malformed LRAT proofs, and not against corruption patterns that instead crash/hang/fail to load the checker (those are classified CRASHED/TIMEOUT/LOADER_FAILURE_OR_UNCLASSIFIED_REJECTION above, never silently folded into CORRECTLY_REJECTED). corrupted_lrat_sha256/negative_problem_cnf_sha256 above let an out-of-band reviewer recompute this exact result independently, outside this job."
           } >> ci_negative/negative_test_result.txt
-          echo "fail-closed check PASSED: corrupted LRAT was rejected (exit=$CODE, no exact line \"s VERIFIED UNSAT\" in cake_lpr output)"
+          echo "fail-closed check PASSED: corrupted LRAT was rejected (exit=$CODE, checker-defined rejection line \"s NOT VERIFIED UNSAT\" present, no accepted line)"
           cat ci_negative/negative_test_result.txt
 
       - name: SHA-256 manifest of new artifacts

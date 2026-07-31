@@ -843,3 +843,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **M7-B4**: Y: w²=u(u³−(2/5)u²+(1/25)u−512/421875) の点数え p=11..53(12 素点)= 15,12,21,21,30,24,36,42,33,45,54,42 — **全素点 3|#Y(F_p)・違反 0** ⟹ 命題 CB-3T(ℚ-有理 3 等分点)と無矛盾・B1 と整合。
 - 実装係は判定せず機械事実のみ収蔵(規律どおり)。**cross-checked への格上げ請求は便 92 の Sol 監査へ**(C1′ 接続の監査と同便)。
 - u 測定線の現在地: S4 窓の M0→M7 が完走。次 = n=7 転用設計(E1-GAP-6 の下界・SURJ-K7-APPLY の C1′(7) 確定後に着手 — 数学者の修文帰還待ち)。
+
+## 2026-07-31 EP generation-commit 再設計 完成(裁定 273)— blocker 11 件消込・suite 551/551(+19)・便 92 で再発効請求 v9 へ
+- 設計 = P91-4 採択どおり: generations/<id>/ immutable + CURRENT.json 1 個だけ atomic replace・resolver は全数検証(schema/path confinement/index-entry 一致/bundle receipt digest)で 1 つ欠けても None・production 判定は samefile/realpath(alias bypass 封鎖)・consumer に freeze_id 必須+両 lane freeze 一致(FREEZE_MISMATCH 新設)。
+- 条文 = cert_shape_interpretation_addendum_o_v11.md(v10 非上書き・11 blocker 消込表つき)。suite: 223+184+93+51 = **551/551 全 green**(旧 532 から +19・司令塔再実行で 223/223 確認)。
+- cake_lpr 3 点(manifest fail-closed・拒否 token 必須+TIMEOUT/CRASHED/LOADER_FAILURE 分類・NOT_VERIFIED 語彙除去)は静的検証まで(実 CI receipt は次回 run で)。
+- 設計判断(便 92 で Sol 確認へ): 旧 flat 3 ファイルは inert 残置・旧 API write_production_receipt は NotImplementedError スタブ・generation 内 artifact は同一 freeze_id の任意個(A/B 二 lane の一般化)。
+- 実物指定は対象外継続(研究者認可待ち)。

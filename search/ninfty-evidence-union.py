@@ -1005,9 +1005,12 @@ def _cert_side_artifact_ids(cert):
 # these are non-operative for gating purposes (see
 # `evidence_union_from_raw_w6`): only "PASS" (both lanes PASS) permits an
 # otherwise-PASS union to remain overall PASS.
+# "FREEZE_MISMATCH" (new, Sol 便91 F91-6.2 blocker 10): both lanes
+# otherwise resolved PASS, but their pinned freeze_id values disagree --
+# see `_resolve_native_registry`'s cross-side check below.
 _REGISTRY_STATUS_PRIORITY = (
     "MALFORMED", "MISSING", "UNKNOWN", "REVOKED", "ROLE_MISMATCH",
-    "ARTIFACT_ID_MISMATCH", "STALE", "LEGACY_UNVERIFIED_REF",
+    "ARTIFACT_ID_MISMATCH", "STALE", "FREEZE_MISMATCH", "LEGACY_UNVERIFIED_REF",
 )
 
 
@@ -1024,7 +1027,8 @@ def _resolve_native_registry(raw):
     `raw["native_registry_refs"]` is the caller's CLAIM about which
     registry artifact backs each slot:
       {"native_a": {"artifact_id": <str>, "whole_artifact_digest": <64hex>,
-                     "version_id": <str, optional>},
+                     "version_id": <non-empty str, REQUIRED>,
+                     "freeze_id": <non-empty str, REQUIRED>},
        "native_b": {...}}
     This claim is cross-checked, never trusted:
       - ref missing/ill-shaped                                -> MISSING
@@ -1034,11 +1038,24 @@ def _resolve_native_registry(raw):
       - registry entry's pinned role != this slot (A/B swap)   -> ROLE_MISMATCH
       - claimed whole_artifact_digest != receiver's actual one -> STALE
       - claimed version_id (if given) != receiver's actual one -> STALE
+      - claimed freeze_id != receiver's actual one              -> STALE
+        (Sol 便91 F91-6.2 blocker 10: freeze_id is now REQUIRED in the
+        ref, same as version_id -- an omitted freeze_id already fails
+        the well-shaped-ref gate below, MISSING, before this check.)
       - certificate's own map_ref.artifact_id for this lane
         disagrees with the claimed artifact_id                 -> ARTIFACT_ID_MISMATCH
       - certificate's map_ref for this lane has no json_pointer
         (legacy object_id/inline path, never touches registry) -> LEGACY_UNVERIFIED_REF
       - otherwise                                               -> PASS
+      - AFTER both lanes independently reach PASS: if native_a's and
+        native_b's RESOLVED freeze_id (the registry's own value, not
+        merely the caller's claim) disagree with EACH OTHER, both lanes
+        are downgraded to FREEZE_MISMATCH (Sol 便91 F91-6.2 blocker 10 --
+        A and B must come from the SAME freeze/EP run; this is defense in
+        depth on top of the registry's own structural guarantee that a
+        single generation binds every artifact it contains to one shared
+        freeze_id, in case a future caller ever resolves the two lanes
+        against two different registry_dir/generation pointers).
 
     Returns (overall_status, native_a_content, native_b_content, detail):
     overall_status is "PASS" iff BOTH lanes are "PASS"; otherwise the
@@ -1059,6 +1076,7 @@ def _resolve_native_registry(raw):
 
     side_results = {}
     contents = {}
+    freeze_by_side = {}
     for reg_side, cert_side in (("native_a", "searcher"), ("native_b", "checker")):
         ref = refs.get(reg_side) if isinstance(refs, dict) else None
         if not (
@@ -1066,15 +1084,17 @@ def _resolve_native_registry(raw):
             and _is_nonempty_str(ref.get("artifact_id"))
             and _is_64hex(ref.get("whole_artifact_digest"))
             and _is_nonempty_str(ref.get("version_id"))
+            and _is_nonempty_str(ref.get("freeze_id"))
         ):
             side_results[reg_side] = {
                 "status": "MISSING",
                 "reason": (
                     f"raw carries no well-shaped native_registry_refs[{reg_side!r}] "
-                    "({'artifact_id': <str>, 'whole_artifact_digest': <64hex>, 'version_id': <non-empty str>}) "
-                    "-- receiver-held registry lookup was never attempted; raw's own native_a/native_b fields "
-                    "are never authority (Sol 便88 P88-o item 1). version_id is REQUIRED (Sol 便89 fix: an "
-                    "omitted version_id used to silently skip the version check below and could still reach "
+                    "({'artifact_id': <str>, 'whole_artifact_digest': <64hex>, 'version_id': <non-empty str>, "
+                    "'freeze_id': <non-empty str>}) -- receiver-held registry lookup was never attempted; raw's "
+                    "own native_a/native_b fields are never authority (Sol 便88 P88-o item 1). version_id and "
+                    "freeze_id are BOTH REQUIRED (Sol 便89 fix for version_id; Sol 便91 F91-6.2 blocker 10 fix "
+                    "for freeze_id -- an omitted freeze_id used to be silently unchecked and could still reach "
                     "PASS -- now it fails closed here instead, same bucket as an omitted artifact_id)"
                 ),
             }
@@ -1129,6 +1149,16 @@ def _resolve_native_registry(raw):
                 "reason": f"raw's claimed version_id {claimed_version!r} does not match the pinned version {entry.get('version_id')!r}",
             }
             continue
+        claimed_freeze = ref.get("freeze_id")
+        # Sol 便91 F91-6.2 blocker 10: freeze_id is now REQUIRED-and-
+        # well-shaped by the well-shaped-ref gate above (same pattern as
+        # version_id) -- this comparison is unconditional.
+        if claimed_freeze != entry.get("freeze_id"):
+            side_results[reg_side] = {
+                "status": "STALE",
+                "reason": f"raw's claimed freeze_id {claimed_freeze!r} does not match the pinned freeze_id {entry.get('freeze_id')!r}",
+            }
+            continue
         cert_artifact_id = cert_ids.get(cert_side)
         if cert_artifact_id != ref["artifact_id"]:
             side_results[reg_side] = {
@@ -1151,6 +1181,27 @@ def _resolve_native_registry(raw):
             continue
         side_results[reg_side] = {"status": "PASS", "reason": "resolved against the pinned registry artifact"}
         contents[reg_side] = entry["content"]
+        freeze_by_side[reg_side] = entry.get("freeze_id")
+
+    # Sol 便91 F91-6.2 blocker 10 (consumer freeze gate, cross-side half):
+    # even if BOTH lanes independently reached PASS, native_a and native_b
+    # must have been resolved from the SAME freeze -- otherwise they are
+    # attesting to two different EP runs stitched together. Under the
+    # generation-commit registry design this is already structurally
+    # impossible for two artifacts resolved from ONE `resolve()` session
+    # (a generation binds every artifact it contains to one shared
+    # freeze_id, and `resolve()` only ever reads the CURRENT generation),
+    # but this check is kept as an explicit, independent, defense-in-depth
+    # comparison at the consumer layer regardless of registry internals.
+    if side_results.get("native_a", {}).get("status") == "PASS" and side_results.get("native_b", {}).get("status") == "PASS":
+        if freeze_by_side.get("native_a") != freeze_by_side.get("native_b"):
+            mismatch_reason = (
+                f"native_a resolved with freeze_id {freeze_by_side.get('native_a')!r} but native_b resolved "
+                f"with freeze_id {freeze_by_side.get('native_b')!r} -- both lanes must come from the same "
+                "freeze/EP run (Sol 便91 F91-6.2 blocker 10)"
+            )
+            side_results["native_a"] = {"status": "FREEZE_MISMATCH", "reason": mismatch_reason}
+            side_results["native_b"] = {"status": "FREEZE_MISMATCH", "reason": mismatch_reason}
 
     statuses = {v["status"] for v in side_results.values()}
     overall = "PASS" if statuses == {"PASS"} else next(s for s in _REGISTRY_STATUS_PRIORITY if s in statuses)
