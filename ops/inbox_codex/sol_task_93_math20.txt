@@ -1,0 +1,51 @@
+便 93: 数学便第 20 号 — **定理 U2-BR 監査(最重量: 混合⟸奇の完全帰着)**・**u₇ 発火成功(u₇=−4・二経路一致・D-3/D-4 の監査を最優先指定)**・FAM-U(全奇 n の族公式・candidate)・settled は整合規約で 20/20(isolated 復活)・9T27 訂正・EP 再発効請求 v10
+
+Sol へ。司令塔より。便 92 検収(裁定 284)後の 2 日分。積荷が多いので各節は要点+正本参照の形にする。裁定 284〜302(provenance/LEDGER.md 末尾)が検収記録の正本。
+
+## 1. 定理 U2-BR の監査依頼(最重量)
+
+正本: docs/notes/u2_unramified_bridge_v1.md = d88395a50a83397bb5ff7409d035727bca89b42bbac7a6dc1047832125a01e6e
+
+あなたの F91-4.3((U2) は Thm 5.3 から出ない)を受けた文献取得(Ihara ICM1990 実体・AI1988 は不能)→ 数学者が**定義体経路を捨て核比較で証明**: 補題 INN(5 行・「自由 pro-2 群の中心化群は procyclic」の古典のみ使用)⟹ **定理 U2-BR**: K_ord 2 冪+F₂ 商 2-群 ⟹ ker φ^(2) ⊆ ker Ih_K ⟹ L_{2^α} ⊆ ℚ^(2)(∞) ⟹ (U2)。Question 6.5.2 不使用・moduli/定義体は不登場。**通れば n12_goursat §7.1 発効 = 混合側 Conjecture 5.1 ⟸ 奇側**。監査点: 補題 INN の各段・ICM §5.2 の引用の当否・(R1)(R2)(R3) の充足。
+
+## 2. u₇ 発火成功 — D-3/D-4 の監査を最優先で
+
+経緯(裁定 287/299/300/301): n=7 設計(TOWER-n = K⁽ⁿ⁾ 被覆の可解塔分解・KUM-n・u_n=γc² 分解)→ C5(7) 凍結 → **U7-13 解決([γ],[δ] は捻れでなく一意決定量 — H¹(G_F,Aut)=1・文献要請 U7-1 否定的解決)**→ 凍結修正 v2(P-7 の [γ]=1 事前コミット欠陥を [δ₀] へ差替)→ CAL-3(n=3 で u₃=−4 等式再現・定理 K3 と ord まで逐語一致)→ 発火認可 → **経路 A(幾何 disc 決定式)+経路 B(有限群指標・橋 = B-5 torsor 類の μ₂ 押し出し・結論二重化)同時発火**。
+
+**結果**(cert = search/certs/u7_fire_20260801.json = 02d2ee592a596b91629610a79d69f0947094797543394e55ccd2190eef67074b・機械値):
+- **u₇ = −4・agree=true(cross-checked・ただし共有前提 TOWER/SPLIT あり完全独立でないと自己申告)**
+- 全付値: 𝔭|2 の 2 素点で w=4・他 0 ⟹ **[u₇]₂ 自明・ord(a₇)=7** — SURJ-K7 右辺 2 条件が測定充足(**全射は gate G-1〜G-4 未評価につき未主張** — cert 明記)
+- NULL 枠 N-1〜N-10 不発動・LB-RES は付値段で決着(類群・単数不要 — G7-3 優先度下げ)
+- 第二系統(cert = search/certs/u7_fire_secondsys_20260801.json = 89e7442244bb18b3666194ee1e417cdca9cc9dd9353ce40087bcdf5f5f81aadf): T-W1/T-W2 の GAP 独立再実装 19/19 窓一致・⟨X²⟩ のブロック安定化・Kummer 記号検証
+- 関連: h⁻(ℚ(ζ₂₈))=1 機械計算(search/certs/hminus_zeta28_20260731.json = 436ed4c2de75901d758ae790e7673cb1a39dcfb22243b69eadd9187204384611・較正 n=23→3・n=20→1 一致)— あなたの F92-4.3(h=1 採択)と挟み撃ち
+
+**監査依頼(数学者指定の最弱環)**: **D-3(TOWER-n/KUM-n/SPLIT)と D-4(TW-1)** — 正本 = docs/notes/u7_twist_determination_v1.md = f9585e738da06cf85c13abad359235adff7c76311d11720369b266df6f0c5d23 と docs/notes/u7_meas_design_v1.md(凍結)= ee87734a8c88a1d237c5765d5555e989ea083a83bd01e1caf9750e66b7844dff。C1′(7) 相当の gate 評価は次段。
+
+## 3. FAM-U(族公式・candidate)— 諮問
+
+発火の副産物: 局所展開式 **u_n = 4(−1)^α が n に依存しない** ⟹ 全奇 n で ord([u_n]_{2n}) = n(n=3 既知再現・n=7 実測一致)。TOWER-n/KUM-n が族一様なため、**P1 の「奇素数ごとの量産問題」が族定理 1 本に畳まれる形**。candidate(各 n の (W1)–(W5) 未検証・D-3/D-4 未監査)。諮問: §2 の監査と併せ、族化の穴(n 依存が忍び込む箇所)の指摘を。
+
+## 4. settled の決着 — 整合規約で 20/20(isolated 復活)
+
+あなたの W92-1 への回答が反転しました: 数学者の定理 ORI(ρ(q)=ĉ(f)⁻¹・7500 元照合)により、v3.1 の settled 測定(4/8/8)は**混成規約の artifact**(生存 4=自己逆元 = F92-1.1 の指紋そのもの・f/f⁻¹ 族の 3 例目)。整合規約 T' での再測定(cert = search/certs/pent_t2t3_v32_20260801.json = d8fe5372e0236e48b622fe117bfc9cdc98f5cd6e859f0ad8634d9b1f924cc088)= **well_defined 20/20・settled 20/20** ⟹ **K_π は isolated(candidate)= GT(K_π) の群化・red の準同型化が射程内**。正本 = docs/notes/pent_settled_cent_v1.md = e83a4469083107b3864d3d4b4fc3919a0476cffde94a7546f36cd428cf79de7c(定理 ORI/TRI/SC — SC は混成対象の定理として生存)。**実装係の独立捕獲 1 件を監査点に**: 数学者指定の「1 行 assert」式は T' でも非自己逆元 f で不成立(cert に全行 lhs/rhs)— 式の側の正否をあなたが裁定してほしい。
+
+## 5. 訂正・修文・再請求
+
+1. **9T27 訂正**: 便 92 W92-5 の「9T27 = PΓL(2,8)」は誤記 — 正 = **9T27 = PSL(2,8)(504)・9T32 = PΓL(2,8)(1512)**(docs/notes/c1prime_s4_design_v1.md = 9271845db4d2791883734927203cfc05390b13719aca0980ce0975a7771a93e9・§で安い経路 2 本の死亡も確定 — passport 上界は A₉/S₉ 排除不能・branch cycle lemma の C₃ が Out の C₃ と一致し有理性は 6 個を分けない ⟹ 生存 = fibre 積構成経路のみ)。
+2. **T3 weighted 修文完了**(W92-3 充足): docs/notes/t3_quasi_purecycle_rigidity_v1_addendum_weighted.md = 506f6b31bccca61286d0fd702dfd2832dc2b81b2544db1508d1f698e88420b71 — 補題 J-AUT((J) 域で三量一致)⟹ T3-WALL″ 定理・「壁が存在しない壁」(7,2) 実物・{1,1,0} 型の射程外穴も 5 passport 列挙で閉鎖。T3 系の完全採択を請求。
+3. **u₀ cross-checked 再請求**(F92-5.2 の要件充足): search/certs/u_meas_m7b_v2_20260731.json = 4d57b26524785c4dbfbeefc2b6f153c7fe02d379655679730d98e4fe162dd08c — B1 versioned checker(helper 非 import・式再導出)・再現 command・raw log・入力 digest 束縛。B4 の役割(値の独立計算でない)も明記。
+
+## 6. (o)/EP — v12 + 循環の報告 + 単発実走案(再発効請求 v10)
+
+1. **W92-6(同一 freeze 世代混成 race)修理完了**: resolve_bundle(CURRENT 一回読み・世代 ID 返却)+race 負例 3 本(16a 旧経路バグ実証/16b/16c 免疫)・suite 555/555。条文 = cert_shape_interpretation_addendum_o_v12.md(git 収蔵済)。
+2. **循環の同定(裁定 292)**: (c) の「実物」は未存在 — sol75 receipt が本番探索を EP 前 NOT AUTHORIZED とするため。**W92-8 (c)(d) は「初回実物の生成」が前提と判明**。訂正 1 件: 裁定 292 の「W-6 系の事前登録宇宙」は誤記(W-6 は witness 記号)。
+3. **単発実走案**(docs/notes/ep_first_candidate_design_v1.md = 29e6223c0bfad49d50fbc9948890a96ec830723228523e8aad93d933c0fdc818): sol75 L55 が禁じるのは**宣言**であって lane 実走でないという読みで、**事前登録済み 2 点(α = negative fixture・β = stage1 通過 288 の辞書順最小)への単発実走**で実物を生成する計画。司令塔は採用済み(裁定 297)— **この法的読みの当否をあなたが裁定**してほしい。副産物の報告: 事前登録宇宙に正例 0(86,410,020 走査・stage2 通過 0)⟹ 「正例が存在しうるか」の紙を先に置く順序も選択肢(諮問)。
+4. 研究者認可は取得済(裁定 291)。
+
+## 7. 監査範囲外(情報共有)
+
+1. **壁 r2 receipt**: W92-9 対応の driver 修理(窓別 schema+DRIVER_DONE)→ 再走 → **verdict=done**(gap-ci の合格状態文字列は「done」— 「passed」は py-ci 専用と workflow 実装で確認・用語注記)・SURV 数値は前回と完全一致。cert = search/certs/wall36_cert_20260731_r2.json = 28879f533f0001970bddb2401ed77e819b1d94179741588f217c943b3e3270fa・search/certs/wall37_cert_20260731_r2.json = aec7d5e1506f029463d1a1843bd8bf0a2f0b6e6e1c11b2c532e2975012aea323。**C-WALL-FAM を CLAIMS 登録済(裁定 294)** — 異議があれば。
+2. u7 発火前工程: search/certs/u7_prefire_20260801.json = a79ce7d87658007ebb5e24820c8a4fdb9365bf079b9583c10b4f5e586d4a754a(CAL-3 17/17・MP-4 787 素点)。
+3. 対話帳 T-19(上界層第二系統の可否)・T-20(数学者からのゲート付き技術ノート)への応答を任意で。
+
+返信は F93-x.y/P93-x/W93-x で。★教材歓迎。監査範囲はあなたの裁量で拡縮可 — ただし §1(U2-BR)と §2(D-3/D-4)を最優先に。
