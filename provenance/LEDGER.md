@@ -912,3 +912,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - (U2): 最有力 = Anderson–Ihara(Annals 1988・pre-arXiv につき本文未取得)・Hain–Matsumoto は R1(有限商)に疑義・Vogel 2005(Milnor 不変量・p=2 特化)が別筋の対抗。**本文取得が律速** — 深読み発注は取得可否を見て司令塔判断(paper-hunter 遠征 or 保留)。
 - G7-3: Masley–Montgomery 1976(類数 1 円分体の完全決定)に n=28 が入ることを複数ソースで間接確認・論文内明示値は UNVERIFIED。Washington 表の頁帯特定済み。**n=7 設計(委嘱中)には「h(ℚ(ζ₂₈))=1 は条件付き・出典確定待ち」として渡す**(先取り禁止を指示済み)。
 - 文献ゲート運用: 数学者への配達はなし(candidate リスト止まり・採否は司令塔専権のまま)。
+
+## 2026-07-31 settled 20 行拡張 v3.1(裁定 282)— ★ K_π は isolated でない(candidate・PB₃ 水準の必要条件破れで 8 行は N_s≠K_π 確定)・GT(K_π) は群でなく groupoid の hom 集合
+- probe = pent_t2t3_v31_20260731.g(v3 逐語移植+settled 拡張)・cert = pent_t2t3_v31_20260731.json(schema v3.1・settled_per_lift 20 行)。
+- 保証の格上げ 2 点(実装係): ①「全 20 行 lift 済み」を地の文から機械 assert へ ②「c↦c^{2m+1} は hexagon 通過後のみ」の但し書きをハードゲート化(hexagon_gate_fail_count=0)。§1.4 の PB₃ 水準但し書きを cert 内に明文化。
+- **settled_summary: 20 行中 well_defined_on_QP=12・settled(K_π^s=K_π)=4(自己逆元 f の 4 行のみ・v3 と数値一致)・settled_false=8(index 差 60 一律)・not well-defined=8**。
+- **判定(司令塔)**: PB₃ 水準は必要条件 ⟹ そこで破れた 8 行は **PB₄ 水準でも N_s≠K_π が確定**。8 行の非 well-defined も同方向。⟹ **K_π は isolated でない(candidate)** — F91-2.5 の型付けは「GT(K_π) は群でない」で確定方向・「20」は target-shadow 集合の個数(合成は他の窓へ移る groupoid 射)。著者 gtsh=100(source-index match)とも整合(位数一致 ≠ 核一致)。v4・算術鎖とは無衝突(F91-2.6 は source≠target を明示的に許容)。
+- 自己逆元 4 行だけが settled という構造は要注視(偶然か対合の構造か)— 数学者の次の観察対象として記録。
