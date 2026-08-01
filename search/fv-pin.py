@@ -60,6 +60,10 @@ ROWS = [
     ("G-3",  "docs/notes/p52_deathcause_v1.md"),
     ("G-3a", "docs/notes/p52_deathcause_v1_addendum_novelty.md"),
     ("G-4",  "certificates/mb/actions/30289323147/RETRACTED_AS_CANDIDATE.md"),
+    # 追記 A(erratum)の出所
+    ("H-1",  "docs/scout/覚書_fvl1_20260801.md"),
+    ("H-2",  "papers/txt/2008.00066-what-are-gt-shadows.txt"),
+    ("H-3",  "certificates/N5.v1.json"),
 ]
 
 # (プローブID, cert パス, 標的名, 期待 image_size)

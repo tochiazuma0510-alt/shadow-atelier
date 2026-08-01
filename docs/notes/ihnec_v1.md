@@ -7,6 +7,9 @@
 > ① **用語裁定**: 「fake」は正典 Def 4.2 準拠(**非 genuine**)に一本化。本文 §3.3 の「**B 型証人**」は以後 **「非算術証人」**と呼び、**fake と呼ばない**。⟹ **§3.3・§5.2・§5.5 T-2・§7・§8 の「A 型 / B 型」の語は §A.1 の対応表を通して読むこと。§3.3 を単独で引用しないこと**(差し替え本文は §A.2–§A.4)。
 > ② **条文 pin 工程**: 定理 ML-ODD(§4)が依拠する正典 3 条文は **reader の逐語抽出待ち**。**照合 PASS までは ML-ODD を便に載せない・実測(R4a/R4b)を起票しない**。事前登録予言 P-IHN-1〜7 は**凍結のまま不変**(§A.5)。
 > **v1 本文は書き換えていない**(`fam_u_assembly_v1.md` の erratum 方式に倣う)。
+>
+> ★ **【追補 B(裁定 376)で pin 差替完了 — §A.5 の pin 先表は §B.1 に置換】**(2026-08-01)
+> ★★ **最重要**: 逐語照合で **2401 Prop 3.15 の証明は原論文に無い**(「読者演習」と明記)ことが判明。**ML-ODD の最重要依存なので §B.2 で自前証明を補完**した(非循環性も確認)。**§1 表の (DIR) 行は §B.3 で 2 行に分解**((INT)$=$3.15 交叉閉/(COF)$=$3.14 系 共終)。
 記法: 正典 arXiv **2401.06870**(GTSh・genuine・ML・Thm 5.2 の正本)/ arXiv **2405.11725**(Conj 5.1・$K^{(n)}$ 族)。工房内の定義正本は `docs/week1-定義ノート.md`、中間峰の正典文書は `docs/notes/E1_gt_odd_dih_canonical_v1.md`(以下「E1 ノート」)。
 **封印遵守: $K^{(5)}$ 非接触**($n=5$ は本稿の全ての量化・全ての実測設計から明示的に除外しない — 除外の必要が生じる箇所は無い。本稿は $n=5$ の**値**に一切触れず、$n=9$ のみを実測対象とする)。
 
@@ -583,3 +586,169 @@ $$\lvert\mathrm{GTSh}(\mathrm{S4}=\mathrm{PSL}(2,8))\rvert=54=\mathrm{IdGroup}\ 
 | 4 | 系 SPLIT-NULL″ を哨戒設計原則に採るか | ★ **採用方向 — 「entangled 屋根 = 非算術証人の別戦線」として台帳登録**(裁定 374 ①末) |
 | 5 | Sol 監査の優先順位案 | 変更なし(便 98 へ。**pin 後**) |
 | 6 | R4a 先行・R4b 後追い | 変更なし(ただし起票は照合 PASS 後) |
+
+---
+
+# 追補 B(**裁定 376 = 条文 pin 差替**・2026-08-01)
+
+**入力**: `docs/notes/reading_2401_ml_odd_pins_v1.md`(reader・150dpi ページ画像照合済)。
+**位置づけ**: 追補 A.5 の pin 先表を置換し、逐語 pin を貼る。**v1 本文・追補 A の他節は不改変**。起草: 数学者(Opus 5)。
+
+## B.1 逐語 pin 表(**§A.5 の表を置換**)
+
+| 札 | 正典逐語(reader 抽出・p. は 2401) | 本稿での効き所 | 格 |
+|---|---|---|---|
+| **(SET)** | Def 3.13 (p.20): "*[m,f] ∈ GT(N) is called **settled** if ker(T_{m,f}) = N … N is called **isolated** if every GT-shadow in GT(N) is settled.*" | isolated の定義正本。§B.2 の証明が使う | **正典の定義** |
+| **(INT)** | Prop 3.15 (p.21): "*For all N, K ∈ NFI^{isolated}_{PB₃}(B₃), N ∩ K ∈ NFI^{isolated}_{PB₃}(B₃).*" | ① 補題 ML-3 の適用条件($I$ の**有向性**)② 命題 ROOF(3)($M=K^{(9)}\cap N_{\rm S4}$ の isolated 性) | ★ **正典の言明・原論文に証明なし**(下記)⟹ **§B.2 で自前補完** |
+| **(COF)** | Prop 3.14 の系 (p.21): "*Proposition 3.14 implies that the subposet NFI^{isolated}_{PB₃}(B₃) … is **cofinal**, i.e. for every N ∈ NFI_{PB₃}(B₃), there exists Ñ ∈ NFI^{isolated} such that Ñ ≤ N.*"(Prop 3.14 本体 = $N^\diamond:=\bigcap_{K\in\mathrm{Ob}(\mathrm{GTSh_{conn}}(N))}K$ (3.61) が isolated) | ML-ODD (ii)$\iff$(iii) の**「量化を isolated に制限してよい」段のみ** | **正典の定理**(証明あり;Prop 3.12・3.8 使用) |
+| **(COR54)** | Cor 5.4 (p.28): "*Let N ∈ NFI_{PB₃}(B₃). A GT-shadow [m,f] ∈ GT(N) is **genuine** if and only if [m,f] belongs to the image of the map R_{K,N}: GT(K) → GT(N) for **every** K ∈ NFI_N(B₃).*" | ① ML-ODD (ii)$\iff$(iii) 本体 ② (iii)$\Rightarrow$(i) の $Y_N\ne\emptyset$ の段 ③ §A.4 の「fake は有限証明書・genuine は無限深度」 | **正典の定理** |
+| **(HOM)** | Remark 3.16 (p.21): $N\le H$(共に isolated)で $R_{N,H}:\mathrm{GT}(N)\to\mathrm{GT}(H)$ は**群準同型**。(3.60): $R([m,f]):=(m+H_{\rm ord}\mathbb Z,\ fH_{F_2})$ | 系 ML-A(像が**部分群**の減少族であること)・命題 ROOF(3) | **正典の定理** |
+| **(LIM)** | Thm 5.2: $\Psi:\widehat{GT}_{\rm gen}\cong\varprojlim\mathrm{ML}$(群同型 + 同相) | ML-ODD (iii)$\Rightarrow$(i) の最終段 | **正典の定理** |
+
+> ### ★ 逐語照合で確定した 3 点(**本稿の記述を訂正・補強する**)
+> 1. **(COR54) は $N$ 任意・$K\in\mathrm{NFI}_N(B_3)$ 任意で、奇数条件も isolated 制限も無い。** ⟹ 本稿 §4.3 の (ii)$\iff$(iii) の使用形は**逐語と整合**(私は「isolated に制限してよい」を別段として分けていた — その分離が正しかった)。
+> 2. **共終性の出所は Prop 3.15 ではなく Prop 3.14 の系。** ⟹ v1 §1 表の **(DIR) 行は 2 つの別条文を 1 行に潰していた**(§B.3 で分解)。**有向性の実体(交叉閉)が 3.15 であることは正しかった。**
+> 3. **Prop 3.15 の証明は原論文に無い**(逐語: "*The proof of the following proposition is straightforward and we leave it to the reader*")。⟹ **格は「正典の定理」ではなく「正典の言明(証明未掲載)」**。ML-ODD の最重要依存なので §B.2 で補完する。
+
+## B.2 補題 INT(= 2401 Prop 3.15)の**自前証明**(裁定 376 ①)
+
+> ### 補題 INT
+> $N,H\in\mathrm{NFI}^{\rm isolated}_{PB_3}(B_3)$ ならば $M:=N\cap H\in\mathrm{NFI}^{\rm isolated}_{PB_3}(B_3)$。
+
+**証明.** $M\trianglelefteq B_3$、$M\le PB_3$、$[B_3:M]\le[B_3:N][B_3:H]<\infty$ より $M\in\mathrm{NFI}_{PB_3}(B_3)$。$[m,f]\in\mathrm{GT}(M)$ を任意に取り、$K:=\ker T^M_{m,f}$ と置く。
+
+**(段 1) $K\subseteq M$.** (3.60) より $R_{M,N}([m,f])=(m+N_{\rm ord}\mathbb Z,\ fN_{F_2})\in\mathrm{GT}(N)$。$\pi_N:B_3/M\twoheadrightarrow B_3/N$ を自然な射影とすると、生成元の上で
+$$\pi_N\bigl(T^M_{m,f}(\sigma_1)\bigr)=\sigma_1^{2m+1}N,\qquad \pi_N\bigl(T^M_{m,f}(\sigma_2)\bigr)=f^{-1}\sigma_2^{2m+1}fN$$
+であり、$x=\sigma_1^2$、$y=\sigma_2^2$ の $B_3/N$ での位数が $N_{\rm ord}$ を割ること(3.1)と $m\equiv m'\ (\mathrm{mod}\ N_{\rm ord})$、$f\equiv f'\ (\mathrm{mod}\ N_{F_2})$ から、これは $T^N_{R_{M,N}([m,f])}$ の生成元の像に一致する。ゆえに
+$$\pi_N\circ T^M_{m,f}=T^N_{R_{M,N}([m,f])}.$$
+$N$ は isolated だから (SET) より右辺は settled、すなわち $\ker\bigl(\pi_N\circ T^M_{m,f}\bigr)=N$。$K\subseteq\ker(\pi_N\circ T^M_{m,f})=N$。$H$ についても同様に $K\subseteq H$。よって $K\subseteq N\cap H=M$。
+
+**(段 2) $K=M$.** $[m,f]$ は GT-shadow だから Def 3.7 より $T^M_{m,f}:B_3\to B_3/M$ は**全射**。準同型定理より $B_3/K\cong B_3/M$、ゆえに $[B_3:K]=[B_3:M]<\infty$(これは正典 Prop 3.8「指数一致」と同じ内容)。$K\subseteq M$ と有限指数の一致から $K=M$。
+
+すなわち $[m,f]$ は settled。$[m,f]$ は任意だったから (SET) より $M$ は isolated。$\blacksquare$
+
+> ### ★ 依存の向きの確認(**非循環** — この確認が無いと補完に意味がない)
+> 上の証明が使ったのは **Def 3.7・Def 3.13 (SET)・(3.1)・(3.60)・準同型定理**のみ。**Prop 3.14・Prop 5.1・Thm 5.2・Cor 5.4 を一切使っていない。**
+> これは重要である: reader 抽出によれば **正典 Prop 5.1 の証明が $N^{(1)}\cap N^{(2)}$ に Prop 3.15 を適用**しており、**Cor 5.4 の依存は Thm 5.2 + Prop 5.1 + 3.14/3.15** である。すなわち **正典側の $\text{3.15}\to\text{5.1}\to\text{5.4}$ の鎖も、証明未掲載の 3.15 に載っている**。§B.2 はその根も同時に支える(そして下流を使っていないので循環しない)。
+
+> ### 格付け(**正直な形**)
+> | # | 状態 |
+> |---|---|
+> | **2401 Prop 3.15 の言明** | **正典の言明**(p.21・逐語照合済)。**原論文に証明は無い**(読者演習と明記) |
+> | **補題 INT の証明** | **paper-proof candidate**(本稿 §B.2・**Sol 未監査**)。**「正典の定理」と書いてはならない** |
+> ⟹ **ML-ODD と命題 ROOF(3) の格は「補題 INT(工房の紙上証明)に相対的」**。Sol 監査の優先順位を §B.6 で 1 位に繰り上げる。
+
+## B.3 (DIR) の分解(**§1 表の (DIR) 行を置換**・裁定 376 ③)
+
+v1 §1 の表の **(DIR) 行は破棄**し、次の 2 行に置き換える。
+
+| 札 | 言明 | 出所 | 効き所 |
+|---|---|---|---|
+| **(INT)** | isolated $\cap$ isolated $=$ isolated ⟹ **$I$ は refinement 順序で有向** | 2401 **Prop 3.15**(言明のみ)+ **本稿 §B.2 の証明** | 補題 ML-3・命題 ROOF(3) |
+| **(COF)** | $\mathrm{NFI}^{\rm isolated}_{PB_3}(B_3)$ は $\mathrm{NFI}_{PB_3}(B_3)$ の中で**共終**($\forall N\ \exists\widetilde N\in\mathrm{NFI}^{\rm isolated},\ \widetilde N\le N$) | 2401 **Prop 3.14 の系**(p.21 逐語) | ML-ODD (ii)$\iff$(iii) の「isolated 制限」段**のみ** |
+
+**本文の該当箇所の読み替え**(v1 §4.3 の (ii)$\iff$(iii) の末段):
+> 「**isolated への制限で十分**であること: 任意の $K\in\mathrm{NFI}$ に対し **(DIR) の** $K^\diamond\subseteq K$ は isolated で…」
+> ⟹ 「…**(COF) の** $K^\diamond\subseteq K$ は isolated で…」と読む(**(INT) ではない**)。
+
+**重さの差**(照合の優先順位の根拠):
+- **(INT) が落ちると ML-ODD (iii)$\Rightarrow$(i) は全崩壊**(補題 ML-3 の有向性が消える)。
+- **(COF) が落ちても定理は生き残る** — (ii) の量化を $\mathrm{NFI}$ 全体に戻せばよい((COR54) は逐語で $K$ 任意なので、そのままで (ii)$\iff$(iii) が成立する)。**射程が広がるだけで破綻しない。**
+
+## B.4 (COR54) の使用形の整合(裁定 376 ②)
+
+逐語は **$N$ 任意・$K\in\mathrm{NFI}_N(B_3)$ 任意・isolated 制限なし・奇数条件なし**。本稿の使用は 3 箇所で、いずれも整合:
+
+| 使用箇所 | 使用形 | 整合 |
+|---|---|---|
+| §4.3 (ii)$\iff$(iii) 本体 | $N=K^{(n)}$($n$ 奇)・$K$ は全細分 | ✓ 逐語の特殊化 |
+| §4.3 (iii)$\Rightarrow$(i) の $Y_N\ne\emptyset$ | $N=K^{(n_0)}$・$K=N\in I$(**isolated な特定の 1 つ**) | ✓ 逐語が「$K$ 任意」なので isolated な $K$ でも当然成立 |
+| §A.4 / §3.3 の「fake は有限証明書・genuine は無限深度」 | 否定側($\exists K$ で像に入らない)の読み | ✓ 逐語の否定 |
+
+⟹ **(COR54) 側に修正は不要。** また §4.4 系 ML-A の「$\mathrm{GT}_{\rm gen}(K^{(n)})=\bigcap_{N}\mathrm{Im}\,R_{N,K^{(n)}}$」は逐語をそのまま集合の言葉に書き直したものである。**部分群**の減少族と言えるのは (HOM)(Remark 3.16 逐語)による。
+
+## B.5 記法の申告(reader の気づきへの応答)
+
+reader の指摘どおり **「$K^{(a)}\cap K^{(b)}$」は 2401 の記法ではなく 2405 側の記法**である。本稿 **補題 ML-1**($K^{(a)}\cap K^{(b)}=K^{(\mathrm{lcm}(a,b))}$)は **2405 の $\psi_n$・$K^{(n)}$ を使った工房の補題**であり、2401 側の対応物は Prop 3.15 の $N\cap K$ と Prop 5.1 の $N^{(1)}\cap N^{(2)}$ である。**補題 ML-1 を 2401 の定理として引用してはならない**(本稿 §4.2 の自前証明が出所)。
+
+## B.6 差替後の格・工程
+
+| 項目 | 差替前(追補 A.5) | **差替後(本追補)** |
+|---|---|---|
+| ML-ODD | 「条文 pin 未」 | ★ **pin 済**。ただし格は **paper-proof candidate / 補題 INT(工房の紙上証明)に相対的** — **「正典の定理に完全に乗っている」とは書かない** |
+| 命題 ROOF(3)($M$ の isolated 性) | (DIR) 依存 | **(INT) 依存 ⟹ 補題 INT に相対的**(加えて前件 (S4-ISO)) |
+| Sol 監査の優先順位(§8 申し送り 5) | ① ML-ODD (iii)$\Rightarrow$(i) … | ★ **① 補題 INT の証明(§B.2)を 1 位に繰り上げ** ② ML-ODD (iii)$\Rightarrow$(i) ③ 命題 ROOF(4) の Goursat 段 ④ §A.3 の型分離 ⑤ 前件表 §5.2 |
+| **R4a**(11,772 判定) | 起票保留 | ★ **起票 GO**(裁定 376)。予言 P-IHN-1〜4・6・7 前半(U-11)が対象 |
+| **R4b**(4,408,992 判定・12 シャード) | 起票保留 | **待機継続** — mine backend 修理の実証テスト後(裁定 376) |
+| 予言 P-IHN-1〜7 | 凍結 | ★ **凍結不変**(検算 SHA-256 `edf6181376…d49309` も不変) |
+
+> **pin 後も残る禁止事項**: 補題 INT が Sol 監査を通るまで、**ML-ODD を「正典に完全に還元された定理」として他文書から引用しない**。地図 P2/P6 行の更新は Sol 監査後。**U-11 は R4a 実施後にのみ「閉じた」と書く。**
+
+---
+
+# 追補 C(**R4a 実施記録**・裁定 376 GO・2026-08-01)
+
+**実行者**: 数学者(Opus 5)。**script**: `scratchpad/ihnec_r4a_run.py`(SHA-256 `f8be65ae5bf1ed2b0a175bb88057e0fb1d36b9c790cd014ce1fa09eb9c88820b`)。
+**入力(既存証明書・GAP 再走なし)**:
+- `certificates/K9.v1.json` SHA-256 `ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e`
+- `certificates/S4.v2.json` SHA-256 `c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d`
+
+**結果: failures 0 / ALL PASS。**
+
+## C.1 設計からの変更(**先に申告する**)
+
+v1 §6.6 の R4a は「因子ごとの**悉皆走査**を新規に回す」と書いた。実施にあたり、**両因子の悉皆走査は既に証明書として存在する**ことが判明したため、**再走せず証明書を入力とする独立実装**に切り替えた。
+
+| | v1 §6.6 の設計 | **実施したもの** |
+|---|---|---|
+| 列挙 | GAP で新規悉皆走査 | **既存証明書を使用**(GAP 単系統のまま — **二系統一致ではない**) |
+| 構造同定・組立 | GAP | **python の独立実装**(合成表を入力に $\Theta_9$ 座標で再導出) |
+
+⟹ **格の正確な形**: **列挙は単系統**(GAP 証明書)。**構造同定と屋根の組立は独立第 2 実装**。**「cross-checked」とは書かない。**
+なお証明書の `counts.raw_candidates = 8748 = 12\times729` は **v1 §6.6 R4a-1 で予言した走査規模と厳密に一致**した(設計のコスト模型の的中)。
+
+## C.2 予言の照合(**P-IHN 凍結分**)
+
+| # | 予言 | 実測 | 判定 |
+|---|---|---|---|
+| **P-IHN-4** | $\lvert\mathrm{GT}(M)\rvert=972$・$\mathfrak F_0(M)=81$・$\widetilde\chi$ 像 $=12$ | **972 = 81×12**(3 通りの数え方で一致) | ★ **HIT** |
+| **P-IHN-5** | $\mathrm{Im}\,R_{M,K^{(9)}}=$ 全体(108/108) | 全 12 個の $m$-fiber を含む ⟹ **108/108 全射** | ★ **HIT** |
+| **P-IHN-6** | $\mathrm{Im}\,R_{M,N_{\rm S4}}=$ 全体(54/54) | 全 6 個の $m$-fiber を含む ⟹ **54/54 全射** | ★ **HIT** |
+| **P-IHN-7 前半(= U-11)** | $\mathrm{GT}(K^{(9)})\cong C_2\times\mathrm{Hol}(\mathbb Z/9)$ | **合成表 11,664 対すべてで $\mathrm{Aff}(\mathbb Z/9)\times C_2$ の積法則と一致**(下記 C.3) | ★ **HIT** |
+| **P-IHN-1/2/3** | 比較不能・$PB_3/M\cong G_9\times\mathrm{PSL}(2,8)$・$M_{\rm ord}=18$ | **R4a の射程外**(紙の証明のみ・機械脚は未実施) | **未測定** |
+| **P-IHN-7 後半** | $\mathrm{GT}(M)\cong((C_9\times C_9)\rtimes C_6)\times C_2$ | **R4b が要る**(GT(M) 自体は作っていない) | **未測定** |
+
+**副次的に確認された正典・工房の主張**(証明書からの独立再導出):
+- $K^{(9)}_{\rm ord}=18$・$\lvert\mathrm{GT}(K^{(9)})\rvert=108$・$m$-像 $=\mathcal X_9$(12 個)・各 fiber $=9$。
+- Thm 4.3 (4.12) の $f$-三つ組の形($r^{2k},r^{-2k},r^{\varkappa(m)}$)が**全 108 shadow で成立**(第 2 成分 $=r^{-2k}$・第 3 成分 $=r^{\varkappa(m)}$ を各個検査)。
+- $\lvert\mathrm{GT}(N_{\rm S4})\rvert=54$・$m$-像 $=\{0,2,3,5,6,8\}=$ charming set 全体・各 fiber $=9$。⟹ **§6.4 の「代替経路(framework-free)」が実測で成立**((S2)/W2-arith を使わずに系 SPLIT-NULL′ が $n=9$ で閉じた)。
+
+## C.3 U-11 の閉鎖(**裁定 226 の待ち行列**)
+
+$\Theta_9([m,f]):=\bigl(k,\ u=2m+1\bmod9,\ \varepsilon=m\bmod2\bigr)$($k$ は $f$-三つ組 第 1 成分 $=2k$ から復元)と置くと:
+
+- $\Theta_9$ は $\mathrm{GT}(K^{(9)})\to\mathbb Z/9\times(\mathbb Z/9)^\times\times\mathbb Z/2$ の**全単射**(108 点・単射性を確認・$u$ 像 $=(\mathbb Z/9)^\times$)。
+- **証明書の合成表の全 $108^2=11{,}664$ 対**で $\Theta_9(g_1\circ g_2)=(k_1+u_1k_2,\ u_1u_2,\ \varepsilon_1+\varepsilon_2)$ を検査 ⟹ **不一致 0**。
+
+$$\boxed{\ \mathrm{GT}(K^{(9)})\ \cong\ \mathrm{Aff}(\mathbb Z/9)\times C_2\ =\ \mathrm{Hol}(\mathbb Z/9)\times C_2\quad(\textbf{明示同型・11,664 対で確定})\ }$$
+
+**副産物**: これは **命題 E1-S1(自然座標)の $n=9$ での独立機械確認**でもある(E1 ノートの検算は $\Theta_n$ の全単射性と積を自作モデルで見たが、**正典由来の証明書の合成表で見たのは本件が初**)。
+**測定した不変量**: 中心の位数 $=2$($\mathrm{Aff}(\mathbb Z/9)$ の中心自明 $+$ $C_2$ 因子と整合)。位数分布 $\{1{:}1,\ 2{:}19,\ 3{:}8,\ 6{:}44,\ 9{:}18,\ 18{:}18\}$(合計 108)。
+
+> ### ⚠ U-11 の閉じ方の正確な形
+> **数学的内容(同型型)は閉じた**。ただし **GAP の catalogue 番号 `[108,26]` というラベル自体は本実行では出していない**(python には IdGroup が無い)。`[108,26]=C_2\times\mathrm{Hol}(\mathbb Z/9)$ という同定は**裁定 213 の司令塔独立計算**に依る。⟹ 台帳には「**U-11 = 同型型で閉鎖(明示同型)/ IdGroup ラベルは裁定 213 の同定を経由**」と二段で書くこと。**「GAP で [108,26] を測った」とは書かない。**
+
+## C.4 R4a が**確認していない**こと(**循環の防止**)
+
+- **命題 ROOF(4)(fiber 積分解)は確認していない。** $\lvert\mathrm{GT}(M)\rvert=972$ と 2 つの像は **ROOF(4) を使って因子データから組み立てた値**である。⟹ **R4b(屋根での悉皆走査・4,408,992 判定)が ROOF(4) の独立確認であるという v1 §6.6 の役割分担は不変**(mine backend 修理の実証テスト後まで待機・裁定 376)。
+- **P-IHN-1/2/3 の機械脚**(方法 CMP 手順 3 の `GroupHomomorphismByImages` 両向き・$\langle(X,X_P),(Y,Y_P)\rangle$ の位数 1,469,664・$M_{\rm ord}$)は **GAP が要る**。R4b と同じ批次に回すのが安い。
+- **(S4-ISO)**(PSL(2,8) 窓の isolated 性)は依然 **機械測定のみ**。証明書の `isolated` 欄は `"UNKNOWN"` のまま。⟹ 命題 ROOF(3) と本実測の群論的解釈はこの前件に相対的。
+
+## C.5 結論(**この 1 点が何を意味するか**)
+
+$$\textbf{ML-ODD (ii) の finite instance 第 1 点は「全射」= 何も出なかった。} $$
+これは**設計どおりの negative result** であり(定理 SPLIT-NULL が実測前に予言していた)、**fake が無いことの証拠では一切ない**(工房の掟 2)。得たものは:
+1. **U-11 の閉鎖**(同型型・明示同型 11,664 対)。
+2. **系 SPLIT-NULL′ が $n=9$ で framework-free に閉じた**($\mathfrak m(N_{\rm S4})=$ charming set 全体を実測)。
+3. **方法 CMP と屋根の設計が実データで回ることの較正**。
+4. ⟹ **次に作るべきは entangled 屋根**(系 SPLIT-NULL″・【IHNEC-GAP-2】)。$\mathrm{PSL}(2,8)$ 窓は共通商が自明で、**検出力ゼロが確定した**。
