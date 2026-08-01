@@ -1400,3 +1400,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 台帳 31 行(格 5 種・行ごと明示・束ね札なし)。要 cert 化 4 件(fv-probe/v1 schema 新設・FV-16 の compression:1. パースバグ・J=L∩M₅ 未走・canonical UID 突合)。【GAP-FV-1】正直開示: FV-SOLV を支持する機構は無い(層 (a) 直接の論法を工房は持たない — 経験的な賭け)。
 - p52 追記 A(裁定 373 ②③履行・§9 UNKNOWN (a) を (ii) へ絞り込み — 便 54 F6 と spec v19 §3 が同一機構を名指し)。
 - 用語規約を台帳 §1.3.9 へ登録(fake=A 型のみ・B 型=非算術証人・pentagon-fake/arith-fake は工房語注記義務)。**文献要請 FV-L1 を paper-hunter に発注**(①副有限版 pentagon⇒hexagon の類似・②ĜT⊊ĜT_gen 分離不変量・③有限段の解が塔へ持ち上がらない既知例 —「例ゼロ」と「誰も探していない」の区別が目的)。
+
+## 2026-08-01 reader 照合+gap-ci 診断修理(裁定 376)
+- **①2401 逐語照合着弾(ML-ODD 依存 3 条文)**: Prop 3.14(N^⋄ 交叉構成・isolated・**共終性は 3.14 の系として本文注記**)・Prop 3.15(交叉閉・**証明は読者演習 — ML-ODD 使用時は 2 行証明の自前補完を推奨**)・Cor 5.4(genuine ⟺ 全制限像・**奇数条件なし・N 任意**・依存 = Thm 5.2+5.1+3.14/3.15+逆極限非空性)。収蔵 = reading_2401_ml_odd_pins_v1.md。ihnec の逐語 pin 差替 → R4a 起票を数学者へ指示。
+- **②gap-ci fail-open の根本原因確定(実装係)**: 仮説①の変種 — GAP が space exhausted で break loop に入り、**非対話 stdin の EOF を quit 扱いして本当に exit 0 で終わる**(配管の捕獲バグではない)。runner は 16GB(7GB 説は旧情報)・-o 12g は過大でない。併発バグ = gap-ci ステップに 2>&1 欠落(stderr の break-loop 本文を握りつぶし)。**実質 fail-open = verdict=failed が GHA conclusion に反映されない設計**。
+- 修理(mine-dispatch.yml のみ・driver 不可侵): 2>&1 追加・/usr/bin/time -v で max RSS 記録・run_log_bytes/tail_hex/max_rss を result.txt に診断記録・**verdict≠done → exit 1 で GHA job failure へ昇格(fail-closed 化・artifact upload 後)**。YAML PASS・py-ci 契約 19/19 無傷。
+- **③容量判断(司令塔)**: S₇/S₈ 標的セル(n=44/48/49)は CharacterTable(Symmetric,n) が p(n)=75k〜173k 級 — メモリ増でなく**アルゴリズム変更が本筋**(必要指標のみの Murnaghan-Nakayama 計算等)。数学者委嘱を次波で起票。再現テスト = ell37-t4(n=41)1-shard を miner が起票・発火(修理の実証: どちらの結果でも conclusion と verdict の一致を確認)。

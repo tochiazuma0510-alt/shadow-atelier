@@ -196,6 +196,13 @@ jobs:
             echo "artifact_name=mine-run-${{ steps.job.outputs.job_id }}" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Init ci/out (memory-instrumentation file always present, both backends -- upload-artifact if-no-files-found:error 対策)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          echo "(no memory instrumentation for this backend)" > ci/out/gap_time.log
+
       - name: Setup GAP 4.16.0 (release tarball, sha256-verified)
         if: steps.job.outputs.backend == 'gap-ci'
         uses: gap-actions/setup-gap@v3.8.0
@@ -240,8 +247,24 @@ jobs:
           # 「今回の実行で新規/更新されたファイルだけ」を判別する。
           touch ci/out/.baseline_marker
           TIMEOUT_SEC=$(( ${{ steps.job.outputs.timeout_min }} * 60 ))
+          # fail-open 修理(2026-08-01, run 30685662252 診断 -- 6匹目):
+          #  (a) stderr が run.log に入っていなかった(2>&1 抜け -- py-ci 側には
+          #      あるのに gap-ci 側だけ非対称だった)。GAP のエラー/break-loop
+          #      出力(色付き)は stderr 経由の可能性があり、原因診断の生証拠を
+          #      握りつぶしていた。ここで 2>&1 を追加する。
+          #  (b) /usr/bin/time -v で最大RSS等を ci/out/gap_time.log に記録する
+          #      (GNU time は子プロセスの終了コードをそのまま forward するので
+          #      PIPESTATUS[0] の意味は変わらない)。実測 run では 12/13 shard が
+          #      gap_exit_code=0 のまま run.log が 394 byte 均一切断(較正通過後
+          #      「=== 本番 ===」直後で ANSI カラー列のみ出て切れる)で完走せず
+          #      -- CharacterTable(Symmetric,n) 系の計算中に GAP の gasman が
+          #      space exhausted し break loop に入り、GHA の非対話 stdin が EOF
+          #      を返すため GAP が quit; 相当で exit 0 する経路が濃厚(生の OS
+          #      SIGKILL なら bash PIPESTATUS は 137 等の非0を正しく拾うはずで、
+          #      その経路ではない)。この推定の当否を次回の実測で判定できるよう
+          #      max RSS を記録しておく。
           set +e
-          timeout "$TIMEOUT_SEC" gap -q -o 12g ci/out/driver.g | tee ci/out/run.log
+          timeout "$TIMEOUT_SEC" /usr/bin/time -v -o ci/out/gap_time.log gap -q -o 12g ci/out/driver.g 2>&1 | tee ci/out/run.log
           GAP_EXIT="${PIPESTATUS[0]}"
           set -e
           echo "gap_exit=$GAP_EXIT" >> "$GITHUB_OUTPUT"
@@ -310,12 +333,21 @@ jobs:
             else
               VERDICT=failed
             fi
+            # 診断用の生証拠(2026-08-01 修理・run 30685662252 の 394byte 均一
+            # 切断が artifact を人手で覗くまで見えなかった反省 -- verdict の
+            # 判定ロジックには使わない、result.txt に機械記録するだけ)。
+            RUN_LOG_BYTES=$(wc -c < ci/out/run.log | tr -d ' ')
+            RUN_LOG_TAIL_HEX=$(tail -c 64 ci/out/run.log | od -An -tx1 | tr -d ' \n')
+            GAP_MAX_RSS_KB=$(grep -F "Maximum resident set size" ci/out/gap_time.log 2>/dev/null | grep -oE '[0-9]+' || echo "")
             {
               echo "verdict=$VERDICT"
               echo "job_id=${{ steps.job.outputs.job_id }}"
               echo "shard_name=${{ matrix.entry.shard_name }}"
               echo "backend=$BACKEND"
               echo "gap_exit_code=${{ steps.run.outputs.gap_exit }}"
+              echo "run_log_bytes=$RUN_LOG_BYTES"
+              echo "run_log_tail_hex=$RUN_LOG_TAIL_HEX"
+              echo "gap_max_rss_kb=$GAP_MAX_RSS_KB"
               echo "run_id=${{ github.run_id }}"
               echo "sha=${{ github.sha }}"
             } > ci/out/result.txt
@@ -402,4 +434,22 @@ jobs:
             ${{ steps.shard.outputs.stage_dir }}/
             ci/out/run.log
             ci/out/result.txt
+            ci/out/gap_time.log
           if-no-files-found: error
+
+      # fail-open 修理(2026-08-01・6匹目): 従来は verdict=failed でも GHA job
+      # 自体は conclusion=success のまま終わっていた(run 30685662252 で 13
+      # shard 中 12 が verdict=failed なのに全ジョブ success と表示され、人手で
+      # result.txt を1件ずつ開くまで発覚しなかった)。artifact は上のステップで
+      # 既にアップロード済みなので、診断材料を失わずに job を fail-closed へ
+      # 昇格できる -- この段を最後に置く。
+      - name: Fail-closed -- promote non-done verdict to GHA job failure
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERDICT=$(grep '^verdict=' ci/out/result.txt | head -1 | cut -d= -f2)
+          echo "verdict=$VERDICT"
+          if [ "$VERDICT" != "done" ]; then
+            echo "::error::verdict=$VERDICT (not done) -- job promoted to failure (fail-closed; see ci/out/run.log / ci/out/result.txt / ci/out/gap_time.log in the uploaded artifact for diagnosis)"
+            exit 1
+          fi
