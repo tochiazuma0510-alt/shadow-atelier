@@ -1229,3 +1229,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - schema/preflight に任意欄 args/done_marker/result_count_check・workflow は契約モジュール import(二重実装ドリフト防止)。設計判断 3 件(primes 優先で新欄無視・シェルエスケープなしの既存踏襲・grep -c 行数意味論)を承認。既存 wall36/37 無印 plan の INTEGRITY_STOP は既知の pre-existing(r2 差替由来)。
 
 ## 2026-08-01 lt driver 一般化 完了(裁定 341)— lt_count_gen.g/lt_rehunt_gen.g(IsBound preamble 方式・prelude 適用)・旧 cert と完全一致再現(378000・A₃₀ witness バイト同一)
+
+## 2026-08-01 744 py-ci 再現 検収+段 1 発車(裁定 342)— ★ 二環境化成立(744/744 構造完全一致・differing 0)・汎用契約の初実戦 done・13 セル計数は matrix 発車
+- 744: verdict=done・py_contract=generic 初実戦正常・CI 版 vs ローカル版は生バイト差(改行)のみで **json 構造 744 件全一致** ⟹ **裁定: P5 土台データの二環境化成立**(cert 群+report = sweep744-laneb-pyci-repro-20260801_report.md)。
+- 段 1: lt-count-13cells-20260801(13 セル独立 shard・S₇ 2 セル先頭・道連れ防止設計を承認)発車 = run 30685662252。
