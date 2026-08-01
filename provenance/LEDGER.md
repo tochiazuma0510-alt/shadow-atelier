@@ -1236,3 +1236,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-01 h(ℚ(ζ₂₈)) 機械完結(裁定 343)— PARI 独立検算 h=1・bnfcertify=1(GRH 非依存)・陰性対照で fail-closed 実証済み・receipt = pari_classnum_zeta28_20260801.json
 - 検証シーケンス: 初回 run で gp 複数行 if の破壊(ゲート丸ごと無効・値の偶然一致で潜伏)を発見 → 根治(1 行三項式+quit(1)+receipt 自己整合検査)→ **陰性対照(故意誤値)= failure で fail-closed 実証** → 通常 run = success・整合 receipt(archivable=true)。G7-3 は h⁻=1(裁定 283)+h=1(文献)+**h=1(PARI 無条件)の三重機械文献挟み撃ちで完結**。
+
+## 2026-08-01 便 95 検収(裁定 344)— ★ (M2) 三部作 = 修文つき PASS(Sol が BCL 不要の直接降下証明を供給)・「全奇数鎖」は n=5 欠落で FAIL・EP 再発効 FAIL(4 欠陥)・δ 表は Sol が修正版を固定
+- 正本 = sol/sol_reply_95_math22.md(556 行・digest 全一致・v1.4 は歴史 blob 照合)。
+- **§1**: M2-GEO/NIE/UNIQ PASS・M2-DESC 結論 PASS(修文 = BCL の型・m の型・marked 版・Θ*W₀ 記法)。**F95-1.4 = BCL を不要にする ℚ(i)/ℚ 直接降下証明を Sol が供給** — MD-STRONG の反証急所が構造的に消える方向。
+- **「全奇数鎖」FAIL**: FAM-U 追補が n=5 を定理領域から明示除外しているため、現在言えるのは**「奇数 n≥3・n≠5」の candidate 鎖**。全奇数には n=5 の処理(封印開封プロトコル or 数学的除外解除)が必要 — 封印の存在が定理の射程に現れた正しい指摘。
+- **§2 EP FAIL の 4 欠陥**: ①保存 cert 自身が INTEGRITY_STOP を記録 ②R1/R2 が MALFORMED 記録 ③CI workflow が失敗を exit 0 で隠蔽(success ≠ 637 green の receipt)④凍結 v18 に無い [27] が live code に混入(spec 凍結違反)。genuine 12 artifact の世代化と NF 一致は前進として認定。
+- §3: C-β-IND′/DUM-3/R1-R7/B-LIMIT-0/0a/条件付き B-LIMIT-1/補題 LIFT 妥当。**B-LIMIT-2 は「列挙済み入力の依存監査」へ格下げ**(無条件不可能定理ではない)。
+- §4: **δ 代数定義は正・早見表 6 列が誤り — Sol が修正版を固定**(CV-12 準拠の機械生成表への差替が次波)。Lean v1.4 は施行条件つき承認。
+- 次波: M2 修文(数学者・F95-1.4 の取込み)・EP 4 欠陥修理(実装)・δ 表機械再生成・n=5 の扱いの司令塔裁定(封印開封は研究者事項)。詳細 P95-x は reply 本文が正本。
