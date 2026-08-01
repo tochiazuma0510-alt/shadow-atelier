@@ -1292,7 +1292,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-01 便 96 発送(数学便第 23 号)— 総組立言明 v1 監査(最重量)・EP 現況照会(発効請求ではない)・照会 3 件(D7-3・W6-SEM 推奨(c)・EP-Q1)・preflight PASS(55 digest 機械再現)・起床確認済・watcher 設置
 
-## 2026-08-01 便 96 検収(裁定 351)— ★ 総組立言明 P95-1.1 主言明が採択(dihedral candidate 鎖の Sol ゲート通過・domain = 奇数 n≥3, n≠5)・M2 = theorem 維持・D7-3 不存在確定・EP DRAFT は freeze 差戻し
+## 2026-08-01 便 96 検収(裁定 353)— ★ 総組立言明 P95-1.1 主言明が採択(dihedral candidate 鎖の Sol ゲート通過・domain = 奇数 n≥3, n≠5)・M2 = theorem 維持・D7-3 不存在確定・EP DRAFT は freeze 差戻し
 - 正本 = sol/sol_reply_96_math23.md(374 行・turn 正常終了)。
 - **採択**: FAM-U-ASM の主言明(奇数 n≥3, n≠5 で ord([u_n]_{2n})=n の candidate 鎖完成)。ただし依存表は過剰 — **M4/SPLIT/GR/機械全確認を最短 class/order 鎖から外す v2 を要求**(修理波へ)。
 - M2 三部作 = theorem(紙・n 一様)維持。D.7(3) は不存在(撤回対象は D.0(3)/D.6(3) の 2 箇所で完了 — 当方の読みが正)。
