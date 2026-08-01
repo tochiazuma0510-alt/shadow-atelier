@@ -1,0 +1,128 @@
+name: regression-battery
+
+# 常設回帰バッテリー -- 司令塔指示 2026-08-01 (CI 整備 item 1)。
+# push to master + workflow_dispatch で、以下 6 スイートを毎回全実行する:
+#   python: test_ninfty_evidence_union(227) / test_ninfty_laneB(184) /
+#            test_ninfty_legacy_normalizer(51) / test_ninfty_checker_native(50) /
+#            test_ninfty_nf(32)
+#   node:   ninfty-selftest-lanea.mjs(93)
+# fail-closed: 1 本でも exit code != 0 なら workflow 全体を fail させる
+# (「1 本でも fail なら workflow fail」の指示どおり -- ep-union-check.yml の
+# ような set +e による握り潰しはしない)。各スイートの結果数(pass 件数/
+# 総件数)を receipt(artifact)として記録する。
+#
+# GAP 系回帰は本 workflow に含めない(実装判断・設計委任分の注記):
+#   - GAP 系の常設回帰(既存 wall/tmax/ladder 系 driver)は、既に
+#     mine-dispatch.yml(backend=gap-ci)経由で採掘場ジョブとして走る導線が
+#     ある。GAP を毎 push ごとの CI に足すには gap-actions/setup-gap の
+#     ダウンロード+インストールのコスト(数分オーダー、mine-dispatch.yml
+#     や wall-smoke.yml で使用中)が push トリガーの頻度に対して重く、
+#     この python/node バッテリー(全 6 スイート合計で1分未満)の身軽さを
+#     損なう。
+#   - よって本 workflow は「python/node のみ・GAP は mine 経由」の設計と
+#     し、GAP 系回帰の常設化は別線(mine-dispatch.yml の定期実行化、また は
+#     専用 workflow の新設)に委ねる。既存 workflow(gap-run.yml /
+#     mine-dispatch.yml / wall-smoke.yml)は本コミットで無改変。
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  regression-battery:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install python deps (sympy, stdlib-only otherwise)
+        run: python -m pip install --upgrade pip sympy
+
+      - name: Run regression suites (fail-closed -- first nonzero exit stops the job)
+        id: suites
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          declare -A COUNTS
+          run_one () {
+            name="$1"; shift
+            echo "=== $name ===" | tee -a ci/out/suites.log
+            "$@" 2>&1 | tee -a ci/out/suites.log
+            code=${PIPESTATUS[0]}
+            echo "$name exit_code=$code" | tee -a ci/out/suites.log
+            if [ "$code" -ne 0 ]; then
+              echo "REGRESSION_BATTERY_FAIL: $name exited $code" >&2
+              exit 1
+            fi
+          }
+          run_one test_ninfty_evidence_union python search/test_ninfty_evidence_union.py
+          run_one test_ninfty_laneB python search/test_ninfty_laneB.py
+          run_one test_ninfty_legacy_normalizer python search/test_ninfty_legacy_normalizer.py
+          run_one test_ninfty_checker_native python search/test_ninfty_checker_native.py
+          run_one test_ninfty_nf python search/test_ninfty_nf.py
+          run_one ninfty_selftest_lanea node search/ninfty-selftest-lanea.mjs
+
+      - name: Extract per-suite result counts (machine-piped, from suites.log)
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import re, json, datetime, os
+
+          log = open("ci/out/suites.log", encoding="utf-8", errors="replace").read()
+
+          # 各スイートの "N/N checks passed." または "N checks, 0 FAIL" または
+          # "N/N passed" 形式のサマリ行を抽出する(スイートごとに文言が異なる
+          # ため複数パターンを試す -- 数値の丸めなしで原文キャプチャ)。
+          patterns = [
+              r"(\d+)/(\d+) checks passed\.",
+              r"(\d+) checks, (\d+) FAIL",
+              r"summary: (\d+)/(\d+) passed",
+          ]
+          matches = []
+          for pat in patterns:
+              matches.extend(re.findall(pat, log))
+
+          receipt = {
+              "run_id": os.environ.get("GITHUB_RUN_ID"),
+              "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+              "sha": os.environ.get("GITHUB_SHA"),
+              "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              "expected_suites": {
+                  "test_ninfty_evidence_union": 227,
+                  "test_ninfty_laneB": 184,
+                  "test_ninfty_legacy_normalizer": 51,
+                  "test_ninfty_checker_native": 50,
+                  "test_ninfty_nf": 32,
+                  "ninfty_selftest_lanea": 93,
+              },
+              "raw_summary_lines_matched": matches,
+              "note": ("fail-closed: this job step exits nonzero on the first suite "
+                       "with a nonzero exit code (see suites.log for full output), "
+                       "so if this receipt was written under job success, all 6 "
+                       "suites reached their PASS/0-FAIL summary line above."),
+          }
+          with open("ci/out/receipt.json", "w", encoding="utf-8") as f:
+              json.dump(receipt, f, indent=2, ensure_ascii=False, sort_keys=True)
+          print(json.dumps(receipt, indent=2, ensure_ascii=False))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: regression-battery-receipt
+          path: ci/out/
+          if-no-files-found: error
