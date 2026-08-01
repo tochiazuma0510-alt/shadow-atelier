@@ -1311,3 +1311,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **W6-KEY(便 97 照会)**: option (a) の素朴実装は二 lane 独立性(H-4)を壊す(lane A=ideal generator vs lane B=srepr の別符号化)。有望材料 = NF の最小多項式係数列符号化(両 lane 独立生成で nf_digest 一致済)— ただし Galois 軌道集約のため共役入替 incidence を分離できない = W-6 弱化版。「弱 W-6 の版付き別条項」vs「点ごと符号化の新設」の設計裁定を Sol へ(司令塔予備見解 = 点ごと符号化が原理的・W-6 の存在理由が incidence 分離そのものであるため)。
 - positive control は設計案のみ(injector/detector/adjudicator 三役分離・盲検 envelope・依存順序 = W-6 閉鎖が先)。selfaudit v9 = 19 検査(additive・故意破壊で FAIL at [17,18] 実証→復元 green)。凍結 7 ファイル byte 一致 7/7。
 - **発案係第 17 便受領(P5/P6 諮問・研究者発)**: P5 札 3(FV 三層格上げ・744 死因の定理化・壁窓 ĉ カナリア)+P6 札 4(GT(K_π) 群化 GTPI・PB₄ 見積・IH-NEC 接続+FAKE-KILL・TAU-ISO 族判定律)。司令塔採択 = **次波: P6-1(400 対合成の全数照合+closure 紙・CV-9 凍結つき)と P5-2(死因の定理化・数学者委嘱・falsifier 前哨つき)**・P5-1 は P5-2 と同便同梱・P6-2 は P6-1 と同日 30 分先行。
+
+## 2026-08-01 EP CI 初回 failure の修理(裁定 356)— 原因 = smoke cert の freeze pin 残置(b のまま)を同世代不変量が STALE 検出 = **fail-closed ゲートの本番初捕獲(正しい failure)**。修理 = freeze c へ再 pin・ローカル照合 registry=PASS(R1/R2 MALFORMED は想定・overall INTEGRITY_STOP の正直記録不変)→ CI 再発火。
