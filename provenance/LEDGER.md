@@ -1189,3 +1189,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 crosstable GAP 化完了(裁定 329)— M2-GEO の機械検証が GAP×python 二系統に(n=3,7,9,11,13 全て恒等対角・数値完全一致)
 - probe = m2_crosstable_gap_v1.g(ALLOWED_N・n=5 は Error 排除)・cert = m2_crosstable_gap_20260801.json(**orbit_group_legend 欄の第 1 号**・conventions_used・予言はコード外)。triples/orbit: 9/[36]・49/[196]・81/[324]・121/[484]・169/[676] — note §9 と全一致。
 - 実装係の共有知見: **GAP の Print/PrintTo は SizeScreen 幅で JSON を折り返して壊す**(SizeScreen([10⁶,10⁶]) で対処)— GAP 製 JSON の共通罠として記録。chi_P は exact 直接+class は Γₙ 軌道で代替(経路差は legend に明記・妥当と裁定)。
+
+## 2026-08-01 GAP 出力 prelude 制度化(裁定 330・研究者指摘)— 再発 3 回の出力罠族をコード 1 枚に集約
+- 新設 = search/probe/wac_v1/gap_output_prelude.g(SizeScreen 拡大+SetPrintFormattingStatus)。全 probe は冒頭 Read 必須(implementer 規程に追記・次セッション有効)。散逸していた個別対処は今後 prelude へ一本化。CV-12 の精神(散文でなくコードで)の適用例。
