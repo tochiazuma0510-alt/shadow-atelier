@@ -1,0 +1,43 @@
+{
+  "schema":"k5gen-phase1/v1",
+  "generated_by":"search/probe/k5gen_phase1/k5gen_phase1_driver.g",
+  "card_label":"K^(5) genuine campaign Phase 1 calibration (K5-1..K5-5)",
+  "design_doc":"docs/notes/k5_genuine_campaign_v1.md",
+  "authorization":"Sol 便99検収・裁定412 F99-4.1・GO(K5-1..K5-5のみ)",
+  "note":"Phase1は較正のみ。d_gen(5)の値・fake非存在・W-6の存在について本certは何も主張しない(裁定412 F99-4.1条項5)。K5-1/K5-2は既存certの座標・reduction突合そのもの(定義上の証明書読み込み)。K5-3/K5-4/K5-5は certificates/*.json を一切読まない(期待値はdriver内リテラル定数)。",
+  "target":{"family":"genuine-probe-calibration","id":"K5gen.phase1",
+    "base":{"id":"K5","n":5,"N_ord":10,"index_PB3":500,"gt_order":40}},
+  "tier":"calibration",
+  "anchors":{
+    "k5_universe":{"pass":true,"pb3_over_k5":500,"derived_order":125,"k5_ord":10,"x5":[0,1,3,4,5,6,8,9]},
+    "k15_to_k5_reduction":{"pass":true,"k5_shadow_count":40,"k15_shadow_count":240,"x15_size":16,"r_image_size":40,"r_image_equals_k5_mk_set":true,"fiber_uniform_6":true,"m_part_two_to_one_onto_x5":true},
+    "k3_probes":{"pass":true,"probes":[{"path":"certificates/K9.v1.json","image_len":108,"image_distinct":12,"surjective":true,"full_onto_12":true,"d":3},{"path":"certificates/K18.v1.json","image_len":108,"image_distinct":12,"surjective":true,"full_onto_12":true,"d":3},{"path":"certificates/L01.v1.json","image_len":36,"image_distinct":12,"surjective":true,"full_onto_12":true,"d":3},{"path":"certificates/M01.v1.json","image_len":48,"image_distinct":12,"surjective":true,"full_onto_12":true,"d":3}]},
+    "k5_alone":{"pass":true,"shadow_total":40,"fresh_theta_matches_cert":true},
+    "k3_alone":{"pass":true,"shadow_total":12,"k3_ord":6,"x3":[0,2,3,5]},
+    "discriminating_fixtures":{
+      "DF1":{"pass":true,"d_N":1,"image_size":8,"theta_eps_field_used":true,
+            "chi_image":[1,3,7,9,11,13,17,19],"chi_image_full":true,"iota_in_image":true},
+      "DF2":{"pass":true,"d_N":5,"image_size":20            ,"chi_image":[1,9,13,17],"chi_image_full":false,"iota_in_image":false},
+      "DF3":{"pass":true,"shadow_total_corrupt":40,"shadow_total_clean":40,"m2_shadow_count":0}
+    }
+  },
+  "anchors_all_pass":true,
+  "measurement":{"note":"Phase1は実測窓のT1/T2を一切走らせていない(K5-6以降は未認可)。d_Nはdiscriminating fixtureの自己較正値のみ(DF-1/DF-2)。eps欄名はtheta_epsであり壁キャンペーン語彙とは別物(SS6.1 N-1)。"},
+  "scope":{"lane":"GAP single lane","cross_checked_status":"n/a(単系統GAP。cross-checkedを主張しない)"},
+  "conventions_used":{
+    "ledger_version":"conventions_ledger_v1_3",
+    "perm_composition":"gap_native_right_action",
+    "reduced_hexagon_predicate":"逐語 search/probe/wac_v1/ihnec_r4b_run.g ScanRoofHexagon(EnumerateReducedHexagonと数学的に同一) をそのままK5/K3単体に適用。列挙戦略はElements(DerivedSubgroup(G))直接列挙。",
+    "comparison_target":"K5-1/K5-2は既存cert(K5.v1.json/K15.v1.json/K9.v1.json/K18.v1.json/L01.v1.json/M01.v1.json)座標との突合。K5-3/K5-4/K5-5はdriver内リテラル定数のみとの突合(証明書非読)。",
+    "independence_note":"c_in_N=true window(K5,K3ともに MakeGn 経由・c not survivingの語彙は本windowに現れない)ゆえ quotient-shortcut theta/tau (GroupHomomorphismByImages) が有効。"
+  },
+  "seal_declaration":{"touches_c_hat_mu":false,"touches_psl_sealed_fields":false,
+    "touches_wall_campaign_pbit":false,"touches_u_values":false},
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"7c228710ad9821bbdeac7c184c9534962b6bb94b893e3bbbb1be8ecc47c10cdc",
+    "plan_frozen_sha":"ae0433241d65ff57f50fe448437af06979aad9017819d9f4a4843f114626d7a6",
+    "predictions_frozen":"docs/notes/k5_genuine_campaign_v1.md",
+    "wall_ms_total":420
+  }
+}
