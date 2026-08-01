@@ -1317,3 +1317,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 EP CI green(裁定 357)— run 30691344542 success(headSha=d387c490 突合済)・修理版 workflow の二欄 hard-assert 下で 7 suite 730 検査 green・receipt 収蔵 = ep_ci_receipt_run30691344542.json。2 回目 failure は push/dispatch 競合による旧 SHA 走行(誤警報)— 以後 dispatch 前に remote head 突合を定型化。EP 差戻し修理の CI 実証まで完了 — 残 = W6-KEY 設計裁定(便 97)・positive control(諮問)。
 
 ## 2026-08-01 便 97 発送(裁定 358)— ASM v2 監査依頼・EP 修理履行報告(freeze c・CI green)・★W-6 は選択肢提示でなく**設計依頼**へ転換(研究者裁定「Sol が納得する形が最短」)・positive control 意見伺い・preflight PASS 23 digest
+
+## 2026-08-01 P6-1 完了(裁定 359)— ★ 定理 GTPI(candidate): GT(K_π) ≅ GT(N_A) ≅ AGL(1,5)=F₂₀(PB₃ 模型水準)・予言 7 本全的中・400/400 閉性・紙が probe を spot-check に降格・W92-1 (i)(iii) 閉鎖
+- CV-9 freeze 先行(gtpi_cv9_freeze_v1.md・IF-FIRST・積順序 3 座標表・GAP 写像積不使用で f/f⁻¹ 温床を物理排除・competitor 30000 組・dummy 4 本全て識別力あり — DUM-G3 =「混成規約では群にならない」の新規約判別法)。
+- 紙の決め手 = **補題 UNIV**: Chk6 の c₄「q∈[Q_P,Q_P]」+定理 STR で宇宙が 7500→60(A≅A₅)に潰れ、ker(red)=1 が計算前に確定 — v3.2 の全行 c4_pass=1 は測定値でなく構造の帰結だった。補題 DICT(ĉ∘Φ 可換 4 行)で正典 (3.53) と T-21 補題 OPP に独立到達。定理 CLOSURE は c₄ 一行が hexagon/pentagon 閉性検証を肩代わり。
+- **PB₄ 見積もり = UNKNOWN・理由確定**: 6 生成元の像は位数 60 = 粗窓 P_N に等しく、C₅³ 精密化は pentagon packing 由来で PB₄ の窓でない — **LEVEL CAVEAT は現行構成の内部では解消不能**(これ自体が結果)。文献要請 U-PB4 起票(2008.00066・外部検索なし)。
+- 【GAP】4 件名指し(模型忠実性 = 監査点 A が最重量・PB₄・CV-9 主検問未実施・逆元閉式)。cross-checked とは未記帳(CV-9 判読後に格付け)。次: falsifier 主検問 → 便 98。
