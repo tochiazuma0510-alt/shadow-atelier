@@ -1,0 +1,54 @@
+{
+  "schema":"ent1-search/v1",
+  "generated_by":"search/probe/wac_v1/ent1_search_20260801.g",
+  "card_label":"ENT-1(docs/notes/roof2_cv9_freeze_v1.md SS7.4・裁定400起票承認・実装係)",
+  "design_doc":"docs/notes/roof2_cv9_freeze_v1.md SS7(IHNEC-GAP-5)・SS7.4 標的ENT-1",
+  "target":"N' <| B3, N' subseteq K^(3), [K^(3):N']=3, PB3/N' が G_3 の非分裂 chi_i-拡大(位数324)",
+  "universe":{
+    "note":"事前登録: 指数上限=1944(=6*324)。freeze SS7.4が名指しした値そのまま。予備計測(scratchpad/ent1_lins_timing.g)で index<=1944 まで約25秒で完走することを確認済みのため、指定より狭めていない。",
+    "ambient_group":"B3 = <s1,s2 | s1s2s1=s2s1s2>(fp群として新規構築)",
+    "index_bound":1944,
+    "index_exact":true,
+    "search_backend":"lins package v0.9 (Firth-Holt algorithm), LowIndexNormalSubgroupsSearchForIndex(B3,1944,infinity)",
+    "completeness_caveat":"lins v0.9 は Firth-Holt法の実装。本driverはGAPパッケージが返す結果を『指数1944のB3-正規部分群の悉皆列挙』として扱っているが、これはlinsの実装が完全であることへの依存であり、本driver自身がlinsのアルゴリズム完全性を独立に証明したわけではない。"
+  },
+  "anchor_selfcheck":{
+    "note":"指数648でK^(3)自身(核位数1の同型ケース)がちょうど1件だけ再現されることをfail-closedにassert(本探索の分類パイプラインの健全性確認)",
+    "index":648,
+    "total_candidates":26,
+    "k3_matching_candidates":1,
+    "expected":1,
+    "pass":true
+  },
+  "main_search":{
+    "index":1944,
+    "total_b3_normal_candidates":48,
+    "factors_through_pb3_rho":41,
+    "pb3_image_order_324":41,
+    "k3_window_family_count":1,
+    "k3_window_family_note":"N' subseteq K^(3) かつ [K^(3):N']=3 を満たす候補数(=判定式(3c)がwell-defined+全射+核位数3)",
+    "hits":[{"candidate_index":48,"split":true}],
+    "non_split_count":0,
+    "ent1_exists_within_universe":false
+  },
+  "verdict":{
+    "status":"bounded_negative",
+    "note":"status=exists なら non_split_count>0 の候補あり。status=bounded_negative なら index<=1944 の宇宙内では非分裂ENT-1窓は見つからなかった(非存在の証明ではない -- UNKNOWN扱いの陰性)"
+  },
+  "conventions_used":{
+    "ledger_version":"conventions_ledger_v1_3",
+    "perm_composition":"gap_native_right_action",
+    "b3_presentation":"s1,s2 with relator s1*s2*s1*(s2*s1*s2)^-1 (docs/week1-定義ノート.md: sigma1,sigma2)",
+    "pb3_generators":"x:=sigma1^2, y:=sigma2^2, Delta:=sigma1sigma2sigma1, c:=Delta^2 (docs/week1-定義ノート.md 逐語)",
+    "g3_construction":"MakeGn(3)(search/week3-battery-common.g、既存 -- ここでは生成器から新規構築、証明書は読まない)",
+    "k3_membership_test":"marked factor map: GroupHomomorphismByImages(PB3img, G3, [xbar,ybar,cbar],[g3.x,g3.y,1]) がwell-defined+全射+核位数3であることでN' subseteq K^(3)かつ[K^(3):N']=3を判定(GAPの単純な部分群比較IsSubgroupは使っていない -- 裁定の罠12件『marked factor mapを使う』に対応)",
+    "split_test":"ConjugacyClassesSubgroups(PB3img)を悉皆走査し、位数108かつ核と自明交叉の部分群の有無で分裂性を機械判定(ANDの直積分解には依らない)"
+  },
+  "cross_checked_status":{"status":"n/a","reason":"単系統GAP探索(lins低指数正規部分群探索+marked factor map判定)。cross-checkedを主張しない。照合器(独立実装)による再計算は別途必要"},
+  "provenance":{
+    "gap_version":"4.16.0",
+    "lins_version":"0.9",
+    "script_sha256":"bf3a5eb4a0ca66d94f3e81b70396676453c40999a0f2fdf8459197336c8c0ee8",
+    "wall_ms_total":31478
+  }
+}
