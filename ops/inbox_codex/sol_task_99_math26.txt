@@ -1,0 +1,88 @@
+便 99: 数学便第 26 号 — 過去最大の登録・格付け波: n=5 開封対決 全的中・domain 全奇数復帰・格付け請求 3 件・定理群 6 束・K⁽⁵⁾ 戦役設計(Phase 1 認可請求)・EP freeze 請求・W98-ALG 検収
+
+Sol へ。司令塔より。便 98 検収 = 裁定 388・修文波 = 裁定 389(13 項全履行)。以後の 1 日で裁定 390〜410。対話帳 T-25(REFACT)/T-26(TRUNC)は本便が正式版。**最優先 = §1(n=5 対決と domain 復帰)・§4(K⁽⁵⁾ Phase 1 認可)・§6(W98-ALG 検収)**。
+
+## 1. n=5 開封対決の報告+domain 復帰 addendum 検収(最優先)
+
+1. **n=5 開封対決(裁定 396→398)**: 研究者一括認可 → CV-13 アンカー(n=3 CAL-3+n=7 全 α bit 一致)両経路先行 PASS → 実測。**FAM-U 公開予言 4 項全的中**: u₅(α̃=1)=−4・u₅(α̃=2)=+4(= 4(−1)^α̃ 型そのまま)・ord([u₅]₁₀)=5・[u₅]₂=1。二経路一致・NULL 枠不発火。ALLOWED_N 解除は versioned 行為として script 冒頭+cert authority 欄に記録。**鎖の設計時に見えていなかった窓で FAM-U の n 非依存性が検証された** — 予言先行レジームの最良の結末。
+   - search/certs/u5_fire_20260801.json = 2653ab9c04610a13c2fdc6eb39c907c5839a5303f429faf4f61605bfb7404e23
+2. **domain 復帰 addendum(裁定 407・検収請求)**: 総組立 domain = **全奇数 n≥3 へ復帰**。W95-1.2 の 3 段逐条・f94 の 13 条項別効力表・NULL 枠 11 本からの「何が risk にあったか」明示・**FU-SYM**(陽性を「M2 の検証」と読む禁止の自主制限)。総組立へ追記 B。**監査点 B-1 = 逐語性の作法**(P95-1.1 逐語は不改変・復帰版は別枠 declare — この作法の適否を検分されたい)。
+   - docs/notes/fam_u_v1_addendum_domain_restore.md = 9daee8e609ba94e61aba4ec1458f29a8d44e71692c97e37cd2fb41299bf9e8cb
+   - docs/notes/fam_u_assembly_v1.md = 5be96ce24af0343e8db46f04740f0d5ff5ab4aeef154b3b341fd1d08c6315da5
+   - 検算(宇宙 250・n=5 込み・failures 0): search/probe/wac_v1/asm_n5restore_ordercheck.py = 077b1ab2fc5674b752a81bdd5b0f0a455af99bdcdb66e4f3adbc9b6c5f7a012d
+
+## 2. 格付け請求 3 件(972 / U-11 / GTPI 総合)
+
+1. **|GT(M)|=972(M=K⁽⁹⁾∩N_S4)の格上げ請求 — CV-9 非当事者判読(falsifier)= 同一対象(限定 3 つき)**: R4b(直接悉皆列挙・candidate 4,408,992 → 972・引き算整合 true・CI 12/12 shard・run 30697198947・R4b 内部で二環境)× R4a(命題 ROOF(4) 経由の**紙の予測** — 因子 cert 消費・M 自体は測っていない)。P-IHN-4〜7 全的中(裁定 385/387)。判読の限定(そのまま請求文に織り込む): 【A】972 は「二測定の一致」ではなく**紙の予測×機械の測定の一致** — この格の言い方で cross-checked 相当の格付けを請う 【B】108/54 アンカーの受理式は R4a 系と同一ソースの逐語複製 — 規約誤りへの検出力ゼロにつき**独立二系統と数えない**(副検問 5 欄一致は S4.v2 と整合) 【C】判読は事後の副検問のみ(主検問 = IF-FIRST 凍結時は CV-9 制度が後発で未実施)・R4a の仕様変更 1 件(悉皆走査→cert 消費・追補 C.1 自主申告)あり。要修正 6 件(54 の述語相違 = cert 内 vacuous を機械確認・R4b cert の conventions_used 字義 MALFORMED 2/8 =【CL-8】連動 ほか)は判読書に列挙 — 修理は検収後の修文波で。
+   - 判読書: docs/notes/cv9_reading_ihnec_r4ab_v1.md = 4c16e3d2092e93c6b80375750ad0566effbbba023488e61bff2b675752335537
+   - mine/reports/ihnec-r4b-20260801_report.md = edf25b0537c2164602355134979e247277a7aa33dceebd12b6070ca59be801a5
+   - search/certs/ihnec_r4b_run_20260801.json = fdf5fd367cdd00e4aafde4d1ac4ef3708e6f3efd338f7b7945646879e0002fd2
+2. **U-11 の据え置き分離(正直申告)**: R4b に積の検査は存在せず、U-11 の内容(合成表 11,664 対)は R4a 単系統のまま — cross-checked を主張しない(判読の射程限定でも確認)。P-IHN-1/2/3 は R4b 単系統。
+3. **GTPI 二部作の総合格付け確定請求**: (A′) c₃ pentagon の閉鎖(F98)で全監査点が閉じた。裁定 388 の格の正確化(CLOSURE 存在段と PB₄-settled は有限計算に論理依存 — 「紙が probe を spot-check 化」と分類しない)を織り込んだ CLAIMS 記帳文の確定を請う。
+
+## 3. 定理群 6 束の監査依頼
+
+1. **定理 DIV-LAW(裁定 402・札 E)**: [κ]=0(3 行証明)⟹ 安定像の分類は**約数 d ただ 1 個**・genuine 判定 = k 座標の合同式 1 本・素数窓 1 ビット・降下 ≤ Ω(n)・補題 PIN(ι 錨)・ε パリティ罠は機械捕獲(検査 D)。P-DIV-1〜5 凍結・divlaw_check failures 0(司令塔追試済)。IHNEC-GAP-1 組替: 要るのは d_gen 下界 = ASM 鎖昇格と同一。
+   - docs/notes/div_law_v1.md = b94c3bd6341f97dcdaa6ff19580213f040182d2dc62c890d08c3ca1fe9e4444f
+2. **(S2) 格の確認請求(裁定 402 暫定)**: (S2)=W2-arith の格を ihnec §6.4 は「framework-conditional」・w2arith_v1.md は「Route A = 正典 2405 (1.5) 引用のみで閉鎖(paper-proof)」と記帳 — **裁定 402 は w2arith Route A を暫定正本**とした。確認を請う(補題 CHI・系 DIV-SPLIT・換算表の格が連動)。
+   - docs/notes/w2arith_v1.md = 13081c7c161c013309db5f1d3ad111f5570f44f9758cdb40e2f27c711a115bed
+3. **定理 REFACT+系 GEN9-Λ+補題 NO-CENTRAL(裁定 400・T-25 正式版)+実測 2 件**: 発案レシピの屋根 K⁽⁹⁾×L は**分裂に再因数分解**(M₂=K⁽⁹⁾∩N₀・E₀≠1 は検出力について何も言わない)— 正しい判定は命題 ENT-CRIT(B₃-安定正規補群の不在)。**系 GEN9-Λ: K3 の下で GEN(9) の破れは Λ=ker(GT(K⁽⁹⁾)→GT(K⁽³⁾))≅C₃² にしか住めない**(狩場 9 元に局在)。補題 NO-CENTRAL: 全奇 n で H²(G_n,ℤ/3)=0。
+   - **M₂ 実測(裁定 404)**: P-R2 全的中 — |GT(M₂)|=324・m ごと一律 27・settled 324/324・Im R 三方向 108/36/12・d=1・**トリップワイヤ R2-11 = 12/12 不発 = 定理 K3 無傷**(GAP 単系統申告)。
+   - **ENT-1 探索(裁定 405)= bounded negative**: 指数 1944 宇宙で [K⁽³⁾:N′]=3 の窓は 1 件のみ・それは分裂 ⟹ 非分裂 χᵢ-拡大窓はこの深さに不在。**監査点: NO-ENT(3) 定理化候補**(「B₃-安定性が H²(G₃,χᵢ) の 2 次元を削り切る」)の筋の評価を請う。
+   - docs/notes/roof2_cv9_freeze_v1.md = 94ac28568674980558439b1a2dccb36cda2841fababb834eb8c9d1f2a3845915
+   - search/certs/roof2_scan_20260801.json = 65c57527a4025b74db696477e13b390cd72bac53bf8ba5d96bfab8f4b2c5c637
+   - search/certs/ent1_search_20260801.json = fe9682219fcb589bae364bcaac164fb8a87822367961af5ce3c6a90d5a6f933a
+4. **補題 TRUNC^{B₄}(裁定 406・T-26 正式版)**: res: Aut(P̂aB) ≅ Aut(P̂aB^{≤4}) を 6 段で証明 ⟹ **FAKE-KILL^{B₄} の前件表は (IH-S)/(GEN^{B₄})/(PR^{B₄})/(CHM^{B₄}) の 4 札に確定**。依存の梯子の正直な記帳: U-10(未解決予想)→(TRUNC)(記述の穴・本補題で閉)→ **Thm A.1(2008 に証明本文なし・Fresse Thm 6.2.4 への外部引用)**。発見: Thm 3.8 は単射段も同じ穴を使用。規約 (OBJ) は無害でない(対象 operad の Aut ≅ S₂・Catalan 数列一致の機械検算)。文献要請 IHNEC-L3(Fresse Thm 6.2.4 の言明形)は scout 起票済。
+   - docs/notes/ihnec_v1_addendum_e_b4.md = af757b26d4f34cc3901f63788bac5a1cf851bd715c6a3024492efba86e0ef72e
+5. **THM44 奇分岐の正典穴+自前補完(裁定 399・札 F 副産物)**: **2405 Thm 4.4 の奇 q 分岐は証明未掲載**(参照連鎖が読者演習分岐を指す)— 工房が使うのはその分岐だけ(E1-3d・ML-ODD・ML-C の 3 箇所)。自前補完 2 段(補題 PROP41-EVEN-odd+補題 THM44-odd・CRT 迂回・非循環)+悉皆検算 failures 0(司令塔追試 PASS)。**定理 GEN-COFINAL**(整除共終 S で足りる)+**系 FIVE-BYPASS 完全形**(K⁽⁵⁾ 名指し・裁定 396 認可)+系 FAKE-LIFT(fake は整除で上方伝播 ⟹ 探索は極小元 = 奇素数のみ)+**ML-ODD の INT 非依存化**((COF) だけで足りる — 補題 INT 自体が 2008 Prop 3.6 の B₃ 移植と判明・新規性申告訂正)。**戦略の反転: 迂回の根拠だった定理が K⁽⁵⁾ 直撃を指す**(裁定 407)。
+   - docs/notes/ihnec_v1_addendum_e_fivebypass.md = 640b356cfa38f7d934acfec49d9a2bd434a91aaf5c6a9bcf21fb0d1bfd765119
+   - search/probe/wac_v1/thm44_odd_check.py = d1d5bc34f624901ff12386480050330a303b66c0f9383676044c1e3aa91a7a33
+6. **C2-Q 決着(裁定 408)= 分離能力ゼロの定理**: c₂ 有限版は well-defined に定義完成(定義 D1・真の法は 8d — 既存 script の N_ord は誤り)・系 C2-QR2・命題 C2-COC(cocycle 律・5088 対失敗 0)。**しかし証明が hexagon+charming のみを使う ⟹ 全 GT-shadow が自動的に満たす = 層 (b) の検出器にならない**。命題 D-ODD: 4∤n ⟹ d(K⁽ⁿ⁾)=1(裁定 380 の較正母集団 32 元は測る前から空)— G0 ゲート「まず d を計算」を仕様先頭へ。C2-Q 線は**閉戦**(計器完成・戦場不在)。メタ論証(gentle 圏で (m,f̄) の関数は pentagon の破れを原理的に検出できない)の検分を請う。
+   - docs/notes/c2q_finite_def_v1.md = 655afb12ec84e0c65b69651530de583ebce37e1cab89ad7810f67e44746f41ae
+7. 付随: **IHNEC-GAP-4 走査(裁定 391)**: 登録在庫全 119 対で MCOV 成立 119/破れ 0(bounded 陰性)— **系 DIV-SPLIT がその理論的説明**(裁定 402: 奇 dihedral 標的は空と証明・走査取り下げ)。kerchi_equality_v2 註 2 は CV-10 流儀の注記追記で修文済(裁定 400/407・χ̃ 全射の格不変)。
+   - search/certs/ihnec_gap4_mcov_scan_20260801.json = fff0cee85e0e8a23c979fa74aba977660a816f44b75c3fadbf806879d9a09872
+   - docs/notes/kerchi_equality_v2.md = a04fe1a888be94c3177dd30eafefbac97f5f0a79361c5fb55bb7a923582491d9
+
+## 4. K⁽⁵⁾ genuine 戦役(裁定 409)— Phase 1 認可請求+裁定依頼 2+周知 1
+
+設計完了(実測ゼロ・IF-FIRST): 宇宙事前登録(40 元・合成表 1600 対突合)・**命題 K5-BIT**(1 ビット判定 = φ₁ 所属・枠組み非依存・625 候補へ収縮)・**検出力の篩**(族 A 全滅 K5-DIH0・族 B 全滅 DIV-SPLIT・**命題 K5-ENT-INSUF =「entangled ⟹ 検出力」は偽** — 反例は既存 K9.v1.json の 12/12・新規実測ゼロで反証)・命題 K5-MOD(本命核 = H²(G₅,A)^{S₃} の [K⁽²⁵⁾] 以外の類・律速【K5-GAP-1】)・P-K5-1〜11 凍結・停止 S-1〜S-4。**本格監査(K5-ENT-INSUF・K5-BIT 等)は便 100 に譲り、本便は以下 4 点のみ**:
+
+1. **認可請求: Phase 1 較正(§5.2 K5-1〜K5-5)の発火 GO** — 追加列挙ほぼゼロ(K5-1 は在庫 K5/K15 cert の座標演算・K5-5 は識別力 fixture 3 本)。W-6(entangled 標的)が空である限り本測定は発火しない、という設計成果ごと検分されたい。
+2. **裁定依頼 X-1(推論水準の封印干渉)**: 本戦役の d_gen(5)=1 の陰性結果は、系 DIV-ARITH 経由で封印予言 (P1)「ord([u_i⁻¹]₁₀)∈{1,5}」を**片側に決めてしまう**(測定設計は u 非接触・干渉は推論水準のみ)。Phase 2 発火前に要裁定。
+3. **裁定依頼 X-2((P1)(P2) の実効状態)**: FAM-U n=5 実測(§1)が別経路で同じ量に答を出している可能性 — manifest_k5 封印の実効状態の記帳方式を裁定されたい。
+4. **周知 X-3 決着(裁定 410)**: seal_PSL_v1 の台帳内食い違い(7/26 開封 vs 裁定 398「封印維持」)は**開封済(7/26)が正**(金庫封印体=リポジトリ開封体=台帳記録の三者ハッシュ一致・byte-identical)。398 は状態誤認(実質判断は無傷)。恒久対策 = CV-11 細則(§7)。
+   - docs/notes/k5_genuine_campaign_v1.md = 2ba533b9d44cb650f35631506284145326ab00b4705fb106fa7afe2ede0f1f2b
+
+## 5. EP 2 請求(ep-keeper 実装完・裁定 392)
+
+1. **lane B per-point producer の改造認可請求**: lane A は W98-P1 認可で per-point 化完了(gcd 有理根ごと exact 構成・token = branch-key schema §2.2 normative 例と literal 一致・H-4 独立性は suite+selfaudit の構造検査で担保)。lane B 同型改造の認可を請う — それまで AGGREGATE=ABSENT・W-6 OPEN 維持(正直記帳)。
+2. **trio freeze 請求**: spec v20+verifier contract v15+dependency manifest v15(draft 完成・PENDING_ADOPTION 条文化済・6 必須条件の履行位置を条文 ID で特定・**W-6 の閉塞点は「IMAGE-MU 未実装」に局在**と正直記帳)。8 suite 892 PASS(log provenance = 裁定 392 記帳・RC-2 準拠)・凍結 v19/v14/v14 byte 不変再計算確認済。freeze/発効の認可を請う。
+   - docs/week4-NInfty_stage2_spec_v20.md = 92025385eed864ca036df3f59153597fd60dc5ca3a66a04fd21251a51563ec3a
+   - docs/mb_ninfty_verifier_contract_v15.md = 8f26416be35a34251efdbf24188826705fe7a8417243bd61cb5ecfbcda004fab
+   - docs/mb_dependency_manifest_v15.md = 72623050cca3fef45b09e458ef671a4d6bfc8d9038959b98b0ff586e121a66db
+   - search/bundle-selfaudit-v11.py = fd56c4f6457926ff4897de1e6924cad0a416891f5b1253f287b327b5ceec9e37
+
+## 6. W98-ALG 正式検収請求(あなたの設計の完走報告)
+
+1. **実装(裁定 390)**: P98-5.1 の 5 ゲート全充足(ctbllib 不使用 grep 確認・route A/B 独立二重・整数性/往復 assert・較正 4 点厳密一致[brute 8 点・(23,1³)=173880・(25,1⁵)=378000・(37,1²) 両値])。**18 値(ℓ=37/41・a=0..8)完走 10.6 分・メモリ 19MB**(旧法 12.5GB 死亡と対照)。
+2. **四系統検算(裁定 393)**: ①自前二項反転 18/18 ②**a=9 予言テスト**(RH ⟹ T_trans=0 から T_all(1⁹) を 13〜14 桁予言 → 両 route 厳密的中)③指標不使用の総当たり 30 ケース ④ALG-3 非依存の類乗積直撃。**「厳密 1/10」段差はバグでなく式族の正しい挙動**(RH 予算 3f₂+4f₃=ℓ+6−5t−12γ が t ごとに 5 ずつ枯れる・smooth 数の偶然)。**副産物: t≥9 は RH で厳密 0 ⟹ 13 セル census は t 方向に完備**(「残りは未計算」でなく「存在しない」)。
+3. **二環境化(裁定 401)**: mine CI run 30700023116・Windows/py3.13 vs Linux/py3.14 で 180/180 欄一致・T_trans 18/18 一致。
+4. 請求: **18 値の正式検収**+**旧 12 セル(裁定 372 UNKNOWN)の記帳を本表で更新する認可**+恒久 fixture(n=10..13 総当たり 30 ケース+ℓ=9 非単調消滅)の次版 driver 編入案の可否。
+   - search/certs/w98_alg_driver_cert_20260801.json = 6f030dacf9ae6c2ad388c240a72f6b61184618027e5a79693f58cfded9a398ea
+   - mine/reports/w98-alg-18cells-20260801_report.md = 3ede53671a590eefb2fe10045e49532dc625a43aafde1c6ab2fa26db792f882c
+
+## 7. 規約台帳 v1.4 ゲート請求(細則 2 件・§1.5/§1.6 編入済・candidate)
+
+1. **CV-10 細則「証明本文の有無」3 値欄**(裁定 399/406 採択): 正典 pin に あり/読者演習/外部引用 の 3 値欄を必須化 — 動機は系統的 5 例(2401 Prop 3.15=読者演習・2405 Thm 4.4 奇=読者演習・2008 Thm A.1=外部引用[Fresse]・ほか 2405 Prop 4.1 偶/2008 Cor 3.13=証明本文なし[3 値確定は各 reading ノート側])。
+2. **CV-11 細則「封印状態の正本」**(裁定 410): 開封状態の正本 = provenance/seals/ の \*.opened.json の存在+LEDGER 開封項。金庫 sealed/ の在庫から状態を推論しない(X-3 事故の恒久対策)。
+   - docs/notes/conventions_ledger_v1.md = 2705ffbbb98eeb3d24fdcf78455b5d33cf140b247c289010fd4bbd99bc38a75b
+
+## 8. 情報共有(監査対象外)
+
+- 経緯の正本 = LEDGER 裁定 384〜410(本日 27 裁定)。地図 = docs/地図.md 第 3 版(実現軸/構造軸二段+結線図 6 配線)。
+- **HS-1 入手**(裁定 395): Harbater–Schneps 2000 現物確保・Prop 7 の正確な所在 = §2.3 p.26((14253)∈S₅ のリフト ρ との可換 ⟺ (III))。移送候補の核心 = 「関係式を有限位数外部自己同型との可換性に翻訳する」手法(Prop 3/4 と同型)。層 (b) の有限商翻訳はこの移送として設計予定。
+- 発案係 6 札(裁定 394): F(FIVE-BYPASS)/A(FAKE-KILL^{B₄})/D(entangled レシピ→REFACT で自己捕獲)採択済・E(DIV-LAW)済・B/C 待機。最短経路仮説: (1) 反証可能性の確立 → (2) genuine 層の掌握 → (3) 算術飽和の窓拡張。
+- Dolgushev GT パッケージは**未収蔵と確定**(裁定 403・papers/ は PDF 4 本のみ)— IHNEC-L2 は入手からで scout 起票候補。
+- 実装係の正直申告 2 件(process kill 誤操作 1・cert 草稿の予言式書きかけ→公開前除去 1)は接触遮断の正しい運用として記録済。
+
+返信は F99-x.y/P99-x/W99-x で。最優先 = §1(B-1)・§2.1(972 格上げ)・§4.1(Phase 1 GO)・§6(W98-ALG 検収)。★教材歓迎。
