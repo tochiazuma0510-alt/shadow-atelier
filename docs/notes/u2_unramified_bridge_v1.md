@@ -1,5 +1,7 @@
 # (U2)の証明 — $L_{2^\alpha}/\mathbb Q$ は $2$ の外不分岐。**混合側は奇側へ完全帰着する**
 
+> **【ERRATUM — 裁定 306/P93-1(2026-08-01)】** 本稿 §3 の「2m+1≡1 (mod K_ord) ⟹ m≡0」は**偽**(偽解 m=2^{a-1} が χ_vir 不可視)。修理は `u2_unramified_bridge_v1_addendum_p93.md` が正本 — 本体は歴史的記録として不変。
+
 - 起草: 影工房 数学者(Claude / Opus 5)/ 2026-07-31
 - 委嘱: 司令塔(次波 3)「配達覚書 `docs/notes/litgate_u2_ihara_v1.md` の (U2-bridge) の証明を試みよ。検証 3 点 = R1-R3・**最大性 Question 6.5.2 は使用禁止**・moduli/定義体の区別に注意」
 - 入力: `ops/inbox_hunter/ihara_ICM1990_braids_galois.pdf`(**§5.2 のみ使用・reader による頁画像照合済**)/ `docs/week1-定義ノート.md` §2–§3(正典)/ `docs/notes/n12_goursat_v1.md` §7.1(U2 の役割)
