@@ -1261,3 +1261,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 研究者「EP 関連が明らかに重すぎるから専門にやらせる運用にしない?Opus5(medium)でいいよ」→ `.claude/agents/ep-keeper.md` 新設(opus/medium・常設)。EP 工学資産一式(spec/contract 凍結体系・lane A/B・R1/R2/R3-NF・NF・registry/freeze・quarantine・suite 群・ep-union-check CI・cert/receipt)の保守・改版・修理を専任化 — 汎用 implementer から分離(v19 バンドルで規模が顕在化: spec 770 行+contract 561 行+selfaudit 937 行+suite 637 本)。
 - 職掌の境界: 意味論核(新 integrity code・軸/routing・route 新設廃止)は司令塔検問の先出し義務・発効判定は Sol 専権(P95-2.2)・positive control 設計採択は継続諮問・blind/接触遮断/machine-piped/凍結規律/fail-closed 原則を職務規程に成文化。
 - 有効時期: 次セッションから(agents はセッション起動時読込)。本セッション内は implementer + model:opus 指定で代替。走行中の v19 バンドルは現行実装係が完遂し、検収後の EP 仕事から ep-keeper へ移管。CLAUDE.md 部隊表を 10 役へ更新(miner 併記漏れも是正)。
+
+## 2026-08-01 M2 修文波検収(裁定 348)— 修文 5 点履行・F95-1.4 主証明昇格(逐段検算 10/10)・総組立言明 v1 起草(domain = 奇数 n≥3, n≠5)・B-LIMIT-2 格下げ条文化
+- 機械検収: fam_u_v1_addendum_f94.md は diff 0 行(W95-1.2 の書換禁止を遵守)・cbeta cert digest 57e26d7d… 一致・【UNKNOWN M2-MARK】登録確認・assembly 冒頭と §1 が P95-1.1 逐語。
+- m2_family_identification_v1.md 追記 E(+283 行・本文不変): E.1 修文 5 点(α̃/α 分離・m̄ mod 2n・「一意」削除・θ* 型・状態札更新)— **補題 POW の言明自体は修正不要を自前導出**(g^m は m mod 2n 依存)。E.2 = F95-1.4 直接降下を主証明へ(数学者が逐段検算 10 項目全 PASS)・BCL 版は第二経路へ降格 ⟹ 反証急所が「外部文献の正確形」から「自前検算可能な初等代数」へ移動。E.3 = 逐条回答+【文献要請 M2-2】消費(引用形の受領・原文照合ではないと申告)。E.4 = marked 撤回 — **Sol 指定 3 箇所のうち D.7(3) は grep で該当なし**(実在 = D.0③・D.6(3) の 2 箇所)→ 逸脱として正しく申告・便 96 で Sol へ照会。
+- fam_u_assembly_v1.md 新設(228 行・candidate): P95-1.1 逐語+前件 4 表(空欄なし)+格 delta(M2→theorem・C6b theorem・M4=系・D-3/D-4 は鎖から離脱、SPLIT のみ M4 経由残存)+n=5 復帰 3 段手続(認可→versioned addendum→黙読み替え禁止)+外枠距離図。
+- u7_fire_log 追記 5(+185 行): B-LIMIT-2 → 依存監査 B-LIMIT-2′(構文的不在≠意味論的無矛盾の自認・無条件拡張の明文禁止・【UNKNOWN BL-2】)・B-LIMIT-0/0a/条件付き 1 の PASS 記録・cert 欄差替(unconditional から除去・dependency_audit 新設)・F95-4.4 の effective_source_chain 指定。
+- 便 96 申し送り: ①D.7(3) 照会 ②assembly 監査点 A(位数計算そのものは初等・独立で枠組依存は表より薄い可能性)③m2 監査点 G(φ(n)/2 dessins 全 ℚ = UNKNOWN 継続・主証明 BCL 非依存化で判定は鋭利化)。

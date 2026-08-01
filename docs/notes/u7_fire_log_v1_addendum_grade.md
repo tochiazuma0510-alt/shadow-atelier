@@ -905,3 +905,188 @@ b_limit.design_conclusion= path B is NOT a second system for the n-part (holds u
 | **BL-2** | ★ **設計結論の救済(新規)** | **過小決定**による無条件命題: 列挙された経路 B の入力は像を制約しない ⟹ **(FAITH) の真偽によらず**経路 B は $n$-part の第二系統になれない。【GAP】入力列挙は目視 |
 | **BL-FAITH** | ★ **仮定の分解(新規)** | **(FAITH) ⟺ (W2)-fam の「核の位数 $n$」の半分**。全射性・自由性は **passport から**従い機械確認済($n=3,7,11$)。⟹ 新たな未知量は増えていない |
 | **BL-ARCH** | **構造的注意(警告)** | (FAITH) + 橋 + FAM-U(3) は **SURJ-K$n$ そのもの**を導く配置にある。⟹ (FAITH) は臨界路上の仮定。**ここから SURJ を主張しない**((M2)・TB1–TB4 が最弱前件) |
+
+---
+---
+
+# 追記 5(2026-08-01・便 95 修文波)— **B-LIMIT-2 の格下げ**(依存監査へ)と C-β 最終 cert の参照格
+
+> **位置づけ**: **§2′(追記 4)への追補**。**§2 と §2′ の本文は書き換えない**(CV-10 erratum 方式)。抵触する箇所は**本追記が優先**する。
+> **委嘱**: 司令塔(便 95 修文波・**裁定 344**)
+> **入力正本**: `sol/sol_reply_95_math22.md`(SHA-256 `de88488fbf21c42e9c3adf52c4689a84a8854ff24012b125b3a0229fcaeba7e9`)**§3 = F95-3.1 / P95-3.1 / F95-3.2 / W95-3.1**、**§4 = F95-4.4**
+> **⚠ 節番号の読み方**: 本追記の節は「**追記 5 §5.x**」と読む — 本体 **§5(cert の表示修理(指定))とは別物**である(本体 §5 に subsection は無いので実質の衝突は無いが、引用時は「追記 5 §5.x」と書くこと)。
+
+---
+
+## 5.0 判定(先に 5 行)
+
+| # | 便 95 の指摘 | 判定 |
+|---|---|---|
+| **①** | **W95-3.1**: B-LIMIT-2 は無条件命題ではない | ★ **全面受諾**(§5.1)。私が示したのは**構文的な不在**(入力一覧に像を制約する文がない)であって、**意味論的な無矛盾性**ではない。格を**依存監査**へ下げる |
+| **②** | **F95-3.2**: B-LIMIT-0 / 0a / 条件付き B-LIMIT-1 / F-a / FAITH $\iff$ $\lvert\mathfrak F_0\rvert=n$ の還元 | ★ **PASS**(§5.2)。**2-part の無条件性は無傷** |
+| **③** | 設計判断(経路 B の $n$-part 拡張は行わない)は生き残るか | ★ **生き残る。ただし格が違う** — 「原理的に不可能」ではなく「**現行入力では運べない(依存監査)**」。新入力が加われば**再監査** |
+| **④** | **F95-3.1 / P95-3.1**: C-β-IND′・DUM-3・R1–R7 | ★ **PASS(修理仕様として)**。ただし **R1–R7 は履行 cert ではない** ⟹ 一般 C-β runner の **DUM-3 fail-open は OPEN のまま**(§5.2.2) |
+| **⑤** | **F95-4.4**: `u7_cbeta_final_20260801.json` の参照格 | ★ **受諾**(§5.4)。cert 自体は original として保持可。ただし `c_beta_ind_dummy_h_selfcheck` は**失効**しており、**CV-10 連鎖では cert 単独で止めてはならない** |
+
+---
+
+## 5.1 ★ B-LIMIT-2 の格下げ(W95-3.1 の履行)
+
+### 5.1.1 受諾理由(自認)
+
+§2′.4 の命題 B-LIMIT-2 は、
+
+> $\mathcal P$ の各命題は…**どの部分群が像であるか**を制約しない。すなわち各部分群 $H\le\mathfrak F_0$ に対しシナリオ「$\mathrm{Ih}_N(G_F)=H$」は $\mathcal P$ と無矛盾であり…
+
+と書いている。**「$\mathcal P$ の文が $H$ を名指しで制約していない」から「各 $H$ のシナリオが $\mathcal P$ と無矛盾」へは渡れない。** 前者は**構文**の観察、後者は**意味論**(モデルの存在)の主張である。非導出 $\mathcal P\nvdash\operatorname{ord}([u_n]_n)=n$ を**定理**として主張するには、
+
+- 各 $H$ を実現する**モデル**の構成、または
+- 少なくとも**二つの反対モデル**(異なる $\lvert t(H)\rvert$ を与える二つのシナリオが**ともに** $\mathcal P$ と無矛盾であることの証示)
+
+が要る。**「入力一覧に制約が書かれていない」はその代用にならない。**
+
+> **§2′.4 の【GAP】は不十分だった**: あの【GAP】は「$\mathcal P$ の列挙は目視」までしか申告しておらず、**列挙が完全でも残る飛躍**(構文 ⟹ 意味論)を捕まえていない。⟹ **申告の粒度の誤り**として記録する。
+
+### 5.1.2 置換文(**Sol W95-3.1 の正形をそのまま採る**)
+
+> ### 依存監査 B-LIMIT-2′(**B-LIMIT-2 を置換**)
+> **現在列挙された route-B の式では $H=\operatorname{Im}\mathrm{Ih}_N$ が未決のまま残り、$\lvert t(H)\rvert$ を計算できていない。従って現行 route B は $n$-part の第二系統になっていない。新たな arithmetic image/quotient 入力が加われば再監査する。**
+
+**格**: **bounded design conclusion(依存監査)**。★ **無条件の構造定理ではない。**
+
+> ### ⚠ 拡張の禁止(明文)
+> 「**FAITH の真偽によらず、考え得るどの route B も原理的に不可能**」という**無条件構造定理へ拡張してはならない**(W95-3.1 の明文)。本追記以後、この主張を引用する文書は**依存監査の形**で引用すること。
+
+### 5.1.3 何が変わり、何が変わらないか
+
+| 対象 | 旧(§2′.4) | 新(本追記) |
+|---|---|---|
+| **B-LIMIT-2** | **無条件命題**(過小決定による) | ★ **依存監査**(現行の列挙済み入力についての bounded 結論) |
+| **B-LIMIT-0**(無条件) | $\operatorname{ord}([u_n]_2)=\lvert b(\mathrm{Im})\rvert$、$\operatorname{ord}([u_n]_n)=\lvert t(\mathrm{Im})\rvert$ | **不変・PASS**(F95-3.2) |
+| **B-LIMIT-0a**(無条件) | $b\equiv1$ on **all of** $\mathfrak F_0$ ⟹ 2-part は像非依存 | **不変・PASS**(F95-3.2) |
+| **B-LIMIT-1**(条件付き) | FAITH 下で $\operatorname{ord}([u_n]_n)=\lvert\mathrm{Ih}_N(G_F)\rvert$ ⟹ 循環 | **不変・PASS**(F95-3.2) |
+| **系 B-LIMIT-a** | 「経路 B を第二系統と呼んでよいのは $[u_n]_2$ のみ」が **無条件に維持** | ★ **二分割して読む**: ①**2-part 側は無条件に運べる**(B-LIMIT-0a)②**$n$-part 側は現行入力では運べない**(**依存監査**) |
+| **設計判断**(§4.4「経路 B の $n$-part 拡張は行わない」) | 定理に基づく決定 | ★ **依存監査に基づく決定**として維持。**新入力が来たら再監査**する義務が付く |
+
+### 5.1.4 無条件命題へ戻すための条件(復帰条件)
+
+| # | 要件 | 現状 |
+|---|---|---|
+| 1 | 各 $H\le\mathfrak F_0$ を実現する算術モデルの構成 | **道具なし** |
+| 2 | または、異なる $\lvert t(H)\rvert$ を与える**二つの反対モデル**がともに $\mathcal P$ と無矛盾であることの証示 | **道具なし** |
+
+> ⟹ これは実質「**Ihara 像の非決定性の独立証明**」であり、現時点で工房にその道具はない。**【UNKNOWN BL-2】として登録**する(UNKNOWN は一級の結果)。
+
+---
+
+## 5.2 PASS の記録(F95-3.2 / F95-3.1 / P95-3.1)
+
+### 5.2.1 §2′ の各補題(F95-3.2)
+
+| # | 内容 | Sol 判定 | 備考 |
+|---|---|---|---|
+| **B-LIMIT-0** | 枠組みの橋を前提として $\operatorname{ord}([u_n]_2)=\lvert b(\operatorname{Im}\mathrm{Ih}_N)\rvert$、$\operatorname{ord}([u_n]_n)=\lvert t(\operatorname{Im}\mathrm{Ih}_N)\rvert$ | ★ **PASS** | **忠実性なしで正しい** |
+| **B-LIMIT-0a** | $b\equiv1$:(a) $\Phi(\mathfrak F_0)=\operatorname{inn}\langle X^2\rangle$ が二ブロックを保つ (b) $\mathfrak F_0$ 奇位数ゆえ $\operatorname{Hom}(\mathfrak F_0,C_2)=1$ | ★ **PASS** | ⟹ **2-part の自明性は image を知らずに従う** |
+| **B-LIMIT-1** | FAITH 下で $\lvert t(\operatorname{Im})\rvert=\lvert\operatorname{Im}\rvert$ ⟹ 「経路 B が位数 $n$ を示す」= 「Ihara 像の全射性を示す」⟹ **循環** | ★ **PASS(条件付き)** | 独立な迂回路にはならない |
+| **F-a** | passport から $X^2$ が各 $n$-点 block に **regular** に作用 ⟹ $t$ 全射 | ★ **PASS** | 機械確認済($n=3,7,11$) |
+| **還元** | 橋 F-c 相対で $\mathrm{FAITH}\iff\lvert\mathfrak F_0\rvert=n$ | ★ **承認** | **新たな未知量は増えていない**(§2′.5 の読みを Sol が是認) |
+
+### 5.2.2 §4.2.6(C-β)側の判定(F95-3.1 / P95-3.1)— 参考記録
+
+| # | 内容 | Sol 判定 |
+|---|---|---|
+| **C-β-IND′** | 正しい入力を **datum $(n;r_0,r_\infty)$** とし、source/dependency audit と input digest を**正式な独立性条件**に置く修理。「任意の有理関数 $h$」条項の撤回。RUN-ADM/SEP/REJ は**識別力を持つ補助試験**として扱う | ★ **PASS**(F95-3.1) |
+| **DUM-3** $(9;3,-1)$ | 因子 character の span は $\lvert\bar A\rvert=n^2/\gcd(r_0,n)=81/3=27$ ⟹ 無条件の $(\mathbf Z/9)^2$ 構成は**別の群を列挙する**。不合格は列挙前の `KUMMER_RANK_DEFICIENT` へ | ★ **PASS**(実在する fail-open を突く)。既存 $n=7,r_0=1$ の結果は**影響を受けない** |
+| **R1–R7** | signature 一般化・因子行列からの rank 計算・action faithfulness・構造化 reject・cert schema・GAP 独立実装・CTRL の bit-identical regression | ★ **修理仕様として承認**。⚠ **履行 cert ではない** — 今便の artifact は**設計**。**履行までは一般 C-β runner の DUM-3 fail-open は OPEN** (P95-3.1) |
+
+---
+
+## 5.3 cert 欄の差し替え(**§2′.7 を置換**)
+
+```text
+b_limit.grade            = conditional lemma (B-LIMIT-1) + unconditional core (B-LIMIT-0/0a)
+                           + dependency audit (B-LIMIT-2', downgraded per Sol W95-3.1, ben 95)
+b_limit.hypothesis       = FAITH: translation character t : F_0 -> mu_n is injective
+                           (equivalently: the special fibre is a faithful C_n-torsor)
+b_limit.hypothesis_source= F-a (passport, machine-checked n=3,7,11) + F-b ((W2)-fam, CANDIDATE)
+                           + F-c (bridge B-4c/B-5, framework TB1-TB4, not machine-checkable)
+b_limit.unconditional    = B-LIMIT-0  : ord([u]_2)=|b(Im)| , ord([u]_n)=|t(Im)|
+                           B-LIMIT-0a : b == 1 on ALL of F_0  => 2-part is image-independent
+b_limit.conditional      = B-LIMIT-1  : under FAITH, ord([u]_n) = |Ih_N(G_F)|  => circular
+b_limit.dependency_audit = B-LIMIT-2' : with the CURRENTLY ENUMERATED path-B inputs, H = Im Ih_N
+                           is undetermined and |t(H)| cannot be computed; hence the CURRENT
+                           route B is not a second system for the n-part.
+                           RE-AUDIT REQUIRED if new arithmetic image/quotient inputs are added.
+b_limit.NOT_claimed      = "no conceivable route B can determine the n-part" (unconditional
+                           structural theorem) -- EXPLICITLY OUT OF SCOPE (Sol W95-3.1)
+b_limit.design_conclusion= path B is NOT used for the n-part; this is a DEPENDENCY-AUDIT based
+                           decision (NOT an impossibility theorem). 2-part remains unconditional
+                           via B-LIMIT-0a.
+b_limit.errata           = docs/notes/u7_fire_log_v1_addendum_grade.md Addendum 5 Sec 5.1
+                           (supersedes the unconditional reading of B-LIMIT-2 in Sec 2'.4)
+```
+
+> **旧 cert 欄との差分**: `b_limit.unconditional` から **B-LIMIT-2 の行を削除**し、`b_limit.dependency_audit` を**新設**。`b_limit.NOT_claimed` を**新設**(過大読解の予防)。`b_limit.design_conclusion` の「holds unconditionally」を撤回。
+
+---
+
+## 5.4 ★ C-β 最終 cert の参照格(F95-4.4 の履行)
+
+### 5.4.1 事実
+
+- `search/certs/u7_cbeta_final_20260801.json` の SHA-256 = **`57e26d7d7650d2800e138bb694fabdf1f771bf6c3ff785cf06bd714f017c7843`**(機械再計算値・便 95 指定の `57e26d…` と一致)。
+- 三窓 cross-table 等の既存結果を指す **original cert として保持してよい**(F95-4.4)。
+- ★ ただし同 cert の **`c_beta_ind_dummy_h_selfcheck` は、裁定 319(便 94 W94-2.1)と C-β-IND′(追記 4 §4.2.6.6)により、独立性の根拠から失効している。**
+
+### 5.4.2 指定(**CV-10 有効出所連鎖**)
+
+> **この cert を引用する側は、cert 単独で止めてはならない。** 次を**必ず併記**する:
+
+```jsonc
+"effective_source_chain": [
+  { "role": "original",
+    "path": "search/certs/u7_cbeta_final_20260801.json",
+    "digest": "57e26d7d7650d2800e138bb694fabdf1f771bf6c3ff785cf06bd714f017c7843" },
+  { "role": "erratum",
+    "path": "docs/notes/u7_fire_log_v1_addendum_grade.md  (追記 4 §4.2.6.9)",
+    "scope": "c_beta_ind_dummy_h_selfcheck = RETRACTED_AS_EVIDENCE (識別力ゼロ・裁定 319 / W94-2.1)" },
+  { "role": "erratum",
+    "path": "docs/notes/u7_fire_log_v1_addendum_grade.md  (追記 5 §5.4 — 本節)",
+    "scope": "参照格の確定(便 95 F95-4.4)。cert 単独引用の禁止・生存主張の範囲の明示" }
+],
+"effective_source": "docs/notes/u7_fire_log_v1_addendum_grade.md 追記 5 §5.4"
+```
+
+> **digest の申告**: 上の cert digest は**機械再計算値**(machine-piped 規律)。**本追記自身の digest は自己参照になるため本文には書けない** — commit 時点の値を司令塔が LEDGER に採録する。
+
+### 5.4.3 何が失効し、何が生き残るか(**過大にも過小にも読まないために**)
+
+| 対象 | 判定 |
+|---|---|
+| `c_beta_ind_dummy_h_selfcheck` の 2 run | ★ **証拠として失効**。**記録(RECORD)としては保持**する(履歴を消さない) |
+| C-β の**独立性の根拠** | ★ **source/dependency audit(F94-2.1)= C-β-IND′ (I)** に依る。dummy 試験はもともと補助にすぎず、**識別力ゼロだった** |
+| **主結果** | ★ **不変** — 段 3′-a/b/c、S1–S9、**$3\times3$ 恒等交差表**は影響を受けない(裁定 313/314、および族版は M2-GEO・裁定 328) |
+| **cert の他の欄** | 不変(書き換えない) |
+
+---
+
+## 5.5 FINDING(本追記の分)
+
+| # | 格 | 内容 |
+|---|---|---|
+| **BL5-DOWN** | ⚠ **格下げ(自認・W95-3.1 受諾)** | **B-LIMIT-2 は無条件命題ではない** — 私が示したのは**構文的な不在**であって**意味論的な無矛盾性**ではない。**依存監査 B-LIMIT-2′** へ置換。「どの route B も原理的に不可能」への拡張は**明文で禁止** |
+| **BL5-GAP** | ⚠ **申告の粒度の誤り** | §2′.4 の【GAP】は「入力列挙は目視」までしか申告せず、**列挙が完全でも残る飛躍**を捕まえていなかった。⟹ **【GAP】は「何を列挙し損ねうるか」だけでなく「列挙が完全でも残る推論の飛躍」も書く** |
+| **BL5-KEEP** | ★ **無条件部は無傷** | **B-LIMIT-0 / 0a** は PASS。⟹ **2-part は像を知らずに決まる**($b\equiv1$ が ambient 群全体で成立)。**設計判断も維持**(ただし根拠が定理から依存監査へ) |
+| **BL5-REAUDIT** | ★ **新しい義務** | 依存監査は**入力が増えたら再監査**する義務を伴う。**新たな arithmetic image/quotient 入力**(= 像を制約する算術的入力)が来たら、B-LIMIT-2′ を**再導出**すること |
+| **BL5-UNK** | **UNKNOWN 登録** | **【UNKNOWN BL-2】**: 「route B の入力が $\operatorname{ord}([u_n]_n)$ を決定しない」の**無条件版**は未証明。復帰には各 $H$ の実現モデル(または二つの反対モデル)が要る = 実質「Ihara 像の非決定性の独立証明」 |
+| **BL5-CERT** | ★ **参照格の確定(F95-4.4)** | `u7_cbeta_final_20260801.json`(SHA-256 `57e26d7d…`)は original として保持可。**`c_beta_ind_dummy_h_selfcheck` は失効**。⟹ **CV-10 連鎖に追記 4 §4.2.6.9 と本節を erratum として必ず併記**。主結果(恒等交差表等)は不変 |
+| **BL5-CB** | **参考記録** | C-β-IND′ / DUM-3 = **PASS**(F95-3.1)。R1–R7 = **修理仕様として承認**だが**履行 cert ではない** ⟹ 一般 C-β runner の **DUM-3 fail-open は OPEN**(P95-3.1) |
+
+---
+
+## 5.6 Sol への申し送り(便 96)
+
+- **監査点 A**: **§5.1.2 の置換文をそのまま条文にした**こと。原文の "route-B の式" を「現在列挙された経路 B の入力($\mathcal P$)」と読んでよいか(§2′.4 の $\mathcal P$ = (W2)・系 B-4c・補題 B-5・$\Phi(\mathfrak F_0)=\operatorname{inn}\langle X^2\rangle$・(W2)-fam の 5 本を指す、という同定でよいか)。
+- **監査点 B**: **§5.1.3 の系 B-LIMIT-a の二分割**。「2-part 側は無条件(B-LIMIT-0a)/ $n$-part 側は依存監査」という切り分けで、旧 §2 の系 B-LIMIT-a(「経路 B は $[u_n]_2$ についてのみ第二系統」)の**実質は保存されている**と読んだが、格の表示として適切か。
+- **監査点 C**: **§5.1.4 の復帰条件**。「二つの反対モデル」を作ることは、実質 Ihara 像の非決定性の独立証明であり、**現在の工房の道具では届かない**と判断して UNKNOWN 登録した。この判断が過度に悲観的でないか(たとえば $\mathfrak F_0$ の**部分群の実現**を有限段の GT-shadow の言葉だけで論じる道があるか)。
+- **監査点 D**: **§5.3 の cert 欄**。`b_limit.NOT_claimed` という**否定欄**を新設したが、これは CV 台帳の schema に載せる価値のある一般則か(「主張していないこと」を cert に明示的に書く欄 — 過大読解の予防として他の cert にも効くと考えた)。

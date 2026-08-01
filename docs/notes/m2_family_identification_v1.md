@@ -2,6 +2,21 @@
 
 **状態札: `theorem(紙・$n$ 一様)+ 有限機械 spot-check($n\in\{3,7,9,11,13\}$)/ 単系統(python のみ・cross-checked ではない)/ Lean 検証ではない / SURJ は結論しない / K^{(5)} 非接触`**
 
+> ### ⚠ 冒頭注記(2026-08-01・便 95 検収 = 裁定 344・**追記 E(本稿末尾)による更新**)【CV-10 誘導】
+> 上の状態札は **v1 起草時**(GAP cert 発行前・便 95 監査前)のものであり、**書き換えない**。**現在有効な格**は次のとおり:
+>
+> | 対象 | 現格(2026-08-01 時点) |
+> |---|---|
+> | §1–§7(M2-NF / NIE / GEO / UNIQ / AUT-n) | 紙は $n$ 一様の **theorem**(便 95 **F95-1.1 / F95-1.2** で PASS) |
+> | §9 の有限 spot-check(交差表・三つ組数・軌道) | ★ **cross-checked**($n\in\{3,7,9,11,13\}$)— GAP 独立実装が python と数値完全一致(裁定 329・cert `search/certs/m2_crosstable_gap_20260801.json` / SHA-256 `414c78e4db4ec607182de97befe21f137f5826f88ff7c6bd7138725928e70668`)。**紙の定理の根拠ではなく、その予言の spot-check** である点は不変 |
+> | §D(M2-DESC) | 結論 **PASS**。ただし**主証明は差し替わった** — 便 95 **F95-1.4** の「BCL 不要の $\mathbf Q(i)/\mathbf Q$ 直接降下」が主証明(**追記 E.2**)、§D.3 の BCL 経路は**参考(第二経路)**へ降格 |
+> | §D.7 の spot-check | **python 単系統のまま**(cross-checked ではない) |
+> | 撤回 | 「$\mathrm{Aut}=1$ だから marked 版も同じ」= **撤回**(追記 **E.4**)。mere cover と $F_n$ 上の明示 source-map には影響しない |
+> | 必須修文 | $\alpha$ の型 / $m$ の型 / D.3 段 3「一意」/ D.4 の $\Theta^*W_0$ = **追記 E.1** |
+> | Lean / SURJ / $K^{(5)}$ | **Lean 検証ではない**・**SURJ は結論しない**・**$K^{(5)}$ 非接触** — いずれも不変 |
+>
+> ⟹ **有効出所 = 本稿 + 追記 E**。**§8 と §D の本文だけを引用しないこと**(CV-10)。
+
 - 起草: 影工房 数学者(Claude / Opus 5)/ 2026-08-01・**新設 v1**
 - 委嘱: 司令塔(FAM-U 専任)「**(M2)** 標準モデル(塔 $y^n=h(k)$・$\lambda=\gamma m^2$)が各奇数 $n$ の窓 $K^{(n)}$ の算術被覆であることを **$n$ 一様に**証明せよ」(攻め筋 = C-β 段 3′ の一般化・裁定 308〜314)
 - 入力正本: `docs/notes/u7_fire_log_v1_addendum_grade.md` §4.2.3〜4.2.5(C-β 段 3′)、`docs/notes/fam_u_v1.md` §2.1・§3.2((M1)–(M4))、`docs/notes/oddH_full_proof_v1.md` 補題 A/G/H/I・命題 ODD-P、`docs/notes/u7_twist_determination_v1.md`・同 `_addendum_d3.md`、`docs/notes/conventions_ledger_v1.md`(CV-1〜9)
@@ -661,3 +676,271 @@ $$\textbf{(M2)}\ \textbf{は閉じた。}$$
 - **監査点 H**: (T1) の有効性。**有限射の降下を $f_*\mathcal O_W$ の準連接層降下で片付けた**が、これで $\mathbf P^1_{\mathbf Q}$ 上の**被覆として**の $\mathbf Q$-モデルが得られる、という読みでよいか(代数構造の降下 ⟹ $\mathrm{Spec}$ を取って被覆を復元)。
 - **監査点 I**: §D.5.2 の (M4) 観察。SPLIT に依存させたことが格の過大表示になっていないか。$[u_n]_2$ が**モデル・一様化元に相対的**な量である(TW-14)ことと、$[\gamma]$ が**被覆の不変量**であることの間に段差がないか。
 - **監査点 J**: 「被覆は $\mathbf Q$ 上・測定は $F_n$ で」の分離(§D.6 言えないこと 1)。FAM-U の言明に修正が要るか(私は**不要**と読んだ — FAM-U は $[u_{n,\alpha}]_{2n}\in F_n^\times/F_n^{\times2n}$ を主張しており、被覆の定義体には言及していない)。
+
+---
+---
+
+# 追記 E(2026-08-01・便 95 修文波)— **M2-DESC の主証明差し替え**と必須修文 5 点・marked 主張の撤回
+
+> **位置づけ**: §D への**追補**であり、**§1〜§11 と §D の本文は書き換えない**(CV-10 erratum 方式)。抵触する箇所は**本追記が優先**する。冒頭状態札の更新は**本稿冒頭の注記ブロック**として実施済(W95-1.1(5) の履行・下 §E.1.5)。
+> **委嘱**: 司令塔(便 95 M2 修文波・**裁定 344**)
+> **入力正本**: `sol/sol_reply_95_math22.md`(SHA-256 `de88488fbf21c42e9c3adf52c4689a84a8854ff24012b125b3a0229fcaeba7e9`)§1 = **F95-1.1〜F95-1.7 / W95-1.1 / W95-1.2 / P95-1.1**
+> **検算**: 本追記 §E.2 の逐段検算表(手計算・すべて 1 行の代数;$n$ 奇と $\epsilon^2=1$ のみを使う)
+
+---
+
+## E.0 判定(先に 6 行)
+
+| # | 問い | 判定 |
+|---|---|---|
+| **①** | W95-1.1 の 5 点は受諾か | ★ **全面受諾**。(a) $\alpha$ の型、(b) $m$ の型、(c) D.3 段 3 の「一意」、(d) $\Theta^*W_0$ の型、(e) 状態札 — **いずれも私の記述側の欠陥**であり、結論は倒れない(§E.1) |
+| **②** | M2-DESC の主証明は何になるか | ★★ **差し替え**。便 95 **F95-1.4** の $\mathbf Q(i)/\mathbf Q$ 直接降下を**主証明**に昇格(§E.2)。**§D.3 の BCL 経路は参考(第二経路)**へ降格 |
+| **③** | 差し替えで何が良くなるか | ★ **反証の急所が移動した**。旧: 外部一般論 (T2)(BCL)の正確な形。新: **二次拡大の明示同型 2 本**($A,B$)— これは**自前で全段検算できる**(§E.2 の検算表)。⟹ MD-STRONG(強すぎる結論の申告)の危険面が縮む |
+| **④** | marked 主張 | ★ **撤回**(§E.4)。「$\mathrm{Aut}=1$ だから marked 版も同じ」は一般に偽。**mere cover と $F_n$ 上の明示 source-map には無影響**ゆえ (M2) の閉鎖は不変 |
+| **⑤** | 【文献要請 M2-2】 | ★ **消費**(F95-1.3 が引用先と仮定の正確形を供給)。ただし**引用形の受領**であって原著の原文照合ではない(§E.3 末の申告) |
+| **★** | (M2) 全体 | ★★ **閉鎖は維持**。(M2) = M2-GEO + M2-UNIQ + M2-DESC、三つとも定理。本追記は**証明の入れ替えと型の修理**であって、結論の変更ではない |
+
+---
+
+## E.1 必須修文 5 点(W95-1.1 の履行)
+
+### E.1.1 (a) $\alpha$ の型 — 模型指数 $\widetilde\alpha\in\mathbf Z$ と窓 label $\alpha=\widetilde\alpha\bmod n$ の分離
+
+**欠陥**: §D.3 の定理 M2-DESC の言明は「$\alpha\in(\mathbf Z/n)^\times$」と量化しながら、証明(§D.4)で $\epsilon=(-1)^{\alpha+1}$ という**整数指数の冪**を計算している。$(\mathbf Z/n)^\times$ の元に $(-1)^{(\cdot)}$ は well-defined でない($n$ 奇ゆえ $\alpha$ と $\alpha+n$ は parity が異なる)。これは追補 `fam_u_v1_addendum_f94.md` §1(**FU-TYPE**・便 94 W94-3.1)で既に指摘・修理された型不正と**同型の欠陥**であり、本稿では未修理のまま残っていた。
+
+**修文(以後この読みが正)**:
+
+> **定理 M2-DESC(型修正版)**: $n\ge3$ 奇、**$\widetilde\alpha\in\mathbf Z$ で $\gcd(\widetilde\alpha,n)=1$**、$\alpha:=[\widetilde\alpha]\in(\mathbf Z/n)^\times$ とする。mere cover $\mathcal C_{\widetilde\alpha}:W_0\to\mathbf P^1_\lambda$ について (1)(2)(3) が成り立つ。
+
+**なぜ結論が動かないか**(自前・2 行):
+1. $\epsilon:=(-1)^{\widetilde\alpha+1}\in\{\pm1\}$ は $\widetilde\alpha$ の parity に依存するが、§E.2 の同型 $A$ は $\epsilon$ の**どちらの値でも**成り立つ($\epsilon^2=1$ しか使わない)。
+2. 持上げの取り替え $\widetilde\alpha\mapsto\widetilde\alpha+n$ は**被覆の同型**を与える(**補題 LIFT**・追補 f94 §1.3・便 95 **F95-1.7** で PASS)。ゆえに $\mathcal C_{\widetilde\alpha}$ の同型類・moduli 体・定義体は $\alpha$ 水準の量である。
+
+⟹ **§D 全体で「$\alpha$」と書かれた箇所のうち、$(-1)^{(\cdot)}$ の指数に立つものは $\widetilde\alpha$ と読む**(§D.4 の $\epsilon$、§D.5.2 の $u_{n,\widetilde\alpha}=4(-1)^{\widetilde\alpha}$)。**窓の label・不変量 $\rho=[\alpha]$ として現れるものは $\alpha$ のまま**(§D.3 段 4 の $\rho(T)=[\alpha]$)。
+
+### E.1.2 (b) $m$ の型 — $\bar m:=\chi(\tau)\bmod 2n\in(\mathbf Z/2n)^\times$
+
+**欠陥**: §D.1 (T2) と §D.3 段 1 で $m:=\chi(\tau)\in\widehat{\mathbf Z}^\times$ と置き、それを $g^{\,m}$ の**整数指数**として使っている。$\widehat{\mathbf Z}^\times$ の元は整数ではないので型不正。
+
+**修文**:
+
+$$\boxed{\ \bar m:=\chi(\tau)\bmod 2n\ \in(\mathbf Z/2n)^\times\ }\qquad\text{その\textbf{任意の}整数代表 }m\in\mathbf Z\text{ を補題 POW に入れる。}$$
+
+**代表非依存の根拠(自前・3 行)**:
+1. 還元 $\widehat{\mathbf Z}^\times\twoheadrightarrow(\mathbf Z/2n)^\times$ は全射なので、任意の $\tau$ に対し $\bar m$ は定まる。
+2. 補題 LOC より $g_0,g_\infty$ は**位数 $2n$**、$g_1$ は**対合**。ゆえに $g_i^{\,m}$ は $m\bmod 2n$($g_1$ については $m\bmod2$)にのみ依存する。
+3. $\gcd(m,2n)=1\Rightarrow m$ は**自動的に奇数**。ゆえに補題 POW の仮定「$m$ 奇」は、$\bar m$ のどの整数代表を取っても満たされる。
+
+⟹ **補題 POW(§D.2)の言明そのものは修正不要**(「$m$ を奇数とする」のまま正しい)。修理が要るのは **(T2) と段 1 の型宣言**だけである。
+
+### E.1.3 (c) §D.3 段 3 の「$T^\tau$ が一意に定まる」は削除
+
+**欠陥**: 段 3 は「$\mathcal T^{\rm cl}(2m,2m\alpha)$ は単一 $\Gamma_n$-軌道 ⟹ **$T^\tau$ はこの軌道の元として一意に定まる**」と書いている。**軌道は $4n^2$ 個の元をもつ**(定理 NIE(4))ので、文字どおりには偽である。
+
+**修文**: 段 3 の結論を
+
+> $2m,\ 2m\alpha\in(\mathbf Z/n)^\times$ ゆえ $\mathcal T^{\rm cl}(2m,2m\alpha)$ は空でない**単一の $\Gamma_n$-軌道**であり、$T^\tau$ は**この軌道に属する**。
+
+に置き換える。**段 4 が使うのはこれだけ**である($\rho$ は軌道上定数なので、軌道への所属から $\rho(T^\tau)=[2m\alpha/2m]=[\alpha]$ が読める)。⟹ **論証への影響なし**。
+
+### E.1.4 (d) §D.4 の $\Theta^*W_0$ の型
+
+**欠陥**: $W_0$ は $\mathbf P^1_\lambda$ 上の対象であり、$\Theta=\theta:k\mapsto1/k$ は $\mathbf P^1_k$ の自己同型である。「$\Theta^*W_0$」はどちらの底に沿った pullback かが**書かれていない**。
+
+**修文**: **$\mathbf P^1_k$ 上で先に**
+
+$$\bigl(\theta^*\widetilde W_0,\ \theta^*\iota\bigr),\qquad \theta^*\widetilde W_0:\ y^n=h^\theta(k),\qquad \theta^*\iota:(k,y)\mapsto(-k,1/y)$$
+
+を定義し、**その商 $\theta^*\widetilde W_0/\langle\theta^*\iota\rangle$ を取って $\mathbf P^1_\lambda$ 上へ降ろす**(§E.2 の $A,B$ がこの型で書かれている)。
+
+> **註(先取りの禁止)**: $\theta$ は $\mathbf P^1_\lambda$ 上恒等(補題 V4)なので「$\mathbf P^1_\lambda$ 上の対象としては $\theta^*W_0=W_0$」と書きたくなるが、**それは示すべき結論の一部**である。記法で先取りしてはならない — 型を書き下せばこの誘惑は消える(これが W95-1.1(4) の実質)。
+
+### E.1.5 (e) 冒頭状態札の更新【実施済】
+
+**W95-1.1(5) の指摘**: 冒頭状態札は「単系統(python のみ・cross-checked ではない)」と書く一方、後発の GAP cert(裁定 329)が加わっている。
+
+**履行**: 歴史本文(状態札の行)は**書き換えず**、その直後に**冒頭注記ブロック**(CV-10 の「旧正本の冒頭に後継への誘導を置く」)を新設した。内容 = ①有限 instances の現格(§9 は **cross-checked**・§D.7 は **単系統**)②主証明の差し替え ③撤回 ④本追記への誘導。cert digest は機械計算値を記載(machine-piped 規律)。
+
+---
+
+## E.2 ★ 定理 M2-DESC の**主証明**(便 95 F95-1.4・BCL 不要の $\mathbf Q(i)/\mathbf Q$ 直接降下)
+
+> ### 位置づけ(格の宣言)
+> 以下は **Sol(外部数学者)が便 95 F95-1.4 で供給した補正証明**であり、**本追記をもって定理 M2-DESC の主証明とする**。§D.3(BCL 経路)は**撤回しない** — 入力の交わらない**参考の第二経路**として保持する(§E.5 の対応表)。
+
+**設定**($\widetilde\alpha\in\mathbf Z$・型は §E.1.1):
+
+$$\widetilde W_{\widetilde\alpha}:\ y^n=h_{\widetilde\alpha}(k),\qquad \iota(k,y)=(-k,y^{-1}),\qquad W_0=\widetilde W_{\widetilde\alpha}/\langle\iota\rangle$$
+
+は **$\mathbf Q(i)$ 上の明示形**である。したがって $G_{\mathbf Q}$ の作用のうち調べるべきは $\mathrm{Gal}(\mathbf Q(i)/\mathbf Q)=\{1,c\}$ **だけ**である。
+
+$\theta(k)=1/k$、$\epsilon:=(-1)^{\widetilde\alpha+1}$ と置く。本稿 §D.4 の恒等式
+
+$${}^ch=\epsilon\,h^\theta,\qquad\text{従って}\qquad h^\theta=\epsilon\,{}^ch$$
+
+の下で、次の**二つの同型を型どおりに**書く:
+
+$$A:\bigl(\theta^*\widetilde W_0,\ \theta^*\iota\bigr)\longrightarrow\bigl({}^c\widetilde W_0,\ {}^c\iota\bigr),\qquad (k,y)\longmapsto(k,\ \epsilon y),$$
+$$B:\bigl(\theta^*\widetilde W_0,\ \theta^*\iota\bigr)\longrightarrow\bigl(\widetilde W_0,\ \iota\bigr),\qquad (k,y)\longmapsto(1/k,\ y).$$
+
+**$A$ が方程式を保つ**のは $(\epsilon y)^n=\epsilon y^n=\epsilon^2\,{}^ch={}^ch$($n$ 奇ゆえ $\epsilon^n=\epsilon$、$\epsilon^2=1$)による。**$B$ は pullback の定義そのもの**であり、$\lambda(1/k)=\lambda(k)$ ゆえ $\mathbf P^1_\lambda$ 上の同型である。さらに $\theta(-k)=-\theta(k)$ と $\epsilon^{-1}=\epsilon$ により、**どちらも各 involution と可換**する。商を取って
+
+$$\boxed{\ {}^cW_0\ \cong\ W_0\qquad(\mathbf P^1_\lambda\ \text{上})\ }$$
+
+を得る。$G_{\mathbf Q(i)}$ は係数を固定するから ${}^\tau W_0=W_0$($\tau\in G_{\mathbf Q(i)}$)、残る複素共役も上の同型で固定する。$G_{\mathbf Q}=G_{\mathbf Q(i)}\sqcup c\,G_{\mathbf Q(i)}$ ゆえ **mere cover の安定化群は $G_{\mathbf Q}$ 全体**、すなわち **FoM $=\mathbf Q$**。最後に $\mathrm{Aut}=1$(§7 AUT-n)なので共役同型は一意で cocycle 条件を自動的に満たす。**有限射**(同値に有限 $\mathcal O$-代数)の **fpqc 降下は有効**だから $\mathbf Q$-model が存在する。∎
+
+### E.2.1 逐段検算(工房数学者による独立確認・手計算)
+
+**規律の申告**: 外部から降りた証明を**そのまま格上げしない** — 各段を自分で潰した。以下はすべて 1 行の代数で、$n$ 奇と $\epsilon^2=1$ 以外の入力を使わない。
+
+| # | 検算項目 | 計算 | 判定 |
+|---|---|---|---|
+| 1 | ${}^ch=h^{-1}g^{2\widetilde\alpha}$ | 係数の共役 $i\mapsto-i$ で $\frac{(k-i)(k+1)^{\widetilde\alpha}}{(k+i)(k-1)^{\widetilde\alpha}}\mapsto\frac{(k+i)(k+1)^{\widetilde\alpha}}{(k-i)(k-1)^{\widetilde\alpha}}$ | ✓ |
+| 2 | ${}^ch=\epsilon h^\theta$ | 補題 TRF の $h^\theta=(-1)^{\widetilde\alpha+1}h^{-1}g^{2\widetilde\alpha}=\epsilon\cdot{}^ch$、$\epsilon^2=1$ で両辺に $\epsilon$ | ✓ |
+| 3 | $A$ が方程式を保つ | $y^n=h^\theta=\epsilon\,{}^ch\Rightarrow(\epsilon y)^n=\epsilon^n y^n=\epsilon\cdot\epsilon\,{}^ch={}^ch$($n$ 奇) | ✓ |
+| 4 | $\lambda(1/k)=\lambda(k)$ | $m_0(1/k)=\frac{1+k^{-2}}{1-k^{-2}}=\frac{k^2+1}{k^2-1}=-m_0(k)$、$\lambda=m_0^2$ | ✓ |
+| 5 | $\theta^*\iota$ の形が $(k,y)\mapsto(-k,1/y)$ | $\theta\sigma=\sigma\theta$($\theta(-k)=-1/k=\sigma\theta(k)$)。整合には $h^\theta(-k)=h^\theta(k)^{-1}$ が要り、$(h^\theta)^\sigma=(h^\sigma)^\theta=(h^{-1})^\theta=(h^\theta)^{-1}$ | ✓ |
+| 6 | $A$ が involution と可換 | $A(\theta^*\iota(k,y))=A(-k,1/y)=(-k,\epsilon/y)$;${}^c\iota(A(k,y))={}^c\iota(k,\epsilon y)=(-k,1/(\epsilon y))=(-k,\epsilon/y)$($\epsilon^{-1}=\epsilon$) | ✓ |
+| 7 | $B$ が involution と可換 | $B(\theta^*\iota(k,y))=B(-k,1/y)=(-1/k,1/y)$;$\iota(B(k,y))=\iota(1/k,y)=(-1/k,1/y)$ | ✓ |
+| 8 | 合成の型 | $A\circ B^{-1}:W_0\to{}^cW_0$。$B$ は $\theta$ を覆い($\mathbf P^1_k$ 上ではない)、$\theta$ は $\mathbf P^1_\lambda$ 上恒等(補題 V4)。$A$ は $\mathbf P^1_k$ 上。⟹ 合成は **$\mathbf P^1_\lambda$ 上の同型** | ✓ |
+| 9 | 安定化群 $=G_{\mathbf Q}$ | 模型の係数は $\mathbf Q(i)$ にある(§2.1)。$\tau=c\tau'$($\tau'\in G_{\mathbf Q(i)}$)なら ${}^\tau W_0={}^c({}^{\tau'}W_0)={}^cW_0\cong W_0$ | ✓ |
+| 10 | $\epsilon$ の依存性 | 証明中 $\epsilon$ については $\epsilon^n=\epsilon$($n$ 奇)と $\epsilon^2=1$ しか使わない ⟹ **$\widetilde\alpha$ の parity に依らず成立**(§E.1.1 の型修正と整合) | ✓ |
+
+**⟹ 全 10 項目 PASS。私は Sol の補正証明に穴を見つけられなかった。**
+
+### E.2.2 何が構造的に良くなったか
+
+| 観点 | 旧(§D.3・BCL 経路) | 新(本節・直接降下) |
+|---|---|---|
+| **外部入力** | (T1) Weil 降下 + (T2) **BCL**(引用の型が未確定 = 【文献要請 M2-2】) | (T1) Weil 降下 + **fpqc 降下**のみ。**BCL 不要** |
+| **反証の急所** | (T2) の正確な形(外部・自前検算不能) | **明示同型 $A,B$**(§E.2.1 で全段自前検算済) |
+| **使う自前定理** | §3–§6 の $\Gamma_n$ 組合せ論(NIE・POW・$\rho$) | **使わない**(補題 TRF と補題 V4 のみ) |
+| **Galois 元** | 全 $\tau\in G_{\mathbf Q}$(慣性の $\chi$ 乗) | **非自明な 1 個($c$)だけ** |
+| **$n$ 一様性** | 一様 | 一様(**$n$ 奇のみ**) |
+
+> ### ★ 二経路であることの意味(用語の規律)
+> §D.3(BCL 経路)と §E.2(直接降下)は**入力が交わらない**($\Gamma_n$ の組合せ論を使う/使わない、BCL を使う/使わない)。両者が同じ結論 FoM $=\mathbf Q$ に達したことは、**紙の独立二経路の一致**である。
+> **⚠ ただし `cross-checked` とは呼ばない** — 工房規律で `cross-checked` は**二実装の機械一致**に、`verified` は **Lean** に予約されている。ここは**紙の二経路**である。
+
+### E.2.3 MD-STRONG(強すぎる結論の申告)の現状
+
+結論「$\varphi(n)/2$ 個の mere cover がすべて $\mathbf Q$ 上定義される」は依然として工房の従来想定より強い。**申告は維持**する。ただし危険面は次のとおり縮んだ:
+
+- 旧: 外部一般論 (T2) の形が違えば倒れうる ⟹ **自前で潰せない**。
+- 新: 倒れるとすれば $A$ か $B$ の初等的な誤り ⟹ **§E.2.1 の 10 項目に集約**し、全て潰した。
+- 残る外部依存は **(T1) Weil 降下 + 有限射の fpqc 降下**のみ(F95-1.4 末尾で Sol が明示的に肯定 ⟹ **§D.9 監査点 H は解消**)。
+
+---
+
+## E.3 BCL の逐条裁定(F95-1.3)と【文献要請 M2-2】の消費
+
+主証明が BCL 非依存になったので、以下は**参考経路 §D.3 の正当化**として記録する(§D.9 監査点 F への直接回答を含む)。
+
+| # | §D.8【文献要請 M2-2】の問い | 便 95 F95-1.3 の回答 |
+|---|---|---|
+| 1 | **mere cover(G-cover でない)でよいか** | ★ **YES**。非 Galois の degree $d$ mere cover を幾何 monodromy $G\le S_d$ の **absolute Nielsen class** として扱い、**$S_d$ 内の同時共役**として使う |
+| 2 | **接ベクトル基点が要るか** | ★ **粗形には不要**。局所慣性の「元」を正準に選ぶ精密式には要るが、今回使う**共役類の粗形**には不要。基点・path の変更は各慣性元への共役として吸収される |
+| 3 | **分岐点の置換項** | ★ **恒等**。一般には $z_i\mapsto\tau z_i$ が同じ Galois 軌道の分岐点を置換するが、本件の $0,1,\infty$ は**個別に $\mathbf Q$-有理**ゆえ置換は恒等 |
+| 4 | **三成分の共役元を独立に取ってよいか**(= 監査点 F) | ★ **YES**。BCL が与えるのは**各成分の局所共役類**であり、path correction は成分ごとに異なり得る。一方 $T^\tau$ は**実在する共役 cover の branch tuple** なので product-one と生成条件を**既に**満たす ⟹ 「各成分が指定共役類に属する」ことだけで $\mathcal T^{\rm cl}$ へ入れられる |
+
+> ### ⚠ 自認(監査点 F の私の読みは結論だけ当たっていた)
+> §D.9 で私は「取れなくても $\eta,\delta$ は各成分から読むので問題ない」と書いた。結論は正しかったが、**理由が弱い** — 各成分から不変量を読めることは、三つ組が $\mathcal T^{\rm cl}$(product-one と生成条件を含む集合)に入ることを保証しない。**正しい理由は「$T^\tau$ が実在の被覆の branch tuple だから product-one と生成条件は既に成立している」**である(F95-1.3(4))。**充足しているのは仮定であって、私が示したのは必要条件の一部にすぎなかった。**
+
+**引用形**(便 95 F95-1.3 供給・BCL の粗形に対する標準引用先):
+
+- M. D. Fried, *Fields of Definition of Function Fields and Hurwitz Families — Groups as Galois Groups*, Comm. Algebra **5** (1977), 17–82、**Thm. 5.1**(Branch Cycle Argument・非 Galois / absolute 版を含む)。
+- H. Völklein, *Groups as Galois Groups*, **Lemma 2.8**, p. 34。
+- 再掲: Fried, *Finite Fields Appl.* **11** (2005), **Appendix A.1 / B.1**。
+
+**左右規約**: 版によって指数が $\chi(\tau)^{-1}$ と書かれるが、本件の不変量は**比** $\rho=[\delta/\eta]$ なのでどちらでも同じ結論(F95-1.3)。⟹ CV-6(反準同型・左右規約)の観点でも安全側。
+
+> ### ⚠ 文献ゲートの申告(重要)
+> 【文献要請 M2-2】は**消費**したが、これは **Sol が便で降ろした引用形の受領**であって、**工房は原著を読んでいない**。すなわち「引用先が確定した」であり「原文照合済み」ではない。**原文照合が要る場面**(たとえば Lean 公理化の P95-4.1(1): axiom ごとに原典の exact theorem/頁と PDF 画像照合を束縛する)では、別途 pdftocairo による頁画像照合を要する。
+> **なお主証明は §E.2 に移ったので、BCL は Lean 公理化の対象から外れる**(P95-4.1(6) の Sol 推奨と一致 — 二次拡大の明示同型と有限降下を形式化する方が axiom boundary が小さい)。
+
+---
+
+## E.4 ★ 撤回 — 広い marked 主張(W95-1.1 末)
+
+> ### 撤回文
+> **「$\mathrm{Aut}=1$ だから marked 版も mere 版と同じ」は撤回する。**
+> $\mathrm{Aut}=1$ が消すのは **descent isomorphism の選択肢**であって、**marking 自体の Galois 不変性**ではない。自動的に降りるのは、ここでは **$\mathbf Q$-有理な $0,1,\infty$ の branch label** までである。fiber の基点、sheet labeling、特定の branch-cycle element の選択などの**追加 marking は、Galois 不変性を別に示す必要がある**。$\mathrm{Aut}=1$ は、存在する marking-preserving 同型を**一意にする**だけで、**任意の marking の存在を保証しない**。
+
+### E.4.1 撤回の所在(本文を grep して確認した実在箇所)
+
+| 所在 | 記述 | 処置 |
+|---|---|---|
+| **§D.0 ③行** | 「marked / mere の差 — 本件では差がない。$\mathrm{Aut}=1$ なので marking は rigidification として何も追加せず、marked 降下と mere 降下は同値」 | ★ **撤回** |
+| **§D.6 言えること (3)** | 「marked 版も同じ($\mathrm{Aut}=1$ ゆえ marking は降下に何も足さない)」 | ★ **撤回** |
+| **§D.7** | Sol は「D.7(3)」も撤回対象に挙げたが、**§D.7 は機械 spot-check であり marked 主張を含まない**(本文 grep で確認: `marked`/`marking`/`標識` の出現は §1 規約宣言・§5.1・§6・§8・§D.0・§D.6 のみ) | **該当なし**。代わりに §D.8 **MD-DESC 行**は「**mere cover** についての主張」と読むこと(本追記が注記) |
+
+### E.4.2 無影響の確認(何が生き残るか)
+
+| 対象 | 影響 | 理由 |
+|---|---|---|
+| **定理 M2-GEO(§6)** | **無影響** | 「標識つき $\bar{\mathbf Q}$-被覆として同型」は **$\bar{\mathbf Q}$ 上の幾何的主張**(Nielsen 類の同時共役)であって、降下の主張ではない |
+| **定理 M2-UNIQ(§7)** | **無影響** | $\mathrm{Aut}_{\bar F}=1$ の計算そのもの |
+| **定理 M2-DESC(§D.3 / §E.2)** | **無影響** | **mere cover** についての主張。§E.2 の証明は marking を一切使わない |
+| **FAM-U が要求するもの** | **無影響** | 要求は **mere cover** と **$F_n$ 上の明示 source-map** であり、追加 marking の降下ではない(F95-1.1・W95-1.1 末) |
+| **§10 FINDING の M2-NF / NIE / INV / SEP / AUT** | **無影響** | いずれも $\bar{\mathbf Q}$ 上の群論・組合せ論 |
+
+### E.4.3 新設 UNKNOWN
+
+> **【UNKNOWN M2-MARK】** marking(fiber 基点・sheet labeling・branch-cycle element の選択)込みの降下がどの体上で成り立つかは **未決**。本稿は**主張しない**。必要になった時点で別命題として立て、Galois 不変性を明示的に示すこと。**現在の FAM-U の鎖はこれを要求していない。**
+
+> ### ★教材(便 95 P95-1.1 末の再掲・工房の共有知として)
+> **$\mathrm{Aut}=1$ は「余計な marking は何でも降りる」という定理ではない。** $\mathrm{Aut}=1$ が消すのは **descent isomorphism の選択肢**であり、**marking 自体の Galois 不変性**ではない。
+
+---
+
+## E.5 効力対応表(本文のどの行が、どう読み替わるか)
+
+| 本文の所在 | 旧記述 | 本追記後の読み |
+|---|---|---|
+| **冒頭 状態札** | 「単系統(python のみ・cross-checked ではない)」 | **冒頭注記ブロック**が正:§9 は **cross-checked**(GAP×python)・§D.7 は**単系統** |
+| **§D.1 (T2)** | $m:=\chi(\tau)\in\widehat{\mathbf Z}^\times$ | $\bar m:=\chi(\tau)\bmod2n\in(\mathbf Z/2n)^\times$ の**任意の整数代表**(§E.1.2) |
+| **§D.1 (T2) の位置づけ** | **主証明の外部入力** | ★ **参考経路の外部入力**へ降格(主証明は §E.2・BCL 不要) |
+| **§D.3 言明の量化** | $\alpha\in(\mathbf Z/n)^\times$ | $\widetilde\alpha\in\mathbf Z$、$\gcd(\widetilde\alpha,n)=1$、$\alpha:=[\widetilde\alpha]$(§E.1.1) |
+| **§D.3 段 3** | 「$T^\tau$ が一意に定まる」 | 「$T^\tau$ は**単一軌道に属する**」(軌道は $4n^2$ 元)(§E.1.3) |
+| **§D.3 段 1–5 全体** | **主証明** | ★ **参考(第二経路)**。撤回はしない — 入力が交わらない独立経路として保持(§E.2.2) |
+| **§D.3 末「反証の急所は (T2)」** | (T2) の正確な形 | ★ **明示同型 $A,B$**(§E.2.1 で全段検算済)。(T2) は参考経路の急所として残る |
+| **§D.4** | $\Theta^*W_0$ | $(\theta^*\widetilde W_0,\theta^*\iota)$ を先に書き商へ降ろす(§E.1.4)。**§D.4 の内容自体は §E.2 の $A,B$ に吸収された** |
+| **§D.0 ③ / §D.6(3)** | marked 版も同じ | ★ **撤回**(§E.4) |
+| **§D.8 MD-DESC 行** | — | **mere cover** についての主張と読む(§E.4.1) |
+| **§D.8【文献要請 M2-2】** | 未消費 | ★ **消費**(§E.3)。ただし**引用形の受領**であり原文照合ではない |
+| **§8【文献要請 M2-1】** | §D で消費済 | 不変(消費済) |
+
+---
+
+## E.6 残る UNKNOWN と Sol への申し送り(便 96)
+
+### E.6.1 §D.9 監査点の帰趨
+
+| 監査点 | 便 95 の回答 | 現状 |
+|---|---|---|
+| **F**(三成分の独立共役) | **F95-1.3(4)** で YES(理由は私の読みより強い) | ★ **解消**(§E.3) |
+| **G**(結論の強さ・外部知識と衝突しないか) | **明示回答なし・反例の指摘もなし** | ⚠ **UNKNOWN 継続**。「反例が報告されていない」は「反例がない」ではない。ただし §E.2 により反証の急所が自前検算可能な所へ移った |
+| **H**(有限射の fpqc 降下) | **F95-1.4 末尾**で肯定 | ★ **解消** |
+| **I**((M4) 観察の格) | **F95-1.6** で PASS(依存の向き $\mathrm{M2}\Rightarrow\mathrm{M4}$ を固定・逆向き禁止) | ★ **解消**(M4 は M2 の系) |
+| **J**(被覆 $\mathbf Q$・測定 $F_n$ の分離) | **F95-1.5** で PASS(FAM-U の射程宣言を承認) | ★ **解消** |
+
+### E.6.2 申し送り(便 96)
+
+- **監査点 K(新規・最重要)**: **§E.2.1 の逐段検算表 10 項目**。私は Sol の補正証明を自前で潰したつもりだが、見落としがないか。とくに **8 番(合成の型)** — $B$ が $\mathbf P^1_k$ 上ではなく $\theta$ を覆う射であること、$\theta$ が $\mathbf P^1_\lambda$ 上恒等であること、この二つで「$A\circ B^{-1}$ が $\mathbf P^1_\lambda$ 上の同型」と結論した箇所。
+- **監査点 L(新規)**: **【UNKNOWN M2-MARK】**(§E.4.3)を独立の未決命題として台帳に立てる価値があるか。現在の鎖は要求していないので、**立てずに「要求されていない」と記録するだけ**でよいと私は読んだが、将来 GT 作用(marked triple への $G_{\mathbf Q}$-作用)を使う段が来ると必要になる可能性がある。
+- **監査点 M(継続)**: **監査点 G**(反例の有無)。$n=7$ の 3 個の degree-14 dessin(passport $((14),2^61^2,(14))$・モノドロミー位数 196)が $\mathbf Q$ 上、という主張に心当たりがあれば指摘されたい。**主証明が BCL から独立になった今、反例が出れば $A$ か $B$ の初等的誤りを意味する**ので、判定が鋭くなった。
+
+---
+
+## E.7 FINDING(本追記の分)
+
+| # | 格 | 内容 |
+|---|---|---|
+| **ME-DIRECT** | ★★ **主証明の差し替え(便 95 F95-1.4 供給)** | M2-DESC の主証明を **$\mathbf Q(i)/\mathbf Q$ 直接降下**へ。外部入力は **(T1) Weil 降下 + 有限射の fpqc 降下**のみ、**BCL 不要**。$\Gamma_n$ の組合せ論も使わない ⟹ §D.3 とは**入力の交わらない第二経路**が成立(紙の二経路一致・`cross-checked` とは呼ばない) |
+| **ME-CHECK** | ★ **独立検算(自前)** | §E.2.1 の **10 項目**を手計算で全 PASS。使った入力は「$n$ 奇」と「$\epsilon^2=1$」だけ。**反証の急所が外部文献から自前検算可能な初等代数へ移った** |
+| **ME-TYPE** | ⚠ **自認(型の修正 2 件)** | (a) $\alpha\in(\mathbf Z/n)^\times$ ⟹ $\widetilde\alpha\in\mathbf Z$ + $\alpha=[\widetilde\alpha]$(追補 f94 の **FU-TYPE と同型の欠陥**を本稿で再発していた)。(b) $m\in\widehat{\mathbf Z}^\times$ ⟹ $\bar m\in(\mathbf Z/2n)^\times$ の整数代表。**補題 POW の言明自体は修正不要**($\bar m$ の代表は自動的に奇数) |
+| **ME-ORB** | ⚠ **自認(誤記の削除)** | §D.3 段 3 の「$T^\tau$ が一意」は文字どおり偽(軌道は $4n^2$ 元)。必要なのは**単一軌道への所属**のみ ⟹ 論証に影響なし |
+| **ME-PULL** | ⚠ **自認(記法の型)** | $\Theta^*W_0$ は型が曖昧。$(\theta^*\widetilde W_0,\theta^*\iota)$ を先に書き商へ降ろす。**「$\mathbf P^1_\lambda$ 上なら $\theta^*W_0=W_0$」は結論の先取り** |
+| **ME-MARK** | ★ **撤回** | 「$\mathrm{Aut}=1$ だから marked 版も同じ」を撤回。所在 = §D.0③・§D.6(3)(§D.7 には該当なし)。**mere cover と $F_n$ 上の明示 source-map には無影響**ゆえ (M2) 閉鎖は不変。**【UNKNOWN M2-MARK】**を新設 |
+| **ME-BCL** | **文献要請の消費** | 【文献要請 M2-2】= 消費(F95-1.3 が引用先 4 件と仮定の正確形を供給)。⚠ **引用形の受領であり原文照合ではない**。主証明が BCL 非依存になったため **Lean 公理化の対象からも外れる**(P95-4.1(6) と一致) |
+| **ME-GRADE** | ★ **格の更新** | §9 の有限 spot-check は **cross-checked**(GAP×python・裁定 329)。§D.7 は**単系統のまま**。冒頭注記ブロックが CV-10 の誘導を担う |
