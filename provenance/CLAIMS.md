@@ -90,3 +90,7 @@ E1-1(isolated 族)/E1-2(構造 GT^odd_Dih ≅ Aff(Ẑ^odd)×C₂)/E1-3(odd Conj 
 - 格: **cross-checked**(紙 = 定理 CENT(Sol 採択・erratum pin)× 機械 = SURV 悉皆・hexagon/generation fail 0・eq_centralizer_w0=true 全窓・wall28 は二環境一致)。verified(Lean)ではない。
 - cert(W92-9 修理版・verdict=done 受領): search/certs/wall36_cert_20260731_r2.json = 28879f533f0001970bddb2401ed77e819b1d94179741588f217c943b3e3270fa・search/certs/wall37_cert_20260731_r2.json = aec7d5e1506f029463d1a1843bd8bf0a2f0b6e6e1c11b2c532e2975012aea323(schema 窓別・DRIVER_DONE marker・run 30636849192)。旧 r1 cert は数値照合対象として保存(裁定 279/284)。
 - 注記: gap-ci backend の合格 verdict 文字列は「done」(「passed」は py-ci 専用)— W92-9 の趣旨(fail-closed gate 通過)は verdict=done で充足・便 93 で Sol へ用語注記つき報告。
+
+## C-WALL-FAM 拡張(2026-08-01・裁定 339)— 壁族 6 窓へ
+- 追加 2 窓: **n=40(w₀=(37,1³)・ker χ̃ ≅ C₃₇×S₃・222/222 悉皆)**・**n=45(w₀=(41,1⁴)・ker χ̃ ≅ C₄₁×S₄・984/984 悉皆)** — verdict=done・eq_centralizer_w0=true(全数実行で smoke の truncation 帰結は解消)・凍結予言的中。族 = n∈{24,28,36,37,40,45}・核 = C_ℓ×S_t(t=3..6)・格 = cross-checked(定理 CENT×悉皆)。
+- cert: search/certs/wall40_cert_20260801.json = 57aac58df75879bdbe20f159d3873f5ac0590f72ed1292edd7cd6c1ce525fd6b・search/certs/wall45_cert_20260801.json = a6afdbd9356b5ad60af794a11a75c1d7da7a605e703373f0d626adcd5ba00cd6(run 30684889885)。
