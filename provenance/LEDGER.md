@@ -1077,3 +1077,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 新規 = ninfty-checker-native.py(spec §1/§4.1 のみから独立実装・lane A 未読・厳密代数)+ test 50/50 + 回帰 184/227/51 全 green・cert = checker_native_calib_20260801.json。ninfty-checker.py の NOT IMPLEMENTED を配線済みへ。
 - **照合の発見**: lane A の searcher_native は 3 つの named ideal-loci カタログ(無限点なし)— spec 直読の点ベース構築と**構造的に別形式**。唯一の比較可能欄(a-pair-locus vs gcd(a,a'))は**一致**・残りは STRUCTURAL_MISMATCH_RECORDED(不一致=発見の規律どおり停止)。**次段(commit_generation/union)前の前提: lane A native の数学的役割(R_μ の点支持か locus カタログか)の数学者確認**(→ 次波)。
 - 設計判断の保留 2 件(正しい自制): ①E-5 orientation が実は (a,p,f6) から計算可能と判明(既存の caller-attested 設計と矛盾)— informational 並置のみ・ゲート未配線 ②genuine [2,2,1] 点は bound3 先頭数件に無し(全て退化)— 追加走査は指示待ち。
+
+## 2026-08-01 段 3′ 設計 着弾(裁定 310)— 解析接続を消去する枚挙方式・規約 C-β-IND(操作的判定基準つき)・fail-open 罠の実地発見(χ_P 必須)
+- §4.2.3 追補(既存節不変)+参照実装 cbeta_nielsen.py/cbeta_model.py。**規約 C-β-IND**: 可 = 模型の式+有限代数+一般論/不可 = TOWER・KUM・TW-1・SPLIT・EXP・ODD-P。操作的判定 = 「h を別の有理関数に替えても同じコードが走るか」。「発見と検証の分離」で循環懸念も解消(D-3 誤りなら段 5 が落ちる = 反証可能試験)。
+- **段 3′**: V₄-Galois を式から導出 → 慣性を因子から読む(χ_P)→ Nielsen 枚挙 → 単一軌道 ⟹ 三つ組一意。参照検算: |M^mod|=196・49 本・軌道 1・段 5 で抽象側と一致(α=1,2,3・n=3 とも)。予言先行で配置(不一致 = 設計の反証)。
+- **⚠ 実地発見**: 巡回型のみだと軌道 9 個 = 落ちずに誤同定を返す fail-open — χ_P で 1 軌道。cert 必須欄に χ_P 実測。
+- 買えるもの: D-3/D-4 が同定鎖から外れ・EXP 不要・TW-1(a)/CORE 独立再導出。段 6(値 −4)は A 系統のまま(変わるのは同定の依存欄のみ)。→ 正式執行を implementer へ発注。
