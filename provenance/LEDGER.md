@@ -1083,3 +1083,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **段 3′**: V₄-Galois を式から導出 → 慣性を因子から読む(χ_P)→ Nielsen 枚挙 → 単一軌道 ⟹ 三つ組一意。参照検算: |M^mod|=196・49 本・軌道 1・段 5 で抽象側と一致(α=1,2,3・n=3 とも)。予言先行で配置(不一致 = 設計の反証)。
 - **⚠ 実地発見**: 巡回型のみだと軌道 9 個 = 落ちずに誤同定を返す fail-open — χ_P で 1 軌道。cert 必須欄に χ_P 実測。
 - 買えるもの: D-3/D-4 が同定鎖から外れ・EXP 不要・TW-1(a)/CORE 独立再導出。段 6(値 −4)は A 系統のまま(変わるのは同定の依存欄のみ)。→ 正式執行を implementer へ発注。
+
+## 2026-08-01 lane A native 意味論 決着(裁定 311)— 正体 = different 塔公式の材料表(R_μ でない)・翻訳定理 A/B・照合は正規形 NF 方式を凍結・E5-D が二系統 cross-checked へ・新 fail-open 1 件
+- 正本 = docs/notes/lanea_native_semantics_v1.md。**定理 A**: R_μ = π*V(d)+4(∞₊)+4(∞₋)(deg 12・追加仮定なし)。**定理 B**: p-locus/weierstrass-locus は R_μ の成分でなく塔公式で引き算される項(非分岐証明材料)。branch_divisor_ref は誤ラベル(実体は ram の複製・真値は v-line 上 (4,2,2,4))。
+- **裁定(採択)**: ①照合は生 field 比較禁止 → **正規形 NF(4 欄)を §4.1 に凍結し各 lane が独立に NF を計算・NF 同士を 5 等式(N-1〜N-5)で比較** ②lane A の 3-loci は廃棄せず降格(derivation_inputs/non_ramification_certificates へ再型付け)③**native は T-1&T-2&(Pell) PASS 時のみ mint・他は ABSENT**(新 fail-open の是正 — beta の輸出 3 多項式は (60.5) 偽で無意味と判明)④E-5 の C-1〜C-5 を採択(**C-3: 定理に反する attestation は REJECT でなく INTEGRITY_STOP** — spec §2 E-6 先例・**C-5: 両 lane へ同時条項として降ろす** — 片側耳打ちは独立性違反)。
+- **E5-D(裁定 113)が二系統 cross-checked に昇格**: lane B が spec のみから独立再発見(精密化つき: |n|=5 は E-1/2/4 だけで従い E-3 は向きのみ — Pell の x¹⁰ 係数から a₅=±p₂ 自動)。lane B checker L547 の「復元不可」主張は偽と確定(陳腐化・C-1 で修理)。
+- 副産物: 分岐因子は s∉ℚ でも ℚ-有理(v²+C の閉点)= ℚ̄ 算術不要・T-7 の一部が N-4 に吸収・E-7 は形の検査として機械化可(封印値非接触)。
+- UNKNOWN 申告: −C 平方の fixture 不在・§4.3 総和条項の再点検(成分 3→6)・機械確認は 2 fixture のみ。
+- 工程: implementer へ NF 実装(両 lane)+5 等式+mint ゲート+C-1〜C-5 同時降ろし+§4.3 再点検 → その後に真の A/B bundle で commit_generation(本番 provisioning)。
