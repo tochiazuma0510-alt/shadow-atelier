@@ -1325,3 +1325,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 【GAP】4 件名指し(模型忠実性 = 監査点 A が最重量・PB₄・CV-9 主検問未実施・逆元閉式)。cross-checked とは未記帳(CV-9 判読後に格付け)。次: falsifier 主検問 → 便 98。
 
 ## 2026-08-01 文献配達 U-PB4(裁定 360)— 2008.00066v2(B₄ 本来系定義正本・scout 実在確認・実は papers/ 収蔵済み)を司令塔関所で採択・覚書つき配達(docs/scout/覚書_upb4_2008_v1.md)。核心 = §3.1 Def 3.2(PB₄ 水準 settled/isolated)・Prop 3.3(isolated 構成)・§2.5 charming(c₄ 対応物)・Thm 3.8(ML 極限 ≅ ĜT)。GTPI の LEVEL CAVEAT 解消路が開通。Sol へは便 98 で同時共有(両数学者 SLA)。CLAUDE.md 文献地図の「2008 未入手」は旧記載 — 収蔵済みへ訂正対象。
+
+## 2026-08-01 P5-2 完了(裁定 361)— ★ 定理 D(死因定理): B≤4 の stage1 生存者全体で T-1 は例外なく不成立(合同条件・「たまたま」ではない)・744/744+out-of-sample 680/680 突合・最小 bound 確定
+- 機構: 重心恒等式 4A₄=5(P₁+Q₁)(臨界点重心 = 根重心の 4/5)+Gauss で **5|a₄** が強制、|a₄|≤4<5 で a₄=0 → 残りは mod 5 合同で全滅。**分母 5 は μ の次数 5 そのもの**。系 D′: 372/372 の E-3/T-1 分計は reject priority の artifact で**数学的内容なし**(向き反転の鏡像)。744→456→V-軌道 **114 個**が陰性証拠の正しい重み。
+- 最小 bound: depressed 正規形で **B*=25(鋭い・達成 2 点)**・spec 述語のみ(gauge-free)で **B=5(6 点実在・代表 a=x⁵−5x³+5x−2, p=x²−x−1)**。
+- **発見 1(裁定)**: 委嘱 4 の「N∞ 初の候補」stage2 hit 8 件は spec v19 decision lane で [7] REJECT — 探索器 stage2 と spec が別対象を選んでいた(裁定 305 用語齟齬の初の実害例・原因 3 分岐 UNKNOWN)。「8 = 2 対象×|V|」は系 L1′ で定理確定。**07-28 からの保留裁定は「v19 下で REJECT・原因調査は便 98 の Sol 判定後」で更新**。
+- **発見 2(裁定)**: depressed ゲージ(Rule 1 (2.-3))が空虚性の主犯 — spec v19 に "depressed" の語は無い。**gauge の数学的必然性 vs 技術的選択の解釈は spec 意味論 = Sol 事項として便 98 へ**。B=5 の 6 点は**事前登録外につき audit lane・探索器 stage2 を走らせない**(TS 条件・宇宙の事前登録の規律)— 走らせる場合は新宇宙の事前登録+telemetry-only の枠内で、Sol の gauge 裁定後。
+- 用途分離明記済(TS-7・EP 較正の代用にしない)。格 = 単系統+紙・falsifier 前哨を便 98 前に実施予定。予言 P-P52-1〜4 事前登録・封印 3 量非接触。
