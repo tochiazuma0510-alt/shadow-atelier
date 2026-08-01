@@ -1,0 +1,47 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "tmax-scan-37-41-20260801",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "tmax-scan-20260731(ell in {11,13,17,19,23,25,29,31})の壁族拡張続き(裁定253/294)。同一 probe を ell=37,41 へ拡張する。t 範囲は driver 側の理論上限 t<=(ell-1)/2 を走査し、各 (ell,t) を BUDGET_FAIL/PARITY_FAIL/GEN_FAIL/HIT の3段階に分けて記録する(driver 仕様は無改変)。witness literal(HIT 時の a1/b1/centralizer_w0)を収録。宇宙・判定ロジックは前回 job から一切変更なし -- 拡張は preamble の TMAX_ELLS のみ。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/tmax_scan.g", "sha256": "5f43b514318d79656ea281cb13909a46522a3fbab04a5bd38387fcf08babc887" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "TMAX-SCAN-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/tmax_scan.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。tmax-scan-20260731 と同一 driver(sha256 一致)・ell 集合のみ拡張。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "探索的走査(壁族拡張・データ拡張)。予言(t_max 閉形 5t<=ell+6-6delta(n) の的中継続)は司令塔が別途凍結・接触遮断(driver/checker には非接触のまま)。的中/外れの判定は司令塔が cert 実測値と別途照合する。"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "ell37", "preamble": "TMAX_ELLS := [37];;\nTMAX_SHARD := \"ell37\";;\n" },
+      { "name": "ell41", "preamble": "TMAX_ELLS := [41];;\nTMAX_SHARD := \"ell41\";;\n" }
+    ],
+    "timeout_min": 180,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/tmax_scan.g",
+      "sha256": "5f43b514318d79656ea281cb13909a46522a3fbab04a5bd38387fcf08babc887",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-tmax-scan-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
