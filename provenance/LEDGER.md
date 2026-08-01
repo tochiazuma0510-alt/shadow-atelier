@@ -1256,3 +1256,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-01 δ(n) 早見表修理完了(裁定 346)— CV-12 三点束の初履行・回帰バッテリーへ編入
 - 生成 script(delta_table_gen.py・Sol 正解表 self-check+恒等式 n=1..1000 厳密検査内蔵)+cert(delta_table_20260801.json・script digest 0f11e8c9…)+build check(delta_table_check.py・文書の表を parse し定義から独立再導出と突合・故意 1 列破壊で exit 1 を実証)。ノート erratum = 誤 6 列を取り消し線で明示保存+機械生成表へ差替+§2.3 n=30 文修正(6δ(30)=6・等号可行)。86/86 は定義側計算のため無傷(F95 認定)。check は regression-battery.yml に第 7 スイートとして編入(fail-closed)。
+
+## 2026-08-01 EP 専任係 ep-keeper 設置(裁定 347・研究者裁定)
+- 研究者「EP 関連が明らかに重すぎるから専門にやらせる運用にしない?Opus5(medium)でいいよ」→ `.claude/agents/ep-keeper.md` 新設(opus/medium・常設)。EP 工学資産一式(spec/contract 凍結体系・lane A/B・R1/R2/R3-NF・NF・registry/freeze・quarantine・suite 群・ep-union-check CI・cert/receipt)の保守・改版・修理を専任化 — 汎用 implementer から分離(v19 バンドルで規模が顕在化: spec 770 行+contract 561 行+selfaudit 937 行+suite 637 本)。
+- 職掌の境界: 意味論核(新 integrity code・軸/routing・route 新設廃止)は司令塔検問の先出し義務・発効判定は Sol 専権(P95-2.2)・positive control 設計採択は継続諮問・blind/接触遮断/machine-piped/凍結規律/fail-closed 原則を職務規程に成文化。
+- 有効時期: 次セッションから(agents はセッション起動時読込)。本セッション内は implementer + model:opus 指定で代替。走行中の v19 バンドルは現行実装係が完遂し、検収後の EP 仕事から ep-keeper へ移管。CLAUDE.md 部隊表を 10 役へ更新(miner 併記漏れも是正)。
