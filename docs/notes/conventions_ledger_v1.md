@@ -1,8 +1,10 @@
-# 規約台帳 v1.1(conventions ledger)— 工房の大域規約と cert 宣言欄
+# 規約台帳 v1.3(conventions ledger)— 工房の大域規約と cert 宣言欄
 
 - **状態札: candidate**(司令塔検分待ち・**Sol 便 94 §5 で方向承認 + CV-9 の規範文条件を受領**)
 - 起草: 影工房 数学者(Claude / Opus 5)/ 2026-08-01 / 司令塔委嘱(研究者発案の制度化)
 - **改訂 v1.1**: 2026-08-01・便 94 修文波(裁定 319)。**F94-5.2(CV-9 の規範文)+ P94-5.1(型強化 9 項)を正位置へ編入**。編入前の本ファイルの SHA-256 = `9cde70bdfc4494e6a9180a370bed81a65af3a388c22e8d0f4bf3c5268bed9087`(git 履歴に旧状態あり)。
+- **改訂 v1.2**: 便 95 F95-3.3。CV-12 施行三点(§1.4)+ "n/a" の型(object/array 欄への bare string 禁止・§2「"n/a" の型」節)を追加。
+- **改訂 v1.3**: 裁定 354・便 97 P97-1.2(1)〜(6) で確定。**live JSON schema block(§2)を四原則へ全面同期**: ① `path` は参照対象 artifact 自身 ② ハッシュキー名は `sha256` に統一(`digest` は CV-10 範囲で不使用)③ `effective_source` は object `{path,sha256}` ④ `superseded_by:{path,sha256}` の入れ子欄で旧→新を機械可読に表現(`supersedes` 役は廃止)。**title・revision block・`ledger_version` も本改訂で同期**(便 97 W97-1.2 が指摘した「四原則を宣言した直後の live schema が v1.1 のまま」という自己矛盾の修理)。v1.1 形は §2 に「歴史形・新規禁止」として残す(遡及なし・【CL-2】)。
 - **正典との関係**: `docs/week1-定義ノート.md` §1.5.1(規約 W-1〜W-4)+ §1.5.2 補題 W1 が唯一の**ゲート通過済み正本**。本台帳はそれを内包し、以後に発見された規約を同形式で中央化する。**正典と食い違う記述が本台帳にあれば正典が勝つ**。
 - 先行文書: `docs/notes/convention_dictionary_W_v1.md`(candidate・(W-\*)(W-^)(W-nf)(W-perm))— 本台帳は同 4 項目を CV-1/CV-2 に吸収する上位集合。**正典への番号付与(W-5/W-6)は v1.1 で決着**(【CL-3】closed・CV-2 一本化)。
 
@@ -136,7 +138,7 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 
 ```jsonc
 "conventions_used": {
-  "ledger_version": "conventions_ledger_v1_1",
+  "ledger_version": "conventions_ledger_v1_3",
 
   // ---- CV-1 / CV-2: 合成順序・作用の側 ----
   "perm_composition":  "gap_native_right" | "paper_left",   // CV-1
@@ -210,19 +212,33 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
     "invariants":           { "class": "<類>", "order": "<位数>" }   // これらは上記に依存しない
   },
 
-  // ---- CV-10: 有効出所連鎖(P94-5.1(7))----
+  // ---- CV-10: 有効出所連鎖(v1.3・裁定 354・便 97 P97-1.2(1)-(4) で確定)----
+  // 四原則: ①path=参照対象 artifact 自身(生成 script や親文書ではない)
+  //         ②ハッシュキー名は sha256(digest は不使用)
+  //         ③effective_source は object {path,sha256}(string 不可)
+  //         ④supersede 関係は各 entry の superseded_by:{path,sha256} で「旧→新」を表す
+  //           (role:"supersedes" は廃止・新エントリを role:"current" として置く)
   "effective_source_chain": [
-    { "role": "original",  "path": "<path>", "digest": "<sha256>" },
-    { "role": "supersedes","path": "<path>", "digest": "<sha256>" },
-    { "role": "erratum",   "path": "<path>", "digest": "<sha256>", "scope": "<何を撤回/訂正したか>" }
+    { "role": "original", "path": "<最初の artifact の path>", "sha256": "<sha256>" },
+    { "role": "erratum",  "path": "<訂正した旧 artifact の path>", "sha256": "<sha256>",
+      "scope": "<何を撤回/訂正したか>",
+      "superseded_by": { "path": "<後継 artifact の path>", "sha256": "<sha256>" } },
+    { "role": "current",  "path": "<現在有効な artifact の path>", "sha256": "<sha256>" }
   ],
-  "effective_source": "<この cert の主張が現在依拠する出所(上の連鎖の末端)>",
+  "effective_source": { "path": "<連鎖の role:\"current\" entry と同じ path>", "sha256": "<同 sha256>" },
+  // "n/a" 型(v1.2 F95-3.3・便97 P97-1.2(5)で確定): cross-checked を主張しない cert では
+  // effective_source_chain / effective_source は bare "n/a" ではなく
+  // { "status": "n/a", "reason": "<この cert は単系統探索であり cross-checked を主張しない>" } を書く。
 
   // ---- CV-11: 封印回収可能性(P94-5.1(8))----
+  // 注: このブロックの digest キーは CV-11 の欄であり CV-10 の sha256 統一(v1.3)の対象外
+  // (P97-1.2(2) は「当該 CV-10 範囲」に限定・CV-11 の改名は別途裁定が要る)。
   "seal_recoverability": [
     { "fixture_id": "<ID>", "digest": "<sha256>", "vault_reference": "<金庫内の参照子>",
       "restore_preflight": "PASS" | "FAIL" | "NOT_RUN", "checked_utc": "<ISO8601>" }
   ],
+  // 封印 fixture を使わない cert では bare "n/a" ではなく
+  // { "status": "n/a", "reason": "<この cert は封印 fixture を使用しない>" } を書く(v1.2 F95-3.3)。
 
   // ---- 水準 ----
   "level":             "PB3" | "PB4"                        // 水準の混同禁止(p93 追補 §3.3)
@@ -230,13 +246,46 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 ```
 
 **規範**:
-1. 該当しない欄は**省略でなく `"n/a"`** と書く(欠品と非該当を区別する)。
+1. 該当しない欄は**省略でなく `"n/a"`** と書く(欠品と非該当を区別する)。**ただし scalar(string/boolean)欄に限る**。object/array 欄は規範 8 に従う(v1.2 F95-3.3・便97 P97-1.2(5))。
 2. `chi_P_criterion.value: "line"` を含む cert は **MALFORMED**。**`chi_P_criterion` を省略した cert も MALFORMED**(既定値を置かないため・P94-5.1(6))。
 3. `roundtrip_witness` に自己逆元の witness しか無いものは**証拠として無効**(§1.1)。小宇宙では `mode: "exhaustive"` を優先する。
 4. 二実装照合の cert では `comparison_target` の欠落を **MALFORMED** とする(裁定 313)。**prose のみ(`as_function_of` だけ)で `function_a/b` と digest を欠くものも MALFORMED**(P94-5.1(2))。
 5. `separation.included: true` だけで `competitor_universe` と結果(行列 or digest)を欠くものは **MALFORMED**(P94-5.1(3))。
 6. **cross-checked を主張する cert** は `effective_source_chain`(CV-10)と、封印物を使うなら `seal_recoverability`(CV-11)を**必須**とする。
 7. **`representative_vs_invariant` の混記を禁止**: 代表元の値を不変量の欄に書いた cert は **MALFORMED**(格の過大表示の直接原因・CV-7 の記法規律)。
+8. **object/array 欄の "n/a" は型つき**(v1.2 F95-3.3): bare string `"n/a"` を object/array 欄(`effective_source_chain`・`effective_source`・`seal_recoverability` 等)に入れることを禁止し、`{ "status": "n/a", "reason": "<理由>" }` の形で書く。bare string を object/array 欄に入れた cert は **MALFORMED**。
+9. **CV-10 は v1.3 の四原則(§0 改訂記録)で書く**: `digest` キー・string 型 `effective_source`・`role:"supersedes"` を使った cert(§2.1 の v1.1 歴史形)は新規 cert では **MALFORMED**。旧 cert への遡及は不要(【CL-2】)。
+
+### 2.1 CV-10 の v1.1 歴史形(新規禁止)と v1.3 の positive/negative fixture(便 97 P97-1.2(6))
+
+**v1.1 歴史形**(参照専用・**新規 cert での使用禁止**・遡及なしのため既存 cert は無罪):
+
+```jsonc
+// MALFORMED(v1.3 以降の新規 cert では禁止)
+"effective_source_chain": [
+  { "role": "original",  "path": "<path>", "digest": "<sha256>" },
+  { "role": "supersedes","path": "<path>", "digest": "<sha256>" },
+  { "role": "erratum",   "path": "<path>", "digest": "<sha256>", "scope": "<...>" }
+],
+"effective_source": "<string>"
+```
+
+**negative fixture A**(v1.1 形そのまま・`digest` キー + string `effective_source` + `role:"supersedes"`): 上記と同一。**MALFORMED**(規範 9)。
+
+**negative fixture B**(便 96 F96-1.5 の旧例と同じ**逆向き** `supersedes`: 新 entry が旧 entry を指す形。便 97 W97-1.2 でこの向きは erratum と訂正された): 例えば `{"role":"current","path":"new.md","sha256":"NEW"},{"role":"supersedes","path":"old.md","sha256":"OLD","supersedes":{"path":"new.md","...}}` のように新→旧を指す構造。**MALFORMED**(旧→新の `superseded_by` でなければならない・§2 CV-10 四原則④)。
+
+**positive fixture**(v1.3 正形・§2 の live schema と同型):
+
+```jsonc
+"effective_source_chain": [
+  { "role": "erratum", "path": "docs/notes/fam_u_v1_addendum_f94.md", "sha256": "<OLD_sha256>",
+    "scope": "<撤回/訂正した内容>",
+    "superseded_by": { "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_sha256>" } },
+  { "role": "current", "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_sha256>" }
+],
+"effective_source": { "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_sha256>" }
+```
+**PASS**: `path` は各 entry 自身の artifact、`sha256` キー統一、`superseded_by` は旧→新、`effective_source` は object で current entry と一致。
 
 ---
 

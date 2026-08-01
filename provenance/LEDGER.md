@@ -1344,3 +1344,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 反証成果(射程の明確化): **鏡像モデル(全 formula を逆順読み)も 400/400 で閉じる** — 重なりはちょうど自己逆元 4 行(裁定 278 指紋)。⟹ 400/400 は「三座標が同一対象」の証拠として強いが「正典の対象」の証拠としては零 — 監査点 A(現 c₃ pentagon)は一切軽くならない(GAP-GTPI-1 の状況証拠 3 本のうち (α) は機械反証)。
 - 明記事項: E_{m,f} と Φ′_{m,τ(f)} は写像として不等(ĉ 共役)— 「粗 2 座標」=「ĉ 共役な 2 作用+τ 対応ラベル」。気づき 1 行: competitor universe 30000 は補題 UNIV 後は実効 240(凍結時数値の過大残置)。判読記録 = cv9_gtpi_check.js / cv9_gtpi_mirror.js 収蔵。
 - 帰結: GTPI は**工房規約内 cross-checked**(集合・積水準)へ格上げ可。正典忠実性は便 98 の Sol 監査(c₃)待ち。
+
+## 2026-08-01 台帳 v1.3 schema 同期完了(裁定 365)— 便 97 W97-1.2 差戻しの修理: live schema を四原則へ全面同期(ledger_version v1_3・sha256 統一・effective_source object 化・superseded_by 入れ子・n/a 型規範 8 新設・positive/negative fixture §2.1 新設・v1.1 語彙の新規 cert は MALFORMED)。CV-11 の digest キーは「P97-1.2(2) は CV-10 範囲限定」の厳密読みで温存(便 98 で Sol に確認)。ASM v2 §V.4 側の同期は修文中の数学者の項目③でカバー。司令塔検分 = 通過(状態札 candidate 維持・工房正典化は Sol 再監査後)。
