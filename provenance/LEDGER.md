@@ -1205,3 +1205,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 Lean 公理化方針 採択(裁定 332・研究者裁定)— Mathlib 不在の定理は公理としてブラックボックス化・明示リスト+使用箇所コメント必須
 - 正本 = docs/notes/lean_axiom_policy_v1.md。研究者方針+司令塔施行細則 4 点: ①#print axioms の CI 機械照合(コメントは副・カーネルが主)②言明監査(逐語照合+sanity インスタンス+最弱形)③三階層(T1 古典/T2 論文固有/T3 自前前件 — T3 は assumption 別色)④公理台帳 manifest(追加は司令塔裁定制)。
 - framework-assumptions-policy(7/28)を更新: Mathlib 待ちから「T3 として格明示つき形式化」へ。verified-modulo-axioms 表記を新設(無印 verified と区別)。
+
+## 2026-08-01 Lean 公理化方針 v1.1(裁定 333・研究者指摘 2 点の反映)— 差し替え規約の明文化+階層の訂正(T2b 新設・T3 は原則公理にしない)
+- ①公理 = Mathlib 到着待ちプレースホルダ・台帳に Mathlib 状況欄・差し替えは #print axioms が機械検証。②**T3 の分類訂正**: TB1/TB3/TB4ᵘ/A3 は「自前の未証明」でなく標準事実の自前再導出(出所は論文/標準理論)⟹ **T2b(folklore 級・再導出形式化で公理を消せる)へ再分類**。真の T3(FAITH 等)は原則 axiom にせず定理言明の明示仮定として型に運ばせる — 公理のような静かな全域浸透をさせない。
