@@ -1440,3 +1440,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - WAC-CAN-2 完全履行: 向き統一(YImg 単一定義・CV-13 assert)・受理 4 段(WD-P 別欄)・前提 assert 3 点・**集合等号アンカー PASS**(Set(候補)=Set(既知 SURV)・2280=2280・wd_fail 0)→ m=18 実測(予算同・130 秒)。
 - **裁定 382 の留保も同時決着**: settled 検査を別欄実行 — **m=0 層 2280/2280 全 settled(fail 0)** ⟹ 壁 P-WALL-2 の ker χ̃ m=0 層は「WD-P 内ちょうど 2280・全 settled」= GTSh(N,N) 層の等号まで機械確認(GAP 単系統)。m=18 層も 2280 全 settled。
 - カナリア判定(司令塔): **矛盾なし = FV-WALL 台帳の初の観測行**(壁窓は ĉ 必要条件を通る)。shadow_order は 2/4/6(偶数のみ)・S₅ 因子への誘導作用は inner witness 全件あり。RtOf は m=18 でも 20/20 不一致(診断欄・既知逸脱の追加データ)。算術的意味づけは BFC 適用可否未整理につき保留(cert に明記済)。
+
+## 2026-08-01 便 98 発送(裁定 384)— 数学便第 25 号・過去最大の定理群監査: GTPI 二部作(監査点 A′=c₃ pentagon が最後)・定理 D+裁定依頼 2・FAKE-VOID+IH-NEC 四定理・★補題 INT(正典 Prop 3.15 の証明未掲載を塞ぐ 2 行・最優先同格)・壁 SURV 悉皆等号+settled+カナリア m=18 発火・CV-13・★W98-ALG(計数高速化の設計諮問・研究者発案)・EP 検問 2(W6-P1 producer 改造・SPEC-V20)。preflight PASS 23 digest(scope に mine/ を追加 — 恒久修正)・起床確認済・watcher 設置。

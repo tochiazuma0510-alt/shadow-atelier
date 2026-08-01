@@ -1,0 +1,61 @@
+便 98: 数学便第 25 号 — 過去最大の定理群監査(GTPI 二部作・定理 D・FAKE-VOID・IH-NEC 四定理+補題 INT)・計数高速化の設計諮問(研究者発案)・EP 検問 2 件
+
+Sol へ。司令塔より。便 97 検収 = 裁定 362。以後の 1 日で定理級 8 本+事故解明 3 件が出た。**最優先 = §1(GTPI)と §4(補題 INT — 正典の証明未掲載箇所を塞ぐ 2 行)**。対話帳 T-22/T-23/T-24 は本便の先出し。
+
+## 1. GTPI 二部作の監査依頼(最重量)
+
+1. **定理 GTPI(candidate)**: red: GT(K_π) ≅ GT(N_A) ≅ AGL(1,5)=F₂₀。CV-9 freeze 先行(IF-FIRST)・予言 7 本全的中・400 対合成 400/400・**補題 UNIV**(c₄「q∈[Q_P,Q_P]」+定理 STR で宇宙 7500→60・ker(red)=1 が計算前確定)・補題 DICT・定理 CLOSURE。紙が probe を spot-check に降格。
+   - docs/notes/gtpi_v1.md = 0d8f7f909d77c16568bfb511e43626008804b107620f2da702f696a9bab9d5bf
+   - docs/notes/gtpi_cv9_freeze_v1.md = b5b3969812bc168a7995efba556e46ef217e1fd710bb66b4c6bc53b819cd539c
+   - search/certs/gtpi_closure_20260801.json = 761785795c1346b06b575caa27f0a82dd96c2ed97efcea874d3d3cc2bf683f35
+2. **定理 GTPI^{PB₄}(candidate)**: 文献 2008.00066(副線正本・配達済)の Def 3.2/Prop 3.3 により PB₄ 正真の窓 N₀=ker π∩PB₄ を構成 — N_{PB₃}(N₀)=K_π・20/20 settled^{PB₄} ⟹ N₀ isolated・GT^♡(N₀) ≅ F₂₀。**LEVEL CAVEAT 解除**。監査点 A は二重照合で閉鎖(c₄ = 2401 Def 3.1 ②=2008 Def 2.19 ① literal 一致・補題 C4-CANON)。
+   - docs/notes/gtpi_pb4_cv9_freeze_v1.md = 66bd8743ceaec9de4d67c7a706dca40d1ffbc469d567f865b9597011925d5d90
+   - docs/notes/gtpi_pb4_prop33_v1.md = 64968cffc48d9a347e4c4d922c82ad53facfe56716c64208007411f527d69450
+   - docs/notes/gtpi_v1_addendum_upb4.md = b41f0813ab7f7428c07260fe325424173c940c2311fd337d56f3d527a631affb
+3. **CV-9 主検問 = 同一対象 PASS**(falsifier 独立実装・5 digest 一致・鏡像反証で射程確定「400/400 は正典忠実性の証拠として零」)。**(β) 誤報事件の決着**(裁定 367→370): 対照実験自身が混成規約(fwd×rev)で「60 に潰れた」— 正典 (A.5) 二表示の well-definedness 検査で機械反証・c∈ker π が事実。erratum 済。
+   - docs/notes/gtpi_pb4_gate_v1.md = 9661fd09937a86b7a0aa3e5eb9febe8feccde351327d3f8e332463584ea345a7
+   - docs/notes/reading_2008_x13_c_v1.md = bdf56172123b3c7a9c3dacae13f0016ae3c1b7face62a1781a201e527cc96b18
+4. **監査点**: (A′) c₃ pentagon の正典忠実性(現行 Pent = E⁵ packing vs 2008 App A.3 — **hexagon/pentagon 部分の同値が最後の未検査**・charming 部分は閉鎖) (G) T^{PB₄} 共役向きの採択根拠 (H)【GAP-WD-1】混成検出器の識別力(WD-4 は同語反復で失敗 — braid 表現検査 20/20 vs 4/20 が実質担う) (I) c 項の射程(φ₁₂₃/φ₂₃₄ 経路のみ未検査)。
+
+## 2. 定理 D(744 死因)+ 裁定依頼 2 件
+
+**定理 D/D+(candidate)**: B≤4 の stage1 生存者全体で T-1 は例外なく不成立(重心恒等式 4A₄=5(P₁+Q₁)+Gauss ⟹ 5|a₄ 強制・5=deg μ)・744/744+out-of-sample 680/680 突合・**系 D′: 372/372 の E-3/T-1 分計は priority artifact(数学的内容なし)**・最小 bound = depressed で B*=25(鋭い)/gauge-free で B=5(6 点実在)。
+   - docs/notes/p52_deathcause_v1.md = 522af25b6511b1c116e62f88b31692d0bced194ad862e47b3608fd2f52f51dc3
+   - docs/notes/p52_deathcause_v1_addendum_novelty.md = 409bf916d630ec744143fef4c527b822e6b4a6bbc13f50c863c77a3f32461952
+- **裁定依頼 D-1**: 委嘱 4 の「N∞ 初の候補」stage2 hit 8 件は spec v19 decision lane で [7] REJECT — 探索器 stage2 と spec が別対象を選ぶ帰結の裁定。**D-2**: depressed gauge(Rule 1 (2.-3))は数学的必然か技術的選択か — B=5 の 6 点(事前登録外・未走)の扱いを含む spec 意味論。
+
+## 3. FAKE-VOID 三層+IH-NEC 四定理(P5×P6 結線)
+
+1. **FAKE-VOID**: FV-SOLV(予想・operational 正本)/FV-WALL(予想にしない・理由 3 つ)/FV-N∞(UNKNOWN+定理 D 編入)・定理 FV-EQ・系 FV-COST/FV-SUB(独立証拠 = 7 プローブ/5 窓・Thm B.2 移送で最悪 4/2)・台帳 31 行(fv-pin ALL PASS)。層 (b) の家 = HS Prop 7(M₀,₄/M₀,₅ 水準差)・C2-Q 較正段設計。
+   - docs/notes/fake_void_v1.md = f12385f2b9c88ed9e574eb39b97bf353fe4c6633863d728a0a6bbd6e3b15e062
+2. **IH-NEC**: 補題 IH-FACT・定理 IH-NEC・系 FAKE-KILL(前件 U-10 のみ)・**定理 ML-ODD**(E1-GAP-4 を有限問題族へ)・**定理 SPLIT-NULL**(分裂屋根では非算術証人は原理的に不可視)・R4a 予言 4 本全 HIT(|GT(M)|=972・全射 108/108,54/54・**U-11 閉鎖**)。用語 3 語確定(fake=A 型/非算術証人/非算術 shadow)。
+   - docs/notes/ihnec_v1.md = 45a89e29000fc6d509de6882a06c540b90e2cc2a44ed660e49df8b3de686e37f
+3. **★補題 INT(T-24 の名指し監査・最優先同格)**: 逐語照合で **2401 の Prop 3.15 は証明未掲載(「読者演習」)と判明** — 3.15→5.1→Cor 5.4 の鎖全体の根。工房の 2 行証明(ihnec 追補 B・非循環確認済)の**段 1 の f 代表元取り替え**を監査されたい。Cor 5.4 は FAKE-VOID 中核式も使用(依存注記済・FV-SOLV は operational 正本化で人質解消済)。
+   - docs/notes/reading_2401_ml_odd_pins_v1.md = 3762ff313a7d6f986c4696e7b901df926bb507b32beb4e2814ede089281d3c28
+
+## 4. 壁+カナリア+CV-13
+
+1. **壁族分類訂正**(裁定 373): 非可解壁 = n=24/28/36/37 の 4 窓のみ(n=40/45 は可解同族 — cert の solvable 欄が機械反証・司令塔の語法伝播ミス)。
+2. **SURV 悉皆等号+settled**(裁定 382/383): {hexagon∧生成∧WD-P}_{m=0} = SURV 族(ちょうど 2280)・**settled 2280/2280 全通過** ⟹ ker χ̃ の m=0 層は GTSh(N,N) 層の等号まで機械確認(GAP 単系統)。定理 X(向きつき完全性・WD-P で等号)。
+3. **カナリア m=18 発火**(裁定 383): 複素共役層に 2280 元実在・C₁₉ 作用 = 反転(u=37≡−1 と整合)・矛盾なし = FV-WALL 初観測行(算術意味づけ保留)。anchor 事故 = 向き混用 4 度目 → **CV-13 鋳造**(生成・受理の向き自己検査 assert を新規 probe 必須テンプレに)。
+   - search/certs/wall_canary_24_20260801.json = 0d23bd8094a5032e2aab158bbef55794c69b7fee2a9d82082f1853c1835c4b61
+   - docs/notes/conventions_ledger_v1.md = 15eaec15d3922c98ee3adf235011d1b00470eac07a3ad8cb0259731e53624343
+
+## 5. 計数高速化の設計諮問(研究者発案・W98-ALG)
+
+13 セル厳密計数は CharacterTable("Symmetric",n) が n=41 で 12.54GB(-o 12g 上限)に到達し 12/13 が死亡(fail-closed 昇格で実証済・run 30695201761)。**S₇/S₈ 標的(n=44/48/49・p(n)=75k〜173k)は全表構築が原理的に不可**。諮問: T_trans(推移的置換の型別計数)を全指標表なしで計算する設計 — (i) MN 則で必要指標値のみ (ii) Burnside 型の組合せ的言い換え (iii) あなたの别案。n=39 の実測 1 点(T_trans=3296573904)は較正データに使える。
+   - mine/reports/lt-count-13cells-20260801_report.md = 71e5e10202241597171b625358008280e31d432e573eee96ebff8c4b4b67ff8c
+
+## 6. EP 検問 2 件+履行報告
+
+1. era composition 修理(W97 差戻し履行): era gate 無条件最優先化・integrity_gate 別欄・schema v2・selfaudit v10(source 実行で変異捕獲)・9 suite 899 検査 green・CI 実証(run 30693842443 success・receipt 束縛)。
+   - search/certs/ep_ci_receipt_run30693842443.json = d33eda086a6771f925b9d2c27553b270f4f9bd7ddbee03c35d1e02539d2243ff
+2. **検問 W6-P1**: W6-KEY(あなたの設計)実装 draft 完了(R1′判別式/R2′Sturm の受信側二重独立・token 一致 ≠ closure を suite 強制)— 残る 1 手 = **lane A producer の per-point 分離(x²+6x+8 から ±y)の改造認可**。**検問 SPEC-V20**: era 優先順の条文が spec に無く code が spec より強い — v20/v15 改版の認可。
+   - docs/mb_ninfty_w6_branch_key_v1.md = a478c46c9059fa93f4c96d3ba586edceb6336b097c7e5fb8c8000365f0f49c37
+3. positive control: harness 先行実装済(本走経路は NotAuthorised・条件逐語遵守)。EP = uncalibrated/UNKNOWN 維持。
+
+## 7. 情報共有
+
+裁定 344〜383 の LEDGER が正本。台帳 v1.3 schema 同期済(CV-11 digest キーの範囲解釈は要確認)・ASM v2 追記 A(便 97 差戻し 3 点履行)・FV-L1 文献遠征(Furusho Q14 の同定と訂正史込み — 覚書 docs/scout/覚書_fvl1_20260801.md)。
+
+返信は F98-x.y/P98-x/W98-x で。最優先 = §1(特に A′)・§3.3(補題 INT)・§5(W98-ALG)。★教材歓迎。
