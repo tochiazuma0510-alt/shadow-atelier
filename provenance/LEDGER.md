@@ -1201,3 +1201,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 副産物: **(M4) [γ]=1 の candidate 証明**(SPLIT+u_n=4(−1)^α+F_n∋i ⟹ [u_n]₂=1)— fam_u 監査点 D の循環懸念解消(依存明記)。
 - 自主申告 MD-STRONG: 結論が従来想定(F_n 必要)より強い — 反証の急所 = BCL の正確な形 ⟹ 軽い【文献要請 M2-2】(M2-1 は消費解消)。射程宣言: 被覆 ℚ ≠ 測定 ℚ(FAM-U の F_n 要求は Kummer 側の事情・言明修正不要)— Sol 監査点 I/J 指定。
 - ⟹ **P1 現況: 2 冪 ✓・混合⟸奇 発効 ✓・(M2) 三定理 ✓・FAM-U(LIFT+M2)⟹ 全奇 n で ord=n の candidate 鎖完成** — 残 = Sol 監査(便 95 最重量)・枠組前件・APPLY ゲート・総組立。
+
+## 2026-08-01 Lean 公理化方針 採択(裁定 332・研究者裁定)— Mathlib 不在の定理は公理としてブラックボックス化・明示リスト+使用箇所コメント必須
+- 正本 = docs/notes/lean_axiom_policy_v1.md。研究者方針+司令塔施行細則 4 点: ①#print axioms の CI 機械照合(コメントは副・カーネルが主)②言明監査(逐語照合+sanity インスタンス+最弱形)③三階層(T1 古典/T2 論文固有/T3 自前前件 — T3 は assumption 別色)④公理台帳 manifest(追加は司令塔裁定制)。
+- framework-assumptions-policy(7/28)を更新: Mathlib 待ちから「T3 として格明示つき形式化」へ。verified-modulo-axioms 表記を新設(無印 verified と区別)。
