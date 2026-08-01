@@ -1363,3 +1363,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 司令塔裁定(懸案 7 件): ①spec v20 条文追随(code が spec より強い状態)と ②W6-KEY の era plane 追加は**意味論改版 = 便 98 で Sol へ**(着手保留を承認)③W-6 OPEN 維持は正 ④lane A producer 改造(P-1・±y 点分離)は検問案件として便 98 ⑤stale 負例の注入方式差は便 98 で申告 ⑥**ep_repair_v19 cert の selfaudit-v9 pin が stale**(裁定 355 の後編集起因)— cert は歴史 artifact として不改変・本 LEDGER 注記+便 98 申告で処理(CV-10: 再生成せず supersede 連鎖で)⑦schema v2 bump 承認。
 
 ## 2026-08-01 EP CI green・9 suite 版(裁定 369)— run 30693842443 success(headSha=c2c64e58 突合済)・suites_status=0・schema v2 receipt(integrity_gate 欄)・収蔵 = ep_ci_receipt_run30693842443.json。便 97 差戻し(era composition)の CI 実証まで完了 — EP 残 open = W-6 closure(producer 改造 = 便 98 検問)・positive control 本走(認可待ち)・spec v20 条文追随(便 98 諮問)。
+
+## 2026-08-01 PB₄ 窓の由来判読(裁定 370)— ★ 裁定 = (α) 等価な別規約(高確度・機械根拠 5 本)— f/f⁻¹ 族 5 件目ではなく「規約事故検出の誤報 1 件目」
+- falsifier 独立計算(probe helper 不使用・正典 txt を自分で読んで再構成): ①**c=(s₁s₂)³ ∈ ker π が事実**(位数 1・「E で位数 5」は裁定 367 の事実誤認)— c↦1 は選択でなく π の帰結 ②probe の窓 6 元は全て ρ=π∘Rev(反準同型)の像と一致 — X₁₃/X₂₄ の「入替」は π と ρ の差そのもの・X13w=gx⁻¹gc gy⁻¹ は正典 (A.5) の x₁₂⁻¹cx₂₃⁻¹ そのもの(c は記号的に保持されていた)③**「7500→60」は fwd 生成元×rev 行順の混成が生んだ人工物** — 混成式は (A.5) の二表示が 5 成分全不一致 = PB₃ からの写像ですらない・正直な正典構成 (c) は 7500/60/125 を完全再現 ④部分群 literal 一致+核の厳密一致(β が Q へ降りる・|ker|=1)⑤分離条件: x₁₃ を 360 通りに振って 7500 はちょうど 1 通り(generic でない)。
+- **帰結**: C₅³ 精密化は正典由来で本物・K_π の名札は正しい・GTPI の解釈も生存。語反転規約は CV-3/4/6+freeze §2.3 で計算前登録済み(後付けでない)。
+- 付随 3 件: (i) 読解ノートの逐語部欠落(司令塔の収蔵ミス)→ v1.1 で補完済み (ii) **cc 空虚性**: 現行較正族は全窓で c 像自明 = c 項の実装が一度も試されていない → c 像非自明の窓 1 本を較正に足すまで cc 関連は未検査扱い(数学者へ) (iii) probe 内の恒真検査 1 件(既自認の同語反復)。
+- ★教材(falsifier の気づき): 「規約事故だ」と結論する probe にこそ well-definedness 検査((A.5) 二表示一致など)を同梱すべき — 劇的な数字(60)が前提確認を省かせた。
