@@ -1339,3 +1339,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 修理波: ①実装係 = 台帳 schema 同期 ②ep-keeper = era composition 修理+W6-KEY 実装 draft+PC harness ③数学者(ASM 起草者)= artifact 3 点。
 
 ## 2026-08-01 GTPI 前進(裁定 363)— ★ 監査点 A 閉鎖: c₄ は両正典条項と literal 一致(2401 Def 3.1 ②=2008 Def 2.19 ①・補題 C4-CANON で [Q_P,Q_P]=[Q_F,Q_F] 機械確認)— 監査の重心は c₃(pentagon vs App A.3)へ移動。c5 混成向きの正直開示(空虚・4 件目候補)。PB₄ 発見: 探索宇宙は PB₄ 理論でも PB₃ 水準(60 元)= 走査費同額・爆発リスク下方修正。初動 3 手(窓存在判定→CV-9 ^{PB₄} 凍結[pentagon 向き最優先]→Prop 3.3 実測)に GO 発令。便 97 修理波 3 本(era composition・W6-KEY 実装 draft・台帳 schema 同期・ASM 修文)も並行起動。
+
+## 2026-08-01 GTPI CV-9 主検問(裁定 364)— ★ 判定 = 同一対象(PASS・工房凍結規約系の内部で)・falsifier 独立実装(node・probe helper 不使用)で 5 digest 全一致・(A) literal 閉性 400/400・(B)=τ(f″) 400/400・DICT 20/20 再現
+- 反証成果(射程の明確化): **鏡像モデル(全 formula を逆順読み)も 400/400 で閉じる** — 重なりはちょうど自己逆元 4 行(裁定 278 指紋)。⟹ 400/400 は「三座標が同一対象」の証拠として強いが「正典の対象」の証拠としては零 — 監査点 A(現 c₃ pentagon)は一切軽くならない(GAP-GTPI-1 の状況証拠 3 本のうち (α) は機械反証)。
+- 明記事項: E_{m,f} と Φ′_{m,τ(f)} は写像として不等(ĉ 共役)— 「粗 2 座標」=「ĉ 共役な 2 作用+τ 対応ラベル」。気づき 1 行: competitor universe 30000 は補題 UNIV 後は実効 240(凍結時数値の過大残置)。判読記録 = cv9_gtpi_check.js / cv9_gtpi_mirror.js 収蔵。
+- 帰結: GTPI は**工房規約内 cross-checked**(集合・積水準)へ格上げ可。正典忠実性は便 98 の Sol 監査(c₃)待ち。
