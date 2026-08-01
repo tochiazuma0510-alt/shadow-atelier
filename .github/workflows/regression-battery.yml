@@ -73,6 +73,7 @@ jobs:
           run_one test_ninfty_checker_native python search/test_ninfty_checker_native.py
           run_one test_ninfty_nf python search/test_ninfty_nf.py
           run_one ninfty_selftest_lanea node search/ninfty-selftest-lanea.mjs
+          run_one delta_table_check python search/probe/wac_v1/delta_table_check.py
 
       - name: Extract per-suite result counts (machine-piped, from suites.log)
         if: always()

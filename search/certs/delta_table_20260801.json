@@ -1,0 +1,68 @@
+{
+  "schema": "delta_table_cert/v1",
+  "convention": "CV-12",
+  "generated_by": "search/probe/wac_v1/delta_table_gen.py",
+  "script_sha256": "0f11e8c94cdc93ec4a803ffb7b6111a9e2537d4c30c3dda5c388b7ea4dcfc34f",
+  "definition_text": "delta(n) = (n mod 4)/2 + (2/3)*(n mod 3); 6*delta(n) = 3*(n mod 4) + 4*(n mod 3)",
+  "definition_sha256": "5dd8d6fc2340c07b71e4520af8b90900facf3a0cbd6e88b051a35245b83d2eb1",
+  "table_n_mod_12_to_6delta": {
+    "0": 0,
+    "1": 7,
+    "2": 14,
+    "3": 9,
+    "4": 4,
+    "5": 11,
+    "6": 6,
+    "7": 13,
+    "8": 8,
+    "9": 3,
+    "10": 10,
+    "11": 17
+  },
+  "table_as_list_r0_to_r11": [
+    0,
+    7,
+    14,
+    9,
+    4,
+    11,
+    6,
+    13,
+    8,
+    3,
+    10,
+    17
+  ],
+  "sol_reference_6delta": [
+    0,
+    7,
+    14,
+    9,
+    4,
+    11,
+    6,
+    13,
+    8,
+    3,
+    10,
+    17
+  ],
+  "self_check": {
+    "mismatches": [],
+    "passed": true
+  },
+  "identity_check_floor_form": {
+    "description": "2*floor(n/4)+2*floor(n/3) == (7/6)*n - delta(n), n=1..1000",
+    "n_max": 1000,
+    "failures": [],
+    "passed": true
+  },
+  "identity_check_6delta_closed_form": {
+    "description": "6*delta(n) == 3*(n mod 4) + 4*(n mod 3), n=1..1000",
+    "n_max": 1000,
+    "failures": [],
+    "passed": true
+  },
+  "markdown_table": "| $n\\bmod12$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |\n|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n| $6\\delta$ | **0** | **7** | **14** | **9** | **4** | **11** | **6** | **13** | **8** | **3** | **10** | **17** |",
+  "overall_pass": true
+}

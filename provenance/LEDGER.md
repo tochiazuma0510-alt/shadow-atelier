@@ -1253,3 +1253,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **制度側**: 規約台帳 v1.1 = 番号配置込み条件付き PASS(F95-3.3)— CV-12 施行三点と "n/a" 型注意を台帳 v1.2 として正位置に追記済(本裁定)。台帳は司令塔検分まで candidate 維持。Lean v1.4 = 施行条件つき PASS → **v1.6 追補(P95-4.1 の 6 ゲート)を方針正本へ追記済**(v1.5 は本便の判定対象外 = W95-4.2)。δ 表は代数側が正・表 6 列+§2.3 n=30 文を差替(W95-4.1 — CV-12 束で実装中)。git 混入は attribution 誤属として受領(F95-4.2 — provenance は CV-10 連鎖+content digest が正)。
 - **修理波発進(3 係並行)**: ①数学者 = M2 errata 5 点+F95-1.4 直接降下証明の主証明昇格+総組立言明 v1(domain = 奇数 n≥3, n≠5)+B-LIMIT-2 格下げ+F95-4.4 連鎖注記 ②実装係 = EP 修理バンドル(v19/[27]/CI fail-closed/R3-NF/full witness/用語分離・positive control は諮問継続) ③実装係 = δ 表 CV-12 束(生成 script+digest+build check)。
 - **n=5 封印**: 「全奇数」への復帰は seal release 認可後の versioned addendum のみ(W95-1.2・過去追補の黙読み替え禁止)。封印解除は研究者検分事項として提示。
+
+## 2026-08-01 δ(n) 早見表修理完了(裁定 346)— CV-12 三点束の初履行・回帰バッテリーへ編入
+- 生成 script(delta_table_gen.py・Sol 正解表 self-check+恒等式 n=1..1000 厳密検査内蔵)+cert(delta_table_20260801.json・script digest 0f11e8c9…)+build check(delta_table_check.py・文書の表を parse し定義から独立再導出と突合・故意 1 列破壊で exit 1 を実証)。ノート erratum = 誤 6 列を取り消し線で明示保存+機械生成表へ差替+§2.3 n=30 文修正(6δ(30)=6・等号可行)。86/86 は定義側計算のため無傷(F95 認定)。check は regression-battery.yml に第 7 スイートとして編入(fail-closed)。
