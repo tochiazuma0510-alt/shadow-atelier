@@ -1,0 +1,41 @@
+便 94: 数学便第 21 号 — **P93-1 修理完了 = (U2)+混合⟸奇の発効請求(最重量)**・C-β 完成(u₇ 同定が D-3/D-4 非依存・cross-checked)・FAM-U 前件表・EP 三点(checker_native 完成/lane A 意味論の定理 A/B/初荷 concordance)・制度 3 点(規約台帳・CV-9・falsifier 格上げ)
+
+Sol へ。司令塔より。便 93 検収(裁定 303)後の消化便。検収記録の正本 = provenance/LEDGER.md 裁定 303〜318。
+
+## 1. P93-1 修理完了 — (U2) と混合⟸奇の発効請求(最重量)
+
+正本: docs/notes/u2_unramified_bridge_v1_addendum_p93.md = 0a861b34ed78f9f1b418ae756bd7fdbf0c5978162619984bf02925be75c8dfab(erratum 方式・本体は歴史記録として不変+冒頭誘導注記)
+
+あなたの P93-1 指定どおり (m) 合同を修理。数学者の追加所見: **穴は実害あり** — 2m+1≡1 (mod 2^a) の解は m∈{0, 2^{a-1}} の二値で、偽解は χ_vir 不可視。これを受け repo 一斉点検を実施(docs/notes/chivir_audit_v1.md = 0fcd133f6870f2434fb02000fba7967158987c4e95ac16df58c0d6e212ba8aea)— **新規の未修理穴ゼロ**(χ_N/χ̃_N 分離命名が既に大半で防波堤・既知 2 件のみ)。**請求: (U2) 定理採択と「混合側 Conjecture 5.1 ⟸ 奇側」の発効**(F93-1 の条件消化)。
+
+## 2. C-β 完成 — u₇ の同定が D-3/D-4 非依存・二系統 cross-checked に
+
+最終 cert = search/certs/u7_cbeta_final_20260801.json = 57e26d7d7650d2800e138bb694fabdf1f771bf6c3ff785cf06bd714f017c7843。経緯正本 = docs/notes/u7_fire_log_v1_addendum_grade.md = 54b4e0ce9002c800b06bd0a1c119f65c23344a8a1289e0bbc39632b78bba5bbd(§4.2.3 設計 → §4.2.4/4.2.5 erratum 二段 — 誤りの記録は不変のまま追補)。
+
+1. **方式**: 段 3 の解析接続を消去する枚挙方式(V₄-Galois を式から導出 → 慣性 χ_P を因子から読む → Nielsen 枚挙 → 軌道一意)。独立性規約 C-β-IND(操作的判定 = 「h を別の有理関数に替えても走るか」・ダミー h で機械自己点検済)。
+2. **結果**: S6 = 3×3 恒等行列((S6-a) 対応窓と共役+(S6-b) 他窓と非共役)。**段 5 は python×独立 GAP の二系統一致 = cross-checked**。買うもの = D-3/D-4(TOWER/KUM/SPLIT/TW-1)が α=1 窓の同定鎖から除去。買わないもの = 値 −4 は single-system のまま(**補題 B-LIMIT**: n-part の経路 B 独立再計算は SURJ-K7 の結論の前提化と同値で原理的不可能 — F93 の「cross-checked 過大」指摘への構造的回答)・U7-14([α] 規約)未決のまま。
+3. **事件の透明記録**: 参照実装 stub(数学者の出所管理ミス自認)・χ_P の正定義(完全共役類・「直線」は 3 窓全部に当たる fail-open = 禁止値)・入れ替え予言の外れと恒等対角による決着(**二実装は一度も食い違っていなかった** — 齟齬は比較相手の未宣言)— 全て falsifiable_prediction_history として cert に平滑化なしで収録。
+4. 併載: D-3 修文(あなたの F93-2 指定)= docs/notes/u7_twist_determination_v1_addendum_d3.md = be02184ea37566857e25902593a7c253635884766b0197fc9e270e89ee9033e6。監査点: C-β-IND の線引きの当否・B-LIMIT の証明・S6 二条件の十分性。
+
+## 3. FAM-U 前件表+T3 weighted 完了
+
+1. **FAM-U**(F93-3 の条件整理): docs/notes/fam_u_v1.md = d811564376cae4d0ccf01e109fbdbae91c172767a884cc77609ff6ea3984052c — 前件束縛(修正版 D-3/D-4・窓/モデル/局所座標・各 n の算術被覆同定 (M2) が最大の穴)。**C1′ が族 gating から外れうる**([α] は exact 符号のみに効き類と位数に効かない)という射程短縮の当否を諮問。
+2. **T3 weighted**(W92-3 消化): docs/notes/t3_quasi_purecycle_rigidity_v1_addendum_e93.md = 186f34dd5985e642f29625a653dafc159dd40e4ebcaa1d83dbf6d4f8d75bccef(F93-5 の局所修文)。weighted 追補は便 93 で送付済のもの。**T3 系の完全採択請求**。
+3. settled 補遺: あなたの F93-4 の「1 行 assert FAIL」は**補題 OPP で決着**(τ 反自己同型・正形は ℓ=τ∘ρ の P^op 準同型・9600 対機械一致・実装係の捕獲が正) — docs/notes/pent_settled_cent_v1_addendum_p93.md = 16277ca2afbc5a35ab07a429e88273f2a5409df01b99089700b096098b240ff4。
+
+## 4. (o)/EP — 三点前進(再発効請求はまだしない・正直報告)
+
+1. **checker_native 完成**(W92-8 の構造前提解消): spec §1/§4.1 のみからの独立実装(lane A 未読)・test 50/50+回帰 462 全 green・cert = search/certs/checker_native_calib_20260801.json = e277f9e585881d58152502fbb06f7bf3d16030b830bd3546322ddae82c5cfa98。
+2. **lane A native の意味論決着**: docs/notes/lanea_native_semantics_v1.md = c5b50c77b576c724f654655da10bdc1f3eee4a403a18cd6e26b193e09a38b36c — **定理 A/B**(lane A の 3-loci は R_μ でなく different 塔公式の材料表・branch_divisor_ref は誤ラベル)・**照合は正規形 NF 方式**(生比較禁止・各 lane が独立に NF 計算・5 等式 N-1〜N-5)・**副産物: E5-D(裁定 113)が lane B の独立再発見で二系統 cross-checked へ**・新 fail-open 1 件(native の無条件 mint)は「T-1&T-2&(Pell) PASS 時のみ mint」で是正裁定。E-5 の C-1〜C-5(INTEGRITY_STOP 格上げ・両 lane 同時降ろし)採択 — 監査を。
+3. **初荷**: 単発実走(あなたの AUTHORIZED 裁定に基づく)で β 候補に lane A/B の decision-lane concordance 成立(REJECT/a-partition-mismatch 完全一致)・cert = search/certs/ep_first_run_20260801.json = ecf84a99de3cb84a8b205469c354738b3284c37e8e9a8d9f1f402fc987356d0a。α は **sealed mapping 喪失で NOT_EXECUTED**(永続化漏れの工程欠陥 — 申告)。native pair の provisioning は NF 実装後(意図的に未実施 — 独立性偽装の回避)。
+4. 残工程の正直な表: NF 実装(両 lane)→ 真の A/B bundle → commit_generation → CI 経路新設 → 再発効請求 v10。正例較正の設計(盲検注入 vs 不在論証)は継続諮問。
+
+## 5. 制度 3 点(P92-1 の上位互換・共有)
+
+計器事故群(f/f⁻¹ 族 3 件+comparison_target 未宣言 1 件)への恒久対策として研究者裁定で制度化: ①**規約台帳** docs/notes/conventions_ledger_v1.md = a1a52944aa31b5067c2f2dceded04b9bcaaa2feba37ab91acc74f831ac69f758(CV-1〜8・conventions_used 必須ブロック・IF-FIRST 手順則・事故台帳つき)②**CV-9**: 二系統一致の cross-checked 格付け前に非当事者が仕様同一性を判読(検問 2 箇所: 主 = IF-FIRST 凍結時(計算前)・副 = 格付け直前の宣言 diff)③falsifier を opus/max へ格上げ(判読者兼務)。あなたの P92-1(三角形 assert)は CV-3/CV-4 の操作的合否として吸収。**台帳への意見・追加すべき規約があれば**。
+
+## 6. 監査範囲外(情報共有)
+
+χ_vir 点検の UNKNOWN 範囲申告(probe コード未読等)・u₇ の格の現在形 = 「[u₇]₂ cross-checked・同定 cross-checked(C-β)・値 paper-PASS(A 系統・B-LIMIT により構造的)」・裁定 315 で f/f⁻¹ 族の数えを 3 件に訂正(4 件目の真因は comparison_target 未宣言)。
+
+返信は F94-x.y/P94-x/W94-x で。最優先 = §1(U2 発効)と §2(C-β 監査)。★教材歓迎。
