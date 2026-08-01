@@ -1,0 +1,809 @@
+{
+  "schema": "wac_v1-w98-alg-driver-cert/v2",
+  "formula_id": "W98-ALG (sol_reply_98_math25.md sec.5, ALG-1/ALG-2/ALG-3)",
+  "spec_ref": "sol/sol_reply_98_math25.md W98-5.1 / P98-5.1 ; sol/sol_reply_99_math26.md P99-6.2",
+  "no_symmetric_chartable": true,
+  "no_ctbllib": true,
+  "generated_by": "search/probe/wac_v1/w98_alg_driver_v2.py",
+  "supersedes_note": "search/probe/wac_v1/w98_alg_driver.py (v1) は byte 不変のまま残る (裁定412 で digest 束縛: 991a8c1f0c233999c7d4aa8296fadad09170a8acece8c5f3e9ec92e0b2c4b052)。本 v2 はその上に P99-6.2 の恒久 fixture を追加した新版で、旧 cert (search/certs/w98_alg_driver_cert_20260801.json) は不改変。",
+  "calibration_small_n": [
+    {
+      "ell": 2,
+      "a": 0,
+      "n": 2,
+      "brute_force": 1,
+      "route_A": 1,
+      "route_B": 1,
+      "pass": true
+    },
+    {
+      "ell": 3,
+      "a": 0,
+      "n": 3,
+      "brute_force": 1,
+      "route_A": 1,
+      "route_B": 1,
+      "pass": true
+    },
+    {
+      "ell": 3,
+      "a": 2,
+      "n": 5,
+      "brute_force": 7,
+      "route_A": 7,
+      "route_B": 7,
+      "pass": true
+    },
+    {
+      "ell": 4,
+      "a": 1,
+      "n": 5,
+      "brute_force": 4,
+      "route_A": 4,
+      "route_B": 4,
+      "pass": true
+    },
+    {
+      "ell": 5,
+      "a": 0,
+      "n": 5,
+      "brute_force": 5,
+      "route_A": 5,
+      "route_B": 5,
+      "pass": true
+    },
+    {
+      "ell": 2,
+      "a": 3,
+      "n": 5,
+      "brute_force": 7,
+      "route_A": 7,
+      "route_B": 7,
+      "pass": true
+    },
+    {
+      "ell": 4,
+      "a": 3,
+      "n": 7,
+      "brute_force": 16,
+      "route_A": 16,
+      "route_B": 16,
+      "pass": true
+    },
+    {
+      "ell": 3,
+      "a": 3,
+      "n": 6,
+      "brute_force": 10,
+      "route_A": 10,
+      "route_B": 10,
+      "pass": true
+    }
+  ],
+  "calibration_named": {
+    "ell23_a3_T_trans": {
+      "value": 173880,
+      "expected": 173880
+    },
+    "ell25_a5_T_trans": {
+      "value": 378000,
+      "expected": 378000
+    },
+    "ell37_a2_T_all": {
+      "value": 10643405866,
+      "expected": 10643405866
+    },
+    "ell37_a2_T_trans": {
+      "value": 3296573904,
+      "expected": 3296573904
+    },
+    "all_pass": true
+  },
+  "cells": {
+    "37": {
+      "0": {
+        "ell": 37,
+        "a": 0,
+        "n": 37,
+        "T_all": 2011535710,
+        "route_A_contributing_partitions": 37,
+        "route_B_contributing_partitions": 37,
+        "route_A_contribution_digest_sha256": "9c3af64eb835910292e2e2e6f146c87f40f5dc7dea85cab77b437a1b9f97b853",
+        "route_B_contribution_digest_sha256": "9c3af64eb835910292e2e2e6f146c87f40f5dc7dea85cab77b437a1b9f97b853",
+        "route_A_seconds": 0.2658,
+        "route_B_seconds": 2.6218,
+        "route_A_partitions_scanned": 21637,
+        "route_B_mu_count": 1
+      },
+      "1": {
+        "ell": 37,
+        "a": 1,
+        "n": 38,
+        "T_all": 4679183836,
+        "route_A_contributing_partitions": 37,
+        "route_B_contributing_partitions": 37,
+        "route_A_contribution_digest_sha256": "ae5ab6157ca73607ab000d6c8b540c279ac3f11de78aaeee97e9ae031aa92609",
+        "route_B_contribution_digest_sha256": "ae5ab6157ca73607ab000d6c8b540c279ac3f11de78aaeee97e9ae031aa92609",
+        "route_A_seconds": 0.2442,
+        "route_B_seconds": 2.6602,
+        "route_A_partitions_scanned": 26015,
+        "route_B_mu_count": 1
+      },
+      "2": {
+        "ell": 37,
+        "a": 2,
+        "n": 39,
+        "T_all": 10643405866,
+        "route_A_contributing_partitions": 74,
+        "route_B_contributing_partitions": 74,
+        "route_A_contribution_digest_sha256": "7013594a15c24ad45c01c89e87ef4f4c567130108d639f0ac127072f52b00368",
+        "route_B_contribution_digest_sha256": "7013594a15c24ad45c01c89e87ef4f4c567130108d639f0ac127072f52b00368",
+        "route_A_seconds": 0.4277,
+        "route_B_seconds": 4.1542,
+        "route_A_partitions_scanned": 31185,
+        "route_B_mu_count": 2
+      },
+      "3": {
+        "ell": 37,
+        "a": 3,
+        "n": 40,
+        "T_all": 24056578600,
+        "route_A_contributing_partitions": 111,
+        "route_B_contributing_partitions": 111,
+        "route_A_contribution_digest_sha256": "f9b28e54460f96f8b03be69c64082df63e7786848659c1090610781c7bec258c",
+        "route_B_contribution_digest_sha256": "f9b28e54460f96f8b03be69c64082df63e7786848659c1090610781c7bec258c",
+        "route_A_seconds": 0.6092,
+        "route_B_seconds": 6.0805,
+        "route_A_partitions_scanned": 37338,
+        "route_B_mu_count": 3
+      },
+      "4": {
+        "ell": 37,
+        "a": 4,
+        "n": 41,
+        "T_all": 52751075158,
+        "route_A_contributing_partitions": 185,
+        "route_B_contributing_partitions": 185,
+        "route_A_contribution_digest_sha256": "8046941d14711b79db991beaa1d69533f2fb06df39059a5559a29111110b2618",
+        "route_B_contribution_digest_sha256": "8046941d14711b79db991beaa1d69533f2fb06df39059a5559a29111110b2618",
+        "route_A_seconds": 1.0713,
+        "route_B_seconds": 15.137,
+        "route_A_partitions_scanned": 44583,
+        "route_B_mu_count": 5
+      },
+      "5": {
+        "ell": 37,
+        "a": 5,
+        "n": 42,
+        "T_all": 111545928340,
+        "route_A_contributing_partitions": 259,
+        "route_B_contributing_partitions": 259,
+        "route_A_contribution_digest_sha256": "eccad0c103e4ab0625f9ac23f8a11590976d8afdbb544d6d22adec3634807f75",
+        "route_B_contribution_digest_sha256": "eccad0c103e4ab0625f9ac23f8a11590976d8afdbb544d6d22adec3634807f75",
+        "route_A_seconds": 1.4713,
+        "route_B_seconds": 20.9161,
+        "route_A_partitions_scanned": 53174,
+        "route_B_mu_count": 7
+      },
+      "6": {
+        "ell": 37,
+        "a": 6,
+        "n": 43,
+        "T_all": 228753490786,
+        "route_A_contributing_partitions": 407,
+        "route_B_contributing_partitions": 407,
+        "route_A_contribution_digest_sha256": "c4ec2cc50690aa3dbe8f186c0e76e9e1452a1f3acf2bd07601f1c50ad92262f0",
+        "route_B_contribution_digest_sha256": "c4ec2cc50690aa3dbe8f186c0e76e9e1452a1f3acf2bd07601f1c50ad92262f0",
+        "route_A_seconds": 2.2243,
+        "route_B_seconds": 30.0917,
+        "route_A_partitions_scanned": 63261,
+        "route_B_mu_count": 11
+      },
+      "7": {
+        "ell": 37,
+        "a": 7,
+        "n": 44,
+        "T_all": 456206091616,
+        "route_A_contributing_partitions": 555,
+        "route_B_contributing_partitions": 555,
+        "route_A_contribution_digest_sha256": "cf50f5b6e4176988008a49ce6ea165798fd457c0e9834ba3bd9e96dfcd9a5370",
+        "route_B_contribution_digest_sha256": "cf50f5b6e4176988008a49ce6ea165798fd457c0e9834ba3bd9e96dfcd9a5370",
+        "route_A_seconds": 1.9181,
+        "route_B_seconds": 36.5586,
+        "route_A_partitions_scanned": 75175,
+        "route_B_mu_count": 15
+      },
+      "8": {
+        "ell": 37,
+        "a": 8,
+        "n": 45,
+        "T_all": 883762688590,
+        "route_A_contributing_partitions": 814,
+        "route_B_contributing_partitions": 814,
+        "route_A_contribution_digest_sha256": "e80f67fb109dc4c1b08ec29306ab34f07fa57ee47785961f38f5087ca2a8b2d6",
+        "route_B_contribution_digest_sha256": "e80f67fb109dc4c1b08ec29306ab34f07fa57ee47785961f38f5087ca2a8b2d6",
+        "route_A_seconds": 4.3461,
+        "route_B_seconds": 48.3502,
+        "route_A_partitions_scanned": 89134,
+        "route_B_mu_count": 22
+      }
+    },
+    "41": {
+      "0": {
+        "ell": 41,
+        "a": 0,
+        "n": 41,
+        "T_all": 33331783448,
+        "route_A_contributing_partitions": 41,
+        "route_B_contributing_partitions": 41,
+        "route_A_contribution_digest_sha256": "2c13e0afe3de0f419266ce465ac4f33e9ff0e93a832c9310d34646cbb8c4bd1c",
+        "route_B_contribution_digest_sha256": "2c13e0afe3de0f419266ce465ac4f33e9ff0e93a832c9310d34646cbb8c4bd1c",
+        "route_A_seconds": 0.3771,
+        "route_B_seconds": 4.3147,
+        "route_A_partitions_scanned": 44583,
+        "route_B_mu_count": 1
+      },
+      "1": {
+        "ell": 41,
+        "a": 1,
+        "n": 42,
+        "T_all": 77994118780,
+        "route_A_contributing_partitions": 41,
+        "route_B_contributing_partitions": 41,
+        "route_A_contribution_digest_sha256": "ae8bb9587c8db8f58c24c36839c174aa434b0334de558948b29d3cd1db3e5a91",
+        "route_B_contribution_digest_sha256": "ae8bb9587c8db8f58c24c36839c174aa434b0334de558948b29d3cd1db3e5a91",
+        "route_A_seconds": 0.4954,
+        "route_B_seconds": 4.0876,
+        "route_A_partitions_scanned": 53174,
+        "route_B_mu_count": 1
+      },
+      "2": {
+        "ell": 41,
+        "a": 2,
+        "n": 43,
+        "T_all": 185344366464,
+        "route_A_contributing_partitions": 82,
+        "route_B_contributing_partitions": 82,
+        "route_A_contribution_digest_sha256": "4aa997c65d2f9fcabbc9b16d7b53d4db417b51efab864a01beb23da2fe359795",
+        "route_B_contribution_digest_sha256": "4aa997c65d2f9fcabbc9b16d7b53d4db417b51efab864a01beb23da2fe359795",
+        "route_A_seconds": 0.7048,
+        "route_B_seconds": 7.7452,
+        "route_A_partitions_scanned": 63261,
+        "route_B_mu_count": 2
+      },
+      "3": {
+        "ell": 41,
+        "a": 3,
+        "n": 44,
+        "T_all": 428742375920,
+        "route_A_contributing_partitions": 123,
+        "route_B_contributing_partitions": 123,
+        "route_A_contribution_digest_sha256": "d39d7d1c589183a34dd180ac2ffb7eb5f9fa0ffbaaa1fb7b7122cbbbc2a26482",
+        "route_B_contribution_digest_sha256": "d39d7d1c589183a34dd180ac2ffb7eb5f9fa0ffbaaa1fb7b7122cbbbc2a26482",
+        "route_A_seconds": 0.5935,
+        "route_B_seconds": 7.6333,
+        "route_A_partitions_scanned": 75175,
+        "route_B_mu_count": 3
+      },
+      "4": {
+        "ell": 41,
+        "a": 4,
+        "n": 45,
+        "T_all": 955559694328,
+        "route_A_contributing_partitions": 205,
+        "route_B_contributing_partitions": 205,
+        "route_A_contribution_digest_sha256": "8aa09202deb97c9cd90a5c4c7e71334a97e7bb0d94018e908571e446d94e292f",
+        "route_B_contribution_digest_sha256": "8aa09202deb97c9cd90a5c4c7e71334a97e7bb0d94018e908571e446d94e292f",
+        "route_A_seconds": 1.0177,
+        "route_B_seconds": 12.2344,
+        "route_A_partitions_scanned": 89134,
+        "route_B_mu_count": 5
+      },
+      "5": {
+        "ell": 41,
+        "a": 5,
+        "n": 46,
+        "T_all": 2070568312068,
+        "route_A_contributing_partitions": 287,
+        "route_B_contributing_partitions": 287,
+        "route_A_contribution_digest_sha256": "2f98385e7776c9579b7656c8f5fefe7094d9782f048dd1fd328fbf456c3d2f06",
+        "route_B_contribution_digest_sha256": "2f98385e7776c9579b7656c8f5fefe7094d9782f048dd1fd328fbf456c3d2f06",
+        "route_A_seconds": 1.6742,
+        "route_B_seconds": 24.2949,
+        "route_A_partitions_scanned": 105558,
+        "route_B_mu_count": 7
+      },
+      "6": {
+        "ell": 41,
+        "a": 6,
+        "n": 47,
+        "T_all": 4379610428960,
+        "route_A_contributing_partitions": 451,
+        "route_B_contributing_partitions": 451,
+        "route_A_contribution_digest_sha256": "aaac01cb278b8c5fba53e777c854fa94bf89581219e1defcbac17df8ead813b9",
+        "route_B_contribution_digest_sha256": "aaac01cb278b8c5fba53e777c854fa94bf89581219e1defcbac17df8ead813b9",
+        "route_A_seconds": 3.2619,
+        "route_B_seconds": 40.3341,
+        "route_A_partitions_scanned": 124754,
+        "route_B_mu_count": 11
+      },
+      "7": {
+        "ell": 41,
+        "a": 7,
+        "n": 48,
+        "T_all": 9029008665304,
+        "route_A_contributing_partitions": 615,
+        "route_B_contributing_partitions": 615,
+        "route_A_contribution_digest_sha256": "cfcffcf2848947459e2958226de0dd3dc2d3e0c23e6afbb8c81660e50cab2ced",
+        "route_B_contribution_digest_sha256": "cfcffcf2848947459e2958226de0dd3dc2d3e0c23e6afbb8c81660e50cab2ced",
+        "route_A_seconds": 2.6918,
+        "route_B_seconds": 55.4573,
+        "route_A_partitions_scanned": 147273,
+        "route_B_mu_count": 15
+      },
+      "8": {
+        "ell": 41,
+        "a": 8,
+        "n": 49,
+        "T_all": 18097451796120,
+        "route_A_contributing_partitions": 902,
+        "route_B_contributing_partitions": 902,
+        "route_A_contribution_digest_sha256": "4b12fc65b4ea6c6c326ccebebe22e19637de81edd7030427b71d532c45bab89c",
+        "route_B_contribution_digest_sha256": "4b12fc65b4ea6c6c326ccebebe22e19637de81edd7030427b71d532c45bab89c",
+        "route_A_seconds": 3.9656,
+        "route_B_seconds": 91.6788,
+        "route_A_partitions_scanned": 173525,
+        "route_B_mu_count": 22
+      }
+    }
+  },
+  "T_trans": {
+    "37": {
+      "0": 2011535710,
+      "1": 2667648126,
+      "2": 3296573904,
+      "3": 4152376800,
+      "4": 3679996320,
+      "5": 3306663360,
+      "6": 3199996800,
+      "7": 319999680,
+      "8": 639999360
+    },
+    "41": {
+      "0": 33331783448,
+      "1": 44662335332,
+      "2": 62687912352,
+      "3": 73359849420,
+      "4": 74011697760,
+      "5": 83388745440,
+      "6": 60281020800,
+      "7": 35459424000,
+      "8": 21275654400
+    }
+  },
+  "permanent_fixture": {
+    "schema": "wac_v1-w98-alg-fixture-cert/v1",
+    "condition_ref": "sol/sol_reply_99_math26.md P99-6.2",
+    "fixture_module_path": "search/probe/wac_v1/w98_fixture_v1.py",
+    "fixture_module_sha256": "cf458790d3277eea9b7fc5e789eb425d2dd41278cfe36764a90ad876bdf02f1f",
+    "fixture_module_imports_driver": false,
+    "census_universe_ell_to_tmax": {
+      "5": 3,
+      "6": 3,
+      "7": 4,
+      "8": 4,
+      "9": 4,
+      "10": 3
+    },
+    "census_total_cases": 27,
+    "census_n_10_13_subset_count": 13,
+    "census_n_10_13_subset": [
+      {
+        "ell": 7,
+        "t": 3,
+        "n": 10
+      },
+      {
+        "ell": 7,
+        "t": 4,
+        "n": 11
+      },
+      {
+        "ell": 8,
+        "t": 2,
+        "n": 10
+      },
+      {
+        "ell": 8,
+        "t": 3,
+        "n": 11
+      },
+      {
+        "ell": 8,
+        "t": 4,
+        "n": 12
+      },
+      {
+        "ell": 9,
+        "t": 1,
+        "n": 10
+      },
+      {
+        "ell": 9,
+        "t": 2,
+        "n": 11
+      },
+      {
+        "ell": 9,
+        "t": 3,
+        "n": 12
+      },
+      {
+        "ell": 9,
+        "t": 4,
+        "n": 13
+      },
+      {
+        "ell": 10,
+        "t": 0,
+        "n": 10
+      },
+      {
+        "ell": 10,
+        "t": 1,
+        "n": 11
+      },
+      {
+        "ell": 10,
+        "t": 2,
+        "n": 12
+      },
+      {
+        "ell": 10,
+        "t": 3,
+        "n": 13
+      }
+    ],
+    "universe_note": "Sol P99-6.2 逐語は「n=10,11,12,13 の直接 brute 30 ケース」。本 driver が再計算できる裁定393 census(w98_fixture_v1.CENSUS_UNIVERSE, ell=5..10 の tmax 表)の総数は 27 であり、うち n in {10,11,12,13} は 13 件。30 という数と 27/13 のいずれとも厳密には一致しない。宇宙を勝手に広げて 30 に合わせることはしていない -- 司令塔裁定: 27 が実スクリプト(w98_brute_small.py CASES)の宇宙そのものであり正しい。裁定390/393 の「30 ケース」「n=10..13」表記は記帳ミスで、erratum は司令塔が LEDGER に記録する(本実装側の追加対応は不要)。",
+    "census_cells": {
+      "5_0": {
+        "ell": 5,
+        "t": 0,
+        "n": 5,
+        "T_all_routeA": 5,
+        "T_all_routeB": 5,
+        "T_all_fixture_px": 5,
+        "T_all_fixture_cx": 5,
+        "T_trans_fixture_px": 5,
+        "four_way_pass": true
+      },
+      "5_1": {
+        "ell": 5,
+        "t": 1,
+        "n": 6,
+        "T_all_routeA": 10,
+        "T_all_routeB": 10,
+        "T_all_fixture_px": 10,
+        "T_all_fixture_cx": 10,
+        "T_trans_fixture_px": 5,
+        "four_way_pass": true
+      },
+      "5_2": {
+        "ell": 5,
+        "t": 2,
+        "n": 7,
+        "T_all_routeA": 15,
+        "T_all_routeB": 15,
+        "T_all_fixture_px": 15,
+        "T_all_fixture_cx": 15,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "5_3": {
+        "ell": 5,
+        "t": 3,
+        "n": 8,
+        "T_all_routeA": 20,
+        "T_all_routeB": 20,
+        "T_all_fixture_px": 20,
+        "T_all_fixture_cx": 20,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "6_0": {
+        "ell": 6,
+        "t": 0,
+        "n": 6,
+        "T_all_routeA": 6,
+        "T_all_routeB": 6,
+        "T_all_fixture_px": 6,
+        "T_all_fixture_cx": 6,
+        "T_trans_fixture_px": 6,
+        "four_way_pass": true
+      },
+      "6_1": {
+        "ell": 6,
+        "t": 1,
+        "n": 7,
+        "T_all_routeA": 18,
+        "T_all_routeB": 18,
+        "T_all_fixture_px": 18,
+        "T_all_fixture_cx": 18,
+        "T_trans_fixture_px": 12,
+        "four_way_pass": true
+      },
+      "6_2": {
+        "ell": 6,
+        "t": 2,
+        "n": 8,
+        "T_all_routeA": 30,
+        "T_all_routeB": 30,
+        "T_all_fixture_px": 30,
+        "T_all_fixture_cx": 30,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "6_3": {
+        "ell": 6,
+        "t": 3,
+        "n": 9,
+        "T_all_routeA": 42,
+        "T_all_routeB": 42,
+        "T_all_fixture_px": 42,
+        "T_all_fixture_cx": 42,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "7_0": {
+        "ell": 7,
+        "t": 0,
+        "n": 7,
+        "T_all_routeA": 14,
+        "T_all_routeB": 14,
+        "T_all_fixture_px": 14,
+        "T_all_fixture_cx": 14,
+        "T_trans_fixture_px": 14,
+        "four_way_pass": true
+      },
+      "7_1": {
+        "ell": 7,
+        "t": 1,
+        "n": 8,
+        "T_all_routeA": 21,
+        "T_all_routeB": 21,
+        "T_all_fixture_px": 21,
+        "T_all_fixture_cx": 21,
+        "T_trans_fixture_px": 7,
+        "four_way_pass": true
+      },
+      "7_2": {
+        "ell": 7,
+        "t": 2,
+        "n": 9,
+        "T_all_routeA": 42,
+        "T_all_routeB": 42,
+        "T_all_fixture_px": 42,
+        "T_all_fixture_cx": 42,
+        "T_trans_fixture_px": 14,
+        "four_way_pass": true
+      },
+      "7_3": {
+        "ell": 7,
+        "t": 3,
+        "n": 10,
+        "T_all_routeA": 77,
+        "T_all_routeB": 77,
+        "T_all_fixture_px": 77,
+        "T_all_fixture_cx": 77,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "7_4": {
+        "ell": 7,
+        "t": 4,
+        "n": 11,
+        "T_all_routeA": 126,
+        "T_all_routeB": 126,
+        "T_all_fixture_px": 126,
+        "T_all_fixture_cx": 126,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "8_0": {
+        "ell": 8,
+        "t": 0,
+        "n": 8,
+        "T_all_routeA": 24,
+        "T_all_routeB": 24,
+        "T_all_fixture_px": 24,
+        "T_all_fixture_cx": 24,
+        "T_trans_fixture_px": 24,
+        "four_way_pass": true
+      },
+      "8_1": {
+        "ell": 8,
+        "t": 1,
+        "n": 9,
+        "T_all_routeA": 40,
+        "T_all_routeB": 40,
+        "T_all_fixture_px": 40,
+        "T_all_fixture_cx": 40,
+        "T_trans_fixture_px": 16,
+        "four_way_pass": true
+      },
+      "8_2": {
+        "ell": 8,
+        "t": 2,
+        "n": 10,
+        "T_all_routeA": 72,
+        "T_all_routeB": 72,
+        "T_all_fixture_px": 72,
+        "T_all_fixture_cx": 72,
+        "T_trans_fixture_px": 16,
+        "four_way_pass": true
+      },
+      "8_3": {
+        "ell": 8,
+        "t": 3,
+        "n": 11,
+        "T_all_routeA": 120,
+        "T_all_routeB": 120,
+        "T_all_fixture_px": 120,
+        "T_all_fixture_cx": 120,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "8_4": {
+        "ell": 8,
+        "t": 4,
+        "n": 12,
+        "T_all_routeA": 184,
+        "T_all_routeB": 184,
+        "T_all_fixture_px": 184,
+        "T_all_fixture_cx": 184,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "9_0": {
+        "ell": 9,
+        "t": 0,
+        "n": 9,
+        "T_all_routeA": 36,
+        "T_all_routeB": 36,
+        "T_all_fixture_px": 36,
+        "T_all_fixture_cx": 36,
+        "T_trans_fixture_px": 36,
+        "four_way_pass": true
+      },
+      "9_1": {
+        "ell": 9,
+        "t": 1,
+        "n": 10,
+        "T_all_routeA": 90,
+        "T_all_routeB": 90,
+        "T_all_fixture_px": 90,
+        "T_all_fixture_cx": 90,
+        "T_trans_fixture_px": 54,
+        "four_way_pass": true
+      },
+      "9_2": {
+        "ell": 9,
+        "t": 2,
+        "n": 11,
+        "T_all_routeA": 144,
+        "T_all_routeB": 144,
+        "T_all_fixture_px": 144,
+        "T_all_fixture_cx": 144,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "9_3": {
+        "ell": 9,
+        "t": 3,
+        "n": 12,
+        "T_all_routeA": 216,
+        "T_all_routeB": 216,
+        "T_all_fixture_px": 216,
+        "T_all_fixture_cx": 216,
+        "T_trans_fixture_px": 18,
+        "four_way_pass": true
+      },
+      "9_4": {
+        "ell": 9,
+        "t": 4,
+        "n": 13,
+        "T_all_routeA": 324,
+        "T_all_routeB": 324,
+        "T_all_fixture_px": 324,
+        "T_all_fixture_cx": 324,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      },
+      "10_0": {
+        "ell": 10,
+        "t": 0,
+        "n": 10,
+        "T_all_routeA": 65,
+        "T_all_routeB": 65,
+        "T_all_fixture_px": 65,
+        "T_all_fixture_cx": 65,
+        "T_trans_fixture_px": 65,
+        "four_way_pass": true
+      },
+      "10_1": {
+        "ell": 10,
+        "t": 1,
+        "n": 11,
+        "T_all_routeA": 125,
+        "T_all_routeB": 125,
+        "T_all_fixture_px": 125,
+        "T_all_fixture_cx": 125,
+        "T_trans_fixture_px": 60,
+        "four_way_pass": true
+      },
+      "10_2": {
+        "ell": 10,
+        "t": 2,
+        "n": 12,
+        "T_all_routeA": 245,
+        "T_all_routeB": 245,
+        "T_all_fixture_px": 245,
+        "T_all_fixture_cx": 245,
+        "T_trans_fixture_px": 60,
+        "four_way_pass": true
+      },
+      "10_3": {
+        "ell": 10,
+        "t": 3,
+        "n": 13,
+        "T_all_routeA": 425,
+        "T_all_routeB": 425,
+        "T_all_fixture_px": 425,
+        "T_all_fixture_cx": 425,
+        "T_trans_fixture_px": 0,
+        "four_way_pass": true
+      }
+    },
+    "census_all_pass": true,
+    "ell9_nonmonotone_fixture": {
+      "ell": 9,
+      "T_trans_px_seq_t0_4": [
+        36,
+        54,
+        0,
+        18,
+        0
+      ],
+      "expected_seq": [
+        36,
+        54,
+        0,
+        18,
+        0
+      ],
+      "passport_counts_t0_4": [
+        3,
+        1,
+        0,
+        1,
+        0
+      ],
+      "forced_zero_t0_4": [
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "monotone_bug_detector_fires": true
+    }
+  },
+  "wall_seconds_total": 514.619,
+  "script_sha256": "eb9d82546f8cc2af7d31e3b758b798b89d6dca2168bf916c49f5f7d6b74bed61",
+  "provenance": {
+    "python_version": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "generated_at_utc": "2026-08-01T16:15:38.119784+00:00"
+  },
+  "driver_done": true,
+  "marker": "DRIVER_DONE"
+}

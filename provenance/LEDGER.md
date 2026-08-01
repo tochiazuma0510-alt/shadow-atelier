@@ -1624,6 +1624,17 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **上申裁定(self-hash 不動点)**: superseded_by.sha256 に後継 artifact 自身の sha を書く要求は構造的に不可能(hash quine — 裁定 407 と同型)。**裁定 = 実装係の 2 段方式を承認**(cert 内は明示プレースホルダ "SEE_MANIFEST(...)"・実 sha は外部保持者[総括 manifest/LEDGER/git blob]が持つ)— 裁定 407 の「自己参照は型つき n/a+外部連鎖が保持」規約の cert 版として**台帳次版(v1.5)細則候補に登載・便 100 で Sol ゲート**。
 - 残 = W99-2.1 ③(canonical NF/source map の定義 — 設計案件・数学者/Sol)のみ。972 の「基数のみ」限定を外す唯一の道として便 100 で扱いを諮る。
 
+## 2026-08-02 W98 恒久 fixture v-next 検収(裁定 418)— ★ P99-6.2 の 5 条件全充足で完走(514.6 秒・DRIVER_DONE・司令塔追試一致)
+- v2 driver(w98_alg_driver_v2.py)+独立 fixture 実装(w98_fixture_v1.py: px = 直接置換悉皆/cx = MN 独立再導出の類乗積 — driver/route A/B を一切 import せず)・cert = w98_alg_driver_v2_cert_20260802.json。**v1 は byte 不変**(凍結 digest 991a8c1f… 一致確認)・旧 cert 不改変。
+- 実測: 較正 4 点 ALL PASS・18 セル = v1 と 18/18 完全一致・**恒久 fixture = 27 ケース census で px==cx==routeA==routeB の 4 方向一致(census_all_pass=true・n∈{10..13} 部分集合 13)**・ℓ=9 非単調 fixture = T_trans(t=0..4)=[36,54,0,18,0]・RH passport 有無で落ち方を分離・**monotone_bug_detector_fires=true(単調仮定が t=3 で破綻することの明示実演)**。cert 内 Windows 絶対 path ゼロ(grep 0 件・追試済)。
+- 裁定 2 件: ①**宇宙 = 27 ケースで凍結**(下記 erratum の正式化・universe_note に司令塔裁定を記載済・30 への拡張なし)②開発時に既存 w98_classmult.py をデバッグ用オラクル照合に使った件(自己申告)= **可**(独立性条件 5 は出荷物の import/依存の不在が要件 — 機械確認済み。開発時較正は既知値較正と同種)— 申告として記録。自己発見バグ 2 件(k=0 残余類の誤式・死コード)修正済。
+- 便 100 で Sol へ報告(P99-6.2 履行+27/30 訂正)。
+
+## 2026-08-02 文献ゲート発動(裁定 419)— HS-1(Harbater–Schneps 2000)配達・HS Prop 7 翻訳委嘱の起票(札 C 起動)
+- 現物収蔵: papers/harbater-schneps-2000-fund-groups-moduli-GT.pdf = **da968340a0b28771d9ed33678b71815f41f4449a9974cbbe3c4cf2a96640e6d7**(著者公開版・Harbater UPenn ページ)。**Prop 7 の言明を司令塔が現物照合**(p.25–26: ρ(x_{i,j})=x_{i+3,j+3} = (14253) のリフト・(I)(II) 下で (III) ⟺ ρ 可換・Remark = Ihara の (I)(III)⇏(II)・Thm 4 = GT ≅ Out₅♯)— 裁定 395 の pin と一致。
+- 手続の記録: 金庫原本の repo 直接複写は権限分類器により不可 → **公開版再取得で履行**(Fresse と同方式・内容は pin 照合で担保)。覚書 = docs/scout/覚書_hs1_prop7_20260802.md(機構抽出+一工夫: cross-frame 必須[P99-C2-BLIND 帰結]・第一標的 K_π・検出力 dummy 先行・壁窓適用可能性 = P4 再開トリガー評価・水準混同注意)。
+- **両数学者同時 SLA**: repo 収蔵時点で両者可読 — Claude 側数学者へ即時委嘱(設計ノート起草・実装なし)・Sol へは便 100 で配達通知。
+
 ## 2026-08-02 erratum(裁定 390/393 の件数表記)— W98 検算「総当たり 30 ケース」「n=10..13」は記帳ミス・実宇宙は 27 ケース
 - fixture v-next 実装係が検出・司令塔が独立確認: w98_brute_small.py の CASES = {ℓ: t_max}(ℓ=5..10・値 3,3,4,4,4,3)⟹ 宇宙 = Σ(t_max+1) = **27 ケース(n=5..13 帯)**。裁定 390/393 の「30 ケース」「n=10..13」は記帳ミス(件数と帯の双方)— 検算の中身・値・格への影響なし(census は 27 ケースとして完全再現済み)。便 99 §6 の「30」も同源につき **便 100 で Sol へ訂正報告**。恒久 fixture の宇宙は 27 ケース悉皆で凍結(30 への拡張はしない — 宇宙を記帳ミスに合わせない)。
 - 後続: ①implementer = K5 Phase 1 driver 起票 ②ep-keeper = freeze receipt+lane B 起票 ③数学者 = 修文波+NO-ENT(3) 検分+K5-MOD 修理起票 ④**Fresse 現物収蔵履行**: papers/Fresse_EnOperadHomotopy-II.pdf = 1433bafe9999d131bb9f2e597b9c0cb92fe8cca9b904b17df8763628da58719e(2,505,807 bytes・pdftotext p.9-11 で Thm 1.1.5 の言明を照合 — 「unit/product/associator/braiding+unit・pentagon・hexagon coherence」の特徴づけと [26, Theorem I.6.2.4] 引用を確認)= **IHNEC-L3 閉(言明 pin+現物+digest+照合)** ⑤CLAIMS 4 行記帳(C-972・C-GTPI・P99-1.1・C-W98ALG)・provenance/results_k5.md 新設で X-2 追記(履行済)。
