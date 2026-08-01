@@ -1147,3 +1147,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - genuine 3 本: NF digest 完全一致・N-1〜5 全 PASS。β: 両 lane ABSENT(mint ゲート = T-1&T-2&Pell)+decision_lane_concordance。E-5 は REJECT[6]→INTEGRITY[27] 再送・DERIVED 化・両 lane 同時(C-5 規律)。
 - 要確認 4 件(次便/次工程): ①C-square 規約は①(非分解)採用・宣言済 ②INTEGRITY[27] は暫定採番(spec 凍結への追記は Sol 確認)③total_coverage 再定義は設計のみ(未配線)④旧 3-loci bundle 経路の無条件 mint は次工程(据え置き明示)。
 - 残 = 真 A/B bundle 生成 → commit_generation(本番 provisioning・研究者認可済)→ CI 経路 → 便 95 再発効請求 v10。
+
+## 2026-08-01 決定レーン 744 点掃射 完了(裁定 321)— ★ 全点 concordant(不一致 0)・P5 哨戒の初の悉皆二系統表
+- cert = ep_sweep744_20260801.json + ep_sweep744/ 生出力一式。744 = bound3(288)+bound4 七分割(114×4+0×3)— 実装係が公式合計と突合して宇宙を復元(**裁定: この同定を承認** — 事前登録範囲の独自拡大ではなく指示の指す実体の正確な復元)。
+- **結果: 744/744 で lane A/B の verdict・理由コード完全一致・discordant 0**。内訳 = 372 点が E-3(leading-coeff)・372 点が T-1(a-partition)で REJECT — native 構築には全点未到達(0.5 秒で完走の理由)。
+- 規律: プロセス内バッチは β 単発と同一関数(分離規律無傷・裁定承認)・sol75 禁止文言なし(completeness 宣言・fake 不在結論は不記載)。
+- 意味: 事前登録宇宙の stage1 生存者全集合について「二系統独立判定の完全一致表」が確立 — 将来の不在主張の土台データ第 1 号。
