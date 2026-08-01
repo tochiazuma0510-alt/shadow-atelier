@@ -1,0 +1,4440 @@
+{
+  "schema": "ihnec-gap4-mcov-scan/v1",
+  "generated_by": {
+    "tool": "python3 (single-implementation exploratory scan, not GAP)",
+    "script": "search/probe/wac_v1/ihnec_gap4_mcov_scan.py",
+    "date": "2026-08-01"
+  },
+  "task_ref": "【IHNEC-GAP-4】docs/notes/ihnec_v1.md 追補D §D.1.2/§D.1.5, P98-3.1(sol/sol_reply_98_math25.md)",
+  "claim_class": "exploration",
+  "note": "各対で (MCOV) の成立/破れを m 水準の有限集合比較のみで全数判定する。MCOV_FAILS_CANDIDATE は fake witness そのものではなく fake witness 候補の対 -- 屋根 M の実在・reduction 意味論の適用可否の数学確認は数学者+falsifier 行き。",
+  "mcov_definition": "forall m in X_n exists m~ (mod M_ord): m~ == m (mod 2n)  and  m~ mod N'_ord in m(N'),  M_ord := lcm(2n, N'_ord)",
+  "universe": {
+    "k_side_criterion": "certificates/*.json の直下ファイルで target.family==\"dihedral\" かつ target.n が奇数>=3",
+    "k_side_source_dir": "certificates/ (直下ファイルのみ・サブディレクトリ除外)",
+    "k_side_count": 7,
+    "k_side": [
+      {
+        "window_id": "K3",
+        "n": 3,
+        "two_n": 6,
+        "source_cert": {
+          "path": "certificates/K3.v1.json",
+          "sha256": "d7cd44ea6d71e341e3e1a6164ce03540e92c50d405113ad1d3dc26972b1e8171"
+        }
+      },
+      {
+        "window_id": "K5",
+        "n": 5,
+        "two_n": 10,
+        "source_cert": {
+          "path": "certificates/K5.v1.json",
+          "sha256": "b659cc18e1083b9aedf2d1d9ccf87424ca9fe9f3d1a4bbc19a369ffd4057c6d3"
+        }
+      },
+      {
+        "window_id": "K7",
+        "n": 7,
+        "two_n": 14,
+        "source_cert": {
+          "path": "certificates/K7.v1.json",
+          "sha256": "05399fc7602ecae57c8e3d14fc1cb529bb43e766ace7e0eb1066ff6c3929643e"
+        }
+      },
+      {
+        "window_id": "K9",
+        "n": 9,
+        "two_n": 18,
+        "source_cert": {
+          "path": "certificates/K9.v1.json",
+          "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+        }
+      },
+      {
+        "window_id": "K11",
+        "n": 11,
+        "two_n": 22,
+        "source_cert": {
+          "path": "certificates/K11.v1.json",
+          "sha256": "d02ddf9aaa3b7fbfd92f4683f2d74aff6f9a5ffa28dfc474f5c9854d10a95d5e"
+        }
+      },
+      {
+        "window_id": "K13",
+        "n": 13,
+        "two_n": 26,
+        "source_cert": {
+          "path": "certificates/K13.v1.json",
+          "sha256": "b9a89b812224ea1735b82af773575a19672349bd38955341825e72c31da3f1e9"
+        }
+      },
+      {
+        "window_id": "K15",
+        "n": 15,
+        "two_n": 30,
+        "source_cert": {
+          "path": "certificates/K15.v1.json",
+          "sha256": "08493ccec8f75469f681f7e1397a45364a1f4cdef9a1164ac498683cdbc102cc"
+        }
+      }
+    ],
+    "n_prime_side_criterion": "certificates/*.json の直下ファイルで target.family!=\"dihedral\" かつ (universe.n_ord+universe.charming_set が直接存在) または (target.invariants.N_ord が存在し shadows[].m の distinct 値で m(N') を機械抽出できる)",
+    "n_prime_side_source_dir": "certificates/ (直下ファイルのみ・サブディレクトリ除外)",
+    "n_prime_side_excluded_unreadable": [
+      "A1.v2.1.json",
+      "A1.v2.2.json"
+    ],
+    "n_prime_side_excluded_unreadable_reason": "universe.n_ord / universe.charming_set を持たず機械抽出条件を満たさないため、走査前から宇宙に含めない",
+    "n_prime_side_count": 17,
+    "n_prime_side": [
+      {
+        "window_id": "1a",
+        "N_ord": 4,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "source_cert": {
+          "path": "certificates/1a.v2.json",
+          "sha256": "64ab61e30df4c73827a2259452283df247c00261cd89022b203caae621b3d475"
+        }
+      },
+      {
+        "window_id": "2a",
+        "N_ord": 4,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "source_cert": {
+          "path": "certificates/2a.v2.json",
+          "sha256": "8fbdb0543e980a16e297068a73cc04f42e62bfa360c78856d3709d753b917e70"
+        }
+      },
+      {
+        "window_id": "2b",
+        "N_ord": 4,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "source_cert": {
+          "path": "certificates/2b.v2.json",
+          "sha256": "a536159857d17c522b5a512c37033cef95f140a2c71584b18c28e950a10f31bc"
+        }
+      },
+      {
+        "window_id": "S2",
+        "N_ord": 4,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "source_cert": {
+          "path": "certificates/S2.v2.json",
+          "sha256": "7db4ecadac0e4b5ae80d742c4a5d33e3bac13bc47eb25164427cddb68f49107c"
+        }
+      },
+      {
+        "window_id": "A1",
+        "N_ord": 5,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "source_cert": {
+          "path": "certificates/A1.v2.json",
+          "sha256": "24c42967f260a4dad2fb89b52f5709388549bebb37664b798a1502a5ef6d8a02"
+        }
+      },
+      {
+        "window_id": "A2",
+        "N_ord": 5,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "source_cert": {
+          "path": "certificates/A2.v2.json",
+          "sha256": "91b196bc6e8e061207ebda17532249e5af7769dd451b2d4de69d6fcd02bde845"
+        }
+      },
+      {
+        "window_id": "N5",
+        "N_ord": 5,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "source_cert": {
+          "path": "certificates/N5.v1.json",
+          "sha256": "a98df7f9ba4eef13c197ece7d4ef1366ccdb76dcfe69f283048dc22e85c41b37"
+        }
+      },
+      {
+        "window_id": "S6",
+        "N_ord": 5,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "source_cert": {
+          "path": "certificates/S6.v2.json",
+          "sha256": "45fa9c201c01dab0ae7522b994d7b92430176f8c7720e0ec365cc105a1eeff19"
+        }
+      },
+      {
+        "window_id": "L01",
+        "N_ord": 6,
+        "m_image_mod_N_ord": [
+          0,
+          2,
+          3,
+          5
+        ],
+        "source_cert": {
+          "path": "certificates/L01.v1.json",
+          "sha256": "a9121843cea1dc8f6d65c9e6e450a00a416986fb7f72f61b4d87358bb00b4b29"
+        }
+      },
+      {
+        "window_id": "S7",
+        "N_ord": 6,
+        "m_image_mod_N_ord": [
+          0,
+          2,
+          3,
+          5
+        ],
+        "source_cert": {
+          "path": "certificates/S7.v2.json",
+          "sha256": "b6d169f069be349ffa39a189fb1f8d679e575c9305bc896e4f0bcf25f0bdcde5"
+        }
+      },
+      {
+        "window_id": "S1",
+        "N_ord": 7,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "source_cert": {
+          "path": "certificates/S1.v2.json",
+          "sha256": "3077d6cbd4f34f3f06d916475f41a991731aac148f754dcb5becf327b9d435ad"
+        }
+      },
+      {
+        "window_id": "S3",
+        "N_ord": 7,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "source_cert": {
+          "path": "certificates/S3.v2.json",
+          "sha256": "4291bb7a30654f66e9353593eaede3f718c038d69654e50542d6997f3c67d2b7"
+        }
+      },
+      {
+        "window_id": "S4",
+        "N_ord": 9,
+        "m_image_mod_N_ord": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          8
+        ],
+        "source_cert": {
+          "path": "certificates/S4.v2.json",
+          "sha256": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+        }
+      },
+      {
+        "window_id": "S5",
+        "N_ord": 11,
+        "m_image_mod_N_ord": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "source_cert": {
+          "path": "certificates/S5.v2.json",
+          "sha256": "ed30f3d05b2eb265e441618542f9a0ede3632632f9120609140e5b0d17d22c22"
+        }
+      },
+      {
+        "window_id": "1b",
+        "N_ord": 12,
+        "m_image_mod_N_ord": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          8,
+          9,
+          11
+        ],
+        "source_cert": {
+          "path": "certificates/1b.v2.json",
+          "sha256": "80eda78475766350dcb8067db0696a5afe8517bc0578d051a5b4cb5f4cdf0bfd"
+        }
+      },
+      {
+        "window_id": "3",
+        "N_ord": 12,
+        "m_image_mod_N_ord": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          8,
+          9,
+          11
+        ],
+        "source_cert": {
+          "path": "certificates/3.v2.json",
+          "sha256": "7790733209e5a8710207334c10a889de268f96b829afc8dc792c8d800926b9cd"
+        }
+      },
+      {
+        "window_id": "M01",
+        "N_ord": 30,
+        "m_image_mod_N_ord": [
+          0,
+          3,
+          5,
+          6,
+          8,
+          9,
+          11,
+          14,
+          15,
+          18,
+          20,
+          21,
+          23,
+          24,
+          26,
+          29
+        ],
+        "source_cert": {
+          "path": "certificates/M01.v1.json",
+          "sha256": "a2019d64bdc0529d5f23fdae92d3c2d68a54c8888f8ae95953cfc1f2e5f1ca5c"
+        }
+      }
+    ],
+    "note_subdirectories_excluded": "certificates/ のサブディレクトリ(a5, bfc, e19, e2c6, e2c6j3, e2sweep, k3, k5blocks, k5e, k5fixture, k5pipeline, mb, twincell)は E1/EP/N-infinity 等の別系統の作業台であり、本件 IHNEC の K^(n)/N' 窓レジストリではないため除外"
+  },
+  "total_pairs": 119,
+  "summary": {
+    "MCOV_HOLDS": 119,
+    "MCOV_FAILS_CANDIDATE": 0,
+    "DATA_MISSING": 0
+  },
+  "anchor_check": {
+    "description": "既知対 (K^(9), N_S4) は裁定389/追補D §D.1.3 で MCOV 成立が数値確認済み -- これが不成立なら scanner 側のバグ",
+    "pair": "K9 x S4",
+    "status": "MCOV_HOLDS",
+    "pass": true
+  },
+  "mcov_fails_candidate_pairs": [],
+  "pairs": [
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "1a",
+      "N_prime_ord": 4,
+      "M_ord": 12,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "2a",
+      "N_prime_ord": 4,
+      "M_ord": 12,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "2b",
+      "N_prime_ord": 4,
+      "M_ord": 12,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "S2",
+      "N_prime_ord": 4,
+      "M_ord": 12,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "A1",
+      "N_prime_ord": 5,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "A2",
+      "N_prime_ord": 5,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "N5",
+      "N_prime_ord": 5,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "S6",
+      "N_prime_ord": 5,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "L01",
+      "N_prime_ord": 6,
+      "M_ord": 6,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "S7",
+      "N_prime_ord": 6,
+      "M_ord": 6,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "S1",
+      "N_prime_ord": 7,
+      "M_ord": 42,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "S3",
+      "N_prime_ord": 7,
+      "M_ord": 42,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "S4",
+      "N_prime_ord": 9,
+      "M_ord": 18,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "S5",
+      "N_prime_ord": 11,
+      "M_ord": 66,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "1b",
+      "N_prime_ord": 12,
+      "M_ord": 12,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "3",
+      "N_prime_ord": 12,
+      "M_ord": 12,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K3",
+      "n": 3,
+      "two_n": 6,
+      "N_prime_window": "M01",
+      "N_prime_ord": 30,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "m_image_N_prime": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "1a",
+      "N_prime_ord": 4,
+      "M_ord": 20,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "2a",
+      "N_prime_ord": 4,
+      "M_ord": 20,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "2b",
+      "N_prime_ord": 4,
+      "M_ord": 20,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "S2",
+      "N_prime_ord": 4,
+      "M_ord": 20,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "A1",
+      "N_prime_ord": 5,
+      "M_ord": 10,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "A2",
+      "N_prime_ord": 5,
+      "M_ord": 10,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "N5",
+      "N_prime_ord": 5,
+      "M_ord": 10,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "S6",
+      "N_prime_ord": 5,
+      "M_ord": 10,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "L01",
+      "N_prime_ord": 6,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "S7",
+      "N_prime_ord": 6,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "S1",
+      "N_prime_ord": 7,
+      "M_ord": 70,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "S3",
+      "N_prime_ord": 7,
+      "M_ord": 70,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "S4",
+      "N_prime_ord": 9,
+      "M_ord": 90,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "S5",
+      "N_prime_ord": 11,
+      "M_ord": 110,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "1b",
+      "N_prime_ord": 12,
+      "M_ord": 60,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "3",
+      "N_prime_ord": 12,
+      "M_ord": 60,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K5",
+      "n": 5,
+      "two_n": 10,
+      "N_prime_window": "M01",
+      "N_prime_ord": 30,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "m_image_N_prime": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "1a",
+      "N_prime_ord": 4,
+      "M_ord": 28,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "2a",
+      "N_prime_ord": 4,
+      "M_ord": 28,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "2b",
+      "N_prime_ord": 4,
+      "M_ord": 28,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "S2",
+      "N_prime_ord": 4,
+      "M_ord": 28,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "A1",
+      "N_prime_ord": 5,
+      "M_ord": 70,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "A2",
+      "N_prime_ord": 5,
+      "M_ord": 70,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "N5",
+      "N_prime_ord": 5,
+      "M_ord": 70,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "S6",
+      "N_prime_ord": 5,
+      "M_ord": 70,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "L01",
+      "N_prime_ord": 6,
+      "M_ord": 42,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "S7",
+      "N_prime_ord": 6,
+      "M_ord": 42,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "S1",
+      "N_prime_ord": 7,
+      "M_ord": 14,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "S3",
+      "N_prime_ord": 7,
+      "M_ord": 14,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "S4",
+      "N_prime_ord": 9,
+      "M_ord": 126,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "S5",
+      "N_prime_ord": 11,
+      "M_ord": 154,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "1b",
+      "N_prime_ord": 12,
+      "M_ord": 84,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "3",
+      "N_prime_ord": 12,
+      "M_ord": 84,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K7",
+      "n": 7,
+      "two_n": 14,
+      "N_prime_window": "M01",
+      "N_prime_ord": 30,
+      "M_ord": 210,
+      "X_n": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "m_image_N_prime": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "1a",
+      "N_prime_ord": 4,
+      "M_ord": 36,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "2a",
+      "N_prime_ord": 4,
+      "M_ord": 36,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "2b",
+      "N_prime_ord": 4,
+      "M_ord": 36,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "S2",
+      "N_prime_ord": 4,
+      "M_ord": 36,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "A1",
+      "N_prime_ord": 5,
+      "M_ord": 90,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "A2",
+      "N_prime_ord": 5,
+      "M_ord": 90,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "N5",
+      "N_prime_ord": 5,
+      "M_ord": 90,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "S6",
+      "N_prime_ord": 5,
+      "M_ord": 90,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "L01",
+      "N_prime_ord": 6,
+      "M_ord": 18,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "S7",
+      "N_prime_ord": 6,
+      "M_ord": 18,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "S1",
+      "N_prime_ord": 7,
+      "M_ord": 126,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "S3",
+      "N_prime_ord": 7,
+      "M_ord": 126,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "S4",
+      "N_prime_ord": 9,
+      "M_ord": 18,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "S5",
+      "N_prime_ord": 11,
+      "M_ord": 198,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "1b",
+      "N_prime_ord": 12,
+      "M_ord": 36,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "3",
+      "N_prime_ord": 12,
+      "M_ord": 36,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K9",
+      "n": 9,
+      "two_n": 18,
+      "N_prime_window": "M01",
+      "N_prime_ord": 30,
+      "M_ord": 90,
+      "X_n": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15,
+        17
+      ],
+      "m_image_N_prime": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "1a",
+      "N_prime_ord": 4,
+      "M_ord": 44,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "2a",
+      "N_prime_ord": 4,
+      "M_ord": 44,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "2b",
+      "N_prime_ord": 4,
+      "M_ord": 44,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "S2",
+      "N_prime_ord": 4,
+      "M_ord": 44,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "A1",
+      "N_prime_ord": 5,
+      "M_ord": 110,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "A2",
+      "N_prime_ord": 5,
+      "M_ord": 110,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "N5",
+      "N_prime_ord": 5,
+      "M_ord": 110,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "S6",
+      "N_prime_ord": 5,
+      "M_ord": 110,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "L01",
+      "N_prime_ord": 6,
+      "M_ord": 66,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "S7",
+      "N_prime_ord": 6,
+      "M_ord": 66,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "S1",
+      "N_prime_ord": 7,
+      "M_ord": 154,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "S3",
+      "N_prime_ord": 7,
+      "M_ord": 154,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "S4",
+      "N_prime_ord": 9,
+      "M_ord": 198,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "S5",
+      "N_prime_ord": 11,
+      "M_ord": 22,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "1b",
+      "N_prime_ord": 12,
+      "M_ord": 132,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "3",
+      "N_prime_ord": 12,
+      "M_ord": 132,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K11",
+      "n": 11,
+      "two_n": 22,
+      "N_prime_window": "M01",
+      "N_prime_ord": 30,
+      "M_ord": 330,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "m_image_N_prime": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "1a",
+      "N_prime_ord": 4,
+      "M_ord": 52,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "2a",
+      "N_prime_ord": 4,
+      "M_ord": 52,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "2b",
+      "N_prime_ord": 4,
+      "M_ord": 52,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "S2",
+      "N_prime_ord": 4,
+      "M_ord": 52,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "A1",
+      "N_prime_ord": 5,
+      "M_ord": 130,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "A2",
+      "N_prime_ord": 5,
+      "M_ord": 130,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "N5",
+      "N_prime_ord": 5,
+      "M_ord": 130,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "S6",
+      "N_prime_ord": 5,
+      "M_ord": 130,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "L01",
+      "N_prime_ord": 6,
+      "M_ord": 78,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "S7",
+      "N_prime_ord": 6,
+      "M_ord": 78,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "S1",
+      "N_prime_ord": 7,
+      "M_ord": 182,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "S3",
+      "N_prime_ord": 7,
+      "M_ord": 182,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "S4",
+      "N_prime_ord": 9,
+      "M_ord": 234,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "S5",
+      "N_prime_ord": 11,
+      "M_ord": 286,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "1b",
+      "N_prime_ord": 12,
+      "M_ord": 156,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "3",
+      "N_prime_ord": 12,
+      "M_ord": 156,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K13",
+      "n": 13,
+      "two_n": 26,
+      "N_prime_window": "M01",
+      "N_prime_ord": 30,
+      "M_ord": 390,
+      "X_n": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "m_image_N_prime": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "1a",
+      "N_prime_ord": 4,
+      "M_ord": 60,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "2a",
+      "N_prime_ord": 4,
+      "M_ord": 60,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "2b",
+      "N_prime_ord": 4,
+      "M_ord": 60,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "S2",
+      "N_prime_ord": 4,
+      "M_ord": 60,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "A1",
+      "N_prime_ord": 5,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "A2",
+      "N_prime_ord": 5,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "N5",
+      "N_prime_ord": 5,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "S6",
+      "N_prime_ord": 5,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "L01",
+      "N_prime_ord": 6,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "S7",
+      "N_prime_ord": 6,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "S1",
+      "N_prime_ord": 7,
+      "M_ord": 210,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "S3",
+      "N_prime_ord": 7,
+      "M_ord": 210,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "S4",
+      "N_prime_ord": 9,
+      "M_ord": 90,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "S5",
+      "N_prime_ord": 11,
+      "M_ord": 330,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "1b",
+      "N_prime_ord": 12,
+      "M_ord": 60,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "3",
+      "N_prime_ord": 12,
+      "M_ord": 60,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    },
+    {
+      "K_window": "K15",
+      "n": 15,
+      "two_n": 30,
+      "N_prime_window": "M01",
+      "N_prime_ord": 30,
+      "M_ord": 30,
+      "X_n": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "m_image_N_prime": [
+        0,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        14,
+        15,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        29
+      ],
+      "status": "MCOV_HOLDS",
+      "missing_m": []
+    }
+  ],
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_3",
+    "perm_composition": "n/a(整数演算のみ・置換なし)",
+    "comparison_target": {
+      "as_function_of": "cert から読んだ N_ord/charming_set と、n のみから計算する X_n との有限集合包含判定",
+      "function_a": {
+        "name": "charming_set_from_n(n)",
+        "domain": "odd n>=3 (K side)",
+        "source_digest": "00c7ed46e3bd328618050e4e07837e9a7c0000214ff0a5d36f577b3aa500501a"
+      },
+      "function_b": {
+        "name": "n_prime cert の universe.charming_set / shadows[].m 抽出",
+        "domain": "N' side registry",
+        "source_digest": "n/a(各窓 cert 個別、universe.n_prime_side[].source_cert に列挙)"
+      },
+      "normalization_digest": "n/a(正規化なし、mod 演算の等式判定のみ)"
+    },
+    "chi_P_criterion": {
+      "value": "exact",
+      "justification": "m の mod 演算による有限集合包含判定であり generator/orientation は不要(向きに依存しない算術等式)",
+      "generator_fixed": "n/a",
+      "orientation_fixed": "n/a"
+    },
+    "separation": {
+      "included": false,
+      "competitor_universe": [],
+      "result": {
+        "result_digest": "n/a(比較対象は各窓固有・分離実験ではない)"
+      },
+      "forbidden_values": {
+        "handling": "n/a",
+        "list": []
+      },
+      "dummy_fixture": {
+        "id": "n/a",
+        "normalised_input": "n/a",
+        "normalised_output": "n/a",
+        "discriminating_power": {
+          "input_layer_novel": false,
+          "output_layer_novel": false
+        },
+        "expected": "n/a",
+        "observed": "n/a",
+        "verdict": "n/a"
+      }
+    },
+    "cv13_orientation_self_assert": {
+      "status": "n/a",
+      "reason": "本 probe は候補生成器を持たない(既存 cert から読んだ2つの有限集合の mod 包含判定のみ)。CV-13 は生成器・受理器の向き自己検査であり対象外。"
+    }
+  },
+  "cross_checked_status": {
+    "status": "n/a",
+    "reason": "単一実装(python)の探索的走査。cross-checked を主張しない。claim_class=exploration。"
+  },
+  "effective_source_chain": {
+    "status": "n/a",
+    "reason": "この cert は既存の複数窓 cert から機械抽出した集合の算術比較であり、単一の有効出所連鎖を持たない。各窓の出所は universe.k_side[].source_cert / universe.n_prime_side[].source_cert に個別記録。"
+  },
+  "seal_recoverability": {
+    "status": "n/a",
+    "reason": "封印 fixture を使用しない"
+  },
+  "level": "PB3"
+}
