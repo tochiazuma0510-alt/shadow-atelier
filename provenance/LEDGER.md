@@ -1109,3 +1109,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **S6 最終定義**: (S6-a) 対応窓 H_{2,α,0} と共役+(S6-b) α′≠α 全てと非共役 — 合格形 = 3×3 恒等行列(分離なしの一致は「何にでも当たる試験」でありうる — 直線基準の実測が実例)。意味論 = 自己整合較正・[α] 選択には答えず **U7-14 は規約のまま**。
 - ★教材(規約 5 新設): 「再現しない報告は機構を推測する前に両側の入出力仕様を突き合わせる」+ cert 必須欄 **comparison_target** 新設。予言先行は本件で 2 度機能(stub 発覚・入れ替え予言の即時反証)。
 - 工程: 実装係へ最終 cert 発行指示(§4.2.5.4 条文・S6-a/b・comparison_target・chi_P_criterion・[α] 非主張)→ **C-β 完成 = u₇ 同定が D-3/D-4 非依存かつ cross-checked に**。
+
+## 2026-08-01 ★ C-β 完成(裁定 314)— 最終 cert 発行・u₇ の同定が D-3/D-4 非依存かつ cross-checked に・予言外れの履歴も透明収録
+- cert = search/certs/u7_cbeta_final_20260801.json(§4.2.5.4 条文逐語・S6-a/b=恒等行列・comparison_target 新設欄・chi_P_criterion="exact"(line 禁止値)・alpha_determination_claimed=false・S1-S9 全表・falsifiable_prediction_history に CB4-PRED 外れ → CB5 決着の時系列を平滑化せず収録)。
+- probe 4 本収蔵: cbeta_model_indep.g(独立 GAP・S9 両順序・α′ 族拡張)・cbeta_crosstable.g(9 マス)・cbeta_symbolic_check.py(h^θ 記号 PASS)・cbeta_s7_block.g。
+- **buys**: D-3/D-4(TOWER/KUM/SPLIT/TW-1)が α=1 窓の同定鎖から除去・同定は二系統 cross-checked。**does not buy**: 値 −4 は single-system のまま(B-LIMIT により構造的・C-γ のみが値の二系統化)・U7-14 未決のまま。
+- C-β 線はこれで完結。境界申告 → 速達 → 予言 → 反証 → 決着のループが計 4 往復・全て走行中処理(停止事故ゼロ)。

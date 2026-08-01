@@ -1,0 +1,145 @@
+{
+ "schema": "u7-cbeta-final-cert/v1",
+ "produced_utc": "2026-08-01T00:00:00.000000+00:00",
+ "status": "COMPLETE — C-beta stage 3'-a/b/c/5 (Sec 4.2.3) fully executed independently in GAP; stage 5 (marked-triple identification) upgraded to cross-checked (python x independent GAP, identity 3x3 cross table); [alpha] selection NOT claimed (U7-14 remains open per ruling 313 Sec 4.2.5).",
+ "task_authority": {
+  "commission_chain": [
+   "裁定 306(数学者設計依頼): C-β 段3実行可能アルゴリズムの設計",
+   "docs/notes/u7_fire_log_v1_addendum_grade.md §4.2.3 (段3'-a/b/c 手順書, C-beta-IND 規約)",
+   "裁定 310(司令塔・本cert発行者への実行委嘱): 手順3'-a/b/c を alpha=1,2,3, n=3較正で実行・chi_P必須欄化・h^theta記号代数再確認・C-beta-IND自己点検(dummy h)",
+   "裁定 312(交差表委嘱): S9(product_order両順序再走)+ model(alpha) x abstract(alpha') 3x3交差表の反証可能予言テスト",
+   "docs/notes/u7_fire_log_v1_addendum_grade.md §4.2.4 (数学者の予言: CB4-PRED, 入れ替え対角) — 実測により外れ(PREDICTION_FULLY_CONFIRMED=false), 速達で報告・停止",
+   "docs/notes/u7_fire_log_v1_addendum_grade.md §4.2.5 (数学者の再検分・裁定313): 二実装は最初から一致していた(比較相手を alpha'=1 に固定していたための見かけの不一致)。CB4-ORIENT/CB4-PRED を撤回。S6 の最終定義(二条件)・cert条文(§4.2.5.4)を確定。段5を cross-checked に格上げ。",
+   "本cert = §4.2.5.4 の cert 条文をそのまま実装・machine-piped で発行(司令塔指示)"
+  ],
+  "design_source": "docs/notes/u7_fire_log_v1_addendum_grade.md §4.2.3 (手順3'-a/b/c, C-beta-IND) + §4.2.5.3/4.2.5.4 (S6の最終定義・cert条文)",
+  "model_source": "docs/notes/u7_fire_log_v1.md §2.1 (絵火執行ログ — model定義は不変、参照のみで中間結果をimportしていない)",
+  "abstract_H_family_source": "docs/notes/oddH_full_proof_v1.md §2 Lemma A, H_{j,alpha,beta} = <a_j, a1^alpha*a_{j'}, a1^beta*q_j> (j=2,beta=0の族)",
+  "independence_note": "本cert の実装(cbeta_model_indep.g, cbeta_crosstable.g, cbeta_symbolic_check.py, cbeta_s7_block.g)は手順書からの独立実装であり、参照実装 cbeta_model.py/cbeta_nielsen.py(数学者の自己検算, python)をimportしていない。二系統比較として cbeta_recheck.py(数学者, python)の交差表出力とGAPの交差表出力を独立に突合した(§stage5)。"
+ },
+
+ "stage3_prime_abc": {
+  "method": "h(k)=(k-i)^r0(k+i)^-r0(k-1)^rinf(k+1)^-rinf, g(k)=(k+1)/(k-1), V4=<sigma:k->-k, theta:k->1/k>。Abar^dual=(Z/n)^2 に sigma.(ch,cg)=(-ch,-cg), theta.(ch,cg)=(-ch+2*alpha*cg,cg) で作用させ M^mod=Abar^dual|><V4 をGAPの正則表現+ActionHomomorphism+RightCosetsで構成(u7_cbeta_marked_triple.gと同技法、抽象側と統一)。chi_P は因子から厳密読み: chi_0=(r0,0)@k=i(v=sigma*theta), chi_inf=(rinf,-1)@k=1(v=theta), chi_1=(0,0)@k=0(v=sigma、Kummer側不分岐)。C0/Cinf は「二乗のAbar部分がchi_0/chi_infに厳密一致(exact match)」で絞り込み(chi_P_criterion=exact、'line'=fail-open状態は不採用・実測: line基準では|C0|=42等、手順書自身の数|C0|=7と不一致になるため却下)。",
+  "chi_P_criterion": "exact",
+  "cases": [
+   {"n":7,"alpha":1,"r0":1,"rinf":6,"chi_0":[1,0],"chi_1":[0,0],"chi_inf":[6,6]},
+   {"n":7,"alpha":2,"r0":1,"rinf":5,"chi_0":[1,0],"chi_1":[0,0],"chi_inf":[5,6]},
+   {"n":7,"alpha":3,"r0":1,"rinf":4,"chi_0":[1,0],"chi_1":[0,0],"chi_inf":[4,6]},
+   {"n":3,"alpha":1,"r0":1,"rinf":2,"chi_0":[1,0],"chi_1":[0,0],"chi_inf":[2,2],"role":"calibration (S8)"}
+  ]
+ },
+
+ "self_checks_S1_to_S9": {
+  "table": [
+   {"id":"S1","check":"|M^mod|","expected":"4n^2","n7_alpha123":[196,196,196],"n3_alpha1":36,"result":"PASS all"},
+   {"id":"S2","check":"[M^mod:Hbar^mod]","expected":"2n","n7_alpha123":[14,14,14],"n3_alpha1":6,"result":"PASS all"},
+   {"id":"S3","check":"cycle type (g0,g1,ginf)","expected":"((2n),2^(n-1)1^2,(2n))","n7_alpha123":"((14),2^6 1^2,(14)) all three","n3_alpha1":"((6),2^2 1^2,(6))","result":"PASS all"},
+   {"id":"S4","check":"Nielsen orbit count (chi_P exact-match filter)","expected":1,"n7_alpha123":[1,1,1],"n3_alpha1":1,"n_triples":"49 (n=7 all alpha), 9 (n=3)","result":"PASS all"},
+   {"id":"S5","check":"orbit size","expected":"=|M^mod|","n7_alpha123":[196,196,196],"n3_alpha1":36,"note":"self-centralising confirmed (independent re-derivation of TW-1(a))","result":"PASS all"},
+   {"id":"S6","check":"simultaneous conjugacy with CORRESPONDING abstract window H_{2,alpha,0} (S6-a) AND non-conjugacy with all H_{2,alpha'!=alpha,0} (S6-b)","expected":"3x3 cross table = identity matrix","result":"PASS — see stage5.crosstable_3x3 below"},
+   {"id":"S7","check":"block system","expected":"2 blocks of n points","n7_alpha1":"[[1,2,3,5,7,11,13],[4,6,8,9,10,12,14]] = 2x7","method_note":"computed via single Blocks() call (AllBlocks() enumeration timed out at 120s, superseded by targeted call)","result":"PASS"},
+   {"id":"S8","check":"n=3 calibration, same code","expected":"orbit=1, S6 match","n3_alpha1":"triples=9, orbits=1, S6-a match=true","result":"PASS"},
+   {"id":"S9","check":"product_order dual convention (commander order 2026-08-01, incident-pattern check)","method":"ORDER-A (GAP-native x^(pq)=(x^p)^q, relator g0*g1*ginf=1) vs ORDER-B (reversed, relator ginf*g1*g0=1)","result_n7_alpha1":{"orderA":{"triples":49,"orbits":1,"sizes":[196],"S6_vs_fixed_alphaPrime1":true},"orderB":{"triples":49,"orbits":1,"sizes":[196],"S6_vs_fixed_alphaPrime1":true}},
+    "result_n7_alpha2":{"orderA":{"triples":49,"orbits":1,"sizes":[196],"S6_vs_fixed_alphaPrime1":false},"orderB":{"triples":49,"orbits":1,"sizes":[196],"S6_vs_fixed_alphaPrime1":false}},
+    "result_n7_alpha3":{"orderA":{"triples":49,"orbits":1,"sizes":[196],"S6_vs_fixed_alphaPrime1":false},"orderB":{"triples":49,"orbits":1,"sizes":[196],"S6_vs_fixed_alphaPrime1":false}},
+    "result_n3_alpha1":{"orderA":{"triples":9,"orbits":1,"sizes":[36],"S6_vs_fixed_alphaPrime1":true},"orderB":{"triples":9,"orbits":1,"sizes":[36],"S6_vs_fixed_alphaPrime1":true}},
+    "conclusion":"ORDER-A and ORDER-B give bit-identical n_triples/n_orbits/orbit_sizes/S6-verdicts in every tested case. Product-order convention is NOT the source of any observed discrepancy (this rules out the CB4-ORIENT hypothesis independently of §4.2.5's resolution).",
+    "result":"PASS (order-invariance confirmed)"}
+  ]
+ },
+
+ "c_beta_ind_dummy_h_selfcheck": {
+  "operational_criterion": "\"does the same code run if h is replaced by an arbitrary rational function (out-of-window alphaLabel)?\" per handbook Sec 4.2.3.1 (C-beta-IND).",
+  "runs": [
+   {"alphaLabel":"99 mod 7 = 1 (same residue as window alpha=1)","n":7,"result":"ran to completion; triples=49, orbits=1, S6_vs_fixed_alphaPrime1=true (identical to alpha=1 window case, as expected since residue coincides)"},
+   {"alphaLabel":5,"n":7,"note":"out-of-window residue mod 7, not in {1,2,3}","result":"ran to completion; triples=49, orbits=1, S6_vs_fixed_alphaPrime1=false"}
+  ],
+  "conclusion": "code executes for arbitrary alphaLabel without touching window-specific facts (F1 in C-beta-IND: no TOWER-n/KUM-n/TW-1/SPLIT/EXP dependency). alpha=5 vs alpha=1(residue) giving different S6 verdicts is informative corroboration that the alpha-dependence measured is real, not a code artifact (noted per coordinator 2026-08-01)."
+ },
+
+ "symbolic_reconfirmation_h_theta": {
+  "method": "independent sympy check (not importing cbeta_model.py) of the Sec 4.2.3.2(ii) paper-calculation formulas as exact rational-function identities in k, for alpha=1..5.",
+  "identities_checked": [
+   "h(-k) = h(k)^{-1}   [h^sigma = h^{-1}]",
+   "g(-k) = g(k)^{-1}   [g^sigma = g^{-1}]",
+   "g(1/k) = -g(k)      [g^theta = -g]",
+   "h(1/k) = (-1)^(alpha+1) * h(k)^{-1} * g(k)^(2*alpha)   [h^theta claim]"
+  ],
+  "result": "ALL_IDENTITIES_HOLD = true for alpha in {1,2,3,4,5} (residual simplifies to exactly 0 in every case)",
+  "probe": "search/probe/wac_v1/cbeta_symbolic_check.py"
+ },
+
+ "stage5": {
+  "definition": "simultaneous conjugacy in Sym(14) of the model triple (g0,g1,ginf) with the abstract window triple (Xbar,Ybar,Zbar) acting on G_7/H_{2,alpha',0}",
+  "convention": "left action on left cosets; (p*q)(x)=p(q(x)); g0*g1*ginf = 1  [per §4.2.5.4; NOTE: S9 above independently confirmed the model-side triple-search is order-invariant, so this convention statement documents the abstract-side / mathematician's stated convention and does not indicate any live risk of mismatch]",
+  "s6a_match": true,
+  "s6b_separation": true,
+  "crosstable_3x3": "identity",
+  "crosstable_3x3_raw": {
+   "rows_are_model_alpha": [1,2,3],
+   "cols_are_abstract_alphaPrime": [1,2,3],
+   "matrix": [[true,false,false],[false,true,false],[false,false,true]]
+  },
+  "comparison_target": "the window H_{2,alpha,0} CORRESPONDING to the model parameter alpha (NOT a fixed alpha'=1 target) — this is the field whose earlier absence caused the false-positive CB4-ORIENT/CB4-PRED detour (§4.2.5.5)",
+  "systems": [
+   "python  : search/probe/wac_v1/cbeta_recheck.py (mathematician) — output independently reproduces the identity 3x3 (verified by re-running in this session, see gap_and_python_runs below)",
+   "GAP     : search/probe/wac_v1/cbeta_crosstable.g (implementer, independent — does not import cbeta_model.py/cbeta_nielsen.py/cbeta_recheck.py)"
+  ],
+  "agreement": true,
+  "grade": "cross-checked (NOT verified; Lean unused)",
+  "falsifiable_prediction_history": {
+   "CB4_PRED_swap": "commander order 2026-08-01 (ruling 312) asked for the 9-cell cross table to test the mathematician's prediction of a SWAPPED diagonal (model(2)<->abstract(3), model(3)<->abstract(2), model(1)<->abstract(1)).",
+   "measured": "identity diagonal (model(alpha)<->abstract(alpha) for all three, no swap)",
+   "verdict": "PREDICTION_FULLY_CONFIRMED = false — reported via express route and execution halted per instruction (裁定312: 予言が外れたら停止・報告).",
+   "resolution": "mathematician re-examination (§4.2.5, ruling 313) found the two systems had never disagreed; the apparent alpha=2,3 mismatch in the ORIGINAL (20260801) cert was an artifact of comparing model(alpha) against a FIXED abstract(alpha'=1)=H_7^fun target, not a genuine mismatch or a left/right-convention bug. CB4-ORIENT (mechanism claim) and CB4-PRED (swap prediction) are formally RETRACTED by the mathematician; only 'the cross table is diagonal' and 'the alpha=2,3 mismatch is not mathematics' survive, with the corrected reason (comparison target, not orientation)."
+  }
+ },
+
+ "alpha_convention": {
+  "alpha_registered": "[1]   (= H_7^fun = H_{2,1,0};  pre-registration P-1)",
+  "alpha_registered_status": "CONVENTION, NOT THEOREM   (U7-14 open: depends on I24-a / Sol Q6.1)",
+  "alpha_recovered": "[1]   (stage 5 read back the alpha the model was built with)",
+  "semantics": "The identity cross-table is a SELF-CONSISTENCY property of the identification machinery: it recovers whichever alpha it is fed and separates the three classes. It does NOT determine which alpha the arithmetic object K^(7) requires. U7-14 remains OPEN.",
+  "impact_on_measured_value": "none.  u_n = 4*(-1)^alpha  and  -1 = zeta_28^14 in F^{x14}  =>  [4]_14 = [-4]_14  =>  all three windows give the same [u_7]_14 (and the same ord = 7).  See fire log 2.3.",
+  "alpha_determination_claimed": false
+ },
+
+ "no_interpretation": true,
+ "uses_Ih_image": false,
+ "uses_TOWER_n_or_KUM_n_or_TW1": false,
+ "uses_SPLIT_or_EXP": false,
+
+ "digest_binding": {
+  "note": "本cert の内容は以下の入力ハッシュに束縛。本セッションで上位ドキュメントを編集していない(参照のみ)。数学者側の参照/交差検証ファイル(cbeta_model.py, cbeta_nielsen.py, cbeta_recheck.py, tw_orient.py, cbeta_scan.py)は独立実装のimport対象ではなく、二系統比較(stage5)の相手側成果物として束縛。",
+  "sha256": {
+   "search/probe/wac_v1/cbeta_model_indep.g": "7b2c1cffe70e2dbc50784b0a3499f2a10809e1f95fc97fc333d4fcb603bf12ce",
+   "search/probe/wac_v1/cbeta_crosstable.g": "021ef1768bf0c15c000f417875f6d4bbbbf881b4db0c7f94a536ca92117d0536",
+   "search/probe/wac_v1/cbeta_symbolic_check.py": "88708beaf3933555ab85e6c1fee987ebbdd2a5101b6e0b56b7f6652cf4774303",
+   "search/probe/wac_v1/cbeta_s7_block.g": "c5baa8a714d3d48b9407b4b1bac790ba577012a7611e1c3d41ede1ce4af8f00d",
+   "search/probe/wac_v1/cbeta_recheck.py": "4d1674cdb1d20733c62a7a5801dd96496147f4460f2c84c941d39db6392684cc",
+   "search/probe/wac_v1/tw_orient.py": "a160b58d0b4b6ac2c0f910b23983acc75e7566d9706334b7d67f72e26af4ea23",
+   "search/probe/wac_v1/cbeta_scan.py": "4116339778cdf8a4c1e198e49dfcb11888fa60e7baf30d8a1ac70f9b1d75cd83",
+   "search/probe/wac_v1/cbeta_model.py": "aed8ccf637a6ac14cc7fd16986874753935535996427201601c00d549b6500ce",
+   "search/probe/wac_v1/cbeta_nielsen.py": "948d34e70546023f4e39e5a8b90d7f067406df8e4e912b53d5b5088f40ad27a3",
+   "search/probe/wac_v1/u7_cbeta_marked_triple.g": "53bf53bc6dd8bd8dd6371496b3f51506d6e966ce6c47ac69603d095256693f74",
+   "docs/notes/u7_fire_log_v1_addendum_grade.md": "54b4e0ce9002c800b06bd0a1c119f65c23344a8a1289e0bbc39632b78bba5bbd",
+   "docs/notes/u7_fire_log_v1.md": "3f015f99952f3763fefdee2b4bdc534478d87229b442433b663b19659e93f704",
+   "docs/notes/oddH_full_proof_v1.md": "f73fe2b76498730f1da2732454756c3f970026d530a046c7e6f7047dfaf87a8d",
+   "search/certs/u7_thirdroute_cbeta_20260801.json": "e70de1fa5b0504718265a5fc7f8cc7b964e0f680e80cb7fbcff3a8457be1fc76"
+  }
+ },
+
+ "gap_and_python_runs": {
+  "note": "raw stdout excerpts (machine-piped), not hand-transcribed. Full logs available by re-running: .\\gap.ps1 search\\probe\\wac_v1\\cbeta_model_indep.g ; .\\gap.ps1 search\\probe\\wac_v1\\cbeta_crosstable.g ; python search\\probe\\wac_v1\\cbeta_symbolic_check.py ; python search\\probe\\wac_v1\\cbeta_recheck.py",
+  "cbeta_crosstable_g_tail": "model(alpha=1) x abstract(alphaPrime=1) : MATCH = true\nmodel(alpha=1) x abstract(alphaPrime=2) : MATCH = false\nmodel(alpha=1) x abstract(alphaPrime=3) : MATCH = false\nmodel(alpha=2) x abstract(alphaPrime=1) : MATCH = false\nmodel(alpha=2) x abstract(alphaPrime=2) : MATCH = true\nmodel(alpha=2) x abstract(alphaPrime=3) : MATCH = false\nmodel(alpha=3) x abstract(alphaPrime=1) : MATCH = false\nmodel(alpha=3) x abstract(alphaPrime=2) : MATCH = false\nmodel(alpha=3) x abstract(alphaPrime=3) : MATCH = true\nmodel alpha=1:  [ true, false, false ]\nmodel alpha=2:  [ false, true, false ]\nmodel alpha=3:  [ false, false, true ]",
+  "cbeta_recheck_py_tail": "model alpha=1: |C0|=7 |C1|=49 |Cinf|=7 triples=49\n    vs abstract alpha'=1:  canon=True   explicit=True   <-- MATCH\n    vs abstract alpha'=2:  canon=False   explicit=False\n    vs abstract alpha'=3:  canon=False   explicit=False\nmodel alpha=2: |C0|=7 |C1|=49 |Cinf|=7 triples=49\n    vs abstract alpha'=1:  canon=False   explicit=False\n    vs abstract alpha'=2:  canon=True   explicit=True   <-- MATCH\n    vs abstract alpha'=3:  canon=False   explicit=False\nmodel alpha=3: |C0|=7 |C1|=49 |Cinf|=7 triples=49\n    vs abstract alpha'=1:  canon=False   explicit=False\n    vs abstract alpha'=2:  canon=False   explicit=False\n    vs abstract alpha'=3:  canon=True   explicit=True   <-- MATCH",
+  "cbeta_symbolic_check_py_tail": "{'alpha': 5, 'h_sigma_eq_hinv': True, 'g_sigma_eq_ginv': True, 'g_theta_eq_negg': True, 'h_theta_eq_claim': True, 'h_theta_residual': '0'}\nALL_IDENTITIES_HOLD = True"
+ },
+
+ "buys_and_does_not_buy": {
+  "buys": "Per handbook §4.2.3.7 as refined by §4.2.5: the identification (\"this explicit model's monodromy realises the K^(7) window for the [alpha] it was built with\") is confirmed via (P1)(P2)(P3)-only construction, independent of D-3 (TOWER-n/KUM-n/SPLIT) and D-4 (TW-1). Stage 5 comparison is now cross-checked (two independent systems, python and GAP, agree on the full 3x3 table).",
+  "does_not_buy": "(i) The exact value u_7=-4 remains single-system (path A only; C-gamma is the only route to a second system for the VALUE, per §4.1 of the original addendum — unchanged by this cert). (ii) WHICH [alpha] the arithmetic object K^(7) actually corresponds to (U7-14) is NOT determined by this cert — S6 is a self-consistency/calibration check of the identification machinery, not a selection principle. (iii) impact_on_measured_value is none regardless, since [4]_14=[-4]_14 for all three alpha (fire log §2.3)."
+ },
+
+ "next_step": "U7-14 (which [alpha] is arithmetically correct) remains open, tied to I24-a (alpha-orbit conjecture) / Sol Q6.1 (reduction-functoriality). No further action required on C-beta itself per ruling 313; D-3/D-4 are now off the u_7 identification verification chain for the registered alpha=1 window."
+}
