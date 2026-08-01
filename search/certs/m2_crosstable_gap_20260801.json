@@ -1,0 +1,691 @@
+{
+  "generated_by": "search/probe/wac_v1/m2_crosstable_gap_v1.g",
+  "script_sha256": "7a1b62c8d83a3f00d00122c01414adf57eeb3f5f23d54e71ab314d59f514f752",
+  "gap_invocation": ".\\gap.ps1 search\\probe\\wac_v1\\m2_crosstable_gap_v1.g",
+  "independent_of": "m2_family_check.py (python) -- imports only cbeta_model_indep.g",
+  "allowed_n": [
+    3,
+    7,
+    9,
+    11,
+    13
+  ],
+  "n5_excluded": true,
+  "n5_exclusion_method": "hard assert on ALLOWED_N literal at script top; QUIT if violated",
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1",
+    "perm_composition": "gap_native_right_action_x_to_the_g",
+    "conjugation": "gap_native x^g",
+    "coset_side": "right (RightCosets, OnRight, as in cbeta_model_indep.g / u7_cbeta_marked_triple.g)",
+    "triple_relator_order": "ORDER-A: g0img*g1img*giimg = One (see cbeta_model_indep.g S9 note); this script uses ORDER-A only",
+    "chi_P_criterion": "exact only (m.triples / m.C0 / m.Cinf built from exact chi0/chiInf match); conjugacy_class variant not separately recomputed here -- see orbit_group field",
+    "comparison_target": "for each alpha, model triple set is tested against abstract window H_{2,alphaPrime,0} for EVERY alphaPrime in (Z/n)^x / {+-1} via TripleConjugate (full Sym(2n) simultaneous-conjugacy test, BFS canonical form)",
+    "alpha_reps": "smallest representative of each {alpha,-alpha mod n} pair, ascending scan order (same rule as m2_family_check.py RepsModPM)"
+  },
+  "comparison_target_doc": "docs/notes/m2_family_identification_v1.md theorem M2-GEO (Sec 6) and its Sec 9 spot-check table -- prediction (identity diagonal) is read AFTER this script's raw cross table is computed, not injected into the search",
+  "orbit_group_legend": {
+    "exact": "translation subgroup A <= Gamma_n, order n^2 -- theorem NIE(3): T(eta,delta) is a single simply-transitive A-orbit",
+    "class": "Gamma_n itself, order 4n^2 -- theorem NIE(4): T^cl is a single free Gamma_n-orbit (this script's m.orbits, computed by conjugating the exact triple set under the full model monodromy group Mperm = Gamma_n)"
+  },
+  "per_n": {
+    "3": {
+      "units": [
+        1,
+        2
+      ],
+      "reps_mod_pm1": [
+        1
+      ],
+      "phi_n_over_2": 1,
+      "abstract_side": [
+        {
+          "alphaPrime": 1,
+          "G7order": 108,
+          "Horder": 18,
+          "Morder": 36,
+          "transitive": true
+        }
+      ],
+      "model_side": [
+        {
+          "alpha": 1,
+          "Mperm_order": 36,
+          "expected_4nsq": 36,
+          "n_triples_exact": 9,
+          "expected_nsq": 9,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            36
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        }
+      ],
+      "cross_table": [
+        [
+          true
+        ]
+      ],
+      "cross_table_rows_are_model_alpha": [
+        1
+      ],
+      "cross_table_cols_are_abstract_alphaPrime": [
+        1
+      ],
+      "identity_diagonal": true
+    },
+    "7": {
+      "units": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "reps_mod_pm1": [
+        1,
+        2,
+        3
+      ],
+      "phi_n_over_2": 3,
+      "abstract_side": [
+        {
+          "alphaPrime": 1,
+          "G7order": 1372,
+          "Horder": 98,
+          "Morder": 196,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 2,
+          "G7order": 1372,
+          "Horder": 98,
+          "Morder": 196,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 3,
+          "G7order": 1372,
+          "Horder": 98,
+          "Morder": 196,
+          "transitive": true
+        }
+      ],
+      "model_side": [
+        {
+          "alpha": 1,
+          "Mperm_order": 196,
+          "expected_4nsq": 196,
+          "n_triples_exact": 49,
+          "expected_nsq": 49,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            196
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 2,
+          "Mperm_order": 196,
+          "expected_4nsq": 196,
+          "n_triples_exact": 49,
+          "expected_nsq": 49,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            196
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 3,
+          "Mperm_order": 196,
+          "expected_4nsq": 196,
+          "n_triples_exact": 49,
+          "expected_nsq": 49,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            196
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        }
+      ],
+      "cross_table": [
+        [
+          true,
+          false,
+          false
+        ],
+        [
+          false,
+          true,
+          false
+        ],
+        [
+          false,
+          false,
+          true
+        ]
+      ],
+      "cross_table_rows_are_model_alpha": [
+        1,
+        2,
+        3
+      ],
+      "cross_table_cols_are_abstract_alphaPrime": [
+        1,
+        2,
+        3
+      ],
+      "identity_diagonal": true
+    },
+    "9": {
+      "units": [
+        1,
+        2,
+        4,
+        5,
+        7,
+        8
+      ],
+      "reps_mod_pm1": [
+        1,
+        2,
+        4
+      ],
+      "phi_n_over_2": 3,
+      "abstract_side": [
+        {
+          "alphaPrime": 1,
+          "G7order": 2916,
+          "Horder": 162,
+          "Morder": 324,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 2,
+          "G7order": 2916,
+          "Horder": 162,
+          "Morder": 324,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 4,
+          "G7order": 2916,
+          "Horder": 162,
+          "Morder": 324,
+          "transitive": true
+        }
+      ],
+      "model_side": [
+        {
+          "alpha": 1,
+          "Mperm_order": 324,
+          "expected_4nsq": 324,
+          "n_triples_exact": 81,
+          "expected_nsq": 81,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            324
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 2,
+          "Mperm_order": 324,
+          "expected_4nsq": 324,
+          "n_triples_exact": 81,
+          "expected_nsq": 81,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            324
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 4,
+          "Mperm_order": 324,
+          "expected_4nsq": 324,
+          "n_triples_exact": 81,
+          "expected_nsq": 81,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            324
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        }
+      ],
+      "cross_table": [
+        [
+          true,
+          false,
+          false
+        ],
+        [
+          false,
+          true,
+          false
+        ],
+        [
+          false,
+          false,
+          true
+        ]
+      ],
+      "cross_table_rows_are_model_alpha": [
+        1,
+        2,
+        4
+      ],
+      "cross_table_cols_are_abstract_alphaPrime": [
+        1,
+        2,
+        4
+      ],
+      "identity_diagonal": true
+    },
+    "11": {
+      "units": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "reps_mod_pm1": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "phi_n_over_2": 5,
+      "abstract_side": [
+        {
+          "alphaPrime": 1,
+          "G7order": 5324,
+          "Horder": 242,
+          "Morder": 484,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 2,
+          "G7order": 5324,
+          "Horder": 242,
+          "Morder": 484,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 3,
+          "G7order": 5324,
+          "Horder": 242,
+          "Morder": 484,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 4,
+          "G7order": 5324,
+          "Horder": 242,
+          "Morder": 484,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 5,
+          "G7order": 5324,
+          "Horder": 242,
+          "Morder": 484,
+          "transitive": true
+        }
+      ],
+      "model_side": [
+        {
+          "alpha": 1,
+          "Mperm_order": 484,
+          "expected_4nsq": 484,
+          "n_triples_exact": 121,
+          "expected_nsq": 121,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            484
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 2,
+          "Mperm_order": 484,
+          "expected_4nsq": 484,
+          "n_triples_exact": 121,
+          "expected_nsq": 121,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            484
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 3,
+          "Mperm_order": 484,
+          "expected_4nsq": 484,
+          "n_triples_exact": 121,
+          "expected_nsq": 121,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            484
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 4,
+          "Mperm_order": 484,
+          "expected_4nsq": 484,
+          "n_triples_exact": 121,
+          "expected_nsq": 121,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            484
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 5,
+          "Mperm_order": 484,
+          "expected_4nsq": 484,
+          "n_triples_exact": 121,
+          "expected_nsq": 121,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            484
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        }
+      ],
+      "cross_table": [
+        [
+          true,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          true,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          true
+        ]
+      ],
+      "cross_table_rows_are_model_alpha": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "cross_table_cols_are_abstract_alphaPrime": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "identity_diagonal": true
+    },
+    "13": {
+      "units": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "reps_mod_pm1": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "phi_n_over_2": 6,
+      "abstract_side": [
+        {
+          "alphaPrime": 1,
+          "G7order": 8788,
+          "Horder": 338,
+          "Morder": 676,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 2,
+          "G7order": 8788,
+          "Horder": 338,
+          "Morder": 676,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 3,
+          "G7order": 8788,
+          "Horder": 338,
+          "Morder": 676,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 4,
+          "G7order": 8788,
+          "Horder": 338,
+          "Morder": 676,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 5,
+          "G7order": 8788,
+          "Horder": 338,
+          "Morder": 676,
+          "transitive": true
+        },
+        {
+          "alphaPrime": 6,
+          "G7order": 8788,
+          "Horder": 338,
+          "Morder": 676,
+          "transitive": true
+        }
+      ],
+      "model_side": [
+        {
+          "alpha": 1,
+          "Mperm_order": 676,
+          "expected_4nsq": 676,
+          "n_triples_exact": 169,
+          "expected_nsq": 169,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            676
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 2,
+          "Mperm_order": 676,
+          "expected_4nsq": 676,
+          "n_triples_exact": 169,
+          "expected_nsq": 169,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            676
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 3,
+          "Mperm_order": 676,
+          "expected_4nsq": 676,
+          "n_triples_exact": 169,
+          "expected_nsq": 169,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            676
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 4,
+          "Mperm_order": 676,
+          "expected_4nsq": 676,
+          "n_triples_exact": 169,
+          "expected_nsq": 169,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            676
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 5,
+          "Mperm_order": 676,
+          "expected_4nsq": 676,
+          "n_triples_exact": 169,
+          "expected_nsq": 169,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            676
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        },
+        {
+          "alpha": 6,
+          "Mperm_order": 676,
+          "expected_4nsq": 676,
+          "n_triples_exact": 169,
+          "expected_nsq": 169,
+          "orbit_group_exact": "A(translations,order_nsq)",
+          "n_orbits_class": 1,
+          "orbit_sizes_class": [
+            676
+          ],
+          "orbit_group_class": "Gamma_n(order_4nsq)"
+        }
+      ],
+      "cross_table": [
+        [
+          true,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          true,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          true,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ]
+      ],
+      "cross_table_rows_are_model_alpha": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "cross_table_cols_are_abstract_alphaPrime": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "identity_diagonal": true
+    }
+  },
+  "overall_identity_diagonal_all_n": true,
+  "machine_piped": true,
+  "note": "raw cross table computed first; M2-GEO identity-diagonal prediction from docs/notes/m2_family_identification_v1.md compared only in overall_identity_diagonal_all_n / per-n identity_diagonal fields, computed structurally (i=j check on the SAME reps list for both axes), not hand-copied from the note"
+}

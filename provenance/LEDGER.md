@@ -1185,3 +1185,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 骨: n が効く箇所は悉皆 2 箇所のみ(奇性)・χ_P 一般式は n 非依存で α は χ_{k=1} のみ・gcd(α,n)=1 が生成条件として内在的に出現・完全不変量 ρ=[δ/η]∈(ℤ/n)^×/{±1}。TW-1(a)/CORE/EXP/ODD-P も n 一様再導出。D3-PAR 論法は不要と判明。
 - **残 = M2-DESC**: K⁽ⁿ⁾ 側被覆が F_n 上定義される、の 1 点。【文献要請 M2-1】= mere cover 版「Aut=1 ⟹ moduli 体 = 定義体」の正確な仮定(Dèbes–Emsalem 1999 が scout 済の骨格文献)→ 覚書つき委嘱を発車。
 - 付随: §4.2.3.4 の両基準数値の 1 行混在は erratum 不要(両方正)・cert に orbit_group 欄の提案受理。
+
+## 2026-08-01 crosstable GAP 化完了(裁定 329)— M2-GEO の機械検証が GAP×python 二系統に(n=3,7,9,11,13 全て恒等対角・数値完全一致)
+- probe = m2_crosstable_gap_v1.g(ALLOWED_N・n=5 は Error 排除)・cert = m2_crosstable_gap_20260801.json(**orbit_group_legend 欄の第 1 号**・conventions_used・予言はコード外)。triples/orbit: 9/[36]・49/[196]・81/[324]・121/[484]・169/[676] — note §9 と全一致。
+- 実装係の共有知見: **GAP の Print/PrintTo は SizeScreen 幅で JSON を折り返して壊す**(SizeScreen([10⁶,10⁶]) で対処)— GAP 製 JSON の共通罠として記録。chi_P は exact 直接+class は Γₙ 軌道で代替(経路差は legend に明記・妥当と裁定)。
