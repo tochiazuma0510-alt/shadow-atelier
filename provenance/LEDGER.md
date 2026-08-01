@@ -1175,3 +1175,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 新規 = ninfty-native-a-cli.mjs / native-b-cli.py / ep-genuine-provisioning.py / ep_ci_raw_evidence cert / .github/workflows/ep-union-check.yml(workflow_dispatch 型・未発火)・cert = ep_provisioning_20260801.json(世代 ID・quarantine 記録・R1/R2 migration proposal 節)。VALID_ROLES を 4 role へ拡張・stale assertion 3 件修理(2 = 実 provisioning の自然な帰結・1 = 前波起源を git log で確認)。
 - 検証: resolve_bundle が実世代から digest 一致で返す・_resolve_native_registry が本番データで genuine PASS・full CLI は正直な INTEGRITY_STOP(smoke cert に witness 構造なし = 想定・full 配線は migration proposal として便 95 へ)。回帰 6 スイート 637 本 all green。
 - ⟹ W92-8: (a)(b)(c) 実充足・(d) は司令塔の workflow_dispatch 1 回(→ 発火)。速達 2 往復(schema 凍結判断・git 混入)とも走行中解決・停止事故ゼロ。
+
+## 2026-08-01 EP CI receipt 取得(裁定 327)— ★★ run 30682903849 success ⟹ **W92-8 の (a)(b)(c)(d) 全充足** — 便 95 で再発効請求 v10 の提出条件完備
+- (a) bundle resolver+race 負例(v12)✓ (b) suite 637 全 green ✓ (c) 実物 provisioning(ep-genuine-20260801・12 artifact・CURRENT 稼働)✓ (d) 実 CI receipt(workflow_dispatch run 30682903849 success・artifact 化)✓。
+- EP 建設の全経過: v7〜v12 の要塞化 → 法的循環の突破(単発実走 AUTHORIZED)→ checker_native → NF 二系統(digest 一致)→ 実物世代化 → CI receipt。再発効の裁定は Sol(便 95)。
