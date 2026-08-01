@@ -1393,3 +1393,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 実測設計: 命題 CMP-S4(N_S4 と K⁽⁹⁾ は poset 比較不能 = Dih^odd 非共終の具体証人)・命題 ROOF(M=K⁽⁹⁾∩N_S4・PB₃/M ≅ G₉×PSL(2,8)・|GT(M)|=972 予言)・P-IHN-1〜7 事前登録(全射 =「何も出ない」を紙で先に決めた)・R4a/R4b 二段工程。検算 ihnec_check.py failures 0(収蔵済)。
 - **裁定①「fake」の二義解消**: 以後の正式用語 — **fake = 非 genuine(A 型・正典 Def 4.2 準拠)**/**B 型 = genuine だが非算術(「非算術証人」と呼ぶ・fake と呼ばない)**。A 型は P1/P2 を殺し P6 は殺さない・B 型が FAKE-KILL の証人。**現行 P5 哨戒が測っているのは A 型** — FAKE-VOID 三層の predicate は A 型と明記・B 型検出は entangled 屋根(ROOF 型)の別戦線として登録。地図 P1/P5 行の語法は次回一括更新時に訂正。
 - 裁定②: 2401 Prop 3.14/3.15/Cor 5.4 の逐語照合を reader へ発注(ML-ODD の全体重が乗る 3 条文)。
+
+## 2026-08-01 P5-1 完了(裁定 375)— ★ FAKE-VOID 三層定式化+母集団台帳 31 行(fv-pin.py 検証 ALL PASS・司令塔追試済)+定理 FV-EQ/系 FV-COST/系 FV-SUB
+- **三層**: FV-SOLV(可解帯・予想へ格上げ・層 (a) のみ主張・実測は FV-SOLV⁻ に分離)/FV-WALL(予想にしない — 理由 3 つ明記・第一照準 n=24 二方向・結果を予言しないことを事前登録)/FV-N∞(UNKNOWN 隔離+定理 D/D+ の 2 行のみ編入・K⁽⁵⁾ 層 (c) は不動と明示)。三層とも EP 発効非依存。
+- **定理 FV-EQ**(candidate): 三層は (a) ĜT_gen↠GT(N) / (b) ĜT=ĜT_gen / (c) 井原予想と逐層同値。**系 FV-COST: 母集団無指定の FAKE-VOID = 夢の言い換え**(三層に切る数学的理由)。**系 FV-SUB が会計を変えた**: arithmetical⇒genuine⇒survive ゆえ定理級で覆われる底窓のプローブは系であって独立証拠でない — 実体 = **17 プローブ・8 底窓・全 VOID・うち独立 7 プローブ/5 窓**・層 (b) を動かした行は GTPI(PB₃ 模型水準)の 1 行のみ。
+- 台帳 31 行(格 5 種・行ごと明示・束ね札なし)。要 cert 化 4 件(fv-probe/v1 schema 新設・FV-16 の compression:1. パースバグ・J=L∩M₅ 未走・canonical UID 突合)。【GAP-FV-1】正直開示: FV-SOLV を支持する機構は無い(層 (a) 直接の論法を工房は持たない — 経験的な賭け)。
+- p52 追記 A(裁定 373 ②③履行・§9 UNKNOWN (a) を (ii) へ絞り込み — 便 54 F6 と spec v19 §3 が同一機構を名指し)。
+- 用語規約を台帳 §1.3.9 へ登録(fake=A 型のみ・B 型=非算術証人・pentagon-fake/arith-fake は工房語注記義務)。**文献要請 FV-L1 を paper-hunter に発注**(①副有限版 pentagon⇒hexagon の類似・②ĜT⊊ĜT_gen 分離不変量・③有限段の解が塔へ持ち上がらない既知例 —「例ゼロ」と「誰も探していない」の区別が目的)。
