@@ -1,0 +1,26 @@
+{
+  "full_evidence_union_assert_rc": "0",
+  "full_evidence_union_exit_code": "1",
+  "full_evidence_union_summary": {
+    "calibrated_detector": false,
+    "columns": {
+      "R1": "MALFORMED",
+      "R2": "MALFORMED",
+      "R3-NF": "PASS"
+    },
+    "docs_era_binding_ok": true,
+    "ep_status": "uncalibrated/UNKNOWN",
+    "four_role_registry_status": "PASS",
+    "overall_full": "INTEGRITY_STOP",
+    "registry_freeze_id": "ep-genuine-20260801b",
+    "registry_generation_id": "ep-genuine-20260801b-20260801T062657Z-d4e9fa214d69"
+  },
+  "generated_at": "2026-08-01T06:38:54.804990+00:00",
+  "note": "suites_status=0 means all 7 ninfty regression suites passed (test_ninfty_nf/checker_native/laneB/evidence_union/legacy_normalizer/r3nf + ninfty-selftest-lanea.mjs) -- and the 'Gate' step FAILS THE JOB if this is not '0' (fail-closed, Sol 便95 W95-2.2). The per-suite check counts are in ci/out/suites.log, which each suite prints itself; they are not restated here, because a hand-restated total is exactly the kind of claim a receipt must not carry. registry_smoke_process_exit_code is search/ninfty-evidence-union.py's real process exit code against the production registry smoke fixture (search/certs/ep_ci_raw_evidence_20260801.json) -- a nonzero value is EXPECTED there; the step's own assert (registry_smoke_assert_rc) is what gates, and it checks native_registry_status.status=='PASS' from the parsed JSON. full_evidence_union_* is the three-column union (search/ninfty-evidence-union-full.py) against search/certs/ep_ci_full_witness_evidence_20260801.json: R1/R2 are recorded verbatim and NOT asserted PASS (they report MALFORMED against the genuine cross-lane native pair, for the structural reason recorded in their detail); R3-NF, the four-role same-generation resolution and the docs-era binding ARE asserted. EP itself remains uncalibrated/UNKNOWN -- no positive control exists (P95-2.2 item 4). download+bind: `gh run download <run_id> -n ep-union-check-receipt` reproduces this exact receipt.json byte-for-byte; sha above is the checked-out commit this run executed against.",
+  "registry_smoke_assert_rc": "0",
+  "registry_smoke_process_exit_code": "1",
+  "run_attempt": "1",
+  "run_id": "30688121934",
+  "sha": "01f53cf7e911e008805a4b4d28476aa3e3225b5b",
+  "suites_status": "0"
+}

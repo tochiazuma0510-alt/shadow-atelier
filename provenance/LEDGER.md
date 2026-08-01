@@ -1273,3 +1273,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 経緯: 研究者が前任実装係(sonnet)を停止 → 司令塔が専任係(opus・ep-keeper 代替起動)を発進。しかし停止前に司令塔が送った検問 1 承認の配達が停止をまたいで前任の最終バーストを誘発し、**約 25 分間、二 writer が同一 EP ツリーへ並走**(前任: R3-NF 一式・第二縁 fixture・selfaudit v9 / 後任: v19 修理・Y-3a・receipt v2・repin)。後任が mtime 監査で検知し書き込み自主停止 → 司令塔がタスク台帳で前任の死亡確認 → 単独再開を指示。
 - 収束: 前任成果は検証採用方式(F95-2.2 承認形+束縛条項への逐条突合後に正本化)・repin 再確認・selfaudit v9+全 suite は統合後 fresh 走行の値のみ引用・incident は cert findings に記録。後任が自分の重複 R3-NF を発見時点で削除していた判断も適切。
 - **教訓(手順化)**: 係の交代時は (1) 前任へ TaskStop を明示発行し task registry で不在を確認してから後任を起動 (2) 停止通知の受信だけで死亡と見なさない(未配達の承認/指示メッセージが再起動を誘発し得る)(3) 後任の起動 briefing に「開始時 git status を保存し、以後の他者書き込みを mtime で監査」を含める — 今回後任がこれを自発実施して検知に成功した。
+
+## 2026-08-01 EP 修理バンドル完遂(裁定 349)— ep-keeper 初出動・7 suite 705 検査 green・凍結 7 ファイル byte 同一・union 三欄の正直記録
+- 引き継ぎ監査(前任 implementer 中断分): 整合 7・欠落 4(両縁 fixture・R3-NF・用語分離・再 freeze)・**違反 1 = CI registry smoke の assert が fail-open(heredoc 直後 echo が exit code を 0 上書き — 本日 4 匹目の fail-open 族・ep-keeper が捕獲し修理)**。
+- 完成物: spec v19+contract v14+manifest v14(DRAFT・Sol 監査待ち)・selfaudit v9(additive・S2 明示集合検査 #16)・R3-NF 実装(55 検査 suite・genuine nf_a/nf_b に 11 検査全 PASS)・negative fixture 両縁([27] 発火/非発火)・full witness evidence(genuine 新造・fixture_01 は出所別系統で不使用)・再 freeze **ep-genuine-20260801b**(gen-receipt/v2 = docs 三 digest を pin・v1 receipt は R3-NF が拒否)・用語分離(diagnostic/minted)。
+- **full union の機械結果(正直記録)**: R1=MALFORMED・R2=MALFORMED・R3-NF=PASS・overall=INTEGRITY_STOP(exit 1)。「union PASS」とは呼ばない。
+- **懸念 1(意味論・便 96 照会)**: R1/R2 は構造的に fixture で PASS 不能 — lane A native が W-6 形 {branch_value, multiplicity} 写像を持たない(イデアル生成元のみ)。選択肢 (a) lane A producer 拡張 (b) lane B に locus 型写像 (c) W-6 を同一 lane 歴史 route と宣言し cross-lane 一致は R3-NF が担う — いずれも意味論変更のため Sol 裁定へ(司令塔の推奨 = (c)・F95-2.2 の「R1/R2 は歴史的凍結 route」と整合)。
+- 懸念 2: セッション中断復旧時に前任と ep-keeper が同一ファイルを並行編集(未配達メッセージによる前任再起動 — agent-handover-protocol memory 化済)。世代 062303Z は superseded・未参照で残置(supersede であって上書きでない)。
+- P95-2.2 進捗: ①closed ②文面 closed(CI 実発火で実証へ)③partial(懸念 1)④open(positive control — uncalibrated/UNKNOWN 維持)⑤closed。
+
+## 2026-08-01 EP fail-closed CI 実証(裁定 350)— run 30688121934 success・receipt = run SHA 01f53cf 束縛・suites_status=0 を gate が強制・union 三欄正直(R1/R2=MALFORMED・R3-NF=PASS・docs_era_binding_ok=true・ep_status=uncalibrated/UNKNOWN)。W95-2.2 の要求形(exact receipt の repo 束縛+assert)を充足 — P95-2.2 条件②は実証済み closed へ。収蔵 = ep_ci_receipt_run30688121934.json / ep_ci_union_full_run30688121934.json。
