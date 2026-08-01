@@ -1,0 +1,50 @@
+{
+  "_note_to_miner": "起票用の草稿(実装係作成・2026-08-01)。起票・preflight・発車は miner の職掌。テンプレ mine/jobs/templates/ladder.json 相当を backend=py-ci 用に埋めた。job_id の日付・sha256 は起票直前に再計算して差し替えること(本 driver は継続開発中のため sha256 は暫定値)。",
+  "schema": "mine-job/v1",
+  "job_id": "w98-alg-driver-run-REPLACE-DATE",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P25 (W98-ALG / n! 全指標表を作らない厳密計数)"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "sol/sol_reply_98_math25.md sec.5 (W98-5.1採択案・P98-5.1実装ゲートGO)に基づく計数 driver の本走。rho=(ell,1^a) 型のみを対象とし、ell in {37,41}, a=0..8 の 18 値(T_all)と、そこから ALG-3 二項反転で得る T_trans(ell,1^t), t=0..8 を算出する。宇宙は司令塔指示の範囲(ell=37,41 / a=0..8)を厳守し、他の ell・a へは広げない。較正 4 点(小n直接悉皆・(23,1^3) T_trans=173880・(25,1^5) T_trans=378000・(37,1^2) T_all=10643405866/T_trans=3296573904)は driver 内で fail-closed に実走・assert 済み(較正不一致なら driver が AssertionError で停止し cert を出さない)。CharacterTable(\"Symmetric\",n)/ctbllib は一切使用しない(GAP非依存の純Python)。route A(全partition streaming)とroute B(rim-hook直接生成)を独立二重実装し driver 内で一致 assert(不一致ならAssertionError)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/w98_alg_driver.py", "sha256": "REPLACE-ME (起票直前に sha256sum で再計算)" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "W98-ALG-DRIVER",
+      "version": 1,
+      "params": {
+        "driver": "search/probe/wac_v1/w98_alg_driver.py",
+        "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。CLI引数なし(py-ci汎用契約(2)・primes欄なし)。"
+      }
+    }
+  ],
+  "predictions": {
+    "declared_none": "18値そのものはこの driver の初回厳密実走で確定させるのが目的であり、事前の期待値は置かない(接触遮断)。較正4点のみ既知値(cert根拠: scratchpad/lt13a/.../ell37-t2/lt_count_gen_ell37_t2_20260801.json 由来の (37,1^2) 値、および (23,1^3)/(25,1^5) の既知厳密値)と一致することを driver 内部で fail-closed に確認する。"
+  },
+  "resources": {
+    "backend": "py-ci",
+    "shards": "none (単一 driver 実行・全18値+較正を1プロセス内で完走)",
+    "timeout_min": 60,
+    "checkpoint": false,
+    "py_driver": {
+      "script": "search/probe/wac_v1/w98_alg_driver.py",
+      "sha256": "REPLACE-ME (起票直前に再計算)",
+      "args": [],
+      "done_marker": "DRIVER_DONE"
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-w98-alg-driver-cert/v1 (正本は search/probe/wac_v1/w98_alg_driver.py 自身のヘッダコメント+report dict。formula_id・calibration_small_n・calibration_named・cells[ell][a]・T_trans[ell][t]・route_A/B contribution digest・script_sha256・driver_done/marker を持つ)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none",
+    "note": "route A/route B の相互一致は driver 内部の fail-closed assert として既に構造化されている(CV-13 の精神)。これは探索器内部の二重実装であって、独立照合器(crosscheck/)による外部照合ではない -- 照合器を求めるなら別途 crosscheck/ 側に cert のみを入力とする独立実装を新設すること(探索器のコードは import しない)。"
+  },
+  "ep_handoff": null
+}

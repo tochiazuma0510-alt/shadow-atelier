@@ -1,0 +1,391 @@
+{
+  "schema": "wac_v1-w98-alg-driver-cert/v1",
+  "formula_id": "W98-ALG (sol_reply_98_math25.md sec.5, ALG-1/ALG-2/ALG-3)",
+  "spec_ref": "sol/sol_reply_98_math25.md W98-5.1 / P98-5.1",
+  "no_symmetric_chartable": true,
+  "no_ctbllib": true,
+  "generated_by": "search/probe/wac_v1/w98_alg_driver.py",
+  "calibration_small_n": [
+    {
+      "ell": 2,
+      "a": 0,
+      "n": 2,
+      "brute_force": 1,
+      "route_A": 1,
+      "route_B": 1,
+      "pass": true
+    },
+    {
+      "ell": 3,
+      "a": 0,
+      "n": 3,
+      "brute_force": 1,
+      "route_A": 1,
+      "route_B": 1,
+      "pass": true
+    },
+    {
+      "ell": 3,
+      "a": 2,
+      "n": 5,
+      "brute_force": 7,
+      "route_A": 7,
+      "route_B": 7,
+      "pass": true
+    },
+    {
+      "ell": 4,
+      "a": 1,
+      "n": 5,
+      "brute_force": 4,
+      "route_A": 4,
+      "route_B": 4,
+      "pass": true
+    },
+    {
+      "ell": 5,
+      "a": 0,
+      "n": 5,
+      "brute_force": 5,
+      "route_A": 5,
+      "route_B": 5,
+      "pass": true
+    },
+    {
+      "ell": 2,
+      "a": 3,
+      "n": 5,
+      "brute_force": 7,
+      "route_A": 7,
+      "route_B": 7,
+      "pass": true
+    },
+    {
+      "ell": 4,
+      "a": 3,
+      "n": 7,
+      "brute_force": 16,
+      "route_A": 16,
+      "route_B": 16,
+      "pass": true
+    },
+    {
+      "ell": 3,
+      "a": 3,
+      "n": 6,
+      "brute_force": 10,
+      "route_A": 10,
+      "route_B": 10,
+      "pass": true
+    }
+  ],
+  "calibration_named": {
+    "ell23_a3_T_trans": {
+      "value": 173880,
+      "expected": 173880
+    },
+    "ell25_a5_T_trans": {
+      "value": 378000,
+      "expected": 378000
+    },
+    "ell37_a2_T_all": {
+      "value": 10643405866,
+      "expected": 10643405866
+    },
+    "ell37_a2_T_trans": {
+      "value": 3296573904,
+      "expected": 3296573904
+    },
+    "all_pass": true
+  },
+  "cells": {
+    "37": {
+      "0": {
+        "ell": 37,
+        "a": 0,
+        "n": 37,
+        "T_all": 2011535710,
+        "route_A_contributing_partitions": 37,
+        "route_B_contributing_partitions": 37,
+        "route_A_contribution_digest_sha256": "9c3af64eb835910292e2e2e6f146c87f40f5dc7dea85cab77b437a1b9f97b853",
+        "route_B_contribution_digest_sha256": "9c3af64eb835910292e2e2e6f146c87f40f5dc7dea85cab77b437a1b9f97b853",
+        "route_A_seconds": 0.117,
+        "route_B_seconds": 1.3138,
+        "route_A_partitions_scanned": 21637,
+        "route_B_mu_count": 1
+      },
+      "1": {
+        "ell": 37,
+        "a": 1,
+        "n": 38,
+        "T_all": 4679183836,
+        "route_A_contributing_partitions": 37,
+        "route_B_contributing_partitions": 37,
+        "route_A_contribution_digest_sha256": "ae5ab6157ca73607ab000d6c8b540c279ac3f11de78aaeee97e9ae031aa92609",
+        "route_B_contribution_digest_sha256": "ae5ab6157ca73607ab000d6c8b540c279ac3f11de78aaeee97e9ae031aa92609",
+        "route_A_seconds": 0.127,
+        "route_B_seconds": 1.3206,
+        "route_A_partitions_scanned": 26015,
+        "route_B_mu_count": 1
+      },
+      "2": {
+        "ell": 37,
+        "a": 2,
+        "n": 39,
+        "T_all": 10643405866,
+        "route_A_contributing_partitions": 74,
+        "route_B_contributing_partitions": 74,
+        "route_A_contribution_digest_sha256": "7013594a15c24ad45c01c89e87ef4f4c567130108d639f0ac127072f52b00368",
+        "route_B_contribution_digest_sha256": "7013594a15c24ad45c01c89e87ef4f4c567130108d639f0ac127072f52b00368",
+        "route_A_seconds": 0.2073,
+        "route_B_seconds": 4.1438,
+        "route_A_partitions_scanned": 31185,
+        "route_B_mu_count": 2
+      },
+      "3": {
+        "ell": 37,
+        "a": 3,
+        "n": 40,
+        "T_all": 24056578600,
+        "route_A_contributing_partitions": 111,
+        "route_B_contributing_partitions": 111,
+        "route_A_contribution_digest_sha256": "f9b28e54460f96f8b03be69c64082df63e7786848659c1090610781c7bec258c",
+        "route_B_contribution_digest_sha256": "f9b28e54460f96f8b03be69c64082df63e7786848659c1090610781c7bec258c",
+        "route_A_seconds": 0.4606,
+        "route_B_seconds": 9.1711,
+        "route_A_partitions_scanned": 37338,
+        "route_B_mu_count": 3
+      },
+      "4": {
+        "ell": 37,
+        "a": 4,
+        "n": 41,
+        "T_all": 52751075158,
+        "route_A_contributing_partitions": 185,
+        "route_B_contributing_partitions": 185,
+        "route_A_contribution_digest_sha256": "8046941d14711b79db991beaa1d69533f2fb06df39059a5559a29111110b2618",
+        "route_B_contribution_digest_sha256": "8046941d14711b79db991beaa1d69533f2fb06df39059a5559a29111110b2618",
+        "route_A_seconds": 0.7685,
+        "route_B_seconds": 9.6954,
+        "route_A_partitions_scanned": 44583,
+        "route_B_mu_count": 5
+      },
+      "5": {
+        "ell": 37,
+        "a": 5,
+        "n": 42,
+        "T_all": 111545928340,
+        "route_A_contributing_partitions": 259,
+        "route_B_contributing_partitions": 259,
+        "route_A_contribution_digest_sha256": "eccad0c103e4ab0625f9ac23f8a11590976d8afdbb544d6d22adec3634807f75",
+        "route_B_contribution_digest_sha256": "eccad0c103e4ab0625f9ac23f8a11590976d8afdbb544d6d22adec3634807f75",
+        "route_A_seconds": 0.6923,
+        "route_B_seconds": 9.8049,
+        "route_A_partitions_scanned": 53174,
+        "route_B_mu_count": 7
+      },
+      "6": {
+        "ell": 37,
+        "a": 6,
+        "n": 43,
+        "T_all": 228753490786,
+        "route_A_contributing_partitions": 407,
+        "route_B_contributing_partitions": 407,
+        "route_A_contribution_digest_sha256": "c4ec2cc50690aa3dbe8f186c0e76e9e1452a1f3acf2bd07601f1c50ad92262f0",
+        "route_B_contribution_digest_sha256": "c4ec2cc50690aa3dbe8f186c0e76e9e1452a1f3acf2bd07601f1c50ad92262f0",
+        "route_A_seconds": 1.0597,
+        "route_B_seconds": 33.7585,
+        "route_A_partitions_scanned": 63261,
+        "route_B_mu_count": 11
+      },
+      "7": {
+        "ell": 37,
+        "a": 7,
+        "n": 44,
+        "T_all": 456206091616,
+        "route_A_contributing_partitions": 555,
+        "route_B_contributing_partitions": 555,
+        "route_A_contribution_digest_sha256": "cf50f5b6e4176988008a49ce6ea165798fd457c0e9834ba3bd9e96dfcd9a5370",
+        "route_B_contribution_digest_sha256": "cf50f5b6e4176988008a49ce6ea165798fd457c0e9834ba3bd9e96dfcd9a5370",
+        "route_A_seconds": 4.0885,
+        "route_B_seconds": 55.3323,
+        "route_A_partitions_scanned": 75175,
+        "route_B_mu_count": 15
+      },
+      "8": {
+        "ell": 37,
+        "a": 8,
+        "n": 45,
+        "T_all": 883762688590,
+        "route_A_contributing_partitions": 814,
+        "route_B_contributing_partitions": 814,
+        "route_A_contribution_digest_sha256": "e80f67fb109dc4c1b08ec29306ab34f07fa57ee47785961f38f5087ca2a8b2d6",
+        "route_B_contribution_digest_sha256": "e80f67fb109dc4c1b08ec29306ab34f07fa57ee47785961f38f5087ca2a8b2d6",
+        "route_A_seconds": 5.1461,
+        "route_B_seconds": 72.7443,
+        "route_A_partitions_scanned": 89134,
+        "route_B_mu_count": 22
+      }
+    },
+    "41": {
+      "0": {
+        "ell": 41,
+        "a": 0,
+        "n": 41,
+        "T_all": 33331783448,
+        "route_A_contributing_partitions": 41,
+        "route_B_contributing_partitions": 41,
+        "route_A_contribution_digest_sha256": "2c13e0afe3de0f419266ce465ac4f33e9ff0e93a832c9310d34646cbb8c4bd1c",
+        "route_B_contribution_digest_sha256": "2c13e0afe3de0f419266ce465ac4f33e9ff0e93a832c9310d34646cbb8c4bd1c",
+        "route_A_seconds": 0.4795,
+        "route_B_seconds": 5.2115,
+        "route_A_partitions_scanned": 44583,
+        "route_B_mu_count": 1
+      },
+      "1": {
+        "ell": 41,
+        "a": 1,
+        "n": 42,
+        "T_all": 77994118780,
+        "route_A_contributing_partitions": 41,
+        "route_B_contributing_partitions": 41,
+        "route_A_contribution_digest_sha256": "ae8bb9587c8db8f58c24c36839c174aa434b0334de558948b29d3cd1db3e5a91",
+        "route_B_contribution_digest_sha256": "ae8bb9587c8db8f58c24c36839c174aa434b0334de558948b29d3cd1db3e5a91",
+        "route_A_seconds": 0.5519,
+        "route_B_seconds": 5.1134,
+        "route_A_partitions_scanned": 53174,
+        "route_B_mu_count": 1
+      },
+      "2": {
+        "ell": 41,
+        "a": 2,
+        "n": 43,
+        "T_all": 185344366464,
+        "route_A_contributing_partitions": 82,
+        "route_B_contributing_partitions": 82,
+        "route_A_contribution_digest_sha256": "4aa997c65d2f9fcabbc9b16d7b53d4db417b51efab864a01beb23da2fe359795",
+        "route_B_contribution_digest_sha256": "4aa997c65d2f9fcabbc9b16d7b53d4db417b51efab864a01beb23da2fe359795",
+        "route_A_seconds": 0.6741,
+        "route_B_seconds": 8.8481,
+        "route_A_partitions_scanned": 63261,
+        "route_B_mu_count": 2
+      },
+      "3": {
+        "ell": 41,
+        "a": 3,
+        "n": 44,
+        "T_all": 428742375920,
+        "route_A_contributing_partitions": 123,
+        "route_B_contributing_partitions": 123,
+        "route_A_contribution_digest_sha256": "d39d7d1c589183a34dd180ac2ffb7eb5f9fa0ffbaaa1fb7b7122cbbbc2a26482",
+        "route_B_contribution_digest_sha256": "d39d7d1c589183a34dd180ac2ffb7eb5f9fa0ffbaaa1fb7b7122cbbbc2a26482",
+        "route_A_seconds": 1.1365,
+        "route_B_seconds": 15.755,
+        "route_A_partitions_scanned": 75175,
+        "route_B_mu_count": 3
+      },
+      "4": {
+        "ell": 41,
+        "a": 4,
+        "n": 45,
+        "T_all": 955559694328,
+        "route_A_contributing_partitions": 205,
+        "route_B_contributing_partitions": 205,
+        "route_A_contribution_digest_sha256": "8aa09202deb97c9cd90a5c4c7e71334a97e7bb0d94018e908571e446d94e292f",
+        "route_B_contribution_digest_sha256": "8aa09202deb97c9cd90a5c4c7e71334a97e7bb0d94018e908571e446d94e292f",
+        "route_A_seconds": 1.9226,
+        "route_B_seconds": 25.9706,
+        "route_A_partitions_scanned": 89134,
+        "route_B_mu_count": 5
+      },
+      "5": {
+        "ell": 41,
+        "a": 5,
+        "n": 46,
+        "T_all": 2070568312068,
+        "route_A_contributing_partitions": 287,
+        "route_B_contributing_partitions": 287,
+        "route_A_contribution_digest_sha256": "2f98385e7776c9579b7656c8f5fefe7094d9782f048dd1fd328fbf456c3d2f06",
+        "route_B_contribution_digest_sha256": "2f98385e7776c9579b7656c8f5fefe7094d9782f048dd1fd328fbf456c3d2f06",
+        "route_A_seconds": 2.4602,
+        "route_B_seconds": 36.115,
+        "route_A_partitions_scanned": 105558,
+        "route_B_mu_count": 7
+      },
+      "6": {
+        "ell": 41,
+        "a": 6,
+        "n": 47,
+        "T_all": 4379610428960,
+        "route_A_contributing_partitions": 451,
+        "route_B_contributing_partitions": 451,
+        "route_A_contribution_digest_sha256": "aaac01cb278b8c5fba53e777c854fa94bf89581219e1defcbac17df8ead813b9",
+        "route_B_contribution_digest_sha256": "aaac01cb278b8c5fba53e777c854fa94bf89581219e1defcbac17df8ead813b9",
+        "route_A_seconds": 4.2056,
+        "route_B_seconds": 69.2514,
+        "route_A_partitions_scanned": 124754,
+        "route_B_mu_count": 11
+      },
+      "7": {
+        "ell": 41,
+        "a": 7,
+        "n": 48,
+        "T_all": 9029008665304,
+        "route_A_contributing_partitions": 615,
+        "route_B_contributing_partitions": 615,
+        "route_A_contribution_digest_sha256": "cfcffcf2848947459e2958226de0dd3dc2d3e0c23e6afbb8c81660e50cab2ced",
+        "route_B_contribution_digest_sha256": "cfcffcf2848947459e2958226de0dd3dc2d3e0c23e6afbb8c81660e50cab2ced",
+        "route_A_seconds": 7.8672,
+        "route_B_seconds": 89.8776,
+        "route_A_partitions_scanned": 147273,
+        "route_B_mu_count": 15
+      },
+      "8": {
+        "ell": 41,
+        "a": 8,
+        "n": 49,
+        "T_all": 18097451796120,
+        "route_A_contributing_partitions": 902,
+        "route_B_contributing_partitions": 902,
+        "route_A_contribution_digest_sha256": "4b12fc65b4ea6c6c326ccebebe22e19637de81edd7030427b71d532c45bab89c",
+        "route_B_contribution_digest_sha256": "4b12fc65b4ea6c6c326ccebebe22e19637de81edd7030427b71d532c45bab89c",
+        "route_A_seconds": 8.3192,
+        "route_B_seconds": 129.2184,
+        "route_A_partitions_scanned": 173525,
+        "route_B_mu_count": 22
+      }
+    }
+  },
+  "T_trans": {
+    "37": {
+      "0": 2011535710,
+      "1": 2667648126,
+      "2": 3296573904,
+      "3": 4152376800,
+      "4": 3679996320,
+      "5": 3306663360,
+      "6": 3199996800,
+      "7": 319999680,
+      "8": 639999360
+    },
+    "41": {
+      "0": 33331783448,
+      "1": 44662335332,
+      "2": 62687912352,
+      "3": 73359849420,
+      "4": 74011697760,
+      "5": 83388745440,
+      "6": 60281020800,
+      "7": 35459424000,
+      "8": 21275654400
+    }
+  },
+  "wall_seconds_total": 636.038,
+  "script_sha256": "991a8c1f0c233999c7d4aa8296fadad09170a8acece8c5f3e9ec92e0b2c4b052",
+  "provenance": {
+    "python_version": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "generated_at_utc": "2026-08-01T12:01:12.746447Z"
+  },
+  "driver_done": true,
+  "marker": "DRIVER_DONE"
+}
