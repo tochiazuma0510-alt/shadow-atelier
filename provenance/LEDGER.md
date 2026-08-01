@@ -1034,3 +1034,14 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 u7 第二系統完遂(裁定 302)— GAP 独立再実装 19/19 窓一致・ブロック安定化の純群論確認・Kummer 記号検証
 - cert = u7_fire_secondsys_20260801.json(overall_pass=true・γ/δ/u₇ 非評価)。probe = u7_pathB_gap_v2.g(python 非共有の GAP 実装・n=9,α=3 の既知例外も独立再現)+ kummer_symbolic_v1.py(div(h) 位数・ι 反転条件確認)+ crosscheck(19/19 diffs=[])。
 - 自己捕獲バグ 2 件(inv の mod n 忘れ・正規化群判定の誤り)— 検出根拠つき修正・修正後全一致。⟹ 発火結果の経路 B の群論層は **GAP×python の真の二実装照合済み**(A/B 一致の「共有前提」注記を部分的に補強)。
+
+## 2026-08-01 便 93 検収(裁定 303)— U2-BR 条件付き PASS(P93-1 置換で承認)・D-3/D-4 条件付き PASS・u₇ は粒度限定 PASS([u₇]₂=1 は二経路一致・exact 値の cross-checked 表示は過大)・**u₀ cross-checked 採択**・EP 単発実走 AUTHORIZED
+- 正本 = sol/sol_reply_93_math20.md(480 行)。SHA 全一致。
+- **§1 U2-BR**: 核比較経路は成立・(m) 合同に偽推論 1 箇所 — **P93-1 の置換で (U2)+混合⟸奇を承認**(修理は次波)。ICM §5.2 は Sol がページ画像で原文照合済。
+- **§2**: D-3 = TOWER 群論塔は通る・KUM の B≅P¹_F と四点剛性の書き方要修正・SPLIT は座標つき等式/座標なし類の分離で通る。D-4 = F-形式一意性は従う・「捻れから存在自動」は従わない(v2 の方向転換を採択)。
+- **u₇ = 粒度限定 PASS**: [u₇]₂=1=[γ] は二経路一致と認定。**exact 値 −4・7-part・全付値・ord 7 は経路 A の紙上 PASS 止まり(B は未再計算)— cross-checked 表示は過大 ⟹ 格を「[u₇]₂ のみ cross-checked・値は paper-PASS」へ訂正**。SURJ-K7 は未判定継続。
+- **§3 FAM-U = theorem candidate 条件付き採択**(修正版 D-3/D-4+束縛+各 n の算術被覆同定が前提)。
+- **§4**: ORI+整合規約 20/20 = PASS・「1 行 assert」は FAIL(正対象 = 反準同型ラベル/opposite group — 実装係の捕獲が正しかった)・**K_π isolated 復活は承認**・群化/red 準同型化は candidate 継続。
+- **§5**: 9T 訂正採択・T3-WALL″ 中核 PASS(局所修文 1)・**u₀ = cross-checked 採択**(helper 非 import 再導出器込み)— S4 窓の u 測定が正式に cross-checked 格へ。
+- **§6 EP**: v12 修理 PASS・**sol75 の法的読み = 凍結 schema 下の単発 lane 実走は AUTHORIZED**・ただし提示 2 点は外部正例でなく実走前 ⟹ 「較正済み正例ゲートとしての再発効」は現時点 FAIL(実走+正例問題が残件)。
+- 次波(修理・格処理): P93-1 置換(U2-BR)・D-3/KUM 修文・SPLIT 分離・u₇ の経路 B 独立再計算(値の cross-checked 化)・FAM-U 前提束縛・assert 式の正対象化・EP 単発実走の執行。詳細修理は reply 本文 P93-x 節(次波が読む)。
