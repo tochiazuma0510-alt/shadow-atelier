@@ -1361,3 +1361,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - era 修理の白眉: 静的 grep で捕まらない変異 M97-1(昇格を「元 PASS 時のみ」へ戻す)を、**selfaudit v10 が source 実行+五 base status 実測で捕獲**する形に強化(v9 は byte 保存・v10 は additive)。
 - W6-KEY: schema 条項化(K/G/H/O 系)+R1′(判別式)/R2′(Sturm 列+有理根)の独立実装 — ただし IMAGE-MU は curve model が producer 側のため **v1 構造的 UNKNOWN 固定 = W-6 OPEN 維持**(token 一致 ≠ closure を suite が機械強制)。
 - 司令塔裁定(懸案 7 件): ①spec v20 条文追随(code が spec より強い状態)と ②W6-KEY の era plane 追加は**意味論改版 = 便 98 で Sol へ**(着手保留を承認)③W-6 OPEN 維持は正 ④lane A producer 改造(P-1・±y 点分離)は検問案件として便 98 ⑤stale 負例の注入方式差は便 98 で申告 ⑥**ep_repair_v19 cert の selfaudit-v9 pin が stale**(裁定 355 の後編集起因)— cert は歴史 artifact として不改変・本 LEDGER 注記+便 98 申告で処理(CV-10: 再生成せず supersede 連鎖で)⑦schema v2 bump 承認。
+
+## 2026-08-01 EP CI green・9 suite 版(裁定 369)— run 30693842443 success(headSha=c2c64e58 突合済)・suites_status=0・schema v2 receipt(integrity_gate 欄)・収蔵 = ep_ci_receipt_run30693842443.json。便 97 差戻し(era composition)の CI 実証まで完了 — EP 残 open = W-6 closure(producer 改造 = 便 98 検問)・positive control 本走(認可待ち)・spec v20 条文追随(便 98 諮問)。
