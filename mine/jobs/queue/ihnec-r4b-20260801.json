@@ -1,0 +1,65 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "ihnec-r4b-roof-20260801",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P2", "P6"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "IH-NEC R4b(裁定376 GO・docs/notes/ihnec_v1.md v1 SS6.6 R4b + 追補C.4残件)。屋根 M := K^(9) cap N_S4(N_S4 = PSL(2,8)窓)で B3/M の hexagon をGAPで直接悉皆走査し、命題ROOF(4)の独立確認として |GT(M)|=972(P-IHN-4)を出す。同時にP-IHN-1(比較可能性)/P-IHN-2(|PB3/M|=1469664)/P-IHN-3(M_ord=18)の機械脚も測る(R4aはpython・既存証明書からの組立でこの3項目の射程外だった)。宇宙は窓Mの1点のみ固定(n=5非接触)。判定総数4,408,992を charmingSet(M)の12元(m値)で12シャードに分割(シャード分割は決定的 -- charmingSetは M_ord=18 から一意に定まる昇順リスト)。driverはcertificates/K9.v1.json・S4.v2.jsonを一切読まない(R4aとの独立性 -- G9・Pは共にGAPで生成器から新規構築)。ローカル試走(実装係)で全12値を1本にまとめた非分割実行が壁時計52.1秒・ピークメモリ約264MBで完走し 972 を再現済み(shadow_total=972・P-IHN-1/2/3/4いずれもHIT・自己検査アンカーK9単体=108/S4単体=54もPASS) -- 600秒cap比で大幅な余裕があるため12分割は必須ではなく安全側の設計選択(v1 SS6.6の事前見積り「600秒cap超過が確実」は実測で外れた。司令塔判断待ちの点として実装係の報告に明記)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/ihnec_r4b_run.g", "sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2" },
+      { "path": "search/week3-battery-common.g", "sha256": "aadf1afa5e1a171d10d0aa1f9657e823cad669b960e08da7b9e7618f2ea4f998" },
+      { "path": "search/week3-psl-common.g", "sha256": "de5d8d6d107959d7d7b8e40bbe4dcb07a8163a56660877bf2e0ec5b5ccc07a18" },
+      { "path": "search/gaplib_common.g", "sha256": "f80eeeae71c4e39f8b3d62d997d18635f5ea8fb339a6d0578e834300ea4d4911" },
+      { "path": "search/probe/wac_v1/gap_output_prelude.g", "sha256": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "IHNEC-R4B-ROOF-PROBE",
+      "version": 1,
+      "params": {
+        "driver": "search/probe/wac_v1/ihnec_r4b_run.g",
+        "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。preamble 変数 R4B_TARGET_MS(このshardが担当する charmingSet(M) の m 値・単元リスト)/ R4B_OUTPUT(シャードごとの出力ファイル名)を shards[].preamble で注入する(lt_count_gen.g と同型のshard方式)。数学的判定式(ScanRoofHexagon内のtheta/tau・簡約hexagon(3.10)(3.11)・生成条件)はdriver側から無改変・K9単体/S4単体/M共通の単一定義(CV-13の精神)。"
+      }
+    }
+  ],
+  "predictions": {
+    "frozen": "docs/notes/ihnec_v1.md",
+    "sha256": "45a89e29000fc6d509de6882a06c540b90e2cc2a44ed660e49df8b3de686e37f"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "m0",  "preamble": "R4B_TARGET_MS := [0];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m0_20260801.json\";;\n" },
+      { "name": "m2",  "preamble": "R4B_TARGET_MS := [2];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m2_20260801.json\";;\n" },
+      { "name": "m3",  "preamble": "R4B_TARGET_MS := [3];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m3_20260801.json\";;\n" },
+      { "name": "m5",  "preamble": "R4B_TARGET_MS := [5];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m5_20260801.json\";;\n" },
+      { "name": "m6",  "preamble": "R4B_TARGET_MS := [6];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m6_20260801.json\";;\n" },
+      { "name": "m8",  "preamble": "R4B_TARGET_MS := [8];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m8_20260801.json\";;\n" },
+      { "name": "m9",  "preamble": "R4B_TARGET_MS := [9];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m9_20260801.json\";;\n" },
+      { "name": "m11", "preamble": "R4B_TARGET_MS := [11];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m11_20260801.json\";;\n" },
+      { "name": "m12", "preamble": "R4B_TARGET_MS := [12];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m12_20260801.json\";;\n" },
+      { "name": "m14", "preamble": "R4B_TARGET_MS := [14];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m14_20260801.json\";;\n" },
+      { "name": "m15", "preamble": "R4B_TARGET_MS := [15];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m15_20260801.json\";;\n" },
+      { "name": "m17", "preamble": "R4B_TARGET_MS := [17];;\nR4B_OUTPUT := \"search/certs/ihnec_r4b_m17_20260801.json\";;\n" }
+    ],
+    "timeout_min": 30,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/ihnec_r4b_run.g",
+      "sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "ihnec-r4b/v1 (raw measurement; 正本は search/probe/wac_v1/ihnec_r4b_run.g 自身のヘッダコメント + docs/notes/ihnec_v1.md SS6.6/追補C)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
