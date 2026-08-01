@@ -1466,3 +1466,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **★W98-ALG 採択 = long-hook localized Frobenius/Jacobi–Trudi 法(GO)**: T_all(ρ) = (1/n!)Σ A₂(λ)A₃(λ)χ^λ(ρ)/f^λ(ALG-1)・h 列の 3 項漸化式・MN 局所化(ALG-2: μ⊢a≤8 への rim hook 判定のみ)・二項反転(ALG-3)で T_trans。**全指標表不要・メモリ O(n²)**。実装ゲート 5 条(ctbllib 禁止・route A/B 独立二重・整数性 assert・較正 4 点[(23,1³)=173880・(25,1⁵)=378000・(37,1²) 両値]・cert 様式)。12 セル再走は検収後。
 - **EP**: era 修理 PASS(履行裁定)・W6-KEY draft 条件付き PASS・**W6-P1(lane A per-point producer 改造)= 認可 GO**・**SPEC-V20/v15 = versioned draft 認可**(6 必須条件・freeze/発効の認可ではない)・positive control 本走は不認可継続。CV-11 digest キーは v1.3 整合(自己矛盾なし)。
 - 次波: ①数学者 = SPLIT-NULL″ の (MCOV) 修理+SPLIT-NULL S₃ 一行+INT 依存表修文+sample/全件の記帳分離 ②implementer = W98-ALG driver(route A/B 二重)③ep-keeper = v20/v15 draft+per-point producer 改造。
+
+## 2026-08-01 便 98 修文波検収(裁定 389)— MCOV 修理ほか 13 項全履行(追補 D・全て追記のみ)+数学的精密化 7 点
+- 白眉 3 つ: ①**(MCOV) 非波及を数値で閉鎖** — n=9 は M_ord=18=2n で m̃=m 強制・𝒳₉ mod 9 = charming set 全体・凍結検算の ②⑥ が実は (MCOV) 検算そのもの(予言・digest 改訂不要)②**Sol の pin を精密化** — F98-3.4 の「Prop 3.12(c)/(3.59)」は正しくは 2 点 pin((3.59) の可換性は段 a)・(c) は shadow 性移送)— 非循環はむしろ強化 ③**U-11 の正直な据え置き** — R4b 二環境化が確認したのは個数(972・108・54)のみで、U-11 の内容(合成表 11,664 対)は R4a 単系統のまま — 便 99 で 972 格上げと U-11 据え置きを分離請求。
+- 誤りの正体の同定(教材): SPLIT-NULL 本体は χ 水準の減少を自分で許していた — 系 ″ への移行で量化が 1 段すり替わり・系 ′ は (MCOV) 仮定済みの特別な場合だった(前件の脱落点)。cert へ新機械測定 1 本([B_q:P_N]=6・商 ≅S₃ — settled 依存 3 段の欠けていた指数欄)。
+- **新標的【IHNEC-GAP-4】承認・起票**: (MCOV) が破れる分裂屋根の走査 — m 水準の有限集合 2 個の比較のみで fake witness(m-fiber 全体欠落型)が出る可能性。entangled 屋根の構成を待たない最安の fake 哨戒。

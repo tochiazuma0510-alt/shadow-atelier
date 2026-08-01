@@ -752,3 +752,218 @@ $$\textbf{ML-ODD (ii) の finite instance 第 1 点は「全射」= 何も出な
 2. **系 SPLIT-NULL′ が $n=9$ で framework-free に閉じた**($\mathfrak m(N_{\rm S4})=$ charming set 全体を実測)。
 3. **方法 CMP と屋根の設計が実データで回ることの較正**。
 4. ⟹ **次に作るべきは entangled 屋根**(系 SPLIT-NULL″・【IHNEC-GAP-2】)。$\mathrm{PSL}(2,8)$ 窓は共通商が自明で、**検出力ゼロが確定した**。
+
+---
+
+# 追補 D(**裁定 388 = 便 98 検収の反映**・2026-08-01)
+
+**入力**: `sol/sol_reply_98_math25.md`(便 98 返信・総合 = 条件付き PASS)/ 裁定 388。
+**位置づけ**: 便 98 の **F98-3.2 / F98-3.4 / F98-3.6 / F98-3.7 / P98-3.1 / F98-3.8** を反映する差し替え節。**v1 本文・追補 A/B/C は 1 バイトも改変していない**(erratum 方式)。置換関係は各節の見出しに明記する。起草: 数学者(Opus 5)。
+**射程外**: 便 98 の壁・カナリア系(F98-4.2〜4.5)は本稿の対象外 — 履行先は `search/certs/wall_canary_24_20260801.json` の `addendum_ben98` 欄と `docs/notes/conventions_ledger_v1.md` CV-13 行(§D.7 の対応表に記載)。
+
+## D.0 何が倒れ、何が倒れなかったか(先に一枚)
+
+| 対象 | 便 98 判定 | 本追補の処理 |
+|---|---|---|
+| **系 SPLIT-NULL″(無条件形)** | ★ **FAIL(唯一)** | **撤回**し、前件 **(MCOV)** つき強形へ差替(§D.1) |
+| 定理 SPLIT-NULL 本体 | 修文条件つき PASS | Goursat 段に **$S_3$ 一行**を明記(§D.2) |
+| 補題 INT(§B.2) | **PASS** | 依存表を **Prop 3.12 / (3.59) 直接引用**へ修文(§D.3)・格を更新(§D.6) |
+| ML-ODD / IH-FACT / IH-NEC / FAKE-KILL | **PASS** | 変更なし(§D.6 の格表のみ更新) |
+| U-11(追補 C.3) | 有限主張は整合・証拠格は単系統 | 記帳を「**有限 exhaustive candidate / single lane**」へ(§D.4) |
+| P-IHN-1〜7・凍結値・SHA-256 | — | ★ **不変**(§D.1.3 で非波及を示す) |
+
+> **★ 本追補の核心を一行で**: 定理 SPLIT-NULL の boxed 文は「**像の減少は $\chi$ 水準にしか起こらない**」と、自分で **$\chi$ 水準の減少を許していた**。系 SPLIT-NULL″ はそれを黙って「**減少しない**」へ強めた — **本体と系の間で量化が 1 段すり替わっていた**のが誤りの正体である。倒れたのは系だけで、本体は無傷。
+
+---
+
+## D.1 系 SPLIT-NULL″ の撤回と差替(**§6.4 の ★ 枠を置換**)
+
+### D.1.1 撤回する文(**以後、引用禁止**)
+
+v1 §6.4 系 SPLIT-NULL″ のうち次の 2 文を**撤回**する(F98-3.7)。
+
+- ✗ 「**fake(A 型)を検出しうる細分は…entangled 屋根に限る**」
+- ✗ 「**分裂屋根をいくら積んでも $\mathrm{GT}_{\rm gen}(K^{(n)})$ は縮まない**」
+
+**理由**(F98-3.7 の逐語要旨): 主公式が保証するのは「**同じ $m$-fiber の内部($\mathfrak F_0$ 方向)を部分的に削らない**」ことだけである。もし $\mathfrak m(N')$ が compatible な $m$ を欠けば、分裂屋根はその **$m$-fiber 全体**を削り、そこに落ちる元は (COR54) により **fake の有限 witness** になる。**pure 商に共通の非自明商が無いという仮定だけからは、$\mathfrak m(N')$ の全 $m$-被覆は従わない。**
+
+### D.1.2 差替本文 — 系 SPLIT-NULL″(**強形・前件 (MCOV)**)
+
+> ### 前件 (MCOV)(**P98-3.1 逐語採用**)
+> 定理 SPLIT-NULL の設定($n$ 奇 $\ge3$、$N'\in I$、$M:=K^{(n)}\cap N'$、共通商自明)で
+> $$\forall m\in\mathcal X_n\ \exists\widetilde m\pmod{M_{\rm ord}}:\quad \widetilde m\equiv m\pmod{2n},\qquad \widetilde m\bmod N'_{\rm ord}\in\mathfrak m(N').\tag{MCOV}$$
+
+> ### 系 SPLIT-NULL″(**差替版**)
+> **(MCOV) の下では**、$\mathrm{Im}\,R_{M,K^{(n)}}$ は全 $m$-fiber を含み、定理 SPLIT-NULL より像は $m$-fiber の合併だから
+> $$R_{M,K^{(n)}}\ \text{は全射}\quad\Longrightarrow\quad\textbf{その分裂屋根は fake を検出しない。}$$
+> **逆に (MCOV) が破れる分裂屋根は、欠けた $m$-fiber 全体を落とす** — その fiber の**全元**が fake であることの有限 witness を得る。すなわち **分裂屋根にも検出力はある**(ただし $\chi$ 水準に限る)。
+
+**証明.** 前段は定理 SPLIT-NULL の主公式の直接の帰結($m$ が (MCOV) の $\widetilde m$ を持つ $\iff$ $[m,f]\in\mathrm{Im}$、$f$ は自由)。後段は同じ主公式の否定側と (COR54)($\exists K$ で像に入らない $\Rightarrow$ 非 genuine)。∎
+
+> **(MCOV) の供給経路は 2 本**(どちらも旧 系 SPLIT-NULL′ に既にあった):
+> ① **framework-conditional**: (S2) $=$ W2-arith(裁定 122)⟹ $\widetilde\chi(\mathrm{GT}_{\rm arith}(K^{(n)}))=(\mathbb Z/4n)^\times$ から全 $m$ が像に出る。
+> ② **framework-free(直接測定)**: $\mathfrak m(N')$ を証明書から読み、$\mathcal X_n\bmod N'_{\rm ord}\subseteq\mathfrak m(N')$ を確かめる。
+> ⟹ **v1 §6.4 の系 SPLIT-NULL′ は、実は (MCOV) を仮定した形の特別な場合だった**。系 ″ が (MCOV) を落としたのは、系 ′ から系 ″ へ移る段での前件の脱落である。
+
+### D.1.3 R4a への**非波及**(数値で閉じる)
+
+$n=9$、$N'=N_{\rm S4}$ では $M_{\rm ord}=\mathrm{lcm}(2n,N'_{\rm ord})=\mathrm{lcm}(18,9)=18=2n$。ゆえに (MCOV) の $\widetilde m\equiv m\ (\mathrm{mod}\ 18)$ は $\widetilde m=m$ を強制し、(MCOV) は
+$$\mathcal X_9\bmod 9\ \subseteq\ \mathfrak m(N_{\rm S4})$$
+へ退化する。**これは直接測定できる**:
+
+- $\mathcal X_9=\{m\in\mathbb Z/18:\gcd(2m+1,18)=1\}=\{0,2,3,5,6,8,9,11,12,14,15,17\}$(12 個)。
+- $\mathcal X_9\bmod9=\{0,2,3,5,6,8\}$(各 2 回)$=$ $N_{\rm S4}$ の charming set $=\mathfrak m(N_{\rm S4})$(証明書 `S4.v2.json`・$\lvert\mathrm{GT}(N_{\rm S4})\rvert=54=6\times9$ と整合)。
+
+⟹ **(MCOV) 成立**。したがって **P-IHN-5 / P-IHN-6 の 108/108・54/54 と追補 C の結論には一切波及しない**(F98-3.7 末尾の Sol 判定と一致)。
+
+> ★ **凍結物は不変**: 検算スクリプト(SHA-256 `edf618137697377f2eba5f4d59be53bd07ac5a598ee2246f70eedf372ad49309`)の ② 「$\mathcal X_9\bmod9$ の像 $=$ S4 charming set」・⑥「像が全 $m$-fiber を含む」は、**名前がついていなかっただけで (MCOV) の検算そのもの**である。⟹ **予言 P-IHN-1〜7・検算 digest ともに改訂不要**。
+> **所在の訂正(CV-10 の効き所)**: 追補 A.5/B.6 が `scratchpad/ihnec_check.py` と書いた検算スクリプトは、現在 **`search/probe/wac_v1/ihnec_check.py`** にある(digest は上記のまま**一致**・移設のみ)。同様に `ihnec_r4a_run.py`(`f8be65ae…c88820b`)も `search/probe/wac_v1/` に同一 digest で存在。**以後の引用は新パスで行う。**
+
+### D.1.4 「非算術証人は分裂屋根で不可視」の言い換え(F98-3.7)
+
+**非算術証人は定義により genuine** である。ゆえに (COR54) により **すべての細分へ survive する** — 分裂屋根に限らない。したがって
+
+- ✗ 「非算術証人は**分裂屋根で**不可視」(split 特有の結論であるかのように読める)
+- ✓ 「非算術証人は genuine ゆえ **定義上あらゆる屋根へ survive する** — **屋根の型を問わず**、細分の像を測る哨戒では原理的に検出できない」
+
+⟹ **屋根の分裂/entangle の別は、非算術証人の可視性とは無関係**である。この語は追補 A.4 の 3 行(「非算術証人は有限深度の PASS からは作れない」)と同じ内容を屋根の言葉で言い直したものにすぎない。
+
+### D.1.5 哨戒設計への含意(**§6.4 ★ 枠末尾・§6.7 の読み替え**)
+
+差替後の正しい含意は次の 4 点。
+
+1. **分裂屋根の検出力はゼロではない** — **$m$-fiber 全体の欠落型 fake** は検出できる($\chi$ 水準の検出力)。正しい言い方は「分裂屋根は **$\mathfrak F_0$ 方向の検出力がゼロ**」。
+2. **entangled 屋根の役割は限定される** — 「**fiber 内部($\mathfrak F_0$ 方向)の欠落**」の検出**のみ**が entangled を要する。
+3. **設計手順の更新(安価な順)**: 分裂屋根を作ったら、まず **(MCOV) を測る**($\mathfrak m(N')$ と $\mathcal X_n\bmod N'_{\rm ord}$ の比較 — 群の列挙は不要、**$m$ 水準の有限集合 2 個の比較だけ**)。破れていればその場で fake witness が出る。破れていなければ $\mathfrak F_0$ 方向は原理的に見えないので entangled 屋根へ移る。
+4. **$\mathrm{PSL}(2,8)$ 窓の格の訂正(追補 C.5 の 4 の読み替え)**: 「共通商が自明 ⟹ 検出力ゼロ」は**誤った導出**である。正しくは「**共通商が自明($\mathfrak F_0$ 方向が見えない)$\wedge$ (MCOV) 成立($\chi$ 方向も見えない)⟹ 検出力ゼロ**」。この窓では**両方**が成り立つことを実測した(§D.1.3)ので、**結論「検出力ゼロ」自体は正しいまま**である — 変わるのは根拠が 1 本から 2 本になったことである。
+
+> ### 【IHNEC-GAP-2】の再定義(**§8 の GAP 表を置換**)
+> 旧: 「entangled 屋根の構成法が無い」(fake 検出一般の前提として)。
+> 新: **「$\mathfrak F_0$ 方向の fake を検出するには entangled 屋根が要るが、その構成レシピが無い」**。$\chi$ 方向の fake 検出は分裂屋根で足りる ⟹ **(MCOV) 破れを探す走査は、entangled 屋根の構成を待たずに今すぐ回せる**(新しい安価な標的)。**状態: 未着手(標的の型は明確化された)。**
+
+---
+
+## D.2 定理 SPLIT-NULL 本体 — Goursat 段の $S_3$ 一行(**§6.4 定理 SPLIT-NULL の証明に追記**)
+
+**F98-3.6 逐語(採用)**:
+
+> 任意の $T_{m,f}$ は $f\in PB_3$、$u=2m+1$ 奇数だから $B_3/PB_3\cong S_3$ 上で恒等写像を誘導する。従って image を記述する共通商 $E$ には自然な全射 $E\twoheadrightarrow S_3$ があり、その核 $E_0$ は二つの pure quotient の共通商である。仮定より $E_0=1$、従って $E\cong S_3$ で image は全 fiber product になる。
+
+**自前確認(生成元の上で)**: $T_{m,f}(\sigma_1)=\sigma_1^{u}$、$T_{m,f}(\sigma_2)=f^{-1}\sigma_2^{u}f$。$B_3\twoheadrightarrow S_3$ で $\sigma_i\mapsto s_i$(位数 2 の互換)だから、$u$ 奇より $\sigma_1^u\mapsto s_1^u=s_1$、$f\in PB_3\mapsto1$ より $f^{-1}\sigma_2^uf\mapsto s_2$。⟹ **合成 $B_3\to B_3/M\to S_3$ は標準射影そのもの**であり、$\mathrm{Im}\,T_{m,f}\twoheadrightarrow S_3$。
+
+**Goursat 段の完全形**(v1 §6.3 命題 ROOF(4) 証明末尾・§6.4 定理 SPLIT-NULL 証明の「逐語同一」箇所に、この順で読む):
+
+1. $\mathrm{Im}\,T_{m,f}\le B_3/M$ は両成分への射影が全射(各因子で $[m,f_\bullet]$ が GT-shadow)。
+2. Goursat より $\mathrm{Im}\,T_{m,f}$ は共通商 $E$ 上の fiber 積 $\{(a,b):\theta_1(a)=\theta_2(b)\}$。
+3. 一方 $B_3/M$ 自身は(仮定 $PB_3/M\cong G_n\times PB_3/N'$ より)**$S_3$ 上の fiber 積**。$\mathrm{Im}\subseteq B_3/M$ ゆえ $q:E\twoheadrightarrow S_3$ が存在し $q\circ\theta_i=(\text{標準 }S_3\text{ 射影})$。
+4. ★ **上の一行**(1. の像が $S_3$ を被覆すること = $T$ が $S_3$ 上恒等)が、この $q$ の存在と両立性を保証する。
+5. $E_0:=\ker q=\theta_1(PB_3/K^{(n)})=\theta_2(PB_3/N')$ は $G_n$ と $PB_3/N'$ の**共通商**。仮定より $E_0=1$ ⟹ $E\cong S_3$ ⟹ $\mathrm{Im}\,T_{m,f}=B_3/M$。
+
+> **v1 の欠落の正体**: v1 §6.3 ROOF(4) の証明は「$E_0:=\ker(E\to S_3)$ は…」と、**$E\to S_3$ の存在を無言で使っていた**。その根拠($u$ 奇・$f$ pure)を書いていなかったのが唯一の穴であり、上の一行でちょうど埋まる。**結論・主公式は不変**(F98-3.6「これで主公式は成立する」)。
+
+---
+
+## D.3 補題 INT の依存表の修文(**§B.2 の「★ 依存の向きの確認」枠を置換**・F98-3.4)
+
+### D.3.1 正典が既に述べていること(**原文テキストで逐語確認**)
+
+| 出所 | 逐語(2401.06870 p.19・§3.1) |
+|---|---|
+| **Prop 3.12** | "*Let $N,H\in\mathrm{NFI}_{PB_3}(B_3)$, $N\le H$ and $(m,f)\in\mathbb Z\times F_2$ represent a GT-pair with the target $N$. Then $H_{\rm ord}\mid N_{\rm ord}$, $N_{F_2}\le H_{F_2}$ and …*" |
+| **図式 (3.59)** | $B_3\xrightarrow{T_{m,f}}B_3/N$、$B_3\xrightarrow{T_{m,f,H}}B_3/H$、$P_{N,H}:B_3/N\to B_3/H$ の三角が**可換**。証明は **a) の段**: "*Applying $T_{m,f,H}$ and $P_{N,H}\circ T_{m,f}$ to the generators $\sigma_1,\sigma_2$, we see that the diagram in (3.59) indeed commutes.*" |
+| **Prop 3.12 c)** | "*if the pair $(m,f)$ represents a GT-shadow with the target $N$, then $(m,f)$ also represents a GT-shadow with the target $H$.*" |
+| **(3.60)** | $R_{N,H}([m,f]):=(m+H_{\rm ord}\mathbb Z,\ fH_{F_2})$ |
+
+⟹ $(N,H):=(M,N)$ と読めば、**§B.2 段 1 の等式 $\pi_N\circ T^M_{m,f}=T^N_{R_{M,N}([m,f])}$ は (3.59) そのもの**である。
+
+> ### ★ Sol の pin の精密化(**1 点だけ直す**)
+> F98-3.4 は「**Prop. 3.12(c) の可換図 (3.59)**」と書いたが、原文では図式 (3.59) は **a)–c) の列挙の直後に独立に置かれ、可換性の証明は a) の段**にある。**c) は別の役** — 「$M$-shadow が $N$-shadow へ移る」= **右辺の $T^N_{R_{M,N}([m,f])}$ が「$\mathrm{GT}(N)$ の元の $T$ 写像」として意味を持ち、$N$ の isolated 性(settled)判定にかかる資格を得る**ことを保証する。
+> ⟹ **正しい pin は 2 点**: **(3.59)+Prop 3.12 a)**(可換性)と **Prop 3.12 c)**(shadow 性の移送)。
+
+### D.3.2 差替後の依存表(補題 INT §B.2 が使うもの)
+
+| 使う条文 | 役 | 段 |
+|---|---|---|
+| **(3.59) + Prop 3.12 a)** | $\pi_N\circ T^M_{m,f}=T^N_{R_{M,N}([m,f])}$(**段 1 の等式そのもの**) | 段 1 |
+| **Prop 3.12 c)** | $R_{M,N}([m,f])\in\mathrm{GT}(N)$(右辺が settled 判定にかかる資格) | 段 1 |
+| **(3.60)** | $R_{M,N}$ の定義 | 段 1 |
+| **Def 3.13 (SET)** | $N$ isolated ⟹ 右辺は settled ⟹ $\ker=N$ | 段 1 |
+| **Def 3.7** | $T^M_{m,f}$ の全射性 | 段 2 |
+| **準同型定理 + 有限指数** | $K\subseteq M$ と $[B_3:K]=[B_3:M]$ から $K=M$ | 段 2 |
+
+**v1 §B.2 の自前確認 2 bullet($m'=m+kN_{\rm ord}$ の指数差 $2kN_{\rm ord}$・$f'=fh$、$h\in N_{F_2}$)は保持する** — (3.59) の**独立再導出**であり、原文への依存を 1 本減らす価値がある(F98-3.4 も「自前確認も次で閉じる」と両論併記)。
+
+### D.3.3 非循環性(**むしろ強まる**)
+
+$\text{Prop 3.12}\in\S3.1\ (\text{p.19})\ \prec\ \text{Def 3.13/Prop 3.14/Prop 3.15}\in\S3.2\ (\text{pp.20–21})\ \prec\ \text{Prop 5.1/Cor 5.4}\in\S5\ (\text{pp.25–28}).$
+
+⟹ **Prop 3.12 は Prop 3.15 の上流**であり、これを引用しても正典側の $3.15\to5.1\to5.4$ の鎖と循環しない。§B.2 の非循環主張(**Prop 3.14 / Prop 5.1 / Thm 5.2 / Cor 5.4 を一切使わない**)は**そのまま有効**であり、依拠先が「自前の生成元計算」から「上流の正典命題」へ移ったぶん**依存が浅くなった**。
+
+---
+
+## D.4 U-11 の記帳(**追補 C.3 の格を確定**・F98-3.8)
+
+**F98-3.8 逐語**: 「元の列挙は GAP 単系統で、R4b も未了であるため、**U-11 の記帳は「有限 exhaustive candidate / single lane」とし、cross-checked や verified へ上げない**。」
+
+| 項目 | ★ 確定した記帳 |
+|---|---|
+| $\mathrm{GT}(K^{(9)})\cong\mathrm{Aff}(\mathbb Z/9)\times C_2$(明示同型) | **有限 exhaustive candidate / single lane**(列挙 = GAP 証明書単系統。$\Theta_9$ 座標化と積法則の照合のみ python 独立実装) |
+| 11,664 対の積法則一致 | 同上。**cross-checked と書かない** |
+| `IdGroup` ラベル $[108,26]$ | **本実行では測っていない** — 裁定 213 の司令塔独立計算を経由(追補 C.3 の ⚠ 枠のまま) |
+
+> ### ★ 註記(**便 98 発送後の事象・次便 99 で報告予定**)
+> **裁定 387(2026-08-01)で R4b が完了した** — CI(ubuntu)run 30697198947・**12/12 shard**・$\Sigma=81\times12=972$・K9$=$108 / S4$=$54 アンカー 12/12・provenance 単一 script sha = plan frozen 一致。これにより $\lvert\mathrm{GT}(M)\rvert=972$ は「**紙(命題 ROOF)+ 予言先行(P-IHN 凍結)+ 二経路(R4a 組立 vs R4b 直接列挙)+ 二環境(ローカル Windows vs CI ubuntu)**」になった。
+>
+> **それでも本追補では U-11 の格を上げない。理由 3 点**:
+> 1. **判定時点の正しさ**: 便 98 の監査時点で R4b は未了であり、F98-3.8 の記帳はその時点で正しい。**事後の事象で監査結論を遡って書き換えない。**
+> 2. **CV-9 未了**: cross-checked への格上げには、**非当事者による仕様同一性判読**(R4a と R4b の入力 universe・比較対象・同値関係・NF・filter・失敗状態の照合)が要る(規約台帳 §1.3)。R4a/R4b は別実装・別著者なので、この判読は**省略できない**。
+> 3. ★ **射程が違う**(これが最も重要): R4b が二環境で確認したのは **$\lvert\mathrm{GT}(M)\rvert=972$ と命題 ROOF(4) の分解**、およびアンカーとしての **$\lvert\mathrm{GT}(K^{(9)})\rvert=108$ / $\lvert\mathrm{GT}(N_{\rm S4})\rvert=54$ という**個数**である。**U-11 の内容は個数ではなく同型型**($\Theta_9$ による明示同型と 11,664 対の積法則)であり、これは**依然 R4a 単系統**である(R4b の shard 報告は個数・accounting・アンカーであって合成表ではない)。
+> ⟹ **便 99 で請求するもの**: ① $\lvert\mathrm{GT}(M)\rvert=972$ の二経路・二環境化の報告と格上げ請求 ② その前提としての **CV-9 判読の依頼** ③ **U-11(同型型)は据え置き**(格上げには合成表を第 2 系統で作る必要がある — 起票は別途)。
+
+---
+
+## D.5 用語(F98-3.2 の確認・**追補 A.1 に一行追加**)
+
+F98-3.2 は追補 A.1 の 3 語(**fake / 非算術証人 / 非算術 shadow**)を**公開語として正式採択**した。追加される規律は一つだけである。
+
+> **細分語の禁止**: `pentagon-fake` / `arith-fake` のような細分は **数学的 filtration の内部メモとしてのみ**可。**定理文・台帳・公開文書では使わない**(「fake」の二義を再導入するため)。必要なら **「pentagon 障害層」「算術障害層」**と呼び、**3 語を上書きしない**。
+
+**本稿への影響**: grep 済 — `ihnec_v1.md` に `pentagon-fake` / `arith-fake` は**出現しない**(該当は `docs/notes/fake_void_v1.md` と規約台帳 §1.3.9)。⟹ **本稿は無改訂**。
+
+---
+
+## D.6 格付け表の差分(**§7 の表への追記**)
+
+| # | statement | 差替前 | ★ 差替後(裁定 388) |
+|---|---|---|---|
+| **補題 INT**(§B.2) | 工房の自前証明 | paper-proof candidate(Sol 未監査) | ★ **紙上相互監査 PASS**(F98-3.4)。ただし正典 Prop 3.15 の言明自体は依然「**証明未掲載**」であり、**ML-ODD と ROOF(3) は工房の証明に相対的**という §B.6 の留保は不変 |
+| **ML-ODD** | (i)$\iff$(ii)$\iff$(iii) | paper-proof candidate(Sol 監査未) | ★ **紙上相互監査 PASS**(F98-3.5)。ただし「**決定手続きではない**」(停留深さの上界なし = 【IHNEC-GAP-1】)を Sol も明記 |
+| **IH-FACT / IH-NEC / FAKE-KILL** | paper-proof candidate | 同左 | ★ **紙上相互監査 PASS**(F98-3.3)。FAKE-KILL は**非算術証人**を使うとき前件 U-10 のみで正しい、という差分も承認 |
+| **SPLIT-NULL** 本体 | paper-proof candidate | 同左 | ★ **紙上相互監査 PASS($S_3$ 一行の明記を条件)**(F98-3.6 + §D.2) |
+| **SPLIT-NULL′** | 全射性(framework-conditional / 実測依存) | 同左 | **(MCOV) の供給経路①②として再解釈**(§D.1.2)。$n=9$ では②で framework-free に閉じている |
+| **SPLIT-NULL″** | 「entangled 屋根だけが fake を検出」 | paper-proof candidate | ★ **無条件形は撤回(FAIL)**。差替版(前件 (MCOV))は **paper-proof candidate**(§D.1.2・Sol 提案の逐語採用ゆえ実質は相互起草) |
+| **U-11**(追補 C.3) | 「同型型で閉鎖」 | — | ★ **有限 exhaustive candidate / single lane**(§D.4)。**cross-checked / verified へ上げない** |
+| **P-IHN-1〜7** | prediction / 追補 C で 4 本 HIT | — | ★ **不変**(§D.1.3 で非波及を確認) |
+
+---
+
+## D.7 便 98 番号 × 履行箇所の対応表(**検収用**)
+
+| Sol 番号 | 要求 | 履行箇所 | 状態 |
+|---|---|---|---|
+| **F98-3.2** | 3 語を公開語に・細分語は内部メモ限り | §D.5(本稿は無改訂・grep 済) | ✔ |
+| **F98-3.4** | 補題 INT の依存表を Prop 3.12/(3.59) 直接引用へ | §D.3.1–D.3.3(逐語 pin + **Sol の pin の精密化 1 点**) | ✔ |
+| **F98-3.5** | ML-ODD は PASS・ただし決定手続きではない | §D.6 の格表(【IHNEC-GAP-1】は §4.4 のまま) | ✔ |
+| **F98-3.6** | SPLIT-NULL 本体に $S_3$ 一行 | §D.2(逐語採用 + 生成元での自前確認 + Goursat 5 段の完全形) | ✔ |
+| **F98-3.7** | SPLIT-NULL″ 無条件形は FAIL | §D.1.1(2 文を撤回) | ✔ |
+| **F98-3.7** | 「非算術証人は分裂屋根で不可視」の言い換え | §D.1.4 | ✔ |
+| **P98-3.1** | (MCOV) つき強形へ差替 | §D.1.2(**逐語採用**)+ 供給経路 2 本 | ✔ |
+| **P98-3.1** | R4a への非波及($n=9$ の直接測定) | §D.1.3(数値で閉じる・凍結 digest 不変を確認) | ✔ |
+| **F98-3.7/§6.4** | 哨戒への含意の更新 | §D.1.5(4 点)+【IHNEC-GAP-2】の再定義 | ✔ |
+| **F98-3.8** | U-11 は「有限 exhaustive candidate / single lane」 | §D.4 の表 | ✔ |
+| **F98-3.8** | R4b 二環境化の扱い | §D.4 の ★ 註記(**裁定 387 で完了・次便 99 報告予定**・格上げは CV-9 判読後・**U-11 は射程外につき据え置き**) | ✔ |
+| **F98-4.3** | settled 判定の依存 3 段を cert に明記 | `search/certs/wall_canary_24_20260801.json` の `addendum_ben98.settled_semantics`(**+ 段 2 の前提 $[B_q:P_N]=6$・$B_q/P_N\cong S_3$ を直接測定**) | ✔(本稿外) |
+| **F98-4.4** | 構造欄は 20/2280 sample と明記 | 同 cert の `addendum_ben98.scope_of_measurement` | ✔(本稿外) |
+| **F98-4.5** | CV-13 の射程限定(internal orientation gate) | `docs/notes/conventions_ledger_v1.md` CV-13 行への追記 | ✔(本稿外) |
+
+> **本追補で新たに開いた項**: **【IHNEC-GAP-4】(MCOV) 走査の標的化** — (MCOV) が破れる分裂屋根($\mathcal X_n\bmod N'_{\rm ord}\not\subseteq\mathfrak m(N')$)を探す走査は、entangled 屋根の構成を待たずに回せる**安価な新標的**である($m$ 水準の有限集合 2 個の比較のみ)。**状態: 未着手・起票は司令塔判断。**
