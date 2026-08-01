@@ -1337,3 +1337,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 差戻し 3: ①conventions ledger v1.3(四原則宣言と同一 artifact 内の live schema が v1.1 のまま = 直接矛盾 — 司令塔の反映漏れ)②era composition(era FAIL の INTEGRITY_STOP 昇格が「元 overall PASS 時のみ」で併発時に integrity fault が隠れる)③ASM v2 artifact(W97-1.1 矢印 = 論理的含意でない・M2 語彙分離・CV-10 同期)。
 - positive control harness = 条件付き先行実装許可(blind 本走・calibrated=true・発効は不許可)。telemetry-only 継続。GTPI・定理 D は proof artifact 未提出につき未監査(便 98 へ)。10/10 digest 一致・Sol 側 502/502 再走。
 - 修理波: ①実装係 = 台帳 schema 同期 ②ep-keeper = era composition 修理+W6-KEY 実装 draft+PC harness ③数学者(ASM 起草者)= artifact 3 点。
+
+## 2026-08-01 GTPI 前進(裁定 363)— ★ 監査点 A 閉鎖: c₄ は両正典条項と literal 一致(2401 Def 3.1 ②=2008 Def 2.19 ①・補題 C4-CANON で [Q_P,Q_P]=[Q_F,Q_F] 機械確認)— 監査の重心は c₃(pentagon vs App A.3)へ移動。c5 混成向きの正直開示(空虚・4 件目候補)。PB₄ 発見: 探索宇宙は PB₄ 理論でも PB₃ 水準(60 元)= 走査費同額・爆発リスク下方修正。初動 3 手(窓存在判定→CV-9 ^{PB₄} 凍結[pentagon 向き最優先]→Prop 3.3 実測)に GO 発令。便 97 修理波 3 本(era composition・W6-KEY 実装 draft・台帳 schema 同期・ASM 修文)も並行起動。
