@@ -1,0 +1,116 @@
+name: ep-union-check
+
+# EP (n=infty endorsement point) registry re-activation CI smoke -- 司令塔
+# 指示 2026-08-01 (EP 再発効の機械的最終列, item 4). Minimal, manual-dispatch
+# only (no push trigger -- the commander fires this run explicitly). Runs:
+#   (a) the full ninfty regression suite (6 scripts, 5 python + 1 node --
+#       search/test_ninfty_*.py + search/ninfty-selftest-lanea.mjs);
+#   (b) search/ninfty-evidence-union.py's own CLI against the checked-in
+#       registry-resolution smoke fixture (search/certs/
+#       ep_ci_raw_evidence_20260801.json), which resolves REAL production
+#       registry artifacts (genuine checker_pos_01 native_a/native_b, freeze
+#       ep-genuine-20260801, provisioned via
+#       search/ninfty-ep-genuine-provisioning.py) -- this exercises the
+#       registry-resolution + freeze-gate layer against real data. It is NOT
+#       a claim that the W-6 math verifiers reach overall PASS (the fixture's
+#       certificate is intentionally minimal / has no witness structure, see
+#       the fixture's own "_note" field and
+#       search/certs/ep_provisioning_20260801.json's migration-proposal
+#       section) -- the run's real exit code / result JSON is captured
+#       verbatim in the receipt, not overridden.
+# This workflow never commits or pushes anything -- output is an uploaded
+# artifact only (same pattern as wall-smoke.yml).
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ep-union-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install lane B deps (sympy, stdlib-only otherwise)
+        run: python -m pip install --upgrade pip sympy
+
+      - name: Run ninfty regression suites
+        id: suites
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          STATUS=0
+          run_one () {
+            name="$1"; shift
+            echo "=== $name ===" | tee -a ci/out/suites.log
+            "$@" 2>&1 | tee -a ci/out/suites.log
+            code=${PIPESTATUS[0]}
+            echo "$name exit_code=$code" >> ci/out/suites.log
+            if [ "$code" -ne 0 ]; then STATUS=1; fi
+          }
+          run_one test_ninfty_nf python search/test_ninfty_nf.py
+          run_one test_ninfty_checker_native python search/test_ninfty_checker_native.py
+          run_one test_ninfty_laneB python search/test_ninfty_laneB.py
+          run_one test_ninfty_evidence_union python search/test_ninfty_evidence_union.py
+          run_one test_ninfty_legacy_normalizer python search/test_ninfty_legacy_normalizer.py
+          run_one ninfty_selftest_lanea node search/ninfty-selftest-lanea.mjs
+          echo "suites_status=$STATUS" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Run evidence-union CLI against real production registry (smoke fixture)
+        id: ep_smoke
+        shell: bash
+        run: |
+          set +e
+          python search/ninfty-evidence-union.py search/certs/ep_ci_raw_evidence_20260801.json > ci/out/ep_union_result.json
+          code=$?
+          echo "ep_union_exit_code=$code" >> "$GITHUB_OUTPUT"
+          cat ci/out/ep_union_result.json
+          exit 0
+
+      - name: Assemble receipt
+        shell: bash
+        env:
+          SUITES_STATUS: ${{ steps.suites.outputs.suites_status }}
+          EP_UNION_EXIT: ${{ steps.ep_smoke.outputs.ep_union_exit_code }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, datetime
+          receipt = {
+              "run_id": os.environ.get("GITHUB_RUN_ID"),
+              "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+              "sha": os.environ.get("GITHUB_SHA"),
+              "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              "suites_status": os.environ.get("SUITES_STATUS"),
+              "ep_union_smoke_exit_code": os.environ.get("EP_UNION_EXIT"),
+              "note": ("suites_status=0 means all 6 ninfty regression suites (555+82=637 individual checks "
+                       "across test_ninfty_nf/checker_native/laneB/evidence_union/legacy_normalizer + "
+                       "ninfty-selftest-lanea.mjs) passed. ep_union_smoke_exit_code reflects "
+                       "search/ninfty-evidence-union.py's real exit code against the real production registry "
+                       "smoke fixture (search/certs/ep_ci_raw_evidence_20260801.json) -- see ci/out/"
+                       "ep_union_result.json for the full result; a nonzero code here is EXPECTED under the "
+                       "current minimal-certificate fixture (native_registry_status reaches PASS, the W-6 math "
+                       "routes report MALFORMED/INTEGRITY_STOP because the fixture certificate carries no "
+                       "witness structure -- see the fixture's own _note field)."),
+          }
+          with open("ci/out/receipt.json", "w", encoding="utf-8") as f:
+              json.dump(receipt, f, indent=2, ensure_ascii=False, sort_keys=True)
+          print(json.dumps(receipt, indent=2, ensure_ascii=False))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ep-union-check-receipt
+          path: ci/out/
+          if-no-files-found: error

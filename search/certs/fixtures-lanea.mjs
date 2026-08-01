@@ -112,14 +112,25 @@ export const negPellViolation = {
 };
 
 export const negDivisorOrientation = {
-  label: 'neg-divisor-orientation [6] (declared flag false disagrees with derived E-5=true, 裁定 113)',
+  // 2026-08-01 (docs/notes/lanea_native_semantics_v1.md §8 C-1..C-5, cert
+  // search/certs/ep_nf_20260801.json e5_c1_c5): E-5 is now DERIVED once
+  // E-1..E-4 hold, on BOTH lanes -- an attested orientation flag that
+  // contradicts the derived value is no longer treated as a candidate
+  // defect (REJECT[6]) but as an input-inconsistency (INTEGRITY_STOP,
+  // 'divisor-orientation-attestation-mismatch' [27]), the same C-3 pattern
+  // already used for E-6 (gcd(a,p)!=1 after exact E-4 PASS). This fixture's
+  // `expect` was stale after that migration (ninfty-selftest-lanea.mjs was
+  // not in the C-1..C-5 batch's own regression list) -- updated here to the
+  // now-correct verdict, found + fixed during the 2026-08-01 EP re-activation
+  // full-suite regression pass.
+  label: 'neg-divisor-orientation [27] (declared flag false disagrees with derived E-5=true, C-3/裁定 113)',
   candidate: {
     a: ['-3', '-5', '5', '5', '-5', '1'],
     p: ['1', '-3', '1'],
     f6: ['-7', '-12', '0', '10', '0', '-4', '1'],
     orientation_declared_ok: false,
   },
-  expect: { verdict: 'REJECT', primary_reason_code: 'precondition/divisor-orientation' },
+  expect: { verdict: 'INTEGRITY_STOP', primary_reason_code: 'divisor-orientation-attestation-mismatch' },
 };
 
 export const positive3OmittedOrientationFlag = {

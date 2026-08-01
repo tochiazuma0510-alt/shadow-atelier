@@ -1170,3 +1170,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 git 混入事故の記録と作法変更(裁定 325)— commit 6395c99 に EP quarantine rename 4 件が誤属(内容は正・帰属が誤)・司令塔コミットを明示 pathspec 化
 - 事実: EP 係が stage した quarantine 4 rename(v12 条文どおりの正しい退避)を、司令塔の裁定 322 コミットが index ごと巻き込み — メッセージは tmax の話で EP 内容を含む誤属。実害なし(内容は指示どおり)・履歴は書き換えない・本注記が正誤表。
 - 原因 = 共有ワークツリー+index 全体 commit の作法。**是正**: ①司令塔のコミットは以後 `git commit -- <paths>` の明示 pathspec ②係は git mv を使わず(stage を残さない)。並行度が上がった今日、CV-10 番号衝突(裁定 324)と同族の並行性事故 2 例目 — 共有資源(index・ID 空間)には排他か明示指定、が教訓。
+
+## 2026-08-01 EP 本番 provisioning 完了(裁定 326)— ★ 実物 12 artifact(genuine 3 本 × native_a/b + nf_a/b)を freeze ep-genuine-20260801 で世代化・resolve_bundle/union 実 PASS・suite 637 全 green
+- 新規 = ninfty-native-a-cli.mjs / native-b-cli.py / ep-genuine-provisioning.py / ep_ci_raw_evidence cert / .github/workflows/ep-union-check.yml(workflow_dispatch 型・未発火)・cert = ep_provisioning_20260801.json(世代 ID・quarantine 記録・R1/R2 migration proposal 節)。VALID_ROLES を 4 role へ拡張・stale assertion 3 件修理(2 = 実 provisioning の自然な帰結・1 = 前波起源を git log で確認)。
+- 検証: resolve_bundle が実世代から digest 一致で返す・_resolve_native_registry が本番データで genuine PASS・full CLI は正直な INTEGRITY_STOP(smoke cert に witness 構造なし = 想定・full 配線は migration proposal として便 95 へ)。回帰 6 スイート 637 本 all green。
+- ⟹ W92-8: (a)(b)(c) 実充足・(d) は司令塔の workflow_dispatch 1 回(→ 発火)。速達 2 往復(schema 凍結判断・git 混入)とも走行中解決・停止事故ゼロ。

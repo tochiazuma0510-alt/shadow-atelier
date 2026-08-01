@@ -1,0 +1,201 @@
+{
+  "cert_id": "search/certs/ep_provisioning_20260801.json",
+  "coordinator_decision_a_reinforced": {
+    "1_native_schema_frozen": "native_a/native_b content = OLD schema (buildSearcherNative / construct_native_from_scratch output) verbatim -- the schema search/ninfty-verifier-b.py (R1) and search/ninfty-verifier-w6-r2.py (R2) actually read (DIVISOR_OBJECT_TOKENS = ramification_divisor_on_C_ref/branch_divisor_on_P1_ref for native_a; ramification_divisor_on_C/branch_divisor_on_P1 for native_b). R1/R2 are the sol75-frozen consumer layer; changing what they read is a Sol-approval matter, out of scope for this batch.",
+    "2_nf_as_new_roles": "NF (docs/notes/lanea_native_semantics_v1.md section 4.1) is stored as TWO NEW roles, nf_a/nf_b, in the SAME generation and bound to the SAME freeze_id as the native_a/native_b pair it was derived from -- NOT substituted into native_a/native_b. This required extending search/ninfty-native-registry.py's VALID_ROLES from (native_a, native_b) to (native_a, native_b, nf_a, nf_b); no other resolver/provisioning logic changed (resolve_bundle already accepted an arbitrary artifact_id list, per the F92-6.2 addendum's already-approved generalization 'same-freeze, any number of artifacts').",
+    "3_bundle_receipt_4_roles": "Each genuine fixture's bundle receipt (search/certs/ep_registry/generations/<gen>/receipt.json) binds all 4 roles (native_a, native_b, nf_a, nf_b) x 3 fixtures = 12 artifacts, one shared freeze_id, one generation_digest -- see 'generation' below. resolve_bundle was verified against exactly this 4-role set (per fixture) -- see 'verification.resolve_bundle_check'.",
+    "4_migration_proposal_only": "R1/R2 NF-migration (making the frozen verifiers consume the nf_a/nf_b NF schema instead of, or in addition to, the legacy native_a/native_b schema) is NOT implemented in this batch -- see 'migration_proposal_r1_r2_nf' below for the 1-section proposal note. Any change to R1/R2 itself requires Sol approval (sol75 freeze) before implementation.",
+    "documented_mislabel_note": "branch_divisor_on_P1_ref (native_a's schema) is a documented mislabel per 裁定 311 / docs/notes/lanea_native_semantics_v1.md section 3: its content is NOT mu_*R_mu (the true pushforward divisor), it is a duplicate copy of the same x-line ideal as ramification_divisor_on_C_ref (tagged 'pushforward_of' but structurally identical). The Theorem A/B translation dictionary (same doc, section 2) is the authoritative reading; the NF artifact (nf_a/nf_b, this batch) is the authoritative semantic representation. native_a's branch_divisor_on_P1_ref itself is left byte-for-byte as buildSearcherNative already produces it -- this batch changes NO existing frozen-schema bytes, only ADDS the nf_a/nf_b artifacts alongside."
+  },
+  "cross_checked_not_verified": true,
+  "generation": {
+    "artifact_digests": {
+      "ep-genuine-checker_pos_01-native-a": "f7bd6ed774fcf123201ea5158e5d60a5d9f9bd2214fa2c237f86f44f3d75f9ae",
+      "ep-genuine-checker_pos_01-native-b": "8b09f99fc3c50a17984a75a1d3094c183d1a8e632b9f595fe9ad29b4dcd611ee",
+      "ep-genuine-checker_pos_01-nf-a": "86cf914141725e0d29a3043534efcf6f4e107552f61cc5f104865fbb645f91a0",
+      "ep-genuine-checker_pos_01-nf-b": "588e286e54b4dad7a8f5bd7ef21772b7b2d4341ce823ecf4787da27e41c76532",
+      "ep-genuine-checker_pos_02-native-a": "e0e6a7d1c268ed3bd951519946a2a87e108b20acf2e534286c95bd19f73aad01",
+      "ep-genuine-checker_pos_02-native-b": "e67035c76bc6682a40c1fd06e936d873ad9648c5d51a5dec3afddbb9dfda7f83",
+      "ep-genuine-checker_pos_02-nf-a": "227350797705980242e800f202d3f3c50be05f30a5f99af5d74fe0ff4e8ceb4e",
+      "ep-genuine-checker_pos_02-nf-b": "ac765b32bd12dca2766fc39000d055fe0f5a0a8ba849e9a48e03c72b16d3c15f",
+      "ep-genuine-checker_pos_03-native-a": "3189623fa95564b711d63fc552694af1f495d3dd366ee57d81259ec608f54437",
+      "ep-genuine-checker_pos_03-native-b": "14e57e35db188921de41bf1f35a5b3832e655476aef2dbdf0ed8005492b44224",
+      "ep-genuine-checker_pos_03-nf-a": "50e93b9195a4883af4ec002adb7599433c6f67cedc462b492723935294bde2ae",
+      "ep-genuine-checker_pos_03-nf-b": "440661b092d1a99af82524c9c369fc0ff5b4b8ba0ab0d195c49cc1ca94d7f6b4"
+    },
+    "fixture_summary": {
+      "checker_pos_01": {
+        "native_a": {
+          "artifact_id": "ep-genuine-checker_pos_01-native-a",
+          "content_digest": "f7bd6ed774fcf123201ea5158e5d60a5d9f9bd2214fa2c237f86f44f3d75f9ae"
+        },
+        "native_b": {
+          "artifact_id": "ep-genuine-checker_pos_01-native-b",
+          "content_digest": "8b09f99fc3c50a17984a75a1d3094c183d1a8e632b9f595fe9ad29b4dcd611ee"
+        },
+        "nf_a": {
+          "artifact_id": "ep-genuine-checker_pos_01-nf-a",
+          "content_digest": "86cf914141725e0d29a3043534efcf6f4e107552f61cc5f104865fbb645f91a0"
+        },
+        "nf_b": {
+          "artifact_id": "ep-genuine-checker_pos_01-nf-b",
+          "content_digest": "588e286e54b4dad7a8f5bd7ef21772b7b2d4341ce823ecf4787da27e41c76532"
+        }
+      },
+      "checker_pos_02": {
+        "native_a": {
+          "artifact_id": "ep-genuine-checker_pos_02-native-a",
+          "content_digest": "e0e6a7d1c268ed3bd951519946a2a87e108b20acf2e534286c95bd19f73aad01"
+        },
+        "native_b": {
+          "artifact_id": "ep-genuine-checker_pos_02-native-b",
+          "content_digest": "e67035c76bc6682a40c1fd06e936d873ad9648c5d51a5dec3afddbb9dfda7f83"
+        },
+        "nf_a": {
+          "artifact_id": "ep-genuine-checker_pos_02-nf-a",
+          "content_digest": "227350797705980242e800f202d3f3c50be05f30a5f99af5d74fe0ff4e8ceb4e"
+        },
+        "nf_b": {
+          "artifact_id": "ep-genuine-checker_pos_02-nf-b",
+          "content_digest": "ac765b32bd12dca2766fc39000d055fe0f5a0a8ba849e9a48e03c72b16d3c15f"
+        }
+      },
+      "checker_pos_03": {
+        "native_a": {
+          "artifact_id": "ep-genuine-checker_pos_03-native-a",
+          "content_digest": "3189623fa95564b711d63fc552694af1f495d3dd366ee57d81259ec608f54437"
+        },
+        "native_b": {
+          "artifact_id": "ep-genuine-checker_pos_03-native-b",
+          "content_digest": "14e57e35db188921de41bf1f35a5b3832e655476aef2dbdf0ed8005492b44224"
+        },
+        "nf_a": {
+          "artifact_id": "ep-genuine-checker_pos_03-nf-a",
+          "content_digest": "50e93b9195a4883af4ec002adb7599433c6f67cedc462b492723935294bde2ae"
+        },
+        "nf_b": {
+          "artifact_id": "ep-genuine-checker_pos_03-nf-b",
+          "content_digest": "440661b092d1a99af82524c9c369fc0ff5b4b8ba0ab0d195c49cc1ca94d7f6b4"
+        }
+      }
+    },
+    "freeze_id": "ep-genuine-20260801",
+    "generation_digest": "a7bc887d7fd139771460252759f48aa83e00a9e75c2fa7529fbff4d65abee8b7",
+    "generation_id": "ep-genuine-20260801-20260801T034351Z-159c5bd0ff0b",
+    "published": true,
+    "registry_dir": "search/certs/ep_registry (PRODUCTION_REGISTRY_DIR)"
+  },
+  "genuine_fixtures_provisioned": [
+    "checker_pos_01.json",
+    "checker_pos_02.json",
+    "checker_pos_03.json"
+  ],
+  "governing_docs": [
+    "docs/notes/cert_shape_interpretation_addendum_o_v12.md (F92-6.2 item 1: production provisioning quarantine condition)",
+    "docs/notes/lanea_native_semantics_v1.md (NF definition, section 8 'unimplemented' list this batch closes items 1-3 of)",
+    "search/certs/ep_nf_20260801.json (NF calculators + N-1..N-5 crosscheck + mint gate this batch consumes)",
+    "司令塔指示 2026-08-01 'EP 再発効の機械的最終列' (item 1-5) + amendment '(a) の強化版' (native_a/native_b schema frozen, NF stored as nf_a/nf_b same-generation roles, R1/R2 migration deferred as a proposal, not implemented)"
+  ],
+  "migration_proposal_r1_r2_nf": {
+    "proposal": "search/ninfty-verifier-b.py (R1) and search/ninfty-verifier-w6-r2.py (R2) currently locate divisor components by DIVISOR_OBJECT_TOKENS = ('ramification_divisor_on_C_ref', 'branch_divisor_on_P1_ref') on native_a and the corresponding non-'_ref' names on native_b (search/ninfty-verifier-b.py lines ~200, ~1492-1493). A future migration could add a SECOND lookup path that additionally accepts the NF schema (docs/notes/lanea_native_semantics_v1.md section 4.1: ram_finite/ram_infinite/branch/non_ramification_certificates) sourced from the nf_a/nf_b registry roles this batch introduces -- e.g. via the N-1..N-5 crosscheck (search/ninfty-nf-crosscheck.py) as a NEW, independent verification route (R3?) rather than replacing R1/R2's existing token-based lookup, preserving both the frozen R1/R2 semantics and adding the mathematically-corrected NF semantics (Theorem A/B, section 2/3 of the governing note) as an additional, separately-labeled check. This is a proposal for Sol/司令塔 review -- no code implements it.",
+    "status": "PROPOSAL ONLY -- NOT IMPLEMENTED (便95 提案事項, per 司令塔裁定 (a)強化版 item 4)",
+    "why_deferred": "R1/R2 are the Sol 便75-frozen verifier layer; any change requires Sol approval before implementation (司令塔裁定 2026-08-01, this batch's own governing decision)."
+  },
+  "production_snapshot_digest_after": "76744be4ff17bef9a617dda58ea587c6021847e93e8547913475baecacc77a29",
+  "quarantine_synthetic": {
+    "action": "git mv (tracked rename, not delete) of the 3 pre-便91 flat-schema files + their index.json",
+    "condition_satisfied": "docs/notes/cert_shape_interpretation_addendum_o_v12.md F92-6.2 item 1 (production provisioning quarantine/remove instruction)",
+    "destination": "search/certs/ep_registry/_quarantine_synthetic/",
+    "note": "these files were already structurally inert to the new resolver (schema_id mismatch -- resolve()/resolve_bundle() only understand CURRENT.json+generations/) even before being moved; the move is belt-and-suspenders per the addendum's explicit instruction, verified by test_ninfty_evidence_union.py section 15k (updated in this batch, see below).",
+    "quarantined_file_sha256": {
+      "06e7534bc417f6a512c843aad42f8e4b9a89171257bc3fdf67c0dfec3c94c151.json": "ee1d8cafd95a1f75c5fc4ee622586036197ef51a81a259f8d622af1722a34755",
+      "092a4a1d78fc69bc7846d1faa5ab291a38997dee8319c52b73d8a0e7b4dfa4c6.json": "a6985a60e946606c70ce661a5f495c6e5515508d07d7efb69f86a8be415737f6",
+      "29d14a1aae69e05a4ef9b9d03e07654542fe769e5cb651c730a1708baf589b31.json": "77031b55bac32248c110cb4eb415c54bcc4b06a27a74e8008b769c8931cba77d",
+      "index.json": "281782bf90bd9086ffe9b8e6c0ba972435cf8d674b5068acb124ee3c3635efd4"
+    }
+  },
+  "regression_suites": [
+    {
+      "exit_code": 0,
+      "result": "32 checks, 0 FAIL",
+      "script": "search/test_ninfty_nf.py"
+    },
+    {
+      "exit_code": 0,
+      "result": "50/50 checks passed.",
+      "script": "search/test_ninfty_checker_native.py"
+    },
+    {
+      "exit_code": 0,
+      "result": "184/184 checks passed.",
+      "script": "search/test_ninfty_laneB.py"
+    },
+    {
+      "exit_code": 0,
+      "note": "227/227, NOT 225/227 -- 2 assertions were found stale by THIS batch's production provisioning (section 15k assumed PRODUCTION_REGISTRY_DIR had no CURRENT.json yet, and the provisioning-loader exemption list did not yet know about the new search/ninfty-ep-genuine-provisioning.py driver) and were fixed in this batch -- see the diff on search/test_ninfty_evidence_union.py.",
+      "result": "227/227 checks passed.",
+      "script": "search/test_ninfty_evidence_union.py"
+    },
+    {
+      "exit_code": 0,
+      "result": "51/51 checks passed.",
+      "script": "search/test_ninfty_legacy_normalizer.py"
+    },
+    {
+      "exit_code": 0,
+      "note": "93/93, NOT 92/93 -- found (pre-existing, NOT introduced by this batch -- git diff confirms neither ninfty-selftest-lanea.mjs nor ninfty-searcher-v2.mjs changed in this session) and fixed a stale fixture expectation in search/certs/fixtures-lanea.mjs's negDivisorOrientation (expected the pre-C-3 verdict REJECT/precondition-divisor-orientation; the E-5 C-1..C-5 migration (search/certs/ep_nf_20260801.json e5_c1_c5, commit 3bb86f0) changed the real verdict to INTEGRITY_STOP/divisor-orientation-attestation-mismatch but that prior batch's own regression list did not include ninfty-selftest-lanea.mjs, so this went undetected until this batch's full-suite pass.",
+      "result": "93/93 passed.",
+      "script": "node search/ninfty-selftest-lanea.mjs"
+    }
+  ],
+  "regression_totals": "555 (pre-existing 4-suite baseline: 227+184+93+51) + 82 (test_ninfty_nf 32 + test_ninfty_checker_native 50) = 637 individual checks, all green after the 2 fixes above.",
+  "role": "EP registry re-activation, machine 最終列 (司令塔指示 2026-08-01, 裁定291/裁定320 残・(a)強化版裁定). Provisions the receiver-held EP registry (search/ninfty-native-registry-provisioning.py commit_generation) with REAL, genuine-fixture-derived artifacts for the first time -- and does so WITHOUT touching the sol75/R1/R2-frozen native_a/native_b schema (司令塔裁定 (a)強化版: NF is stored alongside as new roles nf_a/nf_b in the SAME generation/freeze_id, not substituted into native_a/native_b).",
+  "scope_note": "This cert covers 司令塔指示 items 1-5 under the '(a) の強化版' amendment. It does NOT cover: (i) any change to search/ninfty-verifier-b.py / search/ninfty-verifier-w6-r2.py (R1/R2) -- see 'migration_proposal_r1_r2_nf' for the deferred proposal only; (ii) an actual GitHub Actions run of .github/workflows/ep-union-check.yml -- the workflow file is committed but NOT triggered (commander fires it, per instruction 'push はしない'); (iii) construction of a full witness-bearing certificate against the real genuine-fixture native content -- see 'evidence_union_cli_full_run_note'.",
+  "source_file_sha256": {
+    ".github/workflows/ep-union-check.yml": "26863f8d6140e5587178e5233b4c4a193973ade253c56ca9de9bd0fc3542f1a3",
+    "search/certs/ep_ci_raw_evidence_20260801.json": "29848807f10fae02cb5775cab7ee4b2cbcbb5b80000e95d5ff21de53ed975da4",
+    "search/certs/fixtures-lanea.mjs": "ede25075601772c56086cba03dcb2000c73f4bb1eeaecda71da7c6435907e976",
+    "search/ninfty-ep-genuine-provisioning.py": "d2b72b252b78d29356867d0a4e35d2379480a88398186241a69cc3d473c58038",
+    "search/ninfty-evidence-union.py": "fc110a421fccd5e7bfcf78b35a6a230840335dd73be5aae4019562aaabe0ee88",
+    "search/ninfty-native-a-cli.mjs": "99c8cc6ef8c7cf5976e7149d214d2ee68aea2f0058b36dc9521d58bc3da2bf0c",
+    "search/ninfty-native-b-cli.py": "c5a168651635ed389bce26ee584575b6586c276723937eb3bc21dc8072b021c2",
+    "search/ninfty-native-registry-provisioning.py": "44a3d3fe1ad66a581254101060abd80f156a7b0ac39a1974bf48a2bd35c8624b",
+    "search/ninfty-native-registry.py": "4adbeab5dac5a0ebdc525714e6717c5c59912778041aa8d6529807ebb89252ca",
+    "search/ninfty-selftest-lanea.mjs": "5e50f4ae4e42710e9b3a0c36f89ff9c09c7db8fded578abec4a63fdffb22ba3a",
+    "search/test_ninfty_evidence_union.py": "21ad14e280a09747e6fc3b323adef55090174402c0a851315869c71cc8c5198c"
+  },
+  "verification": {
+    "evidence_union_cli_full_run": {
+      "native_registry_status": {
+        "detail": {
+          "native_a": {
+            "reason": "resolved against the pinned registry artifact",
+            "status": "PASS"
+          },
+          "native_b": {
+            "reason": "resolved against the pinned registry artifact",
+            "status": "PASS"
+          }
+        },
+        "status": "PASS"
+      },
+      "overall_status": "INTEGRITY_STOP",
+      "route1_detail": {
+        "schema_errors": [
+          "W-6 searcher entry missing required key(s) ['ramification_ref', 'branch_ref', 'witness_ref'] (present keys: ['map_ref', 'native_side'])"
+        ]
+      },
+      "route1_status": "MALFORMED",
+      "route2_detail": {
+        "schema_errors": [
+          "searcher.map_ref: ref missing required key 'digest'"
+        ]
+      },
+      "route2_status": "MALFORMED"
+    },
+    "evidence_union_cli_full_run_note": "python search/ninfty-evidence-union.py search/certs/ep_ci_raw_evidence_20260801.json -> exit 1, overall_status=INTEGRITY_STOP (route1_status=MALFORMED, route2_status=MALFORMED) -- HONEST report, not massaged: native_registry_status.status IS 'PASS' (registry layer genuinely works on real data), but route1/route2 (R1/R2 W-6 math verifiers) report MALFORMED because the smoke fixture's certificate is intentionally minimal (no component_bijection/ramification_ref/branch_ref/witness_ref structure) -- wiring a full witness-bearing certificate against real native content is the big cert-generation-code-to-NF wiring work explicitly deferred by docs/notes/lanea_native_semantics_v1.md section 8 and NOT part of this batch's scope.",
+    "evidence_union_registry_layer_pass": "eu._resolve_native_registry(raw) with native_registry_refs pointing at the REAL production artifact_ids/digests/freeze_id for checker_pos_01 -> overall_status == 'PASS', both native_a/native_b side_results == PASS ('resolved against the pinned registry artifact') -- the registry-resolution + freeze-consistency layer genuinely resolves real production data end-to-end.",
+    "freeze_mismatch_negative_check": "NOT re-derived fresh against production data in this batch (only ONE generation exists in production, so a same-freeze/different-generation FREEZE_MISMATCH scenario cannot be constructed from production data alone without a second commit) -- the FREEZE_MISMATCH structural guarantee and its negative tests (test_ninfty_evidence_union.py section 15j/16) are exercised as part of the isolated-registry regression suite (see 'regression_suites' below), which is unaffected by and independent of the production provisioning in this batch.",
+    "resolve_bundle_check": "reg.resolve_bundle([4 role artifact_ids for checker_pos_01]) against the DEFAULT (production) registry_dir returned generation_id == the committed generation_id, freeze_id == 'ep-genuine-20260801', and all 4 whole_artifact_digest values EXACTLY matching commit_generation's own returned digests -- machine output, re-run confirmed identical."
+  }
+}

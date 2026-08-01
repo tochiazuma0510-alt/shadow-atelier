@@ -2006,18 +2006,27 @@ finally:
     eu._NATIVE_REGISTRY_MODULE = _orig_registry_module
 
 # --- 15k. blocker 11 (production store's old flat-shape entries are no
-#     longer resolvable at all): PRODUCTION_REGISTRY_DIR still contains
-#     the pre-便91 flat index.json + 3 entry files (inert leftovers of the
-#     retired schema -- untouched by this task per the standing "no
-#     production-store content changes without commander authorization"
-#     instruction) but the NEW resolver never even looks at that shape --
-#     it only ever looks for CURRENT.json + generations/, neither of
-#     which exists yet under PRODUCTION_REGISTRY_DIR.
-record("Sol 便91 F91-6.2 blocker 11 (old flat-shape production entries are inert under the new schema): "
-       "reg.index_exists(PRODUCTION_REGISTRY_DIR) is False -- no CURRENT.json exists there yet",
-       reg.index_exists(registry_dir=reg.PRODUCTION_REGISTRY_DIR) is False, "n/a")
+#     longer resolvable at all): as of 2026-08-01 (司令塔指示 "EP 再発効の
+#     機械的最終列", docs/notes/cert_shape_interpretation_addendum_o_v12.md
+#     §F92-6.2 item 1's stated precondition), the pre-便91 flat index.json +
+#     3 entry files were QUARANTINED to
+#     search/certs/ep_registry/_quarantine_synthetic/ and a REAL generation
+#     (genuine-fixture native_a/native_b/nf_a/nf_b bundles) was committed and
+#     published via search/ninfty-ep-genuine-provisioning.py -- so
+#     PRODUCTION_REGISTRY_DIR now DOES have a live CURRENT.json/generations/
+#     tree (index_exists() is True). The assertion this section still makes
+#     is the one that continues to matter regardless of whether production
+#     provisioning has happened: the OLD flat-shape artifact_ids
+#     ("native_a"/"native_b"/"native_b_alt", the pre-便91 synthetic ones) are
+#     NOT present in the new real generation and remain unresolvable --
+#     provisioning a genuine generation never resurrects them.
+record("EP re-activation 2026-08-01 (production store IS now provisioned for real -- genuine-fixture "
+       "native_a/native_b/nf_a/nf_b bundles, see search/certs/ep_provisioning_20260801.json): "
+       "reg.index_exists(PRODUCTION_REGISTRY_DIR) is True",
+       reg.index_exists(registry_dir=reg.PRODUCTION_REGISTRY_DIR) is True, "n/a")
 for _old_id in ("native_a", "native_b", "native_b_alt"):
-    record(f"Sol 便91 F91-6.2 blocker 11 (old production entry {_old_id!r} unresolvable under the new schema): "
+    record(f"Sol 便91 F91-6.2 blocker 11 (old QUARANTINED flat-shape production entry {_old_id!r} still "
+           "unresolvable under the new schema, even after a REAL generation was published): "
            "resolve() against PRODUCTION_REGISTRY_DIR returns None",
            reg.resolve(_old_id, registry_dir=reg.PRODUCTION_REGISTRY_DIR) is None, "n/a")
 
@@ -2117,7 +2126,19 @@ record("Sol 便90 F90-4.1 blocker 7 (no leakage, resolve confirms): resolve('fre
 #     resolver-only import is not merely a convention, nothing else in
 #     the tree can reach commit_generation either.
 _PROV_LOAD_MARKER = '"ninfty-native-registry-provisioning.py"'
-_PROV_EXEMPT_FILES = {"ninfty-native-registry-provisioning.py", "test_ninfty_evidence_union.py"}
+_PROV_EXEMPT_FILES = {
+    "ninfty-native-registry-provisioning.py", "test_ninfty_evidence_union.py",
+    # 2026-08-01 EP 再発効: search/ninfty-ep-genuine-provisioning.py is a
+    # RECEIVER-SIDE provisioning driver (same category as
+    # ninfty-native-registry-provisioning.py itself) -- it dynamically loads
+    # the provisioning module to call commit_generation() when an operator
+    # runs it explicitly (--production, gated by NINFTY_EP_ALLOW_PRODUCTION_
+    # WRITE=1), exactly like that module's own CLI does. It is never loaded
+    # by search/ninfty-evidence-union.py or by any code in the untrusted-
+    # input-adjacent trust boundary -- the invariant this test guards
+    # (evidence-union.py cannot reach commit_generation) is unaffected.
+    "ninfty-ep-genuine-provisioning.py",
+}
 _prov_loaders_found = []
 for fn in sorted(os.listdir(HERE)):
     full = os.path.join(HERE, fn)

@@ -130,7 +130,7 @@ On-disk layout (under a registry directory -- production default
                                         #    artifact in this generation.
                                         #  "artifacts": {<artifact_id>: {
                                         #    "file": <basename>, "role":
-                                        #    "native_a"|"native_b",
+                                        #    "native_a"|"native_b"|"nf_a"|"nf_b",
                                         #    "version_id": <str>,
                                         #    "freeze_id": <str>, "status":
                                         #    "ACTIVE"|"REVOKED",
@@ -157,7 +157,7 @@ Entry file schema (one JSON file per artifact, inside a generation dir):
     "schema_id": "mb/ninfty-ep-registry/gen-entry/v2",
     "generation_id": <str>,            # must equal the containing dir.
     "artifact_id": <str>,
-    "role": "native_a" | "native_b",
+    "role": "native_a" | "native_b" | "nf_a" | "nf_b",
     "version_id": <str>,
     "freeze_id": <str>,                # REQUIRED, non-empty (v2: every
                                         # entry in a generation is bound to
@@ -213,7 +213,23 @@ REGISTRY_DIR = PRODUCTION_REGISTRY_DIR
 # defaults to PRODUCTION_REGISTRY_DIR.
 ENV_REGISTRY_DIR = "NINFTY_EP_REGISTRY_DIR"
 
-VALID_ROLES = ("native_a", "native_b")
+VALID_ROLES = ("native_a", "native_b", "nf_a", "nf_b")
+# nf_a/nf_b (2026-08-01, 司令塔裁定 EP 再発効 item2): the NF (normal form,
+# docs/notes/lanea_native_semantics_v1.md §4.1) calculators' own outputs,
+# stored as artifacts of a NEW role WITHIN THE SAME generation/freeze_id as
+# the native_a/native_b pair they were derived from -- NOT a replacement for
+# native_a/native_b's existing (frozen, sol75-approved) schema. This is the
+# "F92-6.2 の一般化(同一 freeze の任意個 artifact)" the governing addendum
+# (cert_shape_interpretation_addendum_o_v12.md §F92-6.2 item 3) already
+# declared allowed without further design change: `resolve_bundle` takes an
+# arbitrary list of artifact_ids and was never restricted to exactly
+# {native_a, native_b}. Adding these two role tokens does not touch
+# search/ninfty-verifier-b.py / search/ninfty-verifier-w6-r2.py (R1/R2, the
+# Sol 便75-frozen consumer layer) or search/ninfty-evidence-union.py's own
+# `_resolve_native_registry`, which still only ever requests
+# native_registry_refs["native_a"/"native_b"] -- nf_a/nf_b are resolved by a
+# SEPARATE, NF-specific caller (yet to exist; R1/R2 NF-migration is a
+# deferred proposal, see search/certs/ep_provisioning_20260801.json).
 VALID_STATUSES = ("ACTIVE", "REVOKED")
 
 _GENERATIONS_SUBDIR = "generations"
@@ -677,7 +693,7 @@ def resolve(artifact_id, registry_dir=None):
     reads whatever a real receiver process's environment designates.
 
     On success, returns:
-      {"role": "native_a"|"native_b", "status": "ACTIVE"|"REVOKED"|<other>,
+      {"role": "native_a"|"native_b"|"nf_a"|"nf_b", "status": "ACTIVE"|"REVOKED"|<other>,
        "version_id": <str>, "freeze_id": <str>,
        "whole_artifact_digest": <64-hex, FRESHLY recomputed from the entry
        file's own 'content' -- never a self-reported/cached digest>,

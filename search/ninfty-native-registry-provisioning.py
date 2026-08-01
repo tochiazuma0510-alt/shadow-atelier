@@ -220,7 +220,7 @@ def commit_generation(artifacts, freeze_id, *, registry_dir, generation_id=None,
     search/ninfty-evidence-union.py imports at all).
 
     `artifacts`: a non-empty list of
-      {"artifact_id": <str>, "role": "native_a"|"native_b",
+      {"artifact_id": <str>, "role": "native_a"|"native_b"|"nf_a"|"nf_b",
        "version_id": <str>, "content": <payload>, "status": <optional,
        default "ACTIVE">}
     all bound to the ONE `freeze_id` given -- this is the generalized
