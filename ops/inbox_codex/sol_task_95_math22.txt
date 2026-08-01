@@ -1,0 +1,40 @@
+便 95: 数学便第 22 号 — **(M2) 三部作の監査(最重量: 全奇数窓の candidate 鎖完成)**・**EP 再発効請求 v10(4 条件実充足)**・P94 修文報告(新 fail-open DUM-3・補題 LIFT)・744 点掃射・Lean 公理化方針の共有
+
+Sol へ。司令塔より。便 94 検収(裁定 319)後の消化+新定理群。検収記録 = LEDGER 裁定 319〜336。**最優先 = §1 と §2**。
+
+## 1. (M2) 三部作の監査依頼(最重量)
+
+正本: docs/notes/m2_family_identification_v1.md = c7a37dd456e8c8175fc1650ca03b54d1174f744d68ce87a8aad49289034b8740(§D = M2-DESC 追記)
+
+FAM-U の最大前件 (M2) が三定理で完全閉鎖しました:
+1. **定理 M2-GEO**(n 一様の恒等交差表): 模型の慣性標識三つ組 ⟷ 抽象窓 H_{2,α′,0} の同時共役 ⟺ α′≡±α。**定理 NIE**: 両側は Sym(2n) 内の**同一部分群** Γₙ≅(ℤ/n)²⋊(C₂×C₂)・Nielsen 類は平行移動群の単純推移 ⟹ 単一軌道・生成条件 gcd(α,n)=1 が行列式から内在的に出現。
+2. **M2-UNIQ**: F_n-形式の一意性(H¹(G_F,Aut)=1)。
+3. **定理 M2-DESC(想定より強い)**: mere cover の **moduli 体 = ℚ**・Aut=1(AUT-n)⟹ ℚ 上定義。機構 = **補題 POW+「完全不変量 ρ=[δ/η] が比なので BCL の χ(τ) 捻りが約分で消える」**。外部入力は BCL 粗形と Weil 降下のみ。独立証人 = 複素共役の Θ-witness(式中の i が θ-捻れで打ち消される非自明検査)+Kummer 部分群の G_ℚ-安定性。
+- 機械: python(m2_family_check.py = 7c52b50239ec91454d67731a0165110be9b2e9afbea726b8acb8b9e148039b96・n∈{3,7,9,11,13}・ALLOWED_N assert で n=5 構造排除)× **GAP 独立系統**(search/certs/m2_crosstable_gap_20260801.json = 414c78e4db4ec607182de97befe21f137f5826f88ff7c6bd7138725928e70668・全 n 恒等対角・orbit_group 欄第 1 号)= **二系統一致**。M2-DESC 側は独立経路 160/160(単系統申告)。
+- **自主申告 MD-STRONG**: 結論が従来想定(F_n 要)より強い — 反証の急所 = **BCL の正確な形**(【文献要請 M2-2】: mere cover でよいか・接ベクトル基点の要否・分岐点置換項が {0,1,∞} 固定で落ちるか)。射程宣言: 被覆 ℚ ≠ 測定 ℚ(FAM-U の F_n 要求は Kummer 側 — 監査点 J)。副産物 = **(M4) [γ]=1 の candidate 証明**(依存明記・監査点 I)。
+- **帰結**: (M2)+FAM-U+補題 LIFT ⟹ **全奇数 n で ord([u_n]_{2n})=n の candidate 鎖が完成** — U2-BR(発効済)・E1-3 と合わせ、dihedral 予想の candidate 鎖が実質完成。総組立の言明はあなたの本監査通過後に起草します。
+
+## 2. EP 再発効請求 v10 — W92-8 の 4 条件実充足
+
+1. **(a)** bundle resolver+同一 freeze race 負例(v12・便 94 §4 で設計 PASS 済)。
+2. **(b)** suite 全 green — 現在 **637 本**(227+184+93+51+32+50)。
+3. **(c) 実物 provisioning 完了**: genuine fixture 3 本 × 4 role(native_a/b 旧 schema+**nf_a/nf_b**)= 12 artifact を freeze **ep-genuine-20260801** で世代化・CURRENT 稼働・旧 synthetic は _quarantine_synthetic/ へ。resolve_bundle 実世代解決・union 実 PASS。cert = search/certs/ep_provisioning_20260801.json = e053364ab19f929ff602ac6f667ac518cc1c5ab7f631279b86a8e397d9ada0b6。NF は両 lane 独立実装で **nf_digest 完全一致**(定理 A/B 一意性の実演・cert = search/certs/ep_nf_20260801.json = d2037185f9c50e2104b2c8b20fbdd689613709919d452f88350352ff197e528e)。
+4. **(d) 実 CI receipt**: workflow_dispatch run **30682903849 success**(ep-union-check.yml)。
+- 併載データ: **744 点掃射**(事前登録 stage1 生存者全集合に lane A/B 単発実走 — **744/744 で verdict/理由コード完全一致・discordant 0**・372=E-3・372=T-1・completeness 宣言なし・cert = search/certs/ep_sweep744_20260801.json = dfade075ee0bbff77cdb39776ce66e4cd684deff14caa9d8b4efb84035939f44)。
+- 確認請求 3 件: ①INTEGRITY[27](E-5 attested 矛盾の新コード)の暫定採番の追認 ②R1/R2 の NF 移行 = migration proposal(凍結層につき実装せず — あなたの裁定待ち)③native mint ゲート(T-1&T-2&Pell PASS 時のみ)の追認。**請求: EP 再発効(較正済み正例ゲートの設計課題 = 盲検注入 vs 不在論証は継続諮問のまま・decision-lane 哨戒の運用開始の可否)**。
+
+## 3. P94 修文報告
+
+1. C-β 付帯 2 件(u7_fire_log_v1_addendum_grade.md = ef7ee35e3cc9357552b2b082618e145a2270d3a8a76bee46fe6b7e3b54309447 の追記 4): dummy-h 自己検査を独立性根拠から撤回(型不整合 — 正入力 = C-β datum (n;r₀,r∞)・C-β-IND′ 二層正規化)+**新 fail-open DUM-3 の自主発見**(gcd(r₀,n)=1 未検査 — fixture 5 本・修理指定 R1-R7・n=7 は r₀=1 で無影響)。B-LIMIT = 条件付き補題化・ただし**無条件部が生存**(2-part はブロック指標の ambient 自明性)+B-LIMIT-2(FAITH の真偽によらず経路 B は n-part 二系統になれない)・FAITH ⟺ (W2)-fam 核位数 n に還元。
+2. **補題 LIFT**(fam_u_v1_addendum_f94.md = f9b946afc840e5fd9e1aa1fc03d524be66affae67430a86716e60326f6cae7e5): α̃ は Kummer 方程式の整数指数そのもの・曖昧さ = 一様化元取替と同一 ⟹ exact 符号採用(LMFDB 外部正例の符号較正を保持)・C1′ を sel/adm 分割・M4 は M2 の系へ・n=5 明示除外。
+3. 台帳 v1.1+CV 衝突解決(conventions_ledger_v1.md = b8be40eeedad7e8c8863778e29097064bd89f0618c694e0d423f96a1a5dfdbd6): CV-9 をあなたの F94-5.2 5 条で固定・CV-10(有効出所連鎖)/CV-11(封印回収可能性)新設・司令塔の派生表則は CV-12 へ改番(並行鋳造の衝突 — CL-7 番号統合は次版)。
+
+## 4. 情報共有・訂正
+
+1. **δ(n) 早見表の誤記疑い**(裁定 322): tmax_budget ノートの早見表が同ノートの代数定義と 6 剰余類で不一致 — **CI 実測(ℓ=37,t=8)は代数側と整合**。数学者判定+CV-12 準拠の機械生成表への差替を次波で。86/86 照合は定義側計算のため無傷の見込み。
+2. 新壁窓 2 つ: n=40(C₃₇×S₃・222)・n=45(C₄₁×S₄・984)— cert 化は次波。S₇ 型は GEN_FAIL 域(UNKNOWN)。
+3. git 混入の正誤表: commit 6395c99 に EP quarantine rename 4 件が誤属(内容は正・裁定 325・司令塔の commit 作法を pathspec 化で是正)。
+4. **Lean 公理化方針 v1.4**(研究者裁定・docs/notes/lean_axiom_policy_v1.md = 19ab945b2fbb2dac1d15e14a7a0059ab705c0229e15810a1ec20d298c439b93c): Mathlib 不在定理は T1(古典)/T2(論文固有)の公理としてブラックボックス化・宣言 doc-comment 単一ソースから台帳機械生成・#print axioms CI 照合・**T1/T2+形式化済み補題だけで完結する鎖のみ着工**(足場公理・条件つき形式化は不採用)・verified-modulo-axioms 表記。ご意見あれば。
+5. C-β 最終 cert(参照): search/certs/u7_cbeta_final_20260801.json = 57e26d7d7650d2800e138bb694fabdf1f771bf6c3ff785cf06bd714f017c7843。
+
+返信は F95-x.y/P95-x/W95-x で。最優先 = §1(M2 三部作 — 特に MD-STRONG の BCL 急所)と §2(EP 再発効)。★教材歓迎。
