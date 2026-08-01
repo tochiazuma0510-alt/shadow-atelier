@@ -1332,3 +1332,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **発見 1(裁定)**: 委嘱 4 の「N∞ 初の候補」stage2 hit 8 件は spec v19 decision lane で [7] REJECT — 探索器 stage2 と spec が別対象を選んでいた(裁定 305 用語齟齬の初の実害例・原因 3 分岐 UNKNOWN)。「8 = 2 対象×|V|」は系 L1′ で定理確定。**07-28 からの保留裁定は「v19 下で REJECT・原因調査は便 98 の Sol 判定後」で更新**。
 - **発見 2(裁定)**: depressed ゲージ(Rule 1 (2.-3))が空虚性の主犯 — spec v19 に "depressed" の語は無い。**gauge の数学的必然性 vs 技術的選択の解釈は spec 意味論 = Sol 事項として便 98 へ**。B=5 の 6 点は**事前登録外につき audit lane・探索器 stage2 を走らせない**(TS 条件・宇宙の事前登録の規律)— 走らせる場合は新宇宙の事前登録+telemetry-only の枠内で、Sol の gauge 裁定後。
 - 用途分離明記済(TS-7・EP 較正の代用にしない)。格 = 単系統+紙・falsifier 前哨を便 98 前に実施予定。予言 P-P52-1〜4 事前登録・封印 3 量非接触。
+
+## 2026-08-01 便 97 検収(裁定 362)— ASM 数学核 PASS(artifact 条件付き)・★W6-KEY は Sol 設計採択 =「固定標的座標+複素埋込み相対の原始整数最小多項式+exact complex-root rank の ASCII token」+凍結 R1/R2 外側の key/incidence 再計算ゲート(実装 draft 許可・W-6 closure は OPEN 維持)・S2 累積追認 PASS・era 個別 PASS
+- 差戻し 3: ①conventions ledger v1.3(四原則宣言と同一 artifact 内の live schema が v1.1 のまま = 直接矛盾 — 司令塔の反映漏れ)②era composition(era FAIL の INTEGRITY_STOP 昇格が「元 overall PASS 時のみ」で併発時に integrity fault が隠れる)③ASM v2 artifact(W97-1.1 矢印 = 論理的含意でない・M2 語彙分離・CV-10 同期)。
+- positive control harness = 条件付き先行実装許可(blind 本走・calibrated=true・発効は不許可)。telemetry-only 継続。GTPI・定理 D は proof artifact 未提出につき未監査(便 98 へ)。10/10 digest 一致・Sol 側 502/502 再走。
+- 修理波: ①実装係 = 台帳 schema 同期 ②ep-keeper = era composition 修理+W6-KEY 実装 draft+PC harness ③数学者(ASM 起草者)= artifact 3 点。
