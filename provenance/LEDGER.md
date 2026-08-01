@@ -1381,3 +1381,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 症状(fail-open の物証): failed 12 shard の run.log が壁時計 22〜270 分とバラバラなのに全て byte 同一 394 バイトで「本番開始直後」で切断・gap_exit_code=0 記録・DRIVER_DONE なし。仮説 = OOM kill+wrapper の exit code 隠蔽+ログ未フラッシュ(実装係が診断修理中)。
 - 付随: mine/collector が本 cert schema(wac_v1-lt-count-gen-cert/v1)非対応(r4 系前提)= 需要の信号として記録・別途起票。Windows MAX_PATH で長パスの isfile 不検出も観測。
 - miner の職務規律は模範(判定・推測・再走をせず物証つきエスカレーション)。再走は修理検収後(plan 内容変更 = メモリ条件等が要れば司令塔承認で改版)。
+
+## 2026-08-01 P5-1 走行中の裁定 2 件(裁定 373)
+- **①壁族の分類訂正(数学者捕獲・cert 自身が機械反証)**: 非可解壁帯は n=24/28/36/37 の **4 窓**のみ — n=40(C₃₇×S₃・solvable:true・dl=2)と n=45(C₄₁×S₄・solvable:true・dl=3)は「同族 C_ℓ×S_t だが可解」。裁定 339 の「壁族 6 窓」は司令塔の語法伝播ミス(数値・cert 無傷)。地図 P4 行を訂正済。副産物: n=40/45 = 最安の可解プローブ標的として FV-SOLV 台帳の候補標的欄へ。
+- **②RETRACTED schema の限定解除(逐語)**: 「RETRACTED schema mb/ninfty-branch-search/v1 の cert 群について、**点リスト(座標データ)を事前登録宇宙の定義として使うことは可**。禁止が継続するのは **verdict/hit/判定欄を証拠・照合器の判定入力として使うこと**(裁定 66 の趣旨 = 判定の救済禁止であり、座標の再利用は宇宙の事前登録と両立)。裁定 321/342/361 の 744/86M/680 の用法はこの限定解除の範囲内で有効。引用時は『点リストのみ使用・verdict 不使用』の 1 行を CV-10 連鎖に添える」— p52 §7.2 清算。
+- ③P5-2 の新規性修文を受理: e=3 真分岐の事実は便 54 F6 既知 — §7.3 の新規部分は「探索器 stage2 と spec decision lane が別対象を選ぶ帰結」の方(便 54 F6 を effective source 併記)。
