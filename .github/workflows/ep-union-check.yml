@@ -3,7 +3,7 @@ name: ep-union-check
 # EP (n=infty endorsement point) registry re-activation CI smoke -- 司令塔
 # 指示 2026-08-01 (EP 再発効の機械的最終列, item 4). Minimal, manual-dispatch
 # only (no push trigger -- the commander fires this run explicitly). Runs:
-#   (a) the full ninfty regression suite (6 scripts, 5 python + 1 node --
+#   (a) the full ninfty regression suite (9 scripts, 8 python + 1 node --
 #       search/test_ninfty_*.py + search/ninfty-selftest-lanea.mjs);
 #   (b) search/ninfty-evidence-union.py's own CLI against the checked-in
 #       registry-resolution smoke fixture (search/certs/
@@ -64,6 +64,12 @@ jobs:
           run_one test_ninfty_evidence_union python search/test_ninfty_evidence_union.py
           run_one test_ninfty_legacy_normalizer python search/test_ninfty_legacy_normalizer.py
           run_one test_ninfty_r3nf python search/test_ninfty_r3nf.py
+          # 便97 差戻し修理で追加された二 suite。w6key は点ごと branch-key
+          # DRAFT の gate 群(W-6 は OPEN のまま -- green は closure ではない)、
+          # poscontrol は positive-control harness の NON-BLIND unit fixture
+          # (盲検本走・calibration はここでも走らない・P97-4.1 不認可)。
+          run_one test_ninfty_w6key python search/test_ninfty_w6key.py
+          run_one test_ninfty_poscontrol python search/test_ninfty_poscontrol.py
           run_one ninfty_selftest_lanea node search/ninfty-selftest-lanea.mjs
           echo "suites_status=$STATUS" >> "$GITHUB_OUTPUT"
           exit 0
@@ -242,9 +248,11 @@ jobs:
               "full_evidence_union_exit_code": os.environ.get("FULL_EXIT"),
               "full_evidence_union_assert_rc": os.environ.get("FULL_ASSERT_RC"),
               "full_evidence_union_summary": full_summary,
-              "note": ("suites_status=0 means all 7 ninfty regression suites passed "
-                       "(test_ninfty_nf/checker_native/laneB/evidence_union/legacy_normalizer/r3nf + "
-                       "ninfty-selftest-lanea.mjs) -- and the 'Gate' step FAILS THE JOB if this is not '0' "
+              "note": ("suites_status=0 means all 9 ninfty regression suites passed "
+                       "(test_ninfty_nf/checker_native/laneB/evidence_union/legacy_normalizer/r3nf/"
+                       "w6key/poscontrol + ninfty-selftest-lanea.mjs) -- a green w6key suite is NOT W-6 "
+                       "closure and a green poscontrol suite is NOT a calibration (both are draft-level, "
+                       "Sol 便97 P97-3.4 / P97-4.1) -- and the 'Gate' step FAILS THE JOB if this is not '0' "
                        "(fail-closed, Sol 便95 W95-2.2). The per-suite check counts are in "
                        "ci/out/suites.log, which each suite prints itself; they are not restated here, "
                        "because a hand-restated total is exactly the kind of claim a receipt must not "

@@ -68,6 +68,15 @@ detector, so every report this module emits carries
 PASS here is a statement about THIS artifact set, never a claim that the
 pipeline has been shown able to detect a planted fault.
 
+COMPOSITION (Sol 便97 W97-2.1/P97-2.1, report schema v2): an INTEGRITY
+FAULT outranks every route/registry verdict UNCONDITIONALLY. The old form
+escalated an era mismatch to INTEGRITY_STOP only when the routes happened
+to compose to PASS, so an era fault CONCURRENT with a FAIL/ABSENT/CONFLICT
+column vanished from the headline. Now `integrity_gate` is its own emitted
+column: it always names the faults and always carries the pre-override
+mathematical composition (`route_composition_status`), so neither fact can
+mask the other.
+
 CLI: python search/ninfty-evidence-union-full.py <raw.json>
 Prints the canonical JSON report; exit 0 iff overall_full == "PASS"
 (fail-closed CLI, same convention as the frozen facade's main()).
@@ -86,7 +95,14 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 HEX64 = re.compile(r"^[0-9a-f]{64}$", re.IGNORECASE)
 
-FULL_UNION_SCHEMA_ID = "mb/ninfty-evidence-union/full-union-report/v1"
+# v2 (Sol 便97 P97-2.1): the emitted report gained the `integrity_gate`
+# column AND the composition semantics changed (an integrity fault now
+# outranks the route lattice unconditionally). A changed meaning of
+# `overall_full` is not an additive tweak, so the report schema is
+# superseded by version rather than mutated in place: a consumer pinned to
+# v1 must not silently read a v2 report as if the old rule still held.
+FULL_UNION_SCHEMA_ID = "mb/ninfty-evidence-union/full-union-report/v2"
+FULL_UNION_SCHEMA_ID_V1 = "mb/ninfty-evidence-union/full-union-report/v1"
 ROUTE_COLUMNS = ("R1", "R2", "R3-NF")
 
 __all__ = ["evidence_union_full_from_raw"]
@@ -694,7 +710,7 @@ def _resolve_four_roles(raw):
     return overall, contents, summary
 
 
-def _compose_full(r1_status, r2_status, r3nf_status, registry_status):
+def _compose_route_registry(r1_status, r2_status, r3nf_status, registry_status):
     """
     INTERSECTION ONLY. overall_full == "PASS" iff every column is "PASS"
     and the four-role registry resolution is "PASS". Otherwise the report
@@ -723,6 +739,48 @@ def _compose_full(r1_status, r2_status, r3nf_status, registry_status):
     if all(c == "PASS" for c in cols):
         return "PASS"
     return "INTEGRITY_STOP"
+
+
+# The ONE integrity gate name reported when the payload-era matrix does not
+# hold. Named (not a bare boolean) so the emitted report always says WHICH
+# integrity fault forced the status, even when the mathematical composition
+# was already non-PASS for an unrelated reason.
+ERA_INTEGRITY_FAULT = "payload_era_matrix"
+
+
+def _compose_full(r1_status, r2_status, r3nf_status, registry_status, era_ok):
+    """
+    Sol 便97 W97-2.1 / P97-2.1 REPAIR.
+
+    The previous form was
+
+        overall = _compose_route_registry(...)
+        if overall == "PASS" and not era_ok:
+            overall = "INTEGRITY_STOP"
+
+    which raised an era mismatch to INTEGRITY_STOP ONLY when the routes
+    happened to compose to PASS. With R1 FAIL (or ABSENT, CONFLICT,
+    INTEGRITY_STOP) the era fault was silently dropped from the headline
+    status: an untrusted-provenance fault was masked by a mathematical one.
+
+    An era mismatch means the routes were evaluated against payloads from
+    an era nobody declared compatible. That is a provenance/integrity fault
+    about the INPUTS, so it outranks every verdict computed FROM those
+    inputs. It is therefore the FIRST rule, evaluated before the route and
+    registry lattice, unconditionally.
+
+    `era_ok` is a REQUIRED argument and is compared with `is True`: an
+    absent/None/truthy-but-not-True value is treated as a fault, never as a
+    satisfied gate (an undefined era result is never read as PASS).
+
+    The mathematical composition is NOT discarded -- the caller reports it
+    verbatim in `integrity_gate.route_composition_status`, so the two facts
+    (which columns failed, and that the payload era is untrusted) are always
+    visible in separate fields.
+    """
+    if era_ok is not True:
+        return "INTEGRITY_STOP"
+    return _compose_route_registry(r1_status, r2_status, r3nf_status, registry_status)
 
 
 def evidence_union_full_from_raw(raw):
@@ -784,9 +842,16 @@ def evidence_union_full_from_raw(raw):
     era_ok, era_detail = _check_payload_era_matrix(
         raw, (registry_detail or {}).get("control_plane_docs_receipt_binding"))
 
-    overall = _compose_full(columns["R1"]["status"], columns["R2"]["status"], r3_status, registry_status)
-    if overall == "PASS" and not era_ok:
-        overall = "INTEGRITY_STOP"
+    # 便97 W97-2.1: the era gate is now UNCONDITIONAL and outranks the route
+    # lattice (see _compose_full). The pre-override mathematical composition
+    # is kept and reported in its own field so that raising the headline to
+    # INTEGRITY_STOP never erases which columns had failed, and a concurrent
+    # column FAIL never hides the integrity fault.
+    route_composition = _compose_route_registry(
+        columns["R1"]["status"], columns["R2"]["status"], r3_status, registry_status)
+    overall = _compose_full(columns["R1"]["status"], columns["R2"]["status"],
+                            r3_status, registry_status, era_ok)
+    integrity_faults = [] if era_ok is True else [ERA_INTEGRITY_FAULT]
 
     return {
         "schema_id": FULL_UNION_SCHEMA_ID,
@@ -798,8 +863,30 @@ def evidence_union_full_from_raw(raw):
         "four_role_registry_status": registry_detail,
         "payload_era_matrix": era_detail,
         "overall_full": overall,
-        "composition_rule": ("intersection only -- overall_full == PASS iff R1, R2 and R3-NF are ALL PASS, "
-                             "the four-role registry resolution is PASS, AND payload_era_matrix.ok is true; "
+        # 便97 W97-2.1 / P97-2.1: the integrity gate is a SEPARATE column. It
+        # is emitted on every run, PASS or not, so an integrity fault can
+        # never be absorbed by (or absorb) a mathematical verdict.
+        "integrity_gate": {
+            "payload_era_matrix_ok": era_ok is True,
+            "integrity_faults": integrity_faults,
+            "route_composition_status": route_composition,
+            "overall_full": overall,
+            "rule": ("an integrity fault outranks every route/registry verdict UNCONDITIONALLY: "
+                     "integrity_faults != [] => overall_full == INTEGRITY_STOP, whatever "
+                     "route_composition_status is (Sol 便97 P97-2.1). route_composition_status is the "
+                     "pre-override mathematical composition and is reported verbatim, so raising the "
+                     "headline never erases which columns failed, and a FAIL/ABSENT/CONFLICT column "
+                     "never hides the integrity fault. `payload_era_matrix_ok` is a strict `is True` "
+                     "test: an undefined era result is a fault, not a PASS"),
+        },
+        "composition_rule": ("integrity first, then intersection: any integrity fault "
+                             "(integrity_gate.integrity_faults -- currently payload_era_matrix) forces "
+                             "overall_full == INTEGRITY_STOP REGARDLESS of the route/registry statuses "
+                             "(Sol 便97 W97-2.1/P97-2.1: the old form only escalated when the routes "
+                             "happened to compose to PASS, so an era fault concurrent with a FAIL/ABSENT/"
+                             "CONFLICT column was masked). Otherwise intersection only -- overall_full == "
+                             "PASS iff R1, R2 and R3-NF are ALL PASS, the four-role registry resolution "
+                             "is PASS, AND payload_era_matrix.ok is true; "
                              "no column substitutes for another (Sol 便95 F95-2.2, 便96 W96-2.2). "
                              "control_plane_docs_receipt_binding (manifest Y-3a) and payload_era_matrix "
                              "(Y-3b) are DISTINCT: neither may be reported as the other, and neither "

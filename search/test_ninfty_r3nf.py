@@ -251,18 +251,21 @@ check("§5 a PASS R3-NF does NOT lift a non-PASS R1/R2 to an overall PASS (no su
       and REPORT["overall_full"] != "PASS",
       (REPORT["columns"]["R1"]["status"], REPORT["columns"]["R2"]["status"], REPORT["overall_full"]))
 
-# intersection-only composition, exercised directly over the status lattice
+# intersection-only composition, exercised directly over the status lattice.
+# NOTE (便97 P97-2.1): `_compose_full` now takes `era_ok` as a REQUIRED final
+# argument; these rows fix the lattice with the integrity gate satisfied, and
+# §8 fixes what happens when it is not.
 check("§5 composition: all three PASS + registry PASS -> PASS",
-      full._compose_full("PASS", "PASS", "PASS", "PASS") == "PASS")
+      full._compose_full("PASS", "PASS", "PASS", "PASS", True) == "PASS")
 check("§5 composition: any MALFORMED column -> INTEGRITY_STOP",
-      all(full._compose_full(*c, "PASS") == "INTEGRITY_STOP" for c in
+      all(full._compose_full(*c, "PASS", True) == "INTEGRITY_STOP" for c in
           (("MALFORMED", "PASS", "PASS"), ("PASS", "MALFORMED", "PASS"), ("PASS", "PASS", "MALFORMED"))))
 check("§5 composition: registry non-PASS -> INTEGRITY_STOP even with three PASS columns",
-      full._compose_full("PASS", "PASS", "PASS", "STALE") == "INTEGRITY_STOP")
+      full._compose_full("PASS", "PASS", "PASS", "STALE", True) == "INTEGRITY_STOP")
 check("§5 composition: an ABSENT column is never absorbed by two PASS columns",
-      full._compose_full("PASS", "PASS", "ABSENT", "PASS") == "ABSENT")
+      full._compose_full("PASS", "PASS", "ABSENT", "PASS", True) == "ABSENT")
 check("§5 composition: a FAIL column outranks an ABSENT one",
-      full._compose_full("PASS", "FAIL", "ABSENT", "PASS") == "FAIL")
+      full._compose_full("PASS", "FAIL", "ABSENT", "PASS", True) == "FAIL")
 
 _no_nf_refs = copy.deepcopy(RAW)
 del _no_nf_refs["nf_registry_refs"]
@@ -538,6 +541,177 @@ check("§7 an era-matrix failure cannot be masked into a PASS overall_full "
       "(the composition rule now includes payload_era_matrix.ok)",
       "payload_era_matrix" in _full_src.split("composition_rule")[1][:600],
       "grep over the composition_rule string in search/ninfty-evidence-union-full.py")
+
+# ============================================================================
+# §8 era composition: an integrity fault outranks EVERY route verdict
+#    (Sol 便97 W97-2.1 / P97-2.1)
+#
+# The defect: the escalation was written
+#     overall = _compose_route_registry(...)
+#     if overall == "PASS" and not era_ok: overall = "INTEGRITY_STOP"
+# so with R1 FAIL (or ABSENT / CONFLICT / INTEGRITY_STOP) the era fault was
+# dropped from the headline -- an untrusted-payload fault masked by a
+# mathematical one. Sol also noted that the pre-existing "composition
+# includes era" check only GREPPED the composition_rule string and never
+# executed the branch, which is why 70/70 green did not catch it.
+#
+# This section executes the branch, through the PUBLIC entry point, for all
+# five base statuses and for three era mutations, and pins BOTH edges: era
+# fault present -> INTEGRITY_STOP whatever the base was; era fault absent ->
+# the base status survives untouched.
+# ============================================================================
+
+import inspect  # noqa: E402  (deliberately local to this section)
+
+_sig = inspect.signature(full._compose_full)
+check("§8 `_compose_full` takes era_ok as a REQUIRED argument -- no default may exist, because a "
+      "default is exactly how an unevaluated era gate would be read as satisfied (fail-closed)",
+      len(_sig.parameters) == 5
+      and all(p.default is inspect.Parameter.empty for p in _sig.parameters.values()),
+      str(_sig))
+# The masking form must be gone from the EXECUTABLE source. The grep is run
+# over non-comment, non-docstring lines: the repair's own docstring quotes
+# the defective form verbatim (that is how the defect is documented), so a
+# whole-file grep would be satisfied by the documentation and would go on
+# being satisfied if the code regressed -- the same "checks the prose, not
+# the branch" mistake W97-2.1 named about the old composition_rule grep.
+_full_code_lines = []
+_in_doc = False
+for _ln in _full_src.splitlines():
+    _s = _ln.strip()
+    if _s.startswith('"""') or _s.endswith('"""'):
+        # crude but sufficient: toggles on each docstring delimiter line
+        if _s.count('"""') == 1:
+            _in_doc = not _in_doc
+        continue
+    if _in_doc or _s.startswith("#") or not _s:
+        continue
+    _full_code_lines.append(_ln)
+_full_code = "\n".join(_full_code_lines)
+check("§8 the era gate is not conditioned on the base status being PASS "
+      "(the masking form named by W97-2.1 is gone from the EXECUTABLE source, checked over "
+      "non-comment/non-docstring lines so the repair's own quotation of the defect cannot satisfy it)",
+      'if overall == "PASS" and not era_ok' not in _full_code
+      and "era_ok is not True" in _full_code,
+      "grep over the executable lines of search/ninfty-evidence-union-full.py")
+
+_BASE_STATUSES = ("PASS", "FAIL", "ABSENT", "CONFLICT", "INTEGRITY_STOP")
+check("§8 the lattice, at unit level: era_ok=False forces INTEGRITY_STOP from EVERY base status, and "
+      "era_ok=True leaves every base status untouched",
+      all(full._compose_full("PASS", "PASS", "PASS", "PASS", False) == "INTEGRITY_STOP"
+          for _ in (0,))
+      and full._compose_full("PASS", "FAIL", "ABSENT", "PASS", False) == "INTEGRITY_STOP"
+      and full._compose_full("PASS", "PASS", "PASS", "PASS", True) == "PASS")
+for _bad_era in (False, None, 0, "", "PASS", 1):
+    check(f"§8 era_ok={_bad_era!r} (anything that is not the boolean True) is a FAULT, never a "
+          "satisfied gate -- an undefined era result is not a PASS",
+          full._compose_full("PASS", "PASS", "PASS", "PASS", _bad_era)
+          == ("PASS" if _bad_era is True else "INTEGRITY_STOP"),
+          full._compose_full("PASS", "PASS", "PASS", "PASS", _bad_era))
+
+# --- full public entry point, all five base statuses x both era edges -------
+# Only the ROUTE/REGISTRY composition is stubbed (so every base status can be
+# reached at all -- against the genuine frozen artifacts R1/R2 are MALFORMED
+# and only INTEGRITY_STOP is reachable). The era check itself, the registry
+# resolution and the report assembly are the real ones.
+_era_bad_raw = copy.deepcopy(_RAW)
+_era_bad_raw["certificate"]["predicate_spec_id"] = _era["eras"]["CURRENT"]["predicate_spec_id"]
+_orig_compose_rr = full._compose_route_registry
+
+
+def _with_stubbed_base(status, raw):
+    full._compose_route_registry = lambda *a, **k: status
+    try:
+        return full.evidence_union_full_from_raw(raw)
+    finally:
+        full._compose_route_registry = _orig_compose_rr
+
+
+for _base in _BASE_STATUSES:
+    _rb = _with_stubbed_base(_base, _era_bad_raw)
+    check(f"§8 FULL PATH, base={_base} + era FAIL -> overall_full=INTEGRITY_STOP (the integrity fault is "
+          "NOT masked by a concurrent mathematical verdict -- W97-2.1's exact defect)",
+          _rb["overall_full"] == "INTEGRITY_STOP",
+          (_rb["overall_full"], _rb["payload_era_matrix"]["ok"]))
+    check(f"§8 FULL PATH, base={_base} + era FAIL: the integrity fault is exposed in its OWN column and "
+          "the mathematical composition is reported verbatim beside it (neither erases the other)",
+          _rb["integrity_gate"]["integrity_faults"] == ["payload_era_matrix"]
+          and _rb["integrity_gate"]["route_composition_status"] == _base
+          and _rb["integrity_gate"]["payload_era_matrix_ok"] is False
+          and _rb["payload_era_matrix"]["ok"] is False,
+          _rb.get("integrity_gate"))
+    _rg = _with_stubbed_base(_base, _RAW)
+    check(f"§8 non-firing edge, base={_base} + era PASS: the base status survives untouched and no "
+          "integrity fault is invented",
+          _rg["overall_full"] == _base and _rg["integrity_gate"]["integrity_faults"] == []
+          and _rg["integrity_gate"]["payload_era_matrix_ok"] is True,
+          (_rg["overall_full"], _rg.get("integrity_gate")))
+
+check("§8 the stub is removed again: the module's real composition function is restored",
+      full._compose_route_registry is _orig_compose_rr)
+
+# --- the three era mutations, through the public entry point, UNSTUBBED -----
+# Base status here is the genuine one (R1/R2 MALFORMED -> INTEGRITY_STOP),
+# which is precisely the concurrency case: under the OLD rule the era fault
+# would have been invisible in the headline.
+_REAL = full.evidence_union_full_from_raw(_RAW)
+check("§8 baseline: against the genuine artifact set the era gate is satisfied and the headline is the "
+      "route composition (INTEGRITY_STOP from MALFORMED R1/R2), with no integrity fault claimed",
+      _REAL["payload_era_matrix"]["ok"] is True and _REAL["integrity_gate"]["integrity_faults"] == []
+      and _REAL["overall_full"] == _REAL["integrity_gate"]["route_composition_status"],
+      (_REAL["overall_full"], _REAL["integrity_gate"]))
+
+_mut_newer = copy.deepcopy(_RAW)
+_mut_newer["certificate"]["predicate_spec_id"] = _era["eras"]["CURRENT"]["predicate_spec_id"]
+_mut_missing = copy.deepcopy(_RAW)
+del _mut_missing["certificate"]["searcher_native"]["native_schema_id"]
+
+_orig_docs_era = full._check_docs_era
+
+
+def _stale_control_plane_receipt(bundle):
+    """A receipt whose three document DIGESTS agree with the receiver's copies
+    (so the control_plane_docs_receipt_binding column is ok) but which pins
+    the FROZEN era -- the 'stale control-plane era' mutation."""
+    ok, detail = _orig_docs_era(bundle)
+    detail = copy.deepcopy(detail)
+    for _k, _v in (("predicate_spec", "mb/ninfty-stage2-predicate/v18"),
+                   ("verifier_contract", "mb/ninfty-verifier-contract/v13"),
+                   ("dependency_manifest", "mb/dependency-manifest/v13")):
+        detail.setdefault("documents", {}).setdefault(_k, {})["pinned_artifact_id"] = _v
+    return ok, detail
+
+
+full._check_docs_era = _stale_control_plane_receipt
+try:
+    _mut_stale_report = full.evidence_union_full_from_raw(_RAW)
+finally:
+    full._check_docs_era = _orig_docs_era
+
+for _label, _report, _plane in (
+        ("newer payload era (certificate declares the CURRENT spec id)",
+         full.evidence_union_full_from_raw(_mut_newer), "native_payload_schema"),
+        ("missing plane era (searcher_native.native_schema_id absent)",
+         full.evidence_union_full_from_raw(_mut_missing), "native_payload_schema"),
+        ("stale control-plane era (receipt digests agree but pin the FROZEN trio)",
+         _mut_stale_report, "control_plane")):
+    check(f"§8 mutation through the PUBLIC entry point -- {_label}: era FAIL on plane {_plane}, "
+          "overall_full=INTEGRITY_STOP, and the fault named in integrity_gate",
+          _report["payload_era_matrix"]["ok"] is False
+          and _report["payload_era_matrix"]["planes"][_plane]["status"] == "FAIL"
+          and _report["overall_full"] == "INTEGRITY_STOP"
+          and _report["integrity_gate"]["integrity_faults"] == ["payload_era_matrix"],
+          {"ok": _report["payload_era_matrix"]["ok"],
+           "plane": _report["payload_era_matrix"]["planes"][_plane]["status"],
+           "overall": _report["overall_full"], "gate": _report["integrity_gate"]})
+
+check("§8 the report schema id was SUPERSEDED, not mutated in place: `overall_full` now means something "
+      "different (integrity-first), so a v1-pinned consumer must not read a v2 report as if the old "
+      "rule held",
+      _REAL["schema_id"].endswith("/v2") and full.FULL_UNION_SCHEMA_ID_V1.endswith("/v1"),
+      _REAL.get("schema_id"))
+check("§8 the stub is removed again: the module's real docs-era function is restored",
+      full._check_docs_era is _orig_docs_era)
 
 n_fail = sum(1 for _, ok, _ in RESULTS if not ok)
 print(f"\n{len(RESULTS)} checks, {n_fail} FAIL")
