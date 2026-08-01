@@ -1,0 +1,84 @@
+{
+ "schema": "u7-thirdroute-cbeta-cert/v1",
+ "produced_utc": "2026-08-01T01:25:35.000000+00:00",
+ "status": "PARTIAL — abstract-side (marked triple + monodromy-group order) only; geometric-side (Frobenius monodromy reconstruction of the explicit model, C-β step 3) NOT executed — algorithm not yet specified, referred to mathematician per commander ruling (c), 2026-08-01",
+ "task_authority": {
+  "commission": "裁定 306(数学者設計)の C-β 実行 → 方針確認後の要點納品: 司令塔裁定 「(c) を採用—(X,Y,Z)抽象側の機械構成（GAP・位数196確認まで）を完遂してcert化・納品してください。段３の実行可能アルゴリズムは数学者に設計依頼します」",
+  "design_source": "docs/notes/u7_fire_log_v1_addendum_grade.md §4.2 (手順 C-β、6段) — 本 cert は段 5 前半（marking の抽象構成）のみを実行",
+  "model_source": "docs/notes/u7_fire_log_v1.md §2.1 (絵火執行ログ — model の定義は不変、本 cert は参照のみで中間結果をimportしていない)",
+  "generator_source": "docs/notes/oddH_full_proof_v1.md 補題 A (a_i, q_j の D_n^3 中の明示形)"
+ },
+ "not_executed": {
+  "step": "C-β 段 3 (monodromy の直接計算 — 明示模型 h(k), m_0, λ=m_0^2 から Frobenius/F_p 点数えによる置換三つ組の再構成)",
+  "reason": "正本の記述は「推奨実装」のスケッチに留まり（自認「次段の第一標的」）、Frobeniusから実際の置換（サイクル型ではなくラベル付き置換そのもの）を復元する具体アルゴリズムは未確定。実装担当の判断では設計でなく実装の権限内ではないと判断し、速達で司令塔へ問い合わせ、裁定(c)を受け本 cert は抽象側のみを納品する。幾何側（本物のモノドロミー計算）は未実行。",
+  "consequence": "本 cert のみでは D-3/D-4（TOWER-n/KUM-n/SPLIT, TW-1）を検証鎖から外すことはできない。C-β の主目的（幾何側の独立確認）は未達成。"
+ },
+ "abstract_side_executed": {
+  "method": "G_7 = A ⋊ Q ≤ D_7^3 を 補題 A の明示生成元 (a_1,a_2,a_3,q_1,q_2,q_3) で直接構成し、H = H_{2,1,0} への右剰余作用(14点)で X=a1q1, Y=a1a2a3q2, Z=(XY)^{-1} を S_14 の置換として実装し、位数・サイクル型・推移性を確認した。完全に機械的(GAP)で、幾何側データは一切使用していない。",
+  "n": 7,
+  "G7": {
+   "construction": "D3 = D7 x D7 x D7 (DihedralGroup(IsPermGroup,14) x3); a1=(r,1,1), a2=(1,r,1), a3=(1,1,r), q1=(1,s,s), q2=(s,1,s), q3=(s,s,1)",
+   "order": 1372,
+   "expected": "4*n^3 = 1372",
+   "order_check": true
+  },
+  "H": {
+   "generators": "<a2, a1*a3, q2>",
+   "label": "H_{2,1,0} = H_7^fun",
+   "order": 98,
+   "expected": "2*n^2 = 98",
+   "order_check": true,
+   "index": 14,
+   "index_check": true
+  },
+  "marking_in_G7": {
+   "X": "a1*q1",
+   "Y": "a1*a2*a3*q2",
+   "Z": "(X*Y)^-1",
+   "ord_X": 14,
+   "ord_Y": 14,
+   "ord_Z": 14,
+   "ord_expected_X": "2n = 14",
+   "XYZ_identity_check": true
+  },
+  "coset_action_on_14_points": {
+   "method": "ActionHomomorphism(G7, RightCosets(G7,H), OnRight)",
+   "images": {
+    "X": [9, 8, 14, 13, 12, 11, 10, 7, 6, 5, 4, 3, 2, 1],
+    "Y": [1, 7, 6, 5, 4, 3, 2, 13, 12, 11, 10, 9, 8, 14],
+    "Z": [14, 8, 9, 10, 11, 12, 13, 4, 5, 6, 7, 1, 2, 3]
+   },
+   "cycle_type_X": "(14)",
+   "cycle_type_Y": "2^6 1^2",
+   "cycle_type_Z": "(14)",
+   "ordered_passport_abstract": "((14), 2^6 1^2, (14))",
+   "matches_fire_log_passport": true,
+   "fire_log_passport_ref": "docs/notes/u7_fire_log_v1.md §2.1: 「(( 14), 2^6 1^2, (14)) ✓」"
+  },
+  "monodromy_group_abstract": {
+   "M_abstract": "<X,Y,Z> ≤ S_14 (images)",
+   "order": 196,
+   "expected": "4n^2 = 196",
+   "order_check": true,
+   "transitive_on_14_points": true
+  }
+ },
+ "digest_binding": {
+  "note": "cert の内容は以下の入力ハッシュに束縛。いずれも本セッションで上位ドキュメントを編集していない（参照のみ）。",
+  "sha256": {
+   "search/probe/wac_v1/u7_cbeta_marked_triple.g": "53bf53bc6dd8bd8dd6371496b3f51506d6e966ce6c47ac69603d095256693f74",
+   "docs/notes/u7_fire_log_v1_addendum_grade.md": "703e11e0f768a8671fcd75670847dfddfecfe10cecf3e33f3120dcaaeba333b3",
+   "docs/notes/u7_fire_log_v1.md": "3f015f99952f3763fefdee2b4bdc534478d87229b442433b663b19659e93f704",
+   "docs/notes/u7_meas_design_v1.md": "ee87734a8c88a1d237c5765d5555e989ea083a83bd01e1caf9750e66b7844dff",
+   "docs/notes/oddH_full_proof_v1.md": "f73fe2b76498730f1da2732454756c3f970026d530a046c7e6f7047dfaf87a8d"
+  }
+ },
+ "gap_run": {
+  "executable": "gap.ps1 search/probe/wac_v1/u7_cbeta_marked_triple.g",
+  "raw_stdout": "|G7| = 1372  (expect 4*n^3 = 1372)\nord(X) = 14  (expect 2n = 14)\nord(Y) = 14\nord(Z) = 14\nord(X*Y*Z) should be 1 (identity check): true\n|H| = 98  (expect 2n^2 = 98)\n[G7:H] = 14  (expect 2n = 14)\n\n--- images in S_14 ---\ncycle type X: [ ,,,,,,,,,,,, 1 ]  ord=14\ncycle type Y: [ 6 ]  ord=2\ncycle type Z: [ ,,,,,,,,,,,, 1 ]  ord=14\n\n|<X,Y,Z> as perm group on 14 pts| = 196  (expect 4n^2 = 196)\ntransitive on 14 pts: true\n\n--- explicit permutations (image lists, points 1..14) ---\nX = [ 9, 8, 14, 13, 12, 11, 10, 7, 6, 5, 4, 3, 2, 1 ]\nY = [ 1, 7, 6, 5, 4, 3, 2, 13, 12, 11, 10, 9, 8, 14 ]\nZ = [ 14, 8, 9, 10, 11, 12, 13, 4, 5, 6, 7, 1, 2, 3 ]\n\nDONE\n"
+ },
+ "no_interpretation": true,
+ "uses_Ih_image": false,
+ "uses_TOWER_n_or_KUM_n_or_TW1": false,
+ "next_step": "数学者に C-β 段 3（幾何側 monodromy 再構成）の実行可能アルゴリズムを設計依頼（司令塔方針）。完成後、本抽象側の事前登録済み (X,Y,Z) との共役一致を確認すれば C-β 完了。"
+}
