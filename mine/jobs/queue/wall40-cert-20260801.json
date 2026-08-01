@@ -1,0 +1,43 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "wall40-cert-20260801",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "壁族第5窓の正式 cert 化(裁定337・段2発注①)。n=40(ell=37, t=3, C37 x S3, |C(w0)|=222) -- witness は mine/reports/tmax-scan-37-41-20260801_report.md 記載の HIT(ell=37,t=3)。driver は wall36_cert.g 系の逐語複製(implementer 実装済み・commit b58fdc4)+gap_output_prelude.g 初適用(裁定330)。smoke 済(search/certs/wall40_cert_20260801_smoke.json: centralizer_w0.size=222 一致)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/wall40_cert.g", "sha256": "eba42f6e2a86ef6ed0d9a6aaeb6423b2f87e9b38315c60c1b7d9cb3914a63d1f" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "WALL40-CERT-PROBE",
+      "version": 1,
+      "params": { "driver": "search/probe/wac_v1/wall40_cert.g", "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。wall36/37_cert.g と同一検算ロジック(逐語複製)。" }
+    }
+  ],
+  "predictions": {
+    "declared_none": "cert化(裁定337の新窓・段2発注①)。凍結予言(定理CENTによりSURV全数pass 222/222)はチェッカー/driverへ非接触のまま司令塔側で保持(接触遮断・裁定337/司令塔便による)。的中/外れの判定は司令塔がcert実測値と別途照合する。"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "timeout_min": 30,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/wall40_cert.g",
+      "sha256": "eba42f6e2a86ef6ed0d9a6aaeb6423b2f87e9b38315c60c1b7d9cb3914a63d1f",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-wall40-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
