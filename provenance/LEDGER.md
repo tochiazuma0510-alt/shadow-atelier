@@ -1045,3 +1045,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **§5**: 9T 訂正採択・T3-WALL″ 中核 PASS(局所修文 1)・**u₀ = cross-checked 採択**(helper 非 import 再導出器込み)— S4 窓の u 測定が正式に cross-checked 格へ。
 - **§6 EP**: v12 修理 PASS・**sol75 の法的読み = 凍結 schema 下の単発 lane 実走は AUTHORIZED**・ただし提示 2 点は外部正例でなく実走前 ⟹ 「較正済み正例ゲートとしての再発効」は現時点 FAIL(実走+正例問題が残件)。
 - 次波(修理・格処理): P93-1 置換(U2-BR)・D-3/KUM 修文・SPLIT 分離・u₇ の経路 B 独立再計算(値の cross-checked 化)・FAM-U 前提束縛・assert 式の正対象化・EP 単発実走の執行。詳細修理は reply 本文 P93-x 節(次波が読む)。
+
+## 2026-08-01 EP 初回実走の α 断念(裁定 304)— sealed mapping の永続化漏れを発見・β 単独へ切替
+- 実装係の速達照会(名前類似トラップの正しい検出込み: repo の cert_neg_01 等は spec v18 §7 の sealed ninfty-neg-01..08 と別系統のトイ)を受け金庫を検索 → **ninfty-neg fixtures の sealed mapping は金庫にも不在 = 封印写像が永続化されず喪失**(過去セッションの工程欠陥・便 94 で Sol へ申告)。
+- 裁定: α(negative fixture)断念・**β(stage1 通過 288 の辞書順最小)単独の単発実走へ切替**・代用トイ投入は宇宙外につき禁止・cert に provenance gap を明記。
+- 教訓: sealed mapping は「司令塔の記憶」でなく金庫に永続化する(vault-zoning の運用漏れ型)。
