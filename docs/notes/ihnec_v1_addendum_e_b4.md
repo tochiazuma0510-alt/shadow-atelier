@@ -454,3 +454,360 @@ $$\boxed{\ \textbf{ある。}B_4\textbf{ 系へ移れば U-10 は前件から消
 4. **(TRUNC$^{B_4}$) の pin を reader へ発注**するか(Thm A.1 p.48 + p.3 の生成元の議論から導出できるかの逐語確認)。**軽い案件**。
 5. **【文献要請 IHNEC-L2】**(§E-A.7.2)— $B_4$ 窓の明示族。**Dolgushev の Python パッケージ GT に窓データがあれば代替になる**ので、文献より先に**そちらの棚卸し**が安いかもしれない(工房は `provenance/LEDGER.md` にパッケージ GT を入手済と記帳している)。
 6. **reader からの副次報告**(本追補では使わなかったが記録): ① 2008 Def 3.2 の $\ker(T^{B_4}_{m,f})$ は他の全箇所が $PB_4$ なので**著者のタイポと推定** ② Introduction p.5 の "GT(N) is a group" は §3 の正式定義では $\mathrm{GT}^\heartsuit(N)$ であり**書き落としと推定** ③ ページ番号つき再抽出テキストが scratchpad にある(既存 `papers/txt/2008...txt` は form-feed が除去されておりページ復元不可)— **ページ引用を伴う $B_4$ 作業では再抽出版が要る**ので、`papers/txt/` の再生成を検討されたい。
+
+---
+---
+
+# E-A.9 ★ 補題 TRUNC$^{B_4}$ —— **(TRUNC$^{B_4}$) を番号つき補題で塞ぐ**(裁定 399 委嘱・erratum 追記)
+
+**位置づけ**: 上記 §E-A.2.2 で「★ 暗黙の前件」として顕在化させた **(TRUNC$^{B_4}$)** を、番号つき補題として証明する。**erratum 方式** — §E-A.0〜E-A.8 は 1 バイトも改変せず、置換関係は §E-A.9.7 の表に書く。
+**起草**: 数学者(Opus 5)/ 2026-08-01。**委嘱** = 裁定 399。**Sol 未監査。**
+**正典**: arXiv **2008.00066** v2(54 頁)。**本節の頁番号はすべて起草者が `pdftotext -f p -l p` で頁指定抽出して確認した**(§E-A.8.5-6③ の懸念は解消 — `papers/txt/` の再生成は不要であった。**erratum-6**)。
+**封印遵守**: $K^{(5)}$ 非接触。
+
+---
+
+## E-A.9.0 一枚(結論を先に)
+
+| 問い | 結果 |
+|---|---|
+| (TRUNC$^{B_4}$) は証明できるか | ★ **できる**(§E-A.9.4)。$\mathrm{res}:\mathrm{Aut}(\widehat{\mathrm{PaB}})\to\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$ は**群同型** |
+| 何が効いているか | ★ **生成元が arity $\le3$・全関係式が arity $\le4$** に住むという**表示論法**。正典 **Theorem A.1** (p.48) が untruncated 版の表示、**p.12–13 の地の文**が **truncated 版の表示**を明記している(★ 起草者はこの 2 本目を §E-A.2.2 執筆時に見落としていた) |
+| 単射半分 | **(TOPGEN)** p.3 の逐語がほぼそのまま。**易** |
+| 全射半分 | **Theorem A.1 の表示 ⟹ 離散射 $\Phi:\mathrm{PaB}\to\widehat{\mathrm{PaB}}$ ⟹ 連続延長**の 3 段。**本節の実質** |
+| ★ Thm 3.8 の証明のどの行がどちらの Aut に住むか | **単射性の段(p.37–38)= 切詰め上でしか id を示していない**(単射半分を要する)/ **全射性の段 (3.22)(p.38)= $\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$ の元しか作っていない**(全射半分を要する)。§E-A.9.5 に逐行表 |
+| ★★ **第 2 の暗黙段はあったか** | ★ **あったが正典が既に塞いでいた** — $\widehat{\mathrm{PaB}}^{\le4}\cong\widetilde{\mathrm{PaB}}^{\le4}(=\varprojlim_{K\,\rm isolated})$ は **Corollary 3.10 (p.35–36)・証明本文あり**。⟹ **§E-A.2.2 の「暗黙の同定が 1 つある」は正しかった**(1 つで尽きていた) |
+| ★★ **前件表から (TRUNC$^{B_4}$) を除去できるか** | ★ **できる**(§E-A.9.6)。**FAKE-KILL$^{B_4}$ の前件は (IH-S)/(GEN$^{B_4}$)/(PR$^{B_4}$)/(CHM$^{B_4}$) の 4 つだけ**になる。理由は二重(①もともと荷重を担っていなかった ②本節で証明された) |
+| 残る穴 | **2 本**(§E-A.9.7)。いずれも「未証明の同定」ではなく**外部文献への依存**へ移った: 【GAP-TRUNC-1】表示の普遍性の圏論的包装・【GAP-TRUNC-2】**Theorem A.1 自身に 2008 は証明本文をもたない**(外部引用 [9, Thm 6.2.4] $=$ Fresse) |
+
+> ★ **一行で**: (TRUNC$^{B_4}$) は**塞がった**。ただし塞ぎ方は「工房の自前証明が Theorem A.1 に載る」形であり、**Theorem A.1 は 2008 では証明本文をもたない外部引用**である。⟹ 依存は「**記述の穴 ⟶ 確立した外部定理**」へ移った。これは正しい方向の移動だが、**「前件が消えた」ではなく「前件の格が上がった」と書く**。
+
+---
+
+## E-A.9.1 規約 —— 委嘱の注意点 ①「整合」の正確な定義
+
+### 規約 (OBJ) — **対象上恒等**
+
+本節を通じ、$\mathrm{Aut}(-)$ は「**対象上恒等な連続自己同型**」を意味する。正典の根拠は p.3 **脚注 2**:
+
+> "*We tacitly assume that our automorphisms act as identity on objects.*"
+
+これは「our automorphisms」という一般形なので**全編にかかる**読みが自然であり、実際 **Prop 2.18** (p.25) は同じ語法で $\widehat{\mathrm{PaB}}^{\le4}$ 側の自己同型を扱う。⟹ **両辺に同じ規約を課す**。
+
+> ⚠ **この規約は無害ではない**(委嘱への回答の一部): $\mathrm{PaB}$ の**対象の operad** $\Omega$($\Omega(n)=$ 各記号がちょうど 1 回現れる自由マグマの語)は、**arity 2 の自由 $S_2$-集合 1 個の上の自由 operad** である($|\Omega(n)|=\mathrm{Cat}(n-1)\cdot n!$; $n=2,3$ で $2,12$ — 正典 p.3 の「$\mathrm{PaB}(3)$ は 12 個の対象」と一致)。
+> **検算(機械)**: 括弧つき語を直接列挙し $n=1..5$ で $|\Omega(n)|=1,2,12,120,1680=\mathrm{Cat}(n-1)\cdot n!$ を確認(scratchpad `omega_count.py`・起草者実行)。$n=3$ の $12$ が正典 p.3 の逐語と一致することが自由性の傍証。ゆえに $\mathrm{Aut}_{\rm operad}(\Omega)\cong S_2$(生成元 $(12)\mapsto(21)$ の反転)であり、**対象上の非自明な自己同型は原理的に存在しうる**。両辺で規約を揃えないと補題は形を変える。
+> **規約を落とした場合の可否は本節の射程外(UNKNOWN)。**
+
+### 規約 (TR) — **切詰め operad と「整合」**
+
+正典 p.7 **(1.9)** の定義(逐語): $q$-truncated operad in groupoids $=$ 次を満たす groupoid の族 $\{G(n)\}_{1\le n\le q}$:
+- 各 $1\le n\le q$ で $G(n)$ に $S_n$ 作用;
+- $1\le i\le n$ かつ $n,m,n+m-1\le q$ なる**すべての** $(i,n,m)$ に対し関手 $\circ_i:G(n)\times G(m)\to G(n+m-1)$;
+- **arity がすべて $\le q$ の場合の** operad 公理(§1.4 p.7: 結合律は "on the nose")。
+
+⟹ **$\widehat{\mathrm{PaB}}^{\le4}$ の「整合する自己同型」の定義(5 条件)**:
+
+| # | 条件 |
+|---|---|
+| (i) | 各 arity $n\le4$ で $\widehat{\mathrm{PaB}}(n)$ の**関手**(合成と**恒等射**を保つ) |
+| (ii) | $S_n$ 同変($n\le4$) |
+| (iii) | $n,m,n+m-1\le4$ なる**全**組で $\circ_i$ と可換 |
+| (iv) | **対象上恒等**(規約 (OBJ)) |
+| (v) | **連続** |
+
+> ### ★ 切詰めが忘れるもの / 忘れないもの(**これが補題の全内容**)
+> | | 中身 |
+> |---|---|
+> | **忘れる** | arity $\ge5$ の射・$n+m-1\ge5$ となる挿入(例 $\circ_i:G(3)\times G(3)\to G(5)$) |
+> | **忘れない** | $\beta\in\mathrm{PaB}(2)$・$\alpha\in\mathrm{PaB}(3)$(**生成元**)/ pentagon **(2.13)** $\in$ arity 4 / hexagon **(2.14)(2.15)** $\in$ arity 3 / それらを組む挿入 $(3,2)\to4$, $(2,3)\to4$, $(2,2)\to3$ |
+>
+> **生成元も全関係式も切詰めの中に住む** — これが (TRUNC$^{B_4}$) が成り立つ理由のすべてである。
+
+---
+
+## E-A.9.2 pin 表(★ **裁定 399 採択の「証明本文の有無」欄つき**)
+
+**出所**: すべて起草者が `pdftotext -f p -l p` で頁指定抽出して原文照合(2026-08-01)。
+
+| 札 | 逐語 / 内容 | 頁 | ★ **証明本文** |
+|---|---|---|---|
+| **(GT-DEF)** | "*By definition, $\widehat{GT}$ is the group $\mathrm{Aut}(\widehat{\mathrm{PaB}})$ of (continuous) automorphisms$^2$ of the profinite completion $\widehat{\mathrm{PaB}}$ of $\mathrm{PaB}$.*" $+$ **脚注 2** "*We tacitly assume that our automorphisms act as identity on objects.*" | p.3 | **定義**(該当なし) |
+| **(TOPGEN)** | "*Since the morphisms $\beta$ and $\alpha$ from (1.2) are topological generators of $\widehat{\mathrm{PaB}}$, every $\hat T\in\widehat{GT}$ is uniquely determined by its values $\hat T(\beta)\in\mathrm{Hom}_{\widehat{\mathrm{PaB}}}((1,2),(2,1))$, $\hat T(\alpha)\in\mathrm{Hom}_{\widehat{\mathrm{PaB}}}((1,2)3,1(2,3))$.*" **(1.3)** | p.3 | ★ **なし**(地の文の宣言) |
+| **(A1)** **Theorem A.1** | "*As the operad in the category of groupoids, $\mathrm{PaB}$ is generated by morphisms $\alpha$ and $\beta$ shown in figure A.3. Moreover, any relation on $\alpha$ and $\beta$ in $\mathrm{PaB}$ is a consequence of (A.13), (A.14) and (A.15).*" | p.48 | ★★ **なし — 外部引用**。直前の地の文 "*It is known [9, Theorem 6.2.4] that$^{13}$*"、**脚注 13** "*A very similar statement is proved in [1]. See Claim 2.6 in loc. cit. … Theorem A.1 can be thought of as a version of MacLane's coherence theorem for braided monoidal categories.*" |
+| **(A1$^{\le4}$)** ★★ | "*Since the groupoid $\mathrm{PaB}(0)$ is empty, **Theorem A.1 implies that the truncated operad $\mathrm{PaB}^{\le4}$ is generated by morphisms $\alpha$ and $\beta$** shown in figure 2.1.*" $+$ "*Moreover **any relation on $\alpha$ and $\beta$ in $\mathrm{PaB}^{\le4}$ is a consequence of the pentagon relation** (2.13) **and the hexagon relations** (2.14),(2.15)*" | **p.12–13** | ★ **なし**(Thm A.1 からの 1 行演繹・地の文)。**しかし言明は明示的に切詰め版である** |
+| **(TROP)** | $q$-truncated operad の定義 **(1.9)**;"*For every operad $\mathcal O$ and every integer $q\ge1$, the disjoint union $\mathcal O^{\le q}$ is clearly a $q$-truncated operad.*" | p.7 | **定義** |
+| **(CPL)** | **A.5**: 連結・対象有限・$\mathrm{Aut}(a)$ 剰余有限な groupoid $G$ に対し compatible equivalence relation(3 条件)の**有向 poset** 上の極限として $\widehat G$ を定義。"*the quotient $G/\!\sim$ is naturally a finite groupoid (**with the same set of objects**)*";"*compatible equivalence relations on $G$ are in bijection with finite index normal subgroups $N$ of $G$*";★ "*Thus "putting hats" over $\mathrm{PaB}(n)$ **for every $n\ge0$** gives us an operad $\widehat{\mathrm{PaB}}$ in the category of topological groupoids.*" | p.49 | **一部なし**(双射・関手性・対称モノイダル性は **[5] へ外部引用**) |
+| **(DENSE)** | "*Since $I(\mathrm{PaB}^{\le4})$ is dense in $\widehat{\mathrm{PaB}}^{\le4}$ …*"(p.17)/ "*Since the image $I(\mathrm{PaB}^{\le4})$ of $\mathrm{PaB}^{\le4}$ in $\widetilde{\mathrm{PaB}}^{\le4}$ is dense … and the target … is Hausdorff*"(p.36) | p.17, 36 | **使用のみ**(自明) |
+| **(RMK13)** | **Remark 1.3**: "*It is not hard to show that $\widehat{GT}_0$ is the group of continuous automorphisms of the truncated operad $\widehat{\mathrm{PaB}}^{\le3}$ and $\widehat{GT}$ is a subgroup of $\widehat{GT}_0$.*" | p.5 | ★ **なし**("It is not hard to show") |
+| **(COR310)** ★★ | **Corollary 3.10**: 標準射 $\Lambda:\widehat{\mathrm{PaB}}^{\le4}\to\widetilde{\mathrm{PaB}}^{\le4}$($\widetilde{\mathrm{PaB}}^{\le4}:=\varprojlim_{K\in\mathrm{NFI}^{\rm isolated}_{PB_4}(B_4)}\mathrm{PaB}^{\le4}/\!\sim_K$、定義 (3.13)(3.14))は**位相 groupoid における切詰め operad の同型** | p.35–36 | ★ **あり**(単射・全射・連続性を Prop 3.9 経由で;直後 "*we can safely replace $\widehat{\mathrm{PaB}}^{\le4}$ by $\widetilde{\mathrm{PaB}}^{\le4}$*") |
+| **(PROP39)** | **Prop 3.9** A) $\forall N\in\mathrm{NFI}(PB_3)\ \exists K$ isolated: $K_{PB_3}\le N$;B) 同 $PB_2$ | p.33–34 | ★ **あり** |
+
+> ### ★ 規約提案の増強(§E-A.8.5-3 の補強)
+> **(A1) は「証明本文なし」の 5 例目**だが、**種が違う** — 1〜4 例目は**読者演習/分岐の書き落とし**(同著者が自分で埋める気だった)であるのに対し、(A1) は **他書への引用**([9, Thm 6.2.4] $=$ Fresse)である。
+> ⟹ **「証明本文の有無」欄は 2 値でなく 3 値にすべき**: **あり / 読者演習(著者が省略) / 外部引用(他書)**。後 2 者はリスクの型が違う(前者は工房が埋められる・後者は文献入手が要る)。
+
+---
+
+## E-A.9.3 補題の言明
+
+> ### 補題 TRUNC$^{B_4}$
+> 規約 **(OBJ)**・**(TR)** の下で、arity $\le4$ への制限写像
+> $$\mathrm{res}:\ \mathrm{Aut}(\widehat{\mathrm{PaB}})\longrightarrow\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4}),\qquad \mathrm{res}(\hat T):=\bigl(\hat T|_{\widehat{\mathrm{PaB}}(n)}\bigr)_{1\le n\le4}$$
+> は**群同型**である。逆写像は
+> $$\mathrm{res}^{-1}(\hat U)\ =\ \bigl(\alpha\mapsto\hat U(\alpha),\ \beta\mapsto\hat U(\beta)\ \text{で一意に定まる連続自己同型}\bigr).$$
+> とくに
+> $$\boxed{\ \widehat{GT}\ =\ \mathrm{Aut}(\widehat{\mathrm{PaB}})\ \cong\ \mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})\ }$$
+> すなわち **(TRUNC$^{B_4}$) は成り立つ。**
+
+**補助補題 6 本**(証明は §E-A.9.4):
+
+| 札 | 内容 | 難度 |
+|---|---|---|
+| **(TR-0)** | $\mathrm{res}$ は well-defined な群準同型 | **定義的**(arity 保存) |
+| **(TR-1)** | $\widehat{\mathrm{PaB}}$(resp. $\widehat{\mathrm{PaB}}^{\le4}$)の連続 operad 自己射で $\alpha,\beta$ 上一致する 2 つは一致 | **易**((A1)/(A1$^{\le4}$) $+$ (DENSE)) |
+| **(TR-2)** | $\hat U\in\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$ に対し $(\beta',\alpha'):=(\hat U(\beta),\hat U(\alpha))$ は $\widehat{\mathrm{PaB}}$ の中で pentagon $+$ hexagon $\times2$ を満たす | **易**(規約 (TR) の (i)(ii)(iii)(iv)) |
+| **(TR-3)** | $\exists!$ 対象上恒等な operad-in-groupoids 射 $\Phi:\mathrm{PaB}\to\widehat{\mathrm{PaB}}$、$\Phi(\beta)=\beta'$, $\Phi(\alpha)=\alpha'$ | ★ **本節の実質**((A1) を**表示**として読む) |
+| **(TR-4)** | $\Phi$ は一意な**連続** operad 射 $\widehat\Phi:\widehat{\mathrm{PaB}}\to\widehat{\mathrm{PaB}}$ に延びる | ★ **本節の実質**((CPL) の定義から自前) |
+| **(TR-5)** | $\mathrm{res}(\widehat\Phi)=\hat U$ かつ $\widehat\Phi\in\mathrm{Aut}(\widehat{\mathrm{PaB}})$ | **易** |
+
+---
+
+## E-A.9.4 証明
+
+### (TR-0) $\mathrm{res}$ は well-defined な群準同型
+
+operad の射は arity を保つので、$\hat T\in\mathrm{Aut}(\widehat{\mathrm{PaB}})$ は各 $\widehat{\mathrm{PaB}}(n)$ を保つ。規約 (TR) の (i)(ii)(iii)(v) は $\widehat{\mathrm{PaB}}$ 側の条件を $n\le4$ に制限したものであり、(iv) は規約 (OBJ)。$\mathrm{res}(\hat T)^{-1}=\mathrm{res}(\hat T^{-1})$、$\mathrm{res}(\hat T_1\circ\hat T_2)=\mathrm{res}(\hat T_1)\circ\mathrm{res}(\hat T_2)$。$\blacksquare$
+
+> ### ★ (TR-0) の正典での使われ方(**前件会計に効く**)
+> 正典 **(2.31)** (p.16) は $T_N:=\widehat P_N\circ\hat T\circ I$ と書くが、$\widehat P_N:\widehat{\mathrm{PaB}}^{\le4}\to\mathrm{PaB}^{\le4}/\!\sim_N$ **(2.30)** かつ $I:\mathrm{PaB}^{\le4}\to\widehat{\mathrm{PaB}}^{\le4}$ **(2.32)** であるのに対し、$\hat T$ は**非切断**の $\widehat{\mathrm{PaB}}$ の自己同型である。この合成が意味をもつのは **(TR-0)** による。
+> ⟹ **(PR$^{B_4}$) は (TR-0) を暗黙に使っている。しかし (TR-0) は定義的(arity 保存)なので前件を増やさない。**(Remark 1.1 p.3 が Prop 2.18($\widehat{\mathrm{PaB}}^{\le4}$ の自己同型についての命題)を $\hat T\in\mathrm{Aut}(\widehat{\mathrm{PaB}})$ に適用しているのも同じ (TR-0) の使用である。)
+
+### (TR-1) 一意性
+
+$A,B$ を $\widehat{\mathrm{PaB}}$ の連続 operad 自己射(対象上恒等)で $A(\alpha)=B(\alpha)$, $A(\beta)=B(\beta)$ とする。
+$$E:=\{\gamma\in\widehat{\mathrm{PaB}}\ \mid\ A(\gamma)=B(\gamma)\}.$$
+- $E$ は**部分 operad**: 合成・逆($A,B$ は関手ゆえ逆を保つ)・恒等射・挿入 $\circ_i$・$S_n$ 作用で閉じる。
+- $E$ は**各 arity で閉集合**: $A,B$ は連続、$\widehat{\mathrm{PaB}}(n)$ は副有限(有限離散 groupoid の逆極限)ゆえ Hausdorff、2 つの連続写像の等化子は閉。
+- $\alpha,\beta\in E$ と **(A1)**(生成)より $E\supseteq\mathrm{PaB}$。
+- **(DENSE)** より $\mathrm{PaB}$ は $\widehat{\mathrm{PaB}}$ で稠密(各有限商へ全射ゆえ;正典は $\le4$ で明記、一般 $n$ も同一論法)。$E$ は閉ゆえ $E=\widehat{\mathrm{PaB}}$。$\blacksquare$
+
+$\widehat{\mathrm{PaB}}^{\le4}$ 版も同じ論法(**(A1$^{\le4}$)** を使う)。
+> ★ **(TOPGEN)** (p.3) はこの主張の正典側の逐語版である。**すなわち (TRUNC$^{B_4}$) の単射半分は、正典が地の文で述べている。**
+
+### (TR-2) 関係式の輸送
+
+$\hat U\in\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$、$\beta':=\hat U(\beta)\in\widehat{\mathrm{PaB}}(2)$、$\alpha':=\hat U(\alpha)\in\widehat{\mathrm{PaB}}(3)$。
+
+**pentagon (2.13)**(向きの pin は `docs/notes/reading_2008_x13_c_v1.md` §5;**本論法は向きに依存しない**):
+$$(\mathrm{id}_{12}\circ_2\alpha)\cdot(\alpha\circ_2\mathrm{id}_{12})\cdot(\mathrm{id}_{12}\circ_1\alpha)\ =\ (\alpha\circ_3\mathrm{id}_{12})\cdot(\alpha\circ_1\mathrm{id}_{12})\qquad\text{in }\widehat{\mathrm{PaB}}(4).$$
+両辺に $\hat U$ を施す。使うのは:
+- **(i)** $\hat U(\gamma\cdot\delta)=\hat U(\gamma)\cdot\hat U(\delta)$、および $\hat U(\mathrm{id}_{12})=\mathrm{id}_{\hat U_{\rm obj}((12))}=\mathrm{id}_{(12)}$ — ★ **ここで (iv) 対象上恒等を使う**(規約 (OBJ) が効く唯一の箇所);
+- **(iii)** $\hat U(\gamma\circ_i\delta)=\hat U(\gamma)\circ_i\hat U(\delta)$ — 使う組は $(n,m)=(3,2)$ と $(2,3)$ でいずれも $n+m-1=4\le4$ ゆえ**切詰めに残っている**。
+
+⟹ $\alpha$ を $\alpha'$ に置換した同じ等式が $\widehat{\mathrm{PaB}}(4)$ で成り立つ。
+**hexagon (2.14)(2.15)** は arity 3 の等式で、$\beta\circ_1\mathrm{id}_{12}$($2+2-1=3\le4$)・$\theta(\alpha)$($\theta\in S_3$)・$\mathrm{id}_{12}\circ_i\beta$ を含むが、いずれも切詰めに残っており、**(ii)** $S_3$ 同変性から $\hat U(\theta(\gamma))=\theta(\hat U(\gamma))$。⟹ 同様に $(\beta',\alpha')$ で成り立つ。$\blacksquare$
+
+### (TR-3) 表示 $\Rightarrow$ 離散射
+
+**(A1) を表示として読む。** 対象の operad $\Omega$(§E-A.9.1)を固定し、$\Omega$ 上の operad-in-groupoids(射は対象上恒等)の圏で、
+$$\beta\in F(2)\bigl((12),(21)\bigr),\qquad \alpha\in F(3)\bigl(((12)3),(1(23))\bigr)$$
+を生成射とする**自由対象** $F$ をとり、**(A.13)(A.14)(A.15)** が生成する operad 合同 $R$ で割った $F/R$ を作る。標準射 $F/R\to\mathrm{PaB}$ について:
+- **(A1) 前半(生成)** $\iff$ 全射;
+- **(A1) 後半**("*any relation on $\alpha$ and $\beta$ in $\mathrm{PaB}$ is a consequence of (A.13),(A.14),(A.15)*")$\iff$ 単射。
+
+$\Rightarrow F/R\cong\mathrm{PaB}$。ゆえに $\mathrm{PaB}$ は次の普遍性をもつ:
+
+> **(UP)** 対象 operad が $\Omega$ である任意の operad-in-groupoids $Q$ と、**(A.13)(A.14)(A.15) を満たす**任意の対
+> $$(b,a)\in Q(2)\bigl((12),(21)\bigr)\times Q(3)\bigl(((12)3),(1(23))\bigr)$$
+> に対し、対象上恒等な operad 射 $\Phi:\mathrm{PaB}\to Q$ で $\Phi(\beta)=b$, $\Phi(\alpha)=a$ なるものが**ただ一つ**存在する。
+
+$Q:=\widehat{\mathrm{PaB}}$(対象集合は $\mathrm{PaB}$ と同じ — **(CPL)** の "*with the same set of objects*")、$(b,a):=(\beta',\alpha')$(**(TR-2)** で関係式を確認済)を代入して主張を得る。$\blacksquare$
+
+> ### ★ ここが要点(**離散の表示で足りる理由**)
+> **表示は離散の $\mathrm{PaB}$ のものでよい。標的が副有限であることは邪魔にならない** — 必要なのは「$\beta',\alpha'$ が**標的の中で**関係式を満たす」ことだけであり、それは (TR-2) で確認済だからである。**副有限版の表示定理は要らない。**
+
+> ### 【前提 (FREE-OP)】(⟹ §E-A.9.7 の【GAP-TRUNC-1】)
+> 「$\Omega$ 上の operad-in-groupoids の自由対象 $F$ の存在」と「operad 合同による商」。2008 は p.7 で "*We will freely use the language of operads [6, Section 3], [9, Chapter 1], [21], [22], [27]*" と述べるのみで、この構成を明示しない。**標準的な圏論的事実だが正典に逐語がない。**
+
+### (TR-4) 連続延長
+
+各 $n\ge1$ を固定。$\mathrm{PaB}(n)$ は連結・対象有限・$\mathrm{Aut}(\tau)=PB_n$ 剰余有限ゆえ **(CPL)** の枠内。$\Phi_n:\mathrm{PaB}(n)\to\widehat{\mathrm{PaB}}(n)$ は対象上恒等な関手。
+
+**段 1(有限商への降下).** $\mathrm{PaB}(n)$ 上の compatible equivalence relation $\sim$ を任意にとり、標準射影を $q_\sim:\widehat{\mathrm{PaB}}(n)\to\mathrm{PaB}(n)/\!\sim$ とする。合成
+$$\psi_\sim:=q_\sim\circ\Phi_n:\ \mathrm{PaB}(n)\longrightarrow\mathrm{PaB}(n)/\!\sim$$
+は**有限 groupoid への対象上恒等な関手**。その「核」
+$$\gamma_1\sim'\gamma_2\ :\Longleftrightarrow\ \psi_\sim(\gamma_1)=\psi_\sim(\gamma_2)$$
+は **(CPL)** の 3 条件を満たす: ① source/target 保存($\psi_\sim$ は対象上恒等な関手)② 合成両側との整合($\psi_\sim$ は関手)③ **有限**($\mathrm{PaB}(n)/\!\sim'$ は射の集合として $\mathrm{PaB}(n)/\!\sim$ に単射に入る)。
+⟹ $\sim'$ は $\widehat{\mathrm{PaB}}(n)$ の添字であり、$\psi_\sim$ は $\mathrm{PaB}(n)\to\mathrm{PaB}(n)/\!\sim'\xrightarrow{\ \bar\psi_\sim\ }\mathrm{PaB}(n)/\!\sim$ と分解する。**連続関手** $(\widehat\Phi_n)_\sim:=\bar\psi_\sim\circ\mathrm{pr}_{\sim'}:\widehat{\mathrm{PaB}}(n)\to\mathrm{PaB}(n)/\!\sim$ を得る。
+
+**段 2(錐の整合と極限).** $\sim_1\le\sim_2$ のとき $P_{\sim_1,\sim_2}\circ(\widehat\Phi_n)_{\sim_1}=(\widehat\Phi_n)_{\sim_2}$: 両辺を $\iota_n:\mathrm{PaB}(n)\hookrightarrow\widehat{\mathrm{PaB}}(n)$ と合成すると共に $q_{\sim_2}\circ\Phi_n$ に等しく、両辺は連続・標的は有限離散(Hausdorff)・$\iota_n$ の像は稠密ゆえ一致。⟹ 錐は整合し、$\widehat{\mathrm{PaB}}(n)=\varprojlim_\sim\mathrm{PaB}(n)/\!\sim$ の普遍性から連続関手
+$$\widehat\Phi_n:\widehat{\mathrm{PaB}}(n)\to\widehat{\mathrm{PaB}}(n),\qquad \widehat\Phi_n\circ\iota_n=\Phi_n$$
+を得る(関手性は有限関手の極限として自動)。
+
+**段 3(operad 構造との整合).** 各 $\circ_i$ について、2 つの連続写像
+$$\widehat\Phi\circ\circ_i,\qquad \circ_i\circ(\widehat\Phi\times\widehat\Phi)\ :\ \widehat{\mathrm{PaB}}(n)\times\widehat{\mathrm{PaB}}(m)\to\widehat{\mathrm{PaB}}(n+m-1)$$
+は稠密部分集合 $\iota(\mathrm{PaB}(n))\times\iota(\mathrm{PaB}(m))$ 上で一致し($\Phi$ が operad 射)、標的は Hausdorff ゆえ一致。$S_n$ 作用も同様。⟹ $\widehat\Phi$ は連続 operad 射。一意性も稠密性 $+$ Hausdorff。$\blacksquare$
+
+> ### ★ 委嘱の注意点 ②(**副有限完備化と切詰めの可換性**)への回答
+> $$\boxed{\ \textbf{可換性は「順序交換」の問題ですらない — 完備化が }\textbf{arity ごと}\textbf{に定義されているから。}\ }$$
+> **(CPL)** (p.49) の逐語: "*Thus "putting hats" over $\mathrm{PaB}(n)$ **for every $n\ge0$** gives us an operad $\widehat{\mathrm{PaB}}$*"。完備化の極限は**各 arity の groupoid 上の compatible equivalence relation の poset**上でとられており、$\mathrm{NFI}_{PB_4}(B_4)$ とは無関係である。ゆえに
+> $$(\widehat{\mathrm{PaB}})^{\le4}=\widehat{\mathrm{PaB}}(1)\sqcup\cdots\sqcup\widehat{\mathrm{PaB}}(4)=\widehat{(\mathrm{PaB}^{\le4})}$$
+> は**構成上の恒等式**であり、有限性の議論すら不要。⟹ **懸念 ② は空振り(良い意味で)。**
+>
+> ⚠ **ただし紛らわしい別物が 1 つある**: Thm 3.8 の証明が使う $\widetilde{\mathrm{PaB}}^{\le4}:=\varprojlim_{K\in\mathrm{NFI}^{\rm isolated}_{PB_4}(B_4)}\mathrm{PaB}^{\le4}/\!\sim_K$ **(3.13)** は、**添字が $\mathrm{NFI}^{\rm isolated}$ に絞られた別の極限**である。$\widehat{\mathrm{PaB}}^{\le4}\cong\widetilde{\mathrm{PaB}}^{\le4}$ は**共終性を要する非自明な主張**だが、★ **正典 Corollary 3.10 (p.35–36) に証明本文がある**(§E-A.9.5)。
+
+### (TR-5) 復元と可逆性
+
+$\mathrm{res}(\widehat\Phi)$ と $\hat U$ はともに $\widehat{\mathrm{PaB}}^{\le4}$ の連続 operad 自己射で $\alpha,\beta$ 上一致 ⟹ **(TR-1)** の切詰め版より一致。
+可逆性: $\hat U^{-1}\in\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$ に (TR-2)–(TR-4) を適用して $\widehat\Psi$ を得る。$\widehat\Psi\circ\widehat\Phi$ は $\widehat{\mathrm{PaB}}$ の連続 operad 自己射で
+$$\mathrm{res}(\widehat\Psi\circ\widehat\Phi)=\mathrm{res}(\widehat\Psi)\circ\mathrm{res}(\widehat\Phi)=\hat U^{-1}\circ\hat U=\mathrm{id},$$
+とくに $\alpha,\beta$ を固定するので **(TR-1)** より $\widehat\Psi\circ\widehat\Phi=\mathrm{id}_{\widehat{\mathrm{PaB}}}$。同様に $\widehat\Phi\circ\widehat\Psi=\mathrm{id}$。⟹ $\widehat\Phi\in\mathrm{Aut}(\widehat{\mathrm{PaB}})$ かつ $\mathrm{res}(\widehat\Phi)=\hat U$。$\blacksquare$
+
+**(TR-0)–(TR-5) を合わせて補題 TRUNC$^{B_4}$ が従う。** $\blacksquare$
+
+### ★ 系 TRUNC-PAIR(**Drinfeld 的対記述が定理になる**)
+
+> $\widehat{GT}=\mathrm{Aut}(\widehat{\mathrm{PaB}})$ は、**pentagon (2.20) と hexagon (2.18)(2.19) の副有限版を満たす対 $(\hat m,\hat f)\in\widehat{\mathbb Z}\times\widehat{PB_3}$** の集合に単射に写り、像は「可逆なもの」全体に一致する。
+> **証明骨子**: 単射性 $=$ (TR-1);対 $\mapsto$ 自己射は **(A1$^{\le4}$)**(切詰め版の表示)$+$ (TR-4) の完備化論法;可逆性の条件は (TR-5) と同じ議論。$\square$
+
+⚠ **格の申告**: 正典 p.3 は "*the underlying set of $\widehat{GT}$ can be identified with the subset of pairs $(\hat m,\hat f)$ satisfying **some relations and technical conditions***" と書き、Remark 1.1 は "*the "invertibility condition"*" と呼ぶだけで**明示していない**。⟹ **本系の「可逆性条件」の明示形は本節の射程外(UNKNOWN)**。系は「関係式を満たす対 $\Rightarrow$ 連続**自己準同型**」までを主張し、自己**同型**であることは別途要る、という形で使うこと。
+
+---
+
+## E-A.9.5 ★ Thm 3.8 の証明との逐行突合(**委嘱の注意点 ③**)
+
+**「証明のどの行がどちらの Aut に住むか」の全表**(頁は起草者が頁指定抽出で確認):
+
+| 段 | 頁 | 逐語の要点 | **どちらの Aut に住むか** | **(TRUNC) のどの半分を使うか** |
+|---|---|---|---|---|
+| **(3.19) の定義** $\hat T\mapsto\{T_K\}$ | p.36 | $T_K=\widehat P_K\circ\hat T\circ I$ | 源は $\mathrm{Aut}(\widehat{\mathrm{PaB}})$(定義どおり)・合成は切詰め上 | **(TR-0)** のみ(**定義的**) |
+| **群準同型性 (3.20)** | p.37 | $\widehat P_K\circ\hat T=T_K^{\rm isom}\circ\widehat P_K$ の操作 | 切詰め上の等式 | **(TR-0)** のみ |
+| ★ **単射性の段** | p.37–38 | "*we conclude that $\hat T$ is the identity map $\mathrm{id}:\widehat{\mathrm{PaB}}^{\le4}\to\widehat{\mathrm{PaB}}^{\le4}$. **Thus the injectivity of (3.19) is established.***" | ★ **結論は切詰め上でしか id を言っていない**(稠密性 $+$ Hausdorff の議論は $I(\mathrm{PaB}^{\le4})$ 上) | ★★ **(TRUNC) の単射半分**($=$ **(TR-1)**)。これが無いと (3.19) の単射性は「$\mathrm{res}(\hat T)=\mathrm{id}$」までしか言えない |
+| ★ **全射性の段 (3.22)** | p.38 | "*the formula $\hat T(\gamma)(K):=T_K^{\rm isom}(\gamma(K))$ **defines a morphism of truncated operads in groupoids** $\hat T:\widetilde{\mathrm{PaB}}^{\le4}\to\widetilde{\mathrm{PaB}}^{\le4}$*" $+$ 連続性 $+$ 逆射の構成 $+$ "*The proof of surjectivity of (3.19) is complete.*" | ★ **構成物は $\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$ の元**(Cor 3.10 で $\widetilde{}\cong\widehat{}$)。$\mathrm{Aut}(\widehat{\mathrm{PaB}})$ の元は**一度も作られていない** | ★★ **(TRUNC) の全射半分**($=$ **(TR-2)–(TR-5)**)。これが無いと (3.19) の全射性は成立しない |
+| $\widehat{\mathrm{PaB}}^{\le4}\cong\widetilde{\mathrm{PaB}}^{\le4}$ | p.35–36 | **Corollary 3.10** | — | ★ **(TRUNC) とは別件・証明本文あり ⟹ 穴ではない** |
+
+$$\boxed{\ \textbf{Thm 3.8 の証明は、単射性・全射性の}\textbf{両方}\textbf{で (TRUNC}^{B_4}\textbf{) を暗黙に使っている。}\ }$$
+
+> ### ★ §E-A.2.2 の主張の検収(**自己監査**)
+> §E-A.2.2 は「Thm 3.8 の証明が実際に構成しているのは $\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$ の元である」と書いた。**この観察は正しい**(上表の全射性の段)。**さらに単射性の段も同じ穴に落ちている**ことが本節で判明した(§E-A.2.2 は全射性の段しか挙げていなかった)。⟹ **erratum-1**(§E-A.9.7)。
+
+> ### ★ 副次観察(**正典の引用の綻び・数学の穴ではない**)
+> **Cor 3.10 の証明**(p.36)は "*due to **Proposition 3.9**, the image of $\hat\gamma_2^{-1}\cdot\hat\gamma_1$ in $PB_n/N$ is the identity element for every $N\in\mathrm{NFI}(PB_n)$*" と書くが、**Prop 3.9 は A) $PB_3$・B) $PB_2$ の 2 本しかない**(p.33–34)。$n=4$ の場合は引用されていない。
+> **2 行で埋まる**: $M\in\mathrm{NFI}(PB_4)$ に対し $B_4$ における正規核 $M_0:=\bigcap_{b\in B_4}bMb^{-1}$ をとる。$[B_4:PB_4]=4!<\infty$ かつ $[PB_4:M]<\infty$ ゆえ $[B_4:M]<\infty$、有限指数部分群の正規核は有限指数で $B_4$ 正規、$M_0\le M\le PB_4$。⟹ $M_0\in\mathrm{NFI}_{PB_4}(B_4)$。**(COF$^{B_4}$) Cor 3.5** より isolated $K\le M_0\le M$。∎
+> ⟹ **引用の綻びであって穴ではない。**(参考: 同種の $n=4$ 補完は **Prop 2.5**(p.12)にも要る — こちらは "*Stronger versions … are proved in Subsection 3.1*" とだけ書かれている。)
+
+---
+
+## E-A.9.6 ★★ 前件表の更新(**委嘱の判定**)
+
+### 判定
+
+$$\boxed{\ \textbf{(TRUNC}^{B_4}\textbf{) は前件表から除去できる。FAKE-KILL}^{B_4}\textbf{ の前件は 4 つになる。}\ }$$
+
+**理由は二重で、格が違う** — 混ぜないこと:
+
+| # | 理由 | 効き方 |
+|---|---|---|
+| **(a)** | ★ **もともと FAKE-KILL$^{B_4}$ の荷重を担っていなかった** | 最短鎖 **(B0)–(B4)**(§E-A.4.2)は (TRUNC) を使わない。(PR$^{B_4}$) が使うのは **(TR-0)**(arity 保存 $=$ 定義的)だけ。⟹ §E-A.4.2 の「落とすと壊れるもの」欄が既に "*FAKE-KILL$^{B_4}$ 本体は無傷*" と書いていたのは**正しかった**。表に**行があったこと自体**が、周辺結果((LIM$^{B_4}$)/SURV$^{B_4}$)の前件との混載だった |
+| **(b)** | ★ **本節で証明された** | 格が「★ **暗黙の前件**(番号つき補題なし)」から「**工房の証明つき補題**(Sol 未監査)」へ移る。⟹ **SURV$^{B_4}$ / (LIM$^{B_4}$) 側の依存も「未証明の同定」ではなくなる** |
+
+### ★ 更新後の前件表(**FAKE-KILL$^{B_4}$**)
+
+| 札 | 言明 | 格 | 出所 | 落とすと壊れるもの |
+|---|---|---|---|---|
+| **(IH-S)** | $\mathrm{Ih}:G_{\mathbb Q}\twoheadrightarrow\widehat{GT}$ | ★ **UNKNOWN**(P6) | 2008 (1.1) p.2 | 前提そのもの |
+| **(GEN$^{B_4}$)** | genuine $=$ $\widehat{GT}$ の元からの射影 | **正典の定義** | Def 2.19 p.25 / (1.7) p.5 | (B2) が消える |
+| **(PR$^{B_4}$)** | $T_N:=\widehat P_N\circ\hat T\circ I$ が GT-shadow | **正典の定義+命題** | (2.31) p.16 | (B1) が消える |
+| **(CHM$^{B_4}$)** | genuine $\Rightarrow$ charming | **正典の定理** | Prop 2.20 p.26 | 四層 (1.A$^{B_4}$) の第 2 包含が消える(格下げであって破綻ではない) |
+
+**以上 4 つで閉じる。**
+
+### ★ 除外欄への追加(**(TRUNC$^{B_4}$) の移動先**)
+
+| 除外するもの | 理由 |
+|---|---|
+| ★ **(TRUNC$^{B_4}$)** | ① **FAKE-KILL$^{B_4}$ の最短鎖では使わない**(使うのは定義的な (TR-0) のみ)② **補題 TRUNC$^{B_4}$(§E-A.9)で証明済**(工房の自前証明・Sol 未監査・**Theorem A.1 に相対的**)。⟹ 前件ではなく**補題**として §E-A.9 に置く |
+
+### ⚠ 会計の正直さ(**「消えた」と書かないこと**)
+
+補題 TRUNC$^{B_4}$ は **(A1) $=$ Theorem A.1 に相対的**であり、**Theorem A.1 は 2008 に証明本文をもたない**(外部引用 [9, Thm 6.2.4] $=$ Fresse・§E-A.9.2)。すなわち:
+
+$$\text{U-10(未解決予想)}\ \longrightarrow\ \text{(TRUNC}^{B_4}\text{)(記述の穴)}\ \longrightarrow\ \text{Theorem A.1(確立した外部定理)}$$
+
+**2 段とも正しい方向の移動**だが、**「前件が完全に消えた」ではなく「前件の格が 2 段上がった」と書く**。§E-A.2.2 の「交換の正直な会計」の続きである。
+
+---
+
+## E-A.9.7 残る穴・格付け・erratum・申し送り
+
+### 残る穴
+
+> ### 【GAP-TRUNC-1】(FREE-OP)— **圏論的包装**
+> 「$\Omega$ 上の operad-in-groupoids の**自由対象**の存在」と「**operad 合同**による商」。これが無いと (A1) を **(UP)** の形に読み替える段(TR-3)が浮く。
+> **状態**: **標準的な圏論的事実だが正典に逐語がない**。2008 は p.7 で operad の言語を [6],[9],[21],[22],[27] へ丸投げしている。
+> **リスク評価**: **低**。(A1) の言明("生成される"$+$"任意の関係は 3 本の帰結")は**表示の定義そのもの**であり、(UP) はその定義的展開である。ただし**工房が自分で確認していない**ので【GAP】として立てる。
+
+> ### 【GAP-TRUNC-2】(A1 の外部性)— **正典に証明本文が無い**
+> **Theorem A.1 自体**が 2008 では "*It is known [9, Theorem 6.2.4] that*" の引用であり、証明本文がない(脚注 13 が [1] Claim 2.6 と MacLane coherence に言及するのみ)。**工房は [9](Fresse)を保持していない。**
+> **リスク評価**: **低**(braided monoidal category の MacLane coherence として広く知られた定理)。ただし**格の申告**として: 補題 TRUNC$^{B_4}$ は「**正典 $+$ 未入手の外部定理**」に乗る。
+
+> ### 【文献要請 IHNEC-L3】
+> **困難**: 補題 TRUNC$^{B_4}$ の (TR-3) が、$\mathrm{PaB}$ の**表示の普遍性**に乗っている。工房は正典 (A1) の言明しか持たず、その原典を持たない。
+> **欲しい結果の型**: **Fresse, "Homotopy of Operads and Grothendieck–Teichmüller Groups", Theorem 6.2.4** の**正確な言明**。とくに (i) 「生成される $+$ 関係は 3 本の帰結」の形か、**(ii) 普遍性(universal property)の形で述べられているか**。(ii) なら【GAP-TRUNC-1】も同時に閉じる。
+> **代替**: 2008 の脚注 13 が挙げる **[1] の Claim 2.6**("A very similar statement is proved in [1]")でも可。
+> **なぜ要るか**: これが降りれば **(TRUNC$^{B_4}$) の格が「工房の自前証明(外部定理に相対的)」から「正典 $+$ 入手済文献の定理」へ**上がり、前件会計が閉じる。**軽い案件**(定理 1 本の言明照合)。
+
+> ### 【穴ではなかったもの(記録)】
+> - $\widehat{\mathrm{PaB}}^{\le4}\cong\widetilde{\mathrm{PaB}}^{\le4}$ ⟹ **Cor 3.10・証明本文あり**。
+> - 完備化と切詰めの可換性 ⟹ **(CPL) が arity ごとの定義なので恒等式**(§E-A.9.4 の枠)。
+> - Cor 3.10 / Prop 2.5 の $n=4$ 引用の綻び ⟹ **正規核 $+$ Cor 3.5 で 2 行**(§E-A.9.5)。
+
+### 格付け
+
+| # | statement | 状態 | 出所 |
+|---|---|---|---|
+| **TRUNC$^{B_4}$** | $\mathrm{res}:\mathrm{Aut}(\widehat{\mathrm{PaB}})\xrightarrow{\ \sim\ }\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$ | ★ **paper-proof candidate**(工房の自前証明・**Sol 未監査**・**Theorem A.1(未入手外部定理)に相対的**) | §E-A.9.3–4 |
+| **(TR-0)** | $\mathrm{res}$ の well-defined 性 | **定義的**(arity 保存) | §E-A.9.4 |
+| **(TR-1)** | 一意性 | **paper-proof**((TOPGEN) の逐語がほぼ同内容) | §E-A.9.4 |
+| **TRUNC-PAIR** | 対 $(\hat m,\hat f)$ 記述 | **paper-proof candidate**(可逆性条件の明示形は **UNKNOWN**) | §E-A.9.4 |
+| **Thm 3.8 逐行突合表** | 単射性・全射性の**両段**が (TRUNC) を使う | **観察**(原文照合済) | §E-A.9.5 |
+| **規約 (OBJ) の必要性** | $\mathrm{Aut}_{\rm operad}(\Omega)\cong S_2$ ゆえ両辺同規約が要る | **観察** | §E-A.9.1 |
+| **$n=4$ 引用の綻び** | Cor 3.10 / Prop 2.5 | **観察**(2 行で補完) | §E-A.9.5 |
+
+### erratum(**§E-A.0–E-A.8 への訂正**・本文は不改変)
+
+| # | 対象 | 差替前 | ★ 差替後 |
+|---|---|---|---|
+| **erratum-1** | §E-A.2.2 の記述(Thm 3.8 のどこで切詰めが出るか) | 「**全射性の段**が $\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le4})$ の元を構成している」 | ★ **単射性の段も同じ**(結論の逐語が $\widehat{\mathrm{PaB}}^{\le4}$ 上の id)。**両段が (TRUNC) を使う**(§E-A.9.5 の逐行表) |
+| **erratum-2** | §E-A.2.2 の (TRUNC$^{B_4}$) の格 | 「★ **暗黙の前件**(番号つき補題なし)・**起草者はこの導出を自分で検証していない**」 | ★ **補題 TRUNC$^{B_4}$(§E-A.9)として証明済**。格は **paper-proof candidate**(Sol 未監査・Theorem A.1 に相対的) |
+| **erratum-3** | §E-A.2.2 の導出経路の見立て | 「**Theorem A.1** $+$ p.3 の生成元の議論**と目される**」 | ★ **見立ては正しかったが不完全**。実際に効くのは ① **(A1) Thm A.1**(全射半分)② **(TOPGEN)** p.3(単射半分)③ ★ **(A1$^{\le4}$) p.12–13 の切詰め版表示**(§E-A.2.2 執筆時に**見落としていた** — 正典が切詰め版の生成と関係式を明示している)④ **(CPL)** A.5 の arity ごと完備化 |
+| **erratum-4** | §E-A.4.2 の前件表 | **(TRUNC$^{B_4}$)** の行あり(5 札) | ★ **行を除外欄へ移す**。前件は **(IH-S)/(GEN$^{B_4}$)/(PR$^{B_4}$)/(CHM$^{B_4}$) の 4 札**(§E-A.9.6) |
+| **erratum-5** | §E-A.8.1 の格付け表 | (TRUNC$^{B_4}$)「★ 暗黙の前件・要 pin」 | ★ 「**paper-proof candidate**(§E-A.9)」 |
+| **erratum-6** | §E-A.8.5-6③ の申し送り | 「`papers/txt/` の再生成を検討されたい(頁復元不可)」 | ★ **不要**。`pdftotext -f p -l p papers/2008.00066-*.pdf -` で**頁指定抽出が直接できる**(本節の全 pin はこれで照合した)。⟹ **頁引用を伴う $B_4$ 作業に障害はない** |
+| **erratum-7** | §E-A.8.4-5 / §E-A.8.5-4 の Sol 監査依頼・reader 発注 | 「(TRUNC$^{B_4}$) を Thm A.1 から導けるか(Sol へ)」「reader へ pin 発注(軽い案件)」 | ★ **本節が代替した**。**reader 発注は不要**(起草者が原文照合済)。**Sol への依頼は「導けるか」から「§E-A.9.4 の証明の監査」へ変更**(§E-A.9.8) |
+
+> **凍結物は不変**: **P-IHN-1〜7**・検算 digest(`edf6181376…d49309`・`f8be65ae…c88820b`)は改訂なし。本節は $B_3$ 側の実測に一切波及しない。
+
+### 新規性の申告(**grep 済**)
+
+**grep 語**: `TRUNC`・`Aut(PaB`・`PaB^{\le4}`・`切詰`・`truncat`・`Theorem A.1`・`表示`・`presentation`・`free operad`・`自由 operad`。
+- **工房内既出**: 追補 E-A §E-A.2.2(**前件としての顕在化のみ・証明なし**)/ `provenance/LEDGER.md` L1525(同)。**他になし。**
+- **正典内既出**: ★ **(RMK13)** (p.5) が **$\le3$ 版の類似命題**($\widehat{GT}_0=\mathrm{Aut}(\widehat{\mathrm{PaB}}^{\le3})$)を "*It is not hard to show*" と述べる。**$\le4$ 版 $=$ 本補題そのものは述べていない。** **(TOPGEN)** (p.3) が単射半分の実質。**(A1$^{\le4}$)** (p.12–13) が切詰め版の表示。
+- **本節が新しく置くもの**: ① **$\le4$ 版の言明化と証明**(とくに全射半分 $=$ 表示から連続延長を作る (TR-3)(TR-4))② **Thm 3.8 の逐行突合表**(**単射性の段も同じ穴**という発見)③ **規約 (OBJ) の必要性の指摘**($\mathrm{Aut}_{\rm operad}(\Omega)\cong S_2$)④ **前件表の 4 札化**⑤ **「証明本文の有無」欄の 3 値化提案**(あり/読者演習/**外部引用**)。
+- ★ **「初」とは書かない。** 本補題は **Fresse/Drinfeld 以来の標準論法の書き下し**であり、正典自身が $\le3$ 版を "not hard to show" と扱っている。**新定理ではなく、前件会計を閉じるための番号つけである。**
+
+### Sol 監査の依頼(優先順位つき・§E-A.8.4 を差し替える)
+
+1. ★★ **(TR-3) の表示の読み**(最優先)— Theorem A.1 の言明を **(UP)**(普遍性)として読んでよいか。**Sol が Fresse [9, Thm 6.2.4] の原文を持っているなら、その言明の形を教えてほしい**(【文献要請 IHNEC-L3】)。ここが崩れると全射半分が消える。
+2. ★ **(TR-4) の完備化論法** — 段 1 の「$\psi_\sim$ の核 $\sim'$ が compatible equivalence relation になる」の 3 条件確認、および段 3 の稠密性 $+$ Hausdorff による operad 整合性の議論。
+3. **(TR-2) の関係式輸送** — とくに $\hat U(\mathrm{id}_{12})=\mathrm{id}_{(12)}$ に規約 (OBJ) を使う点。**規約 (OBJ) を落とすと何が起きるか**(本節は UNKNOWN と申告)。
+4. **§E-A.9.5 の逐行突合表** — 「Thm 3.8 の**単射性の段も** (TRUNC) を使う」という読みに異論はないか。
+5. **系 TRUNC-PAIR の可逆性条件** — 正典が "technical conditions" / "invertibility condition" としか書かない部分の明示形を Sol が知っているか。
+
+### 申し送り(司令塔へ)
+
+1. ★★ **前件表を 4 札に更新**(§E-A.9.6)。地図・台帳の FAKE-KILL$^{B_4}$ 行から (TRUNC$^{B_4}$) を落とし、**補題として §E-A.9 を参照**させる。**ただし「前件が消えた」ではなく「格が上がった(⟶ 外部定理依存)」と書くこと。**
+2. ★ **【文献要請 IHNEC-L3】**(Fresse Thm 6.2.4 の言明・軽い案件)。降りれば【GAP-TRUNC-1】【GAP-TRUNC-2】が同時に閉じる。
+3. **規約台帳への提案(§E-A.8.5-3 の増強)**: 「証明本文の有無」欄を **3 値化**(あり / 読者演習 / **外部引用**)。**外部引用は文献入手のフラグ**になるので、種の区別が運用上効く。
+4. **reader への (TRUNC) pin 発注は取り消し**(§E-A.8.5-4)— 起草者が頁指定抽出で照合済。
+5. **工具の申し送り**: `pdftotext -f p -l p <pdf> -` が動く(erratum-6)。**頁引用つきの原文照合は追加の抽出作業なしにできる** — 他の係にも共有されたい。

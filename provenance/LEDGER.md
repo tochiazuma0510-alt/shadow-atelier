@@ -1546,3 +1546,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 ENT-1 探索完了(裁定 405)— **bounded negative**: 指数 1944 宇宙で [K⁽³⁾:N′]=3 の窓は 1 件のみ・それは**分裂** ⟹ 非分裂 χᵢ-拡大窓(entangled 屋根の唯一の建設路)は**この深さに存在しない**
 - 手続きの質: 自己検査アンカー(指数 648 で K⁽³⁾ 自身がちょうど 1 件再現)PASS・marked factor map 判定(指数一致で打ち切らない — Sol 警告 12 件遵守)・lins 完全性への信頼を completeness_caveat として正直申告(falsifier 判読対象)。
 - 数学的含意(次波で数学者評価): NO-CENTRAL(中心方向不可)+本陰性(χᵢ 方向も index 3 で不在)⟹ **K⁽³⁾ 直上の entangled 屋根は建設地が無い可能性** — 「B₃-安定性が H²(G₃,χᵢ) の 2 次元を削り切る」の定理化(NO-ENT(3) 候補)を便 99 の監査点に登録。GEN9-Λ の狩場は不変(道具の建設地だけが焦点)。cert = ent1_search_20260801.json。
+
+## 2026-08-01 補題 TRUNC^{B₄} 完成(裁定 406)— ★ res: Aut(P̂aB) ≅ Aut(P̂aB^{≤4}) を 6 段で証明(paper-proof candidate)⟹ **FAKE-KILL^{B₄} の前件表は (IH-S)/(GEN^{B₄})/(PR^{B₄})/(CHM^{B₄}) の 4 札に確定**
+- 依存の梯子の正直な記帳: U-10(未解決予想)→(TRUNC)(記述の穴・本補題で閉)→ **Theorem A.1(2008 に証明本文なし・Fresse Thm 6.2.4 への外部引用)** — 2 段格上げ。発見: Thm 3.8 は単射性の段も同じ穴を使っていた(両段とも本補題が支える)。規約 (OBJ) は無害でない(対象 operad の Aut ≅ S₂ — 機械検算 Catalan 数列一致)。完備化と切詰めは順序交換の問題ですらない(arity ごと完備化 = 構成上の恒等)。
+- 採択 2 件: ①「証明本文の有無」欄を **3 値化**(あり/読者演習/**外部引用**)— 台帳次版へ ②文献要請 IHNEC-L3(Fresse Thm 6.2.4 の言明の形 — 普遍性形なら GAP-TRUNC-1/2 が同時に閉じる・軽案件・次波 scout)。erratum-6: pdftotext -f/-l の頁抽出が可(papers/txt 再生成不要 — 係へ共有)。T-26 で Sol へ先出し済。
