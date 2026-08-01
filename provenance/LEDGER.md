@@ -1179,3 +1179,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 EP CI receipt 取得(裁定 327)— ★★ run 30682903849 success ⟹ **W92-8 の (a)(b)(c)(d) 全充足** — 便 95 で再発効請求 v10 の提出条件完備
 - (a) bundle resolver+race 負例(v12)✓ (b) suite 637 全 green ✓ (c) 実物 provisioning(ep-genuine-20260801・12 artifact・CURRENT 稼働)✓ (d) 実 CI receipt(workflow_dispatch run 30682903849 success・artifact 化)✓。
 - EP 建設の全経過: v7〜v12 の要塞化 → 法的循環の突破(単発実走 AUTHORIZED)→ checker_native → NF 二系統(digest 一致)→ 実物世代化 → CI receipt。再発効の裁定は Sol(便 95)。
+
+## 2026-08-01 (M2) 幾何側 決着(裁定 328)— ★★★ 定理 M2-GEO(n 一様の恒等交差表)+定理 NIE(両側は同一部分群 Γₙ≅(ℤ/n)²⋊(C₂×C₂)・Nielsen 類は単純推移 ⟹ 単一軌道・生成自動)— **(M2) = GEO(済)+UNIQ(済)+DESC(残 1 点)**
+- 正本 = m2_family_identification_v1.md・probe = m2_family_check.py + m2_symbolic_ext.py(ALLOWED_N assert で n=5 構造排除)。**n=3,7,9,11,13 全 PASS**(n=7 は C-β 実測を逐語再現・n=9 合成数も恒等対角)。単系統(python)— cbeta_crosstable.g の n 一般化で二系統化可(予言配置済)→ 発注。
+- 骨: n が効く箇所は悉皆 2 箇所のみ(奇性)・χ_P 一般式は n 非依存で α は χ_{k=1} のみ・gcd(α,n)=1 が生成条件として内在的に出現・完全不変量 ρ=[δ/η]∈(ℤ/n)^×/{±1}。TW-1(a)/CORE/EXP/ODD-P も n 一様再導出。D3-PAR 論法は不要と判明。
+- **残 = M2-DESC**: K⁽ⁿ⁾ 側被覆が F_n 上定義される、の 1 点。【文献要請 M2-1】= mere cover 版「Aut=1 ⟹ moduli 体 = 定義体」の正確な仮定(Dèbes–Emsalem 1999 が scout 済の骨格文献)→ 覚書つき委嘱を発車。
+- 付随: §4.2.3.4 の両基準数値の 1 行混在は erratum 不要(両方正)・cert に orbit_group 欄の提案受理。
