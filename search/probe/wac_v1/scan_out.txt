@@ -1,0 +1,10 @@
+=== (A) convention scan : which abstract alpha' does model(alpha) match ? ===
+  model alpha=1: standard->[1]  inverted->[]  reversed->[]  inv+rev->[1]
+  model alpha=2: standard->[2]  inverted->[]  reversed->[]  inv+rev->[3]
+  model alpha=3: standard->[3]  inverted->[]  reversed->[]  inv+rev->[2]
+
+=== (B) chi_P criterion : exact / full class / line ===
+  alpha=1 exact      : |S0|=  7 |Sinf|=  7 triples=   49 orbits=1 matches=[1]
+  alpha=1 full class : |S0|= 14 |Sinf|= 14 triples=  196 orbits=1 matches=[1]
+  alpha=1 line       : |S0|= 42 |Sinf|= 42 triples= 1764 orbits=9 matches=[1, 2, 3]
+  alpha=2 exact      : |S0|=  7 |Sinf|=  7 triples=   49 orbits=1 matches=[2]
