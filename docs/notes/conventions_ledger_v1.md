@@ -132,6 +132,8 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 
 **"n/a" の型(v1.2・F95-3.3)**: 全型で "n/a" を許すなら、将来の JSON schema では各 field を文字列との union にするか、型つき `{status:"n/a", reason:...}` に統一する — object/array 欄へ bare string を入れて schema が壊れる事故を防ぐ。
 
+**CV-10 出所連鎖の schema 統一(v1.3・裁定 354・ASM v2 §V.4.3 の未同期 4 点を確定)**: 新規 cert/ノートから適用(遡及不要)。①`path` は**リポジトリ root 相対で参照対象 artifact 自身**を指す(生成 script や親文書ではない)②ハッシュのキー名は **`sha256`**(Sol 語彙に統一・`digest` は不使用)③`effective_source` は**文字列でなく object** `{path, sha256}` ④supersede 関係は入れ子欄 **`superseded_by: {path, sha256}`** で機械可読に持つ(散文の「失効」注記は人間用の副)。混在は機械照合を壊すため、以後この 4 点が正。
+
 ```jsonc
 "conventions_used": {
   "ledger_version": "conventions_ledger_v1_1",

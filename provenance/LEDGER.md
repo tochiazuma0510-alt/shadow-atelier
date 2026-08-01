@@ -1300,3 +1300,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **EP-Q1 = telemetry-only 許可**: bounded decision-lane 哨戒は telemetry-only で運用可・EP は uncalibrated/UNKNOWN 維持・発効なし。
 - **EP v19/v14/v14 DRAFT = freeze 差戻し**: S2 自己矛盾・payload-era 混在・W-6・positive control を閉じて再請求(詳細は reply 本文 = ep-keeper 修理波へ)。
 - 修理波: ①数学者 = ASM 依存表 v2(最短鎖化) ②ep-keeper = freeze 差戻し 4 点+W-6 (a) 実装。13 セル計数は継続走行中(watcher 再設置)。
+
+## 2026-08-01 ASM 依存表 v2 検収(裁定 354)— 最短鎖 7 段((S0)-(S5)+(S*)=M2)・Sol 要求 15 項全対応・v1 無改変(CV-10 方式)・位数独立検査 249 窓×4 = failures 0(司令塔追試 exit 0)
+- 外した項目は補強・独立照合層へ降格(M4/SPLIT/GR/U2-BR/Ihara bridge/機械層/Lean 等)— F96-1.6 により v1 §7 の B-LIMIT「無条件」も撤回済(「橋に相対的だが FAITH-free」へ)。candidate 理由は「枠組み層の未昇格」1 本に限定(W96-1.1)。
+- 便 97 監査点 4 つ(v2-A 窓↔被覆辞書の語彙・v2-B W1-W5 配置・v2-C 層 1/2 の札名・v2-D 台帳差分)を積み残しとして登録。
+- 併せて**規約台帳 v1.3**: CV-10 schema 未同期 4 点(数学者捕獲)を確定 — path=参照対象自身・キー名 sha256 統一・effective_source=object・superseded_by 入れ子欄(新規から適用)。
