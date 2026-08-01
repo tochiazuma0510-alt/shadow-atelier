@@ -1218,3 +1218,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 常設回帰バッテリー+壁 driver 2 本(裁定 337)— fail-closed 6 スイート(push 毎)・wall40/45 は prelude 新則の初適用
 - regression-battery.yml: python 5+node 1 = 637 本を push 毎に fail-closed 実行・receipt artifact 化。GAP 系は mine 経由に委ねる設計判断(コスト根拠を yml に明記・委任どおり)。fail-closed 動作をダミー失敗で実証。
 - wall40_cert.g / wall45_cert.g: 逐語複製+gap_output_prelude.g 初適用(裁定 330)。smoke PASS(wall45 の eq=false は truncation の既知帰結・虚偽記載なし)。witness 出所の齟齬(scans/ 未収蔵 = collector schema 未対応の既知)を sha256 突合で正当化・冒頭コメントに明記 — 正直な逸脱処理。
+
+## 2026-08-01 回帰バッテリー初回 success(裁定 337 補遺)— run 30684752993・637 本 green・常設安全網の稼働確認
