@@ -1,0 +1,49 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "lt-count-ell37t4-repro-20260801",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "司令塔指示(gap-ci backend 修理検証・2026-08-01)。lt-count-13cells-20260801 で verdict=failed(cert なし・OOM/強制終了+wrapper exit code 隠蔽の疑い)となった 12 セルのうち ell=37,t=4 の 1 セルのみを再現テストとして単発発車する。plan 内容は元 job の該当 shard を 1-shard 化しただけで driver・宇宙・pipeline・予言は無改変(シャード削減=内容変更は司令塔承認済み・本 plan 起票の元になった裁定メッセージが承認)。目的は mine-dispatch.yml の修理(verdict!=done を GHA failure へ昇格・stderr 捕獲・max RSS 記録)の実証 -- メモリ死なら今度こそ GHA job failure 表示+run.log に stderr 本文+gap_time.log に max RSS、完走なら cert 生成+verdict=done+job success、のいずれかが機械的に確認できるはず。期待値/存在のはずはコード・本 plan いずれにも書かない(接触遮断)。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/lt_count_gen.g", "sha256": "1fa4639d7ef06bc2df02db26ac3098e0af7f8c08475a2663c062741a4dd0a81c" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "LT-COUNT-GEN-PROBE",
+      "version": 1,
+      "params": {
+        "driver": "search/probe/wac_v1/lt_count_gen.g",
+        "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。lt-count-13cells-20260801 と同一(preamble のセル指定のみ変更)。"
+      }
+    }
+  ],
+  "predictions": {
+    "declared_none": "元 job(lt-count-13cells-20260801)と同一 -- 可行域セルは T_trans>0 という予言は司令塔が別途凍結・接触遮断のためコードにも本 plan にも期待値は書かない。本 repro job の主眼は verdict/conclusion の一致・不一致の機械観測であり計数値の的中判定ではない。"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "ell37-t4", "preamble": "LT_CELLS := [[37,4]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell37_t4_repro_20260801.json\";;\n" }
+    ],
+    "timeout_min": 300,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/lt_count_gen.g",
+      "sha256": "1fa4639d7ef06bc2df02db26ac3098e0af7f8c08475a2663c062741a4dd0a81c",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-lt-count-gen-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
