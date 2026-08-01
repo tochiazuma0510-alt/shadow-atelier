@@ -1,0 +1,180 @@
+name: pari-classnum
+
+# h(Q(zeta_28)) の機械側完結(裁定283の h^-=1 機械値 + F92-4.3 の文献値との
+# 突合を、独立ツール PARI/GP で再計算して裏取りする)。workflow_dispatch のみ
+# (常設 push トリガーにしない -- 単発の裏取り作業)。
+#
+# 較正2本(polcyclo(23)->3, polcyclo(20)->1 の既知値)を本番より先に走らせ、
+# 一致しなければ fail する(「壊れたツールで安心する」事故の防止 -- 他 workflow
+# の負例チェック方針と同じ思想)。較正が通ってから本番 polcyclo(28) を計算する。
+#
+# GRH 依存の注意: bnfinit は既定で GRH(拡張リーマン予想)を仮定した近似アルゴリズム
+# を使う。無条件の結果にするには bnfcertify(bnf) が真を返す必要がある --
+# これを実行し、成否を receipt.json に正直に記録する(certify 不能なら
+# その旨を記録し、GRH 仮定つきの結果であることを明示する)。
+#
+# ローカル検証について: この開発環境に PARI/GP は導入されていないため、
+# 本 workflow の実行結果はローカルで再現できない。yml の構文と gp スクリプトの
+# 静的な読み合わせのみで発火前レビューを行った(下記コミットメッセージ相当の
+# 制約として明記)。
+
+on:
+  workflow_dispatch:
+
+jobs:
+  classnum:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pari-gp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pari-gp
+
+      - name: Record pari-gp version (provenance)
+        run: |
+          mkdir -p ci/out
+          gp --version 2>&1 | tee ci/out/gp_version.txt
+
+      - name: Run classnum script (calibration x2, then Q(zeta_28) with GRH-uncond. certify)
+        id: run
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          cat > ci/out/classnum.gp <<'GP'
+          \\ Calibration + main computation. Each block prints a machine-parsable
+          \\ "KEY: value" line so the receipt step can extract results without
+          \\ re-deriving them (machine-piped, no hand transcription).
+
+          \\ --- calibration 1: h(Q(zeta_23)) = 3 (known value) ---
+          calib1_bnf = bnfinit(polcyclo(23));
+          calib1_h = calib1_bnf.no;
+          print("CALIB1_POLY: polcyclo(23)");
+          print("CALIB1_H: ", calib1_h);
+          print("CALIB1_EXPECT: 3");
+          if (calib1_h != 3,
+            print("CALIB1_STATUS: FAIL");
+            error("calibration 1 failed: h(Q(zeta_23)) != 3, got ", calib1_h)
+          ,
+            print("CALIB1_STATUS: PASS")
+          );
+
+          \\ --- calibration 2: h(Q(zeta_20)) = 1 (known value) ---
+          calib2_bnf = bnfinit(polcyclo(20));
+          calib2_h = calib2_bnf.no;
+          print("CALIB2_POLY: polcyclo(20)");
+          print("CALIB2_H: ", calib2_h);
+          print("CALIB2_EXPECT: 1");
+          if (calib2_h != 1,
+            print("CALIB2_STATUS: FAIL");
+            error("calibration 2 failed: h(Q(zeta_20)) != 1, got ", calib2_h)
+          ,
+            print("CALIB2_STATUS: PASS")
+          );
+
+          \\ --- main: h(Q(zeta_28)) ---
+          main_bnf = bnfinit(polcyclo(28));
+          main_h = main_bnf.no;
+          print("MAIN_POLY: polcyclo(28)");
+          print("MAIN_H_GRH: ", main_h);
+
+          \\ Unconditional certification: bnfcertify returns 1 if it can remove
+          \\ the GRH dependency, 0 otherwise. Record honestly either way.
+          main_cert = bnfcertify(main_bnf);
+          print("MAIN_CERTIFY: ", main_cert);
+          if (main_cert == 1,
+            print("MAIN_UNCONDITIONAL: true")
+          ,
+            print("MAIN_UNCONDITIONAL: false")
+          );
+
+          quit;
+          GP
+          echo "--- ci/out/classnum.gp ---"
+          cat ci/out/classnum.gp
+          echo "---------------------------"
+          set +e
+          gp -q ci/out/classnum.gp 2>&1 | tee ci/out/run.log
+          GP_EXIT="${PIPESTATUS[0]}"
+          set -e
+          echo "gp_exit=$GP_EXIT" >> "$GITHUB_OUTPUT"
+          echo "gp exit code: $GP_EXIT"
+
+      - name: Build receipt.json (machine-piped, no hand transcription)
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, re, subprocess, datetime
+
+          with open('ci/out/run.log', encoding='utf-8', errors='replace') as f:
+              log = f.read()
+
+          def grab(key):
+              m = re.search(rf'^{re.escape(key)}:\s*(.*)$', log, re.MULTILINE)
+              return m.group(1).strip() if m else None
+
+          gp_version = ''
+          try:
+              with open('ci/out/gp_version.txt', encoding='utf-8', errors='replace') as f:
+                  gp_version = f.read().strip()
+          except FileNotFoundError:
+              pass
+
+          receipt = {
+              "schema": "pari-classnum-receipt/v1",
+              "purpose": "h(Q(zeta_28)) machine-side closure (裁定283 h^-=1 machine value + F92-4.3 literature) via independent PARI/GP recomputation",
+              "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              "run_id": "${{ github.run_id }}",
+              "sha": "${{ github.sha }}",
+              "gp_version": gp_version,
+              "calibration": {
+                  "calib1_poly": grab("CALIB1_POLY"),
+                  "calib1_h": grab("CALIB1_H"),
+                  "calib1_expect": grab("CALIB1_EXPECT"),
+                  "calib1_status": grab("CALIB1_STATUS"),
+                  "calib2_poly": grab("CALIB2_POLY"),
+                  "calib2_h": grab("CALIB2_H"),
+                  "calib2_expect": grab("CALIB2_EXPECT"),
+                  "calib2_status": grab("CALIB2_STATUS"),
+              },
+              "main": {
+                  "poly": grab("MAIN_POLY"),
+                  "h_grh": grab("MAIN_H_GRH"),
+                  "bnfcertify_result": grab("MAIN_CERTIFY"),
+                  "unconditional": grab("MAIN_UNCONDITIONAL"),
+                  "note": "bnfinit defaults to GRH-conditional computation; bnfcertify() removes the GRH dependency iff bnfcertify_result == 1. If unconditional == false, h_grh is a GRH-conditional value only, not an unconditional theorem.",
+              },
+              "gp_exit_code": "${{ steps.run.outputs.gp_exit }}",
+              "local_verification_note": "PARI/GP is not installed in the shadow-atelier dev environment; this receipt was not reproduced locally. Pre-dispatch review was limited to yml syntax and static reading of the gp script.",
+          }
+
+          with open('ci/out/receipt.json', 'w', encoding='utf-8') as f:
+              json.dump(receipt, f, ensure_ascii=False, indent=2)
+              f.write('\n')
+
+          print(json.dumps(receipt, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Fail the job if gp exited non-zero (calibration failure or crash)
+        if: always()
+        run: |
+          if [ "${{ steps.run.outputs.gp_exit }}" != "0" ]; then
+            echo "gp exited with code ${{ steps.run.outputs.gp_exit }} -- see ci/out/run.log" >&2
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pari-classnum-receipt
+          path: |
+            ci/out/receipt.json
+            ci/out/run.log
+            ci/out/classnum.gp
+            ci/out/gp_version.txt
+          if-no-files-found: error
