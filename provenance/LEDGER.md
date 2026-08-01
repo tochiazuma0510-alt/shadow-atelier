@@ -1056,3 +1056,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 発見 2 件: ①P-EP-1 予言外れの真因 = 探索器の「stage1」(f6 復元チェック)と spec の T-1 ゲートが**別物**(用語齟齬・spec 衛生の課題)②**構造的欠落: checker_native(lane B 独立の分岐因子構築)が NOT IMPLEMENTED**(root-finding over ℚ̄ 要)— 真の A/B native pair は現状どの候補でも生成不能。
 - **裁定 = (c) 採択**: decision-lane concordance までを成果として確定・native/registry/evidence-union は checker_native 実装後の別課題へ申し送り。(a) 使い回し provisioning は独立性偽装につき禁止(sol75 精神)。α は sealed mapping 喪失で NOT_EXECUTED(裁定 304)。
 - ⟹ EP の W92-8 (c)(d) 完全充足には checker_native 実装が新規前提 — 便 94 で Sol へ正直報告(実装係の (c) 推奨も記録: 「保管室に入れて良いのは本物だけ」)。
+
+## 2026-08-01 P93 修理波 完了(裁定 306)— 6/6 追補方式・新結果 3 件・OPP 補題で assert 論争決着(実装係が正・数学者指定が誤)
+- 追補 6 本(u2_..._addendum_p93 / u7_..._addendum_d3 / t3_..._addendum_e93 / pent_settled_cent_v1_addendum_p93 / u7_fire_log_v1_addendum_grade / fam_u_v1.md 新設)+検算 2 本(repair93_check.py・repair93_opp_check.py)+速達 20260801c+対話帳 T-21。
+- **(a) P93-1 は実害あり**: 2m+1≡1 (mod 2^a) の解は m∈{0, 2^{a-1}} の二値 — 偽解は χ_vir 不可視。修理済 ⟹ (U2)+混合⟸奇は Sol 最終ゲート待ちで発効可。**上申受理: χ_vir から m を復元する箇所の工房一斉点検**(→ 発注)。
+- **(b) 補題 B-LIMIT**: u₇ の n-part の経路 B 独立再計算は**原理的不可能**(ord([u_n]_n)=|Ih_N(G_F)| — SURJ-K7 の結論の前提化と同値)。第三経路 4 案・**推奨 C-β(明示模型の monodromy 直接計算 × marked triple 照合)** — 通れば D-3/D-4 が検証鎖から外れる(→ 発注)。
+- **(c) CAL-3 は外部正例照合だった**: u₃=−4 の出所 = LMFDB 平面モデル+Vieta(塔を不使用)⟹ 較正の格が自己較正より強い(執行ログの「公開値」表現は不正確 — 追補で訂正)。
+- 副産物: **TW-8b**(KUM-n(1) の B≅P¹_F も [γ]=1 先取り — P-7 と同欠陥類の 2 例目・発火済測定への実害なし)・補題 D3-PAR(機械→定理)・**補題 OPP**(τ 反自己同型・(3.53) は τ-座標で逆順積・9600 対一致)⟹ **settled assert 論争決着: 数学者指定式は 160/240 で偽・実装係の捕獲が正・正形は ℓ=τ∘ρ(P^op への準同型)**。FAM-U 最大の穴 = (M2) 標準モデル同定・**C1′ は族 gating から外れうる**([α] は exact 符号のみに効き類と位数に効かない)。
