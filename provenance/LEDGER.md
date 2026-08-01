@@ -1282,6 +1282,21 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **孤児世代の隔離(司令塔実施)**: 同一 freeze_id の並立世代 062303Z(旧セッション係の mint)を search/certs/ep_registry/_quarantine_orphan/ へ移動(削除でなく保存・README 添付)。CURRENT の指す 062657Z が唯一の正。隔離後 registry 系 suite 再走 = union 228/228・r3nf 55/55・nf 44/44 全 green。
 - P95-2.2 進捗: ①closed ②workflow 修理 closed(CI 実発火の receipt 束縛はこの後実施)③partial(懸念 1)④open(positive control)⑤closed。残務: (o) 系追補ノートの版起草・CI 発火。
 
-## 2026-08-01 EP fail-closed CI 実証(裁定 350)— run 30688121934 success・receipt = run SHA 01f53cf 束縛・suites_status=0 を gate が強制・union 三欄正直(R1/R2=MALFORMED・R3-NF=PASS・docs_era_binding_ok=true・ep_status=uncalibrated/UNKNOWN)。W95-2.2 の要求形(exact receipt の repo 束縛+assert)を充足 — P95-2.2 条件②は実証済み closed へ。収蔵 = ep_ci_receipt_run30688121934.json / ep_ci_union_full_run30688121934.json。
+## 2026-08-01 EP fail-closed CI 実証(裁定 351・並行セッション執筆分を検収編入)— run 30688121934 success・receipt = run SHA 01f53cf 束縛・suites_status=0 を gate が強制・union 三欄正直(R1/R2=MALFORMED・R3-NF=PASS・docs_era_binding_ok=true・ep_status=uncalibrated/UNKNOWN)。W95-2.2 の要求形(exact receipt の repo 束縛+assert)を充足 — P95-2.2 条件②は実証済み closed へ。収蔵 = ep_ci_receipt_run30688121934.json / ep_ci_union_full_run30688121934.json。
+- 検収注記(本セッション司令塔): 本節は並行セッションが「裁定 350」として記帳したものを、番号衝突解消(→351)の上で検収編入。receipt 2 本の実在と整合(suites_status=0・union exit 1 の正直記録・uncalibrated 維持)を機械確認済み。CI 発火の重複は行わない。
+
+## 2026-08-01 【併走通告】司令塔セッションの二重化を検知(裁定 352)
+- 事実: 本日 15:11〜15:41 に、同一作業ディレクトリで**二つの司令塔級セッションが並走**(compaction を挟む旧継続体と推定)。双方が同型の検収・commit・CI 発火・LEDGER 記帳を実施(01f53cf=並行側 commit・裁定 349/350 の番号衝突 2 件・孤児世代 mint)。内容の数学的整合は双方とも保たれている(実害 = 帰属混濁と番号衝突のみ)。
+- 措置: 番号衝突は本セッションが 350/351 で解消・孤児世代は隔離済み・CI 再発火はしない。**研究者へ: どちらのセッションを正とするか一本化の指示を求む**(本 LEDGER を読んだ並行セッションは、便 96 起草など新規の大物着手を研究者の一本化指示まで保留されたい — 検収済み事実の読み取り・小修理は可)。
+- 本節以降、LEDGER 追記時は冒頭に自セッションの直前 commit hash を「筆者印」として付す(例: 筆者印 2b99cf0)。
 
 ## 2026-08-01 便 96 発送(数学便第 23 号)— 総組立言明 v1 監査(最重量)・EP 現況照会(発効請求ではない)・照会 3 件(D7-3・W6-SEM 推奨(c)・EP-Q1)・preflight PASS(55 digest 機械再現)・起床確認済・watcher 設置
+
+## 2026-08-01 便 96 検収(裁定 351)— ★ 総組立言明 P95-1.1 主言明が採択(dihedral candidate 鎖の Sol ゲート通過・domain = 奇数 n≥3, n≠5)・M2 = theorem 維持・D7-3 不存在確定・EP DRAFT は freeze 差戻し
+- 正本 = sol/sol_reply_96_math23.md(374 行・turn 正常終了)。
+- **採択**: FAM-U-ASM の主言明(奇数 n≥3, n≠5 で ord([u_n]_{2n})=n の candidate 鎖完成)。ただし依存表は過剰 — **M4/SPLIT/GR/機械全確認を最短 class/order 鎖から外す v2 を要求**(修理波へ)。
+- M2 三部作 = theorem(紙・n 一様)維持。D.7(3) は不存在(撤回対象は D.0(3)/D.6(3) の 2 箇所で完了 — 当方の読みが正)。
+- **W6-SEM = option (a)**: lane A producer を W-6 形 {branch_value, multiplicity} 写像出力へ拡張(現 R3-NF は incidence を忘れるため W-6 の代替不能 — 推奨 (c) 却下)。
+- **EP-Q1 = telemetry-only 許可**: bounded decision-lane 哨戒は telemetry-only で運用可・EP は uncalibrated/UNKNOWN 維持・発効なし。
+- **EP v19/v14/v14 DRAFT = freeze 差戻し**: S2 自己矛盾・payload-era 混在・W-6・positive control を閉じて再請求(詳細は reply 本文 = ep-keeper 修理波へ)。
+- 修理波: ①数学者 = ASM 依存表 v2(最短鎖化) ②ep-keeper = freeze 差戻し 4 点+W-6 (a) 実装。13 セル計数は継続走行中(watcher 再設置)。
