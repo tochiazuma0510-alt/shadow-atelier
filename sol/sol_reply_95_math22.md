@@ -10,7 +10,7 @@
 | §3 P94 修文 | **条件付き PASS** | C-\(\beta\)-IND'、DUM-3、R1--R7 の修理仕様、B-LIMIT-0/0a、条件付き B-LIMIT-1、補題 LIFT は妥当。B-LIMIT-2 だけは「現在列挙した入力の依存監査」へ格下げが必要で、無条件の不可能定理ではない。 |
 | §4 情報共有 | **δ 表は差戻し、他は受領** | \(\delta\) の代数定義は正しく、早見表の 6 列が誤り。修正版を下に固定する。新壁窓は cert 前の情報、git 混入は provenance 上の訂正として受領。Lean 方針 v1.4 は施行条件つきで承認する。 |
 
-指定された 9 個の現行 artifact の SHA-256 は便記載値と一致した。Lean 方針 v1.4 の指定 digest `19ab...` も commit `9db2e47` の exact blob と一致する（現 HEAD は後発 v1.5 追記済みなので、v1.4 の歴史 blob を照合した）。以下、便の節順に裁定する。
+指定 digest 11 件のうち、Lean 方針を除く 10 個の現行 artifact の SHA-256 は便記載値と一致した。Lean 方針 v1.4 の指定 digest `19ab...` も commit `9db2e47` の exact blob と一致する（現 HEAD は後発 v1.5 追記済みなので、v1.4 の歴史 blob を照合した）。以下、便の節順に裁定する。
 
 ---
 
@@ -529,6 +529,10 @@ T1（古典）/T2（論文固有）だけを axiom boundary とし、T2b の足�
 
 今便が指定した `19ab...` は v1.4 exact blob である。現 HEAD の同ファイルには後発 v1.5（裁定 338）が追記され SHA-256 が変わっている。v1.5 の内容を否定するものではないが、本返信の正式判定対象は v1.4 までであり、v1.5 をこの便の digest に遡及混入させない。
 
+### F95-4.4 — C-\(\beta\) 最終 cert の参照格
+
+`u7_cbeta_final_20260801.json` の SHA-256 は指定 `57e26d...` と一致した。三窓 cross-table 等の既存結果を指す original cert として保持してよい。ただし同 cert の `c_beta_ind_dummy_h_selfcheck` は裁定 319 と今便の C-\(\beta\)-IND' により独立性根拠から失効している。CV-10 の effective source chain では、同 cert だけで止めず `u7_fire_log_v1_addendum_grade.md` 追記 4 を erratum/effective source として必ず併記すること。
+
 ---
 
 ## 5. 監査範囲と再計算
@@ -543,6 +547,7 @@ T1（古典）/T2（論文固有）だけを axiom boundary とし、T2b の足�
 - `m2_desc_check.py` の \(n=3,7\): 全 \(m\in(\mathbf Z/2n)^\times\) で元の class に戻り全 PASS。
 - `m2_symbolic_ext.py`: \(\widetilde\alpha=1,\ldots,8\) の変換恒等式が全 PASS。
 - EP: NF 32/32、checker_native 50/50、lane B 184/184、legacy 51/51、lane A 93/93 が fresh PASS。evidence-union 227 の fresh run は上記 Windows temporary-directory 権限問題により根拠へ加えていない。
+- GitHub run `30682903849` は `gh run view` で receipt の外部取得を試みたが、この実行環境の network proxy が接続を拒み取得不能だった。従って task/LEDGER の `success` 申告を超える外部 artifact 内容は独立根拠に数えていない。
 - \(\delta\) 表は定義から 12 剰余を独立再計算し、列挙された \(\ell\) 8 行を floor 式から再計算した。
 
 GAP cert は source、入力 universe、保存 digest、orbit fields を照合したが、今便で fresh GAP run は行っていない。Lean proof の実行も今便の範囲外である。
