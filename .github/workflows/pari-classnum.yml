@@ -17,9 +17,38 @@ name: pari-classnum
 # 本 workflow の実行結果はローカルで再現できない。yml の構文と gp スクリプトの
 # 静的な読み合わせのみで発火前レビューを行った(下記コミットメッセージ相当の
 # 制約として明記)。
+#
+# 修理履歴(初回発火 run 30685300794 の事後修理・司令塔裁定):
+#   gp スクリプトの複数行 if(cond,\n then-seq,\n else-seq); パターンが、この
+#   非対話バッチ実行では「1行=1トップレベル文」としてしか読まれず、開き括弧が
+#   閉じないまま行末に達すると構文エラーで回復し次行を独立文として再評価する
+#   --という gp 側の破壊が根本原因だった(python 抽出層の「最初の一致を拾う」
+#   挙動は症状であって原因ではない)。両分岐の print が無条件に両方実行され、
+#   さらに error() もプロセスを止めず gp exit code は 0 のままだった --
+#   較正ゲートが「較正失敗時にジョブを落とす」という設計意図を実効していない
+#   状態だった。修理: 各判定を1行の三項 if 式で変数に代入してから1回だけ
+#   print する形に統一(if() の引数をまたぐ改行を排除)、較正不一致時は
+#   quit(1) を明示呼び出しして gp exit code を実際に非ゼロにする、
+#   receipt 生成時に「STATUS マーカーと実測値の整合」を自己検査し矛盾があれば
+#   receipt.json を書かずに fail する。
+#
+# negative_control 陰性対照(この修理の実地検証・司令塔裁定 2026-08-01):
+#   quit(1) が本当に gp プロセスの exit code に反映されるかを検証するため、
+#   true にすると較正1の期待値を故意に誤値(4 -- 真の h(Q(zeta_23))=3 とは
+#   異なる)にして走らせる。この場合ジョブが failure になることが検査の合格
+#   条件(quit(1) 前提の実証)。receipt には NEGATIVE_CONTROL マーカーと
+#   archivable=false を必ず記録し、正規の測定 receipt と構造的に区別する
+#   -- 較正ゲートの改竄ベクタになり得る入力なので、この経路の出力は
+#   どのような結果でも本番の h(Q(zeta_28)) 測定として収蔵不可。
 
 on:
   workflow_dispatch:
+    inputs:
+      negative_control:
+        description: "true にすると較正1の期待値を故意に誤値にし、quit(1)によるジョブ失敗を検証する陰性対照実行にする(receiptはarchivable=falseで収蔵不可)"
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   classnum:
@@ -44,36 +73,58 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ci/out
+          # negative_control: true にすると較正1の期待値を故意に誤値(4)にする。
+          # gp スクリプト本体は placeholder を埋め込み、後段の sed で置換する
+          # (heredoc は 'GP' で quote しているので shell 展開は起きない --
+          # placeholder 置換だけを明示的に行う設計)。
+          if [ "${{ inputs.negative_control }}" = "true" ]; then
+            CALIB1_EXPECT_VAL=4
+            NEGCTL_VAL=true
+          else
+            CALIB1_EXPECT_VAL=3
+            NEGCTL_VAL=false
+          fi
+          echo "negative_control input: ${{ inputs.negative_control }} -> CALIB1_EXPECT_VAL=$CALIB1_EXPECT_VAL"
           cat > ci/out/classnum.gp <<'GP'
           \\ Calibration + main computation. Each block prints a machine-parsable
           \\ "KEY: value" line so the receipt step can extract results without
           \\ re-deriving them (machine-piped, no hand transcription).
+          \\
+          \\ IMPORTANT (repair note, 2026-08-01): every conditional here is written
+          \\ as a single physical line -- if(cond, expr1; expr2, expr3; expr4);
+          \\ with NO embedded newline inside the if(...) argument list. The
+          \\ original version split if()'s branches across multiple lines and
+          \\ this batch gp reading mode does NOT treat that as one continuous
+          \\ statement (open paren not carried across the line boundary) -- it
+          \\ silently fragments into independent single-line statements, so
+          \\ BOTH branches execute unconditionally and error() does not affect
+          \\ the process exit code. Keep every if(...) on one line here.
 
-          \\ --- calibration 1: h(Q(zeta_23)) = 3 (known value) ---
+          print("NEGATIVE_CONTROL: __NEGCTL__");
+
+          \\ --- calibration 1: h(Q(zeta_23)) = 3 (known value; deliberately
+          \\ wrong when NEGATIVE_CONTROL=true, to verify quit(1) actually halts
+          \\ the process with a non-zero exit code) ---
           calib1_bnf = bnfinit(polcyclo(23));
           calib1_h = calib1_bnf.no;
+          calib1_expect = __CALIB1_EXPECT__;
+          calib1_status = if(calib1_h == calib1_expect, "PASS", "FAIL");
           print("CALIB1_POLY: polcyclo(23)");
           print("CALIB1_H: ", calib1_h);
-          print("CALIB1_EXPECT: 3");
-          if (calib1_h != 3,
-            print("CALIB1_STATUS: FAIL");
-            error("calibration 1 failed: h(Q(zeta_23)) != 3, got ", calib1_h)
-          ,
-            print("CALIB1_STATUS: PASS")
-          );
+          print("CALIB1_EXPECT: ", calib1_expect);
+          print("CALIB1_STATUS: ", calib1_status);
+          if(calib1_status == "FAIL", print("CALIB_GATE: HALTED at calibration 1 (h=", calib1_h, ", expect=", calib1_expect, ")"); quit(1));
 
           \\ --- calibration 2: h(Q(zeta_20)) = 1 (known value) ---
           calib2_bnf = bnfinit(polcyclo(20));
           calib2_h = calib2_bnf.no;
+          calib2_expect = 1;
+          calib2_status = if(calib2_h == calib2_expect, "PASS", "FAIL");
           print("CALIB2_POLY: polcyclo(20)");
           print("CALIB2_H: ", calib2_h);
-          print("CALIB2_EXPECT: 1");
-          if (calib2_h != 1,
-            print("CALIB2_STATUS: FAIL");
-            error("calibration 2 failed: h(Q(zeta_20)) != 1, got ", calib2_h)
-          ,
-            print("CALIB2_STATUS: PASS")
-          );
+          print("CALIB2_EXPECT: ", calib2_expect);
+          print("CALIB2_STATUS: ", calib2_status);
+          if(calib2_status == "FAIL", print("CALIB_GATE: HALTED at calibration 2 (h=", calib2_h, ", expect=", calib2_expect, ")"); quit(1));
 
           \\ --- main: h(Q(zeta_28)) ---
           main_bnf = bnfinit(polcyclo(28));
@@ -85,14 +136,13 @@ jobs:
           \\ the GRH dependency, 0 otherwise. Record honestly either way.
           main_cert = bnfcertify(main_bnf);
           print("MAIN_CERTIFY: ", main_cert);
-          if (main_cert == 1,
-            print("MAIN_UNCONDITIONAL: true")
-          ,
-            print("MAIN_UNCONDITIONAL: false")
-          );
+          main_unconditional = if(main_cert == 1, "true", "false");
+          print("MAIN_UNCONDITIONAL: ", main_unconditional);
 
-          quit;
+          quit(0);
           GP
+          sed -i "s/__CALIB1_EXPECT__/$CALIB1_EXPECT_VAL/" ci/out/classnum.gp
+          sed -i "s/__NEGCTL__/$NEGCTL_VAL/" ci/out/classnum.gp
           echo "--- ci/out/classnum.gp ---"
           cat ci/out/classnum.gp
           echo "---------------------------"
@@ -103,13 +153,15 @@ jobs:
           echo "gp_exit=$GP_EXIT" >> "$GITHUB_OUTPUT"
           echo "gp exit code: $GP_EXIT"
 
-      - name: Build receipt.json (machine-piped, no hand transcription)
+      - name: Build receipt.json (machine-piped, no hand transcription; self-consistency gated)
         if: always()
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json, re, subprocess, datetime
+          import json, re, sys, datetime
+
+          NEGATIVE_CONTROL = "${{ inputs.negative_control }}" == "true"
 
           with open('ci/out/run.log', encoding='utf-8', errors='replace') as f:
               log = f.read()
@@ -125,29 +177,110 @@ jobs:
           except FileNotFoundError:
               pass
 
+          class ReceiptConsistencyError(Exception):
+              pass
+
+          def check_calibration(label, h_str, expect_str, status_str):
+              # Self-check (司令塔裁定 2026-08-01 item 2): the STATUS marker gp
+              # printed must agree with what h/expect actually imply. Any
+              # disagreement means the gp script or extraction regex is lying
+              # about its own gate -- refuse to emit a normal receipt.json in
+              # that case (write a separate _INCONSISTENT file and fail instead).
+              if h_str is None and expect_str is None and status_str is None:
+                  return {"status": "NOT_REACHED", "h": None, "expect": None}
+              if h_str is None or expect_str is None:
+                  raise ReceiptConsistencyError(
+                      f"{label}: STATUS={status_str!r} present but h/expect marker missing -- malformed run.log")
+              h = int(h_str)
+              expect = int(expect_str)
+              implied = "PASS" if h == expect else "FAIL"
+              if status_str is None:
+                  raise ReceiptConsistencyError(
+                      f"{label}: h={h} expect={expect} (implies {implied}) but STATUS marker missing from run.log")
+              if status_str != implied:
+                  raise ReceiptConsistencyError(
+                      f"{label}: STATUS marker says {status_str} but h={h} expect={expect} implies {implied} "
+                      f"-- contradiction, refusing to emit receipt.json")
+              return {"status": status_str, "h": h, "expect": expect}
+
+          negative_control_marker = grab("NEGATIVE_CONTROL")
+
+          try:
+              calib1 = check_calibration("CALIB1", grab("CALIB1_H"), grab("CALIB1_EXPECT"), grab("CALIB1_STATUS"))
+              calib2 = check_calibration("CALIB2", grab("CALIB2_H"), grab("CALIB2_EXPECT"), grab("CALIB2_STATUS"))
+          except ReceiptConsistencyError as e:
+              incident = {
+                  "schema": "pari-classnum-receipt-inconsistent/v1",
+                  "error": str(e),
+                  "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  "run_id": "${{ github.run_id }}",
+                  "sha": "${{ github.sha }}",
+                  "negative_control_input": NEGATIVE_CONTROL,
+                  "negative_control_marker_in_log": negative_control_marker,
+                  "run_log_excerpt": log[-4000:],
+              }
+              with open('ci/out/receipt_INCONSISTENT.json', 'w', encoding='utf-8') as f:
+                  json.dump(incident, f, ensure_ascii=False, indent=2)
+                  f.write('\n')
+              print(f"RECEIPT_CONSISTENCY_FAIL: {e}", file=sys.stderr)
+              print(json.dumps(incident, ensure_ascii=False, indent=2))
+              sys.exit(1)
+
+          main_h = grab("MAIN_H_GRH")
+          main_cert = grab("MAIN_CERTIFY")
+          main_uncond = grab("MAIN_UNCONDITIONAL")
+
+          # archivable: only a genuine, non-negative-control, fully-passed run
+          # (both calibrations PASS and main section reached) may ever be
+          # treated as a real h(Q(zeta_28)) measurement receipt. This field is
+          # the structural marker that keeps a negative-control (or any
+          # partially-halted) receipt from being mistaken for the genuine one
+          # downstream -- 司令塔裁定 2026-08-01: "negative_control=true の
+          # receipt は self_check 欄で構造的に正規版と区別されること
+          # (archivable=false)".
+          genuinely_passed = (calib1["status"] == "PASS" and calib2["status"] == "PASS" and main_h is not None)
+          archivable = (not NEGATIVE_CONTROL) and genuinely_passed
+
           receipt = {
               "schema": "pari-classnum-receipt/v1",
-              "purpose": "h(Q(zeta_28)) machine-side closure (裁定283 h^-=1 machine value + F92-4.3 literature) via independent PARI/GP recomputation",
+              "purpose": (
+                  "NEGATIVE CONTROL RUN -- calibration 1 expected value was deliberately corrupted "
+                  "to verify quit(1) halts the gp process with a non-zero exit code. This is NOT a "
+                  "valid h(Q(zeta_28)) measurement. archivable=false."
+                  if NEGATIVE_CONTROL else
+                  "h(Q(zeta_28)) machine-side closure (裁定283 h^-=1 machine value + F92-4.3 literature) "
+                  "via independent PARI/GP recomputation"
+              ),
+              "negative_control": NEGATIVE_CONTROL,
+              "negative_control_marker_in_log": negative_control_marker,
+              "archivable": archivable,
+              "self_check": "PASS",
               "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               "run_id": "${{ github.run_id }}",
               "sha": "${{ github.sha }}",
               "gp_version": gp_version,
               "calibration": {
                   "calib1_poly": grab("CALIB1_POLY"),
-                  "calib1_h": grab("CALIB1_H"),
-                  "calib1_expect": grab("CALIB1_EXPECT"),
-                  "calib1_status": grab("CALIB1_STATUS"),
+                  "calib1_h": calib1["h"],
+                  "calib1_expect": calib1["expect"],
+                  "calib1_status": calib1["status"],
                   "calib2_poly": grab("CALIB2_POLY"),
-                  "calib2_h": grab("CALIB2_H"),
-                  "calib2_expect": grab("CALIB2_EXPECT"),
-                  "calib2_status": grab("CALIB2_STATUS"),
+                  "calib2_h": calib2["h"],
+                  "calib2_expect": calib2["expect"],
+                  "calib2_status": calib2["status"],
               },
               "main": {
                   "poly": grab("MAIN_POLY"),
-                  "h_grh": grab("MAIN_H_GRH"),
-                  "bnfcertify_result": grab("MAIN_CERTIFY"),
-                  "unconditional": grab("MAIN_UNCONDITIONAL"),
-                  "note": "bnfinit defaults to GRH-conditional computation; bnfcertify() removes the GRH dependency iff bnfcertify_result == 1. If unconditional == false, h_grh is a GRH-conditional value only, not an unconditional theorem.",
+                  "h_grh": main_h,
+                  "bnfcertify_result": main_cert,
+                  "unconditional": main_uncond,
+                  "note": (
+                      "not reached -- calibration gate halted before this section ran"
+                      if main_h is None else
+                      "bnfinit defaults to GRH-conditional computation; bnfcertify() removes the GRH "
+                      "dependency iff bnfcertify_result == 1. If unconditional == false, h_grh is a "
+                      "GRH-conditional value only, not an unconditional theorem."
+                  ),
               },
               "gp_exit_code": "${{ steps.run.outputs.gp_exit }}",
               "local_verification_note": "PARI/GP is not installed in the shadow-atelier dev environment; this receipt was not reproduced locally. Pre-dispatch review was limited to yml syntax and static reading of the gp script.",
@@ -168,12 +301,24 @@ jobs:
             exit 1
           fi
 
+      - name: Compute artifact name (negative-control runs get a distinct, unmistakable name)
+        if: always()
+        id: artifact_name
+        shell: bash
+        run: |
+          if [ "${{ inputs.negative_control }}" = "true" ]; then
+            echo "name=pari-classnum-NEGATIVE-CONTROL-receipt" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=pari-classnum-receipt" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: pari-classnum-receipt
+          name: ${{ steps.artifact_name.outputs.name }}
           path: |
             ci/out/receipt.json
+            ci/out/receipt_INCONSISTENT.json
             ci/out/run.log
             ci/out/classnum.gp
             ci/out/gp_version.txt
