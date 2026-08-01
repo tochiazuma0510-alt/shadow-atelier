@@ -1425,3 +1425,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **Thm B.2 移送**: Prop B.1(c) の F₂ 側アーベル条件で群論半分は 1 行で主線へ移る(算術半分 = KW 型は未検証・断定せず)。N₅ はアーベル設定を機械確認(f_word:[] 全 4 shadow)⟹ 移送成立なら FV-11 は系へ降格・**独立証拠は最悪 4 プローブ/2 窓まで縮む**(会計の正直化・非アーベル非定理窓こそ真の試験場)。
 - **C2-Q(承認・較正段先行設計)**: λ²=24c₂+1 が hexagon だけの帰結か pentagon を要するか — 意味が正反対(evaluator 較正 vs 層 (b) 初の実効検出器)。較正段 = K⁽³⁾ 12 元+N_A 20 元(定理級ゆえ必ず通る)→ N_Q/K⁽¹²⁾/𝒲 4 窓。値の予言なし。
 - 次波候補(承認・起票は R4b/便 98 と調整): C2-Q 較正段・Thm B.2 算術半分の検証・N₂/N₃ アーベル性照合(安価)・HS Prop 7 有限商翻訳(第二照準)。fv-pin ALL PASS(司令塔追試済)。
+
+## 2026-08-01 gap-ci 修理の実証完了(裁定 381)— 再現テスト run 30695201761 = **conclusion=failure で verdict と一致(fail-closed 昇格の初実証・6 匹目駆除確認)**
+- 物証 3 点(miner 検収・mine/reports/lt-count-ell37t4-repro-20260801_report.md): ①max RSS = 12.54GB ≈ -o 12g 上限 ②run.log にエラー本体が今回は捕獲 — CharacterTable("Symmetric",41) 呼び出し中に ctbllib(ctblsymm.gi:468)が "reached the pre-set memory limit" → break loop → 非対話 EOF で exit 0(裁定 376 の根因診断と完全整合)③診断欄(run_log_bytes/tail_hex)稼働。
+- **恒久対策の裁定**: メモリ増は不採用(n=41 で既に 12.5GB・p(48)=147k の全表構築は原理的に無理)— **アルゴリズム変更を正式採択**: 全指標表を構築せず必要指標値のみ計算(MN 則直接 or T_trans の組合せ的言い換え)。二路線 = 数学者委嘱(次波)+**Sol 諮問(便 98 §に登載・研究者発案)**。残り 12 セルの再走はアルゴリズム着地まで凍結。
