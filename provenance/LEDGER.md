@@ -1227,3 +1227,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-01 py-ci 汎用化 完了(裁定 340)— 契約を py_ci_contract.py に単一実装化(legacy-primes/generic の 2 分岐・19 テスト)・sweep744 に marker 追加
 - schema/preflight に任意欄 args/done_marker/result_count_check・workflow は契約モジュール import(二重実装ドリフト防止)。設計判断 3 件(primes 優先で新欄無視・シェルエスケープなしの既存踏襲・grep -c 行数意味論)を承認。既存 wall36/37 無印 plan の INTEGRITY_STOP は既知の pre-existing(r2 差替由来)。
+
+## 2026-08-01 lt driver 一般化 完了(裁定 341)— lt_count_gen.g/lt_rehunt_gen.g(IsBound preamble 方式・prelude 適用)・旧 cert と完全一致再現(378000・A₃₀ witness バイト同一)
