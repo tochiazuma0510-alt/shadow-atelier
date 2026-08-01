@@ -1374,3 +1374,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - CV-9 凍結 ^{PB₄} 版を計算前固定(v₁..v₅ ↔ 正典 5 写像の対応・(2.20) 逐語・語反転で Pent と一致)。予言 6 本中 5 的中。混成規約は PB₄ 水準でも 4/20 の指紋(B₄ 表現になるかで判定可能)。
 - 正直な負 2 件: ①WD-4(混成検出器)は識別力 false — 同じ罠の三度目(同語反復)・stdwindow L35 型を直接殺す WD は未発見 =【GAP-WD-1】(便 98 監査点 H)②c 項は成分 3/4/5 で実走(空虚性は限定的)・φ₁₂₃/φ₂₃₄ 経路のみ未検査(監査点 I・新規較正窓は据え置き)。
 - gate ノート erratum 追記済((β) 根拠 2 本の明示撤回・教訓「規約混成は対照実験でも起こる」)。格 = 単系統+紙・CV-9 主検問前。便 98 監査点 F/G/H/I。
+
+## 2026-08-01 13 セル計数の検収と訂正(裁定 372)— ★ miner が GHA success の下の隠れ失敗を捕獲: verdict ベースで **done 1/13・failed 12/13**(本日 6 匹目の fail-open 族・採掘場版 green workflow ≠ green test)
+- **訂正**: 司令塔の先報「13/13 完走・完全収穫」は GHA conclusion のみに基づく誤り — 正 = **収穫は ell37-t2 の 1 セルのみ**。標的の S₇ 型 2 セル(ell37-t7/ell41-t7)は未計測。
+- 収穫 1 セルは本物: **ell37-t2 cert = T_trans=3296573904・T_all=10643405866・n=39・|C_Sn(w)|=74・較正 T_trans>0 = true** — GEN_FAIL 帯の厳密計数の初データ(セルは空でない)。cert 昇格は backend 修理後の再走とまとめて実施。
+- 症状(fail-open の物証): failed 12 shard の run.log が壁時計 22〜270 分とバラバラなのに全て byte 同一 394 バイトで「本番開始直後」で切断・gap_exit_code=0 記録・DRIVER_DONE なし。仮説 = OOM kill+wrapper の exit code 隠蔽+ログ未フラッシュ(実装係が診断修理中)。
+- 付随: mine/collector が本 cert schema(wac_v1-lt-count-gen-cert/v1)非対応(r4 系前提)= 需要の信号として記録・別途起票。Windows MAX_PATH で長パスの isfile 不検出も観測。
+- miner の職務規律は模範(判定・推測・再走をせず物証つきエスカレーション)。再走は修理検収後(plan 内容変更 = メモリ条件等が要れば司令塔承認で改版)。

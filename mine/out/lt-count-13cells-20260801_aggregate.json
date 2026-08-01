@@ -1,0 +1,287 @@
+{
+  "schema": "mine-collector-aggregate/v0 (miner 手作り機械集約 -- collect.py 非対応スキーマのため)",
+  "job_id": "lt-count-13cells-20260801",
+  "run_id": "30685662252",
+  "plan_path": "mine/jobs/queue/lt-count-13cells-20260801.json",
+  "shard_count_plan": 13,
+  "shard_count_downloaded": 13,
+  "shards": [
+    {
+      "shard_name": "ell37-t2",
+      "result_txt": {
+        "verdict": "done",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell37-t2",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 648,
+      "run_log_sha256": "ea6ce04e71106626faae59367a5bf3fda49efcb4c864c798e59e08431324be4e",
+      "cert": {
+        "schema": "wac_v1-lt-count-gen-cert/v1",
+        "generated_by": "search/probe/wac_v1/lt_count_gen.g",
+        "window_label": "LT-COUNT-GEN",
+        "spec_ref": "docs/notes/pent_exists_level_v1.md #7 (裁定_255_PENT委嘱3検収.md 項目7で受理) の一般化(mine driver 一般化・裁定330注記に基づく)",
+        "note": "raw measurements only -- interpretation-free. T_all/T_trans は指標表の class multiplication coefficient と巡回集合分割上の Moebius 反転による厳密計数(l25t5_count.g/sat_l1_probe8.g と同一機構)。較正規律: 既知 (23,1^3)(n=26, A_26 witness既知) を LT_CELLS の内容に関わらず先頭で1回だけ流し T_trans>0 を確認してから LT_CELLS の各セルへ進む(全セル共通の装置較正・セルごとに繰り返さない)。不一致なら Error で fail-closed に停止する。期待値/予言はコードに書いていない -- 較正の可否は計算結果とゼロとの比較のみで判定する。partitions_of_cycles は Bell数(算法パラメタ)であり計数結果の予言ではない。",
+        "calibration": {
+          "target": "(23,1^3) n=26",
+          "elapsed_ms": 8417,
+          "result": {
+            "label": "ell=23,t=3 (n=26): A_26 witness 既知(裁定254/tmax_holes_hunt.g)",
+            "lambda": [
+              23,
+              1,
+              1,
+              1
+            ],
+            "n": 26,
+            "cent_size": 138,
+            "t_all": 1531110,
+            "t_trans": 173880,
+            "partitions_of_cycles": 15,
+            "elapsed_ms": 8417
+          },
+          "pass_t_trans_gt_0": true
+        },
+        "cells": {
+          "requested": [
+            [
+              37,
+              2
+            ]
+          ],
+          "elapsed_ms": 1473142,
+          "results": [
+            {
+              "label": "ell=37,t=2 (n=39)",
+              "lambda": [
+                37,
+                1,
+                1
+              ],
+              "n": 39,
+              "cent_size": 74,
+              "t_all": 10643405866,
+              "t_trans": 3296573904,
+              "partitions_of_cycles": 5,
+              "elapsed_ms": 1473142
+            }
+          ]
+        },
+        "provenance": {
+          "gap_version": "4.16.0",
+          "script_sha256": "1fa4639d7ef06bc2df02db26ac3098e0af7f8c08475a2663c062741a4dd0a81c",
+          "gap_invocation": "gap -q -o 12g search/probe/wac_v1/lt_count_gen.g (preamble: LT_CELLS := [[ell1,t1],...];; LT_OUTPUT := \"...\";;)"
+        }
+      },
+      "cert_path": "mine-run-lt-count-13cells-20260801-ell37-t2\\mine\\out\\lt-count-13cells-20260801\\ell37-t2\\lt_count_gen_ell37_t2_20260801.json",
+      "cert_sha256": "10386d3e4c8a98e250d84d3434ddcc06ef08bda207873494b90f791351a14bbd"
+    },
+    {
+      "shard_name": "ell37-t4",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell37-t4",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "5d49fd6c57a73efdf9b6ab72f28ea6207a6f19caffa4e6ae629dbf713c40cb0f",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell37-t5",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell37-t5",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "19e1a48b3ddb81f74121d4824ef38ff53856868b38dcfc893804267b8a9adea2",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell37-t6",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell37-t6",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "6fee761bfda9dc905f9d8a25e46d234845a0bdb186af72c757bb5eae4bb344b2",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell37-t7",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell37-t7",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "917d9b4c166504ec3937a0cb24e68bb5ac646251abe91a783b19de9ffe812782",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell37-t8",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell37-t8",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "85490e26f654cb40bd89850f0202cb559fda05609d3f0281def1b6d625ad59c8",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell41-t1",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell41-t1",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "c90c3ee25aec6637ff68bedb99a583053676de47e8a41096822cb5bb7bd0fbde",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell41-t2",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell41-t2",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "d19af496063033cca818e356bceb110cf879f8cc0136d5a8fdc8dc929a27e35f",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell41-t3",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell41-t3",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "cc561888d20438b71f71c95ad5e25d4d04d94d71524006872811fa0eb5beabb4",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell41-t5",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell41-t5",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "76f3e3f3ecd5cc56a052f83ffaccaa11ed208b3cf584809125e436a22129cd1f",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell41-t6",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell41-t6",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "600007b3ed55f88b14a53f07c9f5e5c3d1a53973bf22d6c47ea8356351d00edc",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell41-t7",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell41-t7",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "5e7c6a010738fd5f4e460f20716fd90e470754029f22eeb3cf363732f8c97fa6",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    },
+    {
+      "shard_name": "ell41-t8",
+      "result_txt": {
+        "verdict": "failed",
+        "job_id": "lt-count-13cells-20260801",
+        "shard_name": "ell41-t8",
+        "backend": "gap-ci",
+        "gap_exit_code": "0",
+        "run_id": "30685662252",
+        "sha": "2a61f77630a118308021a08efbd9a66bd61c6017"
+      },
+      "run_log_bytes": 394,
+      "run_log_sha256": "fddd6c4f2f664899c44515f1483455dbf5a6b429fcb6b2a39214d3720ae93836",
+      "cert": null,
+      "cert_path": null,
+      "cert_sha256": null
+    }
+  ]
+}
