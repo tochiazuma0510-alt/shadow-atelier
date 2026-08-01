@@ -1323,3 +1323,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 紙の決め手 = **補題 UNIV**: Chk6 の c₄「q∈[Q_P,Q_P]」+定理 STR で宇宙が 7500→60(A≅A₅)に潰れ、ker(red)=1 が計算前に確定 — v3.2 の全行 c4_pass=1 は測定値でなく構造の帰結だった。補題 DICT(ĉ∘Φ 可換 4 行)で正典 (3.53) と T-21 補題 OPP に独立到達。定理 CLOSURE は c₄ 一行が hexagon/pentagon 閉性検証を肩代わり。
 - **PB₄ 見積もり = UNKNOWN・理由確定**: 6 生成元の像は位数 60 = 粗窓 P_N に等しく、C₅³ 精密化は pentagon packing 由来で PB₄ の窓でない — **LEVEL CAVEAT は現行構成の内部では解消不能**(これ自体が結果)。文献要請 U-PB4 起票(2008.00066・外部検索なし)。
 - 【GAP】4 件名指し(模型忠実性 = 監査点 A が最重量・PB₄・CV-9 主検問未実施・逆元閉式)。cross-checked とは未記帳(CV-9 判読後に格付け)。次: falsifier 主検問 → 便 98。
+
+## 2026-08-01 文献配達 U-PB4(裁定 360)— 2008.00066v2(B₄ 本来系定義正本・scout 実在確認・実は papers/ 収蔵済み)を司令塔関所で採択・覚書つき配達(docs/scout/覚書_upb4_2008_v1.md)。核心 = §3.1 Def 3.2(PB₄ 水準 settled/isolated)・Prop 3.3(isolated 構成)・§2.5 charming(c₄ 対応物)・Thm 3.8(ML 極限 ≅ ĜT)。GTPI の LEVEL CAVEAT 解消路が開通。Sol へは便 98 で同時共有(両数学者 SLA)。CLAUDE.md 文献地図の「2008 未入手」は旧記載 — 収蔵済みへ訂正対象。
