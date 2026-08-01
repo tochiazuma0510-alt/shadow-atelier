@@ -1,0 +1,112 @@
+{
+  "authorized_by": {
+    "clause": "F99-5.2 (sol_freeze_gate = PASS) / F99-5.1 (lane B independent producer 実装認可)",
+    "commander_ruling": "裁定412",
+    "document": "sol/sol_reply_99_math26.md",
+    "sha256": "8f0e9b5c2379c55867195ad7eacca4c263a6825494c5b344cd3778368bbadf9f"
+  },
+  "authorized_scope": [
+    "the W6KEY-plane specification bundle (spec v20 / contract v15 / manifest v15 / bundle-selfaudit v11) is ADOPTED",
+    "the lane B independent per-point W-6 producer implementation scope (F99-5.1), under the acceptance conditions restated in `lane_b_conditions`"
+  ],
+  "bound_artifacts": [
+    {
+      "agrees": true,
+      "artifact_id": "mb/ninfty-stage2-predicate/v20",
+      "path": "docs/week4-NInfty_stage2_spec_v20.md",
+      "sha256": "92025385eed864ca036df3f59153597fd60dc5ca3a66a04fd21251a51563ec3a",
+      "sol_declared_sha256": "92025385eed864ca036df3f59153597fd60dc5ca3a66a04fd21251a51563ec3a"
+    },
+    {
+      "agrees": true,
+      "artifact_id": "mb/ninfty-verifier-contract/v15",
+      "path": "docs/mb_ninfty_verifier_contract_v15.md",
+      "sha256": "8f26416be35a34251efdbf24188826705fe7a8417243bd61cb5ecfbcda004fab",
+      "sol_declared_sha256": "8f26416be35a34251efdbf24188826705fe7a8417243bd61cb5ecfbcda004fab"
+    },
+    {
+      "agrees": true,
+      "artifact_id": "mb/dependency-manifest/v15",
+      "path": "docs/mb_dependency_manifest_v15.md",
+      "sha256": "72623050cca3fef45b09e458ef671a4d6bfc8d9038959b98b0ff586e121a66db",
+      "sol_declared_sha256": "72623050cca3fef45b09e458ef671a4d6bfc8d9038959b98b0ff586e121a66db"
+    },
+    {
+      "agrees": true,
+      "artifact_id": "bundle-selfaudit/v11",
+      "path": "search/bundle-selfaudit-v11.py",
+      "sha256": "fd56c4f6457926ff4897de1e6924cad0a416891f5b1253f287b327b5ceec9e37",
+      "sol_declared_sha256": "fd56c4f6457926ff4897de1e6924cad0a416891f5b1253f287b327b5ceec9e37"
+    }
+  ],
+  "byte_frozen_predecessors": [
+    {
+      "artifact_id": "mb/ninfty-stage2-predicate/v19",
+      "path": "docs/week4-NInfty_stage2_spec_v19.md",
+      "sha256": "620c7b2c2c76e27c0a76c2c1ff297966e5eb70d34975d5f32e916bd94bf5e8d3",
+      "status": "byte-frozen history -- superseded, never overwritten (F99-5.2)"
+    },
+    {
+      "artifact_id": "mb/ninfty-verifier-contract/v14",
+      "path": "docs/mb_ninfty_verifier_contract_v14.md",
+      "sha256": "1eba5c943105d433660b0ddcf7d2e3ba2264cdeb8490e297a351a2391d1fe94e",
+      "status": "byte-frozen history -- superseded, never overwritten (F99-5.2)"
+    },
+    {
+      "artifact_id": "mb/dependency-manifest/v14",
+      "path": "docs/mb_dependency_manifest_v14.md",
+      "sha256": "e892be68e79244c8493e37ec77eb3a1cbdb29ee45a911f73040aadaebbb889af",
+      "status": "byte-frozen history -- superseded, never overwritten (F99-5.2)"
+    }
+  ],
+  "calibrated_detector": false,
+  "citation_convention": "spec sec.5.3.7 RC-1..RC-4: this receipt binds ONLY the fields written in it. Suite check counts, green/red breakdowns and timings are NOT bound by it and must be cited with the suite log's own provenance.",
+  "ep_status": "uncalibrated/UNKNOWN",
+  "era_adoption": {
+    "authority": "governing spec sec.5.3.4 M-7 / dependency manifest Y-3c (宣言先行・採用後行)",
+    "era": {
+      "dependency_manifest_schema_id": "mb/dependency-manifest/v15",
+      "predicate_spec_id": "mb/ninfty-stage2-predicate/v20",
+      "verifier_contract_id": "mb/ninfty-verifier-contract/v15"
+    },
+    "note": "before this receipt the two ERA_W6KEY planes were recorded PENDING_ADOPTION and counted as neither PASS nor FAIL. From this receipt on they are evaluated exactly like every other plane: exact era match, no 'newer is fine'. The other planes (frozen_route_verifier / native_payload_schema / nf_route / decision_lane_predicate / control_plane) are UNCHANGED -- this receipt does not move them to v20/v15/v15.",
+    "planes": {
+      "w6_key_route": [
+        "search/ninfty-w6-key-gate-r1p.py",
+        "search/ninfty-w6-key-gate-r2p.py"
+      ],
+      "w6_point_map_producer": [
+        "search/ninfty-w6-pointmap-lanea.mjs",
+        "search/ninfty-w6-pointmap-laneb.py"
+      ]
+    },
+    "transition": "PENDING_ADOPTION -> ADOPTED"
+  },
+  "freeze_id": "mb/ninfty-stage2-freeze/92025385-8f26416b-72623050",
+  "image_mu": "UNKNOWN",
+  "issued_at": "2026-08-01T15:34:31.085136+00:00",
+  "lane_b_conditions": [
+    "lane B constructs each rational root's exact witness from its OWN curve/native data",
+    "lane B imports/reads no lane A producer, canonicaliser, branch-token helper or output token; only the normative schema and its literals are shared",
+    "finite points carry the x-root AND the y-root rank; infinity carries its own branch; the total degree-12 accounting is reconstructed from the per-point records",
+    "both R1' and R2' are exercised, with mutation/negative fixtures and source digests, fail-closed",
+    "diagnostic_construction=true, W6_CLOSED=false; AGGREGATE stays ABSENT until lane B exists",
+    "even with lane B complete, only the AGGREGATE plane closes: IMAGE-MU stays UNKNOWN, so W-6 is OPEN and EP stays uncalibrated/UNKNOWN"
+  ],
+  "not_authorized_by_this_receipt": [
+    "W6_CLOSED=true",
+    "IMAGE-MU=PASS",
+    "EP detector activation / mint",
+    "positive-control event",
+    "candidate acceptance or Freeze 2 unlocking"
+  ],
+  "not_authorized_note": "Sol 便99 F99-5.2 verbatim: these may not be implicitly derived from the same freeze PASS. A green suite, a green CI job and a completed lane B producer move none of them.",
+  "pending_queue_carried_forward": [
+    "CR-11 implemented_checks layer = PENDING/UNKNOWN",
+    "QD-6 bootstrap leaf lost guarantees = PENDING/UNKNOWN",
+    "N-2(2)/H-1a'' independent rederive = PENDING/UNKNOWN"
+  ],
+  "receipt_format": "commander freeze receipt, JSON rendering of the convention established by provenance/ninfty_freeze_receipt_sol75.md (裁定111). This is a control-plane receipt, not a normative schema of its own.",
+  "receipt_id": "mb/ninfty-stage2-freeze-receipt/sol99/92025385-8f26416b-72623050",
+  "w6_closed": false
+}

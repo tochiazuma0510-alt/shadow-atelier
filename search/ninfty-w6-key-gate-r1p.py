@@ -40,6 +40,12 @@ The only thing they share is the mathematical schema in
 docs/mb_ninfty_w6_branch_key_v1.md, which is what Sol permits ("the only
 thing in common is the mathematical schema above").
 
+ERA (governing spec sec.5.3.4 / dependency manifest Y-3c): this file belongs
+to the plane `w6_key_route`, era ERA_W6KEY. The plane was declared first and
+adopted by the commander freeze receipt for the v20/v15/v15 trio (Sol 便99
+F99-5.2). Adoption changes nothing about W-6: it is still OPEN.
+  [ep-era-declaration] plane=w6_key_route predicate_spec_id=mb/ninfty-stage2-predicate/v20 verifier_contract_id=mb/ninfty-verifier-contract/v15 dependency_manifest_schema_id=mb/dependency-manifest/v15
+
 FAIL-CLOSED STATUS ALGEBRA (P97-3.2, O-2/O-3 of the schema doc):
   schema / provenance defect              -> MALFORMED
   exact rank or image undecidable here    -> UNKNOWN   (never PASS)
@@ -460,8 +466,16 @@ def independence_gate(source_texts):
     if "srepr" in lane_a:
         findings.append("lane A source mentions sympy srepr -- lane A must derive its key from its own "
                         "curve/ideal data, never by mimicking lane B's representation (H-1/H-3)")
+    # 【chg 便99 F99-5.1】additive rows for the per-point producers: lane B is
+    # an INDEPENDENT producer, not a port, so it may not pull in lane A's
+    # producer, its searcher module (whose canonicaliser and token helpers
+    # live there), or its native CLI -- and symmetrically for lane A.
     for label, text, forbidden in (("lane_a", lane_a, "ninfty-nf-laneb"),
                                    ("lane_b", lane_b, "ninfty-nf-lanea"),
+                                   ("lane_a", lane_a, "ninfty-w6-pointmap-laneb"),
+                                   ("lane_b", lane_b, "ninfty-w6-pointmap-lanea"),
+                                   ("lane_b", lane_b, "ninfty-searcher-v2"),
+                                   ("lane_b", lane_b, "ninfty-native-a-cli"),
                                    ("receiver_r1p", r1p, "ninfty-w6-key-gate-r2p"),
                                    ("receiver_r2p", r2p, "ninfty-w6-key-gate-r1p")):
         if forbidden in text:

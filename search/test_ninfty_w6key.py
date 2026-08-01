@@ -611,6 +611,274 @@ for _stem, _expected in (("checker_neg_01", "ABSENT"), ("neg_divisor_orientation
           and _payload["point_map"]["declared_support"] == [],
           (_payload and _payload["point_map"]["status"], _err))
 
+# ============================================================================
+# §11 THE LANE B PER-POINT PRODUCER  (Sol 便99 F99-5.1, 実装認可・裁定412)
+#
+# F99-5.1 authorises an INDEPENDENT lane B producer satisfying the same output
+# contract -- explicitly NOT an isomorphic port of lane A's. So this section
+# does three separable things:
+#   (a) structural independence, over the SHIPPED SOURCE: lane B has no load
+#       site for lane A's producer, searcher module, canonicaliser or tokens;
+#       the two producers' project-file dependency sets are disjoint.
+#   (b) the real lane B producer runs on the genuine fixtures and its output
+#       goes through BOTH receiver routes, with the mutation/negative edges.
+#   (c) the cross-lane comparison: the receiver re-sums BOTH per-point maps
+#       itself (W6-C4 -- neither producer's own aggregate is used) and the two
+#       independently derived divisors are compared. AGGREGATE can now close.
+#
+# WHAT THIS SECTION MAY NOT BE READ AS (F99-5.1 last paragraph, verbatim):
+# even with lane B complete, only the AGGREGATE plane closes. IMAGE-MU stays
+# UNKNOWN, so W-6 is OPEN and EP stays uncalibrated/UNKNOWN. The checks below
+# assert that mechanically rather than promising it in prose.
+# ============================================================================
+
+LANEB_PATH = os.path.join(HERE, "ninfty-w6-pointmap-laneb.py")
+with open(LANEB_PATH, encoding="utf-8") as f:
+    LANEB_SRC = f.read()
+LANEB = _load("w6_pointmap_laneb", "ninfty-w6-pointmap-laneb.py")
+
+check("§11 the lane B per-point producer exists as its own module, claims no closure and marks its "
+      "output a diagnostic construction",
+      LANEB.W6_CLOSED is False and 'artifact_class": "diagnostic_construction"' in LANEB_SRC
+      or LANEB.W6_CLOSED is False and '"artifact_class": "diagnostic_construction"' in LANEB_SRC
+      or LANEB.W6_CLOSED is False and "diagnostic_construction" in LANEB_SRC)
+
+# (a) structural independence -- the check the commander asked to be put into
+#     the machine: lane A helpers must be ABSENT from lane B's dependency set.
+_LANE_A_TOKENS = ("ninfty-w6-pointmap-lanea", "ninfty-searcher-v2", "ninfty-nf-lanea",
+                  "ninfty-native-a-cli", "ninfty-verifier-a", "ninfty-selftest-lanea")
+check("§11 structural independence: lane B's shipped source contains NO reference at all to lane A's "
+      "producer, searcher module, normal form, native CLI or verifier -- not merely no import "
+      "(F99-5.1: no import/reference of lane A's producer, canonicaliser, token helper or output token)",
+      not [t for t in _LANE_A_TOKENS if t in LANEB_SRC],
+      [t for t in _LANE_A_TOKENS if t in LANEB_SRC])
+_LANE_A_HELPERS = ("buildW6PointMapLaneA", "primitiveIntegerForm", "imageDatumFor", "tokenFinite",
+                   "computeNormalFormLaneA", "evaluateDecisionLane", "polyGCD")
+check("§11 structural independence: none of lane A's producer/canonicaliser/token-helper symbols "
+      "appears in lane B (a copied helper under a new name would still show up as its own code path, "
+      "so this is the cheap half of the check; the algorithmic half is the derivation itself)",
+      not [h for h in _LANE_A_HELPERS if h in LANEB_SRC],
+      [h for h in _LANE_A_HELPERS if h in LANEB_SRC])
+_laneb_loads = sorted({ln.strip() for ln in LANEB_SRC.splitlines()
+                       if "_load_module(" in ln and '"' in ln and "def " not in ln})
+check("§11 structural independence: the ONLY project files lane B loads are lane B's own two modules "
+      "(its checker and its from-scratch point construction)",
+      sorted({ln.split('"')[1] for ln in _laneb_loads}) == ["ninfty-checker-native.py", "ninfty-checker.py"],
+      _laneb_loads)
+check("§11 structural independence: lane B imports no receiver route either -- a producer that loaded "
+      "its own gate would be marking its own homework",
+      not _load_sites(LANEB_SRC, "ninfty-w6-key-gate"))
+check("§11 structural independence: the two producers' project-file dependency sets are DISJOINT "
+      "(lane A: its own searcher module; lane B: its own checker pair) -- and they are not even in the "
+      "same runtime",
+      not ({"ninfty-checker.py", "ninfty-checker-native.py"} & set(
+          re.findall(r"ninfty-[a-z0-9-]+\.(?:mjs|py)", PRODUCER_SRC))),
+      sorted(set(re.findall(r"ninfty-[a-z0-9-]+\.(?:mjs|py)", PRODUCER_SRC))))
+for _rname, _route in ROUTES:
+    # The receiver-route slots are left empty on purpose: each route NAMES the
+    # other in its own forbidden-token table, and the gate is a coarse
+    # substring test, so feeding a route its own table would flag the table.
+    # The routes' real independence is checked structurally in §8 by load site.
+    _st, _d = _route.independence_gate({"lane_a": PRODUCER_SRC, "lane_b": LANEB_SRC,
+                                        "receiver_r1p": "", "receiver_r2p": ""})
+    check(f"§11 [{_rname}] INDEPENDENCE gate PASSes on the two REAL shipped producer sources -- not on "
+          "a declaration",
+          _st == "PASS", _d)
+    _st, _d = _route.independence_gate({"lane_b": "from ninfty-w6-pointmap-lanea import buildW6PointMapLaneA"})
+    check(f"§11 [{_rname}] firing edge: a lane B that loaded lane A's producer is a FAIL "
+          "(F99-5.1's central condition, now machine-checked)",
+          _st == "FAIL" and _d["findings"], _d)
+    _st, _d = _route.independence_gate({"lane_b": "import ninfty-searcher-v2 canonicaliser"})
+    check(f"§11 [{_rname}] firing edge: a lane B that loaded lane A's searcher module (where its "
+          "canonicaliser and token helpers live) is a FAIL",
+          _st == "FAIL", _d)
+
+# (b)+(c) the real producer on the genuine fixtures, through both routes.
+_CROSS = {}
+for _stem in _GENUINE:
+    _cand_path = os.path.join(FIXTURES, _stem + ".json")
+    with open(_cand_path, encoding="utf-8") as f:
+        _cand = json.load(f)
+    _bmap = LANEB.build_w6_point_map_lane_b(_cand)
+    _brecs = _bmap["records"]
+    _CROSS[_stem] = _bmap
+
+    check(f"§11 [{_stem}] lane B returns PRESENT and RECONSTRUCTS the degree accounting from its own "
+          "per-point records (2g-2+2deg(mu), with g and deg(mu) derived from the curve, not typed in)",
+          _bmap["status"] == "PRESENT" and _bmap["ramification_degree_check"]["ok"] is True
+          and _bmap["ramification_degree_check"]["total_multiplicity"]
+          == _bmap["ramification_degree_check"]["required"] == 12,
+          (_bmap["status"], _bmap.get("ramification_degree_check"), _bmap.get("reason")))
+    _bfin = [r for r in _brecs if r["ramification_point_id"].startswith("aff|")]
+    _binf = [r for r in _brecs if not r["ramification_point_id"].startswith("aff|")]
+    check(f"§11 [{_stem}] lane B separates the finite points ONE BY ONE, keeping BOTH the x-root and "
+          "the y-root rank (F99-5.1), and keeps the two points at infinity in the same map",
+          len(_bfin) == 4 and all(r["multiplicity"] == 1 for r in _bfin)
+          and all(re.match(r"^aff\|x=-?\d+(/\d+)?\|yrank=[01]$", r["ramification_point_id"])
+                  for r in _bfin)
+          and len(_binf) == 2 and all(r["multiplicity"] == 4 for r in _binf)
+          and {r["ramification_point_id"] for r in _binf} == {"inf_plus", "inf_minus"},
+          [(r["ramification_point_id"], r["multiplicity"]) for r in _brecs])
+    check(f"§11 [{_stem}] every lane B record carries an exact witness and a source digest, and no "
+          "float form appears anywhere in the map (fail-closed, exact algebra only)",
+          all(r["exact_image_witness"]["schema_id"] == R1P.IMAGE_WITNESS_SCHEMA_ID
+              and re.match(r"^[0-9a-f]{64}$", r["source_locus_ref"]["digest"])
+              and r["source_locus_ref"]["ref_status"] == "LEGACY_UNVERIFIED_REF" for r in _brecs)
+          and not re.search(r"\d+\.\d+", json.dumps(_bmap)),
+          [r["source_locus_ref"] for r in _brecs[:1]])
+    check(f"§11 [{_stem}] M-8: lane B's payload is not dressed up as a frozen-era native payload -- it "
+          "carries the point-map schema id and no frozen-era native/predicate schema id",
+          _bmap["point_map_schema_id"] == R1P.POINT_MAP_SCHEMA_ID
+          and "native_schema_id" not in json.dumps(_bmap) and "/v18" not in json.dumps(_bmap))
+
+    _apayload, _aerr = _run_producer(_stem)
+    check(f"§11 [{_stem}] lane A's producer is available for the cross-lane comparison", _apayload is not None, _aerr)
+    if _apayload is None:
+        continue
+    _arecs = _apayload["point_map"]["records"]
+    _a_by_id = {r["ramification_point_id"]: (r["branch_value"], r["multiplicity"]) for r in _arecs}
+    _b_by_id = {r["ramification_point_id"]: (r["branch_value"], r["multiplicity"]) for r in _brecs}
+    check(f"§11 [{_stem}] CROSS-LANE: the two INDEPENDENTLY derived per-point maps agree point by "
+          "point, token and multiplicity (lane A squares mu = a(x0)+p(x0)y; lane B locates the fibres "
+          "of s with s^2 = -C). This is a cross-check of two finite constructions -- NOT a "
+          "verification, and NOT W-6 closure",
+          _a_by_id == _b_by_id, (_a_by_id, _b_by_id))
+
+    for _rname, _route in ROUTES:
+        _b_divisor = _route.aggregate_pushforward(_brecs)
+        _a_divisor = _route.aggregate_pushforward(_arecs)
+        check(f"§11 [{_stem}][{_rname}] W6-C4: the RECEIVER re-sums BOTH per-point maps itself; neither "
+              "producer ships an aggregate, and the two receiver-computed divisors agree",
+              _b_divisor == _a_divisor and _b_divisor is not None
+              and sum(_b_divisor.values()) == 12,
+              (_a_divisor, _b_divisor))
+        check(f"§11 [{_stem}][{_rname}] neither producer's output contains a self-declared branch "
+              "divisor field (W6-C4)",
+              "branch_divisor" not in json.dumps(_bmap) and "branch_divisor" not in json.dumps(_apayload["point_map"]))
+
+        _sources = {"lane_a": PRODUCER_SRC, "lane_b": LANEB_SRC,
+                    "receiver_r1p": "", "receiver_r2p": ""}
+        # lane A's map judged against lane B's INDEPENDENT divisor, and vice versa.
+        _rep_a = _route.run_receiver_route(_arecs, _apayload["point_map"]["frame"],
+                                           _apayload["point_map"]["declared_support"], _b_divisor, _sources)
+        _rep_b = _route.run_receiver_route(_brecs, _bmap["frame"], _bmap["declared_support"],
+                                           _a_divisor, _sources)
+        check(f"§11 [{_stem}][{_rname}] with lane B present, AGGREGATE is no longer ABSENT: it is PASS "
+              "in BOTH directions -- the AGGREGATE plane closes",
+              _rep_a["gates"]["AGGREGATE"] == "PASS" and _rep_b["gates"]["AGGREGATE"] == "PASS",
+              (_rep_a["details"]["AGGREGATE"], _rep_b["details"]["AGGREGATE"]))
+        check(f"§11 [{_stem}][{_rname}] KEY / COVERAGE / INDEPENDENCE also PASS on lane B's own map",
+              all(_rep_b["gates"][g] == "PASS" for g in ("KEY", "COVERAGE", "INDEPENDENCE")),
+              _rep_b["gates"])
+        check(f"§11 [{_stem}][{_rname}] IMAGE-KEY passes on every lane B record -- each token is "
+              "recomputed by the receiver from that point's own exact image datum",
+              all(e["IMAGE-KEY"] == "PASS" for e in _rep_b["details"]["IMAGE"]["records"].values()),
+              {k: v.get("IMAGE-KEY") for k, v in _rep_b["details"]["IMAGE"]["records"].items()})
+        check(f"§11 [{_stem}][{_rname}] AND YET the overall verdict stays UNKNOWN on both maps, because "
+              "IMAGE-MU is still UNKNOWN: W-6 is OPEN, the frozen final comparison is NOT reached, and "
+              "a complete lane B did not move that (便99 F99-5.1 verbatim)",
+              _rep_a["overall"] == "UNKNOWN" and _rep_b["overall"] == "UNKNOWN"
+              and _rep_a["gates"]["IMAGE"] == "UNKNOWN" and _rep_b["gates"]["IMAGE"] == "UNKNOWN"
+              and all(e["IMAGE-MU"] == "UNKNOWN" for e in _rep_b["details"]["IMAGE"]["records"].values())
+              and _rep_b["w6_closed"] is False and _rep_b["final_comparison_reached"] is False
+              and _rep_a["final_comparison_reached"] is False,
+              (_rep_a["gates"], _rep_b["gates"]))
+
+        # --- mutation edges on lane B's REAL map, both sides of each predicate
+        _mut = copy.deepcopy(_brecs)
+        for _r in _mut:
+            if _r["ramification_point_id"].endswith("yrank=0") and _r["branch_value"].endswith("|0"):
+                _r["branch_value"] = _r["branch_value"][:-1] + "1"
+                break
+        check(f"§11 [{_stem}][{_rname}] mutation (firing edge): flipping one lane B token's root rank "
+              "while leaving its exact image datum alone is caught by IMAGE-KEY",
+              any(e["IMAGE-KEY"] == "FAIL" for e in _route.image_gate(_mut)[1]["records"].values()),
+              _route.image_gate(_mut)[1]["records"])
+        check(f"§11 [{_stem}][{_rname}] mutation (non-firing edge): the untampered lane B map has no "
+              "IMAGE-KEY FAIL anywhere",
+              not any(e["IMAGE-KEY"] == "FAIL"
+                      for e in _route.image_gate(_brecs)[1]["records"].values()))
+        _mult = copy.deepcopy(_brecs)
+        _mult[0]["multiplicity"] += 1
+        check(f"§11 [{_stem}][{_rname}] mutation (firing edge): perturbing ONE multiplicity in lane B's "
+              "map makes the two independently computed divisors disagree -- a well-formed divisor "
+              "disagreement, i.e. the one thing reported as a W-6 FAIL (O-2)",
+              _route.aggregate_gate(_mult, _a_divisor)[0] == "FAIL",
+              _route.aggregate_gate(_mult, _a_divisor)[1])
+        _drop = [r for r in copy.deepcopy(_brecs) if r["ramification_point_id"] != _brecs[0]["ramification_point_id"]]
+        check(f"§11 [{_stem}][{_rname}] mutation (firing edge): dropping one lane B ramification point "
+              "is MALFORMED at COVERAGE -- an omitted point is never 'no ramification there'",
+              _route.coverage_gate(_drop, _bmap["declared_support"])[0] == "MALFORMED",
+              _route.coverage_gate(_drop, _bmap["declared_support"])[1])
+        check(f"§11 [{_stem}][{_rname}] mutation (non-firing edge): the untampered lane B map passes "
+              "COVERAGE and AGGREGATE (the detector is not firing on everything)",
+              _route.coverage_gate(_brecs, _bmap["declared_support"])[0] == "PASS"
+              and _route.aggregate_gate(_brecs, _a_divisor)[0] == "PASS")
+
+# lane B's own fail-closed edges
+for _stem, _expected in (("checker_neg_01", "ABSENT"), ("neg_divisor_orientation_27", "INTEGRITY_STOP")):
+    with open(os.path.join(FIXTURES, _stem + ".json"), encoding="utf-8") as f:
+        _cand = json.load(f)
+    _bm = LANEB.build_w6_point_map_lane_b(_cand)
+    check(f"§11 lane B fail-closed edge [{_stem}]: status {_expected} and NOT ONE ramification point is "
+          "named -- lane B gates its map on ITS OWN decision chain, exactly as lane A does on its own",
+          _bm["status"] == _expected and _bm["records"] == [] and _bm["declared_support"] == [],
+          (_bm["status"], _bm.get("reason")))
+
+# ============================================================================
+# §12 THE FREEZE RECEIPT (Sol 便99 F99-5.2 / 裁定412)
+#
+# The receipt is a machine-generated artifact; this section re-derives it and
+# fixes its exclusion list, so that no later edit can quietly widen what the
+# freeze PASS authorised.
+# ============================================================================
+
+import hashlib
+
+RECEIPT_JSON = os.path.join(REPO, "search", "certs", "ep_freeze_receipt_sol99_20260802.json")
+with open(RECEIPT_JSON, encoding="utf-8") as f:
+    RECEIPT = json.load(f)
+
+_gen = subprocess.run([sys.executable, os.path.join(HERE, "gen_ep_freeze_receipt_sol99.py"), "--check"],
+                      cwd=REPO, capture_output=True, text=True, encoding="utf-8", errors="replace")
+check("§12 the receipt reproduces: its generator re-derives every digest from the repository files and "
+      "from Sol's own declared block, and agrees with what is on disk (no hand-written value)",
+      _gen.returncode == 0, (_gen.returncode, _gen.stdout[-300:], _gen.stderr[-300:]))
+
+_recomputed = {}
+for _b in RECEIPT["bound_artifacts"]:
+    with open(os.path.join(REPO, *_b["path"].split("/")), "rb") as f:
+        _recomputed[_b["artifact_id"]] = hashlib.sha256(f.read()).hexdigest()
+check("§12 the four bound artifacts (spec v20 / contract v15 / manifest v15 / selfaudit v11) hash to "
+      "exactly what the receipt binds, recomputed here independently of the generator",
+      all(_recomputed[b["artifact_id"]] == b["sha256"] and b["agrees"] is True
+          for b in RECEIPT["bound_artifacts"])
+      and len(RECEIPT["bound_artifacts"]) == 4,
+      _recomputed)
+check("§12 the receipt's freeze id and receipt id are the ones Sol named in 便99 F99-5.2",
+      RECEIPT["freeze_id"] == "mb/ninfty-stage2-freeze/92025385-8f26416b-72623050"
+      and RECEIPT["receipt_id"]
+      == "mb/ninfty-stage2-freeze-receipt/sol99/92025385-8f26416b-72623050",
+      (RECEIPT["freeze_id"], RECEIPT["receipt_id"]))
+check("§12 the byte-frozen predecessors v19/v14/v14 are recorded as history and are NOT overwritten "
+      "(the new trio is an added plane, not a replacement)",
+      len(RECEIPT["byte_frozen_predecessors"]) == 3
+      and all(_b["path"].endswith(("v19.md", "v14.md")) for _b in RECEIPT["byte_frozen_predecessors"]))
+for _excluded in ("W6_CLOSED=true", "IMAGE-MU=PASS", "EP detector activation / mint",
+                  "positive-control event", "candidate acceptance or Freeze 2 unlocking"):
+    check(f"§12 the receipt names {_excluded!r} as NOT authorised by this freeze PASS",
+          _excluded in RECEIPT["not_authorized_by_this_receipt"],
+          RECEIPT["not_authorized_by_this_receipt"])
+check("§12 the receipt keeps EP's own label unchanged: uncalibrated/UNKNOWN, W-6 not closed, IMAGE-MU "
+      "UNKNOWN, calibrated_detector false (RC-4: a new producer, a new suite and a new green move none "
+      "of these)",
+      RECEIPT["ep_status"] == "uncalibrated/UNKNOWN" and RECEIPT["w6_closed"] is False
+      and RECEIPT["image_mu"] == "UNKNOWN" and RECEIPT["calibrated_detector"] is False,
+      {k: RECEIPT[k] for k in ("ep_status", "w6_closed", "image_mu", "calibrated_detector")})
+check("§12 RC-1/RC-2: the receipt states that it binds only its own fields and that check counts need "
+      "the suite log's separate provenance",
+      "RC-1" in RECEIPT["citation_convention"] and "suite log" in RECEIPT["citation_convention"])
+
 n_fail = sum(1 for _, ok, _ in RESULTS if not ok)
 print(f"\n{len(RESULTS)} checks, {n_fail} FAIL")
 raise SystemExit(1 if n_fail else 0)

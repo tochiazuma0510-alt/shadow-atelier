@@ -348,7 +348,23 @@ PLANE_ERA = {
     "nf_route": "CURRENT",
     "decision_lane_predicate": "CURRENT",
     "control_plane": "CURRENT",
+    # 【chg 便99 F99-5.2 / 裁定412】the two ERA_W6KEY planes declared by
+    # governing spec sec.5.3.4 (M-7) and dependency manifest Y-3c. They were
+    # DECLARED first and are ADOPTED only once a commander freeze receipt
+    # binds the v20/v15/v15 trio (see _w6key_adoption below). Until then they
+    # are recorded PENDING_ADOPTION and counted as NEITHER PASS NOR FAIL --
+    # reading PENDING_ADOPTION as PASS is fail-open and is forbidden (M-7).
+    "w6_point_map_producer": "W6KEY",
+    "w6_key_route": "W6KEY",
 }
+# The W6KEY era's three documents, and the receipt whose existence and
+# self-consistency effect the PENDING_ADOPTION -> ADOPTED transition.
+W6KEY_ERA_DOC_PATHS = {
+    "predicate_spec_id": "docs/week4-NInfty_stage2_spec_v20.md",
+    "verifier_contract_id": "docs/mb_ninfty_verifier_contract_v15.md",
+    "dependency_manifest_schema_id": "docs/mb_dependency_manifest_v15.md",
+}
+W6KEY_FREEZE_RECEIPT_PATH = "search/certs/ep_freeze_receipt_sol99_20260802.json"
 # Live (NON-frozen) sources carrying an `[ep-era-declaration]` marker. The
 # frozen route verifier is deliberately absent: its bytes may not be
 # touched, so its era is read from the EXPECTED_PINS block it already has.
@@ -356,10 +372,16 @@ ERA_MARKER_SOURCES = {
     "decision_lane_predicate": ["search/ninfty-checker.py", "search/ninfty-searcher-v2.mjs"],
     "nf_route": ["search/ninfty-verifier-w6-r3nf.py"],
     "native_payload_schema": ["search/ninfty-searcher-v2.mjs"],
+    # 【chg 便99】both per-point producers and both outer receiver routes.
+    "w6_point_map_producer": ["search/ninfty-w6-pointmap-lanea.mjs",
+                              "search/ninfty-w6-pointmap-laneb.py"],
+    "w6_key_route": ["search/ninfty-w6-key-gate-r1p.py", "search/ninfty-w6-key-gate-r2p.py"],
 }
 _ERA_KEYS = ("predicate_spec_id", "verifier_contract_id", "dependency_manifest_schema_id")
 _MARKER_RE = re.compile(
-    r"\[ep-era-declaration\]\s+plane=(?P<plane>[a-z_]+)\s+"
+    # 【chg 便99】plane names may carry digits (`w6_point_map_producer`);
+    # the previous class silently matched nothing for those planes.
+    r"\[ep-era-declaration\]\s+plane=(?P<plane>[a-z0-9_]+)\s+"
     r"predicate_spec_id=(?P<predicate_spec_id>\S+)\s+"
     r"verifier_contract_id=(?P<verifier_contract_id>\S+)\s+"
     r"dependency_manifest_schema_id=(?P<dependency_manifest_schema_id>\S+)")
@@ -395,12 +417,83 @@ def _era_definitions():
         "verifier_contract_id": (mine.get("verifier_contract") or {}).get("artifact_id"),
         "dependency_manifest_schema_id": (mine.get("dependency_manifest") or {}).get("artifact_id"),
     }
-    if any(v is None for v in list(frozen.values()) + list(current.values())):
+    w6key = {k: _read_declared_id(W6KEY_ERA_DOC_PATHS[k], _ERA_KEY_SLUGS[k], errors) for k in _ERA_KEYS}
+    if any(v is None for v in list(frozen.values()) + list(current.values()) + list(w6key.values())):
         errors.append("one or more era ids could not be read -- the matrix cannot be evaluated (fail-closed)")
-    elif frozen == current:
-        errors.append("FROZEN and CURRENT resolved to the SAME trio -- the matrix would be vacuous; "
+    elif frozen == current or current == w6key or frozen == w6key:
+        errors.append("two eras resolved to the SAME trio -- the matrix would be vacuous; "
                       "refusing to report PASS on a check that cannot discriminate")
-    return {"FROZEN": frozen, "CURRENT": current}, errors
+    return {"FROZEN": frozen, "CURRENT": current, "W6KEY": w6key}, errors
+
+
+def _w6key_adoption(eras, errors):
+    """(state, detail) with state in ADOPTED / PENDING_ADOPTION / FAIL.
+
+    Governing spec sec.5.3.4 M-7 and dependency manifest Y-3c: the ERA_W6KEY
+    planes are DECLARED by the spec but stay PENDING_ADOPTION -- counted as
+    neither PASS nor FAIL -- until a commander freeze receipt binds this
+    exact trio. Sol 便99 F99-5.2 issued the freeze gate PASS and named the
+    receipt id; 裁定412 ordered the receipt.
+
+    Fail-closed reading of the three cases:
+      receipt ABSENT              -> PENDING_ADOPTION (the pre-receipt state)
+      receipt PRESENT + consistent-> ADOPTED (planes evaluated like any other)
+      receipt PRESENT + LYING     -> FAIL. A receipt whose bound digests do
+                                     not reproduce from the receiver's own
+                                     copies is worse than no receipt, and is
+                                     never downgraded to 'pending'.
+    """
+    rel = W6KEY_FREEZE_RECEIPT_PATH
+    path = os.path.join(os.path.dirname(HERE), rel)
+    if not os.path.exists(path):
+        return "PENDING_ADOPTION", {"receipt": rel, "present": False,
+                                    "note": "no commander freeze receipt binds the W6KEY trio yet"}
+    try:
+        with open(path, "rb") as f:
+            receipt = json.loads(f.read().decode("utf-8"))
+    except (OSError, ValueError) as exc:
+        errors.append("{0}: unreadable/unparseable freeze receipt ({1})".format(rel, exc))
+        return "FAIL", {"receipt": rel, "present": True, "readable": False}
+    local, bound = [], receipt.get("bound_artifacts")
+    if not isinstance(bound, list) or not bound:
+        errors.append("{0}: carries no bound_artifacts".format(rel))
+        return "FAIL", {"receipt": rel, "present": True, "bound_artifacts": None}
+    for entry in bound:
+        rel_path = (entry or {}).get("path")
+        claimed = (entry or {}).get("sha256")
+        try:
+            with open(os.path.join(os.path.dirname(HERE), *str(rel_path).split("/")), "rb") as f:
+                mine = hashlib.sha256(f.read()).hexdigest()
+        except OSError as exc:
+            errors.append("{0}: bound artifact {1!r} unreadable by the receiver ({2})".format(rel, rel_path, exc))
+            local.append({"path": rel_path, "agrees": False})
+            continue
+        agrees = (mine == claimed)
+        if not agrees:
+            errors.append("{0}: bound artifact {1!r} does not reproduce the receipt's digest "
+                          "(receiver recomputed {2})".format(rel, rel_path, mine))
+        local.append({"path": rel_path, "artifact_id": (entry or {}).get("artifact_id"), "agrees": agrees})
+    declared_era = ((receipt.get("era_adoption") or {}).get("era")) or {}
+    era_agrees = (declared_era == eras.get("W6KEY"))
+    if not era_agrees:
+        errors.append("{0}: the receipt adopts era {1}, the receiver's W6KEY documents declare {2}"
+                      .format(rel, declared_era, eras.get("W6KEY")))
+    planes_declared = sorted(((receipt.get("era_adoption") or {}).get("planes") or {}))
+    planes_expected = sorted(p for p, e in PLANE_ERA.items() if e == "W6KEY")
+    planes_agree = (planes_declared == planes_expected)
+    if not planes_agree:
+        errors.append("{0}: the receipt adopts planes {1}, the matrix declares {2}"
+                      .format(rel, planes_declared, planes_expected))
+    ok = era_agrees and planes_agree and all(e.get("agrees") for e in local)
+    detail = {"receipt": rel, "present": True, "receipt_id": receipt.get("receipt_id"),
+              "freeze_id": receipt.get("freeze_id"), "bound_artifacts": local,
+              "adopted_era": declared_era, "adopted_planes": planes_declared,
+              "scope_note": ("this receipt adopts the W6KEY specification plane and the lane B producer "
+                             "implementation scope ONLY. It explicitly does NOT authorise W6_CLOSED=true, "
+                             "IMAGE-MU=PASS, EP detector activation/mint, a positive-control event, or "
+                             "Freeze 2 (Sol 便99 F99-5.2)."),
+              "not_authorized": receipt.get("not_authorized_by_this_receipt")}
+    return ("ADOPTED" if ok else "FAIL"), detail
 
 
 def _frozen_verifier_declared_era(errors):
@@ -514,6 +607,46 @@ def _check_payload_era_matrix(raw, control_plane_detail):
         planes[plane] = {"status": "PASS" if plane_ok else "FAIL", "required_era": PLANE_ERA[plane],
                          "required": exp, "sources": per_source}
 
+    # --- the two ERA_W6KEY planes (spec sec.5.3.4 M-7 / manifest Y-3c) -----
+    adoption_errors = []
+    adoption_state, adoption_detail = _w6key_adoption(eras, adoption_errors)
+    for plane in ("w6_point_map_producer", "w6_key_route"):
+        exp = _expected(plane)
+        entry = {"required_era": PLANE_ERA[plane], "required": exp, "adoption": adoption_state,
+                 "adoption_detail": adoption_detail}
+        if adoption_state == "PENDING_ADOPTION":
+            entry["status"] = "PENDING_ADOPTION"
+            entry["note"] = ("declared by the spec, not yet adopted: counted as NEITHER PASS NOR FAIL "
+                             "(M-7). Reading it as PASS would be fail-open.")
+            planes[plane] = entry
+            continue
+        per_source, plane_ok = {}, (adoption_state == "ADOPTED")
+        if adoption_state != "ADOPTED":
+            errors.extend(adoption_errors)
+            adoption_errors = []
+        for rel in ERA_MARKER_SOURCES.get(plane) or []:
+            found = _marker_eras(rel, errors).get(plane) or []
+            if len(found) != 1:
+                plane_ok = False
+                errors.append("plane {0!r}: {1} carries {2} '[ep-era-declaration] plane={0}' markers, "
+                              "expected exactly 1 (a missing marker is FAIL, never 'compatible')"
+                              .format(plane, rel, len(found)))
+                per_source[rel] = {"status": "FAIL", "markers_found": len(found)}
+                continue
+            got = found[0]
+            src_ok = (got == exp)
+            if not src_ok:
+                plane_ok = False
+                errors.append("plane {0!r}: {1} declares {2}, the matrix requires {3}"
+                              .format(plane, rel, got, exp))
+            per_source[rel] = {"status": "PASS" if src_ok else "FAIL", "declared": got}
+        if not (ERA_MARKER_SOURCES.get(plane) or []):
+            plane_ok = False
+            errors.append("plane {0!r}: no era-declaring source registered (fail-closed)".format(plane))
+        entry["status"] = "PASS" if plane_ok else "FAIL"
+        entry["sources"] = per_source
+        planes[plane] = entry
+
     observed, obs_errors = _payload_era_from_raw(raw)
     errors.extend(obs_errors)
     exp_spec = _expected("native_payload_schema")["predicate_spec_id"]
@@ -549,7 +682,11 @@ def _check_payload_era_matrix(raw, control_plane_detail):
                  "control_plane_docs_receipt_binding (manifest Y-3a); here only its ERA is checked (Y-3b)"),
     }
 
-    overall_ok = (not errors) and all(v.get("status") == "PASS" for v in planes.values())
+    # M-7: a PENDING_ADOPTION plane is counted as NEITHER PASS NOR FAIL. It is
+    # excluded from the conjunction -- and only from the conjunction: it can
+    # never turn another plane's FAIL, or a recorded error, into a PASS.
+    overall_ok = (not errors) and all(v.get("status") == "PASS" for v in planes.values()
+                                      if v.get("status") != "PENDING_ADOPTION")
     return overall_ok, {
         "ok": overall_ok,
         "schema_ref": "governing spec sec.5.3.4 PAYLOAD_ERA_MATRIX / dependency manifest Y-3b",

@@ -484,11 +484,67 @@ _era_ok, _era = full._check_payload_era_matrix(_RAW, {"ok": True, "documents": {
         ("predicate_spec", "mb/ninfty-stage2-predicate/v19"),
         ("verifier_contract", "mb/ninfty-verifier-contract/v14"),
         ("dependency_manifest", "mb/dependency-manifest/v14"))}})
-check("§7 all five planes are evaluated and named (no plane may be silently skipped)",
-      sorted(_era["planes"]) == ["control_plane", "decision_lane_predicate", "frozen_route_verifier",
-                                 "native_payload_schema", "nf_route"],
+check("§7 EVERY plane the matrix declares is evaluated and named (no plane may be silently skipped) -- "
+      "the expected set is read from the module's own PLANE_ERA, so adding a plane there without "
+      "evaluating it fails here",
+      sorted(_era["planes"]) == sorted(full.PLANE_ERA),
+      (sorted(_era.get("planes", {})), sorted(full.PLANE_ERA)))
+check("§7 the classic five planes are still among them (便99 の W6KEY 追加は additive であって、"
+      "既存 plane の置換ではない)",
+      set(_era["planes"]) >= {"control_plane", "decision_lane_predicate", "frozen_route_verifier",
+                              "native_payload_schema", "nf_route"},
       sorted(_era.get("planes", {})))
-check("§7 the two eras are READ from files and are genuinely different -- a matrix that cannot "
+check("§7 the two ERA_W6KEY planes are evaluated too, and each is PASS / FAIL / PENDING_ADOPTION -- "
+      "never absent, never silently 'compatible' (spec sec.5.3.4 M-7)",
+      all(_era["planes"].get(p, {}).get("status") in ("PASS", "FAIL", "PENDING_ADOPTION")
+          for p in ("w6_point_map_producer", "w6_key_route")),
+      {p: _era["planes"].get(p, {}).get("status") for p in ("w6_point_map_producer", "w6_key_route")})
+# --- M-7 both edges: PENDING_ADOPTION vs a receipt that does not reproduce --
+_CP = {"ok": True, "documents": {k: {"pinned_artifact_id": v} for k, v in (
+    ("predicate_spec", "mb/ninfty-stage2-predicate/v19"),
+    ("verifier_contract", "mb/ninfty-verifier-contract/v14"),
+    ("dependency_manifest", "mb/dependency-manifest/v14"))}}
+_real_receipt_path = full.W6KEY_FREEZE_RECEIPT_PATH
+try:
+    full.W6KEY_FREEZE_RECEIPT_PATH = "search/certs/_no_such_freeze_receipt.json"
+    _pend_ok, _pend = full._check_payload_era_matrix(_RAW, _CP)
+    check("§7 M-7 non-firing edge: with NO freeze receipt the two W6KEY planes are PENDING_ADOPTION, "
+          "and that is counted as NEITHER PASS NOR FAIL -- the rest of the matrix still reports ok",
+          _pend_ok is True
+          and all(_pend["planes"][p]["status"] == "PENDING_ADOPTION"
+                  for p in ("w6_point_map_producer", "w6_key_route")),
+          (_pend_ok, {p: _pend["planes"][p]["status"] for p in ("w6_point_map_producer", "w6_key_route")}))
+
+    _probe = os.path.join(HERE, "certs", "_tmp_w6key_receipt_probe.json")
+    with open(_probe, "w", encoding="utf-8") as _fh:
+        json.dump({"receipt_id": "probe", "freeze_id": "probe",
+                   "bound_artifacts": [{"artifact_id": "mb/ninfty-stage2-predicate/v20",
+                                        "path": "docs/week4-NInfty_stage2_spec_v20.md",
+                                        "sha256": "0" * 64}],
+                   "era_adoption": {"era": {}, "planes": {}}}, _fh)
+    try:
+        full.W6KEY_FREEZE_RECEIPT_PATH = "search/certs/_tmp_w6key_receipt_probe.json"
+        _lie_ok, _lie = full._check_payload_era_matrix(_RAW, _CP)
+        check("§7 M-7 firing edge: a freeze receipt whose bound digest does NOT reproduce from the "
+              "receiver's own copy is a FAIL, never a downgrade to 'pending' -- a lying receipt is "
+              "worse than no receipt",
+              _lie_ok is False
+              and all(_lie["planes"][p]["status"] == "FAIL"
+                      for p in ("w6_point_map_producer", "w6_key_route"))
+              and any("does not reproduce" in e for e in _lie["errors"]),
+              (_lie_ok, {p: _lie["planes"][p]["status"] for p in ("w6_point_map_producer", "w6_key_route")},
+               _lie["errors"][:2]))
+    finally:
+        os.remove(_probe)
+finally:
+    full.W6KEY_FREEZE_RECEIPT_PATH = _real_receipt_path
+check("§7 the real receipt is restored and the W6KEY planes are ADOPTED and PASS again "
+      "(the probes above left no state behind)",
+      all(full._check_payload_era_matrix(_RAW, _CP)[1]["planes"][p]["status"] == "PASS"
+          for p in ("w6_point_map_producer", "w6_key_route")),
+      {p: full._check_payload_era_matrix(_RAW, _CP)[1]["planes"][p] for p in ("w6_key_route",)})
+
+check("§7 the two eras are READ from files and are genuinely different -- a matrix that cannot"
       "discriminate must not report PASS",
       _era["eras"]["FROZEN"] != _era["eras"]["CURRENT"], _era["eras"])
 check("§7 the genuine artifact set satisfies the matrix on every plane "

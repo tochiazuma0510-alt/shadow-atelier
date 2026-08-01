@@ -26,6 +26,12 @@ reads only the mathematical schema document -- which is exactly what Sol
 permits to be common ("the only thing in common is the mathematical
 schema").
 
+ERA (governing spec sec.5.3.4 / dependency manifest Y-3c): this file belongs
+to the plane `w6_key_route`, era ERA_W6KEY. The plane was declared first and
+adopted by the commander freeze receipt for the v20/v15/v15 trio (Sol 便99
+F99-5.2). Adoption changes nothing about W-6: it is still OPEN.
+  [ep-era-declaration] plane=w6_key_route predicate_spec_id=mb/ninfty-stage2-predicate/v20 verifier_contract_id=mb/ninfty-verifier-contract/v15 dependency_manifest_schema_id=mb/dependency-manifest/v15
+
 Status algebra is the same fail-closed one: schema/provenance defect ->
 MALFORMED, undecidable -> UNKNOWN, well-formed divisor disagreement ->
 FAIL, and never a float fallback or an orbit-level key.
@@ -525,7 +531,14 @@ def aggregate_gate(records, lane_b_branch_map):
 def independence_gate(source_texts):
     findings = []
     source_texts = source_texts or {}
+    # 【chg 便99 F99-5.1】additive rows: the lane B per-point producer is an
+    # independent producer, not a port of lane A's, so neither producer may
+    # pull in the other's module, canonicaliser or token helpers.
     for label, forbidden in (("lane_a", "ninfty-nf-laneb"), ("lane_b", "ninfty-nf-lanea"),
+                             ("lane_a", "ninfty-w6-pointmap-laneb"),
+                             ("lane_b", "ninfty-w6-pointmap-lanea"),
+                             ("lane_b", "ninfty-searcher-v2"),
+                             ("lane_b", "ninfty-native-a-cli"),
                              ("receiver_r1p", "ninfty-w6-key-gate-r2p"),
                              ("receiver_r2p", "ninfty-w6-key-gate-r1p")):
         if forbidden in (source_texts.get(label) or ""):
