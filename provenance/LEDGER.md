@@ -1141,3 +1141,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - §4: checker_native+定理 A/B 採択可。再発効の残 = native 無条件 mint 是正+NF 実装 → 真 bundle → commit_generation → CI。
 - §5: CV-1〜8 方向承認。CV-9 への追加指定 = 二検問/三値/変更時差戻しの規範文固定+型付け・errata・seal 回収可能性の追加。
 - 次波: C-β 修文 2 件・FAM-U α 持上げ・CV-9 規範文(台帳 v1.1)・NF 実装(EP)。
+
+## 2026-08-01 EP NF 実装完了(裁定 320)— ★ 両 lane 独立実装が同一 nf_digest(定理 A/B 一意性の実演)・N-1〜5 全 PASS・mint ゲート稼働・E-5 C-1〜5 両 lane 同時
+- 新規: computeNormalFormLaneA(mjs)+ninfty-nf-laneb.py(相互非 import)+ninfty-nf-crosscheck.py(第三スクリプト・別プロセス比較)+test 32/32+cert = ep_nf_20260801.json(conventions_used 先行採用)。回帰 50/184/227/51 全 green。
+- genuine 3 本: NF digest 完全一致・N-1〜5 全 PASS。β: 両 lane ABSENT(mint ゲート = T-1&T-2&Pell)+decision_lane_concordance。E-5 は REJECT[6]→INTEGRITY[27] 再送・DERIVED 化・両 lane 同時(C-5 規律)。
+- 要確認 4 件(次便/次工程): ①C-square 規約は①(非分解)採用・宣言済 ②INTEGRITY[27] は暫定採番(spec 凍結への追記は Sol 確認)③total_coverage 再定義は設計のみ(未配線)④旧 3-loci bundle 経路の無条件 mint は次工程(据え置き明示)。
+- 残 = 真 A/B bundle 生成 → commit_generation(本番 provisioning・研究者認可済)→ CI 経路 → 便 95 再発効請求 v10。

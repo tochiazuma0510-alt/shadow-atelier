@@ -236,6 +236,24 @@ C-5  ★独立性の保全: C-1..C-4 は spec/契約レベルの条項として�
 - **UNKNOWN-1**: 本稿は $-C$ が $\mathbb Q$ の平方になる candidate が campaign 内に実在するかを調べていない(その場合 `branch` の $v^2+C$ が 2 成分に分裂する。§4.1 の N-4 は両方を扱えるが、**fixture が無い**)。
 - **UNKNOWN-2**: 定理 A/B の検証は genuine fixture `checker_pos_01` **1 本**と reject 例 beta **1 本**のみ。二例は証明を代替しない(証明は §2 にあり、fixture は独立系統の確認)。
 - **UNKNOWN-3**: NF(§4.1)を採ったときの `chart_overlap_witnesses` / `total_coverage_and_no_extra_component_witness` への波及は本稿の範囲外。特に `ram_infinite` を成分として数えると **coverage の全成分数が 2(A の 3-loci)から 4(finite 1 + infinite 2 + branch 3)へ変わる**ので、§4.3 の総和条項の再点検が要る。
+## 7. §4.3 総和条項の再点検(UNKNOWN-3 の回答・2026-08-01 追記)
+
+**司令塔指示 item 5 への回答。** NF 採用により旧 3-loci(finite の a-pair/p/weierstrass の 3 成分)が NF の 4 スロット(`ram_finite` 1・`ram_infinite` 2・`branch` 3・`non_ramification_certificates` は非分岐証跡なので coverage 対象外)に再編されたことで、**「全成分数 3→6」という UNKNOWN-3 の懸念は誤りだった** — 正しくは **「coverage 対象の成分数は、NF の 2 divisor object(`ram_finite`+`ram_infinite`=R_μ 側 3 成分、`branch`=μ_*R_μ 側 3 成分)にそれぞれ分かれる」**。
+
+- `ramification_divisor_on_C` 側の coverage: **3 成分**(`ram_finite` の $\pi^*V(d)$・`ram_infinite` の $\infty_+$・$\infty_-$)。次数は $\pi^*V(d)$ が $2\deg(d)\cdot\text{coefficient}=2\cdot2\cdot1=4$(N-2 が保証)、$\infty_\pm$ が各 $4$(N-3 が保証)で、合計 $4+4+4=12=\deg R_\mu$。
+- `branch_divisor_on_P1` 側の coverage: `branch` の 3 成分(v・v²+C・∞)がそのまま total_coverage の対象。N-4 の次数和検査(deg(gen)·coeff の総和 + at_infinity.coeff = 12)がこれを保証する。
+- `non_ramification_certificates`(旧 p-locus/weierstrass-locus)は **R_μ の成分ではない**(定理 B の帰結)ので、coverage witness の対象から**除外**するのが正しい。§3.2 の是正(mint gate)と合わせ、`total_coverage_and_no_extra_component_witness` を NF ベースへ書き換える際は「2 divisor object × 各 3 成分」という新しい total_coverage 契約になる — 旧「1 object あたり 3 loci」からの単純な数合わせではなく、**object の意味(R_μ vs μ_*R_μ)ごとに再定義**する必要がある。
+- **この再点検は bundle/commit_generation 経路の再配線を含まない**(司令塔指示: 残工程は別便)。ここでは NF 内部の N-1..N-5 検算式が新 coverage 契約を代替的に保証していることの確認に留める。UNKNOWN-3 は本節により **設計レベルでは解消**、**実装(bundle 側の `total_coverage_and_no_extra_component_witness` 生成コード)は未着手のまま**(次工程)。
+
+## 8. 実装状況(2026-08-01 実装担当追記)
+
+- **NF 両 lane 独立実装済み**: lane A = `search/ninfty-searcher-v2.mjs` の `computeNormalFormLaneA`(+ CLI `search/ninfty-nf-lanea-cli.mjs`)。lane B = `search/ninfty-nf-laneb.py` の `compute_normal_form_lane_b`(`search/ninfty-checker.py`/`search/ninfty-checker-native.py` という lane B 自身の既存ファイルのみに依存、lane A のコードは import していない)。
+- **N-1..N-5 判定器**: `search/ninfty-nf-crosscheck.py`(第三のスクリプト・両 lane の CLI を**別プロセス**として起動し出力 JSON のみを比較・いずれのコードも import しない)。
+- **mint ゲート**: 両 lane とも「REJECT ⇒ ABSENT / INTEGRITY_STOP ⇒ INTEGRITY_STOP(mint しない)/ ACCEPT(全 prerequisite + 定理強制恒等式 PASS)⇒ PRESENT」を実装(P94-4.1 準拠)。
+- **E-5 C-1..C-5**: lane B(`search/ninfty-checker.py`)を修正 — E-5 を DERIVED として扱い(C-1)、`unknown` リストから削除(C-2)、attested=False が導出値と矛盾する場合は REJECT[6] ではなく新規 INTEGRITY コード `divisor-orientation-attestation-mismatch`[27] へ再送(C-3)、attestation 欠落は REJECT しない(C-4、従来どおり)。lane A(`search/ninfty-searcher-v2.mjs`)側も同じ理由で REJECT[6]→INTEGRITY[27] へ修正(C-3 は両 lane 同時適用)。
+- **テスト**: `search/test_ninfty_nf.py`(genuine fixture 3 本 = PRESENT・N-1..N-5 全 PASS・nf_digest 完全一致/ beta candidate = 両 lane 揃って ABSENT・decision_lane_concordance)。既存回帰: `test_ninfty_checker_native.py` 50/50・`test_ninfty_laneB.py` 184/184・`test_ninfty_evidence_union.py` 227/227・`test_ninfty_legacy_normalizer.py` 51/51、すべて PASS(E-5 の C-1..C-5 修正による regression なし)。
+- **未着手(次工程・司令塔指示どおり本便の範囲外)**: 真の bundle 生成(`buildSearcherNative`/`checkerNative` を呼ぶ既存の巨大 cert 生成コード、L680-858 付近)を NF ベースへ配線する作業、`commit_generation`/registry への mint 反映、CI 経路。§7 の total_coverage 再定義もこの配線作業の一部として未実装。
+
 - **申告**: lane A のコードは司令塔の明示許可で読んだ(L488-549 の `buildSearcherNative` と L34-46/L285-405 の E-5 周辺、および `ninfty-checker.py` L541-626)。**lane B の checker_native(`ninfty-checker-native.py`)は読んでいない** — 判定 4 の当否は lane B の**主張の再構成**に対して行った。
 - **接触規律**: 使用した数値は公開 fixture `checker_pos_01.json` と `beta_candidate.json` のみ。封印集合の係数には触れていない。
 - **cross-checked / verified の区別**: 本稿の主張はすべて **紙の証明 + 1 系統の機械検算**。Lean 化していないので **verified ではない**。

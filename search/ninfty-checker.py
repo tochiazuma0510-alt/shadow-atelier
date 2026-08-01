@@ -65,15 +65,21 @@ NOT IMPLEMENTED in this file (declared, not silently skipped):
     own from-scratch T-1/T-2/rootpart work using the self-implemented
     Euclid/Yun code above; ninfty-checker-native.py is a distinct,
     additional capability, not a replacement of it.
-  * E-5 (divisor orientation, (Or)) cannot be recovered from (a,p,f6)
-    alone by any elimination method; it is a construction-time fact.
-    This checker treats it as an externally-attested boolean the caller
-    must supply (`divisor_orientation_attested`); UNKNOWN if absent.
-    ninfty-checker-native.py additionally computes a DERIVED, informational
-    orientation finding (see `native_construction.orientation_derivation`
-    in run_checker's result below) purely from (a,p,f6); by design this
-    derived finding is NOT wired into the REJECT gate above -- it is
-    exposed for cross-checking against the caller's attestation only.
+  * [SUPERSEDED 2026-08-01, C-1..C-5] E-5 (divisor orientation, (Or)) was
+    formerly treated as unrecoverable from (a,p,f6) alone and caller-
+    attested-only (REJECT[6] on attested=False, permanent UNKNOWN entry).
+    This was stale relative to 裁定113/Prop E5-D
+    (docs/notes/e5_interpretation_v1.md §2.2): under E-1..E-4 (already
+    checked by check_preconditions before this point), the orientation
+    IS derived, matching lane A's independent derivation (search/
+    ninfty-searcher-v2.mjs L390-406). run_checker now: derives E-5 as
+    True whenever E-1..E-4 passed (C-1); no longer lists E-5 as UNKNOWN
+    (C-2); routes an attested=False that CONTRADICTS the derivation to
+    INTEGRITY_STOP[27] instead of REJECT[6] (C-3, same class as the
+    E-6 gcd(a,p)!=1-after-Pell precedent); still never REJECTs on a
+    merely-absent attestation (C-4). ninfty-checker-native.py's
+    `native_construction.orientation_derivation` remains available as
+    an independent instance-level cross-check of this derivation.
 
 runtime = python (stdlib only: fractions, hashlib, json, sys, argparse) for
 the T-1/T-2/rootpart core above.  [20260801] The optional
@@ -352,6 +358,10 @@ REJECT_PRIORITY = [
 # and the receiving side's). This checker can raise:
 INTEGRITY_PELL_COPRIME_MISMATCH = "pell-implies-coprime-mismatch"   # [13]
 INTEGRITY_PELL_DERIVATIVE_MISMATCH = "pell-derivative-mismatch"     # [15]
+# [27] 2026-08-01 (C-3, see run_checker's E-5 handling): attested orientation
+# contradicts the E-1..E-4-derived value (Prop E5-D), mirrored from lane A's
+# same-numbered code (search/ninfty-searcher-v2.mjs REASON_CODE_NUMBER).
+INTEGRITY_DIVISOR_ORIENTATION_MISMATCH = "divisor-orientation-attestation-mismatch"  # [27]
 
 
 def check_preconditions(a, p, f6):
@@ -544,16 +554,34 @@ def run_checker(candidate):
         result["rootpart_a"] = None
         return result
 
-    # E-5: caller-attested, cannot be re-derived from (a,p,f6) alone.
+    # E-5: DERIVED, not caller-attested-only. 2026-08-01 correction (C-1..C-5,
+    # docs/notes/lanea_native_semantics_v1.md §5.2 / sol_reply_94_math21.md
+    # P94-4.1 item 2): E-1..E-4 (V-E5.1..V-E5.4) already passed by this point
+    # (check_preconditions returned no reason above), so Prop E5-D (裁定113,
+    # docs/notes/e5_interpretation_v1.md §2.2) already forces
+    # div(mu) = 5(inf_-) - 5(inf_+), i.e. the STANDARD orientation, exactly as
+    # lane A derives it (search/ninfty-searcher-v2.mjs L390-406). This checker
+    # no longer treats divisor_orientation_attested as unrecoverable-caller-
+    # only data; C-1: E-5 is derived (True) whenever this line is reached.
+    derived_orientation_ok = True
     attested = candidate.get("divisor_orientation_attested", None)
     if attested is False:
-        reasons.append("precondition/divisor-orientation")
-        result["stage"] = "REJECT"
+        # C-3: attestation CONTRADICTS the theorem-derived value -- same class
+        # as E-6's gcd(a,p)!=1-after-Pell-PASS precedent -- is an input-
+        # consistency defect (INTEGRITY_STOP), not an ordinary REJECT. This
+        # replaces the pre-2026-08-01 REJECT[6] routing.
+        reasons.append("divisor-orientation-attestation-mismatch")
+        result["stage"] = "INTEGRITY_STOP"
         result["reason_codes"] = reasons
-        result["primary_reason_code"] = "precondition/divisor-orientation"
+        result["primary_reason_code"] = "divisor-orientation-attestation-mismatch"
         result["rootpart_a"] = None
+        result["divisor_orientation_status"] = "attested-false-contradicts-derivation"
         return result
-    result["divisor_orientation_status"] = "UNKNOWN" if attested is None else "attested-true"
+    # C-4: attestation absent is NOT rejected -- the derived value is authoritative.
+    result["divisor_orientation_status"] = (
+        "derived-true-attestation-absent" if attested is None else "derived-true-attestation-agrees"
+    )
+    result["divisor_orientation_derived"] = derived_orientation_ok
 
     t1_stage, t1_reason, t1_detail = check_T1(a)
     result["T1_detail"] = t1_detail
@@ -615,9 +643,10 @@ def run_checker(candidate):
         "T-4 (Weierstrass locus): not implemented (needs root-finding over Qbar)",
         "T-5 (two-infinity, e=5): not implemented",
         "T-6 (harmonic pair): sealed value, out of scope by contact discipline",
-        "E-5 (divisor orientation): not re-derivable from (a,p,f6) alone; "
-        "caller-attested only (native_construction.orientation_derivation carries "
-        "a derived, informational cross-check only, not wired into REJECT).",
+        # E-5 removed from this list 2026-08-01 (C-2): it is no longer UNKNOWN
+        # -- it is DERIVED (see run_checker's divisor_orientation_status /
+        # divisor_orientation_derived fields, and Prop E5-D). Leaving it here
+        # would be UNKNOWN inflation for a solved item (P94-4.1 item 2).
     ]
 
     result["checker_native_digest"] = sha256_of(

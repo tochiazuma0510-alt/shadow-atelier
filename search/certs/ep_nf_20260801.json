@@ -1,0 +1,284 @@
+{
+  "beta_fixture_absent_control": {
+    "candidate_sha256": "1453017f19ad071187bf5837d65e3bca4d1d5dbae0e07ab83c1ec06648f215c3",
+    "decision_lane_concordance": true,
+    "lane_a_primary_reason_code": "a-partition-mismatch",
+    "lane_a_status": "ABSENT",
+    "lane_b_primary_reason_code": "a-partition-mismatch",
+    "lane_b_status": "ABSENT",
+    "n1_n5": "ABSENT (not run -- at least one lane did not mint an NF)"
+  },
+  "cert_id": "search/certs/ep_nf_20260801.json",
+  "conventions_used": {
+    "IF_FIRST": true,
+    "chi_level": [
+      {
+        "layer": "candidate-instance",
+        "modulus": null,
+        "purpose": "mint-gate verdict per (a,p,f6) triple",
+        "source": "evaluateDecisionLane (lane A) / run_checker (lane B)"
+      }
+    ],
+    "comparison_target": {
+      "domain": "candidates satisfying E-1..E-4, T-1, T-2, (Pell) (mint-gate PRESENT only; ABSENT/INTEGRITY_STOP candidates compared on decision-lane concordance only, not NF)",
+      "function_compared": "NF (normal form, spec \u00a74.1): (ram_finite, ram_infinite, branch, non_ramification_certificates)",
+      "normalization_digest": "66b6bbff8d9887c880a4e76c717ccfa2f557f8e82f827083359afb8624046b4b",
+      "source_digests": {
+        "search/ninfty-checker-native.py": "4dcc2130f835ff5b5ed198fd7759d3b23fbf5d8be2d0ddccabd3799f05e8acf3",
+        "search/ninfty-checker.py": "082f4ec2afc95bf5cb46f2a49ce8bc7f22cb3df20aea3be6b9d66c3bf0abfc0c",
+        "search/ninfty-nf-crosscheck.py": "66b6bbff8d9887c880a4e76c717ccfa2f557f8e82f827083359afb8624046b4b",
+        "search/ninfty-nf-lanea-cli.mjs": "f686b39f5ebd8811ba49936bab6e14c2d96bccff390c036cad615f1e6beb97a9",
+        "search/ninfty-nf-laneb.py": "f0a60cd4323009653149e310492627004ecc727f402cd17a353e2a272198ce55",
+        "search/ninfty-searcher-v2.mjs": "b86a04d591ad30b1376709c0b076a67ce2db6003da10eba65f474f6d7117685e",
+        "search/test_ninfty_nf.py": "919873366b93c6d897afbed068295180924237fb37884040c484f46095f123e4"
+      }
+    },
+    "coset_action_type": "not applicable (this cert concerns divisor/ideal data, not group actions)",
+    "cv8_representative_vs_invariant": "not applicable (no group element representative involved)",
+    "effective_source_chain": {
+      "errata": [],
+      "original": "docs/week4-NInfty_stage2_spec_v18.md \u00a74.1 (native_artifact schema)",
+      "supersedes": "lanea_native_semantics_v1.md \u00a73 (rejects branch_divisor_on_P1_ref mislabel, defines NF)"
+    },
+    "round_trip_witness": "not applicable (NF construction is one-directional: candidate -> NF; no inverse claimed)",
+    "seal_recoverability": "not applicable (no sealed value touched by this cert -- C is candidate-derived and already exposed in existing native artifacts per \u00a74.3 \u8981\u70b93 of the governing note)",
+    "separation_condition": {
+      "comparison_basis": "each lane's CLI is invoked as a SEPARATE OS subprocess; only stdout JSON is compared -- no shared in-process helper",
+      "competitor_universe": "lane A (mjs/node) vs lane B (python/sympy) NF calculators; the crosscheck script (search/ninfty-nf-crosscheck.py) imports neither",
+      "forbidden_value_handling": "ABSENT/INTEGRITY_STOP candidates never enter N-1..N-5; reported as decision_lane_concordance instead",
+      "included": true
+    }
+  },
+  "cross_checked_not_verified": true,
+  "e5_c1_c5": {
+    "applied_to": [
+      "lane A (search/ninfty-searcher-v2.mjs)",
+      "lane B (search/ninfty-checker.py)"
+    ],
+    "c1_derived": "E-5 treated as DERIVED (not caller-attested-only) once E-1..E-4 hold, both lanes",
+    "c2_unknown_removed": "E-5 removed from lane B's result['unknown'] list",
+    "c3_reject_to_integrity_stop": "attested orientation contradicting the derived value now raises INTEGRITY code 'divisor-orientation-attestation-mismatch' [27] instead of REJECT[6], both lanes",
+    "c4_absent_attestation_not_rejected": "attestation absent is never REJECTed on either lane (unchanged behavior, now documented as C-4 compliance)",
+    "c5_simultaneous": "both lanes edited in this same batch, per \u00a75.2 C-5's independence-preserving instruction"
+  },
+  "genuine_fixtures": {
+    "checker_pos_01.json": {
+      "candidate_sha256": "4952d435e3da7c9ba0aee13f670a61484aef43edb6c0d3e2bef0a1d5362f8094",
+      "digest_match": true,
+      "lane_a_nf_digest": null,
+      "lane_a_status": "PRESENT",
+      "lane_b_status": "PRESENT",
+      "n1_n5_all_pass": true,
+      "n1_n5_detail": {
+        "N-1": {
+          "lane_a_generator": [
+            "8",
+            "6",
+            "1"
+          ],
+          "lane_b_generator": [
+            "8",
+            "6",
+            "1"
+          ],
+          "pass": true
+        },
+        "N-2": {
+          "coefficient_equal": true,
+          "degree_identity_lane_a": true,
+          "degree_identity_lane_b": true,
+          "pass": true
+        },
+        "N-3": {
+          "lane_a": [
+            "('inf_+', 5, 4)",
+            "('inf_-', 5, 4)"
+          ],
+          "lane_b": [
+            "('inf_+', 5, 4)",
+            "('inf_-', 5, 4)"
+          ],
+          "pass": true
+        },
+        "N-4": {
+          "degree_sum_lane_a": 12,
+          "degree_sum_lane_b": 12,
+          "inf_match": true,
+          "lin_match": true,
+          "pass": true,
+          "quad_match": true,
+          "shape_ok": true
+        },
+        "N-5": {
+          "p_locus_match": true,
+          "pass": true,
+          "w_locus_match": true
+        }
+      },
+      "nf_digest_lane_a": "5d50b66420deb24b01c4ec27503dad3abe16e3c85d3d980d5b24f336c7b79529",
+      "nf_digest_lane_b": "5d50b66420deb24b01c4ec27503dad3abe16e3c85d3d980d5b24f336c7b79529"
+    },
+    "checker_pos_02.json": {
+      "candidate_sha256": "fb6f9710ddec24854463fa6c0f4c61b6e3915339fa39202adafdf8eacb753b0d",
+      "digest_match": true,
+      "lane_a_nf_digest": null,
+      "lane_a_status": "PRESENT",
+      "lane_b_status": "PRESENT",
+      "n1_n5_all_pass": true,
+      "n1_n5_detail": {
+        "N-1": {
+          "lane_a_generator": [
+            "24",
+            "10",
+            "1"
+          ],
+          "lane_b_generator": [
+            "24",
+            "10",
+            "1"
+          ],
+          "pass": true
+        },
+        "N-2": {
+          "coefficient_equal": true,
+          "degree_identity_lane_a": true,
+          "degree_identity_lane_b": true,
+          "pass": true
+        },
+        "N-3": {
+          "lane_a": [
+            "('inf_+', 5, 4)",
+            "('inf_-', 5, 4)"
+          ],
+          "lane_b": [
+            "('inf_+', 5, 4)",
+            "('inf_-', 5, 4)"
+          ],
+          "pass": true
+        },
+        "N-4": {
+          "degree_sum_lane_a": 12,
+          "degree_sum_lane_b": 12,
+          "inf_match": true,
+          "lin_match": true,
+          "pass": true,
+          "quad_match": true,
+          "shape_ok": true
+        },
+        "N-5": {
+          "p_locus_match": true,
+          "pass": true,
+          "w_locus_match": true
+        }
+      },
+      "nf_digest_lane_a": "7be08d15e9de5d2290ceed2f475c90d79fbb71a6e228d652820c082a183249d1",
+      "nf_digest_lane_b": "7be08d15e9de5d2290ceed2f475c90d79fbb71a6e228d652820c082a183249d1"
+    },
+    "checker_pos_03.json": {
+      "candidate_sha256": "d80bafc801cb33d5f7c6ef857420dbd5ce514bd47a2e67f3c06a4b9165a23e0a",
+      "digest_match": true,
+      "lane_a_nf_digest": null,
+      "lane_a_status": "PRESENT",
+      "lane_b_status": "PRESENT",
+      "n1_n5_all_pass": true,
+      "n1_n5_detail": {
+        "N-1": {
+          "lane_a_generator": [
+            "12",
+            "8",
+            "1"
+          ],
+          "lane_b_generator": [
+            "12",
+            "8",
+            "1"
+          ],
+          "pass": true
+        },
+        "N-2": {
+          "coefficient_equal": true,
+          "degree_identity_lane_a": true,
+          "degree_identity_lane_b": true,
+          "pass": true
+        },
+        "N-3": {
+          "lane_a": [
+            "('inf_+', 5, 4)",
+            "('inf_-', 5, 4)"
+          ],
+          "lane_b": [
+            "('inf_+', 5, 4)",
+            "('inf_-', 5, 4)"
+          ],
+          "pass": true
+        },
+        "N-4": {
+          "degree_sum_lane_a": 12,
+          "degree_sum_lane_b": 12,
+          "inf_match": true,
+          "lin_match": true,
+          "pass": true,
+          "quad_match": true,
+          "shape_ok": true
+        },
+        "N-5": {
+          "p_locus_match": true,
+          "pass": true,
+          "w_locus_match": true
+        }
+      },
+      "nf_digest_lane_a": "73426acbe7df6a2288eede172d37e25e0391f3ba33cb710e0222f0ab81c9dc05",
+      "nf_digest_lane_b": "73426acbe7df6a2288eede172d37e25e0391f3ba33cb710e0222f0ab81c9dc05"
+    }
+  },
+  "governing_docs": [
+    "docs/notes/lanea_native_semantics_v1.md (Theorem A/B, NF \u00a74.1, N-1..N-5)",
+    "sol/sol_reply_94_math21.md \u00a74 (F94-4.1, F94-4.2, W94-4.1, P94-4.1, F94-4.3, F94-4.4, P94-4.2)"
+  ],
+  "if_first_note": "conventions_used block adopted FIRST (before result fields below), per Sol \u4fbf94 F94-5.1/CV block direction.",
+  "mint_gate": {
+    "applies_to": [
+      "lane A (search/ninfty-searcher-v2.mjs computeNormalFormLaneA)",
+      "lane B (search/ninfty-nf-laneb.py compute_normal_form_lane_b)"
+    ],
+    "rule": "REJECT -> ABSENT (no NF minted); INTEGRITY_STOP -> INTEGRITY_STOP (no NF minted, theorem-forced identity broke); ACCEPT (all prerequisites + (60.5)/E-6/E-5-derivation PASS) -> PRESENT (NF minted)"
+  },
+  "regression_suites": [
+    {
+      "exit_code": 0,
+      "script": "test_ninfty_nf.py",
+      "stdout_tail": "32 checks, 0 FAIL"
+    },
+    {
+      "exit_code": 0,
+      "script": "test_ninfty_checker_native.py",
+      "stdout_tail": "50/50 checks passed."
+    },
+    {
+      "exit_code": 0,
+      "script": "test_ninfty_laneB.py",
+      "stdout_tail": "184/184 checks passed."
+    },
+    {
+      "exit_code": 0,
+      "script": "test_ninfty_evidence_union.py",
+      "stdout_tail": "227/227 checks passed."
+    },
+    {
+      "exit_code": 0,
+      "script": "test_ninfty_legacy_normalizer.py",
+      "stdout_tail": "51/51 checks passed."
+    }
+  ],
+  "role": "EP re-activation batch: two-lane independent NF calculators + N-1..N-5 crosscheck + mint gate + E-5 C-1..C-5, per \u53f8\u4ee4\u5854\u6307\u793a 2026-08-01 (\u88c1\u5b9a311 / Sol \u4fbf94 \u00a74 P94-1/P94-4.1/F94-4.2).",
+  "scope_note": "This cert covers ONLY the NF calculators + crosscheck + mint gate + E-5 C-1..C-5, per \u53f8\u4ee4\u5854 item 1-4/6. It does NOT cover: bundle/commit_generation wiring to NF, registry mint reflection, or CI (\u53f8\u4ee4\u5854 item 6, explicitly deferred to the next batch; see lanea_native_semantics_v1.md \u00a78's 'unimplemented' list).",
+  "source_file_sha256": {
+    "search/ninfty-checker-native.py": "4dcc2130f835ff5b5ed198fd7759d3b23fbf5d8be2d0ddccabd3799f05e8acf3",
+    "search/ninfty-checker.py": "082f4ec2afc95bf5cb46f2a49ce8bc7f22cb3df20aea3be6b9d66c3bf0abfc0c",
+    "search/ninfty-nf-crosscheck.py": "66b6bbff8d9887c880a4e76c717ccfa2f557f8e82f827083359afb8624046b4b",
+    "search/ninfty-nf-lanea-cli.mjs": "f686b39f5ebd8811ba49936bab6e14c2d96bccff390c036cad615f1e6beb97a9",
+    "search/ninfty-nf-laneb.py": "f0a60cd4323009653149e310492627004ecc727f402cd17a353e2a272198ce55",
+    "search/ninfty-searcher-v2.mjs": "b86a04d591ad30b1376709c0b076a67ce2db6003da10eba65f474f6d7117685e",
+    "search/test_ninfty_nf.py": "919873366b93c6d897afbed068295180924237fb37884040c484f46095f123e4"
+  }
+}

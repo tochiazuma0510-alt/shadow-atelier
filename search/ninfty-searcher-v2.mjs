@@ -315,6 +315,7 @@ export const REASON_CODE_NUMBER = {
   'finite-partition-cross-mismatch': 24,
   'divisor-equality-failure': 25,
   'verifier-result-mismatch': 26,
+  'divisor-orientation-attestation-mismatch': 27, // 2026-08-01, see INTEGRITY_PRIORITY comment
   accepted: 'accepted',
 };
 
@@ -397,7 +398,14 @@ export function evaluateDecisionLane(candidate) {
     const derivedOrientationOk = true;
     orientationOk = derivedOrientationOk;
     if (typeof candidate.orientation_declared_ok === 'boolean' && candidate.orientation_declared_ok !== derivedOrientationOk) {
-      R.add('precondition/divisor-orientation'); // declared cross-check disagrees with the derivation
+      // 2026-08-01 (lanea_native_semantics_v1.md §5.2 C-3 / sol_reply_94_math21.md
+      // P94-4.1 item 2): a caller attestation that CONTRADICTS a value that is
+      // THEOREM-DERIVED from E-1..E-4 (Prop E5-D) is an input-consistency defect,
+      // not a candidate defect -- same class as E-6's gcd(a,p)!=1-after-Pell-PASS
+      // precedent (INTEGRITY code [13] below). This was REJECT[6] before; the
+      // 2026-08-01 EP-reactivation batch reclassifies it INTEGRITY_STOP so it
+      // cannot be silently absorbed as an ordinary candidate rejection.
+      I.add('divisor-orientation-attestation-mismatch'); // [27], new integrity code
       orientationOk = false;
     }
     // orientation_declared_ok absent (undefined): derived value is authoritative, no REJECT.
@@ -472,6 +480,10 @@ const INTEGRITY_PRIORITY = [
   'weierstrass-unhandled', 'infinity-unhandled', 'rh-mismatch', 'extra-branch-value',
   'finite-branch-count-mismatch', 'branch-pair-not-harmonic', 'finite-partition-cross-mismatch',
   'divisor-equality-failure', 'verifier-result-mismatch',
+  // [27] 2026-08-01 lanea_native_semantics_v1.md §5.2 C-3 / sol_reply_94_math21.md
+  // P94-4.1 item 2: attested E-5 orientation contradicting the E-1..E-4-derived
+  // value (Prop E5-D), after all E-1..E-4 preconditions PASS.
+  'divisor-orientation-attestation-mismatch',
 ];
 export function canonicalSortByIntegrity(codes) {
   const uniq = [...new Set(codes)];
@@ -545,6 +557,127 @@ export function buildSearcherNative(candidate) {
     ramification_divisor_on_C_ref: native.ramification_divisor_on_C_ref,
     branch_divisor_on_P1_ref: native.branch_divisor_on_P1_ref,
     native_artifact_digest,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Normal form (NF), lane A independent computation — 裁定 311 / Sol 便 94 §4
+// (P94-1..P94-2) / docs/notes/lanea_native_semantics_v1.md §4.1, Theorem A/B.
+//
+// Derives NF from the EXISTING 3-loci (buildSearcherNative's a-pair-locus d,
+// p-locus, weierstrass-locus f6) via the closed dictionary of Theorem A/B —
+// no new search, no resultant, no root-finding: ram_infinite is a candidate-
+// independent constant (Prop E5-D), branch is the v-line rewrite of the
+// already-computed Pell constant C, non_ramification_certificates just
+// re-types the p-locus/weierstrass-locus data that buildSearcherNative
+// already carries.
+//
+// MINT GATE (P94-4.1 / 裁定 311 是正 R-2): native/NF is minted (status=PRESENT)
+// only when the FULL prerequisite chain (degree/E-1..E-4/T-1/T-2/(Pell)) PASSES
+// -- i.e. evaluateDecisionLane's verdict machine returns ACCEPT. A REJECT-class
+// failure (any prerequisite raw check broken) yields ABSENT, never a divisor-
+// shaped object with meaningless data (裁定309's beta-candidate finding: a
+// REJECTed candidate's raw 3 polynomials do not encode a divisor at all). An
+// INTEGRITY_STOP-class failure (a THEOREM-FORCED identity -- (60.5), E-6
+// gcd(a,p)=1, or E-5 orientation-vs-attestation -- broken AFTER prerequisites
+// held) also yields no mint (status=INTEGRITY_STOP): the input is internally
+// inconsistent with the governing theorems, not merely "not accepted".
+//
+// CONVENTION (Sol 便 94 F94-4.2, resolving the -C-square ambiguity): effective
+// divisors are represented as (monic polynomial generator, multiplicity) pairs
+// WITHOUT further irreducible factorization over Q -- v^2+C is always kept as
+// ONE degree-2 component (coefficient 2), never split into two linear factors
+// even when -C happens to be a rational square. This lane never decomposes.
+// ---------------------------------------------------------------------------
+
+export const NF_SCHEMA_ID = 'mb/ninfty-nf/v1';
+
+export function computeNormalFormLaneA(candidate) {
+  const decision = evaluateDecisionLane(candidate);
+
+  if (decision.verdict === 'REJECT') {
+    return {
+      lane: 'A',
+      nf_schema_id: NF_SCHEMA_ID,
+      status: 'ABSENT',
+      decision_verdict: decision.verdict,
+      primary_reason_code: decision.primary_reason_code,
+      reason: 'prerequisite chain (degree/E-1..E-4/T-1) not satisfied -- no divisor-shaped data exists to mint (裁定309 beta finding).',
+      nf: null,
+      nf_digest: null,
+    };
+  }
+  if (decision.verdict === 'INTEGRITY_STOP') {
+    return {
+      lane: 'A',
+      nf_schema_id: NF_SCHEMA_ID,
+      status: 'INTEGRITY_STOP',
+      decision_verdict: decision.verdict,
+      primary_reason_code: decision.primary_reason_code,
+      reason: 'prerequisites passed but a theorem-forced identity ((60.5)/E-6/E-5-orientation) broke -- input is internally inconsistent, not merely rejected.',
+      nf: null,
+      nf_digest: null,
+    };
+  }
+
+  // decision.verdict === 'ACCEPT': all prerequisites and theorem-forced
+  // identities hold. Mint NF via Theorem A/B's closed dictionary.
+  const a = polyFromInts(candidate.a);
+  const p = polyFromInts(candidate.p);
+  const f6 = polyFromInts(candidate.f6);
+  const ad = polyDerivative(a);
+  const d = polyMonic(polyGCD(a, ad)); // T-1's degree-2 squarefree locus
+  const pellLhs = polySub(polyMul(a, a), polyMul(f6, polyMul(p, p)));
+  const C = polyDeg(pellLhs) === 0 ? pellLhs[0] : F0; // ACCEPT guarantees deg=0, nonzero
+
+  const pSqfree = polyDeg(polyGCD(p, polyDerivative(p))) === 0;
+  const f6Sqfree = polyDeg(polyGCD(f6, polyDerivative(f6))) === 0;
+  const gcdPF6 = polyGCD(p, f6);
+  const pF6Coprime = polyDeg(gcdPF6) === 0;
+
+  const nf = {
+    ram_finite: {
+      variable: 'x',
+      ideal_generator: polyToCoeffStrings(d),
+      pullback: 'pi^*',
+      reduced: true,
+      coefficient: 1,
+    },
+    ram_infinite: [
+      { point: 'inf_plus', e: 5, coefficient: 4 },
+      { point: 'inf_minus', e: 5, coefficient: 4 },
+    ],
+    branch: {
+      variable: 'v',
+      components: [
+        { ideal_generator: ['0', '1'], coefficient: 4 },              // v      : mu(inf_-) = 0
+        { ideal_generator: [C.toString(), '0', '1'], coefficient: 2 }, // v^2+C  : {s,-s}, undecomposed (convention above)
+        { at_infinity: true, coefficient: 4 },                         // v = inf: mu(inf_+) = inf
+      ],
+    },
+    non_ramification_certificates: {
+      p_locus: {
+        generator: polyToCoeffStrings(polyMonic(p)),
+        squarefree: pSqfree,
+        coprime_to_f6: { witness_gcd_degree: polyDeg(gcdPF6), coprime: pF6Coprime },
+      },
+      w_locus: {
+        generator: polyToCoeffStrings(polyMonic(f6)),
+        squarefree: f6Sqfree,
+        coprime_to_p: { witness_gcd_degree: polyDeg(gcdPF6), coprime: pF6Coprime },
+      },
+      claim: 'contributes 0 to R_mu (Theorem B cancellation)',
+    },
+  };
+  const nf_digest = digestOf(nf);
+
+  return {
+    lane: 'A',
+    nf_schema_id: NF_SCHEMA_ID,
+    status: 'PRESENT',
+    decision_verdict: decision.verdict,
+    nf,
+    nf_digest,
   };
 }
 
