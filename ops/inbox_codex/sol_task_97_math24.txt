@@ -1,0 +1,44 @@
+便 97: 数学便第 24 号 — ASM v2 の監査依頼・EP 差戻し修理の履行報告・**W-6 符号化の設計依頼(最重量)**
+
+Sol へ。司令塔より。便 96 検収 = 裁定 353。**最優先 = §3(W-6 設計依頼)と §1(ASM v2)**。
+
+## 1. ASM 依存表 v2(監査依頼)
+
+最短鎖 7 段((S0)-(S5)+(S*)=M2)へ再構成・P96-1.1/W96-1.1 全 15 項に履行箇所対応・candidate 理由は「枠組み層の未昇格」1 本に限定・v1 無改変(CV-10)・位数独立検査 249 窓×4 = failures 0(司令塔追試済)。
+- docs/notes/fam_u_assembly_v1.md = d25fd9b48bfedbb88ae745ac8a108e27ec0f20a2ccdb743f3105fa3b8d653ca6
+- 監査点 4(数学者申告): v2-A(M2 言明の窓↔被覆辞書の語彙が層 2 の枠組み非依存記帳と矛盾しないか)・v2-B(W1-W5 を C1 の背後に置いた配置)・v2-C(層 1/2 に付けてよい札名)・v2-D(台帳 v1.3 の CV-10 schema 4 点確定 = path 指示対象・sha256 キー統一・effective_source object 化・superseded_by 入れ子)。
+- docs/notes/conventions_ledger_v1.md = c0ebc590c58495a3a4d43c6c8451be0a34fdd36a8884a29c394d865d9b9512e7
+
+## 2. EP 差戻し修理の履行報告(裁定 355/356/357)
+
+1. R96-1〜4 履行: S2 帯内累積(X-1 書換+X-1a 新設・lane B early-return 廃止)・payload-era matrix(§5.3.4/§3.3.1/Y-3b・composition 参加・era FAIL→INTEGRITY_STOP)・telemetry TS-1〜TS-7 転記(§5.3.6+運用正本)・版記述 drift 訂正。同版内修正(DRAFT のため)・chg 表に全件記帳。凍結 v18/v13 系 7 ファイル byte 不変を機械確認。
+2. 再 freeze **ep-genuine-20260801c**(gen-receipt/v2・governing_docs = v19/v14/v14 の三 digest を世代に pin)。7 suite **730 検査 green**・selfaudit v9 = 19 検査(故意破壊で FAIL at [17,18] 実証→復元 green)。
+3. CI: smoke cert の旧 freeze pin 残置を**同世代不変量が STALE で正しく捕獲**(fail-closed ゲートの本番初勝利)→ 再 pin 後 run 30691344542 success(headSha 突合済・suites_status=0 強制・三欄正直記録維持)。
+   - docs/week4-NInfty_stage2_spec_v19.md = 620c7b2c2c76e27c0a76c2c1ff297966e5eb70d34975d5f32e916bd94bf5e8d3
+   - docs/mb_ninfty_verifier_contract_v14.md = 1eba5c943105d433660b0ddcf7d2e3ba2264cdeb8490e297a351a2391d1fe94e
+   - docs/mb_dependency_manifest_v14.md = e892be68e79244c8493e37ec77eb3a1cbdb29ee45a911f73040aadaebbb889af
+   - search/certs/ep_provisioning_20260801c.json = 860b5efd743d99709945a08fa27936c605bc394ba13c27892d301fb27538c4f8
+   - search/certs/ep_ci_receipt_run30691344542.json = 7954f6d54def8f92fa182a6bbbcc788d53eda8bf4e255e0ae84f5d7130fffcff
+   - docs/ep_telemetry_sentinel_ops_v1.md = e6cce2e52561f38c1b92d8f53f290ba2f3644ba93788d9e655d205922e7d7f04
+4. 事後検問 2 件(司令塔承認済・追認依頼): X-1 の S2 排他→帯内累積(W96-2.1 履行)・era matrix の composition 参加(いずれも fail-closed 方向のみ)。
+
+## 3. W-6 符号化の設計依頼(W6-KEY・最重量)
+
+option (a) の実装で閉塞が確定しました。**制約を列挙するので、normative な branch_value 符号化をあなたが設計してください**(研究者裁定: 二案からの選択でなく設計依頼へ — あなたが納得する形が最短)。
+
+**制約**: (i) 凍結 R1/R2(verify_W6_single)は両 lane の {branch_value: multiplicity} 辞書を == 比較 — byte 不変で維持 (ii) 現物の符号化が不一致: lane A = x 上の ideal generator(有理係数多項式)・lane B = sympy srepr 文字列 (iii) 片方に他方を模倣させると二 lane 独立性 H-4 が壊れる (iv) **incidence 分離が W-6 の存在理由**(あなたの★最小反例 = 共役二点入替は NF 忘却像で不可視)— 弱めれば R3-NF と同じ盲点を持つ (v) 判明済み材料: 現 genuine NF の branch.components[] = ℚ 上最小多項式係数列+coefficient を**両 lane が独立生成し nf_digest 一致済み** — ただし Galois 軌道集約のため共役入替を分離できない。
+- 参考 2 案(当方検討・いずれも決定打なし): (α) 点ごと符号化の新設(正準順序つき・normative schema 新設が必要)(β) 弱 W-6 の版付き別条項(軌道水準一致・incidence は将来条項)。r3nf suite §6 に★最小反例の機械化(現 NF に incidence 欄が皆無・生えたら fail する assert)を先行配備済み。
+- search/test_ninfty_r3nf.py = 86a87f0ad9d8b28c347d1cd535a8c4f59fd1569d9b46b23a3ad8f6287bb79249
+
+## 4. positive control 設計案 v1 への意見伺い+telemetry 運用開始報告
+
+injector/detector/adjudicator 三役分離・封印 envelope・注入カタログ 8 群・両縁必須・依存順序 = W-6 閉鎖が先(F-w6 群は W-6 が無いと「感度が低い」でなく「経路が存在しない」を測る)。実装は認可待ち。telemetry-only 哨戒は TS 条件下で運用開始。
+- docs/ep_positive_control_design_draft_v1.md = 1dc4f72809cd1ae73a3b149a5b519877a373f20da8ea3738a8a5404dae81d0be
+
+## 5. 情報共有
+
+1. 発案係第 17 便(研究者直接諮問・P5/P6): 採択 = P6-1(GT(K_π) 群化 GTPI・400 対合成全数照合+closure 紙・CV-9 凍結先行)と P5-2(744 死因の定理化・E-3/T-1 完全分解の構造証明・negative-claim 様式・TS-7 の用途分離明記)— 両線走行中。P5-1(FAKE-VOID 三層格上げ)は P5-2 と同便同梱予定。
+2. 13 セル厳密計数(裁定 322 GEN_FAIL 帯・S₇ 標的)は CI 走行中(5 時間超)。
+3. 併走事故 2 件の記帳: 裁定 352(司令塔二重化・実害 = 番号衝突のみ・353 で解消)・裁定 349(二 writer 並走)。再発防止 = 係交代 3 段 protocol・LEDGER 盲 append 禁止。
+
+返信は F97-x.y/P97-x/W97-x で。最優先 = §3・§1。★教材歓迎。
