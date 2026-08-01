@@ -124,8 +124,12 @@ jobs:
           echo "ep_union_full_exit_code=$code" >> "$GITHUB_OUTPUT"
           cat ci/out/ep_union_full_result.json
           # Fail-closed on the columns this repair actually delivers.
-          # R3-NF must be PASS and the four-role registry resolution
-          # (including the docs-era binding to the v19 trio) must be PASS.
+          # R3-NF must be PASS, the four-role registry resolution (including
+          # the CONTROL-PLANE receipt binding to the governing trio) must be
+          # PASS, and the PAYLOAD-ERA MATRIX must be PASS. R3-NF PASS is NOT
+          # W-6 closure -- NF forgets the ramification->branch incidence map,
+          # so it cannot separate two different incidences with the same NF
+          # (Sol 便96 W96-2.3; spec sec.5.3.5 W6-C2). W-6 stays OPEN.
           # R1/R2 are recorded VERBATIM and are NOT asserted: under the
           # frozen native artifacts they report MALFORMED because those
           # artifacts carry divisor components, not a W-6 pushforward
@@ -138,10 +142,19 @@ jobs:
               report = json.load(f)
           cols = {k: (v or {}).get("status") for k, v in (report.get("columns") or {}).items()}
           four_role = ((report.get("four_role_registry_status") or {}).get("status"))
-          docs_ok = (((report.get("four_role_registry_status") or {})
-                      .get("docs_era_binding") or {}).get("ok"))
+          # 便96 W96-2.2: RENAMED. `docs_era_binding` was read as "the payload
+          # is v19"; it never was. The control-plane receipt binding and the
+          # payload-era matrix are now two separate, separately-asserted
+          # columns, and neither substitutes for the other.
+          cp_ok = (((report.get("four_role_registry_status") or {})
+                    .get("control_plane_docs_receipt_binding") or {}).get("ok"))
+          era = report.get("payload_era_matrix") or {}
+          era_ok = era.get("ok")
           print("full union columns =", cols)
-          print("four_role_registry_status =", four_role, "docs_era_binding.ok =", docs_ok)
+          print("four_role_registry_status =", four_role,
+                "control_plane_docs_receipt_binding.ok =", cp_ok)
+          print("payload_era_matrix.ok =", era_ok,
+                "planes =", {k: (v or {}).get("status") for k, v in (era.get("planes") or {}).items()})
           print("overall_full =", report.get("overall_full"),
                 "ep_status =", report.get("ep_status"))
           bad = []
@@ -149,8 +162,14 @@ jobs:
               bad.append(f"R3-NF status is {cols.get('R3-NF')!r}, expected PASS")
           if four_role != "PASS":
               bad.append(f"four_role_registry_status is {four_role!r}, expected PASS")
-          if docs_ok is not True:
-              bad.append("docs_era_binding.ok is not True -- the generation is not bound to the v19 docs trio")
+          if cp_ok is not True:
+              bad.append("control_plane_docs_receipt_binding.ok is not True -- the generation's RECEIPT is "
+                         "not bound to the receiver's governing docs trio. NOTE: this says nothing about "
+                         "the payload era; that is payload_era_matrix (便96 W96-2.2)")
+          if era_ok is not True:
+              bad.append("payload_era_matrix.ok is not True -- some plane's declared era does not match the "
+                         "single era the matrix allows it (governing spec sec.5.3.4, manifest Y-3b). "
+                         f"errors={era.get('errors')!r}")
           if report.get("calibrated_detector") is not False or report.get("ep_status") != "uncalibrated/UNKNOWN":
               bad.append("the report must keep calibrated_detector=false / ep_status=uncalibrated/UNKNOWN "
                          "(P95-2.2 item 4: no full-path positive control exists)")
@@ -199,7 +218,12 @@ jobs:
                   "columns": columns,
                   "overall_full": full.get("overall_full"),
                   "four_role_registry_status": four_role.get("status"),
-                  "docs_era_binding_ok": (four_role.get("docs_era_binding") or {}).get("ok"),
+                  "control_plane_docs_receipt_binding_ok": (
+                      four_role.get("control_plane_docs_receipt_binding") or {}).get("ok"),
+                  "payload_era_matrix_ok": (full.get("payload_era_matrix") or {}).get("ok"),
+                  "payload_era_matrix_planes": {
+                      k: (v or {}).get("status")
+                      for k, v in ((full.get("payload_era_matrix") or {}).get("planes") or {}).items()},
                   "registry_generation_id": four_role.get("generation_id"),
                   "registry_freeze_id": four_role.get("freeze_id"),
                   "calibrated_detector": full.get("calibrated_detector"),
@@ -234,9 +258,12 @@ jobs:
                        "search/certs/ep_ci_full_witness_evidence_20260801.json: R1/R2 are recorded "
                        "verbatim and NOT asserted PASS (they report MALFORMED against the genuine "
                        "cross-lane native pair, for the structural reason recorded in their detail); "
-                       "R3-NF, the four-role same-generation resolution and the docs-era binding ARE "
-                       "asserted. EP itself remains uncalibrated/UNKNOWN -- no positive control exists "
-                       "(P95-2.2 item 4). download+bind: `gh run download <run_id> -n "
+                       "R3-NF, the four-role same-generation resolution, the CONTROL-PLANE receipt "
+                       "binding and the PAYLOAD-ERA MATRIX ARE asserted -- the last two are DISTINCT "
+                       "columns (Sol 便96 W96-2.2) and neither may be reported as the other. A green job "
+                       "is NOT W-6 closure (Sol 便96 W96-2.3: R3-NF forgets incidence) and NOT EP "
+                       "re-activation. EP itself remains uncalibrated/UNKNOWN -- no positive control "
+                       "exists (P95-2.2 item 4). download+bind: `gh run download <run_id> -n "
                        "ep-union-check-receipt` reproduces this exact receipt.json byte-for-byte; sha "
                        "above is the checked-out commit this run executed against."),
           }

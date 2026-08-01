@@ -351,6 +351,14 @@ def rootpart_via_squarefree(a):
 # which is receiving-side / cross-lane and out of this file's scope).
 # --------------------------------------------------------------------------
 
+# ERA DECLARATION (Sol 便96 W96-2.2 / governing spec sec.5.3.4 M-5,
+# dependency manifest Y-3b). This file's DECISION-LANE part implements the
+# CURRENT era's enum and routing ([27]; S2 accumulation). It emits no
+# native/certificate payload, so it belongs to exactly one plane. The
+# marker below is machine-read by search/ninfty-evidence-union-full.py's
+# payload-era matrix; a missing or disagreeing marker is FAIL, never
+# "assumed compatible".
+#   [ep-era-declaration] plane=decision_lane_predicate predicate_spec_id=mb/ninfty-stage2-predicate/v19 verifier_contract_id=mb/ninfty-verifier-contract/v14 dependency_manifest_schema_id=mb/dependency-manifest/v14
 REJECT_PRIORITY = [
     "precondition/degree-mismatch",        # [1]
     "precondition/f6-not-monic",           # [2]
@@ -363,15 +371,94 @@ REJECT_PRIORITY = [
 ]
 
 # Integrity codes this checker is able to raise on its own (subset of the
-# 18-stage table, governing spec sec.5.3.2). Digest/shared-helper/sealed
-# leak codes ([9]-[12]) are not this file's job (that is the verifier's
-# and the receiving side's). This checker can raise:
+# 19-stage table, governing spec sec.5.3.2 -- the table is [9]..[27], i.e.
+# 27-9+1 = 19 stages since the v19 addition of [27]). Digest/shared-helper/
+# sealed leak codes ([9]-[12]) are not this file's job (that is the
+# verifier's and the receiving side's). This checker can raise:
 INTEGRITY_PELL_COPRIME_MISMATCH = "pell-implies-coprime-mismatch"   # [13]
 INTEGRITY_PELL_DERIVATIVE_MISMATCH = "pell-derivative-mismatch"     # [15]
 # [27] 2026-08-01 (C-3, see run_checker's E-5 handling): attested orientation
 # contradicts the E-1..E-4-derived value (Prop E5-D), mirrored from lane A's
 # same-numbered code (search/ninfty-searcher-v2.mjs REASON_CODE_NUMBER).
 INTEGRITY_DIVISOR_ORIENTATION_MISMATCH = "divisor-orientation-attestation-mismatch"  # [27]
+
+# Sol 便96 W96-2.1 / governing spec sec.5.3.3 X-1, X-1a (v19 DRAFT repair
+# R96-1): the semantic axis is exclusive BETWEEN bands (S1 -> S2 -> S3) but
+# CUMULATIVE WITHIN the S2 band -- [24] (finite partition mismatch) and [27]
+# (attestation contradiction) are DIFFERENT causes and both must survive into
+# all_reason_codes[].  Consequences for this file (X-1a):
+#   * the [27] site below no longer early-returns; it accumulates and the
+#     checker keeps evaluating T-1 / T-2 / pushforward;
+#   * `primary_reason_code` is no longer "whichever fired first" -- it is
+#     MACHINE-COMPUTED as the minimum of the accumulated set under the
+#     governing priority tables (governing spec invariant 4: (verdict,
+#     primary_reason_code) must be a function of the INPUT, not of the
+#     evaluation order).
+# INTEGRITY_PRIORITY reproduces governing spec sec.5.3.2's 19-stage total
+# order literally (enum reproduction only, no state-machine ownership).
+INTEGRITY_PRIORITY = [
+    "sealed-field-leak",                            # [ 9]
+    "deterministic-digest-exposed",                 # [10]
+    "shared-helper-detected",                       # [11]
+    "digest-mismatch",                              # [12]
+    "pell-implies-coprime-mismatch",                # [13]
+    "divisor-identity",                             # [14]
+    "pell-derivative-mismatch",                     # [15]
+    "chart-degree-mismatch",                        # [16]
+    "p-locus-unhandled",                            # [17]
+    "weierstrass-unhandled",                        # [18]
+    "infinity-unhandled",                           # [19]
+    "rh-mismatch",                                  # [20]
+    "extra-branch-value",                           # [21]
+    "finite-branch-count-mismatch",                 # [22]
+    "branch-pair-not-harmonic",                     # [23]
+    "finite-partition-cross-mismatch",              # [24]
+    "divisor-equality-failure",                     # [25]
+    "verifier-result-mismatch",                     # [26]
+    "divisor-orientation-attestation-mismatch",     # [27]
+]
+
+
+# governing spec sec.5.3.3: the S2 band, as an explicit (non-contiguous) set.
+S2_CODES = frozenset({
+    "pell-implies-coprime-mismatch",             # [13]
+    "divisor-identity",                          # [14]
+    "pell-derivative-mismatch",                  # [15]
+    "chart-degree-mismatch",                     # [16]
+    "p-locus-unhandled",                         # [17]
+    "weierstrass-unhandled",                     # [18]
+    "infinity-unhandled",                        # [19]
+    "rh-mismatch",                               # [20]
+    "extra-branch-value",                        # [21]
+    "finite-branch-count-mismatch",              # [22]
+    "branch-pair-not-harmonic",                  # [23]
+    "finite-partition-cross-mismatch",           # [24]
+    "divisor-orientation-attestation-mismatch",  # [27]
+})
+
+
+def _resolve_stage_and_primary(reasons):
+    """
+    governing spec sec.5.3 state machine, applied to THIS lane's own
+    accumulated reason set (X-1a).  Returns (stage, primary).
+
+    Fail-closed by construction: a reason string that appears in NEITHER
+    priority table is not silently dropped and is not silently treated as
+    a REJECT -- it sorts LAST inside whichever class it lands in, and an
+    unknown code is classified as an integrity reason (the strictly more
+    severe class), because an unrecognised code must never be able to
+    downgrade a verdict.
+    """
+    rejects = [r for r in reasons if r in REJECT_PRIORITY]
+    integrities = [r for r in reasons if r not in REJECT_PRIORITY]
+    if integrities:
+        return "INTEGRITY_STOP", min(
+            integrities,
+            key=lambda c: (INTEGRITY_PRIORITY.index(c) if c in INTEGRITY_PRIORITY else len(INTEGRITY_PRIORITY), c),
+        )
+    if rejects:
+        return "REJECT", min(rejects, key=REJECT_PRIORITY.index)
+    return None, None
 
 
 def check_preconditions(a, p, f6):
@@ -557,12 +644,24 @@ def run_checker(candidate):
 
     if pre_reason:
         reasons.append(pre_reason)
-        stage, primary = pre_stage, pre_reason
-        result["stage"] = stage
-        result["reason_codes"] = reasons
-        result["primary_reason_code"] = primary
-        result["rootpart_a"] = None
-        return result
+        # X-1a (Sol 便96 W96-2.1): an S2-band precondition reason -- currently
+        # only E-6's [13], which check_preconditions evaluates LAST, i.e. with
+        # E-1..E-4 already PASSED -- must NOT terminate the lane, because the
+        # S2 band is cumulative.  Lane A already accumulates [13] and [27]
+        # together (search/ninfty-searcher-v2.mjs evaluateDecisionLane keeps
+        # both in its I set); before this repair lane B stopped at [13] and
+        # reported a strictly smaller set for the same input, which is a
+        # cross-lane [26] concordance divergence waiting to happen.
+        # Reasons OUTSIDE the S2 band here are the REJECT-axis preconditions
+        # [1]..[5]; those genuinely invalidate the downstream algebra
+        # (degrees/monicity/Pell), so they still terminate.
+        if pre_reason not in S2_CODES:
+            stage, primary = _resolve_stage_and_primary(reasons)
+            result["stage"] = stage
+            result["reason_codes"] = reasons
+            result["primary_reason_code"] = primary
+            result["rootpart_a"] = None
+            return result
 
     # E-5: DERIVED, not caller-attested-only. 2026-08-01 correction (C-1..C-5,
     # docs/notes/lanea_native_semantics_v1.md §5.2 / sol_reply_94_math21.md
@@ -580,24 +679,34 @@ def run_checker(candidate):
         # as E-6's gcd(a,p)!=1-after-Pell-PASS precedent -- is an input-
         # consistency defect (INTEGRITY_STOP), not an ordinary REJECT. This
         # replaces the pre-2026-08-01 REJECT[6] routing.
-        reasons.append("divisor-orientation-attestation-mismatch")
-        result["stage"] = "INTEGRITY_STOP"
-        result["reason_codes"] = reasons
-        result["primary_reason_code"] = "divisor-orientation-attestation-mismatch"
-        result["rootpart_a"] = None
+        # Sol 便96 W96-2.1 / spec sec.5.3.3 X-1a (v19 DRAFT repair R96-1):
+        # ACCUMULATE, do not early-return.  Before this repair the checker
+        # returned here, which meant a candidate that broke BOTH the
+        # attestation ([27]) and, say, (60.5) ([15]) reported only [27] --
+        # exactly the evidence loss W96-2.1 objects to.  The band-level
+        # semantics are unchanged: [27] is an S2 reason, and S3's [25] is
+        # still suppressed whenever S2 is non-empty (see the pushforward
+        # site below).
+        reasons.append(INTEGRITY_DIVISOR_ORIENTATION_MISMATCH)
         result["divisor_orientation_status"] = "attested-false-contradicts-derivation"
-        return result
-    # C-4: attestation absent is NOT rejected -- the derived value is authoritative.
-    result["divisor_orientation_status"] = (
-        "derived-true-attestation-absent" if attested is None else "derived-true-attestation-agrees"
-    )
+    else:
+        # C-4: attestation absent is NOT rejected -- the derived value is authoritative.
+        result["divisor_orientation_status"] = (
+            "derived-true-attestation-absent" if attested is None else "derived-true-attestation-agrees"
+        )
     result["divisor_orientation_derived"] = derived_orientation_ok
 
     t1_stage, t1_reason, t1_detail = check_T1(a)
     result["T1_detail"] = t1_detail
     if t1_reason:
+        # T-1 failure ([7]/[8]) is a REJECT-axis reason; it still terminates
+        # this lane's evaluation because T-2's (60.5) identity is only
+        # defined once T-1 produced a genuine degree-2 squarefree d (lane A
+        # gates it identically).  Any S2 reason accumulated ABOVE survives
+        # into reason_codes[] and, per the spec state machine, dominates:
+        # I != empty => INTEGRITY_STOP (X-1a / invariant 4).
         reasons.append(t1_reason)
-        stage, primary = t1_stage, t1_reason
+        stage, primary = _resolve_stage_and_primary(reasons)
         result["stage"] = stage
         result["reason_codes"] = reasons
         result["primary_reason_code"] = primary
@@ -610,16 +719,29 @@ def run_checker(candidate):
     t2_stage, t2_reason, t2_detail = check_T2(a, p)
     result["T2_detail"] = t2_detail
     if t2_reason:
+        # S2 band, cumulative (X-1a): [15] joins whatever S2 reason is
+        # already present rather than replacing or being replaced by it.
         reasons.append(t2_reason)
-        stage, primary = t2_stage, t2_reason
 
     if candidate.get("native_artifact") is not None:
         ok, pf_detail = check_native_pushforward(candidate["native_artifact"])
         result["pushforward_detail"] = pf_detail
         if ok is False:
-            reasons.append("divisor-equality-failure")  # [25], native-declared inconsistency
-            if stage is None:
-                stage, primary = "INTEGRITY_STOP", "divisor-equality-failure"
+            # [25] is the S3 band.  The band-level exclusion is UNCHANGED by
+            # the R96-1 repair: S3 is evaluated only when the S2 band raised
+            # nothing (spec sec.5.3.3 X-2 / the composition rule "elif S2 の
+            # native reason が空 ...").  Written as an explicit S2-emptiness
+            # test rather than the old `if stage is None`, which conflated
+            # "no S2 reason" with "no reason of any kind".
+            if not any(r in S2_CODES for r in reasons):
+                reasons.append("divisor-equality-failure")  # [25]
+            else:
+                result["s3_suppressed_by_s2"] = {
+                    "reason": ("[25] not raised: the S3 band is only evaluated when the S2 band is "
+                               "empty (governing spec sec.5.3.3 X-2). The pushforward inconsistency "
+                               "is still recorded in pushforward_detail."),
+                    "s2_reasons_present": sorted(r for r in reasons if r in S2_CODES),
+                }
     else:
         result["pushforward_detail"] = {"status": "UNKNOWN", "reason": "no native artifact supplied"}
 
@@ -642,6 +764,9 @@ def run_checker(candidate):
             self_ok, self_detail = check_native_pushforward(native)
             result["native_construction_self_pushforward_check"] = {"ok": self_ok, "detail": self_detail}
 
+    # X-1a: verdict/primary are MACHINE-COMPUTED from the accumulated set
+    # under the governing priority tables, never "whichever fired first".
+    stage, primary = _resolve_stage_and_primary(reasons)
     result["stage"] = stage  # None => this checker raises no reason on its own
     result["reason_codes"] = reasons
     result["primary_reason_code"] = primary

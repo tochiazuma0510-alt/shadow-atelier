@@ -967,6 +967,82 @@ report(16, "S2 帯 = 明示集合(range 表記でない)・spec/contract 一致�
        "spec S2_CODES=%s contract S2_CODES=%s expected=%s range_notation_gone=%s"
        % (s2_spec, s2_contract, sorted(S2_EXPECTED), range_notation_gone))
 
+def _readf(path):
+    with open(path, encoding="utf-8", errors="replace") as _f:
+        return _f.read()
+
+
+# ---------- 17. S2 帯内累積 (v9 additive・便96 W96-2.1 / R96-1) ----------
+# ADDITIVE: no existing check is weakened or removed. This one fixes the
+# repair Sol demanded -- spec sec.5.3.2's worked example ([24]+[27] together)
+# and X-1 must not contradict each other again -- and it also asserts the
+# lane-side consequence (X-1a), because a document-only repair would leave
+# the implementations free to drift back.
+_lane_b = _readf(os.path.join(D, "search", "ninfty-checker.py"))
+_lane_a = _readf(os.path.join(D, "search", "ninfty-searcher-v2.mjs"))
+_cum_declared = all("S2 帯内は累積" in T[k] for k in ("spec", "contract"))
+_pairs_declared = all("S2_EQUIVALENT_CAUSE_PAIRS" in T[k] for k in ("spec", "contract"))
+# the OLD, self-contradicting formulation must be gone from the LIVE X-1 rows
+_x1_rows = [ln for k in ("spec", "contract") for ln in T[k].splitlines()
+            if ln.startswith("| **X-1**")]
+_old_gone = len(_x1_rows) == 2 and not any("semantic axis は軸内で排他" in ln for ln in _x1_rows)
+# X-1a must exist in both documents
+_x1a = all("X-1a" in T[k] for k in ("spec", "contract"))
+# lane B: the [27] site must NOT early-return, and primary must be machine-computed
+_b_site = _lane_b.split("INTEGRITY_DIVISOR_ORIENTATION_MISMATCH)", 1)
+_b_no_early = (len(_b_site) == 2
+               and "return result" not in _b_site[1].split("t1_stage", 1)[0]
+               and "_resolve_stage_and_primary" in _lane_b)
+# lane A was already cumulative: it must keep using a SET, never an early return
+_a_cumulative = ("const I = new Set()" in _lane_a) and ("I.add('divisor-orientation-attestation-mismatch')" in _lane_a)
+ok17 = _cum_declared and _pairs_declared and _old_gone and _x1a and _b_no_early and _a_cumulative
+report(17, "S2 帯内は累積(spec/contract 同期・X-1a・両 lane に early-return 無し)", ok17,
+       "declared=%s pairs=%s old_exclusivity_gone=%s X-1a=%s laneB_no_early_return=%s laneA_set=%s"
+       % (_cum_declared, _pairs_declared, _old_gone, _x1a, _b_no_early, _a_cumulative))
+
+# ---------- 18. payload-era matrix (v9 additive・便96 W96-2.2 / R96-2) ----------
+_full = _readf(os.path.join(D, "search", "ninfty-evidence-union-full.py"))
+_PLANES = ("frozen_route_verifier", "native_payload_schema", "nf_route",
+           "decision_lane_predicate", "control_plane")
+_planes_in_spec = all(pl in T["spec"] for pl in _PLANES)
+_planes_in_code = all(('"%s"' % pl) in _full for pl in _PLANES)
+_matrix_declared = "PAYLOAD_ERA_MATRIX" in T["spec"] and "PAYLOAD_ERA_MATRIX" in _full
+_y3b = "Y-3b" in T["manifest"]
+# the renamed consumer field, and the banned old name, as EMITTED keys
+_renamed = '"control_plane_docs_receipt_binding"' in _full and '"payload_era_matrix"' in _full
+_old_name_gone = '"docs_era_binding"' not in _full
+# every live plane source must actually carry its marker
+_markers_ok = True
+_marker_detail = {}
+for _rel, _want in (("search/ninfty-checker.py", ["decision_lane_predicate"]),
+                    ("search/ninfty-verifier-w6-r3nf.py", ["nf_route"]),
+                    ("search/ninfty-searcher-v2.mjs", ["native_payload_schema", "decision_lane_predicate"])):
+    _src = _readf(os.path.join(D, *_rel.split("/")))
+    _got = re.findall(r"\[ep-era-declaration\] plane=([a-z_]+)", _src)
+    _marker_detail[_rel] = sorted(_got)
+    if sorted(_got) != sorted(_want):
+        _markers_ok = False
+# the BYTE-FROZEN verifier must NOT have been given a marker
+_frozen_untouched = "[ep-era-declaration]" not in _readf(os.path.join(D, "search", "ninfty-verifier-b.py"))
+ok18 = (_planes_in_spec and _planes_in_code and _matrix_declared and _y3b
+        and _renamed and _old_name_gone and _markers_ok and _frozen_untouched)
+report(18, "payload-era matrix(5 plane・Y-3b・欄名分離・marker 実在・frozen 無改変)", ok18,
+       "spec=%s code=%s matrix=%s Y-3b=%s renamed=%s old_name_gone=%s markers=%s frozen_untouched=%s"
+       % (_planes_in_spec, _planes_in_code, _matrix_declared, _y3b, _renamed,
+          _old_name_gone, _marker_detail, _frozen_untouched))
+
+# ---------- 19. W-6 option (a) と UNKNOWN W6-KEY (v9 additive・便96 W96-2.3 / R96-3) ----------
+_w6_clauses = ["W6-C%d" % i for i in range(1, 8)]
+_w6_spec = all(c in T["spec"] for c in _w6_clauses)
+_w6_con = all(c in T["contract"] for c in _w6_clauses)
+_w6_unknown = "UNKNOWN W6-KEY" in T["spec"] and "UNKNOWN W6-KEY" in T["contract"]
+# the non-implication must be stated, not merely implied
+_w6_noimply = "R3-NF PASS は W-6 を含意しない" in T["spec"]
+ok19 = _w6_spec and _w6_con and _w6_unknown and _w6_noimply
+report(19, "W-6 = option (a)・R3-NF 非含意・UNKNOWN W6-KEY 登録(spec/contract 同期)", ok19,
+       "spec_clauses=%s contract_clauses=%s unknown_registered=%s non_implication_stated=%s"
+       % (_w6_spec, _w6_con, _w6_unknown, _w6_noimply))
+
 print("\nsha256:")
 for k, p in F.items(): print("  %-9s %s  %s" % (k, DG[k], p))
 ALLF = list(fails) + list(mutation_fails)

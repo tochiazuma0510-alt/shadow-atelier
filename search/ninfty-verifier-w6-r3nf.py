@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+
+# ERA DECLARATION (Sol 便96 W96-2.2 / governing spec sec.5.3.4, dependency
+# manifest Y-3b). R3-NF is a CURRENT-era route: it was created by the 便95
+# repair wave against spec v19 / contract v14 / manifest v14. It is NOT a
+# frozen historical route (those are R1/R2) and it does NOT close W-6
+# (便96 W96-2.3 / spec sec.5.3.5 W6-C2). The marker below is machine-read
+# by search/ninfty-evidence-union-full.py's payload-era matrix.
+#   [ep-era-declaration] plane=nf_route predicate_spec_id=mb/ninfty-stage2-predicate/v19 verifier_contract_id=mb/ninfty-verifier-contract/v14 dependency_manifest_schema_id=mb/dependency-manifest/v14
+
 search/ninfty-verifier-w6-r3nf.py
 
 R3-NF: the THIRD evidence route of the N∞ evidence union (Sol 便95

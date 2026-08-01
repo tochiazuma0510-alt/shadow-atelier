@@ -1305,3 +1305,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 外した項目は補強・独立照合層へ降格(M4/SPLIT/GR/U2-BR/Ihara bridge/機械層/Lean 等)— F96-1.6 により v1 §7 の B-LIMIT「無条件」も撤回済(「橋に相対的だが FAITH-free」へ)。candidate 理由は「枠組み層の未昇格」1 本に限定(W96-1.1)。
 - 便 97 監査点 4 つ(v2-A 窓↔被覆辞書の語彙・v2-B W1-W5 配置・v2-C 層 1/2 の札名・v2-D 台帳差分)を積み残しとして登録。
 - 併せて**規約台帳 v1.3**: CV-10 schema 未同期 4 点(数学者捕獲)を確定 — path=参照対象自身・キー名 sha256 統一・effective_source=object・superseded_by 入れ子欄(新規から適用)。
+
+## 2026-08-01 EP 差戻し修理波の検収(裁定 355)— 差戻し 4 点中 3 点閉(S2 帯内累積・era matrix・telemetry 6 条件転記)・W-6 は UNKNOWN W6-KEY 登録(正直な閉塞)・production 再 freeze ep-genuine-20260801c(governing_docs pin)・7 suite 730 検査 green
+- 事後検問 2 件承認: ①X-1 の S2 排他→帯内累積(W96-2.1 の Sol 明示裁定の履行・fail-closed 方向のみ)②payload_era_matrix の composition 参加(era FAIL→INTEGRITY_STOP・新 gate・fail-closed 方向のみ)。
+- **W6-KEY(便 97 照会)**: option (a) の素朴実装は二 lane 独立性(H-4)を壊す(lane A=ideal generator vs lane B=srepr の別符号化)。有望材料 = NF の最小多項式係数列符号化(両 lane 独立生成で nf_digest 一致済)— ただし Galois 軌道集約のため共役入替 incidence を分離できない = W-6 弱化版。「弱 W-6 の版付き別条項」vs「点ごと符号化の新設」の設計裁定を Sol へ(司令塔予備見解 = 点ごと符号化が原理的・W-6 の存在理由が incidence 分離そのものであるため)。
+- positive control は設計案のみ(injector/detector/adjudicator 三役分離・盲検 envelope・依存順序 = W-6 閉鎖が先)。selfaudit v9 = 19 検査(additive・故意破壊で FAIL at [17,18] 実証→復元 green)。凍結 7 ファイル byte 一致 7/7。
+- **発案係第 17 便受領(P5/P6 諮問・研究者発)**: P5 札 3(FV 三層格上げ・744 死因の定理化・壁窓 ĉ カナリア)+P6 札 4(GT(K_π) 群化 GTPI・PB₄ 見積・IH-NEC 接続+FAKE-KILL・TAU-ISO 族判定律)。司令塔採択 = **次波: P6-1(400 対合成の全数照合+closure 紙・CV-9 凍結つき)と P5-2(死因の定理化・数学者委嘱・falsifier 前哨つき)**・P5-1 は P5-2 と同便同梱・P6-2 は P6-1 と同日 30 分先行。

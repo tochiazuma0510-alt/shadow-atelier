@@ -6,6 +6,27 @@
 //   verifier_contract_id = mb/ninfty-verifier-contract/v13
 //   dependency_manifest_schema_id = mb/dependency-manifest/v13
 //
+// ERA DECLARATION (Sol 便96 W96-2.2 / W96-2.4 item 2 / governing spec
+// sec.5.3.4 M-5, dependency manifest Y-3b).  THIS FILE SPANS TWO PLANES,
+// and the freeze line above is the era of only ONE of them:
+//
+//   * native-builder part (buildSearcherNative, generateCertificate) ->
+//     plane `native_payload_schema`.  It emits native_schema_id /
+//     predicate_spec_id in the FROZEN era, because R1/R2 are byte-frozen
+//     historical routes that read a byte-frozen payload schema.  This is
+//     the matrix's intended value, NOT a stale comment (spec sec.5.3.4
+//     M-2).
+//   * decision-lane part (evaluateDecisionLane, REASON_CODE_NUMBER,
+//     INTEGRITY_PRIORITY) -> plane `decision_lane_predicate`, CURRENT era:
+//     it implements [27] and the S2-accumulation routing of spec v19.
+//
+// Before 便96 the header above was the file's only era statement, so the
+// decision lane looked stale at v18 while actually implementing v19 -- the
+// drift W96-2.4 item 2 names.  Both planes are now declared explicitly and
+// machine-read by search/ninfty-evidence-union-full.py.
+//   [ep-era-declaration] plane=native_payload_schema predicate_spec_id=mb/ninfty-stage2-predicate/v18 verifier_contract_id=mb/ninfty-verifier-contract/v13 dependency_manifest_schema_id=mb/dependency-manifest/v13
+//   [ep-era-declaration] plane=decision_lane_predicate predicate_spec_id=mb/ninfty-stage2-predicate/v19 verifier_contract_id=mb/ninfty-verifier-contract/v14 dependency_manifest_schema_id=mb/dependency-manifest/v14
+//
 // Implements:
 //   - decision-lane predicate (spec Sec.3 T-1 / Sec.5.3.1 reject_priority[1..8]
 //     + the two [13]/[15] integrity identities that are checkable from (a,p,f6,C)

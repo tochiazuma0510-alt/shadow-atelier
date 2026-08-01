@@ -86,6 +86,19 @@ self_containment = FULL RESTATEMENT (no external proof import)
 
 > **数学核(§1)・入口契約(§2)・lane(§3)・certificate(§4)・二軸 routing の構造(§5.3.3 の合成規則そのもの)・[9]–[26] の既存 18 段は v18 と逐語同一。** **再監査範囲は (P) と pin に限る。**
 
+### 0.0.-6.1 v19 DRAFT 内修理【Sol 便 96・freeze 差戻し】{#v19-draft-repair}
+
+> **本節の格**: **v19 は Sol 便96 §2 で freeze 差戻しとなり、一度も凍結されていない DRAFT である。** よって本修理は **versioned supersede ではなく同版内修正**として行う(**前版までの凍結版は byte 不変のまま**)。**修理内容は必ず本表に列挙し、差戻し理由との対応を明示する。**
+
+| ID | 差戻し理由(便96) | v19 DRAFT 初稿 | v19 修理後 | 出所 |
+|---|---|---|---|---|
+| **R96-1(W96-2.1)** | **S2 排他性の自己矛盾。** §5.3.2 の検証例が `[24]+[27]` の**同時検出**を明示し primary=[24]・[27] は sealed とする一方、§5.3.3 の pseudocode と X-1 は「**semantic 軸内は排他**・S2 の code は同時に立たない」と規定していた。**両方は同時に実装できない**(検証例が要求する状態が X-1 で禁止される)。**自認** | pseudocode 見出し「軸内は排他・上から評価し reason を発した段で停止」/ X-1「[9]–[12] / S2_CODES / [25] は同時に立たない」 | **S2 帯内は累積(cumulative)へ確定。** 便96 W96-2.1 の推奨を採る — [24](finite partition 不一致)と [27](attestation 矛盾)は**別原因**であり、state machine は既に `all_reason_codes[]` と priority を持つので両方保持する方が証跡を失わない。**帯間(S1 / S2 / S3)の排他は不変** — 上から評価し reason を発した**帯**で停止する。**S2 帯内でのみ**、発火した全述語を集合へ蓄積する。**「重複原因の組」= 同一事象を二重分類する code 対は §5.3.3 の `S2_EQUIVALENT_CAUSE_PAIRS` に明示列挙する**(現行 enum では**空** — 既知の重複原因対は存在しない)。**pseudocode・X-1・両 lane の early-return/集合蓄積を一斉に同期**(lane A `search/ninfty-searcher-v2.mjs` は既に集合蓄積で本裁定と整合・lane B `search/ninfty-checker.py` の `[27]` early-return を蓄積へ変更し、`primary` を priority 最小へ機械計算化) | 便96 W96-2.1 |
+| **R96-2(W96-2.2)** | **payload-era 混在。** receipt の docs pin は control-plane 文書 hash の一致しか見ておらず、埋込 certificate/native の version ID(`predicate_spec_id` / `native_schema_id` が v18、verifier B の governing 宣言が v18/v13/v13)を見ていなかった。よって PASS していたのは「control-plane receipt の文書 pin」であって「payload が v19 schema に属する」意味の docs-era binding ではない。**明示 matrix 無しの現在形は freeze-ready ではない** | payload-era に関する条文が無い | **便96 W96-2.2 の修理案 2(mixed-era compatibility matrix)を採る**(歴史 R1/R2 を byte-frozen に保つ方針と整合するのは 2 と Sol が明記)。**§5.3.4 を新設**し、route ごとの許容 era 組を **exact に**宣言する。**consumer 側の欄名は `docs_era_binding` → `control_plane_docs_receipt_binding` へ改名**(payload-era PASS と混同させない)。**payload-era の検査は別欄 `payload_era_matrix` として新設**し、route ごとに exact 一致を要求する | 便96 W96-2.2 |
+| **R96-3(W96-2.3)** | **W-6 未閉鎖。** 選択肢 (a) 採用の裁定 | (c)(R3-NF による代替)を含意する記述は無いが、W-6 の閉じ方の条文も無い | **§5.3.5 を新設**し、**W-6 は option (a)** — lane A producer が自身の ideal/locus data から導いた registry-pinned canonical pushforward map を現 W-6 shape で出す — と条文化。**R3-NF は W-6 を含意しない**(incidence/pushforward map を NF は持たない)ことを normative に明記。**実装は未着手** — §5.3.5 に**閉塞点(canonical branch key の共通符号化)**を明示し、`UNKNOWN W6-KEY` として登録する | 便96 W96-2.3・P96-2.1 |
+| **R96-4(P96-2.2)** | **telemetry-only 哨戒の許可条件** | 条文無し | **§5.3.6 を新設**し、便96 P96-2.2 の 6 条件を normative に転記。**運用正本は `docs/ep_telemetry_sentinel_ops_v1.md`** | 便96 P96-2.2 |
+
+> **数学核(§1)・入口契約(§2)・lane(§3)・certificate(§4)・[9]–[27] の enum と priority 全順序は本修理でも不変。** 変わるのは **S2 帯内の蓄積規則(R96-1)**と、**新設 §5.3.4/§5.3.5/§5.3.6** のみ。**§5.3.2 の検証例は初稿のまま正しい**([24]+[27] 同時 ⟹ primary=[24])— 矛盾していたのは X-1 側であり、そちらを直した。
+
 ---
 
 ## 0.0.-5 前版差分【裁定 87・Sol 便 69】
@@ -535,7 +548,8 @@ invariant 5: 同一入力に対し secondary_reason_codes[] も一意(invariant 
 **二軸 routing(便 66 F13 の発案を採用・**verifier contract §5.1** X-1〜X-6 と同期・版束縛は §6 pin)**:
 
 ```text
-# --- semantic axis(軸内は排他・上から評価し reason を発した段で停止)---
+# --- semantic axis(【chg v19 修理 R96-1】帯間は排他・S1→S2→S3 の順に
+#     評価し reason を発した「帯」で停止 / S2 帯内は累積)---
 S1  envelope-level: leak / digest / dependency checks       -> [9]..[12]
 S2  native cross-check: 両 native への specific な数学的検査  -> S2_CODES = {13,14,15,16,17,18,19,20,21,22,23,24,27}
       (divisor identity, pell-derivative, chart/locus, RH,
@@ -546,7 +560,13 @@ S2  native cross-check: 両 native への specific な数学的検査  -> S2_COD
       表記で書くと読み手・機械照合の双方が壊れる — CR-3/CR-7 と同じ理由)。
       [27] は S2_CODES に属す: native/曲線データ無しに (a,p,f6,C) のみから
       決まる「定理強制恒等式の破れ」という点で [13]・[15] と同型(§0.0.-6 (P))。
-S3  witness validity                                        -> [25]
+      【chg v19 修理 R96-1・便96 W96-2.1】S2 帯内は累積: 発火した S2 述語は
+      すべて semantic_reasons へ加える(最初の 1 個で停止しない)。
+      S2_EQUIVALENT_CAUSE_PAIRS = {}   # 同一事象を二重分類する code 対。
+                                       # 現行 enum では空。ここに挙げた対だけ
+                                       # が「同時に立ってはならない」対象であり、
+                                       # S2 帯全体の排他ではない。
+S3  witness validity(S2 が空のときのみ評価・X-2)            -> [25]
 
 # --- concordance axis(独立・入力 digest が一致する限り常に評価)---
 C1  R_A vs R_B    # canonical per-witness result vector      -> [26]
@@ -571,17 +591,91 @@ primary = minimum(I, integrity_priority)          # 単数性は維持
 
 | # | 条項 |
 |---|---|
-| **X-1** | **semantic axis は軸内で排他。** [9]–[12] / `S2_CODES = {13..24,27}` / [25] は同時に立たない。**【chg v19】[27] は S2 帯に属すため、S2 の他 code([13]–[24])と同時には立たない**(同軸排他)。 |
+| **X-1** | **【chg v19 修理 R96-1・便96 W96-2.1】semantic axis は帯間で排他・S2 帯内は累積。** **帯間**: S1(`[9]`–`[12]`)・S2(`S2_CODES`)・S3(`[25]`)は上から評価し、reason を発した**帯**で停止する — 異なる帯の code は同時に立たない。**帯内(S2 のみ)**: 発火した S2 述語は**すべて** `semantic_reasons` へ蓄積する。ゆえに `[24]` と `[27]` は**同時に立ちうる**(§5.3.2 検証例のとおり primary=[24]・[27] は sealed の `all_reason_codes[]` に残る)。**理由**: [24] の finite partition 不一致と [27] の attestation 矛盾は**別原因**であり、両方を保持しないと証跡を失う。**同時に立ってはならないのは `S2_EQUIVALENT_CAUSE_PAIRS`(同一事象を二重分類する code 対)に明示列挙した対だけ**であり、現行 enum ではその集合は**空**である。**S2 全体の排他は本修理で廃止した**(初稿 v19 の X-1 は §5.3.2 検証例と自己矛盾していた — 自認)。 |
+| **X-1a** | **【chg v19 修理 R96-1】X-1 の帰結として、両 lane の実装は S2 帯で early-return してはならない。** lane A(`search/ninfty-searcher-v2.mjs`)は元より集合蓄積であり本条項と整合。lane B(`search/ninfty-checker.py`)は `[27]` 検出時に early-return していたため、**蓄積して後段(T-1/T-2/pushforward)へ進む**形へ同期した。**`primary_reason_code` は蓄積後に `integrity_priority` の最小として機械計算する**(検出順に依存させない — invariant 4 の一意性はこれで保たれる)。 |
 | **X-2** | **[25] は「native の一致が S2 で確認された下で $R_A=R_B$ が witness failure を含む」に限定される。** |
 | **X-3** | **[26] は concordance axis に属し、semantic reason と共存する。** [13]–[24] と同時に検出してよい。「native 不一致を [26] に予約する」案は**不採用**(便 65 F5)。**【chg v19】[27] とも共存する**(concordance は S2_CODES 全体を含む semantic 判定と独立に評価される)。 |
 | **X-4** | **[25] と [26] は相互排他**($R_A=R_B$ が [25] の前提、$R_A\ne R_B$ が [26] の前提)。 |
-| **X-5** | **S2 で停止した場合も witness 検証と concordance 比較は実行する。** |
+| **X-5** | **S2 が reason を発した場合も witness 検証と concordance 比較は実行する。**(**【chg v19 修理 R96-1】**「S2 で停止」は帯間の停止 = S3 の `[25]` を発しないことを指す。S2 帯**内**は停止せず累積する。) |
 | **X-6** | **[26] の述語は「overall verdict の不一致」ではなく「canonical per-witness result vector $R_A\ne R_B$」**(**verifier contract §3.4** R-1)。**vector は `ABSENT` と `FAIL` を区別する**(verifier contract §3.4 R-2)。overall verdict の不一致に限定するなら enum 名を `verifier-verdict-mismatch` とすべきだが、**本仕様は vector 比較を採る**(便 66 F4.2)。 |
 > **[historical] X-5**: semantic の後段 reason は発しないが、**concordance の [26] は発する** — これが v7 との違い。
 
 
 > **state machine は変わらない。** 二軸化は $I$ の**作り方**を「排他的な単一 code」から「semantic $\cup$ concordance」へ広げるだけで、**§5.3 の `primary = minimum(I, integrity_priority)`・`accepted iff I = R = ∅` はそのまま成立する。**
 > **[historical]** **【chg v9 erratum D で訂正】invariant 1・3・4 は不変。invariant 2 は v9 で更新した**(v8 は「invariant 1–4 はそのまま成立する」と書きながら **invariant 2 が public secondary を禁止したままだった** — **自認**)。**invariant 5 を新設**して secondary の一意性も明示する。
+
+#### 5.3.4 mixed-era compatibility matrix【chg v19 修理 R96-2・便96 W96-2.2】{#era-matrix}
+
+> **起点**: 便96 W96-2.2。「`docs_era_binding_ok` が見ているのは receipt の三文書 hash と手元文書の一致だけで、埋込 certificate/native の version ID は見ない。従って現在 PASS しているのは **control-plane receipt の文書 pin**であり、『payload が v19 schema に属する』という意味の docs-era binding ではない。」
+> **選択**: Sol が示した二択のうち **2(mixed-era compatibility matrix の versioned 宣言)** を採る。Sol 自身が「歴史 R1/R2 を byte-frozen に保つ方針と整合するのは 2」と明記しており、1(全 payload の v19 再生成)は R1/R2 の byte 凍結と両立しない。
+
+**本節は「どの plane がどの era に属してよいか」を exact に宣言する。**「era」は三文書 ID の三つ組 `(predicate_spec_id, verifier_contract_id, dependency_manifest_schema_id)` である。
+
+```text
+[typed-registry]
+ERA_FROZEN  = ("mb/ninfty-stage2-predicate/v18",
+               "mb/ninfty-verifier-contract/v13",
+               "mb/dependency-manifest/v13")
+ERA_CURRENT = ("mb/ninfty-stage2-predicate/v19",
+               "mb/ninfty-verifier-contract/v14",
+               "mb/dependency-manifest/v14")
+
+PAYLOAD_ERA_MATRIX = {
+  # plane                      : 許容 era(exact・単一)
+  "frozen_route_verifier"      : ERA_FROZEN,   # R1/R2 の verifier 実装
+                                               #   search/ninfty-verifier-b.py
+                                               #   search/ninfty-evidence-union.py
+  "native_payload_schema"      : ERA_FROZEN,   # R1/R2 が読む payload の schema
+                                               #   certificate.predicate_spec_id / schema_id
+                                               #   native_a/native_b の native_schema_id
+  "nf_route"                   : ERA_CURRENT,  # R3-NF(search/ninfty-verifier-w6-r3nf.py)
+  "decision_lane_predicate"    : ERA_CURRENT,  # reason code enum / 二軸 routing の実装
+                                               #   search/ninfty-searcher-v2.mjs (evaluateDecisionLane)
+                                               #   search/ninfty-checker.py (run_checker)
+  "control_plane"              : ERA_CURRENT,  # registry / provisioning / gen-receipt v2
+}
+```
+
+| # | 条項 |
+|---|---|
+| **M-1** | **consumer は plane ごとに exact 一致を検査する。** 「新しい方を許す」「どちらでもよい」は禁止 — era は単一値であり、上位互換は宣言されていない。 |
+| **M-2** | **`ERA_FROZEN` の三 plane は意図的な歴史 era であり、欠陥ではない。** R1/R2 は byte-frozen な歴史 route であり、その payload schema も同時に凍結されている(便95 F95-2.2)。**この matrix が無いまま「payload が v19 に属する」と読ませることが欠陥だった。** |
+| **M-3** | **control-plane の欄名は `control_plane_docs_receipt_binding` とする。**(旧名 `docs_era_binding` は payload-era binding と誤読されるため改名 — 便96 W96-2.2 が明示的に要求。)**この欄の PASS は「gen-receipt/v2 が pin した三文書 hash が受領側の手元文書と一致した」以上を意味しない。** |
+| **M-4** | **payload-era の検査は別欄 `payload_era_matrix` に置く。** 両欄が同時に PASS して初めて「era について矛盾が無い」と言える。**片方の PASS を他方の代用にしてはならない。** |
+| **M-5** | **`decision_lane_predicate` plane が `ERA_CURRENT` であることの帰結**: `search/ninfty-searcher-v2.mjs` / `search/ninfty-checker.py` の**decision-lane 部分**は v19 の enum/routing(`[27]`・S2 累積)を実装する。一方、**同じファイルの native-builder 部分が出す `native_schema_id` は `ERA_FROZEN` のまま**である(M-2)。**一ファイルが二 plane にまたがることは matrix 上正当**であり、source comment はどの行がどの plane かを明記しなければならない。 |
+| **M-6** | **era を進めるには本節の matrix を versioned に改版する。** 実装側だけを進めて matrix を黙って追随させることは `[27]` 事件(未採番 code の live 混入)と同型の違反である。 |
+
+> **contract v14 §3.3 P-3.1/P-3.2 との関係**: P-3.1/P-3.2 の「governing spec と一致」は、**本節の matrix が定める plane の era** と読む(contract v14 §3.3.1 で同期済み)。**certificate の `predicate_spec_id` は `native_payload_schema` plane に属すので `ERA_FROZEN` と一致すべきであり、`ERA_CURRENT` と一致してはならない。**
+
+#### 5.3.5 W-6 の閉じ方 — option (a)【chg v19 修理 R96-3・便96 W96-2.3 / P96-2.1】{#w6-closure}
+
+| # | 条項 |
+|---|---|
+| **W6-C1** | **W-6 は「全 branch point $b$ で $(\pi_*\mathrm{Ram}_C)(b)=\sum_{r:\pi(r)=b} m_r = m_{\mathrm{Branch}}(b)$ を再計算する」条項である**(contract §3.2)。**incidence(どの ramification component がどの branch component へ写るか)を本質的に使う。** |
+| **W6-C2** | **R3-NF PASS は W-6 を含意しない。** NF が保存・検査するのは NF shape・producer/自己 digest・cross-lane NF digest・N-1〜N-5・total degree・infinity・non-ramification であり、**incidence/pushforward map を NF は持たない**。**★最小反例**(便96 W96-2.3): ramification component $r_1,r_2$ の係数 $1,2$、branch component $b_1,b_2$ の係数 $1,2$ とすると、$r_1\mapsto b_1,\ r_2\mapsto b_2$ は W-6 を満たし $r_1\mapsto b_2,\ r_2\mapsto b_1$ は満たさないが、**incidence を忘れた component multiset・total degree・infinity・non-ramification は同一**。ゆえに忘却像しか見ない R3-NF は両者を分離できない。 |
+| **W6-C3** | **採用は option (a)。** lane A producer が、**自身の ideal/locus data から導いた** registry-pinned canonical pushforward map を現 W-6 shape で出す。受領側は pointer・map digest・multiplicity 和を再計算する。**option (b)**(lane B に locus map を足す)は frozen W-6 と同じ述語にならないため現状不採用、**option (c)**(R3-NF で代替)は**不採用**。 |
+| **W6-C4** | **producer の自己申告 aggregate を信じない。** `{branch_value, multiplicity}` aggregate は、各 ramification component の **canonical ID・image branch key・multiplicity・導出元 ideal/locus pointer**を持つ pushforward record から**受領側が再集計する**。 |
+| **W6-C5** | **inline-only ref は引き続き `LEGACY_UNVERIFIED_REF`。** registry-pinned artifact 内 pointer と whole-artifact digest を必須とする。 |
+| **W6-C6** | **negative fixture 必須**: 異なる incidence で同じ NF を作る負例を置き、**R3-NF PASS だけでは W-6 が PASS しない**ことを機械的に固定する。 |
+| **W6-C7** | **修理後も R1/R2 と R3-NF は別列・別 route のまま。** |
+
+> **`UNKNOWN W6-KEY`(未閉鎖・本修理では閉じない)**: W6-C3 を実装するには、両 lane が **同一の canonical branch key 符号化**を独立に生成できなければならない。現状は **lane A が branch component を $x$ 上の ideal generator(有理係数多項式)で表し、lane B が branch value を sympy `srepr` 文字列(`"0"`, `"Mul(Integer(-1), Rational(16,125), Pow(Integer(5), Rational(1,2)), I)"`, `"infinity"`)で表す** — 同じ対象の**別表現**であり、frozen W-6 は両者を**文字列辞書として `==` 比較する**(`search/ninfty-verifier-b.py` `verify_W6_single`)。ゆえに option (a) を素朴に実装すると **lane A に sympy `srepr` の模倣を強いることになり、二 lane 独立性(§3・H-4)を破壊する。** 逆に共通の代数的数符号化(最小多項式 + canonical 根順序 等)を新設することは **normative schema の新設**であり、本仕様の**職掌外**(司令塔検問 + Sol ゲート)である。**よって本項は `UNKNOWN W6-KEY` として登録し、設計採択まで W-6 は未閉鎖のままとする。** **この未閉鎖を R3-NF PASS や CI green で覆ってはならない**(W6-C2)。
+>
+> **候補符号化(未採択・司令塔検問待ち)**: **NF が既に共通符号化を持っている。** 現 genuine NF の `nf.branch.components[]` は branch component を **$\mathbf Q$ 上の最小多項式の係数列(`ideal_generator`)+ `coefficient`** で表しており、**両 lane が独立に生成して nf_digest が一致している**(例: `[256/3125, 0, 1]` = $v^2+256/3125$、これは lane B の $\pm 16\sqrt5\,i/125$ の最小多項式・`coefficient` 2)。ゆえに `branch_value` を **Galois 軌道の最小多項式**とする符号化なら、sympy `srepr` を持ち出さずに両 lane が独立生成できる。**ただし代償がある** — 軌道単位の集約は **W-6 を「点ごと」から「軌道ごと」へ粗くする**ため、**共役な二点を入れ替える incidence(まさに W96-2.3 の★最小反例の型)を分離できない**。よって本候補は **W-6 の弱化版**であり、採否は「弱い W-6 を版付きで別条項として立てる」か「点ごとの符号化を新設する」かの**設計判断**である。**係の一存では決めない。**
+
+#### 5.3.6 telemetry-only 哨戒(bounded decision-lane concordance sentinel)【chg v19 修理 R96-4・便96 P96-2.2】{#telemetry-sentinel}
+
+> **格**: positive control が未閉鎖のままでも許可される **telemetry-only** の運用。**EP 発効ではない。**裁定345 で受領した bounded 744 concordance と同格。**運用正本は `docs/ep_telemetry_sentinel_ops_v1.md`。**
+
+| # | 条項(便96 P96-2.2 の逐語転記) |
+|---|---|
+| **TS-1** | **有限宇宙・bound・列挙順・入力 digest・二 lane の code digest を事前登録する。** |
+| **TS-2** | **表示は常に `diagnostic / uncalibrated / UNKNOWN / complete_search=false`。** 有限宇宙を尽くした時だけ、**その有限宇宙についての** `complete_search=true` を**別欄**に置き、**数学宇宙全体へ外挿しない**。 |
+| **TS-3** | **lane ごとの verdict/reason vector を保存し、不一致は即 `INTEGRITY_STOP`。多数決・片側採用は禁止。** |
+| **TS-4** | **ACCEPT は `hold-for-review` に留め、mint・候補採択/棄却・SURJ/N∞ 主張・sealed 値への接触へ使わない。** |
+| **TS-5** | **NF / W-6 / positive-control の代用品とは数えず、EP の P95 item 3/4 を閉じない。** |
+| **TS-6** | **public 面では件数・状態だけを出し、blind/sealed payload を漏らさない。** |
+| **TS-7** | **`calibrated detector` と呼ぶには盲検注入 positive control がなお必須。**「自然な positive が存在しない」という不在論証が将来得られても、それは detector sensitivity の較正を**代替しない**。別 campaign の $n=3,\ u=-4$ は N∞ の full-path positive control では**ない**。 |
 
 ### 5.4.1 `secondary_reason_codes[]`(public)【chg v8・erratum B】{#secondary}
 
@@ -620,9 +714,9 @@ bound_blob_digest(all of the above) = predicate_spec_digest
 
 # --- 実装契約(§4.4 が要求する欄の実体)【chg v8 erratum C・forward reference を消すため先に置く】---
 verifier_contract_id     = "mb/ninfty-verifier-contract/v14"
-verifier_contract_digest = 909ffc9403e06b9068e44b819dbad3002910aafa7f4d384580152e73e638bde8
+verifier_contract_digest = 1eba5c943105d433660b0ddcf7d2e3ba2264cdeb8490e297a351a2391d1fe94e
 dependency_manifest_schema_id     = "mb/dependency-manifest/v14"
-dependency_manifest_schema_digest = 11906d5a6978514545c90592d56f9fc2373d3bb7b7ca6456933e1a26ba58d942
+dependency_manifest_schema_digest = e892be68e79244c8493e37ec77eb3a1cbdb29ee45a911f73040aadaebbb889af
 
 # --- schema 群 (i) spec 内部 anchor: bound blob = spec 自身 ---
 schema_id( cert )              = predicate_spec_id + "#cert-schema"
@@ -761,10 +855,10 @@ $$ \boxed{\ \text{本 exact bundle(三 digest)の Sol freeze PASS}\ +\ \text{dig
 ```text
 live_authority_refs[] = [
   { artifact_id: "mb/ninfty-verifier-contract/v14",
-    digest_or_receipt_slot: "909ffc9403e06b9068e44b819dbad3002910aafa7f4d384580152e73e638bde8",
+    digest_or_receipt_slot: "1eba5c943105d433660b0ddcf7d2e3ba2264cdeb8490e297a351a2391d1fe94e",
     anchor: "§3.1 / §3.1.2 witness kinds, §3.4 result-vector, §5.1 two-axis" },
   { artifact_id: "mb/dependency-manifest/v14",
-    digest_or_receipt_slot: "11906d5a6978514545c90592d56f9fc2373d3bb7b7ca6456933e1a26ba58d942",
+    digest_or_receipt_slot: "e892be68e79244c8493e37ec77eb3a1cbdb29ee45a911f73040aadaebbb889af",
     anchor: "#input-separation, #derivation, §2.4 subject binding, §6 intersections" },
   { artifact_id: "mb/ninfty-stage2-predicate/v19",
     digest_or_receipt_slot: "receipt:predicate_spec_digest",

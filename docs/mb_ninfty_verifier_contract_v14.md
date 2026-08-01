@@ -11,6 +11,18 @@
 
 > **[historical]** **【版履歴】v4 = v3 の同期版。** 変更は **3 点** — **(S1) manifest pin を v4 へ**(hash 順序 manifest → contract → spec により、manifest が変われば contract も新版が要る)・**(S2) governing spec を v9 へ**(ID 束縛・digest は receipt)・**(S3) §5.3 の cross-reference 誤り(案 A → 案 B)の修正**。**数学的内容・検査手続き・二軸 routing は v3 と逐語同一。**
 
+### 0.1.-1 v14 DRAFT 内修理【Sol 便 96・freeze 差戻し】{#v14-draft-repair}
+
+> **本版は Sol 便96 §2 で freeze 差戻しとなり一度も凍結されていない DRAFT。** よって以下は versioned supersede ではなく**同版内修正**である(**前版までの凍結版は byte 不変のまま**)。
+
+| ID | 差戻し理由(便96) | v14 修理後 | 出所 |
+|---|---|---|---|
+| **R96-1(W96-2.1)** | **S2 排他性の自己矛盾** — §5.1 X-1(S2 軸内排他)が governing spec §5.3.2 の検証例([24]+[27] 同時)と両立しない。**自認** | **X-1 を「帯間排他・S2 帯内累積」へ**。**X-1a 新設**(両 lane の early-return 禁止・primary は priority 最小の機械計算)。**X-5 の文言を帯間停止の意味へ明確化。** pseudocode 同期 | 便96 W96-2.1 |
+| **R96-2(W96-2.2)** | **payload-era 混在** — P-3.1/P-3.2 が「governing v19 と一致」と読める一方 payload は v18 を宣言 | **§3.3.1 新設**: P-3.1/P-3.2 を governing spec §5.3.4 の `PAYLOAD_ERA_MATRIX` 経由で読む。**certificate/native の era は `ERA_FROZEN`** が正解であることを normative 化 | 便96 W96-2.2 |
+| **R96-3(W96-2.3)** | **W-6 未閉鎖** | **§3.2.1 新設**: W-6 は option (a)・R3-NF は代替不能・`UNKNOWN W6-KEY` 登録(governing spec §5.3.5 と同期) | 便96 W96-2.3・P96-2.1 |
+
+---
+
 ## 0. lifecycle state {#lifecycle}
 
 ```text
@@ -30,7 +42,7 @@ encoding        = UTF-8, LF, no BOM, no normalization
 governing_spec  = "mb/ninfty-stage2-predicate/v19"
 governing_spec_digest = <64 hex: governing spec の digest — receipt が記入>
 dependency_manifest_schema_id     = "mb/dependency-manifest/v14"
-dependency_manifest_schema_digest = 11906d5a6978514545c90592d56f9fc2373d3bb7b7ca6456933e1a26ba58d942
+dependency_manifest_schema_digest = e892be68e79244c8493e37ec77eb3a1cbdb29ee45a911f73040aadaebbb889af
 supersedes        = "mb/ninfty-verifier-contract/v13"
 supersedes_digest = e41d51dbdbdcf66efaff2ccd073bbfba9bff12bbfff435ca290a4248abcf5022   # 便95 W95-2.3 起点(pin 同期)
 supersedes_prev2  = 1eda4fb28e367d03b0655888df301e0064d033dbd274cc9651ab7dfe49692d89
@@ -225,6 +237,28 @@ kind = disjointness
 | **W-5** | component 総数と W-1 の像の大きさを比較。余剰候補には **W-2′** を要求 | 被覆に漏れがなく、**両側**に余剰 component が無い |
 | **W-6** | `ramification_divisor_on_C` の pushforward と `branch_divisor_on_P1` の整合を multiplicity の和として再計算 | 全 branch point で一致 |
 
+#### 3.2.1 W-6 の閉じ方【chg v14 修理 R96-3・便96 W96-2.3 / P96-2.1】{#w6-closure}
+
+```text
+[normative-check-block]
+W6-C1  W-6 は incidence(どの ramification component がどの branch component
+       へ写るか)を本質的に使う。
+W6-C2  R3-NF PASS は W-6 を含意しない。NF は incidence/pushforward map を
+       持たない(便96 W96-2.3 の★最小反例)。R3-NF を W-6 closure と
+       数えてはならない。
+W6-C3  採用は option (a): lane A producer が自身の ideal/locus data から
+       導いた registry-pinned canonical pushforward map を現 W-6 shape で
+       出す。option (b)/(c) は不採用。
+W6-C4  aggregate は producer の自己申告を信じず、受領側が per-component
+       record(canonical ID / image branch key / multiplicity /
+       導出元 ideal・locus pointer)から再集計する。
+W6-C5  inline-only ref は LEGACY_UNVERIFIED_REF のまま。
+W6-C6  異なる incidence で同じ NF を作る負例を必須とする。
+W6-C7  修理後も R1/R2 と R3-NF は別列・別 route。
+```
+
+> **`UNKNOWN W6-KEY`**: 実装の閉塞点は **両 lane 共通の canonical branch key 符号化が存在しないこと**(lane A = $x$ 上の ideal generator / lane B = sympy `srepr` 文字列)。frozen `verify_W6_single` は両 map を**文字列辞書として `==` 比較**するため、素朴な option (a) 実装は lane A に sympy `srepr` の模倣を強い、**二 lane 独立性を破壊する**。共通符号化の新設は normative schema の新設であり**司令塔検問 + Sol ゲート事項**。詳細は governing spec §5.3.5。
+
 ### 3.3 入出力の束縛
 
 ```text
@@ -234,6 +268,25 @@ P-3.2  certificate の schema_id / schema_digest が governing spec §4.1 の an
 P-3.3  両 native の native_artifact_digest が、verifier が実際に読んだ blob の digest と一致
 ```
 **P-3.3 の不一致は「検査対象が入れ替わっている」ことを意味するので即停止。**
+
+#### 3.3.1 P-3.1/P-3.2 の era 解釈【chg v14 修理 R96-2・便96 W96-2.2】{#era-reading}
+
+```text
+[typed-registry]
+M-1  P-3.1/P-3.2 の「governing spec と一致」は、governing spec §5.3.4 の
+     PAYLOAD_ERA_MATRIX が当該 plane に割り当てた era と exact に一致、と読む。
+M-2  certificate の predicate_spec_id / schema_id は plane
+     "native_payload_schema" に属す。よって ERA_FROZEN
+     (mb/ninfty-stage2-predicate/v18) と一致すべきであり、
+     ERA_CURRENT(v19)と一致してはならない。
+M-3  両 native の native_schema_id も同 plane。同じく ERA_FROZEN。
+M-4  本稿(contract)と search/ninfty-verifier-b.py は plane
+     "frozen_route_verifier" の実装として ERA_FROZEN を宣言する
+     — この宣言は stale ではなく matrix 上の正解である。
+M-5  「新しい方を許す」「どちらでもよい」は禁止。era は plane ごとに単一値。
+```
+
+> **なぜこの読みが要るか**(便96 W96-2.2): 初稿 v14 の P-3.1/P-3.2 は素朴に「governing v19 と一致」と読め、一方で現 payload は v18 を宣言していた。**両立しない条文を抱えたまま `docs_era_binding_ok` が PASS していたので、control-plane の文書 pin が payload-era binding と誤読されていた。** matrix を明示し、consumer 側の欄名も `control_plane_docs_receipt_binding` / `payload_era_matrix` の二欄へ分離する(governing spec §5.3.4 M-3/M-4)。
 
 ### 3.4 canonical per-witness result vector【B66-1】{#result-vector}
 
@@ -281,12 +334,18 @@ verifier_verdict_X = PASS  iff  P-0.* ∧ P-1.* ∧ (R_X の全成分が PASS) �
 
 ```text
 [normative-check-block]
-# --- semantic axis(軸内は排他・上から評価し reason を発した段で停止)---
+# --- semantic axis(【chg v14 修理 R96-1】帯間は排他・S1→S2→S3 の順に
+#     評価し reason を発した「帯」で停止 / S2 帯内は累積)---
 S1  envelope-level: leak / digest / dependency checks      -> [9]..[12]
 S2  native cross-check: 両 native への specific な数学的検査 -> S2_CODES = {13,14,15,16,17,18,19,20,21,22,23,24,27}
       【chg v14・便95 W95-2.3】非連続集合を明示集合で書く(governing spec v19
       §5.3.3 束縛条項(a)と同期)。[27] は S2_CODES に属す。
-S3  witness validity                                        -> [25]
+      【chg v14 修理 R96-1・便96 W96-2.1】S2 帯内は累積: 発火した S2 述語は
+      すべて semantic_reasons へ加える(最初の 1 個で停止しない)。
+      S2_EQUIVALENT_CAUSE_PAIRS = {}   # 同一事象を二重分類する code 対のみ
+                                       # 「同時に立ってはならない」。現行 enum
+                                       # では空。S2 帯全体の排他ではない。
+S3  witness validity(S2 が空のときのみ評価・X-2)            -> [25]
 
 # --- concordance axis(独立・入力 digest が一致する限り常に評価)---
 C1  R_A vs R_B                                              -> [26]
@@ -305,11 +364,12 @@ primary = minimum(I, integrity_priority)          # 単数性は維持
 [normative-check-table]
 | # | 条項 |
 |---|---|
-| **X-1** | **semantic axis は軸内で排他。** [9]–[12] / `S2_CODES = {13..24,27}` / [25] は同時に立たない。**【chg v14】[27] は S2 帯なので S2 の他 code と同時に立たない。** |
+| **X-1** | **【chg v14 修理 R96-1・便96 W96-2.1】semantic axis は帯間で排他・S2 帯内は累積。** **帯間**: S1(`[9]`–`[12]`)・S2(`S2_CODES`)・S3(`[25]`)は上から評価し、reason を発した**帯**で停止する。**帯内(S2 のみ)**: 発火した S2 述語は**すべて**蓄積する。ゆえに **`[24]` と `[27]` は同時に立ちうる**(governing spec §5.3.2 検証例と同期 — primary=[24]・[27] は sealed の `all_reason_codes[]` に残る)。**同時に立ってはならないのは `S2_EQUIVALENT_CAUSE_PAIRS` に明示列挙した同値原因対のみ**で、現行 enum ではその集合は**空**。**初稿 v14 の「S2 軸内排他」は governing spec §5.3.2 の検証例と自己矛盾していた — 自認・本修理で廃止。** |
+| **X-1a** | **【chg v14 修理 R96-1】X-1 の帰結として、両 lane の実装は S2 帯で early-return してはならない。** lane A(`search/ninfty-searcher-v2.mjs`)は元より集合蓄積で整合。lane B(`search/ninfty-checker.py`)の `[27]` early-return は蓄積へ同期した。**`primary_reason_code` は蓄積後に `integrity_priority` の最小として機械計算する。** |
 | **X-2** | **[25] は「native の一致が S2 で確認された下で、$R_A=R_B$ が witness failure を含む」に限定される。** |
 | **X-3** | **[26] は concordance axis に属し、semantic reason と共存する。** [13]–[24] と同時に検出してよい。**「native 不一致を [26] に予約する」案は不採用**(便 65 F5)。**【chg v14】[27] とも共存する。** |
 | **X-4** | **[25] と [26] は相互排他**($R_A=R_B$ が [25] の前提、$R_A\ne R_B$ が [26] の前提)。 |
-| **X-5** | **S2 で停止した場合も witness 検証と concordance 比較は実行する。** |
+| **X-5** | **S2 が reason を発した場合も witness 検証と concordance 比較は実行する。**(**【chg v14 修理 R96-1】**「S2 で停止」は帯間の停止 = S3 の `[25]` を発しないことを指す。S2 帯**内**は停止せず累積する。) |
 | **X-6** | **`[26]` の述語は「overall verdict の不一致」ではなく「canonical result vector $R_A\ne R_B$」である**(R-1)。もし overall verdict の不一致に限定するなら enum 名を `verifier-verdict-mismatch` とすべきだが、**本稿は vector 比較を採る**(便 66 F4.2)。 |
 > **[historical] X-5**: semantic の後段 reason は発しないが、**concordance の [26] は発する** — これが v2 との違い。
 
@@ -485,7 +545,7 @@ conformance_record = {
   covered_clauses = [C-1″, C-2, C-3‴, C-4‴, C-5‴, C-6⁗, C-7, C-8‴, C-9, CR-1, CR-10, CR-11, CR-2, 
                      CR-3, CR-4, CR-5, CR-6, CR-7, CR-8, CR-8b, CR-9, LA-1, LA-2, LA-3, P-S1, 
                      P-S2, P-S3, P-S4, P-S5, P-S6, R-1, R-2, R-3, V-0, V-1, V-2, V-3, W-1, W-3, 
-                     W-4, W-5, W-6, X-1, X-2, X-3, X-4, X-5, X-6, Y-1, Y-2, Y-3, Y-4]
+                     W-4, W-5, W-6, X-1, X-1a, X-2, X-3, X-4, X-5, X-6, Y-1, Y-2, Y-3, Y-4]
   covered_procedure_checks = [C1, P-0.1, P-0.2, P-0.3, P-0.4, P-0.5, P-0.6, P-0.7, P-0.8, P-1.1, 
                               P-1.2, P-1.3, P-1.4, P-1.5, P-3.1, P-3.2, P-3.3, S1, S2, S3, W-1, 
                               W-2, W-2′, W-3, W-4, W-5, W-6]
@@ -542,7 +602,7 @@ live_authority_refs[] = [
     digest_or_receipt_slot: "receipt:governing_spec_digest",
     anchor: "§4.1 certificate schema / §5.3 state machine / §5.3.2 integrity_priority" },
   { artifact_id: "mb/dependency-manifest/v14",
-    digest_or_receipt_slot: "11906d5a6978514545c90592d56f9fc2373d3bb7b7ca6456933e1a26ba58d942",
+    digest_or_receipt_slot: "e892be68e79244c8493e37ec77eb3a1cbdb29ee45a911f73040aadaebbb889af",
     anchor: "§2.1 preimage / §2.4 subject binding / §5.2 TCB / §6 intersections" }
 ]
 

@@ -290,6 +290,262 @@ def _check_docs_era(bundle):
     return ok, {"ok": ok, "receipt_schema_id": receipt_schema_id, "documents": per_doc, "errors": errors}
 
 
+# ---------------------------------------------------------------------------
+# PAYLOAD-ERA MATRIX (Sol 便96 W96-2.2 / governing spec sec.5.3.4 /
+# dependency manifest Y-3b).
+#
+# W96-2.2: `docs_era_binding_ok` only ever compared the RECEIPT's three
+# control-plane document hashes with the receiver's own copies. It never
+# looked at the version ids embedded in the PAYLOAD -- and those are v18:
+# the certificate's predicate_spec_id/schema_id, both natives'
+# native_schema_id, and the frozen verifier's own declared trio. So a green
+# `docs_era_binding_ok` was being read as "the payload belongs to the v19
+# era", which it never established.
+#
+# Sol offered two repairs and stated that the one consistent with keeping
+# R1/R2 byte-frozen is (2): declare a versioned mixed-era compatibility
+# matrix and have the consumer check the exact allowed combination PER
+# PLANE. That is what this block does. The matrix itself is normative in
+# governing spec sec.5.3.4; this is its consumer-side enforcement.
+#
+# Fail-closed everywhere: a plane whose era cannot be READ is FAIL, never
+# "assumed compatible". An era NEWER than the matrix allows is equally
+# FAIL -- no forward compatibility is declared anywhere.
+# ---------------------------------------------------------------------------
+
+FROZEN_ERA_DOC_PATHS = {
+    "predicate_spec_id": "docs/week4-NInfty_stage2_spec_v18.md",
+    "verifier_contract_id": "docs/mb_ninfty_verifier_contract_v13.md",
+    "dependency_manifest_schema_id": "docs/mb_dependency_manifest_v13.md",
+}
+_ERA_KEY_SLUGS = {
+    "predicate_spec_id": "mb/ninfty-stage2-predicate/",
+    "verifier_contract_id": "mb/ninfty-verifier-contract/",
+    "dependency_manifest_schema_id": "mb/dependency-manifest/",
+}
+# plane -> which era it must declare ("FROZEN" or "CURRENT"). BOTH eras are
+# READ from files (the byte-frozen trio / the receiver's governing trio);
+# no version number is typed in as a literal here.
+PLANE_ERA = {
+    "frozen_route_verifier": "FROZEN",
+    "native_payload_schema": "FROZEN",
+    "nf_route": "CURRENT",
+    "decision_lane_predicate": "CURRENT",
+    "control_plane": "CURRENT",
+}
+# Live (NON-frozen) sources carrying an `[ep-era-declaration]` marker. The
+# frozen route verifier is deliberately absent: its bytes may not be
+# touched, so its era is read from the EXPECTED_PINS block it already has.
+ERA_MARKER_SOURCES = {
+    "decision_lane_predicate": ["search/ninfty-checker.py", "search/ninfty-searcher-v2.mjs"],
+    "nf_route": ["search/ninfty-verifier-w6-r3nf.py"],
+    "native_payload_schema": ["search/ninfty-searcher-v2.mjs"],
+}
+_ERA_KEYS = ("predicate_spec_id", "verifier_contract_id", "dependency_manifest_schema_id")
+_MARKER_RE = re.compile(
+    r"\[ep-era-declaration\]\s+plane=(?P<plane>[a-z_]+)\s+"
+    r"predicate_spec_id=(?P<predicate_spec_id>\S+)\s+"
+    r"verifier_contract_id=(?P<verifier_contract_id>\S+)\s+"
+    r"dependency_manifest_schema_id=(?P<dependency_manifest_schema_id>\S+)")
+
+
+def _read_declared_id(rel, slug, errors):
+    """Structural id read (id-assignment line, then H1 title) -- never a
+    prose scan, for the same reason `_receiver_docs` gives."""
+    try:
+        with open(os.path.join(os.path.dirname(HERE), rel), "rb") as f:
+            text = f.read().decode("utf-8", "replace")
+    except OSError as exc:
+        errors.append("{0}: unreadable ({1})".format(rel, exc))
+        return None
+    esc = re.escape(slug)
+    m = (re.search(r'^\s*\w*id\s*=\s*"(' + esc + r'v\d+)"', text, re.M)
+         or re.search(r"^#\s+`(" + esc + r"v\d+)`", text, re.M))
+    if m is None:
+        errors.append("{0}: no structural artifact-id declaration matching {1!r}v<NN>".format(rel, slug))
+        return None
+    return m.group(1)
+
+
+def _era_definitions():
+    """(eras, errors). FROZEN comes from the three byte-frozen documents,
+    CURRENT from the receiver's own governing trio."""
+    errors = []
+    frozen = {k: _read_declared_id(FROZEN_ERA_DOC_PATHS[k], _ERA_KEY_SLUGS[k], errors) for k in _ERA_KEYS}
+    mine, doc_errors = _receiver_docs()
+    errors.extend(doc_errors)
+    current = {
+        "predicate_spec_id": (mine.get("predicate_spec") or {}).get("artifact_id"),
+        "verifier_contract_id": (mine.get("verifier_contract") or {}).get("artifact_id"),
+        "dependency_manifest_schema_id": (mine.get("dependency_manifest") or {}).get("artifact_id"),
+    }
+    if any(v is None for v in list(frozen.values()) + list(current.values())):
+        errors.append("one or more era ids could not be read -- the matrix cannot be evaluated (fail-closed)")
+    elif frozen == current:
+        errors.append("FROZEN and CURRENT resolved to the SAME trio -- the matrix would be vacuous; "
+                      "refusing to report PASS on a check that cannot discriminate")
+    return {"FROZEN": frozen, "CURRENT": current}, errors
+
+
+def _frozen_verifier_declared_era(errors):
+    """Reads search/ninfty-verifier-b.py's own EXPECTED_PINS block. That file
+    is BYTE-FROZEN, so it carries no `[ep-era-declaration]` marker and must
+    never be given one."""
+    rel = "search/ninfty-verifier-b.py"
+    try:
+        with open(os.path.join(os.path.dirname(HERE), rel), "rb") as f:
+            text = f.read().decode("utf-8", "replace")
+    except OSError as exc:
+        errors.append("{0}: unreadable ({1})".format(rel, exc))
+        return None
+    out = {}
+    for key in _ERA_KEYS:
+        m = re.search(r'"' + re.escape(key) + r'"\s*:\s*"([^"]+)"', text)
+        if m is None:
+            errors.append("{0}: EXPECTED_PINS carries no {1!r}".format(rel, key))
+            return None
+        out[key] = m.group(1)
+    return out
+
+
+def _marker_eras(rel, errors):
+    """All `[ep-era-declaration]` markers in one live source, keyed by plane."""
+    try:
+        with open(os.path.join(os.path.dirname(HERE), rel), "rb") as f:
+            text = f.read().decode("utf-8", "replace")
+    except OSError as exc:
+        errors.append("{0}: unreadable ({1})".format(rel, exc))
+        return {}
+    out = {}
+    for m in _MARKER_RE.finditer(text):
+        out.setdefault(m.group("plane"), []).append({k: m.group(k) for k in _ERA_KEYS})
+    return out
+
+
+def _payload_era_from_raw(raw):
+    """The era ids the PAYLOAD itself declares: the certificate's
+    predicate_spec_id, its schema_id anchor, and both natives'
+    native_schema_id."""
+    observed, errors = {}, []
+    cert = (raw or {}).get("certificate") if isinstance(raw, dict) else None
+    if not isinstance(cert, dict):
+        errors.append("raw evidence carries no certificate object -- payload era unreadable (fail-closed)")
+        return observed, errors
+    observed["certificate.predicate_spec_id"] = cert.get("predicate_spec_id")
+    schema_id = cert.get("schema_id")
+    suffix = "#cert-schema"
+    if isinstance(schema_id, str) and schema_id.endswith(suffix):
+        observed["certificate.schema_id"] = schema_id[: -len(suffix)]
+    else:
+        observed["certificate.schema_id"] = schema_id
+        errors.append("certificate.schema_id is not a <spec-id>#cert-schema anchor: {0!r}".format(schema_id))
+    for side, label in (("searcher_native", "certificate.searcher_native.native_schema_id"),
+                        ("checker_native", "certificate.checker_native.native_schema_id")):
+        native = cert.get(side)
+        nid = native.get("native_schema_id") if isinstance(native, dict) else None
+        if isinstance(nid, str) and nid.endswith(suffix):
+            observed[label] = nid[: -len(suffix)]
+        else:
+            observed[label] = nid
+            errors.append("{0} is not a <spec-id>#cert-schema anchor: {1!r}".format(label, nid))
+    return observed, errors
+
+
+def _check_payload_era_matrix(raw, control_plane_detail):
+    """Returns (ok, detail). Never raises."""
+    errors = []
+    eras, era_errors = _era_definitions()
+    errors.extend(era_errors)
+    planes = {}
+
+    def _expected(plane):
+        return eras[PLANE_ERA[plane]]
+
+    declared = _frozen_verifier_declared_era(errors)
+    exp = _expected("frozen_route_verifier")
+    ok = declared is not None and declared == exp
+    if declared is not None and not ok:
+        errors.append("plane 'frozen_route_verifier': search/ninfty-verifier-b.py declares {0}, "
+                      "the matrix requires {1}".format(declared, exp))
+    planes["frozen_route_verifier"] = {
+        "status": "PASS" if ok else "FAIL",
+        "required_era": PLANE_ERA["frozen_route_verifier"], "required": exp, "declared": declared,
+        "source": "search/ninfty-verifier-b.py EXPECTED_PINS (byte-frozen: no marker may be added)",
+    }
+
+    for plane in ("nf_route", "decision_lane_predicate", "native_payload_schema"):
+        exp = _expected(plane)
+        per_source, plane_ok = {}, True
+        sources = ERA_MARKER_SOURCES.get(plane) or []
+        if not sources:
+            plane_ok = False
+            errors.append("plane {0!r}: no era-declaring source registered (fail-closed)".format(plane))
+        for rel in sources:
+            found = _marker_eras(rel, errors).get(plane) or []
+            if len(found) != 1:
+                plane_ok = False
+                errors.append("plane {0!r}: {1} carries {2} '[ep-era-declaration] plane={0}' markers, "
+                              "expected exactly 1 (a missing marker is FAIL, never 'compatible')"
+                              .format(plane, rel, len(found)))
+                per_source[rel] = {"status": "FAIL", "markers_found": len(found)}
+                continue
+            got = found[0]
+            src_ok = (got == exp)
+            if not src_ok:
+                plane_ok = False
+                errors.append("plane {0!r}: {1} declares {2}, the matrix requires {3}".format(plane, rel, got, exp))
+            per_source[rel] = {"status": "PASS" if src_ok else "FAIL", "declared": got}
+        planes[plane] = {"status": "PASS" if plane_ok else "FAIL", "required_era": PLANE_ERA[plane],
+                         "required": exp, "sources": per_source}
+
+    observed, obs_errors = _payload_era_from_raw(raw)
+    errors.extend(obs_errors)
+    exp_spec = _expected("native_payload_schema")["predicate_spec_id"]
+    artefact = {}
+    artefact_ok = bool(observed) and not obs_errors
+    for label in sorted(observed):
+        got = observed[label]
+        hit = (got == exp_spec)
+        artefact[label] = {"status": "PASS" if hit else "FAIL", "declared": got}
+        if not hit:
+            artefact_ok = False
+            errors.append("plane 'native_payload_schema': {0} declares {1!r}, the matrix requires {2!r} "
+                          "(R1/R2 read a byte-frozen payload schema -- spec sec.5.3.4 M-2)"
+                          .format(label, got, exp_spec))
+    planes["native_payload_schema"]["artefact_declarations"] = artefact
+    if not artefact_ok:
+        planes["native_payload_schema"]["status"] = "FAIL"
+
+    cp_ok = bool((control_plane_detail or {}).get("ok"))
+    cp_ids = {}
+    for key, doc_key in (("predicate_spec_id", "predicate_spec"),
+                         ("verifier_contract_id", "verifier_contract"),
+                         ("dependency_manifest_schema_id", "dependency_manifest")):
+        cp_ids[key] = (((control_plane_detail or {}).get("documents") or {}).get(doc_key) or {}).get("pinned_artifact_id")
+    exp = _expected("control_plane")
+    ids_ok = (cp_ids == exp)
+    if cp_ok and not ids_ok:
+        errors.append("plane 'control_plane': the receipt pins {0}, the matrix requires {1}".format(cp_ids, exp))
+    planes["control_plane"] = {
+        "status": "PASS" if (cp_ok and ids_ok) else "FAIL",
+        "required_era": PLANE_ERA["control_plane"], "required": exp, "receipt_pinned": cp_ids,
+        "note": ("this plane's DIGEST agreement is the separate column "
+                 "control_plane_docs_receipt_binding (manifest Y-3a); here only its ERA is checked (Y-3b)"),
+    }
+
+    overall_ok = (not errors) and all(v.get("status") == "PASS" for v in planes.values())
+    return overall_ok, {
+        "ok": overall_ok,
+        "schema_ref": "governing spec sec.5.3.4 PAYLOAD_ERA_MATRIX / dependency manifest Y-3b",
+        "eras": eras,
+        "planes": planes,
+        "errors": errors,
+        "note": ("PASS means every plane's declared era EXACTLY matches that plane's single allowed era. "
+                 "It is NOT interchangeable with control_plane_docs_receipt_binding, and neither may "
+                 "substitute for the other (spec sec.5.3.4 M-4)."),
+    }
+
+
 def _resolve_four_roles(raw):
     """
     Resolves ALL FOUR roles (native_a, native_b, nf_a, nf_b) from ONE
@@ -410,8 +666,10 @@ def _resolve_four_roles(raw):
             and not docs_ok:
         for r in ("native_a", "native_b", "nf_a", "nf_b"):
             detail[r] = {"status": "DOCS_ERA_UNBOUND",
-                         "reason": "the resolved generation is not bound to the receiver's governing "
-                                   "spec/contract/manifest trio -- see docs_era_binding"}
+                         "reason": "the resolved generation's CONTROL-PLANE receipt is not bound to the "
+                                   "receiver's governing spec/contract/manifest trio -- see "
+                                   "control_plane_docs_receipt_binding. This says nothing about the "
+                                   "PAYLOAD era; that is a separate column (payload_era_matrix)."}
         contents = {}
 
     statuses = {v["status"] for v in detail.values()}
@@ -424,7 +682,12 @@ def _resolve_four_roles(raw):
         "generation_id": generation_id,
         "freeze_id": bundle_freeze,
         "roles": detail,
-        "docs_era_binding": docs_detail,
+        # 便96 W96-2.2 / spec sec.5.3.4 M-3: RENAMED from `docs_era_binding`.
+        # The old name was read as "the payload belongs to the v19 docs
+        # era", which this check has never established -- it compares the
+        # receipt's three CONTROL-PLANE document hashes against the
+        # receiver's own copies and nothing else.
+        "control_plane_docs_receipt_binding": docs_detail,
         "note": ("all four roles resolved from ONE resolve_bundle call (single CURRENT read) -- a "
                  "mixed-generation four-tuple is structurally unreachable through this entry point"),
     }
@@ -513,7 +776,17 @@ def evidence_union_full_from_raw(raw):
         },
     }
 
+    # Sol 便96 W96-2.2 / spec sec.5.3.4: the payload-era matrix is a SEPARATE
+    # column from the control-plane receipt binding, and it participates in
+    # the composition -- an era mismatch means the routes were evaluated
+    # against payloads from an era nobody declared compatible, which is an
+    # integrity fault, not a mathematical FAIL.
+    era_ok, era_detail = _check_payload_era_matrix(
+        raw, (registry_detail or {}).get("control_plane_docs_receipt_binding"))
+
     overall = _compose_full(columns["R1"]["status"], columns["R2"]["status"], r3_status, registry_status)
+    if overall == "PASS" and not era_ok:
+        overall = "INTEGRITY_STOP"
 
     return {
         "schema_id": FULL_UNION_SCHEMA_ID,
@@ -523,10 +796,14 @@ def evidence_union_full_from_raw(raw):
         "frozen_union_report": frozen,
         "native_registry_status": frozen.get("native_registry_status"),
         "four_role_registry_status": registry_detail,
+        "payload_era_matrix": era_detail,
         "overall_full": overall,
-        "composition_rule": ("intersection only -- overall_full == PASS iff R1, R2 and R3-NF are ALL PASS "
-                             "and the four-role registry resolution is PASS; no column substitutes for "
-                             "another (Sol 便95 F95-2.2)"),
+        "composition_rule": ("intersection only -- overall_full == PASS iff R1, R2 and R3-NF are ALL PASS, "
+                             "the four-role registry resolution is PASS, AND payload_era_matrix.ok is true; "
+                             "no column substitutes for another (Sol 便95 F95-2.2, 便96 W96-2.2). "
+                             "control_plane_docs_receipt_binding (manifest Y-3a) and payload_era_matrix "
+                             "(Y-3b) are DISTINCT: neither may be reported as the other, and neither "
+                             "closes W-6 (便96 W96-2.3)"),
         "artifact_class": ("diagnostic construction (a union report) -- this module mints and publishes "
                            "nothing; minted/published artifacts come only from the NF-gated provisioning "
                            "path (Sol 便95 F95-2.3 terminology separation)"),

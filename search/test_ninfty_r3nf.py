@@ -352,6 +352,193 @@ check("§5 structural: R3-NF's only imports are stdlib (hashlib/json/re/fraction
       == ["__future__", "fractions", "hashlib", "json", "re"],
       sorted(ln for ln in _r3_code_lines if ln.startswith(("import ", "from "))))
 
+# ============================================================================
+# §6 W-6 is NOT implied by R3-NF: the incidence-forgetting negative
+#    (Sol 便96 W96-2.3 minimal counterexample / P96-2.1 item 4 /
+#     governing spec sec.5.3.5 W6-C2, W6-C6)
+#
+# Sol 便96 rejected option (c) ("R3-NF PASS stands in for W-6"). The reason
+# is structural, not a matter of coverage: W-6 recomputes
+#     (pi_* Ram_C)(b) = sum_{r: pi(r)=b} m_r = m_Branch(b)
+# for every branch point b, which needs the INCIDENCE map r |-> pi(r).
+# The normal form carries ramification components, branch components,
+# total degree, the infinity component and the non-ramification
+# certificates -- and no incidence at all. So two pipelines that disagree
+# about which ramification component lies over which branch point produce
+# BYTE-IDENTICAL normal forms.
+#
+# This section fixes that non-implication mechanically, with Sol's own
+# minimal counterexample: r1, r2 with multiplicities 1, 2 and b1, b2 with
+# multiplicities 1, 2.
+# ============================================================================
+
+_R = {"r1": 1, "r2": 2}                       # ramification component -> multiplicity
+_B = {"b1": 1, "b2": 2}                       # branch component      -> multiplicity
+_INCIDENCE_GOOD = {"r1": "b1", "r2": "b2"}    # satisfies W-6
+_INCIDENCE_BAD = {"r1": "b2", "r2": "b1"}     # violates W-6 (images swapped)
+
+
+def _w6_pushforward(incidence):
+    """The W-6 left-hand side: sum multiplicities of the ramification
+    components lying over each branch component."""
+    out = {}
+    for r, m in _R.items():
+        out[incidence[r]] = out.get(incidence[r], 0) + m
+    return out
+
+
+def _nf_forgetful_image(incidence):
+    """Everything R3-NF actually looks at, computed from an incidence-bearing
+    model: the two component multisets, the total degree, the infinity
+    component and the non-ramification certificate. Note that `incidence`
+    is accepted and then never used -- that IS the point being fixed."""
+    del incidence
+    return {
+        "ram_components": sorted(_R.items()),
+        "branch_components": sorted(_B.items()),
+        "total_degree": sum(_R.values()) + sum(_B.values()),
+        "at_infinity": {"coefficient": 4, "ramification_index": 5},
+        "non_ramification": {"p_locus_squarefree": True, "w_locus_squarefree": True},
+    }
+
+
+check("§6 W-6 SEPARATES the two incidences: the good one satisfies "
+      "sum_{r->b} m_r == m_Branch(b) for every b, the swapped one does not",
+      _w6_pushforward(_INCIDENCE_GOOD) == _B and _w6_pushforward(_INCIDENCE_BAD) != _B,
+      {"good": _w6_pushforward(_INCIDENCE_GOOD), "bad": _w6_pushforward(_INCIDENCE_BAD), "branch": _B})
+
+check("§6 R3-NF CANNOT separate them: the NF forgetful image of both incidences is identical, "
+      "so no NF-level predicate -- present or future -- can distinguish a W-6-satisfying pipeline "
+      "from a W-6-violating one (Sol 便96 W96-2.3)",
+      _nf_forgetful_image(_INCIDENCE_GOOD) == _nf_forgetful_image(_INCIDENCE_BAD),
+      {"good": _nf_forgetful_image(_INCIDENCE_GOOD), "bad": _nf_forgetful_image(_INCIDENCE_BAD)})
+
+# The same statement against the REAL genuine NF: no field of the real NF
+# schema carries a ramification -> branch map. This is asserted over the
+# artifact's own key structure, not over a hand-written list of "fields we
+# believe exist", so a future NF schema that DID grow an incidence field
+# would make this check fail loudly rather than silently going stale.
+_nf_keys = set()
+
+
+def _collect_keys(node):
+    if isinstance(node, dict):
+        for k, v in node.items():
+            _nf_keys.add(k)
+            _collect_keys(v)
+    elif isinstance(node, list):
+        for v in node:
+            _collect_keys(v)
+
+
+_collect_keys(NF_A["nf"])
+_INCIDENCE_KEY_TOKENS = ("maps_to", "pushforward", "image_branch", "incidence", "lies_over", "pi_of")
+check("§6 the genuine lane-A NF carries NO incidence-bearing field at all "
+      "(governing spec sec.5.3.5 W6-C2) -- if the NF schema ever grows one, this check fails "
+      "and the W-6 non-implication must be re-argued rather than silently assumed",
+      not any(tok in k for k in _nf_keys for tok in _INCIDENCE_KEY_TOKENS),
+      sorted(_nf_keys))
+
+# And the frozen W-6 verifier DOES consume exactly the map R3-NF lacks --
+# read out of the frozen source, so the claim is about the shipped code.
+with open(os.path.join(HERE, "ninfty-verifier-b.py"), "r", encoding="utf-8") as f:
+    _vb_src = f.read()
+check("§6 the frozen W-6 verifier consumes a per-branch multiplicity map (`branch_value` /"
+      " `multiplicity`) that the NF route never produces -- so R3-NF PASS is not, and cannot be "
+      "made into, a W-6 PASS (Sol 便96 W96-2.3 rejects option (c))",
+      "branch_value" in _vb_src and "branch_value" not in _r3_src,
+      {"frozen_verifier_has_branch_value": "branch_value" in _vb_src,
+       "r3nf_has_branch_value": "branch_value" in _r3_src})
+
+check("§6 W-6 remains OPEN and is reported as such: nothing in this suite, and no green run of it, "
+      "may be counted as W-6 closure or as EP re-activation (Sol 便96 F96-2.3 item 3)",
+      True,
+      "declaration check -- see docs/week4-NInfty_stage2_spec_v19.md sec.5.3.5 UNKNOWN W6-KEY")
+
+# ============================================================================
+# §7 payload-era matrix (Sol 便96 W96-2.2 / governing spec sec.5.3.4 /
+#    dependency manifest Y-3b)
+#
+# The hole W96-2.2 names: `docs_era_binding_ok` compared only the RECEIPT's
+# three control-plane document hashes, never the version ids embedded in the
+# payload -- yet it was being read as "the payload is v19". The repair is
+# Sol's option (2): a versioned mixed-era matrix, checked per plane, with the
+# consumer field renamed so the two claims can never again be confused.
+# ============================================================================
+
+with open(FULL_FIXTURE, encoding="utf-8") as f:
+    _RAW = json.load(f)
+
+check("§7 the banned old field name is gone from the emitted report, and BOTH new columns exist "
+      "(便96 W96-2.2 required the rename, not merely a second check)",
+      '"docs_era_binding"' not in _full_src
+      and '"control_plane_docs_receipt_binding"' in _full_src
+      and '"payload_era_matrix"' in _full_src,
+      "grep over search/ninfty-evidence-union-full.py")
+
+_era_ok, _era = full._check_payload_era_matrix(_RAW, {"ok": True, "documents": {
+    k: {"pinned_artifact_id": v} for k, v in (
+        ("predicate_spec", "mb/ninfty-stage2-predicate/v19"),
+        ("verifier_contract", "mb/ninfty-verifier-contract/v14"),
+        ("dependency_manifest", "mb/dependency-manifest/v14"))}})
+check("§7 all five planes are evaluated and named (no plane may be silently skipped)",
+      sorted(_era["planes"]) == ["control_plane", "decision_lane_predicate", "frozen_route_verifier",
+                                 "native_payload_schema", "nf_route"],
+      sorted(_era.get("planes", {})))
+check("§7 the two eras are READ from files and are genuinely different -- a matrix that cannot "
+      "discriminate must not report PASS",
+      _era["eras"]["FROZEN"] != _era["eras"]["CURRENT"], _era["eras"])
+check("§7 the genuine artifact set satisfies the matrix on every plane "
+      "(R1/R2 payload = FROZEN era, NF route + decision lane + control plane = CURRENT era)",
+      _era_ok is True and all(v["status"] == "PASS" for v in _era["planes"].values()),
+      {k: v["status"] for k, v in _era["planes"].items()} if not _era_ok else _era["errors"])
+
+# --- negatives: each must FAIL, and must name WHICH plane -------------------
+_newer = copy.deepcopy(_RAW)
+_newer["certificate"]["predicate_spec_id"] = _era["eras"]["CURRENT"]["predicate_spec_id"]
+_ok, _d = full._check_payload_era_matrix(_newer, {"ok": True, "documents": {}})
+check("§7 negative: a certificate declaring the CURRENT (newer) spec id FAILS -- there is no "
+      "declared forward compatibility, so 'newer must be fine' is exactly the read the matrix bans "
+      "(spec sec.5.3.4 M-1)",
+      _ok is False and _d["planes"]["native_payload_schema"]["status"] == "FAIL",
+      {"ok": _ok, "plane": _d["planes"]["native_payload_schema"]["status"]})
+
+_missing = copy.deepcopy(_RAW)
+del _missing["certificate"]["searcher_native"]["native_schema_id"]
+_ok, _d = full._check_payload_era_matrix(_missing, {"ok": True, "documents": {}})
+check("§7 negative: an ABSENT native_schema_id FAILS -- an unreadable era is never an "
+      "'assumed compatible' era (fail-closed)",
+      _ok is False and _d["planes"]["native_payload_schema"]["status"] == "FAIL",
+      {"ok": _ok, "errors": _d["errors"][:2]})
+
+_nocert = copy.deepcopy(_RAW)
+del _nocert["certificate"]
+_ok, _d = full._check_payload_era_matrix(_nocert, {"ok": True, "documents": {}})
+check("§7 negative: no certificate at all FAILS rather than vacuously passing",
+      _ok is False, {"ok": _ok, "errors": _d["errors"][:2]})
+
+_ok, _d = full._check_payload_era_matrix(_RAW, {"ok": False})
+check("§7 negative: a control-plane receipt binding that is NOT ok FAILS the control_plane plane "
+      "-- and the payload planes are still reported separately, so neither column can be read off "
+      "the other (spec sec.5.3.4 M-4)",
+      _ok is False and _d["planes"]["control_plane"]["status"] == "FAIL"
+      and _d["planes"]["native_payload_schema"]["status"] == "PASS",
+      {k: v["status"] for k, v in _d["planes"].items()})
+
+_ok, _d = full._check_payload_era_matrix(_RAW, {"ok": True, "documents": {
+    "predicate_spec": {"pinned_artifact_id": "mb/ninfty-stage2-predicate/v18"},
+    "verifier_contract": {"pinned_artifact_id": "mb/ninfty-verifier-contract/v13"},
+    "dependency_manifest": {"pinned_artifact_id": "mb/dependency-manifest/v13"}}})
+check("§7 negative: a receipt whose digests agree but whose pinned era is the FROZEN trio FAILS "
+      "the control_plane plane -- digest agreement is not era agreement (便96 W96-2.2)",
+      _ok is False and _d["planes"]["control_plane"]["status"] == "FAIL",
+      _d["planes"]["control_plane"]["receipt_pinned"])
+
+check("§7 an era-matrix failure cannot be masked into a PASS overall_full "
+      "(the composition rule now includes payload_era_matrix.ok)",
+      "payload_era_matrix" in _full_src.split("composition_rule")[1][:600],
+      "grep over the composition_rule string in search/ninfty-evidence-union-full.py")
+
 n_fail = sum(1 for _, ok, _ in RESULTS if not ok)
 print(f"\n{len(RESULTS)} checks, {n_fail} FAIL")
 raise SystemExit(1 if n_fail else 0)

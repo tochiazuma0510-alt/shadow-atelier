@@ -2,7 +2,7 @@
 
 2026-08-01 起草: Claude(実装係・司令塔指示 便95 修理バンドル item 1)。**前版を supersede。**
 
-> **[historical]** **【版履歴】本版 = 前版の純同期版(内容無改定)。** 起点は **governing spec の v18→v19 更新**(Sol 便95 W95-2.3・`[27]` の versioned freeze)。**本稿 §0 header は governing spec を ID で束縛する**(digest は receipt 側)ため、**spec が新版を得た時点で本稿の当該欄が stale になる** — これは check #1(version-token sweep)が検出する live-stale であり、**本稿自身の交差検査四面・TCB 四欄・D-1〜D-4′・entry の型・role 分類には一切変更が無い**。変更は **1 点のみ** — **(X) §0 header の `governing_spec` を v19 へ更新**・**§9 `live_authority_refs[]` を同期**。**便 66 F11 の hash 順序(manifest → contract → spec)により、本稿の digest 変更は contract 側の `dependency_manifest_schema_digest` pin も連鎖して更新を要する**(§10 参照)。
+> **[historical]** **【版履歴・本版 = v14 DRAFT】本版は「純同期版」ではない。** 起点は **governing spec の v18→v19 更新**(Sol 便95 W95-2.3・`[27]` の versioned freeze)であり、当初の起草は **(X) §0 header の `governing_spec` を v19 へ更新**・**§9 `live_authority_refs[]` を同期**の **1 点のみ**の純同期版だった。**しかし司令塔裁定 2026-08-01 第 3 項により (Y) の実質条項 `Y-3a` が加わり、さらに Sol 便96 W96-2.2 の修理で `Y-3b` が加わった。よって本版は実質改定を含む。** **【chg 便96 W96-2.4 item 1】初稿 v14 の本行は『純同期版(内容無改定)・変更 1 点のみ』と書きながら §0.-0.5 が明文で「本版は純同期版ではない」と述べており、冒頭履歴が事実と食い違っていた — 自認・本行を事実へ訂正した。** **変更点は (X)・(Y)・(Y′ = `Y-3b`) の 3 点**であり、それ以外(交差検査四面・TCB 四欄・D-1〜D-4′・entry の型・role 分類)は v13 と逐語同一。**便 66 F11 の hash 順序(manifest → contract → spec)により、本稿の digest 変更は contract 側の `dependency_manifest_schema_digest` pin も連鎖更新を要する**(§10 参照)。
 
 > **[historical]** **【版履歴】v13 = v12 の修理。** 起点は **Sol 便ではなく内部前哨ゲート(falsifier)の第 2 巡**。変更は **3 点** — **(W1) SB-7 新設**: SB-3′ の主張に **D-R4 と同水準の限界宣言**を付す・**(W2) N-2 新設**: `build_record_present` の虚偽宣言に対する **R-6 + I-3a の補償論法**を番号つきで明文化し、**実装依存部を UNKNOWN として EP へ送る**・**(W3) LA-3 の再型付け**: `[historical]` ではなく **`[sweep-def]`(現行有効な sweep 対象定義)**へ。**数学的内容・交差検査の四面・TCB 四欄・D-1〜D-4′ は前版と逐語同一。**
 
@@ -50,6 +50,7 @@ supersedes_v3     = 1a8d1f2147178b49d5fe81da625256762a9e9dafd1a963b57d554bcf97c7
 |---|---|---|---|
 | **X** | §0 header の `governing_spec` が `v18`(check #1 の版トークン sweep が live-stale と検出する古い ID 束縛) | **`governing_spec = "mb/ninfty-stage2-predicate/v19"` へ**。**§9 `live_authority_refs[]` を同期**。**hash 順序(manifest → contract → spec)により、本稿の digest 変更は contract の `dependency_manifest_schema_digest` pin も連鎖更新を要する**(実施済み: contract v14・spec v19 側) | 便95 W95-2.3(sync bump) |
 | **Y** | §5.3 は入力 blob の digest 一致(Y-3)を要求するが、**その入力が EP registry generation 経由で来る場合に「どの仕様時代の generation か」を機械束縛する条項が無かった**(registry receipt schema `.../gen-receipt/v1` は自世代の artifact digest しか pin しない) | **§5.3 に条項 `Y-3a` を新設**(§8 `covered_clauses` に登録)。registry receipt schema `.../gen-receipt/v2` の `governing_docs` block(三 key・各 `{artifact_id, path, sha256}`)を pin 様式として定め、**v1 receipt を「束縛なしで通す」ことを fail-open として禁じる** | 司令塔裁定 2026-08-01 第 3 項 |
+| **Y′** | **【便96 W96-2.4 item 1 / W96-2.2】** ① 冒頭版履歴が「純同期版・内容無改定・変更 1 点のみ」と書きながら §0.-0.5 が明文で「本版は純同期版ではない」と述べ、**冒頭履歴が事実と食い違っていた**(自認)。② Y-3a は control-plane receipt の文書 pin しか束縛せず、**payload(certificate / native)の era を束縛する条項が無かった** | ① **冒頭版履歴を事実へ訂正**(変更 3 点と明記)。② **§5.3 に条項 `Y-3b` を新設**(§8 `covered_clauses` に登録): payload-era を governing spec §5.3.4 の `PAYLOAD_ERA_MATRIX` へ束縛し、consumer 欄名を `control_plane_docs_receipt_binding` / `payload_era_matrix` の二欄へ分離 | 便96 W96-2.4 item 1・W96-2.2 |
 
 > **【本版は純同期版ではない】** 当初の起草は (X) のみの純同期版だったが、司令塔裁定第 3 項により (Y) の**実質条項 1 件**が加わった。**この差は黙って吸収せず本表に記す。** (Y) 以外の数学的内容(§1–§8 の他の全条項)は v13 と逐語同一であり、**再監査範囲は §0 header の pin と `Y-3a` の 2 点。**
 
@@ -474,6 +475,7 @@ declared_untrusted_inputs[] = {
 | **Y-2** | **入力の共有は独立性を毀損しない。毀損するのは実装の共有である。** |
 | **Y-3** | **A と B で digest 一致を要求する。** 不一致は `digest-mismatch` [12]。 |
 | **Y-3a** | **【chg v14 新設・便95 修理バンドル / 司令塔裁定 2026-08-01】** `governing_spec_blob` / `contract_blob` を declared untrusted input として消費する run が EP registry generation を経由する場合、その generation の bundle receipt は **この三文書(predicate spec / verifier contract / dependency manifest)の exact digest を pin していなければならない**。pin の様式は registry receipt schema `mb/ninfty-ep-registry/gen-receipt/v2` の `governing_docs` block(三 key・各 `{artifact_id, path, sha256}`)。**旧 `.../gen-receipt/v1` は当該 block を持たないので、この束縛を要求する consumer は v1 receipt の generation を受理してはならない**(欠落を「束縛なしで通す」ことは fail-open)。理由: 受領側は「どの仕様時代に provisioning された generation か」を機械束縛できなければ、Y-3 の digest 一致検査を**どの版の blob に対して**行ったのかを後から示せない。**pin 値と受領側手元の三文書の再計算値との照合は consumer 側の義務**(registry 自身は文書木を持たない受領者もあり得るため、格納形式の適合だけを検査する)。 |
+| **Y-3b** | **【chg v14 修理 R96-2・便96 W96-2.2】mixed-era compatibility matrix。** declared untrusted input の era(三文書 ID の三つ組)は **plane ごとに単一値で固定**され、その正本は **governing spec §5.3.4 の `PAYLOAD_ERA_MATRIX`**である。consumer は **plane ごとに exact 一致**を検査しなければならない — 「新しい方を許す」「どちらでもよい」は禁止。**Y-3a(control-plane receipt の文書 pin)と Y-3b(payload の era)は別条項であり、片方の PASS を他方の代用にしてはならない。** consumer 側の欄名も分離する: `control_plane_docs_receipt_binding`(Y-3a)/ `payload_era_matrix`(Y-3b)。**旧名 `docs_era_binding` は payload-era binding と誤読されるため使用禁止**(便96 W96-2.2 が明示要求)。**era を進めるには matrix を versioned に改版する** — 実装だけを進めて matrix を黙って追随させることは `[27]` 事件と同型の違反。 |
 
 #### 5.3.2 入力クラスへの math-helper 混入を防ぐ判定基準 {#input-criteria}
 
@@ -611,7 +613,7 @@ conformance_record = {
                      I-0c″, I-0d, I-0″, I-1, I-2, I-3a, I-3b, I-3c′, I-3d, I-5′, I-6, I-8, LA-1, 
                      LA-2, LA-3, M-1′, M-2′, M-3′, M-4, M-5, QD-1, QD-2, QD-3, QD-4, QD-5′, QD-6, 
                      QD-7, SB-1′, SB-2′, SB-3′, SB-4, SB-5, SB-6, SB-7, T-1″, T-2′, T-3, T-4, 
-                     Y-1, Y-2, Y-3, Y-3a, Y-4, Y-4a, Y-4b, Y-4c, Y-4d]
+                     Y-1, Y-2, Y-3, Y-3a, Y-3b, Y-4, Y-4a, Y-4b, Y-4c, Y-4d]
   covered_procedure_checks = [D-1, D-2, D-3, D-4′, R-1, R-2, R-3, R-4, R-5, R-6, U-1, U-2, U-3, 
                               U-4]
   uncovered_checks = []

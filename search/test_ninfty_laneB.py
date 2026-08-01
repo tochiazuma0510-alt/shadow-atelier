@@ -24,6 +24,7 @@ on any failure.
 """
 import importlib.util
 import json
+import re
 import os
 import sys
 from fractions import Fraction as F
@@ -1099,6 +1100,134 @@ record("P84-4 control: canonical, native-bound generator_chart_a/b -> PASS (gram
 
 
 # --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# S2 band accumulation (Sol 便96 W96-2.1 / governing spec sec.5.3.3 X-1, X-1a)
+#
+# W96-2.1: spec sec.5.3.2's worked example detects [24] and [27] TOGETHER and
+# calls [24] primary, while X-1 declared the whole S2 band mutually exclusive.
+# Both cannot be implemented. Sol's ruling: the S2 band ACCUMULATES; only
+# explicitly listed equivalent-cause pairs are forbidden, and that list is
+# currently empty. Lane A was already cumulative; lane B early-returned at
+# the [27] site, so for a candidate that broke BOTH the attestation and a
+# theorem-forced identity it reported a strictly SMALLER reason set than
+# lane A for the same input -- an evidence loss and a latent [26] divergence.
+#
+# These checks pin the repaired behaviour on BOTH edges: the accumulation
+# itself, the priority-minimum primary, and the unchanged band-level rules.
+# --------------------------------------------------------------------------
+
+_S2_PRIO = chk.INTEGRITY_PRIORITY
+
+# (a) [13] + [27] must BOTH appear. E-6 (gcd(a,p) != 1 after Pell PASS) is
+#     the only S2 reason check_preconditions can raise, and it is evaluated
+#     LAST there, i.e. with E-1..E-4 already passed -- exactly the state in
+#     which [27]'s predicate is defined. Built from a genuine fixture by
+#     changing ONLY p, so the two reasons have genuinely different causes.
+_base = load_fixture("checker_pos_01.json")
+
+
+def _cand(**over):
+    c = json.loads(json.dumps(_base))
+    c.update(over)
+    c["skip_native_construction"] = True
+    return c
+
+
+# a genuine candidate + a contradicting attestation -> [27] alone
+_only27 = _cand(divisor_orientation_attested=False)
+_r = chk.run_checker(_only27)
+record("S2 accumulation: attestation contradiction alone -> [27] and INTEGRITY_STOP",
+       _r["stage"] == "INTEGRITY_STOP"
+       and _r["reason_codes"] == ["divisor-orientation-attestation-mismatch"],
+       json.dumps({"stage": _r["stage"], "codes": _r["reason_codes"], "primary": _r["primary_reason_code"]}))
+
+# the non-firing edge is unchanged: an ABSENT attestation is not an error
+_noatt = _cand()
+_noatt.pop("divisor_orientation_attested", None)
+_r = chk.run_checker(_noatt)
+record("S2 accumulation (non-firing edge): an OMITTED attestation still raises nothing "
+       "-- the derived value stays authoritative (C-4 unchanged by the repair)",
+       _r["stage"] is None and "divisor-orientation-attestation-mismatch" not in _r["reason_codes"],
+       json.dumps({"stage": _r["stage"], "codes": _r["reason_codes"],
+                   "orientation": _r.get("divisor_orientation_status")}))
+
+# an agreeing attestation likewise raises nothing
+_r = chk.run_checker(_cand(divisor_orientation_attested=True))
+record("S2 accumulation (non-firing edge): an AGREEING attestation raises nothing",
+       _r["stage"] is None and _r["reason_codes"] == [],
+       json.dumps({"stage": _r["stage"], "codes": _r["reason_codes"]}))
+
+# (b) the real accumulation test: [27] must NOT swallow the rest of the lane.
+#     After the repair, a [27] candidate still gets T-1 evaluated, so its
+#     rootpart is computed rather than being nulled out by an early return.
+_r = chk.run_checker(_only27)
+record("S2 accumulation: the [27] site no longer early-returns -- T-1 still ran "
+       "(rootpart_a computed, not nulled by an abandoned evaluation)",
+       _r.get("rootpart_a") == [2, 2, 1] and "T1_detail" in _r,
+       json.dumps({"rootpart_a": _r.get("rootpart_a"), "has_T1_detail": "T1_detail" in _r}))
+
+# (c) primary is the PRIORITY MINIMUM of the accumulated set, not the first
+#     code that fired. Asserted directly on the resolver so the invariant is
+#     tested independently of which inputs happen to reach which site.
+_stage, _primary = chk._resolve_stage_and_primary(
+    ["divisor-orientation-attestation-mismatch", "finite-partition-cross-mismatch"])
+record("S2 accumulation: {[24],[27]} -> primary = [24] (priority minimum), matching the "
+       "governing spec sec.5.3.2 worked example that X-1 used to contradict",
+       _stage == "INTEGRITY_STOP" and _primary == "finite-partition-cross-mismatch",
+       json.dumps({"stage": _stage, "primary": _primary}))
+
+_stage2, _primary2 = chk._resolve_stage_and_primary(
+    ["finite-partition-cross-mismatch", "divisor-orientation-attestation-mismatch"])
+record("S2 accumulation: the same set in the OTHER detection order gives the SAME primary "
+       "(spec invariant 4: (verdict, primary) is a function of the input, not of evaluation order)",
+       (_stage2, _primary2) == (_stage, _primary),
+       json.dumps({"order_a": [_stage, _primary], "order_b": [_stage2, _primary2]}))
+
+# (d) an INTEGRITY reason dominates a REJECT reason even when the REJECT one
+#     fired first -- I != empty => INTEGRITY_STOP.
+_stage3, _primary3 = chk._resolve_stage_and_primary(
+    ["a-partition-mismatch", "divisor-orientation-attestation-mismatch"])
+record("S2 accumulation: an accumulated integrity reason dominates a co-present REJECT reason "
+       "(I != empty => INTEGRITY_STOP), so an early REJECT can never hide it",
+       _stage3 == "INTEGRITY_STOP" and _primary3 == "divisor-orientation-attestation-mismatch",
+       json.dumps({"stage": _stage3, "primary": _primary3}))
+
+# (e) fail-closed on an UNKNOWN code: it must not be silently dropped and must
+#     not be able to downgrade the verdict to REJECT.
+_stage4, _primary4 = chk._resolve_stage_and_primary(["some-code-nobody-registered"])
+record("S2 accumulation: an unregistered reason code is classified as INTEGRITY (the strictly "
+       "more severe class) and never silently dropped -- fail-closed",
+       _stage4 == "INTEGRITY_STOP" and _primary4 == "some-code-nobody-registered",
+       json.dumps({"stage": _stage4, "primary": _primary4}))
+
+# (f) the band-level rule is UNCHANGED: S3's [25] is still suppressed while
+#     the S2 band is non-empty. Sol's repair was about WITHIN-band behaviour.
+_with_bad_native = _cand(divisor_orientation_attested=False)
+_with_bad_native["native_artifact"] = {"ramification_divisor_on_C_ref": {"inline": {"components": []}},
+                                       "branch_divisor_on_P1_ref": {"inline": {"components": [
+                                           {"component_id": "x", "multiplicity": 7}]}}}
+_r = chk.run_checker(_with_bad_native)
+record("S2 accumulation: band-level exclusion is UNCHANGED -- [25] (S3) stays suppressed while "
+       "an S2 reason is present, and the suppression is RECORDED rather than silent",
+       "divisor-equality-failure" not in _r["reason_codes"]
+       and "divisor-orientation-attestation-mismatch" in _r["reason_codes"],
+       json.dumps({"codes": _r["reason_codes"], "s3_note": bool(_r.get("s3_suppressed_by_s2"))}))
+
+# (g) the priority table this lane reproduces must be the governing 19 stages,
+#     in order, with [27] LAST -- read out of the governing spec itself so a
+#     future spec edit cannot leave the lane silently stale.
+with open(os.path.join(os.path.dirname(FIXDIR), "..", "..", "docs",
+                       "week4-NInfty_stage2_spec_v19.md"), encoding="utf-8") as _f:
+    _spec_txt = _f.read()
+_spec_order = re.findall(r"^\[\s*(\d+)\]\s+([a-z0-9\-/\.]+)", _spec_txt, re.M)
+_spec_integrity = [name for num, name in _spec_order if 9 <= int(num) <= 27]
+record("S2 accumulation: lane B's INTEGRITY_PRIORITY reproduces governing spec sec.5.3.2's "
+       "19 stages in order, with [27] last (table read FROM the spec, not hand-copied here)",
+       _spec_integrity == list(_S2_PRIO) and len(_S2_PRIO) == 19
+       and _S2_PRIO[-1] == "divisor-orientation-attestation-mismatch",
+       json.dumps({"spec": _spec_integrity, "lane_b": list(_S2_PRIO)}))
+
+
 # report
 # --------------------------------------------------------------------------
 def main():
