@@ -479,3 +479,125 @@ $$\boxed{\ \textbf{凍結 U7-14 は「規約であって定理ではない」の
 | **CB4-ORIENT** | ★★ **争点の決着** | 交差表は**完全に対角**(独立 2 判定 × 3 絞り込み)。**対立規約 inv+rev(右作用)に切り替えると実装係の症状が逐語再現**($1\to1$, $2\to3$, $3\to2$)。⟹ **$\alpha=2,3$ の不一致は左右規約の取り違え。数学ではない** |
 | **CB4-U714** | **裁定材料** | **段 5 は $[\alpha]$ を決定しない**(自己整合検査であって選択理由ではない)。**U7-14 の「規約 → 定理」格上げは不可。** ただし $[4]_{14}=[-4]_{14}$ ゆえ**測定値への実害はゼロ** |
 | **CB4-PRED** | **予言(実装係へ)** | 交差表で $\mathrm{model}(2)\!\leftrightarrow\!\mathrm{abstract}(3)$、$\mathrm{model}(3)\!\leftrightarrow\!\mathrm{abstract}(2)$ が出るはず。**出なければ私の診断が外れ** ⟹ $\bar H^{\rm mod}$(特に $\iota=\tilde\sigma$ の同定)を私が再検分する |
+
+---
+
+# 追記 3(2026-08-01・反証テスト結果を受けて)— **予言の外れの erratum と S6 の確定**
+
+> **位置づけ**: §4.2.4 への **erratum + S6 条文の確定**。§4.2.3・§4.2.4 の本文は**書き換えない**(誤りの記録を残す)。本節が優先する。
+
+## 4.2.5 恒等対角の確定・S6 の最終定義・予言外れの erratum
+
+### 0. 判定(先に 4 行)
+
+| # | 問い | 判定 |
+|---|---|---|
+| **①** | 司令塔の読み(「元の S6 false は比較相手を $\alpha'=1$ に固定していたことの帰結」)の正否 | ★ **正しい。全面的に支持する。** しかも**私自身の標準規約の交差表がそれを直接裏付けている**(§4.2.5.1)。$\bar H^{\rm mod}$ の修理は**不要**(恒等対角そのものが証拠・§4.2.5.2) |
+| **②** | S6 の最終定義 / cert の `alpha_convention` 条文 | §4.2.5.3(**二条件 S6-a 一致 + S6-b 分離**)・§4.2.5.4(cert 条文案) |
+| **③** | §4.2.4 の入れ替え予言部分の erratum 要否 | ★ **要。CB4-ORIENT の機構主張と CB4-PRED を撤回する**(§4.2.5.5)。**維持されるのは「交差表は対角」「不一致は数学ではない」の 2 点** |
+| **★** | 格の変化 | ★ **段 5 は二系統一致に格上げ**: 私の python と実装係の独立 GAP が**恒等対角で一致**。`cross-checked`(**verified ではない**) |
+
+### 4.2.5.1 ① — 読みは正しい(**私のデータが直接裏付ける**)
+
+§4.2.4.3 の交差表(標準規約)を**列で読む**と:
+
+| | model $\alpha=1$ | model $\alpha=2$ | model $\alpha=3$ |
+|---|---|---|---|
+| **abstract $\alpha'=1$ に固定して比較** | **true** | **false** | **false** |
+
+$$\boxed{\ \textbf{これは元の S6 報告(「}\alpha=1\ \textbf{のみ true}\textbf{」)と逐語一致する。}\ }$$
+
+⟹ **実装係の計算と私の計算は、最初から一度も食い違っていなかった。** 食い違っていたのは「段 5 が何と何を比べているか」という**仕様の理解**だけである。
+
+**私の誤りの所在**: 私は「段 5 = model($\alpha$) vs abstract($\alpha$)」と**暗黙に仮定**し、その仮定の下で「$\alpha=1$ のみ true」は自分の対角と矛盾する ⟹ 規約事故だ、と推論した。**仮定を確認しなかった。** 報告された試験の入出力仕様(比較相手・パラメータの束縛)を突き合わせる前に、機構仮説へ跳んだ。**自認。**
+
+### 4.2.5.2 ① 続き — $\bar H^{\rm mod}$ の再検分(**修理不要**)
+
+恒等対角そのものが $\bar H^{\rm mod}=\langle(0,c_g),\tilde\sigma\rangle$ の正しさの証拠である。理由:
+
+* $\bar H^{\rm mod}$ を取り違えていれば、model($\alpha$) は abstract($\pi(\alpha)$) と一致するはず($\pi$ は $\{1,2,3\}$ の**非自明**な置換)。ありうる取り違えと、それが生む $\pi$:
+ * $\iota$ を別の鏡映($\tilde\sigma$ でなく $(0,c_g)\tilde\sigma$ 型)と誤同定 ⟹ ブロックの取り違え ⟹ $r_\infty/r_0$ の符号反転 ⟹ $\pi:\alpha\mapsto-\alpha\sim\alpha$(**恒等**)— これは検出できない。ただし §4.2.4.3 の「符号 $+/+$ 反転版」で**同じ対角**が出ており(TW-6 の「2 ブロックは同じ合成被覆を与える」と整合)、**そもそも結論に影響しない**。
+ * $0\leftrightarrow\infty$ の取り違え ⟹ $\pi:\alpha\mapsto\alpha^{-1}=(1)(23)$ — **観測されない**。
+ * $\zeta_7$ 系の一次取り違え ⟹ $\pi:\alpha\mapsto u\alpha$ 型(例 $(123)$)— **観測されない**。
+* 観測は**恒等**。そしてそれは規約から予測される値と一致する: 模型側 $\chi_{k=1}=(v_1(h),v_1(g))=(-\alpha,-1)$ ⟹ $r_\infty/r_0=-\alpha$、抽象側は $(r_0,r_\infty)=(1,-\alpha)$(`tw_orient.py` の実測ブロック値 $-\alpha$)。**両側が同じ規約で書かれている。** ✓
+
+$$\boxed{\ \bar H^{\rm mod}\ \textbf{の修理は要らない。恒等対角は「正しく組めている」ことの積極的証拠である。}\ }$$
+
+### 4.2.5.3 ② — **S6 の最終定義**(cert 化する条文)
+
+> ### 定義 S6(段 5 の合格条件・**二条件**)
+> 模型をパラメータ $\alpha$ で組んだとき、段 3′ が返す三つ組 $(g_0,g_1,g_\infty)$ について:
+> * **(S6-a) 一致**: $(g_0,g_1,g_\infty)$ は、**対応する窓** $H_{2,\alpha,0}$ の抽象三つ組 $(\bar X,\bar Y,\bar Z)$(左作用・左剰余類 $G_7/H$・$(pq)(x)=p(q(x))$・$\bar X\bar Y\bar Z=1$)と $\mathrm{Sym}(14)$ で**同時共役**。
+> * **(S6-b) 分離**: $\alpha'\ne\alpha$ なる**すべての** $H_{2,\alpha',0}$ に対して**同時共役でない**。
+>
+> **(S6-a) だけでは不十分**である — 分離が無ければ「何にでも当たる試験」でありうる(実測: $\chi_P$ を「直線」で取ると 3 窓すべてに当たる・§4.2.4.2)。**(S6-b) が試験の情報量を保証する。**
+>
+> **合格の形**: $3\times3$ 交差表が **恒等行列**であること。
+
+> ### ⚠ S6 の意味論(**ここを間違えると U7-14 の誤格上げになる**)
+> $$\boxed{\ \textbf{S6 は「入れた }\alpha\ \textbf{を模型の式だけから取り戻せる」という\textbf{装置の自己整合(較正)}である。}\ }$$
+> * **言えること**: 同定機構は 3 類を**識別できる**(C1′(7) の識別能力の実証)。
+> * **言えないこと**: **どの $[\alpha]$ を採るべきか**。それは $K^{(7)}$ という算術的対象の側の問題であり、【I24-a】($\alpha$ 軌道予想)・Sol Q6.1(reduction-functoriality)に依存する。**S6 の射程外。**
+> * ⟹ **U7-14 は未決のまま**(§4.2.4.4 の判定を維持)。
+
+### 4.2.5.4 ② 続き — cert 条文(**そのまま貼れる形**)
+
+```text
+stage5:
+  definition       = "simultaneous conjugacy in Sym(14) of the model triple (g0,g1,ginf)
+                      with the abstract window triple (Xbar,Ybar,Zbar) acting on G_7/H_{2,alpha',0}"
+  convention       = "left action on left cosets; (p*q)(x)=p(q(x)); g0*g1*ginf = 1"
+  s6a_match        = true          # model(alpha) <-> abstract(alpha)
+  s6b_separation   = true          # model(alpha) </-> abstract(alpha') for all alpha' != alpha
+  crosstable_3x3   = identity      # <-- the pass condition
+  comparison_target= "the window H_{2,alpha,0} CORRESPONDING to the model parameter alpha
+                      (NOT a fixed alpha'=1 target)"
+  systems          = ["python  : search/probe/wac_v1/cbeta_recheck.py (mathematician)",
+                      "GAP     : cbeta_crosstable.g (implementer, independent)"]
+  agreement        = true
+  grade            = "cross-checked (NOT verified; Lean unused)"
+
+alpha_convention:
+  alpha_registered        = "[1]   (= H_7^fun = H_{2,1,0};  pre-registration P-1)"
+  alpha_registered_status = "CONVENTION, NOT THEOREM   (U7-14 open: depends on I24-a / Sol Q6.1)"
+  alpha_recovered         = "[1]   (stage 5 read back the alpha the model was built with)"
+  semantics               = "The identity cross-table is a SELF-CONSISTENCY property of the
+                             identification machinery: it recovers whichever alpha it is fed and
+                             separates the three classes.  It does NOT determine which alpha the
+                             arithmetic object K^(7) requires.  U7-14 remains OPEN."
+  impact_on_measured_value= "none.  u_n = 4*(-1)^alpha  and  -1 = zeta_28^14 in F^{x14}
+                             =>  [4]_14 = [-4]_14  =>  all three windows give the same [u_7]_14
+                             (and the same ord = 7).  See fire log 2.3."
+  chi_P_criterion         = "exact" | "full_class"      # "line" is a FORBIDDEN value (fail-open)
+```
+
+### 4.2.5.5 ③ — **erratum(撤回する主張・維持する主張)**
+
+> ### ★ 撤回
+> * **CB4-ORIENT の機構主張**「$\alpha=2,3$ の不一致は**左右規約の取り違え**である」— **撤回**。実装係の GAP は私と**同じ規約**であり、規約事故は起きていなかった。
+> * **CB4-PRED の予言**「交差表で $\mathrm{model}(2)\!\leftrightarrow\!\mathrm{abstract}(3)$、$\mathrm{model}(3)\!\leftrightarrow\!\mathrm{abstract}(2)$ が出るはず」— **外れ**。実測は**恒等対角**。
+> * §4.2.4.3 の「対立規約 inv+rev で症状が逐語再現される」という**計算自体は正しい**(そういう規約なら確かにそうなる)。**誤っていたのは「実装係がその規約を使っている」という補助仮定**であり、私はそれを一度も確認しなかった。
+
+> ### ★ 維持
+> * **交差表は対角である** — 維持(**さらに独立 GAP で裏が取れ、二系統一致に格上げ**)。
+> * **「$\alpha=2,3$ の不一致は数学ではない」** — 維持。ただし理由は規約事故ではなく、**比較相手が $\alpha'=1$ に固定されていたこと**(司令塔の読み)。
+> * **§4.2.4.2($\chi_P$ の正定義・直線は fail-open)** — 維持。本件と独立で、実測に支えられている。
+> * **§4.2.4.1(stub の自認・出所管理の失敗)** — 維持。
+> * **§4.2.4.4(U7-14 の格上げ不可)** — 維持。**むしろ本節で理由がより明確になった**(S6 は自己整合検査)。
+
+> ### ★教材(工房への提案・規約 5 の新設)
+> $$\boxed{\ \textbf{再現しない報告を見たら、機構を推測する前に、両側の\textbf{入出力仕様}を突き合わせよ。}\ }$$
+> 私は「段 5」が**何と何を**比べているかを確認せずに機構仮説(規約事故)へ跳んだ。仕様(**比較相手**)が違っていただけで、数学も実装も最初から一致していた。
+> **提案**: §4.2.3.5 の規約表に **規約 5 `comparison_target`** を追加し、cert の必須欄にする — 「model($\alpha$) を**どの** $H_{2,\alpha',0}$ と比べたか」を明記する。今回それが cert 欄にあれば、疑義は 1 往復で消えていた。
+> **併記すべき明るい面**: 私の予言は**反証可能な形で書かれていた**ので、1 回の走行で外れが確定した。予言先行の規律は**2 度**(stub 発覚・本件)機能している。
+
+### 4.2.5.6 FINDING(本節)
+
+| # | 格 | 内容 |
+|---|---|---|
+| **CB5-READ** | ★ **争点の最終決着** | 司令塔の読みが**正しい**。元の S6 の $\alpha=2,3$ false は**比較相手を $\alpha'=1$ に固定**していた帰結。**私の標準規約の交差表の $\alpha'=1$ 列が逐語一致**。⟹ **python と GAP は最初から一度も食い違っていなかった** |
+| **CB5-RETRACT** | ⚠ **自認(撤回)** | **CB4-ORIENT の機構主張と CB4-PRED を撤回**。誤りは「実装係が逆規約」という**未確認の補助仮定**。計算部分(inv+rev なら症状が出る)は正しいまま |
+| **CB5-HBAR** | **再検分(修理不要)** | 恒等対角は $\bar H^{\rm mod}$ が正しいことの**積極的証拠**($\iota=\tilde\sigma$ の誤同定・$0\!\leftrightarrow\!\infty$・$\zeta_7$ 一次取り違えは、いずれも**非自明な** $\pi$ を生むが観測は恒等) |
+| **CB5-S6** | ★ **条文確定** | **S6 = (S6-a) 一致 + (S6-b) 分離**、合格の形は **$3\times3$ 恒等行列**。意味論は**自己整合(較正)**であって $[\alpha]$ の選択根拠ではない |
+| **CB5-GRADE** | ★ **格上げ** | 段 5 は **python × 独立 GAP の二系統一致** ⟹ `cross-checked`(**verified ではない**)。C-β の同定部分がこれで二系統になった |
+| **CB5-RULE5** | **規約提案** | cert 必須欄に **`comparison_target`** を新設。「機構を推測する前に入出力仕様を突き合わせる」を★教材として記録 |

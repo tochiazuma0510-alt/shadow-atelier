@@ -1,0 +1,12 @@
+model alpha=1: |C0|=7 |C1|=49 |Cinf|=7 triples=49
+    vs abstract alpha'=1:  canon=True   explicit=True   <-- MATCH
+    vs abstract alpha'=2:  canon=False   explicit=False
+    vs abstract alpha'=3:  canon=False   explicit=False
+model alpha=2: |C0|=7 |C1|=49 |Cinf|=7 triples=49
+    vs abstract alpha'=1:  canon=False   explicit=False
+    vs abstract alpha'=2:  canon=True   explicit=True   <-- MATCH
+    vs abstract alpha'=3:  canon=False   explicit=False
+model alpha=3: |C0|=7 |C1|=49 |Cinf|=7 triples=49
+    vs abstract alpha'=1:  canon=False   explicit=False
+    vs abstract alpha'=2:  canon=False   explicit=False
+    vs abstract alpha'=3:  canon=True   explicit=True   <-- MATCH
