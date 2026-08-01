@@ -1,0 +1,61 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "lt-count-13cells-20260801",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P4"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "段1(司令塔発注 2026-08-01・裁定322の GEN_FAIL 可行域全セルの厳密計数)。裁定322(tmax-scan-37-41-20260801)で GEN_FAIL と分類された13セル -- ell=37 x {2,4,5,6,7,8}(t=0,1,3 は HIT 済で除外)・ell=41 x {1,2,3,5,6,7,8}(t=0,4 は HIT 済で除外)-- の T_trans を search/probe/wac_v1/lt_count_gen.g(裁定341・l25t5_count.g の一般化・旧certとバイト同一再現smoke済)で厳密計数する。S7型(核 C_ell x S7、t=7)= ell=37,t=7 と ell=41,t=7 の2セルを最優先標的としてシャード列の先頭に置く。各セルを独立シャードに分離(1セル1 GHA runner)し、大きいセル(特に ell=41,t=8, n=49)の時間/メモリ超過が他セルの完走を道連れにしないようにする。較正窓((23,1^3),n=26,A_26 witness既知)は各シャード内で1回ずつ独立に走る(driver設計-- 全セル共通装置だがシャード分離のためシャードごとに較正を再実行、これはドライバの既定動作でplan側の変更ではない)。期待値/存在のはずはコード・本planいずれにも書かない(接触遮断) -- 予言欄のみ司令塔が別途「可行域セルはT_trans>0」を凍結。"
+    },
+    "frozen_docs": [
+      { "path": "search/probe/wac_v1/lt_count_gen.g", "sha256": "1fa4639d7ef06bc2df02db26ac3098e0af7f8c08475a2663c062741a4dd0a81c" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "LT-COUNT-GEN-PROBE",
+      "version": 1,
+      "params": {
+        "driver": "search/probe/wac_v1/lt_count_gen.g",
+        "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。preamble 変数 LT_CELLS(単セルのリスト)/LT_OUTPUT(シャードごとの出力ファイル名)をシャードごとに注入する(tmax-scan-37-41 と同じ shards[].preamble 方式)。判定ロジック(T_all/T_trans 機構・較正律)は driver 側から無改変。"
+      }
+    }
+  ],
+  "predictions": {
+    "declared_none": "可行域セル(BUDGET_FAIL でない13セル)は T_trans>0 -- 予言は司令塔が別途凍結・接触遮断のためコードにも本planにも期待値は書かない。的中/外れの判定は司令塔がcert実測値と別途照合する。"
+  },
+  "resources": {
+    "backend": "gap-ci",
+    "shards": [
+      { "name": "ell41-t7", "preamble": "LT_CELLS := [[41,7]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell41_t7_20260801.json\";;\n" },
+      { "name": "ell37-t7", "preamble": "LT_CELLS := [[37,7]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell37_t7_20260801.json\";;\n" },
+      { "name": "ell37-t2", "preamble": "LT_CELLS := [[37,2]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell37_t2_20260801.json\";;\n" },
+      { "name": "ell37-t4", "preamble": "LT_CELLS := [[37,4]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell37_t4_20260801.json\";;\n" },
+      { "name": "ell37-t5", "preamble": "LT_CELLS := [[37,5]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell37_t5_20260801.json\";;\n" },
+      { "name": "ell37-t6", "preamble": "LT_CELLS := [[37,6]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell37_t6_20260801.json\";;\n" },
+      { "name": "ell37-t8", "preamble": "LT_CELLS := [[37,8]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell37_t8_20260801.json\";;\n" },
+      { "name": "ell41-t1", "preamble": "LT_CELLS := [[41,1]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell41_t1_20260801.json\";;\n" },
+      { "name": "ell41-t2", "preamble": "LT_CELLS := [[41,2]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell41_t2_20260801.json\";;\n" },
+      { "name": "ell41-t3", "preamble": "LT_CELLS := [[41,3]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell41_t3_20260801.json\";;\n" },
+      { "name": "ell41-t5", "preamble": "LT_CELLS := [[41,5]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell41_t5_20260801.json\";;\n" },
+      { "name": "ell41-t6", "preamble": "LT_CELLS := [[41,6]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell41_t6_20260801.json\";;\n" },
+      { "name": "ell41-t8", "preamble": "LT_CELLS := [[41,8]];;\nLT_OUTPUT := \"search/certs/lt_count_gen_ell41_t8_20260801.json\";;\n" }
+    ],
+    "timeout_min": 300,
+    "checkpoint": false,
+    "v0_driver": {
+      "script": "search/probe/wac_v1/lt_count_gen.g",
+      "sha256": "1fa4639d7ef06bc2df02db26ac3098e0af7f8c08475a2663c062741a4dd0a81c",
+      "preamble": ""
+    }
+  },
+  "outputs": {
+    "cert_schema": "wac_v1-lt-count-gen-cert/v1 (raw measurement; 正本は本 probe スクリプト自身のヘッダコメント)",
+    "out_dir": "search/certs"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
