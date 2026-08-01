@@ -1268,3 +1268,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - fam_u_assembly_v1.md 新設(228 行・candidate): P95-1.1 逐語+前件 4 表(空欄なし)+格 delta(M2→theorem・C6b theorem・M4=系・D-3/D-4 は鎖から離脱、SPLIT のみ M4 経由残存)+n=5 復帰 3 段手続(認可→versioned addendum→黙読み替え禁止)+外枠距離図。
 - u7_fire_log 追記 5(+185 行): B-LIMIT-2 → 依存監査 B-LIMIT-2′(構文的不在≠意味論的無矛盾の自認・無条件拡張の明文禁止・【UNKNOWN BL-2】)・B-LIMIT-0/0a/条件付き 1 の PASS 記録・cert 欄差替(unconditional から除去・dependency_audit 新設)・F95-4.4 の effective_source_chain 指定。
 - 便 96 申し送り: ①D.7(3) 照会 ②assembly 監査点 A(位数計算そのものは初等・独立で枠組依存は表より薄い可能性)③m2 監査点 G(φ(n)/2 dessins 全 ℚ = UNKNOWN 継続・主証明 BCL 非依存化で判定は鋭利化)。
+
+## 2026-08-01 EP 二 writer 並走 incident と収束(裁定 349)
+- 経緯: 研究者が前任実装係(sonnet)を停止 → 司令塔が専任係(opus・ep-keeper 代替起動)を発進。しかし停止前に司令塔が送った検問 1 承認の配達が停止をまたいで前任の最終バーストを誘発し、**約 25 分間、二 writer が同一 EP ツリーへ並走**(前任: R3-NF 一式・第二縁 fixture・selfaudit v9 / 後任: v19 修理・Y-3a・receipt v2・repin)。後任が mtime 監査で検知し書き込み自主停止 → 司令塔がタスク台帳で前任の死亡確認 → 単独再開を指示。
+- 収束: 前任成果は検証採用方式(F95-2.2 承認形+束縛条項への逐条突合後に正本化)・repin 再確認・selfaudit v9+全 suite は統合後 fresh 走行の値のみ引用・incident は cert findings に記録。後任が自分の重複 R3-NF を発見時点で削除していた判断も適切。
+- **教訓(手順化)**: 係の交代時は (1) 前任へ TaskStop を明示発行し task registry で不在を確認してから後任を起動 (2) 停止通知の受信だけで死亡と見なさない(未配達の承認/指示メッセージが再起動を誘発し得る)(3) 後任の起動 briefing に「開始時 git status を保存し、以後の他者書き込みを mtime で監査」を含める — 今回後任がこれを自発実施して検知に成功した。
