@@ -1313,3 +1313,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **発案係第 17 便受領(P5/P6 諮問・研究者発)**: P5 札 3(FV 三層格上げ・744 死因の定理化・壁窓 ĉ カナリア)+P6 札 4(GT(K_π) 群化 GTPI・PB₄ 見積・IH-NEC 接続+FAKE-KILL・TAU-ISO 族判定律)。司令塔採択 = **次波: P6-1(400 対合成の全数照合+closure 紙・CV-9 凍結つき)と P5-2(死因の定理化・数学者委嘱・falsifier 前哨つき)**・P5-1 は P5-2 と同便同梱・P6-2 は P6-1 と同日 30 分先行。
 
 ## 2026-08-01 EP CI 初回 failure の修理(裁定 356)— 原因 = smoke cert の freeze pin 残置(b のまま)を同世代不変量が STALE 検出 = **fail-closed ゲートの本番初捕獲(正しい failure)**。修理 = freeze c へ再 pin・ローカル照合 registry=PASS(R1/R2 MALFORMED は想定・overall INTEGRITY_STOP の正直記録不変)→ CI 再発火。
+
+## 2026-08-01 EP CI green(裁定 357)— run 30691344542 success(headSha=d387c490 突合済)・修理版 workflow の二欄 hard-assert 下で 7 suite 730 検査 green・receipt 収蔵 = ep_ci_receipt_run30691344542.json。2 回目 failure は push/dispatch 競合による旧 SHA 走行(誤警報)— 以後 dispatch 前に remote head 突合を定型化。EP 差戻し修理の CI 実証まで完了 — 残 = W6-KEY 設計裁定(便 97)・positive control(諮問)。
