@@ -601,3 +601,307 @@ alpha_convention:
 | **CB5-S6** | ★ **条文確定** | **S6 = (S6-a) 一致 + (S6-b) 分離**、合格の形は **$3\times3$ 恒等行列**。意味論は**自己整合(較正)**であって $[\alpha]$ の選択根拠ではない |
 | **CB5-GRADE** | ★ **格上げ** | 段 5 は **python × 独立 GAP の二系統一致** ⟹ `cross-checked`(**verified ではない**)。C-β の同定部分がこれで二系統になった |
 | **CB5-RULE5** | **規約提案** | cert 必須欄に **`comparison_target`** を新設。「機構を推測する前に入出力仕様を突き合わせる」を★教材として記録 |
+
+---
+
+# 追記 4(2026-08-01・便 94 F94-2 修文波)— C-β-IND 自己検査の正しい仕様 と B-LIMIT の条件付き化
+
+> **位置づけ**: Sol 便 94 **W94-2.1 / P94-2.1 / W94-2.2** への修文(司令塔委嘱・裁定 319)。**§2(B-LIMIT)・§4.2.3.1(C-β-IND)・§4.2.3.5(自己検査表)は書き換えない**(erratum 方式)。抵触する箇所は**本追記が優先**する。
+> 入力正本: `sol/sol_reply_94_math21.md` W94-2.1 / P94-2.1 / W94-2.2 / F94-2.3 / ★教材 1
+> 対象 cert: `search/certs/u7_cbeta_final_20260801.json`(SHA-256 `57e26d7d…f017c7843`)の `c_beta_ind_dummy_h_selfcheck` ブロック
+> 新規検算: `search/probe/wac_v1/cbeta_ind_fixtures.py`(SHA-256 `59de0fd0660e43324253f8c93707d9c6e76f08990a1e3f5f8c8baadf676e9bfc`)
+
+## 0. 判定(先に 5 行)
+
+| # | 問い | 判定 |
+|---|---|---|
+| **①** | W94-2.1(dummy 自己検査は記載どおりの検査になっていない) | ★ **全面受諾**。3 点の指摘はいずれも正しく、**識別力はゼロ**であった。原因は「$h$ を任意の有理関数に替える」という条文が、**実装の入力スキーマに存在しない操作**を指していたこと(§4.2.6.2) |
+| **②** | どう直すか | P94-2.1 の **3 案を排他選択せず全部採る**: 案 3(source/dependency audit + 入力 digest)を **C-β-IND の正式条件**に格上げし、案 1(別 admissible fixture)+ 案 2(controlled reject)を**識別力の操作的試験**として別立てにする(§4.2.6.6) |
+| **③** | 何を検査すべきだったか | **入力は $h$ ではなく C-β datum $\mathfrak D=(n;r_0,r_\infty)$**(§4.2.6.3)。検査すべきは (i) 許容性述語 A1–A6 の fail-closed 判定(§4.2.6.4)と (ii) **二種の正規化に対する識別力**(§4.2.6.5) |
+| **④** | 修理された fixture | **DUM-1〜DUM-5** を事前登録値つきで提示(§4.2.6.7)。★ **DUM-3 は現行コードの実 fail-open を突く**(rank 欠損 datum を無検査で受理し、誤った群を構成しうる) |
+| **⑤** | W94-2.2(B-LIMIT は条件付き) | ★ **受諾。ただし分解すると無条件部が残る**。2-part が決まる理由は $t$ の忠実性ではなく**ブロック指標が ambient 群 $\mathfrak F_0$ 全体で自明**であること。設計結論(経路 B は第二系統でない)は **FAITH なしで**成り立つ(§2′.4) |
+
+> **一行で**: dummy は**仕様が採る同値関係の外**へ出て初めて識別力を持つ。今回の 2 個は**どちらも中に居た**($99\equiv1$、$5\sim[2]$)。修理は「別の $h$」ではなく「**別の datum + 正規化つき識別力証明**」である。
+
+---
+
+## 4.2.6 C-β-IND — 自己検査の erratum と正しい条文
+
+### 4.2.6.1 erratum(受諾・撤回する主張)
+
+cert の `c_beta_ind_dummy_h_selfcheck` について:
+
+| 指摘(W94-2.1) | 検算 | 判定 |
+|---|---|---|
+| 入力は任意の有理関数 $h$ ではなく、同じ特殊族 $h_\alpha$ の **label** | 実装の自由入力は $(n,\alpha)$ のみ(`cbeta_model.py` の `model_group(n,a)`・`cbeta_recheck.py` の `model_triples(a)`) | ★ **正しい** |
+| dummy $\alpha=99$ は $\bmod 7$ で $\alpha=1$ と同じ | $99=7\cdot14+1$ ⟹ 残差 $1$ | ★ **正しい** |
+| $\alpha=5$ は $\pm$ 同値で窓 $[2]$ の内部 | $5\equiv-2\ (7)$ ⟹ 窓類 $\min(5,2)=2$ | ★ **正しい** |
+| 「任意の $h$ で成功せよ」は基準自体が強すぎる | 任意の有理関数は $V_4$ 適合($h^\sigma=h^{-1}$ 等)を満たさない | ★ **正しい** |
+
+> ### 撤回
+> **`c_beta_ind_dummy_h_selfcheck` を C-β の独立性の根拠として数える記述を撤回する。**
+> 2 回の走行は「同じコードが**登録済み宇宙の内部の別ラベル**で走った」ことしか示していない。**維持する**のは cert の主結果(段 3′-a/b/c、S1–S9、$3\times3$ 恒等交差表)であり、これらは本 erratum の影響を受けない — F94-2.1 が採択した独立性は **source/dependency audit** に基づくものであって、dummy 走行に基づくものではないからである。
+
+### 4.2.6.2 なぜ効かなかったか — 条文と入力スキーマの型不整合
+
+§4.2.3.1 の操作的判定基準
+
+$$\text{「}h\text{ を任意の別の有理関数に取り替えても同じコードが走るか」}$$
+
+は、**実装の入力スキーマに存在しない操作**を指していた。実装が受け取るのは有理関数ではなく、次の**有限の数値 datum** である:
+
+$$\mathfrak D=(n;\ r_0,\ r_\infty),\qquad \chi_0=(r_0,0),\ \ \chi_\infty=(r_\infty,-1),\ \ \chi_1=(0,0),\qquad \theta\text{-作用行列}=\begin{pmatrix}-1&-2r_\infty\\0&1\end{pmatrix}.$$
+
+$h$ 自体はコードに現れない。**条文が指す操作が実装に無いとき、条文は必ず「近いが別の操作」(= ラベル変更)へすり替わる。** 今回はそれが起きた。**⟹ 条文は入力スキーマの語彙だけで書かれなければならない**(本追記の一般教訓)。
+
+### 4.2.6.3 ★ 正しい入力スキーマ — C-β datum
+
+段 3′ が実際に消費する datum を明示する。$F\supseteq\mathbf Q(i)$、底は $\mathbf P^1_k\to\mathbf P^1_\lambda$($\lambda=m_0^2$、$m_0=\frac{1+k^2}{1-k^2}$)で
+
+$$V_4=\{1,\ \sigma:k\mapsto-k,\ \theta:k\mapsto1/k,\ \sigma\theta:k\mapsto-1/k\}$$
+
+を固定する。
+
+> ### 定義(C-β datum)
+> $$\mathfrak D=\bigl(n;\ r_0,r_\infty\in\mathbf Z\bigr),\qquad
+> h_{\mathfrak D}(k)=(k-i)^{r_0}(k+i)^{-r_0}(k-1)^{r_\infty}(k+1)^{-r_\infty},\qquad g=\frac{k+1}{k-1},$$
+> $$\operatorname{div}(h)=r_0([i]-[-i])+r_\infty([1]-[-1]),\qquad \operatorname{div}(g)=[-1]-[1],$$
+> $$\widetilde W_0:\ y^{\,n}=h_{\mathfrak D}(k),\qquad \iota=\tilde\sigma,\qquad W_0=\widetilde W_0/\langle\iota\rangle .$$
+> **これまで使ってきた $h_\alpha$ 族は $\ (r_0,r_\infty)=(1,-\alpha)\ $ という 1 次元の部分族にすぎない。**
+
+**一般 $(r_0,r_\infty)$ での変換則(紙・本追記で新規に計算)**: $1/k-i=-i(k+i)/k$、$1/k+i=i(k-i)/k$、$1/k\mp1=\mp(k\mp1)/k$ より
+
+$$\boxed{\ h^\sigma=h^{-1},\qquad g^\sigma=g^{-1},\qquad h^\theta=(-1)^{r_0+r_\infty}\,h^{-1}g^{-2r_\infty},\qquad g^\theta=-g\ }$$
+
+$n$ 奇ゆえ定数 $\pm1$ は $n$ 乗で消え、指標 $(c_h,c_g)\in\operatorname{Hom}(\bar A,\mu_n)$ への作用は
+
+$$\sigma\cdot(c_h,c_g)=(-c_h,-c_g),\qquad \theta\cdot(c_h,c_g)=(-c_h-2r_\infty c_g,\ c_g).$$
+
+$(r_0,r_\infty)=(1,-\alpha)$ を入れると $\theta\cdot(c_h,c_g)=(-c_h+2\alpha c_g,c_g)$ と §4.2.3.2(ii) に一致する(**旧計算の一般化であって訂正ではない**)。
+
+**正規化された窓ラベル**(datum ⟹ 窓 の写像):
+
+$$\boxed{\ [\alpha](\mathfrak D)\ :=\ \bigl[-r_\infty\,r_0^{-1}\bigr]\ \in\ (\mathbf Z/n)^\times/\{\pm1\}\quad(\gcd(r_0,n)=1\ \text{のとき}) }$$
+
+### 4.2.6.4 ★ 許容性述語(fail-closed・理由コードつき)
+
+**列挙を始める前に**次を順に判定する。1 つでも落ちたら `CONTROLLED_REJECT` + 理由コードを返し、**群構成へ進まない**。
+
+| # | 条件 | 数式 | 理由コード | 現行コードの状態 |
+|---|---|---|---|---|
+| **A1** | $n$ 奇・$n\ge3$ | — | `N_NOT_ODD` / `N_TOO_SMALL` | ★ **未検査** |
+| **A2** | ★ **Kummer rank 2** | $\lvert\bar A\rvert=\bigl\lvert\langle[h],[g]\rangle\bigr\rvert=n^2$。核の計算より $\lvert\bar A\rvert=n^2/\gcd(r_0,n)$ ⟹ **条件 $\iff\gcd(r_0,n)=1$** | `KUMMER_RANK_DEFICIENT` | ★★ **未検査(fail-open)** |
+| **A3** | $V_4$-作用の整合 | $\sigma,\theta$ 行列が $V_4$-作用を定める | `NOT_A_V4_ACTION` | 検査済(`assert`) |
+| **A4** | $\bar H^{\rm mod}$ が部分群・指数 $2n$ | $\lvert\bar H^{\rm mod}\rvert=2n$、$[\mathcal M^{\rm mod}:\bar H^{\rm mod}]=2n$ | `HBAR_NOT_SUBGROUP` | 部分群性のみ検査済 |
+| **A5** | ★ **coset 作用の忠実性**(core-free) | 置換群としての $\lvert\mathcal M^{\rm mod}\rvert=4n^2$ | `ACTION_NOT_FAITHFUL` | ★ **未検査**(S1 が実質これを兼ねるが明示欄が無い) |
+| **A6** | 局所類の実現可能性 | $\chi_0\in\operatorname{im}(1+\sigma\theta)$、$\chi_\infty\in\operatorname{im}(1+\theta)$ | `CHI_NOT_REALISABLE` | 暗黙(空集合になれば triples $=0$) |
+
+**A2 の証明**(本追記): $\mathbf Z^2\to(\mathbf Z/n)^{\{i,-i,1,-1\}}$、$(a,b)\mapsto a\operatorname{div}(h)+b\operatorname{div}(g)$ の核は $\{(a,b):ar_0\equiv0,\ b\equiv ar_\infty\}$ ゆえ位数 $\gcd(r_0,n)$。∎
+
+> ### ⚠ A2 が現行コードで**未検査**であることの意味
+> `model_group(n,a)` は $\bar A^\vee=(\mathbf Z/n)^2$ を**無条件に**構成する。$\gcd(r_0,n)>1$ の datum を与えると、実際の $\bar A$ は位数 $n^2/\gcd(r_0,n)$ であるのに、コードは位数 $n^2$ の群を作って列挙を最後まで走らせる — **走行は落ちず、返る答えは別の群のもの**である。これは §4.2.3.4 の CB3-TRAP と**同型の fail-open** であり、DUM-3 がこれを突く。
+
+### 4.2.6.5 ★ 識別力の定義(★教材 1 の操作化)
+
+dummy が識別力を持つとは、**仕様が採用する同値関係の外**にあることを機械が確認できることをいう。本設定の同値関係は**二層**あり、**両方を明示せねばならない**。
+
+| 層 | 正規化写像 | 登録済み宇宙 | 「外」の意味 |
+|---|---|---|---|
+| **入力層** | $\mathfrak D\mapsto(n;r_0\bmod n,\ r_\infty\bmod n)$ | $\{(7;1,-\alpha):\alpha=1,2,3\}\cup\{(3;1,-1)\}$ | **datum が登録族に無い** |
+| **出力層** | $\mathfrak D\mapsto\bigl(n,\ [\alpha](\mathfrak D)\bigr)$ | $\{(7,[1]),(7,[2]),(7,[3]),(3,[1])\}$ | **窓が登録宇宙に無い** |
+
+> ### 規範
+> 1. dummy は **raw label ではなく正規化後**に既存 fixture と異なることを **machine-check** し、その計算結果を cert に載せる(`dummy_discriminating_power` 欄)。
+> 2. dummy 集合は **入力層の外に出るもの**と**出力層の外に出るもの**を**各 1 個以上**含む。
+> 3. 旧 dummy の適格性(記録として残す): $\alpha=99\mapsto(7;1,-1)$ = 登録済み・窓 $[1]$ = 登録済み ⟹ **両層とも内側**。$\alpha=5\mapsto$ 窓 $[2]$ = 登録済み ⟹ **出力層で内側**。**⟹ 識別力ゼロ。**
+
+### 4.2.6.6 ★ 修正条文 — 規約 C-β-IND′(§4.2.3.1 の操作的判定基準を置換)
+
+> ### 規約 C-β-IND′
+> **(I) 正式条件(独立性の根拠はこれである)**
+> 1. **source/dependency audit**: 段 1–5 の実装が (F1) TOWER-n / KUM-n / TW-1 / SPLIT / 補題 EXP、(F2) ODD-P の模型側入力、(F3) 経路 B の入力を **import も参照もしていない**ことを、source と依存グラフの読解で確認する。確認者・確認範囲・読んだ source の digest を cert に記録する。
+> 2. **入力 digest の固定**: 使用した C-β datum $\mathfrak D$、$h,g$ の式、$\operatorname{div}$、$V_4$-作用行列、$\chi_P$、$\bar H^{\rm mod}$ を**数値として**cert に列挙し、その digest を固定する。
+> 3. **`uses_Ih_image = false`** を維持する(不変)。
+>
+> **(II) 操作的試験(識別力・(I) の補助であって代用ではない)**
+> 4. **RUN-ADM**: 許容性 A1–A6 を満たし、かつ §4.2.6.5 の**入力層の外**にある datum を、$h,g,\operatorname{div}$、作用行列、$\chi_P$ まで明示入力して**最後まで走らせ**、事前登録した期待値と一致することを確認する。
+> 5. **RUN-SEP**: 許容だが**出力層の外**にある datum で、S6 が**全窓に対して非共役**を返すことを確認する(分離条件の識別力)。
+> 6. **RUN-REJ**: **非許容** datum が、**列挙開始前に**理由コードつきで `CONTROLLED_REJECT` されることを確認する。
+> 7. **識別力の証明**: 4–6 の各 dummy について、正規化後に登録済み宇宙と異なることの計算を cert に載せる。
+>
+> **(III) 禁止**
+> 8. 「任意の有理関数 $h$ で走ること」を条件にしない(**基準として強すぎ、かつ実装の入力型と合わない**)。
+> 9. **(II) の走行を独立性の根拠として数えない**。(II) が示すのは「コードが窓固有の値に張り付いていないこと」であり、独立性そのものは **(I)** が担う。
+
+### 4.2.6.7 ★ 事前登録 fixture(予言表)
+
+**$n=5$ は【凍結 U7-NO5】により fixture に用いない**(下表に $n=5$ は現れない)。
+
+| ID | 種別 | datum $(n;r_0,r_\infty)$ | $h$ | 入力層 | 出力層 | **事前登録の期待値** |
+|---|---|---|---|---|---|---|
+| **CTRL** | 対照 | $(7;1,-\alpha)$, $\alpha=1,2,3$ | $\frac{k-i}{k+i}g^{\alpha}$ | 内 | 内 | $\lvert\mathcal M\rvert=196$, deg $14$, $\lvert C_0\rvert=\lvert C_\infty\rvert=7$, $\lvert C_1\rvert=49$, triples $49$, 軌道 **1**(196), S6 = **恒等対角** |
+| **DUM-1** | RUN-ADM | $(7;\,\mathbf 2,-1)$ | $\bigl(\frac{k-i}{k+i}\bigr)^{2}g$ | ★ **外**($r_0\ne1$) | 内(窓 $[3]$) | 走破。$\lvert\mathcal M\rvert=196$, deg $14$, triples $49$, 軌道 **1**(196), 巡回型 $((14),2^61^2,(14))$、**S6 行 $=(\text{F},\text{F},\mathbf T)$ — 窓 $[3]$ と一致**($[-r_\infty r_0^{-1}]=[4]=[3]$) |
+| **DUM-2** | RUN-SEP | $(\mathbf{11};1,-4)$ | $\frac{k-i}{k+i}g^{4}$ | ★ **外** | ★ **外**(窓 $(11,[4])$) | 走破。$\lvert\mathcal M\rvert=\mathbf{484}$, deg $\mathbf{22}$, $\lvert C_0\rvert=\lvert C_\infty\rvert=11$, $\lvert C_1\rvert=121$, triples $121$, 軌道 **1**(484), 巡回型 $((22),2^{10}1^2,(22))$、**S6 行 over $[1..5]$ $=(\text F,\text F,\text F,\mathbf T,\text F)$** |
+| **DUM-3** | RUN-REJ | $(9;\,\mathbf 3,-1)$ | $\bigl(\frac{k-i}{k+i}\bigr)^{3}g$ | 外 | — | ★ **`CONTROLLED_REJECT` / `KUMMER_RANK_DEFICIENT`**($\lvert\bar A\rvert=27\ne81$)。**列挙に入ってはならない** |
+| **DUM-4** | RUN-REJ(自己検査段) | $(9;1,\mathbf{-3})$ | $\frac{k-i}{k+i}g^{3}$ | 外 | 外($\gcd(3,9)>1$ ⟹ 窓ですらない) | 許容性は通るが **S1 と S3 が落ちねばならない**: 実測 $\lvert\mathcal M^{\rm mod}\rvert=\mathbf{108}\ne4n^2=324$(**作用が非忠実**・核位数 3)、巡回型 $\bigl((18),2^81^2,\mathbf{(6,6,6)}\bigr)\ne((18),2^81^2,(18))$。S6 は全窓 **F** |
+| **DUM-5** | RUN-REJ | $(6;1,-1)$ | — | 外 | — | ★ **`CONTROLLED_REJECT` / `N_NOT_ODD`** |
+
+**出所**: `search/probe/wac_v1/cbeta_ind_fixtures.py`(SHA-256 `59de0fd0…f676e9bfc`)。**格の申告**: 単系統 python・整数演算のみ・**設計の自己検算であって正式執行ではない**。CTRL 行は既存 cert の実測(GAP 独立系統)と一致した(196/14/49/1/恒等対角)ので、**新規行(DUM-1〜5)は実装係への予言**である。**不一致は本設計の反証。**
+
+> ### ★ DUM-1 が効く理由(設計意図)
+> DUM-1 は**出力層では内側**(窓 $[3]$)だが、**予言する列が naive なラベル読み($r_\infty=-1$ ⟹「$\alpha=1$」)とは異なる**。もしコードが因子データではなく**ラベル**に張り付いていれば、S6 は 1 列目に当たる。**外れ方が一意に決まっている**点で、CB3-TRAP と同種の fail-open を捕らえる。
+> ### ★ DUM-4 が効く理由
+> 許容性 A1–A2 を通過し、**走行は最後まで落ちない**。落ちるのは S1(群位数)と S3(passport)である。⟹ **S1/S3 が空虚な検査でないこと**の証明になる。さらに「$\gcd(\alpha,n)>1$ の窓は型が変わる」という FAM-U の射程外宣言(`fam_u_v1.md` §1)に、**機械的な裏付け**を 1 本与える。
+
+### 4.2.6.8 実装への修理指定(差分・境界の明確な機械作業)
+
+| # | 対象 | 修理 |
+|---|---|---|
+| **R1** | `model_group(n,a)` の signature | `model_group(n, r0, rinf)` へ一般化(現行は $r_0=1$ 固定)。$\chi_0=(r_0,0)$、$\chi_\infty=(r_\infty,-1)$ を**引数から**構成する |
+| **R2** | 前置検査 | §4.2.6.4 の A1–A6 を**列挙前**に実行し、不合格は理由コードつきで `CONTROLLED_REJECT`(例外送出ではなく**構造化された戻り値**) |
+| **R3** | A2 の実装 | $\lvert\bar A\rvert=n^2/\gcd(r_0,n)$ を**因子行列から**計算して $n^2$ と比較(公式の埋め込みではなく、$\operatorname{div}(h),\operatorname{div}(g)$ を並べた $2\times4$ 行列の $(\mathbf Z/n)$-span の位数として) |
+| **R4** | A5 の実装 | coset 作用の像位数を $4n^2$ と比較し、**明示欄** `action_faithful` に記録 |
+| **R5** | cert 欄 | `c_beta_ind_dummy_h_selfcheck` を廃し、**`c_beta_ind`** ブロックへ: `source_audit`(確認者・範囲・digest)、`input_digest`、`uses_Ih_image`、`runs: [RUN-ADM, RUN-SEP, RUN-REJ×2]`、各 run に `datum`、`normalised_input`、`normalised_window`、`discriminating_power: {input_layer_novel, output_layer_novel}`、`expected`、`observed`、`verdict` |
+| **R6** | 独立実装 | GAP 側(`cbeta_model_indep.g`)にも R1–R4 を適用し、DUM-1/DUM-2 の予言表を**独立に**再現する。python 側を import しないこと |
+| **R7** | 回帰 | CTRL 行(既存 4 ケース)がビット同一で再現することを確認(**修理が既存結果を動かさない**ことの保証) |
+
+### 4.2.6.9 cert の表示修理(erratum 指定)
+
+`u7_cbeta_final_20260801.json` は**書き換えない**。次に発行する cert / 解釈 cert に:
+
+```text
+errata.c_beta_ind_dummy_h_selfcheck =
+  RETRACTED_AS_EVIDENCE (Sol W94-2.1, ben 94)
+  reason  = zero discriminating power; both dummies inside the registered universe
+            (alphaLabel 99 -> residue 1 = window [1]; alphaLabel 5 -> window [2]);
+            and the stated criterion ("arbitrary rational h") is not an operation the
+            implementation's input schema admits.
+  scope   = the two runs are retained as RECORDS, not as evidence of independence.
+  survives= main result (stage 3'-a/b/c, S1..S9, identity 3x3 cross table) unaffected;
+            independence of C-beta rests on the source/dependency audit (F94-2.1),
+            now formalised as C-beta-IND' (I) in addendum_grade Sec 4.2.6.6.
+  replaced_by = c_beta_ind block per Sec 4.2.6.8 R5 (RUN-ADM/RUN-SEP/RUN-REJ)
+```
+
+### 4.2.6.10 FINDING(本節)
+
+| # | 格 | 内容 |
+|---|---|---|
+| **CB6-ERR** | ⚠ **自認(撤回)** | `c_beta_ind_dummy_h_selfcheck` は**識別力ゼロ**。独立性の根拠から除外。主結果は不変 |
+| **CB6-SCHEMA** | ★ **設計(新規)** | 実装の真の入力は $h$ ではなく **C-β datum $(n;r_0,r_\infty)$**。$h_\alpha$ 族は $r_0=1$ の部分族。一般 $(r_0,r_\infty)$ の変換則 $h^\theta=(-1)^{r_0+r_\infty}h^{-1}g^{-2r_\infty}$ を新規に導出(旧式の一般化) |
+| **CB6-A2** | ★★ **fail-open の新規発見** | **Kummer rank 条件 $\gcd(r_0,n)=1$ が現行コードで未検査**。$\lvert\bar A\rvert=n^2/\gcd(r_0,n)$。rank 欠損 datum を与えると**別の群を構成したまま走り切る**。DUM-3 が突く |
+| **CB6-DISC** | ★ **規範(新規)** | 識別力の**二層正規化**(入力層 / 出力層)。dummy は正規化後に登録済み宇宙の外にあることを machine-check し cert に載せる(★教材 1 の操作化) |
+| **CB6-IND'** | ★ **条文(置換)** | **C-β-IND′**: (I) source audit + 入力 digest = **正式条件**、(II) RUN-ADM/SEP/REJ = **識別力試験**、(III)「任意の $h$」条項の撤回 |
+| **CB6-PRED** | **予言(新規)** | DUM-1〜DUM-5 の事前登録値(§4.2.6.7)。**DUM-4 の実測 $\lvert\mathcal M^{\rm mod}\rvert=108\ne324$・$g_\infty$ 型 $(6,6,6)$** は $\gcd(\alpha,n)>1$ で型が変わることの機械的裏付け |
+
+---
+
+## 2′. 補題 B-LIMIT の条件付き化(W94-2.2 受諾)
+
+> **位置づけ**: §2 の補題 B-LIMIT を**書き換えず**、本節が格を確定する。§2 の記述のうち「$\operatorname{ord}([u_n]_n)=\lvert\mathrm{Ih}_N(G_F)\rvert$」を**無条件**と読める箇所は、本節 2′.3 の条件付き形に置き換えて読むこと。
+
+### 2′.0 受諾
+
+W94-2.2 は正しい。「作用が並進だけ」から $\lvert t(\mathrm{Ih}_N(G_F))\rvert=\lvert\mathrm{Ih}_N(G_F)\rvert$ は**従わない** — $t$ の忠実性が要る。§2 段 4 は $\mathfrak F_0\cong C_n$((W2)-fam・**candidate**)を経由してこれを暗黙に使っていた。**無条件の補題として掲げていたのは過大表示である。**
+
+以下、記号: $M=2n$、$n$ 奇、$F=F_n=\mathbf Q(\zeta_{4n})\supseteq\mu_M$。$\Lambda=G_n/H$ を $2n$ 点、ブロック系を $\bar A\bar H$-軌道(2 ブロック各 $n$ 点)とし、
+
+$$b:\ \mathfrak F_0\longrightarrow\mu_2\quad(\text{ブロック指標}),\qquad t:\ \mathfrak F_0\longrightarrow\mu_n\quad(\text{ブロック内並進指標})$$
+
+を、系 B-4c の同一視 $\Phi$ の下で定める。
+
+### 2′.1 無条件部 — 補題 B-LIMIT-0
+
+> ### 補題 B-LIMIT-0(無条件)
+> 補題 B-5・系 B-4c・(W2) の下で、$\mathrm{Fib}_{\vec{01}}(W_0)$ の類は $[u^{-1}]_M$ であり、$n$ 奇ゆえ $\mu_M=\mu_2\times\mu_n$ に分解して
+> $$\chi_2=b\circ\mathrm{Ih}_N,\qquad \chi_n=t\circ\mathrm{Ih}_N,$$
+> $$\boxed{\ \operatorname{ord}\bigl([u_n]_2\bigr)=\bigl\lvert b(\mathrm{Ih}_N(G_F))\bigr\rvert,\qquad \operatorname{ord}\bigl([u_n]_n\bigr)=\bigl\lvert t(\mathrm{Ih}_N(G_F))\bigr\rvert\ }$$
+> が成り立つ。**ここまでに忠実性は使っていない。**
+
+### 2′.2 ★ 2-part が決まる本当の理由(忠実性ではない)
+
+> ### 補題 B-LIMIT-0a(無条件)
+> $b\equiv1$ が **ambient 群 $\mathfrak F_0$ 全体**で成り立つ。ゆえに**任意の**部分群 $H\le\mathfrak F_0$ に対し $b(H)=1$。とくに未知の像 $H=\mathrm{Ih}_N(G_F)$ について $[u_n]_2=1$ が**像を知らずに**従う。
+>
+> **証明**(執行ログ §1 の 2 論証・いずれも ambient 群の性質):
+> (a) $\Phi(\mathfrak F_0)=\mathrm{inn}(\langle X^2\rangle)$(正典・Sol 便 73)かつ $X^2\in\bar A\bar H$ ⟹ 各ブロックを保つ ⟹ $b\equiv1$。
+> (b) $\mathfrak F_0$ は奇位数 ⟹ $\operatorname{Hom}(\mathfrak F_0,C_2)=1$ ⟹ $b\equiv1$。∎
+
+> ### ★ 非対称性の正体
+> 2-part が非循環に決まるのは $t$ が忠実だからではなく、**$b$ が ambient 群の上で恒等的に自明だから**である。一方 $t$ は $\mathfrak F_0$ 上で自明でない(2′.5)ので、$\lvert t(H)\rvert$ は $H$ に**真に依存する**。**⟹ 経路 B の射程を決めているのは「指標が ambient 群で定数か否か」という一点である。** これは §2 の証明が事実上使っていた性質の、正確な言い換えである。
+
+### 2′.3 条件付き補題 — B-LIMIT-1
+
+> ### 仮定 (FAITH)
+> **並進指標 $t:\mathfrak F_0\to\mu_n$ は単射である。**
+> 同値な言い換え: 特殊 fibre は $C_n$ の **faithful torsor** である / $\Phi(\mathfrak F_0)$ は各ブロック上に**自由に(単純推移的に)**作用する。
+
+> ### 補題 B-LIMIT-1(条件付き・PASS 形)
+> **(FAITH) の下で**、
+> $$\operatorname{ord}\bigl([u_n]_n\bigr)=\bigl\lvert\mathrm{Ih}_N(G_F)\bigr\rvert .$$
+> したがって「経路 B が $n$-part の位数 $n$ を独立に示すこと」は「対応する Ihara 像の全射性を示すこと」と**同値**である。⟹ **循環。**
+>
+> **忠実性がないとき**は $\operatorname{ord}([u_n]_n)=\lvert t(\mathrm{Ih}_N(G_F))\rvert$ であり、経路 B が測るのは Ihara 像の**商**にすぎない(W94-2.2 の原文どおり)。
+
+### 2′.4 ★ 設計結論は無条件に残る — B-LIMIT-2(過小決定)
+
+> ### 命題 B-LIMIT-2(無条件・過小決定による)
+> 経路 B の入力集合を
+> $$\mathcal P=\bigl\{\text{(W2)},\ \text{系 B-4c},\ \text{補題 B-5},\ \Phi(\mathfrak F_0)=\mathrm{inn}(\langle X^2\rangle),\ \text{(W2)-fam}\bigr\}$$
+> とする。$\mathcal P$ の各命題は **ambient 群 $\mathfrak F_0$・torsor 構造・包含 $\mathrm{Ih}_N(G_F)\subseteq\mathfrak F_0$** についての言明であり、**どの部分群が像であるか**を制約しない。すなわち各部分群 $H\le\mathfrak F_0$ に対しシナリオ「$\mathrm{Ih}_N(G_F)=H$」は $\mathcal P$ と無矛盾であり、そのとき $\operatorname{ord}([u_n]_n)=\lvert t(H)\rvert$ は($t\not\equiv1$ である限り)**$H$ の非定数関数**である。ゆえに
+> $$\mathcal P\ \nvdash\ \operatorname{ord}\bigl([u_n]_n\bigr)=n .$$
+> **⟹ (FAITH) の真偽にかかわらず、経路 B は $n$-part の第二系統になれない。** 系 B-LIMIT-a(経路 B を「第二系統」と呼んでよいのは $[u_n]_2$ についてのみ)は**無条件に維持**される。
+>
+> **【GAP】**: $\mathcal P$ の列挙は現稿(執行ログ §1 の 4 本 + (W2)-fam)の**目視による**ものであって、「考えうるすべての経路 B 論証」についての定理ではない。像を制約する**新たな入力**(それは算術的入力である)が加われば、本命題は再導出を要する。
+
+### 2′.5 ★ (FAITH) 自体の検証可能性(W94-2.2 の要求)
+
+(FAITH) を 3 つに分解する。
+
+| # | 内容 | 現在の格 | 検証可能性 |
+|---|---|---|---|
+| **F-a** | **$t$ は全射**であり、$\langle X^2\rangle$ の並進は各ブロック上**自由**である | ★ **passport から従う(機械済)** | 下記 |
+| **F-b** | $\lvert\mathfrak F_0\rvert=n$ | **(W2)-fam・candidate** | 有限群計算(既に $n\le27$ 機械)+ 紙 |
+| **F-c** | 橋(系 B-4c + 補題 B-5)= fibre 上の Galois 作用が $\Phi\circ\mathrm{Ih}_N$ を通ること | **枠組み(BFC / TB1–TB4 相対)** | ★ **機械化不能**(Mathlib 待ち) |
+
+**F-a の議論(本追記・新規)**: 段 4 の passport $\bigl((2n),2^{n-1}1^2,(2n)\bigr)$ より $\bar X$ は $\Lambda$ 上の **$2n$-巡回**である。ゆえに $\bar X^2$ は **2 つの $n$-巡回**の積であり、その軌道はサイズ $n$。$X^2\in\bar A\bar H$ は各ブロック(サイズ $n$)を保つから、$\langle X^2\rangle$-軌道は**ブロックそのもの**であり、$\langle X^2\rangle$ は各ブロック上 **regular**(位数 $n$ = 点数)である。∎
+**機械確認**(`cbeta_ind_fixtures.py`): $n=3,7,11$、$\alpha=1,2$ で $\operatorname{type}(\bar X)=(2n)$、$\operatorname{type}(\bar X^2)=(n,n)$、かつ $\langle\bar X^2\rangle$-軌道が**モノドロミー群全体のブロック系**であることを確認(6/6 一致)。
+
+> ### ⟹ 結論(格の確定)
+> $$\boxed{\ \textbf{(FAITH)}\ \Longleftrightarrow\ \textbf{F-b}\ (\lvert\mathfrak F_0\rvert=n)\quad\text{(F-a 既済・F-c 相対)}\ }$$
+> すなわち **(FAITH) の未閉鎖部分は (W2)-fam のちょうど半分**である — 全射性・自由性の側は passport から出て機械確認済みで、残るのは「核の位数がちょうど $n$」だけ。**「並進指標の忠実性」という追加の未知量が新たに増えたのではない。**
+
+### 2′.6 ★ 構造的注意 — なぜこの補題が SURJ の臨界路上にあるか
+
+> ### 注意 BL-ARCH(条件付き・警告として記す)
+> (FAITH) + 橋 (F-c) + (W2)-fam の下で、経路 A の結論 $\operatorname{ord}([u_n]_{2n})=n$(FAM-U (3))と B-LIMIT-0 を合わせると
+> $$\lvert t(\mathrm{Ih}_N(G_F))\rvert=n=\lvert\mu_n\rvert\ \Longrightarrow\ t\circ\mathrm{Ih}_N\ \text{全射}\ \Longrightarrow\ \mathrm{Ih}_N(G_F)=\mathfrak F_0$$
+> となり、これは **SURJ-K$n$ そのもの**である($\tilde\chi\circ\mathrm{Ih}$ が円分指標で全射だから、$\mathfrak F_0$ 上への全射性が Ihara 全射性と同値)。
+> **⟹ 経路 B が $n$-part を独立に決められないのは偶然ではない — 決められたらそれが定理だから**である。これは B-LIMIT の内容の言い換えであり、**新しい定理の主張ではない**。
+> **⚠ 同時に**: 上の合成は最も弱い前件の強さしか持たない。現在それは **(M2)**(`fam_u_v1.md` §3.2・candidate)と**枠組み TB1–TB4** であり、**この注意から SURJ を主張してはならない**。ここに記すのは、**(FAITH) が無害な技術的仮定ではなく臨界路上の仮定である**ことを可視化するためである。
+
+### 2′.7 cert 欄(指定)
+
+```text
+b_limit.grade            = conditional lemma
+b_limit.hypothesis       = FAITH: translation character t : F_0 -> mu_n is injective
+                           (equivalently: the special fibre is a faithful C_n-torsor)
+b_limit.hypothesis_source= F-a (passport, machine-checked n=3,7,11) + F-b ((W2)-fam, CANDIDATE)
+                           + F-c (bridge B-4c/B-5, framework TB1-TB4, not machine-checkable)
+b_limit.unconditional    = B-LIMIT-0  : ord([u]_2)=|b(Im)| , ord([u]_n)=|t(Im)|
+                           B-LIMIT-0a : b == 1 on ALL of F_0  => 2-part is image-independent
+                           B-LIMIT-2  : P (listed path-B inputs) does not determine ord([u]_n)
+b_limit.conditional      = B-LIMIT-1  : under FAITH, ord([u]_n) = |Ih_N(G_F)|  => circular
+b_limit.design_conclusion= path B is NOT a second system for the n-part (holds unconditionally,
+                           via B-LIMIT-2; does NOT require FAITH)
+```
+
+### 2′.8 FINDING(本節)
+
+| # | 格 | 内容 |
+|---|---|---|
+| **BL-COND** | ⚠ **格下げ(自認)** | B-LIMIT を無条件の定理として掲げていたのは過大表示。**(FAITH) を明示した条件付き補題**へ(W94-2.2 受諾) |
+| **BL-0a** | ★ **無条件部の分離(新規)** | 2-part が決まる理由は **$b$ が ambient 群 $\mathfrak F_0$ 全体で自明**であること(忠実性ではない)。⟹ 任意の部分群像に対し $[u_n]_2=1$ |
+| **BL-2** | ★ **設計結論の救済(新規)** | **過小決定**による無条件命題: 列挙された経路 B の入力は像を制約しない ⟹ **(FAITH) の真偽によらず**経路 B は $n$-part の第二系統になれない。【GAP】入力列挙は目視 |
+| **BL-FAITH** | ★ **仮定の分解(新規)** | **(FAITH) ⟺ (W2)-fam の「核の位数 $n$」の半分**。全射性・自由性は **passport から**従い機械確認済($n=3,7,11$)。⟹ 新たな未知量は増えていない |
+| **BL-ARCH** | **構造的注意(警告)** | (FAITH) + 橋 + FAM-U(3) は **SURJ-K$n$ そのもの**を導く配置にある。⟹ (FAITH) は臨界路上の仮定。**ここから SURJ を主張しない**((M2)・TB1–TB4 が最弱前件) |
