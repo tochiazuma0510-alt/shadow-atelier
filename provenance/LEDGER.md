@@ -1115,3 +1115,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - probe 4 本収蔵: cbeta_model_indep.g(独立 GAP・S9 両順序・α′ 族拡張)・cbeta_crosstable.g(9 マス)・cbeta_symbolic_check.py(h^θ 記号 PASS)・cbeta_s7_block.g。
 - **buys**: D-3/D-4(TOWER/KUM/SPLIT/TW-1)が α=1 窓の同定鎖から除去・同定は二系統 cross-checked。**does not buy**: 値 −4 は single-system のまま(B-LIMIT により構造的・C-γ のみが値の二系統化)・U7-14 未決のまま。
 - C-β 線はこれで完結。境界申告 → 速達 → 予言 → 反証 → 決着のループが計 4 往復・全て走行中処理(停止事故ゼロ)。
+
+## 2026-08-01 規約台帳 v1 採択(裁定 315)— 研究者発案の制度化・CV-1〜CV-8+conventions_used schema+手順則 IF-FIRST・司令塔の「4 件」数えを訂正
+- 正本 = docs/notes/conventions_ledger_v1.md(114 行・candidate)。§0 事故台帳(裁定番号対応)・§1 大域規約 8 項(宣言/格/事故の 3 列)・§2 schema(line=MALFORMED・自己逆元証人は証拠無効・comparison_target 欠落=MALFORMED・level 欄追加)・§3 IF-FIRST 6 条(NF/S6 を先例引用)・§4 射程宣言・CL-1〜6。
+- **訂正受理**: f/f⁻¹ 族の確定は **3 件**(275→278・282→298・306(b))— 裁定 312(c) の機構主張は 313 で撤回済みで、4 件目の真因は comparison_target 未宣言。本 LEDGER の過去記載(「4 例目」)はこの注記により訂正。
+- 裁定: ①v1 を candidate 正典として採択・次セッションから全発注文で参照 ②**CV-8 は既定値なし・宣言必須**({exact_match, full_conjugacy_class} のいずれかを明示・line 禁止 — 既定値は宣言を隠すため置かない・CL-6 決着)③CL-3(番号体系の統合)は次セッション判断 ④CV-2 の既存事故追補(草稿内自己捕獲の教材)受理。
