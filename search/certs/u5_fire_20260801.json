@@ -1,0 +1,272 @@
+{
+ "schema": "u5-fire-cert/v1",
+ "produced_utc": "2026-08-01T12:45:12.998220+00:00",
+ "authority": {
+  "seal_release_ruling": "396",
+  "seal_release_note": "2026-08-01 研究者一括認可 (2) n=5 開封 -- versioned ALLOWED_N release, scoped to u5_fire_pathA.py / u5_fire_pathB.py only",
+  "fire_design_ported_from": "u7 firing (裁定 287 freeze / 裁定 300 fire_authorisation)",
+  "frozen_design_ported_from": "docs/notes/u7_meas_design_v1.md",
+  "determination_mechanism_ported_from": "docs/notes/u7_twist_determination_v1.md",
+  "n5_freeze_prior": "U7-NO5 (K^(5) blind, held everywhere except this scoped release)"
+ },
+ "window_binding": {
+  "n": 5,
+  "P": "G_5",
+  "|P|": 500,
+  "H": "H_{2,1,0}",
+  "|H|": 50,
+  "alpha_class": "[1]",
+  "j": 2,
+  "beta": 0,
+  "marking": {
+   "g_0": "X = a1 q1",
+   "g_1": "Y = a1 a2 a3 q2",
+   "g_inf": "Z = (XY)^{-1}"
+  },
+  "deg": 10,
+  "M": 10,
+  "F": "Q(zeta_20)",
+  "ordered_passport": "((10), 2^4 1^2, (10))",
+  "monodromy_order": 100,
+  "genus_W": 2,
+  "genus_Wtilde": 4,
+  "tower": "lambda = gamma m^2 ; pi deg 5 with mon D_5 ; branch {0,inf,mu_+,mu_-}",
+  "r0_rinf": [
+   1,
+   -1
+  ]
+ },
+ "path_A": {
+  "method": "explicit KUM-n normal form over Q(i) subset F ; local expansion at the cusp",
+  "model": {
+   "h(k)": "(k-i)^1 (k+i)^{-1} (k-1)^{-alpha} (k+1)^{alpha}",
+   "Wtilde": "y^n = h(k)",
+   "iota": "(k,y) -> (-k, 1/y)",
+   "m_0": "(1+k^2)/(1-k^2)",
+   "lambda": "m_0^2  (gamma = 1 in this coordinate)",
+   "uniformiser_at_cusp": "y at Q_+=(k=i,y=0); Wtilde->W unramified there"
+  },
+  "leading_coeff_h1": "-1/2",
+  "u_5": "-4",
+  "disc_F_R1R2_trivial": true,
+  "R_plus_y": "1",
+  "R_minus_y": "1",
+  "iota_involution_check": true,
+  "all_windows_alpha": {
+   "n5_a1": "-4",
+   "n5_a2": "4"
+  }
+ },
+ "path_B": {
+  "method": "block character of the G_F-action on Lambda (系 B-4c + 補題 B-5 (7.2) + 系 SPLIT)",
+  "bridge_inputs": {
+   "(W2)": "1 -> F_0 -> GT(N) -> (Z/2M)^x -> 1 exact, chi~ o Ih_N = chi_{2M}; K = Q(zeta_{2M})",
+   "(W2)-fam": "F_0 = C_n  (裁定 120, status = candidate: 紙上 + n<=27 機械検算)",
+   "Phi(F_0)": "inn(<X^2>)  (Sol 便 73 Q1.5 / w2fam_v1.md §3.5)",
+   "系 B-4c": "Fib_{01}(W_0) = Lambda  G_K-equivariantly, action = Phi(Ih_N(gamma))",
+   "補題 B-5 (7.2)": "Fib is a mu_M-torsor of class [u^{-1}]_M, X acts as tau(zeta_M)"
+  },
+  "X2_in_AH": true,
+  "PhiF0_image_size": 5,
+  "any_element_swaps_blocks": false,
+  "block_character_trivial": true,
+  "parity_argument": {
+   "|F_0|": 5,
+   "odd": true,
+   "Hom(F_0,C_2)_trivial": true
+  },
+  "all_alpha": {
+   "n5_a1": true,
+   "n5_a2": true
+  },
+  "orientation_self_check": {
+   "n5_a1": {
+    "n": 5,
+    "alpha": 1,
+    "H_conj_XHXinv_in_AH": false,
+    "X_swaps_blocks": true,
+    "ratio_r_inf_over_r0_per_block": [
+     4,
+     1
+    ],
+    "translation_consistent": [
+     true,
+     true
+    ],
+    "sum_of_two_ratios_mod_n": 0
+   },
+   "n5_a2": {
+    "n": 5,
+    "alpha": 2,
+    "H_conj_XHXinv_in_AH": false,
+    "X_swaps_blocks": true,
+    "ratio_r_inf_over_r0_per_block": [
+     3,
+     2
+    ],
+    "translation_consistent": [
+     true,
+     true
+    ],
+    "sum_of_two_ratios_mod_n": 0
+   }
+  },
+  "orientation_self_check_structural_expectations_hold": true
+ },
+ "cross_check": {
+  "path_A_gamma_trivial": true,
+  "path_B_gamma_trivial": true,
+  "agree": true,
+  "status": "cross-checked (NOT verified; Lean 未使用)",
+  "shared_premises": [
+   "定理 TOWER-n",
+   "系 SPLIT",
+   "(W3)",
+   "(W4)"
+  ]
+ },
+ "cv13_anchor_n7": {
+  "bit_reproduction_of": "search/certs/u7_fire_20260801.json",
+  "pathA_all_windows_alpha_match": {
+   "1": "-4",
+   "2": "4",
+   "3": "-4"
+  },
+  "pathA_cal3_n3_match": "-4",
+  "pathB_all_alpha_match": {
+   "1": true,
+   "2": true,
+   "3": true
+  },
+  "pathB_n3_match": true,
+  "orientation_self_check_n7": {
+   "a1": {
+    "n": 7,
+    "alpha": 1,
+    "H_conj_XHXinv_in_AH": false,
+    "X_swaps_blocks": true,
+    "ratio_r_inf_over_r0_per_block": [
+     6,
+     1
+    ],
+    "translation_consistent": [
+     true,
+     true
+    ],
+    "sum_of_two_ratios_mod_n": 0
+   },
+   "a2": {
+    "n": 7,
+    "alpha": 2,
+    "H_conj_XHXinv_in_AH": false,
+    "X_swaps_blocks": true,
+    "ratio_r_inf_over_r0_per_block": [
+     5,
+     2
+    ],
+    "translation_consistent": [
+     true,
+     true
+    ],
+    "sum_of_two_ratios_mod_n": 0
+   },
+   "a3": {
+    "n": 7,
+    "alpha": 3,
+    "H_conj_XHXinv_in_AH": false,
+    "X_swaps_blocks": true,
+    "ratio_r_inf_over_r0_per_block": [
+     4,
+     3
+    ],
+    "translation_consistent": [
+     true,
+     true
+    ],
+    "sum_of_two_ratios_mod_n": 0
+   }
+  },
+  "anchor_pass": true,
+  "orientation_anchor_pass": true
+ },
+ "measured_quantities_n5": {
+  "(i) [u_5]_2": {
+   "trivial": true
+  },
+  "(ii) [u_5]_5": {
+   "trivial": false
+  },
+  "(iii) u_5": "-4",
+  "(iv) all valuations": {
+   "nonzero_places": {
+    "2": {
+     "e": 2,
+     "f": 4,
+     "g": 1,
+     "v_Q": 2,
+     "w_frak_p": 4
+    }
+   },
+   "all_other_places": 0,
+   "exists_p_with_w_not_div_5": [
+    2
+   ]
+  },
+  "(v) [gamma], [delta_0]": {
+   "[gamma]_2_trivial": true,
+   "note": "gamma = 1 in the normal-form coordinate; delta_0 = 1 likewise"
+  },
+  "(vi) ord(a_5)": 5
+ },
+ "LB_RES_ladder": {
+  "stage1_valuation_decides": true,
+  "stage2_class_group_needed": false,
+  "stage3_units_needed": false,
+  "u_in_Q": true,
+  "u_not_in_Q^5": true,
+  "G5_LB_applies": true,
+  "G5_LB_pp_applies": true
+ },
+ "NULL_frame": {
+  "N-1 passport mismatch": false,
+  "N-2 monodromy != 100": false,
+  "N-3 tower absent": false,
+  "N-4 [u]_2 nontrivial": false,
+  "N-5 u not rational": false,
+  "N-6 all valuations = 0 mod 5": false,
+  "N-7 [u]_5 trivial": false,
+  "N-8 CV13 anchor failed": false,
+  "N-9 paths disagree": false,
+  "N-10 gamma/delta undetermined": false,
+  "N-11 orientation self-check failed": false,
+  "any_triggered": false
+ },
+ "predictions_confronted": false,
+ "predictions_confronted_note": "実測値は本 cert に machine-piped で記載する(接触遮断対象は期待値の側)。予言との対決は司令塔が封印開封後に実施する。本 script は予言 cert を読んでいない。",
+ "provenance": {
+  "probes": {
+   "tw_blocks.py": "4c84fef8500f13156e59da4de15df2ee1014e9400a77f6d313614d298f23e2c7",
+   "tw_orient.py": "a160b58d0b4b6ac2c0f910b23983acc75e7566d9706334b7d67f72e26af4ea23",
+   "u7_fire_pathA.py": "09f3d12d1ce5b83c06d0ebf3e66138974005909fe58c4ac54348795b16a89dc3",
+   "u7_fire_pathB.py": "f45b8db361b03706d9e8b6d74fb1e8b733a48cbc525fe581604deb9db4ae7b08",
+   "u5_fire_pathA.py": "12004f3679452bfd4ed3f1f9de80c8810ea75f2698a18339bf3b76ddfa8a5312",
+   "u5_fire_pathB.py": "f249927555940737f847005f8811bcefead5d7bdc18ac812809eca33f277f72f",
+   "u5_fire_cert.py": "cb03fba8648cb86b3cbf41464072979f32ddd88ef61941eb74491ece9d1a6c79"
+  },
+  "python": "3.13.14",
+  "arithmetic": "exact (fractions.Fraction over Q(i); integer group arithmetic). No floating point.",
+  "single_implementation": true,
+  "second_system_pending": "GAP re-construction by implementer (突合 = 司令塔), same as u7",
+  "lean_verified": false,
+  "n5_touched": true,
+  "n5_touch_scope": "u5_fire_pathA.py / u5_fire_pathB.py / u5_fire_cert.py only; other probes unaffected"
+ },
+ "framework_dependencies": [
+  "(TB1)(TB2)(TB3)(TB4) - 枠組み仮定 (Mathlib 待ち)",
+  "(W1)(W2)(W3)(W4)(W5) + (CAL) - 定理 B-4 / 系 B-4c / 補題 B-5 の前件",
+  "(W2)-fam 裁定 120 = candidate (path B only)",
+  "定理 TOWER-n / 定理 KUM-n / 系 SPLIT - 紙上単系統, Sol 監査前 (u7 firing と同じ枠組み)",
+  "(GR) tame good reduction - 【要検分】 (補題 TW-5 only; not used for the value)",
+  "docs/notes/fam_u_v1.md (FAM-U) explicitly excludes n=5 from its scope (§6 FAM-f, 凍結 U7-NO5); this cert does NOT read fam_u_v1.md's formula and does not use FAM-U as an input -- it is an independent measurement"
+ ]
+}
