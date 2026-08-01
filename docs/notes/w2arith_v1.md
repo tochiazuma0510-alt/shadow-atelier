@@ -131,3 +131,53 @@ $$ \boxed{\ \textbf{【W2-1】は閉鎖。}\ \widetilde\chi_{2M}\circ\mathrm{Ih}
 | I10 | (E-iv) 命名規約 | **OPEN**(条項起草) |
 
 $$ \boxed{\ \textbf{C3 の数学的残件は I8((5′) 本体)ただ一つに縮んだ。I9 は手続き・I10 は条項。}\ } $$
+
+---
+
+# 追記 A(便 99 検収・裁定 412)— **Route A = 暫定正本**の確定と依存表の補完
+
+> **追記型**: §0–§5 の本文を**一切改変しない**。以下は**格の確定**と**依存の明記**である。
+> 起草: 数学者(Opus 5)・2026-08-02。入力 = **Sol 便 99 返信 F99-3.2**(`sol/sol_reply_99_math26.md` §3.2)。
+
+## A.1 裁定(Sol F99-3.2)
+
+**Route A を暫定正本として PASS。** 正典の式 $m=(\widetilde\chi-1)/2$ と W2-fam の $\widetilde\chi$ を合わせれば、必要な $\bmod\ 4n$ の主張は直接出る。**TB / 算術実現枠組みを必要としない。**
+
+| Route | ★ 確定した格 |
+|---|---|
+| **Route A**(§2・正典引用) | ★ **暫定正本**。`paper-proof candidate / canonical-source-relative / framework-independent` |
+| **Route B**(§3・内在的) | **同じ結論への framework-conditional な冗長経路**。**(CAL) + (TB2) の分裂 + (TB4$^{\rm u}$)** に依存する |
+| 補題 CHI とその **系 DIV-SPLIT** への投入 | ★ **Route A を使う**(`div_law_v1.md` §3・§4.5) |
+| Lean | ✗ **verified ではない** |
+
+> ### ⚠ §0 の判定表の読み方の訂正(erratum ではなく**読み違いの予防**)
+> §0 は Route B を「正典の水準に依存しない」と書いた。**これは正しい**(正典の $\chi_{\rm vir}$ の粗さに影響されない、という意味)。しかし **framework(TB 系)には依存する**ので、「Route B の方が強い/安全」と読んではならない。**枠組み非依存なのは Route A の方である。**
+> 二経路の関係の正しい要約:
+> $$\boxed{\ \textbf{Route A} = \textbf{正典に相対だが枠組み非依存}\qquad\textbf{Route B} = \textbf{正典の水準に非依存だが枠組み条件つき}\ }$$
+
+## A.2 依存表の補完 — **Kronecker–Weber 入力の明記**(Sol の要求)
+
+本稿および下流(補題 CHI・系 DIV-CHI-NULL・系 DIV-SPLIT)は、$\widetilde\chi$ の**全射性**を使う箇所で次の標準外部定理を入力にしている。**依存表に明記する。**
+
+| 入力 | 正確な言明(本稿が使う形) | 格 |
+|---|---|---|
+| **(KW)** 円分指標の全射性 | $\chi_{4n}:G_{\mathbb Q}\to(\mathbb Z/4n)^\times$ は**全射**。同値に $\mathrm{Gal}(\mathbb Q(\zeta_{4n})/\mathbb Q)\cong(\mathbb Z/4n)^\times$(円分多項式 $\Phi_{4n}$ の $\mathbb Q$ 上の既約性) | ★ **標準外部定理**(Sol は「Kronecker–Weber 入力」と呼んだ)。**自前再導出も Lean 化もしない**(【framework assumptions policy】と同じ扱い: Mathlib 待ち)。⚠ **Mathlib に円分多項式の既約性・円分拡大のガロア群があるかは当方未確認**(記憶に基づく見込みでしかない)— Lean 化の日に**公理化が要るか不要か**は、実装係が実物で確認すること |
+
+**使用箇所**: 命題 W2A の結論を「$\widetilde\chi(\mathrm{GT}_{\rm arith})=(\mathbb Z/4n)^\times$(全像)」として使う下流 — すなわち **補題 CHI**(`div_law_v1.md` §3)・**系 DIV-CHI-NULL**・**系 DIV-SPLIT**・`kerchi_equality_v2.md` T-A(4′)。**本稿 §2 の命題 W2A 自身は等式 $\widetilde\chi_{2M}\circ\mathrm{Ih}=\chi_{4n}$ を示すだけで (KW) を要さない** — (KW) が要るのは「その像が全体」を言う段である。この分離を明記する。
+
+## A.3 ihnec §6.4 との整合(記帳の食い違いの解消)
+
+`docs/notes/ihnec_v1.md` §6.4 は (S2) を **framework-conditional** と記帳し、本稿 §0 は「閉鎖・二経路」と記帳していた(`div_law_v1.md` §9 申し送り 1 が裁定を請うた食い違い)。**裁定 = Route A 採用**により:
+
+| 文書 | 訂正後の読み |
+|---|---|
+| **ihnec §6.4**(本文不改変) | 「(S2) は framework-conditional」は **Route B のみを見た記帳**であった。**Route A の存在により (S2) 自体は framework-independent** である。ihnec 本文は erratum 方式で不改変とし、**本追記を effective source** とする |
+| **`div_law_v1.md` §10.1 の補題 CHI 行**「格の食い違いあり(§9-1)」 | ★ **解消**(同日の `div_law_v1.md` 追記 A §A.3) |
+| **本稿 §5 の前提表** | 「2405 (1.5)(Route A のみ)」行は **正本入力**へ格上げ。「(TB2) の分裂・(TB4$^{\rm u}$)」行は **Route B 専用の依存**へ限定 |
+
+## A.4 残件(不変)
+
+【W2A-1】(第一成分のみ)・【W2A-2】($n$ 偶は射程外)・【W2A-3】(Lean 未)・【W2A-4】(Route B は (CAL) に全面依存)は**すべて不変**。加えて:
+
+- **【W2A-5】(新設・記帳のみ)**: (KW) は外部定理として使う。**自前証明も Lean 化もしない**方針(framework assumptions policy と同型の扱い)。使用箇所は §A.2 のとおり。
+

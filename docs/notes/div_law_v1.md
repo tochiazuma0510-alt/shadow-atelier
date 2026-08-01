@@ -524,3 +524,78 @@ $$\mathrm{GT}(K^{(n)})\ \xrightarrow[\textbf{(a) 定理}]{\ \Theta_n,\ \widetild
 | $\iota$ | $[-1,1]$、$\Theta_n(\iota)=(0,-1,1)$(複素共役の像) |
 | $d_{\rm arith},d_{\rm gen},d_N$ | 各層の $\mathfrak F_0$ との交叉の位数 |
 | $\Omega(n)$ | $n$ の素因子数(重複込み) |
+
+---
+
+# 追記 A(便 99 検収・裁定 412)— erratum 2 件と格の確定
+
+> **追記型**: §0–§10 および付録 A の本文を**一切改変しない**。以下は erratum(訂正)と格の確定であり、上書きではない。
+> 起草: 数学者(Opus 5)・2026-08-02。入力 = **Sol 便 99 返信 F99-3.1 / W99-3.1 / W99-3.2 / F99-3.2**(`sol/sol_reply_99_math26.md` §3.1–3.2)。
+
+## A.0 検収の結果
+
+**定理 DIV-LAW とその系は `paper-proof candidate` として PASS**(F99-3.1)。Sol は独立に $H^1(Q,A)=0$ を次の短い計算で確認した — $A=C_{n/d}$(奇位数)上で $Q$ の中心元 $z=(-1,0)$ が $-1$ として作用し、1-cocycle $a$ について $zq=qz$ を二通りに評価すると
+$$2a(q)=a(z)-q\,a(z),$$
+$2\in\mathrm{Aut}(A)$ ゆえ $a$ は coboundary。**本稿 §4.1 (c) の証明とは書き方が違うが同じ機構**であり、$H^1$ 消滅は**二経路で確認された**(ただしどちらも紙・Lean 未)。P-DIV-1〜5 の prediction-first freeze は維持。`divlaw_check` failures 0 は**座標式と実装の有限整合検査**であって群論証明の代用でも独立照合でもない、という格付けも Sol が明記した(§10.2 の記述と一致)。
+
+## A.1 【erratum W99-3.1】系 DIV-COSET の「$T/H_d\cong\mathbb Z/(n/d)$」は**群同型としては誤り**
+
+**該当箇所**: §4.1 の系 DIV-COSET(本文)
+> 「⟹ $T$ の $H_d$ による剰余類分解は「$k$ の合同類」による分解であり、$T/H_d\cong\mathbb Z/(n/d)$($T$ は affine に作用)。」
+
+**誤り**: $H_d$ は**一般に $T$ の正規部分群ではない**。実際 §4.1 (d) の自前の式
+$$gH_dg^{-1}=\{(k+(1-u)k_0,\ u,\ \varepsilon):k\in\mathfrak F_0[d]\}\qquad(g=(k_0,1,0))$$
+が示すとおり、$u\ne1$ と $k_0\not\equiv0\ (\mathrm{mod}\ n/d)$ を取れば $gH_dg^{-1}\ne H_d$($d<n$ のとき実際に起きる)。ゆえに $T/H_d$ に群構造は入らず、記号 $\cong$ を群同型として読むのは誤りである。
+
+**正しい形(差し替え文)**:
+> **左剰余類集合** $T/H_d$ は写像 $(k,u,\varepsilon)\mapsto k\bmod(n/d)$ によって $\mathbb Z/(n/d)$ で**標識でき**、その上の **$T$-作用は affine** である:
+> $$(k_0,u_0,\varepsilon_0)\cdot\bigl[k\bigr]=\bigl[k_0+u_0k\bigr]\in\mathbb Z/(n/d).$$
+> (群同型ではなく、**$T$-集合としての同一視**である。)
+
+**保たれるもの(不変)**:
+- 剰余類 **membership 判定**($(k,u,\varepsilon)\in(k_0,1,0)H_d\iff k\equiv k_0\ (\mathrm{mod}\ n/d)$)— 本文の等式そのもの。
+- **fake の分割**(§4.3 系 DIV-GEN: fake の集合は $H_{d_{\rm gen}}$ の非自明左剰余類の合併・個数 $n/d_{\rm gen}-1$・元数 $(n-d_{\rm gen})\cdot2\varphi(n)$)。
+- **DIV-GEN の合同判定**($k\equiv0\ (\mathrm{mod}\ n/d_{\rm gen})$ の一式)。
+これらは**左剰余類の集合構造しか使っていない**ので、訂正の影響を受けない。§10.2 検査 (B)(左剰余類 $=k\bmod(n/d)$ の fiber)も**そのまま有効**である(検査は集合等号を見ており、商群構造を見ていない)。
+
+## A.2 【erratum W99-3.2】【IHNEC-GAP-1】の扱い — 「不要になった」は強すぎる
+
+**該当箇所**: §7.1 の boxed 結論および §7.3 の R-1。
+
+**訂正**: 「【IHNEC-GAP-1】は停留上界の新定理を要求していない/別立ての課題として抱える必要はない」という書き方は強すぎる。正しくは **conditional reprioritization** である:
+
+> ### ★ §7.1 boxed の差し替え文(正形)
+> $$\boxed{\ \textbf{ASM 鎖昇格に必要な下界だけを追えばよい場合には、元の stopping-depth 定理を迂回できる。}\ }$$
+> DIV-LAW は**目的を $d_{\rm gen}$ の下界探索へ組み替える**が、**元の有限計算上の stopping-depth 問題そのものを解決しない**。
+
+**維持されるもの**: §7.1 の表の「**停留の場所: ✗ 与えていない**」「**位置は UNKNOWN**」(【DIV-GAP-1】)という記帳は**そのまま維持**する — 本 erratum はその記帳と整合する方向の修文である。§7.2(「GAP-1 は解消していない」)も不変。
+
+### A.2.1 三層の格を混ぜないこと(Sol の追加注記・採用)
+
+| 層 | 対象 | 格 |
+|---|---|---|
+| **DIV-LAW**(§4.1) | 抽象有限群の**紙上命題** | paper-proof candidate(前件は群論のみ) |
+| **DIV-GEN**(§4.3) | $\mathrm{GT}_{\rm gen}$ への適用 | **(E1)/(HOM)/(COR54)/(ARG)/(INT) に相対** |
+| **DIV-ARITH**(§4.4) | 算術層 | **framework-conditional**((BFC)/(RCYC) を含む) |
+
+**この三層を混ぜて引用しない。** とくに「DIV-LAW が示した」という言い方で DIV-GEN/DIV-ARITH の結論を引くことを禁じる。
+
+## A.3 【格の確定 F99-3.2】(S2) = W2-arith の格の食い違い(§9 申し送り 1)への裁定
+
+§9 申し送り 1 で裁定を請うた「(S2) を ihnec §6.4 は framework-conditional、`w2arith_v1.md` は二経路で閉鎖と記帳」という食い違いについて、Sol は **Route A(正典引用)を暫定正本**とした:
+
+- **Route A**: `paper-proof candidate / canonical-source-relative / framework-independent`。
+- **Route B**: 同じ結論への **framework-conditional な冗長経路**。
+- **補題 CHI とその 系 DIV-SPLIT への投入では Route A を使う。**
+- $\widetilde\chi$ の全射性に使う **Kronecker–Weber 入力(= 円分指標の全射性)は標準外部定理として依存表に明記**する。
+- **Lean verified ではない。**
+
+⟹ **本稿 §10.1 格付け表の「補題 CHI」行の但し書き「格の食い違いあり(§9-1)」は解消**。本稿が Route A を採って paper-proof と記帳したのは**正しかった**。詳細は `docs/notes/w2arith_v1.md` 追記 A(同日)。
+
+## A.4 この追記が変えないもの
+
+- **定理 DIV-LAW・系 DIV-LAT・DIV-GEN・DIV-ARITH・DIV-CHI-NULL・DIV-SPLIT・DIV-LAW$^{\rm gen}$ の言明と証明**(A.1 の系 DIV-COSET の**記法**を除く)。
+- **§6 換算表・§7.4 の予言 P-DIV-1〜5**(prediction-first freeze 維持)。
+- **§10.2 の検算**(script SHA-256 も不変)。
+- **$K^{(5)}$ 非接触の申告**(本追記も $n=5$ の値に触れていない)。
+

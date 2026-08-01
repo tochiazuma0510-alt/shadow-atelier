@@ -248,3 +248,40 @@ $\Phi$ の乗法性は生成元計算: $\Phi_1\Phi_2(\bar y)=\Phi_1(f_2^{-1}\bar
 - **監査点 D**: **定理 CLOSURE の 4 段目**。「$q^*,q''\in A$ で像が等しいから等しい」— ここで $c_1,c_2,c_3$ の閉性を**迂回**している。迂回が正当か(すなわち $\mathcal G$ の元が粗ラベルで一意に決まることが、閉性の証明として十分か)。
 - **監査点 E**: **§6.2** の判定「$Q_4=\langle X_{ij}\rangle=P_N$ ゆえ現行構成に $PB_4$ 窓は無い」。これが正しければ LEVEL CAVEAT は**内部では永久に解消できない**ことになり、【文献要請 U-PB4】の優先度が上がる。
 - **申し送り**: 本稿が通れば、`GT(K_π)` は「群・位数 20・$F_{20}$・`red` は同型」まで確定し、**便 92 F92-1.3 が禁じた「群準同型を作ってはならない」の禁が(PB₃ 模型水準で)解ける**。禁の解除は Sol の判定事項なので、こちらからは主張しない。
+
+---
+
+# 追記 A(便 99 検収・裁定 412)— **総合格の確定 P99-2.2**
+
+> **追記型**: §0–§8 の本文を**一切改変しない**。以下は**格の確定**である。
+> 起草: 数学者(Opus 5)・2026-08-02。入力 = **Sol 便 99 返信 F99-2.3 / P99-2.2**(`sol/sol_reply_99_math26.md` §2)。
+
+## A.1 検収の結果(F99-2.3)
+
+**条件付き PASS。**
+
+- ★ **通った**: $(A')$ $c_3$-pentagon を含む **source-map / 定義式の紙上忠実性**は閉じた。
+- ⚠ **通らなかった読み**: 「**紙証明が probe を単なる spot-check に降格した**」とは**書けない**。CLOSURE(20 lifts の存在・全射)および PB4-settled/NFI は**有限計算に論理依存**するからである。
+⟹ §3 の見出し「機械の独立確認(紙が先に閉じたので **spot-check 格**)」は、**§3 の probe の格**としては妥当だが、**定理 CLOSURE 全体が紙で閉じたという含意では読まない**こと。
+
+## A.2 ★ 確定文 P99-2.2(**Sol 逐語** — CLAIMS 用)
+
+> 固定した $K_\pi/N_0$ に対し、source-map の定義式と $c_3$-pentagon の向きは **paper-audited** である。**CLOSURE**(20 lifts の存在・全射)および **PB4-settled/NFI** の有限結論は **finite exhaustive artifact に本質的に依存**する。総合格は **paper-proof + finite-exhaustive candidate**。**settled 段は別の独立照合が付かない限り single lane** であり、**Lean verified ではない**。
+
+## A.3 CLAIMS の二行分離(**記帳済**)
+
+Sol の指示「**数値群構造の主張と canonical-fidelity の主張は CLAIMS で別行にする**のが最も安全」に従い、`provenance/CLAIMS.md` の **C-GTPI** が既に二行構成で記帳されている(司令塔の記帳・2026-08-02 時点で存在を確認)。
+
+| 行 | 内容 | 格 |
+|---|---|---|
+| **行 1(数値群構造)** | `red: GT(K_π) ≅ GT(N_A) ≅ AGL(1,5) = F₂₀`・GTPI$^{PB_4}$ で $N_0$ isolated・$\mathrm{GT}^\heartsuit(N_0)\cong F_{20}$ | **paper-proof + finite-exhaustive candidate**。CLOSURE と PB4-settled/NFI は有限計算に論理依存・**settled 段は single lane** |
+| **行 2(canonical fidelity)** | source-map の定義式と $c_3$-pentagon の向きの正典忠実性 | **paper-audited**(紙) |
+
+**この 2 行を合体させて引用しない。** とくに「$F_{20}$ が正典忠実に照合された」という合成文は**両行のどちらでもない**。
+
+## A.4 この追記が変えないもの
+
+- §2 の紙の証明(補題 UNIV / SHAPE / DICT / COARSE・定理 CLOSURE・定理 GTPI)の**言明と証明**。
+- §4 の【GAP】・§6.2 の判定(現行構成に $PB_4$ 水準の窓は無い)・【文献要請 U-PB4】。
+- §7 の格付け表(本追記はそれを**上書きせず**、総合格を上に載せる)。
+- §8 の Sol 監査点 A–E(**A–D は F99-2.3 の PASS に含まれる**が、**監査点 E**($PB_4$ 窓の不在)は F99-2.3 の判定文に明示がないので**未決として残す**)。
