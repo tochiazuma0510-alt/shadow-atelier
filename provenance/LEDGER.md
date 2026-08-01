@@ -1220,3 +1220,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - wall40_cert.g / wall45_cert.g: 逐語複製+gap_output_prelude.g 初適用(裁定 330)。smoke PASS(wall45 の eq=false は truncation の既知帰結・虚偽記載なし)。witness 出所の齟齬(scans/ 未収蔵 = collector schema 未対応の既知)を sha256 突合で正当化・冒頭コメントに明記 — 正直な逸脱処理。
 
 ## 2026-08-01 回帰バッテリー初回 success(裁定 337 補遺)— run 30684752993・637 本 green・常設安全網の稼働確認
+
+## 2026-08-01 Lean 方針 v1.5(裁定 338・研究者裁定)— 構造化規約: 暗黙仮定の全切り出し(名前つき補題として T1/T2 から証明)・紙⟷Lean 1:1 双方向・割り付け表 = 補題分解計画
