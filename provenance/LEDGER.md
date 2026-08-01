@@ -1386,3 +1386,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **①壁族の分類訂正(数学者捕獲・cert 自身が機械反証)**: 非可解壁帯は n=24/28/36/37 の **4 窓**のみ — n=40(C₃₇×S₃・solvable:true・dl=2)と n=45(C₄₁×S₄・solvable:true・dl=3)は「同族 C_ℓ×S_t だが可解」。裁定 339 の「壁族 6 窓」は司令塔の語法伝播ミス(数値・cert 無傷)。地図 P4 行を訂正済。副産物: n=40/45 = 最安の可解プローブ標的として FV-SOLV 台帳の候補標的欄へ。
 - **②RETRACTED schema の限定解除(逐語)**: 「RETRACTED schema mb/ninfty-branch-search/v1 の cert 群について、**点リスト(座標データ)を事前登録宇宙の定義として使うことは可**。禁止が継続するのは **verdict/hit/判定欄を証拠・照合器の判定入力として使うこと**(裁定 66 の趣旨 = 判定の救済禁止であり、座標の再利用は宇宙の事前登録と両立)。裁定 321/342/361 の 744/86M/680 の用法はこの限定解除の範囲内で有効。引用時は『点リストのみ使用・verdict 不使用』の 1 行を CV-10 連鎖に添える」— p52 §7.2 清算。
 - ③P5-2 の新規性修文を受理: e=3 真分岐の事実は便 54 F6 既知 — §7.3 の新規部分は「探索器 stage2 と spec decision lane が別対象を選ぶ帰結」の方(便 54 F6 を effective source 併記)。
+
+## 2026-08-01 P6-3 完了(裁定 374)— ★ IH-NEC 接続の紙(candidate・Sol 未監査)完成: 定理 4 本立て+予言 7 本事前登録+実測設計
+- **補題 IH-FACT**(Ih^odd の三水準分解)・**定理候補 IH-NEC**((IH-S)∧(PR-S^odd) ⟹ odd Conj 5.1 — 逆は不成立と明記)・**系 FAKE-KILL**(前件 U-10 のみ・任意窓の B 型証人 1 つ ⟹ 井原全射部が偽・対偶 =(井原)∧(U-10)⟹全窓 arith=gen)・**定理 ML-ODD**((i) PR^odd 全射 ⟺ (ii) 全奇 isolated 段の制限全射 ⟺ (iii) 全奇窓 all-genuine — 新規部 (iii)⟹(i) は補題 ML-1 の lcm 閉+poset 有向性)⟹ **E1-GAP-4 が UNKNOWN から有限問題族へ翻訳**(停留深さ上界は無し = 決定手続きではない・文献要請 IHNEC-L1)。
+- **予期しない副産物 = 定理 SPLIT-NULL**: 分裂屋根では像が m-fiber 合併 ⟹ 𝔉₀ 方向は決して削られない = **分裂屋根では fake(B 型)は原理的に出ない・検出には entangled 屋根が要る** — P5 哨戒の設計に直接効く負の定理。
+- 実測設計: 命題 CMP-S4(N_S4 と K⁽⁹⁾ は poset 比較不能 = Dih^odd 非共終の具体証人)・命題 ROOF(M=K⁽⁹⁾∩N_S4・PB₃/M ≅ G₉×PSL(2,8)・|GT(M)|=972 予言)・P-IHN-1〜7 事前登録(全射 =「何も出ない」を紙で先に決めた)・R4a/R4b 二段工程。検算 ihnec_check.py failures 0(収蔵済)。
+- **裁定①「fake」の二義解消**: 以後の正式用語 — **fake = 非 genuine(A 型・正典 Def 4.2 準拠)**/**B 型 = genuine だが非算術(「非算術証人」と呼ぶ・fake と呼ばない)**。A 型は P1/P2 を殺し P6 は殺さない・B 型が FAKE-KILL の証人。**現行 P5 哨戒が測っているのは A 型** — FAKE-VOID 三層の predicate は A 型と明記・B 型検出は entangled 屋根(ROOF 型)の別戦線として登録。地図 P1/P5 行の語法は次回一括更新時に訂正。
+- 裁定②: 2401 Prop 3.14/3.15/Cor 5.4 の逐語照合を reader へ発注(ML-ODD の全体重が乗る 3 条文)。
