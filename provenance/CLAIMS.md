@@ -94,3 +94,24 @@ E1-1(isolated 族)/E1-2(構造 GT^odd_Dih ≅ Aff(Ẑ^odd)×C₂)/E1-3(odd Conj 
 ## C-WALL-FAM 拡張(2026-08-01・裁定 339)— 壁族 6 窓へ
 - 追加 2 窓: **n=40(w₀=(37,1³)・ker χ̃ ≅ C₃₇×S₃・222/222 悉皆)**・**n=45(w₀=(41,1⁴)・ker χ̃ ≅ C₄₁×S₄・984/984 悉皆)** — verdict=done・eq_centralizer_w0=true(全数実行で smoke の truncation 帰結は解消)・凍結予言的中。族 = n∈{24,28,36,37,40,45}・核 = C_ℓ×S_t(t=3..6)・格 = cross-checked(定理 CENT×悉皆)。
 - cert: search/certs/wall40_cert_20260801.json = 57aac58df75879bdbe20f159d3873f5ac0590f72ed1292edd7cd6c1ce525fd6b・search/certs/wall45_cert_20260801.json = a6afdbd9356b5ad60af794a11a75c1d7da7a605e703373f0d626adcd5ba00cd6(run 30684889885)。
+
+## 便 99 検収の記帳(2026-08-02・裁定 412)
+
+### C-972(屋根 M = K⁽⁹⁾∩N_{S₄} の基数)
+- **主張(P99-2.1 確定文)**: M = K⁽⁹⁾∩N_{S₄} について、命題 ROOF(4) と既存因子 certificate から得る紙の予測 972 と、M 上の 4,408,992 候補の直接悉皆列挙による測定 972 が一致した。**cross-check の対象は基数 972 のみ** — 二つの独立測定・shadow 集合/NF の同一性・正典向きの独立照合は主張しない。Lean 未検証。
+- 格: **cross-checked(scalar cardinality only)** = paper-predicted × machine-measured。108/54 は独立 anchor と数えない(54 は R4a=settled / R4b=shadow の述語相違 — 本 run 限り集合差空を副検問に使用可)。U-11(合成表 11,664 対)・P-IHN-1/2/3 は各単系統のまま(伝播禁止)。
+- cert: search/certs/ihnec_r4b_run_20260801.json・CV-9 判読書 = docs/notes/cv9_reading_ihnec_r4ab_v1.md(副検問 = 同一対象・限定 3)・修文 queue = W99-2.1 の 6 件(次 version)。
+
+### C-GTPI(GT(K_π) ≅ F₂₀ 二部作 — 格の二行分離・P99-2.2)
+- **行 1(数値群構造)**: red: GT(K_π) ≅ GT(N_A) ≅ AGL(1,5) = F₂₀・GTPI^{PB₄} で N₀ isolated・GT^♡(N₀) ≅ F₂₀。**総合格 = paper-proof + finite-exhaustive candidate** — CLOSURE(20 lifts の存在・全射)と PB₄-settled/NFI は有限計算に論理依存・settled 段は独立照合が付くまで single lane。
+- **行 2(canonical fidelity)**: source-map の定義式と c₃-pentagon の向きは paper-audited(監査点 A+A′ 閉鎖・裁定 363/388)。行 1 とは別勘定。
+- Lean 未検証・verified を名乗らない。
+
+### P99-1.1(FAM-U odd-domain restore・現行宣言)
+- 奇数 n≥3 について、FAM-U の他の明示前件の下で M2/M4 の紙上鎖は閉じ、補題 LIFT により整数持上げの型も閉じた。従って **ord([u_n]_{2n}) = n に至る candidate 鎖をこの domain(全奇数 n≥3)で採用**する。旧 P95-1.1 の改稿ではなく domain 復帰後の新宣言(旧文は不改変で保存)。「candidate 鎖」を落として無条件定理・verified と記帳してはならない。
+- 出所: docs/notes/fam_u_v1_addendum_domain_restore.md+fam_u_assembly_v1.md 追記 B・裁定 396/398/407・便 99 F99-1.1/1.2 PASS(W99-1.1: 同 addendum §9.3 の seal 現況文は Sol 返信が current erratum)。
+
+### C-W98ALG(GEN_FAIL 帯 18 セルの厳密計数)
+- **主張**: (ℓ,a) ∈ {37,41}×{0..8} の 18 セルで (T_all, T_trans) を厳密確定(exact 表 = sol/sol_reply_99_math26.md §6 に収蔵)・**t≥9 は RH 予算 3f₂+4f₃ = ℓ+6−5t−12γ で厳密 0 = census は t 方向完備**。
+- 格: **cross-checked finite computation**(route A/B 独立実装 18/18・二項反転・a=9 の RH 先行予言的中・指標不使用の小 n brute 30・類乗積直撃。route A/B は ALG-1/2 を共有 — 小 n brute+類乗積が穴を部分被覆、の依存表示つき。二環境 180/180 は環境再現性であり独立数学 route でない)。Lean 未検証。
+- **旧 12 セル(裁定 372 UNKNOWN)は P99-6.1 の superseding entry で更新**(LEDGER 裁定 412 に provenance ブロック収蔵・旧行は当時の正しい履歴として不改変)。恒久 fixture は P99-6.2 の 5 条件つきで次版 driver へ。
