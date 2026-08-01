@@ -1,0 +1,45 @@
+{
+  "schema": "mine-job/v1",
+  "job_id": "sweep744-laneb-pyci-repro-20260801",
+  "claim_class": "exploration",
+  "map_ref": { "polestar": ["P5"], "band": 2 },
+  "universe": {
+    "generator": "direct-windows",
+    "params": {
+      "note": "発注②(司令塔 2026-08-01): 744点掃射(search/certs/ep_sweep744_20260801.json = dfade075ee0bbff77cdb39776ce66e4cd684deff14caa9d8b4efb84035939f44・事前登録 stage1 生存者全集合に lane A/B 単発実走・744/744 verdict/理由コード完全一致・discordant 0)のうち lane B(python, ninfty-checker.py の run_checker と同一関数を in-process バッチ呼び出し)を py-ci バックエンド(GitHub Actions、ローカルとは別環境)で再現する。lane B のみが対象 -- lane A(mjs/node 実装)は py-ci 対象外(本 job では走らせない)。py-ci 汎用契約(commit ad253b4・裁定340)採用: pipeline[0].params に primes を置かず汎用契約(2)を使う -- CLI args なし・done_marker は既定値 PY_DRIVER_DONE をそのまま使う(script 末尾で print(\"PY_DRIVER_DONE\") 済み・裁定340で追加)。driver は candidates_744.json(同ディレクトリに同梱・変更禁止)を読み、search/ninfty-checker.py の run_checker を各候補に適用して結果を書き出す -- driver 自身が entry_point_sha256/input_candidates_sha256 を出力 JSON に焼き込むため、依存スクリプト(ninfty-checker.py)の同一性は出力 cert から自己検証できる。crosscheck は本 job の pipeline では自動対応しない出力スキーマ(gtsh-cert 系ではない)につき mode=none とし、artifact の laneb_results_744.json をリポジトリ収蔵済みの search/certs/ep_sweep744/laneb_results_744.json と miner が手動照合(検収レポートに記載)する。"
+    },
+    "frozen_docs": [
+      { "path": "search/certs/ep_sweep744/run_laneb_sweep744.py", "sha256": "499ac3c4729f1f5ed6a8e227ca9c14de7fc45ce22d13120e19a7aa94a684ac00" }
+    ]
+  },
+  "pipeline": [
+    {
+      "predicate": "SWEEP744-LANEB-PYCI-REPRO",
+      "version": 1,
+      "params": {
+        "driver": "search/certs/ep_sweep744/run_laneb_sweep744.py",
+        "note": "v0: 述語カード未起票(§7-1)。probe への名前付きポインタのみ。primes 欄なし = py-ci 汎用契約(2)を使う。args/done_marker/result_count_check はいずれも省略(既定 PY_DRIVER_DONE のみで完走判定)。"
+      }
+    }
+  ],
+  "predictions": {
+    "declared_none": "別環境(py-ci/GHA)再現ジョブ -- 予測値はコード・本 plan いずれにも書かない(接触遮断)。的中判定(artifact の laneb_results_744.json が repo 収蔵済み search/certs/ep_sweep744/laneb_results_744.json と一致するか)は司令塔が検収レポートを見て裁定する。"
+  },
+  "resources": {
+    "backend": "py-ci",
+    "timeout_min": 60,
+    "checkpoint": false,
+    "py_driver": {
+      "script": "search/certs/ep_sweep744/run_laneb_sweep744.py",
+      "sha256": "499ac3c4729f1f5ed6a8e227ca9c14de7fc45ce22d13120e19a7aa94a684ac00"
+    }
+  },
+  "outputs": {
+    "cert_schema": "ep_sweep744-laneb-results (raw; 正本は search/certs/ep_sweep744/run_laneb_sweep744.py 自身。role_note/entry_point/entry_point_sha256/input_candidates_sha256/total/results を持つ)",
+    "out_dir": "search/certs/ep_sweep744"
+  },
+  "crosscheck": {
+    "mode": "none"
+  },
+  "ep_handoff": null
+}
