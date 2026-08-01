@@ -1,0 +1,134 @@
+{
+  "cert_id": "ep_first_run_20260801",
+  "role_note": "EP 初回単発実走(探索でも宣言でもない)の生出力記録。裁定292/Sol便93 §6 AUTHORIZED を根拠に、凍結 schema 下で lane A / lane B を候補ごとに一回だけ独立実走した記録。",
+  "AUTHORIZATION_BASIS": "sol/sol_reply_93_math20.md §6: 'A/B 一対の同一世代化修理は PASS。sol75 の法的読みとして、凍結 schema 下の単発 lane 実走は AUTHORIZED' + docs/notes/ep_first_candidate_design_v1.md §0 の提言(禁止は宣言のみ・単発実走は禁止条項に触れない)。",
+  "EXPLICIT_NON_DECLARATIONS": [
+    "この cert は「calibrated detector」を宣言しない(sol75 receipt L55 / spec v18 §7 禁止条項)。",
+    "この cert は「complete search」を宣言しない -- 1候補ずつの単発実走であり、探索ではない。",
+    "この cert は「EP 発効」を宣言しない -- Sol便93 §6 の判定どおり、外部正例による EP 再発効は現時点 FAIL のまま。",
+    "全ての verdict は partial predicate / UNKNOWN 格のまま(spec v18 §7)。"
+  ],
+  "run_mode": "unit_run",
+  "complete_search": false,
+  "calibrated_detector": false,
+
+  "candidate_alpha": {
+    "status": "NOT_EXECUTED",
+    "design_ref": "docs/notes/ep_first_candidate_design_v1.md sec.2 案α (negative fixture ninfty-neg-01)",
+    "reason": "PROVENANCE GAP -- 実装担当が spec v18 §7 の sealed ninfty-neg-01..08 の実座標(a,p,f6)を repo 内に平文で発見できず、司令塔が金庫を検索した結果、sealed mapping は金庫にも不存在と確認された(封印写像が永続化されず喪失 -- 過去セッションの工程欠陥として provenance/LEDGER.md に記録済み)。",
+    "false_lead_noted": "repo 内 search/fixtures/ninfty/cert_neg_01.json・checker_neg_01.json は名前が類似するが別系統の自作トイ fixture (cert_neg_01=W-2 forward reduction 破壊、checker_neg_01=次数不一致) であり、spec v18 §7 の sealed triple-root-of-a 系 ninfty-neg-01..08 とは無関係。使用は名前類似トラップとして却下した(使用していない)。",
+    "commander_ruling": "司令塔裁定(2026-08-01): 「αは断念・β単独の単発実走に切替」。fail-closed 経路(案αが担う予定だった役割)の演習は今回実施せず。代用トイの投入は宇宙外につき禁止。"
+  },
+
+  "candidate_beta": {
+    "status": "EXECUTED",
+    "design_ref": "docs/notes/ep_first_candidate_design_v1.md sec.2 案β (bound=3 cert の stage1_passes 辞書順最小)",
+
+    "extraction": {
+      "extractor_path": "search/certs/ep_first_run/extract_beta.mjs",
+      "extractor_sha256": "48df44067cc31c3548a71e3baceac6d2f6afc6d55ff7ce6a30dec8ca93fdccfa",
+      "source_cert_path": "certificates/mb/ninfty-branch-search-bound3.json",
+      "source_cert_sha256": "b90e2bf0072197f0f6e2e70edca25f122323a9b8976b636d8d3c69b29b8b4440",
+      "extraction_rule": "lexicographic-minimal over (a5,a4,a3,a2,a1,a0,p2,p1,p0) across all 288 stage1_pass_details entries, machine-sorted, no manual choice",
+      "extraction_output_sha256": "96daf0e0f333b5676589352d6214367a64bd7e32d4ca588b5777448d5415d41a",
+      "dict_min_raw_from_cert": {
+        "a0": 0, "a1": 0, "a2": 2, "a3": -2, "a4": -2, "a5": -1,
+        "p0": -2, "p1": -2, "p2": -1,
+        "stage2_in_search_script": { "ok": false, "reason": "R(v) not even (no +-s symmetry)", "k": 4 }
+      },
+      "note_P_EP_3": "P-EP-3 (design doc sec.4, 予言)は的中: a5=-1 側が選ばれた(符号反転対称の288個のうち辞書順最小は a5 で先に決まる)。"
+    },
+
+    "candidate": {
+      "a": ["0", "0", "2", "-2", "-2", "-1"],
+      "p": ["-2", "-2", "-1"],
+      "f6": ["4", "-8", "8", "-4", "0", "0", "1"],
+      "cHatMu": "-16"
+    },
+    "candidate_json_sha256": "1453017f19ad071187bf5837d65e3bca4d1d5dbae0e07ab83c1ec06648f215c3",
+
+    "lane_A_unit_run": {
+      "entry_point": "search/certs/ep-lanea-eval-candidate.mjs (imports evaluateDecisionLane from search/ninfty-searcher-v2.mjs)",
+      "entry_point_sha256": "4a6bad6d1b80a8dc6ccdf58056f6c391a14a2a4994a65a557518061ac7500bdd",
+      "searcher_v2_sha256": "949897699ef4dd0fa17dd43819aee7d0157e53a6c005296d6d68d466eb1ea836",
+      "raw_stdout": { "verdict": "REJECT", "primary_reason_code": "a-partition-mismatch", "all_reason_codes": ["a-partition-mismatch"] },
+      "output_file_sha256": "746e298f638a3390e24a498701c83d782139fde5b4f6115c538d8be06f257542"
+    },
+
+    "lane_B_unit_run": {
+      "entry_point": "search/ninfty-checker.py",
+      "entry_point_sha256": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
+      "raw_stdout": {
+        "T1_detail": { "deg_gcd_a_ap": 1, "deg_gcd_a_ap_app": 0, "gcd_squarefree": true },
+        "algorithm": "euclid-gcd+yun-squarefree-elimination",
+        "checker_id": "search/ninfty-checker.py",
+        "divisor_orientation_status": "UNKNOWN",
+        "precondition_detail": { "pell_constant_is_nonzero": true },
+        "primary_reason_code": "a-partition-mismatch",
+        "reason_codes": ["a-partition-mismatch"],
+        "rootpart_a": [2, 1, 1, 1],
+        "stage": "REJECT"
+      },
+      "output_file_sha256": "2401d9da49b906f42183e43214db65efe5062a1bbf947e8f5e10e7a282fc7244"
+    },
+
+    "decision_lane_concordance": {
+      "laneA_verdict": "REJECT", "laneA_primary": "a-partition-mismatch",
+      "laneB_stage": "REJECT", "laneB_primary": "a-partition-mismatch",
+      "primary_reason_code_match": true,
+      "note": "両 lane、別実装(node vs python)・別アルゴリズム(searcher-v2 の T-1 判定 vs checker.py の Euclid-gcd+Yun squarefree)で、独立に同じ primary_reason_code=a-partition-mismatch を返した。INTEGRITY_STOP なし。"
+    },
+
+    "UNEXPECTED_FINDING_vs_design_doc_prediction": {
+      "predicted": "design doc P-EP-1 (docs/notes/ep_first_candidate_design_v1.md sec.4): 'T-1 を通過し、stage2(E-7 の調和対条件)で REJECT'",
+      "observed": "lane A / lane B とも T-1 の a-partition-mismatch(rootpart(a)≠[2,2,1])で REJECT -- T-1 を通過していない。",
+      "root_cause": "certificates/mb/ninfty-branch-search-bound3.json の 'stage1' は search/mb-ninfty-branch-search.mjs 独自の f6 復元チェック(factorCheckNinfty: deg/monic/depressed/squarefree)であり、spec v18 の T-1 ゲート(rootpart(a)=[2,2,1] の precondition)とは別物。'stage1 通過' は T-1 通過を含意しない -- 探索器(search)側の pre-filter と、決定lane(searcher-v2.mjs / checker.py)側の T-1 precondition は別の関門である。",
+      "disposition": "予言は外れたが機構は健全(P-EP-4 の趣旨どおり、lane A/lane B 間の不一致ではなく、'探索器の事前フィルタ' と '決定laneの本ゲート' の間の意味の違いという、より基礎的な発見。数学的内容ではなく scaffolding の用語齟齬)。"
+    },
+
+    "deep_witness_pipeline_STATUS": {
+      "status": "PARTIALLY_BLOCKED -- 実装担当の判断で production provisioning は保留",
+      "searcher_native_computed": {
+        "note": "buildSearcherNative(candidate) は decision verdict に非依存で無条件実行可能と確認、実行した。",
+        "output_file_sha256": "4f498c2b12527ce85c14c8e9abf6e8fe087f07bbc429a673284e5577b0459852",
+        "native_artifact_digest": "f11d6cd20e04ab291007cf2ebf92a95ebc21295467e5294177647da1ed52ac62"
+      },
+      "checker_native_NOT_AVAILABLE": {
+        "finding": "search/ninfty-checker.py は checker_native (ramification_divisor_on_C / branch_divisor_on_P1 の from-scratch 構築) を明示的に NOT IMPLEMENTED と自己申告している(同ファイル冒頭コメント: '...that a full checker_native artifact needs ... require locating actual points on the curve C_crv over Qbar ... Root-finding over Qbar is out of scope for this partial-predicate checker')。",
+        "existing_pipeline_workaround": "search/certs/gen_full_cert_base.mjs は checkerNative スロットに searcherNative を再利用している('same lane's native used for both slots -- see report for the honest caveat this implies')-- 独立な lane-B native ではない。",
+        "implication": "現状の実装では、いかなる候補についても『lane A ネイティブ』と『lane B 独立ネイティブ』の genuine な A/B pair は生成不可能(構造的欠落。β 固有の問題ではない)。ここで commit_generation により本番 registry へ 'native_b' として lane A の使い回しを provisioning すること、または新たに native を捏造することのどちらも、design 文書・接触規律(value-independent の精神)・sol75 の禁止条項(fabricated positive-shaped data 相当)に照らして不適切と判断し、実装担当の裁量で見送った。"
+      },
+      "commit_generation": "NOT EXECUTED (上記理由により)",
+      "resolve_bundle": "NOT EXECUTED",
+      "evidence_union_real_run": "NOT EXECUTED",
+      "ep_registry_quarantine_synthetic": "NOT EXECUTED -- 旧 synthetic 3 本(search/certs/ep_registry/index.json + 3 ファイル、schema_id=mb/ninfty-ep-registry/index/v1、pre-便91 flat format)は特定済みだが、移動は本 cert 発行時点では保留(下記「司令塔への差し戻し事項」参照)。",
+      "suite_full_regression": "NOT EXECUTED (同上、深い pipeline に依存する回帰は対象未定のため保留)"
+    }
+  },
+
+  "COMMANDER_REFERRAL": {
+    "summary": "β の decision-lane 単発実走(lane A / lane B 独立・REJECT concordant)は完了。しかし発注の (2)(3) 段(commit_generation 本番 provisioning・resolve_bundle・evidence union 実走・旧 synthetic 3 本の quarantine・suite 全回帰)は、checker.py に genuine な checker_native (lane B 独立ネイティブ) が実装されていないという構造的欠落を実行中に発見したため、実装担当の判断で保留した。",
+    "options_for_commander": [
+      "(a) lane A の native を lane B スロットにも用いる(既存 gen_full_cert_base.mjs と同じ disclosed スタンドイン)形で、その限定を cert に明記した上で registry へ provisioning する -- 独立性の欠如を隠さない前提で。",
+      "(b) checker_native の genuine 実装(root-finding over Qbar)を先に発注し、それが揃うまで本番 provisioning は保留する。",
+      "(c) 今回の unit run は decision-lane concordance の記録(本 cert)までを『実物』とみなし、native/registry/evidence-union 段は EP 後の別課題として申し送る。"
+    ],
+    "implementer_recommendation": "(c) が最も安全 -- (a) は独立性のない artifact を本番 registry に『provisioning』と呼ぶこと自体が sol75 の精神(独立実装での cross-check)に反する疑いがあり、司令塔裁定なしに実装担当の一存で本番書き込みすべきでないため。"
+  },
+
+  "provenance": {
+    "generated_by": "実装担当(shadow-atelier implementer)",
+    "generated_at_context": "2026-08-01, EP 初回単発実走 発注に基づく",
+    "input_files_sha256": {
+      "docs/notes/ep_first_candidate_design_v1.md": "not separately hashed here -- see file directly",
+      "sol/sol_reply_93_math20.md": "not separately hashed here -- see file directly",
+      "certificates/mb/ninfty-branch-search-bound3.json": "b90e2bf0072197f0f6e2e70edca25f122323a9b8976b636d8d3c69b29b8b4440",
+      "search/ninfty-searcher-v2.mjs": "949897699ef4dd0fa17dd43819aee7d0157e53a6c005296d6d68d466eb1ea836",
+      "search/ninfty-checker.py": "fe54281a8fd012e6efce8594d4c54370acbe050998d3fec1cd54e388ce22b0ac",
+      "search/ninfty-verifier-a.mjs": "6e9237c2668f3cd7c47e8078a7b7482c30ff15efbc07dd850a4338ce7ba03226",
+      "search/ninfty-verifier-b.py": "3c143baab56571dcd08d316d9e479d8c4bf4e3ec92309f9bd450713b6f5f6be7",
+      "search/certs/ep-lanea-eval-candidate.mjs": "4a6bad6d1b80a8dc6ccdf58056f6c391a14a2a4994a65a557518061ac7500bdd"
+    },
+    "machine_piped": "全ての raw_stdout / digest 値は本セッションの実コマンド実行結果からの機械貼付(手写しなし)。"
+  }
+}

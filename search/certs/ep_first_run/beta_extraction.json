@@ -1,0 +1,55 @@
+{
+  "role": "EP first unit-run candidate beta extraction (single point, not a search)",
+  "design_ref": "docs/notes/ep_first_candidate_design_v1.md sec.2 案β / sec.3",
+  "source_cert_path": "certificates/mb/ninfty-branch-search-bound3.json",
+  "source_cert_sha256": "b90e2bf0072197f0f6e2e70edca25f122323a9b8976b636d8d3c69b29b8b4440",
+  "extractor_path": "search/certs/ep_first_run/extract_beta.mjs",
+  "extraction_rule": "lexicographic-minimal over (a5,a4,a3,a2,a1,a0,p2,p1,p0) across all 288 stage1_pass_details entries, machine-sorted, no manual choice",
+  "dict_min_raw_from_cert": {
+    "a0": 0,
+    "a1": 0,
+    "a2": 2,
+    "a3": -2,
+    "a4": -2,
+    "a5": -1,
+    "p0": -2,
+    "p1": -2,
+    "p2": -1,
+    "stage2": {
+      "ok": false,
+      "reason": "R(v) not even (no +-s symmetry)",
+      "k": 4
+    }
+  },
+  "full_pipeline_rederivation": {
+    "ok": false,
+    "stage": 2,
+    "reason": "R(v) not even (no +-s symmetry)",
+    "k": 4
+  },
+  "candidate": {
+    "a": [
+      "0",
+      "0",
+      "2",
+      "-2",
+      "-2",
+      "-1"
+    ],
+    "p": [
+      "-2",
+      "-2",
+      "-1"
+    ],
+    "f6": [
+      "4",
+      "-8",
+      "8",
+      "-4",
+      "0",
+      "0",
+      "1"
+    ],
+    "cHatMu": "-16"
+  }
+}

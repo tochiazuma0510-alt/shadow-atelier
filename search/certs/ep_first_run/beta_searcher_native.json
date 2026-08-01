@@ -1,0 +1,82 @@
+{
+  "native_schema_id": "mb/ninfty-stage2-predicate/v18#cert-schema",
+  "native_schema_digest": null,
+  "ramification_divisor_on_C_ref": {
+    "components": [
+      {
+        "component_id": "ramification_divisor_on_C_ref:a-pair-locus",
+        "locus_type": "a-pair-locus",
+        "ideal_generator": [
+          "0",
+          "1"
+        ],
+        "multiplicity": 1
+      },
+      {
+        "component_id": "ramification_divisor_on_C_ref:p-locus",
+        "locus_type": "p-locus",
+        "ideal_generator": [
+          "2",
+          "2",
+          "1"
+        ],
+        "multiplicity": 1
+      },
+      {
+        "component_id": "ramification_divisor_on_C_ref:weierstrass-locus",
+        "locus_type": "weierstrass-locus",
+        "ideal_generator": [
+          "4",
+          "-8",
+          "8",
+          "-4",
+          "0",
+          "0",
+          "1"
+        ],
+        "multiplicity": 1
+      }
+    ]
+  },
+  "branch_divisor_on_P1_ref": {
+    "components": [
+      {
+        "component_id": "branch_divisor_on_P1_ref:a-pair-locus",
+        "locus_type": "a-pair-locus",
+        "ideal_generator": [
+          "0",
+          "1"
+        ],
+        "multiplicity": 1,
+        "pushforward_of": "a-pair-locus"
+      },
+      {
+        "component_id": "branch_divisor_on_P1_ref:p-locus",
+        "locus_type": "p-locus",
+        "ideal_generator": [
+          "2",
+          "2",
+          "1"
+        ],
+        "multiplicity": 1,
+        "pushforward_of": "p-locus"
+      },
+      {
+        "component_id": "branch_divisor_on_P1_ref:weierstrass-locus",
+        "locus_type": "weierstrass-locus",
+        "ideal_generator": [
+          "4",
+          "-8",
+          "8",
+          "-4",
+          "0",
+          "0",
+          "1"
+        ],
+        "multiplicity": 1,
+        "pushforward_of": "weierstrass-locus"
+      }
+    ]
+  },
+  "native_artifact_digest": "f11d6cd20e04ab291007cf2ebf92a95ebc21295467e5294177647da1ed52ac62"
+}

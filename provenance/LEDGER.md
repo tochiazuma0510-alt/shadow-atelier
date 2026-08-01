@@ -1050,3 +1050,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 実装係の速達照会(名前類似トラップの正しい検出込み: repo の cert_neg_01 等は spec v18 §7 の sealed ninfty-neg-01..08 と別系統のトイ)を受け金庫を検索 → **ninfty-neg fixtures の sealed mapping は金庫にも不在 = 封印写像が永続化されず喪失**(過去セッションの工程欠陥・便 94 で Sol へ申告)。
 - 裁定: α(negative fixture)断念・**β(stage1 通過 288 の辞書順最小)単独の単発実走へ切替**・代用トイ投入は宇宙外につき禁止・cert に provenance gap を明記。
 - 教訓: sealed mapping は「司令塔の記憶」でなく金庫に永続化する(vault-zoning の運用漏れ型)。
+
+## 2026-08-01 EP 初回単発実走(裁定 305)— ★ β で lane A/B 独立実装が REJECT/a-partition-mismatch 完全一致(decision-lane concordance 成立)・provisioning は (c) 採択で申し送り
+- cert = ep_first_run_20260801.json + ep_first_run/ 配下の生出力群。β = bound3 cert stage1 通過 288 の辞書順最小(a5=−1 側・設計 P-EP-3 予言的中)。**lane A(node)と lane B(python・別アルゴリズム)が単発実走で verdict/理由コードまで一致・INTEGRITY_STOP なし** — EP 機構の初の実データ通過。
+- 発見 2 件: ①P-EP-1 予言外れの真因 = 探索器の「stage1」(f6 復元チェック)と spec の T-1 ゲートが**別物**(用語齟齬・spec 衛生の課題)②**構造的欠落: checker_native(lane B 独立の分岐因子構築)が NOT IMPLEMENTED**(root-finding over ℚ̄ 要)— 真の A/B native pair は現状どの候補でも生成不能。
+- **裁定 = (c) 採択**: decision-lane concordance までを成果として確定・native/registry/evidence-union は checker_native 実装後の別課題へ申し送り。(a) 使い回し provisioning は独立性偽装につき禁止(sol75 精神)。α は sealed mapping 喪失で NOT_EXECUTED(裁定 304)。
+- ⟹ EP の W92-8 (c)(d) 完全充足には checker_native 実装が新規前提 — 便 94 で Sol へ正直報告(実装係の (c) 推奨も記録: 「保管室に入れて良いのは本物だけ」)。
