@@ -1452,3 +1452,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **後回し確定**: S_t 塔上限・標準域外位数律(ℓ^{r−p} 外側)・ε 依存性の族整理 — いずれも純構造の帳簿で実現軸に乗らない。
 - **FV-WALL 哨戒 = トリガー条件つき凍結**: 新規投資停止(カナリア観測の収蔵まで)。再開トリガー = **非可解窓の算術像を読む道具の獲得**(例: HS Prop 7 有限商翻訳の壁窓適用)— その時点で B 型検出が可能になり FAKE-KILL 経由で井原直結・優先度自動昇格。
 - 現役投資は実現軸のみ: 枠組み層昇格・APPLY/C1′(7)・n=5・補題 INT 監査・entangled 屋根の増設(R4b 済→次の屋根)・HS Prop 7 翻訳・C2-Q 較正・EP W-6。地図再編(タスク #29)にこの priority を反映する。
+
+## 2026-08-01 R4b CI 正式収穫(裁定 387)— ★ 972 の二環境化成立: run 30697198947・12/12 shard 全 done(conclusion/verdict 一致 = 修理版 backend の初実戦も無傷)・K9=108/S4=54 アンカー 12/12・Σ=81×12=972・accounting 12/12・provenance 単一 script sha=plan frozen 一致
+- これで屋根 M=K⁽⁹⁾∩N_S4 の |GT(M)|=972 は: 紙(命題 ROOF)+予言先行(P-IHN 凍結)+**二経路**(R4a 組立 vs R4b 直接列挙)+**二環境**(ローカル Windows vs CI ubuntu)。P-IHN-1〜7 全的中で ihnec 実測線は完結 — 便 99 で cross-checked 格付け請求へ(CV-9 判読は R4a/R4b が別実装・別著者につき要判定)。検収 = mine/reports/ihnec-r4b-20260801_report.md。
