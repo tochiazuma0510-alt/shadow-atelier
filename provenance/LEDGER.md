@@ -1192,3 +1192,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-01 GAP 出力 prelude 制度化(裁定 330・研究者指摘)— 再発 3 回の出力罠族をコード 1 枚に集約
 - 新設 = search/probe/wac_v1/gap_output_prelude.g(SizeScreen 拡大+SetPrintFormattingStatus)。全 probe は冒頭 Read 必須(implementer 規程に追記・次セッション有効)。散逸していた個別対処は今後 prelude へ一本化。CV-12 の精神(散文でなくコードで)の適用例。
+
+## 2026-08-01 ★★★★ (M2) 完全閉鎖(裁定 331)— M2-DESC 成立(moduli 体は ℚ・想定より強い)⟹ **(M2) = GEO+UNIQ+DESC 三定理**・FAM-U 最大前件が消滅・P1 の全奇数窓 candidate 鎖が実質完成
+- 正本 = m2_family_identification_v1.md §D(追記方式)。**定理 M2-DESC**: mere cover C_α の moduli 体 = ℚ・Aut=1(AUT-n)⟹ ℚ 上定義・F_n 形式は一意。
+- **機構の白眉 = 補題 POW+比の消去**: G_ℚ は 3 慣性を一斉に χ(τ) 乗する(BCL 粗形)が、完全不変量 ρ=[δ/η] は**比**なので χ が約分されて消える — 「比であることが降下を可能にする」。外部入力は BCL 粗形と Weil 降下(Aut=1 ⟹ cocycle 自動)の 2 点のみ。
+- marked/mere の差なし(Aut=1)・障害は「消える」のでなく「圏に入らない」(H¹/H² とも自明群係数)。独立証人 = 複素共役の Θ-witness(式中の i が θ-捻れで打ち消される非自明検査)+Kummer 部分群の G_ℚ-安定性。
+- 機械 = m2_desc_check.py(正規形非使用の独立経路)**160/160 PASS**(n∈{3,7,9,11,13} × 全 α × 全 m)。単系統申告。
+- 副産物: **(M4) [γ]=1 の candidate 証明**(SPLIT+u_n=4(−1)^α+F_n∋i ⟹ [u_n]₂=1)— fam_u 監査点 D の循環懸念解消(依存明記)。
+- 自主申告 MD-STRONG: 結論が従来想定(F_n 必要)より強い — 反証の急所 = BCL の正確な形 ⟹ 軽い【文献要請 M2-2】(M2-1 は消費解消)。射程宣言: 被覆 ℚ ≠ 測定 ℚ(FAM-U の F_n 要求は Kummer 側の事情・言明修正不要)— Sol 監査点 I/J 指定。
+- ⟹ **P1 現況: 2 冪 ✓・混合⟸奇 発効 ✓・(M2) 三定理 ✓・FAM-U(LIFT+M2)⟹ 全奇 n で ord=n の candidate 鎖完成** — 残 = Sol 監査(便 95 最重量)・枠組前件・APPLY ゲート・総組立。

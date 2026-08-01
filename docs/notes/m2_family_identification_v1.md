@@ -323,6 +323,9 @@ $$c\,\pi_{\alpha'_1}(g)\,c^{-1}=c\,w(\pi_1X,\pi_1Y)\,c^{-1}=w(\pi_2X,\pi_2Y)=\pi
 
 ## 8. ★ 残る穴 — (M2) のうち閉じていない部分
 
+> ### ⚠ 本節は末尾の**追記(§D)により更新された**(2026-08-01・裁定 328)
+> 下表の **M2-DESC「candidate(未閉鎖)」は、§D.3 定理 M2-DESC により解消**された(moduli 体 $=\mathbf Q$ ⟹ $\mathbf Q$ 上定義 ⟹ $F_n$ 上定義)。**【文献要請 M2-1】も §D で消費済**(代わりに軽い【文献要請 M2-2】= BCL の引用の型 が立った)。本文は誤りの記録として書き換えない。
+
 本稿が閉じたのは **(M2) の幾何側**である。前件表 `fam_u_v1.md` §3.2 の (M2) を 2 つに分解して記帳する:
 
 | # | 命題 | 格(本稿後) |
@@ -441,3 +444,220 @@ $$\textbf{M2-DESC}\ \Longrightarrow\ \textbf{(M2)}\quad(\text{M2-GEO + M2-UNIQ �
 | $\rho=[\delta/\eta]$ | — | **新規・完全不変量** |
 | $\mathcal T(\eta,\delta)$ | Nielsen 類($\chi_P$ 厳密一致) | $n=7$ で 49 本 |
 | $\mathcal T^{\rm cl}$ | Nielsen 類(完全共役類) | $n=7$ で 196 本 |
+
+---
+---
+
+# 追記(2026-08-01・裁定 328 追加委嘱)— **§(M2-DESC) 算術的降下の閉鎖**
+
+> **位置づけ**: §8 への **追補**。§1〜§11 の本文は**書き換えない**(§8 の「M2-DESC = candidate(未閉鎖)」という記述は**本追記が更新する**)。**【文献要請 M2-1】は本追記で消費された** — 司令塔が機構抽出済(裁定 328 覚書・骨格文献 = Dèbes–Emsalem 1999 / Dèbes–Douai 1997)。
+
+## D.0 判定(先に 5 行)
+
+| # | 問い | 判定 |
+|---|---|---|
+| **①** | (M2-DESC) は閉じたか | ★★ **閉じた。しかも予想より強い。** $\mathcal C_\alpha$ の **moduli 体は $\mathbf Q$** であり、$\mathrm{Aut}=1$(AUT-n)ゆえ **$\mathbf Q$ 上定義される**。$F_n$ 上定義されることは**その系** |
+| **②** | 機構 | ★ **一行**: $G_{\mathbf Q}$ は 3 つの慣性を**すべて同じ** $\chi(\tau)$ 乗する。我々の完全不変量 $\rho=[\delta/\eta]$ は**比**である。⟹ **$\chi(\tau)$ が約分されて消える**(補題 POW) |
+| **③** | marked / mere の差 | ★ **本件では差がない。** $\mathrm{Aut}=1$ なので marking は rigidification として何も追加せず、marked 降下と mere 降下は同値。**mere で降ろして marking を忘れる**必要すら生じない(司令塔の注意点への回答) |
+| **④** | 障害($H^2$)の正体 | ★ **障害は定義域ごと存在しない。** Dèbes–Douai の $H^2(K,Z(G))$ 障害は **$G$-cover の理論**;我々は **mere cover** で $\mathrm{Aut}=1$ ゆえ、降下データが**一意**で cocycle 条件が**自動的に**成り立つ(Weil)。$H^1$ も $H^2$ も自明群係数 |
+| **★** | (M2) 全体 | ★★ **完全閉鎖**: (M2) = M2-GEO(§6・定理)+ M2-UNIQ(§7 AUT-n・定理)+ **M2-DESC(本追記・定理)**。⟹ **FAM-U の最大の穴 (M2) が消えた** |
+| **⑥** | 副産物 | **(M4) $[\gamma]=1$ も落ちる可能性**(§D.5・**candidate**・依存明記)。fam_u 監査点 D の循環懸念は**解消**される |
+
+---
+
+## D.1 使う道具(外部入力の明示)
+
+> ### (T1) Weil 降下 + $\mathrm{Aut}=1$【外部一般論・司令塔覚書経由】
+> $f:W\to\mathbf P^1_{\bar{\mathbf Q}}$ を有限被覆、その moduli 体を $M$($\mathbf Q$ 相対)とする。各 $\tau\in G_M$ に対し ${}^\tau f\cong f$($\mathbf P^1$ 上)ゆえ同型 $\theta_\tau:{}^\tau W\to W$ が存在する。
+> **$\mathrm{Aut}_{\mathbf P^1}(f)=1$ ならば $\theta_\tau$ は一意**、したがって cocycle 条件
+> $$\theta_{\sigma\tau}=\theta_\sigma\circ{}^\sigma\theta_\tau$$
+> は**両辺とも ${}^{\sigma\tau}W\to W$ の同型であるという理由だけで自動的に成立**する(選択の余地がない)。⟹ Galois 降下データが得られる。
+> **有効性**: $f$ は**有限射**なので $f_*\mathcal O_W$ は $\mathbf P^1_{\bar{\mathbf Q}}$ 上の**連接 $\mathcal O$-代数層**であり、降下データは準連接層の fpqc 降下により**無条件に有効**。⟹ $M$ 上のモデル $W_M\to\mathbf P^1_M$ が存在。
+> **⟹ $\mathrm{Aut}=1$ の mere cover では FoM = FoD。** 骨格文献: Dèbes–Emsalem 1999(十分条件)/ Dèbes–Douai 1997(障害論 — **本件では $Z(G)$ 障害の圏に入らない**)。
+
+> ### (T2) Branch Cycle Lemma【外部一般論・**要引用**】
+> 分岐点集合 $D=\{0,1,\infty\}$ は $\mathbf Q$-有理で $G_{\mathbf Q}$ が各点を固定する。$\tau\in G_{\mathbf Q}$、$m:=\chi(\tau)\in\hat{\mathbf Z}^\times$ とすると、${}^\tau f$ の記述 $T^\tau=(g_0^\tau,g_1^\tau,g_\infty^\tau)$ は
+> $$g_i^\tau\ \sim\ g_i^{\,m}\qquad(\text{モノドロミー群の中で共役})$$
+> を満たす。
+> **機構**: 分岐点 $P$($\mathbf Q$-有理)における tame 慣性は標準的に $\hat{\mathbf Z}(1)=\varprojlim\mu_N$ と同一視され、$G_{\mathbf Q}$ はそこに**円分指標で**作用する。⟹ 慣性生成元は $\chi(\tau)$ 乗される(共役の不定性を除いて)。
+> **註**: 本追記は $\tau(x)=x^{\chi}$ のような**精密な形**(Ihara / Belyi の明示公式・$f_\tau$ 付き)を**使わない**。共役を除いた $\chi$ 乗という**粗い形だけ**で足りる — これが論証を頑健にしている。
+
+**C-β-IND との関係**: (T1)(T2) は「特定の窓に関する主張を含まない一般論」= **(P2)** である。TOWER-$n$/KUM-$n$/TW-1/SPLIT/EXP は**依然として使っていない**(§D.5 の (M4) 観察のみ SPLIT に依存 — そこだけ明示的に分離した)。`uses_Ih_image = false` 維持。
+
+---
+
+## D.2 補題 POW(本追記の一工夫)【proof・$n$ 一様】
+
+> ### 補題 POW
+> $m$ を**奇数**とする。$\Gamma_n$ の元について
+> $$\eta\bigl(g^{\,m}\bigr)=m\,\eta(g)\quad(g\ \text{が型}\ \langle1,+;\cdot\rangle),\qquad \delta\bigl(g^{\,m}\bigr)=m\,\delta(g)\quad(g\ \text{が型}\ \langle1,-;\cdot\rangle).$$
+> とくに $\rho=[\delta/\eta]$ は**同時 $m$ 乗で不変**である。
+
+**証明.** $g=\langle1,+;p_0,p_1\rangle$、$\eta=p_0+p_1$。$g^2=\langle0,+;\eta,\eta\rangle$ ゆえ $g^{2k}=\langle0,+;k\eta,k\eta\rangle$、
+$$g^{2k+1}=g\cdot g^{2k}=\langle1,+;\ p_0+k\eta,\ p_1+k\eta\rangle,\qquad \eta(g^{2k+1})=(p_0+p_1)+2k\eta=(2k+1)\eta .$$
+$g=\langle1,-;c_0,c_1\rangle$、$\delta=c_0-c_1$。$g^2=\langle0,+;-\delta,\delta\rangle$ ゆえ $g^{2k}=\langle0,+;-k\delta,k\delta\rangle$、
+$$g^{2k+1}=g\cdot g^{2k}=\langle1,-;\ c_0+k\delta,\ c_1-k\delta\rangle,\qquad \delta(g^{2k+1})=(c_0-c_1)+2k\delta=(2k+1)\delta . \qquad\square$$
+
+> ### ★ ここが「一工夫」
+> $G_{\mathbf Q}$ は $\eta$ と $\delta$ を**同じ因子 $m$ 倍する**。我々の完全不変量は**その比**である。**⟹ 円分作用は約分されて消える。**
+> 対照的に、もし完全不変量が $\eta$ や $\delta$ **単体**であれば、moduli 体は $\mathbf Q(\zeta_{2n})$ 級になっていたはずである。**比であること**が降下を可能にしている。
+
+---
+
+## D.3 ★ 定理 M2-DESC【定理・$n$ 一様】
+
+> ### 定理 M2-DESC
+> $n\ge3$ 奇、$\alpha\in(\mathbf Z/n)^\times$。mere cover $\mathcal C_\alpha:W_0\to\mathbf P^1_\lambda$(分岐 $\{0,1,\infty\}$)について:
+> 1. **moduli 体($\mathbf Q$ 相対)は $\mathbf Q$ である。**
+> 2. $\mathrm{Aut}_{\mathbf P^1}(\mathcal C_\alpha)=1$(§7 AUT-n)ゆえ、**$\mathcal C_\alpha$ は $\mathbf Q$ 上定義される。**
+> 3. とくに $F_n=\mathbf Q(\zeta_{4n})$ 上定義され、**M2-UNIQ($F$-形式の一意性)により、標準モデルの $F_n$-底変換が唯一の $F_n$-形式である。**
+>
+> $$\boxed{\ \textbf{(M2)}\ =\ \textbf{M2-GEO}\ +\ \textbf{M2-UNIQ}\ +\ \textbf{M2-DESC}\ \ \text{— 三つとも定理。(M2) は閉じた。}\ }$$
+
+**証明.**
+
+**(段 1)** $\tau\in G_{\mathbf Q}$、$m:=\chi(\tau)$。$m$ は $\hat{\mathbf Z}^\times$ の元、とくに **$m$ は奇数**であり $\gcd(m,n)=1$。(T2) より ${}^\tau\mathcal C_\alpha$ の記述 $T^\tau$ は $g_i^\tau\sim_{\Gamma_n}g_i^{\,m}$ を満たす。
+
+**(段 2)** 補題 ABS より元の記述は $T=(\bar X,\bar Y,\bar Z)$、$\eta(\bar X)=2$、$\delta(\bar Z)=2\alpha$。補題 POW より
+$$\eta(\bar X^{\,m})=2m,\qquad \delta(\bar Z^{\,m})=2m\alpha,\qquad \bar Y^{\,m}=\bar Y\ (\bar Y\ \text{は対合・}m\ \text{奇}).$$
+定理 NIE(4) の符号表より $\Gamma_n$-共役は $\eta,\delta$ の**符号しか変えない**。ゆえに
+$$T^\tau\ \in\ \mathcal T^{\rm cl}(2m,\ 2m\alpha)\ :=\bigsqcup_{\pm,\pm}\mathcal T(\pm2m,\pm2m\alpha).$$
+
+**(段 3)** $2m$ と $2m\alpha$ はともに $(\mathbf Z/n)^\times$ の元($n$ 奇・$\gcd(m,n)=1$・$\alpha$ 単元)。定理 NIE(4) より $\mathcal T^{\rm cl}(2m,2m\alpha)$ は **単一 $\Gamma_n$-軌道**(サイズ $4n^2$・安定化群自明)。**⟹ $T^\tau$ はこの軌道の元として一意に定まる**(記述の不定性がすべて吸収される)。
+
+**(段 4)** $\rho(T^\tau)=[\,2m\alpha/2m\,]=[\alpha]=\rho(T)$。§6 より $\rho$ は $\mathrm{Sym}(2n)$-同時共役の**完全不変量**であるから
+$$T^\tau\ \sim\ T\qquad\Longrightarrow\qquad {}^\tau\mathcal C_\alpha\ \cong\ \mathcal C_\alpha .$$
+
+**(段 5)** $\tau\in G_{\mathbf Q}$ は任意だったから、安定化群は $G_{\mathbf Q}$ 全体。⟹ moduli 体 $=\mathbf Q$。(1) ∎
+
+**(段 6)** (T1) を $M=\mathbf Q$ に適用して (2)。(3) は $\mathbf Q\subseteq F_n$ と M2-UNIQ から。∎
+
+> ### ⚠ 論証の頑健性(どこが折れると倒れるか)
+> * **段 1 のみが外部入力 (T2) に依存**する。しかも「共役を除いて $\chi$ 乗」という**最も粗い形**しか使わない。
+> * 段 2–4 は本稿 §3–§6 の**自前の定理**のみ。
+> * 段 6 のみが外部入力 (T1)。$\mathrm{Aut}=1$ は §7 で自前に証明済。
+> * ⟹ **反証の急所は (T2) の正確な形**である(§D.8 の【文献要請 M2-2】)。
+
+---
+
+## D.4 独立整合検査 — 複素共役の**明示証人**
+
+段 1–5 は組み合わせ論的である。**幾何的に独立な**確認を 1 本置く。
+
+$c\in G_{\mathbf Q}$ を複素共役($\chi(c)=-1$)とする。模型の式の係数を共役すると
+$$ {}^c h=\frac{(k+i)(k+1)^{\alpha}}{(k-i)(k-1)^{\alpha}}=h^{-1}g^{2\alpha}\ \overset{\text{補題 TRF}}{=}\ (-1)^{\alpha+1}\,h^{\theta},\qquad {}^cg=g,\qquad {}^cm_0=m_0,\ {}^c\lambda=\lambda .$$
+
+$\Theta:\mathbf P^1_k\to\mathbf P^1_k,\ k\mapsto1/k$($=\theta$)は **$\mathbf P^1_\lambda$ 上の自己同型**である(補題 V4)。$\epsilon:=(-1)^{\alpha+1}\in\{\pm1\}$ は $n$ 奇ゆえ $\epsilon^n=\epsilon$、したがって $y\mapsto\epsilon y$ は
+$$\Theta^*\widetilde W_0:\ y^n=h^\theta=\epsilon\cdot{}^ch\qquad\xrightarrow{\ \sim\ }\qquad {}^c\widetilde W_0:\ y^n={}^ch$$
+の同型を与える。さらに $\iota$ の引き戻しは($V_4$ が可換で $\Theta^{-1}\sigma\Theta=\sigma$ ゆえ)**同じ式** $(k,y)\mapsto(-k,1/y)$ になり、$\epsilon^2=1$ ゆえ $y\mapsto\epsilon y$ と可換。ゆえに商まで込めて
+$$ {}^cW_0\ \cong\ \Theta^*W_0\ \cong\ W_0\qquad(\mathbf P^1_\lambda\ \text{上の同型;第 2 の同型は }\Theta\text{ が }\mathbf P^1_\lambda\text{ 上の自己同型だから}).$$
+
+$$\boxed{\ \textbf{複素共役は被覆を固定する — 明示的な証人 }\Theta=\theta\ \textbf{つきで。}\ }$$
+
+> ### ★ なぜこれが**非自明な**検査なのか
+> 模型の式には $i$ が露わに現れるので、素朴には「$\mathbf Q(i)$ が要る」と見える。実際に起きているのは、**$i\mapsto-i$ が塔の底の自己同型 $\theta$ による捻れで打ち消される**ことである。そしてこれは (T2) の予言($m=-1$ ⟹ $\eta\mapsto-\eta$、$\delta\mapsto-\delta$、$\rho$ 不変)と**完全に整合**している。
+> **構造的な傍証**: $\mathrm{div}(h)=[i]-[-i]+\alpha[-1]-\alpha[1]$ は $c$ で $-\mathrm{div}(h)+2\alpha\,\mathrm{div}(g)$ に移る。すなわち **Kummer 部分群 $\bar A=\langle[h],[g]\rangle$ 自体が $G_{\mathbf Q}$-安定**である($[i],[-i]$ の入れ替えと $[\pm1]$ の固定から、任意の $\tau$ について同様)。塔全体が $G_{\mathbf Q}$ で保たれており、残る問題は「その中のどの部分群 $\bar H^{\rm mod}$ か」だけ — それを $\rho$ が決める。
+
+---
+
+## D.5 系 — (M2) の閉鎖と (M4) への波及
+
+### D.5.1 系 M2-CLOSE【定理】
+
+$$\textbf{(M2)}\ \textbf{は閉じた。}$$
+前件表 `fam_u_v1.md` §3.2 の **(M2)(格: ★★ candidate — 族定理の最大の穴)** と **(M3)(未実行・設計のみ)** は、いずれも **theorem($n$ 一様)** に格上げされる。**(D)(D-3/D-4)群は同定の鎖から完全に外れる**(§7 DROP-n が無条件になる)。
+
+### D.5.2 観察 M4-OBS【★ candidate・依存を明示】
+
+**主張**: $[\gamma]=1$ が全奇 $n$・全単元 $\alpha$ で成り立つ((M4) が落ちる)。
+
+**論拠(3 行)**:
+1. **SPLIT(D-3d)**: $[u_n]_2=[\gamma]$ in $F_n^\times/F_n^{\times2}$。
+2. **§2.2 の値計算**(fam_u): $u_{n,\alpha}=4(-1)^\alpha\in\{4,-4\}$ — これは**モデルからの直接の局所計算**であって $\gamma$ も conic $B$ も使わない。
+3. $F_n=\mathbf Q(\zeta_{4n})\ni i$ ゆえ $4=2^2$、$-4=(2i)^2$ — **どちらも $F_n$ の平方**。⟹ $[u_n]_2=1$ ⟹ $[\gamma]=1$。∎
+
+> ### ★ 循環していない(fam_u 監査点 D への回答)
+> fam_u は「$R_\pm$ が $\mathbf Q$-有理に見えるのは**正規形が $F_n$ 上に降りている ((M2)) を前提にしている**;循環していないか」と問うていた。**本追記で (M2) が (M4) と独立に閉じた**ので、循環は断ち切れた: (M2) の証明(§3–§6・D.1–D.4)は $\gamma$・$\delta_0$・conic $B$・$R_\pm$ の**どれにも触れていない**。
+> **格の留保**: 本観察は **SPLIT(D-3d・格 `proof + 表記規律`)** と **§2.2 の値計算**に依存する。C-β-IND は「同定に D-3 を使うな」であって「同定が済んだ後の帰結に使うな」ではないが、**依存を明示した上で candidate に留める**。Sol 監査点(§D.9)。
+
+---
+
+## D.6 何が言えて、何が言えないか(射程宣言)
+
+**言えること**:
+1. mere cover $\mathcal C_\alpha$ は **$\mathbf Q$ 上定義される**(全奇 $n$・全単元 $\alpha$・$\varphi(n)/2$ 個すべて)。
+2. したがって $F_n$ 上定義され、標準モデルがその唯一の $F_n$-形式。**(M2) 閉鎖。**
+3. marked 版も同じ(**$\mathrm{Aut}=1$ ゆえ marking は降下に何も足さない**)。
+
+**言えないこと(重要)**:
+1. ★ **「被覆が $\mathbf Q$ 上」は「測定が $\mathbf Q$ で済む」を意味しない。** $u_n$ の測定は cusp $P_0$・**局所一様化元 $\tau=y$**・$\mu_{2n}$ を要し、Kummer 類 $[u_n]_{2n}\in F_n^\times/F_n^{\times2n}$ は **$F_n$ でこそ意味を持つ**。FAM-U が $F_n$ を要求するのは**Kummer 理論の側の事情**であって被覆の定義体の事情ではない。**両者は矛盾しない。**
+2. **塔の中間対象**($V$、conic $B$、$m$-座標)の $\mathbf Q$-有理性は主張しない。$\mathbf Q$-モデルの存在は中間層の $\mathbf Q$-有理性を含意しない($G_{\mathbf Q}$-安定な中間部分群が要る)。
+3. **$\mathrm{Ih}$ の像・全射性・dihedral 予想**については何も言わない(GEO/ARITH の区別は不変)。
+4. **U7-14($[\alpha]$ の規約)**は動かない。本追記も「どの $[\alpha]$ を $K^{(n)}$ が要求するか」には答えない。
+5. **$d=\gcd(\alpha,n)>1$・$n$ 偶**は射程外(定理 NIE(5)・補題 SPL)。
+
+---
+
+## D.7 機械 spot-check
+
+**probe**: `search/probe/wac_v1/m2_desc_check.py`(新規)。**正規形($\eta,\delta,\rho$)を一切使わず**、$\Gamma_n$ の共役類を総当りで作り、BFS 正準形で比較する**独立経路**。
+
+| # | 検査 | 期待 | 結果 |
+|---|---|---|---|
+| P1 | 全 $m\in(\mathbf Z/2n)^\times$ について $\mathcal{Ni}(C_0^m,C_1^m,C_\infty^m)$ が **$4n^2$ 本・単一 $\Gamma_n$-軌道** | 定理 NIE(4)+補題 POW | ✓ |
+| P2 | その **全元** が元の被覆と $\mathrm{Sym}(2n)$-同時共役(正準形が一致) | 定理 M2-DESC 段 4 | ✓ |
+
+> **註(P2 は生成条件検査を内包する)**: BFS 正準形は**推移的**三つ組にしか定義されない(非推移なら `None`)。「Nielsen 類の全元の正準形が元の三つ組のそれと一致する」は、**推移性(= $\Gamma_n$ を生成すること)と単一 $\mathrm{Sym}$-類であることを同時に**保証する。ゆえに別建ての生成条件 BFS は不要(かつ本検査の方が強い)。
+
+**実測**:
+
+| $n$ | $\alpha$ 代表 | $\chi(\tau)\bmod 2n$ の値域 | $\lvert C_0^m\rvert,\lvert C_1^m\rvert,\lvert C_\infty^m\rvert$ | 三つ組 / 軌道 | $\tau$-固定 |
+|---|---|---|---|---|---|
+| 3 | $\{1\}$ | $\{1,5\}$(2 個) | $6,9,6$ | $36$ / **1**(36) | **True** |
+| 7 | $\{1,2,3\}$ | $\{1,3,5,9,11,13\}$(6 個) | $14,49,14$ | $196$ / **1**(196) | **True** |
+| 9 | $\{1,2,4\}$ | $\{1,5,7,11,13,17\}$(6 個) | $18,81,18$ | $324$ / **1**(324) | **True** |
+| 11 | $\{1,\dots,5\}$ | $\varphi(22)=10$ 個 | $22,121,22$ | $484$ / **1**(484) | **True** |
+| 13 | $\{1,\dots,6\}$ | $\varphi(26)=12$ 個 | $26,169,26$ | $676$ / **1**(676) | **True** |
+
+⟹ **全 $(n,\alpha,m)$ の組($n=3,7,9,11,13$ / $\alpha$ 全代表 / $m$ 全単元 — 計 $2+18+18+50+72=160$ 通り)で $G_{\mathbf Q}$ は被覆を固定する。** $n=5$ は `ALLOWED_N` の assert が防ぐ。
+
+**出所**(収蔵後に再実行して本節の表を再生成した版の SHA-256):
+
+| ファイル | SHA-256 |
+|---|---|
+| `search/probe/wac_v1/m2_desc_check.py` | `7b0d364ded63beb6df6b76b2758fb3f1ff99114b6fb5412111ac261e3906d235` |
+| `search/probe/wac_v1/m2_desc_check_run.log`($n=3,7,9$) | `e5fcc3038d853ea93df68d3d5483957b355588e8adb8783343af5d2d84e8ff38` |
+| `search/probe/wac_v1/m2_desc_check_run2.log`($n=11,13$) | `2c2c3e527f734497246f7e8c61047ccb753a50030a053c3c35e5eeabc2995d81` |
+
+> **格の申告**: 単系統(python)。紙の証明(D.2–D.3)が $n$ 一様で、機械はその**予言の spot-check**。**cross-checked ではない。Lean 検証ではない。**
+
+---
+
+## D.8 FINDING(本追記の分)
+
+| # | 格 | 内容 |
+|---|---|---|
+| **MD-POW** | ★★ **定理(新規・機構の核)** | 補題 POW: 奇 $m$ に対し $\eta(g^m)=m\eta$、$\delta(g^m)=m\delta$。⟹ **$\rho$ は円分作用で不変**。「$G_{\mathbf Q}$ は全慣性を同じ $\chi$ 乗するが、我々の不変量は**比**だから約分される」 |
+| **MD-FOM** | ★★ **定理(新規)** | **$\mathcal C_\alpha$ の moduli 体 $=\mathbf Q$**。BCL(粗い形)+ 定理 NIE(単一軌道)+ $\rho$(完全不変量)の三点で閉じる |
+| **MD-DESC** | ★★ **定理(新規)** | $\mathrm{Aut}=1$(§7)+ Weil 降下(有限射ゆえ有効性自明)⟹ **$\mathcal C_\alpha$ は $\mathbf Q$ 上定義される**。⟹ **(M2) 完全閉鎖** |
+| **MD-CONJ** | ★ **独立証人** | 複素共役の固定を**幾何的に**確認: ${}^cW_0\cong\Theta^*W_0\cong W_0$、証人は $\Theta=\theta$。**式に現れる $i$ は $\theta$-捻れで打ち消される** |
+| **MD-ABAR** | **構造的傍証** | Kummer 部分群 $\bar A=\langle[h],[g]\rangle$ は $\mathrm{Div}(\mathbf P^1_{\bar{\mathbf Q}})/n$ の中で **$G_{\mathbf Q}$-安定**。塔全体が保たれ、残る自由度は $\bar H^{\rm mod}$ の選択のみ |
+| **MD-NOOBS** | **障害論の位置づけ** | Dèbes–Douai の $H^2(K,Z(G))$ 障害は **$G$-cover の圏**の話。本件は **mere cover + $\mathrm{Aut}=1$** ゆえ、**障害の住む群が自明**で、$H^1$($F$-形式の分類)も $H^2$(降下の障害)も消える。**「障害が消える」のではなく「障害の圏に入らない」** |
+| **MD-M4** | ★ **candidate(依存明記)** | $[\gamma]=[u_n]_2=[\pm4]_2=1$($F_n\ni i$ ゆえ $-4=(2i)^2$)⟹ **(M4) も落ちる**。依存: SPLIT(D-3d)+ §2.2 の値計算。**循環は断ち切れている** |
+| **MD-STRONG** | ⚠ **予想外の強さの申告** | 得られた結論(**$\mathbf Q$ 上定義**)は工房の従来の想定($F_n$ が要る)より**強い**。**強すぎる結論は疑うべき**なので、反証の急所((T2) の正確な形)を §D.3 末に明示し、$n=3$($\varphi(3)/2=1$ ⟹ 自明に $\mathbf Q$)との整合も確認した |
+
+> ### 【文献要請 M2-2】(新規・軽い・引用の型のみ)
+> **困難**: 段 1 が **Branch Cycle Lemma** に依存する。使うのは「$\mathbf Q$-有理な分岐点をもつ mere cover について、$\tau\in G_{\mathbf Q}$ は各慣性生成元を(モノドロミー群の中の共役を除いて)$\chi(\tau)$ 乗する」という**粗い形だけ**。
+> **欲しい結果の型**: (i) この形の BCL の**標準的な引用先**(Fried 1977 / Völklein *Groups as Galois Groups* の補題番号 / Dèbes–Fried)と、(ii) **仮定の正確な形** — とくに **mere cover(G-cover でない)**でよいか、**接ベクトル基点**が要るか、分岐点が $\mathbf Q$-有理でない場合に現れる**分岐点の置換**の項が本件($0,1,\infty$ 固定)で本当に落ちるか。
+> **なぜ軽いか**: 機構は既に理解している(tame 慣性 $=\hat{\mathbf Z}(1)$ への円分作用)。欲しいのは**引用可能な正確な言明**だけ。**これが確定すれば MD-FOM/MD-DESC は完全な定理格になる。**
+> **既出との関係**: 【文献要請 M2-1】は本追記で**消費・解消**。U7-3((GR))は別件で未消費。
+
+---
+
+## D.9 Sol への申し送り(本追記の分)
+
+- **監査点 F(最重要)**: 定理 M2-DESC の段 1。**(T2) の粗い形**(慣性は共役を除いて $\chi$ 乗)だけで段 2–4 が回ることを確認いただきたい。とくに「$T^\tau$ の各成分が個別に $g_i^m$ と共役」から「$T^\tau$ が $\mathcal T^{\rm cl}(2m,2m\alpha)$ に属す」へ移るところで、**三成分の共役元を独立に取ってよいか**(取れなくても $\eta,\delta$ は各成分から読むので問題ないと考えたが、明示的に確認願いたい)。
+- **監査点 G**: 結論の強さ。**$\varphi(n)/2$ 個の dessin がすべて $\mathbf Q$ 上定義される**という主張は、外部知識と衝突しないか。とくに $n=7$ の 3 個の degree-14 dessin($196$ 位モノドロミー・passport $(14),2^61^2,(14)$)が $\mathbf Q$ 上と言えるか — **反例をご存知なら即座に指摘されたい**(私の論証のどこかが折れている証拠になる)。
+- **監査点 H**: (T1) の有効性。**有限射の降下を $f_*\mathcal O_W$ の準連接層降下で片付けた**が、これで $\mathbf P^1_{\mathbf Q}$ 上の**被覆として**の $\mathbf Q$-モデルが得られる、という読みでよいか(代数構造の降下 ⟹ $\mathrm{Spec}$ を取って被覆を復元)。
+- **監査点 I**: §D.5.2 の (M4) 観察。SPLIT に依存させたことが格の過大表示になっていないか。$[u_n]_2$ が**モデル・一様化元に相対的**な量である(TW-14)ことと、$[\gamma]$ が**被覆の不変量**であることの間に段差がないか。
+- **監査点 J**: 「被覆は $\mathbf Q$ 上・測定は $F_n$ で」の分離(§D.6 言えないこと 1)。FAM-U の言明に修正が要るか(私は**不要**と読んだ — FAM-U は $[u_{n,\alpha}]_{2n}\in F_n^\times/F_n^{\times2n}$ を主張しており、被覆の定義体には言及していない)。
