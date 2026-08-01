@@ -1,0 +1,469 @@
+{
+  "calibration_points": [
+    {
+      "construction_status": "ok",
+      "full_result": {
+        "algorithm": "sympy-exact-algebra(gcd+all_roots+series)-no-float",
+        "branch_divisor_on_P1": [
+          {
+            "branch_value": "0",
+            "multiplicity": 4
+          },
+          {
+            "branch_value": "Mul(Integer(-1), Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 2
+          },
+          {
+            "branch_value": "Mul(Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 2
+          },
+          {
+            "branch_value": "infinity",
+            "multiplicity": 4
+          }
+        ],
+        "checker_native_id": "search/ninfty-checker-native.py",
+        "diagnostics": {
+          "finite_construction_status": "ok",
+          "infinity_construction_status": "ok"
+        },
+        "finite_aggregate_partitions": {
+          "Mul(Integer(-1), Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)": [
+            2,
+            2,
+            1
+          ],
+          "Mul(Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)": [
+            2,
+            2,
+            1
+          ]
+        },
+        "infinity_series_detail": {
+          "minus_branch": {
+            "leading_coeff": "128/3125",
+            "leading_series_order_j": 10,
+            "local_order_of_mu": 5
+          },
+          "plus_branch": {
+            "leading_coeff": "2",
+            "leading_series_order_j": 0,
+            "local_order_of_mu": -5
+          },
+          "series_cap": 40,
+          "status": "ok"
+        },
+        "native_artifact_digest": "23ae8ba9c4cd836d08e816870e0fbf5d52f722681ff594885f5425f22f6623a8",
+        "orientation_derivation": {
+          "matches_Or_hypothesis": true,
+          "minus_branch_local_order": 5,
+          "note": "(Or) predicts one branch order -5 (pole, P_infty) and the other +5 (zero, P_0); this is a per-candidate computed finding, not a general theorem re-derivation, and is NOT wired into any REJECT/ACCEPT gate by this module.",
+          "plus_branch_local_order": -5
+        },
+        "ramification_divisor_on_C": [
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Integer(-1), Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-2):minus_s",
+            "x_srepr": "Integer(-2)",
+            "y_srepr": "Mul(Integer(-1), Rational(4, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-2):plus_s",
+            "x_srepr": "Integer(-2)",
+            "y_srepr": "Mul(Rational(4, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Integer(-1), Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-4):minus_s",
+            "x_srepr": "Integer(-4)",
+            "y_srepr": "Mul(Integer(-1), Rational(4, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-4):plus_s",
+            "x_srepr": "Integer(-4)",
+            "y_srepr": "Mul(Rational(4, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "computed_local_order_of_mu": 5,
+            "kind": "infinity",
+            "maps_to_branch_value": "0",
+            "multiplicity": 4,
+            "point": "infinity:minus_branch"
+          },
+          {
+            "computed_local_order_of_mu": -5,
+            "kind": "infinity",
+            "maps_to_branch_value": "infinity",
+            "multiplicity": 4,
+            "point": "infinity:plus_branch"
+          }
+        ],
+        "status": "ok"
+      },
+      "kind": "genuine-positive-2-2-1-fixture",
+      "matches_Or_hypothesis": true,
+      "native_artifact_digest": "23ae8ba9c4cd836d08e816870e0fbf5d52f722681ff594885f5425f22f6623a8",
+      "source": "search/fixtures/ninfty/checker_pos_01.json",
+      "source_sha256": "4952d435e3da7c9ba0aee13f670a61484aef43edb6c0d3e2bef0a1d5362f8094",
+      "total_ramification_multiplicity": 12
+    },
+    {
+      "construction_status": "ok",
+      "full_result": {
+        "algorithm": "sympy-exact-algebra(gcd+all_roots+series)-no-float",
+        "branch_divisor_on_P1": [
+          {
+            "branch_value": "0",
+            "multiplicity": 4
+          },
+          {
+            "branch_value": "Mul(Integer(-1), Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 2
+          },
+          {
+            "branch_value": "Mul(Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 2
+          },
+          {
+            "branch_value": "infinity",
+            "multiplicity": 4
+          }
+        ],
+        "checker_native_id": "search/ninfty-checker-native.py",
+        "diagnostics": {
+          "finite_construction_status": "ok",
+          "infinity_construction_status": "ok"
+        },
+        "finite_aggregate_partitions": {
+          "Mul(Integer(-1), Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)": [
+            2,
+            2,
+            1
+          ],
+          "Mul(Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)": [
+            2,
+            2,
+            1
+          ]
+        },
+        "infinity_series_detail": {
+          "minus_branch": {
+            "leading_coeff": "128/3125",
+            "leading_series_order_j": 10,
+            "local_order_of_mu": 5
+          },
+          "plus_branch": {
+            "leading_coeff": "2",
+            "leading_series_order_j": 0,
+            "local_order_of_mu": -5
+          },
+          "series_cap": 40,
+          "status": "ok"
+        },
+        "native_artifact_digest": "061904a25deba73afc752d14c1553518bfbac6d1bae35801d2ea9dd2021784ea",
+        "orientation_derivation": {
+          "matches_Or_hypothesis": true,
+          "minus_branch_local_order": 5,
+          "note": "(Or) predicts one branch order -5 (pole, P_infty) and the other +5 (zero, P_0); this is a per-candidate computed finding, not a general theorem re-derivation, and is NOT wired into any REJECT/ACCEPT gate by this module.",
+          "plus_branch_local_order": -5
+        },
+        "ramification_divisor_on_C": [
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Integer(-1), Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-4):minus_s",
+            "x_srepr": "Integer(-4)",
+            "y_srepr": "Mul(Integer(-1), Rational(4, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-4):plus_s",
+            "x_srepr": "Integer(-4)",
+            "y_srepr": "Mul(Rational(4, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Integer(-1), Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-6):minus_s",
+            "x_srepr": "Integer(-6)",
+            "y_srepr": "Mul(Integer(-1), Rational(4, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Rational(16, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-6):plus_s",
+            "x_srepr": "Integer(-6)",
+            "y_srepr": "Mul(Rational(4, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "computed_local_order_of_mu": 5,
+            "kind": "infinity",
+            "maps_to_branch_value": "0",
+            "multiplicity": 4,
+            "point": "infinity:minus_branch"
+          },
+          {
+            "computed_local_order_of_mu": -5,
+            "kind": "infinity",
+            "maps_to_branch_value": "infinity",
+            "multiplicity": 4,
+            "point": "infinity:plus_branch"
+          }
+        ],
+        "status": "ok"
+      },
+      "kind": "genuine-positive-2-2-1-fixture",
+      "matches_Or_hypothesis": true,
+      "native_artifact_digest": "061904a25deba73afc752d14c1553518bfbac6d1bae35801d2ea9dd2021784ea",
+      "source": "search/fixtures/ninfty/checker_pos_02.json",
+      "source_sha256": "fb6f9710ddec24854463fa6c0f4c61b6e3915339fa39202adafdf8eacb753b0d",
+      "total_ramification_multiplicity": 12
+    },
+    {
+      "construction_status": "ok",
+      "full_result": {
+        "algorithm": "sympy-exact-algebra(gcd+all_roots+series)-no-float",
+        "branch_divisor_on_P1": [
+          {
+            "branch_value": "0",
+            "multiplicity": 4
+          },
+          {
+            "branch_value": "Mul(Integer(-1), Rational(512, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 2
+          },
+          {
+            "branch_value": "Mul(Rational(512, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 2
+          },
+          {
+            "branch_value": "infinity",
+            "multiplicity": 4
+          }
+        ],
+        "checker_native_id": "search/ninfty-checker-native.py",
+        "diagnostics": {
+          "finite_construction_status": "ok",
+          "infinity_construction_status": "ok"
+        },
+        "finite_aggregate_partitions": {
+          "Mul(Integer(-1), Rational(512, 125), Pow(Integer(5), Rational(1, 2)), I)": [
+            2,
+            2,
+            1
+          ],
+          "Mul(Rational(512, 125), Pow(Integer(5), Rational(1, 2)), I)": [
+            2,
+            2,
+            1
+          ]
+        },
+        "infinity_series_detail": {
+          "minus_branch": {
+            "leading_coeff": "131072/3125",
+            "leading_series_order_j": 10,
+            "local_order_of_mu": 5
+          },
+          "plus_branch": {
+            "leading_coeff": "2",
+            "leading_series_order_j": 0,
+            "local_order_of_mu": -5
+          },
+          "series_cap": 40,
+          "status": "ok"
+        },
+        "native_artifact_digest": "356b69ea043ab64557eb486cab4c07a35733acfa037ecfd81b0002c51b3ea31c",
+        "orientation_derivation": {
+          "matches_Or_hypothesis": true,
+          "minus_branch_local_order": 5,
+          "note": "(Or) predicts one branch order -5 (pole, P_infty) and the other +5 (zero, P_0); this is a per-candidate computed finding, not a general theorem re-derivation, and is NOT wired into any REJECT/ACCEPT gate by this module.",
+          "plus_branch_local_order": -5
+        },
+        "ramification_divisor_on_C": [
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Integer(-1), Rational(512, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-2):minus_s",
+            "x_srepr": "Integer(-2)",
+            "y_srepr": "Mul(Integer(-1), Rational(32, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Rational(512, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-2):plus_s",
+            "x_srepr": "Integer(-2)",
+            "y_srepr": "Mul(Rational(32, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Integer(-1), Rational(512, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-6):minus_s",
+            "x_srepr": "Integer(-6)",
+            "y_srepr": "Mul(Integer(-1), Rational(32, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "kind": "finite",
+            "maps_to_branch_value": "Mul(Rational(512, 125), Pow(Integer(5), Rational(1, 2)), I)",
+            "multiplicity": 1,
+            "point": "finite:Integer(-6):plus_s",
+            "x_srepr": "Integer(-6)",
+            "y_srepr": "Mul(Rational(32, 25), Pow(Integer(5), Rational(1, 2)), I)"
+          },
+          {
+            "computed_local_order_of_mu": 5,
+            "kind": "infinity",
+            "maps_to_branch_value": "0",
+            "multiplicity": 4,
+            "point": "infinity:minus_branch"
+          },
+          {
+            "computed_local_order_of_mu": -5,
+            "kind": "infinity",
+            "maps_to_branch_value": "infinity",
+            "multiplicity": 4,
+            "point": "infinity:plus_branch"
+          }
+        ],
+        "status": "ok"
+      },
+      "kind": "genuine-positive-2-2-1-fixture",
+      "matches_Or_hypothesis": true,
+      "native_artifact_digest": "356b69ea043ab64557eb486cab4c07a35733acfa037ecfd81b0002c51b3ea31c",
+      "source": "search/fixtures/ninfty/checker_pos_03.json",
+      "source_sha256": "d80bafc801cb33d5f7c6ef857420dbd5ce514bd47a2e67f3c06a4b9165a23e0a",
+      "total_ramification_multiplicity": 12
+    },
+    {
+      "construction_status": "gcd-degree-not-2",
+      "full_result": {
+        "diagnostics": {
+          "finite_construction_status": "gcd-degree-not-2",
+          "finite_detail": {
+            "d_degree": 1,
+            "d_expr": "x"
+          }
+        },
+        "status": "gcd-degree-not-2"
+      },
+      "kind": "real-stage1-pass-degenerate (a-partition-mismatch, lane A REJECT)",
+      "source": "search/certs/ep_first_run/beta_candidate.json",
+      "source_sha256": "1453017f19ad071187bf5837d65e3bca4d1d5dbae0e07ab83c1ec06648f215c3"
+    },
+    {
+      "construction_status": "gcd-degree-not-2",
+      "extraction_rule": "first-in-file-order entries of stage1_pass_details whose a^2 div p^2 (sympy exact) gives a monic degree-6 quotient and a nonzero constant remainder, scanned sequentially from index 0",
+      "full_result": {
+        "diagnostics": {
+          "finite_construction_status": "gcd-degree-not-2",
+          "finite_detail": {
+            "d_degree": 1,
+            "d_expr": "x"
+          }
+        },
+        "status": "gcd-degree-not-2"
+      },
+      "kind": "machine-extracted-stage1-pass",
+      "source": "certificates/mb/ninfty-branch-search-bound3.json (own independent Pell-division re-derivation, index 0)",
+      "source_sha256": "b90e2bf0072197f0f6e2e70edca25f122323a9b8976b636d8d3c69b29b8b4440"
+    },
+    {
+      "construction_status": "gcd-degree-not-2",
+      "extraction_rule": "first-in-file-order entries of stage1_pass_details whose a^2 div p^2 (sympy exact) gives a monic degree-6 quotient and a nonzero constant remainder, scanned sequentially from index 0",
+      "full_result": {
+        "diagnostics": {
+          "finite_construction_status": "gcd-degree-not-2",
+          "finite_detail": {
+            "d_degree": 1,
+            "d_expr": "x"
+          }
+        },
+        "status": "gcd-degree-not-2"
+      },
+      "kind": "machine-extracted-stage1-pass",
+      "source": "certificates/mb/ninfty-branch-search-bound3.json (own independent Pell-division re-derivation, index 1)",
+      "source_sha256": "b90e2bf0072197f0f6e2e70edca25f122323a9b8976b636d8d3c69b29b8b4440"
+    }
+  ],
+  "crosscheck_against_lane_a_real_output": {
+    "candidate_ref": "search/certs/ep_first_run/beta_candidate.json",
+    "candidate_sha256": "1453017f19ad071187bf5837d65e3bca4d1d5dbae0e07ab83c1ec06648f215c3",
+    "lanea_decision": {
+      "all_reason_codes": [
+        "a-partition-mismatch"
+      ],
+      "primary_reason_code": "a-partition-mismatch",
+      "verdict": "REJECT"
+    },
+    "lanea_native_artifact_digest_declared": "f11d6cd20e04ab291007cf2ebf92a95ebc21295467e5294177647da1ed52ac62",
+    "lanea_native_ref": "search/certs/ep_first_run/beta_searcher_native.json",
+    "lanea_native_sha256": "4f498c2b12527ce85c14c8e9abf6e8fe087f07bbc429a673284e5577b0459852",
+    "qualitative_agreement": {
+      "agree_no_genuine_2_2_1_structure": true,
+      "lanea_decision_is_reject_a_partition_mismatch": true,
+      "mine_reports_gcd_degree_not_2": true
+    },
+    "role": "checker_native_crosscheck (independent\u7167\u5408\u5668, reads artifacts only, no lane A code import)",
+    "structural_field_comparison": {
+      "a_pair_locus_field_agrees_with_my_gcd(as-ideal, symbolic-div-check)": true,
+      "lanea_a_pair_locus_ideal_generator_low_deg_first": [
+        "0",
+        "1"
+      ],
+      "lanea_ramification_divisor_on_C_ref_locus_types": [
+        "a-pair-locus",
+        "p-locus",
+        "weierstrass-locus"
+      ],
+      "mine_construction_status": "gcd-degree-not-2",
+      "mine_gcd_a_ap_expr": "x",
+      "note": "lane A represents ramification_divisor_on_C as 3 named ideal-loci (a-pair-locus/p-locus/weierstrass-locus), independent of whether T-1 holds, and with NO infinity points; this checker_native represents it as explicit Qbar points (finite +-s branch points + 2 infinity points) and only produces output when T-1's gcd(a,a') has degree exactly 2. The two schemas are NOT directly field-comparable beyond the qualitative a-pair-locus-degree fact checked above. See this module's docstring for the full finding -- reported as an open reconciliation question, not silently resolved."
+    },
+    "verdict": "STRUCTURAL_MISMATCH_RECORDED_NOT_RESOLVED"
+  },
+  "files": {
+    "search/checker_native_crosscheck.py": "1105822d899d258bc87e2292c7a3f3d855555ec45f9354e0d654738154918b85",
+    "search/ninfty-checker-native.py": "4dcc2130f835ff5b5ed198fd7759d3b23fbf5d8be2d0ddccabd3799f05e8acf3",
+    "search/ninfty-checker.py": "f7e31f179afdb51ec02a15211fea4ae97ef3f4c2777a602f54509cb5fbce5524",
+    "search/test_ninfty_checker_native.py": "52dc092edc9c933d7720cb525b8af8f88433763a91e0c3aa5ab7620898d27a1b"
+  },
+  "generated_at_utc": "2026-08-01T01:32:10.448645Z",
+  "generated_by": "scratchpad/build_calib_cert.py (machine-piped, run this session)",
+  "role": "checker_native (lane B independent native construction) calibration cert -- commander's brief 2026-08-01, \u88c1\u5b9a305 EP gap closure",
+  "schema": "shadow-atelier/checker-native-calib/v1",
+  "suite_results": {
+    "test_ninfty_checker_native.py (new)": {
+      "returncode": 0,
+      "summary_line": "50/50 checks passed."
+    },
+    "test_ninfty_evidence_union.py (regression)": {
+      "returncode": 0,
+      "summary_line": "227/227 checks passed."
+    },
+    "test_ninfty_laneB.py (regression)": {
+      "returncode": 0,
+      "summary_line": "184/184 checks passed."
+    },
+    "test_ninfty_legacy_normalizer.py (regression)": {
+      "returncode": 0,
+      "summary_line": "51/51 checks passed."
+    }
+  }
+}

@@ -1072,3 +1072,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 C-β 抽象側 納品(裁定 308)— marked triple (X,Y,Z) の GAP 構成完了・passport/位数完全一致・段 3(幾何側)は数学者設計待ちの部分納品
 - probe = u7_cbeta_marked_triple.g・cert = u7_thirdroute_cbeta_20260801.json(status/not_executed 明記の正直な部分納品)。|G₇|=1372・|H|=98・[G₇:H]=14・X/Z=14-cycle・Y=2⁶1²・⟨X,Y,Z⟩=196・推移的 — 執行ログ §2.1 と設計ノートに完全一致。明示置換 3 本収録(段 5 共役判定の入力)。
 - C-β 本来目的(D-3/D-4 の検証鎖からの除去)は段 3 完了まで未達成(裁定どおり)。
+
+## 2026-08-01 checker_native 完成(裁定 309)— EP 最後の欠品が埋まる・照合で構造発見(lane A native の意味論確認が次の前提)
+- 新規 = ninfty-checker-native.py(spec §1/§4.1 のみから独立実装・lane A 未読・厳密代数)+ test 50/50 + 回帰 184/227/51 全 green・cert = checker_native_calib_20260801.json。ninfty-checker.py の NOT IMPLEMENTED を配線済みへ。
+- **照合の発見**: lane A の searcher_native は 3 つの named ideal-loci カタログ(無限点なし)— spec 直読の点ベース構築と**構造的に別形式**。唯一の比較可能欄(a-pair-locus vs gcd(a,a'))は**一致**・残りは STRUCTURAL_MISMATCH_RECORDED(不一致=発見の規律どおり停止)。**次段(commit_generation/union)前の前提: lane A native の数学的役割(R_μ の点支持か locus カタログか)の数学者確認**(→ 次波)。
+- 設計判断の保留 2 件(正しい自制): ①E-5 orientation が実は (a,p,f6) から計算可能と判明(既存の caller-attested 設計と矛盾)— informational 並置のみ・ゲート未配線 ②genuine [2,2,1] 点は bound3 先頭数件に無し(全て退化)— 追加走査は指示待ち。

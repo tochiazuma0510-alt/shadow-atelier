@@ -43,36 +43,94 @@ be a "calibrated detector" or "complete search".  Specifically UNKNOWN /
 NOT IMPLEMENTED in this file (declared, not silently skipped):
 
   * T-3 (p-locus), T-4 (Weierstrass locus), T-5 (two-infinity, e=5),
-    T-6 (harmonic pair -- sealed, out of scope by contact discipline),
-    and the point-level construction of ramification_divisor_on_C /
-    branch_divisor_on_P1 that a full "checker_native" artifact needs
-    (spec sec.4.1 searcher_native / checker_native) all require locating
-    actual points on the curve C_crv over Qbar (roots of p, roots of f6,
-    the finite branch fiber structure of sec.1.4).  Root-finding over
-    Qbar is out of scope for this partial-predicate checker; only the
-    polynomial-identity part of T-7 (deg R_mu = 2g-2+2 deg mu = 12, a
-    fixed bookkeeping identity that does not depend on candidate data)
-    is checked.  W-6-style pushforward-sum consistency IS checked when
-    the native artifact declares branch multiplicities explicitly (see
+    T-6 (harmonic pair -- sealed, out of scope by contact discipline)
+    remain NOT IMPLEMENTED in this file.  Only the polynomial-identity
+    part of T-7 (deg R_mu = 2g-2+2 deg mu = 12, a fixed bookkeeping
+    identity that does not depend on candidate data) is checked here.
+    W-6-style pushforward-sum consistency IS checked when a native
+    artifact declares branch multiplicities explicitly (see
     check_native_pushforward below), since that only needs integer
     arithmetic on already-declared data, not root-finding.
+  * [実装済み(20260801)] the point-level construction of
+    ramification_divisor_on_C / branch_divisor_on_P1 (spec sec.4.1
+    searcher_native / checker_native) -- the finite branch fiber points
+    (spec sec.1.4/1.5, roots of gcd(a,a')) and the two infinity points
+    (spec (Or), via a local Puiseux-order computation) -- WAS the one
+    remaining "requires locating actual points over Qbar, out of scope"
+    item in this list.  It is now implemented, from the spec text only,
+    in the SEPARATE module search/ninfty-checker-native.py (sympy exact
+    algebra: CRootOf/all_roots/series, no floating point), and wired in
+    below via construct_native_from_scratch().  That module's own
+    docstring carries the full derivation.  This file still performs its
+    own from-scratch T-1/T-2/rootpart work using the self-implemented
+    Euclid/Yun code above; ninfty-checker-native.py is a distinct,
+    additional capability, not a replacement of it.
   * E-5 (divisor orientation, (Or)) cannot be recovered from (a,p,f6)
     alone by any elimination method; it is a construction-time fact.
     This checker treats it as an externally-attested boolean the caller
     must supply (`divisor_orientation_attested`); UNKNOWN if absent.
+    ninfty-checker-native.py additionally computes a DERIVED, informational
+    orientation finding (see `native_construction.orientation_derivation`
+    in run_checker's result below) purely from (a,p,f6); by design this
+    derived finding is NOT wired into the REJECT gate above -- it is
+    exposed for cross-checking against the caller's attestation only.
 
-runtime = python (stdlib only: fractions, hashlib, json, sys, argparse).
-No import of lane A code (this checker has never read it and does not
-know its existence). No shared math-helper library, no CAS package
-(sympy/sage/numpy), no shared data-table with lane A.
+runtime = python (stdlib only: fractions, hashlib, json, sys, argparse) for
+the T-1/T-2/rootpart core above.  [20260801] The optional
+construct_native_from_scratch() wrapper additionally imports
+search/ninfty-checker-native.py (python + sympy exact algebra) -- a
+SEPARATE module, independently derived from the governing spec text only,
+never from lane A's implementation or output; see that module's own
+docstring for its independence discipline.  No import of lane A code
+anywhere in this file or in ninfty-checker-native.py (neither has ever
+read it and neither knows its existence).  No shared math-helper library
+between this file's own T-1/T-2 core and lane A; sympy itself (a public
+CAS, not a project-internal helper) is used only inside
+ninfty-checker-native.py, not in this file's own from-scratch algorithms.
 """
 
 from __future__ import annotations
 from fractions import Fraction
 import hashlib
 import json
+import os
 import sys
 import argparse
+import importlib.util
+
+# --------------------------------------------------------------------------
+# Lazy loader for search/ninfty-checker-native.py [20260801].  Loaded by
+# file path (not `import`, since the filename has hyphens) and only when
+# construct_native_from_scratch() is actually called -- callers that never
+# touch native construction pay no sympy import cost.
+# --------------------------------------------------------------------------
+
+_NATIVE_MODULE = None
+
+
+def _load_native_module():
+    global _NATIVE_MODULE
+    if _NATIVE_MODULE is None:
+        here = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(here, "ninfty-checker-native.py")
+        spec = importlib.util.spec_from_file_location("ninfty_checker_native", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _NATIVE_MODULE = mod
+    return _NATIVE_MODULE
+
+
+def construct_native_from_scratch(a_json, p_json, f6_json, series_cap=40):
+    """
+    Thin wrapper around ninfty-checker-native.py's construct_checker_native.
+    Returns that module's result dict verbatim (status="ok" plus the
+    ramification_divisor_on_C / branch_divisor_on_P1 / etc. fields, or a
+    degeneracy status -- see that module's docstring). Never raises for
+    ordinary malformed/degenerate candidate data.
+    """
+    mod = _load_native_module()
+    return mod.construct_checker_native(a_json, p_json, f6_json, series_cap=series_cap)
+
 
 # --------------------------------------------------------------------------
 # Self-implemented Q[x] arithmetic (low-degree-first list[Fraction]).
@@ -530,6 +588,22 @@ def run_checker(candidate):
     if "genus" in candidate and "deg_mu" in candidate:
         result["rh_identity_value"] = rh_bookkeeping_identity(candidate["genus"], candidate["deg_mu"])
 
+    # [20260801] From-scratch native construction (search/ninfty-checker-native.py),
+    # opt-out via candidate["skip_native_construction"]=true (e.g. for tests
+    # that want to isolate the T-1/T-2 core from the sympy-dependent path).
+    if not candidate.get("skip_native_construction", False):
+        try:
+            native = construct_native_from_scratch(candidate["a"], candidate["p"], candidate["f6"])
+        except Exception as e:  # noqa: BLE001 -- never let native construction crash the checker
+            native = {"status": "internal-error", "diagnostics": {"exception": f"{type(e).__name__}: {e}"}}
+        result["native_construction"] = native
+        # self-consistency: our own from-scratch construction must be
+        # internally pushforward-consistent (independent of whether the
+        # caller supplied its own native_artifact above).
+        if native.get("status") == "ok":
+            self_ok, self_detail = check_native_pushforward(native)
+            result["native_construction_self_pushforward_check"] = {"ok": self_ok, "detail": self_detail}
+
     result["stage"] = stage  # None => this checker raises no reason on its own
     result["reason_codes"] = reasons
     result["primary_reason_code"] = primary
@@ -541,11 +615,9 @@ def run_checker(candidate):
         "T-4 (Weierstrass locus): not implemented (needs root-finding over Qbar)",
         "T-5 (two-infinity, e=5): not implemented",
         "T-6 (harmonic pair): sealed value, out of scope by contact discipline",
-        "full checker_native divisor construction (ramification_divisor_on_C / "
-        "branch_divisor_on_P1 from scratch): NOT IMPLEMENTED -- only pushforward "
-        "consistency of an already-declared native artifact is checked",
         "E-5 (divisor orientation): not re-derivable from (a,p,f6) alone; "
-        "caller-attested only",
+        "caller-attested only (native_construction.orientation_derivation carries "
+        "a derived, informational cross-check only, not wired into REJECT).",
     ]
 
     result["checker_native_digest"] = sha256_of(
