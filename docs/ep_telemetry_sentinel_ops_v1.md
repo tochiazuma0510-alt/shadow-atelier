@@ -101,8 +101,15 @@ ACCEPT は **`hold-for-review`** に留める。以下へ**使わない**:
 
 ---
 
+## 7.9 receipt 引用規約【追記 2026-08-01・Sol 便98 F98-6.1】
+
+**receipt が直接束縛するのは receipt 本文が明記する欄(`suites_status` と各 gate 欄)だけであり、「N checks green」のような手集計値は receipt 本文に含まれない — 検査本数を引用するときは必ず suite log の別 provenance(実行コマンド・log の sha256・実行日時・実行系)を添える**(便98 F98-6.1 逐語)。**exit code を検査本数と読まない。** 条文の正本は **spec v20 draft §5.3.7(RC-1〜RC-4)**であり、**その trio が freeze receipt で発効するまでは本節が運用正本**である(先行して運用してよい — 引用規律を緩める方向の変更ではないため)。
+
+---
+
 ## 8. 出所
 
 - Sol 便96 P96-2.2(`sol/sol_reply_96_math23.md`)— 6 条件の原文。
 - governing spec `docs/week4-NInfty_stage2_spec_v19.md` §5.3.6 — normative 転記(TS-1〜TS-7)。
 - 裁定345 — bounded 744 concordance の受領(同格の先例)。
+- Sol 便98 F98-6.1(`sol/sol_reply_98_math25.md`)— §7.9 receipt 引用規約の原文。

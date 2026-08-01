@@ -1481,3 +1481,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 IHNEC-GAP-4 走査完了(裁定 391)— 登録窓インベントリ全 119 対で **MCOV 成立 119/破れ 0/DATA_MISSING 0**(アンカー (K⁽⁹⁾,N_S4)=HOLDS で合格・cert = ihnec_gap4_mcov_scan_20260801.json)
 - 宇宙は走査前凍結(K 側 = dihedral 奇数 7 窓・N′ 側 = charming/N_ord 機械読解可の 17 窓・除外基準も cert 内明記)。**m-被覆チャネルの fake は登録在庫に不在**(bounded 陰性・「原理的に出ない」の証明ではない — charming 集合が粗い窓ばかりの偶然の可能性を正直併記)。FV-SOLV の証拠行として新種(m-coverage channel VOID)を FV 台帳へ登録対象。
 - 留意: N5/A1/A2/S6 は数値同一窓の可能性(重複除去は数学判断につき未実施・個別計上と明記)。宇宙拡張(破れる対の構成的探索)は次波の設計判断。
+
+## 2026-08-01 EP v20 draft+per-point producer 完成(裁定 392)— P98-6.1/6.2 の全履行・8 suite 892 PASS(log provenance = ep_suites_20260801_p986.log sha256 90f4349f…・RC-2 準拠)・凍結 v19/v14/v14 byte 不変を再計算確認
+- **per-point producer(lane A)**: gcd の有理根ごとに exact 構成(float ゼロ・a(x₀)=0 assert・deg 合計 12 の fail-closed)・token は branch-key schema §2.2 の normative 例と literal 一致(rank 欄のみ相違 = 設計どおり)・H-4 独立性を suite+selfaudit の構造検査で担保・diagnostic_construction 札。3 fixture 全て PRESENT・12/12。
+- **trio draft(v20/v15/v15)**: 6 必須条件の履行位置を条文 ID で特定(ERA_W6KEY plane・M-8 偽装禁止・W6-P7 5 欄分離・W6-P8 status algebra・W6-P9 R3-NF 非代替・W6-P10 新束縛)。**W-6 の閉塞点が「共通符号化の不在」から「IMAGE-MU 未実装」へ局在**(W6-P12 明記)— 前進はこの一点のみと正直記帳。selfaudit v11(additive・24 検査)。
+- 司令塔裁定(懸念 7 件): ①schema doc byte 不変は**正**(receiver の実行時束縛点 — v2 化しない)②PENDING_ADOPTION 条文化は**正**(発効前採用の禁止)③**lane B per-point producer は便 99 で認可請求**(それまで AGGREGATE=ABSENT・W-6 OPEN 維持は正)④lint の chg 表記録は正 ⑤**RC-2 遡及注記**: 裁定 368 の「899 検査」は当時の suite 出力からの手集計で log provenance 非添付 — 以後の本数引用は log+digest 添付(本裁定の 892 が初適用)・遡及修正はせず本注記で処理 ⑥CI 無改変・selfaudit の CI 非編入(draft を正本扱いさせない)は正 ⑦poscontrol 不接触は正。

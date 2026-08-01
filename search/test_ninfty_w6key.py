@@ -401,6 +401,216 @@ check("§9 neither route can mint, publish or freeze: no write-mode file access,
           for tok in ('"w"', "'w'", "commit_generation", "subprocess", "ninfty-native-registry")),
       "grep over both route sources")
 
+# ============================================================================
+# §10 THE REAL LANE-A PER-POINT PRODUCER  (Sol 便98 P98-6.1, 認可 GO)
+#
+# Sections 2..9 exercise the receiver routes against hand-built prototype
+# records. This section runs the ACTUAL producer,
+# search/ninfty-w6-pointmap-lanea.mjs, on the genuine fixtures and pushes its
+# real output through both receiver routes.
+#
+# What P98-6.1 authorises, and what it does NOT: the producer change is
+# authorised; W-6 closure, EP activation and the positive-control run are not
+# (P98-6.2 / F98-6.3). So the checks below fix, mechanically, that the overall
+# verdict is still UNKNOWN.
+#
+# CALIBRATION DISCIPLINE: the expected aggregate is NOT typed in here. It is
+# derived from lane A's own INDEPENDENTLY computed normal form (the orbit-level
+# object that both lanes already agree on): for each NF branch component,
+# coefficient * degree must equal the sum of the point map's multiplicities
+# over that orbit. That is a refinement check -- the pointwise map must forget
+# down to the NF -- and it is NOT W-6 closure (W6-C2: the NF has no incidence).
+# ============================================================================
+
+import json
+import subprocess
+from fractions import Fraction
+
+PRODUCER = os.path.join(HERE, "ninfty-w6-pointmap-lanea.mjs")
+FIXTURES = os.path.join(REPO, "search", "fixtures", "ninfty")
+with open(PRODUCER, encoding="utf-8") as f:
+    PRODUCER_SRC = f.read()
+
+_NODE_HELPER = r"""
+import { readFileSync } from 'node:fs';
+import { buildW6PointMapLaneA } from './ninfty-w6-pointmap-lanea.mjs';
+import { computeNormalFormLaneA } from './ninfty-searcher-v2.mjs';
+const c = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+process.stdout.write(JSON.stringify({
+  point_map: buildW6PointMapLaneA(c),
+  nf: computeNormalFormLaneA(c),
+}));
+"""
+_HELPER_PATH = os.path.join(HERE, "_w6_pointmap_probe.tmp.mjs")
+
+
+def _run_producer(fixture_stem):
+    with open(_HELPER_PATH, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(_NODE_HELPER)
+    try:
+        out = subprocess.run(["node", _HELPER_PATH, os.path.join(FIXTURES, fixture_stem + ".json")],
+                             cwd=HERE, capture_output=True, text=True,
+                             encoding="utf-8", errors="replace")
+    finally:
+        try:
+            os.remove(_HELPER_PATH)
+        except OSError:
+            pass
+    if out.returncode != 0:
+        return None, out.stderr[-400:]
+    return json.loads(out.stdout), ""
+
+
+_GENUINE = ("checker_pos_01", "checker_pos_02", "checker_pos_03")
+
+check("§10 the lane-A per-point producer exists as a separate module and never claims closure "
+      "(W6_CLOSED = false, artifact_class = diagnostic_construction)",
+      "export const W6_CLOSED = false;" in PRODUCER_SRC
+      and "diagnostic_construction" in PRODUCER_SRC)
+check("§10 H-1/H-3 structural: the producer has no load site for the other lane's producer, its "
+      "normal form, its symbolic string encoding, or either receiver route",
+      not _load_sites(PRODUCER_SRC, "ninfty-nf-laneb")
+      and not _load_sites(PRODUCER_SRC, "ninfty-checker")
+      and not _load_sites(PRODUCER_SRC, "ninfty-w6-key-gate")
+      and "srepr" not in PRODUCER_SRC,
+      _load_sites(PRODUCER_SRC, "ninfty-nf-laneb") + _load_sites(PRODUCER_SRC, "ninfty-w6-key-gate"))
+check("§10 W6-C4: the producer ships NO self-declared aggregate/divisor field -- the receiver must "
+      "re-sum the per-point multiplicities itself",
+      "producer_self_aggregate" not in PRODUCER_SRC and "branch_divisor" not in PRODUCER_SRC)
+
+for _stem in _GENUINE:
+    _payload, _err = _run_producer(_stem)
+    check(f"§10 [{_stem}] the producer runs and returns a point map", _payload is not None, _err)
+    if _payload is None:
+        continue
+    _pm, _nf = _payload["point_map"], _payload["nf"]
+    _recs = _pm["records"]
+
+    check(f"§10 [{_stem}] status PRESENT with the ramification degree fully accounted for "
+          "(sum of multiplicities = deg R_mu = 2g-2+2deg(mu) = 12, asserted by the producer)",
+          _pm["status"] == "PRESENT" and _pm["ramification_degree_check"]["ok"] is True
+          and _pm["ramification_degree_check"]["total_multiplicity"] == 12,
+          (_pm["status"], _pm.get("ramification_degree_check"), _pm.get("reason")))
+
+    _finite = [r for r in _recs if r["ramification_point_id"].startswith("aff|")]
+    _infin = [r for r in _recs if not r["ramification_point_id"].startswith("aff|")]
+    check(f"§10 [{_stem}] P98-6.1: the FINITE ramification points are separated one by one -- 4 "
+          "records (2 x-values x 2 y-root ranks), each of multiplicity 1",
+          len(_finite) == 4 and all(r["multiplicity"] == 1 for r in _finite),
+          [(r["ramification_point_id"], r["multiplicity"]) for r in _finite])
+    check(f"§10 [{_stem}] P98-6.1: the two ramification points at infinity and their images/"
+          "coefficients REMAIN in the same point map (the 4 finite points alone may not be declared "
+          "to be the whole COVERAGE)",
+          len(_infin) == 2 and all(r["multiplicity"] == 4 for r in _infin)
+          and {r["ramification_point_id"] for r in _infin} == {"inf_plus", "inf_minus"},
+          [(r["ramification_point_id"], r["multiplicity"], r["branch_value"]) for r in _infin])
+
+    check(f"§10 [{_stem}] P98-6.1 verbatim: `ramification_point_id` carries BOTH the value of x and "
+          "the y-root rank, and is never the branch token in disguise",
+          all(re.match(r"^aff\|x=-?\d+(/\d+)?\|yrank=[01]$", r["ramification_point_id"])
+              for r in _finite)
+          and not any(r["ramification_point_id"] == r["branch_value"] for r in _recs),
+          [r["ramification_point_id"] for r in _finite])
+    _by_x = {}
+    for _r in _finite:
+        _by_x.setdefault(_r["ramification_point_id"].split("|yrank=")[0], []).append(_r["branch_value"])
+    check(f"§10 [{_stem}] over each x the two y-root ranks get DIFFERENT tokens with the SAME minimal "
+          "polynomial -- the conjugate pair is separated pointwise, which the orbit key could not do",
+          all(len(set(v)) == 2 and len({t.rsplit("|", 1)[0] for t in v}) == 1 for v in _by_x.values()),
+          _by_x)
+    check(f"§10 [{_stem}] the exact_image_witness carries the exact reduction chain P98-6.1 requires "
+          "(fibre relation in y, the evaluation mu = a(x0)+p(x0)y, and the image minimal polynomial) "
+          "-- no float form appears anywhere in the map",
+          all(set(("fibre_relation", "map_evaluation", "image_relation", "square_relation"))
+              <= set(r["exact_image_witness"]["exact_reduction"]) for r in _finite)
+          and not re.search(r"\d+\.\d+", json.dumps(_pm)),
+          [r["exact_image_witness"]["exact_reduction"] for r in _finite[:1]])
+    check(f"§10 [{_stem}] the map is a DIAGNOSTIC CONSTRUCTION, not a published artifact, and its "
+          "inline-only locus refs are marked LEGACY_UNVERIFIED_REF (W6-C5)",
+          _pm["artifact_class"] == "diagnostic_construction" and _pm["registry_pinned"] is False
+          and all(r["source_locus_ref"]["ref_status"] == "LEGACY_UNVERIFIED_REF" for r in _recs))
+    check(f"§10 [{_stem}] P98-6.2 item 2: the point map is NOT dressed up as a v18 native payload -- "
+          "it carries the point-map schema id and no frozen-era native/predicate schema id",
+          _pm["point_map_schema_id"] == R1P.POINT_MAP_SCHEMA_ID
+          and "native_schema_id" not in json.dumps(_pm) and "/v18" not in json.dumps(_pm))
+
+    # --- both receiver routes, separately, on the REAL producer output ------
+    for _rname, _route in ROUTES:
+        _rep = _route.run_receiver_route(_recs, _pm["frame"], _pm["declared_support"], {},
+                                         {"lane_a": PRODUCER_SRC, "lane_b": "",
+                                          "receiver_r1p": "", "receiver_r2p": ""})
+        check(f"§10 [{_stem}][{_rname}] KEY passes on the real producer's frame and tokens (the "
+              "receiver recomputes the schema digest, primitivity, irreducibility and rank itself)",
+              _rep["gates"]["KEY"] == "PASS", _rep["details"]["KEY"].get("errors"))
+        check(f"§10 [{_stem}][{_rname}] COVERAGE passes: every declared ramification point covered "
+              "exactly once, infinities included",
+              _rep["gates"]["COVERAGE"] == "PASS", _rep["details"]["COVERAGE"])
+        check(f"§10 [{_stem}][{_rname}] IMAGE-KEY passes on every record -- each token is recomputed "
+              "from that point's own exact image datum and agrees",
+              all(e["IMAGE-KEY"] == "PASS" for e in _rep["details"]["IMAGE"]["records"].values()),
+              {k: v.get("IMAGE-KEY") for k, v in _rep["details"]["IMAGE"]["records"].items()})
+        check(f"§10 [{_stem}][{_rname}] INDEPENDENCE passes on the shipped producer source",
+              _rep["gates"]["INDEPENDENCE"] == "PASS", _rep["details"]["INDEPENDENCE"])
+        check(f"§10 [{_stem}][{_rname}] AGGREGATE is ABSENT, not PASS: no lane-B per-point producer "
+              "is authorised yet (P98-6.1 authorised the LANE A producer only), and absence of an "
+              "independent divisor is never agreement",
+              _rep["gates"]["AGGREGATE"] == "ABSENT", _rep["details"]["AGGREGATE"])
+        check(f"§10 [{_stem}][{_rname}] and therefore the overall verdict on the real fixture is "
+              "ABSENT (no independent lane-B divisor) over a still-UNKNOWN IMAGE gate -- never PASS. "
+              "W-6 stays OPEN: a green producer is not closure (P98-6.2/F98-6.3)",
+              _rep["overall"] == "ABSENT" and _rep["overall"] != "PASS"
+              and _rep["gates"]["IMAGE"] == "UNKNOWN"
+              and _rep["w6_closed"] is False and _rep["final_comparison_reached"] is False,
+              _rep["gates"])
+
+        # receiver-side re-aggregation, calibrated against lane A's own NF
+        _agg = _route.aggregate_pushforward(_recs)
+        _orbit = {}
+        for _tok, _m in _agg.items():
+            _orbit[_tok.rsplit("|", 1)[0] if _tok != "aqp1|mu|I" else _tok] = \
+                _orbit.get(_tok.rsplit("|", 1)[0] if _tok != "aqp1|mu|I" else _tok, 0) + _m
+        _nf_expect = {}
+        for _c in _nf["nf"]["branch"]["components"]:
+            if _c.get("at_infinity"):
+                _nf_expect["aqp1|mu|I"] = _c["coefficient"]
+            else:
+                _deg = len(_c["ideal_generator"]) - 1
+                _key = "aqp1|mu|F|" + ",".join(
+                    str(x) for x in R1P._primitive_integer_form(
+                        [Fraction(g) for g in _c["ideal_generator"]]))
+                _nf_expect[_key] = _c["coefficient"] * _deg
+        check(f"§10 [{_stem}][{_rname}] the receiver's own re-aggregation of the per-point map "
+              "FORGETS DOWN to lane A's independently computed normal form (coefficient x degree per "
+              "branch component) -- the pointwise map refines the NF rather than contradicting it. "
+              "This is a refinement check, NOT W-6 closure (W6-C2: the NF has no incidence)",
+              _orbit == _nf_expect, (_orbit, _nf_expect))
+
+        # firing edge of the pointwise predicate on REAL data: tamper one rank.
+        _tampered = copy.deepcopy(_recs)
+        for _r in _tampered:
+            if _r["ramification_point_id"].endswith("yrank=0") and _r["branch_value"].endswith("|0"):
+                _r["branch_value"] = _r["branch_value"][:-1] + "1"
+                break
+        check(f"§10 [{_stem}][{_rname}] firing edge on REAL data: flipping one point's declared root "
+              "rank while leaving its exact image datum alone is caught by IMAGE-KEY",
+              any(e["IMAGE-KEY"] == "FAIL"
+                  for e in _route.image_gate(_tampered)[1]["records"].values()),
+              _route.image_gate(_tampered)[1]["records"])
+        check(f"§10 [{_stem}][{_rname}] non-firing edge on REAL data: the untampered map has no "
+              "IMAGE-KEY FAIL anywhere (the detector is not firing on everything)",
+              not any(e["IMAGE-KEY"] == "FAIL"
+                      for e in _route.image_gate(_recs)[1]["records"].values()))
+
+# fail-closed edges of the producer itself
+for _stem, _expected in (("checker_neg_01", "ABSENT"), ("neg_divisor_orientation_27", "INTEGRITY_STOP")):
+    _payload, _err = _run_producer(_stem)
+    check(f"§10 producer fail-closed edge [{_stem}]: status {_expected} and NOT ONE ramification "
+          "point is named -- a rejected / internally inconsistent candidate has no divisor to map",
+          _payload is not None and _payload["point_map"]["status"] == _expected
+          and _payload["point_map"]["records"] == []
+          and _payload["point_map"]["declared_support"] == [],
+          (_payload and _payload["point_map"]["status"], _err))
+
 n_fail = sum(1 for _, ok, _ in RESULTS if not ok)
 print(f"\n{len(RESULTS)} checks, {n_fail} FAIL")
 raise SystemExit(1 if n_fail else 0)
