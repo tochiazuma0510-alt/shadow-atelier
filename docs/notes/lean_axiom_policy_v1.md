@@ -38,3 +38,16 @@
 - **切り出し義務**: 紙の証明が「標準理論により」「TB1 により」等で暗黙に使っている事実は、Lean 化時に**すべて名前つき補題・定理として切り出し、T1/T2 公理から証明する**。無名のインライン步として仮定を残さない — 仮定に見えていたものは Lean では証明義務になる。
 - **1:1 対応の双方向維持**: 紙の補題 ⟷ Lean の補題は 1 対 1(paper-style-lean 既定)。Lean 側で新たな切り出しが必要になったら**紙側にも同じ補題を追記**して対応を保つ(Lean が紙の暗黙を暴いたら紙を直す)。
 - **着工判定との一体化**: 着工条件(v1.3)の「依存の割り付け表」= **補題分解計画**を兼ねる — 各依存に対し {名前・言明・出所(T1/T2 公理 or 切り出し補題)・証明の状態} を列挙してから着工。
+
+## v1.6 追補(Sol 便 95 検収・裁定 345)— 施行ゲート 6 点(P95-4.1)
+
+Sol 判定: v1.4 は施行条件つき PASS(F95-4.3)。「kernel が確認するのは公理から結論が導かれたことであって公理の真偽ではない — T1/T2 の格は provenance 層」。着工時の必須ゲート:
+
+1. **公理ごとの束縛**: 原典の exact theorem/頁・PDF 画像照合の裁定番号・使用する最弱形・sanity instance を束縛。
+2. **Mathlib 不在主張の相対化**: Mathlib commit/toolchain を pin し、その版に相対化して主張(「不在」は版つき事実)。
+3. **`#print axioms` の全量照合**: `ShadowAxioms` 名前空間だけでなく**出力の全 axiom** を取得し、許可済み Lean baseline+生成 manifest の和以外を拒否。`sorryAx` は常に FAIL。
+4. **receipt への exact axiom set 束縛**: project manifest は superset 可だが、各主定理 receipt には実際に出た **exact sorted axiom set** を束縛。
+5. **doc-comment 台帳の drift 防止**: 生成台帳には説明文だけでなく **axiom declaration の正規化した型またはその digest** も入れる(説明と Lean proposition の乖離検出)。
+6. **M2-DESC の形式化方針**: 広い BCL を axiom 化するより **F95-1.4 の二次拡大直接降下(明示同型+有限降下)を形式化**する方が axiom boundary が小さい — 着工時はこちらを既定とする。
+
+注(W95-4.2): Sol の正式判定対象は v1.4 exact blob まで。v1.5(切り出し義務)は否定されていないが本便の digest には遡及混入させない — v1.5 以降は次便の監査対象。
