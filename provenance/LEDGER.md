@@ -1486,3 +1486,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **per-point producer(lane A)**: gcd の有理根ごとに exact 構成(float ゼロ・a(x₀)=0 assert・deg 合計 12 の fail-closed)・token は branch-key schema §2.2 の normative 例と literal 一致(rank 欄のみ相違 = 設計どおり)・H-4 独立性を suite+selfaudit の構造検査で担保・diagnostic_construction 札。3 fixture 全て PRESENT・12/12。
 - **trio draft(v20/v15/v15)**: 6 必須条件の履行位置を条文 ID で特定(ERA_W6KEY plane・M-8 偽装禁止・W6-P7 5 欄分離・W6-P8 status algebra・W6-P9 R3-NF 非代替・W6-P10 新束縛)。**W-6 の閉塞点が「共通符号化の不在」から「IMAGE-MU 未実装」へ局在**(W6-P12 明記)— 前進はこの一点のみと正直記帳。selfaudit v11(additive・24 検査)。
 - 司令塔裁定(懸念 7 件): ①schema doc byte 不変は**正**(receiver の実行時束縛点 — v2 化しない)②PENDING_ADOPTION 条文化は**正**(発効前採用の禁止)③**lane B per-point producer は便 99 で認可請求**(それまで AGGREGATE=ABSENT・W-6 OPEN 維持は正)④lint の chg 表記録は正 ⑤**RC-2 遡及注記**: 裁定 368 の「899 検査」は当時の suite 出力からの手集計で log provenance 非添付 — 以後の本数引用は log+digest 添付(本裁定の 892 が初適用)・遡及修正はせず本注記で処理 ⑥CI 無改変・selfaudit の CI 非編入(draft を正本扱いさせない)は正 ⑦poscontrol 不接触は正。
+
+## 2026-08-01 1/10 段差の検分完了(裁定 393)— ★ 判定 = 式族の正しい挙動(バグなし・四系統独立検算全一致)・副産物 = **13 セル census は t 方向に完備**(t≥9 は Riemann–Hurwitz で厳密 0)
+- 構造: RH 予算 3f₂+4f₃ = ℓ+6−5t−12γ が t ごとに 5 ずつ枯れ、t=6/7/8 は許容 passport が各 1 通りの「崖の最後の 3 段」・t≥9 で空 ⟹ **a≤8 グリッドは T_trans の台そのもの**(「残りは未計算」でなく「残りは存在しない」)。
+- 「厳密 1/10」= smooth 数の偶然(dessin 数比 70/7=10・999999=3³·7·11·13·37 が因数を丸ごと含む)— ℓ=41 の同位置比は 17/10 と 5/3 で丸くない(普遍法則ではない)。
+- 四系統: ①自前二項反転 18/18 ②**a=9 予言テスト**(RH ⟹ T_trans=0 から T_all(1⁹) を 13〜14 桁予言 → 両 route 厳密的中)③指標不使用の総当たり 30 ケース(n≤13・ℓ=9 の非単調な穴まで再現)④ALG-3 非依存の類乗積直撃(t=6/7/8 の三値を別経路で厳密再現)。**W98-ALG の 18 値は cross-checked へ格上げ**(verified ではない)。
+- 恒久 fixture 推奨: n=10..13 総当たり 30 ケース+ℓ=9 非単調消滅(normalization バグの強い検出器)— 次版 driver に編入。検算 4 script 収蔵。
