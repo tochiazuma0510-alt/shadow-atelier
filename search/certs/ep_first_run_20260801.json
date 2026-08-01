@@ -98,22 +98,23 @@
         "existing_pipeline_workaround": "search/certs/gen_full_cert_base.mjs は checkerNative スロットに searcherNative を再利用している('same lane's native used for both slots -- see report for the honest caveat this implies')-- 独立な lane-B native ではない。",
         "implication": "現状の実装では、いかなる候補についても『lane A ネイティブ』と『lane B 独立ネイティブ』の genuine な A/B pair は生成不可能(構造的欠落。β 固有の問題ではない)。ここで commit_generation により本番 registry へ 'native_b' として lane A の使い回しを provisioning すること、または新たに native を捏造することのどちらも、design 文書・接触規律(value-independent の精神)・sol75 の禁止条項(fabricated positive-shaped data 相当)に照らして不適切と判断し、実装担当の裁量で見送った。"
       },
-      "commit_generation": "NOT EXECUTED (上記理由により)",
-      "resolve_bundle": "NOT EXECUTED",
-      "evidence_union_real_run": "NOT EXECUTED",
-      "ep_registry_quarantine_synthetic": "NOT EXECUTED -- 旧 synthetic 3 本(search/certs/ep_registry/index.json + 3 ファイル、schema_id=mb/ninfty-ep-registry/index/v1、pre-便91 flat format)は特定済みだが、移動は本 cert 発行時点では保留(下記「司令塔への差し戻し事項」参照)。",
-      "suite_full_regression": "NOT EXECUTED (同上、深い pipeline に依存する回帰は対象未定のため保留)"
+      "commit_generation": "NOT EXECUTED -- 司令塔裁定(c)により EP 後の別課題へ申し送り(下記 COMMANDER_RULING 参照)",
+      "resolve_bundle": "NOT EXECUTED -- 同上",
+      "evidence_union_real_run": "NOT EXECUTED -- 同上",
+      "ep_registry_quarantine_synthetic": "NOT EXECUTED -- 旧 synthetic 3 本(search/certs/ep_registry/index.json + 3 ファイル、schema_id=mb/ninfty-ep-registry/index/v1、pre-便91 flat format)は特定済み。移動そのものは checker_native 実装後の別課題側で行う(司令塔裁定(c))。",
+      "suite_full_regression": "NOT EXECUTED -- 同上、深い pipeline に依存する回帰は対象未定のため申し送り"
     }
   },
 
-  "COMMANDER_REFERRAL": {
-    "summary": "β の decision-lane 単発実走(lane A / lane B 独立・REJECT concordant)は完了。しかし発注の (2)(3) 段(commit_generation 本番 provisioning・resolve_bundle・evidence union 実走・旧 synthetic 3 本の quarantine・suite 全回帰)は、checker.py に genuine な checker_native (lane B 独立ネイティブ) が実装されていないという構造的欠落を実行中に発見したため、実装担当の判断で保留した。",
-    "options_for_commander": [
-      "(a) lane A の native を lane B スロットにも用いる(既存 gen_full_cert_base.mjs と同じ disclosed スタンドイン)形で、その限定を cert に明記した上で registry へ provisioning する -- 独立性の欠如を隠さない前提で。",
-      "(b) checker_native の genuine 実装(root-finding over Qbar)を先に発注し、それが揃うまで本番 provisioning は保留する。",
-      "(c) 今回の unit run は decision-lane concordance の記録(本 cert)までを『実物』とみなし、native/registry/evidence-union 段は EP 後の別課題として申し送る。"
-    ],
-    "implementer_recommendation": "(c) が最も安全 -- (a) は独立性のない artifact を本番 registry に『provisioning』と呼ぶこと自体が sol75 の精神(独立実装での cross-check)に反する疑いがあり、司令塔裁定なしに実装担当の一存で本番書き込みすべきでないため。"
+  "COMMANDER_RULING": {
+    "date": "2026-08-01",
+    "decision": "(c) を採択",
+    "verbatim": "司令塔です。裁定: (c) を採択 -- decision-lane concordance(A/B 独立実装の REJECT 一致)までを今回の成果として cert を確定し、native/registry/evidence-union は checker_native 実装後の別課題に申し送り。(a) は sol75 の精神違反(独立性の偽装)につき禁止、(b) は本タスクの範囲外。あなたの判断は正しい -- 保管室に入れて良いのは本物だけ、が EP の存在理由です。P-EP-1 の用語齟齬発見(探索器 stage1 ≠ spec T-1)も価値ある収穫として cert に残してください。報告どおり終了で結構です。",
+    "disposition": "本 cert はこの裁定どおり、β の decision-lane 単発実走(lane A / lane B 独立・REJECT concordant)と UNEXPECTED_FINDING_vs_design_doc_prediction(P-EP-1 用語齟齬)を『実物』として確定する。commit_generation/resolve_bundle/evidence_union/ep_registry quarantine/suite regression は checker_native 実装(root-finding over Qbar)を待つ別課題として EP 後に申し送る -- 本タスクの完了条件には含まれない。",
+    "options_considered_but_rejected": [
+      "(a) lane A native の lane B スロット再利用による provisioning -- sol75 の精神(独立実装での cross-check)違反につき禁止。",
+      "(b) checker_native の genuine 実装を先に発注 -- 本タスクの範囲外。"
+    ]
   },
 
   "provenance": {
