@@ -1,7 +1,7 @@
 {
   "_note_to_miner": "起票用の草稿(実装係作成・2026-08-01)。起票・preflight・発車は miner の職掌。テンプレ mine/jobs/templates/ladder.json 相当を backend=py-ci 用に埋めた。job_id の日付・sha256 は起票直前に再計算して差し替えること(本 driver は継続開発中のため sha256 は暫定値)。",
   "schema": "mine-job/v1",
-  "job_id": "w98-alg-driver-run-REPLACE-DATE",
+  "job_id": "w98-alg-driver-run-20260801",
   "claim_class": "exploration",
   "map_ref": { "polestar": ["P25 (W98-ALG / n! 全指標表を作らない厳密計数)"], "band": 2 },
   "universe": {
@@ -10,7 +10,7 @@
       "note": "sol/sol_reply_98_math25.md sec.5 (W98-5.1採択案・P98-5.1実装ゲートGO)に基づく計数 driver の本走。rho=(ell,1^a) 型のみを対象とし、ell in {37,41}, a=0..8 の 18 値(T_all)と、そこから ALG-3 二項反転で得る T_trans(ell,1^t), t=0..8 を算出する。宇宙は司令塔指示の範囲(ell=37,41 / a=0..8)を厳守し、他の ell・a へは広げない。較正 4 点(小n直接悉皆・(23,1^3) T_trans=173880・(25,1^5) T_trans=378000・(37,1^2) T_all=10643405866/T_trans=3296573904)は driver 内で fail-closed に実走・assert 済み(較正不一致なら driver が AssertionError で停止し cert を出さない)。CharacterTable(\"Symmetric\",n)/ctbllib は一切使用しない(GAP非依存の純Python)。route A(全partition streaming)とroute B(rim-hook直接生成)を独立二重実装し driver 内で一致 assert(不一致ならAssertionError)。"
     },
     "frozen_docs": [
-      { "path": "search/probe/wac_v1/w98_alg_driver.py", "sha256": "REPLACE-ME (起票直前に sha256sum で再計算)" }
+      { "path": "search/probe/wac_v1/w98_alg_driver.py", "sha256": "991a8c1f0c233999c7d4aa8296fadad09170a8acece8c5f3e9ec92e0b2c4b052" }
     ]
   },
   "pipeline": [
@@ -33,7 +33,7 @@
     "checkpoint": false,
     "py_driver": {
       "script": "search/probe/wac_v1/w98_alg_driver.py",
-      "sha256": "REPLACE-ME (起票直前に再計算)",
+      "sha256": "991a8c1f0c233999c7d4aa8296fadad09170a8acece8c5f3e9ec92e0b2c4b052",
       "args": [],
       "done_marker": "DRIVER_DONE"
     }
