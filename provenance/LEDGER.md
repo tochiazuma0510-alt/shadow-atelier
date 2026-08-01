@@ -1535,3 +1535,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - L の isolated 性 = **紙+相互監査 PASS 済**(中心持ち上げ定理 A(ii))— M₂ は工房初の「両脚とも紙で isolated」屋根(Prop 3.15/INT 非経由)。**裁定要請への回答: kerchi_equality_v2 註 2 の「L の isolated 性は未確認」は CV-10 流儀の注記追記で修文承認**(黙って書き換えず・定理 A(ii) への誘導を置く — 次波実行・χ̃ 全射の格は不変と明記)。roof2_check failures 0(司令塔追試 PASS)・T-25 で Sol へ短報済。
 
 ## 2026-08-01 W98-ALG CI 収穫(裁定 401)— ★ 18 値の二環境化成立(run 30700023116・Windows/py3.13 vs Linux/py3.14 で 180/180 欄一致・T_trans 18/18 一致・conclusion/verdict 一致)。裁定 393 の四系統検算と合わせ、GEN_FAIL 帯 13 セルの厳密計数は**値・範囲(t≥9=0)・環境の三方向で完備**。旧 12 セル(裁定 372 の UNKNOWN)の記帳は便 99 の Sol 検収後に本表で更新。検収 = mine/reports/w98-alg-18cells-20260801_report.md。
+
+## 2026-08-01 札 E 検収(裁定 402)— ★ 定理 DIV-LAW: [κ]=0(3 行証明)⟹ 分類は約数 d ただ 1 個・genuine 判定 = k 座標の合同式 1 本・素数窓 1 ビット・降下 ≤ Ω(n)・補題 PIN(ι 錨)・ε パリティ罠を機械捕獲(検査 D)・P-DIV-1〜5 凍結・divlaw_check failures 0(追試済)
+- IHNEC-GAP-1 組替: 要るのは d_gen 下界 = ASM 鎖昇格と同一(GAP-1 自体は未解消の掟不変)。裁定 2 件: ①(S2) 格 = w2arith(Route A paper-proof)を暫定正本(便 99 で Sol 確認)②MCOV 破れ走査の奇 dihedral 標的は系 DIV-SPLIT で空と証明(裁定 391 全 HOLDS の理論的説明)= 取り下げ・札 D 測定は位数 1 個へ簡素化。
+## 2026-08-01 ideas 収蔵+パッケージ棚卸し(裁定 403)— ideas_017/018 収蔵(索引形式)・**Dolgushev GT パッケージは未収蔵と確定**(papers/ は PDF 4 本のみ)— IHNEC-L2 は「パッケージ入手」を要する(入手 = 司令塔判断・次波で scout 起票候補)
