@@ -1,0 +1,64 @@
+{
+  "schema":"ihnec-r4b-negative-fixture/v1",
+  "generated_by":"search/probe/wac_v1/ihnec_r4b_negative_fixture_20260802.g",
+  "card_label":"便99 W99-2.1-(5)・CV-9-5 dummy/negative fixture(R4b述語の識別力の事前登録実測)",
+  "design_doc":"docs/notes/cv9_reading_ihnec_r4ab_v1.md §8【要修正-5】(判読者=falsifier)",
+  "task_ref":"sol/sol_reply_99_math26.md W99-2.1-(5)(裁定412)",
+  "note":"R4b(ihnec_r4b_run.g)のScanRoofHexagon述語をK9単体窓上で2通りに意図的に破壊し、既知値108との不一致が実際に検出されることを機械確認する。入力層(K9単体窓・candidate_total=8748)は3ケースで同一、出力層の判定式のみ変える(CV-9-5の二層正規化)。fail-closed: 不一致でもErrorで止めずFAIL statusを記録する。",
+  "registered_before_run":{
+    "CONTROL":{"description":"破壊なし。ihnec_r4b_run.g のScanRoofHexagonと数学的に逐語同一","expected_shadow_total":108,"expected_verdict":"PASS(=108)"},
+    "DUM-NEG-0(記録用・当初案)":{"description":"hex310の2項積を反転(f*theta(f)=1 -> theta(f)*f=1)","expected_shadow_total_ne":108,"expected_verdict_at_registration":"discriminates(<>108)を期待していたが、xy=1<=>yx=1は群の恒等式であり理論的に常に非discriminatingと事後判明(正式判定には使わない・正直に記録)"},
+    "DUM-NEG-1(正式)":{"description":"hex311の3項積を全反転(tau^2(w)tau(w)w=1 -> w tau(w) tau^2(w)=1)。abc=1<=>cba(全反転)は一般に非同値であり真の摂動になりうる","expected_shadow_total_ne":108,"expected_verdict":"PASS(discriminates, i.e. <>108)"},
+    "DUM-NEG-2(正式)":{"description":"生成条件の受理極性を反転(surjを拒否)","expected_shadow_total_ne":108,"expected_verdict":"PASS(discriminates, i.e. <>108)"}
+  },
+  "observed":{
+    "input_universe":{"window":"K9単体(n=9・MakeGn(9)・certは読まない)","K9charm":[0,2,3,5,6,8,9,11,12,14,15,17],"candidate_total_each_case":8748},
+    "CONTROL":{"shadow_total":108,"h10_fail":7776,"h11_fail":864,"generation_fail":0,"pass_eq_108":true,"verdict":"PASS"},
+    "DUM-NEG-0(記録用・非discriminating判明)":{"shadow_total":108,"h10_fail":7776,"h11_fail":864,"generation_fail":0,"discriminates_ne_108":false,"note":"shadow_total=108のまま(理論どおり)。fixture設計側の見落とし(hex310の2項反転はxy=1<=>yx=1の恒等式により常に無害)であり、ScanRoofHexagonのバグではない。この結果自体を正直に記録する(潰さない)"},
+    "DUM-NEG-1(正式)":{"shadow_total":90,"h10_fail":7776,"h11_fail":864,"generation_fail":18,"discriminates_ne_108":true,"verdict":"PASS"},
+    "DUM-NEG-2(正式)":{"shadow_total":0,"h10_fail":7776,"h11_fail":864,"generation_fail":108,"discriminates_ne_108":true,"verdict":"PASS"}
+  },
+  "overall_verdict":"PASS",
+  "overall_verdict_scope":"CONTROL + DUM-NEG-1(正式) + DUM-NEG-2(正式) の3ケースのみで判定(DUM-NEG-0は記録用参考値・判定対象外)",
+  "discriminating_power_established":true,
+  "note_on_r4b_existing_anchor":"ihnec_r4b_run.gの既存アンカー(anchors.k9_alone_pass等)は不一致時にError()で停止するため、不一致状態そのものがcertとして残らない(判読書【要修正-5】)。本fixtureは同じ入力・同じ数学的判定式群に対し、不一致(FAIL)状態を明示的にJSONへ書き切ることで、次回以降のR4b系走査で使えるnegative-fixtureテンプレートを与える。",
+  "conventions_used":{
+    "ledger_version":"conventions_ledger_v1_4",
+    "perm_composition":"gap_native_right_action",
+    "comparison_target":{
+      "as_function_of":"同一入力(K9単体窓・8748候補)に対し判定式のみを変えた3変種(CONTROL/DUM-NEG-1/DUM-NEG-2)の比較",
+      "function_a":{"name":"ScanRoofHexagon_Control","domain":"K9単体・n=9","source_digest":"fc64ab10879185c736805ded76f096f3d9df6597c11f2db5dcd535e02f283f16"},
+      "function_b":{"name":"ScanRoofHexagon_BrokenOrder / ScanRoofHexagon_BrokenSurj","domain":"K9単体・n=9(同一入力)","source_digest":"fc64ab10879185c736805ded76f096f3d9df6597c11f2db5dcd535e02f283f16"},
+      "normalization_digest":"n/a(基数shadow_totalのみを比較・正規形は導入しない)"
+    },
+    "chi_P_criterion":{"value":"exact","justification":"(m,f)組の同一性による厳密受理数のみを比較(conjugacy classへの縮約なし)","generator_fixed":true,"orientation_fixed":true},
+    "separation":{
+      "included":true,
+      "competitor_universe":["CONTROL(=108)","DUM-NEG-1(hex310反転)","DUM-NEG-2(surj反転)"],
+      "result":{"matrix":"CONTROL=108(一致)・DUM-NEG-1<>108(識別)・DUM-NEG-2<>108(識別)"},
+      "forbidden_values":{"handling":"n/a","list":[]},
+      "dummy_fixture":{
+        "id":"DUM-NEG-1+DUM-NEG-2",
+        "normalised_input":"K9単体窓のElements(DerivedSubgroup(G))×charming_set(全3ケース共通・8748候補)",
+        "normalised_output":"shadow_total(基数)",
+        "discriminating_power":{"input_layer_novel":false,"output_layer_novel":true},
+        "expected":"CONTROL=108・DUM-NEG-1<>108・DUM-NEG-2<>108",
+        "observed":"CONTROL=108 DUM-NEG-1=90 DUM-NEG-2=0",
+        "verdict":"PASS"
+      }
+    },
+    "roundtrip_witness":{"status":"n/a","reason":"粗/精ラベルの往復変換を持たない(基数比較のみ)"},
+    "effective_source_chain":{"status":"n/a","reason":"本certは新規fixtureの初出であり、既存certを訂正・supersedeしない"},
+    "effective_source":{"status":"n/a","reason":"同上"},
+    "seal_recoverability":{"status":"n/a","reason":"封印fixtureを使用しない"},
+    "level":"PB3"
+  },
+  "cross_checked_status":{"status":"n/a","reason":"単一driver内の3変種比較(識別力較正用)。cross-checkedを主張しない"},
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"fc64ab10879185c736805ded76f096f3d9df6597c11f2db5dcd535e02f283f16",
+    "r4b_run_g_reference_sha256":"5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+    "r4b_run_g_reference_note":"ScanRoofHexagon_Controlはこのsha256のihnec_r4b_run.g版のScanRoofHexagonと数学的に逐語同一(コード複製・importではない)",
+    "wall_ms_total":848
+  }
+}

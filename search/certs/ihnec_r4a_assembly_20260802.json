@@ -1,0 +1,161 @@
+{
+  "schema": "ihnec-r4a-assembly/v1",
+  "generated_by": {
+    "tool": "python (single-lane provenance-ization; not a new independent implementation)",
+    "script": "search/probe/wac_v1/ihnec_r4a_assembly_cert_gen.py",
+    "date": "2026-08-02"
+  },
+  "task_ref": "便99 W99-2.1-(2)(sol/sol_reply_99_math26.md・裁定412)。R4aの片側cert不在(判読書cv9_reading_ihnec_r4ab_v1.md §8【要修正-2】)の解消。",
+  "reproduces": {
+    "original_script": "scratchpad/ihnec_r4a_run.py",
+    "original_script_sha256": "f8be65ae5bf1ed2b0a175bb88057e0fb1d36b9c790cd014ce1fa09eb9c88820b",
+    "note": "本certの計算はscratchpad/ihnec_r4a_run.pyと数学的に同一(逐語複製)。目的はR4aの結果をcert化することであり、R4aへの独立クロスチェックではない。"
+  },
+  "cert_type": {
+    "kind": "prediction_provenance_not_measurement",
+    "statement_ja": "これは測定certでなく、命題ROOF(4)適用の紙予測のprovenance化である。R4aは屋根M(=K^(9) cap N_S4)を一度も測定していない(M自体の群構成にも触れない)。",
+    "grading_transcribed_from": "sol/sol_reply_99_math26.md F99-2.1 / P99-2.1(便99検収=裁定412)",
+    "grading_ja_verbatim": "命題ROOF(4)と既存因子certificateから得る紙の予測972と、(M)上の4,408,992候補の直接悉皆列挙による測定972が一致した。cross-checkの対象は基数972のみであり、二つの独立測定、shadow集合/NFの同一性、正典向きの独立照合を主張しない。有限測定はLean未検証である。",
+    "grading_en": "paper-predicted x machine-measured, cross-checked for the scalar cardinality 972",
+    "not_claimed": [
+      "R4aとR4bの二独立測定の一致",
+      "shadow集合(972元)そのものの正規形一致",
+      "正典向きの独立照合",
+      "verified(Lean未接続)"
+    ]
+  },
+  "inputs": {
+    "K9_v1": {
+      "path": "certificates/K9.v1.json",
+      "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+    },
+    "S4_v2": {
+      "path": "certificates/S4.v2.json",
+      "sha256": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+    }
+  },
+  "recomputed_values": {
+    "GT_K9_cardinality": 108,
+    "U11_composition_pairs_checked": 11664,
+    "U11_bad": 0,
+    "GT_K9_group_type": "Aff(Z/9) x C2 = Hol(Z/9) x C2",
+    "GT_K9_center_order": 2,
+    "GT_K9_order_profile": {
+      "1": 1,
+      "2": 19,
+      "3": 8,
+      "6": 44,
+      "9": 18,
+      "18": 18
+    },
+    "GT_N_S4_cardinality_settled": 54,
+    "s4_m_image": [
+      0,
+      2,
+      3,
+      5,
+      6,
+      8
+    ],
+    "GTM_assembled_paper_prediction": 972,
+    "F0_M": 81,
+    "chi_image_order": 12,
+    "im_R_M_K9_full_108_of_108": true,
+    "im_R_M_S4_full_54_of_54": true,
+    "failures_count": 0,
+    "failures_list": [],
+    "overall_result": "ALL PASS"
+  },
+  "s4_count_semantics": {
+    "r4a": "settled",
+    "r4b": "shadow",
+    "predicate_definitions": {
+      "settled": "S4.v2.json settled_detail[i].settled == true; witness = exists h in P-Gamma-L(2,8) realizing T_{m,f} (week3-psl-common.g RunPSLWindow)。R4a の |GT(N_S4)|=54 assertion はこの述語を使う。",
+      "shadow": "hexagon_free_certificate.shadow_total (hex310 and hex311 and surjectivity のみ・settled witness を要求しない)。R4b(ihnec_r4b_run.g)の shadow_total はこの述語。"
+    },
+    "set_difference_empty_this_run": true,
+    "machine_check": {
+      "method": "S4.v2.json settled_detail の全54行を直接走査し settled フィールドを数える(この cert 生成スクリプト内で実測・値の手写しなし)",
+      "settled_true_count": 54,
+      "settled_false_count": 0,
+      "settled_detail_total": 54,
+      "hexagon_free_certificate_shadow_total": 54,
+      "generation_pass_count": 54,
+      "settled_count_field": 54,
+      "conclusion": "R4a対象(settled)とR4b対象(shadow)は本run(S4.v2.json)限り集合として一致(54=54=54=54, settled_false=0)。ただし一般には settled subseteq shadow (settled は真に強い条件)であり、両者の同一性はこの cert 特有の実測結果であって定義上の恒等ではない(判読書 §8【要修正-1】)。"
+    }
+  },
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_4",
+    "perm_composition": "n/a(python整数演算のみ・置換合成なし)",
+    "comparison_target": {
+      "as_function_of": "n/a(本certは二実装の照合ではなく、R4a単系統の入力certからの組立をprovenance化するのみ)",
+      "function_a": {
+        "name": "n/a",
+        "domain": "n/a",
+        "source_digest": "n/a"
+      },
+      "function_b": {
+        "name": "n/a",
+        "domain": "n/a",
+        "source_digest": "n/a"
+      },
+      "normalization_digest": "n/a"
+    },
+    "chi_P_criterion": {
+      "value": "exact",
+      "justification": "K9.v1.json/S4.v2.jsonの(m,f)組そのものを数える厳密基数(conjugacy classへの縮約なし)",
+      "generator_fixed": true,
+      "orientation_fixed": true
+    },
+    "separation": {
+      "included": false,
+      "competitor_universe": [],
+      "result": {
+        "result_digest": "n/a(本certは単系統の組立provenance・分離条件は別cert search/certs/ihnec_r4b_negative_fixture_20260802.json が担う)"
+      },
+      "forbidden_values": {
+        "handling": "n/a",
+        "list": []
+      },
+      "dummy_fixture": {
+        "id": "n/a",
+        "normalised_input": "n/a",
+        "normalised_output": "n/a",
+        "discriminating_power": {
+          "input_layer_novel": false,
+          "output_layer_novel": false
+        },
+        "expected": "n/a",
+        "observed": "n/a",
+        "verdict": "n/a"
+      }
+    },
+    "roundtrip_witness": {
+      "status": "n/a",
+      "reason": "粗/精ラベルの往復変換を持たない(既存cert内の(m,f)組をそのまま数えるのみ)"
+    },
+    "effective_source_chain": {
+      "status": "n/a",
+      "reason": "本certは新規provenance化の初出であり、既存certを訂正・supersedeしない(R4aにはこれまでcert artifactが存在しなかった)"
+    },
+    "effective_source": {
+      "status": "n/a",
+      "reason": "同上"
+    },
+    "seal_recoverability": {
+      "status": "n/a",
+      "reason": "封印fixtureを使用しない"
+    },
+    "level": "PB3"
+  },
+  "cross_checked_status": {
+    "status": "n/a",
+    "reason": "本certはR4a単系統の組立をcert化するのみ(972の紙予測x機械測定の一致という格はsol/sol_reply_99_math26.md F99-2.1/P99-2.1に別途記帳済み。本certはそのR4a側のprovenanceを埋めるものであって、それ自体がcross-checked certを新規に主張するものではない)"
+  },
+  "provenance": {
+    "python_version": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "generator_script_note": "このcert生成スクリプト自身のsha256は本cert書き出し後にsearch/certs/MANIFEST_sol99_w99_2_1_20260802.sha256へ記録する(自己参照digestの構造的制約 -- 台帳CV-10の自己言及不能性についてはW99-2.1納品報告で申告)"
+  }
+}

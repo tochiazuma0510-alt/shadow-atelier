@@ -1,0 +1,350 @@
+{
+  "schema": "ihnec-r4b-shards-manifest/v1",
+  "generated_by": {
+    "tool": "python (permanent-location copy + digest manifest generator; does not recompute shadow_total)",
+    "script": "search/probe/wac_v1/ihnec_r4b_shards_manifest_gen.py",
+    "date": "2026-08-02"
+  },
+  "task_ref": "便99 W99-2.1-(6)(sol/sol_reply_99_math26.md・裁定412)。判読書cv9_reading_ihnec_r4ab_v1.md §8【軽微-5】の是正。",
+  "note": "R4bのCI 12-shard cert(+run.log)を scratchpad/ihnec_r4b/(git未追跡・GHA artifactは失効しうる)から search/certs/ihnec_r4b_shards/(git追跡・永続)へ複写収蔵した。数値の再計算は行わない(byte複写のみ・sha256で同一性を確認)。",
+  "ci_run_reference": {
+    "provider": "GitHub Actions",
+    "run_id": "30697198947",
+    "source_of_run_id": "mine/reports/ihnec-r4b-20260801_report.md (既存の検収レポート)",
+    "jobs": "plan ジョブ + 12 gate-and-run shard ジョブ(m in {0,2,3,5,6,8,9,11,12,14,15,17})、全て conclusion=success(既存レポートに記載・本manifestは再確認していない)"
+  },
+  "two_environments_caveat": {
+    "statement_ja": "「二環境」はWindows(ローカル)/Linux ubuntu(CI)というOS/toolchain層の再現性を指す。GAP自体は12 shard全てで4.16.0であることを本スクリプトが機械確認しており(gap_versions_observed参照)、GAP 4.16.0という単一実装に対する独立性の検証ではない(判読書cv9_reading_ihnec_r4ab_v1.md §5総評・【軽微-1】と同じ趣旨)。",
+    "gap_versions_observed": [
+      "4.16.0"
+    ],
+    "gap_implementation_independence_established": false
+  },
+  "script_sha256_consistency": {
+    "distinct_script_sha256_values_across_12_shards": [
+      "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2"
+    ],
+    "matches_live_driver": true,
+    "live_driver_path": "search/probe/wac_v1/ihnec_r4b_run.g",
+    "live_driver_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+    "interpretation": "12 shard全てが単一のprovenance.script_sha256を報告し、それが現worktreeのihnec_r4b_run.gと一致する(driver不変性の確認)"
+  },
+  "shard_accounting": {
+    "m_values": [
+      0,
+      2,
+      3,
+      5,
+      6,
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17
+    ],
+    "shadow_total_per_m": {
+      "0": 81,
+      "2": 81,
+      "3": 81,
+      "5": 81,
+      "6": 81,
+      "8": 81,
+      "9": 81,
+      "11": 81,
+      "12": 81,
+      "14": 81,
+      "15": 81,
+      "17": 81
+    },
+    "sum_of_12_shard_shadow_totals": 972,
+    "expected_972": true
+  },
+  "entries": [
+    {
+      "m": 0,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m0_20260801.json",
+        "sha256": "d3ad8f02abdd0ece418faaeff88ed85e6b07291397f11f3c4ea2008de484e93a",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m0/mine/out/ihnec-r4b-roof-20260801/m0/ihnec_r4b_m0_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m0_20260801.run.log",
+        "sha256": "8b052d06fd32c67bd525b06028dad4feb6931e507d44d0f2b83881b685ae7684",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m0/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 2,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m2_20260801.json",
+        "sha256": "e7478c2a8d2c5158312c9bfff55cbac8a425cd696497f5988586b33aad4415b8",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m2/mine/out/ihnec-r4b-roof-20260801/m2/ihnec_r4b_m2_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m2_20260801.run.log",
+        "sha256": "0f5d586b566ce3c62fed5b4052fc248ac682ff2db20c9aee10555bf20c79e1a8",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m2/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 3,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m3_20260801.json",
+        "sha256": "1ec460d5629e3a84af7f1cdb9f8607d9cf09eb524cbd194759ebe840708060aa",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m3/mine/out/ihnec-r4b-roof-20260801/m3/ihnec_r4b_m3_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m3_20260801.run.log",
+        "sha256": "093df5e8066772d7bdbde3b70e091d40fce55b5071bfb6cd1d3bef3bc3acad83",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m3/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 5,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m5_20260801.json",
+        "sha256": "e5a34988fee9d4556ce376ffb4f58646a4d002422ce2f94e303789c3c7bc6354",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m5/mine/out/ihnec-r4b-roof-20260801/m5/ihnec_r4b_m5_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m5_20260801.run.log",
+        "sha256": "07738ccec9da83437102779cc6d36d1078146d2b9d4af563ab0f03f1ebb90e60",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m5/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 6,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m6_20260801.json",
+        "sha256": "e15cde82c67486daa33e30a15733531a7ce6ccef0730e35a94a4df154de9b01c",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m6/mine/out/ihnec-r4b-roof-20260801/m6/ihnec_r4b_m6_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m6_20260801.run.log",
+        "sha256": "01652710b33e6ac0e7307e528633a1b37681c7d93f3f9a3c757411669d45f150",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m6/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 8,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m8_20260801.json",
+        "sha256": "d99fe51616195973c5f186a7731c6cf08071d14e335ff9b8df9d093bccbd9729",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m8/mine/out/ihnec-r4b-roof-20260801/m8/ihnec_r4b_m8_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m8_20260801.run.log",
+        "sha256": "14a69fe4471068263392be3ae47aafd568b7d8b61176fb536ed4115c631a9e15",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m8/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 9,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m9_20260801.json",
+        "sha256": "36152080ded878bdcab0eb8a1189495ccdf230db4cf085ce77e394473d44e3aa",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m9/mine/out/ihnec-r4b-roof-20260801/m9/ihnec_r4b_m9_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m9_20260801.run.log",
+        "sha256": "b2b0c88cf8add9bfaf63fba2d03a16beb1a41720b012662f7583917857df8b85",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m9/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 11,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m11_20260801.json",
+        "sha256": "aaf472050db438ac2548b05cbce08e1d2d81ef1b10fb91d5f3d1c422ec5b8b54",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m11/mine/out/ihnec-r4b-roof-20260801/m11/ihnec_r4b_m11_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m11_20260801.run.log",
+        "sha256": "61dc7b5e44ae97eff294839578ce28e3214e106a99862a32650bf0791994797b",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m11/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 12,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m12_20260801.json",
+        "sha256": "de23151fafb47b1ab2ddc9a440dc38283bea26a3a93ffcb4a574d167e16d8c40",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m12/mine/out/ihnec-r4b-roof-20260801/m12/ihnec_r4b_m12_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m12_20260801.run.log",
+        "sha256": "f99532a97ba1df518af591dd55b07936036e23d1e7290aba0d79fb0d0c15562c",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m12/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 14,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m14_20260801.json",
+        "sha256": "656c90b256234db1d75ddd1fa5411070e740042ea51695c0eca2c2195b4fd873",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m14/mine/out/ihnec-r4b-roof-20260801/m14/ihnec_r4b_m14_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m14_20260801.run.log",
+        "sha256": "3f04a60cb1aaf7c171affe8cb19bfc6410ad59dec92378019b5391b4f68344a1",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m14/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 15,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m15_20260801.json",
+        "sha256": "f97cd50ac155a59cfe0285c481445ab40bbf64723c591058851cbdd25972a9e8",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m15/mine/out/ihnec-r4b-roof-20260801/m15/ihnec_r4b_m15_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m15_20260801.run.log",
+        "sha256": "ddb9593426d58e4b6182801c54674cbc69b512fb14c70887fde067041674c628",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m15/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    },
+    {
+      "m": 17,
+      "cert": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m17_20260801.json",
+        "sha256": "8568a2680b6b6271cd68a7eae31b15ca019854263b08e0c80ec5b8ce8885dacf",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m17/mine/out/ihnec-r4b-roof-20260801/m17/ihnec_r4b_m17_20260801.json"
+      },
+      "run_log": {
+        "path": "search/certs/ihnec_r4b_shards/ihnec_r4b_m17_20260801.run.log",
+        "sha256": "bf39722f50ee17b691865ff4847e44f88849b389006aaf8a9edfc84acacf4645",
+        "byte_identical_to_scratchpad_origin": true,
+        "scratchpad_origin_path": "scratchpad/ihnec_r4b/mine-run-ihnec-r4b-roof-20260801-m17/ci/out/run.log"
+      },
+      "gap_version": "4.16.0",
+      "script_sha256": "5bf6bc551eb7309c0b83adc363c15985973d9cb04e2cde9e7e34fe45c5277aa2",
+      "shadow_total": 81
+    }
+  ],
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_4",
+    "perm_composition": "n/a(manifest自体は置換演算を行わない)",
+    "comparison_target": {
+      "as_function_of": "n/a(本manifestは12 shard certの永続複写と digest 突合であり、二実装照合ではない)",
+      "function_a": {
+        "name": "n/a",
+        "domain": "n/a",
+        "source_digest": "n/a"
+      },
+      "function_b": {
+        "name": "n/a",
+        "domain": "n/a",
+        "source_digest": "n/a"
+      },
+      "normalization_digest": "n/a"
+    },
+    "chi_P_criterion": {
+      "value": "exact",
+      "justification": "shadow_totalという厳密基数の12shard和のみを扱う",
+      "generator_fixed": "n/a",
+      "orientation_fixed": "n/a"
+    },
+    "separation": {
+      "included": false,
+      "competitor_universe": [],
+      "result": {
+        "result_digest": "n/a"
+      },
+      "forbidden_values": {
+        "handling": "n/a",
+        "list": []
+      },
+      "dummy_fixture": {
+        "id": "n/a",
+        "normalised_input": "n/a",
+        "normalised_output": "n/a",
+        "discriminating_power": {
+          "input_layer_novel": false,
+          "output_layer_novel": false
+        },
+        "expected": "n/a",
+        "observed": "n/a",
+        "verdict": "n/a"
+      }
+    },
+    "roundtrip_witness": {
+      "status": "n/a",
+      "reason": "往復ラベル変換を持たない"
+    },
+    "effective_source_chain": {
+      "status": "n/a",
+      "reason": "本manifestは新規の永続化(初回複写)であり、既存certを訂正・supersedeしない。scratchpad原本は削除しない(複写のみ)"
+    },
+    "effective_source": {
+      "status": "n/a",
+      "reason": "同上"
+    },
+    "seal_recoverability": {
+      "status": "n/a",
+      "reason": "封印fixtureを使用しない"
+    },
+    "level": "PB3"
+  },
+  "provenance": {
+    "python_version": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0"
+  }
+}

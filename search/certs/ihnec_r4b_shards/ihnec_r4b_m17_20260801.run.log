@@ -1,0 +1,42 @@
+week3-battery-common.g loaded.
+week3-psl-common.g loaded.
+=== 窓1: G9 = MakeGn(9) ===
+  |PB3/K9|=2916 (expect 2916)  K9_ord=18 (expect 18)  time_ms=1
+  charming_set(K9) = [ 0, 2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17 ]  (|.|=12, expect 12)
+
+=== 窓2: P = PSL(2,8) (S,T from GF(8) matrices, week3-psl-S4.g conventions) ===
+  |PB3/N_S4|=504 (expect 504)  N_S4_ord=9 (expect 9)  time_ms=1
+  charming_set(S4) = [ 0, 2, 3, 5, 6, 8 ]  (expect [0,2,3,5,6,8])
+
+=== 自己検査アンカー: ScanRoofHexagon(K9単体) ==
+  candidate_total=8748 h10_fail=7776 h11_fail=864 generation_fail=0 shadow_total=108 (expect 108)  time_ms=95
+
+=== 自己検査アンカー: ScanRoofHexagon(S4単体) ==
+  candidate_total=3024 h10_fail=2640 h11_fail=330 generation_fail=0 shadow_total=54 (expect 54)  time_ms=30
+
+=== P-IHN-1: 比較可能性(方法CMP手順3・両向き) ===
+  N_S4 subseteq K9 ? false (expect false/fail)
+  K9 subseteq N_S4 ? false (expect false/fail)
+  比較不能(両方 fail) ? true  (P-IHN-1 予言 = 比較不能)
+
+=== 屋根 M := K^(9) cap N_S4 の構成(27+9=36点の block-diagonal 埋め込み) ===
+  built XM,YM,GM  time_ms=0
+
+=== P-IHN-2/3: |PB3/M| と M_ord (機械測定) ===
+  |PB3/M| = 1469664 (expect 1469664 = 2916*504)  time_ms=0
+  M_ord = Lcm(ord XM, ord YM) = 18 (expect 18)  time_ms=0
+  charming_set(M) = [ 0, 2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17 ]  (|.|=12, expect 12)
+
+[shard] R4B_TARGET_MS = [ 17 ] (preamble 注入)
+
+=== R4b 主計算: ScanRoofHexagon(M, R4B_TARGET_MS) ===
+  target_ms=[ 17 ]
+  derived_order=367416 (expect 367416 = 729*504)
+  candidate_total=367416 h10_fail=362232 h11_fail=5103 generation_fail=0 shadow_total=81  time_ms=4059
+  引き算整合性チェック = true
+  このshardのm値がK9側に落とす像(mod 18) = [ 17 ]
+  このshardのm値がS4側に落とす像(mod 9)  = [ 8 ]
+
+Wrote search/certs/ihnec_r4b_m17_20260801.json
+
+IHNEC_R4B_DRIVER_DONE

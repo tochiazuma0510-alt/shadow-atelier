@@ -1,0 +1,56 @@
+{
+  "schema": "manifest-sol99-w99-2-1/v1",
+  "task_ref": "便99 W99-2.1 修文 queue(sol/sol_reply_99_math26.md・裁定412)機械部5件(①②④⑤⑥)の納品物一覧",
+  "generated_by": "implementer(実装係)・2026-08-02・手作成(sha256sumコマンドの直接出力を転記・機械値)",
+  "purpose": "search/certs/ihnec_r4a_assembly_20260802.json および search/certs/ihnec_r4b_conventions_v2_20260802.json の CV-10 effective_source_chain / superseded_by 欄内にある自己参照(自分自身のpath+sha256)は、ファイルが自分自身のsha256を内容に含むことができないという構造的制約(自己言及不能性)のため、その場では確定できない。本manifestはその自己参照digestを、生成後の独立sha256sum実行で確定し、外部に記録する。",
+  "self_reference_resolution": {
+    "search/certs/ihnec_r4a_assembly_20260802.json": {
+      "note": "このcertはeffective_source_chainをn/a-typedとして記載しており(自身はcross-checkedを主張しないため)、自己参照digestの問題自体は生じない。参考として本manifestに最終sha256を記録する。",
+      "final_sha256": "9a6d30928f9b3418c97648b021d9c38e9e8011f505cbc497a47803e6d3461c10"
+    },
+    "search/certs/ihnec_r4b_conventions_v2_20260802.json": {
+      "note": "このcertのconventions_used.effective_source_chain[1].superseded_by.sha256 および conventions_used.effective_source.sha256 は、ファイル自身に \"SEE_MANIFEST(...)\" という明示プレースホルダを書き、本manifestへ最終sha256を記録する形で解決する(自己言及不能性の開示済み逸脱)。",
+      "final_sha256": "3b2a95f26b19be4cf1d6b6544ce0b270a6ea39e07edb53ca8de2b660e867c4fa"
+    }
+  },
+  "deliverables": [
+    {
+      "item": "①54の述語分離",
+      "delivered_in": "search/certs/ihnec_r4a_assembly_20260802.json の s4_count_semantics ブロック",
+      "sha256": "9a6d30928f9b3418c97648b021d9c38e9e8011f505cbc497a47803e6d3461c10"
+    },
+    {
+      "item": "②R4a独立certの新設",
+      "path": "search/certs/ihnec_r4a_assembly_20260802.json",
+      "sha256": "9a6d30928f9b3418c97648b021d9c38e9e8011f505cbc497a47803e6d3461c10",
+      "generator": "search/probe/wac_v1/ihnec_r4a_assembly_cert_gen.py",
+      "generator_sha256": "8f670b4fb4549ad148785a4388c83df70ef729ae4829513af6f0ff246878eda2"
+    },
+    {
+      "item": "④R4b cert conventions_used正形化(v2 supplement)",
+      "path": "search/certs/ihnec_r4b_conventions_v2_20260802.json",
+      "sha256": "3b2a95f26b19be4cf1d6b6544ce0b270a6ea39e07edb53ca8de2b660e867c4fa",
+      "generator": "search/probe/wac_v1/ihnec_r4b_conventions_v2_gen.py",
+      "generator_sha256": "0bbf0dee68e4699fb3f1bdeffe596025b9079463d82a522b7b845f3ab2beba88",
+      "supersedes": {"path": "search/certs/ihnec_r4b_run_20260801.json", "sha256": "fdf5fd367cdd00e4aafde4d1ac4ef3708e6f3efd338f7b7945646879e0002fd2", "byte_unchanged": true}
+    },
+    {
+      "item": "⑤dummy/negative fixture",
+      "path": "search/certs/ihnec_r4b_negative_fixture_20260802.json",
+      "sha256": "5359589def635daf3cdf2b516885da732f58ae60856f9a3addb8a046ed544847",
+      "generator": "search/probe/wac_v1/ihnec_r4b_negative_fixture_20260802.g",
+      "generator_sha256": "fc64ab10879185c736805ded76f096f3d9df6597c11f2db5dcd535e02f283f16"
+    },
+    {
+      "item": "⑥shard certの永続束縛",
+      "path": "search/certs/ihnec_r4b_shards/",
+      "manifest_path": "search/certs/ihnec_r4b_shards/MANIFEST_ihnec_r4b_shards_20260802.json",
+      "manifest_sha256": "03a4fae5a20d3a1c9b7f5166b68f19d337e8ce0b4827fa614aa70bb70a60bb46",
+      "sha256sums_path": "search/certs/ihnec_r4b_shards/SHA256SUMS",
+      "sha256sums_sha256": "bc61f7b60061f0c565118fa869f2c0b78724e77e69811a7f0994388180809dc8",
+      "generator": "search/probe/wac_v1/ihnec_r4b_shards_manifest_gen.py",
+      "generator_sha256": "6d584ada5962c6734e233aba2b32351770379db45c0b85c300de98a1421dc82b"
+    }
+  ],
+  "known_deviation_disclosed": "CV-10(規約台帳v1.4 §2)は superseded_by.sha256 に後継artifact自身のsha256を書くことを要求するが、後継artifactが自分自身の内容のsha256を自分の内容に含むことは構造的に不可能(ハッシュのfixed-point問題)。本納品では、自己参照箇所には明示プレースホルダ文字列を書き、実際の最終sha256は本manifestへ記録する2段階方式を採った。これは規約台帳が明記していない状況への実務判断であり、司令塔裁定を仰ぐ余地を残す(疑問点として報告)。"
+}
