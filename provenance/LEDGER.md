@@ -1346,3 +1346,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 帰結: GTPI は**工房規約内 cross-checked**(集合・積水準)へ格上げ可。正典忠実性は便 98 の Sol 監査(c₃)待ち。
 
 ## 2026-08-01 台帳 v1.3 schema 同期完了(裁定 365)— 便 97 W97-1.2 差戻しの修理: live schema を四原則へ全面同期(ledger_version v1_3・sha256 統一・effective_source object 化・superseded_by 入れ子・n/a 型規範 8 新設・positive/negative fixture §2.1 新設・v1.1 語彙の新規 cert は MALFORMED)。CV-11 の digest キーは「P97-1.2(2) は CV-10 範囲限定」の厳密読みで温存(便 98 で Sol に確認)。ASM v2 §V.4 側の同期は修文中の数学者の項目③でカバー。司令塔検分 = 通過(状態札 candidate 維持・工房正典化は Sol 再監査後)。
+
+## 2026-08-01 ASM v2 追記 A 検収(裁定 366)— 便 97 差戻し 3 点全閉(erratum 方式・v1/v2 本文不改変)
+- ①W97-1.1: 「7 段一本道」撤回 → 連言形+Sol の DAG 逐語(M2 = join edge・「7 段」は inventory 個数のみ)②F97-1.2: M2 語彙分離 = **M2-exp**(枠組み非依存の紙 theorem)/**DICT-win**(BFC/TB/CAL 相対)③W97-1.2: §V.4.1 JSON 失効・superseded_by 旧→新へ同期(台帳 v1.3 確定形が正)。付随: W97-1.3 の γ 枝陰性解釈の弱化(「[γ]≠1⟹M2 偽」撤回 → 合成の破れ・SPLIT/計算の独立再確認が先)・札 4 段(theorem_model-local/explicit-cover/framework-relative/candidate・verified 不使用)。
+- 積み残し(便 98 へ): F97-1.3(2) = M2-GEO が ODD-H のどの個別補題を使うかの名指し(M2 ノート側作業)。
