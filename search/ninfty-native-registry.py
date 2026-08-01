@@ -147,7 +147,12 @@ On-disk layout (under a registry directory -- production default
                                         #  "artifacts": [{"artifact_id":,
                                         #    "whole_artifact_digest":}, ...],
                                         #  "generation_digest": <64hex>,
-                                        #  "issued_at": <iso8601>}
+                                        #  "issued_at": <iso8601>,
+                                        #  "governing_docs": {...}}
+                                        # `governing_docs` is REQUIRED iff
+                                        # schema_id is gen-receipt/v2 and
+                                        # FORBIDDEN iff v1 (see
+                                        # GEN_RECEIPT_SCHEMA_ID_V2);
                                         # written LAST by provisioning,
                                         # EXCLUDED from generation_digest's
                                         # own file set (blocker 8).
@@ -196,6 +201,34 @@ CURRENT_SCHEMA_ID = "mb/ninfty-ep-registry/current/v1"
 GEN_INDEX_SCHEMA_ID = "mb/ninfty-ep-registry/gen-index/v2"
 GEN_ENTRY_SCHEMA_ID = "mb/ninfty-ep-registry/gen-entry/v2"
 GEN_RECEIPT_SCHEMA_ID = "mb/ninfty-ep-registry/gen-receipt/v1"
+# 便95 修理バンドル item 1 の帰結 (司令塔裁定 2026-08-01 第 3 項): a v1 receipt
+# binds ONLY the generation's own artifacts -- nothing in it records WHICH
+# spec/contract/manifest era the generation was provisioned under, so a
+# receiver cannot machine-bind "this EP registry generation belongs to the
+# v19 docs trio". That is the same class of hole Sol keeps naming (receipt
+# not bound to the repo, W95-2.2). v2 adds ONE required block,
+# `governing_docs`, and changes nothing else.
+#
+#   "governing_docs": {
+#      "predicate_spec":      {"artifact_id": "mb/ninfty-stage2-predicate/vNN",
+#                              "path": "docs/....md", "sha256": <64hex>},
+#      "verifier_contract":   {...}, "dependency_manifest": {...}}
+#
+# FAIL-CLOSED, both directions:
+#   * a receipt declaring v2 WITHOUT a well-formed `governing_docs` block
+#     does not resolve at all (not "resolves without the binding");
+#   * a receipt declaring v1 WITH a `governing_docs` block does not
+#     resolve either (a v1 reader would silently ignore the block, so
+#     letting it through would create a second, unverified channel).
+# This module deliberately does NOT compare the recorded sha256 values
+# against any file on disk: a receiver may legitimately hold the registry
+# without holding the docs tree. The comparison against the receiver's OWN
+# copy of the three documents is done by the CONSUMER that needs it -- see
+# search/ninfty-evidence-union-r3nf.py, where R3-NF requires a v2 receipt
+# whose three digests match the receiver's freshly recomputed ones.
+GEN_RECEIPT_SCHEMA_ID_V2 = "mb/ninfty-ep-registry/gen-receipt/v2"
+GEN_RECEIPT_SCHEMA_IDS = (GEN_RECEIPT_SCHEMA_ID, GEN_RECEIPT_SCHEMA_ID_V2)
+GOVERNING_DOCS_KEYS = ("predicate_spec", "verifier_contract", "dependency_manifest")
 
 # The production store -- what a real receiver's resolve() call reads by
 # default. There is no write path in this file at all (provisioning-only
@@ -402,6 +435,51 @@ def generation_digest(generation_dir):
     return _digest({"files": file_entries})
 
 
+class _Sentinel(object):
+    def __init__(self, name):
+        self._name = name
+
+    def __repr__(self):
+        return self._name
+
+
+_ABSENT = _Sentinel("<absent>")
+_INVALID = _Sentinel("<invalid>")
+
+
+def _validate_governing_docs(receipt_schema_id, block):
+    """
+    便95 修理バンドル・司令塔裁定第 3 項: validates the `governing_docs`
+    block of a generation receipt against the receipt's OWN declared
+    schema version. Returns the validated block (v2), `None` (v1, block
+    correctly absent), or the `_INVALID` sentinel (caller must fail
+    closed). No file on disk is read here -- see GEN_RECEIPT_SCHEMA_ID_V2's
+    comment for why the digest-vs-file comparison lives in the consumer.
+    """
+    if receipt_schema_id == GEN_RECEIPT_SCHEMA_ID:
+        # v1: the field must not be present at all. A v1 reader ignores
+        # unknown fields, so tolerating it would create an unverified
+        # second channel carrying exactly the binding we care about.
+        return None if block is _ABSENT else _INVALID
+    if receipt_schema_id != GEN_RECEIPT_SCHEMA_ID_V2:
+        return _INVALID
+    if not isinstance(block, dict):
+        return _INVALID
+    if set(block.keys()) != set(GOVERNING_DOCS_KEYS):
+        return _INVALID
+    for key in GOVERNING_DOCS_KEYS:
+        item = block[key]
+        if not isinstance(item, dict):
+            return _INVALID
+        if set(item.keys()) != {"artifact_id", "path", "sha256"}:
+            return _INVALID
+        if not _is_nonempty_str(item["artifact_id"]) or not _is_nonempty_str(item["path"]):
+            return _INVALID
+        if not isinstance(item["sha256"], str) or not HEX64.match(item["sha256"]):
+            return _INVALID
+    return block
+
+
 def _load_and_verify_generation(registry_dir, generation_id):
     """
     The single choke point for reading a generation. Returns
@@ -520,7 +598,11 @@ def _load_and_verify_generation(registry_dir, generation_id):
     receipt = _read_json_file(os.path.join(gen_dir, _RECEIPT_FILENAME))
     if not isinstance(receipt, dict):
         return None
-    if receipt.get("schema_id") != GEN_RECEIPT_SCHEMA_ID:
+    receipt_schema_id = receipt.get("schema_id")
+    if receipt_schema_id not in GEN_RECEIPT_SCHEMA_IDS:
+        return None
+    governing_docs = _validate_governing_docs(receipt_schema_id, receipt.get("governing_docs", _ABSENT))
+    if governing_docs is _INVALID:
         return None
     if receipt.get("generation_id") != generation_id:
         return None
@@ -549,7 +631,8 @@ def _load_and_verify_generation(registry_dir, generation_id):
     if fresh_gen_digest is None or fresh_gen_digest != stated_gen_digest:
         return None
 
-    return {"freeze_id": gen_freeze_id, "artifacts": resolved_artifacts}
+    return {"freeze_id": gen_freeze_id, "artifacts": resolved_artifacts,
+            "receipt_schema_id": receipt_schema_id, "governing_docs": governing_docs}
 
 
 def index_exists(registry_dir=None):
@@ -654,7 +737,14 @@ def resolve_bundle(artifact_ids, registry_dir=None):
     if generation is None:
         return None
     artifacts = {aid: generation["artifacts"].get(aid) for aid in artifact_ids}
-    return {"generation_id": gen_id, "freeze_id": generation["freeze_id"], "artifacts": artifacts}
+    # 便95 修理バンドル: `receipt_schema_id`/`governing_docs` are passed
+    # through UNINTERPRETED (additive keys -- every pre-existing key above
+    # keeps its exact meaning). A consumer that needs the docs-era binding
+    # (R3-NF) gates on them; every consumer that does not simply ignores
+    # them, which is why no existing route's semantics change here.
+    return {"generation_id": gen_id, "freeze_id": generation["freeze_id"], "artifacts": artifacts,
+            "receipt_schema_id": generation.get("receipt_schema_id"),
+            "governing_docs": generation.get("governing_docs")}
 
 
 def resolve(artifact_id, registry_dir=None):

@@ -1,0 +1,6 @@
+{
+  "_description": "P95-2.2 item 1 point 4, NON-FIRING EDGE (司令塔裁定 2026-08-01 束縛条項(b): negative fixture は述語の両縁を張る). Byte-for-byte the SAME (a,p,f6) as search/fixtures/ninfty/neg_divisor_orientation_27.json, with the two attestation spellings ('orientation_declared_ok' for lane A, 'divisor_orientation_attested' for lane B) DELETED rather than set false. [27]'s predicate fires ONLY on an attested E-5 divisor-orientation value that explicitly contradicts the derived value (Prop E5-D); an OMITTED attestation is not an error -- the derived value is the authority and the candidate takes the ordinary route. Regression target: NEITHER lane reports [27] on this input, and both lanes mint an NF (status=PRESENT) whose N-1..N-5 agree -- i.e. the only difference from the firing fixture is the presence of the contradicting attestation, so a future edit that made [27] fire on attestation ABSENCE (an undefined-read-as-failure regression) is caught here, and a future edit that made it stop firing on a contradicting attestation is caught by the firing fixture.",
+  "a": ["-3", "-5", "5", "5", "-5", "1"],
+  "p": ["1", "-3", "1"],
+  "f6": ["-7", "-12", "0", "10", "0", "-4", "1"]
+}

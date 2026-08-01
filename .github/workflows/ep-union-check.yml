@@ -63,12 +63,13 @@ jobs:
           run_one test_ninfty_laneB python search/test_ninfty_laneB.py
           run_one test_ninfty_evidence_union python search/test_ninfty_evidence_union.py
           run_one test_ninfty_legacy_normalizer python search/test_ninfty_legacy_normalizer.py
+          run_one test_ninfty_r3nf python search/test_ninfty_r3nf.py
           run_one ninfty_selftest_lanea node search/ninfty-selftest-lanea.mjs
           echo "suites_status=$STATUS" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Run evidence-union CLI against real production registry (smoke fixture)
-        id: ep_smoke
+      - name: Registry smoke -- assert native_registry_status=PASS (fail-closed)
+        id: registry_smoke
         shell: bash
         run: |
           set +e
@@ -76,33 +77,168 @@ jobs:
           code=$?
           echo "ep_union_exit_code=$code" >> "$GITHUB_OUTPUT"
           cat ci/out/ep_union_result.json
-          exit 0
+          # This step is fail-closed on the REGISTRY-RESOLUTION layer only (not
+          # on the full W-6 witness routes -- see the "Full evidence-union"
+          # step below for those). native_registry_status must be PASS: that
+          # is the layer this smoke fixture is actually meant to exercise
+          # (real production registry artifacts, real freeze_id, real
+          # digests). A nonzero process exit code from ninfty-evidence-union.py
+          # is expected here (route1/route2 MALFORMED under this minimal
+          # certificate) and is NOT itself gated by this step.
+          python - "$code" <<'PY'
+          import json, sys
+          code = int(sys.argv[1])
+          with open("ci/out/ep_union_result.json", encoding="utf-8") as f:
+              result = json.load(f)
+          status = (
+              result.get("verification", {})
+                    .get("evidence_union_cli_full_run", {})
+                    .get("native_registry_status", {})
+                    .get("status")
+          ) or result.get("native_registry_status", {}).get("status")
+          print("registry_smoke: native_registry_status.status =", status, "(process exit code was", code, ")")
+          if status != "PASS":
+              print("::error::registry smoke FAILED -- native_registry_status.status != PASS", file=sys.stderr)
+              sys.exit(1)
+          PY
+          # FAIL-OPEN REPAIR (便95 修理バンドル・後任実装係): the previous
+          # draft wrote `echo "...=$?"` on the line directly after the
+          # heredoc. `echo` succeeds, so the STEP's exit status became the
+          # echo's 0 and the python assertion's `sys.exit(1)` could never
+          # fail the job -- literally the pattern W95-2.2 named ("exit
+          # code を receipt に書くだけで job 自体を成功させる workflow").
+          # The status is now captured FIRST, into a variable, and the step
+          # ends by re-raising it.
+          assert_rc=$?
+          echo "registry_smoke_assert_rc=$assert_rc" >> "$GITHUB_OUTPUT"
+          exit $assert_rc
+
+      - name: Full evidence-union (R1/R2/R3-NF) -- hard-assert R3-NF == PASS (fail-closed)
+        id: ep_full
+        shell: bash
+        run: |
+          set +e
+          FULL_FIXTURE="search/certs/ep_ci_full_witness_evidence_20260801.json"
+          python search/ninfty-evidence-union-full.py "$FULL_FIXTURE" > ci/out/ep_union_full_result.json
+          code=$?
+          echo "ep_union_full_exit_code=$code" >> "$GITHUB_OUTPUT"
+          cat ci/out/ep_union_full_result.json
+          # Fail-closed on the columns this repair actually delivers.
+          # R3-NF must be PASS and the four-role registry resolution
+          # (including the docs-era binding to the v19 trio) must be PASS.
+          # R1/R2 are recorded VERBATIM and are NOT asserted: under the
+          # frozen native artifacts they report MALFORMED because those
+          # artifacts carry divisor components, not a W-6 pushforward
+          # multiplicity map. Advancing them requires a lane-PRODUCER
+          # change, not a fixture edit, and none was invented here. The
+          # honest statuses are written to the receipt.
+          python - <<'PY'
+          import json, sys
+          with open("ci/out/ep_union_full_result.json", encoding="utf-8") as f:
+              report = json.load(f)
+          cols = {k: (v or {}).get("status") for k, v in (report.get("columns") or {}).items()}
+          four_role = ((report.get("four_role_registry_status") or {}).get("status"))
+          docs_ok = (((report.get("four_role_registry_status") or {})
+                      .get("docs_era_binding") or {}).get("ok"))
+          print("full union columns =", cols)
+          print("four_role_registry_status =", four_role, "docs_era_binding.ok =", docs_ok)
+          print("overall_full =", report.get("overall_full"),
+                "ep_status =", report.get("ep_status"))
+          bad = []
+          if cols.get("R3-NF") != "PASS":
+              bad.append(f"R3-NF status is {cols.get('R3-NF')!r}, expected PASS")
+          if four_role != "PASS":
+              bad.append(f"four_role_registry_status is {four_role!r}, expected PASS")
+          if docs_ok is not True:
+              bad.append("docs_era_binding.ok is not True -- the generation is not bound to the v19 docs trio")
+          if report.get("calibrated_detector") is not False or report.get("ep_status") != "uncalibrated/UNKNOWN":
+              bad.append("the report must keep calibrated_detector=false / ep_status=uncalibrated/UNKNOWN "
+                         "(P95-2.2 item 4: no full-path positive control exists)")
+          for problem in bad:
+              print(f"::error::full evidence-union gate FAILED -- {problem}", file=sys.stderr)
+          sys.exit(1 if bad else 0)
+          PY
+          assert_rc=$?
+          echo "ep_full_assert_rc=$assert_rc" >> "$GITHUB_OUTPUT"
+          exit $assert_rc
+
+      - name: Gate -- suite failure is job failure (fail-closed)
+        shell: bash
+        env:
+          SUITES_STATUS: ${{ steps.suites.outputs.suites_status }}
+        run: |
+          set -e
+          echo "suites_status=$SUITES_STATUS"
+          if [ "$SUITES_STATUS" != "0" ]; then
+            echo "::error::regression suite failure -- job failure (fail-closed gate)"
+            exit 1
+          fi
 
       - name: Assemble receipt
         shell: bash
         env:
           SUITES_STATUS: ${{ steps.suites.outputs.suites_status }}
-          EP_UNION_EXIT: ${{ steps.ep_smoke.outputs.ep_union_exit_code }}
+          REGISTRY_SMOKE_EXIT: ${{ steps.registry_smoke.outputs.ep_union_exit_code }}
+          REGISTRY_SMOKE_ASSERT_RC: ${{ steps.registry_smoke.outputs.registry_smoke_assert_rc }}
+          FULL_EXIT: ${{ steps.ep_full.outputs.ep_union_full_exit_code }}
+          FULL_ASSERT_RC: ${{ steps.ep_full.outputs.ep_full_assert_rc }}
         run: |
           set -euo pipefail
           python - <<'PY'
           import json, os, datetime
+          sha = os.environ.get("GITHUB_SHA")
+          # The three column statuses are READ BACK from the full union's own
+          # output file, never restated by hand here (機械生成のみ) -- if the
+          # file is unreadable that is recorded as such, not defaulted.
+          try:
+              with open("ci/out/ep_union_full_result.json", encoding="utf-8") as f:
+                  full = json.load(f)
+              columns = {k: (v or {}).get("status") for k, v in (full.get("columns") or {}).items()}
+              four_role = (full.get("four_role_registry_status") or {})
+              full_summary = {
+                  "columns": columns,
+                  "overall_full": full.get("overall_full"),
+                  "four_role_registry_status": four_role.get("status"),
+                  "docs_era_binding_ok": (four_role.get("docs_era_binding") or {}).get("ok"),
+                  "registry_generation_id": four_role.get("generation_id"),
+                  "registry_freeze_id": four_role.get("freeze_id"),
+                  "calibrated_detector": full.get("calibrated_detector"),
+                  "ep_status": full.get("ep_status"),
+              }
+          except Exception as exc:
+              full_summary = {"unreadable": f"{type(exc).__name__}: {exc}"}
           receipt = {
               "run_id": os.environ.get("GITHUB_RUN_ID"),
               "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
-              "sha": os.environ.get("GITHUB_SHA"),
+              "sha": sha,
               "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               "suites_status": os.environ.get("SUITES_STATUS"),
-              "ep_union_smoke_exit_code": os.environ.get("EP_UNION_EXIT"),
-              "note": ("suites_status=0 means all 6 ninfty regression suites (555+82=637 individual checks "
-                       "across test_ninfty_nf/checker_native/laneB/evidence_union/legacy_normalizer + "
-                       "ninfty-selftest-lanea.mjs) passed. ep_union_smoke_exit_code reflects "
-                       "search/ninfty-evidence-union.py's real exit code against the real production registry "
-                       "smoke fixture (search/certs/ep_ci_raw_evidence_20260801.json) -- see ci/out/"
-                       "ep_union_result.json for the full result; a nonzero code here is EXPECTED under the "
-                       "current minimal-certificate fixture (native_registry_status reaches PASS, the W-6 math "
-                       "routes report MALFORMED/INTEGRITY_STOP because the fixture certificate carries no "
-                       "witness structure -- see the fixture's own _note field)."),
+              "registry_smoke_process_exit_code": os.environ.get("REGISTRY_SMOKE_EXIT"),
+              "registry_smoke_assert_rc": os.environ.get("REGISTRY_SMOKE_ASSERT_RC"),
+              "full_evidence_union_exit_code": os.environ.get("FULL_EXIT"),
+              "full_evidence_union_assert_rc": os.environ.get("FULL_ASSERT_RC"),
+              "full_evidence_union_summary": full_summary,
+              "note": ("suites_status=0 means all 7 ninfty regression suites passed "
+                       "(test_ninfty_nf/checker_native/laneB/evidence_union/legacy_normalizer/r3nf + "
+                       "ninfty-selftest-lanea.mjs) -- and the 'Gate' step FAILS THE JOB if this is not '0' "
+                       "(fail-closed, Sol 便95 W95-2.2). The per-suite check counts are in "
+                       "ci/out/suites.log, which each suite prints itself; they are not restated here, "
+                       "because a hand-restated total is exactly the kind of claim a receipt must not "
+                       "carry. registry_smoke_process_exit_code is search/ninfty-evidence-union.py's real "
+                       "process exit code against the production registry smoke fixture "
+                       "(search/certs/ep_ci_raw_evidence_20260801.json) -- a nonzero value is EXPECTED "
+                       "there; the step's own assert (registry_smoke_assert_rc) is what gates, and it "
+                       "checks native_registry_status.status=='PASS' from the parsed JSON. "
+                       "full_evidence_union_* is the three-column union "
+                       "(search/ninfty-evidence-union-full.py) against "
+                       "search/certs/ep_ci_full_witness_evidence_20260801.json: R1/R2 are recorded "
+                       "verbatim and NOT asserted PASS (they report MALFORMED against the genuine "
+                       "cross-lane native pair, for the structural reason recorded in their detail); "
+                       "R3-NF, the four-role same-generation resolution and the docs-era binding ARE "
+                       "asserted. EP itself remains uncalibrated/UNKNOWN -- no positive control exists "
+                       "(P95-2.2 item 4). download+bind: `gh run download <run_id> -n "
+                       "ep-union-check-receipt` reproduces this exact receipt.json byte-for-byte; sha "
+                       "above is the checked-out commit this run executed against."),
           }
           with open("ci/out/receipt.json", "w", encoding="utf-8") as f:
               json.dump(receipt, f, indent=2, ensure_ascii=False, sort_keys=True)

@@ -47,6 +47,7 @@ tempfile, time, uuid, argparse, datetime).
 """
 from __future__ import annotations
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -90,6 +91,8 @@ CURRENT_SCHEMA_ID = _reg.CURRENT_SCHEMA_ID
 GEN_INDEX_SCHEMA_ID = _reg.GEN_INDEX_SCHEMA_ID
 GEN_ENTRY_SCHEMA_ID = _reg.GEN_ENTRY_SCHEMA_ID
 GEN_RECEIPT_SCHEMA_ID = _reg.GEN_RECEIPT_SCHEMA_ID
+GEN_RECEIPT_SCHEMA_ID_V2 = _reg.GEN_RECEIPT_SCHEMA_ID_V2
+GOVERNING_DOCS_KEYS = _reg.GOVERNING_DOCS_KEYS
 canonical_serialize = _reg.canonical_serialize
 _digest = _reg._digest
 resolve = _reg.resolve
@@ -211,8 +214,34 @@ def _default_generation_id(freeze_id):
     return f"{safe_freeze}-{stamp}-{token}"
 
 
+def governing_docs_from_paths(mapping, repo_root=None):
+    """
+    便95 修理バンドル: builds a receipt `governing_docs` block by READING
+    the three documents and hashing their exact bytes -- no digest is ever
+    typed by hand into a call site. `mapping` is
+    {"predicate_spec": (<artifact_id>, <repo-relative path>), ...} for
+    exactly the three GOVERNING_DOCS_KEYS. Raises FileNotFoundError if any
+    named document does not exist (fail-closed: a generation must not be
+    minted claiming a docs era whose files the provisioner cannot read).
+    """
+    if repo_root is None:
+        repo_root = os.path.dirname(HERE)
+    if not isinstance(mapping, dict) or set(mapping.keys()) != set(GOVERNING_DOCS_KEYS):
+        raise ValueError(
+            f"governing_docs_from_paths: mapping keys must be exactly {GOVERNING_DOCS_KEYS!r}, "
+            f"got {sorted(mapping.keys()) if isinstance(mapping, dict) else mapping!r}"
+        )
+    out = {}
+    for key, (artifact_id, rel_path) in mapping.items():
+        abs_path = os.path.join(repo_root, rel_path)
+        with open(abs_path, "rb") as f:
+            digest = hashlib.sha256(f.read()).hexdigest()
+        out[key] = {"artifact_id": artifact_id, "path": rel_path.replace("\\", "/"), "sha256": digest}
+    return out
+
+
 def commit_generation(artifacts, freeze_id, *, registry_dir, generation_id=None,
-                       publish=True):
+                       publish=True, governing_docs=None):
     """
     PROVISIONING helper -- NOT part of the untrusted trust boundary and
     NEVER called while processing a caller-supplied `raw` evidence
@@ -291,6 +320,18 @@ def commit_generation(artifacts, freeze_id, *, registry_dir, generation_id=None,
         )
     if not isinstance(artifacts, list) or not artifacts:
         raise ValueError("commit_generation: artifacts must be a non-empty list")
+    if governing_docs is not None:
+        # Validated BEFORE any file is written, with the RESOLVER's own
+        # validator -- so provisioning cannot mint a generation whose
+        # receipt the resolver would then refuse (便95 修理バンドル・
+        # 司令塔裁定第 3 項).
+        if _reg._validate_governing_docs(GEN_RECEIPT_SCHEMA_ID_V2, governing_docs) is _reg._INVALID:
+            raise ValueError(
+                "commit_generation: governing_docs must be "
+                f"{{{', '.join(repr(k) for k in GOVERNING_DOCS_KEYS)}}}, each "
+                "{'artifact_id': <non-empty str>, 'path': <non-empty str>, 'sha256': <64hex>}; "
+                f"got {governing_docs!r}"
+            )
 
     seen_ids = set()
     normalized = []
@@ -379,13 +420,15 @@ def commit_generation(artifacts, freeze_id, *, registry_dir, generation_id=None,
         )
     receipt_artifacts.sort(key=lambda e: e["artifact_id"])
     receipt = {
-        "schema_id": GEN_RECEIPT_SCHEMA_ID,
+        "schema_id": GEN_RECEIPT_SCHEMA_ID if governing_docs is None else GEN_RECEIPT_SCHEMA_ID_V2,
         "generation_id": generation_id,
         "freeze_id": freeze_id,
         "artifacts": receipt_artifacts,
         "generation_digest": gen_digest,
         "issued_at": datetime.now(timezone.utc).isoformat(),
     }
+    if governing_docs is not None:
+        receipt["governing_docs"] = governing_docs
     _atomic_write_bytes(os.path.join(gen_dir, "receipt.json"), canonical_serialize(receipt).encode("utf-8"))
 
     # Self-check (P91-4): re-derive this generation the SAME way a real
@@ -393,6 +436,13 @@ def commit_generation(artifacts, freeze_id, *, registry_dir, generation_id=None,
     # succeed and must exactly reproduce what we intended to write, or we
     # refuse to publish at all.
     verified = _load_and_verify_generation(resolved_dir, generation_id)
+    if (verified is not None
+            and (verified.get("governing_docs") != governing_docs
+                 or verified.get("receipt_schema_id") != receipt["schema_id"])):
+        raise RuntimeError(
+            f"commit_generation: internal error -- self-check of freshly written generation {generation_id!r} "
+            "read back a different receipt schema_id / governing_docs block than was written; NOT publishing."
+        )
     if verified is None or verified["freeze_id"] != freeze_id or set(verified["artifacts"]) != seen_ids:
         raise RuntimeError(
             f"commit_generation: internal error -- self-check of freshly written generation {generation_id!r} "

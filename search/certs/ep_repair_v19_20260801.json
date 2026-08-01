@@ -1,0 +1,225 @@
+{
+  "calibrated_detector": false,
+  "cert_id": "search/certs/ep_repair_v19_20260801.json",
+  "cross_checked_not_verified": true,
+  "does_not_claim": [
+    "EP 再発効 (re-activation)",
+    "calibrated detector",
+    "union 実 PASS (the full union's overall status is reported verbatim below and is NOT PASS)",
+    "operational sentinel unlocked"
+  ],
+  "ep_status": "uncalibrated/UNKNOWN",
+  "file_sha256": {
+    ".github/workflows/ep-union-check.yml": "200cf37a53daf4d910826f016885b6411a63e9f25b19d4397a3758a8a8a3c59a",
+    "docs/mb_dependency_manifest_v14.md": "11906d5a6978514545c90592d56f9fc2373d3bb7b7ca6456933e1a26ba58d942",
+    "docs/mb_ninfty_verifier_contract_v14.md": "909ffc9403e06b9068e44b819dbad3002910aafa7f4d384580152e73e638bde8",
+    "docs/week4-NInfty_stage2_spec_v19.md": "33a0e09ab6ace7b5b6e89a25c740fcec30da91ccdd81d447287c58131171c274",
+    "search/bundle-selfaudit-v9.py": "3743f21a399d122a43b48c6b7e6a7d8a1dce86a7d6c7122ef2e763263a59f170",
+    "search/certs/build_full_witness_evidence.py": "1ec9043f67c23cec6849390c026a104b42b12018016c3a8768fe1d3567992ace",
+    "search/certs/ep_ci_full_witness_evidence_20260801.json": "8433fff89aaf45b96e88c78e2b3a0f03da263bd1f5088507c76529869582e539",
+    "search/fixtures/ninfty/neg_divisor_orientation_27.json": "ad79dd3e5119711fe574ac32b7ee6bc5030ca49135422df529477e336a2cb2c6",
+    "search/fixtures/ninfty/neg_divisor_orientation_27_no_attestation.json": "a14e3bfafaa01667828b49aac497d6f2da7bfc75b5742e747154d067651e221a",
+    "search/ninfty-checker.py": "8361071ea067cb001c88f3e4cefacfe9e18f0bfde5c7cf1f86c473f2379d8a67",
+    "search/ninfty-ep-genuine-provisioning.py": "2c9df5abb24508dff7d45f54070fd851625c7d53f673169aa55db5beaa419dd9",
+    "search/ninfty-evidence-union-full.py": "05aab9b647193ed24149ac16db60eeed6a98deeff444a757df7584a260e65504",
+    "search/ninfty-native-registry-provisioning.py": "a2100eb4d822e318fccda646a9d3f0517a5d9fd24fef6155a1b70393946c2211",
+    "search/ninfty-native-registry.py": "fcf9e7d98d43cfd8d8cecdb56a6b569028dd003a8c738e8f1156453f51b3ba9c",
+    "search/ninfty-searcher-v2.mjs": "c0524aa83ba11df83de90bd1a44f671daa84fa19e333a048a752546a4f7977bc",
+    "search/ninfty-verifier-w6-r3nf.py": "d22021496d48d6ff602a98653cb7e33f25beaba08953b5988fb269f109c4d27f",
+    "search/repin_v19_bundle.py": "6c6e21449c5a66daa842cdf3e17e626a675c49ad8f99cdbecd44dc43061f0ed1",
+    "search/test_ninfty_evidence_union.py": "5a9fa620258ee954ccfb6ba6cc62c67cdd28de5b8f362781b8e46d5c9258f2e4",
+    "search/test_ninfty_nf.py": "77ca7192e8165306137dcfb5ebd2ef81d5e00da9c9aff0aa228bbdb8c0c71a51",
+    "search/test_ninfty_r3nf.py": "a4ce8f0d09ebf404553ae383c1cdbfbc8ad45c6053845c8599dec0514c661ee0"
+  },
+  "freeze": {
+    "artifacts": "3 genuine fixtures x 4 roles (native_a, native_b, nf_a, nf_b) = 12, one generation",
+    "governing_docs_pinned_in_the_receipt": {
+      "dependency_manifest": {
+        "artifact_id_agrees": true,
+        "digest_agrees": true,
+        "pinned_artifact_id": "mb/dependency-manifest/v14",
+        "receiver_artifact_id": "mb/dependency-manifest/v14",
+        "receiver_path": "docs/mb_dependency_manifest_v14.md"
+      },
+      "predicate_spec": {
+        "artifact_id_agrees": true,
+        "digest_agrees": true,
+        "pinned_artifact_id": "mb/ninfty-stage2-predicate/v19",
+        "receiver_artifact_id": "mb/ninfty-stage2-predicate/v19",
+        "receiver_path": "docs/week4-NInfty_stage2_spec_v19.md"
+      },
+      "verifier_contract": {
+        "artifact_id_agrees": true,
+        "digest_agrees": true,
+        "pinned_artifact_id": "mb/ninfty-verifier-contract/v14",
+        "receiver_artifact_id": "mb/ninfty-verifier-contract/v14",
+        "receiver_path": "docs/mb_ninfty_verifier_contract_v14.md"
+      }
+    },
+    "new_freeze_id": "ep-genuine-20260801b",
+    "new_generation_id": "ep-genuine-20260801b-20260801T062657Z-d4e9fa214d69",
+    "receipt_schema_id": "mb/ninfty-ep-registry/gen-receipt/v2",
+    "supersede_not_overwrite": "the previous generation directory is left in place on disk; only CURRENT.json was atomically re-pointed",
+    "supersedes_freeze_id": "ep-genuine-20260801",
+    "why_a_re_freeze_was_required": "a gen-receipt/v1 records only the generation's own artifacts -- nothing in it says WHICH spec/contract/manifest era the generation was provisioned under. Bumping the docs trio to v19/v14/v14 therefore left the ep-genuine-20260801 generation unbindable to its own governing documents. gen-receipt/v2 adds a required governing_docs block pinning all three digests; R3-NF refuses a v1 receipt (an absent binding is not a satisfied binding)."
+  },
+  "frozen_boundary": {
+    "files_asserted_byte_identical_to_HEAD": {
+      "docs/mb_dependency_manifest_v13.md": {
+        "byte_identical_to_HEAD": true,
+        "sha256": "df59b25f75e8e48a4607ed39177e5aa15be5a3fd4c738391aec347d8f7c1cb3e"
+      },
+      "docs/mb_ninfty_verifier_contract_v13.md": {
+        "byte_identical_to_HEAD": true,
+        "sha256": "e41d51dbdbdcf66efaff2ccd073bbfba9bff12bbfff435ca290a4248abcf5022"
+      },
+      "docs/week4-NInfty_stage2_spec_v18.md": {
+        "byte_identical_to_HEAD": true,
+        "sha256": "e2c9c701477968b9d08b60ffc22f828b917074361f6cc3b71e8eff7ee37c0f56"
+      },
+      "search/bundle-selfaudit-v8.py": {
+        "byte_identical_to_HEAD": true,
+        "sha256": "8795893769bacc69f50eaecff3da22f0712eb97d459a4642d1d1c370e8070b4d"
+      },
+      "search/ninfty-evidence-union.py": {
+        "byte_identical_to_HEAD": true,
+        "sha256": "fc110a421fccd5e7bfcf78b35a6a230840335dd73be5aae4019562aaabe0ee88"
+      },
+      "search/ninfty-verifier-b.py": {
+        "byte_identical_to_HEAD": true,
+        "sha256": "3c143baab56571dcd08d316d9e479d8c4bf4e3ec92309f9bd450713b6f5f6be7"
+      },
+      "search/ninfty-verifier-w6-r2.py": {
+        "byte_identical_to_HEAD": true,
+        "sha256": "12e261af8abec3a8f186f5681cdbf5f3b11c714d4f7dd715515b5a025777ce91"
+      }
+    },
+    "lane_files_touched_comment_only": {
+      "search/ninfty-checker.py": "F95-2.3 terminology comment block only (no executable line changed)",
+      "search/ninfty-searcher-v2.mjs": "F95-2.3 terminology comment block only (no executable line changed)"
+    },
+    "registry_modules_extended_additively": {
+      "search/ninfty-ep-genuine-provisioning.py": "--governing-docs flag; each document's artifact_id is READ from the document's own structural id declaration and its digest recomputed from the file bytes.",
+      "search/ninfty-native-registry-provisioning.py": "commit_generation gained an optional governing_docs argument, validated with the RESOLVER's own validator before any file is written, plus a read-back self-check.",
+      "search/ninfty-native-registry.py": "gen-receipt/v2 accepted alongside v1; governing_docs validated fail-closed in BOTH directions (a v2 without the block, and a v1 with it, both refuse to resolve); receipt_schema_id/governing_docs passed through resolve_bundle uninterpreted. No existing key changed meaning."
+    }
+  },
+  "full_union_machine_result": {
+    "R1_detail": {
+      "schema_errors": [
+        "searcher.map_ref[0] malformed (need branch_value, multiplicity)"
+      ]
+    },
+    "R3_NF_reason": "R3-NF: all 11 checks passed",
+    "calibrated_detector": false,
+    "cli": "search/ninfty-evidence-union-full.py",
+    "cli_exit_code": 1,
+    "columns": {
+      "R1": "MALFORMED",
+      "R2": "MALFORMED",
+      "R3-NF": "PASS"
+    },
+    "docs_era_binding_ok": true,
+    "fixture": "search/certs/ep_ci_full_witness_evidence_20260801.json",
+    "four_role_registry_status": "PASS",
+    "overall_full": "INTEGRITY_STOP"
+  },
+  "generated_at": "2026-08-01T06:35:18.270826+00:00",
+  "generated_by": "search/certs/build_ep_repair_cert.py",
+  "governing_docs": [
+    "sol/sol_reply_95_math22.md §2 (P95-2.1 / F95-2.1 / W95-2.1-2.3 / F95-2.2-2.4 / P95-2.2)"
+  ],
+  "item_status": {
+    "1_versioned_freeze_[27]": "DONE (spec v19 / contract v14 / manifest v14 + selfaudit v9 + 両縁 negative fixtures)",
+    "2_ci_fail_closed": "DONE (fail-open in the previous draft's registry-smoke assert repaired -- see note)",
+    "3_R3_NF_new_route": "DONE (new route + new suite; F95-2.2 の承認形どおり)",
+    "4_full_witness_bearing_certificate": "PARTIAL -- fixture built from the genuine fixtures and wired; four-role registry + docs-era binding + R3-NF reach PASS; R1/R2 reach MALFORMED for a STRUCTURAL reason that cannot be fixed by a fixture (see r1_r2_blocker below). 司令塔検問案件。",
+    "5_terminology_diagnostic_vs_minted": "DONE (audit + explicit terminology in the new modules and lane files)",
+    "6_positive_control": "NOT IMPLEMENTED, as instructed (諮問継続) -- EP stays uncalibrated/UNKNOWN"
+  },
+  "negative_fixtures_both_edges": {
+    "firing": "search/fixtures/ninfty/neg_divisor_orientation_27.json -- attested orientation CONTRADICTS the derived value: both lanes INTEGRITY_STOP / [27], neither mints.",
+    "non_firing": "search/fixtures/ninfty/neg_divisor_orientation_27_no_attestation.json -- the SAME (a,p,f6) with the attestation keys deleted: both lanes MINT (PRESENT), N-1..N-5 all pass, and the [27] reason string appears nowhere in either report.",
+    "why_both": "an omitted attestation is not an error (the derived value is the authority). Only the pair pins the predicate: the firing fixture alone would not catch a regression that made [27] fire on ABSENCE, and the non-firing fixture alone would not catch one that stopped it firing on contradiction."
+  },
+  "open_items_P95_2_2": {
+    "1_new_exact_freeze_bundle_and_receipt": "CLOSED for the registry side (freeze above). The DOCS trio is DRAFT/candidate -- Sol audit + 司令塔 freeze receipt not yet sought.",
+    "2_ci_fail_closed_receipt": "CLOSED in the workflow file; NOT YET EXERCISED -- workflow_dispatch firing is the 司令塔's action, so no run SHA/receipt is bound yet.",
+    "3_full_witness_union": "PARTIAL -- see full_union_machine_result and r1_r2_blocker.",
+    "4_positive_control": "OPEN (not implemented by instruction). EP stays uncalibrated/UNKNOWN.",
+    "5_quarantine_and_four_role_invariant": "MAINTAINED -- _quarantine_synthetic/ untouched; the four-role same-generation invariant is now machine-asserted by the full union itself, not only by provisioning."
+  },
+  "r1_r2_blocker": {
+    "consequence": "the two lanes' native artifacts do not speak a common language at the W-6 layer. NF is precisely the common language introduced for this, and R3-NF -- which PASSES here on the genuine same-generation nf_a/nf_b pair -- is the real cross-lane agreement.",
+    "finding": "R1/R2 CANNOT reach PASS against the genuine cross-lane native pair, and no fixture edit can change that. W-6 compares a {branch_value: multiplicity} map extracted from each lane's registry-pinned native artifact. Lane B's native carries exactly that (/branch_divisor_on_P1). Lane A's native represents the branch divisor by IDEAL GENERATORS per locus and contains no such array anywhere, so the searcher-side json_pointer either fails to resolve or resolves to component objects that carry no branch_value -- MALFORMED, as reported above. Lane A's own certificate generator sidesteps this by DERIVING a map (locus_type as the branch_value) and shipping it as an inline-only ref, which the registry gate correctly refuses (LEGACY_UNVERIFIED_REF: an inline ref never dereferences into the pinned artifact and so cannot certify native provenance).",
+    "what_would_be_required": "either (a) lane A's native producer emits a pushforward map in the W-6 comparison shape, or (b) lane B's native producer emits a locus-typed map, or (c) W-6 is declared a same-lane historical route and cross-lane agreement is carried by R3-NF alone. ALL THREE are semantic changes to a lane or to a route's meaning, i.e. OUTSIDE this係's authority: 司令塔の検問 + Sol のゲート案件。Nothing was invented here to make a column green."
+  },
+  "regression": {
+    "all_exit_zero": true,
+    "note": "7 suites (was 6 -- test_ninfty_r3nf.py is new). The per-suite counts above are parsed from each suite's own printed summary line, not restated by hand.",
+    "suites": {
+      "ninfty-selftest-lanea.mjs": {
+        "checks": 93,
+        "command": "node C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\ninfty-selftest-lanea.mjs",
+        "exit_code": 0,
+        "summary_line": "=== summary: 93/93 passed ==="
+      },
+      "test_ninfty_checker_native": {
+        "checks": 50,
+        "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\test_ninfty_checker_native.py",
+        "exit_code": 0,
+        "summary_line": "50/50 checks passed."
+      },
+      "test_ninfty_evidence_union": {
+        "checks": 228,
+        "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\test_ninfty_evidence_union.py",
+        "exit_code": 0,
+        "summary_line": "228/228 checks passed."
+      },
+      "test_ninfty_laneB": {
+        "checks": 184,
+        "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\test_ninfty_laneB.py",
+        "exit_code": 0,
+        "summary_line": "184/184 checks passed."
+      },
+      "test_ninfty_legacy_normalizer": {
+        "checks": 51,
+        "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\test_ninfty_legacy_normalizer.py",
+        "exit_code": 0,
+        "summary_line": "51/51 checks passed."
+      },
+      "test_ninfty_nf": {
+        "checks": 44,
+        "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\test_ninfty_nf.py",
+        "exit_code": 0,
+        "summary_line": "44 checks, 0 FAIL"
+      },
+      "test_ninfty_r3nf": {
+        "checks": 55,
+        "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\test_ninfty_r3nf.py",
+        "exit_code": 0,
+        "summary_line": "55 checks, 0 FAIL"
+      }
+    },
+    "suites_without_a_parsed_summary_line": [],
+    "total_checks": 705
+  },
+  "role": "Sol 便95 (sol_reply_95_math22.md §2) EP 再発効修理バンドル -- EP 専任係 (ep-keeper) による 引き継ぎ完遂記録。値はすべてこの script の実行出力(手写しなし)。",
+  "selfaudit": {
+    "v8_against_frozen_v18_v13_v13": {
+      "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\bundle-selfaudit-v8.py",
+      "exit_code": 0,
+      "summary_line": null
+    },
+    "v9_mutation_fixtures": {
+      "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\bundle-selfaudit-v9.py --mutate",
+      "exit_code": 0,
+      "summary_line": null
+    },
+    "v9_static_against_v19_v14_v14": {
+      "command": "python.exe C:\\Users\\81905\\Desktop\\shadow-atelier\\search\\bundle-selfaudit-v9.py",
+      "exit_code": 0,
+      "summary_line": null
+    }
+  }
+}

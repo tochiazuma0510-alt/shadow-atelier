@@ -104,6 +104,16 @@ import sys
 import argparse
 import importlib.util
 
+# TERMINOLOGY (Sol 便95 F95-2.3 -- 用語分離). `construct_native_from_scratch`
+# produces a DIAGNOSTIC CONSTRUCTION: a native object built for inspection,
+# freely constructible at any time, including BEFORE any gate, and NOT
+# publishable. A MINTED/PUBLISHED ARTIFACT is something else entirely -- a
+# native or NF object that passed the NF mint gate (both lanes PRESENT with
+# agreeing digests) and was committed to the EP registry by
+# search/ninfty-ep-genuine-provisioning.py. The broad claim "no native object
+# is ever constructed before the gate" is FALSE and must not be made; the
+# gate governs PUBLICATION, not construction.
+
 # --------------------------------------------------------------------------
 # Lazy loader for search/ninfty-checker-native.py [20260801].  Loaded by
 # file path (not `import`, since the filename has hyphens) and only when

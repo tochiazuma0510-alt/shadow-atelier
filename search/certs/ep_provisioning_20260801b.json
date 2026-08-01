@@ -1,0 +1,127 @@
+{
+  "artifact_count": 12,
+  "artifacts": {
+    "ep-genuine-checker_pos_01-native-a": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "native_a",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "f7bd6ed774fcf123201ea5158e5d60a5d9f9bd2214fa2c237f86f44f3d75f9ae"
+    },
+    "ep-genuine-checker_pos_01-native-b": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "native_b",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "8b09f99fc3c50a17984a75a1d3094c183d1a8e632b9f595fe9ad29b4dcd611ee"
+    },
+    "ep-genuine-checker_pos_01-nf-a": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "nf_a",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "86cf914141725e0d29a3043534efcf6f4e107552f61cc5f104865fbb645f91a0"
+    },
+    "ep-genuine-checker_pos_01-nf-b": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "nf_b",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "588e286e54b4dad7a8f5bd7ef21772b7b2d4341ce823ecf4787da27e41c76532"
+    },
+    "ep-genuine-checker_pos_02-native-a": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "native_a",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "e0e6a7d1c268ed3bd951519946a2a87e108b20acf2e534286c95bd19f73aad01"
+    },
+    "ep-genuine-checker_pos_02-native-b": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "native_b",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "e67035c76bc6682a40c1fd06e936d873ad9648c5d51a5dec3afddbb9dfda7f83"
+    },
+    "ep-genuine-checker_pos_02-nf-a": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "nf_a",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "227350797705980242e800f202d3f3c50be05f30a5f99af5d74fe0ff4e8ceb4e"
+    },
+    "ep-genuine-checker_pos_02-nf-b": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "nf_b",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "ac765b32bd12dca2766fc39000d055fe0f5a0a8ba849e9a48e03c72b16d3c15f"
+    },
+    "ep-genuine-checker_pos_03-native-a": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "native_a",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "3189623fa95564b711d63fc552694af1f495d3dd366ee57d81259ec608f54437"
+    },
+    "ep-genuine-checker_pos_03-native-b": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "native_b",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "14e57e35db188921de41bf1f35a5b3832e655476aef2dbdf0ed8005492b44224"
+    },
+    "ep-genuine-checker_pos_03-nf-a": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "nf_a",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "50e93b9195a4883af4ec002adb7599433c6f67cedc462b492723935294bde2ae"
+    },
+    "ep-genuine-checker_pos_03-nf-b": {
+      "freeze_id": "ep-genuine-20260801b",
+      "role": "nf_b",
+      "status": "ACTIVE",
+      "version_id": "v1",
+      "whole_artifact_digest": "440661b092d1a99af82524c9c369fc0ff5b4b8ba0ab0d195c49cc1ca94d7f6b4"
+    }
+  },
+  "cert_id": "search/certs/ep_provisioning_20260801b.json",
+  "current": {
+    "generation_id": "ep-genuine-20260801b-20260801T062657Z-d4e9fa214d69",
+    "schema_id": "mb/ninfty-ep-registry/current/v1",
+    "updated_at": "2026-08-01T06:26:57.784929+00:00"
+  },
+  "freeze_id": "ep-genuine-20260801b",
+  "generated_at": "2026-08-01T06:33:33.661746+00:00",
+  "generated_by": "read back from the live registry on disk (CURRENT.json -> generation index + receipt); this file DESCRIBES the published generation, it does not provision one",
+  "generation_digest": "d772b836b9411e4e6b41c3ae3fe8bd70fc38ac1755ae0f75d5c14d0084403468",
+  "generation_id": "ep-genuine-20260801b-20260801T062657Z-d4e9fa214d69",
+  "governing_docs": {
+    "dependency_manifest": {
+      "artifact_id": "mb/dependency-manifest/v14",
+      "path": "docs/mb_dependency_manifest_v14.md",
+      "sha256": "11906d5a6978514545c90592d56f9fc2373d3bb7b7ca6456933e1a26ba58d942"
+    },
+    "predicate_spec": {
+      "artifact_id": "mb/ninfty-stage2-predicate/v19",
+      "path": "docs/week4-NInfty_stage2_spec_v19.md",
+      "sha256": "33a0e09ab6ace7b5b6e89a25c740fcec30da91ccdd81d447287c58131171c274"
+    },
+    "verifier_contract": {
+      "artifact_id": "mb/ninfty-verifier-contract/v14",
+      "path": "docs/mb_ninfty_verifier_contract_v14.md",
+      "sha256": "909ffc9403e06b9068e44b819dbad3002910aafa7f4d384580152e73e638bde8"
+    }
+  },
+  "issued_at": "2026-08-01T06:26:57.720102+00:00",
+  "note": "re-freeze under Sol 便95 P95-2.2 item 1. Content of all 12 artifacts is byte-identical to the ep-genuine-20260801 generation (same 3 genuine fixtures, same producers); what changed is the RECEIPT: gen-receipt/v2 pins the governing spec/contract/manifest digests, which a v1 receipt could not express. NOTE FOR 司令塔: two generations now carry the freeze_id 'ep-genuine-20260801b' (an earlier 062303Z one, superseded and unreferenced, plus this CURRENT one) because provisioning was run twice during this session's concurrent editing. Nothing resolves against the superseded directory -- resolve_bundle reads CURRENT exactly once -- but whether to prune it is a provisioning decision, deliberately not taken here.",
+  "receipt_schema_id": "mb/ninfty-ep-registry/gen-receipt/v2",
+  "roles_present": [
+    "native_a",
+    "native_b",
+    "nf_a",
+    "nf_b"
+  ],
+  "supersedes_freeze_id": "ep-genuine-20260801"
+}

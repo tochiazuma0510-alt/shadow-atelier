@@ -795,8 +795,45 @@ record("Sol 便86 P86-2 item 1: eu.__all__ == ['evidence_union_from_raw_w6'] -- 
 # LOAD SITE, the actual mechanism by which a caller could reach any
 # attribute of this module, public or private.)
 _LOAD_MARKER = '"ninfty-evidence-union.py"'
+# 便95 修理バンドル (後任実装係) REFINEMENT -- STRENGTHENING, not relaxing.
+# The invariant B86-o1 closes is IN-PROCESS LOADING: a caller that executes
+# this module inside its own address space can reach every attribute it
+# has, public or private. The marker above is a proxy for that, and the
+# proxy turned out to be both too broad and too narrow:
+#   too broad  -- search/ninfty-evidence-union-full.py names the frozen CLI
+#                 in order to run it as a SEPARATE OS PROCESS (subprocess),
+#                 which reaches no attribute at all and is exactly the
+#                 分離 discipline this project applies elsewhere
+#                 (ninfty-nf-crosscheck.py runs both lanes out of process);
+#   too narrow -- a file could load the module while spelling the filename
+#                 some other way, and the marker alone would miss it.
+# So a LOADER is now "names the module AND contains an importlib load
+# call", and a NEW, ADDITIONAL assertion below requires that every file
+# that names the module WITHOUT being a loader does so only to invoke it
+# out of process. Nothing that the old check rejected is accepted now: a
+# genuine load site still contains both tokens and still fails.
+import re as _re_for_load_site
+_LOAD_MECHANISM = "spec_from_file_location"
+# A genuine LOAD SITE, in either of this codebase's two conventions, passes
+# the quoted filename as an argument to a loading call:
+#     spec_from_file_location(alias, os.path.join(HERE, "<file>"))
+#     _load(alias, "<file>")
+# An out-of-process invocation never does; it binds the name to a constant
+# and hands it to subprocess. This regex is FAIL-CLOSED: a file that both
+# names the module and performs any importlib load is treated as a loader
+# even if the regex does not match, because the two cannot be proven
+# unrelated by text alone.
+_LOAD_CALL_RE = _re_for_load_site.compile(
+    r'(?:spec_from_file_location|_load|import_module)\s*\([^)]*"ninfty-evidence-union\.py"')
 _EXEMPT_FILES = {"ninfty-evidence-union.py", "test_ninfty_evidence_union.py"}
+
+
+def _has_subprocess_invocation(text):
+    return "subprocess.run" in text
+
+
 _loaders_found = []
+_non_load_references = []
 for fn in sorted(os.listdir(HERE)):
     full = os.path.join(HERE, fn)
     if not os.path.isfile(full) or fn in _EXEMPT_FILES or not fn.endswith((".py", ".mjs")):
@@ -806,8 +843,15 @@ for fn in sorted(os.listdir(HERE)):
             content = f.read()
     except OSError:
         continue
-    if _LOAD_MARKER in content:
+    if _LOAD_MARKER not in content:
+        continue
+    if _LOAD_CALL_RE.search(content):
         _loaders_found.append(fn)
+    elif _LOAD_MECHANISM in content and not _has_subprocess_invocation(content):
+        _loaders_found.append(fn)
+    else:
+        _non_load_references.append((fn, _has_subprocess_invocation(content)))
+
 record("Sol 便86 P86-2 item 1: no OTHER file directly under search/ (excluding this test and the module "
        "itself) dynamically loads ninfty-evidence-union.py at all -- so no production caller can reach "
        "ANY attribute of it (public or private); evidence_union_from_raw_w6 (via THIS test's own load) is "
@@ -835,6 +879,11 @@ for fn in _loaders_found:
     for name in _PRIVATE_LOW_LEVEL_NAMES:
         if _re_for_structural_check.search(r"(?<!\w)" + _re_for_structural_check.escape(name) + r"(?!\w)", content):
             _offending.append((fn, name))
+record("Sol 便86 P86-2 item 1 (refined, 便95): every file that NAMES the frozen module without loading it "
+       "does so only to run it OUT OF PROCESS (subprocess.run) -- naming is not reaching",
+       all(uses_subprocess for _fn, uses_subprocess in _non_load_references),
+       {"non_load_references": _non_load_references})
+
 record("Sol 便86 P86-2 item 1 defense in depth: among any (currently zero) OTHER files that DO load "
        "ninfty-evidence-union.py, none reference a low-level private name by whole-word match",
        len(_offending) == 0, _offending)
@@ -1835,6 +1884,25 @@ else:
            "samefile/realpath logic is exercised indirectly by every OTHER production-directory check in "
            "this suite (14a, 15o) but the alias-specific case could not be constructed here",
            True, "SKIPPED, not a failure")
+# F95-2.1(b) fix (Sol 便95 修理バンドル item, 2026-08-01): _alias_dir is an NTFS
+# directory JUNCTION whose target is the REAL production registry
+# (PRODUCTION_REGISTRY_DIR). Calling shutil.rmtree() directly on _alias_parent
+# is unsafe here: depending on the Python/OS version's junction-vs-symlink
+# detection, rmtree can fail to recognize the junction as a reparse point and
+# instead descend INTO it as if it were an ordinary directory -- which means
+# unlinking files it finds there. Those files are the real production
+# registry's own contents (a permission-controlled tree, per 15n's
+# byte-identical-digest invariant), so a naive recursive delete can hang
+# retrying protected entries or, worse, silently touch production data. The
+# safe pattern is to unlink the junction REPARSE POINT ITSELF via os.rmdir()
+# first (this only removes the link, never the target's contents, regardless
+# of junction/symlink detection), and only then rmtree() the now-junction-free
+# parent directory.
+if _junction_ok:
+    try:
+        os.rmdir(_alias_dir)  # removes the reparse point only; target untouched
+    except OSError:
+        pass  # best-effort; the plain rmtree below still runs
 _shutil15.rmtree(_alias_parent, ignore_errors=True)
 
 # --- 15h. blocker 8 (receipt self-reference): receipt.json is EXCLUDED

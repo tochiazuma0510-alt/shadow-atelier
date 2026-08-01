@@ -517,6 +517,17 @@ export { INTEGRITY_PRIORITY, REJECT_PRIORITY };
 // distinction, and are reported as UNKNOWN, never asserted PASS.
 // ---------------------------------------------------------------------------
 
+// TERMINOLOGY (Sol 便95 F95-2.3 -- 用語分離). What this function returns is
+// a DIAGNOSTIC CONSTRUCTION: a native object built for inspection, freely
+// constructible at any time, including BEFORE any gate, and NOT publishable.
+// It is not a MINTED/PUBLISHED ARTIFACT -- that term is reserved for a native
+// or NF object that has passed the NF mint gate (both lanes PRESENT, digests
+// agreeing) and been committed to the EP registry by
+// search/ninfty-ep-genuine-provisioning.py. The claim "no native object is
+// ever constructed before the gate" is FALSE and must not be made: this
+// function, `construct_native_from_scratch`, and the native CLIs all build
+// diagnostic native objects pre-gate, by design. The gate governs
+// PUBLICATION, not construction.
 export function buildSearcherNative(candidate) {
   const a = polyFromInts(candidate.a);
   const p = polyFromInts(candidate.p);

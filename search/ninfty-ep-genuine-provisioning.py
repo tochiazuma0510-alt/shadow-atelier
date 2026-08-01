@@ -45,6 +45,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -134,6 +135,58 @@ def build_artifacts(freeze_id):
     return artifacts, summary
 
 
+# 便95 修理バンドル (Sol 便95 P95-2.2 item 1 / 司令塔裁定 2026-08-01): the
+# governing documents a re-freeze binds itself to. Only the PATHS are named
+# here; each document's artifact_id is READ out of its own header at run
+# time (`_declared_artifact_id`), and its sha256 is recomputed from the
+# file's exact bytes by the provisioning module -- no digest and no version
+# number is ever typed into a call site (機械生成のみ・手写し禁止).
+GOVERNING_DOC_PATHS = {
+    "predicate_spec": "docs/week4-NInfty_stage2_spec_v19.md",
+    "verifier_contract": "docs/mb_ninfty_verifier_contract_v14.md",
+    "dependency_manifest": "docs/mb_dependency_manifest_v14.md",
+}
+GOVERNING_DOC_SLUGS = {
+    "predicate_spec": "mb/ninfty-stage2-predicate/",
+    "verifier_contract": "mb/ninfty-verifier-contract/",
+    "dependency_manifest": "mb/dependency-manifest/",
+}
+
+
+def _declared_artifact_id(rel_path, slug):
+    """
+    Reads the artifact_id the document itself declares, so bumping a
+    document's version never requires editing this file. Located
+    STRUCTURALLY, in this fixed order (never by scanning free prose, which
+    legitimately quotes SUPERSEDED ids in its own version-history table):
+
+      1. the document's own id-assignment line, `<something>id = "<slug>vNN"`
+         (spec: `predicate_spec_id`, contract: `contract_id`,
+         manifest: `schema_id`);
+      2. failing that, the H1 title's backticked artifact id.
+
+    Fail-closed: raises if neither is found.
+    """
+    with open(os.path.join(ROOT, rel_path), "rb") as f:
+        text = f.read().decode("utf-8", "replace")
+    esc = re.escape(slug)
+    m = re.search(r'^\s*\w*id\s*=\s*"(' + esc + r'v\d+)"', text, re.M)
+    if m:
+        return m.group(1)
+    m = re.search(r'^#\s+`(' + esc + r'v\d+)`', text, re.M)
+    if m:
+        return m.group(1)
+    raise ValueError(f"{rel_path}: no structural artifact-id declaration matching {slug!r}v<NN> "
+                     "(id-assignment line or H1 title) -- refusing to mint a generation claiming "
+                     "an unreadable docs era")
+
+
+def _governing_docs_block(prov):
+    mapping = {key: (_declared_artifact_id(path, GOVERNING_DOC_SLUGS[key]), path)
+               for key, path in GOVERNING_DOC_PATHS.items()}
+    return prov.governing_docs_from_paths(mapping, repo_root=ROOT)
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--production", action="store_true",
@@ -143,6 +196,11 @@ def main(argv):
     ap.add_argument("--generation-id", default=None)
     ap.add_argument("--no-publish", action="store_true")
     ap.add_argument("--summary-out", default=None, help="write the per-fixture artifact_id/digest summary JSON here")
+    ap.add_argument("--governing-docs", action="store_true",
+                     help=("bind this generation to the current governing docs trio (spec/contract/manifest) "
+                           "by writing a gen-receipt/v2 whose three sha256 values are recomputed here from "
+                           "the files' exact bytes. Required for R3-NF (search/ninfty-evidence-union-full.py), "
+                           "which refuses a v1 receipt: an absent binding is not a satisfied binding."))
     args = ap.parse_args(argv)
 
     if args.production and args.registry_dir:
@@ -156,11 +214,13 @@ def main(argv):
     target_dir = prov.PRODUCTION_REGISTRY_DIR if args.production else args.registry_dir
 
     artifacts, summary = build_artifacts(args.freeze_id)
+    governing_docs = _governing_docs_block(prov) if args.governing_docs else None
     result = prov.commit_generation(
         artifacts, args.freeze_id, registry_dir=target_dir,
         generation_id=args.generation_id, publish=not args.no_publish,
+        governing_docs=governing_docs,
     )
-    out = {"commit_result": result, "fixture_summary": summary}
+    out = {"commit_result": result, "fixture_summary": summary, "governing_docs": governing_docs}
     print(canonical_serialize(out))
     if args.summary_out:
         with open(args.summary_out, "w", encoding="utf-8") as f:

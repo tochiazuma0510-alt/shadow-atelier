@@ -1,5 +1,5 @@
 {
-  "_note": "EP re-activation 2026-08-01 CI smoke fixture -- exercises the REAL production registry (genuine checker_pos_01 native_a/native_b, freeze ep-genuine-20260801) through the real evidence-union CLI. This is a registry-resolution-layer + freeze-gate smoke check, NOT a claim that the W-6 math verifiers reach overall PASS -- the certificate below is intentionally minimal (no component_bijection/witness structure), so R1/R2 are expected to report MALFORMED at the math layer; wiring a full witness-bearing certificate to these real native artifacts is deferred (see docs/notes/lanea_native_semantics_v1.md section 8, migration proposal note in ep_provisioning_20260801.json).",
+  "_note": "EP re-activation 2026-08-01 CI smoke fixture -- exercises the REAL production registry (genuine checker_pos_01 native_a/native_b, freeze ep-genuine-20260801b -- re-pinned when generation b was minted with a gen-receipt/v2 that binds the v19 docs trio; artifact digests are byte-identical to generation a, only the receipt binding is new) through the real evidence-union CLI. This is a registry-resolution-layer + freeze-gate smoke check, NOT a claim that the W-6 math verifiers reach overall PASS -- the certificate below is intentionally minimal (no component_bijection/witness structure), so R1/R2 are expected to report MALFORMED at the math layer; wiring a full witness-bearing certificate to these real native artifacts is deferred (see docs/notes/lanea_native_semantics_v1.md section 8, migration proposal note in ep_provisioning_20260801.json).",
   "certificate": {
     "pushforward_compatibility_witness": [
       {
@@ -27,13 +27,13 @@
   "native_registry_refs": {
     "native_a": {
       "artifact_id": "ep-genuine-checker_pos_01-native-a",
-      "freeze_id": "ep-genuine-20260801",
+      "freeze_id": "ep-genuine-20260801b",
       "version_id": "v1",
       "whole_artifact_digest": "f7bd6ed774fcf123201ea5158e5d60a5d9f9bd2214fa2c237f86f44f3d75f9ae"
     },
     "native_b": {
       "artifact_id": "ep-genuine-checker_pos_01-native-b",
-      "freeze_id": "ep-genuine-20260801",
+      "freeze_id": "ep-genuine-20260801b",
       "version_id": "v1",
       "whole_artifact_digest": "8b09f99fc3c50a17984a75a1d3094c183d1a8e632b9f595fe9ad29b4dcd611ee"
     }

@@ -1,0 +1,8 @@
+{
+  "_description": "P95-2.2 item 1 point 4 (Sol 便95 修理バンドル): same (a,p,f6) as search/certs/fixtures-lanea.mjs's negDivisorOrientation (E-1..E-4 all PASS, orientation attested FALSE, contradicting the E-1..E-4-derived value -- Prop E5-D / 裁定113 / C-3). Both field-name spellings for the attestation flag are included so BOTH lanes read it: 'orientation_declared_ok' (lane A, search/ninfty-searcher-v2.mjs) and 'divisor_orientation_attested' (lane B, search/ninfty-checker.py). Regression target: both lanes must report INTEGRITY_STOP / 'divisor-orientation-attestation-mismatch' [27] -- NOT REJECT / 'precondition/divisor-orientation' [6] -- and neither lane may mint an NF (status must be INTEGRITY_STOP, never PRESENT).",
+  "a": ["-3", "-5", "5", "5", "-5", "1"],
+  "p": ["1", "-3", "1"],
+  "f6": ["-7", "-12", "0", "10", "0", "-4", "1"],
+  "orientation_declared_ok": false,
+  "divisor_orientation_attested": false
+}
