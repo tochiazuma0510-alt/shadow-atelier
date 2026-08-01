@@ -1429,3 +1429,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 gap-ci 修理の実証完了(裁定 381)— 再現テスト run 30695201761 = **conclusion=failure で verdict と一致(fail-closed 昇格の初実証・6 匹目駆除確認)**
 - 物証 3 点(miner 検収・mine/reports/lt-count-ell37t4-repro-20260801_report.md): ①max RSS = 12.54GB ≈ -o 12g 上限 ②run.log にエラー本体が今回は捕獲 — CharacterTable("Symmetric",41) 呼び出し中に ctbllib(ctblsymm.gi:468)が "reached the pre-set memory limit" → break loop → 非対話 EOF で exit 0(裁定 376 の根因診断と完全整合)③診断欄(run_log_bytes/tail_hex)稼働。
 - **恒久対策の裁定**: メモリ増は不採用(n=41 で既に 12.5GB・p(48)=147k の全表構築は原理的に無理)— **アルゴリズム変更を正式採択**: 全指標表を構築せず必要指標値のみ計算(MN 則直接 or T_trans の組合せ的言い換え)。二路線 = 数学者委嘱(次波)+**Sol 諮問(便 98 §に登載・研究者発案)**。残り 12 セルの再走はアルゴリズム着地まで凍結。
+
+## 2026-08-01 カナリア anchor failure の決着(裁定 382)— ★ 原因 = 向き規約の混用(同型事故 4 度目)・Prop 3.1 の完全性は無傷・修正版は m=0 で 2280 を集合等号 bit 再現(数学者実測 14.8 秒)
+- 機構: 候補生成 = judge 向き(S_code)・受理 = 手書き向き(S_lit=S_code⁻¹)— 拾えるのは交わり F∩F⁻¹=120 のみ。**「19」の正体 = Ξ 座標の ⟨v⟩ 方向(ord(v)=19)が落ち、Fix(v) 上の S₅(120)だけ生存**(⊇ 方向は紙証明・等号は 2280 悉皆)。cert の 120 は 07-31 向き決着ノート §3 に既記録の数そのもの。N_ord 一般則として読むことは禁止(この窓の偶然)。
+- **定理 X(向きつき Ξ-制限の完全性)**: hexagon 式を使わず証明 ⟹ Prop 3.1 の完全性は (3.3)(3.4) にも成立(向き整合が仮説)。**受理に WD-P(P 上 well-defined)を加えれば等号で閉じる**。hexagon のみでは未証明(既知反例型 KJ-1)。
+- **副産物(壁の前進)**: {hexagon∧生成∧WD-P}_{m=0} = SURV 族 F(**悉皆等号が初めて付いた** — ker χ̃ の m=0 層は WD-P 内でちょうど 2280)。留保: settled 性は未検査(2280 は GTSh(N,N) 層の上界)— settled 検査を壁証明線に入れるかは便 98 監査点へ。GAP 単系統・cross-checked ではない。
+- **恒久対策 = CV-13 鋳造**(向き自己検査・新規 probe 必須テンプレ・「規約メモでは止まらない」4 例の実証による)。修正仕様 WAC-CAN-2(1 行修正+4 段受理+前提 assert+集合等号アンカー+cert schema 正直化 = canary_m18.status 必須欄)を承認・実装係へ。診断 3 script 収蔵。
