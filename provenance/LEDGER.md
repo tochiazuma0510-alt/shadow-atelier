@@ -1224,3 +1224,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 Lean 方針 v1.5(裁定 338・研究者裁定)— 構造化規約: 暗黙仮定の全切り出し(名前つき補題として T1/T2 から証明)・紙⟷Lean 1:1 双方向・割り付け表 = 補題分解計画
 
 ## 2026-08-01 壁 40/45 検収(裁定 339)— 全数 pass・予言的中・C-WALL-FAM を 6 窓へ拡張(S₃〜S₆ 型)
+
+## 2026-08-01 py-ci 汎用化 完了(裁定 340)— 契約を py_ci_contract.py に単一実装化(legacy-primes/generic の 2 分岐・19 テスト)・sweep744 に marker 追加
+- schema/preflight に任意欄 args/done_marker/result_count_check・workflow は契約モジュール import(二重実装ドリフト防止)。設計判断 3 件(primes 優先で新欄無視・シェルエスケープなしの既存踏襲・grep -c 行数意味論)を承認。既存 wall36/37 無印 plan の INTEGRITY_STOP は既知の pre-existing(r2 差替由来)。

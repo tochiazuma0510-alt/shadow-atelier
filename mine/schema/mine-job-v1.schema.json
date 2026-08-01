@@ -150,11 +150,31 @@
         },
         "py_driver": {
           "type": "object",
-          "description": "backend=py-ci 用の橋渡し欄(v0_driver の python 版・述語カード化=v1 までの暫定)。python 照合器スクリプトを直接指す。script 自体の改変は禁止 -- ここは既存スクリプトへの名前付きポインタ。CLI 引数(例: primes リスト)は pipeline[0].params から取る(§4.5 の「plan の params から渡す」に対応・v0_driver の preamble に相当する固定欄はここには置かない)。",
+          "description": "backend=py-ci 用の橋渡し欄(v0_driver の python 版・述語カード化=v1 までの暫定)。python 照合器スクリプトを直接指す。script 自体の改変は禁止 -- ここは既存スクリプトへの名前付きポインタ。CLI 引数は、pipeline[0].params.primes が存在する場合は旧 u_meas 契約(primes 配列を引数に・完走判定は run.log の「=== p = N ===」出現数一致)を無改変で使う(後方互換)。primes が無い場合は本欄の args/done_marker/result_count_check による汎用契約を使う(mine-dispatch.yml py-ci 汎用化)。",
           "required": ["script", "sha256"],
           "properties": {
             "script": { "type": "string", "minLength": 1 },
-            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "args": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "省略可。primes 非搭載時の CLI 引数(空白区切りで script へ渡す)。primes 搭載時(旧契約)は無視される。"
+            },
+            "done_marker": {
+              "type": "string",
+              "minLength": 1,
+              "description": "省略可(既定 \"PY_DRIVER_DONE\")。primes 非搭載時、run.log 中にこの文字列が現れる(かつ exit 0)ことを完走判定に使う。primes 搭載時(旧契約)は無視される。"
+            },
+            "result_count_check": {
+              "type": "object",
+              "description": "省略可。primes 非搭載時のみ有効。省略時はこの突合をスキップし done_marker 存在+exit 0 のみで done とする。",
+              "required": ["marker", "expect"],
+              "properties": {
+                "marker": { "type": "string", "minLength": 1 },
+                "expect": { "type": "integer", "minimum": 0 }
+              },
+              "additionalProperties": false
+            }
           },
           "additionalProperties": false
         }

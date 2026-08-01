@@ -24,17 +24,25 @@
 - **述語台帳(最小)**: `mine/registry/` に XI-SCAN・PRUNE-ODD の 2 カード。preflight の (d) registry ゲートが、plan の `pipeline[*].predicate` がカード id を指す場合のみ `impl_sha256` の現物一致を検査する(カード無し述語は従来どおり無検査)。
 - **[小修理] collector の checker cert 出所**: 対付け(§4.6)の checker(python)側 cert は `--artifact-dir` からでなく、常に `plan.crosscheck.checker_certs_glob` を repo ルート相対で glob して取る(v1 の staged out_dir には explorer 側 cert しか入らず対付けが 0/0 に落ちる事故の修理)。同じ window_id が artifact-dir 側にもあれば artifact 版を優先(v0 互換)。
 
-## backend=py-ci(§4.5 予約設計の実装)
+## backend=py-ci(§4.5 予約設計の実装。2026-08-01 miner の事前検出対応で汎用化)
 
 `resources.backend: "py-ci"` で python 照合器スクリプトを CI 上で走らせる。`v0_driver`(gap-ci)と対の橋渡し欄
-`resources.py_driver`(`{script, sha256}`)がスクリプトを指し、CLI 引数(primes 等)は `pipeline[0].params` から渡す
-(§4.5「plan の params から渡す」に対応 -- スクリプト側は `preamble` に相当する固定欄を持たない)。最初の消費者は
-`search/probe/wac_v1/u_meas_caseb_locus2.py`(CLI: `<logpath> <primes...>`)。
+`resources.py_driver`(`{script, sha256[, args, done_marker, result_count_check]}`)がスクリプトを指す。CLI 契約は
+2 種類(後方互換):
 
-- **fail-closed**: exit code が非 0、または run.log 中の `=== p = N ===` 見出しの出現数が `primes` 数と不一致なら
-  `verdict=failed`(gap-ci の `DRIVER_DONE` マーカー検出と同水準の構造チェック。数学的な当否の判定はしない)。
+1. **旧 u_meas 契約(無改変)** -- `pipeline[0].params.primes`(plan の params から渡す非空整数配列)がある場合。
+   primes を CLI 引数にして起動する。最初の消費者は `search/probe/wac_v1/u_meas_caseb_locus2.py`
+   (CLI: `<logpath> <primes...>`)。完走判定は run.log 中 `=== p = N ===` 見出しの出現数が `primes` 数と一致すること。
+2. **汎用契約** -- `primes` が無い場合。`py_driver.args`(省略可・文字列配列)を CLI 引数にして起動する。完走判定は
+   `py_driver.done_marker`(省略時 `"PY_DRIVER_DONE"`)が run.log に出現すること。`py_driver.result_count_check`
+   (`{marker, expect}`・省略可)があれば `marker` の出現数が `expect` と一致することも必須にする(省略時はこの突合を
+   スキップし done_marker 出現+exit 0 のみで done)。第一の消費者は `search/certs/ep_sweep744/run_laneb_sweep744.py`
+   (CLI 引数なし・末尾で `PY_DRIVER_DONE` を print する)。
+
+- **fail-closed**: どちらの契約でも exit code が非 0 なら即 `verdict=failed`(gap-ci の `DRIVER_DONE` マーカー検出と
+  同水準の構造チェック。数学的な当否の判定はしない)。
 - **provenance**: python バージョン・スクリプト sha256(preflight の integrity gate とは別に実行時点で再計算)・
-  引数(primes)を run.log 先頭と result.txt に機械記録する。
+  引数を run.log 先頭と result.txt に機械記録する。
 - **収蔵**: スクリプトが書く log ファイル(out_dir 直下)を gap-ci と同じ mtime-diff ステージングで回収する。
 
 ## v0_driver 欄について
@@ -64,8 +72,8 @@ CI(`.github/workflows/mine-dispatch.yml`)は `mine/jobs/queue/*.json` の push(�
 
 1. **plan 発見**: push 差分(または `job_path` 入力)から対象 plan を特定。
 2. **preflight**: `mine/preflight.py` をそのまま実行((a) schema (b) integrity (c) 予言ゲート)。1 つでも FAIL なら発車しない。
-3. **backend 分岐**(§4.5): `gap-ci`(`setup-gap@v3.8.0` で `resources.v0_driver.script`(+`preamble`)を `-o 12g`・`resources.timeout_min` 分の timeout で実行)/ `py-ci`(`resources.py_driver.script` を `pipeline[0].params.primes` を引数に `-o 12g` 相当の timeout 付きで実行 -- 最初の消費者は `search/probe/wac_v1/u_meas_caseb_locus2.py`)。`sat-ci` は §4.5 の設計に予約済みだが未実装。
-4. **収蔵**: `outputs.out_dir` の cert 群(py-ci はスクリプトが書く log ファイルを含む)+ `run.log` + `SHA256SUMS.txt` + `result.txt`(gap-ci: `DRIVER_DONE` マーカー検出、py-ci: exit code + 結果数/対象数突合で `verdict=done`/`failed`)を artifact として upload。
+3. **backend 分岐**(§4.5): `gap-ci`(`setup-gap@v3.8.0` で `resources.v0_driver.script`(+`preamble`)を `-o 12g`・`resources.timeout_min` 分の timeout で実行)/ `py-ci`(`resources.py_driver.script` を `-o 12g` 相当の timeout 付きで実行 -- 引数は `pipeline[0].params.primes` があれば旧 u_meas 契約、無ければ `py_driver.args` の汎用契約。最初の消費者は `search/probe/wac_v1/u_meas_caseb_locus2.py`・`search/certs/ep_sweep744/run_laneb_sweep744.py`)。`sat-ci` は §4.5 の設計に予約済みだが未実装。
+4. **収蔵**: `outputs.out_dir` の cert 群(py-ci はスクリプトが書く log ファイルを含む)+ `run.log` + `SHA256SUMS.txt` + `result.txt`(gap-ci: `DRIVER_DONE` マーカー検出、py-ci: 旧契約=exit code+結果数/対象数突合、汎用契約=exit code+done_marker 出現(+result_count_check)で `verdict=done`/`failed`)を artifact として upload。
 
 collector は **CI の外**(実行係のローカル)で、DL した artifact に対して手動実行する(§5.2)。
 

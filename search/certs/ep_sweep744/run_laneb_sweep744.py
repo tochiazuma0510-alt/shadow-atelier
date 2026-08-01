@@ -82,6 +82,7 @@ def main():
         f.write("\n")
 
     print(json.dumps({"total": len(results), "entry_point_sha256": checker_digest, "input_candidates_sha256": cand_digest}, indent=2))
+    print("PY_DRIVER_DONE")
 
 
 if __name__ == "__main__":

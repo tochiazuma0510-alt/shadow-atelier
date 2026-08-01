@@ -117,7 +117,20 @@ def gate_schema(job):
         pyd = resources.get("py_driver")
         if pyd is not None:
             if not isinstance(pyd, dict) or not is_nonempty_str(pyd.get("script")) or not HEX64.match(pyd.get("sha256", "")):
-                errs.append("resources.py_driver, when present, must be {script: non-empty string, sha256: 64-hex}")
+                errs.append("resources.py_driver, when present, must be {script: non-empty string, sha256: 64-hex[, args, done_marker, result_count_check]}")
+            elif isinstance(pyd, dict):
+                args = pyd.get("args")
+                if args is not None and not (isinstance(args, list) and all(isinstance(a, str) for a in args)):
+                    errs.append("resources.py_driver.args, when present, must be an array of strings")
+                done_marker = pyd.get("done_marker")
+                if done_marker is not None and not is_nonempty_str(done_marker):
+                    errs.append("resources.py_driver.done_marker, when present, must be a non-empty string")
+                rcc = pyd.get("result_count_check")
+                if rcc is not None:
+                    if not isinstance(rcc, dict) or not is_nonempty_str(rcc.get("marker")) \
+                            or not isinstance(rcc.get("expect"), int) or isinstance(rcc.get("expect"), bool) \
+                            or rcc.get("expect") < 0:
+                        errs.append("resources.py_driver.result_count_check, when present, must be {marker: non-empty string, expect: non-negative integer}")
         shards = resources.get("shards")
         if isinstance(shards, list):
             if len(shards) == 0 or len(shards) > 256:
