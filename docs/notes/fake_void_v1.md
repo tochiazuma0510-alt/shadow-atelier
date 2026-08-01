@@ -405,3 +405,132 @@ VERDICT: pins_missing=0 failures=0 ALL PASS
   **格の混在**である — W-A 帯は fake プローブ 0 本(構造測定)、class-6 は実現ギャップの開いた機構層。
   実体は「**17 プローブ・底窓 8 個・うち独立 7 本 / 5 窓・全て VOID。帯 $\mathcal W$ 4 窓と W-A 66 窓はデータ 0**」。
   あわせて **P4 行の「壁族 6 窓」も 4 窓(非可解)+ 2 窓(同族だが可解)へ分ける**(§2.1・裁定 373 ①)。
+
+---
+
+# 追記 A(erratum・2026-08-01 夕)— 出所連鎖の訂正と FV-L1 配達の反映
+
+起草時(本文 §0–§8)の後に届いた 2 件を反映する。**本文は改変していない**(以下が effective source)。
+発端: ①司令塔の緊急通達(ihnec 線の逐語照合)②文献配達 `docs/scout/覚書_fvl1_20260801.md`(FV-L1 回答)。
+
+## A.1 【出所注記・CV-10 流儀】Cor 5.4 の根は正典に証明がない
+
+> **依存注記.** §1.1 の $\mathfrak G_{\rm gen}(N)=\bigcap_{K\le N}\mathrm{Im}(R_{K,N})$ は 2401 **Cor 5.4** 経由。
+> その根 = **Prop 3.15 は正典に証明が掲載されていない**(「読者演習」)。
+> 現在の唯一の根は工房自前の **補題 INT**(`ihnec_v1.md` 追補 B・2 行証明・**Sol 未監査**・監査依頼 T-24 発出中)。
+
+**どこで効くかの精密監査(一括注記にしない — §4 と同じ規律).**
+Cor 5.4 には二方向あり、**本稿の荷重部分は易しい方しか使っていない**:
+
+| 使用箇所 | 使う向き | Prop 3.15 依存 |
+|---|---|---|
+| §1.2 「$\mathbf{WITNESS}$ は fake の有限証明書」 | genuine $\Rightarrow$ 全細分に survive の**対偶** | **なし**(自明方向: $s=R_{K,N}(\hat s\ \text{の}\ \mathrm{GT}(K)\ \text{像})$) |
+| §1.5 **系 FV-SUB** | 同上(自明方向) | **なし** |
+| §1.4 **定理 FV-EQ (a)** | $\mathfrak G_{\rm gen}$ の定義そのもの | **なし** |
+| §1.1 の**等号**・§3.1 FV-SOLV の「同値形(Cor 5.4)」 | 全細分に survive $\Rightarrow$ genuine(**難しい方向**) | **あり** |
+| §1.4 **FV-EQ (b)(c)** | Thm 5.2($\widehat{GT}_{\rm gen}\cong\varprojlim\mathrm{GT}(N)$)の単射性 | **要確認**(Thm 5.2 が 3.15 に載るか私は未照合) |
+
+⟹ **系 FV-SUB による会計の組み替え(独立 7 プローブ / 定理の系 10 本)は Prop 3.15 に依存しない** — ここは安全。
+危ないのは「$\mathbf{VOID}$ を無限本集めれば genuine が言える」という**逆向きの読み**の方で、
+本稿はそれを使っていない(むしろ §1.2 でその非対称性を強調している)。
+FV-SOLV の**同値形**だけが依存するので、監査未了の間は **FV-SOLV は主定義(全細分で $R$ 全射)の方を正本**とする。
+格は candidate のまま不変(裁定どおり)。
+
+## A.2 【訂正】層 (b) の「名前つき未解決問題」の同定 — 覚書 ① を精密化
+
+覚書は層 (b) を **Furusho Question 14** に同定したが、**向きが逆である**。逐語で照合した:
+
+- **Furusho Q14 = 副有限版 (III) pentagon $\Rightarrow$ (II) hexagon**(覚書 L6・L8「未解決は (II) hexagon のみ」)。
+- **本稿の層 (b)** が要求するのは $\widehat{GT}_{\rm gen}\subseteq\widehat{GT}$、すなわち
+  **hexagon + charming $\Rightarrow$ pentagon** — Q14 の**converse**。
+
+Q14 が肯定的に解けても $\widehat{GT}$ の記述が簡単になるだけで $\widehat{GT}=\widehat{GT}_{\rm gen}$ は出ない。否定的に解けても分離は出ない。
+**⟹ Q14 は層 (b) の隣人であって同一ではない。**
+
+**層 (b) の正しい名前つきの家は覚書 L11–L12 の方**である:
+**Harbater–Schneps Main Theorem**($\mathrm{Out}^\sharp_4\cong\widehat{GT}_0=\widehat{GT}_{\rm gen}$ vs $\mathrm{Out}^\sharp_n\cong\widehat{GT}$, $n\ge5$)
+— 層 (b) は「**$M_{0,4}$ 水準で決まるか $M_{0,5}$ 水準が要るか**」であり、
+**HS Prop. 7**(関係 (III) $\iff$ $\hat K(0,5)$ 上の $(14253)\in S_5$ の持ち上げとの可換性)が求める特徴づけである。
+覚書の「一工夫」(これを $B_3/N$ 有限商で書けば fake 検出が置換群計算に落ちる)は**層 (b) の本筋**であり、
+深読み案件でなく **FV-WALL と並ぶ第二照準**に格上げしてよい、というのが私の見立てである。
+
+## A.3 【訂正・新規性】層 (a) の名前つきの家は 2008.00066 §4.2 — しかも著者は既に 24 対を走らせている
+
+**正典を逐語で読んだ**(`papers/txt/2008.00066-what-are-gt-shadows.txt` §4.2):
+
+> **Is there a charming GT-shadow that is also fake?**
+> … At the time of writing, we did not find a single example of a charming GT-shadow that is also fake.
+> Here is what we did. In the list (4.2), there are exactly **24 pairs** $(N^{(i)},N^{(j)})$ with $i\ne j$ such that $N^{(j)}\le N^{(i)}$.
+> For each such pair, we showed that **every GT-shadow in $\mathrm{GT}^\heartsuit(N^{(i)})$ survives into $N^{(j)}$**, i.e. the natural map
+> $\mathrm{GT}^\heartsuit(N^{(j)})\to\mathrm{GT}^\heartsuit(N^{(i)})$ is onto. We also looked at other selected examples of elements $K\le N$
+> … where **$K$ is obtained by intersecting $N$ with another element of (4.2)**. In all examples we have considered so far,
+> the natural map $\mathrm{GT}^\heartsuit(K)\to\mathrm{GT}^\heartsuit(N)$ is onto.
+
+**帰結 3 点(いずれも本稿の格を下げる方向・正直に記帳する):**
+1. **層 (a) の名前つきの家は §4.2 の Question**(Q14 ではない)。FAKE-VOID = この Question への「無い」側の賭けである。
+2. **「初の系統的有限データ」は誤り**。著者は $B_4$ 圏で **24 対 + 交叉細分**を既に走らせ、**すべて onto** を得ている。
+   我々の新しさは「**初であること**」ではなく「**圏が違うこと**」— 主線($B_3$-gentle・hexagon のみ・2401)側の対応データである
+   (2405 Remark 1.2 の同名別物)。§8 の新規性欄をこの向きに読むこと。
+3. **設計の独立検証(良い報せ)**: 著者の「$K$ = $N$ と別の窓の**交叉**」という構成は、
+   我々の $L=K^{(3)}\cap N_0$・$M_5=K^{(3)}\cap N_5$・$J=L\cap M_5$ と**同一の技法**である。
+   我々の哨戒設計は独立に正しい形に到達していた(と同時に、既知技法の再発明でもあった)。
+
+**副産物(機構)**: 覚書 L17 の「有限集合の逆系は自動 Mittag-Leffler ⟹ fake の存在には必ず有限の証人がある」は、
+§1.2 の非対称性の**上位の理由**である。像の降鎖 $\mathrm{Im}(R_{K,N})$ は有限集合の減少列ゆえ**必ず有限段で安定**し、
+その安定値が $\mathfrak G_{\rm gen}(N)$。⟹ **genuine 判定は原理的には有限深度で決まる — 深度が不明なだけ**。
+これは Prop 3.15 の内容と同じ形であり(A.1)、補題 INT の監査が通れば §1.2 に格上げして書ける。
+
+## A.4 c₂ 不変量 — 起票を支持。ただし**決定的な問いを先に置く**
+
+覚書 ② の設計(独立 7 プローブの witness に対する $c_2$ 分布記録)を**支持する**。**値の予言はしない。**
+ただし観測の意味は次の 1 問の答で**正反対になる**ので、設計書にこれを明記して起票されたい:
+
+> **決定的な問い(C2-Q)**: 関係 $\lambda^2=24c_2(f)+1$ は **hexagon だけの帰結か、pentagon を要するか。**
+> - **hexagon だけの帰結なら**: 全 GT-shadow が自動で満たす ⟹ 測定は**我々の evaluator の較正**にしかならない(分離能力ゼロ)。
+> - **pentagon を要するなら**: これは**有限段で計算できる pentagon 持ち上げの必要条件** = **層 (b) 初の実効的な fake 検出器**。
+
+**この問いは我々の手持ちで部分的に決着できる**(委嘱設計案):
+1. **較正段(必ず通らねばならない)**: $K^{(3)}$ の 12 元と $N_A$ の 20 元で $\lambda^2\equiv24c_2+1$ を検査。
+   定理 K3・A₅ によりこれらは arithmetical ⟹ pentagon 持ち上げ可 ⟹ **必ず成立する**。破れたら実装か定理のどちらかが誤り。
+2. **プローブ段**: 定理に覆われていない底窓($N_Q$・$K^{(12)}$、および帯 $\mathcal W$ の 4 窓)で同じ検査。
+3. **破れが出た場合の扱い**: それは **pentagon-fake の候補**であり、**P-FV-3(§5)の異常主張の門**が発動する
+   — 台帳に書く前に Sol 監査、可能なら Lean。$\widehat{GT}\subsetneq\widehat{GT}_{\rm gen}$ の証明に相当しうるため。
+4. **有限商での型**: $c_2$ は $[F_2,F_2]/[F_2,[F_2,F_2]]\cong\mathbb Z$ の像として定義され、有限商では $\mathbb Z/d$ に落ちる。
+   関係は合同式になり、覚書 L7(a) の言うとおり**二次剰余の可解性条件**として有限段で判定できる。
+
+## A.5 Theorem B.2(アーベル設定)— 移送先が明示されており、**独立証拠をさらに削る**
+
+`2008.00066` **Prop. B.1** は三条件の同値を与える: **(a) $PB_4/N$ アーベル $\iff$ (b) $PB_3/N_{PB_3}$ アーベル $\iff$ (c) $F_2/N_{F_2}$ アーベル**。
+**Thm B.2**: アーベル設定なら $\mathrm{GT}^\heartsuit(N)=\{(m+N_{\rm ord}\mathbb Z,\bar1)\mid\gcd(2m+1,N_{\rm ord})=1\}$ で、**その全てが genuine**(著者は「Kronecker–Weber の類似」と呼ぶ)。
+
+**主線への移送(私の見立て):**
+- **群論の半分は 1 行で移る**: charming は $\bar f\in[F_2/N_{F_2},F_2/N_{F_2}]$ を要求するから、
+  $F_2/N_{F_2}$ アーベル $\Rightarrow$ 導来部分群自明 $\Rightarrow\bar f=\bar1$。ゆえに $\mathrm{GT}(N)\subseteq\{(m,\bar1)\}$。
+  **これは $B_3$-gentle 圏でもそのまま成立する**(Prop B.1 (c) が $F_2$ 側の条件で述べられているのが効く)。
+- **genuine の半分は移らない(そのままでは)**: 著者の証明は算術(Kronecker–Weber 型)で、
+  $\widehat{GT}_{\rm gen}$ 側の元が $f\equiv1$ を実現することを要する。**移送は未検証** — 断定しない。
+
+**会計への影響(下方修正の予告)**: 移送が成立すれば、**アーベル窓のプローブは定理の系に落ちる**。
+機械確認した実例: **$N_5$ は確実にアーベル設定**である — cert が全 4 shadow で `f_word: []`(自明 $f$)を記録しており、
+これは Thm B.2 (B.2) 式の指紋そのものである(`certificates/N5.v1.json`)。
+
+> ⟹ **FV-11($N_5$)は「独立」から「定理の系(移送成立時)」へ降格する見込み。**
+> **$N_2$・$N_3$ は未確認**(cert `2b` の定義が $\pi^{-1}(F_2^4\gamma_4(F_2))$ = 類 3 冪零ゆえ非アーベルの公算が高いが、照合していない)。
+> 最悪の場合、**独立証拠は 7 プローブ / 5 窓 → 4 プローブ / 2 窓($N_Q$ と $K^{(12)}$)まで縮む**。
+> これは悪い報せではなく**会計が正しくなる**ということであり、同時に
+> **$\mathcal D$ のうち非アーベル・非定理の窓こそが FV-SOLV の真の試験場**であることを指している。
+
+## A.6 追記 A で動いた札(一覧)
+
+| 項 | 変更 |
+|---|---|
+| §1.1 の等号・§3.1 の同値形 | **出所注記つき**(Prop 3.15 未証明・補題 INT が唯一の根・Sol 監査 T-24 中)。FV-SOLV の正本は主定義の方 |
+| §1.4 FV-EQ (b)(c) | Thm 5.2 の Prop 3.15 依存は**要確認**(私は未照合) |
+| §1.5 FV-SUB・§1.2 の非対称性 | **無傷**(自明方向のみ使用) |
+| §7 【GAP-FV-1】 | 「純粋に経験的な賭け」→「**2008.00066 §4.2 の名前つき未解決問題への賭け。$B_4$ 圏では著者が 24 対 + 交叉を走らせ全て onto。我々は主線($B_3$-gentle)側の対応データ**」 |
+| §8 新規性 | 「初の系統的有限データ」の含意を**撤回**。新しいのは**圏**であって順序ではない |
+| §3.2 FV-WALL | 第一照準は不変。**第二照準として HS Prop. 7 の有限商翻訳**を新設(A.2) |
+| §4 表 1 FV-11($N_5$) | 「独立」に**降格予告**の注記(A.5) |
+| 新規作業 | **C2-Q**(較正段 → プローブ段)・**Thm B.2 移送検証**・**$N_2/N_3$ のアーベル性照合** — いずれも起票は司令塔採否 |
+
+**採用禁止の記録**: 覚書 L23 — arXiv 2503.13006(「GT 予想の証明」を称する)は査読痕跡なし・**採用禁止**。本稿は一切参照していない。
