@@ -1233,3 +1233,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-01 744 py-ci 再現 検収+段 1 発車(裁定 342)— ★ 二環境化成立(744/744 構造完全一致・differing 0)・汎用契約の初実戦 done・13 セル計数は matrix 発車
 - 744: verdict=done・py_contract=generic 初実戦正常・CI 版 vs ローカル版は生バイト差(改行)のみで **json 構造 744 件全一致** ⟹ **裁定: P5 土台データの二環境化成立**(cert 群+report = sweep744-laneb-pyci-repro-20260801_report.md)。
 - 段 1: lt-count-13cells-20260801(13 セル独立 shard・S₇ 2 セル先頭・道連れ防止設計を承認)発車 = run 30685662252。
+
+## 2026-08-01 h(ℚ(ζ₂₈)) 機械完結(裁定 343)— PARI 独立検算 h=1・bnfcertify=1(GRH 非依存)・陰性対照で fail-closed 実証済み・receipt = pari_classnum_zeta28_20260801.json
+- 検証シーケンス: 初回 run で gp 複数行 if の破壊(ゲート丸ごと無効・値の偶然一致で潜伏)を発見 → 根治(1 行三項式+quit(1)+receipt 自己整合検査)→ **陰性対照(故意誤値)= failure で fail-closed 実証** → 通常 run = success・整合 receipt(archivable=true)。G7-3 は h⁻=1(裁定 283)+h=1(文献)+**h=1(PARI 無条件)の三重機械文献挟み撃ちで完結**。

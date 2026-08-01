@@ -1,0 +1,31 @@
+{
+  "schema": "pari-classnum-receipt/v1",
+  "purpose": "h(Q(zeta_28)) machine-side closure (裁定283 h^-=1 machine value + F92-4.3 literature) via independent PARI/GP recomputation",
+  "negative_control": false,
+  "negative_control_marker_in_log": "false",
+  "archivable": true,
+  "self_check": "PASS",
+  "generated_at_utc": "2026-08-01T05:23:01.568999+00:00",
+  "run_id": "30685698740",
+  "sha": "eb8ca24d8b4f7693d0b28cf90236498a707004e6",
+  "gp_version": "GP/PARI CALCULATOR Version 2.15.4 (released)\n          amd64 running linux (x86-64/GMP-6.3.0 kernel) 64-bit version\n      compiled: Apr  1 2024, gcc version 13.2.0 (Ubuntu 13.2.0-23ubuntu3)\n                           threading engine: pthread\n                (readline v8.2 disabled, extended help enabled)",
+  "calibration": {
+    "calib1_poly": "polcyclo(23)",
+    "calib1_h": 3,
+    "calib1_expect": 3,
+    "calib1_status": "PASS",
+    "calib2_poly": "polcyclo(20)",
+    "calib2_h": 1,
+    "calib2_expect": 1,
+    "calib2_status": "PASS"
+  },
+  "main": {
+    "poly": "polcyclo(28)",
+    "h_grh": "1",
+    "bnfcertify_result": "1",
+    "unconditional": "true",
+    "note": "bnfinit defaults to GRH-conditional computation; bnfcertify() removes the GRH dependency iff bnfcertify_result == 1. If unconditional == false, h_grh is a GRH-conditional value only, not an unconditional theorem."
+  },
+  "gp_exit_code": "0",
+  "local_verification_note": "PARI/GP is not installed in the shadow-atelier dev environment; this receipt was not reproduced locally. Pre-dispatch review was limited to yml syntax and static reading of the gp script."
+}
