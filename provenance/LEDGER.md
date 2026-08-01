@@ -1406,3 +1406,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **②gap-ci fail-open の根本原因確定(実装係)**: 仮説①の変種 — GAP が space exhausted で break loop に入り、**非対話 stdin の EOF を quit 扱いして本当に exit 0 で終わる**(配管の捕獲バグではない)。runner は 16GB(7GB 説は旧情報)・-o 12g は過大でない。併発バグ = gap-ci ステップに 2>&1 欠落(stderr の break-loop 本文を握りつぶし)。**実質 fail-open = verdict=failed が GHA conclusion に反映されない設計**。
 - 修理(mine-dispatch.yml のみ・driver 不可侵): 2>&1 追加・/usr/bin/time -v で max RSS 記録・run_log_bytes/tail_hex/max_rss を result.txt に診断記録・**verdict≠done → exit 1 で GHA job failure へ昇格(fail-closed 化・artifact upload 後)**。YAML PASS・py-ci 契約 19/19 無傷。
 - **③容量判断(司令塔)**: S₇/S₈ 標的セル(n=44/48/49)は CharacterTable(Symmetric,n) が p(n)=75k〜173k 級 — メモリ増でなく**アルゴリズム変更が本筋**(必要指標のみの Murnaghan-Nakayama 計算等)。数学者委嘱を次波で起票。再現テスト = ell37-t4(n=41)1-shard を miner が起票・発火(修理の実証: どちらの結果でも conclusion と verdict の一致を確認)。
+
+## 2026-08-01 P5-3 カナリア probe = anchor failure で正直停止(裁定 377)— m=18 未計測(値ゼロ・接触遮断維持)
+- 主計器(定義ノート (3.3)(3.4) の literal 一般 m 化)は既知 SURV witness と 300/300 一致で正しい。しかし **m=0 回帰アンカーが FAIL**: 候補生成(kerchi-judge の Xi-restriction・Prop 3.1 流用)が 120 候補(=|S₅|)しか出さず、期待 2280(=120×19・19=N_ord)と系統的乖離。parity 仮説は診断で棄却。有力仮説 = **Prop 3.1 の完全性証明は RtOf ベース旧受理条件に対するもので、独立式 (3.3)(3.4) に対する完全性は未証明** — 数学判断領域につき指示どおり停止(fail-closed の模範)。
+- 収蔵: probe+cert(anchor failure を正直記録)+補助データ(ker χ̃ の対合類 2 種: 互換型 10・二重互換型 15・C₁₉ 部自明)。次: 候補生成完全性の数学委嘱(m 一般の shadow 全列挙は (3.3)(3.4) 受理で 2280 を再現するか・120 の商 19 の構造説明)。

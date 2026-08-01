@@ -1,0 +1,46 @@
+{
+  "schema":"wac_v1-wall-canary/v1",
+  "generated_by":"search/probe/wac_v1/wall_canary_24_20260801.g",
+  "window_label":"P-WALL-2",
+  "card_label":"P5-3(発案係第17便・採択札)",
+  "source_witness":"search/probe/wac_v1/wall2_cert.g の a1,b1 逐語(P-WALL-2 witness)",
+  "note":"群論観測のみ・算術的意味づけ保留。壁窓は dihedral 窓でないため BFC/TB 枠組の適用可否は未整理。判定は本 probe に埋め込まない(接触遮断)。主計器 = docs/week1-定義ノート.md (3.3)(3.4) の m への literal 代入(raw GAP 乗算、wall2_cert.g の手書き m=0 式と字句一致を確認)。RtOf(kerchi-judge.g 一般式)は診断専用 -- wall2_cert.g の note により m=0 の実データで手書き式と不一致が既知(scratchpad/diag_hex.g)。",
+  "n":24,
+  "a1":"(1,13)(2,9)(3,5)(4,24)(6,8)(7,21)(10,12)(11,20)(14,16)(15,22)(17,19)(18,23)",
+  "b1":"(1,12,9)(2,8,5)(3,4,24)(6,7,21)(10,11,20)(13,19,16)(14,15,22)(17,18,23)",
+  "n_ord":19,
+  "c_raw_is_identity":true,
+  "ker_chi_tilde":{
+    "size":2280,
+    "structure_description":"C19 x S5",
+    "solvable":false
+  },
+  "regression_anchor_m0":{
+    "alpha0_found":true,
+    "stab_size":2280,
+    "cyu_size":1140,
+    "scanned":2599200,
+    "candidates_found":120,
+    "matches_known_2280":false
+  },
+  "canary_m18":{
+    "m":18,
+    "u":37,
+    "alpha0_found":false,
+    "stab_size":0,
+    "cyu_size":0,
+    "scanned":0,
+    "candidates_found":0,
+    "per_candidate":[]
+  },
+  "diagnostic_rtof_comparison":{
+    "note":"主計器ではない。既知逸脱(RtOf 不一致)の追加診断材料のみ。",
+    "m18_matches":[],
+    "m0_first_candidate_matches":true
+  },
+  "auxiliary_involution_classes_in_ker":[{"class_size":10,"representative_cycle_type":"[ 1 ]","representative_perm":"(20,21)"},{"class_size":15,"representative_cycle_type":"[ 2 ]","representative_perm":"(20,21)(22,23)"}],
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"e9fe073cfd130f6110d33e01eaa4958335af4902f76be9128db7099d866f00db"
+  }
+}
