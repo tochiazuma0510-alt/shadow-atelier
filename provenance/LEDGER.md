@@ -1455,3 +1455,14 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-01 R4b CI 正式収穫(裁定 387)— ★ 972 の二環境化成立: run 30697198947・12/12 shard 全 done(conclusion/verdict 一致 = 修理版 backend の初実戦も無傷)・K9=108/S4=54 アンカー 12/12・Σ=81×12=972・accounting 12/12・provenance 単一 script sha=plan frozen 一致
 - これで屋根 M=K⁽⁹⁾∩N_S4 の |GT(M)|=972 は: 紙(命題 ROOF)+予言先行(P-IHN 凍結)+**二経路**(R4a 組立 vs R4b 直接列挙)+**二環境**(ローカル Windows vs CI ubuntu)。P-IHN-1〜7 全的中で ihnec 実測線は完結 — 便 99 で cross-checked 格付け請求へ(CV-9 判読は R4a/R4b が別実装・別著者につき要判定)。検収 = mine/reports/ihnec-r4b-20260801_report.md。
+
+## 2026-08-01 便 98 検収(裁定 388)— ★ 総合 = 条件付き PASS: **(A′) c₃ pentagon PASS(GTPI の最後の監査点閉鎖)・補題 INT PASS(Cor 5.4 の根が確保)**・定理 D/D+ 紙上核 PASS・FV-EQ/FV-SUB・IH-FACT/IH-NEC/FAKE-KILL・ML-ODD・壁分類・2280 悉皆+settled・era 修理 = 全 PASS。FAIL は一件のみ = 系 SPLIT-NULL″(無条件形)
+- 18/18 digest 一致・原論文はページ画像照合。
+- **GTPI**: (A′) は v_i=R(φ_i(f)) の型付けで正典 (2.20) と一致 = PASS。二部作は定理候補として条件付き PASS — ただし CLOSURE 存在段と PB₄-settled は有限計算に論理依存につき「紙が probe 全体を spot-check 化」とは分類しない(格の正確化)。
+- **補題 INT PASS**: 段 1 は 2401 Prop 3.12(c)/(3.59) が既に述べている — 依存表は Prop 3.12(c) 直接引用が最短(修文)。
+- **FAIL 一件 = SPLIT-NULL″**: 主公式が言えるのは「同一 m-fiber 内部を部分的に削らない」だけ — m-fiber 全体の欠落で分裂屋根も fake を検出しうる。**修理 = 前件 (MCOV)(全 m の被覆条件)を追加した強形 P98-3.1**・R4a の 108/108・54/54 には非波及(n=9 は m 像 6 個の直接測定が MCOV を与える)。「非算術証人は分裂屋根で不可視」は split 特有でなく定義上の事実(言い方の訂正)。
+- 修文・格付け群: SPLIT-NULL 本体は S₃ 一行明記で PASS・U-11 は「有限 exhaustive candidate/single lane」(R4b 完了は本便発送後 — 次便で二環境化を報告)・カナリア構造欄は 20/2280 sample と明記(存在と settled は全件 PASS)・settled 判定の依存(生成条件+S₃ 恒等+有限全射=自己同型)を cert に明記・CV-13 は「internal orientation gate であって canonical-fidelity gate ではない」の限定つき承認(外部 anchor 併置義務)・用語 3 語を公開語として正式採択(pentagon-fake 等は内部メモ限り)。
+- **D-1**: 8 件は [7] REJECT 確定(回帰 fixture・救済禁止)。**D-2**: depressed = 座標 gauge の技術的選択・現 Rule 1 内では規範的。B=5 六点は新 campaign の seed 限り(versioned 事前登録の 2 択を指定)。
+- **★W98-ALG 採択 = long-hook localized Frobenius/Jacobi–Trudi 法(GO)**: T_all(ρ) = (1/n!)Σ A₂(λ)A₃(λ)χ^λ(ρ)/f^λ(ALG-1)・h 列の 3 項漸化式・MN 局所化(ALG-2: μ⊢a≤8 への rim hook 判定のみ)・二項反転(ALG-3)で T_trans。**全指標表不要・メモリ O(n²)**。実装ゲート 5 条(ctbllib 禁止・route A/B 独立二重・整数性 assert・較正 4 点[(23,1³)=173880・(25,1⁵)=378000・(37,1²) 両値]・cert 様式)。12 セル再走は検収後。
+- **EP**: era 修理 PASS(履行裁定)・W6-KEY draft 条件付き PASS・**W6-P1(lane A per-point producer 改造)= 認可 GO**・**SPEC-V20/v15 = versioned draft 認可**(6 必須条件・freeze/発効の認可ではない)・positive control 本走は不認可継続。CV-11 digest キーは v1.3 整合(自己矛盾なし)。
+- 次波: ①数学者 = SPLIT-NULL″ の (MCOV) 修理+SPLIT-NULL S₃ 一行+INT 依存表修文+sample/全件の記帳分離 ②implementer = W98-ALG driver(route A/B 二重)③ep-keeper = v20/v15 draft+per-point producer 改造。
