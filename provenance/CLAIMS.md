@@ -115,3 +115,27 @@ E1-1(isolated 族)/E1-2(構造 GT^odd_Dih ≅ Aff(Ẑ^odd)×C₂)/E1-3(odd Conj 
 - **主張**: (ℓ,a) ∈ {37,41}×{0..8} の 18 セルで (T_all, T_trans) を厳密確定(exact 表 = sol/sol_reply_99_math26.md §6 に収蔵)・**t≥9 は RH 予算 3f₂+4f₃ = ℓ+6−5t−12γ で厳密 0 = census は t 方向完備**。
 - 格: **cross-checked finite computation**(route A/B 独立実装 18/18・二項反転・a=9 の RH 先行予言的中・指標不使用の小 n brute 30・類乗積直撃。route A/B は ALG-1/2 を共有 — 小 n brute+類乗積が穴を部分被覆、の依存表示つき。二環境 180/180 は環境再現性であり独立数学 route でない)。Lean 未検証。
 - **旧 12 セル(裁定 372 UNKNOWN)は P99-6.1 の superseding entry で更新**(LEDGER 裁定 412 に provenance ブロック収蔵・旧行は当時の正しい履歴として不改変)。恒久 fixture は P99-6.2 の 5 条件つきで次版 driver へ。
+
+## 便 100 検収の記帳(2026-08-02・裁定 422・P100-9.1 の 7 件)
+
+### PENT-NORM(HS (III) の位数 5 ノルム書換え)
+- **主張**: HS (III) ⟺ ρ⁴(f)ρ³(f)ρ²(f)ρ(f)·f = 1(量化子なし・2 行証明・前件 (I)(II) 不要)。**HS Prop 7 本体(ρ-可換 lift との同値)は (I)(II) 相対で別物** — 呼称は「HS (III) の PENT-NORM 書換え」。(I)(II)(III) = 位数 2・3・5 の巡回ノルム族((I)(II) は F₂ 内で閉じ・ρ は K(0,5) にのみ存在 = cross-frame 性の説明。「cross-frame 以外不可能」の排他定理ではない)。
+- 格: paper-proof(Sol 再導出一致・F100-1.1)。
+
+### D2-BLIND・HSP-COLLAPSE・HSP-ODD(nilpotent route 限定)
+- D2-BLIND: charming f の pentagon defect の次数 2 成分は恒等的に消える(整数係数・paper-proof)。**射程 = 次数 2 のみ**(c₂ への高次条件は残る — D2-C2 は弱形)。
+- HSP-COLLAPSE: d(N)=1 ⟹ nilpotent 商内の charming f̄ は自明 ⟹ nilpotent K(0,5) window 経由の PENT は恒真。**HSP-ODD/HSP-WALL の正形**: d=1 の奇・混合 dihedral/壁窓は「nilpotent 経由に限り」恒真 — 非 nilpotent packing・深さ 5+・他 detector は UNKNOWN。
+- CENT-FREE 限定版: Z(PB₄)∩[PB₄,PB₄]=1 ⟹ charming word の pentagon 恒等式判定は K(0,5) 商で PB₄ と同値(有限 FAIL = 有効反証・有限 PASS は PB₄ 恒等式を証明しない)。
+
+### K5-MOD-v2(elementary-5 kernel 版)+EXT0/EQUIV
+- **主張(P100-2.1 正本見出し)**: N◁B₃・N⊂K⁽⁵⁾・B₀ = K⁽⁵⁾/N 初等アーベル 5 群なら、dim B₀≤2 ⟹ 作用自明(拡大は直積・補群一意・正規・B₃-安定 = ENT-CRIT(b) ⟺ 作用自明)・非自明なら dim≥3 ⟹ |PB₃/N| ≥ 62,500。最小非中心型は ρ と ρ⊗ε の 2 つ。**一般 W-6 の最小位数は UNKNOWN**(他素数・非初等核の実現性 = 新 GAP)。
+- 補題 EXT0(V-自明単純加群間 Ext¹ = 0)・補題 EQUIV(H^i(Ĝ₅,M) ≅ H^i(G₅,M)^{S₃} — 固定 module の extension equivalence まで)。格: paper-proof candidate(Sol ゲート通過・F100-2.1/2.2/2.3)。
+
+### K5-ENT-INSUF・K5-BIT
+- ENT-INSUF: p∣n ⟹ nA_{np} ⊂ Φ(A_{np}) で補群不存在(二証明)— K9→K3 の既測 12/12 全射が「entangled ⟹ 検出力」の反例。K5-BIT: isolated (HOM) のみで Im∩𝔉₀ は C₅ の部分群(依存申告に穴なし)。格: paper-proof(F100-2.4/2.5 PASS)。
+
+### NO-ENT(3)(指定 class 定理・P100-3.1 登録文)
+- N′◁B₃・N′⊆K⁽³⁾・[K⁽³⁾:N′]=3 ⟹ C₃ 作用は自明・拡大は直積分裂・唯一の補群は正規かつ B₃-安定 ⟹ この class に本質的 entangled 屋根なし。**証明の正順**: 自明作用+split ⟹ 直積 ⟹ 正規、補群一意性から B₃-共役固定。射程拡大禁止(指数 9+・他 n・B₃-正規性なしへは広げない)。1944 走査は較正。格: paper-proof(Sol 起草+数学者検分+Sol ゲート・裁定 416/422)。
+
+### W98 恒久 fixture(記帳正形 P100-6.1)
+- 事前登録宇宙 = **27 ケース**(n=5..13 帯・n∈{10..13} は 13)。四方向一致 27/27・ℓ=9 非単調 fixture 発火。「30 ケース」は裁定 390/393 の記帳ミス(erratum 済)。格: 多経路有限照合(helper 分離)・Lean 未検証。
