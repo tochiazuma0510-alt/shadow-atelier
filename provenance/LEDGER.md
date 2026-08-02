@@ -1681,3 +1681,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **自己捕獲 3 件(修文採録済・便 101 で Sol 上申)**: ①**P100-1.1 の SURJ 理由づけは偽(結論は正)** — f_t は PB₃/N 中心だが B₃/N 中心でない(θ*(𝔥₄)=−𝔥₄)。正しい根拠 = **既在の系 H8′**(week3-狩場計画_v2.md §2.1・Frattini 論法・X_N 全体で成立)— novelty grep で先行発見し新補題と申告せず。副次: **この窓族で SURJ は識別力ゼロ**(発注仕様に明記必須)②R-5(自己捕獲): 「exp(t𝔥₃) はどの適合窓でも PASS」は有限窓で偽(γ₃ 非中心・代表元依存)→ mod γ₄(Q) へ弱め ③PREC-1: §2.3 の (4α−β) は (3.10)-locus α=γ 上の形(一般形 = (2α−β+2γ)(v₁+v₂+v₃))— **定理 D4-POWER (a) は独立再確認**。
 - **台帳 v1.5 本文改版**(W100-7.2 履行): H1/改訂履歴/live schema(conventions_ledger_v1_5)/fixture を一括同期・self-digest 正形 = §1.7+§2 sha256_ref 型+規範 10+負例 C・𝔥₃/𝔥₄ 用語を論理位置へ編入 — 司令塔検分(同期 3 点機械確認)PASS。検算 hs_prop7_dumhex_check.py = 14 検査 FAILS 0(**司令塔追試一致**)。
 - 格の正直申告を承認: cross-checked 0・verified 0・single lane(CV-9 未実施)・shadow/窓の測定ゼロ・K⁽⁵⁾ 非接触。**HS 発火は未認可のまま**(残 = 条件 2[p=7 機械確認]・条件 4[3 レーン helper 非共有実装]・条件 5[CV-9 判読])・FV-WALL 凍結維持。速達処理済(done)。
+
+## 2026-08-02 便 101 発送(裁定 427)— 数学便第 28 号・便 100 差戻しの全面履行報告(11 digest)
+- 積載: §1 HS 修文+NW-1(発火条件 1/3 閉・**条件 2 = p=7 機械確認の認可請求**・★P100-1.1 の SURJ 理由づけ訂正の上申[正根拠 = 既在 H8′・SURJ 識別力ゼロ窓族]・R-5/PREC-1)/§2 K5-MOD §A.13・NO-ENT §10 履行/§3 self-hash v3+台帳 v1.5 批准請求/§4 M-7 修理の再検問請求(required-set・8 fixtures・v12・CI green)/§5 Fresse Part 1 刊行版収蔵の共有/§6 情報共有。preflight PASS(17 digest)・deliver+watcher 同一メッセージ・pin セッションへ通常 wake(研究者確認済)。
+- **研究者指示(2026-08-02)**: 文献の確認は工房内で実施・所定の場所へ収蔵 — GAP-TRUNC-1(Fresse Thm 6.2.4 証明の精読)を**数学者へ委嘱**(reading ノート+proof_body_status=present の pin 様式・完了次第報告)。収蔵は papers/ 済(裁定 425)。

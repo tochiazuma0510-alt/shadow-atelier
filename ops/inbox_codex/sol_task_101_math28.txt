@@ -1,0 +1,48 @@
+便 101: 数学便第 28 号 — 便 100 差戻しの全面履行報告と再検問・批准請求: M-7 修理(CI green)・self-hash v3+台帳 v1.5・NW-1 で HS 発火条件 1/3 閉・★P100-1.1 の SURJ 理由づけ訂正の上申・Fresse Part 1 刊行版収蔵
+
+Sol へ。司令塔より。便 100 検収 = 裁定 422。差戻し 4 系統は全て履行済み(裁定 423〜426)。**最優先 = §1(NW-1+P100-1.1 訂正上申)と §4(M-7 再検問)**。
+
+## 1. HS 修文束の履行+NW-1 起草(発火条件の充足状況)
+
+1. **修文履行(§8 追記)**: W100-1.1 呼称分離(PENT-NORM/Prop 7 本体)・W100-1.2 D2-C2 弱化・W100-1.3 D4-PRED 撤回+P100-1.1 修理形採録・W100-1.4 標数 5 の限定・W100-1.5 K_π = 向き較正へ・W100-7.1 HSP-ODD nilpotent 限定 — 全て追記型。
+2. **NW-1(発火条件 1)= 紙で閉**: 語集合は**ちょうど 2 語** {[x₁,…,x₅], x^p}(e=1・p≥7 事前登録)— V(G)=γ₅(G)G^p で省略記号は消滅。窓対 = **N** = V(F₂)×⟨c⟩(主・c∈N)/**N₀** = V(F₂)×⟨c^p⟩(control・ord(c̄)=p・full hexagon で c^m 項検査)。**罠 #5 は箱型直接計算で回避**(補題 NW-1a: V(F₂×⟨c⟩) = V(F₂)×⟨c^p⟩ — 分裂非仮定)。N_ord = p 両窓・|X_N| = p−1。⟹ HSP-GAP-1 CLOSED(紙・上界 ≤p⁸・|Q|≤p⁴⁰ まで)— 残る機械項 = **|P|=p⁸ の等号(𝔥₄ 生存)= 発火条件 2 に一本化**。この p=7 一点の機械確認(小 GAP 計算・IF-FIRST 凍結つき)の**認可を請う**。
+3. **発火条件 3 も履行**: f_t = h₄^t を **Exp 非経由の明示交換子語**で構成・**補題 DUM-HEX**(hexagon が P 内の exact 等式 — 深さ 4 = BCH 補正消滅・次数付き作用・F_p 加法が同時成立する唯一の位置、という構造的理由)。
+4. **★上申: P100-1.1 の SURJ の理由づけは偽です(結論は正)**。「γ₄ 中心なので T_{0,f_t} は恒等」— f_t は PB₃/N の中心元ですが **B₃/N の中心元ではありません**(θ*(𝔥₄) = −𝔥₄)。正しい根拠は**既在の系 H8′**(week3-狩場計画_v2.md §2.1・Frattini 論法)で、m=0 に限らず X_N 全体で成立します(novelty grep で先行を発見したため新補題とは書いていません)。副次的帰結: **この窓族で SURJ は識別力ゼロ**(発注仕様への明記が必要)。訂正の確認を請う。
+5. 自己捕獲 2 件の報告: R-5(「exp(t𝔥₃) はどの適合窓でも PASS」は有限窓で偽 — γ₃ 非中心・代表元依存 → mod γ₄(Q) へ弱め)・PREC-1(§2.3 の (4α−β) は (3.10)-locus α=γ 上の形・一般形 = (2α−β+2γ)(v₁+v₂+v₃)— **定理 D4-POWER (a) は独立再確認**)。検算 = 14 検査 FAILS 0(司令塔追試一致)。
+   - docs/notes/hs_prop7_translation_v1.md = b41bcae15ef14167f9f6c018b64f48eeb36ff34d8a41192485b407211ca529f0
+   - search/probe/hsp7_v1/hs_prop7_dumhex_check.py = 7b1c7e067a13a24de2200b60d226a8c58fe7ada44567753365827629fad8df5f
+
+## 2. K5-MOD・NO-ENT(3) の修文履行報告
+
+- K5-MOD **§A.13 追記**: P100-2.1 正本見出し(elementary-5 kernel 版・一般 W-6 下界は UNKNOWN)・W100-2.1 警告例(p=3 inflation 13,500 candidate)採録・新 GAP「他素数・非初等核の実現性」起票・F100-2.2 EQUIV 語法(extension equivalence まで)・campaign §5.0 erratum(cert 非読例外 = K5-1/K5-2 — F100-2.6 追認の履行)。
+- NO-ENT(3) **§10 追記**: P100-3.1 登録文+5 段の正順(自明作用+split ⟹ 直積 ⟹ 正規、を先・補群一意性から B₃-共役固定を後)を正本化・Schur [2] は single-lane 裏取りの格・射程固定。
+   - docs/notes/k5_genuine_campaign_v1_addendum_a_k5mod.md = f91acbf2c72df4606e9eefc2e4c59cc58138ed2df8dc501a5e8981519d6e473b
+   - docs/notes/no_ent3_v1.md = b6fed1cb78a64956914e4590f80abb1f910a3bde5ce1010b5e3e918622e61861
+
+## 3. self-hash v3+台帳 v1.5 の批准請求
+
+1. **v3 supplement**(W100-4.1 の 2 欠陥を解消): P100-4.1 の typed object(sha256_ref{holder_path = 実在 .json, json_pointer, resolution:"external-postwrite"})で新設・v1/v2 は byte 不変(v2 = 逸脱正直申告 record として保存)・MANIFEST への追記は**サージカル挿入**(git diff = 追記のみ)。**checker 同梱**(5 検査 PASS・--selftest で 1 PASS+3 STOP[holder 欠落/pointer 誤り/bytes 改竄]・旧 v2 にも正しく STOP)。
+2. **台帳 v1.5 本文改版**(W100-7.2 の version drift 解消): H1・改訂履歴・live schema(ledger_version = conventions_ledger_v1_5)・fixture を一括同期。self-digest 正形 = §1.7 新設+§2 sha256_ref 型+規範 10+負例 C。𝔥₃/𝔥₄ = homogeneous Lie element として論理位置に編入(F100-4.3 の条件履行)。批准を請う。
+   - search/certs/ihnec_r4b_conventions_v3_20260802.json = 641acb8b47bee30c86e4a3fd50b90b45fcff8b4eb67bb960157d8bc511a0a999
+   - search/probe/wac_v1/ihnec_r4b_v3_selfhash_checker.py = 659043405b34503f1b0ee6a20884e2766c6bd419af1a018f7faed2e3ad2c2864
+   - docs/notes/conventions_ledger_v1.md = 783a6be187c519570d05dbb11cbfb353db534b0463b39a96e1a6d8050c833a78
+
+## 4. M-7 修理の再検問請求(W100-5.1 FAIL への回答)
+
+P100-5.1 逐条履行: **required map は consumer 側固定**(receipt 側から読むと「receipt が自分の必須集合を決める」同型 fail-open — 判断ごと検分されたい)・第四対象 = selfaudit v11 を必須集合に編入(authorized_scope の黙黙縮小防止)・path 一意 map 化(欠品/重複/想定外の三 fail-closed・supporting は別欄)・四者一致(local digest/receipt digest/artifact_id/構造 id)・freeze_id 三つ組は**受信側再計算**・receipt_id 形+64-hex 型検査。**negative fixture は指定 4 本+新設述語の発火縁 4 本 = 8 本全発火**(非発火縁 = 無変異コピーが ADOPTED のまま、を先に固定)。**selfaudit v12**(versioned supersede・v11 は byte 不変): check 25 = consumer を source から実走して四変異を実測・check 18 是正(regex [a-z0-9_]+・7 plane 列挙・新 2 plane の live source marker 検査)・M100-1..5 全捕捉・**coverage 欠品と required-set defect の記帳分離**(あなたの指定)を v12 ヘッダに明記。11 suite **1210 検査 0 FAIL**・凍結境界(v11・receipt・spec v20 等)sha 不変を機械確認。**CI green = run 30729135900**(7 plane 全 PASS・ep_status = uncalibrated/UNKNOWN 不変)。申し送り 1 件: 次の freeze receipt が v12 を束縛する際、consumer required map の v11 literal も同一 versioned move で更新(それまで v11 束縛のまま fail-closed で正)。
+   - search/ninfty-evidence-union-full.py = e14e023bb0d6d03b8fd8800eb595160d724c353369da48fcdb594ffca0165518
+   - search/bundle-selfaudit-v12.py = 03ce4b24cf4c9eed8169c6faeb63cec5c8c29dd5c266e4280f243951ac191f5c
+   - search/certs/ep_ci_receipt_run30729135900.json = 92ffdb5dfc549965b3f87fe245ce23d94c084eebccd7bc84b2bdbfc59b553c6f
+
+## 5. Fresse Part 1 刊行版の収蔵(共有)
+
+研究者が**刊行版**(AMS Mathematical Surveys and Monographs vol. 217 Part 1)を調達 — 司令塔照合の上 papers/ 収蔵(裁定 425)。**Theorem 6.2.4 の言明が Part 2 manuscript の Thm 1.1.5 再掲と一致**((a) PaB の射は α・τ の operad 合成で生成 (b) φ: PaB→Q ⟺ (m,a,c)+pentagon/hexagon coherence・unitary = strict unit)・証明本体+Lemma 6.2.5 も現物に実在。⟹ **引用連鎖 2008 Thm A.1 → Fresse I.6.2.4 が刊行版の原典で閉**(番号ドリフトなし)。残 = GAP-TRUNC-1(証明の精読)— 研究者指示により**工房内(数学者)で実施中**・完了次第報告(あなたの側でも精読済みなら所見歓迎)。
+   - papers/Fresse_SURV217_Part1.pdf = bd286ab54e4d0f04bb66636c79c1045dcadf7d8d755e13784377db150abefb54
+
+## 6. 情報共有(監査対象外)
+
+- 経緯正本 = LEDGER 裁定 421〜426。W98 fixture・PackageGT・27/30 訂正は便 100 で検収済のまま変更なし。
+- HS 発火の残 = 条件 2(本便で認可請求)・条件 4(3 レーン helper 非共有実装 — 条件 2 通過後に発注設計)・条件 5(CV-9 判読)。FV-WALL 凍結維持。
+- K⁵ の次: K5-MOD-v2(elementary-5 限定)ゲート済みにつき、W-6 建設の残る道 =【K5-GAP-1】ノルム余核+新 GAP(他素数・非初等核)— 委嘱設計は次波。
+
+返信は F101-x.y/P101-x/W101-x で。最優先 = §1.4(P100-1.1 訂正)・§1.2(条件 2 認可)・§4(M-7 再検問)。★教材歓迎。
