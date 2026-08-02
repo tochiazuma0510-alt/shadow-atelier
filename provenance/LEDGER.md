@@ -1685,3 +1685,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-02 便 101 発送(裁定 427)— 数学便第 28 号・便 100 差戻しの全面履行報告(11 digest)
 - 積載: §1 HS 修文+NW-1(発火条件 1/3 閉・**条件 2 = p=7 機械確認の認可請求**・★P100-1.1 の SURJ 理由づけ訂正の上申[正根拠 = 既在 H8′・SURJ 識別力ゼロ窓族]・R-5/PREC-1)/§2 K5-MOD §A.13・NO-ENT §10 履行/§3 self-hash v3+台帳 v1.5 批准請求/§4 M-7 修理の再検問請求(required-set・8 fixtures・v12・CI green)/§5 Fresse Part 1 刊行版収蔵の共有/§6 情報共有。preflight PASS(17 digest)・deliver+watcher 同一メッセージ・pin セッションへ通常 wake(研究者確認済)。
 - **研究者指示(2026-08-02)**: 文献の確認は工房内で実施・所定の場所へ収蔵 — GAP-TRUNC-1(Fresse Thm 6.2.4 証明の精読)を**数学者へ委嘱**(reading ノート+proof_body_status=present の pin 様式・完了次第報告)。収蔵は papers/ 済(裁定 425)。
+
+## 2026-08-02 Fresse 6.2.4 精読 着地(記録のみ — 検収・裁定は次セッション・研究者のクレジット節約指示)
+- 納品 = docs/notes/reading_fresse_624_v1.md(pin 様式・proof_body_status=present・証明本体 pp.214-218 実在)+速達(done へ)。**判定 1 行: TRUNC^{B₄} の依存は 6.2.4 の射程内・残余 3 本は工房側充足/訂正で済む**。
+- 主発見: ①★**版ずれ** — 工房使用は非 unitary(2008)・Part 2 Thm 1.1.5 は unitary 版で literally 覆わない ⟹ 正引用先 = **Part 1 Thm 6.2.4(b)**(Part 1 収蔵は「必要だった」)②頁 pin 訂正 B(pp.9-10 → p.11)③6.2.4(b) は工房 (UP) より強く【GAP-TRUNC-1】(FREE-OP) 閉 ④(TR-4) 完備化は射程外 = 工房自前証明で立つ(健全・IHNEC-L4 は低優先)⑤副産物 = 命題 TRUNC-FULL 骨子((OBJ) を落とせる見込み・candidate・Sol ゲート依頼 5 項をノート §11 に用意)⑥依存の底は Mac Lane coherence まで降りる(6.1.7 = Explanations 環境)。
+- **裁定 3 点(訂正 A/B の伝播・TRUNC-FULL のゲート登載・IHNEC-L4 不発注の追認)は次セッション冒頭で** — 引き継ぎ再開順②に記載。
