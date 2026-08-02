@@ -1667,3 +1667,4 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **記帳の分離(Sol 指定の履行)**: (a) coverage 欠品 = v11 check 18 は新 2 plane を列挙せず(旧 regex は実測で読めないが「false PASS を返した」事実はない)(b) required-set defect = consumer の実 fail-open — 原因も影響も別件、を v12 ヘッダに明記。
 - 凍結境界の機械確認: v11・receipt・verifier-b・spec v20 すべて修理前後で sha 不変。**申し送り: 次の freeze receipt が selfaudit v12 を束縛する際、consumer の required map の v11 literal も同一 versioned move で更新**(それまで v11 束縛のまま fail-closed で正)。
 - 状態不変: W-6 OPEN・IMAGE-MU UNKNOWN・EP uncalibrated/UNKNOWN・新 2 plane acceptor の最終批准は Sol 再検問(便 101)待ち。CI 再発火は司令塔(本裁定直後に dispatch)。
+- (裁定 424 追記)CI 再発火 = **run 30729135900 success**(suites_status=0・7 plane 全 PASS・ep_status = uncalibrated/UNKNOWN・overall_full = INTEGRITY_STOP の正直記帳不変)。receipt 収蔵 = search/certs/ep_ci_receipt_run30729135900.json(sha256 = 92ffdb5dfc549965b3f87fe245ce23d94c084eebccd7bc84b2bdbfc59b553c6f)。M-7 修理は実装・suite・CI の三段完了 — 残 = Sol 再検問(便 101)。

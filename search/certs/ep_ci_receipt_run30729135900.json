@@ -1,0 +1,36 @@
+{
+  "full_evidence_union_assert_rc": "0",
+  "full_evidence_union_exit_code": "1",
+  "full_evidence_union_summary": {
+    "calibrated_detector": false,
+    "columns": {
+      "R1": "MALFORMED",
+      "R2": "MALFORMED",
+      "R3-NF": "PASS"
+    },
+    "control_plane_docs_receipt_binding_ok": true,
+    "ep_status": "uncalibrated/UNKNOWN",
+    "four_role_registry_status": "PASS",
+    "overall_full": "INTEGRITY_STOP",
+    "payload_era_matrix_ok": true,
+    "payload_era_matrix_planes": {
+      "control_plane": "PASS",
+      "decision_lane_predicate": "PASS",
+      "frozen_route_verifier": "PASS",
+      "native_payload_schema": "PASS",
+      "nf_route": "PASS",
+      "w6_key_route": "PASS",
+      "w6_point_map_producer": "PASS"
+    },
+    "registry_freeze_id": "ep-genuine-20260801c",
+    "registry_generation_id": "ep-genuine-20260801c-20260801T080620Z-15ab74332b08"
+  },
+  "generated_at": "2026-08-02T02:36:25.281676+00:00",
+  "note": "suites_status=0 means all 9 ninfty regression suites passed (test_ninfty_nf/checker_native/laneB/evidence_union/legacy_normalizer/r3nf/w6key/poscontrol + ninfty-selftest-lanea.mjs) -- a green w6key suite is NOT W-6 closure and a green poscontrol suite is NOT a calibration (both are draft-level, Sol 便97 P97-3.4 / P97-4.1) -- and the 'Gate' step FAILS THE JOB if this is not '0' (fail-closed, Sol 便95 W95-2.2). The per-suite check counts are in ci/out/suites.log, which each suite prints itself; they are not restated here, because a hand-restated total is exactly the kind of claim a receipt must not carry. registry_smoke_process_exit_code is search/ninfty-evidence-union.py's real process exit code against the production registry smoke fixture (search/certs/ep_ci_raw_evidence_20260801.json) -- a nonzero value is EXPECTED there; the step's own assert (registry_smoke_assert_rc) is what gates, and it checks native_registry_status.status=='PASS' from the parsed JSON. full_evidence_union_* is the three-column union (search/ninfty-evidence-union-full.py) against search/certs/ep_ci_full_witness_evidence_20260801.json: R1/R2 are recorded verbatim and NOT asserted PASS (they report MALFORMED against the genuine cross-lane native pair, for the structural reason recorded in their detail); R3-NF, the four-role same-generation resolution, the CONTROL-PLANE receipt binding and the PAYLOAD-ERA MATRIX ARE asserted -- the last two are DISTINCT columns (Sol 便96 W96-2.2) and neither may be reported as the other. A green job is NOT W-6 closure (Sol 便96 W96-2.3: R3-NF forgets incidence) and NOT EP re-activation. EP itself remains uncalibrated/UNKNOWN -- no positive control exists (P95-2.2 item 4). download+bind: `gh run download <run_id> -n ep-union-check-receipt` reproduces this exact receipt.json byte-for-byte; sha above is the checked-out commit this run executed against.",
+  "registry_smoke_assert_rc": "0",
+  "registry_smoke_process_exit_code": "1",
+  "run_attempt": "1",
+  "run_id": "30729135900",
+  "sha": "0597903686f95d1ea3eb5abca38b2e47507e215e",
+  "suites_status": "0"
+}
