@@ -10,7 +10,8 @@ letter = open(os.path.join(ROOT, letter_path), encoding="utf-8").read()
 
 # 1. every repo path mentioned in the letter -> recompute sha256 now
 # 2026-07-31 拡張(便 89 で穴が露見): papers/*.pdf(文献配達のハッシュ)と yml を走査対象に追加。
-paths = set(re.findall(r"(?:docs|search|provenance|sol|ops|papers|mine)/[\w\-./]+\.(?:md|py|mjs|txt|g|json|pdf|yml)", letter))
+# 2026-08-02 拡張(便 100 で穴が露見): certificates/(cert 棚)を走査対象に追加 — mine/ 追加(便 89)と同型の恒久修正。
+paths = set(re.findall(r"(?:docs|search|provenance|sol|ops|papers|mine|certificates)/[\w\-./]+\.(?:md|py|mjs|txt|g|json|pdf|yml)", letter))
 allowed = {}
 for p in sorted(paths):
     fp = os.path.join(ROOT, p)

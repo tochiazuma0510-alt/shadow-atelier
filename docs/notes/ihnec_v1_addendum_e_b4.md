@@ -811,3 +811,64 @@ $$\text{U-10(未解決予想)}\ \longrightarrow\ \text{(TRUNC}^{B_4}\text{)(記�
 3. **規約台帳への提案(§E-A.8.5-3 の増強)**: 「証明本文の有無」欄を **3 値化**(あり / 読者演習 / **外部引用**)。**外部引用は文献入手のフラグ**になるので、種の区別が運用上効く。
 4. **reader への (TRUNC) pin 発注は取り消し**(§E-A.8.5-4)— 起草者が頁指定抽出で照合済。
 5. **工具の申し送り**: `pdftotext -f p -l p <pdf> -` が動く(erratum-6)。**頁引用つきの原文照合は追加の抽出作業なしにできる** — 他の係にも共有されたい。
+
+
+---
+
+# 追記 F(便 99 検収の積み残し・裁定 416 ① / 裁定 420)— **(OBJ) / TRUNC-PAIR の注記 3 点**
+
+> **追記型**: §E-A.0〜E-A.9.7 の本文を**一切改変しない**。以下は 3 点の注記のみ。
+> 起草: 数学者(Opus 5)・2026-08-02。入力 = **Sol 便 99 返信 F99-3.6 / W99-3.3**(`sol/sol_reply_99_math26.md` §3.4)+ 裁定 420。
+
+## F.1 規約 (OBJ) は無害でない(**既記載 — 参照 + Sol の一段追加**)
+
+**既記載**: §E-A.9.1「規約 (OBJ)」の ⚠ 枠が既に述べている — 対象 operad $\Omega$ は arity 2 の自由 $S_2$-集合上の自由 operad ゆえ $\mathrm{Aut}_{\mathrm{operad}}(\Omega)\cong S_2$、**対象上の非自明な自己同型は原理的に存在しうる**。機械検算(`omega_count.py`)で $|\Omega(n)|=1,2,12,120,1680=\mathrm{Cat}(n-1)\cdot n!$($n=1..5$)を確認済、$n=3$ の $12$ は正典 p.3 の逐語と一致。
+
+**Sol W99-3.3 が加える一段**(本追記で採録):
+1. 補題 TRUNC$^{B_4}$ の PASS は「**対象を固定する automorphism**、または object-operad 上の作用を明示的に分離した定義」に対するものである。
+2. **全 automorphism を採る**なら、$\mathrm{arity}\le4$ 側にも**同じ $S_2$ が見える**。したがってその場合は「$S_2$ 部分と object-fixed 部分の TRUNC が両立する」ことを**一段示す必要がある**(§E-A.9.1 が UNKNOWN と申告した部分の、要求される形の明示)。
+3. ★ **Catalan 数列の一致は対象集合の有限 sanity check であって、この同型($\mathrm{Aut}_{\mathrm{operad}}(\Omega)\cong S_2$ および TRUNC)の証明ではない。** §E-A.9.1 は「自由性の傍証」と書いており誤りではないが、**証拠力の格をこの一行で固定する**。
+4. この object convention を明示すれば、TRUNC は Thm 3.8 の**全射段だけでなく、同じ presentation 穴を使っていた単射段も同時に修理する**(§E-A.9.5 の逐行突合表と一致 — Sol が独立に同じ読みに到達)。
+
+## F.2 補題 TRUNC$^{B_4}$ の格 = **Fresse Thm 1.1.5 相対**(現物 pin 済 ⟹ 【GAP-TRUNC-2】/【IHNEC-L3】の状態更新)
+
+**F99-3.6 の判定**: **外部定理への相対的 paper-proof として PASS**(6 段 — 単射 = arity 2 の braid と arity 3 の associator/braiding が全 operad を位相的に生成 / 全射 = 切詰め自己同型の像が arity $\le4$ で unit・pentagon・hexagon を満たす ⟹ presentation 経由で全 operad へ一意延長 / 最後に profinite completion の普遍性 — **は正しい**)。
+
+**言明形の pin(数学 blocker は閉)**:
+
+| 項目 | 値 |
+|---|---|
+| 文献 | **Fresse, "Homotopy of Operads and Grothendieck–Teichmüller Groups, Part 2", Theorem 1.1.5** |
+| 所在 | **PDF p.9–10** |
+| 現物 | `papers/Fresse_EnOperadHomotopy-II.pdf` |
+| SHA-256 | `1433bafe9999d131bb9f2e597b9c0cb92fe8cca9b904b17df8763628da58719e` |
+| bytes | 2505807 |
+| 内容 | PaB から対象 operad への写像を **unit / product / associator / braiding とその coherence relations** で特徴づけ、参照元を **Fresse I.6.2.4** と明記。後続箇所に **profinite analogue と連続延長**も記載 |
+
+**⟹ 状態更新**:
+- **【文献要請 IHNEC-L3】**: **数学 blocker は閉**(言明形が pin できた)。**provenance 側も履行済**(現物収蔵 + digest 記帳 = LEDGER 該当行)。
+- **【GAP-TRUNC-2】(A1 の外部性)**: 「工房は [9](Fresse)を保持していない」は**もはや事実でない**。ただし **2008 Theorem A.1 に証明本文が無い**という記述は不変 — 依存は「未入手の外部定理」から「**入手済の外部定理**」へ移った。
+- **格の正確な形(Sol 逐語の趣旨)**: 「**これは TRUNC の紙上依存を Lean verified に変えるものではない。**」
+- ⟹ §E-A.9.7 格付け表の TRUNC$^{B_4}$ 行「(未入手外部定理)に相対的」は「**Fresse Thm 1.1.5(入手済・pin 済)に相対的**」と読み替える(**本文は不改変・本追記が effective source**)。
+
+## F.3 ★ 強版 **TRUNC-PAIR(all invertible pairs)は別途 invertibility 条件を要する**(F99-3.6 末の限定)
+
+**Sol 逐語の趣旨**: 「FAKE-KILL$^{B_4}$ の前件は引き続き (IH-S)/(GEN$^{B_4}$)/(PR$^{B_4}$)/(CHM$^{B_4}$) の 4 札である。**TRUNC は full/truncated の橋を閉じるだけで、U-10 や四前件を証明しない。`TRUNC-PAIR = all invertible pairs` の強い版も別途 invertibility 条件を要する。**」
+
+⟹ **系 TRUNC-PAIR(§E-A.9.4)の使用規約を確定する**:
+
+| 版 | 言明 | 格 |
+|---|---|---|
+| **弱版(使ってよい)** | 関係式(pentagon (2.20) + hexagon (2.18)(2.19) の副有限版)を満たす対 $(\hat m,\hat f)$ $\Rightarrow$ 連続**自己準同型**が定まり、$\widehat{GT}	o\{$対$\}$ は**単射** | **paper-proof candidate**((TR-1) + (A1$^{\le4}$) + (TR-4)) |
+| **強版(使ってはならない)** | 像が「**関係式を満たす可逆な対の全体**」に**一致**する | ★ **未証明**。**invertibility 条件の明示形が別途要る**(正典 p.3 は "*some relations and technical conditions*"、Remark 1.1 は "*the "invertibility condition"*" と呼ぶのみ) |
+
+> **⟹ 「$\widehat{GT}$ = 関係式を満たす可逆な対の全体」という合成文を引用しないこと。** §E-A.9.4 の ⚠ 枠(「系は…自己**同型**であることは別途要る、という形で使うこと」)を**この形で確定する** — Sol の限定と工房の申告は一致しており、**追加の穴ではなく既知の穴の確認**である。
+> **前件表への影響: なし**(FAKE-KILL$^{B_4}$ は 4 札のまま・§E-A.9.6 は無傷)。
+
+## F.4 この追記が変えないもの
+
+- §E-A.9.3 の補題 TRUNC$^{B_4}$ の**言明と証明**((TR-0)–(TR-5))。
+- §E-A.9.6 の**前件表 4 札化**と除外欄。
+- §E-A.9.5 の Thm 3.8 逐行突合表(Sol が独立に同じ読みに到達 — F.1-4)。
+- 凍結物 **P-IHN-1〜7** と検算 digest(不変)。
+- 【GAP-TRUNC-1】(FREE-OP・圏論的包装)は**依然 open**(Fresse Thm 1.1.5 が普遍性の形で述べられているかは本追記では未判定 — 原文 p.9–10 の精読は未実施)。
