@@ -1690,3 +1690,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 納品 = docs/notes/reading_fresse_624_v1.md(pin 様式・proof_body_status=present・証明本体 pp.214-218 実在)+速達(done へ)。**判定 1 行: TRUNC^{B₄} の依存は 6.2.4 の射程内・残余 3 本は工房側充足/訂正で済む**。
 - 主発見: ①★**版ずれ** — 工房使用は非 unitary(2008)・Part 2 Thm 1.1.5 は unitary 版で literally 覆わない ⟹ 正引用先 = **Part 1 Thm 6.2.4(b)**(Part 1 収蔵は「必要だった」)②頁 pin 訂正 B(pp.9-10 → p.11)③6.2.4(b) は工房 (UP) より強く【GAP-TRUNC-1】(FREE-OP) 閉 ④(TR-4) 完備化は射程外 = 工房自前証明で立つ(健全・IHNEC-L4 は低優先)⑤副産物 = 命題 TRUNC-FULL 骨子((OBJ) を落とせる見込み・candidate・Sol ゲート依頼 5 項をノート §11 に用意)⑥依存の底は Mac Lane coherence まで降りる(6.1.7 = Explanations 環境)。
 - **裁定 3 点(訂正 A/B の伝播・TRUNC-FULL のゲート登載・IHNEC-L4 不発注の追認)は次セッション冒頭で** — 引き継ぎ再開順②に記載。
+
+## 2026-08-02 便 101 返信 着弾(記録のみ — 検収裁定 428 は次セッション・研究者のクレジット節約指示)
+- 総合 = **条件付き PASS**(11/11 digest 一致・Sol 側で dumhex 14 検査/v3 checker/selfaudit v12 通常+--mutate を再実走)。**PASS/批准**: NW-1a/1b(HSP-GAP-1 CLOSED 紙)・DUM-FIN/DUM-HEX/DUM-1/p(NW-P5 相対)・**P100-1.1 SURJ 訂正の全面採択(Sol 旧理由撤回)**・R-5/PREC-1・K5-MOD §A.13・NO-ENT(3) §10 登録文批准・**M-7 = PASS・最終批准(W6KEY 2 plane adoption)**・Fresse 刊行版 pin 採用(頁画像照合済・Sol 側 GAP-TRUNC-1 は OPEN 認識 — 工房の精読着地は本便発送後につき次便で報告)。
+- **発火条件 2 = 限定認可(P101-1)**: p=7・e=1 の構造確認のみ・6 条件契約(窓固定・pc presentation から |P|/LCS/|Q|/dim γ₄(Q)・h₄≠1 直接判定・Πρ^i(j(h₄))≠1 直接判定[期待値をコード生成に使わない]・S-6/S-7′/NW-P8 明記・single-lane candidate → 通過後に三レーン発注)。**W101-1.1: S-7 は S-7′ へ置換**(事後予言改稿の禁止 — 不一致は PREREGISTRATION_FALSIFIED/INTEGRITY_STOP・書き直しは別 version 事前登録から)。
+- **差戻し = self-hash v3+台帳 v1.5 束(4 欠陥・P101-3 の 6 条件で再提出)**: v3 の ledger_version 宣言 drift(v1_4 のまま新型使用)・台帳 CL-9 の「checker 未実装」が現物と矛盾・checker contract 不完全(全 sha256_ref 非走査[nested superseded_by]・path 実入力一致検査なし・sha256/sha256_ref XOR 未強制・負例不足)・MANIFEST の fixed-point 不可能断定の current erratum 未設置。採択済みは設計判断(§1.7 配置・𝔥₃/𝔥₄ 用語)まで。
+- NOTE 2 件: 「1210 検査」の恒久記帳には suite log の別 provenance 束縛が要る(W101-4.1)・DUM checker 冒頭コメントの (4a−b) は次版で修正(W101-1.2・現 file 不改変)。
+- 次セッション: 裁定 428(本返信の検収)→ 修文波(v4/checker v2/台帳次版・S-7′ 反映)→ **HS 条件 2 の p=7 構造確認走(認可済み・P101-1 契約で implementer 起票)** → Fresse 精読 3 裁定(既記載)。
