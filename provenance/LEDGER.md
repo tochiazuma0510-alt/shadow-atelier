@@ -1668,3 +1668,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 凍結境界の機械確認: v11・receipt・verifier-b・spec v20 すべて修理前後で sha 不変。**申し送り: 次の freeze receipt が selfaudit v12 を束縛する際、consumer の required map の v11 literal も同一 versioned move で更新**(それまで v11 束縛のまま fail-closed で正)。
 - 状態不変: W-6 OPEN・IMAGE-MU UNKNOWN・EP uncalibrated/UNKNOWN・新 2 plane acceptor の最終批准は Sol 再検問(便 101)待ち。CI 再発火は司令塔(本裁定直後に dispatch)。
 - (裁定 424 追記)CI 再発火 = **run 30729135900 success**(suites_status=0・7 plane 全 PASS・ep_status = uncalibrated/UNKNOWN・overall_full = INTEGRITY_STOP の正直記帳不変)。receipt 収蔵 = search/certs/ep_ci_receipt_run30729135900.json(sha256 = 92ffdb5dfc549965b3f87fe245ce23d94c084eebccd7bc84b2bdbfc59b553c6f)。M-7 修理は実装・suite・CI の三段完了 — 残 = Sol 再検問(便 101)。
+
+## 2026-08-02 Fresse Part 1 刊行版の収蔵(裁定 425)— ★ 研究者調達(裏どり優先 1 の履行)・引用連鎖 2008 Thm A.1 → Fresse I.6.2.4 が刊行版現物で閉
+- 現物 = papers/Fresse_SURV217_Part1.pdf(sha256 = bd286ab54e4d0f04bb66636c79c1045dcadf7d8d755e13784377db150abefb54・**刊行版**: AMS Mathematical Surveys and Monographs vol. 217 Part 1・研究者がデスクトップへ調達 → 司令塔照合の上収蔵)。
+- **司令塔照合**: 表紙(SURV 217 Part 1: The Algebraic Theory and its Topological Background)+ **Theorem 6.2.4 の言明**(§6.2 p.218-219: (a) PaB の射は α・τ の operad 合成で生成 (b) φ: PaB→Q ⟺ (m,a,c)+pentagon[Fig 6.1]/hexagon[Fig 6.6] coherence・unitary 版 = strict unit e)— **Part 2 manuscript の Thm 1.1.5 再掲(裁定 412 で pin)と一致**。証明本体+Lemma 6.2.5(dodecagon)も現物に実在(2008 A.1 と違い本文つき)。
+- 効果: TRUNC^{B₄} の依存の底が「著者 manuscript の再掲」から**刊行版の原典**へ格上げ。番号ドリフトなし(I.6.2.4 = SURV 217 Part 1 の 6.2.4)。**残る裏どり = GAP-TRUNC-1(証明の精読・研究者の人間の目)** — 精読ポイント: §6.2 pp.218-220+Lemma 6.2.5+unitary 拡張が補題 TRUNC の使い方(presentation 経由の一意延長)と噛み合うか。
+- 便 101 で Sol へ共有(repo 収蔵で両数学者可読・reading note の proof_body_status 更新は次修文波)。
