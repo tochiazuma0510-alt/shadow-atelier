@@ -1,10 +1,17 @@
-# 規約台帳 v1.3(conventions ledger)— 工房の大域規約と cert 宣言欄
+# 規約台帳 v1.5(conventions ledger)— 工房の大域規約と cert 宣言欄
 
-- **状態札: candidate**(司令塔検分待ち・**Sol 便 94 §5 で方向承認 + CV-9 の規範文条件を受領**)
+- **状態札: candidate**(司令塔検分待ち・**Sol 便 94 §5 で方向承認 + CV-9 の規範文条件を受領**・**便 99 F99-7.1 / 便 100 F100-7.1 で v1.4 の意味内容が adopted と追認**)
 - 起草: 影工房 数学者(Claude / Opus 5)/ 2026-08-01 / 司令塔委嘱(研究者発案の制度化)
 - **改訂 v1.1**: 2026-08-01・便 94 修文波(裁定 319)。**F94-5.2(CV-9 の規範文)+ P94-5.1(型強化 9 項)を正位置へ編入**。編入前の本ファイルの SHA-256 = `9cde70bdfc4494e6a9180a370bed81a65af3a388c22e8d0f4bf3c5268bed9087`(git 履歴に旧状態あり)。
 - **改訂 v1.2**: 便 95 F95-3.3。CV-12 施行三点(§1.4)+ "n/a" の型(object/array 欄への bare string 禁止・§2「"n/a" の型」節)を追加。
 - **改訂 v1.3**: 裁定 354・便 97 P97-1.2(1)〜(6) で確定。**live JSON schema block(§2)を四原則へ全面同期**: ① `path` は参照対象 artifact 自身 ② ハッシュキー名は `sha256` に統一(`digest` は CV-10 範囲で不使用)③ `effective_source` は object `{path,sha256}` ④ `superseded_by:{path,sha256}` の入れ子欄で旧→新を機械可読に表現(`supersedes` 役は廃止)。**title・revision block・`ledger_version` も本改訂で同期**(便 97 W97-1.2 が指摘した「四原則を宣言した直後の live schema が v1.1 のまま」という自己矛盾の修理)。v1.1 形は §2 に「歴史形・新規禁止」として残す(遡及なし・【CL-2】)。
+- **改訂 v1.4**: 2026-08-02・裁定 412(便 99 検収)。便 99 **F99-7.1 / P99-7.1 / P99-7.2** を正位置へ編入 — **§1.5(CV-10 細則: 正典 pin の「証明本文の有無」欄。`proof_body_status` 三値 + `omission_kind` + 外部引用 pin)**と **§1.6(CV-11 細則: 封印状態の正本・二鍵 AND・双方向 digest 束縛)**を新設。**便 100 F100-7.1 で「proof_body_status 三値・omission_kind・外部引用 pin・封印二鍵 AND・双方向 digest 束縛という意味内容の adopted 記録」は追認された。**
+- **改訂 v1.5**: 2026-08-02・**裁定 422(便 100 検収)**。★ **W100-7.2 の version drift を一回で解消**した改訂である。便 100 は「裁定上 v1.4 内容が adopted」は正しいが「**artifact が v1.4 として同期済み**」は偽(H1 = v1.3・改訂履歴の最終行 = v1.3・live schema の `ledger_version` = `conventions_ledger_v1_3`)と指摘した。本改訂で **H1・改訂履歴・live schema(§2)・positive fixture(§2.1)を一括で v1.5 へ同期**する。あわせて次の 2 件を**末尾追記でなく論理位置へ**編入した:
+  - **(i) self-digest(自己 digest)の正形**(**P100-4.1**・W100-4.1)⟹ **§1.7(CV-10 細則・新設)** + **§2 の CV-10 ブロック(`sha256_ref` 型)** + **§2 規範 10** + **§2.1 negative fixture C / positive fixture(自己参照形)**。
+  - **(ii) $\mathfrak h_3/\mathfrak h_4$ の用語登録**(**F100-4.3**)⟹ **§1.3.10(用語規約・新設)**(§1.3.9「fake」の語と同じ位置)。
+  - v1.4 細則(§1.5/§1.6)は**内容不変**のまま版下に整理統合し、**裁定 412(adopted)/ 裁定 422(便 100 F100-7.1 追認)の記録を各節の見出しに保持**する。
+  - **編入前の本ファイルの SHA-256 = `a7c9b27dbf6db852bac2d7a839c297e96bd7a95a38e5b6ad584459951b4caa7b`**(git 履歴に旧状態あり)。
+  - **判断の申告(数学者の起草判断・司令塔レビュー対象)**: (i) は新規約 CV を立てず **CV-10 の細則(§1.7)**として置いた — 自己 digest は「有効出所連鎖の entry がどう自分を指すか」の問題であり、CV-10 の内側だからである。(ii) は §1.3.9 と同じ**用語規約**の系列に置いた。**別配置(例: CV-14 の新設)を司令塔が選ぶなら差し替える**(【CL-7】と同流儀)。
 - **正典との関係**: `docs/week1-定義ノート.md` §1.5.1(規約 W-1〜W-4)+ §1.5.2 補題 W1 が唯一の**ゲート通過済み正本**。本台帳はそれを内包し、以後に発見された規約を同形式で中央化する。**正典と食い違う記述が本台帳にあれば正典が勝つ**。
 - 先行文書: `docs/notes/convention_dictionary_W_v1.md`(candidate・(W-\*)(W-^)(W-nf)(W-perm))— 本台帳は同 4 項目を CV-1/CV-2 に吸収する上位集合。**正典への番号付与(W-5/W-6)は v1.1 で決着**(【CL-3】closed・CV-2 一本化)。
 
@@ -37,6 +44,7 @@
 | 5 | **312→313** | $\alpha=2,3$ 不一致。**当初診断「左右規約の取り違え(f/f⁻¹ 族 4 例目)」は裁定 313 で撤回** — 実体は S6 が固定 $\alpha'=1$ 窓とだけ比較していた**比較相手の未宣言**。二実装は一度も食い違っていなかった | CV-7 / CV-8 |
 | 6 | **319**(便 94 W94-2.1) | C-β-IND の dummy 自己検査が**識別力ゼロ**。$\alpha=99$ は $\bmod7$ で $1$、$\alpha=5$ は $\pm$ 同値で窓 $[2]$ — **どちらも登録済み宇宙の内側**。さらに条文が要求する「任意の有理関数 $h$ に替える」操作は**実装の入力スキーマに存在しなかった** | CV-9(§1.3.2 識別力)/ CV-10(erratum) |
 | 7 | **319**(便 94 F94-4.3) | 初荷 $\alpha$ が **sealed mapping の永続化欠品**で NOT_EXECUTED。数学的陰性ではなく工程 defect | CV-11 |
+| 8 | **422**(便 100 W100-4.1) | ★ CV-10 正形化のつもりで作った cert の `sha256` 欄に **placeholder 文字列**(`SEE_MANIFEST(...)`)が入り、しかもその holder は**実在しない拡張子**(`.sha256`。実在は `.json`)を指していた ⟹ **fail-closed resolver が解決できない** = 正形化は完了していなかった。**「自己 digest を自分の bytes に埋める」という解けない自己参照を、型のない欄が受け入れてしまった**型 | CV-10(§1.7) |
 
 > **申し送り(訂正)**: 委嘱文の「f/f⁻¹ 族 4 件」のうち **4 件目(裁定 312(c))は裁定 313 で機構主張ごと撤回済み**。確定している f/f⁻¹ 族は #1・#2・#4 の 3 件で、#5 は **comparison_target 欠落**が真因である。この訂正は制度の必要性を弱めない — むしろ「規約違反に見えた事故の一部は**比較相手の未宣言**だった」ことを示し、CV-7 の重みを上げる。
 
@@ -55,7 +63,7 @@
 | **CV-7** | **比較相手の明示(comparison_target)**。二実装の照合は「**何と何を**」比べるかを、パラメータの**関数として**宣言する。固定既定値(例: $\alpha'=1$)との比較を「対応窓との比較」と呼ばない。**合格形には分離条件を含める**: 一致だけの試験は「何にでも当たる試験」でありうる | 手続き(裁定 313 で必須欄化) | 裁定 312/313 |
 | **CV-8** | **判定基準の粒度(chi_P_criterion)**。$\chi_P$ の階層 $7\subset14\subset42$ のうち、厳密一致(7)と**完全共役類(14)は同答**、「同じ直線」(42)は**完全 fail-open**(3 窓全一致)。許容値 = `exact` / `conjugacy_class`、**`line` は禁止値**。★ **既定値は置かない**(P94-5.1(6)): **完全共役類は不変形**、**exact element は generator / orientation を固定した場合にのみ許す** — どちらを使ったかを cert が**必ず明示**する | 手続き(裁定 312(b) + **便 94 P94-5.1(6)**) | 裁定 310(fail-open の実地発見)・312(b) |
 | **CV-9** | **仕様同一性判読(二検問・三値・差戻し)**。二系統一致を cross-checked と格付けする前に、**どちらの実装も書いていない者**が両側の仕様を判読し **PASS / FAIL / UNKNOWN** を裁定する。**規範文の正本は §1.3**(便 94 F94-5.2 逐条) | 手続き(裁定 316/318 + **便 94 F94-5.2**) | 裁定 312(a) stub の True・裁定 313 comparison_target 未宣言・裁定 319 識別力ゼロの dummy |
-| **CV-10** | ★ **有効出所連鎖(effective source chain)**。文書・cert・定理を引用するときは **original / supersedes / errata・addenda** と各 digest を連鎖として記録し、**「その主張の現在有効な出所」が一意に定まる**ようにする。旧正本の冒頭には後継への誘導を置く。**旧証明だけを引用させない** | 手続き(**便 94 P94-5.1(7)**・新設) | U2 の旧 cyclotomic-lift 本文(W94-1.1)・`c_beta_ind_dummy_h_selfcheck` の撤回(W94-2.1) |
+| **CV-10** | ★ **有効出所連鎖(effective source chain)**。文書・cert・定理を引用するときは **original / supersedes / errata・addenda** と各 digest を連鎖として記録し、**「その主張の現在有効な出所」が一意に定まる**ようにする。旧正本の冒頭には後継への誘導を置く。**旧証明だけを引用させない**。**細則: §1.5(正典 pin の証明本文有無欄)・§1.7(自己 digest の正形)** | 手続き(**便 94 P94-5.1(7)**・新設。細則は便 99 P99-7.1 / **便 100 P100-4.1**) | U2 の旧 cyclotomic-lift 本文(W94-1.1)・`c_beta_ind_dummy_h_selfcheck` の撤回(W94-2.1)・**self-hash 二段方式の現物が MALFORMED(W100-4.1)** |
 | **CV-11** | ★ **封印 fixture の回収可能性(seal recoverability)**。封印・退避する fixture は **ID・digest・金庫参照・復元 preflight の結果**を残す。**「封印した」だけでは回収可能性の記録にならない** | 手続き(**便 94 P94-5.1(8)**・新設) | 初荷 $\alpha$ の sealed mapping 喪失 ⟹ NOT_EXECUTED(F94-4.3) |
 | **CV-12** | ★ **派生表の機械生成則**。定義・閉形から導出可能な表は機械生成(生成スクリプト+SHA-256 併記)か定義との機械照合つきのみ・手展開禁止(詳細 = §1.4) | 手続き(裁定 323/324・研究者発案) | δ(n) 早見表の定義乖離(裁定 322) |
 | **CV-13** | ★ **生成器・受理器の向き自己検査(orientation self-assert)**。候補生成器と受理判定式が同一対象を扱う probe では、**生成した各候補 f が受理式の方程式を実際に満たすことを生成直後に assert**(向き関数 YImg 等を 1 箇所だけ定義し生成・受理・生成条件の全てが同一関数を呼ぶ・鏡像切替は同時差替のみ)。新規 probe の必須テンプレ。規約メモでは止まらないことが 4 例で実証済 — 止まるのは実行時 assert のみ。★ **射程限定(便 98 F98-4.5・裁定 388 で追記)**: CV-13 は **internal orientation consistency gate** であって **canonical-fidelity gate ではない** — **生成器と受理器が同じ誤った `YImg` を共有すれば、一様な鏡像は素通りする**(自己整合は正典忠実性を含意しない)。⟹ CV-13 を満たす probe には、**外部 anchor**(既知集合との**集合等号** — 先例 = カナリア $m=0$ の 2280 集合等号)**または独立 source-map route(正典から独立に構成した期待表)を必ず併置する**。**併置なしに「向きが正典と一致」と書かない** | 手続き(裁定 382・数学者提案・司令塔鋳造 candidate)。**便 98 F98-4.5 で条件付き承認**(採択してよい・ただし上の射程限定と外部 anchor 併置義務つき) | 向き混用 4 例: kerchi v1.3 較正(8 vs 40)・07-31 cert 化(1/162)・pent 診断 v2・**カナリア anchor 120 vs 2280(裁定 377→382)** |
@@ -122,6 +130,29 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 - **fake** = 正典 2008/2401 Def 4.2 準拠の **A 型(非 genuine)** のみを指す。**B 型(genuine だが非算術)は「非算術証人」**と呼び fake と呼ばない(A 型は P1/P2 を殺すが P6 は殺さない・B 型が FAKE-KILL の証人)。
 - 工房語 **pentagon-fake / arith-fake は正典語でない** — 使用時は「工房語(正典の fake = hexagon-fake に相当するのは A 型)」と注記。cert/ノートの新規記載はこの規約に従う(遡及不要・発見次第 erratum)。
 
+### 1.3.10 用語規約: $\mathfrak h_3$ / $\mathfrak h_4$(**v1.5 新設**・便 100 **F100-4.3**・裁定 422)
+
+**宣言**: $\mathfrak h_3,\mathfrak h_4$ は **group element ではなく、明示した bracket convention における homogeneous Lie element** として登録する。
+
+| 記号 | 定義 | 住む場所 |
+|---|---|---|
+| $\mathfrak h_3$ | $[[x,y],x]+[[x,y],y]$ | $\mathrm{gr}_3(F_2)$ |
+| $\mathfrak h_4$ | $[[[x,y],x],x]+4\,[[[x,y],x],y]+[[[x,y],y],y]$ | $\mathrm{gr}_4(F_2)$ |
+
+**必須の併記 4 点**(これを欠く記載は不完全):
+1. **係数環**(既定 = $\mathbb Z$。$\otimes\mathbb Q$ / $\bmod\,p$ 還元はそのつど明示)。
+2. **bracket convention**(**左括弧**: $[[[x,y],x],x]$ は $\bigl[[[x,y],x],x\bigr]$)。
+3. **$\bmod\,p$ 還元**を使う場合はその素数。
+4. ★ **$\mathrm{Exp}$ した群元と同一視しない。** 有限群の中の元を指すときは別記号(例: $h_4\in\gamma_4(P)$)を立て、**どの同一視($\gamma_4(P)=\mathrm{gr}_4(P)$ 等)で対応させているかを書く**。
+
+**禁止**:
+- ★ **$\psi_4$ / $\sigma_3$ の記号でこの 2 元を書かないこと。** $\psi_n$ は正典 2405 (3.1) の dihedral 写像 $PB_3\to D_n^3$、$\sigma_1,\sigma_2$ は braid 生成元であり、**grep 事故の実例が既にある**(`hs_prop7_translation_v1.md` 危険箇所 D-9)。
+- 「$\mathfrak h_4$ を通す/破る」を**群元の性質としてだけ**書くこと(どの層 — $\mathrm{gr}_4$ か $\gamma_4(Q)$ か — の主張かを明示する)。
+
+**施行**: 新規文書・code・cert から必須。★ **既存 script(`search/probe/hsp7_v1/` の 5 本)の出力にはまだ `psi4`/`sigma3` が残っているので、次版 code/cert で $\mathfrak h_4/\mathfrak h_3$ へ改名する**(F100-4.3 の指示。過去 artifact は不改変・遡及不要)。
+
+**格**: 用語規約(取り決め)。**番号付与(CV への昇格)は司令塔レビュー + Sol ゲート後**(§1.3.9 と同じ扱い)。
+
 ### 1.4 CV-12 派生表の機械生成則(司令塔追記 2026-08-01・研究者発案・裁定 324 で CV-10 衝突を改番)
 
 **宣言**: 定義・閉形から導出可能な表(早見表・数値表・対応表)を文書に載せる場合、**機械生成**(生成スクリプトのパス+SHA-256 を表の直下に併記)か、**定義との機械照合**(checker スクリプト+照合結果)のいずれかを必須とする。人手展開の派生表は禁止。既存文書の手展開表は発見次第 erratum(定義側が正)。
@@ -132,7 +163,7 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 
 **事故**: tmax_budget_and_holes_v1.md の δ(n) 早見表が同ノートの代数定義と 6 剰余類で不一致(裁定 322・CI 実測は定義側と整合)。照合スクリプトは定義から直接計算していたため 86/86 は無傷 — 表は機械に読まれない「飾り」として腐り、読む者だけを騙す位置にいた(stub 事件と同じ派生物ドリフト族)。
 
-### 1.5 CV-10 細則: 正典 pin の「証明本文の有無」欄(司令塔追記 2026-08-01・裁定 399/406 採択 → **便 99 F99-7.1/P99-7.1 修文を反映し adopted(裁定 412・v1.4)**)
+### 1.5 CV-10 細則: 正典 pin の「証明本文の有無」欄(司令塔追記 2026-08-01・裁定 399/406 採択 → **便 99 F99-7.1/P99-7.1 修文を反映し adopted(裁定 412・v1.4)** → ★ **便 100 F100-7.1 で意味内容を追認(裁定 422)。v1.5 で版下に整理統合 — 内容不変**)
 
 - **宣言**: 正典の定理・命題を pin する読解ノート(reading_\*)・依存表は、pin ごとに次の欄を必須とする(Sol P99-7.1 の正形):
   - `proof_body_status = present | omitted | external_reference`
@@ -141,7 +172,7 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 - **動機(事故型)**: 「正典の定理」という格付けが証明本文の実在を含意しない事例が**系統的に 5 例**(2401 Prop 3.15 = omitted/reader_exercise・2405 Thm 4.4 奇分岐 = omitted/reader_exercise・2008 Thm A.1 = **external_reference**[Fresse, Homotopy of Operads Part 2, Thm 1.1.5 pp.9-10 — 便 99 F99-3.6 で pin 済]・ほか 2405 Prop 4.1 偶/2008 Cor 3.13 = omitted[kind の確定は各 reading ノートの pin 欄が正本])。欄がないと依存の梯子の格上げ(未解決予想→記述の穴→外部引用 — 裁定 406 の 2 段格上げが実例)が台帳に現れない。
 - **適用**: 新規 reading ノートから必須・既存は発見次第追記(遡及一括は不要・【CL-2】と同流儀)。「present」以外の pin に荷重を掛ける定理は、依存表にその値を伝播させ、自前補完 or 引用先言明の確認を検討対象として明示する。
 
-### 1.6 CV-11 細則: 封印状態の正本・二鍵(司令塔追記 2026-08-01・裁定 410 → **便 99 F99-7.1/P99-7.2 修文を反映し adopted(裁定 412・v1.4)**)
+### 1.6 CV-11 細則: 封印状態の正本・二鍵(司令塔追記 2026-08-01・裁定 410 → **便 99 F99-7.1/P99-7.2 修文を反映し adopted(裁定 412・v1.4)** → ★ **便 100 F100-7.1 で意味内容を追認(裁定 422)。v1.5 で版下に整理統合 — 内容不変**)
 
 - **宣言**: 封印の開封状態は次の **AND 二鍵**で決める(Sol P99-7.2 の正形):
   1. リポジトリ `provenance/seals/` の `*.opened.json` の**存在**、かつ
@@ -150,6 +181,49 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
   - **二鍵のどちらかが欠ける・digest が食い違う場合は OPENED/SEALED を推測せず `INTEGRITY_STOP / UNKNOWN`**。
   - 金庫 `sealed/` ディレクトリの在庫から状態を推論することを**禁止**(開封プロトコルは「リポジトリへ複写公開・金庫原本は残置」— 残置は未開封を意味しない)。
 - **事故**: 裁定 398 が seal_PSL_v1(2026-07-26 開封・7/7 的中・CLAIMS W3-6)を「封印維持」と誤記帳 — 金庫の残置原本から状態を誤読。裁定 410 で決着(三者ハッシュ一致・実質判断は無傷)。既存 seal_PSL_v1 の双方向 digest 束縛は充足済み(LEDGER 7/26 項がハッシュを pin・opened.json は封印体と byte-identical)。
+
+### 1.7 CV-10 細則: **自己 digest(self-hash)の正形**(**v1.5 新設**・便 100 **P100-4.1 / W100-4.1**・裁定 422)
+
+#### 1.7.1 問題の型(**主張の水準を間違えない**)
+
+artifact が**自分自身の SHA-256** を自分の bytes の中へ通常の 64-hex 値として埋め、その bytes を再度 hash する運用は**循環する**。
+
+> ★ **書いてよい正しい文**: 「これは**通常の生成・再現手順では解けない自己参照**であり、**schema として禁止する**。」
+> ★ **書いてはならない文**: ~~「SHA-256 の不動点は**数学的に不可能**である」~~ — **そこまでは主張しない**(W100-4.1)。禁止の根拠は「数学的不可能性」ではなく「**運用上解けない + 機械照合が壊れる**」である。
+
+#### 1.7.2 正形(**型つき参照**)
+
+**`sha256` を union 型の自由文字列にしない。** 通常 entry は `path` と **64 桁 lowercase hex** の `sha256` を持つ。**自己参照のときだけ**、`sha256` の**代わりに**次の typed object を持たせる。
+
+| 欄 | 意味 |
+|---|---|
+| `sha256_ref.holder_path` | 外部 manifest の**実在する** JSON path(**その拡張子で実在するファイルを指すこと**) |
+| `sha256_ref.json_pointer` | target の `final_sha256` を指す**一意な** JSON pointer |
+| `sha256_ref.resolution` | 固定値 `"external-postwrite"` |
+
+#### 1.7.3 checker の 5 検査(**全て必須・一つでも欠ければ MALFORMED / INTEGRITY_STOP**)
+
+| # | 検査 |
+|---|---|
+| **(i)** | `holder_path` の **holder が実在**すること |
+| **(ii)** | `json_pointer` が指す **target path が一致**すること |
+| **(iii)** | そこにある値が **64-hex** であること |
+| **(iv)** | **target bytes の再計算が一致**すること |
+| **(v)** | **current entry と `effective_source` の同一性** |
+
+> ★ **fail-closed**: 一つでも欠ければ **MALFORMED / INTEGRITY_STOP**。**推測して PASS にしない。**
+
+#### 1.7.4 禁止(新規 cert から)
+
+1. ★ **placeholder(`SEE_MANIFEST(...)` 等の非 64-hex 文字列)を `sha256` 欄へ入れる方式は新規禁止。**
+2. `superseded_by.sha256` / `effective_source.sha256` に 64-hex 以外を入れた cert は **MALFORMED**。
+3. **holder の拡張子違い**(`.sha256` を指しているが実在するのは `.json`)は **fail-closed resolver が参照を解決できない** ⟹ MALFORMED。
+
+#### 1.7.5 事故(現物・**過去 file は編集しない**)
+
+- **`ihnec_r4b_conventions_v2_20260802.json`**(便 99 の CV-10 正形化の現物): (1) `superseded_by.sha256` と `effective_source.sha256` に 64-hex でない `SEE_MANIFEST(...)` が入っており、v1.3/v1.4 schema では **MALFORMED**。(2) placeholder は `search/certs/MANIFEST_sol99_w99_2_1_20260802.sha256` を指すが、**実在する外部 holder は `.json`** ⟹ fail-closed resolver は参照を解決できない。
+- ★ **格の記帳**: 本 file は「**逸脱を正直に申告した record**」として**保存する**。ただし **CV-10 正形化完了とは数えない**(W100-4.1)。
+- ★ **修理の方法**: **過去 file は編集せず、v3 supplement で直す**(CV-10 の erratum 運用そのもの)。
 
 ## 2. cert 必須ブロック `conventions_used`(schema)
 
@@ -161,9 +235,11 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 
 **CV-10 出所連鎖の schema 統一(v1.3・裁定 354・ASM v2 §V.4.3 の未同期 4 点を確定)**: 新規 cert/ノートから適用(遡及不要)。①`path` は**リポジトリ root 相対で参照対象 artifact 自身**を指す(生成 script や親文書ではない)②ハッシュのキー名は **`sha256`**(Sol 語彙に統一・`digest` は不使用)③`effective_source` は**文字列でなく object** `{path, sha256}` ④supersede 関係は入れ子欄 **`superseded_by: {path, sha256}`** で機械可読に持つ(散文の「失効」注記は人間用の副)。混在は機械照合を壊すため、以後この 4 点が正。
 
+★ **第五原則(v1.5・便 100 P100-4.1・裁定 422)**: ⑤ **`sha256` は 64 桁 lowercase hex に限る**。**自己参照のときだけ** `sha256` の代わりに typed object **`sha256_ref: {holder_path, json_pointer, resolution:"external-postwrite"}`** を置く(**規範文と checker 5 検査は §1.7**)。**placeholder 文字列を `sha256` 欄へ入れる方式は新規禁止。**
+
 ```jsonc
 "conventions_used": {
-  "ledger_version": "conventions_ledger_v1_3",
+  "ledger_version": "conventions_ledger_v1_5",
 
   // ---- CV-1 / CV-2: 合成順序・作用の側 ----
   "perm_composition":  "gap_native_right" | "paper_left",   // CV-1
@@ -237,20 +313,33 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
     "invariants":           { "class": "<類>", "order": "<位数>" }   // これらは上記に依存しない
   },
 
-  // ---- CV-10: 有効出所連鎖(v1.3・裁定 354・便 97 P97-1.2(1)-(4) で確定)----
-  // 四原則: ①path=参照対象 artifact 自身(生成 script や親文書ではない)
+  // ---- CV-10: 有効出所連鎖(v1.3・裁定 354・便 97 P97-1.2(1)-(4)/ v1.5・裁定 422・便 100 P100-4.1)----
+  // 五原則: ①path=参照対象 artifact 自身(生成 script や親文書ではない)
   //         ②ハッシュキー名は sha256(digest は不使用)
   //         ③effective_source は object {path,sha256}(string 不可)
   //         ④supersede 関係は各 entry の superseded_by:{path,sha256} で「旧→新」を表す
   //           (role:"supersedes" は廃止・新エントリを role:"current" として置く)
+  //   ★ v1.5 ⑤sha256 は 64 桁 lowercase hex のみ。自己参照時だけ sha256 の代わりに
+  //           sha256_ref:{holder_path, json_pointer, resolution:"external-postwrite"} を置く。
+  //           placeholder 文字列(SEE_MANIFEST(...) 等)を sha256 欄へ入れるのは新規禁止(§1.7)。
   "effective_source_chain": [
-    { "role": "original", "path": "<最初の artifact の path>", "sha256": "<sha256>" },
-    { "role": "erratum",  "path": "<訂正した旧 artifact の path>", "sha256": "<sha256>",
+    { "role": "original", "path": "<最初の artifact の path>", "sha256": "<64-hex>" },
+    { "role": "erratum",  "path": "<訂正した旧 artifact の path>", "sha256": "<64-hex>",
       "scope": "<何を撤回/訂正したか>",
-      "superseded_by": { "path": "<後継 artifact の path>", "sha256": "<sha256>" } },
-    { "role": "current",  "path": "<現在有効な artifact の path>", "sha256": "<sha256>" }
+      "superseded_by": { "path": "<後継 artifact の path>", "sha256": "<64-hex>" } },
+    { "role": "current",  "path": "<現在有効な artifact の path>", "sha256": "<64-hex>" }
   ],
-  "effective_source": { "path": "<連鎖の role:\"current\" entry と同じ path>", "sha256": "<同 sha256>" },
+  "effective_source": { "path": "<連鎖の role:\"current\" entry と同じ path>", "sha256": "<同 64-hex>" },
+
+  // ★ v1.5: 自己参照 entry の正形(この cert 自身を連鎖に載せる場合のみ)。
+  //   sha256 と sha256_ref は排他 — 両方書いた entry は MALFORMED。
+  //   checker 5 検査(§1.7.3): (i) holder 実在 (ii) target path 一致 (iii) 64-hex
+  //                            (iv) target bytes の再計算一致 (v) current entry と effective_source の同一性
+  //   一つでも欠ければ MALFORMED / INTEGRITY_STOP(推測して PASS にしない)。
+  // { "role": "current", "path": "<この cert 自身の path>",
+  //   "sha256_ref": { "holder_path":  "<実在する外部 manifest の JSON path>",
+  //                   "json_pointer": "<target の final_sha256 を指す一意な JSON pointer>",
+  //                   "resolution":   "external-postwrite" } },
   // "n/a" 型(v1.2 F95-3.3・便97 P97-1.2(5)で確定): cross-checked を主張しない cert では
   // effective_source_chain / effective_source は bare "n/a" ではなく
   // { "status": "n/a", "reason": "<この cert は単系統探索であり cross-checked を主張しない>" } を書く。
@@ -279,9 +368,10 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 6. **cross-checked を主張する cert** は `effective_source_chain`(CV-10)と、封印物を使うなら `seal_recoverability`(CV-11)を**必須**とする。
 7. **`representative_vs_invariant` の混記を禁止**: 代表元の値を不変量の欄に書いた cert は **MALFORMED**(格の過大表示の直接原因・CV-7 の記法規律)。
 8. **object/array 欄の "n/a" は型つき**(v1.2 F95-3.3): bare string `"n/a"` を object/array 欄(`effective_source_chain`・`effective_source`・`seal_recoverability` 等)に入れることを禁止し、`{ "status": "n/a", "reason": "<理由>" }` の形で書く。bare string を object/array 欄に入れた cert は **MALFORMED**。
-9. **CV-10 は v1.3 の四原則(§0 改訂記録)で書く**: `digest` キー・string 型 `effective_source`・`role:"supersedes"` を使った cert(§2.1 の v1.1 歴史形)は新規 cert では **MALFORMED**。旧 cert への遡及は不要(【CL-2】)。
+9. **CV-10 は五原則(§2 冒頭・v1.3 の四原則 + v1.5 の第五原則)で書く**: `digest` キー・string 型 `effective_source`・`role:"supersedes"` を使った cert(§2.1 の v1.1 歴史形)は新規 cert では **MALFORMED**。旧 cert への遡及は不要(【CL-2】)。
+10. ★ **自己 digest は §1.7 の正形でのみ書く**(v1.5・P100-4.1): `sha256` 欄は **64 桁 lowercase hex のみ**。自己参照は `sha256_ref`(typed object)で表し、**`sha256` と `sha256_ref` を同一 entry に両方書いたものは MALFORMED**。**placeholder 文字列を `sha256` 欄へ入れた cert は新規では MALFORMED**。checker 5 検査(§1.7.3)のいずれかが欠ければ **MALFORMED / INTEGRITY_STOP**(推測して PASS にしない)。旧 cert への遡及は不要(【CL-2】)。
 
-### 2.1 CV-10 の v1.1 歴史形(新規禁止)と v1.3 の positive/negative fixture(便 97 P97-1.2(6))
+### 2.1 CV-10 の v1.1 歴史形(新規禁止)と v1.5 の positive/negative fixture(便 97 P97-1.2(6)・**便 100 P100-4.1 で自己参照形を追加**)
 
 **v1.1 歴史形**(参照専用・**新規 cert での使用禁止**・遡及なしのため既存 cert は無罪):
 
@@ -299,18 +389,55 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 
 **negative fixture B**(便 96 F96-1.5 の旧例と同じ**逆向き** `supersedes`: 新 entry が旧 entry を指す形。便 97 W97-1.2 でこの向きは erratum と訂正された): 例えば `{"role":"current","path":"new.md","sha256":"NEW"},{"role":"supersedes","path":"old.md","sha256":"OLD","supersedes":{"path":"new.md","...}}` のように新→旧を指す構造。**MALFORMED**(旧→新の `superseded_by` でなければならない・§2 CV-10 四原則④)。
 
-**positive fixture**(v1.3 正形・§2 の live schema と同型):
+★ **negative fixture C**(**v1.5 新設**・便 100 W100-4.1 の現物型 = **placeholder を `sha256` 欄へ入れた self-hash 二段方式**):
+
+```jsonc
+// MALFORMED(v1.5 以降の新規 cert では禁止・規範 10)
+"effective_source_chain": [
+  { "role": "erratum", "path": "docs/.../old.json", "sha256": "<64-hex>",
+    "superseded_by": { "path": "docs/.../new.json", "sha256": "SEE_MANIFEST(search/certs/MANIFEST_xxx.sha256)" } },
+  { "role": "current", "path": "docs/.../new.json", "sha256": "SEE_MANIFEST(search/certs/MANIFEST_xxx.sha256)" }
+],
+"effective_source": { "path": "docs/.../new.json", "sha256": "SEE_MANIFEST(search/certs/MANIFEST_xxx.sha256)" }
+```
+**MALFORMED の理由(2 つとも独立に致命)**: ① `sha256` 欄が **64-hex でない**(規範 10・§1.7.4-1)。② holder として指した `...MANIFEST_xxx.sha256` が**実在せず、実在する holder は `.json`** ⟹ **fail-closed resolver が参照を解決できない**(§1.7.4-3)。
+**現物**: `ihnec_r4b_conventions_v2_20260802.json`(**過去 file は編集しない**。「逸脱を正直に申告した record」として保存し、**CV-10 正形化完了とは数えない** — 修理は **v3 supplement** で・§1.7.5)。
+
+**positive fixture A**(**通常形**・v1.5 正形・§2 の live schema と同型):
 
 ```jsonc
 "effective_source_chain": [
-  { "role": "erratum", "path": "docs/notes/fam_u_v1_addendum_f94.md", "sha256": "<OLD_sha256>",
+  { "role": "erratum", "path": "docs/notes/fam_u_v1_addendum_f94.md", "sha256": "<OLD_64hex>",
     "scope": "<撤回/訂正した内容>",
-    "superseded_by": { "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_sha256>" } },
-  { "role": "current", "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_sha256>" }
+    "superseded_by": { "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_64hex>" } },
+  { "role": "current", "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_64hex>" }
 ],
-"effective_source": { "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_sha256>" }
+"effective_source": { "path": "docs/notes/fam_u_v1_addendum_f96.md", "sha256": "<NEW_64hex>" }
 ```
-**PASS**: `path` は各 entry 自身の artifact、`sha256` キー統一、`superseded_by` は旧→新、`effective_source` は object で current entry と一致。
+**PASS**: `path` は各 entry 自身の artifact、`sha256` キー統一かつ **64-hex**、`superseded_by` は旧→新、`effective_source` は object で current entry と一致。
+
+★ **positive fixture B**(**v1.5 新設・自己参照形**・P100-4.1 の typed object):
+
+```jsonc
+"effective_source_chain": [
+  { "role": "erratum", "path": "docs/.../old.json", "sha256": "<OLD_64hex>",
+    "scope": "<撤回/訂正した内容>",
+    "superseded_by": { "path": "docs/.../this_cert.json",
+                       "sha256_ref": { "holder_path":  "search/certs/MANIFEST_xxx.json",
+                                       "json_pointer": "/entries/3/final_sha256",
+                                       "resolution":   "external-postwrite" } } },
+  { "role": "current", "path": "docs/.../this_cert.json",
+    "sha256_ref": { "holder_path":  "search/certs/MANIFEST_xxx.json",
+                    "json_pointer": "/entries/3/final_sha256",
+                    "resolution":   "external-postwrite" } }
+],
+"effective_source": { "path": "docs/.../this_cert.json",
+                      "sha256_ref": { "holder_path":  "search/certs/MANIFEST_xxx.json",
+                                      "json_pointer": "/entries/3/final_sha256",
+                                      "resolution":   "external-postwrite" } }
+```
+**PASS の条件 = §1.7.3 の 5 検査すべて**: (i) `search/certs/MANIFEST_xxx.json` が**実在**(拡張子まで一致)(ii) `json_pointer` の指す entry の path が `docs/.../this_cert.json` と一致 (iii) そこにある値が **64-hex** (iv) その 64-hex が `this_cert.json` の bytes の**再計算と一致** (v) `current` entry と `effective_source` が**同一**。
+**一つでも欠ければ MALFORMED / INTEGRITY_STOP**(§1.7.3)。
 
 ---
 
@@ -338,7 +465,7 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 
 ---
 
-## 5. 未閉鎖項(v1.1 で更新)
+## 5. 未閉鎖項(v1.1 で更新・**v1.5 で §5.2 を追加**)
 
 | # | 状態 | 内容 |
 |---|---|---|
@@ -355,3 +482,11 @@ dummy は **raw label ではなく、仕様が採用する同値関係を通し�
 |---|---|
 | **【CL-7】** | **CV-10 / CV-11 の番号付与**は数学者の起草判断(§0 冒頭の改訂記録参照)。「型強化を新規約として立てる」境界は一般には自明でない — 司令塔が別配置(例: §2 の欄のみ)を選ぶなら差し替える |
 | **【CL-8】** | **schema の実装コスト**。v1.1 の `conventions_used` は v1 より欄が増えた。**全欄必須にすると小さな probe cert が書けなくなる** — 「cross-checked を主張する cert は全欄必須 / 単系統の探索 cert は縮約版」という**二層適用**が要るかもしれない。未検討 |
+
+### 5.2 v1.5 で新たに開いた項(裁定 422)
+
+| # | 内容 |
+|---|---|
+| **【CL-9】** | ★ **§1.7.3 の checker(5 検査)の実装が存在しない。** 本改訂で凍結したのは **schema と規範文**だけであり、`sha256_ref` を解決して 5 検査を回す fail-closed resolver は**未実装**である。**規約は「文書にある」だけでは止まらない**(CV-13 の教訓・§0 の事故台帳と同型)。⟹ **実装は EP 専任係(ep-keeper)の職掌**とするのが自然だが、**発注判断は司令塔**。実装が入るまで、自己参照形の cert は **positive fixture B に手で照合した記録を添える**こと |
+| **【CL-10】** | ★ **§1.3.10 の改名(`psi4`/`sigma3` → $\mathfrak h_4/\mathfrak h_3$)が既存 script に未反映。** 対象 = `search/probe/hsp7_v1/` の 5 本(出力キー名)。**過去 artifact は不改変・遡及不要**だが、**次版 code/cert で改名する**という約束が守られたかを次の便で確認する必要がある(F100-4.3)。確認しないと「規約は書いたが誰も従っていない」型の腐りに入る |
+| **【CL-11】** | **v1.5 の 2 件の配置は数学者の起草判断**(§0 改訂 v1.5 の「判断の申告」)。(i) 自己 digest を **CV-10 細則 §1.7** に置いたこと、(ii) $\mathfrak h_3/\mathfrak h_4$ を **§1.3.10 の用語規約**に置いたこと。**司令塔が別配置(CV-14 の新設等)を選ぶなら差し替える**(【CL-7】と同流儀)。**Sol ゲート未了** |

@@ -511,3 +511,379 @@ $\dim\mathfrak t_1=5$、$\dim\mathfrak t_2=4$、$\dim\mathfrak t_3=10$、$\dim\m
 | $\mathfrak h_4$ | $v_1+4v_2+v_3$。hexagon の深さ 4 の唯一方向・**pentagon を破る = dummy** |
 | $d(N)$ | $\lvert\gamma_2(P)/\gamma_3(P)\rvert$($P=F_2/N_{F_2}$)。C2-Q の $d$ |
 | $\mathrm{PENT}_W$ | 定義 HSP-T の有限 pentagon 検査 |
+
+---
+---
+
+# 8. 便 100 検収 erratum(裁定 422)— 呼称分離・撤回・修理形採録・**補題 NW-1 v2**
+
+> **形式**: **追記型。§0–§7 と付録 A は一切改変しない。** 本節は Sol 便 100 返信(`sol/sol_reply_100_math27.md`)の W100-1.1〜1.5・W100-7.1・P100-1.1・P100-1.2 に対する **current erratum** であり、下表の項目については**本節が effective source** である(CV-10)。
+> 起草: 数学者(Opus 5)・2026-08-02 / 委嘱 = **裁定 422**(便 100 検収)修文束 A。
+> **本節の主張はすべて紙の証明。** 唯一の機械は **§8.11 の検算 1 本**(自由 Lie 環の線型代数・整数/有理数演算・14 検査 FAILS=0)であり、**窓の測定・shadow の測定は一切していない。$K^{(5)}$ 非接触。**
+
+## 8.0 効力表(どの主張が本節で置き換わるか)
+
+| 本文の箇所 | 状態 | 置換先 |
+|---|---|---|
+| §1.2「HS Prop 7 の二行証明」型の呼称 | ★ **呼称変更** | §8.1(**HS (III) の PENT-NORM 書換え**) |
+| §2.1 系 D2-C2 の「pentagon は $c_2$ に何の条件も課さない」 | ★ **弱化** | §8.2 の正文 |
+| §2.3 系 D4-PRED(検出比 $(p-1)/p$) | ★ **撤回** | §8.3.1(「解は高々 1」まで)+ §8.3.2(修理形) |
+| §7.4 P-HSP-4 / P-HSP-5 / P-HSP-6 | ★ **撤回**(P-HSP-5 は限定 control として残置) | §8.3.2 / §8.3.4 |
+| §7.4 A-HSP-2 の $\mathfrak h_3$ 半分 | ★ **弱化**(当方の自己捕獲) | §8.3.3 |
+| §2.4 / §3.1 の「$p=5$ は情報ゼロ」「$K_\pi$ は構造的に情報ゼロ」 | ★ **弱化** | §8.3.4 / §8.4 |
+| §2.5 系 HSP-ODD・系 HSP-WALL | ★ **限定を明示**(nilpotent route 限定) | §8.5 |
+| §5.1 補題 NW-1(省略記号つき)・【HSP-GAP-1】 | ★ **置換・閉鎖(紙)** | §8.7 **補題 NW-1 v2** |
+| §2.3 系 D4-DUM($f_{\rm dum}=\exp(t\mathfrak h_4)$) | ★ **有限群元として明示化** | §8.7.4 定義 DUM-FIN |
+| 上記以外(PENT-NORM・HSP-WD・HSP-SOUND・CENT-FREE・D2-BLIND・D3-BLIND・HSP-COLLAPSE・篩 F-1〜F-6 の骨格) | **不変**(Sol PASS) | — |
+
+---
+
+## 8.1 【W100-1.1】呼称の分離 — 「**HS (III) の PENT-NORM 書換え**」
+
+Sol F100-1.1 は §1.2 の 2 行を PASS としたうえで、**HS Proposition 7 本体と同一視するな**と指示した。以後、工房の文書・cert・地図・LEDGER では次の呼称を用いる。
+
+> | 対象 | 正式名 | 内容 | 前件 |
+> |---|---|---|---|
+> | 本稿 §1.2 の定理 | ★ **HS (III) の PENT-NORM 書換え** | (III) $\iff\rho^4(f)\rho^3(f)\rho^2(f)\rho(f)f=1$。**量化子なしの代数的巡回書換え** | **(I)(II) 不要** |
+> | HS Proposition 7 | **HS Prop. 7**(構成定理) | (III) $\iff$ $F$ が $K(0,5)$ 上の $\rho$-可換 lift をもつ | ★ **(I)(II) 相対**(直後の Remark の Ihara 例が前件の必要性を示す) |
+
+- **禁止表現**: 「HS Prop 7 の 2 行証明」「Prop 7 を 2 行で示した」。**本稿が 2 行で示したのは (III) の書換えであって Prop 7 の lift 同値ではない。**
+- §1.2 の ★ 設計上の意味 2「Prop 7 の付加価値は検出ではなく構成」という区別は**この呼称分離と同じことを言っている**ので有効。ただし「構成」の側は (I)(II) 相対であることを併記する。
+- §7.1 格付け表の行「**定理 PENT-NORM**((III) ⟺ $\rho$-ノルム)| paper-proof(2 行・巡回回転)」は**そのまま有効**(この行は元から (III) の書換えしか主張していない)。
+
+---
+
+## 8.2 【W100-1.2】系 D2-C2 の弱化(正文)
+
+**撤回する文**(§2.1 の ⚠ 精確化の第 1 文):
+
+> ~~「**pentagon は $c_2$ に何の条件も課さない**(深さ 2 の成分が空虚だから)」~~
+
+**正文(以後これを引く)**:
+
+> ### 系 D2-C2(v2・便 100 W100-1.2 の指定形)
+> P99-C2-BLIND の結論と**独立に整合して**、pentagon の一次の LCS 影である**次数 2 成分も $c_2$ を分離しない**。
+> **これは、任意の invariant の factorization や full pentagon の $c_2$-射影を分類する定理ではない。**
+
+**理由(Sol W100-1.2 を当方が確認)**: 本文 §2 自身が $\Omega_4=\nu_4(F_4)+c_2^2\Theta$ と書き、§2.3 (d) で $\Theta\ne0$ を報告している。ゆえに**高次方程式が $c_2$ の可能値を制限することは論理的に残る**。「D2 だけから P99 の要求した factorization theorem を埋めた」は出ない。
+
+**波及**:
+- §7.1 の行「系 D2-C2(C2-Q R3 の独立証明)| paper-proof(D2-BLIND + 1 行)」は**格は保つが射程を上記正文に限る**。
+- §2.1 の ⚠ 第 2 文(「$c_2$ は detector ではないが parameter ではある」)は**不変**(むしろ弱化と整合)。
+- 「P99 の factorization theorem を埋めた」という主張は**どの文書でも使わない**。
+
+---
+
+## 8.3 【W100-1.3 / W100-1.4】撤回と修理形の採録
+
+### 8.3.1 撤回表(凍結予言から外すもの)
+
+| # | 撤回する主張 | 撤回理由(Sol W100-1.3・当方確認) | 残る正しい部分 |
+|---|---|---|---|
+| **R-1** | 系 **D4-PRED**「hexagon を満たす候補のうち pentagon を通るのは**ちょうど 1 通り**・検出比 $(p-1)/p$」 | 1 次元 affine fiber 上で $\nu_4(\mathfrak h_4)\ne0$ が言うのは **解が高々 1 個**まで。**offset がその直線に入る証明がない**ので 0 個でもよい | 「$\nu_4(\mathfrak h_4)\ne0$ ⟹ pentagon 解は **fiber あたり高々 1 個**」 |
+| **R-2** | **P-HSP-4**「類 4・指数 $p$($p\ge7$)の窓: pentagon を通るのは $1/p$。$p=7$ なら 6/7 が FAIL」 | R-1 と同じ(全 hexagon 候補への一般化) | ★ **§8.3.2 の明示 family に限れば定理**(定理 DUM-1/p) |
+| **R-3** | **P-HSP-5**「$p=5$ で走らせると **100% PASS**」 | $\nu$ 自体は $p=5$ でも 0 でない(同じ計算が $\Theta\ne0$ を報告)。言えるのは「$\mathfrak h_4$-座標による **fiber 内分離**が死ぬ」まで | ★ **§8.3.2 の $m=0$ dummy family に限れば有効な control**(全候補 control としては撤回) |
+| **R-4** | **P-HSP-6**「pentagon を通る $\mathfrak h_4$-座標の値は $c_2^2$ の関数として $m$ ごとに変わる」 | R-1 と同じ未証明(offset 所属)に依存 | 「$\Omega_4$ の式に $c_2^2\Theta$ が現れ、$\Theta\ne0$」までは不変 |
+| **R-5** | 【当方の自己捕獲・Sol 指摘外】 **A-HSP-2** の後半「$\exp(t\mathfrak h_3)$ は**どの適合窓でも PASS**」 | §8.3.3 参照。有限窓では $\gamma_4$ 剰余が残るため **exact な PASS は出ない** | 「$\bmod\ \gamma_4(Q)$ で PASS」(= 定理 D3-BLIND の実測版として正しい形) |
+
+**維持するもの**: A-HSP-1(較正として・§8.4 の位置づけ)・P-HSP-1・P-HSP-2(較正として)・P-HSP-3・停止規則 S-1〜S-5。
+
+### 8.3.2 ★★ 修理形の採録 — **定理 DUM-1/p**(P100-1.1)
+
+> ### 定理 DUM-1/p(有限 dummy family と「ちょうど $1/p$」の正しい射程)
+> $p\ge7$。$N_{F_2}:=\gamma_5(F_2)F_2^{\,p}$、$P:=F_2/N_{F_2}$、$W:=\gamma_5(K(0,5))K(0,5)^{\,p}$、$Q:=K(0,5)/W$(§8.7 の窓対)。$h_4\in\gamma_4(P)$ を §8.7.4 の**明示の交換子語**とし、
+> $$f_t:=h_4^{\,t}\quad(t\in\{0,1,\dots,p-1\}),\qquad m=0$$
+> の $p$ 元だけを事前登録する。このとき:
+> **(a)** 各 $[0,f_t]$ は **charming**($f_t\in\gamma_4(P)\subseteq[P,P]$、$2\cdot0+1=1\in(\mathbb Z/N_{\rm ord})^\times$)。
+> **(b)** 各 $[0,f_t]$ は **簡約 hexagon (3.10)(3.11) を exact に満たす**(§8.7.5・**次数 4 の斉次解ではなく $P$ の中の等式として**)。
+> **(c)** **SURJ は自動**(§8.7.6・既在の系 H8′)。
+> **(d)** $\mathrm{PENT}_W([0,f_t])\iff t\cdot\nu_4(j\mathfrak h_4)=0$ in $\gamma_4(Q)$。
+> ⟹ **$\nu_4(j\mathfrak h_4)\ne0$ in $\gamma_4(Q)$ が標的商で直接確認できれば、$t=0$ の 1 個だけが PASS、他の $p-1$ 個が FAIL。すなわち「ちょうど $1/p$」は、全 shadow ではなくこの明示 family についての定理になる。**
+
+**証明(要点)**。(a) 明らか。(b)(c) は §8.7.5 / §8.7.6。(d): $\gamma_4(Q)$ は $\gamma_5(Q)=1$ より $Q$ の中心に含まれ、$Q^{\,p}=1$ より初等アーベル。$\bar\rho$ は $\gamma_4(Q)$ を保つので 5 因子はすべて可換な $\gamma_4(Q)$ の中にあり、積は座標の和に一致する。ゆえに
+$$N_{\bar\rho}(j(f_t))=\prod_{i=0}^{4}\bar\rho^{\,i}\bigl(j(h_4)\bigr)^{t}=\bigl(\nu_4(j\mathfrak h_4)\bigr)^{t}\quad\text{in }\gamma_4(Q)\cong\mathbb F_p^{\,\dim}. \qquad\blacksquare$$
+
+> ★ **なぜ「深さ 4 = 窓の最上層」でだけ全部が exact になるのか(設計上の核心)**
+> $f_t$ が $\gamma_4(P)$(= 類 4 窓の **最上層**・中心・初等アーベル)に居るため、
+> ① BCH 補正がすべて $\gamma_8=1$ に落ち、② $\theta,\tau,\bar\rho$ の作用が**次数付き作用そのもの**になり、③ 群の積が $\mathbb F_p$-加法になる。
+> ⟹ **「次数 4 の斉次計算」と「有限群での exact な等式」が一致する。**
+> これは深さ 3 では成立しない(§8.3.3)。**Sol の修理形が深さ 4 = 類 4 窓の最上層を選んだことは偶然でなく、この三つを同時に成立させる唯一の位置である。**
+
+### 8.3.3 ★ 当方の自己捕獲 — $\mathfrak h_3$ アンカー(A-HSP-2 後半)の弱化
+
+**発見**: §7.4 の A-HSP-2 は「$\exp(t\mathfrak h_3)$($\mathfrak h_3=u_1+u_2$)は**どの適合窓でも PASS**」と書いていたが、これは**有限窓では成立しない**。
+
+**理由**。$h_3\in\gamma_3(P)$ を $\mathfrak h_3$ に対応する交換子語とする。類 4 窓では $\gamma_3(Q)$ は可換($[\gamma_3,\gamma_3]\subseteq\gamma_6=1$)だが**中心ではない**($[\gamma_3,\gamma_1]=\gamma_4\ne1$)。$\prod_i\bar\rho^i(j(h_3))$ の $\gamma_3/\gamma_4$ における類は $\nu_3(\mathfrak h_3)=0$(定理 D3-BLIND (a))だが、**積そのものは $\gamma_4(Q)$ の元であって $1$ とは限らない**。しかもその $\gamma_4$-剰余は**語 $h_3$ の代表元の取り方に依存する**。
+
+**正しいアンカー形(置換)**:
+> **A-HSP-2′**: dummy $f_t=h_4^{\,t}$($t\ne0$)は**適合窓で FAIL**(定理 DUM-1/p (d)・$\nu_4(j\mathfrak h_4)\ne0$ 相対)。$h_3$ 方向は **$\bmod\ \gamma_4(Q)$ で PASS**(定理 D3-BLIND の実測版)。**exact な PASS は主張しない。**
+
+**同じ理由で hexagon も弱まる**: $h_3\theta(h_3)$ は $\gamma_4(P)$ に入るが $1$ とは限らないので、**$h_3^{\,t}$ は exact な hexagon 解ではない**(次数 4 の補正項が要る)。⟹ **$\mathfrak h_3$-family を dummy/control として使うなら「$\bmod\ \gamma_4$」を判定式に明記すること。**
+
+### 8.3.4 【W100-1.4】標数 5 の正しい射程
+
+**撤回**: 「$p=5$ 窓一般の情報量はゼロ」「全 hexagon shadow が 100% PENT PASS」。
+
+**正文**:
+> $\nu=\sum_{i=0}^4\rho^i$ は $\mathrm{ord}(\bar\rho)=5$ ゆえ標数 5 で $(\rho-1)^4$ に退化し、計算した特定方向について $\nu_4(\mathfrak h_4)\equiv0\pmod5$。**しかし $\nu$ 自体は 0 にならない**(同じ計算が $\Theta\ne0$ を報告している)。ゆえに言えるのは
+> **「$p=5$ では $\mathfrak h_4$-座標による fiber 内分離が死ぬ」**
+> までである。
+
+**control としての残置**: P-HSP-5 は **§8.3.2 の $m=0$ dummy family に限れば有効**(その family では PENT $\iff t\nu_4(\mathfrak h_4)=0$ が全 $t$ で真になる)。**全候補 control としては撤回。** 停止規則 S-3(「$p=5$ control が 100% PASS でなければ実装バグ」)も**同 family 限定**に読み替える。
+
+**篩 F-2 の格**: 「窓の関与標数に 5 を含まない」は **$\mathfrak h_4$-座標検出器に対する篩**であって、pentagon 一般の篩ではない。$p=5$ の affine obstruction は **UNKNOWN**(W100-7.1)。
+
+---
+
+## 8.4 【W100-1.5】$K_\pi$ の扱い — 「情報ゼロ」は撤回、**安価な向き較正として残す**
+
+**撤回**: 系 KPI-RETRO の言い回しのうち「$K_\pi$ は**構造的に情報ゼロ**」「新しい情報は出ない公算が大きい」を**断定として使わない**。
+
+**Sol W100-1.5 の 3 点(当方確認済)**:
+1. **HSP-COLLAPSE の前件は $Q$ 冪零**である。提案した $K_\pi$ packing $Q\le A_5^5$ は**非冪零**なので、**篩 F-1 はこの標的を排除しない**。§3.1 の表で $K_\pi$ を F-1/F-3 で「✗」としたのは**射程外適用**であり、正しくは「**F-1/F-3 は非冪零 packing には適用できない(判定不能)**」。
+2. mod 5 の $\mathfrak h_4$ 退化は **class-4 Lie detector の一方向**の話であり、非冪零 $A_5^5$ の norm map 全体を消さない。⟹ 篩 F-2 の $K_\pi$ 行も同様に「判定不能」。
+3. 既測 20/20 は有力な **retrodiction** だが、本文自身の格付けどおり**状況証拠**。
+
+**正しい位置づけ(正文)**:
+> **$K_\pi$ は discovery の第一標的から外す**(裁定 420 の判断を追認)。ただし **安価な向き較正として残す** — 既存 `Chk6` の $c_3$ 判定と、本稿の $\mathrm{PENT}_W$(定義 HSP-T)の**二経路一致**を見る価値がある。P-HSP-2(20/20 PASS)は**予言でなく較正アンカー**として凍結する。
+> **新情報を狙う第一標的は $p=7$ の類 4 冪零窓へ移す**(§3.2・§8.7)。
+
+---
+
+## 8.5 【W100-7.1】系 HSP-ODD / HSP-WALL の限定(nilpotent route 限定の記帳)
+
+**正文(以後これを引く)**:
+> ### 系 HSP-ODD(v2・nilpotent route 限定)
+> $d(N)=1$ の奇・混合 dihedral 窓および壁窓は、**冪零 $K(0,5)$-window を経由する限り** $\mathrm{PENT}_W$ が恒真(検出力ゼロ)。
+> **UNKNOWN(この限定の外)**: ① 非冪零 packing($Q$ が完全群を商にもつ場合)② 深さ 5 以上 ③ $p=5$ の affine obstruction ④ 他の cross-frame detector。
+
+**地図の文言**(裁定 408/420 の第二修正 → **便 100 W100-7.1 で再修正**):
+
+| 追認される地図 | 追認されない地図 |
+|---|---|
+| gentle axioms 内部では **P99-C2-BLIND の範囲で** $c_2$ は独立 detector にならない。既知の cross-frame 候補には **GTPI 型**と **HS norm 型**がある。HS の **現在設計できている LCS/$\mathfrak h_4$ route** は、$d(N)\ge2$・good characteristic・class 4 の**冪零窓**を第一候補とする | ~~「HS Prop 7 の**全経路**が厳密に $d\ge2$、class $\ge4$、characteristic $\ne5$ に限られる」~~ |
+
+⟹ **§7.5 申し送り 3(「HS Prop 7 の道が深さ 4・$d(N)\ge2$・標数 $\ne5$ の窓に限られる」)は、上表の左欄の形(= 現在設計できている route について)に読み替える。**
+⟹ **§4 の FV-WALL 凍結維持の判断は不変**(W-2「非冪零 $W$ では検出力の事前見積りが立たない」は、まさに上の UNKNOWN ① と同じ内容であり、Sol の限定と整合する)。充足条件 (T-1)(T-2)(T-3) も不変。
+
+---
+
+## 8.6 【P100-1.2】HS 本走の**発火前チェックリスト**(5 条・全て閉じるまで $N^{(4,7)}$ 本走は未認可)
+
+| # | 条件(Sol P100-1.2 逐条) | 本節での状態 |
+|---|---|---|
+| **1** | **NW-1 を曖昧な省略記号なしの verbal subgroup として一意に定義し、$N\trianglelefteq B_3$・$N_{F_2}$・$N_{\rm ord}$・$c$ の扱いを紙で固定する** | ★ **本節 §8.7 で履行(紙で閉じた)** — 司令塔検分 + Sol 監査待ち |
+| **2** | 最初の素数は **$p=7$ に事前登録**し、$\mathfrak h_4$ の生存と $\nu_4(\mathfrak h_4)\ne0$ を**その有限商で直接確認**する | **未履行**(機械が要る)。**§8.7.7 に事前登録の型を書いた**。これが【HSP-GAP-2】の $p=7$ instance |
+| **3** | P100-1.1 の $m=0$ finite dummy family を **exact group element** として作り、hexagon / charming / SURJ / PENT を**別々に**判定する | ★ **構成は §8.7.4 で履行**($\mathrm{Exp}$ を経由しない交換子語)。**4 判定の分離**は §8.3.2 (a)-(d) で分離済 |
+| **4** | 探索レーン・full $B_3/N$ hexagon レーン・$K(0,5)/W$ PENT レーンを **helper 非共有**にする | **未履行**(実装時)。§5.3 項目 2 に既記 — 発注仕様に転記すること |
+| **5** | **CV-9 判読**まで D3/D4 を cross-checked と呼ばない | **遵守中**(§7.1 の宣言どおり・本節でも格は上げていない) |
+
+> **⟹ 発火は依然として未認可。FV-WALL は凍結維持。**
+
+---
+
+## 8.7 ★★ 条件 1 の履行 — **補題 NW-1 v2(省略記号なしの verbal 窓対)**
+
+> **本節が §5.1 の補題 NW-1(初稿・$N_{F_2}:=\gamma_5(F_2)F_2^{p^e}[\ldots]$ という省略記号つき)を置き換える。**
+> **使う外部入力はゼロ**(verbal 部分群・下中心列・Frattini 部分群の標準事実のみ)。**Lazard 対応も Burnside 型の一般論も呼ばない** — 呼ぶ代わりに、次元は**上界を紙で出し、等号は標的商での機械確認(条件 2)へ回す**(【HSP-GAP-2】の処理方針と同じ)。
+
+### 8.7.1 定義 VAR — 変種と verbal 部分群(**省略記号なし**)
+
+> ### 定義 VAR
+> 素数 $p$ と $e\ge1$ に対し、**語の集合**
+> $$\mathcal W_{4,p^e}:=\bigl\{\,[x_1,x_2,x_3,x_4,x_5]\ ,\ x_1^{\,p^e}\,\bigr\}$$
+> (左正規化交換子・重さ 5 のもの 1 個と、$p^e$ 乗 1 個の**ちょうど 2 語**)が定める群の変種を $\mathfrak V_{4,p^e}$(**類 $\le4$ かつ指数 $\mid p^e$**)とし、任意の群 $G$ に対する **verbal 部分群**を
+> $$\boxed{\ \mathcal V(G)\ :=\ \mathcal W_{4,p^e}(G)\ =\ \gamma_5(G)\cdot G^{\,p^e},\qquad G^{\,p^e}:=\bigl\langle\,g^{\,p^e}\ :\ g\in G\,\bigr\rangle\ }$$
+> と書く(**$\langle\cdot\rangle$ は「$p^e$ 乗全体が生成する部分群」— $p^e$ 乗元の集合ではない**)。
+
+**確認すべき点はこれだけ**(すべて標準・3 行以内):
+- **(V0)** $\gamma_5(G)$ は語 $[x_1,\dots,x_5]$ の verbal 部分群である(左正規化重さ 5 交換子の値が生成する部分群 = $\gamma_5(G)$)。ゆえに $\mathcal V(G)$ は語集合 $\mathcal W_{4,p^e}$ の verbal 部分群そのものであり、**省略記号で補うべき語は存在しない**。
+- **(V1)** verbal ⟹ **完全不変**(fully invariant): $\phi\in\mathrm{End}(G)$ に対し $\phi(\mathcal V(G))\subseteq\mathcal V(G)$。
+- **(V2)** $G/\mathcal V(G)$ は $G$ の $\mathfrak V_{4,p^e}$ における**最大商**。
+- **(V3)** 準同型 $\phi:G\to H$ に対し $\phi(\mathcal V(G))=\mathcal V(\phi(G))\subseteq\mathcal V(H)$。
+- **(V4)** $H\trianglelefteq G$ かつ $K$ が $H$ で完全不変 ⟹ $K\trianglelefteq G$($g$ による共役は $H$ の自己同型に制限されるから)。
+
+**以後 $e=1$ を事前登録する**($p\ge7$、指数 $p$)。$\mathcal V:=\mathcal V_{4,p}$、$\mathcal V(G)=\gamma_5(G)G^{\,p}$。$e\ge2$ 版は同じ定義で動くが、本走の宇宙には入れない(**後から変えない**)。
+
+### 8.7.2 ★ 補題 NW-1a — **直積の中での明示計算**(罠 #5 を仮定でなく計算で回避)
+
+$PB_3=F_2\times\langle c\rangle$($F_2=\langle x,y\rangle$、$c$ = full twist、$\langle c\rangle=Z(B_3)\cong\mathbb Z$)。
+
+> ### 補題 NW-1a
+> $$\boxed{\ \mathcal V(PB_3)\ =\ \mathcal V(F_2)\times\langle c^{\,p}\rangle\ =\ \bigl(\gamma_5(F_2)F_2^{\,p}\bigr)\times\langle c^{\,p}\rangle\ }$$
+
+**証明.** (i) $c$ は中心ゆえ $\gamma_k(F_2\times\langle c\rangle)=\gamma_k(F_2)$($k\ge2$)、とくに $\gamma_5(PB_3)=\gamma_5(F_2)$。
+(ii) $w\in F_2$、$k\in\mathbb Z$ に対し $c$ が中心ゆえ $(wc^k)^{\,p}=w^{\,p}c^{\,kp}$。ゆえに $p$ 乗元の**値の集合**は $\{w^{\,p}c^{\,kp}\}$ で、これが生成する部分群は $k=0$ から $F_2^{\,p}$ を、$w=1,k=1$ から $c^{\,p}$ を含み、逆に各値は $F_2^{\,p}\langle c^p\rangle$ に入る。よって $PB_3^{\,p}=F_2^{\,p}\times\langle c^{\,p}\rangle$。
+(iii) 積: $\gamma_5(F_2)\cdot\bigl(F_2^{\,p}\times\langle c^{\,p}\rangle\bigr)=\bigl(\gamma_5(F_2)F_2^{\,p}\bigr)\times\langle c^{\,p}\rangle$。∎
+
+> ★ **これが【HSP-GAP-1】(c) の正しい処理である。** 初稿は「$N:=\mathcal V(PB_3)\cdot\langle\langle c\rangle\rangle$ を取り $N_{F_2}$ が変わらないことを **Dedekind で確認**(罠 #5)」と書いたが、**Dedekind も分裂の仮定も要らない** — verbal 部分群が直積分解に対して**箱型($A\times B$ の形)**になることを直接計算すればよい。**「分裂を仮定しない」は、分裂を使わない計算を実際に書くことで満たされる。**
+
+### 8.7.3 ★ 定義 NW($p$)と補題 NW-1b — 窓対の確定
+
+> ### 定義 NW($p$)(**事前登録する窓対**・$p\ge7$、$e=1$)
+> $$\boxed{\
+> \begin{aligned}
+> \mathbf N&:=\mathcal V(PB_3)\cdot Z(B_3)\;=\;\mathcal V(F_2)\times\langle c\rangle &&(\textbf{主標的}\ —\ c\in\mathbf N)\\
+> \mathbf N_0&:=\mathcal V(PB_3)\;=\;\mathcal V(F_2)\times\langle c^{\,p}\rangle &&(\textbf{control}\ —\ c\notin\mathbf N_0)\\
+> N_{F_2}&:=\mathcal V(F_2)=\gamma_5(F_2)F_2^{\,p} &&(\textbf{両者に共通})\\
+> W&:=\mathcal V\bigl(K(0,5)\bigr)=\gamma_5(K(0,5))\,K(0,5)^{\,p} &&(\textbf{pentagon 側の窓})
+> \end{aligned}\ }$$
+> $P:=F_2/N_{F_2}$、$Q:=K(0,5)/W$。**記号 $N^{(4,p)}$ は以後 $\mathbf N$ を指す。**
+
+> ### 補題 NW-1b(**$N\trianglelefteq B_3$・$N_{F_2}$・$N_{\rm ord}$・$c$ の 4 点を紙で固定**)
+> **(1)【$N\trianglelefteq B_3$】** $\mathbf N,\mathbf N_0\in\mathrm{NFI}_{PB_3}(B_3)$。
+> **(2)【$N_{F_2}$】** $\mathbf N\cap F_2=\mathbf N_0\cap F_2=\mathcal V(F_2)$。**箱型ゆえ Dedekind も分裂仮定も不要。**
+> **(3)【商】** $PB_3/\mathbf N\cong P$、$PB_3/\mathbf N_0\cong P\times C_p$。$P$ は**類 $\le4$・指数 $p$ の有限 $p$ 群**で $\lvert P\rvert\le p^{8}$、$\lvert[P,P]\rvert\le p^{6}$、$P^{\rm ab}\cong C_p^{\,2}$。
+> **(4)【$N_{\rm ord}$】** $\boxed{N_{\rm ord}=p}$(両窓)。ゆえに $\mathcal X_{\mathbf N}=\{m\bmod p:\ 2m+1\not\equiv0\}$、$\lvert\mathcal X_{\mathbf N}\rvert=p-1$、**$m=0\in\mathcal X_{\mathbf N}$**。
+> **(5)【$c$】** $\mathbf N$ では $\bar c=1$ ⟹ **許容対象**(簡約 hexagon (3.10)(3.11) の商上評価の近道が使える)。$\mathbf N_0$ では $\mathrm{ord}(\bar c)=p$ ⟹ **近道は壊れる**ので **full $B_3/N$ 上の (3.3)(3.4) で $c^m$ 項と $T(c)=c^{2m+1}$ を検査**する(較正スイート項目 7 の型)。
+> **(6)【$W$】** $W$ は $K(0,5)$ で完全不変 ⟹ **(W-b) $\rho(W)=W$ 自動**。$j(N_{F_2})\subseteq W$ ⟹ **(W-c) 自動**。$[K(0,5):W]\le p^{40}<\infty$ ⟹ **(W-a) 自動**。$\bar\rho^5=1$、$\bar\rho\ne1$。
+
+**証明.**
+**(1)** $\mathcal V(PB_3)$ は $PB_3$ で完全不変(V1)、$PB_3\trianglelefteq B_3$ ゆえ (V4) より $B_3$ で正規。$Z(B_3)=\langle c\rangle\trianglelefteq B_3$。正規部分群の積は正規。両者とも $PB_3$ に含まれる。有限指数は (3)。
+**(2)** 補題 NW-1a より $\mathbf N_0=\mathcal V(F_2)\times\langle c^p\rangle$、$\mathbf N=\mathbf N_0\langle c\rangle=\mathcal V(F_2)\times\langle c\rangle$。直積 $F_2\times\langle c\rangle$ の中の**箱型部分群 $A\times B$ は $(A\times B)\cap(F_2\times1)=A\times1$** を満たす。ゆえに交わりは $\mathcal V(F_2)$。
+**(3)** 商は箱型から直ちに従う。$P=F_2/\gamma_5(F_2)F_2^{\,p}$ は指数 $\mid p$ で類 $\le4$。有限性と上界: $\gamma_k(P)/\gamma_{k+1}(P)$ は重さ $k$ の基本交換子の像で生成され、$P^{\,p}=1$ より初等アーベル、したがって $\mathbb F_p$-空間として次元 $\le$ Witt 数 $W(2,k)$。$W(2,1..4)=(2,1,2,3)$ より $\lvert P\rvert\le p^{2+1+2+3}=p^8$、$\lvert[P,P]\rvert\le p^{1+2+3}=p^6$。$P^{\rm ab}=F_2^{\rm ab}/p\,F_2^{\rm ab}\cong C_p^2$。
+**(4)** $N_{\rm ord}=\mathrm{lcm}\bigl(\mathrm{ord}(\bar x),\mathrm{ord}(\bar y),\mathrm{ord}(\bar c)\bigr)$(定義ノート (3.1))。$P^{\rm ab}\cong C_p^2$ ゆえ $\bar x,\bar y\ne1$、指数 $p$ ゆえ位数はちょうど $p$。$\mathbf N$ では $\mathrm{ord}(\bar c)=1$、$\mathbf N_0$ では $\langle c\rangle/\langle c^p\rangle\cong C_p$ ゆえ $p$。いずれも lcm $=p$。$m=0$ は $2m+1=1$ ゆえ $\mathcal X$ の元。
+**(5)** 定義から。近道の可否は定義ノート §2 の実装注(「$\theta/\tau$ を商上の準同型として評価する近道は $c\in N$ に依存」)そのまま。
+**(6)** (V1)(V3) と (3) と同じ次元勘定($\mathrm{gr}_k(K(0,5))$ の階数 $5,4,10,21$・§2 の検算)。$\bar\rho\ne1$ は $\mathrm{gr}_1(Q)=Q^{\rm ab}$ 上で $\bar T_1\ne\bar T_4$ から。∎
+
+> ### ★ 【HSP-GAP-1】の状態更新
+> **CLOSED(紙)。** (c)($c$ の扱い)は補題 NW-1a + NW-1b (2)(5) で、(d)($N_{\rm ord}$)は NW-1b (4) で閉じた。**罠 #5 は「分裂を仮定しない計算」を実際に書くことで回避した。**
+> 残る機械項は **$\lvert P\rvert=p^8$ の等号**(= $\mathrm{gr}_k(F_2)\otimes\mathbb F_p$ の生存)であり、これは **【HSP-GAP-2】の $p=7$ instance = 発火条件 2** に一本化する(§8.7.7)。上界 $\le p^8$ だけは紙で確定している。
+
+### 8.7.4 ★ 定義 DUM-FIN — dummy を **$\mathrm{Exp}$ なしの有限群元**として構成(W100-1.3 への直接回答)
+
+$P$ は類 $\le4$ ゆえ $\gamma_5(P)=1$、したがって $\gamma_4(P)\subseteq Z(P)$。さらに $P^{\,p}=1$ ゆえ $\gamma_4(P)$ は**初等アーベル**である。$\gamma_5(P)=1$ より重さ 4 の交換子写像 $P^{\times4}\to\gamma_4(P)$ は**多重線型**で、$\gamma_4(P)=\gamma_4(P)/\gamma_5(P)=\mathrm{gr}_4(P)$。
+
+> ### 定義 DUM-FIN
+> $$\boxed{\ h_4\ :=\ \bigl[[[x,y],x],x\bigr]\ \cdot\ \bigl[[[x,y],x],y\bigr]^{4}\ \cdot\ \bigl[[[x,y],y],y\bigr]\ \in\ \gamma_4(P)\ }$$
+> $$f_t:=h_4^{\,t}\quad(t=0,1,\dots,p-1).$$
+
+- **これは群の交換子語であり、$\exp$/BCH/Lazard 対応を一切経由しない。** 「記号だけでは離散有限群の元ではない」(W100-1.3)は解消される。
+- $\gamma_4(P)$ が初等アーベルで交換子写像が多重線型ゆえ、$h_4$ は **$\mathfrak h_4=v_1+4v_2+v_3\in\mathrm{gr}_4(F_2)$ の $\bmod\,p$ 像そのもの**である(同一視ではなく、$\gamma_4(P)=\mathrm{gr}_4(P)$ という等号による)。
+- **F100-4.3 の用語規約に従う**: $\mathfrak h_4$ は **Lie 元**(bracket convention・係数環・$\bmod\,p$ 還元を併記)、$h_4$ は**群元**。**同一視しない**(規約台帳 §1.3.10 に登録済)。
+- **Hall 関係** $[[[x,y],y],x]=[[[x,y],x],y]$ は類 4 で exact(§6 の検算で確認済)。
+
+### 8.7.5 補題 DUM-HEX(hexagon が **exact に**成立すること)
+
+> ### 補題 DUM-HEX
+> $m=0$、$f_t=h_4^{\,t}$ に対し、簡約 hexagon **(3.10) $f\theta(f)=1$ と (3.11) $\tau^2(f)\tau(f)f=1$ はいずれも $P$ の中の等式として exact に成立する**(「次数 4 の斉次解」ではなく)。
+
+**証明.** $N_{F_2}=\mathcal V(F_2)$ は完全不変ゆえ $\theta$($x\leftrightarrow y$)と $\tau$($x\mapsto y\mapsto z\mapsto x$、$z=(xy)^{-1}$)は $P$ の自己同型に降りる。両者は $\gamma_4(P)$ を保ち、$\gamma_4(P)=\mathrm{gr}_4(P)$ 上では**次数付き作用 $\theta_*,\tau_*$ の $\bmod\,p$ 還元**そのものである。$\gamma_4(P)$ は可換ゆえ積は座標の和。
+- **(3.10)**: $\theta_*(\mathfrak h_4)=\theta_*(v_1+4v_2+v_3)=-v_3-4v_2-v_1=-\mathfrak h_4$($\theta_*v_1=-v_3$、$\theta_*v_3=-v_1$、$\theta_*v_2=-v_2$)。ゆえに $f_t\theta(f_t)=h_4^{\,t}h_4^{-t}=1$。
+- **(3.11)**($m=0$ ゆえ $y^m=1$): $(1+\tau_*+\tau_*^2)\mathfrak h_4=(4\alpha-\beta)(v_1+v_2+v_3)$ で $(\alpha,\beta,\gamma)=(1,4,1)$、よって $=0$(§2.3 (a) の手計算)。ゆえに $\tau^2(f_t)\tau(f_t)f_t=1$。∎
+
+> **注**: exact になるのは $f_t$ が**窓の最上層 $\gamma_4(P)$**(中心・初等アーベル)に居るからである(§8.3.2 の ★)。深さ 3 では成立しない(§8.3.3)。
+> **注 2**: 主標的 $\mathbf N$ は $c\in\mathbf N$ ゆえ簡約形 (3.10)(3.11) を使ってよい(補題 NW-1b (5))。**control $\mathbf N_0$ では full (3.3)(3.4) を使うこと。**
+
+> ### ★ 精確化 PREC-1(§2.3 (a) の一文の読み方 — **当方の検算で捕獲**)
+> §2.3 (a) の証明は「(3.10) が $\alpha=\gamma$、**(3.11) が $(4\alpha-\beta)(v_1+v_2+v_3)=0$**」と書いている。**この 2 つは順に適用されており、その読みでは正しい**が、後半を**単独の恒等式として引用すると誤り**である。検算(§8.11)が与えた**一般形**は
+> $$\bigl(1+\tau_*+\tau_*^2\bigr)\bigl(\alpha v_1+\beta v_2+\gamma v_3\bigr)\;=\;\boxed{(2\alpha-\beta+2\gamma)}\,(v_1+v_2+v_3)$$
+> であり(像は確かに階数 1・$\mathbb Q(v_1+v_2+v_3)$)、**$(4\alpha-\beta)$ になるのは (3.10)-locus $\alpha=\gamma$ に制限したときだけ**である。
+> - 解空間は $\{\alpha=\gamma\}\cap\{2\alpha-\beta+2\gamma=0\}=\mathbb Q\,(1,4,1)=\mathbb Q\,\mathfrak h_4$ ⟹ **定理 D4-POWER (a)(1 次元)は不変・独立に再確認された。**
+> - **以後 (3.11) の深さ 4 成分を単独で引くときは $(2\alpha-\beta+2\gamma)$ を書くこと。**
+
+### 8.7.6 SURJ の自動性 — **既在の系 H8′ による**(★ 新規ではない・grep 済)
+
+> ### 系 H8′(既在・`docs/week3-狩場計画_v2.md` §2.1)
+> $P$ が $p$ 群、$\bar f\in[P,P]\subseteq\Phi(P)$、$\gcd(2m+1,p)=1$ ならば **全射性は自動**(Frattini 論法)。
+
+窓 $\mathbf N$/$\mathbf N_0$ では $P$($\times C_p$)は $p$ 群、charming は $\bar f\in[P,P]$、$m\in\mathcal X_{\mathbf N}$ は $\gcd(2m+1,p)=1$ を意味する。$\Phi(P)=[P,P]P^{\,p}=[P,P]$(指数 $p$)。ゆえに **$\mathcal X_{\mathbf N}$ の全 $m$・全 charming $\bar f$ について SURJ は自動**(Prop 3.6 により $T_{m,f}$・$T^{PB_3}$・$T^{F_2}$ のどれで判定してもよい)。
+
+> ### ★ Sol P100-1.1 の理由づけへの補正(結論は不変・理由を差し替え)
+> Sol は「$\gamma_4$ は中心なので $T_{0,f_t}$ は**恒等写像**となり SURJ は自動」と書いたが、**$T_{0,f_t}$ は一般に恒等写像ではない**: $T_{0,f}(\sigma_2)=f^{-1}\sigma_2f$ であり、$f_t$ は $\gamma_4(P)$ の中心元でも **$\sigma_2$ とは可換とは限らない**($\gamma_4(P)$ は $PB_3/N$ の中心だが $B_3/N$ の中心ではない。実際 $\theta_*(\mathfrak h_4)=-\mathfrak h_4\ne\mathfrak h_4$($p\ne2$)ゆえ $S_3$ 側の作用は $h_4$ を動かす)。
+> **結論(SURJ 自動)は正しく、かつより強い形で既に工房にある**(系 H8′ — $m=0$ に限らず $\mathcal X_{\mathbf N}$ 全体で成立)。**理由づけを系 H8′ に差し替えて記帳する。**
+> ⟹ **副次的帰結**: この窓族では **SURJ は篩として識別力ゼロ**(全 charming 候補が通る)。判定の実体は hexagon と PENT だけである。**発注仕様にこの一行を入れること**(識別力ゼロの検査を「通った」と報告させない)。
+
+### 8.7.7 発火条件 2 の事前登録の型(IF-FIRST・**測る前に凍結**)
+
+> **本項は実装前の凍結対象。値をコードに書かない。**
+
+| # | 事前登録項目 | 型 |
+|---|---|---|
+| **NW-P1** | $p=7$、$e=1$。窓対は定義 NW(7) の $\mathbf N$(主)と $\mathbf N_0$(control)**のみ**。後から $p$ も $e$ も変えない | 宇宙の事前登録 |
+| **NW-P2** | $\lvert P\rvert=7^8=5{,}764{,}801$、$\lvert[P,P]\rvert=7^6=117{,}649$、$N_{\rm ord}=7$、$\lvert\mathcal X_{\mathbf N}\rvert=6$ | **予言**(紙は $\le$ のみ。等号は機械が決める) |
+| **NW-P3** | $\dim_{\mathbb F_7}\gamma_4(P)=3$ かつ $h_4\ne1$ in $\gamma_4(P)$(= **$\mathfrak h_4$ の生存**) | 予言(**【HSP-GAP-2】の $p=7$ instance**) |
+| **NW-P4** | $\lvert Q\rvert=7^{40}$、$\dim_{\mathbb F_7}\gamma_4(Q)=21$ | 予言(pc 群で扱う。置換表現では不可) |
+| **NW-P5** ★ | $\nu_4(j\mathfrak h_4)\ne0$ in $\gamma_4(Q)$ — **標的商での直接確認** | ★ **発火条件 2 の本体**。これが確認できて初めて定理 DUM-1/p が発火する |
+| **NW-P6** | 定理 DUM-1/p の帰結: $p=7$ の dummy family 7 元のうち **PENT PASS はちょうど 1 個($t=0$)** | 予言(NW-P5 相対) |
+| **NW-P7** | control($p=5$・同じ family): **7 元中 7 元 = 全 PASS** ではなく **5 元中 5 元 = 全 PASS**($\nu_4(\mathfrak h_4)\equiv0\bmod5$) | ★ **family 限定 control**(§8.3.4・全候補 control ではない) |
+| **NW-P8** | control($\mathbf N_0$・$c\notin N$): full (3.3)(3.4) で $c^m$ 項が実際に効くこと($m\ne0$ の $m$ で hexagon の判定が $\mathbf N$ と食い違う $m$ が存在する) | 較正スイート項目 7 の型 |
+
+**停止規則(§7.4 の S-1〜S-5 に追加)**:
+- **S-6**: **NW-P3 または NW-P5 が偽なら $p=7$ 本走を止める**(標的の前提が崩れる)。$p=11,13$ へ移す判断は司令塔。
+- **S-7**: NW-P2 の等号が破れた(= $\lvert P\rvert<7^8$)場合、**窓の定義を変えずに**次元の実測値で全予言を書き直す(**宇宙を後から変えない**)。
+
+### 8.7.8 §5.1 との差分・依存の会計
+
+| 初稿 §5.1 | v2(本節) |
+|---|---|
+| $N_{F_2}:=\gamma_5(F_2)F_2^{p^e}[\ldots]$(**省略記号**) | ★ $N_{F_2}=\gamma_5(F_2)F_2^{\,p}$(**2 語の verbal・省略記号なし**) |
+| 「$PB_3$ の対応する verbal 部分群の $B_3$ 内での**適合化**」(未定義語) | ★ $\mathbf N=\mathcal V(PB_3)Z(B_3)$、$\mathbf N_0=\mathcal V(PB_3)$(**式で定義**) |
+| $c\in N$ を「取れる」(未検証)/ **Dedekind で確認**(罠 #5) | ★ **箱型計算**(補題 NW-1a)で $c$ の両扱いを構成・Dedekind 不要 |
+| $N_{\rm ord}=p^e$(未検証) | ★ $N_{\rm ord}=p$(**証明つき**・$e=1$ 登録) |
+| dummy $=\exp(t\mathfrak h_4)$(記号) | ★ $f_t=h_4^{\,t}$(**交換子語 = 有限群元**) |
+| SURJ の根拠なし | ★ **既在の系 H8′**(識別力ゼロであることも明記) |
+
+**新規の未解決依存: なし。** U-10 は使わない(D-8 不変)。外部文献ゼロ。**Lazard 対応・制限 Burnside の一般論を呼んでいない**(次元の等号を機械へ回したため)— これは【文献要請】を出さずに済ませた処理であり、**呼びたくなったら NW-P2/NW-P3 の実測が先**である。
+
+---
+
+## 8.8 格付けの更新(§7.1 への差分のみ)
+
+| 主張 | 便 100 後の格 |
+|---|---|
+| HS (III) の **PENT-NORM 書換え** | **paper-proof**(Sol F100-1.1 PASS)。**Prop 7 本体とは呼称分離**(§8.1) |
+| HSP-WD / HSP-SOUND | **paper-proof**(F100-1.3 PASS) |
+| 補題 CENT-FREE | **paper-proof(限定版)**(F100-1.4 PASS)— **pentagon 恒等式判定のみ**。有限 PASS は $PB_4$ の恒等式を証明しない。完成群で引くときは中心拡大の profinite exactness/closure の一行を併記 |
+| **定理 D2-BLIND** | **paper-proof**(F100-1.5 PASS・整数係数ゆえ torsion-free 仮定不要) |
+| **系 D2-C2** | **paper-proof(弱化後の正文で)**(§8.2) |
+| 定理 D3-BLIND / D4-POWER | **有理次数付き・有限線型計算 candidate**(F100-1.6)。**cross-checked ではない** |
+| **系 D4-PRED** | ★ **撤回**(§8.3.1 R-1) |
+| ★ **定理 DUM-1/p** | **paper-proof candidate**(**NW-P5 相対**・Sol 未監査) |
+| ★ **補題 NW-1a / NW-1b / DUM-HEX** | **paper-proof candidate**(**Sol 未監査**・外部入力ゼロ) |
+| 系 H8′ の適用(SURJ 自動) | **既在の系の適用**(新規ではない) |
+| 命題 HSP-COLLAPSE | **paper-proof**(F100-1.7 PASS) |
+| 系 HSP-ODD / HSP-WALL | **paper-proof(nilpotent route 限定)**(§8.5) |
+| $K_\pi$ の位置づけ | ★ **「情報ゼロ」撤回 → 安価な向き較正**(§8.4) |
+
+**verified(Lean)は依然 0 件。cross-checked も 0 件**(CV-9 主検問未実施)。
+
+## 8.9 Sol への監査点(便 101・優先順)
+
+- **監査点 A′(最優先)**: **補題 NW-1a**($\mathcal V(F_2\times\langle c\rangle)=\mathcal V(F_2)\times\langle c^p\rangle$)と **NW-1b (2)**(箱型ゆえ $\mathbf N\cap F_2=\mathcal V(F_2)$)。**罠 #5 を「分裂を仮定しない計算」で回避したという主張**が成立しているか。
+- **監査点 B′**: **NW-1b (4)** $N_{\rm ord}=p$(定義ノート (3.1) の lcm 定義に照らして)。とくに control $\mathbf N_0$ でも $p$ になること。
+- **監査点 C′**: **補題 DUM-HEX** — hexagon が「次数 4 の斉次解」ではなく **$P$ の中の exact な等式**として成立するという主張(最上層に居ることの帰結)。
+- **監査点 D′**: **§8.7.6 の補正** — 「$T_{0,f_t}$ は恒等写像」は偽だが SURJ は系 H8′ で自動、という差し替えが正しいか。**および「SURJ はこの窓族で識別力ゼロ」という帰結**。
+- **監査点 E′**: **§8.3.3 の自己捕獲** — $h_3$ 方向は有限窓で exact な hexagon 解でも exact な PENT PASS でもなく、$\gamma_4$ 剰余が残る(代表元依存)。A-HSP-2 の弱化は妥当か。
+- **監査点 F′**: **§8.7.7 の事前登録**が「宇宙を後から変えない」規律に照らして十分に閉じているか(とくに S-7 の扱い)。
+
+## 8.10 司令塔への申し送り
+
+1. ★ **発火条件 1 は履行した(紙)。残るのは条件 2(機械)・条件 3 の分離判定(履行済)・条件 4(発注仕様)・条件 5(CV-9)。** 条件 2 は $p=7$ の pc 群計算であり、**$\lvert Q\rvert=7^{40}$ は置換群では不可能・polycyclic なら軽い**(§3.2)。棚: `anupq` / `autpgrp` / `polycyclic`。
+2. ★ **【HSP-GAP-1】は CLOSED(紙)。** 【HSP-GAP-2】は $p=7$ instance = 発火条件 2 に一本化した。【HSP-GAP-3】(非冪零窓の事前見積り法)と【文献要請 HSP-L1】は**不変**(W100-1.5 が $K_\pi$ を「判定不能」に戻したことで、むしろ**重要度が上がった**)。
+3. **地図の該当行**: §8.5 の表(追認される地図 / されない地図)をそのまま反映されたい。裁定 408/420 の第二修正は本節で**再修正**された。
+4. **規約台帳**: $\mathfrak h_3/\mathfrak h_4$ の用語登録(F100-4.3)は台帳 v1.5 §1.3.10 で履行。**既存 script の `psi4`/`sigma3` は次版で改名**(§6 の 5 本)— 実装係への申し送り。
+5. **識別力ゼロの検査**: §8.7.6 の副次的帰結(SURJ がこの窓族で識別力ゼロ)は、CV-9-5 の「識別力を持つ dummy fixture」要件と同じ型の問題である。**発注仕様に「SURJ の PASS を証拠として数えない」を明記**されたい。
+6. ★ **精確化 PREC-1**(§8.7.5): (3.11) の深さ 4 成分の一般形は $(2\alpha-\beta+2\gamma)$ であり、$(4\alpha-\beta)$ は (3.10)-locus 上の形である。**定理 D4-POWER (a) の結論は不変**(むしろ独立に再確認された)。**§2.3 (a) の本文は不改変**(順に適用しているので誤りではない)。
+
+## 8.11 検算(§8 で新たに走らせたもの — 1 本)
+
+**収蔵**: `search/probe/hsp7_v1/hs_prop7_dumhex_check.py`
+**SHA-256**: `7b1c7e067a13a24de2200b60d226a8c58fe7ada44567753365827629fad8df5f`
+**python 単系統 / 整数・厳密有理数のみ / 14 検査 FAILS = 0 / $K^{(5)}$ 非接触・窓の測定なし**
+
+| # | 検査 | 使う場所 |
+|---|---|---|
+| 1–2 | $\tau_*^3=\mathrm{id}$、$\theta_*^2=\mathrm{id}$(自己検査) | 実装の健全性 |
+| 3 | **Hall 関係** $[[[x,y],y],x]=v_2$ | 定義 DUM-FIN |
+| 4 | $v_1,v_2,v_3$ が一次独立 | §2.3 の基底 |
+| 5–7 | ★ $\theta_*(v_1)=-v_3$、$\theta_*(v_2)=-v_2$、$\theta_*(v_3)=-v_1$ | **補題 DUM-HEX (3.10)** |
+| 8 | ★ **$\theta_*(\mathfrak h_4)=-\mathfrak h_4$** | **補題 DUM-HEX (3.10)** |
+| 9 | ★ $\theta_*(\mathfrak h_3)=-\mathfrak h_3$ | §8.3.3(自己捕獲の前提) |
+| 10 | ★ **$(1+\tau_*+\tau_*^2)(\mathfrak h_4)=0$** | **補題 DUM-HEX (3.11)** |
+| 11 | ★ 一般形 $(1+\tau_*+\tau_*^2)(\alpha,\beta,\gamma)=(2\alpha-\beta+2\gamma)(v_1{+}v_2{+}v_3)$(像は階数 1) | **精確化 PREC-1** |
+| 12 | $\alpha=\gamma$ 上で $(2\alpha-\beta+2\gamma)=(4\alpha-\beta)$ | PREC-1(§2.3 との整合) |
+| 13 | ★ **hexagon 深さ 4 解空間 $=\mathbb Z(1,4,1)$ のみ** | **定理 D4-POWER (a) の独立再確認** |
+| 14 | (3.10) の深さ 4 条件 $\iff\alpha=\gamma$ | §2.3 (a) |
+
+**実装の独立性**: §6 の 5 本(外積モデル / テンソルモデル / 剰余算術)とは別に、**テンソル代数上の整数係数直接計算 + $\tau_*$ を $x\mapsto y,\ y\mapsto -x-y$ から独立に構成**している。ただし **起草者が書いた single lane** であり、**cross-checked ではない**(CV-9 未実施)。**Lean 検証でもない。**
