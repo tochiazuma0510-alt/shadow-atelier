@@ -1661,3 +1661,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - checker(独立実装・hashlib のみ)= 5 検査 PASS・--selftest で 1 PASS+3 STOP(holder 欠落/pointer 誤り/bytes 改竄)・**旧 v2 に対しても正しく STOP**(誤 PASS しない)。
 - 教材(実装係自己申告): 当初 json.dump 全体再書込で「意味同一だが全行 diff」となり「追記のみ」に抵触しかけ → テキスト水準のサージカル挿入へ書き直し。負例は cert 化せず checker 内蔵 selftest(既存の識別力 fixture と粒度混同を避ける判断)— 承認・恒久 cert 化は必要時。
 - 台帳 v1.5(数学者並行起草)への編入で正式批准 → 便 101 で Sol 確認。
+
+## 2026-08-02 M-7 修理検収(裁定 424)— W100-5.1 FAIL の履行: acceptor に required-set 規律(P100-5.1 逐条+additive 2 検査)・negative fixture 8 本全発火(非発火縁固定つき)・selfaudit v12(check 25 新設・check 18 是正・M100-1..5)・11 suite 1210 検査 0 FAIL・司令塔追試(v12 = ALL PASS)一致
+- 実装判断 3 件を承認: ①required map は **consumer 側固定**(receipt 側から読むと「receipt が自分の必須集合を決める」同型 fail-open — 正しい判断)・第四対象 = selfaudit v11 を必須集合に編入(receipt の authorized_scope 宣言の黙黙縮小防止)②fixture 4→8 本(新設述語の発火縁 4 本追加 = fail-closed 方向)③期待 artifact_id は literal でなく受信側の自コピーから構造読み・freeze_id 三つ組は**受信側再計算**(手写しゼロ)。
+- **記帳の分離(Sol 指定の履行)**: (a) coverage 欠品 = v11 check 18 は新 2 plane を列挙せず(旧 regex は実測で読めないが「false PASS を返した」事実はない)(b) required-set defect = consumer の実 fail-open — 原因も影響も別件、を v12 ヘッダに明記。
+- 凍結境界の機械確認: v11・receipt・verifier-b・spec v20 すべて修理前後で sha 不変。**申し送り: 次の freeze receipt が selfaudit v12 を束縛する際、consumer の required map の v11 literal も同一 versioned move で更新**(それまで v11 束縛のまま fail-closed で正)。
+- 状態不変: W-6 OPEN・IMAGE-MU UNKNOWN・EP uncalibrated/UNKNOWN・新 2 plane acceptor の最終批准は Sol 再検問(便 101)待ち。CI 再発火は司令塔(本裁定直後に dispatch)。

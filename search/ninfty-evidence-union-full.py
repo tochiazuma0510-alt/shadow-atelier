@@ -386,6 +386,41 @@ _MARKER_RE = re.compile(
     r"verifier_contract_id=(?P<verifier_contract_id>\S+)\s+"
     r"dependency_manifest_schema_id=(?P<dependency_manifest_schema_id>\S+)")
 
+# 【chg 便100 W100-5.1 / P100-5.1 / 裁定422】THE REQUIRED SET.
+#
+# The previous acceptor checked only that every entry PRESENT in
+# `bound_artifacts` reproduces its digest. That is "everything listed is
+# correct" -- it is NOT "everything required is listed". A receipt carrying
+# one unrelated file with a correct digest, plus a copied era/planes block,
+# reached ADOPTED. That is a fail-open, and it is repaired here: the required
+# set is fixed BEFORE the receipt is read, and a receipt is accepted only if
+# its bound_artifacts is EXACTLY that set, once each.
+#
+# The map is path -> the artifact-id FAMILY (slug) that path must declare.
+# The expected artifact_id itself is never typed in as a literal: it is READ
+# from the receiver's own copy of the file (the same structural read the era
+# matrix uses), so the four-way agreement below compares
+#     local bytes' digest  ==  receipt digest
+#     receipt artifact_id  ==  local structural artifact_id  (in this family)
+# and a receipt cannot certify a version the local file does not declare.
+#
+# The fourth entry (bundle-selfaudit v11) is required because the receipt's
+# own `authorized_scope` declares that the freeze binds it. Dropping it from
+# the required set would let a receipt narrow its own scope silently.
+W6KEY_REQUIRED_ARTIFACTS = dict(
+    [(W6KEY_ERA_DOC_PATHS[k], _ERA_KEY_SLUGS[k]) for k in _ERA_KEYS]
+    + [("search/bundle-selfaudit-v11.py", "bundle-selfaudit/")])
+# Supporting (non-binding) material MAY be carried, but only in its own field
+# -- never mixed into bound_artifacts, where its presence would be read as a
+# freeze binding (P100-5.1 item 2).
+W6KEY_SUPPORTING_FIELD = "supporting_artifacts"
+_HEX64_RE = re.compile(r"^[0-9a-f]{64}$")
+# receipt_id / freeze_id expected forms. The discriminating part -- the
+# 8-hex triple -- is RECOMPUTED from the receiver's own copies of the three
+# era documents; nothing about it is typed in.
+_FREEZE_ID_PREFIX = "mb/ninfty-stage2-freeze/"
+_RECEIPT_ID_RE_TMPL = r"^mb/ninfty-stage2-freeze-receipt/[a-z0-9]+/{0}$"
+
 
 def _read_declared_id(rel, slug, errors):
     """Structural id read (id-assignment line, then H1 title) -- never a
@@ -403,6 +438,107 @@ def _read_declared_id(rel, slug, errors):
         errors.append("{0}: no structural artifact-id declaration matching {1!r}v<NN>".format(rel, slug))
         return None
     return m.group(1)
+
+
+def _read_declared_id_source(rel, slug, errors):
+    """Structural id of a byte-frozen SOURCE file (`.py`).
+
+    Such a file carries no `id = "..."` assignment and must not be given one
+    (its bytes are frozen), so its structure IS its self-naming header: the
+    FIRST `# <stem>-v<NN>.py` comment line. That line is additionally required
+    to agree with the file's own basename, so a header quoting a predecessor's
+    banner (v11 quotes v10/v9 verbatim) can never be read as this file's id.
+    """
+    stem = slug.rstrip("/")
+    try:
+        with open(os.path.join(os.path.dirname(HERE), *rel.split("/")), "rb") as f:
+            text = f.read().decode("utf-8", "replace")
+    except OSError as exc:
+        errors.append("{0}: unreadable ({1})".format(rel, exc))
+        return None
+    m = re.search(r"^#\s*(" + re.escape(stem) + r")-v(\d+)\.py\b", text, re.M)
+    if m is None:
+        errors.append("{0}: no structural self-naming header matching '# {1}-v<NN>.py'".format(rel, stem))
+        return None
+    basename = rel.rsplit("/", 1)[-1]
+    if basename != "{0}-v{1}.py".format(m.group(1), m.group(2)):
+        errors.append("{0}: self-naming header declares {1!r} but the file is named {2!r}"
+                      .format(rel, m.group(0).lstrip("# "), basename))
+        return None
+    return "{0}/v{1}".format(m.group(1), m.group(2))
+
+
+def _local_digest(rel):
+    """sha256 of the receiver's OWN copy. Raises OSError -- callers decide."""
+    with open(os.path.join(os.path.dirname(HERE), *rel.split("/")), "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+def _w6key_required_local_ids(errors):
+    """path -> the artifact id the receiver's own copy structurally declares."""
+    out = {}
+    for rel, slug in W6KEY_REQUIRED_ARTIFACTS.items():
+        reader = _read_declared_id if rel.endswith(".md") else _read_declared_id_source
+        out[rel] = reader(rel, slug, errors)
+    return out
+
+
+def _w6key_freeze_triple(rel, errors):
+    """The freeze id's discriminating part, RECOMPUTED locally: the first 8
+    hex of the three era documents' digests, in spec/contract/manifest order.
+    None if any of them cannot be read (fail-closed)."""
+    parts = []
+    for key in _ERA_KEYS:
+        try:
+            parts.append(_local_digest(W6KEY_ERA_DOC_PATHS[key])[:8])
+        except OSError as exc:
+            errors.append("{0}: cannot recompute the freeze id -- {1} unreadable ({2})"
+                          .format(rel, W6KEY_ERA_DOC_PATHS[key], exc))
+            return None
+    return "-".join(parts)
+
+
+def _w6key_id_shapes(receipt, rel, errors):
+    """(ok, detail) for receipt_id / freeze_id: expected FORM plus the
+    64-hex typing of every digest field the receipt carries (P100-5.1 item 4).
+    An id of the wrong shape is a FAIL, never a warning: it is how a receipt
+    for some other freeze would be spotted."""
+    triple = _w6key_freeze_triple(rel, errors)
+    receipt_id, freeze_id = receipt.get("receipt_id"), receipt.get("freeze_id")
+    if triple is None:
+        return False, {"receipt_id": receipt_id, "freeze_id": freeze_id, "expected_triple": None}
+    exp_freeze = _FREEZE_ID_PREFIX + triple
+    freeze_ok = (freeze_id == exp_freeze)
+    if not freeze_ok:
+        errors.append("{0}: freeze_id is {1!r}, the receiver recomputes {2!r} from its own copies "
+                      "of the three era documents".format(rel, freeze_id, exp_freeze))
+    pattern = _RECEIPT_ID_RE_TMPL.format(re.escape(triple))
+    receipt_ok = isinstance(receipt_id, str) and re.match(pattern, receipt_id) is not None
+    if not receipt_ok:
+        errors.append("{0}: receipt_id is {1!r}, which does not match the expected form {2!r}"
+                      .format(rel, receipt_id, pattern))
+    # 64-hex typing of every digest-shaped field anywhere in the receipt's
+    # binding blocks -- a non-hex/short/upper-case digest is never compared
+    # "leniently"; it is a type fault.
+    typed_ok, bad = True, []
+    for block in ("bound_artifacts", "byte_frozen_predecessors"):
+        for entry in (receipt.get(block) or []):
+            if not isinstance(entry, dict):
+                continue
+            for field in ("sha256", "sol_declared_sha256"):
+                val = entry.get(field)
+                if val is None:
+                    continue
+                if not (isinstance(val, str) and _HEX64_RE.match(val)):
+                    typed_ok = False
+                    bad.append("{0}[{1!r}].{2}".format(block, entry.get("path"), field))
+    if not typed_ok:
+        errors.append("{0}: these digest fields are not 64-hex lower-case strings: {1}".format(rel, bad))
+    ok = freeze_ok and receipt_ok and typed_ok
+    return ok, {"receipt_id": receipt_id, "freeze_id": freeze_id, "expected_freeze_id": exp_freeze,
+                "receipt_id_form": pattern, "freeze_id_agrees": freeze_ok,
+                "receipt_id_agrees": receipt_ok, "digest_fields_are_64hex": typed_ok,
+                "ill_typed_digest_fields": bad}
 
 
 def _era_definitions():
@@ -442,6 +578,20 @@ def _w6key_adoption(eras, errors):
                                      not reproduce from the receiver's own
                                      copies is worse than no receipt, and is
                                      never downgraded to 'pending'.
+
+    【chg 便100 W100-5.1 / P100-5.1】"consistent" now means EXACTLY the
+    required set, once each, four-way agreed, with well-formed ids:
+      (a) bound_artifacts maps one-to-one onto W6KEY_REQUIRED_ARTIFACTS --
+          missing / duplicate / unexpected paths are each a FAIL;
+      (b) every required path agrees four ways: local digest, receipt digest,
+          receipt artifact_id, and the artifact id the LOCAL file structurally
+          declares;
+      (c) receipt_id / freeze_id match the expected form, whose discriminating
+          8-hex triple is recomputed from the receiver's own copies, and every
+          digest field is typed as 64-hex lower-case.
+    Before this repair only (b)'s digest half was checked, and only for the
+    entries the receipt CHOSE to list -- so a receipt binding one unrelated
+    file with a correct digest reached ADOPTED. That was a fail-open.
     """
     rel = W6KEY_FREEZE_RECEIPT_PATH
     path = os.path.join(os.path.dirname(HERE), rel)
@@ -458,21 +608,98 @@ def _w6key_adoption(eras, errors):
     if not isinstance(bound, list) or not bound:
         errors.append("{0}: carries no bound_artifacts".format(rel))
         return "FAIL", {"receipt": rel, "present": True, "bound_artifacts": None}
+
+    # --- (a) entries -> a map keyed by path. duplicate / unexpected are
+    #         fail-closed; NOTHING is deduplicated silently (P100-5.1 item 2).
+    by_path, duplicates, unexpected = {}, [], []
     for entry in bound:
-        rel_path = (entry or {}).get("path")
-        claimed = (entry or {}).get("sha256")
+        if not isinstance(entry, dict):
+            unexpected.append(repr(entry))
+            errors.append("{0}: bound_artifacts carries a non-object entry {1!r}".format(rel, entry))
+            continue
+        rel_path = entry.get("path")
+        if not isinstance(rel_path, str) or not rel_path:
+            unexpected.append(repr(rel_path))
+            errors.append("{0}: bound_artifacts carries an entry with no string path ({1!r})".format(rel, rel_path))
+            continue
+        if rel_path in by_path:
+            duplicates.append(rel_path)
+            errors.append("{0}: bound_artifacts lists {1!r} MORE THAN ONCE -- a duplicated binding is "
+                          "ambiguous (which entry binds?) and is refused, not silently deduplicated"
+                          .format(rel, rel_path))
+            continue
+        by_path[rel_path] = entry
+        if rel_path not in W6KEY_REQUIRED_ARTIFACTS:
+            unexpected.append(rel_path)
+            errors.append("{0}: bound_artifacts carries UNEXPECTED path {1!r}. bound_artifacts is the "
+                          "freeze binding and is EXACTLY the required set; supporting material belongs "
+                          "in {2!r}".format(rel, rel_path, W6KEY_SUPPORTING_FIELD))
+    missing = [p for p in sorted(W6KEY_REQUIRED_ARTIFACTS) if p not in by_path]
+    for p in missing:
+        errors.append("{0}: REQUIRED bound artifact {1!r} is MISSING from bound_artifacts. "
+                      "'everything listed is correct' is not 'everything required is listed' "
+                      "(Sol W100-5.1 / P100-5.1)".format(rel, p))
+
+    # --- (b) four-way agreement on every REQUIRED path (P100-5.1 item 3):
+    #         local digest / receipt digest / receipt artifact_id / local
+    #         structural artifact id.
+    required_ids = _w6key_required_local_ids(errors)
+    quad_ok = True
+    for rel_path in sorted(W6KEY_REQUIRED_ARTIFACTS):
+        entry = by_path.get(rel_path)
+        local_id = required_ids.get(rel_path)
+        rec = {"path": rel_path, "required": True, "present": entry is not None,
+               "local_artifact_id": local_id}
+        if entry is None:
+            rec["agrees"] = False
+            quad_ok = False
+            local.append(rec)
+            continue
+        claimed = entry.get("sha256")
+        typed = isinstance(claimed, str) and _HEX64_RE.match(claimed) is not None
+        if not typed:
+            errors.append("{0}: bound artifact {1!r} carries a sha256 that is not a 64-hex lower-case "
+                          "string ({2!r})".format(rel, rel_path, claimed))
         try:
-            with open(os.path.join(os.path.dirname(HERE), *str(rel_path).split("/")), "rb") as f:
-                mine = hashlib.sha256(f.read()).hexdigest()
+            mine = _local_digest(rel_path)
         except OSError as exc:
             errors.append("{0}: bound artifact {1!r} unreadable by the receiver ({2})".format(rel, rel_path, exc))
-            local.append({"path": rel_path, "agrees": False})
+            rec["agrees"] = False
+            quad_ok = False
+            local.append(rec)
             continue
-        agrees = (mine == claimed)
-        if not agrees:
+        digest_ok = bool(typed and mine == claimed)
+        if typed and not digest_ok:
             errors.append("{0}: bound artifact {1!r} does not reproduce the receipt's digest "
                           "(receiver recomputed {2})".format(rel, rel_path, mine))
-        local.append({"path": rel_path, "artifact_id": (entry or {}).get("artifact_id"), "agrees": agrees})
+        sol_claim, sol_ok = entry.get("sol_declared_sha256"), True
+        if sol_claim is not None:
+            sol_ok = (isinstance(sol_claim, str) and _HEX64_RE.match(sol_claim) is not None
+                      and sol_claim == claimed)
+            if not sol_ok:
+                errors.append("{0}: bound artifact {1!r} carries sol_declared_sha256 {2!r}, which does not "
+                              "agree with its own sha256 {3!r}".format(rel, rel_path, sol_claim, claimed))
+        claimed_id = entry.get("artifact_id")
+        id_ok = (local_id is not None and claimed_id == local_id)
+        if not id_ok:
+            errors.append("{0}: bound artifact {1!r} claims artifact_id {2!r}, the receiver's own copy "
+                          "structurally declares {3!r}".format(rel, rel_path, claimed_id, local_id))
+        family = W6KEY_REQUIRED_ARTIFACTS[rel_path]
+        family_ok = isinstance(local_id, str) and local_id.startswith(family)
+        if local_id is not None and not family_ok:
+            errors.append("{0}: required path {1!r} declares {2!r}, which is not in the required artifact "
+                          "family {3!r}".format(rel, rel_path, local_id, family))
+        agrees = bool(digest_ok and id_ok and family_ok and sol_ok)
+        rec.update({"artifact_id": claimed_id, "sha256_is_64hex": bool(typed),
+                    "digest_agrees": digest_ok, "artifact_id_agrees": id_ok,
+                    "artifact_family_agrees": family_ok, "agrees": agrees})
+        if not agrees:
+            quad_ok = False
+        local.append(rec)
+
+    # --- (c) receipt_id / freeze_id expected form + 64-hex typing.
+    ids_ok, ids_detail = _w6key_id_shapes(receipt, rel, errors)
+
     declared_era = ((receipt.get("era_adoption") or {}).get("era")) or {}
     era_agrees = (declared_era == eras.get("W6KEY"))
     if not era_agrees:
@@ -484,9 +711,17 @@ def _w6key_adoption(eras, errors):
     if not planes_agree:
         errors.append("{0}: the receipt adopts planes {1}, the matrix declares {2}"
                       .format(rel, planes_declared, planes_expected))
-    ok = era_agrees and planes_agree and all(e.get("agrees") for e in local)
+    ok = (era_agrees and planes_agree and quad_ok and ids_ok
+          and not duplicates and not missing and not unexpected
+          and all(e.get("agrees") for e in local))
     detail = {"receipt": rel, "present": True, "receipt_id": receipt.get("receipt_id"),
               "freeze_id": receipt.get("freeze_id"), "bound_artifacts": local,
+              "required_set": sorted(W6KEY_REQUIRED_ARTIFACTS),
+              "missing_required": missing, "duplicate_paths": sorted(set(duplicates)),
+              "unexpected_paths": sorted(set(unexpected)), "id_shapes": ids_detail,
+              "required_set_note": ("bound_artifacts must be EXACTLY the required set, once each: "
+                                    "'everything listed is correct' is not 'everything required is "
+                                    "listed' (Sol W100-5.1)"),
               "adopted_era": declared_era, "adopted_planes": planes_declared,
               "scope_note": ("this receipt adopts the W6KEY specification plane and the lane B producer "
                              "implementation scope ONLY. It explicitly does NOT authorise W6_CLOSED=true, "

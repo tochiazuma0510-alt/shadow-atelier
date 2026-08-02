@@ -544,6 +544,132 @@ check("§7 the real receipt is restored and the W6KEY planes are ADOPTED and PAS
           for p in ("w6_point_map_producer", "w6_key_route")),
       {p: full._check_payload_era_matrix(_RAW, _CP)[1]["planes"][p] for p in ("w6_key_route",)})
 
+# --- 【chg 便100 W100-5.1 / P100-5.1】REQUIRED-SET negative fixtures ---------
+# Sol W100-5.1: the old acceptor checked only that the entries the receipt
+# CHOSE to list reproduce their digests. "Everything listed is correct" is not
+# "everything required is listed": a receipt carrying one unrelated file with
+# a correct digest, plus a copied era/planes block, reached ADOPTED. Each
+# mutation below is a MINIMAL edit of the REAL receipt; the unmutated copy is
+# exercised first, so a FAIL here can only come from the mutation itself
+# (the non-firing edge of every predicate below).
+_W6KEY_PROBE_REL = "search/certs/_tmp_w6key_required_set_probe.json"
+_W6KEY_PROBE_ABS = os.path.join(HERE, "certs", "_tmp_w6key_required_set_probe.json")
+with open(os.path.join(REPO, full.W6KEY_FREEZE_RECEIPT_PATH), encoding="utf-8") as _fh:
+    _REAL_RECEIPT = json.load(_fh)
+
+
+def _w6key_probe(mutate):
+    """Run the acceptor against a mutated COPY of the real freeze receipt.
+    Returns (state, errors, planes)."""
+    doc = copy.deepcopy(_REAL_RECEIPT)
+    mutate(doc)
+    with open(_W6KEY_PROBE_ABS, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh)
+    saved = full.W6KEY_FREEZE_RECEIPT_PATH
+    try:
+        full.W6KEY_FREEZE_RECEIPT_PATH = _W6KEY_PROBE_REL
+        ok, det = full._check_payload_era_matrix(_RAW, _CP)
+        plane = det["planes"]["w6_key_route"]
+        return plane.get("adoption"), det["errors"], {p: det["planes"][p].get("status")
+                                                      for p in ("w6_point_map_producer", "w6_key_route")}
+    finally:
+        full.W6KEY_FREEZE_RECEIPT_PATH = saved
+        if os.path.exists(_W6KEY_PROBE_ABS):
+            os.remove(_W6KEY_PROBE_ABS)
+
+
+_SELFAUDIT_PATH = "search/bundle-selfaudit-v11.py"
+check("§7-RS the required set is fixed BEFORE the receipt is read, and it is the four freeze-bound "
+      "artifacts (spec / contract / manifest trio + the selfaudit the receipt's own scope names)",
+      sorted(full.W6KEY_REQUIRED_ARTIFACTS) == sorted(
+          list(full.W6KEY_ERA_DOC_PATHS.values()) + [_SELFAUDIT_PATH]),
+      sorted(full.W6KEY_REQUIRED_ARTIFACTS))
+
+_state, _errs, _st = _w6key_probe(lambda d: None)
+check("§7-RS non-firing edge: an UNMUTATED copy of the real receipt is still ADOPTED and both planes "
+      "PASS -- so every FAIL below is caused by its mutation alone, not by the copy",
+      _state == "ADOPTED" and set(_st.values()) == {"PASS"}, (_state, _st, _errs[:2]))
+
+# (1) 欠品: one required artifact simply not listed. THE fail-open Sol named.
+_state, _errs, _st = _w6key_probe(
+    lambda d: d.__setitem__("bound_artifacts",
+                            [e for e in d["bound_artifacts"] if e["path"] != _SELFAUDIT_PATH]))
+check("§7-RS negative 1/4 (欠品): dropping a REQUIRED artifact from bound_artifacts is FAIL -- every "
+      "remaining entry still reproduces its digest, which is exactly why 'all listed agree' was "
+      "fail-open (W100-5.1)",
+      _state == "FAIL" and set(_st.values()) == {"FAIL"}
+      and any("is MISSING from bound_artifacts" in e for e in _errs),
+      (_state, _st, [e for e in _errs if "MISSING" in e][:1]))
+
+# (2) 重複: the same required path listed twice. Never deduplicated silently.
+_state, _errs, _st = _w6key_probe(
+    lambda d: d["bound_artifacts"].append(copy.deepcopy(d["bound_artifacts"][0])))
+check("§7-RS negative 2/4 (重複): listing a required path twice is FAIL -- a duplicated binding is "
+      "ambiguous and is refused, not silently deduplicated",
+      _state == "FAIL" and set(_st.values()) == {"FAIL"}
+      and any("MORE THAN ONCE" in e for e in _errs),
+      (_state, _st, [e for e in _errs if "MORE THAN ONCE" in e][:1]))
+
+
+def _tamper(field, value):
+    def _m(d):
+        for e in d["bound_artifacts"]:
+            if e["path"] == _SELFAUDIT_PATH:
+                e[field] = value
+    return _m
+
+
+# (3) artifact_id 改変: correct digest, wrong id. The four-way check catches it.
+_state, _errs, _st = _w6key_probe(_tamper("artifact_id", "bundle-selfaudit/v99"))
+check("§7-RS negative 3/4 (artifact_id 改変): a bound entry whose digest reproduces but whose "
+      "artifact_id is not what the receiver's own copy structurally declares is FAIL -- the id is "
+      "checked against the LOCAL file, never taken on the receipt's word",
+      _state == "FAIL" and set(_st.values()) == {"FAIL"}
+      and any("structurally declares" in e for e in _errs),
+      (_state, _st, [e for e in _errs if "structurally declares" in e][:1]))
+
+# (4) digest 改変: well-typed 64-hex, wrong value.
+_state, _errs, _st = _w6key_probe(_tamper("sha256", "0" * 64))
+check("§7-RS negative 4/4 (digest 改変): a bound entry whose 64-hex digest does not reproduce from "
+      "the receiver's own bytes is FAIL, never a downgrade to PENDING",
+      _state == "FAIL" and set(_st.values()) == {"FAIL"}
+      and any("does not reproduce" in e for e in _errs),
+      (_state, _st, [e for e in _errs if "does not reproduce" in e][:1]))
+
+# --- the remaining new predicates get their firing edge too (a check nothing
+#     exercises is indistinguishable from a check that cannot fire) ----------
+_state, _errs, _st = _w6key_probe(
+    lambda d: d["bound_artifacts"].append({"path": "docs/地図.md", "artifact_id": "x/v1",
+                                           "sha256": full._local_digest("docs/地図.md")}))
+check("§7-RS negative 5 (unexpected): an EXTRA correctly-digested file inside bound_artifacts is "
+      "FAIL -- bound_artifacts is the freeze binding and is exactly the required set; supporting "
+      "material belongs in its own field",
+      _state == "FAIL" and any("UNEXPECTED path" in e for e in _errs),
+      (_state, [e for e in _errs if "UNEXPECTED" in e][:1]))
+
+_state, _errs, _st = _w6key_probe(lambda d: d.__setitem__("freeze_id", "mb/ninfty-stage2-freeze/deadbeef"))
+check("§7-RS negative 6 (freeze_id 形): a freeze_id whose 8-hex triple is not what the receiver "
+      "recomputes from its own three era documents is FAIL",
+      _state == "FAIL" and any("the receiver recomputes" in e for e in _errs),
+      (_state, [e for e in _errs if "recomputes" in e][:1]))
+
+_state, _errs, _st = _w6key_probe(lambda d: d.__setitem__("receipt_id", "freeze-receipt-2"))
+check("§7-RS negative 7 (receipt_id 形): a receipt_id of the wrong form is FAIL -- it is how a "
+      "receipt issued for some OTHER freeze would be spotted",
+      _state == "FAIL" and any("does not match the expected form" in e for e in _errs),
+      (_state, [e for e in _errs if "expected form" in e][:1]))
+
+_state, _errs, _st = _w6key_probe(_tamper("sha256", "NOT-A-DIGEST"))
+check("§7-RS negative 8 (64-hex 型): an ill-typed digest field is a TYPE fault, never compared "
+      "leniently",
+      _state == "FAIL" and any("not a 64-hex lower-case string" in e for e in _errs),
+      (_state, [e for e in _errs if "64-hex" in e][:1]))
+
+check("§7-RS the real receipt is restored once more after the required-set probes",
+      full._check_payload_era_matrix(_RAW, _CP)[1]["planes"]["w6_key_route"]["adoption"] == "ADOPTED"
+      and not os.path.exists(_W6KEY_PROBE_ABS),
+      full.W6KEY_FREEZE_RECEIPT_PATH)
+
 check("§7 the two eras are READ from files and are genuinely different -- a matrix that cannot"
       "discriminate must not report PASS",
       _era["eras"]["FROZEN"] != _era["eras"]["CURRENT"], _era["eras"])
