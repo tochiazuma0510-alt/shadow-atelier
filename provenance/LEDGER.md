@@ -1655,3 +1655,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-02 erratum(裁定 390/393 の件数表記)— W98 検算「総当たり 30 ケース」「n=10..13」は記帳ミス・実宇宙は 27 ケース
 - fixture v-next 実装係が検出・司令塔が独立確認: w98_brute_small.py の CASES = {ℓ: t_max}(ℓ=5..10・値 3,3,4,4,4,3)⟹ 宇宙 = Σ(t_max+1) = **27 ケース(n=5..13 帯)**。裁定 390/393 の「30 ケース」「n=10..13」は記帳ミス(件数と帯の双方)— 検算の中身・値・格への影響なし(census は 27 ケースとして完全再現済み)。便 99 §6 の「30」も同源につき **便 100 で Sol へ訂正報告**。恒久 fixture の宇宙は 27 ケース悉皆で凍結(30 への拡張はしない — 宇宙を記帳ミスに合わせない)。
 - 後続: ①implementer = K5 Phase 1 driver 起票 ②ep-keeper = freeze receipt+lane B 起票 ③数学者 = 修文波+NO-ENT(3) 検分+K5-MOD 修理起票 ④**Fresse 現物収蔵履行**: papers/Fresse_EnOperadHomotopy-II.pdf = 1433bafe9999d131bb9f2e597b9c0cb92fe8cca9b904b17df8763628da58719e(2,505,807 bytes・pdftotext p.9-11 で Thm 1.1.5 の言明を照合 — 「unit/product/associator/braiding+unit・pentagon・hexagon coherence」の特徴づけと [26, Theorem I.6.2.4] 引用を確認)= **IHNEC-L3 閉(言明 pin+現物+digest+照合)** ⑤CLAIMS 4 行記帳(C-972・C-GTPI・P99-1.1・C-W98ALG)・provenance/results_k5.md 新設で X-2 追記(履行済)。
+
+## 2026-08-02 self-hash v3 修理検収(裁定 423)— W100-4.1 差戻しの履行: typed object 正形(P100-4.1)で v3 supplement 新設・checker 5 検査 PASS+負例 3 種 STOP 実証・司令塔追試一致
+- v3 = ihnec_r4b_conventions_v3_20260802.json(sha256_ref{holder_path, json_pointer, resolution:"external-postwrite"} — 拡張子誤りも解消・holder は実在 .json)。v1/v2 は byte 不変(実行前後 sha 一致確認)・v2 は「逸脱正直申告 record」として保存。MANIFEST への追記は**サージカル挿入**(git diff = 12 insertions/1 deletion[結合カンマ]・過去 entry 不改変)。
+- checker(独立実装・hashlib のみ)= 5 検査 PASS・--selftest で 1 PASS+3 STOP(holder 欠落/pointer 誤り/bytes 改竄)・**旧 v2 に対しても正しく STOP**(誤 PASS しない)。
+- 教材(実装係自己申告): 当初 json.dump 全体再書込で「意味同一だが全行 diff」となり「追記のみ」に抵触しかけ → テキスト水準のサージカル挿入へ書き直し。負例は cert 化せず checker 内蔵 selftest(既存の識別力 fixture と粒度混同を避ける判断)— 承認・恒久 cert 化は必要時。
+- 台帳 v1.5(数学者並行起草)への編入で正式批准 → 便 101 で Sol 確認。
