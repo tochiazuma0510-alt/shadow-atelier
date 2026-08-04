@@ -1,0 +1,182 @@
+{
+  "schema": "hsp7-cond4-laneSigma-summary/v1",
+  "DRIVER_DONE": true,
+  "lane": "Sigma",
+  "card_label": "HS路線・発火条件4 Lane Sigma(機械合成・第4の著者)較正走 集約cert -- lanespec v1.2 SS7(D-3の4点)に従い、新たな判定基準を作らず、lanespecがSS4.2/SS6で既に定めたS-9/S-8述語を3cert(Lane S/V v2/P)に機械的に適用して転記する。",
+  "design_doc": "docs/notes/hsp7_cond4_lanespec_v1.md (v1.2) SS7(Lane Sigma・D-3の4点)・SS6(cert様式)",
+  "author_instance_note": "新規インスタンス(3レーンとは別著者、worktree隔離: agent-a3dcb4e04dda33388)。3レーンのdriverコードは読んでいない -- 読んだのは以下3certのJSON値のみ。",
+  "imports_declared": [
+    "search/certs/hsp7_cond4_laneS_20260804.json (値のみ)",
+    "search/certs/hsp7_cond4_laneV_v2_20260804.json (値のみ、★v2が正。v1(hsp7_cond4_laneV_20260804.json)はHELDの歴史記録であり本集約では読んでいない)",
+    "search/certs/hsp7_cond4_laneP_20260804.json (値のみ)",
+    "docs/notes/hsp7_cond4_lanespec_v1.md (v1.2, 発注書・正本。SS7の手順とSS4.2/SS6の事前確定済み述語を機械的に適用するためにのみ参照。judgment基準の新設はしていない)"
+  ],
+  "imports_forbidden_check": {
+    "lane_driver_scripts_referenced": false,
+    "note": "search/probe/hsp7_cond4_laneS/, search/probe/hsp7_cond4_laneV/, search/probe/hsp7_cond4_laneP/, search/probe/hsp7_gap_v1/ はいずれも本worktree作成後・作業開始前に物理削除した(execution_isolation参照)。3レーンのcert JSON以外のいかなるレーン資産も本certの入力になっていない。"
+  },
+  "execution_isolation": {
+    "worktree_created": true,
+    "worktree_path": "C:\\Users\\81905\\Desktop\\shadow-atelier\\.claude\\worktrees\\agent-a3dcb4e04dda33388",
+    "stage_dir_deleted_before_run": true,
+    "deleted_paths": [
+      "search/probe/hsp7_cond4_laneS/",
+      "search/probe/hsp7_cond4_laneV/",
+      "search/probe/hsp7_cond4_laneP/",
+      "search/probe/hsp7_gap_v1/"
+    ],
+    "post_delete_listing": "hsp7_v1\nk5gen_phase1\nnoent3_v1\ns3f_a3\nw6_coker_tool\nwac_v1\nwall_audit_v1",
+    "post_delete_listing_file": "scratchpad/laneSigma_post_delete_listing.txt",
+    "post_delete_listing_sha256": "812ddca600ab669846c557ddefdf6b6b48b37da455db324316af3f4fc3a3e4ec",
+    "note": "削除は本レーンの最初の作業(自己較正・R-20突合より前)として実施した。以降のdriver(scratchpad/laneSigma_driver.py)はこの削除後状態で実行した。"
+  },
+  "driver_script": "scratchpad/laneSigma_driver.py",
+  "driver_script_output_raw": "scratchpad/laneSigma_driver_output.json",
+  "input_cert_sha256": {
+    "laneS": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+    "laneV_v2": "7cc7e312e8ed6a7bfef8b2e9c640edaf42fb8c787f5c049539eadd9498a5ecf7",
+    "laneP": "4a41ea6d2c8866b9d85fff9869614de4ef24f0dc75d9b753523b6aef065175c9",
+    "computed_by": "sha256sum, 本worktree内のsearch/certs/配下の当該3ファイルに対して直接実行(コピー・再生成なし)。laneV_v2はhsp7_cond4_laneV_v2_20260804.json(★正)であり、hsp7_cond4_laneV_20260804.json(v1、HELD)は入力に含めていない。"
+  },
+  "r20_digest_chain_check": {
+    "note": "R-20: candidates_in自身のdigest突合。Lane V/Lane Pがそれぞれcandidates_in_source_cert_sha256として宣言した値を、Lane Sigmaが実際に読んだLane Sセルの実測sha256と突合した(推測・転記ではなく本certがsha256sum相当を自前で再計算)。",
+    "laneS_cert_actual_sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+    "laneV_declared_candidates_in_source_cert_sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+    "laneP_declared_candidates_in_source_cert_sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+    "laneV_matches_actual": true,
+    "laneP_matches_actual": true,
+    "verdict": "INTACT -- Lane V・Lane Pとも、実際に存在するLane Sセルのバイト列と一致するsha256をcandidates_in_source_cert_sha256として宣言しており、digest連鎖に断絶・すり替えは見つからなかった。"
+  },
+  "self_calibration": {
+    "note": "D-3(2): 本走前の必須自己較正。Lane Sigma自身のS-9述語実装(scratchpad/laneSigma_driver.py内 s9_predicate)に対し、合成fixture cert相当(実certのcandidate_key_list 8件構造を借用した合成値)を2組流し、期待どおりに発火/非発火するかを確認した。",
+    "fixture_1_all_agree": {
+      "description": "全候補(8件)でLane S判定・Lane V判定が完全一致する合成fixture(key1-7=PASS, key8=FAIL、両レーンとも同一)",
+      "expected": "LANE_DISAGREEMENT (S-9) を発火しないこと",
+      "observed_fired": false,
+      "observed_mismatch_count": 0,
+      "pass": true
+    },
+    "fixture_2_one_key_mismatch": {
+      "description": "8件中key_id=4のみLane V側をPASS→FAILへ反転させた合成fixture(他7件は一致)",
+      "expected": "LANE_DISAGREEMENT (S-9) を発火すること",
+      "observed_fired": true,
+      "observed_mismatch_count": 1,
+      "pass": true
+    },
+    "overall_pass": true,
+    "gate": "CALIBRATION_FAILEDは発火しなかった -- 両fixtureとも期待どおりに動作したため、実cert3本への本走(S-9/S-8述語適用)へ進んだ。",
+    "raw_output_ref": "scratchpad/laneSigma_driver_output.json #self_calibration (rows全件含む完全記録)"
+  },
+  "s9_applied": {
+    "predicate_source": "docs/notes/hsp7_cond4_lanespec_v1.md SS6 stop_rules.S-9(逐語): 「同一窓 N 上で Lane S と Lane V の項目別判定(候補ごとPASS/FAIL/UNKNOWN)が1件でも食い違う」→ LANE_DISAGREEMENT / INTEGRITY_STOP。Lane Sigmaはこの述語を新設せず、そのまま適用した。",
+    "window": "N (main window)",
+    "candidate_count": 8,
+    "four_way_table": [
+      {"key_id": 1, "candidate": "m=0,f=h4^0", "laneS": "PASS", "laneV": "PASS", "category": "PASS/PASS"},
+      {"key_id": 2, "candidate": "m=0,f=h4^1", "laneS": "PASS", "laneV": "PASS", "category": "PASS/PASS"},
+      {"key_id": 3, "candidate": "m=0,f=h4^2", "laneS": "PASS", "laneV": "PASS", "category": "PASS/PASS"},
+      {"key_id": 4, "candidate": "m=0,f=h4^3", "laneS": "PASS", "laneV": "PASS", "category": "PASS/PASS"},
+      {"key_id": 5, "candidate": "m=0,f=h4^4", "laneS": "PASS", "laneV": "PASS", "category": "PASS/PASS"},
+      {"key_id": 6, "candidate": "m=0,f=h4^5", "laneS": "PASS", "laneV": "PASS", "category": "PASS/PASS"},
+      {"key_id": 7, "candidate": "m=0,f=h4^6", "laneS": "PASS", "laneV": "PASS", "category": "PASS/PASS"},
+      {"key_id": 8, "candidate": "m=0,f=h3",   "laneS": "FAIL", "laneV": "FAIL", "category": "FAIL/FAIL"}
+    ],
+    "summary_counts": {"PASS_PASS": 7, "PASS_FAIL": 0, "FAIL_PASS": 0, "FAIL_FAIL": 1},
+    "mismatch_count": 0,
+    "fired": false,
+    "verdict": "not fired -- LANE_DISAGREEMENT 未発火。",
+    "independent_recomputation_note": "この4区分表はLane V certのfour_way_comparison_table(自己申告)を単純転記したものではなく、Lane Sigmaがhexagon_310_311_judgments(Lane S cert)とhexagon_full_33_34_judgments(Lane V cert)から候補ごとの verdict を別経路で再抽出しS-9述語を再適用した結果である。両者を突合したところ一致した(s9_selfreport_crosscheck参照)。",
+    "s9_selfreport_crosscheck": {
+      "laneV_self_reported_summary_counts": {"PASS_PASS": 7, "PASS_FAIL": 0, "FAIL_PASS": 0, "FAIL_FAIL": 1},
+      "laneV_self_reported_s9_mismatch_count": 0,
+      "laneSigma_recomputed_mismatch_count": 0,
+      "match": true
+    }
+  },
+  "s8_applied": {
+    "predicate_source": "docs/notes/hsp7_cond4_lanespec_v1.md SS4.2 verdict規約 + SS6 stop_rules.S-8(逐語、reduced scope注記込み)。Lane VのNW-P8 m-sweep結果(5組、N窓・N0窓)にこの述語を機械的に再適用した。",
+    "scope": "reduced(m-sweep only) -- lanespec SS4.2が明記するとおり、正本SS9.3の完全なS-8(全X_N x全候補)ではない。",
+    "m_sweep_rows": [
+      {"m": 1, "verdictN": "FAIL", "verdictN0": "FAIL", "agree": true},
+      {"m": 2, "verdictN": "FAIL", "verdictN0": "FAIL", "agree": true},
+      {"m": 4, "verdictN": "FAIL", "verdictN0": "FAIL", "agree": true},
+      {"m": 5, "verdictN": "FAIL", "verdictN0": "FAIL", "agree": true},
+      {"m": 6, "verdictN": "PASS", "verdictN0": "PASS", "agree": true}
+    ],
+    "mismatch_count_N_vs_N0": 0,
+    "laneV_self_reported_mismatch_count": 0,
+    "recompute_matches_selfreport": true,
+    "fired": true,
+    "verdict_verbatim_from_laneV_v2_stop_rules_S8": {
+      "trigger": "X_N 全掃引で N と N_0 の hexagon 判定の不一致が 0 件",
+      "verdict": "CALIBRATION_FAILED / INTEGRITY_STOP",
+      "fired": true,
+      "scope": "reduced(m-sweep only)",
+      "note": "縮小scopeでの不一致0件。仲裁SS1.1(P-1)によりこれは予言どおりであり(charming fではN/N0は理論上常に一致)、正本§9.3の完全なS-8(全X_N x全候補)は未評価。lanespecSS4.2のverdict規約により『縮小scopeでの発火は較正走全体の即時停止を自動的には意味しない』。本件は仲裁により発火の解釈が『情報不足』から『理論的に予言された一致』へ更新された。"
+    },
+    "lane_sigma_note": "上記noteはLane V v2 certのstop_rules.S-8ブロックの逐語転記である(発注指示どおり「解釈注記も逐語転記」)。Lane Sigmaはこの解釈を新設・変更していない。較正走全体の即時停止は自動的には意味しない旨もそのまま転記する。"
+  },
+  "laneP_pent_transcription": {
+    "note": "Lane P certのlane_specific_resultsを転記する(判定基準の新設なし、単純転記)。",
+    "pent_NW_P6_dummy_family": [
+      {"key_id": 1, "t": 0, "f": "jh4^0", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"key_id": 2, "t": 1, "f": "jh4^1", "N_rho_f_eq_1": false, "pent_verdict": "FAIL"},
+      {"key_id": 3, "t": 2, "f": "jh4^2", "N_rho_f_eq_1": false, "pent_verdict": "FAIL"},
+      {"key_id": 4, "t": 3, "f": "jh4^3", "N_rho_f_eq_1": false, "pent_verdict": "FAIL"},
+      {"key_id": 5, "t": 4, "f": "jh4^4", "N_rho_f_eq_1": false, "pent_verdict": "FAIL"},
+      {"key_id": 6, "t": 5, "f": "jh4^5", "N_rho_f_eq_1": false, "pent_verdict": "FAIL"},
+      {"key_id": 7, "t": 6, "f": "jh4^6", "N_rho_f_eq_1": false, "pent_verdict": "FAIL"}
+    ],
+    "pent_NW_P6_note_verbatim": "PASS はちょうど t=0(恒等元)のみ。t=0は自明(f=1なのでN_rho(1)=1は群公理から自動)であり、lanespec SS4.1が明記するとおり『コード整合性の較正、新規の数学的発見ではない』。t=1..6の全FAILは、search/certs/hsp7_cond2_p7_20260804.jsonのNW-P5行(N_rho(j(h4))!=1、観測=confirmed)とt=1の結果が完全に一致する(同一量の独立再計算による突合)。",
+    "pent_h3_negative": {
+      "key_id": 8, "f": "jh3", "N_rho_f_eq_1": false, "pent_verdict": "FAIL",
+      "note_verbatim": "lanespec SS1 Lane P定義は『UNKNOWNでよい』としており、SS8.3.3はhexagon側の非exactさのみを述べ、PENT側の予言は与えていない。本certは実際にGAP計算を完走できたため、UNKNOWNではなく実測値(FAIL)を報告する。これは事前登録された予言ではなく単なる観測であり、hexagon側のFAIL(Lane S cert)と論理的に独立である(PENT_WはhexagonのFAILからは何も従わない)。"
+    },
+    "pent_NW_P8_side": [
+      {"key_id": "P8-1", "m": 1, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"key_id": "P8-2", "m": 2, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"key_id": "P8-4", "m": 4, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"key_id": "P8-5", "m": 5, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"key_id": "P8-6", "m": 6, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS"}
+    ],
+    "pent_NW_P8_note_verbatim": "PENT_Wはmに依存しない関数である(補題HSP-WD注、hs_prop7_translation_v1.md SS1.3: 'mは使わない。PENT_Wはf-barのみの関数である')。fbar=1(自明charming元)は5個のm値すべてで同一のPASSを機械的に返す。これは非自明な計算ではなく、PENT_Wの定義そのものからの帰結の確認である(f=1ならばrhoのどの冪をとってもrho^i(1)=1、積も1)。SS4.2のNW-P8予言(『5件のうち少なくとも1件でN・N0の判定が食い違う』)はhexagon側(Lane V職務)の話であり、Lane PのPENT側にはこの予言は適用されない。"
+  },
+  "completeness_claim": {
+    "chosen_option": "(iii)",
+    "text": "較正走の範囲では、Lane Sの候補ごと判定はLane Vと二系統で一致する(8候補全件、S-9未発火)。これ以上の完全性(悉皆列挙705,894対に対する主張)はここでは一切主張しない -- lanespec SS10へ隔離、本certの範囲外。"
+  },
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "note": "Lane Sigma自身はGAP計算・群論的規約選択を一切行わない(3cert JSON値の機械的転記・述語適用のみ)。commutator/theta/tau/rho等の規約選択はLane S/V/Pそれぞれのcertが個別に宣言済みであり、本certはそれらを解釈・変更しない。",
+    "a5_conv_result_per_lane": {"laneS": "correct", "laneV": "correct (v1から不変)", "laneP": "correct"},
+    "f_word_order_per_lane": "paper (W-3) -- 3レーンとも共通"
+  },
+  "stop_rules": {
+    "note": "本集約に固有のstop ruleはS-9とS-8の適用結果のみ(上記s9_applied/s8_appliedに集約済み)。S-6/S-7'/S-3は各レーンのcert内で既に評価・記録済みであり(いずれも未発火)、Lane Sigmaは新たに評価しない(転記のみが職務)。"
+  },
+  "verdict": {
+    "status": "laneSigma_calibration_synthesis_complete",
+    "note": "自己較正2fixtureとも期待どおり動作(CALIBRATION_FAILED未発火)。R-20 digest連鎖はINTACT。S-9(候補ごとLane S/V判定)は8件全件一致、LANE_DISAGREEMENT未発火。S-8(reduced scope, m-sweep)はLane V v2の縮小scope verdict通り発火(fired=true)だがlanespec SS4.2の規約によりこれは較正走全体の即時停止を自動的には意味しない(仲裁により『理論的に予言された一致』と解釈更新済み)。Lane PのPENT判定(NW-P6/h3負例/NW-P8側)は単純転記。完全性主張は選択肢(iii)のみ -- 較正走の範囲でLane SとLane Vが二系統で一致する、以上。本集約certはLane S/V/Pの単独申告を統合したものであり、falsifierのCV-9副検問(SS5)を経て初めて完全なcross-checkedを名乗れる(本certはその前段)。"
+  },
+  "falsifier_submission_list": {
+    "note": "D-3(4) + lanespec SS8末の指示どおり、Lane Sigmaの提出物一覧を本certに含める。",
+    "items": [
+      "search/certs/hsp7_cond4_summary_20260804.json (本cert)",
+      "scratchpad/laneSigma_driver.py (Lane Sigmaのdriver、S-9/S-8述語実装+R-20突合+自己較正fixture)",
+      "scratchpad/laneSigma_driver_output.json (driver実行の完全生ログ、self_calibration/s9_applied/s8_applied/r20_digest_chainの全rows含む)",
+      "scratchpad/laneSigma_post_delete_listing.txt (execution_isolation裏付け、post_delete_listing_sha256=812ddca600ab669846c557ddefdf6b6b48b37da455db324316af3f4fc3a3e4ec)",
+      "self_calibration結果2組(全一致fixture: fired=false, 1鍵不一致fixture: fired=true、両方pass=true) -- 本cert self_calibration欄に集約済み"
+    ]
+  },
+  "provenance": {
+    "run_date": "2026-08-04",
+    "worktree": "agent-a3dcb4e04dda33388",
+    "python_version": "3.13.14",
+    "note": "GAP不使用(本レーンはJSON値の機械合成のみ、GAP計算は行っていない)。"
+  },
+  "deviations_and_open_questions": [
+    "1. execution_isolationの物理削除は本レーン最初の作業として実施したが、削除前のsearch/probe/一覧は明示的に記録していない(削除後一覧のみをcertに束縛。lanespec D-3③の要求=削除後一覧の束縛は満たしている)。",
+    "2. self_calibrationのfixtureはlaneS/laneV certの実際のcandidate_key_list構造(key1-7=PASS想定,key8=FAIL想定)を借用した合成値であり、Lane S/V実certを改変したものではない(実certは一切書き換えていない)。",
+    "3. S-9の4区分表はLane V certのfour_way_comparison_tableの単純転記ではなく、Lane Sigma自身が両cert(hexagon_310_311_judgments / hexagon_full_33_34_judgments)から独立に再抽出・再適用した結果である。両者が一致したこと自体は本certのs9_selfreport_crosscheckに記録した(『同じ間違いの3回コピー』でないことの一部裏付けとして、falsifierのCV-9副検問に委ねる)。"
+  ]
+}

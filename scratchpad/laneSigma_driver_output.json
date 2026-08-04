@@ -1,0 +1,281 @@
+{
+  "r20_digest_chain": {
+    "laneS_cert_actual_sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+    "laneV_declared_candidates_in_source_cert_sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+    "laneP_declared_candidates_in_source_cert_sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+    "laneV_matches_actual": true,
+    "laneP_matches_actual": true,
+    "verdict": "INTACT"
+  },
+  "self_calibration": {
+    "fixture_all_agree": {
+      "laneS_synth": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS",
+        "6": "PASS",
+        "7": "PASS",
+        "8": "FAIL"
+      },
+      "laneV_synth": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS",
+        "6": "PASS",
+        "7": "PASS",
+        "8": "FAIL"
+      },
+      "expected": "LANE_DISAGREEMENT wo hakka SHINAI koto",
+      "observed_fired": false,
+      "observed_mismatch_count": 0,
+      "rows": [
+        {
+          "key_id": 1,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 2,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 3,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 4,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 5,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 6,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 7,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 8,
+          "laneS": "FAIL",
+          "laneV": "FAIL",
+          "match": true
+        }
+      ],
+      "pass": true
+    },
+    "fixture_one_mismatch": {
+      "laneS_synth": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS",
+        "6": "PASS",
+        "7": "PASS",
+        "8": "FAIL"
+      },
+      "laneV_synth": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "FAIL",
+        "5": "PASS",
+        "6": "PASS",
+        "7": "PASS",
+        "8": "FAIL"
+      },
+      "expected": "LANE_DISAGREEMENT wo hakka SURU koto",
+      "observed_fired": true,
+      "observed_mismatch_count": 1,
+      "rows": [
+        {
+          "key_id": 1,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 2,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 3,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 4,
+          "laneS": "PASS",
+          "laneV": "FAIL",
+          "match": false
+        },
+        {
+          "key_id": 5,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 6,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 7,
+          "laneS": "PASS",
+          "laneV": "PASS",
+          "match": true
+        },
+        {
+          "key_id": 8,
+          "laneS": "FAIL",
+          "laneV": "FAIL",
+          "match": true
+        }
+      ],
+      "pass": true
+    },
+    "overall_pass": true,
+    "gate": "PASS -- ryouhou no fixture ga kitai doori ni ugoita. Hon-sou he shinkou."
+  },
+  "s9_applied": {
+    "window": "N",
+    "candidate_count": 8,
+    "rows": [
+      {
+        "key_id": 1,
+        "laneS": "PASS",
+        "laneV": "PASS",
+        "match": true
+      },
+      {
+        "key_id": 2,
+        "laneS": "PASS",
+        "laneV": "PASS",
+        "match": true
+      },
+      {
+        "key_id": 3,
+        "laneS": "PASS",
+        "laneV": "PASS",
+        "match": true
+      },
+      {
+        "key_id": 4,
+        "laneS": "PASS",
+        "laneV": "PASS",
+        "match": true
+      },
+      {
+        "key_id": 5,
+        "laneS": "PASS",
+        "laneV": "PASS",
+        "match": true
+      },
+      {
+        "key_id": 6,
+        "laneS": "PASS",
+        "laneV": "PASS",
+        "match": true
+      },
+      {
+        "key_id": 7,
+        "laneS": "PASS",
+        "laneV": "PASS",
+        "match": true
+      },
+      {
+        "key_id": 8,
+        "laneS": "FAIL",
+        "laneV": "FAIL",
+        "match": true
+      }
+    ],
+    "mismatch_count": 0,
+    "fired": false,
+    "verdict": "not fired",
+    "cross_check_note": "Lane Sigma ga laneS/laneV cert no kouho-betsu handan wo dokuji ni saichushutsu shi S-9 jutsugo wo tekiyou shita (Lane V no four_way_comparison_table jishin-shinkoku to wa betsu keiro de saikeisan; kekka wa itchi shita)."
+  },
+  "s9_selfreport_crosscheck": {
+    "laneV_four_way_comparison_table_summary": {
+      "PASS_PASS": 7,
+      "PASS_FAIL": 0,
+      "FAIL_PASS": 0,
+      "FAIL_FAIL": 1
+    },
+    "laneV_self_reported_s9_mismatch_count": 0,
+    "laneSigma_recomputed_mismatch_count": 0,
+    "match": true
+  },
+  "s8_applied": {
+    "source": "Lane V v2 cert nw_p8.m_sweep_results (reduced scope, m-sweep only)",
+    "rows": [
+      {
+        "m": 1,
+        "verdictN": "FAIL",
+        "verdictN0": "FAIL",
+        "agree": true
+      },
+      {
+        "m": 2,
+        "verdictN": "FAIL",
+        "verdictN0": "FAIL",
+        "agree": true
+      },
+      {
+        "m": 4,
+        "verdictN": "FAIL",
+        "verdictN0": "FAIL",
+        "agree": true
+      },
+      {
+        "m": 5,
+        "verdictN": "FAIL",
+        "verdictN0": "FAIL",
+        "agree": true
+      },
+      {
+        "m": 6,
+        "verdictN": "PASS",
+        "verdictN0": "PASS",
+        "agree": true
+      }
+    ],
+    "mismatch_count_recomputed": 0,
+    "laneV_self_reported_mismatch_count": 0,
+    "recompute_matches_selfreport": true,
+    "fired": true,
+    "laneV_stop_rules_S8_verbatim": {
+      "trigger": "X_N 全掃引で N と N_0 の hexagon 判定の不一致が 0 件",
+      "verdict": "CALIBRATION_FAILED / INTEGRITY_STOP",
+      "fired": true,
+      "scope": "reduced(m-sweep only)",
+      "note": "縮小scopeでの不一致0件。仲裁SS1.1(P-1)によりこれは予言どおりであり(charming fではN/N0は理論上常に一致)、正本§9.3の完全なS-8(全X_N x全候補)は未評価。lanespecSS4.2のverdict規約により『縮小scopeでの発火は較正走全体の即時停止を自動的には意味しない』。本件は仲裁により発火の解釈が『情報不足』から『理論的に予言された一致』へ更新された。"
+    }
+  }
+}
