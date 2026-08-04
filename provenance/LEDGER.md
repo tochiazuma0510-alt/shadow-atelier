@@ -2068,3 +2068,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 Σ v2 検収(裁定 493)— ★HS 条件 4/5 = cross-checked candidate 完成(F102-1.3 の 4 指定全履行・laneV v3 digest pin 一致 assert・S-9 未発火 8/8・S-8′ 13 ペア未発火・B-1〜B-4 全閉・自己較正 4 組 PASS)
 - summary v2 = search/certs/hsp7_cond4_summary_v2_20260805.json(旧 v1 は歴史記録)。S-8′ は NW-P8 addendum overlay で適用(旧 S-8 は v1 にのみ残置)。B-3 = NW-P7(前検問+5/5)で CLOSED・mutant3 の代替殺しの当否は Sol 検収へ委ねる転記(新判定なし)。candidate 語尾厳守・最終格付け = Sol の専権を cert 明記。
 - 逸脱 3 件(addendum 状態札は職務外・mutant3 転記のみ・範囲外非接触)受理。**修理波の残 = 数学者(kill 反監査+BOTTOM-UP v2)のみ → 着地で便 103 組立**(積載: Σ v2+NW-P7+checker v3 束+反監査+条件 4/5 最終格付け請求+(5′) 4 ブロック)。
+
+## 2026-08-05 kill 修理+BOTTOM-UP v2 検収(裁定 494)— ★反監査完成(Z(G₂₀)=V 機械確認・D17 両立明示・撤回せず補完・再検問文案)+自己捕獲 1 件+★新定理群: 補題 LAT-Γ(Z[ω] の Γ-安定イデアル分類)⟹ THETA-2000/4500 = 生存帯下限が p=2: 4000・p=3: 13500 へ上昇+定理 VCEN-MOD で census が cap 8000 なら 4 型に激減
+- 成果 = w6_kill_theorems_v2_erratum.md+w6_bottomup_design_v2.md+検算 2 本(D1-D17/E1-E9 FAILS 0・cert 様式)。構成 = 指示どおり採択 2 件先頭(c∈N 枝限定 — v1 場合 2 の χ_c≠0∧χ_F≠0 枝見落としを自己捕獲/格子文言 → 追跡で帯自体が空と判明)→ 反監査(Sol の |V^θ|=4 は正・対象取り違えのみ・「再検討を請う」形)。K20 への ROOF-KILL 適用維持。
+- **BOTTOM-UP v2 の核**: 定理 VCEN-MOD((V-cen) ⟺ V₄ 自明作用 ⟺ S₃-inflate — **宇宙の定義に吸収** = Sol blocking (i) の完全解)+補題 F2S3(有限表現型)⟹ dim 2-4 census 厳密 12 型・帯制約 cap 8000 で **4 型**(|V|=8 の一型 = K⁽²⁰⁾ の加群)。在庫表要領 §7 = 発注可(assert A-9〜A-13)。
+- **司令塔裁定 2 点**: (a) **S8.5(SAT)は critical path から第 2 系統照合レーンへ降格を承認**(宇宙 4 型なら全数直接検査が安い — 研究者発案の漏斗構造は cap 拡大時の主力として保存・研究者へ報告し異議機会を残す)(b) **p=3 は撤収せず保留**(census は取る・実現段の優先 = p=2 の 4 型・13500 帯の実現コストは census 後に再評価)。
+- 便 103 積載が確定: 反監査+新定理群+v2 設計(4 型宇宙)+VCEN-MOD。
