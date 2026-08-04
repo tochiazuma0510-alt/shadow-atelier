@@ -1,0 +1,42 @@
+{
+  "schema":"w6-coker-tool/v1",
+  "generated_by":"search/probe/w6_coker_tool/w6_coker_tool_driver.g",
+  "card_label":"K5 W-6 calibration tooling bundle (coker calculator + DF-W6 fixtures + K^(20) module)",
+  "design_doc":"docs/notes/k5_w6_construction_v1.md",
+  "authorization":"裁定446(I-1/I-2/I-3 -- 標的未確定でも即発注可・Im R 非接触・Phase2解錠不要)",
+  "tier":"tooling-calibration",
+  "seal_declaration":{"touches_c_hat_mu":false,"touches_psl_sealed_fields":false,
+    "touches_wall_campaign_pbit":false,"touches_u_values":false,"touches_im_R":false},
+  "part1_coker_calculator":{
+    "implementation":"GAP native GF(p) linear algebra (RankMat/NullspaceMat/SolutionMat) -- independent of scratchpad/k5_w6_norm_obstruction_check.py's hand-rolled python rref",
+    "cross_check_note":"cross-checked (not verified -- Lean is reserved for 'verified'). Compares dim values only; does not import the python script.",
+    "A_module_p5_coker":0,"A_module_p5_formulas_agree":true,
+    "trivial_1dim_p5_coker":1
+  },
+  "part2_fixtures":{
+    "DF_W6_1":{"pass":true,"coker_dim_of_synthetic_module":1,"solver_reports_unsolvable_on_nonzero_class":true,"solver_finds_solution_on_zero_class":true},
+    "DF_W6_2":{"dim":3,"theta_matrix_gf2":[[0,1,0],[1,0,0],[0,0,1]],"tau_matrix_gf2":[[0,1,0],[0,0,1],[1,0,0]],"theta_sq_eq_id":true,"tau_cube_eq_id":true,"coker_dim":1,"formulas_agree":true},
+    "DF_W6_3":{"pass":true,"coker_dim":0},
+    "DF_W6_4":{"pass":true,"orders_theta_tau_p5_p3_p7_p11":[4,4,4,4]}
+  },
+  "part3_k20_module":{
+    "note":"GAP-direct construction of G20=PB3/K20, G5=PB3/K5, V=Ker(G20->G5), theta/tau via the ScanRoofHexagon convention (x<->y ; x->y,y->(xy)^-1), restricted to V via a Pcgs isomorphism to GF(2)^dim. This is a computational substitute for the note's 'paper, one page' estimate for K5-GAP-W3 -- flagged as a design deviation in the report.",
+    "g20_order":4000,"g5_order":500,
+    "reduction_hom_well_defined_onto":true,
+    "v_order":8,"v_abelian":true,"v_elementary_abelian_2group":true,
+    "theta_order_on_g20":2,"tau_order_on_g20":3,
+    "v_theta_stable":true,"v_tau_stable":true,
+    "module_data":{"dim":3,"theta_matrix_gf2":[[0,1,0],[1,0,0],[0,0,1]],"tau_matrix_gf2":[[0,1,0],[0,0,1],[1,0,0]],"theta_sq_eq_id":true,"tau_cube_eq_id":true,"coker_dim":1,"formulas_agree":true},
+    "claims_disclaimer":"S-W6-3: this computes the OBSTRUCTION GROUP dim coker(psi_V) only. It does NOT compute the obstruction class, does NOT touch Im R_{N,K^(5)}, and makes no d_N / window-existence claim (per task instruction 3)."
+  },
+  "fails_total":0,
+  "fails":[],
+  "scope":{"lane":"GAP single lane","cross_checked_status":"n/a for group-theoretic construction (part 3); part 1 is a from-scratch independent re-implementation of the closed-form check, not a two-lane cross-check with the python script"},
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"34c15ac7b85140ae041943f2bd82b923148a3f3c090e290fec6772c151df986e",
+    "design_doc_sha256":"a363b87f39026da63662f862344a33095431c13555619a921ae49f54e7dbe5d9",
+    "python_check_script_sha256_for_reference_only":"d8b41a77fc35ff65b7818000112c9ba4d1f2a73bed154e48621d807a112426f4",
+    "wall_ms_total":486
+  }
+}
