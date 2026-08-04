@@ -1946,3 +1946,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - S-9: 4 区分表を **Lane V の自己申告転記でなく S/V の生判定欄から独立再抽出して再適用**(一致の事実を s9_selfreport_crosscheck に別掲 — 「同じ間違いの 3 回コピー」でないかの判定は CV-9 副検問へ委譲、と正直申告)。S-8: V v2 の縮小 scope ブロックを逐語転記(解釈注記込み)。完全性主張 = 選択肢 (iii) のみ。
 - 開示 3 件(削除前一覧なし・fixture は合成値・再抽出の独立性)は cert 内で申告済み — いずれも許容(D-3 の要求自体は充足)。
 - **条件 4 の 4 cert が出揃い**(S 458・P 462・V v2 469・Σ 471)→ falsifier の **CV-9 副検問 = HS 発火条件 5** を起票。PASS で発火前チェックリスト 5 条が全閉 → 便 102 で本走認可請求の前提が立つ。
+
+## 2026-08-04 W-6 発案ラウンド 受理(裁定 472)— 18 札 candidate(ideas_020)・交通整理・即時上申(W-5 位数 4000→1000 疑い)の検算発注・★付録 A「W-5 = entangled 実在庫(Arf 型非分裂)」は ENT-1 との整合検分が必要
+- 成果物 = docs/notes/ideas_020_w6_target.md(存在論 5・掘り方 5・族外 4・逆転 4・全 candidate・封印/Im R 非接触)。
+- **交通整理(司令塔)**: ①即時検証 = 札 2-D の W-5 位数検算(campaign §3.7 の 4000 vs 疑い 1000)→ implementer 発注済(GAP 直接)②数学者検分キュー(campaign v2 と同便)= 1-A ROOF-KILL(第 4 の死因型・屋根型は成分合成 witness で死ぬ)・1-C W-TRANS(障害加群の transgression 紙決定 — (V-der) 破れの機構化)・1-D THETA-GONE(θ-ノルム消滅 ⟹ 実効判定 1 本化)・**付録 A の W-5 紙スケッチ(Arf 型非分裂 = entangled 実在庫の主張 — ENT-1[指数 1944 で建設地なし]の走査域との整合を必ず検分・矛盾すればどちらかが誤り)**③掘削戦略の本命候補 = 2-A BOTTOM-UP(lins 反転: Ĝ₅ の H² 列挙+GQuotients 実現)+2-B SIEVE-W(第 5 の篩 = 障害語 membership)+2-E H2-CENSUS — Sol ゲート(便 102)に「lins 探索認可請求」を「BOTTOM-UP 設計承認請求」へ差し替える案として積載 ④保留 = 4-B K15-4VAL(宇宙変更 = Sol ゲート級・単独判断しない)・4-A EMPTY-THM(空性の定理化 = 夢級・地図の空白欄へ)⑤negative 2 枚(WALL-NULL・PSL-NULL)は死因台帳へ転記候補。
