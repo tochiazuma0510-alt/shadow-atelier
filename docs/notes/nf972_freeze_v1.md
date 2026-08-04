@@ -37,3 +37,13 @@
 - fixture が発火しない(識別力ゼロ)→ CALIBRATION_FAILED / INTEGRITY_STOP(期待値を弱めない)。
 - 集合不等号 → 保存・即報(どちらが誤りかを裁定へ — 補正禁止)。
 - 通過時の格 = **集合水準 cross-checked 候補**(CV-9 判読[falsifier]と Sol 検収を経て確定)。U-11(合成表)には伝播しない。
+
+## 6. v1.1 追補(裁定 442・2026-08-04)— marking の pin(第 1 回突合の教訓)
+
+**経緯**: 第 1 回突合(A vs B)は per-m 構造完全一致(12 値×81)にも関わらず交わり 9/972 — 原因は §1 の「固定した marked presentation」が**どの marking かを pin していなかった**仕様穴(CV-7「比較相手の未宣言」型・司令塔の非)。A は factor cert の座標系・B は自前構成の座標系で serialize しており、両者は点ラベル・D₉ 基底の付け替えで結ばれる(はず — 検証は辞書化後)。
+
+**pin(v1.1 正本)**: canonical marking = **factor cert の座標系**とする。
+- can₉ の座標 = **K9.v1.json の f_triple 欄の座標規約そのもの**(K9 cert の marked 生成元が定める D₉³ 基底・ブロック順)。
+- can₄ の点ラベル = **S4.v2.json の witness 置換の点ラベルそのもの**(9 点・one-line)。
+- 自前構成側(source map B 型)は **marked 生成元対応による辞書**(自構成の marked 生成元像 ↔ cert 側 marked 生成元像を結ぶ同型・置換側は RepresentativeAction 等で σ∈S₉ を機械決定・一意性も機械検査)を構築し、辞書経由で cert 座標に落として serialize する。辞書構築は罠 #3 遵守(marked factor map・部分群等号に依らない)。
+- **辞書の自己検査(義務)**: 辞書適用後の q₉ 射影集合が K9 cert の f_triple 行集合と**逐語一致**・q₄ 射影集合が S4 cert の witness 集合と逐語一致すること(不一致なら辞書が誤り — INTEGRITY_STOP)。
