@@ -1,0 +1,60 @@
+{
+  "schema":"nf972-sourcemap-b/v1",
+  "generated_by":"search/probe/wac_v1/nf972_sourcemap_b_run.g",
+  "design_doc":"docs/notes/nf972_freeze_v1.md(裁定434凍結)",
+  "card_label":"NF-972 source map B(直接悉皆側・独立実装・A非参照)",
+  "independence_note":"source map A(組立側)の実装・中間表現・normalizer helperを一切参照・共有しない。共有は凍結仕様のschemaのみ。列挙戦略はihnec_r4b_run.gと同型(Elements(DerivedSubgroup(G))直接列挙)だが判定関数(NF972HexagonOK)・NF化(q9/q4評価・can9/can4・serialization)はすべて自前実装で、R4bのScanRoofHexagonコード自体は再利用していない。",
+  "can9_can4_design_note":"can9=27点を9点x3ブロックに分解しD_9=<r,s>正規形(a,eps)の3つ組(固定順)。can4=9点one-line image。この具体化はops/express/20260804_implementer_nf972b_can9設計判断.mdで速達済みの実装係解釈であり司令塔/Sol確認は未了。",
+  "deviation_note":"分離fixtureの実行順序を『本走前の独立小サンプル』から『本走直後・cert書き出し前の実データサンプル』へ変更(script冒頭コメントに理由詳記)。fixture2はcan9内r,s入替(構造的に不発と判明)からq4側generator対応を入替えた別屋根GM2での再悉皆比較へ変更。いずれもfail-closed gate(不発ならcert非出力)は維持。",
+  "windows":{
+    "g9_size":2916,"k9_ord":18,
+    "p_size":504,"n_s4_ord":9,
+    "gm_size":1469664,"m_ord":18
+  },
+  "anchors":{
+    "k9_alone_shadow_total":108,"k9_alone_expected":108,
+    "s4_alone_shadow_total":54,"s4_alone_expected":54
+  },
+  "fixtures":{
+    "note":"仕様SS4の3種をresM.shadows実データからのサンプル(36件・m値12種にまたがる)で実行。fixture2のみGM2での実再悉皆(対象m値=[0,2,3])を伴う。cert書き出し前のfail-closed gate(この cert が存在する時点で全発火済み)。",
+    "fixture1_orientation_flip_fires":true,
+    "fixture2_q4_side_generator_swap_fires":true,
+    "fixture3_wrong_modulus_fires":true
+  },
+  "main_scan":{
+    "derived_order":367416,"derived_order_expected":367416,
+    "shadow_total":972,"shadow_total_expected":972,
+    "wall_ms":50313
+  },
+  "nf_tuple_set":{
+    "total_tuples":972,
+    "distinct_tuples":972,
+    "duplicate_count":0,
+    "matches_972_0dup":true
+  },
+  "projections":{
+    "proj9_q9_side_size":108,"proj9_expected":108,"proj9_ok":true,
+    "proj4_q4_side_size":54,"proj4_expected":54,"proj4_ok":true,
+    "compatibility_k9_alone_eq_proj9":true,
+    "compatibility_s4_alone_eq_proj4":true
+  },
+  "canonical_enumeration":{
+    "sort_order":"gap_String_sort_of_serialized_tuple",
+    "serialization_format":"(m0;a1,eps1,a2,eps2,a3,eps3;i1,...,i9)",
+    "count":972,
+    "sha256":"ecaf87c77effc1d2ef955969152c58e0825403b4858b4ff21e688fd3c02ffede"
+  },
+  "conventions_used":{
+    "conventions_ver":"v1_6",
+    "perm_composition":"gap_native_right_action",
+    "cv1_cv2_action_side":"q9,q4は右作用のGAP順列制限(BlockRestrict)として評価。can9はD_9=<r,s>のGAP乗算 r^a*s^eps(左から順・GAP native)での正規形照合。can4はone-line image(j -> j^perm)。fixture2はGM2(q4側=S4窓のXperm/Yperm対応を入替えた別屋根)での実再悉皆によるq4側単独のgenerator対応入替。",
+    "reduced_hexagon_predicate":"NF972HexagonOK(本driver独自実装・数学的判定式はihnec_r4b_run.gのScanRoofHexagonと同一 -- f*theta(f)=1・tau^2(y^m f) tau(y^m f) (y^m f)=1・生成条件。コードは非共有。",
+    "independence_note":"certificates/K9.v1.json・S4.v2.json・source map A実装を一切読まない。G9・P・GMはGAPで生成器から新規構築(week3-*-common.gの既存共有関数を使用 -- これはA/B双方が使い得る共通インフラであり、どちらか固有のnormalizer helperではない)。"
+  },
+  "cross_checked_status":{"status":"n/a","reason":"本certは source map B 単独の出力。source map A との集合突合は司令塔が別途実施する。"},
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"4a85a3148ee4760b940c79d81a308714c9ff8abaca65659417a0d2ecc325759f",
+    "wall_ms_total":64857
+  }
+}
