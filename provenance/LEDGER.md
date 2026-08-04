@@ -1974,3 +1974,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **付録 A(W-5)判定 = 全段成立・ENT-1 と完全無矛盾**: 3 軸(窓基底 K⁽³⁾ vs K⁽⁵⁾・標数 p=3 vs p=2・B₃ 指数 1944 vs **6000**)すべて走査域外+NO-ENT(3) は射程固定済み。非分裂の 4 行直接証明(Q₈ の対合 1 個)。**H²(G₅,F₂) ≠ 0(Arf 類 inflation)= w6 §3.4 順位 1 予測「2-primary なら非分裂供給」の初の実物**。novelty 語法 = 「entangled **屋根**の実在庫」(K⁽⁹⁾/K⁽³⁾ 等が既在のため)。**【W5-GAP-1】= W-5 の isolated 性未確認**(witness (f₁,+1) の d=5 はその条件つき)。
 - 検分の収束: 1-A/1-C/1-D → **ROOF-KILL / THETA-KILL の 2 否定定理候補**(前件 = (V-der) 1 点・THETA-KILL は 2-primary 最下段 |PB₃/N|=500·2 を紙で殺す = w6 優先度表に直接)。
 - **便 102 の材料が完備** — 組立開始(積載リストは裁定 474/475 帯+本裁定・NW-P8 撤回 addendum 起草済み)。
+
+## 2026-08-04 [LS] 章 受領・収蔵(裁定 477)— 研究者調達(無償入手): Lochak–Schneps「The Grothendieck-Teichmüller group and automorphisms of braid groups」(LMS LNM 200, 1994)
+- 原本 = Desktop/文献リスト/Fls.pdf → papers/lochak-schneps-1994-LMS200-GT-automorphisms-braid-groups.pdf(1 頁目の頁画像で書誌確認済: ヘッダに「The Grothendieck Theory of Dessins d'Enfant, LMS LNM 200, Cambridge Univ. Press, 1994」・著者 Pierre Lochak / Leila Schneps・abstract = GT_ℓ/ĜT が braid 群塔(pro-ℓ/profinite 完備化+strand-doubling)の自己同型群)。sha256 は本コミットの git 履歴と下記に記録。
+- 位置づけ: TB3 パッチワークの**補助文献**(本命 = 同書 Ihara 章 §1.4 — 未入手・調達継続)。8/2 受領の LochakSch.pdf(universal Ptolemy 系)とは別論文であることを確認。降ろすときは文献ゲート(覚書つき・両数学者同時)。
+- sha256(先頭16) = 5f9ff0383520fee5(全体は provenance 慣行どおり必要時に再計算・papers/ は git 管理外)
