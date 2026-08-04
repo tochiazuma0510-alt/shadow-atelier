@@ -1707,3 +1707,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **Ihara [I4] ICM 1990 survey**(papers/ihara-ICM1990-braids-galois-arithmetic-functions.pdf = f89c10fee461358361c25fa33fa7e33891f3703fa41eff986c3c461cae8776f5)収蔵 — 優先 5 系・(U2) 言明の実体(裁定 286 系)。
 - **LS-Ptolemy**(papers/lochak-schneps-universal-ptolemy-teichmuller-groupoid.pdf = 84fca633d0de1dff6bd06bbca245b617df93f6312c4546c1a2fdb172ea3a842a)収蔵 — **HS の [LS](braid 塔 special automorphisms・Dessins 巻)とは別論文と同定**(本 pdf の Lemma 7 は tesselation 系 ≠ HS Prop 7 証明の [LS, Lemma 7])。pentagon/Ptolemy 隣接文献として価値あり。
 - preview(LMS 叢書目次のみ)は非収蔵。**残ハント(低優先・PENT-NORM 非依存)**: HS の [LS] 本体(LMS 200 Dessins 巻)・[I3](Ihara, Israel J. Math. 80 (1992) stable derivation algebra)。
+
+## 2026-08-04 HS 条件 2 走の設計穴上申と裁定(裁定 430)— Q 側(K(0,5))の GAP fp 表示が設計ノート §8.7 に不在 — 実装係が停止せず正しく上申(速達型)
+- **裁定 = 経路 (a) 採用**: B₄ Artin 表示 → A_ij 標準語+coset enumeration で [B₄:⟨A_ij⟩]=24 機械確認(罠 #3 遵守)→ RS で PB₄ fp 化 → **K(0,5) = PB₄/⟨Δ₄²⟩(補題 CENT-FREE が根拠・裁定済)** → ANUPQ p-quotient(class 4・exp 7)で dim γ₄(Q) 直接読取 = P101-1 条件 2 の「標的商での直接確認」。**経路 (c)(Witt 状況証拠の前提使用)は棄却**(直接確認の空洞化 — 実装係の読みが正・不能なら S-6 停止)。(b) は司令塔在庫調査で fp 表示なしと確認(GTPI^{PB₄} 線は有限窓像のみ)— ただし X_ij 語規約(gtpi_pb4_size_20260801.g)への整合を義務化。
+- **fail-closed アンカー(Witt 非前提)を仕様化**: [B₄:PB₄]=24・PB₄^ab≅ℤ⁶・K(0,5)^ab≅ℤ⁵ 直接計算・ρ well-definedness 機械検査(ρ⁵=1)・j 準同型性 — いずれか不成立で S-6 停止(期待値補正禁止)。x_{i,i+1}⇄6 生成元辞書は球面関係経由で cert 記録。
+- 記帳: 設計ノート §8.7 に K(0,5) 表示が明示されていなかったのは**設計の穴**(数学者の次修文で §8 追補・便 102 に載せる)。P 側(F₂ 由来・ANUPQ)先行は承認済み。
