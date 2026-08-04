@@ -1,0 +1,18 @@
+﻿
+total_points = 144
+[PASS] forward_mismatches (ApplyGen vs BuildQTGeneral PermList) = 0
+[PASS] inverse_roundtrip_mismatches (gen then gen^-1 != identity) = 0
+[FAIL] braid_relation_fail (s1 s2 s1 != s2 s1 s2 in ApplyGen machine) = 72
+
+(note: r.braid_relation_fail on the ARBITRARY-element S4 toy is EXPECTED to be
+nonzero -- confirmed independently that even BuildQTGeneral's own PermList fails
+the braid relation for arbitrary phiX/phiY/phiC; the table only represents a
+genuine B3-quotient when phiX/phiY/phiC come from an actual B3-compatible triple.
+See SelfTestBraidOnGenuineInstance below for the real validity check.)
+
+main_points (dihedral G3, c->1) = 648
+[PASS] main_braid_fail = 0
+ctrl_points (G3 x C5, control-style embedding) = 3240
+[PASS] ctrl_braid_fail = 0
+
+[GATE PASS] state machine self-test: table matches BuildQTGeneral exactly (forward+inverse, 144 toy points), AND braid relation holds on genuine main-window-style (648 pts) and control-window-style (3240 pts) instances.

@@ -1,0 +1,6 @@
+sizeP=5764801
+sizeDerP=117649
+N_ord_main=7
+N_ord_ctrl=7
+s9_mismatch=6
+p8_mismatch_count=0

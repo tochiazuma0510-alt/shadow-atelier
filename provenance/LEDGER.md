@@ -1915,3 +1915,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **補題 K20-LIFT**(d_{K⁽²⁰⁾}=5 の紙確定・φ₁ 原像 = (0,6),(10,1) の 2 元)+ W6 §4.3 erratum 独立節(retrodiction 無効・根拠 = 直接 witness)。
 - **★(V-der) 破れ(新規欠陥)**: 前件 V ⊆ [P_N,P_N] が K⁽²⁰⁾ で不成立(|[G₂₀,G₂₀]|=250・|V∩[G₂₀,G₂₀]|=2)⟹ 障害の載る加群は **W = ⟨(1,1,1)⟩ ≅ F₂**。dim coker ψ_V = dim coker ψ_W = 1 は**別加群の同値**であり「二系統一致」と読んではならない(A-3)。**裁定 451 への精密化注記(correction of record 未満・解釈注意)**: 451 の「K^(20) で初の障害群非零」の障害群は正しくは W 上で読む — cert w6_coker_tool_20260804.json の coker_dim 欄を「窓の障害群」と台帳転記するときは加群の同定(V か W か)を必ず併記。campaign §4.3 の T1 一般式は最初から ∩[P_N,P_N] を含み票の同定と整合。
 - 票の扱い = 「較正走(DF-W6-2 control 実弾化)の事前登録」として**便 102 に積載確定**(監査点 A-1〜A-3・B-1〜B-5)。走行は Sol 認可後。
+
+## 2026-08-04 Lane V 較正走 検収(裁定 467)— HELD_PENDING_ARBITRATION で cert 発行(正当)・S-9 正式発火の初例(6 件 PASS/FAIL)・NW-P8 は uncertified raw のみ・Lane Σ は仲裁決着まで起票不可
+- cert = search/certs/hsp7_cond4_laneV_20260804.json(status: HELD_PENDING_ARBITRATION)・driver = search/probe/hsp7_cond4_laneV/(状態機械 statemachine_lib.g 含む)・仲裁材料 = scratchpad/debug_hexagon*.g(cert 非対象)。worktree から取り込み。
+- A5-CONV correct・S-7′ 4 欄 = own 先行確定 → cond2/Lane S 突合 4/4 一致(未発火)。**4 区分表: h₄⁰ = PASS/PASS・h₄¹..⁶ = PASS/FAIL(6 件)・h₃ = FAIL/FAIL ⟹ S-9(LANE_DISAGREEMENT)正式発火** — stop_rules どおり自動解決せず・数学者仲裁(裁定 465)待ち。
+- NW-P8 m 小掃引 = 司令塔裁定により**保留**(同一の疑わしい評価器を使うため)・raw(m=1,2,4,5,6 全て N=N₀=FAIL・不一致 0)は nw_p8.raw_numbers_uncertified に記録のみ・S-8 = "not_evaluated"。
+- 三レーンの現況: S/P = PASS 検収済(458/462)・V = HELD。**Lane Σ の起票は仲裁決着後**(合成対象の V cert が HELD のため)。教材: S-9 の設計(多数決禁止・全体停止)が初発火で正しく機能・「証明済み恒等式との矛盾」を較正走が本走前に捕獲した。

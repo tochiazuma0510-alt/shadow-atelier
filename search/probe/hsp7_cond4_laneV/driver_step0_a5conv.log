@@ -1,0 +1,11 @@
+﻿
+X computed = (1,3,2,4,5) (expect (1,3,2,4,5))
+Y computed = (1,3,4,5,2) (expect (1,3,4,5,2))
+s computed = (1,4)(3,5) (expect (1,4)(3,5))
+[PASS] X matches paper value
+[PASS] Y matches paper value
+[PASS] s matches paper value
+ev(y x^-1) computed (GAP: X^-1 * Y) = (1,2,4)
+A5-CONV result = correct
+
+[GATE PASS] A5-CONV = correct. Proceeding is authorized.
