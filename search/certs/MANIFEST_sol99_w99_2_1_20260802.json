@@ -16,6 +16,11 @@
       "path": "search/certs/ihnec_r4b_conventions_v3_20260802.json",
       "note": "P100-4.1(sol_reply_100_math27.md §4)のtyped sha256_ref正形。v2のSEE_MANIFEST(...) placeholder（非64-hex・MALFORMED・参照先拡張子誤り）を差し替えるv3 supplementの自己参照digestをここに確定する（裁定422）。",
       "final_sha256": "641acb8b47bee30c86e4a3fd50b90b45fcff8b4eb67bb960157d8bc511a0a999"
+    },
+    "search/certs/ihnec_r4b_conventions_v4_20260804.json": {
+      "path": "search/certs/ihnec_r4b_conventions_v4_20260804.json",
+      "note": "便101 P101-3.1(sol_reply_101_math28.md §3・W101-3.1・裁定428)のledger_version drift修理。v3のconventions_used.ledger_versionが\"conventions_ledger_v1_4\"のまま新型sha256_refを使っていた食い違いを、v4がconventions_ledger_v1_5を正しく宣言することで閉じる。v3ファイル自体は不改変。",
+      "final_sha256": "fb8b13057bc1ccba8a523c4dd3c029e668adc16d93571adf07eef2832a048c37"
     }
   },
   "deliverables": [
@@ -63,5 +68,19 @@
     "note": "search/certs/ihnec_r4b_conventions_v2_20260802.json は self-hash placeholderの型不備（MALFORMED）により search/certs/ihnec_r4b_conventions_v3_20260802.json が supersede した。v2ファイル自体・本 manifest の既存 entry は不改変（追記のみ）。",
     "v3_path": "search/certs/ihnec_r4b_conventions_v3_20260802.json",
     "v3_sha256": "641acb8b47bee30c86e4a3fd50b90b45fcff8b4eb67bb960157d8bc511a0a999"
+  },
+  "w101_3_1_addendum": {
+    "task_ref": "便101 検収（裁定428）W101-3.1差戻しの現物修理",
+    "note": "便101 検収(裁定428)P101-3.1(sol_reply_101_math28.md W101-3.1)の現物修理。search/certs/ihnec_r4b_conventions_v3_20260802.json は conventions_used.ledger_version=\"conventions_ledger_v1_4\" を宣言したまま v1.5新設のsha256_ref typed objectを使っており(schema version drift)、search/certs/ihnec_r4b_conventions_v4_20260804.json がこれを訂正して supersede した。v3ファイル自体・本 manifest の既存 entry は不改変(追記のみ)。",
+    "v4_path": "search/certs/ihnec_r4b_conventions_v4_20260804.json",
+    "v4_sha256": "fb8b13057bc1ccba8a523c4dd3c029e668adc16d93571adf07eef2832a048c37"
+  },
+  "w101_3_4_addendum": {
+    "task_ref": "便101 検収（裁定428）W101-3.4差戻しの現物修理",
+    "note": "便101 検収(裁定428)P101-3.6(sol_reply_101_math28.md W101-3.4)の現物修理。本manifestの既存 known_deviation_disclosed の一文(下記 status.original_text_verbatim にbyte保存)は「後継artifactが自己SHA-256を自己bytesに含むことは構造的に不可能」という数学的過剰主張(W100-4.1で既に指摘済み・sol_reply_100_math27.md §4)である。この過剰主張はここで historical_claim と指定し、正しい限定文を current erratum として置く。",
+    "target_field": "known_deviation_disclosed",
+    "status": "historical_claim",
+    "original_text_verbatim": "CV-10(規約台帳v1.4 §2)は superseded_by.sha256 に後継artifact自身のsha256を書くことを要求するが、後継artifactが自分自身の内容のsha256を自分の内容に含むことは構造的に不可能(ハッシュのfixed-point問題)。本納品では、自己参照箇所には明示プレースホルダ文字列を書き、実際の最終sha256は本manifestへ記録する2段階方式を採った。これは規約台帳が明記していない状況への実務判断であり、司令塔裁定を仰ぐ余地を残す(疑問点として報告)。",
+    "current_erratum": "『構造的に不可能』は過剰主張であり撤回する。正しい限定文は次の通り: 通常の単一書き出しパス(ファイルを一度で確定・保存する生成手順)では、そのファイルが自分自身の最終sha256を内容に含むことを直接には解けない自己参照であり、これを運用schemaとして禁止する(sha256をunion型の自由文字列にせず、自己参照時のみ typed sha256_ref で外部holderをpostwrite解決する -- 台帳v1.5 §1.7 / P100-4.1)。これは実装上・運用上の禁止規約であって、数学的な不可能性の主張ではない(例えば同一ファイルへの複数パス書き出しや外部fixed-point反復解法などの代替は本規約が禁止しているだけで、数学的に不可能とまでは言えない)。"
   }
 }

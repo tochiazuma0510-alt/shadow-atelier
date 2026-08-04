@@ -1712,3 +1712,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **裁定 = 経路 (a) 採用**: B₄ Artin 表示 → A_ij 標準語+coset enumeration で [B₄:⟨A_ij⟩]=24 機械確認(罠 #3 遵守)→ RS で PB₄ fp 化 → **K(0,5) = PB₄/⟨Δ₄²⟩(補題 CENT-FREE が根拠・裁定済)** → ANUPQ p-quotient(class 4・exp 7)で dim γ₄(Q) 直接読取 = P101-1 条件 2 の「標的商での直接確認」。**経路 (c)(Witt 状況証拠の前提使用)は棄却**(直接確認の空洞化 — 実装係の読みが正・不能なら S-6 停止)。(b) は司令塔在庫調査で fp 表示なしと確認(GTPI^{PB₄} 線は有限窓像のみ)— ただし X_ij 語規約(gtpi_pb4_size_20260801.g)への整合を義務化。
 - **fail-closed アンカー(Witt 非前提)を仕様化**: [B₄:PB₄]=24・PB₄^ab≅ℤ⁶・K(0,5)^ab≅ℤ⁵ 直接計算・ρ well-definedness 機械検査(ρ⁵=1)・j 準同型性 — いずれか不成立で S-6 停止(期待値補正禁止)。x_{i,i+1}⇄6 生成元辞書は球面関係経由で cert 記録。
 - 記帳: 設計ノート §8.7 に K(0,5) 表示が明示されていなかったのは**設計の穴**(数学者の次修文で §8 追補・便 102 に載せる)。P 側(F₂ 由来・ANUPQ)先行は承認済み。
+
+## 2026-08-04 self-hash v4 束検収(裁定 431)— P101-3 条件 1〜4・6 履行(条件 5 = 台帳 CL-9 は数学者並行改版側)・司令塔追試一致
+- v4(ledger_version = conventions_ledger_v1_5 宣言・v1〜v3 不改変): **設計判断を承認 — bytes 確定済みの旧版参照は plain sha256・sha256_ref は自己参照 3 箇所のみに収束**(不動点問題の正確な最小化)。conventions_used の他内容は v3 と diff 空を機械照合。
+- checker v2(v1 別名不改変): 再帰走査で**全** sha256/sha256_ref 列挙(nested superseded_by 含む)・XOR 併記拒否・**current/effective_source/実入力 path の三者一致強制**・ledger_version drift は fail-open にせず INTEGRITY_STOP。**1 PASS+9 STOP**(W101-3.3(2) の path 偽装・v2 でしか検出できない nested ref 破壊を含む)・v3 への drift 指摘・v1 checker 無破壊 — 全て司令塔追試一致。
+- MANIFEST: +19/-0 のサージカル追記のみ — 旧 fixed-point 断定を **historical_claim 指定+正形限定文の current_erratum**(W101-3.4 履行)・原文 verbatim 一致を機械照合。
+- 残 = 台帳側 CL-9 の CLOSED 化(数学者波・着地後に司令塔が checker v2 の digest を追記)→ 便 102 で束の再提出。
