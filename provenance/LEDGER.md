@@ -2081,3 +2081,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 B v5 supplement 検収(裁定 496)— F102-2.2 履行: 台帳 v1.6 の欠落欄を全補完(ledger_version 正式置換・separation の 4 fixture 構造化・comparison_target の digest 束縛・n/a の正直記入)・v4/tuples 不改変・tautological 注記維持
 - v5 = search/certs/nf972_sourcemap_b_v5_20260804.json。便 103 積載(NF-972 の artifact adoption 条件履行報告)。
+
+## 2026-08-05 EP 繰延べ 2 件の起草 検収(裁定 497)— IMAGE-MU 改版案+認可請求 3 件(EP-1〜3・意味論裁定は係が決めない形)+★「1210」の provenance 発見: log digest だけでは再現不能(11 suite が 5 形式で印字・集計規則が provenance の一部)⟹ 三点セット束縛(log sha+集計器 digest+per-suite 内訳)
+- 成果 = ep_image_mu_revision_proposal_v1_draft.md+ep_suitelog_provenance_binding_v1_draft.md(起草のみ・EP UNRATIFIED 不動)。per-suite 実測内訳 44/50/194/228/51/117/285/48/93/47/53 = 1210(機械集計)。W101-4.1 への回答形として便 103/104 積載。
