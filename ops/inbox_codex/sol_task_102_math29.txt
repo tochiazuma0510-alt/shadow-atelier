@@ -1,0 +1,85 @@
+便 102: 数学便第 29 号 — 便 101 条件の履行完了と一括検収・認可請求: 条件 2 完走・条件 4 較正走(S-9 初発火→仲裁決着→CV-9 差戻し修理)・NF-972 集合水準・TB 3 枚引用 pin 束・(S3) 訂正上申・K⁵ 標的 3 連死と BOTTOM-UP 差替・v4 束再提出
+
+Sol へ。司令塔より。便 101 検収 = 裁定 428。本便は過去最大につき優先順を明示: **最優先 = §1(条件 2+条件 4)と §7(TB 束 = P1 の (5′) 昇格)**。次点 = §2(NF-972)・§4(v4 束)。認可請求は §1.4(NW-P7)・§1.5(NW-P8 撤回)・§6.3(BOTTOM-UP)の 3 件。
+
+## 1. HS 戦役: 発火条件 2 完走+条件 4 較正走の全顛末
+
+1. **条件 2(P101-1 の 6 条件契約下)= 完走**: |P| = 7⁸ = 5,764,801(等号・𝔥₄ 生存)・|Q| = 7⁴⁰・dim_F7 γ₄(Q) = 21・γ₅(Q) 自明・ρ̄ 位数 5・N_ρ(j(𝔥₄)) ≠ 1(NW-P5)。S-7′ 発火なし。HSP-GAP-2 閉。ANUPQ の対話 iostream 故障は SetupFile バッチ経路で恒久解決(裁定 432・付録 B 環境ノート)。
+   - search/certs/hsp7_cond2_p7_20260804.json = 03a599b0b6640de0410cf8ebb81f9c2b9eeb5ca877c2969f25699a50aabbb0fa
+2. **条件 4 = helper 非共有三レーン+Σ の較正走を実施**(lanespec v1.2 = falsifier 前哨 2 巡後・C-1〜C-6 充足を司令塔機械確認)。結果: Lane S PASS(簡約 hexagon・dummy 7/7 PASS・h₃ FAIL・S-7′ 4 欄自前先行確定で全一致)・Lane P PASS(PENT: t=0 のみ PASS・t=1..6 FAIL = 検出器発火・Q 構造全欄一致)・**Lane V で S-9 が正式初発火**(簡約 vs full の 6 件食い違い)→ 数学者仲裁で **Lane V の状態機械バグ(ApplyQElt の随伴適用漏れ)と確定**((a) Prop 3.4 前提読み落とし・(b′) 転記欠落・(c) 本物、は棄却 — 特に (b′) 修正は実バグと相殺して全件偽 PASS になる罠を仲裁が先回り封鎖)・TOY 窓(位数 162 literal)決定実験で修理版 = literal 一致 → v2 再走で 8/8 一致・θ(𝔥₄) = −𝔥₄ の紙確定つき。
+   - docs/notes/hsp7_cond4_lanespec_v1.md = bd5a9da2fb2454d5bff190cb0ffc364d933b4a4923c3b4f73dc8438e7cb8e188
+   - docs/notes/hsp7_hexagon_arbitration_v1.md = d7180d2f4d25dc3ed73aef17055e0f50bbc3cb0b8d20b41086216516060c291c
+3. **条件 5 = CV-9 副検問は差戻し(blocking 4)→ 3 件修理済**: B-1(cert 物理証拠欄)+B-2(c 会計 1→9 セル・N₀ 側 8 件評価・TOY に c 生存セル+負例セル)+B-4(格付け文言の正直化)= Lane V v3 で閉。**B-3(Lane P に非自明 PASS ゼロ)だけが未閉で、解毒 = NW-P7**。4 cert+summary+判読書一式:
+   - search/certs/hsp7_cond4_laneS_20260804.json = f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86
+   - search/certs/hsp7_cond4_laneP_20260804.json = 4a41ea6d2c8866b9d85fff9869614de4ef24f0dc75d9b753523b6aef065175c9
+   - search/certs/hsp7_cond4_laneV_v3_20260804.json = c7a7d0cb5f7049b47a17d5b48fd962820211a230d786dcddbd546449d44ff68d
+   - search/certs/hsp7_cond4_summary_20260804.json = 81a80d0ae2ec2dabe857abf41eaa3f847001604f1ffdfc7a3e71fb1dd49180f1
+   - docs/notes/hsp7_cond4_cv9_reading_v1.md = e8d107972991815f435d386216660a4f41f0522b8272748657da84edb219dd6d
+4. **認可請求 1: NW-P7(p=5 control)の限定認可**。P101-1 条件 1(別素数を混ぜない)に p=5 が明文抵触するため司令塔単独では発効していません。請求形 = lanespec 付録 A-1 の事前登録票**逐語**(control 専用・h₄ᵗ t=0..4 の 5 件のみ・予言「5/5 PENT PASS」は ν₄(j𝔥₄) ≡ 0 mod 5 の帰結・S-3 停止規則つき・悉皆なし)。これが通れば B-3 が閉じ、条件 4/5 の cross-checked 格付けが完成します。
+5. **認可請求 2: NW-P8 の versioned 撤回の承認**。事前登録予言「5 件中 ≥1 件で N/N₀ 食い違い」は、仲裁の構造事実 **N∩F₂ = N₀∩F₂ = 𝒱(F₂)**(+Prop 3.4)により**測定前から理論的に偽**でした(事後緩和ではなく前提の定理的崩壊)。追補 = 撤回+S-8 の逆向き再定義(S-8′: 不一致 1 件で実装バグ疑い停止)+N₀ の役割変更(c 会計の無料実装テスト+word-level 経路検査)。副申: 補題 NW-1b (5) の「近道が壊れる」の語の二義性(θ,τ の商降下 vs Ad 実現)の用語分離。
+   - docs/notes/hs_prop7_translation_v1_addendum_nwp8_v1.md = 301c4593bd5572b40997e8e81722fea9b8cc1fffb028de37779561b937b7e055
+
+## 2. NF-972: 集合水準の検収請求(W99-2.1 ③ の完遂)
+
+規約事故 3 幕(B の乗算規約バグ[dihedral 不可視・PSL(2,8) 発火]→ witness 誤読の三重連鎖[cert 欄 automorphism_witness = settled 証人 h であって q₄(f) 像でない — A 実装・司令塔仲裁枠・仕様 pin 文面の共通誤読]→ 双方修理)を経て、**第 3 回突合で集合等号 972/972・重複 0・両射影一致**。CV-9 判読 = PASS(条件つき)— **PASS の支柱は判読者の独立検算**(S4 marking から生成元再構成・誤規約評価で対称差 96/108 = 規約鋭敏性実証)。条件 3 件(A の can₄ 軸 fixture F4・B の cert 記述正直化・第四者比較の cert 化)は全履行済み。**格付け文の拘束を遵守して請求**: 「二系統が独立に 972 点を計算」とは主張しません — 第 3 回が立てたのは (i) 屋根像が m ごとに完全直積(Goursat 障害なし)(ii) 屋根 q₄ 像 = S4 shadow 集合、の 2 点で、「同一対象」= 像集合の同一(A = 予測経路・B = 実測経路)です。ε ≡ 0 全行(仕様の ε 半分未試験・ブロック順 1↔2 転置 pin)の残余注記つき。
+   - docs/notes/nf972_freeze_v1.md = d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1
+   - docs/notes/nf972_cv9_reading_v1.md = dcb72fdec51ff4fc07969d1aac7af5e85d072c3ed9c3f10001fbe44f50e71d8c
+   - search/certs/nf972_sourcemap_a_v3_20260804.json = 32e268c97c77446b85787c5d7750da758df67646de414eade709ca79baf98b37
+   - search/certs/nf972_sourcemap_b_v4_20260804.json = 05f5e64cd9ad5dd1ec14926b725ac3c3e9619637898741317450d0fe267d1be3
+   - search/certs/nf972_crosscheck3_cert_20260804.json = f103375674386d0f1e5ed934aaeac811ad8c99e73ca78ffff38bf83f42e9db69
+教材 2 件を申し送り: ①cert 格納値の意味論は欄名でなく生成コードが正本(witness 誤読)②「非トートロジー自己検査」の検査対象自体を第四者が判読する必要(B の自己検査は同一関数比較で無内容 — 判読が検出)。
+
+## 3. FAKE-KILL^{B₄} の底: TRUNC-FULL ゲート依頼+Fresse 訂正 2 件
+
+GAP-TRUNC-1 精読が着地: **正引用先は Part 1 Thm 6.2.4(b)**(非 unitary 版 — Part 2 Thm 1.1.5 は unitary 版で工房使用を literally 覆わない)= 訂正 A・頁 pin 訂正 B(pp.9-10 → p.11)。**命題 TRUNC-FULL**((OBJ) を落とす candidate)のゲート依頼 5 項は精読ノート §11 に用意済み — 採否の判定を請う。依存の底は Mac Lane coherence まで降りる旨を依存表に明記済み。
+   - docs/notes/reading_fresse_624_v1.md = 6ad598480876a8b34bdb9f49f882df8172e311d328dff66034a1025fc27462d9
+
+## 4. EP: v4 束+台帳 v1.6 の再提出(P101-3 の 6 条件履行)
+
+W101-2 差戻し 4 欠陥への逐条回答: v4 supplement(ledger_version drift 解消 = v1_6 宣言・v3 は byte 不変保存)・checker v2(全 sha256_ref 走査・path 同一性 fail-closed・sha256/sha256_ref XOR 強制 = 台帳 XOR 規範 11)・台帳 v1.6(CL-9 の偽記述訂正・CL-12/CL-13 新設・proof_body_status 3 値)・MANIFEST current erratum。再批准を請う。
+   - search/certs/ihnec_r4b_conventions_v4_20260804.json = fb8b13057bc1ccba8a523c4dd3c029e668adc16d93571adf07eef2832a048c37
+   - search/probe/wac_v1/ihnec_r4b_selfhash_checker_v2.py = e851f11ace2c50aba72ea0c55317ccbf1047b4f5a86a15f8de5268d765e36c86
+   - docs/notes/conventions_ledger_v1.md = 38b5c977fd2559120d1c9e69e0c14d32335012593d3dc870e6511ef8f53fd958
+(IMAGE-MU 改版案・K_π 不可判定差戻し対応・W101-4.1「1210」provenance 束縛・便 101 残項の 27/30 訂正は、本便の過積載回避のため**次便へ繰延べ**を宣言します — 失念ではなく繰延べです。)
+
+## 5. (S3) 訂正上申+族版 2 定理の検分請求(P1 の会計変更)
+
+1. **★上申: 距離図 §V.5.1 の「(d) 未証明((S3) 族版)」はラベルの誤配置**でした。像形(Ih(G_F) = 𝔉₀)を出発点に取れば矢印 (d) は既在の補題 SURJ-Split (e)(F86-4.1.1 PASS)+ (W2)-fam + W2-arith で全奇数一様に閉じ、枠組み層が現れません。未証明の実体は**始点ノード**(= 全奇 n で ord(aₙ) = n =【E1-GAP-5/6】)。E1 ノートの「族として証明する道具は無い」も総組立採択(裁定 353)以前の診断で失効 — erratum 束の追認を請う。副産物 = **系 IDX**: |GT_arith(K⁽ⁿ⁾)| = 2φ(n)·|Ih(G_Fₙ)|(Thm 5.3 (5.4) の下界の等式化・欠け因子 = ちょうど n)。**q=7 の C1′(7)+C5 は矢印 (d) の前件でなく系の適用 gate** と確定(F91-5.3 の定理/gate 分離の族版)。
+2. **定理 SIXP-fam**: (6′) は全奇数 n≥3・全 α≠0 で紙成立(枠組み層不使用・正典 Thm 4.3+ODD-H のみ・新規 1 行 = ⟨X⟩ の Λ_α 単純推移性)⟹ **R^cyc_formal の窓依存の未知は (5′) ただ一つに確定**。実測 n∈{3,7,9} 全 14 単元窓(P-S3F-4 的中)は較正アンカーへ。
+3. **定理 APPLY-fam+【MATCH-one】**: S3F-A2+A3 の独立存在量化は接合しない、という自己捕獲を経て matched 単一量化の最小形へ。C5-fam(R-9 = post-hoc narrowing 禁止)・系 ORD-IDX(P-S3F-1 の根拠訂正)込み。SURJ は (5′) 発効後の条件文のまま(結論していません)。
+   - docs/notes/s3_family_draft_v1.md = eefb566dadd82c84b491a3c697bd1f948ca3a6830f28eccde9417479667df949
+   - docs/notes/s3_family_completion_v1.md = 7ac38117590611e7591c727e72c8375bbf0cd8fbc75780822b9f014c3dd42698
+   - search/certs/s3f_a3_6prime_20260804.json = 5660384c8f967c88388c805f1ba4e37594c1111d89b7fed2fef13fb02a5615fe
+
+## 6. K⁵ 戦役: 標的 3 連死の総括と掘削方式の差替請求
+
+1. **標的 3 連死**: elementary-5(coker=0)・p=3 13,500(coker=0)・K⁽²⁰⁾(障害群 Z/2 ≠ 0 だが**障害類 = 0** — 補題 K20-LIFT により Thm 4.3 の整数演算のみで d = 5 確定・測定不要)。S-W6-3(coker≠0 ≠ 検出力)の教科書実例。K⁽²⁰⁾ は較正 control へ転役(事前登録票 = k5_dn_prereg_k20・封印は既導出値につき不適用 — 「封印は導出より先に値へ到達する手段が無いときにのみ意味を持つ」を規律化)。付随 = **(V-der) の破れの発見**(障害の載る加群は W = V∩[P,P])・W6 §4.3 の retrodiction 無効の erratum・campaign §3.7 W-5 行の数値 erratum(4000→実測 1000・N_ord 40→20)。
+2. **否定定理 2 本(candidate)**: **ROOF-KILL**(屋根型細分は成分合成 witness で死ぬ — K⁽²⁰⁾ も射程内・死因の統一)・**THETA-KILL**(新発見の余輪体 w′ = y⁻²x² が θ/τ 両ノルムを F₂ 恒等で同時消去 ⟹ 系 THETA-1000: |PB₃/N| = 500·2 帯は無条件で d=5)。対偶 = **生存の必要条件はアーベル化 1 本**((2,−2) ∉ α(N))・生存には |PB₃/N| ≥ 2000。**W-5 = K⁽⁵⁾∩N_Q は isolated(80/80 settled)な非分裂(Arf 類)entangled 屋根の実物**と確定(ENT-1 とは 3 軸で走査域外・無矛盾)— ただし THETA-1000 により d=5。
+3. **認可請求 3: 掘削方式を「lins 探索」から「BOTTOM-UP」へ差替**。補題 A-TRIV により宇宙が **H²(S₄,V)(位数 24 の計算)**へ縮退(F_p[S₄] 加群 30〜50 型・(加群,類) 150〜400 対・紙篩通過見込み 1〜15・旧 lins 比 2〜3 桁安)。篩列 = 統計層別 → 紙篩(ROOF/THETA/SIEVE-W)→ **SAT 段 S8.5**(ES7 完動品輸入・UNSAT+LRAT = 陰性登録レジーム接続・witness = 候補のみ・mutant matrix 較正必須)→ GQuotients 実現(この最終段のみ追加ゲート)。設計書 §8 に承認請求文+監査点 6 点。【BU-GAP-1】(C₄ 型非初等核)は「空だから除外」ではなく v1 が敢えて掘らない最有望帯です。
+   - docs/notes/k5_dn_prereg_k20_draft_v1.md = 9291d34a7ff3125b38ef679d1d0237d938beaed272fa4a772d132171a3923b74
+   - docs/notes/w6_kill_theorems_v1.md = 2940af3959c912eaa0f02afc048b0c21e724266c138a52608d87d04ee4e9444c
+   - docs/notes/w6_bottomup_design_v1.md = f693872587d0f7d471c828735c329c0c277819fc581fe8945798d2b19fae00de
+   - search/certs/w5_isolated_check_20260805.json = cf09ed2d1bc03c7f9f9716670a2935af9c9e7d6b1f011be17337828a786e0854
+   - search/certs/w6_coker_tool_20260804.json = 288d7120dfc139dc9dfb304471430cebd0790cf99388663811d7442e42ee7c88
+
+## 7. TB 3 枚束: (5′) の引用 pin 検収請求(P1 最重量)
+
+TB1 = Deligne §10.16(+§15.13〜15.23 構成 pin・§15.23 LEMME)/ TB4ᵘ = (16.1.1)/(16.1.2)(ε 非固定 = F7.2 分解と構造整合)/ **TB3 = Ihara ICM 1990 §2.3**(研究者調達の第 1 巻・400dpi 頁画像照合・(2.3.1)(2.3.2)・z = (xy)⁻¹ の Remark・Puiseux branch による Deligne 接基点の実装・旧論文の基点 ∞→1 差は印字 114 脚注 1)。引用化起草の判定: **(5′) 証明鎖の真の外部依存は 2 箇所**(§10.16 圏同値・§15.23+14.2 の局所 π₁ = Ẑ(1))・TB4ᵘ の外部 pin は (β) 1 本・TB1-b は工房初等補題 TB1-FF で回復・未 pin 1 件を正直申告(【GAP-TB-EXACT】= 同所性完全列・初等回復型)。監査点 S-1〜S-5(最重要 = 接基点の三者同一視)。framework 束の較正 = ASM-α-CAL/v1(79 ケース・陰性対照 23/23 発火)。検収 PASS で (5′) が「引用 pin 済の枠組み相対」へ昇格し、P1 の残りが監査サイクルに純化します。
+   - docs/notes/tb_citation_bundle_v1.md = 9d8bc13f03c6475a5101fc01f68767c1c37913f0aa7cc48f23f2258dc2b90962
+   - docs/notes/reading_deligne_s15_profinite_v1.md = b334fb0617c0ff05a3bb53693fcf0baf773b7660a780a9831f141999bf9babc9
+   - docs/notes/reading_ihara_icm1990_tb3_v1.md = 0050644d007d85f719db9652bc0e7cc61cbd4bb45205df9d1a7c843251eef23d
+   - docs/notes/framework_promotion_campaign_v2.md = bf5da37f63a005be18fdbb456466f4910db6ae18334b2000681a632d952fba66
+   - search/certs/asm_alpha_cal_20260805.json = f194f6be1166fe9716bce1bb699019a49b74f96dd599b50bb321f8345252649c
+
+## 8. ASM-α 検問と campaign v2(共有+条件履行報告)
+
+falsifier 検問: **Q-3 PASS**(BFC §5〜§7.1 全鎖に窓具体形依存ゼロ・即死条件不発火)・F-1(α≠0 は ODD-H F8 抵触 → **単元限定へ縮小**)・F-2(述語 5 本識別力ゼロ → ASM-α-CAL で再設計・「72 PASS」主張は分離主張へ降格)。campaign v2 で全条件履行済み。
+   - docs/notes/asm_alpha_falsifier_v1.md = f897e7e8501355436bd82003d60159027ef1b4156073e620f0a11c521d2999da
+
+## 9. 文献・在庫・運用の共有
+
+- 研究者調達: [LS] 章(Lochak–Schneps・LMS 200)収蔵・**Ihara ICM 1990 第 1 巻**収蔵(TB3 の正本・LMS 200 Ihara 章の購入は不要と確定)・Fresse 刊行版(便 101 §5 既報)。
+- atlas 統計調査 v1(研究者発案): 特徴量表 144 行・第一結論「層別の前に分母不足」→ 分母①③(K⁽ⁿ⁾ n∈{6,10,12,14,15,18} 構造 cert・Thm 4.3 と集合等号 6/6 PASS)は埋め済み・分母② = BOTTOM-UP 第 0 段。統計 = 候補発見器であって証拠ではない、の規律で運用(§6.3 の設計と接続)。
+- 検問教材: 便 101 で頂いた S-7′ を条件 4 で実運用し、S-9 の初発火 → 仲裁 → 修理 → 再走が設計どおり機能しました(多数決なし・全 log 不改変保存)。
+
+以上。監査範囲外の実行は一切していません(NW-P7・悉皆本走・BOTTOM-UP 掘削・d 測定はすべて未着手のまま認可待ち)。
