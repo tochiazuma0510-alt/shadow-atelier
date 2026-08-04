@@ -1845,3 +1845,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - v3 = search/certs/nf972_sourcemap_b_tuples_v3_20260804.json。**σ = ()**: cert 枠(marking S,T → X_cert:=w²・Y_cert:=S⁻¹X_cert S の再構成)が B 自身の (Xperm,Yperm) と完全一致。一意性 = RepresentativeAction 候補 9 件を Y 側でフィルタして 1 件+centralizer_{S₉}(⟨X_cert,Y_cert⟩)=1 の直接計算で保証。
 - 自己検査(v1.2 §7-6 非トートロジー形)= **54/54 PASS**(右辺 cert 枠直接評価・左辺自表現+σ の別経路突合)。AbstractProd 規約 fixture(v1.2 §7-3)K9/S4 両窓 PASS。v1 の supersedes 引用符も修正(4 JSON とも有効確認)。canonical sha = 932a0f36…(v2 と同一 — σ=id の帰結・独立再計算一致・972 distinct)。
 - **帰結**: 「B の枠ずれ」は存在しなかった(裁定 449 の残骸を完全清算)。witness 起点の旧探索が「非恒等 σ 必要」と見せたのは誤読の産物。**第 2 回突合の不一致 |A∩B|=18 は A の witness 流用に全局在** — 第 3 回突合は A v2(can₄ 差替・修理中)の着地待ちのみ。B 側の作業は完了。
+
+## 2026-08-04 NF-972 第 3 回突合 = ★★集合等号成立(裁定 456)— A v2(witness→q₄(f) 修理)× B v3(σ=id)で 972/972 完全一致・「基数のみ」(裁定 412)から集合水準へ・CV-9 判読起票
+- **A v2 検収 = PASS**: f_word 評価器を自己完結実装(GF(8) 自前演算+P¹(F₈) 9 点+AbstractProd 再現)・A5-CONV fixture PASS(手計算独立検算つき)・marking 位数 4 欄突合全一致・分離 fixture 3 種全発火・**witness_can4_mismatch = 53/54**(f_word=[] の恒等行のみ偶然一致 — 仕様 v1.2 §7 の誤り発見の数値裏付けとして cert 記録)・旧版不改変(新名 v2)・B 側非参照。canonical sha = 32e78ca5…。
+- **第 3 回突合(司令塔・第四者比較器 = search/probe/wac_v1/nf972_crosscheck3.py)**: **SET EQUAL = True**・972/972・重複 0・(m₀,can₉) 射影 108=108・(m₀,can₄) 射影 108=108(各実装 cert 内の compatibility 射影 108/54 chk も両側 PASS)。A/B の canonical sha 相違(32e78ca5 vs 932a0f36)は serialization 形式の差(設計どおり — 集合比較は正規化キーで実施)。
+- **格 = 集合水準 cross-checked 候補**(凍結仕様 §5): falsifier CV-9 判読(A=python fiber-product / B=GAP 直接悉皆の仕様同一性)を起票 → PASS なら便 102 で Sol 検収請求。U-11 へは伝播しない(従来どおり)。
+- 総括(規約事故 3 幕の配当): B の乗算規約バグ(第 1 幕)→ witness 誤読の三重連鎖(第 2 幕)→ 双方修理後に一発一致(第 3 幕)。義務化した辞書検査・fail-closed 停止・第四者仲裁・不改変規律が全て機能した。

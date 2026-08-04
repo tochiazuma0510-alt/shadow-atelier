@@ -1,0 +1,247 @@
+{
+  "schema": "nf972-sourcemap-a/v2",
+  "generated_by": {
+    "tool": "python (independent source-map-A implementer; no shared code with source map B)",
+    "script": "search/probe/wac_v1/nf972_sourcemap_a_driver.py",
+    "date": "2026-08-04",
+    "python_version": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0"
+  },
+  "task_ref": "NF-972 source map A(組立側)v2 修理。正本 docs/notes/nf972_freeze_v1.md(凍結 v1・裁定434 / v1.1・裁定442 / ★v1.2・裁定454 can4 照合先訂正)。",
+  "spec_ref": {
+    "path": "docs/notes/nf972_freeze_v1.md",
+    "sha256": "d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1"
+  },
+  "inputs": {
+    "K9_v1": {
+      "path": "certificates/K9.v1.json",
+      "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+    },
+    "S4_v2": {
+      "path": "certificates/S4.v2.json",
+      "sha256": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+    }
+  },
+  "independence_declaration": "source map B(直接悉皆側)の実装・中間表現・normalizer helper を一切参照・共有していない(共有は凍結仕様の schema のみ)。search/probe/wac_v1/ihnec_r4b_*.py・search/probe/wac_v1/nf972_sourcemap_b_run.g・B の cert 類は import・複製・参照していない。search/week3-psl-common.g は X:=w^2/Y:=S^-1XS の構成規約と P^1(GF(8)) 点列挙規約の読解(枠定義の参照、委嘱の許可範囲)のみで、実行時 import はしていない。",
+  "v2_repair_note": "v1(nf972_sourcemap_a_20260804.json)は can4 に automorphism_witness を誤用していた(witness は settled 判定の証人 conjugator であり q4(f) の像ではない -- 裁定454)。本 v2 は f_word を自前評価器(AbstractProd)で評価し q4(f) のone-line 像を can4 として使う。旧版は上書きしない(仕様 v1.2 §7-5)。",
+  "construction": {
+    "compat_rule": "K9 shadow(m in [0,18)) と S4 settled entry(m in [0,9)) の組は K9.m % 9 == S4.m のときのみ fiber-product 点を成す(P-IHN 互換性)。",
+    "m0_definition": "m0 = K9 shadow の m(mod 18 のまま。S4 側の m はこの m0 mod 9 に一致するのみで、情報として m0 に追加を持たない)。",
+    "can9_definition": "K9 shadow の f_triple = [[a1,eps1],[a2,eps2],[a3,eps3]] をそのまま(a mod 9, eps in {0,1}) の 3 成分 tuple として使用(成分順固定)。",
+    "can4_definition": "★v2: S4 settled_detail の f_word(paper 語順の [[letter,exp],...])を AbstractProd 評価器で評価した q4(f) の像(固定 degree 9 の one-line image)。生成元 X,Y は S4.v2.json marking の S,T 行列から wPerm:=S*T^-1; Xperm:=wPerm^2; Yperm:=S^-1*Xperm*S で構成(仕様 v1.2 §7 pin 1-2)。automorphism_witness は使用しない。"
+  },
+  "counts": {
+    "K9_shadows_total": 108,
+    "K9_distinct_m": 12,
+    "S4_settled_total": 54,
+    "S4_distinct_m": 6,
+    "baseline_tuple_list_len": 972,
+    "baseline_tuple_set_len": 972,
+    "expected_972_matches": true,
+    "proj_q9_size": 108,
+    "proj_q9_expected_108_matches": true,
+    "proj_q4_size": 54,
+    "proj_q4_expected_54_matches": true,
+    "duplicate_count": 0
+  },
+  "note_on_expected_values": "972/108/54 は突合欄のみに用い、生成には使わない(fail-closed の各chk() は cert 内の内部整合 -- fiber-product の代数的性質 -- からのみ算出され、期待値をハードコードして通過させていない)。",
+  "fixtures": {
+    "F1_orientation_flip": {
+      "description": "can9 の a 成分を mod 9 で符号反転(f -> f^-1 型)。9 は奇数なので a=0 の成分のみ不動点(自己逆元)。",
+      "mutant_set_size": 972,
+      "baseline_equals_mutant": false,
+      "symmetric_difference_size": 1620,
+      "fires_set_inequality": true
+    },
+    "F2_generator_swap": {
+      "description": "can9 の f_triple 成分順を (1,2,3)->(3,2,1) へ入替(q9 側の生成元対応スワップを模擬)。",
+      "mutant_set_size": 972,
+      "baseline_equals_mutant": false,
+      "symmetric_difference_size": 1728,
+      "fires_set_inequality": true,
+      "diagnostic_null_variant_1_2_swap": {
+        "description": "成分 1<->2 の入替(t[1],t[0],t[2])は本データで集合として baseline と一致(識別力ゼロ・不採用)",
+        "equals_baseline": true,
+        "mutant_set_size": 972
+      },
+      "diagnostic_all_nontrivial_permutations": {
+        "(0, 2, 1)": {
+          "mutant_set_size": 972,
+          "equals_baseline": false
+        },
+        "(1, 0, 2)": {
+          "mutant_set_size": 972,
+          "equals_baseline": true
+        },
+        "(1, 2, 0)": {
+          "mutant_set_size": 972,
+          "equals_baseline": false
+        },
+        "(2, 0, 1)": {
+          "mutant_set_size": 972,
+          "equals_baseline": false
+        },
+        "(2, 1, 0)": {
+          "mutant_set_size": 972,
+          "equals_baseline": false
+        }
+      }
+    },
+    "F3_wrong_m_modulus": {
+      "description": "m0 を mod 18(正)ではなく mod 9(誤 = S4 側の法との取り違え)で構成。",
+      "mutant_set_size": 972,
+      "baseline_equals_mutant": false,
+      "symmetric_difference_size": 972,
+      "fires_set_inequality": true
+    }
+  },
+  "fixtures_all_fire": true,
+  "canonical_enumeration": {
+    "path": "search/certs/nf972_sourcemap_a_tuples_v2_20260804.json",
+    "sha256": "cfa1f3a917e2cd9d21ceaa7f77539633ccb22e8585da8b3248609008d0391801",
+    "canonical_bytes_sha256": "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91",
+    "count": 972
+  },
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "perm_composition": "GAP ネイティブ意味論を python で再現: p*q は p を先に適用し続けて q を適用(i^(p*q) = (i^p)^q)。perm_compose(p,q) がこれを実装(driver 内)。",
+    "conjugation": "S^-1 * X * S (GAP ネイティブ形、W_PERM/X_PERM/Y_PERM の構成に使用。paper 語ではない -- search/week3-psl-common.g L273-277 が既に GAP ネイティブ形で書かれているため、そのまま再現するだけで W-1 の反転は不要)。",
+    "coset_object": "n/a(剰余類演算を行わない -- K9 cert が既に q9 の像を確定値として提供。q4 側はf_word を自前評価器で q4(f) へ写す -- v1.2 §7 修理)。",
+    "action_side": "GAP 右作用(i^p)。P^1(GF(8)) 上の点は 1-indexed(1=infinity, 2+x for x in GF(8))(search/week3-psl-common.g MatToPermGF8 の規約をそのまま再現)。",
+    "coset_side_derivation": "n/a",
+    "f_word_evaluation": {
+      "convention": "AbstractProd(paper 語 'f1 f2 ... fk' は GAP 形 fk*f(k-1)*...*f1 -- 全項反転、week3-battery-common.g/week3-psl-common.g の AbstractProd と同じ規約)をpython で再現(driver 内 abstract_prod/eval_f_word)。",
+      "gens_construction": "S4.v2.json の marking(S,T 行列・pgl2q_matrix/v1)から wPerm:=S*T^-1; Xperm:=wPerm^2; Yperm:=S^-1*Xperm*S (search/week3-psl-common.g L273-277、GAP ネイティブ形をそのまま再現。paper 語ではないので W-1 の反転は適用しない)。",
+      "a5_conv_fixture": {
+        "x_ok": true,
+        "y_ok": true,
+        "x_computed": [
+          3,
+          4,
+          2,
+          5,
+          1
+        ],
+        "y_computed": [
+          3,
+          1,
+          4,
+          5,
+          2
+        ],
+        "ev_y_xinv": [
+          2,
+          4,
+          3,
+          1,
+          5
+        ],
+        "ev_y_xinv_expect_correct": [
+          2,
+          4,
+          3,
+          1,
+          5
+        ],
+        "ev_y_xinv_expect_reversed": [
+          1,
+          5,
+          2,
+          4,
+          3
+        ],
+        "verdict": "correct"
+      },
+      "a5_conv_result": "correct",
+      "marking_order_checks": {
+        "ord_S_expect": 2,
+        "ord_S_actual": 2,
+        "ord_T_expect": 3,
+        "ord_T_actual": 3,
+        "ord_w_expect": 9,
+        "ord_w_actual": 9,
+        "ord_X_expect": 9,
+        "ord_X_actual": 9
+      },
+      "witness_can4_mismatch_count": 53,
+      "witness_can4_mismatch_note": "診断のみ(can4 の決定には witness を使わない)。仕様 v1.2 §7 が指摘した witness != q4(f) の直接的な数値証拠として記録。"
+    },
+    "cv1_cv2_scope_note": "K9 側(can9)は factor cert の f_triple をそのまま canonical serializationするのみで CV-1/CV-2 は非自明に関与しない。S4 側(can4)は本 driver が自前実装した f_word 評価器(AbstractProd)と marking からの X,Y 構成(GAP ネイティブ形)が CV-1/CV-2 の非自明な適用箇所であり、A5-CONV fixture(f_word_evaluation.a5_conv_fixture)で識別力を実証済み。",
+    "chi_P_criterion": {
+      "value": "exact",
+      "justification": "(m, f_triple)・(m, q4(f) の one-line 像)をそのまま canonical化して数える厳密基数(conjugacy class への縮約なし)",
+      "generator_fixed": true,
+      "orientation_fixed": true
+    },
+    "separation": {
+      "included": true,
+      "competitor_universe": [
+        "F1_orientation_flip",
+        "F2_generator_swap",
+        "F3_wrong_m_modulus"
+      ],
+      "result": {
+        "result_digest": "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91"
+      },
+      "forbidden_values": {
+        "handling": "n/a",
+        "list": []
+      },
+      "dummy_fixture": {
+        "id": "nf972_sourcemap_a_separation_fixtures_v2",
+        "normalised_input": "K9_RECORDS x S4_RECORDS (compat: m mod 9)",
+        "normalised_output": "972-element tuple set (baseline) vs 3 mutant sets",
+        "discriminating_power": {
+          "input_layer_novel": true,
+          "output_layer_novel": true
+        },
+        "expected": "baseline != mutant for all 3 fixtures",
+        "observed": {
+          "F1_orientation_flip": true,
+          "F2_generator_swap": true,
+          "F3_wrong_m_modulus": true
+        },
+        "verdict": "PASS"
+      }
+    },
+    "roundtrip_witness": {
+      "status": "n/a",
+      "reason": "粗/精ラベルの往復変換を持たない"
+    },
+    "effective_source_chain": [
+      {
+        "role": "current",
+        "path": "search/probe/wac_v1/nf972_sourcemap_a_driver.py",
+        "sha256": "eeffc2ddfc58462871801f5809a0fd627066025ba7d6abcfad333a4b995a14b1"
+      },
+      {
+        "role": "current",
+        "path": "certificates/K9.v1.json",
+        "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+      },
+      {
+        "role": "current",
+        "path": "certificates/S4.v2.json",
+        "sha256": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+      },
+      {
+        "role": "reference_only_frame_definition",
+        "path": "search/week3-psl-common.g",
+        "sha256": "de5d8d6d107959d7d7b8e40bbe4dcb07a8163a56660877bf2e0ec5b5ccc07a18",
+        "note": "X:=w^2, Y:=S^-1XS の構成規約・P^1(GF(8)) 点列挙規約の読解のみ(枠定義の参照、委嘱の許可範囲)。実行時 import はしていない(python が別実装で再現)。"
+      }
+    ],
+    "effective_source": {
+      "path": "certificates/K9.v1.json",
+      "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+    },
+    "seal_recoverability": {
+      "status": "n/a",
+      "reason": "封印 fixture を使用しない"
+    },
+    "level": "PB3"
+  },
+  "failures": [],
+  "overall_result": "ALL PASS",
+  "driver_done": true
+}
