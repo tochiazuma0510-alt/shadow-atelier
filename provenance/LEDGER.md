@@ -1718,3 +1718,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - checker v2(v1 別名不改変): 再帰走査で**全** sha256/sha256_ref 列挙(nested superseded_by 含む)・XOR 併記拒否・**current/effective_source/実入力 path の三者一致強制**・ledger_version drift は fail-open にせず INTEGRITY_STOP。**1 PASS+9 STOP**(W101-3.3(2) の path 偽装・v2 でしか検出できない nested ref 破壊を含む)・v3 への drift 指摘・v1 checker 無破壊 — 全て司令塔追試一致。
 - MANIFEST: +19/-0 のサージカル追記のみ — 旧 fixed-point 断定を **historical_claim 指定+正形限定文の current_erratum**(W101-3.4 履行)・原文 verbatim 一致を機械照合。
 - 残 = 台帳側 CL-9 の CLOSED 化(数学者波・着地後に司令塔が checker v2 の digest を追記)→ 便 102 で束の再提出。
+
+## 2026-08-04 ANUPQ 環境障害の裁定(裁定 432)— pq.exe の GAP 双方向パイプが Windows/cygwin バッファリングで死亡(初回使用で露見・実装係の切り分け良)
+- **裁定**: 第一手 = **バッチ実行への駆動側迂回**(pq への入力列をファイル化し一方向リダイレクト `pq < in > out`・対話 iostream 放棄・GAP は出力 pc presentation を読み込み)— 数学・設計無変更の工程回避。第二手(併走推奨)= **純 GAP 独立構成**(polycyclic の FreeNilpotentGroup(2,4) → pc 生成元 p 乗の正規閉包で割る → **Exponent=7 と位数を機械検査する fail-closed**・仮定なし)— 両立すれば後日 CV-9 の独立二経路。**Lazard/自由 Lie 代替は主経路として棄却**(Witt 数の再導出 = 凍結予言そのものの計算 = 直接確認の循環)。両手失敗なら S-6 停止。pq 再ビルド・環境大工事は不認可(研究者事項)。
+- 記録: この環境での anupq 実使用は今回が初(棚実在 ≠ 実戦確認、の教材)。cert に迂回の由来を provenance 明記。
