@@ -1728,3 +1728,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **Fresse 訂正 A/B 伝播(e_b4 追記 G)**: 依存の底を式で明記(U-10→TRUNC→2008 A.1→**Fresse I.6.2.4**→I.6.1.7[Explanations]→**Mac Lane coherence**)・Part 2 p.12 の profinite 注記の正体 = "obvious" 一語 = silent_omission につき (TR-4) の代替にならない、を記帳。**格の注意を採択: 【GAP-TRUNC-1】=「工房内 CLOSED・Sol ゲート未了」**(Sol の W101-5.1 OPEN は精読着地前の状態表明 — 単独で「閉」と引用しない)— 便 102 で精読ノートごとゲートへ。
 - **台帳 v1.6**(同期 3 点機械確認・CL-9 CLOSED 化 = v1 実在+残余 4 件の正確な範囲・**規範 11 新設** = sha256 XOR sha256_ref の完全形[両方なしも MALFORMED・checker 強制義務]・§1.7.3′ (vi)-(ix)・**【CL-13】新規** = external_reference の「版」粒度[unitary/非 unitary の実例から])。XOR を新 CV でなく §2 規範に置いた起草判断 = **司令塔レビュー通過**(五原則⑤の系という理由づけを採択)。**CL-12 へ checker v2 の path/digest/実走(1 PASS+9 STOP・v3 drift STOP)を司令塔記入** — 残 = Sol 再検収(便 102)。
 - dumhex v2 = コメントのみ修正(コード・出力とも v1 と byte 同一を機械照合)・14 検査 FAILS 0(司令塔追試一致)。速達処理済(done)。verified 0 件・HS 14 検査は single lane のまま(正直申告承認)。
+
+## 2026-08-04 並行 6 波の一斉発進(裁定 434)— 研究者指示「待たないで進められるものは進める」
+- **NF-972 凍結**(docs/notes/nf972_freeze_v1.md — Sol P100-4.2 の設計を逐語基盤に凍結・IF-FIRST)→ **source map A(組立側)/B(直接悉皆側)を別実装係 2 名へ独立発注**(schema のみ共有・normalizer helper 非共有・分離 fixture 3 種の事前発火義務・突合は司令塔)。972 の「基数のみ」→ 集合一致への道。
+- **K⁵ W-6 建設の設計委嘱**(数学者): elementary-5 側(ρ 型 dim3・62,500)の実現可能性判定+p=3 側(13,500 candidate)+【K5-GAP-1】twisted norm 余核の有限計算化+検出力事前見積り(SURJ 識別力ゼロの適用可否込み)。
+- **枠組み層昇格の発案諮問**(発案係・ideas_019): candidate 唯一の残理由を落とすのに欠けている数学 — 昇格/反証可能化/迂回の三分・B_FC の n=5 実験口の合法形。
+- **K_π 向き較正走**(実装係・W101-1.5 認可済みの安価走): Chk6 × PENT-NORM 二経路一致 20/20 = 向き規約整合の検査(新情報主張なし・持ち上げ不能なら正直停止)。
+- **EP IMAGE-MU**(ep-keeper): spec v20 条文の完全性判定 → 完全なら実装・欠落なら条文 ID つき列挙+最小改版 draft(意味論は Sol ゲート)。W-6/EP 状態表示は不変。
+- 走行中の HS 条件 2(p=7)と合わせ **7 係並行**。次点キュー(未発進): C1′(7) schema 化+C5 登録・m2 spot-check n=5 拡張・🌒 更新。
