@@ -1,0 +1,368 @@
+{
+  "schema": "ihnec-r4b-conventions-supplement/v5",
+  "generated_by": {
+    "tool": "python (schema-conformance supplement generator; does not re-run GAP, does not alter measured values)",
+    "script": "search/probe/wac_v1/ihnec_r4b_conventions_v5_20260805_gen.py",
+    "date": "2026-08-05"
+  },
+  "task_ref": "便102 F102-4.1差戻し(sol/sol_reply_102_math29.md §4)の現物修理・指摘1。ledger_version宣言を live台帳artifact(v1.6)へ同期し、宣言をdigestで束縛する。",
+  "supersedes": {
+    "path": "search/certs/ihnec_r4b_conventions_v4_20260804.json",
+    "sha256": "fb8b13057bc1ccba8a523c4dd3c029e668adc16d93571adf07eef2832a048c37",
+    "reason": "v4はconventions_used.ledger_version=\"conventions_ledger_v1_5\"を宣言したまま、納品束では台帳v1.6準拠と申告していた(F102-4.1 指摘1・宣言と申告の齟齬)。v4はbyte不変のまま保存(編集禁止)。v5はledger_version宣言を live台帳(v1.6)へ同期し、ledger_artifact_pinでdigest束縛する。他のconventions_used内容・実測値はv4から不変。"
+  },
+  "supplements_cert": {
+    "path": "search/certs/ihnec_r4b_run_20260801.json",
+    "sha256": "fdf5fd367cdd00e4aafde4d1ac4ef3708e6f3efd338f7b7945646879e0002fd2"
+  },
+  "ledger_artifact_pin": {
+    "path": "docs/notes/conventions_ledger_v1.md",
+    "sha256": "38b5c977fd2559120d1c9e69e0c14d32335012593d3dc870e6511ef8f53fd958",
+    "declared_version": "conventions_ledger_v1_6",
+    "h1_verbatim": "# 規約台帳 v1.6(conventions ledger)— 工房の大域規約と cert 宣言欄",
+    "note": "★ v5新設欄(便102 F102-4.1 指摘1の構造的修理)。conventions_used.ledger_version は『どの台帳版に準拠して書かれた cert か』の宣言だが、v4までは散文の宣言でしかなく、実物の台帳artifactと突合できなかった。本欄は宣言をlive artifactのbytesへ束縛する。checker v3 の (xi) が declared_version == conventions_used.ledger_version を強制し、(x) が本欄の sha256 を実bytesと再計算突合する。⟹ 台帳が改版されれば本certは自動的にINTEGRITY_STOPし、cert側の再版を強制する(これは意図した fail-closed 挙動である)。なお台帳v1.7はdocs/notes/conventions_ledger_v1_7_draft.mdに草案として存在するが未発効につき宣言しない(発効判定は司令塔+Solの専権)。"
+  },
+  "note": "本certはv4のconventions_usedブロックのうちledger_versionと、v5自身を指すよう更新したeffective_source_chain/effective_sourceの自己参照のみを差し替え、top-levelにledger_artifact_pinを新設する。scan/anchors/p_ihn_*/shadows_sample等の実測値・その他conventions_used欄はv4から不変(値はすべて旧certからの参照のみ)。v1/v2/v3/v4ファイル自体はbyte不変のまま残る。",
+  "self_hash_mechanism": {
+    "design": "P100-4.1(sol_reply_100_math27.md §4)準拠。sha256をunion型の自由文字列にしない。通常entryはpathと64 lowercase hexのsha256を持つ。自己参照時(=v5自身を指す箇所)だけ、sha256の代わりにsha256_ref={holder_path,json_pointer,resolution:'external-postwrite'}を持つ。v1〜v4を指す箇所は、それらのbytesが既に確定しているため plain sha256 で書く(fixed-point問題が生じるのはv5自身を指す3箇所: erratum(v4->v5).superseded_by / role=current entry / effective_source のみ)。",
+    "why_no_fixed_point_problem": "v5は自分自身のsha256をv5の内容に一切含まない(pointerが指す先は外部artifact=MANIFESTの追記entryであり、v5自身のbytesではない)。したがってv5を確定・書き出した後にそのsha256を計算しMANIFESTへ追記する片方向の手順で完結し、自己言及の循環は生じない。",
+    "self_ref_object": {
+      "holder_path": "search/certs/MANIFEST_sol99_w99_2_1_20260802.json",
+      "json_pointer": "/self_reference_resolution/search~1certs~1ihnec_r4b_conventions_v5_20260805.json/final_sha256",
+      "resolution": "external-postwrite"
+    },
+    "self_ref_occurrence_count": 3,
+    "checker": "search/probe/wac_v1/ihnec_r4b_selfhash_checker_v3.py(便102 F102-4.1準拠。走査を『既にdigestを持つdictの発見』から『schema上digest必須の位置の構造的列挙』へ反転し、各必須位置で sha256 XOR sha256_ref を検査する — 両方ある側に加え、★どちらも無い側(missing-both)を検出する。加えて(x)plain sha256のbytes再計算・(xi)ledger_artifact_pinの束縛を新設。checker v1(ihnec_r4b_v3_selfhash_checker.py)およびv2(ihnec_r4b_selfhash_checker_v2.py)は不改変で保存)",
+    "checker_history": [
+      {
+        "version": "v1",
+        "path": "search/probe/wac_v1/ihnec_r4b_v3_selfhash_checker.py",
+        "status": "frozen_record"
+      },
+      {
+        "version": "v2",
+        "path": "search/probe/wac_v1/ihnec_r4b_selfhash_checker_v2.py",
+        "status": "frozen_record",
+        "known_hole": "便102 F102-4.1: 走査が『既にsha256/sha256_refを持つdictの列挙』だったため、digest必須entryから双方を消すとentry自体が走査から消えた(Solの実証: v4のeffective_source_chain[0]からsha256を除去 -> PASS, scanned 8)。台帳規範11のXORのうちmissing-both側が未実装。"
+      },
+      {
+        "version": "v3",
+        "path": "search/probe/wac_v1/ihnec_r4b_selfhash_checker_v3.py",
+        "status": "current"
+      }
+    ]
+  },
+  "referenced_old_values": {
+    "scan": {
+      "derived_order": 367416,
+      "derived_order_expected": 367416,
+      "candidate_total": 4408992,
+      "h10_fail": 4346784,
+      "h11_fail": 61236,
+      "generation_fail": 0,
+      "shadow_total": 972,
+      "shadow_accounting_balances": true
+    },
+    "anchors": {
+      "k9_alone_shadow_total": 108,
+      "k9_alone_expected": 108,
+      "k9_alone_pass": true,
+      "s4_alone_shadow_total": 54,
+      "s4_alone_expected": 54,
+      "s4_alone_pass": true
+    },
+    "note": "上記2ブロックは旧cert(search/certs/ihnec_r4b_run_20260801.json, sha256=fdf5fd367cdd00e4aafde4d1ac4ef3708e6f3efd338f7b7945646879e0002fd2)からの逐語参照。本certで再測定・再計算していない。"
+  },
+  "malformed_findings_fixed": [
+    {
+      "id": "MF-1",
+      "rule": "規範8(object/array欄へのbare string禁止)",
+      "field": "conventions_used.comparison_target",
+      "observed_old_value": "n/a(単系統GAP探索。二実装照合ではない)",
+      "issue": "object欄であるべきcomparison_targetにbare stringが入っている"
+    },
+    {
+      "id": "MF-2",
+      "rule": "規範2(chi_P_criterion省略はMALFORMED・既定値を置かない)",
+      "field": "conventions_used.chi_P_criterion",
+      "observed_old_value": null,
+      "issue": "chi_P_criterion 欄が丸ごと欠落している"
+    },
+    {
+      "id": "MF-missing-roundtrip_witness",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.roundtrip_witness",
+      "observed_old_value": null,
+      "issue": "roundtrip_witness 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-separation",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.separation",
+      "observed_old_value": null,
+      "issue": "separation 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-effective_source_chain",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.effective_source_chain",
+      "observed_old_value": null,
+      "issue": "effective_source_chain 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-effective_source",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.effective_source",
+      "observed_old_value": null,
+      "issue": "effective_source 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-seal_recoverability",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.seal_recoverability",
+      "observed_old_value": null,
+      "issue": "seal_recoverability 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-level",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.level",
+      "observed_old_value": null,
+      "issue": "level 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-coset_object",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.coset_object",
+      "observed_old_value": null,
+      "issue": "coset_object 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-action_side",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.action_side",
+      "observed_old_value": null,
+      "issue": "action_side 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-opposite",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.opposite",
+      "observed_old_value": null,
+      "issue": "opposite 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-missing-representative_vs_invariant",
+      "rule": "規範1(該当しない欄はn/aと書く。欠品自体は不可)",
+      "field": "conventions_used.representative_vs_invariant",
+      "observed_old_value": null,
+      "issue": "representative_vs_invariant 欄が丸ごと欠落している(旧certの遡及は不要・CL-2・本v2 supplementで補う)"
+    },
+    {
+      "id": "MF-W100-4.1-a",
+      "rule": "台帳v1.3 CV-10四原則②(ハッシュキー名はsha256)+ P100-4.1(sha256はunion型自由文字列にしない)",
+      "field": "conventions_used.effective_source_chain[1].superseded_by.sha256 (v2)",
+      "observed_old_value": "SEE_MANIFEST(自己参照digestは書き出し後にsearch/certs/MANIFEST_sol99_w99_2_1_20260802.sha256へ記録・W99-2.1納品報告で申告)",
+      "issue": "sha256欄に64-hexでないbare stringプレースホルダが入っておりMALFORMED。加えて参照注記の拡張子が実在しない .sha256(実在holderは .json)。v3ではsha256_ref typed objectへ差し替え。"
+    },
+    {
+      "id": "MF-W100-4.1-b",
+      "rule": "同上",
+      "field": "conventions_used.effective_source.sha256 (v2)",
+      "observed_old_value": "SEE_MANIFEST(同上)",
+      "issue": "同上。v3ではsha256_ref typed objectへ差し替え。"
+    },
+    {
+      "id": "MF-W101-3.1",
+      "rule": "台帳v1.5 §0/§1.7(ledger_versionは実際に使用しているschema版と一致させる)",
+      "field": "conventions_used.ledger_version (v3)",
+      "observed_old_value": "conventions_ledger_v1_4",
+      "issue": "v3のconventions_usedはv1.5で新設されたsha256_ref typed objectを使っているにもかかわらず、ledger_versionはv1.4を宣言していた(schema version drift・W101-3.1)。v4ではconventions_ledger_v1_5へ訂正する。"
+    },
+    {
+      "id": "MF-F102-4.1-a",
+      "rule": "台帳v1.6 §0/§1.7(ledger_versionは実際に使用しているlive台帳版と一致させる)",
+      "field": "conventions_used.ledger_version (v4)",
+      "observed_old_value": "conventions_ledger_v1_5",
+      "issue": "v4は台帳v1.5を宣言したまま、納品束では台帳v1.6準拠と申告していた(F102-4.1 指摘1)。v5ではlive台帳artifactを機械読み取りして conventions_ledger_v1_6 を宣言し、ledger_artifact_pin でそのbytesへ束縛する。"
+    },
+    {
+      "id": "MF-F102-4.1-b",
+      "rule": "台帳v1.6 §2 規範11(digest必須欄は sha256 と sha256_ref のちょうど一方を持つ)+ §1.7.3′ (viii)",
+      "field": "checker v2 の走査方式(cert欄そのものではなく検査器の欠陥)",
+      "observed_old_value": "walk_sha_containers(): 既にsha256/sha256_refを持つdictのみを列挙",
+      "issue": "digest必須entryから双方を消すとentryが走査対象から消え、missing-bothが検出されなかった(Solの変異注入で実証: PASS, scanned 8)。checker v3 で走査を構造的必須位置列挙へ反転し、missing-both fixtureをmutant matrixへ追加した。cert側の欄は無罪(v4のdigest欄自体は正しい)。"
+    }
+  ],
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "perm_composition": "gap_native_right_action",
+    "conjugation": "n/a(本certは共役演算を使わない・(m,f)組の同一性比較のみ)",
+    "coset_object": "n/a(剰余類演算を使わない)",
+    "action_side": "n/a",
+    "coset_side_derivation": "n/a",
+    "word_eval": [
+      {
+        "layer": "reduced_hexagon_predicate",
+        "direction": "forward",
+        "word_source": "search/week3-battery-common.g EnumerateReducedHexagon と数学的に逐語同一(旧certのreduced_hexagon_predicate欄を転記)"
+      }
+    ],
+    "coarse_of": "n/a(粗ラベル写像を使わない)",
+    "word_of": "n/a",
+    "roundtrip_witness": {
+      "status": "n/a",
+      "reason": "R4bは粗/精ラベルの往復変換(coarse_of/WordOf)を持たない。直接(m,f)組の同一性比較のみ(判読書§3.1③④参照)"
+    },
+    "characters": [],
+    "opposite": {
+      "status": "n/a",
+      "reason": "反準同型写像(tau等)は theta/tau homomorphism として実装内で使うが、その型付けはP^opを要しない対称的構成(theta,tauともG->Gの自己準同型として定義・week3-battery-common.g)"
+    },
+    "comparison_target": {
+      "as_function_of": "R4bはcertificates/K9.v1.json・S4.v2.jsonを一切読まない単系統GAP直接列挙(driver冒頭の独立性申告・本v2生成スクリプトがdriverソースを参照して再確認)。したがって「二実装の比較」は成立せず、本欄は該当なしとして正確に宣言する(旧certのbare string記載をobject化して訂正)",
+      "function_a": {
+        "name": "n/a(単系統)",
+        "domain": "n/a",
+        "source_digest": "n/a"
+      },
+      "function_b": {
+        "name": "n/a(単系統)",
+        "domain": "n/a",
+        "source_digest": "n/a"
+      },
+      "normalization_digest": "n/a(比較対象なし)"
+    },
+    "separation": {
+      "included": false,
+      "competitor_universe": [],
+      "result": {
+        "result_digest": "n/a(R4b単体では分離条件を導入しない。識別力を持つdummy/negative fixtureは別cert search/certs/ihnec_r4b_negative_fixture_20260802.json(便99 W99-2.1-(5))が担う)"
+      },
+      "forbidden_values": {
+        "handling": "n/a",
+        "list": []
+      },
+      "dummy_fixture": {
+        "id": "n/a(本cert範囲外・search/certs/ihnec_r4b_negative_fixture_20260802.jsonを参照)",
+        "normalised_input": "n/a",
+        "normalised_output": "n/a",
+        "discriminating_power": {
+          "input_layer_novel": false,
+          "output_layer_novel": false
+        },
+        "expected": "n/a",
+        "observed": "n/a",
+        "verdict": "n/a"
+      }
+    },
+    "chi_P_criterion": {
+      "value": "exact",
+      "justification": "候補(m,f)組の同一性による厳密受理数比較。conjugacy classへの縮約は行わない(旧certで欠落していた欄を新設)",
+      "generator_fixed": true,
+      "orientation_fixed": true
+    },
+    "representative_vs_invariant": {
+      "exact_representative": {
+        "value": "n/a",
+        "depends_on": {
+          "model_id": "n/a",
+          "uniformizer_id": "n/a",
+          "orientation": "n/a",
+          "lift": "n/a"
+        }
+      },
+      "invariants": {
+        "class": "shadow_total(基数)",
+        "order": "n/a"
+      }
+    },
+    "effective_source_chain": [
+      {
+        "role": "original",
+        "path": "search/certs/ihnec_r4b_run_20260801.json",
+        "sha256": "fdf5fd367cdd00e4aafde4d1ac4ef3708e6f3efd338f7b7945646879e0002fd2"
+      },
+      {
+        "role": "erratum",
+        "path": "search/certs/ihnec_r4b_run_20260801.json",
+        "sha256": "fdf5fd367cdd00e4aafde4d1ac4ef3708e6f3efd338f7b7945646879e0002fd2",
+        "scope": "conventions_used ブロックのMALFORMED 12箇所(comparison_targetのbare string・chi_P_criterion欠落・roundtrip_witness/separation/effective_source_chain/level等の欠落)を訂正。scan/anchors/p_ihn_*等の実測値(972/108/54を含む)は不変(旧certは無罪・遡及不要・CL-2)。",
+        "superseded_by": {
+          "path": "search/certs/ihnec_r4b_conventions_v2_20260802.json",
+          "sha256": "3b2a95f26b19be4cf1d6b6544ce0b270a6ea39e07edb53ca8de2b660e867c4fa"
+        }
+      },
+      {
+        "role": "erratum",
+        "path": "search/certs/ihnec_r4b_conventions_v2_20260802.json",
+        "sha256": "3b2a95f26b19be4cf1d6b6544ce0b270a6ea39e07edb53ca8de2b660e867c4fa",
+        "scope": "W100-4.1(sol/sol_reply_100_math27.md §4): 自己参照2箇所に非64-hexのbare stringプレースホルダ SEE_MANIFEST(...) が入っておりMALFORMED。v3ではsha256_ref typed objectへ差し替えた。conventions_used の他の内容・数値は不変。v2ファイル自体は編集せず保存する。",
+        "superseded_by": {
+          "path": "search/certs/ihnec_r4b_conventions_v3_20260802.json",
+          "sha256": "641acb8b47bee30c86e4a3fd50b90b45fcff8b4eb67bb960157d8bc511a0a999"
+        }
+      },
+      {
+        "role": "erratum",
+        "path": "search/certs/ihnec_r4b_conventions_v3_20260802.json",
+        "sha256": "641acb8b47bee30c86e4a3fd50b90b45fcff8b4eb67bb960157d8bc511a0a999",
+        "scope": "W101-3.1(sol_reply_101_math28.md §3・裁定428): v3のledger_versionが\"conventions_ledger_v1_4\"のまま v1.5新設のsha256_ref typed objectを使っていた(ledger_version drift)。v4がこれを訂正。v3ファイル自体は編集せず保存する。",
+        "superseded_by": {
+          "path": "search/certs/ihnec_r4b_conventions_v4_20260804.json",
+          "sha256": "fb8b13057bc1ccba8a523c4dd3c029e668adc16d93571adf07eef2832a048c37"
+        }
+      },
+      {
+        "role": "erratum",
+        "path": "search/certs/ihnec_r4b_conventions_v4_20260804.json",
+        "sha256": "fb8b13057bc1ccba8a523c4dd3c029e668adc16d93571adf07eef2832a048c37",
+        "scope": "F102-4.1(sol/sol_reply_102_math29.md §4・便102)の指摘1: v4のconventions_used.ledger_versionは\"conventions_ledger_v1_5\"を宣言しているのに、納品束の申告は台帳v1.6だった(宣言と申告の齟齬)。加えて当時のchecker v2のEXPECTED_LEDGER_VERSIONもv1_5であり、束全体が一貫して古い版を見ていた。v5では live台帳artifact(docs/notes/conventions_ledger_v1.md・H1=規約台帳v1.6)を機械読み取りして宣言し、その bytes を ledger_artifact_pin で束縛する。v4のconventions_used内容・実測値は不変。v4ファイル自体は編集せず保存する。",
+        "superseded_by": {
+          "path": "search/certs/ihnec_r4b_conventions_v5_20260805.json",
+          "sha256_ref": {
+            "holder_path": "search/certs/MANIFEST_sol99_w99_2_1_20260802.json",
+            "json_pointer": "/self_reference_resolution/search~1certs~1ihnec_r4b_conventions_v5_20260805.json/final_sha256",
+            "resolution": "external-postwrite"
+          }
+        }
+      },
+      {
+        "role": "current",
+        "path": "search/certs/ihnec_r4b_conventions_v5_20260805.json",
+        "sha256_ref": {
+          "holder_path": "search/certs/MANIFEST_sol99_w99_2_1_20260802.json",
+          "json_pointer": "/self_reference_resolution/search~1certs~1ihnec_r4b_conventions_v5_20260805.json/final_sha256",
+          "resolution": "external-postwrite"
+        }
+      }
+    ],
+    "effective_source": {
+      "path": "search/certs/ihnec_r4b_conventions_v5_20260805.json",
+      "sha256_ref": {
+        "holder_path": "search/certs/MANIFEST_sol99_w99_2_1_20260802.json",
+        "json_pointer": "/self_reference_resolution/search~1certs~1ihnec_r4b_conventions_v5_20260805.json/final_sha256",
+        "resolution": "external-postwrite"
+      }
+    },
+    "seal_recoverability": {
+      "status": "n/a",
+      "reason": "封印fixtureを使用しない"
+    },
+    "level": "PB3"
+  },
+  "cross_checked_status": {
+    "status": "n/a",
+    "reason": "単系統GAP探索(quotient-shortcut reduced hexagon)。cross-checkedを主張しない。R4bはR4aと独立(入力を共有しない)が、両者とも数学的な照合器(独立実装によるcrosscheck)ではない"
+  },
+  "provenance": {
+    "python_version": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "v1_cert_sha256_reconfirmed": "fdf5fd367cdd00e4aafde4d1ac4ef3708e6f3efd338f7b7945646879e0002fd2",
+    "v2_cert_sha256_reconfirmed": "3b2a95f26b19be4cf1d6b6544ce0b270a6ea39e07edb53ca8de2b660e867c4fa",
+    "v3_cert_sha256_reconfirmed": "641acb8b47bee30c86e4a3fd50b90b45fcff8b4eb67bb960157d8bc511a0a999",
+    "v4_cert_sha256_reconfirmed": "fb8b13057bc1ccba8a523c4dd3c029e668adc16d93571adf07eef2832a048c37",
+    "ledger_artifact_sha256_reconfirmed": "38b5c977fd2559120d1c9e69e0c14d32335012593d3dc870e6511ef8f53fd958",
+    "note": "v5自身はself-hashを内容に含まない(sha256_refで外部manifestを指すのみ)。書き出し後、本スクリプトの後半でv5のsha256を計算しMANIFESTへ追記する(MANIFESTの過去entryは不改変・追記のみ・サージカル編集)。v1〜v4を指す箇所はそれらのbytesが既に確定しているためplain sha256で書いている。"
+  }
+}

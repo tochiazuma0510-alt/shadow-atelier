@@ -21,6 +21,11 @@
       "path": "search/certs/ihnec_r4b_conventions_v4_20260804.json",
       "note": "便101 P101-3.1(sol_reply_101_math28.md §3・W101-3.1・裁定428)のledger_version drift修理。v3のconventions_used.ledger_versionが\"conventions_ledger_v1_4\"のまま新型sha256_refを使っていた食い違いを、v4がconventions_ledger_v1_5を正しく宣言することで閉じる。v3ファイル自体は不改変。",
       "final_sha256": "fb8b13057bc1ccba8a523c4dd3c029e668adc16d93571adf07eef2832a048c37"
+    },
+    "search/certs/ihnec_r4b_conventions_v5_20260805.json": {
+      "path": "search/certs/ihnec_r4b_conventions_v5_20260805.json",
+      "note": "便102 F102-4.1(sol/sol_reply_102_math29.md §4)指摘1のledger_version齟齬修理。v4はconventions_used.ledger_version=\"conventions_ledger_v1_5\"を宣言したまま納品束では台帳v1.6準拠と申告していた。v5はlive台帳artifactを機械読み取りしてconventions_ledger_v1_6を宣言し、ledger_artifact_pinでそのbytesへ束縛する。v4ファイル自体は不改変。",
+      "final_sha256": "86df0bfc0df6eea31f1942af1da5c7b05ffa48d86c8b296417565b102b5b71ea"
     }
   },
   "deliverables": [
@@ -82,5 +87,16 @@
     "status": "historical_claim",
     "original_text_verbatim": "CV-10(規約台帳v1.4 §2)は superseded_by.sha256 に後継artifact自身のsha256を書くことを要求するが、後継artifactが自分自身の内容のsha256を自分の内容に含むことは構造的に不可能(ハッシュのfixed-point問題)。本納品では、自己参照箇所には明示プレースホルダ文字列を書き、実際の最終sha256は本manifestへ記録する2段階方式を採った。これは規約台帳が明記していない状況への実務判断であり、司令塔裁定を仰ぐ余地を残す(疑問点として報告)。",
     "current_erratum": "『構造的に不可能』は過剰主張であり撤回する。正しい限定文は次の通り: 通常の単一書き出しパス(ファイルを一度で確定・保存する生成手順)では、そのファイルが自分自身の最終sha256を内容に含むことを直接には解けない自己参照であり、これを運用schemaとして禁止する(sha256をunion型の自由文字列にせず、自己参照時のみ typed sha256_ref で外部holderをpostwrite解決する -- 台帳v1.5 §1.7 / P100-4.1)。これは実装上・運用上の禁止規約であって、数学的な不可能性の主張ではない(例えば同一ファイルへの複数パス書き出しや外部fixed-point反復解法などの代替は本規約が禁止しているだけで、数学的に不可能とまでは言えない)。"
+  },
+  "f102_4_1_addendum": {
+    "task_ref": "便102 F102-4.1差戻しの現物修理",
+    "note": "便102 F102-4.1(sol/sol_reply_102_math29.md §4)差戻しの現物修理。(1) cert: v5がlive台帳版conventions_ledger_v1_6を宣言しledger_artifact_pinでbytes束縛。(2) checker v3: 走査を『digestを既に持つdictの発見』から『schema上digest必須位置の構造的列挙』へ反転し、sha256 XOR sha256_ref のmissing-both側を新規に検出する(Solが変異注入で実証した穴)。(3) missing-both fixtureをmutant matrixへ追加(既存selftestは全維持)。(4) CL-12の『閉』の訂正とCL-13条文案は次版台帳v1.7の草案 docs/notes/conventions_ledger_v1_7_draft.md へ。過去cert(v1-v4)・過去checker(v1/v2)・本manifestの既存entryはいずれも不改変(追記のみ)。",
+    "v5_path": "search/certs/ihnec_r4b_conventions_v5_20260805.json",
+    "v5_sha256": "86df0bfc0df6eea31f1942af1da5c7b05ffa48d86c8b296417565b102b5b71ea",
+    "checker_v3_path": "search/probe/wac_v1/ihnec_r4b_selfhash_checker_v3.py",
+    "ledger_artifact_path": "docs/notes/conventions_ledger_v1.md",
+    "ledger_artifact_sha256": "38b5c977fd2559120d1c9e69e0c14d32335012593d3dc870e6511ef8f53fd958",
+    "ledger_v1_7_draft_path": "docs/notes/conventions_ledger_v1_7_draft.md",
+    "ratification_status": "UNRATIFIED -- 発効判定は司令塔 + Sol(便103)。本addendumは納品記録であって発効記録ではない"
   }
 }

@@ -2060,3 +2060,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - cert = search/certs/hsp7_cond4_laneP_p5control_20260805.json(前検問 5 項の結果欄・S-3/S-6 未発火・宇宙逐語不変)。前検問 5 の変異解釈は速達照会 → 司令塔裁定(3 分割・第 3 変異は p=7 で構造的に殺せないことを正直記録)— Sol 検収へ委ねる旨 cert 明記。
 - 逸脱 4 件受理: A5-CONV は既存 PASS 継承(p 非依存・軽微)・P5 構造は本走行で自立確認・|Q₅|=5⁴⁰ 一致は傍証止まり・GAP 環境の罠 2 件は申し送り採録。
 - **残る最終ピース = Σ v2**(F102-1.3 の 4 指定: laneV v3 pin・B-1/2/4 再評価・S-8′ overlay・NW-P7 で B-3 閉)→ 条件 4/5 の cross-checked 候補が完成 → 便 103 で最終格付け請求。
+
+## 2026-08-05 EP checker v3+cert v5 検収(裁定 492)— F102-4.1 の修理 4 点完了: ★Sol の変異を checker v3 が STOP(missing-both 検出・構造的列挙 14 位置)・selftest 3 PASS+19 STOP・v2 回帰無破壊・台帳 v1.7 草案(CL-12 訂正+CL-13 条文)— UNRATIFIED のまま便 103 へ
+- checker v3 = 走査を「発見列挙」→「schema 必須位置の構造列挙」へ反転(XOR 規範 11 の missing-both 側を新検出)+plain sha256 の bytes 再計算追加・additive。v5 cert = live 台帳 v1.6 を宣言(未発効 v1.7 を名乗らせない fail-closed 判断)+新欄 ledger_artifact_pin(台帳改版で自動 STOP — 係の職掌内 additive 追加・運用コストは司令塔預かりで承認)。旧版・live 台帳は byte 不変確認済み。
+- **係の職掌防衛 1 件(称賛・教材)**: 司令塔が数学者宛の指示(F102-6.2 反監査)を本係へ誤配 → 係が職掌境界(鉄則 4)で実行拒否し再配達を要請。**誤配を受けた側の fail-closed が機能した** — 司令塔の宛先取り違え(速達の from 表示と agent ID の対応ミス)は本裁定で自認・正本は数学者へ再配達済み。
