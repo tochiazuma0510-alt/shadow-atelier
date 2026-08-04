@@ -8,10 +8,12 @@
   "deviation_note":"分離fixtureの実行順序を『本走前の独立小サンプル』から『本走直後・cert書き出し前の実データサンプル』へ変更(script冒頭コメントに理由詳記)。fixture2はcan9内r,s入替(構造的に不発と判明)からq4側generator対応を入替えた別屋根GM2での再悉皆比較へ変更。いずれもfail-closed gate(不発ならcert非出力)は維持。",
   "bug_fix_note":"v1.1追補(裁定442)の辞書自己検査を実施中、K9側は108/108一致もS4側は当初6/54しか一致しないことが判明。原因はmarking/座標系ではなくNF972HexagonOKの乗算規約バグ(ymf/hex311/genB/zEltがplainなGAP `*`でAbstractProd反転規約と不一致)。K9窓は偶然結果不変・S4窓(PSL(2,8)非可換単純群)は実際に影響していた。修正後は本cert(972点)・辞書自己検査とも正しい値。旧(バグ版)certはsearch/certs/superseded/に保存。詳細はops/express/20260804_implementer_nf972b_predicate_bug_found.md。",
   "dictionary_selfcheck":{
-    "design_doc":"docs/notes/nf972_freeze_v1.md v1.1追補(裁定442)SS6",
-    "dictionary_type":"identity(marked生成元対応がcert生成スクリプトと同一構成式であることを確認済み)",
+    "design_doc":"docs/notes/nf972_freeze_v1.md v1.1追補(裁定442)SS6 + 司令塔第2回突合指示",
+    "note":"q9(K9側)は恒等辞書で逐語一致(有効・司令塔確認済み)。q4(S4側)は当初『恒等』と主張したが司令塔指摘によりトートロジー自己検査と判明、正しくは非恒等sigma(Sym(9)の共役)が必要 -- 本v1 cert自体のcan4は恒等のまま(sigma未適用)であり、sigma適用版はsearch/certs/nf972_sourcemap_b_tuples_v3_20260804.jsonを参照。ここに記録するq4フラグは(sigma適用後の)最新の自己検査結果。",
+    "q9_dictionary_type":"identity",
+    "q4_dictionary_type":"conjugation_by_sigma(詳細はtuples_v3参照・本v1のcan4値自体は非sigma)",
     "q9_projection_matches_k9_cert_f_triple_verbatim":true,
-    "q4_projection_matches_s4_cert_witness_verbatim":true
+    "q4_projection_matches_s4_cert_witness_verbatim_after_sigma":true
   },
   "windows":{
     "g9_size":2916,"k9_ord":18,
@@ -31,7 +33,7 @@
   "main_scan":{
     "derived_order":367416,"derived_order_expected":367416,
     "shadow_total":972,"shadow_total_expected":972,
-    "wall_ms":52625
+    "wall_ms":53750
   },
   "nf_tuple_set":{
     "total_tuples":972,
@@ -61,7 +63,7 @@
   "cross_checked_status":{"status":"n/a","reason":"本certは source map B 単独の出力。source map A との集合突合は司令塔が別途実施する。"},
   "provenance":{
     "gap_version":"4.16.0",
-    "script_sha256":"9183adc197b1556420d5a655c5faceaaeb8987df16dd1e765948b1e117f81080",
-    "wall_ms_total":68088
+    "script_sha256":"1f0ce8fb3c451968d1731997457d70033b2d466c39fc1529ee7e1de59d7710d3",
+    "wall_ms_total":70198
   }
 }

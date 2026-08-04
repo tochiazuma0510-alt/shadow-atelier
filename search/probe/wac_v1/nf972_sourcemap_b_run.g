@@ -432,6 +432,89 @@ ParseS4PassingFWords := function(path)
   return out;
 end;;
 
+# ParseS4SettledWitness: S4.v2.json の "settled_detail" 配列(54件・全て
+# settled:true)から (m, f_word, automorphism_witness置換) を抽出する自前
+# パーサ。automorphism_witness は "()" や "(1,6)(3,5)..." のGAP順列リテラル
+# そのものの文字列なので EvalString で直接 Sym(9) の元へ変換する(cert JSON
+# は自分たちの生成物であり信頼できる入力 -- 罠#3: これは marked witness
+# データそのものであり、部分群等号や自分の計算結果の使い回しではない)。
+ParseS4SettledWitness := function(path)
+  local content, stream, mk1, pos, sStart, mk2, sEnd, body, out, p, mPos, j,
+        digitStr, mVal, fwMk, fwStart, depth, k, fwEnd, fwBody, items, ip, sym,
+        expSign, expDigits, expVal, wMk, wStart, wEnd, wStr, wPermVal;
+  stream := InputTextFile(path);
+  if stream = fail then Error("ParseS4SettledWitness: cannot open ", path); fi;
+  content := ReadAll(stream);
+  CloseStream(stream);
+  mk1 := "\"settled_detail\":[";
+  pos := FindPositionFrom(content, mk1, 1);
+  if pos = fail then Error("ParseS4SettledWitness: settled_detail marker not found"); fi;
+  sStart := pos + Length(mk1);
+  mk2 := "],\"settled_count\":";
+  sEnd := FindPositionFrom(content, mk2, sStart);
+  if sEnd = fail then Error("ParseS4SettledWitness: settled_count boundary not found"); fi;
+  body := content{[sStart .. sEnd-1]};
+  out := [];
+  p := 1;
+  while true do
+    mPos := FindPositionFrom(body, "\"m\":", p);
+    if mPos = fail then break; fi;
+    j := mPos + 4;
+    digitStr := "";
+    while j <= Length(body) and body[j] in "0123456789" do
+      Append(digitStr, [body[j]]);  j := j+1;
+    od;
+    if Length(digitStr) = 0 then Error("ParseS4SettledWitness: empty m digit at ", mPos); fi;
+    mVal := Int(digitStr);
+    fwMk := "\"f_word\":[";
+    fwStart := FindPositionFrom(body, fwMk, mPos);
+    if fwStart = fail then Error("ParseS4SettledWitness: f_word marker not found after ", mPos); fi;
+    k := fwStart + Length(fwMk) - 1;
+    depth := 0;  fwEnd := fail;
+    while k <= Length(body) do
+      if body[k] = '[' then depth := depth + 1;
+      elif body[k] = ']' then
+        depth := depth - 1;
+        if depth = 0 then fwEnd := k; break; fi;
+      fi;
+      k := k + 1;
+    od;
+    if fwEnd = fail then Error("ParseS4SettledWitness: unbalanced f_word brackets at ", fwStart); fi;
+    fwBody := body{[fwStart+Length(fwMk) .. fwEnd-1]};
+    items := [];
+    ip := 1;
+    while true do
+      ip := FindPositionFrom(fwBody, "\"", ip);
+      if ip = fail then break; fi;
+      sym := fwBody[ip+1];
+      ip := ip + 4;
+      expSign := 1;
+      if ip <= Length(fwBody) and fwBody[ip] = '-' then expSign := -1; ip := ip+1; fi;
+      expDigits := "";
+      while ip <= Length(fwBody) and fwBody[ip] in "0123456789" do
+        Append(expDigits, [fwBody[ip]]);  ip := ip+1;
+      od;
+      expVal := expSign * Int(expDigits);
+      Add(items, [[sym], expVal]);
+      ip := ip + 1;
+    od;
+    wMk := "\"automorphism_witness\":\"";
+    wStart := FindPositionFrom(body, wMk, fwEnd);
+    if wStart = fail then Error("ParseS4SettledWitness: automorphism_witness marker not found after ", fwEnd); fi;
+    wStart := wStart + Length(wMk);
+    wEnd := FindPositionFrom(body, "\"", wStart);
+    if wEnd = fail then Error("ParseS4SettledWitness: unterminated automorphism_witness string at ", wStart); fi;
+    wStr := body{[wStart .. wEnd-1]};
+    wPermVal := EvalString(wStr);
+    if not (wPermVal = () or IsPerm(wPermVal)) then
+      Error("ParseS4SettledWitness: automorphism_witness did not evaluate to a permutation -- ", wStr);
+    fi;
+    Add(out, rec(m := mVal, fword := items, witness := wPermVal));
+    p := wEnd + 1;
+  od;
+  return out;
+end;;
+
 #############################################################################
 ## ---- 本走: 屋根 M の全悉皆(12 m値 x derived subgroup) ----
 #############################################################################
@@ -575,28 +658,163 @@ Print("  K9.v1.json shadows parsed = ", Length(k9CertRaw), " (expect 108)\n");
 K9CertTupleStrings := Set(List(k9CertRaw, r ->
   Concatenation("(", String(r.m), ";", JoinC(List(Concatenation(r.triple), String), ","), ")")));;
 
-s4CertRaw := ParseS4PassingFWords(S4_CERT_PATH);;
-Print("  S4.v2.json generation_detail pass:true parsed = ", Length(s4CertRaw), " (expect 54)\n");
-S4CertTupleStrings := Set(List(s4CertRaw, r -> Concatenation("(", String(r.m mod Pord), ";",
-  JoinC(List(Can4OfPerm9(WordEval(r.fword, Xperm, Yperm)), String), ","), ")")));;
-
 dictK9OK := (K9CertTupleStrings = Proj9Strings);;
-dictS4OK := (S4CertTupleStrings = Proj4Strings);;
-Print("  辞書適用後 q9射影 = K9.v1.json f_triple 逐語一致 ? ", dictK9OK, "\n");
-Print("  辞書適用後 q4射影 = S4.v2.json witness 逐語一致 ? ", dictS4OK, "\n");
+Print("  辞書適用後 q9射影 = K9.v1.json f_triple 逐語一致 ? ", dictK9OK, "  (K9側は司令塔第2回突合でA=B一致確認済み・触らない)\n");
+if not dictK9OK then
+  Error("nf972_sourcemap_b_run: INTEGRITY_STOP -- K9 dictionary self-check regressed (should still be identity/PASS). Report to commander.");
+fi;
+
+#############################################################################
+## ---- v1.2追補(裁定454・§7)訂正: S4側 sigma は marked 生成元対応で決定 ----
+## 【申告】前版はwitness(automorphism_witness = settled判定のconjugator h)
+## をq4(f)の像だと誤認してsigma探索していた(司令塔第2回仲裁も同じ誤読・
+## 裁定454で訂正)。witnessはcan4の材料にしてはならない(v1.2 pin #1)。
+## 正しい手順: cert枠(点ラベル系)を S4.v2.json の marking(S,T行列)から
+## week3-psl-common.g と同じ構成規約 X_cert:=w^2, Y_cert:=S^-1*X_cert*S で
+## 独自に再構成し、sigma in Sym(9) を (Xperm,Yperm) -> (Xperm_cert,Yperm_cert)
+## の同時共役で機械決定する(cert生成コードの構成規約を読むのは「枠定義の
+## 読解」として許可されている -- A の実装は引き続き非参照)。
+#############################################################################
+Print("\n=== v1.2訂正: S4側 sigma は marked 生成元対応で決定 ===\n");
+
+# ---- S4.v2.json の marking(S,T)を自前パースして cert枠を再構成 ----
+ParseS4Marking := function(path)
+  local content, stream, mk, sPos, sStart, sEnd, sStr, tPos, tStart, tEnd, tStr;
+  stream := InputTextFile(path);
+  if stream = fail then Error("ParseS4Marking: cannot open ", path); fi;
+  content := ReadAll(stream);
+  CloseStream(stream);
+  mk := "\"S\":\"";
+  sPos := FindPositionFrom(content, mk, 1);
+  if sPos = fail then Error("ParseS4Marking: \"S\": marker not found"); fi;
+  sStart := sPos + Length(mk);
+  sEnd := FindPositionFrom(content, "\"", sStart);
+  sStr := content{[sStart .. sEnd-1]};
+  mk := "\"T\":\"";
+  tPos := FindPositionFrom(content, mk, sEnd);
+  if tPos = fail then Error("ParseS4Marking: \"T\": marker not found"); fi;
+  tStart := tPos + Length(mk);
+  tEnd := FindPositionFrom(content, "\"", tStart);
+  tStr := content{[tStart .. tEnd-1]};
+  return rec(Svals := DigitRunsToInts(sStr), Tvals := DigitRunsToInts(tStr));
+end;;
+
+s4Marking := ParseS4Marking(S4_CERT_PATH);;
+Print("  parsed marking: S=", s4Marking.Svals, " T=", s4Marking.Tvals, "\n");
+if Length(s4Marking.Svals) <> 4 or Length(s4Marking.Tvals) <> 4 then
+  Error("nf972_sourcemap_b_run: INTEGRITY_STOP -- marking parse did not yield 4+4 ints. Report to commander.");
+fi;
+
+Smat_cert := MakeMatGF8(s4Marking.Svals[1], s4Marking.Svals[2], s4Marking.Svals[3], s4Marking.Svals[4]);;
+Tmat_cert := MakeMatGF8(s4Marking.Tvals[1], s4Marking.Tvals[2], s4Marking.Tvals[3], s4Marking.Tvals[4]);;
+Sperm_cert := MatToPermGF8(Smat_cert);;
+Tperm_cert := MatToPermGF8(Tmat_cert);;
+wPerm_cert := Sperm_cert * Tperm_cert^-1;;
+Xperm_cert := wPerm_cert^2;;
+Yperm_cert := Sperm_cert^-1 * Xperm_cert * Sperm_cert;;
+Print("  cert枠: Xperm_cert=Xperm ? ", (Xperm_cert = Xperm), "  Yperm_cert=Yperm ? ", (Yperm_cert = Yperm), "\n");
+
+# ---- sigma in Sym(9): (Xperm,Yperm) -> (Xperm_cert,Yperm_cert) の同時共役 ----
+Sym9 := SymmetricGroup(9);;
+sigma0 := RepresentativeAction(Sym9, Xperm, Xperm_cert);;
+if sigma0 = fail then
+  Error("nf972_sourcemap_b_run: INTEGRITY_STOP -- RepresentativeAction failed for Xperm -> Xperm_cert ",
+        "(not conjugate in Sym(9)). Report to commander.");
+fi;
+centX := Centralizer(Sym9, Xperm);;
+centXElts := Elements(centX);;
+Print("  centralizer(Xperm) in Sym(9) size = ", Length(centXElts), " -- candidate sigma coset size\n");
+sigmaCandidates := List(centXElts, c -> sigma0*c);;
+validSigmas := Filtered(sigmaCandidates, s -> s*Yperm*s^-1 = Yperm_cert);;
+Print("  (Xperm,Yperm)->(Xperm_cert,Yperm_cert) を同時満足する sigma 候補数 = ", Length(validSigmas), "\n");
+
+# 一意性の理論的裏付け: <Xperm_cert,Yperm_cert> = Pgrp_cert の Sym(9) 内
+# centralizer が自明かどうかを直接報告する(非自明なら候補が複数になり得る)。
+Pgrp_cert_forCent := Group(Xperm_cert, Yperm_cert);;
+centOfImageGroup := Centralizer(Sym9, Pgrp_cert_forCent);;
+Print("  centralizer_{Sym(9)}(<Xperm_cert,Yperm_cert>) size = ", Size(centOfImageGroup),
+      " (自明=1なら sigma は一意のはず)\n");
+
+if Length(validSigmas) = 0 then
+  Error("nf972_sourcemap_b_run: INTEGRITY_STOP -- no sigma satisfies (Xperm,Yperm)->(Xperm_cert,Yperm_cert) ",
+        "simultaneously. Report to commander -- do not force a correction.");
+elif Length(validSigmas) > 1 then
+  Error("nf972_sourcemap_b_run: INTEGRITY_STOP -- ", Length(validSigmas),
+        " sigma candidates satisfy the simultaneous conjugation (not unique; centralizer size=",
+        Size(centOfImageGroup), "). List: ", validSigmas,
+        ". Report to commander -- do not pick arbitrarily.");
+fi;
+sigma := validSigmas[1];;
+Print("  sigma (一意) = ", sigma, "\n");
+Print("  sigma = identity ? ", (sigma = ()), "\n");
+
+#############################################################################
+## ---- can4' = sigma 適用後の one-line(cert点ラベル枠) ----
+#############################################################################
+Can4OfPerm9Sigma := function(perm9)
+  local l, j, transformed;
+  transformed := sigma * perm9 * sigma^-1;
+  l := [];
+  for j in [1 .. 9] do l[j] := j^transformed; od;
+  return l;
+end;;
+
+#############################################################################
+## ---- 自己検査(義務・非トートロジー形・v1.2 §7-6): 別経路突合 ----
+## 右辺 = cert枠(Xperm_cert,Yperm_cert)で直接評価した P_cert枠(f)。
+## 左辺 = 自表現(Xperm,Yperm)で評価してsigma適用した sigma(P_B(f))。
+## witness集合との照合は廃止(v1.2で指示)。
+#############################################################################
+s4PassingRaw := ParseS4PassingFWords(S4_CERT_PATH);;
+Print("  S4.v2.json generation_detail pass:true parsed = ", Length(s4PassingRaw), " (expect 54)\n");
+
+selfCheckRowResults := List(s4PassingRaw, function(r)
+  local pB, pCertFrame, lhs;
+  pB := WordEval(r.fword, Xperm, Yperm);
+  lhs := sigma * pB * sigma^-1;
+  pCertFrame := WordEval(r.fword, Xperm_cert, Yperm_cert);
+  return (lhs = pCertFrame);
+end);;
+s4SelfCheckPassCount := Length(Filtered(selfCheckRowResults, x -> x));;
+Print("  別経路突合(sigma(P_B(f)) = P_cert枠(f)) PASS件数 = ", s4SelfCheckPassCount, " / ", Length(s4PassingRaw), "\n");
+dictS4OK := (s4SelfCheckPassCount = Length(s4PassingRaw) and Length(s4PassingRaw) = 54);;
 
 if not (dictK9OK and dictS4OK) then
-  # fail-closed: 保存して即停止(補正しない)。差分の一部を記録してから Error。
-  k9OnlyMine := Difference(Proj9Strings, K9CertTupleStrings);;
-  k9OnlyCert := Difference(K9CertTupleStrings, Proj9Strings);;
-  s4OnlyMine := Difference(Proj4Strings, S4CertTupleStrings);;
-  s4OnlyCert := Difference(S4CertTupleStrings, Proj4Strings);;
-  Print("  [INTEGRITY_STOP diag] k9OnlyMine=", Length(k9OnlyMine), " k9OnlyCert=", Length(k9OnlyCert),
-        " s4OnlyMine=", Length(s4OnlyMine), " s4OnlyCert=", Length(s4OnlyCert), "\n");
-  Error("nf972_sourcemap_b_run: INTEGRITY_STOP -- dictionary self-check failed (K9 match=",
-        dictK9OK, " S4 match=", dictS4OK, "). Refusing to write v2 cert. Report to commander.");
+  Error("nf972_sourcemap_b_run: INTEGRITY_STOP -- post-sigma non-tautological self-check failed (K9=",
+        dictK9OK, " S4=", dictS4OK, " passCount=", s4SelfCheckPassCount, "/", Length(s4PassingRaw),
+        "). Refusing to write v3 cert. Report to commander.");
 fi;
-Print("  辞書自己検査 PASS -- 辞書は恒等(自構成の marked 生成元 = cert 側 marked 生成元)。\n");
+Print("  辞書自己検査(v1.2非トートロジー形) PASS -- K9=恒等・S4=sigma(下記記録)。\n");
+
+#############################################################################
+## ---- v1.2 §7-3: AbstractProd 規約 fixture(A5-CONV 型・既知語->既知像) ----
+## 可換な生成元では規約バグが不可視になるため、非可換な Xperm,Yperm(および
+## K9側 g9.x,g9.y)で「xy」(paper記法)の評価が GAP の y*x になることを
+## 直接検査し、x*y(誤り規約)とは異なることも確認する。
+#############################################################################
+Print("\n=== v1.2 §7-3: AbstractProd 規約 fixture(A5-CONV型) ===\n");
+convFixtureWord := [["x",1],["y",1]];;
+convWordS4 := WordEval(convFixtureWord, Xperm, Yperm);;
+convExpectedS4 := Yperm * Xperm;;
+convWrongS4 := Xperm * Yperm;;
+convFixtureS4Pass := (convWordS4 = convExpectedS4) and (convWordS4 <> convWrongS4) and (Xperm*Yperm <> Yperm*Xperm);;
+Print("  S4(Xperm,Yperm)非可換fixture: WordEval([x,y])=y*x ? ", (convWordS4=convExpectedS4),
+      "  かつ x*yとは不一致 ? ", (convWordS4<>convWrongS4), "  かつXperm,Yperm非可換 ? ",
+      (Xperm*Yperm<>Yperm*Xperm), "  => PASS=", convFixtureS4Pass, "\n");
+
+convWordK9 := WordEval(convFixtureWord, g9.x, g9.y);;
+convExpectedK9 := g9.y * g9.x;;
+convWrongK9 := g9.x * g9.y;;
+convFixtureK9Pass := (convWordK9 = convExpectedK9) and (convWordK9 <> convWrongK9) and (g9.x*g9.y <> g9.y*g9.x);;
+Print("  K9(g9.x,g9.y)非可換fixture: WordEval([x,y])=y*x ? ", (convWordK9=convExpectedK9),
+      "  かつ x*yとは不一致 ? ", (convWordK9<>convWrongK9), "  かつg9.x,g9.y非可換 ? ",
+      (g9.x*g9.y<>g9.y*g9.x), "  => PASS=", convFixtureK9Pass, "\n");
+
+if not (convFixtureS4Pass and convFixtureK9Pass) then
+  Error("nf972_sourcemap_b_run: INTEGRITY_STOP -- AbstractProd convention fixture (A5-CONV) failed ",
+        "(S4=", convFixtureS4Pass, " K9=", convFixtureK9Pass, "). Refusing to write v3 cert.");
+fi;
+Print("  規約fixture(A5-CONV) 両窓 PASS。\n");
 
 #############################################################################
 ## ---- canonical 列挙 bytes と sha256 ----
@@ -632,7 +850,8 @@ tuplesJson := Concatenation(
   "  \"generated_by\":\"search/probe/wac_v1/nf972_sourcemap_b_run.g\",\n",
   "  \"source_cert\":\"search/certs/nf972_sourcemap_b_20260804.json\",\n",
   "  \"note\":\"NF972HexagonOKの乗算規約バグ修正後の再生成(ops/express/20260804_implementer_nf972b_predicate_bug_found.md参照)。A側の実装・値は一切参照していない。突合は司令塔が別途実施。\",\n",
-  "  \"supersedes\":\"search/certs/superseded/nf972_sourcemap_b_tuples_20260804_PRE_PREDICATE_FIX.json(canonical_sha256=", JStr(PRE_FIX_CANONICAL_SHA), ")\",\n",
+  "  \"supersedes\":\"search/certs/superseded/nf972_sourcemap_b_tuples_20260804_PRE_PREDICATE_FIX.json\",\n",
+  "  \"supersedes_canonical_sha256\":", JStr(PRE_FIX_CANONICAL_SHA), ",\n",
   "  \"serialization_format\":\"(m0;a1,eps1,a2,eps2,a3,eps3;i1,...,i9)\",\n",
   "  \"sort_order\":\"gap_String_sort_of_serialized_tuple\",\n",
   "  \"count\":", String(Length(SortedNFStrings)), ",\n",
@@ -645,11 +864,15 @@ WriteFile(TUPLES_OUT_PATH, tuplesJson);;
 Print("  Wrote ", TUPLES_OUT_PATH, " (", Length(SortedNFStrings), " tuples)\n");
 
 #############################################################################
-## ---- v1.1追補 出力(裁定442 §6 指示4): 辞書経由 tuple v2 + supplement ----
-## 辞書=恒等と機械検査済みなので、v2の座標はv1と同一(可能な範囲で明示)。
-## supplementに辞書の定義・自己検査結果を記録する。
+## ---- v2出力(【申告】司令塔第2回突合により誤りと判明・v3で置換) ----
+## v2はS4側の辞書を「恒等」と主張していたが、その自己検査はS4.v2.jsonの
+## f_wordを自分の生成元で評価した結果と自分のq4像を比較するトートロジー
+## だった(事故台帳#6型・司令塔指摘)。実際にはS4側にsigma(非恒等)が必要
+## だったことが後続のsigma探索(下記)で判明した。v2ファイルは記録として
+## 残すが、S4側の内容は無効であることをここに明記し、正しい結果はv3に
+## 書く。K9側(dictK9OK)は引き続き有効(司令塔確認済み)。
 #############################################################################
-Print("\n=== v2出力: 辞書supplement + tuple v2 ===\n");
+Print("\n=== v2出力(S4側は無効と判明・記録として残す) ===\n");
 TUPLES_V2_OUT_PATH := "search/certs/nf972_sourcemap_b_tuples_v2_20260804.json";;
 
 tuplesV2Json := Concatenation(
@@ -657,20 +880,19 @@ tuplesV2Json := Concatenation(
   "  \"schema\":\"nf972-sourcemap-b-tuples-v2/v1_1\",\n",
   "  \"generated_by\":\"search/probe/wac_v1/nf972_sourcemap_b_run.g\",\n",
   "  \"design_doc\":\"docs/notes/nf972_freeze_v1.md v1.1追補(裁定442)SS6\",\n",
-  "  \"note\":\"canonical marking = factor cert座標系(K9.v1.json f_triple・S4.v2.json witness)。辞書は自構成marked生成元(g9.x,g9.y / Xperm,Yperm)とcert側marked生成元の恒等対応(week3-battery-common.gのMakeGn / week3-psl-common.gのRunPSLWindowの生成元構成式がK9.v1.json/S4.v2.jsonの生成スクリプトと同一であることをソースコード比較で確認)。A側の実装・出力は一切参照していない。\",\n",
-  "  \"root_cause_note\":\"第1回突合の交わり9/972は座標系未宣言ではなく、本実装のNF972HexagonOK乗算規約バグ(修正はこのスクリプトの冒頭コメントと ops/express/20260804_implementer_nf972b_predicate_bug_found.md に記録)が原因だった。バグ修正後の本走で辞書=恒等の自己検査がPASSした。\",\n",
+  "  \"status\":\"S4側は無効(トートロジー自己検査だったため)-- 正しい結果は nf972_sourcemap_b_tuples_v3_20260804.json を参照。K9側(dictK9OK)は有効。\",\n",
+  "  \"note\":\"canonical marking = factor cert座標系(K9.v1.json f_triple・S4.v2.json witness)。K9側の辞書は自構成marked生成元(g9.x,g9.y)とcert側marked生成元の恒等対応(確認済み)。S4側は当初『恒等』と主張したがトートロジーな自己検査によるもので、司令塔第2回突合(A=54/54・B=1/54)により誤りと判明。正しい辞書(sigma)はv3を参照。A側の実装・出力は一切参照していない。\",\n",
+  "  \"root_cause_note\":\"第1回突合の交わり9/972は座標系未宣言ではなく、本実装のNF972HexagonOK乗算規約バグ(修正はこのスクリプトの冒頭コメントと ops/express/20260804_implementer_nf972b_predicate_bug_found.md に記録)が原因だった。バグ修正後もS4側の自己検査がトートロジーだったため、点ラベルのずれ(sigma)を見逃していた。\",\n",
   "  \"dictionary\":{\n",
-  "    \"type\":\"identity\",\n",
-  "    \"generator_correspondence\":\"my g9.x<->cert x, my g9.y<->cert y (K9); my Xperm<->cert x, my Yperm<->cert y (S4)\",\n",
+  "    \"k9_type\":\"identity(有効)\",\n",
+  "    \"s4_type\":\"INVALID(トートロジー自己検査 -- 実際はsigma非恒等が必要。v3参照)\",\n",
   "    \"k9_cert_path\":", JStr(K9_CERT_PATH), ",\n",
   "    \"s4_cert_path\":", JStr(S4_CERT_PATH), ",\n",
-  "    \"k9_cert_shadow_count_parsed\":", String(Length(k9CertRaw)), ",\"k9_cert_expected\":108,\n",
-  "    \"s4_cert_shadow_count_parsed\":", String(Length(s4CertRaw)), ",\"s4_cert_expected\":54\n",
+  "    \"k9_cert_shadow_count_parsed\":", String(Length(k9CertRaw)), ",\"k9_cert_expected\":108\n",
   "  },\n",
   "  \"dictionary_selfcheck\":{\n",
   "    \"q9_projection_matches_k9_cert_f_triple_verbatim\":", JB(dictK9OK), ",\n",
-  "    \"q4_projection_matches_s4_cert_witness_verbatim\":", JB(dictS4OK), ",\n",
-  "    \"both_pass\":", JB(dictK9OK and dictS4OK), "\n",
+  "    \"q4_check_note\":\"v2時点のq4検査は無効(トートロジー)。v3のsigma版を参照。\"\n",
   "  },\n",
   "  \"serialization_format\":\"(m0;a1,eps1,a2,eps2,a3,eps3;i1,...,i9)\",\n",
   "  \"sort_order\":\"gap_String_sort_of_serialized_tuple\",\n",
@@ -679,8 +901,94 @@ tuplesV2Json := Concatenation(
   "  \"tuples\":", JArr(List(SortedNFStrings, JStr)), "\n",
   "}\n");;
 WriteFile(TUPLES_V2_OUT_PATH, tuplesV2Json);;
-Print("  Wrote ", TUPLES_V2_OUT_PATH, " (", Length(SortedNFStrings), " tuples, dictionary self-check pass=",
-      (dictK9OK and dictS4OK), ")\n");
+Print("  Wrote ", TUPLES_V2_OUT_PATH, " (", Length(SortedNFStrings),
+      " tuples, S4側は無効と明記・v3参照を記載)\n");
+
+#############################################################################
+## ---- v3出力(v1.2追補・裁定454の訂正指示): sigma(marked生成元対応)経由の
+## 正しい tuple 972本 ----
+## can4' = sigma適用後one-line(cert枠=Xperm_cert,Yperm_certで再構成した点
+## ラベル系)。can9はK9側で既にA=B一致済みのため不変。dictionary_selfcheck
+## は非トートロジー形(cert枠評価 vs 自表現評価+sigma の別経路突合)。
+#############################################################################
+Print("\n=== v3出力: sigma(marked生成元対応)辞書 tuple v3 ===\n");
+TUPLES_V3_OUT_PATH := "search/certs/nf972_sourcemap_b_tuples_v3_20260804.json";;
+
+NFTupleOfV3 := function(shadowRec)
+  local f, m0, p27, q4perm, can9v, can4v;
+  f := shadowRec.f;
+  m0 := shadowRec.m;
+  p27 := BlockRestrict(f, 0, 27);
+  can9v := Can9OfPerm27(p27);
+  q4perm := BlockRestrict(f, 27, 9);
+  can4v := Can4OfPerm9Sigma(q4perm);
+  return rec(m0 := m0, can9 := can9v, can4 := can4v);
+end;;
+
+NFTuplesV3 := List(resM.shadows, NFTupleOfV3);;
+NFStringsV3 := List(NFTuplesV3, NFTupleSerialize);;
+NFStringsV3Set := Set(ShallowCopy(NFStringsV3));;
+dupCountV3 := Length(NFStringsV3) - Length(NFStringsV3Set);;
+Print("  v3 tuple総数=", Length(NFStringsV3), " 重複なし集合サイズ=", Length(NFStringsV3Set),
+      " 重複=", dupCountV3, "\n");
+if Length(NFStringsV3Set) <> 972 or dupCountV3 <> 0 then
+  Error("nf972_sourcemap_b_run: v3 tuple set size = ", Length(NFStringsV3Set), " dup=", dupCountV3,
+        " -- expected 972/0. Refusing to write v3 cert.");
+fi;
+SortedNFStringsV3 := ShallowCopy(NFStringsV3Set);;
+Sort(SortedNFStringsV3);;
+CanonicalBytesV3 := JoinC(SortedNFStringsV3, "\n");;
+CanonicalSha256V3 := ComputeSha256OfString(CanonicalBytesV3);;
+Print("  v3 canonical_sha256=", CanonicalSha256V3, "\n");
+
+sigmaStr := String(sigma);;
+
+tuplesV3Json := Concatenation(
+  "{\n",
+  "  \"schema\":\"nf972-sourcemap-b-tuples-v3/v1_2\",\n",
+  "  \"generated_by\":\"search/probe/wac_v1/nf972_sourcemap_b_run.g\",\n",
+  "  \"design_doc\":\"docs/notes/nf972_freeze_v1.md v1.2追補(裁定454)SS7\",\n",
+  "  \"note\":\"can9(K9側)はv1/v2と不変(A=B一致済み・司令塔確認済み)。can4(S4側)はsigma適用後one-lineへ改訂(cert枠=S4.v2.jsonのmarkingからweek3-psl-common.g L275-277と同構成規約で再構成したXperm_cert,Yperm_cert)。v2/前回速達のwitness起点sigma探索は誤り(witness=settled判定のconjugator hであってq4(f)の像ではない・裁定454)だったため廃棄し、本ファイルが正版。A側の実装(nf972_sourcemap_a_driver.py)は一切参照していない -- cert生成コード(week3-psl-common.g)の構成規約を読むのは『枠定義の読解』として許可されている(A非参照とは別枠)。\",\n",
+  "  \"supersedes\":\"search/certs/nf972_sourcemap_b_tuples_v2_20260804.json(S4側のみ -- K9側は継続有効)\",\n",
+  "  \"dictionary\":{\n",
+  "    \"k9\":{\"type\":\"identity\",\"selfcheck_pass\":", JB(dictK9OK), "},\n",
+  "    \"s4\":{\n",
+  "      \"type\":\"conjugation_by_sigma_via_marked_generator_correspondence\",\n",
+  "      \"sigma_domain\":\"Sym(9) acting on the same 9 points as Xperm,Yperm (week3-psl-common.g GF(8) construction)\",\n",
+  "      \"sigma_gap_repr\":", JStr(sigmaStr), ",\n",
+  "      \"transform\":\"can4'(perm9) := one-line(sigma * perm9 * sigma^-1)\",\n",
+  "      \"cert_frame_marking_parsed\":{\"S\":", String(s4Marking.Svals), ",\"T\":", String(s4Marking.Tvals), "},\n",
+  "      \"xperm_cert_equals_xperm\":", JB(Xperm_cert = Xperm), ",\n",
+  "      \"yperm_cert_equals_yperm\":", JB(Yperm_cert = Yperm), ",\n",
+  "      \"determination_method\":\"RepresentativeAction(Sym(9), Xperm, Xperm_cert) で基点sigma0を取得、Centralizer(Sym(9),Xperm)のcosetとして候補を列挙し、sigma*Yperm*sigma^-1=Yperm_cert でフィルタ(Xperm,Yperm同時共役)\",\n",
+  "      \"centralizer_xperm_size\":", String(Length(centXElts)), ",\n",
+  "      \"candidate_coset_size\":", String(Length(sigmaCandidates)), ",\n",
+  "      \"valid_sigma_count\":", String(Length(validSigmas)), ",\n",
+  "      \"uniqueness_confirmed\":", JB(Length(validSigmas) = 1), ",\n",
+  "      \"centralizer_of_image_group_in_sym9_size\":", String(Size(centOfImageGroup)), ",\n",
+  "      \"selfcheck_pass\":", JB(dictS4OK), "\n",
+  "    }\n",
+  "  },\n",
+  "  \"dictionary_selfcheck\":{\n",
+  "    \"note\":\"非トートロジー形(v1.2 SS7-6): 右辺=cert枠(Xperm_cert,Yperm_cert)でS4.v2.jsonの各f_wordを直接評価。左辺=自表現(Xperm,Yperm)で同じf_wordを評価しsigmaを適用。両者を全54行で突合(witness集合との照合は廃止)。\",\n",
+  "    \"rows_checked\":", String(Length(s4PassingRaw)), ",\n",
+  "    \"rows_pass\":", String(s4SelfCheckPassCount), ",\n",
+  "    \"all_54_pass\":", JB(dictS4OK), "\n",
+  "  },\n",
+  "  \"conv_fixture_a5\":{\n",
+  "    \"note\":\"v1.2 SS7-3: AbstractProd反転規約(paper AB = GAP B*A)を非可換生成元で機械検査(可換fixtureでは規約バグが不可視なため)。\",\n",
+  "    \"s4_fixture_pass\":", JB(convFixtureS4Pass), ",\n",
+  "    \"k9_fixture_pass\":", JB(convFixtureK9Pass), "\n",
+  "  },\n",
+  "  \"serialization_format\":\"(m0;a1,eps1,a2,eps2,a3,eps3;i1,...,i9) -- i1..i9はsigma適用後のone-line(cert枠)\",\n",
+  "  \"sort_order\":\"gap_String_sort_of_serialized_tuple\",\n",
+  "  \"count\":", String(Length(SortedNFStringsV3)), ",\n",
+  "  \"canonical_bytes_sha256\":", JStr(CanonicalSha256V3), ",\n",
+  "  \"tuples\":", JArr(List(SortedNFStringsV3, JStr)), "\n",
+  "}\n");;
+WriteFile(TUPLES_V3_OUT_PATH, tuplesV3Json);;
+Print("  Wrote ", TUPLES_V3_OUT_PATH, " (", Length(SortedNFStringsV3), " tuples, dictionary selfcheck K9=",
+      dictK9OK, " S4=", dictS4OK, ")\n");
 
 #############################################################################
 ## ---- JSON 出力 ----
@@ -698,10 +1006,12 @@ cert := Concatenation(
   "  \"deviation_note\":\"分離fixtureの実行順序を『本走前の独立小サンプル』から『本走直後・cert書き出し前の実データサンプル』へ変更(script冒頭コメントに理由詳記)。fixture2はcan9内r,s入替(構造的に不発と判明)からq4側generator対応を入替えた別屋根GM2での再悉皆比較へ変更。いずれもfail-closed gate(不発ならcert非出力)は維持。\",\n",
   "  \"bug_fix_note\":\"v1.1追補(裁定442)の辞書自己検査を実施中、K9側は108/108一致もS4側は当初6/54しか一致しないことが判明。原因はmarking/座標系ではなくNF972HexagonOKの乗算規約バグ(ymf/hex311/genB/zEltがplainなGAP `*`でAbstractProd反転規約と不一致)。K9窓は偶然結果不変・S4窓(PSL(2,8)非可換単純群)は実際に影響していた。修正後は本cert(972点)・辞書自己検査とも正しい値。旧(バグ版)certはsearch/certs/superseded/に保存。詳細はops/express/20260804_implementer_nf972b_predicate_bug_found.md。\",\n",
   "  \"dictionary_selfcheck\":{\n",
-  "    \"design_doc\":\"docs/notes/nf972_freeze_v1.md v1.1追補(裁定442)SS6\",\n",
-  "    \"dictionary_type\":\"identity(marked生成元対応がcert生成スクリプトと同一構成式であることを確認済み)\",\n",
+  "    \"design_doc\":\"docs/notes/nf972_freeze_v1.md v1.1追補(裁定442)SS6 + 司令塔第2回突合指示\",\n",
+  "    \"note\":\"q9(K9側)は恒等辞書で逐語一致(有効・司令塔確認済み)。q4(S4側)は当初『恒等』と主張したが司令塔指摘によりトートロジー自己検査と判明、正しくは非恒等sigma(Sym(9)の共役)が必要 -- 本v1 cert自体のcan4は恒等のまま(sigma未適用)であり、sigma適用版はsearch/certs/nf972_sourcemap_b_tuples_v3_20260804.jsonを参照。ここに記録するq4フラグは(sigma適用後の)最新の自己検査結果。\",\n",
+  "    \"q9_dictionary_type\":\"identity\",\n",
+  "    \"q4_dictionary_type\":\"conjugation_by_sigma(詳細はtuples_v3参照・本v1のcan4値自体は非sigma)\",\n",
   "    \"q9_projection_matches_k9_cert_f_triple_verbatim\":", JB(dictK9OK), ",\n",
-  "    \"q4_projection_matches_s4_cert_witness_verbatim\":", JB(dictS4OK), "\n",
+  "    \"q4_projection_matches_s4_cert_witness_verbatim_after_sigma\":", JB(dictS4OK), "\n",
   "  },\n",
   "  \"windows\":{\n",
   "    \"g9_size\":", String(K9sz), ",\"k9_ord\":", String(K9ord), ",\n",

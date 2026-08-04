@@ -1840,3 +1840,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **凍結仕様 v1.2 追補**(nf972_freeze_v1.md §7): can₄=q₄(f) 明文化・cert 枠の定義 = marking(S,T 行列・pgl2q_matrix/v1)+X:=w²・Y:=S⁻¹XS(L275-277)+点列挙規約・AbstractProd 規約 fixture(A5-CONV 型)を両評価器に義務化・成果物不改変(新名 v2/v3・superseded/ 保存)を義務化・自己検査の非トートロジー形(σ(P_B(f)) = P_cert枠(f) の別経路突合)。
 - **発注**: A 修理(新規係・f_word 評価器追加・can4_of 差替・分離 fixture 再走・v2 新名)+ B 訂正(σ = marked 生成元対応で決定・v3 新名)。第 3 回突合は両着地後に司令塔。
 - 教材(便 102 で Sol へ提示): 「cert に格納された値」の**意味論**を突合の前に確認する — 欄名でなく生成コードが正本。第四者仲裁も仲裁枠自体の検証を要する(仲裁者の誤読は 2 系統一致より深い事故)。
+
+## 2026-08-04 NF-972 source map B v3 検収(裁定 455)— ★σ = 恒等(一意性は centralizer 自明で保証)= B の枠は最初から cert 枠と一致。第 2 回突合の不一致は A の witness 流用に全局在と確定
+- v3 = search/certs/nf972_sourcemap_b_tuples_v3_20260804.json。**σ = ()**: cert 枠(marking S,T → X_cert:=w²・Y_cert:=S⁻¹X_cert S の再構成)が B 自身の (Xperm,Yperm) と完全一致。一意性 = RepresentativeAction 候補 9 件を Y 側でフィルタして 1 件+centralizer_{S₉}(⟨X_cert,Y_cert⟩)=1 の直接計算で保証。
+- 自己検査(v1.2 §7-6 非トートロジー形)= **54/54 PASS**(右辺 cert 枠直接評価・左辺自表現+σ の別経路突合)。AbstractProd 規約 fixture(v1.2 §7-3)K9/S4 両窓 PASS。v1 の supersedes 引用符も修正(4 JSON とも有効確認)。canonical sha = 932a0f36…(v2 と同一 — σ=id の帰結・独立再計算一致・972 distinct)。
+- **帰結**: 「B の枠ずれ」は存在しなかった(裁定 449 の残骸を完全清算)。witness 起点の旧探索が「非恒等 σ 必要」と見せたのは誤読の産物。**第 2 回突合の不一致 |A∩B|=18 は A の witness 流用に全局在** — 第 3 回突合は A v2(can₄ 差替・修理中)の着地待ちのみ。B 側の作業は完了。
