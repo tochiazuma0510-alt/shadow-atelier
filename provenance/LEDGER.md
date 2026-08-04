@@ -2133,3 +2133,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 成果 = docs/notes/atlas_stats_survey_v2.md(v1 不改変・161 行読み取りのみ)。穴ランキング更新: ①非中心層 census(トリガー凍結中)②isolated 列(TRUE 確定は W-5 のみ — BOTTOM-UP v3 blocker④と表裏)③p=3 dim3/4 census。「12 型(census 行)vs 4 型(cap+V/W≅D 絞り込み後)」の区別を明記(混同リスクの係申告を受理)。KDIR レーン 6/6 PASS は別レーンの較正事実(MCOV の穴は不変)。
 
 ## 2026-08-05 付録 C v1 検収+CI 改稿指示(裁定 509)— ローカル見積 = 2〜24 日規模(Lane P 実測 0.73〜3.13 秒/候補・S/V は推測とラベル付け・mtime 収束で実測不能の発見込み)⟹ 研究者指示により GitHub Actions 主経路版 v2 へ改稿指示(353〜2,070 shard の matrix 化・無料枠見積・欠 shard STOP・smoke のみローカル)
+
+## 2026-08-05 isolated 検査器一般化 検収(裁定 510)— 穴②の道具完成: 汎用 driver(MarkedDatumFromGroup+IsoGateCheck)が fixture 2 本(K⁽³⁾・W-5)を既登録値と完全一致で再現・isolated_verdict(3 値)と iso_gate_state(PROVEN/UNKNOWN)の分離設計を採択
+- driver = search/probe/w6_bu_s0/iso_gate_check.g+cert。**司令塔裁定(係の照会へ)**: driver の TRUE → iso_gate_state=PROVEN への格上げは route 1(ker=K⁽ⁿ⁾ の Thm 4.3 ショートカット)以外は **Sol ゲート後**が正(係の保守設計を採択・W-5 も UNKNOWN pending gate のまま便 104 で route 2 の承認を請う)。時間外挿(8000 帯 ~1.6 秒/窓)は下限目安の正直申告・c∉N 分岐は未テストと明記(fixture 追加は掘削認可後)。便 104 積載。
