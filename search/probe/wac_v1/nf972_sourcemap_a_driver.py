@@ -540,6 +540,64 @@ fixture_results["F3_wrong_m_modulus"] = {
 chk(fixture_results["F3_wrong_m_modulus"]["fires_set_inequality"],
     "fixture3(m の法の誤り)が set inequality を発火")
 
+# --- fixture 4(★ 司令塔追加指示・CV-9 判読【要修正1】): can4 軸の変異。F1/F2/F3 は
+# can9/m0 軸のみを動かし、v1.2 修理の対象そのものである can4 軸を一度も動かしていなかった
+# (A5-CONV は S5 の別群 fixture で GF(8)/点列挙 pipeline を通らない)。二候補を診断し、
+# 発火する方を F4 として採用する(両方発火すれば A を優先 -- F2 で 1<->2 が不発火だった
+# 前例があるため、単一候補への依存を避ける)。
+#
+# 候補 A: X,Y 生成元入替での評価(f_word 中の 'x' <-> 'y' の生成元対応を取り違えた誤実装を模擬)。
+def can4_swapgen_of(f_word):
+    return eval_f_word(f_word, {"x": Y_PERM, "y": X_PERM}, 9)
+
+
+S4_RECORDS_SWAPGEN = [{"m": r["m"], "can4": can4_swapgen_of(r["f_word"])} for r in S4_SETTLED]
+MUT4A_LIST = assemble(K9_RECORDS, S4_RECORDS_SWAPGEN)
+MUT4A_SET = set(MUT4A_LIST)
+fires_4a = BASELINE_SET != MUT4A_SET
+
+# 候補 B: P^1(GF(8)) 点列挙順の恣意転置(点 1,2 を入替た点ラベルで can4 を付け直す
+# -- conjugation by transposition tau=(1 2), c4' := tau^-1 * c4 * tau)。
+TAU_12 = (2, 1, 3, 4, 5, 6, 7, 8, 9)
+
+
+def relabel_can4_tau12(c4):
+    return perm_compose(perm_compose(perm_invert(TAU_12), c4), TAU_12)
+
+
+S4_RECORDS_RELABEL = [{"m": r["m"], "can4": relabel_can4_tau12(r["can4"])} for r in S4_RECORDS]
+MUT4B_LIST = assemble(K9_RECORDS, S4_RECORDS_RELABEL)
+MUT4B_SET = set(MUT4B_LIST)
+fires_4b = BASELINE_SET != MUT4B_SET
+
+F4_SELECTED = "A_generator_swap" if fires_4a else "B_point_relabel_transposition_12"
+F4_MUTANT_SET = MUT4A_SET if fires_4a else MUT4B_SET
+F4_FIRES = fires_4a if fires_4a else fires_4b
+
+fixture_results["F4_can4_axis_mutation"] = {
+    "description": "can4 軸(v1.2 修理対象そのもの)を動かす変異。F1/F2/F3 は can9/m0 軸のみで"
+                     "can4 軸を一度も動かしていなかった(司令塔追加指示・CV-9 判読【要修正1】への対応)。",
+    "candidate_A_generator_swap": {
+        "description": "eval_f_word の gens で x<->y を入替(生成元対応の取り違えを模擬)",
+        "mutant_set_size": len(MUT4A_SET),
+        "baseline_equals_mutant": BASELINE_SET == MUT4A_SET,
+        "symmetric_difference_size": len(BASELINE_SET.symmetric_difference(MUT4A_SET)),
+        "fires_set_inequality": fires_4a,
+    },
+    "candidate_B_point_relabel_transposition_12": {
+        "description": "can4 を tau=(1 2) で共役(tau^-1 * c4 * tau)して点ラベルを付け替え",
+        "mutant_set_size": len(MUT4B_SET),
+        "baseline_equals_mutant": BASELINE_SET == MUT4B_SET,
+        "symmetric_difference_size": len(BASELINE_SET.symmetric_difference(MUT4B_SET)),
+        "fires_set_inequality": fires_4b,
+    },
+    "selected_candidate": F4_SELECTED,
+    "mutant_set_size": len(F4_MUTANT_SET),
+    "fires_set_inequality": F4_FIRES,
+}
+chk(fixture_results["F4_can4_axis_mutation"]["fires_set_inequality"],
+    "fixture4(can4 軸変異、" + F4_SELECTED + ")が set inequality を発火")
+
 ALL_FIXTURES_FIRE = all(fixture_results[k]["fires_set_inequality"] for k in fixture_results)
 if not ALL_FIXTURES_FIRE:
     FAILS.append("CALIBRATION_FAILED: 分離 fixture のいずれかが発火しなかった(識別力ゼロ)")
@@ -560,20 +618,22 @@ CANONICAL_BYTES = json.dumps(CANONICAL_JSON_OBJ, separators=(",", ":"),
 CANONICAL_SHA256 = sha_bytes(CANONICAL_BYTES)
 
 # 集合本体を別ファイルへ収蔵(cert 本体は sha のみ参照)。
-# ★ v2: 新名で出力(旧版 nf972_sourcemap_a_tuples_20260804.json は上書きしない・仕様 v1.2 §7-5)。
-ENUM_OUT = os.path.join(ROOT, "search", "certs", "nf972_sourcemap_a_tuples_v2_20260804.json")
-with open(ENUM_OUT, "w", encoding="utf-8") as f:
-    json.dump({
-        "schema": "nf972-sourcemap-a-tuples/v2",
-        "note": "canonical sorted enumeration of the 972-element tuple set (source map A, v2 -- can4 "
-                "= q4(f) one-line image via f_word evaluator, NOT automorphism_witness; 裁定454修理). "
-                "sha256 of the canonical bytes below is recorded in the main cert.",
-        "canonicalization": "json.dumps(list_of_[m0,[[a,eps],[a,eps],[a,eps]],[img1..img9]], separators=(',',':'), ensure_ascii=True), list sorted by python tuple order",
-        "count": len(CANONICAL_JSON_OBJ),
-        "canonical_bytes_sha256": CANONICAL_SHA256,
-        "tuples": CANONICAL_JSON_OBJ,
-    }, f, ensure_ascii=True, indent=None, separators=(",", ":"))
-    f.write("\n")
+# ★ v3(司令塔追加指示・F4 追加): F4 は BASELINE_SET を変えない(can9/m0 側の baseline 組立自体は
+# 無変更。F4 は can4 軸の識別力較正であって baseline の再定義ではない)ので、tuples は v2 から
+# 不変のはず -- 新規 tuples ファイルは書かず、既存 v2 tuples ファイルの canonical_bytes_sha256 と
+# 今回計算した CANONICAL_SHA256 の一致を確認するのみ(旧版不改変・仕様 v1.2 §7-5)。
+V2_ENUM_PATH = os.path.join(ROOT, "search", "certs", "nf972_sourcemap_a_tuples_v2_20260804.json")
+if not os.path.exists(V2_ENUM_PATH):
+    FAILS.append("INTEGRITY_STOP: v2 tuples ファイルが見つからない(F4 追加前に v2 走行が必要): "
+                 + relpath(V2_ENUM_PATH))
+    V2_ENUM_SHA = None
+    TUPLES_UNCHANGED_FROM_V2 = False
+else:
+    V2_ENUM_OBJ = json.load(open(V2_ENUM_PATH, encoding="utf-8"))
+    V2_ENUM_SHA = V2_ENUM_OBJ["canonical_bytes_sha256"]
+    TUPLES_UNCHANGED_FROM_V2 = chk(V2_ENUM_SHA == CANONICAL_SHA256,
+        "F4 追加後も canonical tuple 集合の sha256 が v2 から不変(tuples 不変の確認)")
+ENUM_OUT = V2_ENUM_PATH  # 参照のみ・再書き込みしない(旧版不改変)
 
 RESULT = "ALL PASS" if not FAILS else "FAILED"
 
@@ -629,7 +689,8 @@ conventions_used = {
     },
     "separation": {
         "included": True,
-        "competitor_universe": ["F1_orientation_flip", "F2_generator_swap", "F3_wrong_m_modulus"],
+        "competitor_universe": ["F1_orientation_flip", "F2_generator_swap", "F3_wrong_m_modulus",
+                                 "F4_can4_axis_mutation"],
         "result": {"result_digest": CANONICAL_SHA256},
         "forbidden_values": {"handling": "n/a", "list": []},
         "dummy_fixture": {
@@ -659,7 +720,7 @@ conventions_used = {
 }
 
 cert = {
-    "schema": "nf972-sourcemap-a/v2",
+    "schema": "nf972-sourcemap-a/v3",
     "generated_by": {
         "tool": "python (independent source-map-A implementer; no shared code with source map B)",
         "script": relpath(os.path.abspath(__file__)),
@@ -667,8 +728,10 @@ cert = {
         "python_version": sys.version,
         "platform": platform.platform(),
     },
-    "task_ref": "NF-972 source map A(組立側)v2 修理。正本 docs/notes/nf972_freeze_v1.md"
-                 "(凍結 v1・裁定434 / v1.1・裁定442 / ★v1.2・裁定454 can4 照合先訂正)。",
+    "task_ref": "NF-972 source map A(組立側)v3。正本 docs/notes/nf972_freeze_v1.md"
+                 "(凍結 v1・裁定434 / v1.1・裁定442 / ★v1.2・裁定454 can4 照合先訂正)+"
+                 "docs/notes/nf972_cv9_reading_v1.md【要修正1】(司令塔追加指示: can4 軸の分離"
+                 "fixture F4 を追加)。",
     "spec_ref": {"path": relpath(os.path.join(ROOT, "docs", "notes", "nf972_freeze_v1.md")),
                  "sha256": sha_file(os.path.join(ROOT, "docs", "notes", "nf972_freeze_v1.md"))},
     "inputs": {
@@ -684,8 +747,14 @@ cert = {
                                   "実行時 import はしていない。",
     "v2_repair_note": "v1(nf972_sourcemap_a_20260804.json)は can4 に automorphism_witness を誤用して"
                         "いた(witness は settled 判定の証人 conjugator であり q4(f) の像ではない -- "
-                        "裁定454)。本 v2 は f_word を自前評価器(AbstractProd)で評価し q4(f) の"
+                        "裁定454)。v2 は f_word を自前評価器(AbstractProd)で評価し q4(f) の"
                         "one-line 像を can4 として使う。旧版は上書きしない(仕様 v1.2 §7-5)。",
+    "v3_addendum_note": "司令塔追加指示(docs/notes/nf972_cv9_reading_v1.md【要修正1】): F1/F2/F3 は"
+                          "can9/m0 軸のみを変異させ、v1.2 修理の対象である can4 軸を一度も動かして"
+                          "いなかった(A5-CONV は S5 別群 fixture で GF(8)/点列挙 pipeline を通らない)。"
+                          "F4(can4 軸変異、2 候補診断・発火する方を採用)を追加。baseline の組立"
+                          "自体は無変更のため tuples(v2)は不変 -- sha256 一致を確認して記録"
+                          "(canonical_enumeration.tuples_unchanged_from_v2)。旧版(v1・v2)は上書きしない。",
     "construction": {
         "compat_rule": "K9 shadow(m in [0,18)) と S4 settled entry(m in [0,9)) の組は "
                          "K9.m % 9 == S4.m のときのみ fiber-product 点を成す(P-IHN 互換性)。",
@@ -723,6 +792,10 @@ cert = {
         "sha256": sha_bytes(open(ENUM_OUT, "rb").read()),
         "canonical_bytes_sha256": CANONICAL_SHA256,
         "count": len(CANONICAL_JSON_OBJ),
+        "tuples_unchanged_from_v2": TUPLES_UNCHANGED_FROM_V2,
+        "v2_enum_canonical_bytes_sha256": V2_ENUM_SHA,
+        "note": "F4 追加は BASELINE_SET(972 タプル集合)を変えない -- v2 の tuples ファイルを"
+                 "そのまま参照し、新規 tuples ファイルは書いていない(旧版不改変)。",
     },
     "conventions_used": conventions_used,
     "failures": FAILS,
@@ -730,8 +803,9 @@ cert = {
     "driver_done": (RESULT == "ALL PASS"),
 }
 
-# ★ v2: 新名で出力(旧版 nf972_sourcemap_a_20260804.json は上書きしない・仕様 v1.2 §7-5)。
-CERT_OUT = os.path.join(ROOT, "search", "certs", "nf972_sourcemap_a_v2_20260804.json")
+# ★ v3: 新名で出力(旧版 nf972_sourcemap_a_20260804.json・nf972_sourcemap_a_v2_20260804.json は
+# 上書きしない・仕様 v1.2 §7-5)。
+CERT_OUT = os.path.join(ROOT, "search", "certs", "nf972_sourcemap_a_v3_20260804.json")
 with open(CERT_OUT, "w", encoding="utf-8") as f:
     json.dump(cert, f, ensure_ascii=False, indent=2)
     f.write("\n")
@@ -740,6 +814,12 @@ print("A5_CONV verdict:", A5_CONV_RESULT["verdict"], "x_ok:", A5_CONV_RESULT["x_
       "y_ok:", A5_CONV_RESULT["y_ok"])
 print("marking order checks:", conventions_used["f_word_evaluation"]["marking_order_checks"])
 print("witness_can4_mismatch_count:", WITNESS_CAN4_MISMATCH, "/", len(S4_RECORDS))
+print("F4 selected candidate:", fixture_results["F4_can4_axis_mutation"]["selected_candidate"])
+print("F4 candidate A (gen swap) fires:",
+      fixture_results["F4_can4_axis_mutation"]["candidate_A_generator_swap"]["fires_set_inequality"])
+print("F4 candidate B (point relabel) fires:",
+      fixture_results["F4_can4_axis_mutation"]["candidate_B_point_relabel_transposition_12"]["fires_set_inequality"])
+print("tuples_unchanged_from_v2:", TUPLES_UNCHANGED_FROM_V2, "v2_sha:", V2_ENUM_SHA)
 print("RESULT:", RESULT)
 print("failures:", len(FAILS))
 for m in FAILS:
@@ -751,5 +831,5 @@ print("baseline set size:", len(BASELINE_SET))
 print("proj_q9:", len(PROJ_Q9), "proj_q4:", len(PROJ_Q4))
 print("canonical sha256:", CANONICAL_SHA256)
 print("Wrote", relpath(CERT_OUT))
-print("Wrote", relpath(ENUM_OUT))
+print("Referenced (unchanged):", relpath(ENUM_OUT))
 print("DRIVER_DONE:", cert["driver_done"])
