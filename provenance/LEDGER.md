@@ -2115,3 +2115,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 EP 第三陣 3 文書 検収(裁定 503)— F103-6.2/6.3/6.4 の条件反映完了: 台帳 v1.7-r2(CL-13 = open typed requirements・verbatim_pin={path,sha256}・conformance_at_issue 分離)・IMAGE-MU v2(A′/B 採択形・registry+curve_model_ref・W6-P13〜21 前修理 4 点反映・live ID インシデント条項)・1210 v2(per-suite provenance 分離・claim 限定文言・47/53 精密化)
 - 前版 3 本 byte 不変・versioned supersede。凍結非改変(searcher:930 は読取のみ)。EP 状態札 3 つ不動。便 104 積載。
+
+## 2026-08-05 TB v2.1 検収(裁定 504)— F103-4 の 4 条件全履行: RD-6′ 分離(v2 の二重誤りを自認・(iii-a) Puiseux = Ẑ(1)-torsor/(iii-b) roots of unity = Ẑ^×・証明つき)・Hensel 削除(2 行差替)・transport 理由の三段書き直し(IX = 名前 pin/V 6.13 = 実働 pin/EXSEQ 再走)・reader_exercise 2 件を補題 EXSEQ-STAB(証明)+EXSEQ-LIM(骨子・内包債務 2 件申告)で責任引受
+- v2.1 = docs/notes/tb_citation_bundle_v2_1.md(v2/v1 不改変)。「書いてよい文/書いてはならない文」を §5.1 に固定(theorem-framework-relative [TB: canonical-source-pinned/v2]・GAP-TB-EXACT 閉は可/canonical-source-relative・verified・unconditional は不可)。工房債務 L-1〜L-7 確定。便 104 積載 — **(5′) の条件付き PASS の条件はこれで全履行**。
