@@ -1934,3 +1934,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - v2 = search/certs/hsp7_cond4_laneV_v2_20260804.json(旧 v1 = HELD のまま不改変保存)。修理 = 仲裁の第一選択(修理 A): 純 Q 因子を自由群 WORD へ展開し検証済み ApplyGen へ流す経路(EvalFullHexagonFixed)・旧 ApplyQElt はバグ付きのまま監査履歴として残置(呼出全廃)。恒久 TOY fixture(位数 162 literal・6 セル)を driver 冒頭ゲート化。
 - 再走結果: **S-9 = 0/8 未発火**(dummy 7 件 PASS/PASS・h₃ FAIL/FAIL — Lane S と完全一致・仲裁予言どおり)。NW-P8 m 掃引 = 5 件とも N/N₀ 一致(m∈{1,2,4,5} FAIL/FAIL・m=6 PASS/PASS)⟹ **S-8 は縮小 scope で発火**(不一致 0 件)— ただし仲裁の構造事実(N∩F₂ = N₀∩F₂ = 𝒱(F₂) ⟹ charming 候補で必ず一致)により、この発火は「較正失敗」ではなく **NW-P8 の設計が本窓対では構造的に空振りになる**ことの確認(control 窓の役割 = 無料の実装テストへ更新・cert に明記済み)。Sol へは便 102 で P101-1 の NW-P8 条項に対する構造報告(仲裁書添付)として上程。
 - 条件 4 の現況: **三レーン cert 出揃い**(S PASS・P PASS・V v2)→ Lane Σ(第 4 の著者・cert JSON のみ・述語機械適用・自己較正 2 組・worktree 隔離)起票。
+
+## 2026-08-04 (6′) 有限計算 検収(裁定 470)— ★P-S3F-4 的中: n∈{3,7,9} の全 14 単元窓で (6′) 成立(ρ₀ 忠実+像の等式)= BRIDGE-one の機械側が閉塞・族一撃の残りは (5′) = 橋 B-1/TB3 pin のみに
+- cert = search/certs/s3f_a3_6prime_20260804.json・driver = search/probe/s3f_a3/。定義は正本引用のみ(oddH_full_proof §2-5/§11・K3飽和 v3 §5.2)。
+- 全 14 窓(n=3: α∈{1,2}・n=7: 全 6・n=9: 全 6)で |H|=2n²・N_G(H)=H・Λ_α 安定性・**ρ₀ 忠実・ρ₀(𝔉₀)=τ(μ_{2n}[n])** 全 PASS・fail-closed 無発火。**予言 P-S3F-4 的中**(反証窓 0)+補題 R′ の「像の等式は自動」主張を独立直接計算で傍証。
+- 非可換 sanity: n=9,u=5 で paper 順のみが diag(5,5,5) を再現(discriminates=true)— 順序感度の実測つき。宇宙拡大なし・予言のコード非埋込・封印非接触・(5′) 非接触(SURJ-fam-K 全体は主張しない)。
+- **帰結(P1 族一撃の会計更新)**: 【S3F-A3 = BRIDGE-one】は「(6′) 済(n∈{3,7,9} 実測)+(5′) UNKNOWN」へ。残る本丸 = (5′) = 橋 B-1 = 枠組み層 = **TB3 の引用 pin(LMS 200 の Ihara 1994 §1.4)** — 調達が文字どおり律速。便 102 に本 cert を積載。
