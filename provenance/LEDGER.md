@@ -1967,3 +1967,10 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-04 Lane V v3 検収(裁定 475)— CV-9 差戻しの B-1/B-2/B-4 全修理: N₀ 側 8 件評価(N/N₀ 不一致 0・c 会計の生きた検査 1→9 セル)・TOY 拡張(c 生存セル+負例セル・7 セル 0 mismatch・「定数 PASS 評価器」検出力を実証)・格付け文言の正直化
 - v3 = search/certs/hsp7_cond4_laneV_v3_20260804.json(v1/v2 不改変)。B-1: 物理証拠 4 欄復元(listing+sha)。B-2: 仲裁 §5.4 項 5 の事前登録(N/N₀ 両方)履行 — 8 候補とも N₀ で N と同判定(仲裁の構造事実どおり)。TOY に (i) c 生存セル(c³=1・位数 486・N₀ 縮小アナログ)(ii) 負例セル(非 charming f=x で FAIL/FAIL — 定数 PASS 評価器を検出)を恒久追加。B-4: cross_checked_status = "n/a" へ訂正+証拠力の所在(TOY オラクル+紙の予言)・ANUPQ バイト一致 = 同一対象性の証拠・NW-P8 単独申告性、を明記。非 blocking m2(A5-CONV の新経路面)も同時閉。
 - 残 = B-3(NW-P7 = 便 102 で Sol 認可請求)・M5(NW-P8 撤回 addendum = 本日司令塔起草)・m3(frozen_at digest 化 = 次版)。**便 102 組立を開始**。
+
+## 2026-08-04 campaign v2+W-6 札検分 検収(裁定 476)— ★付録 A(W-5)= 完全無矛盾(ENT-1 と 3 軸で走査域外・非分裂 4 行証明・「2-primary なら非分裂供給」予測の初の実物)・campaign v2 = F-1〜F-4 履行+ASM-α-CAL/v1 較正仕様・2 否定定理候補 ROOF-KILL/THETA-KILL に収束
+- 成果物 = framework_promotion_campaign_v2.md(v1 不改変・§0 errata 5 件・§5′ 全面差替)+ ideas_020_review_v1.md(検分 4 点+W-5 erratum 原稿)+ w5_charming_check.py(N_ord=20 の charming 会計検算 PASS)。
+- **F-2 の裁定採択**: 再設計(falsifier probe 2 本を較正スイートへ移設 = ASM-α-CAL/v1・必須 4 検査・fail-closed)+「72 ケース PASS」主張は降格(正しい主張形 = 分離: 単元 56 採用域/非単元 16 陰性対照 — 供給されるのは「単元限定という結論の識別力」)。実装は司令塔経由で次波。
+- **付録 A(W-5)判定 = 全段成立・ENT-1 と完全無矛盾**: 3 軸(窓基底 K⁽³⁾ vs K⁽⁵⁾・標数 p=3 vs p=2・B₃ 指数 1944 vs **6000**)すべて走査域外+NO-ENT(3) は射程固定済み。非分裂の 4 行直接証明(Q₈ の対合 1 個)。**H²(G₅,F₂) ≠ 0(Arf 類 inflation)= w6 §3.4 順位 1 予測「2-primary なら非分裂供給」の初の実物**。novelty 語法 = 「entangled **屋根**の実在庫」(K⁽⁹⁾/K⁽³⁾ 等が既在のため)。**【W5-GAP-1】= W-5 の isolated 性未確認**(witness (f₁,+1) の d=5 はその条件つき)。
+- 検分の収束: 1-A/1-C/1-D → **ROOF-KILL / THETA-KILL の 2 否定定理候補**(前件 = (V-der) 1 点・THETA-KILL は 2-primary 最下段 |PB₃/N|=500·2 を紙で殺す = w6 優先度表に直接)。
+- **便 102 の材料が完備** — 組立開始(積載リストは裁定 474/475 帯+本裁定・NW-P8 撤回 addendum 起草済み)。
