@@ -2001,3 +2001,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 成果 = docs/notes/tb_citation_bundle_v1.md(candidate・既存文書不改変)。判定: TB1 = 読み替えつき一致(条件 = 10.16 末尾+工房初等補題 TB1-FF — TB1-b の「繊維関手」条項不一致を初等で回復)・TB4ᵘ = 一致((γ) は (TB1)+(TB3)+RD-2 から導出済 ⟹ 外部 pin は (β) のみ)・TB3 = 一致((c) の z 慣性は括弧書き 1 語の弱 pin だが (5′) 鎖では非 load-bearing)。
 - 誠実会計: 読解係「3 点 pin で閉じる/供給 3/3」を 2 件訂正・**未 pin 1 件新設**(【GAP-TB-EXACT】= 同所性完全列・campaign FP-1 の「3 項目局在」を 4 項目へ悪化方向で申告)・自ら請う格を canonical-source-pinned へ降格・読解 D の §16.1 前提可否を 150dpi 照合で解消(良還元は定義条件節・工房 U で自動充足)。
 - 監査点 S-1〜S-5(最重要 = 接基点三者同一視 RD-6)。便 102 の TB 束はこのノートを正本として同梱。
+
+## 2026-08-05 W-5 isolated 前提検査 検収(裁定 482)—【W5-GAP-1】閉: isolated = TRUE(80/80 settled・|GT(W-5)|=80)・fixture K⁽³⁾ 照合 PASS(shadow_total=12)・裁定 473 数値と全一致・非接触宣言遵守
+- cert = search/certs/w5_isolated_check_20260805.json(tier=prerequisite-check・単一 GAP 実装・not cross-checked と正直記載)・driver = search/probe/wac_v1/w5_isolated_check_20260805.g。事前登録 = 予言 UNKNOWN(前提検査)。charming 16 種で 5/5 ずつ均一・candidate 4000 → h10_fail 3200・h11_fail 720・gen_fail 0 → shadow 80。停止・速達の発火なし。
+- 帰結: **W-5 = isolated な entangled 屋根の実物**(非分裂・Arf 類・裁定 476)として確定 — SPLIT-NULL 設計律の「検出は entangled 屋根のみ」チャネルの初の生きた対象。d(W-5) の実測(Im R 接触)は封印レジーム = Sol ゲート(付録 A の「witness で d=5」見込みの紙検分は数学者#3 の ROOF-KILL 起草と合流)。fixture 誤記の自己訂正 1 件は申告どおり受理。
