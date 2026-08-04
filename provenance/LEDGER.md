@@ -1697,3 +1697,13 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **差戻し = self-hash v3+台帳 v1.5 束(4 欠陥・P101-3 の 6 条件で再提出)**: v3 の ledger_version 宣言 drift(v1_4 のまま新型使用)・台帳 CL-9 の「checker 未実装」が現物と矛盾・checker contract 不完全(全 sha256_ref 非走査[nested superseded_by]・path 実入力一致検査なし・sha256/sha256_ref XOR 未強制・負例不足)・MANIFEST の fixed-point 不可能断定の current erratum 未設置。採択済みは設計判断(§1.7 配置・𝔥₃/𝔥₄ 用語)まで。
 - NOTE 2 件: 「1210 検査」の恒久記帳には suite log の別 provenance 束縛が要る(W101-4.1)・DUM checker 冒頭コメントの (4a−b) は次版で修正(W101-1.2・現 file 不改変)。
 - 次セッション: 裁定 428(本返信の検収)→ 修文波(v4/checker v2/台帳次版・S-7′ 反映)→ **HS 条件 2 の p=7 構造確認走(認可済み・P101-1 契約で implementer 起票)** → Fresse 精読 3 裁定(既記載)。
+
+## 2026-08-04 便 101 検収の正式化(裁定 428)— 前セッション記録(71bc1f8)を検収裁定として確定・Fresse 精読の 3 裁定を併合
+- **P101-6 の 7 件を記帳**(NW-1a/1b+HSP-GAP-1 CLOSED 紙・DUM-FIN/DUM-HEX/DUM-1/p[NW-P5 相対]・P100-1.1 理由撤回+H8′ 正根拠+本窓族 SURJ 識別力ゼロ・R-5/PREC-1・K5 §A.13/NO-ENT §10 批准・M-7 CLOSED+W6KEY 2 plane adoption PASS・Fresse I.6.2.4/Lemma 6.2.5 刊行版 pin)・W101-6 の 4 件昇格禁止を承認。**S-7′ 採択**(事後予言改稿禁止 — HS 設計へ反映は本日修文波)・DUM checker コメント erratum は次版・「1210」引用時は suite log の versioned 束縛(W101-4.1・ep-keeper 次 move で log 永続化)。
+- **Fresse 精読 3 裁定**: (a) **訂正 A/B 採択** — 正引用先 = **Part 1 Thm 6.2.4(b)(非 unitary 核)**へ(Part 2 Thm 1.1.5 は unitary 版につき補助参照へ格下げ)・頁 pin p.9-10 → **p.11** — 伝播(e_b4・台帳 §1.5 例示)は本日修文波 (b) **命題 TRUNC-FULL を便 102 ゲートに登載**(ノート §11 の依頼 5 項) (c) **IHNEC-L4 不発注を追認**(TR-4 は工房自前証明で閉・格の見栄えのみ)。付随: (FREE-OP) 閉・依存の底 = Mac Lane coherence(6.1.7 = Explanations 環境)を依存表へ明記(修文波)。
+
+## 2026-08-04 文献リスト受領(裁定 429)— 研究者調達第 2 便・4 本照合・3 本収蔵
+- **HS 刊行版**(papers/harbater-schneps-2000-TransAMS352-published.pdf = 5325739a7dce29b97ec2c46d9f52b07408cdf9b158e22391e66e64a6d4433c8c・Trans. AMS 352(7) 3117-3148): **Prop 7 の番号・言明・(14253)・Remark [I3] が preprint と一致を機械照合 — 裏どり優先 3 閉**(preprint/刊行版の番号ドリフトなし)。
+- **Ihara [I4] ICM 1990 survey**(papers/ihara-ICM1990-braids-galois-arithmetic-functions.pdf = f89c10fee461358361c25fa33fa7e33891f3703fa41eff986c3c461cae8776f5)収蔵 — 優先 5 系・(U2) 言明の実体(裁定 286 系)。
+- **LS-Ptolemy**(papers/lochak-schneps-universal-ptolemy-teichmuller-groupoid.pdf = 84fca633d0de1dff6bd06bbca245b617df93f6312c4546c1a2fdb172ea3a842a)収蔵 — **HS の [LS](braid 塔 special automorphisms・Dessins 巻)とは別論文と同定**(本 pdf の Lemma 7 は tesselation 系 ≠ HS Prop 7 証明の [LS, Lemma 7])。pentagon/Ptolemy 隣接文献として価値あり。
+- preview(LMS 叢書目次のみ)は非収蔵。**残ハント(低優先・PENT-NORM 非依存)**: HS の [LS] 本体(LMS 200 Dessins 巻)・[I3](Ihara, Israel J. Math. 80 (1992) stable derivation algebra)。
