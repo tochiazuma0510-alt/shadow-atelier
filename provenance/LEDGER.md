@@ -2125,3 +2125,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 B v6 検収(裁定 506)— F103-7 の 6 修理完了+★重大申告 2 件の裁定: ①係の driver 再実行事故(v4/v5 を意図せず上書き)→ 裁定 461 の commit 4ebe384 へ**正しく復元**(復元後 v4 sha = 05f5e64c… = 便 102 発送時の記載値と一致・生成方式を読み取り専用 python ツールへ恒久変更)②**Sol 便 103 引用の v4 sha「a6b41284…」は当方の全記録に存在しない値 = Sol 側の誤引用の見込み**(便 102 本文・preflight・git 履歴すべて 05f5e64c…)— v6 の v4_hash_reconciliation 欄に機械記録・便 104 で確認請求
 - v6 = search/certs/nf972_sourcemap_b_v6_20260804.json(+自己参照解決 MANIFEST)。6 修理: structured supplements・canonical_enumeration_ref(tuples v3 whole sha 8cd10f3a… = Sol 引用値と一致+pointer+count)・function_b の K9/S4 二本型付き pin・roundtrip → separation へ正直再分類・wall_ms は v4 実測 67043 継承(新規測定なしを明記)・chain の v4→v5→v6 機械可読化。数学結果不撤回・v5 以前不改変(復元後確認済)。
 - 教材: 「supplement は過去 artifact を読むだけで生成する」方式の恒久化(driver 再実行での供給は上書き事故の構造を持つ)。
+
+## 2026-08-05 HS 本走事前登録票 v1 検収(裁定 507)— 宇宙凍結(705,894 = 6×117,649 の導出+機械再計数手順)・述語 digest 束縛・停止規則・解釈規約(hex-PASS∧PENT-FAIL = A 型候補の記録のみ)・不変参照は commit f76be7e 三つ組で機械確認 — 残る空欄 = 付録 C(timeout/UNKNOWN 予算・較正実測からの外挿要)
+- 票 = docs/notes/hsp7_mainrun_prereg_v1.md。lanespec §10 (a)(c) は司令塔単独で決めず監査点へ(正)。付録 C の外挿を小委嘱(便 104 発送前提)。
