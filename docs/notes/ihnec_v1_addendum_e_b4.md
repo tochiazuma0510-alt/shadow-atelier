@@ -872,3 +872,81 @@ $$\text{U-10(未解決予想)}\ \longrightarrow\ \text{(TRUNC}^{B_4}\text{)(記�
 - §E-A.9.5 の Thm 3.8 逐行突合表(Sol が独立に同じ読みに到達 — F.1-4)。
 - 凍結物 **P-IHN-1〜7** と検算 digest(不変)。
 - 【GAP-TRUNC-1】(FREE-OP・圏論的包装)は**依然 open**(Fresse Thm 1.1.5 が普遍性の形で述べられているかは本追記では未判定 — 原文 p.9–10 の精読は未実施)。
+
+# 追記 G(**裁定 428 (a)** = Fresse 訂正 A/B の伝播)— **正引用先を Part 1 Thm 6.2.4(b) へ・頁 pin 訂正・依存の底の明記**
+
+> **追記型**: §E-A.0〜E-A.9.7 および追記 F の本文を**一切改変しない**。下の G.1〜G.4 の項目については**本追記が effective source**(CV-10)。
+> 起草: 数学者(Claude / Opus 5)・2026-08-04。入力 = **裁定 428 (a)** + **精読正本 `docs/notes/reading_fresse_624_v1.md`**(工房内精読・§10.2 の訂正表 C-1/C-2/C-6)+ **Sol 便 101 F101-5.1**(現物・番号・言明・証明本体の実在確認)。
+> $K^{(5)}$ 非接触・封印 payload 非接触・**新しい数学的主張ゼロ**(本追記は pin の版と頁の訂正、および依存表の明記のみ)。
+
+## G.0 効力表
+
+| # | 対象 | 旧(追記 F まで) | ★ 本追記後 |
+|---|---|---|---|
+| **G-1** | 追記 F.2 の pin 表「文献 / 所在 / 現物」 | Fresse **Part 2 Thm 1.1.5**・PDF **p.9–10**・`papers/Fresse_EnOperadHomotopy-II.pdf` | ★ **Part 1 Theorem 6.2.4(b)**・**刊行頁 212–214**(PDF 物理頁 259–261)・`papers/Fresse_SURV217_Part1.pdf`(**訂正 A**) |
+| **G-2** | Part 2 Thm 1.1.5 の頁 pin | **pp.9–10** | ★ **p.11**(profinite 注記は **p.12**)(**訂正 B**) |
+| **G-3** | Part 2 Thm 1.1.5 の役割 | **正引用先** | ★ **補助参照へ格下げ**(unitary 版につき工房の使用を literally 覆わない) |
+| **G-4** | 依存表の底 | 「Fresse(入手済の外部定理)」で止まる | ★ **Mac Lane coherence まで降りる**ことを明記(G.4) |
+
+**本追記が変えないもの**(G.5 に再掲): 追記 F.2 の判定 **F99-3.6 = PASS**(外部定理への相対的 paper-proof)・前件表の **4 札**(§E-A.9.6)・補題 TRUNC$^{B_4}$ の**言明と証明**(§E-A.9.3–4)・**TRUNC-PAIR の弱版/強版の規約**(追記 F.3)・凍結物 P-IHN-1〜7。
+
+---
+
+## G.1 ★ 訂正 A — 正引用先は **Fresse Part 1 Theorem 6.2.4(b)**(非 unitary 核)
+
+**理由(版ずれ)**: 工房の使用は**非 unitary** — 正典 2008 は $\mathrm{PaB}(0)=\emptyset$ を明示している(*"Since the groupoid $\mathrm{PaB}(0)$ is **empty**, Theorem A.1 implies …"*, p.12)。一方 **Part 2 Thm 1.1.5 は unitary 版**であり、四つ組 $(m,e,a,c)$ と **strict unit 関係**($e\square x_1=x_1=x_1\square e$ 等)を**要求する**。$\mathrm{PaB}(0)=\emptyset$ の設定では $e$ が存在しないので、**1.1.5 は工房の使用を literally 覆わない**。
+**Part 1 Theorem 6.2.4(b) は unit 条件を一切要求しない非 unitary の核**であり、三つ組 $(m,a,c)$ ⟹ **一意な** operad 射 $\phi:\mathsf{PaB}\to\mathsf Q$ を与える。⟹ **正引用先はこちら。**
+
+**訂正後の pin 表(追記 F.2 の表を置換)**:
+
+| 項目 | ★ 値 |
+|---|---|
+| 文献 | **Fresse, "Homotopy of Operads and Grothendieck–Teichmüller Groups", AMS Mathematical Surveys and Monographs 217, Part 1, Theorem 6.2.4(b)**(刊行版) |
+| 現物 | `papers/Fresse_SURV217_Part1.pdf` |
+| SHA-256 | `bd286ab54e4d0f04bb66636c79c1045dcadf7d8d755e13784377db150abefb54` |
+| 言明の所在 | **刊行頁 212–214**(**PDF 物理頁 259–261**)。頁変換 = **書籍頁 = PDF 頁 − 47** |
+| 証明本体 | **刊行頁 214–218**(PDF 物理頁 261–265)・`Proof.` 環境・**Step 1–4** + 補助 **Lemma 6.2.5**(刊行 p.218 / PDF 265・証明つき) |
+| **`proof_body_status`** | ★ **`present`**(CV-10 §1.5 の様式) |
+| 言明の型 | $\mathsf Q$ = **任意の** operad in categories、$m\in\mathrm{Ob}\,\mathsf Q(2)$、$a,c$ が pentagon(Fig 6.1)と hexagon 2 本(Fig 6.6)を可換にするなら、$\phi(\mu)=m,\phi(\alpha)=a,\phi(\tau)=c$ で**一意に決まる** operad 射が存在(まとめ節は**全単射**と述べる) |
+| 現物照合 | **二系統**: 工房(`pdftotext -layout` 全文 + `pdftoppm -png -r 120` の頁画像 6 枚)と **Sol 便 101 F101-5.1**(頁画像で言明・図・証明開始・証明終端 + Lemma 6.2.5 の実在を独立確認)。★ **これは書誌事実の照合であって、数学的主張の cross-checked ではない** |
+
+## G.2 ★ 訂正 B — Part 2 Thm 1.1.5 の頁 pin と役割
+
+| 項目 | 旧 | ★ 訂正後 |
+|---|---|---|
+| 頁 | **PDF p.9–10** | ★ **PDF p.11**(頁画像 `p2p11-11.png` で確認)。**profinite 注記は p.12** |
+| 役割 | 正引用先 | ★ **補助参照**(unitary 版の再掲) |
+| 現物 | `papers/Fresse_EnOperadHomotopy-II.pdf`(sha256 `1433bafe9999d131bb9f2e597b9c0cb92fe8cca9b904b17df8763628da58719e`) | 不変(収蔵は有効) |
+| `proof_body_status` | — | ★ **`external_reference`**(*"1.1.5 Theorem (see [26, Theorem I.6.2.4])"*・*"This theorem is established in the cited reference."* ⟹ **Part 2 単体では証明本文なし**) |
+| profinite 版 | 「後続箇所に profinite analogue と連続延長も記載」 | ★ **格を下げる**: p.12 は *"the profinite analogues of these constructions is obvious"* の一語であり、**定理として存在しない**(`omitted` / `omission_kind = silent_omission`)。⟹ **工房の (TR-4) の代替にはならない**(自前証明が立つことは精読正本 §6.4 で再検査済) |
+
+> ⚠ **これは追記 F.2 の判定(F99-3.6 = 外部定理への相対的 paper-proof として PASS)を覆さない。** 数学的内容は同じで、**引用先の版・頁を精密化する訂正**である。むしろ **Part 1 の収蔵(裁定 425)は「あった方がよい」ではなく「必要だった」**ことが判明した。
+
+## G.3 補題 TRUNC$^{B_4}$ の格(**追記 F.2 の読み替えの確定**)
+
+> **格**: **paper-proof candidate**(工房の自前証明・**Sol 未監査**)であり、**Fresse Part 1 Theorem 6.2.4(b)(刊行版・証明本文 `present`)に相対的**。
+> (追記 F.2 の「**Fresse Thm 1.1.5 相対**」は本追記で上の形に置き換わる。**§E-A.9.7 格付け表の本文は不改変** — 本追記が effective source。)
+
+**【GAP-TRUNC-2】(2008 Thm A.1 の外部性)**: 「**2008 Theorem A.1 に証明本文が無い**」は**不変**。変わったのは連鎖の着地点で、`external_reference` の鎖が **`present` に着地する**(依存の梯子が 1 段上がった)。
+
+**【GAP-TRUNC-1】(FREE-OP・圏論的包装)の状態**: ★ **工房内では閉じている**(精読正本 §5.3 — 6.2.4(b) は普遍性の形で述べられており、工房が (UP) として仮定した「対象上恒等」は Fresse では**仮定ではなく引数** $m\in\mathrm{Ob}\,\mathsf Q(2)$ である ⟹ 自由 operad + 合同商の構成は**要らない**)。**ただし Sol ゲート未了** — 便 101 W101-5.1 は「今回は言明・番号・証明本体の実在確認であり、適用に必要な証明全体の精読ではない」として **OPEN** と判定している(工房の精読着地は便 101 発送**後**であり、Sol はまだ読んでいない)。⟹ **記帳は「工房内 CLOSED・Sol ゲート未了」**とし、**便 102 のゲート項目**に置く。**単独で「閉じた」と引用しない。**
+
+## G.4 ★ 依存表の底 — **Mac Lane coherence まで降りる**(裁定 428 の指示)
+
+$$\underbrace{\text{U-10}}_{\text{未解決予想}}\ \longrightarrow\ \underbrace{(\mathrm{TRUNC}^{B_4})}_{\text{補題}\ \S\text{E-A.9}}\ \longrightarrow\ \underbrace{\text{2008 Thm A.1}}_{\text{証明本文なし}\ /\ \texttt{external\_reference}}\ \longrightarrow\ \underbrace{\text{Fresse I.6.2.4}}_{\texttt{present}\ (\text{刊行}\ 214\text{–}218)}\ \longrightarrow\ \underbrace{\text{Fresse I.6.1.7}}_{\texttt{present}\ /\ \texttt{Explanations.}}\ \longrightarrow\ \underbrace{\text{Mac Lane coherence}}_{\text{[130]}\ /\ \text{Stasheff [167]}}$$
+
+**明記すべき 2 点**(誠実な申告 — 隠さないために書く):
+
+1. **6.2.4 の Step 2 は Theorem 6.1.7(Mac Lane coherence の operad 版)に依る。**
+2. **6.1.7 の justification の環境名は `Proof.` ではなく `Explanations.`** であり、その中の一段(「グラフの路の間の全関係が pentagon と square の合成に帰着する」)は **Mac Lane [130] / Stasheff [167] へ委譲**されている(逐語: *"We refer to Mac Lane's monograph [130] for further details on this purely combinatorial approach."*・刊行 p.206)。**`Explanations.` は本書で 27 箇所に使われる著者の常用環境**であって、本定理固有の弱化ではない。
+
+> **リスク評価: 低**(Mac Lane coherence は 60 年来の標準定理)。**ただし「依存の底は Fresse で止まる」と書くのは不正確** — 底は Mac Lane coherence である。依存表にはこの 1 行を持たせる。
+
+## G.5 この追記が変えないもの(再掲・境界の明示)
+
+- 追記 F.2 の**判定** F99-3.6 = **PASS**(6 段の論法は正しい)。本追記は**引用先の版**を直しただけである。
+- **前件表 4 札**(§E-A.9.6)と **FAKE-KILL$^{B_4}$ の最短鎖**。TRUNC は full/truncated の橋を閉じるだけで、**U-10 や四前件を証明しない**(追記 F.3)。
+- **TRUNC-PAIR の弱版(使ってよい)/ 強版(使ってはならない)の規約**(追記 F.3)。
+- **規約 (OBJ)** の扱いと、精読正本 §9 の**命題 TRUNC-FULL**(candidate)。⟹ **裁定 428 (b) により便 102 のゲート項目**。**本追記では格を上げない**(触れない)。
+- **(R1) profinite 完備化の普遍性 = (TR-4)** は **6.2.4 の射程外**で、**工房の自前証明で閉じている**(精読正本 §6.4 で再検査・健全)。**【文献要請 IHNEC-L4】は不発注**(裁定 428 (c) で追認 — 格の見栄えのみ)。
+- **(R2) 切詰め版 (A1$^{\le4}$) の関係半**は工房の TRUNC が**使っていない**(荷重ゼロ)。**生成半**は 6.2.4(a) の証明の arity 帳簿から裏が取れる。⟹ §E-A.9.2 の (A1$^{\le4}$) 行には**この注記だけ**を足す(本文不改変・本追記が effective source)。

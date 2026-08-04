@@ -1722,3 +1722,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-04 ANUPQ 環境障害の裁定(裁定 432)— pq.exe の GAP 双方向パイプが Windows/cygwin バッファリングで死亡(初回使用で露見・実装係の切り分け良)
 - **裁定**: 第一手 = **バッチ実行への駆動側迂回**(pq への入力列をファイル化し一方向リダイレクト `pq < in > out`・対話 iostream 放棄・GAP は出力 pc presentation を読み込み)— 数学・設計無変更の工程回避。第二手(併走推奨)= **純 GAP 独立構成**(polycyclic の FreeNilpotentGroup(2,4) → pc 生成元 p 乗の正規閉包で割る → **Exponent=7 と位数を機械検査する fail-closed**・仮定なし)— 両立すれば後日 CV-9 の独立二経路。**Lazard/自由 Lie 代替は主経路として棄却**(Witt 数の再導出 = 凍結予言そのものの計算 = 直接確認の循環)。両手失敗なら S-6 停止。pq 再ビルド・環境大工事は不認可(研究者事項)。
 - 記録: この環境での anupq 実使用は今回が初(棚実在 ≠ 実戦確認、の教材)。cert に迂回の由来を provenance 明記。
+
+## 2026-08-04 裁定 428 修文波検収(裁定 433)— 4 件全履行(S-7′/S-8・Fresse 訂正伝播・台帳 v1.6・dumhex v2)・CL-12 に checker v2 実測を司令塔記入
+- **S-7′ 正本化(HS §9)+起草者の精密化を承認**: NW-P2 の 4 欄で初動を差別化(N_ord=7・|X_N|=6 は補題 NW-1b で証明済 ⟹ 不一致 = bug か紙の誤り/|P|=7⁸・|[P,P]|=7⁶ は上界のみ紙 ⟹ 予言偽もありうる)・**S-8 新設**(較正不一致 0 件 ⟹ CALIBRATION_FAILED/INTEGRITY_STOP・弱め方 4 形を先回り封じ)・cert 用 stop_rules JSON ブロック(parse 可能を機械確認・実装係が転用可)・**【HSP-GAP-5】新規**(N₀ の c-成分 m-依存性の閉形 — 埋まれば NW-P8 が定理化・発火条件 2 の前提ではない)。
+- **Fresse 訂正 A/B 伝播(e_b4 追記 G)**: 依存の底を式で明記(U-10→TRUNC→2008 A.1→**Fresse I.6.2.4**→I.6.1.7[Explanations]→**Mac Lane coherence**)・Part 2 p.12 の profinite 注記の正体 = "obvious" 一語 = silent_omission につき (TR-4) の代替にならない、を記帳。**格の注意を採択: 【GAP-TRUNC-1】=「工房内 CLOSED・Sol ゲート未了」**(Sol の W101-5.1 OPEN は精読着地前の状態表明 — 単独で「閉」と引用しない)— 便 102 で精読ノートごとゲートへ。
+- **台帳 v1.6**(同期 3 点機械確認・CL-9 CLOSED 化 = v1 実在+残余 4 件の正確な範囲・**規範 11 新設** = sha256 XOR sha256_ref の完全形[両方なしも MALFORMED・checker 強制義務]・§1.7.3′ (vi)-(ix)・**【CL-13】新規** = external_reference の「版」粒度[unitary/非 unitary の実例から])。XOR を新 CV でなく §2 規範に置いた起草判断 = **司令塔レビュー通過**(五原則⑤の系という理由づけを採択)。**CL-12 へ checker v2 の path/digest/実走(1 PASS+9 STOP・v3 drift STOP)を司令塔記入** — 残 = Sol 再検収(便 102)。
+- dumhex v2 = コメントのみ修正(コード・出力とも v1 と byte 同一を機械照合)・14 検査 FAILS 0(司令塔追試一致)。速達処理済(done)。verified 0 件・HS 14 検査は single lane のまま(正直申告承認)。

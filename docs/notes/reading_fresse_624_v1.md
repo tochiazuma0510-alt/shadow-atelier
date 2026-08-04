@@ -406,3 +406,9 @@ $$\boxed{\ \textbf{補題 TRUNC}^{B_4}\textbf{ の Fresse への依存は }\text
 - **機械照合**: `pdftotext -layout` 全文抽出 + `pdftoppm -png -r 120` による**頁画像視認**(§1.2 の 6 頁)。sha256 は `Get-FileHash` で独立計算。**手写しの値はない。**
 - **推測と証明の峻別**: §9 の命題 TRUNC-FULL は **candidate(骨子のみ・未書き下し)**。§8.2 の「生成半は帳簿から裏が取れる」は**起草者の読み**であり Fresse が明言してはいない(**paper-proof candidate**)。それ以外の §2–§7 は**逐語 pin と直接の演繹**である。
 - **grep 語**: `Fresse`・`6.2.4`・`6.1.7`・`Lemma 6.2.5`・`TRUNC`・`GAP-TRUNC-1`・`GAP-TRUNC-2`・`FREE-OP`・`OBJ`・`unitary`・`PaB_+`・`magma operad`・`Mac Lane`・`dodecagon`・`SURV 217`・`Thm 1.1.5`・`IHNEC-L4`・`TRUNC-FULL`。
+
+---
+
+## 追記(**裁定 428**・2026-08-04・**1 行**)
+
+★ **裁定 428 (a) で訂正 A(正引用先 = Fresse Part 1 Theorem 6.2.4(b)・非 unitary 核・刊行頁 212–214 / 証明本文 214–218)と訂正 B(頁 pin pp.9-10 → **p.11**・profinite 注記 p.12)を採択し、伝播済み** — 伝播先 = `docs/notes/ihnec_v1_addendum_e_b4.md` **追記 G**(§10.2 の **C-1 / C-2 / C-4** + 依存の底 = Mac Lane coherence の明記)/ `docs/notes/conventions_ledger_v1.md` **v1.6 §1.5**(**C-6**)。**C-3 / C-5 は命題 TRUNC-FULL(§9.2)と束で便 102 の Sol ゲートへ**(裁定 428 (b)・§11 の依頼 5 項をそのまま提出・**本ノートの格は上げない**)。**【文献要請 IHNEC-L4】は不発注を追認**(裁定 428 (c))。**【GAP-TRUNC-1】は「工房内 CLOSED・Sol ゲート未了」**と記帳(便 101 W101-5.1 は精読前の状態表明)。
