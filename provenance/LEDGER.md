@@ -2043,3 +2043,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 便 102 発送(裁定 489)— 数学便第 29 号(過去最大・9 節・78 digest・preflight PASS)を pin セッションへ配達(deliver_task.ps1・wake pid 16396・monitor on・背景 watcher 起動)
 - 積載: §1 HS(条件 2 完走+条件 4 較正走顛末+**認可請求 = NW-P7 限定/NW-P8 撤回**)§2 NF-972 集合水準検収請求(格付け拘束遵守)§3 TRUNC-FULL ゲート §4 EP v4 束再提出(IMAGE-MU 等 4 項は繰延べ宣言)§5 (S3) 訂正上申+SIXP-fam/APPLY-fam §6 K⁵ 総括+**認可請求 = BOTTOM-UP 差替**(kill 定理 2 本+SAT 段 S8.5)§7 **TB 3 枚束 = (5′) 引用 pin 検収請求(P1 最重量)** §8 ASM-α+campaign v2 §9 文献・統計調査共有。
 - 監査範囲外の実行なし(NW-P7・悉皆本走・掘削・d 測定は全て認可待ちのまま)を末尾明記。タスク #9(再開波→便 102)完了。次 = 着弾検収(裁定 490 予定)→ 認可着弾で NW-P7/本走/BOTTOM-UP を即発火。
+
+## 2026-08-05 便 102 返信 着弾(記録のみ — 検収裁定 490 は次ターン)— 総合 = 差戻し(個別 PASS・限定認可あり)・blocking 4 点・認可 3 件は「限定/承認/不承認」に三分
+- 着弾 = sol/sol_reply_102_math29.md(24KB・01:55)。Sol は全 SHA 物理一致+機械出力再現(NF972 crosscheck 含む)まで実施。
+- **blocking 4**: ①HS summary cert が Lane V **v2** のまま(v3 修理と S-8′ 未集約 — Σ の再走が要る)②EP checker v2 が「sha256/sha256_ref 双方欠落」を非検出(**Sol が変異注入で実証**: v4 から sha256 除去しても PASS, scanned 8)③**K20 への ROOF-KILL 適用が偽の中心性判定(V⊆Z(G₂₀))を使用**・BOTTOM-UP v1 も SURJ 前件確認前に非中心加群を kill(数学的欠陥)④TB 束の【GAP-TB-EXACT】未 pin と「外部依存 2 箇所」会計の不両立。
+- **認可**: NW-P7 = **fail-closed 前検問つき限定認可**・NW-P8 撤回+S-8′ = **承認**・BOTTOM-UP 凍結掘削 = **不承認・差戻し**(棄却を伴わない S0/H² 在庫表作成のみ限定可)。
+- 次ターン: 全読 → 検収裁定 490 → 修理波(Σ 再走・checker v3・ROOF-KILL 中心性修理・TB 会計修文)→ NW-P7 前検問つき発火。
