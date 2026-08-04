@@ -2020,3 +2020,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 成果 = docs/notes/atlas_stats_survey_v1.md+atlas_features_v1.csv(138 行 = 機械抽出 130+narrative 転記 8・出所裁定番号明記)+抽出 script 2 本。MCOV 119/119 HOLDS(Wilson CI [0, 3.1%])・壁系可解/非可解 4/4。
 - **ランキング上位 3(exploration-heuristic)**: ①n=15 系の構造 cert 整備(mixed factor 窓・全欄 UNKNOWN)②W-6 屋根候補の追加 coker 計算(母集団 3 件)③mixed-2-and-odd 窓の一般調査(2-primary 軸のデータ孔)。司令塔の事前予言(AFAITH-8000 層等・前ターン)は**分母不足で未採点のまま維持**(予言は生きている)。
 - 発見として明記された構造的空白 3 件(非分裂分母 1・非可解の分岐点列の欠如・MCOV の奇数限定)は次版の列設計へ。**BOTTOM-UP 設計(走行中)の H² 列挙がちょうど「分母を作る」作業に当たる** — 統計と掘削が同じ穴を指した。
+
+## 2026-08-05 窓構造 cert バッチ 検収(裁定 486)— 穴①③埋め完了: K⁽ⁿ⁾ n∈{6,10,12,14,15,18} の 6 窓が Thm 4.3 (4.12) と (m,k) 集合等号で完全一致(GAP 列挙 vs python 閉形式の二系統・6/6 PASS)・統計表 138→144 行
+- cert = search/certs/winstruct_K{6,10,12,14,15,18}_20260805.json+crosscheck JSON。K⁽¹⁵⁾: |G₁₅|=13500・N_ord=30・|X|=16・|GT|=240・D=C₁₅³。mixed 帯: n=6/10/12/14/18 で |GT|=12/40/24/84/108・全て 4n³/4(n/2)³ 式一致・generation_fail=0・decode_fail=0。
+- 遵守確認: K⁽⁵⁾ への還元写像は一切構成せず(自窓直接列挙)・封印/Im R/d_N/4 値ビット非接触。逸脱申告 2 件(核 = D:=[G_n,G_n] の解釈・factor_type 基準の自己訂正→CSV 作り直し)受理。
+- 帰結: 統計 v2 の分母(mixed-2-odd 帯+n=15)が供給された。残る分母 = 穴②(BOTTOM-UP 第 0 段・設計書待ち)。

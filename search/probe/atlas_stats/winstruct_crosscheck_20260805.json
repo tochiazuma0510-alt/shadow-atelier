@@ -1,0 +1,177 @@
+{
+  "crosscheck_version": "winstruct_crosscheck_v1",
+  "generated": "20260805",
+  "note": "independent re-derivation of Thm 4.3 (4.12) from n only; reads GAP cert JSON only, no GAP code import",
+  "targets": [
+    15,
+    6,
+    10,
+    12,
+    14,
+    18
+  ],
+  "results": [
+    {
+      "n": 15,
+      "status": "PASS",
+      "cert_path": "search/certs/winstruct_K15_20260805.json",
+      "N_ord": 30,
+      "n1": 15,
+      "X_n_size": 16,
+      "predicted_total": 240,
+      "cert_shadow_total": 240,
+      "decode_ok_count": 240,
+      "checks": {
+        "N_ord_match": true,
+        "n1_match": true,
+        "charming_set_match": true,
+        "charming_set_size_match": true,
+        "decode_fail_zero": true,
+        "shadow_total_matches_predicted_count": true,
+        "decode_ok_count_matches_shadow_total": true,
+        "set_equality": true
+      },
+      "only_in_actual_not_predicted": [],
+      "only_in_predicted_not_actual": [],
+      "diff_counts": {
+        "only_in_actual": 0,
+        "only_in_predicted": 0
+      }
+    },
+    {
+      "n": 6,
+      "status": "PASS",
+      "cert_path": "search/certs/winstruct_K6_20260805.json",
+      "N_ord": 6,
+      "n1": 3,
+      "X_n_size": 4,
+      "predicted_total": 12,
+      "cert_shadow_total": 12,
+      "decode_ok_count": 12,
+      "checks": {
+        "N_ord_match": true,
+        "n1_match": true,
+        "charming_set_match": true,
+        "charming_set_size_match": true,
+        "decode_fail_zero": true,
+        "shadow_total_matches_predicted_count": true,
+        "decode_ok_count_matches_shadow_total": true,
+        "set_equality": true
+      },
+      "only_in_actual_not_predicted": [],
+      "only_in_predicted_not_actual": [],
+      "diff_counts": {
+        "only_in_actual": 0,
+        "only_in_predicted": 0
+      }
+    },
+    {
+      "n": 10,
+      "status": "PASS",
+      "cert_path": "search/certs/winstruct_K10_20260805.json",
+      "N_ord": 10,
+      "n1": 5,
+      "X_n_size": 8,
+      "predicted_total": 40,
+      "cert_shadow_total": 40,
+      "decode_ok_count": 40,
+      "checks": {
+        "N_ord_match": true,
+        "n1_match": true,
+        "charming_set_match": true,
+        "charming_set_size_match": true,
+        "decode_fail_zero": true,
+        "shadow_total_matches_predicted_count": true,
+        "decode_ok_count_matches_shadow_total": true,
+        "set_equality": true
+      },
+      "only_in_actual_not_predicted": [],
+      "only_in_predicted_not_actual": [],
+      "diff_counts": {
+        "only_in_actual": 0,
+        "only_in_predicted": 0
+      }
+    },
+    {
+      "n": 12,
+      "status": "PASS",
+      "cert_path": "search/certs/winstruct_K12_20260805.json",
+      "N_ord": 12,
+      "n1": 6,
+      "X_n_size": 8,
+      "predicted_total": 24,
+      "cert_shadow_total": 24,
+      "decode_ok_count": 24,
+      "checks": {
+        "N_ord_match": true,
+        "n1_match": true,
+        "charming_set_match": true,
+        "charming_set_size_match": true,
+        "decode_fail_zero": true,
+        "shadow_total_matches_predicted_count": true,
+        "decode_ok_count_matches_shadow_total": true,
+        "set_equality": true
+      },
+      "only_in_actual_not_predicted": [],
+      "only_in_predicted_not_actual": [],
+      "diff_counts": {
+        "only_in_actual": 0,
+        "only_in_predicted": 0
+      }
+    },
+    {
+      "n": 14,
+      "status": "PASS",
+      "cert_path": "search/certs/winstruct_K14_20260805.json",
+      "N_ord": 14,
+      "n1": 7,
+      "X_n_size": 12,
+      "predicted_total": 84,
+      "cert_shadow_total": 84,
+      "decode_ok_count": 84,
+      "checks": {
+        "N_ord_match": true,
+        "n1_match": true,
+        "charming_set_match": true,
+        "charming_set_size_match": true,
+        "decode_fail_zero": true,
+        "shadow_total_matches_predicted_count": true,
+        "decode_ok_count_matches_shadow_total": true,
+        "set_equality": true
+      },
+      "only_in_actual_not_predicted": [],
+      "only_in_predicted_not_actual": [],
+      "diff_counts": {
+        "only_in_actual": 0,
+        "only_in_predicted": 0
+      }
+    },
+    {
+      "n": 18,
+      "status": "PASS",
+      "cert_path": "search/certs/winstruct_K18_20260805.json",
+      "N_ord": 18,
+      "n1": 9,
+      "X_n_size": 12,
+      "predicted_total": 108,
+      "cert_shadow_total": 108,
+      "decode_ok_count": 108,
+      "checks": {
+        "N_ord_match": true,
+        "n1_match": true,
+        "charming_set_match": true,
+        "charming_set_size_match": true,
+        "decode_fail_zero": true,
+        "shadow_total_matches_predicted_count": true,
+        "decode_ok_count_matches_shadow_total": true,
+        "set_equality": true
+      },
+      "only_in_actual_not_predicted": [],
+      "only_in_predicted_not_actual": [],
+      "diff_counts": {
+        "only_in_actual": 0,
+        "only_in_predicted": 0
+      }
+    }
+  ]
+}
