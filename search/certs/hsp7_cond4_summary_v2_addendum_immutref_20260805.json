@@ -1,0 +1,56 @@
+{
+  "schema": "hsp7-cond4-summary-v2-addendum-immutref/v1",
+  "purpose": "search/certs/hsp7_cond4_summary_v2_20260805.json (以下 v2 summary) は effective_source_chain 末尾で sol/sol_reply_102_math29.md を live path として参照している。live path は working tree 上で可変であり、Sol が便103 F103-1.3 で working-tree sha256 (28f1ec72...) と記録時 bytes (v2 summary が pin した 2ebf7c5e...) の相違を特定した。本 addendum は v2 summary 本体を改変せず、Sol 指定の不変三つ組 (commit + blob + sha256) を独立 artifact として固定し、v2 summary との supplement 関係を structured に持たせる。",
+  "supplements": {
+    "path": "search/certs/hsp7_cond4_summary_v2_20260805.json",
+    "sha256": "467e4d41ba704af1aa055698aeb1c71215ecc5906ed9ea1a4b2a98177dc6e0b8",
+    "note": "v2 summary 本体は本 addendum 作成時点から不改変。上記 sha256 は本 addendum 作成時点で実測した値(参照整合性の記録目的、v2 summary 側に変更は加えていない)。"
+  },
+  "immutable_reference_pinned": {
+    "note": "sol_reply_102_math29.md への参照を、可変な live path でなく次の不変三つ組で固定する。三つ組は司令塔からの委嘱(F103-1.3)で Sol 指定値として与えられたものであり、本 addendum はそれを機械的に確認したのみ(値の新設ではない)。",
+    "commit": "468287e1c3f12b124da94b2e925936d4854ebfb0",
+    "blob": "eca5dc71854123acfaf333bcb3e2d7afc089e041",
+    "sha256": "2ebf7c5e63a41b8989719823527a6f18bb2c5614435bf25a08340080060fa8e7",
+    "path_at_commit": "sol/sol_reply_102_math29.md"
+  },
+  "machine_confirmation": {
+    "method": "git cat-file -t で commit/blob のオブジェクト種別を確認 -> git ls-tree -r <commit> で blob が指定 path に存在することを確認 -> git cat-file blob <blob> でバイト列を抽出 -> sha256sum で再計算 -> 期待値 2ebf7c5e... と突合。手写しではなくシェルスクリプトによる機械実行。",
+    "script": "scratchpad/addendum_immutref_check.sh",
+    "script_sha256": "1a6ed4d41c1be1152b976ea2b22f5735a8ef903e544ff26845004acac47c2dd5",
+    "raw_output": "scratchpad/addendum_immutref_check_output.txt",
+    "raw_output_sha256": "fa7b7e8a557d9d3d34568a2fa17149356666bf5c97459e47f8ad17594213fc8b",
+    "results": {
+      "commit_type": "commit",
+      "blob_type": "blob",
+      "path_in_commit": "sol/sol_reply_102_math29.md",
+      "blob_bytes_sha256_actual": "2ebf7c5e63a41b8989719823527a6f18bb2c5614435bf25a08340080060fa8e7",
+      "blob_bytes_sha256_expected": "2ebf7c5e63a41b8989719823527a6f18bb2c5614435bf25a08340080060fa8e7",
+      "match": true,
+      "blob_byte_count": 24133
+    }
+  },
+  "live_path_divergence_record": {
+    "note": "現在の working-tree 上の sol/sol_reply_102_math29.md は、上記で pin した不変三つ組(記録時 bytes)と異なる。これは Sol が便103で特定した相違の機械的再確認であり、本 addendum は差異を『解消』するのではなく『pin により参照を固定して以後の可変性から隔離する』ことが目的である。",
+    "live_path": "sol/sol_reply_102_math29.md",
+    "live_path_sha256_current": "28f1ec7269a74ae47ccbe5e94d571c17bf0cb50526a272f8d717d503398369d8",
+    "live_path_git_hash_object_current": "45174ada744d2b53709728c6182c35fc5942b1b0",
+    "live_byte_count": 24588,
+    "consistency_with_sol_report": true,
+    "consistency_with_sol_report_note": "司令塔からの委嘱文(F103-1.3)に記載された working-tree sha256 prefix '28f1ec72...' は、本 addendum が実測した live_path_sha256_current の先頭8桁と一致する。",
+    "diff_from_pinned": {
+      "byte_count_delta": 455,
+      "note": "24588 - 24133 = 455 bytes。相違の内容(追記か編集か)自体の解析は本 addendum の職務範囲外(F103-1.3は不変三つ組の固定と機械確認のみを委嘱)。"
+    }
+  },
+  "downstream_usage_note": "v2 summary の effective_source_chain 内 sol_reply_102_math29.md の行(sha256=2ebf7c5e...)は、本 addendum の immutable_reference_pinned と同一の三つ組を既に指していた(v2 summary 作成時点でのpinはcommit時点のblobと一致していたことが本addendumのmachine_confirmationで確認された)。本 addendum が新たに固定するのは『commit+blob』という live path に依存しない参照経路であり、今後 live path が further に改変されても本 addendum の pin は不変のまま preregistration receipt として機能する。",
+  "provenance": {
+    "run_date": "2026-08-05",
+    "requested_by": "司令塔(便103 F103-1.3の前提としての小委嘱)",
+    "note": "GAP不使用。git plumbing + sha256sum による機械確認のみ。"
+  },
+  "verdict": {
+    "status": "immutref_addendum_complete",
+    "match": true,
+    "text": "commit 468287e1... のもとで blob eca5dc71... が path sol/sol_reply_102_math29.md に存在し、そのバイト列の sha256 が 2ebf7c5e... と一致することを機械確認した。v2 summary 本体は不改変。現 live path の sha256(28f1ec72...)は pin 値と異なることを事実として併記した(解消はスコープ外)。"
+  }
+}
