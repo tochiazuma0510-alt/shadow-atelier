@@ -1921,3 +1921,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - A5-CONV correct・S-7′ 4 欄 = own 先行確定 → cond2/Lane S 突合 4/4 一致(未発火)。**4 区分表: h₄⁰ = PASS/PASS・h₄¹..⁶ = PASS/FAIL(6 件)・h₃ = FAIL/FAIL ⟹ S-9(LANE_DISAGREEMENT)正式発火** — stop_rules どおり自動解決せず・数学者仲裁(裁定 465)待ち。
 - NW-P8 m 小掃引 = 司令塔裁定により**保留**(同一の疑わしい評価器を使うため)・raw(m=1,2,4,5,6 全て N=N₀=FAIL・不一致 0)は nw_p8.raw_numbers_uncertified に記録のみ・S-8 = "not_evaluated"。
 - 三レーンの現況: S/P = PASS 検収済(458/462)・V = HELD。**Lane Σ の起票は仲裁決着後**(合成対象の V cert が HELD のため)。教材: S-9 の設計(多数決禁止・全体停止)が初発火で正しく機能・「証明済み恒等式との矛盾」を較正走が本走前に捕獲した。
+
+## 2026-08-04 hexagon 仲裁 検収(裁定 468)— ★三仮説完全決着: (b) Lane V の ApplyQElt バグで確定(位置特定・TOY 窓 literal 決定実験まで実行済)・(a)(b′)(c) 棄却・定義ノート erratum 不要・「(b′) 修正はバグと相殺で全件偽 PASS」の罠まで検出
+- 仲裁書 = docs/notes/hsp7_hexagon_arbitration_v1.md(数学者)+検算 scratchpad/arb_toy.g・lie4_check.py。
+- **(b) 確定**: statemachine_lib.g L80 ApplyQElt — 状態 (t,d) の群元は g=d̃·t̃ ゆえ純 Q 元の右掛けは d·Ad(t̃)(q) が正・現実装 d·q は g·(t̃⁻¹q̃t̃) を計算(t=1 のみ正しい・c は中心で無傷)。m=0 の紙追跡で LHS=σ₁σ₂・RHS=f⁻¹σ₁σ₂ ⟹ 差 = ちょうど f(Lane V の観測パターンと厳密一致)。**selftest が ApplyGen のみ検査で ApplyQElt 無検査だった監査の穴**(braid+648 点一致は「表が B₃ を表す」証拠であって「使い方の正しさ」の証拠ではない — 教材)。
+- **(a) 棄却**: Prop 3.4 の前提は「N ∈ NFI_PB₃(B₃)」「(m,f) ∈ ℤ×[F₂,F₂]」の 2 条のみ(正典画像確認)・NW(7) 充足・定義ノート erratum 不要。**(b′) 棄却**: L160 に末尾 f 欠落なし(頁画像確定)— しかも「足す」とバグと相殺して**全件偽 PASS**になる罠(誤修理の最悪経路を仲裁が先回りで封鎖)。**(c) 棄却**: TOY 窓(γ₃(F₂)F₂³・|B₃/N|=162・literal 構築)決定実験を実行 — literal = 全 k PASS/PASS(Prop 3.4 予言的中)・Lane V verbatim = signature 完全再現・修理版 = literal 一致。**m≠0 は f=1 でも壊れる ⟹ NW-P8 raw 5 件も無効**。
+- 紙側(独立): θ(𝔥₄) = −𝔥₄ 正(司令塔の Jacobi 手計算を独立再導出+ℤ⟨X,Y⟩ 4 次成分で機械検算)・DUM-HEX/PREC-1 独立再現(343 組全数・解軌跡 ℤ·(1,4,1))。
+- **波及**: Lane S cert 無傷(7 件 PASS が正)・Lane P 無傷・**「無害でないバグ」**(誤 FAIL 採用なら較正走が「hexagon と pentagon は一致」という逆結論を確認するところだった)。副産物 = **N∩F₂ = N₀∩F₂ = 𝒱(F₂) ⟹ charming 候補で N/N₀ の full hexagon 判定は必ず一致** = control 窓の無料実装テストという新較正資源(再走の事前登録に採用)。要判断 1 件 = 補題 NW-1b (5) の「近道が壊れる」の二義性(θ,τ の F₂/N_F₂ 降下 vs B₃/N 内 Ad 実現)→ 用語分離を便 102 申し送りへ。
+- 指示: Lane V へ修理+TOY 恒久 fixture 組込+全再走(v2 新名・旧 cert 不改変)。Lane V 欄は修理まで UNKNOWN 扱い。
