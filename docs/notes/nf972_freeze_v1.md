@@ -46,4 +46,16 @@
 - can₉ の座標 = **K9.v1.json の f_triple 欄の座標規約そのもの**(K9 cert の marked 生成元が定める D₉³ 基底・ブロック順)。
 - can₄ の点ラベル = **S4.v2.json の witness 置換の点ラベルそのもの**(9 点・one-line)。
 - 自前構成側(source map B 型)は **marked 生成元対応による辞書**(自構成の marked 生成元像 ↔ cert 側 marked 生成元像を結ぶ同型・置換側は RepresentativeAction 等で σ∈S₉ を機械決定・一意性も機械検査)を構築し、辞書経由で cert 座標に落として serialize する。辞書構築は罠 #3 遵守(marked factor map・部分群等号に依らない)。
-- **辞書の自己検査(義務)**: 辞書適用後の q₉ 射影集合が K9 cert の f_triple 行集合と**逐語一致**・q₄ 射影集合が S4 cert の witness 集合と逐語一致すること(不一致なら辞書が誤り — INTEGRITY_STOP)。
+- **辞書の自己検査(義務)**: 辞書適用後の q₉ 射影集合が K9 cert の f_triple 行集合と**逐語一致**・q₄ 射影集合が S4 cert の witness 集合と逐語一致すること(不一致なら辞書が誤り — INTEGRITY_STOP)。**← 本行の q₄ 側は v1.2 §7 で訂正(witness は q₄(f) 像ではない)**。
+
+## 7. v1.2 追補(裁定 454・2026-08-04)— ★can₄ の照合先訂正: witness は q₄(f) の像ではない(三重連鎖の切断)
+
+**経緯(正直に)**: S4.v2.json の settled_detail 欄 `automorphism_witness` は **settled 判定の証人 conjugator h**(h⁻¹Xh=Xᵘ ∧ h⁻¹Yh=f⁻¹Yᵘf の解・week3-psl-common.g L375-376・centralizer 剰余の恣意選択を含む)であって、**q₄(f) の置換像ではない**(決定的証拠: f_word=[] の行で witness≠()・cycle type 一致は 54 行中 7 行のみ)。誤読の三重連鎖: ①欄名の紛らわしさ ②v1.1 §6 の pin 文面「witness 置換の点ラベルそのもの」が「witness = 像の格納場所」と読める書き方(司令塔の非)③source map A が witness をそのまま can₄ に流用(driver L124-126・「cert が q₄ の像を提供」との誤解コメント)+司令塔の第 2 回仲裁も witness 集合を像集合として使用。**裁定 449 の「A が cert 枠で正・B の枠ずれ」は逆転**: B の q₄(f) 直接評価が §1 interface の正実装・A が interface 違反。witness 流用は「内容依存 serialization」要件(§1)にも反する(h は RepresentativeAction の恣意代表)。
+
+**pin(v1.2 正本)**:
+1. **can₄ = q₄(f) の像の one-line serialization**(witness は can₄ の材料に使ってはならない — witness は settled 判定の証人にすぎない)。
+2. **cert 枠(点ラベル系)の定義** = S4.v2.json の `marking`(行列 S,T・element_encoding=pgl2q_matrix/v1)から week3-psl-common.g の構成規約 **X := w²・Y := S⁻¹XS**(L275-277)と P¹(F₈) 点列挙規約で得られる 9 点置換表現。witness の点ラベル系はこれと同一(v1.1 の「点ラベル」の正しい読み)。
+3. **評価規約**: f_word の評価は AbstractProd(paper "AB" = GAP `B*A`)。**両 source map とも評価器に規約 fixture(A5-CONV 型: 既知語 → 既知像)を埋め込み PASS を cert に記録**(B の乗算規約バグの教訓の水平展開・可換 fixture では規約バグ不可視)。
+4. source map A も f_word 評価器を持つ(cert 格納値のみからは can₄ を作れないため)。A/B の独立性は従来どおり**別実装・helper 非共有**(幸い A=python・B=GAP の別言語)+§4 分離 fixture で担保。
+5. **成果物の不改変**: 修理版は v2/v3 の新名で出力(旧版は superseded/ へ sha つき保存・上書き禁止 — 裁定 449 の規約候補を本仕様で義務化)。
+6. 自己検査(義務・非トートロジー形): σ 辞書側(B 型)は「σ(P_B(f)) = P_cert枠(f) が cert の全 f_word で成立」を、cert 枠評価(右辺)と自表現評価+σ(左辺)の**別経路突合**で確認。witness 集合との照合は**廃止**。

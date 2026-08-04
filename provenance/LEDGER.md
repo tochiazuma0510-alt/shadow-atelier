@@ -1827,3 +1827,16 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - F-3【要修正】(W4) は campaign 内新規導出(HF-1 は H_{2,1,0} 限定)— 状態札「新結論なし」と不整合(数学は正しい・A 側 x₁=αx₃ も falsifier が補完確認)。F-4【要修正】Q-4 の型逆(M := ord(X) が正・結論不変むしろ強化)。F-7 Q-2 空振り(Λ=共役類・便 73 原文確認)+拡大 (W5) は第二論証(Φ(GT) は α↦±α・β 変更のみ)推奨。F-6/F-8 軽微(α 3 型混在・script 部分群検査不完全)。
 - **追記 C への影響 = §C.4 第 1 bullet の 1 文のみ**(非単元 16 を拡大根拠とする記述)。**【ASM-α】を開いたまま α=1 供給の設計は F-1 に対し既に安全側**と裏づけ。
 - **裁定**: campaign v2 改版を数学者へ(現行委嘱[(S3) 族版+K^(20) 紙]着地後の次波 — 混線防止でキュー): ①量化を単元限定へ(F-1)②述語の識別力再設計 or 主張の格下げ(F-2)③(W4) の状態札訂正(F-3)④Q-4 型修正(F-4)⑤追記 C §C.4 1 文修文。falsifier probe 2 本は採用時に較正スイートへ移設(implementer・campaign v2 と同時)。
+
+## 2026-08-04 lanespec v1.2 充足確認+Lane S 発注(裁定 453)— C-1〜C-6/D-1〜D-4 全反映を機械確認・司令塔修正 1 件(継承範囲の v1.1 残骸)・三レーンは設計書の直列性どおり Lane S から発火
+- **充足確認(発注前義務・v1.2 冒頭の指定どおり)**: C-1(§0.2 A5-CONV 逐語+全レーン 0 手目 fail-closed+paper 積の罠転記+falsifier の独立数値検証つき)・C-2(§4.2 m∈{1,2,4,5,6}×f̄=1・word_level_required・verdict 規約・Sol 異議 fallback の driver 事前分岐)・C-3(Lane P 新規インスタンス#3)・C-4(conventions_used 実値 jsonc・§5 誘導記述削除)・C-5(h₃:=[[x,y],x]·[[x,y],y] 確定・候補鍵 13+5 事前登録・鍵漏れ検出 = リスト突合に訂正)・C-6(§0.1 順序ゲート: NW-P7 = 付録 A-1 の司令塔 versioned 発効後)・D-1〜D-4(stop_rules 逐語 jsonc[S-6/S-7′/S-8+S-9/S-3]・execution_isolation 欄・Lane Σ 4 点[述語機械適用・自己較正 2 組・実行隔離・提出物]・非承認スタンプ等)— **全て本文で確認**。
+- **司令塔修正 1 件(修正権行使・変更履歴 12 行目に明記)**: §1 Lane P の継承範囲「stage1-3」→「**stage1-2**」。根拠 = stage3_gen_setup.g の実物確認(P/Q 両側の ANUPQ pc 構築 setup を含み「K(0,5) の構成のみ」を超える)+§2 表・§2.5 手順 5・§3・§8 は stage1-2 で一貫(v1.1 残骸は本行のみ)。falsifier R-6 の教訓(CV-9 判読者は表を読む)により表側を正とした。
+- **発注**: Lane S(新規インスタンス#1・worktree 隔離・stage1-4 全非継承・較正走 8 件のみ・NW-P7 着手禁止明記・悉皆非認可)。Lane V/P は設計書の candidates 直列性(S cert → V/P)に従い S 着地後。**付録 A-1(NW(5) 票)は本日発効せず**(司令塔検分後に別途 versioned 発効 — それまで全レーン NW-P7 禁止)。
+
+## 2026-08-04 NF-972 witness 誤読の三重連鎖の確定(裁定 454)— ★裁定 449 の A/B 判定を逆転(correction of record): B が §1 interface の正実装・A が witness 流用の仕様違反・私の v1.1 pin 文面と第 2 回仲裁が誤読の共犯。凍結仕様 v1.2 追補発行
+- **確定事実**: S4.v2.json の automorphism_witness = settled 判定の conjugator h(week3-psl-common.g L375-376: h⁻¹Xh=Xᵘ ∧ h⁻¹Yh=f⁻¹Yᵘf の解・RepresentativeAction の恣意代表)であって **q₄(f) の像ではない**。決定的証拠 = f_word=[] の行で witness≠()(恒等語の像は恒等)・cycle type 一致は 54 行中 7 行のみ(B の diag・scratchpad/diag_sigma_check.log)。**発見者 = source map B**(σ 探索の空振りを INTEGRITY_STOP で正しく止め、witness の生成コードまで遡って正体を突き止めた — fail-closed 規律の模範)。
+- **三重連鎖**: ①cert 欄名の紛らわしさ ②私の v1.1 §6 pin 文面「witness 置換の点ラベルそのもの」が「witness = 像の格納場所」と読める書き方 ③A の can₄ 流用(driver L124-126・L329 に「cert が q₄ の像を提供」の誤解コメント)+私の第 2 回仲裁も witness 集合を像集合として使用(裁定 449 の「A=54/54 で正」はこの誤読の産物)。
+- **裁定 449 の訂正(correction of record)**: 「A が cert 枠で正・B の枠ずれ」→ **逆転**。B の q₄(f) 直接評価が正実装。A の witness 流用は §1(can₄=q₄(f))違反+「内容依存 serialization」要件違反(h は centralizer 剰余の恣意選択)。第 1・2 回突合の部分交差(9/18)は witness と像がたまたま一致する行(7 行域)による偶然。
+- **凍結仕様 v1.2 追補**(nf972_freeze_v1.md §7): can₄=q₄(f) 明文化・cert 枠の定義 = marking(S,T 行列・pgl2q_matrix/v1)+X:=w²・Y:=S⁻¹XS(L275-277)+点列挙規約・AbstractProd 規約 fixture(A5-CONV 型)を両評価器に義務化・成果物不改変(新名 v2/v3・superseded/ 保存)を義務化・自己検査の非トートロジー形(σ(P_B(f)) = P_cert枠(f) の別経路突合)。
+- **発注**: A 修理(新規係・f_word 評価器追加・can4_of 差替・分離 fixture 再走・v2 新名)+ B 訂正(σ = marked 生成元対応で決定・v3 新名)。第 3 回突合は両着地後に司令塔。
+- 教材(便 102 で Sol へ提示): 「cert に格納された値」の**意味論**を突合の前に確認する — 欄名でなく生成コードが正本。第四者仲裁も仲裁枠自体の検証を要する(仲裁者の誤読は 2 系統一致より深い事故)。
