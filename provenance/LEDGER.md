@@ -2136,3 +2136,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 isolated 検査器一般化 検収(裁定 510)— 穴②の道具完成: 汎用 driver(MarkedDatumFromGroup+IsoGateCheck)が fixture 2 本(K⁽³⁾・W-5)を既登録値と完全一致で再現・isolated_verdict(3 値)と iso_gate_state(PROVEN/UNKNOWN)の分離設計を採択
 - driver = search/probe/w6_bu_s0/iso_gate_check.g+cert。**司令塔裁定(係の照会へ)**: driver の TRUE → iso_gate_state=PROVEN への格上げは route 1(ker=K⁽ⁿ⁾ の Thm 4.3 ショートカット)以外は **Sol ゲート後**が正(係の保守設計を採択・W-5 も UNKNOWN pending gate のまま便 104 で route 2 の承認を請う)。時間外挿(8000 帯 ~1.6 秒/窓)は下限目安の正直申告・c∉N 分岐は未テストと明記(fixture 追加は掘削認可後)。便 104 積載。
+
+## 2026-08-05 p=3 dim3/4 census 拡張 検収(裁定 511)— 穴③完了: dim3 = 10 型・dim4 = 18 型(補題 F3S3 の紙予言と両方一致・FAILS 0)・全 28 行 s3_inflated・統計表 190 行へ
+- cert = h2_census_s4_p3ext_20260805.json(v1 を supplements で path+sha 束縛 = B v6 様式・判定欄なし・SCOPE_OUT に p=3 dim≥5 追加)。**逸脱照会への裁定: 構成的列挙(6 不可分解の直和)の採択は妥当**(GL(4,3) 総当りは非現実的・紙予言はコード外の手計算で列挙は独立に組上げ = 予言先行の型)。caveat(同一実装者の二段階・cross-checked 非表記・§7.3 の一般化禁止は不解除)の正直明記を受理。ブロック行列の独立検証(6 不可分解との同型類一致)は CV-9 判読時の論点として申し送り。
+- **統計 v2 の残穴進捗**: ①凍結(理由つき)②道具完成(510)③**完了(本裁定)**。残る待ち = 付録 C v2 のみ → 便 104。
