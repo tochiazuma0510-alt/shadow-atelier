@@ -1,0 +1,41 @@
+﻿
+=== NW-P7 pre-check item 5: mutant-kill demonstration on p=7 existing fixture ===
+Qgrp (p=7 fixture) read. NumberOfGenerators = 40 (expect 40)
+|Q(p=7)| = 6366805760909027985741435139224001 ; = 7^40 ? true (structural sanity vs existing cert)
+p7 candidate count (should be 13, matching lanespec SS6 C-5): 13
+real evaluator verdicts (recomputed fresh in this driver, independent re-derivation): 
+  h4^0: true
+  h4^1: false
+  h4^2: false
+  h4^3: false
+  h4^4: false
+  h4^5: false
+  h4^6: false
+  h3: false
+  NWP8-m1: true
+  NWP8-m2: true
+  NWP8-m4: true
+  NWP8-m5: true
+  NWP8-m6: true
+sanity cross-check vs existing cert (should be 0 mismatches): 0
+
+=== MUTANT 1 (always PASS, evaluation-function mutant) ===
+source-map: driver_step3_eval_pent.g / driver_final_eval_p5.g, function PENT(fbar) body
+  real:   return IsOne(NrhoQ(fbar));
+  mutant: return true;
+mutant 1 verdict mismatches vs real evaluator (out of 13 p=7 candidates): 7
+mutant 1 FIRED (verdict-mismatch fail-closed check trips)? true
+
+=== MUTANT 2 (identity-input-only enumeration, candidate-generation mutant) ===
+source-map: driver_step3_eval_pent.g line ~121 'for t in [0..6] do' -> mutant 'for t in [0] do'
+real enumerator candidate count (dummy family): 7 (expect 7)
+mutant enumerator candidate count (dummy family): 1 (expect 1)
+mutant 2 FIRED (frozen-count fail-closed check trips, same mechanism as pre-check item 4)? true
+
+=== SUMMARY (pre-check item 5) ===
+mutant1_always_pass: nMismatch=7/13, fired=true
+mutant2_identity_only_enum: count_real=7 count_mutant=1 fired=true
+mutant3_IsOne_f_evaluator: NOT killed by p=7 data (see note in file header); killed_by=NW-P7 p=5 main run (driver_final_eval_p5.g), 4/5 mismatch there
+mutant3_p7_check_for_completeness (should show 0 mismatch -> confirms NOT killed by p=7):
+mutant3 (IsOne(f)) verdict mismatches vs real evaluator on p=7 fixture (out of 13): 0 (expect 0 -- confirms this mutant is invisible to p=7 data alone)
+STAGE_PRECHECK5_DONE

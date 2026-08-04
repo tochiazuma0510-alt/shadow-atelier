@@ -1,0 +1,12 @@
+﻿
+=== NW-P7 driver stepP1: build P5 = F2/(gamma_5(F2)F2^5) SetupFile ===
+h4 constructed in F2 as a word (same DUM-FIN definition as p=7 P-side/Q-side).
+#I  Guess made of `class' and `ngens' fields
+#I  ... please check commands ok by running without `SetupFile' option
+#I  and comparing with `ToPQ> ' commands observed at InfoANUPQ level 4
+#I  Input file: 'search/probe/hsp7_cond4_laneP_p5control/pq_setup_P5.txt' written.
+#I  Run `pq' with '[ "-i", "-k", "-g" ]' flags.
+#I  The result will be saved in: 'PQ_OUTPUT'.
+Pq(F : Prime:=5, ClassBound:=4, Exponent:=5, SetupFile) returned: true
+SetupFile written to: search/probe/hsp7_cond4_laneP_p5control/pq_setup_P5.txt
+STAGEP1_DONE

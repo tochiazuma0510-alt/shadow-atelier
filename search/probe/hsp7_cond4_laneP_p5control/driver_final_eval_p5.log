@@ -1,0 +1,64 @@
+﻿
+=== NW-P7 driver_final_eval_p5: P5/Q5 construction + pre-checks 1-4 + main run ===
+P5grp read. NumberOfGenerators(P5grp) = 8 (expect 8, Witt(2,1..4)=2+1+2+3=8)
+Image(epiP) = P5grp? true
+own_measurement: |P5| = 390625 (expect 5^8 = 390625)
+own_measurement: |P5| = 5^8 ? true
+Q5grp read. NumberOfGenerators(Q5grp) = 40 (expect 40)
+Image(epiQ) = Q5grp? true
+own_measurement: |Q5| = 9094947017729282379150390625 (expect 5^40 = 9094947017729282379150390625)
+own_measurement: |Q5| = 5^40 ? true
+own_measurement: |gamma_5(Q5)| = 1 (expect 1)
+own_measurement: dim_F5 gamma_4(Q5) = 21 (expect 21, Witt-derived same as p=7 case)
+epiGensQ generate Q5grp? true
+rhoQ5 well-defined (GroupHomomorphismByImages did not fail)? true
+own_measurement: rhoQ5 bijective? true
+own_measurement: rhoQ5^5 = id? true
+own_measurement: rhoQ5 <> id? true
+
+=== PRE-CHECK 1: h4 has order 5 in P5 ===
+h4 in P5: nontrivial? true ; Order(h4 in P5) = 5 (expect 5)
+PRE-CHECK 1 PASS? true
+
+=== PRE-CHECK 2: j(h4) is nontrivial and has order 5 in Q5 ===
+j(h4) in Q5: nontrivial? true ; Order(j(h4) in Q5) = 5 (expect 5)
+PRE-CHECK 2 PASS? true
+
+=== PRE-CHECK 3: rho-bar is a well-defined bijection of order 5 on Q5 ===
+well-defined=true bijective=true rho^5=id=true rho<>id=true
+PRE-CHECK 3 PASS? true
+
+=== PRE-CHECK 4: candidates are exactly the frozen h4^t, t=0..4 (5 items) ===
+candidate count = 5 (expect 5); t-list = [ 0, 1, 2, 3, 4 ]
+PRE-CHECK 4 PASS? true
+
+=== ALL PRE-CHECKS 1-4 PASS? true ===
+
+=== NW-P7 MAIN RUN: PENT_W(jh4^t), t=0..4 ===
+t=0: f=jh4^0 (order-5 element in Q5^0), N_rho(f)=1 ? true
+t=1: f=jh4^1 (order-5 element in Q5^1), N_rho(f)=1 ? true
+t=2: f=jh4^2 (order-5 element in Q5^2), N_rho(f)=1 ? true
+t=3: f=jh4^3 (order-5 element in Q5^3), N_rho(f)=1 ? true
+t=4: f=jh4^4 (order-5 element in Q5^4), N_rho(f)=1 ? true
+
+=== NW-P7 SUMMARY: 5/5 PASS (prediction: 5/5) ===
+prediction match (5/5 PASS)? true
+S-3 fired (NOT 5/5)? false
+
+=== third mutant (IsOne(f) instead of IsOne(N_rho(f))) evaluated on NW-P7 candidates ===
+t=0: real=true mutant(IsOne(f))=true mismatch=false
+t=1: real=true mutant(IsOne(f))=false mismatch=true
+t=2: real=true mutant(IsOne(f))=false mismatch=true
+t=3: real=true mutant(IsOne(f))=false mismatch=true
+t=4: real=true mutant(IsOne(f))=false mismatch=true
+third mutant mismatches on NW-P7 (out of 5): 4 (expect 4, i.e. t=1..4; t=0 both agree since f=1 there too)
+
+=== SUMMARY ===
+size_P5=390625
+size_Q5=9094947017729282379150390625
+dim_gamma4_Q5_F5=21
+gamma5_Q5_trivial=true
+precheck1=true precheck2=true precheck3=true precheck4=true
+NWP7_pass_count=5/5
+third_mutant_mismatch_count=4/5
+STAGE_FINAL_DONE

@@ -2055,3 +2055,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **差戻し 7 系統(修理表)**: ①F102-1.3 新 versioned summary(laneV v3 pin・S-8′ overlay・NW-P7 後に B-3 閉 → cross-checked 候補)②F102-4.1 EP checker v3(構造列挙・XOR・missing-both fixture — Sol が変異注入で穴を実証)+v5 cert(live ledger 版宣言)+CL-12 次版訂正 ③F102-6.2 **kill 定理修理: K20 適用撤回(V ⊄ Z(G₂₀) — S4 が座標置換・固定は対角 W=⟨(5,5,5)⟩ のみ・SURJ-CENT は V⊆Z(P) 前件下でのみ正)**・「第二紙証明」撤回・THETA-1000 は c∈N 枝限定・格子文言修正 ④F102-6.3 BOTTOM-UP v2(V-cen/SURJ gate を kill の前へ・marked realization 型定義・SAT 述語逐語+全 clause source-map・GQuotients 別ゲート維持)— **限定可 = S0 較正+H²(S₄,V) 在庫表(棄却なし・SCOPE_OUT 明示)**⑤F102-7.3 TB 束 = 4 ブロック依存表+arithmetic homotopy exact sequence の pin(SGA1 Exp IX or Deligne §10.17-10.20 頁画像)— (5′) 昇格は HOLD ⑥F102-2.2 B v4 の台帳 v1.6 supplement ⑦F102-5.3 (d) erratum は二矢印分割形(後半のみ既在・前半は R^cyc+MATCH-one+(5′) 経由で framework-relative 維持)。
 - 教材受領: CL-13 共同設計案(外部 pin に applicability 情報同居)・「前半/後半の分割」判定・checker への変異注入監査。
 - 起票(第一陣): NW-P7 発火(認可済)・EP checker v3(ep-keeper)・kill 修理+BOTTOM-UP v2 方針(数学者)。第二陣(TB 4 ブロック・B v4 suppl・Σ v2・(d) erratum)は次ターン。
+
+## 2026-08-05 NW-P7 検収(裁定 491)— ★5/5 PASS・予言(ν₄(j𝔥₄)≡0 mod 5)完全一致・前検問 1-4 全 PASS・3 変異の殺し元を実証(mutant1/2 = p=7 発火・mutant3 = p=5 本走 4/5 不一致で殺害)= B-3 閉・「PENT ⟺ 自明」誤実装の排除完了
+- cert = search/certs/hsp7_cond4_laneP_p5control_20260805.json(前検問 5 項の結果欄・S-3/S-6 未発火・宇宙逐語不変)。前検問 5 の変異解釈は速達照会 → 司令塔裁定(3 分割・第 3 変異は p=7 で構造的に殺せないことを正直記録)— Sol 検収へ委ねる旨 cert 明記。
+- 逸脱 4 件受理: A5-CONV は既存 PASS 継承(p 非依存・軽微)・P5 構造は本走行で自立確認・|Q₅|=5⁴⁰ 一致は傍証止まり・GAP 環境の罠 2 件は申し送り採録。
+- **残る最終ピース = Σ v2**(F102-1.3 の 4 指定: laneV v3 pin・B-1/2/4 再評価・S-8′ overlay・NW-P7 で B-3 閉)→ 条件 4/5 の cross-checked 候補が完成 → 便 103 で最終格付け請求。

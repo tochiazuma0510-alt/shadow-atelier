@@ -1,0 +1,18 @@
+﻿
+=== NW-P7 driver stepQ1: build K(0,5)fp (inherited stage1-2, p-independent) + gen SetupFile for Q5 ===
+[B4:PB4] = 24 (expect 24)
+Delta4^2 in PB4sub? true
+K05fp: Group( [ F1, F2, F3, F4, F5, F6 ] )
+AbelianInvariants(K05fp) = [ 0, 0, 0, 0, 0 ] (expect [0,0,0,0,0])
+anchor(ii) rho well-defined at fp level: bad relators = 0 / 18 (expect 0)
+jh4 = j(h4) computed in K05fp (as a word).
+jh3 = j(h3) computed in K05fp (as a word).
+#I  Guess made of `class' and `ngens' fields
+#I  ... please check commands ok by running without `SetupFile' option
+#I  and comparing with `ToPQ> ' commands observed at InfoANUPQ level 4
+#I  Input file: 'search/probe/hsp7_cond4_laneP_p5control/pq_setup_Q5.txt' written.
+#I  Run `pq' with '[ "-i", "-k", "-g" ]' flags.
+#I  The result will be saved in: 'PQ_OUTPUT'.
+Pq(K05fp : Prime:=5, ClassBound:=4, Exponent:=5, SetupFile) returned: true
+SetupFile written to: search/probe/hsp7_cond4_laneP_p5control/pq_setup_Q5.txt
+STAGEQ1_DONE

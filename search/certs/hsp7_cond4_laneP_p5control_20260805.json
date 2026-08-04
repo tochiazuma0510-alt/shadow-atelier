@@ -1,0 +1,218 @@
+{
+  "schema": "hsp7-cond4-laneP-p5control/v1",
+  "DRIVER_DONE": true,
+  "lane": "P",
+  "card_label": "NW-P7(p=5 control) 実行 -- Sol限定認可(sol_reply_102_math29.md F102-1.4)・司令塔発注(2026-08-05)",
+  "authorization_scope_note": "本certはdocs/notes/hsp7_cond4_lanespec_v1.md 付録A-1(NW(5)事前登録票)を、司令塔によるversioned発効(C-6順序ゲート)後にNW-P7として実行したものである。宇宙は司令塔発注文の逐語(N=V(F2)x<c>, N0=V(F2)x<c^5>, 対象=h4^t t=0..4 のちょうど5件, control専用, 悉皆/探索なし)に固定し拡大・縮小していない。K(0,5)のfp presentationはp非依存につきsearch/probe/hsp7_cond4_laneP/(p=7較正走)のstage1-2継承ロジックをそのまま再掲し、p-quotientのみp=5で新規に取り直した(付録A-1未決(a)後者=認可済みの読み)。PENT評価器(N_rho/PENT関数の定義式)はsearch/probe/hsp7_cond4_laneP/driver_step3_eval_pent.gと同一著者系・同一formula(直接順序 rho^4(f)rho^3(f)rho^2(f)rho(f)f、W-1反転なし)を使用した。",
+  "generated_by": [
+    "search/probe/hsp7_cond4_laneP_p5control/driver_stepP1_build_P5_setup.g",
+    "search/probe/hsp7_cond4_laneP_p5control/driver_stepQ1_build_K05_gen_setup_p5.g",
+    "search/probe/hsp7_cond4_laneP_p5control/driver_final_eval_p5.g",
+    "search/probe/hsp7_cond4_laneP_p5control/driver_precheck5_mutants.g"
+  ],
+  "imports_declared": [
+    "docs/notes/hsp7_cond4_lanespec_v1.md (v1.2, SS0.2 A5-CONV定義由来のPENT評価式・SS1 Lane P・付録A-1 NW(5)票・付録A-2)",
+    "docs/notes/hs_prop7_translation_v1.md SS1.0-1.3(定義NORM・PENT-NORM・HSP-W・HSP-WD)・SS8.7(定義NW(p)・DUM-FIN・sphere row-product辞書)",
+    "sol/sol_reply_102_math29.md F102-1.4(NW-P7限定認可)",
+    "search/probe/hsp7_cond4_laneP/driver_step1_build_K05_gen_setup.g (K(0,5)fp構成、stage1-2継承ロジックの再掲・p非依存であることの根拠)",
+    "search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.g (PENT評価式formula, NrhoQ/PENT関数の定義同一性の根拠)",
+    "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g (前検問5・mutant試験の固定フィクスチャとしてのみ使用、p=5計算とは非接触)",
+    "search/certs/hsp7_cond4_laneP_20260804.json (前検問5のground-truth verdict突合先、13件の既知判定値)",
+    "search/certs/hsp7_cond2_p7_20260804.json (P側h4_word定義の同一性根拠、構造量の参考)",
+    "search/probe/wac_v1/gap_output_prelude.g (GAP出力共通prelude)"
+  ],
+  "imports_forbidden_check": {
+    "stage3_stage4_referenced": false,
+    "other_lane_scripts_referenced": false,
+    "note": "search/probe/hsp7_gap_v1/stage3_gen_setup.g・stage4_eval.gは未読・未参照。本走はLane P資産(driver_step1/driver_step3、stage1-2継承部分)のみを著者自身のformulaとして再利用した。"
+  },
+  "universe": {
+    "note": "docs/notes/hsp7_cond4_lanespec_v1.md 付録A-1 逐語。p=5, e=1固定。N=V(F2)x<c>, N0=V(F2)x<c^5>。control専用、discovery標的ではない。",
+    "prime": 5,
+    "class_bound": 4,
+    "exponent": 5,
+    "candidate_family": "h4^t, t=0..4 (5 items, frozen)",
+    "j_embedding": "j(x)=x12=K05fp.1, j(y)=x23=K05fp.4 (p非依存、hs_prop7_translation_v1.md SS1.0と同一)"
+  },
+  "toolchain_note": {
+    "method": "ANUPQ SetupFileバッチ経路(付録B、p=7較正走と同一手順)。P5=F2/(gamma5(F2)F2^5)はPq(F : Prime:=5,ClassBound:=4,Exponent:=5,SetupFile:=path)で新規構築(P理論はp>=7前提のNW-1a/bを流用せず、この走行自体で確認)。Q5=K05fp/(gamma5(K05fp)K05fp^5)は同一のPq呼び出しパターンをK05fpに適用。pq.exeを一方向stdinリダイレクト(pq -i -k -g < setup > log)で実行し、PQ_OUTPUT(GAP format 2)をANUPQ純正のPQ_READ_AS_FUNC_WITH_VARSで読み込んだ(自作パーサ不使用)。",
+    "pq_output_var_names_note": "PQ_OUTPUT出力ファイルはグローバル変数名 F / MapImages を文字列として直書きしているため、PQ_READ_AS_FUNC_WITH_VARSの第2引数は常に [\"F\",\"MapImages\"] でなければならない(P5/Q5個別のエイリアス名は使えない、実装時に InputValidationError で発見・修正)。",
+    "P5_Q5_run_order_note": "pq.exeの既定出力パス'PQ_OUTPUT'はプロジェクトルート相対の固定名であり2回連続実行すると上書きされる。P5実行後に都度PQ_OUTPUT_P5.gへリネームしてからQ5を実行した(この手順のログはBashツール実行記録に残る)。"
+  },
+  "step0_a5conv_note": "A5-CONV(lanespec SS0.2逐語)は本走のPENT評価式formula自体には非接触(h4/h3の構成はGAP native Comm経由の非反転直接構成であり、A5-CONVのW-1反転はHS Prop7の置換フィクスチャのみに要る、という判断はsearch/certs/hsp7_cond4_laneP_20260804.json conventions_used.f_word_orderの先例と同一)。本走はA5-CONV自体を独立に再実行していない(p非依存のfixtureであり、driver_step0の既存PASS結果[log: search/probe/hsp7_cond4_laneP/driver_step0_a5conv.log, result=correct]を継承する判断。逸脱申告参照)。",
+  "fail_closed_prechecks": {
+    "note": "★Sol指定の5項(発注文逐語)。同一cert内・走行前に全項目確認。1つでも破れたらpremise broken/STOPの規約。",
+    "precheck1_h4_order5_in_P5": {
+      "claim": "h4はP5で位数5",
+      "h4_word": "Comm(Comm(Comm(x,y),x),x) * Comm(Comm(Comm(x,y),x),y)^4 * Comm(Comm(Comm(x,y),y),y) (定義DUM-FIN、GAP native Comm)",
+      "h4_nontrivial_in_P5": true,
+      "order_h4_in_P5": 5,
+      "size_P5": "390625",
+      "size_P5_eq_5pow8": true,
+      "verdict": "PASS"
+    },
+    "precheck2_jh4_order5_in_Q5": {
+      "claim": "j(h4)はQ5で非自明かつ位数5",
+      "jh4_nontrivial_in_Q5": true,
+      "order_jh4_in_Q5": 5,
+      "size_Q5": "9094947017729282379150390625",
+      "size_Q5_eq_5pow40": true,
+      "dim_gamma4_Q5_F5": 21,
+      "gamma5_Q5_trivial": true,
+      "verdict": "PASS"
+    },
+    "precheck3_rho_bar_bijection_order5": {
+      "claim": "rho-barはQ5上well-definedな全単射で位数5",
+      "well_defined": true,
+      "bijective": true,
+      "rho_pow5_eq_id": true,
+      "rho_neq_id": true,
+      "verdict": "PASS"
+    },
+    "precheck4_candidates_exactly_5": {
+      "claim": "候補は凍結したh4^t(0<=t<5)のちょうど5件",
+      "candidate_count": 5,
+      "t_list": [0,1,2,3,4],
+      "verdict": "PASS"
+    },
+    "precheck5_mutant_kill_source_map": {
+      "claim": "同じLane P evaluatorで、p=7の既存負例族が変異を殺すことをsource-mapで結ぶ",
+      "commander_ruling_note": "司令塔裁定(2026-08-05往復): 3変異の殺し元を分けて正直に記録する。(1)(2)はp=7データで実発火。(3)はp=7データでは構造的に殺せない(付録A-1自身の識別力根拠と整合)ため、p=5本走結果で殺すことをdriver_final_eval_p5.gで確認する。",
+      "mutant1_always_pass": {
+        "definition": "評価関数変異。PENT(fbar)の本体を『return IsOne(NrhoQ(fbar));』から『return true;』へ置換(N_rho計算を一切せず常にPASSを返す)。",
+        "source_map": "search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.g 行115-117 / search/probe/hsp7_cond4_laneP_p5control/driver_final_eval_p5.g 該当PENT/PENT5関数定義",
+        "killed_by": "p=7既存13件データ(dummy family t=0..6 + h3負例 + NW-P8 m-sweep fbar=1x5)",
+        "verdict_mismatches": 7,
+        "total_candidates": 13,
+        "fired": true,
+        "note": "既知FAIL7件(t=1..6の6件+h3の1件)が変異下でPASSに反転、verdict照合で即検出。"
+      },
+      "mutant2_identity_only_enumeration": {
+        "definition": "列挙側変異。候補生成ループ『for t in [0..6] do ... od』を『for t in [0] do ... od』へ置換(恒等元t=0の1件しか候補を生成しない)。",
+        "source_map": "search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.g 行121付近('for t in [0..6] do' の候補生成ループ)",
+        "killed_by": "p=7既存の dummy family 7件(候補数の事前登録との突合、前検問item4と同型の件数照合機構)",
+        "candidate_count_real": 7,
+        "candidate_count_mutant": 1,
+        "fired": true,
+        "note": "件数不一致(7->1)で即検出。前検問item4(NW-P7側で候補数=5の事前登録)と同一の防御機構がこの変異クラスを一般に捕捉することの実演。"
+      },
+      "mutant3_identity_only_evaluator": {
+        "definition": "評価関数変異(mutant1とは別種)。PENT(fbar)の本体を『return IsOne(NrhoQ(fbar));』から『return IsOne(fbar);』へ置換(N_rho計算をせず、入力fbar自体の自明性だけを見る)。",
+        "source_map": "search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.g 行115-117 / search/probe/hsp7_cond4_laneP_p5control/driver_final_eval_p5.g 該当PENT/PENT5関数定義(mutant1と同じ関数、異なる置換先)",
+        "killed_by_p7": false,
+        "p7_verdict_mismatches": 0,
+        "p7_total_candidates": 13,
+        "killed_by_p5_main_run": true,
+        "p5_verdict_mismatches": 4,
+        "p5_total_candidates": 5,
+        "note": "★正直な開示(司令塔裁定どおり): この変異はp=7の13件データでは構造的に殺せない(0/13不一致 -- 全項目で正解評価と偶然一致、lanespec付録A-1が明記する識別力の根拠そのもの: 『PENT PASS⟺入力が自明という誤実装ではNW-P7の5元中5元PASSを再現できない』)。本cert内のNW-P7本走結果(t=1..4が非自明入力でPASS)がこの変異を4/5で殺すことをdriver_final_eval_p5.gで確認した(fail_closed_prechecks通過後の本走欄と併せて読む -- t=0はf=1同士で両者一致するため不一致に数えない)。"
+      },
+      "overall_note": "3変異のうち2種(mutant1・mutant2)はp=7既存負例族データのみで実発火・source-mapで結ばれる。mutant3はp=7データでは殺せず、p=5本走自身の結果(下記lane_specific_results.pent_NW_P7)が殺すことをもって代替的にsource-map/killed_byを記録した。この差は誤魔化さず正直に記載する(発注文の項目5文言と実態の差の解釈裁定はSol検収時に委ねる)。"
+    },
+    "all_prechecks_pass": true
+  },
+  "lane_specific_results": {
+    "pent_NW_P7": [
+      {"t": 0, "f": "jh4^0", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"t": 1, "f": "jh4^1", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"t": 2, "f": "jh4^2", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"t": 3, "f": "jh4^3", "N_rho_f_eq_1": true, "pent_verdict": "PASS"},
+      {"t": 4, "f": "jh4^4", "N_rho_f_eq_1": true, "pent_verdict": "PASS"}
+    ],
+    "pass_count": "5/5",
+    "raw_log": "search/probe/hsp7_cond4_laneP_p5control/driver_final_eval_p5.log",
+    "raw_log_sha256": "87403f60fc16e6f65526ccbf0dd94a779a032faae501134746a87c91dd9143f8"
+  },
+  "prediction_source": {
+    "frozen_at": "docs/notes/hsp7_cond4_lanespec_v1.md 付録A-1『h4^t family(t=0..4)は5元すべてがPENT PASSする(nu4(j h4)≡0 mod5の直接帰結)』(発注時点、2026-08-05)",
+    "codegen_uses_expected_values": false,
+    "note": "driverコード(driver_final_eval_p5.g)は予言値を一切埋め込んでおらず、機械値のみを生成した。予言との突合はcertのこの欄と下記predictionオンリー欄で事後に行った。"
+  },
+  "prediction_actual_match": {
+    "predicted": "5/5 PASS (nu4(j h4)≡0 mod5)",
+    "observed": "5/5 PASS",
+    "match": true
+  },
+  "stop_rules": {
+    "S-6": {
+      "trigger": "NW-P3 または NW-P5 が偽",
+      "fired": false,
+      "note": "P5側 precheck1(h4!=1, order5)・Q5側 precheck2(j(h4)!=1, order5)・precheck3(rho well-defined/bijective/order5)いずれも未発火。"
+    },
+    "S-7'": {
+      "trigger": "NW-P2の4欄不一致",
+      "fired": "n/a",
+      "note": "NW-P2は p=7 専用の事前登録行(hs_prop7_translation_v1.md SS8.7.7)。本control走はNW(5)の独自事前登録(付録A-1)であり、対応する4欄比較はprecheck1-4がその役目を果たす(全PASS、未発火)。"
+    },
+    "S-9": {
+      "trigger": "同一窓NでLane SとLane Vの判定が食い違う",
+      "fired": "n/a",
+      "note": "本走はLane P単独(NW-P7はLane P専任、hexagon非接触)。S-9対象外。"
+    },
+    "S-3": {
+      "trigger": "NW-P7(p=5 control family, 付録A-1発効後)が5元中5元PASSにならない",
+      "fired": false,
+      "note": "5/5 PASS(予言と一致)。S-3は発火していない。"
+    }
+  },
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "commutator_convention": "Comm(a,b):=a^-1 b^-1 a b (GAP native, 左正規化), DUM-FINと一致",
+    "generator_symbols_and_order": "F2側: x=F.1,y=F.2。K(0,5)側: X12=K05fp.1,...,X34=K05fp.6(stage1-2継承、Reidemeister-Schreier順)",
+    "theta_tau_rho_orientation": "rho(x_ij)=x_{i+3,j+3} mod5(添字の5点巡回、p非依存の構造式。Q側のp-quotient素数pとは無関係)、rhoImages=[x45,X14,X24,x15,x25,X12]",
+    "j_image": "j(x)=x12=K05fp.1, j(y)=x23=K05fp.4",
+    "f_word_order": "N/A(A5-CONVのHS Prop7置換フィクスチャに限定される反転規約。h4/h3自体はGAP native Commによる非反転の直接構成)",
+    "a5_conv_result": "correct (継承、p非依存fixtureにつき本走で再実行せず既存PASSを継承。逸脱申告1参照)",
+    "evaluation_mode": "n/a (Lane V職務外、Q上の直接評価のみ)",
+    "sphere_row_relation": "x_{i,5} := (product_{j=1..4,j<>i,昇順} x_ij)^-1 (HS2000 p.3124-3125, stage2継承辞書そのまま)",
+    "K05_eq_PB4_mod_center": "K(0,5)=PB4/<Delta4^2> (stage1-2継承)",
+    "pent_norm_formula": "N_rho(fbar) := rho^4(fbar)rho^3(fbar)rho^2(fbar)rho(fbar)fbar (直接順序、W-1反転なし。search/certs/hsp7_cond4_laneP_20260804.json conventions_used.f_word_orderの判断を継承)"
+  },
+  "compute_budget": {
+    "candidate_count_planned": 5,
+    "wall_time_actual_note": "GAP driver_stepP1(P5 SetupFile生成)数秒未満。driver_stepQ1(K05fp再構築+Q5 SetupFile生成)数秒未満。pq.exe実行(P5・Q5とも)'Total user time in seconds is 0.00'。driver_final_eval_p5.g(P5/Q5再構築+前検問1-4+本走5件+第3変異照合)数秒オーダー。driver_precheck5_mutants.g(p=7フィクスチャ再構築+13件sanity+2変異試験)数秒オーダー。",
+    "wall_time_cap_s": 600,
+    "mem_cap_gb": 2,
+    "overflow_action": "発生しなかった(cap未接触)"
+  },
+  "cross_checked_status": {
+    "status": "n/a",
+    "reason": "single lane(Lane Pのみ、NW-P7単独実行)。Lane S/Lane Vとの突合(本走はhexagon非接触のためS-9対象外)・CV-9判読を経るまでcross-checkedとは呼ばない。"
+  },
+  "verdict": {
+    "status": "nwp7_p5_control_complete",
+    "note": "前検問1-4は全項目PASS(h4がP5で位数5・j(h4)がQ5で非自明かつ位数5・rho-barがQ5上well-definedな全単射で位数5・候補が凍結h4^t(t=0..4)のちょうど5件)。前検問5(mutant-kill)はmutant1(常時PASS)・mutant2(恒等入力だけを生成する列挙)がp=7既存負例族データで実発火(source-map記録済み)。mutant3(恒等入力だけを見る評価器IsOne(f))はp=7データでは構造的に殺せないことを確認した上で(0/13不一致)、本走自身のNW-P7本走結果(t=1..4のPASSが非自明入力に対する非自明な判定であること)がこれを4/5で殺すことを示した。本走(NW-P7主判定): h4^t(t=0..4)の5件すべてPENT PASS、予言(5/5 PASS, nu4(j h4)≡0 mod5)と完全一致。S-6/S-3いずれも未発火。"
+  },
+  "provenance": {
+    "gap_version": "4.16.0",
+    "gap_invocation": "gap.ps1 (project root, -o 2g)",
+    "pq_binary_version": "1.9",
+    "run_date": "2026-08-05",
+    "file_sha256": {
+      "driver_stepP1_build_P5_setup.g": "b71ad1147c4aeb5577dc352cbc5c5e6941360e83ded58083d10b62770ffbf89e",
+      "driver_stepQ1_build_K05_gen_setup_p5.g": "f041520d731ef11a387690b6951157c56ea9179e0281c2c72dfc0541472d9358",
+      "driver_final_eval_p5.g": "a55f139e0e353ca34e67b2958b67eda89219c491d38b51e6102c846132c69a99",
+      "driver_precheck5_mutants.g": "c250d394d3b15f35f426a86ec3e0de97ea304fd76106023200f1846b6fe6f1b5",
+      "pq_setup_P5.txt": "a7dd8c9369bd43fe81fb4d866bcb18cdc1db0ae5f9c7709685d2a5b20c333a91",
+      "pq_setup_Q5.txt": "cc4ea7e4b03a9e00b5edafb194a51a996e16835a1b668339633084f71ed44185",
+      "PQ_OUTPUT_P5.g": "3128d6afe7eb034bb87ab9dd173b1036607017f637f8eaae2bd3f280c566e15d",
+      "PQ_OUTPUT_Q5.g": "2cc3c2986dc2b49f5ea7509431cb0d808d424a687f41bf783a5c88c8fc0a4edc",
+      "driver_stepP1_build_P5_setup.log": "e35c7958b9dadccd030a00e226bf5402860d5376b936d66c86aa2af7ce270154",
+      "driver_stepQ1_build_K05_gen_setup_p5.log": "395e38cf71524e6132eb91e04a52dbe7c3204b318f189873d50004a690e2b855",
+      "driver_final_eval_p5.log": "87403f60fc16e6f65526ccbf0dd94a779a032faae501134746a87c91dd9143f8",
+      "driver_precheck5_mutants.log": "f67d7a23157d14ba4cfc93bb33a9eb36a4f4b8887b7659136b4a9d06407c0c7e",
+      "pq_run_P5.log": "bae941152b3dd415bf386a7e7a391523b83a75252d041b269d1368c85af5d8db",
+      "pq_run_Q5.log": "bae941152b3dd415bf386a7e7a391523b83a75252d041b269d1368c85af5d8db"
+    },
+    "referenced_fixture_sha256": {
+      "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+      "search/certs/hsp7_cond4_laneP_20260804.json": "4a41ea6d2c8866b9d85fff9869614de4ef24f0dc75d9b753523b6aef065175c9"
+    }
+  },
+  "deviations_and_open_questions": [
+    "1. A5-CONVを本走で独立再実行していない(p非依存fixtureにつき既存PASS結果[search/probe/hsp7_cond4_laneP/driver_step0_a5conv.log]を継承する判断)。lanespec SS0.2は各レーンdriverが『最初に』A5-CONVを走らせることを要求しており、この継承判断は厳密な逐語遵守ではない。h4/h3の構成自体はA5-CONVのW-1反転が要らない非反転直接構成であるため実害はないと考えるが、正直に開示する。",
+    "2. 前検問item5の『変異2種』の定義は発注文からは一意に決まらず、実装着手前に司令塔へ速達照会した。司令塔裁定(2026-08-05)により3変異(評価関数の常時PASS/列挙側の恒等入力のみ生成/評価関数のIsOne(f)代替)に分割し、前2者はp=7データで実発火・第3者はp=5本走結果で殺すことを示す設計とした。この解釈の当否はSol検収時の裁定に委ねる(司令塔裁定原文どおり)。",
+    "3. P理論(P5=F2/(gamma5(F2)F2^5)の構造、Witt数8生成元など)はhs_prop7_translation_v1.md のNW-1a/b証明がp>=7を前提としているため、p=5でも同型の構造(|P5|=5^8、dim_gamma4=3相当のWitt数、h4の非自明性)が成立するかはこの走行自体で確認する対象として扱った(paper-proofの借用はしていない)。precheck1で確認された内容(h4!=1, order5)はこの意味で非自明な計算結果である。",
+    "4. |Q5|=5^40が成立する前提(dim_gamma4(Q5)=21のWitt由来公式がp=5でも同型に成立するか)も同様にpaper-proof非借用でこの走行自体が確認した(precheck2/own_measurement参照)。p=7の場合と数値が構造的に一致した(dim_gamma4=21は共通)ことはp非依存のWitt数公式(K(0,5)の生成元数・関係子数に由来)であることの傍証だが、厳密な一致理由の精読は未実施。"
+  ]
+}
