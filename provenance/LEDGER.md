@@ -2112,3 +2112,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 Σ 不変参照 addendum 検収(裁定 502)— F103-1.3 の前提修理完了: commit 468287e/blob eca5dc7 からの bytes sha が Sol 指定値と MATCH=true・live path 相違(+455 bytes)も事実記録・supplements 欄で v2 本体を structured 束縛
 - addendum = search/certs/hsp7_cond4_summary_v2_addendum_immutref_20260805.json(+git plumbing 機械確認ログ)。**本走の認可資料準備・事前登録段階の前提が整った**(便 104 で本走申請可能な状態)。v2 側への supplemented_by 追記は設計判断として保留(B v6 の chain 様式確定後に一括判断)。
+
+## 2026-08-05 EP 第三陣 3 文書 検収(裁定 503)— F103-6.2/6.3/6.4 の条件反映完了: 台帳 v1.7-r2(CL-13 = open typed requirements・verbatim_pin={path,sha256}・conformance_at_issue 分離)・IMAGE-MU v2(A′/B 採択形・registry+curve_model_ref・W6-P13〜21 前修理 4 点反映・live ID インシデント条項)・1210 v2(per-suite provenance 分離・claim 限定文言・47/53 精密化)
+- 前版 3 本 byte 不変・versioned supersede。凍結非改変(searcher:930 は読取のみ)。EP 状態札 3 つ不動。便 104 積載。
