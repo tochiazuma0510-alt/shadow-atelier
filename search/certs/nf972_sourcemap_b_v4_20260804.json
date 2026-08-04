@@ -1,0 +1,83 @@
+{
+  "schema":"nf972-sourcemap-b/v4",
+  "generated_by":"search/probe/wac_v1/nf972_sourcemap_b_run.g",
+  "design_doc":"docs/notes/nf972_freeze_v1.md(裁定434凍結+v1.1裁定442+v1.2裁定454)",
+  "card_label":"NF-972 source map B(直接悉皆側・独立実装・A非参照)-- v4: CV-9判読3点の記述訂正版",
+  "supersedes_note":"tuples自体(972点・can9/can4値)はv1/v2/v3から不変(CV-9判読で3版逐語同一を確認済み)。本v4はmetadata cert(nf972_sourcemap_b_20260804.json)の記述訂正のみ -- 旧metadata certは不改変のまま残す。",
+  "cv9_reading_ref":"docs/notes/nf972_cv9_reading_v1.md",
+  "independence_note":"source map A(組立側)の実装・中間表現・normalizer helperを一切参照・共有しない。共有は凍結仕様のschemaのみ。列挙戦略はihnec_r4b_run.gと同型(Elements(DerivedSubgroup(G))直接列挙)だが判定関数(NF972HexagonOK)・NF化(q9/q4評価・can9/can4・serialization)はすべて自前実装で、R4bのScanRoofHexagonコード自体は再利用していない。",
+  "can9_can4_design_note":"can9=27点を9点x3ブロックに分解しD_9=<r,s>正規形(a,eps)の3つ組(固定順)。can4=9点one-line image(v3以降はsigma適用後・sigma=()と確認済み)。",
+  "bug_fix_note":"v1.1追補(裁定442)の辞書自己検査を実施中、K9側は108/108一致もS4側は当初6/54しか一致しないことが判明。原因はmarking/座標系ではなくNF972HexagonOKの乗算規約バグ(ymf/hex311/genB/zEltがplainなGAP `*`でAbstractProd反転規約と不一致)。修正済み。詳細はops/express/20260804_implementer_nf972b_predicate_bug_found.md。",
+  "dictionary_selfcheck":{
+    "design_doc":"docs/notes/nf972_freeze_v1.md v1.2追補(裁定454)SS7-6",
+    "q9_dictionary_type":"identity",
+    "q9_projection_matches_k9_cert_f_triple_verbatim":true,
+    "q9_selfcheck_status":"valid(非トートロジー -- K9.v1.jsonのf_triple欄は自分の計算に由来しない独立な格納値)",
+    "q4_dictionary_type":"conjugation_by_sigma_via_marked_generator_correspondence(sigma=() と機械決定・一意性確認済み)",
+    "q4_cert_frame_image_comparison_flag":true,
+    "q4_self_check_status":"tautological -- see nf972_cv9_reading_v1.md 【重大1】; set-level agreement is instead supported by falsifier's independent reconstruction. sigma=()のため左辺sigma*WordEval(w,Xperm,Yperm)*sigma^-1と右辺WordEval(w,Xperm_cert,Yperm_cert)はcert枠がXperm,Yperm自体と同じ構成関数(MakeMatGF8/MatToPermGF8)から同一引数で再構成されている結果、同一関数・同一引数の同一式になっており、WordEvalの規約バグを検出できない(事故台帳#6型)。上のflag(q4_cert_frame_image_comparison_flag)はこの無内容な式の評価結果であり、証拠として引用しない。",
+    "caveat":"q4_cert_frame_image_comparison_flag=trueは『54/54が式として一致した』という事実のみを示し、can4のcert枠一致を独立に裏付けるものではない。can4の正しさの根拠はfalsifierによる独立再構成(nf972_cv9_reading_v1.md)である。"
+  },
+  "windows":{
+    "g9_size":2916,"k9_ord":18,
+    "p_size":504,"n_s4_ord":9,
+    "gm_size":1469664,"m_ord":18
+  },
+  "anchors":{
+    "k9_alone_shadow_total":108,"k9_alone_expected":108,
+    "s4_alone_shadow_total":54,"s4_alone_expected":54
+  },
+  "fixtures":{
+    "fixture1_orientation_flip_fires":true,
+    "fixture2_q4_side_generator_swap_fires":true,
+    "fixture3_wrong_modulus_fires":true,
+    "conv_fixture_a5_s4_pass":true,
+    "conv_fixture_a5_k9_pass":true
+  },
+  "main_scan":{
+    "derived_order":367416,"derived_order_expected":367416,
+    "shadow_total":972,"shadow_total_expected":972
+  },
+  "nf_tuple_set":{
+    "total_tuples":972,
+    "distinct_tuples":972,
+    "duplicate_count":0,
+    "matches_972_0dup":true
+  },
+  "projections":{
+    "proj9_q9_side_size":108,"proj9_expected":108,"proj9_ok":true,
+    "proj4_q4_side_size":54,"proj4_expected":54,"proj4_ok":true,
+    "compatibility_k9_alone_eq_proj9":true,
+    "compatibility_s4_alone_eq_proj4":true
+  },
+  "canonical_enumeration":{
+    "sort_order":"gap_String_sort_of_serialized_tuple",
+    "serialization_format":"(m0;a1,eps1,a2,eps2,a3,eps3;i1,...,i9)",
+    "count":972,
+    "sha256":"932a0f36bc7a3ca81cb5dcc285d5f9c0d85d17bbff0d64f05c5e7dccdccc8db8",
+    "note":"v1/v2/v3のtuples集合(sha256同一)と一致 -- CV-9判読で3版逐語同一確認済み。"
+  },
+  "conventions_used":{
+    "conventions_ver":"v1_6",
+    "perm_composition":"gap_native_right_action",
+    "reduced_hexagon_predicate":"NF972HexagonOK(本driver独自実装・数学的判定式・乗算規約ともihnec_r4b_run.gのScanRoofHexagonとAbstractProd経由で同一。当初plain `*`で書いており規約が食い違っていたバグを修正済み -- bug_fix_note参照。",
+    "independence_note":"source map A の実装・出力(nf972_sourcemap_a_*.json)は一切読まない。G9・P・GMはGAPで生成器から新規構築。certificates/K9.v1.json・certificates/S4.v2.json は辞書自己検査/枠定義の読解のために読む(A非参照の原則とは別枠・司令塔指示による)。"
+  },
+  "cross_checked_status":{"status":"n/a","reason":"本certは source map B 単独の出力。source map A との集合突合は司令塔が別途実施する。can4の集合一致の根拠はq4_self_check_statusに明記の通りfalsifierの独立再構成であり、本cert内のtautological flagではない。"},
+  "source_digests":{
+    "note":"仕様v1.2 SS3-3で義務化された出所digest。",
+    "freeze_spec_path":"docs/notes/nf972_freeze_v1.md",
+    "freeze_spec_sha256":"d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1",
+    "k9_cert_path":"certificates/K9.v1.json",
+    "k9_cert_sha256":"ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e",
+    "s4_cert_path":"certificates/S4.v2.json",
+    "s4_cert_sha256":"c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+  },
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"f9f4a6e9004bb7db9baf4bfc1129652ab1a916430519ff0465faf91d8b1f7001",
+    "wall_ms_total":67043
+  },
+  "driver_done":true,
+  "driver_done_marker":"NF972_SOURCEMAP_B_DRIVER_DONE"
+}

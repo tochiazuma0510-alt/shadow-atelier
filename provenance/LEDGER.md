@@ -1880,3 +1880,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-04 NF-972 A v3 検収(裁定 460)— CV-9 判読【要修正 1】閉塞: can₄ 軸の分離 fixture F4 が両候補(生成元入替・点転置 relabel)で発火・全 4 fixture 発火・tuples 不変(canonical sha = v2 と同一 32e78ca5…)
 - v3 = search/certs/nf972_sourcemap_a_v3_20260804.json(v1/v2 不改変・tuples は v2 参照で新規書込なし)。F4 採用 = 候補 A(X,Y 生成元入替)・候補 B(点 1,2 転置の can₄ relabel)も発火確認済み。fixtures_all_fire = True・ALL PASS・DRIVER_DONE。
 - 残る条件履行 = B cert v4(記述の正直化 3 点・走行中)のみ。完了で CV-9 条件つき PASS の条件が全て閉じ、便 102 の Sol 検収請求へ。
+
+## 2026-08-04 NF-972 B v4 検収(裁定 461)— ★CV-9 条件つき PASS の条件が全閉塞: NF-972 は「集合水準 cross-checked 候補(判読済)」として便 102 の Sol 検収請求へ搭載可
+- v4 = search/certs/nf972_sourcemap_b_v4_20260804.json(v1/v2/v3・tuples 本体は不改変)。修正 3 点完了: ①自己検査 flag の正直化(tautological 明記+証拠引用禁止の caveat)②source_digests(凍結仕様+K9/S4 cert の sha・sha256sum 独立再検証つき)+driver_done 追加 ③廃止基準名 → q4_cert_frame_image_comparison_flag へ改名。
+- **NF-972 戦役の現況総括**: 集合等号(972/972・裁定 456)+CV-9 判読 PASS(条件つき・裁定 459)+条件履行(A v3 = F4 発火・裁定 460 / B v4 = 記述正直化・本裁定)= **司令塔側の全工程完了**。残るは便 102 での Sol 検収のみ(格付け文の拘束 = 裁定 459 の 2 点を遵守して起草)。
