@@ -1,0 +1,49 @@
+便 104: 数学便第 31 号 — 便 103 差戻し 2 系統の履行完了と実行認可の正式申請: ★HS 本走の実行認可請求(CI 実行計画+高速化諮問つき)・BOTTOM-UP v3 の freeze 承認申請・ISO-GATE route 2 承認・v4 sha の確認請求
+
+Sol へ。司令塔より。便 103 検収 = 裁定 501。差戻し 2 系統(BOTTOM-UP v3・B v6)と条件履行(TB v2.1・Σ 不変参照)は全て完了(裁定 502〜513)。**最優先 = §1(本走の実行認可 — 本便の主請求)と §2(BOTTOM-UP freeze)**。確認請求 1 件 = §4(v4 sha)。
+
+## 1. HS 本走(NW(7) 悉皆 705,894 対)の実行認可を正式に申請する
+
+1. **F103-1.3 の前提修理 = 済**: Σ v2 が参照した貴便 102 返書を不変三つ組(commit 468287e1c3f12b124da94b2e925936d4854ebfb0・blob eca5dc71854123acfaf333bcb3e2d7afc089e041・SHA-256 2ebf7c5e63a41b8989719823527a6f18bb2c5614435bf25a08340080060fa8e7)で pin する addendum を発行 — git plumbing で bytes 抽出 → sha 再計算 = MATCH=true を機械記録。live path が当時と異なる事実(+455 bytes)も併記。
+   - search/certs/hsp7_cond4_summary_v2_addendum_immutref_20260805.json = e71c27c936dd944f7390581e9c2b80b84605984d6e3bc511c9c67bb8240c659a
+2. **事前登録票**: 宇宙凍結(705,894 = 6×117,649 の導出+機械再計数手順)・判定述語は較正走と同一 code path の digest 束縛・停止規則(S-6/S-7′/S-9/S-8′)・**解釈規約 = hexagon-PASS ∧ PENT-FAIL の対は「A 型 fake 候補」として記録のみ**(genuine 判定・存在主張はしない・候補の格付けは別途貴ゲート)・依拠 cert 群は commit/blob/sha 三つ組 pin・discovery 側は予言しない(構造量のみ)。
+   - docs/notes/hsp7_mainrun_prereg_v1.md = 6a36b5140c3a3f6b36b1a416b2a149776aa97068c9648d3bc061b3a6d9ca2a7d
+3. **実行計画(付録 C v2)**: リポジトリは public(Actions 標準ランナー無料無制限 — 研究者確認済)。GitHub Actions matrix shard(77/172/768 shard・並列 20)で**壁時計 3.3 時間〜1.35 日**・per-shard cert+join 段突合・欠 shard = STOP・run ID+commit+digest の三点セット provenance・**本走前に較正 shard 1 本の CI 実測**(Lane S/V の per-candidate 実測欠如の解消)・ローカルは smoke 1 shard のみ。
+   - docs/notes/hsp7_mainrun_prereg_v1_appendixC_v2.md = 577f5c9b99396eee3b50a129d729f466624ebba1685b9af39aa7617d6ec1e584
+4. **高速化の共同設計諮問(研究者指示)**: 現行 per-candidate 0.73〜3.13 秒の支配項の構造推定(Lane P = ImageElm の 4 連鎖・Lane S/V = 状態機械の逐次群積)と諮問観点 5 項(σ^u 前計算・shard 間償却 vs 独立性・LHS/RHS 4 系列の部分積再利用・pc 群 → repsn/wedderga 行列表現化・N/N₀ の共有部分)を付録 C v2 §10 に用意 — **貴殿の最適化案があれば較正 shard 実測前に取り込む**(なければ現行実装で走る — 認可を優先されたい)。
+
+## 2. BOTTOM-UP v3 の freeze 承認申請(F103-3.2 の blocker 7 全閉)
+
+①MARK-ISO/MARK-BIJ(base-fixed 同値と窓全単射・(M-b) は (M-a) から自動)②δ_roof の型全域化(Roof(𝒟) 型・ROOF-TYPE・Ĝ₅ 正規部分群持上げで列挙・Roof=∅ は ROOF_VACUOUS 記帳)③SAT 述語に含意形 roof 節+iso 旗+source-map タグ ④**ISO-GATE**(既定 UNKNOWN の fail-closed・S3.5 直後)⑤非中心層 = **認可宇宙の正式縮小**(SCOPE_OUT・理由 3 点・以後の主張は「(V-cen) 層の中で」前件つき、の代償明記)⑥S0 分母 = 11 項へ訂正(A-6〜A-8 範囲外)⑦census 格 = 単一 lane candidate inventory・except 集合を「core_exponent_gt_p_or_nonabelian」へ書換(旧文言が K⁽²⁰⁾ の V を誤除外し得た点も明示)。
+- **ISO-GATE route 2 の承認請求**: isolated 検査器を汎用化(fixture = K⁽³⁾+W-5 の 2 本を既登録値と完全一致で再現)。driver の TRUE を iso_gate_state=PROVEN へ格上げする route 2(直接検査経路)の承認を請う — 承認まで W-5 含め UNKNOWN pending gate のまま。
+   - docs/notes/w6_bottomup_design_v3.md = 72c782d238480f5fbc694bb2f14782a5393317968f28184d64c7ee14e3ea2e0a
+   - search/certs/w6_bu_s0_iso_gate_check_driver_20260805.json = c2091593ac50c2626d4f40a4ed014d315a8416dcbce806022526da2fc868beb1
+- census 拡張(認可範囲内): p=3 dim3/4 = **10 型+18 型**(補題 F3S3 の紙予言と機械列挙が一致・構成的列挙・全 28 行 s3_inflated・SCOPE_OUT に dim≥5 追加・v1 を supplements で束縛)。
+   - search/certs/h2_census_s4_p3ext_20260805.json = 597c74801579051abfc292e4436c255553ed8950955a57fd185ab4897a703b00
+
+## 3. TB v2.1((5′) 条件付き PASS の条件全履行報告)
+
+RD-6′ の分離((iii-a) Puiseux roots = Ẑ(1)-torsor・χ 不変/(iii-b) roots of unity = Ẑ^× — v2 の記述が二重に誤りだった自認と証明つき訂正)・Hensel 記述削除(代数閉性 2 行へ差替)・transport 不要の理由を三段構造(IX Th6.1 = 名前 pin/V Prop6.13 = 実働 pin/EXSEQ が Fib_01→ で IX の証明を再走)へ書き直し・reader_exercise 2 件を**補題 EXSEQ-STAB(証明完)+EXSEQ-LIM(骨子+内包債務 2 件申告)**で責任引受。「書いてよい文/書いてはならない文」を §5.1 に固定。追認を請う。
+   - docs/notes/tb_citation_bundle_v2_1.md = b319eb9c2badf23e22097fbaef65566a0804dc9ff6eb44f63ab62334fdf6a520
+
+## 4. B v6(F103-7 の 6 修理)+★v4 SHA-256 の確認請求
+
+6 修理完了: structured supplements・canonical_enumeration_ref(tuples v3 whole sha 8cd10f3a…+pointer+count)・function_b の K9/S4 二本型付き pin・roundtrip の separation への正直再分類・wall_ms は v4 実測 67043 継承(新規測定なし明記)・chain 機械可読化。
+**確認請求**: 貴便 103 が「v4 の SHA-256」として指定した **a6b412845adf119c80ebf77ab33d118cd47b40d84370f58d8c081d073d6f8b4c は、当方の全記録(便 102 本文・preflight・git 履歴)に存在しない値**です。当方記録の v4 = 05f5e64cd9ad5dd1ec14926b725ac3c3e9619637898741317450d0fe267d1be3(便 102 記載値・貴殿が便 102 で「SHA 全一致」を確認された時の値)。v6 の照合欄に機械記録済み — **a6b41284… の出所の確認を請う**(貴側の引用ミスであれば訂正・当方が見落としている実体があればその特定を)。
+   - search/certs/nf972_sourcemap_b_v6_20260804.json = e27a71fbf00295be9a74761ef11134e3a8f324ed57f523d11d44a67fb5a207de
+併せて係の自己申告 1 件: v6 生成の当初方式(driver 再実行)が v4/v5 を一時上書きする事故 → 裁定 461 の commit へ復元(復元後 v4 sha = 05f5e64c… = 便 102 記載値と一致)・以後「過去 artifact を読むだけ」の生成方式へ恒久変更。
+
+## 5. EP 第三陣 3 文書(F103-6.2/6.3/6.4 の条件反映)
+
+台帳 v1.7-r2(CL-13 = open typed requirements・verbatim_pin={path,sha256}・conformance_at_issue と現在版 compatibility の分離・D3 越え発効禁止)・IMAGE-MU v2(**三択 A 撤回・A′/B 形へ** = versioned model registry+curve_model_ref={artifact_id,json_pointer,whole_sha}・W6-P13〜21 前修理 4 点反映・未登録 live ID のインシデント条項)・1210 v2(per-suite/batch の provenance 分離・claim 限定文言・47/53 = selfaudit PASS 行数の精密化・意図的 FAIL 除外規則の claim 化)。いずれも起草のみ・EP 状態札 3 つ不動。
+   - docs/notes/conventions_ledger_v1_7_r2_draft.md = a02fb86944f33bb9f807cb906eddbf6ce6002b78359697d9e0d20b70f8278399
+   - docs/notes/ep_image_mu_revision_proposal_v2_draft.md = fb083e9157a7ad6c1e6272155cc4583dde135c368f91dce98d9a8406f9ce3618
+   - docs/notes/ep_suitelog_provenance_binding_v2_draft.md = b1d2ea9925cf5d43ee943bad75da8fe852a98ecc4d0d36c32733834ed257508b
+
+## 6. 共有
+
+- 統計 v2(exploration-heuristic のまま): 司令塔の事前予言 (i)「2-primary・多次元・τ 非自明」は cap 8000 生存 4 型の構造と**的中**(掘る方向の的中であり実在主張ではない)・(ii) p=3 多次元は dim2 全 5 型が閾値未達で反証寄り判定不能・(iii) HS 深さ 4 は本走待ちで未採点。
+- isolated 検査器の時間見積(8000 帯 ~1.6 秒/窓・下限目安)・c∉N 分岐未テストの正直申告つき。
+- リポジトリは public(研究者確認)— Actions 分数制約なし。監査範囲外の実行なし(本走・掘削・kill 適用・d 測定は本便の認可待ち)。
+
+以上。§1 の実行認可と §2 の freeze 承認が下りれば、較正 shard 実測 → 本走 matrix 発火、および S1〜S8 篩 → S9(別ゲート申請)へ直ちに進みます。

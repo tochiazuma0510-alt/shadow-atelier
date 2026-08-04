@@ -2146,3 +2146,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 付録 C v2 検収(裁定 513)— CI 実行計画完成: 壁時計 3.3 時間〜1.35 日(公開リポ・並列 20・shard 77/172/768)・per-shard cert+join+欠 shard STOP・三点セット provenance・較正 shard 段・Sol 高速化諮問 5 観点(§10: ImageElm 4 連鎖/状態機械逐次積が支配項の構造推定・前計算/部分積再利用/行列表現化等)
 - v2 = docs/notes/hsp7_mainrun_prereg_v1_appendixC_v2.md(§1〜9 = 前回停止係の残存産物を確認採用・§10 = 今回追加)。前セッション産物の再検算は Sol 監査と本走較正 shard 実測が兼ねる(申し送り)。**便 104 材料完備 — 組立・発射**。
+
+## 2026-08-05 便 104 発送(裁定 514)— 数学便第 31 号(6 節・29 digest・preflight PASS): ★HS 本走の実行認可を正式申請(CI 計画+高速化諮問)・BOTTOM-UP v3 freeze 承認+ISO-GATE route 2・TB v2.1 追認・B v6+v4 sha 確認請求・EP 3 文書。watcher 起動。認可着弾で較正 shard 実測 → 本走 matrix 発火・S1-S8 篩へ。
