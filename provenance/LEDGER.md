@@ -2010,3 +2010,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - cert = search/certs/asm_alpha_cal_20260805.json(tier=calibration・python 単系統・fail-closed 実装済未発火)・driver = search/probe/wac_v1/asm_alpha_cal_v1.py。宇宙 = n∈{3,7,9,11,13,15,21}×α 全体(n=5 assert 除外)・拡大縮小なし。
 - 申告 2 件受理: ①falsifier probe 2 本は repo 不在(未 commit の一時ファイル)→ 仕様許容の独立再実装(ODD-P+判読書+既存群定義から)②coset 作用の右移動バグを自己捕獲・左移動へ修正(規約事故の自己検出の型)。
 - 帰結: framework 束(campaign v2+TB 束+本較正 cert)が便 102 同梱形で完備。
+
+## 2026-08-05 (6′)族版+APPLY族版 検収(裁定 484)— ★定理 SIXP-fam: (6′) は全奇数 n≥3・全 α≠0 で紙成立(枠組み層不使用・正典 Thm 4.3+ODD-H のみ)⟹ R^cyc_formal の窓依存未知は (5′) ただ一つに確定。APPLY 側は自己捕獲【MATCH-one】で最小形へ
+- 成果 = docs/notes/s3_family_completion_v1.md(candidate)+検算 304 窓 FAILS 0。新規 1 行 = 「⟨X⟩ が Λ_α に単純推移 ⟹ 制限で忠実性が落ちない」。新規性限定申告(既出 2 箇所 grep 済・寄与 = 証明本文/α 射程/依存会計/spot-check)・射程遮断(【ASM-α】開いたまま)遵守。実測 n∈{3,7,9}(裁定 470)は較正アンカーへ降格。
+- 第 2 部: ★自己捕獲 =【S3F-A2】+【S3F-A3】は独立存在量化では接合しない → **【MATCH-one】**(matched 単一量化)へ。**定理 APPLY-fam**(candidate/framework-conditional)・**系 ORD-IDX**(窓一様等式・P-S3F-1 根拠訂正)・**C5-fam**(R-9 = post-hoc narrowing 禁止)・軸訂正(S⊆P)・SURJ-fam-APPLY′ は (5′) 発効後の条件文(SURJ 非結論)。上申 3 点は便 102 検分と同時に裁定。
+- **P1 残り表の更新**: 旧 #3(6′族版)= 閉・旧 #4(APPLY 族版)= 起草完 ⟹ **P1 の残りは全て便 102 の Sol 監査案件**((5′) TB 束・(S3) 検分・本 2 ノートの監査)。
