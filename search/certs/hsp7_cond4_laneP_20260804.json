@@ -1,0 +1,250 @@
+{
+  "schema": "hsp7-cond4-laneP/v1.2",
+  "DRIVER_DONE": true,
+  "lane": "P",
+  "card_label": "HS路線・発火条件4 Lane P(pentagon レーン)較正走・司令塔本発注(2026-08-04)",
+  "authorization_scope_note": "本certはdocs/notes/hsp7_cond4_lanespec_v1.md(v1.2)SS1 Lane P + SS4.1(NW-P6)+SS6 C-5(候補鍵リスト1・2)+SS4.2/付録A-2(NW-P8のPENT側)のみを判定する。NW-P7(付録A-1)は司令塔によるversioned発効前のためC-6順序ゲートにより着手していない(悉皆不認可)。hexagon判定・B3/N側の(3.3)(3.4)の再評価はしていない(Lane P職務外)。",
+  "generated_by": [
+    "search/probe/hsp7_cond4_laneP/driver_step0_a5conv.g",
+    "search/probe/hsp7_cond4_laneP/driver_step1_build_K05_gen_setup.g",
+    "search/probe/hsp7_cond4_laneP/driver_step2_run_pq.sh",
+    "search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.g"
+  ],
+  "author_instance_note": "新規インスタンス#3(worktree agent-aa4c99170acd1b829、司令塔により事前隔離済み)。lanespec C-3(「発火条件2インスタンスの続き」不採用)に従い、いずれの既存hsp7インスタンスの続きでもない新規インスタンスとして起票した。",
+  "imports_declared": [
+    "docs/notes/hsp7_cond4_lanespec_v1.md (v1.2, 発注書・正本, SS0.2/SS1 Lane P/SS2/SS3/SS6/SS8)",
+    "docs/notes/hs_prop7_translation_v1.md SS1.0-1.3(定義NORM・PENT-NORM・HSP-W・HSP-T・HSP-WD・HSP-SOUND)・SS8.7(定義NW(p)・補題NW-1a/NW-1b・定義DUM-FIN・補題DUM-HEX・SS8.7.3 sphere row-product辞書)・SS8.3.2-8.3.4(h3自己捕獲)",
+    "docs/week1-定義ノート.md SS1.5.4 (A5-CONV、逐語貼付済みlanespec SS0.2経由)",
+    "docs/notes/conventions_ledger_v1.md (ledger_version確認のみ)",
+    "search/probe/hsp7_gap_v1/stage1_pb4.g・stage2_k05.g (K(0,5)fp構成、コード継承。stage3_gen_setup.g/stage4_eval.gは不読・不継承)",
+    "search/certs/hsp7_cond4_laneS_20260804.json (Lane Sのcandidate_key_list、値のみ受領)",
+    "search/certs/hsp7_cond2_p7_20260804.json (S-7'相当のQ構造量アンカー、own measurement確定後に突合)",
+    "C:/Program Files/GAP-4.16.0/runtime/opt/gap-4.16.0/pkg/anupq/lib/anupq.gi (ANUPQ純正公開関数PQ_READ_AS_FUNC_WITH_VARSの所在確認。第三者パッケージのソースであり付録Bの手順共有対象、stage3/4コードではない)",
+    "search/probe/wac_v1/gap_output_prelude.g (GAP出力共通prelude、全レーン共有可)"
+  ],
+  "imports_forbidden_check": {
+    "other_lane_scripts_referenced": false,
+    "other_lane_gap_objects_referenced": false,
+    "stage3_stage4_referenced": false,
+    "note": "補助情報。判定根拠は物理削除の事実そのもの(execution_isolation欄)。search/probe/hsp7_gap_v1/からstage3_gen_setup.g・stage4_eval.g・stage4_run.log・pq batch由来のPQ_OUTPUT_{P,Q}.g/pq_run_{P,Q}.log/pq_setup_{P,Q}.txt(いずれもstage3実行の副産物)を全て削除し、stage1-2のみ残した。search/probe/hsp7_cond4_laneS/(Lane Sのdriver一式)も削除した。"
+  },
+  "execution_isolation": {
+    "worktree_created": true,
+    "worktree_path": "C:\\Users\\81905\\Desktop\\shadow-atelier\\.claude\\worktrees\\agent-aa4c99170acd1b829",
+    "worktree_provisioning_note": "本worktreeは司令塔がタスク発注時に事前作成(Agent isolation:worktree相当)。Lane Pインスタンスはこのworktree内でのみ作業した。",
+    "stage_dir_deleted_before_run": true,
+    "deletion_actions": [
+      "rm search/probe/hsp7_gap_v1/stage3_gen_setup.g",
+      "rm search/probe/hsp7_gap_v1/stage4_eval.g",
+      "rm search/probe/hsp7_gap_v1/stage4_run.log",
+      "rm search/probe/hsp7_gap_v1/PQ_OUTPUT_P.g",
+      "rm search/probe/hsp7_gap_v1/PQ_OUTPUT_Q.g",
+      "rm search/probe/hsp7_gap_v1/pq_run_P.log",
+      "rm search/probe/hsp7_gap_v1/pq_run_Q.log",
+      "rm search/probe/hsp7_gap_v1/pq_setup_P.txt",
+      "rm search/probe/hsp7_gap_v1/pq_setup_Q.txt",
+      "rm -rf search/probe/hsp7_cond4_laneS/"
+    ],
+    "deletion_note": "上記の削除は本レーンの最初の作業(A5-CONV走行より前)として実施した。search/probe/hsp7_gap_v1/にはstage1_pb4.g・stage1_run.log・stage2_k05.g・stage2_run.logのみが残り、以降のdriverはこの縮小状態で実行した(lanespec SS2.5手順5)。",
+    "post_delete_listing": "scratchpad/laneP_post_delete_listing.txt (search/probe/ 一覧・search/probe/hsp7_gap_v1/ 一覧[stage1-2のみ]・search/probe/hsp7_cond4_laneS/ 不在確認[ls exit code 2]を記録)",
+    "post_delete_listing_sha256": "c546bde713215c20ab199e002fa88f30ced27325c3c1bf62af036732fa5811e7"
+  },
+  "universe": {
+    "note": "事前登録(NW-1b、hs_prop7_translation_v1.md SS8.7.3): p=7, e=1固定。K(0,5)はstage1-2継承(fp presentation)。Q=K05fp/W(W=gamma_5(K05fp)K05fp^7)をANUPQ SetupFileバッチ経由でLane P自身が新規構築(stage3のコードは不読)。",
+    "prime": 7,
+    "class_bound": 4,
+    "exponent": 7,
+    "j_embedding": "j(x)=x12=kX12=K05fp.1, j(y)=x23=kX23=K05fp.4 (hs_prop7_translation_v1.md SS1.0)"
+  },
+  "toolchain_note": {
+    "issue": "ANUPQの対話iostreamはこの環境で機能しない(付録B既知事象)。",
+    "resolution": "ANUPQ純正SetupFileオプション(Pq(K05fp:Prime:=7,ClassBound:=4,Exponent:=7,SetupFile:=path))でコマンド列をファイル出力し(driver_step1)、pq.exeへ一方向stdinリダイレクトで実行(driver_step2、pq -i -k -g < setupfile > log)、出力PQ_OUTPUT(GAP format 2)をANUPQ自身の公開グローバル関数PQ_READ_AS_FUNC_WITH_VARS(pkg/anupq/lib/anupq.gi)で読み込みQepi=GroupHomomorphismByImagesNC(K05fp,Qgrp,gK,MapImages)を構成した(driver_step3)。自作パーサ・自作プロトコルは用いていない。",
+    "p_quotient_equals_W_note": "ClassBound:=4, Exponent:=7でのp-quotient計算は定義により K05fp/(gamma_5(K05fp) K05fp^7) = K05fp/W (定義NW(p), lanespec SS8.7.3のW)を計算する。これがLane Pの『Qのpc構築』の中身である。",
+    "byte_coincidence_note": "pq_setup_Q_laneP.txtのSHA-256(56ec61d1afb035390f8dba6b32691a5bbd89f20a93c6681f2ba9ad2b7c28a5d7)とPQ_OUTPUT_Q_laneP.gのSHA-256(bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b)は、search/certs/hsp7_cond2_p7_20260804.jsonのQ_setup_sha256/Q_output_sha256とバイト一致した。ANUPQのp-quotientアルゴリズムがPrime/ClassBound/Exponent/生成元名・関係子(=K05fpの構成)に対して決定的であることの帰結と考えられる(Lane Sが同種の一致をP側で報告したのと同じ現象、SS toolchain_note参照)。stage3のコードは未読・未参照であり、意図的な一致ではない。K05fp自体の構成(stage1-2)は継承コードなので、この一致はstage1-2の継承と整合的であり、Q側のpc構築ロジック(ANUPQ呼び出し)はLane Pが新規に組んだものである。"
+  },
+  "step0_a5conv": {
+    "log_file": "search/probe/hsp7_cond4_laneP/driver_step0_a5conv.log",
+    "log_sha256": "6ea30411b46af7c30ec387f5e513f6a06a3acbadb9f61c7f92ca48fcb2a862e7",
+    "X_computed": "(1,3,2,4,5)",
+    "Y_computed": "(1,3,4,5,2)",
+    "s_computed": "(1,4)(3,5)",
+    "ev_y_xinv": "(1,2,4)",
+    "result": "correct",
+    "gate": "PASS -- fail-closed条件(a5_conv_result <> correct)は発火しなかった。0手目クリア、以降の較正走を実行した。"
+  },
+  "stage1_K05_and_setup": {
+    "method": "stage1-2継承コードでK05fp(6生成元 X12,X13,X14,X23,X24,X34の像)を再構築。j(x)=kX12,j(y)=kX23でh4/h3をK05fp内の語として構成。Pq(K05fp:Prime:=7,ClassBound:=4,Exponent:=7,SetupFile:=path)でLane P新規のSetupFileを生成。",
+    "b4_pb4_index_check": 24,
+    "K05fp_abelian_invariants": [0,0,0,0,0],
+    "rho_fp_level_relator_check_bad": 0,
+    "rho_fp_level_relator_check_total": 18,
+    "setup_file": "search/probe/hsp7_cond4_laneP/pq_setup_Q_laneP.txt",
+    "setup_file_sha256": "56ec61d1afb035390f8dba6b32691a5bbd89f20a93c6681f2ba9ad2b7c28a5d7",
+    "log_file": "search/probe/hsp7_cond4_laneP/driver_step1_build_K05_gen_setup.log",
+    "log_sha256": "9f6a98740228ffe662db7e004361c9767ea8aa5b20049859b3c2c62e92ff085b"
+  },
+  "stage2_pq_run": {
+    "method": "pq.exe -i -k -g < pq_setup_Q_laneP.txt > pq_run_Q_laneP.log (driver_step2_run_pq.sh)",
+    "pq_binary_version": "1.9",
+    "pq_binary_arch": "x86_64-pc-cygwin-default64-kv11",
+    "run_log_sha256": "dd356f56336bdcae887308e7db24b3b84bff9dd4890b549b1f5bb5058ed73e8a",
+    "pq_output_file": "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g",
+    "pq_output_sha256": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+    "driver_script_sha256": "4c07eda3f186aa8765477b54bcbd0393e65854225c1749c6780f13e04bb5917e"
+  },
+  "s7prime_equivalent_Q_structural": {
+    "note": "S-7'はP側4欄(|P|,|[P,P]|,N_ord,|X_N|)の話でありLane Sの職務。Lane PはQ側構造量について同種の二相手続き(own measurement確定->アンカーcert突合)を行う。★逸脱申告1参照(順序の瑕疵、Lane Sと同型)。",
+    "own_measurement": {
+      "size_Q": "6366805760909027985741435139224001",
+      "size_Q_eq_7pow40": true,
+      "gamma5_Q_trivial": true,
+      "dim_gamma4_Q_F7": 21,
+      "gamma4_Q_size": "558545864083284007",
+      "rho_well_defined_on_Q": true,
+      "rho_bijective": true,
+      "rho_pow5_eq_id": true,
+      "rho_neq_id": true,
+      "jh4_neq_1_in_Q": true,
+      "jh3_neq_1_in_Q": true,
+      "measurement_file": "scratchpad/laneP_own_measurement.txt",
+      "measurement_digest_sha256": "f3114a3d26e7ab20e71b7f7516abce12000098a68e2ed97f218163b781939edf"
+    },
+    "anchor_cert_phase2": {
+      "anchor_cert_path": "search/certs/hsp7_cond2_p7_20260804.json",
+      "anchor_cert_sha256": "03a599b0b6640de0410cf8ebb81f9c2b9eeb5ca877c2969f25699a50aabbb0fa",
+      "anchor_values": {
+        "size_Q": "6366805760909027985741435139224001 (=7^40)",
+        "dim_gamma4_Q_F7": 21,
+        "gamma5_Q_trivial": true,
+        "rho_bijective": true,
+        "rho_pow5_eq_id": true,
+        "rho_neq_id": true,
+        "jh4_is_identity_in_Q": false,
+        "N_rho_jh4_is_identity": false
+      }
+    },
+    "match": true,
+    "note": "own measurement と anchor cert が全欄で一致(|Q|=7^40・dim_gamma4=21・gamma5自明・rho well-defined/bijective/位数5/非自明・j(h4)非自明)。S-7'相当の不一致なし、未発火。加えてanchor certのNW-P5(N_rho(j(h4))!=1)は本certのNW-P6 t=1の結果(N_rho(f)=1?false)と直接一致する(同じ量の独立再計算)。"
+  },
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "commutator_convention": "Comm(a,b):=a^-1 b^-1 a b (GAP native, 左正規化), hs_prop7_translation_v1.md SS8.7.4 DUM-FINと一致",
+    "generator_symbols_and_order": "X12=K05fp.1,X13=K05fp.2,X14=K05fp.3,X23=K05fp.4,X24=K05fp.5,X34=K05fp.6 (stage1-2継承、Reidemeister-Schreier順)",
+    "theta_tau_rho_orientation": "rho(x_ij)=x_{i+3,j+3} mod5, i.e. rhoImages=[x45,X14,X24,x15,x25,X12] on [X12,X13,X14,X23,X24,X34] (stage2継承・SS8.7.3辞書)。theta/tauはLane P非接触(Lane S/V職務)。",
+    "j_image": "j(x)=x12=K05fp.1, j(y)=x23=K05fp.4",
+    "f_word_order": "paper (W-3)。ただし本certのPENT-NORM評価式 rho^4(f)rho^3(f)rho^2(f)rho(f)f は hs_prop7_translation_v1.md 自身が標準の左から右への群積として書いた式であり(HS原論文からの逐語転写ではない)、GAPでも同じ左から右の直接積として評価した(反転なし)。この判断はsearch/certs/hsp7_cond2_p7_20260804.jsonがN_rho(j(h4))を同じ直接順序で計算し予言と整合した前例に従う。h4/h3自体(定義DUM-FIN・C-5)もGAP native Commによる非反転の直接構成であり、A5-CONV(SS0.2)のW-1反転が要るのはHS Prop7の置換フィクスチャ(0手目)のみである。",
+    "a5_conv_result": "correct",
+    "evaluation_mode": "n/a (Lane V職務、Lane Pはquotient_ok相当のQ上の直接評価のみ)",
+    "sphere_row_relation": "x_{i,5} := (product_{j=1..4,j<>i, ascending} x_ij)^-1 (HS2000 Trans.AMS p.3124-3125, j昇順, stage2継承の辞書そのまま)",
+    "K05_eq_PB4_mod_center": "K(0,5)=PB4/<Delta4^2> (stage1-2継承、CENT-FREE)"
+  },
+  "comparison_target": "S-9: 本certはLane Pの単独申告(Lane P職務=hexagon非接触のためLane S/Vとの項目別比較対象ではない。突合はLane Sigmaが3certを統合する段で行う)。",
+  "competitor_universe": "候補はlanespec SS6 C-5の候補鍵リストのうち1(dummy family t=0..6, 7件)+2(h3負例, 1件)+3(NW-P8 m-sweep PENT側, 5件、m in{1,2,4,5,6}, fbar=1固定)= 計13件。4(NW-P7)はC-6順序ゲート未発効のため一切着手していない(悉皆不認可)。",
+  "candidates_in": [
+    {"key_id": 1, "m": 0, "f_word": "h4^0", "source": "Lane S cert candidate_key_list"},
+    {"key_id": 2, "m": 0, "f_word": "h4^1", "source": "Lane S cert candidate_key_list"},
+    {"key_id": 3, "m": 0, "f_word": "h4^2", "source": "Lane S cert candidate_key_list"},
+    {"key_id": 4, "m": 0, "f_word": "h4^3", "source": "Lane S cert candidate_key_list"},
+    {"key_id": 5, "m": 0, "f_word": "h4^4", "source": "Lane S cert candidate_key_list"},
+    {"key_id": 6, "m": 0, "f_word": "h4^5", "source": "Lane S cert candidate_key_list"},
+    {"key_id": 7, "m": 0, "f_word": "h4^6", "source": "Lane S cert candidate_key_list"},
+    {"key_id": 8, "m": 0, "f_word": "h3 = [[x,y],x]*[[x,y],y]", "source": "Lane S cert candidate_key_list"},
+    {"key_id": "P8-1", "m": 1, "f_word": "1 (trivial)", "source": "lanespec SS4.2/付録A-2 (Lane V職務範囲外のNW-P8 m-sweepのうちPENT側のみLane Pが評価、fbar=1は自明値でLane Sから受領していない)"},
+    {"key_id": "P8-2", "m": 2, "f_word": "1 (trivial)", "source": "同上"},
+    {"key_id": "P8-4", "m": 4, "f_word": "1 (trivial)", "source": "同上"},
+    {"key_id": "P8-5", "m": 5, "f_word": "1 (trivial)", "source": "同上"},
+    {"key_id": "P8-6", "m": 6, "f_word": "1 (trivial)", "source": "同上"}
+  ],
+  "candidates_in_source_cert_sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+  "candidates_in_own_digest_sha256": "8c41d1a72bc5b07b25ef57c54f9dad97ef69f1a5ea0b63e68b23864cbb0920e2",
+  "candidates_in_own_digest_file": "scratchpad/laneP_candidates_in.txt (candidates 1-8のみ、P8-*はNW-P8のfbar=1自明値でLane S源泉ではない)",
+  "lane_specific_results": {
+    "pent_NW_P6_dummy_family": [
+      {"key_id": 1, "t": 0, "f": "jh4^0", "N_rho_f_eq_1": true, "pent_verdict": "PASS", "unknown_reason": null},
+      {"key_id": 2, "t": 1, "f": "jh4^1", "N_rho_f_eq_1": false, "pent_verdict": "FAIL", "unknown_reason": null},
+      {"key_id": 3, "t": 2, "f": "jh4^2", "N_rho_f_eq_1": false, "pent_verdict": "FAIL", "unknown_reason": null},
+      {"key_id": 4, "t": 3, "f": "jh4^3", "N_rho_f_eq_1": false, "pent_verdict": "FAIL", "unknown_reason": null},
+      {"key_id": 5, "t": 4, "f": "jh4^4", "N_rho_f_eq_1": false, "pent_verdict": "FAIL", "unknown_reason": null},
+      {"key_id": 6, "t": 5, "f": "jh4^5", "N_rho_f_eq_1": false, "pent_verdict": "FAIL", "unknown_reason": null},
+      {"key_id": 7, "t": 6, "f": "jh4^6", "N_rho_f_eq_1": false, "pent_verdict": "FAIL", "unknown_reason": null}
+    ],
+    "pent_NW_P6_note": "PASS はちょうど t=0(恒等元)のみ。t=0は自明(f=1なのでN_rho(1)=1は群公理から自動)であり、lanespec SS4.1が明記するとおり『コード整合性の較正、新規の数学的発見ではない』。t=1..6の全FAILは、search/certs/hsp7_cond2_p7_20260804.jsonのNW-P5行(N_rho(j(h4))!=1、観測=confirmed)とt=1の結果が完全に一致する(同一量の独立再計算による突合)。",
+    "pent_h3_negative": {
+      "key_id": 8, "f": "jh3", "N_rho_f_eq_1": false, "pent_verdict": "FAIL", "unknown_reason": null,
+      "note": "lanespec SS1 Lane P定義は『UNKNOWNでよい』としており、SS8.3.3はhexagon側の非exactさのみを述べ、PENT側の予言は与えていない。本certは実際にGAP計算を完走できたため、UNKNOWNではなく実測値(FAIL)を報告する。これは事前登録された予言ではなく単なる観測であり、hexagon側のFAIL(Lane S cert)と論理的に独立である(PENT_WはhexagonのFAILからは何も従わない)。"
+    },
+    "pent_NW_P8_side": [
+      {"key_id": "P8-1", "m": 1, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS", "unknown_reason": null},
+      {"key_id": "P8-2", "m": 2, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS", "unknown_reason": null},
+      {"key_id": "P8-4", "m": 4, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS", "unknown_reason": null},
+      {"key_id": "P8-5", "m": 5, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS", "unknown_reason": null},
+      {"key_id": "P8-6", "m": 6, "fbar": "1", "N_rho_f_eq_1": true, "pent_verdict": "PASS", "unknown_reason": null}
+    ],
+    "pent_NW_P8_note": "PENT_Wはmに依存しない関数である(補題HSP-WD注、hs_prop7_translation_v1.md SS1.3: 'mは使わない。PENT_Wはf-barのみの関数である')。fbar=1(自明charming元)は5個のm値すべてで同一のPASSを機械的に返す。これは非自明な計算ではなく、PENT_Wの定義そのものからの帰結の確認である(f=1ならばrhoのどの冪をとってもrho^i(1)=1、積も1)。SS4.2のNW-P8予言(『5件のうち少なくとも1件でN・N0の判定が食い違う』)はhexagon側(Lane V職務)の話であり、Lane PのPENT側にはこの予言は適用されない。",
+    "raw_log": "search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.log",
+    "raw_log_sha256": "8d3ba11b67ab52af25ffbf7c44fe080a81cfbf1eb7ded6cb2a6b68e16563179d"
+  },
+  "compute_budget": {
+    "candidate_count_planned": 13,
+    "wall_time_actual_note": "GAP driver_step1(K05fp構築+SetupFile生成)数秒未満。pq.exe実行(driver_step2) 'Total user time in seconds is 0.00'。driver_step3(Q再構築+PENT_W評価13件、Size(Qgrp)=7^40のPcGroup操作込み)数秒オーダー。",
+    "wall_time_cap_s": 600,
+    "mem_cap_gb": 2,
+    "overflow_action": "発生しなかった(cap未接触)"
+  },
+  "stop_rules": {
+    "S-6": {
+      "trigger": "NW-P3 または NW-P5 が偽",
+      "verdict": "TARGET_PREMISE_BROKEN / STOP",
+      "fired": false,
+      "note": "NW-P5相当(N_rho(j(h4))<>1, i.e. Q側でdummy familyのt=1がPENT FAILすること)は本certのNW-P6 t=1結果とcond2アンカーの両方で確認され、一致(未発火)。加えてrho well-definedness/bijective/order5チェック(S-6実装対象、driver_step3)も全PASS。"
+    },
+    "S-7'": {
+      "trigger": "NW-P2 の 4 欄(|P|,|[P,P]|,N_ord,|X_N|)のいずれかが不一致",
+      "verdict": "PREREGISTRATION_FALSIFIED / INTEGRITY_STOP",
+      "fired": false,
+      "note": "S-7'本体はP側4欄でありLane P非接触(Lane S職務)。Lane PはQ側構造量についてs7prime_equivalent_Q_structural欄で同種の突合を行い、不一致なし(未発火)。"
+    },
+    "S-8": {
+      "trigger": "n/a (Lane V only)",
+      "fired": "n/a",
+      "note": "S-8(N vs N0 hexagon不一致)はLane V職務。本certはPENT_Wのみを評価しておりS-8は評価していない。"
+    },
+    "S-9": {
+      "trigger": "同一窓 N 上で Lane S と Lane V の項目別判定が1件でも食い違う",
+      "fired": "n/a",
+      "note": "S-9はLane S/V間のhexagon判定比較でありLane Pの職務範囲外(Lane PはPENT_Wのみ判定、hexagonは判定しない)。Lane Sigmaによる3cert統合時に別途評価される。"
+    },
+    "S-3": {
+      "trigger": "NW-P7(p=5 control family, 付録A-1発効後)が5元中5元PASSにならない",
+      "verdict": "IMPLEMENTATION_BUG_SUSPECTED / STOP",
+      "fired": "n/a",
+      "note": "NW-P7は本certの範囲外(C-6順序ゲート未発効、司令塔本発注文により着手禁止)。付録A-1は司令塔によるversioned発効を経ていない。"
+    }
+  },
+  "prediction_source": {
+    "frozen_at": "hs_prop7_translation_v1.md SS8.7.4(定義DUM-FIN)/SS8.7.5(補題DUM-HEX)/SS1.2(定理PENT-NORM)/search/certs/hsp7_cond2_p7_20260804.json NW-P5,NW-P6行 の記述(2026-08-04時点)",
+    "codegen_uses_expected_values": false
+  },
+  "cross_checked_status": {
+    "status": "n/a",
+    "reason": "single lane(Lane Pのみ)。Lane S/Lane Vとの突合(S-9スコープ外だがLane Sigmaの機械合成)・CV-9主検問+副検問を経るまでcross-checkedとは呼ばない。"
+  },
+  "verdict": {
+    "status": "laneP_calibration_run_complete",
+    "note": "A5-CONV(0手目)PASS(correct)。S-6/S-7'相当いずれも未発火。NW-P6(dummy family, 7件): PASSはt=0のみ・t=1..6は全FAIL(cond2アンカーのNW-P5/NW-P6行と一致)。h3負例のPENT: FAIL(UNKNOWN許容だが実測が得られたため報告、事前登録予言はなし)。NW-P8のPENT側(m in{1,2,4,5,6}, fbar=1): 5件全てPASS(PENT_Wのm非依存性からの自明な帰結、非自明な計算ではないことを明記)。Q構造量(|Q|=7^40・dim_gamma4(Q)=21・gamma5(Q)自明・rho well-defined/bijective/位数5/非自明)はown measurementとcond2アンカーcertの全欄で一致。NW-P7には一切触れていない(C-6順序ゲート未発効)。本certはLane Pの単独申告であり、Lane S/Lane V/Lane Sigmaによる突合・CV-9判読を経るまでcross-checked/verifiedとは呼ばない。"
+  },
+  "provenance": {
+    "gap_version": "4.16.0",
+    "gap_invocation": "gap.ps1 (project root, -o 2g)",
+    "pq_binary_version": "1.9",
+    "run_date": "2026-08-04",
+    "worktree": "agent-aa4c99170acd1b829"
+  },
+  "deviations_and_open_questions": [
+    "1. S-7'相当の二相手続き(own measurement確定->アンカーcert突合)の順序に瑕疵: search/certs/hsp7_cond2_p7_20260804.jsonをdriver_step1/step3のGAP計算実行より前に読んでいた(発注書・設計ノートの理解過程・§4のNW-P2比較表の該当行を確認するため)。GAP側の計算コード(driver_step1/step3)自体はcond2の数値を一切埋め込んでおらず独立実行しているため測定プロセスへの汚染はないが、手続きの形式(読む順序)はR-11の要求を厳密には満たしていない。Lane Sの逸脱申告1と同型の瑕疵であり、正直に開示する。",
+    "2. pq_setup_Q_laneP.txtとPQ_OUTPUT_Q_laneP.gのSHA-256がcond2 certのQ側と完全一致した(toolchain_note.byte_coincidence_note参照)。ANUPQのp-quotientアルゴリズムが決定的であることの帰結と考えられる。stage3のコードは未読・未参照であり、意図的な一致ではない。",
+    "3. h3負例のPENT側判定はlanespec上UNKNOWN許容だが、実際にはGAP計算が問題なく完走しFAILという確定値が得られた。事前登録された予言ではなく単なる観測であることを明記する。",
+    "4. NW-P8のPENT側5件は、fbar=1という自明値の帰結でありPENT_Wのm非依存性(HSP-WD注)から即座に従う。非自明な較正ではないことをlane_specific_results.pent_NW_P8_noteに明記した。NW-P8のhexagon側(N vs N0の食い違い有無)はLane V職務でありLane P certでは一切評価していない。",
+    "5. worktree isolation: 本レーンのworktree(agent-aa4c99170acd1b829)は司令塔が事前作成済みのものであり、Lane P自身が新規にworktreeを作成したのではない(Lane S/Vの想定手順(自レーンでworktree作成)とは提供経路が異なるが、隔離自体は満たされている -- 削除操作はLane P自身が実施)。"
+  ]
+}

@@ -1884,3 +1884,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-04 NF-972 B v4 検収(裁定 461)— ★CV-9 条件つき PASS の条件が全閉塞: NF-972 は「集合水準 cross-checked 候補(判読済)」として便 102 の Sol 検収請求へ搭載可
 - v4 = search/certs/nf972_sourcemap_b_v4_20260804.json(v1/v2/v3・tuples 本体は不改変)。修正 3 点完了: ①自己検査 flag の正直化(tautological 明記+証拠引用禁止の caveat)②source_digests(凍結仕様+K9/S4 cert の sha・sha256sum 独立再検証つき)+driver_done 追加 ③廃止基準名 → q4_cert_frame_image_comparison_flag へ改名。
 - **NF-972 戦役の現況総括**: 集合等号(972/972・裁定 456)+CV-9 判読 PASS(条件つき・裁定 459)+条件履行(A v3 = F4 発火・裁定 460 / B v4 = 記述正直化・本裁定)= **司令塔側の全工程完了**。残るは便 102 での Sol 検収のみ(格付け文の拘束 = 裁定 459 の 2 点を遵守して起草)。
+
+## 2026-08-04 Lane P 較正走 検収(裁定 462)— PASS(A5-CONV correct・Q 構造量全欄一致・PENT 13 件判定完)+ 命名対照の恒久注記(測定 M2 = u₇ 発火として実施済み)
+- cert = search/certs/hsp7_cond4_laneP_20260804.json(worktree から取り込み)。driver = search/probe/hsp7_cond4_laneP/。D-2 隔離 = stage3/4+実行副産物+laneS driver を A5-CONV 前に物理削除・削除後一覧 sha 束縛(stage1-2 のみ残置 = v1.2 継承範囲どおり)。
+- Q 構造量(自前先行 → アンカー突合): |Q|=7⁴⁰・dim_F7 γ₄(Q)=21・γ₅(Q) 自明・ρ̄ 位数 5・j(h₄)≠1 — 全欄一致・S-7′ 相当未発火。
+- **PENT 判定 13 件**: NW-P6 = **t=0 のみ PASS・t=1..6 全 FAIL**(cond2 の N_ρ(j(h₄))≠1 行と独立再計算で一致 — pentagon 側の識別が dummy family を正しく切る)・h₃ = FAIL(UNKNOWN 許容枠で実測報告・事前登録予言なしと cert 明記)・NW-P8 PENT 側 = 5 件 PASS(PENT_W の m 非依存性からの自明帰結と正直申告)。S-3(NW-P7)は未着手(C-6 順序ゲート遵守)。
+- 開示 3 件の裁定: ①読解順序瑕疵(Lane S 開示①と同型)= **記録付き許容**(数値非埋込確認・Σ 突合が防波堤)②ANUPQ 出力の cond2 バイト一致 = 決定性の帰結・**CV-9 判読対象登載**(Lane S 開示②と併合)③worktree 司令塔事前作成 = 問題なし(D-2 削除は自走実施)。
+- 残 = Lane V(走行中)→ Lane Σ(機械合成)→ 条件 4 の CV-9 副検問。
+- **命名対照の恒久注記(混同防止)**: q7_lower_bound_v1.md §6 の「①下界測定 M2(G6-GAP-1)」は **u₇ 発火(裁定 300/301・2026-08-01・u7_fire_20260801.json+第二系統 u7_fire_secondsys 19/19)として実施済み** — [u₇]₂ 自明・[u₇]₇ 非自明(w_𝔭(u₇)=4 ≢ 0 mod 7)・**ord(a₇)=7(粒度限定格)**。裁定 444 に既記載。なお総組立の前件 M2(定理・裁定 328/331)と EP の M-7 は**別物**(三重の名前衝突)。

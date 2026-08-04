@@ -1,0 +1,17 @@
+search/probe/ (top level):
+hsp7_cond4_laneP
+hsp7_gap_v1
+hsp7_v1
+k5gen_phase1
+noent3_v1
+w6_coker_tool
+wac_v1
+wall_audit_v1
+
+search/probe/hsp7_gap_v1/ (after deletion of stage3/stage4 files + pq batch byproducts, D-2):
+stage1_pb4.g
+stage1_run.log
+stage2_k05.g
+stage2_run.log
+
+search/probe/hsp7_cond4_laneS/ presence check: ls exit code 2 (No such file or directory) -- confirmed deleted (Lane S driver dir, forbidden import per SS2 table).

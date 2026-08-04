@@ -1,0 +1,46 @@
+=== Lane P driver_step3: Q construction + PENT_W evaluation ===
+Qgrp read. NumberOfGenerators(Qgrp) = 40 (expect 40)
+Image(epi) = Qgrp? true
+own_measurement: |Q| = 6366805760909027985741435139224001
+own_measurement: |Q| = 7^40 ? true
+own_measurement: length(LCS) = 5 (gamma_1..gamma_k, expect gamma_5 trivial)
+own_measurement: |gamma_4(Q)| = 558545864083284007
+own_measurement: |gamma_5(Q)| = 1 (expect 1)
+own_measurement: gamma_5(Q) trivial? true
+own_measurement: dim_F7 gamma_4(Q) = 21 (expect 21)
+epiGens generate Qgrp? true
+rhoQ well-defined (GroupHomomorphismByImages did not fail)? true
+own_measurement: rhoQ bijective? true
+own_measurement: rhoQ^5 = id? true
+own_measurement: rhoQ <> id? true
+j(h4) = identity in Q? false (expect false)
+j(h3) = identity in Q? false
+
+--- NW-P6: dummy family h4^t, t=0..6 ---
+t=0: f=jh4^0, N_rho(f)=1 ? true
+t=1: f=jh4^1, N_rho(f)=1 ? false
+t=2: f=jh4^2, N_rho(f)=1 ? false
+t=3: f=jh4^3, N_rho(f)=1 ? false
+t=4: f=jh4^4, N_rho(f)=1 ? false
+t=5: f=jh4^5, N_rho(f)=1 ? false
+t=6: f=jh4^6, N_rho(f)=1 ? false
+
+--- h3 negative example PENT ---
+h3: N_rho(j(h3))=1 ? false
+
+--- NW-P8 PENT side: m in {1,2,4,5,6}, fbar=1 (trivial) ---
+PENT(1) = true (expect true, m-independent per HSP-WD)
+m=1, fbar=1: PENT = true
+m=2, fbar=1: PENT = true
+m=4, fbar=1: PENT = true
+m=5, fbar=1: PENT = true
+m=6, fbar=1: PENT = true
+
+=== SUMMARY ===
+size_Q=6366805760909027985741435139224001
+dim_gamma4_Q_F7=21
+gamma5_Q_trivial=true
+rho_bijective=true
+jh4_neq_1=true
+jh3_neq_1=true
+STAGE3_DONE
