@@ -2078,3 +2078,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 (d) 二矢印分割 erratum 検収(裁定 495)— F102-5.3 の承認条件履行: 距離図を (d1)「ord(aₙ)=n ⟹ 像形」(R^cyc+MATCH-one+(5′)@α・UNKNOWN 込み)と (d2)「像形 ⟹ SURJ」(SURJ-Split (e) 族適用・閉)へ分割・E1 erratum 案+q=7 gate の matched window/(5′) 明記も同梱
 - 追補 = docs/notes/s3_family_draft_v1_addendum_a_f102.md(本文不改変・適用は Sol 再検収後)。便 103 積載。
+
+## 2026-08-05 B v5 supplement 検収(裁定 496)— F102-2.2 履行: 台帳 v1.6 の欠落欄を全補完(ledger_version 正式置換・separation の 4 fixture 構造化・comparison_target の digest 束縛・n/a の正直記入)・v4/tuples 不改変・tautological 注記維持
+- v5 = search/certs/nf972_sourcemap_b_v5_20260804.json。便 103 積載(NF-972 の artifact adoption 条件履行報告)。

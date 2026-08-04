@@ -1,0 +1,114 @@
+{
+  "schema":"nf972-sourcemap-b/v5",
+  "generated_by":"search/probe/wac_v1/nf972_sourcemap_b_run.g",
+  "design_doc":"docs/notes/nf972_freeze_v1.md(裁定434/442/454)+docs/notes/conventions_ledger_v1.md(v1.6)",
+  "card_label":"NF-972 source map B -- v5: 規約台帳v1.6準拠 conventions_used supplement(便102 F102-2.2委嘱)",
+  "supplement_note":"v4(search/certs/nf972_sourcemap_b_v4_20260804.json)は不改変。tuples(972点・v1/v2/v3のsha256=932a0f36bc7a3ca81cb5dcc285d5f9c0d85d17bbff0d64f05c5e7dccdccc8db8)も不変。本v5はconventions_usedブロックを台帳v1.6 SS2 live schemaへ準拠させる補完のみを行う。自己検査flagのtautological注記(v4で正直化済み)は本ファイルのdictionary_selfcheckにも維持する。",
+  "a_side_note":"A v3 cert の fixture 説明に『3 mutants』という文言が残っているが実物は4 fixture(orientation flip・generator swap・wrong modulus・AbstractProd conv fixture)である旨、便102 F102-2.2 で non-blocking の文言修正として指摘済み。A側ファイルは一切参照・変更していない -- 本注記は司令塔便の伝聞記録に留まる。",
+  "dictionary_selfcheck":{
+    "q9_projection_matches_k9_cert_f_triple_verbatim":true,
+    "q9_selfcheck_status":"valid(非トートロジー -- K9.v1.jsonのf_triple欄は自分の計算に由来しない独立な格納値)",
+    "q4_cert_frame_image_comparison_flag":true,
+    "q4_self_check_status":"tautological -- see nf972_cv9_reading_v1.md【重大1】; set-level agreement is instead supported by falsifier's independent reconstruction. 本flagは証拠として引用しない(v4で正直化済み・v5でも維持)。"
+  },
+  "conventions_used":{
+    "ledger_version":"conventions_ledger_v1_6",
+
+    "perm_composition":"gap_native_right",
+    "conjugation":"paper_inn_g_X_g_inv",
+    "conjugation_note":"can4'(perm9):=one-line(sigma*perm9*sigma^-1) -- sigma=()と確定済みのため本cert内では恒等作用だが、式の形はInn_sigma(X)=sigma*X*sigma^-1(paper記法)である。",
+    "coset_object":"n/a",
+    "action_side":"OnRight",
+    "action_side_note":"can9/can4のq9,q4評価はGAPのj^perm(右作用)による9/27点上の置換制限(BlockRestrict)。",
+    "coset_side_derivation":"n/a(本driverはcosetを構成しない -- 屋根Mの直接悉皆とq9/q4射影のみ)",
+
+    "word_eval":[
+      { "layer":"f_word_to_permutation", "direction":"reversed", "word_source":"cert_json(K9.v1.json f_word / S4.v2.json generation_detail f_word)and internal_gap(WordEval)" }
+    ],
+    "coarse_of":"n/a",
+    "word_of":"n/a",
+
+    "roundtrip_witness":{
+      "mode":"sampled",
+      "witnesses":[
+        { "element":"m=0 f=(29,32,34,31,36,35,33)"          ,"is_self_inverse":false,
+          "expected_label":"(0;0,0,0,0,0,0;1,5,3,9,7,2,4,6,8)",
+          "observed_label_after_inversion":"(0;0,0,0,0,0,0;1,6,3,7,2,8,5,9,4)",
+          "source":"resM.shadows(屋根Mの直接悉皆・本driver自身の計算・script_sha256参照)" }
+      ],
+      "result":true,
+      "note":"小宇宙(972点)全列挙ではなくFixtureSample(36件・m値12種にまたがる)からの標本(sampled)。全34件の非自己逆元サンプルでfixture1が発火することは本文のfixturesブロックで確認済み(Fixture1Fires=true)。"
+    },
+
+    "characters":{ "status":"n/a", "reason":"本driverはchi_vir/chi_tilde_N型の指標machineryを使わない -- can9/can4の比較はGAP順列の直接等価判定による。" },
+    "opposite":{ "map":"tau", "antihomomorphism":false, "codomain":"G(同一群への GroupHomomorphismByImages)",
+      "note":"tauHomはGAPのGroupHomomorphismByImagesで構成した準同型(反準同型ではない) -- hexagon(3.11)判定式tau^2(y^m f)*tau(y^m f)*(y^m f)=1で使用。" },
+
+    "comparison_target":{
+      "as_function_of":"cert枠(K9.v1.json f_triple / S4.v2.json marking から再構成した点ラベル系)と自表現(本driver独自のG9,Pgrp構成)の関数としてのcan9/can4",
+      "function_a":{ "name":"NF972HexagonOK + Can9OfPerm27/Can4OfPerm9(自表現)", "domain":"屋根M(=K9 cap N_S4)の972 shadow",
+        "source_digest":"98160e31986f6a278bffd0edde439c848b24bb71a3017ddb2a0758802c670935" },
+      "function_b":{ "name":"K9.v1.json f_triple(直接格納値)/ cert枠(Xperm_cert,Yperm_cert)でのWordEval再評価", "domain":"K9.v1.json 108行 / S4.v2.json 54行(pass:true)",
+        "source_digest":"ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e" },
+      "normalization_digest":"d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1"
+    },
+
+    "separation":{
+      "included":true,
+      "competitor_universe":[ "orientation_flip(f->f^-1)", "q4_side_generator_correspondence_swap(GM vs GM2)", "wrong_modulus(m mod 9 instead of Z/18)", "AbstractProd_convention(A5-CONV: paper AB = GAP B*A)" ],
+      "result":{ "matrix":{ "orientation_flip_fires":true, "generator_swap_fires":true, "wrong_modulus_fires":true, "conv_fixture_s4_pass":true, "conv_fixture_k9_pass":true } },
+      "forbidden_values":{ "handling":"MALFORMED", "list":[ "line" ] },
+      "dummy_fixture":{
+        "id":"nf972-b-fixture2-q4-generator-swap",
+        "normalised_input":"m in Fixture2MVals([0,2,3])・GM2(q4側generator対応入替)由来のshadow",
+        "normalised_output":"NFTupleSerialize(m0,can9,can4)",
+        "discriminating_power":{ "input_layer_novel":true, "output_layer_novel":true },
+        "expected":"baseline(GM)とtuple集合が不一致になる",
+        "observed":true,
+        "verdict":"PASS"
+      }
+    },
+
+    "chi_P_criterion":{
+      "value":"exact",
+      "justification":"exact = generator/orientationを固定した場合にのみ許す -- 本driverはXperm,Yperm(GF(8)行列S,Tから決定的に構成)・g9.x,g9.y(MakeGn(9)から決定的に構成)というmarked生成元を固定しており、tupleの一致判定はGAP順列/整数の完全等価(conjugacy classへの粗視化は行わない)。",
+      "generator_fixed":true,
+      "orientation_fixed":true
+    },
+
+    "representative_vs_invariant":{
+      "exact_representative":{ "value":"can9/can4のtuple文字列(NFTupleSerialize)",
+        "depends_on":{ "model_id":"98160e31986f6a278bffd0edde439c848b24bb71a3017ddb2a0758802c670935", "uniformizer_id":"r,s(MakeDn(9)) / Xperm,Yperm(GF(8))",
+          "orientation":"AbstractProd反転規約(paper AB = GAP B*A)", "lift":"n/a(整数持上げなし・有限群のみ)" } },
+      "invariants":{ "class":"shadow_total", "order":"972(屋根M全体) / 108(K9側射影) / 54(S4側射影)" }
+    },
+
+    "effective_source_chain":[
+      { "role":"original", "path":"docs/notes/nf972_freeze_v1.md", "sha256":"d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1" },
+      { "role":"current",  "path":"docs/notes/nf972_freeze_v1.md", "sha256":"d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1" }
+    ],
+    "effective_source_chain_note":"このcertが実装する仕様(interface)の出所連鎖。入力certであるK9.v1.json/S4.v2.jsonの出所はsource_digestsブロック(v4から継承)に記録済み(effective_source_chainは連鎖内の1entryあたり1 artifactの規約に沿い、仕様spec自体のみをここに置く)。",
+    "effective_source":{ "path":"docs/notes/nf972_freeze_v1.md", "sha256":"d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1" },
+
+    "seal_recoverability":{ "status":"n/a", "reason":"本certは封印fixtureを使用しない。" },
+
+    "level":"PB3"
+  },
+  "source_digests":{
+    "freeze_spec_path":"docs/notes/nf972_freeze_v1.md","freeze_spec_sha256":"d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1",
+    "k9_cert_path":"certificates/K9.v1.json","k9_cert_sha256":"ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e",
+    "s4_cert_path":"certificates/S4.v2.json","s4_cert_sha256":"c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d",
+    "ledger_path":"docs/notes/conventions_ledger_v1.md","ledger_sha256":"38b5c977fd2559120d1c9e69e0c14d32335012593d3dc870e6511ef8f53fd958"
+  },
+  "canonical_enumeration_ref":{
+    "note":"tuples本体は不変(v1/v2/v3と同一) -- 972点・重複0。",
+    "sha256":"932a0f36bc7a3ca81cb5dcc285d5f9c0d85d17bbff0d64f05c5e7dccdccc8db8","count":972
+  },
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"98160e31986f6a278bffd0edde439c848b24bb71a3017ddb2a0758802c670935",
+    "wall_ms_total":64060
+  },
+  "driver_done":true,
+  "driver_done_marker":"NF972_SOURCEMAP_B_DRIVER_DONE"
+}
