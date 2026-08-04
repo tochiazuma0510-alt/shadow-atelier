@@ -1,0 +1,37 @@
+week3-battery-common.g loaded.
+=== W5-AUDIT: N := K^(5) cap N_Q の直接検算 ===
+|G5| = |PB3/K^(5)| = 500  (campaign boxed formula: expect 500)
+K^(5)_ord (established convention: Lcm(Order(x),Order(y))) = 10  (campaign boxed formula: expect 10)
+|Q8| = |PB3/N_Q| = 8  (expect 8)
+
+|PB3/N| = |Group(xhat,yhat)| = 1000  (campaign W-5 行: 4000 / 札2-D上申: 1000 / 直積上限: 4000)
+N_ord = Lcm(Order(xhat),Order(yhat)) = 20  (campaign W-5 行: expect 40)
+
+full direct product bound |G5|*|Q8| = 4000
+観測 |PB3/N| / direct product bound = 1000/4000 = 1/4
+
+=== 機構説明の検算: G5側とQ8側のC2^2商の一致 ===
+|[G5,G5]| = 125   |G5^ab| = |G5|/|[G5,G5]| = 4
+|[Q8,Q8]| = 2   |Q8^ab| = |Q8|/|[Q8,Q8]| = 4
+[PASS] projG5 surjective onto G5 (|Image|=500)
+[PASS] projQ8 surjective onto Q8 (|Image|=8)
+
+|Kernel(QW5 -> G5)| (= |N/(N cap ... )| relative, this is K^(5)'s image inside QW5) = 2
+|psi_Q(K^(5))| = |Image(projQ8, Kernel(projG5))| = 2  (付録A手順2の予言: expect 2 = {+-1})
+|Kernel(QW5 -> Q8)| (= N_Q's image inside QW5) = 125
+|psi_5(N_Q)| = |Image(projG5, Kernel(projQ8))| = 125
+
+=== 判定 ===
+*** |PB3/N| = 1000 -- 札2-D上申と一致。4000は分裂上限で実際は1000 ***
+
+W5_ORDER_CHECK_DONE
+/usr/bin/bash: line 23: .gap.ps1: command not found
+/usr/bin/bash: line 1: .gap.ps1: command not found
+
+week3-battery-common.g loaded.
+AbelianInvariants(G5) = [ 2, 2 ]
+AbelianInvariants(Q8) = [ 2, 2 ]
+AbelianInvariants(QW5) = [ 2, 2 ]
+|Z(QW5)| = 2
+Order(image x in G5ab)=2 Order(image y in G5ab)=2
+Order(image x in Q8ab)=2 Order(image y in Q8ab)=2

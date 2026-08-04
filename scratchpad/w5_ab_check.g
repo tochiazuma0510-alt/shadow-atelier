@@ -1,0 +1,16 @@
+Read("search/probe/wac_v1/gap_output_prelude.g");
+Read("search/week3-battery-common.g");;
+gn5 := MakeGn(5);;
+q8rec := MakeQ8();;
+Print("AbelianInvariants(G5) = ", AbelianInvariants(gn5.G), "\n");
+Print("AbelianInvariants(Q8) = ", AbelianInvariants(q8rec.G), "\n");
+xhat := PermList(Concatenation(List([1..15], j -> j^gn5.x), List([1..8], j -> 15 + (j^q8rec.x))));;
+yhat := PermList(Concatenation(List([1..15], j -> j^gn5.y), List([1..8], j -> 15 + (j^q8rec.y))));;
+QW5 := Group(xhat, yhat);;
+Print("AbelianInvariants(QW5) = ", AbelianInvariants(QW5), "\n");
+Print("|Z(QW5)| = ", Size(Center(QW5)), "\n");
+hG5 := NaturalHomomorphismByNormalSubgroup(gn5.G, DerivedSubgroup(gn5.G));;
+hQ8 := NaturalHomomorphismByNormalSubgroup(q8rec.G, DerivedSubgroup(q8rec.G));;
+Print("Order(image x in G5ab)=", Order(Image(hG5,gn5.x)), " Order(image y in G5ab)=", Order(Image(hG5,gn5.y)), "\n");
+Print("Order(image x in Q8ab)=", Order(Image(hQ8,q8rec.x)), " Order(image y in Q8ab)=", Order(Image(hQ8,q8rec.y)), "\n");
+QUIT;

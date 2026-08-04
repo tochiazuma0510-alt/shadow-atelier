@@ -1950,3 +1950,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-04 W-6 発案ラウンド 受理(裁定 472)— 18 札 candidate(ideas_020)・交通整理・即時上申(W-5 位数 4000→1000 疑い)の検算発注・★付録 A「W-5 = entangled 実在庫(Arf 型非分裂)」は ENT-1 との整合検分が必要
 - 成果物 = docs/notes/ideas_020_w6_target.md(存在論 5・掘り方 5・族外 4・逆転 4・全 candidate・封印/Im R 非接触)。
 - **交通整理(司令塔)**: ①即時検証 = 札 2-D の W-5 位数検算(campaign §3.7 の 4000 vs 疑い 1000)→ implementer 発注済(GAP 直接)②数学者検分キュー(campaign v2 と同便)= 1-A ROOF-KILL(第 4 の死因型・屋根型は成分合成 witness で死ぬ)・1-C W-TRANS(障害加群の transgression 紙決定 — (V-der) 破れの機構化)・1-D THETA-GONE(θ-ノルム消滅 ⟹ 実効判定 1 本化)・**付録 A の W-5 紙スケッチ(Arf 型非分裂 = entangled 実在庫の主張 — ENT-1[指数 1944 で建設地なし]の走査域との整合を必ず検分・矛盾すればどちらかが誤り)**③掘削戦略の本命候補 = 2-A BOTTOM-UP(lins 反転: Ĝ₅ の H² 列挙+GQuotients 実現)+2-B SIEVE-W(第 5 の篩 = 障害語 membership)+2-E H2-CENSUS — Sol ゲート(便 102)に「lins 探索認可請求」を「BOTTOM-UP 設計承認請求」へ差し替える案として積載 ④保留 = 4-B K15-4VAL(宇宙変更 = Sol ゲート級・単独判断しない)・4-A EMPTY-THM(空性の定理化 = 夢級・地図の空白欄へ)⑤negative 2 枚(WALL-NULL・PSL-NULL)は死因台帳へ転記候補。
+
+## 2026-08-04 W-5 位数検算 検収(裁定 473)— ★発案係の上申が的中: campaign §3.7 W-5 行は |PB₃/N| = 1000 が正(記載 4000 は直積上限の誤記)・N_ord = 20(記載 40 も誤り・第三の値)・機構説明(G₅/Q₈ の同一 C₂² 商の対角潰れ)も直接検算で真
+- 検算 = scratchpad/w5_order_check.g/.log+w5_ab_check.g(既存 fiber-product 構成の逐語流用・cert 非読・生成器から新規構築)。実測: |PB₃/N| = 1000 = 500·8/4・N_ord = 20・AbelianInvariants(QW5) = [2,2](直積なら位数 16 のところ対角に潰れ)・ker(→G₅) の ψ_Q 像 = {±1}(付録 A の予言と一致)。
+- **正誤表(本裁定が正本・裁定 236 の前例形式)**: k5_genuine_campaign_v1.md §3.7 W-5 行「|PB₃/N|=4000・N_ord=40」→「**1000・20**」。campaign 本文への erratum 節追記は campaign v2 改版(数学者・本日委嘱)で実施。N_ord=20 は W-5 の charming 会計(X_N)に効くため付録 A 検分の必須入力。
+- 教材: 発案係の「数値への疑い」が 2 連続で的中(K⁽²⁰⁾ d=5 の紙確定・W-5 位数)— 発案 → 安価検算 → 正誤表、の回路が機能。
