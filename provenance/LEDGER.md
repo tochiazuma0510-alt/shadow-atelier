@@ -1742,3 +1742,14 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 経路の記録: ①ANUPQ 障害は **SetupFile バッチ経路**で解決(ANUPQ 純正のバッチ生成 → pq.exe 一方向リダイレクト → PQ_OUTPUT 読込 — 裁定 432 第一手の純正版・第二手不要)②K(0,5) は B₄ Artin+coset enumeration(index 24 確認)+RS → **K(0,5) = PB₄/⟨Δ₄²⟩(CENT-FREE 経由・裁定 430 仕様)**・辞書 = HS 刊行版 p.3124-3125 の行積関係 pin・fail-closed アンカー全 PASS(K(0,5)^ab≅ℤ⁵・PB₄^ab≅ℤ⁶・ρ well-defined)。
 - 裁定 3 件: NW-P6/P7/P8 未実行 = 正(「この一走」の枠遵守 — 次段 dummy family 較正走に属す・事後拡張しない)・ledger v1_6 採用 = 正・辞書精読は Sol ゲート(便 102)へ。軽微: cert トップ marker 欄は次版から。
 - **HS 発火条件の現況: 1 閉(紙)・2 閉(本走)・3 閉(紙)— 残 = 4(三レーン helper 非共有)・5(CV-9 判読)**。次 = 条件 4 の発注設計書(同係が起草・実装は別係)。
+
+## 2026-08-04 lanespec 未決 4 件の裁定(裁定 436)— 条件 4 発注設計書の検収+falsifier 前哨起票
+- ①レーン間不一致規則 = 内容採用・**S-9 へ改番**(S-8 は裁定 433 で較正失敗用に鋳造済み — 名前衝突を司令塔が検出)②Lane S/V の P 二重構築 = 可(独立著者再構築が CV-9 の趣旨・突合は共有 helper なし数値アンカー・cond2 既知値は突合欄限定の較正アンカー可)③NW-P7 の p=5 control = **別宇宙 NW(5) の versioned 事前登録が必要**(期待は W101-1.4 限定形のみ)④**並行発注・3 別係**(Lane P のみ stage1-4 限定継承・継承ファイル列挙義務・S/V は stage 読取禁止)。環境ノート(ANUPQ SetupFile 経路)は「環境事実」として全レーン共有可(コード非共有・5 行自書)。**実装予算投入前に falsifier 前哨を起票**(判読書 = hsp7_cond4_lanespec_falsifier_v1.md 予定)— 前哨通過後に 3 レーン発注。
+
+## 2026-08-04 EP IMAGE-MU = 実装せず停止(裁定 437)— ep-keeper の二重停止(意味論欠落 8 件+認可 scope 外)を承認・起票の scope 過剰は司令塔の非
+- **(A) 意味論欠落 8 件**(★2 = 単独 blocker): GAP-1 = curve model の受領側入力経路が全文書に不在(payload 埋込み/registry ref/harness 供給の三択 — (a) は無歯 gate 化・**歯の有無を決める設計判断につき Sol ゲート**)・GAP-2 = 無限遠 2 点の μ 再計算規約なし(12 単位中 8 がここ)+GAP-3〜8(rank transport 一般形・m_r 職掌・support 独立再計算・**GAP-6 = witness schema が live code 4 本のみで文書未登録([27] 隣接型・本裁定で記帳)**・status 割当・μ 再計算の二 route 独立性)。**(B) 認可 scope 外**: 便 99 F99-5.2 の除外列挙に IMAGE-MU=PASS が逐語・実装 scope を認可した便は不在 — **起票が認可境界を越えていた(司令塔の非・係の拒否が正)**。
+- 処置: 最小改版案(W6-P13〜P21・v21 additive・point-map schema v2・witness schema 登録・selfaudit v13・負例 6 種)は draft のまま**便 102 の Sol ゲートへ積載**(GAP-1 三択・GAP-7 の FAIL 帯拡張・実装 scope 認可請求)。札は不動(W-6 OPEN・EP uncalibrated)。速達 2 通処理済(done)。
+
+## 2026-08-04 K_π 向き較正 = 実行不可判定の受理(裁定 438)— **新しい負の事実: 現行 K_π 有限商上に ρ の自然な持ち上げが不在**(単系統・GAP-GTPI-2 と独立の角度から同じ不在を裏付け)
+- 実測: D5 packing の巡回シフト σ(cof 構造から論理的に唯一の自然候補)は σ⁵=id・非自明だが **σ(QP)⊄QP**(Psi(x),Psi(y),Psi(c) の像が窓外)⟹ 20/20 二経路一致を「測る手段自体」が現行商に存在しない。走っていない結果を cert 化しない判断 = 正(feasibility script は search/probe/wac_v1/kpi_orient_feasibility.g へ収蔵)。
+- 裁定: **保留 (a) 採用**(K(0,5) 商水準の再 packing なしには実行不可 = 「安価な向き較正」の前提が崩れている)— 便 102 で W101-1.5 へ差し戻し報告(代替の向き較正は条件 4 の Lane P 較正が実質吸収する見込み)。
