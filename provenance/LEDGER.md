@@ -2015,3 +2015,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 成果 = docs/notes/s3_family_completion_v1.md(candidate)+検算 304 窓 FAILS 0。新規 1 行 = 「⟨X⟩ が Λ_α に単純推移 ⟹ 制限で忠実性が落ちない」。新規性限定申告(既出 2 箇所 grep 済・寄与 = 証明本文/α 射程/依存会計/spot-check)・射程遮断(【ASM-α】開いたまま)遵守。実測 n∈{3,7,9}(裁定 470)は較正アンカーへ降格。
 - 第 2 部: ★自己捕獲 =【S3F-A2】+【S3F-A3】は独立存在量化では接合しない → **【MATCH-one】**(matched 単一量化)へ。**定理 APPLY-fam**(candidate/framework-conditional)・**系 ORD-IDX**(窓一様等式・P-S3F-1 根拠訂正)・**C5-fam**(R-9 = post-hoc narrowing 禁止)・軸訂正(S⊆P)・SURJ-fam-APPLY′ は (5′) 発効後の条件文(SURJ 非結論)。上申 3 点は便 102 検分と同時に裁定。
 - **P1 残り表の更新**: 旧 #3(6′族版)= 閉・旧 #4(APPLY 族版)= 起草完 ⟹ **P1 の残りは全て便 102 の Sol 監査案件**((5′) TB 束・(S3) 検分・本 2 ノートの監査)。
+
+## 2026-08-05 atlas 統計調査 v1 検収(裁定 485)— 第一結論 = 「層別の前に分母が無い」: 非分裂の判定済み母集団は実質 1(W-5)・2-primary 軸は K⁽²⁰⁾ 1 点・主要窓の構造 cert 未整備 ⟹ ランキングは「掘る場所」でなく「データの穴 3 箇所」を名指し
+- 成果 = docs/notes/atlas_stats_survey_v1.md+atlas_features_v1.csv(138 行 = 機械抽出 130+narrative 転記 8・出所裁定番号明記)+抽出 script 2 本。MCOV 119/119 HOLDS(Wilson CI [0, 3.1%])・壁系可解/非可解 4/4。
+- **ランキング上位 3(exploration-heuristic)**: ①n=15 系の構造 cert 整備(mixed factor 窓・全欄 UNKNOWN)②W-6 屋根候補の追加 coker 計算(母集団 3 件)③mixed-2-and-odd 窓の一般調査(2-primary 軸のデータ孔)。司令塔の事前予言(AFAITH-8000 層等・前ターン)は**分母不足で未採点のまま維持**(予言は生きている)。
+- 発見として明記された構造的空白 3 件(非分裂分母 1・非可解の分岐点列の欠如・MCOV の奇数限定)は次版の列設計へ。**BOTTOM-UP 設計(走行中)の H² 列挙がちょうど「分母を作る」作業に当たる** — 統計と掘削が同じ穴を指した。
