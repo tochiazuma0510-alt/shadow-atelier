@@ -2118,3 +2118,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 TB v2.1 検収(裁定 504)— F103-4 の 4 条件全履行: RD-6′ 分離(v2 の二重誤りを自認・(iii-a) Puiseux = Ẑ(1)-torsor/(iii-b) roots of unity = Ẑ^×・証明つき)・Hensel 削除(2 行差替)・transport 理由の三段書き直し(IX = 名前 pin/V 6.13 = 実働 pin/EXSEQ 再走)・reader_exercise 2 件を補題 EXSEQ-STAB(証明)+EXSEQ-LIM(骨子・内包債務 2 件申告)で責任引受
 - v2.1 = docs/notes/tb_citation_bundle_v2_1.md(v2/v1 不改変)。「書いてよい文/書いてはならない文」を §5.1 に固定(theorem-framework-relative [TB: canonical-source-pinned/v2]・GAP-TB-EXACT 閉は可/canonical-source-relative・verified・unconditional は不可)。工房債務 L-1〜L-7 確定。便 104 積載 — **(5′) の条件付き PASS の条件はこれで全履行**。
+
+## 2026-08-05 BOTTOM-UP v3 検収(裁定 505)— F103-3.2 の blocker 7 全閉: MARK-ISO/MARK-BIJ(同値関係と窓全単射)・δ_roof の型全域化(ROOF-TYPE・列挙は Ĝ₅ 正規部分群持上げで秒オーダー)・SAT 含意形 roof 節+iso 旗・ISO-GATE(既定 UNKNOWN fail-closed)・非中心層 = 正式 SCOPE_OUT(理由 3 点+代償明記)・S0 分母 11 項訂正・census 格の限定+除外集合の書換(旧文言が K⁽²⁰⁾ の V を誤除外し得た点も明示)
+- v3 = docs/notes/w6_bottomup_design_v3.md(v2/v1 不改変)。追加供給 = **補題 F3S3**(p=3 dim2 の 5 型に紙の根拠 — census 測定と一致・CV-9 前につき cross-checked 非表記)。F103-2.2 の下限引用規約を §0 boxed+全箇所前件併記。**正直な帰結: 列挙窓の isolated 判定手続きの設計が実質の次の律速**(申し送り 1)。新版 cert 2 本(S0 文字列訂正・値再走不要)は ep-keeper 案件として申し送り。便 104 積載。
