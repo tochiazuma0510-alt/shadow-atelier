@@ -2084,3 +2084,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 EP 繰延べ 2 件の起草 検収(裁定 497)— IMAGE-MU 改版案+認可請求 3 件(EP-1〜3・意味論裁定は係が決めない形)+★「1210」の provenance 発見: log digest だけでは再現不能(11 suite が 5 形式で印字・集計規則が provenance の一部)⟹ 三点セット束縛(log sha+集計器 digest+per-suite 内訳)
 - 成果 = ep_image_mu_revision_proposal_v1_draft.md+ep_suitelog_provenance_binding_v1_draft.md(起草のみ・EP UNRATIFIED 不動)。per-suite 実測内訳 44/50/194/228/51/117/285/48/93/47/53 = 1210(機械集計)。W101-4.1 への回答形として便 103/104 積載。
+
+## 2026-08-05 TB 束 v2 検収(裁定 498)— ★4 ブロック全 pin・【GAP-TB-EXACT】解消(SGA 1 Exp IX Th 6.1+Exp V Prop 6.13 の頁画像 pin・6.13 が base-point-free ⟹ 接基点 transport 不要の発見)・会計は撤回自認の上で「4 ブロック/文献 3 本/工房補題 5 本/規約 2 本」へ・reader_exercise 2 件を正直露出
+- 成果 = docs/notes/tb_citation_bundle_v2.md(v1 凍結)。①Galois 圏同値 = SGA1 V Th4.1+Prop6.1(「Fib が基本関手」を逐語直接供給 — v1 の不一致判定が解消・Deligne 10.16 は名前 pin へ)②完全列+splitting = IX Th6.1+V Prop6.13(工房補題 EXSEQ/SPLIT)③Ihara marking(③-3 は omitted だが (5′) 非 load-bearing)④局所 Ẑ(1) = Deligne 15.20-23+14.2((16.1.1) は名前 pin 降格 = F102-7.2 採択)。RD-6′ 条文化(同一性不主張・ε seal-relative 据置)・S-4 格下げ・v1 §4.3(iii) 撤回。
+- 格請求 = canonical-source-pinned(3 条つき: present でない pin 4 件・工房債務 5 本未監査・Lean 格ではない)— canonical-source-relative には未到達と明記。Sol 再諮問 3 点(transport 不要の読み・reader_exercise・EXSEQ (a))。便 103 の (5′) 再請求の正本。
