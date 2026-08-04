@@ -2131,3 +2131,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 統計 v2 検収(裁定 508)— ★司令塔予言 (i)「2-primary・多次元・τ 非自明」= 的中(cap 8000 生存 4 型が全てこの形 — ただし「掘る方向の的中」であり非分裂実在の意味ではない、の限定つき)・(ii) p=3 多次元 = 反証寄り判定不能(dim2 5 型は全て閾値未達・dim3/4 未測定)・(iii) HS 深さ 4 = 未採点(本走未実行)
 - 成果 = docs/notes/atlas_stats_survey_v2.md(v1 不改変・161 行読み取りのみ)。穴ランキング更新: ①非中心層 census(トリガー凍結中)②isolated 列(TRUE 確定は W-5 のみ — BOTTOM-UP v3 blocker④と表裏)③p=3 dim3/4 census。「12 型(census 行)vs 4 型(cap+V/W≅D 絞り込み後)」の区別を明記(混同リスクの係申告を受理)。KDIR レーン 6/6 PASS は別レーンの較正事実(MCOV の穴は不変)。
+
+## 2026-08-05 付録 C v1 検収+CI 改稿指示(裁定 509)— ローカル見積 = 2〜24 日規模(Lane P 実測 0.73〜3.13 秒/候補・S/V は推測とラベル付け・mtime 収束で実測不能の発見込み)⟹ 研究者指示により GitHub Actions 主経路版 v2 へ改稿指示(353〜2,070 shard の matrix 化・無料枠見積・欠 shard STOP・smoke のみローカル)
