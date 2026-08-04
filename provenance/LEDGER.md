@@ -2157,3 +2157,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 erratum 適用波 検収(裁定 516)— F103-5 PASS 済みの適用完了: 追記 C 適用(campaign v2 の C.4 修文込)・追記 D(距離図の二矢印化)・E1 ノート erratum((d2)+総組立限定の失効)— 3 件とも additive 新ファイル・host 3 本ハッシュ不変確認済。P1 残り表の「erratum 適用」行が消込
 
 ## 2026-08-05 MATCH-one 族化 検収(裁定 517)— ★最小十分集合 = {α=1}(全奇数一様・単一窓 H_{2,1,0})・供給者 = B-7^tw+系 B-8 = twisted 形で足りるため (Z_2M-link) も exact ε=1 も不要・per-n 手続きゼロ(Route T)。未閉 = B-6^tw の link-free proof ID 1 本(O(#n) seal → O(1) 証明への変換)→ 即委嘱。司令塔採録 = 「(5′) 格の昇格で link 会計が黙って落ちていないか」を便 105 監査点へ(MOS-4)
+
+## 2026-08-05 EXSEQ-LIM 完全証明 検収(裁定 518)— ★債務 2 件は「消滅」型解決(証明経路差替: U がアフィンで O(U_L) が PID ⟹ 有限エタール代数は有限自由 = 正規化を作らない/エタール性降下を Ω 加群で ⟹ 閉性不要)・EGA IV 不要化・外部入力 = SGA1 Exp I の 3 項目のみ(全て present 画像✓)・**工房債務 L-1〜L-7 全 7 本が証明本文つきに**・relative への残存障害は 2 点(Ihara ③-1 の F̂₂ 自由性 omitted・Deligne 15.23 の Abhyankar external)に確定
