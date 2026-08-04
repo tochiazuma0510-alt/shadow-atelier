@@ -1796,3 +1796,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **N-2【重大】S-8 × 較正スコープの衝突**: m=0 では c^m=1 ゆえ N/N₀ の差は原理的に出ず S-8 が着手直後に CALIBRATION_FAILED — **較正スイート v2 項目 7 が名指しした盲点(c=1 で中心項が試されない)の再演**。裁定 C-2 = **登録 family 上の m≠0 小掃引を較正走に追加**(値集合は NW(5) 票へ事前登録・N₀ は evaluation_mode = word_level_required・Sol 異議時の fallback = not_evaluated 明記で本走送り)。
 - その他: C-3 = **Lane P も新規インスタンス**(transcript 経由の恒真化経路を閉鎖)・C-4 conventions_used 実値化+§5.1 虚偽記述削除・C-5 h₃ 代表元確定・C-6 NW-P7 = NW(5) 票発効後の順序ゲート・D-1〜4(S-3 骨格復帰・worktree 実操作・Lane Σ 4 点・§10 非承認スタンプ+「認可拡大は Sol の専権」訂正)。**R-19 pin 正式採用+rider 3**(W-1〜W-4[(3.3)(3.4)(3.11) は敏感側]・N₀ = word_level_required・§1.5.4 必記)。
 - 工程: v1.2 改版 → 司令塔が 6 条件を機械確認 → 3 レーン+Lane Σ 発注(第 3 前哨不要 = falsifier 判定・再設計なしで閉じる修正のため)。
+
+## 2026-08-04 文献要請 14 検索検収(裁定 448)— (TB3) は単独供給文献なし・継ぎ接ぎ案採択+★在庫 ICM PDF の中身疑義
+- **継ぎ接ぎ案採択**: (a) π₁ᵉᵗ ≅ F̂₂ = **SGA1**(Exp. V/XI-XII・arXiv math/0206203 — 本裁定で取得・papers/sga1-grothendieck-raynaud-arxiv0206203.pdf)/(b)(c) 接基点慣性生成元+xyz=1 = **Ihara 1994 "On the embedding of Gal(Q̄/Q) into ĜT" §1.4(本命・LMS 200 所収・未入手)**または Szamuely 2009 §4.7(CUP 壁・在庫は ToC+errata のみ)。Schneps 2005(在庫)は二次資料として向きを支持するのみ(接基点較正なし)。2008.00066 が [SGA1]+[Szamuely §5.6] を自ら出典明示している照合も取れた。
+- **★疑義(裁定 429 の部分訂正)**: papers/ihara-ICM1990-braids-galois-arithmetic-functions.pdf は全文 grep で GT/braid/tangential 語 0 件・"Ihara" は索引 1 件のみ — **ICM Kyoto Proceedings 第 2 巻のスキャンで、Ihara 論文([I4] pp.99-120)は第 1 巻側の疑い濃厚**。裁定 429 の司令塔照合が表紙どまりだった非を記帳(教材: 文献照合は「目的の論文の実在」まで — 表紙・巻名で止めない)。研究者へ第 1 巻の確認を依頼・[I4] 自体は低優先のまま。
+- **図書館リストの統合(研究者向け)**: **LMS Lecture Note 200『The Grothendieck Theory of Dessins d'Enfants』1 冊で 2 標的**(HS の [LS] 本体+Ihara 1994 §1.4 = (TB3) 本命)が閉じる。次点 = Szamuely 2009(CUP)。
