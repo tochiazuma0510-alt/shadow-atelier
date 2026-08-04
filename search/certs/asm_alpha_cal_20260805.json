@@ -1,0 +1,269 @@
+{
+  "tier": "calibration",
+  "id": "ASM-alpha-CAL/v1",
+  "generated_utc": "2026-08-04T15:41:22.138893+00:00",
+  "conventions_used": {
+    "n_universe": [
+      3,
+      7,
+      9,
+      11,
+      13,
+      15,
+      21
+    ],
+    "n5_excluded": true,
+    "window_family": "H_{j=2,alpha,beta=0}",
+    "group_model": "G_n=(Z/n)^3 rtimes Q, Q=C2xC2 (ODD-H 補題A加法座標)",
+    "X": "a1*q1",
+    "Y": "a1*a2*a3*q2",
+    "Z": "(X*Y)^-1",
+    "closed_form_source": "docs/notes/oddH_full_proof_v1.md #6 命題ODD-P",
+    "cases_total": 79,
+    "cases_alpha_zero": 7,
+    "cases_alpha_unit": 56,
+    "cases_alpha_nonunit_nonzero": 16
+  },
+  "checks": {
+    "C1_ODD_P_closed_form": {
+      "pass": true,
+      "cases_checked": 79,
+      "mismatches": 0
+    },
+    "C2_unit_nonunit_separation": {
+      "pass": true,
+      "units_matching_K3K5": 56,
+      "units_total": 56,
+      "nonunits_correctly_separated": 16,
+      "nonunits_total": 16
+    },
+    "C3_negative_controls": {
+      "pass": true,
+      "alpha0_control_fired": 7,
+      "alpha0_control_total": 7,
+      "nonunit_control_fired": 16,
+      "nonunit_control_total": 16
+    },
+    "C4_subgroup_direct_check": {
+      "pass": true,
+      "cases_checked": 79,
+      "failures": 0
+    }
+  },
+  "RESULT": "ALL PASS",
+  "fail_closed": true,
+  "seal_contact": "none",
+  "nonunit_examples": [
+    {
+      "n": 9,
+      "alpha": 3,
+      "d": 3
+    },
+    {
+      "n": 9,
+      "alpha": 6,
+      "d": 3
+    },
+    {
+      "n": 15,
+      "alpha": 3,
+      "d": 3
+    },
+    {
+      "n": 15,
+      "alpha": 5,
+      "d": 5
+    },
+    {
+      "n": 15,
+      "alpha": 6,
+      "d": 3
+    },
+    {
+      "n": 15,
+      "alpha": 9,
+      "d": 3
+    },
+    {
+      "n": 15,
+      "alpha": 10,
+      "d": 5
+    },
+    {
+      "n": 15,
+      "alpha": 12,
+      "d": 3
+    },
+    {
+      "n": 21,
+      "alpha": 3,
+      "d": 3
+    },
+    {
+      "n": 21,
+      "alpha": 6,
+      "d": 3
+    },
+    {
+      "n": 21,
+      "alpha": 7,
+      "d": 7
+    },
+    {
+      "n": 21,
+      "alpha": 9,
+      "d": 3
+    },
+    {
+      "n": 21,
+      "alpha": 12,
+      "d": 3
+    },
+    {
+      "n": 21,
+      "alpha": 14,
+      "d": 7
+    },
+    {
+      "n": 21,
+      "alpha": 15,
+      "d": 3
+    },
+    {
+      "n": 21,
+      "alpha": 18,
+      "d": 3
+    }
+  ],
+  "c1_sample_rows": [
+    {
+      "n": 3,
+      "alpha": 0,
+      "d": 3,
+      "observed": {
+        "X": "6^1",
+        "Y": "2^2 1^2",
+        "Z": "2^3"
+      },
+      "predicted": {
+        "X": "6^1",
+        "Y": "2^2 1^2",
+        "Z": "2^3"
+      },
+      "match": true
+    },
+    {
+      "n": 3,
+      "alpha": 1,
+      "d": 1,
+      "observed": {
+        "X": "6^1",
+        "Y": "2^2 1^2",
+        "Z": "6^1"
+      },
+      "predicted": {
+        "X": "6^1",
+        "Y": "2^2 1^2",
+        "Z": "6^1"
+      },
+      "match": true
+    },
+    {
+      "n": 3,
+      "alpha": 2,
+      "d": 1,
+      "observed": {
+        "X": "6^1",
+        "Y": "2^2 1^2",
+        "Z": "6^1"
+      },
+      "predicted": {
+        "X": "6^1",
+        "Y": "2^2 1^2",
+        "Z": "6^1"
+      },
+      "match": true
+    },
+    {
+      "n": 7,
+      "alpha": 0,
+      "d": 7,
+      "observed": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "2^7"
+      },
+      "predicted": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "2^7"
+      },
+      "match": true
+    },
+    {
+      "n": 7,
+      "alpha": 1,
+      "d": 1,
+      "observed": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "14^1"
+      },
+      "predicted": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "14^1"
+      },
+      "match": true
+    },
+    {
+      "n": 7,
+      "alpha": 2,
+      "d": 1,
+      "observed": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "14^1"
+      },
+      "predicted": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "14^1"
+      },
+      "match": true
+    },
+    {
+      "n": 7,
+      "alpha": 3,
+      "d": 1,
+      "observed": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "14^1"
+      },
+      "predicted": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "14^1"
+      },
+      "match": true
+    },
+    {
+      "n": 7,
+      "alpha": 4,
+      "d": 1,
+      "observed": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "14^1"
+      },
+      "predicted": {
+        "X": "14^1",
+        "Y": "2^6 1^2",
+        "Z": "14^1"
+      },
+      "match": true
+    }
+  ],
+  "self_sha256": "d13f2170bec8ccca35d409edaac2b726c7790533f587df079854f41c8ae6a386"
+}

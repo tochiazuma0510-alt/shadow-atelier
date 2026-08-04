@@ -2005,3 +2005,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 W-5 isolated 前提検査 検収(裁定 482)—【W5-GAP-1】閉: isolated = TRUE(80/80 settled・|GT(W-5)|=80)・fixture K⁽³⁾ 照合 PASS(shadow_total=12)・裁定 473 数値と全一致・非接触宣言遵守
 - cert = search/certs/w5_isolated_check_20260805.json(tier=prerequisite-check・単一 GAP 実装・not cross-checked と正直記載)・driver = search/probe/wac_v1/w5_isolated_check_20260805.g。事前登録 = 予言 UNKNOWN(前提検査)。charming 16 種で 5/5 ずつ均一・candidate 4000 → h10_fail 3200・h11_fail 720・gen_fail 0 → shadow 80。停止・速達の発火なし。
 - 帰結: **W-5 = isolated な entangled 屋根の実物**(非分裂・Arf 類・裁定 476)として確定 — SPLIT-NULL 設計律の「検出は entangled 屋根のみ」チャネルの初の生きた対象。d(W-5) の実測(Im R 接触)は封印レジーム = Sol ゲート(付録 A の「witness で d=5」見込みの紙検分は数学者#3 の ROOF-KILL 起草と合流)。fixture 誤記の自己訂正 1 件は申告どおり受理。
+
+## 2026-08-05 ASM-α-CAL/v1 検収(裁定 483)— ALL PASS(79 ケース・C1 ODD-P 閉形式 0 mismatch・C2 分離 56/56+16/16・C3 陰性対照 23/23 発火・C4 部分群直検査 0 fail)= campaign v2 の較正束が完成・F-2 の識別力要件を実装で充足
+- cert = search/certs/asm_alpha_cal_20260805.json(tier=calibration・python 単系統・fail-closed 実装済未発火)・driver = search/probe/wac_v1/asm_alpha_cal_v1.py。宇宙 = n∈{3,7,9,11,13,15,21}×α 全体(n=5 assert 除外)・拡大縮小なし。
+- 申告 2 件受理: ①falsifier probe 2 本は repo 不在(未 commit の一時ファイル)→ 仕様許容の独立再実装(ODD-P+判読書+既存群定義から)②coset 作用の右移動バグを自己捕獲・左移動へ修正(規約事故の自己検出の型)。
+- 帰結: framework 束(campaign v2+TB 束+本較正 cert)が便 102 同梱形で完備。
