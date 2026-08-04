@@ -2148,3 +2148,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - v2 = docs/notes/hsp7_mainrun_prereg_v1_appendixC_v2.md(§1〜9 = 前回停止係の残存産物を確認採用・§10 = 今回追加)。前セッション産物の再検算は Sol 監査と本走較正 shard 実測が兼ねる(申し送り)。**便 104 材料完備 — 組立・発射**。
 
 ## 2026-08-05 便 104 発送(裁定 514)— 数学便第 31 号(6 節・29 digest・preflight PASS): ★HS 本走の実行認可を正式申請(CI 計画+高速化諮問)・BOTTOM-UP v3 freeze 承認+ISO-GATE route 2・TB v2.1 追認・B v6+v4 sha 確認請求・EP 3 文書。watcher 起動。認可着弾で較正 shard 実測 → 本走 matrix 発火・S1-S8 篩へ。
+
+## 2026-08-05 ISO-GATE c∉N fixture 検収(裁定 515)— 裁定 510 の未テスト分岐解消: FIXTURE 3(N5-control・c 位数 5)で precondition_ok=false → UNKNOWN(C_NOT_IN_N) の fail-closed を実発火・回帰 2 本(K³・W-5)無傷・cert v2 新名(旧不改変)

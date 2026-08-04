@@ -62,13 +62,15 @@
 ## 独立性: certificates/*.json / search/certs/*.json は一切読まない。
 ##   全群は GAP で生成器から新規構築する。
 ## 規律: gap.ps1 経由・-o 2g・AbstractProd 規約。実窓(列挙由来)への適用は
-##   掘削認可後 -- 本ファイルは fixture 2 本の較正のみ実行する。
+##   掘削認可後 -- 本ファイルは fixture 3 本(K^(3)・W-5・N5-control 分岐)の
+##   較正のみ実行する(v2・2026-08-05 委嘱: N5-control = c NOT IN N の
+##   fail-closed 分岐の実発火確認を追加)。
 #############################################################################
 Read("search/probe/wac_v1/gap_output_prelude.g");
 Read("search/week3-battery-common.g");;
 
 Print("=== ISO-GATE calibration driver (search/probe/w6_bu_s0/iso_gate_check.g) ===\n");
-Print("(汎用手続き -- 実窓非接触。本走行は fixture 2 本の較正のみ)\n\n");
+Print("(汎用手続き -- 実窓非接触。本走行は fixture 3 本の較正のみ)\n\n");
 
 #############################################################################
 ## MarkedDatumFromGroup: 任意の GAP 群 + marked 生成元像 -> qrec(x,y,c,G)
@@ -295,8 +297,49 @@ fixture2Ok := res5.precondition_ok and (Size(datum5.G) = 1000) and (res5.n_ord =
               and (res5.isolated_verdict = "TRUE");;
 Print("[", PF(fixture2Ok), "] FIXTURE-2 PASS (driver reproduces 裁定482 W-5 isolated=TRUE via general path)\n\n");
 
-driverOk := fixture1Ok and fixture2Ok;;
-Print("[", PF(driverOk), "] DRIVER OVERALL (both fixtures reproduce known/registered values)\n\n");
+#############################################################################
+## FIXTURE 3: N5-control (c が位数5で生きる可換 control -- c NOT IN N ->
+##   ISO-GATE の fail-closed 分岐 UNKNOWN(C_NOT_IN_N) の実発火確認)
+## 委嘱: 司令塔(2026-08-05・裁定510 の未テスト分岐の解消)。
+## 出自(逐語一般化の系譜): 群構築ロジックは search/wp2-scratch-n5.g
+##   (N_A cap N_5 = ker(beta_5: B3 -> S3 x C5) 相当、可換 control、
+##   docs/notes/div_law_v1.md・docs/notes/k5_genuine_campaign_v1.md N-2 と
+##   同一の在庫窓)と同一。ここでは同ロジックをその都度手で書く代わりに
+##   week3-battery-common.g の BuildQTGeneral(既に本ファイルが Read
+##   している在庫ヘルパー、wp2-scratch-n5.g のインライン Q x T 構成の
+##   汎用版)経由で再構成する -- 新規アルゴリズムは無い。
+## この fixture は isolated_verdict を計算させることが目的ではない --
+##   precondition (c=Identity(G)) が破れることそのものを確認し、
+##   IsoGateCheck が fail-closed で止まって UNKNOWN(C_NOT_IN_N) を返し、
+##   isolated 判定を偽装しないことを実発火で見る。
+#############################################################################
+Print("--- FIXTURE 3: N5-control (c order 5, c NOT IN N -- fail-closed branch) ---\n");
+q5gen := PermList(Concatenation([2..5],[1]));;
+Q5 := Group(q5gen);;
+qtN5 := BuildQTGeneral(Q5, q5gen^2, q5gen^2, q5gen);;
+XXn5 := qtN5.s1^2;;
+YYn5 := qtN5.s2^2;;
+CCn5 := (qtN5.s1*qtN5.s2*qtN5.s1)^2;;
+GN5 := Group(qtN5.s1, qtN5.s2);;
+Print("|<s1,s2>| = ", Size(GN5), "  (expect 30, per search/wp2-scratch-n5.g)\n");
+Print("Order(CC) = ", Order(CCn5), "  (expect 5 -- c survives, c != Identity)\n");
+
+datumN5 := MarkedDatumFromGroup(GN5, XXn5, YYn5, CCn5);;
+Print("c = Identity(G)? ", datumN5.c = Identity(datumN5.G), "  (expect false -- this IS the c-not-in-N fixture)\n");
+
+resN5 := IsoGateCheck(datumN5, "FIXTURE-N5-CNOTINN", fail);;
+Print("precondition_ok=", resN5.precondition_ok, "  (expect false)\n");
+Print("isolated_verdict=", resN5.isolated_verdict, "  unknown_reason=", resN5.unknown_reason, "\n");
+Print("iso_gate_state=", resN5.iso_gate_state, "\n");
+
+fixture3Ok := (not resN5.precondition_ok) and (Order(CCn5) = 5) and (CCn5 <> Identity(GN5))
+              and (Size(GN5) = 30)
+              and (resN5.isolated_verdict = "UNKNOWN") and (resN5.unknown_reason = "C_NOT_IN_N")
+              and (resN5.iso_gate_state = "UNKNOWN");;
+Print("[", PF(fixture3Ok), "] FIXTURE-3 PASS (c-not-in-N branch fires fail-closed UNKNOWN(C_NOT_IN_N), does not fake isolated verdict)\n\n");
+
+driverOk := fixture1Ok and fixture2Ok and fixture3Ok;;
+Print("[", PF(driverOk), "] DRIVER OVERALL (all three fixtures reproduce known/registered values, including the c-not-in-N fail-closed branch)\n\n");
 
 #############################################################################
 ## 時間見積り(位数8000帯・extrapolation のみ -- 実走はしない)
@@ -330,10 +373,10 @@ Print("  実測が別途必要(本委嘱の範囲外。委嘱は較正のみ)。
 ## cert 出力
 #############################################################################
 certStr := Concatenation(
-  "{\"schema\":\"gtsh-cert/iso-gate-check-driver/v1\",",
+  "{\"schema\":\"gtsh-cert/iso-gate-check-driver/v2\",",
   "\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/probe/w6_bu_s0/iso_gate_check.g\",\"date\":\"2026-08-05\"},",
   "\"tier\":\"tool-calibration\",",
-  "\"purpose\":\"generalize w5_isolated_check_20260805.g into a reusable ISO-GATE calibration driver over arbitrary marked data (docs/notes/w6_bottomup_design_v3.md sec.4 BU-GAP-8); calibration only, no real-window drilling in this run\",",
+  "\"purpose\":\"generalize w5_isolated_check_20260805.g into a reusable ISO-GATE calibration driver over arbitrary marked data (docs/notes/w6_bottomup_design_v3.md sec.4 BU-GAP-8); v2 adds FIXTURE-3 (N5-control, c order 5, c NOT IN N) to exercise the fail-closed UNKNOWN(C_NOT_IN_N) branch that was previously untested (commander order 2026-08-05, 裁定510 untested-branch closure); calibration only, no real-window drilling in this run\",",
   "\"design_authority\":\"commander order 2026-08-05 (BOTTOM-UP v3 MARK-ISO datum -> general iso_gate_check.g driver)\",",
   "\"non_contact_declaration\":{\"Im_R_reduction_image\":\"not touched\",\"d_N\":\"not touched\",",
   "\"sealed_quantities\":\"not touched (c_mu_hat / PSL window structural quantities / eps bits)\",",
@@ -345,9 +388,11 @@ certStr := Concatenation(
     "\"marked factor map (GroupHomomorphismByImages) used for settled decision, not GAP subgroup comparison\"",
   "],",
   "\"iso_gate_semantics_note\":\"iso_gate_state=PROVEN only fires via ker(rho)=K^(n) Thm4.3 shortcut (route 1). A driver isolated_verdict=TRUE on a non-K^(n) datum does NOT auto-promote to PROVEN -- that promotion (ISO-GATE route 2) is commander/Sol gate territory, out of this tool's authority\",",
-  "\"fixtures\":[", IsoGateResultToJson(res3), ",", IsoGateResultToJson(res5), "],",
+  "\"fixtures\":[", IsoGateResultToJson(res3), ",", IsoGateResultToJson(res5), ",", IsoGateResultToJson(resN5), "],",
   "\"fixture1_pass\":", String(fixture1Ok), ",",
   "\"fixture2_pass\":", String(fixture2Ok), ",",
+  "\"fixture3_pass\":", String(fixture3Ok), ",",
+  "\"fixture3_note\":\"FIXTURE-3 (N5-control) deliberately triggers precondition_ok=false / the ISO-GATE fail-closed branch; it is a c-NOT-IN-N fixture, not a c_in_N settled/isolated measurement -- do not read its precondition_ok:false as a driver malfunction\",",
   "\"driver_overall_pass\":", String(driverOk), ",",
   "\"time_estimate_order8000\":{\"basis\":\"linear extrapolation on |G| ratio from W-5 fixture (|G|=1000), labeled as a lower-bound-only guess, NOT a measured guarantee\",",
   "\"w5_g_size\":", String(Size(datum5.G)), ",",
@@ -361,8 +406,9 @@ certStr := Concatenation(
   "\"verified_status\":\"not verified (Lean not used)\"",
   "}");;
 
-WriteFile("search/certs/w6_bu_s0_iso_gate_check_driver_20260805.json", certStr);;
-Print("wrote search/certs/w6_bu_s0_iso_gate_check_driver_20260805.json\n");
+WriteFile("search/certs/w6_bu_s0_iso_gate_check_driver_v2_20260805.json", certStr);;
+Print("wrote search/certs/w6_bu_s0_iso_gate_check_driver_v2_20260805.json\n");
+Print("(old cert search/certs/w6_bu_s0_iso_gate_check_driver_20260805.json left untouched)\n");
 
 Print("\nISO_GATE_CHECK_DRIVER_DONE\n");
 QUIT;
