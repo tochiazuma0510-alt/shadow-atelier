@@ -1,0 +1,49 @@
+﻿
+[GATE PASS] TOY fixture (literal vs EvalFullHexagonFixed): 0/6 mismatches. Proceeding.
+
+|P| = 5764801
+own measurement: |P|=5764801 |[P,P]|=117649 ord(x)=7 ord(y)=7 N_ord(main)=7 X_N(main)=[ 0, 1, 2, 4, 5, 6 ] |X_N|=6
+[PASS] S-7' four columns all match (own/anchor/LaneS)
+[PASS] Lane S candidate count = 8, all m=0
+[PASS] Lane S f_words match pre-registered list exactly
+Lane S hexagon_verdict list (8 expected): [ "PASS", "PASS", "PASS", "PASS", "PASS", "PASS", "PASS", "FAIL" ]
+h4 <> Identity(P): true (expect true, NW-P3)
+|N0grp| = 40353607 (expect 40353607)
+Order(chat0) = 7 (expect 7)
+candidate key_id=1 f=h4^0 : (3.3)=true (3.4)=true verdict=PASS
+candidate key_id=2 f=h4^1 : (3.3)=true (3.4)=true verdict=PASS
+candidate key_id=3 f=h4^2 : (3.3)=true (3.4)=true verdict=PASS
+candidate key_id=4 f=h4^3 : (3.3)=true (3.4)=true verdict=PASS
+candidate key_id=5 f=h4^4 : (3.3)=true (3.4)=true verdict=PASS
+candidate key_id=6 f=h4^5 : (3.3)=true (3.4)=true verdict=PASS
+candidate key_id=7 f=h4^6 : (3.3)=true (3.4)=true verdict=PASS
+candidate key_id=8 f=h3 = [[x,y],x]*[[x,y],y] : (3.3)=false (3.4)=false verdict=FAIL
+
+4-way table (key_id, LaneS, LaneV):
+  1: LaneS=PASS LaneV=PASS
+  2: LaneS=PASS LaneV=PASS
+  3: LaneS=PASS LaneV=PASS
+  4: LaneS=PASS LaneV=PASS
+  5: LaneS=PASS LaneV=PASS
+  6: LaneS=PASS LaneV=PASS
+  7: LaneS=PASS LaneV=PASS
+  8: LaneS=FAIL LaneV=FAIL
+S-9 mismatch count = 0 (expect 0 after repair, per arbitration prediction)
+NW-P8 m=1: N=FAIL N0=FAIL agree=true
+NW-P8 m=2: N=FAIL N0=FAIL agree=true
+NW-P8 m=4: N=FAIL N0=FAIL agree=true
+NW-P8 m=5: N=FAIL N0=FAIL agree=true
+NW-P8 m=6: N=PASS N0=PASS agree=true
+
+NW-P8 mismatch count (N vs N0) = 0 (of 5)
+note (arbitration SS1.1 (P-1)): for f in [F2,F2] (charming), N and N0 full-hexagon
+judgments are PREDICTED to always agree (N cap F2 = N0 cap F2 = V(F2)); a nonzero
+mismatch count here would itself indicate a remaining implementation defect, not a
+genuine c-detection event.
+
+=== SUMMARY ===
+S-7' fired: false
+S-9 mismatch count: 0
+S-8 (reduced scope) fired: true
+
+[DONE] driver_step4_evaluate_v2.g complete.

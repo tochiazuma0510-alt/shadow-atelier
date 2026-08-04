@@ -1,0 +1,7 @@
+size_P=5764801
+size_derived_subgroup=117649
+ord_x=7
+ord_y=7
+N_ord=7
+X_N=[ 0, 1, 2, 4, 5, 6 ]
+abs_X_N=6

@@ -75,10 +75,127 @@ ApplyGen := function(state, gen, phiX, phiY, phiC)
   return [newT, newD];
 end;;
 
-# apply a "pure Q" element (right multiplication, T-coordinate unaffected) -- used for
-# f, f^-1, x^{-m}, y^{-m}, c^m factors of (3.3)/(3.4).
+# ============================================================================
+# ★★ BUGGY -- DO NOT USE (kept only for audit history; superseded 2026-08-04
+# by arbitration docs/notes/hsp7_hexagon_arbitration_v1.md SS3.2).
+#
+# State (t,d) represents the group element g = d~ * t~ (t~ in {1,s1,s2,s1s2,
+# s2s1,s1s2s1}, model A, confirmed correct by TEST A). Right-multiplying g by a
+# pure-Q element q gives g*q = d~ t~ q~ = d~ (t~ q~ t~^-1) t~, i.e.
+#   newD = d * Ad(t~)(q),   NOT   newD = d*q.
+# ApplyQElt below computes d*q, which equals d~ q~ t~ = g*(t~^-1 q~ t~) -- only
+# correct at t=1 (t~=identity). For t != 1 it silently applies q conjugated the
+# WRONG way. c is central so ApplyQElt(s,c^m) alone was accidentally correct,
+# which is why the "c-side bookkeeping looked healthy" (arbitration SS3.2).
+# This bug produced S-9 mismatch=6 in search/certs/hsp7_cond4_laneV_20260804.json
+# (v1, HELD). Root-caused and reproduced independently in scratchpad/arb_toy.g.
+# ============================================================================
 ApplyQElt := function(state, q)
   return [state[1], state[2]*q];
+end;;
+
+# ============================================================================
+# FIX (2026-08-04, arbitration SS5.4 repair A -- first choice, "structurally
+# eliminates the bug class"): never apply a pure-Q element directly. Instead
+# expand it into a WORD in the free generators x,y (and, for c, the fixed
+# 6-letter sigma-word (s1 s2)^3 = c), then push that word through the
+# ALREADY-VALIDATED ApplyGen one sigma-letter at a time (TEST A: model
+# g = d~*t~ matched a literal group 12/12; braid relation and forward/inverse
+# tables cross-validated against BuildQTGeneral -- see driver_step3_selftest.g).
+# Because x = s1^2 and y = s2^2, this is exact: no Ad(t~) table is needed, and
+# the whole "conjugate by the current transversal element" bookkeeping that the
+# old ApplyQElt got wrong is handled automatically by ApplyGen's own (already
+# correct) per-branch table. Cross-validated against a fully independent
+# LITERAL construction of a small window (search/probe/hsp7_cond4_laneV/
+# driver_step3b_toy_fixture.g, scale-model of arbitration scratchpad/arb_toy.g).
+# ============================================================================
+
+# apply a sequence of signed generator indices (1/-1 = s1/s1^-1, 2/-2 = s2/s2^-1)
+# to a state, one ApplyGen call per letter, in the given (paper) order.
+ApplyWordSeq := function(state, seq, phiX, phiY, phiC)
+  local s, g;
+  s := state;
+  for g in seq do
+    s := ApplyGen(s, g, phiX, phiY, phiC);
+  od;
+  return s;
+end;;
+
+# repeat a signed-letter sequence k times (k<0: repeat the letter-wise-inverted,
+# reversed sequence -k times). Matches arb_toy.g's SeqPow exactly.
+SeqPow := function(seq, k)
+  local r, i, inv;
+  r := [];
+  if k >= 0 then
+    for i in [1..k] do Append(r, seq); od;
+  else
+    inv := Reversed(List(seq, g -> -g));
+    for i in [1..(-k)] do Append(r, inv); od;
+  fi;
+  return r;
+end;;
+
+# fixed sigma-letter words for the generators of Q used throughout NW(7)/NW-P8:
+#   x = s1^2, y = s2^2, c = (s1 s2)^3  (standard braid identity (sigma1 sigma2)^3
+#   = Delta^2 = c; matches arb_toy.g's Cg := (S1*S2)^3 exactly).
+SeqX := [1, 1];;
+SeqY := [2, 2];;
+SeqC := [1, 2, 1, 2, 1, 2];;
+
+# expand a free-group word (over generators named "x","y", e.g. from
+# LetterRepAssocWord) into a sigma-letter sequence: each x-letter -> 2 s1
+# letters, each y-letter -> 2 s2 letters, sign preserved, order preserved.
+ExpandXYLettersToSigma := function(letterRep)
+  local out, l;
+  out := [];
+  for l in letterRep do
+    if l = 1 then Append(out, SeqX);
+    elif l = -1 then Append(out, Reversed(List(SeqX, g -> -g)));
+    elif l = 2 then Append(out, SeqY);
+    elif l = -2 then Append(out, Reversed(List(SeqY, g -> -g)));
+    else Error("ExpandXYLettersToSigma: letter rep uses more than 2 generators (got ", l, ") -- only x,y (F2.1,F2.2) supported"); fi;
+  od;
+  return out;
+end;;
+
+# apply a free-group element (word in x,y) to a state via the validated ApplyGen
+# path (sigma-letter expansion).
+ApplyFreeWord := function(state, freeElt, phiX, phiY, phiC)
+  return ApplyWordSeq(state, ExpandXYLettersToSigma(LetterRepAssocWord(freeElt)), phiX, phiY, phiC);
+end;;
+
+# ============================================================================
+# EvalFullHexagonFixed(m, freeF, phiX, phiY, phiC): full (3.3)/(3.4), computed
+# entirely via sigma-word expansion (repair A). freeF must be an ELEMENT OF A
+# FREE GROUP ON (x,y) (e.g. built with Comm()/products in FreeGroup("x","y")),
+# NOT a pc-group element -- this is what lets f, f^-1, x^{-m}, y^{-m} all be
+# expanded into sigma-letters safely. phiX,phiY,phiC remain the TARGET window's
+# images of x,y,c (pc group / direct product elements, as before).
+# ============================================================================
+EvalFullHexagonFixed := function(m, freeF, phiX, phiY, phiC)
+  local u, freeFinv, base, s, lhs33, rhs33, lhs34, rhs34, fSeq, fInvSeq;
+  u := 2*m+1;
+  freeFinv := freeF^-1;
+  fSeq := ExpandXYLettersToSigma(LetterRepAssocWord(freeF));
+  fInvSeq := ExpandXYLettersToSigma(LetterRepAssocWord(freeFinv));
+  base := [1, Identity(phiX)];
+
+  # LHS(3.3) = sigma1^u f^-1 sigma2^u f
+  s := ApplyWordSeq(base, Concatenation(SeqPow([1],u), fInvSeq, SeqPow([2],u), fSeq), phiX, phiY, phiC);
+  lhs33 := s;
+  # RHS(3.3) = f^-1 sigma1 sigma2 x^-m c^m   (NO trailing f -- verbatim (3.3), page-image
+  # confirmed by arbitration SS2.1; adding one is the (b') trap, arbitration SS2.3)
+  s := ApplyWordSeq(base, Concatenation(fInvSeq, [1,2], SeqPow(SeqX,-m), SeqPow(SeqC,m)), phiX, phiY, phiC);
+  rhs33 := s;
+
+  # LHS(3.4) = f^-1 sigma2^u f sigma1^u
+  s := ApplyWordSeq(base, Concatenation(fInvSeq, SeqPow([2],u), fSeq, SeqPow([1],u)), phiX, phiY, phiC);
+  lhs34 := s;
+  # RHS(3.4) = sigma2 sigma1 y^-m c^m f   (trailing f present -- verbatim (3.4))
+  s := ApplyWordSeq(base, Concatenation([2,1], SeqPow(SeqY,-m), SeqPow(SeqC,m), fSeq), phiX, phiY, phiC);
+  rhs34 := s;
+
+  return rec(hex33 := (lhs33 = rhs33), hex34 := (lhs34 = rhs34));
 end;;
 
 # apply s1 (or s2) exactly n>=0 times (n<0 means apply the inverse -n times)
@@ -244,4 +361,88 @@ SelfTestBraidOnGenuineInstance := function()
   od;
   return rec(main_points := 6*np, main_braid_fail := braidFailMain,
              ctrl_points := 6*npD, ctrl_braid_fail := braidFailCtrl);
+end;;
+
+# ============================================================================
+# ★ PERMANENT REGRESSION FIXTURE (mandated by arbitration SS5.4 item 4, audit
+# gap closed: the old selftest exercised ApplyGen but never ApplyQElt/the pure-Q
+# application path -- this is exactly where the bug lived). Scale-model window,
+# independent of NW(7):
+#   N_F2 = gamma3(F2) F2^3 (verbal, class<=2, exponent 3) => Q = extraspecial
+#   3^{1+2}, order 27; c |-> 1 => B3/N has order 162, SMALL ENOUGH to build
+#   LITERALLY via an fp-group presentation + IsomorphismPermGroup (no state
+#   machine at all). Dummy-family analogue f = a^k, a=[x,y] in gamma2(Q) (the
+#   window's top layer, central + elementary abelian) -- structurally identical
+#   in role to h4^t in gamma4(P), just one layer shallower.
+#   Prop 3.4 predicts full (3.3)(3.4) PASS for ALL k, at BOTH m=0 and m=2 (the
+#   other element of X_N for N_ord=3), since theta(a)=a^-1, tau(a)=a make (3.10)
+#   and (3.11) hold exactly regardless of m (m only appears via y^m in (3.11),
+#   and a's tau-fixedness kills that dependence too -- checked below, not
+#   assumed).
+# ============================================================================
+TestToyFixtureLiteralVsFixed := function()
+  local FreeB, s1, s2, xw, yw, rels, Gfp, iso, S1, S2, Xg, Yg, Cg, aa,
+        EvalLiteral, mVals, results, m, k, f, lit, fx, mismatches, r,
+        FreeXY, aFree;
+
+  FreeB := FreeGroup("s1", "s2");;
+  s1 := FreeB.1;;  s2 := FreeB.2;;
+  xw := s1^2;;  yw := s2^2;;
+  rels := [ s1*s2*s1*(s2*s1*s2)^-1,
+            (s1*s2)^3,
+            xw^3, yw^3, Comm(xw,yw)^3,
+            Comm(Comm(xw,yw),xw), Comm(Comm(xw,yw),yw) ];;
+  Gfp := FreeB/rels;;
+  if Size(Gfp) <> 162 then
+    return rec(ok := false, reason := Concatenation("Size(B3/N) = ", String(Size(Gfp)), ", expected 162"));
+  fi;
+  iso := IsomorphismPermGroup(Gfp);;
+  S1 := Image(iso, Gfp.1);;  S2 := Image(iso, Gfp.2);;
+  Xg := S1^2;;  Yg := S2^2;;  Cg := (S1*S2)^3;;
+  if Size(Group(Xg,Yg)) <> 27 then
+    return rec(ok := false, reason := Concatenation("Size(Q) = ", String(Size(Group(Xg,Yg))), ", expected 27"));
+  fi;
+  if Cg <> One(Group(S1,S2)) then
+    return rec(ok := false, reason := "c is not trivial in this TOY window (expected c->1)");
+  fi;
+  if not (S1*S2*S1 = S2*S1*S2) then
+    return rec(ok := false, reason := "braid relation fails in the LITERAL toy group (fp-presentation error)");
+  fi;
+  aa := Comm(Xg,Yg);;
+
+  EvalLiteral := function(m, f)
+    local u;
+    u := 2*m+1;
+    return rec(hex33 := (S1^u * f^-1 * S2^u * f = f^-1 * S1 * S2 * Xg^(-m) * Cg^m),
+               hex34 := (f^-1 * S2^u * f * S1^u = S2 * S1 * Yg^(-m) * Cg^m * f));
+  end;;
+
+  # free-group (x,y) words for a^k, fed through EvalFullHexagonFixed exactly as
+  # the real driver feeds h4^t/h3 -- this is what makes the fixture a genuine
+  # regression test of the SAME code path, not a reimplementation.
+  FreeXY := FreeGroup("x","y");;
+  aFree := Comm(FreeXY.1, FreeXY.2);;
+  mVals := [0, 2];;
+  results := [];;
+  mismatches := 0;;
+  for m in mVals do
+    for k in [0, 1, 2] do
+      f := aa^k;
+      lit := EvalLiteral(m, f);
+      fx := EvalFullHexagonFixed(m, aFree^k, Xg, Yg, Cg);
+      r := rec(m := m, k := k, literal_hex33 := lit.hex33, literal_hex34 := lit.hex34,
+               fixed_hex33 := fx.hex33, fixed_hex34 := fx.hex34,
+               agree := (lit.hex33 = fx.hex33) and (lit.hex34 = fx.hex34),
+               predicted_pass := true);
+      if not r.agree then mismatches := mismatches + 1; fi;
+      if not (lit.hex33 and lit.hex34) then
+        # literal itself should PASS per Prop 3.4 (a is theta-anti-fixed, tau-fixed) --
+        # if it doesn't, the fixture's own math is wrong, not just the state machine.
+        mismatches := mismatches + 1;
+      fi;
+      Add(results, r);
+    od;
+  od;
+  return rec(ok := true, size_B3N := Size(Gfp), size_Q := Size(Group(Xg,Yg)),
+             mismatches := mismatches, results := results);
 end;;

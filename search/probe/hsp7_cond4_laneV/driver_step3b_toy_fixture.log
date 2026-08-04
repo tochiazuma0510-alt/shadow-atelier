@@ -1,0 +1,15 @@
+﻿
+Size(B3/N) = 162 (expect 162)
+Size(Q) = 27 (expect 27)
+
+m | k | literal(3.3,3.4) | fixed(3.3,3.4) | agree
+0 | 0 | PASS/PASS | PASS/PASS | true
+0 | 1 | PASS/PASS | PASS/PASS | true
+0 | 2 | PASS/PASS | PASS/PASS | true
+2 | 0 | PASS/PASS | PASS/PASS | true
+2 | 1 | PASS/PASS | PASS/PASS | true
+2 | 2 | PASS/PASS | PASS/PASS | true
+
+mismatches = 0 (of 6 (m,k) cells; 0 required)
+
+[GATE PASS] TOY fixture: literal and fixed evaluator agree on all cells, and literal itself confirms Prop 3.4's all-PASS prediction (theta-anti-fixed, tau-fixed a). EvalFullHexagonFixed may be trusted on the real P / P x C7.

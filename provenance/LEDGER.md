@@ -1929,3 +1929,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 紙側(独立): θ(𝔥₄) = −𝔥₄ 正(司令塔の Jacobi 手計算を独立再導出+ℤ⟨X,Y⟩ 4 次成分で機械検算)・DUM-HEX/PREC-1 独立再現(343 組全数・解軌跡 ℤ·(1,4,1))。
 - **波及**: Lane S cert 無傷(7 件 PASS が正)・Lane P 無傷・**「無害でないバグ」**(誤 FAIL 採用なら較正走が「hexagon と pentagon は一致」という逆結論を確認するところだった)。副産物 = **N∩F₂ = N₀∩F₂ = 𝒱(F₂) ⟹ charming 候補で N/N₀ の full hexagon 判定は必ず一致** = control 窓の無料実装テストという新較正資源(再走の事前登録に採用)。要判断 1 件 = 補題 NW-1b (5) の「近道が壊れる」の二義性(θ,τ の F₂/N_F₂ 降下 vs B₃/N 内 Ad 実現)→ 用語分離を便 102 申し送りへ。
 - 指示: Lane V へ修理+TOY 恒久 fixture 組込+全再走(v2 新名・旧 cert 不改変)。Lane V 欄は修理まで UNKNOWN 扱い。
+
+## 2026-08-04 Lane V v2 検収(裁定 469)— 修理・全再走完了: S-9 解消(8 件全一致 = 7 PASS/PASS + 1 FAIL/FAIL)・TOY 恒久 fixture ゲート化(6 セル 0 mismatch)・m 掃引 5 件 N/N₀ 全一致 = 仲裁の構造予言どおり・条件 4 の三 cert が出揃い Lane Σ 起票
+- v2 = search/certs/hsp7_cond4_laneV_v2_20260804.json(旧 v1 = HELD のまま不改変保存)。修理 = 仲裁の第一選択(修理 A): 純 Q 因子を自由群 WORD へ展開し検証済み ApplyGen へ流す経路(EvalFullHexagonFixed)・旧 ApplyQElt はバグ付きのまま監査履歴として残置(呼出全廃)。恒久 TOY fixture(位数 162 literal・6 セル)を driver 冒頭ゲート化。
+- 再走結果: **S-9 = 0/8 未発火**(dummy 7 件 PASS/PASS・h₃ FAIL/FAIL — Lane S と完全一致・仲裁予言どおり)。NW-P8 m 掃引 = 5 件とも N/N₀ 一致(m∈{1,2,4,5} FAIL/FAIL・m=6 PASS/PASS)⟹ **S-8 は縮小 scope で発火**(不一致 0 件)— ただし仲裁の構造事実(N∩F₂ = N₀∩F₂ = 𝒱(F₂) ⟹ charming 候補で必ず一致)により、この発火は「較正失敗」ではなく **NW-P8 の設計が本窓対では構造的に空振りになる**ことの確認(control 窓の役割 = 無料の実装テストへ更新・cert に明記済み)。Sol へは便 102 で P101-1 の NW-P8 条項に対する構造報告(仲裁書添付)として上程。
+- 条件 4 の現況: **三レーン cert 出揃い**(S PASS・P PASS・V v2)→ Lane Σ(第 4 の著者・cert JSON のみ・述語機械適用・自己較正 2 組・worktree 隔離)起票。
