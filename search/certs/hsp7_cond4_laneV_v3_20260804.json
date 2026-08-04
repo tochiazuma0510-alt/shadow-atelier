@@ -1,0 +1,228 @@
+{
+  "schema": "hsp7-cond4-laneV/v3",
+  "DRIVER_DONE": true,
+  "lane": "V",
+  "status": "REVISED_PER_CV9_REMAND",
+  "card_label": "HS路線・発火条件4 Lane V(検証レーン)較正走 -- v3: CV-9副検問(docs/notes/hsp7_cond4_cv9_reading_v1.md、差戻し)のblocking条件B-1/B-2/B-4を修理。v1(HELD)・v2(REPAIRED_AND_RECERTIFIED)は不改変保存。",
+  "supersedes": [
+    "search/certs/hsp7_cond4_laneV_20260804.json (v1, HELD_PENDING_ARBITRATION, preserved unmodified)",
+    "search/certs/hsp7_cond4_laneV_v2_20260804.json (v2, REPAIRED_AND_RECERTIFIED, preserved unmodified -- CV-9副検問差戻し対象)"
+  ],
+  "cv9_remand_ruling": "docs/notes/hsp7_cond4_cv9_reading_v1.md -- 判定: 差戻し(数値への反証なし)。理由: (a) v2 certに条件4の物理証拠(execution_isolation等)が欠落 (b) Lane Pが未較正(本certの範囲外・Lane P/司令塔案件) (c) c軸の事前登録(N0窓での8候補評価)が未履行かつ無申告 (d) 『修理後の一致』を隠した格付け文言。本v3はLane V担当分の3件(B-1・B-2・B-4)を修理。B-3(Lane P未較正)は本レーンの範囲外。",
+  "design_doc": "docs/notes/hsp7_cond4_lanespec_v1.md (v1.2) SS0.2・SS1 Lane V・SS4.2・SS6・SS8。docs/notes/hsp7_hexagon_arbitration_v1.md SS5.4(修理指示)。docs/notes/hsp7_cond4_cv9_reading_v1.md SS5(差戻しblocking条件B-1/B-2/B-4)。",
+  "generated_by": [
+    "search/probe/hsp7_cond4_laneV/driver_step0_a5conv.g",
+    "search/probe/hsp7_cond4_laneV/driver_step1_gen_setup_P.g",
+    "search/probe/hsp7_cond4_laneV/driver_step2_run_pq.ps1",
+    "search/probe/hsp7_cond4_laneV/statemachine_lib.g (v3: TestToyFixtureExtended追加)",
+    "search/probe/hsp7_cond4_laneV/driver_step3_selftest.g",
+    "search/probe/hsp7_cond4_laneV/driver_step3b_toy_fixture.g",
+    "search/probe/hsp7_cond4_laneV/driver_step3c_toy_fixture_extended.g (★新設・B-2/m2)",
+    "search/probe/hsp7_cond4_laneV/driver_step4_evaluate_v3.g (★新設・B-2: N0窓8候補評価)"
+  ],
+  "author_instance_note": "新規インスタンス#2(worktree隔離: agent-a0d0e3713ee3c26f4)。v1/v2と同一インスタンス継続(修理・再走は同一worktree内、司令塔の修理指示による)。",
+
+  "imports_declared": [
+    "docs/notes/hsp7_cond4_lanespec_v1.md (v1.2, 発注書・正本)",
+    "docs/notes/hs_prop7_translation_v1.md SS8.7 (定義NW(p)・補題NW-1a/NW-1b・定義DUM-FIN・補題DUM-HEX・SS8.7.7 NW-P1..P8)",
+    "docs/week1-定義ノート.md SS1・SS1.5(語規約W-1..W-4・A5-CONV)・SS2((3.1)-(3.4)・簡約hexagon(3.10)(3.11)・実装注)・SS3(dihedral poset・Thm4.3)・SS4(較正スイートv2項目7 N5 control)",
+    "search/certs/hsp7_cond2_p7_20260804.json (S-7'較正アンカー、own計算確定後に開封)",
+    "search/certs/hsp7_cond4_laneS_20260804.json (候補値+Lane S判定欄のみ。driverコードは削除済みで未読)",
+    "search/probe/wac_v1/gap_output_prelude.g (GAP出力共通prelude、全レーン共有可)",
+    "search/week3-M5-explorer.g (一般WP2 transversal-cocycle infra=BuildQTGeneral。自己検査でのみ参照、実測にはApplyGen[自前の状態機械への再実装]を使用)",
+    "docs/notes/hsp7_hexagon_arbitration_v1.md (仲裁確定文書・修理指示の正本)",
+    "docs/notes/hsp7_cond4_cv9_reading_v1.md (CV-9副検問・差戻し指示の正本)",
+    "scratchpad/arb_toy.g (仲裁の決定実験スクリプト・参照のみ、恒久fixtureは自前で再実装・同一構成)"
+  ],
+  "imports_forbidden_check": {
+    "other_lane_scripts_referenced": false,
+    "other_lane_gap_objects_referenced": false,
+    "stage3_stage4_referenced": false,
+    "note": "search/probe/hsp7_cond4_laneS/ と search/probe/hsp7_gap_v1/ は本worktree内で物理削除済み(execution_isolation参照、v1発行時に実施・以後不変)。Lane Sから読んだのはsearch/certs/hsp7_cond4_laneS_20260804.jsonのJSON値のみ(GAPスクリプトでのマーカー走査による機械読み取り)。Lane P/Lane Sigmaのcert・driverは本certの評価には一切使用していない。"
+  },
+  "execution_isolation": {
+    "worktree_created": true,
+    "worktree_path": "C:\\Users\\81905\\Desktop\\shadow-atelier\\.claude\\worktrees\\agent-a0d0e3713ee3c26f4",
+    "stage_dir_deleted_before_run": true,
+    "post_delete_listing": "hsp7_v1\nk5gen_phase1\nnoent3_v1\nw6_coker_tool\nwac_v1\nwall_audit_v1",
+    "post_delete_listing_sha256": "4fcb20e75b5b78cf5d24b9324b96c6ca00fb15261846d3b17a7a53f1d876de5e",
+    "post_delete_listing_file": "scratchpad/laneV_post_delete_listing.txt",
+    "post_delete_timestamp_utc": "2026-08-04T12:13:20Z",
+    "note": "v1発行時(2026-08-04)に一度だけ実施した削除の物理事実で、v2/v3を通じて不変(worktreeは継続使用・削除しなおしていない)。CV-9副検問M1指摘への対応として、v3では自己申告booleanでなくこの物理事実(listing文字列+sha256)をcertへ再掲する。現在のsearch/probe/一覧を再確認した結果、hsp7_cond4_laneS/とhsp7_gap_v1/は現時点でも不在のままであることを確認済み(2026-08-04、本v3発行直前)。"
+  },
+  "compute_budget": {
+    "candidate_count_8_plus_N0": 16,
+    "toy_fixture_cells_base": 6,
+    "toy_fixture_cells_extended": 7,
+    "nw_p8_pairs": 5,
+    "wall_time_actual_note": "P構築(ANUPQ) < 1秒。TOY/extended TOY fixture(literal FP群構築+IsomorphismPermGroup) 数秒。N0(DirectProduct) < 1秒。8候補x2窓+NW-P8評価 < 1秒。",
+    "wall_time_cap_s": 600,
+    "mem_cap_gb": 2,
+    "overflow_action": "発生しなかった(cap未接触)"
+  },
+
+  "toy_fixture_base": {
+    "note": "v2から不変(仲裁SS5.4項目4の基本fixture、c->1構成)。",
+    "window": "N_F2 = gamma3(F2)F2^3, c->1, B3/N位数162, literal構築",
+    "result": {"size_B3N": 162, "size_Q": 27, "mismatches": 0, "of_cells": 6}
+  },
+  "toy_fixture_extended": {
+    "note": "★ CV-9副検問B-2/m1への対応(新設)。基本fixtureはc->1構成のためc会計に識別力ゼロ、かつ負例ゼロで『常にPASSを返す評価器』が6/6で通過してしまう欠陥を判読者が指摘。2種の拡張セルを追加:",
+    "cell_i_control_c_alive": {
+      "window": "N_F2 = gamma3(F2)F2^3, c^3=1(cが位数3で生存)、B3/N0位数486, literal構築(実N0=PxC7の縮小構造アナログ)",
+      "cells": "m in {0,2} x k in {0,1,2} = 6セル、f=a^k(a=[x,y])",
+      "result": {"size_control_B3N0": 486, "order_c_control": 3, "mismatches_this_cell_group": 0}
+    },
+    "cell_ii_negative_fixture": {
+      "note": "f=x(生成元、charmingでない=[F2,F2]に属さない)、m=0、main toy(c->1)とcontrol toy(c位数3)の両方で評価",
+      "literal_result": "FAIL/FAIL(両toyとも)",
+      "fixed_evaluator_result": "FAIL/FAIL(一致・評価器が定数PASSでないことを実証)"
+    },
+    "total_extended_mismatches": 0,
+    "total_extended_cells": 7,
+    "log_file": "search/probe/hsp7_cond4_laneV/driver_step3c_toy_fixture_extended.log",
+    "log_sha256": "551677a2fed0a8d6121039f3aa0d56455d04c665bcd4042929e4b187fa91e645",
+    "verdict": "PASS -- 7/7セル一致。c生存経路・負例とも恒久fixtureに組込済み(以後の全再走で自動ゲート化)。"
+  },
+  "letter_order_fidelity_check_m2": {
+    "note": "★ CV-9副検問m2(non-blocking、同時に閉じる)への対応。v2が新設したLetterRepAssocWord/ApplyFreeWord経路(自由群のword展開)はA5-CONV(0手目・置換の右作用規約テスト)がカバーしていなかった。実P上で、混合符号・複数生成元交錯のwordを用いてApplyFreeWordの結果と直接pcgs乗算の結果を突合。",
+    "test_word": "x*y^-1*x^2*y^3*x^-1 (FreeGroup(\"x\",\"y\")上、符号混在・交錯あり)",
+    "direct_pcgs_result": "f1^2*f2^2*f3^3*f4^3*f5^2*f6^4*f7^3*f8^5",
+    "ApplyFreeWord_result": "同一(t=1, d=f1^2*f2^2*f3^3*f4^3*f5^2*f6^4*f7^3*f8^5)",
+    "match": true,
+    "verdict": "PASS -- 新経路は実Pの上で語順を保持する(反転していない)。A5-CONVの守備範囲(置換の右作用規約)とは別軸の検査であり、両方が閉じたことで語順面の懸念が閉じた。"
+  },
+
+  "s7prime_four_columns": {
+    "note": "v1/v2と同一P(PQ_OUTPUT_P.g再利用・ANUPQ決定的なので再構築と同値)を用いて再測定。",
+    "own_measurement_phase1": {"size_P": 5764801, "size_derived_subgroup": 117649, "ord_x": 7, "ord_y": 7,
+      "N_ord_main": 7, "X_N_main": [0,1,2,4,5,6], "abs_X_N": 6},
+    "anchor_and_laneS_values": {"anchor_size_P": 5764801, "anchor_derived": 117649,
+      "laneS_size_P": 5764801, "laneS_size_derived": 117649, "laneS_N_ord": 7, "laneS_abs_X_N": 6},
+    "match": true, "fired": false,
+    "byte_identity_caveat": "★ CV-9副検問B-4(ii)への対応: own構築のPQ_OUTPUT_P.gはLane S/cond2アンカーとbyte一致するが、これはANUPQのp-quotientアルゴリズムがPrime/ClassBound/Exponent/生成元名に対して決定的であることの帰結であり、『3系統の独立裏取り』ではなく『同一決定的計算が3回複製された』ことの証拠である(判読者指摘SS2.3)。独立性の根拠はworktree物理隔離(execution_isolation)のみに存する。"
+  },
+  "preregistration_crosscheck": {
+    "expected_list_source": "docs/notes/hsp7_cond4_lanespec_v1.md SS6 C-5 items 1+2, 8件",
+    "count_match": true, "m_values_match": true, "f_words_match_order_sensitive": true,
+    "verdict": "PASS"
+  },
+  "candidates_in": [
+    {"key_id": 1, "m": 0, "f_word": "h4^0"}, {"key_id": 2, "m": 0, "f_word": "h4^1"},
+    {"key_id": 3, "m": 0, "f_word": "h4^2"}, {"key_id": 4, "m": 0, "f_word": "h4^3"},
+    {"key_id": 5, "m": 0, "f_word": "h4^4"}, {"key_id": 6, "m": 0, "f_word": "h4^5"},
+    {"key_id": 7, "m": 0, "f_word": "h4^6"}, {"key_id": 8, "m": 0, "f_word": "h3 = [[x,y],x]*[[x,y],y]"}
+  ],
+  "candidates_in_source_cert_sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86",
+  "candidates_in_own_digest_sha256": "067cec55d6adb63b7f8f84261298167eb8d4e35e3f9465866ef8f10e43377e8e",
+  "candidates_in_own_digest_source_file": "search/probe/hsp7_cond4_laneV/candidates_in_v3.txt",
+  "candidates_in_own_digest_note": "★ CV-9副検問B-1への対応。GAPドライバがLane S cert本文をマーカー走査で機械抽出した候補列(key_id;m;f_word)を正規テキストへ書き出し、そのファイルのSHA256を上記に記録(手写しでなく機械生成digest)。",
+
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "commutator_convention": "Comm(a,b):=a^-1 b^-1 a b (GAP native, 左正規化)",
+    "generator_symbols_and_order": "x=F2.1(pcgs image), y=F2.2(pcgs image) (P側)。h4,h3は自由群FreeGroup(\"x\",\"y\")上のWORDとしても構成(h4free,h3free)し、EvalFullHexagonFixedへはこちらを渡す。",
+    "theta_tau_rho_orientation": "本評価器はfull(3.3)(3.4)を生成元sigma1,sigma2レベルで直接評価するためtheta/tauは不使用。",
+    "f_word_order": "paper (W-3)。LetterRepAssocWordで抽出しxを2回のs1適用・yを2回のs2適用に展開(paper順序を保持、m2で実P上に確認済み)。",
+    "a5_conv_result": "correct (v1から不変・置換の右作用規約テスト)。加えてv3で letter_order_fidelity_check_m2 により自由群word展開経路も別途確認(実P上、m2参照)。",
+    "evaluation_mode": {"N": "sigma-word expansion via validated ApplyGen (repair A)", "N0": "同一コードパス。v3でN0窓も8候補全て評価(B-2履行、v2ではN窓のみだった)。"},
+    "state_machine_fix_note": "v2から不変(旧ApplyQEltバグ→sigma語展開への置換、仲裁SS5.4)。"
+  },
+
+  "lane_specific_results": {
+    "window_N": {
+      "hexagon_full_33_34_judgments": [
+        {"key_id": 1, "candidate": "m=0,f=h4^0", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 2, "candidate": "m=0,f=h4^1", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 3, "candidate": "m=0,f=h4^2", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 4, "candidate": "m=0,f=h4^3", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 5, "candidate": "m=0,f=h4^4", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 6, "candidate": "m=0,f=h4^5", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 7, "candidate": "m=0,f=h4^6", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 8, "candidate": "m=0,f=h3",   "hex_3_3": false, "hex_3_4": false, "verdict": "FAIL"}
+      ]
+    },
+    "window_N0": {
+      "note": "★ CV-9副検問B-2(blocking)への対応。仲裁SS5.4項目5の事前登録(『N・N0の両方でh4^t全PASS・h3 FAIL』)を履行。v2はN窓のみで未評価・not_evaluated申告も欠落していた欠陥を修理。",
+      "hexagon_full_33_34_judgments": [
+        {"key_id": 1, "candidate": "m=0,f=h4^0", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 2, "candidate": "m=0,f=h4^1", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 3, "candidate": "m=0,f=h4^2", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 4, "candidate": "m=0,f=h4^3", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 5, "candidate": "m=0,f=h4^4", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 6, "candidate": "m=0,f=h4^5", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 7, "candidate": "m=0,f=h4^6", "hex_3_3": true,  "hex_3_4": true,  "verdict": "PASS"},
+        {"key_id": 8, "candidate": "m=0,f=h3",   "hex_3_3": false, "hex_3_4": false, "verdict": "FAIL"}
+      ]
+    },
+    "n_vs_n0_mismatch_count_8candidates": 0,
+    "raw_log": "search/probe/hsp7_cond4_laneV/driver_step4_evaluate_v3.log",
+    "raw_log_sha256": "d424a93666a57b7d3ea8da588890a0612d1f0955c65c2ea05d677151fe45e726"
+  },
+  "four_way_comparison_table": {
+    "note": "R-8: Lane Sの全申告への独立判定(N窓)。N0窓は新規追加列(c会計の実質検査セル数が1→9に増加: NW-P8のm=6に加え、8候補全件)。",
+    "rows": [
+      {"key_id": 1, "laneS": "PASS", "laneV_N": "PASS", "laneV_N0": "PASS"},
+      {"key_id": 2, "laneS": "PASS", "laneV_N": "PASS", "laneV_N0": "PASS"},
+      {"key_id": 3, "laneS": "PASS", "laneV_N": "PASS", "laneV_N0": "PASS"},
+      {"key_id": 4, "laneS": "PASS", "laneV_N": "PASS", "laneV_N0": "PASS"},
+      {"key_id": 5, "laneS": "PASS", "laneV_N": "PASS", "laneV_N0": "PASS"},
+      {"key_id": 6, "laneS": "PASS", "laneV_N": "PASS", "laneV_N0": "PASS"},
+      {"key_id": 7, "laneS": "PASS", "laneV_N": "PASS", "laneV_N0": "PASS"},
+      {"key_id": 8, "laneS": "FAIL", "laneV_N": "FAIL", "laneV_N0": "FAIL"}
+    ],
+    "summary_counts": {"PASS_PASS_PASS": 7, "FAIL_FAIL_FAIL": 1},
+    "s9_mismatch_count_laneS_vs_laneV_N": 0
+  },
+  "nw_p8": {
+    "status": "RECERTIFIED (v2から数値不変、再確認のみ)",
+    "m_sweep_results": [
+      {"m": 1, "verdictN": "FAIL", "verdictN0": "FAIL", "agree": true},
+      {"m": 2, "verdictN": "FAIL", "verdictN0": "FAIL", "agree": true},
+      {"m": 4, "verdictN": "FAIL", "verdictN0": "FAIL", "agree": true},
+      {"m": 5, "verdictN": "FAIL", "verdictN0": "FAIL", "agree": true},
+      {"m": 6, "verdictN": "PASS", "verdictN0": "PASS", "agree": true}
+    ],
+    "mismatch_count_N_vs_N0": 0,
+    "single_lane_caveat": "★ CV-9副検問B-4(iv)への対応: NW-P8の5件はLane V単独申告である(Lane Sの評価器はm引数を持たずm≠0を構造的に扱えない -- 判読者SS3.1)。二系統性を持たない。判読者が外部から独立に(GAP非依存・整数演算のみで)再現し一致を確認しているが、それは較正走のLane V/Lane S二系統とは別の第三の検算であり、本certの二系統一致とは性質が異なる。",
+    "note_arbitration_P1": "仲裁SS1.1(P-1)により、charming f(f=1も該当)についてはN・N0の判定は理論上必ず一致する。この一致はもはや『c検出力を持つ較正』ではなく『c会計の無料の実装テスト』である(仲裁SS5.5)。"
+  },
+  "stop_rules": {
+    "S-6":  { "trigger": "NW-P3 または NW-P5 が偽", "verdict": "TARGET_PREMISE_BROKEN / STOP", "fired": false, "note": "NW-P3相当PASS。" },
+    "S-7'": { "trigger": "NW-P2 の 4 欄のいずれかが不一致", "verdict": "PREREGISTRATION_FALSIFIED / INTEGRITY_STOP", "fired": false, "note": "own/anchor/LaneSの3者間で4欄とも一致。" },
+    "S-8":  { "trigger": "X_N 全掃引で N と N_0 の hexagon 判定の不一致が 0 件", "verdict": "CALIBRATION_FAILED / INTEGRITY_STOP",
+              "fired": true, "scope": "reduced(m-sweep only, 8候補窓別評価は別途n_vs_n0_mismatch_count_8candidatesに記録)",
+              "note": "仲裁SS1.1(P-1)によりこれは予言どおり(charming fではN/N0は理論上常に一致)。lanespecSS4.2のverdict規約により縮小scopeでの発火は較正走全体の即時停止を自動的には意味しない。CV-9副検問M5(NW-P8の事前登録『不一致が少なくとも1件』が反証されている件)は較正走の外・司令塔案件として申し送り済み(versioned撤回が必要)。" },
+    "S-9":  { "trigger": "同一窓 N 上で Lane S と Lane V の項目別判定が1件でも食い違う", "verdict": "LANE_DISAGREEMENT / INTEGRITY_STOP",
+              "fired": false, "note": "修理後は0/8で未発火(v2から不変)。" },
+    "S-3":  { "trigger": "NW-P7が5元中5元PASSにならない", "verdict": "IMPLEMENTATION_BUG_SUSPECTED / STOP", "fired": "n/a",
+              "note": "NW-P7はC-6順序ゲート未発効のため本certの範囲外。" }
+  },
+  "prediction_source": { "frozen_at": "hs_prop7_translation_v1.md SS8.7.4-8.7.5・docs/week1-定義ノート.md L156-L167・docs/notes/hsp7_cond4_lanespec_v1.md SS4.2・docs/notes/hsp7_hexagon_arbitration_v1.md SS5.4項目5", "codegen_uses_expected_values": false,
+    "cv9_note": "★ CV-9副検問m3指摘(non-blocking、本v3では未対応): frozen_atはdigestでなく節名文字列のまま。争点の測定値が出た後に書かれた仲裁書を事前登録として引用している形式上の問題(中身は数学者の理論的導出であり健全)。次版での対応を要すると認識している。" },
+
+  "cross_checked_status": {
+    "status": "n/a",
+    "reason": "★★ CV-9副検問B-4(i)(iii)への対応: 前版(v2)は本欄を『cross-checked』と自称していたが、同欄の理由文『副検問を経て初めて名乗れる(本certはその前段)』と自己矛盾していた(判読者m5指摘)。正しくは lanespecSS7手順6により、副検問(CV-9)を実際に通過するまで cross-checked を名乗れない。本v3もその前段であり status='n/a' に訂正する。加えて、たとえ副検問を通過しても銘記すべき点(B-4(i)): Lane SとLane Vの一致は『独立二系統が偶然一致した』のではなく『v1でS-9が発火(mismatch=6)し、仲裁でLane V側のApplyQEltバグと確定させ、修理して再走した結果としての一致』である。修理自体は健全(バグ位置の構造的同定・修理Aは調整ノブでなく経路の廃止・独立literalオラクルで検証・期待値はLane Sでなく紙の予言(DUM-HEX+数学者の独立Lie検算)から取った)が、この時系列を踏まえると、一致の証拠力は『一致という事実そのもの』ではなく『TOY literalオラクル(仲裁の決定実験+本v3で拡張したc生存・負例セル)と紙の予言』に存する。この構造をcross_checked_statusに明記することがCV-9の要求。"
+  },
+  "verdict": {
+    "status": "B1_B2_B4_ADDRESSED_PENDING_B3_AND_CV9_REVIEW",
+    "note": "CV-9副検問(差戻し)のblocking条件のうちLane V担当分3件を修理: B-1(execution_isolation等の物理証拠をcertへ復元)・B-2(N0窓で8候補を再走、TOY fixtureにc生存セル+負例セルを追加)・B-4(cross_checked_statusをn/aへ訂正し証拠力の所在を明記)。数値結果は不変(N窓の8候補判定・NW-P8の5件はv2と同一)、新規にN0窓の8候補判定(7 PASS+1 FAIL、N窓と完全一致)を追加。B-3(Lane P未較正)は本レーンの範囲外・司令塔/Sol案件。m3(frozen_atがdigestでない)は本v3で未対応・次版申し送り。"
+  },
+  "provenance": {
+    "gap_version": "4.16.0", "gap_invocation": "gap.ps1 (project root, -o 2g)", "pq_binary_version": "1.9",
+    "run_date": "2026-08-04", "worktree": "agent-a0d0e3713ee3c26f4",
+    "statemachine_lib_g_sha256_v3": "30ea5224eec536aa995443471930c7874ebd57e61a3e2a3c6982ad5c2e5edf47",
+    "driver_step3c_g_sha256": "ff6f2793c8e68c2037047f194ae7fd5912b1c431901224ea69b50231019d7cdc",
+    "driver_step4_evaluate_v3_g_sha256": "b9d4d810d5d67d690eca9da42283c83e302b05e8918bd4e0894652781095fb36",
+    "v1_v2_certs_preserved_unmodified": true
+  },
+  "deviations_and_open_questions": [
+    "1. v1(HELD)・v2(REPAIRED_AND_RECERTIFIED)は不改変で保存。本v3は新規cert。",
+    "2. B-3(Lane Pが lanespec 自身の基準で未較正)は本レーンの範囲外であり修理していない。司令塔/Sol判断待ち(NW-P7発効 or Lane Pの格を『未較正』と明記する対応のいずれか)。",
+    "3. m3(prediction_source.frozen_atがdigestでなく節名文字列)は本v3で未対応。次版で対応が必要。",
+    "4. M5(NW-P8の事前登録『5件中1件以上不一致』が仲裁(P-1)により反証されている件)は較正走の外・司令塔案件として申し送り。versioned撤回・S-8再定義が必要(hs_prop7_translation_v1.md SS8.7.7・SS9.3)。",
+    "5. m6(scratchpad証拠が本worktreeにのみ存在し.claude/worktrees/はgit管理外)は認識しているが、worktree自体が本certの物理証拠の格納場所であり、本レーンの範囲では対応不能(運用上の申し送り)。",
+    "6. m7(summaryへの範囲縮小記載)・m8(条件3の紙での分離明記)はLane Σ/summary certの担当であり本レーンの範囲外。"
+  ]
+}

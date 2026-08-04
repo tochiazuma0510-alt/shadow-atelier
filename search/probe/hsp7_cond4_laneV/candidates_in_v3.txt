@@ -1,0 +1,8 @@
+key_id=1;m=0;f_word=h4^0
+key_id=2;m=0;f_word=h4^1
+key_id=3;m=0;f_word=h4^2
+key_id=4;m=0;f_word=h4^3
+key_id=5;m=0;f_word=h4^4
+key_id=6;m=0;f_word=h4^5
+key_id=7;m=0;f_word=h4^6
+key_id=8;m=0;f_word=h3 = [[x,y],x]*[[x,y],y]

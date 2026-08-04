@@ -1,0 +1,21 @@
+﻿
+Size(control TOY B3/N0) = 486 (expect 486)
+Order(c) in control TOY = 3 (expect 3, c must survive)
+
+cell | m | k | literal(3.3,3.4) | fixed(3.3,3.4) | agree
+control-c-alive | 0 | 0 | PASS/PASS | PASS/PASS | true
+control-c-alive | 0 | 1 | PASS/PASS | PASS/PASS | true
+control-c-alive | 0 | 2 | PASS/PASS | PASS/PASS | true
+control-c-alive | 2 | 0 | PASS/PASS | PASS/PASS | true
+control-c-alive | 2 | 1 | PASS/PASS | PASS/PASS | true
+control-c-alive | 2 | 2 | PASS/PASS | PASS/PASS | true
+negative-f=x-control | 0 | n/a | FAIL/FAIL | FAIL/FAIL | true
+
+extended mismatches = 0 (0 required)
+[GATE PASS] extended TOY fixture: c-alive cells all PASS (agree with literal), negative fixture f=x correctly FAILS in both literal and fixed evaluator (evaluator demonstrated non-constant).
+
+direct pcgs value   : f1^2*f2^2*f3^3*f4^3*f5^2*f6^4*f7^3*f8^5
+ApplyFreeWord result: t=1 d=f1^2*f2^2*f3^3*f4^3*f5^2*f6^4*f7^3*f8^5
+[PASS] letter-order fidelity (ApplyFreeWord == direct pcgs multiplication) on real P
+
+[DONE] driver_step3c_toy_fixture_extended.g complete.

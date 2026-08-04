@@ -1,0 +1,51 @@
+﻿
+[GATE PASS] both TOY fixtures (base 6/6, extended 7/7) clean. Proceeding.
+
+|P| = 5764801
+[PASS] S-7' four columns all match
+[PASS] Lane S f_words match pre-registered list exactly
+candidates_in serialization written to search/probe/hsp7_cond4_laneV/candidates_in_v3.txt
+h4 <> Identity(P): true
+|N0grp| = 40353607  Order(chat0) = 7
+N  candidate key_id=1 f=h4^0 : (3.3)=true (3.4)=true verdict=PASS
+N  candidate key_id=2 f=h4^1 : (3.3)=true (3.4)=true verdict=PASS
+N  candidate key_id=3 f=h4^2 : (3.3)=true (3.4)=true verdict=PASS
+N  candidate key_id=4 f=h4^3 : (3.3)=true (3.4)=true verdict=PASS
+N  candidate key_id=5 f=h4^4 : (3.3)=true (3.4)=true verdict=PASS
+N  candidate key_id=6 f=h4^5 : (3.3)=true (3.4)=true verdict=PASS
+N  candidate key_id=7 f=h4^6 : (3.3)=true (3.4)=true verdict=PASS
+N  candidate key_id=8 f=h3 = [[x,y],x]*[[x,y],y] : (3.3)=false (3.4)=false verdict=FAIL
+N0 candidate key_id=1 f=h4^0 : (3.3)=true (3.4)=true verdict=PASS
+N0 candidate key_id=2 f=h4^1 : (3.3)=true (3.4)=true verdict=PASS
+N0 candidate key_id=3 f=h4^2 : (3.3)=true (3.4)=true verdict=PASS
+N0 candidate key_id=4 f=h4^3 : (3.3)=true (3.4)=true verdict=PASS
+N0 candidate key_id=5 f=h4^4 : (3.3)=true (3.4)=true verdict=PASS
+N0 candidate key_id=6 f=h4^5 : (3.3)=true (3.4)=true verdict=PASS
+N0 candidate key_id=7 f=h4^6 : (3.3)=true (3.4)=true verdict=PASS
+N0 candidate key_id=8 f=h3 = [[x,y],x]*[[x,y],y] : (3.3)=false (3.4)=false verdict=FAIL
+
+4-way table (key_id, LaneS, LaneV-N, LaneV-N0):
+  1: LaneS=PASS LaneV-N=PASS LaneV-N0=PASS
+  2: LaneS=PASS LaneV-N=PASS LaneV-N0=PASS
+  3: LaneS=PASS LaneV-N=PASS LaneV-N0=PASS
+  4: LaneS=PASS LaneV-N=PASS LaneV-N0=PASS
+  5: LaneS=PASS LaneV-N=PASS LaneV-N0=PASS
+  6: LaneS=PASS LaneV-N=PASS LaneV-N0=PASS
+  7: LaneS=PASS LaneV-N=PASS LaneV-N0=PASS
+  8: LaneS=FAIL LaneV-N=FAIL LaneV-N0=FAIL
+S-9 mismatch count (LaneS vs LaneV-N) = 0
+N vs N0 mismatch count (8 candidates) = 0
+NW-P8 m=1: N=FAIL N0=FAIL agree=true
+NW-P8 m=2: N=FAIL N0=FAIL agree=true
+NW-P8 m=4: N=FAIL N0=FAIL agree=true
+NW-P8 m=5: N=FAIL N0=FAIL agree=true
+NW-P8 m=6: N=PASS N0=PASS agree=true
+
+NW-P8 mismatch count (N vs N0) = 0 (of 5)
+
+=== SUMMARY ===
+S-9 mismatch count: 0
+8-candidate N vs N0 mismatch count: 0
+NW-P8 mismatch count: 0
+
+[DONE] driver_step4_evaluate_v3.g complete.

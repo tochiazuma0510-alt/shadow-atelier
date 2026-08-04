@@ -1,0 +1,4 @@
+sizeP=5764801
+s9_mismatch=0
+n_vs_n0_mismatch_8cand=0
+p8_mismatch_count=0

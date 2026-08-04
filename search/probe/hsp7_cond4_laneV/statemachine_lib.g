@@ -446,3 +446,100 @@ TestToyFixtureLiteralVsFixed := function()
   return rec(ok := true, size_B3N := Size(Gfp), size_Q := Size(Group(Xg,Yg)),
              mismatches := mismatches, results := results);
 end;;
+
+# ============================================================================
+# ★ EXTENSION (2026-08-04, CV-9 副検問 blocking B-2 / non-blocking m1): the
+# original TOY fixture above only exercises phi(c)=1 (c dies) and has no
+# negative cell (all 6 literal results are PASS) -- so it has zero
+# discriminating power against a constant-PASS evaluator, and zero
+# discriminating power on the c-accounting path specifically (the very axis
+# where the original bug lived, since c is central and ApplyQElt's old bug was
+# invisible for central q). This extension adds:
+#   (i)  a CONTROL-style toy window where phi(c) survives with order 3
+#        (N_F2 = gamma3(F2)F2^3 as before, but c^3=1 instead of c=1 -- exact
+#        structural analogue of the real N0 = P x C7, scaled down),
+#   (ii) a negative fixture f=x (a generator, NOT in [F2,F2] / not charming),
+#        which literal evaluation shows FAILS (3.3)/(3.4) on both the main and
+#        control toy windows, at m=0.
+# ============================================================================
+TestToyFixtureExtended := function()
+  local FreeB0, s1_0, s2_0, xw0, yw0, rels0, Gfp0, iso0, S1c, S2c, Xc, Yc, Cc,
+        FreeXY, aFree, xFree, EvalLiteral, results, mismatches, m, k, f, lit, fx, r,
+        litNeg, fxNeg;
+
+  # ---- control-style toy: c survives with order 3 ----
+  FreeB0 := FreeGroup("s1","s2");;
+  s1_0 := FreeB0.1;;  s2_0 := FreeB0.2;;
+  xw0 := s1_0^2;;  yw0 := s2_0^2;;
+  rels0 := [ s1_0*s2_0*s1_0*(s2_0*s1_0*s2_0)^-1,
+             xw0^3, yw0^3, Comm(xw0,yw0)^3,
+             Comm(Comm(xw0,yw0),xw0), Comm(Comm(xw0,yw0),yw0),
+             ((s1_0*s2_0)^3)^3 ];;   # c^3 = 1 (NOT c = 1)
+  Gfp0 := FreeB0/rels0;;
+  if Size(Gfp0) <> 486 then
+    return rec(ok := false, reason := Concatenation("Size(control TOY B3/N0) = ", String(Size(Gfp0)), ", expected 486"));
+  fi;
+  iso0 := IsomorphismPermGroup(Gfp0);;
+  S1c := Image(iso0, Gfp0.1);;  S2c := Image(iso0, Gfp0.2);;
+  Xc := S1c^2;;  Yc := S2c^2;;  Cc := (S1c*S2c)^3;;
+  if Order(Cc) <> 3 then
+    return rec(ok := false, reason := Concatenation("Order(c) in control TOY = ", String(Order(Cc)), ", expected 3 (c must survive)"));
+  fi;
+  if not (S1c*S2c*S1c = S2c*S1c*S2c) then
+    return rec(ok := false, reason := "braid relation fails in the control TOY literal group");
+  fi;
+
+  EvalLiteral := function(S1,S2,Xg,Yg,Cg,m,f)
+    local u;
+    u := 2*m+1;
+    return rec(hex33 := (S1^u * f^-1 * S2^u * f = f^-1 * S1 * S2 * Xg^(-m) * Cg^m),
+               hex34 := (f^-1 * S2^u * f * S1^u = S2 * S1 * Yg^(-m) * Cg^m * f));
+  end;;
+
+  FreeXY := FreeGroup("x","y");;
+  aFree := Comm(FreeXY.1, FreeXY.2);;
+  xFree := FreeXY.1;;
+
+  results := [];;  mismatches := 0;;
+
+  # (i) c-nontrivial cells: dummy analogue a^k on the CONTROL toy, m in {0,2}
+  # (same X_N as the main toy, N_ord=3 for both). Prop 3.4 predicts PASS for
+  # ALL these too (a is still charming/central regardless of window).
+  for m in [0, 2] do
+    for k in [0, 1, 2] do
+      f := Comm(Xc,Yc)^k;
+      lit := EvalLiteral(S1c, S2c, Xc, Yc, Cc, m, f);
+      fx := EvalFullHexagonFixed(m, aFree^k, Xc, Yc, Cc);
+      r := rec(cell := "control-c-alive", m := m, k := k,
+               literal_hex33 := lit.hex33, literal_hex34 := lit.hex34,
+               fixed_hex33 := fx.hex33, fixed_hex34 := fx.hex34,
+               agree := (lit.hex33 = fx.hex33) and (lit.hex34 = fx.hex34));
+      if not r.agree then mismatches := mismatches + 1; fi;
+      if not (lit.hex33 and lit.hex34) then mismatches := mismatches + 1; fi;  # literal itself must PASS (Prop 3.4)
+      Add(results, r);
+    od;
+  od;
+
+  # (ii) negative fixture: f = x (generator, not charming), m = 0, on BOTH
+  # main toy (c->1, reuse TestToyFixtureLiteralVsFixed's construction inline)
+  # and control toy (c order 3). Literal must FAIL here -- if EvalFullHexagonFixed
+  # also FAILS, the evaluator is demonstrated non-constant (real discriminating
+  # power), not merely "always returns PASS".
+  litNeg := EvalLiteral(S1c, S2c, Xc, Yc, Cc, 0, Xc);;
+  fxNeg := EvalFullHexagonFixed(0, xFree, Xc, Yc, Cc);;
+  r := rec(cell := "negative-f=x-control", m := 0, k := "n/a",
+           literal_hex33 := litNeg.hex33, literal_hex34 := litNeg.hex34,
+           fixed_hex33 := fxNeg.hex33, fixed_hex34 := fxNeg.hex34,
+           agree := (litNeg.hex33 = fxNeg.hex33) and (litNeg.hex34 = fxNeg.hex34));
+  if not r.agree then mismatches := mismatches + 1; fi;
+  if litNeg.hex33 or litNeg.hex34 then
+    mismatches := mismatches + 1;  # literal must actually FAIL for this to be a negative fixture
+  fi;
+  if fxNeg.hex33 or fxNeg.hex34 then
+    mismatches := mismatches + 1;  # fixed evaluator must also FAIL, proving it is not constant-PASS
+  fi;
+  Add(results, r);
+
+  return rec(ok := true, size_control_B3N0 := Size(Gfp0), order_c_control := Order(Cc),
+             mismatches := mismatches, results := results);
+end;;
