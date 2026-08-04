@@ -1851,3 +1851,20 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **第 3 回突合(司令塔・第四者比較器 = search/probe/wac_v1/nf972_crosscheck3.py)**: **SET EQUAL = True**・972/972・重複 0・(m₀,can₉) 射影 108=108・(m₀,can₄) 射影 108=108(各実装 cert 内の compatibility 射影 108/54 chk も両側 PASS)。A/B の canonical sha 相違(32e78ca5 vs 932a0f36)は serialization 形式の差(設計どおり — 集合比較は正規化キーで実施)。
 - **格 = 集合水準 cross-checked 候補**(凍結仕様 §5): falsifier CV-9 判読(A=python fiber-product / B=GAP 直接悉皆の仕様同一性)を起票 → PASS なら便 102 で Sol 検収請求。U-11 へは伝播しない(従来どおり)。
 - 総括(規約事故 3 幕の配当): B の乗算規約バグ(第 1 幕)→ witness 誤読の三重連鎖(第 2 幕)→ 双方修理後に一発一致(第 3 幕)。義務化した辞書検査・fail-closed 停止・第四者仲裁・不改変規律が全て機能した。
+
+## 2026-08-04 (S3) 族版+K^(20) 紙裏取り 検収(裁定 457)— ★訂正上申「矢印 (d) 前半は既閉・未証明ラベルは始点ノードへの誤配置」を受理(erratum 反映は便 102 の Sol ゲート後)・q=7 は (d) の前件でなく系の適用 gate と確定
+- 成果物 = docs/notes/s3_family_draft_v1.md(442 行)+ k5_w6_construction_v1_addendum_b_k20paper.md(236 行)+ 検算 scratchpad/s3fam_check.py(FAILS 0・python 単系統)。
+- **(S3) 主線 = 案 A(位数比較)**: 案 B(生成元実現)は Ih(σ) が 𝔉₀ 法でしか決まらず案 A の前件を真に含む・正典 Thm 5.3 の 2 冪証明も位数比較型・n の素因数分解不使用。
+- **★訂正上申(最重要・受理)**: 出発点を像形(Ih_{K^{(n)}}(G_{F_n})=𝔉₀)に取れば矢印 (d) 前半は**既存の補題 SURJ-Split (e)**(窓非依存・Sol F86-4.1.1 PASS)+ (W2)-fam + W2-arith で全奇数一様に従い**枠組み層が現れない** — 距離図 §V.5.1 の「★未証明((S3) 族版)」は矢印でなく**始点ノード(E1-GAP-5/6 = ord(aₙ)=n から像形への到達)**に付くべきラベル。司令塔外形検分: SURJ-Split (e) の正本実在確認(surj_s4_v2.md 系)。**地図・assembly への erratum 反映は Sol ゲート(便 102)後**(便 96 検収済み文書の距離図変更は Sol 検収事項)。裁定 444 の P1 残り会計は Sol 裁定後に「(S3) 族版」→「E1-GAP-5/6(始点確立)」へ置換の見込み。
+- 新前件札 3 枚(GAP 検査案つき): 【S3F-A2 = C1′-any】(十分方向は窓の同定不要)【S3F-A3 = BRIDGE-one】((5′)(6′) はある一つの単元窓で足り (6′) は有限計算)【S3F-A1】(𝔉₀ 二定義一致に Φₙ 単射が load-bearing — w2fam §3.5 が依存未明示)。補題 LIFT は主定理の前件ではない(Kummer 系の well-posed 化 1 箇所のみ・§V.2.1 の (S3) と E1 の (S3) は同名異物 ⚠)。
+- **q=7 前件 = (d) には不要**: C1′(7)・C5 は系の適用 gate(G-1/G-2)でのみ要る — Sol F91-5.3 の定理/gate 分離の族版として固定。
+- 副産物 = **系 IDX**: |GT_arith(K^{(n)})| = 2φ(n)·|Ih(G_{Fₙ})|(Thm 5.3 (5.4) の α=0 下界を等式へ精密化)・目標との比 = ちょうど n = |𝔉₀|(奇数 100 値 FAILS 0)⟹ **(S3) が供給するのは整数因子 1 個だけ**。
+- **K^(20) 紙裏取り = 成功(全 10 欄一致)**: V = ⟨r^{10}⟩³ ≅ (Z/2)³ 明示決定・(4.7)(4.8) が m=20 でも逐語成立(基底 (X²,Y²,(XY)⁻²)・cert 行列は行ベクトル規約)・dim coker ψ_V = 1 を (A) 式のみで導出。**⚠ (B) は p=2 で「不適用」でなく偽**(値 0)・(C) は数値偶然一致 — W6 束 cert の formulas_agree の意味論注意として CV-9 判読入力 4 点を明示。副産物 A_m = ⟨r²⟩³(m 偶)+ |G_m| = 4(m/2)³ 再導出(|G₂₀|=4000 の紙裏付け)。格 = 紙+GAP の cross-checked 候補(CV-9 判読は NF-972 判読の後のキュー)。
+
+## 2026-08-04 Lane S 較正走 検収(裁定 458)— PASS(A5-CONV correct・S-7′ 4 欄全一致・dummy 7/7 PASS・h₃ 負例 FAIL = fixture 機能・UNKNOWN 0)・開示 3 件の裁定・worktree 事故の恒久教訓
+- cert = search/certs/hsp7_cond4_laneS_20260804.json(worktree から取り込み・hsp7_gap_v1 削除は隔離操作につき不取込)。driver = search/probe/hsp7_cond4_laneS/。
+- S-7′ 照合: |P|=7⁸=5,764,801・|[P,P]|=7⁶・N_ord=7・|X_N|=6 を**自前計算先行で確定後**にアンカー突合 — 全一致・未発火。
+- 開示①(R-11 二相の順序瑕疵: 発注書読解時に cond2 cert を計算前に読了)= **記録付き許容**(計算コードへの数値非埋込を確認・V の独立判定+Σ 突合が防波堤)。**V/P への発注で順序を明文化**。
+- 開示②(pq setup/output が cond2 と バイト一致)= ANUPQ の決定性(同一 Prime/ClassBound/Exponent/生成元名)の帰結として説明可能・**CV-9 判読対象に登載**(「独立構築」の意味論判定)。
+- 開示③(h₃ の (3.10) 単独 PASS)= 違反なし(lanespec は内訳を予言していない)・Lane V の full (3.3)(3.4) 判定との突合で意味論確定へ。
+- **恒久教訓(worktree 事故)**: worktree 係の起票は**参照させる文書のコミット後**に行う(v1.2 未コミットのまま起票 → 係が「v1.2 未作成」と判断した事故・速達+merge 指示で回復)。以後の worktree 発注はコミット → 起票の順を義務化。

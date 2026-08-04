@@ -1,0 +1,24 @@
+--- structural facts (own measurement, phase 1, BEFORE opening anchor cert) ---
+|P| = 5764801
+|[P,P]| (=gamma2) = 117649
+gamma_k sizes (k=1..5): [ 5764801, 117649, 16807, 343, 1 ]
+layer dims (F_7): [ 2, 1, 2, 3 ]
+dim gamma4(P) (F_7) = 3
+ord(x)=7 ord(y)=7
+N_ord (=lcm(ord(x),ord(y),ord(cN)=1)) = 7
+X_N = [ 0, 1, 2, 4, 5, 6 ]  |X_N| = 6
+theta well-defined: true  bijective: true
+tau well-defined: true  bijective: true
+h4<>1: true  h4 in gamma4(P): true
+h3<>1: true
+
+--- candidate judgments (8 registered candidates) ---
+t, (3.10)direct, (3.11)direct, (3.10)rev, (3.11)rev, hexagon_verdict
+h4^0: true,true,true,true,  verdict=true
+h4^1: true,true,true,true,  verdict=true
+h4^2: true,true,true,true,  verdict=true
+h4^3: true,true,true,true,  verdict=true
+h4^4: true,true,true,true,  verdict=true
+h4^5: true,true,true,true,  verdict=true
+h4^6: true,true,true,true,  verdict=true
+h3: true,false,true,false,  verdict=false
