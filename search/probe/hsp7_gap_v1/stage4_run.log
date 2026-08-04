@@ -1,0 +1,26 @@
+﻿
+=== P = F2 / (gamma_5(F2) F2^7) ===
+|P| = 5764801  (NW-P2 predicts 7^8 = 5764801)
+LCS layer sizes of P: [ 2, 1, 2, 3 ]  (NW-P2/8.7.2 Witt prediction: [2,1,2,3])
+gamma_5(P) trivial? true
+|[P,P]| = 117649  (NW-P2 predicts 7^6 = 117649)
+h4 in P: identity? false  (NW-P3 predicts h4<>1, i.e. FALSE expected)
+h4 in gamma4(P) (i.e. in gamma_4 subgroup)? true
+dim_F7 gamma4(P) = 3  (NW-P3 predicts 3)
+
+=== Q = K05fp / (gamma_5 K05fp^7) ===
+|Q| = 6366805760909027985741435139224001  (NW-P4 predicts 7^40 = 
+6366805760909027985741435139224001)
+gamma_5(Q) trivial? true
+dim_F7 gamma4(Q) = 21  (NW-P4 predicts 21)
+
+rho: GroupHomomorphismByImages succeeded (fail would mean inconsistent)? true
+rho bijective (automorphism)? true
+rho^5 = identity on generators? true  (expect true)
+rho <> identity? true  (expect true)
+
+j(h4) computed in Q. identity? false
+N_rho(j(h4)) = rho^4(jh4)*rho^3(jh4)*rho^2(jh4)*rho(jh4)*jh4
+N_rho(j(h4)) = identity? false  (NW-P5 predicts FALSE, i.e. nu4(j h4)<>0)
+
+STAGE4_DONE

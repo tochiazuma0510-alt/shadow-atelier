@@ -1736,3 +1736,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **K_π 向き較正走**(実装係・W101-1.5 認可済みの安価走): Chk6 × PENT-NORM 二経路一致 20/20 = 向き規約整合の検査(新情報主張なし・持ち上げ不能なら正直停止)。
 - **EP IMAGE-MU**(ep-keeper): spec v20 条文の完全性判定 → 完全なら実装・欠落なら条文 ID つき列挙+最小改版 draft(意味論は Sol ゲート)。W-6/EP 状態表示は不変。
 - 走行中の HS 条件 2(p=7)と合わせ **7 係並行**。次点キュー(未発進): C1′(7) schema 化+C5 登録・m2 spot-check n=5 拡張・🌒 更新。
+
+## 2026-08-04 HS 発火条件 2 完走(裁定 435)— ★★ p=7 構造確認 = P101-1 条件 2〜4 全項 PASS・S-6/S-7′ 不発火・**【HSP-GAP-2】の p=7 instance 閉**(司令塔追試一致)
+- 実測(cert = search/certs/hsp7_cond2_p7_20260804.json・driver 4 段 = search/probe/hsp7_gap_v1/stage1〜4・single-lane candidate): **|P| = 7⁸ = 5,764,801(NW-P2 等号成立)**・LCS 層 [2,1,2,3] = Witt 数一致・|[P,P]| = 7⁶・h₄ ≠ 1・dim γ₄(P)=3・**|Q| = 7⁴⁰・dim γ₄(Q) = 21(NW-P4)**・ρ = 全単射・ρ⁵=id・ρ≠id(18 関係式保存 0 不一致)・**N_ρ(j(h₄)) ≠ 1 = ν₄(j𝔥₄) ≠ 0 の標的商での直接機械確認(NW-P5)**。期待値はコード生成非接触(突合欄のみ)。
+- 経路の記録: ①ANUPQ 障害は **SetupFile バッチ経路**で解決(ANUPQ 純正のバッチ生成 → pq.exe 一方向リダイレクト → PQ_OUTPUT 読込 — 裁定 432 第一手の純正版・第二手不要)②K(0,5) は B₄ Artin+coset enumeration(index 24 確認)+RS → **K(0,5) = PB₄/⟨Δ₄²⟩(CENT-FREE 経由・裁定 430 仕様)**・辞書 = HS 刊行版 p.3124-3125 の行積関係 pin・fail-closed アンカー全 PASS(K(0,5)^ab≅ℤ⁵・PB₄^ab≅ℤ⁶・ρ well-defined)。
+- 裁定 3 件: NW-P6/P7/P8 未実行 = 正(「この一走」の枠遵守 — 次段 dummy family 較正走に属す・事後拡張しない)・ledger v1_6 採用 = 正・辞書精読は Sol ゲート(便 102)へ。軽微: cert トップ marker 欄は次版から。
+- **HS 発火条件の現況: 1 閉(紙)・2 閉(本走)・3 閉(紙)— 残 = 4(三レーン helper 非共有)・5(CV-9 判読)**。次 = 条件 4 の発注設計書(同係が起草・実装は別係)。

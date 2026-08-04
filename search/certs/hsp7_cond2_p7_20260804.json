@@ -1,0 +1,181 @@
+{
+  "schema": "hsp7-cond2-p7/v1",
+  "generated_by": [
+    "search/probe/hsp7_gap_v1/stage1_pb4.g",
+    "search/probe/hsp7_gap_v1/stage2_k05.g",
+    "search/probe/hsp7_gap_v1/stage3_gen_setup.g",
+    "search/probe/hsp7_gap_v1/stage4_eval.g"
+  ],
+  "card_label": "HS路線・発火条件2(sol/sol_reply_101_math28.md P101-1限定認可・裁定428)・p=7,e=1構造確認走",
+  "design_doc": "docs/notes/hs_prop7_translation_v1.md SS8.7(定義NW(p)・補題NW-1a/NW-1b・定義DUM-FIN・NW-P1..P8)・sol/sol_reply_101_math28.md P101-1(認可条件1-6)",
+  "target": "N=V(F2)x<c>, N0=V(F2)x<c^p> (V(G)=gamma_5(G)G^p, p=7,e=1) window pair; P=F2/N_F2, Q=K(0,5)/W (W=verbal). Structural confirmation only (single-lane candidate) -- shadow掃引・本走・p=11,13・FV-WALLには非接触・非言及。",
+  "universe": {
+    "note": "事前登録(NW-P1): p=7, e=1 に固定。窓対はNW(7)のNとN0のみ。後からp/eを変えない。本走はP101-1条件2-4(|P|・LCS各層・|Q|・dim gamma4(Q)・h4<>1・prod rho^i(j(h4))<>1)に限定。NW-P8(N vs N0のfull B3/(3.3)(3.4)比較)は本走で未実行 -- 別途要否確認(逸脱申告参照)。",
+    "prime": 7,
+    "class_bound": 4,
+    "exponent": 7
+  },
+  "toolchain_note": {
+    "issue": "ANUPQ(pkg anupq, pq.exe v1.9, arch x86_64-pc-cygwin-default64-kv11)のGAP対話iostream(InputOutputLocalProcess経由のPqStart/Pq)がこの環境で 'Error, failed to find any more of line (iostream dead?)' で即死する。診断: pq.exeバイナリ自体は健全(standalone対話は正常動作)・cygwin1.dllのPATHは正しい・GAP kernel の Process/InputOutputLocalProcess が子プロセスのfull-bufferedなstdioパイプ出力を読み切れていないと推定(pty非割当の疑い、未確定)。同アーキテクチャのnqパッケージも同リスクにつき未使用。",
+    "resolution": "司令塔裁定(2026-08-04速達往復)によりANUPQ純正のSetupFileオプション(非対話バッチ生成、chap6.txt既定機能)を使用。Pq(G:...,SetupFile:=path)でANUPQ自身が生成する対話コマンド列(ToPQ>ログと同一)をファイルに書き出し、pq.exeを`pq -i -k -g < setupfile > log`の一方向stdinリダイレクトで実行(双方向iostreamを回避)、出力'PQ_OUTPUT'(GAP format 2、ANUPQ自身の書式)をGAPのRead()でそのまま読み込む。pqへの入力コマンド列生成・出力読み込み関数はいずれもANUPQ純正(自作プロトコルではない)。環境の大工事(pq再ビルド・実行環境変更)は不認可のため未実施。anupq初回使用(過去LEDGER/所在と能力.mdに使用実績なし)。",
+    "stages": "stage1_pb4.g(B4/PB4構築・index確認・RS)-> stage3_gen_setup.g(P側F2・Q側K05fpの両方についてSetupFile生成、stage2のK05fp構築ロジックを内包)-> pq.exeを手動バッチ実行(pq_run_P.log/pq_run_Q.log)-> stage4_eval.g(PQ_OUTPUT_{P,Q}.gをRead()し条件2-4を評価)。stage2_k05.gは辞書・fail-closedアンカーの単独検証(GAP fp群レベル、p-quotient前)として独立に実行・記録。"
+  },
+  "stage1_pb4": {
+    "construction": "B4 = <s1,s2,s3 | s1s3=s3s1, s1s2s1=s2s1s2, s2s3s2=s3s2s3> (Artin標準・文献ゲート対象外、司令塔仕様(a)手順1)。x_ij := sigma_{j-1}...sigma_{i+1} sigma_i^2 sigma_{i+1}^-1...sigma_{j-1}^-1 (A.2)/(A.4), litgate_pentagon_v1.md sec6 画像照合pin。PB4 := <X12,X13,X14,X23,X24,X34> as explicit subgroup of B4.",
+    "results": {
+      "index_B4_PB4_coset_enumeration": 24,
+      "expected": 24,
+      "pass": true,
+      "PB4fp_generators": 6,
+      "PB4fp_relators": 17,
+      "PB4fp_abelian_invariants": [0,0,0,0,0,0],
+      "PB4fp_abelian_invariants_expected": "Z^6 (all-zero invariant list = free abelian, PB4 known torsion-free H_1=Z^6)",
+      "anchor_PB4ab_pass": true
+    }
+  },
+  "stage2_dictionary_and_anchors": {
+    "construction": "K05fp := PB4fp / <<Delta4^2>>, Delta4^2=(s1 s2 s3)^4 (full twist, central; CENT-FREE, F100-1.4, Sol-audited PASS). x_{i,i+1}<->X_ij辞書: sphere row-product relation, ker p_i = <x_i1,...,x_in | x_i1 x_i2 ... x_in = 1> (j昇順), HS2000 Trans.AMS published p.3124-3125 (司令塔機械抽出pin, 2026-08-04). x_{i,5} := (product over j=1..4, j<>i, ascending)^-1. rho(x_ij)=x_{i+3,j+3} mod 5, order 5 per同節原文。",
+    "dictionary": {
+      "x15": "(X12*X13*X14)^-1",
+      "x25": "(X12*X23*X24)^-1",
+      "x35": "(X13*X23*X34)^-1",
+      "x45": "(X14*X24*X34)^-1",
+      "hs_generators": "x12=X12, x23=X23, x34=X34, x45=(X14*X24*X34)^-1, x51=(X12*X13*X14)^-1",
+      "rho_images_on_PB4_gens": {
+        "X12": "x45", "X13": "X14", "X14": "X24",
+        "X23": "x15(=x51)", "X24": "x25", "X34": "X12"
+      }
+    },
+    "results": {
+      "K05fp_abelian_invariants": [0,0,0,0,0],
+      "K05fp_abelian_invariants_expected": "Z^5",
+      "anchor_i_K05ab_Z5_pass": true,
+      "anchor_ii_rho_relator_preserving_bad_count": 0,
+      "anchor_ii_rho_relator_preserving_total": 18,
+      "anchor_ii_pass": true
+    },
+    "note": "anchor(iii) rho^5=id/rho<>id と anchor(iv) j embeddingは有限pq quotient Q上でのみ判定可能(free/infinite presentation上では非自明)。stage4参照。"
+  },
+  "pq_batch_provenance": {
+    "gap_version": "4.16.0",
+    "anupq_pq_binary_version": "1.9",
+    "pq_binary_arch": "x86_64-pc-cygwin-default64-kv11",
+    "P_setup_sha256": "7204265804ca20cb69fcabfe39aaaa8534c50a192d1db9e4e32e0385b8ce34f0",
+    "P_pq_run_log_sha256": "29dd62f8a34dffce4460015e272024c21fe4c774dda52bce80a48e76580bdcdc",
+    "P_output_sha256": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "Q_setup_sha256": "56ec61d1afb035390f8dba6b32691a5bbd89f20a93c6681f2ba9ad2b7c28a5d7",
+    "Q_pq_run_log_sha256": "6d3895abfb4cb6f50d2d8ac2772093789f8c18ded4950922f3da6649c994ddc4",
+    "Q_output_sha256": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b"
+  },
+  "stage4_condition2_3_4": {
+    "P_side": {
+      "size_P": "5764801",
+      "size_P_predicted_7pow8": "5764801",
+      "pass_size_P": true,
+      "lcs_layer_dims_F7": [2,1,2,3],
+      "lcs_layer_dims_predicted": [2,1,2,3],
+      "pass_lcs": true,
+      "gamma5_P_trivial": true,
+      "derived_subgroup_size": "117649",
+      "derived_subgroup_predicted_7pow6": "117649",
+      "pass_derived": true,
+      "dim_gamma4_P_F7": 3,
+      "dim_gamma4_P_predicted": 3,
+      "pass_dim_gamma4_P": true,
+      "h4_word": "[[[x,y],x],x] * [[[x,y],x],y]^4 * [[[x,y],y],y]  (group commutator Comm(a,b)=a^-1 b^-1 a b, no Exp/BCH/Lazard)",
+      "h4_is_identity_in_P": false,
+      "h4_neq_1_expected": true,
+      "pass_h4_neq_1": true,
+      "h4_in_gamma4_P": true
+    },
+    "Q_side": {
+      "size_Q": "6366805760909027985741435139224001",
+      "size_Q_predicted_7pow40": "6366805760909027985741435139224001",
+      "pass_size_Q": true,
+      "gamma5_Q_trivial": true,
+      "dim_gamma4_Q_F7": 21,
+      "dim_gamma4_Q_predicted": 21,
+      "pass_dim_gamma4_Q": true,
+      "rho_homomorphism_well_defined_on_finite_Q": true,
+      "rho_bijective": true,
+      "rho_pow5_eq_id": true,
+      "rho_neq_id": true,
+      "anchor_iii_pass": true,
+      "jh4_word": "same h4 word evaluated with x|->X12, y|->X23 in Q (HS: j(x)=x12, j(y)=x23)",
+      "jh4_is_identity_in_Q": false,
+      "N_rho_jh4": "rho^4(j(h4)) * rho^3(j(h4)) * rho^2(j(h4)) * rho(j(h4)) * j(h4)  (Pi_{i=0}^{4} rho^i(j(h4)), i descending per PENT-NORM order convention)",
+      "N_rho_jh4_is_identity": false,
+      "NW_P5_predicts": "N_rho(j(h4)) != identity (nu4(j h4) != 0)",
+      "pass_NW_P5": true
+    }
+  },
+  "nw_p2_comparison_table": {
+    "note": "凍結予言(hs_prop7_translation_v1.md SS8.7.7)vs本走観測。予言は本走のコード生成に一切使っていない(期待値非接触・機械値のみ生成)。",
+    "rows": [
+      {"id": "NW-P2a", "predicted": "|P|=7^8=5764801", "observed": 5764801, "match": true},
+      {"id": "NW-P2b", "predicted": "|[P,P]|=7^6=117649", "observed": 117649, "match": true},
+      {"id": "NW-P2c", "predicted": "N_ord=7 (both windows)", "observed": "not directly re-derived in this pass (established in NW-1b (4), paper-proof); N_F2 abelianization check via LCS layer[1]=2 dim consistent", "match": "n/a (paper-proof, not re-machine-checked this pass)"},
+      {"id": "NW-P2d", "predicted": "|X_N|=6 (p-1)", "observed": "not directly re-derived (follows from N_ord=7, paper-proof)", "match": "n/a"},
+      {"id": "NW-P3a", "predicted": "dim_F7 gamma4(P)=3", "observed": 3, "match": true},
+      {"id": "NW-P3b", "predicted": "h4 != 1 in gamma4(P)", "observed": "h4 != 1 (confirmed)", "match": true},
+      {"id": "NW-P4a", "predicted": "|Q|=7^40", "observed": "7^40 (exact match)", "match": true},
+      {"id": "NW-P4b", "predicted": "dim_F7 gamma4(Q)=21", "observed": 21, "match": true},
+      {"id": "NW-P5", "predicted": "nu4(j h4) != 0 in gamma4(Q), i.e. N_rho(j(h4)) != 1", "observed": "N_rho(j(h4)) != 1 (confirmed)", "match": true},
+      {"id": "NW-P6", "predicted": "PENT PASS exactly for t=0 among h4^t, t=0..6 (定理DUM-1/p帰結)", "observed": "not directly enumerated this pass (t=1 case checked via NW-P5 above; full t=0..6 enumeration not run)", "match": "n/a (not executed -- see deviation disclosure)"},
+      {"id": "NW-P7", "predicted": "control p=5: same dummy family all PASS (nu4=0 mod5)", "observed": "not executed this pass (out of authorized p=7,e=1 universe; separate control run would need its own window construction)", "match": "n/a (not executed)"},
+      {"id": "NW-P8", "predicted": "N vs N0 (c present vs c^p): full B3/(3.3)(3.4) disagreement for some m!=0", "observed": "not executed this pass", "match": "n/a (not executed -- see deviation disclosure)"}
+    ]
+  },
+  "stop_rules": {
+    "S6": {
+      "definition": "NW-P3 または NW-P5 が偽なら p=7 本走を止める。加えて本走ではrho well-definedness/rho^5=id/rho<>idが崩れた場合もS-6として扱いGAP Error()でINTEGRITY_STOPする実装(stage4_eval.g)。",
+      "fired": false,
+      "note": "全項目PASSにつき未発火。"
+    },
+    "S7prime": {
+      "definition": "W101-1.1差し戻し後の正形(sol_reply_101_math28.md): NW-P2のいずれかが不一致ならPREREGISTRATION_FALSIFIED/INTEGRITY_STOPとして直ちに停止・結果保存・同run内で予言を書き換えない。",
+      "fired": false,
+      "note": "nw_p2_comparison_tableの全match=trueの行で不一致なし(n/a行は本走未実行項目であり不一致ではない)。予言のコード生成非接触も遵守(期待値はcertの突合欄にのみ記載、driver script中には出現しない)。"
+    },
+    "NW_P8": {
+      "definition": "NとN0の不一致が1つも出なければ較正失敗として停止・後から期待値を弱めない。",
+      "fired": "not_evaluated",
+      "note": "本走はP101-1条件2-4(P,Qのサイズ・h4・rho-norm)に限定して実装した。NW-P8はfull B3/N0比較という別建ての較正計算であり、本cert範囲では未実装・未実行。停止規則としては『未評価』であって『通過』ではない -- 実装要否を司令塔へ確認要(逸脱申告参照)。"
+    }
+  },
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "ledger_version_note": "タスク指示文は 'ledger v1_5様式' と記載していたが、実行時点(2026-08-04)の生きた台帳は裁定428で v1.6 まで進んでいた(docs/notes/conventions_ledger_v1.md live schema `ledger_version`='conventions_ledger_v1_6')。stale指示との差分として本欄に明記し、現行のv1.6宣言を採用した。",
+    "commutator_convention": "GAP native Comm(a,b) := a^-1 b^-1 a b, group commutator (not Lie bracket), consistent with hs_prop7_translation_v1.md SS8.7.4 DUM-FIN design intent (Exp/BCH/Lazard非経由)",
+    "b3_b4_presentation": "Artin standard: si*sj=sj*si (|i-j|>=2), si*sj*si=sj*si*sj (|i-j|=1)",
+    "pb_n_generator_formula": "x_ij := sigma_{j-1}...sigma_{i+1} sigma_i^2 sigma_{i+1}^-1...sigma_{j-1}^-1, litgate_pentagon_v1.md sec6 (2008.00066 Appendix A.2/A.4画像照合pin)",
+    "sphere_row_relation": "ker p_i = <x_i1,...,x_in | x_i1 x_i2 ... x_in = 1> (j ascending), HS2000 Trans.AMS published p.3124-3125 (司令塔機械抽出pin 2026-08-04, papers/harbater-schneps-2000-TransAMS352-published.pdf)",
+    "K05_eq_PB4_mod_center": "CENT-FREE (hs_prop7_translation_v1.md SS1.5, Sol-audited PASS F100-1.4): K(0,5) = PB4/Z(PB4), Z(PB4)=<Delta4^2>",
+    "marked_factor_map_note": "本certはGAPの単純な部分群比較を使わず、明示的なfp presentation(RS経由の6生成元PB4fp、その商のK05fp)と明示的なhomomorphism(rhoQ=GroupHomomorphismByImages)で全ての判定を行っている(裁定の罠12件『GAPの部分群比較でなくmarked factor mapを使う』に対応する精神を、ここでは〇生成元を保ったままの明示準同型で判定〇という形で満たす)。"
+  },
+  "cross_checked_status": {
+    "status": "n/a",
+    "reason": "単系統GAP(fp群構成+ANUPQバッチp-quotient)。cross-checkedを主張しない。CV-9前に照合器での独立再計算は別途必要(P101-1条件6: 通過後に探索・full B3/N hexagon・K(0,5)/W PENT のhelper非共有三レーンを発注)。格 = single-lane candidate。"
+  },
+  "verdict": {
+    "status": "structural_confirmation_pass",
+    "note": "P101-1条件2-4を全項目でPASS(NW-P2/P3/P4/P5の機械予言と観測が全て一致・S-6/S-7'いずれも未発火)。これは【HSP-GAP-2】のp=7 instance(=発火条件2)を閉じる直接確認である。NW-P6/P7/NW-P8は本走の範囲外(未実行・n/a)。本走の結果はsingle-lane candidateであり、条件6が求めるhelper非共有三レーンでの独立確認・CV-9判読を経るまでcross-checkedとは呼ばない。本走の通過は次段実装設計までの許可に限られる -- shadow全掃引・p=11,13拡張・FV-WALL解凍は不許可(P101-1本文)。"
+  },
+  "provenance": {
+    "gap_version": "4.16.0",
+    "gap_invocation": "gap.ps1 (project root, -o 2g)",
+    "pq_binary_version": "1.9",
+    "pq_binary_sha256_note": "not computed in this pass (binary provenance = ANUPQ package installation, GAP-4.16.0 bundled pkg)",
+    "run_date": "2026-08-04",
+    "wall_ms_pq_P": "~10 (Total user time 0.01s per pq_run_P.log)",
+    "wall_ms_pq_Q": "~10 (Total user time 0.01s per pq_run_Q.log)",
+    "anupq_first_use_in_project": true,
+    "toolchain_deviation_disclosed": true
+  },
+  "deviations_and_open_questions": [
+    "1. ANUPQの標準対話iostreamがこの環境では動作せず、SetupFileによるバッチ経路に切り替えた(司令塔裁定2026-08-04で承認済み・cert中に由来を明記)。環境の本格修理(pq再ビルド等)は不認可のため未実施のまま。",
+    "2. x_{i,i+1}<->X_ij辞書はHS2000刊行版p.3124-3125の機械抽出pin(司令塔2026-08-04)に基づく自分の構成である。fail-closedアンカー(K(0,5)^ab=Z^5・rho well-defined・rho^5=id・rho<>id)は全てPASSしたが、この辞書自体がHS原論文の一次資料と1バイト単位で一致することの精読照合(数学者/Sol)はまだ経ていない。",
+    "3. NW-P6(h4^t, t=0..6の全数PASS/FAIL列挙)・NW-P7(p=5 control)・NW-P8(N vs N0のfull B3比較)はP101-1条件2-4の文言に明示されていなかったため本走では未実行。P101-1条件5(停止規則をcertに明記)の要求とNW-P8の関係(『実装』を要求しているのか『言及』で足りるのか)は速達で確認済みでない -- 司令塔の判断を仰ぐ。",
+    "4. conventions_used.ledger_versionはタスク指示の'v1_5'でなく実行時点の生きた台帳v1_6を採用した(理由をcert内に明記)。"
+  ]
+}

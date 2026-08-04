@@ -1,0 +1,39 @@
+ANU p-Quotient Program Version 1.9 running with workspace 10000000 on DESKTOP-QC15DHP
+Tue Aug 04 19:34:24     2026
+
+Standard Presentation Menu
+-----------------------------
+1. Supply start information
+2. Compute standard presentation to supplied class
+3. Save presentation to file
+4. Display presentation
+5. Set print level for construction
+6. Compare two presentations stored in files
+7. Call basic menu for p-Quotient program
+8. Compute the isomorphism
+9. Exit from program
+
+Select option: 7 
+
+Select option: 1 
+Computation of presentation took 0.00 seconds
+
+Select option: 5 
+Input print level (0-3): 0 
+
+Select option: 8 
+
+Select option: 25 
+Enter output file name: PQ_OUTPUT
+Output file in GAP (2) format? 2 
+Group presentation written in GAP format to file
+
+Select option: 0 
+Exiting from interactive p-Quotient menu
+
+Select option: 0 
+Exiting from ANU p-Quotient Program
+
+Select option: 0 
+Exiting from ANU p-Quotient Program
+Total user time in seconds is 0.01

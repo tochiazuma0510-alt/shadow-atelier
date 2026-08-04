@@ -1,0 +1,8 @@
+﻿
+=== stage1: B4/PB4 construction ===
+[B4:PB4] (coset enumeration) = 24  (expect 24)
+PB4fp: Group( [ F1, F2, F3, F4, F5, F6 ] )
+Number of generators of PB4fp = 6  (expect 6)
+Number of relators of PB4fp = 17
+AbelianInvariants(PB4fp) = [ 0, 0, 0, 0, 0, 0 ]  (expect [0,0,0,0,0,0] = Z^6)
+STAGE1_DONE

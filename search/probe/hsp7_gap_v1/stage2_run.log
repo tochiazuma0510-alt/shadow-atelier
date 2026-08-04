@@ -1,0 +1,12 @@
+﻿
+Delta4^2 in PB4sub? true
+image of Delta4^2 in PB4fp (as a word) computed.
+=== stage2: K(0,5) = PB4fp / <<Delta4^2>> ===
+K05fp: Group( [ F1, F2, F3, F4, F5, F6 ] )
+AbelianInvariants(K05fp) = [ 0, 0, 0, 0, 0 ]  (expect [0,0,0,0,0] = Z^5)
+anchor(i) K(0,5)^ab=Z^5 : true
+rho defined as GroupHomomorphismByImagesNC (NC = no consistency check yet)
+anchor(ii) rho well-defined: relators mapping to non-identity = 0 / 
+18  (expect 0)
+STAGE2_PARTIAL_DONE (rho^5 / rho<>id check deferred to p-quotient level, needs\
+ finite image)
