@@ -1,0 +1,22 @@
+{
+  "schema":"w6-bu-s0/v1",
+  "generated_by":"search/probe/w6_bu_s0/w6_bu_s0_driver.g",
+  "card_label":"W6BU-S0: BOTTOM-UP census S0 calibration (A-0..A-13, per w6_bottomup_design_v2.md SS7.2)",
+  "design_doc":"docs/notes/w6_bottomup_design_v2.md",
+  "authorization":"sol/sol_reply_102_math29.md F102-6.3 (限定認可: S0較正 + H^2(S4,V)在庫表/census のみ. 棄却・EMPTY-THM・候補発見への使用は範囲外)",
+  "tier":"calibration",
+  "scope_statement":"本certは較正のみ. kill/棄却/候補発見/EMPTY-THM のいずれにも使用しない. C4/C9/非可換核【BU-GAP-1】はSCOPE_OUTのまま(空と主張しない).",
+  "seal_declaration":{"touches_c_hat_mu":false,"touches_psl_sealed_fields":false,
+    "touches_wall_campaign_pbit":false,"touches_u_values":false,"touches_im_R":false,
+    "touches_d_N":false,"reads_certificates":false},
+  "asserts":{"A0_order_theta_tau":4,"A1_Ghat5_order":3000,"A1_G5_order":500,"A1_A_order":125,"A1_cross_check_two_routes_agree":true,"A2_Ghat5_mod_A_is_S4":true,"A2_G5_mod_A_invariants":[2,2],"A3_num_nontrivial_irred_A":31,"A3_irred_dim":4,"A4_min_orbit_size":3,"A4_all_orbit_sizes":[3,6,6,4,12],"A5_dimH2_S4_trivF2":2,"A9_block_decomp_confirmed":true,"A9_counts_dim2_3_4":[3,3,6],"A10_g20":{"order":4000,"Z_order":8,"derived_order":250,"W_order":2,"V_mod_W_order":4},"A11_num_stable_index2_sublattices":0,"A12_K20_is_S3_inflate":true,"A13_Ext1_D_triv":0},
+  "fails_total":0,
+  "fails":[],
+  "stop_rule_status":"S0_PASS -- all A-0..A-13 asserts match design v2 SS7.2 expected values",
+  "provenance":{
+    "gap_version":"4.16.0",
+    "script_sha256":"a796e2c09a6a35efac1233e16cd231c9c3768baaf0100a33b48775153fde6c8d",
+    "design_doc_v2_sha256":"f4ff22b18822d059e908473d530dbca4a90db7be36ea0ae4b68c736875bf0e39",
+    "wall_ms_total":4015
+  }
+}

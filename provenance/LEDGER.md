@@ -2088,3 +2088,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 TB 束 v2 検収(裁定 498)— ★4 ブロック全 pin・【GAP-TB-EXACT】解消(SGA 1 Exp IX Th 6.1+Exp V Prop 6.13 の頁画像 pin・6.13 が base-point-free ⟹ 接基点 transport 不要の発見)・会計は撤回自認の上で「4 ブロック/文献 3 本/工房補題 5 本/規約 2 本」へ・reader_exercise 2 件を正直露出
 - 成果 = docs/notes/tb_citation_bundle_v2.md(v1 凍結)。①Galois 圏同値 = SGA1 V Th4.1+Prop6.1(「Fib が基本関手」を逐語直接供給 — v1 の不一致判定が解消・Deligne 10.16 は名前 pin へ)②完全列+splitting = IX Th6.1+V Prop6.13(工房補題 EXSEQ/SPLIT)③Ihara marking(③-3 は omitted だが (5′) 非 load-bearing)④局所 Ẑ(1) = Deligne 15.20-23+14.2((16.1.1) は名前 pin 降格 = F102-7.2 採択)。RD-6′ 条文化(同一性不主張・ε seal-relative 据置)・S-4 格下げ・v1 §4.3(iii) 撤回。
 - 格請求 = canonical-source-pinned(3 条つき: present でない pin 4 件・工房債務 5 本未監査・Lean 格ではない)— canonical-source-relative には未到達と明記。Sol 再諮問 3 点(transport 不要の読み・reader_exercise・EXSEQ (a))。便 103 の (5′) 再請求の正本。
+
+## 2026-08-05 H² census 検収(裁定 499)— 穴②完了: S0 較正 A-0〜A-13 全 14 項 FAILS 0(2 系統交差検証)・p=2 V-cen 層 = ★厳密 12 型(数学者予備結果と機械一致・[3,3,6])・p=3 dim2 = 5 型(初測定)・在庫表 17 行を統計表へ合流・判定欄なし/SCOPE_OUT 明示の認可境界遵守
+- cert = k5gen_w6_bu_s0_20260805.json+h2_census_s4_20260805.json。A-10(K⁽²⁰⁾ control の GAP 再構成)で反監査の python 悉皆が二系統化(Z(G₂₀)=8 = V を GAP でも確認 — 便 103 の反監査の追加証拠)。A-13(Ext¹=0)・A-11(指数 2 格子ゼロ)も機械確認。
+- 逸脱申告受理: **非中心層は NOT_ENUMERATED_THIS_PASS**(黙って絞らず報告 — 規律どおり)。司令塔判断 = **追加 pass はトリガー凍結**(非中心層の実現は BOTTOM-UP 差戻し blocking 1[非中心版 SURJ 未証明]が閉じない限り進めないため、census も「非中心版 SURJ が立ったら」に連動。p=2 dim2,3 の安価分のみ次の谷間で任意)。cohomolo 単系統は格に反映済(cross-checked 非付与)。
+- **統計 v2 の分母が完備**(穴①②③全埋め)・**便 103 材料完備** — 組立開始。
+- 便 103 積載(確定): §1 HS 完成束(Σ v2+NW-P7+条件 4/5 最終格付け請求)§2 反監査(F102-6.2 再検問 = Z(G₂₀)=V の python+GAP 二系統+D17)+kill v2 erratum(LAT-Γ・THETA-2000/4500)§3 BOTTOM-UP v2 承認請求(VCEN-MOD・宇宙 4 型・SAT 第 2 系統降格[研究者承認済]・S0+census 完了報告)§4 TB v2((5′) 再請求・GAP-TB-EXACT 解消・SGA1 頁画像 pin・再諮問 3 点)§5 (d) 二矢印 addendum+E1 erratum 案 §6 EP(checker v3 束再批准+IMAGE-MU 認可請求 EP-1〜3+1210 三点セット)§7 B v5(F102-2.2 履行)§8 統計 v2 予告+census 共有。
