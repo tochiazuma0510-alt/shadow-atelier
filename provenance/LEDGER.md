@@ -1979,3 +1979,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 原本 = Desktop/文献リスト/Fls.pdf → papers/lochak-schneps-1994-LMS200-GT-automorphisms-braid-groups.pdf(1 頁目の頁画像で書誌確認済: ヘッダに「The Grothendieck Theory of Dessins d'Enfant, LMS LNM 200, Cambridge Univ. Press, 1994」・著者 Pierre Lochak / Leila Schneps・abstract = GT_ℓ/ĜT が braid 群塔(pro-ℓ/profinite 完備化+strand-doubling)の自己同型群)。sha256 は本コミットの git 履歴と下記に記録。
 - 位置づけ: TB3 パッチワークの**補助文献**(本命 = 同書 Ihara 章 §1.4 — 未入手・調達継続)。8/2 受領の LochakSch.pdf(universal Ptolemy 系)とは別論文であることを確認。降ろすときは文献ゲート(覚書つき・両数学者同時)。
 - sha256(先頭16) = 5f9ff0383520fee5(全体は provenance 慣行どおり必要時に再計算・papers/ は git 管理外)
+
+## 2026-08-04 Ihara ICM 1990 頁画像 受領(裁定 478)— §3「The Galois Action (Profinite)」(3.1.1) のスクショ: 文献として脈あり(ただし本頁は TB3 の pin 対象でなく hexagon 祖形の節)・§1〜2 の追加スクショを研究者へ依頼
+- 受領 = 文献リスト/ihara_xyz=1.JPG → papers/ihara-ICM1990-p_galois_action_3_1_1.jpg(sha 先頭 16 = 下記)。内容 = §3.1: G_ℚ → Ẑ^× × F̂₂′(σ ↦ (χ(σ), f_σ))の像の問い+既知方程式 (I) 2-cycle・(II) hexagon 祖形(f(z,x)z^m f(y,z)y^m f(x,y)x^m = 1, if xyz=1, m=½(λ−1))=(3.1.1)・(III) Drinfeld pentagon(P₅ 形)。
+- **判定**: 「xyz=1」は本頁では hexagon の条件節(GT 定義関係式)であり、TB3 の本命(π₁ の生成元としての xyz=1・接基点固定)**そのものではない**。しかし記号 x,y,z・f_σ が前節で定義されているはずで、**§1〜2 に TB3 の 3 条項((a) π₁≅F̂₂ (b) 慣性生成元 (c) 基点固定つき関係式)がある見込み = 文献として脈あり**。副価値 = (3.1.1) は hexagon 祖形の番号つき出典(工房 (3.3)(3.4) の系譜・別勘定)。
+- 依頼(研究者へ): §1〜§2 の頁画像(π₁ 同一視・x,y,z のループ宣言・**基点の固定方法**が写る範囲)。Ihara 流基点(冪級数体埋め込み)なら Deligne 接基点との翻訳 1 段が要る(降ろす際の一工夫義務の範囲)。ICM proceedings は IMU サイト無料公開の可能性 — 全文 PDF 入手できればそれが最良。
+- sha256(先頭16) = 029dce8eddf3a83d
