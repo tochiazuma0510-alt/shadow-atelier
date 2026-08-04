@@ -1,0 +1,183 @@
+{
+  "schema": "nf972-sourcemap-a/v1",
+  "generated_by": {
+    "tool": "python (independent source-map-A implementer; no shared code with source map B)",
+    "script": "search/probe/wac_v1/nf972_sourcemap_a_driver.py",
+    "date": "2026-08-04",
+    "python_version": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0"
+  },
+  "task_ref": "NF-972 source map A(組立側)。正本 docs/notes/nf972_freeze_v1.md(凍結 v1・裁定434)。",
+  "spec_ref": {
+    "path": "docs/notes/nf972_freeze_v1.md",
+    "sha256": "4dca7656bb2dfc65d6421b3e523d4aa11c1bc284395be3e735f1551df91fbcd1"
+  },
+  "inputs": {
+    "K9_v1": {
+      "path": "certificates/K9.v1.json",
+      "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+    },
+    "S4_v2": {
+      "path": "certificates/S4.v2.json",
+      "sha256": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+    }
+  },
+  "independence_declaration": "source map B(直接悉皆側)の実装・中間表現・normalizer helper を一切参照・共有していない(共有は凍結仕様の schema のみ)。search/probe/wac_v1/ihnec_r4b_*.py のコードは import・複製していない。",
+  "construction": {
+    "compat_rule": "K9 shadow(m in [0,18)) と S4 settled entry(m in [0,9)) の組は K9.m % 9 == S4.m のときのみ fiber-product 点を成す(P-IHN 互換性)。",
+    "m0_definition": "m0 = K9 shadow の m(mod 18 のまま。S4 側の m はこの m0 mod 9 に一致するのみで、情報として m0 に追加を持たない)。",
+    "can9_definition": "K9 shadow の f_triple = [[a1,eps1],[a2,eps2],[a3,eps3]] をそのまま(a mod 9, eps in {0,1}) の 3 成分 tuple として使用(成分順固定)。",
+    "can4_definition": "S4 settled_detail の automorphism_witness(GAP cycle notation, 1-indexed, points 1..9)を固定 degree 9 の one-line image へ変換。"
+  },
+  "counts": {
+    "K9_shadows_total": 108,
+    "K9_distinct_m": 12,
+    "S4_settled_total": 54,
+    "S4_distinct_m": 6,
+    "baseline_tuple_list_len": 972,
+    "baseline_tuple_set_len": 972,
+    "expected_972_matches": true,
+    "proj_q9_size": 108,
+    "proj_q9_expected_108_matches": true,
+    "proj_q4_size": 54,
+    "proj_q4_expected_54_matches": true,
+    "duplicate_count": 0
+  },
+  "note_on_expected_values": "972/108/54 は突合欄のみに用い、生成には使わない(fail-closed の各chk() は cert 内の内部整合 -- fiber-product の代数的性質 -- からのみ算出され、期待値をハードコードして通過させていない)。",
+  "fixtures": {
+    "F1_orientation_flip": {
+      "description": "can9 の a 成分を mod 9 で符号反転(f -> f^-1 型)。9 は奇数なので a=0 の成分のみ不動点(自己逆元)。",
+      "mutant_set_size": 972,
+      "baseline_equals_mutant": false,
+      "symmetric_difference_size": 1620,
+      "fires_set_inequality": true
+    },
+    "F2_generator_swap": {
+      "description": "can9 の f_triple 成分順を (1,2,3)->(3,2,1) へ入替(q9 側の生成元対応スワップを模擬)。",
+      "mutant_set_size": 972,
+      "baseline_equals_mutant": false,
+      "symmetric_difference_size": 1728,
+      "fires_set_inequality": true,
+      "diagnostic_null_variant_1_2_swap": {
+        "description": "成分 1<->2 の入替(t[1],t[0],t[2])は本データで集合として baseline と一致(識別力ゼロ・不採用)",
+        "equals_baseline": true,
+        "mutant_set_size": 972
+      },
+      "diagnostic_all_nontrivial_permutations": {
+        "(0, 2, 1)": {
+          "mutant_set_size": 972,
+          "equals_baseline": false
+        },
+        "(1, 0, 2)": {
+          "mutant_set_size": 972,
+          "equals_baseline": true
+        },
+        "(1, 2, 0)": {
+          "mutant_set_size": 972,
+          "equals_baseline": false
+        },
+        "(2, 0, 1)": {
+          "mutant_set_size": 972,
+          "equals_baseline": false
+        },
+        "(2, 1, 0)": {
+          "mutant_set_size": 972,
+          "equals_baseline": false
+        }
+      }
+    },
+    "F3_wrong_m_modulus": {
+      "description": "m0 を mod 18(正)ではなく mod 9(誤 = S4 側の法との取り違え)で構成。",
+      "mutant_set_size": 972,
+      "baseline_equals_mutant": false,
+      "symmetric_difference_size": 972,
+      "fires_set_inequality": true
+    }
+  },
+  "fixtures_all_fire": true,
+  "canonical_enumeration": {
+    "path": "search/certs/nf972_sourcemap_a_tuples_20260804.json",
+    "sha256": "f4895bbcf96ed5b9e76fe9c7ae59cddd44d433c813d6ab889b86d08e46d756c6",
+    "canonical_bytes_sha256": "ac3693395b982ee29240ce09b0751090384cb826e496eda549f436a4fd84f210",
+    "count": 972
+  },
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "perm_composition": "n/a(本スクリプトは permutation の合成を行わない -- can4 は cycle notation を\none-line image へ変換する単一の記法変換であり、複数 permutation の積は取らない)",
+    "conjugation": "n/a(共役演算を行わない)",
+    "coset_object": "n/a(剰余類演算を行わない -- K9/S4 cert が既に q9,q4 の像を確定値として提供)",
+    "action_side": "n/a(単一 permutation の cycle-notation 読み取りのみ。作用側の選択に依存しない)",
+    "coset_side_derivation": "n/a",
+    "cv1_cv2_scope_note": "source map A は factor cert(K9.v1.json/S4.v2.json)が既に計算済みの(m, f_triple)・(m, automorphism_witness) を canonical serializationするだけであり、GAP 側の合成順序・作用側規約を新たに適用する箇所を持たない。CV-1/CV-2 が非自明に関与するのは factor cert 自体の生成(K9.v1.json/S4.v2.json 側)であって、本 source map A の組立ではない。",
+    "chi_P_criterion": {
+      "value": "exact",
+      "justification": "(m, f_triple)・(m, automorphism_witness) をそのまま canonical化して数える厳密基数(conjugacy class への縮約なし)",
+      "generator_fixed": true,
+      "orientation_fixed": true
+    },
+    "separation": {
+      "included": true,
+      "competitor_universe": [
+        "F1_orientation_flip",
+        "F2_generator_swap",
+        "F3_wrong_m_modulus"
+      ],
+      "result": {
+        "result_digest": "ac3693395b982ee29240ce09b0751090384cb826e496eda549f436a4fd84f210"
+      },
+      "forbidden_values": {
+        "handling": "n/a",
+        "list": []
+      },
+      "dummy_fixture": {
+        "id": "nf972_sourcemap_a_separation_fixtures_v1",
+        "normalised_input": "K9_RECORDS x S4_RECORDS (compat: m mod 9)",
+        "normalised_output": "972-element tuple set (baseline) vs 3 mutant sets",
+        "discriminating_power": {
+          "input_layer_novel": true,
+          "output_layer_novel": true
+        },
+        "expected": "baseline != mutant for all 3 fixtures",
+        "observed": {
+          "F1_orientation_flip": true,
+          "F2_generator_swap": true,
+          "F3_wrong_m_modulus": true
+        },
+        "verdict": "PASS"
+      }
+    },
+    "roundtrip_witness": {
+      "status": "n/a",
+      "reason": "粗/精ラベルの往復変換を持たない"
+    },
+    "effective_source_chain": [
+      {
+        "role": "current",
+        "path": "search/probe/wac_v1/nf972_sourcemap_a_driver.py",
+        "sha256": "e7c0b3bf32b85263b944d67adfa6ce6a232eca630a6f9ba92111fbdfbbe82669"
+      },
+      {
+        "role": "current",
+        "path": "certificates/K9.v1.json",
+        "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+      },
+      {
+        "role": "current",
+        "path": "certificates/S4.v2.json",
+        "sha256": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+      }
+    ],
+    "effective_source": {
+      "path": "certificates/K9.v1.json",
+      "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+    },
+    "seal_recoverability": {
+      "status": "n/a",
+      "reason": "封印 fixture を使用しない"
+    },
+    "level": "PB3"
+  },
+  "failures": [],
+  "overall_result": "ALL PASS",
+  "driver_done": true
+}
