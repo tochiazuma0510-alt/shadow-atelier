@@ -1,0 +1,54 @@
+{
+ "schema": "nf972-fourthparty-crosscheck/v1",
+ "generated_by": "commander (fourth-party comparator, ruling 456; certified per CV-9-5 after reading nf972_cv9_reading_v1.md [要修正3], ruling 459)",
+ "comparator": {
+  "path": "search/probe/wac_v1/nf972_crosscheck3.py",
+  "sha256": "f7f81431c034bed9e5524cb6f22bf67cef96c4a322ad023a0f8ee5adc88e405c"
+ },
+ "inputs": {
+  "source_map_a_tuples_v2": {
+   "path": "search/certs/nf972_sourcemap_a_tuples_v2_20260804.json",
+   "sha256": "cfa1f3a917e2cd9d21ceaa7f77539633ccb22e8585da8b3248609008d0391801"
+  },
+  "source_map_b_tuples_v3": {
+   "path": "search/certs/nf972_sourcemap_b_tuples_v3_20260804.json",
+   "sha256": "8cd10f3a471b3dbae0c8db4961e81f7b4ca22330a51a9337d4e6d2430968254a"
+  },
+  "frozen_spec": {
+   "path": "docs/notes/nf972_freeze_v1.md",
+   "sha256": "d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1",
+   "note": "v1.2 (post-ruling-454 state)"
+  }
+ },
+ "result": {
+  "set_equal": true,
+  "count_a": 972,
+  "count_b": 972,
+  "duplicates_a": 0,
+  "duplicates_b": 0,
+  "proj_m0_can9_pairs": {
+   "a": 108,
+   "b": 108,
+   "equal": true
+  },
+  "proj_m0_can4_pairs": {
+   "a": 108,
+   "b": 108,
+   "equal": true,
+   "note": "108 = (m0 mod 18, can4) pairs; the spec S3-2 q4-side projection 54 = (m mod n_S4, can4) is chk'd inside each implementation cert, not by this comparator (nf972_cv9_reading_v1.md 軽微欄)"
+  }
+ },
+ "normalization": "keys (m0 int, ((a mod 9, e mod 2) x3), one-line 9-tuple); mod verified harmless (zero rewrites on actual data, per CV-9 reading independent check)",
+ "caveats_from_cv9_reading": [
+  "comparator assert L22-23 follows logically from L21 set equality — not counted as independent evidence",
+  "epsilon == 0 on all 972/108 rows (consequence of [D9,D9]=<r>): spec's e in {0,1} is half-untested; r^a s^e vs s^e r^a indistinguishable on this data; block order pinned only up to 1<->2 transposition",
+  "do NOT phrase as 'two systems independently computed 972 points': B's 972 is a full rectangle per m; what round 3 newly established = (i) roof image is a full direct product per m (no Goursat obstruction) (ii) roof q4 image = S4 shadow set",
+  "'same object' = same image set, not same map (A = prediction route from factor certs, B = measurement route by direct enumeration, per spec section 2)"
+ ],
+ "cv9_reading": {
+  "path": "docs/notes/nf972_cv9_reading_v1.md",
+  "sha256": "dcb72fdec51ff4fc07969d1aac7af5e85d072c3ed9c3f10001fbe44f50e71d8c",
+  "verdict": "PASS (same object), conditional"
+ },
+ "driver_done": true
+}
