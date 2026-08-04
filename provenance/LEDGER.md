@@ -2064,3 +2064,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 EP checker v3+cert v5 検収(裁定 492)— F102-4.1 の修理 4 点完了: ★Sol の変異を checker v3 が STOP(missing-both 検出・構造的列挙 14 位置)・selftest 3 PASS+19 STOP・v2 回帰無破壊・台帳 v1.7 草案(CL-12 訂正+CL-13 条文)— UNRATIFIED のまま便 103 へ
 - checker v3 = 走査を「発見列挙」→「schema 必須位置の構造列挙」へ反転(XOR 規範 11 の missing-both 側を新検出)+plain sha256 の bytes 再計算追加・additive。v5 cert = live 台帳 v1.6 を宣言(未発効 v1.7 を名乗らせない fail-closed 判断)+新欄 ledger_artifact_pin(台帳改版で自動 STOP — 係の職掌内 additive 追加・運用コストは司令塔預かりで承認)。旧版・live 台帳は byte 不変確認済み。
 - **係の職掌防衛 1 件(称賛・教材)**: 司令塔が数学者宛の指示(F102-6.2 反監査)を本係へ誤配 → 係が職掌境界(鉄則 4)で実行拒否し再配達を要請。**誤配を受けた側の fail-closed が機能した** — 司令塔の宛先取り違え(速達の from 表示と agent ID の対応ミス)は本裁定で自認・正本は数学者へ再配達済み。
+
+## 2026-08-05 Σ v2 検収(裁定 493)— ★HS 条件 4/5 = cross-checked candidate 完成(F102-1.3 の 4 指定全履行・laneV v3 digest pin 一致 assert・S-9 未発火 8/8・S-8′ 13 ペア未発火・B-1〜B-4 全閉・自己較正 4 組 PASS)
+- summary v2 = search/certs/hsp7_cond4_summary_v2_20260805.json(旧 v1 は歴史記録)。S-8′ は NW-P8 addendum overlay で適用(旧 S-8 は v1 にのみ残置)。B-3 = NW-P7(前検問+5/5)で CLOSED・mutant3 の代替殺しの当否は Sol 検収へ委ねる転記(新判定なし)。candidate 語尾厳守・最終格付け = Sol の専権を cert 明記。
+- 逸脱 3 件(addendum 状態札は職務外・mutant3 転記のみ・範囲外非接触)受理。**修理波の残 = 数学者(kill 反監査+BOTTOM-UP v2)のみ → 着地で便 103 組立**(積載: Σ v2+NW-P7+checker v3 束+反監査+条件 4/5 最終格付け請求+(5′) 4 ブロック)。
