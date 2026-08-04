@@ -2153,3 +2153,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 便 104 返信 着弾(記録のみ — 全読検収 = 裁定 517 は次ターン)— 総合差戻しだが: ★TB v2.1/(5′) = PASS(格確定)・★B v6 = PASS 採用可+sha 謎解明(a6b41284 = 引用ミスでなく「当時 live worktree に実在した未 commit 再走版」= B の上書き事故の瞬間を Sol が読んでいた)・Σ 不変参照 PASS・ISO route 2 = 経路条件付き承認
 - 着弾 = sol/sol_reply_104_math31.md(26.6KB・07:15)。11/11 sha 一致確認済み。**本走 = 不認可**: ★prereg v1 の S-8′ が**逆向き**(旧 S-8 の向きへ退行 — 起草係のミス+司令塔検収漏れ・Sol が正本 addendum との差分で捕獲)+timeout/UNKNOWN 欄空白(付録 C v2 未統合)+driver digest 空白+実行 bundle/join checker 未実装。**CI 機能較正(登録 18 fixture 限定)は可**。BOTTOM-UP freeze 不承認(v4 宣言の自己矛盾ほか)・EP = ledger r2 条件付き/IMAGE-MU v2 差戻し(数体型)/suitelog v2 条件付き PASS。
+
+## 2026-08-05 erratum 適用波 検収(裁定 516)— F103-5 PASS 済みの適用完了: 追記 C 適用(campaign v2 の C.4 修文込)・追記 D(距離図の二矢印化)・E1 ノート erratum((d2)+総組立限定の失効)— 3 件とも additive 新ファイル・host 3 本ハッシュ不変確認済。P1 残り表の「erratum 適用」行が消込
