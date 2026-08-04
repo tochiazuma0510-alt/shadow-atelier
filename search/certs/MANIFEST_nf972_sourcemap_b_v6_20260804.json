@@ -1,0 +1,12 @@
+{
+  "schema": "manifest-nf972-sourcemap-b-v6/v1",
+  "generated_by": "search/probe/wac_v1/nf972_sourcemap_b_v6_gen.py (implementer)",
+  "purpose": "v6 cert(search/certs/nf972_sourcemap_b_v6_20260804.json)のeffective_source_chain自己参照digest(便103 F103-7(6))を機械可読に保持する。ファイルは自分自身のsha256を内容に含められない(自己言及不可能性)ため、2段階書き出し(v6をsha256_refで書く -> sha256計算 -> 本manifestに記録)で解決する(conventions_ledger_v1.md §1.7 の sha256_ref pattern)。",
+  "self_reference_resolution": {
+    "search/certs/nf972_sourcemap_b_v6_20260804.json": {
+      "path": "search/certs/nf972_sourcemap_b_v6_20260804.json",
+      "note": "本v6 certのeffective_source_chain[role:current]とeffective_sourceの自己参照digest。",
+      "final_sha256": "e27a71fbf00295be9a74761ef11134e3a8f324ed57f523d11d44a67fb5a207de"
+    }
+  }
+}

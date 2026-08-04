@@ -1,0 +1,247 @@
+{
+  "schema": "nf972-sourcemap-b/v6",
+  "generated_by": "search/probe/wac_v1/nf972_sourcemap_b_v6_gen.py (python -- v4/v5/tuples-v3読み取りのみ・新規数学計算なし)",
+  "design_doc": "docs/notes/nf972_freeze_v1.md(裁定434/442/454)+docs/notes/conventions_ledger_v1.md(v1.6)",
+  "card_label": "NF-972 source map B -- v6: 便103 F103-7(sol_reply_103_math30.md §7)の6修理",
+  "supplement_note": "v5(artifact採用FAIL)以前は不改変(v4/v5/tuples-v1..v3のbytesは本ツールで一切書き換えていない-- 読み取り専用)。数学結果(972点・canonical_content_sha256=932a0f36bc7a3ca81cb5dcc285d5f9c0d85d17bbff0d64f05c5e7dccdccc8db8)は不撤回・不変。本v6はconventions_usedの構造的束縛を完成させる。",
+  "a_side_note": "A v3 cert の fixture 説明に『3 mutants』という文言が残っているが実物は4 fixtureである旨、便102 F102-2.2 で non-blocking の文言修正として指摘済み(A側ファイルは一切参照・変更していない)。",
+  "process_note": "v6生成手法の変更申告: 当初GAP driver(nf972_sourcemap_b_run.g)への追記で生成しようとしたが、そのdriverは単一実行内でv1〜v5を毎回re-writeする構造のため、v6コード追加後の再実行でv4/v5のwall_ms_total・script_sha256が変化し、Sol便103が引用したv4のsha256(a6b412845adf119c80ebf77ab33d118cd47b40d84370f58d8c081d073d6f8b4c)と不一致になった。git commit 4ebe384(裁定461)の内容へv4/v5を復元し、以後はv4/v5/tuples-v3を読むだけの本pythonスクリプトでv6を生成する(GAP再実行によるmutationを構造的に回避)。",
+  "v4_hash_reconciliation": {
+    "sol_103_quoted_v4_sha256": "a6b412845adf119c80ebf77ab33d118cd47b40d84370f58d8c081d073d6f8b4c",
+    "current_committed_v4_sha256": "05f5e64cd9ad5dd1ec14926b725ac3c3e9619637898741317450d0fe267d1be3",
+    "matches": false,
+    "note": "一致しない場合、Sol便103はこのv4の中間的な(未commit)再走版を見ていた可能性がある(裁定461でcommitされた版とは異なるtiming依存fieldのみの差)。数学的内容(972/108/54・can9/can4・sigma)は不変。司令塔の確認を仰ぐ。"
+  },
+  "tuples_v3_hash_reconciliation": {
+    "sol_103_quoted_sha256": "8cd10f3a471b3dbae0c8db4961e81f7b4ca22330a51a9337d4e6d2430968254a",
+    "current_sha256": "8cd10f3a471b3dbae0c8db4961e81f7b4ca22330a51a9337d4e6d2430968254a",
+    "matches": true
+  },
+  "supplements": {
+    "path": "search/certs/nf972_sourcemap_b_v4_20260804.json",
+    "sha256": "05f5e64cd9ad5dd1ec14926b725ac3c3e9619637898741317450d0fe267d1be3"
+  },
+  "dictionary_selfcheck": {
+    "design_doc": "docs/notes/nf972_freeze_v1.md v1.2追補(裁定454)SS7-6",
+    "q9_dictionary_type": "identity",
+    "q9_projection_matches_k9_cert_f_triple_verbatim": true,
+    "q9_selfcheck_status": "valid(非トートロジー -- K9.v1.jsonのf_triple欄は自分の計算に由来しない独立な格納値)",
+    "q4_dictionary_type": "conjugation_by_sigma_via_marked_generator_correspondence(sigma=() と機械決定・一意性確認済み)",
+    "q4_cert_frame_image_comparison_flag": true,
+    "q4_self_check_status": "tautological -- see nf972_cv9_reading_v1.md 【重大1】; set-level agreement is instead supported by falsifier's independent reconstruction. sigma=()のため左辺sigma*WordEval(w,Xperm,Yperm)*sigma^-1と右辺WordEval(w,Xperm_cert,Yperm_cert)はcert枠がXperm,Yperm自体と同じ構成関数(MakeMatGF8/MatToPermGF8)から同一引数で再構成されている結果、同一関数・同一引数の同一式になっており、WordEvalの規約バグを検出できない(事故台帳#6型)。上のflag(q4_cert_frame_image_comparison_flag)はこの無内容な式の評価結果であり、証拠として引用しない。",
+    "caveat": "q4_cert_frame_image_comparison_flag=trueは『54/54が式として一致した』という事実のみを示し、can4のcert枠一致を独立に裏付けるものではない。can4の正しさの根拠はfalsifierによる独立再構成(nf972_cv9_reading_v1.md)である。"
+  },
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "perm_composition": "gap_native_right",
+    "conjugation": "paper_inn_g_X_g_inv",
+    "conjugation_note": "can4'(perm9):=one-line(sigma*perm9*sigma^-1) -- sigma=()と確定済みのため本cert内では恒等作用だが、式の形はInn_sigma(X)=sigma*X*sigma^-1(paper記法)である。",
+    "coset_object": "n/a",
+    "action_side": "OnRight",
+    "action_side_note": "can9/can4のq9,q4評価はGAPのj^perm(右作用)による9/27点上の置換制限(BlockRestrict)。",
+    "coset_side_derivation": "n/a(本driverはcosetを構成しない -- 屋根Mの直接悉皆とq9/q4射影のみ)",
+    "word_eval": [
+      {
+        "layer": "f_word_to_permutation",
+        "direction": "reversed",
+        "word_source": "cert_json(K9.v1.json f_word / S4.v2.json generation_detail f_word)and internal_gap(WordEval)"
+      }
+    ],
+    "coarse_of": "n/a",
+    "word_of": "n/a",
+    "roundtrip_witness": {
+      "status": "n/a",
+      "reason": "v5のwitnessはcoarse_of(WordOf(q))=qの往復を示していない -- 向き反転前後でtuple labelが変わることを示すのみで、CV-3/CV-4の往復assertとしては不完全(便103 F103-7(4)の指摘)。separation.dummy_fixtures[0](orientation_flip)へ再分類した。"
+    },
+    "characters": {
+      "status": "n/a",
+      "reason": "本driverはchi_vir/chi_tilde_N型の指標machineryを使わない -- can9/can4の比較はGAP順列の直接等価判定による。"
+    },
+    "opposite": {
+      "map": "tau",
+      "antihomomorphism": false,
+      "codomain": "G(同一群への GroupHomomorphismByImages)",
+      "note": "tauHomはGAPのGroupHomomorphismByImagesで構成した準同型(反準同型ではない) -- hexagon(3.11)判定式tau^2(y^m f)*tau(y^m f)*(y^m f)=1で使用。"
+    },
+    "comparison_target": {
+      "as_function_of": "cert枠(K9.v1.json f_triple / S4.v2.json marking から再構成した点ラベル系)と自表現(本driver独自のG9,Pgrp構成)の関数としてのcan9/can4",
+      "function_a": {
+        "name": "NF972HexagonOK + Can9OfPerm27/Can4OfPerm9(自表現)",
+        "domain": "屋根M(=K9 cap N_S4)の972 shadow",
+        "source_digest": "98160e31986f6a278bffd0edde439c848b24bb71a3017ddb2a0758802c670935"
+      },
+      "function_b": [
+        {
+          "cert": "K9.v1.json",
+          "name": "f_triple(直接格納値)",
+          "domain": "K9.v1.json 108行",
+          "source_digest": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+        },
+        {
+          "cert": "S4.v2.json",
+          "name": "cert枠(Xperm_cert,Yperm_cert)でのWordEval再評価",
+          "domain": "S4.v2.json 54行(pass:true)",
+          "source_digest": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+        }
+      ],
+      "normalization_digest": "d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1",
+      "function_b_note": "v5のfunction_bは単一objectでK9とS4の出所を混同していた(便103 F103-7(3))。v6ではK9/S4を配列で型付き分離する。旧function_b(参考): {\"name\": \"K9.v1.json f_triple(直接格納値)/ cert枠(Xperm_cert,Yperm_cert)でのWordEval再評価\", \"domain\": \"K9.v1.json 108行 / S4.v2.json 54行(pass:true)\", \"source_digest\": \"ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e\"}"
+    },
+    "separation": {
+      "included": true,
+      "competitor_universe": [
+        "orientation_flip(f->f^-1)",
+        "q4_side_generator_correspondence_swap(GM vs GM2)",
+        "wrong_modulus(m mod 9 instead of Z/18)",
+        "AbstractProd_convention(A5-CONV: paper AB = GAP B*A)"
+      ],
+      "result": {
+        "matrix": {
+          "orientation_flip_fires": true,
+          "generator_swap_fires": true,
+          "wrong_modulus_fires": true,
+          "conv_fixture_s4_pass": true,
+          "conv_fixture_k9_pass": true
+        }
+      },
+      "forbidden_values": {
+        "handling": "MALFORMED",
+        "list": [
+          "line"
+        ]
+      },
+      "dummy_fixtures": [
+        {
+          "id": "nf972-b-fixture1-orientation-flip",
+          "normalised_input": "m=0 f=(29,32,34,31,36,35,33) (f -> f^-1)",
+          "normalised_output": "NFTupleSerialize(m0,can9,can4)",
+          "discriminating_power": {
+            "input_layer_novel": true,
+            "output_layer_novel": true
+          },
+          "expected_label": "(0;0,0,0,0,0,0;1,5,3,9,7,2,4,6,8)",
+          "observed_label_after_inversion": "(0;0,0,0,0,0,0;1,6,3,7,2,8,5,9,4)",
+          "expected": "向き反転でtuple集合が不一致になる",
+          "observed": true,
+          "verdict": "PASS",
+          "source_note": "v5のroundtrip_witnessから移設(resM.shadows(屋根Mの直接悉皆・本driver自身の計算・script_sha256参照))"
+        },
+        {
+          "id": "nf972-b-fixture2-q4-generator-swap",
+          "normalised_input": "m in Fixture2MVals([0,2,3])・GM2(q4側generator対応入替)由来のshadow",
+          "normalised_output": "NFTupleSerialize(m0,can9,can4)",
+          "discriminating_power": {
+            "input_layer_novel": true,
+            "output_layer_novel": true
+          },
+          "expected": "baseline(GM)とtuple集合が不一致になる",
+          "observed": true,
+          "verdict": "PASS"
+        }
+      ]
+    },
+    "chi_P_criterion": {
+      "value": "exact",
+      "justification": "exact = generator/orientationを固定した場合にのみ許す -- 本driverはXperm,Yperm(GF(8)行列S,Tから決定的に構成)・g9.x,g9.y(MakeGn(9)から決定的に構成)というmarked生成元を固定しており、tupleの一致判定はGAP順列/整数の完全等価(conjugacy classへの粗視化は行わない)。",
+      "generator_fixed": true,
+      "orientation_fixed": true
+    },
+    "representative_vs_invariant": {
+      "exact_representative": {
+        "value": "can9/can4のtuple文字列(NFTupleSerialize)",
+        "depends_on": {
+          "model_id": "98160e31986f6a278bffd0edde439c848b24bb71a3017ddb2a0758802c670935",
+          "uniformizer_id": "r,s(MakeDn(9)) / Xperm,Yperm(GF(8))",
+          "orientation": "AbstractProd反転規約(paper AB = GAP B*A)",
+          "lift": "n/a(整数持上げなし・有限群のみ)"
+        }
+      },
+      "invariants": {
+        "class": "shadow_total",
+        "order": "972(屋根M全体) / 108(K9側射影) / 54(S4側射影)"
+      }
+    },
+    "effective_source_chain": [
+      {
+        "role": "original",
+        "path": "search/certs/nf972_sourcemap_b_v4_20260804.json",
+        "sha256": "05f5e64cd9ad5dd1ec14926b725ac3c3e9619637898741317450d0fe267d1be3"
+      },
+      {
+        "role": "erratum",
+        "path": "search/certs/nf972_sourcemap_b_v4_20260804.json",
+        "sha256": "05f5e64cd9ad5dd1ec14926b725ac3c3e9619637898741317450d0fe267d1be3",
+        "scope": "conventions_used が規約台帳v1.6の必須欄(ledger_version・effective_source(_chain)・roundtrip_witness・separation・chi_P_criterion・level)を欠く(便102 F102-2.2)。数学結果(972/108/54)は不変。",
+        "superseded_by": {
+          "path": "search/certs/nf972_sourcemap_b_v5_20260804.json",
+          "sha256": "0b945b756a49533f3d41a79322321cd3929ceada19b3b939d750e9c1f8d675b3"
+        }
+      },
+      {
+        "role": "erratum",
+        "path": "search/certs/nf972_sourcemap_b_v5_20260804.json",
+        "sha256": "0b945b756a49533f3d41a79322321cd3929ceada19b3b939d750e9c1f8d675b3",
+        "scope": "欄は追加されたがv4のmain scan/anchors/fixtures/window/projection/canonical enumerationへ構造的に束縛されておらず、wall_ms_totalの相違も未説明、roundtrip_witnessはcoarse_of(WordOf(q))=qを示さず、comparison_target.function_bはK9/S4を混同、effective_source_chainはfreeze specの重複だった(便103 F103-7(1)-(6))。数学結果(972/108/54)は不変。",
+        "superseded_by": {
+          "path": "search/certs/nf972_sourcemap_b_v6_20260804.json",
+          "sha256_ref": {
+            "holder_path": "search/certs/MANIFEST_nf972_sourcemap_b_v6_20260804.json",
+            "json_pointer": "/self_reference_resolution/search~1certs~1nf972_sourcemap_b_v6_20260804.json/final_sha256",
+            "resolution": "external-postwrite"
+          }
+        }
+      },
+      {
+        "role": "current",
+        "path": "search/certs/nf972_sourcemap_b_v6_20260804.json",
+        "sha256_ref": {
+          "holder_path": "search/certs/MANIFEST_nf972_sourcemap_b_v6_20260804.json",
+          "json_pointer": "/self_reference_resolution/search~1certs~1nf972_sourcemap_b_v6_20260804.json/final_sha256",
+          "resolution": "external-postwrite"
+        }
+      }
+    ],
+    "effective_source": {
+      "path": "search/certs/nf972_sourcemap_b_v6_20260804.json",
+      "sha256_ref": {
+        "holder_path": "search/certs/MANIFEST_nf972_sourcemap_b_v6_20260804.json",
+        "json_pointer": "/self_reference_resolution/search~1certs~1nf972_sourcemap_b_v6_20260804.json/final_sha256",
+        "resolution": "external-postwrite"
+      }
+    },
+    "seal_recoverability": {
+      "status": "n/a",
+      "reason": "本certは封印fixtureを使用しない。"
+    },
+    "level": "PB3",
+    "effective_source_chain_note": "v4(original)->v5(erratum)->v6(current) の supplement chain(便103 F103-7(6))。freeze specはsource_digestsに別途記録(このchainは成果物自身の版譜)。"
+  },
+  "source_digests": {
+    "freeze_spec_path": "docs/notes/nf972_freeze_v1.md",
+    "freeze_spec_sha256": "d9fa2d66ee14ecc8da8362b510d0c54894bf0dd42a743db61942ae52158910d1",
+    "k9_cert_path": "certificates/K9.v1.json",
+    "k9_cert_sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e",
+    "s4_cert_path": "certificates/S4.v2.json",
+    "s4_cert_sha256": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d",
+    "ledger_path": "docs/notes/conventions_ledger_v1.md",
+    "ledger_sha256": "38b5c977fd2559120d1c9e69e0c14d32335012593d3dc870e6511ef8f53fd958"
+  },
+  "canonical_enumeration_ref": {
+    "note": "canonical-content hash(sortしたtuple配列を改行結合したbytesのhash)だけではartifactのpathを解決できない(便103 F103-7(2))。whole-artifact SHA-256(ファイル全体のbytes)をpathとjson pointer付きで記録する。",
+    "artifact_path": "search/certs/nf972_sourcemap_b_tuples_v3_20260804.json",
+    "artifact_whole_sha256": "8cd10f3a471b3dbae0c8db4961e81f7b4ca22330a51a9337d4e6d2430968254a",
+    "json_pointer_tuples": "/tuples",
+    "count": 972,
+    "canonical_content_sha256": "932a0f36bc7a3ca81cb5dcc285d5f9c0d85d17bbff0d64f05c5e7dccdccc8db8"
+  },
+  "provenance": {
+    "gap_version": "4.16.0",
+    "gap_driver_script_sha256": "f9f4a6e9004bb7db9baf4bfc1129652ab1a916430519ff0465faf91d8b1f7001",
+    "gap_driver_script_sha256_note": "search/probe/wac_v1/nf972_sourcemap_b_run.g の、v4/v5生成時点のsha256(v4.provenance.script_sha256を継承・再計算していない)。",
+    "v6_generator_script": "search/probe/wac_v1/nf972_sourcemap_b_v6_gen.py",
+    "wall_ms_total": 67043,
+    "wall_ms_total_note": "v4の測定値(67043)をそのまま継承(便103 F103-7(5)) -- v6は本走(972点の悉皆)を再実行していない純補遺であり、新規のwall clock計測を行わない。"
+  },
+  "driver_done": true,
+  "driver_done_marker": "NF972_SOURCEMAP_B_DRIVER_DONE"
+}
