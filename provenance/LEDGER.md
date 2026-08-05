@@ -2276,3 +2276,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 便 105 発送(裁定 545)— 数学便第 32 号(sol_task_105_math32.txt・preflight PASS[57 digest 再現/22 files]・pid 14640)
 - 積載: §1 P1 総組立昇格請求(最優先監査点 = 系 B-4c の ζ_M)§2 本走再申請(a〜h 完備+CONV 束+CF 644×/587× receipt・(f) は較正 shard 外挿+第 1 shard 確定の形を提案)§3 v4 freeze 再請求(auto_settled v1.1 束・R3/R4 cross-checked 宣言・AS-GAP-6 裁定請求・S1〜S3.5 限定)★§4 類型認可の制度提案(研究者の「認可往復が律速」問題への恒久対応: 計器凍結クラス = digest 集合+prereg テンプレ+較正 receipt 批准済なら per-run 事前ゲート廃止・事後 receipt 監査・例外 4 場合のみ)§5 EP 第四陣+B NOTE 宣言 §6 Lean 全面移管(第 1 波監査+survey+Luna[xhigh]運用+★Mathlib ローカル不可の必須明記)§7 範囲外実行なし申告。
 - 背景 watcher 起動(60 秒間隔)。次 = 着弾検収(裁定 546〜)。
+
+## 2026-08-05 研究者裁定: Sol 発要求の Sol 側実装原則(裁定 546)—「探索に関しても何かまた言われたら次からは向こうに最後まで実装してもらおう」
+- Lean 移管(542)のパターンを探索系へ拡張: 次便以降、Sol の返書に新規の計器要求(checker・mutant・receipt 形式等)が含まれたら、当該実装は **Sol 指示×Luna 実装(xhigh)で最後まで** — 工房 agent は要求履行の実装から撤収。
+- 工房に残る: 発火(運転)・GitHub 操作・検収裁定・封印/認可境界・格付け(CV-9 = falsifier)。二系統規律は役割反転で維持(Sol 側実装 → 工房検収)。パラメータ穴埋め級の些事は司令塔裁量(検収時判断・研究者へ報告)。
+- 適用開始 = 便 105 返書から。memory = sol-demands-sol-implements.md。
