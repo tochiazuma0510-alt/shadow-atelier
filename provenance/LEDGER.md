@@ -2383,3 +2383,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 本走 S lane 根因特定+小 gate 請求(裁定 567)— setup-gap 内 apt-get update が Microsoft apt ミラーの間欠 403(exit 100)で確率死(約 1.5%/job)・run_attempt 束縛と合成で単一 attempt 完走が実質不可能。修理 = apt ソース除去 1 ステップ(便 106h で Sol へ・F106-5 型の再 freeze 手続き提案)。盲目再発射は停止(研究者指示の調査規律どおり)。
 
 ## 2026-08-06 v3.1 凍結執行+S 再 dispatch(裁定 568)— 106h PASS の逐語執行(collect 非適用は司令塔裁定 = apt 露出ゼロにつき・便 107 で Sol へ申告)。新 digest de5be7e2…・v3.1 manifest 4b2134aa…・全検査 PASS・commit abe76be。S 再 dispatch run=31036732337(apt くじ撤去後の初走)。V/P は v3 束縛の success を保持(混成 provenance は便 107 で申告・Sol 要求あれば再走 6-8 分)。Sol 旧セッションはループ 2 回で廃棄・新セッション便 107 起動済(裁定 567 系列)。
+
+## 2026-08-06 便 107 返書検収(裁定 569)— 新セッション回復完了・★旧 106g 子成果物サルベージ(luna/106g-candidate = 799e915・BridgeBAffine A0+LA 基礎 6 files・build exit 0)・★橋 B アフィン経路 = A0 採用 GO(残義務 = PreGalois 5+FiberFunctor 6・接基点/TB3/TB4/EXSEQ 接続は別債務と正確に限定)・以後一便一成果物(次 = 799e915 の GHA 判定 → LA-2 単件)・ループ自己停止規約。監視の穴(107 返信 watcher 未設置)は研究者検知 — 以後 wake 発射時に必ず ReplyFile watcher を同時武装(恒久)。
