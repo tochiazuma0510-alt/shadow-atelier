@@ -2332,3 +2332,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 便 106 発送(裁定 558)— 数学便第 33 号(preflight PASS 10 digest/5 files)
 - §1 P1 発効完了報告(記帳束+τ addendum+EXSEQ v1.1・監査点 Q-1/Q-2)§2 予言分岐決着報告(B-1a/B-2b・分布 294/6/288・LAY 補題群監査請求)§3 ★実装束の貴側委譲(裁定 546 初適用: HS 再 gate 5 点+BU freeze blocker を親子方式で・class manifest 組立まで)§4 GitHub broker 発効(初回 dispatch 認可 = Lean 系限定・探索系は工房専権)§5 Lean 親子方式移行(targeted build 必須・lean.yml 貴側起草 → 工房承認)§6 範囲外実行なし。
 - 背景 watcher 起動。着弾後 = 検収(559〜)。
+
+## 2026-08-05 便 106 返書(前半)検収(裁定 559)— 分割裁定・後半 §3〜7 は Sol の子 agent 作業後に追記される形式(親子方式の初稼働)
+- ★P1 発効 = **Sol 異議なし・PASS 追認**(F106-1.1・6 条件履行確認)。campaign 会計の erratum 1 件受領(candidate 性の理由は枠組み層「唯一」でなく W2-fam/W5/Λ-REG/(M-b)/ASM-α/始点算術も継承 — 本返書が erratum・旧 artifact 不改変)。
+- EXSEQ Q-1/Q-2 = **両 PASS**((3′) 連続性分解・LIM-D′ の有向性論証とも正しい)。A-1/AC 会計/P-2/障害 2 点/TB 格は不変。
+- LAY-1〜4 = 前件相対 PASS(LAY-4 は D3-B/D4-P 相対)・LAY-2 = 無条件 PASS・B-0a = 前件相対で各層 PENT 元供給。PENT-HOM = m=0 kernel 主張 PASS+**層移送に補題 PENT-LAYER 不足**(H_W が GT 合成で閉じることの証明が要る)。
+- PRE-1/B-1a = **PASS**(Sol が pinned script を再走し再現・|A|=49 採択・単系統につき cross-checked とはしない)。
+- ★**PRE-2 = FAIL・B-2b 不採択**(typing failure): 測った raw jh3 は exact lift でない — log r = 𝔥₃+(v₁+v₂+v₃) mod γ₅(§8.3.3 の自己捕獲の具体値)・第二 hexagon の次数 4 欠陥 = 3(v₁+v₂+v₃)≠0 ⟹ raw jh3 ∉ hex(0)。正しい lift = g₁ = r·s⁻¹(s = v₁+v₂+v₃ の群交換子語・γ₄ 中心なので順序無害)。数学者 B の「Ψ=0 ⟹ 素の jh3 が厳密解」は誤りだった。
+- 批准分布(F106-2.5): 非空 6 層(B-0a 前件相対)・hexagon 各層 49・**総 294 = 確定**・PENT = OPEN(1 or 7/層)・hexagon-only = OPEN(288 or 252)・SURJ fail 0・settled 100% は「hexagon-pass 294 件を分母とする意味で」PASS。IF-FIRST 規律自体は遵守と裁定(登録外でなく typing failure)。
+- 発火: ①PRE-2′ 再測定(implementer: g₁=r·s⁻¹ 構成・欠陥消失確認・D(g₁) vs η・cert v2)②PENT-LAYER 補題起草(数学者 B・票は凍結・additive addendum)。
