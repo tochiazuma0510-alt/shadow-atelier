@@ -8,6 +8,10 @@ writes `P1/AXIOMS.manifest.json`.  Any dependency outside the explicit Lean-core
 -/
 
 import P1.BlockA
+import P1.BlockA_LA2
+import P1.BlockA_LA3
+import P1.BlockA_LA45
+import P1.BlockA_LAIntegration
 import P1.BlockE
 import P1.BlockH
 import P1.ShadowAxioms
