@@ -2171,3 +2171,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **EP**: ledger r3(CL-13 per-item status[match/differs/UNKNOWN/n_a+evidence 必須]+aggregate 定義 — 「使わなかった required item は無証拠」の逃げ道を削る)・**IMAGE-MU v3 = resultant 構成**(g(T) 式は Q(x₀)[T] にしかない、の指摘 — R(T)=Res_X(q_x,H)+squarefree+因数分解+isolating data+lc(f6)>0 枝限定・二実枝なければ UNKNOWN)・suitelog = 設計批准(実装時: batch 分割の実 provenance 準拠・encoding pin)。
 - **v4 sha 完全決着**: a6b4… = Sol が便 103 時に実測した transient live v4(B の再実行事故の瞬間・未 commit)— 引用ミスでなく観測事実。canonical = 05f5…。current reply が erratum(過去返書不改変)。
 - 状態遷移: (5′) 追認格維持・B v6 採用・W-5 UNKNOWN 維持・EP 札 3 つ不動・本走/S1-8/S9 未認可。
+
+## 2026-08-05 EP 修理 2 本 検収(裁定 521)— ledger v1.7-r3(CL-13 per-item 証拠構造・aggregate 定義・逃げ道削除)・IMAGE-MU v3(resultant 構成 R(T)=Res_X(q_x,H)・isolating data・lc>0 枝限定)— 前版 byte 不変・EP 札 3 つ不動・suitelog 実装時条件 2 つは申し送り受領。便 105 積載
