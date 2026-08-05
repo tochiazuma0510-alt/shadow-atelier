@@ -2496,3 +2496,4 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - GW-ENT = 方向 PASS/拡張 HOLD(紙 5 前件+K⁽⁹⁾→K⁽³⁾ 型の陰性対照必須)。FREEZE-1 erratum = 精密化文つき PASS(q(c)=1+ρ(c)=1 の因果分離)。★**素読ゲート = 制度採択 PASS**(5 点規範: 入力封鎖・非当事者 reader・再構成項目・SELF_CONTAINED 二値出力・FAIL 後 fresh reader)。
 - ★運用訂正: A 型改名は F109-5 で**既に最終裁定済み**(TRUNC 余剰候補は不採用)— 正札 = **PENT_W-FAIL 非算術 shadow** で全文書統一・待ち解除(109 後半の読み落としを自認)。CLAIMS.md への BH-α-pent versioned 追記 = 記帳債務(次ターン)。
 - 発火: ①S3.5 v2 修理(実装係: L-3 を 1,263 解に適用・count 分離・D⊕D lane B に L-3・F-2.5/2.6・F-3.5 陰性)②双子 prereg 票(数学者: F110-2.1 の 5 scope・単独コミット)。
+- **裁定 595(研究者承認)**: B 型の正札 = **「PENT_W-PASS 非算術 shadow」**を工房暫定採用(A 型正札と対称・2 軸機械判定・genuine/証人/fake を先取りしない)。従来の「非算術証人候補」はこの類の**発見時の呼称**として併用(発見 → PENT_W-PASS 非算術 shadow と記録 → 証人格は別ゲート)。規約台帳への正式批准 = 次便(112 系)で Sol へ請求。NW(7) では本類 = 空集合確定済(BH-α-pent)。
