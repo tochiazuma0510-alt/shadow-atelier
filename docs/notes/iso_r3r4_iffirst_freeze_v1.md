@@ -85,3 +85,17 @@ M-ISO-2 の witness(v2 で経路層へ復元): K^(3) の実列挙中の h11_fail
 ---
 
 **非接触宣言**: Im R・封印 3 量・W-5 の iso_gate_state(UNKNOWN 不変)・705,894 宇宙は本書でも非接触。AS-GAP-6(真の non-isolated witness 取得)は本書の射程外(引き続き UNKNOWN)。
+
+---
+
+## 付録: erratum v1.1(2026-08-05・裁定 543 ⑤軽微 D・本文不改変・追記のみ)
+
+**指摘**(falsifier 再判読 `docs/notes/iso_r3r4_cv9_reading_v2.md` §⑤(d)): 上記 §2 の第 5 項が「GAP `ComputeVerdict(shadowSumOk, total, settled)` と同型の**3 変数関数**を Python 側にも実装し」と書いているが、同文書 §6 は `NONSHADOW_IN_DATUM` を新設しており、実装(v2 driver/py とも)は**両側とも 4 変数関数**(`allShadowsGenuine` を先頭に追加)である。事前登録文書 §2 と §6・実装が自己矛盾していた。
+
+**訂正**(本文は書き換えない・ここに正しい記述を置く): §2 第 5 項は次のとおり読み替える —
+
+> 5. **`verdict`**(★ v2 で新たに比較対象に追加 — v1 は比較していなかった。GAP `ComputeVerdict(allShadowsGenuine, shadowSumOk, total, settled)` と同型の **4 変数関数**を Python 側にも実装し(`allShadowsGenuine` は §6 の `NONSHADOW_IN_DATUM` 新設に伴う最優先 gate)、入力 4 つ組そのものを突合する)
+
+§5・§6 は元々 4 変数/新規 stop code を前提に書かれており無矛盾(訂正不要)。この erratum は結論(§7 期待値表・再走結果の一致)に影響しない。
+
+**手続き上の記録**(裁定 543 恒久規則の履行): 本 erratum は**単独コミットとして先に確定**してから、②以降の cert v2.1 再走を行う(事前性の git 証明)。
