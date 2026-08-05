@@ -2199,3 +2199,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 正本 = docs/notes/auto_settled_check_v1.md(sha 97be3d35…97c6)。★救済 = 新補題 VERBAL-ISO(N_F₂ verbal+c∈N ⟹ 全 shadow settled ⟹ isolated)⟹ HS 主標的 N=𝒱(F₂)×⟨c⟩・c2q Heisenberg 窓 N₀ が機械計算なしで isolated(SD-a 一部紙閉)。PSL(2,8) 窓・W-5 は適用外。W-5 = UNKNOWN pending gate 不変。
 - v4 波及の採択: R1-b(descent フィルタ外し列挙 → hexagon+charming+SURJ → 事後 descent 検査 = Reidemeister–Schreier 全件)・M-ISO-7(列挙段 descent 混入の source-map 検出)・S-BU-17(ENUMERATION_FILTER_CONTAMINATION/STOP)— v4 追補として便 105 §3 同梱。M-ISO-2 実物構成法判明(双子 K 窓 or 非 verbal N_F₂ 窓・bare K⁽ⁿ⁾ 不可)— 承認済 K3 混入 fixture は checker 陰性用として維持。
 - 発火: 走行中 R3/R4 係へ【AS-GAP-3】(列挙経路の K5-8 使用有無の確認・使用なら R1-b 改修)+M-ISO-7/S-BU-17 組込みを指示。地図 delta 反映は便 105 組立時(債務記帳)。
+
+## 2026-08-05 R3/R4 ISO-GATE 実装 検収(裁定 529)— mutant 7/7 発火・R4 独立第二系が 3 対象(K^(3)・W-5・M-ISO-2 witness)で全数値一致・【AS-GAP-3】= 混入なし
+- 新 driver = search/probe/w6_bu_s0/iso_gate_r3r4_driver.g(旧 driver/旧 cert はバイト不変)。修理 2 件: ①ComputeVerdict が shadow_sum_check を計算するだけで参照しない穴(M-ISO-5 の実穴)を閉鎖 ②hom-fail の優雅捕捉(B-2・自然 fixture Q3-a で実証 = THETA_TAU_NOT_WELLDEFINED/UNKNOWN・墜落なし)。
+- M-ISO-2 最終形 = K^(3) 実測 12 shadow+1 混入(h11-fail 候補・生成部分群 36<108・紙 1 行論証「真部分群 ⟹ 非全射 ⟹ 有限集合上非全単射」)。cert に CONSTRUCTED 明示+search_appendix(承認条件充足)。★新経験事実: K^(3) hexagon 列挙で generation_fail=0 — 数学者へ回付。
+- 【AS-GAP-3】回答 = **混入なし**(EnumerateReducedHexagon の per-candidate loop に descent 呼び出しなし・source-map 静的検査)。100% settled の説明 = 検分ノートの (B) 標本偏り(bare K^(n)・fiber 積は Thm 4.3/Prop 3.14 で正準 isolated)で確定。既存列挙は R1-b に既適合。M-ISO-7 は故意破壊 enumerator を ENUMERATION_FILTER_CONTAMINATION/STOP(S-BU-17)で検出 = 検出器の実証。
+- ★R4 の価値実証: 構築中に実バグ 2 件捕獲 — ①EvalWordQT/EvalWordInQ の語規約不一致(裁定 166 の prepend 格納規約)⟹ witness は語再構成でなく raw f_images で受け渡す方式へ ②Python 側 AbstractProd 順序反転([a,b,c]→c*b*a)4 箇所。二系統の存在が語規約バグを捕る、という CV-9 規律の実演。
+- 格付け規律遵守: cert は crosscheck_status=「本ファイル単独では cross-checked でない」・verified_status=「not verified(Lean 未使用)」。cross-checked 格付けは falsifier CV-9 判読後に司令塔裁定(発火)。W-5 = UNKNOWN pending gate 不変。cert = search/certs/w6_bu_s0_iso_gate_r3r4_20260805.json。
+- 併記: B 残置の driver 追記部(nf972_sourcemap_b_run.g の v4 出力 = CV-9 判読 3 点対応コード)を本 commit で保全(v6 系列の生成器)。
