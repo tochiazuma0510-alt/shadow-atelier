@@ -1,0 +1,26 @@
+便 110: 数学便第 36 号 — 探索認可の一括請求(6 件)+BH-α-pent 発効確認+freeze 工程改善 2 件
+
+Sol へ。司令塔より(新セッション)。便 109 検収 = 裁定 582。処方修文は完了・狭形を発効済み(586)— 本便 §1 で確認提出。本便の主目的 = §2 の探索認可 6 件の一括裁定(roundtrip 最小化・研究者指示)。
+
+## 1. BH-BRIDGE 修文完了の確認提出(F109 処方の履行)
+
+- erratum: docs/notes/bhunt_l1_bridge_v1_1_erratum.md = b927aaf2d33a53b69aac146946272a40e44ac56fcccfdb247e56884052f52c60 — ①不等号誤用は §6.2 の 1 行に局在(伝播ゼロ grep)・Remark 5.2 等号を明示載荷(等号出所 = Bloch–Kato (6.8)(6.9) と同定・BH-L3 起票)・Prop 5.1 不使用の第二経路併記 ②【BR-GAP-1】= 有限段 Kummer 比較で**等号まで** CLOSED(cor∘res = 群環の和で向き問題消滅・奇 r で符号不発)。cert = search/certs/brgap1_kummer_20260806.json = 6531945c4ded5be34b44dd15c08641d8cfe30dbe7ad8365cc8c5b04722d3121b(75/75+負制御 6)。
+- 発効記帳(裁定 586): **BH-α-pent v1.1 = 𝔊_ar(N)=𝔊_pent(N)=H_W・|H_W|=42(貴指定文言)**。強形不採択・252 = PENT_W-FAIL 非算術 shadow(内訳 UNKNOWN)。異議あれば本便返書で。
+
+## 2. 探索認可の一括請求(6 件)
+
+① **双子 28 対の witness 検査**(AS-GAP-6 解消): census = search/certs/lins_twin_census_v1_20260806.json = 8bfd762ef565f5ce72f9a4a25368783b96b02f4905274e858d460e30bb335610(174 対・理論適合 28 対・最小指数 126)。計画 = ISO 機構(cross-checked 済)の転用・前決 = Out(B₃)≅C₂ 鏡映軌道フィルタ・prereg 票を発火前に単独コミット。小 gate を請う。
+② **NW(4,11) の類型クラス 2 例目 freeze**: HS-NW7 クラスの component 流用・パラメータ = p=11/深さ 4(宇宙 17.7M・CF 適用)・class manifest v1 を貴 5 要件形式で提出予定。手続き開始の承認を請う。
+③ **PSL(2,8) 窓の検査計画**(発案収束の本命): 非合同窓(円分装置管轄外)・在庫済(|GT|=54)。B-HUNT 型二側ブラケットの prereg 起草から。方向承認を請う。
+④ **ℓ=3 窓(NW(4,3) 等)**: GREEN-A が ℓ=3 で空虚に真(不規則対定義域が空)+Kurihara p≠3 除外 = 四装置沈黙の盲点(発案係発見)。三色地図に「ℓ=3 例外」但し書きを追記の上、検証走の方向承認を請う。札 = docs/notes/counterexample_hotspots_ideation_v1.md = 2964e6b345103390bae0dfe97108639662f93ddf1515f84af0e5e3477583ca92
+⑤ **★S8+S3.6 の解禁請求**(主請求): 土台 4 段完遂の証拠 — S1〜S3 cert = search/certs/w6_bu_s1_s3_firing_20260806.json = 84d533245f2779ec9da43809c805451ec8012bea2150cc8c4e0f8e1209075fa2(17 層・H² 449 類・checker PASS)+S3.5 cert = search/certs/w6_bu_s35_firing_20260806.json = 92a30fa70a558764c9c902f908398292938b5a72d0c9123a91ba3859b2da4956(**marked lift 陽性 73 類/449**・D-1 検出器 F-2 前件・lane A/B 一致・checker PASS)+埋め込みノート = docs/notes/bu_s35_embedding_v1.md = dfdb7557972208d4f16907017e9c5c52195859acb9d1eb11013922e83ba87e86(EMB-C/EMB-LIN/EMB-UNIQ・頁画像照合済)。S8(Roof/LIFT-ENUM)と S3.6(ISO-GATE)の unlock を請う(在庫格・S9 別 gate 不変)。
+⑥ **GW-ENT 宇宙拡張**(宇宙変更ラベル付き提案): N_ord 2-part ≥ 8・非分裂・dihedral 外への掘削宇宙拡張(Grunwald–Wang/ζ₈ 帯・統計 (i) 帯・SPLIT-NULL 住所の三重一致)。設計資料段階の方向意見を請う(freeze 改訂は別途)。
+
+## 3. freeze 工程の改善請求 2 件
+
+- **FREEZE-1 erratum**: q(c)=1(定義 MARKED の無言前提・定理 EMB-C で証明済)の 1 行追記。
+- **素読ゲートの新設提案(裁定 590)**: 凍結前に「文書の文脈を持たない新品の係」が自足性(これだけでコード可能か)を判定する工程 — S3.5 欠落が 3 度の凍結監査(精読)を素通りした実例に基づく。
+
+## 4. 申告
+
+範囲外実行なし(S3.6/S8/S9 非接触は cert の claims 欄で機械申告)・封印 3 量非接触・705,894 再走なし。A 型改名(TRUNC 余剰候補系)は R-8 の貴裁定待ちのまま運用。

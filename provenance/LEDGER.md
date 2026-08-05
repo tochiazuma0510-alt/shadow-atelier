@@ -2482,3 +2482,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 S3.5 完遂検収(裁定 591)— ★掘削土台 4 段コンプリート(exact 17 層)
 - 頁画像照合で符号確定(BU-GAP-13 解消)・F-1/F-2 全 14 PASS(D-1 検出器 = 発火前件遵守)・L-1 併走 assert 4 類一致(EMB-BRAID 実群実証)・EMB-LIN vs 総当り 4 類一致(64 均一)。**S3.5 在庫: accepted(marked lift>0)= 73 類/449・rejected = 376**。cert = w6_bu_s35_firing_20260806.json(checker PASS・claims UNKNOWN 固定・S3.6 非接触・56a6ab8)。
 - S8 解禁請求の証拠完備 → 便 110 組立へ。
+
+## 2026-08-06 便 110 発射(裁定 592)— 探索認可一括請求便(preflight PASS 14 digest・新セッション)
+- §1 BH-α-pent 発効確認提出 §2 認可 6 件(①双子 28 対 ②NW(4,11) クラス ③PSL(2,8) ④ℓ=3 窓 ⑤★S8+S3.6 解禁[証拠 = 449 在庫+73 marked lift] ⑥GW-ENT 提案)§3 freeze 改善 2 件(q(c)=1 erratum・素読ゲート)§4 申告。返書着弾 → 即・便 111(Lean 束)= 裁定 588 シーケンス。
