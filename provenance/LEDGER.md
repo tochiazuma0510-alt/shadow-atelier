@@ -2352,3 +2352,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - PRE-2′ = **B-2a 確定**(cert v2 = nw7_pre12_v2_20260805.json・v1 supersedes): 検証 (a) raw jh3 欠陥 3(v₁+v₂+v₃) = Sol 診断の独立再導出一致 (b) g₁=r·s⁻¹ の log = 𝔥₃ exact・欠陥 (0,0,0) = hex(0) 所属確認。ξ′=D(g₁)=恒等元(全ゼロ・k=0 で 𝔽₇η 内)⟹ PENT/層 7・総 **42**・hexagon-only **252**。全ゼロの構造的必然(D(g₁^m h₄^t)=η^t)を cert に併記し Sol の二度見を請求。
 - 係コミットが裁定 560 コミットへ bundle されるレース 1 件(バイト同一確認・実害なし・記録)。
 - 便 106e 発送(preflight PASS): §1 PRE-2′/B-2a §2 PENT-LAYER 弱形の設計可否(Q-2)§3 分布充填請求(294/42/252)§4 規律申告。返信は同一 reply ファイル(106 本体の追記を watcher 監視中)。
+
+## 2026-08-06 HS 登録 preflight 代走(裁定 562)— Sol 親の依頼(速達 00:06)を工房環境で代走・**overall_pass = True**
+- 経緯: Sol 親子の HS 実装束は静的 gate 完成・ただし Sol サンドボックス内で GAP 起動不可(signal pipe Win32 error 5)→ 登録 fixture 限定の実走を工房が代走(認可域内・candidate_universe_contact 欄で非接触を機械申告)。cert = hsp7_registered_wrappers_preflight_20260805.json+laneS/laneV registered preflight。PASS でも class freeze/本走は Sol 再 gate 後(依頼文どおり)。
+- Sol 子の生成物(shard manifest v3 群 23:54)は Sol broker の push に委ねる(コミット競合回避)。教訓: GAP 実行は工房 or GHA — Sol 側は静的+判定に限る分業が固まった。
