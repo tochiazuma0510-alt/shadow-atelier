@@ -2239,3 +2239,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 方針: ①公開保留(publication-hold)は不変 ②トリガー = Lean 実装完了(第 1 波でなく P1 形式化の完了・Sol→Luna ループの出口)③成果物 = 正典(2401/2405)記法・Dolgushev 学派の流儀に完全準拠した論文 LaTeX→PDF・「いつでも公開できる」品質で保管 ④工程(Lean 完了後に着工): 対訳辞書(内輪語→正典語)の完備 → 数学者起草 → 司令塔レビュー → 補題 1:1 の Lean 対応表を付す ⑤保管場所は起草時に裁定(repo = public に留意・公開行為はしない)。memory = paper-style-lean 追補。
 - **裁定 537(研究者・536 追補)**: 「自分達の記法を導入するときは著者との対称性を持たせること」— 新設記号は正典の造語法の自然な延長として設計(K⁽ⁿ⁾ 系の上付き括弧・限定子位置・形容詞レジスター・番号系列の非衝突)。対訳辞書に「新設記号」欄+準拠パターン明記を義務化。memory = paper-style-lean 追補。
 - **裁定 538(研究者・537 追補)**: 「著者の論文を概観して全体を通してそれっぽくなってるかも重要」— 記号水準に加え全体ゲシュタルト照合を工程化: 起草前 = 正典から構成テンプレート抽出(章立て・導入流儀・定理提示リズム・証明粒度・計算結果の見せ方)・起草後 = 通読での「学派の論文として違和感ないか」専用レビューパス。memory = paper-style-lean 追補。
+
+## 2026-08-05 Mathlib 網羅度調査 検収(裁定 539)— ★T1 公理 2→1 へ削減可・★橋 B の「待ち」の内訳が精密化(抽象 Galois 圏 = Mathlib で完成済・欠けはスキーム側のみ)
+- 正本 = docs/notes/mathlib_coverage_survey_v1.md(commit 629ba3e・mathlib4_docs 版 pin 503b1a28…・全判定 URL つき・Loogle 36 照会)。
+- 裁定: ①**T1_cyclotomic_ram2 の討ち取りを承認**(IsCyclotomicExtension.Rat.ramificationIdxIn_eq に p=2,k=1,m=奇 n 代入で e(𝔭/2)=2 直出・個別素点降下 1 行級)— 割り付け表は「T1×2 → T1×1(kummer_duality のみ)+形式化補題 1」へ改版(次の Lean 波で実装・Mathlib 依存につき裁定 534 の別パッケージ+Actions 層)。②T2×6 は公理のまま正(調査の追認)。T2_composition の (3.49) 切り出し・T2_GTodd_def の定義内製化は**選択肢として Sol 一回監査(裁定 531)の議題に載せる**。③橋 B: 着工不可判定は不変だが、待ちの正体 = スキーム側 π₁^ét のみ(抽象 Galois 圏 = functorToContAction 圏同値・IsFundamentalGroup 完成済/アフィン環版 = CommAlgCat.FiniteEtale 反同値まで既在/追跡 issue #16890)。U=P¹−{0,1,∞} アフィン利用の内製ルート等 6 案は Sol 監査便の材料に同梱(採否は Sol 諮問後に裁定)。④ブロック F 保留理由(副有限 API 監査)は解消 — 格上げは割り付け表改版と同時に判断。
+- 帰結: 便 105 §6(Lean)に survey を同梱。着工時の版 pin 再判定義務(鮮度警告)を継承。
