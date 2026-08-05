@@ -1,0 +1,27 @@
+setup checks: theta^2=id, tau^3=id, x*y*z=1  -> OK
+gr_3(F2) basis u1,u2 fixed; gr_4(F2) basis v1,v2,v3 fixed (Hall relation OK)
+
+=== sanity check: PREC-1 general formula, and DUM-HEX (h4 case) ===
+  (a,b,c)=(1,0,0): (1+tau*+tau*^2) elt |_deg4 == (2a-b+2c)(v1+v2+v3)? True  [2a-b+2c=2]
+  (a,b,c)=(0,1,0): (1+tau*+tau*^2) elt |_deg4 == (2a-b+2c)(v1+v2+v3)? True  [2a-b+2c=-1]
+  (a,b,c)=(0,0,1): (1+tau*+tau*^2) elt |_deg4 == (2a-b+2c)(v1+v2+v3)? True  [2a-b+2c=2]
+  (a,b,c)=(1,4,1): (1+tau*+tau*^2) elt |_deg4 == (2a-b+2c)(v1+v2+v3)? True  [2a-b+2c=0]
+  (a,b,c)=(2,3,5): (1+tau*+tau*^2) elt |_deg4 == (2a-b+2c)(v1+v2+v3)? True  [2a-b+2c=11]
+  h4=(1,4,1): 2a-b+2c = 0 -> (1+tau*+tau*^2)(h4)|_deg4 == 0 (DUM-HEX)? True
+
+=== PRE-1: Psi = [(tau + tau^2)(h3)]_deg4 ===
+  deg-3 part of tau(h3):   ['0', '1', '-2', '0', '1', '0', '0', '0']
+  deg-4 part of tau(h3):   ['0', '0', '0', '1/2', '0', '-1', '0', '0', '0', '0', '1', '0', '-1/2', '0', '0', '0']
+  deg-3 part of tau^2(h3): ['0', '0', '0', '-1', '0', '2', '-1', '0']
+  deg-4 part of tau^2(h3): ['0', '0', '0', '-1/2', '0', '1', '0', '0', '0', '0', '-1', '0', '1/2', '0', '0', '0']
+  Psi (deg4, 16 word coords): ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+  Psi = a*v1 + b*v2 + c*v3 :  a=0  b=0  c=0
+  residual (Psi - a*v1-b*v2-c*v3, should be all 0): ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+  Psi in span(v1,v2,v3) (gr_4(F2))?  True
+  (a,b,c) mod 7 = (0,0,0)
+  a==b==c (mod 7), i.e. Psi in F_7(v1+v2+v3)?   True
+
+=== BRANCH DECISION (B-1) ===
+  Psi in F_7(v1+v2+v3)  ->  BRANCH B-1a : |A| = 49
+
+PRE1_RESULT branch=B-1a a=0 b=0 c=0 a7=0 b7=0 c7=0 proportional=True

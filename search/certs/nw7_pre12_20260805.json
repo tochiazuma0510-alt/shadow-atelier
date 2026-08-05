@@ -1,0 +1,84 @@
+{
+  "cert_id": "nw7_pre12_20260805",
+  "status": "candidate",
+  "purpose": "PRE-1/PRE-2: pre-mainrun structure-constant computations authorized by docs/notes/nw7_mainrun_predictions_iffirst_v1.md sec.5 (裁定 554). Decides branches B-1 (sec.4.1) and B-2 (sec.4.2) of the IF-FIRST frozen prediction ticket BEFORE the 705,894-candidate mainrun. Neither computation enumerates, touches, or evaluates any candidate of that universe.",
+  "prereg_ref": {
+    "doc": "docs/notes/nw7_mainrun_predictions_iffirst_v1.md",
+    "doc_sha256": "2c868a3c336d569760d2c91ba1ccd7ffffeba7d2a4f5c58fb059e26f32e7bd20",
+    "sections_used": ["sec.1.3 (symbols h3,h4)", "sec.2.2 (LAY-1..4, PENT-HOM)", "sec.4.1 (branch B-1)", "sec.4.2 (branch B-2)", "sec.5 (PRE-1/PRE-2 authorization table)"]
+  },
+  "scope_discipline": {
+    "candidate_universe_touched": false,
+    "candidate_count_evaluated": 0,
+    "sealed_quantities_touched": ["none: n=5 window value, Im(R), d_N, u-value all untouched"],
+    "gap_windows_or_pc_groups_beyond_Q_started": false,
+    "note": "PRE-2 rebuilds the ALREADY-CONSTRUCTED Q = K(0,5)/W (order 7^40, from the pre-existing ANUPQ artifact search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g) and evaluates D at exactly 2 fixed group elements (jh3, jh4). This is a 1-point computation in a fixed finite group, not a run over the 705,894-pair universe."
+  },
+  "results": {
+    "PRE-1": {
+      "quantity": "Psi = [(tau_bullet + tau_bullet^2)(h3)]_deg4, h3 = u1+u2, in gr_4(F2) = span(v1,v2,v3)",
+      "method": "pure rank-2 free Lie algebra linear algebra over Q, degrees <= 4 (Fraction exact arithmetic); non-homogeneous extension of search/probe/hsp7_v1/hs_prop7_hexagon_vs_pentagon.py (that script only ever applies tau to group elements exp(F); this script applies tau directly to the bare degree-3 Lie element h3 and reads off the degree-4 spillover)",
+      "script": "search/probe/hsp7_v1/pre1_psi_b1_20260805.py",
+      "script_sha256": "f3547d139c9c8cf38edc9d6af75dff763368801c2b52389061d918a96511fc4c",
+      "run_log": "search/probe/hsp7_v1/pre1_run_20260805.log",
+      "run_log_sha256": "796a6b47c8eaa3325fde8c82d0c4772739e2197875fac6d86a08998298f84180",
+      "sanity_checks": {
+        "PREC1_general_formula_5_probe_points": "all True (see run_log): (1+tau*+tau*^2)(a v1+b v2+c v3)|_deg4 == (2a-b+2c)(v1+v2+v3)",
+        "DUM_HEX_h4_case": "True: (1+tau*+tau*^2)(h4)|_deg4 == 0, h4=(1,4,1), 2*1-4+2*1=0"
+      },
+      "value": "Psi = 0 EXACTLY (all 16 word-coordinates of the degree-4 part are the zero Fraction; a=b=c=0 in the v1,v2,v3 decomposition, residual outside span(v1,v2,v3) is exactly 0)",
+      "reduction_mod_7": {"a7": 0, "b7": 0, "c7": 0, "a_eq_b_eq_c_mod7": true},
+      "branch_landed": "B-1a",
+      "branch_meaning": "|A| = 49 (not 7). The exact hexagon-solution lift of the h3-direction exists at degree 4 with ZERO correction term -- the raw Hall-commutator group element jh3 (as already built in search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.g) is itself an exact deg-4 hexagon solution, no gamma_4(P) adjustment needed.",
+      "downstream": "EXQ-3/4/6/8 move from format C (prediction) toward T* (theorem-level, conditional on the paper-proof-candidate status of LAY-1..4/PENT-HOM/D3-B/D4-P themselves, which remain Sol-unaudited per the ticket sec.8.1)."
+    },
+    "PRE-2": {
+      "quantity": "xi = D(g1), g1 = jh3 (justified by PRE-1's Psi=0 result: no gamma_4(P) correction needed, so the naive Hall-commutator lift already realizes the required A-element with pi_3(g1)=h3) -- compared against eta = D(h4) = D(jh4), the already-known-nonzero NW-P5 quantity, for F_7-proportionality inside the elementary-abelian gamma_4(Q) (dim 21 over F_7)",
+      "method": "GAP: rebuild Q=K(0,5)/W (fresh, from the pre-existing ANUPQ output artifact, own_measurement anchors cross-checked against search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.log: |Q|=7^40, gamma_5(Q)=1, dim_F7 gamma_4(Q)=21, rho bijective of order 5); apply D(f):=rho^4(f)rho^3(f)rho^2(f)rho(f)f to jh3Q and jh4Q; express both in Pcgs(gamma_4(Q)) exponent-vector coordinates; test proportionality two independent ways (direct scalar-multiple coordinatewise check, and RankMat over GF(7))",
+      "script": "search/probe/hsp7_cond4_laneP/pre2_xi_b2_20260805.g",
+      "script_sha256": "7915a444cace4fcb2ecf6664fb2afdb0af219d765b9e1ad6f9582d8afad07c3c",
+      "input_artifact": "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g (pre-existing, not regenerated, not modified)",
+      "input_artifact_sha256": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+      "run_log": "search/probe/hsp7_cond4_laneP/pre2_run_20260805.log",
+      "run_log_sha256": "a9324a61d93c129be5f6bea030a63f4c3fb4e3c0a02cb9e369f1cde8dc45e824",
+      "anchors_reconfirmed": {
+        "size_Q": "7^40 = 6366805760909027985741435139224001",
+        "gamma5_Q_trivial": true,
+        "gamma4_Q_size": "7^21 = 558545864083284007",
+        "gamma4_Q_exponent_7": true,
+        "rho_bijective_order5": true,
+        "eta_eq_1": false,
+        "xi_eq_1": false,
+        "eta_in_gamma4": true,
+        "xi_in_gamma4": true
+      },
+      "eta_exponent_vector_F7_21": [0,0,2,0,0,2,5,3,5,5,5,2,0,0,0,0,0,0,0,0,0],
+      "xi_exponent_vector_F7_21":  [0,0,5,4,0,1,6,1,3,6,6,5,0,0,0,0,0,0,0,0,0],
+      "candidate_scalar_k_mod7": 6,
+      "coordinatewise_scalar_check_all_21": false,
+      "rank_of_2x21_matrix_over_GF7": 2,
+      "cross_check_agreement": "coordinatewise test and RankMat test agree (both say NOT proportional)",
+      "branch_landed": "B-2b",
+      "branch_meaning": "xi NOT in F_7*eta. Per layer m, |pent(m)| = 1 (not 7); total PENT-passing count over the 6 non-empty layers = 6 (not 42).",
+      "downstream": "EXQ-7 (798) revised prediction: total PENT pass = 6, hexagon-only = 294-6 = 288 (per ticket sec.4.2 table, branch B-2b row). EXQ-8's own value likewise moves from 252 to 288 under this branch."
+    }
+  },
+  "combined_downstream_table_per_ticket_sec4": {
+    "note": "B-1 -> B-1a (|A|=49, hexagon total = 294 = 6*49, as ticket sec.3.1 already predicted for the B-1a row). B-2 -> B-2b (pent total = 6, NOT the ticket's own B-2a headline prediction of 42). Per ticket sec.4.2's boxed remark: 'どちらの分岐でも各層は非空' (|pent(m)|>=1 holds regardless of branch, via HSP-SOUND contrapositive) -- B-2b (|pent(m)|=1 per layer) is consistent with that lower bound, it is simply the OTHER registered branch, not a violation.",
+    "predicted_hexagon_total": 294,
+    "predicted_pent_total_under_landed_branches": 6,
+    "predicted_hexagon_only_under_landed_branches": 288
+  },
+  "iffirst_discipline": {
+    "branches_registered_before_this_computation": true,
+    "same_run_prediction_rewrite": false,
+    "recorded_as": "branch_resolved (丙類), not hit/miss -- both B-1 and B-2 landed on REGISTERED alternatives (B-1a and B-2b respectively), per ticket sec.7.2 row 丙",
+    "PREREGISTRATION_FALSIFIED_triggered": false,
+    "reason_not_triggered": "both outcomes are among the ticket's own pre-registered alternatives (B-1a/B-1b for B-1; B-2a/B-2b for B-2). Landing on B-2b specifically (the ticket's own non-headline alternative) is a decision, not a fall-outside-registration event."
+  },
+  "novelty_claim": "none",
+  "cross_checked_or_verified": "NEITHER. Single-system computation (this implementer session only). Not cross-checked (no independent second implementation), not verified (not Lean).",
+  "numbers_machine_generated": true,
+  "date": "2026-08-05",
+  "author": "影工房 implementer (Claude / Sonnet 5), commissioned by 司令塔 per 裁定 554"
+}
