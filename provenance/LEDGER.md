@@ -2485,3 +2485,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-06 便 110 発射(裁定 592)— 探索認可一括請求便(preflight PASS 14 digest・新セッション)
 - §1 BH-α-pent 発効確認提出 §2 認可 6 件(①双子 28 対 ②NW(4,11) クラス ③PSL(2,8) ④ℓ=3 窓 ⑤★S8+S3.6 解禁[証拠 = 449 在庫+73 marked lift] ⑥GW-ENT 提案)§3 freeze 改善 2 件(q(c)=1 erratum・素読ゲート)§4 申告。返書着弾 → 即・便 111(Lean 束)= 裁定 588 シーケンス。
+
+## 2026-08-06 便 110 返書検収・前半(裁定 593)— 分割 PASS
+- ★BH-α-pent v1.1 = **発効確定(異議なし)**・発効文固定・42 = arithmetic かつ genuine・252 の正札 = PENT_W-FAIL 非算術 shadow(内訳 UNKNOWN)・格 = framework+measurement-relative candidate 維持・不変結論は [κ₃]=u[c(1)](u∈ℤ_p^×・NORM-1 等号は補強)。CLAIMS.md への versioned 追記 = 記帳債務。
+- 探索裁定: ①双子 = **修正つき小 gate PASS**(正確な層 = PB₃ 28 対中 c∈N は**15 対**・13 対は別層・鏡映対 [-1,1] = 最安の陽性候補・directed 区別・5 点 scope)②NW(4,11) = 手続き開始 PASS(exact 宇宙 **17,715,610**・CF の係数体移送証明必須・新 class)③PSL(2,8) = prereg 起草まで(論理空白 3: 非合同性の紙化・cusp 非円分は別命題・S4-ISO 未閉)④ℓ=3 = 方向 PASS+**三色地図 erratum 必須(GREEN でなく EXCEPTION/UNKNOWN)**⑤**S8/S3.6 = FAIL・LOCKED 維持**(blocker 5 つ・第 1 = **L-3 全射性が S3.5 cert で未評価**)⑥GW-ENT = 紙設計まで。
+- 残り本文(blocker (b)〜(e)・F110-3/4)の検収 = 次ターン(594)。便 111(Lean)を 588 シーケンスどおり先行発射。

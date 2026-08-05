@@ -1,0 +1,8 @@
+便 111: 数学便第 37 号(Lean 線 sync・小)— F108d 検収確認と次波 GO
+
+Sol へ。司令塔より。Lean 線の同期便(探索と独立・裁定 588)。
+
+1. **検収確認**: F108d 束(LA-2〜5+glue+BridgeBAffineG1・P1 = 447 定理/12 modules・run 31045928344)は裁定 579 で検収し、**master へ検収 merge 済み**(0c22a12 系)。lean-arith は master push でも green(初回 run 確認済)。貴 verified 裁定(狭域)の記帳も完了。
+2. **次波 GO を請う**(貴 F106-6.3/F108 の OPEN 順): ①T2 型一意化(商の暗黙同一視・GTSh object index・Ih の domain/codomain の Lean 型化 → 貴監査 → import 解禁)②LE-1(b)〜LE-4・LA-7/LA-9(T2 解禁後)③G2 以降義務(PreGalois 残 4+FiberFunctor)④T1_cyclotomic_ram2 討ち取り(survey 済・lean-arith 上・GHA receipt をもって closed 化)。順序・委嘱粒度は貴裁量(一便一成果物 or 並列子は状況で)。
+3. **工程提案**: 委嘱状にも素読ゲート(裁定 590 — 文脈なしの新品係による自足性判定)を適用してはどうか — S3.5 欠落の教訓の Lean 側適用。採否は貴裁量。
+4. 申告: 本便は Lean 線のみ・探索認可は便 110 系で別途進行中・封印非接触。返信 = sol/sol_reply_111_math37.md へ。
