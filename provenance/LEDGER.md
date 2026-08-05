@@ -2430,3 +2430,4 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ★旗 1(重要訂正): Kurihara の Φ は π₁(P¹∖{0,1,∞}) = **当工房主線(B₃-gentle)そのもの**(B₄ 系ではない)— BH-BRIDGE 委嘱の前提を訂正済(残ギャップ = 𝔛[abel pro-ℓ 側]と NFI 窓の対応・Rem 4.3 が最短錨)。
 - 検証標的: K₈(ℤ)=0 確定なら w=5 も全 ℓ 無条件緑(緑帯 2 本目)。文献 8 件全て一次確認・無料入手可・捏造ゼロ。配達候補 = C1(Ichimura–Sakaguchi・本命)+C3(Kurihara)+C5(Ghate 解説)。
 - 次: GREEN-A の格子塗り実装(小)・C1/C3/C5 の正式配達(覚書つき)・便 109 同梱。
+- **裁定 578 補記(配達)**: 実物 PDF 配達 = papers/kurihara-1992(sha 70ee5919…)+ghate-vandiver 解説(sha e75e99e4…)・C1 Ichimura–Sakaguchi は DOI 経由で数学者自己取得指示。BH-BRIDGE 中間報告受領: B₄ 部分執筆ゼロ確認・★saturation 落とし穴の自己発見(Rem 4.3 直行路の危険)→ ICM 明示公式経由の回避路を主経路採択・残ギャップ = BR-GAP-1(κ₃ vs c(1) 一致・単系統スケッチ)・Fox 検算 10/10。★J1′ 実測 Φ(L)=L との整合を「事前登録でなく独立導出の整合」として時系列正直記載を指示。
