@@ -2224,3 +2224,4 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 研究者指示: Mathlib ローカル禁止の恒久化(裁定 534)—「Mathlib は重くてローカルはキツイ」
 - 確認: 第 1 波の lean/ は Mathlib 非依存(lakefile に require なし・Marking/K3/P1 の 3 lib)= ローカル軽量・現行走行は適合。
 - 恒久拘束: ①lean/ 本体(P1 core)は Mathlib 非依存の素 Lean を維持 ②Mathlib 依存層(数論・橋 B・公理討ち取り)は**別パッケージ+GitHub Actions 専用ビルド**(mathlib cache・public 無料・16GB ランナー)— ローカルで Mathlib を lake build しない ③Luna 分担 = ソース編集+core ローカルビルドまで・Mathlib 層は push → CI → ログ還流(裁定 531 の GitHub 引き取りと同線)④Lean 常駐と GAP 大規模列挙の排他は従来どおり。ES7 実証(mathlib 常駐 2.5–3GB = 8GB 機の壁)を根拠に記憶へ反映済(ram-8gb-constraint v2)。
+- **裁定 534 補正(研究者・即時)**: 「調査のために少しなら大丈夫」— 全面ローカル禁止ではなく、**調査目的の小規模ローカル使用は可**(Mathlib API 確認・公理討ち取り可否の小試験など)。恒常ビルド運用のみ Actions 側。大規模 GAP との同時走行回避は従来どおり。
