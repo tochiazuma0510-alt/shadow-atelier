@@ -1,0 +1,46 @@
+{
+  "schema": "bhbridge-foxcheck/v1",
+  "card_label": "BH-BRIDGE 補題 BR-3 の独立検算(Fox 微分・整数/Laurent 演算・単系統 python)+ 既走 (J1') 測定との整合",
+  "generated_utc": "2026-08-05T20:56:41.556965+00:00",
+  "design_doc": "docs/notes/bhunt_l1_bridge_v1.md (Lemma BR-3, section 8.2, Appendix A)",
+  "tooling": {
+    "script": "scratchpad/bhbridge_check.py",
+    "script_sha256": "c2773a64696636054772273ceb2bb28b244e438e53b56a9a5dbca3f691afa299",
+    "python": "3.13.14",
+    "arithmetic": "exact integers / Laurent polynomials in Z[X^{+-1},Y^{+-1}]; no floating point"
+  },
+  "what_is_checked": {
+    "BR3_key_identity": "h([x, f^-1 y f]) == 1 + (X-1)(Y-1) h(f)  (Lemma BR-3 step (b), eq. (4.2)) -- 7 sample f",
+    "BR3_coordinates": "h([x,y])=1, h([[x,y],x])=-(X-1), h([[x,y],y])=-(Y-1)  (step (c))",
+    "BR3_end_to_end": "f = u1^a u2^b: pr(B'_sigma) has empty degree-2 part and degree-3 part -a xi^2 eta - b xi eta^2  (step (d)) -- 5 sample (a,b)",
+    "theta_action": "theta(u1) ~ -u2, theta(u2) ~ -u1  (matches HS7 Thm D3-BLIND (b) input)",
+    "saturation": "h_3 = u1+u2 primitive in Z^2 (Lemma BR-2)",
+    "p7_units": "2, p^2-1=48, 2(p^2-1)=96 units mod 7 (section 4.3)",
+    "phi_consistency": "u0=3: u0^3 = 6 = -1 mod 7 (gr_3), u0^4 = 4 (gr_4). Measured Phi|_L = -1 (cert bhunt_j0j2_20260806) selects gr_3."
+  },
+  "cross_reference": {
+    "measured_cert": "search/certs/bhunt_j0j2_20260806.json",
+    "measured_cert_sha256": "fc6abb0d70f68d23c27a9f2b923ba29b496c4233e280a517b6ba74ae6d136f30",
+    "timeline": "MEASUREMENT PRECEDES DERIVATION. (J1') was run under ruling 575 before this bridge note was drafted. Recorded as independent-derivation consistency, NOT as an IF-FIRST prediction."
+  },
+  "results": {
+    "verdict_lines": 30,
+    "pass": 30,
+    "fail": 0,
+    "all_pass": true
+  },
+  "stdout": "=== BH-BRIDGE independent check (exact integer/Laurent arithmetic) ===\n(1) h([x,y])            = {(0, 0): 1}  expect {(0,0):1} : True\n(2) h([[x,y],x])        = {(1, 0): -1, (0, 0): 1}  expect -(X-1)      : True\n    h([[x,y],y])        = {(0, 1): -1, (0, 0): 1}  expect -(Y-1)      : True\n(3) f=[[x,y],x]            h([x,f^-1yf]) == 1+(X-1)(Y-1)h(f) : True\n(3) f=[[x,y],y]            h([x,f^-1yf]) == 1+(X-1)(Y-1)h(f) : True\n(3) f=[[x,y],x]*[[x,y],y]  h([x,f^-1yf]) == 1+(X-1)(Y-1)h(f) : True\n(3) f=[x,y]                h([x,f^-1yf]) == 1+(X-1)(Y-1)h(f) : True\n(3) f=[[x,y],x]^-1         h([x,f^-1yf]) == 1+(X-1)(Y-1)h(f) : True\n(3) f=[x,y]*[[x,y],y]^2    h([x,f^-1yf]) == 1+(X-1)(Y-1)h(f) : True\n(3) f=[[[x,y],x],y]        h([x,f^-1yf]) == 1+(X-1)(Y-1)h(f) : True\n(3) KEY IDENTITY all cases: True\n(4) h(theta(u1)) = {(0, 1): 1, (0, 0): -1}  expect +(Y-1) (= class -u2): True\n    h(theta(u2)) = {(1, 0): 1, (0, 0): -1}  expect +(X-1) (= class -u1): True\n(5) gcd of coords of h_3=(1,1): 1 -> primitive: True\n(6) 2 (from (X+Y)^3-X^3-Y^3 = 3XY(X+Y), /3!)       mod 7 = 2  unit: True\n(6) p^2-1 = 48 (Ihara kappa* normaliser)           mod 7 = 6  unit: True\n(6) 2*(p^2-1) = 96                                 mod 7 = 5  unit: True\n--- xi,eta coordinates ---\n(7) pr h(u1) = {(1, 0): -1}  expect -xi  : True\n    pr h(u2) = {(0, 1): -1}  expect -eta : True\n(8) gamma_4 words: xi-order of pr h(v_i) = [2, 2, 2]  all >=2 : True\n(9) Hall  h([[[x,y],y],x]) == h([[[x,y],x],y]) : True\n--- end-to-end degree-3 coefficient ---\n(10) f=u1^1 u2^0 : deg2={} deg3={(2, 1): -1} expect {(2, 1): -1} : True\n(10) f=u1^0 u2^1 : deg2={} deg3={(1, 2): -1} expect {(1, 2): -1} : True\n(10) f=u1^1 u2^1 : deg2={} deg3={(2, 1): -1, (1, 2): -1} expect {(2, 1): -1, (1, 2): -1} : True\n(10) f=u1^2 u2^3 : deg2={} deg3={(2, 1): -2, (1, 2): -3} expect {(2, 1): -2, (1, 2): -3} : True\n(10) f=u1^-1 u2^4 : deg2={} deg3={(2, 1): 1, (1, 2): -4} expect {(2, 1): 1, (1, 2): -4} : True\n(10) END-TO-END all cases: True\n(11) => matching 1+xi*eta*pr(h_f) with psi^ab = 1 + (k*_3/2)(xi^2 eta + xi eta^2)\n     gives  a = b = -k*_3(sigma)/2 .  (a=b falls out, independent re-derivation of D3-BLIND(b))\n--- consistency with measured Phi|_L = -1 (cert bhunt_j0j2_20260806) ---\n(12) u0=3 : u0^3 mod 7 = 6 , u0^4 mod 7 = 4 , -1 mod 7 = 6\n     measured -1 equals u0^3 (gr_3 line) : True\n     measured -1 differs from u0^4 (gr_4 line) : True\n     => L = L_3 ; the Galois gr_3 line carries Tate twist 3, matching KUR Rem 4.3 (Phi(3)/Phi(4) = Z_p(3)) : True\n",
+  "grading": {
+    "status": "single-implementation machine check (python only)",
+    "not_cross_checked": true,
+    "not_verified": true,
+    "note": "Checks (3) and (10) are finite samples of f; the general-f proof is on paper (note section 4.2 (b)(c))."
+  },
+  "discipline": {
+    "window_contact": false,
+    "candidate_keys_read": 0,
+    "sealed_quantities_contacted": false,
+    "gap_invoked": false,
+    "note": "No GAP / no pc group. Item (12) reads only u0=3 (public layer index) from the J0/J2 cert, no key values."
+  }
+}
