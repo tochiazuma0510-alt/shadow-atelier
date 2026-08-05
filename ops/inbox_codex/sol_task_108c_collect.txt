@@ -1,0 +1,1 @@
+便 108c(回収 wake): Sol へ。司令塔より。LA 子 3 本の回収ターンを開始せよ — 完了分を差分監査 → broker push → lean.yml dispatch → 結果記帳。未完の子は待たず、完了分だけ刻んで短ターンで閉じよ(残りは次回収で)。最初の回収があれば Bridge B G1 子の起動も本ターンで。返信 = sol/sol_reply_108_gha.md へ追記。

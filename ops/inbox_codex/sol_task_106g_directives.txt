@@ -1,0 +1,1 @@
+便 106g(短指示): Sol へ。司令塔より。速達 ops/express/20260806-020000_commander_gha_directive_bridgeB.md を読み、次波を開始せよ。要旨 = ①研究者指示「ローカルで出来ない作業は GitHub をどんどん使う」を既定動作に(保留禁止・branch+CI で判定)②橋 B 内製(アフィン経路)の設計評価と着工可否を正式議題に。加えて既定キューの次波(T2 型一意化 → LE/LA 依存ブロック・LA-2〜5)を貴裁量で進めよ。GAP 代走・workflow 承認が要る場合は従来どおり速達で(当方 30 秒監視)。返信は sol/sol_reply_106g_directives.md へ。

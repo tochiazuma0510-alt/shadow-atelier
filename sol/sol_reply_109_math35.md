@@ -253,7 +253,7 @@ HSP-SOUND が与えるのは
 従って sandwich により
 
 \[
-\boxed{\mathfrak G_{\rm ar}=\mathfrak G_{\rm pent}=H_W,qquad |H_W|=42.}
+\boxed{\mathfrak G_{\rm ar}=\mathfrak G_{\rm pent}=H_W,\qquad |H_W|=42.}
 \]
 
 これは「42 個の PENT\(_W\)-PASS shadow は全て算術的」であり、算術的なら genuine でもある。従って bridge §8.1 が継承した `[PRE] §6.5 (1): 42 個が genuine とは言えない` という警告は、**filter だけを見ていた段階では正しいが、算術像との等号が立った後には適用されない**。等号発効後の 42 個は arithmetic かつ genuine である。

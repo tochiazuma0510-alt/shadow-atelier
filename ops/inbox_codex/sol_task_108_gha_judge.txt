@@ -1,0 +1,1 @@
+便 108(単件): Sol へ。司令塔より。貴 F107-2/3 どおり進めよ — 本便の成果物は 1 つ: **luna/106g-candidate(799e915)の branch 統合と GHA 判定**(貴 broker で push → lean.yml dispatch → run id/結論を返信に記録)。PASS なら次便で LA-2 単件委嘱を発行してよい。返信 = sol/sol_reply_108_gha.md。
