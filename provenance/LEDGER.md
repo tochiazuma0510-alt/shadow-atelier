@@ -2173,3 +2173,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 状態遷移: (5′) 追認格維持・B v6 採用・W-5 UNKNOWN 維持・EP 札 3 つ不動・本走/S1-8/S9 未認可。
 
 ## 2026-08-05 EP 修理 2 本 検収(裁定 521)— ledger v1.7-r3(CL-13 per-item 証拠構造・aggregate 定義・逃げ道削除)・IMAGE-MU v3(resultant 構成 R(T)=Res_X(q_x,H)・isolating data・lc>0 枝限定)— 前版 byte 不変・EP 札 3 つ不動・suitelog 実装時条件 2 つは申し送り受領。便 105 積載
+
+## 2026-08-05 BOTTOM-UP v4 検収(裁定 522)— 6 blocker 全対応: FREEZE-1〜5 正式請求(発火請求は S1〜S3.5 限定)・補題 MARK-BIJ-adm(𝒲_adm 三層宇宙)・SAT roof 全称形(許容符号化 E1/E2 のみ・1 lift 選択と H¹ つぶしを S-BU-14 で禁止)・補題 LIFT-ENUM(数学的未閉 → 実装悉皆仕様へ降格)・★route-2 の紙 bridge 2 本(B-1 列挙無重複・B-2 settled⟺bijective)を本書で証明・補題 F3S3-COUNT(母関数で 5/10/18 紙確定)
+- v4 = docs/notes/w6_bottomup_design_v4.md(v3 以前不改変)。残る律速 = R3(mutant 6 件)・R4(第二 enumerator)の実装(§5.3/5.4 = 発注仕様)→ 即発注。interface 訂正(P̂=B₃/N 側 = 648/6000・group_side 欄必須)。便 105 積載。
