@@ -2318,3 +2318,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - B-2 → **B-2b**(票の非本命側へ決着): ξ ∦ η(k=6 検査 False・rank 2・二判定一致)⟹ 各層 PENT = 1・総 6。
 - 帰結: 本走の予言分布が確定 = **hexagon 294(各層 49)・PENT 6・A 型 fake 証明書 288・settled 100%**(票 §3.1 の 42/252 は B-2b 版 6/288 へ切替 — 票は IF-FIRST 凍結のまま・cert が有効分布を保持・「外れ」でなく登録済み代替への決着)。EXQ-3/4/6/8 は B-1a で格上げ候補(LAY 補題群は Sol 未監査 candidate のまま)。
 - 便 106 報告義務: 分岐決着 2 件+切替後分布+LAY-1〜4/PENT-HOM の監査請求。本走認可が下りれば「予言済み分布の確認走」— 事前登録の理想形が完成。
+
+## 2026-08-05 疎通テスト 105d 検収(裁定 556)— ALL PASS: GitHub 操作の broker 環境完成
+- egress 開放 ✓(研究者の config 修正 = sandbox_mode workspace-write+network_access true・[windows] は unelevated 維持)・GH_TOKEN 認識 ✓(process 限定注入・優先 credential・account = tochiazuma0510-alt)・repo 到達 ✓(push=true/admin=true・workflow 一覧取得可)。push = 技術的に可能・workflow_dispatch = 経路 ready(scope の最終確認は便 106 認可の初回 dispatch で)。本便での実 push/dispatch なし(正しい抑制)・更新 AGENTS.md 読了確認(単一 broker・子へ非継承・force-push 禁止・sha/run id 記録義務)。
+- 発効 = 便 106 の初回 dispatch。以後 CI 実行・受け渡しの司令塔中継は段階的に廃止。
