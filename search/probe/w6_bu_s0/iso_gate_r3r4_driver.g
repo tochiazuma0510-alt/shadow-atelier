@@ -397,7 +397,13 @@ Print("M-ISO-2(v2): h11_fail 24->", mIso2H11Fail, "  shadow_total 12->", mIso2Sh
       "  identity check: 108-72-", mIso2H11Fail, "-0=", mIso2ShadowTotal, "? ", mIso2ShadowSumOk, "\n");
 Print("  SettledCheckGeneral (real path) on 13-element list: settled=", mIso2SettledResult.settled_count,
       "/", mIso2SettledResult.total, "  witness settled=", witnessSettledEntry.settled, " (expect false)\n");
-Print("  VerifyShadowsGenuine (independent re-check): all_genuine=", mIso2AllGenuine, " (expect false -- witness fails hex311)\n");
+## ★v2.1【軽微G】(falsifier iso_r3r4_cv9_reading_v2.md §④): VerifyShadowsGenuine
+## は列挙器(EnumerateReducedHexagon)と同一の式で hex310/hex311/SURJ を
+## 再計算する。witness は列挙器自身が h11_fail に分類した元なので、
+## この再検査が false を返すことは構成上保証されている(発見ではなく定義)。
+## 情報量があるのは witness_settled=false と恒等式 108-72-23-0=13 の方であり、
+## all_genuine=false 自体は「独立の検出」と読ませない。
+Print("  VerifyShadowsGenuine (same formula as the enumerator -- structurally GUARANTEED false here, not an independent discovery; see comment above): all_genuine=", mIso2AllGenuine, " (expect false -- witness was classified h11_fail by the enumerator itself)\n");
 Print("  ComputeVerdict = ", mIso2Verdict.verdict, "/", mIso2Verdict.reason, " (expect UNKNOWN/NONSHADOW_IN_DATUM, NOT FALSE)\n");
 mIso2Ok := (mIso2Verdict.verdict = "UNKNOWN") and (mIso2Verdict.reason = "NONSHADOW_IN_DATUM")
            and (mIso2ShadowSumOk = true) and (mIso2H11Fail = 23) and (mIso2ShadowTotal = 13)
@@ -425,7 +431,10 @@ flippedDetail := ShallowCopy(res3.settled.detail);;
 flippedDetail[1] := rec(m:=flippedDetail[1].m, f_word:=flippedDetail[1].f_word, settled:=false);;
 flippedSettledCount := Number(flippedDetail, x -> x.settled);;
 mIso4AllGenuine := VerifyShadowsGenuine(datum3, res3.hexagon.shadows);;  # unaffected -- same real shadow set
-mIso4Verdict := ComputeVerdict(mIso4AllGenuine, true, Length(flippedDetail), flippedSettledCount);;
+## ★v2.1【軽微C】: shadowSumOk はリテラル true でなく res3.shadow_sum_check(実計算値)を渡す
+## (settled のフリップは shadow の集合そのものを変えないので数値上は不変・12 のまま true だが、
+## anti-pattern を排すため手渡しをやめる)。
+mIso4Verdict := ComputeVerdict(mIso4AllGenuine, res3.shadow_sum_check, Length(flippedDetail), flippedSettledCount);;
 Print("M-ISO-4: K^(3) settled.detail (real list) with entry 1 flipped, recounted via Number() -> ",
       flippedSettledCount, "/", Length(flippedDetail), " -> verdict=", mIso4Verdict.verdict, "\n");
 mIso4Ok := (mIso4Verdict.verdict = "FALSE") and (flippedSettledCount = 11);;
@@ -451,7 +460,11 @@ Print("[", PF(mIso5Ok), "] M-ISO-5 fired as UNKNOWN(CANDIDATE_ENUM_INCONSISTENT)
 emptyShadows := [];;
 emptySettled := SettledCheckGeneral(datum3, emptyShadows);;   # real call, loop body never executes
 emptyAllGenuine := VerifyShadowsGenuine(datum3, emptyShadows);;  # vacuously true
-mIso6bVerdict := ComputeVerdict(emptyAllGenuine, true, emptySettled.total, emptySettled.settled_count);;
+## ★v2.1【軽微C】: shadowSumOk もリテラル true でなく実計算(candidate_total=h10=h11=genfail=0
+## の自己無矛盾シナリオを明示的に組み立てて恒等式を計算する)。
+emptyCandidateTotal := 0;;  emptyH10Fail := 0;;  emptyH11Fail := 0;;  emptyGenFail := 0;;
+emptyShadowSumOk := (emptyCandidateTotal - emptyH10Fail - emptyH11Fail - emptyGenFail = emptySettled.total);;
+mIso6bVerdict := ComputeVerdict(emptyAllGenuine, emptyShadowSumOk, emptySettled.total, emptySettled.settled_count);;
 Print("M-ISO-6(b): SettledCheckGeneral([]) (real call on an actual empty list) -> total=",
       emptySettled.total, " settled=", emptySettled.settled_count, " -> verdict=", mIso6bVerdict.verdict, "/", mIso6bVerdict.reason, "\n");
 mIso6bOk := (mIso6bVerdict.verdict = "UNKNOWN") and (mIso6bVerdict.reason = "NO_SHADOWS")
@@ -459,14 +472,21 @@ mIso6bOk := (mIso6bVerdict.verdict = "UNKNOWN") and (mIso6bVerdict.reason = "NO_
 Print("[", PF(mIso6bOk), "] M-ISO-6(b) fired as UNKNOWN(NO_SHADOWS) (real SettledCheckGeneral([]) call, not a scalar constant)\n\n");
 
 #############################################################################
-## ★新設 M-ISO-8(裁定 535 ③): settled:=true 固定変異体。falsifier 実証:
-## v1 の 4 fixture(全て settled=100%実測)では、SettledCheckGeneral を
-## 「常に settled:=true を返す」に差し替えても全期待値を満たしたまま生存する
-## (=「checker に陰性検出力がある」ことが一度も試されていなかった)。
-## v2 の M-ISO-2 は REAL に settled=false を発火する witness を含むので、
-## この mutant を M-ISO-2 の datum に当てれば初めて殺せるはずである。
+## ★★ v2.1 修理【要修正A】(裁定543・falsifier 再判読 iso_r3r4_cv9_reading_v2.md
+## §③(c)): M-ISO-8 の検出機構を verdict 比較から detail 要素比較へ変更。
+## falsifier の機械確認: ComputeVerdict(allGenuine=false, sumOk=true, 13, 12)
+## と ComputeVerdict(allGenuine=false, sumOk=true, 13, 13) はどちらも
+## UNKNOWN/NONSHADOW_IN_DATUM を返す -- M-ISO-2(v2) の datum 上では実 verdict
+## は settled 変異に完全に不感(NONSHADOW gate が支配的)。旧版の
+## mIso8Detected(naive verdict TRUE vs real verdict UNKNOWN)は実は
+## 「genuineness gate の有無」を比較していただけで、settled チャネルを
+## 直接叩いていなかった(M-ISO-3 と実質重複)。
+## ★ 修理: settled チャネルを直接叩く detail 要素比較にする --
+## 実 SettledCheckGeneral の witness エントリ(settled=false)と
+## 変異後 MutantSettledAlwaysTrue の witness エントリ(settled=true)を
+## 突合し、この食い違いそのものを検出とする(kills 欄もこれに合わせて訂正)。
 #############################################################################
-Print("--- M-ISO-8: settled:=true 固定変異体(M-ISO-2(v2) の datum で初めて殺せるかを検査) ---\n");
+Print("--- M-ISO-8: settled:=true 固定変異体(detail 要素比較で settled チャネルを直接検査) ---\n");
 MutantSettledAlwaysTrue := function(qrec, shadowList)
   local out, sh;
   out := [];
@@ -476,24 +496,22 @@ MutantSettledAlwaysTrue := function(qrec, shadowList)
   return rec(detail:=out, settled_count:=Length(shadowList), total:=Length(shadowList));
 end;;
 mIso8MutantSettled := MutantSettledAlwaysTrue(datum3, mIso2Shadows);;   # runs on the SAME 13-elt datum as M-ISO-2(v2)
-# naive (pre-v2, 3-arg-style) verdict the mutant would compute if it ignored the
-# genuineness gate entirely (this is exactly the v1 bug's shape):
-mIso8NaiveVerdict := (function()
-    if not mIso2ShadowSumOk then return rec(verdict:="UNKNOWN", reason:="CANDIDATE_ENUM_INCONSISTENT");
-    elif mIso8MutantSettled.total = 0 then return rec(verdict:="UNKNOWN", reason:="NO_SHADOWS");
-    elif mIso8MutantSettled.settled_count = mIso8MutantSettled.total then return rec(verdict:="TRUE", reason:="");
-    else return rec(verdict:="FALSE", reason:=""); fi;
-  end)();;
-# real v2 verdict: genuineness gate still fires (independent of the settled mutation)
-mIso8RealVerdict := ComputeVerdict(mIso2AllGenuine, mIso2ShadowSumOk, mIso8MutantSettled.total, mIso8MutantSettled.settled_count);;
-mIso8Detected := (mIso8NaiveVerdict.verdict <> mIso8RealVerdict.verdict);;
-Print("M-ISO-8: settled:=true mutant on M-ISO-2(v2)'s 13-elt datum -> mutant settled=",
+mIso8WitnessMutantEntry := First(mIso8MutantSettled.detail, d -> d.m = witnessM and d.f_word = witnessWord);;
+# ★ the actual kill: real detail says witness settled=false, mutant detail says witness settled=true
+mIso8Detected := (witnessSettledEntry.settled <> mIso8WitnessMutantEntry.settled);;
+Print("M-ISO-8: settled:=true mutant on M-ISO-2(v2)'s 13-elt datum -> mutant settled_count=",
       mIso8MutantSettled.settled_count, "/", mIso8MutantSettled.total, "\n");
-Print("  naive (pre-v2-style, no genuineness gate) verdict = ", mIso8NaiveVerdict.verdict, "\n");
-Print("  real v2 verdict (genuineness gate independent of settled mutation) = ", mIso8RealVerdict.verdict, "/", mIso8RealVerdict.reason, "\n");
-mIso8Ok := mIso8Detected and (mIso8NaiveVerdict.verdict = "TRUE") and (mIso8RealVerdict.verdict = "UNKNOWN")
-           and (mIso8RealVerdict.reason = "NONSHADOW_IN_DATUM");;
-Print("[", PF(mIso8Ok), "] M-ISO-8 fired: settled:=true mutant naively claims TRUE (13/13) but the v2 genuineness gate independently catches the non-shadow witness -> UNKNOWN(NONSHADOW_IN_DATUM) -- mismatch detected, mutant KILLED (this could not be shown in v1, where all 4 real fixtures were already settled=100%)\n\n");
+Print("  real detail: witness settled=", witnessSettledEntry.settled,
+      "   mutant detail: witness settled=", mIso8WitnessMutantEntry.settled,
+      "   mismatch (settled channel struck directly)? ", mIso8Detected, "\n");
+Print("  (note, per falsifier: the verdict itself is INSENSITIVE to this mutation on this datum --\n");
+Print("   both ComputeVerdict(allGenuine=false, sumOk=true, 13, 12) and (..., 13, 13) return\n");
+Print("   UNKNOWN/NONSHADOW_IN_DATUM, since the genuineness gate dominates. The kill is at the\n");
+Print("   detail-element level, i.e. this is M-ISO-2(v2)'s own assertion on witnessSettledEntry.settled,\n");
+Print("   not a property of M-ISO-8's verdict comparison.)\n");
+mIso8Ok := mIso8Detected and (witnessSettledEntry.settled = false) and (mIso8WitnessMutantEntry.settled = true)
+           and (mIso2SettledResult.settled_count = 12) and (mIso8MutantSettled.settled_count = 13);;
+Print("[", PF(mIso8Ok), "] M-ISO-8 fired: detail-level comparison catches the settled:=true mutant (witness entry false->true), independent of verdict (which is dominated by the NONSHADOW gate on this datum)\n\n");
 
 #############################################################################
 ## M-ISO-7(司令塔 2026-08-05 追加委嘱、docs/notes/auto_settled_check_v1.md
@@ -604,6 +622,10 @@ r4DataStr := Concatenation(
   "\"y_images\":", DumpPermList(gn3.y, 9), ",",
   "\"expected_g_size\":", String(res3.g_size), ",",
   "\"expected_n_ord\":", String(res3.n_ord), ",",
+  "\"expected_candidate_total\":", String(res3.hexagon.candidate_total), ",",
+  "\"expected_h10_fail\":", String(res3.hexagon.h10_fail), ",",
+  "\"expected_h11_fail\":", String(res3.hexagon.h11_fail), ",",
+  "\"expected_generation_fail\":", String(res3.hexagon.generation_fail), ",",
   "\"expected_shadow_total\":", String(res3.hexagon.shadow_total), ",",
   "\"expected_settled_count\":", String(res3.settled.settled_count), ",",
   "\"expected_settled_total\":", String(res3.settled.total), ",",
@@ -635,6 +657,10 @@ r4DataStr := Concatenation(
   "\"y_images\":", DumpPermList(yhat5, 23), ",",
   "\"expected_g_size\":", String(res5.g_size), ",",
   "\"expected_n_ord\":", String(res5.n_ord), ",",
+  "\"expected_candidate_total\":", String(res5.hexagon.candidate_total), ",",
+  "\"expected_h10_fail\":", String(res5.hexagon.h10_fail), ",",
+  "\"expected_h11_fail\":", String(res5.hexagon.h11_fail), ",",
+  "\"expected_generation_fail\":", String(res5.hexagon.generation_fail), ",",
   "\"expected_shadow_total\":", String(res5.hexagon.shadow_total), ",",
   "\"expected_settled_count\":", String(res5.settled.settled_count), ",",
   "\"expected_settled_total\":", String(res5.settled.total), ",",
@@ -716,7 +742,7 @@ mutantJson := Concatenation(
   "[",
   "{\"id\":\"M-ISO-1\",\"desc\":\"known isolated positive (K^(3), Thm 4.3)\",\"expected\":\"TRUE\",",
     "\"fired\":", String(mIso1Ok), ",\"kills\":\"basic soundness\"},",
-  "{\"id\":\"M-ISO-2\",\"desc\":\"v2 (裁定535 R-B): witness (real h11_fail candidate from ", witnessSourceLabel, "'s hexagon enumeration) moved from h11_fail bucket to shadow bucket -- path-layer, run through the REAL SettledCheckGeneral, caught by VerifyShadowsGenuine\",",
+  "{\"id\":\"M-ISO-2\",\"desc\":\"v2 (裁定535 R-B): witness (real h11_fail candidate from ", witnessSourceLabel, "'s hexagon enumeration) moved from h11_fail bucket to shadow bucket -- path-layer, run through the REAL SettledCheckGeneral. VerifyShadowsGenuine flags it, but this is a STRUCTURALLY GUARANTEED result (same hex310/hex311/SURJ formula as the enumerator that already classified it h11_fail), not an independent discovery -- see 軽微G note; the informative facts are witness_settled=false and the identity 108-72-23-0=13\",",
     "\"witness_source\":", JStr(witnessSourceLabel), ",",
     "\"witness_m\":", String(witnessM), ",\"witness_f_word\":", WordToJson(witnessWord), ",",
     "\"witness_stage\":", JStr(witnessSearch.stage), ",",
@@ -745,11 +771,12 @@ mutantJson := Concatenation(
     "\"expected\":\"real=clean, mutant=ENUMERATION_FILTER_CONTAMINATION/STOP\",",
     "\"fired\":", String(mIso7Ok), ",\"kills\":\"descent used as an enumeration filter (would make settled=100% a tautology and risks isolated false-TRUE via silent candidate drop)\"},",
   "{\"id\":\"M-ISO-8\",\"desc\":\"settled:=true fixed mutant (MutantSettledAlwaysTrue), run on M-ISO-2(v2)'s real 13-element datum -- falsifier found this mutant SURVIVED all v1 fixtures+R4 (settled predicate's negative branch had never fired)\",",
-    "\"mutant_settled\":\"", String(mIso8MutantSettled.settled_count), "/", String(mIso8MutantSettled.total), "\",",
-    "\"naive_verdict_no_genuineness_gate\":\"", mIso8NaiveVerdict.verdict, "\",",
-    "\"real_v2_verdict\":\"", mIso8RealVerdict.verdict, "/", mIso8RealVerdict.reason, "\",",
-    "\"expected\":\"naive=TRUE, real=UNKNOWN(NONSHADOW_IN_DATUM), mismatch detected\",",
-    "\"fired\":", String(mIso8Ok), ",\"kills\":\"settled predicate fixed to always-true (the checker's negative-detection power, untested in v1)\"}",
+    "\"detection_mechanism\":\"detail-element comparison, NOT verdict comparison (v2.1 fix, 裁定543 要修正A): witnessSettledEntry.settled (real SettledCheckGeneral) vs mIso8WitnessMutantEntry.settled (MutantSettledAlwaysTrue), both on the SAME witness of the SAME 13-element datum\",",
+    "\"real_witness_settled\":", JB(witnessSettledEntry.settled), ",\"mutant_witness_settled\":", JB(mIso8WitnessMutantEntry.settled), ",",
+    "\"real_settled_count\":", String(mIso2SettledResult.settled_count), ",\"mutant_settled_count\":", String(mIso8MutantSettled.settled_count), ",",
+    "\"verdict_insensitivity_note\":\"falsifier confirmed (iso_r3r4_cv9_reading_v2.md sec.3(c)) that ComputeVerdict's OUTPUT on this datum is INSENSITIVE to this mutation (NONSHADOW_IN_DATUM fires regardless of settled=12 or 13, since allShadowsGenuine=false dominates) -- the kill is at the detail-element level (this cert's own assertion), not a property discoverable by comparing verdicts. What is actually being struck is the settled CHANNEL, via the same assertion structure M-ISO-2(v2) itself uses.\",",
+    "\"expected\":\"real witness settled=false, mutant witness settled=true, mismatch detected at detail level\",",
+    "\"fired\":", String(mIso8Ok), ",\"kills\":\"settled predicate fixed to always-true; detected via M-ISO-2(v2)'s own assertion on the witness detail entry (witnessSettledEntry.settled=false and settled_count=12), NOT via a verdict-level comparison (v2.1 correction of the v2 kills-attribution error)\"}",
   "]");;
 
 searchAppendixJson := Concatenation(
@@ -765,47 +792,61 @@ searchAppendixJson := Concatenation(
   "\"scratch_scripts\":[\"scratchpad/explore_m2_negative.g\",\"scratchpad/explore_m2_negative2.g\",\"scratchpad/explore_m2_negative3.g\",\"scratchpad/explore_m2_negative3_lib.g\",\"scratchpad/explore_m2_negative4.g\",\"scratchpad/explore_m2_negative5.g\",\"scratchpad/explore_m2_negative6.g\",\"scratchpad/explore_m2_negative7.g\"]",
   "}");;
 
+## ★v2.1【要修正B】+【軽微F】(裁定543): conventions_used を機械 diff 可能な
+## 形へ再設計。5 項目(perm_composition・abstract_prod_reversal・word_eval・
+## h10_fail_bookkeeping_unit・comparison_target)は統制語彙(enum)/固定構造
+## にし、散文は別途 `*_note` 欄へ退避(diff 対象外)。この 5 項目 +
+## grading_prohibitions の値は Python 側(search/probe/w6_bu_s0/
+## r4_second_system.py)と BYTE-IDENTICAL になるよう記述する
+## (grading_prohibitions は両側とも conventions_used 内、同一パス --軽微F)。
+CANON_GRADING_PROHIBITION := "PERMANENT BAN (commander ruling 535/543, falsifier finding): never write that numeric agreement between two implementations demonstrates convention identity. Any same-object verdict must rest on source-reading (CV-9 judge), never on a cert's own numeric match.";;
 conventionsUsedJson := Concatenation(
   "{\"ledger_version\":\"conventions_ledger_v1_6\",",
   "\"perm_composition\":\"gap_native_right\",",
-  "\"abstract_prod_reversal\":{\"declared\":true,\"rule\":\"AbstractProd([a1,...,ak]) = ak*a(k-1)*...*a1 in GAP's own right-action product (descending index in the implementation loop) -- confirmed by direct GAP probe (scratchpad/debug_abstractprod.g) and independently by falsifier's third implementation (docs/notes/iso_r3r4_cv9_reading_v1.md sec.2.1)\",",
-  "\"usages\":[",
-    "{\"site\":\"z\",\"formula\":\"AbstractProd([x,y])^-1 = (y*x)^-1\"},",
-    "{\"site\":\"hex310\",\"formula\":\"AbstractProd([f,thetaf])=1 <=> thetaf*f=1\"},",
-    "{\"site\":\"ymf\",\"formula\":\"AbstractProd([y^m,f]) = f*y^m\"},",
-    "{\"site\":\"hex311\",\"formula\":\"AbstractProd([tau2,tau1,ymf])=1 <=> ymf*tau1*tau2=1\"},",
-    "{\"site\":\"genB\",\"formula\":\"AbstractProd([f^-1,y^u,f]) = f*y^u*f^-1\"}",
-  "]},",
+  "\"perm_composition_note\":\"GAP permutations act on the right: i^(p*q)=(i^p)^q. Python's compose(p,q) implements the same convention.\",",
+  "\"abstract_prod_reversal\":{\"reversed\":true,\"rule\":\"AbstractProd([a1,...,ak]) = ak*a(k-1)*...*a1\",",
+    "\"usages\":[",
+      "{\"site\":\"z\",\"formula\":\"AbstractProd([x,y])^-1 = (y*x)^-1\"},",
+      "{\"site\":\"hex310\",\"formula\":\"AbstractProd([f,thetaf])=1 <=> thetaf*f=1\"},",
+      "{\"site\":\"ymf\",\"formula\":\"AbstractProd([y^m,f]) = f*y^m\"},",
+      "{\"site\":\"hex311\",\"formula\":\"AbstractProd([tau2,tau1,ymf])=1 <=> ymf*tau1*tau2=1\"},",
+      "{\"site\":\"genB\",\"formula\":\"AbstractProd([f^-1,y^u,f]) = f*y^u*f^-1\"}",
+    "]},",
+  "\"abstract_prod_reversal_note\":\"confirmed by direct GAP probe and independently by falsifier's third implementation (docs/notes/iso_r3r4_cv9_reading_v1.md sec.2.1)\",",
   "\"word_eval\":[",
-    "{\"layer\":\"BFSWords_storage\",\"direction\":\"prepend (裁定166)\",\"word_source\":\"internal_gap\"},",
-    "{\"layer\":\"witness_reconstruction\",\"direction\":\"EvalWordInQ (prepend, matches BFSWords) -- NOT EvalWordQT (natural), which reconstructs a DIFFERENT element for the same word\",\"word_source\":\"internal_gap\"}",
+    "{\"layer\":\"BFSWords_storage\",\"direction\":\"prepend\",\"word_source\":\"internal_gap\"},",
+    "{\"layer\":\"witness_reconstruction\",\"direction\":\"prepend\",\"word_source\":\"internal_gap\"}",
   "],",
+  "\"word_eval_note\":\"BFSWords storage is prepend (裁定166); witness reconstruction must use EvalWordInQ (prepend), NOT EvalWordQT (natural), which reconstructs a different element for the same word. Python side bypasses word evaluation entirely via raw f_images but declares the same layer/direction/word_source shape for machine-diffability.\",",
   "\"enumeration_domain\":\"group_elements\",",
-  "\"group_side\":\"P (=PB3/N)\",",
-  "\"h10_fail_bookkeeping_unit\":\"(f,m) pair (theta/tau precondition checked inside the m-loop, redundantly per m -- matches the actual GAP loop structure in EnumerateReducedHexagon; NOT per-f\",",
+  "\"group_side\":\"P_PB3_mod_N\",",
+  "\"h10_fail_bookkeeping_unit\":\"per_fm_pair\",",
+  "\"h10_fail_bookkeeping_unit_note\":\"theta/tau precondition (hex310) is checked inside the m-loop, redundantly per m, matching the GAP loop structure in EnumerateReducedHexagon exactly; NOT per-f.\",",
   "\"comparison_target\":{",
-    "\"as_function_of\":\"marked datum (K^(3) / W-5 / M-ISO-2 v2 constructed datum)\",",
-    "\"function_a\":{\"name\":\"IsoGateCheck/ComputeVerdict (this file)\",\"domain\":\"marked datum -> {g_size,n_ord,shadow_total,settled_count/total,verdict}\"},",
-    "\"function_b\":{\"name\":\"run_fixture/compute_verdict (search/probe/w6_bu_s0/r4_second_system.py)\",\"domain\":\"same\"},",
-    "\"normalization_digest\":\"n/a (no NF beyond the 5-quantity equality declared in docs/notes/iso_r3r4_iffirst_freeze_v1.md sec.2)\"",
+    "\"as_function_of\":\"marked_datum\",",
+    "\"function_a\":{\"name\":\"IsoGateCheck_ComputeVerdict_GAP\",\"domain\":\"marked_datum_to_5_quantities\"},",
+    "\"function_b\":{\"name\":\"run_fixture_compute_verdict_python\",\"domain\":\"marked_datum_to_5_quantities\"},",
+    "\"normalization_digest\":\"n/a\"",
   "},",
+  "\"comparison_target_note\":\"5 quantities = g_size, n_ord, shadow_total, settled_count/total, verdict per docs/notes/iso_r3r4_iffirst_freeze_v1.md sec.2\",",
   "\"effective_source_chain\":[",
     "{\"role\":\"current\",\"path\":\"search/probe/w6_bu_s0/iso_gate_r3r4_driver.g\",\"sha256\":\"n/a (computed post-write by the reporting layer, not embedded here per CV-10 self-reference discipline)\"}",
   "],",
   "\"seal_recoverability\":{\"status\":\"n/a\",\"reason\":\"this cert does not use sealed fixtures\"},",
-  "\"grading_prohibitions\":[",
-    "\"PERMANENT BAN (裁定535 ⑤, falsifier 【重大1】): never write that numeric agreement between two implementations demonstrates convention identity. falsifier's third independent implementation showed the compared 5 quantities (|G|, N_ord, shadow_total, settled_count/total) are IDENTICAL whether AbstractProd is evaluated with the real reversal or with the naive (unreversed) paper-order convention -- i.e. this observation window has ZERO discriminating power for convention identity. Any 'same object' verdict must rest on source-reading (CV-9 judge), never on this cert's own numeric match.\"",
-  "],",
+  "\"grading_prohibitions\":[\"", CANON_GRADING_PROHIBITION, "\"],",
+  "\"grading_prohibitions_note\":\"falsifier's third independent implementation showed the compared 5 quantities (|G|, N_ord, shadow_total, settled_count/total) are IDENTICAL whether AbstractProd is evaluated with the real reversal or with the naive (unreversed) paper-order convention -- i.e. this observation window has ZERO discriminating power for convention identity (docs/notes/iso_r3r4_cv9_reading_v1.md sec.3 【重大1】).\",",
   "\"level\":\"PB3\"",
   "}");;
 
 certStr := Concatenation(
-  "{\"schema\":\"gtsh-cert/iso-gate-r3r4/v2\",",
+  "{\"schema\":\"gtsh-cert/iso-gate-r3r4/v2.1\",",
   "\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/probe/w6_bu_s0/iso_gate_r3r4_driver.g\",\"date\":\"2026-08-05\"},",
   "\"tier\":\"tool-calibration\",",
   "\"purpose\":\"ISO-GATE route-2 R3 (mutant matrix, 8 items) + R4 (second-system data export) + interface field corrections, per docs/notes/w6_bottomup_design_v4.md sec.5.3/5.4/5.1; W-5 iso_gate_state stays UNKNOWN (pending route-2 gate), NOT upgraded by this driver\",",
-  "\"design_authority\":\"commander order 2026-08-05 (design v4) + commander 裁定535 (v2 repair order, following falsifier CV-9-2 reading docs/notes/iso_r3r4_cv9_reading_v1.md + mathematician auto_settled_check_v1.md addendum A)\",",
-  "\"v2_supersedes\":{\"path\":\"search/certs/w6_bu_s0_iso_gate_r3r4_20260805.json\",\"scope\":\"v1 M-ISO-2/3/4/5/6b were scalar-layer mutations of ComputeVerdict only; M-ISO-2 bypassed its own shadow_sum_check gate by hand-passing true; a settled:=true fixed mutant (M-ISO-8) survived all v1 fixtures undetected. v1 left unmodified (not edited) per CV-10 erratum discipline -- this v2 is a new file/cert, not an in-place rewrite of v1's historical record.\"},",
+  "\"design_authority\":\"commander order 2026-08-05 (design v4) + 裁定535 (v2 repair) + 裁定543 (v2.1 repair, following falsifier CV-9-2 re-reading docs/notes/iso_r3r4_cv9_reading_v2.md, cross-checked grading GRANTED conditional on this repair)\",",
+  "\"effective_source_chain_note\":\"supersede chain: v1 (search/certs/w6_bu_s0_iso_gate_r3r4_20260805.json) -> v2 (search/certs/w6_bu_s0_iso_gate_r3r4_v2_20260805.json, UNCHANGED by this v2.1 order) -> v2.1 (this file). Both v1 and v2 are left byte-unmodified per CV-10 erratum discipline -- this is a new file, not an in-place rewrite.\",",
+  "\"v2_supersedes\":{\"path\":\"search/certs/w6_bu_s0_iso_gate_r3r4_20260805.json\",\"scope\":\"v1 M-ISO-2/3/4/5/6b were scalar-layer mutations of ComputeVerdict only; M-ISO-2 bypassed its own shadow_sum_check gate by hand-passing true; a settled:=true fixed mutant (M-ISO-8) survived all v1 fixtures undetected.\"},",
+  "\"v2_1_supersedes\":{\"path\":\"search/certs/w6_bu_s0_iso_gate_r3r4_v2_20260805.json\",\"scope\":\"cross-checked grading granted by falsifier (docs/notes/iso_r3r4_cv9_reading_v2.md sec.3) CONDITIONAL on repairing: 要修正A (M-ISO-8 kills-attribution was verdict-comparison, but the real v2 verdict is INSENSITIVE to the settled mutation on the M-ISO-2(v2) datum -- the actual kill is at the detail-element level; fixed here) and 要修正B (conventions_used had 0/5 machine-diffable keys between the two certs -- free prose vs enum/dict type mismatches and Python-side absences; fixed here with canonical enum/dict values + prose moved to *_note fields). Also folds in 軽微C (literal true shadowSumOk hand-passes in M-ISO-4/6b replaced with computed values), 軽微D (freeze doc erratum, committed standalone per the new permanent rule), 軽微E (Python staged-counter asserts), 軽微F (grading_prohibitions placement unified inside conventions_used on both sides), 軽微G (M-ISO-2's all_shadows_genuine=false is now documented as a STRUCTURALLY GUARANTEED consequence of using the same hex310/hex311/SURJ formula as the enumerator, not an independent detection).\"},",
   "\"non_contact_declaration\":{\"Im_R_reduction_image\":\"not touched\",\"d_N\":\"not touched\",",
   "\"sealed_quantities\":\"not touched (c_mu_hat / PSL window structural quantities / eps bits / 705,894 universe)\",",
   "\"u_arithmetic_value\":\"not touched\"},",
@@ -817,7 +858,11 @@ certStr := Concatenation(
     "\"★ v2 (裁定535 R-A/R-B/③④⑤): ComputeVerdict is now a 4-argument function with a new allShadowsGenuine gate (highest priority, new stop code NONSHADOW_IN_DATUM) -- VerifyShadowsGenuine independently re-checks hex310/hex311/SURJ for every element of a given shadow list, catching non-shadow candidates that a hand-built shadow list might contain\",",
     "\"★ v2: M-ISO-2 rebuilt as a path-layer mutation (witness moved from h11_fail bucket to shadow bucket, real SettledCheckGeneral call on the 13-element list) instead of a scalar ComputeVerdict(true,13,12) hand-call that bypassed its own sum-check gate (falsifier 4.2). Expected verdict is now UNKNOWN(NONSHADOW_IN_DATUM), NOT FALSE -- per mathematician auto_settled_check_v1.md addendum A.2, an h11-fail candidate is not a GT-shadow (Def 3.7), so treating it as a non-settled SHADOW would be a false-FALSE route into isolated=FALSE\",",
     "\"★ v2: M-ISO-3/4/5/6b restored to path-layer mutations (real function calls: MutantConstantTrueVerdict, ShallowCopy+Number() recount, real list slice + SettledCheckGeneral, SettledCheckGeneral([])) instead of scalar arithmetic on ComputeVerdict's inputs\",",
-    "\"★ v2 NEW: M-ISO-8 (settled:=true fixed mutant) added -- falsifier found this mutant survived ALL of v1's R3 matrix + R4 crosscheck undetected, because none of the 4 real v1 fixtures ever exercised settled=false. M-ISO-2(v2)'s real non-settled witness now makes this mutant killable\"",
+    "\"★ v2 NEW: M-ISO-8 (settled:=true fixed mutant) added -- falsifier found this mutant survived ALL of v1's R3 matrix + R4 crosscheck undetected, because none of the 4 real v1 fixtures ever exercised settled=false. M-ISO-2(v2)'s real non-settled witness now makes this mutant killable\",",
+    "\"★ v2.1【要修正A】: M-ISO-8's detection mechanism corrected from verdict-comparison to detail-element comparison. falsifier machine-confirmed ComputeVerdict(allGenuine=false,sumOk=true,13,12) and (...,13,13) BOTH return UNKNOWN/NONSHADOW_IN_DATUM -- the verdict is insensitive to the settled mutation on this datum (the gate dominates). The actual kill is witnessSettledEntry.settled=false vs the mutant's corresponding detail entry=true; kills text corrected accordingly\",",
+    "\"★ v2.1【要修正B】: conventions_used redesigned for machine-diffability -- perm_composition/h10_fail_bookkeeping_unit are now bare enum strings, abstract_prod_reversal/word_eval/comparison_target are fixed dict/array shapes byte-identical to the Python cert, prose moved to *_note sibling fields, grading_prohibitions text made byte-identical and placed inside conventions_used on both sides (軽微F)\",",
+    "\"★ v2.1【軽微C】: M-ISO-4/6b's literal true shadowSumOk hand-passes replaced with computed values (res3.shadow_sum_check for M-ISO-4; an explicit 0-0-0-0=0 identity computation for M-ISO-6b)\",",
+    "\"★ v2.1【軽微G】: comments/cert text clarify that M-ISO-2(v2)'s all_shadows_genuine=false is a structurally guaranteed consequence (same formula as the enumerator that already classified the witness h11_fail), not an independent detection -- the informative facts are witness_settled=false and the identity 108-72-23-0=13\"",
   "],",
   "\"m_iso2_construction_note\":\"★ CORRECTED (v2, per commander 裁定535 ② and mathematician auto_settled_check_v1.md addendum A.2): the v1 claim that M-ISO-2 is 'the campaign's first isolated=FALSE instance' is WITHDRAWN. M-ISO-2 does NOT demonstrate isolated=FALSE for any marked datum -- there is no marked datum here whose GT(N) contains a genuine non-settled GT-shadow. The witness is an h11_fail candidate, which by Def 3.7 is not a GT-shadow at all. M-ISO-2(v2) tests a DIFFERENT, narrower property: that the pipeline detects and refuses to launder a non-shadow candidate (accidentally present in a shadow list) into an isolated=FALSE verdict, returning UNKNOWN(NONSHADOW_IN_DATUM) instead. AS-GAP-6 (obtaining a genuine non-isolated witness, via a twin K != N or a non-verbal N_{F_2}, per w6_bottomup_design_v4.md sec.5.3 and auto_settled_check_v1.md sec.3.2/3.4) remains OPEN and out of scope for this driver.\",",
   "\"fixtures\":[", IsoGateResultToJsonR3R4(res3), ",", IsoGateResultToJsonR3R4(res5), ",",
@@ -831,8 +876,8 @@ certStr := Concatenation(
   "\"verified_status\":\"not verified (Lean not used)\"",
   "}");;
 
-WriteFile("search/certs/w6_bu_s0_iso_gate_r3r4_v2_20260805.json", certStr);;
-Print("wrote search/certs/w6_bu_s0_iso_gate_r3r4_v2_20260805.json (v1 cert left untouched)\n");
+WriteFile("search/certs/w6_bu_s0_iso_gate_r3r4_v2_1_20260805.json", certStr);;
+Print("wrote search/certs/w6_bu_s0_iso_gate_r3r4_v2_1_20260805.json (v1 and v2 certs left untouched)\n");
 
 Print("\nISO_GATE_R3R4_DRIVER_DONE\n");
 QUIT;

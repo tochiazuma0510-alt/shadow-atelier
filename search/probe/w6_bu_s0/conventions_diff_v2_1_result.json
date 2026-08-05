@@ -1,0 +1,135 @@
+{
+  "schema": "gtsh-cert/iso-gate-r3r4-conventions-diff/v1",
+  "purpose": "commander 裁定543 要修正B verification: machine-diff the 5 required conventions_used keys between the GAP cert v2.1 and the Python second-system output v2.1",
+  "required_keys": [
+    "perm_composition",
+    "abstract_prod_reversal",
+    "word_eval",
+    "h10_fail_bookkeeping_unit",
+    "comparison_target"
+  ],
+  "results": {
+    "perm_composition": {
+      "match": true,
+      "gap_value": "gap_native_right",
+      "python_value": "gap_native_right"
+    },
+    "abstract_prod_reversal": {
+      "match": true,
+      "gap_value": {
+        "reversed": true,
+        "rule": "AbstractProd([a1,...,ak]) = ak*a(k-1)*...*a1",
+        "usages": [
+          {
+            "site": "z",
+            "formula": "AbstractProd([x,y])^-1 = (y*x)^-1"
+          },
+          {
+            "site": "hex310",
+            "formula": "AbstractProd([f,thetaf])=1 <=> thetaf*f=1"
+          },
+          {
+            "site": "ymf",
+            "formula": "AbstractProd([y^m,f]) = f*y^m"
+          },
+          {
+            "site": "hex311",
+            "formula": "AbstractProd([tau2,tau1,ymf])=1 <=> ymf*tau1*tau2=1"
+          },
+          {
+            "site": "genB",
+            "formula": "AbstractProd([f^-1,y^u,f]) = f*y^u*f^-1"
+          }
+        ]
+      },
+      "python_value": {
+        "reversed": true,
+        "rule": "AbstractProd([a1,...,ak]) = ak*a(k-1)*...*a1",
+        "usages": [
+          {
+            "site": "z",
+            "formula": "AbstractProd([x,y])^-1 = (y*x)^-1"
+          },
+          {
+            "site": "hex310",
+            "formula": "AbstractProd([f,thetaf])=1 <=> thetaf*f=1"
+          },
+          {
+            "site": "ymf",
+            "formula": "AbstractProd([y^m,f]) = f*y^m"
+          },
+          {
+            "site": "hex311",
+            "formula": "AbstractProd([tau2,tau1,ymf])=1 <=> ymf*tau1*tau2=1"
+          },
+          {
+            "site": "genB",
+            "formula": "AbstractProd([f^-1,y^u,f]) = f*y^u*f^-1"
+          }
+        ]
+      }
+    },
+    "word_eval": {
+      "match": true,
+      "gap_value": [
+        {
+          "layer": "BFSWords_storage",
+          "direction": "prepend",
+          "word_source": "internal_gap"
+        },
+        {
+          "layer": "witness_reconstruction",
+          "direction": "prepend",
+          "word_source": "internal_gap"
+        }
+      ],
+      "python_value": [
+        {
+          "layer": "BFSWords_storage",
+          "direction": "prepend",
+          "word_source": "internal_gap"
+        },
+        {
+          "layer": "witness_reconstruction",
+          "direction": "prepend",
+          "word_source": "internal_gap"
+        }
+      ]
+    },
+    "h10_fail_bookkeeping_unit": {
+      "match": true,
+      "gap_value": "per_fm_pair",
+      "python_value": "per_fm_pair"
+    },
+    "comparison_target": {
+      "match": true,
+      "gap_value": {
+        "as_function_of": "marked_datum",
+        "function_a": {
+          "name": "IsoGateCheck_ComputeVerdict_GAP",
+          "domain": "marked_datum_to_5_quantities"
+        },
+        "function_b": {
+          "name": "run_fixture_compute_verdict_python",
+          "domain": "marked_datum_to_5_quantities"
+        },
+        "normalization_digest": "n/a"
+      },
+      "python_value": {
+        "as_function_of": "marked_datum",
+        "function_a": {
+          "name": "IsoGateCheck_ComputeVerdict_GAP",
+          "domain": "marked_datum_to_5_quantities"
+        },
+        "function_b": {
+          "name": "run_fixture_compute_verdict_python",
+          "domain": "marked_datum_to_5_quantities"
+        },
+        "normalization_digest": "n/a"
+      }
+    }
+  },
+  "all_5_keys_match": true,
+  "grading_prohibitions_match": true,
+  "diffable_count": "5/5"
+}

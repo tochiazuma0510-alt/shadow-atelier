@@ -13,6 +13,20 @@ side) and mirrors the v2 GAP driver's M-ISO-2 reconstruction (witness moved
 from h11_fail bucket to shadow bucket, real settled-check call, independent
 genuineness re-check) and M-ISO-8 (settled:=true fixed mutant).
 
+v2.1 (commander 裁定543, following falsifier CV-9-2 re-reading
+docs/notes/iso_r3r4_cv9_reading_v2.md -- cross-checked grading GRANTED,
+conditional on this repair): 【要修正A】M-ISO-8's detection mechanism changed
+from verdict-comparison (which falsifier machine-confirmed is INSENSITIVE to
+the settled mutation on the M-ISO-2(v2) datum -- the NONSHADOW gate dominates
+regardless of settled=12 or 13) to detail-element comparison (the witness's
+settled flag, real vs mutant). 【要修正B】conventions_used rebuilt with
+canonical enum/dict values (byte-identical to the GAP cert on the 5 required
+keys: perm_composition, abstract_prod_reversal, word_eval,
+h10_fail_bookkeeping_unit, comparison_target) and grading_prohibitions moved
+inside conventions_used (軽微F, same path as GAP). 軽微E: staged counters
+(candidate_total/h10_fail/h11_fail/generation_fail) now asserted against the
+GAP-dumped expected values, not just self-printed.
+
 Independence discipline (探索器と照合器の分離): this script does NOT import or
 read any GAP source file (search/*.g) and does NOT call GAP. Its ONLY input is
 search/probe/w6_bu_s0/r4_input_data.json, a plain data dump (permutation images of the
@@ -306,6 +320,12 @@ def run_fixture(name, n_points, x_img, y_img, expected):
     print(f"  (GAP claims shadow_total={expected['expected_shadow_total']})")
     assert shadow_total == expected['expected_shadow_total'], "shadow_total mismatch vs GAP claim"
     assert shadow_sum_check, "shadow_sum_check identity does not hold on the Python side"
+    # ★ v2.1 【軽微E】: staged counters were only self-printed in v2, not
+    # asserted against the GAP-dumped values -- assert them now.
+    assert candidate_total == expected['expected_candidate_total'], "candidate_total mismatch vs GAP claim"
+    assert h10_fail == expected['expected_h10_fail'], "h10_fail mismatch vs GAP claim"
+    assert h11_fail == expected['expected_h11_fail'], "h11_fail mismatch vs GAP claim"
+    assert generation_fail == expected['expected_generation_fail'], "generation_fail mismatch vs GAP claim"
 
     # 6. settled check: independently build T_{m,f} via the same BFS-with-
     #    contradiction-detection technique, check well-defined AND surjective
@@ -417,27 +437,40 @@ def check_m_iso2_v2(k3_result, witness, n_points):
 
 
 def check_m_iso8(k3_result, mIso2_result, n_points):
-    """★ v2 NEW: settled:=true fixed mutant, mirroring the GAP driver's
-    M-ISO-8. Apply the mutation to the SAME 13-element M-ISO-2(v2) datum and
-    show the naive (no-genuineness-gate) verdict TRUE mismatches the real v2
-    verdict UNKNOWN(NONSHADOW_IN_DATUM).
+    """★ v2.1 【要修正A】fix (mirrors the GAP driver's corrected M-ISO-8):
+    settled:=true fixed mutant, applied to the SAME 13-element M-ISO-2(v2)
+    datum. falsifier machine-confirmed the VERDICT is insensitive to this
+    mutation on this datum (NONSHADOW_IN_DATUM fires regardless of
+    settled_count=12 or 13, since the genuineness gate dominates) -- so
+    detection must strike the settled CHANNEL directly via detail-element
+    comparison, not a verdict comparison (that was v2's bug, effectively
+    duplicating M-ISO-3).
     """
-    print("=== M-ISO-8 (independent second system) ===")
+    print("=== M-ISO-8 (independent second system, v2.1 detail-comparison fix) ===")
     shadows13 = mIso2_result["mIso2_shadows"]
-    mutant_settled_count = len(shadows13)  # settled:=true for every element
+    mutant_settled_count = len(shadows13)  # settled:=true for every element, including the witness
     mutant_total = len(shadows13)
-    naive_verdict = "TRUE" if (mIso2_result["mIso2_shadow_sum_ok"] and mutant_total > 0
-                               and mutant_settled_count == mutant_total) else "FALSE"
+    real_witness_settled = mIso2_result["witness_settled"]  # False, from the real SettledCheckGeneral path
+    mutant_witness_settled = True  # MutantSettledAlwaysTrue always reports True
+    detected = (real_witness_settled != mutant_witness_settled)
+    print(f"  mutant settled_count={mutant_settled_count}/{mutant_total}  "
+          f"real witness_settled={real_witness_settled}  mutant witness_settled={mutant_witness_settled}  "
+          f"mismatch (settled channel struck directly)={detected}")
+    # sanity: verdict really is insensitive here (documents the falsifier finding, not the detection itself)
     real_verdict = compute_verdict(mIso2_result["mIso2_all_genuine"], mIso2_result["mIso2_shadow_sum_ok"],
                                     mutant_total, mutant_settled_count)
-    detected = (naive_verdict != real_verdict["verdict"])
-    print(f"  mutant settled={mutant_settled_count}/{mutant_total}  naive_verdict={naive_verdict}  "
-          f"real_verdict={real_verdict['verdict']}/{real_verdict['reason']}  detected={detected}")
-    assert detected, "M-ISO-8: settled:=true mutant was NOT detected by the independent second system"
-    assert naive_verdict == "TRUE" and real_verdict["verdict"] == "UNKNOWN", "M-ISO-8 verdict shape mismatch"
-    print("  [MATCH] R4 second system independently confirms M-ISO-8 is killed (naive TRUE vs real UNKNOWN(NONSHADOW_IN_DATUM))\n")
-    return {"naive_verdict": naive_verdict, "real_verdict": real_verdict["verdict"],
-            "real_reason": real_verdict["reason"], "detected": detected}
+    mutant_verdict_matches_real = (real_verdict["verdict"] == mIso2_result["verdict"] == "UNKNOWN"
+                                    and real_verdict["reason"] == mIso2_result["reason"] == "NONSHADOW_IN_DATUM")
+    print(f"  (verdict insensitivity check: mutant-settled verdict == real verdict == "
+          f"UNKNOWN/NONSHADOW_IN_DATUM regardless of settled count? {mutant_verdict_matches_real} -- "
+          f"confirms the kill is NOT visible at the verdict level, per falsifier)")
+    assert detected, "M-ISO-8: settled:=true mutant was NOT detected at the detail-element level"
+    assert real_witness_settled is False and mutant_witness_settled is True, "M-ISO-8 detail shape mismatch"
+    assert mIso2_result["mIso2_settled_count"] == 12 and mutant_settled_count == 13, "M-ISO-8 settled_count shape mismatch"
+    print("  [MATCH] R4 second system independently confirms M-ISO-8 is killed via detail-element "
+          "comparison (real witness_settled=False vs mutant witness_settled=True), NOT via verdict comparison\n")
+    return {"real_witness_settled": real_witness_settled, "mutant_witness_settled": mutant_witness_settled,
+            "detected": detected, "verdict_insensitive_to_mutation": mutant_verdict_matches_real}
 
 
 def summary_of(result):
@@ -468,19 +501,62 @@ def main():
     print("ALL R4 CROSS-CHECKS PASSED (v2): independent Python second system agrees with the GAP driver "
           "(search/probe/w6_bu_s0/iso_gate_r3r4_driver.g) on K^(3), W-5, M-ISO-2(v2), and M-ISO-8.")
 
+    # ★ v2.1【要修正B】: canonical conventions_used, byte-identical to the GAP
+    # cert on the 5 required keys (perm_composition, abstract_prod_reversal,
+    # word_eval, h10_fail_bookkeeping_unit, comparison_target) -- enum/dict
+    # values, prose moved to *_note siblings. grading_prohibitions moved
+    # inside conventions_used (軽微F, same path as GAP's cert).
+    CANON_GRADING_PROHIBITION = ("PERMANENT BAN (commander ruling 535/543, falsifier finding): never write "
+                                 "that numeric agreement between two implementations demonstrates convention "
+                                 "identity. Any same-object verdict must rest on source-reading (CV-9 judge), "
+                                 "never on a cert's own numeric match.")
+    conventions_used = {
+        "ledger_version": "conventions_ledger_v1_6",
+        "perm_composition": "gap_native_right",
+        "perm_composition_note": "GAP permutations act on the right: i^(p*q)=(i^p)^q. Python's compose(p,q) implements the same convention.",
+        "abstract_prod_reversal": {
+            "reversed": True,
+            "rule": "AbstractProd([a1,...,ak]) = ak*a(k-1)*...*a1",
+            "usages": [
+                {"site": "z", "formula": "AbstractProd([x,y])^-1 = (y*x)^-1"},
+                {"site": "hex310", "formula": "AbstractProd([f,thetaf])=1 <=> thetaf*f=1"},
+                {"site": "ymf", "formula": "AbstractProd([y^m,f]) = f*y^m"},
+                {"site": "hex311", "formula": "AbstractProd([tau2,tau1,ymf])=1 <=> ymf*tau1*tau2=1"},
+                {"site": "genB", "formula": "AbstractProd([f^-1,y^u,f]) = f*y^u*f^-1"},
+            ],
+        },
+        "abstract_prod_reversal_note": "confirmed by direct GAP probe and independently by falsifier's third implementation (docs/notes/iso_r3r4_cv9_reading_v1.md sec.2.1)",
+        "word_eval": [
+            {"layer": "BFSWords_storage", "direction": "prepend", "word_source": "internal_gap"},
+            {"layer": "witness_reconstruction", "direction": "prepend", "word_source": "internal_gap"},
+        ],
+        "word_eval_note": "BFSWords storage is prepend (裁定166); witness reconstruction must use EvalWordInQ (prepend), NOT EvalWordQT (natural), which reconstructs a different element for the same word. Python side bypasses word evaluation entirely via raw f_images but declares the same layer/direction/word_source shape for machine-diffability.",
+        "enumeration_domain": "group_elements",
+        "group_side": "P_PB3_mod_N",
+        "h10_fail_bookkeeping_unit": "per_fm_pair",
+        "h10_fail_bookkeeping_unit_note": "theta/tau precondition (hex310) is checked inside the m-loop, redundantly per m, matching the GAP loop structure in EnumerateReducedHexagon exactly; NOT per-f.",
+        "comparison_target": {
+            "as_function_of": "marked_datum",
+            "function_a": {"name": "IsoGateCheck_ComputeVerdict_GAP", "domain": "marked_datum_to_5_quantities"},
+            "function_b": {"name": "run_fixture_compute_verdict_python", "domain": "marked_datum_to_5_quantities"},
+            "normalization_digest": "n/a",
+        },
+        "comparison_target_note": "5 quantities = g_size, n_ord, shadow_total, settled_count/total, verdict per docs/notes/iso_r3r4_iffirst_freeze_v1.md sec.2",
+        "grading_prohibitions": [CANON_GRADING_PROHIBITION],
+        "grading_prohibitions_note": ("falsifier's third independent implementation showed the compared 5 "
+                                       "quantities (|G|, N_ord, shadow_total, settled_count/total) are "
+                                       "IDENTICAL whether AbstractProd is evaluated with the real reversal or "
+                                       "with the naive (unreversed) paper-order convention -- i.e. this "
+                                       "observation window has ZERO discriminating power for convention "
+                                       "identity (docs/notes/iso_r3r4_cv9_reading_v1.md sec.3 【重大1】)."),
+        "level": "PB3",
+    }
+
     out = {
-        "schema": "gtsh-cert/iso-gate-r4-second-system/v2",
+        "schema": "gtsh-cert/iso-gate-r4-second-system/v2.1",
         "generated_by": {"tool": "python3 (independent, no GAP)", "script": "search/probe/w6_bu_s0/r4_second_system.py"},
         "independence_declaration": "does not import/read any search/*.g file or call GAP; only input is search/probe/w6_bu_s0/r4_input_data.json (raw generator permutation images + GAP's claimed summary numbers to diff against); all group theory (BFS closure, derived subgroup via commutator closure, theta/tau construction with contradiction detection, hexagon, generation/SURJ, settled-check, ComputeVerdict, VerifyShadowsGenuine) reimplemented from scratch in Python",
-        "conventions_used": {
-            "perm_composition": "gap_native_right (custom compose() matches k^(p*q)=(k^p)^q)",
-            "abstract_prod_reversal": "AbstractProd([a1,...,ak]) = ak*...*a1 in GAP's product -- applied at every site (z, hex310, ymf, hex311, genB); see module docstring",
-            "h10_fail_bookkeeping_unit": "(f,m) pair -- v2 fix, matches GAP exactly (was per-f in v1)",
-            "level": "PB3",
-        },
-        "grading_prohibitions": [
-            "PERMANENT BAN (裁定535, falsifier 【重大1】): never write that numeric agreement between two implementations demonstrates convention identity -- this observation window (|G|, N_ord, shadow_total, settled_count/total) has ZERO discriminating power for the AbstractProd reversal convention (falsifier's third implementation showed both conventions give identical numbers on K^(3)/W-5)."
-        ],
+        "conventions_used": conventions_used,
         "k3": summary_of(results['k3']),
         "w5": summary_of(results['w5']),
         "m_iso2_v2_independent_check": {
@@ -496,16 +572,17 @@ def main():
             "reason": mIso2_result["reason"],
         },
         "m_iso8_independent_check": {
-            "naive_verdict": mIso8_result["naive_verdict"],
-            "real_verdict": mIso8_result["real_verdict"],
-            "real_reason": mIso8_result["real_reason"],
+            "detection_mechanism": "detail-element comparison (v2.1 fix, NOT verdict comparison)",
+            "real_witness_settled": mIso8_result["real_witness_settled"],
+            "mutant_witness_settled": mIso8_result["mutant_witness_settled"],
             "detected": mIso8_result["detected"],
+            "verdict_insensitive_to_mutation_confirmed": mIso8_result["verdict_insensitive_to_mutation"],
         },
         "all_crosschecks_pass": True,
     }
-    with open("search/probe/w6_bu_s0/r4_second_system_output.json", "w", encoding="utf-8") as f:
+    with open("search/probe/w6_bu_s0/r4_second_system_output_v2_1.json", "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
-    print("\nwrote search/probe/w6_bu_s0/r4_second_system_output.json")
+    print("\nwrote search/probe/w6_bu_s0/r4_second_system_output_v2_1.json")
 
 
 if __name__ == "__main__":

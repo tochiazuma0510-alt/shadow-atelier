@@ -1,0 +1,133 @@
+{
+  "schema": "gtsh-cert/iso-gate-r4-second-system/v2.1",
+  "generated_by": {
+    "tool": "python3 (independent, no GAP)",
+    "script": "search/probe/w6_bu_s0/r4_second_system.py"
+  },
+  "independence_declaration": "does not import/read any search/*.g file or call GAP; only input is search/probe/w6_bu_s0/r4_input_data.json (raw generator permutation images + GAP's claimed summary numbers to diff against); all group theory (BFS closure, derived subgroup via commutator closure, theta/tau construction with contradiction detection, hexagon, generation/SURJ, settled-check, ComputeVerdict, VerifyShadowsGenuine) reimplemented from scratch in Python",
+  "conventions_used": {
+    "ledger_version": "conventions_ledger_v1_6",
+    "perm_composition": "gap_native_right",
+    "perm_composition_note": "GAP permutations act on the right: i^(p*q)=(i^p)^q. Python's compose(p,q) implements the same convention.",
+    "abstract_prod_reversal": {
+      "reversed": true,
+      "rule": "AbstractProd([a1,...,ak]) = ak*a(k-1)*...*a1",
+      "usages": [
+        {
+          "site": "z",
+          "formula": "AbstractProd([x,y])^-1 = (y*x)^-1"
+        },
+        {
+          "site": "hex310",
+          "formula": "AbstractProd([f,thetaf])=1 <=> thetaf*f=1"
+        },
+        {
+          "site": "ymf",
+          "formula": "AbstractProd([y^m,f]) = f*y^m"
+        },
+        {
+          "site": "hex311",
+          "formula": "AbstractProd([tau2,tau1,ymf])=1 <=> ymf*tau1*tau2=1"
+        },
+        {
+          "site": "genB",
+          "formula": "AbstractProd([f^-1,y^u,f]) = f*y^u*f^-1"
+        }
+      ]
+    },
+    "abstract_prod_reversal_note": "confirmed by direct GAP probe and independently by falsifier's third implementation (docs/notes/iso_r3r4_cv9_reading_v1.md sec.2.1)",
+    "word_eval": [
+      {
+        "layer": "BFSWords_storage",
+        "direction": "prepend",
+        "word_source": "internal_gap"
+      },
+      {
+        "layer": "witness_reconstruction",
+        "direction": "prepend",
+        "word_source": "internal_gap"
+      }
+    ],
+    "word_eval_note": "BFSWords storage is prepend (裁定166); witness reconstruction must use EvalWordInQ (prepend), NOT EvalWordQT (natural), which reconstructs a different element for the same word. Python side bypasses word evaluation entirely via raw f_images but declares the same layer/direction/word_source shape for machine-diffability.",
+    "enumeration_domain": "group_elements",
+    "group_side": "P_PB3_mod_N",
+    "h10_fail_bookkeeping_unit": "per_fm_pair",
+    "h10_fail_bookkeeping_unit_note": "theta/tau precondition (hex310) is checked inside the m-loop, redundantly per m, matching the GAP loop structure in EnumerateReducedHexagon exactly; NOT per-f.",
+    "comparison_target": {
+      "as_function_of": "marked_datum",
+      "function_a": {
+        "name": "IsoGateCheck_ComputeVerdict_GAP",
+        "domain": "marked_datum_to_5_quantities"
+      },
+      "function_b": {
+        "name": "run_fixture_compute_verdict_python",
+        "domain": "marked_datum_to_5_quantities"
+      },
+      "normalization_digest": "n/a"
+    },
+    "comparison_target_note": "5 quantities = g_size, n_ord, shadow_total, settled_count/total, verdict per docs/notes/iso_r3r4_iffirst_freeze_v1.md sec.2",
+    "grading_prohibitions": [
+      "PERMANENT BAN (commander ruling 535/543, falsifier finding): never write that numeric agreement between two implementations demonstrates convention identity. Any same-object verdict must rest on source-reading (CV-9 judge), never on a cert's own numeric match."
+    ],
+    "grading_prohibitions_note": "falsifier's third independent implementation showed the compared 5 quantities (|G|, N_ord, shadow_total, settled_count/total) are IDENTICAL whether AbstractProd is evaluated with the real reversal or with the naive (unreversed) paper-order convention -- i.e. this observation window has ZERO discriminating power for convention identity (docs/notes/iso_r3r4_cv9_reading_v1.md sec.3 【重大1】).",
+    "level": "PB3"
+  },
+  "k3": {
+    "name": "K^(3)",
+    "theta_tau_ok": true,
+    "g_size": 108,
+    "n_ord": 6,
+    "candidate_total": 108,
+    "h10_fail": 72,
+    "h11_fail": 24,
+    "generation_fail": 0,
+    "shadow_total": 12,
+    "shadow_sum_check": true,
+    "settled_count": 12,
+    "verdict": "TRUE",
+    "match_gap": true
+  },
+  "w5": {
+    "name": "W-5",
+    "theta_tau_ok": true,
+    "g_size": 1000,
+    "n_ord": 20,
+    "candidate_total": 4000,
+    "h10_fail": 3200,
+    "h11_fail": 720,
+    "generation_fail": 0,
+    "shadow_total": 80,
+    "shadow_sum_check": true,
+    "settled_count": 80,
+    "verdict": "TRUE",
+    "match_gap": true
+  },
+  "m_iso2_v2_independent_check": {
+    "witness_subgroup_size": 36,
+    "witness_proper_subgroup_independent": true,
+    "h11_fail_24_to": 23,
+    "shadow_total_12_to": 13,
+    "shadow_sum_check": true,
+    "all_shadows_genuine": false,
+    "settled_count": 12,
+    "witness_settled": false,
+    "verdict": "UNKNOWN",
+    "reason": "NONSHADOW_IN_DATUM"
+  },
+  "m_iso8_independent_check": {
+    "detection_mechanism": "detail-element comparison (v2.1 fix, NOT verdict comparison)",
+    "real_witness_settled": false,
+    "mutant_witness_settled": true,
+    "detected": true,
+    "verdict_insensitive_to_mutation_confirmed": true
+  },
+  "all_crosschecks_pass": true,
+  "conventions_used_machine_diff": {
+    "status": "PASS -- 要修正B closed (裁定543)",
+    "method": "search/probe/w6_bu_s0/conventions_diff_v2_1.py compared the GAP cert's conventions_used against the Python second system's conventions_used on the 5 commander-specified keys",
+    "diffable_count": "5/5",
+    "all_5_keys_match": true,
+    "grading_prohibitions_match": true,
+    "result_file": "search/probe/w6_bu_s0/conventions_diff_v2_1_result.json"
+  }
+}
