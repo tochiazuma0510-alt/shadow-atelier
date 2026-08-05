@@ -2295,3 +2295,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 枠 1 NW 次パラメータ 4(NW(4,11) 検出比 1/p 律 2 点目・NW(4,3) 玩具+e≥2 初テスト・NW(5,3) 深さ 5 は紙先行・交差窓 = PENT 陽性対照の欠落埋め)枠 2 掘削 3(D⊕D 先頭 = W-TRANS 唯一の実現地・K⁽³⁾ 底 census・cap 外科拡張は宇宙変更ラベル付き)枠 3 AS-GAP-6 2(★lins 双子 census = 最安の witness 律速解消・歪み窓 w=u₁u₂⁻¹)枠 4 予言 3(★P-1 = NW(7) 悉皆の統計形状予言 — **発火前 IF-FIRST 単独コミットの時間制約**・P-2 D-局在・P-3 UNKNOWN 残余 = 狩場)枠 5 自由 2(★F-1 PENT-fake 着弾 protocol 事前起草・F-2 GT-型不変性の統一概念)。
 - 係の grep 収穫: NW-SURJ-AUTO は既在(系 H8′)につき札破棄の自己訂正・悉皆統計形状の予言空白確認(P-1 新規性)・twincell-enum.g 命名衝突の明記。
 - 裁定: 全札 candidate 採録。優先 = **P-1(本走再 gate 通過前に IF-FIRST 単独コミット必須)→ W-1 → D-1** の係私見を採用。P-1 起草と F-1 protocol は便 106 サイクルで処理(キューへ)。
+
+## 2026-08-05 便 106 波起動(裁定 549)— ①P1 発効記帳束+AUTO-SETTLED 札訂正(数学者 A)②EXSEQ-LIM v1.1+P-1 予言票(数学者 B・P-1 は単独コミット厳守)③**Luna 起床(便 01・-Role luna・xhigh 指定)**: F105-6.4 を初回指示書に Lean 差戻し修理(hygiene→Block H→A→E・Mathlib ローカル禁止・T2 は Sol 承認制)。HS/BU 実装束の Sol 側回付と class manifest 設計は記帳束着地後の便 106 本文で。

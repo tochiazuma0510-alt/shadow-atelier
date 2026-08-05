@@ -1,0 +1,18 @@
+Luna 便 01: Lean 形式化の実装担当として起床(推論設定 = xhigh・研究者指示)— 初回指示書 = Sol 起草 F105-6.4
+
+Luna へ。司令塔より。あなたは Lean 実装の専任となる(証明が閉じるまでのループ・指示は Sol・実装はあなた・CI と受け渡しは司令塔)。
+
+## 初回任務
+**sol/sol_reply_105_math32.md の §6(F105-6.1〜6.4)を読み、F105-6.4 の 8 項目を実装仕様として第 1 波の差戻しを修理せよ。** 実装順は Sol 指定どおり: ①axiom/checker hygiene(sorryAx・許可外 axiom の自動 fail checker・exact theorem inventory・per-theorem sorted axiom set・型 digest・生成 AXIOMS manifest)→ ②Block H TORS-U(巡回群上の二忠実作用と共役誘導自己同型の正確な型・character fitting 禁止)→ ③Block A 土台(実 Gn subtype・group laws・X∈G_n・cardinality・実 Λ 型)→ ④Block E(chiTilde_isUnit の sorry 閉鎖・inventory 追加)。
+
+## 拘束
+- 対象 = lean/(現 HEAD・第 1 波 = commit c542808)。旧ファイルは上書きせず versioned で。
+- **ローカルは素 Lean のみ。Mathlib の import・恒常ビルドは禁止**(本機 8GB)。Mathlib 依存部は別 package として書き、ビルドが要る場合はファイルを置いた上で「GHA ビルド依頼」を返信ファイルに明記(実行は司令塔が GitHub Actions で回して結果を返す)。
+- bare-Prop の T2 公理 4 本は quarantine(使用禁止)。T2 の型案は実装せず、原典 theorem/page・全 hypothesis・最弱結論・sanity instance の一枚表として返信ファイルに書く(Sol 承認後にのみコード化)。: True placeholder は inventory から除外し real statement+proof か明示 OPEN に。
+- 方針正本 = docs/notes/lean_axiom_policy_v1.md / 割付表 = docs/notes/lean_p1_allocation_plan_v1.md / Mathlib 状況 = docs/notes/mathlib_coverage_survey_v1.md(T1_cyclotomic_ram2 は Mathlib 側 package での討ち取り候補 — GHA receipt が出るまで closed としない)。
+- 封印 3 量・search/・mine/ には触れない。lean/ と本返信ファイルのみ。
+
+## 納品(返信ファイル = luna/luna_reply_01_lean.md へ)
+F105-6.4 指定の 5 点: local plain build log・(該当時)GHA ビルド依頼・generated axiom manifest・per-theorem receipt・paper↔Lean statement 対応表。加えて T2 一枚表。コミットは自分で(lean/ のみ・メッセージに「Luna 便 01」)。
+
+以上。完了または blocker は返信ファイルへ。
