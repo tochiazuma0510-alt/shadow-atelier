@@ -2446,3 +2446,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 便 109 発射(裁定 581)— P5 決着束・先行小便(研究者 4 決定の履行: 分割先行/次弾順確定/新セッション恒久運用/可視化は発射後)
 - §1 発効連鎖(scoring+J0-J2+prereg+BH-BRIDGE+Fox 30/30・SHA24 個 preflight PASS)§2 監査点 R-5〜R-8(BR-GAP-1 受理可否・scoring 格・言明文指定・A 型改名)§3 申告(C1 未入手 = 載荷根拠外)。
 - ★新セッション運用初適用(-Renew・compaction ループの構造的予防)。次 = 可視化 Artifact 更新 → 便 110(Lean/三色地図/census 束)。探索次弾順確定: 126 双子 → D⊕D → 非還元窓。
+
+## 2026-08-06 便 109 返書検収(裁定 582)— 分割 PASS/強形 FAIL: ★発効可 = 「𝔊_ar(N) = 𝔊_pent(N) = H_W = 42(PENT_W 通過集合の算術飽和)」・発効不可 = 「非算術証人ゼロ/FAKE-VOID 窓完全検証」(252 の genuine/fake 分解が UNKNOWN のため 𝔊_gen = 𝔊_ar は出ない)
+- 司令塔の表題過大を Sol が正しく刈った(裁定 580 の「FAKE-VOID 初の窓レベル完全検証」表現は撤回・正 = 算術飽和まで)。
+- 橋の修文 2 点を Sol が処方: ①Kurihara Prop 5.1 の不等号向き誤用 → Remark 5.2 の「実は等号」を明示載荷 ②BR-GAP-1 = 有限段 Kummer 類の直接比較で閉じよ。artifact 実在 5/5+入れ子 pin 16/16 一致・J 系の格 = candidate 維持(単系統・cert 自己申告どおり)。
+- 発火: 数学者へ修文 2 点+狭形言明の versioned 記帳を委嘱 → 修文後に狭形発効(次便)。252 の分解は新 GAP として登録(genuine 側の深い判定 = 今後の P6/TRUNC 線)。
