@@ -1,0 +1,104 @@
+{
+  "actual_evaluated": {},
+  "candidate_universe_contact": 0,
+  "class_id": "HS-NW7-CLASS-v3-draft",
+  "comparisons": {
+    "laneP5_CONV_native_5_equal": true
+  },
+  "note": "Only named, previously registered fixtures were evaluated. SHARD mode was never invoked.",
+  "overall_pass": false,
+  "pcgs_basis_contract": "hsp7-ordered-pcgs-material/v1",
+  "pcgs_basis_fingerprints": {},
+  "pcgs_core_fingerprint": null,
+  "registered_fixture_plan": {
+    "P5_two_path": 5,
+    "P_production": 8,
+    "S": 13,
+    "V": 13
+  },
+  "rows": [
+    {
+      "basis_probe_exit_code": 1,
+      "basis_probe_log_sha256": "9aff2cc4a6724542baac73b10249e85443e1c5a31322016b112c2fdcde2672b5",
+      "cert_path": "search/certs/hsp7_laneS_registered_preflight_pcgs_v2_20260805.json",
+      "error": "basis GAP exit=1, material_exists=False",
+      "exit_code": null,
+      "lane": "S",
+      "pass": false,
+      "pcgs_basis_fingerprint": null,
+      "source_bundle_sha256": "a511451484e228263859da61a14c37b3e65d989044c8b7eac41f9fb38b83633e",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "6a5eac8ac9a0e8722914050c4b70a227b37646ee487577b837de589f33baa586",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "c04d25ca3589da62093e7802f8e71abc8f7175b43f17a63d081dc12dd921429b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_S.g": "d74d964b02881248357fb6ad77ea8dde0986dd380cd681457b4cb64abf0ad498",
+        "search/probe/hsp7_mainrun/predicate_lib_laneS.g": "1fabb7848ea5c6adb275b451c5264f8c4f7989fbc2b94f1e95db2b663453a070",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "basis_probe_exit_code": 1,
+      "basis_probe_log_sha256": "5042aba108a856e07083452ae7314fc9e40800ca2e9b8d4bc71b4e6eb5777332",
+      "cert_path": "search/certs/hsp7_laneV_registered_preflight_pcgs_v2_20260805.json",
+      "error": "basis GAP exit=1, material_exists=False",
+      "exit_code": null,
+      "lane": "V",
+      "pass": false,
+      "pcgs_basis_fingerprint": null,
+      "source_bundle_sha256": "dba460fb59512cd449279fcb9f4d139e9ff3d7a380d5c2525259bcfb19ac8f02",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "6a5eac8ac9a0e8722914050c4b70a227b37646ee487577b837de589f33baa586",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_cond4_laneV/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_cond4_laneV/statemachine_lib.g": "30ea5224eec536aa995443471930c7874ebd57e61a3e2a3c6982ad5c2e5edf47",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "c04d25ca3589da62093e7802f8e71abc8f7175b43f17a63d081dc12dd921429b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_V.g": "c00014cf7df52883fc01e0c9e56ddf9eabbbd1161ca77f49e0bfefcb3ee5abfd",
+        "search/probe/hsp7_mainrun/predicate_lib_laneV.g": "0522fab0f9c928c47142b8a74420ed3783dba827a5b1d567250c2c0af1b7e029",
+        "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g": "e333face99652474a4a6b796d286fa68567a23df05a836293fdc1500b03a4cad",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "basis_probe_exit_code": 1,
+      "basis_probe_log_sha256": "fb3be91fc14c561321a4f7993076c3edf607c3516cf4d3d0ce76f8384c43c1f4",
+      "cert_path": "search/certs/hsp7_laneP_registered_preflight_pcgs_v2_20260805.json",
+      "error": "basis GAP exit=1, material_exists=False",
+      "exit_code": null,
+      "lane": "P",
+      "pass": false,
+      "pcgs_basis_fingerprint": null,
+      "source_bundle_sha256": "c04ebe90bbd3cf002aca63c789602e17ad58c0e5c2ba3dd2155f06ffc8cc9d3d",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "6a5eac8ac9a0e8722914050c4b70a227b37646ee487577b837de589f33baa586",
+        "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "c04d25ca3589da62093e7802f8e71abc8f7175b43f17a63d081dc12dd921429b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_P.g": "56d827f8941cb8ca4d304271314e55e6142833bd93812ec3596683346d8aa8ba",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP.g": "be1fdf4883210118211f5ab26dc8e1c22a2aacd96f58e24e494779ca3fc70dcc",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "driver_path": "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g",
+      "driver_sha256": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+      "error": null,
+      "exit_code": 0,
+      "lane": "P5",
+      "log_sha256": "87dbeb4e5b01f6824c8e9899b4ec2d0faaef8b06e9f0983ceb21b952ca0622a0",
+      "pass": true,
+      "source_bundle_sha256": "2dc3baecf9aa6cb0be4209d38ee2805ba491e132149f11ebfc58a6cc8bc2116e",
+      "source_files": {
+        "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_P5.g": "3128d6afe7eb034bb87ab9dd173b1036607017f637f8eaae2bd3f280c566e15d",
+        "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_Q5.g": "2cc3c2986dc2b49f5ea7509431cb0d808d424a687f41bf783a5c88c8fc0a4edc",
+        "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    }
+  ],
+  "schema": "hsp7-registered-wrapper-preflight/v2"
+}
