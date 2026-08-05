@@ -1,0 +1,121 @@
+name: hsp7-calib
+
+# HS 発火条件4/5 -- GHA 機能較正(便104認可事項1のみ)。
+# sol/sol_reply_104_math31.md F104-1.4 が認可したのは次の3点のみ:
+#   1. 登録済み 13+5 fixture を同じ期待値で GHA 上に流す機能較正(本 workflow)。
+#   2. 同じ既知 fixture を使う local schema smoke(search/probe/hsp7_ci_calib/local_schema_smoke.py、ローカル実行)。
+#   3. join checker + 人工 manifest 両縁 fixture(search/probe/hsp7_mainrun/join_checker.py、ローカル実行)。
+# 705,894 候補宇宙の smoke/pilot/部分 matrix は不認可(F104-1.1〜1.3参照)。
+# 本 workflow は search/*.g を一切改変せず Read するのみ(mine-dispatch.yml の
+# 「search/*.g は不可侵」規律を踏襲)。GAP の判定ロジックには一切手を加えない。
+#
+# 13+5 の内訳(sol_reply_104_math31.md 該当節):
+#   - 13: Lane V driver(driver_step4_evaluate_v3.g)の window-N judgments
+#     (8 dummy/h3 候補 + NW-P8 m-sweep 5 件)。
+#   - 5: Lane P p=5 control driver(driver_final_eval_p5.g)の NW-P7 main run
+#     (t=0..4)。
+# 期待値は search/certs/hsp7_cond4_summary_v2_20260805.json から実行後に
+# 読み取って突合する(コード非埋め込み、search/probe/hsp7_ci_calib/parse_and_compare.py)。
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - '.github/workflows/hsp7-calib.yml'
+      - 'search/probe/hsp7_ci_calib/**'
+      - 'search/probe/hsp7_cond4_laneV/driver_step4_evaluate_v3.g'
+      - 'search/probe/hsp7_cond4_laneV/statemachine_lib.g'
+      - 'search/probe/hsp7_cond4_laneP_p5control/driver_final_eval_p5.g'
+      - 'search/certs/hsp7_cond4_summary_v2_20260805.json'
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lane: laneV_13
+            driver_script: search/probe/hsp7_cond4_laneV/driver_step4_evaluate_v3.g
+            driver_extra_digest_inputs: search/probe/hsp7_cond4_laneV/statemachine_lib.g
+          - lane: p5control_5
+            driver_script: search/probe/hsp7_cond4_laneP_p5control/driver_final_eval_p5.g
+            driver_extra_digest_inputs: ""
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Setup GAP 4.16.0 (release tarball, sha256-verified -- 版は mine-dispatch.yml と揃える)
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Install anupq package sources
+        uses: gap-actions/install-pkg@v2
+        with:
+          package: anupq
+
+      - name: Build anupq (compiles the pq binary for this runner)
+        uses: gap-actions/build-pkg@v3
+
+      - name: Compute driver digest (fail-closed provenance binding)
+        id: digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILES="${{ matrix.driver_script }} search/probe/wac_v1/gap_output_prelude.g"
+          if [ -n "${{ matrix.driver_extra_digest_inputs }}" ]; then
+            FILES="$FILES ${{ matrix.driver_extra_digest_inputs }}"
+          fi
+          DIGEST=$(sha256sum $FILES | sha256sum | awk '{print $1}')
+          echo "driver_digest=$DIGEST" >> "$GITHUB_OUTPUT"
+          echo "computed over: $FILES"
+          sha256sum $FILES
+
+      - name: Run GAP driver (search/*.g は不可侵 -- 既存 driver をそのまま Read するのみ)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 4g "${{ matrix.driver_script }}" 2>&1 | tee ci/out/run.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Parse run.log and compare against registered expected verdicts (fail-closed)
+        id: compare
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python search/probe/hsp7_ci_calib/parse_and_compare.py \
+            --lane "${{ matrix.lane }}" \
+            --log ci/out/run.log \
+            --run-id "${{ github.run_id }}" \
+            --run-attempt "${{ github.run_attempt }}" \
+            --commit-sha "${{ github.sha }}" \
+            --driver-digest "${{ steps.digest.outputs.driver_digest }}" \
+            --out "ci/out/hsp7_ci_calib_receipt_${{ matrix.lane }}.json"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hsp7-calib-${{ matrix.lane }}
+          path: |
+            ci/out/run.log
+            ci/out/hsp7_ci_calib_receipt_${{ matrix.lane }}.json
+          if-no-files-found: error
+
+      - name: Fail-closed -- GAP exit code must be 0 AND every candidate must agree
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.gap_exit }}" != "0" ]; then
+            echo "::error::gap_exit=${{ steps.run.outputs.gap_exit }} (nonzero) -- see ci/out/run.log in the uploaded artifact"
+            exit 1
+          fi
+          echo "gap_exit=0, comparison step already fail-closed on any disagreement (see previous step)."

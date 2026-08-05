@@ -1,0 +1,78 @@
+{
+  "shards": [
+    {
+      "candidate_keys": [
+        {
+          "flat_index": 0,
+          "key": {
+            "e1": 0,
+            "m": 0
+          }
+        },
+        {
+          "flat_index": 1,
+          "key": {
+            "e1": 1,
+            "m": 0
+          }
+        },
+        {
+          "flat_index": 2,
+          "key": {
+            "e1": 2,
+            "m": 0
+          }
+        }
+      ],
+      "endian": "big",
+      "index_range": [
+        0,
+        2
+      ],
+      "pcgs_id": "toy_pcgs_v1",
+      "receipt": {
+        "driver_digest": "driverA-sha256-0001",
+        "run_attempt": "1",
+        "run_id": "17012345678",
+        "sha": "aaaa1111bbbb2222"
+      },
+      "shard_id": "shard0"
+    },
+    {
+      "candidate_keys": [
+        {
+          "flat_index": 3,
+          "key": {
+            "e1": 3,
+            "m": 0
+          }
+        },
+        {
+          "flat_index": 4,
+          "key": {
+            "e1": 4,
+            "m": 0
+          }
+        }
+      ],
+      "endian": "big",
+      "index_range": [
+        3,
+        4
+      ],
+      "pcgs_id": "toy_pcgs_v1",
+      "receipt": {
+        "driver_digest": "driverB-sha256-0002",
+        "run_attempt": "1",
+        "run_id": "17012345679",
+        "sha": "cccc3333dddd4444"
+      },
+      "shard_id": "shard1"
+    }
+  ],
+  "universe": {
+    "endian": "big",
+    "pcgs_id": "toy_pcgs_v1",
+    "total_flat_indices": 5
+  }
+}
