@@ -2470,3 +2470,4 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ★発効宣言: **BH-α-pent v1.1 = 「𝔊_ar(N) = 𝔊_pent(N) = H_W・|H_W| = 42(PENT_W 通過集合の算術飽和・前件相対・測定相対)」**(Sol F109「修文を入れれば発効してよい」の条件履行完了)。F109-3.1 系: 42 個は arithmetic かつ genuine。強形は不採択のまま・252 = 「PENT_W-FAIL 非算術 shadow」(内訳 UNKNOWN)。CLAIMS.md への確定文貼付(erratum §5.4)= 便 110 組立ターンで実施(債務)。
 - 残: BR-GAP-3/4(引用連鎖・非 blocker)・bridge 格 = 前件相対 PASS(not cross-checked/verified)。便 110 で erratum 束を Sol へ確認提出。
 - **裁定 587(研究者指示)**: 便 110 を**探索認可の一括請求便**へ拡張 — 6 件(双子検査・NW(4,11)・PSL(2,8)・ℓ=3 窓・★S8+S3.6 解禁・GW-ENT 宇宙拡張)を 1 往復で。roundtrip-batching 規律の適用。
+- **裁定 587 補記(コミット競合 3 件目・帰属訂正)**: 93cecae(「便110からLean除外」)に実装係の S1-S3 成果 2 ファイル(w6_bu_s1_s3_driver.g・w6_bu_s1_s3_firing_20260806.json)が巻き込み同梱 — **当該 2 ファイルの著者 = 実装係(裁定 583/585 系列)**とここに帰属記録(push 済みにつき履歴改変はしない)。恒久対策: 司令塔コミットは `git commit --only <明示パス>` 形式へ(他者 staged 分の巻き込み防止)。内容は diff ゼロ・checker PASS 確認済み。
