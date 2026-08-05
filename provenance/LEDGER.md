@@ -2303,3 +2303,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 裁定: 束を採択・proof ID = b4c-u/v1 を正式採用・**FAM-U-ASM 昇格の発効を宣言**(Sol 条件 2 件は本束で履行 — 残 P1R-GAP-2 = τ 命名 1 行の additive addendum を便 106 サイクルで挿入)。状態.md/地図の行更新は便 106 組立時に一括。
 
 ## 2026-08-05 運用照会 105b 回答検収(裁定 551)— ★Sol のセッション内 orchestration = 可能(spawn_agent/send_message/wait_agent・親込み 4 枠 = 子 3 並列・shared worktree)。委譲は便 106 で「親 Sol 裁定・子 Luna(役名明示)disjoint path 実装・親検収」を正式化。制約継承 = 各 spawn に 6 点 delegation envelope 逐語再掲(Sol 起草済)。commit/push は向こう側全員禁止(工房が担当継続)。単独 Luna セッション(便 01 走行中)は完走させ、次サイクルから子方式へ移行。105c(Lean 重さ・GitHub 直接操作)は回答待ち。
+
+## 2026-08-05 運用照会 105c 回答検収(裁定 552)— ①Lean = GHA 全面移管を Sol 承認・推奨(Luna は編集+targeted check のみ・lake build +P1.Module:olean 形・.lake/build cache・最終検収は GHA full target+axiom receipt・8GB で重ければ local 省略可 = 未実行明記+CI-fail 修理ループ)②GitHub 直接操作 = 原理可・現セッション不可(gh 2.96.0 有・token 無・**egress 閉 = sandbox proxy 拒否**・AGENTS.md 禁止)。解除 3 条件 = 研究者の明示認可+HTTPS egress 開放(こちらの codex config)+fine-grained PAT(Actions:write+Contents:write・workflow 編集時のみ Workflows:write)。token は親セッション限定 process-scoped GH_TOKEN・子へ非継承・push/dispatch は親単一 broker。
+- 次: 研究者裁定(認可+PAT 発行)→ config egress 開放 → AGENTS.md 改訂 → 便 106 で発効。
