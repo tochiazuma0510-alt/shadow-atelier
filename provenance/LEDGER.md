@@ -2255,3 +2255,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ①R-A: verdict を両側同型の 4 変数(allShadowsGenuine, shadowSumOk, total, settled)へ整列(genuineness gate は係の妥当な拡張)・h10 帳簿 = (f,m) 対に統一・恒等式両側成立(K³ 108−72−24−0=12・W-5 4000−3200−720−0=80)②R-B: witness を shadow バケツへ実移動(24→23・12→13・恒等式 13 整合)・SettledCheckGeneral 実経路で settled=false 実発火・新設 VerifyShadowsGenuine が非 shadow 性を独立検出 → **NONSHADOW_IN_DATUM/UNKNOWN**(FALSE でない)・cert の「first isolated=FALSE instance」撤回+AS-GAP-6 open 明記 ③M-ISO-8(settled:=true 固定)= **killed 確認**(素朴 TRUE vs 実 UNKNOWN 不一致検出)= 偽側分岐の実行が初めて実証 ④経路層変異 4 件復元(実関数・実データ構造)⑤両 cert に conventions_used 5 項+grading_prohibitions ⑥IF-FIRST 凍結を再走前に起草・§7 期待値表が再走結果と完全一致(CV-9-4 差戻しなし)。
 - v1 cert = 不改変(v2_supersedes で継承明示)・旧 driver・共有 helper = git diff 無変更確認。cert v2 = search/certs/w6_bu_s0_iso_gate_r3r4_v2_20260805.json。
 - 発火: falsifier 再判読(v1 判読の重大 1〜3+制度 2 点の閉鎖確認・4 変数 verdict の同一対象性・IF-FIRST の事前性確認)→ その後に cross-checked 格付け裁定。
+
+## 2026-08-05 研究者裁定: Lean 全面 Sol 側移管(裁定 542)—「Lean は Sol 側で全部対応してもらって」
+- 裁定 531 を強化: 以後の Lean 実装は**全部 Sol 指示×Luna 実装**(工房 agent は完全に外れる — 裁定 539 の T1_cyclotomic_ram2 討ち取り・540 の Block-H 次波も Sol/Luna へ)。工房に残るのは①方針・公理台帳のゲート(発効判定は従来どおり司令塔+Sol)②GitHub 操作(push・Actions CI・Mathlib キャッシュ・K3 ビルド滞留の解消含む)③Luna の起床・配達。
+- 便 105 §6 の性格変更: 「一回監査請求+運用提案」→「**一回監査+全面移管の引き継ぎ束**」(方針 v1.5・割付表・第 1 波 c542808・survey 629ba3e・Block-H-first 勧告・T2 言明精密化議題・橋 B 内製 6 案)。Sol 検収後に Luna 起床。memory = lean-sol-luna-pipeline 改版。
