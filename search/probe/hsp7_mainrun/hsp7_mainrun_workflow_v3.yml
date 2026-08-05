@@ -1,0 +1,287 @@
+name: hsp7-mainrun-class-v3-draft
+
+# DRAFT ONLY: this file is intentionally outside .github/workflows/.  Moving
+# it there and dispatching it requires a later Sol/workshop authorization.
+on:
+  workflow_dispatch:
+    inputs:
+      class_manifest:
+        description: Frozen class manifest path
+        required: true
+        type: string
+      lane:
+        description: One frozen lane
+        required: true
+        type: choice
+        options: [S, V, P]
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
+      lane: ${{ steps.prepare.outputs.lane }}
+      manifest: ${{ steps.prepare.outputs.manifest }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: prepare
+        shell: bash
+        env:
+          CLASS_MANIFEST: ${{ inputs.class_manifest }}
+          LANE: ${{ inputs.lane }}
+          # Draft is deliberately fail-closed.  Freeze replaces UNSET with
+          # the approved class-manifest path and file digest before installation.
+          FROZEN_CLASS_MANIFEST_PATH: UNSET_REQUIRES_FREEZE
+          FROZEN_CLASS_MANIFEST_SHA256: UNSET_REQUIRES_FREEZE
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, os, sys
+          from pathlib import Path
+          sys.path.insert(0, "search/probe/hsp7_mainrun")
+          from binding_gate_lib import (class_lane_capacity_checks,
+              class_lock_checks, manifest_binding_checks,
+              workflow_template_digest)
+
+          def sha(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          def bundle(paths):
+              payload = "".join(f"{sha(Path(p))}  {Path(p).as_posix()}\n" for p in sorted(paths)).encode()
+              return hashlib.sha256(payload).hexdigest()
+
+          cp = Path(os.environ["CLASS_MANIFEST"])
+          frozen_path = os.environ["FROZEN_CLASS_MANIFEST_PATH"]
+          frozen_sha = os.environ["FROZEN_CLASS_MANIFEST_SHA256"]
+          assert frozen_path != "UNSET_REQUIRES_FREEZE"
+          assert os.environ["FROZEN_CLASS_MANIFEST_SHA256"] != "UNSET_REQUIRES_FREEZE"
+          class_bytes = cp.read_bytes()
+          c = json.loads(class_bytes)
+          lock = class_lock_checks(class_bytes=class_bytes, class_obj=c,
+                                   actual_path=cp.as_posix(), expected_path=frozen_path,
+                                   expected_sha256=frozen_sha,
+                                   required_status="FROZEN_AUTHORIZED")
+          assert all(lock.values()), {k: v for k, v in lock.items() if not v}
+          caps = class_lane_capacity_checks(c.get("capacity"))
+          assert all(caps.values()), {k: v for k, v in caps.items() if not v}
+          installed_workflow = Path(".github/workflows/hsp7-mainrun-class-v3.yml")
+          workflow_binding = c.get("workflow_installation", {})
+          assert workflow_binding.get("installed_path") == installed_workflow.as_posix()
+          assert workflow_template_digest(installed_workflow.read_bytes()) == \
+              workflow_binding.get("normalized_template_sha256")
+          lane = os.environ["LANE"]
+          p = Path(c["lanes"][lane]["shard_manifest"])
+          manifest_bytes = p.read_bytes()
+          m = json.loads(manifest_bytes)
+          live_bundle = bundle(c["lanes"][lane]["source_files"])
+          binding = manifest_binding_checks(
+              class_obj=c, manifest_obj=m, manifest_bytes=manifest_bytes,
+              actual_manifest_path=p.as_posix(), lane=lane,
+              live_source_bundle_sha256=live_bundle)
+          assert all(binding.values()), {k: v for k, v in binding.items() if not v}
+          names = [s["name"] for s in m["shards"]]
+          with open(os.environ["GITHUB_OUTPUT"], "a") as out:
+              out.write("matrix=" + json.dumps({"shard": names}, separators=(",", ":")) + "\n")
+              out.write("lane=" + m["lane"] + "\n")
+              out.write("manifest=" + p.as_posix() + "\n")
+          PY
+
+  shard:
+    needs: prepare
+    runs-on: ubuntu-latest
+    # 60-minute GAP subprocess cap + 30-minute setup/upload/receipt margin.
+    # The outer job must not kill the process before run_lane_job emits STOP.
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+      - uses: gap-actions/install-pkg@v1
+        with:
+          packages: anupq
+      - name: Build ANUPQ
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GAPROOT/pkg/anupq"
+          ./configure "$GAPROOT"
+          make
+      - name: Run exact frozen shard and emit fail-closed receipt
+        shell: bash
+        env:
+          MANIFEST: ${{ needs.prepare.outputs.manifest }}
+          CLASS_MANIFEST: ${{ inputs.class_manifest }}
+          LANE: ${{ needs.prepare.outputs.lane }}
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python search/probe/hsp7_mainrun/run_lane_job.py \
+            --class-manifest "$CLASS_MANIFEST" --manifest "$MANIFEST" --shard "$SHARD" \
+            --cert "out/${LANE}_${SHARD}.json" \
+            --receipt "out/${LANE}_${SHARD}_receipt.json" \
+            --log "out/${LANE}_${SHARD}.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hs-${{ needs.prepare.outputs.lane }}-${{ matrix.shard }}
+          path: out/
+          if-no-files-found: error
+          retention-days: 30
+
+  collect:
+    needs: [prepare, shard]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hs-${{ needs.prepare.outputs.lane }}-*
+          path: collected
+          merge-multiple: true
+      - name: Fail closed on receipts, reconstruct manifest, independently join
+        shell: bash
+        env:
+          MANIFEST: ${{ needs.prepare.outputs.manifest }}
+          CLASS_MANIFEST: ${{ inputs.class_manifest }}
+          LANE: ${{ needs.prepare.outputs.lane }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import glob, hashlib, json, os, sys
+          from pathlib import Path
+          sys.path.insert(0, "search/probe/hsp7_mainrun")
+          from binding_gate_lib import (cert_binding_checks,
+              collection_capacity_checks, receipt_binding_checks,
+              receipt_cert_checks)
+
+          def sha(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          def bundle(paths):
+              payload = "".join(f"{sha(Path(p))}  {Path(p).as_posix()}\n" for p in sorted(paths)).encode()
+              return hashlib.sha256(payload).hexdigest()
+
+          rs = glob.glob("collected/*_receipt.json")
+          problems = []
+          class_path = Path(os.environ["CLASS_MANIFEST"])
+          c = json.loads(class_path.read_bytes())
+          manifest_path = Path(os.environ["MANIFEST"])
+          m = json.loads(manifest_path.read_bytes())
+          lane = os.environ["LANE"]
+          lane_row = c["lanes"][lane]
+          expected_shards = {s["name"]: s for s in m["shards"]}
+          source_paths = list(lane_row["source_files"])
+          source_bundle = bundle(source_paths)
+          wrapper = Path(f"search/probe/hsp7_mainrun/lane_wrapper_{lane}.g")
+          predicate = Path("search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g" if lane == "V" else
+                           f"search/probe/hsp7_mainrun/predicate_lib_lane{lane}.g")
+          aux_paths = [p for p in source_paths if Path(p) not in (wrapper, predicate)]
+          receipts = []
+          for p in rs:
+              try:
+                  r = json.loads(Path(p).read_bytes())
+              except (OSError, json.JSONDecodeError) as exc:
+                  problems.append(f"{p}: unreadable receipt: {exc}")
+                  continue
+              if not isinstance(r, dict):
+                  problems.append(f"{p}: receipt root is not an object")
+                  continue
+              receipts.append(r)
+              shard = expected_shards.get(r.get("shard_id"))
+              if shard is None:
+                  problems.append(f"{p}: unknown shard id")
+                  continue
+              cert_ref = r.get("cert_path")
+              if not isinstance(cert_ref, str):
+                  problems.append(f"{p}: cert_path missing or non-string")
+                  continue
+              cert = Path("collected") / Path(cert_ref).name
+              cert_bytes = cert.read_bytes() if cert.is_file() else None
+              rc = receipt_cert_checks(
+                  receipt=r, cert_bytes=cert_bytes,
+                  per_shard_raw_cap=c["capacity"]["per_shard_uncompressed_cap_bytes"])
+              rb = receipt_binding_checks(
+                  receipt=r, lane=lane, class_id=c["class_id"],
+                  class_manifest_path=class_path.as_posix(), class_manifest_sha256=sha(class_path),
+                  manifest_path=manifest_path.as_posix(), manifest_sha256=sha(manifest_path),
+                  source_bundle_sha256=source_bundle, shard_id=shard["name"],
+                  index_range=[shard["lo"], shard["hi"]],
+                  expected_pcgs_basis_fingerprint=m["pcgs_basis_fingerprint"])
+              for prefix, checks in (("receipt-cert", rc), ("receipt-binding", rb)):
+                  failed = [k for k, ok in checks.items() if not ok]
+                  if failed: problems.append(f"{p}: {prefix}: {','.join(failed)}")
+              if cert_bytes is None:
+                  continue
+              try:
+                  cert_obj = json.loads(cert_bytes)
+              except json.JSONDecodeError as exc:
+                  problems.append(f"{p}: unreadable cert: {exc}")
+                  continue
+              cb = cert_binding_checks(
+                  cert=cert_obj, lane=lane, axis="f" if lane == "P" else "pair",
+                  universe_total=117649 if lane == "P" else 705894,
+                  class_id=c["class_id"], run_id=os.environ["GITHUB_RUN_ID"],
+                  run_attempt=os.environ["GITHUB_RUN_ATTEMPT"],
+                  commit_sha=os.environ["GITHUB_SHA"],
+                  source_bundle_sha256=source_bundle, wrapper_sha256=sha(wrapper),
+                  predicate_sha256=sha(predicate), aux_sha256=bundle(aux_paths),
+                  schema_sha256=sha(Path("search/certs/hsp7_lane_cert_schema_v3.json")),
+                  index_range=[shard["lo"], shard["hi"]],
+                  expected_count=shard["hi"] - shard["lo"] + 1,
+                  expected_pcgs_basis_fingerprint=m["pcgs_basis_fingerprint"],
+                  expected_pcgs_source_artifact_path=c["exact_universe"]["pcgs_source_artifact_path"],
+                  expected_pcgs_source_artifact_sha256=c["exact_universe"]["pcgs_source_artifact_sha256"])
+              failed = [k for k, ok in cb.items() if not ok]
+              if failed: problems.append(f"{p}: cert-binding: {','.join(failed)}")
+          cap = c["capacity"]["per_lane_compressed_cap_bytes"][lane]
+          assert lane_row["compressed_cap_bytes"] == cap
+          cc = collection_capacity_checks(
+              receipts=receipts, expected_receipt_count=m["n_shards"],
+              collection_gzip_cap=cap, expected_shard_ids=set(expected_shards))
+          failed = [k for k, ok in cc.items() if not ok]
+          if failed: problems.append("collection-capacity: " + ",".join(failed))
+          total_gzip = sum(r.get("gzip_bytes", 0) for r in receipts
+                           if isinstance(r.get("gzip_bytes"), int))
+          gate = {"schema":"hsp7-collection-gate/v2", "lane":lane,
+                  "receipt_count":len(rs), "actual_gzip_bytes":total_gzip,
+                  "lane_cap_bytes":cap,
+                  "whole_class_cap_bytes":c["capacity"]["whole_class_compressed_cap_bytes"],
+                  "problems":problems, "status":"STOP" if problems else "PASS"}
+          Path("collected/collection_gate.json").write_text(json.dumps(gate,indent=2)+"\n")
+          if problems: raise SystemExit(1)
+          PY
+          PCGS_ID=$(python -c 'import json,sys; print(json.load(open(sys.argv[1]))["pcgs_id"])' "$MANIFEST")
+          PCGS_FP=$(python -c 'import json,sys; print(json.load(open(sys.argv[1]))["pcgs_basis_fingerprint"])' "$MANIFEST")
+          CERT_ARGS=()
+          for f in collected/${LANE}_shard_*.json; do
+            case "$f" in *_receipt.json) continue;; esac
+            CERT_ARGS+=(--cert "$f")
+          done
+          python search/probe/hsp7_mainrun/cert_to_join_manifest.py \
+            "${CERT_ARGS[@]}" --pcgs-id "$PCGS_ID" \
+            --pcgs-basis-fingerprint "$PCGS_FP" --out collected/join_manifest.json
+          python search/probe/hsp7_mainrun/join_checker.py collected/join_manifest.json \
+            > collected/join_receipt.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hs-${{ needs.prepare.outputs.lane }}-joined
+          path: |
+            collected/join_manifest.json
+            collected/join_receipt.json
+            collected/collection_gate.json
+          if-no-files-found: error
+          retention-days: 30

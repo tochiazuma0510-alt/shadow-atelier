@@ -1,0 +1,198 @@
+{
+  "class_id": "HS-NW7-CLASS-v3-draft-2c5c1559812c5d9b",
+  "endian": "big",
+  "frozen_driver_digest": "4c59fb1e19fb99696b997852a717f508abe3c4fe64b73f142840adcd6e1c612b",
+  "key_semantics": {
+    "axis": "f",
+    "exponent_width": 6,
+    "f_total": 117649,
+    "m_values": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "radix": 7
+  },
+  "lane": "P",
+  "manifest_sha256": "b398639c211a9f68b2001ab945c9aac041f77438509e7bccec2fbf4b970664c8",
+  "max_jobs_per_workflow": 256,
+  "max_parallel": 20,
+  "n_shards": 32,
+  "n_workflow_batches_needed": 1,
+  "partition_self_check": "exact cover confirmed",
+  "pcgs_basis_contract": "hsp7-ordered-pcgs-material/v1",
+  "pcgs_basis_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+  "pcgs_id": "sha256:99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+  "pcgs_source_artifact_path": "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g",
+  "pcgs_source_artifact_sha256": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+  "schema": "hsp7-mainrun-shard-manifest/v2",
+  "shard_size_target": 3678,
+  "shards": [
+    {
+      "hi": 3677,
+      "lo": 0,
+      "name": "shard_00000"
+    },
+    {
+      "hi": 7355,
+      "lo": 3678,
+      "name": "shard_00001"
+    },
+    {
+      "hi": 11033,
+      "lo": 7356,
+      "name": "shard_00002"
+    },
+    {
+      "hi": 14711,
+      "lo": 11034,
+      "name": "shard_00003"
+    },
+    {
+      "hi": 18389,
+      "lo": 14712,
+      "name": "shard_00004"
+    },
+    {
+      "hi": 22067,
+      "lo": 18390,
+      "name": "shard_00005"
+    },
+    {
+      "hi": 25745,
+      "lo": 22068,
+      "name": "shard_00006"
+    },
+    {
+      "hi": 29423,
+      "lo": 25746,
+      "name": "shard_00007"
+    },
+    {
+      "hi": 33101,
+      "lo": 29424,
+      "name": "shard_00008"
+    },
+    {
+      "hi": 36779,
+      "lo": 33102,
+      "name": "shard_00009"
+    },
+    {
+      "hi": 40457,
+      "lo": 36780,
+      "name": "shard_00010"
+    },
+    {
+      "hi": 44135,
+      "lo": 40458,
+      "name": "shard_00011"
+    },
+    {
+      "hi": 47813,
+      "lo": 44136,
+      "name": "shard_00012"
+    },
+    {
+      "hi": 51491,
+      "lo": 47814,
+      "name": "shard_00013"
+    },
+    {
+      "hi": 55169,
+      "lo": 51492,
+      "name": "shard_00014"
+    },
+    {
+      "hi": 58847,
+      "lo": 55170,
+      "name": "shard_00015"
+    },
+    {
+      "hi": 62525,
+      "lo": 58848,
+      "name": "shard_00016"
+    },
+    {
+      "hi": 66203,
+      "lo": 62526,
+      "name": "shard_00017"
+    },
+    {
+      "hi": 69881,
+      "lo": 66204,
+      "name": "shard_00018"
+    },
+    {
+      "hi": 73559,
+      "lo": 69882,
+      "name": "shard_00019"
+    },
+    {
+      "hi": 77237,
+      "lo": 73560,
+      "name": "shard_00020"
+    },
+    {
+      "hi": 80915,
+      "lo": 77238,
+      "name": "shard_00021"
+    },
+    {
+      "hi": 84593,
+      "lo": 80916,
+      "name": "shard_00022"
+    },
+    {
+      "hi": 88271,
+      "lo": 84594,
+      "name": "shard_00023"
+    },
+    {
+      "hi": 91949,
+      "lo": 88272,
+      "name": "shard_00024"
+    },
+    {
+      "hi": 95627,
+      "lo": 91950,
+      "name": "shard_00025"
+    },
+    {
+      "hi": 99305,
+      "lo": 95628,
+      "name": "shard_00026"
+    },
+    {
+      "hi": 102983,
+      "lo": 99306,
+      "name": "shard_00027"
+    },
+    {
+      "hi": 106661,
+      "lo": 102984,
+      "name": "shard_00028"
+    },
+    {
+      "hi": 110339,
+      "lo": 106662,
+      "name": "shard_00029"
+    },
+    {
+      "hi": 114017,
+      "lo": 110340,
+      "name": "shard_00030"
+    },
+    {
+      "hi": 117648,
+      "lo": 114018,
+      "name": "shard_00031"
+    }
+  ],
+  "source_bundle_sha256": "4c59fb1e19fb99696b997852a717f508abe3c4fe64b73f142840adcd6e1c612b",
+  "timeout_min": 60,
+  "total_candidates": 117649
+}

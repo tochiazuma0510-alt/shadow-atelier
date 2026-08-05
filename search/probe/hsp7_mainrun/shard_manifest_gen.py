@@ -31,6 +31,11 @@ LANE_TOTALS = {
     "P": 117649,  # post-optimization f-index axis (Sol F104-1.5)
 }
 
+# Immutable v3 operational partition.  These are not timing predictions:
+# they are the exact arithmetic partition bound to the HS class draft.
+FROZEN_SHARD_SIZES_V3 = {"S": 3678, "V": 54000, "P": 3678}
+FROZEN_TIMEOUT_MIN_V3 = 60
+
 
 def make_shards(total, shard_size):
     if shard_size <= 0:
@@ -69,7 +74,11 @@ def verify_partition(shards, total):
 
 
 def build_manifest(lane, shard_size, timeout_min, frozen_driver_digest, max_parallel=20,
-                    max_jobs_per_workflow=256):
+                    max_jobs_per_workflow=256, class_id="UNSET", source_bundle_sha256="UNSET",
+                    pcgs_id="UNSET", pcgs_basis_contract="UNSET",
+                    pcgs_basis_fingerprint=None,
+                    pcgs_source_artifact_path="UNSET",
+                    pcgs_source_artifact_sha256="UNSET"):
     if lane not in LANE_TOTALS:
         raise ValueError(f"unknown lane {lane!r}, expected one of {list(LANE_TOTALS)}")
     total = LANE_TOTALS[lane]
@@ -80,7 +89,22 @@ def build_manifest(lane, shard_size, timeout_min, frozen_driver_digest, max_para
     n_shards = len(shards)
     n_workflow_batches = (n_shards + max_jobs_per_workflow - 1) // max_jobs_per_workflow
     manifest = {
-        "schema": "hsp7-mainrun-shard-manifest/v1",
+        "schema": "hsp7-mainrun-shard-manifest/v2",
+        "class_id": class_id,
+        "source_bundle_sha256": source_bundle_sha256,
+        "pcgs_id": pcgs_id,
+        "pcgs_basis_contract": pcgs_basis_contract,
+        "pcgs_basis_fingerprint": pcgs_basis_fingerprint,
+        "pcgs_source_artifact_path": pcgs_source_artifact_path,
+        "pcgs_source_artifact_sha256": pcgs_source_artifact_sha256,
+        "endian": "big",
+        "key_semantics": {
+            "radix": 7,
+            "exponent_width": 6,
+            "m_values": [0, 1, 2, 4, 5, 6],
+            "f_total": 117649,
+            "axis": "f" if lane == "P" else "pair",
+        },
         "lane": lane,
         "total_candidates": total,
         "shard_size_target": shard_size,
@@ -115,17 +139,36 @@ def canonical_bytes(manifest):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--lane", required=True, choices=sorted(LANE_TOTALS))
-    ap.add_argument("--shard-size", type=int, required=True)
-    ap.add_argument("--timeout-min", type=int, default=45)
+    ap.add_argument("--shard-size", type=int, default=None,
+                    help="must equal the frozen v3 lane value; omitted selects it")
+    ap.add_argument("--timeout-min", type=int, default=FROZEN_TIMEOUT_MIN_V3)
     ap.add_argument("--frozen-driver-digest", default="UNSET")
     ap.add_argument("--max-parallel", type=int, default=20)
     ap.add_argument("--max-jobs-per-workflow", type=int, default=256)
+    ap.add_argument("--class-id", required=True)
+    ap.add_argument("--source-bundle-sha256", required=True)
+    ap.add_argument("--pcgs-id", required=True)
+    ap.add_argument("--pcgs-basis-contract", required=True)
+    ap.add_argument("--pcgs-basis-fingerprint", required=True)
+    ap.add_argument("--pcgs-source-artifact-path", required=True)
+    ap.add_argument("--pcgs-source-artifact-sha256", required=True)
     ap.add_argument("--out", default=None, help="write manifest JSON here (default: stdout)")
     args = ap.parse_args(argv)
 
+    frozen_size = FROZEN_SHARD_SIZES_V3[args.lane]
+    shard_size = frozen_size if args.shard_size is None else args.shard_size
+    if shard_size != frozen_size:
+        ap.error(f"class-v3 shard size for lane {args.lane} is frozen at {frozen_size}, got {shard_size}")
+    if args.timeout_min != FROZEN_TIMEOUT_MIN_V3:
+        ap.error(f"class-v3 timeout is frozen at {FROZEN_TIMEOUT_MIN_V3} minutes")
+    if args.max_parallel != 20 or args.max_jobs_per_workflow != 256:
+        ap.error("class-v3 workflow limits are frozen at max_parallel=20 and max_jobs_per_workflow=256")
     manifest = build_manifest(
-        args.lane, args.shard_size, args.timeout_min, args.frozen_driver_digest,
-        args.max_parallel, args.max_jobs_per_workflow,
+        args.lane, shard_size, args.timeout_min, args.frozen_driver_digest,
+        args.max_parallel, args.max_jobs_per_workflow, args.class_id,
+        args.source_bundle_sha256, args.pcgs_id,
+        args.pcgs_basis_contract, args.pcgs_basis_fingerprint,
+        args.pcgs_source_artifact_path, args.pcgs_source_artifact_sha256,
     )
     manifest["manifest_sha256"] = hashlib.sha256(canonical_bytes(manifest)).hexdigest()
     out_text = json.dumps(manifest, indent=2, sort_keys=True)

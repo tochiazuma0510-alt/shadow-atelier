@@ -1,0 +1,792 @@
+{
+  "candidate_universe_contact": 0,
+  "expectation_match_count": 71,
+  "fixture_count": 71,
+  "gap_invocations": 0,
+  "negative_count": 60,
+  "overall_pass": true,
+  "positive_count": 11,
+  "rows": [
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "class-positive",
+      "gate": "class-lock",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "class_sha256"
+      ],
+      "fixture": "class-wrong-digest",
+      "gate": "class-lock",
+      "must_fail": "class_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "class_path"
+      ],
+      "fixture": "class-wrong-path",
+      "gate": "class-lock",
+      "must_fail": "class_path",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "class_status"
+      ],
+      "fixture": "class-wrong-status",
+      "gate": "class-lock",
+      "must_fail": "class_status",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "class_schema"
+      ],
+      "fixture": "class-wrong-schema",
+      "gate": "class-lock",
+      "must_fail": "class_schema",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "class_authorization_main_run"
+      ],
+      "fixture": "class-main-run-not-authorized",
+      "gate": "class-lock",
+      "must_fail": "class_authorization_main_run",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "class_authorization_workflow_dispatch"
+      ],
+      "fixture": "class-workflow-not-authorized",
+      "gate": "class-lock",
+      "must_fail": "class_authorization_workflow_dispatch",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "manifest-positive",
+      "gate": "workflow-manifest",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "manifest_file_sha256"
+      ],
+      "fixture": "manifest-class-file-digest",
+      "gate": "workflow-manifest",
+      "must_fail": "manifest_file_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "manifest_self_sha256"
+      ],
+      "fixture": "manifest-self-digest",
+      "gate": "workflow-manifest",
+      "must_fail": "manifest_self_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "driver_digest",
+        "source_bundle_live"
+      ],
+      "fixture": "manifest-live-source",
+      "gate": "workflow-manifest",
+      "must_fail": "source_bundle_live",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "source_bundle_class"
+      ],
+      "fixture": "manifest-class-source",
+      "gate": "workflow-manifest",
+      "must_fail": "source_bundle_class",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "key_semantics"
+      ],
+      "fixture": "manifest-key-semantics",
+      "gate": "workflow-manifest",
+      "must_fail": "key_semantics",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "pcgs_source_artifact"
+      ],
+      "fixture": "manifest-pcgs-source-id",
+      "gate": "workflow-manifest",
+      "must_fail": "pcgs_source_artifact",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "pcgs_basis_fingerprint"
+      ],
+      "fixture": "manifest-pcgs-runtime-fingerprint",
+      "gate": "workflow-manifest",
+      "must_fail": "pcgs_basis_fingerprint",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "shard_exact_cover"
+      ],
+      "fixture": "manifest-coverage-gap",
+      "gate": "workflow-manifest",
+      "must_fail": "shard_exact_cover",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "shard_exact_cover",
+        "shard_names_unique"
+      ],
+      "fixture": "manifest-duplicate-shard",
+      "gate": "workflow-manifest",
+      "must_fail": "shard_names_unique",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "manifest_path"
+      ],
+      "fixture": "manifest-wrong-path",
+      "gate": "workflow-manifest",
+      "must_fail": "manifest_path",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "cert-positive",
+      "gate": "runner-cert",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "axis"
+      ],
+      "fixture": "cert-axis",
+      "gate": "runner-cert",
+      "must_fail": "axis",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "universe_total"
+      ],
+      "fixture": "cert-universe-total",
+      "gate": "runner-cert",
+      "must_fail": "universe_total",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "run_id"
+      ],
+      "fixture": "cert-run-id",
+      "gate": "runner-cert",
+      "must_fail": "run_id",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "run_attempt"
+      ],
+      "fixture": "cert-run-attempt",
+      "gate": "runner-cert",
+      "must_fail": "run_attempt",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "commit_sha"
+      ],
+      "fixture": "cert-commit",
+      "gate": "runner-cert",
+      "must_fail": "commit_sha",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "source_bundle_sha256"
+      ],
+      "fixture": "cert-source-bundle",
+      "gate": "runner-cert",
+      "must_fail": "source_bundle_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "wrapper_sha256"
+      ],
+      "fixture": "cert-wrapper",
+      "gate": "runner-cert",
+      "must_fail": "wrapper_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "predicate_sha256"
+      ],
+      "fixture": "cert-predicate",
+      "gate": "runner-cert",
+      "must_fail": "predicate_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "aux_sha256"
+      ],
+      "fixture": "cert-aux",
+      "gate": "runner-cert",
+      "must_fail": "aux_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "schema_sha256"
+      ],
+      "fixture": "cert-schema-digest",
+      "gate": "runner-cert",
+      "must_fail": "schema_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "pcgs_basis_fingerprint_frozen",
+        "pcgs_basis_fingerprint_self"
+      ],
+      "fixture": "cert-pcgs-fingerprint",
+      "gate": "runner-cert",
+      "must_fail": "pcgs_basis_fingerprint_self",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "pcgs_basis_fingerprint_self",
+        "pcgs_pair_rows_identity_expected"
+      ],
+      "fixture": "cert-pcgs-commutator-coordinate",
+      "gate": "runner-cert",
+      "must_fail": "pcgs_pair_rows_identity_expected",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "pcgs_basis_fingerprint_self",
+        "pcgs_theta_invertible",
+        "pcgs_theta_nonidentity",
+        "pcgs_theta_rows_shape",
+        "pcgs_theta_rows_unique"
+      ],
+      "fixture": "cert-pcgs-theta-order",
+      "gate": "runner-cert",
+      "must_fail": "pcgs_theta_rows_shape",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "pcgs_basis_fingerprint_self"
+      ],
+      "fixture": "cert-pcgs-ambient-basis",
+      "gate": "runner-cert",
+      "must_fail": "pcgs_basis_fingerprint_self",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "pcgs_basis_fingerprint_self",
+        "pcgs_source_artifact_expected"
+      ],
+      "fixture": "cert-pcgs-source-artifact",
+      "gate": "runner-cert",
+      "must_fail": "pcgs_source_artifact_expected",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "unknown_count_consistency"
+      ],
+      "fixture": "cert-unknown-count",
+      "gate": "runner-cert",
+      "must_fail": "unknown_count_consistency",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "axis_record_shape"
+      ],
+      "fixture": "cert-axis-record-arithmetic",
+      "gate": "runner-cert",
+      "must_fail": "axis_record_shape",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "range"
+      ],
+      "fixture": "cert-range",
+      "gate": "runner-cert",
+      "must_fail": "range",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "driver_done"
+      ],
+      "fixture": "cert-driver-done",
+      "gate": "runner-cert",
+      "must_fail": "driver_done",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "pcgs-v-bridge-positive",
+      "gate": "pcgs-material",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "pcgs_bridge_pointwise_units"
+      ],
+      "fixture": "pcgs-v-bridge-permutation",
+      "gate": "pcgs-material",
+      "must_fail": "pcgs_bridge_pointwise_units",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "axis-S-positive",
+      "gate": "axis-record",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "axis-V-positive",
+      "gate": "axis-record",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "axis-P-positive",
+      "gate": "axis-record",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "axis_record_shape"
+      ],
+      "fixture": "axis-S-verdict-inconsistent",
+      "gate": "axis-record",
+      "must_fail": "axis_record_shape",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "axis_record_shape"
+      ],
+      "fixture": "axis-V-agreement-false",
+      "gate": "axis-record",
+      "must_fail": "axis_record_shape",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "axis_record_shape"
+      ],
+      "fixture": "axis-P-join-permutation",
+      "gate": "axis-record",
+      "must_fail": "axis_record_shape",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "receipt-positive",
+      "gate": "receipt-cert",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "cert_sha256",
+        "gzip_bytes_receipt",
+        "raw_bytes_receipt",
+        "receipt_pass",
+        "receipt_present"
+      ],
+      "fixture": "receipt-missing",
+      "gate": "receipt-cert",
+      "must_fail": "receipt_present",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "receipt_pass"
+      ],
+      "fixture": "receipt-stop-status",
+      "gate": "receipt-cert",
+      "must_fail": "receipt_pass",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "cert_present",
+        "cert_sha256",
+        "gzip_bytes_receipt",
+        "per_shard_raw_cap",
+        "raw_bytes_receipt"
+      ],
+      "fixture": "receipt-cert-missing",
+      "gate": "receipt-cert",
+      "must_fail": "cert_present",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "cert_sha256"
+      ],
+      "fixture": "receipt-cert-hash",
+      "gate": "receipt-cert",
+      "must_fail": "cert_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "raw_bytes_receipt"
+      ],
+      "fixture": "receipt-raw-size",
+      "gate": "receipt-cert",
+      "must_fail": "raw_bytes_receipt",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "gzip_bytes_receipt"
+      ],
+      "fixture": "receipt-gzip-size",
+      "gate": "receipt-cert",
+      "must_fail": "gzip_bytes_receipt",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "per_shard_raw_cap"
+      ],
+      "fixture": "receipt-raw-cap",
+      "gate": "receipt-cert",
+      "must_fail": "per_shard_raw_cap",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "receipt-binding-positive",
+      "gate": "receipt-binding",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "receipt_class_manifest_sha256"
+      ],
+      "fixture": "receipt-class-digest",
+      "gate": "receipt-binding",
+      "must_fail": "receipt_class_manifest_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "receipt_manifest_path"
+      ],
+      "fixture": "receipt-manifest-path",
+      "gate": "receipt-binding",
+      "must_fail": "receipt_manifest_path",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "receipt_source_bundle_sha256"
+      ],
+      "fixture": "receipt-source-bundle",
+      "gate": "receipt-binding",
+      "must_fail": "receipt_source_bundle_sha256",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "receipt_shard_id"
+      ],
+      "fixture": "receipt-shard",
+      "gate": "receipt-binding",
+      "must_fail": "receipt_shard_id",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "receipt_index_range"
+      ],
+      "fixture": "receipt-index-range",
+      "gate": "receipt-binding",
+      "must_fail": "receipt_index_range",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "receipt_runtime_pcgs_preflight"
+      ],
+      "fixture": "receipt-runtime-pcgs-preflight",
+      "gate": "receipt-binding",
+      "must_fail": "receipt_runtime_pcgs_preflight",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "receipt_runtime_pcgs_fingerprint"
+      ],
+      "fixture": "receipt-runtime-pcgs-fingerprint",
+      "gate": "receipt-binding",
+      "must_fail": "receipt_runtime_pcgs_fingerprint",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "collection-positive",
+      "gate": "workflow-collection",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "exact_unique_shard_set",
+        "receipt_count"
+      ],
+      "fixture": "collection-missing-receipt",
+      "gate": "workflow-collection",
+      "must_fail": "receipt_count",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "exact_unique_shard_set"
+      ],
+      "fixture": "collection-duplicate-shard",
+      "gate": "workflow-collection",
+      "must_fail": "exact_unique_shard_set",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "all_receipts_pass"
+      ],
+      "fixture": "collection-stop-receipt",
+      "gate": "workflow-collection",
+      "must_fail": "all_receipts_pass",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "collection_gzip_cap",
+        "gzip_values_nonnegative"
+      ],
+      "fixture": "collection-negative-gzip",
+      "gate": "workflow-collection",
+      "must_fail": "gzip_values_nonnegative",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "collection_gzip_cap"
+      ],
+      "fixture": "collection-lane-cap",
+      "gate": "workflow-collection",
+      "must_fail": "collection_gzip_cap",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "PASS",
+      "failed_checks": [],
+      "fixture": "class-lane-cap-positive",
+      "gate": "class-capacity",
+      "must_fail": null,
+      "observed": "PASS",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "lane_cap_sum_recorded",
+        "lane_cap_sum_within_class"
+      ],
+      "fixture": "class-lane-cap-overallocation",
+      "gate": "class-capacity",
+      "must_fail": "lane_cap_sum_within_class",
+      "observed": "STOP",
+      "pass": true
+    },
+    {
+      "expected": "STOP",
+      "failed_checks": [
+        "lane_cap_sum_recorded"
+      ],
+      "fixture": "class-lane-cap-sum-lie",
+      "gate": "class-capacity",
+      "must_fail": "lane_cap_sum_recorded",
+      "observed": "STOP",
+      "pass": true
+    }
+  ],
+  "schema": "hsp7-binding-negative-matrix/v2",
+  "scope": "pure synthetic class/workflow/cert/receipt/cap bindings"
+}

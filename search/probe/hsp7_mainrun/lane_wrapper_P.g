@@ -1,79 +1,131 @@
-## search/probe/hsp7_mainrun/lane_wrapper_P.g
-## Lane P main-run shard wrapper (NEW file, individually digested). Wraps
-## the byte-identical Lane P predicate library (predicate_lib_laneP.g).
-##
-## ADOPTS Sol's accepted optimization (便104 F104-1.5, "PENT_W does not
-## contain m"): this wrapper loops over F-INDEX (0..117648, the 117,649
-## f-bar values), NOT over the full 705,894 pair index. PENT(fbar) is
-## evaluated ONCE per f_index; the join to the 6 candidate_keys sharing
-## that f_index is recorded via candidate_key_lib.g's
-## FIndexToSixPairIndices(fIndex) -- the SAME formula the join checker
-## (join_checker.py) uses, so lane wrapper and join checker cannot drift
-## apart on the bijection.
-##
-## Shard bounds: SHARD_LO_F, SHARD_HI_F are inclusive f_index bounds in
-## [0, 117648] (NOT pair-index bounds -- Lane P's shard axis is 6x smaller
-## than Lane S/V's because of the adopted optimization). Empty shard =
-## SHARD_HI_F < SHARD_LO_F (dry mode default below).
-if not IsBound(SHARD_LO_F) then SHARD_LO_F := 1;; fi;
-if not IsBound(SHARD_HI_F) then SHARD_HI_F := 0;; fi;  ## default: empty shard (dry mode)
-if not IsBound(OUT_CERT_PATH) then OUT_CERT_PATH := "search/probe/hsp7_mainrun/_dry_laneP_cert.json";; fi;
-if not IsBound(FROZEN_DRIVER_DIGEST_P) then FROZEN_DRIVER_DIGEST_P := "UNSET";; fi;
+## HS main-run Lane P wrapper, runnable certificate-emitting CONV-P version.
+## The PENT predicate is independent of m, so the wrapper evaluates each
+## f-index once and emits the independently checkable six pair-key expansion.
+
+if not IsBound(RUN_MODE) then Error("LANE_P_STOP: RUN_MODE must be BASIS_ONLY, SHARD, or REGISTERED"); fi;
+if RUN_MODE = "BASIS_ONLY" then
+  if not IsBound(OUT_BASIS_PATH) then Error("LANE_P_STOP: OUT_BASIS_PATH is required"); fi;
+elif not IsBound(OUT_CERT_PATH) then Error("LANE_P_STOP: OUT_CERT_PATH is required"); fi;
+if not IsBound(CLASS_ID) then CLASS_ID := "UNSET"; fi;
+if not IsBound(RUN_ID) then RUN_ID := "UNSET"; fi;
+if not IsBound(RUN_ATTEMPT) then RUN_ATTEMPT := "UNSET"; fi;
+if not IsBound(COMMIT_SHA) then COMMIT_SHA := "UNSET"; fi;
+if not IsBound(SOURCE_BUNDLE_SHA256) then SOURCE_BUNDLE_SHA256 := "UNSET"; fi;
+if not IsBound(WRAPPER_SHA256) then WRAPPER_SHA256 := "UNSET"; fi;
+if not IsBound(PREDICATE_SHA256) then PREDICATE_SHA256 := "UNSET"; fi;
+if not IsBound(AUX_SHA256) then AUX_SHA256 := "UNSET"; fi;
+if not IsBound(SCHEMA_SHA256) then SCHEMA_SHA256 := "UNSET"; fi;
+if not IsBound(PCGS_BASIS_FINGERPRINT) then PCGS_BASIS_FINGERPRINT := "UNSET"; fi;
+if not IsBound(PCGS_SOURCE_ARTIFACT_PATH) then PCGS_SOURCE_ARTIFACT_PATH := "UNSET"; fi;
+if not IsBound(PCGS_SOURCE_ARTIFACT_SHA256) then PCGS_SOURCE_ARTIFACT_SHA256 := "UNSET"; fi;
 
 Read("search/probe/hsp7_mainrun/predicate_lib_laneP.g");
+Read("search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g");
 Read("search/probe/hsp7_mainrun/candidate_key_lib.g");
+Read("search/probe/hsp7_mainrun/cert_io.g");
 
-Print("=== lane_wrapper_P: f-index shard [", SHARD_LO_F, ", ", SHARD_HI_F, "] ===\n");
+if not CandidateKeyLibSelfCheck().ok then Error("LANE_P_STOP: key self-check failed"); fi;
+epiChecked := GroupHomomorphismByImages(K05fp, Qgrp, gK, mapImages);;
+if epiChecked = fail or not IsSurjective(epiChecked) or Image(epiChecked) <> Qgrp then
+  Error("LANE_P_STOP: K05fp -> Q epi failed well-defined/surjective/image gate");
+fi;
+if sizeQ <> 7^40 or gamma5size <> 1 or dimGamma4 <> 21 then
+  Error("LANE_P_STOP: Q structural anchors differ from frozen values");
+fi;
+if not IsBijective(rhoQ) then Error("LANE_P_STOP: rhoQ is not bijective"); fi;
+rhoQ5Gate := rhoQ*rhoQ*rhoQ*rhoQ*rhoQ;;
+if not ForAll(epiGens, gg -> ImageElm(rhoQ5Gate,gg)=gg) then
+  Error("LANE_P_STOP: rhoQ^5 is not identity on the generating image");
+fi;
+if not ForAny(epiGens, gg -> ImageElm(rhoQ,gg)<>gg) then
+  Error("LANE_P_STOP: rhoQ unexpectedly equals identity");
+fi;
+dataP := PQ_READ_AS_FUNC_WITH_VARS("search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g", ["F","MapImages"]);;
+Pmain := dataP.F;; xmain := dataP.MapImages[1];; ymain := dataP.MapImages[2];;
+basisP := BasisFromP(Pmain);;
+if not CandidateBasisSemanticSelfCheck(basisP).ok then
+  Error("LANE_P_STOP: group-level candidate-key semantic gate failed");
+fi;
+thetaP := GroupHomomorphismByImages(Pmain, Pmain, [xmain,ymain], [ymain,xmain]);;
+tauP := GroupHomomorphismByImages(Pmain, Pmain, [xmain,ymain], [ymain,(xmain*ymain)^-1]);;
+basisMaterialP := BuildCandidateBasisMaterial(basisP, xmain, ymain, thetaP, tauP, fail,
+  PCGS_SOURCE_ARTIFACT_PATH, PCGS_SOURCE_ARTIFACT_SHA256);;
+if RUN_MODE = "BASIS_ONLY" then
+  WriteCandidateBasisMaterial(OUT_BASIS_PATH, basisMaterialP);;
+  Print("PCGS_BASIS_MATERIAL_WRITTEN: ", OUT_BASIS_PATH, "\n");
+  QuitGap(0);
+fi;
+convP := BuildConvP(Pmain, xmain, ymain, jx, jy, epiChecked);;
+if not convP.image_generated or not convP.image_bijective then
+  Error("LANE_P_STOP: CONV-P map image/bijectivity gate did not pass");
+fi;
 
-selfChk := CandidateKeyLibSelfCheck();;
-Print("candidate_key_lib self-check: ", selfChk.ok, " total=", selfChk.total_candidates, "\n");
+MakeLanePCandidate := function(fbar, nativeQ, fixtureId)
+  local e, fidx;
+  e := ExponentsOfPcElement(basisP.pcgsD, fbar);
+  if e = fail then Error("LANE_P_STOP: candidate not in D=[P,P]"); fi;
+  fidx := ExpVectorToFIndex(e);
+  return rec(fbar := fbar, e := e, f_index := fidx,
+             nativeQ := nativeQ, fixture_id := fixtureId);
+end;;
 
-## Lane P evaluates PENT on Q = K(0,5)/W (predicate_lib_laneP.g's Qgrp), a
-## DIFFERENT group from P = F2/(gamma5(F2)F2^7). The candidate f-bar for
-## Lane P lives in [P,P] (per prereg v1 SS1.2's own statement "charming f-bar
-## in [P,P]"), so evaluating PENT on Qgrp requires the SAME translation gap
-## flagged for Lane V below: an explicit map from the P-side pcgs exponent
-## vector to a Qgrp element. driver_step3_eval_pent.g's own calibration
-## candidates (jh4^t, jh3) are already expressed directly as Qgrp/K05fp
-## words (jx,jy = kX12,kX23), not derived from a P-side pcgs. This wrapper
-## flags rather than silently invents the P->Q candidate translation:
-Print("OPEN_ITEM: Lane P general f-bar (from candidate_key_lib exponent\n");
-Print("  vector over Pcgs([P,P])) needs an explicit, mathematician-checked\n");
-Print("  map into Qgrp/K05fp before per-candidate PENT can be evaluated for\n");
-Print("  the full 117,649-element universe (calibration only covered the\n");
-Print("  h4^t/h3/identity dummy family, which are already native Qgrp words).\n");
-Print("  NOT resolved in this dry bundle -- see prereg v2 open items.\n");
+candidates := [];;
+if RUN_MODE = "SHARD" then
+  if not IsBound(SHARD_LO_F) or not IsBound(SHARD_HI_F) then
+    Error("LANE_P_STOP: SHARD_LO_F/SHARD_HI_F required in SHARD mode");
+  fi;
+  if SHARD_LO_F < 0 or SHARD_HI_F > 117648 or SHARD_HI_F < SHARD_LO_F then
+    Error("LANE_P_STOP: shard must be a nonempty inclusive subrange of [0,117648]");
+  fi;
+  for fIdx in [SHARD_LO_F..SHARD_HI_F] do
+    ee := FIndexToExpVector(fIdx);;
+    Add(candidates, rec(fbar := ExpVectorToElement(basisP, ee), e := ee,
+      f_index := fIdx, nativeQ := fail, fixture_id := "main"));
+  od;
+  certLo := SHARD_LO_F;; certHi := SHARD_HI_F;;
+elif RUN_MODE = "REGISTERED" then
+  h4p := Comm(Comm(Comm(xmain,ymain),xmain),xmain)
+         * Comm(Comm(Comm(xmain,ymain),xmain),ymain)^4
+         * Comm(Comm(Comm(xmain,ymain),ymain),ymain);;
+  h3p := Comm(Comm(xmain,ymain),xmain) * Comm(Comm(xmain,ymain),ymain);;
+  for t in [0..6] do
+    Add(candidates, MakeLanePCandidate(h4p^t, jh4Q^t,
+      Concatenation("h4t", String(t))));
+  od;
+  Add(candidates, MakeLanePCandidate(h3p, jh3Q, "h3"));
+  certLo := -1;; certHi := -1;;
+else
+  Error("LANE_P_STOP: RUN_MODE must be SHARD or REGISTERED");
+fi;
 
-nEvaluated := 0;;
-records := [];;
-for fIdx in [SHARD_LO_F..SHARD_HI_F] do
-  ## would translate fIdx -> Qgrp element here (OPEN_ITEM above), then:
-  ##   verdict := PENT(fbarQ);;
-  ## and record the join receipt:
-  sixPairIdx := FIndexToSixPairIndices(fIdx);;
-  Add(records, rec(f_index := fIdx, joined_pair_indices := sixPairIdx));
-  nEvaluated := nEvaluated + 1;;
+out := HSOpenCert(OUT_CERT_PATH, "P", "f", 117649, certLo, certHi,
+  CLASS_ID, RUN_ID, RUN_ATTEMPT, COMMIT_SHA, SOURCE_BUNDLE_SHA256,
+  WRAPPER_SHA256, PREDICATE_SHA256, AUX_SHA256, SCHEMA_SHA256,
+  CandidateBasisMaterialJson(basisMaterialP), PCGS_BASIS_FINGERPRINT);;
+first := true;; n := 0;;
+for cnd in candidates do
+  fQ := ConvPElement(convP, cnd.fbar);;
+  vv := PENT(fQ);;
+  nativeAgree := true;; nativeVerdictAgree := true;;
+  if RUN_MODE = "REGISTERED" then
+    nativeAgree := (fQ = cnd.nativeQ);;
+    nativeVerdictAgree := (vv = PENT(cnd.nativeQ));;
+    if not nativeAgree or not nativeVerdictAgree then
+      Error("LANE_P_INTEGRITY_STOP: CONV-P/native mismatch at ", cnd.fixture_id);
+    fi;
+  fi;
+  six := FIndexToSixPairIndices(cnd.f_index);;
+  row := Concatenation(
+    "{\"f_index\":", String(cnd.f_index),
+    ",\"f_key\":{\"e\":", HSJsonIntList(cnd.e), "}",
+    ",\"joined_pair_indices\":", HSJsonIntList(six),
+    ",\"fixture_id\":", HSJsonQuote(cnd.fixture_id),
+    ",\"pentagon_verdict\":", HSJsonBool(vv),
+    ",\"CONV_native_element_agree\":", HSJsonBool(nativeAgree),
+    ",\"CONV_native_verdict_agree\":", HSJsonBool(nativeVerdictAgree), "}");;
+  HSCertWriteRecord(out, first, row);; first := false;; n := n + 1;;
 od;
-
-Print("f-values evaluated this shard: ", nEvaluated, "\n");
-if nEvaluated = 0 then
-  Print("DRY_STRUCTURAL_CHECK: zero f-values evaluated (empty shard by design)\n");
-fi;
-
-## join-receipt self-test (pure arithmetic, still zero predicate calls):
-## every pair index in [0,705893] must appear in exactly one f_index's
-## six-tuple. Spot-check f_index=0 and f_index=117648 (the two boundary
-## f-values) map to the expected 6 pair indices.
-if FIndexToSixPairIndices(0) <> [0, 117649, 235298, 352947, 470596, 588245] then
-  Error("JOIN_RECEIPT_STOP: f_index=0 six-tuple mismatch");
-fi;
-if FIndexToSixPairIndices(117648) <> [117648, 235297, 352946, 470595, 588244, 705893] then
-  Error("JOIN_RECEIPT_STOP: f_index=117648 six-tuple mismatch");
-fi;
-Print("join receipt boundary self-test PASS (f_index=0 and f_index=117648)\n");
-
-Print("would_write_records=", Length(records), " to ", OUT_CERT_PATH, "\n");
-Print("frozen_driver_digest(recorded)=", FROZEN_DRIVER_DIGEST_P, "\n");
+HSCloseCert(out, n, 0, true, true);;
+Print("CERT_WRITTEN: ", OUT_CERT_PATH, " records=", n, "\n");
 Print("DRIVER_DONE: true\n");
-Print("LANE_P_WRAPPER_DRY_CHECK_DONE\n");
 QUIT;

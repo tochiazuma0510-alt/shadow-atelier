@@ -1,0 +1,108 @@
+{
+  "class_id": "HS-NW7-CLASS-v3-draft-2c5c1559812c5d9b",
+  "endian": "big",
+  "frozen_driver_digest": "03bcec31228388fe052019c9751fb95840adc48a2c07f6396d432c3b93f2ce1e",
+  "key_semantics": {
+    "axis": "pair",
+    "exponent_width": 6,
+    "f_total": 117649,
+    "m_values": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "radix": 7
+  },
+  "lane": "V",
+  "manifest_sha256": "1cb82940cb2c479b299703b83b4cfb165ea0702e2f816e63a8dade558c93b2c8",
+  "max_jobs_per_workflow": 256,
+  "max_parallel": 20,
+  "n_shards": 14,
+  "n_workflow_batches_needed": 1,
+  "partition_self_check": "exact cover confirmed",
+  "pcgs_basis_contract": "hsp7-ordered-pcgs-material/v1",
+  "pcgs_basis_fingerprint": "eaf54f528795c7831ab4a1b52d4c5e7578f0e93633c2332bfd9428b4b0503889",
+  "pcgs_id": "sha256:99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+  "pcgs_source_artifact_path": "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g",
+  "pcgs_source_artifact_sha256": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+  "schema": "hsp7-mainrun-shard-manifest/v2",
+  "shard_size_target": 54000,
+  "shards": [
+    {
+      "hi": 53999,
+      "lo": 0,
+      "name": "shard_00000"
+    },
+    {
+      "hi": 107999,
+      "lo": 54000,
+      "name": "shard_00001"
+    },
+    {
+      "hi": 161999,
+      "lo": 108000,
+      "name": "shard_00002"
+    },
+    {
+      "hi": 215999,
+      "lo": 162000,
+      "name": "shard_00003"
+    },
+    {
+      "hi": 269999,
+      "lo": 216000,
+      "name": "shard_00004"
+    },
+    {
+      "hi": 323999,
+      "lo": 270000,
+      "name": "shard_00005"
+    },
+    {
+      "hi": 377999,
+      "lo": 324000,
+      "name": "shard_00006"
+    },
+    {
+      "hi": 431999,
+      "lo": 378000,
+      "name": "shard_00007"
+    },
+    {
+      "hi": 485999,
+      "lo": 432000,
+      "name": "shard_00008"
+    },
+    {
+      "hi": 539999,
+      "lo": 486000,
+      "name": "shard_00009"
+    },
+    {
+      "hi": 593999,
+      "lo": 540000,
+      "name": "shard_00010"
+    },
+    {
+      "hi": 647999,
+      "lo": 594000,
+      "name": "shard_00011"
+    },
+    {
+      "hi": 701999,
+      "lo": 648000,
+      "name": "shard_00012"
+    },
+    {
+      "hi": 705893,
+      "lo": 702000,
+      "name": "shard_00013"
+    }
+  ],
+  "source_bundle_sha256": "03bcec31228388fe052019c9751fb95840adc48a2c07f6396d432c3b93f2ce1e",
+  "timeout_min": 60,
+  "total_candidates": 705894
+}

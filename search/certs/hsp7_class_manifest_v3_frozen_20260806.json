@@ -1,0 +1,270 @@
+{
+  "authorization": {
+    "calibration_shard": false,
+    "claim_grade_promotion": false,
+    "main_run": true,
+    "workflow_dispatch": true
+  },
+  "capacity": {
+    "candidate_universe_contact": 0,
+    "per_lane_cap_sum_bytes": 2139095040,
+    "per_lane_compressed_cap_bytes": {
+      "P": 713031680,
+      "S": 713031680,
+      "V": 713031680
+    },
+    "per_shard_uncompressed_cap_bytes": 20971520,
+    "receipt": "search/certs/hsp7_capacity_noncontact_v2_20260805.json",
+    "receipt_sha256": "7eca4369d728ca8ea616e2d042906ea351a560c370278c4657efd3228165642f",
+    "retention_days": 30,
+    "whole_class_compressed_cap_bytes": 2147483648
+  },
+  "class_component_bundle_sha256": "2c5c1559812c5d9b8dccd9f0ca5b74a7d288fc18508c3872dea3f2c3798c02d7",
+  "class_id": "HS-NW7-CLASS-v3-draft-2c5c1559812c5d9b",
+  "components": {
+    "docs/notes/hsp7_mainrun_prereg_v2_appendixC_v3.md": "541e233490fef5651000ccbe179c0596ed0f6db0c3f7edb04931d1bab48329dd",
+    "docs/notes/hsp7_mainrun_prereg_v3.md": "84b186ec2d83be2ec3d2afd07734e254422bba93e3ca35df1266e08220c81ac0",
+    "gap.ps1": "2015b8f52ed9ef0f58c833864e7fd7e6b0435d999a6659c03c9cd52dec175546",
+    "search/certs/hsp7_binding_negative_matrix_v2_20260805.json": "84626520e6c9319b46b75dad73af7d940e14fca4ec9edcb2ee51d9e220554914",
+    "search/certs/hsp7_capacity_noncontact_v2_20260805.json": "7eca4369d728ca8ea616e2d042906ea351a560c370278c4657efd3228165642f",
+    "search/certs/hsp7_cf_calib_20260805.json": "c96b9ec43e7dc7672751457055776382e822394aa27344a452bb4bdadb342276",
+    "search/certs/hsp7_join_fixtures_v2_20260805.json": "09a9ee1a27faff46581da743dc24ccccd638295600aa322b61cebf3690865f9d",
+    "search/certs/hsp7_laneP_registered_preflight_20260805.json": "fd4545a9e1a3f56b98fed4a3a5542b1792a8ca619a7456904a0c93bec16c76e7",
+    "search/certs/hsp7_laneP_registered_preflight_pcgs_v4_20260806.json": "d786797d563e6b955fd5b77bfa41b69b670e067fd7f7507d8179c9e8a0edfdc9",
+    "search/certs/hsp7_laneS_registered_preflight_20260805.json": "ced7dd91951535e7aee46aa1b86907c9b934ac9f90ee3fd02d897e42cee7fc17",
+    "search/certs/hsp7_laneS_registered_preflight_pcgs_v4_20260806.json": "11813961c83d8db77905b54ab0e5eac61b6de935d9f84151371517a2a8c81eea",
+    "search/certs/hsp7_laneV_registered_preflight_20260805.json": "c7a21c4c21af756926da9e63146514910af9993406bdcba6517cf855b7a559fb",
+    "search/certs/hsp7_laneV_registered_preflight_pcgs_v4_20260806.json": "64215fb4f67955bf035702586968f22456a53b32f6f238b4846d00c53762b7fb",
+    "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+    "search/certs/hsp7_registered_wrappers_preflight_20260805.json": "75ef1c9359136b5020745d4a2fa123eba67d512153185622e54f75d7a091ac45",
+    "search/certs/hsp7_registered_wrappers_preflight_pcgs_v4_20260806.json": "4dc9464d7e8be153ced72bd19887f5e7f5fad13cd1f714bb54cad410e98db60e",
+    "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+    "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_P5.g": "3128d6afe7eb034bb87ab9dd173b1036607017f637f8eaae2bd3f280c566e15d",
+    "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_Q5.g": "2cc3c2986dc2b49f5ea7509431cb0d808d424a687f41bf783a5c88c8fc0a4edc",
+    "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "search/probe/hsp7_cond4_laneV/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "search/probe/hsp7_mainrun/binding_gate_lib.py": "10960ce3e6558ec685adfd18a95ee12d669f41897f1a93566de823a9c5031c9c",
+    "search/probe/hsp7_mainrun/binding_negative_matrix.py": "207c9a25264677c66d2315f6c2887b5a2c6006da93ae6c8ed377dd9648906646",
+    "search/probe/hsp7_mainrun/build_class_manifest.py": "449c93aa658d6e3952c263de2b3a963c3c091ac9b485b5bdda1181f810c56f5f",
+    "search/probe/hsp7_mainrun/bundle_static_audit.py": "22c09108797fd4b5f52d2984b43174349fab8d1bf354b69123be264512a30bca",
+    "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+    "search/probe/hsp7_mainrun/capacity_probe.py": "1abc3147e5db3f6d10e6a28c1ce84ba8ac91e27bc2eaa765c07908af7458c85f",
+    "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+    "search/probe/hsp7_mainrun/cert_to_join_manifest.py": "5f08094405954feeaea8f4b0c9f650b47542ca300f2b992c569df36fb1f177ef",
+    "search/probe/hsp7_mainrun/driver_cf_laneV_calib.g": "f64ea12dbc25454feeae44ad62115efd8270944ae20478013b9e376313afb5ed",
+    "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+    "search/probe/hsp7_mainrun/join_checker.py": "5decd2d4b44603713e765aa14bb786d88661cc0d898e3a2528905651e1413a78",
+    "search/probe/hsp7_mainrun/join_fixtures_gen.py": "5db9f84962ad0134abc94bdfa08da62a811fb99a95018d68599626942b19286d",
+    "search/probe/hsp7_mainrun/join_fixtures_run.py": "8dc13cb2fcd4a89f923202c4ff8164d56c6ca6a7420da2e6cd4a43517b8108c1",
+    "search/probe/hsp7_mainrun/lane_wrapper_P.g": "ed660769dd55fd45060606a89d4f6ad74f984e2136c3a82414697692d16e01fb",
+    "search/probe/hsp7_mainrun/lane_wrapper_S.g": "3ee4319a6989fc3d4c60bd28d64757b03b61c93bff7c746f81156dfb5505be28",
+    "search/probe/hsp7_mainrun/lane_wrapper_V.g": "e916b548846ca35accf892d86899372ae64d7f82f730f4a74da1f3a61ba1dbc8",
+    "search/probe/hsp7_mainrun/predicate_lib_laneP.g": "be1fdf4883210118211f5ab26dc8e1c22a2aacd96f58e24e494779ca3fc70dcc",
+    "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+    "search/probe/hsp7_mainrun/predicate_lib_laneS.g": "1fabb7848ea5c6adb275b451c5264f8c4f7989fbc2b94f1e95db2b663453a070",
+    "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g": "e333face99652474a4a6b796d286fa68567a23df05a836293fdc1500b03a4cad",
+    "search/probe/hsp7_mainrun/registered_preflight.py": "1ea77dc3cdd74d5d8f9b4c72fc75fdcff5b1a42acab8340e4337524eda9bf4c3",
+    "search/probe/hsp7_mainrun/run_lane_job.py": "a02e2dffe68f576200f970255ab178fc2a6fa285c1c3ef18560b5f3fa52c5295",
+    "search/probe/hsp7_mainrun/shard_manifest_gen.py": "e6b94df7a8250d800edde0a7030e56282583ddcf464422b01fdde839456e4362",
+    "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+  },
+  "exact_universe": {
+    "endian": "big",
+    "exponent_width": 6,
+    "lane_P_expansion": "pair_index=m_index*117649+f_index for m_index=0..5",
+    "lane_P_f_indices": [
+      0,
+      117648
+    ],
+    "lane_S_pair_indices": [
+      0,
+      705893
+    ],
+    "lane_V_pair_indices": [
+      0,
+      705893
+    ],
+    "m_values": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "pcgs_basis_contract": "hsp7-ordered-pcgs-material/v1",
+    "pcgs_basis_fingerprint_status": "BOUND_TO_REGISTERED_RUNTIME_MATERIAL",
+    "pcgs_basis_fingerprints": {
+      "P": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+      "S": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+      "V": "eaf54f528795c7831ab4a1b52d4c5e7578f0e93633c2332bfd9428b4b0503889"
+    },
+    "pcgs_core_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+    "pcgs_id": "sha256:99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "pcgs_id_kind": "legacy_source_artifact_anchor_not_runtime_basis_identity",
+    "pcgs_source_artifact_path": "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g",
+    "pcgs_source_artifact_sha256": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "radix": 7
+  },
+  "exposure_negative_result": {
+    "all_pass_fail_unknown_records_retained": true,
+    "automatic_claim_promotion": false,
+    "partial_distribution_updates_forbidden": true,
+    "stop_and_superseded_retry_receipts_retained": true
+  },
+  "join": {
+    "checker": "search/probe/hsp7_mainrun/join_checker.py",
+    "fixture_overall_pass": true,
+    "fixture_receipt": "search/certs/hsp7_join_fixtures_v2_20260805.json",
+    "fixture_receipt_sha256": "09a9ee1a27faff46581da743dc24ccccd638295600aa322b61cebf3690865f9d",
+    "independent_rederivation": [
+      "flat-index-to-semantic-tuple",
+      "P-f-key-to-all-pair-keys"
+    ]
+  },
+  "lanes": {
+    "P": {
+      "compressed_cap_bytes": 713031680,
+      "partition": {
+        "max_parallel": 20,
+        "n_shards": 32,
+        "target_size": 3678,
+        "timeout_min": 60,
+        "total": 117649
+      },
+      "pcgs_basis_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+      "shard_manifest": "search/certs/hsp7_shard_manifest_laneP_v3_20260805.json",
+      "shard_manifest_file_sha256": "ce76e7a928e059df7b2acf148869d4739f4660ad9953950df59644cbb7983326",
+      "source_bundle_sha256": "4c59fb1e19fb99696b997852a717f508abe3c4fe64b73f142840adcd6e1c612b",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/binding_gate_lib.py": "10960ce3e6558ec685adfd18a95ee12d669f41897f1a93566de823a9c5031c9c",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_P.g": "ed660769dd55fd45060606a89d4f6ad74f984e2136c3a82414697692d16e01fb",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP.g": "be1fdf4883210118211f5ab26dc8e1c22a2aacd96f58e24e494779ca3fc70dcc",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+        "search/probe/hsp7_mainrun/run_lane_job.py": "a02e2dffe68f576200f970255ab178fc2a6fa285c1c3ef18560b5f3fa52c5295",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    "S": {
+      "compressed_cap_bytes": 713031680,
+      "partition": {
+        "max_parallel": 20,
+        "n_shards": 192,
+        "target_size": 3678,
+        "timeout_min": 60,
+        "total": 705894
+      },
+      "pcgs_basis_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+      "shard_manifest": "search/certs/hsp7_shard_manifest_laneS_v3_20260805.json",
+      "shard_manifest_file_sha256": "769fb75218fef6edaf721c82c2f72673715313a9f2f07338664f30be6744189c",
+      "source_bundle_sha256": "2fe8a0f377f22395abec9c42dd02cf2ae1c365a8f4a0726c61b35214ebc35786",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/binding_gate_lib.py": "10960ce3e6558ec685adfd18a95ee12d669f41897f1a93566de823a9c5031c9c",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_S.g": "3ee4319a6989fc3d4c60bd28d64757b03b61c93bff7c746f81156dfb5505be28",
+        "search/probe/hsp7_mainrun/predicate_lib_laneS.g": "1fabb7848ea5c6adb275b451c5264f8c4f7989fbc2b94f1e95db2b663453a070",
+        "search/probe/hsp7_mainrun/run_lane_job.py": "a02e2dffe68f576200f970255ab178fc2a6fa285c1c3ef18560b5f3fa52c5295",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    "V": {
+      "compressed_cap_bytes": 713031680,
+      "partition": {
+        "max_parallel": 20,
+        "n_shards": 14,
+        "target_size": 54000,
+        "timeout_min": 60,
+        "total": 705894
+      },
+      "pcgs_basis_fingerprint": "eaf54f528795c7831ab4a1b52d4c5e7578f0e93633c2332bfd9428b4b0503889",
+      "shard_manifest": "search/certs/hsp7_shard_manifest_laneV_v3_20260805.json",
+      "shard_manifest_file_sha256": "bcbc0106fe7c5c76b63485dd4039e9952f1a5436d72ad88cd539223a98152530",
+      "source_bundle_sha256": "03bcec31228388fe052019c9751fb95840adc48a2c07f6396d432c3b93f2ce1e",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_cond4_laneV/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/binding_gate_lib.py": "10960ce3e6558ec685adfd18a95ee12d669f41897f1a93566de823a9c5031c9c",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_V.g": "e916b548846ca35accf892d86899372ae64d7f82f730f4a74da1f3a61ba1dbc8",
+        "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g": "e333face99652474a4a6b796d286fa68567a23df05a836293fdc1500b03a4cad",
+        "search/probe/hsp7_mainrun/run_lane_job.py": "a02e2dffe68f576200f970255ab178fc2a6fa285c1c3ef18560b5f3fa52c5295",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    }
+  },
+  "negative_binding_matrix": {
+    "candidate_universe_contact": 0,
+    "fixture_count": 71,
+    "overall_pass": true,
+    "receipt": "search/certs/hsp7_binding_negative_matrix_v2_20260805.json",
+    "receipt_sha256": "84626520e6c9319b46b75dad73af7d940e14fca4ec9edcb2ee51d9e220554914"
+  },
+  "note": "The v1 registered receipt is historical evidence only after wrapper/schema v3 changes. Class calibration closes only through the fully rebound candidate-free v4 refresh. Main/production certificates are intentionally not a class-freeze prerequisite; no candidate/main run was made.",
+  "preflight": {
+    "blockers": [],
+    "prior_cf_conv_registered_18_receipt": "search/certs/hsp7_cf_calib_20260805.json",
+    "prior_cf_conv_registered_18_receipt_sha256": "c96b9ec43e7dc7672751457055776382e822394aa27344a452bb4bdadb342276",
+    "registered_wrapper_calibration_v1": {
+      "actual_evaluated": {
+        "P": 8,
+        "S": 13,
+        "V": 13
+      },
+      "class_calibration_closed": false,
+      "historical_only": true,
+      "overall_pass": true,
+      "receipt": "search/certs/hsp7_registered_wrappers_preflight_20260805.json",
+      "receipt_sha256": "75ef1c9359136b5020745d4a2fa123eba67d512153185622e54f75d7a091ac45"
+    },
+    "runtime_pcgs_refresh": {
+      "artifacts_present": true,
+      "class_calibration_closed": true,
+      "detail": "current-source v4 refresh receipt PASS",
+      "expected_receipt": "search/certs/hsp7_registered_wrappers_preflight_pcgs_v4_20260806.json",
+      "overall_pass": true,
+      "source_commit_sha": "a9a653e9a82f4dd93ca9eabec085a03af931b26e"
+    }
+  },
+  "re_gate_on_change": [
+    "predicate",
+    "wrapper",
+    "conversion",
+    "schema",
+    "checker",
+    "source-map",
+    "pcgs-artifact",
+    "semantic-key",
+    "universe/range",
+    "sharding",
+    "STOP/UNKNOWN",
+    "exposure/retention/cap",
+    "new output type"
+  ],
+  "schema": "hsp7-class-manifest-draft/v1",
+  "status": "FROZEN_AUTHORIZED",
+  "stop_unknown": {
+    "automatic_retry": false,
+    "fatal_error_is_unknown": false,
+    "hard_shard_timeout_min": 60,
+    "partial_or_missing_shard": "STOP",
+    "runtime_pcgs_preflight_timeout_min": 15,
+    "unknown_is_explicit_record_only": true
+  },
+  "workflow_installation": {
+    "installed_path": ".github/workflows/hsp7-mainrun-class-v3.yml",
+    "normalization_contract": "canonical-LF; replace only FROZEN_CLASS_MANIFEST_PATH and FROZEN_CLASS_MANIFEST_SHA256 values with UNSET_REQUIRES_FREEZE",
+    "normalized_template_sha256": "41b29577479b51a4b9b3b06ffb4d62465afb2e256fab96c42714518dec6615cd",
+    "source_template_path": "search/probe/hsp7_mainrun/hsp7_mainrun_workflow_v3.yml",
+    "virtual_component_key": "search/probe/hsp7_mainrun/hsp7_mainrun_workflow_v3.yml#normalized-freeze-sentinels"
+  }
+}

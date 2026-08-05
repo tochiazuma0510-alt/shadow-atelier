@@ -1,0 +1,68 @@
+{
+  "candidate_universe_contact": 0,
+  "interpretation": "Serialization/capacity measurement on deliberately invalid synthetic rows. Linear extrapolation only; not a main-run speed or output-size observation.",
+  "linear_extrapolation_all_lanes": {
+    "gzip_bytes": 17468550,
+    "raw_bytes": 344837077
+  },
+  "measurement": {
+    "P": {
+      "gzip_bytes_extrapolated": 1317675,
+      "gzip_bytes_measured": 224587,
+      "gzip_bytes_per_synthetic_row": 11.19405,
+      "gzip_header_footer_bytes": 706,
+      "gzip_sha256": "2a5af41d09a39f3a363c55f9e561be4a93cb354ba9443d1b21a4055234543f62",
+      "linear_extrapolation_rows": 117649,
+      "raw_bytes_extrapolated": 27179406,
+      "raw_bytes_measured": 4622472,
+      "raw_bytes_per_synthetic_row": 231.00015,
+      "raw_header_footer_bytes": 2469,
+      "raw_sha256": "c6304b347ce7d71ce229ddc184df50dee3727c921bc90aa8969b4ecd98224d16",
+      "synthetic_rows_measured": 20000
+    },
+    "S": {
+      "gzip_bytes_extrapolated": 7979711,
+      "gzip_bytes_measured": 226776,
+      "gzip_bytes_per_synthetic_row": 11.3034,
+      "gzip_header_footer_bytes": 708,
+      "gzip_sha256": "11bef885e34da3e5044059ffddc9b2b27e799e05f21964849ad19861ba347ec4",
+      "linear_extrapolation_rows": 705894,
+      "raw_bytes_extrapolated": 124239922,
+      "raw_bytes_measured": 3522475,
+      "raw_bytes_per_synthetic_row": 176.00015,
+      "raw_header_footer_bytes": 2472,
+      "raw_sha256": "1768e1c299189fbcc58698aead19f6b2fba63323603e3423c4273f89ee76d72c",
+      "synthetic_rows_measured": 20000
+    },
+    "V": {
+      "gzip_bytes_extrapolated": 8171164,
+      "gzip_bytes_measured": 232215,
+      "gzip_bytes_per_synthetic_row": 11.5746,
+      "gzip_header_footer_bytes": 723,
+      "gzip_sha256": "aa8d997e6c49e5c7526aeea2ebb7ec92adcf77693c494f413b99f322941eb530",
+      "linear_extrapolation_rows": 705894,
+      "raw_bytes_extrapolated": 193417749,
+      "raw_bytes_measured": 5482690,
+      "raw_bytes_per_synthetic_row": 274.00015,
+      "raw_header_footer_bytes": 2687,
+      "raw_sha256": "3737305ba1d2c2853606ddc21132376652f01eeaa37a26de25486165c8834436",
+      "synthetic_rows_measured": 20000
+    }
+  },
+  "production_record_shape_used": true,
+  "retention_policy": {
+    "artifact_retention_days": 30,
+    "cap_action": "STOP before upload; no truncation, sampling, or silent record deletion",
+    "per_lane_cap_sum_bytes": 2139095040,
+    "per_lane_compressed_cap_bytes": {
+      "P": 713031680,
+      "S": 713031680,
+      "V": 713031680
+    },
+    "per_shard_uncompressed_cap_bytes": 20971520,
+    "recovery": "retain immutable shard certs plus manifest/join receipt; rerun only an explicitly failed shard under the same class and source digests",
+    "whole_class_compressed_cap_bytes": 2147483648
+  },
+  "schema": "hsp7-capacity-noncontact/v2",
+  "synthetic_fixture_is_deliberately_invalid_candidate_data": true
+}
