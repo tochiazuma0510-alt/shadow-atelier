@@ -90,7 +90,7 @@
 
 > **PROPOSITION 4.2.** "The restriction of $\varphi$ to $G_{\mathbf Q(\mu_{p^\infty})}\to\Phi(3)$ induces a surjective $G_{\mathbf Q(\mu_{p^\infty})}\to\Phi(3)/\Phi(4)\simeq\mathbf Z_p$."
 >
-> **REMARK 4.3.** "… Hence, $\mathrm{gr}^3\varphi$ gives an element of $H^1(\mathbf Z[1/p],\mu_{p^\infty}],\mathbf Z_p(3))^{G_\infty}\simeq H^1(\mathbf Z[1/p],\mathbf Z_p(3))$. We know that $\mathrm{gr}^3\varphi$ … coincides with the cyclotomic element of Deligne–Soulé $c(1)$ … modulo $\mathbf Z_p^\times$ ([8] Th. B, [3] Th. C). **Hence, the surjectivity of $\mathrm{gr}^3\varphi$ corresponds to the fact that the cyclotomic element generates $H^1(\mathbf Z[1/p],\mathbf Z_p(3))$.** The latter is also deduced from Proposition 5.1 below and $H^2(\mathbf Z[1/p],\mathbf Z_p(3))=0$."
+> **REMARK 4.3.** "… Hence, $\mathrm{gr}^3\varphi$ gives an element of $H^1(\mathbf Z[1/p,\mu_{p^\infty}],\mathbf Z_p(3))^{G_\infty}\simeq H^1(\mathbf Z[1/p],\mathbf Z_p(3))$. We know that $\mathrm{gr}^3\varphi$ … coincides with the cyclotomic element of Deligne–Soulé $c(1)$ … modulo $\mathbf Z_p^\times$ ([8] Th. B, [3] Th. C). **Hence, the surjectivity of $\mathrm{gr}^3\varphi$ corresponds to the fact that the cyclotomic element generates $H^1(\mathbf Z[1/p],\mathbf Z_p(3))$.** The latter is also deduced from Proposition 5.1 below and $H^2(\mathbf Z[1/p],\mathbf Z_p(3))=0$."
 
 ⟹ **Prop 4.2 + Remark 4.3 ⟹ 補題 BR-5 の結論**($c(1)$ が $H^1$ を生成する)。
 
