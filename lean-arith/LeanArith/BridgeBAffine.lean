@@ -1,5 +1,5 @@
 /-
-LeanArith/BridgeBAffine.lean ? Bridge B affine route, foundation spike A0.
+LeanArith/BridgeBAffine.lean — Bridge B affine route, foundation spike A0.
 
 This file only fixes the affine base, the variance of the finite-etale cover
 category, the geometric fiber functor, and the resulting automorphism-group
@@ -23,34 +23,34 @@ noncomputable section
 
 variable (k : Type u) [Field k]
 
-/-- The polynomial whose principal open is `P? \\ {0,1,?}`. -/
+/-- The polynomial whose principal open is `P¹ \\ {0,1,∞}`. -/
 def puncturePolynomial : Polynomial k :=
   Polynomial.X * (Polynomial.X - 1)
 
 /-- The affine coordinate ring
-`A_U = k[t,t??,(t-1)??]`, presented as localization away from `t(t-1)`. -/
+`A_U = k[t,t⁻¹,(t-1)⁻¹]`, presented as localization away from `t(t-1)`. -/
 abbrev AU : Type u :=
   Localization.Away (puncturePolynomial k)
 
-/-- Finite ?tale affine covers have the opposite variance. -/
+/-- Finite étale affine covers have the opposite variance. -/
 abbrev CoverCategory :=
-  (CommAlgCat.FiniteEtale.{v} (AU k))??
+  (CommAlgCat.FiniteEtale.{v} (AU k))ᵒᵖ
 
-variable (? : Type w) [Field ?] [IsSepClosed ?] [Algebra (AU k) ?]
+variable (Ω : Type w) [Field Ω] [IsSepClosed Ω] [Algebra (AU k) Ω]
 
 /-- The ring map underlying the explicitly supplied geometric point. -/
-def geometricPoint : AU k ?+* ? :=
-  algebraMap (AU k) ?
+def geometricPoint : AU k →+* Ω :=
+  algebraMap (AU k) Ω
 
-/-- The finite-set-valued geometric fiber functor at `Spec ? ? U`. -/
+/-- The finite-set-valued geometric fiber functor at `Spec Ω → U`. -/
 def fiber :
-    CoverCategory.{u, v} k ? FintypeCat.{max v w} :=
-  CommAlgCat.FiniteEtale.fiber.{v} (AU k) ?
+    CoverCategory.{u, v} k ⥤ FintypeCat.{max v w} :=
+  CommAlgCat.FiniteEtale.fiber.{v} (AU k) Ω
 
 /-- Affine fundamental-group candidate at the supplied geometric point.
 No topology or Galois-category theorem is claimed by this abbreviation. -/
 abbrev PiOneCandidate :=
-  CategoryTheory.Aut (fiber (k := k) ?)
+  CategoryTheory.Aut (fiber (k := k) Ω)
 
 /-- A0 obligation type: the finite-etale cover category is PreGalois.
 This is a goal type, not an instance and not a theorem. -/
@@ -63,7 +63,7 @@ unproved input to the next bridge stage. -/
 abbrev FiberFunctorGoal
     [CategoryTheory.PreGaloisCategory (CoverCategory.{u, v} k)] :=
   CategoryTheory.PreGaloisCategory.FiberFunctor
-    (fiber (k := k) ?)
+    (fiber (k := k) Ω)
 
 end
 end LeanArith.BridgeBAffine

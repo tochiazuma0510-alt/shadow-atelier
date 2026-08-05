@@ -38,5 +38,5 @@ Main theorem receipt (the generated manifest is the complete 242-row receipt):
 | `torsor_compare_fin_unit` | `2966220890` | `[propext, Classical.choice, Quot.sound]` |
 
 Warnings were linter-only (`unusedSimpArgs` / `unusedSectionVars`) in pre-existing and expanded
-plain-core arithmetic. There was no compiler ?declaration uses `sorry`? warning. This receipt is a
+plain-core arithmetic. There was no compiler “declaration uses `sorry`” warning. This receipt is a
 local candidate; GHA remains the authoritative acceptance run.
