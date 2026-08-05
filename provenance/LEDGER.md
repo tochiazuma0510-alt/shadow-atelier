@@ -2220,3 +2220,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ローカル: TOY 自己較正 162/162+486/486・CF vs 現行 baseline 二経路一致 mismatch 0(laneV 13 fixture・N/N₀ 両窓)・CONV-P vs native 一致 5/5。GHA: run 31000422908(commit ad46655)で 18/18 一致・receipt overall_pass ×2。cert = search/certs/hsp7_cf_calib_20260805.json。現行 pin 実装・既存 cert/receipt は無改変(確認済)。
 - 正直申告 4 件の裁定: ①CONV-P の p=5 窓への拡張適用 = 承認(構成は p 非依存・新仮定なし)②Lane P 比較は削減主張でない旨の開示 = 妥当 ③A1/A2 構築の生成元 {phiX,phiY,phiC} 暗黙依存 = 非 blocking TODO(独立生成性チェック 1 行を本走 bundle までに追加・便 105 に注記)④p=7 本走 timing 非実施 = 認可境界の正しい遵守。
 - 帰結: 便 105 §2 の CF receipt 完備。本走壁時計は CF 採用なら桁で縮む(正確な提示は prereg v2 の shard 計画に CF 補正を注記する形・宇宙非接触のまま)。裁定 532 で「533 予定」とした fixture 修正一括は 534 へ繰り下げ。
+
+## 2026-08-05 研究者指示: Mathlib ローカル禁止の恒久化(裁定 534)—「Mathlib は重くてローカルはキツイ」
+- 確認: 第 1 波の lean/ は Mathlib 非依存(lakefile に require なし・Marking/K3/P1 の 3 lib)= ローカル軽量・現行走行は適合。
+- 恒久拘束: ①lean/ 本体(P1 core)は Mathlib 非依存の素 Lean を維持 ②Mathlib 依存層(数論・橋 B・公理討ち取り)は**別パッケージ+GitHub Actions 専用ビルド**(mathlib cache・public 無料・16GB ランナー)— ローカルで Mathlib を lake build しない ③Luna 分担 = ソース編集+core ローカルビルドまで・Mathlib 層は push → CI → ログ還流(裁定 531 の GitHub 引き取りと同線)④Lean 常駐と GAP 大規模列挙の排他は従来どおり。ES7 実証(mathlib 常駐 2.5–3GB = 8GB 機の壁)を根拠に記憶へ反映済(ram-8gb-constraint v2)。
