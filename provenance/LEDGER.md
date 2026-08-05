@@ -2297,3 +2297,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 裁定: 全札 candidate 採録。優先 = **P-1(本走再 gate 通過前に IF-FIRST 単独コミット必須)→ W-1 → D-1** の係私見を採用。P-1 起草と F-1 protocol は便 106 サイクルで処理(キューへ)。
 
 ## 2026-08-05 便 106 波起動(裁定 549)— ①P1 発効記帳束+AUTO-SETTLED 札訂正(数学者 A)②EXSEQ-LIM v1.1+P-1 予言票(数学者 B・P-1 は単独コミット厳守)③**Luna 起床(便 01・-Role luna・xhigh 指定)**: F105-6.4 を初回指示書に Lean 差戻し修理(hygiene→Block H→A→E・Mathlib ローカル禁止・T2 は Sol 承認制)。HS/BU 実装束の Sol 側回付と class manifest 設計は記帳束着地後の便 106 本文で。
+
+## 2026-08-05 P1 発効記帳束 検収(裁定 550)— p1_ratification_bundle_v1.md(7ef2e5a)採択
+- ①b4c-u/v1(Sol 指定文言逐語・依存欄新規 1 点のみ・禁止 2 項明文化)②FAM-U-ASM claim(格ブロック SHA 一致・「意味しない 3 項」・candidate 前件行の二重掲示)③n=5 欄 A/B 分離(FAM-U/u_n 層 = 解除済・genuine 層 = blind 継続)④AUTO-SETTLED 正札(false 昇格条件 = 双子 witness 型・旧札起草の自認)。
+- 裁定: 束を採択・proof ID = b4c-u/v1 を正式採用・**FAM-U-ASM 昇格の発効を宣言**(Sol 条件 2 件は本束で履行 — 残 P1R-GAP-2 = τ 命名 1 行の additive addendum を便 106 サイクルで挿入)。状態.md/地図の行更新は便 106 組立時に一括。
