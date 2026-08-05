@@ -2190,3 +2190,12 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 CI 較正 3 点 検収(裁定 526)— 認可分 全 PASS: ★GHA 実走で 18 fixture 全一致(run 30998728060・laneV 13/13+p5control 5/5・環境差分 3 件を自己修理 = anupq 直接ビルド方式)・schema smoke 往復 byte 同一・join checker 9 fixture(7 種 STOP+並び替え canonical hash 同一)全一致
 - cert = search/certs/hsp7_ci_calib_20260805.json+.github/workflows/hsp7-calib.yml。**F104-1.4 再申請要件の (g)(h) が実物で完備** — (a)〜(e) 済・(f) 容量実測は「fixture receipt からの外挿+本走第 1 shard で確定」の形を便 105 で提案。残 = ギャップ 2 件の数学解決(走行中)。
 - 係の照会への裁定: ①join_checker の index_range/内容の独立検査化 = **承認**(8 種欠陥の独立 fixture 化に必要・妥当)②期待値源 = summary v2 単一 = 承認(集約 cert が正本)③同一作業ツリーでの他係ファイル混在の指摘 = 司令塔認識あり(裁定 524 コミットが双方を含んだ・参照なしを確認・実害なし — 以後 mainrun 系は係ごとの add 範囲を司令塔が管理)。
+
+## 2026-08-05 本走変換ギャップ 検収(裁定 527)— 両ギャップ解消: ①CONV-P(6 元前計算+指数積・PreImagesRepresentative は 6 回のみ・[P,P] 非可換につき積順一致必須)+補題 CONV-WD(verbal ⟹ well-defined・NW-2 同内容の独立追認)+★新補題 CONV-INJ(r∘j=id ⟹ 単射 ⟹ 117,649 候補の Q 側衝突ゼロ)②語長上界 452 ≤ 較正走実測最悪 588 ⟹ rate 補正 ×0.98 = 修理不要+★閉形式 CF((3.3)(3.4) を Ad(σᵢ) 形へ・literal と主窓 162/162+control 486/486 一致・100〜140 倍削減見込・F104-1.5 item1+諮問 §10.2 を自前解消)
+- 正本 = docs/notes/hsp7_mainrun_conversion_v1.md。裁定: CF を本走実装の第一候補として採用(現行 pin 実装は温存・二本立てで便 105 §2 に「諮問の自前解決」として提示)。N/N₀ の自己同型像共有は不採用(数学者勧告 — S-8′ の実装交差検査面を保つ)。K⁽ⁿ⁾=ker ψₙ 非 verbal の射程限定を注記。L_pcgs 測定は CF 採用につき保留。
+- 発火: CF 実装+登録 18 fixture の CF 再較正(GHA 別 workflow・現行 receipt 不変・fixture のみ・宇宙非接触)。
+
+## 2026-08-05 AUTO-SETTLED 仮説 検分検収(裁定 528)— 無条件 AUTO-SETTLED = 偽・条件付きで成立: ①定理 OP-SETTLED(前件 3 = c∈N・N⊴B₃ 有限指数 PB₃ 内・charming+全射の下で ker T=N ⟺ φ(N_F₂)=1 ⟺ K5-8・鍵 = 補題 DESCENT-c・c∉N は必要条件のみ・PB₄ 移送不可)②鳩の巣は補題 PIGEON まで(descent は hexagon/生成性から出ない — 非 settled は正典 GTSh(K,N) K≠N そのもの)③100% 観測 = K5-8 を列挙フィルタに使うと恒真(constant-TRUE の実物)+候補欠落は isolated を false-TRUE にしうる
+- 正本 = docs/notes/auto_settled_check_v1.md(sha 97be3d35…97c6)。★救済 = 新補題 VERBAL-ISO(N_F₂ verbal+c∈N ⟹ 全 shadow settled ⟹ isolated)⟹ HS 主標的 N=𝒱(F₂)×⟨c⟩・c2q Heisenberg 窓 N₀ が機械計算なしで isolated(SD-a 一部紙閉)。PSL(2,8) 窓・W-5 は適用外。W-5 = UNKNOWN pending gate 不変。
+- v4 波及の採択: R1-b(descent フィルタ外し列挙 → hexagon+charming+SURJ → 事後 descent 検査 = Reidemeister–Schreier 全件)・M-ISO-7(列挙段 descent 混入の source-map 検出)・S-BU-17(ENUMERATION_FILTER_CONTAMINATION/STOP)— v4 追補として便 105 §3 同梱。M-ISO-2 実物構成法判明(双子 K 窓 or 非 verbal N_F₂ 窓・bare K⁽ⁿ⁾ 不可)— 承認済 K3 混入 fixture は checker 陰性用として維持。
+- 発火: 走行中 R3/R4 係へ【AS-GAP-3】(列挙経路の K5-8 使用有無の確認・使用なら R1-b 改修)+M-ISO-7/S-BU-17 組込みを指示。地図 delta 反映は便 105 組立時(債務記帳)。
