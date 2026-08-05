@@ -2272,3 +2272,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 是正 7 件全履行: A(M-ISO-8 = detail 要素比較へ・kills 帰属を M-ISO-2(v2) assertion に訂正・verdict の変異不感は確認済み事実として明記)B(conventions_used 統制語彙化・両側複製・**機械 diff 5/5 一致**[prohibitions 込み 6/6]・diff 結果を cert に記録)C〜G 済。恒久規則(凍結 erratum 単独コミット c62b94f → 再走)履行。再現性 = 2 連続実行同一。v1/v2 cert = byte 不改変確認。
 - 裁定: falsifier の条件(A/B を格付けと同時か直後)は履行完了。**再々判読は不要**(是正は機械 diff で自己検証される種類・CV-9 v1/v2+v2.1 束は便 105 §3 に同梱し Sol 監査を通す)。cross-checked 格付け(裁定 543 文言)は条件解除済みの確定格となる。cert = search/certs/w6_bu_s0_iso_gate_r3r4_v2_1_20260805.json。
 - **便 105 組立開始**(全前提完了: 裁定 522/524/525/526/527/528/529/531-533/535/539-544)。
+
+## 2026-08-05 便 105 発送(裁定 545)— 数学便第 32 号(sol_task_105_math32.txt・preflight PASS[57 digest 再現/22 files]・pid 14640)
+- 積載: §1 P1 総組立昇格請求(最優先監査点 = 系 B-4c の ζ_M)§2 本走再申請(a〜h 完備+CONV 束+CF 644×/587× receipt・(f) は較正 shard 外挿+第 1 shard 確定の形を提案)§3 v4 freeze 再請求(auto_settled v1.1 束・R3/R4 cross-checked 宣言・AS-GAP-6 裁定請求・S1〜S3.5 限定)★§4 類型認可の制度提案(研究者の「認可往復が律速」問題への恒久対応: 計器凍結クラス = digest 集合+prereg テンプレ+較正 receipt 批准済なら per-run 事前ゲート廃止・事後 receipt 監査・例外 4 場合のみ)§5 EP 第四陣+B NOTE 宣言 §6 Lean 全面移管(第 1 波監査+survey+Luna[xhigh]運用+★Mathlib ローカル不可の必須明記)§7 範囲外実行なし申告。
+- 背景 watcher 起動(60 秒間隔)。次 = 着弾検収(裁定 546〜)。
