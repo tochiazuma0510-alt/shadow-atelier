@@ -2393,3 +2393,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 ★★★答え合わせ検収(裁定 572)— 予言的中: hexagon 294(6 層×49 exact)・PENT(m=0)= 7・fake 証明書 252(m=0 実測+PENT-LAYER 外挿)・★S/V 二系統が全 705,894 件で完全同一集合(mismatch 0)
 - cert = nw7_mainrun_scoring_20260806.json(b409697・機械生成・手写しなし)。限定の正直記帳: 42/252 は外挿込み(m≠0 の PENT は非独立測定)・SURJ/settled は非測定(甲類 = 設計どおり)・EXQ-6 は位数水準のみ・cross-checked 格付けは CV-9 判読未経由の自己申告と cert 明記。★係の罠封じ: lane P 生 PASS49 は hex(0) と別量の偶然一致 — 将来の誤読防止注記を cert に固定。
 - 帰結: P5 の A 型 fake 候補 252 個が証明書つきで在庫化(genuine 格付けは別ゲート)。便 109 で Sol へ結果束+CV-9 判読請求+外挿部の裁定請求。
+
+## 2026-08-06 W-1 双子 census 検収(裁定 573)— ★174 対発見(指数 24〜984・distinct 指数 90・8.6 分・cap=1000 を timing probe で正直確定)
+- ★札予言の反証: 「指数 ≤648 で双子 0」は外れ — 最小双子は**指数 24**(商 SL(2,3))。値推測の反証は解禁規約どおり一級記録。
+- AS-GAP-6 の狩場確定: **両メンバー c∈N かつ N⊆PB₃ の対 = 28 対・最小 = 指数 126(商 C7:(C3×S3))** — 真の non-isolated witness(双子 K≠N)の第一候補地。verbal 判定は全 348 メンバー UNKNOWN(未実装・仕様どおり)。
+- 係の解釈判断(全 B₃ 正規列挙+PB₃/c∈N は属性記録)= 承認(在庫・棄却禁止に整合)。cert = lins_twin_census_v1_20260806.json(8c95f21)。
+- 次: 指数 126 対での GTSh(K,N)≠∅ 検査(ISO 機構の転用)+verbal 判定の要否 → B-HUNT 票・便 109 と合流。
