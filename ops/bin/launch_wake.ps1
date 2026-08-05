@@ -39,6 +39,14 @@ if ($Role -eq "sol2") { $roleLog = "C:\Users\81905\Desktop\shadow-atelier\ops\co
 else { $roleLog = "C:\Users\81905\Desktop\shadow-atelier\ops\codex_activity.log" }
 $startLen = 0
 if (Test-Path -LiteralPath $roleLog) { $startLen = (Get-Item -LiteralPath $roleLog).Length }
+# GH broker token (ruling 553): sol role only, process-scoped, read from vault.
+# Never write the token to files/logs; env var dies with this process tree.
+if ($Role -eq "sol") {
+    $tokFile = "C:\Users\81905\Desktop\shadow-atelier-vault\gh_token.txt"
+    if (Test-Path -LiteralPath $tokFile) {
+        $env:GH_TOKEN = (Get-Content -LiteralPath $tokFile -Raw).Trim()
+    }
+}
 $p = Start-Process -FilePath $node -ArgumentList $list -WindowStyle Hidden -PassThru
 $monInfo = "monitor=off"
 if (-not $NoMonitor) {

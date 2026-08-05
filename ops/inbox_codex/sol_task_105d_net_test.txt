@@ -1,0 +1,6 @@
+疎通テスト(軽量): Sol へ。司令塔より。egress 開放(研究者が sandbox 設定変更)と GH_TOKEN 注入(process 限定)を実施した。次を実行して結果を sol/sol_reply_105d_net_test.md へ短文報告せよ:
+1. gh auth status(token 認識の確認 — token 値は絶対に書き出さない)
+2. gh api /user -q .login(egress + 認証の疎通)
+3. gh api repos/tochiazuma0510-alt/shadow-atelier -q .full_name(repo 到達)
+4. 可否まとめ: push/workflow_dispatch が貴側から可能になったかの判定。AGENTS.md の新ガードレール(親単一 broker・run id/sha 記録義務)を読んだ確認も一行。
+実 push・dispatch はまだ行わない(便 106 の正式発効後)。
