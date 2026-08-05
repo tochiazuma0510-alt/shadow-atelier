@@ -260,3 +260,69 @@ $$\boxed{\ \textbf{Reidemeister–Schreier で }N_{F_2}\ \textbf{の自由生成
 3. **③100% の意味**: ★★★ **二重に無情報**(判定形が descent を内包・標本が既知 isolated 族)。しかも**単に無情報なのではなく、列挙フィルタに使っていたなら isolated は false-TRUE になりうる**(§4 H-5)。**【AS-GAP-3】(実装が実際にフィルタに使ったか)の確認が最優先。**
 4. **v4 への波及**: **R1-b(列挙は descent フィルタ抜き)**・descent 検査の Reidemeister–Schreier 実装・**M-ISO-2 の作り方(双子/非 verbal を狙う)**・**M-ISO-7**・**S-BU-17**。**W-5 は `UNKNOWN (pending route-2 gate)` のまま。**
 5. ★★ **副産物(委嘱外・報告する価値があるもの)**: VERBAL-ISO により **HS 主標的 $\mathbf N=\mathcal V(F_2)\times\langle c\rangle$ と c2q Heisenberg 窓 $N_0$ が、機械計算なしで isolated と分かる**(§3.5)。⟹【SD-a】の一部が紙で閉じる。**ただし $\mathrm{PSL}(2,8)$ 窓 (S4-ISO) と W-5 には適用できない**($N_{F_2}$ が verbal として構成されていないため)。
+
+---
+---
+
+# 付録 A — **v1.1 addendum**(2026-08-05・裁定 529 の着弾を受けて)
+
+> **本 addendum は additive である。上の v1 本文(§0〜§7)は 1 文字も書き換えていない。** 本文と食い違う箇所は本 addendum が優先する(該当は A.1 の 1 点のみ)。
+> 起草: 影工房 数学者(Claude / Opus 5)。**紙のみ・機械実行ゼロ・新規探索ゼロ・封印非接触。**
+> 入力: 司令塔経由の実装側回答(**裁定 529**)— (a) `search/week3-battery-common.g` の `EnumerateReducedHexagon` per-candidate loop(`for cand in Dwords do`)は `GroupHomomorphismByImages` / `IsBijective` を**一切呼ばない** (b) descent 検査は shadow 集合確定**後**の `SettledCheckGeneral` 下流のみ(source-map 静的検査で確認) (c) M-ISO-7 検出器は故意破壊 enumerator を **S-BU-17** で正しく検出 (d) 新経験事実: **$K^{(3)}$ の hexagon 列挙で `generation_fail=0`**、M-ISO-2 witness は **h11-fail 候補(像 36 < 108 の真部分群生成)**で構成。
+> ⚠ 当方はコードも cert も読んでいない(上記は司令塔経由の報告を前提として扱う)。
+
+## A.1 【AS-GAP-3】の解決 — **混入なし**。条件節が外れる
+
+| 本文 §3.3 の 2 説 | v1.1 での確定 |
+|---|---|
+| **(A) 方法論(constant-TRUE 経路)**: K5-8 を列挙フィルタに使ったのではないか | ★ **排除**。列挙段は descent 判定を呼んでおらず、**既存列挙は本文 §5.1 の R1-b に既に適合**していた |
+| **(B) 標本バイアス** | ★ **確定**。bare $K^{(n)}$ は正典 Thm 4.3、その fiber 積(成分の交わり)は Prop 3.14 により**正準に isolated** ⟹ 陰性が出ないのは**理論どおり** |
+
+$$\boxed{\ \textbf{本文 §4 H-5 と §3.3 (A) の「不健全(false-TRUE)の疑い」は、この実装については}\textbf{解除する}\textbf{。}}$$
+
+- **本文の訂正はこの 1 点のみ**。§3.3 の表の (A) 行は「一般に起こりうる失敗型」としては有効だが、**当該実装には当たらない**。
+- **S-BU-17 / M-ISO-7 は撤回しない**: 検出器が故意破壊版を実際に捕まえた以上、**回帰項目として維持する価値がある**(将来の実装変更に対する保険)。
+- **100% という観測の情報量は依然ゼロ**である(理由が (A) から (B) に変わっただけで、標本が既知 isolated 族である限り AUTO-SETTLED の証拠にはならない)。⟹ **本文 §0 ②③ の判定は不変**。
+
+## A.2 ★ ただし **M-ISO-2 は未充足のまま**(h11-fail 候補は GT-shadow ではない)
+
+M-ISO-2 の要求は Sol の逐語で「**既知 non-isolated 陰性**」である。isolated は Def 3.13 で「**GT-shadow が全て settled**」と定義され、**GT-shadow は charming GT-pair + 全射性**(Def 3.7)である。したがって:
+
+$$\boxed{\ \textbf{h11(生成性)で落ちる候補は }\mathrm{GT}(N)\ \textbf{の元ではない} \ \Longrightarrow\ \textbf{isolated 性について何も語らない。}}$$
+
+| 項目 | 判定 |
+|---|---|
+| h11-fail 候補が discharge するもの | ★ **M-ISO-3(constant-TRUE 検出)**: パイプラインが常に TRUE を返すわけではないことは示せる。また **M-ISO-6(前件欠落)**の一部にも当たる |
+| h11-fail 候補が discharge **しない**もの | ★ **M-ISO-2 本体**。非 settled の**shadow** を 1 件も見ていない ⟹ 「settled 述語が FALSE を返せること」は未実証 |
+| ⚠ 期待判定の確認要求 | h11-fail 候補に対する**正しい挙動は「shadow 段で除外(または UNKNOWN)」**であって「非 settled(FALSE)」ではない。もしパイプラインがこれを FALSE として窓の isolated 判定へ伝播させるなら、**false-FALSE の経路**になる(isolated な窓を非 isolated と誤判定する)。⟹ **fixture の期待値を「除外/UNKNOWN」で登録すること**を求める |
+
+⟹ **本文 §5.3 の M-ISO-2 の作り方(同指数・同型商の「双子」$K\ne N$ をもつ窓、または $N_{F_2}$ が完全不変でない窓)は依然として有効な唯一の道である。**【AS-GAP-6】として起票する。
+
+## A.3 `generation_fail=0` on $K^{(3)}$ の記録と解釈
+
+**記録**: $N=K^{(3)}$、$P_N=G_3$、$\lvert G_3\rvert=4\cdot3^3=108$。hexagon を通った候補は**全件が生成性 (SURJ) を満たした**(`generation_fail=0`)。M-ISO-2 witness の像位数 **36**($=108/3$)は人工的に構成されたものである。
+
+> ### ★ 命題 GEN-AB(candidate・一行の解釈)
+> $n$ 奇、$P=G_n$($\lvert G_n\rvert=4n^3$、$A:=[G_n,G_n]\cong C_n^3$、$G_n^{\rm ab}\cong C_2^2$)、$[m,f]$ を **charming** GT-pair($u=2m+1$ **奇**、$\bar f\in[P,P]=A$)とし $H:=\langle\bar x^{\,u},\ \bar f^{-1}\bar y^{\,u}\bar f\rangle$ と置く。**$P^{\rm ab}\cong C_2^2$ では $u$ 倍は恒等**、かつ $\bar f\in[P,P]$ は $P^{\rm ab}$ で消えるので、2 生成元の $P^{\rm ab}$ における像は $\bar x,\bar y$ そのものである。ゆえに
+> $$\boxed{\ H\cdot[P,P]=P\ \ \textbf{は charming なら常に成り立つ。}\ \Longrightarrow\ \textbf{生成性が破れうるのは }A=[P,P]\ \textbf{の内部だけ。}\ }$$
+
+**解釈(1 行)**: ⟹ `generation_fail=0` は「hexagon を通った候補で $H\cap A$ が真部分群になるものが 1 件も無かった」という意味であり、**SURJ の識別力は事実上 $A$-成分のみに掛かっている**。人工 witness の像 $36=4\cdot9$ が「2-部は満杯・$A$-部だけ指数 3」という形になっているのは、この構造の**予言どおり**である(整合の 1 点)。
+⚠ **これは「$K^{(3)}$ で SURJ が恒真」の証明ではない**(命題 GEN-AB は $H\cdot A=P$ までしか言わない)。**識別力ゼロの検査を「通った」と数えない**(S-W6-3 の趣旨)。
+
+## A.4 不変事項(**便 105 §3 に載せる際の確認欄**)
+
+| # | 事項 | 状態 |
+|---|---|---|
+| 1 | **定理 AUTO-SETTLED は不成立**(一般には偽) | ★ **不変**(A.1 は理由を (A) から (B) に確定させただけ) |
+| 2 | **定理 OP-SETTLED**(K5-8 ⟺ Def 3.13・3 前件つき)・**補題 PIGEON / DESCENT-c / VERBAL-ISO** | ★ **不変**(Sol 未監査の candidate) |
+| 3 | §3.5: HS 主標的 $\mathbf N$ と c2q $N_0$ が **verbal ⟹ isolated**(紙) | ★ **不変**(【AS-GAP-5】= 有限指数の再検算は未) |
+| 4 | **W-5 = `UNKNOWN (pending route-2 gate)`** | ★ **不変**(F104-2.3 逐語。本 addendum は gate を閉じない) |
+| 5 | ISO-GATE の格: `isolated_verdict=TRUE` ≠ `iso_gate_state=PROVEN` | ★ **不変**(v4 §5.5)。R3 は **M-ISO-2 未充足**ゆえ**未閉**(A.2) |
+
+## A.5 【GAP】更新
+
+| 札 | 状態(v1.1) |
+|---|---|
+| **【AS-GAP-3】** | ★ **閉**(裁定 529: 混入なし・標本偏りで確定・R1-b 既適合) |
+| **【AS-GAP-6】** ★新 | **M-ISO-2(既知 non-isolated 陰性)の実物 witness が未取得**。h11-fail 候補では代替できない(A.2)。取得法は本文 §5.3(双子 $K$ / 非 verbal $N_{F_2}$) | **UNKNOWN(route-2 gate の律速)** |
+| 【AS-GAP-1】【AS-GAP-2】【AS-GAP-4】【AS-GAP-5】 | 不変 |

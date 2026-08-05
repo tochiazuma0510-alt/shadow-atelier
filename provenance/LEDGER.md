@@ -2207,3 +2207,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ★R4 の価値実証: 構築中に実バグ 2 件捕獲 — ①EvalWordQT/EvalWordInQ の語規約不一致(裁定 166 の prepend 格納規約)⟹ witness は語再構成でなく raw f_images で受け渡す方式へ ②Python 側 AbstractProd 順序反転([a,b,c]→c*b*a)4 箇所。二系統の存在が語規約バグを捕る、という CV-9 規律の実演。
 - 格付け規律遵守: cert は crosscheck_status=「本ファイル単独では cross-checked でない」・verified_status=「not verified(Lean 未使用)」。cross-checked 格付けは falsifier CV-9 判読後に司令塔裁定(発火)。W-5 = UNKNOWN pending gate 不変。cert = search/certs/w6_bu_s0_iso_gate_r3r4_20260805.json。
 - 併記: B 残置の driver 追記部(nf972_sourcemap_b_run.g の v4 出力 = CV-9 判読 3 点対応コード)を本 commit で保全(v6 系列の生成器)。
+
+## 2026-08-05 研究者裁定: Lean 運用体制(裁定 531)— ①第 1 波 → Sol 一回監査(便で方針 v1.5+割付表+第 1 波コードを提示)②以後 = 方針固定のうえ Sol 指示 → Luna 実装ループで証明が閉じるまで(工房 agent は原則外れる・配達起床は deliver_task.ps1 直接)③GitHub 操作(push・Actions の lake build CI・Mathlib キャッシュ・CI 結果還流)は工房引き取り(Sol/Luna は通信制約で gh 不可)④Sol の紙証明可視性 = 全部見える(P1 証明ノートは全て docs/notes/ = repo 共有面・金庫に Lean 必要物なし)⑤Mathlib 網羅度調査を発注(公理 T2×6+T1×2 の討ち取り可能性+橋 B の待ちの精密化 → mathlib_coverage_survey_v1.md)。memory = lean-sol-luna-pipeline.md
+
+## 2026-08-05 auto_settled v1.1 addendum 採択(裁定 532)— AS-GAP-3 閉じ込み+★M-ISO-2 未 discharge の捕獲
+- v1.1(sha 283145a1…061e・v1 本文不改変・付録 A のみ追記): ①【AS-GAP-3】解決 = (A) constant-TRUE 排除・(B) 標本偏りで確定・「不健全の疑い」解除(本文訂正はこの 1 点のみ)。S-BU-17/M-ISO-7 は回帰項目として維持・「100% の情報量ゼロ」判定は不変。
+- ②★A.2: **h11-fail 候補は Def 3.7 の全射性を欠き GT-shadow でない ⟹ 構成 fixture は M-ISO-2(既知 non-isolated 陰性)を discharge しない**(示せたのは M-ISO-3+M-ISO-6 一部まで)。正しい期待挙動 = 「shadow 段で除外/UNKNOWN」であり、FALSE として窓判定へ伝播させると false-FALSE 経路(isolated 窓の誤 non-isolated 化)。⟹ fixture 期待値の再登録が必要+【AS-GAP-6】新設 = 真の non-isolated witness 未取得(route-2 gate の律速・取得法 = 双子 K/非 verbal N_F₂ = 本文 §5.3)。
+- ③命題 GEN-AB: charming ⟹ u 奇+f̄∈[P,P] ⟹ H·[P,P]=P 常成立 ⟹ 生成破れは A=[P,P] 内部のみ = **SURJ の識別力は A 成分に集中**(witness 像 36=4·9 は予言どおり・「SURJ 恒真」の証明ではない)。
+- 処理: fixture 修正の実装指示は falsifier CV-9 判読(走行中・同論点を独立審査)の着地と合流させ一括発注(裁定 533 予定)。便 105 §3 に v1.1+AS-GAP-6 の裁定請求を追加。
