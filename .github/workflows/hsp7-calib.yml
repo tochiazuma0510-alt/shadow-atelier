@@ -61,8 +61,22 @@ jobs:
         with:
           packages: anupq
 
-      - name: Build anupq (compiles the pq binary for this runner)
-        uses: gap-actions/build-pkg@v3
+      # gap-actions/build-pkg@v3 assumes cwd is the package-under-test's own
+      # repo (it looks for ./PackageInfo.g in $GITHUB_WORKSPACE, which is
+      # this shadow-atelier checkout, not anupq's). It also defaults to
+      # recursively building every needed/suggested/system package in
+      # $GAPROOT/pkg, which failed here with "PackageInfo.g must exist"
+      # while walking an unrelated package. We only need anupq's own C
+      # extension (the pq binary) compiled, so we build it directly with
+      # the standard GAP-package `./configure <gaproot>; make` pattern that
+      # anupq (and most C-extension GAP packages) use.
+      - name: Build anupq (compiles the pq binary for this runner, manual configure/make)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GAPROOT/pkg/anupq"
+          ./configure "$GAPROOT"
+          make
 
       - name: Compute driver digest (fail-closed provenance binding)
         id: digest
