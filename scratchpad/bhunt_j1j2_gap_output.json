@@ -1,0 +1,19 @@
+{
+  "schema": "bhunt-j1j2-gap/v1",
+  "m0": 1,
+  "L_closed_subgroup": true,
+  "phi_well_defined": true,
+  "phi_bijective": true,
+  "phi_images": [{"h_e":[0,0,0,0,0,0],"phi_h_in_D":true,"phi_h_e":[0,0,0,0,0,0],"phi_h_in_L":true},{"h_e":[0,1,1,6,6,6],"phi_h_in_D":true,"phi_h_e":[0,6,6,1,1,1],"phi_h_in_L":true},{"h_e":[0,2,2,5,5,5],"phi_h_in_D":true,"phi_h_e":[0,5,5,2,2,2],"phi_h_in_L":true},{"h_e":[0,3,3,4,4,4],"phi_h_in_D":true,"phi_h_e":[0,4,4,3,3,3],"phi_h_in_L":true},{"h_e":[0,4,4,3,3,3],"phi_h_in_D":true,"phi_h_e":[0,3,3,4,4,4],"phi_h_in_L":true},{"h_e":[0,5,5,2,2,2],"phi_h_in_D":true,"phi_h_e":[0,2,2,5,5,5],"phi_h_in_L":true},{"h_e":[0,6,6,1,1,1],"phi_h_in_D":true,"phi_h_e":[0,1,1,6,6,6],"phi_h_in_L":true}],
+  "phi_invariant": true,
+  "m1": 4,
+  "m3_raw": 13,
+  "m3_mod7": 6,
+  "anchor_c_m": 6,
+  "anchor_c_e": [0,0,0,0,0,0],
+  "c_candidates": [{"f0_e":[2,0,0,4,4,4],"cube_f_equals_c":false},{"f0_e":[2,1,1,3,3,3],"cube_f_equals_c":false},{"f0_e":[2,2,2,2,2,2],"cube_f_equals_c":false},{"f0_e":[2,3,3,1,1,1],"cube_f_equals_c":false},{"f0_e":[2,4,4,0,0,0],"cube_f_equals_c":false},{"f0_e":[2,5,5,6,6,6],"cube_f_equals_c":false},{"f0_e":[2,6,6,5,5,5],"cube_f_equals_c":true}],
+  "c_hits_count": 1,
+  "branch_delta_bh3_uniqueness_violated": false,
+  "branch_gamma_phi_noninvariant": false,
+  "branch_open_alpha_beta_phi_invariant": true
+}

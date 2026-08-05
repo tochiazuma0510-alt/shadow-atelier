@@ -1,0 +1,813 @@
+{
+  "schema": "bhunt-j0j2-cert/v1",
+  "date": "2026-08-06",
+  "class_id": "B-HUNT",
+  "commit_sha": "5e4f2fb4d955e84fef31a9b04bf91feffc281f8f",
+  "iffirst_registry": {
+    "prereg_path": "docs/notes/bhunt_prereg_iffirst_v1.md",
+    "prereg_sha256": "578815adf34651e7e9605d2f2edfea59e8977a8e5c61116ab981615af9c7aca1",
+    "prereg_standalone_commit_sha": "aeabbb32bff65b87da37be653f5e3d54c6d3b47c",
+    "prereg_standalone_commit_files": [
+      "docs/notes/bhunt_prereg_iffirst_v1.md"
+    ],
+    "prereg_standalone_commit_verified": true
+  },
+  "constraints_honored": {
+    "no_705894_rerun": true,
+    "note_705894": "J0 reads lane S/V join_manifest.json (705,894 records each) and lane P join_manifest.json (117,649 records) as PRE-EXISTING artifacts only (streamed, not recomputed). No hexagon/PENT predicate was re-evaluated on any of the 705,894 or 117,649 candidates in this run.",
+    "sealed_three_quantities_noncontact": true,
+    "sealed_quantities_excluded": [
+      "u_9/a_9 (K^(5) campaign)",
+      "Im R_{N,K^(5)}",
+      "d_N",
+      "genuine-layer u value (K^(5) campaign)"
+    ],
+    "no_subdivision_used": true,
+    "artifacts_unmodified": true
+  },
+  "J0_join": {
+    "description": "Post-hoc join of pre-collected lane S (hexagon, layered) / V (independent hexagon lane) / P (PENT, layer-independent) PASS sets, realizing all 42 candidate keys. Zero new window computation. This upgrades the main-run cert's layer-uniform extrapolation (42 = 6*7, previously stated as extrapolated for m!=0) to a direct measurement.",
+    "provenance": {
+      "S_join_manifest": {
+        "path": "scratchpad/mainrun_results/S/join_manifest.json",
+        "sha256": "c1f4a25aba7f167a65be0ddb043e391ed234cdc7a462dcf8abe04892b7b92714",
+        "total_records": 705894,
+        "status_counts": {
+          "PASS": 294,
+          "FAIL": 705600,
+          "UNKNOWN": 0
+        }
+      },
+      "V_join_manifest": {
+        "path": "scratchpad/mainrun_results/V/join_manifest.json",
+        "sha256": "3a02f9a6bcdd8f47e586f9d7b9712660d78beb02de041c9465d09652b787ccd7",
+        "total_records": 705894,
+        "status_counts": {
+          "PASS": 294,
+          "FAIL": 705600,
+          "UNKNOWN": 0
+        }
+      },
+      "P_join_manifest": {
+        "path": "scratchpad/mainrun_results/P/join_manifest.json",
+        "sha256": "da256f46ad4c6211c9d07d739b0038aefe5a7b3b6ed870512f8e49f68e9dabe7",
+        "total_records": 117649,
+        "status_counts": {
+          "PASS": 49,
+          "FAIL": 117600,
+          "UNKNOWN": 0
+        }
+      }
+    },
+    "xn_ordered": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "s_pass_per_layer_counts": {
+      "0": 49,
+      "1": 49,
+      "2": 49,
+      "4": 49,
+      "5": 49,
+      "6": 49
+    },
+    "v_pass_per_layer_counts": {
+      "0": 49,
+      "1": 49,
+      "2": 49,
+      "4": 49,
+      "5": 49,
+      "6": 49
+    },
+    "s_v_mismatch_count": 0,
+    "p_pass_global_count": 49,
+    "pent_per_layer_counts": {
+      "0": 7,
+      "1": 7,
+      "2": 7,
+      "4": 7,
+      "5": 7,
+      "6": 7
+    },
+    "pent_total": 42,
+    "pent_all_keys": {
+      "0": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          6,
+          6,
+          6
+        ],
+        [
+          0,
+          2,
+          2,
+          5,
+          5,
+          5
+        ],
+        [
+          0,
+          3,
+          3,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          3,
+          3,
+          3
+        ],
+        [
+          0,
+          5,
+          5,
+          2,
+          2,
+          2
+        ],
+        [
+          0,
+          6,
+          6,
+          1,
+          1,
+          1
+        ]
+      ],
+      "1": [
+        [
+          2,
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          2,
+          1,
+          1,
+          3,
+          3,
+          3
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          3,
+          3,
+          1,
+          1,
+          1
+        ],
+        [
+          2,
+          4,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          5,
+          5,
+          6,
+          6,
+          6
+        ],
+        [
+          2,
+          6,
+          6,
+          5,
+          5,
+          5
+        ]
+      ],
+      "2": [
+        [
+          6,
+          0,
+          0,
+          2,
+          6,
+          2
+        ],
+        [
+          6,
+          1,
+          1,
+          1,
+          5,
+          1
+        ],
+        [
+          6,
+          2,
+          2,
+          0,
+          4,
+          0
+        ],
+        [
+          6,
+          3,
+          3,
+          6,
+          3,
+          6
+        ],
+        [
+          6,
+          4,
+          4,
+          5,
+          2,
+          5
+        ],
+        [
+          6,
+          5,
+          5,
+          4,
+          1,
+          4
+        ],
+        [
+          6,
+          6,
+          6,
+          3,
+          0,
+          3
+        ]
+      ],
+      "4": [
+        [
+          6,
+          0,
+          0,
+          2,
+          6,
+          2
+        ],
+        [
+          6,
+          1,
+          1,
+          1,
+          5,
+          1
+        ],
+        [
+          6,
+          2,
+          2,
+          0,
+          4,
+          0
+        ],
+        [
+          6,
+          3,
+          3,
+          6,
+          3,
+          6
+        ],
+        [
+          6,
+          4,
+          4,
+          5,
+          2,
+          5
+        ],
+        [
+          6,
+          5,
+          5,
+          4,
+          1,
+          4
+        ],
+        [
+          6,
+          6,
+          6,
+          3,
+          0,
+          3
+        ]
+      ],
+      "5": [
+        [
+          2,
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          2,
+          1,
+          1,
+          3,
+          3,
+          3
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          3,
+          3,
+          1,
+          1,
+          1
+        ],
+        [
+          2,
+          4,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          5,
+          5,
+          6,
+          6,
+          6
+        ],
+        [
+          2,
+          6,
+          6,
+          5,
+          5,
+          5
+        ]
+      ],
+      "6": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          6,
+          6,
+          6
+        ],
+        [
+          0,
+          2,
+          2,
+          5,
+          5,
+          5
+        ],
+        [
+          0,
+          3,
+          3,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          3,
+          3,
+          3
+        ],
+        [
+          0,
+          5,
+          5,
+          2,
+          2,
+          2
+        ],
+        [
+          0,
+          6,
+          6,
+          1,
+          1,
+          1
+        ]
+      ]
+    }
+  },
+  "J1_L": {
+    "description": "L = ker(D|_A) = pent(0), realized via J0 join.",
+    "L_evecs": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        1,
+        6,
+        6,
+        6
+      ],
+      [
+        0,
+        2,
+        2,
+        5,
+        5,
+        5
+      ],
+      [
+        0,
+        3,
+        3,
+        4,
+        4,
+        4
+      ],
+      [
+        0,
+        4,
+        4,
+        3,
+        3,
+        3
+      ],
+      [
+        0,
+        5,
+        5,
+        2,
+        2,
+        2
+      ],
+      [
+        0,
+        6,
+        6,
+        1,
+        1,
+        1
+      ]
+    ],
+    "L_count": 7
+  },
+  "J1prime_Phi": {
+    "description": "Phi = E_{m0,f0}|_{gamma3(P)} measured in P (same group object as main-run lanes, built via predicate_lib_laneS.g + candidate_key_lib.g BasisFromP). m0=1 (generating layer, u0=2*1+1=3, a generator of (Z/7)^x). f0 = first element of pent(m0=1) (any hexagon representative of that layer suffices for conjugation; f0 need not itself satisfy PENT).",
+    "m0": 1,
+    "L_closed_subgroup_check": true,
+    "phi_well_defined": true,
+    "phi_bijective": true,
+    "phi_images": [
+      {
+        "h_e": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "phi_h_in_D": true,
+        "phi_h_e": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "phi_h_in_L": true
+      },
+      {
+        "h_e": [
+          0,
+          1,
+          1,
+          6,
+          6,
+          6
+        ],
+        "phi_h_in_D": true,
+        "phi_h_e": [
+          0,
+          6,
+          6,
+          1,
+          1,
+          1
+        ],
+        "phi_h_in_L": true
+      },
+      {
+        "h_e": [
+          0,
+          2,
+          2,
+          5,
+          5,
+          5
+        ],
+        "phi_h_in_D": true,
+        "phi_h_e": [
+          0,
+          5,
+          5,
+          2,
+          2,
+          2
+        ],
+        "phi_h_in_L": true
+      },
+      {
+        "h_e": [
+          0,
+          3,
+          3,
+          4,
+          4,
+          4
+        ],
+        "phi_h_in_D": true,
+        "phi_h_e": [
+          0,
+          4,
+          4,
+          3,
+          3,
+          3
+        ],
+        "phi_h_in_L": true
+      },
+      {
+        "h_e": [
+          0,
+          4,
+          4,
+          3,
+          3,
+          3
+        ],
+        "phi_h_in_D": true,
+        "phi_h_e": [
+          0,
+          3,
+          3,
+          4,
+          4,
+          4
+        ],
+        "phi_h_in_L": true
+      },
+      {
+        "h_e": [
+          0,
+          5,
+          5,
+          2,
+          2,
+          2
+        ],
+        "phi_h_in_D": true,
+        "phi_h_e": [
+          0,
+          2,
+          2,
+          5,
+          5,
+          5
+        ],
+        "phi_h_in_L": true
+      },
+      {
+        "h_e": [
+          0,
+          6,
+          6,
+          1,
+          1,
+          1
+        ],
+        "phi_h_in_D": true,
+        "phi_h_e": [
+          0,
+          1,
+          1,
+          6,
+          6,
+          6
+        ],
+        "phi_h_in_L": true
+      }
+    ],
+    "phi_invariant_Phi_L_equals_L": true
+  },
+  "J2_C": {
+    "description": "Search among the 7 elements of pent(m0=1) for the unique g=[m0,f0c] with g^3 = c = [6,1] (BH-3). Composition law (2405 (2.6)/2401 (3.43)): [m1,f1] o [m2,f2] = [2 m1 m2+m1+m2, f1 E_{m1,f1}(f2)].",
+    "m1_of_square": 4,
+    "m3_raw": 13,
+    "m3_mod7": 6,
+    "anchor_c": {
+      "m": 6,
+      "e": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "c_candidates": [
+      {
+        "f0_e": [
+          2,
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        "cube_f_equals_c": false
+      },
+      {
+        "f0_e": [
+          2,
+          1,
+          1,
+          3,
+          3,
+          3
+        ],
+        "cube_f_equals_c": false
+      },
+      {
+        "f0_e": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "cube_f_equals_c": false
+      },
+      {
+        "f0_e": [
+          2,
+          3,
+          3,
+          1,
+          1,
+          1
+        ],
+        "cube_f_equals_c": false
+      },
+      {
+        "f0_e": [
+          2,
+          4,
+          4,
+          0,
+          0,
+          0
+        ],
+        "cube_f_equals_c": false
+      },
+      {
+        "f0_e": [
+          2,
+          5,
+          5,
+          6,
+          6,
+          6
+        ],
+        "cube_f_equals_c": false
+      },
+      {
+        "f0_e": [
+          2,
+          6,
+          6,
+          5,
+          5,
+          5
+        ],
+        "cube_f_equals_c": true
+      }
+    ],
+    "c_hits_count": 1,
+    "C_generator": {
+      "m0": 1,
+      "f0_e": [
+        2,
+        6,
+        6,
+        5,
+        5,
+        5
+      ]
+    },
+    "BH3_uniqueness_confirmed": true
+  },
+  "BH5_branch": {
+    "layers_all_seven": true,
+    "h_w_total": 42,
+    "h_w_is_42": true,
+    "bh3_unique": true,
+    "phi_invariant": true,
+    "branch_delta_falsified": false,
+    "branch_gamma_fired": false,
+    "branch_resolved": "BH-alpha/BH-beta-open",
+    "note": "Phi(L) = L (L = L_3, PL-GAP-1 closed via addendum A's equivalence). |G_ar| in {6,42} remains undetermined -- the residual 1 bit is Thm BH-4's Ih_N(G_{Q(mu_7)}) != 1 question, which lies outside the window (J3, literature-gated, BH-GAP-1 OPEN). C (the explicit order-6 subgroup through anchor c) is identified regardless of this bit (J2, BH-3)."
+  },
+  "grading": {
+    "measured_vs_framework_relative": "J0/J1/J1prime/J2 are MEASURED (machine, this run). They sit on top of the framework-relative paper-proof-candidate lemmas SUP-1..4/BH-1..5 (Sol unaudited).",
+    "cross_checked": false,
+    "verified": false,
+    "novelty_claimed": false
+  },
+  "tooling": {
+    "j0_join_script": {
+      "path": "scratchpad/bhunt_j0_join.py",
+      "sha256": "4e401d2b1ac7bb347853daa8021ea9fb9605138263821bd27481bb60297d810a"
+    },
+    "gap_input_generator": {
+      "path": "scratchpad/bhunt_gen_gap_input.py",
+      "sha256": "4739c3e532e3134430053e078c12bc3ddd830d45c2ab7f10dc1f9a33eb452ef6"
+    },
+    "gap_input_file": {
+      "path": "scratchpad/bhunt_j0_input.g",
+      "sha256": "1a6d850b9b42f9717684e85d011a36ff7f12dddc59e59ce0914551ad5fd119bd"
+    },
+    "gap_script": {
+      "path": "scratchpad/bhunt_j1j2.g",
+      "sha256": "892e0cfa41c1d8120f900f9daa97325454f4479f77a179f7fdc8e1c4d5ac45d4"
+    },
+    "gap_driver": {
+      "path": "scratchpad/bhunt_j1j2_driver.g",
+      "sha256": "640cb746072331275d57d407ae7b83be1c691dd7b14b6236ed0952162c91d472"
+    },
+    "gap_output": {
+      "path": "scratchpad/bhunt_j1j2_gap_output.json",
+      "sha256": "6e4cff87e7aecc408a2401d8849ef031000a1b485c782c0b6307f93fb5a540a9"
+    },
+    "gap_group_construction": "search/probe/hsp7_mainrun/predicate_lib_laneS.g + search/probe/hsp7_mainrun/candidate_key_lib.g (byte-identical to the main-run lane wrappers' group construction; P built via ANUPQ from search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g)"
+  }
+}
