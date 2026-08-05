@@ -2381,3 +2381,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 検収手順: 全 shard cert 回収 → join checker → 集約 → 予言突合 → 便 107 で Sol へ。
 
 ## 2026-08-06 本走 S lane 根因特定+小 gate 請求(裁定 567)— setup-gap 内 apt-get update が Microsoft apt ミラーの間欠 403(exit 100)で確率死(約 1.5%/job)・run_attempt 束縛と合成で単一 attempt 完走が実質不可能。修理 = apt ソース除去 1 ステップ(便 106h で Sol へ・F106-5 型の再 freeze 手続き提案)。盲目再発射は停止(研究者指示の調査規律どおり)。
+
+## 2026-08-06 v3.1 凍結執行+S 再 dispatch(裁定 568)— 106h PASS の逐語執行(collect 非適用は司令塔裁定 = apt 露出ゼロにつき・便 107 で Sol へ申告)。新 digest de5be7e2…・v3.1 manifest 4b2134aa…・全検査 PASS・commit abe76be。S 再 dispatch run=31036732337(apt くじ撤去後の初走)。V/P は v3 束縛の success を保持(混成 provenance は便 107 で申告・Sol 要求あれば再走 6-8 分)。Sol 旧セッションはループ 2 回で廃棄・新セッション便 107 起動済(裁定 567 系列)。
