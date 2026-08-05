@@ -3,7 +3,15 @@ name: lean-proof-gate-proposal-106
 
 on:
   push:
+    paths:
+      - 'lean/**'
+      - 'lean-arith/**'
+      - '.github/workflows/lean.yml'
   pull_request:
+    paths:
+      - 'lean/**'
+      - 'lean-arith/**'
+      - '.github/workflows/lean.yml'
   workflow_dispatch:
 
 permissions:
@@ -35,7 +43,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if rg -n '^\s*axiom\b' P1 -g '*.lean'; then
+          if rg -n '^\s*axiom\b' P1 -g '*.lean' -g '!ShadowAxioms.lean'; then
             echo 'project axiom declaration found' >&2
             exit 1
           fi

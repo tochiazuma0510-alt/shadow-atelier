@@ -4,18 +4,15 @@ P1/BlockE.lean — ブロック E((d2) = SURJ-Split 族・LE-1〜LE-4)。
 対応: docs/notes/lean_p1_allocation_plan_v1.md §3.5 表。
 出所: docs/notes/surj_d4_t1_v1.md §2.1 補題 SURJ-Split(a)-(f)(裁定 227・窓非依存)。
 
-裁定 227「窓非依存」により、ここでの G は任意の isolated target N の GTSh(N,N) を表す
-抽象群として扱ってよい — 具体形 (m,f) の対は `ShadowAxioms.T2_thm43_explicit_isolated`
-が抽出元だが、本ブロックが実際に使うのは m 成分だけの合成則(T2_composition)と
-Ihara 写像の分解(T2_15_Ih)である(割り付け表 §3.5 の記載どおり)。
+裁定 227「窓非依存」による abstract group layer は、T2 の exact statement 承認後に
+接続する。本波ではその T2 宣言を import せず、m 成分の算術核だけを閉じる。
 
-状態: **verified-modulo-axioms**。LE-1(a)(well-defined・準同型の`well-defined`半分)は
-Nat の合同算術のみで閉じる(証明済)。それ以外(単元性・準同型性の合成則側・
-円分体の全射性・分解定理そのもの)は Galois 表現論・副有限群論の道具が
-plain Lean core に無いため、次波へ持ち越す(sorry・正直な記帳)。
+状態: **local targeted-build candidate**。well-defined、単元性の算術核、(3.49) は
+`sorry` なしで実装済み。GT-shadow 合成則・Ihara 分解・円分全射・SURJ-Split 全体は
+exact T2 typing または Mathlib/副有限群論を要するため OPEN。file-level 等級は付けない。
 -/
 
-import P1.ShadowAxioms
+import P1.Core
 
 /-- $\tilde\chi_{2\nu}$ の well-defined 性の核: 代表の取り替え m ↦ m+ν で
     2(m+ν)+1 ≡ 2m+1 (mod 2ν)(surj_d4_t1 §2.1 証明 (a) 前半)。
@@ -32,16 +29,33 @@ theorem chiTilde_welldefined (nu m : Nat) :
     `Nat.Coprime` は plain Lean core にはない概念なので `Nat.gcd = 1` で直接述べる。 -/
 theorem chiTilde_isUnit (nu m : Nat) (hcharm : Nat.gcd (2 * m + 1) nu = 1) :
     Nat.gcd (2 * m + 1) (2 * nu) = 1 := by
-  -- 【LE-1-GAP】gcd(2m+1,2)=1(奇数ゆえ)と gcd の乗法性(coprime a b → coprime a c
-  -- → coprime a (b*c))の組み合わせで閉じるはずだが、後者に相当する補題を
-  -- plain Lean core 単独では自前構築していない(次波)。
-  sorry
+  have hodd : Nat.Coprime (2 * m + 1) 2 := by
+    rw [Nat.coprime_iff_gcd_eq_one, Nat.gcd_comm, Nat.gcd_rec]
+    have hmod : (2 * m + 1) % 2 = 1 := by omega
+    rw [hmod, Nat.gcd_one_left]
+  exact Nat.Coprime.mul_right hodd hcharm
+
+/-- Formula (3.49), kept in Block E so the well-defined/unit/composition arithmetic kernel is
+    inventoried together.  The GT-shadow composition law (3.53) is deliberately not axiomatised
+    before its exact paper statement is approved. -/
+theorem chiTilde_composition_identity (m1 m2 : Int) :
+    2 * (2 * m1 * m2 + m1 + m2) + 1 = (2 * m1 + 1) * (2 * m2 + 1) := by
+  simp [Int.mul_add, Int.mul_comm, Int.mul_left_comm, Int.mul_one, Int.one_mul,
+        Int.add_assoc, Int.add_comm, Int.add_left_comm]
+
+/-- The residue-level consequence of (3.49). -/
+theorem chiTilde_composition_mod (nu m1 m2 : Nat) :
+    (2 * (2 * m1 * m2 + m1 + m2) + 1) % (2 * nu) =
+      ((2 * m1 + 1) * (2 * m2 + 1)) % (2 * nu) := by
+  congr 1
+  simp [Nat.mul_add, Nat.add_mul, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm,
+        Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]
 
 /-! ### LE-1(b)〜LE-4: statement のみ(未着手・次波)
 
-- **LE-1(b)** $\tilde\chi\circ\mathrm{Ih}_N=\chi_{2\nu}$: `ShadowAxioms.T2_15_Ih_decomp`
-  に依存するが、現状の公理宣言は Prop 型プレースホルダで Ih の定義域・値域を
-  型に持たせていない。**公理の言明を精密化してから着工**(LA-7 と同じ律速)。
+- **LE-1(b)** $\tilde\chi\circ\mathrm{Ih}_N=\chi_{2\nu}$: T2 (1.5) の exact statement
+  (Ih の domain/codomain と成分射影を含む)が未承認。裸 `Prop` 宣言は quarantine し、
+  原典照合後に着工する(LA-7 と同じ律速)。
 - **LE-2** 円分指標の全射性: `Gal(Q(ζ_m)/Q) ≅ (Z/m)^×` は Mathlib にはあるが
   (割り付け表 §4.2 `T1_cyclotomic_galois` は「取込済 ⟹ M」と判定済み)、
   plain Lean core には無い。**このブロックの LE-3 は本質的に Mathlib 依存**であり、
