@@ -2520,3 +2520,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 便 111 返書検収(裁定 601)— Lean 次波 = 段階的 GO
 - §1 F108d = PASS(receipt 精密化: 実 merge d7df782・受理 d44d841・master push run 31046701718 全 success)。§2 = **三車線 GO**: (A) T2 型契約(コード化前の型監査)(B) T1_cyclotomic_ram2 の Mathlib 定理化(討ち取り)(C) Bridge G2a = finite coproducts。T2 import/LA7/LA9/LE 後半 = 型監査後まで HOLD。§3 = ★**素読ゲートを Sol が本便で早速適用**(委嘱書 SELF_CONTAINED 判定・制度の初実運用)。§4 境界 PASS。Luna 指示書発行済(sol/luna_task_111_lean.md・5c523798…)。
 - Lean 線は Sol 側で自律継続(broker push/dispatch 込み)。工房手番なし。verified 射程の限定(P1 全体でない等 6 項)を継承。
+
+## 2026-08-06 双子走 検収(裁定 602)— ★★AS-GAP-6 実質閉鎖: M-ISO-2 充足の実物 witness 獲得
+- ★結果: L2 の **15 対全部が鏡映対(M1)** — 予言 P-1(8 対下限)を超過(50/50 だった 7 対も機械確定・MIRROR-OBSTRUCTION 射程外 = 数学者検討材料)。S-TW-7 不発火(予言と無矛盾)。
+- ★witness: 全 15 対(指数 126 含む)で ker(T₋₁,₁) = ι(N) = K ≠ N を **GAP+helper 非共有 python の二系統 15/15 一致**で確認 — settled 述語が FALSE を返せる実物 = **M-ISO-2 充足 = S3.6 blocker (d) 解消材料**。witness = [-1,1](複素共役・算術元)につき B 型でない限定を cert 逐語固定。
+- scope① 集合 = 票とビット一致・scope③ = M0 ゼロにつき空(明記済)・13 対層 = T-1 保留どおり非接触。コミット承認済(係実行)。Sol 批准 = 便 112(全 15 対 M1 の candidate 報告込み)。
+- ★味わい: route-2 の律速だった「真の non-isolated の実例」は、最も古典的な算術元(複素共役)が全ての双子窓で与えていた — 探していた鍵は最初から錠前に刺さっていた型の発見。
