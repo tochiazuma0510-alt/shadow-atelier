@@ -2356,3 +2356,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 HS 登録 preflight 代走(裁定 562)— Sol 親の依頼(速達 00:06)を工房環境で代走・**overall_pass = True**
 - 経緯: Sol 親子の HS 実装束は静的 gate 完成・ただし Sol サンドボックス内で GAP 起動不可(signal pipe Win32 error 5)→ 登録 fixture 限定の実走を工房が代走(認可域内・candidate_universe_contact 欄で非接触を機械申告)。cert = hsp7_registered_wrappers_preflight_20260805.json+laneS/laneV registered preflight。PASS でも class freeze/本走は Sol 再 gate 後(依頼文どおり)。
 - Sol 子の生成物(shard manifest v3 群 23:54)は Sol broker の push に委ねる(コミット競合回避)。教訓: GAP 実行は工房 or GHA — Sol 側は静的+判定に限る分業が固まった。
+
+## 2026-08-06 便 106 返書の生更新 中間確認(裁定 563・中間 — 確定は全節充填後)
+- Sol が返書を in-place 更新中: ★補遺 106e 採択(PRE-2′/B-2a+PENT-LAYER 弱形)→ **最終分布 294/42/252 を批准**(B-0a 前件相対・settled 分母 = 294 明記)・総合判定行に「BU は Freeze-2 PASS」・裁定 562 代走 preflight を監査対象に追加、を確認。§3〜7 は執筆中。
+- 運用判断: 執筆中の返書はコミットしない(transient bytes 事故の再演防止)・growth watcher 再装填・確定裁定は全節充填後(564〜)。
