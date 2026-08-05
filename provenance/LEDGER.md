@@ -2244,3 +2244,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 正本 = docs/notes/mathlib_coverage_survey_v1.md(commit 629ba3e・mathlib4_docs 版 pin 503b1a28…・全判定 URL つき・Loogle 36 照会)。
 - 裁定: ①**T1_cyclotomic_ram2 の討ち取りを承認**(IsCyclotomicExtension.Rat.ramificationIdxIn_eq に p=2,k=1,m=奇 n 代入で e(𝔭/2)=2 直出・個別素点降下 1 行級)— 割り付け表は「T1×2 → T1×1(kummer_duality のみ)+形式化補題 1」へ改版(次の Lean 波で実装・Mathlib 依存につき裁定 534 の別パッケージ+Actions 層)。②T2×6 は公理のまま正(調査の追認)。T2_composition の (3.49) 切り出し・T2_GTodd_def の定義内製化は**選択肢として Sol 一回監査(裁定 531)の議題に載せる**。③橋 B: 着工不可判定は不変だが、待ちの正体 = スキーム側 π₁^ét のみ(抽象 Galois 圏 = functorToContAction 圏同値・IsFundamentalGroup 完成済/アフィン環版 = CommAlgCat.FiniteEtale 反同値まで既在/追跡 issue #16890)。U=P¹−{0,1,∞} アフィン利用の内製ルート等 6 案は Sol 監査便の材料に同梱(採否は Sol 諮問後に裁定)。④ブロック F 保留理由(副有限 API 監査)は解消 — 格上げは割り付け表改版と同時に判断。
 - 帰結: 便 105 §6(Lean)に survey を同梱。着工時の版 pin 再判定義務(鮮度警告)を継承。
+
+## 2026-08-05 Lean 着工第 1 波 検収(裁定 540)— 正直な着地: sorry-free 6 命題+補助 7・公理使用ゼロ・フル closed 0/13(申告どおり許容範囲)
+- lean/ 10 ファイル(commit c542808・他領域非接触)。lake build P1 = exit 0。#print axioms = 全 sorry-free 定理が propext/Quot.sound のみ(sorryAx・ShadowAxioms 出現ゼロ = AXIOMS.md「未使用」記載と機械一致)。★(3.49) 整数恒等式は公理化せず T2_composition_identity として証明 — 公理境界最小化が初波から機能(survey の切り出し案とも合流)。
+- 実closed: LA-1(a)(b)(c)(X=a₁q₁・X²・ord(X)=2n 帰納法 n 変数)+LE-1(a) chiTilde_welldefined+Order.lean 補助 7。sorry 宣言 4(Λ-REG・INN×2・単元性)。未着工の律速 = 部分群一般論の自前構築と T2 言明精密化。
+- 裁定: ①検収 PASS(「初回で全 closed 不要」の発注範囲内・正直会計を評価)②★次波は**ブロック H(抽象補題群)先行**を承認 — ただし実行は裁定 531 パイプライン(Sol 一回監査 → Sol 指示 → Luna)に載せ、Block-H-first は工房提案として監査便に同梱 ③T2 公理の言明精密化(現状 Prop プレースホルダ)を監査便の議題に明記 ④K3/Anchors・Bridge・Conjugator の未ビルド滞留(P1 無関係・280 秒超 timeout・セッション前からの状態)= 別件 GAP として記録 — Lean CI 整備(GitHub 引き取り)時に Actions ビルドで解消を図る。
+- 帰結: **便 105 §6(Lean)の材料が完備**(方針 v1.5+割付表+第 1 波 c542808+survey 629ba3e+運用提案+Block-H-first+T1 討ち取り予定+橋 B 内製 6 案+T2 精密化議題)。残る便 105 前提 = R3/R4 修理+falsifier 再判読のみ。
