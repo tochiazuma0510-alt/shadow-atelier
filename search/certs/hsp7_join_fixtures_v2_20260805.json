@@ -1,0 +1,299 @@
+{
+  "schema": "hsp7-join-checker-fixtures/v2",
+  "checker_script": "search/probe/hsp7_mainrun/join_checker.py",
+  "checker_script_sha256": "5decd2d4b44603713e765aa14bb786d88661cc0d898e3a2528905651e1413a78",
+  "fixture_generator_script": "search/probe/hsp7_mainrun/join_fixtures_gen.py",
+  "fixture_generator_script_sha256": "5db9f84962ad0134abc94bdfa08da62a811fb99a95018d68599626942b19286d",
+  "rows": [
+    {
+      "fixture": "good",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/good.json",
+      "fixture_sha256": "33dc2e7f154dac7608a7c04e76ced57652334a702a923373ddf4e21fef689c7e",
+      "expected_verdict": "PASS",
+      "expected_reason": null,
+      "observed_verdict": "PASS",
+      "observed_reason": "complete_semantic_partition",
+      "observed_detail": {
+        "lane": "S",
+        "total_flat_indices": 12,
+        "shard_count": 3,
+        "status_counts": {
+          "PASS": 4,
+          "FAIL": 4,
+          "UNKNOWN": 4
+        }
+      },
+      "pass": true,
+      "canonical_sort_hash": "21dfc05ecfeb0f2136655321c49d9e2d0238be6807e2bdff9f2c26c276bdea03"
+    },
+    {
+      "fixture": "reorder",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/reorder.json",
+      "fixture_sha256": "80aa558bbd989757b7ac1f6bf5d8ae64538244678a880b5e7fe8536329044bca",
+      "expected_verdict": "PASS",
+      "expected_reason": null,
+      "observed_verdict": "PASS",
+      "observed_reason": "complete_semantic_partition",
+      "observed_detail": {
+        "lane": "S",
+        "total_flat_indices": 12,
+        "shard_count": 3,
+        "status_counts": {
+          "PASS": 4,
+          "FAIL": 4,
+          "UNKNOWN": 4
+        }
+      },
+      "pass": true,
+      "canonical_sort_hash": "21dfc05ecfeb0f2136655321c49d9e2d0238be6807e2bdff9f2c26c276bdea03"
+    },
+    {
+      "fixture": "good_p",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/good_p.json",
+      "fixture_sha256": "fbef0b54f3f600bca81bb4f688d7366a075ab15a4a4c6ac4a4b8c3beda5f4266",
+      "expected_verdict": "PASS",
+      "expected_reason": null,
+      "observed_verdict": "PASS",
+      "observed_reason": "complete_semantic_partition",
+      "observed_detail": {
+        "lane": "P",
+        "total_flat_indices": 4,
+        "shard_count": 2,
+        "status_counts": {
+          "PASS": 2,
+          "FAIL": 1,
+          "UNKNOWN": 1
+        }
+      },
+      "pass": true,
+      "canonical_sort_hash": "2a30348f801d83c88a1d08a2ab45c685113dc3aaa2a76afe1bf5859d86d2b7da"
+    },
+    {
+      "fixture": "missing_shard",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/missing_shard.json",
+      "fixture_sha256": "307f6f0231a8843727453172eba810b8b1693fed035e866252bc699e04cd66fd",
+      "expected_verdict": "STOP",
+      "expected_reason": "COVERAGE_GAP",
+      "observed_verdict": "STOP",
+      "observed_reason": "COVERAGE_GAP",
+      "observed_detail": {
+        "got_covered_upto": 8,
+        "expected_total": 12
+      },
+      "pass": true
+    },
+    {
+      "fixture": "missing_candidate_key",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/missing_candidate_key.json",
+      "fixture_sha256": "244e960fec340ecdcd9fcb9ec1872885396a3389a203bb1a409e0fa65e5a3ead",
+      "expected_verdict": "STOP",
+      "expected_reason": "CANDIDATE_KEY_MISSING",
+      "observed_verdict": "STOP",
+      "observed_reason": "CANDIDATE_KEY_MISSING",
+      "observed_detail": {
+        "expected_total": 12,
+        "got_total": 11,
+        "missing_flat_indices": [
+          7
+        ],
+        "missing_count": 1
+      },
+      "pass": true
+    },
+    {
+      "fixture": "duplicate_key",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/duplicate_key.json",
+      "fixture_sha256": "85c15d64e14fa5a5cb1a8532f7973ea9dd9394f7ce9c3023aa4fc4d5b11dd9ed",
+      "expected_verdict": "STOP",
+      "expected_reason": "DUPLICATE_FLAT_INDEX",
+      "observed_verdict": "STOP",
+      "observed_reason": "DUPLICATE_FLAT_INDEX",
+      "observed_detail": {
+        "flat_index": 0
+      },
+      "pass": true
+    },
+    {
+      "fixture": "overlap",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/overlap.json",
+      "fixture_sha256": "c75ede7249b2f579f92a7ea7e889c085bc03d5d3eb8042dc784938be3af3f061",
+      "expected_verdict": "STOP",
+      "expected_reason": "INDEX_RANGE_OVERLAP",
+      "observed_verdict": "STOP",
+      "observed_reason": "INDEX_RANGE_OVERLAP",
+      "observed_detail": {
+        "shard_id": "s1",
+        "got_start": 3,
+        "expected_next": 4
+      },
+      "pass": true
+    },
+    {
+      "fixture": "pcgs_endian_mismatch",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/pcgs_endian_mismatch.json",
+      "fixture_sha256": "7ecc9f222b034ca67a8fd7feff27bdc4f08eeca1f3b40494dd8a915dea2d2285",
+      "expected_verdict": "STOP",
+      "expected_reason": "PCGS_ENDIAN_MISMATCH",
+      "observed_verdict": "STOP",
+      "observed_reason": "PCGS_ENDIAN_MISMATCH",
+      "observed_detail": {
+        "shard_id": "s1"
+      },
+      "pass": true
+    },
+    {
+      "fixture": "same_flat_index_different_key",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/same_flat_index_different_key.json",
+      "fixture_sha256": "9f27eb42201d4cdefa661312bbde0979a0d464b5ca283bb5b4f537bfc8279cff",
+      "expected_verdict": "STOP",
+      "expected_reason": "ENTRY_OUTSIDE_DECLARED_RANGE",
+      "observed_verdict": "STOP",
+      "observed_reason": "ENTRY_OUTSIDE_DECLARED_RANGE",
+      "observed_detail": {
+        "shard_id": "s1",
+        "flat_index": 3,
+        "index_range": [
+          4,
+          7
+        ]
+      },
+      "pass": true
+    },
+    {
+      "fixture": "receipt_missing_field",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/receipt_missing_field.json",
+      "fixture_sha256": "aba13b00b2ceb1edd5c0034ff89835aac93951789b8a2279d87fe09398f50b4c",
+      "expected_verdict": "STOP",
+      "expected_reason": "RECEIPT_FIELD_MISSING",
+      "observed_verdict": "STOP",
+      "observed_reason": "RECEIPT_FIELD_MISSING",
+      "observed_detail": {
+        "shard_id": "s1",
+        "missing_fields": [
+          "sha"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "fixture": "driver_not_done",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/driver_not_done.json",
+      "fixture_sha256": "f0e3f5e11e428f96c6bb9f9c6fc96c823f7f12ab5a7a11ccc8f063bda68a6e6b",
+      "expected_verdict": "STOP",
+      "expected_reason": "DRIVER_NOT_DONE",
+      "observed_verdict": "STOP",
+      "observed_reason": "DRIVER_NOT_DONE",
+      "observed_detail": {
+        "shard_id": "s1",
+        "driver_done": false
+      },
+      "pass": true
+    },
+    {
+      "fixture": "common_permutation",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/common_permutation.json",
+      "fixture_sha256": "3d5068d6033da135996717cd5f1fa1cc51791d950743551fdd1918616e096b3d",
+      "expected_verdict": "STOP",
+      "expected_reason": "SEMANTIC_KEY_MISMATCH",
+      "observed_verdict": "STOP",
+      "observed_reason": "SEMANTIC_KEY_MISMATCH",
+      "observed_detail": {
+        "flat_index": 1,
+        "expected": {
+          "m": 0,
+          "e": [
+            0,
+            1
+          ]
+        },
+        "actual": {
+          "e": [
+            1,
+            0
+          ],
+          "m": 0
+        }
+      },
+      "pass": true
+    },
+    {
+      "fixture": "wrong_m_semantics",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/wrong_m_semantics.json",
+      "fixture_sha256": "0d1d08ebd8db5aa249a5a3c4cb05117a562facbdecf21441c9fe945e6541c3f1",
+      "expected_verdict": "STOP",
+      "expected_reason": "SEMANTIC_KEY_MISMATCH",
+      "observed_verdict": "STOP",
+      "observed_reason": "SEMANTIC_KEY_MISMATCH",
+      "observed_detail": {
+        "flat_index": 4,
+        "expected": {
+          "m": 2,
+          "e": [
+            0,
+            0
+          ]
+        },
+        "actual": {
+          "e": [
+            0,
+            0
+          ],
+          "m": 0
+        }
+      },
+      "pass": true
+    },
+    {
+      "fixture": "p_expansion_mismatch",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/p_expansion_mismatch.json",
+      "fixture_sha256": "7f178ab35f0f262450888bb44d1a82aed261040fcaa0353814e23c7cb65c7e36",
+      "expected_verdict": "STOP",
+      "expected_reason": "P_EXPANSION_MISMATCH",
+      "observed_verdict": "STOP",
+      "observed_reason": "P_EXPANSION_MISMATCH",
+      "observed_detail": {
+        "flat_index": 1,
+        "expected": [
+          1,
+          5,
+          9
+        ],
+        "actual": [
+          1,
+          5,
+          10
+        ]
+      },
+      "pass": true
+    },
+    {
+      "fixture": "p_key_permutation",
+      "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/p_key_permutation.json",
+      "fixture_sha256": "b5fc564c95a295a4a7705075d9d33dfccdd1ed5ca433a122be3d4c279c10291b",
+      "expected_verdict": "STOP",
+      "expected_reason": "SEMANTIC_KEY_MISMATCH",
+      "observed_verdict": "STOP",
+      "observed_reason": "SEMANTIC_KEY_MISMATCH",
+      "observed_detail": {
+        "flat_index": 1,
+        "expected": {
+          "e": [
+            0,
+            1
+          ]
+        },
+        "actual": {
+          "e": [
+            1,
+            0
+          ]
+        }
+      },
+      "pass": true
+    }
+  ],
+  "reorder_canonical_hash_matches_good": true,
+  "good_canonical_sort_hash": "21dfc05ecfeb0f2136655321c49d9e2d0238be6807e2bdff9f2c26c276bdea03",
+  "reorder_canonical_sort_hash": "21dfc05ecfeb0f2136655321c49d9e2d0238be6807e2bdff9f2c26c276bdea03",
+  "overall_pass": true
+}

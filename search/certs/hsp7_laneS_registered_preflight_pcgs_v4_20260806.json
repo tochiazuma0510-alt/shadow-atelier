@@ -1,0 +1,29 @@
+{
+  "schema": "hsp7-lane-cert/v3",
+  "lane": "S",
+  "axis": "pair",
+  "class_id": "HS-NW7-CLASS-v3-draft",
+  "run": {"run_id":"local-registered-s","run_attempt":"1","commit_sha":"a9a653e9a82f4dd93ca9eabec085a03af931b26e"},
+  "source_bindings": {"source_bundle_sha256":"3e02ba2860c5cae57f1426a4a31e8be0642be48d4b2e6366f509e5db0c37f684","wrapper_sha256":"3ee4319a6989fc3d4c60bd28d64757b03b61c93bff7c746f81156dfb5505be28","predicate_sha256":"1fabb7848ea5c6adb275b451c5264f8c4f7989fbc2b94f1e95db2b663453a070","aux_sha256":"7863076aa45b4a7d0aea224b474cd1ab786002a1bd29c7aa9b71f7149c536398","schema_sha256":"af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477"},
+  "pcgs_basis_material": {"ambient_named_generator_coordinates":[{"coordinates":[1,0,0,0,0,0,0,0],"name":"x"},{"coordinates":[0,1,0,0,0,0,0,0],"name":"y"}],"ambient_pcgs_relative_orders":[7,7,7,7,7,7,7,7],"contract":"hsp7-ordered-pcgs-material/v1","ordered_basis_in_ambient_coordinates":[{"coordinates":[0,0,1,0,0,0,0,0],"i":1},{"coordinates":[0,0,0,1,0,0,0,0],"i":2},{"coordinates":[0,0,0,0,1,0,0,0],"i":3},{"coordinates":[0,0,0,0,0,1,0,0],"i":4},{"coordinates":[0,0,0,0,0,0,1,0],"i":5},{"coordinates":[0,0,0,0,0,0,0,1],"i":6}],"pair_commutator_coordinates":[{"coordinates":[0,0,0,0,0,0],"i":1,"j":2},{"coordinates":[0,0,0,0,0,0],"i":1,"j":3},{"coordinates":[0,0,0,0,0,0],"i":1,"j":4},{"coordinates":[0,0,0,0,0,0],"i":1,"j":5},{"coordinates":[0,0,0,0,0,0],"i":1,"j":6},{"coordinates":[0,0,0,0,0,0],"i":2,"j":3},{"coordinates":[0,0,0,0,0,0],"i":2,"j":4},{"coordinates":[0,0,0,0,0,0],"i":2,"j":5},{"coordinates":[0,0,0,0,0,0],"i":2,"j":6},{"coordinates":[0,0,0,0,0,0],"i":3,"j":4},{"coordinates":[0,0,0,0,0,0],"i":3,"j":5},{"coordinates":[0,0,0,0,0,0],"i":3,"j":6},{"coordinates":[0,0,0,0,0,0],"i":4,"j":5},{"coordinates":[0,0,0,0,0,0],"i":4,"j":6},{"coordinates":[0,0,0,0,0,0],"i":5,"j":6}],"relative_orders":[7,7,7,7,7,7],"s_to_v_bridge_coordinates":[],"source_artifact":{"path":"search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g","sha256":"99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15"},"tau_image_coordinates":[{"coordinates":[1,6,0,1,0,0],"i":1},{"coordinates":[0,0,1,0,6,0],"i":2},{"coordinates":[0,6,6,2,2,1],"i":3},{"coordinates":[0,0,0,0,0,1],"i":4},{"coordinates":[0,0,0,0,6,6],"i":5},{"coordinates":[0,0,0,1,2,1],"i":6}],"theta_image_coordinates":[{"coordinates":[6,0,0,0,0,0],"i":1},{"coordinates":[0,0,6,0,0,0],"i":2},{"coordinates":[0,6,0,0,0,0],"i":3},{"coordinates":[0,0,0,0,0,6],"i":4},{"coordinates":[0,0,0,0,6,0],"i":5},{"coordinates":[0,0,0,6,0,0],"i":6}]},
+  "pcgs_basis_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+  "universe_total": 705894,
+  "evaluated_range": [-1,-1],
+  "records": [
+    {"pair_index":0,"f_index":0,"candidate_key":{"m":0,"e":[0,0,0,0,0,0]},"fixture_id":"h4t0","hex310":true,"hex311":true,"verdict":true},
+    {"pair_index":321,"f_index":321,"candidate_key":{"m":0,"e":[0,0,0,6,3,6]},"fixture_id":"h4t1","hex310":true,"hex311":true,"verdict":true},
+    {"pair_index":292,"f_index":292,"candidate_key":{"m":0,"e":[0,0,0,5,6,5]},"fixture_id":"h4t2","hex310":true,"hex311":true,"verdict":true},
+    {"pair_index":214,"f_index":214,"candidate_key":{"m":0,"e":[0,0,0,4,2,4]},"fixture_id":"h4t3","hex310":true,"hex311":true,"verdict":true},
+    {"pair_index":185,"f_index":185,"candidate_key":{"m":0,"e":[0,0,0,3,5,3]},"fixture_id":"h4t4","hex310":true,"hex311":true,"verdict":true},
+    {"pair_index":107,"f_index":107,"candidate_key":{"m":0,"e":[0,0,0,2,1,2]},"fixture_id":"h4t5","hex310":true,"hex311":true,"verdict":true},
+    {"pair_index":78,"f_index":78,"candidate_key":{"m":0,"e":[0,0,0,1,4,1]},"fixture_id":"h4t6","hex310":true,"hex311":true,"verdict":true},
+    {"pair_index":16464,"f_index":16464,"candidate_key":{"m":0,"e":[0,6,6,0,0,0]},"fixture_id":"h3","hex310":true,"hex311":false,"verdict":false},
+    {"pair_index":117649,"f_index":0,"candidate_key":{"m":1,"e":[0,0,0,0,0,0]},"fixture_id":"one-m1","hex310":true,"hex311":false,"verdict":false},
+    {"pair_index":235298,"f_index":0,"candidate_key":{"m":2,"e":[0,0,0,0,0,0]},"fixture_id":"one-m2","hex310":true,"hex311":false,"verdict":false},
+    {"pair_index":352947,"f_index":0,"candidate_key":{"m":4,"e":[0,0,0,0,0,0]},"fixture_id":"one-m4","hex310":true,"hex311":false,"verdict":false},
+    {"pair_index":470596,"f_index":0,"candidate_key":{"m":5,"e":[0,0,0,0,0,0]},"fixture_id":"one-m5","hex310":true,"hex311":false,"verdict":false},
+    {"pair_index":588245,"f_index":0,"candidate_key":{"m":6,"e":[0,0,0,0,0,0]},"fixture_id":"one-m6","hex310":true,"hex311":true,"verdict":true}
+  ],
+  "summary": {"evaluated_count":13,"unknown_count":0,"integrity_ok":true},
+  "driver_done": true
+}

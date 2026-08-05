@@ -1,0 +1,22 @@
+{
+  "schema": "hsp7-lane-cert/v2",
+  "lane": "P",
+  "axis": "f",
+  "class_id": "HS-NW7-CLASS-v3-draft",
+  "run": {"run_id":"local-registered-p","run_attempt":"1","commit_sha":"48afad87034c4667e04706ff01b19dc9d82b8dae"},
+  "source_bindings": {"source_bundle_sha256":"fe4f4d1a7256a9d98545752fa827726ee602687f42980970053538f9f15ca71d","wrapper_sha256":"de18db1dae60c0f72f4cfd2a38fda8506cbab88d0d3ad7c4e98683ac94be8330","predicate_sha256":"be1fdf4883210118211f5ab26dc8e1c22a2aacd96f58e24e494779ca3fc70dcc","aux_sha256":"fe9dcdfd60b82426d6f2acd4b2d43f397ac5b35081e0171546eab078dbd6d12b","schema_sha256":"b4d124a68e4decf99320ebe3b3b565c7c181cf106e86f4295f083d2dbb5a0930"},
+  "universe_total": 117649,
+  "evaluated_range": [-1,-1],
+  "records": [
+    {"f_index":0,"f_key":{"e":[0,0,0,0,0,0]},"joined_pair_indices":[0,117649,235298,352947,470596,588245],"fixture_id":"h4t0","pentagon_verdict":true,"CONV_native_element_agree":true,"CONV_native_verdict_agree":true},
+    {"f_index":321,"f_key":{"e":[0,0,0,6,3,6]},"joined_pair_indices":[321,117970,235619,353268,470917,588566],"fixture_id":"h4t1","pentagon_verdict":false,"CONV_native_element_agree":true,"CONV_native_verdict_agree":true},
+    {"f_index":292,"f_key":{"e":[0,0,0,5,6,5]},"joined_pair_indices":[292,117941,235590,353239,470888,588537],"fixture_id":"h4t2","pentagon_verdict":false,"CONV_native_element_agree":true,"CONV_native_verdict_agree":true},
+    {"f_index":214,"f_key":{"e":[0,0,0,4,2,4]},"joined_pair_indices":[214,117863,235512,353161,470810,588459],"fixture_id":"h4t3","pentagon_verdict":false,"CONV_native_element_agree":true,"CONV_native_verdict_agree":true},
+    {"f_index":185,"f_key":{"e":[0,0,0,3,5,3]},"joined_pair_indices":[185,117834,235483,353132,470781,588430],"fixture_id":"h4t4","pentagon_verdict":false,"CONV_native_element_agree":true,"CONV_native_verdict_agree":true},
+    {"f_index":107,"f_key":{"e":[0,0,0,2,1,2]},"joined_pair_indices":[107,117756,235405,353054,470703,588352],"fixture_id":"h4t5","pentagon_verdict":false,"CONV_native_element_agree":true,"CONV_native_verdict_agree":true},
+    {"f_index":78,"f_key":{"e":[0,0,0,1,4,1]},"joined_pair_indices":[78,117727,235376,353025,470674,588323],"fixture_id":"h4t6","pentagon_verdict":false,"CONV_native_element_agree":true,"CONV_native_verdict_agree":true},
+    {"f_index":16464,"f_key":{"e":[0,6,6,0,0,0]},"joined_pair_indices":[16464,134113,251762,369411,487060,604709],"fixture_id":"h3","pentagon_verdict":false,"CONV_native_element_agree":true,"CONV_native_verdict_agree":true}
+  ],
+  "summary": {"evaluated_count":8,"unknown_count":0,"integrity_ok":true},
+  "driver_done": true
+}

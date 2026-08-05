@@ -1,0 +1,164 @@
+{
+  "actual_evaluated": {
+    "P": 8,
+    "S": 13,
+    "V": 13
+  },
+  "candidate_universe_contact": 0,
+  "class_id": "HS-NW7-CLASS-v3-draft",
+  "comparisons": {
+    "laneP5_CONV_native_5_equal": true,
+    "laneP_8_matches_registered": true,
+    "laneS_13_matches_registered": true,
+    "laneS_laneV_13_equal": true,
+    "laneV_13_matches_registered": true,
+    "laneV_N_N0_all_equal": true,
+    "ordered_pcgs_core_S_P_equal": true,
+    "ordered_pcgs_core_S_V_equal": true
+  },
+  "note": "Only named, previously registered fixtures were evaluated. SHARD mode was never invoked.",
+  "orchestrator": {
+    "gap_wrapper_path": "gap.ps1",
+    "gap_wrapper_sha256": "2015b8f52ed9ef0f58c833864e7fd7e6b0435d999a6659c03c9cd52dec175546",
+    "path": "search/probe/hsp7_mainrun/registered_preflight.py",
+    "sha256": "1ea77dc3cdd74d5d8f9b4c72fc75fdcff5b1a42acab8340e4337524eda9bf4c3",
+    "validator_path": "search/probe/hsp7_mainrun/binding_gate_lib.py",
+    "validator_sha256": "10960ce3e6558ec685adfd18a95ee12d669f41897f1a93566de823a9c5031c9c"
+  },
+  "overall_pass": true,
+  "pcgs_basis_contract": "hsp7-ordered-pcgs-material/v1",
+  "pcgs_basis_fingerprints": {
+    "P": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+    "S": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+    "V": "eaf54f528795c7831ab4a1b52d4c5e7578f0e93633c2332bfd9428b4b0503889"
+  },
+  "pcgs_core_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+  "registered_fixture_plan": {
+    "P5_two_path": 5,
+    "P_production": 8,
+    "S": 13,
+    "V": 13
+  },
+  "rows": [
+    {
+      "basis_probe_error_tail": null,
+      "basis_probe_exit_code": 0,
+      "basis_probe_log_sha256": "2af027468203f75c6ab8d6a45821e90ad392a439adb6b7559d43373a95a1c3f0",
+      "cert_path": "search/certs/hsp7_laneS_registered_preflight_pcgs_v4_20260806.json",
+      "cert_sha256": "11813961c83d8db77905b54ab0e5eac61b6de935d9f84151371517a2a8c81eea",
+      "error": null,
+      "error_tail": null,
+      "exit_code": 0,
+      "lane": "S",
+      "log_sha256": "1d30623709979682812d8f5b994828a33692417c036da4cc62a8a45090081c3d",
+      "pass": true,
+      "pcgs_basis_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+      "source_bundle_sha256": "3e02ba2860c5cae57f1426a4a31e8be0642be48d4b2e6366f509e5db0c37f684",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_S.g": "3ee4319a6989fc3d4c60bd28d64757b03b61c93bff7c746f81156dfb5505be28",
+        "search/probe/hsp7_mainrun/predicate_lib_laneS.g": "1fabb7848ea5c6adb275b451c5264f8c4f7989fbc2b94f1e95db2b663453a070",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "basis_probe_error_tail": null,
+      "basis_probe_exit_code": 0,
+      "basis_probe_log_sha256": "9b391cbdd9a0e9a5ec5f31fbf7d72aabdced55a582ae876910f41f1b3bafe4f4",
+      "cert_path": "search/certs/hsp7_laneV_registered_preflight_pcgs_v4_20260806.json",
+      "cert_sha256": "64215fb4f67955bf035702586968f22456a53b32f6f238b4846d00c53762b7fb",
+      "error": null,
+      "error_tail": null,
+      "exit_code": 0,
+      "lane": "V",
+      "log_sha256": "11db9da0d6018ceb766b65f0a3c4597f24ac384a4eb2a0a3b6a513818f4244b0",
+      "pass": true,
+      "pcgs_basis_fingerprint": "eaf54f528795c7831ab4a1b52d4c5e7578f0e93633c2332bfd9428b4b0503889",
+      "source_bundle_sha256": "e53c524aa69668d15b57eb8113449afd903f6f34e760f95b08a069cc7293edd5",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_cond4_laneV/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_cond4_laneV/statemachine_lib.g": "30ea5224eec536aa995443471930c7874ebd57e61a3e2a3c6982ad5c2e5edf47",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_V.g": "e916b548846ca35accf892d86899372ae64d7f82f730f4a74da1f3a61ba1dbc8",
+        "search/probe/hsp7_mainrun/predicate_lib_laneV.g": "0522fab0f9c928c47142b8a74420ed3783dba827a5b1d567250c2c0af1b7e029",
+        "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g": "e333face99652474a4a6b796d286fa68567a23df05a836293fdc1500b03a4cad",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "basis_probe_error_tail": null,
+      "basis_probe_exit_code": 0,
+      "basis_probe_log_sha256": "3d34842e8838c208c55a39e1c6066945a0cc01b6bd9f8eff068342430215362b",
+      "cert_path": "search/certs/hsp7_laneP_registered_preflight_pcgs_v4_20260806.json",
+      "cert_sha256": "d786797d563e6b955fd5b77bfa41b69b670e067fd7f7507d8179c9e8a0edfdc9",
+      "error": null,
+      "error_tail": null,
+      "exit_code": 0,
+      "lane": "P",
+      "log_sha256": "35faf6ff5e185faf193e0dfa9c280d14d65a32a84c3dd1448e7036ba7e4fc4a7",
+      "pass": true,
+      "pcgs_basis_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+      "source_bundle_sha256": "d97c8ee2fc3dc37f978468068a4a5ea369d894cbb923e9389d9976aa08e0529d",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_P.g": "ed660769dd55fd45060606a89d4f6ad74f984e2136c3a82414697692d16e01fb",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP.g": "be1fdf4883210118211f5ab26dc8e1c22a2aacd96f58e24e494779ca3fc70dcc",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "driver_path": "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g",
+      "driver_sha256": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+      "error": null,
+      "exit_code": 0,
+      "lane": "P5",
+      "log_sha256": "87dbeb4e5b01f6824c8e9899b4ec2d0faaef8b06e9f0983ceb21b952ca0622a0",
+      "pass": true,
+      "source_bundle_sha256": "2dc3baecf9aa6cb0be4209d38ee2805ba491e132149f11ebfc58a6cc8bc2116e",
+      "source_files": {
+        "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_P5.g": "3128d6afe7eb034bb87ab9dd173b1036607017f637f8eaae2bd3f280c566e15d",
+        "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_Q5.g": "2cc3c2986dc2b49f5ea7509431cb0d808d424a687f41bf783a5c88c8fc0a4edc",
+        "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    }
+  ],
+  "schema": "hsp7-registered-wrapper-preflight/v4",
+  "source_commit_files": {
+    "gap.ps1": "2015b8f52ed9ef0f58c833864e7fd7e6b0435d999a6659c03c9cd52dec175546",
+    "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+    "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+    "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_P5.g": "3128d6afe7eb034bb87ab9dd173b1036607017f637f8eaae2bd3f280c566e15d",
+    "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_Q5.g": "2cc3c2986dc2b49f5ea7509431cb0d808d424a687f41bf783a5c88c8fc0a4edc",
+    "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "search/probe/hsp7_cond4_laneV/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "search/probe/hsp7_cond4_laneV/statemachine_lib.g": "30ea5224eec536aa995443471930c7874ebd57e61a3e2a3c6982ad5c2e5edf47",
+    "search/probe/hsp7_mainrun/binding_gate_lib.py": "10960ce3e6558ec685adfd18a95ee12d669f41897f1a93566de823a9c5031c9c",
+    "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+    "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+    "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+    "search/probe/hsp7_mainrun/lane_wrapper_P.g": "ed660769dd55fd45060606a89d4f6ad74f984e2136c3a82414697692d16e01fb",
+    "search/probe/hsp7_mainrun/lane_wrapper_S.g": "3ee4319a6989fc3d4c60bd28d64757b03b61c93bff7c746f81156dfb5505be28",
+    "search/probe/hsp7_mainrun/lane_wrapper_V.g": "e916b548846ca35accf892d86899372ae64d7f82f730f4a74da1f3a61ba1dbc8",
+    "search/probe/hsp7_mainrun/predicate_lib_laneP.g": "be1fdf4883210118211f5ab26dc8e1c22a2aacd96f58e24e494779ca3fc70dcc",
+    "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+    "search/probe/hsp7_mainrun/predicate_lib_laneS.g": "1fabb7848ea5c6adb275b451c5264f8c4f7989fbc2b94f1e95db2b663453a070",
+    "search/probe/hsp7_mainrun/predicate_lib_laneV.g": "0522fab0f9c928c47142b8a74420ed3783dba827a5b1d567250c2c0af1b7e029",
+    "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g": "e333face99652474a4a6b796d286fa68567a23df05a836293fdc1500b03a4cad",
+    "search/probe/hsp7_mainrun/registered_preflight.py": "1ea77dc3cdd74d5d8f9b4c72fc75fdcff5b1a42acab8340e4337524eda9bf4c3",
+    "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+  },
+  "source_commit_sha": "a9a653e9a82f4dd93ca9eabec085a03af931b26e"
+}

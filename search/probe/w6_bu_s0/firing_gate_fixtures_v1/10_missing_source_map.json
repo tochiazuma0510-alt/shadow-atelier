@@ -1,0 +1,7 @@
+{
+  "schema": "w6-bu-firing-mutant/v1",
+  "mutation_id": "missing_source_map",
+  "base": "search/probe/w6_bu_s0/firing_gate_fixtures_v1/00_positive.json",
+  "patches": [{"op": "remove", "path": "/source_map"}],
+  "expected_stop": "SOURCE_MAP_MISSING/STOP"
+}

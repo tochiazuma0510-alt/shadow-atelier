@@ -1,0 +1,180 @@
+{
+  "schema": "w6-bu-firing-gate-manifest/v1",
+  "manifest_id": "W6-BU-FREEZE2-EXACT17-v1",
+  "status": "FROZEN; S1--S3.5 eligible only for future workshop dispatch; S3.6--S9 locked",
+  "created_utc": "2026-08-05T00:00:00Z",
+  "authority": {
+    "request": "sol/luna_task_106_bu.md",
+    "audit_basis": "sol/sol_reply_105_math32.md F105-3.2",
+    "design_correction": "docs/notes/w6_bottomup_design_v4_1_addendum.md",
+    "iso_erratum": "docs/notes/iso_r3r4_iffirst_freeze_v1_2_erratum.md"
+  },
+  "authorization": {
+    "freeze_id": "W6-BU-FREEZE2-EXACT17-F106",
+    "stage_unlock": true,
+    "authority": "sol/sol_reply_106_math33.md F106-4",
+    "pre_authorization_manifest_sha256": "33554a07f019167ee193dfe09d5c3f67a23d39f70b0c992d91c1aafb8b262726",
+    "dispatch_scope": "future workshop-only dispatch; no execution in task 106",
+    "authorized_stages_after_future_unlock": ["S1", "S2", "S3", "S3.5"],
+    "always_forbidden_here": ["S3.6", "S4", "S4prime", "S5", "S6", "S7", "S8", "S8.5", "S9", "exploration", "candidate_generation", "kill", "EMPTY"]
+  },
+  "exact_firing_universe": {
+    "layer": "V-cen/S3-inflated",
+    "dimension_by_prime": {"2": [2, 3, 4], "3": [2]},
+    "window_order_lte": 8000,
+    "expected_row_count": 17
+  },
+  "predicate_order": ["layer", "prime", "dimension_by_prime", "window_order_lte"],
+  "explicit_dimension_rejections": [
+    {"p": 2, "dim": 0, "stop": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"p": 2, "dim": 1, "stop": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"p": 3, "dim": 0, "stop": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"p": 3, "dim": 1, "stop": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"p": 3, "dim": 3, "stop": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"p": 3, "dim": 4, "stop": "DIMENSION_OUT_OF_SCOPE/STOP"}
+  ],
+  "denominator": {
+    "unit": "V-cen module isomorphism type keyed by module_id",
+    "expected_count": 17,
+    "strata": [
+      {"p": 2, "dim": 2, "count": 3},
+      {"p": 2, "dim": 3, "count": 3},
+      {"p": 2, "dim": 4, "count": 6},
+      {"p": 3, "dim": 2, "count": 5}
+    ],
+    "row_ids": [
+      "p2_d2_a0b0c1",
+      "p2_d2_a0b1c0",
+      "p2_d2_a2b0c0",
+      "p2_d3_a1b0c1",
+      "p2_d3_a1b1c0",
+      "p2_d3_a3b0c0",
+      "p2_d4_a0b0c2",
+      "p2_d4_a0b1c1",
+      "p2_d4_a0b2c0",
+      "p2_d4_a2b0c1",
+      "p2_d4_a2b1c0",
+      "p2_d4_a4b0c0",
+      "p3_d2_bruteforce_1",
+      "p3_d2_bruteforce_2",
+      "p3_d2_bruteforce_3",
+      "p3_d2_bruteforce_4",
+      "p3_d2_bruteforce_5"
+    ],
+    "supplemental_p3_dim3_dim4_count": 28,
+    "supplemental_counted_in_denominator": false
+  },
+  "source_map": {
+    "source_path": "search/certs/h2_census_s4_20260805.json",
+    "source_sha256": "4b8673209d55c46fe1bc01a1e2736df03f296cd7d775df6da98f8f582df73b30",
+    "json_pointer": "/rows",
+    "projection_fields": ["module_id", "p", "dim", "s3_inflated", "window_order"],
+    "projection_canonicalization": "UTF-8 JSON, ensure_ascii=false, sort_keys=true, separators=(',',':')",
+    "projection_sha256": "30a427ea638d8e954056eb3fb71c26a8f3691b3444e23f9f550a79f91f527614",
+    "mapping_rule": "cert.source_map.entries[i] must equal {module_id: source.rows[i].module_id, source_pointer: /rows/i, stage_tag: FIRING_UNIVERSE_SELECTION}"
+  },
+  "count_contract": {
+    "traversed_count": "number of enumerated parameters/lifts before acceptance filters; H1 conjugacy classes are forbidden as the unit",
+    "accepted_count": "number of objects after all stage-local acceptance filters",
+    "rejected_count": "number rejected by stage-local filters",
+    "required_relation": "traversed_count = accepted_count + rejected_count",
+    "witness_contract": "one uniquely keyed witness with disposition and source_tag per traversed object; disposition totals rederive accepted/rejected counts",
+    "anti_alias_fixture": {"traversed_count": 19, "accepted_count": 17, "rejected_count": 2}
+  },
+  "iso_gate_contract": {
+    "M-ISO-8": {
+      "real_verdict": "UNKNOWN(NONSHADOW_IN_DATUM)",
+      "mutant_verdict": "UNKNOWN(NONSHADOW_IN_DATUM)",
+      "detection_layer": "detail-element comparison only; verdict is insensitive",
+      "real_witness_settled": false,
+      "mutant_witness_settled": true,
+      "isolated_false_witness_claim": false
+    }
+  },
+  "stop_contract": [
+    "ARTIFACT_MISSING/STOP",
+    "JSON_PARSE_ERROR/STOP",
+    "MANIFEST_VERSION_MISMATCH/STOP",
+    "SCHEMA_VERSION_MISMATCH/STOP",
+    "SCHEMA_DIGEST_MISMATCH/STOP",
+    "MANIFEST_DIGEST_MISMATCH/STOP",
+    "CHECKER_DIGEST_MISMATCH/STOP",
+    "SOURCE_DIGEST_MISMATCH/STOP",
+    "AUTHORIZATION_BINDING_MISMATCH/STOP",
+    "SOURCE_MAP_MISSING/STOP",
+    "SOURCE_MAP_MISMATCH/STOP",
+    "LAYER_OUT_OF_SCOPE/STOP",
+    "PRIME_OUT_OF_SCOPE/STOP",
+    "DIMENSION_OUT_OF_SCOPE/STOP",
+    "ORDER_CAP_EXCEEDED/STOP",
+    "ROWSET_MISSING/STOP",
+    "ROWSET_EXTRA/STOP",
+    "DUPLICATE_MODULE_ID/STOP",
+    "ROW_ORDER_MISMATCH/STOP",
+    "COUNT_ACCOUNTING_MISMATCH/STOP",
+    "COUNT_WITNESS_MISMATCH/STOP",
+    "MISO8_SEMANTICS_STALE/STOP",
+    "CLAIM_OVERREACH/STOP",
+    "UNAUTHORIZED_EXECUTION/STOP"
+  ],
+  "unknown_contract": [
+    "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)",
+    "UNKNOWN(C_NOT_IN_N)",
+    "UNKNOWN(THETA_TAU_NOT_WELLDEFINED)",
+    "UNKNOWN(NO_SHADOWS)",
+    "UNKNOWN(CANDIDATE_ENUM_INCONSISTENT)",
+    "UNKNOWN(NONSHADOW_IN_DATUM)"
+  ],
+  "claim_contract": {
+    "isolated_verdict_default": "UNKNOWN",
+    "forbidden": ["isolated=FALSE", "isolated_verdict=FALSE", "kill claim", "candidate found", "EMPTY claim"],
+    "coverage_scope": "exact firing universe only; no statement about W \\ W_adm or supplemental inventory",
+    "iso_route2_grade": "not granted by this manifest"
+  },
+  "artifacts": {
+    "design_correction": {
+      "path": "docs/notes/w6_bottomup_design_v4_1_addendum.md",
+      "sha256": "1d55d01640fffc9649e26589e397e5dfc9aa65518b3e37a88af27c70c5188578"
+    },
+    "iso_erratum": {
+      "path": "docs/notes/iso_r3r4_iffirst_freeze_v1_2_erratum.md",
+      "sha256": "a684f79dd7924fd5d346dfbfdf02336cbe1cd2942b0059da99b326d07491f9fa"
+    },
+    "schema": {
+      "path": "search/certs/w6_bu_firing_cert_schema_v1.json",
+      "sha256": "2f681fdb590e93fbc03132cde6cdb261a6664e7afc2a35e96d7a5deb2facc8eb"
+    },
+    "checker": {
+      "path": "search/probe/w6_bu_s0/check_firing_gate_v1.py",
+      "sha256": "ef44d52c0eeda48a3fd5290b1185bedc39a30121006be9b91051d50ec27246b4"
+    }
+  },
+  "fixture_matrix": [
+    {"id": "positive", "expected": "PASS"},
+    {"id": "p2_dim0", "expected": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"id": "p2_dim1", "expected": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"id": "p3_dim0", "expected": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"id": "p3_dim1", "expected": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"id": "p3_dim3", "expected": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"id": "p3_dim4", "expected": "DIMENSION_OUT_OF_SCOPE/STOP"},
+    {"id": "order_cap", "expected": "ORDER_CAP_EXCEEDED/STOP"},
+    {"id": "missing_row", "expected": "ROWSET_MISSING/STOP"},
+    {"id": "duplicate_row", "expected": "DUPLICATE_MODULE_ID/STOP"},
+    {"id": "missing_source_map", "expected": "SOURCE_MAP_MISSING/STOP"},
+    {"id": "count_alias", "expected": "COUNT_ACCOUNTING_MISMATCH/STOP"},
+    {"id": "count_witness_mismatch", "expected": "COUNT_WITNESS_MISMATCH/STOP"},
+    {"id": "old_miso8_verdict_reading", "expected": "MISO8_SEMANTICS_STALE/STOP"},
+    {"id": "isolated_false_claim", "expected": "CLAIM_OVERREACH/STOP"}
+  ],
+  "non_contact_declaration": {
+    "exploration": false,
+    "S1_to_S3_5": false,
+    "S9": false,
+    "candidate_generation": false,
+    "kill": false,
+    "empty_theorem": false,
+    "im_R": false,
+    "d_N": false,
+    "sealed_quantities": false
+  }
+}

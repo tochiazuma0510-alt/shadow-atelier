@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:shadow-atelier:w6-bu-firing-cert:v1",
+  "title": "W6 BOTTOM-UP exact-17 firing certificate",
+  "description": "Fail-closed structural certificate for the pre-authorized S1--S3.5 inventory lane. It cannot express kill, EMPTY, candidate-found, or isolated=FALSE claims.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_sha256",
+    "manifest",
+    "run_class",
+    "execution_authorized",
+    "universe",
+    "denominator",
+    "source_map",
+    "counts",
+    "rows",
+    "iso_gate_contract_snapshot",
+    "claims",
+    "status",
+    "non_contact_declaration"
+  ],
+  "properties": {
+    "schema": {"const": "w6-bu-firing-cert/v1"},
+    "schema_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"const": "search/certs/w6_bu_firing_gate_manifest_v1.json"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "run_class": {
+      "enum": ["SCHEMA_CALIBRATION_ONLY", "S1", "S2", "S3", "S3.5"]
+    },
+    "execution_authorized": {"type": "boolean"},
+    "universe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer", "dimension_by_prime", "window_order_lte", "predicate_order"],
+      "properties": {
+        "layer": {"const": "V-cen/S3-inflated"},
+        "dimension_by_prime": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["2", "3"],
+          "properties": {
+            "2": {"const": [2, 3, 4]},
+            "3": {"const": [2]}
+          }
+        },
+        "window_order_lte": {"const": 8000},
+        "predicate_order": {"const": ["layer", "prime", "dimension_by_prime", "window_order_lte"]}
+      }
+    },
+    "denominator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit", "expected_count", "selected_row_count", "row_ids"],
+      "properties": {
+        "unit": {"const": "V-cen module isomorphism type keyed by module_id"},
+        "expected_count": {"const": 17},
+        "selected_row_count": {"const": 17},
+        "row_ids": {
+          "type": "array",
+          "minItems": 17,
+          "maxItems": 17,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/module_id"}
+        }
+      }
+    },
+    "source_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_path", "source_sha256", "json_pointer", "projection_sha256", "entries"],
+      "properties": {
+        "source_path": {"const": "search/certs/h2_census_s4_20260805.json"},
+        "source_sha256": {"const": "4b8673209d55c46fe1bc01a1e2736df03f296cd7d775df6da98f8f582df73b30"},
+        "json_pointer": {"const": "/rows"},
+        "projection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "entries": {
+          "type": "array",
+          "minItems": 17,
+          "maxItems": 17,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["module_id", "source_pointer", "stage_tag"],
+            "properties": {
+              "module_id": {"$ref": "#/$defs/module_id"},
+              "source_pointer": {"type": "string", "pattern": "^/rows/[0-9]+$"},
+              "stage_tag": {"const": "FIRING_UNIVERSE_SELECTION"}
+            }
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["traversed_count", "accepted_count", "rejected_count", "traversed_unit", "accepted_unit", "relation", "witnesses"],
+      "properties": {
+        "traversed_count": {"type": "integer", "minimum": 0},
+        "accepted_count": {"type": "integer", "minimum": 0},
+        "rejected_count": {"type": "integer", "minimum": 0},
+        "traversed_unit": {"const": "enumerated parameter/lift before acceptance filters; never H1-conjugacy classes"},
+        "accepted_unit": {"const": "objects after all stage-local acceptance filters"},
+        "relation": {"const": "traversed_count = accepted_count + rejected_count; fields are not aliases"},
+        "witnesses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["traversal_id", "disposition", "source_tag"],
+            "properties": {
+              "traversal_id": {"type": "string", "minLength": 1},
+              "disposition": {"enum": ["ACCEPTED", "REJECTED"]},
+              "source_tag": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17,
+      "items": {"$ref": "#/$defs/row"}
+    },
+    "iso_gate_contract_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["m_iso8_real_verdict", "m_iso8_mutant_verdict", "m_iso8_detection_layer", "real_witness_settled", "mutant_witness_settled", "isolated_false_witness_claim"],
+      "properties": {
+        "m_iso8_real_verdict": {"const": "UNKNOWN(NONSHADOW_IN_DATUM)"},
+        "m_iso8_mutant_verdict": {"const": "UNKNOWN(NONSHADOW_IN_DATUM)"},
+        "m_iso8_detection_layer": {"const": "detail-element comparison only; verdict is insensitive"},
+        "real_witness_settled": {"const": false},
+        "mutant_witness_settled": {"const": true},
+        "isolated_false_witness_claim": {"const": false}
+      }
+    },
+    "claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["isolated_verdict", "kill_claim", "candidate_found", "empty_claim", "scope_of_any_coverage"],
+      "properties": {
+        "isolated_verdict": {"const": "UNKNOWN"},
+        "kill_claim": {"const": false},
+        "candidate_found": {"const": false},
+        "empty_claim": {"const": false},
+        "scope_of_any_coverage": {"const": "exact firing universe only; no statement about W \\ W_adm or supplemental inventory"}
+      }
+    },
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coverage_status", "stop_code", "unknown_reason"],
+      "properties": {
+        "coverage_status": {"enum": ["NOT_RUN", "PARTIAL_INVENTORY", "COMPLETE_WITHIN_EXACT_17", "STOPPED"]},
+        "stop_code": {"type": ["string", "null"]},
+        "unknown_reason": {"type": ["string", "null"]}
+      }
+    },
+    "non_contact_declaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exploration", "candidate_generation", "kill", "empty_theorem", "im_R", "d_N", "sealed_quantities", "S9"],
+      "properties": {
+        "exploration": {"const": false},
+        "candidate_generation": {"const": false},
+        "kill": {"const": false},
+        "empty_theorem": {"const": false},
+        "im_R": {"const": false},
+        "d_N": {"const": false},
+        "sealed_quantities": {"const": false},
+        "S9": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "module_id": {
+      "enum": [
+        "p2_d2_a0b0c1",
+        "p2_d2_a0b1c0",
+        "p2_d2_a2b0c0",
+        "p2_d3_a1b0c1",
+        "p2_d3_a1b1c0",
+        "p2_d3_a3b0c0",
+        "p2_d4_a0b0c2",
+        "p2_d4_a0b1c1",
+        "p2_d4_a0b2c0",
+        "p2_d4_a2b0c1",
+        "p2_d4_a2b1c0",
+        "p2_d4_a4b0c0",
+        "p3_d2_bruteforce_1",
+        "p3_d2_bruteforce_2",
+        "p3_d2_bruteforce_3",
+        "p3_d2_bruteforce_4",
+        "p3_d2_bruteforce_5"
+      ]
+    },
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_id", "p", "dim", "s3_inflated", "window_order", "stage_status", "stop_or_unknown"],
+      "properties": {
+        "module_id": {"$ref": "#/$defs/module_id"},
+        "p": {"enum": [2, 3]},
+        "dim": {"enum": [2, 3, 4]},
+        "s3_inflated": {"const": true},
+        "window_order": {"type": "integer", "maximum": 8000},
+        "stage_status": {"enum": ["NOT_RUN", "INVENTORY_ONLY", "UNKNOWN", "STOP"]},
+        "stop_or_unknown": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"p": {"const": 2}}, "required": ["p"]},
+          "then": {"properties": {"dim": {"enum": [2, 3, 4]}}}
+        },
+        {
+          "if": {"properties": {"p": {"const": 3}}, "required": ["p"]},
+          "then": {"properties": {"dim": {"const": 2}}}
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "schema": "w6-bu-firing-mutant/v1",
+  "mutation_id": "p3_dim1",
+  "base": "search/probe/w6_bu_s0/firing_gate_fixtures_v1/00_positive.json",
+  "patches": [{"op": "replace", "path": "/rows/12/dim", "value": 1}],
+  "expected_stop": "DIMENSION_OUT_OF_SCOPE/STOP"
+}

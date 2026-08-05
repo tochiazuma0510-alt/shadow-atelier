@@ -1,0 +1,10 @@
+{
+  "schema": "w6-bu-firing-mutant/v1",
+  "mutation_id": "old_miso8_verdict_reading",
+  "base": "search/probe/w6_bu_s0/firing_gate_fixtures_v1/00_positive.json",
+  "patches": [
+    {"op": "replace", "path": "/iso_gate_contract_snapshot/m_iso8_mutant_verdict", "value": "TRUE"},
+    {"op": "replace", "path": "/iso_gate_contract_snapshot/m_iso8_detection_layer", "value": "verdict mismatch"}
+  ],
+  "expected_stop": "MISO8_SEMANTICS_STALE/STOP"
+}

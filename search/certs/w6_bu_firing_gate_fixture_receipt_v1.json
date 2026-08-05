@@ -1,0 +1,59 @@
+{
+  "schema": "w6-bu-firing-gate-receipt/v1",
+  "command": "python search/probe/w6_bu_s0/check_firing_gate_v1.py --self-test",
+  "exit_code": 0,
+  "authorization_binding": {
+    "freeze_id": "W6-BU-FREEZE2-EXACT17-F106",
+    "authority": "sol/sol_reply_106_math33.md F106-4",
+    "stage_unlock": true,
+    "dispatch_scope": "future workshop-only dispatch; no execution in task 106",
+    "pre_authorization_manifest_sha256": "33554a07f019167ee193dfe09d5c3f67a23d39f70b0c992d91c1aafb8b262726",
+    "authorization_mutants_rejected": 5,
+    "authorization_mutant_fields": ["freeze_id", "authority", "stage_unlock", "dispatch_scope", "S3.6 lock"],
+    "authorization_mutant_actual": "AUTHORIZATION_BINDING_MISMATCH/STOP for all 5"
+  },
+  "checker_sha256": "ef44d52c0eeda48a3fd5290b1185bedc39a30121006be9b91051d50ec27246b4",
+  "schema_sha256": "2f681fdb590e93fbc03132cde6cdb261a6664e7afc2a35e96d7a5deb2facc8eb",
+  "manifest_sha256": "2818c0aceb2948750df84f3df5c6a63df12c477bf73681690cb06e7c00a82376",
+  "source_sha256": "4b8673209d55c46fe1bc01a1e2736df03f296cd7d775df6da98f8f582df73b30",
+  "source_projection_sha256": "30a427ea638d8e954056eb3fb71c26a8f3691b3444e23f9f550a79f91f527614",
+  "fixture_count": 15,
+  "positive_passed": 1,
+  "mutants_rejected": 14,
+  "all_expected_results_matched": true,
+  "positive_detail": {
+    "row_count": 17,
+    "traversed_count": 19,
+    "accepted_count": 17,
+    "rejected_count": 2,
+    "note": "synthetic anti-alias schema fixture only; these are not exploration measurements"
+  },
+  "results": [
+    {"id": "positive", "expected": "PASS", "actual": "PASS", "matched": true},
+    {"id": "p2_dim0", "expected": "DIMENSION_OUT_OF_SCOPE/STOP", "actual": "DIMENSION_OUT_OF_SCOPE/STOP", "matched": true},
+    {"id": "p2_dim1", "expected": "DIMENSION_OUT_OF_SCOPE/STOP", "actual": "DIMENSION_OUT_OF_SCOPE/STOP", "matched": true},
+    {"id": "p3_dim0", "expected": "DIMENSION_OUT_OF_SCOPE/STOP", "actual": "DIMENSION_OUT_OF_SCOPE/STOP", "matched": true},
+    {"id": "p3_dim1", "expected": "DIMENSION_OUT_OF_SCOPE/STOP", "actual": "DIMENSION_OUT_OF_SCOPE/STOP", "matched": true},
+    {"id": "p3_dim3", "expected": "DIMENSION_OUT_OF_SCOPE/STOP", "actual": "DIMENSION_OUT_OF_SCOPE/STOP", "matched": true},
+    {"id": "p3_dim4", "expected": "DIMENSION_OUT_OF_SCOPE/STOP", "actual": "DIMENSION_OUT_OF_SCOPE/STOP", "matched": true},
+    {"id": "order_cap", "expected": "ORDER_CAP_EXCEEDED/STOP", "actual": "ORDER_CAP_EXCEEDED/STOP", "matched": true},
+    {"id": "missing_row", "expected": "ROWSET_MISSING/STOP", "actual": "ROWSET_MISSING/STOP", "matched": true},
+    {"id": "duplicate_row", "expected": "DUPLICATE_MODULE_ID/STOP", "actual": "DUPLICATE_MODULE_ID/STOP", "matched": true},
+    {"id": "missing_source_map", "expected": "SOURCE_MAP_MISSING/STOP", "actual": "SOURCE_MAP_MISSING/STOP", "matched": true},
+    {"id": "count_alias", "expected": "COUNT_ACCOUNTING_MISMATCH/STOP", "actual": "COUNT_ACCOUNTING_MISMATCH/STOP", "matched": true},
+    {"id": "count_witness_mismatch", "expected": "COUNT_WITNESS_MISMATCH/STOP", "actual": "COUNT_WITNESS_MISMATCH/STOP", "matched": true},
+    {"id": "old_miso8_verdict_reading", "expected": "MISO8_SEMANTICS_STALE/STOP", "actual": "MISO8_SEMANTICS_STALE/STOP", "matched": true},
+    {"id": "isolated_false_claim", "expected": "CLAIM_OVERREACH/STOP", "actual": "CLAIM_OVERREACH/STOP", "matched": true}
+  ],
+  "non_contact_declaration": {
+    "exploration": false,
+    "S1_to_S3_5": false,
+    "S9": false,
+    "candidate_generation": false,
+    "kill": false,
+    "empty_theorem": false,
+    "im_R": false,
+    "d_N": false,
+    "sealed_quantities": false
+  }
+}
