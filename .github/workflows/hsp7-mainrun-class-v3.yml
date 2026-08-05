@@ -34,8 +34,8 @@ jobs:
           LANE: ${{ inputs.lane }}
           # Draft is deliberately fail-closed.  Freeze replaces UNSET with
           # the approved class-manifest path and file digest before installation.
-          FROZEN_CLASS_MANIFEST_PATH: search/certs/hsp7_class_manifest_v3_frozen_20260806.json
-          FROZEN_CLASS_MANIFEST_SHA256: cefc3d3ab4d413303f0c2158da1e78722a2966cf49514af229ca5789dd8cfd05
+          FROZEN_CLASS_MANIFEST_PATH: search/certs/hsp7_class_manifest_v3_1_frozen_20260806.json
+          FROZEN_CLASS_MANIFEST_SHA256: 4b2134aa9fa9fc2855668cdbeef85e0a890ee07214d1500561b174bd1e169cc1
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -104,6 +104,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+      - name: Remove flaky third-party apt sources
+        run: sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/azure-cli.sources /etc/apt/sources.list.d/azure-cli.list
       - uses: gap-actions/setup-gap@v3.8.0
         with:
           gap-version: '4.16.0'
