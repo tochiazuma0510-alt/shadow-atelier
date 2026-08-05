@@ -2259,3 +2259,4 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 研究者裁定: Lean 全面 Sol 側移管(裁定 542)—「Lean は Sol 側で全部対応してもらって」
 - 裁定 531 を強化: 以後の Lean 実装は**全部 Sol 指示×Luna 実装**(工房 agent は完全に外れる — 裁定 539 の T1_cyclotomic_ram2 討ち取り・540 の Block-H 次波も Sol/Luna へ)。工房に残るのは①方針・公理台帳のゲート(発効判定は従来どおり司令塔+Sol)②GitHub 操作(push・Actions CI・Mathlib キャッシュ・K3 ビルド滞留の解消含む)③Luna の起床・配達。
 - 便 105 §6 の性格変更: 「一回監査請求+運用提案」→「**一回監査+全面移管の引き継ぎ束**」(方針 v1.5・割付表・第 1 波 c542808・survey 629ba3e・Block-H-first 勧告・T2 言明精密化議題・橋 B 内製 6 案)。Sol 検収後に Luna 起床。memory = lean-sol-luna-pipeline 改版。
+- **裁定 542 補記(研究者・即時)**: 「mathlib がローカルで使えないことはしっかり伝えてね」— 便 105 §6 の引き継ぎ束に**必須明記**: 本機(8GB)では Mathlib の恒常ビルド・import 常用は不可(裁定 534・小規模調査のみ例外)。Luna のローカル作業は Mathlib 非依存の素 Lean に限る。Mathlib 依存補題(T1 討ち取り・数論層・橋 B)は**別パッケージ+GitHub Actions 専用ビルド**とし、CI の実行と結果還流は工房が担う — Sol の指示設計はこの分業を前提とすること。
