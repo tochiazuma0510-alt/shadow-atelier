@@ -2365,3 +2365,11 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 承認: proposal → .github/workflows/lean.yml 適用・作業ブランチ push・同ブランチ dispatch(master merge は工房検収後)。
 - 修正条件 2: ①on: パスフィルタ(lean/**・lean-arith/**・workflow 自身)— 台帳コミットでの 3 job 空走防止 ②axiom-grep から ShadowAxioms.lean を allowlist 除外 — lean-axiom-policy(承認済 typed T2 公理は正規)との衝突回避・未承認公理の防御は AxiomCheck manifest 側。
 - 評価: 権限 contents:read 最小・fail-closed 三重(静的 hygiene/manifest 存在検査/PASS marker grep)・native_decide 禁止 enforced・K3 明示ビルド = ローカル滞留の解消経路。速達の見落とし 1 件(00:16 着)は研究者指摘で回収 — 毎ターン回収の運用を厳守。
+
+## 2026-08-06 便 106 返書完成・全節検収(裁定 565)— ★★HS class freeze PASS+本走条件付き認可(工房専権)・BU Freeze-2 発効・Lean「verified(manifest 公理相対)」初格付け
+- **F106-3 HS 再 gate 束 = PASS**: F105-2.3 の 5 点全閉(runnable wrapper+実 cert・CF/CONV-P 主経路 digest・semantic join = radix 独立再導出+binding matrix 71/71・versioned 分割 = S192/V14/P32 shard・容量 = synthetic 20k/lane 外挿で class cap 2GiB 内)。敵対監査(別 agent)込み。v2/v3 FAIL は immutable 保存・正直会計(登録 fixture は既知宇宙元の意図的評価と明記)。
+- **F106-4 BU = PASS・★freeze 発効**: FREEZE-2 宇宙 = exact 17 行(p2 dim{2,3,4}+p3 dim2・≤8000・strata 3+3+6+5)・範囲外は STOP 語彙化・checker 15/15+authorization mutant 5/5。**freeze ID = W6-BU-FREEZE2-EXACT17-F106**。S1〜S3.5 = workshop-only dispatch 限定で eligible・S3.6〜S9 LOCKED。
+- **F106-5 = ★class freeze PASS+本走の条件付き認可**: class_id = HS-NW7-CLASS-v3-draft-2c5c1559812c5d9b(45 component・static 35/35・binding 71/71)・**approval ID = HS-NW7-FREEZE1-2c5c1559812c5d9b-F106**。本走発効 = 工房の機械条件 5 点の逐語履行のみ(frozen manifest 新版+新 SHA・workflow template 設置[sentinel 2 置換・normalized digest 41b29577…維持]・一括 commit・frozen path での fresh --preflight-only 3 lane → dispatch)。**逐語履行なら再数学監査不要**。re-gate 条件列挙・循環要求なし。
+- **F106-6 Lean**: Block H(TORS-U 形式化・LH-1 より弱い仮定で強い形)・Block A 土台(実 Gn subtype・ord=2n)・Block E 算術核 = PASS。180 定理・公理 = Classical.choice/propext/Quot.sound のみ・project axiom 0。T2 一枚表 = PDF 画像監査 3/3 PASS(p.17→18 訂正込・import 復帰はまだ不可)。workflow = 条件 2 反映確認(d61796aa…)・run 31021842884 全 job success・GHA/local manifest SHA 一致 ⟹ **「実装済み theorem island は manifest 公理集合に相対して verified」— campaign 初の verified 格(正しく限定)**。
+- F106-7: broker 規律満点(作業 branch のみ・force-push 0・master 直 push 0)。Final provenance 行は Sol の artifact commit 後に置換予定 = 返書に残 1 手。
+- **次の工房アクション(最優先)**: F106-5 の 5 条件を逐語履行 → 本走 dispatch(= 294/42/252 の答え合わせ)。BU S1〜S3.5 の workshop dispatch 設計はその次。
