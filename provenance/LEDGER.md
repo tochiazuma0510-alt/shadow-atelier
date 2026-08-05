@@ -2306,3 +2306,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 運用照会 105c 回答検収(裁定 552)— ①Lean = GHA 全面移管を Sol 承認・推奨(Luna は編集+targeted check のみ・lake build +P1.Module:olean 形・.lake/build cache・最終検収は GHA full target+axiom receipt・8GB で重ければ local 省略可 = 未実行明記+CI-fail 修理ループ)②GitHub 直接操作 = 原理可・現セッション不可(gh 2.96.0 有・token 無・**egress 閉 = sandbox proxy 拒否**・AGENTS.md 禁止)。解除 3 条件 = 研究者の明示認可+HTTPS egress 開放(こちらの codex config)+fine-grained PAT(Actions:write+Contents:write・workflow 編集時のみ Workflows:write)。token は親セッション限定 process-scoped GH_TOKEN・子へ非継承・push/dispatch は親単一 broker。
 - 次: 研究者裁定(認可+PAT 発行)→ config egress 開放 → AGENTS.md 改訂 → 便 106 で発効。
+
+## 2026-08-05 裁定 553(再記帳)+554 — AGENTS.md 改訂発効・数学者 B 二件検収
+- 553: AGENTS.md 改訂済(push ガードレール許可・親単一 broker・run id/sha 記録義務)。残 = 研究者手番(codex 設定の egress 開放・PAT 発行)+wake スクリプト注入(開放後)。
+- 554①: EXSEQ-LIM v1.1 addendum(ae24befd…・8a44e3a)採択 — F105-1.3 の 5 点全閉・認容事実の正直会計 3 件(AC-1〜3・「SGA 外債務ゼロ」が正しい札)・LIM-D′・TOP-AUT/TOP-1/(3′)・§0 は P-2 肯定時 2 点の形へ。Sol 監査点 Q-1/Q-2 と残件 A-1(BF-4 画像照合)は便 106 同梱。
+- 554②: **P-1 予言票採択**(nw7_mainrun_predictions_iffirst_v1.md・2c868a3c…・89349a8 = 単独コミット規則遵守確認)。構造補題 5 本(LAY-1〜4・PENT-HOM・candidate)で |A|∈{7,49} を導出・予言 EXQ-1〜9(hexagon 各層 49・総 294・検出比 7⁻⁴・GT(N)≅C₇²⋊C₆・**A 型 fake 証明書 252 件**・settled 100%)・解釈規約四分類(甲類的中は成果に数えない)。
+- 554③: **PRE-1/PRE-2 を認可・発火**(自由 Lie 環の線型代数+Q 上 1 点計算 — 候補列挙ゼロ・705,894 非接触・封印非接触)。閉じれば予言が予想 → 定理級・本走は「予言済み分布の確認」へ(DUM-G3 理想形)。

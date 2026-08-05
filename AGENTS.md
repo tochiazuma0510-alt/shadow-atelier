@@ -32,7 +32,7 @@
 
 1. 返信は指定された `sol/sol_reply_*.md` / `sol/luna_reply_*.md` に書く。**指定ファイル(と Sol の luna_task 指示書)以外の作業ツリーを変更しない** — 実行後に `git status` で監査される。検算用の一時ファイルはリポジトリ外(`%TEMP%`)に作る。
 2. **es7ops MCP のツール(ci_dispatch / ops_note_to_commander 等)は使わない** — それは隣の工房(atelier_lean/ES7)の設備で、あなたの受信箱ではない。連絡は返信ファイルに書けば司令塔の常駐監視が検知する(done 通知は不要)。
-3. `codex exec` を自分で起動・resume しない。git の commit/push もしない(司令塔側の仕事)。
+3. `codex exec` を自分で起動・resume しない。git 操作は次のガードレール内で**許可**(裁定 553・研究者認可「全部やって」): **親セッションのみ**が単一 broker として commit/push/workflow_dispatch を行う(子 agent への credential 継承禁止)。push は作業ブランチ(`sol/*`)推奨・master への直 push は記帳系 commit のみ・force-push/履歴改変は禁止・workflow file の変更は司令塔事前承認・実行した run id と commit sha を返信ファイルに必ず記録。GH_TOKEN は process 環境変数のみ — ファイル・チャット・ログへの書き出し禁止。
 4. 参照してよい正本: `docs/研究目的.md`(目的の地図)・`docs/week1-定義ノート.md`(定義の正本)・`docs/notes/`(抽出ノート)・`sol/`(過去便)。
 5. 規律: 宇宙の事前登録(範囲を勝手に広げない/絞ったら明記)・versioned(上書きせず新ファイル)・数値主張には根拠(式番号 or 再現コマンド)を添える。
 
