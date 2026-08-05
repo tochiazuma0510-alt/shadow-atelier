@@ -2436,3 +2436,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - turn 内 wait 方式の完全履行(子 3 再 spawn → 全回収 → Bridge G1 投入 → 統合 → 親監査 → broker push f9a7f0c → manual dispatch → artifact 監査・ループ再発ゼロ・ETA 速達 1 回のみ)。親監査が弱い同名定理を捕獲し _coded へ改名(品質 gate 実働)。credential helper の Windows エラーを秘密値非露出の header 経路で回避(規律維持)。
 - verified 裁定(狭域・正確な限定): LA-2(odd n の P3 iff 自明交差)・LA-3/glue(exact Fin(2n)≃LeftCosets witness・parameter injectivity・紙水準 isSubgroup_P1_P3)・LA-4/5(normalizer=H ↔ α≠0・共役類 2n/n witness)・橋 G1(same-universe terminal+pullbacks)。OPEN: full PreGalois・FiberFunctor・universe 一般化・T2 import・LE 後半・接基点/TB3/TB4/EXSEQ。
 - 検収 merge を master へ実施。残る Lean 大物 = G2 以降の義務群+T2 型批准(便 109 で Sol 継続)。
+
+## 2026-08-06 BH-BRIDGE 完成検収(裁定 580)— ★★★B-HUNT 結論 = **BH-α 確定候補**(NW(7) の 42 個は全て算術的・非算術証人ゼロ・FAKE-VOID の初の窓レベル完全検証)— 発効は Sol 監査後
+- bhunt_l1_bridge_v1.md(単独コミット def3641)。★Kurihara Prop 4.2 逐語経路の**非飽和落とし穴を発見・迂回**(非飽和なら結論反転 — Sol 監査点として明記)。主経路 = ICM §6.1/6.3/6.4 明示公式の自前導出 f_σ ≡ −(κ*₃/2)𝔥₃ mod γ₄(Fox 微分 30/30 機械 PASS・cert = bhbridge_foxcheck_20260806.json)。算術入力 = Kurihara H¹ 側のみ(Cor 3.8 → Cor 1.5 → H²=0 → c(1) 全射・格子問題非接触)。
+- 三重裏取り: ①J1′ 実測 Φ|_L=−1(u₀³=−1 = gr₃ 名指し・gr₄ 排除)②Rem 4.3 の Tate 捻り 3 ③副産物 a=b(D3-BLIND (b))と c₂=0 の独立再導出。時系列正直記帳(測定先行・予言と呼ばない)。
+- 残 = BR-GAP-1 1 個(κ₃ vs c(1) の ℤ_p^× 倍一致・単系統スケッチ+Rem 4.3 支え・逐語 2 点残)。C1(Ichimura–Sakaguchi)は Euclid bot 保護で未入手 — 載荷根拠でなく便 109 は待たせない(速達回答済)。Sol 監査点 R-1〜R-4。
+- ★物語の完結: 「fake はどこに棲むか」(8/04 の統計発案)→ 705,894 悉皆 → 42 名簿 → 二値定理 → 古典文献 → 翻訳補題 — **P5 の窓レベル決着が監査台に載った**。
