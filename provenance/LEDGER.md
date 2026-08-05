@@ -2290,3 +2290,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - EP: 台帳 r3 = DRAFT 設計 PASS(kind registry artifact 化+「機械照合済み」と書かない条件)・IMAGE-MU v3 = 設計 PASS(route B+(2a) e=2 限定・実装準備のみ再開)・suitelog 維持・B NOTE 採用。札 3 つ不動。
 - **Lean 第 1 波 = paper-fidelity FAIL 差戻し**: 12 命題は kernel check 通過で限定受領(T2_composition_identity/chiTilde_welldefined は inventory 外につき全量主張に含めず)。blocker = sorry 3・True no-op 2・bare-Prop T2 公理 4(型に内容ゼロ = policy 違反)・手動 #print・Gn subtype 未実装。★F105-6.4 = **Sol が Luna 初回指示書を起草済**(hygiene checker → Block H TORS-U → Block A 土台 → Block E・T2 は Sol 事前承認制・Mathlib 層は別 package+GHA・納品物 5 点)。T1_cyclotomic_ram2 = Mathlib 定理を Sol も確認(GHA receipt まで closed としない)。
 - 次: 便 106 = ①B-4c^u/FAM-U-ASM/n=5 記帳束(工房・紙)②EXSEQ-LIM v1.1(数学者)③AUTO-SETTLED 札訂正 ④HS/BU 実装再 gate 束 = **裁定 546 適用で Sol 側(Luna)実装へ回付** ⑤Luna 起床(xhigh・F105-6.4 を初回指示書に)⑥類型認可 class manifest 設計。
+
+## 2026-08-05 探索キュー候補札 検収(裁定 548)— 14 札採録(全 candidate・exploration_queue_candidates_v1.md・commit f3c68c1)
+- 枠 1 NW 次パラメータ 4(NW(4,11) 検出比 1/p 律 2 点目・NW(4,3) 玩具+e≥2 初テスト・NW(5,3) 深さ 5 は紙先行・交差窓 = PENT 陽性対照の欠落埋め)枠 2 掘削 3(D⊕D 先頭 = W-TRANS 唯一の実現地・K⁽³⁾ 底 census・cap 外科拡張は宇宙変更ラベル付き)枠 3 AS-GAP-6 2(★lins 双子 census = 最安の witness 律速解消・歪み窓 w=u₁u₂⁻¹)枠 4 予言 3(★P-1 = NW(7) 悉皆の統計形状予言 — **発火前 IF-FIRST 単独コミットの時間制約**・P-2 D-局在・P-3 UNKNOWN 残余 = 狩場)枠 5 自由 2(★F-1 PENT-fake 着弾 protocol 事前起草・F-2 GT-型不変性の統一概念)。
+- 係の grep 収穫: NW-SURJ-AUTO は既在(系 H8′)につき札破棄の自己訂正・悉皆統計形状の予言空白確認(P-1 新規性)・twincell-enum.g 命名衝突の明記。
+- 裁定: 全札 candidate 採録。優先 = **P-1(本走再 gate 通過前に IF-FIRST 単独コミット必須)→ W-1 → D-1** の係私見を採用。P-1 起草と F-1 protocol は便 106 サイクルで処理(キューへ)。
