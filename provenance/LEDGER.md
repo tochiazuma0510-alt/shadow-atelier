@@ -2323,3 +2323,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - egress 開放 ✓(研究者の config 修正 = sandbox_mode workspace-write+network_access true・[windows] は unelevated 維持)・GH_TOKEN 認識 ✓(process 限定注入・優先 credential・account = tochiazuma0510-alt)・repo 到達 ✓(push=true/admin=true・workflow 一覧取得可)。push = 技術的に可能・workflow_dispatch = 経路 ready(scope の最終確認は便 106 認可の初回 dispatch で)。本便での実 push/dispatch なし(正しい抑制)・更新 AGENTS.md 読了確認(単一 broker・子へ非継承・force-push 禁止・sha/run id 記録義務)。
 - 発効 = 便 106 の初回 dispatch。以後 CI 実行・受け渡しの司令塔中継は段階的に廃止。
 - **裁定 556 補記(研究者確認・境界明確化)**: 「CI を使った探索はこちらでやる」— dispatch 権の区分を固定: **探索系 workflow(HS 本走・掘削・類型認可クラス走)の発火・運転・receipt 回収・検収 = 工房専権**。Sol broker の push/dispatch 対象は **Lean/Mathlib 系 workflow と自側実装物のみ**。556 の「CI 中継の段階的廃止」は Lean 系に限る(書き方が広すぎた訂正)。便 106 にこの区分を明記。
+
+## 2026-08-05 Luna 便 01 検収(裁定 557)— 現状調査 receipt として採録・修理は未実施(保守的スコープ読み)
+- 収穫: F105-6.2 の全 blocker を独立確認(sorry 3・bare Prop 4・True no-op 2・checker 非網羅)・12 宣言 receipt 再現(sorryAx/ShadowAxioms 出現ゼロ)・paper↔Lean 対応表(FAIL/OPEN 明示)・**素の lake build が 20 分 INCOMPLETE**(既定 target に K3 が含まれる罠の実証 — 105c の targeted build 指示が発注後着だったため)・.github/workflows/lean.yml が既存と判明(artifact なし)。git 非接触・封印非接触の規律遵守。
+- 裁定: receipt 採録。**単独 Luna 線はここで閉じ、Lean 修理は便 106 から Sol 親子方式へ**(551/542 の移行判断どおり: Sol が F105-6.4+本 receipt を基に子へ delegation envelope で発注・targeted build 指定[lake build P1・+P1.Module:olean]・broker push/dispatch・lean.yml は Sol 起草改訂 → 工房承認)。
+- 便 106 前提は τ 命名 addendum(P1R-GAP-2・走行中)のみ。
