@@ -2508,3 +2508,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 B₄ 定義抽出 検収(裁定 598)— b4_original_gtshadows_extraction_v1.md(e0c0ad8)
 - ★収穫: 窓 = NFI_{PB₄}(B₄)・pentagon (2.20) は **f のみの条件(m 非依存)**・genuine の正式定義 = **Cor 3.13(全下位窓への survival)** — 「252 の身分」の問いの正式な土俵。★**Prop 3.9 の ψ̃ 延長(x₁₄,x₂₄,x₃₄↦id)= B₃ 窓上に B₄ 窓を構成する橋** — NW(7) の N を B₄ へ持ち上げる直接路。★Table 1(35 窓・画像から全行転記)= per-窓計数の較正正解(N⁽¹⁹⁾ 216→36・N⁽³⁴⁾ 4096→243)。用語版差警告(2401 shadow ≈ 2008 charming 層)。
 - 発火: 数学者へ「B₄ 直接裁定の実現可能性ノート」(Prop 3.9 で NW(7) 上の B₄ 窓構成・(2.20) 判定の計算量・Table 1 較正設計・252 の genuine 判定手順)。
+
+## 2026-08-06 双子 prereg 検収(裁定 599)— twin_witness_prereg_iffirst_v1.md(ada3929 単独コミット)採択・双子走発火
+- ★補題 MIRROR-SHADOW: [-1,1] は N に依らず常に GT-shadow(hexagon は B₃ 内の恒等式・2 系統検算 ALL TRUE)・ker T₋₁,₁ = ι(N) ⟹ **ι(N)≠N なら非 isolated**(対偶 = isolated ⟹ ι-不変 = atlas の安価な必要条件)。★予言 P-1: 15 対中 **8 対が紙だけで鏡映対**(126/234/342/378/558/666/702/774)⟹ AS-GAP-6 witness = 指数 126 で紙決着見込み・機械は検証役。
+- ★訂正 2 採択: ①TWIN-CARD(GTSh(K,N)≠∅ ⟹ |GT| 等しい — 差は「両方向空」の証明・発案札 2 の向き逆を訂正)②[-1,1] = 複素共役 = **算術元** — 閉じるのは M-ISO-2 のみ・B 型ではない(混同禁止固定)。
+- 【要裁定 T-1】= 13 対層(c∉N)への紙延長は**保留**(checker 前件外・次便で Sol へ)。発火: 双子走(実装係・prereg 逐語・S-TW 停止規則・MC-1 第二系統)。
