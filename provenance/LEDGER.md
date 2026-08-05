@@ -2301,3 +2301,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-05 P1 発効記帳束 検収(裁定 550)— p1_ratification_bundle_v1.md(7ef2e5a)採択
 - ①b4c-u/v1(Sol 指定文言逐語・依存欄新規 1 点のみ・禁止 2 項明文化)②FAM-U-ASM claim(格ブロック SHA 一致・「意味しない 3 項」・candidate 前件行の二重掲示)③n=5 欄 A/B 分離(FAM-U/u_n 層 = 解除済・genuine 層 = blind 継続)④AUTO-SETTLED 正札(false 昇格条件 = 双子 witness 型・旧札起草の自認)。
 - 裁定: 束を採択・proof ID = b4c-u/v1 を正式採用・**FAM-U-ASM 昇格の発効を宣言**(Sol 条件 2 件は本束で履行 — 残 P1R-GAP-2 = τ 命名 1 行の additive addendum を便 106 サイクルで挿入)。状態.md/地図の行更新は便 106 組立時に一括。
+
+## 2026-08-05 運用照会 105b 回答検収(裁定 551)— ★Sol のセッション内 orchestration = 可能(spawn_agent/send_message/wait_agent・親込み 4 枠 = 子 3 並列・shared worktree)。委譲は便 106 で「親 Sol 裁定・子 Luna(役名明示)disjoint path 実装・親検収」を正式化。制約継承 = 各 spawn に 6 点 delegation envelope 逐語再掲(Sol 起草済)。commit/push は向こう側全員禁止(工房が担当継続)。単独 Luna セッション(便 01 走行中)は完走させ、次サイクルから子方式へ移行。105c(Lean 重さ・GitHub 直接操作)は回答待ち。
