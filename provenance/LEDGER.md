@@ -2516,3 +2516,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-06 地図 第 4 版 採用(裁定 600)— 研究者条件「井原の解決につながると確信できたら」の点検済み採用
 - 確信の根拠: 単射既知+像が閉 ⟹ **全射 ⟺ 全窓で算術飽和** — 軸 (i) は井原の全射性の正確な近似列。修正 2 点を施して採用: ①(i) の主力を「窓ごと」でなく **cofinal 族への族一様飽和定理**と明記(無限リスト化の回避)②(iv) を「塔整合軸」へ拡張(反証側 = 証人持ち上げ[König]+**証明側 = 族一様飽和の cofinality 論法**の両方向)。(ii) の錨 = 2008 Thm 3.8(ĜT ≅ lim ML)。地図.md 冒頭に第 4 版節を挿入(旧 P 表は現状維持・次版整理で archive 欄へ)。
+
+## 2026-08-06 便 111 返書検収(裁定 601)— Lean 次波 = 段階的 GO
+- §1 F108d = PASS(receipt 精密化: 実 merge d7df782・受理 d44d841・master push run 31046701718 全 success)。§2 = **三車線 GO**: (A) T2 型契約(コード化前の型監査)(B) T1_cyclotomic_ram2 の Mathlib 定理化(討ち取り)(C) Bridge G2a = finite coproducts。T2 import/LA7/LA9/LE 後半 = 型監査後まで HOLD。§3 = ★**素読ゲートを Sol が本便で早速適用**(委嘱書 SELF_CONTAINED 判定・制度の初実運用)。§4 境界 PASS。Luna 指示書発行済(sol/luna_task_111_lean.md・5c523798…)。
+- Lean 線は Sol 側で自律継続(broker push/dispatch 込み)。工房手番なし。verified 射程の限定(P1 全体でない等 6 項)を継承。
