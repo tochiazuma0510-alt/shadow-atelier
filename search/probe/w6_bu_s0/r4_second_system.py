@@ -1,7 +1,17 @@
 #!/usr/bin/env python3
 """
-scratchpad/r4_second_system.py -- ISO-GATE route-2 R4: independent second
-enumerator/checker (docs/notes/w6_bottomup_design_v4.md sec.5.4).
+search/probe/w6_bu_s0/r4_second_system.py -- ISO-GATE route-2 R4: independent
+second enumerator/checker (docs/notes/w6_bottomup_design_v4.md sec.5.4).
+
+v2 (commander 裁定535, following falsifier CV-9-2 reading
+docs/notes/iso_r3r4_cv9_reading_v1.md and mathematician
+auto_settled_check_v1.md addendum A): repairs 【重大2】(verdict was a 2-arg
+function here vs GAP's 3-/4-arg ComputeVerdict; h10_fail was counted per-f
+instead of per-(f,m) pair, so the GAP identity
+candidate_total-h10-h11-genfail=shadow_total did not even type-check on this
+side) and mirrors the v2 GAP driver's M-ISO-2 reconstruction (witness moved
+from h11_fail bucket to shadow bucket, real settled-check call, independent
+genuineness re-check) and M-ISO-8 (settled:=true fixed mutant).
 
 Independence discipline (探索器と照合器の分離): this script does NOT import or
 read any GAP source file (search/*.g) and does NOT call GAP. Its ONLY input is
@@ -162,6 +172,50 @@ def build_hom_with_check(G_elements, gens_domain, gens_image, n):
     return True, phi
 
 
+def compute_verdict(all_shadows_genuine, shadow_sum_ok, total_shadows, settled_count):
+    """★ v2 (R-A): mirrors GAP's ComputeVerdict(allShadowsGenuine, shadowSumOk,
+    totalShadows, settledCount) exactly -- a 4-argument function with the
+    genuineness gate at highest priority, matching the v2 GAP driver
+    (search/probe/w6_bu_s0/iso_gate_r3r4_driver.g). v1 of this file had NO
+    such function (verdict was computed by an inline 2-arg expression with no
+    sum-check gate at all) -- falsifier 【重大2】.
+    """
+    if not all_shadows_genuine:
+        return {"verdict": "UNKNOWN", "reason": "NONSHADOW_IN_DATUM"}
+    if not shadow_sum_ok:
+        return {"verdict": "UNKNOWN", "reason": "CANDIDATE_ENUM_INCONSISTENT"}
+    if total_shadows == 0:
+        return {"verdict": "UNKNOWN", "reason": "NO_SHADOWS"}
+    if settled_count == total_shadows:
+        return {"verdict": "TRUE", "reason": ""}
+    return {"verdict": "FALSE", "reason": ""}
+
+
+def verify_shadows_genuine(G, X, Y, theta, tau, n_points, shadow_list):
+    """Independent re-check that every (m, f, genA, genB) in shadow_list
+    actually satisfies hex310/hex311/SURJ -- mirrors the GAP driver's
+    VerifyShadowsGenuine. For a shadow_list built entirely from run_fixture's
+    own `shadows` output this is trivially true; it only matters when a
+    shadow list is hand-assembled (the M-ISO-2(v2) reconstruction below).
+    """
+    idn = identity(n_points)
+    g_size = len(G)
+    for (m, f, genA, genB) in shadow_list:
+        thetaf = theta[f]
+        if compose(thetaf, f) != idn:
+            return False
+        ym = power(Y, m, n_points)
+        ymf = compose(f, ym)
+        tau_ymf = tau[ymf]
+        tau2_ymf = tau[tau_ymf]
+        if compose(compose(ymf, tau_ymf), tau2_ymf) != idn:
+            return False
+        gensub = bfs_closure([genA, genB], n_points)
+        if len(gensub) != g_size:
+            return False
+    return True
+
+
 def run_fixture(name, n_points, x_img, y_img, expected):
     print(f"=== {name} ===")
     X = tuple(x_img)
@@ -199,7 +253,17 @@ def run_fixture(name, n_points, x_img, y_img, expected):
         print("  theta/tau not well-defined -- cannot proceed with hexagon enumeration (matches GAP's THETA_TAU_NOT_WELLDEFINED branch)")
         return {"name": name, "theta_tau_ok": False}
 
-    # 5. hexagon (3.10)/(3.11) + generation(SURJ), independently, over D x charming
+    # 5. hexagon (3.10)/(3.11) + generation(SURJ), independently, over D x charming.
+    #    ★ v2 (R-A): h10_fail is now counted PER (f,m) PAIR -- matching the GAP
+    #    side's actual loop structure exactly (EnumerateReducedHexagon checks
+    #    hex310 INSIDE the "for m in charmingSet do" loop, even though hex310
+    #    does not depend on m, so a failing f contributes len(charming) to
+    #    h10_fail, not 1). v1 counted h10_fail once per f (a DIFFERENT
+    #    bookkeeping unit), so the identity
+    #    candidate_total - h10 - h11 - genfail = shadow_total
+    #    did not hold on the Python side at all (falsifier 【重大2】). It holds
+    #    on both sides now.
+    candidate_total = len(D) * len(charming)
     shadow_total = 0
     h10_fail = 0
     h11_fail = 0
@@ -209,10 +273,10 @@ def run_fixture(name, n_points, x_img, y_img, expected):
         thetaf = theta[f]
         # AbstractProd([f, thetaf]) reverses to compose(thetaf, f) -- see module docstring
         hex310 = compose(thetaf, f) == idn
-        if not hex310:
-            h10_fail += 1
-            continue
         for m in charming:
+            if not hex310:
+                h10_fail += 1
+                continue
             u = 2 * m + 1
             ym = power(Y, m, n_points)
             # AbstractProd([y^m, f]) reverses to compose(f, y^m) -- see module docstring
@@ -235,77 +299,155 @@ def run_fixture(name, n_points, x_img, y_img, expected):
             shadow_total += 1
             shadows.append((m, f, genA, genB))
 
-    print(f"  candidate structure: h10_fail(distinct f)={h10_fail} (this counts distinct f failing 3.10, "
-          f"summed once per f not per (f,m) -- see note below)")
-    print(f"  h11_fail(f,m pairs)={h11_fail} generation_fail(f,m pairs)={generation_fail} shadow_total={shadow_total}")
+    shadow_sum_check = (candidate_total - h10_fail - h11_fail - generation_fail == shadow_total)
+    print(f"  candidate_total(|D|x|charming|)={candidate_total}  h10_fail(f,m pairs)={h10_fail} "
+          f"h11_fail(f,m pairs)={h11_fail} generation_fail(f,m pairs)={generation_fail} shadow_total={shadow_total}")
+    print(f"  shadow_sum_check: {candidate_total}-{h10_fail}-{h11_fail}-{generation_fail}={candidate_total - h10_fail - h11_fail - generation_fail} =?= {shadow_total} -> {shadow_sum_check}")
     print(f"  (GAP claims shadow_total={expected['expected_shadow_total']})")
     assert shadow_total == expected['expected_shadow_total'], "shadow_total mismatch vs GAP claim"
+    assert shadow_sum_check, "shadow_sum_check identity does not hold on the Python side"
 
     # 6. settled check: independently build T_{m,f} via the same BFS-with-
     #    contradiction-detection technique, check well-defined AND surjective
     #    (=> bijective on the finite set G, by the pigeonhole argument)
     settled_count = 0
+    settled_detail = []
     for (m, f, genA, genB) in shadows:
         ok, phi = build_hom_with_check(G, [X, Y], [genA, genB], n_points)
-        if not ok:
-            continue
-        image = set(phi.values())
-        if len(image) == g_size:  # surjective on finite G => bijective
+        settled = False
+        if ok:
+            image = set(phi.values())
+            settled = (len(image) == g_size)  # surjective on finite G => bijective
+        if settled:
             settled_count += 1
+        settled_detail.append({"m": m, "f": f, "settled": settled})
     print(f"  settled (independent) = {settled_count}/{shadow_total}  (GAP claims {expected['expected_settled_count']}/{expected['expected_settled_total']})")
     assert settled_count == expected['expected_settled_count'], "settled_count mismatch vs GAP claim"
     assert shadow_total == expected['expected_settled_total'], "settled_total mismatch vs GAP claim"
 
-    verdict = "TRUE" if settled_count == shadow_total and shadow_total > 0 else ("UNKNOWN" if shadow_total == 0 else "FALSE")
-    print(f"  independent verdict = {verdict}  (GAP claims {expected['expected_verdict']})")
-    assert verdict == expected['expected_verdict'], "verdict mismatch vs GAP claim"
+    all_genuine = True  # trivially true here: every element of `shadows` passed hex310/hex311/SURJ by construction
+    verdict_rec = compute_verdict(all_genuine, shadow_sum_check, shadow_total, settled_count)
+    print(f"  independent verdict = {verdict_rec['verdict']}  (GAP claims {expected['expected_verdict']})")
+    assert verdict_rec['verdict'] == expected['expected_verdict'], "verdict mismatch vs GAP claim"
     print(f"  [MATCH] {name}: independent second system agrees with GAP driver on all summary numbers\n")
     return {"name": name, "theta_tau_ok": True, "g_size": g_size, "n_ord": nOrd,
-            "shadow_total": shadow_total, "settled_count": settled_count, "verdict": verdict,
-            "match_gap": True}
+            "candidate_total": candidate_total, "h10_fail": h10_fail, "h11_fail": h11_fail,
+            "generation_fail": generation_fail, "shadow_total": shadow_total,
+            "shadow_sum_check": shadow_sum_check, "settled_count": settled_count,
+            "settled_detail": settled_detail, "shadows": shadows,
+            "verdict": verdict_rec['verdict'], "match_gap": True,
+            "G": G, "D": D, "X": X, "Y": Y, "theta": theta, "tau": tau}
 
 
-def check_m_iso2_witness(x_img, y_img, n_points, witness):
-    """Independently re-derive the M-ISO-2 witness's non-generation fact:
-    build genA=x^u, genB=f^-1 y^u f from the SAME (m, f_word) pair the GAP
-    driver used, and independently confirm |<genA,genB>| < |G| (the paper
-    argument's premise). This is condition (1)/(2) from commander's 2026-08-05
-    ruling: R4 must independently confirm the SAME synthetic window is FALSE,
-    and the witness's non-settledness must have an out-of-driver check.
+def check_m_iso2_v2(k3_result, witness, n_points):
+    """★ v2: mirrors the GAP driver's M-ISO-2(v2) reconstruction exactly --
+    move the witness from the h11_fail bucket to the shadow bucket (real data,
+    not a scalar), run the real settled-check on the 13-element list, and
+    independently re-verify genuineness. Uses the GAP driver's raw f_images
+    dump for the witness (NOT f_word -- word evaluation is convention-fragile,
+    see module docstring and the driver-side comment near FindH11FailWitness).
     """
-    print("=== M-ISO-2 witness independent re-check ===")
-    X = tuple(x_img)
-    Y = tuple(y_img)
-    G = bfs_closure([X, Y], n_points)
-    g_size = len(G)
+    print("=== M-ISO-2(v2) reconstruction (independent second system) ===")
+    G, X, Y, theta, tau = k3_result["G"], k3_result["X"], k3_result["Y"], k3_result["theta"], k3_result["tau"]
+    g_size = k3_result["g_size"]
     m = witness['m']
     u = 2 * m + 1
-    # NOTE: witness['f_word'] is convention-fragile (BFSWords prepend-storage
-    # vs different word evaluators reconstruct DIFFERENT group elements from
-    # the SAME word -- a real bug caught during R4 cross-checking, see comment
-    # in search/probe/w6_bu_s0/iso_gate_r3r4_driver.g near
-    # FindNonGeneratingWitness). We deliberately do NOT re-derive f from the
-    # word here; we use the GAP driver's raw f_images dump instead (the
-    # authoritative, convention-independent representation of the witness
-    # element, on the witness's OWN point set -- which may differ in size
-    # from k3_x_img/k3_y_img if the witness source ended up being W-5).
     f = tuple(witness['f_images'])
     genA = power(X, u, n_points)
     finv = invert(f)
     # AbstractProd([finv, Y^u, f]) reverses to compose(compose(f, Y^u), finv) -- see module docstring
     genB = compose(compose(f, power(Y, u, n_points)), finv)
     subgroup = bfs_closure([genA, genB], n_points)
-    print(f"  witness m={m} f_word={witness['f_word']}")
+    print(f"  witness m={m} f_word={witness['f_word']} stage={witness.get('stage')}")
     print(f"  independent |<genA,genB>| = {len(subgroup)}  (GAP claims {witness['expected_subgroup_size']}, |G|={g_size})")
     assert len(subgroup) == witness['expected_subgroup_size'], "witness subgroup size mismatch"
     is_proper = len(subgroup) < g_size
-    print(f"  proper subgroup (independent)? {is_proper}  (GAP claims {witness['expected_subgroup_size_lt_g']})")
     assert is_proper == witness['expected_subgroup_size_lt_g'], "witness proper-subgroup mismatch"
-    print("  paper argument (independently confirmed): image subgroup is PROPER "
-          "=> induced map cannot be surjective onto G => cannot be bijective on finite G")
-    print("  => this witness is NOT settled, confirmed by a SEPARATE (non-GAP) computation, "
-          "satisfying commander's condition (2) (out-of-driver witness check)\n")
-    return {"witness_proper_subgroup_independent": is_proper, "subgroup_size": len(subgroup)}
+
+    recon = witness  # the driver dumps m_iso2_v2_reconstruction as a sibling; caller passes it in via `witness` param merge -- see main()
+    v2 = recon['_v2_reconstruction']
+
+    # ★ real path: move witness from h11_fail into the shadow list (not a scalar)
+    mIso2_shadows = list(k3_result["shadows"]) + [(m, f, genA, genB)]
+    mIso2_h11_fail = k3_result["h11_fail"] - 1
+    mIso2_shadow_total = k3_result["shadow_total"] + 1
+    mIso2_shadow_sum_ok = (k3_result["candidate_total"] - k3_result["h10_fail"] - mIso2_h11_fail
+                           - k3_result["generation_fail"] == mIso2_shadow_total)
+    mIso2_all_genuine = verify_shadows_genuine(G, X, Y, theta, tau, n_points, mIso2_shadows)
+
+    # real settled-check on the FULL 13-element list (real call, not hand-computed)
+    mIso2_settled_count = 0
+    witness_settled = None
+    for (mm, ff, ga, gb) in mIso2_shadows:
+        ok, phi = build_hom_with_check(G, [X, Y], [ga, gb], n_points)
+        settled = ok and (len(set(phi.values())) == g_size)
+        if settled:
+            mIso2_settled_count += 1
+        if ff == f and mm == m:
+            witness_settled = settled
+
+    mIso2_verdict = compute_verdict(mIso2_all_genuine, mIso2_shadow_sum_ok, mIso2_shadow_total, mIso2_settled_count)
+
+    print(f"  h11_fail {k3_result['h11_fail']}->{mIso2_h11_fail}  shadow_total {k3_result['shadow_total']}->{mIso2_shadow_total}  "
+          f"identity holds={mIso2_shadow_sum_ok}")
+    print(f"  settled (real path) = {mIso2_settled_count}/{mIso2_shadow_total}  witness_settled={witness_settled} (expect False)")
+    print(f"  all_shadows_genuine (independent) = {mIso2_all_genuine} (expect False)")
+    print(f"  verdict = {mIso2_verdict['verdict']}/{mIso2_verdict['reason']}  (GAP v2 expects {v2['expected_verdict']}/{v2['expected_unknown_reason']})")
+
+    assert mIso2_h11_fail == v2['expected_h11_fail'], "h11_fail mismatch vs GAP v2 claim"
+    assert mIso2_shadow_total == v2['expected_shadow_total'], "shadow_total mismatch vs GAP v2 claim"
+    assert mIso2_shadow_sum_ok == v2['expected_shadow_sum_check'], "shadow_sum_check mismatch vs GAP v2 claim"
+    assert mIso2_settled_count == v2['expected_settled_count'], "settled_count mismatch vs GAP v2 claim"
+    assert mIso2_shadow_total == v2['expected_settled_total'], "settled_total mismatch vs GAP v2 claim"
+    assert witness_settled == v2['expected_witness_settled'], "witness settled-flag mismatch vs GAP v2 claim"
+    assert mIso2_all_genuine == v2['expected_all_shadows_genuine'], "all_shadows_genuine mismatch vs GAP v2 claim"
+    assert mIso2_verdict['verdict'] == v2['expected_verdict'], "M-ISO-2(v2) verdict mismatch vs GAP v2 claim"
+    assert mIso2_verdict['reason'] == v2['expected_unknown_reason'], "M-ISO-2(v2) reason mismatch vs GAP v2 claim"
+    print("  [MATCH] R4 second system independently confirms the GAP v2 M-ISO-2 reconstruction "
+          "(NOT an isolated=FALSE claim -- see driver's m_iso2_construction_note)\n")
+
+    return {
+        "witness_subgroup_size": len(subgroup), "witness_proper_subgroup_independent": is_proper,
+        "mIso2_shadows": mIso2_shadows, "mIso2_h11_fail": mIso2_h11_fail,
+        "mIso2_shadow_total": mIso2_shadow_total, "mIso2_shadow_sum_ok": mIso2_shadow_sum_ok,
+        "mIso2_all_genuine": mIso2_all_genuine, "mIso2_settled_count": mIso2_settled_count,
+        "witness_settled": witness_settled, "verdict": mIso2_verdict["verdict"],
+        "reason": mIso2_verdict["reason"],
+    }
+
+
+def check_m_iso8(k3_result, mIso2_result, n_points):
+    """★ v2 NEW: settled:=true fixed mutant, mirroring the GAP driver's
+    M-ISO-8. Apply the mutation to the SAME 13-element M-ISO-2(v2) datum and
+    show the naive (no-genuineness-gate) verdict TRUE mismatches the real v2
+    verdict UNKNOWN(NONSHADOW_IN_DATUM).
+    """
+    print("=== M-ISO-8 (independent second system) ===")
+    shadows13 = mIso2_result["mIso2_shadows"]
+    mutant_settled_count = len(shadows13)  # settled:=true for every element
+    mutant_total = len(shadows13)
+    naive_verdict = "TRUE" if (mIso2_result["mIso2_shadow_sum_ok"] and mutant_total > 0
+                               and mutant_settled_count == mutant_total) else "FALSE"
+    real_verdict = compute_verdict(mIso2_result["mIso2_all_genuine"], mIso2_result["mIso2_shadow_sum_ok"],
+                                    mutant_total, mutant_settled_count)
+    detected = (naive_verdict != real_verdict["verdict"])
+    print(f"  mutant settled={mutant_settled_count}/{mutant_total}  naive_verdict={naive_verdict}  "
+          f"real_verdict={real_verdict['verdict']}/{real_verdict['reason']}  detected={detected}")
+    assert detected, "M-ISO-8: settled:=true mutant was NOT detected by the independent second system"
+    assert naive_verdict == "TRUE" and real_verdict["verdict"] == "UNKNOWN", "M-ISO-8 verdict shape mismatch"
+    print("  [MATCH] R4 second system independently confirms M-ISO-8 is killed (naive TRUE vs real UNKNOWN(NONSHADOW_IN_DATUM))\n")
+    return {"naive_verdict": naive_verdict, "real_verdict": real_verdict["verdict"],
+            "real_reason": real_verdict["reason"], "detected": detected}
+
+
+def summary_of(result):
+    """Strip non-JSON-serializable internal fields (G/D as sets of tuples,
+    theta/tau as dicts with tuple keys, shadows/settled_detail as tuples)
+    before writing the output cert -- keep only summary scalars."""
+    keys = ["name", "theta_tau_ok", "g_size", "n_ord", "candidate_total", "h10_fail",
+            "h11_fail", "generation_fail", "shadow_total", "shadow_sum_check",
+            "settled_count", "verdict", "match_gap"]
+    return {k: result[k] for k in keys if k in result}
 
 
 def main():
@@ -317,35 +459,48 @@ def main():
                                  data['k3']['y_images'], data['k3'])
     results['w5'] = run_fixture("W-5", data['w5']['n_points'], data['w5']['x_images'],
                                  data['w5']['y_images'], data['w5'])
-    witness_src = data['m_iso2_witness']['source']
-    src_data = data['k3'] if witness_src.startswith("K") else data['w5']
-    results['m_iso2_witness'] = check_m_iso2_witness(
-        src_data['x_images'], src_data['y_images'], data['m_iso2_witness']['n_points'],
-        data['m_iso2_witness'])
 
-    # M-ISO-2's FULL constructed-datum verdict, independently: real K3 shadows
-    # (all settled, confirmed above) + 1 injected witness (confirmed non-settled
-    # above) => total = shadow_total+1, settled = shadow_total, verdict FALSE.
-    k3 = results['k3']
-    mIso2_total = k3['shadow_total'] + 1
-    mIso2_settled = k3['settled_count']
-    mIso2_verdict = "FALSE" if mIso2_settled < mIso2_total else "TRUE"
-    print(f"=== M-ISO-2 constructed-datum verdict (independent second system) ===")
-    print(f"  total={mIso2_total} settled={mIso2_settled} verdict={mIso2_verdict}  (GAP claims FALSE)")
-    assert mIso2_verdict == "FALSE", "R4 second system does NOT confirm M-ISO-2 as FALSE -- MISMATCH with GAP driver"
-    print("  [MATCH] R4 second system independently confirms M-ISO-2's constructed negative fixture is FALSE\n")
+    witness = dict(data['m_iso2_witness'])
+    witness['_v2_reconstruction'] = data['m_iso2_v2_reconstruction']
+    mIso2_result = check_m_iso2_v2(results['k3'], witness, data['m_iso2_witness']['n_points'])
+    mIso8_result = check_m_iso8(results['k3'], mIso2_result, data['m_iso2_witness']['n_points'])
 
-    print("ALL R4 CROSS-CHECKS PASSED: independent Python second system agrees with the GAP driver "
-          "(search/probe/w6_bu_s0/iso_gate_r3r4_driver.g) on K^(3), W-5, and the M-ISO-2 witness.")
+    print("ALL R4 CROSS-CHECKS PASSED (v2): independent Python second system agrees with the GAP driver "
+          "(search/probe/w6_bu_s0/iso_gate_r3r4_driver.g) on K^(3), W-5, M-ISO-2(v2), and M-ISO-8.")
 
     out = {
-        "schema": "gtsh-cert/iso-gate-r4-second-system/v1",
-        "generated_by": {"tool": "python3 (independent, no GAP)", "script": "scratchpad/r4_second_system.py"},
-        "independence_declaration": "does not import/read any search/*.g file or call GAP; only input is search/probe/w6_bu_s0/r4_input_data.json (raw generator permutation images + GAP's claimed summary numbers to diff against); all group theory (BFS closure, derived subgroup via commutator closure, theta/tau construction with contradiction detection, hexagon, generation/SURJ, settled-check, verdict) reimplemented from scratch in Python",
-        "k3": {k: v for k, v in results['k3'].items()},
-        "w5": {k: v for k, v in results['w5'].items()},
-        "m_iso2_witness_independent_check": results['m_iso2_witness'],
-        "m_iso2_constructed_datum_independent_verdict": mIso2_verdict,
+        "schema": "gtsh-cert/iso-gate-r4-second-system/v2",
+        "generated_by": {"tool": "python3 (independent, no GAP)", "script": "search/probe/w6_bu_s0/r4_second_system.py"},
+        "independence_declaration": "does not import/read any search/*.g file or call GAP; only input is search/probe/w6_bu_s0/r4_input_data.json (raw generator permutation images + GAP's claimed summary numbers to diff against); all group theory (BFS closure, derived subgroup via commutator closure, theta/tau construction with contradiction detection, hexagon, generation/SURJ, settled-check, ComputeVerdict, VerifyShadowsGenuine) reimplemented from scratch in Python",
+        "conventions_used": {
+            "perm_composition": "gap_native_right (custom compose() matches k^(p*q)=(k^p)^q)",
+            "abstract_prod_reversal": "AbstractProd([a1,...,ak]) = ak*...*a1 in GAP's product -- applied at every site (z, hex310, ymf, hex311, genB); see module docstring",
+            "h10_fail_bookkeeping_unit": "(f,m) pair -- v2 fix, matches GAP exactly (was per-f in v1)",
+            "level": "PB3",
+        },
+        "grading_prohibitions": [
+            "PERMANENT BAN (裁定535, falsifier 【重大1】): never write that numeric agreement between two implementations demonstrates convention identity -- this observation window (|G|, N_ord, shadow_total, settled_count/total) has ZERO discriminating power for the AbstractProd reversal convention (falsifier's third implementation showed both conventions give identical numbers on K^(3)/W-5)."
+        ],
+        "k3": summary_of(results['k3']),
+        "w5": summary_of(results['w5']),
+        "m_iso2_v2_independent_check": {
+            "witness_subgroup_size": mIso2_result["witness_subgroup_size"],
+            "witness_proper_subgroup_independent": mIso2_result["witness_proper_subgroup_independent"],
+            "h11_fail_24_to": mIso2_result["mIso2_h11_fail"],
+            "shadow_total_12_to": mIso2_result["mIso2_shadow_total"],
+            "shadow_sum_check": mIso2_result["mIso2_shadow_sum_ok"],
+            "all_shadows_genuine": mIso2_result["mIso2_all_genuine"],
+            "settled_count": mIso2_result["mIso2_settled_count"],
+            "witness_settled": mIso2_result["witness_settled"],
+            "verdict": mIso2_result["verdict"],
+            "reason": mIso2_result["reason"],
+        },
+        "m_iso8_independent_check": {
+            "naive_verdict": mIso8_result["naive_verdict"],
+            "real_verdict": mIso8_result["real_verdict"],
+            "real_reason": mIso8_result["real_reason"],
+            "detected": mIso8_result["detected"],
+        },
         "all_crosschecks_pass": True,
     }
     with open("search/probe/w6_bu_s0/r4_second_system_output.json", "w", encoding="utf-8") as f:

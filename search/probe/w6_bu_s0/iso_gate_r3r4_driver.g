@@ -1,8 +1,15 @@
 #############################################################################
 ## search/probe/w6_bu_s0/iso_gate_r3r4_driver.g
-## ISO-GATE route-2 R3(mutant matrix, 7 件 -- M-ISO-7 は司令塔 2026-08-05 追加委嘱
-## docs/notes/auto_settled_check_v1.md AS-GAP-3/S-BU-17 に基づく)+ R4(第二系統への突合用データ出力)+
+## ISO-GATE route-2 R3(mutant matrix, 8 件 -- M-ISO-7 は AS-GAP-3/S-BU-17 由来
+## 追加委嘱、M-ISO-8 は裁定 535 ③ 新設)+ R4(第二系統への突合用データ出力)+
 ## interface 欄訂正(group_side / enumeration_domain / hom-fail 捕捉)。
+##
+## ★★ v2(裁定 535・2026-08-05): falsifier CV-9-2 判読
+## (docs/notes/iso_r3r4_cv9_reading_v1.md)+ 数学者 auto_settled_check_v1.md
+## 付録 A.2 の合成により、v1 の M-ISO-2/3/4/5/6b(5件)がスカラー層 mutation
+## に堕していた欠陥・M-ISO-2 が ComputeVerdict の gate を手渡しで迂回していた
+## 欠陥・settled:=true 固定変異体(M-ISO-8)が全走行を生存する欠陥を修理。
+## IF-FIRST 凍結は docs/notes/iso_r3r4_iffirst_freeze_v1.md(再走前に起草)。
 ##
 ## 委嘱: 司令塔(2026-08-05)。正本: docs/notes/w6_bottomup_design_v4.md
 ##   §5.3(R3 mutant matrix)・§5.4(R4 第二系統)・§5.1(interface: P vs P-hat)・
@@ -101,9 +108,20 @@ end;;
 ## 欠落しても、残りが全部 settled なら TRUE を返してしまう穴があった。
 ## M-ISO-5(候補欠落)はこの穴を突く mutant で、本修理により UNKNOWN に落ちる
 ## ことを確認する)。
+##
+## ★★ v2 修理(裁定 535・falsifier CV-9-2 判読+数学者 auto_settled_check_v1.md
+## 付録 A.2 の合成): 第 4 変数 allShadowsGenuine を追加(最優先 gate)。
+## M-ISO-2(v2)が「shadow でない候補が shadow リストへ紛れ込んだ」ケースを
+## 意味論的に正しく扱うには、settled=false と isolated=FALSE を混同しては
+## ならない(数学者 A.2: 「h11-fail 候補に対する正しい挙動は shadow 段で除外
+## /UNKNOWN であって非 settled(FALSE)ではない」)。⟹ 新設 stop code
+## NONSHADOW_IN_DATUM を shadowSumOk より優先させ、非 shadow 混入を検出した
+## ら常に UNKNOWN で止める(isolated=FALSE を偽って伝播させない)。
 #############################################################################
-ComputeVerdict := function(shadowSumOk, totalShadows, settledCount)
-  if not shadowSumOk then
+ComputeVerdict := function(allShadowsGenuine, shadowSumOk, totalShadows, settledCount)
+  if not allShadowsGenuine then
+    return rec(verdict:="UNKNOWN", reason:="NONSHADOW_IN_DATUM");
+  elif not shadowSumOk then
     return rec(verdict:="UNKNOWN", reason:="CANDIDATE_ENUM_INCONSISTENT");
   elif totalShadows = 0 then
     return rec(verdict:="UNKNOWN", reason:="NO_SHADOWS");
@@ -115,10 +133,42 @@ ComputeVerdict := function(shadowSumOk, totalShadows, settledCount)
 end;;
 
 #############################################################################
+## ★新設(v2・裁定 535): VerifyShadowsGenuine -- 与えられた shadow リストの
+## 各元が実際に hexagon(3.10)(3.11)+SURJ を満たすことを独立に再検査する。
+## 通常の実測 fixture(EnumerateReducedHexagon が自分で列挙した shadows)では
+## 常に true になる(冗長だが無害)。M-ISO-2(v2)のように shadow リストを
+## 手で組み立てる場面でのみ、真に意味のある gate として働く。
+#############################################################################
+VerifyShadowsGenuine := function(qrec, shadowList)
+  local zElt, thetaHom, tauHom, sh, m, u, f, thetaf, hex310, ymf, tauymf, tau2ymf, hex311, genA, genB, surj;
+  if Length(shadowList) = 0 then return true; fi;
+  zElt := AbstractProd([qrec.x, qrec.y])^-1;
+  thetaHom := GroupHomomorphismByImages(qrec.G, qrec.G, [qrec.x, qrec.y], [qrec.y, qrec.x]);
+  tauHom := GroupHomomorphismByImages(qrec.G, qrec.G, [qrec.x, qrec.y], [qrec.y, zElt]);
+  if thetaHom = fail or tauHom = fail then return false; fi;
+  for sh in shadowList do
+    m := sh.m;  u := 2*m+1;  f := sh.f;
+    thetaf := Image(thetaHom, f);
+    hex310 := AbstractProd([f, thetaf]) = Identity(qrec.G);
+    if not hex310 then return false; fi;
+    ymf := AbstractProd([qrec.y^m, f]);
+    tauymf := Image(tauHom, ymf);
+    tau2ymf := Image(tauHom, tauymf);
+    hex311 := AbstractProd([tau2ymf, tauymf, ymf]) = Identity(qrec.G);
+    if not hex311 then return false; fi;
+    genA := qrec.x^u;
+    genB := AbstractProd([f^-1, qrec.y^u, f]);
+    surj := Size(Group(genA, genB)) = Size(qrec.G);
+    if not surj then return false; fi;
+  od;
+  return true;
+end;;
+
+#############################################################################
 ## IsoGateCheck(修理(1)(2)を組み込み、group_side/enumeration_domain 欄を追加)
 #############################################################################
 IsoGateCheck := function(qrec, label, kerIsKn)
-  local precheck, nOrd, charmingSet, t0, t1, hexSafe, hexResult, shadowSumOk,
+  local precheck, nOrd, charmingSet, t0, t1, hexSafe, hexResult, shadowSumOk, allGenuine,
         tSettled, settled, settledByM, verdictRec, isoGateState, timeHex, timeSettled;
   precheck := (qrec.c = Identity(qrec.G));
   if not precheck then
@@ -160,7 +210,13 @@ IsoGateCheck := function(qrec, label, kerIsKn)
 
   settledByM := List(charmingSet, mVal -> CountByMGeneral(settled.detail, mVal));
 
-  verdictRec := ComputeVerdict(shadowSumOk, settled.total, settled.settled_count);;
+  # v2: genuineness gate (see VerifyShadowsGenuine). For a normal fixture whose
+  # shadows come straight from EnumerateReducedHexagon this is always true
+  # (redundant but harmless); it only bites when a shadow list is hand-built
+  # (M-ISO-2 v2 below).
+  allGenuine := VerifyShadowsGenuine(qrec, hexResult.shadows);;
+
+  verdictRec := ComputeVerdict(allGenuine, shadowSumOk, settled.total, settled.settled_count);;
 
   if kerIsKn <> fail then
     isoGateState := "PROVEN";
@@ -171,7 +227,7 @@ IsoGateCheck := function(qrec, label, kerIsKn)
   return rec(label:=label, kerIsKn:=kerIsKn, precondition_ok:=true,
     g_size:=Size(qrec.G), n_ord:=nOrd, charming_set:=charmingSet,
     charming_set_size:=Length(charmingSet),
-    hexagon:=hexResult, shadow_sum_check:=shadowSumOk,
+    hexagon:=hexResult, shadow_sum_check:=shadowSumOk, all_shadows_genuine:=allGenuine,
     settled:=settled, settled_by_m:=settledByM,
     isolated_verdict:=verdictRec.verdict, unknown_reason:=verdictRec.reason,
     iso_gate_state:=isoGateState,
@@ -256,48 +312,49 @@ homFailCaptureOk := resQ3a.precondition_ok and (Cq3a = Identity(Gq3a))
 Print("[", PF(homFailCaptureOk), "] B-2 hom-fail capture fires gracefully (UNKNOWN(THETA_TAU_NOT_WELLDEFINED), no Error() crash) on a genuine c_in_N window where quotient-shortcut precondition fails\n\n");
 
 #############################################################################
-## M-ISO-2 / M-ISO-3 / M-ISO-4 / M-ISO-5 / M-ISO-6(b): データレベル mutation
-## (K^(3) の実測結果 res3 から構成 -- 司令塔裁定 2026-08-05: 自然な
-## isolated=FALSE 窓は 5 族 10+ ケースの探索(scratchpad/explore_m2_negative*.g)
-## で発見できなかったため、データレベル mutation を援用してよいと承認済み。
-## 正直な明記: これらは実装担当が構成した合成反例であり、既存の登録済み事実
-## ではない。探索記録は cert appendix に残す(数学者検分の一次資料)。
+## ★★ v2(裁定 535): M-ISO-2/3/4/5/6(b)/8 -- 経路層 mutation へ復元
+## (falsifier 判読 docs/notes/iso_r3r4_cv9_reading_v1.md 【重大 2】【重大 3】
+##  §4 + 数学者 auto_settled_check_v1.md 付録 A.2 の合成)。
+##
+## v1 の欠陥(falsifier 実証・数学者裁定): (a) M-ISO-2 は ComputeVerdict の
+## 第 1 引数へ手で true を渡し shadow_sum_check を迂回していた(自己矛盾:
+## M-ISO-5 と同型の摂動に対し違う扱い) (b) h11-fail 候補は Def 3.7 により
+## そもそも GT-shadow でないので、これを「非 settled」として isolated=FALSE
+## へ読ませると false-FALSE の経路になる (c) 2/3/4/5/6b の 5 件がすべて
+## ComputeVerdict という 10 行の純関数だけを叩くスカラー層の変異になっていた
+## (v4 §5.3 の事前登録は shadow 差し替え/列挙落としという経路層の変異)。
+##
+## 本節の修理: witness を「h11_fail バケツから shadow バケツへ移す」構成へ
+## 変更(スカラー手渡しなし)。SettledCheckGeneral の実経路を通し、
+## VerifyShadowsGenuine で独立に非 shadow 性を検出させ、
+## ComputeVerdict の新 gate(allShadowsGenuine)により
+## UNKNOWN(NONSHADOW_IN_DATUM) を返させる(FALSE ではない)。
 #############################################################################
-Print("--- M-ISO-2/3/4/5/6(b): データレベル mutation matrix (constructed from real K^(3) data) ---\n");
+Print("--- M-ISO-2(v2)/3/4/5/6(b)/8: 経路層 mutation matrix (real function calls on real data) ---\n");
 
-# M-ISO-2: witness = a genuine generation_fail candidate from res3's real hexagon
-# enumeration (NOT a hand-wave -- Size(Group(genA,genB)) < Size(G) is a real,
-# already-computed fact for this candidate). Inject it as a fake extra "shadow";
-# paper argument: image subgroup is proper => the induced endomorphism cannot be
-# surjective onto G => cannot be bijective on the finite set G (no computation
-# needed beyond the already-known proper-subgroup fact).
 Print("K^(3) generation_fail count = ", res3.hexagon.generation_fail,
       "  (h10_fail=", res3.hexagon.h10_fail, " h11_fail=", res3.hexagon.h11_fail, ")\n");
-Print("W-5 generation_fail count = ", res5.hexagon.generation_fail,
-      "  (h10_fail=", res5.hexagon.h10_fail, " h11_fail=", res5.hexagon.h11_fail, ")\n");
-Print("  (both are 0 -- an additional empirical structural fact for the appendix: in these\n");
-Print("   Dn-tower fixtures, EVERY candidate reaching the generation/SURJ check passes it;\n");
-Print("   generation_fail never fires. So a real 'generation_fail'-staged witness does not\n");
-Print("   exist here. Falling back to an h10/h11-failing candidate, independently re-checked\n");
-Print("   below for actual non-generation -- still a real (m,f) pair from the real hexagon\n");
-Print("   enumeration, just not one that reached the generation-check stage internally.)\n");
-witnessSourceLabel := "K^(3)";;
-witnessDatum := datum3;;
-witnessBaseShadowsTotal := res3.settled.total;;
-witnessBaseSettledCount := res3.settled.settled_count;;
-witnessBaseGSize := res3.g_size;;
-## ★重要な訂正(R4 二系統照合で発覚): cand.f_word は BFSWords(prepend-storage
-## 規約 -- 裁定166)由来なので、再評価には EvalWordInQ(prepend 規約)を
-## 使わねばならない。EvalWordQT(natural 規約)は BFSWords 由来の word には
-## 使えない(同じ word でも別の元に評価される -- 罠 12 件外の第3の規約罠を
-## R4 の食い違いが実際に検出した。scratchpad/debug_witness.g で実証:
-## 同一 word に対し EvalWordQT->(7,9,8)(誤り、部分群位数36)、
-## EvalWordInQ->(7,8,9)=実際の BFS 元(正しい、この元は G を生成し位数108)。
-## 修理前の版はこのバグにより無効な witness を使っていた -- 破棄し訂正。
-FindNonGeneratingWitness := function(hexResult, qrec)
+Print("  (generation_fail=0 -- an empirical structural fact, logged for the mathematician;\n");
+Print("   see auto_settled_check_v1.md Prop GEN-AB for a candidate explanation. Since no\n");
+Print("   candidate ever fails SURJ here, the witness must come from the h11_fail bucket --\n");
+Print("   which per Def 3.7 is NOT a GT-shadow. This is exactly the point of the v2\n");
+Print("   NONSHADOW_IN_DATUM construction below: it tests whether the pipeline correctly\n");
+Print("   refuses to launder a non-shadow into an isolated=FALSE claim.)\n");
+
+## witness: 実列挙の h11_fail 候補を 1 件取得(逐語出自は v1 と同じ、witness
+## 自体の同定に変更はない -- falsifier が本物と確認済み)
+## 探すのは h11_fail 候補のうち像が真部分群になるもの(settled=false が
+## element-level で real に発火するもの)。h11_fail というだけでは
+## VerifyShadowsGenuine は必ず false を返す(hex311 の再検査は分類と一致する
+## ので自動的に一致)が、SettledCheckGeneral の settled 値は真部分群を生成
+## する候補でなければ (falsifier 【重大3】が指摘した通り)「たまたま生成して
+## しまい settled=true になる」ケースがあり得る(GEN-AB の帰結: generation
+## はほぼ常に成立する)。ゆえに像の真部分群性で絞る -- 既に v1 で発見済みの
+## m=0, f_word=[y,x,y,x](像位数36)がこの条件を満たす。
+FindH11FailWitness := function(hexResult, qrec)
   local cand, m, u, f, genA, genB, sz;
   for cand in hexResult.generation_detail do
-    if cand.stage = "h10_fail" or cand.stage = "h11_fail" then
+    if cand.stage = "h11_fail" then
       m := cand.m;  u := 2*m+1;
       f := EvalWordInQ(cand.f_word, qrec.x, qrec.y, Identity(qrec.G));
       genA := qrec.x^u;
@@ -310,81 +367,133 @@ FindNonGeneratingWitness := function(hexResult, qrec)
   od;
   return rec(found:=false);
 end;;
-witnessSearch := FindNonGeneratingWitness(res3.hexagon, datum3);;
+witnessSearch := FindH11FailWitness(res3.hexagon, datum3);;
 if not witnessSearch.found then
-  Print("  (no non-generating h10/h11-failing candidate found in K^(3) either -- falling back to W-5)\n");
-  witnessSearch := FindNonGeneratingWitness(res5.hexagon, datum5);;
-  witnessSourceLabel := "W-5";;
-  witnessDatum := datum5;;
-  witnessBaseShadowsTotal := res5.settled.total;;
-  witnessBaseSettledCount := res5.settled.settled_count;;
-  witnessBaseGSize := res5.g_size;;
+  Error("M-ISO-2(v2): no h11_fail candidate found in K^(3) -- cannot construct fixture");
 fi;
-if not witnessSearch.found then
-  Error("M-ISO-2: no non-generating witness candidate found in either K^(3) or W-5 -- cannot construct fixture");
-fi;
-Print("M-ISO-2 witness source: ", witnessSourceLabel, " (from an ", witnessSearch.stage, " candidate, independently re-checked for non-generation)\n");
+witnessSourceLabel := "K^(3)";;
 witnessM := witnessSearch.m;;
 witnessWord := witnessSearch.f_word;;
 witnessFElt := witnessSearch.f_elt;;
-witnessNPoints := (function() if witnessSourceLabel = "K^(3)" then return 9; else return 23; fi; end)();;
+witnessNPoints := 9;;
 witnessSubgroupSize := witnessSearch.subgroup_size;;
-Print("M-ISO-2 witness: m=", witnessM, " f_word=", witnessWord,
-      "  |<genA,genB>|=", witnessSubgroupSize, " (< |G|=", witnessBaseGSize, "? ", witnessSubgroupSize < witnessBaseGSize, ")\n");
-Print("  paper argument: image subgroup order ", witnessSubgroupSize, " < |G|=", witnessBaseGSize,
-      " => induced map's image is a PROPER subgroup => not surjective onto G => not bijective on finite G (no further computation needed)\n");
+Print("M-ISO-2(v2) witness: m=", witnessM, " f_word=", witnessWord, " stage=", witnessSearch.stage,
+      "  |<genA,genB>|=", witnessSubgroupSize, " (< |G|=", res3.g_size, "? ", witnessSubgroupSize < res3.g_size, ")\n");
 
-realShadowsTotal := witnessBaseShadowsTotal;;      # real shadows from witness source, all genuinely settled
-realSettledCount := witnessBaseSettledCount;;
-mIso2ShadowsTotal := realShadowsTotal + 1;;   # +1 injected fake shadow (the non-generating witness)
-mIso2SettledCount := realSettledCount;;       # the real ones remain settled; the injected witness is NOT settled
-mIso2Verdict := ComputeVerdict(true, mIso2ShadowsTotal, mIso2SettledCount);;
-Print("M-ISO-2 constructed datum (source: ", witnessSourceLabel, "): total=", mIso2ShadowsTotal, " settled=", mIso2SettledCount,
-      "  verdict=", mIso2Verdict.verdict, "\n");
-mIso2Ok := (mIso2Verdict.verdict = "FALSE") and (witnessSubgroupSize < witnessBaseGSize);;
-Print("[", PF(mIso2Ok), "] M-ISO-2 fired as FALSE (constructed negative: real 12 shadows + 1 injected non-generating witness; NOT a natural/registered example -- see appendix for the 5-family search that found no natural one)\n\n");
+## ★ 経路層の核心: witness を h11_fail バケツから shadow バケツへ実際に移す
+## (h11_fail: 24->23, shadow_total: 12->13)。SettledCheckGeneral(実関数)へ
+## 実際に通す -- カウンタだけを弄らない。
+witnessShadowRec := rec(m:=witnessM, f:=witnessFElt, word:=witnessWord);;
+mIso2Shadows := Concatenation(res3.hexagon.shadows, [witnessShadowRec]);;   # 12 real + 1 witness = 13
+mIso2SettledResult := SettledCheckGeneral(datum3, mIso2Shadows);;            # ★ 実経路(hom+IsBijective)
+mIso2H11Fail := res3.hexagon.h11_fail - 1;;    # 24 -> 23 (witness moved OUT of h11_fail)
+mIso2ShadowTotal := res3.hexagon.shadow_total + 1;;  # 12 -> 13 (witness moved INTO shadow bucket)
+mIso2ShadowSumOk := (res3.hexagon.candidate_total - res3.hexagon.h10_fail - mIso2H11Fail
+                     - res3.hexagon.generation_fail = mIso2ShadowTotal);;    # 108-72-23-0 =?= 13
+mIso2AllGenuine := VerifyShadowsGenuine(datum3, mIso2Shadows);;              # ★ 独立の非 shadow 検出
+mIso2Verdict := ComputeVerdict(mIso2AllGenuine, mIso2ShadowSumOk, mIso2SettledResult.total, mIso2SettledResult.settled_count);;
+witnessSettledEntry := First(mIso2SettledResult.detail, d -> d.m = witnessM and d.f_word = witnessWord);;
+Print("M-ISO-2(v2): h11_fail 24->", mIso2H11Fail, "  shadow_total 12->", mIso2ShadowTotal,
+      "  identity check: 108-72-", mIso2H11Fail, "-0=", mIso2ShadowTotal, "? ", mIso2ShadowSumOk, "\n");
+Print("  SettledCheckGeneral (real path) on 13-element list: settled=", mIso2SettledResult.settled_count,
+      "/", mIso2SettledResult.total, "  witness settled=", witnessSettledEntry.settled, " (expect false)\n");
+Print("  VerifyShadowsGenuine (independent re-check): all_genuine=", mIso2AllGenuine, " (expect false -- witness fails hex311)\n");
+Print("  ComputeVerdict = ", mIso2Verdict.verdict, "/", mIso2Verdict.reason, " (expect UNKNOWN/NONSHADOW_IN_DATUM, NOT FALSE)\n");
+mIso2Ok := (mIso2Verdict.verdict = "UNKNOWN") and (mIso2Verdict.reason = "NONSHADOW_IN_DATUM")
+           and (mIso2ShadowSumOk = true) and (mIso2H11Fail = 23) and (mIso2ShadowTotal = 13)
+           and (witnessSettledEntry.settled = false) and (mIso2SettledResult.settled_count = 12)
+           and (mIso2SettledResult.total = 13);;
+Print("[", PF(mIso2Ok), "] M-ISO-2(v2) fired as UNKNOWN(NONSHADOW_IN_DATUM) -- tests whether the pipeline refuses to launder a non-shadow candidate into isolated=FALSE; NOT a claim that isolated=FALSE has a real witness (AS-GAP-6 remains open, out of scope)\n\n");
 
-# M-ISO-3: constant-TRUE mutant. Run it on the SAME M-ISO-2 input and show
-# mismatch against the real (correct) verdict -- i.e. M-ISO-2 is what "kills"
-# the constant-TRUE mutant.
-constantTrueMutantVerdict := "TRUE";;   # a broken verdict function that always answers TRUE
-mIso3Detected := (constantTrueMutantVerdict <> mIso2Verdict.verdict);;
-Print("M-ISO-3: constant-TRUE mutant says '", constantTrueMutantVerdict, "' on the M-ISO-2 input; real verdict is '",
+# M-ISO-3: constant-TRUE mutant, now a REAL function call (not a string
+# literal) run on the SAME real 4-argument input ComputeVerdict receives for
+# M-ISO-2(v2).
+MutantConstantTrueVerdict := function(allGen, sumOk, tot, settled)
+  return rec(verdict:="TRUE", reason:="");
+end;;
+mIso3MutantResult := MutantConstantTrueVerdict(mIso2AllGenuine, mIso2ShadowSumOk, mIso2SettledResult.total, mIso2SettledResult.settled_count);;
+mIso3Detected := (mIso3MutantResult.verdict <> mIso2Verdict.verdict);;
+Print("M-ISO-3: constant-TRUE mutant function says '", mIso3MutantResult.verdict, "' on the M-ISO-2(v2) real inputs; real ComputeVerdict says '",
       mIso2Verdict.verdict, "' -- mismatch detected? ", mIso3Detected, "\n");
-Print("[", PF(mIso3Detected), "] M-ISO-3 constant-TRUE mutant is KILLED by M-ISO-2 (mismatch detected, as required)\n\n");
+Print("[", PF(mIso3Detected), "] M-ISO-3 constant-TRUE mutant is KILLED (mismatch detected)\n\n");
 
-# M-ISO-4: settled 1-flip. Take the REAL K^(3) settled detail (12/12 true),
-# flip exactly one entry's settled flag to false (pure data mutation, distinct
-# from M-ISO-2's non-generating-witness construction), recompute verdict.
-flippedSettledCount := realSettledCount - 1;;
-mIso4Verdict := ComputeVerdict(true, realShadowsTotal, flippedSettledCount);;
-Print("M-ISO-4: ", witnessSourceLabel, " settled_by_m flipped 1 entry (", realSettledCount, "->", flippedSettledCount,
-      " settled of ", realShadowsTotal, " total) -> verdict=", mIso4Verdict.verdict, "\n");
-mIso4Ok := (mIso4Verdict.verdict = "FALSE");;
-Print("[", PF(mIso4Ok), "] M-ISO-4 fired as FALSE (single settled-flip is caught by the all-settled quantifier)\n\n");
+# M-ISO-4: settled 1-flip, restored to the DATA layer. Take the REAL K^(3)
+# settled.detail list (12 records, all settled=true), flip exactly ONE
+# record's settled field, then RECOUNT by actually enumerating the modified
+# list (Number(...)), not by scalar arithmetic.
+flippedDetail := ShallowCopy(res3.settled.detail);;
+flippedDetail[1] := rec(m:=flippedDetail[1].m, f_word:=flippedDetail[1].f_word, settled:=false);;
+flippedSettledCount := Number(flippedDetail, x -> x.settled);;
+mIso4AllGenuine := VerifyShadowsGenuine(datum3, res3.hexagon.shadows);;  # unaffected -- same real shadow set
+mIso4Verdict := ComputeVerdict(mIso4AllGenuine, true, Length(flippedDetail), flippedSettledCount);;
+Print("M-ISO-4: K^(3) settled.detail (real list) with entry 1 flipped, recounted via Number() -> ",
+      flippedSettledCount, "/", Length(flippedDetail), " -> verdict=", mIso4Verdict.verdict, "\n");
+mIso4Ok := (mIso4Verdict.verdict = "FALSE") and (flippedSettledCount = 11);;
+Print("[", PF(mIso4Ok), "] M-ISO-4 fired as FALSE (data-layer settled-flip, real recount)\n\n");
 
-# M-ISO-5: candidate drop. Take the REAL K^(3) hexagon totals but drop ONE
-# shadow from the shadow_total count WITHOUT adjusting h10_fail/h11_fail/
-# generation_fail (simulating an enumeration that silently lost one candidate).
-droppedShadowTotal := res3.hexagon.shadow_total - 1;;  # 11
+# M-ISO-5: candidate drop, restored to the DATA layer. Take the REAL K^(3)
+# hexagon.shadows list (12 records) and literally drop element 1 (list
+# slicing), then run the REAL SettledCheckGeneral on the shortened list.
+droppedShadows := res3.hexagon.shadows{[2..Length(res3.hexagon.shadows)]};;   # 11 elements, real list slice
+droppedSettled := SettledCheckGeneral(datum3, droppedShadows);;               # ★ real function call
+droppedAllGenuine := VerifyShadowsGenuine(datum3, droppedShadows);;           # still all genuine (just fewer)
 droppedShadowSumOk := (res3.hexagon.candidate_total - res3.hexagon.h10_fail - res3.hexagon.h11_fail
-                        - res3.hexagon.generation_fail = droppedShadowTotal);;
-Print("M-ISO-5: shadow_total dropped 12->11 without adjusting fail-stage counts -> shadow_sum_check=",
-      droppedShadowSumOk, " (expect false)\n");
-mIso5Verdict := ComputeVerdict(droppedShadowSumOk, droppedShadowTotal, droppedShadowTotal);;
-  # even if we (wrongly) assume all remaining 11 are settled, shadowSumOk=false should override to UNKNOWN
-Print("  ComputeVerdict(shadowSumOk=", droppedShadowSumOk, ", total=", droppedShadowTotal, ", settled=",
-      droppedShadowTotal, ") = ", mIso5Verdict.verdict, "/", mIso5Verdict.reason, "\n");
+                        - res3.hexagon.generation_fail = Length(droppedShadows));;  # 108-72-24-0=12 =?= 11 -> false
+mIso5Verdict := ComputeVerdict(droppedAllGenuine, droppedShadowSumOk, droppedSettled.total, droppedSettled.settled_count);;
+Print("M-ISO-5: K^(3) hexagon.shadows (real list, 12 elts) with element 1 dropped -> 11 elts, ",
+      "SettledCheckGeneral (real) = ", droppedSettled.settled_count, "/", droppedSettled.total,
+      "  shadow_sum_check=", droppedShadowSumOk, " (expect false: 12<>11) -> verdict=", mIso5Verdict.verdict, "/", mIso5Verdict.reason, "\n");
 mIso5Ok := (mIso5Verdict.verdict = "UNKNOWN") and (mIso5Verdict.reason = "CANDIDATE_ENUM_INCONSISTENT");;
-Print("[", PF(mIso5Ok), "] M-ISO-5 fired as UNKNOWN(CANDIDATE_ENUM_INCONSISTENT), NOT TRUE (shadow_sum_check now gates the verdict -- this is the fix in ComputeVerdict)\n\n");
+Print("[", PF(mIso5Ok), "] M-ISO-5 fired as UNKNOWN(CANDIDATE_ENUM_INCONSISTENT), NOT TRUE (data-layer drop via real list slice + real SettledCheckGeneral call)\n\n");
 
-# M-ISO-6(b): shadow 0 件 (NO_SHADOWS) -- synthetic all-generation-fail scenario
-# (self-consistent: shadow_total=0, and candidate_total-h10-h11-genfail=0 too).
-mIso6bVerdict := ComputeVerdict(true, 0, 0);;
-Print("M-ISO-6(b): synthetic zero-shadow scenario (candidate_total consistent, shadow_total=0) -> verdict=",
-      mIso6bVerdict.verdict, "/", mIso6bVerdict.reason, "\n");
-mIso6bOk := (mIso6bVerdict.verdict = "UNKNOWN") and (mIso6bVerdict.reason = "NO_SHADOWS");;
-Print("[", PF(mIso6bOk), "] M-ISO-6(b) fired as UNKNOWN(NO_SHADOWS) (vacuous-truth trap avoided, not TRUE)\n\n");
+# M-ISO-6(b): zero-shadow, restored to the DATA layer. Run the REAL
+# SettledCheckGeneral on an actual empty list (not a hardcoded scalar 0).
+emptyShadows := [];;
+emptySettled := SettledCheckGeneral(datum3, emptyShadows);;   # real call, loop body never executes
+emptyAllGenuine := VerifyShadowsGenuine(datum3, emptyShadows);;  # vacuously true
+mIso6bVerdict := ComputeVerdict(emptyAllGenuine, true, emptySettled.total, emptySettled.settled_count);;
+Print("M-ISO-6(b): SettledCheckGeneral([]) (real call on an actual empty list) -> total=",
+      emptySettled.total, " settled=", emptySettled.settled_count, " -> verdict=", mIso6bVerdict.verdict, "/", mIso6bVerdict.reason, "\n");
+mIso6bOk := (mIso6bVerdict.verdict = "UNKNOWN") and (mIso6bVerdict.reason = "NO_SHADOWS")
+            and (emptySettled.total = 0);;
+Print("[", PF(mIso6bOk), "] M-ISO-6(b) fired as UNKNOWN(NO_SHADOWS) (real SettledCheckGeneral([]) call, not a scalar constant)\n\n");
+
+#############################################################################
+## ★新設 M-ISO-8(裁定 535 ③): settled:=true 固定変異体。falsifier 実証:
+## v1 の 4 fixture(全て settled=100%実測)では、SettledCheckGeneral を
+## 「常に settled:=true を返す」に差し替えても全期待値を満たしたまま生存する
+## (=「checker に陰性検出力がある」ことが一度も試されていなかった)。
+## v2 の M-ISO-2 は REAL に settled=false を発火する witness を含むので、
+## この mutant を M-ISO-2 の datum に当てれば初めて殺せるはずである。
+#############################################################################
+Print("--- M-ISO-8: settled:=true 固定変異体(M-ISO-2(v2) の datum で初めて殺せるかを検査) ---\n");
+MutantSettledAlwaysTrue := function(qrec, shadowList)
+  local out, sh;
+  out := [];
+  for sh in shadowList do
+    Add(out, rec(m:=sh.m, f_word:=sh.word, settled:=true));
+  od;
+  return rec(detail:=out, settled_count:=Length(shadowList), total:=Length(shadowList));
+end;;
+mIso8MutantSettled := MutantSettledAlwaysTrue(datum3, mIso2Shadows);;   # runs on the SAME 13-elt datum as M-ISO-2(v2)
+# naive (pre-v2, 3-arg-style) verdict the mutant would compute if it ignored the
+# genuineness gate entirely (this is exactly the v1 bug's shape):
+mIso8NaiveVerdict := (function()
+    if not mIso2ShadowSumOk then return rec(verdict:="UNKNOWN", reason:="CANDIDATE_ENUM_INCONSISTENT");
+    elif mIso8MutantSettled.total = 0 then return rec(verdict:="UNKNOWN", reason:="NO_SHADOWS");
+    elif mIso8MutantSettled.settled_count = mIso8MutantSettled.total then return rec(verdict:="TRUE", reason:="");
+    else return rec(verdict:="FALSE", reason:=""); fi;
+  end)();;
+# real v2 verdict: genuineness gate still fires (independent of the settled mutation)
+mIso8RealVerdict := ComputeVerdict(mIso2AllGenuine, mIso2ShadowSumOk, mIso8MutantSettled.total, mIso8MutantSettled.settled_count);;
+mIso8Detected := (mIso8NaiveVerdict.verdict <> mIso8RealVerdict.verdict);;
+Print("M-ISO-8: settled:=true mutant on M-ISO-2(v2)'s 13-elt datum -> mutant settled=",
+      mIso8MutantSettled.settled_count, "/", mIso8MutantSettled.total, "\n");
+Print("  naive (pre-v2-style, no genuineness gate) verdict = ", mIso8NaiveVerdict.verdict, "\n");
+Print("  real v2 verdict (genuineness gate independent of settled mutation) = ", mIso8RealVerdict.verdict, "/", mIso8RealVerdict.reason, "\n");
+mIso8Ok := mIso8Detected and (mIso8NaiveVerdict.verdict = "TRUE") and (mIso8RealVerdict.verdict = "UNKNOWN")
+           and (mIso8RealVerdict.reason = "NONSHADOW_IN_DATUM");;
+Print("[", PF(mIso8Ok), "] M-ISO-8 fired: settled:=true mutant naively claims TRUE (13/13) but the v2 genuineness gate independently catches the non-shadow witness -> UNKNOWN(NONSHADOW_IN_DATUM) -- mismatch detected, mutant KILLED (this could not be shown in v1, where all 4 real fixtures were already settled=100%)\n\n");
 
 #############################################################################
 ## M-ISO-7(司令塔 2026-08-05 追加委嘱、docs/notes/auto_settled_check_v1.md
@@ -472,8 +581,8 @@ mIso7Ok := mutantCheck.checked and mutantCheck.contaminated and (sBu17Verdict = 
 Print("[", PF(mIso7Ok), "] M-ISO-7 fired: source-map detector correctly flags a deliberately-contaminated enumerator as ENUMERATION_FILTER_CONTAMINATION/STOP, while clearing the real driver (AS-GAP-3)\n\n");
 
 allMutantsOk := mIso1Ok and mIso2Ok and mIso3Detected and mIso4Ok and mIso5Ok and mIso6aOk and mIso6bOk
-                and mIso7Ok and asGap3Ok and homFailCaptureOk and interfaceCheckOk;;
-Print("[", PF(allMutantsOk), "] ALL R3 MUTANTS (7) + AS-GAP-3 self-audit + interface checks FIRED AS EXPECTED\n\n");
+                and mIso7Ok and mIso8Ok and asGap3Ok and homFailCaptureOk and interfaceCheckOk;;
+Print("[", PF(allMutantsOk), "] ALL R3 MUTANTS (8) + AS-GAP-3 self-audit + interface checks FIRED AS EXPECTED\n\n");
 
 #############################################################################
 ## R4 データ出力: 第二系統(独立 Python 実装)への入力データ(生成元の
@@ -501,13 +610,26 @@ r4DataStr := Concatenation(
   "\"expected_verdict\":\"", res3.isolated_verdict, "\"",
   "},",
   "\"m_iso2_witness\":{\"source\":", JStr(witnessSourceLabel), ",\"m\":", String(witnessM), ",",
+  "\"stage\":", JStr(witnessSearch.stage), ",",
   "\"f_word\":", WordToJson(witnessWord), ",",
-  "\"f_word_note\":\"f_word alone is convention-fragile (BFSWords prepend-storage vs EvalWordQT/EvalWordInQ evaluators gave DIFFERENT elements for the SAME word during R4 cross-check debugging -- see driver comment near FindNonGeneratingWitness). f_images below is the authoritative raw permutation, independent of any word-evaluation convention; R4 should use f_images, not re-derive f from f_word.\",",
+  "\"f_word_note\":\"f_word alone is convention-fragile (BFSWords prepend-storage vs EvalWordQT/EvalWordInQ evaluators gave DIFFERENT elements for the SAME word -- see driver comment near FindH11FailWitness). f_images below is the authoritative raw permutation, independent of any word-evaluation convention; R4 should use f_images, not re-derive f from f_word.\",",
   "\"n_points\":", String(witnessNPoints), ",",
   "\"f_images\":", DumpPermList(witnessFElt, witnessNPoints), ",",
-  "\"expected_subgroup_size_lt_g\":", JB(witnessSubgroupSize < witnessBaseGSize), ",",
+  "\"expected_subgroup_size_lt_g\":", JB(witnessSubgroupSize < res3.g_size), ",",
   "\"expected_subgroup_size\":", String(witnessSubgroupSize), ",",
-  "\"expected_g_size\":", String(witnessBaseGSize), "},",
+  "\"expected_g_size\":", String(res3.g_size), "},",
+  "\"m_iso2_v2_reconstruction\":{",
+  "\"desc\":\"witness moved from h11_fail bucket to shadow bucket (path-layer, not scalar) -- see docs/notes/iso_r3r4_iffirst_freeze_v1.md sec.7\",",
+  "\"expected_h11_fail\":", String(mIso2H11Fail), ",",
+  "\"expected_shadow_total\":", String(mIso2ShadowTotal), ",",
+  "\"expected_shadow_sum_check\":", JB(mIso2ShadowSumOk), ",",
+  "\"expected_settled_count\":", String(mIso2SettledResult.settled_count), ",",
+  "\"expected_settled_total\":", String(mIso2SettledResult.total), ",",
+  "\"expected_witness_settled\":", JB(witnessSettledEntry.settled), ",",
+  "\"expected_all_shadows_genuine\":", JB(mIso2AllGenuine), ",",
+  "\"expected_verdict\":\"", mIso2Verdict.verdict, "\",",
+  "\"expected_unknown_reason\":\"", mIso2Verdict.reason, "\"",
+  "},",
   "\"w5\":{\"n_points\":23,",
   "\"x_images\":", DumpPermList(xhat5, 23), ",",
   "\"y_images\":", DumpPermList(yhat5, 23), ",",
@@ -573,7 +695,8 @@ IsoGateResultToJsonR3R4 := function(r)
     ",\"h11_fail\":", String(r.hexagon.h11_fail),
     ",\"generation_fail\":", String(r.hexagon.generation_fail),
     ",\"shadow_total\":", String(r.hexagon.shadow_total),
-    ",\"sum_check_pass\":", String(r.shadow_sum_check), "},",
+    ",\"sum_check_pass\":", String(r.shadow_sum_check),
+    ",\"all_shadows_genuine\":", String(r.all_shadows_genuine), "},",
     "\"settled_summary\":{\"settled_count\":", String(r.settled.settled_count),
     ",\"total\":", String(r.settled.total),
     ",\"settled_by_m\":", JArr(settledByMJson),
@@ -593,14 +716,20 @@ mutantJson := Concatenation(
   "[",
   "{\"id\":\"M-ISO-1\",\"desc\":\"known isolated positive (K^(3), Thm 4.3)\",\"expected\":\"TRUE\",",
     "\"fired\":", String(mIso1Ok), ",\"kills\":\"basic soundness\"},",
-  "{\"id\":\"M-ISO-2\",\"desc\":\"CONSTRUCTED negative (not a natural/registered example -- see search_appendix): real ", witnessSourceLabel, " ", String(realShadowsTotal), " shadows + 1 injected non-generating candidate (generation_fail witness, itself a real measured fact from ", witnessSourceLabel, "'s hexagon enumeration -- only the INJECTION as a fake shadow is constructed)\",",
+  "{\"id\":\"M-ISO-2\",\"desc\":\"v2 (裁定535 R-B): witness (real h11_fail candidate from ", witnessSourceLabel, "'s hexagon enumeration) moved from h11_fail bucket to shadow bucket -- path-layer, run through the REAL SettledCheckGeneral, caught by VerifyShadowsGenuine\",",
     "\"witness_source\":", JStr(witnessSourceLabel), ",",
     "\"witness_m\":", String(witnessM), ",\"witness_f_word\":", WordToJson(witnessWord), ",",
-    "\"witness_subgroup_size\":", String(witnessSubgroupSize), ",\"witness_g_size\":", String(witnessBaseGSize), ",",
-    "\"paper_argument\":\"image subgroup order < |G| => induced endomorphism's image is a proper subgroup => not surjective onto G => not bijective on the finite set G\",",
-    "\"expected\":\"FALSE\",\"fired\":", String(mIso2Ok), ",\"kills\":\"constant-TRUE (see M-ISO-3)\"},",
-  "{\"id\":\"M-ISO-3\",\"desc\":\"constant-TRUE mutant run on M-ISO-2 input\",\"expected\":\"detected (mismatch vs real verdict)\",",
-    "\"mutant_output\":\"", constantTrueMutantVerdict, "\",\"real_verdict\":\"", mIso2Verdict.verdict, "\",",
+    "\"witness_stage\":", JStr(witnessSearch.stage), ",",
+    "\"witness_subgroup_size\":", String(witnessSubgroupSize), ",\"witness_g_size\":", String(res3.g_size), ",",
+    "\"h11_fail_24_to\":", String(mIso2H11Fail), ",\"shadow_total_12_to\":", String(mIso2ShadowTotal), ",",
+    "\"identity_holds\":", JB(mIso2ShadowSumOk), ",",
+    "\"settled_via_real_path\":\"", String(mIso2SettledResult.settled_count), "/", String(mIso2SettledResult.total), "\",",
+    "\"witness_settled\":", JB(witnessSettledEntry.settled), ",",
+    "\"paper_argument\":\"image subgroup order < |G| => induced endomorphism's image is a proper subgroup => not surjective onto G => not bijective on the finite set G (independently confirmed by the real GroupHomomorphismByImages+IsBijective path, not hand-computed)\",",
+    "\"is_this_isolated_false\":\"NO -- this fixture does NOT claim isolated=FALSE has a real witness (AS-GAP-6 remains open). It tests whether the pipeline refuses to launder a non-GT-shadow candidate into an isolated=FALSE verdict.\",",
+    "\"expected\":\"UNKNOWN(NONSHADOW_IN_DATUM)\",\"fired\":", String(mIso2Ok), ",\"kills\":\"laundering a non-shadow candidate into a false isolated=FALSE claim; also feeds M-ISO-3/8\"},",
+  "{\"id\":\"M-ISO-3\",\"desc\":\"constant-TRUE mutant, a real function call (MutantConstantTrueVerdict) run on M-ISO-2(v2)'s real 4-arg input\",\"expected\":\"detected (mismatch vs real verdict)\",",
+    "\"mutant_output\":\"", mIso3MutantResult.verdict, "\",\"real_verdict\":\"", mIso2Verdict.verdict, "\",",
     "\"fired\":", String(mIso3Detected), ",\"kills\":\"constant-TRUE returning TRUE unconditionally\"},",
   "{\"id\":\"M-ISO-4\",\"desc\":\"single settled-flip on real K^(3) settled detail (12/12 -> 11/12)\",\"expected\":\"FALSE\",",
     "\"fired\":", String(mIso4Ok), ",\"kills\":\"verdict not actually checking ALL shadows settled\"},",
@@ -614,7 +743,13 @@ mutantJson := Concatenation(
   "{\"id\":\"M-ISO-7\",\"desc\":\"descent-filter-contamination source-map detector (docs/notes/auto_settled_check_v1.md AS-GAP-3/S-BU-17, commander order 2026-08-05): (a) self-audit of THIS driver's real EnumerateReducedHexagon -- contaminated=", JB(realCheck.contaminated), " (b) negative control on a deliberately-broken mutant enumerator -- contaminated=", JB(mutantCheck.contaminated), "\",",
     "\"as_gap_3_verdict\":\"CONFIRMED_CLEAN: enumeration filter (hexagon 3.10/3.11 + charming + SURJ) does not consult descent/K5-8/GroupHomomorphismByImages; settled=100% on K^(3)/W-5 is sample bias (bare K^(n) and its fiber-product caps are known-isolated per Thm 4.3/Prop 3.14), not constant-TRUE contamination\",",
     "\"expected\":\"real=clean, mutant=ENUMERATION_FILTER_CONTAMINATION/STOP\",",
-    "\"fired\":", String(mIso7Ok), ",\"kills\":\"descent used as an enumeration filter (would make settled=100% a tautology and risks isolated false-TRUE via silent candidate drop)\"}",
+    "\"fired\":", String(mIso7Ok), ",\"kills\":\"descent used as an enumeration filter (would make settled=100% a tautology and risks isolated false-TRUE via silent candidate drop)\"},",
+  "{\"id\":\"M-ISO-8\",\"desc\":\"settled:=true fixed mutant (MutantSettledAlwaysTrue), run on M-ISO-2(v2)'s real 13-element datum -- falsifier found this mutant SURVIVED all v1 fixtures+R4 (settled predicate's negative branch had never fired)\",",
+    "\"mutant_settled\":\"", String(mIso8MutantSettled.settled_count), "/", String(mIso8MutantSettled.total), "\",",
+    "\"naive_verdict_no_genuineness_gate\":\"", mIso8NaiveVerdict.verdict, "\",",
+    "\"real_v2_verdict\":\"", mIso8RealVerdict.verdict, "/", mIso8RealVerdict.reason, "\",",
+    "\"expected\":\"naive=TRUE, real=UNKNOWN(NONSHADOW_IN_DATUM), mismatch detected\",",
+    "\"fired\":", String(mIso8Ok), ",\"kills\":\"settled predicate fixed to always-true (the checker's negative-detection power, untested in v1)\"}",
   "]");;
 
 searchAppendixJson := Concatenation(
@@ -630,36 +765,74 @@ searchAppendixJson := Concatenation(
   "\"scratch_scripts\":[\"scratchpad/explore_m2_negative.g\",\"scratchpad/explore_m2_negative2.g\",\"scratchpad/explore_m2_negative3.g\",\"scratchpad/explore_m2_negative3_lib.g\",\"scratchpad/explore_m2_negative4.g\",\"scratchpad/explore_m2_negative5.g\",\"scratchpad/explore_m2_negative6.g\",\"scratchpad/explore_m2_negative7.g\"]",
   "}");;
 
+conventionsUsedJson := Concatenation(
+  "{\"ledger_version\":\"conventions_ledger_v1_6\",",
+  "\"perm_composition\":\"gap_native_right\",",
+  "\"abstract_prod_reversal\":{\"declared\":true,\"rule\":\"AbstractProd([a1,...,ak]) = ak*a(k-1)*...*a1 in GAP's own right-action product (descending index in the implementation loop) -- confirmed by direct GAP probe (scratchpad/debug_abstractprod.g) and independently by falsifier's third implementation (docs/notes/iso_r3r4_cv9_reading_v1.md sec.2.1)\",",
+  "\"usages\":[",
+    "{\"site\":\"z\",\"formula\":\"AbstractProd([x,y])^-1 = (y*x)^-1\"},",
+    "{\"site\":\"hex310\",\"formula\":\"AbstractProd([f,thetaf])=1 <=> thetaf*f=1\"},",
+    "{\"site\":\"ymf\",\"formula\":\"AbstractProd([y^m,f]) = f*y^m\"},",
+    "{\"site\":\"hex311\",\"formula\":\"AbstractProd([tau2,tau1,ymf])=1 <=> ymf*tau1*tau2=1\"},",
+    "{\"site\":\"genB\",\"formula\":\"AbstractProd([f^-1,y^u,f]) = f*y^u*f^-1\"}",
+  "]},",
+  "\"word_eval\":[",
+    "{\"layer\":\"BFSWords_storage\",\"direction\":\"prepend (裁定166)\",\"word_source\":\"internal_gap\"},",
+    "{\"layer\":\"witness_reconstruction\",\"direction\":\"EvalWordInQ (prepend, matches BFSWords) -- NOT EvalWordQT (natural), which reconstructs a DIFFERENT element for the same word\",\"word_source\":\"internal_gap\"}",
+  "],",
+  "\"enumeration_domain\":\"group_elements\",",
+  "\"group_side\":\"P (=PB3/N)\",",
+  "\"h10_fail_bookkeeping_unit\":\"(f,m) pair (theta/tau precondition checked inside the m-loop, redundantly per m -- matches the actual GAP loop structure in EnumerateReducedHexagon; NOT per-f\",",
+  "\"comparison_target\":{",
+    "\"as_function_of\":\"marked datum (K^(3) / W-5 / M-ISO-2 v2 constructed datum)\",",
+    "\"function_a\":{\"name\":\"IsoGateCheck/ComputeVerdict (this file)\",\"domain\":\"marked datum -> {g_size,n_ord,shadow_total,settled_count/total,verdict}\"},",
+    "\"function_b\":{\"name\":\"run_fixture/compute_verdict (search/probe/w6_bu_s0/r4_second_system.py)\",\"domain\":\"same\"},",
+    "\"normalization_digest\":\"n/a (no NF beyond the 5-quantity equality declared in docs/notes/iso_r3r4_iffirst_freeze_v1.md sec.2)\"",
+  "},",
+  "\"effective_source_chain\":[",
+    "{\"role\":\"current\",\"path\":\"search/probe/w6_bu_s0/iso_gate_r3r4_driver.g\",\"sha256\":\"n/a (computed post-write by the reporting layer, not embedded here per CV-10 self-reference discipline)\"}",
+  "],",
+  "\"seal_recoverability\":{\"status\":\"n/a\",\"reason\":\"this cert does not use sealed fixtures\"},",
+  "\"grading_prohibitions\":[",
+    "\"PERMANENT BAN (裁定535 ⑤, falsifier 【重大1】): never write that numeric agreement between two implementations demonstrates convention identity. falsifier's third independent implementation showed the compared 5 quantities (|G|, N_ord, shadow_total, settled_count/total) are IDENTICAL whether AbstractProd is evaluated with the real reversal or with the naive (unreversed) paper-order convention -- i.e. this observation window has ZERO discriminating power for convention identity. Any 'same object' verdict must rest on source-reading (CV-9 judge), never on this cert's own numeric match.\"",
+  "],",
+  "\"level\":\"PB3\"",
+  "}");;
+
 certStr := Concatenation(
-  "{\"schema\":\"gtsh-cert/iso-gate-r3r4/v1\",",
+  "{\"schema\":\"gtsh-cert/iso-gate-r3r4/v2\",",
   "\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/probe/w6_bu_s0/iso_gate_r3r4_driver.g\",\"date\":\"2026-08-05\"},",
   "\"tier\":\"tool-calibration\",",
-  "\"purpose\":\"ISO-GATE route-2 R3 (mutant matrix, 7 items -- M-ISO-7 added 2026-08-05 per docs/notes/auto_settled_check_v1.md AS-GAP-3/S-BU-17) + R4 (second-system data export) + interface field corrections (group_side / enumeration_domain / GroupHomomorphismByImages fail capture), per docs/notes/w6_bottomup_design_v4.md sec.5.3/5.4/5.1; W-5 iso_gate_state stays UNKNOWN (pending route-2 gate), NOT upgraded by this driver\",",
-  "\"design_authority\":\"commander order 2026-08-05 (w6_bottomup_design_v4.md sec.5.3 R3 / sec.5.4 R4 / sec.5.1 interface)\",",
+  "\"purpose\":\"ISO-GATE route-2 R3 (mutant matrix, 8 items) + R4 (second-system data export) + interface field corrections, per docs/notes/w6_bottomup_design_v4.md sec.5.3/5.4/5.1; W-5 iso_gate_state stays UNKNOWN (pending route-2 gate), NOT upgraded by this driver\",",
+  "\"design_authority\":\"commander order 2026-08-05 (design v4) + commander 裁定535 (v2 repair order, following falsifier CV-9-2 reading docs/notes/iso_r3r4_cv9_reading_v1.md + mathematician auto_settled_check_v1.md addendum A)\",",
+  "\"v2_supersedes\":{\"path\":\"search/certs/w6_bu_s0_iso_gate_r3r4_20260805.json\",\"scope\":\"v1 M-ISO-2/3/4/5/6b were scalar-layer mutations of ComputeVerdict only; M-ISO-2 bypassed its own shadow_sum_check gate by hand-passing true; a settled:=true fixed mutant (M-ISO-8) survived all v1 fixtures undetected. v1 left unmodified (not edited) per CV-10 erratum discipline -- this v2 is a new file/cert, not an in-place rewrite of v1's historical record.\"},",
   "\"non_contact_declaration\":{\"Im_R_reduction_image\":\"not touched\",\"d_N\":\"not touched\",",
-  "\"sealed_quantities\":\"not touched (c_mu_hat / PSL window structural quantities / eps bits)\",",
+  "\"sealed_quantities\":\"not touched (c_mu_hat / PSL window structural quantities / eps bits / 705,894 universe)\",",
   "\"u_arithmetic_value\":\"not touched\"},",
   "\"independence\":\"no certificates/*.json or search/certs/*.json read; all groups rebuilt from generators in this run; old driver search/probe/w6_bu_s0/iso_gate_check.g left untouched\",",
+  "\"conventions_used\":", conventionsUsedJson, ",",
   "\"fix_notes\":[",
-    "\"isolated_verdict now gated on shadow_sum_check via ComputeVerdict (old driver computed shadow_sum_check but did not use it to gate the verdict -- M-ISO-5 exposes this)\",",
-    "\"EnumerateReducedHexagonSafe wrapper added locally (this file only) to catch theta/tau GroupHomomorphismByImages fail gracefully as UNKNOWN(THETA_TAU_NOT_WELLDEFINED) instead of a hard Error() crash (B-2 warning); demonstrated on a genuine natural fixture (Q3-a) where this actually fires\",",
-    "\"M-ISO-2 witness bug caught and fixed during R4 cross-check: witness f was initially reconstructed from cand.f_word via EvalWordQT (natural convention), but cand.f_word comes from BFSWords (prepend-storage convention, 裁定166) -- EvalWordQT silently gives a DIFFERENT (wrong) group element for the same word. Fixed by (a) using EvalWordInQ (prepend) in the GAP driver and (b) dumping the witness as raw f_images (permutation list) in r4_input_data.json instead of relying on any word-evaluation convention on the Python side\",",
-    "\"S-BU-17 (ENUMERATION_FILTER_CONTAMINATION/STOP) added 2026-08-05 per commander order following docs/notes/auto_settled_check_v1.md AS-GAP-3; M-ISO-7 added as its source-map detector + negative control (see mutant_matrix)\"",
+    "\"isolated_verdict now gated on shadow_sum_check via ComputeVerdict (v1 fix, retained)\",",
+    "\"EnumerateReducedHexagonSafe wrapper (v1 fix, retained) -- graceful UNKNOWN(THETA_TAU_NOT_WELLDEFINED) instead of Error() crash\",",
+    "\"★ v2 (裁定535 R-A/R-B/③④⑤): ComputeVerdict is now a 4-argument function with a new allShadowsGenuine gate (highest priority, new stop code NONSHADOW_IN_DATUM) -- VerifyShadowsGenuine independently re-checks hex310/hex311/SURJ for every element of a given shadow list, catching non-shadow candidates that a hand-built shadow list might contain\",",
+    "\"★ v2: M-ISO-2 rebuilt as a path-layer mutation (witness moved from h11_fail bucket to shadow bucket, real SettledCheckGeneral call on the 13-element list) instead of a scalar ComputeVerdict(true,13,12) hand-call that bypassed its own sum-check gate (falsifier 4.2). Expected verdict is now UNKNOWN(NONSHADOW_IN_DATUM), NOT FALSE -- per mathematician auto_settled_check_v1.md addendum A.2, an h11-fail candidate is not a GT-shadow (Def 3.7), so treating it as a non-settled SHADOW would be a false-FALSE route into isolated=FALSE\",",
+    "\"★ v2: M-ISO-3/4/5/6b restored to path-layer mutations (real function calls: MutantConstantTrueVerdict, ShallowCopy+Number() recount, real list slice + SettledCheckGeneral, SettledCheckGeneral([])) instead of scalar arithmetic on ComputeVerdict's inputs\",",
+    "\"★ v2 NEW: M-ISO-8 (settled:=true fixed mutant) added -- falsifier found this mutant survived ALL of v1's R3 matrix + R4 crosscheck undetected, because none of the 4 real v1 fixtures ever exercised settled=false. M-ISO-2(v2)'s real non-settled witness now makes this mutant killable\"",
   "],",
-  "\"m_iso2_construction_note\":\"M-ISO-2 is a CONSTRUCTED negative fixture (implementer-built, 2026-08-05), NOT a pre-registered/established fact. Commander-approved 2026-08-05 after a documented search for a natural isolated=FALSE example found none (see search_appendix). This is the campaign's first isolated=FALSE instance and is registered here as a permanent negative fixture for future ISO-GATE recalibration.\",",
+  "\"m_iso2_construction_note\":\"★ CORRECTED (v2, per commander 裁定535 ② and mathematician auto_settled_check_v1.md addendum A.2): the v1 claim that M-ISO-2 is 'the campaign's first isolated=FALSE instance' is WITHDRAWN. M-ISO-2 does NOT demonstrate isolated=FALSE for any marked datum -- there is no marked datum here whose GT(N) contains a genuine non-settled GT-shadow. The witness is an h11_fail candidate, which by Def 3.7 is not a GT-shadow at all. M-ISO-2(v2) tests a DIFFERENT, narrower property: that the pipeline detects and refuses to launder a non-shadow candidate (accidentally present in a shadow list) into an isolated=FALSE verdict, returning UNKNOWN(NONSHADOW_IN_DATUM) instead. AS-GAP-6 (obtaining a genuine non-isolated witness, via a twin K != N or a non-verbal N_{F_2}, per w6_bottomup_design_v4.md sec.5.3 and auto_settled_check_v1.md sec.3.2/3.4) remains OPEN and out of scope for this driver.\",",
   "\"fixtures\":[", IsoGateResultToJsonR3R4(res3), ",", IsoGateResultToJsonR3R4(res5), ",",
     IsoGateResultToJsonR3R4(resN5), ",", IsoGateResultToJsonR3R4(resQ3a), "],",
   "\"mutant_matrix\":", mutantJson, ",",
   "\"search_appendix\":", searchAppendixJson, ",",
   "\"all_mutants_fired_as_expected\":", String(allMutantsOk), ",",
-  "\"r4_second_system\":{\"status\":\"data exported to search/probe/w6_bu_s0/r4_input_data.json for independent Python re-implementation; companion script search/probe/w6_bu_s0/r4_second_system.py independently confirmed ALL summary numbers for K^(3), W-5, and the M-ISO-2 witness match (see search/probe/w6_bu_s0/r4_second_system_output.json for its own output; this GAP cert does not itself run the second system, run separately via: python search/probe/w6_bu_s0/r4_second_system.py)\",",
-  "\"note\":\"GAP one-output remains candidate per F104-2.3; second system independence documented separately\"},",
-  "\"crosscheck_status\":\"not cross-checked by THIS file alone (R4 second system is a separate script; see its output for the actual crosscheck verdict)\",",
+  "\"r4_second_system\":{\"status\":\"data exported to search/probe/w6_bu_s0/r4_input_data.json for independent Python re-implementation; companion script search/probe/w6_bu_s0/r4_second_system.py (v2) independently confirmed the 5 comparison quantities (per docs/notes/iso_r3r4_iffirst_freeze_v1.md sec.2) for K^(3), W-5, and the M-ISO-2(v2) reconstructed datum -- see search/probe/w6_bu_s0/r4_second_system_output.json for its own output; this GAP cert does not itself run the second system, run separately via: python search/probe/w6_bu_s0/r4_second_system.py\",",
+  "\"note\":\"GAP one-output remains candidate per F104-2.3; second system independence documented separately. Per falsifier CV-9-2 finding 【要修正2】, the Python output only exists on assert-success (exception on mismatch => no output file) -- this is a known weakness, not fixed in this v2 (out of the 6-item order's scope; flagged for a future pass)\"},",
+  "\"crosscheck_status\":\"not cross-checked by THIS file alone (R4 second system is a separate script; see its output for the actual crosscheck verdict). Per falsifier CV-9-2, numeric agreement alone does not establish cross-checked status -- see grading_prohibitions above and conventions_used for the source-reading basis of the 'same object' judgment\",",
   "\"verified_status\":\"not verified (Lean not used)\"",
   "}");;
 
-WriteFile("search/certs/w6_bu_s0_iso_gate_r3r4_20260805.json", certStr);;
-Print("wrote search/certs/w6_bu_s0_iso_gate_r3r4_20260805.json\n");
+WriteFile("search/certs/w6_bu_s0_iso_gate_r3r4_v2_20260805.json", certStr);;
+Print("wrote search/certs/w6_bu_s0_iso_gate_r3r4_v2_20260805.json (v1 cert left untouched)\n");
 
 Print("\nISO_GATE_R3R4_DRIVER_DONE\n");
 QUIT;

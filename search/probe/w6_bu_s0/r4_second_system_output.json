@@ -1,16 +1,30 @@
 {
-  "schema": "gtsh-cert/iso-gate-r4-second-system/v1",
+  "schema": "gtsh-cert/iso-gate-r4-second-system/v2",
   "generated_by": {
     "tool": "python3 (independent, no GAP)",
-    "script": "scratchpad/r4_second_system.py"
+    "script": "search/probe/w6_bu_s0/r4_second_system.py"
   },
-  "independence_declaration": "does not import/read any search/*.g file or call GAP; only input is search/probe/w6_bu_s0/r4_input_data.json (raw generator permutation images + GAP's claimed summary numbers to diff against); all group theory (BFS closure, derived subgroup via commutator closure, theta/tau construction with contradiction detection, hexagon, generation/SURJ, settled-check, verdict) reimplemented from scratch in Python",
+  "independence_declaration": "does not import/read any search/*.g file or call GAP; only input is search/probe/w6_bu_s0/r4_input_data.json (raw generator permutation images + GAP's claimed summary numbers to diff against); all group theory (BFS closure, derived subgroup via commutator closure, theta/tau construction with contradiction detection, hexagon, generation/SURJ, settled-check, ComputeVerdict, VerifyShadowsGenuine) reimplemented from scratch in Python",
+  "conventions_used": {
+    "perm_composition": "gap_native_right (custom compose() matches k^(p*q)=(k^p)^q)",
+    "abstract_prod_reversal": "AbstractProd([a1,...,ak]) = ak*...*a1 in GAP's product -- applied at every site (z, hex310, ymf, hex311, genB); see module docstring",
+    "h10_fail_bookkeeping_unit": "(f,m) pair -- v2 fix, matches GAP exactly (was per-f in v1)",
+    "level": "PB3"
+  },
+  "grading_prohibitions": [
+    "PERMANENT BAN (\u88c1\u5b9a535, falsifier \u3010\u91cd\u59271\u3011): never write that numeric agreement between two implementations demonstrates convention identity -- this observation window (|G|, N_ord, shadow_total, settled_count/total) has ZERO discriminating power for the AbstractProd reversal convention (falsifier's third implementation showed both conventions give identical numbers on K^(3)/W-5)."
+  ],
   "k3": {
     "name": "K^(3)",
     "theta_tau_ok": true,
     "g_size": 108,
     "n_ord": 6,
+    "candidate_total": 108,
+    "h10_fail": 72,
+    "h11_fail": 24,
+    "generation_fail": 0,
     "shadow_total": 12,
+    "shadow_sum_check": true,
     "settled_count": 12,
     "verdict": "TRUE",
     "match_gap": true
@@ -20,15 +34,33 @@
     "theta_tau_ok": true,
     "g_size": 1000,
     "n_ord": 20,
+    "candidate_total": 4000,
+    "h10_fail": 3200,
+    "h11_fail": 720,
+    "generation_fail": 0,
     "shadow_total": 80,
+    "shadow_sum_check": true,
     "settled_count": 80,
     "verdict": "TRUE",
     "match_gap": true
   },
-  "m_iso2_witness_independent_check": {
+  "m_iso2_v2_independent_check": {
+    "witness_subgroup_size": 36,
     "witness_proper_subgroup_independent": true,
-    "subgroup_size": 36
+    "h11_fail_24_to": 23,
+    "shadow_total_12_to": 13,
+    "shadow_sum_check": true,
+    "all_shadows_genuine": false,
+    "settled_count": 12,
+    "witness_settled": false,
+    "verdict": "UNKNOWN",
+    "reason": "NONSHADOW_IN_DATUM"
   },
-  "m_iso2_constructed_datum_independent_verdict": "FALSE",
+  "m_iso8_independent_check": {
+    "naive_verdict": "TRUE",
+    "real_verdict": "UNKNOWN",
+    "real_reason": "NONSHADOW_IN_DATUM",
+    "detected": true
+  },
   "all_crosschecks_pass": true
 }

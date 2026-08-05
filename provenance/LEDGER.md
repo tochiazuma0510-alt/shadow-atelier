@@ -2250,3 +2250,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 実closed: LA-1(a)(b)(c)(X=a₁q₁・X²・ord(X)=2n 帰納法 n 変数)+LE-1(a) chiTilde_welldefined+Order.lean 補助 7。sorry 宣言 4(Λ-REG・INN×2・単元性)。未着工の律速 = 部分群一般論の自前構築と T2 言明精密化。
 - 裁定: ①検収 PASS(「初回で全 closed 不要」の発注範囲内・正直会計を評価)②★次波は**ブロック H(抽象補題群)先行**を承認 — ただし実行は裁定 531 パイプライン(Sol 一回監査 → Sol 指示 → Luna)に載せ、Block-H-first は工房提案として監査便に同梱 ③T2 公理の言明精密化(現状 Prop プレースホルダ)を監査便の議題に明記 ④K3/Anchors・Bridge・Conjugator の未ビルド滞留(P1 無関係・280 秒超 timeout・セッション前からの状態)= 別件 GAP として記録 — Lean CI 整備(GitHub 引き取り)時に Actions ビルドで解消を図る。
 - 帰結: **便 105 §6(Lean)の材料が完備**(方針 v1.5+割付表+第 1 波 c542808+survey 629ba3e+運用提案+Block-H-first+T1 討ち取り予定+橋 B 内製 6 案+T2 精密化議題)。残る便 105 前提 = R3/R4 修理+falsifier 再判読のみ。
+
+## 2026-08-05 R3/R4 修理一括 検収(裁定 541)— 裁定 535 の 6 項目全履行・R3 8 mutant 全 PASS・R4 4 対象 ALL MATCH
+- ①R-A: verdict を両側同型の 4 変数(allShadowsGenuine, shadowSumOk, total, settled)へ整列(genuineness gate は係の妥当な拡張)・h10 帳簿 = (f,m) 対に統一・恒等式両側成立(K³ 108−72−24−0=12・W-5 4000−3200−720−0=80)②R-B: witness を shadow バケツへ実移動(24→23・12→13・恒等式 13 整合)・SettledCheckGeneral 実経路で settled=false 実発火・新設 VerifyShadowsGenuine が非 shadow 性を独立検出 → **NONSHADOW_IN_DATUM/UNKNOWN**(FALSE でない)・cert の「first isolated=FALSE instance」撤回+AS-GAP-6 open 明記 ③M-ISO-8(settled:=true 固定)= **killed 確認**(素朴 TRUE vs 実 UNKNOWN 不一致検出)= 偽側分岐の実行が初めて実証 ④経路層変異 4 件復元(実関数・実データ構造)⑤両 cert に conventions_used 5 項+grading_prohibitions ⑥IF-FIRST 凍結を再走前に起草・§7 期待値表が再走結果と完全一致(CV-9-4 差戻しなし)。
+- v1 cert = 不改変(v2_supersedes で継承明示)・旧 driver・共有 helper = git diff 無変更確認。cert v2 = search/certs/w6_bu_s0_iso_gate_r3r4_v2_20260805.json。
+- 発火: falsifier 再判読(v1 判読の重大 1〜3+制度 2 点の閉鎖確認・4 変数 verdict の同一対象性・IF-FIRST の事前性確認)→ その後に cross-checked 格付け裁定。
