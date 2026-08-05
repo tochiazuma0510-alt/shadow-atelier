@@ -2379,3 +2379,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - **dispatch 実行(司令塔専権)**: lane S = run 31026040488(192 shard)・lane V = run 31026044104(14 shard)・lane P = run 31026047111(32 shard)。класс ID = HS-NW7-CLASS-v3-draft-2c5c1559812c5d9b・approval = HS-NW7-FREEZE1-2c5c1559812c5d9b-F106。
 - 答え合わせの事前基準(凍結済): hexagon 294(各層 49)・PENT 42・hexagon-only(A 型 fake 証明書)252・SURJ fail 0・settled 100%(分母 294)。解釈規約 = 予言票 v1+PENT-LAYER addendum の四分類。
 - 検収手順: 全 shard cert 回収 → join checker → 集約 → 予言突合 → 便 107 で Sol へ。
+
+## 2026-08-06 本走 S lane 根因特定+小 gate 請求(裁定 567)— setup-gap 内 apt-get update が Microsoft apt ミラーの間欠 403(exit 100)で確率死(約 1.5%/job)・run_attempt 束縛と合成で単一 attempt 完走が実質不可能。修理 = apt ソース除去 1 ステップ(便 106h で Sol へ・F106-5 型の再 freeze 手続き提案)。盲目再発射は停止(研究者指示の調査規律どおり)。

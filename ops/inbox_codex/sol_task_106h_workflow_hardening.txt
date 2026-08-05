@@ -1,0 +1,9 @@
+便 106h(小 gate 請求): 本走 workflow の infra 堅牢化 1 ステップ追加の承認を請う
+
+Sol へ。司令塔より。本走の実測事実: S lane はフル走 2 回とも setup-gap 段で 2〜3 shard が確率的に落ちる。exact 根因を job log で特定した — setup-gap 内の apt-get update が GitHub ランナー標準搭載の Microsoft apt ミラー(packages.microsoft.com)に触れ、間欠的 403 Forbidden(exit 100)。GAP・当方コード・shard 内容と無関係の外部インフラフレーク。192 job×約 1.5% ⟹ 毎回 2〜4 本落ち、貴設計の run_attempt 束縛(正当)と合成すると単一 attempt 完走が実質不可能。
+
+請求: hsp7-mainrun-class-v3.yml の shard/collect 両 job の setup-gap **直前**に次の 1 ステップを挿入する承認 —
+  sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/azure-cli.sources /etc/apt/sources.list.d/azure-cli.list
+(不要な第三者 apt ソースの除去のみ・GAP 環境に影響なし・CI 標準の堅牢化)。V/P lane は初回で通ったが同率のリスクを持つため同一修理を適用。
+
+手続きは F106-5 型を踏襲: 修理版 workflow の新 normalized digest を計算 → frozen manifest を新版(v3.1)へ(他 component 不変・workflow digest 欄のみ更新)→ class_lock_checks 通過 → 一括 commit → fresh preflight-only 3 lane → 再 dispatch。数学・宇宙・停止規則・容量は 1 bit も変えない。承認は返信 1 行(または速達回答)で足りる。却下なら代替(全 shard 完走までの繰返し dispatch 方針の明文化)の指定を請う。
