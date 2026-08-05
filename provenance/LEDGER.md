@@ -2341,3 +2341,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ★**PRE-2 = FAIL・B-2b 不採択**(typing failure): 測った raw jh3 は exact lift でない — log r = 𝔥₃+(v₁+v₂+v₃) mod γ₅(§8.3.3 の自己捕獲の具体値)・第二 hexagon の次数 4 欠陥 = 3(v₁+v₂+v₃)≠0 ⟹ raw jh3 ∉ hex(0)。正しい lift = g₁ = r·s⁻¹(s = v₁+v₂+v₃ の群交換子語・γ₄ 中心なので順序無害)。数学者 B の「Ψ=0 ⟹ 素の jh3 が厳密解」は誤りだった。
 - 批准分布(F106-2.5): 非空 6 層(B-0a 前件相対)・hexagon 各層 49・**総 294 = 確定**・PENT = OPEN(1 or 7/層)・hexagon-only = OPEN(288 or 252)・SURJ fail 0・settled 100% は「hexagon-pass 294 件を分母とする意味で」PASS。IF-FIRST 規律自体は遵守と裁定(登録外でなく typing failure)。
 - 発火: ①PRE-2′ 再測定(implementer: g₁=r·s⁻¹ 構成・欠陥消失確認・D(g₁) vs η・cert v2)②PENT-LAYER 補題起草(数学者 B・票は凍結・additive addendum)。
+
+## 2026-08-05 PENT-LAYER addendum 検収(裁定 560)— nw7_predictions_addendum_pentlayer_v1.md(89627ea1…・5bcddfb・票 v1 凍結保全)
+- ★設計判断を採択: Sol 字義の「H_W 部分群性」は罠 D-5(lift 存在形の有限窓持込)に抵触するため証明せず、**票が実際に必要とする弱形**を証明 — 補題 SUB-W(一般形・Sol の LAY-3 言い換えを d=3,k=4 特例として一本化)・LEFT-TRIV(E_{0,h'}(f₀)=f₀ が exact)・系 COSET-EXP(hex(m₀)=A·f₀ の左移動表示)・★補題 PENT-LAYER(pent(m₀)=ker(D|_A)·f₀ — 必要な閉性は左掛けのみ)。帰結: **層間一様性が証明され、分岐決着は m=0 層の ξ 1 点で足りる**。設計可否は Sol への Q-2 として明示(不可なら PL-GAP-1 vs D-5 の指示請求)。
+- 副産物: 系 CONJ-Φ で票の【EXQ-GAP-2】が graded 水準 CLOSED(EXQ-6 の u³/u⁴ が定理へ・非対角は PL-GAP-2 残置)。PRE-2 機序の独立再確認((3.10) 通過・(3.11) 次数 4 欠陥 = 3)。再測定仕様に **fail-closed の A-所属前検査**(TYPING_FAILURE/STOP)を必須化 — 今回欠けていた一段の恒久化。
+- 申し送り採録: 規約台帳 §1.3.10 に 𝔥₃/h₃ の Lie/群区別行を追加(h₄ にはあり h₃ になし = 今回の穴の根)— ledger r3 finalization に同梱(キューへ)。
+- 便 106 補遺の発送は PRE-2′(走行中)着地後に一括(roundtrip batching)。

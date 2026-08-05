@@ -1,0 +1,46 @@
+setup checks: theta^2=id, tau^3=id, x*y*z=1  -> OK
+gr_3(F2) basis u1,u2 fixed; gr_4(F2) basis v1,v2,v3 fixed (Hall relation OK)
+
+=== honest GROUP-commutator construction (GAP Comm(a,b)=a^-1 b^-1 a b) ===
+log(Comm(x,y)) deg2 part: ['0', '1', '-1', '0']  (compare formal bracket [X,Y] deg2: ['0', '1', '-1', '0'] )
+log(Comm(x,y)) deg3 part (BCH spillover beyond the formal bracket): ['0', '-1/2', '1', '1/2', '-1/2', '-1', '1/2', '0']
+log(Comm(x,y)) deg4 part (BCH spillover beyond the formal bracket): ['0', '1/6', '-1/2', '-1/4', '1/2', '1/2', '0', '1/6', '-1/6', '0', '-1/2', '-1/2', '1/4', '1/2', '-1/6', '0']
+
+--- log(r), r = Comm(Comm(x,y),x)*Comm(Comm(x,y),y) (honest group elt) ---
+deg1 part (expect all 0): ['0', '0']
+deg2 part (expect all 0): ['0', '0', '0', '0']
+deg3 part == h3 (formal u1+u2) exactly? True
+deg4 part of log(r), decomposed in (v1,v2,v3): (a,b,c) = (Fraction(1, 1), Fraction(1, 1), Fraction(1, 1))
+residual (should be all 0, i.e. deg4 part genuinely in span(v1,v2,v3)): ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+Sol's claimed correction (a,b,c)=(1,1,1)?  True
+
+[point (a)] hexagon condition (3.11) degree-4 defect of RAW r (log_r = h3+corr): ['0', '3', '-9', '-3', '9', '6', '0', '3', '-3', '0', '-6', '-9', '3', '9', '-3', '0']
+  decomposed in (v1,v2,v3): (a,b,c) = (Fraction(3, 1), Fraction(3, 1), Fraction(3, 1))  residual: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+  mod 7: (3,3,3)
+  raw r's hexagon-(3.11) degree-4 defect is NONZERO mod 7 (r is NOT in hex(0))? True
+  expected form 3*(v1+v2+v3) (Sol): matches? True
+
+=== building s (group word for v1+v2+v3, same construction pattern as jh4) ===
+  s_v1part deg<4 all zero? True  deg4 == expected basis vector exactly? True
+  s_v2part deg<4 all zero? True  deg4 == expected basis vector exactly? True
+  s_v3part deg<4 all zero? True  deg4 == expected basis vector exactly? True
+log(s) deg<4 all zero? True
+log(s) deg4 == v1+v2+v3 exactly? True
+
+--- log(g1), g1 = r * s^-1 (honest group elt) ---
+deg1 (expect 0): ['0', '0']
+deg2 (expect 0): ['0', '0', '0', '0']
+deg3 == h3 exactly? True
+deg4 (expect all 0, i.e. correction cancelled): ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+g1's degree-4 part is exactly zero? True
+
+[point (b)] hexagon condition (3.11) degree-4 defect of g1 = r*s^-1: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+  decomposed in (v1,v2,v3): (a,b,c) = (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1))  residual: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+  mod 7: (0,0,0)
+  g1's hexagon-(3.11) degree-4 defect is ZERO mod 7 (g1 IS in hex(0) up to deg4)? True
+
+=== SUMMARY ===
+point_a_raw_r_defect_nonzero: True  value_mod7: (3, 3, 3)  matches_Sol_3(v1+v2+v3): True
+point_b_g1_defect_zero: True  value_mod7: (0, 0, 0)
+g1_deg3_eq_h3: True  g1_deg4_eq_zero: True
+PRE2_VERIFY_DONE

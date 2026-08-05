@@ -1,0 +1,58 @@
+﻿
+=== PRE-2 v2: xi' = D(g1), g1 = jh3 * s^-1 (corrected lift) vs eta = D(jh4) in gamma_4(Q) ===
+Qgrp read. NumberOfGenerators(Qgrp) = 40 (expect 40)
+Image(epi) = Qgrp? true
+own_measurement: |Q| = 6366805760909027985741435139224001
+own_measurement: |Q| = 7^40 ? true
+own_measurement: length(LCS) = 5 (expect 5)
+own_measurement: |gamma_4(Q)| = 558545864083284007
+own_measurement: |gamma_5(Q)| = 1 (expect 1)
+own_measurement: dim_F7 gamma_4(Q) = 21 (expect 21)
+own_measurement: gamma_4(Q) elementary abelian (exponent 7)? true
+epiGens generate Qgrp? true
+rhoQ well-defined? true
+own_measurement: rhoQ^5 = id? true
+j(h4) = identity in Q? false (expect false)
+j(h3) = identity in Q? false (expect false)
+j(s)  = identity in Q? false
+j(g1) = identity in Q? false
+g1Q = jh3Q * sQ^-1 (epi homomorphism sanity)? true
+sQ in gamma_4(Q)? true
+gamma_4(Q) central in Q? true
+
+--- eta = D(jh4) ---
+eta = 1 ? false (expect false, per NW-P5 / driver_step3 t=1 case)
+eta in gamma_4(Q)? true
+
+--- xi_raw = D(jh3)  [DIAGNOSTIC ONLY, per F106-2.4 not branch evidence] ---
+xi_raw = 1 ? false
+xi_raw in gamma_4(Q)? true
+
+--- xi' = D(g1), g1 = jh3*s^-1  [CORRECTED, THIS is the branch-B-2 quantity] ---
+xi' = 1 ? true
+xi' in gamma_4(Q)? true
+
+Pcgs(gamma_4(Q)) length = 21 (expect 21)
+eta      exponent vector (F_7^21): [ 0, 0, 2, 0, 0, 2, 5, 3, 5, 5, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+xi_raw   exponent vector (F_7^21) [diagnostic, = D(jh3), NOT g1]: [ 0, 0, 5, 4, 0, 1, 6, 1, 3, 6, 6, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+xi_prime exponent vector (F_7^21) [= D(g1), g1=jh3*s^-1, CORRECTED]: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+s exponent vector (F_7^21) [sanity: should equal xi_raw - xi_prime mod 7]: [ 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+xi_raw - xi_prime (mod 7, coordinatewise) == s exponent vector? false
+
+--- proportionality test: eta vs xi_raw=D(jh3) [DIAGNOSTIC ONLY] ---
+first nonzero coord of eta: index 3, value 2
+candidate scalar k (vecB =? k*vecA), k = 6 (mod 7)
+vecB == k*vecA (mod 7) coordinatewise for all 21 coords? false
+RankMat([eta;vecB]) over GF(7) = 2 (expect 1 iff proportional; eta<>0 so rank>=1)
+
+--- proportionality test: eta vs xi_prime=D(g1) [CORRECTED, BRANCH EVIDENCE] ---
+first nonzero coord of eta: index 3, value 2
+candidate scalar k (vecB =? k*vecA), k = 0 (mod 7)
+vecB == k*vecA (mod 7) coordinatewise for all 21 coords? true
+RankMat([eta;vecB]) over GF(7) = 1 (expect 1 iff proportional; eta<>0 so rank>=1)
+
+=== BRANCH DECISION (B-2), based on xi_prime = D(g1) ===
+xi' in F_7*eta  ->  BRANCH B-2a : |pent(m)| = 7 (each non-empty layer), total 42
+
+PRE2V2_RESULT branch=B-2a k=0 rank=1 eta_i0=3 diagnostic_xi_raw_proportional=false
+PRE2V2_DONE

@@ -1,0 +1,127 @@
+{
+  "cert_id": "nw7_pre12_v2_20260805",
+  "supersedes": {
+    "cert": "search/certs/nw7_pre12_20260805.json",
+    "cert_sha256_of_superseded_file": "unmodified_on_disk_see_git_history",
+    "reason": "Sol F106-2.4 (sol/sol_reply_106_math33.md sec F106-2.4), ratified by 裁定 559: the v1 PRE-2 script (search/probe/hsp7_cond4_laneP/pre2_xi_b2_20260805.g) measured xi_raw = D(jh3) where jh3 = raw Hall-commutator group element Comm(Comm(x,y),x)*Comm(Comm(x,y),y). This jh3 is NOT an element of A = hex(0): log(jh3) = h3 + (v1+v2+v3) mod gamma_5 (nonzero degree-4 correction), so v1's B-2b branch decision is a typing failure -- it measured D of a non-hex(0) element, not D(g1) for g1 in A. v1 is NOT modified on disk (repo history preserves the original bytes); this is a superseding cert from a new script.",
+    "v1_measured_values_status": "diagnostic only, not branch evidence (per F106-2.4). Preserved below under diagnostic_v1_xi_raw."
+  },
+  "status": "candidate",
+  "purpose": "PRE-2 v2: re-measurement of branch B-2 (docs/notes/nw7_mainrun_predictions_iffirst_v1.md sec.4.2) using a CORRECTED lift g1 = jh3*s^-1 in A = hex(0), where s is the gamma_4(P) group-commutator word representing the exact degree-4 correction v1(basis)+v2(basis)+v3(basis) that raw jh3 carries. Commissioned by 司令塔 per 裁定 559, responding to Sol F106-2.4.",
+  "prereg_ref": {
+    "doc": "docs/notes/nw7_mainrun_predictions_iffirst_v1.md",
+    "doc_sha256": "2c868a3c336d569760d2c91ba1ccd7ffffeba7d2a4f5c58fb059e26f32e7bd20",
+    "sections_used": ["sec.1.3 (symbols h3,h4)", "sec.2.2 (LAY-1..4, PENT-HOM)", "sec.4.1 (branch B-1)", "sec.4.2 (branch B-2)", "sec.5 (PRE-1/PRE-2 authorization table)"]
+  },
+  "sol_audit_ref": {
+    "doc": "sol/sol_reply_106_math33.md",
+    "doc_sha256": "0dd4dc8c9affb16ef1fcd8e22e7758b55339734608c4bc9cc707377c7f7df42f",
+    "section": "F106-2.4",
+    "finding_reproduced": "raw jh3's log has degree-4 part = v1(basis)+v2(basis)+v3(basis) exactly (a=b=c=1); the hexagon condition (3.11) degree-4 defect of raw jh3 is (2*1-1+2*1)(v1+v2+v3) = 3(v1+v2+v3), nonzero mod 7. Independently re-derived from scratch below (not looked up) -- matches exactly."
+  },
+  "scope_discipline": {
+    "candidate_universe_touched": false,
+    "candidate_count_evaluated": 0,
+    "sealed_quantities_touched": ["none: n=5 window value, Im(R), d_N, u-value all untouched"],
+    "gap_windows_or_pc_groups_beyond_Q_started": false,
+    "note": "Same already-constructed Q = K(0,5)/W (order 7^40) as v1. Evaluates D at a small fixed number of group elements (jh3, jh4, s, g1). Not a run over the 705,894-pair universe."
+  },
+  "results": {
+    "verification_point_a": {
+      "claim_checked": "Sol F106-2.4: raw jh3's second-hexagon (condition (3.11)) degree-4 defect is nonzero mod 7, value 3*(v1+v2+v3)",
+      "method": "Independent, from-scratch rank-2 free Lie algebra / truncated tensor algebra computation (exact Fractions, degrees <= 4). Builds gx=exp(X), gy=exp(Y) as HONEST group elements, defines GComm(a,b):=a^-1 b^-1 a b (GAP's Comm convention) using the mul/inv machinery, nests it exactly as GAP's Comm(Comm(x,y),x)*Comm(Comm(x,y),y), takes the honest group logarithm loga(r) via the same log/exp inverse-pair machinery as search/probe/hsp7_v1/pre1_psi_b1_20260805.py and search/probe/hsp7_v1/hs_prop7_hexagon_vs_pentagon.py (extending that base script's hexagon_defect condition (3.11) to the inhomogeneous F=log(r) directly, rather than assuming any linear formula for the degree-4 spillover).",
+      "script": "search/probe/hsp7_v1/pre2_g1_verify_20260805.py",
+      "script_sha256": "ff893452ef956a2d093bd63b59eae3f9c94213aeadc713ececb5bb8c6067f151",
+      "run_log": "search/probe/hsp7_v1/pre2_g1_verify_run_20260805.log",
+      "run_log_sha256": "a065f65f791f1ec6736a48348ffb90cce298efcff1385ae8dbf37a0e4c9be952",
+      "findings": {
+        "log_r_deg1_deg2_zero": true,
+        "log_r_deg3_eq_h3_exactly": true,
+        "log_r_deg4_decompose_in_v_basis": [1, 1, 1],
+        "log_r_deg4_residual_outside_span_v": "all zero (genuinely in span(v1,v2,v3))",
+        "hexagon_3_11_degree4_defect_of_raw_r_mod7": [3, 3, 3],
+        "matches_Sol_claimed_3_times_v1plusv2plusv3": true,
+        "raw_r_is_NOT_in_hex0": true
+      },
+      "verdict": "CONFIRMED (independently). Raw jh3 fails hexagon condition (3.11) at degree 4 by exactly 3*(v1+v2+v3) mod 7, nonzero. Sol's F106-2.4 audit point (a) is correct."
+    },
+    "verification_point_b": {
+      "claim_checked": "the corrected lift g1 := r*s^-1 (s = gamma_4(P) group-commutator word for v1+v2+v3, gamma_4(P) central so order immaterial) has ZERO degree-4 hexagon-(3.11) defect, i.e. g1 IS in hex(0)",
+      "method": "Same script as point (a). Builds s_v1part=GComm(d1,gx), s_v2part=GComm(d1,gy), s_v3part=GComm(d2,gy) (d1=Comm(x,y),x)-commutator, d2=Comm(x,y),y)-commutator -- same nesting pattern as the existing jh4 construction in search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.g, but with all three coefficients =1 instead of jh4's (1,4,1)); verifies each part has zero low-degree (<4) residue and exact degree-4 = the expected basis vector (v1, v2, v3 respectively); builds s_grp = product of the three parts, verifies log(s_grp) deg<4 = 0 and deg4 = v1+v2+v3 exactly; builds g1 = r * s_grp^-1 (honest group multiplication); verifies log(g1) deg1,deg2 = 0, deg3 = h3 exactly, deg4 = 0 exactly (correction cancelled); computes the hexagon-(3.11) degree-4 defect of g1 directly.",
+      "script": "search/probe/hsp7_v1/pre2_g1_verify_20260805.py",
+      "script_sha256": "ff893452ef956a2d093bd63b59eae3f9c94213aeadc713ececb5bb8c6067f151",
+      "run_log": "search/probe/hsp7_v1/pre2_g1_verify_run_20260805.log",
+      "run_log_sha256": "a065f65f791f1ec6736a48348ffb90cce298efcff1385ae8dbf37a0e4c9be952",
+      "findings": {
+        "s_parts_deg_lt4_zero": true,
+        "s_parts_deg4_eq_expected_basis_vectors_exactly": true,
+        "log_s_deg4_eq_v1plusv2plusv3_exactly": true,
+        "log_g1_deg1_deg2_zero": true,
+        "log_g1_deg3_eq_h3_exactly": true,
+        "log_g1_deg4_all_zero": true,
+        "hexagon_3_11_degree4_defect_of_g1_mod7": [0, 0, 0],
+        "g1_IS_in_hex0_up_to_deg4": true
+      },
+      "verdict": "CONFIRMED. g1 = r*s^-1 realizes an exact (degree-4-clean) lift of h3 into A = hex(0). g1 is the correct object for the branch-B-2 measurement."
+    },
+    "remeasurement_B2": {
+      "quantity": "xi' = D(g1), g1 = jh3*s^-1 (the corrected lift, verified above to be in A=hex(0)), compared against eta = D(h4) = D(jh4), the already-known-nonzero NW-P5 quantity, for F_7-proportionality inside the elementary-abelian gamma_4(Q) (dim 21 over F_7)",
+      "method": "GAP: rebuild Q=K(0,5)/W (fresh, from the pre-existing ANUPQ output artifact, own_measurement anchors cross-checked against search/probe/hsp7_cond4_laneP/driver_step3_eval_pent.log: |Q|=7^40, gamma_5(Q)=1, dim_F7 gamma_4(Q)=21, rho bijective of order 5, gamma_4(Q) verified central in Q); build s := Comm(Comm(Comm(x,y),x),x)*Comm(Comm(Comm(x,y),x),y)*Comm(Comm(Comm(x,y),y),y) and g1 := jh3*s^-1 as words in K05fp (verbatim same generators jx=kX12, jy=kX23 as v1/driver_step3); apply D(f):=rho^4(f)rho^3(f)rho^2(f)rho(f)f to jh4Q, jh3Q (diagnostic), and g1Q; express in Pcgs(gamma_4(Q)) exponent-vector coordinates; test proportionality of xi'=D(g1) vs eta two independent ways (coordinatewise scalar check, RankMat over GF(7)); sanity check g1Q = jh3Q*sQ^-1 in Q (epi homomorphism), sQ in gamma_4(Q), gamma_4(Q) central in Q.",
+      "script": "search/probe/hsp7_cond4_laneP/pre2_g1_xi_b2_20260805.g",
+      "script_sha256": "601c6f683b73253221662442bfcd5ec55a9bf3b9f4b1fbd77b6949019dcd207e",
+      "input_artifact": "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g (pre-existing, not regenerated, not modified)",
+      "input_artifact_sha256": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+      "run_log": "search/probe/hsp7_cond4_laneP/pre2_g1_xi_b2_run_20260805.log",
+      "run_log_sha256": "348acf183952136bd10cbfb23b22bff69c6035470b4c6e006690a72e7329d584",
+      "anchors_reconfirmed": {
+        "size_Q": "7^40 = 6366805760909027985741435139224001",
+        "gamma5_Q_trivial": true,
+        "gamma4_Q_size": "7^21 = 558545864083284007",
+        "gamma4_Q_exponent_7": true,
+        "gamma4_Q_central_in_Q": true,
+        "rho_bijective_order5": true,
+        "eta_eq_1": false,
+        "xi_prime_eq_1": true,
+        "eta_in_gamma4": true,
+        "xi_prime_in_gamma4": true,
+        "g1Q_eq_jh3Q_times_sQ_inv_epi_sanity": true,
+        "sQ_in_gamma4_Q": true
+      },
+      "eta_exponent_vector_F7_21": [0,0,2,0,0,2,5,3,5,5,5,2,0,0,0,0,0,0,0,0,0],
+      "diagnostic_v1_xi_raw_exponent_vector_F7_21_NOT_branch_evidence": [0,0,5,4,0,1,6,1,3,6,6,5,0,0,0,0,0,0,0,0,0],
+      "xi_prime_exponent_vector_F7_21": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      "xi_prime_is_identity_in_Q": true,
+      "note_on_xi_prime_being_identically_zero": "xi' = D(g1) is NOT merely proportional to eta -- it is the ZERO vector / identity element of Q exactly. This is a degenerate instance of the boxed criterion (0 = 0*eta, trivially in F_7*eta), landing B-2a. It is also independently sensible: F106-2.2 established D(fg)=D(f)D(g) for f,g in gamma_3(P), so on A (parametrized as g1^m * h4^t, m,t in Z/7, since pi_3 is surjective onto F_7 h3 with kernel <h4>) this gives D(g1^m h4^t) = xi'^m * eta^t = eta^t (since xi'=identity), independent of m. Hence exactly the 7 elements with t=0 (all m) satisfy PENT (D=identity), matching |pent(0)|=7 -- branch B-2a is not just the literal boxed criterion applied to a boundary case, it is the structurally forced answer given xi'=1 and the established D(fg)=D(f)D(g) multiplicativity. Flagged for Sol/司令塔 attention: worth an explicit second look given how clean (all-zero, not merely proportional) the result is.",
+      "candidate_scalar_k_mod7": 0,
+      "coordinatewise_scalar_check_all_21": true,
+      "rank_of_2x21_matrix_over_GF7": 1,
+      "cross_check_agreement": "coordinatewise test and RankMat test agree (both say proportional, degenerate k=0 case)",
+      "branch_landed": "B-2a",
+      "branch_meaning": "xi' = D(g1) in F_7*eta (trivially, xi'=0). Per layer m, |pent(m)| = 7; total PENT-passing count over the 6 non-empty layers = 42.",
+      "diagnostic_only_v1_comparison": {
+        "eta_vs_xi_raw_proportional": false,
+        "eta_vs_xi_raw_candidate_scalar_k_mod7": 6,
+        "eta_vs_xi_raw_rank": 2,
+        "note": "reproduces v1's own numbers exactly (byte-identical vectors) -- confirms this v2 script's rebuild of Q, rho, and D matches v1's, isolating the correction to g1's construction only, not to any anchor/measurement infrastructure change."
+      }
+    }
+  },
+  "combined_downstream_table_per_ticket_sec4": {
+    "note": "B-1 -> B-1a (|A|=49, hexagon total = 294, per PRE-1, unaffected by this cert). B-2 -> B-2a (pent total = 42, the ticket's own B-2a headline row), SUPERSEDING v1's unsound B-2b landing. Per ticket sec.4.2's boxed remark, both branches are pre-registered alternatives; B-2a is the ticket's headline prediction.",
+    "predicted_hexagon_total": 294,
+    "predicted_pent_total_under_landed_branches": 42,
+    "predicted_hexagon_only_under_landed_branches": 252
+  },
+  "iffirst_discipline": {
+    "branches_registered_before_this_computation": true,
+    "same_run_prediction_rewrite": false,
+    "recorded_as": "branch_resolved (丙類), not hit/miss -- B-2 landed on registered alternative B-2a, per ticket sec.7.2 row 丙",
+    "PREREGISTRATION_FALSIFIED_triggered": false,
+    "reason_not_triggered": "B-2a is among the ticket's own pre-registered alternatives (B-2a/B-2b). This is a re-measurement of the SAME registered quantity (xi=D(g1) for g1 in A) after v1's typing-failure correction, not a new registration."
+  },
+  "novelty_claim": "none",
+  "cross_checked_or_verified": "NEITHER. Single-system computation (this implementer session only, one python + one GAP script, both written by the same session). The python (verify) and GAP (remeasure) scripts are independent implementations of the SAME free Lie algebra / group-BCH facts using different languages/machinery, and their conclusions agree (g1's honest-BCH deg4 defect is 0 in both), which is a same-session double-implementation check, NOT an independent second-session cross-check. Not verified (not Lean).",
+  "numbers_machine_generated": true,
+  "date": "2026-08-05",
+  "author": "影工房 implementer (Claude / Sonnet 5), commissioned by 司令塔 per 裁定 559, responding to Sol F106-2.4 (sol/sol_reply_106_math33.md)"
+}
