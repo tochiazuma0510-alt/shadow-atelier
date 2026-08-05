@@ -1,0 +1,33 @@
+{
+"schema":"w6-bu-s35-math-detail/v1",
+"note":"NOT the frozen w6-bu-firing-cert/v1 schema -- companion detail report for S3.5 (marked-lift EMB-LIN counts, F-1/F-2 fixtures, BU-GAP-13 page-image resolution). No kill/EMPTY/isolated claim.",
+"design_doc":"docs/notes/bu_s35_embedding_v1.md",
+"authorization":"裁定589 (司令塔): (1) 2405.11725 (4.7)(4.8) page-image xcheck (2) F-2 as firing precondition (3) L-1 parallel assert (4) EMB-LIN linearization + one brute-force xcheck on D+D",
+"bu_gap_13_resolution":{
+  "status":"CLOSED",
+  "method":"visual page-image cross-check (not OCR-text-only)",
+  "source_pdf":"papers/2405.11725-nonabelian-quotients-gt-elementary.pdf",
+  "physical_page":16,
+  "rendered_image":"scratchpad/bu_s35_page16-16.png",
+  "finding":"(4.7) theta(r^2n1,r^2n2,r^2n3)=(r^2n2,r^2n1,r^-2n3) and (4.8) tau(r^2n1,r^2n2,r^2n3)=(r^2n3,r^2n1,r^2n2) match bu_s35_embedding_v1.md SS1 verbatim, including the third-coordinate sign flip in (4.7). No discrepancy found."
+},
+"f1_f2_fixtures":{
+  "f1_all_pass":true,
+  "f2_1_sigma1sq_eq_MakeGn5_x":true,
+  "f2_2_sigma2sq_eq_MakeGn5_y":true,
+  "f2_3_ad_x_eigen_multiset_1_neg1_neg1":true,
+  "f2_4_ad_y_eigen_multiset_1_neg1_neg1":true,
+  "f2_eigenlines_distinct":true,
+  "note":"F-2.1/F-2.2 (literal permutation equality against MakeGn(5).x,.y) are the primary D-1 detector; F-2.3/F-2.4 (Ad eigenstructure) is a secondary confirmation. F-2.5/F-2.6 (exact Theta/T matrix match) not computed: basis ambiguity is explicitly flagged in bu_s35_embedding_v1.md SS7.4 as harmless for S3.5 (only theta,tau linear action on V is used, not the A-coordinate basis itself)."
+},
+"rows":[{"module_id":"p2_d2_a0b0c1","p":2,"dim":2,"dim_H2_S4":1,"num_classes":2,"lane_a_marked_lift_counts":[8,8],"brute_force_cross_check_done":false},{"module_id":"p2_d2_a0b1c0","p":2,"dim":2,"dim_H2_S4":1,"num_classes":2,"lane_a_marked_lift_counts":[2,2],"brute_force_cross_check_done":false},{"module_id":"p2_d2_a2b0c0","p":2,"dim":2,"dim_H2_S4":4,"num_classes":16,"lane_a_marked_lift_counts":[4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0],"brute_force_cross_check_done":false},{"module_id":"p2_d3_a1b0c1","p":2,"dim":3,"dim_H2_S4":3,"num_classes":8,"lane_a_marked_lift_counts":[16,0,16,0,16,0,16,0],"brute_force_cross_check_done":false},{"module_id":"p2_d3_a1b1c0","p":2,"dim":3,"dim_H2_S4":3,"num_classes":8,"lane_a_marked_lift_counts":[4,0,4,0,4,0,4,0],"brute_force_cross_check_done":false},{"module_id":"p2_d3_a3b0c0","p":2,"dim":3,"dim_H2_S4":6,"num_classes":64,"lane_a_marked_lift_counts":[8,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0],"brute_force_cross_check_done":false},{"module_id":"p2_d4_a0b0c2","p":2,"dim":4,"dim_H2_S4":2,"num_classes":4,"lane_a_marked_lift_counts":[64,64,64,64],"brute_force_cross_check_done":true,"lane_b_counts":[64,64,64,64],"l1_parallel_assert_all_automatic":true},{"module_id":"p2_d4_a0b1c1","p":2,"dim":4,"dim_H2_S4":2,"num_classes":4,"lane_a_marked_lift_counts":[16,16,16,16],"brute_force_cross_check_done":false},{"module_id":"p2_d4_a0b2c0","p":2,"dim":4,"dim_H2_S4":2,"num_classes":4,"lane_a_marked_lift_counts":[4,4,4,4],"brute_force_cross_check_done":false},{"module_id":"p2_d4_a2b0c1","p":2,"dim":4,"dim_H2_S4":5,"num_classes":32,"lane_a_marked_lift_counts":[32,0,0,0,32,0,0,0,32,0,0,0,32,0,0,0,32,0,0,0,32,0,0,0,32,0,0,0,32,0,0,0],"brute_force_cross_check_done":false},{"module_id":"p2_d4_a2b1c0","p":2,"dim":4,"dim_H2_S4":5,"num_classes":32,"lane_a_marked_lift_counts":[8,0,0,0,8,0,0,0,8,0,0,0,8,0,0,0,8,0,0,0,8,0,0,0,8,0,0,0,8,0,0,0],"brute_force_cross_check_done":false},{"module_id":"p2_d4_a4b0c0","p":2,"dim":4,"dim_H2_S4":8,"num_classes":256,"lane_a_marked_lift_counts":[16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"brute_force_cross_check_done":false},{"module_id":"p3_d2_bruteforce_1","p":3,"dim":2,"dim_H2_S4":1,"num_classes":3,"lane_a_marked_lift_counts":[27,0,0],"brute_force_cross_check_done":false},{"module_id":"p3_d2_bruteforce_2","p":3,"dim":2,"dim_H2_S4":0,"num_classes":1,"lane_a_marked_lift_counts":[27],"brute_force_cross_check_done":false},{"module_id":"p3_d2_bruteforce_3","p":3,"dim":2,"dim_H2_S4":1,"num_classes":3,"lane_a_marked_lift_counts":[27,0,0],"brute_force_cross_check_done":false},{"module_id":"p3_d2_bruteforce_4","p":3,"dim":2,"dim_H2_S4":0,"num_classes":1,"lane_a_marked_lift_counts":[9],"brute_force_cross_check_done":false},{"module_id":"p3_d2_bruteforce_5","p":3,"dim":2,"dim_H2_S4":2,"num_classes":9,"lane_a_marked_lift_counts":[81,0,0,0,0,0,0,0,0],"brute_force_cross_check_done":false}],
+"totals":{"total_classes":449,"accepted_classes":73,"rejected_classes":376},
+"grading":{
+  "lane_a_lane_b_agreement":"cross-checked ON D+D ROW ONLY (4 classes, real PcGroup extension + literal L-1/L-2 group arithmetic); other 16 rows use EMB-LIN formula only (single-lane, not independently re-verified per row -- rests on the paper-proof theorem EMB-BRAID, Sol 未監査)",
+  "l1_parallel_assert":"executed on D+D's 4 classes only (genuine group elements available there); for the other 16 rows L-1-is-automatic-given-L-2 is NOT independently re-verified, disclosed as a scope limit per 裁定589 condition (4)",
+  "isolated_verdict":"UNKNOWN (unchanged; S3.5 counts marked lifts, does not determine isolated)",
+  "claims":"no kill, no EMPTY, no candidate-found, no isolated=TRUE/FALSE anywhere in this report"
+},
+"fails_total":0,
+"fails":[]
+}
