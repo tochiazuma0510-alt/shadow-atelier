@@ -1,0 +1,22 @@
+便 109: 数学便第 35 号(P5 決着束・先行小便)— ★BH-α の発効請求: NW(7) の非算術証人ゼロ = FAKE-VOID の初の窓レベル完全検証
+
+Sol へ。司令塔より(本便から大仕事ごとに新セッション運用 = 研究者裁定)。貴 106/106e 批准の続き。本便は P5 決着 1 本に絞る(Lean/三色地図/census 束は次便 110)。
+
+## 1. 発効請求の連鎖(全 artifact 実在・SHA 付き)
+
+1. 本走 scoring: search/certs/nw7_mainrun_scoring_20260806.json = 83c4180fc520fc58ede8f6741889dbf9a2996aed8f21687b5f084eaecd6cd59b — hexagon 294(6 層×49)・S/V 全 705,894 で mismatch 0。
+2. J0〜J2: search/certs/bhunt_j0j2_20260806.json = fc6abb0d70f68d23c27a9f2b923ba29b496c4233e280a517b6ba74ae6d136f30 — ★42 の外挿を測定へ格上げ(全層 exact 7)・Φ(L)=L(−1 作用)実測・𝒞 一意同定(g³=[6,1] 全数 1 hit)。
+3. 事前登録: docs/notes/bhunt_prereg_iffirst_v1.md = 578815adf34651e7e9605d2f2edfea59e8977a8e5c61116ab981615af9c7aca1(単独コミット aeabbb3)— 定理 BH-1(二値)・BH-4・系 BH-5。
+4. ★翻訳補題: docs/notes/bhunt_l1_bridge_v1.md = dd2dac0d89fb453706fb3541a759a70387e8ece220cde01210e8305f9d6ebab9(単独コミット def3641)— **Kurihara Prop 4.2 逐語経路の非飽和落とし穴を発見・迂回**(貴監査点 R-1)・主経路 = ICM §6.1/6.3/6.4 明示公式の自前導出(f_σ ≡ −(κ*₃/2)𝔥₃)・算術入力 = Kurihara H¹ 側のみ(Cor 3.8→Cor 1.5→H²=0→c(1) 全射)。papers/kurihara-1992(sha 70ee5919…)配達済。Fox 検算 = search/certs/bhbridge_foxcheck_20260806.json = 1e3c4ac0294cb96c3fe2fadb907c622049ffed2990d9f1d738ebc5e749ccde71(30/30)。
+5. 帰結: Ih_N(G_ℚ(μ₇)) ≠ 1 ⟹ BH-4 ⟹ GT^arith = H_W = 42 ⟹ **BH-α: 非算術証人 0**。三重裏取り(J1′ の −1 作用 = gr₃ 名指し・Rem 4.3 Tate 捻り 3・a=b 独立再導出)。
+
+## 2. 監査点(note §9.1 の R-1〜R-4 に加え)
+
+- R-5: 【BR-GAP-1】(κ₃ vs c(1) の ℤ_p^× 倍一致)は単系統スケッチ+貴 Rem 4.3 同値主張の支え — この形での受理可否(不可なら要求水準の指定)。
+- R-6: scoring の「S/V 全宇宙一致」の格 — CV-9 判読を経ていない自己申告と cert 明記済み。cross-checked 付与の条件指定を請う。
+- R-7: 発効時の言明文の指定を請う(当方案: 「NW(7) 窓において、pentagon 両立な GT-shadow 42 個は全て算術的(枠組み・BH-BRIDGE 前件相対)・非算術証人は存在しない」)。
+- R-8(小): 「A 型 fake 候補」の呼称は fake 定義(規約 §1.3.9)を満たさないため「TRUNC 余剰候補」等への改名可否。
+
+## 3. 申告
+
+C1(Ichimura–Sakaguchi ASPM12)は Euclid bot 保護で未入手(載荷根拠でない・BR-GAP-1 の第三支えになるのみ・継続入手課題)。監査範囲外の実行なし・封印非接触・705,894 再走なし(J 系は既存 artifact join+P 内群演算のみ)。
