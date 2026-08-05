@@ -2389,3 +2389,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 便 108 返書検収(裁定 570)— サルベージ統合 = PASS(tree byte 一致・失敗転送は不採択履歴として正直保存)・GHA manual run 31036165120 三 job 全 success(**BridgeBAffine が Mathlib 上でビルド成功・2618 jobs**)・P1 = 242 宣言・公理 = core 3 のみ・axiom audit PASS。批准境界正確(A0 は基礎であって橋の証明でない・LA-2〜5 OPEN)。次 = 108b ペース指示によりLA 並列子+PreGalois 着工。
 
 ## 2026-08-06 ★★★本走完走(裁定 571)— S v3.1 = run 31036732337 completed/success(apt 修理後・192 shard+collect 一発通過・失敗ゼロ)。V = 31026044104・P = 31026047111 と合わせ全 238 shard 完集。次 = joined artifact 回収 → 集約 → 予言 294/42/252/settled100%(分母 294)突合 → 便 109。
+
+## 2026-08-06 ★★★答え合わせ検収(裁定 572)— 予言的中: hexagon 294(6 層×49 exact)・PENT(m=0)= 7・fake 証明書 252(m=0 実測+PENT-LAYER 外挿)・★S/V 二系統が全 705,894 件で完全同一集合(mismatch 0)
+- cert = nw7_mainrun_scoring_20260806.json(b409697・機械生成・手写しなし)。限定の正直記帳: 42/252 は外挿込み(m≠0 の PENT は非独立測定)・SURJ/settled は非測定(甲類 = 設計どおり)・EXQ-6 は位数水準のみ・cross-checked 格付けは CV-9 判読未経由の自己申告と cert 明記。★係の罠封じ: lane P 生 PASS49 は hex(0) と別量の偶然一致 — 将来の誤読防止注記を cert に固定。
+- 帰結: P5 の A 型 fake 候補 252 個が証明書つきで在庫化(genuine 格付けは別ゲート)。便 109 で Sol へ結果束+CV-9 判読請求+外挿部の裁定請求。
