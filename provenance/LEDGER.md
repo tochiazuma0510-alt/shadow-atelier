@@ -2234,3 +2234,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 制度指摘 2 件: CV-9-1(IF-FIRST 凍結)未実施・conventions_used(積順・語順・帳簿)が両 cert に不在(副検問の機械 diff 不能の直接原因)。
 - **裁定(修理一括 = R3/R4 係へ発注)**: ①R-A: Python verdict を 3 変数 gate 込みへ整列+h10_fail 帳簿を (f,m) 対に統一 ②R-B: M-ISO-2 再構成 = falsifier 安価修理(witness を shadow バケツへ・24→23/12→13・恒等式整合・gate 迂回なし・実経路で element settled=false 発火 = 偽側実行)+数学者 A.2 の意味論(窓 verdict は FALSE でなく **UNKNOWN+停止コード NONSHADOW_IN_DATUM**・isolated=FALSE 主張はしない)③M-ISO-8 新設 = settled:=true 固定変異(修理後 killed 必須)④経路層変異の復元(§5.3 準拠)⑤cert 文言訂正+両 cert に conventions_used ⑥IF-FIRST 凍結文書を**再走前に**起草。修理後 falsifier 再判読 → その後にのみ cross-checked 格付け裁定。
 - AS-GAP-6(真の non-isolated witness 未取得)不変・W-5 = UNKNOWN 不変。防衛線(数学者×falsifier の独立合流)が機能した実例として記録。
+
+## 2026-08-05 研究者指示: 論文 PDF 常備方針(裁定 536)—「公開はしないが、Lean の実装が終わったら論文を PDF に起こしていつでも公開出来る状態にだけはしておく。著者の記法・流儀・書き方は遵守」
+- 方針: ①公開保留(publication-hold)は不変 ②トリガー = Lean 実装完了(第 1 波でなく P1 形式化の完了・Sol→Luna ループの出口)③成果物 = 正典(2401/2405)記法・Dolgushev 学派の流儀に完全準拠した論文 LaTeX→PDF・「いつでも公開できる」品質で保管 ④工程(Lean 完了後に着工): 対訳辞書(内輪語→正典語)の完備 → 数学者起草 → 司令塔レビュー → 補題 1:1 の Lean 対応表を付す ⑤保管場所は起草時に裁定(repo = public に留意・公開行為はしない)。memory = paper-style-lean 追補。
