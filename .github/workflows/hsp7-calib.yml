@@ -57,7 +57,7 @@ jobs:
           gap-version: '4.16.0'
 
       - name: Install anupq package sources
-        uses: gap-actions/install-pkg@v2
+        uses: gap-actions/install-pkg@v1
         with:
           package: anupq
 
