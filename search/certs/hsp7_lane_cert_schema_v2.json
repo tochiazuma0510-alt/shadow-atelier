@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:shadow-atelier:hsp7-lane-cert:v2",
+  "title": "HS P/S/V lane shard certificate v2",
+  "type": "object",
+  "required": [
+    "schema",
+    "lane",
+    "axis",
+    "class_id",
+    "run",
+    "source_bindings",
+    "universe_total",
+    "evaluated_range",
+    "records",
+    "summary",
+    "driver_done"
+  ],
+  "properties": {
+    "schema": {"const": "hsp7-lane-cert/v2"},
+    "lane": {"enum": ["P", "S", "V"]},
+    "axis": {"enum": ["f", "pair"]},
+    "class_id": {"type": "string", "minLength": 1},
+    "run": {
+      "type": "object",
+      "required": ["run_id", "run_attempt", "commit_sha"],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "run_attempt": {"type": "string", "minLength": 1},
+        "commit_sha": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "source_bindings": {
+      "type": "object",
+      "required": ["source_bundle_sha256", "wrapper_sha256", "predicate_sha256", "aux_sha256", "schema_sha256"],
+      "properties": {
+        "source_bundle_sha256": {"type": "string", "minLength": 1},
+        "wrapper_sha256": {"type": "string", "minLength": 1},
+        "predicate_sha256": {"type": "string", "minLength": 1},
+        "aux_sha256": {"type": "string", "minLength": 1},
+        "schema_sha256": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "universe_total": {"type": "integer", "minimum": 1},
+    "evaluated_range": {
+      "type": "array",
+      "prefixItems": [{"type": "integer"}, {"type": "integer"}],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "records": {"type": "array", "items": {"type": "object"}},
+    "summary": {
+      "type": "object",
+      "required": ["evaluated_count", "unknown_count", "integrity_ok"],
+      "properties": {
+        "evaluated_count": {"type": "integer", "minimum": 0},
+        "unknown_count": {"type": "integer", "minimum": 0},
+        "integrity_ok": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "driver_done": {"const": true}
+  },
+  "allOf": [
+    {"if": {"properties": {"lane": {"const": "P"}}}, "then": {"properties": {"axis": {"const": "f"}, "universe_total": {"const": 117649}}}},
+    {"if": {"properties": {"lane": {"enum": ["S", "V"]}}}, "then": {"properties": {"axis": {"const": "pair"}, "universe_total": {"const": 705894}}}}
+  ],
+  "additionalProperties": false
+}

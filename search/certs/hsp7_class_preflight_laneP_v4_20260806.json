@@ -1,0 +1,19 @@
+{
+  "candidate_evaluations": 0,
+  "cert_path": "C:\\Users\\81905\\AppData\\Local\\Temp/hsp7_unused_P.json",
+  "class_id": "HS-NW7-CLASS-v3-draft-2c5c1559812c5d9b",
+  "class_manifest": "search/certs/hsp7_class_manifest_v3_draft_20260805.json",
+  "class_manifest_sha256": "48364db7d82aa8000096058f07c321a2003ada6655d84cd4544548428d37e31b",
+  "index_range": [
+    0,
+    3677
+  ],
+  "lane": "P",
+  "manifest": "search/certs/hsp7_shard_manifest_laneP_v3_20260805.json",
+  "manifest_sha256": "ce76e7a928e059df7b2acf148869d4739f4660ad9953950df59644cbb7983326",
+  "reason": "source-and-manifest-preflight-only",
+  "schema": "hsp7-lane-job-receipt/v1",
+  "shard_id": "shard_00000",
+  "source_bundle_sha256": "4c59fb1e19fb99696b997852a717f508abe3c4fe64b73f142840adcd6e1c612b",
+  "status": "PASS"
+}

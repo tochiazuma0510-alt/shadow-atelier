@@ -1,0 +1,7 @@
+{
+  "schema": "w6-bu-firing-mutant/v1",
+  "mutation_id": "count_alias",
+  "base": "search/probe/w6_bu_s0/firing_gate_fixtures_v1/00_positive.json",
+  "patches": [{"op": "remove", "path": "/counts/accepted_count"}],
+  "expected_stop": "COUNT_ACCOUNTING_MISMATCH/STOP"
+}

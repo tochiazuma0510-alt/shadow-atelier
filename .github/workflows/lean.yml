@@ -1,11 +1,24 @@
-name: lean
+# PROPOSAL ONLY -- do not copy to .github/workflows without the workshop gate.
+name: lean-proof-gate-proposal-106
 
 on:
   push:
+    paths:
+      - 'lean/**'
+      - 'lean-arith/**'
+      - '.github/workflows/lean.yml'
   pull_request:
+    paths:
+      - 'lean/**'
+      - 'lean-arith/**'
+      - '.github/workflows/lean.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  p1-plain-targeted:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -13,19 +26,143 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install elan
+      - name: Cache elan and Lake products
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan/toolchains
+            lean/.lake
+          key: p1-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.toml', 'lean/P1/**/*.lean') }}
+
+      - name: Install pinned Lean toolchain
         run: |
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
 
-      - name: lake build
+      - name: Static source hygiene
+        shell: bash
         run: |
-          set -o pipefail
-          lake build 2>&1 | tee build.log
-        # lake build re-elaborates and kernel-checks every .lean file (Marking + K3).
-        # Each theorem carries a `#print axioms` that prints its axiom dependencies
-        # to the build log -- a successful build IS the proof.
+          set -euo pipefail
+          if rg -n '^\s*axiom\b' P1 -g '*.lean' -g '!ShadowAxioms.lean'; then
+            echo 'project axiom declaration found' >&2
+            exit 1
+          fi
+          if rg -n '^\s*(sorry|admit)\b|:=\s*(sorry|admit)\b' P1 -g '*.lean'; then
+            echo 'forbidden proof placeholder found' >&2
+            exit 1
+          fi
+          if rg -n ':\s*True\s*(:=|where|$)|by\s+exact\s+True\.intro' P1 -g '*.lean'; then
+            echo 'no-op True placeholder found' >&2
+            exit 1
+          fi
 
-      - name: assert proof hygiene (no sorry, no native_decide)
+      - name: Target foundational and theorem-island modules
         run: |
-          ! grep -E "uses 'sorry'|sorryAx|ofReduceBool|ofReduceNat" build.log
+          set -euo pipefail
+          lake build +P1.ShadowAxioms:olean
+          lake build +P1.BlockH:olean
+          lake build +P1.BlockA:olean
+          lake build +P1.BlockE:olean
+
+      - name: P1 library plus fail-closed axiom inventory
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          lake build P1 2>&1 | tee p1-build.log
+          lake env lean P1/AxiomCheck.lean 2>&1 | tee axiom-audit.log
+          test -s P1/AXIOMS.manifest.json
+          grep -F 'P1_AXIOM_AUDIT_PASS' axiom-audit.log
+          if grep -E "uses 'sorry'|sorryAx|ofReduceBool|ofReduceNat" p1-build.log axiom-audit.log; then
+            echo 'proof-hygiene failure in build log' >&2
+            exit 1
+          fi
+
+      - name: Upload axiom manifest and build receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: p1-axiom-manifest-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            lean/P1/AXIOMS.manifest.json
+            lean/p1-build.log
+            lean/axiom-audit.log
+
+  existing-lean-targets:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lean
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache elan and existing library products
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan/toolchains
+            lean/.lake
+          key: existing-lean-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.toml', 'lean/Marking.lean', 'lean/Marking/**/*.lean', 'lean/K3/**/*.lean') }}
+
+      - name: Install pinned Lean toolchain
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Preserve Marking and K3 coverage with explicit library targets
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          lake build Marking K3 2>&1 | tee existing-lean-build.log
+          if grep -E "uses 'sorry'|sorryAx|ofReduceBool|ofReduceNat" existing-lean-build.log; then
+            echo 'existing Lean target proof-hygiene failure' >&2
+            exit 1
+          fi
+
+      - name: Upload existing-target build log
+        uses: actions/upload-artifact@v4
+        with:
+          name: existing-lean-build-${{ github.sha }}
+          if-no-files-found: error
+          path: lean/existing-lean-build.log
+
+  mathlib-cache-targeted:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lean-arith
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Mathlib package and oleans
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan/toolchains
+            lean-arith/.lake/packages
+            lean-arith/.lake/build
+          key: mathlib-${{ runner.os }}-${{ hashFiles('lean-arith/lean-toolchain', 'lean-arith/lake-manifest.json', 'lean-arith/lakefile.toml', 'lean-arith/LeanArith/**/*.lean') }}
+
+      - name: Install pinned Lean toolchain
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Fetch Mathlib binary cache without dependency re-resolution
+        run: lake exe cache get
+
+      - name: Target Mathlib theorem layer
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          lake build LeanArith 2>&1 | tee lean-arith-build.log
+          if grep -E "uses 'sorry'|sorryAx|ofReduceBool|ofReduceNat" lean-arith-build.log; then
+            echo 'Mathlib-layer proof-hygiene failure' >&2
+            exit 1
+          fi
+
+      - name: Upload Mathlib-layer build log
+        uses: actions/upload-artifact@v4
+        with:
+          name: lean-arith-build-${{ github.sha }}
+          if-no-files-found: error
+          path: lean-arith/lean-arith-build.log

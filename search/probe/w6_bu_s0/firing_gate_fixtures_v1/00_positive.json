@@ -1,0 +1,143 @@
+{
+  "schema": "w6-bu-firing-cert/v1",
+  "schema_sha256": "2f681fdb590e93fbc03132cde6cdb261a6664e7afc2a35e96d7a5deb2facc8eb",
+  "manifest": {
+    "path": "search/certs/w6_bu_firing_gate_manifest_v1.json",
+    "sha256": "2818c0aceb2948750df84f3df5c6a63df12c477bf73681690cb06e7c00a82376"
+  },
+  "run_class": "SCHEMA_CALIBRATION_ONLY",
+  "execution_authorized": false,
+  "universe": {
+    "layer": "V-cen/S3-inflated",
+    "dimension_by_prime": {"2": [2, 3, 4], "3": [2]},
+    "window_order_lte": 8000,
+    "predicate_order": ["layer", "prime", "dimension_by_prime", "window_order_lte"]
+  },
+  "denominator": {
+    "unit": "V-cen module isomorphism type keyed by module_id",
+    "expected_count": 17,
+    "selected_row_count": 17,
+    "row_ids": [
+      "p2_d2_a0b0c1",
+      "p2_d2_a0b1c0",
+      "p2_d2_a2b0c0",
+      "p2_d3_a1b0c1",
+      "p2_d3_a1b1c0",
+      "p2_d3_a3b0c0",
+      "p2_d4_a0b0c2",
+      "p2_d4_a0b1c1",
+      "p2_d4_a0b2c0",
+      "p2_d4_a2b0c1",
+      "p2_d4_a2b1c0",
+      "p2_d4_a4b0c0",
+      "p3_d2_bruteforce_1",
+      "p3_d2_bruteforce_2",
+      "p3_d2_bruteforce_3",
+      "p3_d2_bruteforce_4",
+      "p3_d2_bruteforce_5"
+    ]
+  },
+  "source_map": {
+    "source_path": "search/certs/h2_census_s4_20260805.json",
+    "source_sha256": "4b8673209d55c46fe1bc01a1e2736df03f296cd7d775df6da98f8f582df73b30",
+    "json_pointer": "/rows",
+    "projection_sha256": "30a427ea638d8e954056eb3fb71c26a8f3691b3444e23f9f550a79f91f527614",
+    "entries": [
+      {"module_id": "p2_d2_a0b0c1", "source_pointer": "/rows/0", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d2_a0b1c0", "source_pointer": "/rows/1", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d2_a2b0c0", "source_pointer": "/rows/2", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d3_a1b0c1", "source_pointer": "/rows/3", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d3_a1b1c0", "source_pointer": "/rows/4", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d3_a3b0c0", "source_pointer": "/rows/5", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d4_a0b0c2", "source_pointer": "/rows/6", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d4_a0b1c1", "source_pointer": "/rows/7", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d4_a0b2c0", "source_pointer": "/rows/8", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d4_a2b0c1", "source_pointer": "/rows/9", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d4_a2b1c0", "source_pointer": "/rows/10", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p2_d4_a4b0c0", "source_pointer": "/rows/11", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p3_d2_bruteforce_1", "source_pointer": "/rows/12", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p3_d2_bruteforce_2", "source_pointer": "/rows/13", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p3_d2_bruteforce_3", "source_pointer": "/rows/14", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p3_d2_bruteforce_4", "source_pointer": "/rows/15", "stage_tag": "FIRING_UNIVERSE_SELECTION"},
+      {"module_id": "p3_d2_bruteforce_5", "source_pointer": "/rows/16", "stage_tag": "FIRING_UNIVERSE_SELECTION"}
+    ]
+  },
+  "counts": {
+    "traversed_count": 19,
+    "accepted_count": 17,
+    "rejected_count": 2,
+    "traversed_unit": "enumerated parameter/lift before acceptance filters; never H1-conjugacy classes",
+    "accepted_unit": "objects after all stage-local acceptance filters",
+    "relation": "traversed_count = accepted_count + rejected_count; fields are not aliases",
+    "witnesses": [
+      {"traversal_id": "cal-row-00", "disposition": "ACCEPTED", "source_tag": "/rows/0"},
+      {"traversal_id": "cal-row-01", "disposition": "ACCEPTED", "source_tag": "/rows/1"},
+      {"traversal_id": "cal-row-02", "disposition": "ACCEPTED", "source_tag": "/rows/2"},
+      {"traversal_id": "cal-row-03", "disposition": "ACCEPTED", "source_tag": "/rows/3"},
+      {"traversal_id": "cal-row-04", "disposition": "ACCEPTED", "source_tag": "/rows/4"},
+      {"traversal_id": "cal-row-05", "disposition": "ACCEPTED", "source_tag": "/rows/5"},
+      {"traversal_id": "cal-row-06", "disposition": "ACCEPTED", "source_tag": "/rows/6"},
+      {"traversal_id": "cal-row-07", "disposition": "ACCEPTED", "source_tag": "/rows/7"},
+      {"traversal_id": "cal-row-08", "disposition": "ACCEPTED", "source_tag": "/rows/8"},
+      {"traversal_id": "cal-row-09", "disposition": "ACCEPTED", "source_tag": "/rows/9"},
+      {"traversal_id": "cal-row-10", "disposition": "ACCEPTED", "source_tag": "/rows/10"},
+      {"traversal_id": "cal-row-11", "disposition": "ACCEPTED", "source_tag": "/rows/11"},
+      {"traversal_id": "cal-row-12", "disposition": "ACCEPTED", "source_tag": "/rows/12"},
+      {"traversal_id": "cal-row-13", "disposition": "ACCEPTED", "source_tag": "/rows/13"},
+      {"traversal_id": "cal-row-14", "disposition": "ACCEPTED", "source_tag": "/rows/14"},
+      {"traversal_id": "cal-row-15", "disposition": "ACCEPTED", "source_tag": "/rows/15"},
+      {"traversal_id": "cal-row-16", "disposition": "ACCEPTED", "source_tag": "/rows/16"},
+      {"traversal_id": "cal-reject-00", "disposition": "REJECTED", "source_tag": "synthetic/count-anti-alias/0"},
+      {"traversal_id": "cal-reject-01", "disposition": "REJECTED", "source_tag": "synthetic/count-anti-alias/1"}
+    ]
+  },
+  "rows": [
+    {"module_id": "p2_d2_a0b0c1", "p": 2, "dim": 2, "s3_inflated": true, "window_order": 2000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d2_a0b1c0", "p": 2, "dim": 2, "s3_inflated": true, "window_order": 2000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d2_a2b0c0", "p": 2, "dim": 2, "s3_inflated": true, "window_order": 2000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d3_a1b0c1", "p": 2, "dim": 3, "s3_inflated": true, "window_order": 4000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d3_a1b1c0", "p": 2, "dim": 3, "s3_inflated": true, "window_order": 4000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d3_a3b0c0", "p": 2, "dim": 3, "s3_inflated": true, "window_order": 4000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d4_a0b0c2", "p": 2, "dim": 4, "s3_inflated": true, "window_order": 8000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d4_a0b1c1", "p": 2, "dim": 4, "s3_inflated": true, "window_order": 8000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d4_a0b2c0", "p": 2, "dim": 4, "s3_inflated": true, "window_order": 8000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d4_a2b0c1", "p": 2, "dim": 4, "s3_inflated": true, "window_order": 8000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d4_a2b1c0", "p": 2, "dim": 4, "s3_inflated": true, "window_order": 8000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p2_d4_a4b0c0", "p": 2, "dim": 4, "s3_inflated": true, "window_order": 8000, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p3_d2_bruteforce_1", "p": 3, "dim": 2, "s3_inflated": true, "window_order": 4500, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p3_d2_bruteforce_2", "p": 3, "dim": 2, "s3_inflated": true, "window_order": 4500, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p3_d2_bruteforce_3", "p": 3, "dim": 2, "s3_inflated": true, "window_order": 4500, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p3_d2_bruteforce_4", "p": 3, "dim": 2, "s3_inflated": true, "window_order": 4500, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"},
+    {"module_id": "p3_d2_bruteforce_5", "p": 3, "dim": 2, "s3_inflated": true, "window_order": 4500, "stage_status": "NOT_RUN", "stop_or_unknown": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"}
+  ],
+  "iso_gate_contract_snapshot": {
+    "m_iso8_real_verdict": "UNKNOWN(NONSHADOW_IN_DATUM)",
+    "m_iso8_mutant_verdict": "UNKNOWN(NONSHADOW_IN_DATUM)",
+    "m_iso8_detection_layer": "detail-element comparison only; verdict is insensitive",
+    "real_witness_settled": false,
+    "mutant_witness_settled": true,
+    "isolated_false_witness_claim": false
+  },
+  "claims": {
+    "isolated_verdict": "UNKNOWN",
+    "kill_claim": false,
+    "candidate_found": false,
+    "empty_claim": false,
+    "scope_of_any_coverage": "exact firing universe only; no statement about W \\ W_adm or supplemental inventory"
+  },
+  "status": {
+    "coverage_status": "NOT_RUN",
+    "stop_code": null,
+    "unknown_reason": "UNKNOWN(NOT_RUN_SCHEMA_FIXTURE)"
+  },
+  "non_contact_declaration": {
+    "exploration": false,
+    "candidate_generation": false,
+    "kill": false,
+    "empty_theorem": false,
+    "im_R": false,
+    "d_N": false,
+    "sealed_quantities": false,
+    "S9": false
+  }
+}

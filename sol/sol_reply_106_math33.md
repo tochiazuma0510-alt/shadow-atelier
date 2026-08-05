@@ -363,7 +363,7 @@ source/schema/range/cap/output/STOP 規則または normalized workflow digest �
 
 ## F106-6. Lean 親子方式・GitHub broker
 
-### F106-6.1　plain Lean 第 1 束: local candidate PASS
+### F106-6.1　plain Lean 第 1 束: local PASS（GHA は F106-6.4）
 
 実装順 hygiene → H → A → E は守られた。親側の再走でも、bare lake build を使わず
 
@@ -454,4 +454,103 @@ sol/task106-math33-20260806
 
 本走、未登録 sweep、掘削、kill、d 測定、BU stage、HS calibration shard、S9 は実行していない。登録 fixture calibration と synthetic candidate-0 preflight/capacity だけを実行した。封印三量は非接触、探索統計は exploration-heuristic のままである。
 
-**Final provenance:** （artifact commit 確定後に置換）
+**Final provenance:** 実装・監査 artifact commit = `b33d95802e28f59bef51ec195c37acc9bec3e8ce`（branch `sol/task106-math33-20260806` へ non-force push 済み）。本返書自身はこの SHA を記帳する後続 reply-only commit に置く。
+
+## F106e. 補遺 106e 再配達の全節再検収
+
+**再検収判定: PASS（F106-2.6/2.7 の裁定と最終分布に変更なし）。** `ops/inbox_codex/sol_task_106e_supplement.txt` は 26 行を末尾まで再読し、SHA-256 `b758ca7a8c719853b44fc5bcda58994ee77b5cac0b20ee4254c0604a9fb4c6e5` を得た。以下、番号節 1〜4 の順に再回答する。
+
+### F106e-1. PRE-2′ 再測定: PASS / B-2a
+
+raw \(jh3\) の次数 4 成分 \((1,1,1)\) と第二 hexagon 欠陥 \((3,3,3)\)、補正 \(g_1=r s^{-1}\) の次数 4 成分・欠陥 \((0,0,0)\)、\(\eta\ne1\)、\(\xi'=D(g_1)=1\)、比例 scalar \(k=0\) は F106-2.7 の再現結果どおりである。全ゼロは
+
+\[
+D(g_1^a h_4^t)=D(g_1)^aD(h_4)^t=\eta^t
+\]
+
+から構造的に説明され、異常値ではない。従って \(\ker(D|_A)\) は位数 7、B-2a を維持する。
+
+superseding cert の SHA と、それが pin する Python script/log・GAP script/input/log の実 bytes を再照合した。cert 自身を含めて 6/6 の SHA は一致した。ただし cert の `input_artifact` 値は
+
+~~~text
+search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g (pre-existing, not regenerated, not modified)
+~~~
+
+と注釈まで同じ JSON string に入っているため、汎用 path resolver ではそのまま解決できない。正しい path `search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g` の実 SHA は宣言値 `bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b` と一致する。これは数学結果を変えない provenance NOTE だが、次版では path と note を別 field にし、path field を機械可読な exact path にせよ。
+
+また `TYPING_FAILURE/STOP` は仕様化されたが、現 GAP script は \(g_1\) と \(h_4\) の二 exact A-membership 等式をまだ実装していない。この点は F106-2.7 の非 blocking NOTE を維持し、将来 wrapper の恒久条件とする。
+
+### F106e-2. PENT-LAYER の設計判断: 可 / PASS
+
+Q-2 への回答は再度 **可**。層別個数に必要なのは \(H_W\) 全体の部分群性ではなく、PENT 基点 \(f_0\) に \(A\cap H_W=\ker(D|_A)\) を左から掛ける閉性で足りる。SUB-W、LEFT-TRIV、COSET-EXP により
+
+\[
+\operatorname{pent}(m_0)=\ker(D|_A)f_0
+\]
+
+が exact に従うため、全非空層の個数は一様である。\(H_W\) の部分群性と PL-GAP-1 は UNKNOWN / 非律速のまま、D-5 の lift 存在形は持ち込まない。CONJ-Φ による EXQ-GAP-2 の CLOSED は graded 水準に限り、filtered 非対角成分 PL-GAP-2 は OPEN とする。
+
+### F106e-3. 分布充填: PASS
+
+B-0a の六層非空前件の下で、最終表は次で固定する。
+
+| 量 | 値 |
+|---|---:|
+| hexagon / layer | 49 |
+| hexagon total | 294 |
+| PENT / layer | **7** |
+| PENT total | **42** |
+| hexagon-only | **252** |
+| settled | **294/294 hexagon-pass shadows** |
+
+`settled 100%` の分母は 294 であり、705,894 の全 candidate pair ではない。
+
+### F106e-4. 規律・履歴: PASS（commit 表現 NOTE）
+
+705,894 candidate pair の評価、本走、封印量への接触は 0。旧票・旧 script・旧 cert は不改変で、v2 は superseding artifact として追加されている。履歴上、PENT-LAYER addendum は単独 commit `5bcddfbcfd2e775bbdb756adc4daf2c404738d62`。一方、v2 cert・二 script・二 log は裁定 ledger と同じ commit `e7853b3ccc06628f574e990374a62e248217f3c1` の 6-file bundle である。従って後者を「単独ファイル commit」とは呼ばず、「一個の versioned release bundle」と記帳する。実 bytes と cert の pin は一致しており、事前分岐 B-2a/B-2b の登録性は変わらない。
+
+\(\mathfrak h_3/h_3\) 区別の ledger 追記は再発防止として妥当だが、補遺 §4 の「追加予定」は 106e 束自身の証拠ではない。後続版での物理化・検収とは分け、106e の裁定根拠には数えない。
+
+## F106f. Lean workflow 承認便の全節再検収
+
+**再検収判定: PASS（承認範囲と修正条件 2 件は履行済み。注記の path-filter 解釈には訂正 NOTE がある）。**
+
+監査対象便は `ops/inbox_codex/sol_task_106f_workflow_approval.txt`（14 行、SHA-256 `024660cc0ab87861f09816a66ba2081559b01af9f3f3a853d3d0534d2497e504`）。第 1 行から第 14 行まで再読した。
+
+### F106f-1. 承認範囲: PASS
+
+条件反映後の proposal と `.github/workflows/lean.yml` は byte-identical（各 5,681 bytes、SHA-256 `d61796aadad70af56957669667958ba56a209ef1b81e865cf820a7ead64cce23`）。適用 commit は `120b21c121e41d81651e896101c83cfd2bb6854f`、push・dispatch 対象はいずれも作業ブランチ `sol/task106-math33-20260806` である。force-push は行わず、2026-08-06 再検収時点で当該 commit は master `8ef08bde7de00c26f83baba09d1273f1dc3e28be` に未包含であり、「master merge は工房検収後」を維持している。
+
+### F106f-2. 修正条件 1 — path filter: 字面 PASS / 意味論 NOTE
+
+`on.push.paths` と `on.pull_request.paths` はともに、指定どおり次の 3 path のみに限定され、`workflow_dispatch` も維持されている。
+
+- `lean/**`
+- `lean-arith/**`
+- `.github/workflows/lean.yml`
+
+ただし便 106f §注記第 2 項の「`lean-arith/` package が未作成の間は path filter により mathlib job は発火しない」は GitHub Actions の意味論としては成立しない。`on.<event>.paths` は個別 job ではなく workflow run 全体の起動条件であり、現 workflow の `mathlib-cache-targeted` job に package 存在・変更有無を判定する job-level `if` はない。実際、commit `120b21c...` は `lean-arith/**` を変更していないが、`.github/workflows/lean.yml` / `lean/**` の変更により push run が起動し、三 job 全てが走った。また当該 package 自体は既に commit `3e538d3ca4254762c5b723e40f799398966e55bb` から存在するため、「未作成期間」の同一ブランチ実証も今回の履歴にはない。
+
+これは条件 1 の literal 適合を覆さない設計 NOTE である。将来「package 不在または非変更なら mathlib job だけを抑止」を要件にするなら、changed-path/package-existence を判定する job-level `if`、または workflow の分離が必要である。
+
+### F106f-3. 修正条件 2 — axiom allowlist 分担: PASS
+
+axiom scan は `rg -n '^\s*axiom\b' P1 -g '*.lean' -g '!ShadowAxioms.lean'` で、除外は `ShadowAxioms.lean` のみである。typed axiom の許可境界は `AxiomCheck.lean` の theorem ごとの exact manifest が担う。あわせて、
+
+- `sorry` / `admit` の source scan、
+- no-op `True` placeholder の source scan、
+- build log 中の `uses 'sorry'` / `sorryAx` / `ofReduceBool` / `ofReduceNat` scan
+
+を維持し、今回の source と実 run log はいずれも clean であった。なおこれは P1 の exact axiom inventory と現 build の証跡であり、今後追加される任意 target 全体について `native_decide` 構文を source-level に一律禁止する checker まで実装済み、とは過大主張しない。
+
+### F106f-4. 注記の初回実 run 検収: PASS
+
+manual dispatch run `31021842884`（attempt 1、head `120b21c...`）は completed/success。job と artifact は次のとおり。
+
+| job | job ID | 結果 | artifact ID |
+|---|---:|---|---:|
+| `existing-lean-targets`（`lake build Marking K3` を明示実行） | `92360265823` | success | `8936979725` |
+| `p1-plain-targeted` | `92360265868` | success | `8936943790` |
+| `mathlib-cache-targeted` | `92360266210` | success | `8936979634` |
+
+同 head の push run `31021839716` も completed/success で、三 job 全て success。従って Marking+K3 の明示 build、P1、lean-arith の初回 branch 実挙動は取得済みである。この PASS は branch CI と承認便 106f の適用ゲートに限り、master merge、P1 全体の紙上定理化、または将来 target の包括的 soundness 承認を意味しない。

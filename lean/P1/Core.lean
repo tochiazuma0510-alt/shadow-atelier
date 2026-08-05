@@ -9,6 +9,8 @@ plain Lean 4 core のみ(Mathlib 不使用)。K3/Base.lean(n=3 固定・decide �
 等式証明(`rfl`/`simp`/成分ごとの計算)のみで進める。
 -/
 
+import P1.FinArith
+
 /-- Dₙ の元 rᵃsᵉ を (a,e) : Fin n × Bool で表す(K3/Base.lean `D` の一般化)。
     正典 Dₙ = ⟨r,s ∣ rⁿ, s², srs⁻¹r⟩(oddH §2)。 -/
 abbrev Dn (n : Nat) : Type := Fin n × Bool
@@ -65,3 +67,135 @@ def Y : En n := emul (emul (emul a1 a2) a3) q2
 instance instDecForallProd {α β : Type} {p : α × β → Prop}
     [inst : Decidable (∀ a : α, ∀ b : β, p (a, b))] : Decidable (∀ x : α × β, p x) :=
   decidable_of_iff _ ⟨fun h x => by cases x; exact h _ _, fun h a b => h (a, b)⟩
+
+/-! ### Symbolic group laws and the actual `G_n` subtype
+
+The first version used only the ambient predicate `inG`.  The declarations below close that
+typing gap: `Gn n` is the even-parity subtype, its operations are closed, and
+`Gn_groupLaws` packages the complete group laws without importing Mathlib. -/
+
+theorem dmul_assoc_n : ∀ a b c : Dn n, dmul (dmul a b) c = dmul a (dmul b c) := by
+  intro a b c
+  rcases a with ⟨a, ea⟩
+  rcases b with ⟨b, eb⟩
+  rcases c with ⟨c, ec⟩
+  cases ea <;> cases eb <;> cases ec <;>
+    apply Prod.ext <;>
+      simp [dmul, fin_sub_eq_add_neg, fin_add_assoc, fin_add_comm, fin_neg_neg] <;> ac_rfl
+
+theorem dmul_one_left_n : ∀ a : Dn n, dmul done_ a = a := by
+  intro a
+  rcases a with ⟨a, e⟩
+  cases e <;> apply Prod.ext <;> simp [dmul, done_, fin_zero_add]
+
+theorem dmul_one_right_n : ∀ a : Dn n, dmul a done_ = a := by
+  intro a
+  rcases a with ⟨a, e⟩
+  cases e <;> apply Prod.ext <;> simp [dmul, done_, fin_add_zero, fin_sub_zero]
+
+theorem dmul_inv_left_n : ∀ a : Dn n, dmul (dinv a) a = done_ := by
+  intro a
+  rcases a with ⟨a, e⟩
+  cases e <;> apply Prod.ext <;>
+    simp [dinv, dmul, done_, fin_add_left_neg, fin_sub_self]
+
+theorem dmul_inv_right_n : ∀ a : Dn n, dmul a (dinv a) = done_ := by
+  intro a
+  rcases a with ⟨a, e⟩
+  cases e <;> apply Prod.ext <;>
+    simp [dinv, dmul, done_, fin_add_right_neg, fin_sub_self]
+
+theorem dinv_involutive_n : ∀ a : Dn n, dinv (dinv a) = a := by
+  intro a
+  rcases a with ⟨a, e⟩
+  cases e <;> apply Prod.ext <;> simp [dinv, fin_neg_neg]
+
+theorem emul_assoc_n : ∀ x y z : En n, emul (emul x y) z = emul x (emul y z) := by
+  intro x y z
+  simp only [emul]
+  rw [dmul_assoc_n, dmul_assoc_n, dmul_assoc_n]
+
+theorem emul_one_left_n : ∀ x : En n, emul eone x = x := by
+  intro x
+  simp only [emul, eone]
+  rw [dmul_one_left_n, dmul_one_left_n, dmul_one_left_n]
+
+theorem emul_one_right_n : ∀ x : En n, emul x eone = x := by
+  intro x
+  simp only [emul, eone]
+  rw [dmul_one_right_n, dmul_one_right_n, dmul_one_right_n]
+
+theorem emul_inv_left_n : ∀ x : En n, emul (einv x) x = eone := by
+  intro x
+  simp only [emul, einv, eone]
+  rw [dmul_inv_left_n, dmul_inv_left_n, dmul_inv_left_n]
+
+theorem emul_inv_right_n : ∀ x : En n, emul x (einv x) = eone := by
+  intro x
+  simp only [emul, einv, eone]
+  rw [dmul_inv_right_n, dmul_inv_right_n, dmul_inv_right_n]
+
+theorem einv_involutive_n : ∀ x : En n, einv (einv x) = x := by
+  intro x
+  simp only [einv]
+  rw [dinv_involutive_n, dinv_involutive_n, dinv_involutive_n]
+
+theorem par_emul_n (x y : En n) : par (emul x y) = xor (par x) (par y) := by
+  rcases x with ⟨⟨x1, ex1⟩, ⟨⟨x2, ex2⟩, ⟨x3, ex3⟩⟩⟩
+  rcases y with ⟨⟨y1, ey1⟩, ⟨⟨y2, ey2⟩, ⟨y3, ey3⟩⟩⟩
+  cases ex1 <;> cases ex2 <;> cases ex3 <;>
+    cases ey1 <;> cases ey2 <;> cases ey3 <;> rfl
+
+theorem par_einv_n (x : En n) : par (einv x) = par x := by
+  rcases x with ⟨⟨x1, ex1⟩, ⟨⟨x2, ex2⟩, ⟨x3, ex3⟩⟩⟩
+  cases ex1 <;> cases ex2 <;> cases ex3 <;> rfl
+
+theorem inG_one_n : inG (eone : En n) := by rfl
+
+theorem inG_mul_n {x y : En n} (hx : inG x) (hy : inG y) : inG (emul x y) := by
+  change par (emul x y) = false
+  change par x = false at hx
+  change par y = false at hy
+  rw [par_emul_n, hx, hy]
+  rfl
+
+theorem inG_inv_n {x : En n} (hx : inG x) : inG (einv x) := by
+  change par (einv x) = false
+  change par x = false at hx
+  rw [par_einv_n, hx]
+
+/-- The actual even-parity group carrier, not the ambient `En n`. -/
+def Gn (n : Nat) [NeZero n] : Type := {x : En n // inG x}
+
+instance : Coe (Gn n) (En n) := ⟨Subtype.val⟩
+
+def gnOne : Gn n := ⟨eone, inG_one_n⟩
+
+def gnMul (x y : Gn n) : Gn n := ⟨emul x.val y.val, inG_mul_n x.property y.property⟩
+
+def gnInv (x : Gn n) : Gn n := ⟨einv x.val, inG_inv_n x.property⟩
+
+/-- A minimal plain-Lean group law package (Mathlib's `Group` is deliberately not imported). -/
+structure PlainGroupLaws (α : Type) [Mul α] [One α] [Inv α] : Prop where
+  mul_assoc : ∀ a b c : α, (a * b) * c = a * (b * c)
+  one_mul : ∀ a : α, 1 * a = a
+  mul_one : ∀ a : α, a * 1 = a
+  inv_mul : ∀ a : α, a⁻¹ * a = 1
+  mul_inv : ∀ a : α, a * a⁻¹ = 1
+
+instance : Mul (Gn n) := ⟨gnMul⟩
+instance : One (Gn n) := ⟨gnOne⟩
+instance : Inv (Gn n) := ⟨gnInv⟩
+
+theorem Gn_groupLaws : PlainGroupLaws (Gn n) := by
+  constructor
+  · intro a b c; apply Subtype.ext; exact emul_assoc_n _ _ _
+  · intro a; apply Subtype.ext; exact emul_one_left_n _
+  · intro a; apply Subtype.ext; exact emul_one_right_n _
+  · intro a; apply Subtype.ext; exact emul_inv_left_n _
+  · intro a; apply Subtype.ext; exact emul_inv_right_n _
+
+/-- The paper's marking really belongs to `G_n`. -/
+def Xg : Gn n := ⟨X, by rfl⟩
+
+theorem X_mem_Gn : inG (X : En n) := Xg.property

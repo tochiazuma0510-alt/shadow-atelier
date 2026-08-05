@@ -124,7 +124,7 @@
         "cert_sha256": "toy-cert-1-sha256",
         "class_id": "HS-TOY-CLASS-v2",
         "driver_digest": "toy-driver-sha256",
-        "driver_done": true,
+        "driver_done": false,
         "run_attempt": "1",
         "run_id": "toy-run-1",
         "sha": "toy-commit-1",

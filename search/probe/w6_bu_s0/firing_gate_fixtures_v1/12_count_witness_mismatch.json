@@ -1,0 +1,7 @@
+{
+  "schema": "w6-bu-firing-mutant/v1",
+  "mutation_id": "count_witness_mismatch",
+  "base": "search/probe/w6_bu_s0/firing_gate_fixtures_v1/00_positive.json",
+  "patches": [{"op": "replace", "path": "/counts/witnesses/0/disposition", "value": "REJECTED"}],
+  "expected_stop": "COUNT_WITNESS_MISMATCH/STOP"
+}
