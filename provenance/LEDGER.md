@@ -2490,3 +2490,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ★BH-α-pent v1.1 = **発効確定(異議なし)**・発効文固定・42 = arithmetic かつ genuine・252 の正札 = PENT_W-FAIL 非算術 shadow(内訳 UNKNOWN)・格 = framework+measurement-relative candidate 維持・不変結論は [κ₃]=u[c(1)](u∈ℤ_p^×・NORM-1 等号は補強)。CLAIMS.md への versioned 追記 = 記帳債務。
 - 探索裁定: ①双子 = **修正つき小 gate PASS**(正確な層 = PB₃ 28 対中 c∈N は**15 対**・13 対は別層・鏡映対 [-1,1] = 最安の陽性候補・directed 区別・5 点 scope)②NW(4,11) = 手続き開始 PASS(exact 宇宙 **17,715,610**・CF の係数体移送証明必須・新 class)③PSL(2,8) = prereg 起草まで(論理空白 3: 非合同性の紙化・cusp 非円分は別命題・S4-ISO 未閉)④ℓ=3 = 方向 PASS+**三色地図 erratum 必須(GREEN でなく EXCEPTION/UNKNOWN)**⑤**S8/S3.6 = FAIL・LOCKED 維持**(blocker 5 つ・第 1 = **L-3 全射性が S3.5 cert で未評価**)⑥GW-ENT = 紙設計まで。
 - 残り本文(blocker (b)〜(e)・F110-3/4)の検収 = 次ターン(594)。便 111(Lean)を 588 シーケンスどおり先行発射。
+
+## 2026-08-06 便 110 返書検収・後半(裁定 594)
+- S8/S3.6 blocker 全 5: (a) L-3 全射性未評価(cert 自認「L-1/L-2 counted」)(b) count 単位不一致(要 versioned 分離: extension_classes=449 / affine_solution_pairs=**1,263** / L3_surjective_lifts / MARK-ISO_orbits)(c) lane A/B 一致は D⊕D 4 類のみ・F-2.5/2.6 未実施・F-3.5 陰性欠品 (d) M-ISO-2 未充足(15 対層の明示 witness 待ち)(e) **段飛ばし不可**(FREEZE-3 順序 = S3.5→S3.6→S4′→…→S8)。再請求最小束 4 項が処方済み。
+- GW-ENT = 方向 PASS/拡張 HOLD(紙 5 前件+K⁽⁹⁾→K⁽³⁾ 型の陰性対照必須)。FREEZE-1 erratum = 精密化文つき PASS(q(c)=1+ρ(c)=1 の因果分離)。★**素読ゲート = 制度採択 PASS**(5 点規範: 入力封鎖・非当事者 reader・再構成項目・SELF_CONTAINED 二値出力・FAIL 後 fresh reader)。
+- ★運用訂正: A 型改名は F109-5 で**既に最終裁定済み**(TRUNC 余剰候補は不採用)— 正札 = **PENT_W-FAIL 非算術 shadow** で全文書統一・待ち解除(109 後半の読み落としを自認)。CLAIMS.md への BH-α-pent versioned 追記 = 記帳債務(次ターン)。
+- 発火: ①S3.5 v2 修理(実装係: L-3 を 1,263 解に適用・count 分離・D⊕D lane B に L-3・F-2.5/2.6・F-3.5 陰性)②双子 prereg 票(数学者: F110-2.1 の 5 scope・単独コミット)。
