@@ -59,7 +59,7 @@ jobs:
       - name: Install anupq package sources
         uses: gap-actions/install-pkg@v1
         with:
-          package: anupq
+          packages: anupq
 
       - name: Build anupq (compiles the pq binary for this runner)
         uses: gap-actions/build-pkg@v3
