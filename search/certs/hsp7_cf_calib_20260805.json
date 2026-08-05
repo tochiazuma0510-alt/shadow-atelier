@@ -1,0 +1,167 @@
+{
+  "schema": "hsp7-cf-calib/v1",
+  "card_label": "HS 本走(NW(7))判定述語の閉形式 CF 実装 + 登録済み 18 fixture での CF/CONV-P 再較正 -- 裁定527発火(implementer, 2026-08-05)。docs/notes/hsp7_mainrun_conversion_v1.md(数学者起草, 2026-08-05)の SS1(CONV-P)/SS2.3(CF)の実装。",
+  "design_doc": {
+    "path": "docs/notes/hsp7_mainrun_conversion_v1.md",
+    "note": "CONV-P(SS1.1構成)/CONV-WD(SS1.2)/CONV-INJ(SS1.3)/CF(SS2.3、判定式(3.3)(3.4))を実装。数学者の検証スクリプト scratchpad/conv_check.g(主窓162点)・scratchpad/conv_check2.g(control窓486点)を本certのCFライブラリに移植し、恒久回帰ゲートとして driver 起動時に実行している。"
+  },
+
+  "sealed_universe_noncontact": {
+    "note": "705,894 宇宙の候補は1件も評価していない(拘束1厳守)。timingも登録済み fixture 候補上でのみ実測(拘束4厳守)。宇宙候補上でのタイミング推定は本certの対象外。",
+    "candidates_evaluated_total": 18,
+    "candidates_from_705894_universe": 0
+  },
+
+  "new_files": {
+    "note": "既存 pin 実装(predicate_lib_lane*.g, lane_wrapper_*.g)・既存driver(driver_step4_evaluate_v3.g, driver_final_eval_p5.g)・既存cert/receipt(hsp7_ci_calib_20260805.json含む)はいずれも無改変(read-only, Read()されるのみ)。",
+    "predicate_lib_laneV_cf_g": {
+      "path": "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g",
+      "sha256": "e601efcfbf316edd7e3dd2529932a268beb47aab46e0b019141871f604267662",
+      "role": "Lane V 閉形式(CF)判定ライブラリ: BuildHexAutos/BuildMDependent/EvalFullHexagonCF + TOY自己較正(SelfTestCF_Main 162点/SelfTestCF_Control 486点、conv_check.g/conv_check2.gの移植)。"
+    },
+    "predicate_lib_laneP_conv_g": {
+      "path": "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g",
+      "sha256": "5666089f6648ca5b7880665c770f712bf4fb818b3a2e5ff20357af27d4ddd83c",
+      "role": "Lane P P->Q 変換(CONV-P)ライブラリ: BuildConvP(必須ゲート込み)/ConvPElement。"
+    },
+    "driver_cf_laneV_calib_g": {
+      "path": "search/probe/hsp7_mainrun/driver_cf_laneV_calib.g",
+      "sha256": "f64ea12dbc25454feeae44ad62115efd8270944ae20478013b9e376313afb5ed",
+      "role": "Lane V CF 再較正 driver。登録13 fixture(8 dummy/h3 + NW-P8 m-sweep 5)をCF経路で評価し、baseline(EvalFullHexagonFixed)との二経路一致を候補ごとに確認、REPS=2000 の反復ベンチマークで per-candidate 時間を実測する。ログ行フォーマットはbaseline driver(driver_step4_evaluate_v3.g)と同一(parse_and_compare.py無改変で再利用可能)。"
+    },
+    "driver_conv_laneP_p5control_calib_g": {
+      "path": "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g",
+      "sha256": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+      "role": "Lane P (p=5 control) CONV-P 再較正 driver。登録5 fixture(NW-P7, t=0..4)をCONV-P経路(h4barのPcgs(D5)指数ベクトル->Q5変換)で評価し、native jh4Q5^t経路との二経路一致・接続ゲート(t=0..6、note SS1.4の拡張)を確認、REPS=500の反復ベンチマークを実施。ログ行フォーマットはbaseline driver(driver_final_eval_p5.g)と同一。"
+    },
+    "workflow_g": {
+      "path": ".github/workflows/hsp7-calib-cf.yml",
+      "sha256": "0e672f24687222287912393eeebbf432af51440b981638a57790ae0ef0ebc369",
+      "role": "既存 hsp7-calib.yml と別の新規 workflow。同じ18 fixture・同じ期待値ソース(hsp7_cond4_summary_v2_20260805.json)・同じ比較スクリプト(parse_and_compare.py、無改変)でCF/CONV-P driverを実走。"
+    }
+  },
+
+  "expected_value_source": {
+    "path": "search/certs/hsp7_cond4_summary_v2_20260805.json",
+    "sha256": "467e4d41ba704af1aa055698aeb1c71215ecc5906ed9ea1a4b2a98177dc6e0b8",
+    "note": "既存の較正基盤(search/probe/hsp7_ci_calib/parse_and_compare.py)がこのcertから期待値を実行時に読み取る(コード非埋め込み)。本certは新たな期待値を一切設定していない -- 既存の登録済み値との突合のみ。"
+  },
+
+  "local_run": {
+    "note": "GHA実走前のローカル検証(implementer, gap.ps1 -o 2g)。",
+    "laneV_13": {
+      "log_path": "scratchpad/driver_cf_laneV_calib_run2.log (scratchpad, 未コミット -- 生ログの参照のみ)",
+      "log_sha256": "f1b6f8c29d42b0dcf0074c502f91afd93584fb39106c5c3ce3ce69f84cc9be16",
+      "gates": {
+        "baseline_toy_gate": "PASS (6/6, 7/7)",
+        "cf_toy_main_gate": "PASS (0/162 mismatches)",
+        "cf_toy_control_gate": "PASS (0/486 mismatches)"
+      },
+      "two_path_mismatch_N": 0,
+      "two_path_mismatch_N0": 0,
+      "two_path_mismatch_sweep": 0,
+      "n_vs_n0_mismatch_8cand": 0,
+      "p8_mismatch_count": 0,
+      "measured_reduction_factor_local": "80469/125 (approx 643.75x, REPS=2000, per-candidate CF+baseline over 8 N-window fixture candidates)"
+    },
+    "p5control_5": {
+      "log_path": "scratchpad/driver_conv_laneP_p5control_run1.log (scratchpad, 未コミット -- 生ログの参照のみ)",
+      "log_sha256": "cabb3f47bb3dae0118b7d71908075365fb7515f446473cae1f5f46c8cad56920",
+      "connection_gate_mismatch": "0/7 (t=0..6, note SS1.4の拡張)",
+      "two_path_mismatch": "0/5",
+      "conv_p_setup_time_ms": 16
+    }
+  },
+
+  "gha_run": {
+    "workflow": "hsp7-calib-cf",
+    "run_id": "31000422908",
+    "run_attempt": "1",
+    "commit_sha": "ad46655f556bb94e4bc20bb3001c9f044b8936af",
+    "trigger": "push (path filter match on .github/workflows/hsp7-calib-cf.yml and the new search/probe/hsp7_mainrun/*.g files)",
+    "url": "https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/31000422908",
+    "jobs": {
+      "laneV_13": {
+        "gap_exit": 0,
+        "driver_digest": "942fef3837c9937711086d651da0de0dadc0b9b0b088eb8462c26e93b820686e",
+        "driver_digest_inputs": "search/probe/hsp7_mainrun/driver_cf_laneV_calib.g search/probe/wac_v1/gap_output_prelude.g search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g search/probe/hsp7_cond4_laneV/statemachine_lib.g",
+        "receipt_path": "scratchpad/gha_cf_run_31000422908/hsp7-calib-cf-laneV_13/hsp7_ci_calib_cf_receipt_laneV_13.json (downloaded GHA artifact, scratchpad, 未コミット)",
+        "receipt_sha256": "665346a87a69e6ac334a1d43d730b73835052ab8d928cd156483e14c79c36491",
+        "run_log_sha256": "7b7f2021a985eb7848e5bfac3097923856ff231e234dec39162899ddf8b0660f",
+        "candidates_evaluated": 13,
+        "candidates_pass": 13,
+        "overall_pass": true,
+        "two_path_mismatch_total": 0,
+        "measured_reduction_factor_gha": "21715/37 (approx 586.9x, REPS=2000, GHA ubuntu-latest runner)"
+      },
+      "p5control_5": {
+        "gap_exit": 0,
+        "driver_digest": "f47b2240ae0aec7617b9376754512f96454df65017050221cadd3c4817b9e836",
+        "driver_digest_inputs": "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g search/probe/wac_v1/gap_output_prelude.g search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g",
+        "receipt_path": "scratchpad/gha_cf_run_31000422908/hsp7-calib-cf-p5control_5/hsp7_ci_calib_cf_receipt_p5control_5.json (downloaded GHA artifact, scratchpad, 未コミット)",
+        "receipt_sha256": "dc04777381e7613a002f37c787806e6d57e4052634e19e34a165fea68e7640d3",
+        "run_log_sha256": "8ce5e160e1fdaad01aa9ecc54139822393c8368dc7353e72e2bbc7025a6f2ef9",
+        "candidates_evaluated": 5,
+        "candidates_pass": 5,
+        "overall_pass": true,
+        "two_path_mismatch_total": 0,
+        "connection_gate_mismatch": "0/7"
+      }
+    }
+  },
+
+  "eighteen_of_eighteen": {
+    "note": "登録18 fixture(laneV_13の13件 + p5control_5の5件)全てがCF/CONV-P経路で期待値(search/certs/hsp7_cond4_summary_v2_20260805.json)と一致した。GHA receipt(hsp7-ci-calib-receipt/v1 schema, parse_and_compare.py無改変で生成)のoverall_pass=trueが2本とも確認済み。",
+    "total_candidates": 18,
+    "total_agree": 18,
+    "total_mismatch": 0
+  },
+
+  "two_path_agreement": {
+    "note": "同一fixture上でCF/CONV-P経路と現行(baseline/native)実装が候補ごとに判定ベクトル完全一致することを確認(GHA実走・ローカル実走の両方)。",
+    "laneV_N_window_8candidates": {"mismatch": 0, "total": 8},
+    "laneV_N0_window_8candidates": {"mismatch": 0, "total": 8, "note": "N0はGHA登録fixtureの対象外だが、駆動監査(S-8'系列)のため二経路一致をここでも確認した(N0窓の期待値はhsp7_cond4_summary_v2からは引用せず、baseline driverとの二経路一致のみを主張)。"},
+    "laneV_msweep_5candidates": {"mismatch": 0, "total": 5},
+    "laneP_p5control_5candidates": {"mismatch": 0, "total": 5},
+    "grand_total": {"mismatch": 0, "total": 26}
+  },
+
+  "timing_measurement": {
+    "note": "拘束4厳守: 全てのタイミングは登録済みfixture候補上でのみ実測(705,894宇宙候補は1件も使用していない)。REPS回の反復実行の総時間を(REPS*候補数)で割った値を per-candidate 時間として報告する(GAP Runtime()のms分解能では単発呼び出しが速すぎて0msに丸まるため)。",
+    "laneV": {
+      "reps": 2000,
+      "candidates_timed": 8,
+      "local_reduction_factor": "80469/125 (approx 643.75x)",
+      "gha_reduction_factor": "21715/37 (approx 586.9x)",
+      "interpretation": "CFはbaseline(EvalFullHexagonFixed、ApplyGen経由のsigma語展開)に対し概算100-140倍という数学者の見積り(note SS2.3)を実測で上回る削減(約587-644倍)を示した。差は環境(ローカルWindows/GHA Ubuntu)によるが、いずれの環境でも2桁後半の削減が実測されている。"
+    },
+    "laneP_conv": {
+      "reps": 500,
+      "candidates_timed": 5,
+      "local_per_candidate_conv_ms": "31/2500",
+      "local_per_candidate_native_ms": "47/2500",
+      "gha_per_candidate_conv_ms": "37/2500",
+      "gha_per_candidate_native_ms": "3/250 (=30/2500)",
+      "note": "Lane Pのnative経路(jh4Q5^tは既にQ5語として直接与えられている)にはそもそも翻訳ステップが存在しないため、この比較はCF/baselineのような削減率の主張ではない(driver自身がこの非対称性をログに明記)。CONV-Pの価値は較正走のnative-word特例ではなく、117,649候補全体がpcgs指数ベクトルとしてしか与えられない主走本番での翻訳コスト(note SS1.5: <=23回のpc乗算/候補)にある。本certはCONV-Pがnative経路と同一のQ5元・同一のPENT5判定を再現すること(接続ゲート0/7・二経路一致0/5)を確認する目的のもので、主走スケールでの速度実測は本certの範囲外(封印3量非接触・宇宙候補非接触の拘束による)。"
+    }
+  },
+
+  "deviations_and_open_questions": [
+    "1. Lane P (p=5 control) の CONV-P 再較正は note SS1.4(接続ゲート)が明示的に述べた p=7 主走の対象(h4^t/h3, t=0..6)を p=5 control 窓へ implementer 自身の判断で拡張適用したものである。note自体はp5control固有のCONV-P適用を指示していない -- 司令塔の当初指示(「p5control 5 = NW-P7 t=0..4」を18 fixtureの一部としてCF再較正対象に含める)を字義通り実行するための拡張であり、数学的にはCONV-Pの一般構成(D=[P,P]のpcgs->Q変換、pがどの値でも同型に成立)をそのまま p=5 に適用しただけで新たな仮定は増えていない。ただし司令塔検問を仰ぐ。",
+    "2. driver_conv_laneP_p5control_calib.gの反復ベンチマーク(REPS=500)はCONV-P翻訳コストとnative経路コストの差がPENT5自体のコスト(両経路共有)に埋もれてほぼ同オーダーになることをログ内で正直に開示している(削減率としての主張はしていない) -- 上記timing_measurement.laneP_conv参照。",
+    "3. CFの自動写像A1/A2はGroupHomomorphismByImages(Qgrp, Qgrp, [phiX,phiY,phiC], [...])で構築しており、Qgrpの生成元がまさに{phiX,phiY,phiC}であることに依存する(N窓ではQgrp=P=<xbar,ybar>、N0窓ではQgrp=N0grp=<xbar0,ybar0,chat0>)。この生成条件は本certのdriverが自己実行時に(GroupHomomorphismByImagesがfailを返さないことをもって)暗黙的に確認しているのみで、独立の生成性チェック(Subgroup(...)=Qgrp相当)は明示的に追加していない。もし将来Qgrpの生成元集合が変わるような窓を扱う場合は、この前提を明示的に再確認すること。",
+    "4. CONV-Pのp=7主走全体(117,649候補宇宙)での速度実測は本certの範囲外(拘束1・4により宇宙候補には一切接触していない)。note SS1.5の見積り(<=23回のpc乗算/候補)はここでは検算していない -- 主走発注前に別途、宇宙候補を使わない形での見積り検算(例えば乱数生成した「候補と同じ形をした」ダミーpcgs指数ベクトルでの計測)が必要であれば、司令塔判断を仰ぐ。"
+  ],
+
+  "verdict": {
+    "status": "cf_conv_p_calibration_18_of_18_complete",
+    "note": "裁定527が求めた4点(1. CF/CONV-Pライブラリの新設 2. ローカル較正18/18+二経路一致 3. GHA再較正 4. 時間実測)を全て履行した。CFとbaseline、CONV-Pとnativeの判定ベクトルは全fixture上で完全一致(mismatch 0)、GHA run_id 31000422908でreceipt overall_pass=trueを2本(laneV_13, p5control_5)確認、実測削減倍率はLane Vで約587-644倍(REPS=2000反復ベンチマーク、フィクスチャ候補のみ)。既存pin実装・既存cert/receiptはいずれも無改変。最終格付け(cross-checked昇格の当否)は司令塔・Solの専権であり、本certはその前段の機械的事実の記録に留まる。"
+  },
+
+  "provenance": {
+    "run_date": "2026-08-05",
+    "gap_version": "4.16.0 (local: gap.ps1 -o 2g; GHA: gap-actions/setup-gap@v3.8.0 gap-version 4.16.0)",
+    "commit": "ad46655f556bb94e4bc20bb3001c9f044b8936af",
+    "author": "implementer"
+  }
+}
