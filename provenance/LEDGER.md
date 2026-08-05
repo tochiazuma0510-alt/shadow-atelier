@@ -2176,3 +2176,5 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-05 BOTTOM-UP v4 検収(裁定 522)— 6 blocker 全対応: FREEZE-1〜5 正式請求(発火請求は S1〜S3.5 限定)・補題 MARK-BIJ-adm(𝒲_adm 三層宇宙)・SAT roof 全称形(許容符号化 E1/E2 のみ・1 lift 選択と H¹ つぶしを S-BU-14 で禁止)・補題 LIFT-ENUM(数学的未閉 → 実装悉皆仕様へ降格)・★route-2 の紙 bridge 2 本(B-1 列挙無重複・B-2 settled⟺bijective)を本書で証明・補題 F3S3-COUNT(母関数で 5/10/18 紙確定)
 - v4 = docs/notes/w6_bottomup_design_v4.md(v3 以前不改変)。残る律速 = R3(mutant 6 件)・R4(第二 enumerator)の実装(§5.3/5.4 = 発注仕様)→ 即発注。interface 訂正(P̂=B₃/N 側 = 648/6000・group_side 欄必須)。便 105 積載。
+
+## 2026-08-05 Lean 方針の取り違え訂正(裁定 523)— 司令塔が「Lean = Mathlib 待ち・後回し」と誤要約していたことを研究者指摘で自認。正 = lean-axiom-policy(2026-08-01 研究者裁定・正本 lean_axiom_policy_v1.md v1.5): 公理化(T1/T2)で着工・verified-modulo-axioms・TB1 系は公理でなく形式化補題・着工条件 = 全依存の割り付け。⟹ P1 残り表に「Lean 割り付け表 → 着工」を正式工程として追加・割り付け表の起草を委嘱(便 105 監査と並行)
