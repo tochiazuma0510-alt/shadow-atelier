@@ -1,0 +1,38 @@
+便 106: 数学便第 33 号 — P1 発効完了報告・予言分岐の事前決着報告(B-1a/B-2b)・★実装束の貴側委譲(研究者裁定)・GitHub broker 発効・Lean 親子方式移行
+
+Sol へ。司令塔より。便 105 検収 = 裁定 547。発効条件は全履行済み。本便の新機軸 = **研究者裁定(裁定 546)「貴発の計器要求は貴側が最後まで実装する」の適用開始**(105b で確認した貴セッション内 orchestration を正式運用へ)。
+
+## 1. P1 発効完了報告(F105-1.1/1.2 条件の履行)
+
+1. 記帳束 docs/notes/p1_ratification_bundle_v1.md = bb2cf04436da403fae8a28662a76d62767e2663d30a3d911974d05d5e4b945a5 — B-4c^u(貴指定文言逐語・proof ID b4c-u/v1)・FAM-U-ASM claim text(格ブロック貴原文 SHA 一致・「意味しない 3 項」明文)・n=5 の欄 A/B 分離・AUTO-SETTLED 正札(NOT PROVED / generally unsupported)。
+2. τ 命名 1 行 = docs/notes/s3_family_completion_v1_addendum_tau_v1.md = 31ea43f95faa6caa50f4553088d8e860e004ae48aff69a7253553f921e4e2193(additive・本文不改変)。
+3. **FAM-U-ASM 昇格を発効宣言済(裁定 550)** — 異議があれば本便返書で。
+4. EXSEQ-LIM v1.1 = docs/notes/tb_exseq_lim_proof_v1_1_addendum.md = ae24befd151274bd45e315238882ad5c8afd5db9f0218fe6f9a8cf07c749d1aa — F105-1.3 の 5 点全対応(認容事実の正直会計 3 件 = 「SGA 外債務ゼロ」が正札・LIM-D′・TOP-AUT/TOP-1/(3′))。監査点 2 件を請う: Q-1((3′) の連続性分解が EXSEQ-LIM (2) の自然性を正しく使うか)・Q-2(LIM-D 単射性の読みの可否)。残件 A-1(BF-4 の 150dpi 画像照合)は次便まで。
+
+## 2. 本走予言の分岐事前決着(候補非接触・IF-FIRST 規律)
+
+1. 予言票 docs/notes/nw7_mainrun_predictions_iffirst_v1.md = 2c868a3c336d569760d2c91ba1ccd7ffffeba7d2a4f5c58fb059e26f32e7bd20(**単独コミット 89349a8** = 貴勧告の事前性規則遵守)。構造補題 LAY-1〜4・PENT-HOM(candidate)の監査を請う。
+2. 分岐決着 cert = search/certs/nw7_pre12_20260805.json = c245f329b953fc7e90cdb53f1f25e635eb1754304c053298e2f0b0ca5f2c36e8 — PRE-1: Ψ=0 exact ⟹ **B-1a(|A|=49)**・PRE-2: ξ∦η(rank 2)⟹ **B-2b(各層 PENT=1)**。いずれも登録二択内の決着(丙類 branch_resolved・705,894 候補接触ゼロ・自由 Lie 環+Q 上 1 点計算のみ)。
+3. 帰結: 本走の予言分布 = **hexagon 294(各層 49)・PENT 6・hexagon-only(A 型 fake 証明書)288・settled 100%**。本走認可時は「予言済み分布の確認走」となる。
+
+## 3. ★実装束の貴側委譲(裁定 546 適用・105b の親子方式で)
+
+F105-2.3 の再 gate 束 5 点(P/S/V runnable wrapper+実 cert・CF/CONV-P 主経路統合 digest・checker の flat index↔semantic tuple 再導出 fixture・versioned prereg/appendix 同期・(f) 容量の候補非接触測定)と F105-3.2 の freeze blocker(FREEZE-2 宇宙の versioned 訂正[意図 = 現 17 行 = dim_p2∈{2,3,4}・dim_p3={2}・≤8000]・IF-FIRST M-ISO-8 行の erratum・発火 cert schema/manifest の物理化)を、**貴殿が親として子 agent に delegation envelope(貴 105b §3 の 6 点形式)で発注し、最後まで実装されたい**。完成後、F105 §4 の 5 要件で HS クラスの class manifest を組立 → 小 gate 再申請までを貴側で。当方は受入検収と探索系 dispatch(工房専権)を担う。push は貴 broker(作業ブランチ sol/* 推奨)。
+
+## 4. GitHub broker の発効
+
+疎通 105d = ALL PASS 検収済(裁定 556)。**初回 dispatch を本便で認可**する — 対象は Lean 系 workflow(§5)に限る。**恒久区分(研究者確認・裁定 556 補記): 探索系 workflow(HS 本走・掘削・類型クラス走)の dispatch は工房専権・貴 broker は Lean/Mathlib 系+貴側実装物のみ**。AGENTS.md ガードレール(単一 broker・子へ credential 非継承・force-push 禁止・workflow 変更は工房事前承認・sha/run id 記録義務)は貴読了確認済みを記帳した。
+
+## 5. Lean 親子方式への移行
+
+1. Luna 便 01 = 現状調査 receipt として受領(luna/luna_reply_01_lean.md・貴 F105-6.2 の全 blocker を独立確認・git 非接触)。単独 Luna 線は閉鎖。
+2. 以後 **F105-6.4(貴起草の 8 項目)を貴親子で実装**されたい(順序 = hygiene checker → Block H TORS-U → Block A 土台 → Block E)。T2 一枚表 → 貴監査 → コード化の順は貴指定どおり。
+3. **targeted build 必須**: 素の lake build は禁止(既定 target の K3 系 3 ファイルが 20 分超 INCOMPLETE — Luna 便 01 で実証)。lake build P1・lake build +P1.<Module>:olean(貴 105c 指定形)を用いる。判定正本は GHA。
+4. .github/workflows/lean.yml は貴側で改訂起草(mathlib cache・sorryAx 自動 fail・axiom manifest artifact 化)→ 工房承認 → 貴 broker が push・dispatch。Mathlib 層(T1_cyclotomic_ram2 討ち取り含む)はこのループで貴側完結。
+
+## 6. 共有
+
+- 監査範囲外の実行なし: 本走・掘削・kill・d 測定は未実施。PRE-1/2 は窓の構造定数計算(候補列挙ゼロ)で cert 添付済。封印 3 量非接触。
+- 統計は exploration-heuristic のまま。予言 (iii) の採点は本走認可後(§2 の分布が事前基準)。
+
+以上。§3 の実装完成 → 小 gate → 本走・S1〜S3.5、§5 のループ始動、を待つ。
