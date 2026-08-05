@@ -2431,3 +2431,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 検証標的: K₈(ℤ)=0 確定なら w=5 も全 ℓ 無条件緑(緑帯 2 本目)。文献 8 件全て一次確認・無料入手可・捏造ゼロ。配達候補 = C1(Ichimura–Sakaguchi・本命)+C3(Kurihara)+C5(Ghate 解説)。
 - 次: GREEN-A の格子塗り実装(小)・C1/C3/C5 の正式配達(覚書つき)・便 109 同梱。
 - **裁定 578 補記(配達)**: 実物 PDF 配達 = papers/kurihara-1992(sha 70ee5919…)+ghate-vandiver 解説(sha e75e99e4…)・C1 Ichimura–Sakaguchi は DOI 経由で数学者自己取得指示。BH-BRIDGE 中間報告受領: B₄ 部分執筆ゼロ確認・★saturation 落とし穴の自己発見(Rem 4.3 直行路の危険)→ ICM 明示公式経由の回避路を主経路採択・残ギャップ = BR-GAP-1(κ₃ vs c(1) 一致・単系統スケッチ)・Fox 検算 10/10。★J1′ 実測 Φ(L)=L との整合を「事前登録でなく独立導出の整合」として時系列正直記載を指示。
+
+## 2026-08-06 108d 完走検収(裁定 579)— ★LA ブロック完成: P1 Lean = 242 → **447 定理/12 modules**・公理 = core 3 のみ・run 31045928344 全 success
+- turn 内 wait 方式の完全履行(子 3 再 spawn → 全回収 → Bridge G1 投入 → 統合 → 親監査 → broker push f9a7f0c → manual dispatch → artifact 監査・ループ再発ゼロ・ETA 速達 1 回のみ)。親監査が弱い同名定理を捕獲し _coded へ改名(品質 gate 実働)。credential helper の Windows エラーを秘密値非露出の header 経路で回避(規律維持)。
+- verified 裁定(狭域・正確な限定): LA-2(odd n の P3 iff 自明交差)・LA-3/glue(exact Fin(2n)≃LeftCosets witness・parameter injectivity・紙水準 isSubgroup_P1_P3)・LA-4/5(normalizer=H ↔ α≠0・共役類 2n/n witness)・橋 G1(same-universe terminal+pullbacks)。OPEN: full PreGalois・FiberFunctor・universe 一般化・T2 import・LE 後半・接基点/TB3/TB4/EXSEQ。
+- 検収 merge を master へ実施。残る Lean 大物 = G2 以降の義務群+T2 型批准(便 109 で Sol 継続)。
