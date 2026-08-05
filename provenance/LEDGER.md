@@ -2178,3 +2178,7 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - v4 = docs/notes/w6_bottomup_design_v4.md(v3 以前不改変)。残る律速 = R3(mutant 6 件)・R4(第二 enumerator)の実装(§5.3/5.4 = 発注仕様)→ 即発注。interface 訂正(P̂=B₃/N 側 = 648/6000・group_side 欄必須)。便 105 積載。
 
 ## 2026-08-05 Lean 方針の取り違え訂正(裁定 523)— 司令塔が「Lean = Mathlib 待ち・後回し」と誤要約していたことを研究者指摘で自認。正 = lean-axiom-policy(2026-08-01 研究者裁定・正本 lean_axiom_policy_v1.md v1.5): 公理化(T1/T2)で着工・verified-modulo-axioms・TB1 系は公理でなく形式化補題・着工条件 = 全依存の割り付け。⟹ P1 残り表に「Lean 割り付け表 → 着工」を正式工程として追加・割り付け表の起草を委嘱(便 105 監査と並行)
+
+## 2026-08-05 prereg v2+実行 bundle 検収(裁定 524)— S-8′ 向き訂正済(逐語)・predicate library の byte 同一性を diff 機械確認・candidate key lib(pcgs/endian/全単射)・join checker+9 mutant fixture 全 PASS・dry 構造検査(705,894 = 6×7⁶ 再現・評価 0 件)— ★実装が設計ギャップ 2 件を暴露(prereg/付録 C のどこにも無かった)
+- bundle = search/probe/hsp7_mainrun/ 一式。**ギャップ①: Lane P の P 側 pcgs 候補 → Q 側評価対象の変換が未定義**(較正走は Q の語を直接与えていた)**ギャップ②: Lane V の pcgs 元 → 自由語展開のコストが rate 見積に未反映**。→ 数学者へ変換の標準構成+コスト上界を即委嘱(見込み: pcgs 生成元 6 本の x,y 語表示を前計算し正規形を線形展開 — Sol 高速化回答と同型の解)。
+- 副収穫: PQ_READ の非冪等性を fail-closed(LANE_S_BASIS_MISMATCH_STOP)が実地捕獲 — 宇宙の事前登録機構の実働例。(f)(g)(容量実測・GHA receipt)は CI 較正係の管轄で進行中。
