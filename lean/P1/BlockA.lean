@@ -7,7 +7,8 @@ P1/BlockA.lean — ブロック A((6′) 族版・LA-1〜LA-9)。
       docs/notes/w2fam_v1.md §3.5(命題 K5-1)。
 
 状態: **local targeted-build candidate**。本ファイルに実装した定理島は `sorry` なし。
-ただし LA-2〜LA-7・LA-9 の紙面全体は OPEN であり、file-level の完成等級は付けない。
+LA-2〜LA-5 は LA-6 の入力であり、LA-6 の後続ではない。以下では actual `Gn n`
+上の窓を先に構成する。LA-7・LA-9 は引き続き OPEN である。
 -/
 
 import P1.Core
@@ -245,18 +246,266 @@ theorem inn_fixes_X (k : Fin n) :
   rw [← epow_comm_base]
   rw [← emul_assoc_n, emul_inv_left_n, emul_one_left_n]
 
-/-! ### LA-2〜LA-5・LA-7・LA-9: statement のみ(未着手・次波)
+/-! ### LA-2〜LA-5: the odd-window family on the actual `Gn n`
 
-割り付け表の残り 6 本(H_{j,α,β} の悉皆性・正規化群・共役類・F0 の明示・SIXP-fam 本体)は
-**部分群/指数/共役類の一般論**(LA-6 と同じ律速)と **T2 公理(GT(K^(n)) の明示式)**の
-両方に依存する。本波では statement を書き下ろす前段階として、依存関係の会計のみ
-ここに記す(次波の入口):
+The paper has exactly two choices, `j=2` and `j=3`.  Keeping this as an inductive
+two-point type prevents range hypotheses from leaking into every theorem. -/
 
-- LA-2〜LA-5(oddH 補題 C(2)・G・H・I): H_{j,α,β} の型が LA-6 と共有する
-  「部分群」インフラを必要とする。**LA-6 の GAP が解消されるまで着工しない**
-  (v1.4 着工条件 — 割り付かない依存が残る鎖は着工しない、を厳密に適用)。
-- LA-7(F0.eq_m_zero_branch): T2 Thm 4.3/(4.12) の exact statement に依存する。
-  原典照合と Sol 承認が未了なので宣言自体を quarantine し、コードから import しない。
-  domain/codomain と (m,f) の対応を確定してから着工する。
-- LA-9(SIXP-fam): LA-6・LA-7 の両方に依存するため保留。
+namespace window
+
+inductive J where
+  | j2
+  | j3
+deriving DecidableEq
+
+/-- Coordinates `(s,t,e)` for
+`U_{j,α} ⋊ ⟨(βe₁)q_j⟩`; `e` records the nontrivial `Q`-coset. -/
+structure Code (n : Nat) where
+  s : Fin n
+  t : Fin n
+  flip : Bool
+
+/-- Coordinates for the `2n` representatives
+`⟨e₁⟩ ⊔ ⟨e₁⟩q₁ = ⟨X⟩`. -/
+structure XCode (n : Nat) where
+  rot : Fin n
+  odd : Bool
+
+@[simp] theorem fin_mul_add_window (a b c : Fin n) :
+    a * (b + c) = a * b + a * c := by
+  apply Fin.ext
+  simp only [Fin.val_mul, Fin.val_add]
+  calc
+    (a.val * ((b.val + c.val) % n)) % n =
+        ((a.val % n) * ((b.val + c.val) % n)) % n := by
+          rw [Nat.mod_eq_of_lt a.isLt]
+    _ = (a.val * (b.val + c.val)) % n := (Nat.mul_mod _ _ _).symm
+    _ = (a.val * b.val + a.val * c.val) % n := by rw [Nat.mul_add]
+    _ = (a.val * b.val % n + a.val * c.val % n) % n := Nat.add_mod _ _ _
+
+@[simp] theorem fin_mul_neg_window (a b : Fin n) :
+    a * (-b) = -(a * b) := by
+  apply fin_add_left_cancel (a * b)
+  rw [fin_add_right_neg]
+  rw [← fin_mul_add_window, fin_add_right_neg, Fin.mul_zero]
+
+@[simp] theorem fin_mul_sub_window (a b c : Fin n) :
+    a * (b - c) = a * b - a * c := by
+  simp [fin_sub_eq_add_neg]
+
+@[simp] theorem fin_add_neg_cancel_window (a b c : Fin n) :
+    a + (b + (-a + c)) = b + c := by
+  have h : a + (b + (-a + c)) = (a + (-a)) + (b + c) := by ac_rfl
+  rw [h, fin_add_right_neg, fin_zero_add]
+
+@[simp] theorem fin_add_sub_cancel_left_window (a b : Fin n) :
+    a + (b - a) = b := by
+  rw [fin_add_comm, fin_sub_add_cancel_right]
+
+@[simp] theorem fin_add_add_sub_cancel_window (a b c : Fin n) :
+    a + (b + (c - (a + b))) = c := by
+  have h : a + (b + (c - (a + b))) = (a + b) + (c - (a + b)) := by ac_rfl
+  rw [h, fin_add_sub_cancel_left_window]
+
+@[simp] theorem fin_add_middle_sub_window (a b c : Fin n) :
+    b + (a + c) - (b + c) = a := by
+  rw [fin_sub_eq_add_neg, fin_neg_add]
+  have h : b + (a + c) + ((-b) + (-c)) =
+      a + ((b + (-b)) + (c + (-c))) := by ac_rfl
+  rw [h]
+  simp only [fin_add_right_neg, fin_zero_add, fin_add_zero]
+
+def encodeEn (j : J) (alpha beta : Fin n) (c : Code n) : En n :=
+  match j, c.flip with
+  | .j2, false => ((alpha * c.t, false), (c.s, false), (c.t, false))
+  | .j2, true => ((alpha * c.t + beta, true), (c.s, false), (c.t, true))
+  | .j3, false => ((alpha * c.t, false), (c.t, false), (c.s, false))
+  | .j3, true => ((alpha * c.t + beta, true), (c.t, true), (c.s, false))
+
+theorem encodeEn_mem (j : J) (alpha beta : Fin n) (c : Code n) :
+    inG (encodeEn j alpha beta c) := by
+  rcases c with ⟨s, t, e⟩
+  cases j <;> cases e <;> rfl
+
+/-- The actual subgroup-family parametrization, valued in `Gn n`. -/
+def encode (j : J) (alpha beta : Fin n) (c : Code n) : Gn n :=
+  ⟨encodeEn j alpha beta c, encodeEn_mem j alpha beta c⟩
+
+/-- `H_{j,α,β}` as a predicate on the actual carrier `Gn n`, not on ambient `En n`. -/
+def H (j : J) (alpha beta : Fin n) : Gn n → Prop :=
+  fun g => ∃ c : Code n, g = encode j alpha beta c
+
+def Code.mul (c d : Code n) : Code n :=
+  ⟨c.s + d.s, if c.flip then c.t - d.t else c.t + d.t, xor c.flip d.flip⟩
+
+def Code.inv (c : Code n) : Code n :=
+  if c.flip then ⟨-c.s, c.t, true⟩ else ⟨-c.s, -c.t, false⟩
+
+theorem encodeEn_mul (j : J) (alpha beta : Fin n) (c d : Code n) :
+    emul (encodeEn j alpha beta c) (encodeEn j alpha beta d) =
+      encodeEn j alpha beta (Code.mul c d) := by
+  rcases c with ⟨s, t, e⟩
+  rcases d with ⟨s', t', e'⟩
+  cases j <;> cases e <;> cases e' <;>
+    simp [encodeEn, Code.mul, emul, dmul,
+      fin_add_assoc, fin_add_comm, fin_sub_eq_add_neg] <;> ac_rfl
+
+theorem encode_mul (j : J) (alpha beta : Fin n) (c d : Code n) :
+    encode j alpha beta c * encode j alpha beta d =
+      encode j alpha beta (Code.mul c d) := by
+  apply Subtype.ext
+  exact encodeEn_mul j alpha beta c d
+
+theorem encodeEn_inv (j : J) (alpha beta : Fin n) (c : Code n) :
+    einv (encodeEn j alpha beta c) =
+      encodeEn j alpha beta (Code.inv c) := by
+  rcases c with ⟨s, t, e⟩
+  cases j <;> cases e <;>
+    simp [encodeEn, Code.inv, einv, dinv,
+      fin_neg_add, fin_neg_neg, fin_sub_eq_add_neg]
+
+theorem encode_inv (j : J) (alpha beta : Fin n) (c : Code n) :
+    (encode j alpha beta c)⁻¹ = encode j alpha beta (Code.inv c) := by
+  apply Subtype.ext
+  exact encodeEn_inv j alpha beta c
+
+theorem encode_injective (j : J) (alpha beta : Fin n) :
+    Function.Injective (encode j alpha beta) := by
+  intro c d h
+  rcases c with ⟨s, t, e⟩
+  rcases d with ⟨s', t', e'⟩
+  have hv := congrArg Subtype.val h
+  cases j <;> cases e <;> cases e' <;>
+    simp [encode, encodeEn] at hv <;> simp_all
+
+/-- **LA-3(a)**: subgroup closure of `H_{j,α,β}`. -/
+theorem isSubgroup (j : J) (alpha beta : Fin n) :
+    IsSubgrp (H j alpha beta) := by
+  constructor
+  · refine ⟨⟨0, 0, false⟩, ?_⟩
+    apply Subtype.ext
+    change eone = encodeEn j alpha beta ⟨0, 0, false⟩
+    cases j <;> simp [encodeEn, eone, done_, Fin.mul_zero]
+  · rintro a b ⟨c, rfl⟩ ⟨d, rfl⟩
+    exact ⟨Code.mul c d, encode_mul j alpha beta c d⟩
+  · rintro a ⟨c, rfl⟩
+    exact ⟨Code.inv c, encode_inv j alpha beta c⟩
+
+/-- The family parametrization is an exact `2 n²` carrier witness. -/
+noncomputable def carrierEquiv (j : J) (alpha beta : Fin n) :
+    PlainEquiv (Code n) {g : Gn n // H j alpha beta g} where
+  toFun c := ⟨encode j alpha beta c, ⟨c, rfl⟩⟩
+  invFun g := Classical.choose g.property
+  left_inv c := encode_injective j alpha beta
+    (Classical.choose_spec
+      (show H j alpha beta (encode j alpha beta c) from ⟨c, rfl⟩)).symm
+  right_inv g := by
+    apply Subtype.ext
+    exact (Classical.choose_spec g.property).symm
+
+theorem carrier_card_formula : n * n * 2 = 2 * n^2 := by
+  simp [Nat.pow_succ, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
+
+/-! The next definitions type the paper's P1/P3 and the exact finite
+transversal witness without importing Mathlib quotients or `Fintype.card`. -/
+
+def xrepEn (c : XCode n) : En n :=
+  ((c.rot, false), ((0 : Fin n), c.odd), ((0 : Fin n), c.odd))
+
+theorem xrepEn_mem (c : XCode n) : inG (xrepEn c) := by
+  rcases c with ⟨a, e⟩
+  cases e <;> rfl
+
+def xrep (c : XCode n) : Gn n := ⟨xrepEn c, xrepEn_mem c⟩
+
+def Transitive (H0 : Gn n → Prop) : Prop :=
+  ∀ g : Gn n, ∃ c : XCode n, ∃ h : Gn n,
+    H0 h ∧ g = xrep c * h
+
+def TrivialInter (H0 : Gn n → Prop) : Prop :=
+  ∀ c : XCode n, H0 (xrep c) → c = ⟨0, false⟩
+
+/-- The actual left coset `gH`, represented extensionally as a predicate. -/
+def leftCoset (H0 : Gn n → Prop) (g : Gn n) : Gn n → Prop :=
+  fun x => ∃ h : Gn n, H0 h ∧ x = g * h
+
+/-- Actual left cosets; the carrier is independent of the marking `X`. -/
+def LeftCosets (H0 : Gn n → Prop) : Type :=
+  {K : Gn n → Prop // ∃ g : Gn n, K = leftCoset H0 g}
+
+/-- Named, marking-independent, exact typing of `[G_n:H]=2n` for plain Lean.
+No transitivity conclusion is hidden in this premise. -/
+structure Index2nWitness (H0 : Gn n → Prop) where
+  isSubgroup : IsSubgrp H0
+  cosetEquiv : PlainEquiv (Fin (2 * n)) (LeftCosets H0)
+
+theorem index_code_card_formula : n * 2 = 2 * n := Nat.mul_comm _ _
+
+def signed (e : Bool) (x : Fin n) : Fin n := if e then -x else x
+
+def betaTerm (e : Bool) (beta : Fin n) : Fin n := if e then beta else 0
+
+/-- Canonical factorization coordinates.  This belongs to LA-3 (the P3 result),
+not to the marking-independent P1 witness above. -/
+def split (j : J) (alpha beta : Fin n) (g : Gn n) : XCode n × Code n :=
+  match j with
+  | .j2 =>
+      let e := g.val.1.2
+      let p := g.val.2.1.2
+      let t := signed p g.val.2.2.1
+      let s := signed p g.val.2.1.1
+      let a := g.val.1.1 - (alpha * t + betaTerm e beta)
+      (⟨a, p⟩, ⟨s, t, e⟩)
+  | .j3 =>
+      let e := g.val.1.2
+      let p := g.val.2.2.2
+      let t := signed p g.val.2.1.1
+      let s := signed p g.val.2.2.1
+      let a := g.val.1.1 - (alpha * t + betaTerm e beta)
+      (⟨a, p⟩, ⟨s, t, e⟩)
+
+def join (j : J) (alpha beta : Fin n) (p : XCode n × Code n) : Gn n :=
+  gnMul (xrep p.1) (encode j alpha beta p.2)
+
+theorem join_eq_mul (j : J) (alpha beta : Fin n) (p : XCode n × Code n) :
+    join j alpha beta p = xrep p.1 * encode j alpha beta p.2 := rfl
+
+theorem join_split (j : J) (alpha beta : Fin n) (g : Gn n) :
+    join j alpha beta (split j alpha beta g) = g := by
+  rcases g with ⟨⟨⟨x1, e1⟩, ⟨⟨x2, e2⟩, ⟨x3, e3⟩⟩⟩, hg⟩
+  change xor (xor e1 e2) e3 = false at hg
+  apply Subtype.ext
+  cases j <;> cases e1 <;> cases e2 <;> cases e3 <;> cases hg <;>
+    simp [join, split, xrep, xrepEn, encode, encodeEn, signed, betaTerm,
+      gnMul, emul, dmul, fin_sub_add_cancel_right, fin_neg_neg,
+      fin_zero_sub, fin_sub_zero]
+
+theorem split_join (j : J) (alpha beta : Fin n) (p : XCode n × Code n) :
+    split j alpha beta (join j alpha beta p) = p := by
+  rcases p with ⟨⟨a, e⟩, ⟨s, t, f⟩⟩
+  cases j <;> cases e <;> cases f <;>
+    simp [split, join, xrep, xrepEn, encode, encodeEn, signed, betaTerm,
+      gnMul, emul, dmul, fin_add_assoc, fin_add_comm,
+      fin_sub_add_cancel_right, fin_add_sub_cancel_right, fin_neg_neg,
+      fin_sub_zero, Fin.mul_zero] <;> ac_rfl
+
+/-- Non-circular LA-3 foundation: `G_n` has unique coordinates using the
+`XCode` representatives and `H_{j,α,β}` codes.  Identifying all `XCode`
+representatives with actual powers of `X` under oddness is still OPEN. -/
+def decompositionEquiv (j : J) (alpha beta : Fin n) :
+    PlainEquiv (Gn n) (XCode n × Code n) :=
+  ⟨split j alpha beta, join j alpha beta,
+    join_split j alpha beta, split_join j alpha beta⟩
+
+/-! ### Remaining dependency ledger
+
+LA-2〜LA-5 are upstream inputs to LA-6.  The definitions above deliberately do not
+mention T2.  This wave closes only the family carrier/subgroup/canonical-decomposition
+foundation (the core of LA-3).  Generic LA-2, the remaining paper-level conclusions of
+LA-3, and LA-4/LA-5 remain OPEN; no weaker theorem is exported under their planned names.
+
+LA-7 (`F0.eq_m_zero_branch`) still depends on the approved exact form of T2 Thm 4.3/(4.12);
+LA-9 (`SIXP-fam`) depends on LA-6 and LA-7 and therefore remains OPEN.
 -/
+
+end window
