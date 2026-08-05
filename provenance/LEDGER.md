@@ -2454,3 +2454,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 
 ## 2026-08-06 BU 掘削 初発火(裁定 583)— S1〜S3.5・D⊕D 型先頭・freeze W6-BU-FREEZE2-EXACT17-F106 の workshop dispatch(認可済・研究者 GO)
 - exact 17 層宇宙・LIFT-ENUM・R1-b 順序・停止語彙・checker 自己検証・在庫格のみ(kill/EMPTY/格上げ禁止)・S3.6+/S9 LOCKED・W-5 UNKNOWN 不変。P6 線の genuine 非自明 shadow 狩り(統計予言 (i) の検証地)がついに着火。
+
+## 2026-08-06 反例ホットスポット札 検収(裁定 584)— counterexample_hotspots_ideation_v1.md(f04b91f・5 札)
+- ★司令塔答案(691)と発案係が**独立収束**(札 5: 偶重み 12・深さ 2・Δ/Eisenstein 退化・Herbrand–Ribet の depth2 版不在)。二段構え採択: 夢 = 691(B-HUNT 紙ブラケット専用)・**到達可能本命 = 札 3 PSL(2,8) 非合同窓**(円分装置管轄外・在庫済・|GT|=54)。
+- ★新発見の盲点: 札 1 **ℓ=3(GREEN-A が空虚に真・Kurihara p≠3 除外・四装置沈黙)** — 三色地図の緑判定に「ℓ=3 例外」の但し書きを追加すべし。札 4 Grunwald–Wang/ζ₈(2-part≥8 帯の三重一致)・札 2 双子差動の前決 = Out(B₃)≅C₂ 鏡映フィルタ。
+- キュー改訂: 探索順 = 126 双子(+鏡映フィルタ前決)→ D⊕D(走行中)→ **PSL(2,8)(繰上げ)** → ℓ=3 窓 → 非還元残・691 は BH-1 型ブラケット設計(紙)を数学者キューへ。全札「負けても地図が塗れる」設計を評価。
