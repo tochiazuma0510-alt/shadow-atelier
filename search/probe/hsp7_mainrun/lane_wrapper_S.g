@@ -38,7 +38,7 @@ basisMaterialS := BuildCandidateBasisMaterial(basisS, x, y, theta, tau, fail,
 if RUN_MODE = "BASIS_ONLY" then
   WriteCandidateBasisMaterial(OUT_BASIS_PATH, basisMaterialS);;
   Print("PCGS_BASIS_MATERIAL_WRITTEN: ", OUT_BASIS_PATH, "\n");
-  QUIT;
+  QuitGap(0);
 fi;
 
 EvalLaneS := function(m, fbar)

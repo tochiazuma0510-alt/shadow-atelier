@@ -98,7 +98,7 @@ fi;
 if RUN_MODE = "BASIS_ONLY" then
   WriteCandidateBasisMaterial(OUT_BASIS_PATH, basisMaterialV);;
   Print("PCGS_BASIS_MATERIAL_WRITTEN: ", OUT_BASIS_PATH, "\n");
-  QUIT;
+  QuitGap(0);
 fi;
 
 C7V := CyclicGroup(IsPcGroup, 7);;

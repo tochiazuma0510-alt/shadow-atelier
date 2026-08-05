@@ -87,10 +87,10 @@ CLASS_COMPONENTS = [
 ]
 
 PCGS_REFRESH_COMPONENTS = [
-    "search/certs/hsp7_registered_wrappers_preflight_pcgs_v3_20260805.json",
-    "search/certs/hsp7_laneS_registered_preflight_pcgs_v3_20260805.json",
-    "search/certs/hsp7_laneV_registered_preflight_pcgs_v3_20260805.json",
-    "search/certs/hsp7_laneP_registered_preflight_pcgs_v3_20260805.json",
+    "search/certs/hsp7_registered_wrappers_preflight_pcgs_v4_20260806.json",
+    "search/certs/hsp7_laneS_registered_preflight_pcgs_v4_20260806.json",
+    "search/certs/hsp7_laneV_registered_preflight_pcgs_v4_20260806.json",
+    "search/certs/hsp7_laneP_registered_preflight_pcgs_v4_20260806.json",
 ]
 
 
@@ -103,7 +103,7 @@ def load_pcgs_refresh() -> tuple[bool, dict[str, str | None], str | None, str]:
     paths = [ROOT / p for p in PCGS_REFRESH_COMPONENTS]
     empty = {lane: None for lane in ("S", "V", "P")}
     if not all(p.is_file() for p in paths):
-        return False, empty, None, "current-source v3 refresh artifacts absent"
+        return False, empty, None, "current-source v4 refresh artifacts absent"
     try:
         receipt = json.loads(paths[0].read_text(encoding="utf-8"))
         certs = {lane: json.loads(paths[i].read_text(encoding="utf-8"))
@@ -257,7 +257,7 @@ def load_pcgs_refresh() -> tuple[bool, dict[str, str | None], str | None, str]:
             "ordered_pcgs_core_S_P_equal", "ordered_pcgs_core_S_V_equal",
         }
         comparisons = receipt.get("comparisons")
-        if (receipt.get("schema") != "hsp7-registered-wrapper-preflight/v3"
+        if (receipt.get("schema") != "hsp7-registered-wrapper-preflight/v4"
                 or receipt.get("class_id") != registered_preflight.CLASS_ID
                 or receipt.get("overall_pass") is not True
                 or receipt.get("candidate_universe_contact") != 0
@@ -271,7 +271,7 @@ def load_pcgs_refresh() -> tuple[bool, dict[str, str | None], str | None, str]:
                 or set(comparisons) != expected_comparisons
                 or not all(value is True for value in comparisons.values())):
             raise ValueError("aggregate current-source runtime-PCGS receipt gate")
-        return True, fingerprints, core_fp, "current-source v3 refresh receipt PASS"
+        return True, fingerprints, core_fp, "current-source v4 refresh receipt PASS"
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
         return False, empty, None, str(exc)
 
@@ -430,7 +430,7 @@ def main() -> int:
                               "pcgs-artifact", "semantic-key", "universe/range", "sharding", "STOP/UNKNOWN",
                               "exposure/retention/cap", "new output type"],
         "note": ("The v1 registered receipt is historical evidence only after wrapper/schema v3 changes. "
-                 "Class calibration closes only through the fully rebound candidate-free v3 refresh. "
+                 "Class calibration closes only through the fully rebound candidate-free v4 refresh. "
                  "Main/production certificates are intentionally not a class-freeze prerequisite; "
                  "no candidate/main run was made."),
     }

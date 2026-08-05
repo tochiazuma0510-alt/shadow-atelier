@@ -26,8 +26,8 @@ SCHEMA = ROOT / "search" / "certs" / "hsp7_lane_cert_schema_v3.json"
 CLASS_ID = "HS-NW7-CLASS-v3-draft"
 PCGS_SOURCE_REL = "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g"
 PCGS_SOURCE = ROOT / PCGS_SOURCE_REL
-AGG_OUT = OUT_DIR / "hsp7_registered_wrappers_preflight_pcgs_v3_20260805.json"
-PROVENANCE_STOP_OUT = OUT_DIR / "hsp7_registered_wrappers_preflight_pcgs_v3_precommit_stop_20260805.json"
+AGG_OUT = OUT_DIR / "hsp7_registered_wrappers_preflight_pcgs_v4_20260806.json"
+PROVENANCE_STOP_OUT = OUT_DIR / "hsp7_registered_wrappers_preflight_pcgs_v4_precommit_stop_20260806.json"
 ORCHESTRATOR_REL = "search/probe/hsp7_mainrun/registered_preflight.py"
 VALIDATOR_REL = "search/probe/hsp7_mainrun/binding_gate_lib.py"
 GAP_WRAPPER_REL = "gap.ps1"
@@ -47,7 +47,7 @@ LANES = {
         "aux": ["search/probe/hsp7_mainrun/candidate_key_lib.g", "search/probe/hsp7_mainrun/cert_io.g",
                 "search/probe/wac_v1/gap_output_prelude.g",
                 "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g"],
-        "cert": "search/certs/hsp7_laneS_registered_preflight_pcgs_v3_20260805.json",
+        "cert": "search/certs/hsp7_laneS_registered_preflight_pcgs_v4_20260806.json",
     },
     "V": {
         "wrapper": "search/probe/hsp7_mainrun/lane_wrapper_V.g",
@@ -57,7 +57,7 @@ LANES = {
                 "search/probe/hsp7_cond4_laneV/statemachine_lib.g",
                 "search/probe/wac_v1/gap_output_prelude.g",
                 "search/probe/hsp7_cond4_laneV/PQ_OUTPUT_P.g", "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g"],
-        "cert": "search/certs/hsp7_laneV_registered_preflight_pcgs_v3_20260805.json",
+        "cert": "search/certs/hsp7_laneV_registered_preflight_pcgs_v4_20260806.json",
     },
     "P": {
         "wrapper": "search/probe/hsp7_mainrun/lane_wrapper_P.g",
@@ -67,7 +67,7 @@ LANES = {
                 "search/probe/wac_v1/gap_output_prelude.g",
                 "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g",
                 "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g"],
-        "cert": "search/certs/hsp7_laneP_registered_preflight_pcgs_v3_20260805.json",
+        "cert": "search/certs/hsp7_laneP_registered_preflight_pcgs_v4_20260806.json",
     },
 }
 
@@ -198,7 +198,7 @@ def main() -> int:
         commit, commit_files = source_commit_evidence()
     except (OSError, ValueError) as exc:
         receipt = {
-            "schema": "hsp7-registered-wrapper-preflight/v3",
+            "schema": "hsp7-registered-wrapper-preflight/v4",
             "class_id": CLASS_ID,
             "candidate_universe_contact": 0,
             "registered_fixture_plan": {"S": 13, "V": 13, "P_production": 8,
@@ -396,7 +396,7 @@ def main() -> int:
     core_fingerprint = (pcgs_basis_fingerprint(certs["S"]["pcgs_basis_material"])
                         if "S" in certs else None)
     receipt = {
-        "schema": "hsp7-registered-wrapper-preflight/v3",
+        "schema": "hsp7-registered-wrapper-preflight/v4",
         "class_id": CLASS_ID,
         "candidate_universe_contact": 0,
         "registered_fixture_plan": {"S": 13, "V": 13, "P_production": 8, "P5_two_path": 5},

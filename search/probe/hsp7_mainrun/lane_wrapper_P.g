@@ -53,7 +53,7 @@ basisMaterialP := BuildCandidateBasisMaterial(basisP, xmain, ymain, thetaP, tauP
 if RUN_MODE = "BASIS_ONLY" then
   WriteCandidateBasisMaterial(OUT_BASIS_PATH, basisMaterialP);;
   Print("PCGS_BASIS_MATERIAL_WRITTEN: ", OUT_BASIS_PATH, "\n");
-  QUIT;
+  QuitGap(0);
 fi;
 convP := BuildConvP(Pmain, xmain, ymain, jx, jy, epiChecked);;
 if not convP.image_generated or not convP.image_bijective then
