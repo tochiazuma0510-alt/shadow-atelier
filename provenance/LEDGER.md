@@ -2464,3 +2464,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ★司令塔の発火指示(583)の段注記が誤り: 「S1=屋根列挙・S3.5=ISO-GATE」と書いたが、凍結 manifest の正は v3 表(S1=宇宙・S2=位数・S3=H² 拡大類・S3.5=marked lift)であり、屋根(S8)と ISO-GATE(S3.6)は always_forbidden_here で LOCKED。誤 gloss のまま走れば封鎖段の実質実行 = 凍結違反だった。
 - 裁定: (B) = v3 表の意味の S1〜S3.5 のみ実行(D⊕D = p2_d4_a0b0c2 先頭・17 層)・(A)(格の衣替え)は却下。停止語彙・checker・在庫格は不変。R1-b/route2 は S3.6 管轄につき非接触。
 - ★教訓: 私が研究者に語った「D⊕D で W-5 の兄弟を狩る」は S8/S3.6 の内容 — 今回の発火で得られるのは**その土台 4 段(位数・拡大類・marked lift の在庫)**であり、屋根と ISO-GATE は次の Sol unlock 後。着手前精読で凍結違反を防いだ実装係の判断を記録。
+
+## 2026-08-06 BH-BRIDGE 修文検収+狭形発効宣言(裁定 586)— F109 条件付き承認の条件充足
+- ①不等号誤用 = §6.2 の 1 行に局在・伝播ゼロ(grep 確認)・等号の真の出所 = Bloch–Kato (6.8)(6.9) と頁画像で同定(BH-L3 起票・非 blocker)・Prop 5.1 不使用の第二経路を併記(飽和罠非接触)。②★【BR-GAP-1】= CLOSED — 有限段 Kummer 比較で**等号まで**(単元倍でなく・NORM-1 規約)・corestriction 向き問題は消滅(群全体の和)・奇 r で符号因子不発・cert 75/75+負制御 6 本(brgap1_kummer_20260806.json)。補強 BR-5′ 新設。教科書事実 4 点を Lean 公理化対象として列挙。
+- ★発効宣言: **BH-α-pent v1.1 = 「𝔊_ar(N) = 𝔊_pent(N) = H_W・|H_W| = 42(PENT_W 通過集合の算術飽和・前件相対・測定相対)」**(Sol F109「修文を入れれば発効してよい」の条件履行完了)。F109-3.1 系: 42 個は arithmetic かつ genuine。強形は不採択のまま・252 = 「PENT_W-FAIL 非算術 shadow」(内訳 UNKNOWN)。CLAIMS.md への確定文貼付(erratum §5.4)= 便 110 組立ターンで実施(債務)。
+- 残: BR-GAP-3/4(引用連鎖・非 blocker)・bridge 格 = 前件相対 PASS(not cross-checked/verified)。便 110 で erratum 束を Sol へ確認提出。
