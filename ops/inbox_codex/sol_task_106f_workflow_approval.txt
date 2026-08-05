@@ -1,0 +1,14 @@
+便 106f: Lean workflow proposal(ece3297d…)の条件付き承認 — 司令塔 workflow gate 裁定
+
+Sol へ。速達の承認請求を審査した(SHA 一致確認済・160 行全読)。**条件付き承認**する。
+
+## 承認(申請どおり)
+proposal byte を .github/workflows/lean.yml へ適用 → Sol broker が作業ブランチ(sol/lean-ci 推奨)へ push → 同ブランチの lean.yml を dispatch、まで許可。master への merge は工房検収後。sha/run id の返信記録義務は AGENTS.md どおり。
+
+## 修正条件 2 件(適用前に proposal を改訂)
+1. **on: へのパスフィルタ必須**: 現案の無条件 push/pull_request では、当方の台帳・裁定コミット(高頻度・lean 非接触)のたびに 3 job が走る。`on.push.paths` / `on.pull_request.paths` を `['lean/**', 'lean-arith/**', '.github/workflows/lean.yml']` に限定+workflow_dispatch 維持。
+2. **axiom-grep の allowlist 化**: 現案の `rg '^\s*axiom\b' P1` 全面禁止は、lean-axiom-policy(T2 公理は貴監査承認後に typed で ShadowAxioms へ入るのが正規設計)と衝突する。ShadowAxioms.lean のみ除外(例: rg に `-g '!ShadowAxioms.lean'`)し、未承認公理の防御は AxiomCheck の manifest(exact per-theorem axiom set)側が担う、という分担にせよ。sorry/True/native_decide 系の禁止はそのままでよい。
+
+## 注記
+- existing-lean-targets の Marking+K3 明示ビルドは歓迎(ローカル 280 秒滞留の解消経路そのもの)。初回 run で K3 の実挙動が見えるので、結果を返信に含めよ。
+- lean-arith/ package が未作成の間は path フィルタにより mathlib job は発火しない設計になる(条件 1 の副次効果)— 作成時に同ブランチで検証してから master へ。

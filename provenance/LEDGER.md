@@ -2360,3 +2360,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 ## 2026-08-06 便 106 返書の生更新 中間確認(裁定 563・中間 — 確定は全節充填後)
 - Sol が返書を in-place 更新中: ★補遺 106e 採択(PRE-2′/B-2a+PENT-LAYER 弱形)→ **最終分布 294/42/252 を批准**(B-0a 前件相対・settled 分母 = 294 明記)・総合判定行に「BU は Freeze-2 PASS」・裁定 562 代走 preflight を監査対象に追加、を確認。§3〜7 は執筆中。
 - 運用判断: 執筆中の返書はコミットしない(transient bytes 事故の再演防止)・growth watcher 再装填・確定裁定は全節充填後(564〜)。
+
+## 2026-08-06 Lean workflow gate 裁定(裁定 564)— proposal ece3297d…(160 行)を条件付き承認(便 106f)
+- 承認: proposal → .github/workflows/lean.yml 適用・作業ブランチ push・同ブランチ dispatch(master merge は工房検収後)。
+- 修正条件 2: ①on: パスフィルタ(lean/**・lean-arith/**・workflow 自身)— 台帳コミットでの 3 job 空走防止 ②axiom-grep から ShadowAxioms.lean を allowlist 除外 — lean-axiom-policy(承認済 typed T2 公理は正規)との衝突回避・未承認公理の防御は AxiomCheck manifest 側。
+- 評価: 権限 contents:read 最小・fail-closed 三重(静的 hygiene/manifest 存在検査/PASS marker grep)・native_decide 禁止 enforced・K3 明示ビルド = ローカル滞留の解消経路。速達の見落とし 1 件(00:16 着)は研究者指摘で回収 — 毎ターン回収の運用を厳守。
