@@ -2260,3 +2260,9 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 裁定 531 を強化: 以後の Lean 実装は**全部 Sol 指示×Luna 実装**(工房 agent は完全に外れる — 裁定 539 の T1_cyclotomic_ram2 討ち取り・540 の Block-H 次波も Sol/Luna へ)。工房に残るのは①方針・公理台帳のゲート(発効判定は従来どおり司令塔+Sol)②GitHub 操作(push・Actions CI・Mathlib キャッシュ・K3 ビルド滞留の解消含む)③Luna の起床・配達。
 - 便 105 §6 の性格変更: 「一回監査請求+運用提案」→「**一回監査+全面移管の引き継ぎ束**」(方針 v1.5・割付表・第 1 波 c542808・survey 629ba3e・Block-H-first 勧告・T2 言明精密化議題・橋 B 内製 6 案)。Sol 検収後に Luna 起床。memory = lean-sol-luna-pipeline 改版。
 - **裁定 542 補記(研究者・即時)**: 「mathlib がローカルで使えないことはしっかり伝えてね」— 便 105 §6 の引き継ぎ束に**必須明記**: 本機(8GB)では Mathlib の恒常ビルド・import 常用は不可(裁定 534・小規模調査のみ例外)。Luna のローカル作業は Mathlib 非依存の素 Lean に限る。Mathlib 依存補題(T1 討ち取り・数論層・橋 B)は**別パッケージ+GitHub Actions 専用ビルド**とし、CI の実行と結果還流は工房が担う — Sol の指示設計はこの分業を前提とすること。
+
+## 2026-08-05 falsifier 再判読 検収+cross-checked 格付け付与(裁定 543)
+- CV-9 v2(iso_r3r4_cv9_reading_v2.md): 三値再裁定 = **5 量すべて同一対象**(verdict は 4 変数整列+2×2×5×5=100 入力全数比較で不一致 0)。【重大 3】核心閉鎖 = settled 述語の偽側がキャンペーン初の両系統実行。v1 cert 不改変を hash で機械確認。総合所見 = **支持する**(条件 2 件つき)。
+- **格付け宣言(正本文言)**: R3/R4 二系統(GAP driver v2/Python 第二系 v2)は、宣言された 5 量(|G|・N_ord・shadow_total・settled_count/total・verdict)× 3 データ(K⁽³⁾・W-5・M-ISO-2(v2))の範囲で **cross-checked**。根拠は falsifier の原典読解(CV-9 v1/v2)であり数値一致ではない(数値一致は規約同一性を示さない — 恒久禁止)。本格付けは tool-calibration 層であり、isolated=FALSE のいかなる数学的主張も含まない(AS-GAP-6 open・W-5 = UNKNOWN pending gate 不変)。
+- 条件の履行 = cert v2.1 是正を即時発注: 【A】M-ISO-8 の kills 帰属訂正(実 verdict は settled 変異に不感 — 殺しているのは M-ISO-2(v2) の assertion。detail 要素比較へ 1 行変更+kills 欄一致)【B】conventions_used の機械 diff 可能化(統制語彙 enum・散文は note 退避・word_eval/comparison_target を Python 側へ複製・キー集合統一)+軽微 C(sumOk リテラル手渡し排除)・D(凍結文書「3 変数」誤記は erratum 追記で — 凍結本文は不改変)・E(staged counters assert)・F(配置統一)・G(all_genuine=false は構成上保証と明記)。
+- **恒久規則採択(falsifier 勧告)**: IF-FIRST 凍結文書は**単独コミットしてから走る**(事前性の git 証明はそこにしかない・コスト ~0)。
