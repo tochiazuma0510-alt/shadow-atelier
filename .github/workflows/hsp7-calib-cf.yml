@@ -1,0 +1,130 @@
+name: hsp7-calib-cf
+
+# HS 発火条件4/5 -- CF/CONV-P 再較正(裁定527発火)。既存 hsp7-calib.yml と
+# その receipt(hsp7_ci_calib_20260805.json 含む)は不変。本 workflow は
+# NEW な CF/CONV-P driver スクリプト(下記 matrix)を、既存と同じ登録済み
+# 18 fixture(13+5)・同じ期待値ソース(search/certs/hsp7_cond4_summary_v2_20260805.json)
+# ・同じ比較スクリプト(search/probe/hsp7_ci_calib/parse_and_compare.py、無改変)
+# で実走する。既存の predicate_lib_lane*.g / lane_wrapper_*.g / 既存 driver
+# (driver_step4_evaluate_v3.g, driver_final_eval_p5.g) はいずれも不改変
+# (read-only, Read() されるのみ -- CF driver は baseline を自身のゲート/
+# 二経路検査のためだけに読む)。
+#
+# 対応関係:
+#   - laneV_13: driver_cf_laneV_calib.g(NEW)が CF(predicate_lib_laneV_cf.g)
+#     で 8 dummy/h3 + NW-P8 m-sweep 5 を再評価。ログ行フォーマットは
+#     driver_step4_evaluate_v3.g と同一(parse_and_compare.py 無改変で再利用)。
+#   - p5control_5: driver_conv_laneP_p5control_calib.g(NEW)が CONV-P
+#     (predicate_lib_laneP_conv.g)で NW-P7(t=0..4)を再評価。ログ行フォーマット
+#     は driver_final_eval_p5.g と同一。
+#
+# 705,894 候補宇宙の smoke/pilot/部分 matrix は不認可のまま(封印3量非接触)。
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - '.github/workflows/hsp7-calib-cf.yml'
+      - 'search/probe/hsp7_ci_calib/**'
+      - 'search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g'
+      - 'search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g'
+      - 'search/probe/hsp7_mainrun/driver_cf_laneV_calib.g'
+      - 'search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g'
+      - 'search/certs/hsp7_cond4_summary_v2_20260805.json'
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate_cf:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lane: laneV_13
+            driver_script: search/probe/hsp7_mainrun/driver_cf_laneV_calib.g
+            driver_extra_digest_inputs: "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g search/probe/hsp7_cond4_laneV/statemachine_lib.g"
+          - lane: p5control_5
+            driver_script: search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g
+            driver_extra_digest_inputs: "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Setup GAP 4.16.0 (release tarball, sha256-verified -- 版は mine-dispatch.yml と揃える)
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Install anupq package sources
+        uses: gap-actions/install-pkg@v1
+        with:
+          packages: anupq
+
+      # gap-actions/build-pkg@v3 assumes cwd is the package-under-test's own
+      # repo -- see hsp7-calib.yml's identical comment. Same manual
+      # configure/make workaround, unchanged.
+      - name: Build anupq (compiles the pq binary for this runner, manual configure/make)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GAPROOT/pkg/anupq"
+          ./configure "$GAPROOT"
+          make
+
+      - name: Compute driver digest (fail-closed provenance binding)
+        id: digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILES="${{ matrix.driver_script }} search/probe/wac_v1/gap_output_prelude.g ${{ matrix.driver_extra_digest_inputs }}"
+          DIGEST=$(sha256sum $FILES | sha256sum | awk '{print $1}')
+          echo "driver_digest=$DIGEST" >> "$GITHUB_OUTPUT"
+          echo "computed over: $FILES"
+          sha256sum $FILES
+
+      - name: Run GAP CF/CONV-P driver (NEW files under search/probe/hsp7_mainrun/ only -- baseline search/*.g remain unmodified)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 4g "${{ matrix.driver_script }}" 2>&1 | tee ci/out/run_cf.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Parse run.log and compare against registered expected verdicts (fail-closed, same script as hsp7-calib.yml, unmodified)
+        id: compare
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python search/probe/hsp7_ci_calib/parse_and_compare.py \
+            --lane "${{ matrix.lane }}" \
+            --log ci/out/run_cf.log \
+            --run-id "${{ github.run_id }}" \
+            --run-attempt "${{ github.run_attempt }}" \
+            --commit-sha "${{ github.sha }}" \
+            --driver-digest "${{ steps.digest.outputs.driver_digest }}" \
+            --out "ci/out/hsp7_ci_calib_cf_receipt_${{ matrix.lane }}.json"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hsp7-calib-cf-${{ matrix.lane }}
+          path: |
+            ci/out/run_cf.log
+            ci/out/hsp7_ci_calib_cf_receipt_${{ matrix.lane }}.json
+          if-no-files-found: error
+
+      - name: Fail-closed -- GAP exit code must be 0 AND every candidate must agree
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.gap_exit }}" != "0" ]; then
+            echo "::error::gap_exit=${{ steps.run.outputs.gap_exit }} (nonzero) -- see ci/out/run_cf.log in the uploaded artifact"
+            exit 1
+          fi
+          echo "gap_exit=0, comparison step already fail-closed on any disagreement (see previous step)."
