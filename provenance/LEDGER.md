@@ -2347,3 +2347,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 副産物: 系 CONJ-Φ で票の【EXQ-GAP-2】が graded 水準 CLOSED(EXQ-6 の u³/u⁴ が定理へ・非対角は PL-GAP-2 残置)。PRE-2 機序の独立再確認((3.10) 通過・(3.11) 次数 4 欠陥 = 3)。再測定仕様に **fail-closed の A-所属前検査**(TYPING_FAILURE/STOP)を必須化 — 今回欠けていた一段の恒久化。
 - 申し送り採録: 規約台帳 §1.3.10 に 𝔥₃/h₃ の Lie/群区別行を追加(h₄ にはあり h₃ になし = 今回の穴の根)— ledger r3 finalization に同梱(キューへ)。
 - 便 106 補遺の発送は PRE-2′(走行中)着地後に一括(roundtrip batching)。
+
+## 2026-08-05 PRE-2′ 検収+便 106e 補遺発送(裁定 561)
+- PRE-2′ = **B-2a 確定**(cert v2 = nw7_pre12_v2_20260805.json・v1 supersedes): 検証 (a) raw jh3 欠陥 3(v₁+v₂+v₃) = Sol 診断の独立再導出一致 (b) g₁=r·s⁻¹ の log = 𝔥₃ exact・欠陥 (0,0,0) = hex(0) 所属確認。ξ′=D(g₁)=恒等元(全ゼロ・k=0 で 𝔽₇η 内)⟹ PENT/層 7・総 **42**・hexagon-only **252**。全ゼロの構造的必然(D(g₁^m h₄^t)=η^t)を cert に併記し Sol の二度見を請求。
+- 係コミットが裁定 560 コミットへ bundle されるレース 1 件(バイト同一確認・実害なし・記録)。
+- 便 106e 発送(preflight PASS): §1 PRE-2′/B-2a §2 PENT-LAYER 弱形の設計可否(Q-2)§3 分布充填請求(294/42/252)§4 規律申告。返信は同一 reply ファイル(106 本体の追記を watcher 監視中)。
