@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
-"""join_fixtures_gen.py -- builds the artificial (synthetic) shard-manifest
-fixtures required by sol/sol_reply_104_math31.md F104-1.3's join-fixture
-spec, and the join_fixtures_run.py test runner asserts each against its
-expected verdict via search/probe/hsp7_mainrun/join_checker.py.
-
-宇宙は完全に人工(toy): total_flat_indices=5, candidate key = {"m": int,
-"e1": int} (F104-1.3の pcgs 6-tuple 形式の縮小版 -- ここでは join の構造検査
-だけが対象で候補の数学的中身は無関係なので、705,894 候補データは一切
-使わない)。pcgs_id/endian は固定の識別子文字列。
-"""
+"""Generate synthetic positive/mutant manifests for the independent join gate."""
 
 from __future__ import annotations
 
@@ -17,166 +8,171 @@ import json
 from pathlib import Path
 
 FIXTURE_DIR = Path(__file__).parent / "join_fixtures"
-
-UNIVERSE = {"pcgs_id": "toy_pcgs_v1", "endian": "big", "total_flat_indices": 5}
-
-RECEIPT_A = {"run_id": "17012345678", "run_attempt": "1", "sha": "aaaa1111bbbb2222", "driver_digest": "driverA-sha256-0001"}
-RECEIPT_B = {"run_id": "17012345679", "run_attempt": "1", "sha": "cccc3333dddd4444", "driver_digest": "driverB-sha256-0002"}
-
-KEYS = [{"m": 0, "e1": i} for i in range(5)]  # flat_index i <-> KEYS[i]
-
-
-def _shard(shard_id, lo, hi, entries, receipt, pcgs_id="toy_pcgs_v1", endian="big"):
-    return {
-        "shard_id": shard_id,
-        "index_range": [lo, hi],
-        "pcgs_id": pcgs_id,
-        "endian": endian,
-        "candidate_keys": entries,
-        "receipt": receipt,
-    }
-
-
-def _entries(indices):
-    return [{"flat_index": i, "key": KEYS[i]} for i in indices]
-
-
-def build_good():
-    """正常な完全分割: shard0=[0,2], shard1=[3,4], 全5件を過不足なく被覆。"""
-    return {
-        "universe": UNIVERSE,
-        "shards": [
-            _shard("shard0", 0, 2, _entries([0, 1, 2]), RECEIPT_A),
-            _shard("shard1", 3, 4, _entries([3, 4]), RECEIPT_B),
-        ],
-    }
-
-
-def build_reorder():
-    """shard の並び替えだけ(shard1 が先・shard0 が後、各 shard 内の
-    candidate_keys も逆順)。集合として good と同一 -> PASS かつ
-    canonical_sort_hash が good と同一になるはず。"""
-    good = build_good()
-    shards = copy.deepcopy(good["shards"])
-    shards.reverse()
-    for s in shards:
-        s["candidate_keys"] = list(reversed(s["candidate_keys"]))
-    return {"universe": UNIVERSE, "shards": shards}
-
-
-def build_missing_shard():
-    """shard 一個欠落: shard1 がまるごと存在しない(shard0 のみ、
-    universe.total_flat_indices=5 のまま)。"""
-    return {
-        "universe": UNIVERSE,
-        "shards": [
-            _shard("shard0", 0, 2, _entries([0, 1, 2]), RECEIPT_A),
-        ],
-    }
-
-
-def build_missing_candidate_key():
-    """candidate key 一個欠落: shard1 の flat_index=4 のエントリが抜けている
-    (index_range は[3,4]のまま申告)。"""
-    return {
-        "universe": UNIVERSE,
-        "shards": [
-            _shard("shard0", 0, 2, _entries([0, 1, 2]), RECEIPT_A),
-            _shard("shard1", 3, 4, _entries([3]), RECEIPT_B),
-        ],
-    }
-
-
-def build_duplicate_key():
-    """候補鍵の重複: 異なる flat_index (1 と 4) に全く同じ key 値
-    {"m":0,"e1":1} を(誤って)割り当てている。"""
-    shards = [
-        _shard("shard0", 0, 2, _entries([0, 1, 2]), RECEIPT_A),
-        _shard("shard1", 3, 4, [{"flat_index": 3, "key": KEYS[3]}, {"flat_index": 4, "key": KEYS[1]}], RECEIPT_B),
-    ]
-    return {"universe": UNIVERSE, "shards": shards}
-
-
-def build_overlap():
-    """区間overlap: shard0=[0,2], shard1=[2,4] (index=2が重複区間)。
-    このfixtureは range メタデータのみで検出されるべきで、実際に
-    candidate_keys の中身が食い違っているかどうかは無関係(shard1側は
-    index=2を自分のリストに含めない=中身レベルでは無害でも、overlap
-    そのものをrangeメタデータだけでSTOPさせる設計を確認する)。"""
-    return {
-        "universe": UNIVERSE,
-        "shards": [
-            _shard("shard0", 0, 2, _entries([0, 1, 2]), RECEIPT_A),
-            _shard("shard1", 2, 4, _entries([3, 4]), RECEIPT_B),
-        ],
-    }
-
-
-def build_pcgs_endian_mismatch():
-    """別pcgs/endian: shard1が universe と異なる pcgs_id を申告。"""
-    return {
-        "universe": UNIVERSE,
-        "shards": [
-            _shard("shard0", 0, 2, _entries([0, 1, 2]), RECEIPT_A),
-            _shard("shard1", 3, 4, _entries([3, 4]), RECEIPT_B, pcgs_id="toy_pcgs_v2_DIFFERENT", endian="little"),
-        ],
-    }
-
-
-def build_same_flat_index_different_key():
-    """同一 flat index に別 key: index_range は overlap しない(shard0=[0,2],
-    shard1=[3,4])が、shard1 の candidate_keys に(バグにより)flat_index=2
-    のエントリが混入し、shard0 が申告する key と異なる値を主張する。"""
-    shards = [
-        _shard("shard0", 0, 2, _entries([0, 1, 2]), RECEIPT_A),
-        _shard(
-            "shard1",
-            3,
-            4,
-            [
-                {"flat_index": 2, "key": {"m": 9, "e1": 9}},  # conflicts with shard0's key for flat_index=2
-                {"flat_index": 3, "key": KEYS[3]},
-                {"flat_index": 4, "key": KEYS[4]},
-            ],
-            RECEIPT_B,
-        ),
-    ]
-    return {"universe": UNIVERSE, "shards": shards}
-
-
-def build_receipt_missing_field():
-    """receipt の run_id/run_attempt/sha/driver_digest 欠落: shard1 の
-    receipt から 'sha' フィールドが欠落。"""
-    bad_receipt = {k: v for k, v in RECEIPT_B.items() if k != "sha"}
-    return {
-        "universe": UNIVERSE,
-        "shards": [
-            _shard("shard0", 0, 2, _entries([0, 1, 2]), RECEIPT_A),
-            _shard("shard1", 3, 4, _entries([3, 4]), bad_receipt),
-        ],
-    }
-
-
-FIXTURES = {
-    "good": (build_good, "PASS", None),
-    "reorder": (build_reorder, "PASS", None),
-    "missing_shard": (build_missing_shard, "STOP", "COVERAGE_GAP"),
-    "missing_candidate_key": (build_missing_candidate_key, "STOP", "CANDIDATE_KEY_MISSING"),
-    "duplicate_key": (build_duplicate_key, "STOP", "DUPLICATE_CANDIDATE_KEY"),
-    "overlap": (build_overlap, "STOP", "INDEX_RANGE_OVERLAP"),
-    "pcgs_endian_mismatch": (build_pcgs_endian_mismatch, "STOP", "PCGS_ENDIAN_MISMATCH"),
-    "same_flat_index_different_key": (build_same_flat_index_different_key, "STOP", "FLAT_INDEX_KEY_CONFLICT"),
-    "receipt_missing_field": (build_receipt_missing_field, "STOP", "RECEIPT_FIELD_MISSING"),
+COMMON = {
+    "radix": 2,
+    "exponent_width": 2,
+    "m_values": [0, 2, 3],
+    "f_total": 4,
+    "pcgs_id": "toy-pcgs-sha256",
+    "pcgs_basis_fingerprint": "f" * 64,
+    "endian": "big",
+    "class_id": "HS-TOY-CLASS-v2",
+    "driver_digest": "toy-driver-sha256",
+    "source_bundle_sha256": "toy-source-bundle-sha256",
 }
 
 
-def write_all():
+def universe(lane: str) -> dict:
+    return {**COMMON, "lane": lane, "axis": "f" if lane == "P" else "pair",
+            "total_flat_indices": 4 if lane == "P" else 12}
+
+
+def receipt(tag: str) -> dict:
+    return {
+        "run_id": f"toy-run-{tag}", "run_attempt": "1", "sha": f"toy-commit-{tag}",
+        "driver_digest": COMMON["driver_digest"],
+        "source_bundle_sha256": COMMON["source_bundle_sha256"],
+        "class_id": COMMON["class_id"], "driver_done": True,
+        "cert_sha256": f"toy-cert-{tag}-sha256",
+    }
+
+
+def exp(idx: int) -> list[int]:
+    return [idx // 2, idx % 2]
+
+
+def pair_entry(idx: int) -> dict:
+    mi, fi = divmod(idx, 4)
+    return {"flat_index": idx, "key": {"m": COMMON["m_values"][mi], "e": exp(fi)},
+            "status": ("PASS", "FAIL", "UNKNOWN")[idx % 3]}
+
+
+def p_entry(idx: int) -> dict:
+    return {"flat_index": idx, "key": {"e": exp(idx)},
+            "joined_pair_indices": [idx, 4 + idx, 8 + idx],
+            "status": ("PASS", "FAIL", "UNKNOWN")[idx % 3]}
+
+
+def shard(sid: str, lo: int, hi: int, entries: list[dict], tag: str) -> dict:
+    return {"shard_id": sid, "index_range": [lo, hi], "pcgs_id": COMMON["pcgs_id"],
+            "pcgs_basis_fingerprint": COMMON["pcgs_basis_fingerprint"],
+            "endian": COMMON["endian"], "candidate_keys": entries, "receipt": receipt(tag)}
+
+
+def good_s() -> dict:
+    return {"universe": universe("S"), "shards": [
+        shard("s0", 0, 3, [pair_entry(i) for i in range(0, 4)], "0"),
+        shard("s1", 4, 7, [pair_entry(i) for i in range(4, 8)], "1"),
+        shard("s2", 8, 11, [pair_entry(i) for i in range(8, 12)], "2"),
+    ]}
+
+
+def good_p() -> dict:
+    return {"universe": universe("P"), "shards": [
+        shard("p0", 0, 1, [p_entry(0), p_entry(1)], "p0"),
+        shard("p1", 2, 3, [p_entry(2), p_entry(3)], "p1"),
+    ]}
+
+
+def mutate_good_s(mutator):
+    obj = copy.deepcopy(good_s())
+    mutator(obj)
+    return obj
+
+
+def reorder_s() -> dict:
+    obj = copy.deepcopy(good_s())
+    obj["shards"].reverse()
+    for s in obj["shards"]:
+        s["candidate_keys"].reverse()
+    return obj
+
+
+def missing_shard() -> dict:
+    return mutate_good_s(lambda o: o["shards"].pop())
+
+
+def missing_candidate_key() -> dict:
+    return mutate_good_s(lambda o: o["shards"][1]["candidate_keys"].pop())
+
+
+def duplicate_flat_index() -> dict:
+    return mutate_good_s(lambda o: o["shards"][0]["candidate_keys"].append(copy.deepcopy(o["shards"][0]["candidate_keys"][0])))
+
+
+def overlap() -> dict:
+    return mutate_good_s(lambda o: o["shards"][1].update(index_range=[3, 7]))
+
+
+def pcgs_endian_mismatch() -> dict:
+    return mutate_good_s(lambda o: o["shards"][1].update(
+        pcgs_id="wrong", pcgs_basis_fingerprint="e" * 64, endian="little"))
+
+
+def entry_outside_range() -> dict:
+    return mutate_good_s(lambda o: o["shards"][1]["candidate_keys"].append(pair_entry(3)))
+
+
+def receipt_missing_field() -> dict:
+    def mut(o):
+        del o["shards"][1]["receipt"]["sha"]
+    return mutate_good_s(mut)
+
+
+def driver_not_done() -> dict:
+    return mutate_good_s(lambda o: o["shards"][1]["receipt"].update(driver_done=False))
+
+
+def common_permutation() -> dict:
+    ## Producer and serialized key share the same e1/e2 reversal.  A checker
+    ## that trusts the key would pass; arithmetic re-derivation must STOP.
+    return mutate_good_s(lambda o: o["shards"][0]["candidate_keys"][1]["key"].update(e=[1, 0]))
+
+
+def wrong_m_semantics() -> dict:
+    return mutate_good_s(lambda o: o["shards"][1]["candidate_keys"][0]["key"].update(m=0))
+
+
+def p_expansion_mismatch() -> dict:
+    obj = copy.deepcopy(good_p())
+    obj["shards"][0]["candidate_keys"][1]["joined_pair_indices"] = [1, 5, 10]
+    return obj
+
+
+def p_key_permutation() -> dict:
+    obj = copy.deepcopy(good_p())
+    obj["shards"][0]["candidate_keys"][1]["key"]["e"] = [1, 0]
+    return obj
+
+
+FIXTURES = {
+    "good": (good_s, "PASS", None),
+    "reorder": (reorder_s, "PASS", None),
+    "good_p": (good_p, "PASS", None),
+    "missing_shard": (missing_shard, "STOP", "COVERAGE_GAP"),
+    "missing_candidate_key": (missing_candidate_key, "STOP", "CANDIDATE_KEY_MISSING"),
+    "duplicate_key": (duplicate_flat_index, "STOP", "DUPLICATE_FLAT_INDEX"),
+    "overlap": (overlap, "STOP", "INDEX_RANGE_OVERLAP"),
+    "pcgs_endian_mismatch": (pcgs_endian_mismatch, "STOP", "PCGS_ENDIAN_MISMATCH"),
+    "same_flat_index_different_key": (entry_outside_range, "STOP", "ENTRY_OUTSIDE_DECLARED_RANGE"),
+    "receipt_missing_field": (receipt_missing_field, "STOP", "RECEIPT_FIELD_MISSING"),
+    "driver_not_done": (driver_not_done, "STOP", "DRIVER_NOT_DONE"),
+    "common_permutation": (common_permutation, "STOP", "SEMANTIC_KEY_MISMATCH"),
+    "wrong_m_semantics": (wrong_m_semantics, "STOP", "SEMANTIC_KEY_MISMATCH"),
+    "p_expansion_mismatch": (p_expansion_mismatch, "STOP", "P_EXPANSION_MISMATCH"),
+    "p_key_permutation": (p_key_permutation, "STOP", "SEMANTIC_KEY_MISMATCH"),
+}
+
+
+def write_all() -> None:
     FIXTURE_DIR.mkdir(parents=True, exist_ok=True)
-    for name, (builder, _expected_verdict, _expected_reason) in FIXTURES.items():
-        manifest = builder()
-        path = FIXTURE_DIR / f"{name}.json"
-        path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
-        print(f"wrote {path}")
+    expected = {f"{name}.json" for name in FIXTURES}
+    for old in FIXTURE_DIR.glob("*.json"):
+        if old.name not in expected:
+            old.unlink()
+    for name, (builder, _verdict, _reason) in FIXTURES.items():
+        (FIXTURE_DIR / f"{name}.json").write_text(
+            json.dumps(builder(), indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

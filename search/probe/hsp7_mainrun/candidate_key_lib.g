@@ -174,3 +174,249 @@ CandidateKeyLibSelfCheck := function()
   od;
   return rec(ok := true, total_candidates := total, xn_ordered := XN_ORDERED);
 end;;
+
+## Group-level semantic gate.  The arithmetic round-trip above cannot detect
+## a producer that applies a common permutation to the pcgs generators while
+## serializing the unpermuted exponent tuple.  Unit vectors must therefore
+## map to the corresponding fixed pcgs generator, and every basis element
+## must round-trip through ExponentsOfPcElement exactly.
+CandidateBasisSemanticSelfCheck := function(basis)
+  local i, e, elt, back;
+  for i in [1..6] do
+    e := [0,0,0,0,0,0];;
+    e[i] := 1;;
+    elt := ExpVectorToElement(basis, e);;
+    if elt <> basis.gens[i] then
+      Error("CANDIDATE_KEY_GROUP_STOP: unit vector maps to wrong pcgs generator at ", i);
+    fi;
+    back := ExponentsOfPcElement(basis.pcgsD, elt);;
+    if back <> e then
+      Error("CANDIDATE_KEY_GROUP_STOP: pcgs exponent round-trip failed at ", i,
+            " expected ", e, " got ", back);
+    fi;
+  od;
+  return rec(ok := true, unit_vectors_checked := 6);
+end;;
+
+## ---- deterministic runtime ordered-basis identity material ----
+## A source-file digest and six unit-vector round trips do not identify the
+## runtime ordered pcgs strongly enough.  The material below records the
+## relative orders, all 15 pair-commutator coordinate rows, and the theta/tau
+## action on every ordered generator.  Lane V additionally records the
+## coordinate row of each Lane-S generator under the checked S->V bridge.
+## No candidate is constructed or evaluated by this function.
+HSPcgsCoordinates := function(basis, elt, label)
+  local e;
+  e := ExponentsOfPcElement(basis.pcgsD, elt);
+  if e = fail or Length(e) <> 6 then
+    Error("PCGS_BASIS_MATERIAL_STOP: ", label,
+          " is outside the six-generator derived pcgs");
+  fi;
+  if not ForAll(e, z -> IsInt(z) and z >= 0 and z < 7) then
+    Error("PCGS_BASIS_MATERIAL_STOP: noncanonical coordinate in ", label,
+          ": ", e);
+  fi;
+  return e;
+end;;
+
+HSPcgsUnitVector := function(i)
+  local e;
+  e := [0,0,0,0,0,0];;
+  e[i] := 1;;
+  return e;
+end;;
+
+BuildCandidateBasisMaterial := function(basis, namedX, namedY, thetaMap, tauMap,
+                                        bridgeData, sourceArtifactPath,
+                                        sourceArtifactSha256)
+  local pairRows, thetaRows, tauRows, bridgeRows, i, j, e, row,
+        thetaNonidentity, tauNonidentity, ambientPcgs,
+        ambientOrders, namedRows, basisAmbientRows;
+  if thetaMap = fail or tauMap = fail or
+     not IsBijective(thetaMap) or not IsBijective(tauMap) then
+    Error("PCGS_BASIS_MATERIAL_STOP: theta/tau must be bijective maps");
+  fi;
+  if not IsString(sourceArtifactPath) or sourceArtifactPath = "" or
+     not IsString(sourceArtifactSha256) or Length(sourceArtifactSha256) <> 64 then
+    Error("PCGS_BASIS_MATERIAL_STOP: authoritative source artifact binding absent");
+  fi;
+  ambientPcgs := Pcgs(basis.P);;
+  ambientOrders := RelativeOrders(ambientPcgs);;
+  if Length(ambientPcgs) <> 8 or ambientOrders <> [7,7,7,7,7,7,7,7] then
+    Error("PCGS_BASIS_MATERIAL_STOP: ambient Pcgs(P) shape differs from 7^8/8-generator anchor");
+  fi;
+  if not (namedX in basis.P) or not (namedY in basis.P) or
+     Group([namedX,namedY]) <> basis.P then
+    Error("PCGS_BASIS_MATERIAL_STOP: named x/y do not generate the runtime ambient P");
+  fi;
+  namedRows := [
+    rec(name := "x", coordinates := ExponentsOfPcElement(ambientPcgs, namedX)),
+    rec(name := "y", coordinates := ExponentsOfPcElement(ambientPcgs, namedY))
+  ];;
+  basisAmbientRows := [];;
+  for i in [1..6] do
+    e := ExponentsOfPcElement(ambientPcgs, basis.gens[i]);;
+    if e = fail or Length(e) <> 8 or
+       not ForAll(e, z -> IsInt(z) and z >= 0 and z < 7) then
+      Error("PCGS_BASIS_MATERIAL_STOP: bad ambient coordinate for D generator ", i);
+    fi;
+    if ForAll(e, z -> z = 0) then
+      Error("PCGS_BASIS_MATERIAL_STOP: identity ambient coordinate for D generator ", i);
+    fi;
+    Add(basisAmbientRows, rec(i := i, coordinates := e));
+  od;
+  if ForAny(namedRows, row -> row.coordinates = fail or
+      Length(row.coordinates) <> 8 or
+      not ForAll(row.coordinates, z -> IsInt(z) and z >= 0 and z < 7)) then
+    Error("PCGS_BASIS_MATERIAL_STOP: bad named x/y ambient coordinate");
+  fi;
+  if ForAny(namedRows, row -> ForAll(row.coordinates, z -> z = 0)) or
+     namedRows[1].coordinates = namedRows[2].coordinates then
+    Error("PCGS_BASIS_MATERIAL_STOP: named x/y ambient anchor is trivial or colliding");
+  fi;
+  if Length(Set(List(basisAmbientRows, row -> row.coordinates))) <> 6 then
+    Error("PCGS_BASIS_MATERIAL_STOP: ordered D generators collide in ambient coordinates");
+  fi;
+  pairRows := [];;
+  for i in [1..5] do
+    for j in [i+1..6] do
+      e := HSPcgsCoordinates(basis, Comm(basis.gens[i], basis.gens[j]),
+                            Concatenation("Comm(g",String(i),",g",String(j),")"));;
+      Add(pairRows, rec(i := i, j := j, coordinates := e));
+    od;
+  od;
+  thetaRows := [];; tauRows := [];;
+  for i in [1..6] do
+    Add(thetaRows, rec(i := i, coordinates := HSPcgsCoordinates(
+      basis, ImageElm(thetaMap, basis.gens[i]),
+      Concatenation("theta(g",String(i),")"))));
+    Add(tauRows, rec(i := i, coordinates := HSPcgsCoordinates(
+      basis, ImageElm(tauMap, basis.gens[i]),
+      Concatenation("tau(g",String(i),")"))));
+  od;
+  bridgeRows := [];;
+  if bridgeData <> fail then
+    if not IsRecord(bridgeData) or not IsBound(bridgeData.source_basis) or
+       not IsBound(bridgeData.map) then
+      Error("PCGS_BASIS_MATERIAL_STOP: malformed S->V bridge data");
+    fi;
+    for i in [1..6] do
+      e := HSPcgsCoordinates(basis,
+        ImageElm(bridgeData.map, bridgeData.source_basis.gens[i]),
+        Concatenation("S_to_V(g",String(i),")"));;
+      if e <> HSPcgsUnitVector(i) then
+        Error("PCGS_BASIS_MATERIAL_STOP: S->V bridge row is not pointwise unit at ", i,
+              ": ", e);
+      fi;
+      Add(bridgeRows, rec(i := i, coordinates := e));
+    od;
+  fi;
+  ## Here D=[P,P] is abelian (rank-2/class-4: [gamma2,gamma2] is
+  ## trivial and [gamma2,gamma3] lies in gamma5), so the fifteen rows are
+  ## expected identity data.  Requiring a nonzero row would reject the
+  ## correct group.  Keep all rows serialized and fail if this expected
+  ## structural identity changes.
+  if ForAny(pairRows, row -> ForAny(row.coordinates, z -> z <> 0)) then
+    Error("PCGS_BASIS_MATERIAL_STOP: D commutator row is nonzero; expected abelian D");
+  fi;
+  thetaNonidentity := ForAny(thetaRows,
+    row -> row.coordinates <> HSPcgsUnitVector(row.i));;
+  tauNonidentity := ForAny(tauRows,
+    row -> row.coordinates <> HSPcgsUnitVector(row.i));;
+  if not thetaNonidentity or not tauNonidentity then
+    Error("PCGS_BASIS_MATERIAL_STOP: theta/tau action material collapsed to identity");
+  fi;
+  return rec(
+    ambient_named_generator_coordinates := namedRows,
+    ambient_pcgs_relative_orders := ambientOrders,
+    contract := "hsp7-ordered-pcgs-material/v1",
+    ordered_basis_in_ambient_coordinates := basisAmbientRows,
+    relative_orders := RelativeOrders(basis.pcgsD),
+    pair_commutator_coordinates := pairRows,
+    theta_image_coordinates := thetaRows,
+    tau_image_coordinates := tauRows,
+    s_to_v_bridge_coordinates := bridgeRows,
+    source_artifact := rec(path := sourceArtifactPath,
+                           sha256 := sourceArtifactSha256)
+  );
+end;;
+
+HSPcgsIntListJson := function(xs)
+  local out, i;
+  out := "[";
+  for i in [1..Length(xs)] do
+    if i > 1 then Append(out, ","); fi;
+    Append(out, String(xs[i]));
+  od;
+  Append(out, "]");
+  return out;
+end;;
+
+HSPcgsPairRowsJson := function(rows)
+  local out, k, row;
+  out := "[";
+  for k in [1..Length(rows)] do
+    if k > 1 then Append(out, ","); fi;
+    row := rows[k];
+    Append(out, Concatenation("{\"coordinates\":", HSPcgsIntListJson(row.coordinates),
+      ",\"i\":", String(row.i), ",\"j\":", String(row.j), "}"));
+  od;
+  Append(out, "]");
+  return out;
+end;;
+
+HSPcgsActionRowsJson := function(rows)
+  local out, k, row;
+  out := "[";
+  for k in [1..Length(rows)] do
+    if k > 1 then Append(out, ","); fi;
+    row := rows[k];
+    Append(out, Concatenation("{\"coordinates\":", HSPcgsIntListJson(row.coordinates),
+      ",\"i\":", String(row.i), "}"));
+  od;
+  Append(out, "]");
+  return out;
+end;;
+
+HSPcgsNamedRowsJson := function(rows)
+  local out, k, row;
+  out := "[";
+  for k in [1..Length(rows)] do
+    if k > 1 then Append(out, ","); fi;
+    row := rows[k];
+    Append(out, Concatenation("{\"coordinates\":", HSPcgsIntListJson(row.coordinates),
+      ",\"name\":\"", row.name, "\"}"));
+  od;
+  Append(out, "]");
+  return out;
+end;;
+
+CandidateBasisMaterialJson := function(material)
+  ## Keys are emitted in lexical order, identical to Python
+  ## json.dumps(sort_keys=True,separators=(",",":")) after parsing.
+  return Concatenation(
+    "{\"ambient_named_generator_coordinates\":",
+      HSPcgsNamedRowsJson(material.ambient_named_generator_coordinates),
+    ",\"ambient_pcgs_relative_orders\":", HSPcgsIntListJson(material.ambient_pcgs_relative_orders),
+    ",\"contract\":\"", material.contract, "\"",
+    ",\"ordered_basis_in_ambient_coordinates\":",
+      HSPcgsActionRowsJson(material.ordered_basis_in_ambient_coordinates),
+    ",\"pair_commutator_coordinates\":", HSPcgsPairRowsJson(material.pair_commutator_coordinates),
+    ",\"relative_orders\":", HSPcgsIntListJson(material.relative_orders),
+    ",\"s_to_v_bridge_coordinates\":", HSPcgsActionRowsJson(material.s_to_v_bridge_coordinates),
+    ",\"source_artifact\":{\"path\":\"", material.source_artifact.path,
+      "\",\"sha256\":\"", material.source_artifact.sha256, "\"}",
+    ",\"tau_image_coordinates\":", HSPcgsActionRowsJson(material.tau_image_coordinates),
+    ",\"theta_image_coordinates\":", HSPcgsActionRowsJson(material.theta_image_coordinates),
+    "}"
+  );
+end;;
+
+WriteCandidateBasisMaterial := function(path, material)
+  local out;
+  out := OutputTextFile(path, false);
+  if out = fail then Error("PCGS_BASIS_MATERIAL_STOP: cannot open ", path); fi;
+  SetPrintFormattingStatus(out, false);
+  PrintTo(out, CandidateBasisMaterialJson(material), "\n");
+  CloseStream(out);
+end;;

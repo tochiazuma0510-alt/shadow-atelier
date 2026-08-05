@@ -4,143 +4,115 @@
       "candidate_keys": [
         {
           "flat_index": 0,
+          "joined_pair_indices": [
+            0,
+            4,
+            8
+          ],
           "key": {
             "e": [
               0,
               0
-            ],
-            "m": 0
+            ]
           },
           "status": "PASS"
         },
         {
           "flat_index": 1,
-          "key": {
-            "e": [
-              0,
-              1
-            ],
-            "m": 0
-          },
-          "status": "FAIL"
-        },
-        {
-          "flat_index": 2,
+          "joined_pair_indices": [
+            1,
+            5,
+            9
+          ],
           "key": {
             "e": [
               1,
               0
-            ],
-            "m": 0
+            ]
           },
-          "status": "UNKNOWN"
-        },
-        {
-          "flat_index": 3,
-          "key": {
-            "e": [
-              1,
-              1
-            ],
-            "m": 0
-          },
-          "status": "PASS"
+          "status": "FAIL"
         }
       ],
       "endian": "big",
       "index_range": [
         0,
+        1
+      ],
+      "pcgs_basis_fingerprint": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "pcgs_id": "toy-pcgs-sha256",
+      "receipt": {
+        "cert_sha256": "toy-cert-p0-sha256",
+        "class_id": "HS-TOY-CLASS-v2",
+        "driver_digest": "toy-driver-sha256",
+        "driver_done": true,
+        "run_attempt": "1",
+        "run_id": "toy-run-p0",
+        "sha": "toy-commit-p0",
+        "source_bundle_sha256": "toy-source-bundle-sha256"
+      },
+      "shard_id": "p0"
+    },
+    {
+      "candidate_keys": [
+        {
+          "flat_index": 2,
+          "joined_pair_indices": [
+            2,
+            6,
+            10
+          ],
+          "key": {
+            "e": [
+              1,
+              0
+            ]
+          },
+          "status": "UNKNOWN"
+        },
+        {
+          "flat_index": 3,
+          "joined_pair_indices": [
+            3,
+            7,
+            11
+          ],
+          "key": {
+            "e": [
+              1,
+              1
+            ]
+          },
+          "status": "PASS"
+        }
+      ],
+      "endian": "big",
+      "index_range": [
+        2,
         3
       ],
       "pcgs_basis_fingerprint": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
       "pcgs_id": "toy-pcgs-sha256",
       "receipt": {
-        "cert_sha256": "toy-cert-0-sha256",
+        "cert_sha256": "toy-cert-p1-sha256",
         "class_id": "HS-TOY-CLASS-v2",
         "driver_digest": "toy-driver-sha256",
         "driver_done": true,
         "run_attempt": "1",
-        "run_id": "toy-run-0",
-        "sha": "toy-commit-0",
+        "run_id": "toy-run-p1",
+        "sha": "toy-commit-p1",
         "source_bundle_sha256": "toy-source-bundle-sha256"
       },
-      "shard_id": "s0"
-    },
-    {
-      "candidate_keys": [
-        {
-          "flat_index": 4,
-          "key": {
-            "e": [
-              0,
-              0
-            ],
-            "m": 2
-          },
-          "status": "FAIL"
-        },
-        {
-          "flat_index": 5,
-          "key": {
-            "e": [
-              0,
-              1
-            ],
-            "m": 2
-          },
-          "status": "UNKNOWN"
-        },
-        {
-          "flat_index": 6,
-          "key": {
-            "e": [
-              1,
-              0
-            ],
-            "m": 2
-          },
-          "status": "PASS"
-        },
-        {
-          "flat_index": 7,
-          "key": {
-            "e": [
-              1,
-              1
-            ],
-            "m": 2
-          },
-          "status": "FAIL"
-        }
-      ],
-      "endian": "big",
-      "index_range": [
-        4,
-        7
-      ],
-      "pcgs_basis_fingerprint": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-      "pcgs_id": "toy-pcgs-sha256",
-      "receipt": {
-        "cert_sha256": "toy-cert-1-sha256",
-        "class_id": "HS-TOY-CLASS-v2",
-        "driver_digest": "toy-driver-sha256",
-        "driver_done": true,
-        "run_attempt": "1",
-        "run_id": "toy-run-1",
-        "sha": "toy-commit-1",
-        "source_bundle_sha256": "toy-source-bundle-sha256"
-      },
-      "shard_id": "s1"
+      "shard_id": "p1"
     }
   ],
   "universe": {
-    "axis": "pair",
+    "axis": "f",
     "class_id": "HS-TOY-CLASS-v2",
     "driver_digest": "toy-driver-sha256",
     "endian": "big",
     "exponent_width": 2,
     "f_total": 4,
-    "lane": "S",
+    "lane": "P",
     "m_values": [
       0,
       2,
@@ -150,6 +122,6 @@
     "pcgs_id": "toy-pcgs-sha256",
     "radix": 2,
     "source_bundle_sha256": "toy-source-bundle-sha256",
-    "total_flat_indices": 12
+    "total_flat_indices": 4
   }
 }

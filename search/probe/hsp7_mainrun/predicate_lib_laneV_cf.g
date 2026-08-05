@@ -44,7 +44,11 @@ Read("search/probe/wac_v1/gap_output_prelude.g");
 ## candidate).
 ## ============================================================================
 BuildHexAutos := function(Qgrp, phiX, phiY, phiC)
-  local A1, A2, beta, alpha;
+  local A1, A2, beta, alpha, sourceGenerated, image1Generated, image2Generated;
+  sourceGenerated := (Subgroup(Qgrp, [phiX, phiY, phiC]) = Qgrp);
+  if not sourceGenerated then
+    Error("HEXAUTO_STOP: declared phiX/phiY/phiC do not generate Qgrp");
+  fi;
   A1 := GroupHomomorphismByImages(Qgrp, Qgrp, [phiX, phiY, phiC],
                                    [phiX, phiY^-1 * phiX^-1 * phiC, phiC]);
   if A1 = fail then
@@ -55,9 +59,27 @@ BuildHexAutos := function(Qgrp, phiX, phiY, phiC)
   if A2 = fail then
     Error("HEXAUTO_STOP: A2 = Ad(sigma2)|_Q is not a well-defined automorphism of Q");
   fi;
+  ## A homomorphism-by-images being well-defined is not yet the promised
+  ## automorphism gate.  Check both that the declared images generate the
+  ## codomain and that GAP certifies bijectivity.  These tests deliberately
+  ## remain in the production constructor, not only in a calibration driver.
+  image1Generated := (Subgroup(Qgrp,
+    [ImageElm(A1, phiX), ImageElm(A1, phiY), ImageElm(A1, phiC)]) = Qgrp);
+  image2Generated := (Subgroup(Qgrp,
+    [ImageElm(A2, phiX), ImageElm(A2, phiY), ImageElm(A2, phiC)]) = Qgrp);
+  if not image1Generated or not image2Generated then
+    Error("HEXAUTO_STOP: A1/A2 declared images do not generate Qgrp");
+  fi;
+  if not IsBijective(A1) or not IsBijective(A2) then
+    Error("HEXAUTO_STOP: A1/A2 failed the explicit bijectivity gate");
+  fi;
   beta := ImageElm(A1, phiY);
   alpha := ImageElm(A2, phiX);
-  return rec(A1 := A1, A2 := A2, beta := beta, alpha := alpha);
+  return rec(A1 := A1, A2 := A2, beta := beta, alpha := alpha,
+             source_generated := sourceGenerated,
+             image1_generated := image1Generated,
+             image2_generated := image2Generated,
+             A1_bijective := true, A2_bijective := true);
 end;;
 
 ## BuildMDependent(autos, phiX, phiY, phiC, m): precompute the m-dependent

@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:shadow-atelier:hsp7-lane-cert:v3",
+  "title": "HS P/S/V lane shard certificate v3 with runtime ordered-PCGS material",
+  "$defs": {
+    "coordinates": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 0, "maximum": 6},
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "coordinates8": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 0, "maximum": 6},
+      "minItems": 8,
+      "maxItems": 8
+    },
+    "actionRow": {
+      "type": "object",
+      "required": ["coordinates", "i"],
+      "properties": {
+        "coordinates": {"$ref": "#/$defs/coordinates"},
+        "i": {"type": "integer", "minimum": 1, "maximum": 6}
+      },
+      "additionalProperties": false
+    },
+    "pairRow": {
+      "type": "object",
+      "required": ["coordinates", "i", "j"],
+      "properties": {
+        "coordinates": {"$ref": "#/$defs/coordinates"},
+        "i": {"type": "integer", "minimum": 1, "maximum": 5},
+        "j": {"type": "integer", "minimum": 2, "maximum": 6}
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "schema",
+    "lane",
+    "axis",
+    "class_id",
+    "run",
+    "source_bindings",
+    "pcgs_basis_material",
+    "pcgs_basis_fingerprint",
+    "universe_total",
+    "evaluated_range",
+    "records",
+    "summary",
+    "driver_done"
+  ],
+  "properties": {
+    "schema": {"const": "hsp7-lane-cert/v3"},
+    "lane": {"enum": ["P", "S", "V"]},
+    "axis": {"enum": ["f", "pair"]},
+    "class_id": {"type": "string", "minLength": 1},
+    "run": {
+      "type": "object",
+      "required": ["run_id", "run_attempt", "commit_sha"],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "run_attempt": {"type": "string", "minLength": 1},
+        "commit_sha": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "source_bindings": {
+      "type": "object",
+      "required": ["source_bundle_sha256", "wrapper_sha256", "predicate_sha256", "aux_sha256", "schema_sha256"],
+      "properties": {
+        "source_bundle_sha256": {"type": "string", "minLength": 1},
+        "wrapper_sha256": {"type": "string", "minLength": 1},
+        "predicate_sha256": {"type": "string", "minLength": 1},
+        "aux_sha256": {"type": "string", "minLength": 1},
+        "schema_sha256": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "pcgs_basis_material": {
+      "type": "object",
+      "required": [
+        "ambient_named_generator_coordinates",
+        "ambient_pcgs_relative_orders",
+        "contract",
+        "ordered_basis_in_ambient_coordinates",
+        "pair_commutator_coordinates",
+        "relative_orders",
+        "s_to_v_bridge_coordinates",
+        "source_artifact",
+        "tau_image_coordinates",
+        "theta_image_coordinates"
+      ],
+      "properties": {
+        "ambient_named_generator_coordinates": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "required": ["coordinates", "name"],
+              "properties": {
+                "coordinates": {"$ref": "#/$defs/coordinates8"},
+                "name": {"const": "x"}
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": ["coordinates", "name"],
+              "properties": {
+                "coordinates": {"$ref": "#/$defs/coordinates8"},
+                "name": {"const": "y"}
+              },
+              "additionalProperties": false
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "ambient_pcgs_relative_orders": {"const": [7, 7, 7, 7, 7, 7, 7, 7]},
+        "contract": {"const": "hsp7-ordered-pcgs-material/v1"},
+        "ordered_basis_in_ambient_coordinates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["coordinates", "i"],
+            "properties": {
+              "coordinates": {"$ref": "#/$defs/coordinates8"},
+              "i": {"type": "integer", "minimum": 1, "maximum": 6}
+            },
+            "additionalProperties": false
+          },
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "pair_commutator_coordinates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/pairRow"},
+          "minItems": 15,
+          "maxItems": 15
+        },
+        "relative_orders": {
+          "const": [7, 7, 7, 7, 7, 7]
+        },
+        "s_to_v_bridge_coordinates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/actionRow"},
+          "maxItems": 6
+        },
+        "source_artifact": {
+          "type": "object",
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": {"const": "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g"},
+            "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+          },
+          "additionalProperties": false
+        },
+        "tau_image_coordinates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/actionRow"},
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "theta_image_coordinates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/actionRow"},
+          "minItems": 6,
+          "maxItems": 6
+        }
+      },
+      "additionalProperties": false
+    },
+    "pcgs_basis_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "universe_total": {"type": "integer", "minimum": 1},
+    "evaluated_range": {
+      "type": "array",
+      "prefixItems": [{"type": "integer"}, {"type": "integer"}],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "records": {"type": "array", "items": {"type": "object"}},
+    "summary": {
+      "type": "object",
+      "required": ["evaluated_count", "unknown_count", "integrity_ok"],
+      "properties": {
+        "evaluated_count": {"type": "integer", "minimum": 0},
+        "unknown_count": {"type": "integer", "minimum": 0},
+        "integrity_ok": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "driver_done": {"const": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"lane": {"const": "P"}}},
+      "then": {
+        "properties": {
+          "axis": {"const": "f"},
+          "universe_total": {"const": 117649},
+          "pcgs_basis_material": {
+            "properties": {"s_to_v_bridge_coordinates": {"maxItems": 0}}
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"lane": {"const": "S"}}},
+      "then": {
+        "properties": {
+          "axis": {"const": "pair"},
+          "universe_total": {"const": 705894},
+          "pcgs_basis_material": {
+            "properties": {"s_to_v_bridge_coordinates": {"maxItems": 0}}
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"lane": {"const": "V"}}},
+      "then": {
+        "properties": {
+          "axis": {"const": "pair"},
+          "universe_total": {"const": 705894},
+          "pcgs_basis_material": {
+            "properties": {
+              "s_to_v_bridge_coordinates": {"minItems": 6, "maxItems": 6}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

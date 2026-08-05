@@ -62,7 +62,7 @@ def run_all() -> dict:
     all_pass = all_pass and reorder_matches_good
 
     return {
-        "schema": "hsp7-join-checker-fixtures/v1",
+        "schema": "hsp7-join-checker-fixtures/v2",
         "checker_script": "search/probe/hsp7_mainrun/join_checker.py",
         "checker_script_sha256": hashlib.sha256((HERE / "join_checker.py").read_bytes()).hexdigest(),
         "fixture_generator_script": "search/probe/hsp7_mainrun/join_fixtures_gen.py",
