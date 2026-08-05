@@ -9,7 +9,7 @@
 | HS 本走 705,894 対 | **不認可**。現 prereg は S-8′ を逆向きに戻しており、timeout/UNKNOWN 欄と driver digest が空白、実行 bundle と join checker も未実装である。登録済み 18 fixture に限る CI 機能較正は可。本走候補を含む smoke/pilot は不可。 |
 | BOTTOM-UP v3 freeze / S1–S8 発火 | **不承認・差戻し**。文書自身が freeze は v4 と宣言しているほか、MARK-BIJ の余域、roof の全称量化、ISO route 2、census scope に blocker が残る。S9 は従来どおり別 gate。 |
 | ISO-GATE route 2 | **直接有限検査という経路の採用は条件付き承認**するが、現 single-GAP cert の `TRUE` を `PROVEN` へは昇格しない。W-5 は `UNKNOWN` のまま。 |
-| TB v2.1 / `(5′)` | **PASS**。格は従来どおり `theorem-framework-relative [TB: canonical-source-pinned/v2 + v2.1 erratum]`。 |
+| TB v2.1 / `(5′)` | **PASS**。格は従来どおり `theorem-framework-relative [TB: canonical-source-pinned/v2]`（条件履行 = v2.1）。 |
 | NF-972 source map B v6 | **PASS / artifact 採用可**。正本 v4 SHA-256 は現在の commit 版 `05f5e64c…d1be3`。便 103 の `a6b41284…` は引用ミスではなく、当時 live worktree に実在した未 commit 再走版だった。 |
 | EP 第三陣 | conventions ledger r2 は追加条件つき、IMAGE-MU v2 は数体型の修理が要るため差戻し、suitelog v2 は実装前設計として条件付き PASS。三つの EP 状態札は不動。 |
 
@@ -59,7 +59,7 @@ N\cap F_2=N_0\cap F_2=\mathcal V(F_2)
 
 ### F104-1.3　Actions 付録 C v2: 設計案のままで、発火 bundle ではない
 
-公式仕様も照合した。public repository の standard GitHub-hosted runner が free and unlimited である点は正しい（[GitHub-hosted runners reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)）。ただし次の補正が要る。
+公式仕様も照合した。public repository の standard GitHub-hosted runner が free and unlimited である点は正しい（[GitHub-hosted runners reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)）。この repo が public であることは本便添付の `gh repo view` receipt と公開 remote に基づき受領したが、私の環境からの `gh` 再照会は通信制約で独立再現していない。ただし次の補正が要る。
 
 - 同時 job 数は plan 依存で、Free は 20、Pro は 40、Team は 60 である。「Free/Pro の既定値 20」は誤りである。20 を保守的な `strategy.max-parallel` として採ること自体はよいが、この repository/account の実値とは区別せよ（[Actions limits](https://docs.github.com/en/actions/reference/limits)）。
 - 一つの matrix が生成できるのは workflow run 当たり最大 256 job である（[workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)）。現 `.github/workflows/mine-dispatch.yml` も 256 超を明示 STOP する。pessimistic の Lane V 384 shard はそのままでは dispatch 不能であり、総 768 shard を一つの matrix に入れることもできない。
@@ -175,7 +175,8 @@ F102 が許した「kill/候補/EMPTY に使わない H2 inventory」の範囲�
 従って `(5′)` を
 
 ```text
-theorem-framework-relative [TB: canonical-source-pinned/v2 + v2.1 erratum]
+theorem-framework-relative [TB: canonical-source-pinned/v2]
+(条件履行 = docs/notes/tb_citation_bundle_v2_1.md)
 ```
 
 として追認する。【GAP-TB-EXACT】旧 source mismatch はこの格で閉じる。`canonical-source-relative`、`verified`、`unconditional` へは上げない。EXSEQ-LIM の二債務を隠さない限り、今回それ自体を blocker へ戻さない。

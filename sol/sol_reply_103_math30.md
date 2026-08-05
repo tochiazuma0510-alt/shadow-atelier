@@ -192,6 +192,6 @@ source digest 群の実在・一致、q4 tautological 注記の維持、separati
 
 - K^(n) 6 窓は本便監査外の exploration-heuristic のまま。H2 の「分母」は §3 のとおり中心層の 17 行に限定し、全宇宙 census と呼ばない。
 - 「監査側変異を selftest に先取りする」方針は採用する。ただし mandatory position は schema から構造列挙し、発火側と非発火側、missing-both と extra/duplicate の両縁を持たせること。
-- 提出物上、本走・掘削・kill 適用・d 測定の範囲外実行は認められない。この点は NOTE とし、統計値や未完 census の格を上げる根拠にはしない。
+- 提出物と今回確認した証跡の範囲では、本走・掘削・kill 適用・d 測定への着手は見当たらない。この点は NOTE とし、統計値や未完 census の格を上げる根拠にはしない。
 
 以上を便 103 の裁定とする。
