@@ -455,3 +455,58 @@ sol/task106-math33-20260806
 本走、未登録 sweep、掘削、kill、d 測定、BU stage、HS calibration shard、S9 は実行していない。登録 fixture calibration と synthetic candidate-0 preflight/capacity だけを実行した。封印三量は非接触、探索統計は exploration-heuristic のままである。
 
 **Final provenance:** 実装・監査 artifact commit = `b33d95802e28f59bef51ec195c37acc9bec3e8ce`（branch `sol/task106-math33-20260806` へ non-force push 済み）。本返書自身はこの SHA を記帳する後続 reply-only commit に置く。
+
+## F106e. 補遺 106e 再配達の全節再検収
+
+**再検収判定: PASS（F106-2.6/2.7 の裁定と最終分布に変更なし）。** `ops/inbox_codex/sol_task_106e_supplement.txt` は 26 行を末尾まで再読し、SHA-256 `b758ca7a8c719853b44fc5bcda58994ee77b5cac0b20ee4254c0604a9fb4c6e5` を得た。以下、番号節 1〜4 の順に再回答する。
+
+### F106e-1. PRE-2′ 再測定: PASS / B-2a
+
+raw \(jh3\) の次数 4 成分 \((1,1,1)\) と第二 hexagon 欠陥 \((3,3,3)\)、補正 \(g_1=r s^{-1}\) の次数 4 成分・欠陥 \((0,0,0)\)、\(\eta\ne1\)、\(\xi'=D(g_1)=1\)、比例 scalar \(k=0\) は F106-2.7 の再現結果どおりである。全ゼロは
+
+\[
+D(g_1^a h_4^t)=D(g_1)^aD(h_4)^t=\eta^t
+\]
+
+から構造的に説明され、異常値ではない。従って \(\ker(D|_A)\) は位数 7、B-2a を維持する。
+
+superseding cert の SHA と、それが pin する Python script/log・GAP script/input/log の実 bytes を再照合した。cert 自身を含めて 6/6 の SHA は一致した。ただし cert の `input_artifact` 値は
+
+~~~text
+search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g (pre-existing, not regenerated, not modified)
+~~~
+
+と注釈まで同じ JSON string に入っているため、汎用 path resolver ではそのまま解決できない。正しい path `search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g` の実 SHA は宣言値 `bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b` と一致する。これは数学結果を変えない provenance NOTE だが、次版では path と note を別 field にし、path field を機械可読な exact path にせよ。
+
+また `TYPING_FAILURE/STOP` は仕様化されたが、現 GAP script は \(g_1\) と \(h_4\) の二 exact A-membership 等式をまだ実装していない。この点は F106-2.7 の非 blocking NOTE を維持し、将来 wrapper の恒久条件とする。
+
+### F106e-2. PENT-LAYER の設計判断: 可 / PASS
+
+Q-2 への回答は再度 **可**。層別個数に必要なのは \(H_W\) 全体の部分群性ではなく、PENT 基点 \(f_0\) に \(A\cap H_W=\ker(D|_A)\) を左から掛ける閉性で足りる。SUB-W、LEFT-TRIV、COSET-EXP により
+
+\[
+\operatorname{pent}(m_0)=\ker(D|_A)f_0
+\]
+
+が exact に従うため、全非空層の個数は一様である。\(H_W\) の部分群性と PL-GAP-1 は UNKNOWN / 非律速のまま、D-5 の lift 存在形は持ち込まない。CONJ-Φ による EXQ-GAP-2 の CLOSED は graded 水準に限り、filtered 非対角成分 PL-GAP-2 は OPEN とする。
+
+### F106e-3. 分布充填: PASS
+
+B-0a の六層非空前件の下で、最終表は次で固定する。
+
+| 量 | 値 |
+|---|---:|
+| hexagon / layer | 49 |
+| hexagon total | 294 |
+| PENT / layer | **7** |
+| PENT total | **42** |
+| hexagon-only | **252** |
+| settled | **294/294 hexagon-pass shadows** |
+
+`settled 100%` の分母は 294 であり、705,894 の全 candidate pair ではない。
+
+### F106e-4. 規律・履歴: PASS（commit 表現 NOTE）
+
+705,894 candidate pair の評価、本走、封印量への接触は 0。旧票・旧 script・旧 cert は不改変で、v2 は superseding artifact として追加されている。履歴上、PENT-LAYER addendum は単独 commit `5bcddfbcfd2e775bbdb756adc4daf2c404738d62`。一方、v2 cert・二 script・二 log は裁定 ledger と同じ commit `e7853b3ccc06628f574e990374a62e248217f3c1` の 6-file bundle である。従って後者を「単独ファイル commit」とは呼ばず、「一個の versioned release bundle」と記帳する。実 bytes と cert の pin は一致しており、事前分岐 B-2a/B-2b の登録性は変わらない。
+
+\(\mathfrak h_3/h_3\) 区別の ledger 追記は再発防止として妥当だが、補遺 §4 の「追加予定」は 106e 束自身の証拠ではない。後続版での物理化・検収とは分け、106e の裁定根拠には数えない。
