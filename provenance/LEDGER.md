@@ -2215,3 +2215,8 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - ②★A.2: **h11-fail 候補は Def 3.7 の全射性を欠き GT-shadow でない ⟹ 構成 fixture は M-ISO-2(既知 non-isolated 陰性)を discharge しない**(示せたのは M-ISO-3+M-ISO-6 一部まで)。正しい期待挙動 = 「shadow 段で除外/UNKNOWN」であり、FALSE として窓判定へ伝播させると false-FALSE 経路(isolated 窓の誤 non-isolated 化)。⟹ fixture 期待値の再登録が必要+【AS-GAP-6】新設 = 真の non-isolated witness 未取得(route-2 gate の律速・取得法 = 双子 K/非 verbal N_F₂ = 本文 §5.3)。
 - ③命題 GEN-AB: charming ⟹ u 奇+f̄∈[P,P] ⟹ H·[P,P]=P 常成立 ⟹ 生成破れは A=[P,P] 内部のみ = **SURJ の識別力は A 成分に集中**(witness 像 36=4·9 は予言どおり・「SURJ 恒真」の証明ではない)。
 - 処理: fixture 修正の実装指示は falsifier CV-9 判読(走行中・同論点を独立審査)の着地と合流させ一括発注(裁定 533 予定)。便 105 §3 に v1.1+AS-GAP-6 の裁定請求を追加。
+
+## 2026-08-05 CF/CONV-P 較正 検収(裁定 533)— 裁定 527 の 4 点完全履行・★実測削減 643.75×(ローカル)/586.9×(GHA)= 数学者見積 100〜140× を大幅超過
+- ローカル: TOY 自己較正 162/162+486/486・CF vs 現行 baseline 二経路一致 mismatch 0(laneV 13 fixture・N/N₀ 両窓)・CONV-P vs native 一致 5/5。GHA: run 31000422908(commit ad46655)で 18/18 一致・receipt overall_pass ×2。cert = search/certs/hsp7_cf_calib_20260805.json。現行 pin 実装・既存 cert/receipt は無改変(確認済)。
+- 正直申告 4 件の裁定: ①CONV-P の p=5 窓への拡張適用 = 承認(構成は p 非依存・新仮定なし)②Lane P 比較は削減主張でない旨の開示 = 妥当 ③A1/A2 構築の生成元 {phiX,phiY,phiC} 暗黙依存 = 非 blocking TODO(独立生成性チェック 1 行を本走 bundle までに追加・便 105 に注記)④p=7 本走 timing 非実施 = 認可境界の正しい遵守。
+- 帰結: 便 105 §2 の CF receipt 完備。本走壁時計は CF 採用なら桁で縮む(正確な提示は prereg v2 の shard 計画に CF 補正を注記する形・宇宙非接触のまま)。裁定 532 で「533 予定」とした fixture 修正一括は 534 へ繰り下げ。
