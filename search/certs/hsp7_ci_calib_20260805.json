@@ -1,0 +1,397 @@
+{
+  "schema": "hsp7-ci-calib-bundle/v1",
+  "card_label": "HS発火条件4/5 -- 便104認可事項3点(sol/sol_reply_104_math31.md F104-1.4)の実施記録。705,894候補宇宙には一切触れない。",
+  "authorization": {
+    "source": "sol/sol_reply_104_math31.md",
+    "section": "F104-1.4",
+    "authorized_items": [
+      "1. 登録済み13+5 fixtureを同じ期待値でGitHub Actions上に流す機能較正",
+      "2. 同じ既知fixtureを使うlocal schema smoke",
+      "3. join checkerの実装+人工manifest両縁fixture"
+    ],
+    "explicitly_not_authorized": "705,894候補宇宙のsmoke/pilot/部分matrixは一切含まない"
+  },
+  "item1_gha_calibration": {
+    "workflow_file": ".github/workflows/hsp7-calib.yml",
+    "workflow_file_sha256": "34543035b103705205bc02a74b9a32af5a136248d77bb3687cbb03582bd6e590",
+    "run_url": "https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/30998728060",
+    "run_id": "30998728060",
+    "run_attempt": "1",
+    "commit_sha": "b854a05d7751085de8ecfd8c2e9f802f72f6a0c9",
+    "gha_conclusion": "success (both matrix jobs green -- confirmed via gh run watch --exit-status)",
+    "fixture_13_laneV": {
+      "source_driver": "search/probe/hsp7_cond4_laneV/driver_step4_evaluate_v3.g (unmodified, Read-only per job)",
+      "receipt": {
+        "candidates": [
+          {
+            "agree": true,
+            "candidate": "cand_1",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "cand_2",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "cand_3",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "cand_4",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "cand_5",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "cand_6",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "cand_7",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "cand_8",
+            "expected_verdict": "FAIL",
+            "observed_verdict": "FAIL"
+          },
+          {
+            "agree": true,
+            "candidate": "msweep_m1",
+            "expected_verdict": "FAIL",
+            "observed_verdict": "FAIL"
+          },
+          {
+            "agree": true,
+            "candidate": "msweep_m2",
+            "expected_verdict": "FAIL",
+            "observed_verdict": "FAIL"
+          },
+          {
+            "agree": true,
+            "candidate": "msweep_m4",
+            "expected_verdict": "FAIL",
+            "observed_verdict": "FAIL"
+          },
+          {
+            "agree": true,
+            "candidate": "msweep_m5",
+            "expected_verdict": "FAIL",
+            "observed_verdict": "FAIL"
+          },
+          {
+            "agree": true,
+            "candidate": "msweep_m6",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          }
+        ],
+        "commit_sha": "b854a05d7751085de8ecfd8c2e9f802f72f6a0c9",
+        "driver_digest": "b17cb43ed882339ebac956cc82ca49f9848d2782d38afdf5193d74d1a22e7b35",
+        "fixture_source_cert": {
+          "path": "search/certs/hsp7_cond4_summary_v2_20260805.json",
+          "sha256": "467e4d41ba704af1aa055698aeb1c71215ecc5906ed9ea1a4b2a98177dc6e0b8"
+        },
+        "lane": "laneV_13",
+        "overall_pass": true,
+        "run_attempt": "1",
+        "run_id": "30998728060",
+        "schema": "hsp7-ci-calib-receipt/v1"
+      },
+      "run_log_sha256": "3dd2a34c8e1e81157622b94b43931b8cfd017384bb9aa6711720053d2c47b034"
+    },
+    "fixture_5_p5control": {
+      "source_driver": "search/probe/hsp7_cond4_laneP_p5control/driver_final_eval_p5.g (unmodified, Read-only per job)",
+      "receipt": {
+        "candidates": [
+          {
+            "agree": true,
+            "candidate": "nwp7_t0",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "nwp7_t1",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "nwp7_t2",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "nwp7_t3",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          },
+          {
+            "agree": true,
+            "candidate": "nwp7_t4",
+            "expected_verdict": "PASS",
+            "observed_verdict": "PASS"
+          }
+        ],
+        "commit_sha": "b854a05d7751085de8ecfd8c2e9f802f72f6a0c9",
+        "driver_digest": "e83c5a219057b98d65c71bd4913a69bc808fcbfd38b21591596aca0935bf3a35",
+        "fixture_source_cert": {
+          "path": "search/certs/hsp7_cond4_summary_v2_20260805.json",
+          "sha256": "467e4d41ba704af1aa055698aeb1c71215ecc5906ed9ea1a4b2a98177dc6e0b8"
+        },
+        "lane": "p5control_5",
+        "overall_pass": true,
+        "run_attempt": "1",
+        "run_id": "30998728060",
+        "schema": "hsp7-ci-calib-receipt/v1"
+      },
+      "run_log_sha256": "079a251ebdf65fc5f20169c2cf36f224b23727fc7eb8c275b82d37e13044f92c"
+    },
+    "total_candidates_checked": 18,
+    "total_agree": 18,
+    "overall_pass": true,
+    "note": "gh workflow run + gh run watch --exit-status で実行・監視。初回3走はGHA環境差分(install-pkgのタグ/入力名, build-pkg@v3がPackageInfo.gを本repo直下に要求してしまう非互換)でFAILし、逐次修理してPASSに到達した経緯はコミット履歴に残る(2929112, 1746825, b854a05)。"
+  },
+  "item2_local_schema_smoke": {
+    "script": "search/probe/hsp7_ci_calib/local_schema_smoke.py",
+    "script_sha256": "939afa7af6e65c1de53f62b3e7fc70c09a411c8f48e620b0b4575622b8570fd9",
+    "receipt_schema_script": "search/probe/hsp7_ci_calib/receipt_schema.py",
+    "receipt_schema_script_sha256": "5b0d5cd7238a2a735ea423f380bc006b859942afb0971207765277b1a2e382f3",
+    "result": {
+      "smoke": "local_schema_smoke/v1",
+      "shard_used": "Lane S (8 candidates)",
+      "fixture_source_cert": {
+        "path": "search/certs/hsp7_cond4_laneS_20260804.json",
+        "sha256": "f5c53c9fa6e84c5528c5da6448cac3937d70c5e5a261ca9beae01ebbf0e62f86"
+      },
+      "receipt_out_path": "C:\\Users\\81905\\Desktop\\shadow-atelier\\scratchpad\\hsp7_ci_calib_local_smoke_receipt.json",
+      "receipt_out_sha256": "84a4fbf242736056277ca666a5ac3790e91e7011a59376792936b4da52fc7a00",
+      "candidate_count": 8,
+      "roundtrip_byte_identical": true,
+      "schema_valid_on_readback": true,
+      "schema_error": null,
+      "overall_pass": true
+    },
+    "note": "GHA実走ではない(receipt自身のnote欄に明記済み)。既知fixture(Lane S、8候補)でreceipt schemaの書き出し→読み戻し往復のみをローカル確認。observed_verdictはLane S cert自身の記録値の転記(新規GAP実行なし)。"
+  },
+  "item3_join_checker": {
+    "checker_script": "search/probe/hsp7_mainrun/join_checker.py",
+    "checker_script_sha256": "657aeea8c7069e41769a36f846233dddcde5288bf40e0206d4cc67223ceb06e3",
+    "fixture_generator_script": "search/probe/hsp7_mainrun/join_fixtures_gen.py",
+    "fixture_generator_script_sha256": "568905143bfcbfb40a088181b7a6057da462fc48d9409f5c363a9ea94e401140",
+    "fixtures_dir": "search/probe/hsp7_mainrun/join_fixtures/ (人工manifest、705,894候補の実データは不使用)",
+    "result": {
+      "schema": "hsp7-join-checker-fixtures/v1",
+      "checker_script": "search/probe/hsp7_mainrun/join_checker.py",
+      "checker_script_sha256": "657aeea8c7069e41769a36f846233dddcde5288bf40e0206d4cc67223ceb06e3",
+      "fixture_generator_script": "search/probe/hsp7_mainrun/join_fixtures_gen.py",
+      "fixture_generator_script_sha256": "568905143bfcbfb40a088181b7a6057da462fc48d9409f5c363a9ea94e401140",
+      "rows": [
+        {
+          "fixture": "good",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/good.json",
+          "fixture_sha256": "63e484e3cf7055350c90f729c1e6d0e5ef31211d19507af552d13494e949b683",
+          "expected_verdict": "PASS",
+          "expected_reason": null,
+          "observed_verdict": "PASS",
+          "observed_reason": "complete_partition_no_conflicts",
+          "observed_detail": {
+            "total_flat_indices": 5,
+            "shard_count": 2
+          },
+          "pass": true,
+          "canonical_sort_hash": "40faff3a985b6d590b0e97470d370dbbdda305d39f7b07c41f2b488ffb1c599a"
+        },
+        {
+          "fixture": "reorder",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/reorder.json",
+          "fixture_sha256": "13bb587dc02dfa049a02bc85ae41853b51754833977d396c5771026d7890b14d",
+          "expected_verdict": "PASS",
+          "expected_reason": null,
+          "observed_verdict": "PASS",
+          "observed_reason": "complete_partition_no_conflicts",
+          "observed_detail": {
+            "total_flat_indices": 5,
+            "shard_count": 2
+          },
+          "pass": true,
+          "canonical_sort_hash": "40faff3a985b6d590b0e97470d370dbbdda305d39f7b07c41f2b488ffb1c599a"
+        },
+        {
+          "fixture": "missing_shard",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/missing_shard.json",
+          "fixture_sha256": "dd45b2c4cbceea816676f358a6a6df713ea7426c7d88fd4df13824811c4b0861",
+          "expected_verdict": "STOP",
+          "expected_reason": "COVERAGE_GAP",
+          "observed_verdict": "STOP",
+          "observed_reason": "COVERAGE_GAP",
+          "observed_detail": {
+            "expected_total": 5,
+            "got_covered_upto": 3,
+            "note": "coverage ends before universe.total_flat_indices -- likely a missing shard"
+          },
+          "pass": true
+        },
+        {
+          "fixture": "missing_candidate_key",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/missing_candidate_key.json",
+          "fixture_sha256": "36c8d41b90df0a03edfcf2e6ab59fb82063015ae110a115b7da3dadf4a035222",
+          "expected_verdict": "STOP",
+          "expected_reason": "CANDIDATE_KEY_MISSING",
+          "observed_verdict": "STOP",
+          "observed_reason": "CANDIDATE_KEY_MISSING",
+          "observed_detail": {
+            "expected_total": 5,
+            "got_total": 4,
+            "missing_flat_indices": [
+              4
+            ]
+          },
+          "pass": true
+        },
+        {
+          "fixture": "duplicate_key",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/duplicate_key.json",
+          "fixture_sha256": "397b66aa619da3fba3c6f0281de832de4a8b68d735da70772366007e36e9cf4f",
+          "expected_verdict": "STOP",
+          "expected_reason": "DUPLICATE_CANDIDATE_KEY",
+          "observed_verdict": "STOP",
+          "observed_reason": "DUPLICATE_CANDIDATE_KEY",
+          "observed_detail": {
+            "note": "same candidate key value assigned to two different flat indices",
+            "duplicated_keys_flat_indices": {
+              "(('e1', 1), ('m', 0))": [
+                1,
+                4
+              ]
+            }
+          },
+          "pass": true
+        },
+        {
+          "fixture": "overlap",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/overlap.json",
+          "fixture_sha256": "8fa6586ae57d91ce5da8b317da879a87c447d82cf066f8ce9d4d1759d30bdf75",
+          "expected_verdict": "STOP",
+          "expected_reason": "INDEX_RANGE_OVERLAP",
+          "observed_verdict": "STOP",
+          "observed_reason": "INDEX_RANGE_OVERLAP",
+          "observed_detail": {
+            "shard_a": {
+              "shard_id": "shard0",
+              "range": [
+                0,
+                2
+              ]
+            },
+            "shard_b": {
+              "shard_id": "shard1",
+              "range": [
+                2,
+                4
+              ]
+            }
+          },
+          "pass": true
+        },
+        {
+          "fixture": "pcgs_endian_mismatch",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/pcgs_endian_mismatch.json",
+          "fixture_sha256": "a197dbf29ab45f72d34872437b63cc797f8d8fd75a0536fc49b5e21f10c58774",
+          "expected_verdict": "STOP",
+          "expected_reason": "PCGS_ENDIAN_MISMATCH",
+          "observed_verdict": "STOP",
+          "observed_reason": "PCGS_ENDIAN_MISMATCH",
+          "observed_detail": {
+            "shard_id": "shard1",
+            "expected": {
+              "pcgs_id": "toy_pcgs_v1",
+              "endian": "big"
+            },
+            "actual": {
+              "pcgs_id": "toy_pcgs_v2_DIFFERENT",
+              "endian": "little"
+            }
+          },
+          "pass": true
+        },
+        {
+          "fixture": "same_flat_index_different_key",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/same_flat_index_different_key.json",
+          "fixture_sha256": "ef8734ec2666ebae8c0ec042a27813934435a647afcd51b01492088eec2affbd",
+          "expected_verdict": "STOP",
+          "expected_reason": "FLAT_INDEX_KEY_CONFLICT",
+          "observed_verdict": "STOP",
+          "observed_reason": "FLAT_INDEX_KEY_CONFLICT",
+          "observed_detail": {
+            "flat_index": 2,
+            "shard_a": {
+              "shard_id": "shard0",
+              "key": {
+                "e1": 2,
+                "m": 0
+              }
+            },
+            "shard_b": {
+              "shard_id": "shard1",
+              "key": {
+                "e1": 9,
+                "m": 9
+              }
+            }
+          },
+          "pass": true
+        },
+        {
+          "fixture": "receipt_missing_field",
+          "fixture_path": "search/probe/hsp7_mainrun/join_fixtures/receipt_missing_field.json",
+          "fixture_sha256": "216a78e732023ece696ae1664454a22d6a7e194e959c7bc8005a5b8280a412f7",
+          "expected_verdict": "STOP",
+          "expected_reason": "RECEIPT_FIELD_MISSING",
+          "observed_verdict": "STOP",
+          "observed_reason": "RECEIPT_FIELD_MISSING",
+          "observed_detail": {
+            "shard_id": "shard1",
+            "missing_fields": [
+              "sha"
+            ]
+          },
+          "pass": true
+        }
+      ],
+      "reorder_canonical_hash_matches_good": true,
+      "good_canonical_sort_hash": "40faff3a985b6d590b0e97470d370dbbdda305d39f7b07c41f2b488ffb1c599a",
+      "reorder_canonical_sort_hash": "40faff3a985b6d590b0e97470d370dbbdda305d39f7b07c41f2b488ffb1c599a",
+      "overall_pass": true
+    },
+    "note": "F104-1.3逐語指定の両縁9 fixture(正常完全分割PASS/shard並び替えのみPASS+canonical hash同一/shard欠落・candidate key欠落・重複・区間overlap・別pcgs-endian・同一flat indexに別key・receipt必須欄欠落=STOP)を全て確認。"
+  },
+  "overall_verdict": {
+    "item1_pass": true,
+    "item2_pass": true,
+    "item3_pass": true,
+    "all_three_pass": true
+  },
+  "provenance": {
+    "run_date": "2026-08-05",
+    "implementer_note": "gap.ps1/ghを使用。GAP判定コード(search/*.g)は無改変・Readのみ。705,894候補宇宙・封印量には一切接触していない。"
+  }
+}
