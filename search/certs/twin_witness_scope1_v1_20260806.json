@@ -1,0 +1,150 @@
+{
+  "cert_path": "search/certs/lins_twin_census_v1_20260806.json",
+  "cert_sha256": "8bfd762ef565f5ce72f9a4a25368783b96b02f4905274e858d460e30bb335610",
+  "counts": {
+    "L0": 174,
+    "L1": 28,
+    "L2": 15,
+    "L3": 13
+  },
+  "directed_counts": {
+    "L0": 348,
+    "L1": 56,
+    "L2": 30,
+    "L3": 26
+  },
+  "setdigest": {
+    "L0": "babc71f11022694bafde5f4b73ab06c677fc25aee6cd3bff6651e2aaac47be87",
+    "L1": "f94a8ae0384144189950d61ba727fc713a0eacb751a712784d5923a7a067daa3",
+    "L2": "ec72ed77e1bb6040c5a4d29e43b51e45a63b5d2ffa6d50f8e8455aa16d7c9bba",
+    "L3": "af88692a78341c82688169c4b3ade43b4d4c83ed0e7c54e160365249b0e18ebd"
+  },
+  "mixed_c_in_N_within_L1": 0,
+  "L2_pairs": [
+    {
+      "index": 126,
+      "pair_uid": "b6b8a3feb9d2",
+      "member_uids": [
+        "7bee16618268",
+        "84f28df5792d"
+      ]
+    },
+    {
+      "index": 234,
+      "pair_uid": "2858cc2db1a7",
+      "member_uids": [
+        "6e60ce938838",
+        "e9194840bb09"
+      ]
+    },
+    {
+      "index": 342,
+      "pair_uid": "475adabdc9ed",
+      "member_uids": [
+        "2dd0872a952c",
+        "f9572974b65e"
+      ]
+    },
+    {
+      "index": 378,
+      "pair_uid": "73d458be805c",
+      "member_uids": [
+        "30c41b0ef152",
+        "1b9cbbe23386"
+      ]
+    },
+    {
+      "index": 432,
+      "pair_uid": "4b717d423b93",
+      "member_uids": [
+        "c89d28a7c1a5",
+        "663166de6a6e"
+      ]
+    },
+    {
+      "index": 486,
+      "pair_uid": "b2bef4dba95b",
+      "member_uids": [
+        "da05b7bd8bc7",
+        "7536e5f8c117"
+      ]
+    },
+    {
+      "index": 504,
+      "pair_uid": "c5b8a47f5d70",
+      "member_uids": [
+        "e649609337b1",
+        "a1319ba72dbf"
+      ]
+    },
+    {
+      "index": 504,
+      "pair_uid": "e181bd7062ce",
+      "member_uids": [
+        "668f2afaa377",
+        "3b801a7ba0f9"
+      ]
+    },
+    {
+      "index": 558,
+      "pair_uid": "f266c8765cb8",
+      "member_uids": [
+        "0f93a4433f8e",
+        "776022fa7d45"
+      ]
+    },
+    {
+      "index": 666,
+      "pair_uid": "0c820fc5fbc3",
+      "member_uids": [
+        "afe28f765b59",
+        "b93a8f9d4927"
+      ]
+    },
+    {
+      "index": 702,
+      "pair_uid": "ef6b2f6322d6",
+      "member_uids": [
+        "ec9233a60dd6",
+        "3349ceec8779"
+      ]
+    },
+    {
+      "index": 774,
+      "pair_uid": "c34212b7dd19",
+      "member_uids": [
+        "3ec759fe7a89",
+        "c95f99244140"
+      ]
+    },
+    {
+      "index": 882,
+      "pair_uid": "a3fd068a4467",
+      "member_uids": [
+        "6afd80ecad54",
+        "b384172dd375"
+      ]
+    },
+    {
+      "index": 936,
+      "pair_uid": "4351f9476f2c",
+      "member_uids": [
+        "c4fd6495ff27",
+        "cf5757e9dd21"
+      ]
+    },
+    {
+      "index": 936,
+      "pair_uid": "f8599b5bccee",
+      "member_uids": [
+        "540adb3380a3",
+        "6e0a2700e658"
+      ]
+    }
+  ],
+  "uid_scheme": {
+    "member_uid": "sha256(\"|\".join(canonical_id_words))[:12]",
+    "pair_uid": "sha256(f\"{index}#{chr(35).join(sorted([m0,m1]))}\")[:12]",
+    "setdigest": "sha256(\"|\".join(sorted(layer_pair_uids))).hexdigest() (full 64 hex)"
+  }
+}
