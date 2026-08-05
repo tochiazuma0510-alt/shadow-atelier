@@ -1,0 +1,90 @@
+{
+  "schema": "brgap1-kummer/v1",
+  "card_label": "BR-GAP-1 (kappa_3^{(p)} vs Deligne-Soule c(1)) - arithmetic bookkeeping of the finite-level Kummer comparison",
+  "generated_utc": "2026-08-05T21:41:21.353743+00:00",
+  "design_doc": "docs/notes/bhunt_l1_bridge_v1_1_erratum.md (section 3, Lemma BR-6')",
+  "tooling": {
+    "script": "scratchpad/brgap1_kummer_check.py",
+    "script_sha256": "04303f80e3c4ba4e470587d518372180796a93d5fc9be7641110fb644d2980a9",
+    "python": "3.13.14",
+    "arithmetic": "exact python integers and integer polynomials in Z[x]/(Phi_{p^n}(x)); no floating point"
+  },
+  "sources_pinned": {
+    "KUR_pdf": "papers/kurihara-1992-compositio-cyclotomic-Kgroups.pdf",
+    "KUR_pdf_sha256": "70ee5919eae904197bf5949e9a8af2b45a805d31e2976241217be329360becca",
+    "KUR_pages_used": "printed 226 (Cor 1.5), 230 (Cor 3.8), 231 (Prop 4.2 / Rem 4.3), 233 (section 5 (4), Prop 5.1, Rem 5.2)",
+    "ICM_pages_used": "printed 115 (6.2 (ii): eps_{m,n}, kappa_m^{(l)}, (6.2.1); 6.3: kappa*_m)"
+  },
+  "what_is_checked": {
+    "K1": "<a^{r-1}> == a^{r-1} mod p^n for every unit a  (Kummer group is killed by p^n)",
+    "K2": "d_a = (<a^{r-1}> - a^{r-1})/p^n is an integer and <= 0",
+    "K3": "{a^-1} == {a} as multisets in (Z/p^n)^x, and the exponent functions produced by sum_a tau_a and by sum_a tau_a^{-1} coincide (transfer direction is immaterial)",
+    "K4": "p^n odd => -1 = (-1)^{p^n} is a p^n-th power in K_n^x; S = sum <a^{r-1}> reported",
+    "K5": "(p-1) does not divide r => (Z/p^n(r))^Delta = 0 => H^i(Gal(K_n/Q), Z/p^n(r)) = 0 for all i => Res is injective",
+    "K6": "p^{r-1}-1 (Ihara's normaliser for kappa*_r) is a unit in Z_p",
+    "K7": "exact identity in Z[x]/(Phi_{p^n}(x)): prod_a (z^a-1)^{<a^2>} * prod_a (1-z^a)^{p^n(-d_a)} == (-1)^S prod_a (1-z^a)^{a^2}",
+    "negative_controls": "N1 modulus is load-bearing; N2 pairing a<->-a makes S even for odd r; N3 the (p-1)|r criterion bites at r=6; N4/N5/N6 mutating one exponent, one d_a, or the global sign breaks K7"
+  },
+  "universe": {
+    "r": 3,
+    "primes": [
+      7,
+      5,
+      11,
+      13
+    ],
+    "primes_role": {
+      "7": "main window prime NW(7)",
+      "5": "control",
+      "11": "control",
+      "13": "control"
+    },
+    "levels_n": [
+      1,
+      2,
+      3
+    ],
+    "K7_instances": [
+      [
+        5,
+        1
+      ],
+      [
+        7,
+        1
+      ],
+      [
+        11,
+        1
+      ],
+      [
+        13,
+        1
+      ],
+      [
+        5,
+        2
+      ]
+    ]
+  },
+  "results": {
+    "verdict_lines": 75,
+    "pass": 75,
+    "fail": 0,
+    "all_pass": true
+  },
+  "stdout": "=== BR-GAP-1 finite-level Kummer comparison (exact integer arithmetic) ===\nr = 3 ;  primes = [7, 5, 11, 13] ;  levels n = [1, 2, 3]\n\n(K1) p=7  n=1 MAIN  <a^2> == a^2  mod 7      for all    6 units : True\n(K2) p=7  n=1 MAIN  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -5) : True\n(K3) p=7  n=1 MAIN  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=7  n=1 MAIN  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 14 : True\n(K5) p=7  n=1 MAIN  (p-1)=6  does not divide r=3 ; generator g=3 of Delta : g^r-1 = 5 mod p is a unit : True\n(K1) p=7  n=2 MAIN  <a^2> == a^2  mod 49     for all   42 units : True\n(K2) p=7  n=2 MAIN  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -47) : True\n(K3) p=7  n=2 MAIN  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=7  n=2 MAIN  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 980 : True\n(K5) p=7  n=2 MAIN  (p-1)=6  does not divide r=3 ; generator g=3 of Delta : g^r-1 = 5 mod p is a unit : True\n(K1) p=7  n=3 MAIN  <a^2> == a^2  mod 343    for all  294 units : True\n(K2) p=7  n=3 MAIN  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -341) : True\n(K3) p=7  n=3 MAIN  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=7  n=3 MAIN  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 50078 : True\n(K5) p=7  n=3 MAIN  (p-1)=6  does not divide r=3 ; generator g=3 of Delta : g^r-1 = 5 mod p is a unit : True\n(K6) p=7       MAIN  p^{r-1}-1 = 48    ; mod p = 6 != 0  =>  unit in Z_p : True\n\n(K1) p=5  n=1 ctrl  <a^2> == a^2  mod 5      for all    4 units : True\n(K2) p=5  n=1 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -3) : True\n(K3) p=5  n=1 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=5  n=1 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 10 : True\n(K5) p=5  n=1 ctrl  (p-1)=4  does not divide r=3 ; generator g=2 of Delta : g^r-1 = 2 mod p is a unit : True\n(K1) p=5  n=2 ctrl  <a^2> == a^2  mod 25     for all   20 units : True\n(K2) p=5  n=2 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -23) : True\n(K3) p=5  n=2 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=5  n=2 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 250 : True\n(K5) p=5  n=2 ctrl  (p-1)=4  does not divide r=3 ; generator g=2 of Delta : g^r-1 = 2 mod p is a unit : True\n(K1) p=5  n=3 ctrl  <a^2> == a^2  mod 125    for all  100 units : True\n(K2) p=5  n=3 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -123) : True\n(K3) p=5  n=3 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=5  n=3 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 6250 : True\n(K5) p=5  n=3 ctrl  (p-1)=4  does not divide r=3 ; generator g=2 of Delta : g^r-1 = 2 mod p is a unit : True\n(K6) p=5       ctrl  p^{r-1}-1 = 24    ; mod p = 4 != 0  =>  unit in Z_p : True\n\n(K1) p=11 n=1 ctrl  <a^2> == a^2  mod 11     for all   10 units : True\n(K2) p=11 n=1 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -9) : True\n(K3) p=11 n=1 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=11 n=1 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 44 : True\n(K5) p=11 n=1 ctrl  (p-1)=10 does not divide r=3 ; generator g=2 of Delta : g^r-1 = 7 mod p is a unit : True\n(K1) p=11 n=2 ctrl  <a^2> == a^2  mod 121    for all  110 units : True\n(K2) p=11 n=2 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -119) : True\n(K3) p=11 n=2 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=11 n=2 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 6534 : True\n(K5) p=11 n=2 ctrl  (p-1)=10 does not divide r=3 ; generator g=2 of Delta : g^r-1 = 7 mod p is a unit : True\n(K1) p=11 n=3 ctrl  <a^2> == a^2  mod 1331   for all 1210 units : True\n(K2) p=11 n=3 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -1329) : True\n(K3) p=11 n=3 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=11 n=3 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 803924 : True\n(K5) p=11 n=3 ctrl  (p-1)=10 does not divide r=3 ; generator g=2 of Delta : g^r-1 = 7 mod p is a unit : True\n(K6) p=11      ctrl  p^{r-1}-1 = 120   ; mod p = 10 != 0  =>  unit in Z_p : True\n\n(K1) p=13 n=1 ctrl  <a^2> == a^2  mod 13     for all   12 units : True\n(K2) p=13 n=1 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -11) : True\n(K3) p=13 n=1 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=13 n=1 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 78 : True\n(K5) p=13 n=1 ctrl  (p-1)=12 does not divide r=3 ; generator g=2 of Delta : g^r-1 = 7 mod p is a unit : True\n(K1) p=13 n=2 ctrl  <a^2> == a^2  mod 169    for all  156 units : True\n(K2) p=13 n=2 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -167) : True\n(K3) p=13 n=2 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=13 n=2 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 13182 : True\n(K5) p=13 n=2 ctrl  (p-1)=12 does not divide r=3 ; generator g=2 of Delta : g^r-1 = 7 mod p is a unit : True\n(K1) p=13 n=3 ctrl  <a^2> == a^2  mod 2197   for all 2028 units : True\n(K2) p=13 n=3 ctrl  d_a = (<a^2>-a^2)/p^n integral and <= 0 (min d_a = -2195) : True\n(K3) p=13 n=3 ctrl  {a^-1} == {a} as multisets and exponent functions of sum tau_a / sum tau_a^-1 agree : True\n(K4) p=13 n=3 ctrl  p^n odd => (-1) = (-1)^{p^n} ;  S = sum <a^2> = 2227758 : True\n(K5) p=13 n=3 ctrl  (p-1)=12 does not divide r=3 ; generator g=2 of Delta : g^r-1 = 7 mod p is a unit : True\n(K6) p=13      ctrl  p^{r-1}-1 = 168   ; mod p = 12 != 0  =>  unit in Z_p : True\n\n--- (K7) exact identity in Z[x]/(Phi_{p^n}(x)) ---\n(K7) p=5  n=1  prod (z^a-1)^{<a^2>} * prod (1-z^a)^{p^n(-d_a)} == (-1)^S prod (1-z^a)^{a^2} : True\n(K7) p=7  n=1  prod (z^a-1)^{<a^2>} * prod (1-z^a)^{p^n(-d_a)} == (-1)^S prod (1-z^a)^{a^2} : True\n(K7) p=11 n=1  prod (z^a-1)^{<a^2>} * prod (1-z^a)^{p^n(-d_a)} == (-1)^S prod (1-z^a)^{a^2} : True\n(K7) p=13 n=1  prod (z^a-1)^{<a^2>} * prod (1-z^a)^{p^n(-d_a)} == (-1)^S prod (1-z^a)^{a^2} : True\n(K7) p=5  n=2  prod (z^a-1)^{<a^2>} * prod (1-z^a)^{p^n(-d_a)} == (-1)^S prod (1-z^a)^{a^2} : True\n\n--- negative controls (the checks must have discriminating power) ---\n(N1) p=7 n=1  congruence FAILS mod p^{n+1}=49 for 4 of 6 units (modulus is load-bearing) : True\n(N2) p=7 n=1  <a^{r-1}> = <(-a)^{r-1}> (r odd => r-1 even) so S is even; sign factor is vacuous here : True\n(N3) p=7  r'=6 == 0 mod (p-1): g^{r'}-1 = 0 == 0 mod p  =>  (Z/p^n(r'))^Delta != 0 (criterion bites) : True\n(N4) p=7 n=1  perturbing one <a^2> by +1 breaks (K7) : True\n(N5) p=7 n=1  perturbing one d_a by -1 breaks (K7) : True\n(N6) p=7 n=1  flipping the global sign breaks (K7) (computation is not sign-blind) : True\n\nverdict lines = 75 , PASS = 75 , FAIL = 0\nALL_PASS = True\n",
+  "grading": {
+    "status": "single-implementation machine check (python only)",
+    "not_cross_checked": true,
+    "not_verified": true,
+    "note": "This certifies the arithmetic bookkeeping only. The cohomological steps (res o cor = sum of the Galois action; inflation-restriction; Kummer description of kappa_r) are paper proofs in the erratum, section 3."
+  },
+  "discipline": {
+    "window_contact": false,
+    "candidate_keys_read": 0,
+    "sealed_quantities_contacted": false,
+    "gap_invoked": false,
+    "note": "No GAP, no pc group, no window data of any kind. Only p, n, r and cyclotomic integers."
+  }
+}
