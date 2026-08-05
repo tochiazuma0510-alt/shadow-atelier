@@ -2451,3 +2451,6 @@ dafa86c0f9e475800067a27dfeaaf7ef38abfdc66a5686579af6c5b9e3a1bcf3  papers/2405.11
 - 司令塔の表題過大を Sol が正しく刈った(裁定 580 の「FAKE-VOID 初の窓レベル完全検証」表現は撤回・正 = 算術飽和まで)。
 - 橋の修文 2 点を Sol が処方: ①Kurihara Prop 5.1 の不等号向き誤用 → Remark 5.2 の「実は等号」を明示載荷 ②BR-GAP-1 = 有限段 Kummer 類の直接比較で閉じよ。artifact 実在 5/5+入れ子 pin 16/16 一致・J 系の格 = candidate 維持(単系統・cert 自己申告どおり)。
 - 発火: 数学者へ修文 2 点+狭形言明の versioned 記帳を委嘱 → 修文後に狭形発効(次便)。252 の分解は新 GAP として登録(genuine 側の深い判定 = 今後の P6/TRUNC 線)。
+
+## 2026-08-06 BU 掘削 初発火(裁定 583)— S1〜S3.5・D⊕D 型先頭・freeze W6-BU-FREEZE2-EXACT17-F106 の workshop dispatch(認可済・研究者 GO)
+- exact 17 層宇宙・LIFT-ENUM・R1-b 順序・停止語彙・checker 自己検証・在庫格のみ(kill/EMPTY/格上げ禁止)・S3.6+/S9 LOCKED・W-5 UNKNOWN 不変。P6 線の genuine 非自明 shadow 狩り(統計予言 (i) の検証地)がついに着火。
