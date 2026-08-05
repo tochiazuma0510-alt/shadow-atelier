@@ -1,0 +1,149 @@
+{
+  "actual_evaluated": {},
+  "candidate_universe_contact": 0,
+  "class_id": "HS-NW7-CLASS-v3-draft",
+  "comparisons": {
+    "laneP5_CONV_native_5_equal": true
+  },
+  "note": "Only named, previously registered fixtures were evaluated. SHARD mode was never invoked.",
+  "orchestrator": {
+    "gap_wrapper_path": "gap.ps1",
+    "gap_wrapper_sha256": "2015b8f52ed9ef0f58c833864e7fd7e6b0435d999a6659c03c9cd52dec175546",
+    "path": "search/probe/hsp7_mainrun/registered_preflight.py",
+    "sha256": "6e68a5baac1f9669c501cd327593da41bd2a393692653241e548737645c5b96e",
+    "validator_path": "search/probe/hsp7_mainrun/binding_gate_lib.py",
+    "validator_sha256": "10960ce3e6558ec685adfd18a95ee12d669f41897f1a93566de823a9c5031c9c"
+  },
+  "overall_pass": false,
+  "pcgs_basis_contract": "hsp7-ordered-pcgs-material/v1",
+  "pcgs_basis_fingerprints": {},
+  "pcgs_core_fingerprint": null,
+  "registered_fixture_plan": {
+    "P5_two_path": 5,
+    "P_production": 8,
+    "S": 13,
+    "V": 13
+  },
+  "rows": [
+    {
+      "basis_probe_error_tail": null,
+      "basis_probe_exit_code": 0,
+      "basis_probe_log_sha256": "15358b15b49101d144293c5784308900d00e40fc61fa4fdfc18536d4537d733b",
+      "cert_path": "search/certs/hsp7_laneS_registered_preflight_pcgs_v3_20260805.json",
+      "cert_sha256": null,
+      "error": "gap exit=0, cert_exists=False",
+      "error_tail": "\n--- structural facts (own measurement, phase 1, BEFORE opening anchor cert) ---\n|P| = 5764801\n|[P,P]| (=gamma2) = 117649\ngamma_k sizes (k=1..5): [ 5764801, 117649, 16807, 343, 1 ]\nlayer dims (F_7): [ 2, 1, 2, 3 ]\ndim gamma4(P) (F_7) = 3\nord(x)=7 ord(y)=7\nN_ord (=lcm(ord(x),ord(y),ord(cN)=1)) = 7\nX_N = [ 0, 1, 2, 4, 5, 6 ]  |X_N| = 6\ntheta well-defined: true  bijective: true\ntau well-defined: true  bijective: true\nh4<>1: true  h4 in gamma4(P): true\nh3<>1: true\n\n[stderr]\nSyntax error: 'QUIT;' cannot be used in this context in search/probe/hsp7_mainrun/lane_wrapper_S.g:41\n  QUIT;\n  ^^^^\n",
+      "exit_code": 0,
+      "lane": "S",
+      "log_sha256": "140414df12c5252c69f287af31395d05ea3aad6cd0cb5a4b91b07748ad562682",
+      "pass": false,
+      "pcgs_basis_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+      "source_bundle_sha256": "4e15b1b5ce8f661b6be7253e8de2aa5f14e7f68f107c350adffbbf522875126c",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_S.g": "d74d964b02881248357fb6ad77ea8dde0986dd380cd681457b4cb64abf0ad498",
+        "search/probe/hsp7_mainrun/predicate_lib_laneS.g": "1fabb7848ea5c6adb275b451c5264f8c4f7989fbc2b94f1e95db2b663453a070",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "basis_probe_error_tail": null,
+      "basis_probe_exit_code": 0,
+      "basis_probe_log_sha256": "c1b0d603f6d1c876606a1d6bde92901ec2160b5d38273d99736f1866236c9f63",
+      "cert_path": "search/certs/hsp7_laneV_registered_preflight_pcgs_v3_20260805.json",
+      "cert_sha256": null,
+      "error": "gap exit=0, cert_exists=False",
+      "error_tail": "\n\n[stderr]\nSyntax error: 'QUIT;' cannot be used in this context in search/probe/hsp7_mainrun/lane_wrapper_V.g:101\n  QUIT;\n  ^^^^\n",
+      "exit_code": 0,
+      "lane": "V",
+      "log_sha256": "1f00bc8b44ad3b83c8df7fc3b2b2262864c9960ed76f171fb74765fb0d4c797f",
+      "pass": false,
+      "pcgs_basis_fingerprint": "eaf54f528795c7831ab4a1b52d4c5e7578f0e93633c2332bfd9428b4b0503889",
+      "source_bundle_sha256": "f7a763d96080c4647e72a8ad4e6e59422d24fddf502c30426a5d4b67bc8e5231",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_cond4_laneV/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_cond4_laneV/statemachine_lib.g": "30ea5224eec536aa995443471930c7874ebd57e61a3e2a3c6982ad5c2e5edf47",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_V.g": "c00014cf7df52883fc01e0c9e56ddf9eabbbd1161ca77f49e0bfefcb3ee5abfd",
+        "search/probe/hsp7_mainrun/predicate_lib_laneV.g": "0522fab0f9c928c47142b8a74420ed3783dba827a5b1d567250c2c0af1b7e029",
+        "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g": "e333face99652474a4a6b796d286fa68567a23df05a836293fdc1500b03a4cad",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "basis_probe_error_tail": null,
+      "basis_probe_exit_code": 0,
+      "basis_probe_log_sha256": "5b35de2f5a64b28023986d7d576bfb17ba6ae84ca5f46ab196a9e3e99f3430da",
+      "cert_path": "search/certs/hsp7_laneP_registered_preflight_pcgs_v3_20260805.json",
+      "cert_sha256": null,
+      "error": "gap exit=0, cert_exists=False",
+      "error_tail": "\n=== Lane P driver_step3: Q construction + PENT_W evaluation ===\nQgrp read. NumberOfGenerators(Qgrp) = 40 (expect 40)\nImage(epi) = Qgrp? true\nown_measurement: |Q| = 6366805760909027985741435139224001\nown_measurement: |Q| = 7^40 ? true\nown_measurement: length(LCS) = 5 (gamma_1..gamma_k, expect gamma_5 trivial)\nown_measurement: |gamma_4(Q)| = 558545864083284007\nown_measurement: |gamma_5(Q)| = 1 (expect 1)\nown_measurement: gamma_5(Q) trivial? true\nown_measurement: dim_F7 gamma_4(Q) = 21 (expect 21)\nepiGens generate Qgrp? true\nrhoQ well-defined (GroupHomomorphismByImages did not fail)? true\nown_measurement: rhoQ bijective? true\nown_measurement: rhoQ^5 = id? true\nown_measurement: rhoQ <> id? true\nj(h4) = identity in Q? false (expect false)\nj(h3) = identity in Q? false\n\n[stderr]\nSyntax error: 'QUIT;' cannot be used in this context in search/probe/hsp7_mainrun/lane_wrapper_P.g:56\n  QUIT;\n  ^^^^\n",
+      "exit_code": 0,
+      "lane": "P",
+      "log_sha256": "dd5c70266e0622d614b48cc0fba7ea16d1c9ec0b023908aa602c49ad744aa9ae",
+      "pass": false,
+      "pcgs_basis_fingerprint": "ff2e40c93bf3b547f34dabb0ab7ee6ea1fa2e46dd67bcca43c59fec5158726d3",
+      "source_bundle_sha256": "6d28dff2ae7a78a404a452d6ee46bf25a57021c43cb0bc414b7463dae4f90df4",
+      "source_files": {
+        "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+        "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+        "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+        "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+        "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+        "search/probe/hsp7_mainrun/lane_wrapper_P.g": "56d827f8941cb8ca4d304271314e55e6142833bd93812ec3596683346d8aa8ba",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP.g": "be1fdf4883210118211f5ab26dc8e1c22a2aacd96f58e24e494779ca3fc70dcc",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    },
+    {
+      "driver_path": "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g",
+      "driver_sha256": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+      "error": null,
+      "exit_code": 0,
+      "lane": "P5",
+      "log_sha256": "87dbeb4e5b01f6824c8e9899b4ec2d0faaef8b06e9f0983ceb21b952ca0622a0",
+      "pass": true,
+      "source_bundle_sha256": "2dc3baecf9aa6cb0be4209d38ee2805ba491e132149f11ebfc58a6cc8bc2116e",
+      "source_files": {
+        "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_P5.g": "3128d6afe7eb034bb87ab9dd173b1036607017f637f8eaae2bd3f280c566e15d",
+        "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_Q5.g": "2cc3c2986dc2b49f5ea7509431cb0d808d424a687f41bf783a5c88c8fc0a4edc",
+        "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+        "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+        "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+      }
+    }
+  ],
+  "schema": "hsp7-registered-wrapper-preflight/v3",
+  "source_commit_files": {
+    "gap.ps1": "2015b8f52ed9ef0f58c833864e7fd7e6b0435d999a6659c03c9cd52dec175546",
+    "search/certs/hsp7_lane_cert_schema_v3.json": "af6a54a3ab7ffe2d9e94bde57658e3bb0dd37a27abe9a1e87e732e2da9fe7477",
+    "search/probe/hsp7_cond4_laneP/PQ_OUTPUT_Q_laneP.g": "bfb71c2167d2936fa135f0aa6345f23843cf4239984d5fb6155ce0753620ab8b",
+    "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_P5.g": "3128d6afe7eb034bb87ab9dd173b1036607017f637f8eaae2bd3f280c566e15d",
+    "search/probe/hsp7_cond4_laneP_p5control/PQ_OUTPUT_Q5.g": "2cc3c2986dc2b49f5ea7509431cb0d808d424a687f41bf783a5c88c8fc0a4edc",
+    "search/probe/hsp7_cond4_laneS/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "search/probe/hsp7_cond4_laneV/PQ_OUTPUT_P.g": "99a3515c2d796292a12654c84f0d784de15b7782e25afa87695b01ec86796a15",
+    "search/probe/hsp7_cond4_laneV/statemachine_lib.g": "30ea5224eec536aa995443471930c7874ebd57e61a3e2a3c6982ad5c2e5edf47",
+    "search/probe/hsp7_mainrun/binding_gate_lib.py": "10960ce3e6558ec685adfd18a95ee12d669f41897f1a93566de823a9c5031c9c",
+    "search/probe/hsp7_mainrun/candidate_key_lib.g": "3648d3d0b58db470726248a987903781856f1975734b23a943607e968cb78c5b",
+    "search/probe/hsp7_mainrun/cert_io.g": "e5eabbcb457c9a6fb631d4f9443c0b4394882414569f03d2eececccd22ba0a10",
+    "search/probe/hsp7_mainrun/driver_conv_laneP_p5control_calib.g": "6df5f3b6049b46cb5428fde06b28283b85d4c92c0d3f3b461c89a12c3c46678f",
+    "search/probe/hsp7_mainrun/lane_wrapper_P.g": "56d827f8941cb8ca4d304271314e55e6142833bd93812ec3596683346d8aa8ba",
+    "search/probe/hsp7_mainrun/lane_wrapper_S.g": "d74d964b02881248357fb6ad77ea8dde0986dd380cd681457b4cb64abf0ad498",
+    "search/probe/hsp7_mainrun/lane_wrapper_V.g": "c00014cf7df52883fc01e0c9e56ddf9eabbbd1161ca77f49e0bfefcb3ee5abfd",
+    "search/probe/hsp7_mainrun/predicate_lib_laneP.g": "be1fdf4883210118211f5ab26dc8e1c22a2aacd96f58e24e494779ca3fc70dcc",
+    "search/probe/hsp7_mainrun/predicate_lib_laneP_conv.g": "1b206ba0459011b69c7da51fc3a34d626fa2c61e11f496ed720f0826c9510233",
+    "search/probe/hsp7_mainrun/predicate_lib_laneS.g": "1fabb7848ea5c6adb275b451c5264f8c4f7989fbc2b94f1e95db2b663453a070",
+    "search/probe/hsp7_mainrun/predicate_lib_laneV.g": "0522fab0f9c928c47142b8a74420ed3783dba827a5b1d567250c2c0af1b7e029",
+    "search/probe/hsp7_mainrun/predicate_lib_laneV_cf.g": "e333face99652474a4a6b796d286fa68567a23df05a836293fdc1500b03a4cad",
+    "search/probe/hsp7_mainrun/registered_preflight.py": "6e68a5baac1f9669c501cd327593da41bd2a393692653241e548737645c5b96e",
+    "search/probe/wac_v1/gap_output_prelude.g": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+  },
+  "source_commit_sha": "71e9e2d03ff3c0ee8ff4c01a1cdb72e5d2af2f7b"
+}
