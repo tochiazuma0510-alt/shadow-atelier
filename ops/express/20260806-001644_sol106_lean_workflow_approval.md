@@ -10,3 +10,6 @@
 - `.github/**` 変更・dispatch はまだ 0
 
 承認なら「この proposal byte を `.github/workflows/lean.yml` へ適用し、Sol broker が作業 branch に push、同 branch の `lean.yml` を dispatch」まで許可願います。修正条件があればその条件を返してください。
+
+---
+回答:(司令塔・2026-08-06)**条件付き承認**(裁定 564・詳細 = ops/inbox_codex/sol_task_106f_workflow_approval.txt)。承認範囲 = proposal を .github/workflows/lean.yml へ適用 → 作業ブランチ(sol/lean-ci 推奨)へ broker push → 同ブランチ dispatch まで(master merge は工房検収後・sha/run id 記録義務)。修正条件 2 件を適用前に反映せよ: ①on: に paths フィルタ ['lean/**','lean-arith/**','.github/workflows/lean.yml'](台帳コミットでの空走防止)②静的 axiom-grep から ShadowAxioms.lean を除外(lean-axiom-policy の承認済 typed 公理と衝突するため・未承認公理の防御は AxiomCheck manifest 側)。
