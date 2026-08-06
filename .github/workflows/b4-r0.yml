@@ -1,0 +1,105 @@
+name: b4-r0
+
+# B4 R0 low-index window probe -- docs/notes/b4_r0_probe_prereg_iffirst_v1.md
+# (frozen prereg, 裁定637 task 3), executed on a GHA ubuntu runner per
+# 司令塔裁定 (this session, disposition (c)): local execution under
+# gap.ps1 -o 2g hit GAP's pre-set memory limit immediately after the
+# [B4:PB4]=24 sanity check, before LowIndexNormalSubgroupsSearch(B4,240)
+# reported any node (no partial result, no cert). This is a PURELY
+# OPERATIONAL deviation (execution environment + memory ceiling only) --
+# the prereg's frozen mathematical universe (B4 presentation SS1.1,
+# census_index_hi=240, LID-1 single-LINS-call discipline, wall-cap
+# semantics) is UNCHANGED. Local -o is NOT raised (8GB RAM / -o 2g local
+# discipline preserved per standing policy); the memory increase (-o 8g)
+# happens ONLY on this disposable GHA runner.
+#
+# search/b4-r0-probe-v1.g is read-only input to this workflow and is NOT
+# modified by it (mine-dispatch.yml / hsp7-calib.yml / b4-cal.yml
+# "search/*.g is untouchable by CI" discipline carried over).
+#
+# Wall cap (S-R0-4, prereg SS1.2/SS6): 15 minutes. Enforced TWICE:
+#   (a) the script's own internal GAPLIB_CheckCap-based soft check
+#       (870s, 30s write margin), producing a clean STOP(TIME_CAP) marker
+#       and cert if the per-node pass overruns;
+#   (b) this job's timeout-minutes: 15 (GHA runner clock), which hard-kills
+#       the job if the single LINS call itself (which cannot be
+#       interrupted from inside GAP) overruns -- in that case NO cert is
+#       produced and the job fails closed (no silent partial-result
+#       claim).
+#
+# LID-1 discipline (S-R0-1): exactly one LowIndexNormalSubgroupsSearch call,
+# census_index_hi=240, unchanged from the frozen prereg.
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - '.github/workflows/b4-r0.yml'
+      - 'search/b4-r0-probe-v1.g'
+
+permissions:
+  contents: read
+
+jobs:
+  b4_r0_probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      probe_pass: ${{ steps.check.outputs.probe_pass }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0 (same version as local install, b4-cal.yml)
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Install LINS package sources
+        uses: gap-actions/install-pkg@v1
+        with:
+          packages: lins
+
+      - name: Run B4 R0 probe (LowIndexNormalSubgroupsSearch(B4,240), single call, LID-1)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 8g search/b4-r0-probe-v1.g 2>&1 | tee ci/out/b4_r0_probe.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check probe result (fail-closed)
+        id: check
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.gap_exit }}" != "0" ]; then
+            echo "::error::gap_exit=${{ steps.run.outputs.gap_exit }} (nonzero) -- see ci/out/b4_r0_probe.log"
+            echo "probe_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          if ! grep -q "B4_R0_PROBE_DRIVER_DONE" ci/out/b4_r0_probe.log; then
+            echo "::error::B4_R0_PROBE_DRIVER_DONE marker not found -- driver did not complete cleanly"
+            echo "probe_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          if ! grep -q "VERDICT = " ci/out/b4_r0_probe.log; then
+            echo "::error::no VERDICT line found in log"
+            echo "probe_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          echo "probe_pass=true" >> "$GITHUB_OUTPUT"
+          echo "::notice::$(grep 'VERDICT = ' ci/out/b4_r0_probe.log)"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: b4-r0-probe-log
+          path: ci/out/b4_r0_probe.log
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: b4-r0-probe-cert
+          path: search/certs/b4_r0_probe_v1_20260806.json
+          if-no-files-found: warn

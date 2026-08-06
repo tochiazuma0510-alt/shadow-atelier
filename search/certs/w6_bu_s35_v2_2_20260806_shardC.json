@@ -1,0 +1,94 @@
+{
+"schema":"w6-bu-s35-v2.2-cert/v1",
+"note":"NOT the frozen w6-bu-firing-cert/v1 schema. v2.2: Sol 便112 F112-1/R-1 minimal repair (裁定637), laid ALONGSIDE v2.1 (v2.1 driver/cert UNCHANGED). Implements the '推奨する小修理' verbatim: (1) F-2.5/F-2.6 as DIRECT MATRIX EQUALITY in the explicit MakeGn block basis (native) PLUS the canon basis via an explicit SIMULTANEOUS change-of-basis d=diag(1,1,-1) applied to both Ad(Delta) and Ad(delta) together -- NOT a characteristic-polynomial similarity check as in v2/v2.1. (2) F-3.5 lane B: full |V|^2=16 exhaustive pair enumeration (direct matrix test, no SolveAffine) added alongside lane A, confirming n_A=n_B=0 on the negative fixture. See driver header for full item list.",
+"design_doc":"docs/notes/bu_s35_embedding_v1.md",
+"authorization":"裁定637 (司令塔), implementing sol/sol_reply_112_math38.md F112-1/R-1 '推奨する小修理' verbatim, this file",
+"driver_self_sha256":"1a103c172c4707018f55613b9b35f347d228a572eff323ded09537c47abe43f6",
+"driver_self_sha256_note":"sha256 of THIS driver script (w6_bu_s35_driver_v2_2.g) -- identical across all shards run from the same driver file; do not confuse with the per-SHARD-OUTPUT hash, which the merge script computes separately",
+"counts_v2":{
+  "extension_classes":17,
+  "affine_solvable_classes":5,
+  "affine_unsolvable_classes":12,
+  "affine_solution_pairs":171,
+  "L3_surjective_lifts":18,
+  "MARK_ISO_orbits":9,
+  "full_v_squared_pair_domain":91809,
+  "unit_definitions":{
+    "extension_classes":"H^2(S4,V) cohomology classes across all 17 V-cen rows (= v1 traversed_count)",
+    "affine_solvable_classes":"extension classes for which the L-1/L-2 (EMB-LIN) affine system has a nonempty solution set (= v1 accepted_count)",
+    "affine_solution_pairs":"total (a,b) pairs across all affine-solvable classes solving N_theta(a)=-eps_Delta and N_tau(b)=-eps_delta (L-1/L-2 only, NOT yet L-3)",
+    "L3_surjective_lifts":"subset of affine_solution_pairs for which the FULL marked lift rho(sigma_1)=W^-1 U, rho(sigma_2)=U^-1 W^2 (built in Phat = the actual V-extension of Ghat5, order 3000*|V|, via fiber product over S4) generates all of Phat -- i.e. L-1 AND L-2 AND L-3 all hold",
+    "MARK_ISO_orbits":"number of MARK-ISO equivalence classes (w6_bottomup_design_v3.md SS1.1, base-fixed on Ghat5) among the L3_surjective_lifts pairs, computed as orbits of the V-conjugation coboundary action (a,b)->(a+(I-theta)gamma,b+(I-tau)gamma) for gamma in V, restricted per class to its L-3-surjective subset",
+    "full_v_squared_pair_domain":"|V|^2 summed appropriately would be the naive brute-force domain size for L-1/L-2 alone; 91809 is the value already established in the companion detail (v1) as the total naive-pair domain across all 449 classes. THE LINEAR SOLVER (SolveAffine, EMB-LIN) NEVER PHYSICALLY TRAVERSES THIS DOMAIN -- it computes affine solution sets directly via NullspaceMat/SolutionMat. traversed_count in the frozen v1 schema equals extension_classes (449), NOT this domain size; this field is carried here only for cross-reference disclosure, per F110-2.5(b)'s explicit request."
+  }
+},
+"phat_construction":{
+  "method":"fiber product Ghat5 x_S4 E_S4, realized as an explicitly-generated subgroup of DirectProduct(Ghat5,E_S4) (generators: Amod, V-subgroup of E_S4, and the two diagonal lifts (Delta,U0),(delta,W0)) -- no enumeration of the ~10^6-order ambient direct product",
+  "sanity_checks_passed":{
+    "size_Phat_eq_3000_times_V":true,
+    "piE_U0_eq_theta_and_piE_W0_eq_tau":true,
+    "order_Uhat0_times_What0_matches_or_doubles_Ghat5_reference":true,
+    "note":"v2.1 fix (item 3): these 3 booleans are now the AND-reduction of a REAL check executed inside BuildPhatForClass on EVERY accepted-class build processed by THIS shard (not a single hand-eyeballed instance, and not a hardcoded literal as in v2). piE (Epc -> S4grp) is now actually constructed here -- v2 never built it in the production driver at all, only in the throwaway test script; v2's identical claim was unfounded."
+  },
+  "known_slow_step_avoided":"NaturalHomomorphismByNormalSubgroup(Phat,Vhat) hangs (>5min, no result) for these group sizes; replaced by direct element-order checks (Order is O(permutation degree) via cycle decomposition, no coset enumeration needed)"
+},
+"f_fixtures":{
+  "F_1_all_pass":true,
+  "F_2_1_sigma1sq_eq_x":true,"F_2_2_sigma2sq_eq_y":true,
+  "F_2_5_F_2_6_v2_2_method":"DIRECT MATRIX EQUALITY over GF(5), explicit basis, NOT charpoly similarity (v2.1's method). Basis A = <g1,g2,g3> = <tr(r,1),tr(r,2),tr(r,3)> (single-block 5-cycles on the 15-point model), verified = Amod exactly (v2.2_block_basis_eq_Amod below). Ad(g)(x):=g*x*g^-1 (standard math convention), computed in GAP as x^(g^-1).",
+  "v2_2_block_basis_eq_Amod":true,
+  "v2_2_declared_basis_native":"MakeGn",
+  "v2_2_Ad_Delta_MakeGn_basis":[[0,1,0],[1,0,0],[0,0,4]],
+  "v2_2_Ad_delta_MakeGn_basis":[[0,0,4],[1,0,0],[0,4,0]],
+  "v2_2_Theta_canon":[[0,1,0],[1,0,0],[0,0,4]],
+  "v2_2_T_canon":[[0,0,1],[1,0,0],[0,1,0]],
+  "v2_2_d_basis_change":[[1,0,0],[0,1,0],[0,0,4]],
+  "v2_2_dTd_MakeGn_expected":[[0,0,4],[1,0,0],[0,4,0]],
+  "v2_2_Ad_Delta_canon_basis_via_simultaneous_d":[[0,1,0],[1,0,0],[0,0,4]],
+  "v2_2_Ad_delta_canon_basis_via_simultaneous_d":[[0,0,1],[1,0,0],[0,1,0]],
+  "F_2_5_makegn_basis_pass":true,"F_2_6_makegn_basis_pass":true,
+  "F_2_5_canon_basis_pass":true,"F_2_6_canon_basis_pass":true,
+  "F_2_5_ad_Delta_basis_match":"EXACT match to Theta in BOTH MakeGn (native) and canon (via explicit simultaneous d-conjugation, d=diag(1,1,-1)) bases -- direct entrywise equality, not charpoly similarity",
+  "F_2_6_ad_delta_basis_match":"EXACT match: d.T.d in MakeGn (native) basis, T in canon (via explicit simultaneous d-conjugation) basis -- direct entrywise equality, not charpoly similarity",
+  "F_2_5_pass":true,"F_2_6_pass":true,
+  "F_3_5_negative_fixture_pass":true,
+  "F_3_5_v2_2_lane_b_pairs_matched":0,
+  "F_3_5_v2_2_lane_a_count":0,
+  "F_3_5_v2_2_note":"v2.1 only executed lane A (SolveAffine emptiness) on this negative fixture. v2.2 adds lane B: full |V|^2=16 exhaustive pair enumeration testing L-1 AND L-2 directly per pair (no SolveAffine call in this lane), matching bu_s35_embedding_v1.md SS8 F-3.5's frozen expectation n_A=n_B=0 on BOTH lanes. tau-side chosen solvable so the AND-test is non-vacuous; the theta side alone drives n=0.",
+  "fixture_naming_map":{
+    "note":"v2.1 fix (item 6): explicit doc(hyphen-dot)<->cert(underscore) name map, so a reader never has to guess the correspondence.",
+    "F-1.1":"contributes to F_1_all_pass (order(Delta)=2)",
+    "F-1.2":"contributes to F_1_all_pass (order(delta)=3)",
+    "F-1.3":"contributes to F_1_all_pass (braid relation)",
+    "F-1.4":"contributes to F_1_all_pass (Delta^2=1)",
+    "F-1.5":"contributes to F_1_all_pass (|Ghat5|=3000)",
+    "F-2.1":"F_2_1_sigma1sq_eq_x",
+    "F-2.2":"F_2_2_sigma2sq_eq_y",
+    "F-2.5":"F_2_5_pass (basis note in F_2_5_ad_Delta_basis_match)",
+    "F-2.6":"F_2_6_pass (basis note in F_2_6_ad_delta_basis_match)",
+    "F-3.5":"F_3_5_negative_fixture_pass"
+  }
+},
+"check_semantics":{
+  "note":"v2.1 items (4)+(5): Chk() is FAIL-SOFT (records a failure into FAILS and keeps running; does not stop the GAP process). This is UNCHANGED from v1/v2 -- disclosed explicitly here rather than left implicit, per 裁定615. Soundness is instead enforced at the cert-CONSUMPTION layer: fails_total below is the fail-CLOSED gate (a cert with fails_total != 0 must be refused by any checker/compare script), so a fail-soft internal run cannot leak an unsound PASS.",
+  "checks_executed_total":47,
+  "checks_executed_names":["F-1.1: order(Delta)","F-1.2: order(delta)","F-1.3: braid","F-1.4: Delta^2=1","F-1.5: |Ghat5|","F-2.1: sigma1^2 = MakeGn(5).x","F-2.2: sigma2^2 = MakeGn(5).y","A: |Amod|","A: IsNormal(Ghat5,Amod)","A: |Ghat5/Amod|","A: isoSbarToS4 well-defined","A: p_G(Delta)=theta","A: p_G(delta)=tau","v2.2: g1 in Amod","v2.2: g2 in Amod","v2.2: g3 in Amod","v2.2: Group(g1,g2,g3) = Amod (block basis spans A exactly)","F-2.5 (MakeGn basis): Ad(Delta)|_A = Theta EXACTLY","F-2.6 (MakeGn basis): Ad(delta)|_A = d.T.d EXACTLY (d=diag(1,1,-1))","F-2.5 (canon basis, via simultaneous d-conjugation): Ad(Delta)|_A = Theta EXACTLY","F-2.6 (canon basis, via simultaneous d-conjugation): Ad(delta)|_A = T EXACTLY","p3_d2_bruteforce_1: codim2 = SecondCohomologyDimension","phat-build size=3000*|V|: vec=[ 0 ]","phat-build piE(U0)=theta,piE(W0)=tau: vec=[ 0 ]","phat-build order(Uhat0*What0) matches/doubles ref: vec=[ 0 ]","p3_d2_bruteforce_2: codim2 = SecondCohomologyDimension","phat-build size=3000*|V|: vec=[  ]","phat-build piE(U0)=theta,piE(W0)=tau: vec=[  ]","phat-build order(Uhat0*What0) matches/doubles ref: vec=[  ]","p3_d2_bruteforce_3: codim2 = SecondCohomologyDimension","phat-build size=3000*|V|: vec=[ 0 ]","phat-build piE(U0)=theta,piE(W0)=tau: vec=[ 0 ]","phat-build order(Uhat0*What0) matches/doubles ref: vec=[ 0 ]","p3_d2_bruteforce_4: codim2 = SecondCohomologyDimension","phat-build size=3000*|V|: vec=[  ]","phat-build piE(U0)=theta,piE(W0)=tau: vec=[  ]","phat-build order(Uhat0*What0) matches/doubles ref: vec=[  ]","p3_d2_bruteforce_5: codim2 = SecondCohomologyDimension","phat-build size=3000*|V|: vec=[ 0, 0 ]","phat-build piE(U0)=theta,piE(W0)=tau: vec=[ 0, 0 ]","phat-build order(Uhat0*What0) matches/doubles ref: vec=[ 0, 0 ]","F-3.5: SolveAffine returns 0 solutions for eps not in im(N_theta)","F-3.5: reports 'no solution' cleanly (not fail/error)","F-3.5 lane B setup: tau-side IS solvable (n_A_tau>0, so the AND-test below is non-vacuous)","F-3.5 lane B: |V|^2=16 exhaustive pair enumeration (direct matrix test, no SolveAffine) count","F-3.5 lane A: n_A = |solsBad(theta)| x |solsBadTau(tau)| = 0","F-3.5: n_A = n_B (both lanes agree at 0)"],
+  "fails_total_denominator":"fails_total (below) is out of checks_executed_total (above); fails_total=0 required for cert to be usable"
+},
+"lane_a_lane_b_dpd_only":{
+  "scope_statement":"lane A / lane B cross-check (real-group brute force) is executed ON THE D+D ROW (p2_d4_a0b0c2) ONLY -- 4 classes. The other 16 rows use EMB-LIN formula (lane A) only; L-3 for those 16 rows is computed via the same Phat-fiber-product construction as D+D (not a separate brute force lane), so it is single-lane for L-3 on those 16 rows exactly as L-1/L-2 already was in v1.",
+  "dpd_classes":[]
+},
+"rows":[{"module_id":"p3_d2_bruteforce_1","p":3,"dim":2,"dim_H2_S4":1,"num_classes":3,"accepted_classes":1,"rejected_classes":2,"affine_solution_pairs":27,"L3_surjective_lifts":18,"MARK_ISO_orbits":9,"class_detail":[{"vec":[0],"lane_a_count":27,"L3_surjective":18,"sizePhat":27000,"sizeH_distribution":{"3000":9,"27000":18}},{"vec":[1],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[2],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}}]},{"module_id":"p3_d2_bruteforce_2","p":3,"dim":2,"dim_H2_S4":0,"num_classes":1,"accepted_classes":1,"rejected_classes":0,"affine_solution_pairs":27,"L3_surjective_lifts":0,"MARK_ISO_orbits":0,"class_detail":[{"vec":[],"lane_a_count":27,"L3_surjective":0,"sizePhat":27000,"sizeH_distribution":{"3000":9,"9000":18}}]},{"module_id":"p3_d2_bruteforce_3","p":3,"dim":2,"dim_H2_S4":1,"num_classes":3,"accepted_classes":1,"rejected_classes":2,"affine_solution_pairs":27,"L3_surjective_lifts":0,"MARK_ISO_orbits":0,"class_detail":[{"vec":[0],"lane_a_count":27,"L3_surjective":0,"sizePhat":27000,"sizeH_distribution":{"3000":9,"9000":18}},{"vec":[1],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[2],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}}]},{"module_id":"p3_d2_bruteforce_4","p":3,"dim":2,"dim_H2_S4":0,"num_classes":1,"accepted_classes":1,"rejected_classes":0,"affine_solution_pairs":9,"L3_surjective_lifts":0,"MARK_ISO_orbits":0,"class_detail":[{"vec":[],"lane_a_count":9,"L3_surjective":0,"sizePhat":27000,"sizeH_distribution":{"3000":1,"9000":8}}]},{"module_id":"p3_d2_bruteforce_5","p":3,"dim":2,"dim_H2_S4":2,"num_classes":9,"accepted_classes":1,"rejected_classes":8,"affine_solution_pairs":81,"L3_surjective_lifts":0,"MARK_ISO_orbits":0,"class_detail":[{"vec":[0,0],"lane_a_count":81,"L3_surjective":0,"sizePhat":27000,"sizeH_distribution":{"3000":81}},{"vec":[0,1],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[0,2],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[1,0],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[1,1],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[1,2],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[2,0],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[2,1],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}},{"vec":[2,2],"lane_a_count":0,"L3_surjective":0,"sizePhat":null,"sizeH_distribution":{}}]}],
+"L3_zero_disclosure":{
+  "note":"THIS IS NOT AN EMPTY/IMPOSSIBILITY CLAIM. L3_surjective_lifts is recorded as a raw measurement (inventory register), per the negative-result registration regime (solver-candidate-philosophy: negative claims require the registration regime, not casual assertion). If the measured total is 0 across all 449 classes, that is flagged below for mandatory mathematical review -- it is NOT asserted here to mean 'no marked lift can ever be surjective onto Phat' as a theorem.",
+  "needs_mathematical_review":false,
+  "review_tag":"【要数学検分】",
+  "candidate_theorem_note":"IF L3_surjective_lifts=0 holds across all 17 rows/449 classes, one candidate explanation (raised by 司令塔, NOT proven here, NOT claimed as a theorem) is a factorization argument: since rho(c)=1 forces rho to factor through B3/<c> = C2*C3 (EMB-C/EMB-BRAID, bu_s35_embedding_v1.md SS2-3), the image <rho(sigma1),rho(sigma2)> = <U,W> with U^2=W^3=1 might be constrained to only ever reach the Ghat5-part plus the specific V-submodule generated by the cocycle values (eps_Delta,eps_delta) themselves, never the full V -- i.e. L-1/L-2 solutions might be structurally incapable of also satisfying L-3 for these particular (V-cen, S3-inflated) module types. If borne out, this would return the L-3 satisfiability question itself to Sol as a design question (is L-3 vacuous on this whole layer, and if so what does that mean for S3.6/ISO-GATE), not merely a computational non-finding. The per-class |H|-distribution diagnostic (see rows[].class_detail[].sizeH_distribution and lane_a_lane_b_dpd_only.dpd_classes[].sizeH_distribution above) is the raw evidence for/against this candidate explanation -- it shows exactly which proper subgroup order(s) of Phat the marked-lift image actually reaches.",
+  "SM_1":"L-3 as computed here is BLIND to which marked-lift window a given (a,b) pair sits in. Definition MARK-ISO (w6_bottomup_design_v3.md SS1.1) shows the marked lifts of q (base-fixed) fall into H^1(C2*C3,A) ~= F_5 = 5 classes, 4 of which are surjective onto Ghat5 and all share ONE kernel (related by a scalar automorphism, EMB-H1 in bu_s35_embedding_v1.md SS5.1) -- i.e. which of the 4 you land in is not itself part of what makes rho a valid marked lift. L-3 (this report) only tests surjectivity of <rho(sigma1),rho(sigma2)> onto Phat; it does NOT re-derive or re-verify marking. Marking-ness is guaranteed upstream by (a) L-1/L-2 (rho(c)=1, braid, both checked before any Phat/L-3 machinery runs) and (b) the F-2 external-anchor fixtures (MakeGn(5).x,.y byte-identity, F-2.1/F-2.2 above), which are the D-1 trap detector per bu_s35_embedding_v1.md SS7.3. A reader must not read a positive L3_surjective_lifts count as also having independently reconfirmed marking -- that reconfirmation is F-2's job, not L-3's."
+},
+"claims":{"isolated_verdict":"UNKNOWN","kill_claim":false,"candidate_found":false,"empty_claim":false},
+"non_contact_declaration":{"exploration":false,"candidate_generation":false,"kill":false,"empty_theorem":false,"im_R":false,"d_N":false,"sealed_quantities":false,"S9":false},
+"fails_total":0,
+"fails":[]
+}

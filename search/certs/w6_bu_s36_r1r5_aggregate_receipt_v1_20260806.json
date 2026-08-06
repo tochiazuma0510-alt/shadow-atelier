@@ -1,0 +1,51 @@
+{
+  "schema": "w6-bu-s36-r1r5-aggregate-receipt/v1",
+  "authorization": "sol/sol_reply_112_math38.md F112-1/R-1 '推奨する小修理' (裁定637 task 1, item 3)",
+  "note_TO_COMMANDER_READ_FIRST": "COMPILATION ONLY. This receipt assembles references to ALREADY-EXISTING, already-committed artifacts for R1-R5 (docs/notes/w6_bottomup_design_v4.md SS5, the ISO-GATE route-2 gate requirements). It does NOT run any new computation, does NOT assert iota_gate_state=PROVEN, and does NOT itself decide whether the R3/R4 apparatus validation (dated 20260805, built against the OLD/withdrawn K^(3) h11_fail candidate witness per docs/notes/iso_r3r4_cv9_reading_v2.md) has actually been RE-APPLIED to the NEW witness that F112/R-2 accepted this session (the mirror pair [-1,1], 15 registered L2 pairs, docs/notes/twin_witness_prereg_iffirst_v1.md SS5.2). That re-application is an OPEN ITEM flagged below, not performed by an implementer without further 司令塔/Sol direction -- assembling it silently would risk an unauthorized PROVEN claim (S-TW-3 forbidden-phrase discipline).",
+  "items": {
+    "R1_interface_no_overlap_bridge": {
+      "status": "CLOSED (paper)",
+      "source_doc": "docs/notes/w6_bottomup_design_v4.md",
+      "source_doc_sha256": "63438960dcd638e289d1e82c74cc86de4c8757029fa276fa27a03404b1a91c6a",
+      "location": "SS5.1 (interface + B-1 全域無重複)",
+      "cross_check": "paper-only, single author (数学者 layer); not machine cross-checked",
+      "grade": "candidate (paper proof, not verified in Lean)"
+    },
+    "R2_settled_iff_bijective_bridge": {
+      "status": "CLOSED (paper)",
+      "source_doc": "docs/notes/w6_bottomup_design_v4.md",
+      "source_doc_sha256": "63438960dcd638e289d1e82c74cc86de4c8757029fa276fa27a03404b1a91c6a",
+      "location": "SS5.2 (B-2 settled ⟺ well-defined ∧ 全単射)",
+      "cross_check": "paper-only, single author",
+      "grade": "candidate (paper proof, not verified in Lean)"
+    },
+    "R3_mutant_matrix_6_items": {
+      "status": "CLOSED (apparatus validation, 裁定541)",
+      "cert_path": "search/certs/w6_bu_s0_iso_gate_r3r4_v2_1_20260805.json",
+      "cert_sha256": "925fc4957b6e05e02659a084164b6765e78f9d772e906e46f37014232ffdf880",
+      "cross_check": "all_mutants_fired_as_expected=true (8 mutants, all fired); this validates the CHECKER APPARATUS (kills injected bugs correctly), not a specific witness",
+      "grade": "cross-checked (apparatus soundness only; falsifier CV-9 read = docs/notes/iso_r3r4_cv9_reading_v2.md, 支持する)",
+      "caveat_IMPORTANT": "The witness FED THROUGH this apparatus at cert time was M-ISO-2's K^(3) h11_fail candidate, which docs/notes/iso_r3r4_cv9_reading_v2.md explicitly WITHDRAWS as an isolated=FALSE claim ('there is no marked datum here whose GT(N) contains a genuine non-settled GT-shadow'; AS-GAP-6 remains OPEN as of that reading). The apparatus (mutant matrix + R4 second system) is reusable, but has NOT been re-run in this session against the NEW witness F112/R-2 accepted (mirror pair [-1,1], L2 15 pairs)."
+    },
+    "R4_second_system": {
+      "status": "CLOSED (apparatus validation, 裁定541)",
+      "cert_path": "search/certs/w6_bu_s0_iso_gate_r3r4_v2_1_20260805.json",
+      "cert_sha256": "925fc4957b6e05e02659a084164b6765e78f9d772e906e46f37014232ffdf880",
+      "cross_check": "r4_second_system field present; 4 objects (K^(3), W-5, M-ISO-2 witness) ALL MATCH per 裁定529/541",
+      "grade": "cross-checked (apparatus soundness only, same caveat as R3)",
+      "caveat": "same as R3_mutant_matrix_6_items.caveat_IMPORTANT"
+    },
+    "R5_TRUE_vs_grade_separation": {
+      "status": "CLOSED (standing policy)",
+      "source_doc": "docs/notes/w6_bottomup_design_v4.md",
+      "source_doc_sha256": "63438960dcd638e289d1e82c74cc86de4c8757029fa276fa27a03404b1a91c6a",
+      "location": "SS5.5 (PROVEN のみ R1-R4 全閉 + CV-9 判読を経た場合)",
+      "note": "This is the discipline rule itself, not a per-witness computation -- always CLOSED as a standing constraint. Its enforcement for the CURRENT witness is exactly the open item below."
+    }
+  },
+  "open_item_flagged_to_commander": {
+    "description": "R3/R4's apparatus-soundness certification (裁定541/543, 20260805) predates and was built against a DIFFERENT witness (K^(3) h11_fail candidate, later withdrawn) than the one F112/R-2 (this session) actually accepted (mirror pair [-1,1] / L2 registered 15 pairs). Whether 'R1-R5 aggregate receipt' means (a) the apparatus is validated and reusable [true, as documented above] or (b) the CURRENT witness has been run through M-ISO-2/3/4 end-to-end with a fresh CV-9 read [NOT done in this session] is a judgment call outside implementer scope. Implementer has not run the apparatus against the new witness and has not asserted iso_gate_state=PROVEN anywhere in this receipt or the accompanying S3.6-only unlock manifest.",
+    "recommendation": "If S3.6 unlock is intended to also certify iso_gate_state=PROVEN for the F112/R-2 witness, a fresh run of the R3/R4 apparatus (search/probe/w6_bu_s0/iso_gate_r3r4_driver.g or its v2.1 successor) against that specific witness, followed by a CV-9 read, would need to be authorized and executed as a separate step -- not silently inferred by this receipt."
+  },
+  "grade_overall": "candidate / partially cross-checked (R3-R4 apparatus only) / NOT iso_gate_state=PROVEN for any specific current witness / not verified (no Lean)"
+}

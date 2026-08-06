@@ -1,0 +1,44 @@
+{
+  "schema": "w6-bu-s36-unlock-manifest/v1",
+  "authorization": "sol/sol_reply_112_math38.md F112-1/R-1 '推奨する小修理' verbatim; 裁定637 task 1",
+  "note": "This manifest unlocks S3.6 ONLY. It does not touch S4'-S9 (all remain LOCKED per the design doc's always_forbidden_here manifest, unchanged). It does not assert iso_gate_state=PROVEN for any witness (see the separate w6_bu_s36_r1r5_aggregate_receipt_v1_20260806.json OPEN ITEM).",
+  "unlock_target": "S3.6 (ISO-GATE entry stage) datum production ONLY -- not iso_gate_state=PROVEN, not S4'+",
+  "preconditions_satisfied": {
+    "F_2_5_F_2_6_basis_pinned_equality": {
+      "status": "SATISFIED (v2.2 repair)",
+      "cert": "search/certs/w6_bu_s35_v2_2_20260806.json",
+      "cert_sha256": "c6ac7eced2a97081ae65eaec1de8a791cd7c0c07a47c9d811970cb91ba36c867",
+      "detail": "Direct entrywise matrix equality over GF(5) (NOT characteristic-polynomial similarity) in the explicit MakeGn block basis (native), plus an explicit simultaneous change-of-basis d=diag(1,1,-1) applied to both Ad(Delta) and Ad(delta) confirming the canon basis too. Both f_fixtures.F_2_5_makegn_basis_pass/F_2_6_makegn_basis_pass and F_2_5_canon_basis_pass/F_2_6_canon_basis_pass = true (AND-reduced across all 3 shards)."
+    },
+    "F_3_5_lane_B_executed": {
+      "status": "SATISFIED (v2.2 repair)",
+      "cert": "search/certs/w6_bu_s35_v2_2_20260806.json",
+      "cert_sha256": "c6ac7eced2a97081ae65eaec1de8a791cd7c0c07a47c9d811970cb91ba36c867",
+      "detail": "Lane B (|V|^2=16 exhaustive direct pair enumeration, no SolveAffine) executed on the negative fixture alongside lane A; n_A=n_B=0 confirmed on both lanes (f_fixtures.F_3_5_negative_fixture_pass=true)."
+    },
+    "R1_R5_aggregate_receipt": {
+      "status": "PARTIAL -- see receipt for OPEN ITEM",
+      "receipt": "search/certs/w6_bu_s36_r1r5_aggregate_receipt_v1_20260806.json",
+      "detail": "R1/R2 (paper bridges) closed; R3/R4 (mutant matrix + second system) apparatus validated (裁定541/543) but NOT re-run against the F112/R-2 witness in this session; R5 (grade separation) is a standing policy. This manifest does NOT claim R1-R5 fully closes iso_gate_state=PROVEN for any specific witness -- flagged to 司令塔 for a decision on whether that re-run is required before further S4'+ requests."
+    }
+  },
+  "denominator_cross_check_against_v2_1": {
+    "note": "v2.2's merged denominators (extension_classes/affine_solvable/affine_unsolvable/affine_solution_pairs) match v2.1's exactly, confirming the v2.2 repair changed ONLY F-2.5/F-2.6/F-3.5 and did not alter the L-1/L-2/L-3 computation.",
+    "v2_1_cert": "search/certs/w6_bu_s35_v2_1_20260806.json",
+    "extension_classes_449": true, "affine_solvable_73": true, "affine_unsolvable_376": true,
+    "affine_solution_pairs_1263": true,
+    "L3_surjective_lifts_42_both_versions": true, "MARK_ISO_orbits_21_both_versions": true
+  },
+  "unchanged_files": [
+    "search/probe/w6_bu_s1_s3/w6_bu_s35_driver_v2_1.g",
+    "search/certs/w6_bu_s35_v2_1_20260806.json",
+    "search/certs/w6_bu_s35_v2_1_20260806_shardA.json",
+    "search/certs/w6_bu_s35_v2_1_20260806_shardB.json",
+    "search/certs/w6_bu_s35_v2_1_20260806_shardC.json"
+  ],
+  "still_locked": {
+    "S4_prime_through_S8": "LOCKED (design doc always_forbidden_here manifest, unchanged by this manifest)",
+    "S9": "LOCKED / separate gate (unchanged)"
+  },
+  "grade": "candidate / cross-checked (F-2.5/F-2.6/F-3.5 fixtures only, single GAP system + no independent second-system for these specific matrix checks) / not verified (no Lean) / R1-R5 receipt PARTIAL per above"
+}
