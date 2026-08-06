@@ -436,15 +436,148 @@ Print("C-6b: |DerivedSubgroup(Gc5)| = ", sizeDerivedGc5, " (expect 216)\n");
 distinctFIdxC5 := Set(List(hexpassC5, z -> z[1]));;
 Print("C-6b: |distinct hexagon-passing f index set| = ", Length(distinctFIdxC5), " (expect 36, = distinctFC5)\n");
 nGtHeart := Length(Filtered(distinctFIdxC5, i -> passC5[i] in derivedGc5));;
-Print("C-6b: |GT-heart(N19)| = |{f in distinct-36 : f in DerivedSubgroup(Gc5)}| = ",
-      nGtHeart, " (expect 12, 2008 Table 1)\n");
+Print("C-6b: |GT-heart(N19)| [f unit] = |{f in distinct-36 : f in DerivedSubgroup(Gc5)}| = ",
+      nGtHeart, " (2008 Table 1's '12' is a DIFFERENT unit -- see 両単位化 below, 裁定 674)\n");
 c6SecondValue := nGtHeart;;
-c6SecondOK := (sizeDerivedGc5 = 216) and (nGtHeart = 12);;
+
+## ★ 単位訂正(裁定 674, 2026-08-06): 上の nGtHeart=6 は f 単位(distinct f の個数)
+## であり、そのまま Table 1 の「12」と比較していた前回パスは単位誤り(FAIL は
+## 実装バグではなく比較単位の取り違え)。GT-heart(N19) の真の大きさは
+## **pair 単位で 12**(= 6 個の heart-f それぞれが良い m を 2 個ずつ持つ、
+## 72=36*2 の一様分布 [[2,36]] と整合)。両単位を独立に実測し、両方を検査する。
+heartFIdx := Filtered(distinctFIdxC5, i -> passC5[i] in derivedGc5);;   ## f unit, expect 6
+heartPairs := Filtered(hexpassC5, z -> z[1] in heartFIdx);;             ## pair unit, expect 12
+nHeartF := Length(heartFIdx);;
+nHeartPairs := Length(heartPairs);;
+Print("C-6b: |GT-heart(N19)| [f unit] = ", nHeartF, " (expect 6)\n");
+Print("C-6b: |GT-heart(N19)| [pair unit] = ", nHeartPairs, " (expect 12, 2008 Table 1)\n");
+c6SecondOK := (sizeDerivedGc5 = 216) and (nHeartF = 6) and (nHeartPairs = 12);;
 if c6SecondOK then
-  Print("C-6b PASS: |GT-heart(N19)| = 12\n");
+  Print("C-6b PASS (dual-unit): f-count=6 AND pair-count=12\n");
 else
-  Print("C-6b FAIL: |GT-heart(N19)| = ", nGtHeart,
+  Print("C-6b FAIL (dual-unit): f-count=", nHeartF, " (expected 6), pair-count=", nHeartPairs,
         " (expected 12), |DerivedSubgroup(Gc5)| = ", sizeDerivedGc5, " (expected 216)\n");
+fi;
+
+## --- C-6c(必須, 裁定 674): charming 条件 (2)(2.61) の直接検査 ------------------
+## 出典: docs/notes/b4_original_gtshadows_extraction_v1.md L86-94(Definition 2.19・
+## 画像照合済 p.25)。charming の条件(2) = T^{F2}_{m,f} := T^{PB3}_{m,f}|_{F2}:
+## F2 -> F2/N_F2 が全射(2.61)。(2.28) より T^{F2}(x)=x^{2m+1}, T^{F2}(y)=f^{-1}
+## y^{2m+1} f (N_F2 を法)。Gc5 = F2/N_F2(位数 7776)上でそのまま評価できる:
+## Group(gXc5^(2m+1), F^{-1}*gYc5^(2m+1)*F) = Gc5(F := passC5[fIdx]、f の Gc5
+## での像)。heartPairs(12 件)すべてで悉皆検査する。
+Print("\n=== C-6c: charming 条件 (2)(2.61) SURJ 検査(必須, 裁定 674)===\n");
+c6cResults := [];;
+for hpr in heartPairs do
+  hFIdx := hpr[1];;  hMVal := hpr[2];;
+  hFImg := passC5[hFIdx];;
+  hU := 2*hMVal+1;;
+  hGcheck := Group([ gXc5^hU, hFImg^-1 * gYc5^hU * hFImg ]);;
+  hSizeCheck := Size(hGcheck);;
+  Add(c6cResults, [hFIdx, hMVal, hSizeCheck, (hSizeCheck = 7776)]);;
+od;
+nC6cPass := Length(Filtered(c6cResults, r -> r[4]));;
+Print("C-6c: SURJ (2.61) 検査 = ", nC6cPass, " / ", Length(c6cResults),
+      " pass (Group(gX^(2m+1), F^-1 gY^(2m+1) F) = Gc5, |Gc5|=7776)\n");
+c6cOK := (Length(heartPairs) = 12) and (nC6cPass = Length(c6cResults));;
+if c6cOK then
+  Print("C-6c PASS: 全 12 heart shadows が charming 条件 (2) を満たす\n");
+else
+  Print("C-6c FAIL: 全 heart shadows が charming 条件 (2) を満たさない -- 詳細=", c6cResults, "\n");
+fi;
+
+## --- C-6d(裁定 674): 円分指標二等分 -----------------------------------------
+## Ch_cyclot(§2.5.1, (2.56); N_ord=6 は C-2 で実測済み)。friendly な
+## m in {0,2,3,5} の指標値 (2m+1) mod 6: m=0->1, m=3->1(={0,3}); m=2->5,
+## m=5->5(={2,5})。(Z/6Z)^* = {1,5} の二元。各 heart-f が持つ good-m 2 個
+## (仮定せず実測)が {0,3} から 1 個・{2,5} から 1 個であることを悉皆検査。
+Print("\n=== C-6d: 円分指標二等分(裁定 674)===\n");
+c6dResults := [];;
+for dFIdx in heartFIdx do
+  dMList := List(Filtered(heartPairs, z -> z[1] = dFIdx), z -> z[2]);;
+  dIn03 := Filtered(dMList, m -> m in [0,3]);;
+  dIn25 := Filtered(dMList, m -> m in [2,5]);;
+  Add(c6dResults, [dFIdx, dMList, (Length(dMList)=2) and (Length(dIn03)=1) and (Length(dIn25)=1)]);;
+od;
+nC6dPass := Length(Filtered(c6dResults, r -> r[3]));;
+Print("C-6d: 円分指標二等分 = ", nC6dPass, " / ", Length(heartFIdx),
+      " heart-f で成立(good-m が {0,3} から1個・{2,5}から1個)\n");
+c6dOK := (Length(heartFIdx) = 6) and (nC6dPass = Length(heartFIdx));;
+if c6dOK then
+  Print("C-6d PASS: 全 6 heart-f で円分指標二等分を確認\n");
+else
+  Print("C-6d FAIL: 一部の heart-f で二等分が成立しない -- 詳細=", c6dResults, "\n");
+fi;
+
+## --- C-6e(推奨, 裁定 674): 合成則 (2.52)/(2.55) の乗積表 ---------------------
+## 出典: 同ノート L79-83(Prop 2.14 (2.52)・Remark 2.15 practical (2.55)、画像
+## 照合済 p.23)。practical 合成: [(m2,f2)]∘[(m1,f1)] = [(m,f)] で
+##   m := 2*m1*m2 + m1 + m2 (mod N_ord=6)
+##   f(x,y) := f2(x,y) * f1(x^{2m2+1}, f2(x,y)^{-1} y^{2m2+1} f2(x,y))
+## 全て N19 の自己射(Hom(N19,N19))を想定。heartPairs(12 元)で乗積表を作り
+## 閉じるか(悉皆)、閉じれば GroupByMultiplicationTable で群を再構成し
+## D6 = DihedralGroup(12)(位数 12 の二面体群、r^6=s^2=(rs)^2=1)と同型か検査。
+Print("\n=== C-6e: 合成則 (2.52)/(2.55) 乗積表・D6 同型(推奨, 裁定 674)===\n");
+heartElems := heartPairs;;
+nHeart := Length(heartElems);;
+
+ComposeHeart := function(s2, s1)
+  local m1, m2, e2, w1, u2, xSub, ySub, f1SubbedElem;
+  m2 := s2[2];;  m1 := s1[2];;
+  e2 := passC5[s2[1]];;              ## f2 の Gc5 での像
+  w1 := wordsC5[s1[1]];;             ## f1 の FG2c5 内の語
+  u2 := 2*m2+1;;
+  xSub := gXc5^u2;;
+  ySub := e2^-1 * gYc5^u2 * e2;;
+  f1SubbedElem := MappedWord(w1, GeneratorsOfGroup(FG2c5), [xSub, ySub]);;
+  return [ (2*m1*m2 + m1 + m2) mod 6, e2 * f1SubbedElem ];;
+end;;
+
+IdentifyHeart := function(mc, fc)
+  local k;
+  for k in [1..nHeart] do
+    if (heartElems[k][2] = mc) and (passC5[heartElems[k][1]] = fc) then
+      return k;;
+    fi;
+  od;
+  return fail;;
+end;;
+
+mulTable := List([1..nHeart], hi -> List([1..nHeart], hj -> 0));;
+nClosureFail := 0;;
+for hi in [1..nHeart] do
+  for hj in [1..nHeart] do
+    hComp := ComposeHeart(heartElems[hi], heartElems[hj]);;
+    hIdx := IdentifyHeart(hComp[1], hComp[2]);;
+    if hIdx = fail then
+      nClosureFail := nClosureFail + 1;;
+      mulTable[hi][hj] := -1;;
+    else
+      mulTable[hi][hj] := hIdx;;
+    fi;
+  od;
+od;
+Print("C-6e: 合成閉包の失敗数 = ", nClosureFail, " / ", nHeart*nHeart, " 積(期待 0)\n");
+c6eClosureOK := (nHeart = 12) and (nClosureFail = 0);;
+c6eIsD6 := false;;
+sizeGheart := 0;;
+if c6eClosureOK then
+  Gheart := GroupByMultiplicationTable(mulTable);;
+  sizeGheart := Size(Gheart);;
+  Print("C-6e: GroupByMultiplicationTable の位数 = ", sizeGheart, " (expect 12)\n");
+  if sizeGheart = 12 then
+    D6 := DihedralGroup(12);;
+    c6eIsD6 := (IdGroup(Gheart) = IdGroup(D6));;
+  fi;
+  Print("C-6e: GT-heart(N19) =~= D6(位数12・r^6=s^2=(rs)^2=1)? ", c6eIsD6, "\n");
+else
+  Print("C-6e: 合成が閉じない、または heart 元が 12 でない -- 群再構成/同型検査は不能\n");
+fi;
+c6eOK := c6eClosureOK and (sizeGheart = 12) and c6eIsD6;;
+if c6eOK then
+  Print("C-6e PASS: GT-heart(N19) の乗積表は 12 元で閉じ、D6 と同型\n");
+else
+  Print("C-6e FAIL/SKIP: 詳細は上記(closure/isomorphism)を参照\n");
 fi;
 
 Print("\nALL_DONE\n");
