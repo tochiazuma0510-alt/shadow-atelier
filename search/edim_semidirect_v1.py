@@ -7,7 +7,14 @@ Commissioned: 裁定646 (via 司令塔, this session), implementer scope = data
 structures + bracket formula + delta_X/delta_Y recursion + rho bracket-tree
 re-evaluation + calibration C-1..C-3, THEN STOP AND REPORT at C-4 (C-4 must
 match search/certs/edim56_20260806.json exactly -- lifeline check, per
-instruction). k=7+ is NOT run by this pass.
+instruction). k=7+ was not run by that original pass.
+
+Acceleration wave 112e (2026-08-06) adds an exact production backend for
+k=3..12 feasibility.  It computes H first, evaluates only nu_k o j on H by
+degree-one rho substitution in the tagged ambient tensor algebras, and takes
+rank there using the injective free-Lie/PBW embedding.  The legacy delta-table
+and full-rho functions remain below as an independent small-degree comparison
+path; production no longer constructs either object.
 
 Model (design doc SS1): t = n rtimes h, n = Lie(A,B,C) free, h = Lie(X,Y)
 free. Bracket: [(n1,h1),(n2,h2)] = ([n1,n2] + delta_h1(n2) - delta_h2(n1),
@@ -31,15 +38,12 @@ edim56_prediction.md SS1). theta: x<->y. tau: x->y, y->-x-y.
 S_k := H_k cap ker(nu_k . j), nu_k = sum_{i=0}^4 rho^i.
 
 Implementation strategy (free Lie algebra via Lyndon words + standard
-bracketing, NOT the ideal-quotient method): every graded piece is
-represented BOTH as (a) a basis of Lyndon bracket-trees (explicit nested
-tuples, needed for the delta/rho recursions per design doc SS5.1) and (b) a
-basis-coordinate vector space, with conversion via a one-time linear solve
-per Lyndon basis (Gaussian elimination mod p) expressing each basis
-element's "plain embedding as an associative word" in terms of that same
-basis (trivially the identity by construction) and, more importantly,
-expressing arbitrary computed ambient vectors (e.g. delta_X(A)=[A,B]) in
-basis coordinates.
+bracketing, NOT the ideal-quotient method): the compatibility path keeps
+Lyndon trees, ambient associative-word expansions, and basis coordinates.
+Its sparse coordinate conversion uses the unit-triangular leading-word
+property of the standard Lyndon basis, with a residual-zero check.  The 112e
+production S-map bypasses n-side coordinates completely and evaluates the
+semidirect bracket directly on sparse ABC/XY associative-word dictionaries.
 
 Two-prime cross-check (S-ED-3 discipline, matches search/certs/
 edim56_20260806.json's own convention): all linear algebra done mod two
@@ -56,8 +60,8 @@ import numpy as np
 PRIMES = [2147483647, 998244353]
 
 # ===========================================================================
-# Lyndon word combinatorics (brute force -- alphabet size <=3, degree <=6 in
-# this pass, totally tractable: 3^6=729 candidate words at the largest case).
+# Lyndon word combinatorics (brute force; the production path constructs only
+# the two-letter h side, so degree 12 still scans just 2^12 words).
 # ===========================================================================
 
 def rotations(w):
@@ -221,25 +225,8 @@ def mat_mul_modp_np(A, B, p):
     return (A @ B) % p
 
 
-def mat_mul_modp_np_safe(A, B, p):
-    """Overflow-SAFE numpy matmul mod p for ANY p up to ~3e9 (works for the
-    large primes 2147483647/998244353 too, where mat_mul_modp_np's raw `@`
-    silently overflows int64: a plain dot-product sum of >1 terms each up to
-    (p-1)^2~4.6e18 blows past int64's ~9.22e18 ceiling immediately).
-
-    Computes the matmul as a sequence of RANK-1 (outer-product) updates over
-    the contraction dimension K, taking `% p` after EVERY update -- each
-    individual outer-product entry is a SINGLE product (safe: <=(p-1)^2,
-    within int64 range with >2x headroom) and the running accumulator is
-    always kept < p before the next update is added (accumulator + one
-    outer-product entry <= p + (p-1)^2, still safely within int64). This is
-    O(M*N*K) numpy-vectorized element-ops (K sequential calls, each
-    vectorized over M*N) -- slower per FLOP than a single BLAS `@` call, but
-    the only correct option at this prime size without a float64 hi/lo split
-    (not implemented here). Cost mitigation is the CALLER's job: keep N
-    (output width) as small as the actual need allows, e.g. restrict to just
-    the h-block columns needed for nu_k.j rather than the full dim_t x dim_t
-    matrix (see edim_run_c9_11.py)."""
+def _mat_mul_modp_np_safe_rank1(A, B, p):
+    """Low-memory fallback used only if the limb-split int64 bound fails."""
     A = np.asarray(A, dtype=np.int64) % p
     B = np.asarray(B, dtype=np.int64) % p
     M, K = A.shape
@@ -251,21 +238,55 @@ def mat_mul_modp_np_safe(A, B, p):
     return acc
 
 
-def mat_vec_modp_np_safe(A, v, p):
-    """Safe matrix-VECTOR product mod p for large p (same overflow concern
-    as mat_mul_modp_np_safe; a plain vector-length dot product also
-    overflows for large p, so this uses the same rank-1-accumulation
-    approach, specialized for a single output column)."""
+def mat_mul_modp_np_safe(A, B, p):
+    """Exact overflow-safe modular matmul, accelerated with two int64 limbs.
+
+    A raw int64 ``A @ B`` is invalid for the large EDIM primes: two terms of
+    size roughly ``p^2`` can already overflow.  Split every residue exactly
+    as ``x = x0 + 2^15*x1`` and perform the four limb products with integer
+    BLAS instead.  Each raw dot product is then bounded by
+
+        K * max(2^15-1, floor((p-1)/2^15))^2.
+
+    The EDIM range (p <= 2^31-1 and K <= 44,555 through degree 12) is below
+    2^48, far inside int64.  Recombination is also below 2.4e18.  The bound
+    is checked at runtime; an unexpectedly larger input uses the slower
+    rank-1 implementation above rather than risking silent overflow.  No
+    floating-point arithmetic is used anywhere in this routine.
+    """
     A = np.asarray(A, dtype=np.int64) % p
-    v = np.asarray(v, dtype=np.int64) % p
+    B = np.asarray(B, dtype=np.int64) % p
     M, K = A.shape
-    assert K == len(v)
-    acc = np.zeros(M, dtype=np.int64)
-    for k in range(K):
-        if v[k] == 0:
-            continue
-        acc = (acc + A[:, k] * int(v[k])) % p
-    return acc
+    K2, N = B.shape
+    assert K == K2
+    if K == 0:
+        return np.zeros((M, N), dtype=np.int64)
+
+    limb_bits = 15
+    limb_base = 1 << limb_bits
+    limb_mask = limb_base - 1
+    high_max = (p - 1) >> limb_bits
+    raw_bound = K * max(limb_mask, high_max) ** 2
+    recombine_bound = ((p - 1) + limb_base * (p - 1)
+                       + limb_base * limb_base * (p - 1))
+    int64_max = np.iinfo(np.int64).max
+    if raw_bound > int64_max or recombine_bound > int64_max:
+        return _mat_mul_modp_np_safe_rank1(A, B, p)
+
+    A0 = A & limb_mask
+    A1 = A >> limb_bits
+    B0 = B & limb_mask
+    B1 = B >> limb_bits
+    C00 = (A0 @ B0) % p
+    C01 = ((A0 @ B1) % p + (A1 @ B0) % p) % p
+    C11 = (A1 @ B1) % p
+    return (C00 + limb_base * C01 + (limb_base * limb_base) * C11) % p
+
+
+def mat_vec_modp_np_safe(A, v, p):
+    """Exact large-prime-safe matrix-vector specialization."""
+    v = np.asarray(v, dtype=np.int64).reshape((-1, 1))
+    return mat_mul_modp_np_safe(A, v, p)[:, 0]
 
 
 def mat_pow_modp_np(A, e, p):
@@ -274,16 +295,14 @@ def mat_pow_modp_np(A, e, p):
     base = A.copy()
     while e > 0:
         if e & 1:
-            R = mat_mul_modp_np(R, base, p)
-        base = mat_mul_modp_np(base, base, p)
+            R = mat_mul_modp_np_safe(R, base, p)
+        base = mat_mul_modp_np_safe(base, base, p)
         e >>= 1
     return R
 
 
 def rank_modp_np(mat, p):
-    """mat: numpy int64 array (any shape). Rank via vectorized elimination
-    (same algorithm as _mat_inv_modp_numpy's forward pass, no back-solve
-    needed -- just count pivots found)."""
+    """Exact rank over GF(p), using forward row elimination only."""
     M = np.array(mat, dtype=np.int64) % p
     nrows, ncols = M.shape
     if nrows == 0 or ncols == 0:
@@ -300,13 +319,93 @@ def rank_modp_np(mat, p):
         if r != row:
             M[[row, r]] = M[[r, row]]
         inv = modinv(int(M[row, col]) % p, p)
-        M[row, :] = (M[row, :] * inv) % p
-        colvals = M[:, col].copy()
-        colvals[row] = 0
-        M = (M - np.outer(colvals, M[row, :])) % p
+        M[row, col:] = (M[row, col:] * inv) % p
+        if row + 1 < nrows:
+            factors = M[row + 1:, col].copy()
+            M[row + 1:, col:] = (M[row + 1:, col:]
+                                  - np.outer(factors, M[row, col:])) % p
         rank += 1
         row += 1
     return rank
+
+
+def nullspace_modp_np(mat, p):
+    """Return a column basis for the right nullspace of ``mat`` over GF(p).
+
+    The matrices here are the small theta/tau constraint blocks (at most a
+    few hundred columns through k=12).  Full RREF is therefore inexpensive,
+    and every row update is one scalar product followed immediately by mod
+    p, so it has the same large-prime int64 safety as rank_modp_np.
+    """
+    M = np.array(mat, dtype=np.int64) % p
+    nrows, ncols = M.shape
+    row = 0
+    pivot_cols = []
+    for col in range(ncols):
+        if row >= nrows:
+            break
+        nz = np.nonzero(M[row:, col] != 0)[0]
+        if len(nz) == 0:
+            continue
+        r = row + int(nz[0])
+        if r != row:
+            M[[row, r]] = M[[r, row]]
+        inv = modinv(int(M[row, col]), p)
+        M[row, :] = (M[row, :] * inv) % p
+        factors = M[:, col].copy()
+        factors[row] = 0
+        M = (M - np.outer(factors, M[row, :])) % p
+        pivot_cols.append(col)
+        row += 1
+
+    pivot_set = set(pivot_cols)
+    free_cols = [c for c in range(ncols) if c not in pivot_set]
+    basis = np.zeros((ncols, len(free_cols)), dtype=np.int64)
+    for j, free_col in enumerate(free_cols):
+        basis[free_col, j] = 1
+        for r, pivot_col in enumerate(pivot_cols):
+            basis[pivot_col, j] = (-M[r, free_col]) % p
+
+    # Fail closed: this is cheap at EDIM's h-dimensions and catches any
+    # regression in the RREF/nullspace construction immediately.
+    if basis.shape[1] and np.any(mat_mul_modp_np_safe(np.asarray(mat), basis, p)):
+        raise ValueError("nullspace_modp_np verification FAILED")
+    return basis
+
+
+def sparse_column_space_basis_modp_np(mat, p):
+    """Choose a light exact basis from the *original* columns of ``mat``.
+
+    Columns are considered by increasing nnz count, then reduced against a
+    sparse echelon dictionary over GF(p).  Returning original rather than
+    RREF-generated columns materially reduces the fan-out when an H-basis is
+    later distributed over ambient rho images.
+    """
+    original = np.asarray(mat, dtype=np.int64) % p
+    nrows, ncols = original.shape
+    order = sorted(range(ncols), key=lambda c: (int(np.count_nonzero(original[:, c])), c))
+    pivots = {}
+    selected = []
+    for column in order:
+        dense = original[:, column]
+        vec = {int(row): int(dense[row]) for row in np.nonzero(dense)[0]}
+        while vec:
+            pivot = min(vec)
+            old = pivots.get(pivot)
+            if old is None:
+                inv = modinv(vec[pivot], p)
+                vec = {row: (value * inv) % p for row, value in vec.items() if value % p}
+                pivots[pivot] = vec
+                selected.append(column)
+                break
+            factor = vec[pivot]
+            for row, value in old.items():
+                new_value = (vec.get(row, 0) - factor * value) % p
+                if new_value:
+                    vec[row] = new_value
+                else:
+                    vec.pop(row, None)
+    return original[:, selected]
 
 
 # ===========================================================================
@@ -338,15 +437,22 @@ def word_bracket(u, v, p):
     return {w: c for w, c in out.items() if c % p != 0}
 
 
-def eval_plain_tree(tree, leaf_vecs, p):
+def eval_plain_tree(tree, leaf_vecs, p, cache=None):
     """Evaluate a Lyndon bracket tree using PLAIN word_bracket, substituting
     leaf letter -> ambient vector (dict) via leaf_vecs."""
+    cache_key = id(tree)
+    if cache is not None and cache_key in cache:
+        return cache[cache_key]
     if tree[0] == 'leaf':
-        return dict(leaf_vecs[tree[1]])
-    _, lt, rt, dl, dr, u, v = tree
-    lv = eval_plain_tree(lt, leaf_vecs, p)
-    rv = eval_plain_tree(rt, leaf_vecs, p)
-    return word_bracket(lv, rv, p)
+        result = dict(leaf_vecs[tree[1]])
+    else:
+        _, lt, rt, dl, dr, u, v = tree
+        lv = eval_plain_tree(lt, leaf_vecs, p, cache)
+        rv = eval_plain_tree(rt, leaf_vecs, p, cache)
+        result = word_bracket(lv, rv, p)
+    if cache is not None:
+        cache[cache_key] = result
+    return result
 
 
 class SparseFillinExceeded(Exception):
@@ -358,163 +464,78 @@ class SparseFillinExceeded(Exception):
 
 
 def build_sparse_solver(basis, p, fillin_threshold=0.30, degree_label=""):
-    """Sparse Gauss-Jordan (full RREF, not just triangular) pivot elimination
-    for a Lyndon basis (list of dicts word->coeff, i.e. self.ambient[k]) --
-    per docs/notes/edim_sparse_solver_design_v1.md SS2.2. Picks basis_dim
-    independent AMBIENT-WORD pivot rows via a Markowitz-lite rule (fewest
-    existing row-entries first, to limit fill-in).
+    """Build the exact unit-triangular solver for a standard Lyndon basis.
 
-    aug_data[row_word] tracks "row_word's CURRENT state, as a linear
-    combination of ORIGINAL rows" (dict: original_row_word -> coefficient),
-    lazily initialized to {row_word: 1} the first time a row is touched.
-    Standard Gauss-Jordan invariant: since elimination only ever subtracts a
-    multiple of the CURRENT pivot row (never a non-pivot row) from another
-    row, by induction every row's aug_data ends up supported ONLY on
-    {rows that have already served as a pivot} -- so once ALL basis_dim
-    columns are processed, aug_data[piv_rows[i]] is supported entirely on
-    piv_rows, and re-indexing by pivot SLOT (piv_rows[j] -> j) gives exactly
-    row i of the ORIGINAL pivot submatrix's inverse. This is the standard
-    Gauss-Jordan [A|I] -> [I|A^-1] identity, just with I's rows/cols
-    identified lazily by word instead of a pre-declared index.
+    For the standard bracketing ``[w]`` of a Lyndon word ``w``, its
+    associative expansion is ``w`` with coefficient one plus words strictly
+    larger than ``w`` in lexicographic order.  Since ``GradedLie`` stores the
+    Lyndon words in that same order, the ambient-word/basis matrix already
+    has a canonical unit-triangular pivot block.  Generic Markowitz
+    Gauss-Jordan was therefore doing substantial work to rediscover a
+    theorem-built pivot order and creating an inverse that is not needed.
 
-    All row/col data are dict-of-dicts (row_word -> {col_idx: value}, and
-    col_idx -> {row_word: value}), i.e. no ambient_dim-sized dense array is
-    ever allocated (the fix for the dense solver's ~23GB blocker at k=11).
-
-    Correctness/overflow: every elimination step is a SCALAR multiply of a
-    sparse row (single-term products, safe for p up to ~2^31, same
-    reasoning as the dense solver's outer-product updates) followed by a
-    sparse subtract -- no raw multi-term dot-product sum is ever taken, so
-    this is large-prime-safe without further changes.
-
-    Returns a solver dict: {piv_rows, pivot_sub_inv (dict-of-dicts,
-    basis_dim x basis_dim, SLOT-indexed), basis_dim, fillin_ratio, nnz_*}.
-    Raises SparseFillinExceeded if the running total nnz count (main block
-    only) ever exceeds fillin_threshold * basis_dim^2.
+    We check the triangular hypotheses for every column at runtime and fail
+    closed if a caller ever supplies a different basis.  Coordinate solving
+    then subtracts basis columns in pivot order; an empty final residual is
+    an exact recombination check.  There is no fill-in and no dense ambient
+    allocation.  ``fillin_threshold`` remains in the signature for backward
+    API compatibility but is immaterial for this Lyndon-specific solver.
     """
     basis_dim = len(basis)
     if basis_dim == 0:
-        return {"piv_rows": [], "pivot_sub_inv": {}, "basis_dim": 0,
+        return {"piv_rows": [], "pivot_coeff_inv": [], "basis": basis,
+                "solver_kind": "lyndon_unit_triangular", "basis_dim": 0,
                 "fillin_ratio": 0.0, "nnz_final": 0, "nnz_initial": 0, "max_nnz_seen": 0}
-
-    row_data = {}          # row_word -> {col_idx: value}
-    col_data = [dict() for _ in range(basis_dim)]  # col_idx -> {row_word: value}
+    piv_rows = []
+    pivot_coeff_inv = []
+    previous = None
+    nnz_initial = 0
     for c, bvec in enumerate(basis):
-        for w, coef in bvec.items():
-            v = coef % p
-            if v == 0:
-                continue
-            col_data[c][w] = v
-            row_data.setdefault(w, {})[c] = v
-    nnz_initial = sum(len(d) for d in col_data)
-    nnz_current = nnz_initial
+        cleaned = [(w, coef % p) for w, coef in bvec.items() if coef % p]
+        if not cleaned:
+            raise ValueError(f"build_sparse_solver({degree_label}): zero basis column {c}")
+        pivot = min(w for w, _ in cleaned)
+        if previous is not None and pivot <= previous:
+            raise ValueError(f"build_sparse_solver({degree_label}): Lyndon pivots are not "
+                             f"strictly increasing at column {c}")
+        coeff = bvec[pivot] % p
+        if coeff == 0:
+            raise ValueError(f"build_sparse_solver({degree_label}): zero pivot at column {c}")
+        piv_rows.append(pivot)
+        pivot_coeff_inv.append(modinv(coeff, p))
+        previous = pivot
+        nnz_initial += len(cleaned)
 
-    aug_data = {}  # row_word -> {original_row_word: coeff}
-
-    def get_aug(w):
-        if w not in aug_data:
-            aug_data[w] = {w: 1 % p}
-        return aug_data[w]
-
-    used_rows = set()
-    piv_rows = [None] * basis_dim
-    # For small basis_dim, a dense-relative threshold is meaningless (even
-    # an identity matrix is already >30% "dense" at basis_dim<~4) -- give a
-    # floor so the check only bites where it's actually meaningful (matches
-    # the k=9,10,11 scale this module targets; k<~50 skips the check
-    # entirely, which is fine since the dense solver already handles those).
-    max_nnz_budget = max(fillin_threshold * basis_dim * basis_dim, nnz_initial * 20, 10000)
-    max_nnz_seen = nnz_initial
-
-    for c in range(basis_dim):
-        candidates = [w for w, v in col_data[c].items() if w not in used_rows and v % p != 0]
-        if not candidates:
-            raise ValueError(f"build_sparse_solver({degree_label}): no available pivot for column "
-                              f"{c} -- basis is not full column rank (should not happen)")
-        r = min(candidates, key=lambda w: len(row_data.get(w, {})))  # Markowitz-lite
-        used_rows.add(r)
-        piv_rows[c] = r
-
-        inv = modinv(col_data[c][r], p)
-        row_r = row_data.get(r, {})
-        for cc in list(row_r.keys()):
-            row_r[cc] = (row_r[cc] * inv) % p
-            col_data[cc][r] = row_r[cc]
-        aug_r = get_aug(r)
-        for k_, v_ in list(aug_r.items()):
-            aug_r[k_] = (v_ * inv) % p
-
-        other_rows = [w for w, v in col_data[c].items() if w != r and v % p != 0]
-        for r2 in other_rows:
-            factor = col_data[c][r2]
-            if factor % p == 0:
-                continue
-            row2 = row_data.setdefault(r2, {})
-            for cc, vv in row_r.items():
-                was_present = cc in row2
-                newv = (row2.get(cc, 0) - factor * vv) % p
-                if newv == 0:
-                    if was_present:
-                        row2.pop(cc, None)
-                        col_data[cc].pop(r2, None)
-                        nnz_current -= 1
-                else:
-                    if not was_present:
-                        nnz_current += 1
-                    row2[cc] = newv
-                    col_data[cc][r2] = newv
-            aug2 = get_aug(r2)
-            for k_, v_ in aug_r.items():
-                newv = (aug2.get(k_, 0) - factor * v_) % p
-                if newv == 0:
-                    aug2.pop(k_, None)
-                else:
-                    aug2[k_] = newv
-
-        if nnz_current > max_nnz_seen:
-            max_nnz_seen = nnz_current
-        if nnz_current > max_nnz_budget:
-            raise SparseFillinExceeded(
-                f"build_sparse_solver({degree_label}): nnz={nnz_current} exceeded budget "
-                f"{max_nnz_budget:.0f} (threshold={fillin_threshold}, basis_dim={basis_dim}) "
-                f"at column {c}/{basis_dim} -- SPARSE_FILLIN_EXCEEDED / STOP per design spec SS2.2")
-
-    word_to_slot = {r: i for i, r in enumerate(piv_rows)}
-    pivot_sub_inv = {}
-    for i, r in enumerate(piv_rows):
-        row_combo = aug_data.get(r, {r: 1 % p})
-        stray = [w for w in row_combo if w not in word_to_slot and row_combo[w] % p != 0]
-        if stray:
-            raise ValueError(f"build_sparse_solver({degree_label}): aug_data for pivot slot {i} "
-                              f"references {len(stray)} non-pivot word(s) -- Gauss-Jordan invariant "
-                              f"violated (implementation bug, not a fill-in issue)")
-        pivot_sub_inv[i] = {word_to_slot[w]: v for w, v in row_combo.items() if v % p != 0}
-
-    return {"piv_rows": piv_rows, "pivot_sub_inv": pivot_sub_inv, "basis_dim": basis_dim,
-            "fillin_ratio": max_nnz_seen / max(1, basis_dim * basis_dim),
-            "nnz_final": nnz_current, "nnz_initial": nnz_initial, "max_nnz_seen": max_nnz_seen}
+    return {"piv_rows": piv_rows, "pivot_coeff_inv": pivot_coeff_inv, "basis": basis,
+            "solver_kind": "lyndon_unit_triangular", "basis_dim": basis_dim,
+            "fillin_ratio": nnz_initial / max(1, basis_dim * basis_dim),
+            "nnz_final": basis_dim, "nnz_initial": nnz_initial,
+            "max_nnz_seen": nnz_initial}
 
 
 def sparse_solve_coords(solver, vec, p):
-    """Given a solver from build_sparse_solver and a target ambient vector
-    (dict word->coeff), returns the coordinate vector (list length
-    basis_dim). coord[j] = sum_i pivot_sub_inv[j][i] * vec[piv_rows[i]] --
-    sparse dot product, safe for large p via immediate per-term reduction
-    (same overflow-avoidance pattern as mat_vec_modp_np_safe)."""
+    """Exact Lyndon triangular solve, with residual-zero span verification."""
     basis_dim = solver["basis_dim"]
     piv_rows = solver["piv_rows"]
-    pivot_sub_inv = solver["pivot_sub_inv"]
-    v_piv = [vec.get(piv_rows[i], 0) % p for i in range(basis_dim)]
+    pivot_coeff_inv = solver["pivot_coeff_inv"]
+    basis = solver["basis"]
+    residual = {w: c % p for w, c in vec.items() if c % p}
     coord = [0] * basis_dim
     for j in range(basis_dim):
-        acc = 0
-        row = pivot_sub_inv[j]
-        for i, val in row.items():
-            vi = v_piv[i]
-            if vi == 0 or val == 0:
-                continue
-            acc = (acc + val * vi) % p
-        coord[j] = acc
+        c = (residual.get(piv_rows[j], 0) * pivot_coeff_inv[j]) % p
+        if c == 0:
+            continue
+        coord[j] = c
+        for w, value in basis[j].items():
+            new_value = (residual.get(w, 0) - c * value) % p
+            if new_value:
+                residual[w] = new_value
+            else:
+                residual.pop(w, None)
+    if residual:
+        smallest = min(residual)
+        raise ValueError("sparse_solve_coords verification FAILED: target is not in the "
+                         f"Lyndon span (smallest residual word={smallest!r})")
     return coord
 
 
@@ -549,7 +570,9 @@ class GradedLie:
             trees = [bracket_tree_of_lyndon_word(w) for w in ws]
             self.trees[k] = trees
             identity_leaf = {i: {(i,): 1 % p} for i in range(alphabet_size)}
-            self.ambient[k] = [eval_plain_tree(t, identity_leaf, p) for t in trees]
+            if k == 1:
+                plain_cache = {}
+            self.ambient[k] = [eval_plain_tree(t, identity_leaf, p, plain_cache) for t in trees]
             self.dim[k] = len(ws)
 
     def _get_solver(self, degree):
@@ -651,28 +674,26 @@ class GradedLie:
                 degree_label=f"alphabet{self.alphabet_size}_k{degree}")
         solver = self._sparse_solver_cache[degree]
         coord = sparse_solve_coords(solver, vec, p)
-        # sparse verification: recombine and compare only on the union of
-        # touched words (both sides are sparse dicts already)
-        recomb = {}
-        basis = self.ambient[degree]
-        for j, c in enumerate(coord):
-            if c % p == 0:
-                continue
-            for w, coef in basis[j].items():
-                v = (coef * c) % p
-                if v == 0:
-                    continue
-                recomb[w] = (recomb.get(w, 0) + v) % p
-        recomb = {w: v for w, v in recomb.items() if v % p != 0}
-        target = {w: (v % p) for w, v in vec.items() if v % p != 0}
-        if recomb != target:
-            raise ValueError(f"_coords_of_ambient_sparse verification FAILED at degree {degree}: "
-                              f"recombination mismatch (basis may not span the target vector)")
+        # sparse_solve_coords maintains target - sum(coord[j]*basis[j]) as
+        # an exact sparse residual and refuses to return unless it is empty;
+        # that is the same full recombination check without a second pass.
         return coord
 
     def coords_to_ambient(self, degree, coords):
         basis = self.ambient[degree]
-        return word_add([scale_vec(basis[i], c, self.p) for i, c in enumerate(coords) if c % self.p != 0], self.p)
+        p = self.p
+        out = {}
+        for i, c in enumerate(coords):
+            c %= p
+            if c == 0:
+                continue
+            for w, value in basis[i].items():
+                new_value = (out.get(w, 0) + c * value) % p
+                if new_value:
+                    out[w] = new_value
+                else:
+                    out.pop(w, None)
+        return out
 
 
 def scale_vec(vec, c, p):
@@ -702,6 +723,314 @@ def _delta_base_table(p):
         ('X', 'A'): AB, ('X', 'B'): neg_AB, ('X', 'C'): {},
         ('Y', 'A'): {}, ('Y', 'B'): BC, ('Y', 'C'): neg_BC,
     }
+
+
+def witt_dimension(alphabet_size, degree):
+    """Witt dimension of the degree-``degree`` free Lie piece (integer)."""
+    def mobius(n):
+        factors = 0
+        q = n
+        d = 2
+        while d * d <= q:
+            if q % d == 0:
+                q //= d
+                factors += 1
+                if q % d == 0:
+                    return 0
+                while q % d == 0:
+                    q //= d
+            d += 1
+        if q > 1:
+            factors += 1
+        return -1 if factors % 2 else 1
+
+    total = 0
+    for d in range(1, degree + 1):
+        if degree % d == 0:
+            total += mobius(d) * alphabet_size ** (degree // d)
+    return total // degree
+
+
+def delta_letter_on_nambient(letter, n_vec, p, base_table=None):
+    """Apply delta_X/delta_Y directly to an associative ABC polynomial.
+
+    This is the exact Leibniz extension of the three generator images in
+    _delta_base_table.  Keeping the production rho-orbit evaluation in the
+    ambient tensor algebra removes all intermediate Lyndon coordinate solves
+    and the precomputed delta table; conversion is unnecessary for rank by
+    injectivity of the standard free-Lie embedding.
+    """
+    if not n_vec:
+        return {}
+    letter_index = letter if isinstance(letter, int) else 'XY'.index(letter)
+    if letter_index == 0:
+        first, second = 0, 1
+    else:
+        first, second = 1, 2
+    out = {}
+    for word, coeff in n_vec.items():
+        coeff %= p
+        if coeff == 0:
+            continue
+        for pos, generator in enumerate(word):
+            if generator == first:
+                signed_coeff = coeff
+            elif generator == second:
+                signed_coeff = -coeff
+            else:
+                continue
+            prefix = word[:pos]
+            suffix = word[pos + 1:]
+            word_pos = prefix + (first, second) + suffix
+            word_neg = prefix + (second, first) + suffix
+            value = (out.get(word_pos, 0) + signed_coeff) % p
+            if value:
+                out[word_pos] = value
+            else:
+                out.pop(word_pos, None)
+            value = (out.get(word_neg, 0) - signed_coeff) % p
+            if value:
+                out[word_neg] = value
+            else:
+                out.pop(word_neg, None)
+    return out
+
+
+def delta_h_on_nambient(h_vec, n_vec, p, base_table=None):
+    """Apply an ambient XY Lie polynomial as a derivation to ``n_vec``.
+
+    The universal-enveloping word X_1...X_r acts as the composition
+    delta_X1 o ... o delta_Xr, hence letters are applied right-to-left.
+    A per-call suffix cache shares the repeated compositions among the
+    associative words in a bracket expansion.
+    """
+    if not h_vec or not n_vec:
+        return {}
+    if base_table is None:
+        base_table = _delta_base_table(p)
+    action_cache = {(): n_vec}
+
+    def apply_word(word):
+        if word in action_cache:
+            return action_cache[word]
+        inner = apply_word(word[1:])
+        value = delta_letter_on_nambient(word[0], inner, p, base_table)
+        action_cache[word] = value
+        return value
+
+    out = {}
+    for h_word, h_coeff in h_vec.items():
+        h_coeff %= p
+        if h_coeff == 0:
+            continue
+        acted = apply_word(h_word)
+        for n_word, value in acted.items():
+            new_value = (out.get(n_word, 0) + h_coeff * value) % p
+            if new_value:
+                out[n_word] = new_value
+            else:
+                out.pop(n_word, None)
+    return out
+
+
+def delta_hexpr_on_nambient(h_expr, n_vec, p, base_table=None, cache=None):
+    """Apply a bracket-DAG h expression without expanding it into XY words."""
+    if h_expr is None or not n_vec:
+        return {}
+    cache_key = (id(h_expr), id(n_vec))
+    if cache is not None and cache_key in cache:
+        saved_expr, saved_vec, result = cache[cache_key]
+        if saved_expr is h_expr and saved_vec is n_vec:
+            return result
+    if h_expr[0] == 'lin':
+        dx = delta_letter_on_nambient(0, n_vec, p, base_table) if h_expr[1] else {}
+        dy = delta_letter_on_nambient(1, n_vec, p, base_table) if h_expr[2] else {}
+        result = word_add([scale_vec(dx, h_expr[1], p),
+                           scale_vec(dy, h_expr[2], p)], p)
+    else:
+        _, left, right = h_expr
+        step_right = delta_hexpr_on_nambient(right, n_vec, p, base_table, cache)
+        left_then = delta_hexpr_on_nambient(left, step_right, p, base_table, cache)
+        step_left = delta_hexpr_on_nambient(left, n_vec, p, base_table, cache)
+        right_then = delta_hexpr_on_nambient(right, step_left, p, base_table, cache)
+        result = word_add([left_then, scale_vec(right_then, -1, p)], p)
+    if cache is not None:
+        # Retaining both input objects makes the id-based key collision-safe.
+        cache[cache_key] = (h_expr, n_vec, result)
+    return result
+
+
+def t_bracket_ambient(e1, e2, p, base_table=None, action_cache=None):
+    """Semidirect bracket entirely in the two ambient tensor algebras."""
+    n1, h1, h_expr1, d1 = e1
+    n2, h2, h_expr2, d2 = e2
+    if base_table is None:
+        base_table = _delta_base_table(p)
+    nn = word_bracket(n1, n2, p) if n1 and n2 else {}
+    dh1n2 = delta_hexpr_on_nambient(h_expr1, n2, p, base_table, action_cache)
+    dh2n1 = delta_hexpr_on_nambient(h_expr2, n1, p, base_table, action_cache)
+    n_out = word_add([nn, dh1n2, scale_vec(dh2n1, -1, p)], p)
+    h_out = word_bracket(h1, h2, p) if h1 and h2 else {}
+    h_expr_out = ('bracket', h_expr1, h_expr2) if h_out else None
+    return n_out, h_out, h_expr_out, d1 + d2
+
+
+def eval_tree_in_t_ambient(tree, leaf_images, p, cache=None, base_table=None,
+                           action_cache=None, cache_result=True):
+    """Evaluate a Lyndon tree in ambient semidirect form, with subtree memo.
+
+    ``cache_result=False`` is used for a degree-k root: its proper subtrees
+    are still memoized, but the nearly dense root dictionary is released
+    after it has been accumulated into the restricted nu columns.  This
+    prevents a cross-degree resident-memory staircase at k=11/12.
+    """
+    cache_key = id(tree)
+    if cache_result and cache is not None and cache_key in cache:
+        return cache[cache_key]
+    if tree[0] == 'leaf':
+        result = leaf_images[tree[1]]
+    else:
+        _, lt, rt, dl, dr, u, v = tree
+        left = eval_tree_in_t_ambient(
+            lt, leaf_images, p, cache, base_table, action_cache, cache_result=True)
+        right = eval_tree_in_t_ambient(
+            rt, leaf_images, p, cache, base_table, action_cache, cache_result=True)
+        result = t_bracket_ambient(left, right, p, base_table, action_cache)
+    if cache_result and cache is not None:
+        cache[cache_key] = result
+    return result
+
+
+def _rho_power_h_leaf_images_ambient(p):
+    """Ambient images of X,Y under rho^i, i=0,...,4 (degree one)."""
+    letters = ['A', 'B', 'C', 'X', 'Y']
+    rho = [[0] * 5 for _ in range(5)]
+    for col, letter in enumerate(letters):
+        n_coord, h_coord = RHO_DEG1[letter]
+        column = n_coord + h_coord
+        for row, value in enumerate(column):
+            rho[row][col] = value % p
+
+    current = ([0, 0, 0, 1, 0], [0, 0, 0, 0, 1])
+    powers = []
+    for _ in range(5):
+        images = {}
+        for leaf, vector in enumerate(current):
+            n_vec = {(i,): vector[i] % p for i in range(3) if vector[i] % p}
+            h_vec = {(i,): vector[3 + i] % p for i in range(2) if vector[3 + i] % p}
+            h_expr = ('lin', vector[3] % p, vector[4] % p) if h_vec else None
+            images[leaf] = (n_vec, h_vec, h_expr, 1)
+        powers.append(images)
+        next_vectors = []
+        for vector in current:
+            next_vectors.append([
+                sum(rho[row][col] * vector[col] for col in range(5)) % p
+                for row in range(5)
+            ])
+        current = tuple(next_vectors)
+
+    # The design's degree-one rho^5=id check is repeated here because these
+    # powers drive the optimized production path.
+    expected = ([0, 0, 0, 1, 0], [0, 0, 0, 0, 1])
+    for got, want in zip(current, expected):
+        if [x % p for x in got] != want:
+            raise ValueError("rho^5 degree-one verification FAILED")
+    return powers
+
+
+def rank_sparse_vectors_modp(vectors, p):
+    """Exact rank of sparse column vectors (dict row-key -> coefficient)."""
+    pivots = {}
+    for original in vectors:
+        vec = {key: value % p for key, value in original.items() if value % p}
+        while vec:
+            pivot = min(vec)
+            old = pivots.get(pivot)
+            if old is None:
+                inv = modinv(vec[pivot], p)
+                vec = {key: (value * inv) % p for key, value in vec.items() if value % p}
+                pivots[pivot] = vec
+                break
+            factor = vec[pivot]
+            for key, value in old.items():
+                new_value = (vec.get(key, 0) - factor * value) % p
+                if new_value:
+                    vec[key] = new_value
+                else:
+                    vec.pop(key, None)
+    return len(pivots)
+
+
+def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
+    """Rank of nu_k o j restricted to a supplied h_k column subspace.
+
+    Only the required columns are constructed.  Each rho^i is evaluated by
+    substituting its degree-one X,Y images into the h Lyndon trees, directly
+    in the ambient semidirect algebra.  The resulting n/h associative words
+    are tagged into a disjoint sparse row space.  The standard embeddings
+    Lie(A,B,C)->T(ABC) and Lie(X,Y)->T(XY) are injective, so sparse ambient
+    rank is exactly the desired coordinate rank (PBW/free-Lie embedding).
+    """
+    subspace_basis = np.asarray(subspace_basis, dtype=np.int64) % p
+    dim_h = h_alg.dim[k]
+    if subspace_basis.shape[0] != dim_h:
+        raise ValueError("rank_nu_j_on_subspace_ambient: wrong subspace row dimension")
+    subspace_dim = subspace_basis.shape[1]
+    if subspace_dim == 0:
+        return 0
+
+    state = getattr(h_alg, "_nu_ambient_state", None)
+    if state is None or state["p"] != p:
+        state = {
+            "p": p,
+            "leaf_images": _rho_power_h_leaf_images_ambient(p),
+            "tree_caches": [dict() for _ in range(5)],
+            "base_table": _delta_base_table(p),
+        }
+        h_alg._nu_ambient_state = state
+
+    restricted = [dict() for _ in range(subspace_dim)]
+    for basis_index, tree in enumerate(h_alg.trees[k]):
+        coefficients = subspace_basis[basis_index, :]
+        nonzero_columns = np.nonzero(coefficients)[0]
+        if len(nonzero_columns) == 0:
+            continue
+        nu_n = {}
+        nu_h = {}
+        for power in range(5):
+            # Derivation intermediates are useful only while evaluating this
+            # one new tree.  Keeping them in the cross-degree state caused a
+            # large resident-memory staircase at k=10/11 with no meaningful
+            # cross-root hit rate; retain only the much smaller tree results.
+            action_cache = {}
+            n_part, h_part, h_expr, degree = eval_tree_in_t_ambient(
+                tree, state["leaf_images"][power], p,
+                cache=state["tree_caches"][power], base_table=state["base_table"],
+                action_cache=action_cache, cache_result=False)
+            if degree != k:
+                raise ValueError("ambient rho evaluation returned wrong degree")
+            nu_n = word_add([nu_n, n_part], p)
+            nu_h = word_add([nu_h, h_part], p)
+
+        for column in nonzero_columns:
+            scalar = int(coefficients[column])
+            target = restricted[int(column)]
+            for word, value in nu_n.items():
+                key = (0,) + word
+                new_value = (target.get(key, 0) + scalar * value) % p
+                if new_value:
+                    target[key] = new_value
+                else:
+                    target.pop(key, None)
+            for word, value in nu_h.items():
+                key = (1,) + word
+                new_value = (target.get(key, 0) + scalar * value) % p
+                if new_value:
+                    target[key] = new_value
+                else:
+                    target.pop(key, None)
+
+    return rank_sparse_vectors_modp(restricted, p)
 
 
 def build_delta_table(n_alg: GradedLie, h_alg: GradedLie, kmax, p):
