@@ -3,6 +3,7 @@
 **状態札: `design only (v1.2) / paper-proof candidate / Sol 未監査 / GAP 実行ゼロ / 実測ゼロ / census 生成ゼロ / 封印非接触 / 発火請求なし`**
 **v1.1 追補: 【PIN-B4-1】§8 で閉・【GAP-B4-2】§9 で閉。**
 **v1.2 追補(裁定 631): 【GAP-B4-1】§11 で閉・【GAP-B4-3】§12 で閉・【GAP-B4-4】§13 で部分閉(下界 192 を確定)。v1/v1.1 本文は不改変、§11–§13 を追加のみ。**
+**v1.3 訂正(裁定 637・Sol 便 112 指摘): 補題 NO-PSL-B4 を **NO-PSL-GEN-B4** へ改名し狭形化(「$B_4$ 版 MIRROR-ODD は存在しない」の**存在否定を撤回**)。§4.2.1 を新設し、正しい生成対 $(\gamma,\delta)$ による **補題 PSL-GEN-B4**(= $C_3\ast C_4$ 型)とエンジンの移植度(段 (1)(2)(3) は移る)を記載。新規【PIN-B4-2】【GAP-B4-5】。**
 
 - 起草: 影工房 **数学者**(Claude / Opus 5)・2026-08-06
 - 委嘱: 司令塔(研究者起点の新戦線)「鏡映理論を B₄/2008 系へ移植する設計ノート。**設計のみ・測定禁止**」
@@ -30,7 +31,7 @@
 | **①** ★★★ | **MIRROR-SHADOW-B4 は成立する(紙・v1.1 で完備)**。$(m,f)=(-1,1)$ は 2008 の hexagon 2 本を **$B_3$ 内の恒等式**として満たし(§2.2)、pentagon は $f=1$ で自明。**v1.1 §8 で原文 (2.25)(2.26) を逐語確認** ⟹ $T^{B_4}_{-1,1}=\pi_N\circ\iota$(**厳密等式・内部ずれなし**)⟹ **全窓で charming GT-shadow**、$\ker T^{PB_4}_{-1,1}=\iota(\widetilde N)$。**PIN は閉** |
 | **②** ★★ | 対称性在庫: $\{\mathrm{id},\ \iota,\ \mathrm{flip},\ \iota\!\cdot\!\mathrm{flip}\}$ のうち **flip($\sigma_i\mapsto\sigma_{4-i}$)は内部**($=\mathrm{Ad}(\Delta_4)$)⟹ $\mathrm{Out}(B_4)\supseteq\langle\iota\rangle$。等号は Dyer–Grossman(**完全性にのみ使用・工房規約どおり分離**) |
 | **③** ★★ | **現用 B₄ 窓($\widetilde N^*=\mathcal V(PB_4)$・$\widetilde N_{\rm core}$)は全て $\iota$-固定** ⟹ **双子の相方になりえない**(補題 FIXED-B4)。鏡映線は現用窓では**構造的に空**であり、新しい窓層を作らない限り観測対象が存在しない |
-| **④** ★★★ | ★ **MIRROR-ODD は B₄ へ移植できない**(補題 NO-PSL-B4): $B_n=\langle\Delta_n,\delta_n\rangle$ は **$n=3$ でしか成り立たない**(abelianization の gcd が $n=3$ でだけ 1)。⟹ PSL-GEN → $\widehat P_0^{\rm ab}$ 指数 3 → $\mu(W)\ne1$ の**エンジンが丸ごと消える** |
+| **④** ★★★ | **(v1.3 で訂正)** 補題 **NO-PSL-GEN-B4**: $B_n=\langle\Delta_n,\delta_n\rangle$ は $n=3$ 限定(abelianization の gcd)⟹ **$(\Delta,\delta)$ 先頭の逐語移植は不能**。**ただし存在否定は撤回**: 正しい対 $(\gamma,\delta)$($\gamma=\sigma_1\delta$)なら $\widehat P=\langle V,W\rangle,\ V^3=W^4=1$(**補題 PSL-GEN-B4**)で、**エンジンの段 (1)(2)(3) は移る**($\mu(V)\ne1$ まで出る)。未解決は **段 (4) $\iota$ の正規化【GAP-B4-5】**のみ ⟹ §4.2.1 |
 | **⑤** ★★★ | 代わりに **ABEL-FIXED-B4** が効く: $\iota$ は $PB_4^{\rm ab}\cong\mathbf Z^6$ に **$-\mathrm{id}$** で作用 ⟹ **$\widetilde N\supseteq[PB_4,PB_4]$ なる窓は全て $\iota$-固定**。低指数帯は可換商が支配的 ⟹ **帯内の鏡映双子ゼロ**が予言される |
 | **⑥** ★★ | **帯の見積り**: 窓は $[B_4:\widetilde N]=24\cdot[PB_4:\widetilde N]$。B₃ census の到達($[PB_3:N]\le166$)に並ぶには $B_4$-指数 **≈3984** が必要で**射程外**。現実的上限は **$B_4$-指数 240 → 480 → 720 → 1000 の梯子**(1000 でも $[PB_4:\widetilde N]\le41$)⟹ census の価値は **witness 狩りではなく陰性の在庫**である |
 | **⑦** ★ | 井原接続: 2008 系は **$\widehat{GT}\cong\varprojlim ML$**(Thm 3.8)の**錨**。$\iota$ は複素共役の像 ⟹ 鏡映対 = 「複素共役で移り合う 2 窓」= 捩れ探索の直撃点(§6) |
@@ -171,7 +172,10 @@ $\Delta_n\sigma_i\Delta_n^{-1}=\sigma_{n-i}$ は古典的事実。**$B_4$ での
 
 ### 4.2 ★★★ ④ なぜ MIRROR-ODD が移植できないか
 
-> ### 補題 NO-PSL-B4(candidate・本稿)
+> ### ⚠ v1.3(2026-08-06・裁定 637)による**改名と狭形化**
+> 本補題は **NO-PSL-GEN-B4** と改名する(旧名 NO-PSL-B4 は撤回・参照は本項へ)。**言えるのは「$(\Delta_n,\delta_n)$ を先頭に置く B₃ 版エンジンの逐語移植が不能」までであり、下の「MIRROR-ODD の B₄ 版は存在しない/紙の収穫は必ず 0」という存在否定は撤回する**(§4.2.1 参照)。**別の生成対・別の特性部分群・別の障害定理の可能性は開いている** — 実際 §4.2.1 で**別生成対による正しい類似物が見つかった**。
+
+> ### 補題 NO-PSL-GEN-B4(candidate・本稿。旧名 NO-PSL-B4)
 > $\Delta_n\mapsto\frac{n(n-1)}2$、$\delta_n\mapsto n-1$ in $B_n^{\rm ab}=\mathbf Z$。よって
 > $$\gcd\Bigl(\tfrac{n(n-1)}2,\ n-1\Bigr)=1\iff n=3 .$$
 > ゆえに **$n\ge4$ では $\langle\Delta_n,\delta_n\rangle\subsetneq B_n$**(abelianization の像が真部分群)。とくに **$B_4\ne\langle\Delta_4,\delta_4\rangle$**($\gcd(6,3)=3$)。
@@ -181,7 +185,32 @@ $\Delta_n\sigma_i\Delta_n^{-1}=\sigma_{n-i}$ は古典的事実。**$B_4$ での
 **帰結(移植不能の所在)**: B₃ 版のエンジンは
 $$\underbrace{c\in N\Rightarrow\widehat P=\langle U,W\rangle,\ U^2=W^3=1}_{\textbf{PSL-GEN}}\ \Rightarrow\ \underbrace{\widehat P_0=\langle W,UWU\rangle,\ [\widehat P:\widehat P_0]\le2,\ \exp(\widehat P_0^{\rm ab})\mid3}_{\text{(A.1)}}\ \Rightarrow\ \mu(W)\ne1\ \Rightarrow\ \iota(N)\ne N$$
 であった。$B_4$ では**第 1 段が崩れる**: $\Delta_4^2\in\widetilde N$ としても $B_4/\langle\Delta_4^2\rangle$ は「位数 2 と位数 4 の元で生成される群」にすら**ならない**(NO-PSL-B4)。$B_4/Z$ は有限巡回群の自由積ではなく(内部に $F_2$ を含む)、**「指数 3 の abelian 化」に相当する退化がない** ⟹ (A.1) の類似物が作れない。
-$$\boxed{\ \textbf{MIRROR-ODD の }B_4\textbf{ 版は存在しない。移植で閉じる対の数の期待値は }\mathbf 0\ \textbf{である。}\ }$$
+$$\underbrace{\boxed{\ \textbf{MIRROR-ODD の }B_4\textbf{ 版は存在しない。移植で閉じる対の数の期待値は }\mathbf 0\ \textbf{である。}\ }}_{\textbf{★ v1.3 で撤回(存在否定は証明されていない)— 正しい形は §4.2.1}}$$
+
+### 4.2.1 ★★★ v1.3 の訂正 — **正しい生成対 $(\gamma,\delta)$ では類似物が存在する**
+
+旧論法の誤りは「$B_3$ で使った対 $(\Delta,\delta)$ が $B_4$ で生成しない」を「**どの対でも駄目**」に飛躍させた点にある。正しい対は $\Delta$ ではなく
+
+$$\boxed{\ \gamma:=\sigma_1\delta=\sigma_1^2\sigma_2\sigma_3,\qquad \delta=\sigma_1\sigma_2\sigma_3\ }$$
+
+- **生成する**: $\gamma\delta^{-1}=\sigma_1$、$\delta\sigma_1\delta^{-1}=\sigma_2$、$\delta\sigma_2\delta^{-1}=\sigma_3$(§11 (D2))⟹ $\langle\gamma,\delta\rangle=B_4$ ✓。
+- **abelianization の障害が消える**: $\gamma\mapsto4$, $\delta\mapsto3$ in $B_4^{\rm ab}=\mathbf Z$、$\gcd(4,3)=1$ ✓(旧対は $\gcd(6,3)=3$ で失敗していた)。
+- **位数**: 古典的事実 $\delta^n=\gamma^{n-1}=\Delta_n^2$ ⟹ $B_4/\langle\Delta_4^2\rangle$ で $\bar\delta^4=\bar\gamma^3=1$。
+  ($n=3$ 版の手検算: $\gamma=\sigma_1^2\sigma_2$ で $\gamma^2=c$ — 本工房で既に検算済(§F.7 Step 0 の恒等式 $(\sigma_1^2\sigma_2)^2=c$)⟹ パターンの支持。$n=4$ の $\gamma^3=\Delta_4^2$ は **【PIN-B4-2】** として起票、§7.1。)
+
+> ### 補題 PSL-GEN-B4(candidate・本稿 v1.3。**PSL-GEN の正しい $B_4$ 類似**)
+> $\Delta_4^2\in\widetilde N$ なら
+> $$\boxed{\ \widehat P=B_4/\widetilde N=\langle V,W\rangle,\qquad V^3=W^4=1\quad(V=\gamma\widetilde N,\ W=\delta\widetilde N)\ }$$
+> すなわち $\widehat P$ は $C_3\ast C_4$ の商である($B_3$ の $C_2\ast C_3=PSL_2(\mathbf Z)$ に対応)。
+
+> ### ★ エンジンはどこまで移るか(**再評価**)
+> B₃ 版 MIRROR-ODD の 4 段のうち **(1)(2)(3) は移る**:
+> 1. **PSL-GEN** → 補題 PSL-GEN-B4 ✓(上)。
+> 2. **正規閉包**: $\widehat P_0:=\langle V^{\widehat P}\rangle=\langle V,\,WVW^{-1},\,W^2VW^{-2},\,W^3VW^{-3}\rangle$ ⟹ $[\widehat P:\widehat P_0]\mid4$ かつ **$\widehat P_0^{\rm ab}$ は位数 3 の 4 元で生成 ⟹ 指数 3** ✓(B₃ 版 (A.1) と同じ形)。
+> 3. **$q\ge5$ の巡回正規 Sylow $A$**: $\gcd(q^k,4)=1$ ⟹ $A\subseteq\widehat P_0$ ✓;$\mu(V)=1$ とすると $\mathrm{Aut}(A)$ 可換ゆえ $\mu(\widehat P_0)=1$ ⟹ $A\le Z(\widehat P_0)$ ⟹ 中心的正規 Hall ⟹ 直因子 ⟹ $q\mid\exp(\widehat P_0^{\rm ab})=3$ で矛盾 ⟹ **$\mu(V)\ne1$** ✓。
+> 4. **$\iota$ の正規化(MIRROR-PSL の類似)= 唯一の未解決段**。$\iota(\delta)=\Delta_4\delta^{-1}\Delta_4^{-1}$(§11 の flip を使う)なので $\mathrm{Ad}(\bar\Delta_4)$ 補正で $W\mapsto W^{-1}$ にはできるが、**同じ補正で $V$ がどう写るか**が未整理($\iota(\gamma)=\sigma_1^{-1}\Delta_4\delta^{-1}\Delta_4^{-1}$)。$B_3$ では $\iota(U)=U$($U^2=1$)という**位数 2 の僥倖**が効いていたが、$B_4$ では $W$ の位数が 4 で $\iota(W)\ne W$。
+> $$\Longrightarrow\ \boxed{\ \textbf{「}B_4\textbf{ 版 MIRROR-ODD は存在しない」は誤り。正しくは「段 4(}\iota\textbf{ の正規化)が未解決」}\ }$$
+> **【GAP-B4-5】(新規起票)**: $\iota$ を $(V,W)$ 上で正規化せよ — すなわち $\mathrm{Aut}(\widehat P)$ 内で $\iota$ が誘導する対を同定し、$\mu(V)\ne1$ と衝突する条件を出せ。これが閉じれば **MIRROR-ODD-B4 が成立し、$q\ge5$ 帯の窓を紙で閉じられる**。
 
 > ### ★ 代替エンジン(**これが B₄ 帯で実際に効く紙の定理**)
 > ### 補題 ABEL-FIXED-B4(candidate・本稿)
@@ -256,8 +285,9 @@ $$\iota(\widetilde N)=\widetilde N\iff \sigma_iN\mapsto(\sigma_iN)^{-1}\ (i=1,2,
 | **MIRROR-SHADOW**($[-1,1]$ が常に shadow・$\ker=\iota(N)$) | ★ **移る**(§2・PIN 1 点) | hexagon 2 本が $B_3$ 内恒等式・pentagon は $f=1$ で自明 |
 | **中心の特性論法**($c\in N$ の $\mathrm{Aut}$-不変性) | ★ **そのまま移る**(系 CENTER-B4) | $Z(B_4)=\langle\Delta_4^2\rangle$ 特性 |
 | **VERBAL/可換 ⟹ $\iota$-固定** | ★ **移る・強化**(FIXED-B4・**ABEL-FIXED-B4**) | $\iota|_{PB_4^{\rm ab}}=-\mathrm{id}$ |
-| **MIRROR-PSL**($U\mapsto U,W\mapsto W^{-1}$ 型の正規化) | ✗ **移らない** | PSL-GEN 不成立(NO-PSL-B4) |
-| **MIRROR-ODD**(13/15 を閉じた定理) | ✗ **移らない**(期待収穫 0 対) | 同上・(A.1) の類似物なし |
+| **PSL-GEN**($c\in N$ ⟹ 有限位数 2 元で生成) | ★ **移る(v1.3 訂正)** | 対を $(\Delta,\delta)$ から **$(\gamma,\delta)$** に替える ⟹ $V^3=W^4=1$(補題 PSL-GEN-B4) |
+| **MIRROR-PSL**($\iota$ を $(U,W)$ 上で正規化) | **未解決**(✗ではない) | $B_3$ の $\iota(U)=U$ は $U^2=1$ の僥倖。$B_4$ は $\mathrm{ord}(W)=4$ ⟹【GAP-B4-5】 |
+| **MIRROR-ODD**(13/15 を閉じた定理) | **段 (1)(2)(3) は移る・段 (4) 未解決** | $\mu(V)\ne1$ までは出る(§4.2.1)。**「存在しない」は v1.3 で撤回** |
 | **MAP-DICT**(正則地図・chirality 辞書) | ✗ **移らない**(そのままでは) | $\Gamma=C_2\ast C_3$ を使う。$B_4$ では地図でなく**別の組合せ論的対象**(必要なら【文献要請】) |
 | **ORB 型直接判定** | ★ **移る**(§4.3.5) | 群の $\mathrm{Aut}$ を直接探索するだけ・基底群に依存しない |
 | **TWIN-CARD**($\lvert GT\rvert$ 差 ⟹ 両方向空) | ★ **移る見込み**(torsor 命題が 2008 groupoid でも成り立つなら) | 未検分 ⟹ §7【GAP-B4-3】 |
@@ -401,8 +431,9 @@ $$\boxed{\ \textbf{補題 FIXED-B4 は (i)(ii) とも無条件で成立}\ \Longr
 | **【GAP-B4-2】** | **閉**(§9。24/24 の生成元照合 ⟹ 厳密可換。補題 FIXED-B4 無条件化) |
 | 【GAP-B4-1】 | **閉**(v1.2 §11 補題 FLIP-INNER。3 本を 1 行ずつ・$\Delta_4^2$ 中心性も紙で再現) |
 | 【GAP-B4-3】 | **閉**(v1.2 §12。移植は (S2) 1 点に集約 ⟹ 補題 SOURCE-OBJ-B4。写らない段 (C1)–(C5) 明示) |
-| 【GAP-B4-4】 | **部分閉**(v1.2 §13。非可換窓は $[B_4:\widetilde N]\ge192$・$\lvert Q
-vert\in\{6,10\}$ 型を排除。完全解決は R0 実測) |
+| 【GAP-B4-4】 | **部分閉**(v1.2 §13。非可換窓は $[B_4:\widetilde N]\ge192$・$\lvert Q\rvert\in\{6,10\}$ 型を排除。完全解決は R0 実測 ⟹ **事前登録票 `docs/notes/b4_r0_probe_prereg_iffirst_v1.md`**) |
+| **【PIN-B4-2】** | **新規(v1.3)**: $\gamma^{n-1}=\delta^n=\Delta_n^2$ の $n=4$ 版($\gamma^3=\Delta_4^2$)。古典的事実だが工房内 pin 未取得($n=3$ 版 $(\sigma_1^2\sigma_2)^2=c$ は検算済)。**補題 PSL-GEN-B4 の位数部分がこれに条件つき**(生成性と $\gcd$ は独立に確定) |
+| **【GAP-B4-5】** | **新規(v1.3)**: $\iota$ を $(V,W)=(\bar\gamma,\bar\delta)$ 上で正規化(MIRROR-PSL の $B_4$ 版)。**閉じれば MIRROR-ODD-B4 が成立**し $q\ge5$ 帯の窓を紙で閉じられる ⟹ §4.2.1 |
 
 ---
 
@@ -543,5 +574,7 @@ $a_{ij}:=x_{ij}\widetilde N\in Q$($1\le i<j\le4$、6 個)と置く。
 5. ~~【GAP-B4-1】~~ ⟹ **v1.2 §11 で閉**。~~【GAP-B4-3】~~ ⟹ **v1.2 §12 で閉**。【GAP-B4-4】は **v1.2 §13 で部分閉**(下界 192)⟹ 残りは **R0 実測が唯一の決着手段**。
 6. ★ **R0 の的が 1 点に絞れた**: 命題 NO-SMALL-NONAB により $\lvert Q\rvert\in\{6,10\}$ は紙で消えたので、R0(B₄-指数 $\le240$)が実際に検定するのは **$\lvert Q\rvert=8$(B₄-指数 192)ちょうど 1 点**である。
 
-> ### 研究者・司令塔への一言(正直な見立て)
-> **この戦線の主産物は「陰性の構造定理」である。** ①③⑤ は紙で閉じる(または 2 つの小さな穴だけ)一方、②④ の意味で **B₃ の華($13/15$ を紙で閉じた MIRROR-ODD)は $B_4$ には無い**。それは移植の失敗ではなく、**$B_3$ の $PSL_2(\mathbf Z)$ miracle が $n=3$ 限定であること(NO-PSL-B4)の帰結**であり、この 1 行自体が**「なぜ gentle 系が計算しやすいか」の構造的説明**として一級の収穫である。census は**その説明を反証可能にする装置**として設計した。
+> ### 研究者・司令塔への一言(**v1.3 で改訂**)
+> v1 では「$B_3$ の華($13/15$ を閉じた MIRROR-ODD)は $B_4$ には無い」と書いたが、**これは撤回する**。Sol の押し返し(便 112)を受けて生成対を見直した結果、**正しい対 $(\gamma,\delta)$ で $C_3\ast C_4$ 型の PSL-GEN 類似が実在し、エンジンの 3/4 が移る**ことが分かった(§4.2.1)。残るのは **$\iota$ の正規化ただ 1 段**【GAP-B4-5】である。
+> ⟹ 見立ての改訂: **この戦線は「陰性の構造定理」だけではない。** 【GAP-B4-5】が閉じれば $q\ge5$ 帯で $B_4$ 版の紙の収穫が出る可能性がある。一方 §13 の下界(非可換窓は指数 $\ge192$)と §4.1 の $\iota$-固定性は**確定した陰性の領土**であり、R0 はその境界を最小コストで叩く実験である。
+> **教訓(記録)**: 「$X$ を使う証明が動かない」から「$X$ 型の定理は無い」への飛躍を 1 回やった。**存在否定は、対象の全候補を尽くしたときにだけ書く。**

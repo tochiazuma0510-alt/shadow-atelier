@@ -139,10 +139,24 @@ $\widehat P$ の位数は指数に等しい。(H) の**正規性**は多くの�
 > $$\exists h\in\mathrm{Aut}(A):\quad h\,\mu(U)\,h^{-1}=\mu(U),\qquad h\,\mu(W)\,h^{-1}=\mu(W)^{-1}.$$
 > $\mathrm{Aut}(A)$ 可換ならこれは $\mu(W)=1$ に退化する(= §A.3 で使った形)。
 
-> ### 補題 ABEL-TYPE(candidate・本稿。ABEL-INDEX の強化)
+> ### ~~補題 ABEL-TYPE v1~~(**誤り・撤回。下の v2 を使うこと**)
+> ~~$P\cong(\mathbf Z/n)^2$ または $\mathbf Z/n\times\mathbf Z/3n$ $(3\nmid n)$。とくに **$P$ の各 Sylow 部分群は階数ちょうど 2(巡回でない)**。~~
+>
+> ### ★ 補題 ABEL-TYPE **v2**(candidate・本稿。2026-08-06 修文。指摘: **Sol / 便 112 返書**)
 > $c\in N$ で $P=F_2/N_{F_2}$ が可換なら
-> $$\boxed{\ P\cong(\mathbf Z/n)^2\quad\text{または}\quad \mathbf Z/n\times\mathbf Z/3n\ (3\nmid n)\ }$$
-> とくに **$P$ の各 Sylow 部分群は階数ちょうど 2(巡回でない)**。
+> $$\boxed{\ P\cong(\mathbf Z/n)^2\quad\text{または}\quad \mathbf Z/n\times\mathbf Z/3n\qquad(n\ge1\ \textbf{— }n\text{ に条件は付かない})\ }$$
+> **Sylow の階数(正しい形)**:
+> - **$p\ne3$**: $p$-成分は $(\mathbf Z/p^a)^2$ = **homocyclic 階数 2**(または自明)。⟹ **非自明巡回にはなれない**。
+> - **$p=3$**: 第 1 型なら $(\mathbf Z/3^k)^2$;第 2 型 $\mathbf Z/n\times\mathbf Z/3n$ で $3^k\,\|\,n$ なら $C_{3^k}\times C_{3^{k+1}}$、**とくに $3\nmid n$ のとき 3-成分は $C_3$(階数 1・巡回)**。
+> $$\Longrightarrow\ \boxed{\ \text{「各 Sylow は階数 2」は\textbf{偽}。正しくは「}p\ne3\text{ の Sylow が階数 2」}\ }$$
+
+> ### 修文の影響検査(**既用の結論は全て無傷**・逐一確認)
+> | 使用箇所 | 使った形 | v2 での成否 |
+> |---|---|---|
+> | **882**($\lvert P\rvert=147=3\cdot7^2$) | 「$P$ 可換 ⟹ Sylow$_7$ は $C_7\times C_7$」⟹ cert の $C_{49}$ と矛盾 ⟹ $P$ 非可換 | **無傷**。$147=3n^2\ (n=7)$ ⟹ 第 2 型 $\mathbf Z/7\times\mathbf Z/21$ ⟹ 7-成分 $=C_7\times C_7$ ✓($7\ne3$ ゆえ v2 の第 1 項が効く)。※ここで 3-成分は $C_3$(階数 1)だが**使っていない** |
+> | **486**($\lvert P\rvert=81$) | 「$P$ 可換 ⟹ 巡回でない」⟹ $\mathrm{ord}(\bar x)=81$ を排除 ⟹ $n\in\{18,54\}$ | **無傷**。$81=n^2\ (n=9)$ のみ($3n^2=81\Rightarrow n^2=27$ は非整数)⟹ $P\cong C_9\times C_9$ ⟹ 非巡回 ✓ |
+> | **ABEL-INDEX**($\lvert P\rvert\in\{n^2,3n^2\}$) | 指数の形のみ | **無傷**(v1/v2 で同一) |
+> ⟹ **MIRROR-ODD・§F.2 の型絞り込み・§F.6.2 の予言はいずれも再計算不要。**
 
 **証明.** 登録票 §2.4 ABEL-INDEX の証明より $P\cong\mathbf Z[\omega]/(\alpha)$、$\alpha\sim n(1-\omega)^{\varepsilon}$。$\varepsilon=0$ なら加法群は $(\mathbf Z/n)^2$。$\varepsilon=1$、$3\nmid n$ なら $\mathbf Z[\omega]/(n)\times\mathbf Z[\omega]/(1-\omega)\cong(\mathbf Z/n)^2\times\mathbf Z/3$。$3\mid n$ の場合は $(1-\omega)^m$ の形に統合され $\mathbf Z/3^{k+1}\oplus\mathbf Z/3^k$ 型 — いずれも階数 2。∎
 
