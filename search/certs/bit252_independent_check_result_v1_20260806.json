@@ -2,5 +2,12 @@
   "tier2_F7_algebra_only_ok": true,
   "tier1_ran": true,
   "all_ok": true,
-  "note": "R3 main fiber sweep (survival_count) NOT independently re-verified this pass"
+  "all_ok_scope": "F1, F3, F7 (tier1, if perm export available) and F7 algebra-only (tier2) ONLY",
+  "not_verified_by_this_script": [
+    "R3_survival_count (main 117649-element fiber sweep over P') -- NOT independently re-verified by THIS script (P' perm export not attempted; but IS independently re-verified by search/probe/bit252_v1/bit252_indep.py, a SEPARATE falsifier script using a different construction -- see cert second_system)",
+    "F2, F4, F5, F6 (P-side calibration) -- not re-derived in tier1 (only F1/F3/F7 were prioritized this pass)",
+    "positive_control (P'-F2 test) -- NOT re-verified by THIS script (again covered separately by bit252_indep.py)",
+    "d5 -- NOT computed by THIS script (covered by bit252_lie.py)"
+  ],
+  "note": "See cert's second_system field for falsifier's separate, broader independent verification (bit252_lie.py/bit252_indep.py) covering R3 survival_count, d5, and the P'-F2 positive control."
 }

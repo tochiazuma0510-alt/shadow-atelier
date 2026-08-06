@@ -1,5 +1,5 @@
 {
-  "schema": "bit252_oneway_cert/v1",
+  "schema": "bit252_oneway_cert/v1.1",
   "FW": "B3-2401",
   "window_arity": 3,
   "window": "K = V5(F2) x <c>, V5(F2) = gamma_6(F2) F2^7",
@@ -9,6 +9,7 @@
     "3.10",
     "3.11"
   ],
+  "test_element_uid_sha256": "f9fa0f7a78f043e2a4be43f2101bbe0fc97b8c6a2d4b53047e882fe3834ab02c",
   "verdict": "NO_SURVIVAL",
   "lane": "G",
   "sizeP": 5764801,
@@ -17,26 +18,26 @@
   "survival_count": 0,
   "survival_allowed_set": [
     0,
-    1,
-    7,
-    49,
-    343,
-    2401,
-    16807,
-    117649
+    49
   ],
+  "d5": 2,
   "BIT1_P3_fingerprint_ok": true,
   "positive_control": {
-    "uid": "BIT252-POSCTRL-v1",
-    "element": "iota_N = [m=K_ord-1, f=1] (PIN-A universal element, docs/notes/div_law_v1.md)",
+    "uid": "BIT252-POSCTRL-v1_1",
+    "design_note": "v1 design (117649-element sweep of an arithmetic element at m<>0) WITHDRAWN (裁定663) -- an arithmetic element at m<>0 does not belong to the m=0 fiber, so sweeping it is not a valid over-kill check. v1.1 replaces it with a single O(1) free-group-identity test P'-F2, same code path as R3.",
+    "element": "P'-F2 = [m=K_ord-1, f=1] evaluated directly in P' (not lifted through the fiber)",
     "K_ord": 7,
     "m": 6,
-    "survival_count": 49,
-    "finds_at_least_one_survivor": true
+    "correct_order_result": true,
+    "reversed_order_result": false,
+    "separation_confirmed": true,
+    "P_prime_negative_fixture_correctly_failed": true,
+    "overall_ok": true
   },
   "calibration": {
     "F1": true,
     "F2": true,
+    "F2_note": "昇格(裁定663(e)): F-2 (m=6,f=1 in P) is the SAME free-group-identity family as the P'-F2 positive control -- promoted to primary W-4 separation fixture alongside P'-F2.",
     "F3_pass_count": 7,
     "F4_negative_fixture_correctly_failed": true,
     "F5": true,
@@ -80,13 +81,25 @@
       ]
     ],
     "F7_matches_line_1_4_1": true,
+    "F7_scope_note": "限定(裁定663(e)): F-7 calibrates the COMMUTATOR CONVENTION and (v1,v2,v3) BASIS choice only -- confirmed BLIND to the W-4 composition-order slip (bit252_indep.py's separation test: F7 solution count is IDENTICAL, 7, under both correct and reversed multiplication order). Do not read F-7 as a W-4 separation fixture; that role belongs to F-2/P prime-F2.",
     "F8_spot_check_ok": true,
     "R0_all_pass": true
   },
+  "g_star_membership_252": "定理(DUM-HEX+DUM-1/p)+NW-P5実測相対 -- g* in 252 is established by theorem CONDITIONAL ON the NW-P5 measurement (eta:=nu_4(j h4)<>0, Sol PASS), not by theorem alone (裁定663(f)).",
+  "second_system": {
+    "author": "falsifier (independent re-implementation, no code/data reuse from bit252_oneway_main.g)",
+    "files": [
+      "search/probe/bit252_v1/bit252_lie.py (free Lie algebra over F7, graded theta/tau action, d5 computation)",
+      "search/probe/bit252_v1/bit252_indep.py (fully independent re-derivation via truncated Magnus embedding, NOT ANUPQ -- re-derives F1..F8, R3 survival count, d5, and the W-4 separation test)"
+    ],
+    "construction": "truncated Magnus embedding F2 -> (F7<X,Y>/deg>=n)^x, x|->1+X, y|->1+Y -- kernel = n-th Jennings/Zassenhaus dimension subgroup mod 7, a DIFFERENT route to the SAME two windows P (n=5) and P prime (n=6) than this driver's ANUPQ p-quotient construction",
+    "agreement": "F1/F2/F3/F4/F5/F7/F7_line/R3_survival_count(=0)/d5(=2)/P_prime-F2(True)/P_prime-F2_reversed(False) ALL MATCH this driver's GAP-side results",
+    "grade": "cross-checked (二系統一致; Lean 不使用ゆえ verified ではない)"
+  },
   "grade": "raw_value_no_grading_language_applied (裁定661(d))",
-  "run_id": "31075687418",
+  "run_id": "31077304000",
   "run_attempt": "1",
   "prereg_doc_path": "docs/notes/bit252_oneway_prereg_iffirst_v1.md",
   "prereg_doc_sha256": "63473b125aea9d74eeffb404045c81f515f68ecd1a88b73d7f61b0bfb1010bf7",
-  "commit_sha": "b1dad2ce59419773f7bbb2ddafc4d7168d931435"
+  "commit_sha": "7d43b3b3299e7fbfde086111c8c96bbdd9c2b1b8"
 }
