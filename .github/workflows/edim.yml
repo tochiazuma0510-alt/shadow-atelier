@@ -44,21 +44,50 @@ name: edim
 # match the DERIVED values 19/33 (for either prime, or if per-prime
 # regression itself fails at any k=3..10), the run/aggregate stops before
 # reporting S at all.
+#
+# ============================================================================
+# ADDED THIS SESSION (裁定693): E-DIM12/691 ceremony job group
+# (edim_k12_691_per_prime / edim_k12_691_aggregate), a SEPARATE ceremony from
+# the k=9,10 jobs above -- select via the `ceremony` workflow_dispatch input
+# (k9_k10 / k12_691 / both) so re-dispatching for k=12 does not needlessly
+# re-run the already-confirmed k=9,10 jobs. See that job group's own header
+# comment (just above edim_k12_691_per_prime) for the full k=12/691-specific
+# spec (裁定656 frozen judgment table, H12=112 calibration, log-discipline
+# per 裁定692, no-interpretive-verdict-text discipline).
+#
+# ★ DISPATCH GATE (司令塔 instruction, this session): this k=12/691 job group
+# is committed for REVIEW/READINESS only -- actual workflow_dispatch is
+# 司令塔's call, not automatic.
+# ============================================================================
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      ceremony:
+        description: 'Which ceremony to run (avoids re-running the already-confirmed k=9,10 jobs when only k=12/691 is wanted)'
+        required: true
+        type: choice
+        options:
+          - k9_k10
+          - k12_691
+          - both
+        default: k12_691
   push:
     paths:
       - '.github/workflows/edim.yml'
       - 'search/edim_semidirect_v1.py'
       - 'search/edim_run_c9_c10_v3_single_prime.py'
       - 'search/edim_run_c9_c10_v3_aggregate.py'
+      - 'search/edim_run_c12_single_prime.py'
+      - 'search/edim_run_c12_aggregate.py'
+      - 'search/edim_c12_691_checker.py'
 
 permissions:
   contents: read
 
 jobs:
   edim_per_prime:
+    if: github.event_name == 'push' || github.event.inputs.ceremony == 'k9_k10' || github.event.inputs.ceremony == 'both'
     strategy:
       fail-fast: false
       matrix:
@@ -119,6 +148,7 @@ jobs:
           if-no-files-found: warn
 
   edim_aggregate:
+    if: github.event_name == 'push' || github.event.inputs.ceremony == 'k9_k10' || github.event.inputs.ceremony == 'both'
     needs: edim_per_prime
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -169,4 +199,157 @@ jobs:
         with:
           name: edim-c9-c10-final-cert
           path: search/certs/edim_c9_c10_run_v3_20260806.json
+          if-no-files-found: warn
+
+  # ===========================================================================
+  # E-DIM12/691 ceremony (裁定656 frozen spec / 裁定692 GHA relocation /
+  # 裁定693 dispatch: H12=112 calibration value, prime matrix {2147483647,
+  # 998244353, 691}, timeout-minutes:180, 16GB runner, extrapolated peak
+  # 8-9GB). Log discipline (裁定692 verbatim): search/edim_run_c12_single_
+  # prime.py prints ONLY at phase boundaries (job start/end, per-degree
+  # elapsed+memory snapshot, final summary) -- no hot-loop/progress spam.
+  #
+  # The aggregate step (search/edim_run_c12_aggregate.py) writes NO
+  # interpretive verdict text (no "SYN-0"/"k*=12"/段差/不均衡/発火language)
+  # -- raw H/S values, per-prime H12=112 match flags, two-general-prime
+  # agreement, and the plain RAW FACT of whether p=691's S12 numerically
+  # differs from the two general primes' S12. Interpretation of what that
+  # means is 司令塔/数学者/Sol's task (裁定656's frozen judgment table),
+  # NOT this workflow's.
+  #
+  # S-ED-7 (対照 677/701): this workflow does NOT automatically dispatch
+  # follow-up jobs for 677/701 even if s12_691_differs_from_general_primes_
+  # RAW_FACT is true -- that dispatch is a SEPARATE, manually-authorized
+  # workflow run (司令塔 decision after reviewing this run's aggregate cert),
+  # per instruction ("自動追加しない — 報告して司令塔判断").
+  # ===========================================================================
+  edim_k12_691_per_prime:
+    if: github.event_name == 'push' || github.event.inputs.ceremony == 'k12_691' || github.event.inputs.ceremony == 'both'
+    strategy:
+      fail-fast: false
+      matrix:
+        prime: [2147483647, 998244353, 691]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - name: Report runner memory (informational)
+        shell: bash
+        run: free -h || true
+
+      - name: Run E-DIM k=3..12 for this prime (Sol H-first ambient rank, 便112e; 裁定656/692/693)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/edim_run_c12_single_prime.py ${{ matrix.prime }} 2>&1 | tee ci/out/edim_k12_prime_${{ matrix.prime }}.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check per-prime result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/edim_k12_prime_${{ matrix.prime }}.log "
+            echo "(check for EDIM_C12_691_KP_STOP -- expected STOP behavior on a k<=11 mismatch or "
+            echo "H12 CALIBRATION_FAIL, not necessarily a CI bug)"
+            exit 1
+          fi
+          if ! grep -q "EDIM_C12_691_KP_DONE" ci/out/edim_k12_prime_${{ matrix.prime }}.log; then
+            echo "::error::EDIM_C12_691_KP_DONE marker not found"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: edim-k12-prime-${{ matrix.prime }}-log
+          path: ci/out/edim_k12_prime_${{ matrix.prime }}.log
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: edim-k12-prime-${{ matrix.prime }}-cert
+          path: search/certs/edim_c12_691_prime_${{ matrix.prime }}_v1_20260806.json
+          if-no-files-found: warn
+
+  edim_k12_691_aggregate:
+    if: always() && (github.event_name == 'push' || github.event.inputs.ceremony == 'k12_691' || github.event.inputs.ceremony == 'both')
+    needs: edim_k12_691_per_prime
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Download per-prime certs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: edim-k12-prime-*-cert
+          path: search/certs/
+          merge-multiple: true
+
+      - name: Run aggregator (raw values ONLY -- no interpretive verdict text)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/edim_run_c12_aggregate.py 2>&1 | tee ci/out/edim_k12_aggregate.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Run independent checker
+        shell: bash
+        run: |
+          set +e
+          python search/edim_c12_691_checker.py 2>&1 | tee ci/out/edim_k12_checker.log
+          echo "checker_exit=$?"
+
+      - name: Check aggregate result
+        shell: bash
+        run: |
+          echo "py_exit=${{ steps.run.outputs.py_exit }}"
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::warning::aggregator did not complete successfully -- check for CALIBRATION_FAIL / "
+            echo "INCOMPLETE markers in ci/out/edim_k12_aggregate.log (expected STOP behavior, "
+            echo "not necessarily a CI bug); cert (if written) still reflects raw values"
+          else
+            echo "::notice::$(grep -A5 'raw_values_by_prime' ci/out/edim_k12_aggregate.log | head -10)"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: edim-k12-691-aggregate-log
+          path: ci/out/edim_k12_aggregate.log
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: edim-k12-691-checker-log
+          path: ci/out/edim_k12_checker.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: edim-k12-691-final-cert
+          path: |
+            search/certs/edim_c12_691_aggregate_v1_20260806.json
+            search/certs/edim_c12_691_checker_v1_20260806.json
           if-no-files-found: warn
