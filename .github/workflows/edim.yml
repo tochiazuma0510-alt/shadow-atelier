@@ -1,0 +1,110 @@
+name: edim
+
+# EDIM semidirect model runs -- E-DIM9/10 scoring (裁定658, GHA relocation
+# per 司令塔裁定 this session). Pure python/numpy, NO GAP. Moved to GHA
+# because: (1) standard GH-hosted ubuntu runners have ~16GB RAM vs the local
+# machine's 8GB (RAM 8GB constraint, standing policy); (2) keeps EDIM traffic
+# off the local machine while GAP-based work (b4-r0 etc.) is also in flight.
+#
+# search/edim_semidirect_v1.py and search/edim_run_c9_c10.py are read-only
+# input to this workflow and are NOT modified by it (mine-dispatch.yml /
+# hsp7-calib.yml / b4-cal.yml / b4-r0.yml "search/* is untouchable by CI"
+# discipline carried over).
+#
+# Order enforced INSIDE edim_run_c9_c10.py itself (not just by this
+# workflow): (1) regression check -- rerun k=7,8 with the LARGE primes
+# (2147483647, 998244353) required by 裁定658, using the overflow-safe
+# matmul fix added this session, confirming reproduction of the already-
+# known S7=1/H7=6/S8=1/H8=10 (previously measured with SMALL primes) --
+# STOPS (nonzero exit, no further phases) if this fails. (2) k=9 real
+# scoring run. (3) k=10 real scoring run. k=11,12 are explicitly NOT run
+# here (need a sparse-representation redesign, separate workstream).
+#
+# S-ED-4 (docs/notes/b_type_synthesis_design_v1_addendum_edim78_prediction.md
+# SS3, inherited): general-prime S!=A mismatch = implementation-bug-first
+# suspicion, arbitrate/STOP, not a B-type discovery claim. This script uses
+# the two designated large primes only (2147483647, 998244353), per 裁定658
+# ("k=9,10,11には特異素数を加えない"); it does not add a third prime itself --
+# any further arbitration is a follow-up authorized separately if the two
+# primes disagree (the script records disagreement rather than picking a
+# winner, see edim_c9_c10_checker.py).
+#
+# CALIBRATION_FAIL/STOP discipline (prediction doc SS3): if H9 or H10 do not
+# match the DERIVED (not guessed) values 19/33, the script stops before
+# reporting S9/S10 at all (implementation bug, not a math result).
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - '.github/workflows/edim.yml'
+      - 'search/edim_semidirect_v1.py'
+      - 'search/edim_run_c9_c10.py'
+
+permissions:
+  contents: read
+
+jobs:
+  edim_c9_c10:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    outputs:
+      run_pass: ${{ steps.check.outputs.run_pass }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - name: Report runner memory (informational, for the cert's environment note)
+        shell: bash
+        run: free -h || true
+
+      - name: Run E-DIM9/10 (regression k=7,8 large-prime -> k=9 -> k=10)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/edim_run_c9_c10.py 2>&1 | tee ci/out/edim_c9_c10.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check run result (fail-closed)
+        id: check
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} (nonzero) -- see ci/out/edim_c9_c10.log "
+            echo "(check for REGRESSION FAILED / CALIBRATION_FAIL markers -- STOP is expected behavior "
+            echo "on those, not a CI infrastructure bug; the cert, if written, still records what "
+            echo "happened before the stop)"
+            echo "run_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          if ! grep -q "EDIM_C9_C10_RUN_DONE" ci/out/edim_c9_c10.log; then
+            echo "::error::EDIM_C9_C10_RUN_DONE marker not found -- script did not complete cleanly"
+            echo "run_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          echo "run_pass=true" >> "$GITHUB_OUTPUT"
+          echo "::notice::$(grep -A6 'k10_scoring:' ci/out/edim_c9_c10.log | head -8)"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: edim-c9-c10-log
+          path: ci/out/edim_c9_c10.log
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: edim-c9-c10-cert
+          path: search/certs/edim_c9_c10_run_v1_20260806.json
+          if-no-files-found: warn

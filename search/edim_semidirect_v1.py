@@ -211,10 +211,61 @@ def mat_mul_modp_np(A, B, p):
     """Numpy int64 matmul mod p. SAFE ONLY when p*p*K < int64max (K = shared
     contraction dimension, i.e. A.shape[1]==B.shape[0]) -- caller's
     responsibility (see PRIMES_SMALL/ARBITRATION_PRIME choices in the k=7,8
-    driver, all chosen with this margin in mind: p^2*840 well under 2^63)."""
+    driver, all chosen with this margin in mind: p^2*840 well under 2^63).
+    DO NOT use this for the large primes (2147483647/998244353) required by
+    the k=9,10,11 task -- p^2 alone (~4.6e18) leaves almost no room for
+    summing more than ~1 term before overflowing int64's ~9.22e18 ceiling.
+    Use mat_mul_modp_np_safe below for those."""
     A = np.asarray(A, dtype=np.int64) % p
     B = np.asarray(B, dtype=np.int64) % p
     return (A @ B) % p
+
+
+def mat_mul_modp_np_safe(A, B, p):
+    """Overflow-SAFE numpy matmul mod p for ANY p up to ~3e9 (works for the
+    large primes 2147483647/998244353 too, where mat_mul_modp_np's raw `@`
+    silently overflows int64: a plain dot-product sum of >1 terms each up to
+    (p-1)^2~4.6e18 blows past int64's ~9.22e18 ceiling immediately).
+
+    Computes the matmul as a sequence of RANK-1 (outer-product) updates over
+    the contraction dimension K, taking `% p` after EVERY update -- each
+    individual outer-product entry is a SINGLE product (safe: <=(p-1)^2,
+    within int64 range with >2x headroom) and the running accumulator is
+    always kept < p before the next update is added (accumulator + one
+    outer-product entry <= p + (p-1)^2, still safely within int64). This is
+    O(M*N*K) numpy-vectorized element-ops (K sequential calls, each
+    vectorized over M*N) -- slower per FLOP than a single BLAS `@` call, but
+    the only correct option at this prime size without a float64 hi/lo split
+    (not implemented here). Cost mitigation is the CALLER's job: keep N
+    (output width) as small as the actual need allows, e.g. restrict to just
+    the h-block columns needed for nu_k.j rather than the full dim_t x dim_t
+    matrix (see edim_run_c9_11.py)."""
+    A = np.asarray(A, dtype=np.int64) % p
+    B = np.asarray(B, dtype=np.int64) % p
+    M, K = A.shape
+    K2, N = B.shape
+    assert K == K2
+    acc = np.zeros((M, N), dtype=np.int64)
+    for k in range(K):
+        acc = (acc + np.outer(A[:, k], B[k, :])) % p
+    return acc
+
+
+def mat_vec_modp_np_safe(A, v, p):
+    """Safe matrix-VECTOR product mod p for large p (same overflow concern
+    as mat_mul_modp_np_safe; a plain vector-length dot product also
+    overflows for large p, so this uses the same rank-1-accumulation
+    approach, specialized for a single output column)."""
+    A = np.asarray(A, dtype=np.int64) % p
+    v = np.asarray(v, dtype=np.int64) % p
+    M, K = A.shape
+    assert K == len(v)
+    acc = np.zeros(M, dtype=np.int64)
+    for k in range(K):
+        if v[k] == 0:
+            continue
+        acc = (acc + A[:, k] * int(v[k])) % p
+    return acc
 
 
 def mat_pow_modp_np(A, e, p):
@@ -391,11 +442,14 @@ class GradedLie:
         solver = self._get_solver(degree)
         p = self.p
         v_piv = np.array([vec.get(solver["all_words"][r], 0) % p for r in solver["piv_rows"]], dtype=np.int64)
-        coord = (solver["pivot_sub_inv"] @ v_piv) % p
+        # p up to ~2^31 (large-prime task, 裁定658) means a raw numpy `@`
+        # here silently overflows int64 (sum of >1 terms each ~(p-1)^2) --
+        # use the overflow-safe mat-vec (see mat_vec_modp_np_safe docstring).
+        coord = mat_vec_modp_np_safe(solver["pivot_sub_inv"], v_piv, p)
         coord = [int(x) for x in coord]
-        # verify (cheap: O(ambient_dim) using the precomputed dense M, still
-        # correctness-critical -- keep it, k<=8 sizes make this fast enough)
-        recomb = (solver["M"] @ np.array(coord, dtype=np.int64)) % p
+        # verify (correctness-critical -- keep it; same overflow concern for
+        # large p, use the safe mat-vec here too)
+        recomb = mat_vec_modp_np_safe(solver["M"], np.array(coord, dtype=np.int64), p)
         target = np.array([vec.get(w, 0) % p for w in solver["all_words"]], dtype=np.int64)
         if not np.array_equal(recomb, target):
             raise ValueError(f"coords_of_ambient verification FAILED at degree {degree}: "
