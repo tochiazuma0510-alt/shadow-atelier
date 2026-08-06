@@ -1,0 +1,1461 @@
+{
+  "schema": "twin_witness_run/v1.1 (裁定607 修理束 -- v1 は不改変・並置。scope3 は未実行、item5 参照)",
+  "supersedes_note": "v1 (search/certs/twin_witness_run_v1_20260806.json) は保持・不改変。本 cert はその是正版として並置される(裁定607の指示どおり)。",
+  "prereg_doc_path": "docs/notes/twin_witness_prereg_iffirst_v1.md",
+  "prereg_doc_sha256": "d0cd06e170e0cb24994b5b126a006702f6d7505f6f802eb0de24711da78ede73",
+  "cv9_reading_doc_path": "docs/notes/twin_witness_cv9_reading_v1.md",
+  "cv9_reading_doc_sha256": "7697dbe83bafc27c07052bc439d115fe6ece11a96a6e0ceba0d4b659d1b53ba5",
+  "div_law_doc_path": "docs/notes/div_law_v1.md",
+  "div_law_doc_sha256": "13c6efe4beb37f04da44fb7c9ecc88f613bcee45e1a265196ce36f128874a8aa",
+  "census_cert_path": "search/certs/lins_twin_census_v1_20260806.json",
+  "census_cert_sha256": "8bfd762ef565f5ce72f9a4a25368783b96b02f4905274e858d460e30bb335610",
+  "scope1_registration": {
+    "counts": {
+      "L0": 174,
+      "L1": 28,
+      "L2": 15,
+      "L3": 13
+    },
+    "directed_counts": {
+      "L0": 348,
+      "L1": 56,
+      "L2": 30,
+      "L3": 26
+    },
+    "setdigest": {
+      "L0": "babc71f11022694bafde5f4b73ab06c677fc25aee6cd3bff6651e2aaac47be87",
+      "L1": "f94a8ae0384144189950d61ba727fc713a0eacb751a712784d5923a7a067daa3",
+      "L2": "ec72ed77e1bb6040c5a4d29e43b51e45a63b5d2ffa6d50f8e8455aa16d7c9bba",
+      "L3": "af88692a78341c82688169c4b3ade43b4d4c83ed0e7c54e160365249b0e18ebd"
+    },
+    "registered_set": "L2 (15 pairs / 30 directed, c_in_N and in_PB3 both members)",
+    "L3_13_pairs_touched": false,
+    "uid_scheme_prose_viii": {
+      "note_穴修正viii": "票 §1.2 は 'pair UID の昇順連結の sha256' とのみ書き、区切り子が明記されていなかった(falsifier 穴9: 'sha256(\"|\".join(sorted(uids))) で区切り子が書かれておらず、変種を試すまで再現できなかった')。ここで明記する:",
+      "member_uid": "sha256(UTF-8(\"|\".join(canonical_id_words)))の先頭12桁hex(区切り子は半角パイプ \"|\" 、words の間のみに挿入、末尾には付かない)。",
+      "pair_uid": "sha256(UTF-8(f\"{index}#{sorted_muid_1}#{sorted_muid_2}\"))の先頭12桁hex(区切り子は半角ハッシュ記号 \"#\" 、index と各 member_uid の間、および 2 つの member_uid の間の計 2 箇所に挿入。member_uid は辞書式に昇順ソート後。)",
+      "setdigest": "sha256(UTF-8(\"|\".join(sorted(layer_pair_uids)))).hexdigest()(全 64 hex 桁。区切り子は半角パイプ \"|\" 、pair_uid 間のみ。pair_uid は辞書式に昇順ソート後。)"
+    },
+    "note": "matches docs/notes/twin_witness_prereg_iffirst_v1.md sec 1 bit-for-bit (all counts and all 4 SETDIGESTs machine-reproduced identically)."
+  },
+  "scope2_mirror_classification_v1_1": {
+    "domain": "L2 only (15 pairs / 30 directed). L3 (13 pairs, 裁定T-1) 非接触。",
+    "per_window": [
+      {
+        "index": 126,
+        "pair_uid": "b6b8a3feb9d2",
+        "target_window_uid": "7bee16618268",
+        "source_kernel_uid": "84f28df5792d",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^4*b*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 126,
+        "pair_uid": "b6b8a3feb9d2",
+        "target_window_uid": "84f28df5792d",
+        "source_kernel_uid": "7bee16618268",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*b*(b*a^-1)^4",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 234,
+        "pair_uid": "2858cc2db1a7",
+        "target_window_uid": "6e60ce938838",
+        "source_kernel_uid": "e9194840bb09",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*b*a^-1*b*(b*a^-1)^5",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 234,
+        "pair_uid": "2858cc2db1a7",
+        "target_window_uid": "e9194840bb09",
+        "source_kernel_uid": "6e60ce938838",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^5*b*a^-1*b*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 342,
+        "pair_uid": "475adabdc9ed",
+        "target_window_uid": "2dd0872a952c",
+        "source_kernel_uid": "f9572974b65e",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^7*b*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 342,
+        "pair_uid": "475adabdc9ed",
+        "target_window_uid": "f9572974b65e",
+        "source_kernel_uid": "2dd0872a952c",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*b*(b*a^-1)^7",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 378,
+        "pair_uid": "73d458be805c",
+        "target_window_uid": "30c41b0ef152",
+        "source_kernel_uid": "1b9cbbe23386",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^6*(b*a^-1)^3",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 378,
+        "pair_uid": "73d458be805c",
+        "target_window_uid": "1b9cbbe23386",
+        "source_kernel_uid": "30c41b0ef152",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^3*(b*a^-1)^6",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 432,
+        "pair_uid": "4b717d423b93",
+        "target_window_uid": "c89d28a7c1a5",
+        "source_kernel_uid": "663166de6a6e",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*b*a^-1*(a^-1*b^2)^2*a^-1*b*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 432,
+        "pair_uid": "4b717d423b93",
+        "target_window_uid": "663166de6a6e",
+        "source_kernel_uid": "c89d28a7c1a5",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b*a^-1)^2*(b^2*a^-1)^2",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 486,
+        "pair_uid": "b2bef4dba95b",
+        "target_window_uid": "da05b7bd8bc7",
+        "source_kernel_uid": "7536e5f8c117",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-3*b^4*a^-2*b^2*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 486,
+        "pair_uid": "b2bef4dba95b",
+        "target_window_uid": "7536e5f8c117",
+        "source_kernel_uid": "da05b7bd8bc7",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*(a^-2*b^2)^2*b^2*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 504,
+        "pair_uid": "c5b8a47f5d70",
+        "target_window_uid": "e649609337b1",
+        "source_kernel_uid": "a1319ba72dbf",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*b*a^-1*b*(b*a^-1)^8",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 504,
+        "pair_uid": "c5b8a47f5d70",
+        "target_window_uid": "a1319ba72dbf",
+        "source_kernel_uid": "e649609337b1",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^8*b*a^-1*b*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 504,
+        "pair_uid": "e181bd7062ce",
+        "target_window_uid": "668f2afaa377",
+        "source_kernel_uid": "3b801a7ba0f9",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-2*b*(b*a^-1)^2*a^-1*b^3*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 504,
+        "pair_uid": "e181bd7062ce",
+        "target_window_uid": "3b801a7ba0f9",
+        "source_kernel_uid": "668f2afaa377",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-2*b^3*a^-1*(a^-1*b)^2*b*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 558,
+        "pair_uid": "f266c8765cb8",
+        "target_window_uid": "0f93a4433f8e",
+        "source_kernel_uid": "776022fa7d45",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*((b*a^-1)^3*b)^2*(a^-1*b)^3*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 558,
+        "pair_uid": "f266c8765cb8",
+        "target_window_uid": "776022fa7d45",
+        "source_kernel_uid": "0f93a4433f8e",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^3*a^-1*((b*a^-1)^3*b)^2*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 666,
+        "pair_uid": "0c820fc5fbc3",
+        "target_window_uid": "afe28f765b59",
+        "source_kernel_uid": "b93a8f9d4927",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^10*b*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 666,
+        "pair_uid": "0c820fc5fbc3",
+        "target_window_uid": "b93a8f9d4927",
+        "source_kernel_uid": "afe28f765b59",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*b*(b*a^-1)^10",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 702,
+        "pair_uid": "ef6b2f6322d6",
+        "target_window_uid": "ec9233a60dd6",
+        "source_kernel_uid": "3349ceec8779",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^9*(b*a^-1)^3",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 702,
+        "pair_uid": "ef6b2f6322d6",
+        "target_window_uid": "3349ceec8779",
+        "source_kernel_uid": "ec9233a60dd6",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^3*(b*a^-1)^9",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 774,
+        "pair_uid": "c34212b7dd19",
+        "target_window_uid": "3ec759fe7a89",
+        "source_kernel_uid": "c95f99244140",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*((b*a^-1)^4*b)^2*(a^-1*b)^3*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 774,
+        "pair_uid": "c34212b7dd19",
+        "target_window_uid": "c95f99244140",
+        "source_kernel_uid": "3ec759fe7a89",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^3*a^-1*((b*a^-1)^4*b)^2*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 882,
+        "pair_uid": "a3fd068a4467",
+        "target_window_uid": "6afd80ecad54",
+        "source_kernel_uid": "b384172dd375",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "a^-1*b*a^-1*b*(b*a^-1)^11",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 882,
+        "pair_uid": "a3fd068a4467",
+        "target_window_uid": "b384172dd375",
+        "source_kernel_uid": "6afd80ecad54",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^11*b*a^-1*b*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 936,
+        "pair_uid": "4351f9476f2c",
+        "target_window_uid": "c4fd6495ff27",
+        "source_kernel_uid": "cf5757e9dd21",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b^2*a^-1)^2*(b*a^-1)^3",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 936,
+        "pair_uid": "4351f9476f2c",
+        "target_window_uid": "cf5757e9dd21",
+        "source_kernel_uid": "c4fd6495ff27",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^4*b*a^-2*b^2*a^-1",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 936,
+        "pair_uid": "f8599b5bccee",
+        "target_window_uid": "540adb3380a3",
+        "source_kernel_uid": "6e0a2700e658",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^4*(b*a^-1)^10",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      },
+      {
+        "index": 936,
+        "pair_uid": "f8599b5bccee",
+        "target_window_uid": "6e0a2700e658",
+        "source_kernel_uid": "540adb3380a3",
+        "mclass_systemA": "M1",
+        "checks_systemA": {
+          "braid": true,
+          "N_in_ker": true,
+          "K_in_ker": true,
+          "imorder": true,
+          "iota_w_nontrivial": true,
+          "hexagon_full": true,
+          "surj": true
+        },
+        "canary_v1_1_systemA": {
+          "forward_paper_product_trivial": true,
+          "reversed_convention_trivial": false,
+          "discriminates": true
+        },
+        "in_PB3_systemA": true,
+        "c_in_N_systemA": true,
+        "witness_word_systemA": "(a^-1*b)^10*(b*a^-1)^4",
+        "in_PB3_systemB_indep": true,
+        "c_in_N_systemB_indep": true,
+        "hexagon_full_systemB": true,
+        "canary_discriminates_systemB": true,
+        "K_subseteq_iotaN_AND_index_match_therefore_equality": {
+          "K_subseteq_iota_N": true,
+          "index_of_N_equals_index_of_iotaN": true,
+          "conclusion": "ker(T_{-1,1}) = iota(N) = K  (equality closed by the index-counting argument: K subseteq iota(N) and |iota(N)| = |N| = index = |K|, so containment forces equality)",
+          "note_穴修正vi": "この段は v1 の cert にはフィールドとして存在しなかった(falsifier 発見穴: 'W-dの(i)(ii)(iii)のうち実際に計算されているのはK⊆ι(N)+指数一致で、等号は指数論法で閉じているが、certのどの欄にも記録されていない')。v1.1 で明示フィールド化。"
+        },
+        "systemA_systemB_agreement": {
+          "in_PB3": true,
+          "c_in_N": true,
+          "hexagon_full": true,
+          "canary_discriminates": true
+        },
+        "vacuous_recorded_not_counted": {
+          "surj": true,
+          "note": "SURJ (<s1^-1,s2^-1>=Q) and charming (u=-1 unit mod anything, f=1 in [P,P]) hold for ANY window by construction -- recorded per doc sec 2.6 but EXCLUDED from the core cross-system agreement tally (falsifier 穴7)."
+        }
+      }
+    ],
+    "counts": {
+      "M0": 0,
+      "M1": 30,
+      "M2": 0
+    },
+    "all_M1": true,
+    "repair_1_W_a_full_hexagon": {
+      "status": "IMPLEMENTED in both systems (v1 の穴: 両系統とも未実施だった)",
+      "systemA": "search/twin-witness-mirror-v1_1.g -- (3.3)(3.4) evaluated directly in Q_N=B3/N via ImageElm(hmN,...) equality, both directions, all 15 pairs.",
+      "systemB": "search/twin_witness_mc1_check_v1_1.py -- (3.3)(3.4) reimplemented from scratch on the exported permutations (s1,s2 -> x=s1^2,y=s2^2,c=(s1 s2 s1)^2), independent.",
+      "result": "30/30 directed windows: hexagon_full = TRUE in both systems, agreement 30/30.",
+      "all_pass": true
+    },
+    "repair_2_S_TW_6_canary_replacement": {
+      "status": "OLD CANARY WITHDRAWN (was vacuous: a^-1(ab)b^-1=e holds in ANY group, tests nothing window- or convention-specific).",
+      "new_canary": "tau implemented as an ACTUAL substitution homomorphism on abstract F2=<x,y> (GAP: GroupHomomorphismByImages; python: from-scratch word-substitution engine), applied by RUNNING the code (not hand-reduced identities). Computes P1=tau^2(y^-1), P2=tau(y^-1), P3=y^-1 as elements of Q_N, then contrasts forward=P1*P2*P3 (paper-product order, W-4 -- must be trivial) against reversed=P3*P2*P1 (wrong convention -- must NOT be trivial in a non-abelian Q).",
+      "result": "30/30 directed windows: forward=TRUE, reversed=FALSE (genuinely discriminating -- Q non-abelian in all registered windows), both systems agree 30/30.",
+      "all_discriminate": true
+    },
+    "repair_3_mc1_export_frozen_schema": {
+      "status": "All frozen §2.7 fields now populated: target_window_uid, source_kernel_uid, index, in_PB3, c_in_N, perm_degree, s1_perm, s2_perm, N_gen_words, K_gen_words, witness_word, shadow{m,f_word}, checks{braid,N_in_ker,K_in_ker,imorder,iota_w_nontrivial,hexagon_full,surj}.",
+      "D_3_independent_reverification": {
+        "index": "already independently re-derived in v1 (BFS group order == index)",
+        "in_PB3": "NEW in v1.1 -- systemA via GroupHomomorphismByImages(Q,S3,...)<>fail; systemB via from-scratch BFS homomorphism-factoring test (no GAP, no shared code). Agreement 30/30.",
+        "c_in_N": "NEW in v1.1 -- systemA via ImageElm(hm,c_elt)=One(Q); systemB via c_perm=(s1 s2 s1)^2 computed from the exported permutations directly, checked trivial. Agreement 30/30.",
+        "status_D3": "3/3 履行(v1 は 1/3 のみ -- index only)。"
+      },
+      "interface_all_windows_both_directions": "export now carries ALL 15 pairs x 2 directions (30 entries) with mclass, not just the M1-only subset (v1's 穴8). Interface can flag A/B-side or systemA/systemB class disagreement for ANY window (none occurred: all 30 = M1, consistent)."
+    },
+    "note_穴修正vii": "search/twin-witness-mirror-v1.g (v1) declared 'all as explicit GAP computations, not asserted' while wb_charming was in fact `wb_charming := true;;` -- a hardcoded constant, not computed. This wording was FALSE for that one field (v1 script comment error, not a math error: charming at m=-1 really is unconditionally true, gcd(-1,n)=1 for all n, but the SCRIPT never computed it, just asserted it). v1.1 correction: charming is recorded as a STRUCTURAL FACT (proven once, universally, not per-window) rather than a per-window computation, and -- together with SURJ, which IS computed per-window but is vacuous (<s1^-1,s2^-1>=<s1,s2> always) -- is EXCLUDED from the core cross-system 'agreement' tally reported above, while both remain recorded in full (see vacuous_recorded_not_counted per window)."
+  },
+  "prediction_accounting_v1_1": {
+    "P1_status": "confirmed, exceeded: all 15/15 registered pairs (not just the paper-provable 8) are M1. No prediction failure (no predicted-M1 window came out M0) -- S-TW-7 not triggered. UNCHANGED from v1.",
+    "P2_correction_i": {
+      "old_v1_framing": "'prereg_prediction_P2_M2_is_zero: true' -- recorded as a confirmed PREDICTION.",
+      "v1_1_correction": "RECLASSIFIED (falsifier 発見穴6, 裁定607 (i)): M2=0 is NOT a prediction that could have failed -- it is a THEOREM following from the registration's own structural facts O-1 (L1 上で twin 関係は完全マッチング, no triple-or-more twin clusters) + D-1 (LINS exhaustiveness at the census bound). Proof sketch: iota(N) is always normal in B3 (iota in Aut(B3)), same index as N (iota is an automorphism), iota(PB3)=PB3 so iota(N) in_PB3 iff N in_PB3, c in iota(N) iff iota(c)=c^-1 in N iff c in N (N normal, so c in N implies c^-1 in N), and B3/iota(N) = B3/N (conjugate quotients under an automorphism are isomorphic) -- so iota(N) is ALWAYS a valid census node in the same layer L2, and {N, iota(N)} is ALWAYS itself a twin pair (or N=iota(N), i.e. M0). Under O-1 (complete matching, no node has 2+ twin partners), the ONLY twin partner N can have is K, so iota(N) in {N,K} is FORCED -- M2 is a priori impossible for ANY window in this registered layer, not merely observed to be zero. What the machine run actually checked, then, is a CENSUS-CONSISTENCY test (did O-1/D-1 actually hold, as an empirical safeguard against a census bug) -- not a prediction about the mathematics of individual windows.",
+      "reclassified_as": "census consistency check (structural theorem from O-1+D-1), NOT a prediction hit"
+    },
+    "P3_correction_ii": {
+      "old_v1_framing": "'prereg_prediction_P3_both_directions_nonempty: true' -- recorded as a single confirmed prediction.",
+      "v1_1_correction": "P-3 is a 3-way conjunction; SPLIT per falsifier 穴6 and 裁定607 (ii):",
+      "deduced_part": {
+        "claims": [
+          "both directions simultaneously non-empty (GTSh(K,N)!=empty and GTSh(N,K)!=empty)",
+          "|GT(N)|=|GT(K)| (TWIN-CARD, itself a candidate lemma)"
+        ],
+        "status": "LOGICAL CONSEQUENCE of iota(N)=K (already established) + the (candidate) lemmas MIRROR-SHADOW/TWIN-CARD -- NOT independently measured by this run. Recorded as deduced, not verified by direct computation."
+      },
+      "unmeasured_part": {
+        "claims": [
+          "source kernel 異なり数 (number of distinct source kernels K' with GTSh(K',N)!=empty) >= 2"
+        ],
+        "status": "UNMEASURED -- requires the scope3 exhaustive enumeration (R1-b, doc sec 3) over (m, f-bar) which was NOT executed in this pass (v1 also did not run it; explicitly out of scope, see scope3_not_executed below). Also entails torsor consistency (doc sec 3.3), separately deferred (see item5_torsor_not_run)."
+      }
+    },
+    "P4_correction_iii": {
+      "old_v1_1_framing_WITHDRAWN": "v1 run cert's P4_note_per_裁定602 said 'P-4 の7対(紙50/50)が全て機械M1 -- MIRROR-OBSTRUCTION の射程外確定・数学者検討材料' -- framed as an interesting opportunity for a NEW POSITIVE lemma covering these 7 cases.",
+      "v1_1_correction_裁定607_accounting": "falsifier's 任務3 accounting (裁定607 (iii)) supersedes this: the 7/7 result is NOT '7 independent 50/50 hits' NOR a mere 'measurement quirk'. Correct accounting: (1) the paper's 'undetermined' (50/50) meant only that MIRROR-OBSTRUCTION could not NAME a suitable characteristic cyclic subgroup A for these 5 orders (72,81,84,147,156) -- not that the true probability of M1 was actually 1/2; (2) there is a SELECTION EFFECT biasing the base rate strongly toward M1: iota manufactures twins for free -- if iota(N)!=N then iota(N) is automatically another census node with an isomorphic quotient (same argument as the P2 theorem above), so 'having a twin' FOLLOWS from 'not iota-invariant'; the census selects exactly the objects that have twins, so under this selection M1 is the NULL hypothesis, not a surprise; (3) under O-1+D-1, M1 is not merely 'likely' but FORCED once iota(N)!=N is known (see P2 theorem) -- so the machine's output is really a single 15-bit fact: 'is N iota-invariant, for each of the 15 registered N'; (4) the substantive content is on the NEGATIVE side: this layer (index<=1000, c in N, N<=PB3, twin-census-registered) contains ZERO exotic (non-mirror) twins -- every twin pair found here is explained by the mirror mechanism, none needed a genuinely different (non-iota) source of twinning; (5) the residual dependency for even this negative reading is census's own isomorphism test (裁定548, StructureDescription+IdGroup, not established by this run).",
+      "what_actually_needs_a_new_lemma": "a proof that iota(N)!=N for the 7 UNKNOWN-by-paper indices (432,486,504x2,882,936x2) -- NOT a search for interesting new structure; the interesting OPEN question is the negative one (why are there no exotic twins in this layer), not a missing positive lemma."
+    }
+  },
+  "second_system": {
+    "system_A": "GAP (search/twin-witness-mirror-v1_1.g)",
+    "system_B": "python, GAP-helper-free (search/twin_witness_mc1_check_v1_1.py)",
+    "agreement_core": "30/30 directed windows: braid, N subseteq ker, iota(N)!=N (explicit witness word), |<s1,s2>|=index, K subseteq iota(N), hexagon_full (NEW), canary discriminates (NEW), in_PB3 independent (NEW), c_in_N independent (NEW) -- ALL AGREE.",
+    "all_core_agree": true,
+    "vacuous_excluded_from_core_vii": [
+      "surj (<s1^-1,s2^-1>=Q, always true)",
+      "charming (u=-1 unit mod anything, always true)"
+    ],
+    "grade": "cross-checked (系統A + 系統B 一致; Lean 不使用ゆえ verified ではない)"
+  },
+  "attribution_iv": {
+    "MIRROR_SHADOW_abc": "(a) hexagon, (b) charming, (c) SURJ -- these three steps are a RE-DERIVATION of docs/notes/div_law_v1.md sec 2.1 補題 PIN-A (同じ Delta 操作・同じ charming 論法・同じ SURJ 論法。工房既在, falsifier 発見穴4 で特定)。票 twin_witness_prereg_iffirst_v1.md sec2.2 の 'novelty grep: MIRROR 0 hit ゆえ [-1,1] が常にshadowであることはrepo未出' という主張は誤り(新造語で grep したため既存の PIN-A に当たらなかった -- 二度指摘済みの失敗型)。",
+    "genuinely_new": "ker T_{-1,1} = iota(N) の同定、および帰結 (iota(N)!=N => N は非isolated / N が isolated => iota(N)=N)。着想は Sol(F110-2.1 L98-104)。div_law の ker は全て ker chi-tilde であり本件と無関係。",
+    "citation_v": {
+      "N5_control": "定義ノート §4-7 の N5 control(c の位数5)。f=1 の charming GT-pair は m in {0,1,3,4} であり m=-1(=4 mod 5)が 含まれることを確認済み(div_law_v1.md sec10.2 検査(I))。c^m 項が非自明(c!=1)な窓でも補題PIN-A(=本走のMIRROR-SHADOW (a)(b)(c))が生きることの傍証として引用する。本走の登録15対は 全て c in N(c^m=1 for any m)なので、この控えは本走そのものの 計算ではなく、補題の適用範囲がc!=1側にも及ぶことの参考証拠として付記する(falsifier 発見穴5: '本走は中心項を一度も試していない'への対応 -- 引用のみ、新規計算はしない)。"
+    }
+  },
+  "M_ISO_2_status": {
+    "claim": "M-ISO-2(settled 述語が FALSE を返せることの実証)は満たされる: 登録した L2 の全15対(directed 30)で ker(T_{-1,1}) = iota(N) = K != N が両系統(A: GAP / B: python, GAP-helper非共有)で確認された。",
+    "first_witness": {
+      "index": 126,
+      "pair_uid": "b6b8a3feb9d2"
+    },
+    "grading_limitation_verbatim": "本 witness は算術元([-1,1] = 複素共役)であり、非算術証人(B 型)ではない。本件が閉じるのは M-ISO-2(settled 述語が FALSE を返せることの実証)であって、FAKE-VOID・非算術証人の存在/非存在には一切触れない。"
+  },
+  "scope3_not_executed": {
+    "reason": "M0 count = 0 in the registered L2 set (all 15 are M1) -- doc sec3 applies to M0-classified windows. Optional-on-M1 full enumeration (to get |GT| counts and source-kernel multiplicity) NOT executed."
+  },
+  "item5_torsor_not_run": {
+    "status": "NOT EXECUTED (票 §3.3 の torsor 整合検査)。",
+    "reason_裁定607_5": "司令塔指示により本走では走らせない -- Sol への諮り(便112)を経てから扱いを決める。この明示のみで足りる。",
+    "consequence": "P-3 の 'source kernel 異なり数>=2' も torsor 整合と同様に 未測定(prediction_accounting_v1_1.P3_correction_ii 参照)。"
+  },
+  "output_claim_per_doc_sec5": "witness FOUND (branch (i) of doc sec 5.3): L2 に M1(鏡映対)が 15 件(全数)。最小指数の対(126, pair_uid=b6b8a3feb9d2)を第一 witness とする。禁止語(AS-GAP-6 の非存在主張・AUTO-SETTLED・剛性主張・L3/L0残りへのTRUE/FALSE)は使用していない。本 v1.1 は falsifier の CV-9 判読(docs/notes/twin_witness_cv9_reading_v1.md)が支持した『登録L2の15対それぞれでiota(N)!=NかつiotaN)=Kであり、補題PIN-A(既在)+核同定ker T_{-1,1}=iota(N)により[-1,1]∈GTSh(K,N)は非settled GT-shadow、ゆえにNは非isolated。最小指数126』という狭い一文の6条件((a)W-a欠落明記→(a)実装済 (b)カナリア差替→実施済 (c)帰属訂正→実施済 (d)P-2/P-3格下げ→実施済 (e)c∈N限定+N5引用→実施済 (f)MC-1改版→実施済)を全て履行した。"
+}
