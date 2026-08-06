@@ -1,0 +1,193 @@
+{
+  "schema": "cal-b4-integrated/v2",
+  "supersedes": "search/certs/cal_b4_integrated_v1_20260806.json (v1 left untouched, historical)",
+  "unit_declaration_convention": "初適用(裁定674): every numeric field below has a sibling '*_unit' string naming what is counted. This convention exists because C-6b's first pass (run 31080320082) reported '6' and was scored FAIL against an expected '12' that was actually a DIFFERENT unit (pair-count, not f-count) -- see C6b below.",
+  "generated_by": {
+    "tool": "search/probe/b4_cal_v1/build_integrated_cert_v2.py",
+    "method": "regex extraction from committed GAP/GHA run logs -- no hand-transcribed numeric values"
+  },
+  "sources": {
+    "cal_b4_log": {
+      "path": "search/probe/b4_cal_v1/logs/cal_b4_n19_run31084038955.log",
+      "gha_run_id": "31084038955",
+      "sha256": "75b3a8eb8c06245d790207c7e824ab97506d43b38d53c9475ff2e94d304b13ba",
+      "note": "Collected by 司令塔 (裁定675) after the 裁定674 driver additions (C-6b dual-unit fix, C-6c/C-6d mandatory, C-6e recommended) were pushed+dispatched. Reaches ALL_DONE cleanly, no crash."
+    },
+    "p1_log": {
+      "path": "search/probe/b4_cal_v1/logs/p1_build_R_run31067255800.log",
+      "gha_run_id": "31067255800",
+      "sha256": "6a5c029a1e09973063cbf791d7418efd8e1426ba50726ba1ef67bf8857723cca",
+      "note": "Unchanged from v1 -- no new P1 run in this pass. Run crashed on a GHA memory limit (-o 6g) partway through B4-EXQ-2's DirectFactorsOfGroup(R) call, AFTER already printing and confirming B4-EXQ-1."
+    }
+  },
+  "C1": {
+    "idx_B4_PB4": 24,
+    "idx_B4_PB4_unit": "subgroup index [B4:PB4]",
+    "idx_B4_PB4_expected": 24,
+    "convention_guard_relator_count": 17,
+    "convention_guard_relator_count_unit": "relator count in RelatorsOfFpGroup(PB4fp)",
+    "convention_guard_bad_relators": 0,
+    "convention_guard_bad_relators_unit": "relator count failing to map to identity under psiImages",
+    "convention_guard_relators_total": 17,
+    "image_psi_size": 216,
+    "image_psi_size_unit": "group order |Image(psi)| in S9",
+    "image_psi_size_expected": 216,
+    "idx_PB4fp_N19": 216,
+    "idx_PB4fp_N19_unit": "subgroup index [PB4fp:N19]",
+    "idx_PB4fp_N19_expected": 216,
+    "pass": true
+  },
+  "C2": {
+    "N_ord": 6,
+    "N_ord_unit": "lcm(ord(x-bar),ord(y-bar)) in P19 -- cyclotomic character modulus",
+    "N_ord_expected": 6,
+    "pass": true
+  },
+  "C3a": {
+    "idx_F2_NF2": 7776,
+    "idx_F2_NF2_unit": "subgroup index [F2:N_F2] = |P19|",
+    "idx_F2_NF2_expected": 7776,
+    "pass": true
+  },
+  "C3b": {
+    "commutator_order": 216,
+    "commutator_order_unit": "group order |[P19,P19]| (DerivedSubgroup)",
+    "commutator_order_expected": 216,
+    "pass": true
+  },
+  "C4": {
+    "primary_method": {
+      "construction": "diagonal-Sym(45), 5 pentagon cofaces, full 7776-element enumeration",
+      "pentagon_pass_count": 216,
+      "pentagon_pass_count_unit": "f-count over the full 7776-element universe P19 (NOT pair-count, NOT restricted to [P19,P19])",
+      "pentagon_pass_count_expected": 216,
+      "elapsed_ms": 16,
+      "pentagon_pass_set_closed_under_mult_diagnostic_only": false,
+      "pass": true
+    },
+    "cross_method": {
+      "construction": "c5.g-style independent reimplementation (separate variable names/functions, Av/Bv/Cv + compC5)",
+      "pentagon_pass_count": 216,
+      "pentagon_pass_count_unit": "f-count over the 7776-element universe Gc5 (same unit as primary_method, independently re-derived)",
+      "pentagon_pass_count_expected": 216,
+      "pass": true
+    },
+    "note": "Both methods run in the SAME GAP process / SAME session's implementation -- this is an in-repo double-implementation agreement, NOT an independent third-party cross-check. See docs/notes/cal_b4_c8_waiver_prereg_v1.md SS1.2 for the explicit distinction (C-8/PackageGT would be the genuine third-party check)."
+  },
+  "C5": {
+    "pair_count": 72,
+    "pair_count_unit": "shadow (m,f) pair-count over the 216 pentagon-passing f's x 4 candidate m's",
+    "pair_count_expected": 72,
+    "distinct_f": 36,
+    "distinct_f_unit": "f-count (distinct f among the 216 pentagon-passing elements that hexagon-pass for AT LEAST ONE m)",
+    "distinct_f_expected": 36,
+    "elapsed_ms": 223,
+    "per_f_good_m_distribution_raw": "[ [ 2, 36 ] ]",
+    "per_f_good_m_distribution_unit": "(good-m-count, number-of-f-with-that-count) pairs -- uniform [[2,36]] means every one of the 36 distinct f's has exactly 2 good m's",
+    "both_units_pass": true
+  },
+  "C6_first_half": {
+    "value": 72,
+    "value_unit": "shadow (m,f) pair-count, identical quantity to C5.pair_count (cntC5)",
+    "expected": 72,
+    "note": "|GT(N19)| charming pair count",
+    "pass": true
+  },
+  "C6b_second_half": {
+    "status": "COMPUTED",
+    "note": "★ 単位訂正(裁定674): run 31080320082 の初回実測(f_count=6)は FAIL と誤判定された -- 比較先の '12'(2008 Table 1)が実は pair-count 単位だったため。両単位を独立に検査する よう driver を修正(裁定674)し、run 31084038955 で両方 PASS を確認した。",
+    "derived_subgroup_order": 216,
+    "derived_subgroup_order_unit": "group order |DerivedSubgroup(Gc5)|",
+    "derived_subgroup_order_expected": 216,
+    "f_count": 6,
+    "f_count_unit": "f-count -- distinct f (of the 36 hexagon-passing f's) whose Gc5-image lies in DerivedSubgroup(Gc5)",
+    "f_count_expected": 6,
+    "pair_count": 12,
+    "pair_count_unit": "shadow (m,f) pair-count -- hexpassC5 pairs whose f-index is one of the f_count=6 (2008 Table 1's GT-heart(N19)=12)",
+    "pair_count_expected": 12,
+    "pass": true
+  },
+  "C6c": {
+    "status": "COMPUTED",
+    "note": "必須(裁定674)。charming 条件 (2)(2.61): T^F2_{m,f} = T^PB3_{m,f}|_F2 が F2 -> F2/N_F2 全射であることを、C-6b の 12 個の heart shadow (pair-count 単位) すべてで直接検査。",
+    "pass_count": 12,
+    "pass_count_unit": "shadow-count (of the 12 heart pair-count shadows) satisfying Group(gX^(2m+1), F^-1 gY^(2m+1) F) = Gc5",
+    "total_count": 12,
+    "total_count_unit": "shadow-count (of the 12 heart pair-count shadows) attempted",
+    "total_count_expected": 12,
+    "pass": true
+  },
+  "C6d": {
+    "status": "COMPUTED",
+    "note": "円分指標二等分(裁定674)。各 heart-f(f_count=6 単位)の good-m 2 個が {0,3} から 1 個・{2,5} から 1 個であることを実測(仮定せず悉皆)。",
+    "pass_count": 6,
+    "pass_count_unit": "f-count (of the 6 heart-f's) whose good-m pair bisects {0,3}/{2,5}",
+    "total_count": 6,
+    "total_count_unit": "f-count (of the 6 heart-f's) attempted",
+    "total_count_expected": 6,
+    "pass": true
+  },
+  "C6e": {
+    "status": "COMPUTED (推奨, not part of the required P0 gate)",
+    "note": "合成則 (2.52)/(2.55) を12個の heart shadow(pair-count単位)に適用し乗積表を構築、閉じれば GroupByMultiplicationTable で群を再構成し DihedralGroup(12) と IdGroup で比較。",
+    "closure_fail_count": 0,
+    "closure_fail_count_unit": "ordered-product-count failing to land back in the 12-element heart set",
+    "products_total": 144,
+    "products_total_unit": "ordered-product-count attempted (12 x 12 multiplication-table entries)",
+    "products_total_expected": 144,
+    "reconstructed_group_order": 12,
+    "reconstructed_group_order_unit": "group order |GroupByMultiplicationTable(mulTable)|",
+    "reconstructed_group_order_expected": 12,
+    "isomorphic_to_D6": true,
+    "isomorphic_to_D6_note": "D6 = DihedralGroup(12) in GAP convention (order-12 dihedral group, r^6=s^2=(rs)^2=1)",
+    "pass": true
+  },
+  "P1": {
+    "gha_run_id": "31067255800",
+    "R_size_decimal": "44567640326363195900190045974568007",
+    "R_size_decimal_unit": "group order |R| where R = PB4fp / V(PB4fp)",
+    "R_size_expected_decimal": "44567640326363195900190045974568007",
+    "R_size_expected_formula": "7^41",
+    "B4_EXQ1_pass": true,
+    "Z_R_size": 3909821048582988049,
+    "Z_R_size_unit": "group order |Z(R)|",
+    "B4_EXQ2_status": "CRASHED_OOM_INCOMPLETE",
+    "B4_EXQ2_note": "|Z(R)| was computed and printed (3909821048582988049), but the subsequent DirectFactorsOfGroup(R) call hit GHA's -o 6g memory limit ('Error, reached the pre-set memory limit'). The script never reached its P1_PASS/ALL_DONE markers because of this downstream OOM in the B4-EXQ-2 block -- this is NOT a P1_FAIL of B4-EXQ-1 (which was already printed and confirmed true before the crash). B4-EXQ-2 (R = C7 x Q direct-factor confirmation) remains UNCONFIRMED, not FAIL. No new P1 run in this pass (v2 cert reuses the same v1 P1 log/values).",
+    "reached_P1_PASS_marker": false,
+    "reached_ALL_DONE_marker": false,
+    "run_gap_exit_code": 1,
+    "run_gap_exit_note": "nonzero because of the B4-EXQ-2 OOM crash, not because B4-EXQ-1 failed"
+  },
+  "C8": {
+    "status": "SKIP",
+    "reason": "Genuine environment blocker on BOTH available environments: local Windows/Git-Bash import fails because search/thirdparty/PackageGT/Aux.py collides with the Windows-reserved device name AUX; GHA ubuntu-latest's checkout does not include search/thirdparty/ (gitignored by design, provenance/LEDGER.md 2026-07-26 copyright/future-public-release decision). SKIP is not PASS.",
+    "workflow_job": ".github/workflows/b4-cal.yml c8_packagegt (reports clean SKIP when search/thirdparty/PackageGT is absent)",
+    "waiver_prereg": "docs/notes/cal_b4_c8_waiver_prereg_v1.md",
+    "waiver_ruling": "裁定674(2026-08-06): 弱い代替 gate は採用しない -- C-8 は SKIP+記録のまま。採否(waiver prereg §1.2の弱い代替根拠を暫定 gate として認めるか)は 便113で Sol に諮る。この cert は waiver を発効済みとして扱わない。"
+  },
+  "overall": {
+    "computed_checks": [
+      "C1",
+      "C2",
+      "C3a",
+      "C3b",
+      "C4.primary_method",
+      "C4.cross_method",
+      "C5",
+      "C6_first_half",
+      "C6b_second_half",
+      "C6c",
+      "C6d",
+      "C6e",
+      "P1.B4_EXQ1"
+    ],
+    "all_required_checks_pass": true,
+    "all_required_checks_pass_note": "C6e is 推奨 (recommended), not required -- excluded from this flag by design (裁定674). See all_checks_including_recommended_pass.",
+    "all_checks_including_recommended_pass": true,
+    "pending_items": [
+      "P1.B4_EXQ2 (R = C7 x Q direct-factor split -- OOM before confirmation, no new run this pass)",
+      "C8 (environment blocker, waiver adoption question deferred to Sol via 便113, 裁定674)"
+    ],
+    "note": "'all_required_checks_pass' covers C-1 through C-6d + P1.B4-EXQ-1 (excludes the recommended-only C-6e and the environment-blocked C-8). It does NOT imply CAL-B4/P0 as a whole (which per sol_reply_112_math38.md SS197 requires C-1..C-6/C-8) is complete -- see pending_items."
+  }
+}
