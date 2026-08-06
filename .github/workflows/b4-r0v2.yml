@@ -47,6 +47,15 @@ name: b4-r0v2
 # Single GAP lane discipline (【R0v2-GAP-1】): candidate/single-system by
 # design. A second system is triggered only if a non-abelian window is
 # found (separate follow-up task, not this workflow).
+#
+# REPAIR RUN (裁定673, falsifier second-system finding on the prior cert
+# search/certs/b4_r0_probe_v2_20260806.json): output now goes to
+# search/certs/b4_r0_probe_v2_p2fix_20260806.json (the prior cert file is
+# left in place, untouched, for side-by-side comparison -- "v1 cert
+# 並置"). See the driver's own "repair_note" field / P2 section comments
+# for the full description of the three repair items (P2 field-recording
+# transparency, explicit no-silent-drop rejection bookkeeping, and the
+# delta2_in_N/N_idgroup -> delta2_in_ker/psi_PB4_idgroup field renames).
 
 on:
   workflow_dispatch: {}
@@ -118,5 +127,5 @@ jobs:
         if: always()
         with:
           name: b4-r0v2-probe-cert
-          path: search/certs/b4_r0_probe_v2_20260806.json
+          path: search/certs/b4_r0_probe_v2_p2fix_20260806.json
           if-no-files-found: warn

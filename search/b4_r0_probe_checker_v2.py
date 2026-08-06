@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
 b4_r0_probe_checker_v2.py -- independent (GAP-free) consistency checker for
-search/certs/b4_r0_probe_v2_20260806.json, per
+search/certs/b4_r0_probe_v2_p2fix_20260806.json (裁定673 repair run; prior
+cert search/certs/b4_r0_probe_v2_20260806.json is checked only by this
+script's history -- see git log for the version that pointed at it), per
 docs/notes/b4_r0_probe_prereg_iffirst_v2.md.
 
 Per the prereg's own 【R0v2-GAP-1】, R0 v2 is single-system by design (GAP
@@ -31,23 +33,31 @@ GAP driver or trusting the cert's self-report, is:
   - every nonabelian_windows entry has Q_order==8 and Q_is_abelian==False,
     and its smallgroup_id appears in p2_passed (P4 only fires on P3 which
     only runs on P2 survivors)
-  - filter_soundness_spotcheck: p1_rejected_sampled has 20 entries (or the
-    filter-rejected pool was smaller), p2_rejected_sampled has 20 entries,
-    all_clear is True iff no sampled entry has window_found=True, and no
-    sampled id overlaps p1_passed / p2_passed respectively (S-R0-7' input
-    integrity)
+  - filter_soundness_spotcheck: p1_rejected_sampled / p2_rejected_sampled
+    each have min(20, actual rejected-pool size) entries -- NOT a hard 20,
+    since the P2-rejected pool can genuinely be smaller than 20 when P1
+    passes few groups (this run: pool size 8, corrected from the prior
+    checker's naive hard-20 assertion, itself a false-positive discovered
+    in the run-3 report). all_clear is True iff no sampled entry has
+    window_found=True, and no sampled id overlaps p1_passed / p2_passed
+    respectively (S-R0-7' input integrity)
   - verdict is consistent with cap_hit / windows_count / spotcheck all_clear
     per the prereg SS6 table (S-R0-4', S-R0-7', S-R0-8')
   - output contains none of the SS5.2 forbidden phrases
   - scope_declaration all False (S-R0-6')
   - untested_ids non-empty only for stages where cap_hit is True (PARTIAL
     discipline, S-R0-8': never NOT_FOUND when a stage was capped)
+  - REPAIR-ITEM-B invariant (裁定673): every p1_passed id has EXACTLY ONE
+    disposition -- present in p2_passed XOR p2_rejected XOR untested_ids.P2
+    (no silent drops). p2_rejected_count == len(p2_rejected).
+    p2_disposition_complete's own self-report is independently
+    recomputed and compared, not merely echoed.
 """
 import hashlib
 import json
 import sys
 
-CERT_PATH = "search/certs/b4_r0_probe_v2_20260806.json"
+CERT_PATH = "search/certs/b4_r0_probe_v2_p2fix_20260806.json"
 PREREG_PATH = "docs/notes/b4_r0_probe_prereg_iffirst_v2.md"
 ERRATUM_PATH = "docs/notes/b4_r0_probe_prereg_iffirst_v2_1_erratum.md"
 DRIVER_PATH = "search/probe/b4_r0_probe_v2/r0_probe_v2_driver.g"
@@ -137,16 +147,48 @@ def main():
     # --- bookkeeping ---
     p1_passed = d.get("p1_passed", [])
     p2_passed = d.get("p2_passed", [])
+    p2_rejected = d.get("p2_rejected", [])
     if d.get("p1_passed_count") != len(p1_passed):
         problems.append("p1_passed_count != len(p1_passed)")
     if d.get("p2_passed_count") != len(p2_passed):
         problems.append("p2_passed_count != len(p2_passed)")
+    if d.get("p2_rejected_count") != len(p2_rejected):
+        problems.append("p2_rejected_count != len(p2_rejected)")
 
     p1_ids = {r["id"] for r in p1_passed}
     p2_ids = {r["id"] for r in p2_passed}
+    p2_rejected_ids = {r["id"] for r in p2_rejected}
     for r in p2_passed:
         if r["id"] not in p1_ids:
             problems.append(f"p2_passed id={r['id']} not in p1_passed (P2 must only run on P1 survivors)")
+    for r in p2_rejected:
+        if r["id"] not in p1_ids:
+            problems.append(f"p2_rejected id={r['id']} not in p1_passed (P2 must only run on P1 survivors)")
+        if not r.get("reason"):
+            problems.append(f"p2_rejected id={r['id']} has no reason code")
+
+    # --- REPAIR-ITEM-B (裁定673): every P1-survivor gets EXACTLY ONE
+    # disposition (p2_passed XOR p2_rejected XOR untested.P2) -- no silent
+    # drops. Independently recomputed (not just echoing p2_disposition_complete).
+    p2_untested_ids = set(d.get("untested_ids", {}).get("P2", []))
+    overlap_passed_rejected = p2_ids & p2_rejected_ids
+    if overlap_passed_rejected:
+        problems.append(f"ids in BOTH p2_passed and p2_rejected: {sorted(overlap_passed_rejected)}")
+    overlap_passed_untested = p2_ids & p2_untested_ids
+    if overlap_passed_untested:
+        problems.append(f"ids in BOTH p2_passed and untested_ids.P2: {sorted(overlap_passed_untested)}")
+    overlap_rejected_untested = p2_rejected_ids & p2_untested_ids
+    if overlap_rejected_untested:
+        problems.append(f"ids in BOTH p2_rejected and untested_ids.P2: {sorted(overlap_rejected_untested)}")
+    covered = p2_ids | p2_rejected_ids | p2_untested_ids
+    missing = p1_ids - covered
+    if missing:
+        problems.append(f"REPAIR-ITEM-B violation: p1_passed ids with NO disposition (silent drop): {sorted(missing)}")
+    expected_disposition_complete = (len(p2_ids) + len(p2_rejected_ids) + len(p2_untested_ids) == len(p1_ids)) and not missing
+    if bool(d.get("p2_disposition_complete")) != expected_disposition_complete:
+        problems.append(
+            f"p2_disposition_complete self-report ({d.get('p2_disposition_complete')}) != independently recomputed ({expected_disposition_complete})"
+        )
 
     nonab = d.get("nonabelian_windows", [])
     if d.get("windows_count") != len(nonab):
@@ -160,13 +202,28 @@ def main():
             problems.append(f"nonabelian_windows entry smallgroup_id={w.get('smallgroup_id')} not in p2_passed")
 
     # --- filter soundness spot-check (S-R0-7' input) ---
+    # Sample sizes are min(20, actual rejected-pool size), NOT a hard 20 --
+    # a hard-20 assertion is a checker bug when the pool itself is smaller
+    # than 20 (this run: P2-rejected pool = p1_passed(12) - p2_passed(4) -
+    # untested(0) = 8, discovered as a false positive in the run-3 report
+    # and fixed here per 司令塔 instruction).
     spot = d.get("filter_soundness_spotcheck", {})
     p1_sample = spot.get("p1_rejected_sampled", [])
     p2_sample = spot.get("p2_rejected_sampled", [])
-    if len(p1_sample) != 20:
-        problems.append(f"filter_soundness_spotcheck.p1_rejected_sampled length != 20: {len(p1_sample)}")
-    if len(p2_sample) != 20:
-        problems.append(f"filter_soundness_spotcheck.p2_rejected_sampled length != 20: {len(p2_sample)}")
+    # P1-rejected pool size: total tested in P1 (nr_small_groups_192, or up
+    # to the P1 cap boundary) minus p1_passed.
+    p1_untested = d.get("untested_ids", {}).get("P1", [])
+    p1_tested_total = d.get("nr_small_groups_192", 0) - len(p1_untested)
+    expected_p1_sample_len = min(20, max(0, p1_tested_total - len(p1_ids)))
+    if len(p1_sample) != expected_p1_sample_len:
+        problems.append(
+            f"filter_soundness_spotcheck.p1_rejected_sampled length {len(p1_sample)} != expected min(20,pool)={expected_p1_sample_len}"
+        )
+    expected_p2_sample_len = min(20, len(p2_rejected_ids))
+    if len(p2_sample) != expected_p2_sample_len:
+        problems.append(
+            f"filter_soundness_spotcheck.p2_rejected_sampled length {len(p2_sample)} != expected min(20,pool)={expected_p2_sample_len}"
+        )
     for s in p1_sample:
         if s["id"] in p1_ids:
             problems.append(f"filter_soundness_spotcheck p1 sample id={s['id']} is actually in p1_passed (sampling pool contamination)")

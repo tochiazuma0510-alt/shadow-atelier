@@ -45,7 +45,18 @@ PREREG_PATH := "docs/notes/b4_r0_probe_prereg_iffirst_v2.md";;
 ## matter for 司令塔, not a driver-behavior matter).
 ERRATUM_PATH := "docs/notes/b4_r0_probe_prereg_iffirst_v2_1_erratum.md";;
 DRIVER_PATH := "search/probe/b4_r0_probe_v2/r0_probe_v2_driver.g";;
-OUT_PATH := "search/certs/b4_r0_probe_v2_20260806.json";;
+## repair run (裁定673, falsifier second-system finding): P2 field naming
+## was ambiguous (N_idgroup could be misread as ker(psi), which is
+## infinite -- it is neither ker(psi) nor a confirmed psi(PB4); it was
+## P2's own abstract structural pre-filter candidate, computed
+## independently of any concrete B4fp epimorphism). Renamed throughout to
+## psi_PB4_idgroup / delta2_in_ker (see P2/P3 sections below for the
+## precise, now-disambiguated semantics of each). Also: P2 now records an
+## explicit p2_rejected census (with reason) for every P1-survivor that
+## does NOT pass, instead of silently omitting it (repair item B). Output
+## goes to a NEW filename so the prior (v1) cert stays in place
+## side-by-side per 司令塔 instruction ("v1 cert 並置").
+OUT_PATH := "search/certs/b4_r0_probe_v2_p2fix_20260806.json";;
 
 ComputeSha256File := function(relpath)
   local tmp, f, line;
@@ -176,28 +187,68 @@ fi;
 
 #############################################################################
 ## P2 -- structure filter F2: exists N normal, |N|=8, N nonabelian,
-## IdGroup(G/N)=[24,12] (S4)
+## IdGroup(G/N)=[24,12] (S4). REPAIR (裁定673, items A+B):
+##
+##  (A) 'psi_PB4_idgroup' here is P2's OWN abstract structural pre-filter
+##      candidate -- the IdGroup of a normal subgroup N of G (a concrete,
+##      finite group; NOT ker(psi), which would be infinite) satisfying
+##      the NECESSARY condition |N|=8, N nonabelian, G/N=S4. It is
+##      computed via NormalSubgroups(G) alone, entirely INDEPENDENTLY of
+##      any GQuotients(B4fp,G) epimorphism -- P2 never touches B4fp. It is
+##      NOT guaranteed to equal the psi(PB4) that P3 actually measures for
+##      a concrete epimorphism (P3's Q_idgroup is the authoritative,
+##      independently-measured value for that). Defensive ShallowCopy on
+##      every IdGroup(...) result below, to eliminate any possibility of
+##      accidental list-object aliasing across loop iterations (the
+##      falsifier's "carryover" hypothesis for the 1492/1494 mislabeling
+##      in the prior run -- no aliasing bug was located on code review,
+##      but this closes the possibility regardless).
+##  (B) EVERY P1-survivor now gets an explicit disposition: either an
+##      entry in p2Passed (psi_PB4_idgroup populated) or an entry in
+##      p2Rejected (with a `reason` code) -- no silent drops. Both carry
+##      a full order8_normal_census (ALL order-8 normal subgroups found,
+##      not just qualifying ones) so the underlying NormalSubgroups(G)
+##      data is fully auditable from the cert alone, independent of any
+##      claim this driver makes about it.
 #############################################################################
 Print("\n=== P2: structure filter over ", Length(p1Passed), " P1-survivors ===\n");
 p2Start := GAPLIB_WallElapsedMs();;
 p2Passed := [];;
+p2Rejected := [];;
 p2UntestedIds := [];;
 p2CapHit := false;;
 j := 1;;
 while j <= Length(p1Passed) do
   id := p1Passed[j].id;;
   G := SmallGroup(192, id);;
+  order8Normals := [];;
   cand := [];;
   for N in NormalSubgroups(G) do
-    if Size(N) = 8 and not IsAbelian(N) then
-      Q := G / N;;
-      if IdGroup(Q) = [24,12] then
-        AddSet(cand, IdGroup(N));;
+    if Size(N) = 8 then
+      Nid := ShallowCopy(IdGroup(N));;
+      Nab := IsAbelian(N);;
+      Qquot := G / N;;
+      Qid := ShallowCopy(IdGroup(Qquot));;
+      Add(order8Normals, rec(idgroup := Nid, is_abelian := Nab, quotient_idgroup := Qid));;
+      Print("  [P2 audit] id=", id, " order-8 normal: idgroup=", Nid,
+            " abelian=", Nab, " quotient_idgroup=", Qid, "\n");
+      if (not Nab) and Qid = [24,12] then
+        AddSet(cand, Nid);;
       fi;
     fi;
   od;
   if Length(cand) > 0 then
-    Add(p2Passed, rec(id := id, N_idgroup := cand));;
+    Add(p2Passed, rec(id := id, psi_PB4_idgroup := cand, order8_normal_census := order8Normals));;
+  else
+    if Length(order8Normals) = 0 then
+      p2reason := "no_order8_normal_subgroup";;
+    elif ForAll(order8Normals, r -> r.is_abelian) then
+      p2reason := "all_order8_normals_abelian";;
+    else
+      p2reason := "nonabelian_order8_normals_exist_but_wrong_quotient";;
+    fi;
+    Add(p2Rejected, rec(id := id, reason := p2reason, order8_normal_census := order8Normals));;
+    Print("  [P2 reject] id=", id, " reason=", p2reason, "\n");
   fi;
   if (j mod 50) = 0 then
     Print("  P2 progress: ", j, "/", Length(p1Passed), "  passed so far: ", Length(p2Passed),
@@ -212,8 +263,8 @@ while j <= Length(p1Passed) do
   j := j + 1;;
 od;
 p2ElapsedMs := GAPLIB_WallElapsedMs() - p2Start;;
-Print("P2 done: passed=", Length(p2Passed), " elapsed=", p2ElapsedMs, "ms",
-      "  cap_hit=", p2CapHit, "\n");
+Print("P2 done: passed=", Length(p2Passed), " rejected=", Length(p2Rejected),
+      " elapsed=", p2ElapsedMs, "ms", "  cap_hit=", p2CapHit, "\n");
 
 if Length(p2Passed) = 0 and not p2CapHit and Length(p1Passed) > 0 then
   Print("STOP: FILTER_TOO_STRONG (S-R0-9') -- P2 passed 0\n");
@@ -242,21 +293,39 @@ while k <= Length(p2Passed) do
     Qab := IsAbelian(Q);;
     Qid := fail;;
     if Qsize > 0 then
-      Qid := IdGroup(Q);;
+      Qid := ShallowCopy(IdGroup(Q));;
     fi;
+    ## delta2_in_ker: does Delta4sq map to the identity of G under psi,
+    ## i.e. is Delta4sq in ker(psi)=Ñ? (renamed from delta2_in_N, 裁定673
+    ## item C -- the old name invited confusion with N, which here means
+    ## Q=psi(PB4), a FINITE order-8 subgroup, whereas ker(psi) is an
+    ## INFINITE-index normal subgroup of B4fp; delta2_in_ker is squarely
+    ## about ker(psi), never about Q, so the rename removes the clash)
     d2img := Image(phi, Delta4sq);;
-    d2InN := (d2img = One(G));;
+    d2InKer := (d2img = One(G));;
     sigOrders := [ Order(Image(phi,a)), Order(Image(phi,b)), Order(Image(phi,c)) ];;
     isWindow := (Qsize = 8) and (not Qab);;
     Add(epiRecs, rec(epi_index := ei, Q_order := Qsize, Q_idgroup := Qid,
-        Q_is_abelian := Qab, delta2_in_N := d2InN, sigma_orders := sigOrders,
+        Q_is_abelian := Qab, delta2_in_ker := d2InKer, sigma_orders := sigOrders,
         is_window := isWindow));;
     if isWindow then
+      ## NOTE (裁定673 item C, judgment call flagged for review): the prior
+      ## cert also copied p2Passed's N_idgroup into this record verbatim.
+      ## That field is P2's OWN abstract structural pre-filter candidate
+      ## (computed via NormalSubgroups(G), never touching B4fp/psi) -- it
+      ## is not a re-measurement of psi(PB4) for THIS specific epi, and Q_idgroup
+      ## right below already IS the authoritative, independently-measured
+      ## IdGroup of Q=psi(PB4) for this exact epi. Re-adding it here under
+      ## the instructed name psi_PB4_idgroup would recreate the same
+      ## ambiguity in a new label (two near-identically-named fields, one
+      ## authoritative and one an unrelated P2 pre-filter artifact) rather
+      ## than eradicate it -- so it is DROPPED from nonabelian_windows here
+      ## (still available, correctly labeled, in p2_passed/p2_rejected for
+      ## anyone cross-referencing the abstract P2 filter separately).
       Add(nonabelianWindows, rec(smallgroup_id := id, epi_index := ei,
           Gab_size := (First(p1Passed, r -> r.id = id)).Gab_size,
-          N_idgroup := (First(p2Passed, r -> r.id = id)).N_idgroup,
           n_epis := Length(epis), Q_order := Qsize, Q_idgroup := Qid,
-          Q_is_abelian := Qab, delta2_in_N := d2InN, sigma_orders := sigOrders,
+          Q_is_abelian := Qab, delta2_in_ker := d2InKer, sigma_orders := sigOrders,
           Nt_index := 192));;
       Print("  *** WINDOW CANDIDATE: id=", id, " epi=", ei, " Q_idgroup=", Qid, " ***\n");
     fi;
@@ -365,12 +434,25 @@ smallgrpVersionStr := "builtin-library";;
 P1PassedJson := JArr(List(p1Passed, r -> Concatenation(
   "{\"id\":", String(r.id), ",\"Gab_size\":", String(r.Gab_size), "}")));;
 
-P2PassedJson := JArr(List(p2Passed, r -> Concatenation(
-  "{\"id\":", String(r.id), ",\"N_idgroup\":", JArr(List(r.N_idgroup, p -> JPair(p[1],p[2]))), "}")));;
-
 QIdJson := function(qid)
   if qid = fail then return "null"; else return JPair(qid[1],qid[2]); fi;
 end;;
+
+Order8CensusJson := function(census)
+  return JArr(List(census, e -> Concatenation(
+    "{\"idgroup\":", JPair(e.idgroup[1],e.idgroup[2]),
+    ",\"is_abelian\":", JB(e.is_abelian),
+    ",\"quotient_idgroup\":", JPair(e.quotient_idgroup[1],e.quotient_idgroup[2]), "}")));
+end;;
+
+P2PassedJson := JArr(List(p2Passed, r -> Concatenation(
+  "{\"id\":", String(r.id),
+  ",\"psi_PB4_idgroup\":", JArr(List(r.psi_PB4_idgroup, p -> JPair(p[1],p[2]))),
+  ",\"order8_normal_census\":", Order8CensusJson(r.order8_normal_census), "}")));;
+
+P2RejectedJson := JArr(List(p2Rejected, r -> Concatenation(
+  "{\"id\":", String(r.id), ",\"reason\":", JStr(r.reason),
+  ",\"order8_normal_census\":", Order8CensusJson(r.order8_normal_census), "}")));;
 
 EpiRecJson := function(er)
   return Concatenation(
@@ -378,7 +460,7 @@ EpiRecJson := function(er)
     ",\"Q_order\":", String(er.Q_order),
     ",\"Q_idgroup\":", QIdJson(er.Q_idgroup),
     ",\"Q_is_abelian\":", JB(er.Q_is_abelian),
-    ",\"delta2_in_N\":", JB(er.delta2_in_N),
+    ",\"delta2_in_ker\":", JB(er.delta2_in_ker),
     ",\"sigma_orders\":", JArr(List(er.sigma_orders,String)),
     ",\"is_window\":", JB(er.is_window), "}");
 end;;
@@ -393,7 +475,7 @@ P3Json := JArr(List(p3Records, function(pr)
     return Concatenation(
       "{\"smallgroup_id\":", String(pr.smallgroup_id),
       ",\"n_epis\":0,\"Q_order\":null,\"Q_idgroup\":null,\"Q_is_abelian\":null",
-      ",\"delta2_in_N\":null,\"sigma_orders\":null,\"epis_detail\":[]}");
+      ",\"delta2_in_ker\":null,\"sigma_orders\":null,\"epis_detail\":[]}");
   fi;
   return Concatenation(
     "{\"smallgroup_id\":", String(pr.smallgroup_id),
@@ -401,7 +483,7 @@ P3Json := JArr(List(p3Records, function(pr)
     ",\"Q_order\":", String(pr.epis[1].Q_order),
     ",\"Q_idgroup\":", QIdJson(pr.epis[1].Q_idgroup),
     ",\"Q_is_abelian\":", JB(pr.epis[1].Q_is_abelian),
-    ",\"delta2_in_N\":", JB(pr.epis[1].delta2_in_N),
+    ",\"delta2_in_ker\":", JB(pr.epis[1].delta2_in_ker),
     ",\"sigma_orders\":", JArr(List(pr.epis[1].sigma_orders,String)),
     ",\"epis_detail\":", JArr(List(pr.epis, EpiRecJson)), "}");
 end));;
@@ -411,12 +493,11 @@ NonabWinJson := JArr(List(nonabelianWindows, function(w)
     "{\"smallgroup_id\":", String(w.smallgroup_id),
     ",\"epi_index\":", String(w.epi_index),
     ",\"Gab_size\":", String(w.Gab_size),
-    ",\"N_idgroup\":", JArr(List(w.N_idgroup, p -> JPair(p[1],p[2]))),
     ",\"n_epis\":", String(w.n_epis),
     ",\"Q_order\":", String(w.Q_order),
     ",\"Q_idgroup\":", QIdJson(w.Q_idgroup),
     ",\"Q_is_abelian\":", JB(w.Q_is_abelian),
-    ",\"delta2_in_N\":", JB(w.delta2_in_N),
+    ",\"delta2_in_ker\":", JB(w.delta2_in_ker),
     ",\"sigma_orders\":", JArr(List(w.sigma_orders,String)),
     ",\"Nt_index\":", String(w.Nt_index), "}");
 end));;
@@ -460,6 +541,9 @@ cert := Concatenation(
 "\"p1_passed_count\":", String(Length(p1Passed)), ",\n",
 "\"p2_passed\":", P2PassedJson, ",\n",
 "\"p2_passed_count\":", String(Length(p2Passed)), ",\n",
+"\"p2_rejected\":", P2RejectedJson, ",\n",
+"\"p2_rejected_count\":", String(Length(p2Rejected)), ",\n",
+"\"p2_disposition_complete\":", JB(Length(p2Passed) + Length(p2Rejected) + Length(p2UntestedIds) = Length(p1Passed)), ",\n",
 "\"p3\":", P3Json, ",\n",
 "\"filter_soundness_spotcheck\":{\"seed\":", String(SPOTCHECK_SEED),
   ",\"p1_rejected_sampled\":", SpotP1Json,
@@ -473,7 +557,8 @@ cert := Concatenation(
 "\"grade\":\"candidate / single-system / not cross-checked / not verified (no Lean)\",\n",
 "\"scope_declaration\":{\"iota\":false,\"twins\":false,\"gtshadow_predicates\":false,\"sealed_quantities\":false},\n",
 "\"authority\":\"docs/notes/b4_r0_probe_prereg_iffirst_v2.md (frozen, verbatim), executed per instruction\",\n",
-"\"operational_deviation\":", JStr(OPERATIONAL_DEVIATION_NOTE), "\n",
+"\"operational_deviation\":", JStr(OPERATIONAL_DEVIATION_NOTE), ",\n",
+"\"repair_note\":\"裁定673 (falsifier second-system finding) repair of prior cert search/certs/b4_r0_probe_v2_20260806.json, kept in place unmodified for side-by-side comparison ('v1 cert 並置'): (A) prior p2_passed.N_idgroup values for id=1492/1494 read [8,4] where P3 independently measured Q_idgroup=[8,5] for those same ids -- no aliasing/carryover bug was located on code review (P2's abstract-N loop resets state every iteration, uses fresh ShallowCopy'd IdGroup results here); the two quantities are computed by genuinely independent methods (P2: NormalSubgroups(G) structural search, never touching B4fp; P3: GQuotients(B4fp,G) concrete epimorphism image) and are not guaranteed to agree -- this repair adds a full order8_normal_census (every order-8 normal subgroup of G, abelian or not, with its quotient IdGroup) to every p2_passed/p2_rejected entry so the underlying NormalSubgroups(G) data is independently auditable from the cert alone, rather than resolving the discrepancy by assertion. (B) every P1-survivor now gets an explicit p2_passed or p2_rejected entry with a reason code -- no silent drops (p2_disposition_complete asserts this partition is total). (C) delta2_in_N -> delta2_in_ker (unambiguous: refers to ker(psi), an infinite-index normal subgroup of B4fp, never to Q); N_idgroup -> psi_PB4_idgroup in p2_passed/p2_rejected (P2's own abstract pre-filter candidate, explicitly documented as NOT a re-measurement of psi(PB4)); the mirrored N_idgroup field in nonabelian_windows was DROPPED rather than renamed (judgment call, flagged for review) since Q_idgroup there already IS the authoritative measured psi(PB4) IdGroup for that exact epi, and reintroducing a near-identically-named second field would recreate the ambiguity under a new name.\",\n",
 "}\n");;
 
 WriteFile(OUT_PATH, cert);;
