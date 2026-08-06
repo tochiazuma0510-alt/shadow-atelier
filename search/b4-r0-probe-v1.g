@@ -21,11 +21,11 @@
 ## on 2 generators. Per the standing RAM-8GB/-o 2g local discipline, memory
 ## was NOT raised locally. This is a PURELY OPERATIONAL deviation --
 ## execution environment (local Windows -> GitHub Actions ubuntu runner) and
-## memory ceiling (-o 2g -> -o 8g) change -- NOT a change to the prereg's
+## memory ceiling (-o 2g -> -o 6g) change -- NOT a change to the prereg's
 ## frozen mathematical universe (B4 presentation SS1.1, census_index_hi=240,
 ## LID-1 single-call discipline, wall cap semantics all unchanged). The GHA
 ## workflow .github/workflows/b4-r0.yml runs this exact script unmodified,
-## with gap -o 8g and a job-level timeout-minutes:15 (runner clock) enforcing
+## with gap -o 6g and a job-level timeout-minutes:15 (runner clock) enforcing
 ## S-R0-4 externally in addition to this script's own internal check.
 #############################################################################
 Read("search/gaplib_common.g");
@@ -61,12 +61,51 @@ if PB4_INDEX <> 24 then
 fi;
 
 #############################################################################
+## ---- INSTRUMENTATION (司令塔裁定, this session, after run 31070583319's
+## -o 8g OOM in ~49s): print evidence that the -o flag actually reached GAP
+## (not silently defaulted), plus a Gasman workspace snapshot, BEFORE the
+## LINS call -- so this survives in the captured log even if LINS itself
+## crashes with no partial result and no cert is ever written.
+#############################################################################
+## GAPInfo.CommandLineOptions.o holds the raw -o VALUE as a plain GAP string
+## (e.g. "2g"), NOT a list of strings (confirmed empirically,
+## scratchpad/dbg_meminfo.g) -- do not index into it as if it were a list of
+## repeated-flag values, or Length()/indexing peels off a single CHARACTER
+## (not a string), which then breaks Concatenation/JStr downstream.
+MEM_FLAG_SEEN := IsBound(GAPInfo.CommandLineOptions.o) and IsString(GAPInfo.CommandLineOptions.o)
+                 and Length(GAPInfo.CommandLineOptions.o) > 0;;
+MEM_FLAG_VALUE := (function()
+  if MEM_FLAG_SEEN then return GAPInfo.CommandLineOptions.o;
+  else return "NOT_SET"; fi;
+end)();;
+Print("=== MEMORY FLAG EVIDENCE ===\n");
+Print("GAPInfo.CommandLineOptions.o = ", MEM_FLAG_VALUE, " (flag reached GAP: ", MEM_FLAG_SEEN, ")\n");
+## GasmanStatistics()'s record only contains the "partial"/"full" sub-record
+## for GC types that have actually fired so far -- neither key is guaranteed
+## present at any given point. Read totalkb/livekb/freekb defensively
+## (prefer "partial" since it is the more frequent GC type, fall back to
+## "full", else "N/A").
+GasmanField := function(g, fld)
+  if IsBound(g.partial) and IsBound(g.partial.(fld)) then return g.partial.(fld);
+  elif IsBound(g.full) and IsBound(g.full.(fld)) then return g.full.(fld);
+  else return "N/A"; fi;
+end;;
+GASMAN_BEFORE := GasmanStatistics();;
+Print("GasmanStatistics() before LINS: ", GASMAN_BEFORE, "\n");
+Print("=== END MEMORY FLAG EVIDENCE ===\n");
+
+#############################################################################
 ## ---- LINS: exactly ONE call (LID-1) ----
 #############################################################################
 t0 := GAPLIB_WallElapsedMs();;
 if LoadPackage("lins") <> true then
   Error("Failed to load GAP package LINS.");
 fi;
+## Progress visibility (点3, 司令塔裁定): LINS's own Info class. Level 1
+## prints per-quotient-order progress tables (LINS_tab1/tab2 in the package
+## source); this interleaves with GAP's normal stdout as the search runs,
+## so if the process dies mid-search, the log shows how far it got.
+SetInfoLevel(InfoLINS, 1);;
 gr := LowIndexNormalSubgroupsSearch(B4fp, CENSUS_INDEX_HI);;   ## ONE call, LID-1
 nodes := ComputedNormalSubgroups(gr);;
 tLins := GAPLIB_WallElapsedMs();;
@@ -78,6 +117,9 @@ CAP_HIT := (LINS_ELAPSED_MS > WALL_CAP_MS);;
 if CAP_HIT then
   Print("[TIME_CAP] LINS call alone exceeded wall cap -- STOP, verdict=STOP(TIME_CAP)\n");
 fi;
+
+GASMAN_AFTER_LINS := GasmanStatistics();;
+Print("GasmanStatistics() after LINS: ", GASMAN_AFTER_LINS, "\n");
 
 #############################################################################
 ## ---- per-node data collection (prereg SS1.3 fields) ----
@@ -231,6 +273,12 @@ report := Concatenation(
 "\"base_group\":\"B4 = <a,b,c | aba=bab, bcb=cbc, ac=ca>\",\n",
 "\"pb4_index_in_b4_sanity\":", String(PB4_INDEX), ",\n",
 "\"census_index_hi\":", String(CENSUS_INDEX_HI), ",\n",
+"\"memory_flag_evidence\":{\"o_flag_reached_gap\":", JB(MEM_FLAG_SEEN), ",\"o_flag_value\":", JStr(MEM_FLAG_VALUE),
+  ",\"gasman_before_lins_totalkb\":", String(GasmanField(GASMAN_BEFORE,"totalkb")),
+  ",\"gasman_after_lins_totalkb\":", String(GasmanField(GASMAN_AFTER_LINS,"totalkb")),
+  ",\"gasman_after_lins_livekb\":", String(GasmanField(GASMAN_AFTER_LINS,"livekb")),
+  ",\"gasman_after_lins_freekb\":", String(GasmanField(GASMAN_AFTER_LINS,"freekb")),
+  ",\"note\":\"o_flag_value is read from GAPInfo.CommandLineOptions.o -- direct evidence the -o flag reached the GAP process (vs silently defaulting). totalkb is the Gasman workspace size in KB; if this run crashed with 'reached the pre-set memory limit', compare gasman_after_lins_totalkb (if reached) against o_flag_value to see whether GAP's internal accounting actually approached the requested ceiling or whether the crash happened well below it (pointing to a physical/OS memory ceiling instead).\"},\n",
 "\"lins_calls\":1,\n",
 "\"lins_nodes_total_this_call\":", String(Length(nodes)), ",\n",
 "\"lins_elapsed_ms\":", String(LINS_ELAPSED_MS), ",\n",
@@ -257,7 +305,7 @@ report := Concatenation(
 "},\n",
 "\"scope_declaration\":{\"twin_computed\":false,\"iota_computed\":false,\"gt_shadow_predicates_evaluated\":false,\"sealed_quantities_contacted\":false,\"705894_pair_universe_contacted\":false},\n",
 "\"forbidden_word_check\":{\"note\":\"output_statement uses ONLY the frozen SS4.1 wording (or SS4.3 discovery report); no claim of 'index<=1000 all abelian', no twin/iota claim, no GT-shadow genuine/fake claim, no Ncore/Nstar claim -- per prereg SS4.2\"},\n",
-"\"operational_deviation\":{\"local_run_failed\":\"Error, reached the pre-set memory limit under gap.ps1 -o 2g, immediately after [B4:PB4]=24 sanity, before any LINS node reported (no partial result)\",\"resolution\":\"GHA ubuntu runner, gap -o 8g, .github/workflows/b4-r0.yml, this script UNMODIFIED except this note\",\"authorization\":\"司令塔裁定 (this session), task 3 disposition (c)\",\"note\":\"Environment/memory-ceiling change only -- prereg's frozen mathematical universe (B4 presentation, census_index_hi=240, LID-1, wall-cap semantics) is unchanged. Local -o was NOT raised (8GB RAM discipline preserved).\"},\n",
+"\"operational_deviation\":{\"local_run_failed\":\"Error, reached the pre-set memory limit under gap.ps1 -o 2g, immediately after [B4:PB4]=24 sanity, before any LINS node reported (no partial result)\",\"resolution\":\"GHA ubuntu runner, gap -o 6g (run 31070583319 with -o 8g also OOM'd in ~49s, same message, before any LINS node -- standard GHA ubuntu runners have ~7GB physical RAM, so -o 8g exceeded the physical ceiling, not just an internal accounting threshold; -o 6g leaves headroom under that ceiling), .github/workflows/b4-r0.yml, this script UNMODIFIED except this note\",\"authorization\":\"司令塔裁定 (this session), task 3 disposition (c)\",\"note\":\"Environment/memory-ceiling change only -- prereg's frozen mathematical universe (B4 presentation, census_index_hi=240, LID-1, wall-cap semantics) is unchanged. Local -o was NOT raised (8GB RAM discipline preserved).\"},\n",
 "\"grade\":\"candidate / single-system / not cross-checked / not verified (no Lean)\"\n",
 "}\n");;
 

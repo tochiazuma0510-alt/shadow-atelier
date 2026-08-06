@@ -10,7 +10,7 @@ name: b4-r0
 # the prereg's frozen mathematical universe (B4 presentation SS1.1,
 # census_index_hi=240, LID-1 single-LINS-call discipline, wall-cap
 # semantics) is UNCHANGED. Local -o is NOT raised (8GB RAM / -o 2g local
-# discipline preserved per standing policy); the memory increase (-o 8g)
+# discipline preserved per standing policy); the memory increase (-o 6g)
 # happens ONLY on this disposable GHA runner.
 #
 # search/b4-r0-probe-v1.g is read-only input to this workflow and is NOT
@@ -65,7 +65,7 @@ jobs:
         run: |
           set +e
           mkdir -p ci/out
-          gap -q --quitonbreak -o 8g search/b4-r0-probe-v1.g 2>&1 | tee ci/out/b4_r0_probe.log
+          gap -q --quitonbreak -o 6g search/b4-r0-probe-v1.g 2>&1 | tee ci/out/b4_r0_probe.log
           echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
       - name: Check probe result (fail-closed)
