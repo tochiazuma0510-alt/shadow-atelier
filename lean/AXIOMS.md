@@ -52,3 +52,81 @@ lake build P1
 
 Both are targeted builds permitted by the task envelope. The first emits one `P1_AXIOM_ROW` per
 theorem and a final `P1_AXIOM_AUDIT_PASS` line, and refreshes `P1/AXIOMS.manifest.json`.
+
+## Bridge B G2b: finite-group fixed subalgebras (ruling 610 / commission 111d)
+
+Status: authorized T1 project axiom. G2b may be accepted only as
+**verified-modulo-axioms**; this entry does not weaken the axiom-free P1 checker
+contract above.
+
+### Declaration
+
+Exact name:
+ShadowAxioms.fixedPointsSubalgebra_etale_of_finite.
+
+Normalized Lean type:
+
+~~~lean
+universe u
+
+namespace ShadowAxioms
+
+axiom fixedPointsSubalgebra_etale_of_finite
+    (R B G : Type u)
+    [CommRing R] [CommRing B] [Algebra R B] [IsNoetherianRing R]
+    [Module.Finite R B] [Algebra.Etale R B]
+    [Group G] [Finite G] [MulSemiringAction G B]
+    [SMulCommClass G R B] :
+    Algebra.Etale R (FixedPoints.subalgebra R B G)
+
+end ShadowAxioms
+~~~
+
+Content and scope: over a noetherian base, the fixed subalgebra of a
+module-finite étale algebra under a finite group acting by semiring
+automorphisms compatibly with base scalars is étale. No cocone, universal
+property, colimit, or module-finiteness conclusion is axiomatized.
+
+Source tier: **T1** (classical SGA 1), authorized by commander ruling 610 and
+commission 111d. Source locator: SGA 1, Exposé V, Proposition 3.1 (printed
+p. 96, PDF p. 112), together with Proposition 1.1 and Corollaire 1.8 for the
+affine quotient. Sol checked the PDF page images on 2026-08-06. Source PDF:
+papers/sga1-grothendieck-raynaud-arxiv0206203.pdf, SHA-256
+8e64218d356456c534eebf996940f0f957e43b54f1a080241debe12cbaf60d3c.
+
+Mathlib status: absent from Mathlib tag v4.32.1, commit
+520045ab14e26149ee970e2e617ca04b09bde5d6. The absence check was a source-tree
+search for a theorem or instance combining FixedPoints.subalgebra with
+Algebra.Etale; only the fixed-subalgebra definition and unrelated uses were
+present.
+
+Actual direct use-sites:
+
+- LeanArith/ShadowAxioms.lean:
+  ShadowAxioms.fixedPointsSubalgebra_etale_AU_sanity (binder-specialization
+  sanity only, not an independent proof).
+- LeanArith/BridgeBAffineG2FiniteGroupQuotients.lean: the local
+  Algebra.Etale instance inside source-level helper
+  finiteGroupQuotientColimitCocone. This is the only mathematical use.
+
+The public declarations transitively depending on the axiom have these exact
+sorted #print axioms sets:
+
+- LeanArith.BridgeBAffine.coverCategoryHasQuotientsByFiniteGroups:
+  {Classical.choice, Quot.sound,
+  ShadowAxioms.fixedPointsSubalgebra_etale_of_finite, propext}.
+- LeanArith.BridgeBAffine.coverCategoryFiniteGroupColimitWitness:
+  {Classical.choice, Quot.sound,
+  ShadowAxioms.fixedPointsSubalgebra_etale_of_finite, propext}.
+
+The axiom-free replacement of G2b-exact is **OPEN**. Delete this axiom and this
+registry section only when either Mathlib supplies a theorem/instance of the
+same scoped type or an axiom-free in-project formalization supplies it, and
+the G2b declarations still pass with no project axiom.
+
+### Independent fiber-terminal field
+
+LeanArith.BridgeBAffine.fiberPreservesTerminalObjects and
+LeanArith.BridgeBAffine.fiberPreservesTerminalObjectsWitness do not depend on
+this project axiom. Each has exact sorted axiom set
+{Classical.choice, Quot.sound, propext}.
