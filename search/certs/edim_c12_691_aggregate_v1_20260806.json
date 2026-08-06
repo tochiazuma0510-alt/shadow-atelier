@@ -1,0 +1,46 @@
+{
+  "schema": "edim-c12-691-aggregate/v1",
+  "prereg_refs": {
+    "656": "provenance/LEDGER.md 裁定656",
+    "692": "provenance/LEDGER.md 裁定692",
+    "693": "provenance/LEDGER.md 裁定693"
+  },
+  "status": "COMPLETE",
+  "general_primes": [
+    2147483647,
+    998244353
+  ],
+  "special_prime": 691,
+  "H12_calibration_target": 112,
+  "calibration_fail": false,
+  "raw_values_by_prime": {
+    "2147483647": {
+      "H12": 112,
+      "S12": 2,
+      "H12_eq_112": true,
+      "elapsed_sec": 4944.825,
+      "peak_rss_mb": 2510.8515625
+    },
+    "998244353": {
+      "H12": 112,
+      "S12": 2,
+      "H12_eq_112": true,
+      "elapsed_sec": 4804.481,
+      "peak_rss_mb": 2507.93359375
+    },
+    "691": {
+      "H12": 112,
+      "S12": 2,
+      "H12_eq_112": true,
+      "elapsed_sec": 4001.426,
+      "peak_rss_mb": 2516.6875
+    }
+  },
+  "two_general_primes_H12_agree": true,
+  "two_general_primes_S12_agree": true,
+  "s12_691_differs_from_general_primes_RAW_FACT": false,
+  "conditional_primes_677_701_present": [],
+  "conditional_primes_raw_values": {},
+  "k13_not_run": true,
+  "note": "No interpretive verdict is written by this script (no SYN-0/k*/段差 language). Raw values and plain equality facts only; interpretation is 司令塔/数学者/Sol's task, per 裁定656/692/693's frozen judgment table (provenance/LEDGER.md)."
+}
