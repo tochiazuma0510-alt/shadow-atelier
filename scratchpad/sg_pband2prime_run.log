@@ -1,0 +1,227 @@
+Loaded 36 windows from search/certs/sg_g4_g5_orb_20260806.json
+
+=== P-BAND-2' window (1458,573) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1458,578) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1458,583) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1458,584) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1458,658) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1458,659) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1944,812) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1944,815) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1944,826) [single_mirror_pair_non_exotic] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=true predicted_all_pass=false actual_all_pass=true matches_prediction=false
+
+=== P-BAND-2' window (1944,835) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "3^1", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1944,901) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1944,904) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1944,918) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1944,921) [single_mirror_pair_non_exotic] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "3^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=true predicted_all_pass=false actual_all_pass=true matches_prediction=false
+
+=== P-BAND-2' window (1944,3878) [isolated_self_mirror_no_twin] ===
+  chief factors: 5 types: [ "2^1", "3^1", "3^1", "2^2", "3^3" ]
+  SECT per factor: [ true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1944,3882) [isolated_self_mirror_no_twin] ===
+  chief factors: 5 types: [ "2^1", "3^1", "2^2", "3^1", "3^3" ]
+  SECT per factor: [ true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1296,674) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "2^2", "2^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1296,681) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "3^1", "2^2", "2^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1296,755) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "2^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1296,764) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "2^1", "3^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1296,2889) [single_mirror_pair_non_exotic] ===
+  chief factors: 6 types: [ "2^1", "3^1", "2^2", "2^1", "3^2", "3^1" ]
+  SECT per factor: [ true, true, true, true, false, true ]
+  all_pass = false
+    is_chiral=true predicted_all_pass=false actual_all_pass=false matches_prediction=true
+
+=== P-BAND-2' window (1296,3082) [isolated_self_mirror_no_twin] ===
+  chief factors: 5 types: [ "2^1", "3^1", "2^2", "2^1", "3^3" ]
+  SECT per factor: [ true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1296,3487) [single_mirror_pair_non_exotic] ===
+  chief factors: 6 types: [ "2^1", "3^1", "3^1", "2^2", "2^1", "3^2" ]
+  SECT per factor: [ true, true, true, true, true, false ]
+  all_pass = false
+    is_chiral=true predicted_all_pass=false actual_all_pass=false matches_prediction=true
+
+=== P-BAND-2' window (1728,2815) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "3^1", "2^2", "2^1", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1728,2892) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "2^1", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1728,30092) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "2^1", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1728,30101) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "2^2", "2^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1728,30106) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "3^1", "2^2", "2^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1728,31096) [single_mirror_pair_non_exotic] ===
+  chief factors: 6 types: [ "2^1", "3^1", "2^2", "2^1", "2^2", "3^2" ]
+  SECT per factor: [ true, true, true, true, true, false ]
+  all_pass = false
+    is_chiral=true predicted_all_pass=false actual_all_pass=false matches_prediction=true
+
+=== P-BAND-2' window (1152,154124) [isolated_self_mirror_no_twin] ===
+  chief factors: 6 types: [ "2^1", "3^1", "3^1", "2^2", "2^2", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1152,154126) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "3^1", "2^2", "2^1", "2^2", "2^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1152,154158) [isolated_self_mirror_no_twin] ===
+  chief factors: 6 types: [ "2^1", "3^1", "2^2", "3^1", "2^2", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1152,154161) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "2^1", "2^2", "2^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1152,155452) [isolated_self_mirror_no_twin] ===
+  chief factors: 6 types: [ "2^1", "3^1", "2^2", "3^1", "2^2", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1152,155454) [isolated_self_mirror_no_twin] ===
+  chief factors: 6 types: [ "2^1", "3^1", "2^2", "3^1", "2^2", "2^2" ]
+  SECT per factor: [ true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' window (1152,155457) [isolated_self_mirror_no_twin] ===
+  chief factors: 7 types: [ "2^1", "3^1", "2^2", "3^1", "2^1", "2^2", "2^1" ]
+  SECT per factor: [ true, true, true, true, true, true, true ]
+  all_pass = true
+    is_chiral=false predicted_all_pass=true actual_all_pass=true matches_prediction=true
+
+=== P-BAND-2' summary ===
+windows processed: 36 / 36
+HANDOFF_MISMATCHES: 0
+reflexible health check: 31 / 31 all_pass
+chiral real test: 3 / 5 have >=1 failing factor
+overall prediction matches: 34 / 36
+Wrote search/certs/sg_pband2prime_20260806.json
+
+W6_SG_PBAND2PRIME_DONE
