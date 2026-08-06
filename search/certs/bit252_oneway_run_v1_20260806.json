@@ -1,0 +1,84 @@
+{
+  "schema": "bit252_oneway_cert/v1",
+  "FW": "B3-2401",
+  "window_arity": 3,
+  "window": "K = V5(F2) x <c>, V5(F2) = gamma_6(F2) F2^7",
+  "m": 0,
+  "denominator": 117649,
+  "equation_ids": [
+    "3.10",
+    "3.11"
+  ],
+  "verdict": "NO_SURVIVAL",
+  "lane": "G",
+  "sizeP": 5764801,
+  "sizePp": 678223072849,
+  "fiber_size": 117649,
+  "survival_count": 0,
+  "survival_allowed_set": [
+    0,
+    1,
+    7,
+    49,
+    343,
+    2401,
+    16807,
+    117649
+  ],
+  "BIT1_P3_fingerprint_ok": true,
+  "calibration": {
+    "F1": true,
+    "F2": true,
+    "F3_pass_count": 7,
+    "F4_negative_fixture_correctly_failed": true,
+    "F5": true,
+    "F6_pass_count": 49,
+    "F7_solution_count": 7,
+    "F7_solutions": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        4,
+        1
+      ],
+      [
+        2,
+        1,
+        2
+      ],
+      [
+        3,
+        5,
+        3
+      ],
+      [
+        4,
+        2,
+        4
+      ],
+      [
+        5,
+        6,
+        5
+      ],
+      [
+        6,
+        3,
+        6
+      ]
+    ],
+    "F7_matches_line_1_4_1": true,
+    "F8_spot_check_ok": true,
+    "R0_all_pass": true
+  },
+  "grade": "raw_value_no_grading_language_applied (裁定661(d))",
+  "run_id": "31075268013",
+  "run_attempt": "1",
+  "prereg_doc_path": "docs/notes/bit252_oneway_prereg_iffirst_v1.md",
+  "prereg_doc_sha256": "63473b125aea9d74eeffb404045c81f515f68ecd1a88b73d7f61b0bfb1010bf7",
+  "commit_sha": "67ef33fe544a2883d5e138a61b38c9d6bcfd0dc6"
+}
