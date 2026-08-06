@@ -18,9 +18,13 @@ noncomputable section
 /-- Content: the fixed subalgebra of a module-finite étale algebra under a
 finite-group action is étale over the base.
 
-Source: SGA 1, Exposé V, Proposition 3.1 (printed p. 96, PDF p. 112), together
-with Proposition 1.1 and Corollaire 1.8 for the affine quotient. Sol checked
-the PDF page images on 2026-08-06.
+Source (exact theorem): SGA 1, Exposé V, Proposition 3.1 (printed p. 96,
+PDF p. 112), together with Proposition 1.1 and Corollaire 1.8 for the affine
+quotient. Sol checked the PDF page images on 2026-08-06.
+
+Conceptual formulation: this is the finite-group quotient property of FEt in
+the Lenstra GTS-style formulation. “Lenstra GTS-style” names the formulation
+only; the exact source claim and locators are the SGA 1 propositions above.
 
 Tier: T1 (classical SGA 1). Addition authorized by commander ruling 610 and
 commission 111d.

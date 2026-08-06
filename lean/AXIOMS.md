@@ -88,9 +88,13 @@ automorphisms compatibly with base scalars is étale. No cocone, universal
 property, colimit, or module-finiteness conclusion is axiomatized.
 
 Source tier: **T1** (classical SGA 1), authorized by commander ruling 610 and
-commission 111d. Source locator: SGA 1, Exposé V, Proposition 3.1 (printed
-p. 96, PDF p. 112), together with Proposition 1.1 and Corollaire 1.8 for the
-affine quotient. Sol checked the PDF page images on 2026-08-06. Source PDF:
+commission 111d. Exact source locator: SGA 1, Exposé V, Proposition 3.1
+(printed p. 96, PDF p. 112), together with Proposition 1.1 and Corollaire 1.8
+for the affine quotient. Sol checked the PDF page images on 2026-08-06.
+Conceptually, this is the finite-group quotient property of FEt in the Lenstra
+GTS-style formulation. “Lenstra GTS-style” identifies the conceptual
+formulation only; no additional bibliographic locator is claimed beyond the
+page-checked SGA 1 propositions. Source PDF:
 papers/sga1-grothendieck-raynaud-arxiv0206203.pdf, SHA-256
 8e64218d356456c534eebf996940f0f957e43b54f1a080241debe12cbaf60d3c.
 
