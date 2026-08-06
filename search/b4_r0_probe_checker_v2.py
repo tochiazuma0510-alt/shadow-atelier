@@ -55,6 +55,7 @@ GAP driver or trusting the cert's self-report, is:
 """
 import hashlib
 import json
+import re
 import sys
 
 CERT_PATH = "search/certs/b4_r0_probe_v2_p2fix_20260806.json"
@@ -266,7 +267,14 @@ def main():
     # --- forbidden phrases (S-R0-5') ---
     blob = json.dumps(d, ensure_ascii=False)
     for phrase in FORBIDDEN_PHRASES:
-        if phrase in blob:
+        # ASCII single-word predicates match on word boundary only, so that
+        # English derivatives ("genuinely independent") do not false-positive;
+        # multi-word/Japanese phrases keep substring matching.
+        if re.fullmatch(r"[a-z]+", phrase):
+            hit = re.search(r"" + phrase + r"", blob)
+        else:
+            hit = phrase in blob
+        if hit:
             problems.append(f"FORBIDDEN PHRASE present in cert: {phrase!r}")
 
     # --- scope declaration (S-R0-6') ---
