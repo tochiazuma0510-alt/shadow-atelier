@@ -354,6 +354,107 @@ $$\dim_{\mathbf F_2}\mathrm{Hom}_{\widehat G_5}(M_R,D)=\underbrace{\bigl[\dim H^
 | `PSL2` / `C_2*C_3` | 既出(`bu_s35_embedding_v1.md` §2 定理 EMB-C の帰結ほか)。**「$c\in N$ ⟹ $\widehat P$ が $(2,3)$-生成」を $\iota$ 判定に使う接続は未出** |
 | `chirality` / `reflexible` / `dessin の鏡像` | `docs/scout/` に Nielsen 同値・braid 軌道の遠征記録あり。**chirality/reflexibility そのものは未出** ⟹ §A.5 で【文献要請】として起票 |
 
+---
+
+# F. 追補(2026-08-06)— 432/486 の地図同定と Conder census 照合
+
+**追補の格**: 本節で参照する Conder census の数値は**司令塔が文献ゲート経由で降ろした第三者データ**であり、**証明の根拠ではなく標的の指示**として扱う(引用箇所に `[census]` と明記)。**私は原ファイルを読んでいない**(`scratchpad\conder\` は私の到達範囲外)。本節の**紙の主張は census を一切使わずに成立する**。
+
+## F.1 辞書(定理・census 非依存)
+
+> ### 命題 MAP-DICT(candidate・本稿)
+> $c\in N$、$\widehat P=B_3/N=\langle U,W\rangle$($U=\Delta N$, $W=\delta N$, $U^2=W^3=1$)とする。
+> **(a)** $\ \sigma_1N=W^{-1}U$ かつ $\ \mathrm{ord}(UW)=\mathrm{ord}(W^{-1}U)=\mathrm{ord}(\sigma_1N)=:n$。
+> **(b)** 対応する orientably-regular map は
+> $$\text{頂点次数 }3,\quad \text{面サイズ }n,\quad V=\tfrac{\lvert\widehat P\rvert}{3},\quad E=\tfrac{\lvert\widehat P\rvert}{2},\quad F=\tfrac{\lvert\widehat P\rvert}{n},\quad g=1+\tfrac{\lvert\widehat P\rvert}{2}\Bigl(\tfrac12-\tfrac1n-\tfrac13\Bigr).$$
+> **(c)** $\ \boxed{\ \iota(N)=N\iff\text{この地図は reflexible}\ }$
+
+**証明.** (a) $\delta^{-1}\Delta=\sigma_1$(§A.2 の (1.1))ゆえ $W^{-1}U=\sigma_1N$。$(W^{-1}U)^{-1}=U^{-1}W=UW$ ⟹ 位数一致。
+(b) 標準対応: 回転群 $G=\langle R,S\mid R^p=S^q=(RS)^2=1,\dots\rangle$($R$=面回転, $S$=頂点回転, $RS$=辺の対合)。$S:=W$(位数 3 ⟹ 頂点次数 3)、$RS:=U$ ⟹ $R=UW^{-1}$、$\mathrm{ord}(R)=\mathrm{ord}(UW)=n$。$V=\lvert G\rvert/q$, $E=\lvert G\rvert/2$, $F=\lvert G\rvert/p$ と Euler。$U\ne1$, $W\ne1$ は $\widehat P\twoheadrightarrow S_3$ で $\Delta\mapsto$ 互換, $\delta\mapsto$ 3-巡回 から。
+(c) $\Gamma=C_2\ast C_3$ 上で、地図の鏡映 $\rho_{\rm map}:R\mapsto R^{-1},S\mapsto S^{-1}$ と本稿の $\rho:U\mapsto U,W\mapsto W^{-1}$ は
+$$\rho_{\rm map}=\mathrm{Inn}(W)\circ\rho$$
+($\rho_{\rm map}(U)=\rho_{\rm map}(RS)=R^{-1}S^{-1}=WUW^{-1}$、$\rho_{\rm map}(W)=W^{-1}$ を確認)であり**内部自己同型ぶんしか違わない**。$\bar N\trianglelefteq\Gamma$ は内部自己同型で不変ゆえ $\rho$-不変 $\iff\rho_{\rm map}$-不変。補題 MIRROR-PSL と合わせて (c)。∎
+
+> ★ **司令塔の翻訳は正しい**。さらに **$n$ は「$\sigma_1$ の像の位数」という工房の既存量**であることが分かった(census 行との突合キーはこれ)。
+
+## F.2 我々の 2 窓の型(紙の絞り込み)
+
+Euler の算術(整数演算スクリプトで検算):
+
+| $\lvert\widehat P\rvert$ | $n$ | $V$ | $E$ | $F$ | genus |
+|---|---|---|---|---|---|
+| 486 | 6 | 162 | 243 | 81 | **1** |
+| 486 | **18** | 162 | 243 | 27 | **28** |
+| 486 | **54** | 162 | 243 | 9 | **37** |
+| 486 | 162 | 162 | 243 | 3 | 40 |
+| 432 | 6 | 144 | 216 | 72 | 1 |
+| 432 | **8** | 144 | 216 | 54 | **10** |
+| 432 | 12 | 144 | 216 | 36 | 19 |
+| 432 | **24** | 144 | 216 | 18 | 28 |
+
+**486 窓**: $\widehat P/S\cong C_2$($S=\mathrm{Syl}_3$)で $W\in S$, $U\notin S$ ⟹ $\sigma_1N\notin S$ ⟹ $n=2\cdot3^{j}$、$3^{j}=\mathrm{ord}(\bar x)$($\bar x=\sigma_1^2N\in P$, $\lvert P\rvert=81$)。
+- $j=0$ ⟹ $\bar x=1\Rightarrow\bar y=\theta(\bar x)=1\Rightarrow P=1$ ✗。
+- $j=4$ ⟹ $P=\langle\bar x\rangle$ 巡回 ⟹ 可換 ⟹ **補題 ABEL-TYPE**(§A.6)より $P\cong(\mathbf Z/n)^2$ 型で巡回になり得ない ✗。
+- $j=1$($n=6$)⟹ genus 1 ⟹ 型 $\{3,6\}$ のトーラス地図 $\{3,6\}_{b,c}$、回転群位数 $6(b^2+bc+c^2)=486\Rightarrow b^2+bc+c^2=81$ の解は $(9,0),(0,9)$ **のみ**(検算済)⟹ $bc(b-c)=0$ ⟹ **reflexible** ⟹ 機械観測(chiral = M1)と矛盾 ✗。
+$$\Longrightarrow\ \boxed{\ n\in\{18,\ 54\}\quad(\text{genus }28\ \text{または}\ 37)\ }$$
+
+**432 窓**: 構造式 `(((C3xC3):Q8):C3):C2` が示唆する $P\cong(C_3\times C_3)\rtimes Q_8$(位数 72)を仮定すると、$\bar x,\bar y$ の $P/O_3(P)\cong Q_8$ での像は $Q_8$ を生成 ⟹ **$Q_8$ の生成対は必ず位数 4 の 2 元**($\Phi(Q_8)=\{\pm1\}$)⟹ $4\mid\mathrm{ord}(\bar x)$、$\mathrm{ord}(\bar x)\mid\exp(P)\mid12$ ⟹ $\mathrm{ord}(\bar x)\in\{4,12\}$。
+$$\Longrightarrow\ \boxed{\ n\in\{8,\ 24\}\quad(\text{genus }10\ \text{または}\ 28)\ }$$
+($n=6$ は $b^2+bc+c^2=72$ が**無解**ゆえ紙で排除済。)
+
+> ### ★ 一致(census 側との突合)
+> `[census]` の chiral **C10.1 = order 432 / type {3,8} / genus 10** は、私が独立に計算した $(m,n)=(432,8)\Rightarrow g=10$ と**完全一致**。
+> `[census]` の chiral **C28.2 = order 486 / type {3,18} / genus 28** も $(486,18)\Rightarrow g=28$ と**完全一致**。
+> ⟹ **432 窓の第一候補は C10.1**($n=8$)、**486 窓の第一候補は C28.2**($n=18$)。ただしこれは**同定ではない**($n$ を実測していない・同型の型に複数行がありうる)。
+
+## F.3 ★★★ 重大な警告 — census の「order」規約(再抽出せずに使ってはならない)
+
+Conder 系のリストは各項の `Order` に **自己同型群の位数**を書く。向き付け可能面上の regular map では
+$$\text{chiral: }\lvert\mathrm{Aut}\rvert=\lvert\mathrm{Rot}\rvert=2E,\qquad \textbf{reflexible: }\lvert\mathrm{Aut}\rvert=2\lvert\mathrm{Rot}\rvert=4E .$$
+我々の窓は $\mathrm{Rot}=\widehat P$ で $\lvert\widehat P\rvert=2E$。したがって
+
+$$\boxed{\ \textbf{我々の窓の reflexible 版は「order 486」ではなく「order 972」、「order 432」ではなく「order 864」の行に載る。}\ }$$
+
+- **規約の裏づけ(私の独立計算)**: `[census]` の chiral 2 件(C10.1 @432 / C28.2 @486)は、**$\lvert\mathrm{Rot}\rvert=2E$ 規約のときだけ** genus 10 / 28 と整合する(F.2 の表)。⟹ chiral 側は $2E$ 規約で確定 ⟹ reflexible 側は $4E$ 規約である公算が高い。
+- **帰結**: 「**位数 486 に reflexible 0 件**」は、**「$E=243$ の reflexible が無い」の証拠にならない**(そもそもその bucket には載らない)。同様に「位数 432 に reflexible 44 件」は $E=108$(回転群位数 216)の地図群であり、**我々の窓とは別物**の公算が高い。
+- 私の紙側からの傍証: §F.4 の構成が正しければ、**$E=243$ の reflexible 地図は実在する**(= 「0 件」は規約由来の見かけ)。
+
+> ### 再抽出スペック(司令塔へ・これだけあれば決着)
+> 1. **order 972**(= $4E$, $E=243$)の **reflexible** 行を、**type $\{3,18\}$ と $\{3,54\}$** に限って列挙(genus 28 / 37)。
+> 2. **order 864**(= $4E$, $E=216$)の **reflexible** 行を、**type $\{3,8\}$ と $\{3,24\}$** に限って列挙(genus 10 / 28)。
+> 3. 併せて **order 486 の chiral 11 件の type 分布**($\{3,18\}$ と $\{3,54\}$ が何件ずつか)と **order 432 の chiral 24 件の type 分布**($\{3,8\}$/$\{3,24\}$)。
+> 4. 各行の**回転群の同定情報**(あれば `SmallGroup` ID / 構造)— これが `[432,734]` / `[486,39]` と突合できれば**窓の一意同定**になる。
+> - **1,2 が真に空**であって初めて「我々の 2 窓は chiral」の第三者裏づけになる(それでも**格は third-party 照合**であって証明ではない)。
+
+## F.4 委嘱(2)への回答 — 「486 に reflexible な (2,3)-生成が無い」は**たぶん偽**(証明を試みて逆を見つけた)
+
+**(i) 紙の障害論法は $q=3$ 側へ延びない(理由が特定できた).**
+486 窓では $S:=\mathrm{Syl}_3(\widehat P)=\widehat P_0=\langle W,\,UWU\rangle$(§A.5)。§A.3 の障害は「特性切片 $A$($\mathrm{Aut}(A)$ 可換)に $W$ が非自明に作用する」ことを使うが、
+$$\text{$S$ の下降中心列の因子 }\gamma_i(S)/\gamma_{i+1}(S)\ \text{は定義により $S$ に中心化される}\ \Longrightarrow\ \mu(W)=1 .$$
+$W\in S$ である以上、**$S$ 由来の可換自己同型群をもつ特性切片からは障害が原理的に出ない**。$q\ge5$ のときは $W\in\widehat P_0$ が $A$ の**外**にいて初めて $\mu(W)\ne1$ が出ていた。⟹ **§A.3 の機構は $q=3$ では構造的に失効する**(単なる技術的不足ではない)。
+
+**(ii) 逆に reflexible な例を作れる(構成).**
+$F:=C_3\ast C_3=\langle w,w'\rangle$ とし、$\rho_0:w\mapsto w^{-1},w'\mapsto w'^{-1}$、$\tau_0:w\leftrightarrow w'$ と置く。どちらも $\mathrm{Aut}(F)$ の元で、生成元上で $\rho_0\tau_0=\tau_0\rho_0$。$M\trianglelefteq F$ を**特性部分群**とし $R:=F/M$ と置くと $\rho_0,\tau_0$ は $R$ に降り、
+$$G:=R\rtimes\langle\tau\rangle\quad(\tau^2=1)$$
+は $G=\langle\tau,\ w\rangle$、$\tau^2=w^3=1$ で **(2,3)-生成**、$\lvert G\rvert=2\lvert R\rvert$、かつ $\beta:=\rho\rtimes\mathrm{id}$ が $\beta(\tau)=\tau,\ \beta(w)=w^{-1}$ を与える ⟹ **reflexible**。
+⟹ **$\lvert R\rvert=243$ なる特性商 $R$ が 1 つでもあれば、位数 486 の reflexible (2,3)-生成群が存在する**(= 委嘱 (2) の標的命題は偽)。
+候補: $R=F/\gamma_4(F)$。次数別に $\gamma_1/\gamma_2=C_3^2$(位数 9)、$\gamma_2/\gamma_3=C_3$(位数 3・$[w^3,w']=1$ から $[w,w']^3\in\gamma_3$)、$\gamma_3/\gamma_4$ は $(\mathbf Z/3)^2$ の商(自由 Lie 環の 3 次は階数 2)⟹ $\lvert R\rvert\le3^5=243$、下界は $C_3\wr C_3$(位数 81・class 3・位数 3 の 2 元で生成)。
+$$\boxed{\ \textbf{未決の 1 ビット: }\lvert(C_3\ast C_3)/\gamma_4\rvert\ \text{は}\ 243\ \text{か}\ 81\ \text{か}\ }$$
+$p=3$・class 3 では Lazard 対応が効かない(class $<p$ が必要)ため、$w^3=w'^3=1$ が 3 次成分を潰す可能性を紙で排除できない。**GAP 3 行(`NilpotentQuotient` / `LowerCentralSeries`)で決着する**ので、実装係に投げるのが最短。
+
+**(iii) 結論(委嘱 (2) への回答)**: 「位数 486 に reflexible な (2,3)-生成群は存在しない」は、(ii) の構成があるため**一般命題としては成立しない見込み**。正しい標的は**型を固定した命題**:
+> **標的 T-486**: 「$E=243$・型 $\{3,18\}$(または $\{3,54\}$)の **reflexible** orientably-regular map は存在しない」
+これなら census(order 972・type 制限)で真偽が判定でき、真なら我々の 486 窓の chiral 性が第三者裏づけを得る。**なお (ii) の構成が与える reflexible 群の型 $n=\mathrm{ord}(\tau w)$ は別に計算する必要があり、$\{3,18\}$ とは限らない**(むしろ小さい $n$ になる公算)。
+
+## F.5 追加の【GAP】
+
+| # | 内容 | 状態 |
+|---|---|---|
+| **【TC-GAP-7】** | 我々の 2 窓の $n=\mathrm{ord}(\sigma_1N)$ は**未実測**。紙の絞り込みは 486: $n\in\{18,54\}$、432: $n\in\{8,24\}$(後者は $P\cong C_3^2\rtimes Q_8$ 仮定つき)。**実測 1 行**(既存の窓表現で $\sigma_1$ の位数を取るだけ)で census 行と一意突合できる | 実装係へ(超軽量) |
+| **【TC-GAP-8】** | census の order 規約(reflexible = $4E$)の**確定**。私は原ファイル未読で、chiral 2 件の genus 一致からの**推定**にとどまる | 司令塔の再抽出(§F.3) |
+| **【TC-GAP-9】** | $\lvert(C_3\ast C_3)/\gamma_4\rvert\in\{81,243\}$ の決着 | GAP 3 行 |
+| **【TC-GAP-10】** | 432 の $P\cong(C_3\times C_3)\rtimes Q_8$ は構造式からの**読み**であって証明ではない(位数 72 の正規部分群が他にありうる) | 未閉 |
+
 ## E. 帰属
 
 - 双子 census = 裁定 548 W-1。鏡映を witness に使う着想 = **Sol F110-2.1**。$[-1,1]$ の shadow 性・$\ker T_{-1,1}=\iota(N)$・MIRROR-CRIT・ABEL-INDEX = **登録票 v1(数学者)**。
