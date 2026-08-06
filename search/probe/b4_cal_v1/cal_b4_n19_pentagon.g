@@ -279,107 +279,143 @@ fi;
 isPentSubgroup := ForAll(pentPassSet, p1 -> ForAll(pentPassSet, p2 -> (p1*p2) in pentPassSet));;
 Print("(diagnostic only, not relied upon) pentagon-pass set closed under *? ", isPentSubgroup, "\n");
 
-## --- C-5: hexagon over f in [F2,F2] (216 elements), m in charming set {0,2,3,5}
-## (gcd(2m+1,N_ord)=1 with N_ord=6). ⚠ 罠(b): pentagon 通過 216 件は部分群で
-## すらないため、Prop 3.4「簡約 hexagon の近道」は使用禁止 -- f∈[F2,F2] を
-## THIS SCRIPT が明示的な前件として使う(commP19 の実際の要素、ショートカット
-## で代用しない)。theta/tau は F2abs 上の実際の準同型として実装し、P19 への
-## 降下を明示的に検査する(well-defined チェック、fail なら STOP)。
-Print("\n=== C-5: hexagon over [F2,F2] (216 elements) x charming m in {0,2,3,5} ===\n");
-thetaHom := GroupHomomorphismByImages(P19, P19, [xP,yP], [yP,xP]);;
-tauHom := GroupHomomorphismByImages(P19, P19, [xP,yP], [yP, (xP*yP)^-1]);;
-Print("theta well-defined on P19 (fail = theta does not descend)? ", thetaHom <> fail, "\n");
-Print("tau well-defined on P19 (fail = tau does not descend)? ", tauHom <> fail, "\n");
-if thetaHom = fail or tauHom = fail then
-  Error("STOP -- theta or tau does not descend to a well-defined automorphism of P19; ",
-        "cannot evaluate hexagon (3.10)/(3.11) as designed");
+## --- C-5/C-6: FULL hexagon (3.3)/(3.4) via 3-generator Q3 (裁定664 修理・
+## 数学者#2 の c5.g 方式、確定診断どおり忠実移植). 前回パスの2生成元reduced
+## hexagon((3.10)/(3.11)をtheta/tau経由)は「c」に相当する第3座標
+## (phi_k(x13))を一切使わず、正確に半分の値しか出なかった(pair=36/72,
+## distinct-f=18/36 -- 診断: docs 便未記載だが 2026-08-06 報告参照)。
+## c5.g は PB3 の全3生成元(Y12=s1^2, Y23=s2^2, Y13=s2*s1^2*s2^-1、c 相当)を
+## 5余面それぞれの像として保持し(Av,Bv,Cv)、Q3:=Group(gX,gY,gZ) という
+## 3生成元の target 群で T_{m,f} の full hexagon (3.3)/(3.4) を直接評価する。
+Print("\n=== C-5/C-6: full hexagon (3.3)/(3.4) via 3-generator Q3 (c5.g method) ===\n");
+
+## Av,Bv,Cv: 5余面(phi_123,phi_234,phi_{1,23,4}? -- c5.gの実際のk順序に忠実、
+## 独自の再解釈はしない)。psiX_ij は既に h_ij=g_ij^-1 と一致確認済み(規約
+## 修正済みのpsi構成、本ファイル上部)なのでそのまま使う。
+Av := [ psiX12, psiX23, psiX13*psiX23, psiX12*psiX13, psiX12 ];;
+Bv := [ psiX23, psiX34, psiX34,        psiX24*psiX34, psiX23*psiX24 ];;
+Cv := [ psiX13, psiX24, psiX14*psiX24, psiX14,        psiX13*psiX14 ];;
+
+## blk/diag: c5.g 逐語(9点ブロック5個・45点への配置)。既存の ShiftPerm と
+## 数学的に同じ操作だが、c5.g の変数名/実装に忠実に独立して再定義する
+## (既存コードとの暗黙の結合を避け、移植の対応関係を検査しやすくするため)。
+blkC5 := function(p, k)
+  local l, x;
+  l := [1..45];;
+  for x in [1..9] do l[9*k+x] := 9*k + x^p;; od;
+  return PermList(l);;
+end;;
+diagC5 := function(v)
+  local pr, k;
+  pr := ();;
+  for k in [0..4] do pr := pr * blkC5(v[k+1], k);; od;
+  return pr;;
+end;;
+
+gXc5 := diagC5(Av);;  gYc5 := diagC5(Bv);;  gZc5 := diagC5(Cv);;
+Gc5 := Group(gXc5, gYc5);;
+Q3 := Group(gXc5, gYc5, gZc5);;
+
+## C-4 cross-check via c5.g's own pentagon method (independent of the
+## diagonal-Sym(45) construction used earlier in this file for the primary
+## C-4 result -- both should give 216).
+compC5 := function(p, k)
+  local l, x;
+  l := [];;
+  for x in [1..9] do l[x] := (9*(k-1)+x)^p - 9*(k-1);; od;
+  return PermList(l);;
+end;;
+passC5 := Filtered(Elements(Gc5), p -> compC5(p,2)*compC5(p,4)*compC5(p,1) = compC5(p,5)*compC5(p,3));;
+Print("C-4 (c5.g method, cross-check) pentagon solutions = ", Length(passC5), " (expect 216)\n");
+if Length(passC5) <> 216 then
+  Error("STOP -- c5.g-method pentagon cross-check <> 216, Av/Bv/Cv or blk/diag mismatch");
 fi;
 
-commElems := AsList(commP19);;
-Print("|[F2,F2]| enumerated = ", Length(commElems), " (expect 216)\n");
+## words for the pentagon-passing elements (as words in the free group on 2
+## generators, for later re-evaluation as B3 elements via Y12,Y23).
+epiC5 := EpimorphismFromFreeGroup(Gc5 : names := ["X","Y"]);;
+FG2c5 := Source(epiC5);;
+wordsC5 := List(passC5, p -> PreImagesRepresentative(epiC5, p));;
 
-charmingMs := Filtered([0..Nord-1], m -> GcdInt(2*m+1, Nord) = 1);;
-Print("charming m values (gcd(2m+1,N_ord)=1) = ", charmingMs, " (expect [0,2,3,5])\n");
+## B3 and PB3 -> Q3 (the FULL, 3-generator target for hexagon evaluation)
+FBc5 := FreeGroup("s1","s2");;
+B3c5 := FBc5 / [ FBc5.1*FBc5.2*FBc5.1*(FBc5.2*FBc5.1*FBc5.2)^-1 ];;
+t1c5 := B3c5.1;;  t2c5 := B3c5.2;;
+Y12c5 := t1c5^2;;  Y23c5 := t2c5^2;;  Y13c5 := t2c5*t1c5^2*t2c5^-1;;
+PB3c5 := Subgroup(B3c5, [Y12c5,Y23c5,Y13c5]);;
+idxB3PB3c5 := Index(B3c5, PB3c5);;
+Print("[B3:PB3] = ", idxB3PB3c5, " (expect 6)\n");
+if idxB3PB3c5 <> 6 then
+  Error("STOP -- [B3:PB3] <> 6, PB3 construction wrong");
+fi;
+isoC5 := IsomorphismFpGroupByGenerators(PB3c5, [Y12c5,Y23c5,Y13c5]);;
+P3fpC5 := Image(isoC5);;
+homC5 := GroupHomomorphismByImages(P3fpC5, Q3, GeneratorsOfGroup(P3fpC5), [gXc5,gYc5,gZc5]);;
+Print("hom PB3 -> Q3 built (fail = full-hexagon target ill-defined): ", homC5 <> fail, "\n");
+if homC5 = fail then
+  Error("STOP -- hom PB3->Q3 is ill-defined, cannot evaluate full hexagon (3.3)/(3.4)");
+fi;
+evC5 := function(g) return Image(homC5, Image(isoC5, g));; end;;
 
-pairCount := 0;;         ## unit 1: total (m,f) pairs satisfying hexagon
-goodFSet := [];;         ## unit 2: distinct f's with >=1 good m
-mCountList := [];;       ## per-good-f count of good m's, same order as goodFSet (for "exactly 2" check)
-
+## C-5: full hexagon (3.3)/(3.4) at T_{m,f}, m in {0,2,3,5}, f ranging over
+## the 216 pentagon-passing words (c5.g's own domain -- pentagon-pass, NOT
+## [F2,F2] -- per 罠(b) this is deliberate: c5.g tests hexagon on the SAME
+## 216 pentagon-solutions used for C-4, not on the abstractly-different
+## commutator subgroup).
+cntC5 := 0;;  hexpassC5 := [];;
 t0 := GAPLIB_WallElapsedMs();
-for f in commElems do
-  mCountForF := 0;;
-  for m in charmingMs do
-    ## (3.10): f * theta(f) = identity in P19
-    hex1 := (f * ImageElm(thetaHom, f) = One(P19));;
-    ## (3.11): tau^2(y^m f) * tau(y^m f) * y^m f = identity in P19
-    ymf := yP^m * f;;
-    t1val := ImageElm(tauHom, ymf);;
-    t2val := ImageElm(tauHom, t1val);;
-    hex2 := (t2val * t1val * ymf = One(P19));;
-    if hex1 and hex2 then
-      pairCount := pairCount + 1;;
-      mCountForF := mCountForF + 1;;
+for i in [1..Length(wordsC5)] do
+  fC5 := MappedWord(wordsC5[i], GeneratorsOfGroup(FG2c5), [Y12c5,Y23c5]);;
+  for m in [0,2,3,5] do
+    d1 := (fC5^-1*t1c5*t2c5*(Y13c5*Y23c5)^m)^-1 * (t1c5*Y12c5^m*fC5^-1*t2c5*Y23c5^m*fC5);;
+    d2 := (t2c5*t1c5*(Y12c5*Y13c5)^m*fC5)^-1 * (fC5^-1*t2c5*Y23c5^m*fC5*t1c5*Y12c5^m);;
+    if evC5(d1) = One(Q3) and evC5(d2) = One(Q3) then
+      cntC5 := cntC5 + 1;;
+      Add(hexpassC5, [i,m]);;
     fi;
   od;
-  if mCountForF > 0 then
-    Add(goodFSet, f);;
-    Add(mCountList, mCountForF);;
-  fi;
 od;
 t1 := GAPLIB_WallElapsedMs();
 
-nDistinctF := Length(goodFSet);;
-Print("C-5 pair count (unit 1, (m,f) pairs satisfying hexagon) = ", pairCount,
-      "  (expect 72)  elapsed_ms=", t1-t0, "\n");
-Print("C-5 distinct-f count (unit 2, f with >=1 good m) = ", nDistinctF,
-      "  (expect 36)\n");
-c5PairOK := (pairCount = 72);;
-c5DistinctOK := (nDistinctF = 36);;
-## ⚠ 罠(a) 履行: 両方の単位を独立に判定する。片方だけでは判定しない。
+distinctFC5 := Length(Set(List(hexpassC5, z -> z[1])));;
+Print("C-5 (full hexagon) pair count (m,f) = ", cntC5, "  (target: pair=72)  elapsed_ms=", t1-t0, "\n");
+Print("C-5 (full hexagon) distinct f = ", distinctFC5, "  (target: distinct-f=36)\n");
+c5PairOK := (cntC5 = 72);;
+c5DistinctOK := (distinctFC5 = 36);;
 if c5PairOK and c5DistinctOK then
   Print("C-5 PASS: BOTH units match (pair=72 AND distinct-f=36)\n");
 elif c5PairOK and not c5DistinctOK then
-  Print("C-5 FAIL (unit mismatch -- pair count matched but distinct-f count did not; ",
-        "this alone would have been a FALSE PASS if only pair count were checked)\n");
+  Print("C-5 FAIL (unit mismatch -- pair matched, distinct-f did not: ", distinctFC5, ")\n");
 elif c5DistinctOK and not c5PairOK then
-  Print("C-5 FAIL (unit mismatch -- distinct-f count matched but pair count did not; ",
-        "this alone would have been a FALSE PASS if only distinct-f count were checked)\n");
+  Print("C-5 FAIL (unit mismatch -- distinct-f matched, pair did not: ", cntC5, ")\n");
 else
-  Print("C-5 FAIL: neither unit matched (pair=", pairCount, ", distinct-f=", nDistinctF, ")\n");
+  Print("C-5 FAIL: neither unit matched (pair=", cntC5, ", distinct-f=", distinctFC5, ")\n");
 fi;
 
-## "f あたり m ちょうど 2 個" の記録(平均ではなく実測の分布で判定)
-nExactlyTwo := Length(Filtered(mCountList, c -> c = 2));;
-mCountDistribution := Collected(mCountList);;
+## "f あたり m の個数" 分布(平均でなく実測)
+mCountPerF := List(Set(List(hexpassC5, z -> z[1])),
+                    fi -> Length(Filtered(hexpassC5, z -> z[1] = fi)));;
+mCountDistribution := Collected(mCountPerF);;
 Print("per-f good-m distribution (value,count pairs) = ", mCountDistribution, "\n");
-if nDistinctF > 0 and nExactlyTwo = nDistinctF then
-  Print("record: every good f has EXACTLY 2 good m (", nExactlyTwo, "/", nDistinctF,
-        ") -- matches mathematician's prediction\n");
-else
-  Print("record: NOT every good f has exactly 2 good m (", nExactlyTwo, "/", nDistinctF,
-        " do) -- record only, not a pass/fail gate\n");
-fi;
 
-## --- C-6 前半: |GT(N)| pair count = 72 (Table 1) -- same as C-5's pairCount.
-Print("\nC-6 (前半): |GT(N19)| (charming pair count) = ", pairCount, " (expect 72, Table 1)\n");
+## --- C-6 前半: |GT(N19)| pair count = 72 (Table 1) -- same as C-5's cntC5.
+Print("\nC-6 (前半): |GT(N19)| (charming pair count) = ", cntC5, " (expect 72, Table 1)\n");
+c6FirstOK := (cntC5 = 72);;
 
-## --- C-6 後半(新規 1 行): |GT-heart(N)| = 12. 解釈(要開示): 「hexagon 通過
-## f」= C-5 の goodFSet(36 件、[F2,F2] 内)のうち、pentagon 通過集合
-## (pentPassSet, 216 件、[F2,F2] の外側にもまたがりうる)にも入っている f の
-## 個数を数える(pentagon AND hexagon 両方を通過する f の数)。この解釈は
-## 指示文「hexagon 通過 f のうち [F2,F2] 所属を数える」の額面どおりではなく
-## 補完的解釈である点を明記する(goodFSet は既に [F2,F2] の部分集合なので
-## 額面どおりなら 36 のままになってしまい 12 にならないため、pentagon との
-## 交わりと読み替えた)。
-gtHeartSet := Filtered(goodFSet, f -> f in pentPassSet);;
-nGtHeart := Length(gtHeartSet);;
-Print("C-6 (後半, 解釈=hexagon-pass(36) cap pentagon-pass(216)): |GT-heart(N19)| = ",
-      nGtHeart, " (expect 12, Table 1)\n");
-if nGtHeart = 12 then
-  Print("C-6-second PASS: |GT-heart| = 12\n");
-else
-  Print("C-6-second FAIL or interpretation mismatch: got ", nGtHeart,
-        " -- interpretation of the instruction may be wrong, see comment above, report to mathematician\n");
-fi;
+## --- C-6 後半: |GT-heart(N19)| = 12. ★ 注意(誤り訂正): distinctFC5(目標36、
+## C-5の"distinct f"ユニット)と |GT-heart|=12 は Table 1 上で**別の量**
+## (前者は hexagon 通過 f の異なり数、後者は GT(N19) それ自体が位数72の群を
+## なすときの GT-heart 部分群の位数=12・D6構造)であり、混同していた前回の
+## 実装(nGtHeart:=distinctFC5)を撤回する。c5.g はこの値を計算していない
+## (pair数とdistinct-fの列挙で止まっている)。GT♡=12 の算出には GT(N19)=72
+## 個の(m,f)ペアが実際に「群」として閉じる構造(合成則)を構築し、その中の
+## charming(=[F2,F2]所属+practical等)部分集合を特定する追加実装が必要 --
+## 本パスでは実装しない(サイレント省略ではなく明記)。
+Print("\nC-6 (後半): |GT-heart(N19)| -- NOT COMPUTED this pass (see comment above; ",
+      "distinct-f(=", distinctFC5, ") is a DIFFERENT quantity from GT-heart=12, ",
+      "conflating them was an error in an earlier draft and has been withdrawn). ",
+      "Requires additional structure (GT(N) group composition + charming subgroup ",
+      "identification) not implemented here.\n");
+c6SecondOK := fail;;   ## explicitly UNKNOWN, not silently true/false
 
 Print("\nALL_DONE\n");

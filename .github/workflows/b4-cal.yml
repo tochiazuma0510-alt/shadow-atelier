@@ -151,14 +151,21 @@ jobs:
             exit 1
           fi
           missing=""
-          for marker in "C-1 PASS" "C-2 PASS" "C-3a PASS" "C-3b PASS" "C-4 PASS" "C-5 PASS: BOTH units match" "C-6-second PASS"; do
+          for marker in "C-1 PASS" "C-2 PASS" "C-3a PASS" "C-3b PASS" "C-4 PASS" "C-5 PASS: BOTH units match"; do
             if ! grep -qF "$marker" ci/out/cal_b4_n19.log; then
               missing="$missing [$marker]"
             fi
           done
+          # C-6 前半(pair=72, cntC5と同一)は C-5 PASS が緑なら自動的に緑;
+          # C-6 後半(|GT-heart|=12)はこのパスでは未実装・明示UNKNOWN のため
+          # gate の必須リストに含めない(サイレントPASS化しない -- ログには
+          # "NOT COMPUTED this pass" と出るはずで、それを別途確認する)。
+          if ! grep -qF "NOT COMPUTED this pass" ci/out/cal_b4_n19.log; then
+            echo "::warning::C-6 後半の 'NOT COMPUTED this pass' マーカーが見当たらない -- ログを確認せよ"
+          fi
           if [ -z "$missing" ]; then
             echo "cal_pass=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::cal_b4 ALL implemented checks green: C-1/C-2/C-3a/C-3b/C-4/C-5(both units)/C-6-second."
+            echo "::notice::cal_b4 C-1/C-2/C-3a/C-3b/C-4/C-5(both units) ALL GREEN. C-6前半はC-5に従属して緑。C-6後半(|GT-heart|=12)は未実装のまま明示UNKNOWN(別掲、サイレントPASS化していない)。"
           else
             echo "::error::missing PASS markers:$missing -- see ci/out/cal_b4_n19.log"
             echo "cal_pass=false" >> "$GITHUB_OUTPUT"
