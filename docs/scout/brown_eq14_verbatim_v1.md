@@ -145,6 +145,8 @@ depth filtration D(e₁ の出現回数 ≥ r で減少フィルトレーショ�
 
 (注意: 3 本目の "14σ₇∧σ₁₃" は画像でもそのまま(σ₁₃ が 2 回出る)。weight の勘定上は σ₇∧σ₁₁ が期待されるが、**原文は σ₁₃ — 逐語のまま記録**(v2 の原文どおり)。)
 
+(後注・裁定 727 相互参照: 偶周期多項式の独立導出(docs/notes/weight_family_spectroscopy_design_v1.md・4e6bdcb)により正しい式は **3σ₃∧σ₁₇ − 10σ₅∧σ₁₅ + 14σ₇∧σ₁₃ − 13σ₉∧σ₁₁** と確定 — 原文の誤植は第 2 項(σ₅∧σ₁₃ → σ₅∧σ₁₅)と第 4 項(f₉∧f₁₁ → σ₉∧σ₁₁)の 2 件で、疑われた "14σ₇∧σ₁₃" 自体は正しい(7+13=20)。逐語本文は原文どおり不改変。)
+
 ### 3.4 Bernoulli 数分子・Ihara の問いとの接続(p.25 — 画像照合済み・逐語)
 
 > "If the elements ef can be shown to be motivic, then they provide in particular an answer to the question raised by Ihara in ([20], end of §4 page 259). **The appearance of the numerators of Bernoulli numbers is related to conjecture 2 in [20]** and has been studied from the Galois-theoretic side by Sharifi [31] and McCallum and Sharifi [27]."
