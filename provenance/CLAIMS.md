@@ -139,3 +139,18 @@ E1-1(isolated 族)/E1-2(構造 GT^odd_Dih ≅ Aff(Ẑ^odd)×C₂)/E1-3(odd Conj 
 
 ### W98 恒久 fixture(記帳正形 P100-6.1)
 - 事前登録宇宙 = **27 ケース**(n=5..13 帯・n∈{10..13} は 13)。四方向一致 27/27・ℓ=9 非単調 fixture 発火。「30 ケース」は裁定 390/393 の記帳ミス(erratum 済)。格: 多経路有限照合(helper 分離)・Lean 未検証。
+
+## C-6(2026-08-06 追記): BH-α-pent v1.1(裁定 586 発効・記帳債務の履行)
+𝔊_ar(N)=𝔊_pent(N)=H_W・|H_W|=42(NW(7)・42 = arithmetic∧genuine)。252 の内訳は BIT-252 により {42,294} の二択(candidate・便 112 で認可請求中)。格 = theorem(発効文 = F110-1.2)。cert 系 = search/certs/nw7_mainrun_scoring_20260806.json 系列。
+
+## C-7(2026-08-06): 双子 witness(裁定 609/629 で cross-checked)
+限定文言: 「登録 L2 の 15 対それぞれで ι(N)≠N かつ ι(N)=K・[-1,1]∈GTSh(K,N) は非 settled ⟹ 各 N 非 isolated(最小指数 126)」。cert = search/certs/twin_witness_run_v1_1_20260806.json。帰属: 主要部 = PIN-A(div_law §2.1 既在)の再導出・新規 = ker T₋₁,₁=ι(N)+帰結。射程外 = |GT| 等式・torsor・M0。
+
+## C-8(2026-08-06): L-3 全 17 行実測(裁定 606/615/629 で cross-checked・SM-1 限定)
+L3_surjective_lifts=42/1263・盲検予言 17/17(分布多重度まで機械照合 = crosscheck/compare_l3_pred_vs_meas.py)。判定式 = 「L-3 ⟺ |im ρ|=3000·|V|」(定理候補)。SM-1: L-3 は marking 規約に盲(担保 = L-1/L-2/F-2)。cert = search/certs/w6_bu_s35_v2_1_20260806.json。
+
+## C-9(2026-08-06): MIRROR-ALL(裁定 612・cross-checked)
+15 対 = 13 紙(MIRROR-ODD)+2 機械二方法(witness word+Test ORB/REFL-EQUIV)。census = third-party echo(根拠に引かない)。紙単独射程 = 13。
+
+## C-10(2026-08-06): exotic 台帳(裁定 616/618/619)
+確定 exotic ≥9 対(750 クリーク ≥8+384/[608] E1)・全て窓外(GT 述語未定義)。h^cen≤384・h^win(c∈N)>1000。層落とし表現の禁止規定つき(§G.3)。
