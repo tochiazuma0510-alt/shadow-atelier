@@ -1,0 +1,128 @@
+{
+  "schema": "shadow-atelier/aside3_contents/v1",
+  "authority": "裁定721 (司令塔), R-1 -- companion readout of search/aside3_exact_D_v1.py's already-computed reconstruction (no new computation logic; same RECON_PRIMES/reconstruct_ambient_dict/content_of/q_ihara_bracket, applied to sigma_m and v1/v2 as WHOLE vectors rather than D's per-depth projections)",
+  "purpose": "定理D-5の仮定(H2)の例外素数集合(q not dividing 6M)のMを明示有限集合化するための生値読み出し(判定語なし)",
+  "reconstruction_primes": [
+    2147483647,
+    998244353,
+    2000000011,
+    2000000033
+  ],
+  "sigma_dims": {
+    "3": {
+      "H_dim": 1,
+      "S_dim": 1
+    },
+    "5": {
+      "H_dim": 2,
+      "S_dim": 1
+    },
+    "7": {
+      "H_dim": 6,
+      "S_dim": 1
+    },
+    "9": {
+      "H_dim": 19,
+      "S_dim": 1
+    }
+  },
+  "lead_words": {
+    "3": [
+      0,
+      0,
+      1
+    ],
+    "5": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "7": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "9": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  "content_report": {
+    "sigma_3": {
+      "num_terms": 6,
+      "content_numerator": 1,
+      "content_denominator": 1,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {}
+    },
+    "sigma_5": {
+      "num_terms": 30,
+      "content_numerator": 1,
+      "content_denominator": 2,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {
+        "2": 1
+      }
+    },
+    "sigma_7": {
+      "num_terms": 126,
+      "content_numerator": 1,
+      "content_denominator": 16,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {
+        "2": 4
+      }
+    },
+    "sigma_9": {
+      "num_terms": 510,
+      "content_numerator": 1,
+      "content_denominator": 144,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {
+        "2": 4,
+        "3": 2
+      }
+    },
+    "v1_ihara_sigma3_sigma9": {
+      "num_terms": 3858,
+      "content_numerator": 1,
+      "content_denominator": 144,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {
+        "2": 4,
+        "3": 2
+      }
+    },
+    "v2_ihara_sigma5_sigma7": {
+      "num_terms": 3860,
+      "content_numerator": 1,
+      "content_denominator": 32,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {
+        "2": 5
+      }
+    }
+  },
+  "M_exceptional_primes": [
+    2,
+    3
+  ],
+  "M_value": 6,
+  "note": "M_exceptional_primes は、この6個の content (numerator+denominator) に現れた素因数の合併集合の生値。定理D-5(H2)の「q not | 6M」の解釈・適用は数学者/司令塔の専権。",
+  "no_verdict_note": "S-AS-5 compliance: raw factorizations only, no interpretive verdict prose.",
+  "stop_code": null,
+  "total_elapsed_sec": 63.52
+}
