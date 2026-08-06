@@ -1,0 +1,22 @@
+cert row-lists found: [('/rows', 17)]
+using: /rows | first-row keys: ['L3_surjective_lifts', 'MARK_ISO_orbits', 'accepted_classes', 'affine_solution_pairs', 'class_detail', 'dim', 'dim_H2_S4', 'module_id', 'num_classes', 'p', 'rejected_classes']
+match   p2_d2_a0b0c1 L3=8
+match   p2_d2_a0b1c0 L3=0
+match   p2_d2_a2b0c0 L3=0
+match   p2_d3_a1b0c1 L3=16
+match   p2_d3_a1b1c0 L3=0
+match   p2_d3_a3b0c0 L3=0
+match   p2_d4_a0b0c2 L3=0
+match   p2_d4_a0b1c1 L3=0
+match   p2_d4_a0b2c0 L3=0
+match   p2_d4_a2b0c1 L3=0
+match   p2_d4_a2b1c0 L3=0
+match   p2_d4_a4b0c0 L3=0
+match   p3_d2_bruteforce_1 L3=18
+match   p3_d2_bruteforce_2 L3=0
+match   p3_d2_bruteforce_3 L3=0
+match   p3_d2_bruteforce_4 L3=0
+match   p3_d2_bruteforce_5 L3=0
+rows: match=17 mismatch=0
+total L3: pred=42 meas=42 MATCH
+total lifts: pred=1263 meas=1263 MATCH
