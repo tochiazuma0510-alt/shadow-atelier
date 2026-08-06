@@ -1,41 +1,49 @@
 name: edim
 
-# EDIM semidirect model runs -- E-DIM9/10 scoring (裁定658/660, GHA
+# EDIM semidirect model runs -- E-DIM9/10 scoring (裁定658/660/689, GHA
 # relocation per 司令塔裁定 this session). Pure python/numpy, NO GAP.
 #
-# v4 (this version): v3's per-PRIME matrix (k=7..10 sequential within each
-# prime job) was cancelled by its own 90-minute timeout -- local timing
-# showed k=10 ALONE (bases+delta-table ~26.5min + H/S compute ~27.8min)
-# already consumes ~56 minutes per prime, leaving little margin once k=7,8,9
-# are added in the same job. v4 splits further: a 4-way matrix over
-# (k in {9,10}) x (prime in {2147483647, 998244353}), each cell its own job
-# with its own 60-minute ceiling, plus an aggregate job. k=7,8 are NOT
-# rerun by this workflow (already regression-confirmed by v2/v3, commit
-# 70879b0/ca95afd) -- see edim_run_c9_c10_v4_aggregate.py's own note on
-# what re-confirmation is still required if edim_semidirect_v1.py changes
-# (e.g. a Sol-accelerated solver, 便112e) before this is dispatched again.
+# v5 (this version, back to a SIMPLE 2-prime matrix): Sol's H-first ambient
+# rank accelerator (便112e, merged 3b739fe/8c289c7/48065b7) made the WHOLE
+# k=3..10 sweep per prime take ~2 minutes (measured locally: 65521=115s,
+# 2147483647=137s, 998244353=120s; peak RSS <=709MB, well under the 8GB
+# local machine's own budget too -- the GHA move is no longer strictly
+# required for SPEED, but is kept for a reproducible/independent-environment
+# confirmation). This retires the v4 4-way (k x prime) matrix design (commit
+# a84bb07), which existed only to work around the OLD (pre-112e) ~56min/
+# prime-at-k=10 cost that no longer applies.
 #
-# search/edim_semidirect_v1.py, search/edim_run_c9_c10_v4_single_kp.py,
-# search/edim_run_c9_c10_v4_aggregate.py are read-only input to this
-# workflow (mine-dispatch.yml / hsp7-calib.yml / b4-cal.yml / b4-r0.yml
-# "search/* is untouchable by CI" discipline carried over).
+# search/edim_semidirect_v1.py and search/edim_run_c9_c10_v3_single_prime.py
+# (both Sol's 112e versions) and search/edim_run_c9_c10_v3_aggregate.py are
+# read-only input to this workflow (mine-dispatch.yml / hsp7-calib.yml /
+# b4-cal.yml / b4-r0.yml "search/* is untouchable by CI" discipline carried
+# over).
+#
+# LOCAL VALIDATION (before this workflow was authored/dispatched, per 司令塔
+# instruction this session): edim_run_c9_c10_v3_single_prime.py's OWN
+# fail-closed k=3..10 regression battery was run locally for THREE primes --
+# 65521 (Sol's fast regression canary), 2147483647, 998244353 (the two
+# 裁定658-designated scoring primes) -- ALL THREE report regression_ok=true
+# (full agreement with the known H/S values at k=3..10). The two-prime
+# scoring aggregate (edim_run_c9_c10_v3_aggregate.py, 2147483647+998244353)
+# gives S9=1, S10=1 (both match the frozen prediction, docs/notes/
+# b_type_synthesis_design_v1_addendum_edim9_11_prediction.md commit
+# 026dff8), H9=19, H10=33 (both match the derived values), two_prime_agree
+# true throughout. This workflow reproduces that same computation on GHA
+# for an independent-environment confirmation.
 #
 # S-ED-4 (docs/notes/b_type_synthesis_design_v1_addendum_edim78_prediction.md
 # SS3, inherited): general-prime S!=A mismatch = implementation-bug-first
-# suspicion. Only the two designated large primes are used (裁定658,
-# "k=9,10,11には特異素数を加えない"). If the two primes disagree on S for a
-# given k (with H matching and agreeing), the aggregator records
-# S_UNRESOLVED_DISAGREEMENT rather than picking a winner.
+# suspicion. Only the two 裁定658-designated large primes are used for the
+# SCORING aggregate (2147483647, 998244353); 65521 is Sol's separate fast
+# regression canary, not part of the scoring pair (matches
+# edim_run_c9_c10_v3_single_prime.py's own REQUIRED_REGRESSION_PRIMES vs
+# edim_run_c9_c10_v3_aggregate.py's LARGE_PRIMES distinction).
 #
-# CALIBRATION_FAIL/STOP discipline (prediction doc SS3): if H9 or H10 (for
-# EITHER prime, or if the two primes disagree on H) do not match the
-# DERIVED values 19/33, the aggregator stops before reporting S at all.
-#
-# ★ DISPATCH GATE (司令塔 instruction, this session): this workflow is
-# committed for REVIEW/READINESS only. Actual workflow_dispatch is to wait
-# until Sol's accelerated solver (便112e, branch sol/112e-edim-speedup) is
-# merged AND has passed a local regression battery (k=3..10 known values,
-# both large primes) run by 実装係 BEFORE this workflow fires against it.
+# CALIBRATION_FAIL/STOP discipline (prediction doc SS3): if H9 or H10 do not
+# match the DERIVED values 19/33 (for either prime, or if per-prime
+# regression itself fails at any k=3..10), the run/aggregate stops before
+# reporting S at all.
 
 on:
   workflow_dispatch: {}
@@ -43,18 +51,17 @@ on:
     paths:
       - '.github/workflows/edim.yml'
       - 'search/edim_semidirect_v1.py'
-      - 'search/edim_run_c9_c10_v4_single_kp.py'
-      - 'search/edim_run_c9_c10_v4_aggregate.py'
+      - 'search/edim_run_c9_c10_v3_single_prime.py'
+      - 'search/edim_run_c9_c10_v3_aggregate.py'
 
 permissions:
   contents: read
 
 jobs:
-  edim_per_kp:
+  edim_per_prime:
     strategy:
       fail-fast: false
       matrix:
-        k: [9, 10]
         prime: [2147483647, 998244353]
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -74,43 +81,45 @@ jobs:
         shell: bash
         run: free -h || true
 
-      - name: Run E-DIM k=${{ matrix.k }}, prime=${{ matrix.prime }} (sparse solver)
+      - name: Run E-DIM k=3..10 for this prime (Sol H-first ambient rank, 便112e)
         id: run
         shell: bash
         run: |
           set +e
           mkdir -p ci/out
-          python search/edim_run_c9_c10_v4_single_kp.py ${{ matrix.k }} ${{ matrix.prime }} 2>&1 | tee ci/out/edim_k${{ matrix.k }}_p${{ matrix.prime }}.log
+          python search/edim_run_c9_c10_v3_single_prime.py ${{ matrix.prime }} 2>&1 | tee ci/out/edim_prime_${{ matrix.prime }}.log
           echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
-      - name: Check per-(k,prime) result (fail-closed)
+      - name: Check per-prime result (fail-closed)
         shell: bash
         run: |
           set -euo pipefail
           if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
-            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/edim_k${{ matrix.k }}_p${{ matrix.prime }}.log"
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/edim_prime_${{ matrix.prime }}.log "
+            echo "(check for EDIM_C9_C10_SINGLE_PRIME_REGRESSION_FAILED -- expected STOP behavior "
+            echo "on a genuine regression mismatch, not necessarily a CI bug)"
             exit 1
           fi
-          if ! grep -q "EDIM_C9_C10_KP_DONE" ci/out/edim_k${{ matrix.k }}_p${{ matrix.prime }}.log; then
-            echo "::error::EDIM_C9_C10_KP_DONE marker not found"
+          if ! grep -q "EDIM_C9_C10_SINGLE_PRIME_DONE" ci/out/edim_prime_${{ matrix.prime }}.log; then
+            echo "::error::EDIM_C9_C10_SINGLE_PRIME_DONE marker not found"
             exit 1
           fi
 
       - uses: actions/upload-artifact@v4
         with:
-          name: edim-k${{ matrix.k }}-p${{ matrix.prime }}-log
-          path: ci/out/edim_k${{ matrix.k }}_p${{ matrix.prime }}.log
+          name: edim-prime-${{ matrix.prime }}-log
+          path: ci/out/edim_prime_${{ matrix.prime }}.log
           if-no-files-found: error
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: edim-k${{ matrix.k }}-p${{ matrix.prime }}-cert
-          path: search/certs/edim_c9_c10_k${{ matrix.k }}_prime_${{ matrix.prime }}_v4_20260806.json
+          name: edim-prime-${{ matrix.prime }}-cert
+          path: search/certs/edim_c9_c10_prime_${{ matrix.prime }}_v3_20260806.json
           if-no-files-found: warn
 
   edim_aggregate:
-    needs: edim_per_kp
+    needs: edim_per_prime
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -121,20 +130,20 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Download per-(k,prime) certs
+      - name: Download per-prime certs
         uses: actions/download-artifact@v4
         with:
-          pattern: edim-k*-p*-cert
+          pattern: edim-prime-*-cert
           path: search/certs/
           merge-multiple: true
 
-      - name: Run aggregator (CALIBRATION_FAIL/STOP + S-ED-4 + scoring)
+      - name: Run aggregator (regression gate + CALIBRATION_FAIL/STOP + scoring)
         id: run
         shell: bash
         run: |
           set +e
           mkdir -p ci/out
-          python search/edim_run_c9_c10_v4_aggregate.py 2>&1 | tee ci/out/edim_aggregate.log
+          python search/edim_run_c9_c10_v3_aggregate.py 2>&1 | tee ci/out/edim_aggregate.log
           echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
       - name: Check aggregate result
@@ -142,11 +151,11 @@ jobs:
         run: |
           echo "py_exit=${{ steps.run.outputs.py_exit }}"
           if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
-            echo "::warning::aggregator did not complete successfully -- check for CALIBRATION_FAIL / "
-            echo "disagreement markers in ci/out/edim_aggregate.log (expected STOP behavior, not "
-            echo "necessarily a CI bug); cert (if written) still reflects what happened"
+            echo "::warning::aggregator did not complete successfully -- check for REGRESSION_FAILED / "
+            echo "CALIBRATION_FAIL markers in ci/out/edim_aggregate.log (expected STOP behavior, "
+            echo "not necessarily a CI bug); cert (if written) still reflects what happened"
           else
-            echo "::notice::$(grep -A15 '\"scoring\"' ci/out/edim_aggregate.log | head -25)"
+            echo "::notice::$(grep -A10 '\"scoring\"' ci/out/edim_aggregate.log | head -20)"
           fi
 
       - uses: actions/upload-artifact@v4
@@ -158,6 +167,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: edim-c9-c10-final-cert-v4
-          path: search/certs/edim_c9_c10_run_v4_20260806.json
+          name: edim-c9-c10-final-cert
+          path: search/certs/edim_c9_c10_run_v3_20260806.json
           if-no-files-found: warn
