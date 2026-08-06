@@ -73,6 +73,7 @@ on:
           - both
         default: k12_691
   push:
+    branches: [master]  # 便112f事故(31105025974): Sol branch ref作成でpush発火→即cancel。branch納品は発火対象外に(裁定706)
     paths:
       - '.github/workflows/edim.yml'
       - 'search/edim_semidirect_v1.py'
