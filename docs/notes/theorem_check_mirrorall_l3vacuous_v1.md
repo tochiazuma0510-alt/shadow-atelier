@@ -1075,6 +1075,94 @@ $$\boxed{\ \text{帯の 3 対}:\ \textbf{機械のみ}\ \longrightarrow\ \textbf
 
 **予言の採点(墓標の更新)**: **P-BAND-2′ は的中**(予言 (ii)「5 chiral の少なくとも 1 因子で SECT が破れる」は **3/5 で成立**)。**部分的中**として記録する — 5/5 を予言していたので**全部当たったわけではない**。外れた 2 群が層 3 を露出させ、**結果的に最も価値のある情報**を出した(§G.8.3 で分岐の意味を先に決めておいた効果)。
 
+## G.10 追補 7(2026-08-06・裁定 683 系)— **chirality group $X$ の自前計算**(設計・未実行)
+
+**受領**: `papers/bjns-2009-chirality-groups-maps-hypermaps.pdf`(BJNS, arXiv `math/0609070v1`, 23 頁)+ トリアージ `docs/scout/bjns_retrieval_triage_v1.md`。
+> **読解範囲の申告**: 私は**原著本文を読んでいない**。以下は**トリアージ経由の孫引き**(§3 Prop 2 / Thm 3 / Prop 5 / Cor 6 / Example 1 / Cor 9 / Thm 21 / Cor 22–25)。⟹ **【PIN-CHIR-1】** 定義の逐語確認(Prop 2 の 4 商の同型と Prop 5 の「$\mathrm{Mon}$ の正規部分群」)は**発火前に 1 回**取ること。
+
+**司令塔の一工夫の受領**: 要請 (ii)(iii)(iv) は空振り ⟹ **文献は答えでなく測定器をくれた**。⟹ 層 3 の 2 標本の $X$ を**自前で計算**し、**位数・同型型・$\widehat P$ 内の位置**という最初の定量データを取る。本節はその**設計のみ**(実行しない)。
+
+### G.10.1 我々の設定への翻訳
+
+$\Gamma=C_2\ast C_3=\Delta^+$、窓 $N$ の像 $\bar N\trianglelefteq\Gamma$、反射 $r=\iota$(§A.2 MIRROR-PSL の正規化: $U\mapsto U,\ W\mapsto W^{-1}$)。BJNS の記号で $H=\bar N$、$H^r=\iota(\bar N)$、
+$$H_\Delta=\bar N\cap\iota(\bar N),\qquad H^\Delta=\bar N\,\iota(\bar N),\qquad \boxed{\ X=H^\Delta/H=\bar N\iota(\bar N)/\bar N\ \trianglelefteq\ \mathrm{Mon}=\Gamma/\bar N=\widehat P\ },\qquad \kappa=\lvert X\rvert .$$
+- $X=1\iff$ reflexible ✓(§F.10.3 の判定と同値)。
+- **Cor 6**: $\kappa\mid\lvert\widehat P\rvert$($=1944$ 等)。
+- **Prop 5**: $X$ は $\widehat P$ の**正規部分群**として実現 ⟹ 「$X$ が $\widehat P$ のどこに住むか」を問える ⟹ **層 3 の機構仮説を絞る量**になる。
+
+> ### ★ 計算の鍵(本稿の観察・実装可能形)
+> $\bar N$ が $\Gamma$ の**正規閉包**として $\bar N=\langle\langle r_1,\dots,r_k\rangle\rangle^\Gamma$ と書けるなら
+> $$\iota(\bar N)=\langle\langle \iota(r_1),\dots,\iota(r_k)\rangle\rangle^\Gamma\ \Longrightarrow\ \boxed{\ X=\bigl\langle\bigl\langle\ \pi(\iota(r_1)),\dots,\pi(\iota(r_k))\ \bigr\rangle\bigr\rangle^{\widehat P}\ }\quad(\pi:\Gamma\twoheadrightarrow\widehat P)$$
+> すなわち **$\widehat P$ の中で「反転した関係子の像」の正規閉包を取るだけ**。無限群 $\Gamma$ を扱わずに済む。
+> ($r_j$ は $\widehat P$ の $(u,w)$ 上の表示の関係子。$\Gamma$ の関係 $u^2,w^3$ は $\iota$ で $u^2,w^{-3}$ に写り $\Gamma$ 内で自明 ⟹ $X$ に寄与しない ✓。)
+
+### G.10.2 実測指示書 **CHIR-1**(数学者 → 実装係・凍結前の草案)
+
+**入力**: `sg_g4_g5_orb_20260806.json` の各行の `(order,id)` と標識対 `rep_r/rep_s`(= $(U,W)$ に対応)。**36 群すべて**を対象(31 は control)。
+
+```
+P  := SmallGroup(order,id);
+U  := rep_r;  W := rep_s;                      # cert の代表対をそのまま使う
+# 1) (U,W) 上の有限表示を得る
+iso := IsomorphismFpGroupByGenerators(P, [U,W]);   FP := Image(iso);
+rels := RelatorsOfFpGroup(FP);                     # 語 = r_j
+# 2) 反転写像 rho: u -> u, w -> w^-1 を語に適用(指数の一斉反転ではない! w だけ)
+#    実装: 自由群の語を文字ごとに読み、生成元 2 (=w) の指数だけ符号反転
+# 3) P へ引き戻す
+imgs := [ Value(rho(r_j)) under u->U, w->W ];
+X    := NormalClosure(P, Subgroup(P, imgs));
+# 4) 記録
+kappa := Size(X); IdGroup(X); IsAbelian(X);
+IsSubset(Centre(P), X); IsSubset(FrattiniSubgroup(P), X); IsSubset(DerivedSubgroup(P), X);
+# 5) X が覆う chief factor の同定(層2/層3 の判別に必須)
+for each chief factor M/L of P: record  (X∩M)L/L ≠ 1 ?   and  SECT(M/L) pass/fail
+```
+**出力 cert**: `search/certs/chir1_<date>.json` — 行ごとに `order,id,kappa,X_idgroup,X_abelian,X_in_center,X_in_frattini,X_in_derived,covered_chief_factors[(index,size,sect_pass)]`。
+
+**コスト**: 位数 $\le1944$ の群 36 個の `IsomorphismFpGroupByGenerators` + 正規閉包 ⟹ **数分**(`gap.ps1 -o 2g`)。
+
+### G.10.3 カナリア(**実装の健全性 — 予言ではない**)
+
+| # | 検査 | 根拠 |
+|---|---|---|
+| **C1** | **31 の reflexible 群で $\kappa=1$** | $X=1\iff$ reflexible(定義)。**1 個でも $\kappa\ne1$ なら実装バグ ⟹ STOP** |
+| **C2** | 5 の chiral 群で $\kappa>1$ | 同上 |
+| **C3** | $\kappa\mid\lvert\widehat P\rvert$ | **BJNS Cor 6** |
+| **C4** | 鏡映対の**両 member で $\kappa$ 一致** | $\bar N\iota(\bar N)$ は対で共通 |
+| **C5** | $\widehat P/X$ が **reflexible**(ORB/SECT を商上で再走) | **BJNS Thm 3**(最大 reflexible 商)。**最も強い検査** |
+| **C6** ★ | $X$ の同型型が **BJNS Thm 21/Cor 22–25 の除外リスト**($S_n\,(n\ge3)$・$D_n\,(n>2)$ 等)に**入らない** | **文献が我々の計算を検算する**(逆向きの二系統)。入ったら実装か孫引きの誤り ⟹ STOP |
+
+### G.10.4 IF-FIRST 予言(**各行に「偽ならどう変わるか」を明記** — §G.8.1 の再発防止規則の適用)
+
+| # | 予言 | **偽なら測定値はどう変わるか**(検定力の担保) |
+|---|---|---|
+| **P-CHIR-1** | 5 群すべてで **$\kappa$ は 3 冪**($X\le O_3(\widehat P)$) | $\kappa$ が偶数 ⟹ 掌性の欠陥が 2-部にも住む ⟹ 「$\iota$ が $U$(位数 2)を固定し $W$(位数 3)を反転する」という非対称性が欠陥の所在を決めるという直観が誤り |
+| **P-CHIR-2** ★本命 | **層 3 の 2 群で $X\le Z(\widehat P)$**(少なくとも $X\le\Phi(\widehat P)$) | $X\not\le\Phi$ なら欠陥は Frattini 商(最も見やすい特性切片)に像をもつ ⟹ 「局所で見えない」ことと衝突 ⟹ (H2) 中心拡大説は棄却され (H3) 大域説へ |
+| **P-CHIR-3** | **層 2 の 3 群では $X$ が「SECT が破れた $3^2$ 因子」を覆う** | 覆っていなければ補題候補 SECT-COVER(§G.10.6)が偽 ⟹ SECT と $X$ は別物を測っていることになる |
+| **P-CHIR-4** | $\kappa(\text{層 3})\le9$(小さく深い) | 大きい($\ge27$)なら欠陥は「広く薄い」⟹ 大域説 (H3) 側の証拠。**どちらでも情報が出る** |
+
+### G.10.5 結果の読み方(**分岐表・発火前に固定**)
+
+| 観測 | 層 3 の機構としての含意 | 次の一手 |
+|---|---|---|
+| $X\le Z(\widehat P)$ | **中心拡大の障害**(H2)。$\widehat P$ は reflexible な $\widehat P/X$ の中心拡大で、反射対称性が拡大類 $\in H^2(\widehat P/X,X)$ の水準でのみ壊れる | Part B の $Z^1/H^2$ 器具をそのまま流用して**紙の定理**を狙う(最有望) |
+| $X\le\Phi$ だが非中心 | 深い非中心障害。局所不可視は説明できるが道具は未整備 | $X$ の $\widehat P/X$-加群構造を見る |
+| $X\not\le\Phi$ | **層 3 の「局所不可視」と衝突** ⟹ SECT の検定が chief factor だけで足りていなかった疑い | 特性切片の取り直し(【GAP-G9-1】と同根) |
+| $X=\widehat P$(totally chiral) | 最も劇的。BJNS §5 の族(Ree/Suzuki/$A_n$/$SL_d$)は非可解で、**可解 $2^i3^j$ の totally chiral は文献に例がない** ⟹ 新規例の候補 | 直ちに Sol 監査+新規性 grep |
+
+### G.10.6 補題候補 **SECT-COVER**(本稿・candidate)
+
+> $A=M/L$ を特性切片とし $\widehat P$ で **SECT が破れる**とする。もし $X$ の $A$ での像が自明($X\cap M\le L$)なら、$R:=\widehat P/X$ の中で $\bar M/\bar L\cong A$ が同じ $\mu(U),\mu(W)$ 作用で現れ、$R$ は reflexible(Thm 3)ゆえ **SECT は $A$ 上で成立**してしまう ⟹ 矛盾。
+> $$\Longrightarrow\ \boxed{\ \textbf{SECT 破れ}\ \Longrightarrow\ X\ \textbf{はその因子を覆う}\ }$$
+> ⚠ **穴**: $\bar M,\bar L$ が $R$ で**特性**であることを要する(【GAP-G9-1】と同型の注意)。⟹ 現状 **candidate**。P-CHIR-3 はこの補題の実測検定でもある。
+
+### G.10.7 規律
+
+- **本節は設計のみ・実行ゼロ**(GAP 起動なし)。**発火は司令塔**、実装は係。
+- **【PIN-CHIR-1】**(BJNS 定義の逐語確認)を発火前に取ること。取れないなら $X$ の呼称を「$\bar N\iota(\bar N)/\bar N$」と**自前定義のまま**書き、chirality group の語を借りない。
+- 出力の格: **candidate / single-system**。$\kappa$ の値そのものは機械値であり、**「層 3 の機構が同定できた」と書くには §G.10.5 の分岐 + 紙の定理が要る**。
+- 封印非接触・L3 checker 非接触・外部検索ゼロ(文献は司令塔ゲート経由の受領物のみ)。
+
 ## G.4 これが効く先(1 行ずつ)
 
 - **選択効果の会計**(cv9 判読の任務 3)に直接効く: 「L2 に exotic ゼロ」は**層の定義($c\in N$)が中心荷重型の exotic を構造的に殺した結果**であり、$\iota$-剛性の証拠として過大評価してはならない — **札 β-0 の主張のこの部分は正しく、重要**。
