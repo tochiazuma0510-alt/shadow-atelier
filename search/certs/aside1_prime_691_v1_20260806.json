@@ -1,0 +1,98 @@
+{
+  "schema": "shadow-atelier/aside1/v1",
+  "authority": "裁定699 (司令塔), ASIDE-1 per docs/notes/aside_measurement_design_v1.md SS5 実測指示書 (verbatim, 数学者起草)",
+  "prime": 691,
+  "stage_A_sigma": {
+    "3": {
+      "H_dim": 1,
+      "S_dim": 1,
+      "sigma_norm_ok": true,
+      "lead_word": [
+        0,
+        0,
+        1
+      ],
+      "num_ambient_terms": 6
+    },
+    "5": {
+      "H_dim": 2,
+      "S_dim": 1,
+      "sigma_norm_ok": true,
+      "lead_word": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "num_ambient_terms": 30
+    },
+    "7": {
+      "H_dim": 6,
+      "S_dim": 1,
+      "sigma_norm_ok": true,
+      "lead_word": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "num_ambient_terms": 126
+    },
+    "9": {
+      "H_dim": 19,
+      "S_dim": 1,
+      "sigma_norm_ok": true,
+      "lead_word": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "num_ambient_terms": 510
+    }
+  },
+  "no_verdict_note": "S-AS-5 compliance: this script emits ONLY raw numeric values and the pre-registered STOP codes below (SIGMA_NONUNIQUE / CALIBRATION_FAIL / CONGRUENCE_NOT_REPRODUCED / IMPOSSIBLE_CELL) -- no interpretive verdict prose of the 4 forbidden kinds listed in docs/notes/aside_measurement_design_v1.md S7 (S-AS-5) is written anywhere in this cert.",
+  "stage_B_model_weight_graded": {
+    "bracket_39_num_terms": 3708,
+    "bracket_57_num_terms": 3792,
+    "A12": 2
+  },
+  "stage_C_free_lie_depth_graded": {
+    "f_leading_terms_computed": [
+      3,
+      5,
+      7,
+      9
+    ],
+    "d2_39_num_terms": 42,
+    "d2_57_num_terms": 40,
+    "A12_depth2": 2
+  },
+  "stage_D_bh_crosscheck": {
+    "3": {
+      "proportional_to_adXpow_Y": true
+    },
+    "5": {
+      "proportional_to_adXpow_Y": true
+    },
+    "7": {
+      "proportional_to_adXpow_Y": true
+    },
+    "9": {
+      "proportional_to_adXpow_Y": true
+    }
+  },
+  "canary_b_general_prime_A12_2_and_depth2_2": null,
+  "canary_c_691_depth2_eq_1": false,
+  "stop_code": "CONGRUENCE_NOT_REPRODUCED",
+  "total_elapsed_sec": 12.79
+}
