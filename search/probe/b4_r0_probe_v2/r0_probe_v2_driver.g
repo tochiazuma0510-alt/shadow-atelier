@@ -87,6 +87,14 @@ PB4sub := Subgroup(B4fp, pbGens);;
 sanityIndex := Index(B4fp, PB4sub);;
 Print("Index(B4fp,PB4sub) = ", sanityIndex, "  (expect 24)\n");
 
+## NOTE (repair, run 31079642629 postmortem): early-exit branches use
+## Error(...) here, NOT QUIT -- GAP rejects 'QUIT;' nested inside an
+## if-block at PARSE time (syntax error, fires even when the branch is
+## never taken at runtime), confirmed against the working precedent in
+## search/b4-r0-probe-v1.g (which only ever uses QUIT unconditionally at
+## top level / end of file, and Error(...) for all early-exit STOPs).
+## Error(...) + --quitonbreak gives the same fail-closed nonzero exit code
+## the CI check step already relies on.
 if sanityIndex <> 24 then
   Print("STOP: PRESENTATION_BROKEN (S-R0-2')\n");
   cert := Concatenation(
@@ -97,7 +105,7 @@ if sanityIndex <> 24 then
     "\"grade\":\"candidate / single-system / not cross-checked / not verified (no Lean)\"\n}\n");;
   WriteFile(OUT_PATH, cert);;
   Print("Wrote ", OUT_PATH, " (STOP)\n");
-  QUIT;
+  Error("STOP(PRESENTATION_BROKEN): [B4fp:PB4sub] <> 24 -- S-R0-2'");
 fi;
 
 #############################################################################
@@ -116,7 +124,7 @@ if nrSG <> 10494 then
     "\"grade\":\"candidate / single-system / not cross-checked / not verified (no Lean)\"\n}\n");;
   WriteFile(OUT_PATH, cert);;
   Print("Wrote ", OUT_PATH, " (STOP)\n");
-  QUIT;
+  Error("STOP(LIBRARY_MISMATCH): NrSmallGroups(192) <> 10494 -- S-R0-1'");
 fi;
 
 #############################################################################

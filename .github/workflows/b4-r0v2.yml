@@ -108,10 +108,11 @@ jobs:
           echo "::notice::$(grep 'GasmanStatistics' ci/out/b4_r0_probe_v2.log)"
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: b4-r0v2-probe-log
           path: ci/out/b4_r0_probe_v2.log
-          if-no-files-found: error
+          if-no-files-found: warn
 
       - uses: actions/upload-artifact@v4
         if: always()
