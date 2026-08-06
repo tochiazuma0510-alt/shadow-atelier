@@ -1,7 +1,8 @@
 name: bit252-oneway
 
 # BIT-252 片側判定試験 -- docs/notes/bit252_oneway_prereg_iffirst_v1.md
-# (凍結票 db53ac4)の逐語実装。委嘱: 裁定637(便112返書R-6b宿題)。
+# (凍結票 db53ac4)の逐語実装。委嘱: 裁定637(便112返書R-6b宿題)。裁定661で
+# cert 出力+独立 checker+格文言除去を追加。
 #
 # 拘束(票より、逐語履行):
 #   - VERDICT は A(Level1/Level2)か B のみ。第三の verdict を作らない。
@@ -9,6 +10,9 @@ name: bit252-oneway
 #   - 窓は K(gamma6(F2)F2^7 x <c>)のみ・m=0固定・分母117,649・延長禁止。
 #   - 較正 F-1..F-8 が1つでも落ちればSTOP(発火禁止)-- R0がfail-closed。
 #   - 本走宇宙(705,894対)は非接触。sealed 3量も非接触。
+#   - ★ 裁定661(d): 格に関する文言は一切書かない。VERDICT A は candidate 未満
+#     の「生値」(起草者予想 BIT1-P5 と逆向きの驚き値・三網検疫が全面適用)。
+#     「決着」「fake 確定」等の語をこの workflow のどこにも書かない。
 #
 # ローカル GAP は SG 掃引(S3.5 shard B)と排他のため使わない -- 本 workflow
 # が初回実行の場。sentinel-bound 様式(hsp7-calib.yml 踏襲)。
@@ -29,6 +33,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - name: Setup GAP 4.16.0
         uses: gap-actions/setup-gap@v3.8.0
         with:
@@ -47,7 +55,7 @@ jobs:
           ./configure "$GAPROOT"
           make
 
-      - name: Run BIT-252 one-way test (R0 calibration -> R1-R4 main test)
+      - name: Run BIT-252 one-way test (R0 calibration -> R1-R4 main test, writes raw cert)
         id: run
         shell: bash
         run: |
@@ -56,7 +64,8 @@ jobs:
           gap -q --quitonbreak -o 6g search/probe/bit252_v1/bit252_oneway_main.g 2>&1 | tee ci/out/bit252_run.log
           echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
-      - name: Extract VERDICT (fail-closed -- calibration must have passed for a verdict to exist)
+      - name: Extract raw VERDICT marker (fail-closed -- calibration must have passed for a marker to exist;
+              NO interpretive/grading language emitted here, 裁定661(d))
         id: verdict
         shell: bash
         run: |
@@ -64,10 +73,10 @@ jobs:
           echo "gap_exit=${{ steps.run.outputs.gap_exit }}"
           if grep -q "VERDICT = NO_SURVIVAL" ci/out/bit252_run.log; then
             echo "verdict=NO_SURVIVAL" >> "$GITHUB_OUTPUT"
-            echo "::notice::VERDICT A (NO_SURVIVAL) -- see cert/log for Level 1/Level 2 conclusions."
+            echo "::notice::raw marker VERDICT=NO_SURVIVAL (survival_count=0). No grading/interpretation applied here."
           elif grep -q "VERDICT = SURVIVES_TO_K" ci/out/bit252_run.log; then
             echo "verdict=SURVIVES_TO_K" >> "$GITHUB_OUTPUT"
-            echo "::notice::VERDICT B (SURVIVES_TO_K) -- ONLY conclusion authorized: g* survives to K. Breakdown UNKNOWN. Do not report 294/genuine/surjective (S-B1-4)."
+            echo "::notice::raw marker VERDICT=SURVIVES_TO_K. S-B1-4: do not report 294/genuine/surjective in this connection."
           else
             echo "verdict=NONE" >> "$GITHUB_OUTPUT"
             echo "::error::No VERDICT marker found -- calibration (R0) likely failed closed, or GAP crashed. See ci/out/bit252_run.log."
@@ -76,8 +85,42 @@ jobs:
             echo "::warning::gap_exit=${{ steps.run.outputs.gap_exit }} (nonzero) -- check log for the specific STOP rule (S-B1-*) that fired."
           fi
 
+      - name: Fill cert metadata placeholders (run id / prereg sha256 / commit sha)
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f search/certs/bit252_oneway_run_v1_raw.json ]; then
+            python search/probe/bit252_v1/bit252_cert_postprocess.py \
+              --raw-cert search/certs/bit252_oneway_run_v1_raw.json \
+              --prereg-doc docs/notes/bit252_oneway_prereg_iffirst_v1.md \
+              --run-id "${{ github.run_id }}" \
+              --run-attempt "${{ github.run_attempt }}" \
+              --commit-sha "${{ github.sha }}" \
+              --out ci/out/bit252_oneway_cert_v1.json
+          else
+            echo "::warning::raw cert not found (GAP script likely errored before writing it) -- skipping postprocess"
+          fi
+
+      - name: Run independent (GAP-helper-free) checker
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          if [ -f search/certs/bit252_oneway_run_v1_raw.json ] && [ -f search/certs/bit252_oneway_perm_export_v1.json ]; then
+            python search/probe/bit252_v1/bit252_independent_check.py 2>&1 | tee ci/out/bit252_independent_check.log
+            echo "independent_exit=${PIPESTATUS[0]}"
+          else
+            echo "::warning::cert or perm export missing -- independent checker skipped" | tee ci/out/bit252_independent_check.log
+          fi
+
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: bit252-oneway-run
-          path: ci/out/bit252_run.log
-          if-no-files-found: error
+          path: |
+            ci/out/bit252_run.log
+            ci/out/bit252_oneway_cert_v1.json
+            ci/out/bit252_independent_check.log
+            search/certs/bit252_independent_check_result_v1.json
+          if-no-files-found: warn

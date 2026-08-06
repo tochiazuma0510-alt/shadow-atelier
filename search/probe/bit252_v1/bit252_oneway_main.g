@@ -288,18 +288,111 @@ if not p3ok then
 fi;
 
 #############################################################################
-## =========================== R4: VERDICT ===================================
+## =========================== R4: VERDICT (raw value only) ==================
 #############################################################################
-Print("\n=========== R4: VERDICT ===========\n");
+## 裁定661 (d): 格に関する文言は一切書かない。VERDICT A は candidate 未満の
+## 「生値」(起草者予想 BIT1-P5 と逆向きの驚き値であり三網検疫が全面適用され
+## る) -- ここでは実測の生の verdict マーカーと通過数のみを出力し、
+## Level 1/Level 2 の解釈的結論・「決着」「fake 確定」等の語は一切出力しない
+## (prereg 自体が許可する語であっても、本 run の生値についてはここでは書か
+## ない -- 解釈は司令塔+Sol の三網検疫を経てから)。
+Print("\n=========== R4: VERDICT (raw marker only, no grading language) ===========\n");
 if survivalCount = 0 then
-  Print("VERDICT = NO_SURVIVAL (A)\n");
-  Print("Level 1: g* is NOT in im(GT_gen_hat -> GT(N)) -- GT_gen_hat -> GT(N) is not surjective.\n");
-  Print("Level 2 (conditional on BH-alpha-pent, G_ar=42): all 252 are gentle-fake.\n");
+  Print("VERDICT = NO_SURVIVAL (A)  [raw value -- interpretation pending 三網検疫]\n");
 else
-  Print("VERDICT = SURVIVES_TO_K (B)\n");
-  Print("ONLY authorized conclusion: g* survives to K. Breakdown UNKNOWN.\n");
-  Print("FORBIDDEN WORDS CHECK (S-B1-4): do not report '294'/'genuine'/'surjective'",
-        " in connection with this VERDICT B result.\n");
+  Print("VERDICT = SURVIVES_TO_K (B)  [raw value -- interpretation pending]\n");
+  Print("S-B1-4 reminder: do not report '294'/'genuine'/'surjective' in connection ",
+        "with a VERDICT B result.\n");
+fi;
+
+#############################################################################
+## =========================== cert JSON (prereg sec8 必須欄) ================
+#############################################################################
+## 裁定661 (b): run id / prereg sha256 / commit sha はこのスクリプトからは
+## 取得できない(GAP プロセスは GitHub Actions のコンテキストを持たない)ため
+## プレースホルダを書き、workflow 側の python 後処理ステップで実値を注入する
+## (hsp7-calib.yml の parse_and_compare.py と同一パターン)。
+verdictStr := "NO_SURVIVAL";;
+if survivalCount > 0 then verdictStr := "SURVIVES_TO_K";; fi;
+
+f7solStrs := List(f7solutions, s -> Concatenation("[", String(s[1]), ",", String(s[2]), ",", String(s[3]), "]"));;
+
+certParts := [];;
+Add(certParts, "{\n");
+Add(certParts, "  \"schema\": \"bit252_oneway_cert/v1\",\n");
+Add(certParts, "  \"FW\": \"B3-2401\",\n");
+Add(certParts, "  \"window_arity\": 3,\n");
+Add(certParts, "  \"window\": \"K = V5(F2) x <c>, V5(F2) = gamma_6(F2) F2^7\",\n");
+Add(certParts, "  \"m\": 0,\n");
+Add(certParts, "  \"denominator\": 117649,\n");
+Add(certParts, "  \"equation_ids\": [\"3.10\", \"3.11\"],\n");
+Add(certParts, Concatenation("  \"verdict\": \"", verdictStr, "\",\n"));
+Add(certParts, "  \"lane\": \"G\",\n");
+Add(certParts, "  \"run_id_PLACEHOLDER\": \"FILLED_BY_WORKFLOW_POSTPROCESS\",\n");
+Add(certParts, "  \"prereg_doc_sha256_PLACEHOLDER\": \"FILLED_BY_WORKFLOW_POSTPROCESS\",\n");
+Add(certParts, "  \"commit_sha_PLACEHOLDER\": \"FILLED_BY_WORKFLOW_POSTPROCESS\",\n");
+Add(certParts, Concatenation("  \"sizeP\": ", String(Size(P)), ",\n"));
+Add(certParts, Concatenation("  \"sizePp\": ", String(Size(Pp)), ",\n"));
+Add(certParts, Concatenation("  \"fiber_size\": ", String(sizeFiber), ",\n"));
+Add(certParts, Concatenation("  \"survival_count\": ", String(survivalCount), ",\n"));
+Add(certParts, Concatenation("  \"survival_allowed_set\": ", String(allowedCounts), ",\n"));
+Add(certParts, Concatenation("  \"BIT1_P3_fingerprint_ok\": ", JB(p3ok), ",\n"));
+Add(certParts, "  \"calibration\": {\n");
+Add(certParts, Concatenation("    \"F1\": ", JB(f1pass), ",\n"));
+Add(certParts, Concatenation("    \"F2\": ", JB(f2pass), ",\n"));
+Add(certParts, Concatenation("    \"F3_pass_count\": ", String(f3passCount), ",\n"));
+Add(certParts, Concatenation("    \"F4_negative_fixture_correctly_failed\": ", JB(not f4pass), ",\n"));
+Add(certParts, Concatenation("    \"F5\": ", JB(f5pass), ",\n"));
+Add(certParts, Concatenation("    \"F6_pass_count\": ", String(f6count), ",\n"));
+Add(certParts, Concatenation("    \"F7_solution_count\": ", String(Length(f7solutions)), ",\n"));
+Add(certParts, Concatenation("    \"F7_solutions\": [", JoinC(f7solStrs, ","), "],\n"));
+Add(certParts, Concatenation("    \"F7_matches_line_1_4_1\": ", JB(f7isLine), ",\n"));
+Add(certParts, Concatenation("    \"F8_spot_check_ok\": ", JB(f8ok), ",\n"));
+Add(certParts, Concatenation("    \"R0_all_pass\": ", JB(calAllPass), "\n"));
+Add(certParts, "  },\n");
+Add(certParts, "  \"grade\": \"raw_value_no_grading_language_applied (裁定661(d))\"\n");
+Add(certParts, "}\n");
+WriteFile("search/certs/bit252_oneway_run_v1_raw.json", Concatenation(certParts));
+Print("\nWrote search/certs/bit252_oneway_run_v1_raw.json (metadata placeholders to be filled by workflow)\n");
+
+#############################################################################
+## =========================== export for independent (Lane-free) checker ===
+#############################################################################
+## Independent python checker input: permutation representations of P and P'
+## (via IsomorphismPermGroup), so a GAP-helper-free python script can redo
+## F-1..F-7 (all live inside P) and a SAMPLE of the R3 fiber sweep (full
+## 117649-element P' sweep in python would need the P' permutation degree,
+## checked below -- exported in full if the degree is small enough, else a
+## disclosed sample).
+isoP := IsomorphismPermGroup(P);;
+Pperm := Image(isoP);;
+degP := LargestMovedPoint(Pperm);;
+Print("\nP permutation degree (for independent checker export) = ", degP, "\n");
+
+## safety guard: if GAP fell back to a large (e.g. regular, |P|=7^8=5,764,801)
+## permutation representation, exporting it as JSON is impractical (huge
+## file, huge python-side re-computation). Only export if reasonably small;
+## otherwise the independent checker falls back to an algebra-only
+## cross-check of F-7 (the flagged-most-important calibration) that needs
+## no group data at all.
+if degP <= 20000 then
+  xPperm := ImageElm(isoP, xP);;
+  yPperm := ImageElm(isoP, yP);;
+  exportParts := [];;
+  Add(exportParts, "{\n");
+  Add(exportParts, "  \"exported\": true,\n");
+  Add(exportParts, Concatenation("  \"P_perm_degree\": ", String(degP), ",\n"));
+  Add(exportParts, Concatenation("  \"xP_perm\": ", JArr(List([1..degP], i -> String(i^xPperm))), ",\n"));
+  Add(exportParts, Concatenation("  \"yP_perm\": ", JArr(List([1..degP], i -> String(i^yPperm))), "\n"));
+  Add(exportParts, "}\n");
+  WriteFile("search/certs/bit252_oneway_perm_export_v1.json", Concatenation(exportParts));
+  Print("Wrote search/certs/bit252_oneway_perm_export_v1.json (P permutation rep, degree ", degP, ")\n");
+else
+  WriteFile("search/certs/bit252_oneway_perm_export_v1.json",
+    Concatenation("{\n  \"exported\": false,\n  \"reason\": \"P permutation degree ",
+                  String(degP), " too large for practical JSON export/re-check\"\n}\n"));
+  Print("P permutation degree ", degP, " too large -- SKIPPED perm export ",
+        "(independent checker falls back to algebra-only F-7 cross-check)\n");
 fi;
 
 Print("\nALL_DONE\n");
