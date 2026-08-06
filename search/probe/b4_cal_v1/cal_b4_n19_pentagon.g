@@ -1,20 +1,24 @@
-## CAL-B4 N19 (Philadelphia subgroup) pentagon-count reproduction (C-1, C-3,
-## C-4 of docs/notes/b4_direct_adjudication_feasibility_v1_2.md sec6.2; C-5
-## hexagon-lift check appended below the pentagon count). NOT run locally
-## (S3.5 shard B occupies the local GAP process at write time) -- this is
-## the GHA cal_b4 job's driver.
-## C-2 (N_ord=6 via (2.4)/Prop2.3), C-6 (|GT|/|GT-heart|=72/12), C-7 (N34),
-## C-8 (Package GT cross-check -- separate python job, see workflow), C-9/
-## C-10 (tilde-N_core / Dtilde) are NOT implemented in this pass --
-## explicitly deferred, not silently dropped.
+## CAL-B4 N19 (Philadelphia subgroup) identification (C-1 of docs/notes/
+## b4_direct_adjudication_feasibility_v1_2.md sec6.2 ONLY, plus 2 regression
+## guards -- see below). NOT run locally (S3.5 shard B occupies the local
+## GAP process at write time) -- this is the GHA cal_b4 job's driver.
+## STATUS (updated 2026-08-06 after 3 GHA dispatch rounds):
+##   C-1 (|PB4:N19|=216): CONFIRMED, robust (order-guard + convention-guard
+##     both green, matches the mathematician's own independent verification
+##     "17 relators / 0 failures / |image|=216").
+##   C-3/C-4/C-5 (pentagon count over |F2:N_F2|=7776, hexagon lift): BLOCKED
+##     -- the naive "F2sub=<X12,X23><=PB4fp, N19_F2:=N19 cap F2sub" construction
+##     is PROVABLY incapable of reaching 7776 (bounded by 216 via Lagrange /
+##     second isomorphism theorem, see the comment at the bottom of this file
+##     for the full argument). This is a conceptual error in what "F2"/"N_F2"
+##     mean relative to N19, not a resource/coset-limit issue -- reported,
+##     not routed around by throwing more compute at it.
+##   C-2, C-6, C-7 (N34), C-8 (separate python job), C-9/C-10: not attempted
+##     this pass, explicitly deferred.
 ##
 ## Generator data: dolgushev-2008.00066 Table 1 row i=19 / (4.3), transcribed
 ## in docs/notes/b4_original_gtshadows_extraction_v1.md line 224 (page-image
-## verified). psi: PB4 -> S9, kernel N19, |PB4:N19|=216, |F2:N_F2|=7776.
-## (2.20) expansion (b4_direct_adjudication_feasibility_v1_2.md sec3.2.2,
-## line ~140): f(x23,x34)*f(x12x13,x24x34)*f(x12,x23) = f(x12,x23x24)*f(x13x23,x34)
-## This form uses ONLY the 6 PB4 generators X12,X13,X14,X23,X24,X34 (no K(0,5)
-## sphere relations needed for this raw pentagon predicate).
+## verified). psi: PB4 -> S9, kernel N19, |PB4:N19|=216.
 ##
 ## ⚠ 混同注意(司令塔裁定 2026-08-06・裁定602 witness word との取り違え防止):
 ## この psi 構成で使う「全 6 像を反転」(規約修正・共役子なし、below の
@@ -145,81 +149,29 @@ else
   Print("C-1 FAIL: |PB4:N19| = ", c1idx, " (expected 216)\n");
 fi;
 
-## --- F2 embedding: F2sub := <X12,X23> inside PB4fp ---
-## The Intersection(N19,F2sub) / NaturalHomomorphismByNormalSubgroup step
-## below runs Todd-Coxeter coset enumeration against PB4fp's (17-relator)
-## presentation; GAP's default cap (CosetTableDefaultMaxLimit = 2^12*1000 =
-## 4,096,000) was hit even though the FINAL index (7776) is modest --
-## intermediate coset-table growth during enumeration commonly overshoots
-## the eventual collapsed size for non-trivial presentations. Raise the cap
-## generously (not unbounded -- an actually-wrong/infinite-index subgroup
-## should still fail loudly rather than hang forever).
-if CosetTableDefaultMaxLimit < 50000000 then
-  CosetTableDefaultMaxLimit := 50000000;;
-fi;
-Print("CosetTableDefaultMaxLimit raised to ", CosetTableDefaultMaxLimit, "\n");
-
-F2sub := Subgroup(PB4fp, [gX12, gX23]);;
-N19_F2 := Intersection(N19, F2sub);;
-hmF2 := NaturalHomomorphismByNormalSubgroup(F2sub, N19_F2);;
-P19 := Image(hmF2);;
-Print("|F2sub : N19_F2| = |P19| = ", Size(P19), " (expect 7776)\n");
-commP19 := DerivedSubgroup(P19);;
-Print("|[P19,P19]| = ", Size(commP19), " (expect 216)\n");
-if Size(P19) = 7776 and Size(commP19) = 216 then
-  Print("C-3 PASS: |F2:N_F2|=7776, commutator subgroup order=216\n");
-else
-  Print("C-3 FAIL: |F2:N_F2|=", Size(P19), " commutator order=", Size(commP19), "\n");
-fi;
-
-xP := ImageElm(hmF2, gX12);;
-yP := ImageElm(hmF2, gX23);;
-
-## --- coface maps P19 -> R19 (via psi's images of the 6 PB4 generators) ---
-psiX12 := ImageElm(psi, gX12);;  psiX13 := ImageElm(psi, gX13);;
-psiX14 := ImageElm(psi, gX14);;  psiX23 := ImageElm(psi, gX23);;
-psiX24 := ImageElm(psi, gX24);;  psiX34 := ImageElm(psi, gX34);;
-
-BuildCoface := function(label, ximg, yimg)
-  local hom;
-  hom := GroupHomomorphismByImages(P19, R19, [xP,yP], [ximg,yimg]);;
-  Print("coface ", label, ": well-defined? ", hom <> fail, "\n");
-  return hom;;
-end;;
-
-phi123    := BuildCoface("phi_123 (x12,x23)",          psiX12,          psiX23);;
-phi234    := BuildCoface("phi_234 (x23,x34)",          psiX23,          psiX34);;
-phi_1_23_4:= BuildCoface("phi_1,23,4 (x12x13,x24x34)", psiX12*psiX13,   psiX24*psiX34);;
-phi_1_2_34:= BuildCoface("phi_1,2,34 (x12,x23x24)",    psiX12,          psiX23*psiX24);;
-phi_12_3_4:= BuildCoface("phi_12,3,4 (x13x23,x34)",    psiX13*psiX23,   psiX34);;
-
-if phi123=fail or phi234=fail or phi_1_23_4=fail or phi_1_2_34=fail or phi_12_3_4=fail then
-  Error("STOP -- a coface map is ill-defined, cannot evaluate (2.20)");
-fi;
-
-## --- evaluate (2.20) over ALL 7776 elements of P19 (C-4) ---
-elemsP19 := AsList(P19);;
-Print("Enumerated |P19| = ", Length(elemsP19), " elements\n");
-
-t0 := GAPLIB_WallElapsedMs();
-passCount := 0;;
-passList := [];;
-for f in elemsP19 do
-  lhs := ImageElm(phi234,f) * ImageElm(phi_1_23_4,f) * ImageElm(phi123,f);;
-  rhs := ImageElm(phi_1_2_34,f) * ImageElm(phi_12_3_4,f);;
-  if lhs = rhs then
-    passCount := passCount + 1;;
-    Add(passList, f);;
-  fi;
-od;
-t1 := GAPLIB_WallElapsedMs();
-Print("\n(2.20) pentagon-pass count over all 7776 elements of P19 = ", passCount,
-      "  (expect 216, C-4)  elapsed_ms=", t1-t0, "\n");
-
-if passCount = 216 then
-  Print("C-4 PASS: pentagon count matches paper Table 1 / CAL-B4 expected value.\n");
-else
-  Print("C-4 MISMATCH -- STOP, do not trust downstream B4 numbers until resolved.\n");
-fi;
+## --- C-3/C-4 BLOCKED (discovered 2026-08-06, GHA run 31066781376/31066781376-2):
+## the naive construction "F2sub := <X12,X23> <= PB4fp; N19_F2 := N19 /\ F2sub;
+## P19 := F2sub/N19_F2" is PROVABLY INCAPABLE of reaching the paper's stated
+## |F2:N_F2| = 7776, REGARDLESS of coset-enumeration resources. Proof (second
+## isomorphism / diamond theorem): for H:=F2sub <= G:=PB4fp and N:=N19 <| G,
+## H/(H cap N) = HN/N, which is a SUBGROUP of G/N = R19 (order 216) by the
+## correspondence theorem -- hence |H/(H cap N)| DIVIDES 216 by Lagrange.
+## 7776 does not divide 216 (7776/216 = 36, i.e. 216 divides 7776, not the
+## reverse) -- so this P19 can NEVER have order 7776. This is a CONCEPTUAL
+## bug (wrong definition of "F2"/"N_F2" relative to N19), not a resource
+## bug -- raising CosetTableDefaultMaxLimit / GAP memory (-o 6g) only made
+## the doomed enumeration run longer before hitting "reached the pre-set
+## memory limit". STOPPING here rather than retrying with more resources.
+## C-3 (|F2:N_F2|=7776), C-4 (pentagon count over that domain), and C-5
+## (hexagon lift) all depend on the CORRECT F2/N_F2 construction and are
+## BLOCKED pending the mathematician's exact recipe (very likely: N_F2 is
+## NOT literally N19 intersected with a PB4-embedded copy of <x12,x23> --
+## some other map/construction is needed, matching how Table 1's "F2" column
+## relates to N via the operad coface structure, not a raw subgroup
+## intersection inside PB4 itself).
+Print("\nC-3/C-4/C-5: BLOCKED (conceptual construction error found this run, ",
+      "not a resource limit -- see comment above this line in the script). ",
+      "|F2sub:(N19 cap F2sub)| divides 216 by Lagrange and can never equal ",
+      "7776. Reporting, not retrying.\n");
 
 Print("ALL_DONE\n");
