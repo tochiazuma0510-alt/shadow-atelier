@@ -1,0 +1,41 @@
+{
+  "schema": "tor_sweep_k11_v1",
+  "design_spec": "docs/notes/tor_sweep_design_v1.md",
+  "scope": "T0-T3 only (T4/T5 out of scope, no torsion-prime search performed)",
+  "k": 11,
+  "generated_by": {
+    "tool": "search/torsweep_k11_run.py",
+    "python": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.5.1",
+    "sympy": "1.14.0",
+    "edim_semidirect_v1_sha256": "bc06d81ee2dc997d0d6cd47e7660ab11a9e1f308b5af4ed96eda7d8f579c961a",
+    "rng_seed": 20260807
+  },
+  "stages": {
+    "T0": {
+      "witt2": 186,
+      "witt3": 16104,
+      "lyndon2_count": 186,
+      "lyndon3_count": 16104,
+      "t_rank": 16290,
+      "t_hnf_diag_all_units": true,
+      "t_hnf_diag_all_units_basis": "structural (see justification field)",
+      "t_hnf_diag_all_units_justification": "t_11^Z is realized (per definition LAT and the semidirect-model calibration, docs/notes/edim_semidirect_model_design_v1.md) as the underlying Z-module direct sum Lie_Z(A,B,C)_11 (+) Lie_Z(x,y)_11 (bracket twisting in the semidirect product does not alter the additive/Z-module structure). Each summand's standard Lyndon basis is a Z-basis of a free Lie ring's degree-k piece (classical fact, PBW splits over Z) -- the union of the two Lyndon bases is therefore literally a Z-basis of t_11^Z by construction, i.e. the HNF of the identity embedding is the identity (all diagonal +-1). This is NOT an independent computation; it is a structural consequence of using the semidirect-model realization as t_k^Z. The genuinely open gap is (H-LAT) itself: whether this semidirect model IS gr(K(0,5)) as a Z-form beyond the degree<=6 calibration (【T-GAP-1】, design SS6.1) -- unaffected by this canary.",
+      "elapsed_seconds": 0.48351240158081055
+    }
+  },
+  "canaries": {
+    "T-a": {
+      "witt2_matches_lyndon_count": true,
+      "witt3_matches_lyndon_count": true,
+      "matches_design_table_SS1_1": false,
+      "pass": false
+    }
+  },
+  "stop_rules": {
+    "S-TOR-1": {
+      "triggered": true,
+      "reason": "LATTICE_CANARY_FAIL (T-a)"
+    }
+  }
+}
