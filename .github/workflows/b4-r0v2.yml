@@ -1,0 +1,121 @@
+name: b4-r0v2
+
+# B4 R0 probe v2 -- SmallGroups(192) sweep + GQuotients existence test.
+# docs/notes/b4_r0_probe_prereg_iffirst_v2.md (frozen prereg, sha256
+# 7248c855c8eeb6663a25ef4e0bb108eee4ca751e33fc647114b9a74060ddc1c2),
+# executed on a GHA ubuntu runner per 司令塔 instruction (this session):
+# local GAP was tied up on a long-running G4/G5 lane (CPU-bound, no ETA),
+# so the sweep runs here in parallel instead of waiting. This mirrors the
+# disposition already used for b4-r0.yml (v1's LINS-based method, since
+# STOPped/superseded -- v2 is a different method, SmallGroups sweep +
+# GQuotients, targeting the SAME window per the prereg's SS2 scope-
+# equivalence proof).
+#
+# PURELY OPERATIONAL deviation (execution environment + memory-flag
+# notation only) -- the prereg's frozen mathematical universe (B4
+# presentation SS4.1, PB4 words (A.2), stage filters SS3.2/3.3, stage
+# caps SS3.5, stopping rules SS6) is UNCHANGED. search/probe/b4_r0_probe_v2/
+# r0_probe_v2_driver.g is read-only input to this workflow and is NOT
+# modified by it (mine-dispatch.yml / hsp7-calib.yml / b4-cal.yml /
+# b4-r0.yml "search/*.g untouchable by CI" discipline carried over).
+#
+# Memory flags: EXPLICIT BYTE COUNTS, not 'g' suffix notation (defense
+# against a suspected unit-suffix interpretation difference between the
+# local Windows GAP build and the GHA Linux GAP build -- diagnosed this
+# session via `gap --help` locally: -o/--maxworkspace is only a WARN
+# threshold ("GAP may allocate more"), NOT a hard cap; the actual hard
+# cap is -K/--limitworkspace ("GAP never allocates more"). Both are set
+# here, in bytes, to 6*1024^3 = 6442450944 (6 GiB, matching the numeric
+# value b4-r0.yml used as "-o 6g" but spelled unambiguously). The driver
+# script itself prints GAPInfo.CommandLineOptions and GasmanStatistics()
+# at startup so the EFFECTIVE parsed limit is always visible in the log,
+# regardless of notation.
+#
+# Wall cap (prereg SS3.5/SS8: wall_cap_ms=2400000, stage caps P1/P2/P3 =
+# 600000/600000/1200000ms = 40 minutes total). Enforced TWICE:
+#   (a) the driver's own internal wall-clock stage caps (GAPLIB_WallElapsedMs
+#       based), producing a clean UNKNOWN(partial) cert with untested_ids
+#       if a stage overruns -- never a silent NOT_FOUND;
+#   (b) this job's timeout-minutes: 45 (GHA runner clock) as the EXTERNAL
+#       hard stop per 司令塔 instruction ("cap 40 分は timeout-minutes で
+#       外部強制"). The 5-minute margin above the frozen 40-minute internal
+#       cap covers checkout + GAP setup + cert write + artifact upload
+#       overhead (mirrors the ~3% internal/external margin precedent in
+#       b4-r0.yml, scaled up since setup here is not already excluded from
+#       the timer the way it is for the internal GAP-side cap).
+#
+# Single GAP lane discipline (【R0v2-GAP-1】): candidate/single-system by
+# design. A second system is triggered only if a non-abelian window is
+# found (separate follow-up task, not this workflow).
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - '.github/workflows/b4-r0v2.yml'
+      - 'search/probe/b4_r0_probe_v2/r0_probe_v2_driver.g'
+
+permissions:
+  contents: read
+
+jobs:
+  b4_r0_probe_v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      probe_pass: ${{ steps.check.outputs.probe_pass }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0 (same version as local install, b4-cal.yml/b4-r0.yml)
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Run B4 R0 probe v2 (SmallGroups(192) sweep + GQuotients)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out search/certs
+          gap -q --quitonbreak -o 6442450944 -K 6442450944 \
+            search/probe/b4_r0_probe_v2/r0_probe_v2_driver.g 2>&1 | tee ci/out/b4_r0_probe_v2.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check probe result (fail-closed)
+        id: check
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.gap_exit }}" != "0" ]; then
+            echo "::error::gap_exit=${{ steps.run.outputs.gap_exit }} (nonzero) -- see ci/out/b4_r0_probe_v2.log"
+            echo "probe_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          if ! grep -q "R0_PROBE_V2_DONE" ci/out/b4_r0_probe_v2.log; then
+            echo "::error::R0_PROBE_V2_DONE marker not found -- driver did not complete cleanly"
+            echo "probe_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          if ! grep -q "VERDICT: " ci/out/b4_r0_probe_v2.log; then
+            echo "::error::no VERDICT line found in log"
+            echo "probe_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          echo "probe_pass=true" >> "$GITHUB_OUTPUT"
+          echo "::notice::$(grep 'VERDICT: ' ci/out/b4_r0_probe_v2.log)"
+          echo "::notice::$(grep 'GAPInfo.CommandLineOptions' ci/out/b4_r0_probe_v2.log)"
+          echo "::notice::$(grep 'GasmanStatistics' ci/out/b4_r0_probe_v2.log)"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: b4-r0v2-probe-log
+          path: ci/out/b4_r0_probe_v2.log
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: b4-r0v2-probe-cert
+          path: search/certs/b4_r0_probe_v2_20260806.json
+          if-no-files-found: warn
