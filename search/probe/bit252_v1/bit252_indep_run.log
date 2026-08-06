@@ -1,0 +1,38 @@
+=== building P = F2/(gamma_5 F2^7) via truncation deg<=4 ===
+[P] cap=4  tau^3=id on x,y ? True   theta^2=id ? True
+=== building P' = F2/(gamma_6 F2^7) via truncation deg<=5 ===
+[P'] cap=5  tau^3=id on x,y ? True   theta^2=id ? True
+
+=== R0 calibration, re-derived independently (window P) ===
+  F1           = True
+  F2           = True
+  F3           = 7
+  F4_fails     = True
+  F5           = True
+  F7_count     = 7
+  F7_line      = True
+  F7 solutions = [(0, 0, 0), (1, 4, 1), (2, 1, 2), (3, 5, 3), (4, 2, 4), (5, 6, 5), (6, 3, 6)]
+
+=== SEPARATION: does the calibration detect a W-4 product-order slip? ===
+  F1 (m=0,f=1)     correct-order=True  reversed-order=True   -> blind to the slip
+  F2 (m=6,f=1)     correct-order=True  reversed-order=False  -> DETECTS the slip
+  F3 (m=0,f=h4)    correct-order=True  reversed-order=True   -> blind to the slip
+  F5 (m=0,f=g1)    correct-order=True  reversed-order=True   -> blind to the slip
+  F7 sweep         correct-order=7     reversed-order=7  -> BLIND to the slip
+
+=== POSITIVE CONTROL IN P' (the fixture the run never evaluated) ===
+  P'-F1 (m=0,f=1) [vacuous]                      : True
+  P'-F2 (m=6,f=1) MUST be True (PIN-A identity)  : True
+  P'-F2 reversed order [must be False]           : False
+  => the P'-side predicate is alive and order-correct: True
+
+=== R3: FULL independent fiber sweep (117,649 elements) ===
+  dim L_5 (fiber rank) = 6  -> fiber size = 7^6 = 117649
+  SURVIVAL COUNT = 0 / 117649
+  cert reports   = 0 / 117649   -> agreement: True
+
+=== theory: which counts are even possible? ===
+  d_5 = dim(ker(1+theta_*) cap ker(1+tau+tau^2)) on gr_5 = 2
+  => the ONLY possible outcomes are 0 or 7^2 = 49.
+  prereg BIT1-P3 registered the allowed set as {0} U {7^k, 0<=k<=6} = [0, 1, 7, 49, 343, 2401, 16807, 117649]
+  -> BIT1-P3 would have ACCEPTED [1, 7, 343, 2401, 16807, 117649] , all theoretically impossible.

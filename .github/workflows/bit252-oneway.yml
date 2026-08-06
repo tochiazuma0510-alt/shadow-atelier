@@ -2,7 +2,13 @@ name: bit252-oneway
 
 # BIT-252 片側判定試験 -- docs/notes/bit252_oneway_prereg_iffirst_v1.md
 # (凍結票 db53ac4)の逐語実装。委嘱: 裁定637(便112返書R-6b宿題)。裁定661で
-# cert 出力+独立 checker+格文言除去を追加。
+# cert 出力+独立 checker+格文言除去を追加。裁定663(falsifier判読反映)で
+# 陽性対照を P'-F2(m=K_ord-1,f=1、単発O(1)、R3と同一コード経路)へ設計
+# 差し替え(旧: 算術元117,649件sweepはm=0 fiberの対照にならず誤りだった)、
+# BIT1-P3許容集合を{0,49}(d5=2、falsifier独立計算)へ鋭化、
+# test_element_uid_sha256欄を追加、falsifierの独立実装(bit252_lie.py/
+# bit252_indep.py、truncated Magnus embedding、ANUPQ不使用)を第二系統として
+# cert記載。
 #
 # 拘束(票より、逐語履行):
 #   - VERDICT は A(Level1/Level2)か B のみ。第三の verdict を作らない。
@@ -123,4 +129,5 @@ jobs:
             ci/out/bit252_oneway_cert_v1.json
             ci/out/bit252_independent_check.log
             search/certs/bit252_independent_check_result_v1.json
+            search/certs/bit252_oneway_perm_export_v1.json
           if-no-files-found: warn

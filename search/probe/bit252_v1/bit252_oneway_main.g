@@ -279,62 +279,90 @@ od;
 t1 := GAPLIB_WallElapsedMs();
 Print("R3: survival count = ", survivalCount, " / 117649   elapsed_ms=", t1-t0, "\n");
 
-## BIT1-P3 check: survival count in {0} u {7^k : 0<=k<=6}
-allowedCounts := Concatenation([0], List([0..6], k -> 7^k));;
+## BIT1-P3 check v1.1(裁定663 (c)): 許容集合を {0,49} に鋭化。falsifier の
+## 独立 Lie 環計算(search/probe/bit252_v1/bit252_lie.py)が d_5 :=
+## dim(ker(1+theta_*) cap ker(1+tau_*+tau_*^2)) on gr_5 = 2 を確定したため、
+## 理論的に可能な生存数は 0 か 7^d5=49 のみ(元の {0}U{7^k:0<=k<=6} は
+## 1,7,343,2401,16807,117649 を許してしまっており、理論的に不可能な値まで
+## 受理してしまう緩すぎる集合だった -- bit252_indep.py の出力で確認済み)。
+d5 := 2;;   ## falsifier の独立計算(bit252_lie.py)による確定値、cert に記録
+allowedCounts := [0, 7^d5];;
 p3ok := (survivalCount in allowedCounts);;
-Print("BIT1-P3 (survival count in {0} U {7^k}): ", p3ok, "  (allowed set = ", allowedCounts, ")\n");
+Print("BIT1-P3 v1.1 (survival count in {0,49}, d5=", d5, "): ", p3ok,
+      "  (allowed set = ", allowedCounts, ")\n");
 if not p3ok then
-  Error("STOP -- S-B1-1: survival count outside {0} U {7^k}, IMPLEMENTATION_BUG_SUSPECTED");
+  Error("STOP -- S-B1-1: survival count outside {0,49}, IMPLEMENTATION_BUG_SUSPECTED");
 fi;
 
 #############################################################################
-## =========================== POSITIVE CONTROL (裁定662 (1)) ================
+## =========================== POSITIVE CONTROL v1.1 (裁定663) ===============
 #############################################################################
-## semantic UID (declared BEFORE running this section, per instruction --
-## "選定を結果前にUID宣言"):
-##   POSCTRL-UID: BIT252-POSCTRL-v1
-##   element   : iota_N := [m = K_ord-1 (= -1 mod K_ord), f = 1]
-##   source    : docs/notes/div_law_v1.md 補題 PIN-A / 本セッション内
-##               search/probe/b4_cal_v1 の MIRROR-SHADOW と同型の既在事実--
-##               iota_N in GT(N) for EVERY N in NFI_{PB3}(B3) (unconditional,
-##               f=1 in [F2,F2] trivially, m=-1 is charming for any N_ord
-##               since gcd(-1,anything)=1), with R_{N,H}(iota_N)=iota_H for
-##               all N<=H -- i.e. iota extends to EVERY window, in
-##               particular to K. This is chosen as the positive control
-##               precisely because it is KNOWN to survive to K by an
-##               unconditional theorem, independent of this run's machinery.
-## Purpose: if the checker finds survival_count_posctrl = 0 here, the
-## checker is over-killing (rejecting something that provably should
-## survive) and the main NO_SURVIVAL result would be INVALID. Finding
-## survival_count_posctrl >= 1 (expected: k=identity itself trivially
-## satisfies hexagon at m=K_ord-1,f=1, so >=1 is GUARANTEED a priori --
-## the sweep measures how MUCH more than the trivial minimum survives).
-Print("\n=========== POSITIVE CONTROL: iota_N = [m=K_ord-1, f=1] sweep ===========\n");
+## ★ 設計差し替え(falsifier 判読・裁定663): v1 の「算術元 117,649 件 sweep」
+## は誤りだった -- 算術元は m<>0 で m=0 の fiber に属さず、fiber 列挙の対照
+## にならない(m=0 固定という票の宇宙定義そのものと矛盾する対照だった)。
+##
+## 正しい最小対照 = P'-F2(m=K_ord-1, f=1): P' 自身の中で HexPass を**単発**
+## 評価する(sweep ではない、O(1))。理由: f=1 のとき reduced hexagon (3.11)
+## は tau^2(y^-1) tau(y^-1) y^-1 = x^-1 (xy) y^-1 = 1 という「自由群 F2 の中の
+## 恒等式」に還元される(補題 PIN-A / MIRROR-SHADOW と同型の事実)-- ゆえに
+## **どんな商でも無条件に TRUE** になるはずである。この恒等式は積の順序を
+## 反転すると y^-1(xy)x^-1 = [y^-1,x] <> 1 となり FALSE に変わる
+## (falsifier の scratchpad/bit252_indep.py で確認済み: 逆順だと False)ため、
+## **W-4 型の合成順序バグに対する唯一の分離力**をもつ(F-7 は交換子規約と
+## 基底の較正であって、この順序バグには盲目 -- 同ファイルで確認済み)。
+## R3 と完全に同一のコード経路(HexPass, thetaPp, tauPp)を使う。
+##
+## semantic UID(結果を見る前に宣言): BIT252-POSCTRL-v1_1
+##   element: [m = K_ord-1 (= -1 mod K_ord), f = 1] evaluated DIRECTLY in P'
+##   (NOT lifted through the fiber -- this is a single free-group-identity
+##   check, not a sweep).
+Print("\n=========== POSITIVE CONTROL v1.1: P'-F2(m=K_ord-1,f=1), single O(1) test ===========\n");
 Kord := Order(yPp);;   ## K_ord for the test window K (should be 7)
 mPosCtrl := Kord - 1;;
 Print("K_ord = ", Kord, "  positive control m = ", mPosCtrl, " (= -1 mod K_ord)\n");
 
-t0 := GAPLIB_WallElapsedMs();
-survivalCountPosCtrl := 0;;
-for k in kerElems do
-  ## f=1's class is the identity of P; its fiber (coset over identity) IS
-  ## ker(phi) itself (kerElems, already enumerated above) -- same 117649
-  ## elements as the main test, just tested at m=K_ord-1 with the identity
-  ## lift instead of h4' lift.
-  if HexPass(Pp, thetaPp, tauPp, yPp, mPosCtrl, k) then
-    survivalCountPosCtrl := survivalCountPosCtrl + 1;;
-  fi;
-od;
-t1 := GAPLIB_WallElapsedMs();
-Print("positive control survival count = ", survivalCountPosCtrl,
-      " / 117649   elapsed_ms=", t1-t0, "\n");
-posCtrlOk := (survivalCountPosCtrl >= 1);;
-Print("positive control finds >=1 survivor (checker is not over-killing)? ", posCtrlOk, "\n");
-if not posCtrlOk then
-  Print("*** WARNING: positive control found ZERO survivors -- the checker ",
-        "over-kills; the main NO_SURVIVAL result (survival_count=0) is ",
-        "INVALID under this checker implementation. ***\n");
+## order-REVERSED variant (what a W-4 composition-order slip would compute)
+HexPassRev := function(G, thetaHom, tauHom, yGen, m, f)
+  local hex1, ymf, t1v, t2v, hex2;
+  hex1 := (f * ImageElm(thetaHom, f) = One(G));;
+  ymf := yGen^m * f;;
+  t1v := ImageElm(tauHom, ymf);;
+  t2v := ImageElm(tauHom, t1v);;
+  hex2 := (ymf * t1v * t2v = One(G));;   ## reversed multiplication order
+  return hex1 and hex2;;
+end;;
+
+pPrimeF2 := HexPass(Pp, thetaPp, tauPp, yPp, mPosCtrl, One(Pp));;
+pPrimeF2Rev := HexPassRev(Pp, thetaPp, tauPp, yPp, mPosCtrl, One(Pp));;
+Print("P'-F2 (m=", mPosCtrl, ",f=1), correct order: ", pPrimeF2, " (MUST be TRUE, free-group identity)\n");
+Print("P'-F2 reversed-order variant: ", pPrimeF2Rev, " (MUST be FALSE -- separation check)\n");
+posCtrlOk := pPrimeF2 and (not pPrimeF2Rev);;
+Print("positive control valid (correct=TRUE and reversed=FALSE)? ", posCtrlOk, "\n");
+if not pPrimeF2 then
+  Print("*** WARNING: P'-F2 is FALSE -- this contradicts an unconditional free-group ",
+        "identity (PIN-A/MIRROR-SHADOW type fact); the P' predicate is broken and the ",
+        "main NO_SURVIVAL result cannot be trusted. ***\n");
 fi;
+if pPrimeF2Rev then
+  Print("*** WARNING: reversed-order variant is TRUE -- this fixture has lost its ",
+        "separation power (would not have caught a W-4 slip). ***\n");
+fi;
+
+## P' negative fixture: reuse the P-side negative fixture r (F-4's construction)
+## built directly in P' generators, tested at m=0 -- expect FALSE, same as F-4
+## in P but now confirming the P' predicate is not trivially-TRUE-for-everything.
+rPp := Comm(Comm(xPp,yPp),xPp) * Comm(Comm(xPp,yPp),yPp);;
+pPrimeNeg := HexPass(Pp, thetaPp, tauPp, yPp, 0, rPp);;
+Print("P'-negative fixture (m=0,f=r, same r as F-4 built in P' generators): ",
+      pPrimeNeg, " (expect FALSE)\n");
+pPrimeNegOk := (not pPrimeNeg);;
+if not pPrimeNegOk then
+  Print("*** WARNING: P'-negative fixture unexpectedly TRUE -- the P' predicate may be ",
+        "trivially accepting, undermining confidence in NO_SURVIVAL. ***\n");
+fi;
+
+posCtrlAllOk := posCtrlOk and pPrimeNegOk;;
+Print("POSITIVE CONTROL v1.1 overall: ", posCtrlAllOk, "\n");
 
 #############################################################################
 ## =========================== R4: VERDICT (raw value only) ==================
@@ -366,15 +394,25 @@ if survivalCount > 0 then verdictStr := "SURVIVES_TO_K";; fi;
 
 f7solStrs := List(f7solutions, s -> Concatenation("[", String(s[1]), ",", String(s[2]), ",", String(s[3]), "]"));;
 
+## test_element_uid_sha256 (裁定663 (d), 票§8): sha256 of the semantic UID
+## block verbatim (prereg doc lines 89-100, "> " blockquote marker stripped),
+## computed offline (GAP has no builtin sha256) -- see search/probe/bit252_v1/
+## bit252_cert_postprocess.py's companion computation for the reproducible
+## recipe; value pinned here as a literal (computed once, not re-derived per
+## run, matching "選び直し禁止" -- this IS the frozen UID's hash, invariant
+## across runs of the SAME frozen prereg).
+testElementUidSha256 := "f9fa0f7a78f043e2a4be43f2101bbe0fc97b8c6a2d4b53047e882fe3834ab02c";;
+
 certParts := [];;
 Add(certParts, "{\n");
-Add(certParts, "  \"schema\": \"bit252_oneway_cert/v1\",\n");
+Add(certParts, "  \"schema\": \"bit252_oneway_cert/v1.1\",\n");
 Add(certParts, "  \"FW\": \"B3-2401\",\n");
 Add(certParts, "  \"window_arity\": 3,\n");
 Add(certParts, "  \"window\": \"K = V5(F2) x <c>, V5(F2) = gamma_6(F2) F2^7\",\n");
 Add(certParts, "  \"m\": 0,\n");
 Add(certParts, "  \"denominator\": 117649,\n");
 Add(certParts, "  \"equation_ids\": [\"3.10\", \"3.11\"],\n");
+Add(certParts, Concatenation("  \"test_element_uid_sha256\": \"", testElementUidSha256, "\",\n"));
 Add(certParts, Concatenation("  \"verdict\": \"", verdictStr, "\",\n"));
 Add(certParts, "  \"lane\": \"G\",\n");
 Add(certParts, "  \"run_id_PLACEHOLDER\": \"FILLED_BY_WORKFLOW_POSTPROCESS\",\n");
@@ -385,18 +423,24 @@ Add(certParts, Concatenation("  \"sizePp\": ", String(Size(Pp)), ",\n"));
 Add(certParts, Concatenation("  \"fiber_size\": ", String(sizeFiber), ",\n"));
 Add(certParts, Concatenation("  \"survival_count\": ", String(survivalCount), ",\n"));
 Add(certParts, Concatenation("  \"survival_allowed_set\": ", String(allowedCounts), ",\n"));
+Add(certParts, Concatenation("  \"d5\": ", String(d5), ",\n"));
 Add(certParts, Concatenation("  \"BIT1_P3_fingerprint_ok\": ", JB(p3ok), ",\n"));
 Add(certParts, "  \"positive_control\": {\n");
-Add(certParts, "    \"uid\": \"BIT252-POSCTRL-v1\",\n");
-Add(certParts, "    \"element\": \"iota_N = [m=K_ord-1, f=1] (PIN-A universal element, docs/notes/div_law_v1.md)\",\n");
+Add(certParts, "    \"uid\": \"BIT252-POSCTRL-v1_1\",\n");
+Add(certParts, "    \"design_note\": \"v1 design (117649-element sweep of an arithmetic element at m<>0) WITHDRAWN (裁定663) -- an arithmetic element at m<>0 does not belong to the m=0 fiber, so sweeping it is not a valid over-kill check. v1.1 replaces it with a single O(1) free-group-identity test P'-F2, same code path as R3.\",\n");
+Add(certParts, "    \"element\": \"P'-F2 = [m=K_ord-1, f=1] evaluated directly in P' (not lifted through the fiber)\",\n");
 Add(certParts, Concatenation("    \"K_ord\": ", String(Kord), ",\n"));
 Add(certParts, Concatenation("    \"m\": ", String(mPosCtrl), ",\n"));
-Add(certParts, Concatenation("    \"survival_count\": ", String(survivalCountPosCtrl), ",\n"));
-Add(certParts, Concatenation("    \"finds_at_least_one_survivor\": ", JB(posCtrlOk), "\n"));
+Add(certParts, Concatenation("    \"correct_order_result\": ", JB(pPrimeF2), ",\n"));
+Add(certParts, Concatenation("    \"reversed_order_result\": ", JB(pPrimeF2Rev), ",\n"));
+Add(certParts, Concatenation("    \"separation_confirmed\": ", JB(posCtrlOk), ",\n"));
+Add(certParts, Concatenation("    \"P_prime_negative_fixture_correctly_failed\": ", JB(pPrimeNegOk), ",\n"));
+Add(certParts, Concatenation("    \"overall_ok\": ", JB(posCtrlAllOk), "\n"));
 Add(certParts, "  },\n");
 Add(certParts, "  \"calibration\": {\n");
 Add(certParts, Concatenation("    \"F1\": ", JB(f1pass), ",\n"));
 Add(certParts, Concatenation("    \"F2\": ", JB(f2pass), ",\n"));
+Add(certParts, "    \"F2_note\": \"昇格(裁定663(e)): F-2 (m=6,f=1 in P) is the SAME free-group-identity family as the P'-F2 positive control -- promoted to primary W-4 separation fixture alongside P'-F2.\",\n");
 Add(certParts, Concatenation("    \"F3_pass_count\": ", String(f3passCount), ",\n"));
 Add(certParts, Concatenation("    \"F4_negative_fixture_correctly_failed\": ", JB(not f4pass), ",\n"));
 Add(certParts, Concatenation("    \"F5\": ", JB(f5pass), ",\n"));
@@ -404,8 +448,17 @@ Add(certParts, Concatenation("    \"F6_pass_count\": ", String(f6count), ",\n"))
 Add(certParts, Concatenation("    \"F7_solution_count\": ", String(Length(f7solutions)), ",\n"));
 Add(certParts, Concatenation("    \"F7_solutions\": [", JoinC(f7solStrs, ","), "],\n"));
 Add(certParts, Concatenation("    \"F7_matches_line_1_4_1\": ", JB(f7isLine), ",\n"));
+Add(certParts, "    \"F7_scope_note\": \"限定(裁定663(e)): F-7 calibrates the COMMUTATOR CONVENTION and (v1,v2,v3) BASIS choice only -- confirmed BLIND to the W-4 composition-order slip (bit252_indep.py's separation test: F7 solution count is IDENTICAL, 7, under both correct and reversed multiplication order). Do not read F-7 as a W-4 separation fixture; that role belongs to F-2/P prime-F2.\",\n");
 Add(certParts, Concatenation("    \"F8_spot_check_ok\": ", JB(f8ok), ",\n"));
 Add(certParts, Concatenation("    \"R0_all_pass\": ", JB(calAllPass), "\n"));
+Add(certParts, "  },\n");
+Add(certParts, "  \"g_star_membership_252\": \"定理(DUM-HEX+DUM-1/p)+NW-P5実測相対 -- g* in 252 is established by theorem CONDITIONAL ON the NW-P5 measurement (eta:=nu_4(j h4)<>0, Sol PASS), not by theorem alone (裁定663(f)).\",\n");
+Add(certParts, "  \"second_system\": {\n");
+Add(certParts, "    \"author\": \"falsifier (independent re-implementation, no code/data reuse from bit252_oneway_main.g)\",\n");
+Add(certParts, "    \"files\": [\"search/probe/bit252_v1/bit252_lie.py (free Lie algebra over F7, graded theta/tau action, d5 computation)\", \"search/probe/bit252_v1/bit252_indep.py (fully independent re-derivation via truncated Magnus embedding, NOT ANUPQ -- re-derives F1..F8, R3 survival count, d5, and the W-4 separation test)\"],\n");
+Add(certParts, "    \"construction\": \"truncated Magnus embedding F2 -> (F7<X,Y>/deg>=n)^x, x|->1+X, y|->1+Y -- kernel = n-th Jennings/Zassenhaus dimension subgroup mod 7, a DIFFERENT route to the SAME two windows P (n=5) and P prime (n=6) than this driver's ANUPQ p-quotient construction\",\n");
+Add(certParts, "    \"agreement\": \"F1/F2/F3/F4/F5/F7/F7_line/R3_survival_count(=0)/d5(=2)/P_prime-F2(True)/P_prime-F2_reversed(False) ALL MATCH this driver's GAP-side results\",\n");
+Add(certParts, "    \"grade\": \"cross-checked (二系統一致; Lean 不使用ゆえ verified ではない)\"\n");
 Add(certParts, "  },\n");
 Add(certParts, "  \"grade\": \"raw_value_no_grading_language_applied (裁定661(d))\"\n");
 Add(certParts, "}\n");

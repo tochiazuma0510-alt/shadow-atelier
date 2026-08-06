@@ -1,0 +1,25 @@
+dim L_2 = 1
+dim L_3 = 2
+dim L_4 = 3
+dim L_5 = 6
+
+--- gr_4 (dim 3) ---
+  S3 character (e,transposition,3-cycle) = (3, -1, 0)
+  isotypic  trivial:0  sign:1  standard:1
+  dim ker(1+theta_*)      = 2
+  dim ker(1+tau+tau^2)    = 2
+  dim of joint solution space (graded hexagon at m=0) = 1   => 7^1 = 7 solutions
+--- gr_5 (dim 6) ---
+  S3 character (e,transposition,3-cycle) = (6, 0, 0)
+  isotypic  trivial:1  sign:1  standard:2
+  dim ker(1+theta_*)      = 3
+  dim ker(1+tau+tau^2)    = 4
+  dim of joint solution space (graded hexagon at m=0) = 2   => 7^2 = 49 solutions
+
+h4 = v1 + 4*v2 + v3 :
+   (1+theta_*)h4 = 0 ? True    (theta_* h4 = -h4 ?) True
+   (1+tau+tau^2)h4 = 0 ? True
+   => h4 satisfies the graded hexagon in gr_4  [independent re-derivation of DUM-HEX]
+   gr_4 hexagon solutions in (a,b,c) coords: 7 -> [(0, 0, 0), (1, 4, 1), (2, 1, 2), (3, 5, 3), (4, 2, 4), (5, 6, 5), (6, 3, 6)]
+   equals the line F7*(1,4,1)? True
+   [this is the driver's F-7, re-derived with no GAP and no driver code]

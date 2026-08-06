@@ -182,18 +182,45 @@ def main():
     else:
         print(f"\n=== Tier 1: SKIPPED (perm export not available: {perm_export.get('reason')}) ===")
 
+    # 裁定663: "独立checkerの緑が未検証数値を含む"問題への対処 -- all_ok とは
+    # 別掲で、THIS SCRIPT (bit252_independent_check.py) が実際にカバーして
+    # いない項目を明示的に列挙する。falsifier の別ファイル(bit252_lie.py /
+    # bit252_indep.py, search/probe/bit252_v1/ に搬入・第二系統として cert
+    # second_system 欄に記載済み)は THIS SCRIPT とは別の、より広い独立検証
+    # (R3 survival_count・d5・P'-F2 の順序分離テストを含む)を行っており、
+    # そちらの結果は GAP 側 cert の "second_system" 欄を参照のこと -- ここで
+    # の not_verified は「このスクリプト単体で見て」何が未検証かを指す。
+    not_verified_by_this_script = [
+        "R3_survival_count (main 117649-element fiber sweep over P') "
+        "-- NOT independently re-verified by THIS script (P' perm export "
+        "not attempted; but IS independently re-verified by "
+        "search/probe/bit252_v1/bit252_indep.py, a SEPARATE falsifier "
+        "script using a different construction -- see cert second_system)",
+        "F2, F4, F5, F6 (P-side calibration) -- not re-derived in tier1 "
+        "(only F1/F3/F7 were prioritized this pass)",
+        "positive_control (P'-F2 test) -- NOT re-verified by THIS script "
+        "(again covered separately by bit252_indep.py)",
+        "d5 -- NOT computed by THIS script (covered by bit252_lie.py)",
+    ]
+
     print(f"\n=== SUMMARY: tier1_ran={tier1_ran}, all_ok={all_ok} ===")
-    print("NOTE: this script does NOT independently re-verify the main R3 fiber "
-          "sweep (117649 elements over P', order 7^14) -- not exported by GAP "
-          "(degree guard). survival_count in the cert is NOT independently "
-          "cross-checked by this script. Disclosed, not silent.")
+    print("not_verified_by_this_script (see list, distinct from all_ok):")
+    for item in not_verified_by_this_script:
+        print(f"  - {item}")
+    print("NOTE: this script's all_ok=True covers ONLY F1/F3/F7 (tier1, if exported) "
+          "and F7's algebra-only re-derivation (tier2). The items above are NOT "
+          "covered by all_ok and must not be read as verified by it.")
 
     with open("search/certs/bit252_independent_check_result_v1.json", "w", encoding="utf-8") as f:
         json.dump({
             "tier2_F7_algebra_only_ok": tier2_ok,
             "tier1_ran": tier1_ran,
             "all_ok": all_ok,
-            "note": "R3 main fiber sweep (survival_count) NOT independently re-verified this pass",
+            "all_ok_scope": "F1, F3, F7 (tier1, if perm export available) and F7 algebra-only (tier2) ONLY",
+            "not_verified_by_this_script": not_verified_by_this_script,
+            "note": "See cert's second_system field for falsifier's separate, broader "
+                    "independent verification (bit252_lie.py/bit252_indep.py) covering "
+                    "R3 survival_count, d5, and the P'-F2 positive control.",
         }, f, ensure_ascii=False, indent=2)
     print("Wrote search/certs/bit252_independent_check_result_v1.json")
 
