@@ -26,6 +26,14 @@
     117649
   ],
   "BIT1_P3_fingerprint_ok": true,
+  "positive_control": {
+    "uid": "BIT252-POSCTRL-v1",
+    "element": "iota_N = [m=K_ord-1, f=1] (PIN-A universal element, docs/notes/div_law_v1.md)",
+    "K_ord": 7,
+    "m": 6,
+    "survival_count": 49,
+    "finds_at_least_one_survivor": true
+  },
   "calibration": {
     "F1": true,
     "F2": true,
@@ -76,9 +84,9 @@
     "R0_all_pass": true
   },
   "grade": "raw_value_no_grading_language_applied (裁定661(d))",
-  "run_id": "31075268013",
+  "run_id": "31075687418",
   "run_attempt": "1",
   "prereg_doc_path": "docs/notes/bit252_oneway_prereg_iffirst_v1.md",
   "prereg_doc_sha256": "63473b125aea9d74eeffb404045c81f515f68ecd1a88b73d7f61b0bfb1010bf7",
-  "commit_sha": "67ef33fe544a2883d5e138a61b38c9d6bcfd0dc6"
+  "commit_sha": "b1dad2ce59419773f7bbb2ddafc4d7168d931435"
 }
