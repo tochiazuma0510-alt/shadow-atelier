@@ -98,7 +98,7 @@ Print("Order-guard: expect EXACTLY {g12/g34, g14/g23}\n");
 orderGuardOK := (Length(commutingPairs) = 2) and ("g12/g34" in commutingPairs) and ("g14/g23" in commutingPairs);;
 Print("Order-guard PASS: ", orderGuardOK, "\n");
 if not orderGuardOK then
-  Error("STOP -- order-guard failed: commuting-pair signature does not match "
+  Error("STOP -- order-guard failed: commuting-pair signature does not match ",
         "known PB4 relations; psi data or generator labelling is suspect");
 fi;
 

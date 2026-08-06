@@ -211,20 +211,43 @@ jobs:
           if-no-files-found: error
 
   c8_packagegt:
+    # NOTE (discovered 2026-08-06): search/thirdparty/ is gitignored
+    # (.gitignore line 6: "第三者コード(Dolgushev パッケージ GT 等)-- SHA-256 は
+    # provenance/LEDGER.md", copyright/future-public-release reasons per
+    # provenance/LEDGER.md 2026-07-26). GHA's checkout therefore does NOT
+    # include search/thirdparty/PackageGT -- this job will report a clean
+    # SKIP rather than fail confusingly. This is a genuine cross-environment
+    # blocker (local Windows: Aux.py collides with the reserved device name
+    # "AUX"; GHA Linux: PackageGT isn't in the checkout at all, by design) --
+    # reported, not routed around by force-committing third-party code.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check PackageGT availability (expected MISSING -- thirdparty/ is gitignored)
+        id: avail
+        shell: bash
+        run: |
+          if [ -d search/thirdparty/PackageGT ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::search/thirdparty/PackageGT is not present on this runner (thirdparty/ is gitignored, by design -- see provenance/LEDGER.md). C-8 SKIPPED, not failed."
+          fi
+
       - uses: actions/setup-python@v5
+        if: steps.avail.outputs.available == 'true'
         with:
           python-version: '3.x'
 
       - name: Install sympy (PaB.py's only external dependency)
+        if: steps.avail.outputs.available == 'true'
         shell: bash
         run: pip install sympy
 
       - name: Run C-8 Package GT cross-check (search/thirdparty/PackageGT is read-only input)
         id: run
+        if: steps.avail.outputs.available == 'true'
         shell: bash
         working-directory: search/thirdparty/PackageGT
         run: |
@@ -234,6 +257,7 @@ jobs:
           echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
       - name: Check C-8 result (informational -- not gating cal_b4/p1_build_R in this workflow)
+        if: steps.avail.outputs.available == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -245,6 +269,7 @@ jobs:
           fi
 
       - uses: actions/upload-artifact@v4
+        if: steps.avail.outputs.available == 'true'
         with:
           name: b4-cal-c8
           path: ci/out/c8_packagegt.log
