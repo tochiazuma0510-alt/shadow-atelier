@@ -394,7 +394,7 @@ fi;
 
 ## "f あたり m の個数" 分布(平均でなく実測)
 mCountPerF := List(Set(List(hexpassC5, z -> z[1])),
-                    fi -> Length(Filtered(hexpassC5, z -> z[1] = fi)));;
+                    fIdx -> Length(Filtered(hexpassC5, z -> z[1] = fIdx)));;
 mCountDistribution := Collected(mCountPerF);;
 Print("per-f good-m distribution (value,count pairs) = ", mCountDistribution, "\n");
 
