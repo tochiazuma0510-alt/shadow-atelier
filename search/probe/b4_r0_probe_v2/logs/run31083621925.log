@@ -1,0 +1,122 @@
+=== memory diagnostic (defense against -o suffix interpretation ambiguity) ===
+GAPInfo.CommandLineOptions = rec(
+A := false,
+D := false,
+E := true,
+K := "6442450944",
+L := "",
+M := false,
+N := false,
+O := false,
+R := false,
+T := false,
+alwaystrace := false,
+b := false,
+bare := false,
+c := "",
+cover := "",
+e := false,
+enableMemCheck := false,
+f := false,
+g := 0,
+h := false,
+l := [ "/tmp/gaproot;" ],
+m := "128m",
+memprof := "",
+n := false,
+nointeract := false,
+norepl := false,
+o := "6442450944",
+p := false,
+packagedirs := [  ],
+("print-gaproot") := false,
+prof := "",
+q := true,
+quitonbreak := true,
+r := false,
+s := "4g",
+systemfile := "",
+version := false,
+x := "",
+y := "" )
+GasmanStatistics() = rec(
+nfull := 0,
+npartial := 13,
+partial := rec(
+cumulative := 106,
+deadbags := 100377,
+deadkb := 2651,
+freekb := 4710,
+livebags := 25094,
+livekb := 1239,
+time := 2,
+totalkb := 131072 ) )
+=== P0: B4 presentation + PB4 subgroup sanity ===
+Index(B4fp,PB4sub) = 24  (expect 24)
+NrSmallGroups(192) = 1543 (expect 1543, per v2.1 erratum)
+
+=== P1: SG-AB filter over 1543 groups ===
+  P1 progress: 500/1543  passed so far: 5  wall=580ms
+  P1 progress: 1000/1543  passed so far: 5  wall=1098ms
+  P1 progress: 1500/1543  passed so far: 12  wall=1591ms
+P1 done: passed=12 elapsed=1630ms  cap_hit=false
+
+=== P2: structure filter over 12 P1-survivors ===
+  [P2 audit] id=180 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 reject] id=180 reason=all_order8_normals_abelian
+  [P2 audit] id=181 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 reject] id=181 reason=all_order8_normals_abelian
+  [P2 audit] id=182 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 reject] id=182 reason=all_order8_normals_abelian
+  [P2 audit] id=184 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 reject] id=184 reason=all_order8_normals_abelian
+  [P2 audit] id=185 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 reject] id=185 reason=all_order8_normals_abelian
+  [P2 audit] id=1489 order-8 normal: idgroup=[ 8, 4 ] abelian=false quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1489 order-8 normal: idgroup=[ 8, 4 ] abelian=false quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1489 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1490 order-8 normal: idgroup=[ 8, 4 ] abelian=false quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1490 order-8 normal: idgroup=[ 8, 4 ] abelian=false quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1490 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1491 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1491 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1491 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 reject] id=1491 reason=all_order8_normals_abelian
+  [P2 audit] id=1492 order-8 normal: idgroup=[ 8, 4 ] abelian=false quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1492 order-8 normal: idgroup=[ 8, 4 ] abelian=false quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1492 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1493 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1493 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1493 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 reject] id=1493 reason=all_order8_normals_abelian
+  [P2 audit] id=1494 order-8 normal: idgroup=[ 8, 4 ] abelian=false quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1494 order-8 normal: idgroup=[ 8, 4 ] abelian=false quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1494 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1495 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1495 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 audit] id=1495 order-8 normal: idgroup=[ 8, 5 ] abelian=true quotient_idgroup=[ 24, 12 ]
+  [P2 reject] id=1495 reason=all_order8_normals_abelian
+P2 done: passed=4 rejected=8 elapsed=124ms  cap_hit=false
+
+=== P3: GQuotients over 4 P2-survivors ===
+Syntax warning: Unbound global variable in search/probe/b4_r0_probe_v2/r0_probe_v2_driver.g:290
+    qgens := List(pbGens, x -> Image(phi, x));;
+                                     ^^^
+  *** WINDOW CANDIDATE: id=1489 epi=1 Q_idgroup=[ 8, 4 ] ***
+  *** WINDOW CANDIDATE: id=1489 epi=2 Q_idgroup=[ 8, 4 ] ***
+  P3: id=1489 n_epis=2 wall=3407ms
+  *** WINDOW CANDIDATE: id=1490 epi=1 Q_idgroup=[ 8, 4 ] ***
+  *** WINDOW CANDIDATE: id=1490 epi=2 Q_idgroup=[ 8, 4 ] ***
+  P3: id=1490 n_epis=2 wall=6814ms
+  P3: id=1492 n_epis=1 wall=9708ms
+  P3: id=1494 n_epis=1 wall=12695ms
+P3 done: groups_processed=4 windows=4 elapsed=12695ms  cap_hit=false
+
+=== filter-soundness spot-check ===
+spot-check P1-rejected: 20 sampled, all_clear=true
+spot-check P2-rejected: 8 sampled, all_clear=true
+
+VERDICT: NONABELIAN_WINDOW_FOUND  total_elapsed_ms=37904
+Wrote search/certs/b4_r0_probe_v2_p2fix_20260806.json
+
+R0_PROBE_V2_DONE
