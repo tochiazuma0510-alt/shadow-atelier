@@ -171,7 +171,13 @@ def sigma_m_ambient(m, h_alg, p):
         return H_dim, S_dim, None, None
     # S_m vector in h_alg Lyndon coordinates at degree m: H_basis @ coeffs
     coeffs = S_basis_in_H[:, 0] % p
-    coords = (H_basis.astype(np.int64) @ coeffs.astype(np.int64)) % p
+    # NOTE (bug found + fixed during ASIDE-2, 裁定708 session): a raw numpy
+    # `@` here silently overflows int64 for large p (dim_h up to 56 at k=9,
+    # each product up to (p-1)^2 ~ 4.6e18 for p~2^31, sum over up to 56
+    # terms can exceed int64 max ~9.2e18) -- same landmine documented in
+    # GradedLie.coords_of_ambient's own docstring. Must use the overflow-
+    # safe mat-vec helper, exactly like the rest of the codebase does.
+    coords = ed.mat_vec_modp_np_safe(H_basis.astype(np.int64), coeffs.astype(np.int64), p)
     coords = [int(x) for x in coords]
     # normalize: scale so the first nonzero Lyndon coordinate is 1
     lead_idx = next((i for i, c in enumerate(coords) if c % p), None)
