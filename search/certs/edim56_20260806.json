@@ -1,0 +1,99 @@
+{
+ "_schema": "shadow-atelier/edim56/v1",
+ "calibration": {
+  "H3_H4_expected": 1,
+  "H3_H4_pass": true,
+  "S3_S4_pass": true,
+  "S3_expected": 1,
+  "S4_expected": 0,
+  "t_dim_expected": {
+   "2": 4,
+   "3": 10,
+   "4": 21,
+   "5": 54,
+   "6": 125
+  },
+  "t_dim_pass": true
+ },
+ "elapsed_sec": 124.0,
+ "env": {
+  "gap_used": false,
+  "numpy": "2.5.1",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python": "3.13.14",
+  "window_touched": false
+ },
+ "prediction_scored": {
+  "H5_ref": {
+   "measured": 2,
+   "predicted": 2
+  },
+  "H6_ref": {
+   "measured": 3,
+   "predicted": 3
+  },
+  "S5": {
+   "measured": 1,
+   "predicted": 1
+  },
+  "S6": {
+   "measured": 0,
+   "predicted": 0
+  }
+ },
+ "prereg": {
+  "path": "docs/notes/b_type_synthesis_design_v1_addendum_edim56_prediction.md",
+  "sha256": "ae1e83eb022f1f27358d63a569f18573db4220e129d9ad1a10ee11cd2967a24f"
+ },
+ "primes": [
+  2147483647,
+  998244353
+ ],
+ "purpose": "E-DIM5/6 (ruling 640): dim S_k = dim(ker(1+theta) cap ker(1+tau+tau^2) cap ker(nu_k . j)) for k=3..6",
+ "results": {
+  "2147483647": {
+   "H_dim": {
+    "3": 1,
+    "4": 1,
+    "5": 2,
+    "6": 3
+   },
+   "S_dim": {
+    "3": 1,
+    "4": 0,
+    "5": 1,
+    "6": 0
+   },
+   "t_dim": {
+    "2": 4,
+    "3": 10,
+    "4": 21,
+    "5": 54,
+    "6": 125
+   }
+  },
+  "998244353": {
+   "H_dim": {
+    "3": 1,
+    "4": 1,
+    "5": 2,
+    "6": 3
+   },
+   "S_dim": {
+    "3": 1,
+    "4": 0,
+    "5": 1,
+    "6": 0
+   },
+   "t_dim": {
+    "2": 4,
+    "3": 10,
+    "4": 21,
+    "5": 54,
+    "6": 125
+   }
+  }
+ },
+ "script_sha256": "7cec49e17c2411fab65490463309ab5efb979dec0ce427c0f53a3b5e5210ecbb",
+ "two_prime_agreement": true
+}
