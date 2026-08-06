@@ -54,7 +54,10 @@ FIXTURE_PRIME = 2147483647  # exact-integer substitute: all fixture
 # coefficients have |value| <= 70, far below this prime, so mod-p results
 # equal signed integers directly (after the to_signed conversion below).
 
-AUTHORIZED_GENERAL_PRIMES = {2147483647, 998244353}
+AUTHORIZED_GENERAL_PRIMES = {2147483647, 998244353, 677, 701}  # 裁定711:
+# 677/701 authorized as the S-ED-7 mid-size control pair (addendum SS4.3),
+# expected to behave like the 2 large "general" primes (A12_ihara=2,
+# A12_depth2_ihara=1, D nonzero) -- so they get the SAME S-AS-2' gate.
 SPECIAL_PRIME = 691
 
 

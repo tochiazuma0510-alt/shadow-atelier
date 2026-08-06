@@ -19,11 +19,12 @@ import sys
 import glob
 
 CERT_GLOB = "search/certs/aside2_prime_*_v2_20260806.json"
-AUTHORIZED_GENERAL_PRIMES = {2147483647, 998244353}
+AUTHORIZED_GENERAL_PRIMES = {2147483647, 998244353, 677, 701}  # 裁定711: 677/701
+# authorized as the S-ED-7 mid-size control pair (addendum SS4.3), expected
+# to behave like the 2 large "general" primes -- same S-AS-2' gate applies.
 SPECIAL_PRIME = 691
-AUTHORIZED_PRIMES_THIS_DISPATCH = {691, 998244353, 2147483647}  # 裁定708 point 3:
-# 677/701 are addendum SS4.3's request but NOT authorized in this dispatch
-# (司令塔's explicit instruction scoped this run to exactly these 3).
+AUTHORIZED_PRIMES_THIS_DISPATCH = {691, 998244353, 2147483647, 677, 701}  # 裁定708
+# point 3 (691,998244353,2147483647) + 裁定711 (677,701 S-ED-7 control pair).
 
 
 def main():
@@ -162,16 +163,35 @@ def main():
               f"theta_ok={doc.get('theta_ok')} D_is_zero={e.get('D_is_zero')} "
               f"D_depth_profile={e.get('D_depth_profile')} stop_code={doc.get('stop_code')}")
 
-    # cross-prime agreement of the 2 general primes.
+    # cross-prime agreement of ALL general/S-ED-7-control primes present
+    # (large primes 2147483647/998244353 + mid-size control pair 677/701,
+    # 裁定711 -- all are expected to show the SAME (A12_ihara, D_depth_
+    # profile), since none of them is the special prime 691).
     general_present = {p: certs[p] for p in AUTHORIZED_GENERAL_PRIMES if p in certs}
-    if len(general_present) == 2:
+    if len(general_present) >= 2:
         a12_vals = {p: d.get("stage_B_prime_ihara_weight_graded", {}).get("A12_ihara") for p, d in general_present.items()}
         profiles = {p: d.get("stage_E_D_ihara_takao_difference", {}).get("D_depth_profile") for p, d in general_present.items()}
         if len(set(a12_vals.values())) == 1 and len(set(json.dumps(v, sort_keys=True) for v in profiles.values())) == 1:
-            ok(f"the 2 general primes AGREE with each other: A12_ihara={list(a12_vals.values())[0]}, "
-               f"D_depth_profile identical")
+            ok(f"all {len(general_present)} general/control primes {sorted(general_present.keys())} AGREE "
+               f"with each other: A12_ihara={list(a12_vals.values())[0]}, D_depth_profile identical")
         else:
-            fail(f"the 2 general primes DISAGREE: A12_ihara={a12_vals} profiles={profiles}")
+            fail(f"the general/control primes DISAGREE: A12_ihara={a12_vals} profiles={profiles}")
+
+    # S-ED-7 specific check (裁定711): 677/701 must each individually match
+    # the large-prime pattern (this is the literal point of the control
+    # pair -- "691 だけが特異" confirmed only if 677/701 pattern with the
+    # large primes, not with 691).
+    sed7_pair = {p: certs[p] for p in (677, 701) if p in certs}
+    if sed7_pair:
+        for p, d in sed7_pair.items():
+            a12 = d.get("stage_B_prime_ihara_weight_graded", {}).get("A12_ihara")
+            d_is_zero = d.get("stage_E_D_ihara_takao_difference", {}).get("D_is_zero")
+            if a12 == 2 and d_is_zero is False:
+                ok(f"S-ED-7 control prime={p}: matches the general-prime pattern (A12_ihara=2, D_is_zero=False) "
+                   f"-- 691's difference is NOT shared by this nearby mid-size prime")
+            else:
+                fail(f"S-ED-7 control prime={p}: does NOT match the general-prime pattern "
+                     f"(A12_ihara={a12}, D_is_zero={d_is_zero}) -- raw fact, needs 司令塔/数学者 attention")
 
     print()
     if fails:
