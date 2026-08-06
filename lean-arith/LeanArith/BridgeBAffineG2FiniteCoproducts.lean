@@ -25,33 +25,33 @@ variable (k : Type u) [Field k]
 private noncomputable def finiteEtalePiFan
     (R : Type u) [CommRing R]
     {J : Type} [Finite J]
-    (F : J ? CommAlgCat.FiniteEtale.{u} R) : Fan F :=
+    (F : J → CommAlgCat.FiniteEtale.{u} R) : Fan F :=
   Fan.mk
-    (CommAlgCat.FiniteEtale.of R ((j : J) ? F j))
-    (fun j ? ObjectProperty.homMk
-      (CommAlgCat.ofHom (Pi.evalAlgHom R (fun i ? F i) j)))
+    (CommAlgCat.FiniteEtale.of R ((j : J) → F j))
+    (fun j ↦ ObjectProperty.homMk
+      (CommAlgCat.ofHom (Pi.evalAlgHom R (fun i ↦ F i) j)))
 
 private noncomputable def finiteEtalePiFanIsLimit
     (R : Type u) [CommRing R]
     {J : Type} [Finite J]
-    (F : J ? CommAlgCat.FiniteEtale.{u} R) :
+    (F : J → CommAlgCat.FiniteEtale.{u} R) :
     IsLimit (finiteEtalePiFan R F) :=
   Fan.IsLimit.mk _
-    (fun s ? ObjectProperty.homMk <| CommAlgCat.ofHom <|
-      AlgHom.pi fun j ? (s.proj j).hom.hom)
-    (fun _ _ ? rfl)
-    (fun s m h ? by
+    (fun s ↦ ObjectProperty.homMk <| CommAlgCat.ofHom <|
+      AlgHom.pi fun j ↦ (s.proj j).hom.hom)
+    (fun _ _ ↦ rfl)
+    (fun s m h ↦ by
       apply ObjectProperty.hom_ext
       apply CommAlgCat.hom_ext
       apply AlgHom.ext
       intro x
       funext j
-      exact congrArg (fun q ? q.hom.hom x) (h j))
+      exact congrArg (fun q ↦ q.hom.hom x) (h j))
 
 private noncomputable instance finiteEtaleHasProduct
     (R : Type u) [CommRing R]
     {J : Type} [Finite J]
-    (F : J ? CommAlgCat.FiniteEtale.{u} R) : HasProduct F :=
+    (F : J → CommAlgCat.FiniteEtale.{u} R) : HasProduct F :=
   HasLimit.mk
     { cone := finiteEtalePiFan R F
       isLimit := finiteEtalePiFanIsLimit R F }
@@ -59,11 +59,11 @@ private noncomputable instance finiteEtaleHasProduct
 private noncomputable instance finiteEtaleHasFiniteProducts
     (R : Type u) [CommRing R] :
     HasFiniteProducts (CommAlgCat.FiniteEtale.{u} R) :=
-  ?fun _ ? ?fun K ? by
-    let e : Discrete.functor (fun n ? K.obj ?n?) ? K :=
-      Discrete.natIso fun _ ? Iso.refl _
-    rw [? hasLimit_iff_of_iso e]
-    infer_instance??
+  ⟨fun _ ↦ ⟨fun K ↦ by
+    let e : Discrete.functor (fun n ↦ K.obj ⟨n⟩) ≅ K :=
+      Discrete.natIso fun _ ↦ Iso.refl _
+    rw [← hasLimit_iff_of_iso e]
+    infer_instance⟩⟩
 
 /-- The canonical same-universe category of finite etale affine covers has
 finite coproducts.  These are dual to the explicit finite products of finite
