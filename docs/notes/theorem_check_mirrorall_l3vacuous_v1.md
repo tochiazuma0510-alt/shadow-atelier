@@ -446,14 +446,143 @@ $p=3$・class 3 では Lazard 対応が効かない(class $<p$ が必要)ため�
 > **標的 T-486**: 「$E=243$・型 $\{3,18\}$(または $\{3,54\}$)の **reflexible** orientably-regular map は存在しない」
 これなら census(order 972・type 制限)で真偽が判定でき、真なら我々の 486 窓の chiral 性が第三者裏づけを得る。**なお (ii) の構成が与える reflexible 群の型 $n=\mathrm{ord}(\tau w)$ は別に計算する必要があり、$\{3,18\}$ とは限らない**(むしろ小さい $n$ になる公算)。
 
+## F.6 再抽出後の場合分け(固定・2026-08-06 追補 2)
+
+`[census]`(第三者・司令塔再抽出・**証明ではない**)で判明した事実:
+
+| E | type | reflexible(order $4E$ 棚) | chiral(order $2E$ 棚) |
+|---|---|---|---|
+| 243 | $\{3,18\}$ | **R28.3** `{3,18}_18` genus 28(**1 件実在**) | **C28.2** genus 28 |
+| 243 | $\{3,54\}$ | **該当ゼロ** | (未報告) |
+| 216 | $\{3,8\}$ | **ゼロ** | **C10.1** genus 10 |
+| 216 | $\{3,24\}$ | **R28.5** 実在 | (未報告) |
+
+★ **私の §F.3 の規約警告は当たり**($E=243$ で reflexible と chiral が**同じ辺数で併存**)。同時に **§F.4 (ii) の構成 $R\rtimes\langle\tau\rangle$ は R28.3 の実在で裏づけ**られた ⟹ 「位数 486 に reflexible な (2,3)-生成は無い」路線は**確定的に死亡**(私の見立てどおり)。
+
+> ### 場合分け($n=\mathrm{ord}(\sigma_1N)$ の実測待ち・紙側はここで固定)
+>
+> | 窓 | $n$ | genus | census の帰結 | 我々がすべきこと |
+> |---|---|---|---|---|
+> | **432** | **8** | 10 | $\{3,8\}$/$E{=}216$ に **reflexible が 1 件も無い** ⟹ **どの群であれ chiral が強制**される | **完了**。$\iota(N)\ne N$ の**独立第三者裏づけ**が成立(格: third-party 照合) |
+> | **432** | **24** | 28 | R28.5(reflexible)が併存 | **同定が必要** ⟹ §F.7 |
+> | **486** | **18** | 28 | R28.3 と C28.2 が併存 | **同定が必要** ⟹ §F.7 |
+> | **486** | **54** | 37 | $\{3,54\}$/$E{=}243$ に **reflexible ゼロ** ⟹ **chiral 強制** | **完了**(同上) |
+> | いずれか | 上記以外 | — | 紙の絞り込み(§F.2)が破れている | **STOP**。$P$ の構造読み(432)・ABEL-TYPE 適用(486)・census 完全性のどれかを再検分 |
+>
+> **強制ケースの論理**(重要): 「型 $\{3,n\}$・辺数 $E$ の reflexible 地図が census(悉皆域内)に 1 件も無い」+「我々の窓はその型・その辺数の地図である」(命題 MAP-DICT)⟹ **我々の窓は reflexible ではない = $\iota(N)\ne N$**。**群の同定は不要**で、$n$ の 1 値だけで閉じる。これが最も価値の高い決着経路。
+
+### F.6.1 $n$ の紙側予言(実測で反証可能)
+
+- **432**: $P\cong(C_3\times C_3)\rtimes Q_8$ で **$Q_8$ の作用が忠実**なら、位数 4 の元は $O_3(P)=C_3^2$ 上**固定点自由**($SL(2,3)$ の位数 4 元の固有値は $\pm i\notin\mathbf F_3$)⟹ $P$ に位数 12 の元は無い ⟹ $\mathrm{ord}(\bar x)=4$ ⟹ $\boxed{n=8}$ ⟹ **強制ケース**。逆に作用の核が $Z(Q_8)$ を含めば $n=24$ もありうる。
+  $$\Longrightarrow\ \textbf{予言 P-MAP-1}:\ n_{432}=8\ (\text{genus }10,\ =\text{C10.1 の型}).$$
+- **486**: 構造式 `((C9:C9):C3):C2` は $\exp(\mathrm{Syl}_3(\widehat P))=9$ を示唆。$\exp=9$ なら $\mathrm{ord}(\bar x)\in\{3,9\}$、$3$ は §F.2 で排除済 ⟹ $\boxed{n=18}$ ⟹ **同定ケース**。
+  $$\Longrightarrow\ \textbf{予言 P-MAP-2}:\ n_{486}=18\ (\text{genus }28,\ \text{C28.2 / R28.3 の型}).$$
+
+### F.6.2 ★ 実測着弾(2026-08-06・機械値)— 予言 2 本とも的中
+
+| 量 | 実測 | 予言 | 判定 |
+|---|---|---|---|
+| $\mathrm{ord}(\sigma_1N)$ @432(両 member) | **8 / 8** | P-MAP-1: **8** | **的中** |
+| $\mathrm{ord}(\sigma_1N)$ @486(両 member) | **18 / 18** | P-MAP-2: **18** | **的中** |
+| $\lvert(C_3\ast C_3)/\gamma_4\rvert$ | **243**(進行 9/27/243/2187) | §F.4 の 2 択のうち **243** | **的中(2 択の上側)** |
+
+**帰結(確定)**:
+1. **432 窓 = 型 $\{3,8\}$・$E=216$・genus 10。** `[census]` は $E=216$・$\{3,8\}$ の reflexible を(悉皆域内で)**ゼロ**と報告 ⟹ **どの群であれ chiral が強制** ⟹ $\iota(N)\ne N$ の**第三者裏づけ成立**(格 = third-party 照合)。**群の同定は不要**。
+   - 副次の紙の帰結: $n=8\Rightarrow\mathrm{ord}(\bar x)=4\Rightarrow P$ に位数 12 の元なし ⟹ (§F.6.1 の議論が逆向きに効いて)**$Q_8$ の $O_3(P)$ への作用は忠実**、$P\cong(C_3\times C_3)\rtimes Q_8$ の読みが**追認**された。
+2. **486 窓 = 型 $\{3,18\}$・$E=243$・genus 28。** R28.3(reflexible)と C28.2(chiral)が併存 ⟹ **純粋な同定問題**(§F.7・§F.9)。
+3. **$\lvert F/\gamma_4\rvert=243$** ⟹ §F.4 (ii) の $G_R:=\bigl((C_3\ast C_3)/\gamma_4\bigr)\rtimes\langle\tau\rangle$ は**位数 486 の reflexible な (2,3)-生成群として実在** ⟹ 委嘱 (2) の当初標的「位数 486 に reflexible な (2,3)-生成は存在しない」は**確定的に偽**(私の §F.4 の見立てどおり)。
+
+> ### ★ 予言 P-MAP-3(同定の見通し・**警告つき**)
+> $G_R$ の型を計算すると $U=\tau,\ W=w$ で $(UW)^2=w'w$ ⟹ $n_{G_R}=2\cdot\mathrm{ord}(ww')$。$R$ 内で $w^3=w'^3=[w,w']^3=1$(∵ $[w^3,w']=1$ の class-3 展開)ゆえ $(ww')^3\in\gamma_3(R)$ で、$\gamma_3(R)\cong C_3^2\ne1$ ⟹ **$\mathrm{ord}(ww')=9$ が期待され $n_{G_R}=18$**。
+> $$\Longrightarrow\ \boxed{\ \textbf{R28.3 の回転群}\ \cong\ \bigl((C_3\ast C_3)/\gamma_4\bigr)\rtimes C_2\ \textbf{(候補)}\ }$$
+> **警告**: $R$ の構造は「位数 243・2 生成・$\gamma$ 階数 $(9,3,9)$・exp 9」で、cert の $\mathrm{Syl}_3(\widehat P_{486})=$ `(C9:C9):C3` と**同じ外形**である。⟹ **$\mathrm{Rot}(\text{R28.3})\cong\mathrm{Rot}(\text{C28.2})\cong\widehat P_{486}=[486,39]$ が起こりうる**。そのとき **IdGroup 比較は原理的に決定力ゼロ**になる(掌性は群でなく**標識対**の性質)。指示書はこの分岐を必ず持つこと。
+
+## F.7 実測指示書 **MAP-ID-1**(数学者 → 実装係。§F.6 の同定ケースのみ発火)
+
+**目的**: 我々の窓の地図が census のどの行か確定する。**IdGroup 一致は必要条件にすぎない**(同型な回転群をもつ chiral 行と reflexible 行は**併存しうる** — 掌性は群でなく**標識づけられた生成対**の性質)。決定的なのは **marked pair の同値**である。
+
+**Step 0(無料カナリア・全ケースで先に走らせる)**
+$$\widehat P\ \text{内で}\ R_w:=\sigma_1N,\quad S_w:=(\sigma_1\sigma_2)N\quad\Longrightarrow\quad (R_wS_w)^2=1,\ \ R_wS_w\ne1 .$$
+(紙: $R_wS_w=\sigma_1^2\sigma_2N$ で、$B_3$ 内の恒等式 $\boxed{(\sigma_1^2\sigma_2)^2=c}$ が成り立つ — 検算: $\sigma_1\sigma_2\sigma_1^2\sigma_2=(\sigma_2\sigma_1\sigma_2)\sigma_1\sigma_2=\sigma_2\sigma_1\sigma_2\sigma_1\sigma_2$ ⟹ 両辺に $\sigma_1$ を左から付けて $c=(\sigma_1\sigma_2)^3$ と一致。)
+落ちたら **STOP**(規約か窓構成が壊れている)。
+
+**Step 1(必須・最軽量)**: $n:=\mathrm{Order}(R_w)$ を両窓で測り、$\mathrm{Order}(S_w)=3$ と $\lvert\widehat P\rvert\in\{432,486\}$ も記録。⟹ §F.6 の表で分岐。
+
+**Step 2(同定ケースのみ)**:
+1. census 行の *defining relations* から有限表示群 `Grow` を作る。**注意**: reflexible 行の表示は**全自己同型群(位数 $4E$)**のことがある ⟹ `Size(Grow)` を必ず表示し、$4E$ なら**回転部分群(指数 2・$\langle R,S\rangle$)**を取ってから使う。位数が $2E$ になっていることを確認してから次へ。
+2. 型の向き(双対)に注意: census の $\{p,q\}$ = (面サイズ, 頂点次数)。我々の地図は**頂点次数 3・面サイズ $n$** なので、行が $\{3,n\}$ なら**双対対応**で $R\mapsto S_w,\ S\mapsto R_w$、行が $\{n,3\}$ なら $R\mapsto R_w,\ S\mapsto S_w$。
+3. 決定テスト(4 通りを試すだけ):
+   ```
+   for (imR,imS) in [ (Rw,Sw), (Sw,Rw), (Rw^-1,Sw^-1), (Sw^-1,Rw^-1) ]:
+       f := GroupHomomorphismByImages(Grow, Phat, [R,S], [imR,imS]);
+       if f <> fail and IsBijective(f) then  -> この行の地図と一致
+   ```
+   ★ **Aut 軌道を走査する必要はない**: 地図の同型 = 「標識対を対応させる同型の存在」そのものなので、**我々の specific pair 1 組を試せば十分**。
+4. 期待される結果と**反証条件**:
+   - **chiral 行(C28.2 / C10.1)と一致 ⟹ 我々の機械結果と整合**(第三者裏づけ)。
+   - **reflexible 行(R28.3 / R28.5)と一致 ⟹ 重大な矛盾** ⟹ 直ちに **STOP** し、裁定 602 の witness word(MC-1 の $\rho(\iota(w))\ne1$)を再検算する。**これは本当に risk を負うテスト**であり、通れば価値がある。
+   - **どの行とも一致しない ⟹ STOP**(census 完全性 or 型の同定 or 窓構成のいずれかが誤り)。
+5. 記録: `Size(Grow)`・IdGroup 両者・成功した組合せ・失敗した組合せ(全部)。cert 化は不要、報告文で足りる。
+
+**費用見積**: Step 0/1 は各窓で数秒(既存 scope2 の窓構成をそのまま使う)。Step 2 は位数 $\le486$ の有限表示群 1〜2 個の `Size`+同型判定 ⟹ 数秒〜数十秒。**GAP `-o 2g` で足りる。**
+
+## F.8 実測指示書 **MAP-ID-2**(486 窓の同定・数学者 → 実装係・確定版)
+
+**前提**: $\widehat P:=\widehat P_{486}=B_3/N$(pair `b2bef4dba95b` の A 側)、$\mathrm{IdGroup}=[486,39]$、$R_w:=\sigma_1N$($\mathrm{ord}=18$・実測済)、$S_w:=(\sigma_1\sigma_2)N$($\mathrm{ord}=3$)、$(R_wS_w)^2=1$(§F.7 Step 0 のカナリア)。
+
+> ### ★ Test ORB(**主経路・census 表示を必要としない・これだけで決着する**)
+> $\widehat P$ の内部だけで完結する。
+> 1. `A := AutomorphismGroup(Phat);`(位数 486 の可解群 ⟹ 数秒)
+> 2. 型 $\{3,18\}$ の**標識対を全列挙**:
+>    $$\mathcal M:=\{(r,s)\ :\ \mathrm{ord}(r)=18,\ \mathrm{ord}(s)=3,\ (rs)^2=1,\ rs\ne1,\ \langle r,s\rangle=\widehat P\}$$
+> 3. $\mathcal M$ を $A$-軌道に分ける(`OrbitsDomain(A, M, OnPairs)` 相当)。**軌道の個数 = 回転群が $\widehat P$ である型 $\{3,18\}$ の地図の個数**。
+> 4. 各軌道の代表 $(r,s)$ について **reflexible 判定**:
+>    $$\exists\alpha\in A:\ \alpha(r)=r^{-1}\ \wedge\ \alpha(s)=s^{-1}\quad(\text{= reflexible})$$
+>    (`ForAny(A, a -> r^a = r^-1 and s^a = s^-1)`。$\lvert A\rvert$ が大きければ `RepresentativeAction` 2 段でも可)
+> 5. **我々の対 $(R_w,S_w)$ がどの軌道に入るか**を記録。
+>
+> **期待される出力(= `[census]` との突合)**: `[census]` は $E=243$・$\{3,18\}$ に **chiral 1 件(C28.2)+ reflexible 1 件(R28.3)** と報告している。両者の回転群がともに $\widehat P$ なら **軌道は 2 個・うち 1 個が reflexible・1 個が chiral** となり、**我々の対は chiral 軌道に入る**はずである。
+>
+> **反証条件(全部 STOP 対象)**:
+> - 我々の対 $(R_w,S_w)$ が **reflexible 軌道**に入った ⟹ **裁定 602 の witness word と正面衝突** ⟹ 直ちに STOP・MC-1 の $\rho(\iota(w))\ne1$ を再検算。
+> - 軌道が 1 個しか無い ⟹ $\mathrm{Rot}(\text{R28.3})\not\cong\widehat P$ ⟹ 予言 P-MAP-3 が外れただけで**矛盾ではない**(このときは IdGroup 比較が決定力をもつ ⟹ Test PRES へ)。
+> - 軌道が 3 個以上、または reflexible 軌道が 0/2 個 ⟹ census の完全性か型の同定を再検分。
+>
+> ★ **この test の価値**: 掌性を **witness word とは完全に別経路**($\mathrm{Aut}(\widehat P)$ の直接探索)で再導出し、同時に census の件数と突き合わせる。**二系統性が上がる**(ただし同一 GAP プロセス内なので格は cross-checked 止まり)。
+
+> ### Test PRES(補助・census の *Defining relations* を使う経路)
+> 1. census 行 **R28.3** と **C28.2** の defining relations から有限表示群を作る。`Size` を必ず出力: **$972$ なら全自己同型群**(reflexible 行の慣例)⟹ **回転部分群(指数 2)を取ってから**使う。$486$ になっていることを確認。
+> 2. `IdGroup` を両方出す。**$[486,39]$ と一致するか**を記録(※ 一致しても**同定は完了しない** — 予言 P-MAP-3 の警告参照。**不一致なら排除できる**という片側の効力のみ)。
+> 3. 決定テスト(標識対の同値・4 通り):
+>    ```
+>    for (imR,imS) in [ (Sw,Rw), (Rw,Sw), (Sw^-1,Rw^-1), (Rw^-1,Sw^-1) ]:
+>        f := GroupHomomorphismByImages(Grow, Phat, [R,S], [imR,imS]);
+>        if f <> fail and IsBijective(f) then -> この行の地図と一致
+>    ```
+>    (census の型 $\{p,q\}$ =(面サイズ, 頂点次数)。我々は頂点次数 3・面 18 ⟹ 行が $\{3,18\}$ なら **双対対応** $R\mapsto S_w,\ S\mapsto R_w$ が第一候補。)
+> 4. **期待**: C28.2 で成功・R28.3 で失敗。逆なら **STOP**。
+>
+> ### 追加(無料・432 窓でも同じ Test ORB を回す)
+> 型 $\{3,8\}$($\mathrm{ord}(r)=8,\ \mathrm{ord}(s)=3,\ (rs)^2=1$)で軌道を取り、**全軌道が chiral** であることを確認する。`[census]`(order 864 棚に $\{3,8\}$ reflexible ゼロ)と整合するはずで、整合すれば **432 の census 強制**が我々の側からも裏づけられる。
+
+**費用**: いずれも位数 $\le486$ の群 1 個の `AutomorphismGroup` と数万対の走査 ⟹ 数秒〜1 分。`gap.ps1 -o 2g` で足りる。**cert 化は不要**(報告文に軌道数・reflexible 軌道の有無・我々の対の所属を書けばよい)。
+
 ## F.5 追加の【GAP】
 
 | # | 内容 | 状態 |
 |---|---|---|
-| **【TC-GAP-7】** | 我々の 2 窓の $n=\mathrm{ord}(\sigma_1N)$ は**未実測**。紙の絞り込みは 486: $n\in\{18,54\}$、432: $n\in\{8,24\}$(後者は $P\cong C_3^2\rtimes Q_8$ 仮定つき)。**実測 1 行**(既存の窓表現で $\sigma_1$ の位数を取るだけ)で census 行と一意突合できる | 実装係へ(超軽量) |
-| **【TC-GAP-8】** | census の order 規約(reflexible = $4E$)の**確定**。私は原ファイル未読で、chiral 2 件の genus 一致からの**推定**にとどまる | 司令塔の再抽出(§F.3) |
-| **【TC-GAP-9】** | $\lvert(C_3\ast C_3)/\gamma_4\rvert\in\{81,243\}$ の決着 | GAP 3 行 |
-| **【TC-GAP-10】** | 432 の $P\cong(C_3\times C_3)\rtimes Q_8$ は構造式からの**読み**であって証明ではない(位数 72 の正規部分群が他にありうる) | 未閉 |
+| **【TC-GAP-7】** | 2 窓の $n=\mathrm{ord}(\sigma_1N)$ | **閉**(実測 432→8・486→18。紙の予言 P-MAP-1/2 と一致・§F.6.2) |
+| **【TC-GAP-8】** | census の order 規約(reflexible = $4E$) | **実質閉**(再抽出で $E=243$ の reflexible が order 972 棚に実在=R28.3。凡例逐語も 2E/4E と整合)。ただし**私は原ファイル未読**ゆえ格は third-party |
+| **【TC-GAP-9】** | $\lvert(C_3\ast C_3)/\gamma_4\rvert$ | **閉 = 243**(nq 実測)⟹ §F.4 (ii) の reflexible 構成は実在 |
+| **【TC-GAP-10】** | 432 の $P\cong(C_3\times C_3)\rtimes Q_8$ は構造式からの読み | **傍証追加**($n=8$ ⟹ 位数 12 の元なし ⟹ $Q_8$ 作用忠実と整合)。厳密には未閉だが、**432 の結論は $n=8$ だけに依存し $P$ の同定に依存しない** |
+| **【TC-GAP-11】** | **486 窓が C28.2 か R28.3 か**(純粋な同定問題)。我々の側の答え($\iota(N)\ne N$ ⟹ C28.2)は機械 2 系統で出ているが、census 行との**突合は未実行** | **§F.8 MAP-ID-2 を実装係へ**(Test ORB が主経路) |
+| **【TC-GAP-12】** | $\mathrm{Rot}(\text{R28.3})\cong\bigl((C_3\ast C_3)/\gamma_4\bigr)\rtimes C_2$ か(予言 P-MAP-3)。真なら **IdGroup 比較は決定力ゼロ**になり Test ORB / Test PRES の標識対テストが必須 | 未検証(§F.8 で同時に判明する) |
+
+## F.9 MIRROR-ALL 現況(一行)
+
+$$\boxed{\ \textbf{15 対}\ =\ \underbrace{\textbf{13}}_{\text{紙の定理 MIRROR-ODD}}\ +\ \underbrace{\textbf{1}}_{\substack{\text{432: census 強制}\\ \text{(third-party 照合)}}}\ +\ \underbrace{\textbf{1}}_{\substack{\text{486: 同定待ち}\\ \text{(機械 2 系統は chiral)}}}\ }$$
+
+⟹ **「この帯の双子対は全て鏡映対」は依然として定理ではない**(486 の 1 窓が紙でも第三者でも未閉)。ただし未閉部分は **1 窓・1 ビット**まで縮んだ。432 の決着は**紙 + 第三者**の合わせ技であり、**紙単独の射程は 13/15 のまま**である(この区別を報告で潰さないこと)。
 
 ## E. 帰属
 
