@@ -1,0 +1,542 @@
+{
+  "schema": "shadow-atelier/aside3_exact_D/v1",
+  "authority": "裁定717 (司令塔), RDV-1 per docs/notes/ideas_ribet_dig_v2.md 札RDV-1 (commit b1a3c6e, verbatim)",
+  "reconstruction_primes": [
+    2147483647,
+    998244353,
+    2000000011,
+    2000000033
+  ],
+  "reconstruction_modulus_bits": 123,
+  "sigma_dims": {
+    "3": {
+      "H_dim": 1,
+      "S_dim": 1
+    },
+    "5": {
+      "H_dim": 2,
+      "S_dim": 1
+    },
+    "7": {
+      "H_dim": 6,
+      "S_dim": 1
+    },
+    "9": {
+      "H_dim": 19,
+      "S_dim": 1
+    }
+  },
+  "lead_words": {
+    "3": [
+      0,
+      0,
+      1
+    ],
+    "5": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "7": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "9": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  "v1_Q_num_terms": 3858,
+  "v2_Q_num_terms": 3860,
+  "D_Q_num_terms": 3046,
+  "depth_report": {
+    "2": {
+      "num_terms": 0,
+      "content_numerator": null,
+      "content_denominator": null,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {},
+      "v_691_of_content": null
+    },
+    "3": {
+      "num_terms": 0,
+      "content_numerator": null,
+      "content_denominator": null,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {},
+      "v_691_of_content": null
+    },
+    "4": {
+      "num_terms": 350,
+      "content_numerator": 691,
+      "content_denominator": 144,
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 4,
+        "3": 2
+      },
+      "v_691_of_content": 1
+    },
+    "5": {
+      "num_terms": 744,
+      "content_numerator": 691,
+      "content_denominator": 288,
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 5,
+        "3": 2
+      },
+      "v_691_of_content": 1
+    },
+    "6": {
+      "num_terms": 858,
+      "content_numerator": 691,
+      "content_denominator": 96,
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 5,
+        "3": 1
+      },
+      "v_691_of_content": 1
+    },
+    "7": {
+      "num_terms": 744,
+      "content_numerator": 691,
+      "content_denominator": 288,
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 5,
+        "3": 2
+      },
+      "v_691_of_content": 1
+    },
+    "8": {
+      "num_terms": 350,
+      "content_numerator": 691,
+      "content_denominator": 144,
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 4,
+        "3": 2
+      },
+      "v_691_of_content": 1
+    },
+    "9": {
+      "num_terms": 0,
+      "content_numerator": null,
+      "content_denominator": null,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {},
+      "v_691_of_content": null
+    },
+    "10": {
+      "num_terms": 0,
+      "content_numerator": null,
+      "content_denominator": null,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {},
+      "v_691_of_content": null
+    },
+    "11": {
+      "num_terms": 0,
+      "content_numerator": null,
+      "content_denominator": null,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {},
+      "v_691_of_content": null
+    },
+    "12": {
+      "num_terms": 0,
+      "content_numerator": null,
+      "content_denominator": null,
+      "content_numerator_factorization": {},
+      "content_denominator_factorization": {},
+      "v_691_of_content": null
+    }
+  },
+  "content_D4_matches_691_over_144_up_to_sign": true,
+  "v_691_D4": 1,
+  "v_691_D4_equals_1": true,
+  "v_691_D6": 1,
+  "content_factorization_by_depth_4_to_8": {
+    "4": {
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 4,
+        "3": 2
+      },
+      "primes_other_than_691_in_numerator": [],
+      "primes_other_than_691_in_denominator": [
+        "2",
+        "3"
+      ]
+    },
+    "5": {
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 5,
+        "3": 2
+      },
+      "primes_other_than_691_in_numerator": [],
+      "primes_other_than_691_in_denominator": [
+        "2",
+        "3"
+      ]
+    },
+    "6": {
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 5,
+        "3": 1
+      },
+      "primes_other_than_691_in_numerator": [],
+      "primes_other_than_691_in_denominator": [
+        "2",
+        "3"
+      ]
+    },
+    "7": {
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 5,
+        "3": 2
+      },
+      "primes_other_than_691_in_numerator": [],
+      "primes_other_than_691_in_denominator": [
+        "2",
+        "3"
+      ]
+    },
+    "8": {
+      "content_numerator_factorization": {
+        "691": 1
+      },
+      "content_denominator_factorization": {
+        "2": 4,
+        "3": 2
+      },
+      "primes_other_than_691_in_numerator": [],
+      "primes_other_than_691_in_denominator": [
+        "2",
+        "3"
+      ]
+    }
+  },
+  "canary_vs_existing_aside2_certs": {
+    "691": {
+      "v1_num_terms_exact_reduction": 3842,
+      "v1_num_terms_cert": 3842,
+      "v1_terms_match": true,
+      "v2_num_terms_exact_reduction": 3842,
+      "v2_num_terms_cert": 3842,
+      "v2_terms_match": true,
+      "D_is_zero_exact_reduction": true,
+      "D_is_zero_cert": true,
+      "D_is_zero_match": true,
+      "D_depth_profile_exact_reduction": {
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_cert": {
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_match": true,
+      "singular_term_counts": {
+        "v1": 0,
+        "v2": 0,
+        "D": 0
+      }
+    },
+    "677": {
+      "v1_num_terms_exact_reduction": 3850,
+      "v1_num_terms_cert": 3850,
+      "v1_terms_match": true,
+      "v2_num_terms_exact_reduction": 3852,
+      "v2_num_terms_cert": 3852,
+      "v2_terms_match": true,
+      "D_is_zero_exact_reduction": false,
+      "D_is_zero_cert": false,
+      "D_is_zero_match": true,
+      "D_depth_profile_exact_reduction": {
+        "2": 0,
+        "3": 0,
+        "4": 350,
+        "5": 744,
+        "6": 858,
+        "7": 744,
+        "8": 350,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_cert": {
+        "2": 0,
+        "3": 0,
+        "4": 350,
+        "5": 744,
+        "6": 858,
+        "7": 744,
+        "8": 350,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_match": true,
+      "singular_term_counts": {
+        "v1": 0,
+        "v2": 0,
+        "D": 0
+      }
+    },
+    "701": {
+      "v1_num_terms_exact_reduction": 3858,
+      "v1_num_terms_cert": 3858,
+      "v1_terms_match": true,
+      "v2_num_terms_exact_reduction": 3852,
+      "v2_num_terms_cert": 3852,
+      "v2_terms_match": true,
+      "D_is_zero_exact_reduction": false,
+      "D_is_zero_cert": false,
+      "D_is_zero_match": true,
+      "D_depth_profile_exact_reduction": {
+        "2": 0,
+        "3": 0,
+        "4": 350,
+        "5": 744,
+        "6": 858,
+        "7": 744,
+        "8": 350,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_cert": {
+        "2": 0,
+        "3": 0,
+        "4": 350,
+        "5": 744,
+        "6": 858,
+        "7": 744,
+        "8": 350,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_match": true,
+      "singular_term_counts": {
+        "v1": 0,
+        "v2": 0,
+        "D": 0
+      }
+    },
+    "998244353": {
+      "v1_num_terms_exact_reduction": 3858,
+      "v1_num_terms_cert": 3858,
+      "v1_terms_match": true,
+      "v2_num_terms_exact_reduction": 3860,
+      "v2_num_terms_cert": 3860,
+      "v2_terms_match": true,
+      "D_is_zero_exact_reduction": false,
+      "D_is_zero_cert": false,
+      "D_is_zero_match": true,
+      "D_depth_profile_exact_reduction": {
+        "2": 0,
+        "3": 0,
+        "4": 350,
+        "5": 744,
+        "6": 858,
+        "7": 744,
+        "8": 350,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_cert": {
+        "2": 0,
+        "3": 0,
+        "4": 350,
+        "5": 744,
+        "6": 858,
+        "7": 744,
+        "8": 350,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_match": true,
+      "singular_term_counts": {
+        "v1": 0,
+        "v2": 0,
+        "D": 0
+      }
+    },
+    "2147483647": {
+      "v1_num_terms_exact_reduction": 3858,
+      "v1_num_terms_cert": 3858,
+      "v1_terms_match": true,
+      "v2_num_terms_exact_reduction": 3860,
+      "v2_num_terms_cert": 3860,
+      "v2_terms_match": true,
+      "D_is_zero_exact_reduction": false,
+      "D_is_zero_cert": false,
+      "D_is_zero_match": true,
+      "D_depth_profile_exact_reduction": {
+        "2": 0,
+        "3": 0,
+        "4": 350,
+        "5": 744,
+        "6": 858,
+        "7": 744,
+        "8": 350,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_cert": {
+        "2": 0,
+        "3": 0,
+        "4": 350,
+        "5": 744,
+        "6": 858,
+        "7": 744,
+        "8": 350,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      },
+      "D_depth_profile_match": true,
+      "singular_term_counts": {
+        "v1": 0,
+        "v2": 0,
+        "D": 0
+      }
+    }
+  },
+  "theta_mirror_exact": {
+    "2": {
+      "pair": [
+        2,
+        10
+      ],
+      "exact_match": true
+    },
+    "3": {
+      "pair": [
+        3,
+        9
+      ],
+      "exact_match": true
+    },
+    "4": {
+      "pair": [
+        4,
+        8
+      ],
+      "exact_match": true
+    },
+    "5": {
+      "pair": [
+        5,
+        7
+      ],
+      "exact_match": true
+    },
+    "6": {
+      "pair": [
+        6,
+        6
+      ],
+      "exact_match": true
+    },
+    "7": {
+      "pair": [
+        7,
+        5
+      ],
+      "exact_match": true
+    },
+    "8": {
+      "pair": [
+        8,
+        4
+      ],
+      "exact_match": true
+    },
+    "9": {
+      "pair": [
+        9,
+        3
+      ],
+      "exact_match": true
+    },
+    "10": {
+      "pair": [
+        10,
+        2
+      ],
+      "exact_match": true
+    }
+  },
+  "no_verdict_note": "S-AS-5 compliance: this script emits ONLY raw numeric values, factorizations, valuations, and the pre-registered STOP codes (SIGMA_NONUNIQUE / LEAD_WORD_MISMATCH / RECONSTRUCTION_FAIL) -- no interpretive verdict prose of the kinds forbidden in the addendum S6/S7 is written anywhere in this cert.",
+  "stop_code": null,
+  "total_elapsed_sec": 66.26
+}
