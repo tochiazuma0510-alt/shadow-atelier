@@ -1,0 +1,39 @@
+Loaded 36 windows from search/certs/sg_g4_g5_orb_20260806.json
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\sg_band_sweep\sg_chir1_driver_v1.g:351
+    c5ok := ForAny(AutR, alpha -> Image(alpha,Ubar) = Ubar and Image(alpha,Wbar) = Wbar^-1);;
+                                              ^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\sg_band_sweep\sg_chir1_driver_v1.g:351
+    c5ok := ForAny(AutR, alpha -> Image(alpha,Ubar) = Ubar and Image(alpha,Wbar) = Wbar^-1);;
+                                                      ^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\sg_band_sweep\sg_chir1_driver_v1.g:351
+    c5ok := ForAny(AutR, alpha -> Image(alpha,Ubar) = Ubar and Image(alpha,Wbar) = Wbar^-1);;
+                                                                           ^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\sg_band_sweep\sg_chir1_driver_v1.g:351
+    c5ok := ForAny(AutR, alpha -> Image(alpha,Ubar) = Ubar and Image(alpha,Wbar) = Wbar^-1);;
+                                                                                   ^^^^
+
+=== CHIR-1 window (1458,573) [isolated_self_mirror_no_twin] ===
+  kappa = 1
+  idX=[ 1, 1 ] abelian=true in_center=true in_frattini=true in_derived=true excluded_family=false
+  factors covered: [ false, false, false, false, false, false, false ] sect: [ true, true, true, true, true, true, true ]
+  C3=true C4=true C5=true
+
+=== CHIR-1 window (1458,578) [isolated_self_mirror_no_twin] ===
+  kappa = 1
+  idX=[ 1, 1 ] abelian=true in_center=true in_frattini=true in_derived=true excluded_family=false
+  factors covered: [ false, false, false, false, false, false, false ] sect: [ true, true, true, true, true, true, true ]
+  C3=true C4=true C5=true
+
+=== CHIR-1 window (1458,583) [isolated_self_mirror_no_twin] ===
+  kappa = 1
+  idX=[ 1, 1 ] abelian=true in_center=true in_frattini=true in_derived=true excluded_family=false
+  factors covered: [ false, false, false, false, false, false, false ] sect: [ true, true, true, true, true, true, true ]
+  C3=true C4=true C5=true
+
+=== CHIR-1 window (1458,584) [isolated_self_mirror_no_twin] ===
+  kappa = 1
+  idX=[ 1, 1 ] abelian=true in_center=true in_frattini=true in_derived=true excluded_family=false
+  factors covered: [ false, false, false, false, false, false, false ] sect: [ true, true, true, true, true, true, true ]
+  C3=true C4=true C5=true
+
+=== CHIR-1 window (1458,658) [isolated_self_mirror_no_twin] ===
