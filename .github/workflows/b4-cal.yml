@@ -1,0 +1,195 @@
+name: b4-cal
+
+# B4 direct-adjudication line -- CAL-B4 calibration + 工程 P1 (docs/notes/
+# b4_direct_adjudication_feasibility_v1_2.md sec6/sec8, 裁定603 承認).
+#
+# Scope of THIS workflow (explicit, per instruction -- do not silently widen):
+#   1. anupq_smoke: verify the ANUPQ 'pq' binary actually runs on this ubuntu
+#      runner (not just LoadPackage returning true -- known local blocker:
+#      pq dies with an iostream error on this machine's Windows/Cygwin GAP
+#      build despite LoadPackage succeeding, sec5.4 of the feasibility note).
+#   2. cal_b4: reproduce the known N19 (Philadelphia) pentagon count (216 out
+#      of 7776, C-1..C-4 of sec6.2) as an independent sanity gate. ONLY
+#      C-1..C-4 are implemented in this pass (C-5..C-10, including the N34
+#      calibration, are explicitly deferred -- see search/probe/b4_cal_v1/
+#      cal_b4_n19_pentagon.g header).
+#   3. p1_build_R: builds R := PB4/V(PB4) via ANUPQ (Exponent:=7 REQUIRED --
+#      dropping it silently gives a DIFFERENT, wrong group, sec5.4) and
+#      checks B4-EXQ-1 (|R|=7^41). Gated on cal_b4 PASSING (fail-closed: if
+#      the known-answer calibration doesn't reproduce, do not trust P1's
+#      output enough to even attempt it).
+#
+# NOT included (explicit instruction -- do not add without fresh
+# authorization): the real (2.20) measurement over the 117,649-element
+# domain using R (工程 P2/P3) -- pending Sol authorization via 便112.
+#
+# search/*.g files this workflow reads are NOT modified by it (mine-dispatch.yml
+# / hsp7-calib.yml "search/*.g is untouchable by CI" discipline carried over).
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - '.github/workflows/b4-cal.yml'
+      - 'search/probe/b4_cal_v1/**'
+
+permissions:
+  contents: read
+
+jobs:
+  anupq_smoke:
+    runs-on: ubuntu-latest
+    outputs:
+      smoke_pass: ${{ steps.check.outputs.smoke_pass }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0 (same version as local install, mine-dispatch.yml/hsp7-calib.yml)
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Install anupq package sources
+        uses: gap-actions/install-pkg@v1
+        with:
+          packages: anupq
+
+      - name: Build anupq (compiles the pq binary for this runner -- same recipe as hsp7-calib.yml)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GAPROOT/pkg/anupq"
+          ./configure "$GAPROOT"
+          make
+
+      - name: Run ANUPQ smoke test (pq binary functional canary)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 4g search/probe/b4_cal_v1/anupq_smoke.g 2>&1 | tee ci/out/anupq_smoke.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check smoke result (fail-closed)
+        id: check
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.gap_exit }}" != "0" ]; then
+            echo "::error::gap_exit=${{ steps.run.outputs.gap_exit }} (nonzero)"
+            echo "smoke_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          if grep -q "ANUPQ_SMOKE_PASS" ci/out/anupq_smoke.log; then
+            echo "smoke_pass=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::ANUPQ_SMOKE_PASS marker not found in log -- pq binary not functional or canary value wrong"
+            echo "smoke_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: b4-cal-anupq-smoke
+          path: ci/out/anupq_smoke.log
+          if-no-files-found: error
+
+  cal_b4:
+    needs: anupq_smoke
+    runs-on: ubuntu-latest
+    outputs:
+      cal_pass: ${{ steps.check.outputs.cal_pass }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Run CAL-B4 N19 pentagon-count driver (C-1..C-4 only)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 4g search/probe/b4_cal_v1/cal_b4_n19_pentagon.g 2>&1 | tee ci/out/cal_b4_n19.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check calibration result (fail-closed -- C-4 must match paper Table 1)
+        id: check
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.gap_exit }}" != "0" ]; then
+            echo "::error::gap_exit=${{ steps.run.outputs.gap_exit }} (nonzero)"
+            echo "cal_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          if grep -q "C-4 PASS" ci/out/cal_b4_n19.log; then
+            echo "cal_pass=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::C-4 PASS marker not found -- N19 pentagon count did not match the known value (216/7776)"
+            echo "cal_pass=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: b4-cal-n19
+          path: ci/out/cal_b4_n19.log
+          if-no-files-found: error
+
+  p1_build_R:
+    needs: [anupq_smoke, cal_b4]
+    if: needs.cal_b4.outputs.cal_pass == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Install anupq package sources
+        uses: gap-actions/install-pkg@v1
+        with:
+          packages: anupq
+
+      - name: Build anupq
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GAPROOT/pkg/anupq"
+          ./configure "$GAPROOT"
+          make
+
+      - name: Run P1 (build R := PB4/V(PB4), Exponent:=7 -- check B4-EXQ-1)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 6g search/probe/b4_cal_v1/p1_build_R.g 2>&1 | tee ci/out/p1_build_R.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Report P1 result (informational -- NOT gating anything downstream in this workflow)
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "gap_exit=${{ steps.run.outputs.gap_exit }}"
+          if grep -q "P1_PASS" ci/out/p1_build_R.log; then
+            echo "P1: B4-EXQ-1 CONFIRMED (|R|=7^41)."
+          elif grep -q "P1_FAIL" ci/out/p1_build_R.log; then
+            echo "::warning::P1 did not confirm B4-EXQ-1 -- see ci/out/p1_build_R.log. This is reported, not silently patched."
+          else
+            echo "::warning::P1 did not reach a clean PASS/FAIL marker (possible crash mid-run) -- see ci/out/p1_build_R.log."
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: b4-cal-p1
+          path: ci/out/p1_build_R.log
+          if-no-files-found: error
