@@ -1,0 +1,262 @@
+{
+  "schema": "edim-c11-run/v1",
+  "authorization": "docs/notes/b_type_synthesis_design_v1_addendum_edim9_11_prediction.md (commit 026dff8, frozen IF-FIRST prediction); 裁定691 (司令塔, this session)",
+  "solver": "Sol H-first ambient sparse rank accelerator (便112e), reused unchanged from search/edim_run_c9_c10_v3_single_prime.py's compute_H_S_at_k_safe",
+  "primes": [
+    2147483647,
+    998244353
+  ],
+  "dim_t_11": 16290,
+  "dim_t_11_note": "first 5-digit-plus degree run with the accelerated solver -- memory explicitly observed per instruction",
+  "per_prime": {
+    "2147483647": {
+      "prime": 2147483647,
+      "build_elapsed_sec": 0.04,
+      "results": {
+        "3": {
+          "H_dim": 1,
+          "S_dim": 1,
+          "dim_n": 8,
+          "dim_h": 2,
+          "dim_t": 10,
+          "elapsed_sec": 0.001,
+          "H_predicted": 1,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "4": {
+          "H_dim": 1,
+          "S_dim": 0,
+          "dim_n": 18,
+          "dim_h": 3,
+          "dim_t": 21,
+          "elapsed_sec": 0.002,
+          "H_predicted": 1,
+          "S_predicted": 0,
+          "H_match": true,
+          "S_match": true
+        },
+        "5": {
+          "H_dim": 2,
+          "S_dim": 1,
+          "dim_n": 48,
+          "dim_h": 6,
+          "dim_t": 54,
+          "elapsed_sec": 0.009,
+          "H_predicted": 2,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "6": {
+          "H_dim": 3,
+          "S_dim": 0,
+          "dim_n": 116,
+          "dim_h": 9,
+          "dim_t": 125,
+          "elapsed_sec": 0.04,
+          "H_predicted": 3,
+          "S_predicted": 0,
+          "H_match": true,
+          "S_match": true
+        },
+        "7": {
+          "H_dim": 6,
+          "S_dim": 1,
+          "dim_n": 312,
+          "dim_h": 18,
+          "dim_t": 330,
+          "elapsed_sec": 0.307,
+          "H_predicted": 6,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "8": {
+          "H_dim": 10,
+          "S_dim": 1,
+          "dim_n": 810,
+          "dim_h": 30,
+          "dim_t": 840,
+          "elapsed_sec": 1.9,
+          "H_predicted": 10,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "9": {
+          "H_dim": 19,
+          "S_dim": 1,
+          "dim_n": 2184,
+          "dim_h": 56,
+          "dim_t": 2240,
+          "elapsed_sec": 15.789,
+          "H_predicted": 19,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "10": {
+          "H_dim": 33,
+          "S_dim": 1,
+          "dim_n": 5880,
+          "dim_h": 99,
+          "dim_t": 5979,
+          "elapsed_sec": 113.309,
+          "H_predicted": 33,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "11": {
+          "H_dim": 62,
+          "S_dim": 2,
+          "dim_n": 16104,
+          "dim_h": 186,
+          "dim_t": 16290,
+          "elapsed_sec": 1015.416,
+          "H_predicted": 62,
+          "S_predicted": 2,
+          "H_match": true,
+          "S_match": true
+        }
+      },
+      "mismatch_at_k": null,
+      "total_elapsed_sec": 1146.85,
+      "peak_memory_mb": 2457.4,
+      "memory_metric": "windows.PEAK_WORKING_SET"
+    },
+    "998244353": {
+      "prime": 998244353,
+      "build_elapsed_sec": 0.04,
+      "results": {
+        "3": {
+          "H_dim": 1,
+          "S_dim": 1,
+          "dim_n": 8,
+          "dim_h": 2,
+          "dim_t": 10,
+          "elapsed_sec": 0.019,
+          "H_predicted": 1,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "4": {
+          "H_dim": 1,
+          "S_dim": 0,
+          "dim_n": 18,
+          "dim_h": 3,
+          "dim_t": 21,
+          "elapsed_sec": 0.002,
+          "H_predicted": 1,
+          "S_predicted": 0,
+          "H_match": true,
+          "S_match": true
+        },
+        "5": {
+          "H_dim": 2,
+          "S_dim": 1,
+          "dim_n": 48,
+          "dim_h": 6,
+          "dim_t": 54,
+          "elapsed_sec": 0.011,
+          "H_predicted": 2,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "6": {
+          "H_dim": 3,
+          "S_dim": 0,
+          "dim_n": 116,
+          "dim_h": 9,
+          "dim_t": 125,
+          "elapsed_sec": 0.046,
+          "H_predicted": 3,
+          "S_predicted": 0,
+          "H_match": true,
+          "S_match": true
+        },
+        "7": {
+          "H_dim": 6,
+          "S_dim": 1,
+          "dim_n": 312,
+          "dim_h": 18,
+          "dim_t": 330,
+          "elapsed_sec": 0.254,
+          "H_predicted": 6,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "8": {
+          "H_dim": 10,
+          "S_dim": 1,
+          "dim_n": 810,
+          "dim_h": 30,
+          "dim_t": 840,
+          "elapsed_sec": 1.589,
+          "H_predicted": 10,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "9": {
+          "H_dim": 19,
+          "S_dim": 1,
+          "dim_n": 2184,
+          "dim_h": 56,
+          "dim_t": 2240,
+          "elapsed_sec": 13.063,
+          "H_predicted": 19,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "10": {
+          "H_dim": 33,
+          "S_dim": 1,
+          "dim_n": 5880,
+          "dim_h": 99,
+          "dim_t": 5979,
+          "elapsed_sec": 101.564,
+          "H_predicted": 33,
+          "S_predicted": 1,
+          "H_match": true,
+          "S_match": true
+        },
+        "11": {
+          "H_dim": 62,
+          "S_dim": 2,
+          "dim_n": 16104,
+          "dim_h": 186,
+          "dim_t": 16290,
+          "elapsed_sec": 790.556,
+          "H_predicted": 62,
+          "S_predicted": 2,
+          "H_match": true,
+          "S_match": true
+        }
+      },
+      "mismatch_at_k": null,
+      "total_elapsed_sec": 907.16,
+      "peak_memory_mb": 2667.82,
+      "memory_metric": "windows.PEAK_WORKING_SET"
+    }
+  },
+  "calibration_fail_at_k": null,
+  "k11_arbitration": null,
+  "scoring": {
+    "H_measured": 62,
+    "H_predicted": 62,
+    "H_match": true,
+    "S_measured": 2,
+    "S_predicted": 2,
+    "S_match": true,
+    "two_prime_agree_or_arbitrated": true
+  },
+  "k12_not_run": true,
+  "note": "k=12 explicitly NOT run (separate ceremony, 691-series primes, 裁定656)."
+}
