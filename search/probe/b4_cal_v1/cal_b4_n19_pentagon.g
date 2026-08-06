@@ -54,8 +54,7 @@ S9img := [g12, g13, g14, g23, g24, g34];;   ## SAME order as gensPB4
 psi := GroupHomomorphismByImages(PB4fp, Group(S9img), gPB4, S9img);;
 Print("psi: PB4fp -> S9 well-defined (fail = generator data / presentation mismatch)? ", psi <> fail, "\n");
 if psi = fail then
-  Print("STOP -- psi ill-defined, N19 construction cannot proceed as specified\n");
-  QUIT;
+  Error("STOP -- psi ill-defined, N19 construction cannot proceed as specified");
 fi;
 
 R19 := Image(psi);;
@@ -92,8 +91,7 @@ phi_1_2_34:= BuildCoface("phi_1,2,34 (x12,x23x24)",    psiX12,          psiX23*p
 phi_12_3_4:= BuildCoface("phi_12,3,4 (x13x23,x34)",    psiX13*psiX23,   psiX34);;
 
 if phi123=fail or phi234=fail or phi_1_23_4=fail or phi_1_2_34=fail or phi_12_3_4=fail then
-  Print("STOP -- a coface map is ill-defined, cannot evaluate (2.20)\n");
-  QUIT;
+  Error("STOP -- a coface map is ill-defined, cannot evaluate (2.20)");
 fi;
 
 ## --- evaluate (2.20) over ALL 7776 elements of P19 (C-4) ---

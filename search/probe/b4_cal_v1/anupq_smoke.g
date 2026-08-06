@@ -13,7 +13,7 @@ Read("search/probe/wac_v1/gap_output_prelude.g");
 
 if LoadPackage("anupq") <> true then
   Print("ANUPQ_SMOKE_FAIL: LoadPackage(\"anupq\") did not return true\n");
-  QUIT;
+  Error("ANUPQ_SMOKE_FAIL: LoadPackage failed");
 fi;
 Print("LoadPackage(\"anupq\") = true\n");
 
@@ -28,7 +28,7 @@ F2 := FreeGroup("x","y");;
 t0 := GAPLIB_WallElapsedMs();
 if not IsBound(Pq) then
   Print("ANUPQ_SMOKE_FAIL: Pq is not bound after LoadPackage\n");
-  QUIT;
+  Error("ANUPQ_SMOKE_FAIL: Pq not bound");
 fi;
 result := Pq(F2 : Prime := 7, ClassBound := 2);;
 t1 := GAPLIB_WallElapsedMs();

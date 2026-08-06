@@ -44,8 +44,7 @@ PB4sub := Subgroup(B4, gensPB4);;
 idx24 := Index(B4, PB4sub);;
 Print("[B4:PB4] = ", idx24, " (expect 24)\n");
 if idx24 <> 24 then
-  Print("STOP -- PB4 construction sanity failed, aborting P1\n");
-  QUIT;
+  Error("STOP -- PB4 construction sanity failed, aborting P1");
 fi;
 
 iso := IsomorphismFpGroupByGenerators(PB4sub, gensPB4);;
@@ -63,11 +62,11 @@ R := Pq(PB4fp : Prime := 7, ClassBound := 4, Exponent := 7);;
 t1 := GAPLIB_WallElapsedMs();
 
 if R = fail then
-  Print("STOP -- Pq(PB4fp:...) returned fail. P1 BLOCKED (same failure mode as "
-        "the documented local ANUPQ iostream blocker, sec5.4). Report and do "
+  Print("STOP -- Pq(PB4fp:...) returned fail. P1 BLOCKED (same failure mode as ",
+        "the documented local ANUPQ iostream blocker, sec5.4). Report and do ",
         "not proceed to P2.\n");
   Print("P1_FAIL\n");
-  QUIT;
+  Error("P1_FAIL: Pq(PB4fp:...) returned fail");
 fi;
 
 sizeR := Size(R);;
@@ -99,7 +98,7 @@ if sizeR = 7^41 then
     b4exq2 := (Length(factors) >= 2 and 7 in List(factors,Size) and (7^40) in List(factors,Size));;
     Print("B4-EXQ-2 (direct factor 7 x 7^40 found among factors): ", b4exq2, "\n");
   else
-    Print("DirectFactorsOfGroup not available/applicable -- B4-EXQ-2 NOT independently "
+    Print("DirectFactorsOfGroup not available/applicable -- B4-EXQ-2 NOT independently ",
           "confirmed by this script (report as UNKNOWN, not silently PASS).\n");
   fi;
 else
@@ -108,10 +107,10 @@ fi;
 
 Print("\n=== P1 SUMMARY ===\n");
 Print("|R|=", sizeR, "  B4-EXQ-1=", b4exq1, "\n");
-Print("NOTE: B4-EXQ-3 (tilde-N*_PB3 = N0) is NOT checked by this script -- "
+Print("NOTE: B4-EXQ-3 (tilde-N*_PB3 = N0) is NOT checked by this script -- ",
       "deferred, flagged explicitly, not silently skipped.\n");
-Print("NOTE: P2/P3 (the actual 117,649-element (2.20) measurement using R) "
-      "is deliberately NOT included in this workflow (Sol authorization "
+Print("NOTE: P2/P3 (the actual 117,649-element (2.20) measurement using R) ",
+      "is deliberately NOT included in this workflow (Sol authorization ",
       "pending via 便112, per explicit instruction).\n");
 
 if b4exq1 = true then
