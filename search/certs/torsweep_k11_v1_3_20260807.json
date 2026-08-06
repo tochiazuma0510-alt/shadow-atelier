@@ -1,0 +1,138 @@
+{
+  "schema": "tor_sweep_k11_v1.3",
+  "supersedes": "search/certs/torsweep_k11_v1_2_20260807.json",
+  "supersedes_note": "closes the unresolved 67-digit residual cofactor left open in v1.2, per 裁定736, using ONLY the N_source matrix already recorded in v1.2 (no re-derivation of the exact ambient construction).",
+  "design_spec": "docs/notes/tor_sweep_design_v1.md",
+  "k": 11,
+  "generated_by": {
+    "tool": "search/torsweep_k11_close_v1_3.py",
+    "torsweep_k11_run_sha256": "d9e2dc514f7c3d83748dcfcfecd39b41857e008b6f5d6b136f544208010aed39",
+    "rng_seed": 20260807
+  },
+  "stages": {
+    "step1_extra_minors": {
+      "column_selection_varied": false,
+      "column_selection_note": "all minors (existing + new) share the same 60 ambient columns from v1.2's N_source; only the 60-of-62 row subset varies. A shrinking gcd here would still be informative (fewer accidental shared row-combination factors), but a NON-shrinking gcd is uninformative about column-selection correlation specifically (honest disclosure per 裁定736's request).",
+      "new_minor_count": 15,
+      "new_minor_determinant_digit_counts": [
+        96,
+        84,
+        88,
+        96,
+        95,
+        86,
+        92,
+        89,
+        92,
+        91,
+        93,
+        87,
+        84,
+        88,
+        83
+      ],
+      "total_minor_count": 20,
+      "gcd_abs_before_step1": "1067157539518935863397320108996897827479512895575510916206922820907001220",
+      "gcd_abs_after_step1": "1067157539518935863397320108996897827479512895575510916206922820907001220"
+    },
+    "step2_howell_mod_M": {
+      "triggered": true,
+      "input_modulus_digits": 73,
+      "closures": [
+        {
+          "modulus": "2",
+          "status": "insufficient_order_independent",
+          "trials_tried": 8,
+          "all_trial_outcomes": [
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient"
+          ]
+        },
+        {
+          "modulus": "2",
+          "status": "insufficient_order_independent",
+          "trials_tried": 8,
+          "all_trial_outcomes": [
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient"
+          ]
+        },
+        {
+          "modulus": "5",
+          "status": "insufficient_order_independent",
+          "trials_tried": 8,
+          "all_trial_outcomes": [
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient"
+          ]
+        },
+        {
+          "modulus": "53357876975946793169866005449844891373975644778775545810346141045350061",
+          "status": "insufficient_order_independent",
+          "trials_tried": 8,
+          "all_trial_outcomes": [
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient",
+            "insufficient"
+          ]
+        }
+      ],
+      "all_pieces_resolved_success": false
+    }
+  },
+  "total_elapsed_seconds": 2.4601337909698486,
+  "run_log": [
+    "[    0.00s] loading v1.2 cert",
+    "[    0.00s] loaded: N_source 62x60, 5 existing minors, gcd_abs(v1.2)=73 digits, unresolved_cofactor=67 digits",
+    "[    0.00s] 手順1: computing extra row-subset minors of the existing N_source",
+    "[    1.13s] 手順1: 15 new minors added (total 20), gcd_after_step1 digits=73",
+    "[    1.13s] 手順2: Howell unit-pivot elimination modulo the residual (73 digits)",
+    "[    1.13s] close_modulus: M has 73 digits",
+    "[    1.20s] robust_howell: trial 0 gave split (out of 8 planned trials) -- using this outcome immediately",
+    "[    1.20s] close_modulus: SPLIT at pivot_col=43 -- free factor g=4 (1 digits), M//g has 72 digits -- recursing on both",
+    "[    1.20s]   close_modulus: M has 1 digits",
+    "[    1.36s]   robust_howell: trial 7 gave split (out of 8 planned trials) -- using this outcome immediately",
+    "[    1.36s]   close_modulus: SPLIT at pivot_col=25 -- free factor g=2 (1 digits), M//g has 1 digits -- recursing on both",
+    "[    1.36s]     close_modulus: M has 1 digits",
+    "[    1.46s]     robust_howell: ALL 8 independent (row,col) orderings gave 'insufficient' -- this is ORDER-INDEPENDENT evidence of a genuine rank drop mod M, not a pivot-selection artifact",
+    "[    1.46s]     close_modulus: INSUFFICIENT (order-independent across 8 trials) -- N_source has a GENUINE rank drop mod this M, i.e. mod at least one of its (unfactored) prime divisors. This is NOT a processing artifact. It is raw evidence only -- no judgement word is written; whether this constitutes a real torsion prime for the p>=5, k=11 claim requires identifying the actual prime factor (which this method alone could not provide here) and is 司令塔's call, per QUAR-TOR SS5.3.",
+    "[    1.46s]     close_modulus: M has 1 digits",
+    "[    1.56s]     robust_howell: ALL 8 independent (row,col) orderings gave 'insufficient' -- this is ORDER-INDEPENDENT evidence of a genuine rank drop mod M, not a pivot-selection artifact",
+    "[    1.56s]     close_modulus: INSUFFICIENT (order-independent across 8 trials) -- N_source has a GENUINE rank drop mod this M, i.e. mod at least one of its (unfactored) prime divisors. This is NOT a processing artifact. It is raw evidence only -- no judgement word is written; whether this constitutes a real torsion prime for the p>=5, k=11 claim requires identifying the actual prime factor (which this method alone could not provide here) and is 司令塔's call, per QUAR-TOR SS5.3.",
+    "[    1.56s]   close_modulus: M has 72 digits",
+    "[    1.71s]   robust_howell: trial 1 gave split (out of 8 planned trials) -- using this outcome immediately",
+    "[    1.71s]   close_modulus: SPLIT at pivot_col=13 -- free factor g=5 (1 digits), M//g has 71 digits -- recursing on both",
+    "[    1.71s]     close_modulus: M has 1 digits",
+    "[    1.88s]     robust_howell: ALL 8 independent (row,col) orderings gave 'insufficient' -- this is ORDER-INDEPENDENT evidence of a genuine rank drop mod M, not a pivot-selection artifact",
+    "[    1.88s]     close_modulus: INSUFFICIENT (order-independent across 8 trials) -- N_source has a GENUINE rank drop mod this M, i.e. mod at least one of its (unfactored) prime divisors. This is NOT a processing artifact. It is raw evidence only -- no judgement word is written; whether this constitutes a real torsion prime for the p>=5, k=11 claim requires identifying the actual prime factor (which this method alone could not provide here) and is 司令塔's call, per QUAR-TOR SS5.3.",
+    "[    1.88s]     close_modulus: M has 71 digits",
+    "[    2.46s]     robust_howell: ALL 8 independent (row,col) orderings gave 'insufficient' -- this is ORDER-INDEPENDENT evidence of a genuine rank drop mod M, not a pivot-selection artifact",
+    "[    2.46s]     close_modulus: INSUFFICIENT (order-independent across 8 trials) -- N_source has a GENUINE rank drop mod this M, i.e. mod at least one of its (unfactored) prime divisors. This is NOT a processing artifact. It is raw evidence only -- no judgement word is written; whether this constitutes a real torsion prime for the p>=5, k=11 claim requires identifying the actual prime factor (which this method alone could not provide here) and is 司令塔's call, per QUAR-TOR SS5.3.",
+    "[    2.46s] 手順2: all_pieces_resolved_success=False",
+    "[    2.46s] closures=[{'modulus': '2', 'status': 'insufficient_order_independent', 'trials_tried': 8, 'all_trial_outcomes': ['insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient']}, {'modulus': '2', 'status': 'insufficient_order_independent', 'trials_tried': 8, 'all_trial_outcomes': ['insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient']}, {'modulus': '5', 'status': 'insufficient_order_independent', 'trials_tried': 8, 'all_trial_outcomes': ['insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient']}, {'modulus': '53357876975946793169866005449844891373975644778775545810346141045350061', 'status': 'insufficient_order_independent', 'trials_tried': 8, 'all_trial_outcomes': ['insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient', 'insufficient']}]"
+  ],
+  "critical_limitation_found": "The 手順2 (Howell unit-pivot elimination modulo M) method, applied to N_source ALONE (the pre-selected 62x60 matrix using a FIXED set of 60 ambient columns from one large-prime pivot certificate), can only give a CONCLUSIVE result when it returns success (proves p does not divide d_r-prime for every p|M simultaneously). When it returns insufficient, that is INCONCLUSIVE, not evidence of a genuine rank drop in the full map -- this was verified directly: the primes 2 and 5, which stages.T5 of v1.2 already CONFIRMED innocent via the full rank_nu_j_on_subspace_ambient computation (rank_p=60=r_prime for both), were RE-DERIVED as free factors during the split process here and BOTH independently gave insufficient_order_independent (8/8 trials) when tested via the Howell method on N_source alone -- i.e. this method would have (wrongly, if trusted blindly) flagged already-known-innocent primes as unresolved. N_source is a FIXED 60-column subset of a much larger target space (dim t_11 Lyndon coords = 16290, or ambient words = 179195); a fixed column subset can be singular mod a specific prime even when the FULL map has full rank there. Conclusion: the 71-digit final residual reported as insufficient_order_independent below is THEREFORE ALSO INCONCLUSIVE (not evidence of real torsion) by the same logic that made the 2,5 case inconclusive -- it does NOT independently establish a genuine rank drop, contrary to the initial framing in stages.step2_howell_mod_M.closures. Closing this residual conclusively would need EITHER identifying its actual prime factors (computational number theory beyond what is available here) OR redoing the Howell elimination against a WIDER column set (not just N_source's fixed 60) so that alternate pivot columns are available when one set is singular mod a given prime -- this second escalation was NOT attempted in this run (reported to 司令塔 for direction)."
+}
