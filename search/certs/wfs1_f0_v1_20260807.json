@@ -1,0 +1,335 @@
+{
+  "schema": "shadow-atelier/wfs1_f0/v1",
+  "authority": "裁定727(5) (司令塔), WFS-1 段F0 per docs/notes/weight_family_spectroscopy_design_v1.md SS2.2/2.3/5.1 (commit 4e6bdcb, verbatim except one corrected typo -- see module docstring)",
+  "typo_correction_note": "design doc SS2.1's literal Delta^(2)_13={sigma_3,{sigma_5,sigma_5}} is identically zero (antisymmetry, {f,f}=0) -- corrected to {sigma_5,{sigma_3,sigma_5}} (matching the multidegree-(1,2) generator, mirroring Delta_11's own structure). See module docstring for full derivation. Flagged prominently in the report.",
+  "primes": [
+    2147483647,
+    998244353
+  ],
+  "results": {
+    "2147483647": {
+      "prime": 2147483647,
+      "sigma_dims": {
+        "3": {
+          "H_dim": 1
+        },
+        "5": {
+          "H_dim": 2
+        },
+        "7": {
+          "H_dim": 6
+        }
+      },
+      "L_gen_num_terms": [
+        62732,
+        62818,
+        62818
+      ],
+      "dim_L": 2,
+      "dim_L_le_2": true,
+      "L_depth_profile": {
+        "0": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "1": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "2": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "3": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "4": {
+          "num_terms_per_gen": [
+            1570,
+            1620,
+            1620
+          ],
+          "rank_at_this_depth": 2
+        },
+        "5": {
+          "num_terms_per_gen": [
+            4320,
+            4314,
+            4314
+          ],
+          "rank_at_this_depth": 2
+        },
+        "6": {
+          "num_terms_per_gen": [
+            7898,
+            7908,
+            7908
+          ],
+          "rank_at_this_depth": 2
+        },
+        "7": {
+          "num_terms_per_gen": [
+            11290,
+            11304,
+            11304
+          ],
+          "rank_at_this_depth": 2
+        },
+        "8": {
+          "num_terms_per_gen": [
+            12576,
+            12526,
+            12526
+          ],
+          "rank_at_this_depth": 2
+        },
+        "9": {
+          "num_terms_per_gen": [
+            11290,
+            11304,
+            11304
+          ],
+          "rank_at_this_depth": 2
+        },
+        "10": {
+          "num_terms_per_gen": [
+            7898,
+            7908,
+            7908
+          ],
+          "rank_at_this_depth": 2
+        },
+        "11": {
+          "num_terms_per_gen": [
+            4320,
+            4314,
+            4314
+          ],
+          "rank_at_this_depth": 2
+        },
+        "12": {
+          "num_terms_per_gen": [
+            1570,
+            1620,
+            1620
+          ],
+          "rank_at_this_depth": 2
+        },
+        "13": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "14": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "15": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "16": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        }
+      },
+      "L4_is_zero": false
+    },
+    "998244353": {
+      "prime": 998244353,
+      "sigma_dims": {
+        "3": {
+          "H_dim": 1
+        },
+        "5": {
+          "H_dim": 2
+        },
+        "7": {
+          "H_dim": 6
+        }
+      },
+      "L_gen_num_terms": [
+        62732,
+        62818,
+        62818
+      ],
+      "dim_L": 2,
+      "dim_L_le_2": true,
+      "L_depth_profile": {
+        "0": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "1": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "2": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "3": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "4": {
+          "num_terms_per_gen": [
+            1570,
+            1620,
+            1620
+          ],
+          "rank_at_this_depth": 2
+        },
+        "5": {
+          "num_terms_per_gen": [
+            4320,
+            4314,
+            4314
+          ],
+          "rank_at_this_depth": 2
+        },
+        "6": {
+          "num_terms_per_gen": [
+            7898,
+            7908,
+            7908
+          ],
+          "rank_at_this_depth": 2
+        },
+        "7": {
+          "num_terms_per_gen": [
+            11290,
+            11304,
+            11304
+          ],
+          "rank_at_this_depth": 2
+        },
+        "8": {
+          "num_terms_per_gen": [
+            12576,
+            12526,
+            12526
+          ],
+          "rank_at_this_depth": 2
+        },
+        "9": {
+          "num_terms_per_gen": [
+            11290,
+            11304,
+            11304
+          ],
+          "rank_at_this_depth": 2
+        },
+        "10": {
+          "num_terms_per_gen": [
+            7898,
+            7908,
+            7908
+          ],
+          "rank_at_this_depth": 2
+        },
+        "11": {
+          "num_terms_per_gen": [
+            4320,
+            4314,
+            4314
+          ],
+          "rank_at_this_depth": 2
+        },
+        "12": {
+          "num_terms_per_gen": [
+            1570,
+            1620,
+            1620
+          ],
+          "rank_at_this_depth": 2
+        },
+        "13": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "14": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "15": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        },
+        "16": {
+          "num_terms_per_gen": [
+            0,
+            0,
+            0
+          ],
+          "rank_at_this_depth": 0
+        }
+      },
+      "L4_is_zero": false
+    }
+  },
+  "dim_L_agrees_across_primes": true,
+  "P_F_0_L4_is_zero_all_primes": false,
+  "no_verdict_note": "S-WFS-5 compliance: raw values only, no interpretive verdict prose.",
+  "total_elapsed_sec": 11.97
+}

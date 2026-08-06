@@ -1,0 +1,266 @@
+{
+  "schema": "shadow-atelier/aside2/v1",
+  "authority": "裁定708 (司令塔), ASIDE-2 per docs/notes/aside_measurement_design_v1_addendum_c.md (commit 85827ca, verbatim) -- supersedes ASIDE-1 stage B/C",
+  "prime": 131,
+  "fixture_ok_this_run": true,
+  "no_verdict_note": "S-AS-5 compliance: this script emits ONLY raw numeric values and the pre-registered STOP codes (SIGMA_NONUNIQUE / CALIBRATION_FAIL / BRACKET_IMPL_FAIL / FIXTURE_MISMATCH / BRACKET_NOT_GRT / IMPOSSIBLE_CELL) -- no interpretive verdict prose of the kinds forbidden in the design addendum S6 is written anywhere in this cert.",
+  "stage_A_sigma": {
+    "3": {
+      "H_dim": 1,
+      "S_dim": 1,
+      "sigma_norm_ok": true,
+      "lead_word": [
+        0,
+        0,
+        1
+      ]
+    },
+    "5": {
+      "H_dim": 2,
+      "S_dim": 1,
+      "sigma_norm_ok": true,
+      "lead_word": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "7": {
+      "H_dim": 6,
+      "S_dim": 1,
+      "sigma_norm_ok": true,
+      "lead_word": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "9": {
+      "H_dim": 19,
+      "S_dim": 1,
+      "sigma_norm_ok": true,
+      "lead_word": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    }
+  },
+  "stage_B_prime_ihara_weight_graded": {
+    "v1_num_terms": 3826,
+    "v2_num_terms": 3848,
+    "A12_ihara": 2
+  },
+  "stage_C_prime_ihara_depth2": {
+    "d2_39_num_terms": 42,
+    "d2_57_num_terms": 42,
+    "A12_depth2_ihara": 1
+  },
+  "theta_ok": true,
+  "stage_D_bh_crosscheck": {
+    "3": {
+      "proportional_to_adXpow_Y": true
+    },
+    "5": {
+      "proportional_to_adXpow_Y": true
+    },
+    "7": {
+      "proportional_to_adXpow_Y": true
+    },
+    "9": {
+      "proportional_to_adXpow_Y": true
+    }
+  },
+  "stage_E_D_ihara_takao_difference": {
+    "D_is_zero": false,
+    "D_num_terms_total": 3046,
+    "D_depth_profile": {
+      "2": 0,
+      "3": 0,
+      "4": 350,
+      "5": 744,
+      "6": 858,
+      "7": 744,
+      "8": 350,
+      "9": 0,
+      "10": 0,
+      "11": 0,
+      "12": 0
+    }
+  },
+  "stop_code": null,
+  "fixture_check": {
+    "word_table_ok": true,
+    "word_table": {
+      "(i=1,j=9)": {
+        "ihara_28": [
+          6,
+          6
+        ],
+        "ihara_46": [
+          2,
+          2
+        ],
+        "plain_28": [
+          6,
+          6
+        ],
+        "row_ok": true
+      },
+      "(i=2,j=8)": {
+        "ihara_28": [
+          -27,
+          -27
+        ],
+        "ihara_46": [
+          -9,
+          -9
+        ],
+        "plain_28": [
+          -27,
+          -27
+        ],
+        "row_ok": true
+      },
+      "(i=3,j=7)": {
+        "ihara_28": [
+          48,
+          48
+        ],
+        "ihara_46": [
+          16,
+          16
+        ],
+        "plain_28": [
+          56,
+          56
+        ],
+        "row_ok": true
+      },
+      "(i=4,j=6)": {
+        "ihara_28": [
+          -42,
+          -42
+        ],
+        "ihara_46": [
+          -14,
+          -14
+        ],
+        "plain_28": [
+          -70,
+          -70
+        ],
+        "row_ok": true
+      },
+      "(i=5,j=5)": {
+        "ihara_28": [
+          0,
+          0
+        ],
+        "ihara_46": [
+          0,
+          0
+        ],
+        "plain_28": [
+          56,
+          56
+        ],
+        "row_ok": true
+      },
+      "(i=6,j=4)": {
+        "ihara_28": [
+          42,
+          42
+        ],
+        "ihara_46": [
+          14,
+          14
+        ],
+        "plain_28": [
+          -28,
+          -28
+        ],
+        "row_ok": true
+      },
+      "(i=7,j=3)": {
+        "ihara_28": [
+          -48,
+          -48
+        ],
+        "ihara_46": [
+          -16,
+          -16
+        ],
+        "plain_28": [
+          8,
+          8
+        ],
+        "row_ok": true
+      },
+      "(i=8,j=2)": {
+        "ihara_28": [
+          27,
+          27
+        ],
+        "ihara_46": [
+          9,
+          9
+        ],
+        "plain_28": [
+          -1,
+          -1
+        ],
+        "row_ok": true
+      },
+      "(i=9,j=1)": {
+        "ihara_28": [
+          -6,
+          -6
+        ],
+        "ihara_46": [
+          -2,
+          -2
+        ],
+        "plain_28": [
+          0,
+          0
+        ],
+        "row_ok": true
+      }
+    },
+    "term_counts_ok": true,
+    "term_counts": {
+      "ihara_28": [
+        42,
+        42
+      ],
+      "ihara_46": [
+        42,
+        42
+      ],
+      "plain_28": [
+        42,
+        42
+      ],
+      "plain_46": [
+        40,
+        40
+      ]
+    },
+    "recon_ok": true,
+    "theorem_ca_ok": true
+  },
+  "total_elapsed_sec": 13.03
+}

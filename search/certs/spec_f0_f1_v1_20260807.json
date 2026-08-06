@@ -1,0 +1,227 @@
+{
+  "schema": "shadow-atelier/spec_f0_f1/v1",
+  "authority": "裁定727(5) (司令塔), WFS-1 段F0+段F1 per docs/notes/weight_family_spectroscopy_design_v1.md (commit 4e6bdcb) SS2.3/3.4/5.1, combined per 司令塔's explicit naming instruction",
+  "stage_F0": {
+    "source_cert": "search/certs/wfs1_f0_v1_20260807.json",
+    "typo_correction_note": "design doc SS2.1's literal Delta^(2)_13={sigma_3,{sigma_5,sigma_5}} is identically zero (antisymmetry, {f,f}=0) -- corrected to {sigma_5,{sigma_3,sigma_5}} (matching the multidegree-(1,2) generator, mirroring Delta_11's own structure). See module docstring for full derivation. Flagged prominently in the report.",
+    "primes": [
+      2147483647,
+      998244353
+    ],
+    "dim_L": {
+      "2147483647": 2,
+      "998244353": 2
+    },
+    "dim_L_agrees_across_primes": true,
+    "dim_L_le_2_all_primes": true,
+    "P_F_0_L4_is_zero_all_primes": false,
+    "L_depth_profile_support": "L is supported exactly on depths [4,12] at both primes (rank_at_this_depth=2 uniformly across [4,12], 0 elsewhere), with a depth<->16-depth palindrome (see wfs1_f0 cert for the full per-depth table)"
+  },
+  "stage_F1": {
+    "primes_tested": [
+      3617,
+      43867,
+      283,
+      617,
+      131,
+      593,
+      11
+    ],
+    "honmei_primes": [
+      3617,
+      43867,
+      283,
+      617
+    ],
+    "naizo_taisho_primes": [
+      131,
+      593,
+      11
+    ],
+    "rows": {
+      "3617": {
+        "D_is_zero": false,
+        "D12_not_equiv_0": true,
+        "D_num_terms_total": 3046,
+        "D_depth_profile": {
+          "2": 0,
+          "3": 0,
+          "4": 350,
+          "5": 744,
+          "6": 858,
+          "7": 744,
+          "8": 350,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0
+        },
+        "A12_ihara": 2,
+        "stop_code": null,
+        "source_cert": "search/certs/aside2_prime_3617_v2_20260806.json"
+      },
+      "43867": {
+        "D_is_zero": false,
+        "D12_not_equiv_0": true,
+        "D_num_terms_total": 3046,
+        "D_depth_profile": {
+          "2": 0,
+          "3": 0,
+          "4": 350,
+          "5": 744,
+          "6": 858,
+          "7": 744,
+          "8": 350,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0
+        },
+        "A12_ihara": 2,
+        "stop_code": null,
+        "source_cert": "search/certs/aside2_prime_43867_v2_20260806.json"
+      },
+      "283": {
+        "D_is_zero": false,
+        "D12_not_equiv_0": true,
+        "D_num_terms_total": 3046,
+        "D_depth_profile": {
+          "2": 0,
+          "3": 0,
+          "4": 350,
+          "5": 744,
+          "6": 858,
+          "7": 744,
+          "8": 350,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0
+        },
+        "A12_ihara": 2,
+        "stop_code": null,
+        "source_cert": "search/certs/aside2_prime_283_v2_20260806.json"
+      },
+      "617": {
+        "D_is_zero": false,
+        "D12_not_equiv_0": true,
+        "D_num_terms_total": 3046,
+        "D_depth_profile": {
+          "2": 0,
+          "3": 0,
+          "4": 350,
+          "5": 744,
+          "6": 858,
+          "7": 744,
+          "8": 350,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0
+        },
+        "A12_ihara": 2,
+        "stop_code": null,
+        "source_cert": "search/certs/aside2_prime_617_v2_20260806.json"
+      },
+      "131": {
+        "D_is_zero": false,
+        "D12_not_equiv_0": true,
+        "D_num_terms_total": 3046,
+        "D_depth_profile": {
+          "2": 0,
+          "3": 0,
+          "4": 350,
+          "5": 744,
+          "6": 858,
+          "7": 744,
+          "8": 350,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0
+        },
+        "A12_ihara": 2,
+        "stop_code": null,
+        "source_cert": "search/certs/aside2_prime_131_v2_20260806.json"
+      },
+      "593": {
+        "D_is_zero": false,
+        "D12_not_equiv_0": true,
+        "D_num_terms_total": 3046,
+        "D_depth_profile": {
+          "2": 0,
+          "3": 0,
+          "4": 350,
+          "5": 744,
+          "6": 858,
+          "7": 744,
+          "8": 350,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0
+        },
+        "A12_ihara": 2,
+        "stop_code": null,
+        "source_cert": "search/certs/aside2_prime_593_v2_20260806.json"
+      },
+      "11": {
+        "D_is_zero": false,
+        "D12_not_equiv_0": true,
+        "D_num_terms_total": 2826,
+        "D_depth_profile": {
+          "2": 0,
+          "3": 0,
+          "4": 330,
+          "5": 680,
+          "6": 806,
+          "7": 680,
+          "8": 330,
+          "9": 0,
+          "10": 0,
+          "11": 0,
+          "12": 0
+        },
+        "A12_ihara": 2,
+        "stop_code": null,
+        "source_cert": "search/certs/aside2_prime_11_v2_20260806.json"
+      }
+    },
+    "canary_Fd_reference_profile": {
+      "4": 350,
+      "5": 744,
+      "6": 858,
+      "7": 744,
+      "8": 350
+    },
+    "canary_Fd_matches_per_prime": {
+      "3617": true,
+      "43867": true,
+      "283": true,
+      "617": true,
+      "131": true,
+      "593": true,
+      "11": false
+    },
+    "note_on_D5_corollary": "定理D-5の帰結(D_12 not equiv 0 mod p for p coprime to 691*2*3, since aside3's exact-rational content computation already established that D12's per-depth content numerator is EXACTLY 691^1 at every depth 4..8, with denominators supported only on {2,3}) is here machine-confirmed by direct fresh mod-p computation at each of the 7 primes (independent of, and consistent with, that prior exact-rational finding)."
+  },
+  "predicates": {
+    "P_F_0": {
+      "statement": "L^(4) = 0",
+      "result": false,
+      "pass": false
+    },
+    "P_F_3": {
+      "statement": "D_12 not equiv 0 mod p for p in {3617,43867,283,617} (本命)",
+      "result": true,
+      "pass": true
+    },
+    "naizo_taisho_check": {
+      "statement": "D_12 not equiv 0 mod p for p in {131,593,11} (内蔵対照, same expectation as P-F-3)",
+      "result": true,
+      "pass": true
+    }
+  },
+  "no_verdict_note": "S-WFS-5 compliance: raw values and boolean predicate PASS/FAIL only, no interpretive verdict prose of the kinds forbidden in the design doc's SS5.2 stop-rule table is written anywhere in this cert.",
+  "S_side_note": "S-WFS-4 compliance: no S_16 or any S-side object is formed anywhere in F0/F1 (only A-side sigma_m/D_12/L, all already-established A-side objects)."
+}
