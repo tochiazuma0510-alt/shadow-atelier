@@ -1163,6 +1163,84 @@ for each chief factor M/L of P: record  (X∩M)L/L ≠ 1 ?   and  SECT(M/L) pass
 - 出力の格: **candidate / single-system**。$\kappa$ の値そのものは機械値であり、**「層 3 の機構が同定できた」と書くには §G.10.5 の分岐 + 紙の定理が要る**。
 - 封印非接触・L3 checker 非接触・外部検索ゼロ(文献は司令塔ゲート経由の受領物のみ)。
 
+## G.11 追補 8(2026-08-06・裁定 695)— $X$ 測定の台帳・SECT-COVER の格・**層 3 の機構同定設計**
+
+**実測**(`search/certs/sg_chir1_20260806.json`・`506b4a9`・36/36 OK・canary_fails 0)。
+
+### G.11.1 委嘱① — $X$ 測定台帳(**単位と格を明記**)
+
+| order | id | 層 | $\kappa=\lvert X\rvert$ | $\mathrm{IdGroup}(X)$ | $X$ 可換 | $X\le Z$ | **$X\le\Phi$** | $X\le[\widehat P,\widehat P]$ |
+|---:|---:|---|---:|---|---|---|---|---|
+| 1296 | 2889 | **層 2** | **27** | `[27,3]`(非可換・指数 3 の extraspecial) | ✗ | ✗ | **✗** | ✓ |
+| 1296 | 3487 | **層 2** | **9** | `[9,2]` $=C_3\times C_3$ | ✓ | ✗ | **✗** | ✓ |
+| 1728 | 31096 | **層 2** | **9** | `[9,2]` | ✓ | ✗ | **✗** | ✓ |
+| **1944** | **826** | **層 3** | **3** | `[3,1]` $=C_3$ | ✓ | ✗ | **✓** | ✓ |
+| **1944** | **921** | **層 3** | **3** | `[3,1]` $=C_3$ | ✓ | ✗ | **✓** | ✓ |
+| 他 31 群 | — | isolated | **1** | 自明 | — | — | — | — |
+
+- **単位**: $\kappa$ は**位数**(BJNS の chirality index)。$X=\bar N\iota(\bar N)/\bar N\trianglelefteq\widehat P$(§G.10.1)。$\kappa_{\rm mirror}$ は全行で一致(**canary C4 PASS**)。
+- **格**: **candidate / single-system**(GAP 単系統・Lean なし)。**定義の借用は【PIN-CHIR-1】を経て確定**(cert の authority 欄に BJNS §1 p.3 + §3 前文の逐語 pin が記録されている ⟹ 孫引き状態は解消)。
+
+> ### ★★ 新しい経験則(**5/5 の完全相関**・本稿が初出)
+> $$\boxed{\ \textbf{層 2(SECT で局所検出可能)}\iff X\not\le\Phi(\widehat P),\qquad \textbf{層 3(局所不可視)}\iff X\le\Phi(\widehat P)\ }$$
+> **理屈の見通し**: $X\not\le\Phi$ なら $X$ は**Frattini 商 $\widehat P/\Phi$**(特性切片!)に非自明な像をもつ ⟹ 一番見やすい切片に欠陥が露出 ⟹ SECT が破れうる。$X\le\Phi$ なら $\widehat P/\Phi$ では**完全に不可視** ⟹ 局所検出が効かない。
+> ⟹ **層の分類は「$X$ が Frattini の内か外か」という 1 ビットで説明できる**という仮説(candidate)。**次の帯掃引で即座に反証可能**。
+
+**予言の採点**: **P-CHIR-1**(3 冪)**5/5 的中**($\kappa\mid1944=2^33^5$ なので 2 の因子が出る余地は十分にあった ⟹ **検定力あり**)/ **P-CHIR-3**(層 2 で $X$ が破れ因子を被覆)**3/3 的中**/ **P-CHIR-4**($\kappa_{層3}\le9$)**的中**($\kappa=3$)/ **P-CHIR-2** は **主張(中心)が偽・保険($\Phi$)が真** ⟹ **部分的中**(保険を書いておいたのが効いた。中心性の直観は誤りだった)。
+
+### G.11.2 委嘱② — 補題 SECT-COVER の格更新
+
+**実測支持 3/3**(層 2 の 3 群すべてで、SECT が破れた $3^2$ 因子を $X$ が被覆)。
+$$\text{格}:\ \textbf{candidate(紙の証明あり・穴 1 つ)}\ +\ \textbf{実測 3/3 支持}$$
+**残る穴**(§G.10.6 の逐語): $R=\widehat P/X$ の中で $\bar M,\bar L$ が**特性**であること。これは【GAP-G9-1】と**同根**であり、両者を**まとめて 1 回の確認**で閉じられる ⟹ 実装係へは「破れ因子 $M/L$ とその $R$ での像が特性か」を 1 タスクで出す。
+
+### G.11.3 委嘱③ — ★ 層 3 の次手設計(**機構の同定**)
+
+**確定した構造**: $X\cong C_3$、$X\le\Phi(\widehat P)$、**非中心**。$X$ は可換ゆえ自身に自明に作用 ⟹ 共役作用は $R:=\widehat P/X$(位数 $648=2^3\cdot3^4$)を経由し
+$$\chi:R\longrightarrow\mathrm{Aut}(C_3)=C_2,\qquad \chi\ne1\ (\text{非中心だから})$$
+$$\Longrightarrow\ \boxed{\ X\ \text{は }R\text{-加群として「符号加群」}\ \mathbf F_3(\chi)\ (\text{1 次元・}\ker\chi\ \text{は指数 2})\ }$$
+$\mathrm{Syl}_3(R)\subseteq\ker\chi$(3 群は $C_2$ へ死ぬ)⟹ **ひねりは 2-部にのみ入る**。
+
+> ### 補題 NONSPLIT(本稿・1 行)
+> $X\le\Phi(\widehat P)$ ⟹ 拡大 $1\to X\to\widehat P\to R\to1$ は**非分裂**、すなわち $[\varepsilon]\ne0$ in $H^2(R,X)$。
+> **証明.** 分裂すれば補群 $C$ があり $XC=\widehat P$;$C\le M$(極大)かつ $X\le\Phi\le M$ ⟹ $\widehat P\le M$ で矛盾。∎
+
+> ### ★ 機構仮説 **FRAT-CHIR**(candidate・本稿。分岐表「深い非中心障害」行の具体化)
+> $R$ は reflexible(**canary C5 で実測確認済**)ゆえ反射 $\beta_R\in\mathrm{Aut}(R)$($\beta_R(U_R)=U_R,\ \beta_R(W_R)=W_R^{-1}$)が存在する。Wells の完全列(拡大の自己同型の持ち上げ)より
+> $$(\beta_R,\chi_X)\ \text{が}\ \widehat P\ \text{へ持ち上がる}\iff \omega(\beta_R,\chi_X):=(\beta_R,\chi_X)_*[\varepsilon]-[\varepsilon]=0\ \text{in}\ H^2(R,X).$$
+> 両立する $\chi_X\in\mathrm{Aut}(X)=\{\pm1\}$ は**両方**(∵ $\chi\circ\beta_R=\chi$:$\chi(\beta_R(W))=\chi(W)^{-1}=\chi(W)$ in $C_2$)。ゆえに
+> $$\boxed{\ \textbf{層 3 の掌性}\ \Longrightarrow\ \beta_R^*[\varepsilon]\notin\{[\varepsilon],-[\varepsilon]\}\ \ (\text{= }[\varepsilon]\ \text{は対合}\ \beta_R^*\ \text{の固有ベクトルでない})\ }$$
+> ### ★ **強制される数値予言**
+> $\mathrm{char}\,\mathbf F_3\ne2$ ⟹ 対合 $\beta_R^*$ は $H^2(R,X)$ 上で対角化可能 ⟹ $\dim=1$ なら**任意の非零ベクトルが固有ベクトル** ⟹ 持ち上がって reflexible になってしまう。
+> $$\Longrightarrow\ \boxed{\ \dim_{\mathbf F_3}H^2\bigl(R,\ \mathbf F_3(\chi)\bigr)\ \ge\ 2\ }\quad(\textbf{層 3 の 2 群で強制})$$
+> ⟹ **これが層 3 に対する最初の「紙の必要条件」**であり、**機械 1 発で反証できる**。
+
+> ### 実測指示書 **CHIR-2**(数学者 → 実装係・設計のみ)
+> 対象: `(1944,826)`・`(1944,921)`(+ 対照として層 2 の 3 群)。
+> 1. `R := P/X`(位数 648)・$R$ が reflexible であること(C5 の再確認)。
+> 2. $\chi:R\to C_2$ を共役作用から取り、`ker χ` の指数 2 を確認。**$\chi\ne1$**(非中心)を再確認。
+> 3. $\mathbf F_3[R]$-加群 $M:=\mathbf F_3(\chi)$ を構成($1$ 次元・符号ひねり)。
+> 4. **`TwoCohomology(R, M)` で $H^2(R,M)$ を計算し $\dim$ を記録**(**予言: $\ge2$**)。
+> 5. 拡大類 $[\varepsilon]$ を同定(`Extensions(R,M)` の代表を `IdGroup` で $\widehat P$ に突合)。
+> 6. $\beta_R\in\mathrm{Aut}(R)$(反射)を取り、$H^2$ への誘導作用 $\beta_R^*$ を計算。
+> 7. **判定: $\beta_R^*[\varepsilon]\in\{\pm[\varepsilon]\}$ か**(**予言: NO**)。層 2 の 3 群でも同じ量を測り**比較**する(層 2 は $X\not\le\Phi$ なので同じ枠組みが使えるとは限らない — その差自体がデータ)。
+> **コスト**: $R$ は位数 648 の可解群 ⟹ 二次コホモロジーは**秒〜分**。`gap.ps1 -o 2g`。
+> **カナリア**: (a) $[\varepsilon]\ne0$(補題 NONSPLIT)。(b) $\kappa=3=\lvert X\rvert$ と $\lvert R\rvert\cdot\lvert X\rvert=\lvert\widehat P\rvert$。(c) 31 の reflexible 群では $X=1$ ゆえ本測定は**空**(適用外)。
+
+> ### ⚠【GAP-G11-1】(**この設計の唯一の穴**)
+> Wells の持ち上げは「$R$ 上の $\beta_R$ を**$X$ を法として**実現する $\widehat P$ の自己同型」を与える。**標識対 $(U,W)$ を厳密に反射する**とは限らない($\beta(U)\in UX$、$\beta(W)\in W^{-1}X$)。⟹ 「持ち上がる ⟹ reflexible」の一段に**標識の調整**が要る。
+> **見通し**: $\chi(U)=-1$ なら $\beta(U)=Ux$ は自動的に対合($x^Ux=x^{-1}x=1$)であり、残る自由度は $Z^1(R,X)$ の torsor — これは **Part B の marked lift 理論(§B.1–B.2 の EMB-LIN/$Z^1$/$H^2$ 器具)がそのまま使える**構造である。⟹ **層 3 の障害は Part B の marked-lift 障害の実例**(係数が符号加群 $\mathbf F_3(\chi)$)という統一が見えている。⟹ 穴を埋める作業は「Part B の道具を $\Gamma=C_2\ast C_3$・$V=\mathbf F_3(\chi)$ で回す」ことに帰着する。
+
+### G.11.4 委嘱④ — 文献逆検算 **C6 の記録**
+
+cert の `X_excluded_family = false`(`X_excluded_family_name = "none"`)が **5/5**。すなわち測定された $X\in\{C_3,\ C_3\times C_3,\ [27,3]\}$ はいずれも **BJNS Thm 21 / Cor 22–25 の「chirality group になれない族」($S_n\,(n\ge3)$・$D_n\,(n>2)$・complete 非完全群・$PGL_d/GL_d$ 系)に属さない** ✓。
+$$\boxed{\ \textbf{C6 PASS — 文献が我々の計算を検算する「逆向きの二系統」が成立}\ }$$
+(格は上がらない(同一 GAP 単系統の値を外部定理で**排除されないこと**の確認にすぎない)が、**実装バグの独立した検出網**としては機能した。$X\cong[27,3]$ が非可換の chirality group であることは BJNS の除外リストと整合。)
+
+### G.11.5 台帳への反映(§G.3 帯行の脚注)
+
+帯の 5 対の掌性の格は §G.9.4 のまま(**3 対 = 紙定理+機械入力**/**2 対 = 機械のみ**)。本節が加えたのは**定量データと機構の候補**であって格の変更ではない。**層 3 の 2 対が紙へ移るのは FRAT-CHIR が定理化したとき**(= 【GAP-G11-1】が閉じ、$\dim H^2\ge2$ と固有ベクトル条件が実測で確認されたとき)。
+
 ## G.4 これが効く先(1 行ずつ)
 
 - **選択効果の会計**(cv9 判読の任務 3)に直接効く: 「L2 に exotic ゼロ」は**層の定義($c\in N$)が中心荷重型の exotic を構造的に殺した結果**であり、$\iota$-剛性の証拠として過大評価してはならない — **札 β-0 の主張のこの部分は正しく、重要**。
