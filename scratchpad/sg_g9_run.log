@@ -1,0 +1,32 @@
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\sg_band_sweep\sg_g9_characteristic_driver_v1.g:166
+        if bothConfirmed then return "紙定理+機械入力 (SECT-CHIRAL applies)";
+           ^^^^^^^^^^^^^
+
+=== GAP-G9-1 window (1296,2889) ===
+  found broken 3^2 factor: |Ni|=27 |Nip1|=3
+  M(=Ni,  order 27): normal=true unique_normal_of_order=true std_match=PCore_3 => characteristic_confirmed=true
+  L(=Nip1,order 3): normal=true unique_normal_of_order=true std_match=FrattiniSubgroup => characteristic_confirmed=true
+  BOTH M,L characteristic-confirmed: true
+  ==> grade: 紙定理+機械入力 (SECT-CHIRAL applies)
+
+=== GAP-G9-1 window (1296,3487) ===
+  found broken 3^2 factor: |Ni|=9 |Nip1|=1
+  M(=Ni,  order 9): normal=true unique_normal_of_order=true std_match=DerivedSeries => characteristic_confirmed=true
+  L(=Nip1,order 1): normal=true unique_normal_of_order=true std_match=fail => characteristic_confirmed=true
+  BOTH M,L characteristic-confirmed: true
+  ==> grade: 紙定理+機械入力 (SECT-CHIRAL applies)
+
+=== GAP-G9-1 window (1728,31096) ===
+  found broken 3^2 factor: |Ni|=9 |Nip1|=1
+  M(=Ni,  order 9): normal=true unique_normal_of_order=true std_match=PCore_3 => characteristic_confirmed=true
+  L(=Nip1,order 1): normal=true unique_normal_of_order=true std_match=fail => characteristic_confirmed=true
+  BOTH M,L characteristic-confirmed: true
+  ==> grade: 紙定理+機械入力 (SECT-CHIRAL applies)
+
+=== GAP-G9-1 summary ===
+  (1296,2889): both_confirmed=true
+  (1296,3487): both_confirmed=true
+  (1728,31096): both_confirmed=true
+Wrote search/certs/sg_g9_characteristic_20260806.json
+
+W6_SG_G9_DONE
