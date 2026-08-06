@@ -1,0 +1,161 @@
+Loaded 36 windows from search/certs/sg_g4_g5_orb_20260806.json
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\sg_band_sweep\sg_pband2_driver_v1.g:201
+  Print("  P-BAND-2 = ", (function() if pb2.exists then return "EXISTS"; else return "NOT_EXISTS"; fi; end)(), "\n");
+                                        ^^^
+
+=== P-BAND-2 window (1458,573) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1458,578) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1458,583) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1458,584) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1458,658) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1458,659) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1944,812) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1944,815) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1944,826) [single_mirror_pair_non_exotic] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=true predicted_exists=true actual_exists=false matches_prediction=false
+
+=== P-BAND-2 window (1944,835) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1944,901) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1944,904) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1944,918) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1944,921) [single_mirror_pair_non_exotic] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=true predicted_exists=true actual_exists=false matches_prediction=false
+
+=== P-BAND-2 window (1944,3878) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1944,3882) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1296,674) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1296,681) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1296,755) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1296,764) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1296,2889) [single_mirror_pair_non_exotic] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=true predicted_exists=true actual_exists=false matches_prediction=false
+
+=== P-BAND-2 window (1296,3082) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1296,3487) [single_mirror_pair_non_exotic] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=true predicted_exists=true actual_exists=false matches_prediction=false
+
+=== P-BAND-2 window (1728,2815) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1728,2892) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1728,30092) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1728,30101) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1728,30106) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1728,31096) [single_mirror_pair_non_exotic] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=true predicted_exists=true actual_exists=false matches_prediction=false
+
+=== P-BAND-2 window (1152,154124) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1152,154126) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1152,154158) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1152,154161) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1152,155452) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1152,155454) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 window (1152,155457) [isolated_self_mirror_no_twin] ===
+  P-BAND-2 = NOT_EXISTS
+    chiral=false predicted_exists=false actual_exists=false matches_prediction=true
+
+=== P-BAND-2 summary ===
+windows processed: 36 / 36
+HANDOFF_MISMATCHES: 0
+prediction matches: 31 / 36 (mismatches: 5)
+  MISMATCH: (1944,826) classification=single_mirror_pair_non_exotic pband2_exists=false
+  MISMATCH: (1944,921) classification=single_mirror_pair_non_exotic pband2_exists=false
+  MISMATCH: (1296,2889) classification=single_mirror_pair_non_exotic pband2_exists=false
+  MISMATCH: (1296,3487) classification=single_mirror_pair_non_exotic pband2_exists=false
+  MISMATCH: (1728,31096) classification=single_mirror_pair_non_exotic pband2_exists=false
+Wrote search/certs/sg_pband2_20260806.json
+
+W6_SG_PBAND2_DONE
