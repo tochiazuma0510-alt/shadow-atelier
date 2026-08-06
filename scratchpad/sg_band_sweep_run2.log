@@ -1,0 +1,110 @@
+prereg sha256 (actual)   = 96449d682d9f312b861e5c8cca73d4b2cce03a4afb1664708f672a1638b0a4de
+prereg sha256 (expected) = 96449d682d9f312b861e5c8cca73d4b2cce03a4afb1664708f672a1638b0a4de
+[PASS] prereg digest matches frozen v1
+
+=== Calibration DF-SG-1..6 ===
+DF-SG-1: SmallGroup(6,1) ab=[ 2 ] G1=true G2=true G3=true -> PASS
+DF-SG-1 contrast: SmallGroup(6,2)=C6 ab=[ 2, 3 ] G1=true G2=true (observation only, not a pass/fail gate)
+DF-SG-2: SmallGroup(126,9) ab=[ 2, 3 ] G1=true G2=true G3=true -> PASS
+DF-SG-2b: SmallGroup(24,3) ab=[ 3 ] G1=false -> PASS
+DF-SG-3a: SmallGroup(432,734) ab=[ 2 ] G1=true G2=true G3=true -> PASS
+DF-SG-3b: SmallGroup(486,39) ab=[ 2, 3 ] G1=true G2=true G3=true -> PASS
+DF-SG-4: SmallGroup(1152,1) abelian, G1=false -> PASS
+DF-SG-5: SmallGroup(1152,153935) ab=[ 4 ] G1=false -> PASS
+DF-SG-6 (calibration-scan, first 2000 of order 1152): NOT_FOUND in this scan (full-sweep reconciliation below)
+
+=== Calibration summary: ALL PASS ===
+W6_SG_CALIBRATION_ALL_PASS
+
+=== Sweeping order 1458 (1798 groups) ===
+  order 1458 DONE: total=1798 g1=586 g2=6 g3=6 wall=28.196s
+
+=== Sweeping order 1944 (3973 groups) ===
+  ... k=3000/3973 g1cnt=259 g2cnt=8 g3cnt=8 elapsed=19.998s
+  order 1944 DONE: total=3973 g1=295 g2=10 g3=10 wall=24.839s
+
+=== Sweeping order 1296 (3609 groups) ===
+  ... k=3000/3609 g1cnt=117 g2cnt=5 g3cnt=5 elapsed=8.319000000000001s
+  order 1296 DONE: total=3609 g1=134 g2=8 g3=7 wall=9.803000000000001s
+
+=== Sweeping order 1728 (47937 groups) ===
+  ... k=3000/47937 g1cnt=46 g2cnt=2 g3cnt=2 elapsed=7.71s
+  ... k=6000/47937 g1cnt=46 g2cnt=2 g3cnt=2 elapsed=11.44s
+  ... k=9000/47937 g1cnt=46 g2cnt=2 g3cnt=2 elapsed=15.499s
+  ... k=12000/47937 g1cnt=52 g2cnt=2 g3cnt=2 elapsed=20.051s
+  ... k=15000/47937 g1cnt=52 g2cnt=2 g3cnt=2 elapsed=23.724s
+  ... k=18000/47937 g1cnt=52 g2cnt=2 g3cnt=2 elapsed=27.307s
+  ... k=21000/47937 g1cnt=52 g2cnt=2 g3cnt=2 elapsed=31.215s
+  ... k=24000/47937 g1cnt=66 g2cnt=2 g3cnt=2 elapsed=36.78s
+  ... k=27000/47937 g1cnt=66 g2cnt=2 g3cnt=2 elapsed=40.458s
+  ... k=30000/47937 g1cnt=66 g2cnt=2 g3cnt=2 elapsed=44.685s
+  ... k=33000/47937 g1cnt=157 g2cnt=6 g3cnt=6 elapsed=55.182s
+  ... k=36000/47937 g1cnt=157 g2cnt=6 g3cnt=6 elapsed=58.429s
+  ... k=39000/47937 g1cnt=157 g2cnt=6 g3cnt=6 elapsed=61.697s
+  ... k=42000/47937 g1cnt=157 g2cnt=6 g3cnt=6 elapsed=65.764s
+  ... k=45000/47937 g1cnt=157 g2cnt=6 g3cnt=6 elapsed=69.001s
+  order 1728 DONE: total=47937 g1=191 g2=6 g3=6 wall=76.64100000000001s
+
+=== Sweeping order 1152 (157877 groups) ===
+  ... k=3000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=11.751s
+  ... k=6000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=23.348s
+  ... k=9000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=35.06s
+  ... k=12000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=47.006s
+  ... k=15000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=58.712s
+  ... k=18000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=70.212s
+  ... k=21000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=82.925s
+  ... k=24000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=94.905s
+  ... k=27000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=106.55s
+  ... k=30000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=118.715s
+  ... k=33000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=130.35s
+  ... k=36000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=141.539s
+  ... k=39000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=152.379s
+  ... k=42000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=163.765s
+  ... k=45000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=175.848s
+  ... k=48000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=186.762s
+  ... k=51000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=199.298s
+  ... k=54000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=209.986s
+  ... k=57000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=221.809s
+  ... k=60000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=233.447s
+  ... k=63000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=244.728s
+  ... k=66000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=256.982s
+  ... k=69000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=267.838s
+  ... k=72000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=280.396s
+  ... k=75000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=291.505s
+  ... k=78000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=304.48s
+  ... k=81000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=315.516s
+  ... k=84000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=327.427s
+  ... k=87000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=339.89s
+  ... k=90000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=351.321s
+  ... k=93000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=363.432s
+  ... k=96000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=374.752s
+  ... k=99000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=387.36s
+  ... k=102000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=398.211s
+  ... k=105000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=410.79s
+  ... k=108000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=422.099s
+  ... k=111000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=433.732s
+  ... k=114000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=446.018s
+  ... k=117000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=458.069s
+  ... k=120000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=470.841s
+  ... k=123000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=482.428s
+  ... k=126000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=496.102s
+  ... k=129000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=508.088s
+  ... k=132000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=522.1900000000001s
+  ... k=135000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=533.751s
+  ... k=138000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=547.224s
+  ... k=141000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=558.264s
+  ... k=144000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=570.6660000000001s
+  ... k=147000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=583.354s
+  ... k=150000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=595.144s
+  ... k=153000/157877 g1cnt=0 g2cnt=0 g3cnt=0 elapsed=608.288s
+  ... k=156000/157877 g1cnt=61 g2cnt=7 g3cnt=7 elapsed=617.2090000000001s
+  order 1152 DONE: total=157877 g1=120 g2=7 g3=7 wall=629.65s
+
+=== Band sweep summary ===
+orders completed: [ 1458, 1944, 1296, 1728, 1152 ]
+UNIVERSE_MISMATCH=false TIME_CAP_HIT=false
+DF-SG-6 final: found=true id=[ 1296, 3090 ]
+total G3 records: 36
+Wrote search/certs/sg_band_sweep_20260806.json
+
+W6_SG_BAND_SWEEP_DONE
