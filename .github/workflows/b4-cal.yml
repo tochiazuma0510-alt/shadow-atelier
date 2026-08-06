@@ -8,27 +8,34 @@ name: b4-cal
 #      runner (not just LoadPackage returning true -- known local blocker:
 #      pq dies with an iostream error on this machine's Windows/Cygwin GAP
 #      build despite LoadPackage succeeding, sec5.4 of the feasibility note).
-#   2. cal_b4: reproduce the known N19 (Philadelphia) pentagon count (216 out
-#      of 7776, C-1/C-3/C-4 of sec6.2) as an independent sanity gate, plus
-#      TWO regression guards (裁定 2026-08-06 規約監査): guard A (order-guard,
-#      commuting-pair signature {X12/X34, X14/X23}) catches tuple-ordering
-#      bugs; guard B (convention-guard, all 17 PB4fp relators checked
-#      relator-by-relator) catches composition-direction bugs. Both are
-#      fail-closed STOPs (Error(), nonzero GAP exit), not silent patches.
-#      C-2 (N_ord), C-6 (|GT|/|GT-heart|), C-5 (hexagon lift), C-7 (N34) are
-#      explicitly deferred -- see search/probe/b4_cal_v1/cal_b4_n19_pentagon.g
-#      header for the up-to-date list (risk of a third undiscovered
-#      convention bug was judged to outweigh rushing C-5/C-7 in this pass).
-#   3. p1_build_R: builds R := PB4/V(PB4) via ANUPQ (Exponent:=7 REQUIRED --
-#      dropping it silently gives a DIFFERENT, wrong group, sec5.4) and
-#      checks B4-EXQ-1 (|R|=7^41). Gated on cal_b4 PASSING (fail-closed: if
-#      the known-answer calibration doesn't reproduce, do not trust P1's
-#      output enough to even attempt it).
-#   4. c8_packagegt: independent Linux-only Package GT `penta`+`generWComm`
-#      cross-check against N19 (listE[19]). Runs in parallel with anupq_smoke
-#      (no GAP dependency) -- Windows-local execution of this same check is
-#      blocked by a reserved-device-name collision (Aux.py vs Windows' "AUX"),
-#      confirmed not to occur on GHA's Linux runners.
+#   2. cal_b4: reproduce the known N19 (Philadelphia) calibration values
+#      (C-1/C-2/C-3a/C-3b/C-4/C-5/C-6 of sec6.2), plus TWO regression guards
+#      (裁定 2026-08-06 規約監査): guard A (order-guard, commuting-pair
+#      signature {X12/X34, X14/X23}) catches tuple-ordering bugs; guard B
+#      (convention-guard, all 17 PB4fp relators checked relator-by-relator)
+#      catches composition-direction bugs. Both are fail-closed STOPs
+#      (Error(), nonzero GAP exit), not silent patches.
+#      N_F2 construction (数学者#2, 裁定 2026-08-06): the PREVIOUS pass's
+#      "F2sub=<X12,X23><=PB4fp, N19_F2:=N19 cap F2sub" was PROVEN incapable
+#      of reaching |F2:N_F2|=7776 (Lagrange bound of 216, since it's a
+#      subgroup of PB4fp/N19). Replaced with the CORRECT construction:
+#      N_F2 := intersection of ker(psi o phi_k |_F2) over the 5 pentagon
+#      cofaces phi_123/phi_234/phi_{1,23,4}/phi_{1,2,34}/phi_{12,3,4},
+#      realized as a single diagonal action on Sym(45) (5 blocks of 9
+#      points, one per coface) -- NOT a PB4-internal subgroup intersection.
+#      C-7 (N34), C-9/C-10 remain deferred.
+#
+# ⚠ 罠(a)(C-5 単位混同・EXQ-4 と同類型): C-5 の「hexagon 通過」は 2 つの独立
+# な単位をもつ -- (m,f) pair の総数(期待 72)と、distinct な f の個数(期待
+# 36、各 f はちょうど 2 個の charming m をもつ)。片方だけを検査して一致した
+# ら PASS とするのは偽陽性の危険がある(unit confusion) -- 両方を独立に判定
+# すること(search/probe/b4_cal_v1/cal_b4_n19_pentagon.g の C-5 節を参照)。
+#
+# ⚠ 罠(b)(pentagon-pass は部分群ではない): pentagon (2.20) 通過集合(216 件)
+# は [F2,F2](216 件、たまたま同じ位数)とは別物であり得て、積で閉じている
+# 保証がない。ゆえに「Prop 3.4 の簡約 hexagon 近道」(pentagon 通過集合を
+# 部分群とみなして最適化する経路)は使用禁止 -- hexagon (C-5) は必ず f∈[F2,F2]
+# (DerivedSubgroup の実要素)を前件として悉皆する。
 #
 # ⚠ 混同注意: cal_b4 の psi 補正(規約修正・全反転・共役子なし)は、双子witness
 # 走の鏡映 iota(反転+共役子)とは別写像。どちらも |image|=216 になり得るので
@@ -124,7 +131,7 @@ jobs:
         with:
           gap-version: '4.16.0'
 
-      - name: Run CAL-B4 N19 driver (C-1 only -- C-3/C-4/C-5 blocked, see script header)
+      - name: Run CAL-B4 N19 driver (C-1/C-2/C-3a/C-3b/C-4/C-5/C-6 -- N_F2 正構成統合後)
         id: run
         shell: bash
         run: |
@@ -133,8 +140,7 @@ jobs:
           gap -q --quitonbreak -o 6g search/probe/b4_cal_v1/cal_b4_n19_pentagon.g 2>&1 | tee ci/out/cal_b4_n19.log
           echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
-      - name: Check calibration result (fail-closed -- C-1 = |PB4:N19|=216 must hold;
-              C-3/C-4/C-5 are conceptually blocked this pass, see cal_b4_n19_pentagon.g)
+      - name: Check calibration result (fail-closed -- ALL implemented C-checks must PASS)
         id: check
         shell: bash
         run: |
@@ -144,11 +150,17 @@ jobs:
             echo "cal_pass=false" >> "$GITHUB_OUTPUT"
             exit 1
           fi
-          if grep -q "C-1 PASS" ci/out/cal_b4_n19.log; then
+          missing=""
+          for marker in "C-1 PASS" "C-2 PASS" "C-3a PASS" "C-3b PASS" "C-4 PASS" "C-5 PASS: BOTH units match" "C-6-second PASS"; do
+            if ! grep -qF "$marker" ci/out/cal_b4_n19.log; then
+              missing="$missing [$marker]"
+            fi
+          done
+          if [ -z "$missing" ]; then
             echo "cal_pass=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::cal_b4 gates on C-1 only this pass (|PB4:N19|=216, order-guard, convention-guard all green). C-3/C-4/C-5 are conceptually blocked (see script header) -- NOT silently treated as passed."
+            echo "::notice::cal_b4 ALL implemented checks green: C-1/C-2/C-3a/C-3b/C-4/C-5(both units)/C-6-second."
           else
-            echo "::error::C-1 PASS marker not found -- N19 identification (|PB4:N19|=216) did not reproduce"
+            echo "::error::missing PASS markers:$missing -- see ci/out/cal_b4_n19.log"
             echo "cal_pass=false" >> "$GITHUB_OUTPUT"
             exit 1
           fi
