@@ -1,0 +1,12 @@
+[B4:PB4] = 24 (expect 24)
+PB4fp built, 6 generators (expect 6)
+
+=== P1: R := Pq(PB4fp : Prime:=7, ClassBound:=4, Exponent:=7) ===
+Pq computed in 35 ms
+|R| = 44567640326363195900190045974568007  (B4-EXQ-1 predicts 7^41 = 44567640326363195900190045974568007)
+B4-EXQ-1: true
+
+=== B4-EXQ-2: R = C7 x Q ===
+|Z(R)| = 3909821048582988049
+Error, reached the pre-set memory limit
+(change it with the -o command line option)

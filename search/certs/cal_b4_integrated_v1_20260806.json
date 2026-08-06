@@ -1,0 +1,127 @@
+{
+  "schema": "cal-b4-integrated/v1",
+  "generated_by": {
+    "tool": "search/probe/b4_cal_v1/build_integrated_cert.py",
+    "method": "regex extraction from committed GAP/GHA run logs -- no hand-transcribed numeric values"
+  },
+  "sources": {
+    "cal_b4_log": {
+      "path": "search/probe/b4_cal_v1/logs/cal_b4_n19_run31078897925.log",
+      "gha_run_id": "31078897925",
+      "sha256": "29e40428227b948d811fdbe38447bcd55f2e33e986930c8df7871360a620693e",
+      "note": "predates the C-6b code addition made in this pass (2026-08-06); does NOT contain a C-6b result. See C6b_second_half.status below."
+    },
+    "p1_log": {
+      "path": "search/probe/b4_cal_v1/logs/p1_build_R_run31067255800.log",
+      "gha_run_id": "31067255800",
+      "sha256": "6a5c029a1e09973063cbf791d7418efd8e1426ba50726ba1ef67bf8857723cca",
+      "note": "extracted from `gh run view 31067255800 --log`, p1_build_R step, trimmed to the raw GAP stdout lines (shell echo/group lines stripped). Run crashed on a GHA memory limit (-o 6g) partway through B4-EXQ-2's DirectFactorsOfGroup(R) call, AFTER already printing and confirming B4-EXQ-1."
+    }
+  },
+  "C1": {
+    "idx_B4_PB4": 24,
+    "idx_B4_PB4_expected": 24,
+    "convention_guard_relator_count": 17,
+    "convention_guard_bad_relators": 0,
+    "convention_guard_relators_total": 17,
+    "image_psi_size": 216,
+    "image_psi_size_expected": 216,
+    "idx_PB4fp_N19": 216,
+    "idx_PB4fp_N19_expected": 216,
+    "pass": true
+  },
+  "C2": {
+    "N_ord": 6,
+    "N_ord_expected": 6,
+    "pass": true
+  },
+  "C3a": {
+    "idx_F2_NF2": 7776,
+    "idx_F2_NF2_expected": 7776,
+    "pass": true
+  },
+  "C3b": {
+    "commutator_order": 216,
+    "commutator_order_expected": 216,
+    "pass": true
+  },
+  "C4": {
+    "primary_method": {
+      "construction": "diagonal-Sym(45), 5 pentagon cofaces, full 7776-element enumeration",
+      "pentagon_pass_count": 216,
+      "pentagon_pass_count_expected": 216,
+      "elapsed_ms": 16,
+      "pentagon_pass_set_closed_under_mult_diagnostic_only": false,
+      "pass": true
+    },
+    "cross_method": {
+      "construction": "c5.g-style independent reimplementation (separate variable names/functions, Av/Bv/Cv + compC5)",
+      "pentagon_pass_count": 216,
+      "pentagon_pass_count_expected": 216,
+      "pass": true
+    },
+    "note": "Both methods run in the SAME GAP process / SAME session's implementation -- this is an in-repo double-implementation agreement, NOT an independent third-party cross-check. See docs/notes/cal_b4_c8_waiver_prereg_v1.md SS1.2 for the explicit distinction (C-8/PackageGT would be the genuine third-party check)."
+  },
+  "C5": {
+    "pair_count": 72,
+    "pair_count_expected": 72,
+    "distinct_f": 36,
+    "distinct_f_expected": 36,
+    "elapsed_ms": 247,
+    "per_f_good_m_distribution_raw": "[ [ 2, 36 ] ]",
+    "both_units_pass": true
+  },
+  "C6_first_half": {
+    "value": 72,
+    "expected": 72,
+    "note": "|GT(N19)| charming pair count, identical quantity to C5's pair_count (cntC5)",
+    "pass": true
+  },
+  "C6b_second_half": {
+    "status": "PENDING",
+    "reason": "C-6b (数学者#2 の 1 行レシピ: distinct hexagon-passing f のうち DerivedSubgroup(Gc5) (位数216) に属する数を数える) was added to search/probe/b4_cal_v1/cal_b4_n19_pentagon.g in this implementation pass (2026-08-06). The only committed run log (GHA run 31078897925) predates this code and contains no C-6b result. A fresh b4-cal.yml GHA dispatch is required to produce that number; per the machine-piped-claims discipline this generator refuses to hand-fill a value that has not actually been computed.",
+    "expected_if_computed": 12,
+    "script_section": "C-6b in search/probe/b4_cal_v1/cal_b4_n19_pentagon.g (after the existing 'C-6 後半: NOT COMPUTED this pass' block)"
+  },
+  "P1": {
+    "gha_run_id": "31067255800",
+    "R_size_decimal": "44567640326363195900190045974568007",
+    "R_size_expected_decimal": "44567640326363195900190045974568007",
+    "R_size_expected_formula": "7^41",
+    "B4_EXQ1_pass": true,
+    "Z_R_size": 3909821048582988049,
+    "B4_EXQ2_status": "CRASHED_OOM_INCOMPLETE",
+    "B4_EXQ2_note": "|Z(R)| was computed and printed (3909821048582988049), but the subsequent DirectFactorsOfGroup(R) call hit GHA's -o 6g memory limit ('Error, reached the pre-set memory limit'). The script never reached its P1_PASS/ALL_DONE markers because of this downstream OOM in the B4-EXQ-2 block -- this is NOT a P1_FAIL of B4-EXQ-1 (which was already printed and confirmed true before the crash). B4-EXQ-2 (R = C7 x Q direct-factor confirmation) remains UNCONFIRMED, not FAIL.",
+    "reached_P1_PASS_marker": false,
+    "reached_ALL_DONE_marker": false,
+    "run_gap_exit_code": 1,
+    "run_gap_exit_note": "nonzero because of the B4-EXQ-2 OOM crash, not because B4-EXQ-1 failed"
+  },
+  "C8": {
+    "status": "SKIP",
+    "reason": "Genuine environment blocker on BOTH available environments: local Windows/Git-Bash import fails because search/thirdparty/PackageGT/Aux.py collides with the Windows-reserved device name AUX; GHA ubuntu-latest's checkout does not include search/thirdparty/ (gitignored by design, provenance/LEDGER.md 2026-07-26 copyright/future-public-release decision). SKIP is not PASS.",
+    "workflow_job": ".github/workflows/b4-cal.yml c8_packagegt (reports clean SKIP when search/thirdparty/PackageGT is absent)",
+    "waiver_prereg": "docs/notes/cal_b4_c8_waiver_prereg_v1.md",
+    "waiver_status": "candidate -- NOT yet ruled on by 司令塔/Sol; this cert does NOT treat the waiver as in effect and records C-8 as plain SKIP, not as satisfied-via-waiver."
+  },
+  "overall": {
+    "computed_checks": [
+      "C1",
+      "C2",
+      "C3a",
+      "C3b",
+      "C4.primary_method",
+      "C4.cross_method",
+      "C5",
+      "C6_first_half",
+      "P1.B4_EXQ1"
+    ],
+    "all_computed_checks_pass": true,
+    "pending_items": [
+      "C6b_second_half (awaiting fresh GHA dispatch with the new code)",
+      "P1.B4_EXQ2 (R = C7 x Q direct-factor split -- OOM before confirmation)",
+      "C8 (environment blocker, waiver candidate not yet ruled on)"
+    ],
+    "note": "'all_computed_checks_pass' covers ONLY the checks this cert could actually extract from a real log. It does NOT imply CAL-B4/P0 as a whole is complete -- see pending_items and docs/notes/cal_b4_c8_waiver_prereg_v1.md."
+  }
+}

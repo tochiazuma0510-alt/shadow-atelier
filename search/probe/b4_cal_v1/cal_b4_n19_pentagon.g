@@ -416,6 +416,35 @@ Print("\nC-6 (後半): |GT-heart(N19)| -- NOT COMPUTED this pass (see comment ab
       "conflating them was an error in an earlier draft and has been withdrawn). ",
       "Requires additional structure (GT(N) group composition + charming subgroup ",
       "identification) not implemented here.\n");
-c6SecondOK := fail;;   ## explicitly UNKNOWN, not silently true/false
+c6SecondOK := fail;;   ## explicitly UNKNOWN, not silently true/false (superseded below by C-6b)
+
+## --- C-6b: |GT-heart(N19)| = 12, 数学者#2 の 1 行レシピ(裁定 2026-08-06)-------
+## レシピ: C-5 で得た hexagon 通過 distinct f(36 個、distinctFC5/hexpassC5 の
+## index 集合)のうち、f の像(=passC5[i]、Gc5 = <gXc5,gYc5> <= Sym(45) の要素、
+## 構成上すでに abstract word の Gc5 での像そのもの)が DerivedSubgroup(Gc5)
+## (位数 216、C-3b の commP19=DerivedSubgroup(P19)=216 と同型の量。Gc5 は
+## c5.g 方式の独立な対角実現であり P19 と同一の抽象群 F2/N_F2 を異なる
+## Sym(45) 埋め込みで実現したもの)に属するものを数える。
+## 罠(a) との整合: ここでの「f」は hexagon 判定(C-5)ですでに使った同じ
+## index 集合(distinctFC5)であり、pentagon 通過集合(216 件、部分群と仮定
+## しない)をさらに絞り込むだけ -- 新たな悉皆や近道は導入しない。
+Print("\n=== C-6b: |GT-heart(N19)| via DerivedSubgroup(Gc5) membership ",
+      "(数学者#2 レシピ, 裁定 2026-08-06) ===\n");
+derivedGc5 := DerivedSubgroup(Gc5);;
+sizeDerivedGc5 := Size(derivedGc5);;
+Print("C-6b: |DerivedSubgroup(Gc5)| = ", sizeDerivedGc5, " (expect 216)\n");
+distinctFIdxC5 := Set(List(hexpassC5, z -> z[1]));;
+Print("C-6b: |distinct hexagon-passing f index set| = ", Length(distinctFIdxC5), " (expect 36, = distinctFC5)\n");
+nGtHeart := Length(Filtered(distinctFIdxC5, i -> passC5[i] in derivedGc5));;
+Print("C-6b: |GT-heart(N19)| = |{f in distinct-36 : f in DerivedSubgroup(Gc5)}| = ",
+      nGtHeart, " (expect 12, 2008 Table 1)\n");
+c6SecondValue := nGtHeart;;
+c6SecondOK := (sizeDerivedGc5 = 216) and (nGtHeart = 12);;
+if c6SecondOK then
+  Print("C-6b PASS: |GT-heart(N19)| = 12\n");
+else
+  Print("C-6b FAIL: |GT-heart(N19)| = ", nGtHeart,
+        " (expected 12), |DerivedSubgroup(Gc5)| = ", sizeDerivedGc5, " (expected 216)\n");
+fi;
 
 Print("\nALL_DONE\n");
