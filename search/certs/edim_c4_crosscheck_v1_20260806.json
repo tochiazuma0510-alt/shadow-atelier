@@ -1,0 +1,36 @@
+{
+  "schema": "edim-c4-crosscheck/v1",
+  "note": "Direct byte-level comparison of the NEW semidirect-model cert against the EXISTING ideal-quotient-method cert (edim56_20260806.json) -- independent second implementation cross-check for E-DIM5/6 (design doc SS5.3 C-4's stated purpose).",
+  "new_cert": "search/certs/edim_semidirect_c1c4_v1_20260806.json",
+  "old_cert": "search/certs/edim56_20260806.json",
+  "problems": [],
+  "MATCH": true,
+  "H_dim_new": {
+    "1": 1,
+    "2": 0,
+    "3": 1,
+    "4": 1,
+    "5": 2,
+    "6": 3
+  },
+  "H_dim_old": {
+    "3": 1,
+    "4": 1,
+    "5": 2,
+    "6": 3
+  },
+  "S_dim_new": {
+    "1": 1,
+    "2": 0,
+    "3": 1,
+    "4": 0,
+    "5": 1,
+    "6": 0
+  },
+  "S_dim_old": {
+    "3": 1,
+    "4": 0,
+    "5": 1,
+    "6": 0
+  }
+}

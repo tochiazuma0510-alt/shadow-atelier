@@ -1,0 +1,130 @@
+{
+  "schema": "edim-semidirect-c1c4/v1",
+  "authorization": "docs/notes/edim_semidirect_model_design_v1.md SS5.3 (裁定646, 司令塔 this session)",
+  "primes": [
+    2147483647,
+    998244353
+  ],
+  "two_prime_agreement": true,
+  "per_prime": [
+    {
+      "prime": 2147483647,
+      "t_dim": {
+        "1": 5,
+        "2": 4,
+        "3": 10,
+        "4": 21,
+        "5": 54,
+        "6": 125
+      },
+      "C3_pass": true,
+      "C2_deltaX_ABC": [
+        0,
+        0,
+        0
+      ],
+      "C2_deltaY_ABC": [
+        0,
+        0,
+        0
+      ],
+      "C2_pass": true,
+      "C1_rho5_is_id": {
+        "1": true,
+        "2": true,
+        "3": true
+      },
+      "C1_pass": true,
+      "H_dim": {
+        "1": 1,
+        "2": 0,
+        "3": 1,
+        "4": 1,
+        "5": 2,
+        "6": 3
+      },
+      "S_dim": {
+        "1": 1,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 1,
+        "6": 0
+      },
+      "C4_pass": true
+    },
+    {
+      "prime": 998244353,
+      "t_dim": {
+        "1": 5,
+        "2": 4,
+        "3": 10,
+        "4": 21,
+        "5": 54,
+        "6": 125
+      },
+      "C3_pass": true,
+      "C2_deltaX_ABC": [
+        0,
+        0,
+        0
+      ],
+      "C2_deltaY_ABC": [
+        0,
+        0,
+        0
+      ],
+      "C2_pass": true,
+      "C1_rho5_is_id": {
+        "1": true,
+        "2": true,
+        "3": true
+      },
+      "C1_pass": true,
+      "H_dim": {
+        "1": 1,
+        "2": 0,
+        "3": 1,
+        "4": 1,
+        "5": 2,
+        "6": 3
+      },
+      "S_dim": {
+        "1": 1,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 1,
+        "6": 0
+      },
+      "C4_pass": true
+    }
+  ],
+  "C1_pass": true,
+  "C2_pass": true,
+  "C3_pass": true,
+  "C4_pass": true,
+  "expected": {
+    "t_dim": {
+      "1": 5,
+      "2": 4,
+      "3": 10,
+      "4": 21,
+      "5": 54,
+      "6": 125
+    },
+    "H": {
+      "3": 1,
+      "4": 1,
+      "5": 2,
+      "6": 3
+    },
+    "S": {
+      "3": 1,
+      "4": 0,
+      "5": 1,
+      "6": 0
+    }
+  },
+  "note": "STOPPED after C-4 per instruction (k=7+ not run in this pass). C-4 is the lifeline: must match search/certs/edim56_20260806.json's H_dim/S_dim exactly (independent second implementation of the same quantity via a different method -- ideal-quotient vs semidirect-model)."
+}
