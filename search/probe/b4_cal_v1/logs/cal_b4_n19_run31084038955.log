@@ -1,0 +1,60 @@
+[B4:PB4] = 24 (expect 24)
+PB4fp built, 6 generators (expect 6, order X12,X13,X14,X23,X24,X34)
+Order-guard: commuting pairs among the 6 generators = [ "g12/g34", "g14/g23" ]
+Order-guard: expect EXACTLY {g12/g34, g14/g23}
+Order-guard PASS: true
+Convention-guard: |RelatorsOfFpGroup(PB4fp)| = 17
+Convention-guard: relators failing to map to identity = 0 / 17
+psi: PB4fp -> S9 well-defined (fail = generator data / presentation mismatch)? true
+|Image(psi)| = 216 (expect 216 = |PB4:N19|)
+|PB4fp : N19| = 216 (expect 216, sanity vs Size(Image))
+C-1 PASS: |PB4:N19| = 216
+
+|P19| = |F2:N_F2| = 7776  (expect 7776, C-3a)
+C-3a PASS: |F2:N_F2| = 7776
+C-2: N_ord = lcm(ord(x),ord(y)) = 6 (expect 6)
+C-2 PASS: N_ord = 6
+C-3b: |[F2/N_F2,F2/N_F2]| = 216 (expect 216)
+C-3b PASS: commutator subgroup order = 216
+
+=== C-4: pentagon over all 7776 elements ===
+pentagon-pass count = 216  (expect 216, C-4)  elapsed_ms=16
+C-4 PASS: pentagon count = 216
+(diagnostic only, not relied upon) pentagon-pass set closed under *? false
+
+=== C-5/C-6: full hexagon (3.3)/(3.4) via 3-generator Q3 (c5.g method) ===
+C-4 (c5.g method, cross-check) pentagon solutions = 216 (expect 216)
+[B3:PB3] = 6 (expect 6)
+hom PB3 -> Q3 built (fail = full-hexagon target ill-defined): true
+C-5 (full hexagon) pair count (m,f) = 72  (target: pair=72)  elapsed_ms=223
+C-5 (full hexagon) distinct f = 36  (target: distinct-f=36)
+C-5 PASS: BOTH units match (pair=72 AND distinct-f=36)
+per-f good-m distribution (value,count pairs) = [ [ 2, 36 ] ]
+
+C-6 (前半): |GT(N19)| (charming pair count) = 72 (expect 72, Table 1)
+
+C-6 (後半): |GT-heart(N19)| -- NOT COMPUTED this pass (see comment above; distinct-f(=36) is a DIFFERENT quantity from GT-heart=12, conflating them was an error in an earlier draft and has been withdrawn). Requires additional structure (GT(N) group composition + charming subgroup identification) not implemented here.
+
+=== C-6b: |GT-heart(N19)| via DerivedSubgroup(Gc5) membership (数学者#2 レシピ, 裁定 2026-08-06) ===
+C-6b: |DerivedSubgroup(Gc5)| = 216 (expect 216)
+C-6b: |distinct hexagon-passing f index set| = 36 (expect 36, = distinctFC5)
+C-6b: |GT-heart(N19)| [f unit] = |{f in distinct-36 : f in DerivedSubgroup(Gc5)}| = 6 (2008 Table 1's '12' is a DIFFERENT unit -- see 両単位化 below, 裁定 674)
+C-6b: |GT-heart(N19)| [f unit] = 6 (expect 6)
+C-6b: |GT-heart(N19)| [pair unit] = 12 (expect 12, 2008 Table 1)
+C-6b PASS (dual-unit): f-count=6 AND pair-count=12
+
+=== C-6c: charming 条件 (2)(2.61) SURJ 検査(必須, 裁定 674)===
+C-6c: SURJ (2.61) 検査 = 12 / 12 pass (Group(gX^(2m+1), F^-1 gY^(2m+1) F) = Gc5, |Gc5|=7776)
+C-6c PASS: 全 12 heart shadows が charming 条件 (2) を満たす
+
+=== C-6d: 円分指標二等分(裁定 674)===
+C-6d: 円分指標二等分 = 6 / 6 heart-f で成立(good-m が {0,3} から1個・{2,5}から1個)
+C-6d PASS: 全 6 heart-f で円分指標二等分を確認
+
+=== C-6e: 合成則 (2.52)/(2.55) 乗積表・D6 同型(推奨, 裁定 674)===
+C-6e: 合成閉包の失敗数 = 0 / 144 積(期待 0)
+C-6e: GroupByMultiplicationTable の位数 = 12 (expect 12)
+C-6e: GT-heart(N19) =~= D6(位数12・r^6=s^2=(rs)^2=1)? true
+C-6e PASS: GT-heart(N19) の乗積表は 12 元で閉じ、D6 と同型
+
+ALL_DONE
