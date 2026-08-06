@@ -130,7 +130,7 @@ jobs:
         run: |
           set +e
           mkdir -p ci/out
-          gap -q --quitonbreak -o 4g search/probe/b4_cal_v1/cal_b4_n19_pentagon.g 2>&1 | tee ci/out/cal_b4_n19.log
+          gap -q --quitonbreak -o 6g search/probe/b4_cal_v1/cal_b4_n19_pentagon.g 2>&1 | tee ci/out/cal_b4_n19.log
           echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
       - name: Check calibration result (fail-closed -- C-4 must match paper Table 1)

@@ -146,6 +146,19 @@ else
 fi;
 
 ## --- F2 embedding: F2sub := <X12,X23> inside PB4fp ---
+## The Intersection(N19,F2sub) / NaturalHomomorphismByNormalSubgroup step
+## below runs Todd-Coxeter coset enumeration against PB4fp's (17-relator)
+## presentation; GAP's default cap (CosetTableDefaultMaxLimit = 2^12*1000 =
+## 4,096,000) was hit even though the FINAL index (7776) is modest --
+## intermediate coset-table growth during enumeration commonly overshoots
+## the eventual collapsed size for non-trivial presentations. Raise the cap
+## generously (not unbounded -- an actually-wrong/infinite-index subgroup
+## should still fail loudly rather than hang forever).
+if CosetTableDefaultMaxLimit < 50000000 then
+  CosetTableDefaultMaxLimit := 50000000;;
+fi;
+Print("CosetTableDefaultMaxLimit raised to ", CosetTableDefaultMaxLimit, "\n");
+
 F2sub := Subgroup(PB4fp, [gX12, gX23]);;
 N19_F2 := Intersection(N19, F2sub);;
 hmF2 := NaturalHomomorphismByNormalSubgroup(F2sub, N19_F2);;
