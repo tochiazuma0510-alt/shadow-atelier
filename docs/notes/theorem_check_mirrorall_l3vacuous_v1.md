@@ -1241,6 +1241,75 @@ $$\boxed{\ \textbf{C6 PASS — 文献が我々の計算を検算する「逆向�
 
 帯の 5 対の掌性の格は §G.9.4 のまま(**3 対 = 紙定理+機械入力**/**2 対 = 機械のみ**)。本節が加えたのは**定量データと機構の候補**であって格の変更ではない。**層 3 の 2 対が紙へ移るのは FRAT-CHIR が定理化したとき**(= 【GAP-G11-1】が閉じ、$\dim H^2\ge2$ と固有ベクトル条件が実測で確認されたとき)。
 
+## G.12 追補 9(2026-08-06・裁定 698)— FRAT-CHIR の格・GAP-G11-1 閉鎖設計・成層の完成
+
+**実測**(CHIR-2・`965dfdf`): 層 3 両窓で $\dim H^2(R,\mathbf F_3(\chi))=\mathbf 3\ (\ge2)$ ⟹ **強制予言 1/1 生存**。**eigvec lift = False**($\mathrm{mod}\,X$ 弱版の開示つき)。$\chi$ 構造・NONSPLIT・会計カナリア全成立。層 2 対照: `(1296,3487)`・`(1728,31096)` は $X$ 可換だが **$\dim H^2=0$・分裂**;`(1296,2889)` は $X$ 非可換ゆえ**枠外**(正直記録)。
+
+### G.12.1 委嘱① — FRAT-CHIR の格
+
+- **強制予言 $\dim H^2\ge2$ は 1/1 で生存**(2/2 窓)。$\dim=1$ なら**その場で棄却**される設計だったので**検定力あり**。
+- **eigvec lift = False** は FRAT-CHIR の主張そのもの($[\varepsilon]$ が $\beta_R^*$ の固有ベクトルでない)⟹ **層 3 の掌性の機構が同定された**: $\iota$ 対称性の破れは**拡大類の水準**にあり、Wells 障害 $\omega(\beta_R,\chi_X)\ne0$ として実現している。**(H2) 仮説の採択。**
+- **★ 格は上がらない(正直に)**: $\kappa\ne1$ 自体が既に掌性の判定であり、Wells 経路は**より短い証明を与えない**(循環ではないが**冗長**)。与えたのは**機構と、構造化された証拠**($3$ 次元 $\mathbf F_3$-空間の中の 1 ベクトルの位置)である。
+  $$\boxed{\ \text{層 3 の格}:\ \textbf{機械のみ}\ \longrightarrow\ \textbf{機械のみ(機構同定済)}\ }$$
+  **紙へ移るのは §G.12.2 が閉じたとき**(そのときだけ「$\omega\ne0\Rightarrow$ chiral」が**独立の紙の定理**として使える)。
+
+### G.12.2 委嘱② — 【GAP-G11-1】閉鎖設計(**Part B の $Z^1$ 器具で閉じ切る**)
+
+**穴の正確な形**: Wells は $(\beta_R,\chi_X)$ の持ち上げを **$X$ を法として**しか与えない ⟹ 得られる $\beta$ は $\beta(U)=Ux,\ \beta(W)=W^{-1}y$($x,y\in X$)。**厳密な標識反射**にするには $(x,y)=(1,1)$ に補正せねばならない。
+
+> ### ★ 補正は **2 次元の線型代数**に落ちる(本稿の観察)
+> 弱持ち上げの集合は $Z^1(R,X)$ の torsor(Wells 完全列)。$d\in Z^1$ で補正すると $\beta(U)\mapsto U\,x\,d(\bar U)$、$\beta(W)\mapsto W^{-1}y\,d(\bar W)$。導分は生成元上の値で決まり、**$R=\langle \bar U,\bar W\rangle$** ゆえ
+> $$Z^1(R,X)\ \hookrightarrow\ X\times X=\mathbf F_3^2,\qquad d\mapsto(d(\bar U),d(\bar W))\quad(\textbf{単射})$$
+> $$\Longrightarrow\ \boxed{\ \textbf{補正可能}\iff (x^{-1},y^{-1})\in\mathrm{im}\bigl(Z^1(R,X)\to\mathbf F_3^2\bigr)\ }$$
+> とくに $\dim Z^1(R,X)=2$ なら像は $\mathbf F_3^2$ 全体 ⟹ **任意の弱持ち上げが厳密反射に補正できる** ⟹ **$\omega=0\iff$ reflexible** ⟹ **【GAP-G11-1】完全閉鎖**。
+> **会計**: $\dim Z^1=\dim B^1+\dim H^1=(\dim X-\dim X^R)+\dim H^1(R,X)$。$\chi\ne1$ ⟹ $X^R=0$ ⟹ $\dim B^1=1$ ⟹
+> $$\boxed{\ \dim Z^1(R,X)=1+\dim H^1(R,\mathbf F_3(\chi))\ \Longrightarrow\ \textbf{閉鎖の必要十分は }\dim H^1\ge1\ }$$
+> ($\dim H^1=0$ でも $(x^{-1},y^{-1})$ が 1 次元の像に偶然入れば閉じる ⟹ 二段構えで判定する。)
+> **★ Part B との一致**: $Z^1(\Gamma,V)=\ker N_\theta\times\ker N_\tau$(系 EMB-LIN)の**そのままの類似**であり、$U^2=W^3=1$ から $Z^1(R,X)\subseteq\ker N_{\bar U}\times\ker N_{\bar W}$。⟹ **Part B の器具を係数 $\mathbf F_3(\chi)$ で回すだけ**。
+
+> ### 実測指示書 **CHIR-3**(数学者 → 実装係・設計のみ・**極小コスト**)
+> 対象: `(1944,826)`・`(1944,921)`。
+> 1. `H1 := OneCohomology(R, M)` で $\dim H^1(R,\mathbf F_3(\chi))$(**判定の本体**)。
+> 2. $Z^1$ の生成元を取り、写像 $d\mapsto(d(\bar U),d(\bar W))\in\mathbf F_3^2$ の**像の次元**を記録。
+> 3. 弱持ち上げ $\beta$ を 1 本構成し($\omega=0$ の類でよい・**存在しない場合は 3 をスキップ**)、実際の $(x,y)$ を計測して像に入るか判定。
+> 4. **出力**: `dim_H1`, `image_dim(0/1/2)`, `correction_possible(bool)`。
+> **予言 P-CHIR-5**: $\dim H^1(R,\mathbf F_3(\chi))\ge1$ ⟹ 像は 2 次元 ⟹ **閉鎖成功**。**偽なら**像が 1 次元以下で、補正可能性が $(x,y)$ の位置に依存する ⟹ 個別判定に落ちる(それでも 2 窓ぶんは決着する)。
+> **コスト**: $\lvert R\rvert=648$ の 1 次コホモロジー ⟹ **秒**。
+
+### G.12.3 委嘱③ — $\dim H^2=3$ の意味(**超過 1 次元の使い道**)
+
+強制されたのは $\ge2$、実測は $3$。対合 $\beta_R^*$ は $\mathbf F_3$ 上対角化可能ゆえ $H^2=H^+\oplus H^-$ で $\dim H^++\dim H^-=3$、かつ $[\varepsilon]$ が固有ベクトルでない ⟹ **両固有空間が非零** ⟹ $(\dim H^+,\dim H^-)\in\{(2,1),(1,2)\}$。
+
+> ### ★ 超過分の使い道 = **27 点の検定場**(本節の目玉)
+> $H^2(R,\mathbf F_3(\chi))\cong\mathbf F_3^3$ の **27 類**はすべて「$R$ を $X\cong C_3$ で拡大した位数 1944 の群」である。FRAT-CHIR は各類の掌性を**予言する**:
+> $$\boxed{\ [\varepsilon']\in H^+\cup H^-\ \Rightarrow\ \textbf{reflexible};\qquad [\varepsilon']\notin H^+\cup H^-\ \Rightarrow\ \textbf{chiral}\ }$$
+> $(\dim H^+,\dim H^-)=(2,1)$ なら $\lvert H^+\cup H^-\rvert=9+3-1=11$ ⟹ **11 類 reflexible / 16 類 chiral** という**27 点の予言**。
+> ⟹ **標本 2 個 → 27 個**へ検定力が一気に上がる。各類の群を構成し、$(2,3)$-生成であるものについて ORB/CHIR-1 を回すだけ(**位数 1944 の群 27 個 ⟹ 分**)。
+> **注意**: 類 $[\varepsilon']$ が $(2,3)$-生成の標識対をもたない場合は**判定対象外**として除外する(母数を正直に落とす)。
+> ⟹ **実測指示書 CHIR-4** として起票(CHIR-3 の後)。
+
+**$[\varepsilon]$ の位置が次に教えること**: $[\varepsilon]=\varepsilon^++\varepsilon^-$ の**両成分が非零**であることが確定する ⟹ 「掌性は生成的(generic)」= 27 類中 16 類が chiral という**多数派側**の現象。⟹ 層 3 は**例外ではなく典型**である可能性 ⟹ 帯を広げたとき層 3 が増える、という予測につながる。
+
+### G.12.4 委嘱④ — 成層理論の**完成形**(層 2 と層 3 の対照)
+
+層 2 の対照実測(**$\dim H^2=0$・拡大は分裂**)が、成層の最後のピースだった。
+
+> ### 補題 FRAT-SPLIT(candidate・本稿)
+> $\lvert X\rvert$ が素数なら $$X\le\Phi(\widehat P)\iff 1\to X\to\widehat P\to R\to1\ \text{が非分裂}.$$
+> **証明.** ($\Rightarrow$)補題 NONSPLIT(§G.11.3)。($\Leftarrow$)$X\not\le\Phi$ なら $X\not\le M$ なる極大 $M$ があり、$\lvert X\rvert$ 素数ゆえ $X\cap M=1$、$XM=\widehat P$ ⟹ $M$ は補群 ⟹ 分裂。∎
+
+$$\boxed{\begin{array}{c|c|c|c}
+\text{層} & \text{拡大} & \textbf{障害の在処} & \text{検出}\\\hline
+\textbf{2} & \textbf{分裂}\ (X\not\le\Phi,\ \dim H^2=0) & \textbf{作用}(\text{加群構造}) & \textbf{SECT}(\text{局所・}2\times2\ \text{行列})\\
+\textbf{3} & \textbf{非分裂}\ (X\le\Phi,\ [\varepsilon]\ne0) & \textbf{拡大類} & \textbf{Wells 障害}(H^2)
+\end{array}}$$
+
+> ### ★ これが「局所検出可能 ⟺ $X\not\le\Phi$」(§G.11.1 の 5/5 経験則)の**理由**である
+> **分裂 ⟹ 情報は作用にしかない**($H^2=0$ で拡大類は空)⟹ 加群の局所不変量(SECT)が全部を見る。
+> **非分裂 ⟹ 情報が拡大類に移る**⟹ 作用だけ見る SECT は素通りする。
+> ⟹ 経験則は**定理の影**だった(補題 FRAT-SPLIT + 上の二分法)。**§G.11.1 の仮説を格上げ**: 経験則 → **機構つきの命題**(candidate)。
+> ⚠ **枠外**: `(1296,2889)` は $X\cong[27,3]$ **非可換** ⟹ $H^2(R,X)$ の枠組み(可換係数)が使えない。**正直に枠外と記録**(実装係の判断は正しい)。非可換係数の拡大論(Wells の一般形)が要るが、**層 2 は SECT で既に紙で閉じている**ので急がない。
+
 ## G.4 これが効く先(1 行ずつ)
 
 - **選択効果の会計**(cv9 判読の任務 3)に直接効く: 「L2 に exotic ゼロ」は**層の定義($c\in N$)が中心荷重型の exotic を構造的に殺した結果**であり、$\iota$-剛性の証拠として過大評価してはならない — **札 β-0 の主張のこの部分は正しく、重要**。
