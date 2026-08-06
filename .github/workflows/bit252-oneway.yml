@@ -1,0 +1,83 @@
+name: bit252-oneway
+
+# BIT-252 片側判定試験 -- docs/notes/bit252_oneway_prereg_iffirst_v1.md
+# (凍結票 db53ac4)の逐語実装。委嘱: 裁定637(便112返書R-6b宿題)。
+#
+# 拘束(票より、逐語履行):
+#   - VERDICT は A(Level1/Level2)か B のみ。第三の verdict を作らない。
+#   - S-B1-4: VERDICT B の文脈で「294」「genuine」「全射」の語を報告しない。
+#   - 窓は K(gamma6(F2)F2^7 x <c>)のみ・m=0固定・分母117,649・延長禁止。
+#   - 較正 F-1..F-8 が1つでも落ちればSTOP(発火禁止)-- R0がfail-closed。
+#   - 本走宇宙(705,894対)は非接触。sealed 3量も非接触。
+#
+# ローカル GAP は SG 掃引(S3.5 shard B)と排他のため使わない -- 本 workflow
+# が初回実行の場。sentinel-bound 様式(hsp7-calib.yml 踏襲)。
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - '.github/workflows/bit252-oneway.yml'
+      - 'search/probe/bit252_v1/**'
+
+permissions:
+  contents: read
+
+jobs:
+  bit252_run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Install anupq package sources
+        uses: gap-actions/install-pkg@v1
+        with:
+          packages: anupq
+
+      - name: Build anupq (compiles the pq binary for this runner)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GAPROOT/pkg/anupq"
+          ./configure "$GAPROOT"
+          make
+
+      - name: Run BIT-252 one-way test (R0 calibration -> R1-R4 main test)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 6g search/probe/bit252_v1/bit252_oneway_main.g 2>&1 | tee ci/out/bit252_run.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Extract VERDICT (fail-closed -- calibration must have passed for a verdict to exist)
+        id: verdict
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "gap_exit=${{ steps.run.outputs.gap_exit }}"
+          if grep -q "VERDICT = NO_SURVIVAL" ci/out/bit252_run.log; then
+            echo "verdict=NO_SURVIVAL" >> "$GITHUB_OUTPUT"
+            echo "::notice::VERDICT A (NO_SURVIVAL) -- see cert/log for Level 1/Level 2 conclusions."
+          elif grep -q "VERDICT = SURVIVES_TO_K" ci/out/bit252_run.log; then
+            echo "verdict=SURVIVES_TO_K" >> "$GITHUB_OUTPUT"
+            echo "::notice::VERDICT B (SURVIVES_TO_K) -- ONLY conclusion authorized: g* survives to K. Breakdown UNKNOWN. Do not report 294/genuine/surjective (S-B1-4)."
+          else
+            echo "verdict=NONE" >> "$GITHUB_OUTPUT"
+            echo "::error::No VERDICT marker found -- calibration (R0) likely failed closed, or GAP crashed. See ci/out/bit252_run.log."
+          fi
+          if [ "${{ steps.run.outputs.gap_exit }}" != "0" ]; then
+            echo "::warning::gap_exit=${{ steps.run.outputs.gap_exit }} (nonzero) -- check log for the specific STOP rule (S-B1-*) that fired."
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bit252-oneway-run
+          path: ci/out/bit252_run.log
+          if-no-files-found: error
