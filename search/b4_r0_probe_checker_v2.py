@@ -13,9 +13,15 @@ GAP driver or trusting the cert's self-report, is:
 
   - prereg_doc_sha256 matches an independently-recomputed sha256 of
     docs/notes/b4_r0_probe_prereg_iffirst_v2.md (S-R0-1'..9' anchor)
+  - prereg_erratum_sha256 matches an independently-recomputed sha256 of
+    docs/notes/b4_r0_probe_prereg_iffirst_v2_1_erratum.md (v2.1 erratum:
+    v2's body is byte-for-byte unchanged; the erratum corrects ONE frozen
+    constant v2 got wrong -- nr_small_groups_192 10494 -> 1543, a
+    digit-swap misremembering of the order-512 group count. S-R0-1'
+    threshold only; nothing else in driver behavior changes)
   - driver_self_sha256 matches an independently-recomputed sha256 of
     search/probe/b4_r0_probe_v2/r0_probe_v2_driver.g
-  - nr_small_groups_192 == 10494 (S-R0-1')
+  - nr_small_groups_192 == 1543 (S-R0-1', corrected per v2.1 erratum)
   - sanity.index_B4_PB4 == 24 (S-R0-2')
   - stage_caps_ms == {P1:600000, P2:600000, P3:1200000} and
     wall_cap_ms == 2400000 (frozen constants)
@@ -43,6 +49,7 @@ import sys
 
 CERT_PATH = "search/certs/b4_r0_probe_v2_20260806.json"
 PREREG_PATH = "docs/notes/b4_r0_probe_prereg_iffirst_v2.md"
+ERRATUM_PATH = "docs/notes/b4_r0_probe_prereg_iffirst_v2_1_erratum.md"
 DRIVER_PATH = "search/probe/b4_r0_probe_v2/r0_probe_v2_driver.g"
 
 FORBIDDEN_PHRASES = [
@@ -82,10 +89,12 @@ def main():
         if "sanity" in d and d["sanity"].get("index_B4_PB4") == 24 and "PRESENTATION_BROKEN" in verdict:
             problems.append("verdict=STOP(PRESENTATION_BROKEN) but sanity.index_B4_PB4==24 (should have passed P0)")
         actual_sha = sha256_file(PREREG_PATH)
+        actual_erratum_sha = sha256_file(ERRATUM_PATH)
         result = {
             "schema": "b4-r0-probe-checker/v2",
             "cert_checked": CERT_PATH,
             "prereg_sha256_independently_recomputed": actual_sha,
+            "prereg_erratum_sha256_independently_recomputed": actual_erratum_sha,
             "note": "cert is a STOP-shaped early exit; only minimal checks applied",
             "problems": problems,
             "all_checks_pass": len(problems) == 0,
@@ -99,15 +108,20 @@ def main():
         problems.append(
             f"prereg_doc_sha256 mismatch: cert={d.get('prereg_doc_sha256')} actual={actual_prereg_sha}"
         )
+    actual_erratum_sha = sha256_file(ERRATUM_PATH)
+    if actual_erratum_sha != d.get("prereg_erratum_sha256"):
+        problems.append(
+            f"prereg_erratum_sha256 mismatch: cert={d.get('prereg_erratum_sha256')} actual={actual_erratum_sha}"
+        )
     actual_driver_sha = sha256_file(DRIVER_PATH)
     if actual_driver_sha != d.get("driver_self_sha256"):
         problems.append(
             f"driver_self_sha256 mismatch: cert={d.get('driver_self_sha256')} actual={actual_driver_sha}"
         )
 
-    # --- frozen constants (S-R0-1') ---
-    if d.get("nr_small_groups_192") != 10494:
-        problems.append(f"nr_small_groups_192 != 10494 (S-R0-1' LIBRARY_MISMATCH): {d.get('nr_small_groups_192')}")
+    # --- frozen constants (S-R0-1', corrected 10494 -> 1543 per v2.1 erratum) ---
+    if d.get("nr_small_groups_192") != 1543:
+        problems.append(f"nr_small_groups_192 != 1543 (S-R0-1' LIBRARY_MISMATCH, v2.1 erratum value): {d.get('nr_small_groups_192')}")
 
     # --- P0 sanity (S-R0-2') ---
     if d.get("sanity", {}).get("index_B4_PB4") != 24:
@@ -208,6 +222,7 @@ def main():
         "schema": "b4-r0-probe-checker/v2",
         "cert_checked": CERT_PATH,
         "prereg_sha256_independently_recomputed": actual_prereg_sha,
+        "prereg_erratum_sha256_independently_recomputed": actual_erratum_sha,
         "driver_sha256_independently_recomputed": actual_driver_sha,
         "problems": problems,
         "all_checks_pass": len(problems) == 0,

@@ -33,6 +33,17 @@ Print("GasmanStatistics() = ", GasmanStatistics(), "\n");
 OPERATIONAL_DEVIATION_NOTE := "executed on GHA ubuntu runner (local GAP occupied by long-running G4/G5 lane, no ETA) instead of local gap.ps1 -o 2g; memory flags passed as explicit byte counts (not 'g' suffix) defending against a suspected unit-suffix interpretation difference between local Windows GAP and GHA Linux GAP builds; -o/--maxworkspace confirmed (local --help read) to be a WARN-only threshold, -K/--limitworkspace is the actual hard cap; prereg's frozen mathematical universe (base group SS4.1, PB4 words (A.2), caps SS3.5, filters SS3.2-3.3, stopping rules SS6) is UNCHANGED";;
 
 PREREG_PATH := "docs/notes/b4_r0_probe_prereg_iffirst_v2.md";;
+## v2.1 erratum (docs/notes/b4_r0_probe_prereg_iffirst_v2_1_erratum.md, sha256
+## 33646274e767869459810c5746533bf056d373e632fc0dd16d0aa42242ac9e2d): v2's
+## body is unchanged (0 bytes touched); the erratum corrects ONE frozen
+## constant that v2 got wrong (nr_small_groups_192: v2 said 10494, a
+## misremembered digit-swap with the ORDER-512 group count 10,494,213 --
+## the TRUE value for order 192, confirmed by GHA run 31080857999's own
+## S-R0-1' fail-closed STOP plus standard SmallGroups-library reference
+## values, is 1543). Nothing else in v2 changes (S-R0-1' threshold only;
+## P-R0-5 is superseded by P-R0-5' in the erratum, a prediction-scoring
+## matter for 司令塔, not a driver-behavior matter).
+ERRATUM_PATH := "docs/notes/b4_r0_probe_prereg_iffirst_v2_1_erratum.md";;
 DRIVER_PATH := "search/probe/b4_r0_probe_v2/r0_probe_v2_driver.g";;
 OUT_PATH := "search/certs/b4_r0_probe_v2_20260806.json";;
 
@@ -109,11 +120,14 @@ if sanityIndex <> 24 then
 fi;
 
 #############################################################################
-## S-R0-1': NrSmallGroups(192) must equal 10494 (library-version guard)
+## S-R0-1': NrSmallGroups(192) must equal 1543 (library-version guard).
+## Threshold corrected 10494 -> 1543 per v2.1 erratum (docs/notes/
+## b4_r0_probe_prereg_iffirst_v2_1_erratum.md SS1) -- v2's 10494 was a
+## digit-swap misremembering of the ORDER-512 group count.
 #############################################################################
 nrSG := NrSmallGroups(192);;
-Print("NrSmallGroups(192) = ", nrSG, " (expect 10494)\n");
-if nrSG <> 10494 then
+Print("NrSmallGroups(192) = ", nrSG, " (expect 1543, per v2.1 erratum)\n");
+if nrSG <> 1543 then
   Print("STOP: LIBRARY_MISMATCH (S-R0-1')\n");
   cert := Concatenation(
     "{\n\"schema\":\"shadow-atelier/b4-r0-probe-v2/v1\",\n",
@@ -124,7 +138,7 @@ if nrSG <> 10494 then
     "\"grade\":\"candidate / single-system / not cross-checked / not verified (no Lean)\"\n}\n");;
   WriteFile(OUT_PATH, cert);;
   Print("Wrote ", OUT_PATH, " (STOP)\n");
-  Error("STOP(LIBRARY_MISMATCH): NrSmallGroups(192) <> 10494 -- S-R0-1'");
+  Error("STOP(LIBRARY_MISMATCH): NrSmallGroups(192) <> 1543 -- S-R0-1'");
 fi;
 
 #############################################################################
@@ -423,13 +437,15 @@ SpotP2Json := JArr(List(spotP2Results, SpotRecJson));;
 
 selfSha := ComputeSha256File(DRIVER_PATH);;
 preregSha := ComputeSha256File(PREREG_PATH);;
+erratumSha := ComputeSha256File(ERRATUM_PATH);;
 
 cert := Concatenation(
 "{\n",
 "\"schema\":\"shadow-atelier/b4-r0-probe-v2/v1\",\n",
 "\"driver_self_sha256\":", JStr(selfSha), ",\n",
 "\"prereg_doc_sha256\":", JStr(preregSha), ",\n",
-"\"prereg_version\":\"v2 (SmallGroups-192 sweep; supersedes-method-only of v1)\",\n",
+"\"prereg_erratum_sha256\":", JStr(erratumSha), ",\n",
+"\"prereg_version\":\"v2 (SmallGroups-192 sweep; supersedes-method-only of v1) + v2.1 erratum (nr_small_groups_192 corrected 10494 -> 1543; S-R0-1' threshold only, v2 body unchanged)\",\n",
 "\"gap_version\":", JStr(gapVersionStr), ",\n",
 "\"smallgrp_version\":", JStr(smallgrpVersionStr), ",\n",
 "\"nr_small_groups_192\":", String(nrSG), ",\n",
