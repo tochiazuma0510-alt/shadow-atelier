@@ -1,0 +1,164 @@
+=== window (1944,826) ===
+=== window (1944,921) ===
+=== window (1296,2889) ===
+Wrote scratchpad/chir2_window_1296_2889.json wall_ms=466 status=OK
+W6_SG_CHIR2_SINGLE_DONE
+=== window (1296,3487) ===
+Wrote scratchpad/chir2_window_1296_3487.json wall_ms=2989 status=OK
+W6_SG_CHIR2_SINGLE_DONE
+=== window (1728,31096) ===
+Wrote scratchpad/chir2_window_1728_31096.json wall_ms=3597 status=OK
+W6_SG_CHIR2_SINGLE_DONE
+=== orchestrator done ===
+=== RETRY window (1944,826) ===
+=== RETRY window (1944,921) ===
+=== retry done ===
+=== RETRY window (1944,826) ===
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:177
+Print("  [diag] R constructed
+      ^^^^^^^^^^^^^^^^^^^^^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:178
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:191
+Print("  [diag] betaR test done, rReflexible=", rReflexible, "
+                                                             ^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:192
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:198
+Print("  [diag] complement check done
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:199
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:247
+Print("  [diag] IsomorphismPermGroup(R) done
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:248
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:257
+Print("  [diag] CHR built, Rperm degree=", NrMovedPoints(Rperm), "
+                                                                 ^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:258
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:260
+Print("  [diag] h2dim=", h2dim, "
+                                ^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:261
+");
+^^^
+Syntax warning: Unbound global variable in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:271
+        candVecs := Cartesian(List([1..h2dim], ii -> [0..p-1]));;
+                                                         ^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:273
+      Print("  [diag] starting eps-identification loop, ", Length(candVecs), " candidates
+                                                                             ^^^^^^^^^^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:274
+");
+^^^
+Syntax error: while parsing an 'if' statement: statement or 'fi' expected in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:278
+        else
+        ^^^^
+=== RETRY window (1944,921) ===
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:177
+Print("  [diag] R constructed
+      ^^^^^^^^^^^^^^^^^^^^^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:178
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:191
+Print("  [diag] betaR test done, rReflexible=", rReflexible, "
+                                                             ^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:192
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:198
+Print("  [diag] complement check done
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:199
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:247
+Print("  [diag] IsomorphismPermGroup(R) done
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:248
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:257
+Print("  [diag] CHR built, Rperm degree=", NrMovedPoints(Rperm), "
+                                                                 ^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:258
+");
+^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:260
+Print("  [diag] h2dim=", h2dim, "
+                                ^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:261
+");
+^^^
+Syntax warning: Unbound global variable in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:271
+        candVecs := Cartesian(List([1..h2dim], ii -> [0..p-1]));;
+                                                         ^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:273
+      Print("  [diag] starting eps-identification loop, ", Length(candVecs), " candidates
+                                                                             ^^^^^^^^^^^^
+Syntax error: String must not include <newline> in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:274
+");
+^^^
+Syntax error: while parsing an 'if' statement: statement or 'fi' expected in search/probe/sg_band_sweep/sg_chir2_single_window_v1.g:278
+        else
+        ^^^^
+=== retry done ===
+=== RETRY window (1944,826) ===
+  [diag] R constructed
+  [diag] betaR test done, rReflexible=true
+  [diag] complement check done
+  [diag] IsomorphismPermGroup(R) done
+  [diag] CHR built, Rperm degree=31
+  [diag] h2dim=3
+  [diag] starting eps-identification loop, 27 candidates
+=== RETRY window (1944,921) ===
+  [diag] R constructed
+  [diag] betaR test done, rReflexible=true
+  [diag] complement check done
+  [diag] IsomorphismPermGroup(R) done
+  [diag] CHR built, Rperm degree=31
+  [diag] h2dim=3
+  [diag] starting eps-identification loop, 27 candidates
+=== retry done ===
+=== RETRY window (1944,826) ===
+  [diag] R constructed
+  [diag] betaR test done, rReflexible=true
+  [diag] complement check done
+  [diag] IsomorphismPermGroup(R) done
+  [diag] CHR built, Rperm degree=31
+  [diag] h2dim=3
+  [diag] starting eps-identification loop, 27 candidates, cap=6
+=== RETRY window (1944,921) ===
+  [diag] R constructed
+  [diag] betaR test done, rReflexible=true
+  [diag] complement check done
+  [diag] IsomorphismPermGroup(R) done
+  [diag] CHR built, Rperm degree=31
+  [diag] h2dim=3
+  [diag] starting eps-identification loop, 27 candidates, cap=6
+  [diag] eps-identification loop done, idGroup calls used=6 capHit=true
+  [diag] starting eigenvector search
+Wrote scratchpad/chir2_window_1944_921.json wall_ms=35879 status=OK
+W6_SG_CHIR2_SINGLE_DONE
+=== retry done ===
+=== RETRY3 window (1944,826) ===
+  [diag] R constructed
+  [diag] betaR test done, rReflexible=true
+  [diag] complement check done
+  [diag] IsomorphismPermGroup(R) done
+  [diag] CHR built, Rperm degree=31
+  [diag] h2dim=3
+  [diag] starting eps-identification loop, 27 candidates, cap=6
+  [diag] eps-identification loop done, idGroup calls used=6 capHit=true
+  [diag] starting eigenvector search
+Wrote scratchpad/chir2_window_1944_826.json wall_ms=48903 status=OK
+W6_SG_CHIR2_SINGLE_DONE
