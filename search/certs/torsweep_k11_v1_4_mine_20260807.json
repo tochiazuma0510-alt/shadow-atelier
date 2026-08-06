@@ -1,0 +1,63 @@
+{
+  "schema": "tor_sweep_k11_v1.4",
+  "supersedes": "search/certs/torsweep_k11_v1_3_20260807.json",
+  "supersedes_note": "裁定737: full-column adaptive-pivot Howell elimination modulo M, on the FULL restricted-ambient map (not v1.3's fixed 60-column N_source, which was shown there to give false 'insufficient' results for already-confirmed-innocent primes 2 and 5).",
+  "ambient_vs_lyndon_note": "columns are the AMBIENT-word coordinate system (3**11+2**11=179195 positions), NOT the literal Lyndon-coordinate dimension of t_11 (16290) that 裁定737 mentioned -- t_11^Z is a SPLIT Z-direct-summand of the ambient tensor algebra (definition LAT), so elementary divisors computed via either representation are IDENTICAL, and ambient columns are a strict superset (more information, never less). Disclosed deliberately, not a silent narrowing of scope.",
+  "design_spec": "docs/notes/tor_sweep_design_v1.md",
+  "k": 11,
+  "generated_by": {
+    "tool": "search/torsweep_k11_close_v1_4.py",
+    "python": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.5.1",
+    "edim_semidirect_v1_sha256": "bc06d81ee2dc997d0d6cd47e7660ab11a9e1f308b5af4ed96eda7d8f579c961a"
+  },
+  "H_rank": 62,
+  "r_prime": 60,
+  "M_start_digits": 73,
+  "build_elapsed_seconds": 902.1793005466461,
+  "matrix_shape": [
+    62,
+    179195
+  ],
+  "stages": {
+    "closure": {
+      "closures": [
+        {
+          "modulus": "1067157539518935863397320108996897827479512895575510916206922820907001220",
+          "status": "success",
+          "pivot_count": 60
+        }
+      ],
+      "all_pieces_success": true,
+      "any_torsion_candidate": false,
+      "elapsed_seconds": 170.08041429519653
+    }
+  },
+  "total_elapsed_seconds": 1072.3009021282196,
+  "run_log": [
+    "[    0.00s] loading v1.1 (H_basis) and v1.2/v1.3 (residual M) certs",
+    "[    0.03s] H_rank=62 r_prime=60 unresolved_cofactor_digits=67",
+    "[    0.03s] M_start (=gcd_abs from v1.2) digits=73",
+    "[    0.03s] building the FULL 62 x 179,195 restricted-ambient matrix mod M_start (reconstructed from H_basis, NOT the fixed 60-column N_source)",
+    "[   45.71s]   ...tree 20/186, elapsed=45.6s",
+    "[  103.95s]   ...tree 40/186, elapsed=103.9s",
+    "[  170.53s]   ...tree 60/186, elapsed=170.4s",
+    "[  260.38s]   ...tree 80/186, elapsed=260.3s",
+    "[  364.51s]   ...tree 100/186, elapsed=364.4s",
+    "[  486.64s]   ...tree 120/186, elapsed=486.5s",
+    "[  612.21s]   ...tree 140/186, elapsed=612.1s",
+    "[  747.17s]   ...tree 160/186, elapsed=747.1s",
+    "[  870.91s]   ...tree 180/186, elapsed=870.8s",
+    "[  902.21s] build done, elapsed=902.2s, shape=(62, 179195)",
+    "[  902.22s] running full-column adaptive Howell closure on M_start",
+    "[  902.22s] close_modulus (full-column): M has 73 digits",
+    "[  950.72s]   stage 10: pivots_found=10, active_remaining=52",
+    "[  988.44s]   stage 20: pivots_found=20, active_remaining=42",
+    "[ 1023.86s]   stage 30: pivots_found=30, active_remaining=32",
+    "[ 1049.42s]   stage 40: pivots_found=40, active_remaining=22",
+    "[ 1063.91s]   stage 50: pivots_found=50, active_remaining=12",
+    "[ 1071.95s]   stage 60: pivots_found=60, active_remaining=2",
+    "[ 1072.30s] SUCCESS: all 60 pivots found as units mod M -- every prime factor of this M is confirmed innocent simultaneously, no factoring performed",
+    "[ 1072.30s] closure done, elapsed=170.1s, all_success=True, any_torsion_candidate=False"
+  ]
+}
