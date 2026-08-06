@@ -578,11 +578,56 @@ $$\widehat P\ \text{内で}\ R_w:=\sigma_1N,\quad S_w:=(\sigma_1\sigma_2)N\quad\
 | **【TC-GAP-11】** | **486 窓が C28.2 か R28.3 か**(純粋な同定問題)。我々の側の答え($\iota(N)\ne N$ ⟹ C28.2)は機械 2 系統で出ているが、census 行との**突合は未実行** | **§F.8 MAP-ID-2 を実装係へ**(Test ORB が主経路) |
 | **【TC-GAP-12】** | $\mathrm{Rot}(\text{R28.3})\cong\bigl((C_3\ast C_3)/\gamma_4\bigr)\rtimes C_2$ か(予言 P-MAP-3)。真なら **IdGroup 比較は決定力ゼロ**になり Test ORB / Test PRES の標識対テストが必須 | 未検証(§F.8 で同時に判明する) |
 
+## F.10 ORB 実測の判読(2026-08-06 追補 3・確定)
+
+**実測**: 486 — $\lvert\mathrm{Aut}\widehat P\rvert=1458$、$\lvert\mathcal M\rvert=2916$、**軌道 2・両方 reflexible=FALSE**、我々の対は orbit1。
+432 — $\lvert\mathrm{Aut}\widehat P\rvert=432$、$\lvert\mathcal M\rvert=864$、**軌道 2・両方 chiral**、我々の対は orbit1。**STOP 条項は不発。**
+
+### F.10.1 算術カナリア(実測が自動で通した検査)
+
+生成対の $\mathrm{Aut}$-固定化群は**常に自明**(生成元を固定する自己同型は恒等)⟹ **全軌道の長さ $=\lvert\mathrm{Aut}\widehat P\rvert$**。実測は
+$$2916=2\cdot1458,\qquad 864=2\cdot432$$
+で **軌道数 $=\lvert\mathcal M\rvert/\lvert\mathrm{Aut}\rvert=2$ ちょうど**。⟹ 列挙・軌道分解は整合(壊れていれば端数が出る)。
+
+### F.10.2 判読① — 「chiral 1 枚 = 2 軌道」は**論理的に強制**(追試不要)
+
+$\nu:\mathcal M\to\mathcal M,\ (r,s)\mapsto(r^{-1},s^{-1})$ と置く。**well-defined**: $\mathrm{ord}$ は保存、$sr=s(rs)s^{-1}$ ゆえ $\mathrm{ord}(sr)=\mathrm{ord}(rs)=2$ ⟹ $(r^{-1}s^{-1})^2=((sr)^2)^{-1}=1$、$\langle r^{-1},s^{-1}\rangle=\langle r,s\rangle$ ✓。$\nu^2=\mathrm{id}$、かつ $\nu$ は $\mathrm{Aut}$-作用と**可換**($\alpha(r^{-1})=\alpha(r)^{-1}$)⟹ $\nu$ は**軌道集合の対合**。
+
+$$\boxed{\ \text{軌道 }O\ \text{が reflexible}\iff\nu(O)=O\ }\qquad\Longrightarrow\qquad \text{chiral 軌道は }\nu\text{ で 2 個ずつ対になる}.$$
+
+⟹ 軌道が 2 個で**どちらも $\nu$-固定でない**なら、$\nu$ は 2 軌道を**入れ替えるしかない**。⟹ 「2 軌道 = 1 枚の chiral 地図とその鏡像」は**実測から論理的に従う**(司令塔の仮読みは正しい・**追試 1 行は論理的には不要**)。
+> ★ ただし**バグ検出用の無料カナリア**としては有用: $\nu(R_w,S_w)=(R_w^{-1},S_w^{-1})$ が **orbit2** に入ることを 1 行で確認せよ。orbit1 に入れば「reflexible=FALSE」判定が壊れている(述語が $\mathrm{Inn}$ しか探していない等)。**論理の補強ではなく実装の検温**として推奨。
+
+### F.10.3 判読② — 「reflexible 軌道ゼロ ⟹ $\iota(N)\ne N$」は**厳密**(census 非依存)
+
+MAP-DICT を経由する必要すらない。$S:=W=\delta N$、$R:=UW^{-1}$、$U=RS$、我々が測った対は $(R_w,S_w)=(\sigma_1N,\ \delta N)=(W^{-1}U,\ W)=(R,S)^{W^{-1}}$(共役)。
+
+> **補題 REFL-EQUIV(candidate・本稿)**
+> $$\exists\alpha\in\mathrm{Aut}(\widehat P):\ \alpha(R)=R^{-1},\alpha(S)=S^{-1}\iff\exists\beta\in\mathrm{Aut}(\widehat P):\ \beta(U)=U,\beta(W)=W^{-1}.$$
+> **証明.** ($\Leftarrow$) $\alpha:=\mathrm{Inn}(W)\circ\beta$。$\beta(R)=\beta(U)\beta(W)^{-1}=UW$、$W(UW)W^{-1}=WU=R^{-1}$ ✓;$\beta(S)=W^{-1}$、$W W^{-1}W^{-1}=W^{-1}=S^{-1}$ ✓。
+> ($\Rightarrow$) $\alpha(U)=\alpha(RS)=R^{-1}S^{-1}=(SR)^{-1}$、$SR=WUW^{-1}$ かつ $U^2=1$ ゆえ $(SR)^{-1}=WUW^{-1}$。$\beta:=\mathrm{Inn}(W^{-1})\circ\alpha$ とすると $\beta(U)=U$ ✓、$\beta(W)=W^{-1}$ ✓。∎
+
+右辺は**補題 MIRROR-PSL の判定条件そのもの**。ゆえに
+$$\boxed{\ \text{我々の対の軌道が reflexible でない}\iff\iota(N)\ne N\ }$$
+⟹ **ORB 実測は $\iota(N)\ne N$ の直接証明(census 完全に非依存)**。432 の「census 強制」も**降格不要でそのまま自前の結果**になった。
+
+**格の限定**: ORB は「witness word 1 本」とは**別方法**($\mathrm{Aut}$ 悉皆)だが、窓 $\widehat P$ の構成は scope2 と**同じ系統**であり、同一 GAP プロセス内。⟹ **cross-checked が上限**(Lean 不使用ゆえ verified ではない)。**census は third-party の echo(独立確認)であって根拠ではない** — 逆に、我々の結果が census の件数(chiral 1 / reflexible 1 @{3,18}、reflexible 0 @{3,8})と**独立に整合した**ことが相互の信頼度を上げる。
+
+### F.10.4 判読③ — census 側への逆情報(我々から third-party へ)
+
+486 で $\widehat P$ 上に reflexible 軌道が**ゼロ** ⟹ `[census]` の **R28.3 の回転群は $[486,39]$ と非同型**(同型なら reflexible 軌道が 1 個以上必要)。⟹ 予言 P-MAP-3 は**修正して残す**:
+> **P-MAP-3′(検証は任意)**: $\mathrm{Rot}(\text{R28.3})\cong G_R:=\bigl((C_3\ast C_3)/\gamma_4\bigr)\rtimes C_2$ であり、**$G_R\not\cong[486,39]$**。
+> 検証手順(2 行): `nq` で $R=(C_3\ast C_3)/\gamma_4$(位数 243)を作り $\tau$($w\leftrightarrow w'$)で半直積 ⟹ `IdGroup` を出す。$[486,39]$ でなければ P-MAP-3′ の前半と整合、さらにその群で ORB を回して reflexible 軌道が出れば確定。
+
 ## F.9 MIRROR-ALL 現況(一行)
 
-$$\boxed{\ \textbf{15 対}\ =\ \underbrace{\textbf{13}}_{\text{紙の定理 MIRROR-ODD}}\ +\ \underbrace{\textbf{1}}_{\substack{\text{432: census 強制}\\ \text{(third-party 照合)}}}\ +\ \underbrace{\textbf{1}}_{\substack{\text{486: 同定待ち}\\ \text{(機械 2 系統は chiral)}}}\ }$$
+$$\boxed{\ \textbf{15 対}\ =\ \underbrace{\textbf{13}}_{\substack{\text{紙の定理}\\ \text{MIRROR-ODD}}}\ +\ \underbrace{\textbf{2}}_{\substack{\text{432 / 486: 機械 2 方法}\\ \text{(witness word + ORB 軌道悉皆)}\\ \text{cross-checked}}}\qquad\text{[census = third-party echo・根拠ではない]}\ }$$
 
-⟹ **「この帯の双子対は全て鏡映対」は依然として定理ではない**(486 の 1 窓が紙でも第三者でも未閉)。ただし未閉部分は **1 窓・1 ビット**まで縮んだ。432 の決着は**紙 + 第三者**の合わせ技であり、**紙単独の射程は 13/15 のまま**である(この区別を報告で潰さないこと)。
+**格の確定(2026-08-06)**:
+- **紙単独の射程は 13/15**(定理 MIRROR-ODD)。ここは変わらない。
+- 残り 2 窓は **cross-checked**: ①裁定 602 の witness word($\rho(\iota(w))\ne1$・GAP + python MC-1)、②**ORB 軌道悉皆**($\mathrm{Aut}(\widehat P)$ 内に $(r,s)\mapsto(r^{-1},s^{-1})$ を実現する $\alpha$ が**存在しない**ことの悉皆確認)。②は①と**方法が独立**で、補題 REFL-EQUIV(§F.10.3)により $\iota(N)\ne N$ と**厳密に同値**。
+- `[census]` は **third-party echo**(件数と型が独立に整合)。**証明の根拠として引かない。**
+- ⟹ 「この帯の双子対は全て鏡映対」= **cross-checked(not verified)**。**定理と呼べるのは 13 対**。Lean 化するなら残り 2 窓の ORB 判定(有限群の悉皆)が対象。
 
 ## E. 帰属
 
