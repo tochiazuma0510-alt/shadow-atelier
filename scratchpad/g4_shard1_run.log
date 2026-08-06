@@ -1,0 +1,114 @@
+Loaded 36 g3_records windows from search/certs/sg_band_sweep_20260806.json
+Processing shard range [ 1, 9 ] -> 9 windows
+Syntax warning: Unbound global variable in search/probe/sg_band_sweep/sg_g4_orb_driver_v1.g:227
+    remaining := Filtered(remaining, x -> not (x in orb));;
+                                                    ^^^
+Syntax warning: Unbound global variable in search/probe/sg_band_sweep/sg_g4_orb_driver_v1.g:234
+  regularOk := ForAll(orbits, o -> Length(o) = autOrder);;
+                                               ^^^^^^^^
+Syntax warning: Unbound global variable in search/probe/sg_band_sweep/sg_g4_orb_driver_v1.g:242
+    reflexible := ForAny(A, alpha -> Image(alpha,r) = r^-1 and Image(alpha,s) = s^-1);;
+                                                 ^
+Syntax warning: Unbound global variable in search/probe/sg_band_sweep/sg_g4_orb_driver_v1.g:242
+    reflexible := ForAny(A, alpha -> Image(alpha,r) = r^-1 and Image(alpha,s) = s^-1);;
+                                                      ^
+Syntax warning: Unbound global variable in search/probe/sg_band_sweep/sg_g4_orb_driver_v1.g:242
+    reflexible := ForAny(A, alpha -> Image(alpha,r) = r^-1 and Image(alpha,s) = s^-1);;
+                                                                           ^
+Syntax warning: Unbound global variable in search/probe/sg_band_sweep/sg_g4_orb_driver_v1.g:242
+    reflexible := ForAny(A, alpha -> Image(alpha,r) = r^-1 and Image(alpha,s) = s^-1);;
+                                                                                ^
+
+=== G4 window (1458,573) ===
+  entry gate OK
+  |M| = 26244
+  |Aut(Ghat)| = 26244
+  num_orbits = 1 (sizes: [ 26244 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=26244 reflexible=true nu->orbit 1
+
+=== G4 window (1458,578) ===
+  entry gate OK
+  |M| = 26244
+  |Aut(Ghat)| = 26244
+  num_orbits = 1 (sizes: [ 26244 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=26244 reflexible=true nu->orbit 1
+
+=== G4 window (1458,583) ===
+  entry gate OK
+  |M| = 26244
+  |Aut(Ghat)| = 26244
+  num_orbits = 1 (sizes: [ 26244 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=26244 reflexible=true nu->orbit 1
+
+=== G4 window (1458,584) ===
+  entry gate OK
+  |M| = 26244
+  |Aut(Ghat)| = 26244
+  num_orbits = 1 (sizes: [ 26244 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=26244 reflexible=true nu->orbit 1
+
+=== G4 window (1458,658) ===
+  entry gate OK
+  |M| = 78732
+  |Aut(Ghat)| = 78732
+  num_orbits = 1 (sizes: [ 78732 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=78732 reflexible=true nu->orbit 1
+
+=== G4 window (1458,659) ===
+  entry gate OK
+  |M| = 8748
+  |Aut(Ghat)| = 8748
+  num_orbits = 1 (sizes: [ 8748 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=8748 reflexible=true nu->orbit 1
+
+=== G4 window (1944,812) ===
+  entry gate OK
+  |M| = 11664
+  |Aut(Ghat)| = 11664
+  num_orbits = 1 (sizes: [ 11664 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=11664 reflexible=true nu->orbit 1
+
+=== G4 window (1944,815) ===
+  entry gate OK
+  |M| = 11664
+  |Aut(Ghat)| = 11664
+  num_orbits = 1 (sizes: [ 11664 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=11664 reflexible=true nu->orbit 1
+
+=== G4 window (1944,826) ===
+  entry gate OK
+  |M| = 11664
+  |Aut(Ghat)| = 5832
+  num_orbits = 2 (sizes: [ 5832, 5832 ])
+  regularity check (all orbit sizes = |Aut|): true
+    orbit 1: size=5832 reflexible=false nu->orbit 2
+    orbit 2: size=5832 reflexible=false nu->orbit 1
+
+=== G4 summary ===
+windows processed: 9 / 9
+HANDOFF_MISMATCHES: 0
+
+=== G5 classification ===
+  (1458,573): K=1 reflexible=1 chiral_pairs=0 involution_ok=true class=isolated_self_mirror_no_twin exotic_pairs=0
+  (1458,578): K=1 reflexible=1 chiral_pairs=0 involution_ok=true class=isolated_self_mirror_no_twin exotic_pairs=0
+  (1458,583): K=1 reflexible=1 chiral_pairs=0 involution_ok=true class=isolated_self_mirror_no_twin exotic_pairs=0
+  (1458,584): K=1 reflexible=1 chiral_pairs=0 involution_ok=true class=isolated_self_mirror_no_twin exotic_pairs=0
+  (1458,658): K=1 reflexible=1 chiral_pairs=0 involution_ok=true class=isolated_self_mirror_no_twin exotic_pairs=0
+  (1458,659): K=1 reflexible=1 chiral_pairs=0 involution_ok=true class=isolated_self_mirror_no_twin exotic_pairs=0
+  (1944,812): K=1 reflexible=1 chiral_pairs=0 involution_ok=true class=isolated_self_mirror_no_twin exotic_pairs=0
+  (1944,815): K=1 reflexible=1 chiral_pairs=0 involution_ok=true class=isolated_self_mirror_no_twin exotic_pairs=0
+  (1944,826): K=2 reflexible=0 chiral_pairs=1 involution_ok=true class=single_mirror_pair_non_exotic exotic_pairs=0
+
+=== G5 alerts (non-standard structure) ===
+count: 0
+Wrote search/certs/sg_g4_g5_orb_20260806_shard1.json
+
+W6_SG_G4_G5_DONE
