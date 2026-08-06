@@ -1,0 +1,38 @@
+[B4:PB4] = 24 (expect 24)
+PB4fp built, 6 generators (expect 6, order X12,X13,X14,X23,X24,X34)
+Order-guard: commuting pairs among the 6 generators = [ "g12/g34", "g14/g23" ]
+Order-guard: expect EXACTLY {g12/g34, g14/g23}
+Order-guard PASS: true
+Convention-guard: |RelatorsOfFpGroup(PB4fp)| = 17
+Convention-guard: relators failing to map to identity = 0 / 17
+psi: PB4fp -> S9 well-defined (fail = generator data / presentation mismatch)? true
+|Image(psi)| = 216 (expect 216 = |PB4:N19|)
+|PB4fp : N19| = 216 (expect 216, sanity vs Size(Image))
+C-1 PASS: |PB4:N19| = 216
+
+|P19| = |F2:N_F2| = 7776  (expect 7776, C-3a)
+C-3a PASS: |F2:N_F2| = 7776
+C-2: N_ord = lcm(ord(x),ord(y)) = 6 (expect 6)
+C-2 PASS: N_ord = 6
+C-3b: |[F2/N_F2,F2/N_F2]| = 216 (expect 216)
+C-3b PASS: commutator subgroup order = 216
+
+=== C-4: pentagon over all 7776 elements ===
+pentagon-pass count = 216  (expect 216, C-4)  elapsed_ms=16
+C-4 PASS: pentagon count = 216
+(diagnostic only, not relied upon) pentagon-pass set closed under *? false
+
+=== C-5/C-6: full hexagon (3.3)/(3.4) via 3-generator Q3 (c5.g method) ===
+C-4 (c5.g method, cross-check) pentagon solutions = 216 (expect 216)
+[B3:PB3] = 6 (expect 6)
+hom PB3 -> Q3 built (fail = full-hexagon target ill-defined): true
+C-5 (full hexagon) pair count (m,f) = 72  (target: pair=72)  elapsed_ms=247
+C-5 (full hexagon) distinct f = 36  (target: distinct-f=36)
+C-5 PASS: BOTH units match (pair=72 AND distinct-f=36)
+per-f good-m distribution (value,count pairs) = [ [ 2, 36 ] ]
+
+C-6 (前半): |GT(N19)| (charming pair count) = 72 (expect 72, Table 1)
+
+C-6 (後半): |GT-heart(N19)| -- NOT COMPUTED this pass (see comment above; distinct-f(=36) is a DIFFERENT quantity from GT-heart=12, conflating them was an error in an earlier draft and has been withdrawn). Requires additional structure (GT(N) group composition + charming subgroup identification) not implemented here.
+
+ALL_DONE
