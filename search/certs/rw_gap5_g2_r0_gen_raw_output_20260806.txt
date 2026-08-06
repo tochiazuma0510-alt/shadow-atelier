@@ -1,0 +1,19 @@
+=== action identification (ruling 710 cert requirement) ===
+r (2x2, mod 691) = [ [ 0, 1 ], [ 1, 0 ] ]
+s (2x2, mod 691) = [ [ 0, 690 ], [ 1, 690 ] ]
+det(r) = 690 (expect 690 = -1 mod p)
+det(s) = 1 (expect 1)
+order(r) = 2 order(s) = 3
+faithfulness: Size(<r,s> in GL2(F_p)) = 6 (expect 6)
+
+=== R0(p) = F_p^2 : S3 ===
+Size(R0) = 2864886  expected 6*p^2 = 2864886  match = true
+
+=== (iii) (2,3)-generation search (cap 20 random witness pairs) ===
+trial 1: vx_int=[ 628, 63 ] vy_int=[ 28, 685 ] Size(<x,y>)=2864886 match=true
+
+FOUND = true  attempts_used = 1
+WITNESS vx_int=[ 628, 63 ] vy_int=[ 28, 685 ]
+
+(i) Z(G_p)=1 and (ii) G_p^ab=C_2: WAIVED for machine reconfirmation here per
+ruling 710 -- paper-side theorem LADDER-WIN (candidate), not GAP-recomputed.

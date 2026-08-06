@@ -1,0 +1,83 @@
+{
+  "schema": "rw-gap5-g2-r0-gen-cert/v1",
+  "generated_by": "search/probe/wac_v1/rw_gap5_g2_r0_gen.g",
+  "gap_output_raw": "search/certs/rw_gap5_g2_r0_gen_raw_output_20260806.txt",
+  "ruling_context": "裁定703(P-RW-4関門判定発注) / 裁定710(数学者先行結果LADDER-WIN・R0縮約フォールバック指示)",
+  "p": 691,
+  "object_full": {
+    "label": "G_p = H rtimes S3",
+    "H": "ExtraspecialGroup(p^3, \"+\") -- Heisenberg group, order p^3, exponent p",
+    "size_full_expected": 1979636226,
+    "status": "NOT CONSTRUCTED -- SplitExtension timed out repeatedly on this machine (both a permutation-group S3 source and a pc-pc SmallGroup(6,1) source; watchdog aborts logged in scratchpad/rw_g2/probe9..13). No cert claim is made for the full group beyond the action-identification data below, which was verified directly on the automorphisms phiA/phiB of H (see note)."
+  },
+  "reduction": {
+    "object": "R0(p) = F_p^2 rtimes S3",
+    "size_expected": 2864886,
+    "size_computed": 2864886,
+    "match": true,
+    "reduction_lemma": "Phi(G_p) = Z(H) (paper-side, candidate, not machine-verified here). If this holds, X generates G_p iff X generates G_p/Z(H) = R0(p). All (iii) results below are R0(p)-level and carry this candidate-lemma dependency forward -- NOT an unconditional statement about G_p."
+  },
+  "action_identification": {
+    "representation": "S3 -> GL2(F_691), faithful standard (reflection) representation",
+    "r": {
+      "role": "transposition image, order-2 generator of S3 acting on H/Z(H)",
+      "matrix_mod_691": [[0, 1], [1, 0]],
+      "det_mod_691": 690,
+      "det_signed": -1,
+      "order": 2
+    },
+    "s": {
+      "role": "3-cycle image, order-3 generator of S3 acting on H/Z(H)",
+      "matrix_mod_691": [[0, 690], [1, 690]],
+      "det_mod_691": 1,
+      "det_signed": 1,
+      "order": 3
+    },
+    "faithfulness_check": {
+      "size_of_matrix_group_generated_by_r_s": 6,
+      "expected": 6,
+      "faithful": true
+    },
+    "z_correction_note": "z-correction exponents (c1,c2 = -inv2*m11*m21, -inv2*m12*m22 mod 691, inv2=346) were derived and verified for the H-automorphisms phiA(=s-lift),phiB(=r-lift) during earlier debugging (scratchpad/rw_g2/probe7.g, probe8.g) -- confirmed phiB.phiA.phiB = phiA^2 on all pcgs generators of H AND on 5 random elements of H, matching the S3 relation s^r=s^2 of SmallGroup(6,1). These correction terms are NOT needed for the R0(p) construction used in this cert (R0 acts on H/Z(H) only, no center correction), and are recorded here only as provenance for the (unused-in-this-cert) full-G_p automorphism construction."
+  },
+  "checks": {
+    "i_center_Gp_trivial": {
+      "status": "WAIVED_NOT_RECOMPUTED",
+      "reason": "Full G_p not constructed (see object_full.status). This is a paper-side result (theorem LADDER-WIN, candidate, ruling 710), not machine-reconfirmed in this cert."
+    },
+    "ii_abelianization_Gp_C2": {
+      "status": "WAIVED_NOT_RECOMPUTED",
+      "reason": "Same as (i)."
+    },
+    "iii_generation": {
+      "status": "FOUND",
+      "search_cap": 20,
+      "attempts_used": 1,
+      "seed": "Reset(GlobalMersenneTwister, 20260806)",
+      "witness": {
+        "x": {
+          "linear_part": "r (see action_identification.r.matrix_mod_691)",
+          "order_2_translation_vx_mod_691": [628, 63],
+          "matrix_3x3_mod_691": [[0, 1, 628], [1, 0, 63], [0, 0, 1]],
+          "x_squared_eq_identity": true
+        },
+        "y": {
+          "linear_part": "s (see action_identification.s.matrix_mod_691)",
+          "order_3_translation_vy_mod_691": [28, 685],
+          "matrix_3x3_mod_691": [[0, 690, 28], [1, 690, 685], [0, 0, 1]],
+          "y_cubed_eq_identity": true
+        },
+        "size_of_subgroup_generated_by_x_y": 2864886,
+        "size_of_R0": 2864886,
+        "generation_confirmed": true
+      },
+      "generation_argument": "Structural shortcut, not exhaustive: F_p^2 is an irreducible F_p[S3]-module under this action (p=691 does not divide |S3|=6, and the standard 2-dim rep of S3 is irreducible for p>3). Any subgroup K <= R0(p) with K surjecting onto S3 has K cap F_p^2 an S3-submodule of F_p^2, hence in {0, F_p^2}. K=R0(p) iff K cap F_p^2 = F_p^2. Since <r,s>=S3 (faithfulness_check above) and x,y project onto r,s, <x,y> surjects onto S3 automatically; the single Size(<x,y>) = |R0(p)| computation above is therefore a decisive (not probabilistic) confirmation that <x,y> cap F_p^2 = F_p^2, i.e. genuine (2,3)-generation of R0(p) -- found on the first of 20 permitted random trials."
+    }
+  },
+  "no_judgement_language": "本certは生値のみ。「Ribet線閉鎖/開通」等の判定語は書いていない -- 判定は司令塔の専権(裁定703準拠)。",
+  "environment": {
+    "gap_version": "GAP 4.16.0",
+    "invocation": "gap.ps1 (heap -o 2g)",
+    "runner_script_sha_note": "search/probe/wac_v1/rw_gap5_g2_r0_gen.g content as committed"
+  }
+}
