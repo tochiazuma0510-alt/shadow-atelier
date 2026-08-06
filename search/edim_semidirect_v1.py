@@ -16,6 +16,13 @@ rank there using the injective free-Lie/PBW embedding.  The legacy delta-table
 and full-rho functions remain below as an independent small-degree comparison
 path; production no longer constructs either object.
 
+Memory wave 112f (2026-08-06) replaces the Python-dict representation of the
+restricted ambient columns by one packed int64 matrix.  ABC and XY words are
+indexed lexicographically by their base-3/base-2 digit values and occupy
+disjoint row intervals.  Rank is certified exactly by independent ambient
+rows (a lower bound) plus a full-matrix annihilation check of their kernel (an
+upper bound); no floating-point or probabilistic rank test is used.
+
 Model (design doc SS1): t = n rtimes h, n = Lie(A,B,C) free, h = Lie(X,Y)
 free. Bracket: [(n1,h1),(n2,h2)] = ([n1,n2] + delta_h1(n2) - delta_h2(n1),
 [h1,h2]). delta_X: A->[A,B], B->-[A,B], C->0; delta_Y: A->0, B->[B,C],
@@ -876,7 +883,7 @@ def t_bracket_ambient(e1, e2, p, base_table=None, action_cache=None):
 
 
 def eval_tree_in_t_ambient(tree, leaf_images, p, cache=None, base_table=None,
-                           action_cache=None, cache_result=True):
+                           action_cache=None, cache_result=True, cache_allowed=None):
     """Evaluate a Lyndon tree in ambient semidirect form, with subtree memo.
 
     ``cache_result=False`` is used for a degree-k root: its proper subtrees
@@ -885,18 +892,22 @@ def eval_tree_in_t_ambient(tree, leaf_images, p, cache=None, base_table=None,
     prevents a cross-degree resident-memory staircase at k=11/12.
     """
     cache_key = id(tree)
-    if cache_result and cache is not None and cache_key in cache:
+    use_cache = (cache_result and cache is not None
+                 and (cache_allowed is None or cache_key in cache_allowed))
+    if use_cache and cache_key in cache:
         return cache[cache_key]
     if tree[0] == 'leaf':
         result = leaf_images[tree[1]]
     else:
         _, lt, rt, dl, dr, u, v = tree
         left = eval_tree_in_t_ambient(
-            lt, leaf_images, p, cache, base_table, action_cache, cache_result=True)
+            lt, leaf_images, p, cache, base_table, action_cache, cache_result=True,
+            cache_allowed=cache_allowed)
         right = eval_tree_in_t_ambient(
-            rt, leaf_images, p, cache, base_table, action_cache, cache_result=True)
+            rt, leaf_images, p, cache, base_table, action_cache, cache_result=True,
+            cache_allowed=cache_allowed)
         result = t_bracket_ambient(left, right, p, base_table, action_cache)
-    if cache_result and cache is not None:
+    if use_cache:
         cache[cache_key] = result
     return result
 
@@ -961,15 +972,246 @@ def rank_sparse_vectors_modp(vectors, p):
     return len(pivots)
 
 
+def _indexed_sparse_ambient_vector(vec, alphabet_size, degree, row_offset, p):
+    '''Pack a word dictionary into parallel int64 index/value arrays.
+
+    A fixed-length word is its base-alphabet_size integer, which is exactly
+    lexicographic order. row_offset tags ABC and XY into disjoint intervals.
+    '''
+    count = len(vec)
+    indices = np.empty(count, dtype=np.int64)
+    values = np.empty(count, dtype=np.int64)
+    for position, (word, value) in enumerate(vec.items()):
+        if len(word) != degree:
+            raise ValueError('ambient word has the wrong degree')
+        word_index = 0
+        for letter in word:
+            if not 0 <= letter < alphabet_size:
+                raise ValueError('ambient word has a letter outside its alphabet')
+            word_index = word_index * alphabet_size + letter
+        indices[position] = row_offset + word_index
+        values[position] = value % p
+    return indices, values
+
+
+def _check_scalar_dense_int64_bound(p):
+    '''Fail closed unless one scalar dense update is exact in int64.
+
+    The pre-reduction maximum is (p-1)+(p-1)^2 = p*(p-1), below 2^63
+    for the commissioned primes through 2^31-1.
+    '''
+    if p <= 1 or p * (p - 1) > np.iinfo(np.int64).max:
+        raise OverflowError('dense restricted-ambient scalar update is not int64-safe')
+
+
+def _accumulate_sparse_ambient_into_dense_rows(dense_rows, coefficients, vec,
+                                                alphabet_size, degree, row_offset, p):
+    '''Add coefficients outer vec to packed restricted ambient rows.'''
+    if not vec:
+        return
+    indices, values = _indexed_sparse_ambient_vector(
+        vec, alphabet_size, degree, row_offset, p)
+    if len(indices) and (int(indices.min()) < 0 or int(indices.max()) >= dense_rows.shape[1]):
+        raise ValueError('packed ambient row index is outside the allocated matrix')
+    scratch = np.empty_like(values)
+    for row_index in np.nonzero(coefficients)[0]:
+        scalar = int(coefficients[row_index]) % p
+        # product + existing residue is <= p*(p-1), checked once by caller.
+        np.multiply(values, scalar, out=scratch)
+        np.add(scratch, dense_rows[int(row_index), indices], out=scratch)
+        np.remainder(scratch, p, out=scratch)
+        dense_rows[int(row_index), indices] = scratch
+
+
+def _independent_dense_row_indices_modp(rows, p):
+    '''Indices of an exact independent subset of the supplied small rows.'''
+    rows = np.asarray(rows, dtype=np.int64) % p
+    pivots = {}
+    selected = []
+    for row_index, dense in enumerate(rows):
+        vec = {int(column): int(dense[column])
+               for column in np.nonzero(dense)[0]}
+        while vec:
+            pivot = min(vec)
+            old = pivots.get(pivot)
+            if old is None:
+                inv = modinv(vec[pivot], p)
+                normalized = {column: (value * inv) % p
+                              for column, value in vec.items() if value % p}
+                pivots[pivot] = normalized
+                selected.append(row_index)
+                break
+            factor = vec[pivot]
+            for column, value in old.items():
+                new_value = (vec.get(column, 0) - factor * value) % p
+                if new_value:
+                    vec[column] = new_value
+                else:
+                    vec.pop(column, None)
+    return selected
+
+
+def _dense_row_linear_combination_modp(dense_rows, coefficients, p):
+    '''Exact coefficients @ dense_rows with bounded scalar updates.'''
+    dense_rows = np.asarray(dense_rows, dtype=np.int64)
+    coefficients = np.asarray(coefficients, dtype=np.int64) % p
+    if dense_rows.shape[0] != len(coefficients):
+        raise ValueError('dense row combination has incompatible dimensions')
+    result = np.zeros(dense_rows.shape[1], dtype=np.int64)
+    scratch = np.empty(dense_rows.shape[1], dtype=np.int64)
+    for row_index in np.nonzero(coefficients)[0]:
+        scalar = int(coefficients[row_index])
+        np.multiply(dense_rows[int(row_index), :], scalar, out=scratch)
+        np.add(result, scratch, out=result)
+        np.remainder(result, p, out=result)
+    return result
+
+
+def rank_dense_restricted_ambient_modp(dense_rows, p, tag_boundary=None):
+    '''Exact rank and a compact lower/upper-bound certificate.
+
+    dense_rows stores map columns as rows; its transpose is the conventional
+    ambient-by-domain matrix A. Deterministically sampled rows of A give a
+    pivot-row lower bound. If K spans their right kernel, the full check
+    A K = 0 gives the matching upper bound. A failed check supplies a new
+    independent witness row, so sampling changes speed but never correctness.
+    '''
+    _check_scalar_dense_int64_bound(p)
+    dense_rows = np.asarray(dense_rows)
+    if dense_rows.ndim != 2 or dense_rows.dtype != np.int64:
+        raise TypeError('dense restricted ambient matrix must be a 2-D int64 array')
+    if dense_rows.size:
+        residue_min = int(dense_rows.min())
+        residue_max = int(dense_rows.max())
+        if residue_min < 0 or residue_max >= p:
+            raise ValueError('dense restricted ambient residues must lie in [0,p)')
+    domain_dim, ambient_dim = dense_rows.shape
+    if domain_dim == 0 or ambient_dim == 0:
+        certificate = {
+            'schema': 'edim-restricted-ambient-rank-certificate/v1',
+            'field_prime': int(p),
+            'domain_dim': int(domain_dim),
+            'ambient_dim': int(ambient_dim),
+            'rank': 0,
+            'lower_bound_rank': 0,
+            'upper_bound_rank': 0,
+            'pivot_ambient_row_indices': [],
+            'annihilator_basis_columns': [
+                [1 if i == j else 0 for i in range(domain_dim)]
+                for j in range(domain_dim)],
+            'full_annihilation_checked': True,
+        }
+        return 0, certificate
+
+    seed_count = min(ambient_dim, max(32, 8 * domain_dim))
+    if seed_count == 1:
+        seed_rows = np.zeros(1, dtype=np.int64)
+    else:
+        seed_rows = np.fromiter(
+            (index * (ambient_dim - 1) // (seed_count - 1)
+             for index in range(seed_count)),
+            dtype=np.int64, count=seed_count)
+    extras = [0, ambient_dim - 1]
+    if tag_boundary is not None and 0 <= tag_boundary < ambient_dim:
+        extras.append(tag_boundary)
+        if tag_boundary:
+            extras.append(tag_boundary - 1)
+    seed_rows = np.unique(np.concatenate(
+        [seed_rows, np.asarray(extras, dtype=np.int64)]))
+    seed_matrix = dense_rows[:, seed_rows].T
+    selected_local = _independent_dense_row_indices_modp(seed_matrix, p)
+    pivot_rows = [int(seed_rows[index]) for index in selected_local]
+
+    witness_rounds = 0
+    while True:
+        pivot_matrix = dense_rows[:, pivot_rows].T
+        if len(pivot_rows) and rank_modp_np(pivot_matrix, p) != len(pivot_rows):
+            raise ValueError('rank certificate pivot rows lost independence')
+        annihilator = nullspace_modp_np(pivot_matrix, p)
+        expected_nullity = domain_dim - len(pivot_rows)
+        if annihilator.shape != (domain_dim, expected_nullity):
+            raise ValueError('rank certificate annihilator has wrong dimension')
+        if expected_nullity and rank_modp_np(annihilator, p) != expected_nullity:
+            raise ValueError('rank certificate annihilator basis is not independent')
+
+        witness = None
+        for column in range(expected_nullity):
+            residual = _dense_row_linear_combination_modp(
+                dense_rows, annihilator[:, column], p)
+            nonzero = np.nonzero(residual)[0]
+            if len(nonzero):
+                witness = int(nonzero[0])
+                break
+        if witness is None:
+            break
+        if witness in pivot_rows:
+            raise ValueError('rank certificate produced a dependent witness row')
+        pivot_rows.append(witness)
+        witness_rounds += 1
+        if len(pivot_rows) > domain_dim:
+            raise ValueError('rank certificate exceeded the domain dimension')
+
+    rank = len(pivot_rows)
+    certificate = {
+        'schema': 'edim-restricted-ambient-rank-certificate/v1',
+        'field_prime': int(p),
+        'domain_dim': int(domain_dim),
+        'ambient_dim': int(ambient_dim),
+        'rank': int(rank),
+        'lower_bound_rank': int(rank),
+        'upper_bound_rank': int(domain_dim - annihilator.shape[1]),
+        'pivot_ambient_row_indices': pivot_rows,
+        'annihilator_basis_columns': [
+            [int(value) for value in annihilator[:, column]]
+            for column in range(annihilator.shape[1])],
+        'full_annihilation_checked': True,
+        'witness_rounds_after_seed': int(witness_rounds),
+        'row_encoding': {
+            'ABC': 'base-3 fixed-length lexicographic index',
+            'XY': 'tag_boundary + base-2 fixed-length lexicographic index',
+            'tag_boundary': int(tag_boundary) if tag_boundary is not None else None,
+        },
+    }
+    if certificate['lower_bound_rank'] != certificate['upper_bound_rank']:
+        raise ValueError('rank certificate lower/upper bounds do not meet')
+    return rank, certificate
+
+
+def _subtree_cache_policy_for_roots(roots):
+    '''Count proper-subtree occurrences and cache only genuinely reused nodes.
+
+    A degree-(k-1) subtree that occurs in only one degree-k root is expensive
+    and has no cache hit. Keeping such dictionaries was the second projected
+    k=12 RSS spike. Counts are computed before evaluation from the immutable
+    Lyndon-tree DAG.
+    '''
+    counts = {}
+
+    def visit(tree):
+        if tree[0] == 'leaf':
+            return
+        left, right = tree[1], tree[2]
+        for child in (left, right):
+            key = id(child)
+            counts[key] = counts.get(key, 0) + 1
+            visit(child)
+
+    for root in roots:
+        visit(root)
+    allowed = {key for key, count in counts.items() if count > 1}
+    return counts, allowed
+
+
 def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
     """Rank of nu_k o j restricted to a supplied h_k column subspace.
 
     Only the required columns are constructed.  Each rho^i is evaluated by
     substituting its degree-one X,Y images into the h Lyndon trees, directly
     in the ambient semidirect algebra.  The resulting n/h associative words
-    are tagged into a disjoint sparse row space.  The standard embeddings
-    Lie(A,B,C)->T(ABC) and Lie(X,Y)->T(XY) are injective, so sparse ambient
-    rank is exactly the desired coordinate rank (PBW/free-Lie embedding).
+    are base-radix indexed into disjoint intervals of packed restricted
+    columns.  The standard embeddings Lie(A,B,C)->T(ABC) and
+    Lie(X,Y)->T(XY) are injective, so their ambient rank is exactly the
+    desired coordinate rank (PBW/free-Lie embedding).
     """
     subspace_basis = np.asarray(subspace_basis, dtype=np.int64) % p
     dim_h = h_alg.dim[k]
@@ -989,7 +1231,20 @@ def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
         }
         h_alg._nu_ambient_state = state
 
-    restricted = [dict() for _ in range(subspace_dim)]
+    subtree_counts, cache_allowed = _subtree_cache_policy_for_roots(h_alg.trees[k])
+    pruned_cache_entries = []
+    for tree_cache in state['tree_caches']:
+        before = len(tree_cache)
+        for cache_key in tuple(tree_cache):
+            if cache_key not in cache_allowed:
+                del tree_cache[cache_key]
+        pruned_cache_entries.append(before - len(tree_cache))
+
+    _check_scalar_dense_int64_bound(p)
+    n_ambient_dim = 3 ** k
+    h_ambient_dim = 2 ** k
+    restricted = np.zeros(
+        (subspace_dim, n_ambient_dim + h_ambient_dim), dtype=np.int64)
     for basis_index, tree in enumerate(h_alg.trees[k]):
         coefficients = subspace_basis[basis_index, :]
         nonzero_columns = np.nonzero(coefficients)[0]
@@ -1006,31 +1261,40 @@ def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
             n_part, h_part, h_expr, degree = eval_tree_in_t_ambient(
                 tree, state["leaf_images"][power], p,
                 cache=state["tree_caches"][power], base_table=state["base_table"],
-                action_cache=action_cache, cache_result=False)
+                action_cache=action_cache, cache_result=False,
+                cache_allowed=cache_allowed)
             if degree != k:
                 raise ValueError("ambient rho evaluation returned wrong degree")
             nu_n = word_add([nu_n, n_part], p)
             nu_h = word_add([nu_h, h_part], p)
 
-        for column in nonzero_columns:
-            scalar = int(coefficients[column])
-            target = restricted[int(column)]
-            for word, value in nu_n.items():
-                key = (0,) + word
-                new_value = (target.get(key, 0) + scalar * value) % p
-                if new_value:
-                    target[key] = new_value
-                else:
-                    target.pop(key, None)
-            for word, value in nu_h.items():
-                key = (1,) + word
-                new_value = (target.get(key, 0) + scalar * value) % p
-                if new_value:
-                    target[key] = new_value
-                else:
-                    target.pop(key, None)
+        _accumulate_sparse_ambient_into_dense_rows(
+            restricted, coefficients, nu_n, 3, k, 0, p)
+        _accumulate_sparse_ambient_into_dense_rows(
+            restricted, coefficients, nu_h, 2, k, n_ambient_dim, p)
 
-    return rank_sparse_vectors_modp(restricted, p)
+    # Do not overlap the final nearly dense root/action temporaries with the
+    # rank certificate pass.
+    del action_cache, n_part, h_part, h_expr, nu_n, nu_h
+    rank, certificate = rank_dense_restricted_ambient_modp(
+        restricted, p, tag_boundary=n_ambient_dim)
+    cache_entries_after = [len(tree_cache) for tree_cache in state['tree_caches']]
+    cache_coeff_nnz_after = [
+        sum(len(result[0]) + len(result[1]) for result in tree_cache.values())
+        for tree_cache in state['tree_caches']]
+    certificate.update({
+        'degree': int(k),
+        'restricted_dense_bytes': int(restricted.nbytes),
+        'restricted_representation': 'row-major int64[domain_dim,3**k+2**k]',
+        'tree_cache_policy': 'retain only proper subtrees with current-degree occurrence > 1',
+        'cacheable_subtree_ids': int(len(cache_allowed)),
+        'single_use_subtree_ids': int(sum(count == 1 for count in subtree_counts.values())),
+        'pruned_cache_entries_by_power': [int(value) for value in pruned_cache_entries],
+        'cache_entries_after_by_power': [int(value) for value in cache_entries_after],
+        'cache_coeff_nnz_after_by_power': [int(value) for value in cache_coeff_nnz_after],
+    })
+    h_alg._last_nu_rank_certificate = certificate
+    return rank
 
 
 def build_delta_table(n_alg: GradedLie, h_alg: GradedLie, kmax, p):

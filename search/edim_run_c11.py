@@ -7,8 +7,8 @@ b_type_synthesis_design_v1_addendum_edim9_11_prediction.md --
   H11=62 (derived, CALIBRATION_FAIL/STOP if wrong), S11=2 (scored).
 
 Reuses compute_H_S_at_k_safe from search/edim_run_c9_c10_v3_single_prime.py
-(Sol's 112e H-first ambient rank accelerator) UNCHANGED -- does not
-duplicate or modify that logic. Extends the sweep to k=11 (KMAX=11,
+(Sol's 112f H-first packed restricted-ambient accelerator) without
+duplicating that logic. Extends the sweep to k=11 (KMAX=11,
 dim t_11=16,290 -- the first 5-digit-plus degree this accelerated solver
 has been run at; memory is explicitly observed and recorded per
 instruction, not just timing).
@@ -59,13 +59,23 @@ def run_one_prime(p, kmax=KMAX):
     for k in range(3, kmax + 1):
         tk0 = time.time()
         H_dim, S_dim, dim_n, dim_h, dim_t = compute_H_S_at_k_safe(k, None, h_alg, None, p)
+        rank_certificate = getattr(h_alg, "_last_nu_rank_certificate", None)
+        rank_selfcheck = None if rank_certificate is None else {
+            key: rank_certificate.get(key) for key in (
+                "rank", "lower_bound_rank", "upper_bound_rank",
+                "full_annihilation_checked", "witness_rounds_after_seed",
+                "restricted_dense_bytes", "tree_cache_policy",
+                "cacheable_subtree_ids", "single_use_subtree_ids",
+                "pruned_cache_entries_by_power", "cache_entries_after_by_power",
+                "cache_coeff_nnz_after_by_power")}
         elapsed = round(time.time() - tk0, 3)
         h_match = (H_dim == EXPECTED_H[k])
         s_match = (S_dim == EXPECTED_S[k])
         results[k] = {"H_dim": H_dim, "S_dim": S_dim, "dim_n": dim_n, "dim_h": dim_h,
                      "dim_t": dim_t, "elapsed_sec": elapsed,
                      "H_predicted": EXPECTED_H[k], "S_predicted": EXPECTED_S[k],
-                     "H_match": h_match, "S_match": s_match}
+                     "H_match": h_match, "S_match": s_match,
+                     "rank_selfcheck_summary": rank_selfcheck}
         rss_mb, rss_metric = peak_rss_mb()
         print(f"p={p} k={k}: H_dim={H_dim} S_dim={S_dim} dim_t={dim_t} elapsed={elapsed}s "
               f"peak_rss_mb={rss_mb:.1f}", flush=True)
@@ -147,8 +157,8 @@ def main():
         "schema": "edim-c11-run/v1",
         "authorization": "docs/notes/b_type_synthesis_design_v1_addendum_edim9_11_prediction.md "
                           "(commit 026dff8, frozen IF-FIRST prediction); 裁定691 (司令塔, this session)",
-        "solver": "Sol H-first ambient sparse rank accelerator (便112e), reused unchanged from "
-                  "search/edim_run_c9_c10_v3_single_prime.py's compute_H_S_at_k_safe",
+        "solver": "Sol H-first packed restricted-ambient int64 accelerator (便112f): "
+                  "exact pivot lower bound + full annihilation upper bound",
         "primes": LARGE_PRIMES,
         "dim_t_11": 16290,
         "dim_t_11_note": "first 5-digit-plus degree run with the accelerated solver -- memory "
