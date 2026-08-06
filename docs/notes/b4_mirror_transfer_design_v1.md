@@ -1,7 +1,8 @@
 # 鏡映理論の B₄/2008 系への移植 — 設計ノート v1
 
-**状態札: `design only (v1.1) / paper-proof candidate / Sol 未監査 / GAP 実行ゼロ / 実測ゼロ / census 生成ゼロ / 封印非接触 / 発火請求なし`**
-**v1.1 追補(2026-08-06): 【PIN-B4-1】§8 で閉・【GAP-B4-2】§9 で閉 — v1 本文は不改変、§8–§10 を追加のみ。**
+**状態札: `design only (v1.2) / paper-proof candidate / Sol 未監査 / GAP 実行ゼロ / 実測ゼロ / census 生成ゼロ / 封印非接触 / 発火請求なし`**
+**v1.1 追補: 【PIN-B4-1】§8 で閉・【GAP-B4-2】§9 で閉。**
+**v1.2 追補(裁定 631): 【GAP-B4-1】§11 で閉・【GAP-B4-3】§12 で閉・【GAP-B4-4】§13 で部分閉(下界 192 を確定)。v1/v1.1 本文は不改変、§11–§13 を追加のみ。**
 
 - 起草: 影工房 **数学者**(Claude / Opus 5)・2026-08-06
 - 委嘱: 司令塔(研究者起点の新戦線)「鏡映理論を B₄/2008 系へ移植する設計ノート。**設計のみ・測定禁止**」
@@ -398,17 +399,149 @@ $$\boxed{\ \textbf{補題 FIXED-B4 は (i)(ii) とも無条件で成立}\ \Longr
 |---|---|
 | **【PIN-B4-1】** | **閉**(§8。原文 (2.25)(2.26) 逐語 ⟹ $T_{-1,1}=\pi\circ\iota$ 厳密。留保していた場合分けは発生せず) |
 | **【GAP-B4-2】** | **閉**(§9。24/24 の生成元照合 ⟹ 厳密可換。補題 FIXED-B4 無条件化) |
-| 【GAP-B4-1】 | **残**($\Delta_4\sigma_i\Delta_4^{-1}=\sigma_{4-i}$ の工房内 pin。古典的事実・§3.2 の在庫台帳のみに効く) |
-| 【GAP-B4-3】 | **残**(torsor / TWIN-CARD の 2008 groupoid 版) |
-| 【GAP-B4-4】 | **残**(帯内に $B_4$-正規な非可換窓が居るか = P-B4-1 の紙化) |
+| 【GAP-B4-1】 | **閉**(v1.2 §11 補題 FLIP-INNER。3 本を 1 行ずつ・$\Delta_4^2$ 中心性も紙で再現) |
+| 【GAP-B4-3】 | **閉**(v1.2 §12。移植は (S2) 1 点に集約 ⟹ 補題 SOURCE-OBJ-B4。写らない段 (C1)–(C5) 明示) |
+| 【GAP-B4-4】 | **部分閉**(v1.2 §13。非可換窓は $[B_4:\widetilde N]\ge192$・$\lvert Q
+vert\in\{6,10\}$ 型を排除。完全解決は R0 実測) |
 
-# 10. 次の一手(**優先順・司令塔裁定用**・v1.1 で更新)
+---
+
+# 11. 追補 v1.2(2026-08-06・裁定 631)— 【GAP-B4-1】**閉**(flip = $\mathrm{Ad}(\Delta_4)$)
+
+**道具は 3 本だけ**(すべて braid 関係のみから):
+
+> **(D1)** $aba=bab\ \Longrightarrow\ aba^{-1}=b^{-1}ab$。
+> **(D2)** $\delta:=\sigma_1\sigma_2\sigma_3$ に対し $\ \delta\sigma_1\delta^{-1}=\sigma_2,\quad \delta\sigma_2\delta^{-1}=\sigma_3$。
+> **(D2′)** $\delta'':=\sigma_3\sigma_2\sigma_1$ に対し $\ \delta''\sigma_2\delta''^{-1}=\sigma_1$。
+> **(D3)** $\Delta_3=\sigma_1\sigma_2\sigma_1$ は $\langle\sigma_1,\sigma_2\rangle$ 内で $\sigma_1\leftrightarrow\sigma_2$;$\Delta_3''=\sigma_2\sigma_3\sigma_2$ は $\langle\sigma_2,\sigma_3\rangle$ 内で $\sigma_2\leftrightarrow\sigma_3$($B_3$ の既知事実・工房既在 `bu_s35_embedding_v1.md` §1)。
+
+**(D2) の検算**: $\delta\sigma_1\delta^{-1}=\sigma_1\sigma_2(\sigma_3\sigma_1\sigma_3^{-1})\sigma_2^{-1}\sigma_1^{-1}=\sigma_1\sigma_2\sigma_1\sigma_2^{-1}\sigma_1^{-1}\overset{\rm braid}{=}\sigma_2\sigma_1\sigma_2\sigma_2^{-1}\sigma_1^{-1}=\sigma_2$ ✓(遠可換 $\sigma_1\sigma_3=\sigma_3\sigma_1$)。
+$\delta\sigma_2\delta^{-1}=\sigma_1\sigma_2(\sigma_3\sigma_2\sigma_3^{-1})\sigma_2^{-1}\sigma_1^{-1}\overset{\rm (D1)}{=}\sigma_1\sigma_2(\sigma_2^{-1}\sigma_3\sigma_2)\sigma_2^{-1}\sigma_1^{-1}=\sigma_1\sigma_3\sigma_1^{-1}=\sigma_3$ ✓。
+**(D2′) の検算**: $\delta''\sigma_2\delta''^{-1}=\sigma_3(\sigma_2\sigma_1\sigma_2)\sigma_1^{-1}\sigma_2^{-1}\sigma_3^{-1}\overset{\rm braid}{=}\sigma_3(\sigma_1\sigma_2\sigma_1)\sigma_1^{-1}\sigma_2^{-1}\sigma_3^{-1}=\sigma_3\sigma_1\sigma_3^{-1}=\sigma_1$ ✓。
+
+**2 つの分解(どちらも braid 関係で書き下せる)**:
+$$\Delta_4=\sigma_1\sigma_2\sigma_3\sigma_1\sigma_2\sigma_1=\underbrace{(\sigma_1\sigma_2\sigma_3)}_{\delta}\underbrace{(\sigma_1\sigma_2\sigma_1)}_{\Delta_3}
+=\underbrace{(\sigma_3\sigma_2\sigma_1)}_{\delta''}\underbrace{(\sigma_2\sigma_3\sigma_2)}_{\Delta_3''}.$$
+**第 2 分解の検算**: $\sigma_3\sigma_2\sigma_1\sigma_2\sigma_3\sigma_2\overset{\rm braid}{=}\sigma_3\sigma_1\sigma_2\sigma_1\sigma_3\sigma_2\overset{\rm 遠可換}{=}\sigma_1\sigma_3\sigma_2\sigma_3\sigma_1\sigma_2\overset{\rm braid}{=}\sigma_1\sigma_2\sigma_3\sigma_2\sigma_1\sigma_2\overset{\rm braid}{=}\sigma_1\sigma_2\sigma_3\sigma_1\sigma_2\sigma_1=\Delta_4$ ✓。
+
+> ### 補題 FLIP-INNER(candidate・本稿)
+> $$\boxed{\ \Delta_4\sigma_1\Delta_4^{-1}=\sigma_3,\qquad \Delta_4\sigma_2\Delta_4^{-1}=\sigma_2,\qquad \Delta_4\sigma_3\Delta_4^{-1}=\sigma_1\ }$$
+> すなわち flip $\phi:\sigma_i\mapsto\sigma_{4-i}$ は**内部自己同型** $\mathrm{Ad}(\Delta_4)$ である。
+
+**証明(3 本とも 1 行)**。
+$$\Delta_4\sigma_1=\delta\Delta_3\sigma_1=\delta(\Delta_3\sigma_1\Delta_3^{-1})\Delta_3\overset{\rm(D3)}{=}\delta\sigma_2\Delta_3=(\delta\sigma_2\delta^{-1})\delta\Delta_3\overset{\rm(D2)}{=}\sigma_3\Delta_4 .$$
+$$\Delta_4\sigma_2=\delta\Delta_3\sigma_2=\delta(\Delta_3\sigma_2\Delta_3^{-1})\Delta_3\overset{\rm(D3)}{=}\delta\sigma_1\Delta_3=(\delta\sigma_1\delta^{-1})\delta\Delta_3\overset{\rm(D2)}{=}\sigma_2\Delta_4 .$$
+$$\Delta_4\sigma_3=\delta''\Delta_3''\sigma_3=\delta''(\Delta_3''\sigma_3\Delta_3''^{-1})\Delta_3''\overset{\rm(D3)}{=}\delta''\sigma_2\Delta_3''=(\delta''\sigma_2\delta''^{-1})\delta''\Delta_3''\overset{\rm(D2')}{=}\sigma_1\Delta_4 .\qquad\blacksquare$$
+
+> ### 系(**無料**)
+> $\mathrm{Ad}(\Delta_4)^2=\mathrm{Ad}(\Delta_4^2)$ は生成元上恒等 ⟹ **$\Delta_4^2\in Z(B_4)$**(工房既在の機械検算 `付録 A.5` を**紙で再現**)。また $\phi$ は $\mathrm{Out}(B_4)$ に寄与しない ⟹ §3 の在庫台帳が**無条件で確定**。
+
+---
+
+# 12. 追補 v1.2 — 【GAP-B4-3】torsor / TWIN-CARD の 2008 版
+
+### 12.1 何が要るか(B₃ 版の証明を段ごとに分解)
+
+B₃ 版(`twin_witness_prereg_iffirst_v1.md` §4.2・`wall_design_audit_v1.md` §1.5)は次の 4 段でできている:
+**(S1)** 射はすべて可逆(groupoid)/ **(S2)** 各 shadow の**source kernel が再び対象**である/ **(S3)** $GT(N)=\bigsqcup_{K}\mathrm{Hom}(K,N)$ かつ各非空 $\mathrm{Hom}(K,N)$ は $G_N:=\mathrm{Hom}(N,N)$ の**torsor**/ **(S4)** $\mathrm{Hom}(K,N)\ne\emptyset$ なら $G_N\cong G_K$ かつ連結成分が一致。
+
+**(S1)** は 2008 では**定義から**: (2.51) は $\mathrm{Hom}(\widetilde K,\widetilde N):=\mathrm{Isom}\bigl(\mathrm{PaB}^{\le4}/\!\sim_{\widetilde K},\ \mathrm{PaB}^{\le4}/\!\sim_{\widetilde N}\bigr)$ と**同型の集合**として定義される ✓。
+**(S3)(S4)** は**純粋な groupoid の組合せ論**であり、基底群にも pentagon にも依存しない ✓(合成 (2.52) が群oid 則を満たすことだけを使う)。
+⟹ **移植の可否は (S2) ただ 1 点に集約される。**
+
+### 12.2 (S2) の 2008 版 — **紙で閉じる**
+
+> ### 補題 SOURCE-OBJ-B4(candidate・本稿)
+> 任意の GT-shadow $[(m,f)]\in GT(\widetilde N)$ に対し
+> $$\ker T^{B_4}_{m,f}\ \in\ \mathrm{NFI}_{PB_4}(B_4),\qquad \ker T^{PB_4}_{m,f}=\ker T^{B_4}_{m,f}.$$
+
+**証明.** $\widetilde N\le PB_4$ ゆえ $B_4/\widetilde N\twoheadrightarrow B_4/PB_4=S_4$ が定まる。(2.25) より $T^{B_4}_{m,f}(\sigma_i)=\varphi_*(f)^{-1}(\sigma_ix_{\bullet}^m)\varphi_*(f)\widetilde N$ であり、$x_\bullet$ と $\varphi_*(f)$ は**すべて純**($\in PB_4$)⟹ $S_4$ への合成は $\sigma_i\mapsto s_i$、すなわち**標準射影 $B_4\twoheadrightarrow S_4$ に一致**する。ゆえに
+$$\ker T^{B_4}_{m,f}\subseteq\ker(B_4\to S_4)=PB_4 .$$
+$\ker$ は正規、像は有限($B_4/\widetilde N$ が有限)⟹ 有限指数 ⟹ $\mathrm{NFI}_{PB_4}(B_4)$ の元 ✓。最後の等式は $\ker T^{B_4}\subseteq PB_4$ から。∎
+
+### 12.3 帰結
+
+> ### 命題 TORSOR-B4 / 系 TWIN-CARD-B4(candidate・本稿)
+> $\heartsuit$ 層(charming・2008 Prop 2.22 の部分 groupoid $\mathrm{GTSh}^\heartsuit$)で
+> $$\lvert GT^\heartsuit(\widetilde N)\rvert=\lvert G_{\widetilde N}\rvert\cdot\#\{\widetilde K:\mathrm{GTSh}^\heartsuit(\widetilde K,\widetilde N)\ne\emptyset\},$$
+> $$\boxed{\ \mathrm{GTSh}^\heartsuit(\widetilde K,\widetilde N)\ne\emptyset\ \Longrightarrow\ \lvert GT^\heartsuit(\widetilde N)\rvert=\lvert GT^\heartsuit(\widetilde K)\rvert\ }$$
+> **⟹ $\lvert GT^\heartsuit(\widetilde N)\rvert\ne\lvert GT^\heartsuit(\widetilde K)\rvert$ は「両方向とも空」の証明**(B₃ 版 §4.2 の表がそのまま使える)。
+
+**証明.** (S1)(S2) より $GT^\heartsuit(\widetilde N)$ は source kernel で類別され、各非空クラスは $\psi\mapsto\psi\circ\varphi$ で $G_{\widetilde N}$ と全単射(groupoid ⟹ 可逆)。$\varphi\in\mathrm{Hom}(\widetilde K,\widetilde N)$ による共役が $G_{\widetilde N}\cong G_{\widetilde K}$ を与え、連結成分は共通。有限性は $(m,f)\in\mathbf Z/N_{\rm ord}\times PB_3/\widetilde N_{PB_3}$ が有限集合であることから ✓。∎
+
+### 12.4 ★ **写らない/注意が要る段**(委嘱の「明示せよ」)
+
+| # | 事項 | 扱い |
+|---|---|---|
+| **(C1)** | **$\heartsuit$ を外した $GT(\widetilde N)$ 全体では torsor を主張しない。** 合成 (2.52) が閉じ・逆射が存在するのは 2008 Prop 2.22 の $\mathrm{GTSh}^\heartsuit$ において保証される | **$\heartsuit$ 層に限定して述べる**(B₃ 版も同じ制限) |
+| **(C2)** | **濃度を B₃-gentle 側と混ぜてはならない。** 2008 の $GT(\widetilde N)$ は $\mathbf Z/N_{\rm ord}\times PB_3/\widetilde N_{PB_3}$ 上の類であり、$\widetilde N_{PB_3}$ は **(2.4) の 5 重逆像交わり**。gentle 側の $GT(N)$ とは**同名別物** | 数値の横断比較を禁止(既在の「同名別物」規律) |
+| **(C3)** | **source/target の向き**: (2.51) は source $=\ker$。B₃ 版と**同じ向き**だが、cert には必ず `(target_window, source_kernel)` の順序つきで書く | 逐語移植 |
+| **(C4)** | 「$\lvert GT\rvert$ 差 ⟹ witness 不在」の**逆は言えない**(等しくても無情報) | B₃ 版 §4.2 の表を逐語移植 |
+| **(C5)** | (S2) の証明は **(2.25) の共役子 $\varphi_*(f)$ が純である**ことに依存する。$f\in PB_3/\widetilde N_{PB_3}$ ゆえ $\varphi_*(f)\in PB_4$ ✓(2008 の $\varphi$ は operad の cabling で $PB$ を $PB$ に送る) | 依存として明記 |
+
+---
+
+# 13. 追補 v1.2 — 【GAP-B4-4】P-B4-1 の紙化(**部分的に成功・下界を確定**)
+
+### 13.1 算術(確定)
+
+窓 $\widetilde N$ は $\widetilde N\le PB_4$、$[B_4:PB_4]=24$ ⟹
+$$[B_4:\widetilde N]=24\cdot[PB_4:\widetilde N]\quad\Longrightarrow\quad [B_4:\widetilde N]\le1000\iff \lvert Q\rvert:=[PB_4:\widetilde N]\le41 .$$
+また $\widetilde N\trianglelefteq B_4$ より **$S_4=B_4/PB_4$ が $Q:=PB_4/\widetilde N$ に自己同型として作用**し、$B_4\to\mathrm{Aut}(Q)$ の $PB_4$ への制限は $\mathrm{Inn}(Q)$。
+
+### 13.2 3 本の紙の道具
+
+$a_{ij}:=x_{ij}\widetilde N\in Q$($1\le i<j\le4$、6 個)と置く。
+
+> **(T1) 同位数**: $S_4$ は 6 個の対 $\{i,j\}$ に**推移的**に作用し、$B_4$-共役は $x_{ij}$ を $x_{s(i)s(j)}$ の共役へ送る ⟹ **6 個の $a_{ij}$ はすべて同じ位数**(自己同型は位数を保つ)。
+> **(T2) 遠可換**: $\{i,j\}\cap\{k,l\}=\emptyset$ ⟹ $[x_{ij},x_{kl}]=1$(既在: 付録 A.5 の $[x_{14},x_{23}]=1$ 等)⟹ $[a_{12},a_{34}]=[a_{13},a_{24}]=[a_{14},a_{23}]=1$。
+> **(T3) 三角の中心**: 各三つ組 $\{i,j,k\}$ に対し $\langle x_{ij},x_{ik},x_{jk}\rangle\cong PB_3$ で、その中心生成元は $c_{ijk}=x_{ij}x_{ik}x_{jk}$(順序は (A.5) の巡回形)⟹
+> $$T_{ijk}:=\langle a_{ij},a_{ik},a_{jk}\rangle\ \ni\ a_{ij}a_{ik}a_{jk}\in Z(T_{ijk}).$$
+
+> ### 補題 TRI-ABEL(candidate・本稿)
+> $$\boxed{\ Q\ \text{が非可換}\iff \text{ある三つ組 }\{i,j,k\}\text{ で }T_{ijk}\text{ が非可換}\ }$$
+> **証明.** 2 つの対はいずれか: (a) 交わらない ⟹ (T2) で可換、(b) 添字を共有 ⟹ 共通の三つ組に属する。全三角が可換なら全生成元対が可換 ⟹ $Q$ 可換。逆は自明。∎
+
+### 13.3 下界の確定
+
+> ### 命題 NO-SMALL-NONAB(candidate・本稿)
+> $Q$ は **$S_3$(位数 6)にも $D_5$(位数 10)にもなりえない**。より一般に:
+> $$\boxed{\ Z(Q)=1\ \wedge\ \text{全 }a_{ij}\text{ が位数 }2\ \wedge\ Q\ \text{が符号指標 }\varepsilon:Q\to\{\pm1\},\ \varepsilon(a_{ij})=-1\ \text{をもつ}\ \Longrightarrow\ \text{矛盾}\ }$$
+
+**証明.** (T1) より全 $a_{ij}$ は同位数 $d$。$d=1$ なら $Q=1$。
+**$Q=S_3$**: $d=3$ なら全 $a_{ij}\in A_3$ ⟹ $Q\le C_3$ ✗。ゆえに $d=2$(互換)。三つ組 $\{1,2,3\}$ で $T=T_{123}=\langle a_{12},a_{13},a_{23}\rangle$ は互換で生成される部分群 ⟹ $T=S_3$ か $T=C_2$。
+ - $T=S_3$: $Z(S_3)=1$ と (T3) より $a_{12}a_{13}a_{23}=1$。しかし符号 $\mathrm{sgn}$ で見ると $(-1)^3=-1\ne+1$ ✗。
+ - $T=C_2$: $a_{12}=a_{13}=a_{23}$。これが**全 4 三つ組**で起きると三つ組が添字を共有して連結ゆえ 6 個すべてが等しく $Q=C_2$ ✗($Q=S_3$ に矛盾)。よってどれかの三つ組で $T=S_3$ ⟹ 上の矛盾。∎
+**$Q=D_5$**(位数 10): 位数 5 の元だけでは $Q\le C_5$ ✗ ⟹ $d=2$(鏡映)。$T_{ijk}$ は鏡映生成 ⟹ $D_5$ か $C_2$。$Z(D_5)=1$ ⟹ 積 $=1$、しかし符号指標($D_5\to\{\pm1\}$、鏡映 $\mapsto-1$)で $-1\ne1$ ✗。$C_2$ 側は同上で $Q=C_2$ ✗。∎
+(同じ論法で **奇数 $n$ の二面体群 $D_n$(位数 $6,10,14,18,22,26,34,38$)と一般二面体群 $\mathrm{Dih}(C_3^2)$(位数 18)は全て排除**される — いずれも中心自明・involution 生成・符号指標をもつ。)
+
+> ### 系 INDEX-LB(**帯設計への直接の帰結**)
+> $$\boxed{\ \textbf{非可換な窓が存在するなら }\lvert Q\rvert\ge8,\ \text{すなわち }[B_4:\widetilde N]\ \ge\ 24\times8=\mathbf{192}\ }$$
+> (位数 6 は排除済・7 以下の非可換群は存在しない。)
+
+### 13.4 P-B4-1 の格の訂正(**正直な結論**)
+
+- **紙で言えること**: 非可換窓は $[B_4:\widetilde N]\ge192$。$\lvert Q\rvert\in\{6,10\}$ とその親戚(奇二面体・一般二面体)は**排除**。
+- **紙で言えないこと**: $\lvert Q\rvert=8$($D_4$/$Q_8$)・$12$($A_4$ 等)・$16,20,21,24,27,\dots\le41$ の**排除は未達**。実際 $Q_8$ は (T1)(T2)(T3) をすべて通過する(遠可換 ⟹ $a_{34}=a_{12}^{\pm1}$ 等、三角積は $\pm1\in Z(Q_8)$ で矛盾なし)。
+- ⟹ $$\boxed{\ \textbf{P-B4-1 は「定理」ではなく「部分的支持つき予想」へ格下げ}\ }$$ 予言の文言を「帯内の窓は**すべて**可換」から「**非可換窓があるとすれば $[B_4:\widetilde N]\in[192,1000]$ かつ $\lvert Q\rvert\in\{8,12,16,\dots\}$ に限る**」へ**強化・限定**する(反証可能性は上がる)。
+- ★ **設計の追認**: 最初の rung **R0 = 240** は $\lvert Q\rvert\le10$ を覆う。命題 NO-SMALL-NONAB により $\lvert Q\rvert\in\{6,10\}$ は紙で消えているので、**R0 が実際に検定するのは $\lvert Q\rvert=8$(B₄-指数 192)ちょうど 1 点**である。⟹ **R0 は「最小の非可換窓が存在するか」を単一の的に絞った実験**になっており、帯の選び方が結果的に最適だった。
+
+### 13.5 v1.2 で閉じた穴
+
+| # | 状態 |
+|---|---|
+| **【GAP-B4-1】** | **閉**(§11。3 本 1 行ずつ・$\Delta_4^2$ 中心性も紙で再現) |
+| **【GAP-B4-3】** | **閉**(§12。移植は (S2) 1 点に集約 ⟹ 補題 SOURCE-OBJ-B4 で解決。写らない段 (C1)–(C5) を明示) |
+| **【GAP-B4-4】** | **部分閉**(§13。下界 $[B_4:\widetilde N]\ge192$ を確定・$\lvert Q\rvert\in\{6,10\}$ 型を排除。**完全解決は R0 実測**) |
+
+# 10. 次の一手(**優先順・司令塔裁定用**・v1.2 で更新)
 
 1. ~~【PIN-B4-1】~~ ⟹ **v1.1 §8 で閉**(原文 (2.25)(2.26) 逐語・$T_{-1,1}=\pi\circ\iota$ 厳密)。
 2. ~~【GAP-B4-2】~~ ⟹ **v1.1 §9 で閉**(24/24 生成元照合・厳密可換)。**補題 FIXED-B4 が無条件化**し、「現用窓では鏡映線が空」が確定 ⟹ **新窓層の必要性が正式な動機になった**。
 3. **R0(240)の timing probe のみ**を便 112 認可後に走らせ、P-B4-4 を判定。**そこで初めて帯を決める**(先に帯を固定して走らせない)。← **現在の唯一の実行待ち**
 4. **P-B4-1 が外れた場合のみ**、MAP-DICT の B₄ 版の【文献要請】を起票。
-5. (小)【GAP-B4-1】($\Delta_4\sigma_i\Delta_4^{-1}=\sigma_{4-i}$ の工房内 pin)は在庫台帳の飾りであり、②の結論($\mathrm{Out}\supseteq\langle\iota\rangle$・$\iota$ の外部性)は**これに依存しない**(§3.3 の abelianization 1 行で独立)。急がない。
+5. ~~【GAP-B4-1】~~ ⟹ **v1.2 §11 で閉**。~~【GAP-B4-3】~~ ⟹ **v1.2 §12 で閉**。【GAP-B4-4】は **v1.2 §13 で部分閉**(下界 192)⟹ 残りは **R0 実測が唯一の決着手段**。
+6. ★ **R0 の的が 1 点に絞れた**: 命題 NO-SMALL-NONAB により $\lvert Q\rvert\in\{6,10\}$ は紙で消えたので、R0(B₄-指数 $\le240$)が実際に検定するのは **$\lvert Q\rvert=8$(B₄-指数 192)ちょうど 1 点**である。
 
 > ### 研究者・司令塔への一言(正直な見立て)
 > **この戦線の主産物は「陰性の構造定理」である。** ①③⑤ は紙で閉じる(または 2 つの小さな穴だけ)一方、②④ の意味で **B₃ の華($13/15$ を紙で閉じた MIRROR-ODD)は $B_4$ には無い**。それは移植の失敗ではなく、**$B_3$ の $PSL_2(\mathbf Z)$ miracle が $n=3$ 限定であること(NO-PSL-B4)の帰結**であり、この 1 行自体が**「なぜ gentle 系が計算しやすいか」の構造的説明**として一級の収穫である。census は**その説明を反証可能にする装置**として設計した。
