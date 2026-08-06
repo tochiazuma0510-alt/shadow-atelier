@@ -76,7 +76,7 @@ def peak_rss_mb():
 
 
 def compute_H_S_at_k_safe(k, n_alg, h_alg, D, p):
-    """Exact H/S dimensions via the H-first ambient sparse-rank path.
+    """Exact H/S dimensions via the H-first packed restricted-ambient path.
 
     ``n_alg`` and ``D`` are retained as optional compatibility parameters;
     the optimized path deliberately does not use either one.
@@ -143,6 +143,15 @@ def main():
     for k in range(3, KMAX + 1):
         tk0 = time.time()
         H_dim, S_dim, dim_n, dim_h, dim_t = compute_H_S_at_k_safe(k, n_alg, h_alg, D, p)
+        rank_certificate = getattr(h_alg, "_last_nu_rank_certificate", None)
+        rank_selfcheck = None if rank_certificate is None else {
+            key: rank_certificate.get(key) for key in (
+                "rank", "lower_bound_rank", "upper_bound_rank",
+                "full_annihilation_checked", "witness_rounds_after_seed",
+                "restricted_dense_bytes", "tree_cache_policy",
+                "cacheable_subtree_ids", "single_use_subtree_ids",
+                "pruned_cache_entries_by_power", "cache_entries_after_by_power",
+                "cache_coeff_nnz_after_by_power")}
         fillin_h = h_alg._sparse_solver_cache.get(k, {}).get("fillin_ratio")
         cold_elapsed = round(time.time() - tk0, 3)
         # A second call exercises the memoized subtree path and guards cache
@@ -163,7 +172,8 @@ def main():
                      "warm_repeat_elapsed_sec": warm_elapsed,
                      "fillin_ratio_n": None, "fillin_ratio_h": fillin_h,
                      "H_predicted": EXPECTED_H[k], "S_predicted": EXPECTED_S[k],
-                     "H_match": h_match, "S_match": s_match}
+                     "H_match": h_match, "S_match": s_match,
+                     "rank_selfcheck_summary": rank_selfcheck}
         print(f"p={p} k={k}: H_dim={H_dim} S_dim={S_dim} dim_t={dim_t} "
               f"cold={cold_elapsed}s warm={warm_elapsed}s fillin_h={fillin_h}", flush=True)
         if not (h_match and s_match):
@@ -184,14 +194,16 @@ def main():
 
     out = {
         "schema": "edim-c9-c10-prime-run/v3",
-        "solver": "H-first direct ambient sparse rank (exact mod-p; no full rho/delta table)",
+        "solver": "H-first packed restricted-ambient int64 rank "
+                  "(exact pivot lower bound + full annihilation upper bound)",
         "prime": p,
         "required_regression_primes": sorted(REQUIRED_REGRESSION_PRIMES),
         "is_required_regression_prime": p in REQUIRED_REGRESSION_PRIMES,
         "kmax": KMAX,
         "bases_and_delta_table_elapsed_sec": round(build_elapsed, 2),
         "delta_table_constructed": False,
-        "production_algorithm": "rho^i degree-1 substitution + ambient Leibniz action + sparse rank on H",
+        "production_algorithm": "rho^i degree-1 substitution + ambient Leibniz action + "
+                                "packed dense restricted columns + exact certified rank on H",
         "results": results,
         "full_k3_k10_regression_complete": regression_complete,
         "regression_ok": regression_ok,

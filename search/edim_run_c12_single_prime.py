@@ -9,9 +9,9 @@ Log discipline (裁定692 verbatim, "段境界のみ" -- NO hot-loop/progress-sp
 prints): this script prints ONLY at phase boundaries -- job start, each
 DEGREE's completion (one line per k, not per inner iteration), a memory
 snapshot at each degree boundary, and the final summary line at job end.
-compute_H_S_at_k_safe (imported unchanged from edim_run_c9_c10_v3_single_
-prime.py, Sol's 112e accelerator) is NOT modified and contains no prints of
-its own already.
+compute_H_S_at_k_safe (imported from edim_run_c9_c10_v3_single_prime.py,
+Sol's 112f packed restricted-ambient accelerator) contains no prints of its
+own.
 
 Calibration gate (裁定656/693): H12 must equal 112 (the DERIVED value,
 docs/notes/b_type_synthesis_design_v1_addendum_l4b_grt12.md; formula
@@ -120,8 +120,8 @@ def main():
         "schema": "edim-c12-691-kp-run/v1",
         "prereg_refs": PREREG_REFS,
         "units": UNITS,
-        "solver": "Sol H-first ambient sparse rank accelerator (便112e), reused unchanged from "
-                  "search/edim_run_c9_c10_v3_single_prime.py's compute_H_S_at_k_safe",
+        "solver": "Sol H-first packed restricted-ambient int64 accelerator (便112f): "
+                  "exact pivot lower bound + full annihilation upper bound",
         "prime": p,
         "dim_t_12": 44555,
         "H12_calibration_value": 112,
