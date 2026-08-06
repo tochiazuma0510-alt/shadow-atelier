@@ -288,6 +288,55 @@ if not p3ok then
 fi;
 
 #############################################################################
+## =========================== POSITIVE CONTROL (裁定662 (1)) ================
+#############################################################################
+## semantic UID (declared BEFORE running this section, per instruction --
+## "選定を結果前にUID宣言"):
+##   POSCTRL-UID: BIT252-POSCTRL-v1
+##   element   : iota_N := [m = K_ord-1 (= -1 mod K_ord), f = 1]
+##   source    : docs/notes/div_law_v1.md 補題 PIN-A / 本セッション内
+##               search/probe/b4_cal_v1 の MIRROR-SHADOW と同型の既在事実--
+##               iota_N in GT(N) for EVERY N in NFI_{PB3}(B3) (unconditional,
+##               f=1 in [F2,F2] trivially, m=-1 is charming for any N_ord
+##               since gcd(-1,anything)=1), with R_{N,H}(iota_N)=iota_H for
+##               all N<=H -- i.e. iota extends to EVERY window, in
+##               particular to K. This is chosen as the positive control
+##               precisely because it is KNOWN to survive to K by an
+##               unconditional theorem, independent of this run's machinery.
+## Purpose: if the checker finds survival_count_posctrl = 0 here, the
+## checker is over-killing (rejecting something that provably should
+## survive) and the main NO_SURVIVAL result would be INVALID. Finding
+## survival_count_posctrl >= 1 (expected: k=identity itself trivially
+## satisfies hexagon at m=K_ord-1,f=1, so >=1 is GUARANTEED a priori --
+## the sweep measures how MUCH more than the trivial minimum survives).
+Print("\n=========== POSITIVE CONTROL: iota_N = [m=K_ord-1, f=1] sweep ===========\n");
+Kord := Order(yPp);;   ## K_ord for the test window K (should be 7)
+mPosCtrl := Kord - 1;;
+Print("K_ord = ", Kord, "  positive control m = ", mPosCtrl, " (= -1 mod K_ord)\n");
+
+t0 := GAPLIB_WallElapsedMs();
+survivalCountPosCtrl := 0;;
+for k in kerElems do
+  ## f=1's class is the identity of P; its fiber (coset over identity) IS
+  ## ker(phi) itself (kerElems, already enumerated above) -- same 117649
+  ## elements as the main test, just tested at m=K_ord-1 with the identity
+  ## lift instead of h4' lift.
+  if HexPass(Pp, thetaPp, tauPp, yPp, mPosCtrl, k) then
+    survivalCountPosCtrl := survivalCountPosCtrl + 1;;
+  fi;
+od;
+t1 := GAPLIB_WallElapsedMs();
+Print("positive control survival count = ", survivalCountPosCtrl,
+      " / 117649   elapsed_ms=", t1-t0, "\n");
+posCtrlOk := (survivalCountPosCtrl >= 1);;
+Print("positive control finds >=1 survivor (checker is not over-killing)? ", posCtrlOk, "\n");
+if not posCtrlOk then
+  Print("*** WARNING: positive control found ZERO survivors -- the checker ",
+        "over-kills; the main NO_SURVIVAL result (survival_count=0) is ",
+        "INVALID under this checker implementation. ***\n");
+fi;
+
+#############################################################################
 ## =========================== R4: VERDICT (raw value only) ==================
 #############################################################################
 ## 裁定661 (d): 格に関する文言は一切書かない。VERDICT A は candidate 未満の
@@ -337,6 +386,14 @@ Add(certParts, Concatenation("  \"fiber_size\": ", String(sizeFiber), ",\n"));
 Add(certParts, Concatenation("  \"survival_count\": ", String(survivalCount), ",\n"));
 Add(certParts, Concatenation("  \"survival_allowed_set\": ", String(allowedCounts), ",\n"));
 Add(certParts, Concatenation("  \"BIT1_P3_fingerprint_ok\": ", JB(p3ok), ",\n"));
+Add(certParts, "  \"positive_control\": {\n");
+Add(certParts, "    \"uid\": \"BIT252-POSCTRL-v1\",\n");
+Add(certParts, "    \"element\": \"iota_N = [m=K_ord-1, f=1] (PIN-A universal element, docs/notes/div_law_v1.md)\",\n");
+Add(certParts, Concatenation("    \"K_ord\": ", String(Kord), ",\n"));
+Add(certParts, Concatenation("    \"m\": ", String(mPosCtrl), ",\n"));
+Add(certParts, Concatenation("    \"survival_count\": ", String(survivalCountPosCtrl), ",\n"));
+Add(certParts, Concatenation("    \"finds_at_least_one_survivor\": ", JB(posCtrlOk), "\n"));
+Add(certParts, "  },\n");
 Add(certParts, "  \"calibration\": {\n");
 Add(certParts, Concatenation("    \"F1\": ", JB(f1pass), ",\n"));
 Add(certParts, Concatenation("    \"F2\": ", JB(f2pass), ",\n"));
