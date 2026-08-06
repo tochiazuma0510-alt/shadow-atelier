@@ -9,15 +9,31 @@ name: b4-cal
 #      pq dies with an iostream error on this machine's Windows/Cygwin GAP
 #      build despite LoadPackage succeeding, sec5.4 of the feasibility note).
 #   2. cal_b4: reproduce the known N19 (Philadelphia) pentagon count (216 out
-#      of 7776, C-1..C-4 of sec6.2) as an independent sanity gate. ONLY
-#      C-1..C-4 are implemented in this pass (C-5..C-10, including the N34
-#      calibration, are explicitly deferred -- see search/probe/b4_cal_v1/
-#      cal_b4_n19_pentagon.g header).
+#      of 7776, C-1/C-3/C-4 of sec6.2) as an independent sanity gate, plus
+#      TWO regression guards (裁定 2026-08-06 規約監査): guard A (order-guard,
+#      commuting-pair signature {X12/X34, X14/X23}) catches tuple-ordering
+#      bugs; guard B (convention-guard, all 17 PB4fp relators checked
+#      relator-by-relator) catches composition-direction bugs. Both are
+#      fail-closed STOPs (Error(), nonzero GAP exit), not silent patches.
+#      C-2 (N_ord), C-6 (|GT|/|GT-heart|), C-5 (hexagon lift), C-7 (N34) are
+#      explicitly deferred -- see search/probe/b4_cal_v1/cal_b4_n19_pentagon.g
+#      header for the up-to-date list (risk of a third undiscovered
+#      convention bug was judged to outweigh rushing C-5/C-7 in this pass).
 #   3. p1_build_R: builds R := PB4/V(PB4) via ANUPQ (Exponent:=7 REQUIRED --
 #      dropping it silently gives a DIFFERENT, wrong group, sec5.4) and
 #      checks B4-EXQ-1 (|R|=7^41). Gated on cal_b4 PASSING (fail-closed: if
 #      the known-answer calibration doesn't reproduce, do not trust P1's
 #      output enough to even attempt it).
+#   4. c8_packagegt: independent Linux-only Package GT `penta`+`generWComm`
+#      cross-check against N19 (listE[19]). Runs in parallel with anupq_smoke
+#      (no GAP dependency) -- Windows-local execution of this same check is
+#      blocked by a reserved-device-name collision (Aux.py vs Windows' "AUX"),
+#      confirmed not to occur on GHA's Linux runners.
+#
+# ⚠ 混同注意: cal_b4 の psi 補正(規約修正・全反転・共役子なし)は、双子witness
+# 走の鏡映 iota(反転+共役子)とは別写像。どちらも |image|=216 になり得るので
+# 位数一致だけを正しさの指標に使わない(search/probe/b4_cal_v1/
+# cal_b4_n19_pentagon.g 冒頭の詳注を参照)。
 #
 # NOT included (explicit instruction -- do not add without fresh
 # authorization): the real (2.20) measurement over the 117,649-element
@@ -192,4 +208,44 @@ jobs:
         with:
           name: b4-cal-p1
           path: ci/out/p1_build_R.log
+          if-no-files-found: error
+
+  c8_packagegt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install sympy (PaB.py's only external dependency)
+        shell: bash
+        run: pip install sympy
+
+      - name: Run C-8 Package GT cross-check (search/thirdparty/PackageGT is read-only input)
+        id: run
+        shell: bash
+        working-directory: search/thirdparty/PackageGT
+        run: |
+          set +e
+          mkdir -p ../../../ci/out
+          python ../../../search/probe/b4_cal_v1/c8_packagegt_crosscheck.py 2>&1 | tee ../../../ci/out/c8_packagegt.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check C-8 result (informational -- not gating cal_b4/p1_build_R in this workflow)
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "py_exit=${{ steps.run.outputs.py_exit }}"
+          if grep -q "C8_PASS" ci/out/c8_packagegt.log; then
+            echo "C-8: PackageGT cross-check PASS."
+          else
+            echo "::warning::C-8 did not reach PASS -- see ci/out/c8_packagegt.log."
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: b4-cal-c8
+          path: ci/out/c8_packagegt.log
           if-no-files-found: error
