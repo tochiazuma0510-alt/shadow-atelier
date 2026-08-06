@@ -51,6 +51,8 @@ import json
 import hashlib
 import sys
 
+import numpy as np
+
 PRIMES = [2147483647, 998244353]
 
 # ===========================================================================
@@ -183,6 +185,79 @@ def solve_modp(M_cols, v, p):
     return coord
 
 
+def _mat_inv_modp_numpy(mat, p):
+    """mat: numpy int64 array, n x n, invertible mod p. Returns inverse mod
+    p via Gauss-Jordan with vectorized (outer-product) row elimination --
+    needed for k=7,8 (n up to 840); the pure-python rref_modp above is too
+    slow at that scale (used only for k<=6 elsewhere in this module)."""
+    n = mat.shape[0]
+    aug = np.concatenate([mat.astype(np.int64) % p, np.eye(n, dtype=np.int64)], axis=1)
+    for col in range(n):
+        nz = np.nonzero(aug[col:, col] % p != 0)[0]
+        if len(nz) == 0:
+            raise ValueError(f"_mat_inv_modp_numpy: singular matrix at column {col}")
+        r = col + int(nz[0])
+        if r != col:
+            aug[[col, r]] = aug[[r, col]]
+        inv = modinv(int(aug[col, col]) % p, p)
+        aug[col, :] = (aug[col, :] * inv) % p
+        colvals = aug[:, col].copy()
+        colvals[col] = 0
+        aug = (aug - np.outer(colvals, aug[col, :])) % p
+    return aug[:, n:] % p
+
+
+def mat_mul_modp_np(A, B, p):
+    """Numpy int64 matmul mod p. SAFE ONLY when p*p*K < int64max (K = shared
+    contraction dimension, i.e. A.shape[1]==B.shape[0]) -- caller's
+    responsibility (see PRIMES_SMALL/ARBITRATION_PRIME choices in the k=7,8
+    driver, all chosen with this margin in mind: p^2*840 well under 2^63)."""
+    A = np.asarray(A, dtype=np.int64) % p
+    B = np.asarray(B, dtype=np.int64) % p
+    return (A @ B) % p
+
+
+def mat_pow_modp_np(A, e, p):
+    n = A.shape[0]
+    R = np.eye(n, dtype=np.int64)
+    base = A.copy()
+    while e > 0:
+        if e & 1:
+            R = mat_mul_modp_np(R, base, p)
+        base = mat_mul_modp_np(base, base, p)
+        e >>= 1
+    return R
+
+
+def rank_modp_np(mat, p):
+    """mat: numpy int64 array (any shape). Rank via vectorized elimination
+    (same algorithm as _mat_inv_modp_numpy's forward pass, no back-solve
+    needed -- just count pivots found)."""
+    M = np.array(mat, dtype=np.int64) % p
+    nrows, ncols = M.shape
+    if nrows == 0 or ncols == 0:
+        return 0
+    row = 0
+    rank = 0
+    for col in range(ncols):
+        if row >= nrows:
+            break
+        nz = np.nonzero(M[row:, col] % p != 0)[0]
+        if len(nz) == 0:
+            continue
+        r = row + int(nz[0])
+        if r != row:
+            M[[row, r]] = M[[r, row]]
+        inv = modinv(int(M[row, col]) % p, p)
+        M[row, :] = (M[row, :] * inv) % p
+        colvals = M[:, col].copy()
+        colvals[row] = 0
+        M = (M - np.outer(colvals, M[row, :])) % p
+        rank += 1
+        row += 1
+    return rank
+
+
 # ===========================================================================
 # free Lie algebra machinery for one alphabet (used for both n={A,B,C} and
 # h={X,Y}); "plain" bracket = associative-word commutator, no semidirect
@@ -246,6 +321,65 @@ class GradedLie:
             self.ambient[k] = [eval_plain_tree(t, identity_leaf, p) for t in trees]
             self.dim[k] = len(ws)
 
+    def _get_solver(self, degree):
+        """Build (once, cached) a fast numpy-based solver for degree `degree`:
+        picks basis_dim independent AMBIENT-WORD pivot rows out of the full
+        alphabet_size^degree word space (dense, since degree<=8 here keeps
+        this at most 3^8=6561 rows), inverts the basis_dim x basis_dim pivot
+        submatrix mod p. Subsequent coords_of_ambient calls at this degree
+        then cost O(basis_dim^2) instead of a fresh O(ambient_dim*basis_dim^2)
+        elimination every time -- this is the perf fix needed for k=7,8
+        (k<=6 was fine without it, k=7/8 is not: thousands of conversion
+        calls per run)."""
+        if not hasattr(self, '_solver_cache'):
+            self._solver_cache = {}
+        if degree in self._solver_cache:
+            return self._solver_cache[degree]
+        basis = self.ambient[degree]
+        basis_dim = len(basis)
+        p = self.p
+        if basis_dim == 0:
+            self._solver_cache[degree] = None
+            return None
+        all_words = [tuple(w) for w in itertools.product(range(self.alphabet_size), repeat=degree)]
+        word_pos = {w: i for i, w in enumerate(all_words)}
+        ambient_dim = len(all_words)
+        M = np.zeros((ambient_dim, basis_dim), dtype=np.int64)
+        for c, bvec in enumerate(basis):
+            for w, coef in bvec.items():
+                M[word_pos[w], c] = coef % p
+        # Gaussian elimination (numpy-vectorized row ops) to find basis_dim
+        # independent pivot ROWS (ambient word positions) and reduce M to
+        # identity on those rows (RREF), giving the pivot submatrix inverse
+        # directly as the corresponding rows of the reduced matrix restricted
+        # to... simplest robust route: track an explicit identity-augmented
+        # elimination is unnecessary here -- instead solve for the inverse of
+        # the basis_dim x basis_dim pivot submatrix via standard augmented
+        # elimination on JUST those rows once found.
+        Mwork = M.copy()
+        piv_rows = []
+        row_available = np.ones(ambient_dim, dtype=bool)
+        for col in range(basis_dim):
+            nz = np.nonzero((Mwork[:, col] % p != 0) & row_available)[0]
+            if len(nz) == 0:
+                raise ValueError(f"degree {degree}: basis matrix column {col} has no available "
+                                  f"pivot row -- basis is not full column rank (should not happen)")
+            r = int(nz[0])
+            piv_rows.append(r)
+            row_available[r] = False
+            inv = modinv(int(Mwork[r, col]) % p, p)
+            Mwork[r, :] = (Mwork[r, :] * inv) % p
+            colvals = Mwork[:, col].copy()
+            colvals[r] = 0
+            # eliminate this column from ALL other rows (vectorized outer-product update)
+            Mwork = (Mwork - np.outer(colvals, Mwork[r, :])) % p
+        pivot_sub = M[piv_rows, :] % p  # basis_dim x basis_dim, from ORIGINAL M
+        pivot_sub_inv = _mat_inv_modp_numpy(pivot_sub, p)
+        solver = {"piv_rows": piv_rows, "pivot_sub_inv": pivot_sub_inv, "word_pos": word_pos,
+                  "all_words": all_words, "basis_dim": basis_dim, "M": M}
+        self._solver_cache[degree] = solver
+        return solver
+
     def coords_of_ambient(self, degree, vec):
         """Express ambient vector (dict, degree `degree`) in this degree's
         Lyndon basis coordinates. Returns list length self.dim[degree]."""
@@ -254,15 +388,16 @@ class GradedLie:
         if ncols == 0:
             assert not vec, f"expected zero vector, got {vec} at degree {degree} with empty basis"
             return []
-        all_words = sorted(set().union(*[set(b.keys()) for b in basis], set(vec.keys())))
-        M_cols = [[b.get(w, 0) for w in all_words] for b in basis]
-        v = [vec.get(w, 0) % self.p for w in all_words]
-        coord = solve_modp(M_cols, v, self.p)
-        # verify
-        check = word_add([{w: (M_cols[c][i] * coord[c]) % self.p} for c in range(ncols)
-                           for i, w in enumerate(all_words)] if False else
-                          [scale_vec(basis[c], coord[c], self.p) for c in range(ncols)], self.p)
-        if check != vec:
+        solver = self._get_solver(degree)
+        p = self.p
+        v_piv = np.array([vec.get(solver["all_words"][r], 0) % p for r in solver["piv_rows"]], dtype=np.int64)
+        coord = (solver["pivot_sub_inv"] @ v_piv) % p
+        coord = [int(x) for x in coord]
+        # verify (cheap: O(ambient_dim) using the precomputed dense M, still
+        # correctness-critical -- keep it, k<=8 sizes make this fast enough)
+        recomb = (solver["M"] @ np.array(coord, dtype=np.int64)) % p
+        target = np.array([vec.get(w, 0) % p for w in solver["all_words"]], dtype=np.int64)
+        if not np.array_equal(recomb, target):
             raise ValueError(f"coords_of_ambient verification FAILED at degree {degree}: "
                               f"recombination mismatch (basis may not span the target vector)")
         return coord

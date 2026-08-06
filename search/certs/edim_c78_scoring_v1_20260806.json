@@ -1,0 +1,258 @@
+{
+  "schema": "edim-c78-scoring/v1",
+  "authorization": "docs/notes/b_type_synthesis_design_v1_addendum_edim78_prediction.md (commit 346c264, frozen IF-FIRST prediction); 裁定652/reiteration (司令塔, this session)",
+  "model": "semidirect (search/edim_semidirect_v1.py), NOT the ideal-quotient method the prediction doc's SS2 feasibility table was estimating cost for",
+  "primes_small": [
+    65521,
+    65519
+  ],
+  "arbitration_prime": 29999999,
+  "small_prime_agreement_per_k": {
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true,
+    "7": true,
+    "8": true
+  },
+  "all_small_agree": true,
+  "S_ED_4_rank_confirmed": {
+    "3": {
+      "H_confirmed": true,
+      "S_confirmed": true,
+      "H_small": 1,
+      "H_arbitration": 1,
+      "S_small": 1,
+      "S_arbitration": 1
+    },
+    "4": {
+      "H_confirmed": true,
+      "S_confirmed": true,
+      "H_small": 1,
+      "H_arbitration": 1,
+      "S_small": 0,
+      "S_arbitration": 0
+    },
+    "5": {
+      "H_confirmed": true,
+      "S_confirmed": true,
+      "H_small": 2,
+      "H_arbitration": 2,
+      "S_small": 1,
+      "S_arbitration": 1
+    },
+    "6": {
+      "H_confirmed": true,
+      "S_confirmed": true,
+      "H_small": 3,
+      "H_arbitration": 3,
+      "S_small": 0,
+      "S_arbitration": 0
+    },
+    "7": {
+      "H_confirmed": true,
+      "S_confirmed": true,
+      "H_small": 6,
+      "H_arbitration": 6,
+      "S_small": 1,
+      "S_arbitration": 1
+    },
+    "8": {
+      "H_confirmed": true,
+      "S_confirmed": true,
+      "H_small": 10,
+      "H_arbitration": 10,
+      "S_small": 1,
+      "S_arbitration": 1
+    }
+  },
+  "results_by_prime": {
+    "65521": {
+      "3": {
+        "H_dim": 1,
+        "S_dim": 1,
+        "dim_n": 8,
+        "dim_h": 2,
+        "dim_t": 10,
+        "elapsed_sec": 0.01
+      },
+      "4": {
+        "H_dim": 1,
+        "S_dim": 0,
+        "dim_n": 18,
+        "dim_h": 3,
+        "dim_t": 21,
+        "elapsed_sec": 0.02
+      },
+      "5": {
+        "H_dim": 2,
+        "S_dim": 1,
+        "dim_n": 48,
+        "dim_h": 6,
+        "dim_t": 54,
+        "elapsed_sec": 0.082
+      },
+      "6": {
+        "H_dim": 3,
+        "S_dim": 0,
+        "dim_n": 116,
+        "dim_h": 9,
+        "dim_t": 125,
+        "elapsed_sec": 0.352
+      },
+      "7": {
+        "H_dim": 6,
+        "S_dim": 1,
+        "dim_n": 312,
+        "dim_h": 18,
+        "dim_t": 330,
+        "elapsed_sec": 2.333
+      },
+      "8": {
+        "H_dim": 10,
+        "S_dim": 1,
+        "dim_n": 810,
+        "dim_h": 30,
+        "dim_t": 840,
+        "elapsed_sec": 30.535
+      },
+      "_build_elapsed_sec": 154.009
+    },
+    "65519": {
+      "3": {
+        "H_dim": 1,
+        "S_dim": 1,
+        "dim_n": 8,
+        "dim_h": 2,
+        "dim_t": 10,
+        "elapsed_sec": 0.007
+      },
+      "4": {
+        "H_dim": 1,
+        "S_dim": 0,
+        "dim_n": 18,
+        "dim_h": 3,
+        "dim_t": 21,
+        "elapsed_sec": 0.02
+      },
+      "5": {
+        "H_dim": 2,
+        "S_dim": 1,
+        "dim_n": 48,
+        "dim_h": 6,
+        "dim_t": 54,
+        "elapsed_sec": 0.082
+      },
+      "6": {
+        "H_dim": 3,
+        "S_dim": 0,
+        "dim_n": 116,
+        "dim_h": 9,
+        "dim_t": 125,
+        "elapsed_sec": 0.348
+      },
+      "7": {
+        "H_dim": 6,
+        "S_dim": 1,
+        "dim_n": 312,
+        "dim_h": 18,
+        "dim_t": 330,
+        "elapsed_sec": 2.291
+      },
+      "8": {
+        "H_dim": 10,
+        "S_dim": 1,
+        "dim_n": 810,
+        "dim_h": 30,
+        "dim_t": 840,
+        "elapsed_sec": 28.649
+      },
+      "_build_elapsed_sec": 152.279
+    }
+  },
+  "arbitration_results": {
+    "3": {
+      "H_dim": 1,
+      "S_dim": 1,
+      "dim_n": 8,
+      "dim_h": 2,
+      "dim_t": 10,
+      "elapsed_sec": 0.008
+    },
+    "4": {
+      "H_dim": 1,
+      "S_dim": 0,
+      "dim_n": 18,
+      "dim_h": 3,
+      "dim_t": 21,
+      "elapsed_sec": 0.023
+    },
+    "5": {
+      "H_dim": 2,
+      "S_dim": 1,
+      "dim_n": 48,
+      "dim_h": 6,
+      "dim_t": 54,
+      "elapsed_sec": 0.102
+    },
+    "6": {
+      "H_dim": 3,
+      "S_dim": 0,
+      "dim_n": 116,
+      "dim_h": 9,
+      "dim_t": 125,
+      "elapsed_sec": 0.445
+    },
+    "7": {
+      "H_dim": 6,
+      "S_dim": 1,
+      "dim_n": 312,
+      "dim_h": 18,
+      "dim_t": 330,
+      "elapsed_sec": 3.568
+    },
+    "8": {
+      "H_dim": 10,
+      "S_dim": 1,
+      "dim_n": 810,
+      "dim_h": 30,
+      "dim_t": 840,
+      "elapsed_sec": 29.587
+    },
+    "_build_elapsed_sec": 144.024
+  },
+  "prediction": {
+    "H": {
+      "7": 6,
+      "8": 10
+    },
+    "S_scored": {
+      "7": 1,
+      "8": 1
+    }
+  },
+  "scoring": {
+    "7": {
+      "S_measured": 1,
+      "S_predicted": 1,
+      "S_match": true,
+      "H_measured": 6,
+      "H_predicted": 6,
+      "H_match": true,
+      "rank_confirmed": true
+    },
+    "8": {
+      "S_measured": 1,
+      "S_predicted": 1,
+      "S_match": true,
+      "H_measured": 10,
+      "H_predicted": 10,
+      "H_match": true,
+      "rank_confirmed": true
+    }
+  },
+  "total_elapsed_sec": 548.92,
+  "peak_memory_traced_mb": 181.27,
+  "note_memory": "tracemalloc traces PYTHON-level allocations only (not numpy's underlying C buffers in full detail depending on allocator, and not GAP -- this is a pure-python/numpy process, no GAP involved). Reported as a lower-bound signal, not an authoritative RSS peak; see stdout for wall-clock timing per k as the primary feasibility evidence.",
+  "k9_plus_not_run": true
+}
