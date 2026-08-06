@@ -166,31 +166,50 @@ def saturate_spanning_set(B, max_prime_bound=2000, max_rounds=20000):
     dimension n. The definitive saturation check remains the T-b minor-gcd
     canary computed AFTER this refinement -- this function is a best-effort
     accelerant, not itself trusted as proof."""
+    # NOTE (bug found and fixed during this run's development): a SINGLE
+    # forward sweep over primes (fix prime 2, then 3, then 5, ...) is NOT
+    # sufficient -- replacing a row while fixing a LATER prime can silently
+    # reintroduce a dependency at an EARLIER prime that had already been
+    # cleared (empirically observed at k=11: after one sweep touching
+    # primes [2,3,31,509], re-testing primes 2,3,5,7,...,443 afterwards
+    # found dependencies at ALL of them, including primes never touched by
+    # the sweep at all). The fix is a fixed-point outer loop: repeat full
+    # sweeps until one entire sweep makes zero fixes.
     B = [row[:] for row in B]
     r = len(B)
     n = len(B[0]) if r else 0
     primes = small_primes(max_prime_bound)
     rounds = 0
     rounds_by_prime = {}
-    for ell in primes:
-        while True:
-            combo = row_dependency_mod_p(B, ell)
-            if combo is None:
-                break
-            newrow = [sum(combo[i] * B[i][j] for i in range(r)) for j in range(n)]
-            if any(v % ell != 0 for v in newrow):
-                raise ValueError("saturate_spanning_set: internal error, "
-                                  "combo did not annihilate mod ell")
-            newrow = [v // ell for v in newrow]
-            piv = next(i for i in range(r) if combo[i] % ell != 0)
-            B[piv] = newrow
-            rounds += 1
-            rounds_by_prime[ell] = rounds_by_prime.get(ell, 0) + 1
-            if rounds > max_rounds:
-                raise RuntimeError("saturate_spanning_set: exceeded max_rounds "
-                                    "-- suspect index has a prime factor beyond "
-                                    "max_prime_bound, or a bug")
-    return B, rounds, rounds_by_prime
+    sweeps = 0
+    while True:
+        sweeps += 1
+        fixes_this_sweep = 0
+        for ell in primes:
+            while True:
+                combo = row_dependency_mod_p(B, ell)
+                if combo is None:
+                    break
+                newrow = [sum(combo[i] * B[i][j] for i in range(r)) for j in range(n)]
+                if any(v % ell != 0 for v in newrow):
+                    raise ValueError("saturate_spanning_set: internal error, "
+                                      "combo did not annihilate mod ell")
+                newrow = [v // ell for v in newrow]
+                piv = next(i for i in range(r) if combo[i] % ell != 0)
+                B[piv] = newrow
+                rounds += 1
+                fixes_this_sweep += 1
+                rounds_by_prime[ell] = rounds_by_prime.get(ell, 0) + 1
+                if rounds > max_rounds:
+                    raise RuntimeError("saturate_spanning_set: exceeded max_rounds "
+                                        "-- suspect index has a prime factor beyond "
+                                        "max_prime_bound, or a bug")
+        if fixes_this_sweep == 0:
+            break
+        if sweeps > 50:
+            raise RuntimeError("saturate_spanning_set: exceeded 50 fixed-point "
+                                "sweeps without convergence -- suspect a bug")
+    return B, rounds, rounds_by_prime, sweeps
 
 
 def det_bareiss(mat):
@@ -264,7 +283,23 @@ def main():
 
     t_script_start = time.time()
     cert = {
-        "schema": "tor_sweep_k11_v1",
+        "schema": "tor_sweep_k11_v1.1",
+        "supersedes": "search/certs/torsweep_k11_v1_20260807.json",
+        "supersedes_note": "prior cert stopped at T0/canary T-a (S-TOR-1) "
+                            "against the design doc's original (erroneous) "
+                            "table row for k=11; kept on disk/in git history "
+                            "as the STOP record, not deleted.",
+        "design_table_correction": "裁定732(司令塔修正権行使): "
+                                    "docs/notes/tor_sweep_design_v1.md SS1.1 "
+                                    "k=11 row corrected from the drafter's "
+                                    "hand-calculation (Witt(3,11)=14880, "
+                                    "dim t_11=15066) to the machine-checked "
+                                    "value (Witt(3,11)=16104, dim t_11=16290), "
+                                    "confirmed by 3 independent machine "
+                                    "computations plus the pre-existing "
+                                    "ledger value (裁定659: dim t_11=16290). "
+                                    "k=12/13/14 rows were re-checked and are "
+                                    "unaffected.",
         "design_spec": "docs/notes/tor_sweep_design_v1.md",
         "scope": "T0-T3 only (T4/T5 out of scope, no torsion-prime search performed)",
         "k": K,
@@ -298,8 +333,12 @@ def main():
 
     canary_Ta_witt2_match = (lyndon2_count == witt2)
     canary_Ta_witt3_match = (lyndon3_count == witt3)
-    # design table SS1.1 expected values at k=11
-    canary_Ta_table_match = (witt2 == 186 and witt3 == 14880 and t_rank == 15066)
+    # design table SS1.1 expected values at k=11 (裁定732 訂正後: 起草時の
+    # 手計算 Witt(3,11)=14,880/dim=15,066 は実装係カナリア T-a が捕獲した
+    # 誤りで、機械3系統(メビウス公式・Lyndon直接列挙・司令塔独立検算)+
+    # 既存台帳値(裁定659: dim t_11=16,290)で 16,104/16,290 に確定・
+    # 設計書コミット済み訂正)
+    canary_Ta_table_match = (witt2 == 186 and witt3 == 16104 and t_rank == 16290)
     canary_Ta_pass = canary_Ta_witt2_match and canary_Ta_witt3_match and canary_Ta_table_match
 
     t_hnf_diag_all_units_justification = (
@@ -418,13 +457,15 @@ def main():
         int_row = [int(r * L) for r in row]
         B_raw.append(int_row)
 
-    record("T1: p-saturation refinement of the denominator-cleared spanning set")
+    record("T1: p-saturation refinement of the denominator-cleared spanning set "
+           "(fixed-point: repeated sweeps until one full sweep fixes nothing)")
     t_sat_start = time.time()
-    B, saturation_rounds, saturation_rounds_by_prime = saturate_spanning_set(B_raw)
+    B, saturation_rounds, saturation_rounds_by_prime, saturation_sweeps = \
+        saturate_spanning_set(B_raw)
     t_sat_elapsed = time.time() - t_sat_start
     record(f"T1: saturation refinement done in {t_sat_elapsed:.2f}s, "
-           f"{saturation_rounds} rounds, primes touched="
-           f"{sorted(saturation_rounds_by_prime.keys())}")
+           f"{saturation_sweeps} sweeps, {saturation_rounds} total rounds, "
+           f"primes touched={sorted(saturation_rounds_by_prime.keys())}")
 
     # exact verification: M @ B^T == 0
     residual_nonzero = 0
@@ -501,8 +542,68 @@ def main():
     else:
         sat_gcd = 1  # trivial (0-dim) lattice is vacuously saturated
 
-    canary_Tb_pass = (sat_gcd == 1)
-    record(f"T1: saturation minors dets={minor_dets} sat_gcd={sat_gcd} "
+    # ---- rigorous closing of the T-b gap when sat_gcd != 1 ----
+    # A single sampled H_rank x H_rank minor of a genuinely SATURATED matrix
+    # can still be divisible by many small primes purely as an artifact of
+    # which H_rank columns happened to be picked (this is NOT evidence of a
+    # real index defect -- confirmed empirically at k=11: sat_gcd came out
+    # ~10^132 but its ENTIRE factorization is primes <=499, all of which
+    # p-saturation refinement already proved do NOT divide the true index).
+    # The rigorous argument: d_true (the true index [Sat(B):Z-rowspan(B)])
+    # divides every minor, hence divides sat_gcd. If every prime factor of
+    # sat_gcd is independently confirmed (via row_dependency_mod_p, i.e.
+    # B already has full rank mod that prime) to NOT divide d_true, then
+    # d_true shares no prime factor with sat_gcd while dividing it, forcing
+    # d_true=1. This is checked here directly (not merely inferred from the
+    # earlier saturation_refinement_primes_touched bookkeeping), so it is
+    # correct even if sat_gcd's factors exceed the refinement's prime bound.
+    sat_gcd_prime_factors = {}
+    sat_gcd_cofactor = str(sat_gcd)
+    sat_gcd_fully_factored = True
+    sat_gcd_primes_confirmed_full_rank = {}
+    if sat_gcd != 1:
+        rem = sat_gcd
+        trial_bound = 2_000_000
+        exhausted_without_full_factorization = True
+        for p in small_primes(trial_bound):
+            if p * p > rem:
+                # trial division has proven no factor <= sqrt(rem) remains,
+                # so rem (if >1) is itself prime -- NOT "unfactored".
+                exhausted_without_full_factorization = False
+                break
+            while rem % p == 0:
+                sat_gcd_prime_factors[p] = sat_gcd_prime_factors.get(p, 0) + 1
+                rem //= p
+        if rem > 1:
+            if exhausted_without_full_factorization:
+                # ran out of trial primes (<=trial_bound) while rem is still
+                # large enough that rem could be composite with two factors
+                # both > trial_bound -- genuinely inconclusive, record as such.
+                sat_gcd_fully_factored = False
+                sat_gcd_prime_factors[f"UNFACTORED_COFACTOR>{trial_bound}"] = str(rem)
+            else:
+                # rem is prime (proven by the p*p>rem exit above)
+                sat_gcd_prime_factors[rem] = sat_gcd_prime_factors.get(rem, 0) + 1
+                rem = 1
+        sat_gcd_cofactor = str(rem)
+        for p in list(sat_gcd_prime_factors):
+            if isinstance(p, int):
+                dep = row_dependency_mod_p(B, p)
+                sat_gcd_primes_confirmed_full_rank[str(p)] = (dep is None)
+
+    if sat_gcd == 1:
+        canary_Tb_pass = True
+    else:
+        canary_Tb_pass = (
+            sat_gcd_fully_factored
+            and len(sat_gcd_primes_confirmed_full_rank) > 0
+            and all(sat_gcd_primes_confirmed_full_rank.values())
+        )
+    record(f"T1: saturation minors dets_digits={[len(str(d)) for d in minor_dets]} "
+           f"sat_gcd_digits={len(str(sat_gcd))} "
+           f"sat_gcd_prime_factors={sat_gcd_prime_factors} "
+           f"sat_gcd_fully_factored={sat_gcd_fully_factored} "
+           f"primes_confirmed_full_rank={sat_gcd_primes_confirmed_full_rank} "
            f"canary_Tb_pass={canary_Tb_pass}")
 
     H_rank = H_rank_exact
@@ -517,27 +618,45 @@ def main():
         "max_abs_theta_entry": max_abs_theta,
         "max_abs_tau_entry": max_abs_tau,
         "M_shape": [m_rows, n_cols],
+        # M and B (H_basis) are recorded in full so the independent checker
+        # (crosscheck/, cert-only input) can redo the rank/kernel/saturation
+        # arithmetic itself rather than trusting these booleans.
+        "M": M,
         "H_rank_via_modq_rank": H_rank_modq,
         "H_rank_via_modq_rank_agree": H_rank_modq_agree,
         "H_rank_exact_Q_nullspace": H_rank_exact,
+        "saturation_refinement_sweeps": saturation_sweeps,
         "saturation_refinement_rounds": saturation_rounds,
         "saturation_refinement_primes_touched": sorted(saturation_rounds_by_prime.keys()),
         "saturation_refinement_elapsed_seconds": t_sat_elapsed,
         "H_rank": H_rank,
+        "H_basis": B,
         "H_rank_matches_edim_c11_measurement_62": H_rank_regression_match,
         "exact_kernel_residual_nonzero_entries": residual_nonzero,
         "saturation_minor_determinants": [str(d) for d in minor_dets],
+        "saturation_minor_determinant_digit_counts": [len(str(d)) for d in minor_dets],
         "saturation_minor_column_sets_sample": minor_col_sets,
         "saturation_gcd_of_minors": str(sat_gcd),
+        "saturation_gcd_prime_factors": {str(k): v for k, v in sat_gcd_prime_factors.items()},
+        "saturation_gcd_fully_factored": sat_gcd_fully_factored,
+        "saturation_gcd_prime_factors_confirmed_full_rank": sat_gcd_primes_confirmed_full_rank,
         "elapsed_seconds": t1_elapsed,
     }
     cert["canaries"]["T-b"] = {
         "method": "gcd of several H_rank x H_rank Bareiss minors of the "
-                  "exact-Q-nullspace integer spanning matrix B; gcd==1 "
-                  "implies Z-rowspan(B) is already saturated (same "
-                  "principle as TOR-DET SS3.2, applied to the saturation "
-                  "question rather than to a torsion-prime search)",
-        "sat_gcd": str(sat_gcd),
+                  "exact-Q-nullspace integer spanning matrix B, sat_gcd; "
+                  "d_true (the true saturation index) divides sat_gcd by "
+                  "construction. If sat_gcd==1, d_true=1 trivially. "
+                  "Otherwise: sat_gcd is trial-factored, and EACH distinct "
+                  "prime factor p is independently re-tested via "
+                  "row_dependency_mod_p(B,p) -- if B already has full rank "
+                  "mod p, p cannot divide d_true, so d_true shares no prime "
+                  "factor with sat_gcd while dividing it, forcing d_true=1. "
+                  "Pass requires sat_gcd fully trial-factored AND every "
+                  "distinct prime factor confirmed full-rank (i.e. proven "
+                  "NOT to divide the true index).",
+        "sat_gcd_digits": len(str(sat_gcd)),
+        "sat_gcd_prime_factors": {str(k): v for k, v in sat_gcd_prime_factors.items()},
         "pass": canary_Tb_pass,
     }
     record(f"T1: H_rank={H_rank} (expected {EXPECTED_H}, match="
@@ -650,7 +769,9 @@ def write_cert(cert):
     out_dir = os.path.join(REPO_ROOT, "search", "certs")
     os.makedirs(out_dir, exist_ok=True)
     date_str = time.strftime("%Y%m%d")
-    out_path = os.path.join(out_dir, f"torsweep_k11_v1_{date_str}.json")
+    # v1.1 filename is distinct from the v1 STOP cert (torsweep_k11_v1_<date>.json)
+    # so re-running never clobbers the superseded record.
+    out_path = os.path.join(out_dir, f"torsweep_k11_v1_1_{date_str}.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(cert, f, indent=2, ensure_ascii=False, default=str)
     print(f"cert written: {out_path}", flush=True)
