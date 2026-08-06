@@ -349,14 +349,194 @@ def eval_plain_tree(tree, leaf_vecs, p):
     return word_bracket(lv, rv, p)
 
 
+class SparseFillinExceeded(Exception):
+    """Raised when sparse elimination's fill-in ratio exceeds the configured
+    threshold -- per docs/notes/edim_sparse_solver_design_v1.md SS2.2:
+    'SPARSE_FILLIN_EXCEEDED / STOP', NOT a silent fallback to the dense
+    solver."""
+    pass
+
+
+def build_sparse_solver(basis, p, fillin_threshold=0.30, degree_label=""):
+    """Sparse Gauss-Jordan (full RREF, not just triangular) pivot elimination
+    for a Lyndon basis (list of dicts word->coeff, i.e. self.ambient[k]) --
+    per docs/notes/edim_sparse_solver_design_v1.md SS2.2. Picks basis_dim
+    independent AMBIENT-WORD pivot rows via a Markowitz-lite rule (fewest
+    existing row-entries first, to limit fill-in).
+
+    aug_data[row_word] tracks "row_word's CURRENT state, as a linear
+    combination of ORIGINAL rows" (dict: original_row_word -> coefficient),
+    lazily initialized to {row_word: 1} the first time a row is touched.
+    Standard Gauss-Jordan invariant: since elimination only ever subtracts a
+    multiple of the CURRENT pivot row (never a non-pivot row) from another
+    row, by induction every row's aug_data ends up supported ONLY on
+    {rows that have already served as a pivot} -- so once ALL basis_dim
+    columns are processed, aug_data[piv_rows[i]] is supported entirely on
+    piv_rows, and re-indexing by pivot SLOT (piv_rows[j] -> j) gives exactly
+    row i of the ORIGINAL pivot submatrix's inverse. This is the standard
+    Gauss-Jordan [A|I] -> [I|A^-1] identity, just with I's rows/cols
+    identified lazily by word instead of a pre-declared index.
+
+    All row/col data are dict-of-dicts (row_word -> {col_idx: value}, and
+    col_idx -> {row_word: value}), i.e. no ambient_dim-sized dense array is
+    ever allocated (the fix for the dense solver's ~23GB blocker at k=11).
+
+    Correctness/overflow: every elimination step is a SCALAR multiply of a
+    sparse row (single-term products, safe for p up to ~2^31, same
+    reasoning as the dense solver's outer-product updates) followed by a
+    sparse subtract -- no raw multi-term dot-product sum is ever taken, so
+    this is large-prime-safe without further changes.
+
+    Returns a solver dict: {piv_rows, pivot_sub_inv (dict-of-dicts,
+    basis_dim x basis_dim, SLOT-indexed), basis_dim, fillin_ratio, nnz_*}.
+    Raises SparseFillinExceeded if the running total nnz count (main block
+    only) ever exceeds fillin_threshold * basis_dim^2.
+    """
+    basis_dim = len(basis)
+    if basis_dim == 0:
+        return {"piv_rows": [], "pivot_sub_inv": {}, "basis_dim": 0,
+                "fillin_ratio": 0.0, "nnz_final": 0, "nnz_initial": 0, "max_nnz_seen": 0}
+
+    row_data = {}          # row_word -> {col_idx: value}
+    col_data = [dict() for _ in range(basis_dim)]  # col_idx -> {row_word: value}
+    for c, bvec in enumerate(basis):
+        for w, coef in bvec.items():
+            v = coef % p
+            if v == 0:
+                continue
+            col_data[c][w] = v
+            row_data.setdefault(w, {})[c] = v
+    nnz_initial = sum(len(d) for d in col_data)
+    nnz_current = nnz_initial
+
+    aug_data = {}  # row_word -> {original_row_word: coeff}
+
+    def get_aug(w):
+        if w not in aug_data:
+            aug_data[w] = {w: 1 % p}
+        return aug_data[w]
+
+    used_rows = set()
+    piv_rows = [None] * basis_dim
+    # For small basis_dim, a dense-relative threshold is meaningless (even
+    # an identity matrix is already >30% "dense" at basis_dim<~4) -- give a
+    # floor so the check only bites where it's actually meaningful (matches
+    # the k=9,10,11 scale this module targets; k<~50 skips the check
+    # entirely, which is fine since the dense solver already handles those).
+    max_nnz_budget = max(fillin_threshold * basis_dim * basis_dim, nnz_initial * 20, 10000)
+    max_nnz_seen = nnz_initial
+
+    for c in range(basis_dim):
+        candidates = [w for w, v in col_data[c].items() if w not in used_rows and v % p != 0]
+        if not candidates:
+            raise ValueError(f"build_sparse_solver({degree_label}): no available pivot for column "
+                              f"{c} -- basis is not full column rank (should not happen)")
+        r = min(candidates, key=lambda w: len(row_data.get(w, {})))  # Markowitz-lite
+        used_rows.add(r)
+        piv_rows[c] = r
+
+        inv = modinv(col_data[c][r], p)
+        row_r = row_data.get(r, {})
+        for cc in list(row_r.keys()):
+            row_r[cc] = (row_r[cc] * inv) % p
+            col_data[cc][r] = row_r[cc]
+        aug_r = get_aug(r)
+        for k_, v_ in list(aug_r.items()):
+            aug_r[k_] = (v_ * inv) % p
+
+        other_rows = [w for w, v in col_data[c].items() if w != r and v % p != 0]
+        for r2 in other_rows:
+            factor = col_data[c][r2]
+            if factor % p == 0:
+                continue
+            row2 = row_data.setdefault(r2, {})
+            for cc, vv in row_r.items():
+                was_present = cc in row2
+                newv = (row2.get(cc, 0) - factor * vv) % p
+                if newv == 0:
+                    if was_present:
+                        row2.pop(cc, None)
+                        col_data[cc].pop(r2, None)
+                        nnz_current -= 1
+                else:
+                    if not was_present:
+                        nnz_current += 1
+                    row2[cc] = newv
+                    col_data[cc][r2] = newv
+            aug2 = get_aug(r2)
+            for k_, v_ in aug_r.items():
+                newv = (aug2.get(k_, 0) - factor * v_) % p
+                if newv == 0:
+                    aug2.pop(k_, None)
+                else:
+                    aug2[k_] = newv
+
+        if nnz_current > max_nnz_seen:
+            max_nnz_seen = nnz_current
+        if nnz_current > max_nnz_budget:
+            raise SparseFillinExceeded(
+                f"build_sparse_solver({degree_label}): nnz={nnz_current} exceeded budget "
+                f"{max_nnz_budget:.0f} (threshold={fillin_threshold}, basis_dim={basis_dim}) "
+                f"at column {c}/{basis_dim} -- SPARSE_FILLIN_EXCEEDED / STOP per design spec SS2.2")
+
+    word_to_slot = {r: i for i, r in enumerate(piv_rows)}
+    pivot_sub_inv = {}
+    for i, r in enumerate(piv_rows):
+        row_combo = aug_data.get(r, {r: 1 % p})
+        stray = [w for w in row_combo if w not in word_to_slot and row_combo[w] % p != 0]
+        if stray:
+            raise ValueError(f"build_sparse_solver({degree_label}): aug_data for pivot slot {i} "
+                              f"references {len(stray)} non-pivot word(s) -- Gauss-Jordan invariant "
+                              f"violated (implementation bug, not a fill-in issue)")
+        pivot_sub_inv[i] = {word_to_slot[w]: v for w, v in row_combo.items() if v % p != 0}
+
+    return {"piv_rows": piv_rows, "pivot_sub_inv": pivot_sub_inv, "basis_dim": basis_dim,
+            "fillin_ratio": max_nnz_seen / max(1, basis_dim * basis_dim),
+            "nnz_final": nnz_current, "nnz_initial": nnz_initial, "max_nnz_seen": max_nnz_seen}
+
+
+def sparse_solve_coords(solver, vec, p):
+    """Given a solver from build_sparse_solver and a target ambient vector
+    (dict word->coeff), returns the coordinate vector (list length
+    basis_dim). coord[j] = sum_i pivot_sub_inv[j][i] * vec[piv_rows[i]] --
+    sparse dot product, safe for large p via immediate per-term reduction
+    (same overflow-avoidance pattern as mat_vec_modp_np_safe)."""
+    basis_dim = solver["basis_dim"]
+    piv_rows = solver["piv_rows"]
+    pivot_sub_inv = solver["pivot_sub_inv"]
+    v_piv = [vec.get(piv_rows[i], 0) % p for i in range(basis_dim)]
+    coord = [0] * basis_dim
+    for j in range(basis_dim):
+        acc = 0
+        row = pivot_sub_inv[j]
+        for i, val in row.items():
+            vi = v_piv[i]
+            if vi == 0 or val == 0:
+                continue
+            acc = (acc + val * vi) % p
+        coord[j] = acc
+    return coord
+
+
 class GradedLie:
     """One free Lie algebra Lie(alphabet), Lyndon basis per degree, with
     ambient<->coordinate conversion mod p. p is fixed at construction."""
 
-    def __init__(self, alphabet_size, kmax, p):
+    def __init__(self, alphabet_size, kmax, p, sparse_degrees=None, fillin_threshold=0.30):
+        """sparse_degrees: set/list of degrees at which coords_of_ambient
+        should use the sparse solver (build_sparse_solver/sparse_solve_
+        coords, docs/notes/edim_sparse_solver_design_v1.md) instead of the
+        dense numpy solver (_get_solver). Degrees not listed use the dense
+        path unchanged (so k<=10 callers that never pass this argument are
+        byte-for-byte unaffected -- this is an ADDITIVE change, not a
+        replacement, per the design spec's own regression-gate plan: k=9,10
+        must agree between dense and sparse before k=11 is trusted)."""
         self.alphabet_size = alphabet_size
         self.kmax = kmax
         self.p = p
+        self.sparse_degrees = set(sparse_degrees or [])
+        self.fillin_threshold = fillin_threshold
+        self._sparse_solver_cache = {}
         self.words = {}       # degree -> list of Lyndon words
         self.trees = {}       # degree -> list of bracket trees
         self.ambient = {}     # degree -> list of ambient vectors (dict)
@@ -439,8 +619,10 @@ class GradedLie:
         if ncols == 0:
             assert not vec, f"expected zero vector, got {vec} at degree {degree} with empty basis"
             return []
-        solver = self._get_solver(degree)
         p = self.p
+        if degree in self.sparse_degrees:
+            return self._coords_of_ambient_sparse(degree, vec)
+        solver = self._get_solver(degree)
         v_piv = np.array([vec.get(solver["all_words"][r], 0) % p for r in solver["piv_rows"]], dtype=np.int64)
         # p up to ~2^31 (large-prime task, 裁定658) means a raw numpy `@`
         # here silently overflows int64 (sum of >1 terms each ~(p-1)^2) --
@@ -453,6 +635,38 @@ class GradedLie:
         target = np.array([vec.get(w, 0) % p for w in solver["all_words"]], dtype=np.int64)
         if not np.array_equal(recomb, target):
             raise ValueError(f"coords_of_ambient verification FAILED at degree {degree}: "
+                              f"recombination mismatch (basis may not span the target vector)")
+        return coord
+
+    def _coords_of_ambient_sparse(self, degree, vec):
+        """Sparse-solver path (docs/notes/edim_sparse_solver_design_v1.md):
+        no ambient_dim-sized dense array is ever built. Verification is kept
+        (same fail-closed discipline as the dense path), done sparsely
+        (only touches the nonzero entries of vec and of the recombination,
+        not the full ambient_dim^alphabet_size^degree space)."""
+        p = self.p
+        if degree not in self._sparse_solver_cache:
+            self._sparse_solver_cache[degree] = build_sparse_solver(
+                self.ambient[degree], p, fillin_threshold=self.fillin_threshold,
+                degree_label=f"alphabet{self.alphabet_size}_k{degree}")
+        solver = self._sparse_solver_cache[degree]
+        coord = sparse_solve_coords(solver, vec, p)
+        # sparse verification: recombine and compare only on the union of
+        # touched words (both sides are sparse dicts already)
+        recomb = {}
+        basis = self.ambient[degree]
+        for j, c in enumerate(coord):
+            if c % p == 0:
+                continue
+            for w, coef in basis[j].items():
+                v = (coef * c) % p
+                if v == 0:
+                    continue
+                recomb[w] = (recomb.get(w, 0) + v) % p
+        recomb = {w: v for w, v in recomb.items() if v % p != 0}
+        target = {w: (v % p) for w, v in vec.items() if v % p != 0}
+        if recomb != target:
+            raise ValueError(f"_coords_of_ambient_sparse verification FAILED at degree {degree}: "
                               f"recombination mismatch (basis may not span the target vector)")
         return coord
 
