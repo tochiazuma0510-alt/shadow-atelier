@@ -226,3 +226,195 @@ SELF_CONTAINED
 - 変更対象は指定返信 `sol/sol_reply_111_math37.md` と、契約が恒久的に許す Sol の Luna 指示書 `sol/luna_task_111_lean.md` の二ファイルだけ。開始時から存在した無関係な dirty / untracked file には触れていない。
 
 **最終裁定:** 次波は三車線 A0 を発火してよい。T2 は型契約返却で停止し、Sol が object index・quotient transport・Ih domain/codomain を批准してから import を解禁する。LA9 と全 Block E の前倒し、および `PreGaloisCategory` / `FiberFunctor` の一括実装は認めない。
+
+---
+
+# 便 111b 実行追補 — 三車線の回収・Lean gate・broker receipt
+
+## F111b-0. 実行結果
+
+便111で凍結した `sol/luna_task_111_lean.md` を三つの独立 lane に分け、同一 turn 内で spawn → wait → 回収 → 親監査 → remote branch 作成 → workflow dispatch → 終端回収まで行った。
+
+| lane | 終端 | 裁定 |
+|---|---|---|
+| A: T2 exact typing | 基礎 carrier 自体が未定義。偽装 interface を作らず、12項目の有限 blocker inventory を返して STOP-T2 | **BLOCKED-FOUNDATION（契約どおりの終端）** |
+| B: `T1_cyclotomic_ram2` | global ideal 版、素イデアル版、`n=3` sanity を Mathlib だけで証明 | **verified / T1 候補を定理へ降ろして閉鎖** |
+| C: Bridge G2a | same-universe `CoverCategory` に実 `HasFiniteCoproducts` instance を構成 | **verified / G2a 閉鎖** |
+
+「verified」は final clean commit に対する GHA success と axiom receipt がある B/C だけに付ける。A は型境界監査の確定であって Lean theorem の verified ではない。
+
+## F111b-1. Lane A — T2 は foundation blocker
+
+### F111b-1.1 原文・現 source の再監査
+
+次のページ画像を再確認した。
+
+- 2401 印字 p.18、Theorem 3.10 / (3.53)
+- 2405 印字 p.18、Theorem 4.3 / (4.12)
+- 2405 印字 pp.4–5、(1.5), (1.7), (1.9), (1.11), (1.13)
+
+Theorem 3.10 の入力に印字された二引数 `GT(N3,N2)` は、論文が一引数 `GT(N)` と二引数 `GTSh(K,N)` を定義していること、合成の中間 object が `N2` であることから、`GTSh(N3,N2)` の誤植候補と判定する。ただし Lean 側で黙って修正する declaration はまだ作っていない。
+
+`import P1.Core` 後の probe では `B3`, `PB3`, `F2`, `NFIPB3`, `GT`, `GTSh`, `Ih` がすべて unknown identifier であった。現 P1 が持つのは target 側の `Dn/En/Gn` と plain group laws であり、paper の source category を表さない。
+
+### F111b-1.2 不足 foundation の有限 inventory
+
+型依存順に次の12項目が足りない。
+
+1. braid/free-group 基礎: `B3`, `PB3`, `F2`、包含、`sigma1/sigma2/x12/x23/c`
+2. `NFI_PB3(B3)` を表す normal・`N <= PB3`・finite-index 付き `ShadowObject`
+3. target dependent な `N_F2`, `N_ord`, `PB3/N`, `F2/N_F2` と quotient maps
+4. `PairCoord N`, `GTPair N`, charming 条件、`TMap`、surjectivity を含む `GT N`
+5. `source : GT N -> ShadowObject` と二添字 `GTSh K N`
+6. morphism が誘導する `PB3`/`F2` quotient isomorphism、名前付き `ordEq/ordEquiv`
+7. typed `E_(m,f)` と第二座標の `fTransport`
+8. `psi_n : PB3 -> En` と kernel object `Kpow n`
+9. `X_n`, `kappa`, `ExplicitKn`、`4 | n` 分岐を保つ Theorem 4.3 座標型
+10. `Isolated N` と、それを前件にした `Group (GT N)`
+11. `G_Q`, `GT_hat`, `GT_hat_gen`, inclusion、`Ih`, `PR`, isolated 条件付き `Ih_N`
+12. global/finite cyclotomic character、`chi_vir,N`、`Units (ZMod N_ord)` への reduction
+
+依存図は
+
+```text
+B3/PB3/F2
+  -> ShadowObject -> quotients -> GTPair/GT -> source/GTSh
+  -> named quotient transports -> typed composition
+
+Dn/En + B3/PB3/F2
+  -> psi_n/Kpow -> X_n/kappa/ExplicitKn -> Theorem 4.3 + isolated
+
+G_Q/GT_hat/GT_hat_gen + GT/Isolated
+  -> PR/Ih_N + character maps -> finite Ihara compatibility
+```
+
+である。この土台無しに opaque carrier、theorem-bearing record、hidden `Prop` parameter を置けば、便111で明示的に禁止した偽装になる。
+
+### F111b-1.3 STOP receipt
+
+- `lean/P1/T2TypeContract.lean` は作成していない。
+- `ShadowAxioms.lean`、root import、LA7/LA9、LE には触れていない。
+- `lake env lean P1/Core.lean`、`P1/ShadowAxioms.lean` は exit 0。
+- `#print axioms Gn_groupLaws` は `[propext, Quot.sound]`。
+- anchor hash は委嘱記載値と一致した。
+
+従って A の終端は **BLOCKED-FOUNDATION**。次便は T2 axiom の発行でなく、上記1–7の source-category foundation をどこまで Lean 化するかの設計裁定から始める必要がある。
+
+## F111b-2. Lane B — cyclotomic ramification at 2
+
+追加ファイル:
+
+- `lean-arith/LeanArith/CyclotomicRam2.lean`
+- SHA-256 `082e65554a2026065cfabd9eb017daab72328e094e634181ea650b22099f99f6`
+
+公開 theorem は二本。
+
+```text
+cyclotomic_ramificationIdxIn_two
+  (n : Nat) (hn : Odd n) (K)
+  [Field K] [NumberField K]
+  [IsCyclotomicExtension {4*n} Q K] :
+  (span {2}).ramificationIdxIn (O_K) = 2
+
+cyclotomic_ramificationIdx_two
+  ... (P : Ideal O_K) [P.IsPrime] [P.LiesOver (span {2})] :
+  ramificationIdx P Z = 2
+```
+
+Mathlib v4.32.1 の `IsCyclotomicExtension.Rat.ramificationIdxIn_eq` と prime 版 `ramificationIdx_eq` に `p=2`, `k=1`, `m=n` を代入した。`Odd n` から `not (2 | n)`、`norm_num` から `4*n = 2^(1+1)*n` を供給する。さらに conductor 12 (`n=3`) の typed sanity example を置いた。
+
+親の直接再検査:
+
+- `lake env lean LeanArith/CyclotomicRam2.lean` — exit 0
+- target build — exit 0
+- 両 theorem の `#print axioms` — `[propext, Classical.choice, Quot.sound]`
+- project axiom / `sorry` / `admit` / `unsafe` / `implemented_by` — 0
+
+従って旧 `T1_cyclotomic_ram2` は新 axiom として残さず、Mathlib theorem へ降ろして **verified / closed** とする。
+
+## F111b-3. Lane C — Bridge G2a finite coproducts
+
+追加ファイル:
+
+- `lean-arith/LeanArith/BridgeBAffineG2FiniteCoproducts.lean`
+- SHA-256 `9391d3f5efc565bc7a82404f376417aa45ae4aedfee991828fa0ebaef536dc24`
+
+構成は finite étale `R`-algebra の有限依存積 `forall j, F j` を用いる。射影は `Pi.evalAlgHom`、universal lift は `AlgHom.pi`。`Module.Finite` と `Algebra.Etale` の有限 Pi closure から
+
+```text
+HasFiniteProducts (CommAlgCat.FiniteEtale R)
+```
+
+を作り、opposite に移して public instance
+
+```text
+coverCategoryHasFiniteCoproducts :
+  HasFiniteCoproducts (CoverCategory.{u,u} k)
+```
+
+を得た。これは theorem-shaped proxy ではなく、`coprod`, injections, desc, `colimit.isColimit` を Mathlib が実際に synthesize する instance である。
+
+親の直接再検査:
+
+- `lake env lean LeanArith/BridgeBAffineG2FiniteCoproducts.lean` — exit 0
+- target build — exit 0
+- instance と witness theorem の `#print axioms` — `[propext, Classical.choice, Quot.sound]`
+- project axiom / forbidden placeholder — 0
+
+射程は same-universe 一個だけである。finite-group quotients、mono/direct-summand、full `PreGaloisCategory`、arbitrary-universe、`FiberFunctor` は主張しない。これにより PreGalois の未閉鎖 field は **残り2個**となる。
+
+## F111b-4. 親 build・hygiene 監査
+
+- `lake build P1` — success、従来の `P1_AXIOM_AUDIT_PASS|modules=12|theorems=447` を維持。
+- `lake build LeanArith.CyclotomicRam2 LeanArith.BridgeBAffineG2FiniteCoproducts` — success（3648 jobs）。
+- lane 実行側の `lake build` 全体 — success（3652 jobs）。
+- 対象二ファイルは trailing whitespace 無し、forbidden declaration 無し。
+- global `git diff --check` が指した既存 `search/probe/wac_v1/scan_out.txt` の whitespace は本便以前の所有物であり、触れていない。
+
+## F111b-5. Broker push と GHA receipt
+
+### F111b-5.1 clean candidate
+
+通常の local git write は sandbox の `.git` read-only 制約で拒否されたため、親 broker が GitHub Git Data API で blob/tree/commit/ref を作った。credential は process の `GH_TOKEN` のみを用い、ファイルへ保存していない。
+
+最終 merge 候補:
+
+- branch: `sol/111b-lean-next-wave-v2`
+- base: `818069ccf09324b51d61c570a67108c9705b77c2`
+- tree: `9a186e8641d6df46449a46550aff304d74447049`
+- code/task commit: `b6c1a4f7624285f259c615514177e30614a0854f`
+- changed paths: 指示書、ram2、G2a の三ファイルだけ
+
+remote の三 blob は local と byte-for-byte 比較し、長さ・SHA-256 とも全一致した。
+
+### F111b-5.2 authoritative workflow
+
+- workflow: `.github/workflows/lean.yml`
+- event: `workflow_dispatch`
+- run: `31059473056`
+- head: `b6c1a4f7624285f259c615514177e30614a0854f`
+- conclusion: **success**
+
+| job | id | conclusion |
+|---|---:|---|
+| existing-lean-targets | `92484040377` | success |
+| p1-plain-targeted | `92484040476` | success |
+| mathlib-cache-targeted | `92484040465` | success |
+
+runner の Node.js 20 deprecation annotation は actions/checkout/cache/upload の将来警告であり、Lean step の失敗ではない。
+
+### F111b-5.3 文字コード preflight の記録
+
+最初の API branch `sol/111b-lean-next-wave` では、PowerShell native-pipe が非ASCIIを変換した commit `2f0ca082035f989e89253cbefbe11a708aac551c` を byte audit が dispatch 前に捕捉した。force-push や ref 巻き戻しは行わず、fast-forward repair `73bcd3613d66b74152935db9ffe164943e4b9d01` を積んだ。同 tree に対する run `31059242866` も三 job success だったが、この履歴は merge 候補から外す。
+
+履歴を清潔にするため、master から byte-exact blob だけを一 commit にした versioned v2 branch を新設し、上記 authoritative run を再実行した。旧 branch は削除も改変もしていない。
+
+## F111b-6. 非接触・残件
+
+- ETA は `ops/express/20260806-sol111b-eta.md` で司令塔へ先報した。
+- GAP、探索、列挙、Web 検索は行っていない。
+- 封印値、blind 値、`K^(5)` 測定、PSL 量、epsilon bits に非接触。
+- workflow file は変更していない。
+- unrelated dirty/untracked files と、途中で外部から進んだ master の別戦役 commit は保持し、本便の tree に混入させていない。
+
+**111b 最終裁定:** B の ram2 と C の same-universe G2a は final clean GHA により狭く verified。A は paper-faithful 型を作る前提が存在しないため BLOCKED-FOUNDATION で停止し、T2 import と LA/LE 下流は引き続きロックする。次の Lean 実装対象は、T2 foundation を別波で起こすか、T2 と独立な Bridge G2b（finite-group quotients）へ進むかの二択である。
