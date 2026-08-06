@@ -200,6 +200,10 @@ end;;
 ##   phi_1_23_4:  (x,y) -> (X12*X13, X24*X34)
 ##   phi_1_2_34:  (x,y) -> (X12, X23*X24)
 ##   phi_12_3_4:  (x,y) -> (X13*X23, X34)
+psiX12 := ImageElm(psi, gX12);;  psiX13 := ImageElm(psi, gX13);;
+psiX14 := ImageElm(psi, gX14);;  psiX23 := ImageElm(psi, gX23);;
+psiX24 := ImageElm(psi, gX24);;  psiX34 := ImageElm(psi, gX34);;
+
 cfX := [psiX12, psiX23, psiX12*psiX13, psiX12, psiX13*psiX23];;
 cfY := [psiX23, psiX34, psiX24*psiX34, psiX23*psiX24, psiX34];;
 
