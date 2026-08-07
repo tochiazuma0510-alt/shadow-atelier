@@ -1,0 +1,278 @@
+{
+  "schema": "shadow-atelier/t2_hecke_v1",
+  "authority": "裁定769(3) (司令塔), docs/notes/cone_design_v1_addendum_d.md §3.2 発注仕様 T2-HECKE (verbatim)",
+  "scope_disclosure": "これは「C_k が住む環 End_Hecke(P_k^Z)」の同定であって P-CONE-6' の枝判定ではない (ρ側はσ̃待ち・addendum §3.1限定②)。disc(Z[T_2])はfull Hecke環の判別式の上界に すぎない(addendum限定①)。",
+  "coboundary_projection_disclosure": "T2_matrix values reported here are AFTER projecting out the coboundary direction X^(k-2)-Y^(k-2) (see search/t2_hecke_common.py module docstring) -- Brown's raw period-polynomial representative is not itself a Hecke eigenvector without this projection.",
+  "H_a_matrix_set_T2": [
+    [
+      1,
+      0,
+      0,
+      2
+    ],
+    [
+      1,
+      1,
+      0,
+      2
+    ],
+    [
+      2,
+      0,
+      0,
+      1
+    ],
+    [
+      2,
+      0,
+      1,
+      1
+    ]
+  ],
+  "H_b_calibration": {
+    "T2_weight12": -24,
+    "expected": -24,
+    "pass": true,
+    "lambda_coboundary": "108",
+    "all_integer": true,
+    "residual_zero": true
+  },
+  "due_diligence_T3_weight12": {
+    "T3_weight12": 252,
+    "classical_tau3_crosscheck": 252,
+    "matches": true,
+    "note": "not addendum-mandated -- extra self-imposed calibration point before trusting the coboundary-projected formula at untested weights"
+  },
+  "H_c_a2_by_weight": {
+    "12": {
+      "T2_scalar": -24,
+      "lambda_coboundary": "108"
+    },
+    "16": {
+      "T2_scalar": 216,
+      "lambda_coboundary": "3240"
+    },
+    "18": {
+      "T2_scalar": -528,
+      "lambda_coboundary": "54000"
+    },
+    "20": {
+      "T2_scalar": 456,
+      "lambda_coboundary": "79380"
+    },
+    "22": {
+      "T2_scalar": -288,
+      "lambda_coboundary": "3402000"
+    },
+    "26": {
+      "T2_scalar": -48,
+      "lambda_coboundary": "1754298000"
+    }
+  },
+  "H_d_H_e_disc_by_weight": {
+    "24": {
+      "T2_matrix": [
+        [
+          208851514296,
+          3339212515200
+        ],
+        [
+          -13062647136,
+          -208851513216
+        ]
+      ],
+      "lambdas_coboundary": [
+        "61455240",
+        "982584000"
+      ],
+      "trace": 1080,
+      "det": -20468736,
+      "disc": 83041344,
+      "disc_factorization": {
+        "2": 6,
+        "3": 2,
+        "144169": 1
+      },
+      "squarefree_part_disc": 144169
+    },
+    "28": {
+      "T2_matrix": [
+        [
+          -41308772184,
+          480245760
+        ],
+        [
+          -3553210583916,
+          41308763904
+        ]
+      ],
+      "lambdas_coboundary": [
+        "8434431180",
+        "-97977600"
+      ],
+      "trace": -8280,
+      "det": -195250176,
+      "disc": 849559104,
+      "disc_factorization": {
+        "2": 6,
+        "3": 6,
+        "131": 1,
+        "139": 1
+      },
+      "squarefree_part_disc": 18209
+    },
+    "30": {
+      "T2_matrix": [
+        [
+          -577697553066048,
+          540737040914240256
+        ],
+        [
+          -617184393840,
+          577697553074688
+        ]
+      ],
+      "lambdas_coboundary": [
+        "42093702000",
+        "-39400579872000"
+      ],
+      "trace": 8640,
+      "det": -454569984,
+      "disc": 1892929536,
+      "disc_factorization": {
+        "2": 12,
+        "3": 2,
+        "51349": 1
+      },
+      "squarefree_part_disc": 51349
+    },
+    "32": {
+      "T2_matrix": [
+        [
+          114725054593176,
+          49575093611232384
+        ],
+        [
+          -265492956000,
+          -114725054553216
+        ]
+      ],
+      "lambdas_coboundary": [
+        "-38490314184",
+        "-16632548045568"
+      ],
+      "trace": 39960,
+      "det": -2235350016,
+      "disc": 10538201664,
+      "disc_factorization": {
+        "2": 6,
+        "3": 2,
+        "67": 1,
+        "273067": 1
+      },
+      "squarefree_part_disc": 18295489
+    }
+  },
+  "P_T2_1": {
+    "k": 24,
+    "disc": 83041344,
+    "144169_divides_disc": true,
+    "disc_equals_576_times_144169": true,
+    "trace": 1080,
+    "det": -20468736,
+    "a2_540_plus_minus_12sqrt144169_matches_charpoly": true,
+    "144169_divides_num_B24_cross_check": false
+  },
+  "P_T2_2": {
+    "28": {
+      "disc": 849559104,
+      "disc_factorization": {
+        "2": 6,
+        "3": 6,
+        "131": 1,
+        "139": 1
+      },
+      "squarefree_part": 18209
+    },
+    "30": {
+      "disc": 1892929536,
+      "disc_factorization": {
+        "2": 12,
+        "3": 2,
+        "51349": 1
+      },
+      "squarefree_part": 51349
+    },
+    "32": {
+      "disc": 10538201664,
+      "disc_factorization": {
+        "2": 6,
+        "3": 2,
+        "67": 1,
+        "273067": 1
+      },
+      "squarefree_part": 18295489
+    }
+  },
+  "H_f_commutativity": {
+    "k": 24,
+    "T2_T3": [
+      [
+        30037023803551392,
+        480245543936064000
+      ],
+      [
+        -1878669911099520,
+        -30037025613224448
+      ]
+    ],
+    "T3_T2": [
+      [
+        30037023803551392,
+        480245543936064000
+      ],
+      [
+        -1878669911099520,
+        -30037025613224448
+      ]
+    ],
+    "commute": true
+  },
+  "H_g_order_index": {
+    "24": {
+      "disc_Z_T2": 83041344,
+      "squarefree_part": 144169,
+      "field_disc_Q_sqrt_sf": 144169,
+      "index_squared_raw": 576,
+      "index_is_perfect_square": true,
+      "index_Z_T2_in_maximal_order": 24
+    },
+    "28": {
+      "disc_Z_T2": 849559104,
+      "squarefree_part": 18209,
+      "field_disc_Q_sqrt_sf": 18209,
+      "index_squared_raw": 46656,
+      "index_is_perfect_square": true,
+      "index_Z_T2_in_maximal_order": 216
+    },
+    "30": {
+      "disc_Z_T2": 1892929536,
+      "squarefree_part": 51349,
+      "field_disc_Q_sqrt_sf": 51349,
+      "index_squared_raw": 36864,
+      "index_is_perfect_square": true,
+      "index_Z_T2_in_maximal_order": 192
+    },
+    "32": {
+      "disc_Z_T2": 10538201664,
+      "squarefree_part": 18295489,
+      "field_disc_Q_sqrt_sf": 18295489,
+      "index_squared_raw": 576,
+      "index_is_perfect_square": true,
+      "index_Z_T2_in_maximal_order": 24
+    }
+  },
+  "no_verdict_note": "S-T2-3 compliance: raw numeric values, integer matrices, factorizations, and booleans only. Judgment words are reserved for 司令塔/Sol.",
+  "stop_code": null,
+  "total_elapsed_sec": 0.06
+}
