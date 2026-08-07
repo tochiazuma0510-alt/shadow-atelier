@@ -145,8 +145,9 @@
       "gcd_abs": 1,
       "gcd_abs_factorization": {},
       "torsion_primes": [],
+      "torsion_primes_classification": {},
       "P_D2_1_pass_this_k": true,
-      "elapsed_sec": 0.034
+      "elapsed_sec": 0.0386
     },
     "14": {
       "num_pairs": 2,
@@ -184,8 +185,12 @@
         2,
         3
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm",
+        "3": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.0071
+      "elapsed_sec": 0.0074
     },
     "16": {
       "num_pairs": 3,
@@ -235,8 +240,11 @@
       "torsion_primes": [
         2
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.0142
+      "elapsed_sec": 0.0148
     },
     "18": {
       "num_pairs": 3,
@@ -286,8 +294,11 @@
       "torsion_primes": [
         2
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.0166
+      "elapsed_sec": 0.0169
     },
     "20": {
       "num_pairs": 4,
@@ -346,8 +357,12 @@
         2,
         3
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm",
+        "3": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.03
+      "elapsed_sec": 0.0304
     },
     "22": {
       "num_pairs": 4,
@@ -401,8 +416,12 @@
         2,
         3
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm",
+        "3": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.0375
+      "elapsed_sec": 0.0379
     },
     "24": {
       "num_pairs": 5,
@@ -466,8 +485,11 @@
       "torsion_primes": [
         2
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.0572
+      "elapsed_sec": 0.0601
     },
     "26": {
       "num_pairs": 5,
@@ -527,8 +549,12 @@
         2,
         3
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm",
+        "3": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.0772
+      "elapsed_sec": 0.0779
     },
     "28": {
       "num_pairs": 6,
@@ -601,8 +627,12 @@
         2,
         3
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm",
+        "3": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.1084
+      "elapsed_sec": 0.1078
     },
     "30": {
       "num_pairs": 6,
@@ -675,8 +705,12 @@
         2,
         3
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm",
+        "3": "scope_boundary_no_alarm"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.1179
+      "elapsed_sec": 0.1206
     },
     "32": {
       "num_pairs": 7,
@@ -758,8 +792,13 @@
         3,
         5
       ],
+      "torsion_primes_classification": {
+        "2": "scope_boundary_no_alarm",
+        "3": "scope_boundary_no_alarm",
+        "5": "quarantine_surprise"
+      },
       "P_D2_1_pass_this_k": false,
-      "elapsed_sec": 0.1625
+      "elapsed_sec": 0.1582
     }
   },
   "P_D2_1_all_gcd_abs_1": false,
@@ -803,8 +842,85 @@
       5
     ]
   },
+  "prime_finding_classification_note": "裁定756 Q2 (司令塔): p in {2,3} = scope boundary (想定類・警報なし, per this project's standing p>=5 quantifier convention, e.g. TOR-S3/Maschke); p>=5 (here: only p=5 at k=32) = quarantine_surprise. This is a bookkeeping split, not a verdict on (32,5)'s 素性/interpretation (still under quarantine).",
+  "scope_boundary_findings": [
+    {
+      "k": 14,
+      "prime": 2
+    },
+    {
+      "k": 14,
+      "prime": 3
+    },
+    {
+      "k": 16,
+      "prime": 2
+    },
+    {
+      "k": 18,
+      "prime": 2
+    },
+    {
+      "k": 20,
+      "prime": 2
+    },
+    {
+      "k": 20,
+      "prime": 3
+    },
+    {
+      "k": 22,
+      "prime": 2
+    },
+    {
+      "k": 22,
+      "prime": 3
+    },
+    {
+      "k": 24,
+      "prime": 2
+    },
+    {
+      "k": 26,
+      "prime": 2
+    },
+    {
+      "k": 26,
+      "prime": 3
+    },
+    {
+      "k": 28,
+      "prime": 2
+    },
+    {
+      "k": 28,
+      "prime": 3
+    },
+    {
+      "k": 30,
+      "prime": 2
+    },
+    {
+      "k": 30,
+      "prime": 3
+    },
+    {
+      "k": 32,
+      "prime": 2
+    },
+    {
+      "k": 32,
+      "prime": 3
+    }
+  ],
+  "quarantine_surprise_findings": [
+    {
+      "k": 32,
+      "prime": 5
+    }
+  ],
   "canary_failures": [],
   "no_verdict_note": "S-D2-2 compliance: this script emits ONLY raw numeric values, integer vectors, factorizations, and the pre-registered STOP codes (DEPTH_CANARY_FAIL / WEIGHT_CANARY_FAIL / SNF_RANK_MISMATCH / D2_SNF_CANARY_FAIL) -- no interpretive verdict prose. P_D2_1_all_gcd_abs_1 is a raw boolean re-derivable from per_k[*].gcd_abs; its格付け (candidate/cross-checked/etc.) is reserved for 司令塔/Sol per addendum §1.4.",
   "stop_code": null,
-  "total_elapsed_sec": 0.66
+  "total_elapsed_sec": 0.67
 }

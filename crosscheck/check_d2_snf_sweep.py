@@ -227,6 +227,41 @@ def main():
     else:
         ok(f"P_D2_1_all_gcd_abs_1 re-derives correctly from per_k gcd_abs values: {all_gcd_abs_1_recomputed}")
 
+    # ---- 裁定756 Q2 classification bookkeeping: re-derive scope_boundary vs
+    # quarantine_surprise split purely from torsion_primes (p in {2,3} vs
+    # p>=5), and check the per_k classification dict + top-level finding
+    # lists are all internally consistent (bookkeeping check, not a verdict
+    # on any prime's 素性) ----
+    scope_ok = True
+    for k in K_RANGE:
+        row = per_k_cert.get(str(k), {})
+        cls = row.get("torsion_primes_classification", {})
+        for p in row.get("torsion_primes", []):
+            expected_cls = "scope_boundary_no_alarm" if p in (2, 3) else "quarantine_surprise"
+            if cls.get(str(p)) != expected_cls:
+                scope_ok = False
+                fail(f"k={k} p={p}: torsion_primes_classification={cls.get(str(p))} "
+                     f"!= expected {expected_cls}")
+    if scope_ok:
+        ok("torsion_primes_classification (p in {2,3} -> scope_boundary_no_alarm, "
+           "p>=5 -> quarantine_surprise) is internally consistent for every k")
+
+    scope_findings_recomputed = [{"k": k, "prime": p} for k in K_RANGE
+                                  for p in per_k_cert.get(str(k), {}).get("torsion_primes", []) if p in (2, 3)]
+    quarantine_findings_recomputed = [{"k": k, "prime": p} for k in K_RANGE
+                                       for p in per_k_cert.get(str(k), {}).get("torsion_primes", []) if p not in (2, 3)]
+    if scope_findings_recomputed != doc.get("scope_boundary_findings"):
+        fail(f"scope_boundary_findings re-derived={scope_findings_recomputed} "
+             f"!= cert {doc.get('scope_boundary_findings')}")
+    else:
+        ok(f"scope_boundary_findings re-derives correctly: {scope_findings_recomputed}")
+    if quarantine_findings_recomputed != doc.get("quarantine_surprise_findings"):
+        fail(f"quarantine_surprise_findings re-derived={quarantine_findings_recomputed} "
+             f"!= cert {doc.get('quarantine_surprise_findings')}")
+    else:
+        ok(f"quarantine_surprise_findings re-derives correctly: {quarantine_findings_recomputed} "
+           f"(expected: only (32,5) per current data)")
+
     print()
     if fails:
         print(f"CROSSCHECK RESULT: FAIL ({len(fails)} issues)")

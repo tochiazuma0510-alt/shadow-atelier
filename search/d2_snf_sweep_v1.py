@@ -319,6 +319,15 @@ def main():
         torsion_primes = sorted(factorize(gcd_abs).keys())
         p_d2_1_pass_this_k = (gcd_abs == 1)
 
+        # ---- 裁定756 Q2: bookkeeping classification (NOT a verdict) ----
+        # p in {2,3} = scope boundary (P-T-1-style quantifier restricts to
+        # p>=5 throughout this project, TOR-S3/Maschke); p>=5 = quarantine
+        # candidate per addendum's own "反証されたら...一級" clause.
+        torsion_primes_classification = {
+            str(p): ("scope_boundary_no_alarm" if p in (2, 3) else "quarantine_surprise")
+            for p in torsion_primes
+        }
+
         per_k[k] = {
             "num_pairs": num_pairs,
             "pairs": [list(p) for p in pairs],
@@ -337,6 +346,7 @@ def main():
             "gcd_abs": gcd_abs,
             "gcd_abs_factorization": {str(p): e for p, e in factorize(gcd_abs).items()},
             "torsion_primes": torsion_primes,
+            "torsion_primes_classification": torsion_primes_classification,
             "P_D2_1_pass_this_k": p_d2_1_pass_this_k,
             "elapsed_sec": round(time.time() - t0, 4),
         }
@@ -353,6 +363,17 @@ def main():
     all_gcd_abs_1 = all(per_k[k]["gcd_abs"] == 1 for k in K_RANGE)
     torsion_found = {k: per_k[k]["torsion_primes"] for k in K_RANGE if per_k[k]["torsion_primes"]}
 
+    # ---- 裁定756 Q2 bookkeeping split (raw lists only, no verdict) ----
+    scope_boundary_findings = []
+    quarantine_surprise_findings = []
+    for k in K_RANGE:
+        for p in per_k[k]["torsion_primes"]:
+            entry = {"k": k, "prime": p}
+            if p in (2, 3):
+                scope_boundary_findings.append(entry)
+            else:
+                quarantine_surprise_findings.append(entry)
+
     out = {
         "schema": "shadow-atelier/d2_snf_sweep_v1",
         "authority": "裁定752① (司令塔), docs/notes/tor_sweep_design_v1_addendum_b.md "
@@ -367,6 +388,14 @@ def main():
         "per_k": {str(k): v for k, v in per_k.items()},
         "P_D2_1_all_gcd_abs_1": all_gcd_abs_1,
         "torsion_primes_found_by_k": {str(k): v for k, v in torsion_found.items()},
+        "prime_finding_classification_note": "裁定756 Q2 (司令塔): p in {2,3} = scope boundary "
+                                              "(想定類・警報なし, per this project's standing p>=5 "
+                                              "quantifier convention, e.g. TOR-S3/Maschke); p>=5 "
+                                              "(here: only p=5 at k=32) = quarantine_surprise. This "
+                                              "is a bookkeeping split, not a verdict on (32,5)'s "
+                                              "素性/interpretation (still under quarantine).",
+        "scope_boundary_findings": scope_boundary_findings,
+        "quarantine_surprise_findings": quarantine_surprise_findings,
         "canary_failures": canary_failures,
         "no_verdict_note": "S-D2-2 compliance: this script emits ONLY raw numeric values, integer "
                             "vectors, factorizations, and the pre-registered STOP codes "
