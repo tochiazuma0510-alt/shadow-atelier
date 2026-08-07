@@ -1,0 +1,118 @@
+{
+  "schema": "shadow-atelier/e12_second_system_v1",
+  "authority": "裁定759(5) (司令塔), P-CONE-2 per docs/notes/cone_design_v1.md §6.3 (CR-1)",
+  "independence_protocol": {
+    "orchestrator_had_prior_exposure_to_first_system": true,
+    "orchestrator_exposure_reason": "full-file Read of docs/scout/brown_e12_coefficients_verbatim_v1.md was required to locate the pin section (no sub-section read capability); this is disclosed, not concealed.",
+    "mitigation": "actual second-system derivation delegated to a freshly-spawned subagent with no conversation memory, given ONLY the verbatim pin text (Definition 8.1/(8.4)(8.5)(8.6)(8.7) + Example 8.4 f_12 + the paper's own printed 3-term/118-count anchor) as its task prompt, explicitly forbidden from reading docs/scout/brown_e12_coefficients_verbatim_v1.md, docs/scout/brown_e12_reconstruct.py, or any 'e12'-named file. That subagent's script (search/e12_second_system_blind_derivation.py) and its raw output (search/certs/e12_blind_derivation_raw_20260807.json) were both produced and finalized BEFORE the post-hoc comparison in THIS script.",
+    "post_hoc_comparison_attestation": "this script (and its author) opened the first-system JSON (embedded in docs/scout/brown_e12_coefficients_verbatim_v1.md) only AFTER search/certs/e12_blind_derivation_raw_20260807.json already existed on disk with its own final content -- the second system's 118 terms were not adjusted, curve-fit, or revised in light of the first system's values."
+  },
+  "first_system_note_path": "docs/scout/brown_e12_coefficients_verbatim_v1.md",
+  "first_system_json_sha256_recomputed": "baaa7580a6f6d45ee1a40dc2472ae92d49b7636a1dc33912667ce799d62acc1f",
+  "first_system_json_sha256_matches_note_claim": true,
+  "second_system_script_path": "search/e12_second_system_blind_derivation.py",
+  "second_system_json_path": "search/certs/e12_blind_derivation_raw_20260807.json",
+  "second_system_internal_checks": {
+    "f0_f1_division_remainder_zero": true,
+    "route_a_route_b_match": true,
+    "eq_8_7_holds": true,
+    "f1_odd_identity_holds": true
+  },
+  "term_comparison": {
+    "n_terms_first_system": 118,
+    "n_terms_second_system": 118,
+    "n_terms_paper_stated": 118,
+    "only_in_first_system": [],
+    "only_in_second_system": [],
+    "coefficient_mismatches_on_common_monomials": [],
+    "full_term_by_term_match": true
+  },
+  "anchors_in_scope_reproduced": {
+    "1": {
+      "description": "coeff(x3^7 x4) = 1 (paper-printed 1st term, Example 8.4 p.24)",
+      "value_first_system": 1,
+      "value_second_system": 1
+    },
+    "2": {
+      "description": "coeff(x1^3 x2^2 x3^2 x4) = -116 (paper-printed 2nd term)",
+      "value_first_system": -116,
+      "value_second_system": -116
+    },
+    "3": {
+      "description": "coeff(x1^2 x2^5 x4) = -57 (paper-printed 3rd term)",
+      "value_first_system": -57,
+      "value_second_system": -57
+    },
+    "4": {
+      "description": "term count = 118 (paper-stated '(118 terms in total)')",
+      "value_first_system": 118,
+      "value_second_system": 118
+    },
+    "5": {
+      "description": "same as anchors 2,3 restated as the zeta_D congruence coefficients (p.24) -- not a separate check",
+      "value_first_system": "see anchors 2,3",
+      "value_second_system": "see anchors 2,3"
+    },
+    "6": {
+      "description": "(8.7): e_bar_12(x,y,0,0) = f1(x,y) [and = f1(-y,x)] -- verified as a full polynomial identity, implies coeff(x1^7x2,x1^5x2^3,x1^3x2^5,x1x2^7) = 1,-3,3,-1",
+      "value_first_system": "see eq_8_7_holds",
+      "value_second_system": true
+    },
+    "11": {
+      "description": "antisymmetry e_bar(x1,x2,x3,x4) = -e_bar(x4,x3,x2,x1) -- checkable purely from the derived polynomial itself (no further paper text needed), verified post-hoc below",
+      "value_first_system": "see anchor_11_holds",
+      "value_second_system": true
+    }
+  },
+  "anchor_11_antisymmetry_mismatches": [],
+  "anchors_out_of_scope_not_reproduced": {
+    "7": "linearized double shuffle equations (8.2)(8.3) = 0 -- (8.2)/(8.3) are CITED (Theorem 8.3) but not quoted verbatim in the pin section; not independently checkable from pin text alone",
+    "8": "Z/5 cyclic invariance of e_f (Definition 8.1) -- automatic by construction (e_f is literally defined as a sum over the full Z/5 orbit) rather than an independent nontrivial check; not separately verified here",
+    "9": "sparsity (9.2): a 5th-order mixed partial vanishes (Lemma 9.2, p.26) -- (9.1)/(9.2) not quoted verbatim in the pin section",
+    "10": "unevenness (9.1) (Lemma 9.1, p.26) -- same as anchor 9"
+  },
+  "stop_code": null,
+  "P_CONE_2": {
+    "statement_source": "docs/notes/cone_design_v1.md line ~150: '予言 P-CONE-2: e(f_12) は原始的 (coker(e)_tors=0) ⟹ k=12ではこだま分で尽きる'",
+    "gcd_all_118_coefficients_first_system": 1,
+    "gcd_all_118_coefficients_second_system": 1,
+    "gcd_agrees_across_both_systems": true,
+    "gcd_factorization": {},
+    "gcd_equals_1": true,
+    "abs_coefficient_set": [
+      1,
+      2,
+      3,
+      7,
+      8,
+      9,
+      14,
+      15,
+      16,
+      17,
+      19,
+      20,
+      24,
+      26,
+      28,
+      30,
+      44,
+      45,
+      46,
+      55,
+      57,
+      60,
+      68,
+      84,
+      90,
+      108,
+      116,
+      142
+    ],
+    "max_abs_coefficient": 142,
+    "positive_term_count": 59,
+    "negative_term_count": 59,
+    "sum_of_all_coefficients": 0
+  },
+  "scope_limitation_CR2": "本判定はLAT-ls格子定義上の言明である: gcd(全118係数)=1 は「ē_12 を x1..x4 の整数係数多項式として ambient格子 Z^{118 monomials} に埋め込んだときの成分の gcd」であって、この格子自体が e(f_12) の '正しい' 整構造かは論文からは判定できない。CR-2(docs/scout/brown_e12_coefficients_verbatim_v1.md §3)の記録どおり、Brown 論文自身は e が整構造の何らかの意味で標準的/canonical かに関する明示的主張を せず、d と e の関係が '非自明な同型' を通すことのみを観察報告('it seems that')として述べており、この同型の整性は UNKNOWN のまま(論文内では閉じない)。"
+}
