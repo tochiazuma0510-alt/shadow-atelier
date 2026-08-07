@@ -1,0 +1,781 @@
+{
+  "schema": "shadow-atelier/cb_recon_sweep_v1",
+  "authority": "裁定763(8) (司令塔), docs/notes/cone_design_v1_addendum_b.md 発注仕様 CB-RECON (verbatim, e-side scope only)",
+  "scope_disclosure": "rho-side (needs filtered sigma_tilde_m, out of scope per 裁定763(8) explicit instruction: 'ρ側(σ̃必要分)は本発注の射程外'). W-b/W-c not attempted. Only W-a (P_k^Z basis, via the already-cross-checked beta_k-kernel route, see search/cb_recon_common.py docstring) and W-d/W-e (saturation of 'e' itself, as a direct proxy object per CONE-A's rho=c*e claim) are implemented.",
+  "self_caught_bug_disclosure": "first run (raw D2-SNF-1 kernel_basis_primitive, not jointly saturated) produced spurious torsion at all dim(P_k)=2 weights -- diagnosed and fixed via saturate_kernel_basis() BEFORE reporting any P-CONE score; see per_k[k].saturation_diagnostic for every dim=2 weight (24,28,30,32) -- both raw and saturated bases and their own SNF are recorded, nothing erased.",
+  "sweep_order": [
+    24,
+    16,
+    18,
+    20,
+    22,
+    26,
+    28,
+    30,
+    32
+  ],
+  "W_a_canary_canon_reproduction": {
+    "12": {
+      "computed": {
+        "8,2": 1,
+        "2,8": -1,
+        "6,4": -3,
+        "4,6": 3
+      },
+      "expected": {
+        "8,2": 1,
+        "2,8": -1,
+        "6,4": -3,
+        "4,6": 3
+      },
+      "match": true
+    },
+    "16": {
+      "computed": {
+        "12,2": 2,
+        "2,12": -2,
+        "10,4": -7,
+        "4,10": 7,
+        "8,6": 11,
+        "6,8": -11
+      },
+      "expected": {
+        "12,2": 2,
+        "2,12": -2,
+        "10,4": -7,
+        "4,10": 7,
+        "8,6": 11,
+        "6,8": -11
+      },
+      "match": true
+    },
+    "18": {
+      "computed": {
+        "14,2": 8,
+        "2,14": -8,
+        "12,4": -25,
+        "4,12": 25,
+        "10,6": 26,
+        "6,10": -26
+      },
+      "expected": {
+        "14,2": 8,
+        "2,14": -8,
+        "12,4": -25,
+        "4,12": 25,
+        "10,6": 26,
+        "6,10": -26
+      },
+      "match": true
+    },
+    "20": {
+      "computed": {
+        "16,2": 3,
+        "2,16": -3,
+        "14,4": -10,
+        "4,14": 10,
+        "12,6": 14,
+        "6,12": -14,
+        "10,8": -13,
+        "8,10": 13
+      },
+      "expected": {
+        "16,2": 3,
+        "2,16": -3,
+        "14,4": -10,
+        "4,14": 10,
+        "12,6": 14,
+        "6,12": -14,
+        "10,8": -13,
+        "8,10": 13
+      },
+      "match": true
+    }
+  },
+  "W_a_canary_all_match": true,
+  "per_k": {
+    "24": {
+      "k": 24,
+      "dim_P_k": 2,
+      "saturation_diagnostic": {
+        "kernel_basis_raw_from_D2_SNF_1": [
+          [
+            470,
+            -1519,
+            1862,
+            -969,
+            0
+          ],
+          [
+            194,
+            -605,
+            627,
+            0,
+            -646
+          ]
+        ],
+        "kernel_basis_raw_SNF": [
+          1,
+          323
+        ],
+        "raw_basis_was_already_saturated": false,
+        "kernel_basis_saturated": [
+          [
+            2,
+            1379,
+            -8911,
+            25194,
+            -40698
+          ],
+          [
+            32,
+            22048,
+            -142473,
+            402813,
+            -650698
+          ]
+        ],
+        "kernel_basis_saturated_SNF": [
+          1,
+          1
+        ]
+      },
+      "f_k_degree": 22,
+      "f_k_num_terms": [
+        10,
+        10
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 18,
+          "f1_num_terms": 10,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 1164
+        },
+        {
+          "poly_index": 1,
+          "f0_num_terms": 18,
+          "f1_num_terms": 10,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 1164
+        }
+      ],
+      "e_f_degree": 20,
+      "snf_result": {
+        "matrix_shape": [
+          2,
+          1164
+        ],
+        "rank_Q": 2,
+        "elementary_divisors": [
+          1,
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "P_CONE_6_rank_F103": 2,
+      "stop_code": null,
+      "elapsed_sec": 0.271
+    },
+    "16": {
+      "k": 16,
+      "dim_P_k": 1,
+      "saturation_diagnostic": {
+        "note": "dim_P_k=1: single primitive vector is automatically saturated"
+      },
+      "f_k_degree": 14,
+      "f_k_num_terms": [
+        6
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 10,
+          "f1_num_terms": 6,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 320
+        }
+      ],
+      "e_f_degree": 12,
+      "snf_result": {
+        "matrix_shape": [
+          1,
+          320
+        ],
+        "rank_Q": 1,
+        "elementary_divisors": [
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "stop_code": null,
+      "elapsed_sec": 0.02
+    },
+    "18": {
+      "k": 18,
+      "dim_P_k": 1,
+      "saturation_diagnostic": {
+        "note": "dim_P_k=1: single primitive vector is automatically saturated"
+      },
+      "f_k_degree": 16,
+      "f_k_num_terms": [
+        6
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 12,
+          "f1_num_terms": 6,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 420
+        }
+      ],
+      "e_f_degree": 14,
+      "snf_result": {
+        "matrix_shape": [
+          1,
+          420
+        ],
+        "rank_Q": 1,
+        "elementary_divisors": [
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "stop_code": null,
+      "elapsed_sec": 0.027
+    },
+    "20": {
+      "k": 20,
+      "dim_P_k": 1,
+      "saturation_diagnostic": {
+        "note": "dim_P_k=1: single primitive vector is automatically saturated"
+      },
+      "f_k_degree": 18,
+      "f_k_num_terms": [
+        8
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 14,
+          "f1_num_terms": 8,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 654
+        }
+      ],
+      "e_f_degree": 16,
+      "snf_result": {
+        "matrix_shape": [
+          1,
+          654
+        ],
+        "rank_Q": 1,
+        "elementary_divisors": [
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "stop_code": null,
+      "elapsed_sec": 0.037
+    },
+    "22": {
+      "k": 22,
+      "dim_P_k": 1,
+      "saturation_diagnostic": {
+        "note": "dim_P_k=1: single primitive vector is automatically saturated"
+      },
+      "f_k_degree": 20,
+      "f_k_num_terms": [
+        8
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 16,
+          "f1_num_terms": 8,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 806
+        }
+      ],
+      "e_f_degree": 18,
+      "snf_result": {
+        "matrix_shape": [
+          1,
+          806
+        ],
+        "rank_Q": 1,
+        "elementary_divisors": [
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "P_CONE_3_control_prime": 11,
+      "P_CONE_3_control_prime_appears_in_torsion": false,
+      "stop_code": null,
+      "elapsed_sec": 0.048
+    },
+    "26": {
+      "k": 26,
+      "dim_P_k": 1,
+      "saturation_diagnostic": {
+        "note": "dim_P_k=1: single primitive vector is automatically saturated"
+      },
+      "f_k_degree": 24,
+      "f_k_num_terms": [
+        10
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 20,
+          "f1_num_terms": 10,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 1364
+        }
+      ],
+      "e_f_degree": 22,
+      "snf_result": {
+        "matrix_shape": [
+          1,
+          1364
+        ],
+        "rank_Q": 1,
+        "elementary_divisors": [
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "P_CONE_3_control_prime": 13,
+      "P_CONE_3_control_prime_appears_in_torsion": false,
+      "stop_code": null,
+      "elapsed_sec": 0.082
+    },
+    "28": {
+      "k": 28,
+      "dim_P_k": 2,
+      "saturation_diagnostic": {
+        "kernel_basis_raw_from_D2_SNF_1": [
+          [
+            442,
+            -1450,
+            1886,
+            -1265,
+            437,
+            0
+          ],
+          [
+            5619,
+            -18291,
+            23023,
+            -13156,
+            0,
+            7429
+          ]
+        ],
+        "kernel_basis_raw_SNF": [
+          1,
+          437
+        ],
+        "raw_basis_was_already_saturated": false,
+        "kernel_basis_saturated": [
+          [
+            1,
+            12383,
+            -82915,
+            254518,
+            -483322,
+            646323
+          ],
+          [
+            0,
+            -144,
+            964,
+            -2959,
+            5619,
+            -7514
+          ]
+        ],
+        "kernel_basis_saturated_SNF": [
+          1,
+          1
+        ]
+      },
+      "f_k_degree": 26,
+      "f_k_num_terms": [
+        12,
+        10
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 22,
+          "f1_num_terms": 12,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 1870
+        },
+        {
+          "poly_index": 1,
+          "f0_num_terms": 18,
+          "f1_num_terms": 10,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 1828
+        }
+      ],
+      "e_f_degree": 24,
+      "snf_result": {
+        "matrix_shape": [
+          2,
+          1870
+        ],
+        "rank_Q": 2,
+        "elementary_divisors": [
+          1,
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "P_CONE_3_control_prime": 7,
+      "P_CONE_3_control_prime_appears_in_torsion": false,
+      "stop_code": null,
+      "elapsed_sec": 0.335
+    },
+    "30": {
+      "k": 30,
+      "dim_P_k": 2,
+      "saturation_diagnostic": {
+        "kernel_basis_raw_from_D2_SNF_1": [
+          [
+            1136,
+            -3717,
+            4788,
+            -3105,
+            966,
+            0
+          ],
+          [
+            68000,
+            -220374,
+            273000,
+            -148005,
+            0,
+            45885
+          ]
+        ],
+        "kernel_basis_raw_SNF": [
+          1,
+          483
+        ],
+        "raw_basis_was_already_saturated": false,
+        "kernel_basis_saturated": [
+          [
+            16,
+            14805,
+            -95172,
+            264960,
+            -404754,
+            321195
+          ],
+          [
+            -14976,
+            -13857792,
+            89082992,
+            -248008125,
+            378858244,
+            -300645265
+          ]
+        ],
+        "kernel_basis_saturated_SNF": [
+          1,
+          1
+        ]
+      },
+      "f_k_degree": 28,
+      "f_k_num_terms": [
+        12,
+        12
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 24,
+          "f1_num_terms": 12,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 2138
+        },
+        {
+          "poly_index": 1,
+          "f0_num_terms": 24,
+          "f1_num_terms": 12,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 2138
+        }
+      ],
+      "e_f_degree": 26,
+      "snf_result": {
+        "matrix_shape": [
+          2,
+          2138
+        ],
+        "rank_Q": 2,
+        "elementary_divisors": [
+          1,
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "P_CONE_3_control_prime": 5,
+      "P_CONE_3_control_prime_appears_in_torsion": false,
+      "stop_code": null,
+      "elapsed_sec": 0.434
+    },
+    "32": {
+      "k": 32,
+      "dim_P_k": 2,
+      "saturation_diagnostic": {
+        "kernel_basis_raw_from_D2_SNF_1": [
+          [
+            2586,
+            -8503,
+            11165,
+            -7800,
+            3289,
+            -805,
+            0
+          ],
+          [
+            18936,
+            -62148,
+            80990,
+            -54795,
+            19734,
+            0,
+            -6555
+          ]
+        ],
+        "kernel_basis_raw_SNF": [
+          1,
+          115
+        ],
+        "raw_basis_was_already_saturated": false,
+        "kernel_basis_saturated": [
+          [
+            6,
+            -3593,
+            23765,
+            -71955,
+            134849,
+            -182735,
+            203205
+          ],
+          [
+            2592,
+            -1552608,
+            10269350,
+            -31093257,
+            58271070,
+            -78963612,
+            87809127
+          ]
+        ],
+        "kernel_basis_saturated_SNF": [
+          1,
+          1
+        ]
+      },
+      "f_k_degree": 30,
+      "f_k_num_terms": [
+        14,
+        14
+      ],
+      "internal_checks": [
+        {
+          "poly_index": 0,
+          "f0_num_terms": 26,
+          "f1_num_terms": 14,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 2804
+        },
+        {
+          "poly_index": 1,
+          "f0_num_terms": 26,
+          "f1_num_terms": 14,
+          "route_a_route_b_match": true,
+          "e_f_num_terms": 2804
+        }
+      ],
+      "e_f_degree": 28,
+      "snf_result": {
+        "matrix_shape": [
+          2,
+          2804
+        ],
+        "rank_Q": 2,
+        "elementary_divisors": [
+          1,
+          1
+        ],
+        "gcd_abs": 1,
+        "gcd_abs_factorization": {},
+        "torsion_primes": [],
+        "torsion_witness_note": "explicit transformation-matrix witness vector construction deferred (sympy's smith_normal_form in this environment does not expose U,V directly) -- elementary_divisors/torsion_primes are the certified raw output; a future QD-V pass can add explicit witnesses via a hand-rolled Smith reduction with recorded row/col operations if a specific torsion prime needs an explicit combination"
+      },
+      "saturated": true,
+      "stop_code": null,
+      "elapsed_sec": 0.546
+    }
+  },
+  "P_CONE_3": {
+    "22": {
+      "control_prime": 11,
+      "appears_in_torsion_primes": false,
+      "torsion_primes_observed": []
+    },
+    "26": {
+      "control_prime": 13,
+      "appears_in_torsion_primes": false,
+      "torsion_primes_observed": []
+    },
+    "28": {
+      "control_prime": 7,
+      "appears_in_torsion_primes": false,
+      "torsion_primes_observed": []
+    },
+    "30": {
+      "control_prime": 5,
+      "appears_in_torsion_primes": false,
+      "torsion_primes_observed": []
+    }
+  },
+  "P_CONE_4": {
+    "guaranteed_range": [
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30
+    ],
+    "per_k_saturated": {
+      "16": true,
+      "18": true,
+      "20": true,
+      "22": true,
+      "24": true,
+      "26": true,
+      "28": true,
+      "30": true
+    },
+    "all_saturated": true
+  },
+  "P_CONE_5": {
+    "k": 32,
+    "elementary_divisors": [
+      1,
+      1
+    ],
+    "torsion_primes": [],
+    "saturated": true,
+    "num_B32_factorization": {
+      "37": 1,
+      "683": 1,
+      "305065927": 1
+    },
+    "prime_37_appears_in_torsion_primes": false,
+    "branch_note": "branch E (SNF=diag(1,1)) vs branch X (SNF!=diag(1,1)) per addendum §2.2 -- raw fact only, no 予想成立側/一級 language written here.",
+    "scope_note": "E_32 here is the 'e' object (Definition 8.1 applied directly to the period polynomial f_32), NOT rho_32 (which needs sigma_tilde_29, out of scope). Per CONE-A (rho=c*e), c_32's numerator (37) is external to e's own coordinates and is not expected to appear in E_32's elementary divisors regardless of branch -- this differs from the addendum's literal framing ('c_32 で割った後の E_32 で判定') which appears to assume E_32 as computed would already contain the c_32 factor (i.e. assumes access to rho, not e alone); disclosed as an interpretive gap, not resolved here."
+  },
+  "P_CONE_6": {
+    "k": 24,
+    "rank_F103_E24": 2,
+    "predicted_rank": 1,
+    "matches_prediction": false,
+    "E24_saturated": true,
+    "num_B24_factorization": {
+      "103": 1,
+      "2294797": 1
+    },
+    "scope_note": "rank_F103(E_24) computed directly on 'e' (Definition 8.1 applied to f_24), NOT on rho_24 (needs sigma_tilde_21, out of scope). P-CONE-6's stated mechanism (Hecke-field splitting of 103 selecting exactly one of two eigenforms) is a statement about rho's Hecke-module structure, which 'e' (built purely combinatorially from the period polynomial, with no Hecke input) has no a priori reason to reproduce -- disclosed as an interpretive gap, not resolved here. The raw computed value is reported regardless."
+  },
+  "num_Bk_factorization_all_k": {
+    "12": {
+      "691": 1
+    },
+    "16": {
+      "3617": 1
+    },
+    "18": {
+      "43867": 1
+    },
+    "20": {
+      "283": 1,
+      "617": 1
+    },
+    "22": {
+      "11": 1,
+      "131": 1,
+      "593": 1
+    },
+    "24": {
+      "103": 1,
+      "2294797": 1
+    },
+    "26": {
+      "13": 1,
+      "657931": 1
+    },
+    "28": {
+      "7": 1,
+      "9349": 1,
+      "362903": 1
+    },
+    "30": {
+      "5": 1,
+      "1721": 1,
+      "1001259881": 1
+    },
+    "32": {
+      "37": 1,
+      "683": 1,
+      "305065927": 1
+    }
+  },
+  "no_verdict_note": "S-D2-2-style compliance: raw numeric values, integer vectors, factorizations, and booleans only. Judgment words ('保証延長', '本物', '一級' etc.) and the go/no-go for QUAR-TOR firing on (37,32) are reserved for 司令塔/Sol.",
+  "stop_code": null,
+  "total_elapsed_sec": 1.82
+}
