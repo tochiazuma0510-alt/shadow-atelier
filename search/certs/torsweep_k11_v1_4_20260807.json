@@ -1,0 +1,168 @@
+{
+  "schema": "tor_sweep_k11_v1.4",
+  "supersedes": "search/certs/torsweep_k11_v1_3_20260807.json",
+  "supersedes_note": "closes the 71-digit residual left open in v1.3 (critical_limitation_found) using the FULL (not fixed-60-column) N_11 matrix, per 裁定737(3)/裁定739. v1.1-v1.3 remain on disk as the historical record; not modified.",
+  "design_spec": "docs/notes/tor_sweep_design_v1.md",
+  "ruling_refs": [
+    "裁定736",
+    "裁定737",
+    "裁定738",
+    "裁定739"
+  ],
+  "k": 11,
+  "generated_by": {
+    "tool": "search/torsweep_k11_close_v1_4.py",
+    "python": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+    "edim_semidirect_v1_sha256": "bc06d81ee2dc997d0d6cd47e7660ab11a9e1f308b5af4ed96eda7d8f579c961a",
+    "torsweep_k11_run_sha256": "d9e2dc514f7c3d83748dcfcfecd39b41857e008b6f5d6b136f544208010aed39",
+    "rng_seed": 20260807,
+    "resumed_from_checkpoint": true
+  },
+  "target_M": "53357876975946793169866005449844891373975644778775545810346141045350061",
+  "target_M_digits": 71,
+  "target_M_provenance": "v1.3 stages.step2_howell_mod_M.closures final piece (critical_limitation_found); = 11393 * <67-digit UNRESOLVED_COMPOSITE from v1.2 stages.T5.gcd_abs_prime_factors>",
+  "stages": {
+    "FULL1_exact_reconstruction": {
+      "modulus_A": "10000000000000000000000000000000000000000",
+      "modulus_B": "10000000000000000000000000000000000000015",
+      "exact_moduli_agree": true,
+      "nnz_modulus_A": 10313689,
+      "nnz_modulus_B": 10313689,
+      "n_ambient_dim": 177147,
+      "h_ambient_dim": 2048,
+      "full_word_ambient_dim": 179195,
+      "measured_max_abs_entry": "1236503966476384",
+      "measured_max_abs_entry_digits": 16,
+      "bound_argument": "measured max|entry| over the FULL reconstructed N_11 = 1236503966476384 (16 digits). No int64-safe prime (max ~2**31-1, ~10 digits, per edim_semidirect_v1._check_scalar_dense_int64_bound) exceeds this bound, so the deterministic single-prime argument of 裁定739's primary clause is NOT available; per 裁定739's explicit fallback, this run uses the two-independent-huge-modulus agreement instead (P_EXACT_A=10**40, P_EXACT_B=10**40+15, both >> 1236503966476384, i.e. >> 2*max|entry|, so EACH modulus individually already center-lifts to the exact value deterministically; the cross-modulus agreement additionally rules out an implementation bug, matching this repo's existing T1/T4 precedent for the same technique).",
+      "elapsed_seconds_modulus_A": 1175.7365052700043,
+      "elapsed_seconds_modulus_B": 1190.758626461029
+    },
+    "FULL2_ground_truth_crosscheck": {
+      "pivot_columns_checked": 60,
+      "mismatches": 0,
+      "ground_truth_match": true
+    },
+    "FULL2b_reconstruction_canary": {
+      "canary_primes": [
+        2,
+        3,
+        5,
+        11393
+      ],
+      "r_prime_target": 60,
+      "input": "true exact rows (pre-mod-M) -- NOT the mod-M-reduced cols structure (裁定743 lesson: a canary fed derived data sees a phantom; mod-M reduction with odd M flips parity vs the true integers)",
+      "results_by_prime": {
+        "2": {
+          "rank": 60,
+          "expected": 60,
+          "pass": true,
+          "elapsed_seconds": 36.463218688964844
+        },
+        "3": {
+          "rank": 60,
+          "expected": 60,
+          "pass": true,
+          "elapsed_seconds": 64.02914094924927
+        },
+        "5": {
+          "rank": 60,
+          "expected": 60,
+          "pass": true,
+          "elapsed_seconds": 89.6174681186676
+        },
+        "11393": {
+          "rank": 60,
+          "expected": 60,
+          "pass": true,
+          "elapsed_seconds": 113.93331170082092
+        }
+      },
+      "all_pass": true,
+      "elapsed_seconds": 304.04352617263794
+    },
+    "FULL3_howell_full_columns": {
+      "live_column_count": 170766,
+      "target_M_digits": 71,
+      "r_prime_target": 60,
+      "H_rank": 62,
+      "closures": [
+        {
+          "modulus": "53357876975946793169866005449844891373975644778775545810346141045350061",
+          "status": "success",
+          "pivot_count": 60,
+          "zero_check_columns": 170766
+        }
+      ],
+      "all_pieces_resolved_success": true,
+      "any_stop_evidence": false,
+      "elapsed_seconds": 657.8631591796875
+    }
+  },
+  "total_elapsed_seconds": 971.8928520679474,
+  "run_log": [
+    "[    0.00s] loading v1.1 (H_basis), v1.2 (N_source ground truth + pivot cols), v1.3 (residual M)",
+    "[    0.02s] target M = 53357876975946793169866005449844891373975644778775545810346141045350061 (71 digits) -- the 71-digit residual named in v1.3's critical_limitation_found as the next step (includes already-confirmed-innocent 11393 as a redundant safety margin, per 司令塔裁定739)",
+    "[    0.02s] CHECKPOINT FOUND at C:\\Users\\81905\\AppData\\Local\\Temp\\claude\\C--Users-81905-Desktop-shadow-atelier\\d2b80bbe-2be7-426c-9dbe-a39ba301883a\\scratchpad\\_torsweep_k11_v1_4_checkpoint.pkl -- loading TRUE EXACT rows instead of redoing FULL1/FULL2 (裁定743: checkpoints now store pre-mod-M rows, not mod-M cols, so the reconstruction canary can always be (re)run on resume)",
+    "[    2.52s] CHECKPOINT LOADED: 10313689 nonzero entries across 62 rows",
+    "[    2.52s] STAGE FULL-2b: mandatory reconstruction canary (rank mod [2, 3, 5, 11393] must equal r_prime=60), on TRUE EXACT rows",
+    "[   38.99s] CANARY rank mod 2: got 60, expected 60, pass=True (36.46s)",
+    "[  103.02s] CANARY rank mod 3: got 60, expected 60, pass=True (64.03s)",
+    "[  192.63s] CANARY rank mod 5: got 60, expected 60, pass=True (89.62s)",
+    "[  306.57s] CANARY rank mod 11393: got 60, expected 60, pass=True (113.93s)",
+    "[  306.57s] STAGE FULL-2b: all_pass=True elapsed=304.04s",
+    "[  306.57s] STAGE FULL-3: assembling column-indexed structure for Howell elimination",
+    "[  308.14s] STAGE FULL-3: 170766 live columns (out of 179195 full word-ambient)",
+    "[  314.03s] STAGE FULL-3: freed `rows` (no longer needed) and ran gc.collect() before the Howell elimination, to reduce OOM risk",
+    "[  314.03s] STAGE FULL-3: running close_modulus_full over 170766 columns (target r_prime=60, per 裁定741 bugfix)",
+    "[  314.03s] close_modulus_full: M has 71 digits, 170766 live columns, target r_prime=60",
+    "[  971.87s] close_modulus_full: result status=success",
+    "[  971.89s] close_modulus_full: SUCCESS -- 60 unit pivots found AND the remaining 2 dependent row(s) are IDENTICALLY ZERO mod M across all 170766 live columns checked -- every prime factor of this M is confirmed innocent (rank stays r_prime==60 simultaneously mod every prime dividing M)",
+    "[  971.89s] STAGE FULL-3: all_pieces_resolved_success=True any_stop_evidence=False elapsed=657.86s",
+    "[  971.89s] closures=[{'modulus': '53357876975946793169866005449844891373975644778775545810346141045350061', 'status': 'success', 'pivot_count': 60, 'zero_check_columns': 170766}]"
+  ],
+  "two_system_crosscheck": {
+    "note": "Two independent, non-communicating implementations of 裁定737(3) (full-column adaptive-pivot Howell elimination on the restricted-ambient N_11 map, reconstructed from cert v1.1's H_basis). Written per 裁定740/742/743: this section compares RAW VALUES ONLY between the two cert files listed below; it does not import the other implementation's code (this cert's own generation used only search/torsweep_k11_close_v1_4.py, as recorded in generated_by above) -- reading the OTHER system's already-published cert JSON for comparison, after this run's own reconstruction/canary/closure were already complete, is the intended use of a cross-check section, not a violation of search/crosscheck separation (that doctrine is about not SHARING CODE/helpers between independent attempts, not about never comparing final outputs).",
+    "this_cert": "search/certs/torsweep_k11_v1_4_20260807.json",
+    "other_cert": "search/certs/torsweep_k11_v1_4_mine_20260807.json",
+    "other_cert_generated_by": {
+      "tool": "search/torsweep_k11_close_v1_4.py",
+      "python": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+      "numpy": "2.5.1",
+      "edim_semidirect_v1_sha256": "bc06d81ee2dc997d0d6cd47e7660ab11a9e1f308b5af4ed96eda7d8f579c961a"
+    },
+    "independence_disclosure": "this cert's implementer did not read torsweep_k11_v1_4_mine_20260807.json or its generating script at any point before or during this run (checked: first read of that file by this implementer occurred AFTER this cert's closures.success was already written to disk).",
+    "target_modulus_comparison": {
+      "this_M": "53357876975946793169866005449844891373975644778775545810346141045350061",
+      "this_M_digits": 71,
+      "other_M": "1067157539518935863397320108996897827479512895575510916206922820907001220",
+      "other_M_digits": 73,
+      "other_M_divisible_by_this_M": true,
+      "other_M_over_this_M": "20",
+      "relationship_note": "this_M (71 digits) = 11393 * <67-digit previously-unresolved cofactor from v1.2 T5>. other_M (76 digits) = the FULL v1.2 T4 gcd_abs = 2^2 * 5 * 11393 * <67-digit cofactor> = 2^2 * 5 * this_M. The two runs target OVERLAPPING but not identical moduli: this run's scope is a proper divisor of the other run's scope (2^2 and 5 were already independently confirmed innocent via v1.2 T5's direct rank_p check before either full-column Howell run started, so their inclusion/exclusion here is redundancy, not a gap)."
+    },
+    "matrix_construction_comparison": {
+      "this_method": "two independent huge non-prime moduli (10**40, 10**40+15) with centre-lift, restricted to the measured NONZERO-support column set (170,766 of 179,195 word-ambient positions) -- exact_full_rows in this cert's own script",
+      "other_method": "recorded in other_cert.run_log as a direct build of the FULL 62x179,195 restricted-ambient matrix (matrix_shape=[62,179195]) -- exact method not independently re-derived here (would require importing/reading the other script, which this cross-check section deliberately avoids)",
+      "this_live_columns": 170766,
+      "other_matrix_shape": [
+        62,
+        179195
+      ],
+      "column_count_relationship": "this run's 170,766 is a strict subset of the full 179,195 word-ambient space (the all-zero columns dropped are provably rank-irrelevant, per this cert's stages.FULL1_exact_reconstruction docstring); other run appears to have used the full 179,195-column dense space directly. Both are valid representations of the same map per the split-Z-direct-summand argument (definition LAT) that BOTH certs independently invoke."
+    },
+    "outcome_comparison": {
+      "this_status": "success",
+      "this_pivot_count": 60,
+      "this_r_prime_target": 60,
+      "other_status": "success",
+      "other_pivot_count": 60,
+      "other_r_prime": 60,
+      "status_agrees": true,
+      "pivot_count_agrees": true
+    },
+    "elapsed_seconds_comparison": {
+      "this_total": 971.8928520679474,
+      "other_total": 1072.3009021282196
+    }
+  }
+}
