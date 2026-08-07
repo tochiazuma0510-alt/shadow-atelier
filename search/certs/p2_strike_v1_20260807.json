@@ -1,0 +1,249 @@
+{
+  "schema": "shadow-atelier/p2_strike_v1",
+  "authority": "裁定772/773 (司令塔), docs/notes/p2_address_strike_design_v1.md §4.1 発注仕様 P2-STRIKE (verbatim)",
+  "universe_disclosure": "9標的のみ(§1.3、事前登録・IF-FIRST・後から追加しない、S-P2-4遵守)",
+  "independence_protocol": {
+    "orchestrator_had_prior_exposure_to_literature_note": true,
+    "exposure_reason": "read docs/scout/p2_literature_survey_v1.md while determining what the queued literature_crosscheck field should contain, BEFORE dispatching the blind computation -- disclosed, not concealed.",
+    "mitigation": "actual P2-A/B' computation for all 9 targets delegated to a freshly-spawned subagent with no conversation memory, given ONLY the verbatim algorithm specification, explicitly forbidden from reading the literature note or any Kellner-related file. search/p2_strike_blind.py and search/certs/p2_strike_blind_raw_20260807.json were both finalized BEFORE the S-f literature crosscheck below.",
+    "implementer_own_spot_check": {
+      "targets": [
+        [
+          37,
+          32
+        ],
+        [
+          103,
+          24
+        ],
+        [
+          157,
+          110
+        ]
+      ],
+      "match": true,
+      "detail": {
+        "37,32": {
+          "v_p_num_B": 1,
+          "v_p_kfact": 1
+        },
+        "103,24": {
+          "v_p_num_B": 1,
+          "v_p_kfact": 1
+        },
+        "157,110": {
+          "v_p_num_B": 1,
+          "v_p_kfact": 1
+        }
+      }
+    }
+  },
+  "S_a_canary": {
+    "all_v_ge_1": true
+  },
+  "S_b_S_c_per_target": [
+    {
+      "p": 37,
+      "k0": 32,
+      "k_star": 68,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 1,
+      "beta": 21,
+      "j_star": 7,
+      "degenerate_case": "unique"
+    },
+    {
+      "p": 59,
+      "k0": 44,
+      "k_star": 102,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 23,
+      "beta": 26,
+      "j_star": 15,
+      "degenerate_case": "unique"
+    },
+    {
+      "p": 67,
+      "k0": 58,
+      "k_star": 124,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 43,
+      "beta": 21,
+      "j_star": 49,
+      "degenerate_case": "unique"
+    },
+    {
+      "p": 101,
+      "k0": 68,
+      "k_star": 168,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 30,
+      "beta": 42,
+      "j_star": 57,
+      "degenerate_case": "unique"
+    },
+    {
+      "p": 103,
+      "k0": 24,
+      "k_star": 126,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 98,
+      "beta": 54,
+      "j_star": 2,
+      "degenerate_case": "unique"
+    },
+    {
+      "p": 131,
+      "k0": 22,
+      "k_star": 152,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 33,
+      "beta": 25,
+      "j_star": 93,
+      "degenerate_case": "unique"
+    },
+    {
+      "p": 149,
+      "k0": 130,
+      "k_star": 278,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 114,
+      "beta": 79,
+      "j_star": 74,
+      "degenerate_case": "unique"
+    },
+    {
+      "p": 157,
+      "k0": 62,
+      "k_star": 218,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 121,
+      "beta": 48,
+      "j_star": 40,
+      "degenerate_case": "unique"
+    },
+    {
+      "p": 157,
+      "k0": 110,
+      "k_star": 266,
+      "v_p_num_B": 1,
+      "v_p_kfact": 1,
+      "v_p_zeta": 0,
+      "alpha_raw": 45,
+      "beta": 51,
+      "j_star": 73,
+      "degenerate_case": "unique"
+    }
+  ],
+  "exceptions_found_v_ge_2": [],
+  "S_d_S_e_performed": false,
+  "S_d_S_e_note": "no v>=2 target found across all 9 -- depth-2 floor construction not performed, per the design's own explicit conditional (§4.1 S-d: 'v>=2 の標的があった場合のみ')",
+  "S_f_literature_crosscheck": {
+    "37,32": {
+      "kellner_delta": 21,
+      "kellner_s1": 32,
+      "kellner_s2": 7,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 7,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    },
+    "59,44": {
+      "kellner_delta": 26,
+      "kellner_s1": 44,
+      "kellner_s2": 15,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 15,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    },
+    "67,58": {
+      "kellner_delta": 21,
+      "kellner_s1": 58,
+      "kellner_s2": 49,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 49,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    },
+    "101,68": {
+      "kellner_delta": 42,
+      "kellner_s1": 68,
+      "kellner_s2": 57,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 57,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    },
+    "103,24": {
+      "kellner_delta": 54,
+      "kellner_s1": 24,
+      "kellner_s2": 2,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 2,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    },
+    "131,22": {
+      "kellner_delta": 25,
+      "kellner_s1": 22,
+      "kellner_s2": 93,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 93,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    },
+    "149,130": {
+      "kellner_delta": 79,
+      "kellner_s1": 130,
+      "kellner_s2": 74,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 74,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    },
+    "157,62": {
+      "kellner_delta": 48,
+      "kellner_s1": 62,
+      "kellner_s2": 40,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 40,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    },
+    "157,110": {
+      "kellner_delta": 51,
+      "kellner_s1": 110,
+      "kellner_s2": 73,
+      "kellner_nonsingular": true,
+      "my_v_p_num_B_at_kstar": 1,
+      "my_j_star": 73,
+      "note": "Kellner's Table A.3 reports Delta/s1/s2 for the order-2 PARTNER INDEX l' (existence guaranteed when Delta!=0, per Kellner Thm 3.1), which need NOT equal this project's specific target k*=k0+p-1 (only algorithm B''s own j_star locates where v_p>=2 actually occurs in THIS family) -- Def 2.11's reconstruction formula for l' from (s1,s2) was not available in the scout note, so l' itself could not be directly compared to my k_star or j_star numerically here. The comparison performed is qualitative only: Kellner reports Delta!=0 (nonsingular, i.e. a UNIQUE order-2 partner index exists) for all 9 primes, and Table A.3's own note states no known SAME-index p^2|B_l example exists up to p<12,000,000 -- both facts are CONSISTENT with (not proof of) this measurement's own finding that v_p_num_B==1 exactly (no exception) at the SPECIFIC index k*=k0+p-1 for all 9 targets."
+    }
+  },
+  "S_f_all_kellner_nonsingular": true,
+  "expected_value_accounting": {
+    "design_predicted_null_probability": "approx 89.4% (design doc §3.4: sum(1/p) over 9 targets with 157 counted twice = 0.106, so P[at least one exception] approx 10.6%, P[null] approx 89.4%)",
+    "observed": "9/9 null (v_p_num_B==1 for every target) -- matches the design's own stated most-likely outcome"
+  },
+  "classification_discipline_note": "S-P2-3遵守: 「共鳴」「Vandiver」「第2位不規則の発見」の語は本certのどこにも書かれていない。exceptions_found が空であることは「盾が9番地で縁を見せなかった」という生値であり、予想成立側/失敗側いずれの判定語も付していない(発効は司令塔)。",
+  "no_verdict_note": "S-P2-3 compliance: raw numeric values, integer classifications, and booleans only. Pre-registered STOP codes: S_P2_1_CANARY_FAIL / SPOT_CHECK_MISMATCH / BLIND_SUBAGENT_STOP.",
+  "stop_code": null,
+  "total_elapsed_sec": 0.21
+}
