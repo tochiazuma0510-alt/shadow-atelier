@@ -1,0 +1,810 @@
+{
+  "schema": "shadow-atelier/d2_snf_sweep_v1",
+  "authority": "裁定752① (司令塔), docs/notes/tor_sweep_design_v1_addendum_b.md §1.4 発注仕様D2-SNF-1 (verbatim)",
+  "prereg": {
+    "k_range": [
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32
+    ],
+    "prereg_table": {
+      "12": {
+        "num_pairs": 2,
+        "dim_S_k": 1,
+        "rank_Q": 1,
+        "target_dim": 5
+      },
+      "14": {
+        "num_pairs": 2,
+        "dim_S_k": 0,
+        "rank_Q": 2,
+        "target_dim": 6
+      },
+      "16": {
+        "num_pairs": 3,
+        "dim_S_k": 1,
+        "rank_Q": 2,
+        "target_dim": 7
+      },
+      "18": {
+        "num_pairs": 3,
+        "dim_S_k": 1,
+        "rank_Q": 2,
+        "target_dim": 8
+      },
+      "20": {
+        "num_pairs": 4,
+        "dim_S_k": 1,
+        "rank_Q": 3,
+        "target_dim": 9
+      },
+      "22": {
+        "num_pairs": 4,
+        "dim_S_k": 1,
+        "rank_Q": 3,
+        "target_dim": 10
+      },
+      "24": {
+        "num_pairs": 5,
+        "dim_S_k": 2,
+        "rank_Q": 3,
+        "target_dim": 11
+      },
+      "26": {
+        "num_pairs": 5,
+        "dim_S_k": 1,
+        "rank_Q": 4,
+        "target_dim": 12
+      },
+      "28": {
+        "num_pairs": 6,
+        "dim_S_k": 2,
+        "rank_Q": 4,
+        "target_dim": 13
+      },
+      "30": {
+        "num_pairs": 6,
+        "dim_S_k": 2,
+        "rank_Q": 4,
+        "target_dim": 14
+      },
+      "32": {
+        "num_pairs": 7,
+        "dim_S_k": 2,
+        "rank_Q": 5,
+        "target_dim": 15
+      }
+    },
+    "expected_kernel_vectors": {
+      "12": [
+        1,
+        -3
+      ],
+      "16": [
+        2,
+        -7,
+        11
+      ],
+      "18": [
+        8,
+        -25,
+        26
+      ],
+      "20": [
+        3,
+        -10,
+        14,
+        -13
+      ]
+    },
+    "P_D2_1_statement": "d_r(beta_k) = +-1 (zero torsion primes) for k=12..32"
+  },
+  "per_k": {
+    "12": {
+      "num_pairs": 2,
+      "pairs": [
+        [
+          3,
+          9
+        ],
+        [
+          5,
+          7
+        ]
+      ],
+      "target_dim_formula": 5,
+      "rank_Q": 1,
+      "dim_S_k": 1,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          1,
+          -3
+        ]
+      ],
+      "kernel_canary_expected_vector": [
+        1,
+        -3
+      ],
+      "kernel_canary_match": true,
+      "ambient_support_size": 42,
+      "elementary_divisors": [
+        1
+      ],
+      "gcd_abs": 1,
+      "gcd_abs_factorization": {},
+      "torsion_primes": [],
+      "P_D2_1_pass_this_k": true,
+      "elapsed_sec": 0.034
+    },
+    "14": {
+      "num_pairs": 2,
+      "pairs": [
+        [
+          3,
+          11
+        ],
+        [
+          5,
+          9
+        ]
+      ],
+      "target_dim_formula": 6,
+      "rank_Q": 2,
+      "dim_S_k": 0,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [],
+      "kernel_canary_expected_vector": null,
+      "kernel_canary_match": null,
+      "ambient_support_size": 72,
+      "elementary_divisors": [
+        1,
+        6
+      ],
+      "gcd_abs": 6,
+      "gcd_abs_factorization": {
+        "2": 1,
+        "3": 1
+      },
+      "torsion_primes": [
+        2,
+        3
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.0071
+    },
+    "16": {
+      "num_pairs": 3,
+      "pairs": [
+        [
+          3,
+          13
+        ],
+        [
+          5,
+          11
+        ],
+        [
+          7,
+          9
+        ]
+      ],
+      "target_dim_formula": 7,
+      "rank_Q": 2,
+      "dim_S_k": 1,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          2,
+          -7,
+          11
+        ]
+      ],
+      "kernel_canary_expected_vector": [
+        2,
+        -7,
+        11
+      ],
+      "kernel_canary_match": true,
+      "ambient_support_size": 96,
+      "elementary_divisors": [
+        1,
+        2
+      ],
+      "gcd_abs": 2,
+      "gcd_abs_factorization": {
+        "2": 1
+      },
+      "torsion_primes": [
+        2
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.0142
+    },
+    "18": {
+      "num_pairs": 3,
+      "pairs": [
+        [
+          3,
+          15
+        ],
+        [
+          5,
+          13
+        ],
+        [
+          7,
+          11
+        ]
+      ],
+      "target_dim_formula": 8,
+      "rank_Q": 2,
+      "dim_S_k": 1,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          8,
+          -25,
+          26
+        ]
+      ],
+      "kernel_canary_expected_vector": [
+        8,
+        -25,
+        26
+      ],
+      "kernel_canary_match": true,
+      "ambient_support_size": 120,
+      "elementary_divisors": [
+        1,
+        2
+      ],
+      "gcd_abs": 2,
+      "gcd_abs_factorization": {
+        "2": 1
+      },
+      "torsion_primes": [
+        2
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.0166
+    },
+    "20": {
+      "num_pairs": 4,
+      "pairs": [
+        [
+          3,
+          17
+        ],
+        [
+          5,
+          15
+        ],
+        [
+          7,
+          13
+        ],
+        [
+          9,
+          11
+        ]
+      ],
+      "target_dim_formula": 9,
+      "rank_Q": 3,
+      "dim_S_k": 1,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          3,
+          -10,
+          14,
+          -13
+        ]
+      ],
+      "kernel_canary_expected_vector": [
+        3,
+        -10,
+        14,
+        -13
+      ],
+      "kernel_canary_match": true,
+      "ambient_support_size": 162,
+      "elementary_divisors": [
+        1,
+        1,
+        12
+      ],
+      "gcd_abs": 12,
+      "gcd_abs_factorization": {
+        "2": 2,
+        "3": 1
+      },
+      "torsion_primes": [
+        2,
+        3
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.03
+    },
+    "22": {
+      "num_pairs": 4,
+      "pairs": [
+        [
+          3,
+          19
+        ],
+        [
+          5,
+          17
+        ],
+        [
+          7,
+          15
+        ],
+        [
+          9,
+          13
+        ]
+      ],
+      "target_dim_formula": 10,
+      "rank_Q": 3,
+      "dim_S_k": 1,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          32,
+          -105,
+          136,
+          -85
+        ]
+      ],
+      "kernel_canary_expected_vector": null,
+      "kernel_canary_match": null,
+      "ambient_support_size": 198,
+      "elementary_divisors": [
+        1,
+        2,
+        6
+      ],
+      "gcd_abs": 6,
+      "gcd_abs_factorization": {
+        "2": 1,
+        "3": 1
+      },
+      "torsion_primes": [
+        2,
+        3
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.0375
+    },
+    "24": {
+      "num_pairs": 5,
+      "pairs": [
+        [
+          3,
+          21
+        ],
+        [
+          5,
+          19
+        ],
+        [
+          7,
+          17
+        ],
+        [
+          9,
+          15
+        ],
+        [
+          11,
+          13
+        ]
+      ],
+      "target_dim_formula": 11,
+      "rank_Q": 3,
+      "dim_S_k": 2,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          470,
+          -1519,
+          1862,
+          -969,
+          0
+        ],
+        [
+          194,
+          -605,
+          627,
+          0,
+          -646
+        ]
+      ],
+      "kernel_canary_expected_vector": null,
+      "kernel_canary_match": null,
+      "ambient_support_size": 234,
+      "elementary_divisors": [
+        1,
+        1,
+        2
+      ],
+      "gcd_abs": 2,
+      "gcd_abs_factorization": {
+        "2": 1
+      },
+      "torsion_primes": [
+        2
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.0572
+    },
+    "26": {
+      "num_pairs": 5,
+      "pairs": [
+        [
+          3,
+          23
+        ],
+        [
+          5,
+          21
+        ],
+        [
+          7,
+          19
+        ],
+        [
+          9,
+          17
+        ],
+        [
+          11,
+          15
+        ]
+      ],
+      "target_dim_formula": 12,
+      "rank_Q": 4,
+      "dim_S_k": 1,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          1032,
+          -3395,
+          4466,
+          -3135,
+          1292
+        ]
+      ],
+      "kernel_canary_expected_vector": null,
+      "kernel_canary_match": null,
+      "ambient_support_size": 288,
+      "elementary_divisors": [
+        1,
+        1,
+        2,
+        6
+      ],
+      "gcd_abs": 6,
+      "gcd_abs_factorization": {
+        "2": 1,
+        "3": 1
+      },
+      "torsion_primes": [
+        2,
+        3
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.0772
+    },
+    "28": {
+      "num_pairs": 6,
+      "pairs": [
+        [
+          3,
+          25
+        ],
+        [
+          5,
+          23
+        ],
+        [
+          7,
+          21
+        ],
+        [
+          9,
+          19
+        ],
+        [
+          11,
+          17
+        ],
+        [
+          13,
+          15
+        ]
+      ],
+      "target_dim_formula": 13,
+      "rank_Q": 4,
+      "dim_S_k": 2,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          442,
+          -1450,
+          1886,
+          -1265,
+          437,
+          0
+        ],
+        [
+          5619,
+          -18291,
+          23023,
+          -13156,
+          0,
+          7429
+        ]
+      ],
+      "kernel_canary_expected_vector": null,
+      "kernel_canary_match": null,
+      "ambient_support_size": 336,
+      "elementary_divisors": [
+        1,
+        1,
+        2,
+        12
+      ],
+      "gcd_abs": 12,
+      "gcd_abs_factorization": {
+        "2": 2,
+        "3": 1
+      },
+      "torsion_primes": [
+        2,
+        3
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.1084
+    },
+    "30": {
+      "num_pairs": 6,
+      "pairs": [
+        [
+          3,
+          27
+        ],
+        [
+          5,
+          25
+        ],
+        [
+          7,
+          23
+        ],
+        [
+          9,
+          21
+        ],
+        [
+          11,
+          19
+        ],
+        [
+          13,
+          17
+        ]
+      ],
+      "target_dim_formula": 14,
+      "rank_Q": 4,
+      "dim_S_k": 2,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          1136,
+          -3717,
+          4788,
+          -3105,
+          966,
+          0
+        ],
+        [
+          68000,
+          -220374,
+          273000,
+          -148005,
+          0,
+          45885
+        ]
+      ],
+      "kernel_canary_expected_vector": null,
+      "kernel_canary_match": null,
+      "ambient_support_size": 384,
+      "elementary_divisors": [
+        1,
+        1,
+        2,
+        6
+      ],
+      "gcd_abs": 6,
+      "gcd_abs_factorization": {
+        "2": 1,
+        "3": 1
+      },
+      "torsion_primes": [
+        2,
+        3
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.1179
+    },
+    "32": {
+      "num_pairs": 7,
+      "pairs": [
+        [
+          3,
+          29
+        ],
+        [
+          5,
+          27
+        ],
+        [
+          7,
+          25
+        ],
+        [
+          9,
+          23
+        ],
+        [
+          11,
+          21
+        ],
+        [
+          13,
+          19
+        ],
+        [
+          15,
+          17
+        ]
+      ],
+      "target_dim_formula": 15,
+      "rank_Q": 5,
+      "dim_S_k": 2,
+      "rank_matches_prereg": true,
+      "pairs_matches_prereg": true,
+      "dimS_matches_prereg": true,
+      "target_matches_prereg": true,
+      "kernel_basis_primitive": [
+        [
+          2586,
+          -8503,
+          11165,
+          -7800,
+          3289,
+          -805,
+          0
+        ],
+        [
+          18936,
+          -62148,
+          80990,
+          -54795,
+          19734,
+          0,
+          -6555
+        ]
+      ],
+      "kernel_canary_expected_vector": null,
+      "kernel_canary_match": null,
+      "ambient_support_size": 450,
+      "elementary_divisors": [
+        1,
+        1,
+        1,
+        2,
+        60
+      ],
+      "gcd_abs": 60,
+      "gcd_abs_factorization": {
+        "2": 2,
+        "3": 1,
+        "5": 1
+      },
+      "torsion_primes": [
+        2,
+        3,
+        5
+      ],
+      "P_D2_1_pass_this_k": false,
+      "elapsed_sec": 0.1625
+    }
+  },
+  "P_D2_1_all_gcd_abs_1": false,
+  "torsion_primes_found_by_k": {
+    "14": [
+      2,
+      3
+    ],
+    "16": [
+      2
+    ],
+    "18": [
+      2
+    ],
+    "20": [
+      2,
+      3
+    ],
+    "22": [
+      2,
+      3
+    ],
+    "24": [
+      2
+    ],
+    "26": [
+      2,
+      3
+    ],
+    "28": [
+      2,
+      3
+    ],
+    "30": [
+      2,
+      3
+    ],
+    "32": [
+      2,
+      3,
+      5
+    ]
+  },
+  "canary_failures": [],
+  "no_verdict_note": "S-D2-2 compliance: this script emits ONLY raw numeric values, integer vectors, factorizations, and the pre-registered STOP codes (DEPTH_CANARY_FAIL / WEIGHT_CANARY_FAIL / SNF_RANK_MISMATCH / D2_SNF_CANARY_FAIL) -- no interpretive verdict prose. P_D2_1_all_gcd_abs_1 is a raw boolean re-derivable from per_k[*].gcd_abs; its格付け (candidate/cross-checked/etc.) is reserved for 司令塔/Sol per addendum §1.4.",
+  "stop_code": null,
+  "total_elapsed_sec": 0.66
+}
