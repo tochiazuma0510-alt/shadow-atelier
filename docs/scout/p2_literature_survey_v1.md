@@ -4,6 +4,8 @@
 - **検索スペック**: ①p²|B_{k₀+p−1} 型 order-2 不規則対の既知計算結果(BCEM系列)の実在確認・書誌 ②同素数域の岩澤λ不変量表(全て λ=1 か・例外の有無)の所在特定。**採否判断はしない**。
 - **検索方式**: 逆引き中心(BCEM 1993/2001 論文 → その後継 Kellner 2007 の一次資料を直接取得・全文精読)。角度(a)概念直当て(b)著者系譜(BCEM・Wagstaff・Johnson・Pollaczek)を実施。(c)(d) は本タスクでは(a)(b)で標的に到達したため深追い不要と判断(末尾「空振り」参照)。
 
+> **訂正注記(裁定 797④・2026-08-11)**: 下表 #1 の「全文 42p PDF を直接取得・精読」は虚記録 — papers/ に実体は存在しなかった(reader が K1〜K4 pin 時に発見)。正: reader が arXiv v4 を新規取得(`papers/kellner-0409223-irregular-prime-power-divisors.pdf`・sha256=d36c3314…6507)。逐語 pin の正本は `docs/scout/kellner_k1k4_ch7_verbatim_v1.md`(画像照合 13 頁)。
+
 ## 候補一覧(実在確認済み・全て古典文献 — arXiv ID なし。Kellner 2007 のみ arXiv 版あり)
 
 | # | 候補 | 識別子 | 年 | 実在確認 | 該当表の所在 | 系(本件は岩澤理論・B₃-gentle 系との直接関係なし) |
