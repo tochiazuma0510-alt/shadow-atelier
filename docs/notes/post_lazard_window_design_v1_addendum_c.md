@@ -126,7 +126,7 @@ $$\#\{2i+3j=n\}=\Bigl\lfloor\frac n6\Bigr\rfloor+[\,n\not\equiv1\ (6)\,]\quad\Lo
 
 > $p=17,19$(可能なら $23$)で $s_1,\dots,s_{p-1}\in\Lambda_p$ を Jacobson 公式から構成し、$\dim$ と $S_3$-型を測る。
 > **判定**: $(3,3,5)$ / $(3,3,6)$ / $(4,4,7)$ ⟹ P-PL-5′a 6/6。**$\dim<p-1$ が出たら即停止・報告**(JAC-SYM の等号仮定が破れた)。
-> **コスト**: $\dim\Lambda_p=\mathrm{Witt}(2,p)$。$p{=}17$: 3,855 / $p{=}19$: 27,594 / $p{=}23$: 364,722。
+> **コスト**: $\dim\Lambda_p=\mathrm{Witt}(2,p)$。$p{=}17$: **7,710** / $p{=}19$: 27,594 / $p{=}23$: 364,722。（初稿で $p{=}17$ を 3,855 と誤記 — 検算コマンドで自己捕獲・訂正済)
 > 検算: `python -c "from sympy import mobius,divisors; f=lambda n,q:sum(mobius(d)*q**(n//d) for d in divisors(n))//n; print([(p,f(p,2)) for p in [17,19,23]])"`
 > ⟹ $p=17,19$ は秒〜分。$p=23$ は 36 万次元の基底を明示に持つと RAM 8GB で危険 ⟹ **$17,19$ までを本発注、$23$ は保留**。
 > **カナリア**: $p=5,7,11,13$ の再現(cert `jac_chk_v1` とバイト一致でなくてよいが型は一致)。
