@@ -1,0 +1,13 @@
+{
+  "schema": "shadow-atelier/lins_2000_local_timing_v1",
+  "authority": "裁定807/808/809 -- local timing reference (scratchpad/lins_2000_timing.g), not the real run (real run = GHA workflow .github/workflows/lins-2000.yml, dispatched as run 31498009539)",
+  "note": "informational reference value only, used to inform GHA timeout/shard parameters. This local run's own output cert was NOT written (scratchpad/lins_2000_timing.g only prints the timing line, no JSON output) -- this file is a post-hoc record of that printed result.",
+  "bound": 2000,
+  "nodes_found": 4266,
+  "elapsed_ms": 1597605,
+  "elapsed_sec": 1597.605,
+  "elapsed_min_approx": 26.6,
+  "machine": "local 8GB Windows machine, gap.ps1 -o 2g",
+  "comparison_to_bound_1000": "search/certs/lins_twin_census_v1_20260806.json (bound=1000) reported lins_nodes_total_this_call=1946, lins_elapsed_ms not directly comparable here since that field measures ONLY the LowIndexNormalSubgroupsSearch call itself, not the full per-node+pairing pass this local probe measured (this probe's 1597605ms is the LINS call alone, matching that field's definition) -- raw comparison: 1000->1946 nodes, 2000->4266 nodes (roughly 2.2x growth in node count for a 2x bound increase).",
+  "no_verdict_note": "raw timing value only, no feasibility judgment written here -- that determination is the commander's, already acted on via GHA dispatch."
+}
