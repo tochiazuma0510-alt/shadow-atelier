@@ -1,0 +1,310 @@
+{
+  "schema": "shadow-atelier/exc-cert/v1",
+  "authority": "裁定793(2) (司令塔), docs/notes/ideas_window_theory_redesign_v1.md 札WR-7 最小実装 (verbatim: 帯36群のデータをexc-cert/v1へ遡及整形・新走行ゼロ)",
+  "no_new_run_declaration": "この cert は新しい GAP/計算走行を一切行っていない。全ての生値は search/certs/sg_g4_g5_orb_20260806.json と search/certs/sg_pband2prime_20260806.json (8fe536d, 既存committed) から転記・再分類しただけである。",
+  "source_certs": {
+    "orb_cert": "search/certs/sg_g4_g5_orb_20260806.json",
+    "orb_cert_sha256": "a8020cd75b98086c054c8ed8ac0b76f05c50858d1e488be8c19fa5524501f45d",
+    "pband2_cert": "search/certs/sg_pband2prime_20260806.json",
+    "pband2_cert_sha256": "4870bca078a920623a38feb4bb386c6bce67c557bce8013e8ba3cda5c88a4024"
+  },
+  "target_description": "帯36 (G4/G5 window census: index (1000,2000] windows of order 2^i*3^j)",
+  "windows_total": 36,
+  "canaries": [
+    {
+      "name": "orbit_formula_sanity",
+      "description": "M_size / aut_order = num_orbits (marked generating-pair Aut-stabilizer is trivial => every orbit has length |Aut|) -- a structural bookkeeping identity, distinct from the fiber-size/SECT classification predicate used below.",
+      "scope": "全36群 (all 36 windows)",
+      "result_cited_from": "docs/notes/theorem_check_mirrorall_l3vacuous_v1.md line 851 ('36/36 PASS', §F.10.1)",
+      "result": "36/36 PASS",
+      "info_content_note": "protected-domain identity (定義上つねに成立する場合の再確認) -- carries zero information about which windows are chiral/dangerous, per WR-7's own convention (カナリアは情報ゼロと明記)."
+    },
+    {
+      "name": "reflexible_SECT_health_check",
+      "description": "For the 31 REFLEXIBLE windows (iota(N)=N), SECT (theorem SECT-CHIRAL's necessary-condition direction) MUST hold on every chief factor -- this is a tool-sanity check on a window set DISJOINT from the 5 chiral windows the excess/skip_ledger entries below are about, not a restatement of their classification.",
+      "scope": "31 reflexible windows (disjoint from the 5 chiral windows)",
+      "result": "31/31 PASS",
+      "all_pass": true,
+      "info_content_note": "necessary-condition health check (定理の必要条件ゆえ必ず成立) -- carries zero NEW information (per prediction_summary.note in the source cert: 'health check, not a real test')."
+    }
+  ],
+  "excess": [
+    {
+      "order": 1944,
+      "id": 826,
+      "layer": "層3 (非局所 / non-local)",
+      "observation": "all chief factors pass SECT (no local obstruction found by the chief-factor-level test), yet the window IS chiral (num_chiral_pairs=1)",
+      "theory_grade": "機械のみ・紙の裏づけゼロ (no theorem covers this window; local invariants provably cannot detect its chirality per docs/notes/theorem_check_mirrorall_l3vacuous_v1.md §G.9.2's 'layer 3' stratum)",
+      "significance_note": "one of 2 explicit standard examples establishing that chirality is NOT exhausted by characteristic-subgroup (local) invariants -- a lower bound on the reach of local theory, per that document's own framing."
+    },
+    {
+      "order": 1944,
+      "id": 921,
+      "layer": "層3 (非局所 / non-local)",
+      "observation": "all chief factors pass SECT (no local obstruction found by the chief-factor-level test), yet the window IS chiral (num_chiral_pairs=1)",
+      "theory_grade": "機械のみ・紙の裏づけゼロ (no theorem covers this window; local invariants provably cannot detect its chirality per docs/notes/theorem_check_mirrorall_l3vacuous_v1.md §G.9.2's 'layer 3' stratum)",
+      "significance_note": "one of 2 explicit standard examples establishing that chirality is NOT exhausted by characteristic-subgroup (local) invariants -- a lower bound on the reach of local theory, per that document's own framing."
+    }
+  ],
+  "skip_ledger": [
+    {
+      "order": 1152,
+      "id": 154124,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1152,
+      "id": 154126,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1152,
+      "id": 154158,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1152,
+      "id": 154161,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1152,
+      "id": 155452,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1152,
+      "id": 155454,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1152,
+      "id": 155457,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1296,
+      "id": 674,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1296,
+      "id": 681,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1296,
+      "id": 755,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1296,
+      "id": 764,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1296,
+      "id": 2889,
+      "theorem_tag": "定理SECT-CHIRAL",
+      "skip_reason": "SECT breaks at chief factor index 5 (3^2=GL(2,3) factor per §G.9's diagnosis) => chiral by the theorem's contrapositive (証明済み, subject to 【GAP-G9-1】's characteristic-subgroup precondition, noted not re-verified here).",
+      "grade": "紙定理+機械入力 (theorem SECT-CHIRAL applied to 2 explicit GL(2,3) matrices supplied by the machine measurement -- stronger than 機械のみ, not purely paper per docs/notes/theorem_check_mirrorall_l3vacuous_v1.md §G.9.1's own grading language)"
+    },
+    {
+      "order": 1296,
+      "id": 3082,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1296,
+      "id": 3487,
+      "theorem_tag": "定理SECT-CHIRAL",
+      "skip_reason": "SECT breaks at chief factor index 6 (3^2=GL(2,3) factor per §G.9's diagnosis) => chiral by the theorem's contrapositive (証明済み, subject to 【GAP-G9-1】's characteristic-subgroup precondition, noted not re-verified here).",
+      "grade": "紙定理+機械入力 (theorem SECT-CHIRAL applied to 2 explicit GL(2,3) matrices supplied by the machine measurement -- stronger than 機械のみ, not purely paper per docs/notes/theorem_check_mirrorall_l3vacuous_v1.md §G.9.1's own grading language)"
+    },
+    {
+      "order": 1458,
+      "id": 573,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1458,
+      "id": 578,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1458,
+      "id": 583,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1458,
+      "id": 584,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1458,
+      "id": 658,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1458,
+      "id": 659,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1728,
+      "id": 2815,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1728,
+      "id": 2892,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1728,
+      "id": 30092,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1728,
+      "id": 30101,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1728,
+      "id": 30106,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1728,
+      "id": 31096,
+      "theorem_tag": "定理SECT-CHIRAL",
+      "skip_reason": "SECT breaks at chief factor index 6 (3^2=GL(2,3) factor per §G.9's diagnosis) => chiral by the theorem's contrapositive (証明済み, subject to 【GAP-G9-1】's characteristic-subgroup precondition, noted not re-verified here).",
+      "grade": "紙定理+機械入力 (theorem SECT-CHIRAL applied to 2 explicit GL(2,3) matrices supplied by the machine measurement -- stronger than 機械のみ, not purely paper per docs/notes/theorem_check_mirrorall_l3vacuous_v1.md §G.9.1's own grading language)"
+    },
+    {
+      "order": 1944,
+      "id": 812,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1944,
+      "id": 815,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1944,
+      "id": 835,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1944,
+      "id": 901,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1944,
+      "id": 904,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1944,
+      "id": 918,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1944,
+      "id": 3878,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    },
+    {
+      "order": 1944,
+      "id": 3882,
+      "theorem_tag": "補題FIBER-FORCED",
+      "skip_reason": "fiber size 1 (num_orbits=1, num_chiral_pairs=0) => iota-fixed forced; chirality information is definitionally absent (自明).",
+      "grade": "紙 (theorem-covered, no machine judgment call involved)"
+    }
+  ],
+  "circularity_check": {
+    "canary_1_uses_disjoint_or_distinct_predicate": true,
+    "canary_2_uses_disjoint_window_set": true,
+    "note": "canary_1 cites a bookkeeping identity computed from fields (M_size, aut_order, num_orbits) not present in either source cert's per-window records used for classification here (classification, all_pass) -- structurally distinct. canary_2 uses the SAME field (all_pass) as the skip/danger classification but on a DISJOINT window SET (the 31 reflexible windows, none of which appear in skip_ledger's SECT-covered entries or in excess) -- so it is not a restatement of any individual window's classification, per WR-7's 'finer observable' requirement."
+  },
+  "discovery_history_acceptance_check": {
+    "n_SKIP_FIBER_FORCED": 31,
+    "expected": 31,
+    "match_31": true,
+    "n_SKIP_SECT_layer2": 3,
+    "expected_3": 3,
+    "match_3": true,
+    "n_DANGER_LAT_layer3": 2,
+    "expected_2": 2,
+    "match_2": true,
+    "total": 36,
+    "expected_36": 36,
+    "all_match_discovery_history": true
+  },
+  "no_verdict_note": "raw reclassification and booleans only. No judgment words beyond the already-established theorem tags/grades quoted verbatim from the source documents -- this script does not newly assert or grade anything.",
+  "stop_code": null
+}
