@@ -1,0 +1,1667 @@
+{
+  "schema": "shadow-atelier/fib_mult_v1",
+  "authority": "裁定803 (FIB-SWEEP撤回・置換), docs/notes/hunting_chapter_v1_addendum_a.md §4.2 発注 FIB-MULT",
+  "method_note": "pure aggregation of the ALREADY-COMMITTED search/certs/lins_twin_census_v1_20260806.json (174 twin pairs, index<=1000, single LowIndexNormalSubgroupsSearch call per LID-1 discipline). NO new GAP run in this script. Nodes=distinct N (fingerprint=(index,sorted canonical_id_words)), edges=twin_pairs entries, multiplicity=connected-component size (clique size, per the source cert's own documented twin-relation=equivalence-relation fact).",
+  "source_cert": "search/certs/lins_twin_census_v1_20260806.json",
+  "source_cert_sha256": "8bfd762ef565f5ce72f9a4a25368783b96b02f4905274e858d460e30bb335610",
+  "scope_note": "index<=1000 only (the source cert's own scope). Multiplicity-1 (isolated, no twin) N's are invisible in this aggregation by construction (they never appear in twin_pairs) -- irrelevant for the multiplicity>=3 ask, since any true multiplicity>=3 clique necessarily has >=3 edges, all present in twin_pairs.",
+  "total_distinct_N_nodes_with_a_twin": 333,
+  "total_connected_components": 165,
+  "all_components": [
+    {
+      "index": 750,
+      "id_group": [
+        750,
+        6
+      ],
+      "multiplicity_nodes": 5,
+      "pair_count_edges": 10
+    },
+    {
+      "index": 24,
+      "id_group": [
+        24,
+        3
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 42,
+      "id_group": [
+        42,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 72,
+      "id_group": [
+        72,
+        3
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 78,
+      "id_group": [
+        78,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 84,
+      "id_group": [
+        84,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 114,
+      "id_group": [
+        114,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 120,
+      "id_group": [
+        120,
+        15
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 120,
+      "id_group": [
+        120,
+        5
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 126,
+      "id_group": [
+        126,
+        9
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 126,
+      "id_group": [
+        126,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 156,
+      "id_group": [
+        156,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 168,
+      "id_group": [
+        168,
+        22
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 168,
+      "id_group": [
+        168,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 168,
+      "id_group": [
+        168,
+        49
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 186,
+      "id_group": [
+        186,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 210,
+      "id_group": [
+        210,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 216,
+      "id_group": [
+        216,
+        3
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 222,
+      "id_group": [
+        222,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 228,
+      "id_group": [
+        228,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 234,
+      "id_group": [
+        234,
+        9
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 234,
+      "id_group": [
+        234,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 252,
+      "id_group": [
+        252,
+        18
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 252,
+      "id_group": [
+        252,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 258,
+      "id_group": [
+        258,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 264,
+      "id_group": [
+        264,
+        12
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 294,
+      "id_group": [
+        294,
+        8
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 294,
+      "id_group": [
+        294,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 312,
+      "id_group": [
+        312,
+        25
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 312,
+      "id_group": [
+        312,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 312,
+      "id_group": [
+        312,
+        51
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        208
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        136
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        134
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        135
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        114
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 342,
+      "id_group": [
+        342,
+        11
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 342,
+      "id_group": [
+        342,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 360,
+      "id_group": [
+        360,
+        14
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 360,
+      "id_group": [
+        360,
+        51
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 366,
+      "id_group": [
+        366,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 372,
+      "id_group": [
+        372,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 378,
+      "id_group": [
+        378,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 378,
+      "id_group": [
+        378,
+        21
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 378,
+      "id_group": [
+        378,
+        22
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 384,
+      "id_group": [
+        384,
+        608
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 384,
+      "id_group": [
+        384,
+        615
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 390,
+      "id_group": [
+        390,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 402,
+      "id_group": [
+        402,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 408,
+      "id_group": [
+        408,
+        14
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 420,
+      "id_group": [
+        420,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 432,
+      "id_group": [
+        432,
+        734
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 438,
+      "id_group": [
+        438,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 444,
+      "id_group": [
+        444,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 456,
+      "id_group": [
+        456,
+        22
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 456,
+      "id_group": [
+        456,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 456,
+      "id_group": [
+        456,
+        46
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 462,
+      "id_group": [
+        462,
+        2
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 468,
+      "id_group": [
+        468,
+        21
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 468,
+      "id_group": [
+        468,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 474,
+      "id_group": [
+        474,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 486,
+      "id_group": [
+        486,
+        39
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        156
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        44
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        160
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        58
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        22
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        186
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 516,
+      "id_group": [
+        516,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 546,
+      "id_group": [
+        546,
+        7
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 546,
+      "id_group": [
+        546,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 546,
+      "id_group": [
+        546,
+        11
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 546,
+      "id_group": [
+        546,
+        12
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 552,
+      "id_group": [
+        552,
+        12
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 558,
+      "id_group": [
+        558,
+        9
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 558,
+      "id_group": [
+        558,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 570,
+      "id_group": [
+        570,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 582,
+      "id_group": [
+        582,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 588,
+      "id_group": [
+        588,
+        17
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 588,
+      "id_group": [
+        588,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 600,
+      "id_group": [
+        600,
+        14
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 600,
+      "id_group": [
+        600,
+        54
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 618,
+      "id_group": [
+        618,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 624,
+      "id_group": [
+        624,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 624,
+      "id_group": [
+        624,
+        151
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 624,
+      "id_group": [
+        624,
+        152
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 624,
+      "id_group": [
+        624,
+        150
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 630,
+      "id_group": [
+        630,
+        17
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 630,
+      "id_group": [
+        630,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 648,
+      "id_group": [
+        648,
+        3
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 648,
+      "id_group": [
+        648,
+        641
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 654,
+      "id_group": [
+        654,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 666,
+      "id_group": [
+        666,
+        11
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 666,
+      "id_group": [
+        666,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        383
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        385
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        384
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        379
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        1044
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        1043
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        1045
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 684,
+      "id_group": [
+        684,
+        20
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 684,
+      "id_group": [
+        684,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 696,
+      "id_group": [
+        696,
+        14
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 702,
+      "id_group": [
+        702,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 702,
+      "id_group": [
+        702,
+        21
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 702,
+      "id_group": [
+        702,
+        22
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 714,
+      "id_group": [
+        714,
+        2
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 720,
+      "id_group": [
+        720,
+        764
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 732,
+      "id_group": [
+        732,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 744,
+      "id_group": [
+        744,
+        22
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 744,
+      "id_group": [
+        744,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 744,
+      "id_group": [
+        744,
+        46
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 756,
+      "id_group": [
+        756,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 756,
+      "id_group": [
+        756,
+        30
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 756,
+      "id_group": [
+        756,
+        31
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 762,
+      "id_group": [
+        762,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 768,
+      "id_group": [
+        768,
+        1083572
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 768,
+      "id_group": [
+        768,
+        1083520
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 774,
+      "id_group": [
+        774,
+        9
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 774,
+      "id_group": [
+        774,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 780,
+      "id_group": [
+        780,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 792,
+      "id_group": [
+        792,
+        12
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 798,
+      "id_group": [
+        798,
+        7
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 798,
+      "id_group": [
+        798,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 798,
+      "id_group": [
+        798,
+        11
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 798,
+      "id_group": [
+        798,
+        12
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 804,
+      "id_group": [
+        804,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 834,
+      "id_group": [
+        834,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 840,
+      "id_group": [
+        840,
+        94
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 840,
+      "id_group": [
+        840,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 840,
+      "id_group": [
+        840,
+        160
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 840,
+      "id_group": [
+        840,
+        13
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 858,
+      "id_group": [
+        858,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 864,
+      "id_group": [
+        864,
+        4053
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 876,
+      "id_group": [
+        876,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 882,
+      "id_group": [
+        882,
+        48
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 882,
+      "id_group": [
+        882,
+        9
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 882,
+      "id_group": [
+        882,
+        18
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 882,
+      "id_group": [
+        882,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 888,
+      "id_group": [
+        888,
+        25
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 888,
+      "id_group": [
+        888,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 888,
+      "id_group": [
+        888,
+        51
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 906,
+      "id_group": [
+        906,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 912,
+      "id_group": [
+        912,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 912,
+      "id_group": [
+        912,
+        134
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 912,
+      "id_group": [
+        912,
+        135
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 912,
+      "id_group": [
+        912,
+        133
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 924,
+      "id_group": [
+        924,
+        2
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 930,
+      "id_group": [
+        930,
+        6
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        25
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        47
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        169
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        61
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        202
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 942,
+      "id_group": [
+        942,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 948,
+      "id_group": [
+        948,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 966,
+      "id_group": [
+        966,
+        2
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 972,
+      "id_group": [
+        972,
+        42
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 978,
+      "id_group": [
+        978,
+        1
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 984,
+      "id_group": [
+        984,
+        14
+      ],
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    }
+  ],
+  "multiplicity_ge_3": [
+    {
+      "index": 750,
+      "id_group": [
+        750,
+        6
+      ],
+      "multiplicity_nodes": 5,
+      "pair_count_edges": 10
+    }
+  ],
+  "multiplicity_ge_3_count": 1,
+  "canary_750_clique": {
+    "note": "expected: exactly 1 component, multiplicity_nodes=5 (5 distinct N), pair_count_edges=10 (=C(5,2), matching HA-GAP-5's own '10対' language for the PAIR count, distinct from this script's node-count definition of multiplicity -- both reported, discrepancy disclosed not resolved).",
+    "found": [
+      {
+        "index": 750,
+        "id_group": [
+          750,
+          6
+        ],
+        "multiplicity_nodes": 5,
+        "pair_count_edges": 10
+      }
+    ],
+    "pass": true
+  },
+  "canary_q8fam_all_multiplicity_2": {
+    "note": "addendum_a §1.2's 8 Q8-FAM pairs (m=1,3,5,7,9,11,13,15) should each reduce to multiplicity_nodes=2 (ordinary twin pairs, not larger cliques).",
+    "detail": [
+      {
+        "id_group": [
+          24,
+          3
+        ],
+        "matches": [
+          {
+            "index": 24,
+            "id_group": [
+              24,
+              3
+            ],
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          72,
+          3
+        ],
+        "matches": [
+          {
+            "index": 72,
+            "id_group": [
+              72,
+              3
+            ],
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          120,
+          15
+        ],
+        "matches": [
+          {
+            "index": 120,
+            "id_group": [
+              120,
+              15
+            ],
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          168,
+          22
+        ],
+        "matches": [
+          {
+            "index": 168,
+            "id_group": [
+              168,
+              22
+            ],
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          216,
+          3
+        ],
+        "matches": [
+          {
+            "index": 216,
+            "id_group": [
+              216,
+              3
+            ],
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          264,
+          12
+        ],
+        "matches": [
+          {
+            "index": 264,
+            "id_group": [
+              264,
+              12
+            ],
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          312,
+          25
+        ],
+        "matches": [
+          {
+            "index": 312,
+            "id_group": [
+              312,
+              25
+            ],
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          360,
+          14
+        ],
+        "matches": [
+          {
+            "index": 360,
+            "id_group": [
+              360,
+              14
+            ],
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      }
+    ],
+    "pass": true
+  },
+  "no_verdict_note": "raw multiplicity counts, component lists, and booleans only. No judgment words -- 発効は司令塔専権."
+}
