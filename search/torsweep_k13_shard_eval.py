@@ -40,13 +40,34 @@ artifact-size instruction (dense would be ~2.7GB/shard territory; the FG-H
 nnz measurement determines how sparse it actually is, recorded in the
 artifact header for the aggregate job to check against).
 
+★裁定867(2): serialization is numpy .npz (savez_compressed, int32 rows/
+cols + int32 vals for modq mode -- all three commissioned primes are
+< 2**31 so residues fit int32 exactly), NOT the original Python-list-of-
+ints + json.dump(gzip) format. run 31515932255's 90-tree shards measured
+nnz in the ~10^8 range; a JSON list of 10^8 Python int objects has ~28
+bytes/object CPython overhead ALONE (~2.8GB for the rows list, same again
+for cols, same again for vals -- ~8.4GB), on top of the ~2.7GB dense
+array still live during extraction -- this is the diagnosed OOM cause of
+that run's mass job failures (runner "shutdown signal", i.e. killed,
+shortly after each shard's tree-evaluation phase finished and entered
+this post-processing phase). npz with fixed-width numpy dtypes has ZERO
+per-element Python object overhead: rows+cols+vals at 10^8 entries x
+4 bytes each = ~1.2GB total, peak (with the still-live 2.7GB dense array)
+~3.9GB -- see torsweep_k13_shard_npz_serialize_smoke_test.py (synthetic
+10^8-nnz smoke test, run locally per 裁定867(4) before any re-dispatch)
+for the measured figure.
+crt mode (superseded/deferred, 裁定796(6)) can have values far exceeding
+int32/int64 (B_13's entries alone run to ~9720 digits) -- for that mode
+only, vals are stored as a numpy object array (Python big ints, pickled by
+savez) exactly as before; this mode is not optimized and is not expected
+to run at 90-tree-shard scale until/unless SNF-MOD-13 revives it.
+
 This script does not decide shard boundaries or count -- those are
 workflow_dispatch inputs (裁定790point2: "シャードサイズと行範囲はdispatch
 入力パラメータ化"), computed by the workflow's plan job and passed in via
 --tree-start/--tree-end.
 """
 import argparse
-import gzip
 import json
 import os
 import sys
@@ -98,11 +119,31 @@ def load_h_basis_modq(basis_modq_path, expected_prime):
     return B_modq, H_rank, dim_h
 
 
-def sparse_triples_from_dense(restricted):
-    """(row,col,value) for nonzero entries only -- artifact payload."""
+MODQ_SAFE_INT32_PRIME_BOUND = 2 ** 31  # all 3 commissioned primes qualify
+
+
+def sparse_arrays_from_dense(restricted, mode, modulus):
+    """(rows, cols, vals) numpy arrays for nonzero entries only -- 裁定867(2)
+    replacement for the old Python-list sparse_triples_from_dense (OOM'd at
+    ~10^8 nnz, see module docstring). rows/cols are int32 (row < H_rank<=
+    210, col < ambient_dim_total ~1.6M -- both trivially fit); vals are
+    int32 for modq mode (residues < modulus < 2**31 by construction) or a
+    numpy object array of Python ints for crt mode (values can be
+    arbitrarily large -- not optimized, deferred path)."""
     rows, cols = np.nonzero(restricted)
-    vals = restricted[rows, cols]
-    return rows.tolist(), cols.tolist(), [int(v) for v in vals]
+    vals_raw = restricted[rows, cols]
+    rows = rows.astype(np.int32)
+    cols = cols.astype(np.int32)
+    if mode == "modq":
+        if modulus >= MODQ_SAFE_INT32_PRIME_BOUND:
+            raise ValueError(
+                f"modq modulus {modulus} >= 2**31 -- int32 vals would not "
+                f"be safe; this modulus is outside the set this shard "
+                f"format was sized for (all 3 commissioned primes)")
+        vals = vals_raw.astype(np.int32)
+    else:
+        vals = np.array([int(v) for v in vals_raw], dtype=object)
+    return rows, cols, vals
 
 
 def main():
@@ -129,7 +170,9 @@ def main():
                           "modq.1). If given, --hnf-cert / the full HNF "
                           "cert is never touched -- this is the path GHA "
                           "runners use.")
-    ap.add_argument("--out", required=True, help="output artifact path (.json.gz)")
+    ap.add_argument("--out", required=True,
+                     help="output artifact path (.npz -- 裁定867(2); .npz "
+                          "extension appended if not already present)")
     args = ap.parse_args()
 
     t_start = time.time()
@@ -181,15 +224,24 @@ def main():
     elapsed = time.time() - t_start
     record(f"shard done, elapsed={elapsed:.2f}s")
 
-    rows, cols, vals = sparse_triples_from_dense(restricted)
+    rows, cols, vals = sparse_arrays_from_dense(restricted, args.mode, p)
     nnz = len(vals)
     record(f"nnz(shard restricted)={nnz} (dense would be "
            f"{restricted.shape[0]}x{restricted.shape[1]}="
            f"{restricted.shape[0]*restricted.shape[1]} entries)")
+    del restricted  # 裁定867(2): free the ~2.7GB dense array before the
+                     # compression/write step below, not after -- reduces
+                     # peak RSS during np.savez_compressed's own internal
+                     # buffering.
 
-    payload = {
-        "schema": "tor_sweep_k13_shard_eval.1",
-        "ruling_refs": ["裁定789", "裁定790", "裁定792"],
+    meta = {
+        "schema": "tor_sweep_k13_shard_eval.2",
+        "ruling_refs": ["裁定789", "裁定790", "裁定792", "裁定867"],
+        "serialization_note": "npz (int32 rows/cols/vals for modq; object "
+                               "array of Python ints for crt) -- replaces "
+                               "schema .1's Python-list+json.dump(gzip) "
+                               "format, which OOM'd at ~10^8 nnz "
+                               "(裁定867(2), see module docstring).",
         "k": K,
         "mode": args.mode,
         "modulus": str(p),
@@ -205,7 +257,6 @@ def main():
              "path": os.path.relpath(hnf_cert_path, REPO_ROOT).replace(os.sep, "/")}
         ),
         "nnz": nnz,
-        "sparse_rows": rows, "sparse_cols": cols, "sparse_vals": vals,
         "elapsed_seconds": elapsed,
         "additivity_note": "this shard's restricted matrix is a PARTIAL sum "
                             "over generator trees [tree_start,tree_end) "
@@ -217,10 +268,12 @@ def main():
                             "accumulate_nu_j_restricted_range docstring "
                             "for the additivity argument.",
     }
-    os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
-    with gzip.open(args.out, "wt", encoding="utf-8") as f:
-        json.dump(payload, f)
-    record(f"artifact written: {args.out} ({os.path.getsize(args.out)} bytes gzipped)")
+    out_path = args.out if args.out.endswith(".npz") else args.out + ".npz"
+    os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
+    np.savez_compressed(
+        out_path, rows=rows, cols=cols, vals=vals,
+        meta=np.array(json.dumps(meta, ensure_ascii=False)))
+    record(f"artifact written: {out_path} ({os.path.getsize(out_path)} bytes)")
     print(f"TORSWEEP_K13_SHARD_DONE tree_start={ts} tree_end={te} "
           f"mode={args.mode} modulus={p} nnz={nnz}", flush=True)
 

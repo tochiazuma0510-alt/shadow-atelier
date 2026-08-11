@@ -207,7 +207,7 @@ jobs:
             --mode modq \
             --modulus ${{ matrix.prime }} \
             --basis-modq-file "$BASIS_FILE" \
-            --out ci/out/shard_modq_${{ matrix.shard_id }}.json.gz \
+            --out ci/out/shard_modq_${{ matrix.shard_id }}.npz \
             2>&1 | tee ci/out/shard_modq_${{ matrix.shard_id }}.log
           echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
@@ -235,7 +235,7 @@ jobs:
         if: always()
         with:
           name: torsweep-k13-modq-${{ matrix.shard_id }}-artifact
-          path: ci/out/shard_modq_${{ matrix.shard_id }}.json.gz
+          path: ci/out/shard_modq_${{ matrix.shard_id }}.npz
           if-no-files-found: warn
 
   crt_shard:
@@ -270,7 +270,7 @@ jobs:
             --mode crt \
             --modulus ${{ matrix.modulus }} \
             --hnf-cert "${{ inputs.hnf_cert_path }}" \
-            --out ci/out/shard_crt_${{ matrix.shard_id }}.json.gz \
+            --out ci/out/shard_crt_${{ matrix.shard_id }}.npz \
             2>&1 | tee ci/out/shard_crt_${{ matrix.shard_id }}.log
           echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
@@ -298,7 +298,7 @@ jobs:
         if: always()
         with:
           name: torsweep-k13-crt-${{ matrix.shard_id }}-artifact
-          path: ci/out/shard_crt_${{ matrix.shard_id }}.json.gz
+          path: ci/out/shard_crt_${{ matrix.shard_id }}.npz
           if-no-files-found: warn
 
 # NOTE (裁定789(2c)/裁定680): there is intentionally NO aggregate job here.

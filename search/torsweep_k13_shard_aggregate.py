@@ -50,7 +50,6 @@ scaffolding pending the SNF-MOD-13 rewrite, not as this module's intended
 final T4/T5 path.
 """
 import argparse
-import gzip
 import glob
 import json
 import os
@@ -72,13 +71,24 @@ EXPECTED_RANK_NU = 207  # 裁定735(6): rank nu_13 (= EXPECTED_H - EXPECTED_S)
 
 
 def load_shards(shard_dir, mode):
-    paths = sorted(glob.glob(os.path.join(shard_dir, "*.json.gz")))
+    """裁定867(2): shard artifacts are now .npz (rows/cols/vals numpy
+    arrays + a 'meta' entry holding the JSON metadata that used to be the
+    whole payload in schema .1's Python-list+json.dump(gzip) format).
+    Returns (path, payload) pairs where payload is the parsed meta dict
+    with 'rows'/'cols'/'vals' (numpy arrays) merged in, so downstream code
+    (check_coverage, sum_shards_modp, the crt-mode raw summary) reads the
+    same field names as before."""
+    paths = sorted(glob.glob(os.path.join(shard_dir, "*.npz")))
     shards = []
     for path in paths:
-        with gzip.open(path, "rt", encoding="utf-8") as f:
-            payload = json.load(f)
-        if payload["mode"] != mode:
-            continue
+        with np.load(path, allow_pickle=True) as npz:
+            meta = json.loads(str(npz["meta"]))
+            if meta["mode"] != mode:
+                continue
+            payload = dict(meta)
+            payload["rows"] = npz["rows"]
+            payload["cols"] = npz["cols"]
+            payload["vals"] = npz["vals"]
         shards.append((path, payload))
     return shards
 
@@ -101,20 +111,29 @@ def check_coverage(shards, trees_total):
 
 
 def sum_shards_modp(shards, H_rank, ambient_dim_total, p):
+    """裁定867(2): vectorized (np.add.at, index-repeat-safe -- distinct
+    shards/generator-trees can and do contribute to the same (row,col)
+    ambient position, so a plain fancy-index assignment would silently
+    drop all but the last write) instead of the old per-element Python
+    loop. Also fixes a latent correctness gap in the old version: it took
+    '% p' after EACH single-triple addition rather than after summing all
+    contributions, which is equivalent here since modular addition
+    commutes/associates fine either way -- but doing it once at the end
+    over the whole array is what makes the vectorized form possible."""
     dense = np.zeros((H_rank, ambient_dim_total), dtype=np.int64)
     for _, payload in shards:
-        rows = payload["sparse_rows"]
-        cols = payload["sparse_cols"]
-        vals = payload["sparse_vals"]
-        for r, c, v in zip(rows, cols, vals):
-            dense[r, c] = (dense[r, c] + v) % p
+        rows = payload["rows"].astype(np.int64)
+        cols = payload["cols"].astype(np.int64)
+        vals = payload["vals"].astype(np.int64)
+        np.add.at(dense, (rows, cols), vals)
+    dense %= p
     return dense
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--shard-dir", required=True,
-                     help="directory containing downloaded *.json.gz shard artifacts")
+                     help="directory containing downloaded *.npz shard artifacts (裁定867(2))")
     ap.add_argument("--hnf-cert", default=None)
     ap.add_argument("--primes", default="", help="comma-separated modq primes "
                      "expected (for coverage/T-c bookkeeping; if omitted, "
@@ -141,8 +160,8 @@ def main():
     record(f"H_rank={H_rank} dim_h={dim_h} (from {hnf_cert_path})")
 
     cert = {
-        "schema": "tor_sweep_k13_shard_aggregate.1",
-        "ruling_refs": ["裁定735(6)", "裁定789", "裁定790", "裁定792"],
+        "schema": "tor_sweep_k13_shard_aggregate.2",
+        "ruling_refs": ["裁定735(6)", "裁定789", "裁定790", "裁定792", "裁定867"],
         "k": K,
         "hnf_cert_path": os.path.relpath(hnf_cert_path, REPO_ROOT).replace(os.sep, "/"),
         "H_rank": H_rank, "dim_h": dim_h,
