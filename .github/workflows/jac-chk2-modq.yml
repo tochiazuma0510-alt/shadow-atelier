@@ -1,0 +1,139 @@
+name: jac-chk2-modq
+
+# JAC-CHK-2 mod-q rank/trace battery (裁定806/807/808) -- GHA relocation.
+# search/jac_chk2_modq_v1.py: mod-q (two large primes) rank + RREF-pivot-shortcut character
+# trace measurement of dim R_p / S3-isotypic type for p in {17,19}, per
+# docs/notes/post_lazard_window_design_v1_addendum_c.md §2.1 (JAC-CHK-2 order) and the
+# commander's tool-choice ruling (exact-sympy-rational linear algebra does not scale to
+# Witt(2,19)=27,594-dim Lambda_19 -- see search/jac_chk2_modq_v1.py's own module docstring for
+# the full method and the two failed-then-fixed local drafts that motivated this).
+#
+# operational_deviation (裁定643 style, required per 裁定807 point 4): this computation was
+# originally planned as a local run (gap.ps1 -o 2g machine, 8GB RAM total). Local timing tests
+# (both the exact-sympy p=17/19 attempt AND a first pure-Python-dict mod-q draft) showed
+# unacceptable cost/risk on the 8GB local machine (exact sympy: p=17 alone ran >1.5h without
+# completing before being killed, plausibly OOM; pure-Python mod-q draft: 13.6s for p=11 alone,
+# not finishing p=13 within 90s -- profiling traced the ACTUAL bottleneck to
+# search/jac_chk_v1.py's theta_apply/tau_apply exact-Fraction arithmetic, not the linear
+# algebra). Per 裁定808 (研究者直接指示), new heavy computation moves directly to GHA without a
+# further local trial. The mathematical universe (Jacobson p-power formula construction,
+# S3-action definitions, primes Q1/Q2 for the mod-q battery) is UNCHANGED from the local design.
+#
+# p=17 doubles as a calibration lane (裁定808 point 1): if a local exact result exists it is
+# cross-checked; otherwise the theoretical Witt(2,17)=7710 dimension and dim R_17=16 (=p-1)
+# expectation serve as the calibration target (checked by the aggregate step / crosscheck).
+
+on:
+  workflow_dispatch:
+    inputs:
+      primes:
+        description: "Comma-separated list of p values to run (matrix)"
+        required: false
+        type: string
+        default: "17,19"
+      timeout_min:
+        description: "Per-job timeout minutes"
+        required: false
+        type: string
+        default: "120"
+
+permissions:
+  contents: read
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - id: gen
+        shell: bash
+        run: |
+          IFS=',' read -ra ARR <<< "${{ inputs.primes }}"
+          json="["
+          first=true
+          for p in "${ARR[@]}"; do
+            if [ "$first" = true ]; then first=false; else json+=","; fi
+            json+="$p"
+          done
+          json+="]"
+          echo "matrix=$json" >> "$GITHUB_OUTPUT"
+
+  jac_chk2_modq:
+    needs: prep
+    strategy:
+      fail-fast: false
+      matrix:
+        p: ${{ fromJSON(needs.prep.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(inputs.timeout_min) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - name: Report runner memory (informational)
+        shell: bash
+        run: free -h || true
+
+      - name: Run JAC-CHK-2 mod-q for p=${{ matrix.p }}
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/jac_chk2_modq_v1.py ${{ matrix.p }} 2>&1 | tee ci/out/jac_chk2_modq_p${{ matrix.p }}.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check per-p result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/jac_chk2_modq_p${{ matrix.p }}.log"
+            exit 1
+          fi
+          if ! grep -q "Wrote search/certs/jac_chk2_modq_v1_20260811_p${{ matrix.p }}.json" ci/out/jac_chk2_modq_p${{ matrix.p }}.log; then
+            echo "::error::expected cert-write line not found in log"
+            exit 1
+          fi
+
+      - name: Add operational_deviation note to cert (post-process, does not touch raw values)
+        shell: bash
+        run: |
+          python - <<'PYEOF'
+          import json
+          path = "search/certs/jac_chk2_modq_v1_20260811_p${{ matrix.p }}.json"
+          d = json.load(open(path, encoding="utf-8"))
+          d["operational_deviation"] = (
+              "executed on GHA ubuntu runner instead of local gap.ps1/-o 2g machine (8GB total "
+              "RAM) per 裁定806/807/808: local exact-sympy-rational attempt did not complete for "
+              "p=17 (>1.5h, plausibly OOM-killed) and a local pure-Python mod-q draft did not "
+              "scale past p=11 within acceptable time (profiling traced the bottleneck to "
+              "theta_apply/tau_apply exact-Fraction arithmetic in search/jac_chk_v1.py, not this "
+              "script's own linear algebra). Mathematical universe (Jacobson p-power formula "
+              "s_1..s_{p-1} construction, S3 theta/tau action definitions, mod-q primes "
+              "Q1=999999937/Q2=999999893) is UNCHANGED from the local design."
+          )
+          json.dump(d, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+          PYEOF
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jac-chk2-modq-p${{ matrix.p }}-log
+          path: ci/out/jac_chk2_modq_p${{ matrix.p }}.log
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jac-chk2-modq-p${{ matrix.p }}-cert
+          path: search/certs/jac_chk2_modq_v1_20260811_p${{ matrix.p }}.json
+          if-no-files-found: warn

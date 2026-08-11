@@ -1,0 +1,94 @@
+name: lins-2000
+
+# LINS-2000 (裁定803/804/806/807/808) -- extends the B3 twin-subgroup census index bound
+# from 1000 (search/lins-twin-census-v1.g, already committed as
+# search/certs/lins_twin_census_v1_20260806.json, 裁定548 W-1) to 2000, per
+# docs/notes/hunting_chapter_v1_addendum_a.md §4.3 ("U1/U2/U3 三分割を廃し lins の指数上限を
+# 1000->2000に上げる1本に統合" -- this is the FIB-SWEEP replacement's second half, after
+# FIB-MULT already covered index<=1000 via pure aggregation with zero new GAP runs).
+#
+# Venue: GHA (裁定633 訂正2's own note "指数2000=GHA内"; 裁定807/808: heavy new computation goes
+# directly to GHA, no further local trial after the local timing test already in flight is
+# informational only). search/lins-census-2000-v1.g is otherwise IDENTICAL apparatus to
+# lins-twin-census-v1.g (LID-1: single GAP process, single LowIndexNormalSubgroupsSearch call;
+# same row/pairing logic verbatim) -- only the index bound (2000) and output path differ.
+#
+# operational_deviation (裁定643 style) is written INTO the cert by the script itself
+# (search/lins-census-2000-v1.g's own JSON output), not post-processed here, since the GAP
+# script is the one authoring the cert directly (unlike the Python jac-chk2-modq workflow which
+# post-processes after the fact).
+#
+# Follow-on (NOT performed by this workflow): FIB-MULT(2) aggregation (multiplicity>=3 report
+# for the (1000,2000] band), P-Q8FAM check (m=17..33 odd, index<=792, within this run's bound),
+# and WIN-CNOTN (N<=PB3 AND c not in N AND j not| 3 extraction) are separate, cheap, PURE
+# AGGREGATION follow-up scripts over this workflow's output cert -- to be run locally once the
+# cert artifact is downloaded (same "追加走行ゼロ" pattern as FIB-MULT's first pass).
+
+on:
+  workflow_dispatch:
+    inputs:
+      timeout_min:
+        description: "Job timeout minutes"
+        required: false
+        type: string
+        default: "180"
+      gap_heap:
+        description: "GAP -o heap size (explicit byte-count style recommended, e.g. 8g)"
+        required: false
+        type: string
+        default: "8g"
+
+permissions:
+  contents: read
+
+jobs:
+  lins_2000:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(inputs.timeout_min) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0 (release tarball, sha256-verified)
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Report runner memory (informational)
+        shell: bash
+        run: free -h || true
+
+      - name: Run LINS-2000 (search/lins-census-2000-v1.g)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p search/certs ci/out
+          gap -q -o ${{ inputs.gap_heap }} search/lins-census-2000-v1.g 2>&1 | tee ci/out/lins_2000.log
+          echo "gap_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.gap_exit }}" != "0" ]; then
+            echo "::error::gap_exit=${{ steps.run.outputs.gap_exit }} -- see ci/out/lins_2000.log"
+            exit 1
+          fi
+          if ! grep -q "ALL_DONE" ci/out/lins_2000.log; then
+            echo "::error::ALL_DONE marker not found -- run did not complete "
+            echo "(check for [CAP EXCEEDED] or a GAP-level error in the log)"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lins-2000-log
+          path: ci/out/lins_2000.log
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lins-2000-cert
+          path: search/certs/lins_census_2000_v1_20260811.json
+          if-no-files-found: warn
