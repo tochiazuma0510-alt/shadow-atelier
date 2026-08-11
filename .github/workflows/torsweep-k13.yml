@@ -1,0 +1,311 @@
+name: torsweep-k13
+
+# k=13 TOR-SWEEP N_13 = nu_13 o j |_H13 evaluation, GENERATOR-TREE-SHARDED
+# (裁定789/790/792). H_13's own construction (T0/T1) is done LOCALLY BEFORE
+# this workflow is dispatched (裁定789(2c)) -- it does not build H_13
+# itself. ★裁定842(2)/(5): the full HNF construction cert turned out to be
+# ~356MB with entries to ~9720 digits (addendum_c's HNF-blowup phenomenon,
+# see search/torsweep_k13_hnf_construct_v1.py) -- GitHub rejects pushes
+# with files >100MB, so that cert is git-ignored and NEVER checked out on
+# a runner. Instead, search/torsweep_k13_materialize_modq_basis.py reduces
+# H_13's basis mod each modq-lane prime into small (~1MB), COMMITTED files
+# (search/certs/torsweep_k13_basis_modq/torsweep_k13_B_modq_<prime>_
+# <date>.json) -- modq_shard jobs read those via --basis-modq-file, never
+# touching the huge source cert. (crt-mode jobs, superseded/deferred per
+# 裁定796(6) below, still reference the full local cert path when/if
+# revived -- they are not dispatched by default.)
+#
+# AXIS CORRECTION (裁定792, self-corrected by the coordinator from 裁定789's
+# original framing): the embarrassingly-parallel, additively-recombinable
+# axis is the 630 Lambda_13 GENERATOR (Lyndon-tree) indices
+# (edim_semidirect_v1.GradedLie(2,13,p).trees[13]), NOT a range of the 210
+# H_13 basis rows -- the per-generator-tree evaluation (dominant cost per
+# the FG-H hypothesis) is shared/broadcast across ALL H-basis output rows
+# in the un-sharded implementation, so sharding by H-row alone would not
+# reduce any shard's wall-clock (each shard would still walk all 630
+# trees). See search/edim_semidirect_v1.py's accumulate_nu_j_restricted_
+# range() docstring for the additivity argument that makes generator-tree
+# sharding both correct and wall-clock-reducing.
+#
+# DISPATCH GATE: workflow_dispatch ONLY -- no push trigger (edim.yml's own
+# 便112f accident comment is the standing lesson: a push-triggered run
+# fired and had to be cancelled). Actual dispatch of this workflow is
+# 司令塔's call after (a) H_13's local construction cert is committed and
+# (b) an FG-H-informed shard_count/tree range sizing decision.
+#
+# Job composition (裁定789/790):
+#   (a) modq shards x 3 primes (T2/T3 rank witness) -- self-computed for
+#       all 3 primes; unlike k=12, there is no "儀式" (E-DIM ritual)
+#       cert to reuse at k=13 (裁定785's trick does not apply here).
+#   (b) crt shards x 2 moduli (T4/T5) -- ★ SUPERSEDED per 裁定796(6): the
+#       mathematician's SNF-MOD-13 spec (docs/notes/tor_sweep_design_v1_
+#       addendum_c.md, e3f3c62) replaces exact-entry/dual-huge-modulus
+#       reconstruction with (i) a few small r'xr' minor-determinant gcd
+#       (proof, bounds torsion support) (ii) mod-q rank deficiency per
+#       candidate prime (iii) mod q^N Smith form for survivors only --
+#       HNF/LLL/saturated-basis construction are explicitly prohibited.
+#       This job group (crt mode) is left in the workflow shape as
+#       harmless raw-data scaffolding but is NOT the T4/T5 implementation
+#       path going forward; the SNF-MOD-13 rewrite (steps (i)-(iii), all
+#       reusing modq-style machinery) is deferred to after k=12 T4/T5
+#       completes (裁定796(6): not urgent, mod-q lane takes priority).
+#       Gated off by default (run_crt input, default false).
+#   (c) LOCAL (not in this workflow): H_13 HNF construction, shard
+#       artifact assembly/aggregation, Bareiss/Howell closure, final cert.
+#
+# Artifact discipline (裁定792): shard payloads are SPARSE (nonzero
+# row/col/value triples), gzip-compressed -- a fully dense restricted
+# matrix would be ~2.7GB/shard territory at k=13's ambient dimension
+# (3**13+2**13 ~ 1.6M columns x up to 210 rows), well past reasonable
+# artifact size. Actual density is unmeasured before this workflow's own
+# first run (that measurement -- fg_h_nnz_restricted/fg_h_all_keys_count,
+# search/edim_semidirect_v1.py -- is itself part of what this run reports)
+# so shard_count/tree-range sizing is a dispatch input, not hardcoded.
+
+on:
+  workflow_dispatch:
+    inputs:
+      basis_modq_dir:
+        description: 'Directory of committed, pre-reduced mod-q basis files (search/torsweep_k13_materialize_modq_basis.py output; one file per modq_primes entry) -- used by modq_shard jobs, 裁定842(5)'
+        required: true
+        type: string
+        default: 'search/certs/torsweep_k13_basis_modq'
+      hnf_cert_path:
+        description: 'LOCAL-ONLY (git-ignored, 裁定842(2)) full k=13 HNF construction cert path -- only meaningful for crt-mode jobs (run_crt=true), which are superseded/deferred (裁定796(6)) and not dispatched by default. Leave blank for a modq-only dispatch.'
+        required: false
+        type: string
+      shard_count:
+        description: 'Number of generator-tree shards (of 630 total trees) for the modq jobs. Default 7 (~90 trees/shard) per 裁定789 -- adjust after FG-H sizing.'
+        required: true
+        type: number
+        default: 7
+      modq_primes:
+        description: 'Comma-separated primes for T2/T3 (all 3 self-computed, no ritual reuse at k=13)'
+        required: true
+        type: string
+        default: '2147483647,998244353,1000000007'
+      run_crt:
+        description: 'Also dispatch the T4/T5 crt-mode data-collection job group (OPEN ITEM on reconstruction method -- see workflow header comment; leave false until decided)'
+        required: true
+        type: boolean
+        default: false
+      crt_moduli:
+        description: 'Comma-separated moduli for the crt-mode shards (only used if run_crt=true)'
+        required: true
+        type: string
+        default: '10000000000000000000000000000000000000000,10000000000000000000000000000000000000015'
+      crt_shard_count:
+        description: 'Number of generator-tree shards for the crt jobs (independent of shard_count -- crt-mode per-shard cost is expected to differ)'
+        required: true
+        type: number
+        default: 7
+      timeout_minutes:
+        description: 'Per-shard-job timeout (minutes). k=13 old-path estimate was 10-20h/prime SERIAL; each shard here handles ~1/shard_count of that.'
+        required: true
+        type: number
+        default: 240
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      modq_matrix: ${{ steps.plan.outputs.modq_matrix }}
+      crt_matrix: ${{ steps.plan.outputs.crt_matrix }}
+    steps:
+      - name: Compute tree-range shards x primes/moduli matrices
+        id: plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$SHARD_COUNT" "$MODQ_PRIMES" "$RUN_CRT" "$CRT_MODULI" "$CRT_SHARD_COUNT" <<'PYEOF' >> "$GITHUB_OUTPUT"
+          import json, sys
+          shard_count = int(sys.argv[1])
+          primes = [p.strip() for p in sys.argv[2].split(",") if p.strip()]
+          run_crt = sys.argv[3].strip().lower() == "true"
+          crt_moduli = [m.strip() for m in sys.argv[4].split(",") if m.strip()]
+          crt_shard_count = int(sys.argv[5])
+          TOTAL_TREES = 630  # Witt(2,13), fixed (dim_h at k=13 -- 裁定732-corrected table)
+
+          def ranges(n, count):
+              # contiguous, near-equal, covers [0,n) exactly, no gaps/overlap
+              base, rem = divmod(n, count)
+              out = []
+              cur = 0
+              for i in range(count):
+                  size = base + (1 if i < rem else 0)
+                  out.append((cur, cur + size))
+                  cur += size
+              assert cur == n
+              return out
+
+          modq_entries = []
+          for a, b in ranges(TOTAL_TREES, shard_count):
+              for p in primes:
+                  modq_entries.append({"tree_start": a, "tree_end": b,
+                                        "prime": p, "shard_id": f"{a}-{b}_p{p}"})
+          print("modq_matrix=" + json.dumps({"include": modq_entries}))
+
+          crt_entries = []
+          if run_crt:
+              for a, b in ranges(TOTAL_TREES, crt_shard_count):
+                  for m in crt_moduli:
+                      crt_entries.append({"tree_start": a, "tree_end": b,
+                                           "modulus": m, "shard_id": f"{a}-{b}_m{m[:12]}"})
+          print("crt_matrix=" + json.dumps({"include": crt_entries}))
+          PYEOF
+        env:
+          SHARD_COUNT: ${{ inputs.shard_count }}
+          MODQ_PRIMES: ${{ inputs.modq_primes }}
+          RUN_CRT: ${{ inputs.run_crt }}
+          CRT_MODULI: ${{ inputs.crt_moduli }}
+          CRT_SHARD_COUNT: ${{ inputs.crt_shard_count }}
+
+  modq_shard:
+    needs: plan
+    if: needs.plan.outputs.modq_matrix != '{"include":[]}'
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan.outputs.modq_matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - name: Report runner memory (informational)
+        shell: bash
+        run: free -h || true
+
+      - name: Run shard (modq)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          BASIS_FILE=$(ls "${{ inputs.basis_modq_dir }}"/torsweep_k13_B_modq_${{ matrix.prime }}_*.json 2>/dev/null | sort | tail -n1)
+          if [ -z "$BASIS_FILE" ]; then
+            echo "::error::no basis file matching torsweep_k13_B_modq_${{ matrix.prime }}_*.json in ${{ inputs.basis_modq_dir }} (run search/torsweep_k13_materialize_modq_basis.py locally and commit its output first, 裁定842(5))"
+            echo "py_exit=1" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "using basis file: $BASIS_FILE"
+          python search/torsweep_k13_shard_eval.py \
+            --tree-start ${{ matrix.tree_start }} \
+            --tree-end ${{ matrix.tree_end }} \
+            --mode modq \
+            --modulus ${{ matrix.prime }} \
+            --basis-modq-file "$BASIS_FILE" \
+            --out ci/out/shard_modq_${{ matrix.shard_id }}.json.gz \
+            2>&1 | tee ci/out/shard_modq_${{ matrix.shard_id }}.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check shard result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/shard_modq_${{ matrix.shard_id }}.log"
+            exit 1
+          fi
+          if ! grep -q "TORSWEEP_K13_SHARD_DONE" ci/out/shard_modq_${{ matrix.shard_id }}.log; then
+            echo "::error::TORSWEEP_K13_SHARD_DONE marker not found"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-modq-${{ matrix.shard_id }}-log
+          path: ci/out/shard_modq_${{ matrix.shard_id }}.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-modq-${{ matrix.shard_id }}-artifact
+          path: ci/out/shard_modq_${{ matrix.shard_id }}.json.gz
+          if-no-files-found: warn
+
+  crt_shard:
+    needs: plan
+    if: inputs.run_crt && needs.plan.outputs.crt_matrix != '{"include":[]}'
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan.outputs.crt_matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - name: Run shard (crt, data collection only -- 裁定792/OPEN ITEM)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/torsweep_k13_shard_eval.py \
+            --tree-start ${{ matrix.tree_start }} \
+            --tree-end ${{ matrix.tree_end }} \
+            --mode crt \
+            --modulus ${{ matrix.modulus }} \
+            --hnf-cert "${{ inputs.hnf_cert_path }}" \
+            --out ci/out/shard_crt_${{ matrix.shard_id }}.json.gz \
+            2>&1 | tee ci/out/shard_crt_${{ matrix.shard_id }}.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check shard result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/shard_crt_${{ matrix.shard_id }}.log"
+            exit 1
+          fi
+          if ! grep -q "TORSWEEP_K13_SHARD_DONE" ci/out/shard_crt_${{ matrix.shard_id }}.log; then
+            echo "::error::TORSWEEP_K13_SHARD_DONE marker not found"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-crt-${{ matrix.shard_id }}-log
+          path: ci/out/shard_crt_${{ matrix.shard_id }}.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-crt-${{ matrix.shard_id }}-artifact
+          path: ci/out/shard_crt_${{ matrix.shard_id }}.json.gz
+          if-no-files-found: warn
+
+# NOTE (裁定789(2c)/裁定680): there is intentionally NO aggregate job here.
+# Artifact retrieval is 司令塔's own direct step (裁定680); assembly
+# (search/torsweep_k13_shard_aggregate.py, run LOCALLY against the
+# downloaded artifact directory) is the implementer's. This mirrors
+# edim.yml's own division of labor but keeps the actually-heavy assembly
+# step (rank certificates over 210x~1.6M dense reconstructions, Bareiss/
+# Howell closure) off the GHA runner entirely, since none of that needs
+# GHA's parallelism -- only the per-generator-tree evaluation does.

@@ -20,3 +20,10 @@ ops/bin/wake_queue.lock
 *~
 .DS_Store
 search/__pycache__/
+
+# 裁定842(2): GitHub は 100MB/file で push 拒否 -- 巨大 cert(k=13 TOR-SWEEP
+# 系・B の成分が数千桁)はローカル保存のみとし、要約+sha256 の receipt cert
+# (*_RECEIPT.json)だけを commit する。ここに明示 ignore(誤 add 防止)。
+search/certs/torsweep_k13_hnf_construct_v1_*.json
+search/certs/torsweep_k13_hnf_construct_v1_*.json.gz
+!search/certs/torsweep_k13_hnf_construct_v1_*_RECEIPT.json
