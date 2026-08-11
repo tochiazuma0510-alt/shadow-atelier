@@ -1,0 +1,51 @@
+{
+  "schema": "shadow-atelier/s4_iso_i3_extract_v1",
+  "authority": "裁定886 -- docs/notes/ent_arith_type_gate_v2.md §4 (I3) 既存cert再読",
+  "method_note": "documentary re-reading task (表読み), not a computation. Direct textual search of docs/notes/ihnec_v1.md, docs/notes/surj_s4_v2.md, docs/notes/auto_settled_check_v1.md, docs/notes/e1_canonical_v1.md, and provenance/LEDGER.md for N_S4's isolated-status determination and SPLIT-NULL's stated precondition.",
+  "gate_v2_i3_hypothesis": "SPLIT-NULL's precondition includes N'∈I (docs/notes/ent_arith_type_gate_v2.md §4, quoted verbatim: 'SPLIT-NULLの前件にN'∈Iがある')",
+  "gate_v2_i3_hypothesis_confirmed": true,
+  "findings": [
+    {
+      "id": "F1",
+      "finding": "theorem SPLIT-NULL's literal statement includes 'N'∈I' as an explicit hypothesis -- confirms gate v2's (I3) reading is textually correct.",
+      "source": "docs/notes/ihnec_v1.md line 374",
+      "quote": "n 奇 ≥3、N'∈I、M:=K^{(n)}∩N' とし、G_n=PB_3/K^{(n)} と PB_3/N' に共通の非自明な商が無いと仮定する。"
+    },
+    {
+      "id": "F2",
+      "finding": "the campaign's APPLICATION of SPLIT-NULL with N'=N_S4 (predictions P-IHN-1..7, §6.5) does NOT independently establish N_S4∈I -- it is explicitly tracked as an OPEN precondition (S4-ISO) in the document's own precondition table.",
+      "source": "docs/notes/ihnec_v1.md lines 319, 411",
+      "quote": "前件の明示: (S4-ISO) N_S4 が isolated であること。状態: 機械測定(settled 54/54)のみ・証明書は 'isolated:UNKNOWN'。→ 報告は「(S4-ISO)条件つき」と明記すること。"
+    },
+    {
+      "id": "F3",
+      "finding": "the underlying GAP certificate's own 'isolated' field is a HARDCODED 'UNKNOWN' placeholder, not a computed value.",
+      "source": "docs/notes/surj_s4_v2.md line 78 (citing week3-psl-common.g L452)",
+      "quote": "証明書自身は 'isolated: UNKNOWN' と書いている(week3-psl-common.g L452 のハードコード)。"
+    },
+    {
+      "id": "F4",
+      "finding": "a SEPARATE document's isolated table claims 'true' for N_S4, but this is explicitly labeled a HUMAN-DERIVED reading from raw 'settled 54/54' measurement data, not a machine-verified or proof-based confirmation.",
+      "source": "docs/notes/surj_s4_v2.md lines 77-78, 259",
+      "quote": "week4-E2作戦_v1.md の isolated 表が true と記すのは、その 54/54 settled から人が導いた読みである。証明書の欄と文書の表が食い違っている。"
+    },
+    {
+      "id": "F5",
+      "finding": "a NEWER partial-closure mechanism (lemma VERBAL-ISO) EXPLICITLY does NOT apply to N_S4/(S4-ISO) -- confirmed still open as of the most recent related document found.",
+      "source": "docs/notes/auto_settled_check_v1.md line 262",
+      "quote": "ただし PSL(2,8) 窓 (S4-ISO) と W-5 には適用できない(N_{F_2} が verbal として構成されていないため)。"
+    },
+    {
+      "id": "F6",
+      "finding": "origin: this open-item class is tracked as 【SD-a】, traced to 裁定219 (campaign-wide warning that wall-window isolated-ness was never independently verified).",
+      "source": "docs/notes/e1_canonical_v1.md lines 182, 199; docs/notes/ihnec_v1.md line 319/411",
+      "quote": "壁窓の isolated (W1) 未検証。裁定219。"
+    }
+  ],
+  "n_s4_isolated_established": false,
+  "missing_for_i1_handoff": [
+    "a genuine machine-verified or proof-based confirmation that N_S4 satisfies the canonical isolated definition (Def 3.13: 'N is isolated if every GT-shadow in GT(N) is settled') -- the cert's own field is a hardcoded placeholder, not a real computation over the 54 elements of GT(N_S4) checking ker(T_{m,f})=N_S4 for each.",
+    "OR a paper-proof route analogous to VERBAL-ISO, but VERBAL-ISO itself is documented as NOT applicable to N_S4 (N_F2 for this window is not constructed as verbal) -- gate v2's own suggested route is different: PSL(2,8)'s SIMPLICITY (no proper nontrivial normal subgroups => no intermediate window can be built), which has NOT been checked against this specific isolated-predicate application in any found document."
+  ],
+  "no_verdict_note": "raw documentary findings (direct quotes + line-number citations) only. No judgment on WHAT THIS MEANS for the gate's overall readiness (that is the commander's/mathematician's determination) -- only whether N_S4∈I was found to be established."
+}
