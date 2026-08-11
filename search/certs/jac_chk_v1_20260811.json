@@ -1,0 +1,175 @@
+{
+  "schema": "shadow-atelier/jac_chk_v1",
+  "authority": "裁定786 (司令塔), docs/notes/post_lazard_window_design_v1_addendum_b.md §1.3 発注 JAC-CHK (verbatim)",
+  "method_note": "pure Lie-algebra computation (Jacobson p-power formula terms s_1..s_{p-1} in Lambda_p=Lie(x,y)_p, via iterated free-Lie brackets tracking a formal t-power) -- NO group construction (per the design's own 'group不要' claim). theta=swap(x,y), tau: x->y,y->-(x+y) (associated-graded/leading-order S3 action on V={x,y,z}/(x+y+z=0), same framing already validated in NORM-CHK search/pl_lab1_normchk_v1.py).",
+  "canary_note": "p=5,7 dim/isotypic values are compared below against the ALREADY-COMMITTED NORM-CHK cert (search/certs/pl_lab1_normchk_v1_20260811.json), which measured R_p via an ENTIRELY DIFFERENT method (actual finite pc-group construction + GAP nullspace computation) -- convergence would be strong cross-validation across independent methods, not just internal self-consistency.",
+  "per_p": {
+    "5": {
+      "p": 5,
+      "num_s_i": 4,
+      "s_i_term_counts": [
+        5,
+        10,
+        10,
+        5
+      ],
+      "leftover_t_p_minus_1_is_zero": true,
+      "rank_span_s_i": 4,
+      "expected_p_minus_1": 4,
+      "linearly_independent": true,
+      "basis_size": 4,
+      "isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 1
+      },
+      "dim_from_isotypic_sum": 4,
+      "dim_matches_isotypic_sum": true,
+      "expected_by_JAC_R": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 1
+      },
+      "matches_JAC_R_prediction": true,
+      "stop_code": null
+    },
+    "7": {
+      "p": 7,
+      "num_s_i": 6,
+      "s_i_term_counts": [
+        7,
+        21,
+        35,
+        35,
+        21,
+        7
+      ],
+      "leftover_t_p_minus_1_is_zero": true,
+      "rank_span_s_i": 6,
+      "expected_p_minus_1": 6,
+      "linearly_independent": true,
+      "basis_size": 6,
+      "isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 2
+      },
+      "dim_from_isotypic_sum": 6,
+      "dim_matches_isotypic_sum": true,
+      "expected_by_JAC_R": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 2
+      },
+      "matches_JAC_R_prediction": true,
+      "stop_code": null
+    },
+    "11": {
+      "p": 11,
+      "num_s_i": 10,
+      "s_i_term_counts": [
+        11,
+        55,
+        165,
+        330,
+        462,
+        462,
+        330,
+        165,
+        55,
+        11
+      ],
+      "leftover_t_p_minus_1_is_zero": true,
+      "rank_span_s_i": 10,
+      "expected_p_minus_1": 10,
+      "linearly_independent": true,
+      "basis_size": 10,
+      "isotypic": {
+        "m_triv": 2,
+        "m_sgn": 2,
+        "m_std": 3
+      },
+      "dim_from_isotypic_sum": 10,
+      "dim_matches_isotypic_sum": true,
+      "expected_by_JAC_R": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 4
+      },
+      "matches_JAC_R_prediction": false,
+      "stop_code": null
+    },
+    "13": {
+      "p": 13,
+      "num_s_i": 12,
+      "s_i_term_counts": [
+        13,
+        78,
+        286,
+        715,
+        1287,
+        1716,
+        1716,
+        1287,
+        715,
+        286,
+        78,
+        13
+      ],
+      "leftover_t_p_minus_1_is_zero": true,
+      "rank_span_s_i": 12,
+      "expected_p_minus_1": 12,
+      "linearly_independent": true,
+      "basis_size": 12,
+      "isotypic": {
+        "m_triv": 2,
+        "m_sgn": 2,
+        "m_std": 4
+      },
+      "dim_from_isotypic_sum": 12,
+      "dim_matches_isotypic_sum": true,
+      "expected_by_JAC_R": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 5
+      },
+      "matches_JAC_R_prediction": false,
+      "stop_code": null
+    }
+  },
+  "any_stop": false,
+  "P_PL_5_prediction": {
+    "def_p": "-(p-3)/2",
+    "dim_R_p": "p-1"
+  },
+  "def_p_comparison": {
+    "5": {
+      "P_PL_5_predicted_def_p": -1,
+      "def_p_implied_by_this_JAC_CHK_mult_std": -1,
+      "matches_P_PL_5": true
+    },
+    "7": {
+      "P_PL_5_predicted_def_p": -2,
+      "def_p_implied_by_this_JAC_CHK_mult_std": -2,
+      "matches_P_PL_5": true
+    },
+    "11": {
+      "P_PL_5_predicted_def_p": -4,
+      "def_p_implied_by_this_JAC_CHK_mult_std": -3,
+      "matches_P_PL_5": false
+    },
+    "13": {
+      "P_PL_5_predicted_def_p": -5,
+      "def_p_implied_by_this_JAC_CHK_mult_std": -4,
+      "matches_P_PL_5": false
+    }
+  },
+  "summary_raw": {
+    "dim_R_p_equals_p_minus_1_all_4": true,
+    "p5_p7_isotypic_matches_NORM_CHK_R_p_isotypic": true,
+    "JAC_R_type_prediction_matches_all_4": false,
+    "note": "dim R_p=p-1 holds for all 4 primes (canary confirmed: linear independence of s_1..s_{p-1}). p=5,7 isotypic type of span{s_i} EXACTLY reproduces the independently-measured NORM-CHK cert's R_p_isotypic field (search/certs/pl_lab1_normchk_v1_20260811.json, R_p := ker(Lambda_p -> measured gamma_p/gamma_{p+1}) -- cross-validation across two different methods: actual pc-group construction + GAP there, pure Jacobson-formula Lie-algebra computation here). p=11,13 do NOT match the design's JAC-R candidate closed form triv+sgn+((p-3)/2)std (measured: m_triv=m_sgn=2 not 1, m_std=(p-3)/2 - 1 not (p-3)/2, for both). Raw fact only, no interpretation of mechanism."
+  },
+  "no_verdict_note": "raw dimensions, isotypic multiplicities, and booleans only. No judgment words ('閉形式が確定', '命題JAC-Rが証明された' etc.) -- 発効は司令塔専権.",
+  "stop_code": null
+}
