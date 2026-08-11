@@ -1,0 +1,61 @@
+{
+  "schema": "shadow-atelier/t2_split_v1",
+  "authority": "裁定778(1) (司令塔), docs/notes/cone_design_v1_addendum_e.md §4 追加発注 T2-SPLIT 段H-h (verbatim)",
+  "input_source_note": "d_K values are the squarefree_part field ALREADY COMPUTED and ALREADY CROSS-CHECKED in search/certs/t2_hecke_v1_20260807.json (裁定769(3)/d4394df) -- this script does not recompute the Hecke matrices or discriminants, only the Legendre symbols.",
+  "echo_prime_source_note": "echo primes (103,7,5,37) are the smallest prime factors of num(B_k) at each weight, matching the P-CONE-3 built-in-control primes (7@28, 5@30) and the P-CONE-5/6 echo primes (37@32, 103@24) already committed in search/certs/cb_recon_sweep_v1_20260807.json.",
+  "per_k": {
+    "24": {
+      "d_K": 144169,
+      "d_K_source": "search/certs/t2_hecke_v1_20260807.json H_g_order_index.squarefree_part (already-committed, already-cross-checked -- not recomputed here)",
+      "d_K_factorization": {
+        "144169": 1
+      },
+      "echo_prime": 103,
+      "legendre_symbol_dK_over_p": 1,
+      "p_divides_d_K": false
+    },
+    "28": {
+      "d_K": 18209,
+      "d_K_source": "search/certs/t2_hecke_v1_20260807.json H_g_order_index.squarefree_part (already-committed, already-cross-checked -- not recomputed here)",
+      "d_K_factorization": {
+        "131": 1,
+        "139": 1
+      },
+      "echo_prime": 7,
+      "legendre_symbol_dK_over_p": 1,
+      "p_divides_d_K": false
+    },
+    "30": {
+      "d_K": 51349,
+      "d_K_source": "search/certs/t2_hecke_v1_20260807.json H_g_order_index.squarefree_part (already-committed, already-cross-checked -- not recomputed here)",
+      "d_K_factorization": {
+        "51349": 1
+      },
+      "echo_prime": 5,
+      "legendre_symbol_dK_over_p": 1,
+      "p_divides_d_K": false
+    },
+    "32": {
+      "d_K": 18295489,
+      "d_K_source": "search/certs/t2_hecke_v1_20260807.json H_g_order_index.squarefree_part (already-committed, already-cross-checked -- not recomputed here)",
+      "d_K_factorization": {
+        "67": 1,
+        "273067": 1
+      },
+      "echo_prime": 37,
+      "legendre_symbol_dK_over_p": 1,
+      "p_divides_d_K": false
+    }
+  },
+  "branch_reading_key_UNASSERTED": {
+    "note": "addendum E §4's own stated interpretation key, recorded here as design context ONLY -- this script does not assert which branch obtains; that judgment is 司令塔専権 (addendum E §3 (H3)/(H4) explicit limitation).",
+    "legendre_plus_1": "(d_K/p)=+1 read by the design as 'eigenform branch' (p splits in the Hecke field)",
+    "legendre_minus_1": "(d_K/p)=-1 read by the design as 'scalar-looking branch' (p inert)"
+  },
+  "k32_p37_is_the_open_target": {
+    "note": "addendum E §4 explicitly names (d_32/37) as 'the target of this measurement' (未知=本測定の標的) -- reported as raw value below, no verdict attached.",
+    "legendre_symbol": 1
+  },
+  "no_verdict_note": "raw Legendre symbol values and factorizations only. No judgment words ('固有形式枝が実在', '共鳴' etc.) written anywhere in this cert -- 発効は司令塔専権.",
+  "stop_code": null
+}
