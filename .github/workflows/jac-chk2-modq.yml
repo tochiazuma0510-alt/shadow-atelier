@@ -75,9 +75,15 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install numpy
+      - name: Install numpy + sympy
         shell: bash
-        run: pip install "numpy==2.5.1"
+        run: pip install "numpy==2.5.1" sympy
+        # sympy is required only because search/jac_chk2_modq_v1.py imports
+        # build_jacobson_s/theta_apply/tau_apply from search/jac_chk_v1.py, whose
+        # MODULE-LEVEL `from sympy import Matrix, Rational` runs on import even
+        # though those 3 specific functions don't use sympy themselves (only
+        # jac_chk_v1.py's OWN factorize_and_check/solve_isotypic do). Discovered
+        # via run 31498006409 (jac_chk2_modq p=17 job): ModuleNotFoundError: sympy.
 
       - name: Report runner memory (informational)
         shell: bash
