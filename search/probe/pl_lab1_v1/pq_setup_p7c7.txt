@@ -1,0 +1,19 @@
+#call pq with flags: '-i -k -g'
+7  #to (Main) p-Quotient Menu
+1  #define group
+name [grp]
+prime 7
+class 7
+exponent 7
+output 0
+generators { x, y }
+relators   {  };
+5  #set output level
+0  #output level
+8  #to Advanced p-Quotient Menu
+25 #set output file
+PQ_OUTPUT
+2  #output in GAP format
+0  #to (Main) p-Quotient Menu
+0  #to Standard Presentation Menu
+0  #exit program
