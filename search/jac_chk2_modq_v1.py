@@ -1,89 +1,66 @@
 #!/usr/bin/env python3
 """
-search/jac_chk2_modq_v1.py -- JAC-CHK-2 mod-q rank/trace battery (裁定806/807).
+search/jac_chk2_modq_v1.py -- JAC-CHK-2 mod-q rank/trace battery (裁定806/807/832/843).
 
-Commander's ruling (裁定806): the exact-sympy-rational approach in search/jac_chk2_v1.py
-is a tool-choice error for p=19 (Witt(2,19)=27,594-dim). dim R_p (rank) and the S3-isotypic
-type (via character trace) are computed here mod q (two large primes, cross-checked) using
-DENSE NUMPY int64 arrays -- a first pure-Python sparse-dict draft was measured to take 13.6s
-for p=11 alone (n=10) and did not finish p=13 within 90s, an unacceptable scaling (Python-level
-loop overhead per modular multiply/dict access, not the modulus size, was the bottleneck) --
-replaced here with vectorized numpy row operations, which are orders of magnitude faster for
-this shape of problem (few rows ~20, many columns ~10^4-10^5).
+*** v2 REWRITE (裁定843) *** -- 裁定832's bounded profiling (scratchpad/profile_jac17.py,
+cProfile on p=17, 15-min cap) found the ACTUAL bottleneck was NOT the linear algebra (already
+mod-q since 裁定806) but the CONSTRUCTION step itself: this module previously imported
+search/jac_chk_v1.py's build_jacobson_s/theta_apply/tau_apply, which use exact Python Fraction
+arithmetic and were measured to have SEVERE super-linear blowup (theta_apply calls 1-5 took
+50.8s combined; call #6 alone did not finish within the remaining ~850s of the 15-minute cap).
+Fixed here per 裁定843's approved fix: the ENTIRE construction pipeline is now mod-q throughout
+(search/jac_construct_modq_v1.py's build_jacobson_s_modq/theta_apply_modq/tau_apply_modq,
+bounded-integer arithmetic, no Fractions at all), run TWICE (once per prime Q1,Q2) since there
+is no longer a shared "exact" intermediate to cache across primes.
 
-Method:
-  - s_1..s_{p-1} (exact Fraction dicts) and theta(s_i)/tau(s_i) are built ONCE via the cheap
-    exact bracket machinery (search/jac_chk_v1.py -- confirmed cheap even at p=17: 3.2s), then
-    reduced mod q into a dense (n x N) int64 numpy matrix (N = |union of supports|, columns
-    ordered canonically by sorted tensor-word tuples).
-  - Gaussian elimination mod q on the dense matrix (vectorized row updates: row -= factor*pivot_row,
-    all mod q, via numpy int64 arithmetic -- q ~ 10^9 so q^2 ~ 10^18 fits in int64 (max ~9.2*10^18)
-    with margin for the subtraction, using Python's pow() for modular inverse (n is tiny, only
-    called O(n) times, not a bottleneck) then numpy vectorized multiply+mod for the row update).
-  - Trace via the RREF-pivot shortcut (once RREF is reached: basis vector e_i has 1 at its own
-    pivot column and 0 at every other basis vector's pivot column, so theta(e_i)'s coordinate
-    along e_i is theta(e_i) evaluated AT e_i's pivot column, directly, no linear solve). Applied
-    to the mod-q reduced theta_s/tau_s matrices via the SAME row-combination coefficients tracked
-    during elimination (an (n x n) matrix, cheap regardless of column count).
-  - True integer character values recovered from mod-q1/mod-q2 residues via bounded-integer CRT
-    (|chi(g)| <= dim <= p-1, primes ~10^9 >> dim, so residues determine the true integer exactly).
+Regression anchor (裁定843 requirement ①): p=5,7,11's known exact values (from
+search/certs/jac_chk_v1_20260811.json: dim R_p=4,6,10 and isotypic type (1,1,1)/(1,1,2)/(2,2,3))
+are checked by scratchpad/jac_construct_modq_regression_test.py before this module is trusted
+for p=17,19,23.
+
+Method (linear algebra part UNCHANGED from the v1 numpy-dense design, still valid):
+  - Gaussian elimination mod q on a dense (n x N) int64 numpy matrix (vectorized row updates).
+  - Trace via the RREF-pivot shortcut (no linear solve).
+  - True integer character values recovered from mod-q1/mod-q2 residues via bounded-integer CRT.
 
 No verdict language. Raw dim/trace/multiplicity values only.
 """
 import json
 import sys
 import time
-from fractions import Fraction as F
 
 import numpy as np
 
 sys.path.insert(0, "search")
-from jac_chk_v1 import build_jacobson_s, theta_apply, tau_apply  # search-side reuse
+from jac_construct_modq_v1 import build_jacobson_s_modq, theta_apply_modq, tau_apply_modq
 
 Q1 = 999999937   # largest prime < 10^9
 Q2 = 999999893   # another large prime < 10^9, distinct from Q1
 
 
-def frac_mod(x: F, q: int, inv_cache: dict) -> int:
-    """Reduce a Fraction mod q, using a cache of modular inverses keyed by denominator --
-    denominators arising in this module are always small bounded integers (divisors of some
-    i in 1..p-1, from build_jacobson_s's F(1,i) scaling), so this cache has at most ~p entries
-    and avoids repeating an O(log q) modular exponentiation for every one of the (potentially
-    thousands of) nonzero tensor-word coefficients -- this was the actual bottleneck in an
-    earlier draft (measured: p=11 took 7-14s despite tiny n=10, because EVERY entry recomputed
-    pow(denominator, q-2, q) from scratch)."""
-    den = x.denominator
-    inv = inv_cache.get(den)
-    if inv is None:
-        inv = pow(den % q, q - 2, q)
-        inv_cache[den] = inv
-    return (x.numerator % q) * inv % q
-
-
-def build_dense_mod(vecs, support_index, q):
+def build_dense_modq(vecs, support_index, q):
+    """vecs are ALREADY int-mod-q dicts (no Fraction reduction needed, unlike v1)."""
     n = len(vecs)
     N = len(support_index)
     M = np.zeros((n, N), dtype=np.int64)
-    inv_cache = {}
     for i, v in enumerate(vecs):
         for w, c in v.items():
             j = support_index.get(w)
             if j is not None:
-                M[i, j] = frac_mod(c, q, inv_cache)
+                M[i, j] = c % q
     return M
 
 
-def measure_modq(p: int, q: int, precomputed=None):
-    """Returns (result_dict, precomputed) where precomputed caches the expensive exact
-    bracket-construction step (s_list, theta(s_list), tau(s_list)) for reuse across the two
-    primes Q1,Q2 (that part does NOT depend on q, no need to redo it)."""
-    if precomputed is None:
-        s_list, leftover = build_jacobson_s(p)
-        theta_s = [theta_apply(s) for s in s_list]
-        tau_s = [tau_apply(s) for s in s_list]
-        precomputed = (s_list, leftover, theta_s, tau_s)
-    else:
-        s_list, leftover, theta_s, tau_s = precomputed
+def measure_modq(p: int, q: int):
+    """Construction is run FRESH for this q (no cross-prime caching -- the construction itself
+    is now cheap mod q, per 裁定843's diagnosis/fix; the OLD v1 cached construction across
+    primes specifically because it was expensive there, which is no longer the bottleneck)."""
+    t_construct_0 = time.time()
+    s_list, leftover = build_jacobson_s_modq(p, q)
+    theta_s = [theta_apply_modq(s, q) for s in s_list]
+    tau_s = [tau_apply_modq(s, q) for s in s_list]
+    t_construct = time.time() - t_construct_0
+
     leftover_is_zero = (len(leftover) == 0)
     n = len(s_list)
 
@@ -91,11 +68,10 @@ def measure_modq(p: int, q: int, precomputed=None):
     support_index = {w: i for i, w in enumerate(support)}
     N = len(support)
 
-    S = build_dense_mod(s_list, support_index, q)         # n x N
-    THETA_S = build_dense_mod(theta_s, support_index, q)   # n x N
-    TAU_S = build_dense_mod(tau_s, support_index, q)       # n x N
+    S = build_dense_modq(s_list, support_index, q)
+    THETA_S = build_dense_modq(theta_s, support_index, q)
+    TAU_S = build_dense_modq(tau_s, support_index, q)
 
-    # combo: n x n, tracks current row i as a linear combination (mod q) of ORIGINAL rows
     combo = np.eye(n, dtype=np.int64)
     work = S.copy()
 
@@ -122,7 +98,6 @@ def measure_modq(p: int, q: int, precomputed=None):
         factors[piv_idx] = 0
         nzrows = np.nonzero(factors)[0]
         if len(nzrows) > 0:
-            # vectorized: work[nzrows] -= outer(factors[nzrows], work[piv_idx]) mod q
             upd = np.outer(factors[nzrows], work[piv_idx]) % q
             work[nzrows] = (work[nzrows] - upd) % q
             updc = np.outer(factors[nzrows], combo[piv_idx]) % q
@@ -138,16 +113,17 @@ def measure_modq(p: int, q: int, precomputed=None):
         "p": p, "q": q, "rank": rank, "expected_p_minus_1": p - 1,
         "linearly_independent": (rank == p - 1),
         "leftover_t_p_minus_1_is_zero": leftover_is_zero,
+        "construction_time_sec": t_construct,
+        "support_size": N,
     }
     if rank != p - 1:
         result["chi_theta_modq"] = None
         result["chi_tau_modq"] = None
-        return result, precomputed
+        return result
 
     chi_theta = 0
     chi_tau = 0
     for piv, pc in zip(pivots, pivot_combo_rows):
-        # theta(e_i) = pc . THETA_S (row vector times matrix), coefficient at column piv
         tval = int((pc.astype(object) @ THETA_S[:, piv].astype(object)) % q)
         uval = int((pc.astype(object) @ TAU_S[:, piv].astype(object)) % q)
         chi_theta = (chi_theta + tval) % q
@@ -155,7 +131,7 @@ def measure_modq(p: int, q: int, precomputed=None):
 
     result["chi_theta_modq"] = chi_theta
     result["chi_tau_modq"] = chi_tau
-    return result, precomputed
+    return result
 
 
 def recover_signed_int(r1, r2, q1: int, q2: int, bound: int):
@@ -177,9 +153,9 @@ def recover_signed_int(r1, r2, q1: int, q2: int, bound: int):
 
 def measure_both_q(p: int):
     t0 = time.time()
-    r1, pre = measure_modq(p, Q1)
+    r1 = measure_modq(p, Q1)
     t1 = time.time()
-    r2, pre = measure_modq(p, Q2, precomputed=pre)
+    r2 = measure_modq(p, Q2)
     t2 = time.time()
     agree_rank = (r1["rank"] == r2["rank"])
     out = {
@@ -220,17 +196,21 @@ def main():
         print(f"p={p}: q1_rank={r['modq1']['rank']} q2_rank={r['modq2']['rank']} "
               f"agree={r['rank_agrees_across_q']} chi_theta={r.get('chi_theta')} "
               f"chi_tau={r.get('chi_tau')} isotypic={r.get('isotypic')} "
+              f"construct_q1={r['modq1'].get('construction_time_sec'):.2f}s "
+              f"construct_q2={r['modq2'].get('construction_time_sec'):.2f}s "
               f"timing_q1={r['timing_sec']['q1']:.2f}s timing_q2={r['timing_sec']['q2']:.2f}s",
               flush=True)
 
     out = {
         "schema": "shadow-atelier/jac_chk2_modq_v1",
-        "authority": "裁定806/807 (mod-q rank/trace battery, numpy dense implementation)",
-        "method_note": "ALL linear algebra mod q throughout, dense numpy int64 arrays (n x N, "
-                       "n~20 rows, N~10^4-10^5 columns) -- vectorized row operations. rank via "
-                       "Gaussian elimination over F_q for two large primes Q1,Q2. S3-character "
-                       "trace via RREF-pivot shortcut (no linear solve). True integer character "
-                       "values recovered via bounded-integer CRT (|chi(g)|<=dim, primes >>dim).",
+        "authority": "裁定806/807/832/843 (mod-q rank/trace battery, v2: FULL mod-q construction, "
+                     "fixing the theta_apply/tau_apply exact-Fraction super-linear blowup "
+                     "diagnosed via scratchpad/profile_jac17.py)",
+        "method_note": "construction (build_jacobson_s/theta_apply/tau_apply) is NOW mod-q "
+                       "throughout (search/jac_construct_modq_v1.py), run once per prime (no "
+                       "cross-prime caching, since construction is no longer the expensive "
+                       "part). Linear algebra unchanged from v1: dense numpy int64 Gaussian "
+                       "elimination + RREF-pivot-shortcut trace + bounded-integer CRT.",
         "primes_used": {"Q1": Q1, "Q2": Q2},
         "per_p": {str(p): v for p, v in out_per_p.items()},
         "no_verdict_note": "raw ranks, characters, isotypic multiplicities, and booleans only.",

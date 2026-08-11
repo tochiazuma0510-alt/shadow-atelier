@@ -1,0 +1,103 @@
+{
+  "schema": "shadow-atelier/jac_construct_modq_regression_test_v1",
+  "authority": "裁定843 requirement ① -- regression anchor for the mod-q construction rewrite",
+  "source_exact_cert": "search/certs/jac_chk_v1_20260811.json",
+  "anchor_primes": [
+    5,
+    7,
+    11,
+    13
+  ],
+  "results": [
+    {
+      "p": 5,
+      "exact_dim": 4,
+      "modq_dim": 4,
+      "dim_match": true,
+      "exact_isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 1
+      },
+      "modq_isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 1
+      },
+      "isotypic_match": true,
+      "point_pass": true,
+      "timing_sec": {
+        "q1": 0.0008933544158935547,
+        "q2": 0.000682830810546875
+      }
+    },
+    {
+      "p": 7,
+      "exact_dim": 6,
+      "modq_dim": 6,
+      "dim_match": true,
+      "exact_isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 2
+      },
+      "modq_isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 2
+      },
+      "isotypic_match": true,
+      "point_pass": true,
+      "timing_sec": {
+        "q1": 0.004592180252075195,
+        "q2": 0.004281282424926758
+      }
+    },
+    {
+      "p": 11,
+      "exact_dim": 10,
+      "modq_dim": 10,
+      "dim_match": true,
+      "exact_isotypic": {
+        "m_triv": 2,
+        "m_sgn": 2,
+        "m_std": 3
+      },
+      "modq_isotypic": {
+        "m_triv": 2,
+        "m_sgn": 2,
+        "m_std": 3
+      },
+      "isotypic_match": true,
+      "point_pass": true,
+      "timing_sec": {
+        "q1": 0.30188488960266113,
+        "q2": 0.31031131744384766
+      }
+    },
+    {
+      "p": 13,
+      "exact_dim": 12,
+      "modq_dim": 12,
+      "dim_match": true,
+      "exact_isotypic": {
+        "m_triv": 2,
+        "m_sgn": 2,
+        "m_std": 4
+      },
+      "modq_isotypic": {
+        "m_triv": 2,
+        "m_sgn": 2,
+        "m_std": 4
+      },
+      "isotypic_match": true,
+      "point_pass": true,
+      "timing_sec": {
+        "q1": 2.8223469257354736,
+        "q2": 2.8080763816833496
+      }
+    }
+  ],
+  "all_anchors_pass": true,
+  "no_verdict_note": "raw dim/isotypic comparison and booleans only."
+}

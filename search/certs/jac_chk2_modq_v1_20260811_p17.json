@@ -1,0 +1,58 @@
+{
+  "schema": "shadow-atelier/jac_chk2_modq_v1",
+  "authority": "裁定806/807/832/843 (mod-q rank/trace battery, v2: FULL mod-q construction, fixing the theta_apply/tau_apply exact-Fraction super-linear blowup diagnosed via scratchpad/profile_jac17.py)",
+  "method_note": "construction (build_jacobson_s/theta_apply/tau_apply) is NOW mod-q throughout (search/jac_construct_modq_v1.py), run once per prime (no cross-prime caching, since construction is no longer the expensive part). Linear algebra unchanged from v1: dense numpy int64 Gaussian elimination + RREF-pivot-shortcut trace + bounded-integer CRT.",
+  "primes_used": {
+    "Q1": 999999937,
+    "Q2": 999999893
+  },
+  "per_p": {
+    "17": {
+      "p": 17,
+      "q1": 999999937,
+      "q2": 999999893,
+      "modq1": {
+        "p": 17,
+        "q": 999999937,
+        "rank": 16,
+        "expected_p_minus_1": 16,
+        "linearly_independent": true,
+        "leftover_t_p_minus_1_is_zero": true,
+        "construction_time_sec": 296.00461506843567,
+        "support_size": 131070,
+        "chi_theta_modq": 0,
+        "chi_tau_modq": 1
+      },
+      "modq2": {
+        "p": 17,
+        "q": 999999893,
+        "rank": 16,
+        "expected_p_minus_1": 16,
+        "linearly_independent": true,
+        "leftover_t_p_minus_1_is_zero": true,
+        "construction_time_sec": 277.7724940776825,
+        "support_size": 131070,
+        "chi_theta_modq": 0,
+        "chi_tau_modq": 1
+      },
+      "rank_agrees_across_q": true,
+      "dim_R_p": 16,
+      "linearly_independent": true,
+      "timing_sec": {
+        "q1": 297.43426728248596,
+        "q2": 279.3129620552063
+      },
+      "chi_theta": 0,
+      "chi_tau": 1,
+      "isotypic": {
+        "m_triv": 3,
+        "m_sgn": 3,
+        "m_std": 5
+      },
+      "isotypic_exact_division_ok": true,
+      "dim_from_isotypic_sum": 16,
+      "dim_matches_isotypic_sum": true
+    }
+  },
+  "no_verdict_note": "raw ranks, characters, isotypic multiplicities, and booleans only."
+}
