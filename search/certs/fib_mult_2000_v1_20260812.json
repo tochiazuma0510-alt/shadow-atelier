@@ -1,0 +1,4679 @@
+{
+  "schema": "shadow-atelier/fib_mult_2000_v1",
+  "authority": "裁定823 (LINS-2000 follow-on aggregation), extends 裁定803/hunting_chapter_v1_addendum_a.md §4.2 FIB-MULT to index<=2000",
+  "method_note": "IDENTICAL method to search/fib_mult_v1.py, applied to the LARGER index<=2000 census (search/certs/lins_census_2000_v1_20260811.json, 476 twin pairs, GHA run 31498009539). NO new GAP run in this script.",
+  "source_cert": "search/certs/lins_census_2000_v1_20260811.json",
+  "source_cert_sha256": "d0832df8a4e61adff45c5c24c8eba32f5d388f55412907ed5ffdf714b2b4b958",
+  "prior_1000_cert_sha256_note": "regression-checked against search/certs/fib_mult_v1_20260811.json (index<=1000 result)",
+  "scope_note": "index<=2000 (the source cert's own scope). Multiplicity-1 N's invisible by construction (same as the 1000-index version) -- irrelevant for the multiplicity>=3 ask.",
+  "total_distinct_N_nodes_with_a_twin": 906,
+  "total_connected_components": 448,
+  "all_components": [
+    {
+      "index": 750,
+      "id_group": [
+        750,
+        6
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 5,
+      "pair_count_edges": 10
+    },
+    {
+      "index": 1500,
+      "id_group": [
+        1500,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 5,
+      "pair_count_edges": 10
+    },
+    {
+      "index": 1092,
+      "id_group": [
+        1092,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 4,
+      "pair_count_edges": 6
+    },
+    {
+      "index": 1320,
+      "id_group": [
+        1320,
+        133
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 4,
+      "pair_count_edges": 6
+    },
+    {
+      "index": 24,
+      "id_group": [
+        24,
+        3
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 42,
+      "id_group": [
+        42,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 72,
+      "id_group": [
+        72,
+        3
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 78,
+      "id_group": [
+        78,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 84,
+      "id_group": [
+        84,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 114,
+      "id_group": [
+        114,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 120,
+      "id_group": [
+        120,
+        15
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 120,
+      "id_group": [
+        120,
+        5
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 126,
+      "id_group": [
+        126,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 126,
+      "id_group": [
+        126,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 156,
+      "id_group": [
+        156,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 168,
+      "id_group": [
+        168,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 168,
+      "id_group": [
+        168,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 168,
+      "id_group": [
+        168,
+        49
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 186,
+      "id_group": [
+        186,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 210,
+      "id_group": [
+        210,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 216,
+      "id_group": [
+        216,
+        3
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 222,
+      "id_group": [
+        222,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 228,
+      "id_group": [
+        228,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 234,
+      "id_group": [
+        234,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 234,
+      "id_group": [
+        234,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 252,
+      "id_group": [
+        252,
+        18
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 252,
+      "id_group": [
+        252,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 258,
+      "id_group": [
+        258,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 264,
+      "id_group": [
+        264,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 294,
+      "id_group": [
+        294,
+        8
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 294,
+      "id_group": [
+        294,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 312,
+      "id_group": [
+        312,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 312,
+      "id_group": [
+        312,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 312,
+      "id_group": [
+        312,
+        51
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        208
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        136
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        134
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        135
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 336,
+      "id_group": [
+        336,
+        114
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 342,
+      "id_group": [
+        342,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 342,
+      "id_group": [
+        342,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 360,
+      "id_group": [
+        360,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 360,
+      "id_group": [
+        360,
+        51
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 366,
+      "id_group": [
+        366,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 372,
+      "id_group": [
+        372,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 378,
+      "id_group": [
+        378,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 378,
+      "id_group": [
+        378,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 378,
+      "id_group": [
+        378,
+        21
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 384,
+      "id_group": [
+        384,
+        608
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 384,
+      "id_group": [
+        384,
+        615
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 390,
+      "id_group": [
+        390,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 402,
+      "id_group": [
+        402,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 408,
+      "id_group": [
+        408,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 420,
+      "id_group": [
+        420,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 432,
+      "id_group": [
+        432,
+        734
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 438,
+      "id_group": [
+        438,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 444,
+      "id_group": [
+        444,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 456,
+      "id_group": [
+        456,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 456,
+      "id_group": [
+        456,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 456,
+      "id_group": [
+        456,
+        46
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 462,
+      "id_group": [
+        462,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 468,
+      "id_group": [
+        468,
+        21
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 468,
+      "id_group": [
+        468,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 474,
+      "id_group": [
+        474,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 486,
+      "id_group": [
+        486,
+        39
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        156
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        44
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        160
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        58
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 504,
+      "id_group": [
+        504,
+        186
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 516,
+      "id_group": [
+        516,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 546,
+      "id_group": [
+        546,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 546,
+      "id_group": [
+        546,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 546,
+      "id_group": [
+        546,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 546,
+      "id_group": [
+        546,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 552,
+      "id_group": [
+        552,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 558,
+      "id_group": [
+        558,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 558,
+      "id_group": [
+        558,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 570,
+      "id_group": [
+        570,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 582,
+      "id_group": [
+        582,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 588,
+      "id_group": [
+        588,
+        17
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 588,
+      "id_group": [
+        588,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 600,
+      "id_group": [
+        600,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 600,
+      "id_group": [
+        600,
+        54
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 618,
+      "id_group": [
+        618,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 624,
+      "id_group": [
+        624,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 624,
+      "id_group": [
+        624,
+        151
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 624,
+      "id_group": [
+        624,
+        152
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 624,
+      "id_group": [
+        624,
+        150
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 630,
+      "id_group": [
+        630,
+        17
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 630,
+      "id_group": [
+        630,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 648,
+      "id_group": [
+        648,
+        3
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 648,
+      "id_group": [
+        648,
+        641
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 654,
+      "id_group": [
+        654,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 666,
+      "id_group": [
+        666,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 666,
+      "id_group": [
+        666,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        383
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        385
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        384
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        379
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        1044
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        1043
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 672,
+      "id_group": [
+        672,
+        1045
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 684,
+      "id_group": [
+        684,
+        20
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 684,
+      "id_group": [
+        684,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 696,
+      "id_group": [
+        696,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 702,
+      "id_group": [
+        702,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 702,
+      "id_group": [
+        702,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 702,
+      "id_group": [
+        702,
+        21
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 714,
+      "id_group": [
+        714,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 720,
+      "id_group": [
+        720,
+        764
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 732,
+      "id_group": [
+        732,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 744,
+      "id_group": [
+        744,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 744,
+      "id_group": [
+        744,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 744,
+      "id_group": [
+        744,
+        46
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 756,
+      "id_group": [
+        756,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 756,
+      "id_group": [
+        756,
+        31
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 756,
+      "id_group": [
+        756,
+        30
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 762,
+      "id_group": [
+        762,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 768,
+      "id_group": [
+        768,
+        1083572
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 768,
+      "id_group": [
+        768,
+        1083520
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 774,
+      "id_group": [
+        774,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 774,
+      "id_group": [
+        774,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 780,
+      "id_group": [
+        780,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 792,
+      "id_group": [
+        792,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 798,
+      "id_group": [
+        798,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 798,
+      "id_group": [
+        798,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 798,
+      "id_group": [
+        798,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 798,
+      "id_group": [
+        798,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 804,
+      "id_group": [
+        804,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 834,
+      "id_group": [
+        834,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 840,
+      "id_group": [
+        840,
+        94
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 840,
+      "id_group": [
+        840,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 840,
+      "id_group": [
+        840,
+        160
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 840,
+      "id_group": [
+        840,
+        13
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 858,
+      "id_group": [
+        858,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 864,
+      "id_group": [
+        864,
+        4053
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 876,
+      "id_group": [
+        876,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 882,
+      "id_group": [
+        882,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 882,
+      "id_group": [
+        882,
+        48
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 882,
+      "id_group": [
+        882,
+        18
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 882,
+      "id_group": [
+        882,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 888,
+      "id_group": [
+        888,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 888,
+      "id_group": [
+        888,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 888,
+      "id_group": [
+        888,
+        51
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 906,
+      "id_group": [
+        906,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 912,
+      "id_group": [
+        912,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 912,
+      "id_group": [
+        912,
+        134
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 912,
+      "id_group": [
+        912,
+        135
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 912,
+      "id_group": [
+        912,
+        133
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 924,
+      "id_group": [
+        924,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 930,
+      "id_group": [
+        930,
+        6
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        47
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        169
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        61
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 936,
+      "id_group": [
+        936,
+        202
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 942,
+      "id_group": [
+        942,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 948,
+      "id_group": [
+        948,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 966,
+      "id_group": [
+        966,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 972,
+      "id_group": [
+        972,
+        42
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 978,
+      "id_group": [
+        978,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 984,
+      "id_group": [
+        984,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        116
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        523
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        521
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        522
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        144
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        145
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        684
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        683
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        682
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        143
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        882
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        881
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        517
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        880
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1014,
+      "id_group": [
+        1014,
+        8
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1014,
+      "id_group": [
+        1014,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1026,
+      "id_group": [
+        1026,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1026,
+      "id_group": [
+        1026,
+        24
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1026,
+      "id_group": [
+        1026,
+        23
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1032,
+      "id_group": [
+        1032,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1032,
+      "id_group": [
+        1032,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1032,
+      "id_group": [
+        1032,
+        46
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1050,
+      "id_group": [
+        1050,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1050,
+      "id_group": [
+        1050,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1080,
+      "id_group": [
+        1080,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1080,
+      "id_group": [
+        1080,
+        63
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1086,
+      "id_group": [
+        1086,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1092,
+      "id_group": [
+        1092,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1092,
+      "id_group": [
+        1092,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1092,
+      "id_group": [
+        1092,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1092,
+      "id_group": [
+        1092,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1098,
+      "id_group": [
+        1098,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1098,
+      "id_group": [
+        1098,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1110,
+      "id_group": [
+        1110,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1116,
+      "id_group": [
+        1116,
+        18
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1116,
+      "id_group": [
+        1116,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1128,
+      "id_group": [
+        1128,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        46
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        56
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        55
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        53
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        54
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        50
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1140,
+      "id_group": [
+        1140,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1152,
+      "id_group": [
+        1152,
+        153372
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1152,
+      "id_group": [
+        1152,
+        153386
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1152,
+      "id_group": [
+        1152,
+        154161
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1152,
+      "id_group": [
+        1152,
+        154163
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1158,
+      "id_group": [
+        1158,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1164,
+      "id_group": [
+        1164,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1170,
+      "id_group": [
+        1170,
+        17
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1170,
+      "id_group": [
+        1170,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1176,
+      "id_group": [
+        1176,
+        58
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1176,
+      "id_group": [
+        1176,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1176,
+      "id_group": [
+        1176,
+        251
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1176,
+      "id_group": [
+        1176,
+        48
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1176,
+      "id_group": [
+        1176,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1194,
+      "id_group": [
+        1194,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1200,
+      "id_group": [
+        1200,
+        947
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1206,
+      "id_group": [
+        1206,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1206,
+      "id_group": [
+        1206,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1218,
+      "id_group": [
+        1218,
+        6
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1224,
+      "id_group": [
+        1224,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1236,
+      "id_group": [
+        1236,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1248,
+      "id_group": [
+        1248,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1248,
+      "id_group": [
+        1248,
+        442
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1248,
+      "id_group": [
+        1248,
+        444
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1248,
+      "id_group": [
+        1248,
+        443
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1248,
+      "id_group": [
+        1248,
+        439
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1254,
+      "id_group": [
+        1254,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1260,
+      "id_group": [
+        1260,
+        45
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1260,
+      "id_group": [
+        1260,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1266,
+      "id_group": [
+        1266,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1272,
+      "id_group": [
+        1272,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1290,
+      "id_group": [
+        1290,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1296,
+      "id_group": [
+        1296,
+        3487
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1296,
+      "id_group": [
+        1296,
+        2889
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1302,
+      "id_group": [
+        1302,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1302,
+      "id_group": [
+        1302,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1302,
+      "id_group": [
+        1302,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1302,
+      "id_group": [
+        1302,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1308,
+      "id_group": [
+        1308,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1314,
+      "id_group": [
+        1314,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1314,
+      "id_group": [
+        1314,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1320,
+      "id_group": [
+        1320,
+        94
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1320,
+      "id_group": [
+        1320,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1320,
+      "id_group": [
+        1320,
+        13
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1326,
+      "id_group": [
+        1326,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1332,
+      "id_group": [
+        1332,
+        23
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1332,
+      "id_group": [
+        1332,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1338,
+      "id_group": [
+        1338,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        1467
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        1468
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        1466
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        1463
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        1455
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        1459
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        814
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        6313
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        6311
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1344,
+      "id_group": [
+        1344,
+        6312
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1368,
+      "id_group": [
+        1368,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1368,
+      "id_group": [
+        1368,
+        46
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1368,
+      "id_group": [
+        1368,
+        168
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1368,
+      "id_group": [
+        1368,
+        58
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1368,
+      "id_group": [
+        1368,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1368,
+      "id_group": [
+        1368,
+        195
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1374,
+      "id_group": [
+        1374,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1386,
+      "id_group": [
+        1386,
+        18
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1386,
+      "id_group": [
+        1386,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1404,
+      "id_group": [
+        1404,
+        33
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1404,
+      "id_group": [
+        1404,
+        34
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1404,
+      "id_group": [
+        1404,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1416,
+      "id_group": [
+        1416,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1422,
+      "id_group": [
+        1422,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1422,
+      "id_group": [
+        1422,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1428,
+      "id_group": [
+        1428,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1440,
+      "id_group": [
+        1440,
+        4614
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1440,
+      "id_group": [
+        1440,
+        4616
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1440,
+      "id_group": [
+        1440,
+        4615
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1440,
+      "id_group": [
+        1440,
+        4593
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1440,
+      "id_group": [
+        1440,
+        4592
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1440,
+      "id_group": [
+        1440,
+        4594
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1446,
+      "id_group": [
+        1446,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1458,
+      "id_group": [
+        1458,
+        651
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1464,
+      "id_group": [
+        1464,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1464,
+      "id_group": [
+        1464,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1464,
+      "id_group": [
+        1464,
+        51
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1470,
+      "id_group": [
+        1470,
+        15
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1470,
+      "id_group": [
+        1470,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1482,
+      "id_group": [
+        1482,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1482,
+      "id_group": [
+        1482,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1482,
+      "id_group": [
+        1482,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1482,
+      "id_group": [
+        1482,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1488,
+      "id_group": [
+        1488,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1488,
+      "id_group": [
+        1488,
+        134
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1488,
+      "id_group": [
+        1488,
+        135
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1488,
+      "id_group": [
+        1488,
+        133
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        779
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        88
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        547
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        56
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        450
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        57
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        548
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        451
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        780
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1524,
+      "id_group": [
+        1524,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1536,
+      "id_group": null,
+      "structure_description_fallback": "(C16 . ((C4 x C4) : C2) = (C4 x C2 x C2) . (C8 x C2 x C2)) : C3",
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1536,
+      "id_group": null,
+      "structure_description_fallback": "(((C2 x C2) . ((C4 x C2) : C4) = (C2 x C2 x C2) . (C4 x C4)) : C4) : C3",
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1536,
+      "id_group": null,
+      "structure_description_fallback": "(((((C8 x C2) : C4) : C2) : C2) : C2) : C3",
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1536,
+      "id_group": null,
+      "structure_description_fallback": "(((C2 x ((C8 x C4) : C2)) : C2) : C2) : C3",
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1536,
+      "id_group": null,
+      "structure_description_fallback": "((C2 x C2 x C2) . ((C2 x ((C4 x C2) : C2)) : C2) = (C4 x C4 x C4) . (C2 x C2 x C2)) : C3",
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1536,
+      "id_group": null,
+      "structure_description_fallback": "(((((C2 x (C8 : C2)) : C2) : C2) : C2) : C2) : C3",
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1536,
+      "id_group": null,
+      "structure_description_fallback": "((((((C4 x C2) : C4) : C2) : C2) : C2) : C2) : C3",
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1536,
+      "id_group": null,
+      "structure_description_fallback": "(((C4 x C2 x C2) . (C2 x D8) = (C4 x C2 x C2) . (C4 x C2 x C2)) : C2) : C3",
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1548,
+      "id_group": [
+        1548,
+        18
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1548,
+      "id_group": [
+        1548,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1554,
+      "id_group": [
+        1554,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1554,
+      "id_group": [
+        1554,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1554,
+      "id_group": [
+        1554,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1554,
+      "id_group": [
+        1554,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1560,
+      "id_group": [
+        1560,
+        106
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1560,
+      "id_group": [
+        1560,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1560,
+      "id_group": [
+        1560,
+        187
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1560,
+      "id_group": [
+        1560,
+        13
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1596,
+      "id_group": [
+        1596,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1596,
+      "id_group": [
+        1596,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1596,
+      "id_group": [
+        1596,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1596,
+      "id_group": [
+        1596,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1608,
+      "id_group": [
+        1608,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1608,
+      "id_group": [
+        1608,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1608,
+      "id_group": [
+        1608,
+        46
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1626,
+      "id_group": [
+        1626,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        42
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        51
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        55
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        56
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1656,
+      "id_group": [
+        1656,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1662,
+      "id_group": [
+        1662,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1668,
+      "id_group": [
+        1668,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1674,
+      "id_group": [
+        1674,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1674,
+      "id_group": [
+        1674,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1674,
+      "id_group": [
+        1674,
+        21
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1680,
+      "id_group": [
+        1680,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1680,
+      "id_group": [
+        1680,
+        610
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1680,
+      "id_group": [
+        1680,
+        609
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1680,
+      "id_group": [
+        1680,
+        608
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1680,
+      "id_group": [
+        1680,
+        925
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1680,
+      "id_group": [
+        1680,
+        397
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1698,
+      "id_group": [
+        1698,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1704,
+      "id_group": [
+        1704,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1710,
+      "id_group": [
+        1710,
+        21
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1710,
+      "id_group": [
+        1710,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1716,
+      "id_group": [
+        1716,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1722,
+      "id_group": [
+        1722,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1728,
+      "id_group": [
+        1728,
+        31095
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1728,
+      "id_group": [
+        1728,
+        31096
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1746,
+      "id_group": [
+        1746,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1746,
+      "id_group": [
+        1746,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1752,
+      "id_group": [
+        1752,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1752,
+      "id_group": [
+        1752,
+        54
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1752,
+      "id_group": [
+        1752,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1764,
+      "id_group": [
+        1764,
+        112
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1764,
+      "id_group": [
+        1764,
+        18
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1764,
+      "id_group": [
+        1764,
+        48
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1764,
+      "id_group": [
+        1764,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1776,
+      "id_group": [
+        1776,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1776,
+      "id_group": [
+        1776,
+        151
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1776,
+      "id_group": [
+        1776,
+        152
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1776,
+      "id_group": [
+        1776,
+        150
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1794,
+      "id_group": [
+        1794,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1800,
+      "id_group": [
+        1800,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1800,
+      "id_group": [
+        1800,
+        328
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1806,
+      "id_group": [
+        1806,
+        7
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1806,
+      "id_group": [
+        1806,
+        18
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1806,
+      "id_group": [
+        1806,
+        13
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1806,
+      "id_group": [
+        1806,
+        17
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1812,
+      "id_group": [
+        1812,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1824,
+      "id_group": [
+        1824,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1824,
+      "id_group": [
+        1824,
+        383
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1824,
+      "id_group": [
+        1824,
+        385
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1824,
+      "id_group": [
+        1824,
+        384
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1824,
+      "id_group": [
+        1824,
+        380
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1830,
+      "id_group": [
+        1830,
+        6
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1842,
+      "id_group": [
+        1842,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1848,
+      "id_group": [
+        1848,
+        87
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1848,
+      "id_group": [
+        1848,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1848,
+      "id_group": [
+        1848,
+        143
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1854,
+      "id_group": [
+        1854,
+        9
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1854,
+      "id_group": [
+        1854,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1860,
+      "id_group": [
+        1860,
+        6
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        119
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        570
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        568
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        569
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        161
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        162
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        160
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        781
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        779
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        780
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1878,
+      "id_group": [
+        1878,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1884,
+      "id_group": [
+        1884,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1890,
+      "id_group": [
+        1890,
+        39
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1890,
+      "id_group": [
+        1890,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1890,
+      "id_group": [
+        1890,
+        40
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1896,
+      "id_group": [
+        1896,
+        22
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1896,
+      "id_group": [
+        1896,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1896,
+      "id_group": [
+        1896,
+        46
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1920,
+      "id_group": [
+        1920,
+        236389
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1920,
+      "id_group": [
+        1920,
+        236396
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1932,
+      "id_group": [
+        1932,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1938,
+      "id_group": [
+        1938,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1944,
+      "id_group": [
+        1944,
+        48
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1944,
+      "id_group": [
+        1944,
+        921
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1944,
+      "id_group": [
+        1944,
+        3
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1944,
+      "id_group": [
+        1944,
+        2976
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1944,
+      "id_group": [
+        1944,
+        826
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1950,
+      "id_group": [
+        1950,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1950,
+      "id_group": [
+        1950,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1956,
+      "id_group": [
+        1956,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1962,
+      "id_group": [
+        1962,
+        11
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1962,
+      "id_group": [
+        1962,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1974,
+      "id_group": [
+        1974,
+        2
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1986,
+      "id_group": [
+        1986,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1992,
+      "id_group": [
+        1992,
+        12
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1998,
+      "id_group": [
+        1998,
+        1
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1998,
+      "id_group": [
+        1998,
+        24
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    },
+    {
+      "index": 1998,
+      "id_group": [
+        1998,
+        23
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 2,
+      "pair_count_edges": 1
+    }
+  ],
+  "multiplicity_ge_3": [
+    {
+      "index": 750,
+      "id_group": [
+        750,
+        6
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 5,
+      "pair_count_edges": 10
+    },
+    {
+      "index": 1500,
+      "id_group": [
+        1500,
+        14
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 5,
+      "pair_count_edges": 10
+    },
+    {
+      "index": 1092,
+      "id_group": [
+        1092,
+        25
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 4,
+      "pair_count_edges": 6
+    },
+    {
+      "index": 1320,
+      "id_group": [
+        1320,
+        133
+      ],
+      "structure_description_fallback": null,
+      "multiplicity_nodes": 4,
+      "pair_count_edges": 6
+    }
+  ],
+  "multiplicity_ge_3_count": 4,
+  "regression_vs_1000_index_ok": true,
+  "canary_750_clique": {
+    "note": "expected: exactly 1 component, multiplicity_nodes=5, pair_count_edges=10 (reproduced from the LARGER 2000-index inventory).",
+    "found": [
+      {
+        "index": 750,
+        "id_group": [
+          750,
+          6
+        ],
+        "structure_description_fallback": null,
+        "multiplicity_nodes": 5,
+        "pair_count_edges": 10
+      }
+    ],
+    "pass": true
+  },
+  "canary_q8fam_all_multiplicity_2": {
+    "detail": [
+      {
+        "id_group": [
+          24,
+          3
+        ],
+        "matches": [
+          {
+            "index": 24,
+            "id_group": [
+              24,
+              3
+            ],
+            "structure_description_fallback": null,
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          72,
+          3
+        ],
+        "matches": [
+          {
+            "index": 72,
+            "id_group": [
+              72,
+              3
+            ],
+            "structure_description_fallback": null,
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          120,
+          15
+        ],
+        "matches": [
+          {
+            "index": 120,
+            "id_group": [
+              120,
+              15
+            ],
+            "structure_description_fallback": null,
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          168,
+          22
+        ],
+        "matches": [
+          {
+            "index": 168,
+            "id_group": [
+              168,
+              22
+            ],
+            "structure_description_fallback": null,
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          216,
+          3
+        ],
+        "matches": [
+          {
+            "index": 216,
+            "id_group": [
+              216,
+              3
+            ],
+            "structure_description_fallback": null,
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          264,
+          12
+        ],
+        "matches": [
+          {
+            "index": 264,
+            "id_group": [
+              264,
+              12
+            ],
+            "structure_description_fallback": null,
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          312,
+          25
+        ],
+        "matches": [
+          {
+            "index": 312,
+            "id_group": [
+              312,
+              25
+            ],
+            "structure_description_fallback": null,
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      },
+      {
+        "id_group": [
+          360,
+          14
+        ],
+        "matches": [
+          {
+            "index": 360,
+            "id_group": [
+              360,
+              14
+            ],
+            "structure_description_fallback": null,
+            "multiplicity_nodes": 2,
+            "pair_count_edges": 1
+          }
+        ]
+      }
+    ],
+    "pass": true
+  },
+  "no_verdict_note": "raw multiplicity counts, component lists, and booleans only."
+}
