@@ -1202,24 +1202,61 @@ def _subtree_cache_policy_for_roots(roots):
     return counts, allowed
 
 
-def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
-    """Rank of nu_k o j restricted to a supplied h_k column subspace.
+def accumulate_nu_j_restricted_range(k, h_alg, subspace_basis, p,
+                                      tree_start=None, tree_end=None):
+    """Partial accumulation of nu_k o j |_{subspace_basis}, restricted to
+    generator trees h_alg.trees[k][tree_start:tree_end] (default: all).
 
-    Only the required columns are constructed.  Each rho^i is evaluated by
-    substituting its degree-one X,Y images into the h Lyndon trees, directly
-    in the ambient semidirect algebra.  The resulting n/h associative words
-    are base-radix indexed into disjoint intervals of packed restricted
-    columns.  The standard embeddings Lie(A,B,C)->T(ABC) and
-    Lie(X,Y)->T(XY) are injective, so their ambient rank is exactly the
-    desired coordinate rank (PBW/free-Lie embedding).
+    Returns (restricted, stats) where restricted is a dense
+    (subspace_dim, 3**k+2**k) int64 array mod p, and stats carries the
+    fields needed by callers to assemble a rank certificate (cache/nnz
+    bookkeeping) or to serialize a shard artifact.
+
+    ADDITIVITY (裁定789/792 GHA row-shard design, k=13 workflow): nu_k o j
+    is linear, and this function's inner accumulation
+    (_accumulate_sparse_ambient_into_dense_rows) only ever ADDS each
+    generator tree's contribution -- never overwrites. Consequently, for
+    any partition of range(len(h_alg.trees[k])) into disjoint contiguous
+    sub-ranges R_1,...,R_n, summing (entrywise, mod p for the mod-q mode;
+    or as exact integers before any modular reduction for the CRT/exact
+    mode) the n partial `restricted` arrays returned by n calls to this
+    function on R_1,...,R_n reproduces EXACTLY the single full-range call's
+    `restricted` array. This is what makes generator-tree sharding (as
+    opposed to sharding by output/subspace row, which does NOT reduce
+    per-shard cost since every tree must still be evaluated once per shard
+    -- 裁定792 self-correction) both correct and wall-clock-reducing.
     """
     subspace_basis = np.asarray(subspace_basis, dtype=np.int64) % p
     dim_h = h_alg.dim[k]
     if subspace_basis.shape[0] != dim_h:
-        raise ValueError("rank_nu_j_on_subspace_ambient: wrong subspace row dimension")
+        raise ValueError("accumulate_nu_j_restricted_range: wrong subspace row dimension")
     subspace_dim = subspace_basis.shape[1]
-    if subspace_dim == 0:
-        return 0
+    trees = h_alg.trees[k]
+    if tree_start is None:
+        tree_start = 0
+    if tree_end is None:
+        tree_end = len(trees)
+    if not (0 <= tree_start <= tree_end <= len(trees)):
+        raise ValueError(f"accumulate_nu_j_restricted_range: bad tree range "
+                          f"[{tree_start},{tree_end}) for {len(trees)} trees")
+
+    _check_scalar_dense_int64_bound(p)
+    n_ambient_dim = 3 ** k
+    h_ambient_dim = 2 ** k
+    restricted = np.zeros(
+        (subspace_dim, n_ambient_dim + h_ambient_dim), dtype=np.int64)
+
+    stats = {
+        'n_ambient_dim': n_ambient_dim, 'h_ambient_dim': h_ambient_dim,
+        'tree_start': int(tree_start), 'tree_end': int(tree_end),
+        'trees_total': int(len(trees)),
+        'subtree_counts': {}, 'cache_allowed_count': 0,
+        'pruned_cache_entries_by_power': [0, 0, 0, 0, 0],
+        'cache_entries_after_by_power': [0, 0, 0, 0, 0],
+        'cache_coeff_nnz_after_by_power': [0, 0, 0, 0, 0],
+    }
+    if subspace_dim == 0 or tree_start == tree_end:
+        return restricted, stats
 
     state = getattr(h_alg, "_nu_ambient_state", None)
     if state is None or state["p"] != p:
@@ -1231,7 +1268,13 @@ def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
         }
         h_alg._nu_ambient_state = state
 
-    subtree_counts, cache_allowed = _subtree_cache_policy_for_roots(h_alg.trees[k])
+    # Cache-eligibility policy is computed against the FULL tree corpus
+    # (cheap DAG traversal, no evaluation) regardless of this call's own
+    # [tree_start,tree_end) range -- correctness is unaffected (a shard
+    # that never revisits a "cacheable" subtree simply gets no cache hit
+    # for it, at worst a missed optimization, never a wrong answer); this
+    # matches the un-sharded function's own policy exactly.
+    subtree_counts, cache_allowed = _subtree_cache_policy_for_roots(trees)
     pruned_cache_entries = []
     for tree_cache in state['tree_caches']:
         before = len(tree_cache)
@@ -1240,12 +1283,8 @@ def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
                 del tree_cache[cache_key]
         pruned_cache_entries.append(before - len(tree_cache))
 
-    _check_scalar_dense_int64_bound(p)
-    n_ambient_dim = 3 ** k
-    h_ambient_dim = 2 ** k
-    restricted = np.zeros(
-        (subspace_dim, n_ambient_dim + h_ambient_dim), dtype=np.int64)
-    for basis_index, tree in enumerate(h_alg.trees[k]):
+    for basis_index in range(tree_start, tree_end):
+        tree = trees[basis_index]
         coefficients = subspace_basis[basis_index, :]
         nonzero_columns = np.nonzero(coefficients)[0]
         if len(nonzero_columns) == 0:
@@ -1273,25 +1312,76 @@ def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
         _accumulate_sparse_ambient_into_dense_rows(
             restricted, coefficients, nu_h, 2, k, n_ambient_dim, p)
 
-    # Do not overlap the final nearly dense root/action temporaries with the
-    # rank certificate pass.
-    del action_cache, n_part, h_part, h_expr, nu_n, nu_h
-    rank, certificate = rank_dense_restricted_ambient_modp(
-        restricted, p, tag_boundary=n_ambient_dim)
     cache_entries_after = [len(tree_cache) for tree_cache in state['tree_caches']]
     cache_coeff_nnz_after = [
         sum(len(result[0]) + len(result[1]) for result in tree_cache.values())
         for tree_cache in state['tree_caches']]
+    stats.update({
+        'subtree_counts': subtree_counts,
+        'cache_allowed_count': int(len(cache_allowed)),
+        'single_use_subtree_ids': int(sum(count == 1 for count in subtree_counts.values())),
+        'pruned_cache_entries_by_power': [int(v) for v in pruned_cache_entries],
+        'cache_entries_after_by_power': [int(v) for v in cache_entries_after],
+        'cache_coeff_nnz_after_by_power': [int(v) for v in cache_coeff_nnz_after],
+    })
+    return restricted, stats
+
+
+def rank_nu_j_on_subspace_ambient(k, h_alg, subspace_basis, p):
+    """Rank of nu_k o j restricted to a supplied h_k column subspace.
+
+    Only the required columns are constructed.  Each rho^i is evaluated by
+    substituting its degree-one X,Y images into the h Lyndon trees, directly
+    in the ambient semidirect algebra.  The resulting n/h associative words
+    are base-radix indexed into disjoint intervals of packed restricted
+    columns.  The standard embeddings Lie(A,B,C)->T(ABC) and
+    Lie(X,Y)->T(XY) are injective, so their ambient rank is exactly the
+    desired coordinate rank (PBW/free-Lie embedding).
+
+    THIN WRAPPER (unchanged external behavior): delegates the full-range
+    accumulation to accumulate_nu_j_restricted_range(tree_start=None,
+    tree_end=None) i.e. the whole generator-tree corpus in one call, then
+    does exactly what this function always did with the result. This
+    refactor (裁定789/792, to enable GHA generator-tree sharding via the
+    new helper) changes no output: same certificate fields, same return
+    value, same caching state object and policy.
+    """
+    subspace_basis = np.asarray(subspace_basis, dtype=np.int64) % p
+    dim_h = h_alg.dim[k]
+    if subspace_basis.shape[0] != dim_h:
+        raise ValueError("rank_nu_j_on_subspace_ambient: wrong subspace row dimension")
+    subspace_dim = subspace_basis.shape[1]
+    if subspace_dim == 0:
+        return 0
+
+    restricted, stats = accumulate_nu_j_restricted_range(k, h_alg, subspace_basis, p)
+    n_ambient_dim = stats['n_ambient_dim']
+    subtree_counts = stats['subtree_counts']
+    pruned_cache_entries = stats['pruned_cache_entries_by_power']
+
+    # FG-H instrumentation (裁定730(4)/裁定785(2)): read off nnz(restricted)
+    # and |all_keys| (= number of distinct ambient columns ever touched)
+    # from the dense restricted matrix that this call was going to build
+    # anyway -- no separate/new computation, cheap relative to the tree
+    # evaluation above (numpy count_nonzero on an already-materialized
+    # array). This settles hypothesis FG-H's k=11/k=12 data point.
+    fg_h_nnz_restricted = int(np.count_nonzero(restricted))
+    fg_h_all_keys_count = int(np.count_nonzero(np.any(restricted != 0, axis=0)))
+
+    rank, certificate = rank_dense_restricted_ambient_modp(
+        restricted, p, tag_boundary=n_ambient_dim)
     certificate.update({
         'degree': int(k),
         'restricted_dense_bytes': int(restricted.nbytes),
         'restricted_representation': 'row-major int64[domain_dim,3**k+2**k]',
         'tree_cache_policy': 'retain only proper subtrees with current-degree occurrence > 1',
-        'cacheable_subtree_ids': int(len(cache_allowed)),
+        'cacheable_subtree_ids': stats['cache_allowed_count'],
         'single_use_subtree_ids': int(sum(count == 1 for count in subtree_counts.values())),
-        'pruned_cache_entries_by_power': [int(value) for value in pruned_cache_entries],
-        'cache_entries_after_by_power': [int(value) for value in cache_entries_after],
-        'cache_coeff_nnz_after_by_power': [int(value) for value in cache_coeff_nnz_after],
+        'pruned_cache_entries_by_power': [int(v) for v in pruned_cache_entries],
+        'cache_entries_after_by_power': [int(v) for v in stats['cache_entries_after_by_power']],
+        'cache_coeff_nnz_after_by_power': [int(v) for v in stats['cache_coeff_nnz_after_by_power']],
+        'fg_h_nnz_restricted': fg_h_nnz_restricted,
+        'fg_h_all_keys_count': fg_h_all_keys_count,
     })
     h_alg._last_nu_rank_certificate = certificate
     return rank
