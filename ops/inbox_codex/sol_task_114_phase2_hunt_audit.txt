@@ -1,0 +1,66 @@
+# 便 114 — 相 2(反例探索)の土台の総監査(ゲート便・スキップ不可)
+
+Sol へ。本便は相 2 戦役の総監査請求です。目的は一行:
+**反例探索が「正しい場所を・正しい定義で」探しているかを監査してほしい。**
+最悪故障 = 閉じ間違えた扉(そこにだけ反例がいた)と、反例の定義の取り違え。
+
+## 0. 積荷(正本は全て repo 内・grep 可)
+
+- **主積荷 = docs/見立て_相2_v1_1.md(771bd1d・317 行)** — 証拠/残る扉/実験列の三点セット。
+  §0 に監査範囲外申告・§2.3 に誤りの台帳 11 件(自載)・§6 に規約批准請求・§7 に禁止文 W-1〜W-12・§9 に前哨監査への 1:1 履行表。
+- 前哨監査の記録(内部 falsifier・blocker 4/major 8/minor 7 → 全 19 件履行済):
+  docs/notes/ben114_preflight_audit_v1.md・docs/notes/cv9_chi_semantics_audit_v1.md
+- 主要設計・定理文書: docs/notes/cone_design_v1.md(④ = Brown (7.8) の整数化・等値化)・
+  docs/notes/xd2_twist6abs_adjudication_v1.md+docs/notes/xd2_bridge_2b_v1.md(+erratum_a)・
+  docs/notes/hunting_chapter_v1.md+docs/notes/hunting_chapter_v1_addendum_a.md・
+  docs/notes/card_pchi_m5_v1.md・docs/notes/pair_h2_design_draft_v1.md(未検分ドラフト・参考)
+- 文献 pin: docs/scout/delta_mod23_dihedral_verbatim_v1.md(Δ 例外素数悉皆・mod 23 dihedral)・
+  docs/scout/kellner_k1k4_ch7_verbatim_v1.md
+- cert 群(抜粋・全て search/certs/): torsweep_k12_v3_2_20260811.json(k=12 rank=110 三素数)・
+  hcen_ab_v1_20260811.json・meas_chi_m5_v1_20260811.json・pchi1_v2_20260811.json・
+  fib_mult_v1_20260811.json・m5_win_chk_v1_20260811.json・xd1_chk_v1_20260811.json・
+  lins_census_2000_v1_20260811.json(GHA・operational_deviation 節つき)
+
+## 1. F#(事実の骨子 — 詳細と出所列は主積荷 §1)
+
+- F1: k=12 完全監査 = ④ の捩れ = Z/691 ちょうど(A 側・S 側・床・深さ 4 の全こだま)。
+- F2: e 側掃引 k=16..32 全飽和・(37,32) = 枝 E(E1 限定 = ρ 側未測、と申告)。
+- F3: 窓側 h^win>1000(全窓 exotic ゼロ)vs h^cen=24・census exotic 23 対 = 窓外。
+- F4: 野生帯 = GR-UB/STD-DIM(def≤0 は定理・測定の実収穫 = 持ち上げ障害ゼロ 1 ビット×2)・
+  R_p ≅ Sym^p(std)⊖std(CST 機構・4/4)・P-PL-5′ = −⌊(p−1)/3⌋。
+- F5: χ 扉の地形(新定理鎖・いずれも candidate): TWIST-GCD-ABS(ord(χ_W) | gcd(e,6,p−1)・
+  切片意味論)→ SEC-MOD(「6」= PSL(2,Z)^ab)→ CHI-DICHOTOMY(位数>6 の唯一の道 =
+  非可換 dim≥2 の {χ,χ⁻¹} 対)→ RIBET-SECTION(Ribet の非分裂拡大は B₃ のどの商の切片にも
+  ならない — 橋 = Sylow 特性論法)。生存道の必要条件 = p≡±1 (mod 690) ∧ (2,3)-生成 ∧ ord(det)|6。
+- F6: 検査済みの空振り群: census 捻れ完全平坦(pchi1_v2・176 因子)・M₅ = 定理どおり(両補題と
+  無矛盾どまり・識別実例 0 本と申告)・p² 薄縁 9/9 空振り+Kellner 表引き(p<1000 悉皆・引用格)。
+
+## 2. P#(ゲート質問 — 全問回答請求・スキップ不可)
+
+- P1【定義ゲート】④ の等値化「井原 p 進運命 ⟺ e の Z-飽和」は紙として立つか。
+  反例の定義はこれで正しいか。(cone_design_v1 §1-2)
+- P2【敵対的再審・最優先】主積荷 §2.1 の閉扉(1 行証明つき)を破ってほしい。
+  閉じ間違い = 見逃しが本便の最悪故障。特に CRT-INJ・COMPACT-COMPLETE・MOD-NOGO。
+- P3【定理審査】F5 の新定理鎖(TWIST-GCD-ABS/SEC-MOD/CHI-DICHOTOMY/RIBET-SECTION)の証明
+  審査と格付け。内部監査は「破れず」まで — verified 格は要求しない(Lean 予約)。
+  併せて CC-1★(例外 = p² 事象のみ)・BOUND-ID・NORM-1 の数論側審査。
+- P4【設計監査】実験列(主積荷 §3・順位 7)は健全か。見えていない扉はあるか。
+  既知の設計空白 =【CMP-GAP-1】(B) 表現読みを撃つ実験の不在 — 埋め方の提案を請う。
+- P5【攻撃請求】あなたが反例を構成するならどこをどう攻めるか。攻撃計画そのものを請う。
+- P6【見立て審査】成立側 ~8.5 割(candidate)の構造(扉リスト縮小 = 確信の定量形)への異議。
+- P7【規約批准】CHI-CARRY(切片意味論)・DOMAIN-PIN 第 4 点 chi_semantics・EXHAUST・
+  PARITY-EIG・REP-3CLASS の 5 本(主積荷 §6)。
+
+## 3. W#(正直申告・監査範囲外)
+
+- W1: 走行中で本便に結果を含まないもの: jac-chk2-modq(GHA run 31498186882・p=17,19)・
+  k=12 T4/T5・k=13 ローカル HNF・W691-SCAN(未走・順位 3)・P-DISC-1(未走)。
+- W2: 監査範囲外(主積荷 §0 と同一): 岩澤側の数論的事実・Dickson 分類・CST は文献引用のみ/
+  cert の再計算/pchi1_v2 の依存範囲。
+- W3: 格付け規約: candidate / cross-checked / 引用格の三分。verified は Lean 予約。
+  本便の新定理は全て candidate(内部監査「破れず」は保証ではない)。
+- W4: 誤りの開示: 主積荷 §2.3 の誤り台帳 11 件(668 型 3・proxy/意味論型 4・論理の穴 1 ほか)は
+  監査の信用の担保としてそのまま晒す。予言外れ(h^cen-AB)も外れとして記帳済(裁定 801→803)。
+- W5: WR-6(極限の糊の検分)と ④-2 (12,23) 橋は未了(主積荷 §5 筆頭)— 未完を成果に見せない。
+
+返信は従来の雛形(F/P/W 番号への対応)で。P2 と P5 には特に敵対性を期待する。
