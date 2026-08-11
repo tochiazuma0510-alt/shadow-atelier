@@ -1,0 +1,772 @@
+{
+  "schema": "shadow-atelier/wincnotn_v1",
+  "authority": "裁定823③ (WIN-CNOTN, hunting_chapter_v1_addendum_a.md §3 発注 WIN-CNOTN, restricted to the NEW (1000,2000] band per 裁定823's explicit scope)",
+  "method_note": "pure aggregation of the ALREADY-COMMITTED search/certs/lins_census_2000_v1_20260811.json (twin_pairs, index<=2000, GHA run 31498009539). NO new GAP run. Cross-tabulates (in_PB3, c_in_N) for every twin-pair member with index in (1000,2000]. verbal_status NOT reported (out of scope per task instruction; counts only).",
+  "source_cert": "search/certs/lins_census_2000_v1_20260811.json",
+  "source_cert_sha256": "d0832df8a4e61adff45c5c24c8eba32f5d388f55412907ed5ffdf714b2b4b958",
+  "scope_caveat": "counts ONLY twin-pair members (N's with at least one isomorphic-quotient partner at the same index) -- the source cert does not export isolated (non-twinned) N's, so this is NOT a full census of the (1000,2000] band's normal subgroups, only the subset the source cert actually recorded.",
+  "band": [
+    1000,
+    2000
+  ],
+  "total_members_in_band": 604,
+  "cross_tab": {
+    "window_c_in_N": 57,
+    "window_c_notin_N": 83,
+    "nonwindow_c_in_N": 115,
+    "nonwindow_c_notin_N": 349
+  },
+  "window_total": 140,
+  "nonwindow_total": 464,
+  "win_cnotn_target_count": 83,
+  "win_cnotn_target_members": [
+    {
+      "index": 1026,
+      "id_group": [
+        1026,
+        23
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1026,
+      "id_group": [
+        1026,
+        23
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        116
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        116
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        523
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        523
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        521
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        521
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        684
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        684
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        683
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1008,
+      "id_group": [
+        1008,
+        683
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1116,
+      "id_group": [
+        1116,
+        18
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1116,
+      "id_group": [
+        1116,
+        18
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        46
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        46
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        56
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        56
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        55
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        55
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        53
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1134,
+      "id_group": [
+        1134,
+        53
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1152,
+      "id_group": [
+        1152,
+        154161
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1152,
+      "id_group": [
+        1152,
+        154163
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1152,
+      "id_group": [
+        1152,
+        154163
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1170,
+      "id_group": [
+        1170,
+        17
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1170,
+      "id_group": [
+        1170,
+        17
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1260,
+      "id_group": [
+        1260,
+        45
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1260,
+      "id_group": [
+        1260,
+        45
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1332,
+      "id_group": [
+        1332,
+        23
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1332,
+      "id_group": [
+        1332,
+        23
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1368,
+      "id_group": [
+        1368,
+        46
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1368,
+      "id_group": [
+        1368,
+        46
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1386,
+      "id_group": [
+        1386,
+        18
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1386,
+      "id_group": [
+        1386,
+        18
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1404,
+      "id_group": [
+        1404,
+        33
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1404,
+      "id_group": [
+        1404,
+        33
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1404,
+      "id_group": [
+        1404,
+        34
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1404,
+      "id_group": [
+        1404,
+        34
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1458,
+      "id_group": [
+        1458,
+        651
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1458,
+      "id_group": [
+        1458,
+        651
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        547
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        547
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        56
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        56
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        450
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        450
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        57
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1512,
+      "id_group": [
+        1512,
+        57
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1548,
+      "id_group": [
+        1548,
+        18
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1548,
+      "id_group": [
+        1548,
+        18
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        42
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        42
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        51
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1638,
+      "id_group": [
+        1638,
+        51
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1674,
+      "id_group": [
+        1674,
+        21
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1674,
+      "id_group": [
+        1674,
+        21
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1710,
+      "id_group": [
+        1710,
+        21
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1710,
+      "id_group": [
+        1710,
+        21
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1728,
+      "id_group": [
+        1728,
+        31095
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1728,
+      "id_group": [
+        1728,
+        31095
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1764,
+      "id_group": [
+        1764,
+        112
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1764,
+      "id_group": [
+        1764,
+        112
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1764,
+      "id_group": [
+        1764,
+        18
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1764,
+      "id_group": [
+        1764,
+        18
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        119
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        119
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        570
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        570
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        568
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        568
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        781
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        781
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        780
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1872,
+      "id_group": [
+        1872,
+        780
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1890,
+      "id_group": [
+        1890,
+        39
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1890,
+      "id_group": [
+        1890,
+        39
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1890,
+      "id_group": [
+        1890,
+        40
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1890,
+      "id_group": [
+        1890,
+        40
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1944,
+      "id_group": [
+        1944,
+        48
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1944,
+      "id_group": [
+        1944,
+        48
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1998,
+      "id_group": [
+        1998,
+        23
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    },
+    {
+      "index": 1998,
+      "id_group": [
+        1998,
+        23
+      ],
+      "in_PB3": true,
+      "c_in_N": false
+    }
+  ],
+  "no_verdict_note": "raw counts only. No judgment words, no verbal_status determination -- 発効は司令塔専権."
+}
