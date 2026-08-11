@@ -1,0 +1,302 @@
+name: torsweep-k12-t4t5
+
+# k=12 TOR-DET T4/T5 (torsion-prime elementary-divisor gcd + factoring),
+# JOB-SPLIT GHA form (裁定876/877). Motivation: the local serial script
+# (search/torsweep_k12_v3_t4t5_run.py) has been killed by this session's
+# local environment THREE times (裁定867/869/870/876/877 incident chain)
+# -- twice mid-run with total silent data loss (no checkpoint reached),
+# once after a ~5-hour undetected outage. GHA runners are stable cloud
+# VMs, not subject to that failure mode, and each job here individually
+# fits comfortably within a single workflow_dispatch's default timeout
+# (local r1's own measured stage times: step1 ~5759s [~1.6h], each of
+# modulus A/modulus B ~5395s [~1.5h] -- well under any reasonable per-job
+# cap, and NOW parallelizable against each other since modulus A and B
+# are independent of one another, only both depending on step1).
+#
+# Job graph: step1 -> [step2_modulus_a, step2_modulus_b] (parallel) -> finalize
+#   step1:    search/torsweep_t4_step1_gha.py   (pivot ambient columns)
+#   step2_*:  search/torsweep_t4_step2_gha.py    (exact columns, one modulus each)
+#   finalize: search/torsweep_t4_finalize_gha.py (assemble N_source, Bareiss
+#             minors, gcd, T5 factoring+QUAR-TOR if gcd!=1, write cert)
+#
+# All three scripts are parametrized by --k (11 or 12): K=11 lets the
+# SAME ported code be run as a regression anchor against the ALREADY-
+# KNOWN torsweep_k11_v1_2_20260807.json gcd_abs value (裁定876(2), "(32,5)
+# 系の回帰アンカー") -- verified LOCALLY (not via this workflow) before
+# this workflow's K=12 output is trusted; see search/torsweep_t4_
+# finalize_gha.py's own k11_regression_anchor cert section for the
+# machine-checked comparison. This workflow's `k` input defaults to 12
+# (the actual target) but accepting 11 keeps the anchor path dispatchable
+# here too if ever needed for re-verification.
+#
+# Dependency audit (裁定847 discipline): this pipeline's only repo
+# dependencies are edim_semidirect_v1.py (ALREADY committed, aab1459 and
+# earlier) and small already-committed certs (search/certs/torsweep_k11_
+# v1_1_20260807.json ~1.2MB, torsweep_k12_v1_20260807.json ~4.3MB,
+# torsweep_k12_v3_hnf_kernel_20260807.json ~1.2MB, torsweep_k12_v3_2_
+# *.json ~1.3MB, torsweep_k11_v1_2_20260807.json for the anchor) -- none
+# of these are the >100MB k=13-scale problem (裁定842(2)); all fit git
+# normally, no receipt/gitignore dance needed here.
+#
+# DISPATCH GATE: workflow_dispatch ONLY, no push trigger (same discipline
+# as torsweep-k13.yml / edim.yml's own 便112f lesson).
+
+on:
+  workflow_dispatch:
+    inputs:
+      k:
+        description: 'Which k to run (11 = regression anchor against a known value, 12 = actual target)'
+        required: true
+        type: choice
+        options:
+          - '11'
+          - '12'
+        default: '12'
+      timeout_minutes_step1:
+        description: 'step1 job timeout (minutes). Local measurement at k=12: ~96min.'
+        required: true
+        type: number
+        default: 180
+      timeout_minutes_step2:
+        description: 'step2 (modulus A / modulus B) job timeout (minutes, each). Local measurement at k=12: ~90min each.'
+        required: true
+        type: number
+        default: 180
+      timeout_minutes_finalize:
+        description: 'finalize job timeout (minutes) -- cheap (small matrices, a handful of Bareiss determinants).'
+        required: true
+        type: number
+        default: 60
+
+permissions:
+  contents: read
+
+jobs:
+  step1:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes_step1) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - name: Report runner memory (informational)
+        shell: bash
+        run: free -h || true
+
+      - name: Run step1
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/torsweep_t4_step1_gha.py --k ${{ inputs.k }} --out ci/out/step1.json 2>&1 | tee ci/out/step1.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check step1 result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/step1.log"
+            exit 1
+          fi
+          if ! grep -q "TORSWEEP_T4_STEP1_DONE" ci/out/step1.log; then
+            echo "::error::TORSWEEP_T4_STEP1_DONE marker not found"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k12-t4t5-step1-log
+          path: ci/out/step1.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: torsweep-k12-t4t5-step1-artifact
+          path: ci/out/step1.json
+          if-no-files-found: error
+
+  step2_modulus_a:
+    needs: step1
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes_step2) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: torsweep-k12-t4t5-step1-artifact
+          path: ci/in/
+
+      - name: Run step2 (modulus A)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/torsweep_t4_step2_gha.py --step1-artifact ci/in/step1.json --modulus-label A --out ci/out/step2_a.json 2>&1 | tee ci/out/step2_a.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/step2_a.log"
+            exit 1
+          fi
+          if ! grep -q "TORSWEEP_T4_STEP2_DONE" ci/out/step2_a.log; then
+            echo "::error::TORSWEEP_T4_STEP2_DONE marker not found"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k12-t4t5-step2-a-log
+          path: ci/out/step2_a.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: torsweep-k12-t4t5-step2-a-artifact
+          path: ci/out/step2_a.json
+          if-no-files-found: error
+
+  step2_modulus_b:
+    needs: step1
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes_step2) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: torsweep-k12-t4t5-step1-artifact
+          path: ci/in/
+
+      - name: Run step2 (modulus B)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/torsweep_t4_step2_gha.py --step1-artifact ci/in/step1.json --modulus-label B --out ci/out/step2_b.json 2>&1 | tee ci/out/step2_b.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/step2_b.log"
+            exit 1
+          fi
+          if ! grep -q "TORSWEEP_T4_STEP2_DONE" ci/out/step2_b.log; then
+            echo "::error::TORSWEEP_T4_STEP2_DONE marker not found"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k12-t4t5-step2-b-log
+          path: ci/out/step2_b.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: torsweep-k12-t4t5-step2-b-artifact
+          path: ci/out/step2_b.json
+          if-no-files-found: error
+
+  finalize:
+    needs: [step2_modulus_a, step2_modulus_b]
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes_finalize) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: torsweep-k12-t4t5-step1-artifact
+          path: ci/in/
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: torsweep-k12-t4t5-step2-a-artifact
+          path: ci/in/
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: torsweep-k12-t4t5-step2-b-artifact
+          path: ci/in/
+
+      - name: Run finalize
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/torsweep_t4_finalize_gha.py \
+            --step1-artifact ci/in/step1.json \
+            --step2-a-artifact ci/in/step2_a.json \
+            --step2-b-artifact ci/in/step2_b.json \
+            --out ci/out/torsweep_k12_t4t5_finalize.json \
+            2>&1 | tee ci/out/finalize.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check result (informational -- STOP is a valid, reported outcome, not necessarily a CI bug)
+        shell: bash
+        run: |
+          echo "py_exit=${{ steps.run.outputs.py_exit }}"
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::warning::finalize did not complete py_exit=0 -- check ci/out/finalize.log for TORSWEEP_T4_FINALIZE_STOP (expected STOP behavior on a genuine mismatch, not necessarily a CI bug)"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k12-t4t5-finalize-log
+          path: ci/out/finalize.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k12-t4t5-final-cert
+          path: ci/out/torsweep_k12_t4t5_finalize.json
+          if-no-files-found: warn
