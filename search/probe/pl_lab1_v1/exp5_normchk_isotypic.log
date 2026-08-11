@@ -1,0 +1,25 @@
+﻿gap.exe : Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\pl_lab1_v1\exp5_normchk_isotypic.g:19
+At C:\Users\81905\Desktop\shadow-atelier\gap.ps1:13 char:1
++ & "$gapRoot\runtime\opt\gap-4.16.0\gap.exe" -q --quitonbreak -o 2g @E ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Syntax warning:...k_isotypic.g:19:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  P := F;;  xG := MapImages[1];;  yG := MapImages[2];;
+       ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\pl_lab1_v1\exp5_normchk_isotypic.g:19
+  P := F;;  xG := MapImages[1];;  yG := MapImages[2];;
+                  ^^^^^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\pl_lab1_v1\exp5_normchk_isotypic.g:19
+  P := F;;  xG := MapImages[1];;  yG := MapImages[2];;
+                                        ^^^^^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\pl_lab1_v1\exp5_normchk_isotypic.g:20
+  Unbind(F);;  Unbind(MapImages);;
+         ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\search\probe\pl_lab1_v1\exp5_normchk_isotypic.g:20
+  Unbind(F);;  Unbind(MapImages);;
+                      ^^^^^^^^^
+
+p=5 k=5 dim_layer=2 m_triv=0 m_sgn=0 m_std=1 sum_check(m_triv+m_sgn+2*m_std)=2 (should equal dim_layer=2)
+p=7 k=7 dim_layer=12 m_triv=2 m_sgn=2 m_std=4 sum_check(m_triv+m_sgn+2*m_std)=12 (should equal dim_layer=12)
+EXP5_DONE

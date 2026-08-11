@@ -1,0 +1,78 @@
+{
+  "schema": "shadow-atelier/pl_lab1_normchk_v1",
+  "authority": "裁定783(1) (司令塔), docs/notes/phase2_scoring_v1.md §1.1 命題NORM-1 / 発注NORM-CHK (verbatim)",
+  "supersedes_note": "cert addendum to search/certs/pl_lab1_v1_20260811.json (f32451f) -- adds the S3-isotypic decomposition of R_p (delta_p's structure) requested by phase2_scoring_v1.md; def_p/delta_p/H_p/kernel_dim values are REUSED unchanged from that cert, not recomputed.",
+  "source_pl_lab1_cert": "search/certs/pl_lab1_v1_20260811.json",
+  "source_gap_isotypic_log": "search/probe/pl_lab1_v1/exp5_normchk_isotypic.log",
+  "method_note": "measured isotypic multiplicities computed via exact nullspace (ker(1-theta) cap ker(1-tau) for triv, ker(1+theta) cap ker(1-tau) for sgn, ker(1+theta) cap ker(1+tau+tau^2) for std), NOT via mod-p trace (avoids ambiguity at p7c7 where dim_layer=12 > p=7). Lambda_p (ambient) isotypic multiplicities computed via closed-form character arithmetic: tr(tau|Lambda_p) inverted exactly from the already-established H_p formula, tr(theta|Lambda_p)=0 derived exactly for odd p from the design's own necklace-trace formula (every divisor of odd p is odd).",
+  "per_p": {
+    "5": {
+      "p": 5,
+      "delta_p": 4,
+      "def_p": -1,
+      "H_p": 2,
+      "witt_2_p": 6,
+      "dim_layer_measured": 2,
+      "Lambda_p_isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 2,
+        "trace_theta": 0,
+        "trace_tau": 0
+      },
+      "measured_isotypic": {
+        "m_triv": 0,
+        "m_sgn": 0,
+        "m_std": 1
+      },
+      "R_p_isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 1
+      },
+      "delta_p_consistency_check": {
+        "recomputed_from_isotypic": 4,
+        "matches_delta_p": true
+      },
+      "m_std_R_p_equals_abs_def_p": true
+    },
+    "7": {
+      "p": 7,
+      "delta_p": 6,
+      "def_p": -2,
+      "H_p": 6,
+      "witt_2_p": 18,
+      "dim_layer_measured": 12,
+      "Lambda_p_isotypic": {
+        "m_triv": 3,
+        "m_sgn": 3,
+        "m_std": 6,
+        "trace_theta": 0,
+        "trace_tau": 0
+      },
+      "measured_isotypic": {
+        "m_triv": 2,
+        "m_sgn": 2,
+        "m_std": 4
+      },
+      "R_p_isotypic": {
+        "m_triv": 1,
+        "m_sgn": 1,
+        "m_std": 2
+      },
+      "delta_p_consistency_check": {
+        "recomputed_from_isotypic": 6,
+        "matches_delta_p": true
+      },
+      "m_std_R_p_equals_abs_def_p": true
+    }
+  },
+  "all_m_std_R_p_equals_abs_def_p": true,
+  "all_delta_p_consistency_checks_pass": true,
+  "branch_reading_key_UNASSERTED": {
+    "note": "phase2_scoring_v1.md §1.2's own stated branch key, recorded as design context ONLY -- this script does not assert which branch obtains (発効は司令塔専権).",
+    "match_reading": "def_p == -mult_std(R_p) (found here) is read by the design as branch L (WILD-NOEXCESS: Lazard-dictionary-correction-only, no active excess)"
+  },
+  "no_verdict_note": "raw integers and the m_std_R_p_equals_abs_def_p boolean only. Branch-L language is NOT asserted as a conclusion -- 発効は司令塔専権.",
+  "stop_code": null
+}
