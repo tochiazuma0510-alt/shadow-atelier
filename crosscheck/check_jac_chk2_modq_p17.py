@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # crosscheck/check_jac_chk2_modq_p17.py
-# Independent checker for search/certs/jac_chk2_modq_v1_20260811_p17.json (裁定843, mod-q
-# construction rewrite, p=17).
+# Independent checker for search/certs/jac_chk2_modq_v1_20260811_p17.json AND
+# search/certs/jac_chk2_modq_v1_20260811_p19.json (裁定843/860, mod-q construction rewrite,
+# p=17 and p=19 -- filename retained as "_p17" for git history continuity, now covers both).
 #
 # CROSSCHECK, NOT VERIFICATION. Does NOT import search/jac_chk2_modq_v1.py or
 # search/jac_construct_modq_v1.py -- this checker does NOT re-run the same construction code
-# (that would not be independent, merely a repeat execution). Instead it checks:
+# (that would not be independent, merely a repeat execution). Instead it checks, for EACH prime:
 #  (A) internal arithmetic consistency: the isotypic multiplicities (m_triv,m_sgn,m_std) are
 #      correctly derived from (dim, chi_theta, chi_tau) via the standard S3 character-table
 #      projection formulas (re-derived here from scratch, not copied).
@@ -16,11 +17,14 @@
 #  (C) the regression test cert (search/certs/jac_construct_modq_regression_test_v1_20260812.json)
 #      itself is checked for internal consistency against the ORIGINAL exact-Fraction cert
 #      (search/certs/jac_chk_v1_20260811.json), independently re-read (not trusting the
-#      regression script's own self-report blindly).
+#      regression script's own self-report blindly) -- checked once, not per-prime.
 import json
 import math
 
-P17_CERT = "search/certs/jac_chk2_modq_v1_20260811_p17.json"
+CERTS = {
+    17: "search/certs/jac_chk2_modq_v1_20260811_p17.json",
+    19: "search/certs/jac_chk2_modq_v1_20260811_p19.json",
+}
 REGRESSION_CERT = "search/certs/jac_construct_modq_regression_test_v1_20260812.json"
 EXACT_CERT = "search/certs/jac_chk_v1_20260811.json"
 
@@ -31,26 +35,26 @@ def ok(msg):
     print("[PASS]", msg)
 
 
-def main():
-    cert = json.load(open(P17_CERT, encoding="utf-8"))
-    r = cert["per_p"]["17"]
+def check_prime(p, cert_path):
+    cert = json.load(open(cert_path, encoding="utf-8"))
+    r = cert["per_p"][str(p)]
 
     if cert.get("schema") != "shadow-atelier/jac_chk2_modq_v1":
-        fail("schema mismatch")
+        fail(f"p={p}: schema mismatch")
     else:
-        ok("schema = shadow-atelier/jac_chk2_modq_v1")
+        ok(f"p={p}: schema = shadow-atelier/jac_chk2_modq_v1")
 
     if not r["rank_agrees_across_q"]:
-        fail("rank_agrees_across_q is False")
+        fail(f"p={p}: rank_agrees_across_q is False")
     else:
-        ok(f"rank_agrees_across_q = True (q1_rank={r['modq1']['rank']}, "
+        ok(f"p={p}: rank_agrees_across_q = True (q1_rank={r['modq1']['rank']}, "
            f"q2_rank={r['modq2']['rank']})")
 
     dim = r["dim_R_p"]
-    if dim != 16:
-        fail(f"dim_R_p = {dim}, want 16 (=p-1 for p=17)")
+    if dim != p - 1:
+        fail(f"p={p}: dim_R_p = {dim}, want {p-1} (=p-1)")
     else:
-        ok(f"dim_R_p = {dim} = p-1")
+        ok(f"p={p}: dim_R_p = {dim} = p-1")
 
     # (A) isotypic multiplicities re-derived from (dim, chi_theta, chi_tau) via the standard
     # S3 character-table projection formulas (independently re-derived arithmetic)
@@ -60,7 +64,7 @@ def main():
     num_sgn = dim - 3 * chi_theta + 2 * chi_tau
     num_std = dim - chi_tau
     if num_triv % 6 != 0 or num_sgn % 6 != 0 or num_std % 3 != 0:
-        fail(f"isotypic projection formulas do not divide evenly: num_triv={num_triv} "
+        fail(f"p={p}: isotypic projection formulas do not divide evenly: num_triv={num_triv} "
              f"num_sgn={num_sgn} num_std={num_std}")
     else:
         m_triv_r = num_triv // 6
@@ -68,31 +72,40 @@ def main():
         m_std_r = num_std // 3
         cert_iso = r["isotypic"]
         if (m_triv_r, m_sgn_r, m_std_r) != (cert_iso["m_triv"], cert_iso["m_sgn"], cert_iso["m_std"]):
-            fail(f"isotypic rederived=({m_triv_r},{m_sgn_r},{m_std_r}) cert={cert_iso}")
+            fail(f"p={p}: isotypic rederived=({m_triv_r},{m_sgn_r},{m_std_r}) cert={cert_iso}")
         else:
-            ok(f"isotypic (m_triv,m_sgn,m_std)=({m_triv_r},{m_sgn_r},{m_std_r}) independently "
-               f"re-derived from (dim={dim}, chi_theta={chi_theta}, chi_tau={chi_tau}) via the "
-               f"standard S3 character projection formulas")
+            ok(f"p={p}: isotypic (m_triv,m_sgn,m_std)=({m_triv_r},{m_sgn_r},{m_std_r}) "
+               f"independently re-derived from (dim={dim}, chi_theta={chi_theta}, "
+               f"chi_tau={chi_tau}) via the standard S3 character projection formulas")
         if m_triv_r + m_sgn_r + 2 * m_std_r != dim:
-            fail(f"isotypic sum {m_triv_r + m_sgn_r + 2*m_std_r} != dim {dim}")
+            fail(f"p={p}: isotypic sum {m_triv_r + m_sgn_r + 2*m_std_r} != dim {dim}")
         else:
-            ok("isotypic dimension sum consistency confirmed")
+            ok(f"p={p}: isotypic dimension sum consistency confirmed")
 
     # (B) theoretical closed-form prediction (JAC-SYM, addendum C SS1.3) -- INDEPENDENT
     # mathematical check, not a re-run of the construction
-    p = 17
     pred_triv_sgn = math.floor(p / 6 + 0.5)  # round(p/6)
     pred_std = (p - 1) // 3
     cert_iso = r["isotypic"]
     if (cert_iso["m_triv"], cert_iso["m_sgn"], cert_iso["m_std"]) != (pred_triv_sgn, pred_triv_sgn, pred_std):
-        fail(f"cert isotypic {cert_iso} does NOT match JAC-SYM theoretical prediction "
+        fail(f"p={p}: cert isotypic {cert_iso} does NOT match JAC-SYM theoretical prediction "
              f"(round(p/6),round(p/6),floor((p-1)/3))=({pred_triv_sgn},{pred_triv_sgn},{pred_std})")
     else:
-        ok(f"cert isotypic matches JAC-SYM theoretical closed-form prediction "
+        ok(f"p={p}: cert isotypic matches JAC-SYM theoretical closed-form prediction "
            f"({pred_triv_sgn},{pred_triv_sgn},{pred_std}) -- independent mathematical check, "
            f"not a re-run of the mod-q construction")
 
+    # timing sanity (raw, informational)
+    print(f"[INFO] p={p}: construction_time_sec q1={r['modq1'].get('construction_time_sec'):.1f} "
+          f"q2={r['modq2'].get('construction_time_sec'):.1f}")
+
+
+def main():
+    for p, path in CERTS.items():
+        check_prime(p, path)
+
     # (C) regression test cert cross-check against the ORIGINAL exact cert (independently re-read)
+    # -- checked once (not tied to a specific prime)
     regression = json.load(open(REGRESSION_CERT, encoding="utf-8"))
     exact = json.load(open(EXACT_CERT, encoding="utf-8"))
     if not regression.get("all_anchors_pass"):
@@ -129,7 +142,7 @@ def main():
               "language/no independent algorithm available in reasonable time) -- checked via "
               "(A) internal arithmetic consistency, (B) an INDEPENDENT theoretical closed-form "
               "prediction match, and (C) independent re-verification of the regression anchors "
-              "against the original exact cert)")
+              "against the original exact cert, for BOTH p=17 and p=19)")
         return 0
 
 if __name__ == "__main__":
