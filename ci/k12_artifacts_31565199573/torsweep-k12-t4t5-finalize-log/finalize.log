@@ -1,0 +1,10 @@
+[    0.01s] K=12 H_rank=112 r_prime=110
+[    0.01s] exact_moduli_agree=True
+[    0.55s] N_source assembled, shape=(112,110)
+[    4.81s] computed 5 minors, digit_counts=[175, 176, 176, 174, 175]
+[    4.81s] gcd_abs digits=170
+[    4.81s] T5: gcd_abs != 1, factoring
+[    5.04s] T5: attempting sympy.factorint on 161-digit cofactor
+[  112.35s] T5: torsion_primes(raw)=[2, 3, 5, 13, 37, 90217, 18629640697]
+[  112.36s] DONE. cert written: ci/out/torsweep_k12_t4t5_finalize.json
+TORSWEEP_T4_FINALIZE_DONE k=12 gcd_abs_digits=170

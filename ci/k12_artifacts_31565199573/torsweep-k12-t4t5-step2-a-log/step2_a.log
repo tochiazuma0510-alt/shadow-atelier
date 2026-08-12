@@ -1,0 +1,11 @@
+[    0.00s] K=12 dim_h=335 r_prime=110 modulus_label=A p_exact_digits=41
+[    3.96s]   tree 0/335
+[  221.33s]   tree 50/335
+[  579.44s]   tree 100/335
+[ 1158.79s]   tree 150/335
+[ 1967.90s]   tree 200/335
+[ 3048.24s]   tree 250/335
+[ 4246.50s]   tree 300/335
+[ 4834.90s] step2 (modulus A) done, elapsed=4834.90s
+[ 4834.91s] artifact written: ci/out/step2_a.json (137530 bytes)
+TORSWEEP_T4_STEP2_DONE k=12 modulus_label=A elapsed=4834.90

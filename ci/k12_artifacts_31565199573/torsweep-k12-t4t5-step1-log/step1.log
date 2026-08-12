@@ -1,0 +1,5 @@
+[    0.05s] K=12: loaded H_rank=112 r_prime=110 dim_h=335
+[    0.05s] step1: rank_nu_j_on_subspace_ambient (one prime) for pivot columns
+[ 3705.71s] step1: r_check=110 (expect 110) elapsed=3705.71s
+[ 3705.72s] artifact written: ci/out/step1.json (6008 bytes)
+TORSWEEP_T4_STEP1_DONE k=12 r_check=110 elapsed=3705.71
