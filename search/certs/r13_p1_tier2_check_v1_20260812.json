@@ -1,0 +1,276 @@
+{
+  "all_checks_true": true,
+  "c_touched": false,
+  "checks": {
+    "all_modular_profiles_have_two_good_specializations": true,
+    "disc_II_degree": 216,
+    "disc_I_degree": 196,
+    "factor_rows_match": true,
+    "modular_profiles": [
+      {
+        "expected": [
+          6,
+          9
+        ],
+        "factor_id": "e95f7f94c4769f2d",
+        "good_specializations": [
+          {
+            "S1_profile": [
+              {
+                "distinct_root_degree": 6,
+                "multiplicity": 1
+              },
+              {
+                "distinct_root_degree": 1,
+                "multiplicity": 2
+              }
+            ],
+            "S2_profile": [
+              {
+                "distinct_root_degree": 9,
+                "multiplicity": 1
+              }
+            ],
+            "observed": [
+              6,
+              9
+            ],
+            "prime": 11,
+            "r": 7
+          },
+          {
+            "S1_profile": [
+              {
+                "distinct_root_degree": 6,
+                "multiplicity": 1
+              },
+              {
+                "distinct_root_degree": 1,
+                "multiplicity": 2
+              }
+            ],
+            "S2_profile": [
+              {
+                "distinct_root_degree": 9,
+                "multiplicity": 1
+              }
+            ],
+            "observed": [
+              6,
+              9
+            ],
+            "prime": 13,
+            "r": 5
+          }
+        ],
+        "rejected_specialization_count": 0,
+        "two_good_specializations_found": true
+      },
+      {
+        "expected": [
+          8,
+          7
+        ],
+        "factor_id": "7e2054b0939503f4",
+        "good_specializations": [
+          {
+            "S1_profile": [
+              {
+                "distinct_root_degree": 8,
+                "multiplicity": 1
+              }
+            ],
+            "S2_profile": [
+              {
+                "distinct_root_degree": 7,
+                "multiplicity": 1
+              },
+              {
+                "distinct_root_degree": 1,
+                "multiplicity": 2
+              }
+            ],
+            "observed": [
+              8,
+              7
+            ],
+            "prime": 23,
+            "r": 13
+          },
+          {
+            "S1_profile": [
+              {
+                "distinct_root_degree": 8,
+                "multiplicity": 1
+              }
+            ],
+            "S2_profile": [
+              {
+                "distinct_root_degree": 7,
+                "multiplicity": 1
+              },
+              {
+                "distinct_root_degree": 1,
+                "multiplicity": 2
+              }
+            ],
+            "observed": [
+              8,
+              7
+            ],
+            "prime": 53,
+            "r": 8
+          }
+        ],
+        "rejected_specialization_count": 0,
+        "two_good_specializations_found": true
+      },
+      {
+        "expected": [
+          6,
+          9
+        ],
+        "factor_id": "6ebf42a90158dca5",
+        "good_specializations": [
+          {
+            "S1_profile": [
+              {
+                "distinct_root_degree": 6,
+                "multiplicity": 1
+              },
+              {
+                "distinct_root_degree": 1,
+                "multiplicity": 2
+              }
+            ],
+            "S2_profile": [
+              {
+                "distinct_root_degree": 9,
+                "multiplicity": 1
+              }
+            ],
+            "observed": [
+              6,
+              9
+            ],
+            "prime": 11,
+            "r": 7
+          },
+          {
+            "S1_profile": [
+              {
+                "distinct_root_degree": 6,
+                "multiplicity": 1
+              },
+              {
+                "distinct_root_degree": 1,
+                "multiplicity": 2
+              }
+            ],
+            "S2_profile": [
+              {
+                "distinct_root_degree": 9,
+                "multiplicity": 1
+              }
+            ],
+            "observed": [
+              6,
+              9
+            ],
+            "prime": 17,
+            "r": 2
+          }
+        ],
+        "rejected_specialization_count": 0,
+        "two_good_specializations_found": true
+      },
+      {
+        "expected": [
+          8,
+          7
+        ],
+        "factor_id": "f7491820bbdf990d",
+        "good_specializations": [
+          {
+            "S1_profile": [
+              {
+                "distinct_root_degree": 8,
+                "multiplicity": 1
+              }
+            ],
+            "S2_profile": [
+              {
+                "distinct_root_degree": 7,
+                "multiplicity": 1
+              },
+              {
+                "distinct_root_degree": 1,
+                "multiplicity": 2
+              }
+            ],
+            "observed": [
+              8,
+              7
+            ],
+            "prime": 23,
+            "r": 13
+          },
+          {
+            "S1_profile": [
+              {
+                "distinct_root_degree": 8,
+                "multiplicity": 1
+              }
+            ],
+            "S2_profile": [
+              {
+                "distinct_root_degree": 7,
+                "multiplicity": 1
+              },
+              {
+                "distinct_root_degree": 1,
+                "multiplicity": 2
+              }
+            ],
+            "observed": [
+              8,
+              7
+            ],
+            "prime": 37,
+            "r": 12
+          }
+        ],
+        "rejected_specialization_count": 2,
+        "two_good_specializations_found": true
+      }
+    ],
+    "producer_branch_factorizations_match": true,
+    "producer_disc_degrees_match": true,
+    "producer_factor_set_complete": true,
+    "producer_payload_integrity": true,
+    "producer_raw_counts_match": true,
+    "producer_source_hash_matches": true,
+    "r_equals_1_exclusion_present": true
+  },
+  "elapsed_seconds": 5.772866582000006,
+  "floating_point_used_for_decisions": false,
+  "generated_by": {
+    "github_run_id": "31589423634",
+    "github_sha": "64904aa7f2fed1d57f414f3d1b85b5de939f5094",
+    "python": "3.13.14",
+    "script": "search/check_r13_p1_tier2.py",
+    "script_sha256": "332c67ac9556a2a44a39ad2e2c17e3a36fa3dc415e2f83f20d7b0940fc00c1b2",
+    "sympy": "1.14.0"
+  },
+  "inputs": {
+    "producer_cert_sha256": "548133edee770e3e9559052637b257d28452830b87424a2c2af7602fcf39fda8",
+    "source_sha256": "c4af468a16514b421291f5f9d57c54261fb176d0c98a7b8bc2260f8110de4178"
+  },
+  "integrity": {
+    "canonical_payload_sha256": "0f5857dc895156d53927c866ba5430db44c951ac4b2056e6af0e91dd69ef647a",
+    "definition": "sha256 of canonical UTF-8 JSON after removing the integrity member"
+  },
+  "schema": "r13-p1-tier2-check/v1",
+  "status": "COMPLETE",
+  "u_touched": false
+}
