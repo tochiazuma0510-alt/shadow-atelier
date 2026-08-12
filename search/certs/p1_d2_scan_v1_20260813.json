@@ -1,0 +1,105 @@
+{
+ "schema": "r13-p1d2/v2",
+ "generated_by": {
+  "tool": "python (sympy/mpmath exact+numeric algebra, no GAP execution)",
+  "script": "search/p1_d2_scan_v1.py",
+  "order": "裁定1073/1075 [P1-D2 v2] / docs/notes/p1d2_concrete_spec_v1.md"
+ },
+ "status": "D2-1 (decisive test) COMPLETE. D2-2 (4-point scan) COMPLETE. D2-3 (linear system per point) and D2-4 (watches V1-V7) NOT YET IMPLEMENTED -- honestly flagged, not fabricated.",
+ "target_curve": "E: Y^2+3*zeta3*X*Y+2*Y=X^3, Q_inf=O, Q0=(0,0)",
+ "d2_1_all_prerequisite_checks_pass": true,
+ "d2_1_checks": {
+  "zeta3_cubed_is_1": true,
+  "zeta12_pow12_is_1": true,
+  "y_B1_is_simple_root_of_s1_fiber": true,
+  "y_B2_is_simple_root_of_sm1_fiber": true,
+  "F_old_at_B1_is_zero": true,
+  "F_old_at_B2_is_zero": true,
+  "w_B1_squared_matches_cover_RHS": true,
+  "w_B2_squared_matches_cover_RHS": true,
+  "A_short_matches_E_identification_cert": true,
+  "B_short_matches_E_identification_cert": true,
+  "B1_on_short_weierstrass": true,
+  "B2_on_short_weierstrass": true,
+  "isomorphism_eq4_holds": true,
+  "isomorphism_eq6_holds": true,
+  "B1_on_target_curve": true,
+  "B2_on_target_curve": true,
+  "D2_1_decisive_test_B1_plus_B2_equals_Q0": true
+ },
+ "B1_old_coords_s_y": {
+  "s": "1",
+  "y": "-sqrt(3) - 1 + I*(1 - sqrt(3))"
+ },
+ "B2_old_coords_s_y": {
+  "s": "-1",
+  "y": "-sqrt(3) + 1 + I*(1 + sqrt(3))"
+ },
+ "B1_target_coords_X_Y": {
+  "X": "-1 + sqrt(3) + I*(-sqrt(3) - 1)",
+  "Y": "2*I"
+ },
+ "B2_target_coords_X_Y": {
+  "X": "-sqrt(3) - 1 + I*(1 - sqrt(3))",
+  "Y": "-2*I"
+ },
+ "B1_plus_B2": {
+  "X": "0",
+  "Y": "0"
+ },
+ "decisive_test_B1_plus_B2_equals_Q0": true,
+ "d2_2_four_points": [
+  {
+   "x": "0",
+   "y": "-2",
+   "exact": true,
+   "verified_2P_equals_Q0": true,
+   "verified_on_curve": true
+  },
+  {
+   "x": "1.370072704834329524459235472023+0.912964171632262844191529893578j",
+   "y": "1.999999999999999111821580299875+0.000000000000000000000000000000j",
+   "exact": false,
+   "note": "root of x^3-2*a1*x-8=0, numeric (50 dps mpmath); y=2 exactly by construction of the cubic (see docstring)",
+   "doubling_residual_x": "2.318e-15",
+   "doubling_residual_y": "2.234e-15",
+   "curve_residual": "1.790e-15"
+  },
+  {
+   "x": "0.105613812961391134725985807563+1.642999853234319740380442453898j",
+   "y": "2.000000000000000000000000000000+0.000000000000000000000000000000j",
+   "exact": false,
+   "note": "root of x^3-2*a1*x-8=0, numeric (50 dps mpmath); y=2 exactly by construction of the cubic (see docstring)",
+   "doubling_residual_x": "2.866e-15",
+   "doubling_residual_y": "2.552e-15",
+   "curve_residual": "6.661e-16"
+  },
+  {
+   "x": "-1.475686517795720797963099357730-2.555964024866582473549669884960j",
+   "y": "1.999999999999998223643160599750-0.000000000000000444089209850063j",
+   "exact": false,
+   "note": "root of x^3-2*a1*x-8=0, numeric (50 dps mpmath); y=2 exactly by construction of the cubic (see docstring)",
+   "doubling_residual_x": "2.701e-15",
+   "doubling_residual_y": "8.215e-15",
+   "curve_residual": "2.207e-14"
+  }
+ ],
+ "d2_2_notes": "4 points found: (0,-2) exact + 3 roots of x^3-2*a1*x-8=0 (each with y=2 exactly, an algebraic consequence of the cubic's construction). The 3 non-exact points are certified only to numeric precision (~1e-14 doubling/curve residuals at 50 dps) in this pass; exact radical/CRootOf forms were not extracted (sympy solve did not terminate in reasonable time on the raw complex cubic).",
+ "d2_3_alpha_beta_ratios": null,
+ "d2_3_note": "NOT YET IMPLEMENTED (requires explicit L(kP) translation-basis construction per docs/notes/p1d2_concrete_spec_v1.md §2.1/§3.4)",
+ "d2_4_watches_V1_V7": null,
+ "d2_4_note": "NOT YET IMPLEMENTED (depends on D2-3)",
+ "quarantine_4_lines_1007": {
+  "name_collide_note": "本仕様の平方類/立方類は F_9(E) の函数体類。封印『c 平方類』(K^(5) 窓インスタンス)とは別対象。",
+  "n5_value_computed": false,
+  "derivation_bridge_found": false,
+  "b34_handled_as_divisor": null
+ },
+ "u_touched": false,
+ "c_touched": false,
+ "prereg_touched": false,
+ "d_no_interpretation": "machine values only; verdict は司令塔",
+ "provenance": {
+  "script_sha256": "93610ff1f1dbadb5439e1f4f70b1414b45fdb96ae60c27c650f671e923db0c30"
+ }
+}
