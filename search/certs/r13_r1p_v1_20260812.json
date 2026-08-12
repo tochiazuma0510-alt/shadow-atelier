@@ -1,0 +1,71 @@
+{
+ "schema": "r13-r1p/v1",
+ "generated_by": {
+  "tool": "python",
+  "script": "search/r13_r1p_v1.py",
+  "order": "裁定983 / docs/notes/branchP_and_r_spec_v1.md 第I部 §I.4 [P1]"
+ },
+ "status": "PARTIAL -- (a)(b) の無料検算は完了・F(t,w)本体の構成は未完了(下記blocker参照)",
+ "input_from_R0": {
+  "cert": "search/certs/r13_r0_v1_1_20260812.json",
+  "g": 4,
+  "D": 18,
+  "passport_0": [
+   [
+    18,
+    1
+   ]
+  ],
+  "passport_1": [
+   [
+    1,
+    2
+   ],
+   [
+    2,
+    8
+   ]
+  ],
+  "passport_infty": [
+   [
+    18,
+    1
+   ]
+  ]
+ },
+ "check_a_riemann_roch": {
+  "k": 18,
+  "g": 4,
+  "dim_L_kPinf": 15,
+  "valid_range_check": true,
+  "matches_design_doc_stated_value_15": true
+ },
+ "check_b_torsion": {
+  "single_point_at_0": true,
+  "single_point_at_infty": true,
+  "ramification_at_0": 18,
+  "ramification_at_infty": 18,
+  "div_lambda9_eq_D_P0_minus_D_Pinf": true,
+  "conclusion": "18*(P0-P_inf) ~ 0 (principal divisor, follows directly from R-0's own passport data, no new computation)"
+ },
+ "f_tw_construction": {
+  "completed": false,
+  "blocker": {
+   "claim": "F(t,w) の未定係数法+Gröbner による具体的構成には到達していない",
+   "known_from_design_doc": {
+    "deg_w_F": 18,
+    "F_at_t0": "c_0 * w^18 (single root mult 18, from full ramification passport(0)=[[18,1]])",
+    "F_at_t1": "c_1*(w-a1)*(w-a2)*prod_{j=1}^{8}(w-bj)^2 (passport(1)=[[1,2],[2,8]]: 2 simple roots + 8 double roots)",
+    "F_at_tinf": "w=infty corresponds to P_inf; leading term in t is a monomial (stated, not made fully explicit in degree)"
+   },
+   "missing_structural_input": [
+    "deg_t F (次数) -- 指示書のどこにも数値が明記されていない。S4窓のu_meas_m3_design_v1.md §1.4は超楕円(genus 2はほぼ自動的に超楕円)という**別の窓固有の事実**を仮定して y^2=f(x)型のansatzを取っていたが、genus 4のW_9が同様の特殊構造(例えば超楕円/ trigonal等)を持つかはこのセッションで未検証。W-48(他窓の構造の無断流用禁止)に 照らし、S4のhyperelliptic ansatzをそのまま転用することはできない。",
+    "未定係数の本数を具体的に数えるには deg_t F が要る(dim L(18 P_inf)=15 は「上限の sanity check」としてのみ使えると指示書に明記されており、それ単独ではansatzの 次数を決定できない)。",
+    "W_9 の特殊構造(超楕円か・trigonal か・一般平面モデルか)を判定する追加情報 (例えば H_9^fun の置換表現からモノドロミー経由でカバーの型を判定する計算、または 既存文献での類似次数・種数の Belyi 写像の型の参照)が必要。これは W-48 の射程外 (K^(9) 固有の判定であって他窓の値の流用ではない) だが、このセッションでは未実施。"
+   ],
+   "why_stopped_here": "deg_t Fを当てずっぽうで固定して大規模Gröbner計算に入ると、S4窓のCB-a5系列(groebner*3・newton*3・search*2・sieve*2・locus*2・lifttest、実質1日規模)に匹敵する計算コストがかかる可能性が高く、仮定が誤っていた場合は全て無駄になる。fail-closedの精神(裁定828等)に基づき、ここで一度停止し構造的な設計判断を仰ぐのが適切と判断した。"
+  }
+ },
+ "u_touched": false,
+ "d_no_interpretation": "machine values only; verdict は司令塔"
+}
