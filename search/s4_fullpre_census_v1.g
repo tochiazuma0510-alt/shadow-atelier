@@ -68,6 +68,9 @@ if not idGroupOk then failures := failures + 1; fi;
 N := Group(AffPerm(1,1));;   # a=1,u=1 の元、位数9の巡回群
 sizeN := Size(N);;
 Print("|N| (平行移動部) = ", sizeN, " (期待 9)\n");
+# 陽性対照(裁定961の恒久規範): N.1 が恒等元でない(位数9)ことを明示的に較正する
+Assert(0, Order(N.1) = 9);;
+Print("[陽性対照] N.1 の位数 = ", Order(N.1), " (期待 9・恒等元でないことの較正)\n");
 normalN := IsNormal(G, N);;
 Print("[", PF(normalN), "] N は G で正規\n");
 if not normalN then failures := failures + 1; fi;
@@ -76,6 +79,16 @@ if not normalN then failures := failures + 1; fi;
 Q0 := Group(List(units9, u -> AffPerm(0,u)));;
 sizeQ0 := Size(Q0);;
 Print("|Q0| (標準 complement) = ", sizeQ0, " (期待 6)\n");
+
+# 裁定961(falsifier CV-9 判読で確定): Q0.1 = AffPerm(0,1) = 恒等置換(units9 の先頭が 1)。
+# GeneratorsOfGroup(Q0) の最初の元を無条件に「生成元」として使うと、生成元リストの先頭が
+# たまたま恒等元の場合に (Q0.1)^k が常に恒等になる欠陥を生む(v1 の実際のバグ)。
+# 修理: 位数6の元を明示的に探して使う + 陽性対照(非自明値を返すことの較正)を必ず入れる。
+gen6 := First(GeneratorsOfGroup(Q0), g -> Order(g)=6);;
+if gen6 = fail then gen6 := First(Q0, g -> Order(g)=6);; fi;
+Assert(0, gen6 <> fail);;
+Assert(0, Order(gen6) = 6);;
+Print("[陽性対照] gen6 の位数 = ", Order(gen6), " (期待 6・恒等元でないことの較正)\n");
 
 # chi: G -> G/N (自然な商写像、IsomorphismQuotientGroups あるいは FactorCosetAction 経由)
 quotHom := NaturalHomomorphismByNormalSubgroup(G, N);;
@@ -123,7 +136,7 @@ stdPullbackTable := [];;
 for d in divisors9 do
   Nd := Subgroup(N, [ (N.1)^(9/d) ]);;   # N の位数 d の部分群(N=Z/9 巡回)
   for k in divisors6 do
-    Kstd := Subgroup(Q0, [ (Q0.1)^(6/k) ]);;   # Q0 の位数 k の部分群(Q0 cong Z/6 巡回のはず)
+    Kstd := Subgroup(Q0, [ gen6^(6/k) ]);;   # Q0 の位数 k の部分群(gen6 は位数6の陽性対照済み生成元)
     Pstd := ClosureGroup(Nd, Kstd);;
     Add(stdPullbackTable, rec(d:=d, k:=k, Nd:=Nd, Kstd:=Kstd, Pstd:=Pstd, size:=Size(Pstd)));
   od;
@@ -240,6 +253,9 @@ cert := Concatenation(
   ",\"target_group\":{\"name\":\"Hol(Z/9)\",\"size\":", String(sizeG), ",\"idgroup\":", JArr([String(idG[1]),String(idG[2])]), "}",
   ",\"structure_check\":{\"normal_N_size\":", String(sizeN), ",\"N_is_normal\":", JB(normalN),
     ",\"quotient_size\":", String(sizeQuotG), ",\"idgroup_pass\":", JB(idGroupOk), "}",
+  ",\"positive_control\":{\"note\":\"裁定961恒久規範: 陰性値(0件)を返し得る計器の較正 -- N.1/gen6 が恒等元でないことを明示検査\",",
+    "\"N1_order\":", String(Order(N.1)), ",\"N1_order_expected\":9,",
+    "\"gen6_order\":", String(Order(gen6)), ",\"gen6_order_expected\":6}",
   ",\"total_subgroup_count\":", String(Length(allSubs)),
   ",\"order_counts\":", OrderCountsJson(orderCounts),
   ",\"chi_surjective_count\":", String(chiSurjCount),
@@ -255,7 +271,7 @@ cert := Concatenation(
   "}"
 );;
 
-outPath := "search/certs/s4_fullpre_census_v1_20260812.json";;
+outPath := "search/certs/s4_fullpre_census_v2_20260812.json";;
 WriteFile(outPath, cert);;
 
 Print("\n証明書を書き出した: ", outPath, "\n");
