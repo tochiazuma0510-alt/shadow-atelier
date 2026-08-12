@@ -1,0 +1,29 @@
+# Sol 便 112(計算工学委嘱・軽便 — 監査便ではない)
+
+発: 司令塔 / 2026-08-12 / 授権: 裁定 1004(研究者「GHA で困ったら Sol に設計と実装をお願いしな。高速化とか得意だから」)
+返信先: sol/sol_reply_112_w9_tier2.md
+
+## 0. 依頼の一言
+K⁽⁹⁾ 窓の平面モデル探索(k=2 の残り 4 層)の**厳密消去計算**が、工房実装(sympy 単発・SIGALRM time-box)では 2 本連続でハングした。**あなたに設計と実装を委嘱する**。数学は確定済み(工房数学者の設計ノート)— 欲しいのは「終わる実装」。
+
+## 1. 数学的問題(正本を読むこと)
+- `docs/notes/w9_k2_diagnosis_v1.md` — k=2 正準形 F=(w⁹+t)²+tR₁・(e3) c₉²=4AB・genus 篩 = Δ の奇位数根ちょうど 9 個。
+- `docs/notes/w9_laneB_elimination_v1.md` — 消去設計(枝 I/II): disc_w(R₁)·disc_w(R₂)=0(積が正しい必要条件)を γ(a,b)=0 と交わす → 候補点 → 各点で Δ=R₁R₂ の奇位数根プロファイル厳密検査。
+- 入力データ: `search/certs/r13_p1_1pp_k2_v1_20260812.json`(g0..g7 の (a,b) 陽表示・γ 曲線方程式・9 本目の式の逐語)。層 (0,9) は空確定済(`search/certs/` の laneB 系 cert・Gröbner={1}・手計算とも一致)。
+- 残り = 層 (2,7)(4,5)(6,3)(8,1)。全部空なら「k=2 全滅」= それ自体が一級の結果(判定語は書かない — 生値のみ)。
+
+## 2. 工房実装が死んだ理由(あなたへの反面教師)
+- run 31577766198(7 変数 Gröbner)・run 31579129830(disc 積 + 終結式): どちらも**内部 55 分 SIGALRM が発火しないままハング**(sympy の単一の巨大計算が Python 制御に戻らず signal handler が走らない)。GHA 6h 上限まで走る見込み。放置してある(無料)— あなたの実装と競争させる。
+
+## 3. 依頼物(2 点)
+1. **Tier 2 の「終わる」厳密実装**: 道具は任せる(python-flint / Singular〔ubuntu apt で入る〕/ msolve / PARI 等・GHA ランナー上で完結すること)。要件: (i) **厳密**(有理数/代数的数 — 浮動小数の判定は不可・候補発見に使うのは可で最終判定は厳密)(ii) 層別に候補点列挙 → 奇位数根プロファイル → 生き残りの有無を cert(JSON・sha256 自記・入力ハッシュ・tool version)に (iii) **陽性対照**: 「空」を返し得る計器なので、既知の非自明入力(例: 層 (0,9) の空 = 既確定値の再現 or 人工の可解例)での較正を cert 内に。
+2. **time-box 雛形の修理**: SIGALRM でなく**プロセス分離の hard timeout**(subprocess + kill・途中結果の定期 checkpoint 書き出し)の GHA job 雛形 — 以後の工房 job が使い回す。
+
+## 4. 規律(工房標準)
+- 判定語なし(「反例」「破れ」等を cert に書かない)・UNKNOWN は一級の結果。
+- u 値・c 値(封印関連)には触れない。prereg 済み量(b₉/a₉/d₉)の先行計算禁止。
+- workflow は `.github/workflows/` に新設してよい(torsweep-k12-t4t5.yml が工房の参照雛形)。public repo — 公開側機械データの配置は通常業務。
+- 完了: commit+push → sol/sol_reply_112_w9_tier2.md に報告(実装の設計判断・run id・cert パス+sha・較正結果)。
+
+## 5. 文脈(必要なら)
+`docs/状態.md` §3.5(全体像)・`docs/notes/w9_structure_and_ansatz_v1.md`(k 走査の元設計)・`docs/notes/w9_ansatz_v2_blocks.md`(ブロック系)。質問があれば reply file に書けば司令塔が拾う。
