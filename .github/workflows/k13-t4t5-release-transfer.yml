@@ -1,0 +1,110 @@
+name: k13-t4t5-release-transfer
+
+# Sol reply 122 (B5) recommends preserving the k13 T4/T5 finalize v2 full
+# certificate before its GHA artifact expires (2026-09-11T20:08:21Z).  This
+# workflow downloads the artifact from the completed run and republishes it
+# as an immutable release asset, verifying sha256 both before and after
+# upload (fail-closed).  workflow_dispatch only; no local 237MB download.
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'Completed run containing the finalize v2 artifact'
+        required: true
+        type: string
+        default: '31628909628'
+      artifact_name:
+        description: 'Artifact name to transfer'
+        required: true
+        type: string
+        default: 'torsweep-k13-t4t5-v2-finalize'
+      member_path:
+        description: 'File inside the artifact to publish as the release asset'
+        required: true
+        type: string
+        default: 'torsweep_k13_t4t5_finalize_v2.json'
+      expected_sha256:
+        description: 'Expected sha256 of member_path'
+        required: true
+        type: string
+        default: '662029d808cbafcd67d044c58303e9625eb3f1555595d9687adcfba5d6f546da'
+      release_tag:
+        description: 'New immutable release tag for the asset'
+        required: true
+        type: string
+        default: 'k13-t4t5-cert-v2'
+      release_asset_name:
+        description: 'Uploaded asset file name'
+        required: true
+        type: string
+        default: 'torsweep_k13_t4t5_finalize_v2_20260813.json.gz'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the source artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/in ci/out
+          gh run download '${{ inputs.source_run_id }}' \
+            --repo '${{ github.repository }}' \
+            --name '${{ inputs.artifact_name }}' \
+            --dir ci/in
+      - name: Verify member sha256 before publishing (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          f='ci/in/${{ inputs.member_path }}'
+          test -f "$f"
+          got=$(sha256sum "$f" | awk '{print $1}')
+          echo "got=$got"
+          test "$got" = '${{ inputs.expected_sha256 }}'
+          python3 -m json.tool "$f" >/dev/null
+      - name: Gzip the certificate for the release asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          gzip -c -9 'ci/in/${{ inputs.member_path }}' > 'ci/out/${{ inputs.release_asset_name }}'
+          sha256sum 'ci/out/${{ inputs.release_asset_name }}'
+      - name: Create the immutable release and upload the asset
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release create '${{ inputs.release_tag }}' \
+            --repo '${{ github.repository }}' \
+            --title 'k13 T4/T5 finalize v2 full cert (Sol 122 B5)' \
+            --notes "Preservation of GHA artifact ${{ inputs.artifact_name }} (run ${{ inputs.source_run_id }}) before its 2026-09-11T20:08:21Z expiry. Gzip of ${{ inputs.member_path }}, sha256(uncompressed)=${{ inputs.expected_sha256 }}. Not source code -- a data preservation asset (Sol reply 122 B5 / 裁定1109)." \
+            'ci/out/${{ inputs.release_asset_name }}'
+      - name: Download the published asset back and re-verify (fail-closed)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/verify
+          gh release download '${{ inputs.release_tag }}' \
+            --repo '${{ github.repository }}' \
+            --pattern '${{ inputs.release_asset_name }}' \
+            --dir ci/verify
+          gunzip -k -f "ci/verify/${{ inputs.release_asset_name }}"
+          verified_name="${{ inputs.release_asset_name }}"
+          verified_name="${verified_name%.gz}"
+          got=$(sha256sum "ci/verify/$verified_name" | awk '{print $1}')
+          echo "reverified_sha256=$got"
+          test "$got" = '${{ inputs.expected_sha256 }}'
+          gz_sha=$(sha256sum "ci/verify/${{ inputs.release_asset_name }}" | awk '{print $1}')
+          echo "release_asset_gzip_sha256=$gz_sha" >> "$GITHUB_STEP_SUMMARY"
+          echo "release_asset_gzip_sha256=$gz_sha"
