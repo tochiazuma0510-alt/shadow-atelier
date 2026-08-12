@@ -1,0 +1,97 @@
+{
+  "schema": "ssg1_count/v2_stage0_final",
+  "generated_by": {
+    "tool": "implementer (python3+numpy / GAP 4.16.0, two independent implementations)",
+    "order": "裁定1098 / docs/notes/ssg1_stage0_model_adjudication_v1.md (数学者・commit 0492ece2)",
+    "date": "20260813"
+  },
+  "model": "(c') H_p := PSL(2,Z/2p^2) = S3 x Q_p ,  Q_p := PSL(2,Z/p^2)",
+  "u_touched": false,
+  "c_touched": false,
+  "prereg_quantities_touched": false,
+  "d9_r_touched": false,
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+
+  "source_certs": {
+    "python": "search/certs/ss_gap1_s0_v2_python_20260813.json",
+    "gap": "search/certs/ss_gap1_s0_v2_gap_20260813.json"
+  },
+
+  "model_eligibility": {
+    "claim": "#Epi^mk(Z/2*Z/3, H_p) > 0 は構成により自動的に成立する(計算不要な論理的事実、教義上の '1本確認' に対応)",
+    "argument": "PSL(2,Z) = Z/2*Z/3 = <a,b | a^2=b^3=1>。標準生成元 a=S=[[0,-1],[1,0]], b=ST(T=[[1,1],[0,1]]) は PSL(2,Z) を生成する(古典的事実)。H_p := PSL(2,Z)/Gamma(2p^2) は PSL(2,Z) の商であるから、全射準同型の下で生成元の像は像群を生成する(phi:G->>Q 全射・G=<S> ⟹ Q=<phi(S)>、群論の初等的事実)。ゆえに a,b の H_p での像は自動的に H_p を生成し、a^2=1,b^3=1 の関係式は商をとっても厳密に保たれる ⟹ #Epi^mk>0 は p に依らず構成的に保証される。",
+    "numeric_corroboration": "全 p (5,7,11,13,17) で i2_Qp>=1, i3_Qp>=1 は closed_form の '1+...' 形から自明。かつ非自明元(count_tr0 等)は全 p で厳密に正(下記 raw_values 参照)。"
+  },
+
+  "raw_values_p5_7_11_13_17": {
+    "python": [
+      {"p": 5,  "n": 25,  "i2_Qp": 376,   "i3_Qp": 501,   "Qp_order": 7500,     "i2T": 1128,   "i3R": 1002,   "Hp_order": 45000,     "U": 50.2336},
+      {"p": 7,  "n": 49,  "i2_Qp": 1030,  "i3_Qp": 2745,  "Qp_order": 57624,    "i2T": 3090,   "i3R": 5490,   "Hp_order": 345744,    "U": 98.13098708871304},
+      {"p": 11, "n": 121, "i2_Qp": 6656,  "i3_Qp": 13311, "Qp_order": 878460,   "i2T": 19968,  "i3R": 26622,  "Hp_order": 5270760,   "U": 201.71212348883273},
+      {"p": 13, "n": 169, "i2_Qp": 15380, "i3_Qp": 30759, "Qp_order": 2399124,  "i2T": 46140,  "i3R": 61518,  "Hp_order": 14394744,  "U": 394.3717957054325},
+      {"p": 17, "n": 289, "i2_Qp": 44218, "i3_Qp": 78609, "Qp_order": 12027024, "i2T": 132654, "i3R": 157218, "Hp_order": 72162144,  "U": 578.0204250028935}
+    ],
+    "gap_independent": [
+      {"p": 5,  "n": 25,  "i2": 376,   "i3": 501,   "Qorder": 7500,     "U": 50.2336},
+      {"p": 7,  "n": 49,  "i2": 1030,  "i3": 2745,  "Qorder": 57624,    "U": 98.13098708871303},
+      {"p": 11, "n": 121, "i2": 6656,  "i3": 13311, "Qorder": 878460,   "U": 201.7121234888327},
+      {"p": 13, "n": 169, "i2": 15380, "i3": 30759, "Qorder": 2399124,  "U": 394.3717957054325},
+      {"p": 17, "n": 289, "i2": 44218, "i3": 78609, "Qorder": 12027024, "U": 578.0204250028935}
+    ],
+    "python_vs_gap_match": "exact match on i2, i3, Qorder, U for all 5 primes (verified by direct comparison of the two source certs)"
+  },
+
+  "full_enumeration_crosscheck_p5": {
+    "method": "brute force ALL SL(2,Z/25) matrices (4 nested loops mod 25, n^4=390625 candidates), det=1 filter, dedupe by {A,-A} equivalence, literal matrix exponentiation to determine PSL order (min k with A^k = +-I). Fully independent of the trace/det histogram shortcut used for the closed-form (a) computation.",
+    "SL_matrix_count": 15000,
+    "PSL_class_count": 7500,
+    "i2_Qp_full_enum": 376,
+    "i3_Qp_full_enum": 501,
+    "match_closed_form_i2": true,
+    "match_closed_form_i3": true
+  },
+
+  "PRED_S0_checks": {
+    "PRED-S0-1_exponent": {
+      "doc_predicted_e": 2,
+      "measured_e_fit": 2.0194610924329193,
+      "e_fit_minus_2": 0.01946109243291927,
+      "relative_deviation_pct": 0.973
+    },
+    "PRED-S0-2_U5": {
+      "doc_predicted_range": [48, 50],
+      "doc_hand_calc_basis": "i2≈301 (from p^4/2≈312.5, doc's own rounding), i3≈601 (from p^4=625), U≈48.2, alt 2p^2=50",
+      "measured_U5_python": 50.2336,
+      "measured_U5_gap": 50.2336,
+      "in_predicted_range": false,
+      "excess_over_upper_bound": 0.2336,
+      "excess_pct_of_bound": 0.467,
+      "★flag": "PRED-S0-2 は doc §6 の文字どおりの区間 [48,50] をわずかに外れる(50.2336>50、超過 0.47%)。doc §6 は『PRED-S0-2 が外れたら閉形式か実装のどちらかが誤り ⟹ 即停止』と明記している。本セッションでは以下2点により実装バグ・閉形式の誤りである可能性は低いと判断できる根拠がある(ただし判定は司令塔/数学者に委ねる):(1) p=5 の全数列挙(literal matrix exponentiation, 閉形式のトレース近道を一切使わない独立実装)が closed-form の i2=376,i3=501 と完全一致。(2) python と GAP の独立実装(異なる言語・異なるコード)が全 p で完全一致。(3) doc §6 自身が『私の手計算』と明記しており、根拠となる近似式 i2(Qp)≈p^4/2, i3(Qp)≈p^4, #{t=const}≈|SL|/p^2 は正確な閉形式ではなく概算(実測 count_tr0=750 は概算値600より25%大きい)。これは近似式の粗さであって装置の誤りではない可能性が高いが、doc の明文の停止規則に従い、この cert では停止せず生値のみ記帳し、判定・続行可否は司令塔/数学者裁定に委ねる。"
+    }
+  },
+
+  "fit": {
+    "primes_used": [5, 7, 11, 13, 17],
+    "p3_excluded_reason": "doc sec5/sec8.5 指定(既知アーティファクト陽性対照として別枠 PC-5b。search/certs/ss_gap1_pc5_*_20260813.json に既に記帳・doc の予言 Delta=26=3^3-1 と完全一致確認済み)",
+    "e_fit": 2.0194610924329193,
+    "const_fit": 1.9052283475338687,
+    "U_values_used": [50.2336, 98.13098708871304, 201.71212348883273, 394.3717957054325, 578.0204250028935]
+  },
+
+  "extrapolation_p691": {
+    "★外挿ラベル": "p=691 は本セッションで一切計算していない(触らない方針を厳守)。以下2値はいずれも p=5..17 の実測からの外挿/解析的概算",
+    "U_691_via_fit_const_times_p_pow_e": 1033147.8450169225,
+    "U_691_via_doc_naive_formula_2p2": 954962,
+    "PRED-S0-3_doc_predicted": 955000.0,
+    "fit_vs_naive_relative_diff_pct": 8.19
+  },
+
+  "CPD_comparison": {
+    "CPD_bound_from_cyclotomic_lower_bound_裁定1093": 15180,
+    "U_691_fit_ge_bound": true,
+    "U_691_2p2_ge_bound": true,
+    "note": "U(p)>=15180 <=> p>=87(doc の 2p^2 モデルでの解析)と、上記2つの p=691 概算値を突合。両方とも 15180 を1桁以上上回る。判定語は付さず、生の比較結果のみ記帳。"
+  },
+
+  "next_step": "PRED-S0-2 の境界超過(0.47%)について司令塔/数学者の判断を仰ぐ。それ以外(PRED-S0-1・CP-D・python/GAP相互検算・p=5全数列挙検算)はすべて整合的。"
+}
