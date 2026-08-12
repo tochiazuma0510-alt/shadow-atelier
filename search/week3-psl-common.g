@@ -303,6 +303,10 @@ RunPSLWindow := function(cfg)
 
   Print("[", PF(cfg.Sperm^2 = ()), "] PU-F7: S^2=1 (c_in_N)\n");
   if not (cfg.Sperm^2 = ()) then fixtureOK := false; fi;
+  # additive instrumentation (S4-SETTLED-54, 裁定892 point 2): expose the direct machine value of
+  # PU-F7 (S=image of Delta-bar; S^2 = image of c=Delta^2; S^2=() means c in N). Not a hardcode --
+  # this is the same boolean already gating fixtureOK above, just also surfaced for cert output.
+  LastRunCInN := rec(sBarSquaredIsIdentity:=(cfg.Sperm^2 = ()));;
 
   nOrd := kOrd;;
   charmingSet := Filtered([0..nOrd-1], mm -> Gcd(2*mm+1, nOrd) = 1);;
@@ -336,6 +340,17 @@ RunPSLWindow := function(cfg)
         " shadow_total=", result.shadow_total, "\n");
   shadowSumCheck := (result.candidate_total - result.h10_fail - result.h11_fail - result.generation_fail = result.shadow_total);;
   Print("[", PF(shadowSumCheck), "] shadow_total 引き算整合性チェック\n");
+
+  # additive instrumentation stash (S4-SETTLED-54 / 裁定891 (a), completeness): expose the raw
+  # enumeration-completeness facts used by EnumerateReducedHexagon (battery-common.g L327-334):
+  # BFS covers Length(bfs.elements)=Size(G) EXACTLY (fail-closed Error otherwise, so reaching this
+  # line already proves it), and Dwords is obtained by testing "elt in D" over the FULL bfs.elements
+  # set (all of G), so dwords_count = |D| exactly (not a truncated/sampled subset). charmingSet is
+  # built by Filtered over the full range [0..nOrd-1]. Purely additive -- no existing behavior changed.
+  LastRunEnum := rec(gSize:=gSize, dwordsCount:=result.dwords_count,
+                      derivedSubgroupOrderIndependent:=Size(DerivedSubgroup(Gg)),
+                      charmingSetSize:=Length(charmingSet), nOrd:=nOrd, candidateTotal:=result.candidate_total,
+                      shadowTotal:=result.shadow_total, shadowSumCheck:=shadowSumCheck);;
 
   t0 := Runtime();;
   qt := BuildQTGeneral(Gg, Xperm, Yperm, ());;
@@ -388,6 +403,32 @@ RunPSLWindow := function(cfg)
   od;
   t1 := Runtime();;
   Print("settled witness search: ", settledCount, "/", Length(result.shadows), " settled, time_ms=", t1-t0, "\n");
+
+  # additive instrumentation stash (S4-SETTLED-54, 裁定889): expose the in-memory settled result to
+  # the caller without re-parsing the written JSON cert. Does not alter any existing function return
+  # value, Print output, or written cert bytes -- purely additive.
+  LastRunSettled := rec(settledCount:=settledCount, settledDetail:=settledDetail, shadowTotal:=Length(result.shadows));;
+
+  # additive instrumentation (S4-SETTLED-54, 裁定892 (b) direct route): for each shadow [m,f],
+  # construct psi := the induced self-map of Gg=PB3/N (X->X^u, Y->f^-1 Y^u f) directly via
+  # GroupHomomorphismByImages and check (i) it is well-defined (psi<>fail) and (ii) Kernel(psi) is
+  # trivial. This is the DIRECT finite-group computation of kernel equality at the PB3/N level
+  # (coordinator ruling 裁定892: avoid the candidate-status OP-SETTLED bridge as the load-bearing
+  # route; use it only as a second-system cross-reference against the K5-8 witness search above).
+  t0 := Runtime();;
+  kernelEqDetail := [];;
+  for sh in result.shadows do
+    m := sh.m;  u := 2*m+1;  f := sh.f;
+    psi := GroupHomomorphismByImages(Gg, Gg, [Xperm, Yperm], [Xperm^u, AbstractProd([f^-1, Yperm^u, f])]);;
+    if psi = fail then
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=false, kernel_trivial:=false, kernel_size:=fail));
+    else
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=true, kernel_trivial:=(Size(Kernel(psi))=1), kernel_size:=Size(Kernel(psi))));
+    fi;
+  od;;
+  t1 := Runtime();;
+  Print("direct kernel-equality check (Gg level): time_ms=", t1-t0, "\n");
+  LastRunKernelEq := rec(detail:=kernelEqDetail);;
 
   elapsedMs := Runtime()-startLocal;;
   Print("window ", cfg.id, " elapsed ms: ", elapsedMs, "\n");
