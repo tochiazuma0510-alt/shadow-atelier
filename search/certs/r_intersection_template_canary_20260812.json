@@ -1,0 +1,430 @@
+{
+ "schema": "r-intersection/v1-template-canary-batch",
+ "canaries": [
+  {
+   "schema": "r-intersection/v1-template",
+   "generated_by": {
+    "tool": "python/sympy",
+    "script": "search/r_intersection_template_v1.py",
+    "task": "裁定974【2】r計算器の雛形(値は未差込)"
+   },
+   "canary": true,
+   "canary_name": "(3,5) disjoint primes",
+   "real_data_used": false,
+   "result": {
+    "a": "3",
+    "b": "5",
+    "support_primes": [
+     3,
+     5
+    ],
+    "a_vector_mod_9": [
+     1,
+     0
+    ],
+    "b_vector_mod_9": [
+     0,
+     1
+    ],
+    "ord_a": 9,
+    "ord_b": 9,
+    "subgroup_a_elements": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      7,
+      0
+     ],
+     [
+      8,
+      0
+     ]
+    ],
+    "subgroup_b_elements": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ],
+     [
+      0,
+      6
+     ],
+     [
+      0,
+      7
+     ],
+     [
+      0,
+      8
+     ]
+    ],
+    "intersection_elements": [
+     [
+      0,
+      0
+     ]
+    ],
+    "r": 1
+   },
+   "expected_r_hand_check": 1,
+   "agrees_with_hand_check": true
+  },
+  {
+   "schema": "r-intersection/v1-template",
+   "generated_by": {
+    "tool": "python/sympy",
+    "script": "search/r_intersection_template_v1.py",
+    "task": "裁定974【2】r計算器の雛形(値は未差込)"
+   },
+   "canary": true,
+   "canary_name": "(3, 3^2) both full generators",
+   "real_data_used": false,
+   "result": {
+    "a": "3",
+    "b": "9",
+    "support_primes": [
+     3
+    ],
+    "a_vector_mod_9": [
+     1
+    ],
+    "b_vector_mod_9": [
+     2
+    ],
+    "ord_a": 9,
+    "ord_b": 9,
+    "subgroup_a_elements": [
+     [
+      0
+     ],
+     [
+      1
+     ],
+     [
+      2
+     ],
+     [
+      3
+     ],
+     [
+      4
+     ],
+     [
+      5
+     ],
+     [
+      6
+     ],
+     [
+      7
+     ],
+     [
+      8
+     ]
+    ],
+    "subgroup_b_elements": [
+     [
+      0
+     ],
+     [
+      1
+     ],
+     [
+      2
+     ],
+     [
+      3
+     ],
+     [
+      4
+     ],
+     [
+      5
+     ],
+     [
+      6
+     ],
+     [
+      7
+     ],
+     [
+      8
+     ]
+    ],
+    "intersection_elements": [
+     [
+      0
+     ],
+     [
+      1
+     ],
+     [
+      2
+     ],
+     [
+      3
+     ],
+     [
+      4
+     ],
+     [
+      5
+     ],
+     [
+      6
+     ],
+     [
+      7
+     ],
+     [
+      8
+     ]
+    ],
+    "r": 9
+   },
+   "expected_r_hand_check": 9,
+   "agrees_with_hand_check": true
+  },
+  {
+   "schema": "r-intersection/v1-template",
+   "generated_by": {
+    "tool": "python/sympy",
+    "script": "search/r_intersection_template_v1.py",
+    "task": "裁定974【2】r計算器の雛形(値は未差込)"
+   },
+   "canary": true,
+   "canary_name": "(3, 2*3^6) overlapping support, still trivial",
+   "real_data_used": false,
+   "result": {
+    "a": "3",
+    "b": "1458",
+    "support_primes": [
+     2,
+     3
+    ],
+    "a_vector_mod_9": [
+     0,
+     1
+    ],
+    "b_vector_mod_9": [
+     1,
+     6
+    ],
+    "ord_a": 9,
+    "ord_b": 9,
+    "subgroup_a_elements": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ],
+     [
+      0,
+      6
+     ],
+     [
+      0,
+      7
+     ],
+     [
+      0,
+      8
+     ]
+    ],
+    "subgroup_b_elements": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      6
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      6
+     ],
+     [
+      5,
+      3
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      7,
+      6
+     ],
+     [
+      8,
+      3
+     ]
+    ],
+    "intersection_elements": [
+     [
+      0,
+      0
+     ]
+    ],
+    "r": 1
+   },
+   "expected_r_hand_check": 1,
+   "agrees_with_hand_check": true
+  },
+  {
+   "schema": "r-intersection/v1-template",
+   "generated_by": {
+    "tool": "python/sympy",
+    "script": "search/r_intersection_template_v1.py",
+    "task": "裁定974【2】r計算器の雛形(値は未差込)"
+   },
+   "canary": true,
+   "canary_name": "(3, 3^3) proper subgroup containment",
+   "real_data_used": false,
+   "result": {
+    "a": "3",
+    "b": "27",
+    "support_primes": [
+     3
+    ],
+    "a_vector_mod_9": [
+     1
+    ],
+    "b_vector_mod_9": [
+     3
+    ],
+    "ord_a": 9,
+    "ord_b": 3,
+    "subgroup_a_elements": [
+     [
+      0
+     ],
+     [
+      1
+     ],
+     [
+      2
+     ],
+     [
+      3
+     ],
+     [
+      4
+     ],
+     [
+      5
+     ],
+     [
+      6
+     ],
+     [
+      7
+     ],
+     [
+      8
+     ]
+    ],
+    "subgroup_b_elements": [
+     [
+      0
+     ],
+     [
+      3
+     ],
+     [
+      6
+     ]
+    ],
+    "intersection_elements": [
+     [
+      0
+     ],
+     [
+      3
+     ],
+     [
+      6
+     ]
+    ],
+    "r": 3
+   },
+   "expected_r_hand_check": 3,
+   "agrees_with_hand_check": true
+  }
+ ],
+ "all_pass": true
+}
