@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| U6 prereg 3 本 | **[U6-1] 予言 NO**: ker(χ_vir) ⊋ [Q,Q] 指数 2(全窓一様・χ_vir 具体化は数学者レビュー待ち)・**[U6-2] wall37 = S₆ 確定**(U6-GAP-1 解消)・**[U6-3] #C 未解決確定**((A) トートロジー/(B) 検出力 ~0/路 D gating 失敗 \|B₃/N\|~10²⁴⁻⁴⁴)= 設計差し戻し | u6_prereg_v1 系 5 cert(cbb01d67) | 1116 |
 | **R-1 宣言 v4(発令版)** | B1 修正全反映・母集団 72/resolvent = **cross-checked(3 code path)**・R1-GAP-3 CLOSED・格の非伝播明文化・**発令残 = 研究者検分+凍結 tag のみ** | r1_declaration_v4.md(756e1015) | 1114 |
 | U6-3 裁定 | **循環実在** — Sol の X ≅ GT^settled(N)(U-6 読解は settled 層限定へ札替え)・路 B 枯死(χ_vir に #C>1 不可視)・**路 D = 非 marked 核計数 ≤ #Epi/\|Aut\| が 1 なら証明で閉鎖**・(A) は #C_settled=1 表記 | u63_iset4_p2_reading_v1.md(e9ae5a6b) | 1114 |
 | I-SET-4 格上げ | 保留 → **fixture 支持(交絡なし)**: Surv⊆[Q,Q] 厳密・hexagon 単独 50%・Surv∩D₁={1} ⟹ RIGID fixture 成立(検出力 = 捻り 1 元・\|D₀\|≥4 窓で反復へ) | 同上 | 1114 |
