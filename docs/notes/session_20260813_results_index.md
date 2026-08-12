@@ -53,6 +53,9 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| **★ℚ 降下** | 宣言モデルは **ℚ 上に降りる**(x=ζ₃²X・E_ℚ: Y²+3XY+2Y=X³・標識点全 ℚ-有理)⟹ λ₉ 定義体 ⊆ ℚ・**D2-GAP-7 完全閉鎖**・U3-1 = 真正 ℤ[1/S](v4 不 falsify・精密化) | r2_r3_unram_execution_spec_v1.md(f4989071) | 1118 |
+| R-2/R-3 spec | R-2 残 = [R-2-U] のみ(P0-RAT で縮約)・R-3 = 規約 DESC-9・**prereg (β) 事前登録**(U3-3 の S は a_class 凍結まで検疫)・Sol 分担 3 本 = 便 123 | 同上 | 1118 |
+| U6 読解 | [U6-1] 具体化正(**余剰 C₂ = S_t 符号指標**・U6-GAP-2 解消・有料 = 3 本に会計訂正)・[U6-3] **戦略確定: settled 層限定**(型境界登録・復活路 U6-5)・[B″-0] 先行発注 | u6_prereg_readout_v1.md(03944160) | 1118 |
 | U6 prereg 3 本 | **[U6-1] 予言 NO**: ker(χ_vir) ⊋ [Q,Q] 指数 2(全窓一様・χ_vir 具体化は数学者レビュー待ち)・**[U6-2] wall37 = S₆ 確定**(U6-GAP-1 解消)・**[U6-3] #C 未解決確定**((A) トートロジー/(B) 検出力 ~0/路 D gating 失敗 \|B₃/N\|~10²⁴⁻⁴⁴)= 設計差し戻し | u6_prereg_v1 系 5 cert(cbb01d67) | 1116 |
 | **R-1 宣言 v4(発令版)** | B1 修正全反映・母集団 72/resolvent = **cross-checked(3 code path)**・R1-GAP-3 CLOSED・格の非伝播明文化・**発令残 = 研究者検分+凍結 tag のみ** | r1_declaration_v4.md(756e1015) | 1114 |
 | U6-3 裁定 | **循環実在** — Sol の X ≅ GT^settled(N)(U-6 読解は settled 層限定へ札替え)・路 B 枯死(χ_vir に #C>1 不可視)・**路 D = 非 marked 核計数 ≤ #Epi/\|Aut\| が 1 なら証明で閉鎖**・(A) は #C_settled=1 表記 | u63_iset4_p2_reading_v1.md(e9ae5a6b) | 1114 |
