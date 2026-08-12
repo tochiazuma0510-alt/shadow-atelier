@@ -1,0 +1,31 @@
+{
+  "checker_wrapper_exit": "0",
+  "files": {
+    "k3_crt_hard_timeout.json": {
+      "bytes": 687,
+      "sha256": "cfa216a021ff2ce0122540efb431f4df162a7aae01a718983de180be60c550a5"
+    },
+    "k3_crt_stepC1.log": {
+      "bytes": 52,
+      "sha256": "029c613f21589be827c60481943b9ec801cdd9b4278b01e26da72dd1a8852f09"
+    },
+    "w9_k3_crt_stepC1_check.json": {
+      "bytes": 1090,
+      "sha256": "581481f4a5c6430d70864e2b8cfac2a55c3ccaad53c5b82f4bd97cd4efcf0e54"
+    },
+    "w9_k3_crt_stepC1_checkpoint.json": {
+      "bytes": 3095,
+      "sha256": "5961a392ff02f1429085960b0b09f0255436e2e072b355166bdae78210a3037b"
+    },
+    "w9_k3_crt_stepC1_result.json": {
+      "bytes": 3095,
+      "sha256": "5961a392ff02f1429085960b0b09f0255436e2e072b355166bdae78210a3037b"
+    }
+  },
+  "github_ref": "refs/heads/master",
+  "github_run_id": "31591179588",
+  "github_sha": "0923ca6338d99208f5ec29479c1703589067db5a",
+  "producer_wrapper_exit": "0",
+  "python": "3.13.15",
+  "schema": "w9-p1-k3-crt-run-receipt/v1"
+}

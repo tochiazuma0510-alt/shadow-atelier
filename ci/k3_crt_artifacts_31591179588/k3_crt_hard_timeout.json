@@ -1,0 +1,25 @@
+{
+  "checkpoint": "ci/out/k3_crt_hard_timeout.json",
+  "child_returncode": 0,
+  "command": [
+    "python",
+    "search/w9_k3_crt_stepC1_gha.py",
+    "--output",
+    "ci/out/w9_k3_crt_stepC1_result.json",
+    "--checkpoint",
+    "ci/out/w9_k3_crt_stepC1_checkpoint.json"
+  ],
+  "completed_at_utc": "2026-08-12T11:17:46.259573+00:00",
+  "elapsed_seconds": 2.5840988399999674,
+  "heartbeat_seconds": 15.0,
+  "log": "ci/out/k3_crt_stepC1.log",
+  "log_bytes": 52,
+  "pid": 2269,
+  "schema": "hard-timeout/v1",
+  "started_at_utc": "2026-08-12T11:17:43.675470+00:00",
+  "state": "COMPLETED",
+  "termination": null,
+  "timed_out": false,
+  "timeout_seconds": 2700.0,
+  "wrapper_returncode": 0
+}

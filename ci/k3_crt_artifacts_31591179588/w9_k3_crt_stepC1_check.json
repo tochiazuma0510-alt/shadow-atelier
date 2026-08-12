@@ -1,0 +1,47 @@
+{
+  "all_checks_true": true,
+  "cert_path": "ci/out/w9_k3_crt_stepC1_result.json",
+  "checks": {
+    "ascending_order_solve_log": [
+      {
+        "solution_count": 1,
+        "solving_for": "g2",
+        "w_degree": 12
+      },
+      {
+        "solution_count": 1,
+        "solving_for": "g3",
+        "w_degree": 13
+      },
+      {
+        "solution_count": 1,
+        "solving_for": "g4",
+        "w_degree": 14
+      },
+      {
+        "solution_count": 1,
+        "solving_for": "g5",
+        "w_degree": 15
+      },
+      {
+        "solution_count": 1,
+        "solving_for": "g6",
+        "w_degree": 16
+      },
+      {
+        "solution_count": 1,
+        "solving_for": "g7",
+        "w_degree": 17
+      }
+    ],
+    "dims_agree": true,
+    "independent_total_dim_measured": 10,
+    "independent_watch_C_a_pass": true,
+    "producer_integrity_valid": true,
+    "producer_total_dim_measured": 10,
+    "producer_watch_C_a_pass": true,
+    "watch_agree": true
+  },
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+  "schema": "w9-p1-k3-crt-stepC1-check/v1"
+}

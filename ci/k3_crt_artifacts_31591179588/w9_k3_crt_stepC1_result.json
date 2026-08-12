@@ -1,0 +1,108 @@
+{
+  "P1_tilde_deg6_to_11_rows": [
+    {
+      "P1_tilde_coefficient_formula_free_of_P2": true,
+      "value_expr_len": 173,
+      "w_degree": 11
+    },
+    {
+      "P1_tilde_coefficient_formula_free_of_P2": true,
+      "value_expr_len": 226,
+      "w_degree": 10
+    },
+    {
+      "P1_tilde_coefficient_formula_free_of_P2": true,
+      "value_expr_len": 291,
+      "w_degree": 9
+    },
+    {
+      "P1_tilde_coefficient_formula_free_of_P2": true,
+      "value_expr_len": 385,
+      "w_degree": 8
+    },
+    {
+      "P1_tilde_coefficient_formula_free_of_P2": true,
+      "value_expr_len": 496,
+      "w_degree": 7
+    },
+    {
+      "P1_tilde_coefficient_formula_free_of_P2": true,
+      "value_expr_len": 616,
+      "w_degree": 6
+    }
+  ],
+  "P1_tilde_high_degree_defined_ok": true,
+  "P2_tilde_free_dim": 6,
+  "ab_g_subsystem_dim_measured": 4,
+  "ab_g_subsystem_dim_predicted": 4,
+  "bridge_detected": false,
+  "c_touched": false,
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+  "elapsed_seconds": 2.2051896629999987,
+  "generated_by": {
+    "github_run_id": "31591179588",
+    "github_sha": "0923ca6338d99208f5ec29479c1703589067db5a",
+    "order": "裁定1019 [P1-C] step C1 (crt lane, 札1->札6) / docs/notes/w9_k3_insurance_v1.md §5",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "python": "3.13.15",
+    "script": "search/w9_k3_crt_stepC1_gha.py",
+    "sympy": "1.14.0"
+  },
+  "integrity": {
+    "canonical_payload_sha256": "94dff1886495e4888163e325e62012167ac9f80352519c3b5adbf15497ffd3fc",
+    "definition": "sha256 of canonical UTF-8 JSON after removing the integrity member"
+  },
+  "prereg_value_computed": false,
+  "quarantine": {
+    "derivation_bridge_stop_rule": "K^(9) と封印量を結ぶ導出橋が計算過程に現れた場合は即停止する規約(本runでは現れなかった -- bridge_detected=false)。",
+    "n5_window_forbidden": "n=5 窓の値計算は本scriptで一切行っていない(禁止事項の遵守を明記)。",
+    "name_collide": "本certは K^(9) 窓インスタンス。封印の K^(5) 量とは別対象(裁定1007)。"
+  },
+  "schema": "w9-p1-k3-crt-stepC1/v1",
+  "status": "COMPLETE",
+  "step_C1_degenerate": false,
+  "step_C1_solve_log": [
+    {
+      "degenerate": false,
+      "solution_count": 1,
+      "solving_for": "g7",
+      "w_degree": 17
+    },
+    {
+      "degenerate": false,
+      "solution_count": 1,
+      "solving_for": "g6",
+      "w_degree": 16
+    },
+    {
+      "degenerate": false,
+      "solution_count": 1,
+      "solving_for": "g5",
+      "w_degree": 15
+    },
+    {
+      "degenerate": false,
+      "solution_count": 1,
+      "solving_for": "g4",
+      "w_degree": 14
+    },
+    {
+      "degenerate": false,
+      "solution_count": 1,
+      "solving_for": "g3",
+      "w_degree": 13
+    },
+    {
+      "degenerate": false,
+      "solution_count": 1,
+      "solving_for": "g2",
+      "w_degree": 12
+    }
+  ],
+  "target_degree_w": 18,
+  "total_dim_measured": 10,
+  "total_dim_predicted_C_a": 10,
+  "u_touched": false,
+  "watch_C_a_pass": true,
+  "window": "K^(9)"
+}

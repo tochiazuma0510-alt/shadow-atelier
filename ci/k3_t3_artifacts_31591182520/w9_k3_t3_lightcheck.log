@@ -1,0 +1,26 @@
+week3-battery-common.g loaded.
+|monG| = 324 D = 18 (期待 324, 18)
+[PASS] size-3 の代表ブロックが見つかった: [ 1, 4, 7 ]
+|Stabilizer(monG, rep3, OnSets)| = 54
+image of stabilizer's action on the block (order) = 6 (S3=6, C3=3)
+[PASS] 【①】stabilizer の3点作用の像 = S3(非巡回): true
+(参考) 像が C3(巡回)だった場合: false
+sigma_0 on 6-block quotient: [ [ 6, 1 ] ] (期待 [[6,1]])
+sigma_1 on 6-block quotient: [ [ 1, 2 ], [ 2, 2 ] ] (期待 [[1,2],[2,2]])
+sigma_inf on 6-block quotient: [ [ 6, 1 ] ] (期待 [[6,1]])
+[PASS] 【②】[P1-0b] のsize3_systemサイクル型と一致(regression): true
+|6-cycles| = 120 (期待 5!=120)
+|type [1^2,2^2] elements| = 45
+Nielsen 類(積=1・型[6],[1^2 2^2],[6]の順序3組)候補総数 = 1800
+うち可移(transitive)なもの = 1800
+(braid同値類の個数は別途要計算 -- ここでは順序3組の生カウントのみ・regression用の桁数を報告)
+
+=== 封印検疫 ===
+NAME-COLLIDE: 本certは K^(9) 窓インスタンス。封印の K^(5) 量とは別対象(裁定1007)。
+n=5窓の値計算: 本scriptでは一切行っていない。
+導出橋の出現: 本runの計算過程には現れなかった(bridge_detected=false)。
+札3固有: 本scriptで扱う判別式平方類は函数体 F_9(E)^x/(.)^2 の類であり、
+  封印の「c 平方類」(F_9^x の定数の類)とは異なるカテゴリの対象である(未判定・falsifier CV-9送り)。
+
+wrote search/certs/w9_k3_t3_lightcheck_v1_20260812.json
+script sha256 = f27729080946b0325ff4b8eae0f6362349d4a6e0235ebb4b96ca548d7cdfe507
