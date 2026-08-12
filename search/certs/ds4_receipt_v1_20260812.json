@@ -1,0 +1,75 @@
+{
+ "schema": "ds4-receipt/v1",
+ "generated_by": {
+  "tool": "python (sympy factorint)",
+  "script": "search/ds4_receipt_v1.py",
+  "order": "裁定969 / docs/notes/s4_recon_device_v1.md §2/§3(c)"
+ },
+ "d1_input_tamper_check": {
+  "cert_read": "search/certs/u_meas_uloc_v2_20260731.json",
+  "u0_inverse_read": "-1423828125/256",
+  "u0_inverse_expected": "-1423828125/256",
+  "match": true,
+  "fresh_factorization_of_abs_value": {
+   "3": 6,
+   "5": 9,
+   "2": -8
+  },
+  "matches_cert_stored_valuations": true,
+  "reconstruction_check_sign_times_prodpe_eq_u0inv": true
+ },
+ "sign_note": {
+  "claim": "-1 = (-1)^9, so sign contributes trivially to the 9th-power class",
+  "ord_of_minus1_in_Qx_mod_9th_powers": 1,
+  "sign_trivial": true
+ },
+ "d2_ord_computation": {
+  "method": "ord([x]_9) in Q^x/(Q^x)^9 = lcm_p( 9 / gcd(9, v_p(x) mod 9) )",
+  "input_u0_inverse": "1423828125/256",
+  "per_prime_detail": {
+   "3": {
+    "v_p": 6,
+    "v_p_mod_n": 6,
+    "contribution": 3
+   },
+   "5": {
+    "v_p": 9,
+    "v_p_mod_n": 0,
+    "contribution": 1
+   },
+   "2": {
+    "v_p": -8,
+    "v_p_mod_n": 1,
+    "contribution": 9
+   }
+  },
+  "ord_value": 9
+ },
+ "positive_control": {
+  "note": "裁定961恒久規範: ord計算器が非自明値を返すことの較正(既知の位数3の例)",
+  "test_input": "27 = 3^3",
+  "expected_ord_mod_9": 3,
+  "computed_ord": 3,
+  "detail": {
+   "3": {
+    "v_p": 3,
+    "v_p_mod_n": 3,
+    "contribution": 3
+   }
+  },
+  "pass": true
+ },
+ "input_u0_inverse": "-1423828125/256",
+ "computation_method": "Q^x/(Q^x)^9 での位数(素因子指数 mod 9)",
+ "ord_value": 9,
+ "prerequisites_status": {
+  "P1_TB1_TB4": "framework inheritance (not independently re-verified by this script; transcribed status only, per instruction not to judge)",
+  "P2_Z18_link": "not_assessed (S4 window not yet in the Z_18-link inventory, per card §1)",
+  "P3_C1prime_S4": "open (dessin 6-fold coincidence problem, per card §1)",
+  "P4_fullpre_A_S4": "requires arithmetic argument; census substitution NOT allowed (裁定961, per card §1) -- NOT established by this script",
+  "P5_u0_eq_uS4_identity": "unconfirmed (per card §1.4) -- NOT established by this script",
+  "note": "prerequisites_status values are TRANSCRIBED from the device card as of 裁定969; this script does not assess, re-derive, or judge P1-P5. This receipt is explicitly conditional on P1-P5 per the card's own framing."
+ },
+ "quar_triggered": false,
+ "d_no_interpretation": "machine value only; verdict は司令塔"
+}
