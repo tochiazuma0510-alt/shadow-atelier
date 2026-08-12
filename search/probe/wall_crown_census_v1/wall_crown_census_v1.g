@@ -259,7 +259,7 @@ WallJson := function(w)
     ",\"normalizer_order\":", String(w.normalizer_order),
     ",\"xi_image_equals_normalizer\":", JBool(w.xi_image_equals_normalizer),
     ",\"normalizer_structure\":", JStr(w.normalizer_structure),
-    ",\"representatives":[",
+    ",\"representatives\":[",
     JoinStringsWithSeparator(List(w.representatives, ShadowJson), ","), "],",
     "\"census\":", CensusJson(w.census),
     ",\"elapsed_ms\":", String(w.elapsed_ms), "}");

@@ -146,7 +146,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: pip install "python-flint==0.8.0"
+      - run: pip install "numpy==2.5.1" "sympy==1.14.0" "python-flint==0.8.0"
       - name: Download completed K12 reference artifacts
         shell: bash
         env:
@@ -358,6 +358,7 @@ jobs:
           cp search/certs/wall_crown_model_checker_v1_20260812.json ci/out/
           grep -q WALL_CROWN_MODEL_CHECKER_V1_DONE ci/out/model.log
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: wall-crown-v1-model
           path: ci/out/
