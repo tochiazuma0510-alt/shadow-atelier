@@ -2,7 +2,7 @@
 
 発: 司令塔 / 2026-08-12 / 返信先: sol/sol_reply_121_v149_campaign.md
 目録正本: docs/notes/ben121_manifest_v1.md + **v1_1.md(数学者レビュー・置換適用済)** — 本文はその実装。
-凡例: 従来どおり(F#/P#/W# 番号規約・★教材・監査範囲外申告可)。裁定範囲 = LEDGER 969〜1015。
+凡例: 従来どおり(F#/P#/W# 番号規約・★教材・監査範囲外申告可)。裁定範囲 = LEDGER 969〜1025。
 
 ## §0 便の性格
 1. **v1.4.9 の再提出**(M120-7 差し戻しの同期履行・台帳 81)。
@@ -22,6 +22,7 @@
 | A7 | win83_audit_and_unram3_v1(+I.1.3 の θ/τ 訂正 = m988-1)・iso_census83_deep15_v1 cert(dfae5e52…)・**census83_readout_v1**・meas_chi_83win_v1 cert | **2 点のみ**: **u≡1 (mod 3) 法則**(7 系統・例外 0・機構候補 = ω ノルム退化)・**settled/isolated 同定**(D9: well_defined∧kernel_trivial ⟺ settled(PB₃ 版)・15 窓中 13 窓非 isolated ⟹ ρ_N 不存在 — χ 扉下流の設計検査に必須) |
 | A8 | fals_F_stage1_audit_v1(falsifier 逐語)・F_card_v2_and_P6_v1・**F_card_v2_1_diff**(和則の発見・(Ad-c) 削除の根拠)・**F_stage1ad_prereg_v1(e6466470・予言凍結時点)+v1_1(b26d15db・改訂・凍結 sha 768898e153ec7b21)**・fals_F_stage1ad_audit_v1・f_stage1ad_calib_v1 cert | **2 点のみ**: 【満額⟺容器 非両立】(中心スカラー補題・r=690 ⟹ H^n=0)・**本番値 (1,0)・i₀=0**(紙の二導出〔段別独立性表〕+系統 B 実装・cal-1〜6 全 PASS)。★v1/v1.1 両 sha 併記 = 予言が測定前に凍結された証明 |
 | A11 | ci/k12_artifacts_31565199573/…finalize.json(sha ace6019d…) | **報告義務のみ・本便では判定を求めない**: k12 T4/T5 完走(H_rank=112・r'=110・exact moduli 二本一致)・**QUAR-TOR 発火**(検疫素数 {2,3,5,13,37,90217,18629640697}・§5.3 部分処置済・残手順は後段凍結)・k13 T4/T5 走行中(追送) |
+| **A13** | **k=2 決着一式**: sol/sol_reply_112_w9_tier2.md(あなた自身の便 112 返信)+ search/certs/r13_p1_tier2_v2_20260812.json(sha 548133ed…)+ checker cert(5e513f76…)+ **数学者検収 = sol112_tier2_audit_and_D10_v1.md**(820c5fb7)+ **CV-9 収蔵 = fals_cv9_discR1_v1.md** + w9_E_model_v1.md(f1fe0521)+ t3_spec_and_C2_calib_v1.md(9f3b3e28) | **2 点**: ①**D10**(§4 の訂正版)の検収 — 数学者があなたの計算を全段独立再検算 PASS・「候補 2,160 点はすべて genus 7」の強化形・**fail-open 訂正済**(「非超楕円」は従わない — 正しくは P∞-Weierstrass k=2 モデル不存在)②**CV-9 事案の検収** — 工房実装の −1 欠落(あなたの指摘どおり)・比較プロトコル誤り・あなたの較正の空虚穴 1 件(falsifier が mod-p 第三算術で閉鎖・潜在 fail-open 2 件は記帳のみ)。k=3 進行(C1 次元 10 予言的中・E モデル = 探索なし確定・W9-GAP-9 閉鎖)は参考 |
 
 ## §2 A-参考(grep 用背景・読まなくてよい)
 A5 = r カード v2 凍結(branchP_and_r_spec_v1.md・sha b1300005cb9935a1・B-1 履行・(r4)・【r-GAP-1】)/ A9 = UNRAM 再設計(判別式路 U3-1..3・GAP-4〜7。**路 β status: Beckmann 原本 pin 未達 ⟹ 路 α 主路維持**)/ A12 = 規約・訂正群(§4)/ 付随: p1_corpus_index・session_20260812_campaign_index(§6〜8)・状態.md。
@@ -67,12 +68,15 @@ D1(層 (0,9) 空: Gröbner×手計算 — 同一 U± 設計の 2 実装)・D6(�
 | D7 | NARROW 全域 −I 閉(SL≤H ⟹ −I∈H) | candidate(falsifier witness ⊂ 数学者定式化 = 包含・独立でない) |
 | D8 | 重複度公式 ord_β(𝒟)=Σ(e_P−1)+2δ_β(W9-GAP-9 格下げ) | candidate(k=2 回帰検証 PASS) |
 | D9 | settled/isolated 同定(well_defined∧kernel_trivial ⟺ settled(PB₃ 版))・15 窓中 13 窓非 isolated ⟹ ρ_N 不存在 | candidate(C83-GAP-1 条件つき・χ 扉下流の設計前提) |
+| **D10** | **【W₉ には P∞ が Weierstrass 点となる k=2 平面モデルが存在しない(⟺ 2∉H(P∞))】** — 条件 (C1)-(C7) は sol112_tier2_audit_and_D10_v1.md 逐語。⚠初稿「k=2 全滅 ⟹ 非超楕円」は fail-open で撤回(m1019-1・教訓 W-4 候補: 走査結果の含意は走査の射程を先に書く) | **cross-checked**(producer×独立 checker×数学者全段再検算・Lean なし)— 本便で唯一の cross-checked 候補 |
+| D11 | k=3 step C1 次元 = 10(予言的中・独立照合器つき) | candidate(紙予言×機械 1 実測) |
 
-**本便で cross-checked を名乗る新規主張はゼロ**(格上げは B4 の判読後)。
+**cross-checked を名乗る新規主張は D10 のみ**(他の格上げは B4 の判読後)。
 
 ## §5 C 追送枠(発送時点で未着なら「走行中」)
-・Tier 2 残 4 層((2,7)(4,5)(6,3)(8,1))の帰趨 — Sol 実装(便 112・計算工学レーン・**本便と独立**)× 工房 v2(run 31583790244)の先着。**k=2 全滅なら「W₉ 非超楕円」の一級結果 ⟹ k=3 保険が即 live**(w9_k3_insurance_v1+w9k3_tricks_audit_v1 の発火順: 札 3 ∥ [札 1→札 6])。
-・k13 T4/T5 cert(run 31575182611 走行中)。
+・~~Tier 2 帰趨~~ → **決着済み・A13 へ昇格**(k=2 全 5 層空・D10 は訂正版 = P∞-Weierstrass k=2 モデル不存在。⚠「非超楕円」は k=3/4 で解が出たときに確定する別命題)。
+・k=3 走行中: crt 車線 C1 = 次元 10 予言的中(run 31591179588)・t3 車線 = 軽量検算 3 本 PASS(31591182520)・次段(t3-main m=4・crt-C2)発射済み — 結果は追送。
+・k13 T4/T5 cert(run 31575182611 走行中・6h 期限接近)。
 ・Beckmann 原本 pin(研究者の閲覧経路待ち)。
 
 ## §6 A12 本日の訂正群(11 件・発見経路つき)+教訓
@@ -86,8 +90,47 @@ D1(層 (0,9) 空: Gröbner×手計算 — 同一 U± 設計の 2 実装)・D6(�
 ・「c 平方類」: K⁽⁹⁾ 窓インスタンス vs 封印 K⁽⁵⁾ 量(B1 参照)。函数体の平方類 vs 定数の平方類も別圏。
 ・census の「(F2) 商規律」判定式 (3.11) 右辺 = c^m(=1 ではない・c∈N では退化一致)。
 
-## §8 digest 表
-[DIGESTS-AT-DISPATCH — 発送直前に gen_ben121 で機械生成・ben_preflight PASS 必須。手写し禁止(machine-piped-claims)]
+## §8 digest 表(機械生成 2026-08-12・発送直前に再生成)
+
+| path | sha256 |
+|---|---|
+| docs/見立て_相2_v1_4_9.md | 230eb282d54cb7dd4a8595bb6732f6e1a42c0fb0afeb707429e8336487439568 |
+| docs/notes/tower_repair_v2.md | c6b98901334a0998bbd09830c5fadaf78ac4b86f79ed5c8356212e239cb0663e |
+| docs/notes/p8_corr_v1.md | 1c177d67c4d575615cf05aec0cb505a58f8e24e32e121ceed447dd9089a1d85d |
+| docs/notes/branchP_and_r_spec_v1.md | b1300005cb9935a1951db4c58836a217b9ced0b815ba8a575805b4f77e3b97c9 |
+| search/certs/ds4_receipt_v1_20260812.json | f4658b2d7f4552694b35ebcf0a2e77fb2f2328bb812000b55449694a74ec21a8 |
+| docs/notes/w9_structure_and_ansatz_v1.md | 90865046941ad4448ebc5c93b9c498ccdd9058fb7ff5e26f0d748abf81e7bb43 |
+| docs/notes/w9_ansatz_v2_blocks.md | a527ce7cf212b7cf53d94cdebf1d141da8be08c2a06bf51447ef6eaf21ec4538 |
+| docs/notes/w9_k2_diagnosis_v1.md | cfc26e9a4f9f7cf854bf9233b3dc4fb584dbaa496be4dd024a39b897bb05add4 |
+| docs/notes/w9_laneB_elimination_v1.md | 6045b980c8ed2da9914092522153fec3b6e6cb0b4fc4d3f8d39a1ea2e0042392 |
+| docs/notes/w9_k3_insurance_v1.md | 83cf73d6e89c3eaaba1703b678637d3b937014f083794d35d57745290236ecdd |
+| docs/notes/w9k3_tricks_audit_v1.md | 0a2cb3fa90ebeabeb6467f3e790d452e071aff0c7f4fab3f0acbca7374466e9a |
+| docs/notes/ideas_w9k3_tricks_v1.md | d73ce096a581ba0ae3f057e0f42373b45a6fa5e36baffe2183ec0e9465389ca3 |
+| search/certs/r13_p1_0_blocks_v1_20260812.json | 86a7a004907da9289f1ac6990e130d8569664c337544946b43ac17740aadb217 |
+| search/certs/r13_p1_0b_v1_20260812.json | 41ca820f45e2e7082e718bdca9b2bf1dfb41a6b3e9e5143849e2d2ec09f6d4b8 |
+| search/certs/r13_p1_1_k2_v1_20260812.json | 50c89a28e935da27d615a75b5df8671e1133df1e8b79c2e895ae93e3a53ea8fc |
+| search/certs/r13_p1_1pp_k2_v1_20260812.json | c4af468a16514b421291f5f9d57c54261fb176d0c98a7b8bc2260f8110de4178 |
+| docs/notes/win83_audit_and_unram3_v1.md | a0fcd7556a601aee896ffc0ad0831327a070ee8fc46a861c4273344bc0730716 |
+| search/certs/iso_census83_deep15_v1_20260812.json | dfae5e529489a7502c9330a54c9aaeb4af54458bcbc9c300f3e0f8952e4f9c29 |
+| docs/notes/census83_readout_v1.md | 07dcc5bc27df7f313801c4303a84fd9ca49c23d9712b18ece5a758c52496089f |
+| search/certs/meas_chi_83win_v1_20260812.json | 3ea4b2305ffc03210eeca8148e55eda0e2417495c1b622a54e48a59b25aba812 |
+| docs/notes/fals_F_stage1_audit_v1.md | 1e027c83314574dfdad56c8ba26e23f67e20d607473847ac8bbff9da7fa37a0d |
+| docs/notes/F_card_v2_and_P6_v1.md | c6f6c2cacbc5688d697319ebdf696a6fc7e02e202dabf0686b8655e9ceda0aaa |
+| docs/notes/F_card_v2_1_diff.md | 2feba8ed4e81507993b52844dff7d7facf890a3bd1357ffef7b7e1fd522094f5 |
+| docs/notes/F_stage1ad_prereg_v1.md | 3c678fe58e6e63fa8c2c5e5e602cd839a0e97b31ca472f7c8bd97891e916de2e |
+| docs/notes/F_stage1ad_prereg_v1_1.md | 768898e153ec7b211c45bb8d6b8ae91d378d570aeb79940a252abaefbe0bbe61 |
+| docs/notes/fals_F_stage1ad_audit_v1.md | e5720c36b6211c994b647bc795ec88f6e0c85eeafdb067ba3bcbb5477f39fd9d |
+| search/certs/f_stage1ad_calib_v1_20260812.json | 895ccbbf992894338bdf6823d034159e158361623581c314c86012c78c5fd50a |
+| docs/notes/F_stage1_and_unram5_lit_v1.md | e8c1e9638523929a1a30466522e5d13dcb1b348b619bf2f99e6e4032d9f4494e |
+| sol/sol_reply_112_w9_tier2.md | e189c0fef742f7340efc97d8eb8ec26b4cd912fe0fc41c3a3bdf7ff87b05456d |
+| search/certs/r13_p1_tier2_v2_20260812.json | 548133edee770e3e9559052637b257d28452830b87424a2c2af7602fcf39fda8 |
+| search/certs/r13_p1_tier2_check_v1_20260812.json | 5e513f7685abda9603c6158f646526d7961477753a0f0eb833b990c76e711efd |
+| docs/notes/sol112_tier2_audit_and_D10_v1.md | 5769385507c53bbf98f1c7b209ef6bb404f73e51e29815b73fcb41824aa0fce5 |
+| docs/notes/fals_cv9_discR1_v1.md | d034a6e0ac4630ac5ea4706582426510e1b29ef2a9ce45370dd1baf9c6f46f75 |
+| docs/notes/w9_E_model_v1.md | bf0c24f9eec67743a28188ac74bc907d4fcd92da0a50d83ce03e225db2d88cd2 |
+| docs/notes/t3_spec_and_C2_calib_v1.md | d84cd95e321f04bcca51e9f09985e7b204a3c5f65fc497404dd974cd7dc6c2b7 |
+| docs/notes/ben121_manifest_v1.md | 6da271dd0a84afb6f95f191cb4030960c5a33080bd6d73614f9028b45accb6c9 |
+| docs/notes/ben121_manifest_v1_1.md | f4dadbd06ff17cfd158be133e19ef49fbf0eb2144719a0b8528e59727919e3df |
 
 ## §9 台帳
 台帳 81(v1.4.9)+ D1〜D9 の採番請求(案 B)。QUAR-TOR は報告のみ。便 112(計算工学レーン)は本便と独立に進行中 — 返信は sol_reply_112_w9_tier2.md へ。
