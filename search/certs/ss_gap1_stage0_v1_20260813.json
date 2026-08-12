@@ -1,0 +1,53 @@
+{
+  "schema": "ssg1_count/v1_stage0_partial",
+  "generated_by": {
+    "tool": "implementer (GAP 4.16.0 + python 3.13, two independent implementations)",
+    "order": "SS-GAP-1 Stage0 (裁定1092) / docs/notes/ss_gap1_count_spec_v1.md",
+    "date": "20260813"
+  },
+  "status": "PARTIAL -- [S0] main computation HELD pending mathematician ruling on S3-lifted-model construction; PC-5 completed",
+  "u_touched": false,
+  "c_touched": false,
+  "prereg_quantities_touched": false,
+  "d9_r_touched": false,
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+
+  "held_item": {
+    "id": "[S0]",
+    "reason": "spec sec5.1 [S0] は 'Q_p := SL(2,Z/p^2) と S3 を上に乗せた模型' で i_2^T・i_3^R・|Z|/|H| を全数列挙、と指示するが、その拡大 1->Q_p->H_p->S_3->1 の具体的な構成が spec 本文に書かれていない。spec 自身の [SSG1-GAP-1](sec3) は S_3 の一部が Q に自明作用し単純な半直積でないことを明記し、これを Stage 1 の主対象としている。実装担当が試算した最も素朴な模型(H_p := Q_p x S_3 の直積)は、T=互換コセット・R=3-巡回コセット条件下で i_2^T=3*i_2(Q_p), i_3^R=2*i_3(Q_p) となり、U_p = i_2^T*i_3^R*|Z(H_p)|/|H_p| = i_2(Q_p)*i_3(Q_p)*|Z(Q_p)|/|Q_p| と S_3 因子が完全に相殺して消える。これは S3-lift の効果を数値に反映しない縮退模型であり、CLAUDE.md の Sol 警告『PB3/N を安易に直積分解しない』に抵触するおそれがあるため、モデル構成を勝手に決めず実装を止めた。加えて A^2=1 の非スカラー解(tr=0,det=-1)は SL(2,Z/p^2)(det=1固定)の中には存在せず、T-コセット(互換=outer側)の対合は Q_p の外側に対応するはずである、という構造的観察も得た(下記 appendix 参照)。",
+    "routed_to": "spec 著者の数学者(裁定1094: 司令塔経由で回付済み、裁定待ち)",
+    "referrer_message": "SendMessage to main, 20260813, summary: 'SS-GAP-1 Stage0: S3-lifted model の具体構成が仕様未確定'"
+  },
+
+  "PC5_result": {
+    "description": "較正 PC-5: C-H 閉形式(spec sec4.1)vs 全数列挙、SL(2,Z/p^2)(p=3,5,7)。模型非依存(裁定1094: 先行着手 GO)。",
+    "gap_full_enumeration_cert": "search/certs/ss_gap1_pc5_gap_v1_20260813.json",
+    "python_closed_form_crosscheck_cert": "search/certs/ss_gap1_pc5_crosscheck_v1_20260813.json",
+    "third_independent_diagnostic_script": "search/ss_gap1_pc5_p3_diag.py",
+    "raw_values": [
+      {"p": 3, "n": 9,  "SL2_order_gap": 648,    "SL2_order_formula": 648,    "i2_gap": 2, "i3_gap": 99,   "i2_closed_form_raw": 2, "i3_closed_form_raw": 73, "match_raw": false},
+      {"p": 5, "n": 25, "SL2_order_gap": 15000,  "SL2_order_formula": 15000, "i2_gap": 2, "i3_gap": 501,  "i2_closed_form_raw": 2, "i3_closed_form_raw": 501, "match_raw": true},
+      {"p": 7, "n": 49, "SL2_order_gap": 115248, "SL2_order_formula": 115248,"i2_gap": 2, "i3_gap": 2745, "i2_closed_form_raw": 2, "i3_closed_form_raw": 2745, "match_raw": true}
+    ],
+    "PC5_verdict_literal_spec_sec4.1": "FAIL at p=3 (73 != 99), PASS at p=5,7",
+    "p3_finding": {
+      "discrepancy": "99 - 73 = 26",
+      "root_cause_identified": "26 個の欠落解は全て、mod 3 で単位行列に合同な SL(2,Z/9) の部分群(3-合同核、位数27、B=I自身を含む)のうち B != I の元。これらは全て trace=2, det=1 の非スカラー行列で、B=I+3M(M は mod3 の行列で trace(M)≡0 mod3)の形をとり、Cayley-Hamiltonから B^3=I+9M+27M^2+27M^3 が n=9=3^2 の下で 9M≡0(mod9), 27(...)≡0(mod9) となるため M によらず自動的に B^3=I が成立する。C-H 閉形式(tr=-1,det=1)の軌跡には乗らない。検定対象の位数(3)と還元先の素数(p=3)が一致する場合にのみ起きるアーティファクト。",
+      "verified_by_3rd_independent_script": "search/ss_gap1_pc5_p3_diag.py (直接行列積、GAP非import、closed-form crosscheckスクリプトからも独立記述) が GAP の 99 を完全再現し、26 個全てが mod3合同核の元であることを確認",
+      "corrected_prediction_matches_gap_exactly": true,
+      "relevance_to_target_p_691_UNPROVEN": "推測: 目標 p=691 では検定対象の位数(2 or 3)と p=691 が一致しないためこのアーティファクトは起きないはず。ただしこれは未証明の予想であり、本セッションでは p=691 に触れていない(触らない方針どおり)。★ 数学者/Sol 裁定要: spec sec4.1 の閉形式に一般の p-合同核補正項が必要か、p != tested-order なら不要と証明できるか。"
+    },
+    "PC5_verdict_after_documented_p3_correction": "PASS (all p=3,5,7 match exactly once the isolated, machine-verified p=3-specific kernel term is added)",
+    "note_on_i2": "i2 (A^2=1 count) は p=3,5,7 全てで GAP=closed_form=2 (完全一致、スカラー±Iのみ、非スカラー0)。SL(2,Z/p^2) は det=1 固定のため、CH の非スカラー条件(det=-1)は odd p で構造的に空 -- これは 'S0 held' 節で触れた構造的観察と同一現象。"
+  },
+
+  "CP_status": {
+    "CP-A": "N/A (Stage1 未着手、a_0^2=b_0^3=1 の検算は本セッション範囲外)",
+    "CP-B": "N/A (Stage1 未着手)",
+    "CP-C": "PC-2 は本セッション未実施(別途)。PC-5 は上記のとおり、文字通りの閉形式では p=3 で FAIL、原因特定・補正後は PASS。判定(装置破棄 or 修理)は司令塔/数学者に委ねる。",
+    "CP-D": "計算未実施 ([S0] 保留のため上界 U 未算出)。裁定1093(U<15,180なら即停止・自己修理しない)を了解済み、[S0] 再開時に適用する。",
+    "CP-E": "該当なし(Stage 0 自体が完了していない)"
+  },
+
+  "next_step": "[S0] のモデル構成について数学者/Sol の裁定を待つ。裁定が出次第、指定された模型で p=3,5,7,11,13 の全数列挙 -> 指数fit -> p=691外挿 -> CP-D突合 を実行する。"
+}
