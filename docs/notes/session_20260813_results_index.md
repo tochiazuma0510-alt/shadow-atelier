@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| U_true cert 化 | symbolic(p=691)= Sol 全値一致+**literal(p=7・576 万行列全数)閉形式一致** ⟹ \|GT(N′)\| ≤ 1,915,460 は**三系統一致**・k13 full cert = release `k13-t4t5-cert-v2` 恒久保全(sha 前後一致) | ssg1_utrue_cert_v1(cd8d85c9) | 1113 |
 | **便 122 返書** | **B1 条件つき PASS(修正 3 点で発令可)・B2 PASS = R1-GAP-3 閉鎖・母集団/resolvent = cross-checked 昇格・B3 = 定理 TORSOR/SUBTOR 採用(系 D 前向きは UNKNOWN 維持)・B5 = QUAR-TOR 合議+release 保全** | sol_reply_122_r1_line3.md | 1109 |
 | ★③ 線上界の訂正 | **U_true = 1,915,460.0116…(真の H̃ 直接計数・6 整数)⟹ \|GT(N′)\| ≤ 1,915,460 < 2×10⁶**・U_split=954,962 は改名(calibration 値・上界でない・比 2.006)・**Stage 1 不要 = SSG1-GAP-1 candidate closed** | 便 122 B4(script 添付)| 1109 |
 | U-6 読解 | **非可換 crown = EP 各窓 1 本**(core 単一)・**群論側空**(Z(A_t)=1 ⟹ 拡大自動)・WALL-SURJ(有料 = Kummer+EP の 2 本のみ)・**census+Chebotarev = 全射性の有限証明書(F1–F5)**・U6-GAP-1(wall37 coupling 3 択)・prereg 3 本([U6-3] isolated 性が先行)・census 第 4 系統一致 | wall_crown_u6_reading_v1.md(9a15c74d) | 1108 |
