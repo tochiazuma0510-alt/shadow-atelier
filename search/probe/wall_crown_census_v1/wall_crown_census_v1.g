@@ -318,6 +318,15 @@ if IsBound(WALL_ONLY) then
 else
   outName := "search/certs/wall_crown_census_v1_20260812.json";
 fi;
+if IsBound(CENSUS_OUT_DIR) then
+  if IsBound(WALL_ONLY) then
+    outName := Concatenation(CENSUS_OUT_DIR,
+      "/wall_crown_census_v1_", WALL_ONLY, "_20260812.json");
+  else
+    outName := Concatenation(CENSUS_OUT_DIR,
+      "/wall_crown_census_v1_20260812.json");
+  fi;
+fi;
 outStream := OutputTextFile(outName, false);;
 SetPrintFormattingStatus(outStream, false);;
 PrintTo(outStream, out);;

@@ -80,8 +80,12 @@ out := Concatenation(
   "\"gap_version\":",S(GAPInfo.Version),",\n",
   "\"model\":\"DirectProduct(AffineGeneralLinearGroup(1,ell),SymmetricGroup(t))\",\n",
   "\"walls\":[",JoinStringsWithSeparator(results,","),"]\n}\n");;
-outStream := OutputTextFile(
-  "search/certs/wall_crown_model_checker_v1_20260812.json", false);;
+outName := "search/certs/wall_crown_model_checker_v1_20260812.json";;
+if IsBound(MODEL_OUT_DIR) then
+  outName := Concatenation(MODEL_OUT_DIR,
+    "/wall_crown_model_checker_v1_20260812.json");
+fi;
+outStream := OutputTextFile(outName, false);;
 SetPrintFormattingStatus(outStream, false);;
 PrintTo(outStream,out);;
 CloseStream(outStream);;
