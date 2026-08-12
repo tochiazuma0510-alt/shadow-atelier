@@ -20,6 +20,9 @@
 | **R-1 厳密モデル** | **W₉: x²w³−27ζ₃y(w+1)=0 / E: y²+3ζ₃xy+2y=x³・定義体⊆ℚ(ζ₃)・c=ζ₆/2**(candidate・条件 D2-GAP-4 のみ) | p1d2_r1_canonicalization_v1.md(b036267d) | 1083 |
 | falsifier 監査(正準化) | 数学 14 検算 PASS(c/ρ 30 桁一致 = CV-9 同一対象・0 ビット判定正)・**B-1「類で一意」偽(passport 実現 13 群)**・B-2 CAN-1 恒真化 ⟹ 「強制」overclaim・**救済: \|Mon(λ₉)\|=324 認証済在庫 2 cert・T18n140 一意**・M-2 GAP-5 既閉・M-5 ζ₃ は W→E 層まで | fals_p1d2_r1_audit_v1.md(16dd7ca8) | 1086 |
 | D2-GAP-4 裁定(v2) | CAN-1 撤回 → **【CAN-1′】P=P₁ 無仮定確定**(母集団 72・resolvent 4 類・λ₉ 類のみ \|Mon\| 分布 {324³,972⁹,2916⁶}・Galois 安定)・**【D2-GAP-6】発見+閉**(4 点族 = 72 の split 枝のみ)・GAP-5 閉・**t=−y²/4**(E 同一性初突合)・passport ((18),(2⁸1²),(18))・被覆一意は S₁₈ 共役類で判定(群一意と区別) | p1d2_r1_canonicalization_v2.md + d2gap4_gate_adjudication_v1.md(6f290d3b) | 1087 |
+| R-1 宣言草案 | **分岐 (a) 正式確認 = 無条件形で宣言可**(格の層別: 骨格 ≈ cross-checked・核心 W₉=W(P₁) は数値 1 系統 = candidate・昇格 =【R1-GAP-2】)・**発令前必須 =【R1-GAP-1】母集団 72 cert 化**・D2-GAP-6 閉鎖 | r1_declaration_draft_v1.md(73942f1d) | 1092 |
+| **定理 COUNT-PSL** | **③ 計数の壁消滅**: c∈N′ ⟹ PSL(2,ℤ)=ℤ/2∗ℤ/3 に落ち #Hom = **整数 2 個の積**(CH 閉形式)・Stage 0 で ≶10⁷ の 1 ビット・CP-D 較正 = 円分下界 15,180 | ss_gap1_count_spec_v1.md(73942f1d) | 1092 |
+| 定理 SURV-EXACT+PB₃ | 生存数 = N_m 確定 ⟹ 総率は情報ゼロ・正分母 D₀=C_Q(σ̄₁)∩[Q,Q]/PB₃ 直積は商に降りない(m1090-1 自己捕獲: [PN:Q]=z₀)・**P2 正しい構成 = ker(π_N,T)** | iset4_remeasure_spec_v1.md+pb3_free_factor_check_v1.md | 1092 |
 | **[D2-GATE] 着弾** | **両予言的中**: \|Mon(W(P₁))\|=324・\|Mon(W(P₂))\|=419904・**S₁₈ 共役 = P₁ のみ true** ⟹ §8.3 **分岐 (a) = W₉=W(P₁) 確定**該当(正式読解 = 数学者)・残差 ~1e-50・密度非依存傍証 | d2_gate_v1_20260813 + d2_gate_v1_track_20260813(run 31630925950) | 1090 |
 
 ## §2 ③ 線 = (F)/(Ad)/691 戦役の測定
@@ -54,7 +57,7 @@
 | ★\|GT(N′)\| 見積り | **3×10⁴ ≲ \|GT(N′)\| ≲ 10⁶⁻⁷**(TORSOR×#Hom 類公式・16 群三系統一致)— **10¹⁷=\|H̃\| の取り違え疑い(約 11 桁)** ⟹ ③ 計数再開可能性(見積り格・SS-GAP-1) | 同上 | 1089 |
 | [Q4-FINAL] 格下げ | f_c は**片側のみ有効**(≠1 ⟹ a_{N′}(c)≠[−1,1] のみ/=1 ⟹ 情報ゼロ)【SS-GAP-7】・1084 検算 B の中心化群は Q 内が正典意図(生値は記述値に再分類) | settled_layer_verdict_v1 補記 | 1089 |
 | 発案 7 テコ 3 本 | P1: 剰余類予測 {5,11,17,23} = 実測**完全一致**(独立再確認)・**AT-4: Q-STAB = fixture で YES**(settled 24/24 → H-settled のみ・類写像 well-defined)・P2 = PARTIAL(coset 爆発実測・直積分解は Sol 警告で保留) | at_levers_v1_20260813(8e2ab1ce) | 1091 |
-| トーサー計数 fixture(発案 6) | **#C([1008,521]¹)=2・類 [24,24]・48=24×2 予言厳密一致**・陽性対照 K(9)=#C 1/108 一致・捻り生存 1/12・1/28(RIGID 整合)・2 核類は well-definedness で分離・marked-factor-map 法 | set_surgery_fixture_v1_20260813(429c18b3) | 1084 |
+| トーサー計数 fixture(発案 6) | **#C([1008,521]¹)=2・類 [24,24]・48=24×2 予言厳密一致**・陽性対照 K(9)=#C 1/108 一致・捻り生存 1/12・1/28(⚠1092: SURV-EXACT により総率は情報ゼロ・生値のみ残置)・2 核類は well-definedness で分離・marked-factor-map 法 | set_surgery_fixture_v1_20260813(429c18b3) | 1084 |
 
 ## §4 census/屋根掃討の測定
 
