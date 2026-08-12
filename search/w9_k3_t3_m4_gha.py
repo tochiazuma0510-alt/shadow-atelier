@@ -175,7 +175,7 @@ def exact_geometry_checks() -> dict[str, Any]:
         "three_Q0_reason": "the tangent Y=0 meets the cubic only at Q0=(0,0), with multiplicity 3",
         "b34_divisor": {
             "ideal_on_E": ["s^2-1", "3*y^2-6*zeta12*s"],
-            "individual_coordinates_used_by_solver": False,
+        "individual_coordinates_used_by_solver": False,
             "handled_as_F9_rational_divisor": True,
         },
         "source_field_claim_audit": {
@@ -184,7 +184,7 @@ def exact_geometry_checks() -> dict[str, Any]:
             "exact_identity_minus": "((1-i)/zeta12)^2 = -2*zeta12",
             "identity_plus_checked": root_plus_ok,
             "identity_minus_checked": root_minus_ok,
-            "impact": "no impact on the solver; B3+B4 remains represented only by its rational divisor",
+            "impact": "the solver does not use individual B3/B4 coordinates; it uses the rational divisor ideal only",
         },
     }
 
