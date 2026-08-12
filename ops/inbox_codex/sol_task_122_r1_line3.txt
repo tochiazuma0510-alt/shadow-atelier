@@ -1,0 +1,58 @@
+# Sol 便 122(監査便 — R-1 宣言ゲート・定理 TORSOR/SUBTOR・③ 線再開)
+
+発: 司令塔 / 2026-08-13 / 授権: 研究者発送合図(本文組立時点では未発送)
+返信先: sol/sol_reply_122_r1_line3.md
+前便: 112/113/114 = 全て検収済み(114 の壁 crown 三系統一致と k13 receipt は master へ merge 済・裁定 1104)
+
+## 0. 本便の性格
+
+計算委嘱ではなく**監査便**。8/13 の戦役成果 — R-1(W₉ 平面モデル)の条件付き→無条件化の全証拠鎖・研究者発案 6/7 号から立った定理 2 本・③ 線(N′)計数の再開 — を一括で監査に付す。経緯の正本 = `docs/notes/session_20260813_results_index.md`(全測定・裁定番号つき)と LEDGER 裁定 1072〜1105。
+
+## 1. 監査請求(B 番号)
+
+- **B1: R-1 宣言 v3 の発令ゲート監査**(スキップ不可級)。宣言文・格の層別(candidate = 核心 W₉=W(P₁) が数値 1 系統)・昇格条件【R1-GAP-2】(関数体 Galois 群の厳密計算)の指定妥当性。⚠経緯注意: 見張り V1–V7 は 0 ビット判明(m1081-1)→ CAN-1 恒真化(falsifier B-2)→ 【CAN-1′】(母集団 72・resolvent 4 類・Galois 安定)で P=P₁ 無仮定化 → [D2-GATE] 両予言的中(S₁₈ 共役 = P₁ のみ)の順で立て直した宣言である。
+- **B2: population-72 の独立再計算**(【R1-GAP-3】・工房内盲検は 2 連続汚染で店じまい = 裁定 1097)。仕様 = 宣言 v3 §5.1(定義 POP+補題 POP)+ resolvent 定義抜粋。**あなたの独立実装で 72 本・resolvent 4×18・|Mon| 分布 {324:3, 972:9, 2916:6, 419904:54} が再現されるか**。再現 ⟹ 母集団行は cross-checked(3 系統)・不一致 ⟹ 宣言保留。
+- **B3: 定理 TORSOR・SUBTOR の監査**(正本 = set_surgery_vetting_v1.md §1.4/§11.4)。とくに補題 COMP-T の生成元計算・自由性の逆射論法・補題 DIFF-S の isolated 依存。系 C(isolated ⟺ #C=1)と系 D(u≡1 mod 3 の機構)を含む。
+- **B4: ③ 線再開の裁定**。裁定 1078「10¹⁷ で計数不能」は |H̃| と |GT(N′)| の取り違え(約 11 桁)と判明。定理 COUNT-PSL(c∈N′ ⟹ PSL(2,ℤ) 自由積計数)+ 閉形式(補題 TR・PRED-S0-4 = 12 整数予言一致+p=13 全数対照)により **U(691)=954,962.000012572・|GT(N′)| ≲ 2×10⁶ < 10⁷**。残条件【SSG1-GAP-1】(分裂模型 PSL(2,ℤ/2p²) が真の H̃ = 非分裂拡大の代理として上界を保つか)の判定と、必要なら Stage 1 の設計。
+- **B5: k13 QUAR-TOR 処置の合議**。検疫素数 [2, 269, 103928833037] が全て rank 206(r′=207 から jump)。k12 の処置(生値収蔵・後段凍結)と同型でよいか。未分解補因子 C の扱いは UNKNOWN 維持。
+
+## 2. 積荷(digest は機械生成・出所パス併記)
+
+| 積荷 | パス | SHA-256 |
+|---|---|---|
+| R-1 宣言(筆頭・発令ゲート) | `docs/notes/r1_declaration_draft_v3.md` | `158826d39bb72058eebf97d4179dd3dbebf3ce49f0f5bdeb2ef8e200ac5ad59a` |
+| 正準化 v2(監査反映済) | `docs/notes/p1d2_r1_canonicalization_v2.md` | `b0825964eb279bf8ed48fd149c4df84b2cd823676f30b27906381a7fe765fbaa` |
+| falsifier 前哨監査 | `docs/notes/fals_p1d2_r1_audit_v1.md` | `9ea0045a522b47f515442c35586480a6ead5ca7d018d68b93600d904cdc5090c` |
+| ゲート裁定+census 生データ | `docs/notes/d2gap4_gate_adjudication_v1.md` | `ccf2f8efa7fa063b39a48b5f67212295809cf1a63f4e13f91d129d1444b41dbc` |
+| [D2-GATE] cert(GAP) | `search/certs/d2_gate_v1_20260813.json` | `81fd888f92752f733b9b1bd4a8b62492d292a994a3ff2a2196069689501bd2e3` |
+| [D2-GATE] cert(tracking) | `search/certs/d2_gate_v1_track_20260813.json` | `c7e64cf4090b3cdff5ac3817d225314b677bb54e1240343c6ea86a686aeed763` |
+| R1-GAP-1 producer cert | `search/certs/r1_gap1_population72_v1_20260813.json` | `7e24d633e12995f06fafa44af72c2c4f1dbcd4e1e44d01e590e749687eefda36` |
+| R1-GAP-1 第 2 レール cert | `search/certs/r1_gap1_population72_second_rail_v1_20260813.json` | `007f27323d22b10728216d06eff4d56499d22e27feb867f178c1aaf117417177` |
+| resolvent 定義抜粋(B2 仕様) | `docs/notes/r1_gap1_resolvent_def_extract_v1.md` | `dbec157ef2e20b36b13d911e82c3520374ac4be5e4f263500c202e8e38f7ff3c` |
+| 定理 TORSOR/SUBTOR 正本(検分書) | `docs/notes/set_surgery_vetting_v1.md` | `721d20745b03e32acc9291133176c48562a0db58e7ff2201e472a0162c56eb80` |
+| 発案 6 号札 | `docs/notes/ideas_set_surgery_v1.md` | `8d94728d2445836322b2dd9b9859ef51093fed8e80ea40a90af1929300a9eb4b` |
+| 発案 7 号札 | `docs/notes/ideas_arith_torsor_v1.md` | `1678ba905f22344c6ce59d3332e11b3868686cbb86527ffdcc0b0f85a0557c23` |
+| トーサー fixture cert | `search/certs/set_surgery_fixture_v1_20260813.json` | `f11236722ce7ca86db94bb07bf1c2a8ea916dc7a5e15ea25c1ba45fa26368805` |
+| 発案 7 テコ cert | `search/certs/at_levers_v1_20260813.json` | `40a9bd4e15a320034abc78777adc6545b8fcad73358686eb8f42cf680e30e3f8` |
+| ③ 線結審(補記済) | `docs/notes/settled_layer_verdict_v1.md` | `044531a48c1a0d20f677e491b4a385eeb1bf821322434994179cb8db767ce8df` |
+| SETTLED-GRP 証明 | `docs/notes/settled_grp_proof_v1.md` | `a69884be6d8af4db958a2161d109a1b43e1de92ca750d530de3394ea107dc6c3` |
+| GT^settled 同定 | `docs/notes/gt_settled_identification_v1.md` | `fd65bca3ff33b15a60ba0975b97ab7b0bf1e32023e30c150c47996c957c1b03d` |
+| (Q3) 結審 | `docs/notes/q3_verdict_and_line3_reframe_v1.md` | `c7a4c01d7d13b229fb0a9fdd58513b10cd5088d4721b24e79cce64f0ab54d260` |
+| COUNT-PSL 計数 spec | `docs/notes/ss_gap1_count_spec_v1.md` | `9c6e5036bc8e1165c2ebe337d597cc33867f57f8318e7754666a7fce4b43cb8a` |
+| Stage0 模型裁定+CH-REG | `docs/notes/ssg1_stage0_model_adjudication_v1.md` | `cbb6e377a27c42b8d2adc00d04808cf77cc0ab5ae17591025cda14c5ca670bdb` |
+| S0-2 失敗分析(恒久記録) | `docs/notes/ssg1_stage0_pred_failure_v1.md` | `dfaac328a7a8820387075908dc7160257ddb10c9e9cd7d161c749ccd7f715599` |
+| S0-3 修理+PRED-S0-4 凍結 | `docs/notes/ssg1_stage0_pred_repair_v1.md` | `58e7a704f08ded320df36b3085c6408c89a4e57be93a26e7f39ff80fe4b1783f` |
+| [S0] cert | `search/certs/ss_gap1_stage0_v2_20260813.json` | `b9a3b05902b777c775c8ca097b2549f3d446a03d38678079b03b4537b8555211` |
+| 予言 4 点検定 cert | `search/certs/ss_gap1_s0_predcheck_v1_20260813.json` | `74afc1758f23622fbe93124097b89065b1de6300e5eb95e64c3d7b2af35e25e8` |
+| [S0-RECHECK] cert(PASS) | `search/certs/ss_gap1_s0_recheck_v1_20260813.json` | `14eee683a62f03ad0f1c26c60e02ffb62bc27a6658ca993338e22aa0a1a5e7aa` |
+| 8/13 全測定索引 | `docs/notes/session_20260813_results_index.md` | `507920dbf32c8c7fdac3b5a72bdae937d14fc66a62fd8e83e904f4575f5a9e00` |
+
+## 3. 受領・懸案
+
+- 便 114 受領確認: k13 receipt(a6f05418…)・壁 crown 3 cert は master 収蔵済。**壁 crown の U-6 読解(非可換 crown [3,3,3,5] → 埋め込み問題への翻訳)は工房数学者の次隊列** — B 請求ではない(参考共有)。
+- full k13 cert(237MB)は GHA artifact(2026-09-11 失効)。receipt が恒久 sha 台帳。release 保全の要否があれば一言を。
+- 工房規約の更新共有: 成果物数値は機械生成限定+生成 script 添付が検収条件(裁定 1103・数学者 3 連続筆算ミス起点)。
+
+## 4. 規律
+
+厳密のみ・判定語の適正使用(verified は Lean 予約)・UNKNOWN 一級・u/c 非接触・封印 3 量(K⁽⁵⁾ インスタンス)非接触・prereg 量非計算・NAME-COLLIDE 行の維持。監査範囲外の申告歓迎。返信は上記 ReplyFile へ。
