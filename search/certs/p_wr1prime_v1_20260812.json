@@ -1,0 +1,38 @@
+{
+ "schema": "wr1prime/v1",
+ "generated_by": {
+  "tool": "python",
+  "script": "search/p_wr1prime_v1.py",
+  "order": "裁定953 / docs/notes/retarget_F_audit_v1.md §4.3"
+ },
+ "inputs": {
+  "witness_cert": "search/certs/w691_gen23_witness_v1_20260812.json",
+  "braid_backconv_cert": "search/certs/w691_gen23_braid_backconv_v1_20260812.json"
+ },
+ "raw_finding": {
+  "note": "witness_v1 の H_2 raw (a,b) は (2,3)-生成対であり braid 対ではない -- det(a)=det(b) が成り立たない(690 vs 1)。真の braid 対は braid_backconv の (x,y)。",
+  "witness_v1_raw_pair_det_a": 690,
+  "witness_v1_raw_pair_det_b": 1,
+  "witness_v1_raw_pair_det_equal": false
+ },
+ "step1_true_braid_pair_det": {
+  "source": "w691_gen23_braid_backconv_v1_20260812.json (H_2, braid_relation_ok=true)",
+  "det_x": 690,
+  "det_y": 690,
+  "det_equal": true
+ },
+ "step2_judgement": {
+  "det_equal": true,
+  "det_both_minus1": true,
+  "braid_relation_ok": true,
+  "c2_pass": true
+ },
+ "supplementary_h6_not_this_outposts_target": {
+  "det_x": 438,
+  "det_y": 438,
+  "det_equal": true
+ },
+ "p": 691,
+ "u_touched": false,
+ "d_no_interpretation": "boolean/raw values only; verdict は司令塔"
+}
