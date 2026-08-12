@@ -1,0 +1,103 @@
+{
+  "schema": "ssg1_s0_recheck/v1",
+  "generated_by": {
+    "tool": "implementer (python3 / GAP 4.16.0, independent implementations)",
+    "order": "[S0-RECHECK] 司令塔指示20260813 / 正本 docs/notes/ssg1_stage0_pred_repair_v1.md §3,§4 (数学者・commit 82138f7c)",
+    "date": "20260813"
+  },
+  "model": "(c') H_p := PSL(2,Z/2p^2) = S3 x Q_p ,  Q_p := PSL(2,Z/p^2) -- unchanged",
+  "u_touched": false,
+  "c_touched": false,
+  "prereg_quantities_touched": false,
+  "algebraic_input_zero": true,
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+
+  "R1_R2_PRED_S0_4_check": {
+    "description": "docs/notes/ssg1_stage0_pred_repair_v1.md §3 の凍結12整数(i2,i3,|Q_p| for p=37,41,43,47)との突合。判定は整数の完全一致のみ・小数は non-normative(参照しない)。",
+    "method": "trace/det histogram exact integer counting (O(n^2)), same algorithm as R-2 (許可された縮約)。python(fractions不要・整数演算のみ) と GAP の独立2実装。",
+    "source_scripts": {
+      "python": "search/ss_gap1_s0_v2.py (closed_form_Q), invoked via scratchpad/recheck_r2_run.py",
+      "gap": "search/ss_gap1_recheck_r2_v1.g"
+    },
+    "frozen_values_from_doc_sec3": [
+      {"p": 37, "i2": 962408,  "i3": 1924815, "Qp_order": 1281926124},
+      {"p": 41, "i2": 1447342, "i3": 2756841, "Qp_order": 2373639240},
+      {"p": 43, "i2": 1669648, "i3": 3498309, "Qp_order": 3158972124},
+      {"p": 47, "i2": 2387930, "i3": 4775859, "Qp_order": 5387167824}
+    ],
+    "measured_python": [
+      {"p": 37, "i2": 962408,  "i3": 1924815, "Qp_order": 1281926124},
+      {"p": 41, "i2": 1447342, "i3": 2756841, "Qp_order": 2373639240},
+      {"p": 43, "i2": 1669648, "i3": 3498309, "Qp_order": 3158972124},
+      {"p": 47, "i2": 2387930, "i3": 4775859, "Qp_order": 5387167824}
+    ],
+    "measured_gap": [
+      {"p": 37, "i2": 962408,  "i3": 1924815, "Qorder": 1281926124},
+      {"p": 41, "i2": 1447342, "i3": 2756841, "Qorder": 2373639240},
+      {"p": 43, "i2": 1669648, "i3": 3498309, "Qorder": 3158972124},
+      {"p": 47, "i2": 2387930, "i3": 4775859, "Qorder": 5387167824}
+    ],
+    "integer_match_table": [
+      {"p": 37, "i2_match": true, "i3_match": true, "Qorder_match": true, "python_gap_match": true},
+      {"p": 41, "i2_match": true, "i3_match": true, "Qorder_match": true, "python_gap_match": true},
+      {"p": 43, "i2_match": true, "i3_match": true, "Qorder_match": true, "python_gap_match": true},
+      {"p": 47, "i2_match": true, "i3_match": true, "Qorder_match": true, "python_gap_match": true}
+    ],
+    "total_integers_checked": 12,
+    "total_integers_matched": 12
+  },
+
+  "R3_literal_full_enumeration_crosscheck": {
+    "description": "docs sec4 [R-3](必須): トレース縮約とは独立の経路で [R-2] の正しさを検定。p=13 を使用(doc §4 が p=37 全数列挙(|Q_37|≈1.3e9、非現実的)の代替として明示的に許可)。",
+    "method": "SL(2,Z/p^2) の元を「原始第1列 (a,c)」(gcd(a,c,p)=1)から O(n^3) で構成的に生成(トレース条件は一切不使用)。各元について A^2, A^3 を literal な行列積で計算し、+-I との成分ごとの一致で分類。i2_Qp = #{A: A^2=I or A^2=-I}/2, i3_Qp = #{A: A^3=I or A^3=-I}/2 として、[R-2] のトレース縮約値(同じp=13で既に search/certs/ss_gap1_s0_v2_python_20260813.json 等に i2=15380,i3=30759,|Q|=2399124 と記帳済み)と突合。",
+    "p": 13, "n": 169,
+    "gap_result": {
+      "total_elts_generated": 4798248,
+      "SL_order_formula": 4798248,
+      "total_elts_match_formula": true,
+      "count_A2_eq_I": 2,
+      "count_A2_eq_negI": 30758,
+      "count_A3_eq_I": 30759,
+      "count_A3_eq_negI": 30759,
+      "i2_Qp_full_enum": 15380,
+      "i3_Qp_full_enum": 30759,
+      "runtime_wall_ms": 6314.9247
+    },
+    "python_result": {
+      "total_elts_generated": 4798248,
+      "SL_order_formula": 4798248,
+      "total_elts_match_formula": true,
+      "count_A2_eq_I": 2,
+      "count_A2_eq_negI": 30758,
+      "count_A3_eq_I": 30759,
+      "count_A3_eq_negI": 30759,
+      "i2_Qp_full_enum": 15380,
+      "i3_Qp_full_enum": 30759,
+      "runtime_wall_s_approx": 9.088
+    },
+    "gap_vs_python_match": true,
+    "r2_trace_reduction_value_p13": {"i2": 15380, "i3": 30759, "Qp_order": 2399124},
+    "r3_vs_r2_match": {"i2_match": true, "i3_match": true},
+    "conclusion_raw": "p=13 において、トレース縮約を一切使わない literal な全数列挙([R-3])と、トレース縮約による計算([R-2])が i2, i3 とも完全一致。GAP/python 独立2実装も完全一致。"
+  },
+
+  "R5_group_order_formula_check": {
+    "description": "|Q_p| = p^4(p^2-1)/2 の式を実測群位数と突合(R-3 の副産物として p=13 で厳密検証、加えて過去の PC-5 実行(裁定1092以前)で p=3,5,7 でも |SL(2,Z/p^2)|=p^4(p^2-1) が全数列挙と一致済み)。",
+    "p13_check": {
+      "SL_order_measured_via_R3_construction": 4798248,
+      "SL_order_formula_p4_times_p2m1": 4798248,
+      "match": true
+    },
+    "prior_confirmations": "search/certs/ss_gap1_pc5_gap_v1_20260813.json で p=3,5,7 の |SL(2,Z/p^2)| が全数列挙(4重ループ)と式で完全一致済み(648, 15000, 115248)。",
+    "note": "p=37,41,43,47 の |Q_p| は式(closed_form_Q)による値であり、これらの p 自体では独立の全数列挙による群位数測定は行っていない(規模が大きいため非現実的、doc も想定していない)。式自体は p=3,5,7,13 の4点で実測確認済み。"
+  },
+
+  "overall_summary": {
+    "PRED_S0_4_all_12_integers_match": true,
+    "R3_independent_no_trace_shortcut_confirms_R2": true,
+    "R3_two_independent_implementations_match": true,
+    "R5_formula_confirmed_at_p13": true
+  },
+
+  "next_step": "12整数の完全一致とR-3のトレース非依存クロスチェックが揃った。判定・U(691)復帰の可否は司令塔/数学者裁定に委ねる。"
+}
