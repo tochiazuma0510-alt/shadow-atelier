@@ -1,0 +1,55 @@
+{
+ "schema": "r13-p1-b-laneB/v1",
+ "generated_by": {
+  "tool": "python/sympy",
+  "script": "search/r13_p1_b_laneB_gha.py",
+  "order": "裁定1001 [P1-B] lane B / docs/notes/w9_laneB_elimination_v1.md §3"
+ },
+ "unknowns": [
+  "rho_p",
+  "rho_m",
+  "gp0",
+  "gp1",
+  "gp2",
+  "gp3",
+  "gm0",
+  "gm1",
+  "gm2",
+  "gm3"
+ ],
+ "num_equations": 13,
+ "num_unknowns": 10,
+ "monic_check": {
+  "Up_leading": "1",
+  "Um_leading": "1"
+ },
+ "time_budget_seconds": 3300,
+ "u_touched": false,
+ "c_touched": false,
+ "d_no_interpretation": "machine values only; verdict は司令塔",
+ "groebner_basis": [
+  "Poly(1, rho_p, rho_m, gp0, gp1, gp2, gp3, gm0, gm1, gm2, gm3, domain='ZZ')"
+ ],
+ "groebner_basis_size": 1,
+ "zero_dimensional_check": {
+  "per_variable_bounded_by_pure_power": {
+   "rho_p": false,
+   "rho_m": false,
+   "gp0": false,
+   "gp1": false,
+   "gp2": false,
+   "gp3": false,
+   "gm0": false,
+   "gm1": false,
+   "gm2": false,
+   "gm3": false
+  },
+  "zero_dimensional": false
+ },
+ "solutions": [],
+ "solution_count": 0,
+ "B7_solution_count_multiple_of_18": null,
+ "B8_note": "zero solutions -- stratum (0,9) empty (per spec, this is NOT an anomaly; would indicate Tier 2 is needed, out of this script's scope per 裁定1001)",
+ "status": "COMPLETE",
+ "elapsed_seconds": 0.11666178703308105
+}

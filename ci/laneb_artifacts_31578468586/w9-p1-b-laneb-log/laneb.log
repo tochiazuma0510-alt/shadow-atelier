@@ -1,0 +1,7 @@
+[    0.06s] deg U_p=9 deg U_m=9 (expect 9,9); leading coeffs: 1, 1 (expect 1,1 -- monic check)
+[    0.06s] built 13 equations (expect 13)
+[    0.06s] starting Groebner basis computation (grevlex)...
+[    0.12s] Groebner basis computed: 1 polynomials
+[    0.12s] zero_dimensional = False
+[    0.12s] wrote final result, elapsed=0.12s, solution_count=0
+R13_P1_B_LANEB_DONE
