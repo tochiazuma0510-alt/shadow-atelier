@@ -1,0 +1,38 @@
+﻿
+IdGroup=[ 36, 12 ]  StructureDescription=C6 x S3
+  d(G) (min gens) = 2
+  AbelianInvariants = [ 2, 2, 3 ]
+  |[G,G]| = 3  struct = C3
+  num conj classes of maximal subgroups = 5
+    index=2  classSize=1  normal=true  |X/Core|=2  structM=C3 x S3
+    index=2  classSize=1  normal=true  |X/Core|=2  structM=C6 x C3
+    index=2  classSize=1  normal=true  |X/Core|=2  structM=C3 x S3
+    index=3  classSize=1  normal=true  |X/Core|=3  structM=D12
+    index=3  classSize=3  normal=false  |X/Core|=
+6  structM=C6 x C2  |M cap [G,G]|=1  L normal=true
+  distinct (M cap [G,G]) among non-normal classes = 1 of 1
+  |Phi(G)| (sanity, expect 1) = 1
+
+IdGroup=[ 108, 43 ]  StructureDescription=C6 x ((C3 x C3) : C2)
+  d(G) (min gens) = 3
+  AbelianInvariants = [ 2, 2, 3 ]
+  |[G,G]| = 9  struct = C3 x C3
+  num conj classes of maximal subgroups = 8
+    index=2  classSize=1  normal=true  |X/Core|=
+2  structM=C3 x ((C3 x C3) : C2)
+    index=2  classSize=1  normal=true  |X/Core|=2  structM=C6 x C3 x C3
+    index=2  classSize=1  normal=true  |X/Core|=
+2  structM=C3 x ((C3 x C3) : C2)
+    index=3  classSize=1  normal=true  |X/Core|=
+3  structM=C2 x ((C3 x C3) : C2)
+    index=3  classSize=3  normal=false  |X/Core|=
+6  structM=C6 x S3  |M cap [G,G]|=3  L normal=true
+    index=3  classSize=3  normal=false  |X/Core|=
+6  structM=C6 x S3  |M cap [G,G]|=3  L normal=true
+    index=3  classSize=3  normal=false  |X/Core|=
+6  structM=C6 x S3  |M cap [G,G]|=3  L normal=true
+    index=3  classSize=3  normal=false  |X/Core|=
+6  structM=C6 x S3  |M cap [G,G]|=3  L normal=true
+  distinct (M cap [G,G]) among non-normal classes = 4 of 4
+  |Phi(G)| (sanity, expect 1) = 1
+
