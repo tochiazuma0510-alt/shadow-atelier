@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| (H1) 帰着 | **Prop 3.15+命題 INT(5 行独立証明・Ξ 不使用)で (H1) ⟸ N_S4 isolated** — 測定規模 504(2916 分の 1)・Phase 1 前件 [1-2] も同じ 1 本に帰着・**novelty-grep 規律の初の着手前自己捕捉**・σ 実現は探索場所訂正(外側コセット・(1.11)(1.12) 直接構成) | d972_h1_adjudication_v1.md(973f37f2) | 1132 |
 | Phase 0(D972) | 3/4 PASS — **\|GT(M)\|=972 独立再実測(T63「\|X\|=972」が二重測定へ)**・K^(27) gating 全確認(472,392・Thm 4.3 一致)・[0-2] (H1)=UNKNOWN(計器涸渇 → 数学者紙路・1130)・Phase 1 未発火 | d972_phase0_v1(9657e347) | 1130/1131 |
 | 格裁定+作戦書 v1.1 | 3 層格(測定 cross-checked・解釈 candidate)・**【DICHOTOMY-972】全部 A 型か全部 B 型か(指数 3 素数)**・系 SINGLE-BIT({324,972} の 1 ビット・324 ⟹ 全 A 型+有限証明書)・SUPP2 確定(v₂=+2 は −Y²/4 由来・−2≡7)・**(U-10) 限定**(B 型 ⟹ ĜT_gen 水準・¬井原へは U-10 未解決を経由)・BIT-252 先行明記(検出機構別・格両面)・D972-GAP-1(M isolated 未確認 = Phase 0) | triad972_grade_and_battle_plan_v1_1.md(ea0aa8c6) | 1127/1128/1129 |
 | **★★第三系統一致** | **[a]=[2]⁷ を盲実装が完全再現**(別経路・検疫完守)・u₉ = **−4/3¹⁸ 厳密**(v₂=+2・v₃=−18)・Belyi/GAUGE-18/(D-ii) 全通過・support={2} は 2 ゲージで頑健 ⟹ **バグ仮説閉鎖・r=3/648 は cross-checked 測定値へ昇格**(前件 T63+P1–P5 条件付き)・2-part の出所 = t=−Y²/4 の 4 | a_class_indep_v1(166aa87a) | 1125 |
