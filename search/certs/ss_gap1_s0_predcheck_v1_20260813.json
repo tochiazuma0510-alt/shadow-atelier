@@ -1,0 +1,85 @@
+{
+  "schema": "ssg1_count/predcheck_v1",
+  "generated_by": {
+    "tool": "implementer (python3+numpy fractions.Fraction exact rational / GAP 4.16.0 exact rational, two independent implementations)",
+    "order": "司令塔指示 20260813: 新凍結予言4点の両側検定 / 正本 docs/notes/ssg1_stage0_pred_failure_v1.md (数学者・commit 00f0ba2b)",
+    "date": "20260813"
+  },
+  "model": "(c') H_p := PSL(2,Z/2p^2) = S3 x Q_p ,  Q_p := PSL(2,Z/p^2) -- same as search/certs/ss_gap1_stage0_v2_20260813.json",
+  "method": "trace/det histogram exact counting (O(n^2), n=p^2), U(p)=2*i2(Qp)*i3(Qp)/|Qp| computed as EXACT RATIONAL (python fractions.Fraction / GAP exact integer arithmetic), then converted to float only for the final 6-decimal comparison string. No approximation anywhere in the count itself.",
+  "u_touched": false,
+  "c_touched": false,
+  "prereg_quantities_touched": false,
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+
+  "source_scripts": {
+    "python": "search/ss_gap1_s0_v2.py (closed_form_Q function, invoked via scratchpad/predcheck_run.py + scratchpad/predcheck_diff.py for exact-rational diff)",
+    "gap": "search/ss_gap1_predcheck_v1.g"
+  },
+  "source_certs": {
+    "gap_raw": "search/certs/ss_gap1_predcheck_gap_20260813.json"
+  },
+
+  "python_vs_gap_raw_count_match": {
+    "note": "i2_Qp, i3_Qp, Qp_order の3値すべてが2独立実装で完全一致(全4点)",
+    "results": [
+      {"p": 19, "match": true},
+      {"p": 23, "match": true},
+      {"p": 29, "match": true},
+      {"p": 31, "match": true}
+    ]
+  },
+
+  "predcheck": [
+    {
+      "p": 19, "n": 361,
+      "i2_Qp": 61732, "i3_Qp": 137181, "Qp_order": 23457780,
+      "U_exact_rational": "1411409582/1954815",
+      "U_measured_float": 722.016959149587,
+      "U_measured_6dp": "722.016959",
+      "U_frozen_prediction_6dp": "722.016959",
+      "diff_measured_minus_predicted": 1.4958698102418566e-07,
+      "exact_match_6dp": true
+    },
+    {
+      "p": 23, "n": 529,
+      "i2_Qp": 133838, "i3_Qp": 267675, "Qp_order": 73878024,
+      "U_exact_rational": "5970847775/6156502",
+      "U_measured_float": 969.8442029256224,
+      "U_measured_6dp": "969.844203",
+      "U_frozen_prediction_6dp": "969.844196",
+      "diff_measured_minus_predicted": 6.925622415110411e-06,
+      "exact_match_6dp": false
+    },
+    {
+      "p": 29, "n": 841,
+      "i2_Qp": 365836, "i3_Qp": 682893, "Qp_order": 297058020,
+      "U_exact_rational": "41637807258/24754835",
+      "U_measured_float": 1682.0070607620694,
+      "U_measured_6dp": "1682.007061",
+      "U_frozen_prediction_6dp": "1682.007057",
+      "diff_measured_minus_predicted": 3.7620693547069095e-06,
+      "exact_match_6dp": false
+    },
+    {
+      "p": 31, "n": 961,
+      "i2_Qp": 446866, "i3_Qp": 953313, "Qp_order": 443290080,
+      "U_exact_rational": "71000527843/36940840",
+      "U_measured_float": 1922.0063172088128,
+      "U_measured_6dp": "1922.006317",
+      "U_frozen_prediction_6dp": "1922.006317",
+      "diff_measured_minus_predicted": 2.0881270756945014e-07,
+      "exact_match_6dp": true
+    }
+  ],
+
+  "summary_counts": {
+    "total_points": 4,
+    "exact_match_6dp_count": 2,
+    "mismatch_6dp_count": 2,
+    "mismatched_p": [23, 29],
+    "matched_p": [19, 31]
+  },
+
+  "note_no_verdict": "生値と差分のみ記帳。閉形式の維持/破棄の判定語は付さない(司令塔/数学者裁定に委ねる)。参考情報として: (1) 全4点で python/GAP 独立2実装(同一アルゴリズム、独立コード)が完全一致 -- 実装バグの可能性は低い。(2) U(p) は fractions.Fraction / GAP 厳密整数演算による正確な有理数として計算しており、浮動小数点丸め誤差は6桁表示への変換時のみ(diff の桁数から見て丸め誤差の範囲を超えている)。(3) p=19,31 は厳密一致・p=23,29 は6桁目で不一致という非一様なパターンであり、単純な系統的オフセット(全点で同じ符号・同じ桁のずれ)ではない。"
+}
