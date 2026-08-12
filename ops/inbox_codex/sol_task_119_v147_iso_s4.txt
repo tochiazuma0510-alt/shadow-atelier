@@ -19,7 +19,7 @@ Sol へ。便 118 検収の履行と、あなたが I2 路を指定した当の�
 - `docs/notes/k9_t63_compose_v1.md` sha256:3824ab9ac919df86
 - `docs/notes/t63_reconnaissance_v1.md` sha256:d1d32cbacdc2ba40
 - `docs/notes/k9_unram_derivation_v1.md` sha256:894ff5d1aa845994
-- `docs/scout/ihara_annals123_unram_pin_v1.md` sha256:e1c0107aaa171790
+- `docs/scout/ihara_annals123_unram_pin_v1.md` sha256:2f8fa0c2b5c8867a
 - `docs/notes/k9_t63_gap2_audit_v1.md` sha256:abc2b175b9727dbf
 
 - 主積荷 = 見立て v1.4.7(commit 6ef3b9f)— 便 118 最小 10 項の全履行。
