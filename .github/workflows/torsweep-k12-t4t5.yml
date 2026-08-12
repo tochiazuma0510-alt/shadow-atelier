@@ -138,9 +138,9 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install numpy (pinned to the version validated locally)
+      - name: Install numpy+sympy (pinned to the versions validated locally)
         shell: bash
-        run: pip install "numpy==2.5.1"
+        run: pip install "numpy==2.5.1" "sympy==1.14.0"
 
       - uses: actions/download-artifact@v4
         with:
@@ -194,9 +194,9 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install numpy (pinned to the version validated locally)
+      - name: Install numpy+sympy (pinned to the versions validated locally)
         shell: bash
-        run: pip install "numpy==2.5.1"
+        run: pip install "numpy==2.5.1" "sympy==1.14.0"
 
       - uses: actions/download-artifact@v4
         with:
@@ -249,6 +249,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+
+      - name: Install numpy+sympy (pinned to the versions validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1" "sympy==1.14.0"
 
       - uses: actions/download-artifact@v4
         with:
