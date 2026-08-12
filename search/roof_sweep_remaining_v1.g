@@ -427,62 +427,37 @@ WriteCheckpoint := function(rows, doneCount, totalCount)
     ",\"d_no_interpretation\":\"machine values only; verdict は司令塔\"",
     "}"
   );;
-  WriteFile("search/certs/roof_sweep_v1_20260812.json", cert);;
+  WriteFile("search/certs/roof_sweep_remaining_v1_20260813.json", cert);;
 end;;
 
+
 # ====================================================================
-# 実行: 陽性対照(K9 x S4 = 972屋根) + 16異族屋根
+# 実行: 欠損4屋根のみ(K(81)x1152[a/b]・S4x1152[a/b] -- run 31615934135で
+# K(81)がElements(D)でOOMクラッシュ・GHA workflow YAMLのheredocバグでcert未回収)。
+# 修理: Size(D)ガード追加(裁定1070)・shadow_total上限追加・YAML heredoc修理。
+# 既完了13行は run 31615934135 のログから復元(別途マージ)。
 # ====================================================================
 Print("############################################################\n");
-Print("# roof_sweep_v1.g -- 異族屋根一括掃討(裁定1059)\n");
+Print("# roof_sweep_remaining_v1.g -- 欠損4屋根の再走(裁定1070)\n");
 Print("############################################################\n");
 t0 := GAPLIB_WallElapsedMs();;
 
-kNs := [3, 9, 15, 21, 27, 33, 81];;
-r1152vals := ["a", "b"];;
-
 rows := [];;
-totalCount := 1 + Length(kNs)*2 + 2;;   # positive control + 14 K-1152 + 2 S4-1152
+totalCount := 4;;
+doneCount := 0;;
 
-Print("\n=== 陽性対照: K(9) x S4 (972屋根) ===\n");
-tR0 := GAPLIB_WallElapsedMs();;
-rowPC := RunRoof(BuildKWindow(9), BuildS4Window(), 600.0);;
-tR1 := GAPLIB_WallElapsedMs();;
-Print("status=", rowPC.status, " shadow_total=", rowPC.shadow_total, "\n");
-if rowPC.status = "COMPLETE" then
-  Print("  |X|=", rowPC.size_X, " |Phi|=", rowPC.size_Phi, " |X/Phi|=", rowPC.size_Xbar,
-        " n_classes=", rowPC.n_classes, " normal=", rowPC.normal_count,
-        " nonnormal=", rowPC.nonnormal_count, " calib_ok=", rowPC.calibration_ok,
-        " (期待: shadow=972 Phi=9 Xbar=108 classes=8 normal=4 nonnormal=4)\n");
-fi;
-Print("  elapsed_ms=", tR1-tR0, "\n");
-Add(rows, rowPC);;
-WriteCheckpoint(rows, 1, totalCount);;
+targets := [
+  rec(label:="K(81) x 1152[a]", left:=BuildKWindow(81), right:=BuildR1152Window("a")),
+  rec(label:="K(81) x 1152[b]", left:=BuildKWindow(81), right:=BuildR1152Window("b")),
+  rec(label:="S4 x 1152[a]", left:=BuildS4Window(), right:=BuildR1152Window("a")),
+  rec(label:="S4 x 1152[b]", left:=BuildS4Window(), right:=BuildR1152Window("b")),
+];;
 
-doneCount := 1;;
-for n in kNs do
-  for rv in r1152vals do
-    doneCount := doneCount + 1;;
-    Print("\n=== K(", n, ") x 1152[", rv, "] (", doneCount, "/", totalCount, ") ===\n");
-    tR0 := GAPLIB_WallElapsedMs();;
-    row := RunRoof(BuildKWindow(n), BuildR1152Window(rv), 600.0);;
-    tR1 := GAPLIB_WallElapsedMs();;
-    Print("status=", row.status, " shadow_total=", row.shadow_total, " elapsed_ms=", tR1-tR0, "\n");
-    if row.status = "COMPLETE" then
-      Print("  |X|=", row.size_X, " |Phi|=", row.size_Phi, " |X/Phi|=", row.size_Xbar,
-            " n_classes=", row.n_classes, " normal=", row.normal_count,
-            " nonnormal=", row.nonnormal_count, " calib_ok=", row.calibration_ok, "\n");
-    fi;
-    Add(rows, row);;
-    WriteCheckpoint(rows, doneCount, totalCount);;
-  od;
-od;
-
-for rv in r1152vals do
+for target in targets do
   doneCount := doneCount + 1;;
-  Print("\n=== S4 x 1152[", rv, "] (", doneCount, "/", totalCount, ") ===\n");
+  Print("\n=== ", target.label, " (", doneCount, "/", totalCount, ") ===\n");
   tR0 := GAPLIB_WallElapsedMs();;
-  row := RunRoof(BuildS4Window(), BuildR1152Window(rv), 600.0);;
+  row := RunRoof(target.left, target.right, 600.0);;
   tR1 := GAPLIB_WallElapsedMs();;
   Print("status=", row.status, " shadow_total=", row.shadow_total, " elapsed_ms=", tR1-tR0, "\n");
   if row.status = "COMPLETE" then
@@ -496,9 +471,8 @@ od;
 
 t1 := GAPLIB_WallElapsedMs();;
 Print("\n============================================================\n");
-Print("# 一覧表\n");
+Print("# 一覧表(欠損4屋根)\n");
 Print("============================================================\n");
-Print("left | right | status | shadow_total | |X| | |Phi| | |X/Phi| | classes(n/nn) | calib_ok\n");
 for r in rows do
   if r.status = "COMPLETE" then
     Print(r.left, " x ", r.right, " | ", r.status, " | ", r.shadow_total, " | ", r.size_X, " | ",
@@ -508,26 +482,9 @@ for r in rows do
     Print(r.left, " x ", r.right, " | ", r.status, " | ", r.shadow_total, "\n");
   fi;
 od;
-
 Print("\n総経過 = ", t1-t0, " ms\n");
 
-scriptSha256 := ComputeSha256File("search/roof_sweep_v1.g");;
+scriptSha256 := ComputeSha256File("search/roof_sweep_remaining_v1.g");;
 Print("script sha256 = ", scriptSha256, "\n");
-
-# final cert with sha256 included
-finalCert := Concatenation(
-  "{\"schema\":\"roof-sweep/v1\"",
-  ",\"generated_by\":{\"tool\":\"GAP 4.16.0\",\"script\":\"search/roof_sweep_v1.g\",\"order\":\"裁定1059(異族屋根一括掃討)\"}",
-  ",\"gap_version\":\"", GAPInfo.Version, "\"",
-  ",\"per_roof_cap_seconds\":600",
-  ",\"progress\":{\"done\":", String(doneCount), ",\"total\":", String(totalCount), "}",
-  ",\"rows\":", JArr(List(rows, RowJson)),
-  ",\"u_touched\":false,\"c_touched\":false,\"prereg_value_computed\":false",
-  ",\"d_no_interpretation\":\"machine values only; verdict は司令塔\"",
-  ",\"total_elapsed_ms\":", String(t1-t0),
-  ",\"provenance\":{\"script_sha256\":\"", scriptSha256, "\"}",
-  "}"
-);;
-WriteFile("search/certs/roof_sweep_v1_20260812.json", finalCert);;
-Print("\nwrote search/certs/roof_sweep_v1_20260812.json\n");
+Print("wrote search/certs/roof_sweep_remaining_v1_20260813.json\n");
 QUIT;

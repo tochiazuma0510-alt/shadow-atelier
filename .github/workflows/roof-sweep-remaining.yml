@@ -1,8 +1,8 @@
-name: roof-sweep-v1
+name: roof-sweep-remaining
 
-# 異族屋根一括掃討(裁定1059)。K(n)(n=3,9,15,21,27,33,81) x {1152系2窓} + S4 x {1152系2窓}
-# = 16本の異族屋根 + 陽性対照(K(9)xS4=972屋根)。屋根ごとに600秒cap(超過はUNKNOWN記録)・
-# checkpoint方式(1本ごとにcert書き出し)。全体はci/hard_timeout.pyで外側から保護。
+# 異族屋根一括掃討(裁定1059)の欠損4本再走(裁定1070)。run 31615934135でK(81)x1152[a]が
+# Elements(DerivedSubgroup)でOOMクラッシュし、K(81)x1152[b]・S4x1152[a]・S4x1152[b]が
+# 未実行のまま終わった。修理(Size(D)ガード・shadow_total上限)後、この4本のみ再走する。
 #
 # DISPATCH GATE: workflow_dispatch ONLY.
 
@@ -10,18 +10,18 @@ on:
   workflow_dispatch:
     inputs:
       hard_timeout_minutes:
-        description: 'outer hard timeout for the whole GAP process (all 17 roofs)'
+        description: 'outer hard timeout for the whole GAP process (4 roofs)'
         required: true
         type: number
-        default: 180
+        default: 60
 
 permissions:
   contents: read
 
 jobs:
-  roof-sweep:
+  roof-sweep-remaining:
     runs-on: ubuntu-latest
-    timeout-minutes: 210
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
 
@@ -30,7 +30,7 @@ jobs:
         with:
           gap-version: '4.16.0'
 
-      - name: Run roof sweep under process hard timeout
+      - name: Run remaining roofs under process hard timeout
         id: producer
         shell: bash
         run: |
@@ -40,10 +40,10 @@ jobs:
             --timeout-seconds "$(( ${{ inputs.hard_timeout_minutes }} * 60 ))" \
             --heartbeat-seconds 30 \
             --kill-grace-seconds 10 \
-            --checkpoint ci/out/roof_sweep_hard_timeout.json \
-            --log ci/out/roof_sweep.log \
+            --checkpoint ci/out/roof_sweep_remaining_hard_timeout.json \
+            --log ci/out/roof_sweep_remaining.log \
             -- \
-            gap -q -o 8g search/roof_sweep_v1.g
+            gap -q -o 8g search/roof_sweep_remaining_v1.g
           rc=$?
           echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
           exit 0
@@ -53,9 +53,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ -s search/certs/roof_sweep_v1_20260812.json ]; then
-            cp search/certs/roof_sweep_v1_20260812.json ci/out/
-            python3 ci/roof_sweep_gate_report.py search/certs/roof_sweep_v1_20260812.json
+          if [ -s search/certs/roof_sweep_remaining_v1_20260813.json ]; then
+            cp search/certs/roof_sweep_remaining_v1_20260813.json ci/out/
+            python3 ci/roof_sweep_gate_report.py search/certs/roof_sweep_remaining_v1_20260813.json
           else
             echo "::warning::no cert written yet (timed out before first roof checkpoint?)"
           fi
@@ -63,9 +63,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: roof-sweep-v1-${{ github.run_id }}
+          name: roof-sweep-remaining-${{ github.run_id }}
           path: |
             ci/out/
-            search/certs/roof_sweep_v1_20260812.json
+            search/certs/roof_sweep_remaining_v1_20260813.json
           if-no-files-found: warn
           retention-days: 30
