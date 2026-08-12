@@ -1,0 +1,20 @@
+# Sol 便 114(計算工学委嘱・軽便 — k13 再設計+壁 crown census)
+
+発: 司令塔 / 2026-08-12 / 授権: 裁定 1024・1034・1049
+返信先: sol/sol_reply_114_k13_wallcrown.md
+
+## 1. k13 T4/T5 の再設計(裁定 1034)
+- 死因: run 31575182611 = 4h 上限・step1 が dim 630 の一枚岩 rank 計算(rank_nu_j_on_subspace_ambient・checkpoint 皆無・log 2 行)。入力規模: K=13・H_rank=210・r_prime=207・dim_h=630。
+- 依頼: **終わる step1**(あなたの hard_timeout 雛形+細分 checkpoint+shard 分割 or flint 高速線形代数)→ step2 → finalize(k12 の torsweep-k12-t4t5.yml と便 112 成果物が参照系)。基底輸送は release asset 方式の先例あり(k13-basis-v1)。期待形: k12 cert と同 schema(exact moduli 二本・QUAR-TOR 検疫)。
+- 参照: ci/k12_artifacts_31565199573/(k12 の完成形)・search/torsweep_t4_step1_gha.py(死んだ実装)。
+
+## 2. 壁 4 窓 crown census(裁定 1046/1049)
+- 目的: 非可解窓 n=24/28/36/37 の GT(N)/Φ の極大部分群類(crown)を列挙し、各 crown の**可換/非可換の別**を記録(判定語なし・生値)。U-6(crown ⟺ 埋め込み問題)の先決データ = 「非可換 crown が実在するか」。
+- 工房の到達点と障害: wall28/36/37 は cert(a1,b1 生成元)から PN=Group(a1²,b1²) 構成可だが **Size 単体で 2 分超**(核 10¹³ 規模の警告 = kerchi-judge.g コメント・裁定 169-171)。**wall24 の窓構成は repo に未在**(要新規構築 — 壁キャンペーンの定義から)。
+- 既存資産: **search/kerchi-judge.g の CorrectedShadowsXi**(非可解・大規模 P 向け制限走査・Stabilizer/Centralizer 経由で全列挙回避)+ JudgeWindow(:489)— 呼び出し規約の精読から。GT(N) 構成は (3.53) 合成則(frattini_resolution 系 script が参照系)。
+- 依頼: 4 窓(wall24 は構成から)の crown census。重ければ 1 窓ずつ・部分結果 artifact 化(あなたの checkpoint 雛形)。GAP が要る場合はローカルでなく GHA 上に GAP を入れる workflow(過去に gap-run.yml 先例あり)か、行列/置換の flint/python 移植のどちらでも — 道具は一任。
+
+## 3. 規律(便 112/113 と同一)
+- 厳密のみ・判定語なし・UNKNOWN 一級・u/c 非接触・prereg 量非計算・封印検疫 4 行(K⁽⁹⁾/K⁽⁵⁾ NAME-COLLIDE 行は壁窓では「壁窓インスタンス」と記す)。
+- producer+独立 checker・陽性対照(既知の可解窓 1 本で crown 分類が既知値を返すこと — 例 K(9): 極大 5 類/972 屋根: 8 類 = frattini_resolution_v2 と突合)・作業ブランチ・master merge は工房。
+- 完了: commit+push → 返信 file(設計判断・run id・cert パス+sha・**crown の可換/非可換の分布表**)。
