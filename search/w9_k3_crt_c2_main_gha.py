@@ -98,6 +98,21 @@ def singular_expr(expr: sp.Expr) -> str:
     return sp.sstr(expr).replace("**", "^")
 
 
+def modular_singular_expr(expr: sp.Expr, variables: list[sp.Symbol], prime: int) -> str:
+    """Clear rational denominators, then reduce coefficients before Singular parses.
+
+    Pre-reduction is both smaller and avoids asking Singular's characteristic-p
+    parser to interpret very large rational expressions.  A denominator that
+    vanishes modulo the selected prime is fail-closed.
+    """
+    rational_poly = sp.Poly(expr, *variables, domain=sp.QQ)
+    denominator, integer_poly = rational_poly.clear_denoms(convert=True)
+    if int(denominator) % prime == 0:
+        raise RuntimeError(f"bad reduction: cleared denominator {denominator} is 0 mod {prime}")
+    reduced = sp.Poly(integer_poly, *variables, modulus=prime).as_expr()
+    return singular_expr(reduced)
+
+
 def coefficient_equations(poly: sp.Poly, low: int, high: int) -> list[sp.Expr]:
     return [poly.nth(j) for j in range(low, high + 1)]
 
@@ -179,7 +194,6 @@ def build_common_system() -> dict[str, Any]:
         "p2": p2,
         "discriminant": discriminant,
         "square_eqs": square_eqs,
-        "square_eq_strings": [singular_expr(eq) for eq in square_eqs],
         "solve_rows": solve_rows,
     }
 
@@ -234,7 +248,7 @@ def make_singular_script(
     variable_text = ",".join(str(v) for v in variables)
     equation_text = []
     for equation in equations:
-        text = equation if isinstance(equation, str) else singular_expr(equation)
+        text = equation if isinstance(equation, str) else modular_singular_expr(equation, variables, prime)
         if text != "0":
             equation_text.append(text)
     if not equation_text:
@@ -434,6 +448,16 @@ def main() -> int:
 
     build_started = time.monotonic()
     common = build_common_system()
+    base_variables = (
+        list(common["e_symbols"])
+        + [common["scalar"]]
+        + list(common["p_symbols"])
+        + [common["g0"], common["g1"], common["ss"], common["pp"]]
+        + list(sp.symbols("m0:5"))
+    )
+    modular_square_strings = [
+        modular_singular_expr(equation, base_variables, args.prime) for equation in common["square_eqs"]
+    ]
     out["C2_2_system_design"] = {
         "ordering": ["mu3_CRT", "D_equals_cE2", "genus", "order9"],
         "step_C1_high_elimination": common["solve_rows"],
@@ -444,7 +468,8 @@ def main() -> int:
         "E_degree": 17,
         "square_coefficient_equations": len(common["square_eqs"]),
         "build_elapsed_seconds": time.monotonic() - build_started,
-        "common_square_equations_sha256": sha256_bytes("\n".join(common["square_eq_strings"]).encode("utf-8")),
+        "common_square_equations_sha256": sha256_bytes("\n".join(modular_square_strings).encode("utf-8")),
+        "coefficients_pre_reduced_mod_prime": True,
         "mod_p_unit_ideal_logic": "UNIT after good reduction implies the characteristic-zero ideal is UNIT; NONUNIT does not imply existence",
         "open_handling": "closure first; then easy-open Rabinowitsch superset. Pairwise/collision opens are not needed for a UNIT proof and NONUNIT remains UNKNOWN",
     }
@@ -459,7 +484,9 @@ def main() -> int:
                     "distribution": list(distribution),
                     "equation_count": len(crt["equations"]),
                     "rows": crt["rows"],
-                    "sha256": sha256_bytes("\n".join(singular_expr(e) for e in crt["equations"]).encode("utf-8")),
+                    "sha256": sha256_bytes(
+                        "\n".join(modular_singular_expr(e, base_variables, args.prime) for e in crt["equations"]).encode("utf-8")
+                    ),
                 }
             )
         out["build_only_manifests"] = manifests
@@ -497,13 +524,6 @@ def main() -> int:
         atomic_write_json(args.checkpoint, out)
         return 1
 
-    base_variables = (
-        list(common["e_symbols"])
-        + [common["scalar"]]
-        + list(common["p_symbols"])
-        + [common["g0"], common["g1"], common["ss"], common["pp"]]
-        + list(sp.symbols("m0:5"))
-    )
     easy_inverse_variables = list(sp.symbols("iv0:5"))
     results = []
     for index, distribution in enumerate(mu3_distributions()):
@@ -513,7 +533,7 @@ def main() -> int:
             results.append({"distribution": list(distribution), "status": "NOT_RUN_BUDGET_EXHAUSTED"})
             continue
         crt = crt_equations(common, distribution, args.omega)
-        closure_equations: list[sp.Expr] | list[str] = list(common["square_eq_strings"]) + crt["equations"]
+        closure_equations: list[sp.Expr] | list[str] = list(modular_square_strings) + crt["equations"]
         label = "f" + "_".join(str(x) for x in distribution) + "_closure"
         script_path = args.work_dir / f"{index:02d}_{label}.sing"
         script_text = make_singular_script(
