@@ -1,0 +1,90 @@
+week3-battery-common.g loaded.
+Syntax warning: Unbound global variable in search/week3-psl-common.g:309
+  LastRunCInN := rec(sBarSquaredIsIdentity:=(cfg.Sperm^2 = ()));;
+  ^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:350
+  LastRunEnum := rec(gSize:=gSize, dwordsCount:=result.dwords_count,
+  ^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:410
+  LastRunSettled := rec(settledCount:=settledCount, settledDetail:=settledDetail, shadowTotal:=Length(result.shadows));;
+  ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:419
+  kernelEqDetail := [];;
+  ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:422
+    psi := GroupHomomorphismByImages(Gg, Gg, [Xperm, Yperm], [Xperm^u, AbstractProd([f^-1, Yperm^u, f])]);;
+    ^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:423
+    if psi = fail then
+       ^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:424
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=false, kernel_trivial:=false, kernel_size:=fail));
+          ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:426
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=true, kernel_trivial:=(Size(Kernel(psi))=1), kernel_size:=Size(Kernel(psi))));
+          ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:426
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=true, kernel_trivial:=(Size(Kernel(psi))=1), kernel_size:=Size(Kernel(psi))));
+                                                                                                      ^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:426
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=true, kernel_trivial:=(Size(Kernel(psi))=1), kernel_size:=Size(Kernel(psi))));
+                                                                                                                                         ^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:431
+  LastRunKernelEq := rec(detail:=kernelEqDetail);;
+  ^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:431
+  LastRunKernelEq := rec(detail:=kernelEqDetail);;
+                                 ^^^^^^^^^^^^^^
+week3-psl-common.g loaded.
+############################################################
+# d972_phase0_v1.g -- TRIAD-972 Phase 0 gating(裁定1127)
+############################################################
+
+=== 窓1: G9 = MakeGn(9) ===
+  |PB3/K9|=2916 (expect 2916)  K9_ord=18 (expect 18)  time_ms=1
+[PASS] 自己検査アンカー: K9単体 shadow_total=108: true
+
+=== 窓2: P = PSL(2,8) (GF(8) 明示行列) ===
+  |PB3/N_S4|=504 (expect 504)  N_S4_ord=9 (expect 9)  time_ms=1
+[PASS] 自己検査アンカー: S4単体 shadow_total=54: true
+
+=== [0-1] 窓 M := K^(9) cap N_S4(block-diagonal 直和埋め込み) ===
+  |PB3/M| = 1469664 (expect 1469664)  [PASS]  M_ord = 18 (expect 18)  [PASS]  time_ms=0
+  |B3/M| (derived, assumption: M normal in B3) = 8817984
+
+=== [0-3] GT(M) の全数走査 + shadow 合成による実群構成 ===
+  charming_set_M = [ 0, 2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17 ] (|.|=12)
+  derived_order=367416 candidate_total=4408992 shadow_total=972 (expect 972)  elapsed_ms=53017
+[PASS] shadow_total = 972: true
+  BuildShadowCompositionRegularRep(M, 972 shadows) 実行中...
+  closed_observed=true closure_fail_count=0 elapsed_ms=30003
+[PASS] |GT(M)| = 972 (expect 972): true
+
+=== [0-2] (H1) M isolated (#C(M)=1) -- 方法選定と可否判定 ===
+  PN=GM の位数 = 1469664
+  marked-factor-map(AutomorphismGroup(PN))は位数1,469,664に対して
+  裁定1117の教訓(|Q|=1176でメモリ死)から実行を見送る(fail-closed, RAM8GB制約)。
+  well-definedness代替法はK(9)窓のフルB3生成元sigma1,sigma2を要求するが、
+  既存資産に存在しない。scratchpad/try_sigma_k9.gでのblock-swap*block対角元
+  ansatz探索(25候補)は全滅(D_9に位数4の元が存在しないため sigma1^2=x の
+  block3成分=sで位数2元を要求する構成が原理的に不可能と機械確認)。
+  [0-2] は本scriptではUNKNOWN(値なし)として記録し、司令塔へ疑問点として報告する。
+
+=== [0-4] K(27) gating(Phase 1 細分候補の gating 独立確認) ===
+  |PB3/K27| = 78732 (expect 78732)  [PASS]  K27_ord = 54 (expect 54)  time_ms=0
+  |B3/K27| (derived, 6*|PB3/K27|, assumption: K27 normal in B3) = 472392  matches 正本記載 472,392: true
+  K27単体 GT(K27) 全数走査(Thm4.3の isolated 性は正典既証明・PN 単独走査で shadow_total=|GT(K27)|)...
+  candidate_total=708588 shadow_total=972 (expect 972 = 2*27*phi(27), Thm4.3)  [PASS]  elapsed_ms=6235
+
+=== [0-4] K27 subseteq K9 (Prop 3.5) の直接比較 ===
+  K27->K9 準同型が well-defined (K27 subseteq K9) = true  像の位数=|PB3/K9|一致=true  逆向き well-defined = false  time_ms=7
+[PASS] Prop 3.5 (K27 subsetneq K9・9|lcm(27,2)=54) 機械確認: true
+
+=== Phase 1 規模見積り(K := K^(27) cap N_S4, 算術積のみ・未構成) ===
+  |PB3/K| 見積り(算術積 78732*504) = 39680928 (未 GAP 構成)
+  |B3/K| 見積り(算術積 x6)          = 238085568 (未 GAP 構成)
+
+総経過 = 89724 ms
+
+wrote search/certs/d972_phase0_v1_20260813.json
+script sha256 = 95dd7b45fef229cf54ae31c365701be64bb4abf569db7e5e7946d59750075783
