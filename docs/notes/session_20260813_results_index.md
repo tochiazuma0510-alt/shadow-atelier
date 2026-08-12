@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| **便 124 返書** | **抽象機構は採用**(DICHOTOMY-972 紙上 PASS・SINGLE-BIT は (6)+半決定修理つき・B3 3 本 PASS・B1 導出 PASS〔L_{9,Aff} 表記修理・正本 pin 差替〕)・**具体 648 は HOLD — 臨界路 = P3(dessin 束縛)+P5′(Kummer 部分群等号)**・Phase 2 は cofinal 必須・格は r_raw/r_TRIAD の 2 行分記へ | sol_reply_124_triad_audit.md | 1139 |
 | **Phase 1(1 ビット)** | **\|Im R_{K,M}\| = 972(972/972 lift)= 深さ 1 は情報ゼロ・中間値なし(仮定無事)** ⟹ A/B 未決のまま Phase 2 へ(Sol レーン・便 125)・方法論は縮小版 ground truth 0 mismatch で検算済・\|PB₃/K\| 実測 39,680,928(真の subdirect < naive 積) | d972_phase1_v1(e3442054) | 1137 |
 | **(H1) 閉** | [A-5] = **同一窓**(元集合一致)・N_S4 isolated 54/54 実測 ⟹ INT+Thm4.3 で **M isolated 成立 = 二分法有効化**・Phase 1 [1-2] も同時閉・**σ₁,σ₂ 実現完成**(braid+Ad 検算・17,496 一致・W4 債務返済) | d972_h1_ns4_v1+k9_sigma_realization_v1(550faa95) | 1133 |
 | (H1) 帰着 | **Prop 3.15+命題 INT(5 行独立証明・Ξ 不使用)で (H1) ⟸ N_S4 isolated** — 測定規模 504(2916 分の 1)・Phase 1 前件 [1-2] も同じ 1 本に帰着・**novelty-grep 規律の初の着手前自己捕捉**・σ 実現は探索場所訂正(外側コセット・(1.11)(1.12) 直接構成) | d972_h1_adjudication_v1.md(973f37f2) | 1132 |
