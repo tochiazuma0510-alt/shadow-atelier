@@ -1,0 +1,220 @@
+# 【枝 P 実装指示書】+【$r$ 測定仕様】
+
+**日付**: 2026-08-12 / **起草**: 数学者(Opus 5・後任)/ **委嘱**: 裁定 977(Sol 認可済 2 本)
+**格**: candidate(設計・**Sol 未監査**)。走行ゼロ。⚠ **$u$・$\operatorname{ord}$ 未計算**。
+**前提**: `r13_model_design_v1.md`(枝設計)/ `r1_branch_retraction_v1.md`(枝 Q 撤回)/ `r3_cards_audit_v1.md`(TRIAD-972)
+
+---
+
+# 第 I 部 — 枝 P 実装指示書(R-1/R-2 のモデル構成)
+
+## I.1 確定データ(R-0 / R-0b)
+
+| 量 | 値 | 出所 |
+|---|---|---|
+| $D=\deg\lambda_9$ | **18** | R-0 cert |
+| passport | $0$: $[[18,1]]$ / $1$: $[[1,2],[2,8]]$ / $\infty$: $[[18,1]]$ | R-0 cert |
+| $g(W_9)$ | **4** | R-0(RH: $-36+42=6$) |
+| $\mathrm{Deck}(\lambda_9)$ | **自明**($H_9^{\rm fun}$ 自己正規化) | R-0b cert |
+| $\lambda_9$ は Galois か | ✘ **非 Galois**(**LAM9-NONGAL**) | 本工房・紙 |
+| $\mathrm{div}(\lambda_9)$ | ★ $18\bigl(P_0-P_\infty\bigr)$($0,\infty$ が各 1 点で全分岐) | passport |
+| $\dim L(18P_\infty)$ | ★ **15**($=18-g+1$・$18\ge2g-1=7$ で RR)| 機械確認 |
+
+## I.2 ★★ 先に確認すべき 1 点(**重い R-1 を回避できる可能性**)
+
+wac_v1 は **命題 U-LOC** により「測定は $C$ 上の**局所展開のみに還元**($u_0=-c^{-1}$・**$W$ の方程式は不要**)」を達成していた(litgate 覚書 §0 逐語)。
+
+$$\boxed{\ \textbf{★ }K^{(9)}\ \textbf{側に }U\text{-LOC}\ \textbf{類似の還元があれば、}W_9\ \textbf{の完全なモデル構成は}\textbf{不要}\ }$$
+
+⟹ ★ **指示書の第 0 工程を「U-LOC 類似の探索」にする**。これが当たれば **R-1 の大半が消える**。
+⚠ U-LOC は **S4 窓の命題**(型境界 — W-48)。$K^{(9)}$ 側での成立は**未確認**。
+
+## I.3 モデル構成の設計(**枝 P**・U-LOC 類似が無い場合)
+
+### I.3.1 平面モデルの形
+
+$W_9$ を $\mathbf P^1_t$ 上の被覆として
+$$F(t,w)=0,\qquad \deg_w F=18,\qquad t=\lambda_9,\qquad F\in F_9[t,w],\ F_9=\mathbf Q(\zeta_{36})$$
+と書く。**分岐条件**が係数を強く縛る:
+
+| 素点 | 条件 | $F$ への帰結 |
+|---|---|---|
+| $t=0$ | 全分岐(1 点・$e=18$) | ★ **座標を $w$ の平行移動で正規化**して $F(0,w)=c_0\,w^{18}$ |
+| $t=\infty$ | 全分岐(1 点・$e=18$) | ★ $w=\infty$ を $P_\infty$ に取る ⟹ $\deg_t$ の主部が単項 |
+| $t=1$ | $[[1,2],[2,8]]$ | $F(1,w)=c_1\,(w-\alpha_1)(w-\alpha_2)\prod_{j=1}^{8}(w-\beta_j)^2$(**単根 2・二重根 8**) |
+
+⟹ **未定係数法 + Gröbner**($t=1$ の重根条件は判別式の消滅で書ける)。
+
+### I.3.2 ★ 函数階段による補助(**次元の見張り**)
+
+$P_\infty$ を基点とする $L(kP_\infty)$ の次元は、$k\ge7$ で $k-3$、$k<7$ は gap 列による。
+$$\lambda_9\in L(18P_\infty),\qquad \dim L(18P_\infty)=15$$
+⟹ **生成元の探索範囲の上限**として使う(未定係数の本数の sanity check)。
+★ **$18(P_0-P_\infty)\sim0$**($\mathrm{div}(\lambda_9)$ から)⟹ $P_0-P_\infty$ は $\mathrm{Jac}(W_9)$ の **torsion 点で位数 $\mid18$** ⟹ **モデルの検算に使える**。
+
+### I.3.3 W-d(主係数抽出)の**終結式一般形**
+
+超楕円を仮定しない形(`r13_model_design_v1.md` §2.4 の具体化):
+$$N_\tau(w):=\mathrm{Res}_{\,?}\bigl(F(t,w),\ t-\tau\bigr)\ \text{ではなく}\ \boxed{\ N_\tau(w):=F(\tau,w)\ }$$
+★ **$F$ が既に $t$ について書かれているので終結式は不要** — $t=\tau$ を代入するだけ。主係数は $\mathrm{lc}_w F(\tau,w)$。
+$$\lambda_9=u_9\,s_9^{18}\bigl(1+O(s_9)\bigr)\ \Longrightarrow\ u_9=\lim_{s_9\to0}\lambda_9\,s_9^{-18}$$
+は $P_0$ での **Puiseux 展開**(厳密級数演算)で読む。
+
+## I.4 実装係への指示書
+
+```
+=== 作業指示: 枝 P モデル構成(R-1/R-2)===
+根拠: 司令塔裁定 977 / 設計 = docs/notes/branchP_and_r_spec_v1.md 第 I 部
+★ 停止線: R-2 まで。R-3(主係数 u_9 の抽出)は prereg 凍結済(裁定 977)
+          だが、モデルが立つまで実行できない。R-3 に入る前に一度報告。
+⚠ 禁止: 他窓(S4/wac)の genus・次数・商・モデルを流用すること(W-48)
+⚠ 禁止: 群位数から分岐を導くこと(W-51)
+
+[P0] ★ 最優先(軽い)— U-LOC 類似の探索
+  wac_v1 の命題 U-LOC「測定は C 上の局所展開のみに還元・W の方程式は不要」
+  (litgate_positive_genus_belyi_v1.md §0)の K^(9) 側類似が存在するか、
+  既存文書を走査して *設計可否の報告* を出す。
+  ★ 当たれば [P1][P2] の大半が不要になる。
+  ⚠ S4 窓の命題をそのまま適用しないこと(型境界・W-48)。
+  出力: 報告(cert 不要)。所在の有無と、あれば命題番号。
+
+[P1] 平面モデル F(t,w) = 0 の構成
+  (a) deg_w F = 18。係数体 F_9 = Q(zeta_36)(★ 厳密・浮動小数点禁止)
+  (b) 正規化: t=0 の全分岐点を w=0 に、t=∞ の全分岐点を w=∞ に取る
+      => F(0,w) = c_0 w^18
+  (c) t=1 の条件: F(1,w) が単根 2 個 + 二重根 8 個
+      (判別式の消滅条件を Gröbner へ)
+  (d) 未定係数法 + Gröbner。★ 設計流用元 =
+      search/probe/wac_v1/u_meas_caseb_groebner*.py 系
+  (e) 検算: ① exact_verification_all_zero 相当 ② 複数素点での剰余一致
+      ③ ★ 18(P_0 - P_inf) ~ 0(Jac の torsion)の確認
+  出力: cert (schema r13-r1p/v1)
+
+[P2] cusp と有理 uniformizer(R-2)
+  (a) lambda_9^{-1}(0) = {P_0} を機械確認(fail-closed)
+  (b) P_0 が F_9-有理点か確認 → 非有理なら即停止・UNKNOWN(u3) 報告
+  (c) F_9-有理な uniformizer s_9 を取る
+  (d) ★ 2 通りの s_9 を取り両方 cert に記録
+      (= prereg v3 の T63-UNIF-INV 検査用・[5] s9_variants 欄)
+  出力: cert (schema r13-r2p/v1)
+
+[共通の記録要件]
+  u_touched : false      ★ [P0]-[P2] では必ず false
+  d_no_interpretation : "machine values only; verdict は司令塔"
+  window_assert / M_assert(M=18)/ F_assert(F_9 = Q(zeta_36))
+  ★ dim L(18 P_inf) = 15 との整合(未定係数の本数の sanity check)
+=== END ===
+```
+
+### I.5 fail-closed 条項(`r13_model_design_v1.md` §4 を継承・追加 2 件)
+
+| # | 条件 | 動作 |
+|---|---|---|
+| F-1〜F-6 | 前設計のまま | — |
+| ★ F-7 | $\dim L(18P_\infty)\ne15$ と整合しない | **即停止**($g=4$ or $D=18$ の再検査) |
+| ★ F-8 | $18(P_0-P_\infty)\not\sim0$ | **即停止**(passport と矛盾) |
+
+---
+
+# 第 II 部 — $r$ 測定仕様
+
+## II.1 ★★ 型境界(**最重要・法の統一**)
+
+$$r:=\bigl\lvert\langle[a]\rangle\cap\langle[b]\rangle\bigr\rvert$$
+
+| 記号 | 定義 | 法 | 類群 | 出所 |
+|---|---|---|---|---|
+| ★ **$a$** | $L_{9,\mathrm{Aff}}=\mathbf Q(\zeta_9,\sqrt[9]{a})$ の Kummer radicand | ★ **9** | $\mathbf Q^\times/(\mathbf Q^\times)^9$ | K9-KUMMER(R1 第一波) |
+| ★ **$b$** | $L_{S4}=\mathbf Q(\zeta_9,\sqrt[9]{b})$ の Kummer radicand | ★ **9** | 同上 | R3 札 1(S4-COORD) |
+| ⚠ **$a_9$** | $[u_9^{-1}]_{18}$ | ⚠ **18** | $F_9^\times/F_9^{\times18}$($F_9=\mathbf Q(\zeta_{36})$) | E1 §5.1 |
+
+$$\boxed{\ \textbf{⚠ }a\ \textbf{と }a_9\ \textbf{は}\textbf{別の類群の元}\ \textbf{(法 9 vs 18・体 }\mathbf Q\ \textbf{vs }\mathbf Q(\zeta_{36})\textbf{)}\ }$$
+★ 位数はどちらも $\{1,3,9\}$ に落ちるが、**類そのものは別**。⟹ **$r$ は法 9・$\mathbf Q$ 側で統一する**(RES-INJ-9 が $\mathbf Q\hookrightarrow K$ の単射性を保証)。
+
+### II.1.1 ★ $a_9$(法 18)から $a$(法 9)へ落とす規約 —【**r-GAP-1**】
+
+$\operatorname{ord}(a_9)$(R-3/R-4 の出力)から $[a]\in\mathbf Q^\times/(\mathbf Q^\times)^9$ を取り出す規約は**未確定**。
+⚠ **位数だけでは $r$ は決まらない** — $r$ は**類の交わり**であって位数の関数ではない。
+$$\boxed{\ \Longrightarrow\ r\ \textbf{測定には}\textbf{位数ではなく類そのもの}\ \textbf{が要る}\ }$$
+★ **これが本仕様の最大の前件**。⟹ **R-3 の出力仕様に「$[a]$ の類そのもの(素因子指数ベクトル)」を含めること**を要求する。
+
+## II.2 資産と規約(委嘱の「どの資産からどの規約で取るか」)
+
+| 側 | 資産 | 規約 |
+|---|---|---|
+| **$a$($K^{(9)}$)** | ★ **R-3 の出力**($u_9$ の主係数)⟹ $a=$(K9-KUMMER の Kummer 類) | 法 9・$\mathbf Q^\times/(\mathbf Q^\times)^9$・素因子指数を $\bmod\ 9$ で記録 |
+| **$b$($N_{S4}$)** | ★ **S4-RECON の出力**($u_0$)⟹ $b$ | 同上。⚠ **前件 P5($u_0=u_{S4}$)を継承**(`s4_recon_device_v1.md`)|
+| **正規化** | 両側とも **$-1=(-1)^9$ ゆえ符号は自明**・$\mathbf Q^\times/(\mathbf Q^\times)^9\cong\bigoplus_p\mathbf Z/9$(素因子ごとの指数) | ★ **同一の基底**(素数の集合)で表す |
+
+★ **交わりの計算**: $\langle[a]\rangle,\langle[b]\rangle$ は $\bigoplus_p\mathbf Z/9$ の巡回部分群 ⟹ **$r$ は初等的**(実装係の雛形 `r_intersection_template_v1.py`・canary 4/4 で確認済)。
+
+## II.3 $r$ 測定の prereg カード(**様式 v3 準拠**・QUAR 8 要件を流用)
+
+```
+=== PREREG CARD: r RECEIPT (TRIAD-972) ===
+card_id  : prereg-r-receipt/v1
+authorisation : Sol 返書 120 P3(認可済)+ 司令塔裁定 977
+
+[0] 前件
+  A1 : R-3 が [a] を *類として* 出力していること(位数だけでは不可)★ r-GAP-1
+  A2 : S4-RECON が [b] を同上で出力していること(前件 P5 = u_0 = u_S4 を継承)
+  A3 : 両側の正規化が同一(法 9・Q^x/(Q^x)^9・素因子指数の基底)
+  A4 : TRIAD-972 の前提(i ∉ L_S4〔次数互素〕・RES-INJ-9・R3-GAP-4/5)
+  ⟹ 本 receipt は A1-A4 の下での conditional receipt
+
+[1] 測定対象
+  r := |<[a]> cap <[b]>|  in  Q^x/(Q^x)^9
+  ⚠ NOT : ord(a_9)(法 18・別類群)から直接は取れない
+
+[2] 判定(★ 三値 UNKNOWN 維持)
+  r ∈ {1,3,9}(r | gcd(d_9,d_S4) ゆえ)
+  ★ 972 への含意: |X\A| = 972 - 12 d_9 d_S4 / r
+     非発火は (d_9,d_S4,r) = (9,9,1) ただ一つ
+     ★ d_9 = d_S4 = 9 でも r >= 3 なら発火
+  UNKNOWN(MISS に優先):
+    (r1) A1/A2 が満たされない(類が出ていない・位数のみ)
+    (r2) r ∤ gcd(d_9,d_S4) ⟹ 規約不一致 ⟹ 座標系の再検査
+    (r3) 両側の素因子基底が食い違う ⟹ 正規化の再検査
+
+[3] 同時に判定される命題
+  TRIAD-972 の縮約式 / COMPOSITUM-rho(前件 2/3 = R3-GAP-4/5 は閉)
+  ⚠ d_9, d_S4 が UNKNOWN のままなら |X\A| は決まらない
+     ⟹ r 単独では 972 は決着しない(★ 三値が揃って初めて決まる)
+
+[4] ★ QUAR(S4 receipt 様式 P6 の 8 要件を流用)
+  発火判定(|X\A| > 0)が出た場合:
+   (Q1) 即時隔離・流通禁止  (Q2) 前件 A1-A4 の再検査
+   (Q3) falsifier 独立判読  (Q4) Sol 監査請求
+   (Q5) 研究者報告          (Q6) 三値(d_9,d_S4,r)の出所を各々明記
+   (Q7) 型境界検問(法 9/18・窓 K^(9)/N_S4 の取り違えがないか)
+   (Q8) 「反例を得た」と書かない(|X\A|>0 は *非算術 shadow の存在* であって
+        具体的 witness の構成ではない)
+  ★ (Q8) が S4 receipt との差: あちらは d_S4<9 が直接反例だが、
+    こちらは *個数* が出るだけで witness は別途構成が要る
+
+[5] 禁止事項
+  - 位数から類を推測しない(★ r-GAP-1)
+  - a_9(法 18)を a(法 9)として使わない
+  - 三値のうち 1 つでも UNKNOWN なら |X\A| の値を書かない
+  - 格は cross-checked 止まり・verified は Lean に予約
+
+[6] 出力
+  r_value / a_class / b_class(素因子指数ベクトル・法 9)
+  prerequisites_status : A1-A4(成立を主張せず状態を転記)
+  quar_triggered : (|X\A| > 0 が導けた場合)
+  d_no_interpretation : "machine value only; verdict は司令塔"
+=== END ===
+```
+
+## II.4 ★ 実装係への注記
+
+既製の `r_intersection_template_v1.py`(canary 4/4)は**交わりの計算器**として妥当(**$(3,9)\to9$・$(3,2\cdot3^6)\to1$** の canary は $\bigoplus_p\mathbf Z/9$ の巡回部分群の交わりとして正しい)。
+⚠ ただし **入力の $[a],[b]$ が揃うのは R-3 と S4-RECON の後**。⟹ **仕様凍結 → 入力待ち → 計算**の順。
+
+---
+
+# 帰属・申告
+
+- **U-LOC** = wac_v1(litgate 覚書 §0)。**$r$ 計算器雛形** = 実装係。**認可** = Sol 返書 120 P3。**委嘱** = 司令塔(裁定 977)。
+- **本ノートの新規部分**: ① ★ **[P0](U-LOC 類似の探索)を第 0 工程に置く設計**(重い R-1 を回避できる可能性)② **平面モデル $F(t,w)$ の分岐条件による正規化**($F(0,w)=c_0w^{18}$)③ ★ **終結式は不要**($F$ が $t$ について書かれていれば代入のみ)④ **fail-closed F-7/F-8**($\dim L=15$・$18(P_0-P_\infty)\sim0$)⑤ ★★ **$a$(法 9)と $a_9$(法 18)が別類群であることの摘出**と【**r-GAP-1**】(**位数ではなく類そのものが要る**)⑥ **$r$ prereg カード**(三値 UNKNOWN・QUAR 8 要件・★ **(Q8) = $\lvert X\setminus A\rvert>0$ は witness の構成ではない**)。
+- **申告**: ⚠ $u$・$\operatorname{ord}$・$r$ いずれも未計算。走行ゼロ。**Sol 未監査**。⟹ **verified ではない**。
