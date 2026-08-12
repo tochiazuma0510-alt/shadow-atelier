@@ -318,6 +318,9 @@ if IsBound(WALL_ONLY) then
 else
   outName := "search/certs/wall_crown_census_v1_20260812.json";
 fi;
-PrintTo(outName, out);;
+outStream := OutputTextFile(outName, false);;
+SetPrintFormattingStatus(outStream, false);;
+PrintTo(outStream, out);;
+CloseStream(outStream);;
 Print("WALL_CROWN_CENSUS_V1_DONE\n");
 QUIT;

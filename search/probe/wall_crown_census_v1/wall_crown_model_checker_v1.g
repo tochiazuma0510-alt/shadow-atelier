@@ -65,7 +65,12 @@ results := [];;
 for z in specs do
   ## DirectProduct is intentionally used here; the producer instead obtains
   ## an actual subgroup Normalizer(S_n,<x>) from each wall witness.
-  G := DirectProduct(AffineGeneralLinearGroup(1,z[2]), SymmetricGroup(z[3]));
+  ell := z[2];
+  translation := PermList(List([0..ell-1], x -> ((x+1) mod ell)+1));
+  multipliers := List([1..ell-1],
+    a -> PermList(List([0..ell-1], x -> ((a*x) mod ell)+1)));
+  affine := Group(Concatenation([translation], multipliers));
+  G := DirectProduct(affine, SymmetricGroup(z[3]));
   Add(results, SJ(z[1],z[2],z[3],Signature(G)));
 od;
 
@@ -75,6 +80,10 @@ out := Concatenation(
   "\"gap_version\":",S(GAPInfo.Version),",\n",
   "\"model\":\"DirectProduct(AffineGeneralLinearGroup(1,ell),SymmetricGroup(t))\",\n",
   "\"walls\":[",JoinStringsWithSeparator(results,","),"]\n}\n");;
-PrintTo("search/certs/wall_crown_model_checker_v1_20260812.json",out);;
+outStream := OutputTextFile(
+  "search/certs/wall_crown_model_checker_v1_20260812.json", false);;
+SetPrintFormattingStatus(outStream, false);;
+PrintTo(outStream,out);;
+CloseStream(outStream);;
 Print("WALL_CROWN_MODEL_CHECKER_V1_DONE\n");
 QUIT;

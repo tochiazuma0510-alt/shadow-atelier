@@ -338,6 +338,9 @@ jobs:
           test '${{ steps.producer.outputs.wrapper_exit }}' = '0'
           test -s 'ci/out/wall_crown_census_v1_${{ matrix.wall }}_20260812.json'
           grep -q WALL_CROWN_CENSUS_V1_DONE ci/out/wall.log
+          python -m json.tool \
+            'ci/out/wall_crown_census_v1_${{ matrix.wall }}_20260812.json' \
+            >/dev/null
 
   wall_model:
     runs-on: ubuntu-latest
@@ -357,6 +360,8 @@ jobs:
             2>&1 | tee ci/out/model.log
           cp search/certs/wall_crown_model_checker_v1_20260812.json ci/out/
           grep -q WALL_CROWN_MODEL_CHECKER_V1_DONE ci/out/model.log
+          python3 -m json.tool \
+            search/certs/wall_crown_model_checker_v1_20260812.json >/dev/null
       - uses: actions/upload-artifact@v4
         if: always()
         with:
