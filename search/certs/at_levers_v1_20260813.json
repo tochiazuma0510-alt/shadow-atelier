@@ -1,0 +1,324 @@
+{
+  "schema": "shadow-atelier/at_levers_v1",
+  "order": "裁定1088(発案7号の反証テコ3本・推薦順実行)",
+  "spec_ref": "docs/notes/ideas_arith_torsor_v1.md 札AT-2(P1/P2)・札AT-4",
+  "generated_by": "implementer (裁定1088実行)",
+  "inputs": {
+    "set_surgery_fixture_v1_20260813.json_sha256": "f11236722ce7ca86db94bb07bf1c2a8ea916dc7a5e15ea25c1ba45fa26368805",
+    "at2_p1_retab_script": "search/at2_p1_retab.py",
+    "at2_p1_retab_script_sha256": "128668b0ea9ee4614de2c7bec6325bae41343515aaba615380a96249c7f4719f",
+    "at2_p1_result_cert": "search/certs/at2_p1_u_residue_coset_v1_20260813.json",
+    "at4_script": "search/at4_qstab_coarsen_v1.g",
+    "at4_script_sha256": "a1bc68d112270ff932c334e5db01597d95439eea91b6dcb5fcafafb859d77d97",
+    "at2_p2_script": "search/at2_p2_ndiamond_construct_v1.g",
+    "at2_p2_script_sha256": "3f7f7715d7a21e6a4df335428a4fa47f54cab34e285eecac2e67e18cd2945950"
+  },
+  "p1_u_residue_coset_test": {
+    "schema": "shadow-atelier/at2_p1_u_residue_coset_v1",
+    "spec_ref": "docs/notes/ideas_arith_torsor_v1.md 札AT-2 P1",
+    "input_cert": "search/certs/set_surgery_fixture_v1_20260813.json",
+    "input_cert_sha256": "f11236722ce7ca86db94bb07bf1c2a8ea916dc7a5e15ea25c1ba45fa26368805",
+    "n_ord": 12,
+    "modulus_2n": 24,
+    "settled_class": {
+      "size": 24,
+      "rep_m": 0,
+      "m_multiset": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        9,
+        9,
+        9,
+        9,
+        9,
+        9
+      ],
+      "u_multiset": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        13,
+        13,
+        13,
+        13,
+        13,
+        13,
+        19,
+        19,
+        19,
+        19,
+        19,
+        19
+      ]
+    },
+    "nonsettled_class": {
+      "size": 24,
+      "rep_m": 2,
+      "m_multiset": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11
+      ],
+      "u_multiset": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        23,
+        23,
+        23,
+        23,
+        23,
+        23
+      ]
+    },
+    "u_t0": 5,
+    "predicted_nonsettled_u_multiset": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      17,
+      17,
+      17,
+      17,
+      17,
+      17,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23
+    ],
+    "actual_nonsettled_u_multiset": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      11,
+      11,
+      11,
+      11,
+      11,
+      11,
+      17,
+      17,
+      17,
+      17,
+      17,
+      17,
+      23,
+      23,
+      23,
+      23,
+      23,
+      23
+    ],
+    "predicted_equals_actual": true,
+    "consistency_checks": [
+      {
+        "class_rep_m": 0,
+        "first_member_shadow_index": 1,
+        "first_member_m_from_check_b": 0,
+        "matches": true
+      },
+      {
+        "class_rep_m": 2,
+        "first_member_shadow_index": 7,
+        "first_member_m_from_check_b": 2,
+        "matches": true
+      }
+    ],
+    "u_touched": true,
+    "u_touch_note": "u=2m+1 is the charming/multiplicative coordinate already public in the 1084 cert's own definition (definition note L180); this is NOT the sealed K(5) instance quantity (NAME-COLLIDE note applies: this u is a K(9)-window-family instance object, distinct from the sealed K(5) quantities).",
+    "status_note": "既観測(census83)の独立再確認 -- 数学者が census83 の既存データで厳密一致を確認済み(set_surgery_vetting_v1.md: {1,7,13,19}*5 == {5,11,17,23} mod 24)。本スクリプトはその一致を1084certの再集計のみから独立に再導出したもの(独立クロスチェック格)。"
+  },
+  "at4_qstab_coarsening_test": {
+    "schema": "shadow-atelier/at4_qstab_coarsen_v1",
+    "generated_by": {
+      "tool": "GAP 4.16.0",
+      "script": "search/at4_qstab_coarsen_v1.g",
+      "order": "裁定1088(発案7号札AT-4 Q-STAB粗化検定)"
+    },
+    "gap_version": "4.16.0",
+    "spec_ref": "docs/notes/ideas_arith_torsor_v1.md 札AT-4 3.(検証の一手目)",
+    "window": "[1008,521] slot1 (search/iso_census83_deep15_data.g DEEP15[1])",
+    "n_source": {
+      "bq_order": 1008,
+      "pn_order": 168,
+      "n_ord": 12,
+      "shadow_total": 48
+    },
+    "n_level_classes": {
+      "num_classes": 2,
+      "class_sizes": [
+        24,
+        24
+      ],
+      "settled_class_index": 1,
+      "settled_class_size": 24,
+      "nonsettled_class_size": 24
+    },
+    "coarsening_H": {
+      "candidate_normal_subgroup_sizes_in_PN": [
+        2,
+        7,
+        8,
+        14,
+        21,
+        42,
+        56,
+        168
+      ],
+      "num_minimal_candidates": 1,
+      "hbar_order": 2,
+      "bq_over_hbar_order": 504,
+      "ph_order": 84
+    },
+    "h_level_classes": {
+      "num_classes": 2,
+      "class_sizes": [
+        24,
+        24
+      ],
+      "h_settled_class_index": 1,
+      "h_settled_class_size": 24
+    },
+    "check_a_qstab_direct": {
+      "settled_landing_in_h_settled": 24,
+      "settled_total": 24,
+      "all_settled_land_in_h_settled_and_only_there": true
+    },
+    "check_b_class_map_welldefined": {
+      "settled_h_classes_hit": [
+        1
+      ],
+      "settled_homogeneous": true,
+      "nonsettled_h_classes_hit": [
+        2
+      ],
+      "nonsettled_homogeneous": true,
+      "overall_well_defined": true
+    },
+    "u_touched": true,
+    "u_touch_note": "u=2m+1 charming coordinate reused from existing marking (same object as set_surgery_fixture_v1 cert), not the sealed K(5) instance quantity",
+    "c_touched": false,
+    "d_no_interpretation": "machine values only; verdict は司令塔",
+    "total_elapsed_ms": 3881
+  },
+  "p2_ndiamond_r_trace_quantization": {
+    "stage": "STAGE1_M_construction_only",
+    "status": "PARTIAL",
+    "detail": {
+      "schema": "shadow-atelier/at2_p2_ndiamond_construct_v1",
+      "generated_by": {
+        "tool": "GAP 4.16.0",
+        "script": "search/at2_p2_ndiamond_construct_v1.g",
+        "order": "裁定1088(発案7号札AT-2 P2 M=NcapK2構成 STAGE1)"
+      },
+      "gap_version": "4.16.0",
+      "spec_ref": "docs/notes/ideas_arith_torsor_v1.md 札AT-2 P2",
+      "window": "[1008,521] slot1",
+      "status": "PARTIAL",
+      "completed_steps": [
+        "N_reconstruction_48_shadows_2_classes",
+        "PB3_construction_index_6_in_B3",
+        "c_identified_as_Delta_squared_in_PB3"
+      ],
+      "not_completed_steps": [
+        "F2_eq_PB3_mod_c_quotient_construction",
+        "K2_kernel_of_T_2_frep_pullback_to_PB3",
+        "M_eq_N_cap_K2",
+        "GT_M_enumeration",
+        "R_MN_pushforward_and_trace_quantization_measurement"
+      ],
+      "blocking_reason": "F2=PB3/<c> is an INFINITE finitely-presented group (PB3 = F2 x Z with <c> the Z factor); attempted NormalClosure(B3,Subgroup(B3,[c]))/coset-enumeration to realize <c> as a subgroup FAILED with GAP error 'the coset enumeration has defined more than 4096000 cosets' (expected, since <c> has infinite index in B3) -- confirms the finite-index-168 subgroup K2 of F2 requires Reidemeister-Schreier-type subgroup presentation machinery on an infinite fp group whose GAP runtime is not boundable in advance; flagged for GHA per the local-2-minute-smoke-then-GHA discipline rather than left running unbounded locally",
+      "pb3_index_in_b3": 6,
+      "pn_order": 168,
+      "n_ord": 12,
+      "theoretical_upper_bound_pb3_over_m": 28224,
+      "u_touched": true,
+      "u_touch_note": "u=2m+1 charming coordinate reused from existing marking, not the sealed K(5) instance quantity",
+      "c_touched": true,
+      "c_touch_note": "c here = Delta^2 the PB3 center generator (window-family structural object, W.c in existing scripts), NOT the sealed K(5) instance quantity -- NAME-COLLIDE disambiguation per CLAUDE.md",
+      "d_no_interpretation": "machine values only; verdict は司令塔",
+      "total_elapsed_ms": 196
+    },
+    "note": "P2の本題(GT(M)列挙・R_{M,N}押し出し・trace量子化測定)はM=N∩K2の構成が完了するまで未着手。M構成STAGE1でK2の実現法にフォークがあり司令塔判断待ち(ops/express/20260813_implementer_at2_p2_k2_construction_fork.md)。"
+  },
+  "u_touched": true,
+  "c_touched": true,
+  "u_c_touch_note": "u=2m+1 charming coordinate と c=Delta^2 (PB3中心) はいずれも既存 window-family instance object(NAME-COLLIDE: 封印のK(5)量とは別対象)。封印3量・prereg量(b9/a9/d9)は非接触・非計算。",
+  "d_no_interpretation": "machine values only; verdict は司令塔"
+}

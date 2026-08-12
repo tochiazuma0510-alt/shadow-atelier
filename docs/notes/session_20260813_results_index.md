@@ -20,7 +20,7 @@
 | **R-1 厳密モデル** | **W₉: x²w³−27ζ₃y(w+1)=0 / E: y²+3ζ₃xy+2y=x³・定義体⊆ℚ(ζ₃)・c=ζ₆/2**(candidate・条件 D2-GAP-4 のみ) | p1d2_r1_canonicalization_v1.md(b036267d) | 1083 |
 | falsifier 監査(正準化) | 数学 14 検算 PASS(c/ρ 30 桁一致 = CV-9 同一対象・0 ビット判定正)・**B-1「類で一意」偽(passport 実現 13 群)**・B-2 CAN-1 恒真化 ⟹ 「強制」overclaim・**救済: \|Mon(λ₉)\|=324 認証済在庫 2 cert・T18n140 一意**・M-2 GAP-5 既閉・M-5 ζ₃ は W→E 層まで | fals_p1d2_r1_audit_v1.md(16dd7ca8) | 1086 |
 | D2-GAP-4 裁定(v2) | CAN-1 撤回 → **【CAN-1′】P=P₁ 無仮定確定**(母集団 72・resolvent 4 類・λ₉ 類のみ \|Mon\| 分布 {324³,972⁹,2916⁶}・Galois 安定)・**【D2-GAP-6】発見+閉**(4 点族 = 72 の split 枝のみ)・GAP-5 閉・**t=−y²/4**(E 同一性初突合)・passport ((18),(2⁸1²),(18))・被覆一意は S₁₈ 共役類で判定(群一意と区別) | p1d2_r1_canonicalization_v2.md + d2gap4_gate_adjudication_v1.md(6f290d3b) | 1087 |
-| **[D2-GATE]** | **走行中(CP)** — W(P₁)/W(P₂) 数値 monodromy・prereg PRED-1 {324,972,2916}/PRED-2 419904・5 分岐事前記載・(a) 無条件宣言/(b)(c) 棄却+m 走査 | — | 1087 |
+| **[D2-GATE] 着弾** | **両予言的中**: \|Mon(W(P₁))\|=324・\|Mon(W(P₂))\|=419904・**S₁₈ 共役 = P₁ のみ true** ⟹ §8.3 **分岐 (a) = W₉=W(P₁) 確定**該当(正式読解 = 数学者)・残差 ~1e-50・密度非依存傍証 | d2_gate_v1_20260813 + d2_gate_v1_track_20260813(run 31630925950) | 1090 |
 
 ## §2 ③ 線 = (F)/(Ad)/691 戦役の測定
 
