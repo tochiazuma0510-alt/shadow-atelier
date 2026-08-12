@@ -1,293 +1,657 @@
 #!/usr/bin/env python3
+"""Exact Tier-2 elimination for the four remaining W9 k=2 strata.
+
+The original v1 script formed a large bivariate resultant and used SIGALRM.
+This replacement uses the residual scaling action before elimination.  Put
+
+    r = b/a,  w = a*z,
+    Q0(z,r) = (z-1)(z-r) g(z;1,r)^2,
+    H(r) = [z^9] Q0.
+
+The step-1 equation is a^9 H(r)=2.  Since P=Q-w^18-1 (the -1 is essential),
+the two normalized discriminant factors are
+
+    S1 = Q0 - (z^9 + H/2)^2,   deg_z S1 <= 8,
+    S2 = Q0 - (z^9 - H/2)^2,   deg_z S2  = 9.
+
+Thus candidate ratios are roots of the two univariate discriminants in r.
+Each irreducible ratio factor is classified exactly in Q[r]/(factor) using
+python-flint number-field arithmetic and a squarefree-decomposition gcd chain.
+No floating-point decision is made.
 """
-search/r13_p1_tier2_gha.py -- [P1] Tier 2 (remaining 4 layers, disc-product route) per 裁定1002,
-docs/notes/w9_laneB_elimination_v1.md §4.
 
-★ v2 (裁定1010 補記, 3 repairs applied to the v1 attempt that crashed -- run 31579129830):
-  1. JSON writer: every field passed through _jsonable() (recursively converts sympy Integer/
-     Rational/Expr etc to native int/str) and _checkpoint()/_write() wrap the WHOLE dump in
-     try/except per-field so a single bad field can never prevent a valid partial JSON from being
-     written at timeout (v1's bug: sp.degree() returns a sympy Integer, not a native int, and
-     json.dump crashed on it -- exactly at the SIGALRM boundary, so NO artifact was written at all
-     even though the alarm itself fired correctly).
-  2. c9=2 substituted into P BEFORE constructing R1 = P-2w^9, so the w^9 terms cancel structurally
-     and deg_w(R1) <= 8 is asserted (v1 built R1 from the GENERIC c9(a,b) expression, not yet on
-     the gamma=0 curve, giving deg_w(R1)=9 -- the same degree as R2, defeating the "smaller
-     Sylvester matrix" advantage the design note assumes, and likely a large factor in v1's disc_w
-     (R1) taking 1486s).
-  3. Checkpoint writes: after disc_w(R1) completes and after the branch I resultant completes (and
-     symmetrically for branch II), an intermediate state is written to CERT_OUT immediately (not
-     just at the very end or at timeout) -- so even a mid-branch-II timeout preserves branch I's
-     full results, and a timeout can be pinpointed to exactly which step was in flight.
+from __future__ import annotations
 
-Layer (0,9) was found EMPTY by lane B (Gröbner basis = {1}, run 31578468586, confirmed
-independently by hand-derivation: substituting the E1/E2 triangular solutions reduces the coupling
-equations to gp3^k+gm3^k=0 for k=5,6,7,8 (forcing gp3=gm3=0 given the k=6,8 even-power constraints)
-contradicting the k=9 equation gp3^9+gm3^9=-2). This script handles the remaining 4 layers: (2,7),
-(4,5), (6,3), (8,1).
-
-Method (§4): with c9=2 imposed, R1 := P-2w^9 (deg<=8), R2 := P+2w^9 (deg 9). ALL layers require
-disc_w(R1)=0 OR disc_w(R2)=0 -- so:
-  branch I:  resultant_b( gamma(a,b), disc_w(R1)(a,b) ) = 0  (eliminate b, univariate in a)
-  branch II: resultant_b( gamma(a,b), disc_w(R2)(a,b) ) = 0
-gamma(a,b) is the step1 curve equation (c9(a,b)-2=0).
-
-For each candidate root a0, b0 recovered from gamma(a0,b)=0, Delta=R1*R2 at (a0,b0) is
-squarefree-factored and the ODD-multiplicity root count is checked against 9 (genus-4 sieve --
-NOT the squarefree-part degree).
-
-Time-boxed (55min internal SIGALRM). Checkpoints written incrementally; a valid JSON artifact is
-guaranteed at exit regardless of which step was interrupted.
-"""
+import argparse
+import copy
+import datetime as dt
+from functools import reduce
+import hashlib
 import json
+import math
 import os
-import signal
+from pathlib import Path
+import platform
+import sys
 import time
+import traceback
+from typing import Any, Iterable
 
 import sympy as sp
 
-CERT_OUT = "ci/out/r13_p1_tier2_result.json"
-TIME_BUDGET_SECONDS = 55 * 60
+try:
+    import flint
+    from flint import fmpq
+    from flint.types._gr import gr_nf_ctx
+except ImportError:  # A structured incomplete certificate is written below.
+    flint = None
+    fmpq = None
+    gr_nf_ctx = None
 
 
-class TimeBudgetExceeded(Exception):
-    pass
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_INPUT = ROOT / "search" / "certs" / "r13_p1_1pp_k2_v1_20260812.json"
+DEFAULT_OUTPUT = ROOT / "ci" / "out" / "r13_p1_tier2_result.json"
+DEFAULT_CHECKPOINT = ROOT / "ci" / "out" / "r13_p1_tier2_math_checkpoint.json"
+TARGET_LAYERS = {(2, 7), (4, 5), (6, 3), (8, 1)}
 
 
-def _alarm_handler(signum, frame):
-    raise TimeBudgetExceeded()
+def utc_now() -> str:
+    return dt.datetime.now(dt.timezone.utc).isoformat()
 
 
-def _jsonable(obj):
-    """Recursively convert sympy objects (Integer, Rational, Expr, ...) and other non-native types
-    into JSON-safe native Python values. Never raises -- falls back to str() for anything unknown."""
-    if obj is None or isinstance(obj, (bool, int, float, str)):
-        return obj
-    if isinstance(obj, dict):
-        return {str(k): _jsonable(v) for k, v in obj.items()}
-    if isinstance(obj, (list, tuple)):
-        return [_jsonable(v) for v in obj]
-    if isinstance(obj, sp.Integer):
-        return int(obj)
-    if isinstance(obj, sp.Rational):
-        return str(obj)
-    if isinstance(obj, sp.Basic):
-        return str(obj)
-    try:
-        return str(obj)
-    except Exception:
-        return "<unrepresentable>"
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
 
 
-def _write(out):
-    """Write the FULL out dict as JSON, guaranteed not to raise: any field that fails to serialize
-    (even after _jsonable) is replaced with an error marker rather than aborting the whole write."""
-    os.makedirs(os.path.dirname(CERT_OUT) or ".", exist_ok=True)
-    safe = {}
-    for k, v in out.items():
-        try:
-            safe[k] = _jsonable(v)
-            json.dumps(safe[k])  # verify this specific field is actually serializable
-        except Exception as e:
-            safe[k] = f"<FIELD_SERIALIZE_ERROR: {type(e).__name__}: {e}>"
-    try:
-        with open(CERT_OUT, "w", encoding="utf-8") as fh:
-            json.dump(safe, fh, ensure_ascii=False, indent=1)
-    except Exception as e:
-        # last-resort: write SOMETHING valid, even if it's just an error report
-        with open(CERT_OUT, "w", encoding="utf-8") as fh:
-            json.dump({"schema": "r13-p1-tier2/v2", "status": "WRITE_ERROR",
-                       "error": f"{type(e).__name__}: {e}"}, fh)
+def sha256_file(path: Path) -> str:
+    return sha256_bytes(path.read_bytes())
 
 
-def _checkpoint(out, tag):
-    out["last_checkpoint"] = tag
-    out["last_checkpoint_elapsed_seconds"] = out.get("_elapsed_fn", lambda: None)()
-    _write(out)
+def canonical_bytes(value: Any) -> bytes:
+    return json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
 
 
-def build_P_and_gamma():
-    """Reconstruct P(w;a,b) and gamma(a,b) (the step1 curve, c9(a,b)-2=0) -- SAME derivation as
-    r13_p1_1pp_k2_v1.py, recomputed here so this script is self-contained for the GHA job."""
-    w = sp.symbols("w")
-    a, b = sp.symbols("a b")
-    gsyms = sp.symbols("g0 g1 g2 g3 g4 g5 g6 g7")
-
-    gpoly = w ** 8 + sum(gsyms[i] * w ** i for i in range(8))
-    target = sp.expand((w - a) * (w - b) * gpoly ** 2)
-    target_poly = sp.Poly(target, w)
-    coeffs = target_poly.all_coeffs()
-
-    order = [gsyms[7], gsyms[6], gsyms[5], gsyms[4], gsyms[3], gsyms[2], gsyms[1], gsyms[0]]
-    subs = {}
-    for i in range(8):
-        idx = 18 - (17 - i)
-        eq = coeffs[idx].subs(subs)
-        var = order[i]
-        sol = sp.solve(sp.Eq(eq, 0), var)
-        subs[var] = sp.simplify(sol[0])
-
-    target_sub = sp.expand(target_poly.as_expr().subs(subs))
-    target_sub_poly = sp.Poly(target_sub, w)
-    tcoeffs = target_sub_poly.all_coeffs()  # index 0 = w^18 ... index 18 = w^0
-
-    c = {}
-    for j in range(0, 10):  # c_0..c_9
-        idx = 18 - j
-        c[j] = sp.simplify(tcoeffs[idx])
-
-    gamma = sp.expand(c[9] - 2)  # the step1 curve equation (c9(a,b) - 2 = 0)
-    P_generic = sum(c[j] * w ** j for j in range(0, 10))
-    return w, a, b, P_generic, gamma, c
-
-
-def genus4_layer_check(R1, R2, a, b, a0, b0, w):
-    Delta0 = sp.expand((R1.subs({a: a0, b: b0})) * (R2.subs({a: a0, b: b0})))
-    Delta0_poly = sp.Poly(Delta0, w)
-    if Delta0_poly.degree() <= 0:
-        return None
-    _, sqf = sp.sqf_list(Delta0_poly)
-    odd_root_count = sum(sp.degree(f, w) for f, m in sqf if m % 2 == 1)
-    return {"delta_degree": Delta0_poly.degree(),
-            "odd_multiplicity_root_count": odd_root_count,
-            "genus4_check": (odd_root_count == 9)}
-
-
-def run_branch(label, discR, gamma, R1, R2, a, b, w, out, t_start, record):
-    branch = out[label]
-    record(f"computing resultant_b(gamma, disc{label}) elimination...")
-    res = sp.factor(sp.resultant(gamma, discR, b))
-    branch["resultant_in_a"] = str(res)
-    branch["resultant_completed"] = True
-    _checkpoint(out, f"{label}_resultant_done")
-    record(f"resultant ({label}) computed -- checkpoint written")
-
-    record(f"solving {label} resultant for candidate a values (exact)...")
-    a_candidates = sp.solve(sp.Eq(res, 0), a)
-    branch["a_candidate_count"] = len(a_candidates)
-    branch["a_candidates"] = [str(x) for x in a_candidates]
-    _checkpoint(out, f"{label}_a_candidates_done")
-    record(f"{label}: {len(a_candidates)} candidate a-values found -- checkpoint written")
-
-    results = []
-    for idx, a0 in enumerate(a_candidates):
-        entry = {"a": str(a0)}
-        try:
-            b_sols = sp.solve(sp.Eq(gamma.subs(a, a0), 0), b)
-            entry["b_candidates"] = [str(x) for x in b_sols]
-            hits = []
-            for b0 in b_sols:
-                r = genus4_layer_check(R1, R2, a, b, a0, b0, w)
-                if r is not None:
-                    r["b"] = str(b0)
-                    hits.append(r)
-            entry["delta_checks"] = hits
-        except Exception as e:
-            entry["error"] = f"{type(e).__name__}: {e}"
-        results.append(entry)
-        if idx % 3 == 0:
-            branch["results"] = results
-            _checkpoint(out, f"{label}_candidate_{idx}_of_{len(a_candidates)}")
-
-    branch["results"] = results
-    branch["completed"] = True
-    _checkpoint(out, f"{label}_done")
-    record(f"{label} complete -- checkpoint written")
-
-
-def main():
-    t_start = time.time()
-
-    def record(msg):
-        print(f"[{time.time()-t_start:8.2f}s] {msg}", flush=True)
-
-    use_alarm = hasattr(signal, "SIGALRM")
-    if use_alarm:
-        signal.signal(signal.SIGALRM, _alarm_handler)
-        signal.alarm(TIME_BUDGET_SECONDS)
-
-    out = {
-        "schema": "r13-p1-tier2/v2",
-        "generated_by": {"tool": "python/sympy", "script": "search/r13_p1_tier2_gha.py",
-                          "order": "裁定1010補記 [P1] Tier2 v2 (3 repairs) / "
-                                   "docs/notes/w9_laneB_elimination_v1.md §4"},
-        "supersedes_note": "v1 = run 31579129830, crashed writing the partial-result JSON due to "
-                            "an un-jsonable sympy Integer field (fixed: repair 1); also built R1 "
-                            "from the pre-gamma=0 generic c9(a,b) expression giving deg_w(R1)=9 "
-                            "instead of the expected <=8 (fixed: repair 2, c9=2 substituted first)",
-        "layer_0_9_status": "EMPTY (lane B, run 31578468586, Groebner basis = {1}, cross-checked "
-                             "by hand-derivation -- see script docstring)",
-        "layers_this_script_covers": ["(2,7)", "(4,5)", "(6,3)", "(8,1)"],
-        "time_budget_seconds": TIME_BUDGET_SECONDS,
-        "u_touched": False,
-        "c_touched": False,
-        "d_no_interpretation": "machine values only; verdict は司令塔",
-        "branch_I": {"attempted": False}, "branch_II": {"attempted": False},
-        "status": "INCOMPLETE",
-        "_elapsed_fn": lambda: round(time.time() - t_start, 2),
+def with_integrity(payload: dict[str, Any]) -> dict[str, Any]:
+    result = copy.deepcopy(payload)
+    result.pop("integrity", None)
+    result["integrity"] = {
+        "canonical_payload_sha256": sha256_bytes(canonical_bytes(result)),
+        "definition": "sha256 of canonical UTF-8 JSON after removing the integrity member",
     }
-    _checkpoint(out, "start")
+    return result
 
+
+def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    final_payload = with_integrity(payload)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(
+        json.dumps(final_payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    os.replace(tmp, path)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--checkpoint", type=Path, default=DEFAULT_CHECKPOINT)
+    return parser.parse_args()
+
+
+def rational_coefficients(poly: sp.Poly) -> list[str]:
+    p = sp.Poly(poly, *poly.gens, domain=sp.QQ)
+    return [str(q) for q in p.all_coeffs()]
+
+
+def primitive_integer_coefficients(poly: sp.Poly) -> list[int]:
+    p = sp.Poly(poly, *poly.gens, domain=sp.QQ)
+    coeffs = p.all_coeffs()
+    denominator = 1
+    for q in coeffs:
+        denominator = math.lcm(denominator, int(q.q))
+    integers = [int(q * denominator) for q in coeffs]
+    content = reduce(math.gcd, (abs(x) for x in integers if x), 0)
+    if content:
+        integers = [x // content for x in integers]
+    if integers and integers[0] < 0:
+        integers = [-x for x in integers]
+    return integers
+
+
+def polynomial_id(poly: sp.Poly) -> str:
+    coeffs = primitive_integer_coefficients(poly)
+    return sha256_bytes(canonical_bytes(coeffs))
+
+
+def coefficient_system_digest(coefficients: list[sp.Expr], r: sp.Symbol) -> str:
+    payload = []
+    for z_degree, coefficient in enumerate(coefficients):
+        p = sp.Poly(coefficient, r, domain=sp.QQ)
+        payload.append(
+            {
+                "z_degree": z_degree,
+                "r_degree": p.degree() if not p.is_zero else -1,
+                "r_coefficients_high_to_low": rational_coefficients(p),
+            }
+        )
+    return sha256_bytes(canonical_bytes(payload))
+
+
+def build_normalized_system(source: dict[str, Any]) -> dict[str, Any]:
+    z, a, b, r = sp.symbols("z a b r")
+    local = {"a": a, "b": b}
+    g_values: dict[str, sp.Expr] = {}
+    homogeneity: dict[str, bool] = {}
+    for name, text in source["g_solutions_in_terms_of_ab"].items():
+        expr = sp.sympify(text, locals=local)
+        index = int(name[1:])
+        expected_degree = 8 - index
+        homogeneity[name] = all(
+            sum(monomial) == expected_degree
+            for monomial, _ in sp.Poly(expr, a, b, domain=sp.QQ).terms()
+        )
+        g_values[name] = expr.subs({a: 1, b: r})
+
+    g = z**8 + sum(g_values[f"g{i}"] * z**i for i in range(8))
+    q0 = sp.Poly((z - 1) * (z - r) * g * g, z)
+    h = q0.nth(9)
+
+    input_gamma = sp.Poly(
+        sp.sympify(source["step1"]["ninth_equation"], locals=local).subs({a: 1, b: r}),
+        r,
+        domain=sp.QQ,
+    )
+    derived_gamma = sp.Poly(h - 2, r, domain=sp.QQ)
+    gamma_matches = input_gamma == derived_gamma
+
+    # P=Q-w^18-1.  After w=a*z and a^9*H=2, one has a^-18=H^2/4.
+    constant = q0.nth(0) - h * h / 4
+    s1_coefficients = [constant] + [q0.nth(i) for i in range(1, 9)]
+    s2_coefficients = [constant] + [q0.nth(i) for i in range(1, 9)] + [2 * h]
+    s1 = sp.Poly.from_list(list(reversed(s1_coefficients)), gens=z)
+    s2 = sp.Poly.from_list(list(reversed(s2_coefficients)), gens=z)
+
+    assert gamma_matches
+    assert all(homogeneity.values())
+    assert s1.degree() == 8
+    assert s2.degree() == 9
+    assert sp.Poly(s2.as_expr() - s1.as_expr() - 2 * h * z**9, z).is_zero
+
+    return {
+        "z": z,
+        "r": r,
+        "q0": q0,
+        "h": h,
+        "gamma": input_gamma,
+        "s1": s1,
+        "s2": s2,
+        "s1_coefficients": s1_coefficients,
+        "s2_coefficients": s2_coefficients,
+        "constant": constant,
+        "metadata": {
+            "g_coefficient_homogeneity": homogeneity,
+            "input_gamma_equals_H_minus_2": gamma_matches,
+            "gamma_degree_r": input_gamma.degree(),
+            "H_degree_r": sp.degree(h, r),
+            "S1_degree_z": s1.degree(),
+            "S2_degree_z": s2.degree(),
+            "S2_minus_S1_equals_2H_z9": True,
+            "constant_term_correction": "P=Q-w^18-1; normalized constant is [z^0]Q0-H(r)^2/4",
+            "S1_coefficient_system_sha256": coefficient_system_digest(s1_coefficients, r),
+            "S2_coefficient_system_sha256": coefficient_system_digest(s2_coefficients, r),
+        },
+    }
+
+
+def factor_discriminant(poly: sp.Poly, z: sp.Symbol, r: sp.Symbol) -> dict[str, Any]:
+    started = time.monotonic()
+    discriminant = sp.Poly(sp.discriminant(poly, z), r, domain=sp.QQ)
+    content, factors = sp.factor_list(discriminant.as_expr(), r)
+    factor_rows = []
+    reconstructed = sp.Poly(content, r, domain=sp.QQ)
+    for factor, exponent in factors:
+        p = sp.Poly(factor, r, domain=sp.QQ)
+        reconstructed *= p**exponent
+        coefficients = primitive_integer_coefficients(p)
+        factor_rows.append(
+            {
+                "poly": p,
+                "degree": p.degree(),
+                "exponent": int(exponent),
+                "primitive_integer_coefficients_high_to_low": coefficients,
+                "polynomial_sha256": sha256_bytes(canonical_bytes(coefficients)),
+                "reciprocal": coefficients == list(reversed(coefficients)),
+            }
+        )
+    assert reconstructed == discriminant
+    return {
+        "poly": discriminant,
+        "degree": discriminant.degree(),
+        "term_count": len(discriminant.terms()),
+        "factorization_reconstructs_discriminant": True,
+        "factors": factor_rows,
+        "elapsed_seconds": time.monotonic() - started,
+    }
+
+
+class NumberFieldOps:
+    def __init__(self, factor: sp.Poly, r: sp.Symbol):
+        if gr_nf_ctx is None or fmpq is None:
+            raise RuntimeError("python-flint is required for exact number-field classification")
+        monic = sp.Poly(factor, r, domain=sp.QQ).monic()
+        low_to_high = []
+        for q in reversed(monic.all_coeffs()):
+            low_to_high.append(fmpq(int(q.p), int(q.q)))
+        self.context = gr_nf_ctx.new(low_to_high)
+        self.alpha = self.context.gen()
+        self.r = r
+
+    def from_expr(self, value: sp.Expr):
+        p = sp.Poly(value, self.r, domain=sp.QQ)
+        result = self.context(0)
+        for q in p.all_coeffs():
+            result = result * self.alpha + self.context(fmpq(int(q.p), int(q.q)))
+        return result
+
+    def zero(self):
+        return self.context(0)
+
+    def one(self):
+        return self.context(1)
+
+    @staticmethod
+    def is_zero(value) -> bool:
+        result = value.is_zero()
+        if result is None:
+            raise RuntimeError("number-field zero test returned UNKNOWN")
+        return bool(result)
+
+
+def trim(poly: list[Any], field: NumberFieldOps) -> list[Any]:
+    while poly and field.is_zero(poly[-1]):
+        poly.pop()
+    return poly
+
+
+def monic(poly: list[Any], field: NumberFieldOps) -> list[Any]:
+    result = trim(poly[:], field)
+    if not result:
+        return []
+    inverse = field.one() / result[-1]
+    return trim([coefficient * inverse for coefficient in result], field)
+
+
+def polynomial_divmod(
+    dividend: list[Any], divisor: list[Any], field: NumberFieldOps
+) -> tuple[list[Any], list[Any]]:
+    remainder = trim(dividend[:], field)
+    divisor = trim(divisor[:], field)
+    if not divisor:
+        raise ZeroDivisionError("zero polynomial divisor")
+    if len(remainder) < len(divisor):
+        return [], remainder
+    quotient = [field.zero() for _ in range(len(remainder) - len(divisor) + 1)]
+    inverse_lead = field.one() / divisor[-1]
+    while remainder and len(remainder) >= len(divisor):
+        shift = len(remainder) - len(divisor)
+        coefficient = remainder[-1] * inverse_lead
+        quotient[shift] = coefficient
+        for j, divisor_coefficient in enumerate(divisor):
+            remainder[j + shift] = remainder[j + shift] - coefficient * divisor_coefficient
+        trim(remainder, field)
+    return trim(quotient, field), remainder
+
+
+def polynomial_gcd(left: list[Any], right: list[Any], field: NumberFieldOps) -> list[Any]:
+    left = trim(left[:], field)
+    right = trim(right[:], field)
+    while right:
+        _, remainder = polynomial_divmod(left, right, field)
+        left, right = right, remainder
+    return monic(left, field)
+
+
+def derivative(poly: list[Any], field: NumberFieldOps) -> list[Any]:
+    return trim([field.context(i) * poly[i] for i in range(1, len(poly))], field)
+
+
+def squarefree_profile(poly: list[Any], field: NumberFieldOps) -> list[dict[str, int]]:
+    source = monic(poly, field)
+    repeated = polynomial_gcd(source, derivative(source, field), field)
+    squarefree, remainder = polynomial_divmod(source, repeated, field)
+    assert not remainder
+    profile: list[dict[str, int]] = []
+    multiplicity = 1
+    while len(squarefree) > 1:
+        common = polynomial_gcd(squarefree, repeated, field)
+        exact_factor, remainder = polynomial_divmod(squarefree, common, field)
+        assert not remainder
+        if len(exact_factor) > 1:
+            profile.append(
+                {"multiplicity": multiplicity, "distinct_root_degree": len(exact_factor) - 1}
+            )
+        squarefree = common
+        repeated, remainder = polynomial_divmod(repeated, common, field)
+        assert not remainder
+        multiplicity += 1
+        if multiplicity > 20:
+            raise RuntimeError("squarefree decomposition exceeded degree bound")
+    return profile
+
+
+def odd_root_count(profile: list[dict[str, int]]) -> int:
+    return sum(
+        row["distinct_root_degree"]
+        for row in profile
+        if row["multiplicity"] % 2 == 1
+    )
+
+
+def synthetic_polynomial(odd: int, degree: int, start: int, x: sp.Symbol) -> sp.Poly:
+    expression: sp.Expr = sp.Integer(1)
+    next_root = start
+    for _ in range(odd):
+        expression *= x - next_root
+        next_root += 1
+    for _ in range((degree - odd) // 2):
+        expression *= (x - next_root) ** 2
+        next_root += 1
+    return sp.Poly(expression, x, domain=sp.QQ)
+
+
+def sympy_squarefree_profile(poly: sp.Poly) -> list[dict[str, int]]:
+    _, factors = sp.sqf_list(poly)
+    return [
+        {"multiplicity": int(multiplicity), "distinct_root_degree": factor.degree()}
+        for factor, multiplicity in factors
+    ]
+
+
+def artificial_layer_controls() -> list[dict[str, Any]]:
+    x = sp.symbols("x")
+    rows = []
+    for index, layer in enumerate([(0, 9), (2, 7), (4, 5), (6, 3), (8, 1)]):
+        p1 = synthetic_polynomial(layer[0], 8, 100 * index + 1, x)
+        p2 = synthetic_polynomial(layer[1], 9, 100 * index + 30, x)
+        profile1 = sympy_squarefree_profile(p1)
+        profile2 = sympy_squarefree_profile(p2)
+        observed = (odd_root_count(profile1), odd_root_count(profile2))
+        rows.append(
+            {
+                "expected_layer": list(layer),
+                "observed_layer": list(observed),
+                "matches_expected": observed == layer,
+                "S1_profile": profile1,
+                "S2_profile": profile2,
+            }
+        )
+    assert all(row["matches_expected"] for row in rows)
+    return rows
+
+
+def reproduce_layer_0_9_empty() -> dict[str, Any]:
+    started = time.monotonic()
+    w = sp.symbols("w")
+    rho_p, rho_m = sp.symbols("rho_p rho_m")
+    gp = sp.symbols("gp0 gp1 gp2 gp3")
+    gm = sp.symbols("gm0 gm1 gm2 gm3")
+    unknowns = [rho_p, rho_m] + list(gp) + list(gm)
+    g_plus = w**4 + gp[3] * w**3 + gp[2] * w**2 + gp[1] * w + gp[0]
+    g_minus = w**4 + gm[3] * w**3 + gm[2] * w**2 + gm[1] * w + gm[0]
+    up = sp.Poly((w - rho_p) * g_plus**2, w)
+    um = sp.Poly((w - rho_m) * g_minus**2, w)
+    equations = [up.nth(j) for j in (8, 7, 6, 5)]
+    equations += [um.nth(j) for j in (8, 7, 6, 5)]
+    equations += [up.nth(j) + um.nth(j) for j in (4, 3, 2, 1)]
+    equations.append(up.nth(0) + um.nth(0) - 2)
+    basis = sp.groebner(equations, *unknowns, order="grevlex")
+    unit_basis = len(basis.polys) == 1 and basis.polys[0].as_expr() == 1
+    assert unit_basis
+    return {
+        "source_run_id": 31578468586,
+        "num_equations": len(equations),
+        "num_unknowns": len(unknowns),
+        "groebner_basis": [str(poly.as_expr()) for poly in basis.polys],
+        "basis_is_unit": unit_basis,
+        "elapsed_seconds": time.monotonic() - started,
+    }
+
+
+def classify_factor(
+    factor: sp.Poly,
+    memberships: list[dict[str, Any]],
+    system: dict[str, Any],
+) -> dict[str, Any]:
+    r = system["r"]
+    started = time.monotonic()
+    field = NumberFieldOps(factor, r)
+    s1 = [field.from_expr(value) for value in system["s1_coefficients"]]
+    s2 = [field.from_expr(value) for value in system["s2_coefficients"]]
+    s1 = trim(s1, field)
+    s2 = trim(s2, field)
+    h = field.from_expr(system["h"])
+    c0 = field.from_expr(system["constant"])
+    gcd_12 = polynomial_gcd(s1, s2, field)
+    profile1 = squarefree_profile(s1, field)
+    profile2 = squarefree_profile(s2, field)
+    observed = (odd_root_count(profile1), odd_root_count(profile2))
+    coefficients = primitive_integer_coefficients(factor)
+    factor_sha = sha256_bytes(canonical_bytes(coefficients))
+    degree = factor.degree()
+    admissible = (
+        degree > 1
+        and not field.is_zero(h)
+        and not field.is_zero(c0)
+        and len(s1) - 1 == 8
+        and len(s2) - 1 == 9
+        and len(gcd_12) - 1 == 0
+    )
+    return {
+        "factor_id": factor_sha[:16],
+        "polynomial_sha256": factor_sha,
+        "primitive_integer_coefficients_high_to_low": coefficients,
+        "factor_degree": degree,
+        "branch_memberships": memberships,
+        "reciprocal": coefficients == list(reversed(coefficients)),
+        "point_enumeration": {
+            "ratio_equation": f"factor_{factor_sha[:16]}(r)=0",
+            "scale_equation": "a^9*H(r)-2=0",
+            "second_coordinate_equation": "b-r*a=0",
+            "ordered_points_over_Qbar": 9 * degree,
+            "mu9_orbits": degree,
+            "mu9_and_swap_orbits": degree // 2 if coefficients == list(reversed(coefficients)) else None,
+        },
+        "open_conditions": {
+            "a_not_zero_from_scale_equation": not field.is_zero(h),
+            "a_not_equal_b": degree > 1,
+            "H_nonzero": not field.is_zero(h),
+            "c0_nonzero": not field.is_zero(c0),
+            "S1_degree_8": len(s1) - 1 == 8,
+            "S2_degree_9": len(s2) - 1 == 9,
+            "gcd_S1_S2_degree": len(gcd_12) - 1,
+        },
+        "admissible_candidate_factor": admissible,
+        "S1_squarefree_profile": profile1,
+        "S2_squarefree_profile": profile2,
+        "odd_root_profile": list(observed),
+        "odd_root_total": sum(observed),
+        "requested_layer": admissible and observed in TARGET_LAYERS,
+        "elapsed_seconds": time.monotonic() - started,
+    }
+
+
+def main() -> int:
+    args = parse_args()
+    start = time.monotonic()
+    source_path = args.input.resolve()
+    output_path = args.output.resolve()
+    checkpoint_path = args.checkpoint.resolve()
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    state: dict[str, Any] = {
+        "schema": "r13-p1-tier2/v2",
+        "generated_by": {
+            "script": str(Path(__file__).resolve().relative_to(ROOT)),
+            "script_sha256": sha256_file(Path(__file__).resolve()),
+            "python": platform.python_version(),
+            "sympy": sp.__version__,
+            "python_flint": getattr(flint, "__version__", None),
+            "platform": platform.platform(),
+            "github_sha": os.environ.get("GITHUB_SHA"),
+            "github_run_id": os.environ.get("GITHUB_RUN_ID"),
+        },
+        "input": {
+            "path": str(source_path.relative_to(ROOT)),
+            "sha256": sha256_file(source_path),
+            "schema": source.get("schema"),
+        },
+        "scope": {
+            "window": "K^(9)",
+            "k": 2,
+            "previous_layer": [0, 9],
+            "requested_layers": [list(layer) for layer in sorted(TARGET_LAYERS)],
+            "decisions_are_exact": True,
+            "floating_point_used_for_decisions": False,
+            "u_touched": False,
+            "c_touched": False,
+            "preregistered_value_computation": False,
+        },
+        "status": "INCOMPLETE",
+        "progress": {"stage": "INPUT_LOADED", "updated_at_utc": utc_now()},
+        "started_at_utc": utc_now(),
+    }
+
+    def checkpoint(stage: str) -> None:
+        state["progress"] = {
+            "stage": stage,
+            "updated_at_utc": utc_now(),
+            "elapsed_seconds": time.monotonic() - start,
+        }
+        atomic_write_json(checkpoint_path, state)
+        print(f"W9_TIER2_CHECKPOINT stage={stage}", flush=True)
+
+    checkpoint("INPUT_LOADED")
     try:
-        record("reconstructing P(w;a,b) and gamma(a,b)...")
-        w, a, b, P_generic, gamma, c = build_P_and_gamma()
-        record(f"gamma(a,b) built (repair 2: substituting c9=2 BEFORE forming R1)")
-        _checkpoint(out, "gamma_built")
+        if flint is None:
+            raise RuntimeError("python-flint import failed")
 
-        # repair 2: c[9] is a big expression (c9(a,b)), not a bare symbol -- a direct .subs() of
-        # it to 2 is unreliable via sympy's generic subs. Instead rebuild P directly using c[0..8]
-        # (still generic functions of a,b) plus the LITERAL constant 2 for the w^9 coefficient --
-        # this is exactly "impose gamma=0 (c9=2) before forming R1", giving w^9 cancellation
-        # structurally rather than as an equation to solve later.
-        P_on_curve = sum(c[j] * w ** j for j in range(0, 9)) + 2 * w ** 9
-        R1 = sp.expand(P_on_curve - 2 * w ** 9)
-        R2 = sp.expand(P_on_curve + 2 * w ** 9)
-        out["R1_degree_w"] = sp.degree(R1, w) if R1 != 0 else 0
-        out["R2_degree_w"] = sp.degree(R2, w)
-        record(f"deg_w R1={out['R1_degree_w']} (assert <=8) deg_w R2={out['R2_degree_w']} (expect 9)")
-        assert out["R1_degree_w"] <= 8, f"repair 2 failed: deg_w(R1)={out['R1_degree_w']} > 8"
-        out["repair2_assert_deg_R1_leq_8"] = True
-        _checkpoint(out, "R1_R2_built_deg_asserted")
+        system = build_normalized_system(source)
+        state["normalized_system"] = system["metadata"]
+        state["normalized_system"]["chart"] = (
+            "a!=0: r=b/a; a=0 is covered after swapping a,b by r=0; the equations are swap-symmetric"
+        )
+        checkpoint("NORMALIZED_SYSTEM_DERIVED")
 
-        record("computing disc_w(R1) (branch I, deg<=8 Sylvester matrix)...")
-        discR1 = sp.expand(sp.discriminant(sp.Poly(R1, w)))
-        out["branch_I"]["attempted"] = True
-        out["branch_I"]["discR1_num_terms"] = len(sp.Add.make_args(discR1))
-        _checkpoint(out, "discR1_done")
-        record("disc_w(R1) computed -- checkpoint written")
+        branch_i = factor_discriminant(system["s1"], system["z"], system["r"])
+        state["branch_I"] = {
+            key: value for key, value in branch_i.items() if key not in {"poly", "factors"}
+        }
+        state["branch_I"]["factors"] = [
+            {key: value for key, value in row.items() if key != "poly"}
+            for row in branch_i["factors"]
+        ]
+        checkpoint("BRANCH_I_FACTORED")
 
-        run_branch("branch_I", discR1, gamma, R1, R2, a, b, w, out, t_start, record)
+        branch_ii = factor_discriminant(system["s2"], system["z"], system["r"])
+        state["branch_II"] = {
+            key: value for key, value in branch_ii.items() if key not in {"poly", "factors"}
+        }
+        state["branch_II"]["factors"] = [
+            {key: value for key, value in row.items() if key != "poly"}
+            for row in branch_ii["factors"]
+        ]
+        checkpoint("BRANCH_II_FACTORED")
 
-        record("computing disc_w(R2) (branch II, deg=9)...")
-        discR2 = sp.expand(sp.discriminant(sp.Poly(R2, w)))
-        out["branch_II"]["attempted"] = True
-        _checkpoint(out, "discR2_done")
-        record("disc_w(R2) computed -- checkpoint written")
+        combined: dict[tuple[int, ...], dict[str, Any]] = {}
+        for branch_name, branch in (("I", branch_i), ("II", branch_ii)):
+            for row in branch["factors"]:
+                key = tuple(row["primitive_integer_coefficients_high_to_low"])
+                record = combined.setdefault(
+                    key,
+                    {"poly": row["poly"], "memberships": []},
+                )
+                record["memberships"].append(
+                    {"branch": branch_name, "discriminant_exponent": row["exponent"]}
+                )
 
-        run_branch("branch_II", discR2, gamma, R1, R2, a, b, w, out, t_start, record)
+        classifications = []
+        excluded = []
+        for key in sorted(combined, key=lambda item: (len(item), item)):
+            record = combined[key]
+            factor = record["poly"]
+            if factor.degree() == 1 and factor.eval(1) == 0:
+                excluded.append(
+                    {
+                        "reason": "r=1 gives a=b, contrary to the two distinct simple roots at t=1",
+                        "primitive_integer_coefficients_high_to_low": list(key),
+                        "branch_memberships": record["memberships"],
+                    }
+                )
+                continue
+            row = classify_factor(factor, record["memberships"], system)
+            classifications.append(row)
+            state["candidate_factor_classifications"] = classifications
+            state["excluded_factors"] = excluded
+            checkpoint(f"CLASSIFIED_{row['factor_id']}")
 
-        out["status"] = "COMPLETE"
-    except TimeBudgetExceeded:
-        out["status"] = "INCOMPLETE"
-        out["stop_reason"] = "TIME_BUDGET_EXCEEDED"
-        record("TIME BUDGET EXCEEDED -- writing partial result (from last checkpoint state)")
-    except Exception as e:
-        out["status"] = "INCOMPLETE"
-        out["stop_reason"] = f"{type(e).__name__}: {e}"
-        record(f"exception: {out['stop_reason']}")
-    finally:
-        if use_alarm:
-            signal.alarm(0)
+        layer_counts = {f"({a},{b})": 0 for a, b in sorted(TARGET_LAYERS)}
+        survivor_factor_count = 0
+        survivor_ordered_point_count = 0
+        for row in classifications:
+            layer = tuple(row["odd_root_profile"])
+            if row["requested_layer"]:
+                survivor_factor_count += 1
+                survivor_ordered_point_count += row["point_enumeration"]["ordered_points_over_Qbar"]
+                layer_counts[f"({layer[0]},{layer[1]})"] += row["point_enumeration"][
+                    "ordered_points_over_Qbar"
+                ]
 
-    out["elapsed_seconds"] = time.time() - t_start
-    del out["_elapsed_fn"]
-    _write(out)
-    record(f"wrote FINAL result, status={out['status']}, elapsed={out['elapsed_seconds']:.2f}s")
-    if out["status"] == "COMPLETE":
+        controls = {
+            "artificial_solvable_layers": artificial_layer_controls(),
+            "known_layer_0_9_reproduction": reproduce_layer_0_9_empty(),
+        }
+        controls["all_artificial_layers_match"] = all(
+            row["matches_expected"] for row in controls["artificial_solvable_layers"]
+        )
+        controls["known_layer_0_9_basis_is_unit"] = controls[
+            "known_layer_0_9_reproduction"
+        ]["basis_is_unit"]
+        state["calibration"] = controls
+        state["raw_result"] = {
+            "candidate_factor_count_after_open_conditions": sum(
+                bool(row["admissible_candidate_factor"]) for row in classifications
+            ),
+            "candidate_ordered_point_count_before_genus_sieve": sum(
+                row["point_enumeration"]["ordered_points_over_Qbar"]
+                for row in classifications
+                if row["admissible_candidate_factor"]
+            ),
+            "requested_layer_ordered_point_counts": layer_counts,
+            "surviving_factor_count": survivor_factor_count,
+            "surviving_ordered_point_count": survivor_ordered_point_count,
+        }
+        state["status"] = "COMPLETE"
+        state["completed_at_utc"] = utc_now()
+        state["elapsed_seconds"] = time.monotonic() - start
+        checkpoint("COMPLETE")
+        atomic_write_json(output_path, state)
         print("R13_P1_TIER2_DONE", flush=True)
-    else:
-        print("R13_P1_TIER2_INCOMPLETE", flush=True)
+        return 0
+    except BaseException as exc:
+        state["status"] = "INCOMPLETE"
+        state["stop_reason"] = f"{type(exc).__name__}: {exc}"
+        state["traceback"] = traceback.format_exc()
+        state["elapsed_seconds"] = time.monotonic() - start
+        state["completed_at_utc"] = utc_now()
+        atomic_write_json(checkpoint_path, state)
+        atomic_write_json(output_path, state)
+        print(f"R13_P1_TIER2_INCOMPLETE reason={state['stop_reason']}", flush=True)
+        return 2
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
