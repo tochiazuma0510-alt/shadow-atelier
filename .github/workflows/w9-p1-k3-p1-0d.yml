@@ -1,0 +1,55 @@
+name: w9-p1-k3-p1-0d
+
+# [P1-0d] -- t3-main lane precheck (裁定1023): monodromy fingerprint of the E=C2 candidate
+# (order 36, block system (3,2), trivial deck group) per docs/notes/t3_spec_and_C2_calib_v1.md §1.
+# The elliptic-curve body ([D-1]..[D-4], Weierstrass form + 3-次 ansatz over F_9) requires
+# further exact-number-field implementation and is deferred to a follow-up dispatch -- this
+# job covers only the fast, mandatory fingerprint gate.
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  k3-p1-0d:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Run [P1-0d] fingerprint check
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          timeout 600 gap -q -o 2g search/w9_k3_p1_0d_check.g 2>&1 | tee ci/out/w9_k3_p1_0d_check.log
+          grep -q 'script sha256' ci/out/w9_k3_p1_0d_check.log
+
+      - name: Gate results
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s search/certs/w9_k3_p1_0d_check_v1_20260812.json
+          cp search/certs/w9_k3_p1_0d_check_v1_20260812.json ci/out/
+          python3 - <<'PY'
+          import json
+          p = json.load(open('search/certs/w9_k3_p1_0d_check_v1_20260812.json', encoding='utf8'))
+          print('fingerprint_all_ok:', p['fingerprint_all_ok'])
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w9-p1-k3-p1-0d-${{ github.run_id }}
+          path: ci/out/
+          if-no-files-found: error
+          retention-days: 30

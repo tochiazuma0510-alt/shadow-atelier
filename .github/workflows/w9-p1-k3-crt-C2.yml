@@ -1,0 +1,90 @@
+name: w9-p1-k3-crt-C2
+
+# [C2-0]+[C2-1] -- k=3 crt lane, step C2 stage 1 (裁定1023).
+#
+# C2-0: fail-closed regression gate against Sol's k=2 cert (4 profiles, §7).
+# C2-1: D:=disc_t F construction, w^36 coefficient=0 check (3-point + degree argument).
+#
+# Later stages (C2-2 layer-cutting via CRT/札6, C2-3 genus formula, C2-4 ord=9 match)
+# are deferred to a follow-up dispatch -- this job covers only the calibration +
+# D-construction gate per docs/notes/t3_spec_and_C2_calib_v1.md §7-8's own staged order
+# ("層を切る前に genus を方程式化しない").
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  k3-crt-c2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install exact algebra tools
+        shell: bash
+        run: pip install "sympy==1.14.0"
+
+      - name: Run C2-0 + C2-1 producer
+        id: producer
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/w9_k3_crt_C2_stage1_gha.py
+          rc=$?
+          echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Gate producer result
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s ci/out/w9_k3_crt_C2_stage1_result.json
+          python - <<'PY'
+          import json
+          p = json.load(open('ci/out/w9_k3_crt_C2_stage1_result.json', encoding='utf8'))
+          print('status', p['status'])
+          print('C2_0_all_pass', p['C2_0_regression_gate']['all_pass'])
+          print('C2_1_coeff_w36_is_zero', p['C2_1_D_construction']['coeff_w36_is_zero'])
+          PY
+
+      - name: Run independent checker
+        id: checker
+        shell: bash
+        run: |
+          set +e
+          python search/check_w9_k3_crt_C2_stage1.py \
+            --cert ci/out/w9_k3_crt_C2_stage1_result.json \
+            --output ci/out/w9_k3_crt_C2_stage1_check.json
+          rc=$?
+          echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Gate checker result
+        shell: bash
+        run: |
+          set -euo pipefail
+          test '${{ steps.checker.outputs.wrapper_exit }}' = '0'
+          python - <<'PY'
+          import json
+          p = json.load(open('ci/out/w9_k3_crt_C2_stage1_check.json', encoding='utf8'))
+          print('all_checks_true', p['all_checks_true'])
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w9-p1-k3-crt-C2-${{ github.run_id }}
+          path: ci/out/
+          if-no-files-found: error
+          retention-days: 30
