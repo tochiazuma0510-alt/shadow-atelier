@@ -1,0 +1,52 @@
+{
+  "artifact_date": "2026-08-13",
+  "checks": {
+    "b_mod9_preregistered_normalization": true,
+    "controlling_spec_sha256": true,
+    "desc9_rationality_and_unique_class_data": true,
+    "implicit_derivative": true,
+    "post_measurement_factory_R2_concordance": true,
+    "saturated_chart_identity": true,
+    "score_rule_same_measurement": true,
+    "stored_series_substitution_through_degree": 16,
+    "uniformizer_18th_power_ratio": true
+  },
+  "inputs": {
+    "b_receipt": {
+      "path": "search/certs/ds4_receipt_v1_20260812.json",
+      "sha256": "f4658b2d7f4552694b35ebcf0a2e77fb2f2328bb812000b55449694a74ec21a8"
+    },
+    "factory_R2_cert_post_measurement": {
+      "path": "search/certs/r2_u_uniformizer_v1_20260813.json",
+      "sha256": "496c494c4299d91f0d610360bccfac7f56a91c08fe2ec44ce00695e275cafb65"
+    },
+    "p8_a_class_cert": {
+      "path": "search/certs/sol123_p8_a_class_v1_20260813.json",
+      "sha256": "dd1cf38556d0eff58ab29f0cd47bf762df782c45c43e9b27741bba3e015210b8"
+    },
+    "r3_u9_cert": {
+      "path": "search/certs/sol123_r3_u9_v1_20260813.json",
+      "sha256": "cbbf5c91c5fe664d218056dae1f03a2262da53da0628a156fae6b3d1fca731c4"
+    }
+  },
+  "method_independence": {
+    "factorization": "local trial division",
+    "local_leading_term": "initial-form balance",
+    "producer_imported": false,
+    "series_check": "direct symbolic substitution"
+  },
+  "provenance": {
+    "checker_script": "crosscheck/check_sol123_r3_u9.py",
+    "checker_script_sha256": "233538f8686c66999eb28927cdf5954ced264f3353636dd6aa4eec8e2824b710"
+  },
+  "schema": "r3_u9-check/v1",
+  "status": "CROSS_CHECKED",
+  "task": "Sol-123/R-3-U9 independent checker",
+  "touch_state": {
+    "K5_instances": "untouched",
+    "c": "untouched",
+    "d9": "not_computed",
+    "new_measurements": "none; checker reads R3/P8 outputs and the preregistered b receipt",
+    "r": "not_computed"
+  }
+}

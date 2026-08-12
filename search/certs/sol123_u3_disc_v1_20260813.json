@@ -1,0 +1,71 @@
+{
+  "artifact_date": "2026-08-13",
+  "candidate_S": {
+    "construction": "union of layer content-prime supports and the quadratic-layer prime",
+    "delta_E_lower_bound": {
+      "Delta_E": -216,
+      "contained": true,
+      "support": [
+        2,
+        3
+      ]
+    },
+    "support": [
+      2,
+      3
+    ]
+  },
+  "computation": "exact SymPy polynomial discriminants over ZZ, layer by layer",
+  "controlling_spec": {
+    "path": "docs/notes/r2_r3_unram_execution_spec_v1.md",
+    "sha256": "da6294da1b2f359f3b80f2281570770e4db616a360a9896bc5fc6ca1055f1c26"
+  },
+  "geometric_dependency": {
+    "raw_model_is_normalized_finite_source": false,
+    "u3_smooth_cert": "search/certs/sol123_u3_smooth_v1_20260813.json",
+    "u3_smooth_sha256": "0a605fb7f9ba258ee74294f6ea437b32af61b566d4cf44b29a2e021091e234d4",
+    "unram_gap_4": "OPEN",
+    "unramified_arithmetic_conclusion_established": false,
+    "upper_bound_interpretation_established": false
+  },
+  "layers": {
+    "E_to_P1_Y": {
+      "content_ideal_generator_abs": 27,
+      "content_prime_support": [
+        3
+      ],
+      "discriminant": "-27*Y**2*(Y**2 + 4)",
+      "polynomial_in_X": "X**3 - 3*X*Y - Y**2 - 2*Y"
+    },
+    "P1_s_to_P1_t": {
+      "content_prime_support": [
+        2
+      ],
+      "map": "t=s^2"
+    },
+    "W_to_E": {
+      "content_ideal_generator_abs": 19683,
+      "content_prime_support": [
+        3
+      ],
+      "discriminant": "-19683*X**2*Y**2*(X**2 - 4*Y)",
+      "leading_coefficient_artifact_warning": true,
+      "polynomial_in_w": "X**2*w**3 - 27*Y*w - 27*Y"
+    }
+  },
+  "provenance": {
+    "producer_script": "search/sol123_u3_geometry.py",
+    "producer_script_sha256": "8d6a43137d6108be56701f2b5e92964c4dec606f7b4152e42f720f5b06097073"
+  },
+  "schema": "u3_disc/v1",
+  "special_quarantine": {
+    "a_class_artifact_read_by_this_producer": false,
+    "certificate_may_be_committed": true,
+    "mode": "prereg-beta / ruling-1118",
+    "readout_and_interpretation_authorized": false,
+    "reply_must_omit_S_value_and_support": true,
+    "simultaneous_disclosure": "pending_commander_gate"
+  },
+  "status": "COMPUTED_QUARANTINED_INTERPRETATION_NOT_ASSERTED",
+  "task": "Sol-123/U3-3"
+}

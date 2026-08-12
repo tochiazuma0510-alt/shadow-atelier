@@ -1,0 +1,111 @@
+{
+  "D_noncollision": {
+    "D": [
+      "0",
+      "1",
+      "infinity"
+    ],
+    "all_determinants_are_units_over_Z": true,
+    "pairwise_determinants": {
+      "0,1": -1,
+      "0,infinity": -1,
+      "1,infinity": -1
+    },
+    "projective_sections": {
+      "0": [
+        0,
+        1
+      ],
+      "1": [
+        1,
+        1
+      ],
+      "infinity": [
+        1,
+        0
+      ]
+    },
+    "status": "COMPLETE"
+  },
+  "artifact_date": "2026-08-13",
+  "controlling_spec": {
+    "path": "docs/notes/r2_r3_unram_execution_spec_v1.md",
+    "sha256": "da6294da1b2f359f3b80f2281570770e4db616a360a9896bc5fc6ca1055f1c26"
+  },
+  "declared_affine_model": {
+    "E": "-X**3 + 3*X*Y + Y**2 + 2*Y",
+    "G": "X**2*w**3 - 27*Y*(w + 1)",
+    "base_for_t": "Z[1/2]",
+    "t": "-Y^2/4"
+  },
+  "etale_outside_D": {
+    "note": "The declared complete intersection is not the normalized finite source; a relative-differential support claim for that source cannot be certified from it.",
+    "reason_code": "NORMALIZED_FINITE_MODEL_REQUIRED",
+    "status": "UNKNOWN"
+  },
+  "normalization_checkpoint": {
+    "dF_dX_at_origin": -729,
+    "global_normalized_projective_model_supplied": false,
+    "local_branch_condition": "w+1 is a unit near (X,w)=(0,0)",
+    "local_saturated_equation": "X**2*w**6 + 81*X*w**3*(w + 1) - 729*X*(w + 1)**2 + 54*w**3*(w + 1)"
+  },
+  "provenance": {
+    "producer_script": "search/sol123_u3_geometry.py",
+    "producer_script_sha256": "8d6a43137d6108be56701f2b5e92964c4dec606f7b4152e42f720f5b06097073"
+  },
+  "result": {
+    "etale_outside_D": "UNKNOWN_STOP",
+    "noncollision": "COMPLETE",
+    "required_input": "a global normalized finite model of W over the declared base",
+    "smoothness": "UNKNOWN_STOP"
+  },
+  "schema": "u3_smooth/v1",
+  "smoothness": {
+    "criterion": "rank two of the 2x3 Jacobian for the complete intersection E=G=0",
+    "generic_rank_drop_witness": {
+      "E_and_G_and_all_minors_vanish": true,
+      "jacobian_on_locus": [
+        [
+          "0",
+          "2",
+          "0"
+        ],
+        [
+          "0",
+          "-27*w - 27",
+          "0"
+        ]
+      ],
+      "locus": "X=Y=0 with w arbitrary",
+      "persists_over_Q": true,
+      "rank": 1
+    },
+    "jacobian_rows": [
+      [
+        "-3*X**2 + 3*Y",
+        "3*X + 2*Y + 2",
+        "0"
+      ],
+      [
+        "2*X*w**3",
+        "-27*w - 27",
+        "3*X**2*w**2 - 27*Y"
+      ]
+    ],
+    "raw_model_smooth_over_any_Z_localization": false,
+    "reason_code": "GENERIC_VERTICAL_COMPONENT_AND_JACOBIAN_RANK_DROP",
+    "singular_ideal_groebner_basis_over_Q": [
+      "X**2*w**2",
+      "X*(-81*X*w - 81*X + 4*w**3)/4",
+      "X**3",
+      "Y"
+    ],
+    "two_by_two_minors": [
+      "-6*X**2*w**3 + 81*X**2*w + 81*X**2 - 4*X*Y*w**3 - 4*X*w**3 - 81*Y*w - 81*Y",
+      "-9*(X**2 - Y)*(X**2*w**2 - 9*Y)",
+      "3*(X**2*w**2 - 9*Y)*(3*X + 2*Y + 2)"
+    ]
+  },
+  "status": "UNKNOWN_STOP_MODEL_NORMALIZATION_REQUIRED",
+  "task": "Sol-123/U3-2"
+}

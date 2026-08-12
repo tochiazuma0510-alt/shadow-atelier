@@ -1,0 +1,44 @@
+{
+  "a_9_field_note": {
+    "class_mod18_Q": {
+      "2": 16,
+      "3": 0
+    },
+    "desc9_rule": "DESC-9 (D-i)->(D-ii)->(D-iii)",
+    "desc9_step_ii_passed": true,
+    "image_in_F9": "scalar-extension image in Q(zeta_36)^x/(...)^18",
+    "u9_home_field": "Q"
+  },
+  "a_class": {
+    "exponents": [
+      7
+    ],
+    "normalization": "representative in Q^x/(Q^x)^9; sign is a ninth power",
+    "order": 9,
+    "representation": "exponent vector mod 9 over the support primes",
+    "support": [
+      2
+    ]
+  },
+  "artifact_date": "2026-08-13",
+  "preregistration_controls": {
+    "b_value_used_only_for_required_independent_normalization": true,
+    "d9_not_computed": true,
+    "r_not_computed": true,
+    "u3_disc_certificate_not_read": true
+  },
+  "provenance": {
+    "producer_script": "search/sol123_r3_u9.py",
+    "producer_script_sha256": "f1c48431aa095be584e57e771da512753d0b662414b2f1b74a1f2316e0c2dae5"
+  },
+  "schema": "p8_a_class/v1",
+  "score_rule_s1_measurement": {
+    "interpretive_label": "withheld_pending_commander_gate",
+    "result": false,
+    "rule": "support == [3] and order == 9"
+  },
+  "source_r3_u9_cert": "search/certs/sol123_r3_u9_v1_20260813.json",
+  "source_r3_u9_sha256": "cbbf5c91c5fe664d218056dae1f03a2262da53da0628a156fae6b3d1fca731c4",
+  "status": "COMPLETE_MEASUREMENT_INTERPRETATION_WITHHELD",
+  "task": "Sol-123/DESC-9"
+}

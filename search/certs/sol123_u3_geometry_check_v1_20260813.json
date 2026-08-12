@@ -1,0 +1,38 @@
+{
+  "artifact_date": "2026-08-13",
+  "checks": {
+    "D_noncollision": true,
+    "candidate_support_internal_match": true,
+    "content_ideals": true,
+    "generic_jacobian_rank_drop": true,
+    "generic_vertical_component": true,
+    "layer_discriminants": true,
+    "raw_model_localization_cannot_be_smooth": true,
+    "special_quarantine_closed": true,
+    "upper_bound_interpretation_not_asserted": true
+  },
+  "inputs": {
+    "u3_disc_cert": {
+      "path": "search/certs/sol123_u3_disc_v1_20260813.json",
+      "readout": "QUARANTINED",
+      "sha256": "d2f3b361d8bec47077c37017d26a9259d225c56daa9bea55b7a0306fb4af231e"
+    },
+    "u3_smooth_cert": {
+      "path": "search/certs/sol123_u3_smooth_v1_20260813.json",
+      "sha256": "0a605fb7f9ba258ee74294f6ea437b32af61b566d4cf44b29a2e021091e234d4"
+    }
+  },
+  "method_independence": {
+    "contents_and_supports": "local gcd and trial division",
+    "discriminants": "generic cubic coefficient formula",
+    "producer_imported": false,
+    "smoothness_obstruction": "direct complete-intersection Jacobian substitution"
+  },
+  "provenance": {
+    "checker_script": "crosscheck/check_sol123_u3_geometry.py",
+    "checker_script_sha256": "095ea19566abb085e550189e1d0e9ef062d7bd4399e9b636ca6ebb342b73f707"
+  },
+  "schema": "u3-geometry-check/v1",
+  "status": "CROSS_CHECKED_WITH_U3_2_UNKNOWN_STOP",
+  "task": "Sol-123/U3-2 and U3-3 independent checker"
+}

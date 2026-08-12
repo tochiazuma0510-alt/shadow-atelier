@@ -1,0 +1,41 @@
+{
+  "hard_timeout_seconds_per_step": 120,
+  "run_id": "sol123-local-20260813-v1",
+  "schema": "sol123-run-checkpoint/v1",
+  "status": "COMPLETE_WITH_U3_2_UNKNOWN_STOP_RECORDED",
+  "steps": [
+    {
+      "name": "r3_u9_producer",
+      "returncode": 0,
+      "script": "search/sol123_r3_u9.py",
+      "status": "COMPLETE",
+      "stderr": "",
+      "stdout": "{\"certificates\": [{\"path\": \"search/certs/sol123_r3_u9_v1_20260813.json\", \"sha256\": \"cbbf5c91c5fe664d218056dae1f03a2262da53da0628a156fae6b3d1fca731c4\"}, {\"path\": \"search/certs/sol123_p8_a_class_v1_20260813.json\", \"sha256\": \"dd1cf38556d0eff58ab29f0cd47bf762df782c45c43e9b27741bba3e015210b8\"}], \"status\": \"COMPLETE_PRODUCER\"}"
+    },
+    {
+      "name": "r3_u9_checker",
+      "returncode": 0,
+      "script": "crosscheck/check_sol123_r3_u9.py",
+      "status": "COMPLETE",
+      "stderr": "",
+      "stdout": "{\"certificate\": \"search/certs/sol123_r3_u9_check_v1_20260813.json\", \"sha256\": \"6ecb944c93d373016d19a5e3ed32ce3266fcb772ea82cee1840691ebfcf50baf\", \"status\": \"CROSS_CHECKED\"}"
+    },
+    {
+      "name": "u3_geometry_producer",
+      "returncode": 0,
+      "script": "search/sol123_u3_geometry.py",
+      "status": "COMPLETE",
+      "stderr": "",
+      "stdout": "{\"certificates\": [{\"path\": \"search/certs/sol123_u3_smooth_v1_20260813.json\", \"sha256\": \"0a605fb7f9ba258ee74294f6ea437b32af61b566d4cf44b29a2e021091e234d4\"}, {\"path\": \"search/certs/sol123_u3_disc_v1_20260813.json\", \"readout\": \"QUARANTINED\", \"sha256\": \"d2f3b361d8bec47077c37017d26a9259d225c56daa9bea55b7a0306fb4af231e\"}], \"status\": \"U3_ARTIFACTS_WRITTEN\"}"
+    },
+    {
+      "name": "u3_geometry_checker",
+      "returncode": 0,
+      "script": "crosscheck/check_sol123_u3_geometry.py",
+      "status": "COMPLETE",
+      "stderr": "",
+      "stdout": "{\"certificate\": \"search/certs/sol123_u3_geometry_check_v1_20260813.json\", \"sha256\": \"cb662e074b40f5fc0d06b04427940c5080a9316bc09d4d8843c77ad001ce51da\", \"status\": \"CROSS_CHECKED_WITH_U3_2_UNKNOWN_STOP\", \"u3_disc_readout\": \"QUARANTINED\"}"
+    }
+  ],
+  "task": "Sol-123/R3-UNRAM"
+}
