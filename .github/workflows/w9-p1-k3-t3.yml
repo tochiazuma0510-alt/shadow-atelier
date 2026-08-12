@@ -1,0 +1,62 @@
+name: w9-p1-k3-t3
+
+# [P1-C] k=3 t3 車線(札3・C2塔経由・裁定1019)。
+#
+# 司令塔採用(a)(裁定1019への回答): E の明示モデル決定・本体(3次 ansatz 探索)は数学的判断を
+# 要するため実装は先取りしない -- 数学者検分③の後に別発注。本 job は札3自身の「検証装置」①②
+# (implementer・GAP・秒規模)のみを実行する:
+#   ① サイズ3ブロックの stabilizer が、そのブロック(3点)上に誘導する作用の像が S3 か(非巡回の
+#      構造的確認 -- 全分岐/単純分岐の内訳の一意性の副産物)
+#   ② t=1 の分岐内訳(sigma0/sigma1/sigmainf のサイズ3ブロック商上のサイクル型)が [P1-0b] の
+#      既存certと一致するかの regression 確認
+#   ③ E(次数6・分岐型 [6],[1^2 2^2],[6])の Nielsen 類の順序3組を S6 内で全数え(可移性つき)
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  k3-t3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Run t3 light checks (① stabilizer S3 image, ② branch regression, ③ Nielsen count)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          timeout 600 gap -q -o 2g search/w9_k3_t3_lightcheck_v1.g 2>&1 | tee ci/out/w9_k3_t3_lightcheck.log
+          grep -q 'script sha256' ci/out/w9_k3_t3_lightcheck.log
+
+      - name: Gate results (informational -- watches are recorded, not enforced here)
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s search/certs/w9_k3_t3_lightcheck_v1_20260812.json
+          cp search/certs/w9_k3_t3_lightcheck_v1_20260812.json ci/out/
+          python3 - <<'PY'
+          import json
+          p = json.load(open('search/certs/w9_k3_t3_lightcheck_v1_20260812.json', encoding='utf8'))
+          print('check1 image_is_S3:', p['check1_stabilizer_action']['image_is_S3'])
+          print('check2 matches_P1_0b_cert:', p['check2_branch_regression']['matches_P1_0b_cert'])
+          print('check3 ordered_triples_product_one:', p['check3_nielsen_class_E']['ordered_triples_product_one'])
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w9-p1-k3-t3-${{ github.run_id }}
+          path: ci/out/
+          if-no-files-found: error
+          retention-days: 30

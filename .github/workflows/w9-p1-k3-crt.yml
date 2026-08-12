@@ -1,0 +1,158 @@
+name: w9-p1-k3-crt
+
+# [P1-C] k=3 crt lane (札1 mu_3 CRT -> 札6 D=square, 裁定1019).
+#
+# Step C1 only in this dispatch: measure (not predict) the dimension of the
+# canonical-form (a,b,g,P2~) system cut out by the t=1 matching equations
+# (docs/notes/w9_k3_insurance_v1.md §5). Fail-closed: if the measured
+# dimension is not exactly 10, the producer itself exits nonzero and the job
+# stops there (watch C-a). Step C2 (genus/(g5-k3) condition) is deferred to a
+# follow-up dispatch pending W9-GAP-9 calibration (design note §6).
+#
+# ci/hard_timeout.py owns a separate process group, writes a periodic
+# heartbeat, and kills the whole tree on expiry -- mirrors the w9-p1-tier2.yml
+# pattern (Sol's engineering template), but the math script is independently
+# derived from the design document (裁定1020: re-input is not independent).
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      hard_timeout_minutes:
+        description: 'hard child-process timeout; a timeout produces checkpoint artifacts'
+        required: true
+        type: number
+        default: 45
+      job_timeout_minutes:
+        description: 'outer GHA timeout; keep this above the hard timeout'
+        required: true
+        type: number
+        default: 55
+
+permissions:
+  contents: read
+
+jobs:
+  k3-crt:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(inputs.job_timeout_minutes) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install exact algebra tools
+        shell: bash
+        run: pip install "sympy==1.14.0"
+
+      - name: Report tool versions and memory
+        shell: bash
+        run: |
+          python --version
+          python -c "import sympy; print('sympy', sympy.__version__)"
+          free -h || true
+
+      - name: Run step C1 under process hard timeout
+        id: producer
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python ci/hard_timeout.py \
+            --timeout-seconds "$(( ${{ inputs.hard_timeout_minutes }} * 60 ))" \
+            --heartbeat-seconds 15 \
+            --kill-grace-seconds 5 \
+            --checkpoint ci/out/k3_crt_hard_timeout.json \
+            --log ci/out/k3_crt_stepC1.log \
+            -- \
+            python search/w9_k3_crt_stepC1_gha.py \
+              --output ci/out/w9_k3_crt_stepC1_result.json \
+              --checkpoint ci/out/w9_k3_crt_stepC1_checkpoint.json
+          rc=$?
+          echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Gate producer result (fail-closed on watch C-a)
+        shell: bash
+        run: |
+          set -euo pipefail
+          rc='${{ steps.producer.outputs.wrapper_exit }}'
+          if [ "$rc" = '124' ]; then
+            test -s ci/out/k3_crt_hard_timeout.json
+            echo "::warning::hard timeout expired before step C1 finished"
+            exit 0
+          fi
+          test -s ci/out/w9_k3_crt_stepC1_result.json
+          python - <<'PY'
+          import json
+          p = json.load(open('ci/out/w9_k3_crt_stepC1_result.json', encoding='utf8'))
+          print('status', p['status'])
+          print('total_dim_measured', p.get('total_dim_measured'))
+          print('watch_C_a_pass', p.get('watch_C_a_pass'))
+          # informational only -- do not raise; the producer's own exit code
+          # already encodes the fail-closed decision (rc=1 on watch failure).
+          PY
+
+      - name: Run independent checker
+        if: always() && steps.producer.outputs.wrapper_exit != '124'
+        id: checker
+        shell: bash
+        run: |
+          set +e
+          python search/check_w9_k3_crt_stepC1.py \
+            --cert ci/out/w9_k3_crt_stepC1_result.json \
+            --output ci/out/w9_k3_crt_stepC1_check.json
+          rc=$?
+          echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Report checker result (informational)
+        if: always() && steps.checker.outcome == 'success'
+        shell: bash
+        run: |
+          test -s ci/out/w9_k3_crt_stepC1_check.json
+          python - <<'PY'
+          import json
+          p = json.load(open('ci/out/w9_k3_crt_stepC1_check.json', encoding='utf8'))
+          print('all_checks_true', p.get('all_checks_true'))
+          PY
+
+      - name: Build run receipt
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, pathlib, platform
+          out = pathlib.Path('ci/out'); out.mkdir(parents=True, exist_ok=True)
+          files = {}
+          for path in sorted(out.iterdir()):
+              if path.is_file() and path.name != 'w9_k3_crt_receipt.json':
+                  files[path.name] = {
+                      'bytes': path.stat().st_size,
+                      'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+                  }
+          receipt = {
+              'schema': 'w9-p1-k3-crt-run-receipt/v1',
+              'github_run_id': os.environ.get('GITHUB_RUN_ID'),
+              'github_sha': os.environ.get('GITHUB_SHA'),
+              'github_ref': os.environ.get('GITHUB_REF'),
+              'python': platform.python_version(),
+              'producer_wrapper_exit': '${{ steps.producer.outputs.wrapper_exit }}',
+              'checker_wrapper_exit': '${{ steps.checker.outputs.wrapper_exit }}',
+              'files': files,
+          }
+          pathlib.Path('ci/out/w9_k3_crt_receipt.json').write_text(
+              json.dumps(receipt, indent=2, sort_keys=True) + '\n', encoding='utf8')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w9-p1-k3-crt-${{ github.run_id }}
+          path: ci/out/
+          if-no-files-found: error
+          retention-days: 30
