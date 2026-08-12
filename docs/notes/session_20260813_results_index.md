@@ -48,6 +48,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| トーサー計数 fixture(発案 6) | **#C([1008,521]¹)=2・類 [24,24]・48=24×2 予言厳密一致**・陽性対照 K(9)=#C 1/108 一致・捻り生存 1/12・1/28(RIGID 整合)・2 核類は well-definedness で分離・marked-factor-map 法 | set_surgery_fixture_v1_20260813(429c18b3) | 1084 |
 
 ## §4 census/屋根掃討の測定
 
