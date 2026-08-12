@@ -53,6 +53,10 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| R-1 宣言 v2 | 本文不変・cert 差込・**格 = candidate(厳密・2 系統一致・cert 化済)**・発令残 = Sol 監査/研究者検分/凍結 tag(修正 2 点差戻し中: 盲線店じまい文言・母集団定義の制約明示) | r1_declaration_draft_v2.md(0492ece2) | 1098 |
+| CP-C 裁定 | **装置維持** — 補題 CH-REG(超過 = p³−1・実測 26 と 4 行一致)・**p=691 安全証明済**(691∤2,3)・p=3 → 陽性対照 PC-5b 格上げ | ssg1_stage0_model_adjudication_v1.md(0492ece2) | 1098 |
+| Stage 0 模型確定 | **(c′) H_p = PSL(2,ℤ/2p²) ≅ S₃×PSL(2,ℤ/p²)**(正準・自由度なし)・直積の罠 = #Epi=0・閉形式: 対合 tr0/位数 3 tr±1・**凍結予言 U(691)≈9.55×10⁵ = 射程内側** | 同上 | 1098 |
+| 盲 checker 店じまい | 汚染 = 司令塔コミットメッセージ起因(1097)・F の探針成果 = **passport 単独の母集団 1,914,721 類**(72 本は E 塔制約族と判明)・独立検証は Sol ゲートへ移管 | scratchpad/r1gap1_blind/(未コミット保全) | 1097 |
 | R1-GAP-1 cert | **648→432→72 本・resolvent [18,18,18,18]・分布 {324:3, 972:9, 2916:6}+419904:54・λ₉=1 本(324 類)** — fail-closed 表(1093)と**全行一致**・第 2 レール完全一致・盲 F 走行中 | r1_gap1_population72_v1(f23c2c57) | 1095 |
 | PC-5 較正 | p=5,7 厳密一致・**p=3 不一致の原因完全特定**(3-合同核: 検定位数 3 × p=3 の衝突・3 系統裏取り)・補正後全一致・p=691 非衝突見込み(未証明・cert 明記) | ss_gap1_pc5_* + ss_gap1_stage0_v1(4c68b2a1) | 1095 |
 | 発案 6+7 検分 | **定理 TORSOR**(fixture は定理の帰結・u≡1 mod 3 の機構が系)・**定理 SUBTOR**(ARITH-T 強化)・I-SET-2 改造採用(類公式・指標表不要)・I-SET-3 **棄却(NOFIRE)**・I-SET-4 保留(charming 交絡・3 分類再測定要)・AT-Q1 的中 | set_surgery_vetting_v1.md(2860805e) | 1089 |
