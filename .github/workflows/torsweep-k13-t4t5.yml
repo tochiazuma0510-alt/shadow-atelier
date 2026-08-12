@@ -419,7 +419,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-  finalize:
+  finalize_prepare:
     needs: [step2_aggregate, pivot, k12_flint_canary]
     runs-on: ubuntu-latest
     timeout-minutes: ${{ fromJson(inputs.finalize_job_timeout_minutes) }}
@@ -449,7 +449,7 @@ jobs:
           got=$(sha256sum ci/basis/*.gz | awk '{print $1}')
           test "$got" = '${{ inputs.exact_b_gzip_sha256 }}'
           gunzip -k ci/basis/*.gz
-      - name: Retrieve earlier finalize checkpoint when requested
+      - name: Retrieve earlier finalize checkpoint and its exact-column inputs
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -459,47 +459,141 @@ jobs:
           if [ -n "$RESUME_RUN" ]; then
             gh run download "$RESUME_RUN" --repo '${{ github.repository }}' \
               --name torsweep-k13-t4t5-v2-finalize --dir ci/resume || true
-            # The aggregate embeds shard receipt SHA values, so a resumed
-            # run's mathematically identical aggregate need not have the same
-            # file SHA.  Reuse the aggregate that the checkpoint identity was
-            # computed from; the current run has independently rebuilt and
-            # compared both exact moduli in step2_aggregate above.
             mkdir -p ci/resume-step2
             gh run download "$RESUME_RUN" --repo '${{ github.repository }}' \
               --name torsweep-k13-t4t5-v2-step2-aggregate \
               --dir ci/resume-step2 || true
           fi
-      - name: Run FLINT finalize under hard process timeout
+      - name: Authenticate or build the shared exact N_source matrix
         id: producer
         shell: bash
         run: |
           set +e
           resume_args=()
           old=$(find ci/resume -name finalize_checkpoint.json -print -quit)
-          step2_a=ci/step2/step2_a.json
-          step2_b=ci/step2/step2_b.json
           if [ -n "$old" ]; then
             old_a=$(find ci/resume-step2 -name step2_a.json -print -quit)
             old_b=$(find ci/resume-step2 -name step2_b.json -print -quit)
             if [ -n "$old_a" ] && [ -n "$old_b" ]; then
-              step2_a="$old_a"
-              step2_b="$old_b"
+              resume_args=(
+                --resume-checkpoint "$old"
+                --resume-step2-a-artifact "$old_a"
+                --resume-step2-b-artifact "$old_b"
+              )
             fi
-            resume_args=(--resume-checkpoint "$old")
           fi
           exact_b=$(find ci/basis -name '*.json' -print -quit)
           python ci/hard_timeout.py \
             --timeout-seconds "$(( ${{ inputs.finalize_hard_timeout_minutes }} * 60 ))" \
             --heartbeat-seconds 15 --kill-grace-seconds 5 \
+            --checkpoint ci/out/prepare_hard_timeout.json \
+            --log ci/out/prepare.log -- \
+            python search/torsweep_t4_finalize_prepare_k13.py \
+              --step1-artifact ci/step1/step1.json \
+              --step2-a-artifact ci/step2/step2_a.json \
+              --step2-b-artifact ci/step2/step2_b.json \
+              --exact-b-cert "$exact_b" \
+              "${resume_args[@]}" \
+              --out ci/out/finalize_prepare.json
+          echo "wrapper_exit=$?" >> "$GITHUB_OUTPUT"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-t4t5-v2-finalize-prepare
+          path: ci/out/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Gate completed preparation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test '${{ steps.producer.outputs.wrapper_exit }}' = '0'
+          test -s ci/out/finalize_prepare.json
+          grep -q TORSWEEP_T4_FINALIZE_PREPARE_K13_DONE ci/out/prepare.log
+
+  finalize_minor:
+    needs: finalize_prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        candidate: [0, 1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.finalize_job_timeout_minutes) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install "numpy==2.5.1" "sympy==1.14.0" "python-flint==0.8.0"
+      - uses: actions/download-artifact@v4
+        with:
+          name: torsweep-k13-t4t5-v2-finalize-prepare
+          path: ci/prepare
+      - name: Compute or reuse one exact FLINT minor under hard timeout
+        id: producer
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python ci/hard_timeout.py \
+            --timeout-seconds "$(( ${{ inputs.finalize_hard_timeout_minutes }} * 60 ))" \
+            --heartbeat-seconds 15 --kill-grace-seconds 5 \
+            --checkpoint ci/out/minor_hard_timeout.json \
+            --log ci/out/minor.log -- \
+            python search/torsweep_t4_finalize_minor_k13.py \
+              --prepare ci/prepare/finalize_prepare.json \
+              --candidate-index '${{ matrix.candidate }}' \
+              --out 'ci/out/minor_${{ matrix.candidate }}.json'
+          echo "wrapper_exit=$?" >> "$GITHUB_OUTPUT"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-t4t5-v2-finalize-minor-${{ matrix.candidate }}
+          path: ci/out/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Gate completed minor
+        shell: bash
+        run: |
+          set -euo pipefail
+          test '${{ steps.producer.outputs.wrapper_exit }}' = '0'
+          test -s 'ci/out/minor_${{ matrix.candidate }}.json'
+          grep -q TORSWEEP_T4_FINALIZE_MINOR_K13_DONE ci/out/minor.log
+
+  finalize:
+    needs: [finalize_prepare, finalize_minor]
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.finalize_job_timeout_minutes) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install "numpy==2.5.1" "sympy==1.14.0" "python-flint==0.8.0"
+      - uses: actions/download-artifact@v4
+        with:
+          name: torsweep-k13-t4t5-v2-finalize-prepare
+          path: ci/prepare
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: torsweep-k13-t4t5-v2-finalize-minor-*
+          path: ci/minors
+      - name: Aggregate the five exact minors and run T5
+        id: producer
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python ci/hard_timeout.py \
+            --timeout-seconds "$(( ${{ inputs.finalize_hard_timeout_minutes }} * 60 ))" \
+            --heartbeat-seconds 15 --kill-grace-seconds 5 \
             --checkpoint ci/out/finalize_hard_timeout.json \
             --log ci/out/finalize.log -- \
-            python search/torsweep_t4_finalize_k13_v2_gha.py \
-              --step1-artifact ci/step1/step1.json \
-              --step2-a-artifact "$step2_a" \
-              --step2-b-artifact "$step2_b" \
-              --exact-b-cert "$exact_b" \
-              --checkpoint ci/out/finalize_checkpoint.json \
-              "${resume_args[@]}" \
+            python search/torsweep_t4_finalize_aggregate_k13.py \
+              --prepare ci/prepare/finalize_prepare.json \
+              --minor-glob 'ci/minors/**/minor_*.json' \
               --out ci/out/torsweep_k13_t4t5_finalize_v2.json
           echo "wrapper_exit=$?" >> "$GITHUB_OUTPUT"
           exit 0
@@ -516,4 +610,4 @@ jobs:
           set -euo pipefail
           test '${{ steps.producer.outputs.wrapper_exit }}' = '0'
           test -s ci/out/torsweep_k13_t4t5_finalize_v2.json
-          grep -q TORSWEEP_T4_FINALIZE_K13_V2_DONE ci/out/finalize.log
+          grep -q TORSWEEP_T4_FINALIZE_K13_PARALLEL_DONE ci/out/finalize.log
