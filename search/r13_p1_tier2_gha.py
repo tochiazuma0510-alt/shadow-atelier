@@ -68,6 +68,25 @@ def sha256_file(path: Path) -> str:
     return sha256_bytes(path.read_bytes())
 
 
+def json_compatible(value: Any) -> Any:
+    """Normalize exact-algebra objects before any checkpoint serialization."""
+    if value is None or isinstance(value, (bool, str, int, float)):
+        return value
+    if isinstance(value, sp.Integer):
+        return int(value)
+    if isinstance(value, sp.Rational):
+        return str(value)
+    if isinstance(value, sp.Basic):
+        return str(value)
+    if isinstance(value, Path):
+        return str(value)
+    if isinstance(value, dict):
+        return {str(key): json_compatible(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [json_compatible(item) for item in value]
+    raise TypeError(f"unsupported JSON checkpoint value: {type(value).__name__}")
+
+
 def canonical_bytes(value: Any) -> bytes:
     return json.dumps(
         value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
@@ -75,7 +94,7 @@ def canonical_bytes(value: Any) -> bytes:
 
 
 def with_integrity(payload: dict[str, Any]) -> dict[str, Any]:
-    result = copy.deepcopy(payload)
+    result = json_compatible(copy.deepcopy(payload))
     result.pop("integrity", None)
     result["integrity"] = {
         "canonical_payload_sha256": sha256_bytes(canonical_bytes(result)),
