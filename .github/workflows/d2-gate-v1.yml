@@ -1,0 +1,93 @@
+name: d2-gate-v1
+
+# [D2-GATE] 次数18合成被覆 monodromy ゲート(裁定1083/1086/1087)
+# docs/notes/p1d2_r1_canonicalization_v2.md §8.2 直結実装。
+# Stage 1: python (mpmath) 数値 path-tracking で W(P1),W(P2) の sigma0/sigma1 を測定。
+# Stage 2: GAP で monodromy 群の位数・可移性・ブロック系 + lambda9 認証済み三つ組との
+#          S18-共役(marked)を判定。生値のみ・判定語なし(分岐の解釈は §8.3)。
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dps:
+        description: 'mpmath precision (decimal digits)'
+        required: false
+        default: '50'
+      n_line:
+        description: 'straight-segment steps per loop'
+        required: false
+        default: '150'
+      n_circle:
+        description: 'circle steps per loop'
+        required: false
+        default: '300'
+
+permissions:
+  contents: read
+
+jobs:
+  d2-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install mpmath/sympy
+        shell: bash
+        run: pip install mpmath sympy
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Stage 1 -- numeric path-tracking (python)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python search/d2_gate_v1_track.py \
+            --dps "${{ github.event.inputs.dps }}" \
+            --n_line "${{ github.event.inputs.n_line }}" \
+            --n_circle "${{ github.event.inputs.n_circle }}" \
+            --out search/certs/d2_gate_v1_track_20260813.json \
+            2>&1 | tee ci/out/d2_gate_track.log
+
+      - name: Stage 2 -- GAP group-theoretic post-processing
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 600 gap -q -o 2g search/d2_gate_v1_group.g 2>&1 | tee ci/out/d2_gate_group.log
+          grep -q 'group script sha256' ci/out/d2_gate_group.log
+
+      - name: Collect results
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s search/certs/d2_gate_v1_track_20260813.json
+          test -s search/certs/d2_gate_v1_track_20260813.gens.g
+          test -s search/certs/d2_gate_v1_20260813.json
+          cp search/certs/d2_gate_v1_track_20260813.json ci/out/
+          cp search/certs/d2_gate_v1_track_20260813.gens.g ci/out/
+          cp search/certs/d2_gate_v1_20260813.json ci/out/
+          python3 - <<'PY'
+          import json
+          p = json.load(open('search/certs/d2_gate_v1_20260813.json', encoding='utf8'))
+          print('P1 mon_order:', p['P1']['mon_order'], 'conjugate_to_target:', p['P1']['s18_conjugate_to_lambda9_target'])
+          print('P2 mon_order:', p['P2']['mon_order'], 'conjugate_to_target:', p['P2']['s18_conjugate_to_lambda9_target'])
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: d2-gate-v1-${{ github.run_id }}
+          path: ci/out/
+          if-no-files-found: error
+          retention-days: 30

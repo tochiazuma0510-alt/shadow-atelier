@@ -1,0 +1,255 @@
+{
+ "schema": "d2_gate_v1_track/v1",
+ "params": {
+  "dps": 50,
+  "n_line": 100,
+  "n_circle": 200,
+  "radius": 0.15,
+  "t0": "(0.55 + 0.35j)",
+  "smoke": false
+ },
+ "per_point": {
+  "P1": {
+   "P": {
+    "X": "(0.0 + 0.0j)",
+    "Y": "(-2.0 + 0.0j)"
+   },
+   "c_value": "(0.25 + 0.433012701892219323381861585376j)",
+   "rho": "(-6.75 + 11.6913429510899217313102628052j)",
+   "c_v4_residual": "2.672764710092195646140536467151481878815196880105e-51",
+   "sigma0": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    18,
+    17,
+    4,
+    6,
+    5,
+    8,
+    7,
+    9,
+    2,
+    1,
+    3
+   ],
+   "sigma1": [
+    4,
+    5,
+    6,
+    1,
+    2,
+    3,
+    7,
+    9,
+    8,
+    13,
+    14,
+    15,
+    10,
+    11,
+    12,
+    16,
+    18,
+    17
+   ],
+   "sigma_inf_derived": [
+    10,
+    12,
+    11,
+    17,
+    16,
+    18,
+    14,
+    15,
+    13,
+    4,
+    5,
+    6,
+    1,
+    2,
+    3,
+    7,
+    8,
+    9
+   ],
+   "sigma_inf_note": "derived via sigma_inf = (sigma0*sigma1)^-1 (topological loop-composition identity for a 3-branch-point cover) -- NOT independently path-tracked.",
+   "cycle_type_sigma0": [
+    18
+   ],
+   "cycle_type_sigma1": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    1,
+    1
+   ],
+   "cycle_type_sigma_inf_derived": [
+    18
+   ],
+   "q0_degree6": [
+    4,
+    5,
+    6,
+    2,
+    3,
+    1
+   ],
+   "q1_degree6": [
+    2,
+    1,
+    3,
+    5,
+    4,
+    6
+   ],
+   "q_inf_degree6_derived": [
+    4,
+    6,
+    5,
+    2,
+    1,
+    3
+   ],
+   "max_match_dist_branch0": 1.0691058840368783e-50,
+   "max_match_dist_branch1": 2.390593431851467e-50,
+   "n_steps_per_loop": 401,
+   "seconds_branch0": 12.567415237426758,
+   "seconds_branch1": 12.684887886047363
+  },
+  "P2": {
+   "P": {
+    "X": "(1.37007270483432961175101010064 + 0.912964171632262767821564487482j)",
+    "Y": "(2.0 + 0.0j)"
+   },
+   "c_value": "(0.0782258115334652574215129836293 - 0.79981505638573154494921802032j)",
+   "rho": "(-0.817598473834161384037612395188 - 8.35948591176718565071650677704j)",
+   "c_v4_residual": "2.672764710092195646140536467151481878815196880105e-51",
+   "sigma0": [
+    10,
+    12,
+    11,
+    13,
+    14,
+    15,
+    17,
+    18,
+    16,
+    4,
+    5,
+    6,
+    8,
+    7,
+    9,
+    1,
+    2,
+    3
+   ],
+   "sigma1": [
+    4,
+    5,
+    6,
+    1,
+    2,
+    3,
+    7,
+    9,
+    8,
+    13,
+    14,
+    15,
+    10,
+    11,
+    12,
+    18,
+    17,
+    16
+   ],
+   "sigma_inf_derived": [
+    10,
+    11,
+    12,
+    16,
+    17,
+    18,
+    14,
+    15,
+    13,
+    4,
+    5,
+    6,
+    1,
+    3,
+    2,
+    8,
+    7,
+    9
+   ],
+   "sigma_inf_note": "derived via sigma_inf = (sigma0*sigma1)^-1 (topological loop-composition identity for a 3-branch-point cover) -- NOT independently path-tracked.",
+   "cycle_type_sigma0": [
+    18
+   ],
+   "cycle_type_sigma1": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    1,
+    1
+   ],
+   "cycle_type_sigma_inf_derived": [
+    18
+   ],
+   "q0_degree6": [
+    4,
+    5,
+    6,
+    2,
+    3,
+    1
+   ],
+   "q1_degree6": [
+    2,
+    1,
+    3,
+    5,
+    4,
+    6
+   ],
+   "q_inf_degree6_derived": [
+    4,
+    6,
+    5,
+    2,
+    1,
+    3
+   ],
+   "max_match_dist_branch0": 5.976483579628668e-51,
+   "max_match_dist_branch1": 1.1952967159257336e-50,
+   "n_steps_per_loop": 401,
+   "seconds_branch0": 13.019458055496216,
+   "seconds_branch1": 12.924879550933838
+  }
+ },
+ "total_seconds": 51.20519828796387,
+ "u_touched": false,
+ "c_touched": false,
+ "prereg_touched": false,
+ "d_no_interpretation": "machine values only; verdict は司令塔",
+ "provenance": {
+  "script_sha256": "12237466eede848f79f5a05568451f4f2c6b2be66b83a02385be0002a0553ea3"
+ }
+}
