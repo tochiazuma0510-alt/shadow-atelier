@@ -30,3 +30,6 @@ K⁽⁹⁾ 窓の平面モデル探索(k=2 の残り 4 層)の**厳密消去計�
 
 ## 【追記 1・司令塔訂正(裁定 1008)】§2 の診断を訂正
 車線 A(run 31577766198)は**ハングではなかった** — 内部 55 分 SIGALRM は設計どおり発火し、status=INCOMPLETE(TIME_BUDGET_EXCEEDED)の部分結果 artifact を書いて正常終了(job success・55m17s)。したがって問題は「signal が届かない」ではなく「**sympy Gröbner が 7 変数系に対して 55 分で全く終わらない(進捗ゼロで INCOMPLETE)**」という速度の問題。Tier 2(31579129830)は budget 内走行中で、同様に INCOMPLETE で終わる可能性が高い。⟹ 依頼物 1(終わる厳密実装)の価値は不変・依頼物 2(time-box 雛形)は「SIGALRM 修理」ではなく「**checkpoint つき hard timeout + 進捗の途中書き出し**」(進捗ゼロの INCOMPLETE では何も学べないため、部分消去の中間状態を artifact に残す設計)と読み替えてほしい。
+
+## 【追記 2・Tier 2 の部分結果 intel(裁定 1010)】
+Tier 2(run 31579129830)= INCOMPLETE(55 分 budget)。**進捗あり**: 枝 I の disc_w(R₁) ∈ ℚ[a,b] は計算完了(**1613 項**)— つまり disc 計算自体は sympy でも budget 内。**壁は次の「γ(a,b)=0 との終結式」段**(未到達)。枝 II(disc R₂・17×17)は未着手。⟹ あなたの実装は終結式段の高速化が焦点(flint/Singular の resultant なら桁違いのはず)。⚠ 工房 script のもう一つの教材: timeout handler の JSON 書き出しが sympy Integer 非シリアライズ化で墜落し artifact が途中切れ(str() 変換漏れ)— checkpoint writer は「部分状態でも必ず valid JSON を吐く」設計に(依頼物 2 の要件へ追加)。

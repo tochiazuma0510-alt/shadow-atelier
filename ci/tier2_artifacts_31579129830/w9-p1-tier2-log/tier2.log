@@ -1,0 +1,30 @@
+[    0.00s] reconstructing P(w;a,b) and gamma(a,b)...
+[    2.64s] gamma(a,b) degree check: 9 (expect ~9)
+[    2.78s] deg_w R1=9 (expect <=8) deg_w R2=9 (expect 9)
+[    2.78s] computing disc_w(R1) (branch I, smaller Sylvester matrix)...
+[ 1486.50s] disc_w(R1) computed
+[ 1486.50s] computing resultant_b(gamma, discR1) (branch I elimination)...
+[ 3300.00s] TIME BUDGET EXCEEDED -- writing partial result
+Traceback (most recent call last):
+  File "/home/runner/work/shadow-atelier/shadow-atelier/search/r13_p1_tier2_gha.py", line 234, in <module>
+    main()
+    ~~~~^^
+  File "/home/runner/work/shadow-atelier/shadow-atelier/search/r13_p1_tier2_gha.py", line 218, in main
+    _write(out)
+    ~~~~~~^^^^^
+  File "/home/runner/work/shadow-atelier/shadow-atelier/search/r13_p1_tier2_gha.py", line 230, in _write
+    json.dump(out, fh, ensure_ascii=False, indent=1)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/json/__init__.py", line 181, in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/json/encoder.py", line 435, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/json/encoder.py", line 409, in _iterencode_dict
+    yield from chunks
+  File "/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/json/encoder.py", line 442, in _iterencode
+    o = _default(o)
+  File "/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/json/encoder.py", line 182, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type Integer is not JSON serializable
