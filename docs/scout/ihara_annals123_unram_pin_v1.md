@@ -159,7 +159,7 @@
 
 **主標的(Theorem 1 の言明+証明)については追加撮影不要**。以下は補助目的で有用(優先順):
 
-1. **References の該当頁**(論文末尾・おそらく pp.104–106 のうち [10] と [2],[7] が載る頁)— [10] の正体確定用。→ **p.106 は入手・下記 Addendum で [10] 確定**(2026-08-12)。残るは [1]〜[7] の載る前頁(p.105)。
+1. **References の該当頁**(論文末尾・おそらく pp.104–106 のうち [10] と [2],[7] が載る頁)— [10] の正体確定用。→ **p.106 は入手・下記 Addendum で [10] 確定**(2026-08-12)。残るは [1]〜[7] の載る前頁(p.105)。→ **p.105 も入手・下記 Addendum-2 で [1]〜[7] 全て確定**(2026-08-12・裁定 937)。
 2. **I §5**(pp.56 以降・§4 の続きから)— Φ₁ が pro-l 群である証明(Remark 1 の依存)と Cor. of Prop. 8(Remark 2 の参照先)。目安 pp.56–62 程度(正確な頁は UNKNOWN)。
 3. p.55 の続き(p.56–)— §I.4 Belyi normalization の残り(Prop 4 証明の続き)。
 
@@ -179,8 +179,52 @@
 
 ### Ad-2. 本 pin 文書に現れる他の参照番号 — [2](Belyi・p.48 引用文中)・[7](Deligne tangential base point・p.47 "cf. [7]")
 
-- いずれも **p.106 には無い**(本頁は [8] から始まる)。書誌は本素材からは **UNKNOWN** のまま(前頁 p.105 に載ると推定)。
+- いずれも **p.106 には無い**(本頁は [8] から始まる)。書誌は本素材からは **UNKNOWN** のまま(前頁 p.105 に載ると推定)。→ **解消済み(2026-08-12・下記 Addendum-2)**: p.105 入手により [2] = Belyĭ, Izv. Akad. Nauk USSR 43 (1979)(英訳 Math. USSR Izv. 14 (1980), 247–256)・[7] = P. Deligne, Letters to S. Bloch と確定。
 
 ### Ad-3. Deligne の文献(p.53 脚注 "This was proved also by Deligne" 対応)
 
-- p.106 の [8]〜[27] に **Deligne 名義の項目は無い**(著者アルファベット順で D は [1]〜[7] 域)。該当書誌の有無・内容は本素材からは **UNKNOWN**。
+- p.106 の [8]〜[27] に **Deligne 名義の項目は無い**(著者アルファベット順で D は [1]〜[7] 域)。該当書誌の有無・内容は本素材からは **UNKNOWN**。→ **解消済み(2026-08-12・下記 Addendum-2)**: Deligne 名義は [6](Letters to A. Grothendieck)と [7](Letters to S. Bloch)の 2 項目(いずれも未刊行の書簡)。
+
+---
+
+## Addendum-2(2026-08-12・裁定 937)— References 前半頁 p.105 の照合([1]〜[7] 確定)
+
+- 素材追加: `papers/ihara-annals123-pp43-55/iharaannals105.JPG`(References 前半頁・印刷 p.105)。画像直読+4 倍/8 倍拡大切り出し(References 全体・[1]〜[3] 行・[4]〜[7] 行・本文 Deligne 段落)で照合済み。
+- **頁の全体像**: p.105 は本文末尾((Col 2) 式・Corollary of Theorem 10 とその証明・Deligne の Bloch 宛書簡への言及段落)+ 所属表示 "University of Tokyo, Japan" + **References の [1]〜[7]**([8] 以降は次頁 p.106 = 既収 Addendum)。
+
+### Ad2-1. [1]〜[7] の書誌(逐語・p.105)
+
+> [1] E. Artin, Theorie der Zöpfe, Hamburg, Abh **4** (1925), 47–72.
+>
+> [2] G. V. Belyĭ, On Galois extensions of a maximal cyclotomic field, Izv. Akad. Nauk USSR **43** (1979) 2; (Math. USSR Izv. **14** (1980) 2, 247–256).
+>
+> [3] R. Coleman, Division values in local fields, Inv. Math **53** (1979), 91–116.
+>
+> [4] ———, The dilogarithm and the norm residue symbol, Bull. Soc. Math. France **109** (1981), 373–402.
+>
+> [5] ———, Local units modulo circular units, Proc. AMS **89** (1983), 1–7.
+>
+> [6] P. Deligne, Letters to A. Grothendieck.
+>
+> [7] ———, Letters to S. Bloch.
+
+- 表記注(8 倍拡大で照合):
+  - 著者名はいずれも small caps(Artin / Belyĭ / Coleman / Deligne)。[4][5] は [3] の、[7] は [6] の同著者ダッシュ(横罫)。
+  - [1]: "Zöpfe" の ö はウムラウト。誌名表記は印刷どおり "Hamburg, Abh **4**"(巻号 4 は太字。"Abh" 直後のピリオドの有無は本解像度では判別不能 — UNKNOWN)。
+  - [2]: "Belyĭ" の末尾 ĭ は breve(短音記号)つき。巻号 **43**・**14** は太字。"(1979) 2;" と "(1980) 2," の 2 は号数。英訳側は丸括弧で "(Math. USSR Izv. **14** (1980) 2, 247–256)"。
+  - [3]: 誌名は印刷どおり "Inv. Math **53**"("Math" 直後のピリオドの有無は本解像度では判別不能 — UNKNOWN)。
+  - [6][7]: 誌名・年なし(未刊行書簡。刊行情報は印刷に存在しない)。
+
+### Ad2-2. [2](Belyi)の正体 — 本 pin 文書 p.48 引用(0-5 (iii)「In [2], Belyi proved that the *profinite* analogue of φ_**Q** is *injective*」)の引く先
+
+- **[2] = G. V. Belyĭ, "On Galois extensions of a maximal cyclotomic field", Izv. Akad. Nauk USSR 43 (1979), no. 2(英訳: Math. USSR Izv. 14 (1980), no. 2, 247–256)**。
+
+### Ad2-3. [7](Deligne)の正体 — p.47 "cf. [7]"(tangential base point)の引く先
+
+- **[7] = P. Deligne, Letters to S. Bloch(未刊行書簡)**。
+- 本頁 p.105 本文に日付の傍証あり(逐語):
+
+> In our terminology, Deligne's work (a letter to S. Bloch [7], Feb., 1984) mainly concerns the Galois representations obtained from the coefficients of (i!j!)⁻¹UⁱVʲ for the case either i = 1 or j = 1, and if the author understands it correctly, he has shown that these coefficients are precisely (l^{m−1} − 1)⁻¹χ_m(ρ) (without hypothesis on Res_m), at least when m < l. The consideration of χ_m and the above corollary were inspired by that letter.
+
+- すなわち [7] の実体は **1984 年 2 月付の S. Bloch 宛 Deligne 書簡**(p.105 本文の記載)。
+- 注意(所在の報告のみ・判定なし): Theorem 1(i) の脚注 "(*) This was proved also by Deligne."(p.53・Pin A)は**参照番号を付していない**。p.47 の tangential base point が明示的に引くのは "(cf. [7])" のみ。脚注の典拠が [6](Letters to A. Grothendieck)か [7] か本文の別箇所かは、本素材からは **UNKNOWN**。
