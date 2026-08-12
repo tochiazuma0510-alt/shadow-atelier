@@ -1,0 +1,138 @@
+name: torsweep-k13-finalize
+
+# k=13 TOR-DET finalize (steps 3-5), SEPARATE workflow from torsweep-k13-t4t5.yml (裁定994).
+#
+# Takes step1/step2-a/step2-b artifacts from a SOURCE run of torsweep-k13-t4t5.yml (input
+# source_run_id, cross-run `gh run download` -- same pattern as torsweep-k13-aggregate.yml, needs
+# `actions: read`), and the EXACT H_basis via a GitHub Release asset (裁定994: local-only 356MB
+# file transported via `gh release upload` to tag k13-basis-v1, downloaded here via
+# `gh release download`, sha256-verified against the value recorded at upload time BEFORE use --
+# mismatch = fail, do not proceed).
+#
+# Why a separate workflow (not folded into torsweep-k13-t4t5.yml's own job graph): the step1/step2
+# run (31575182611 at the time this workflow was authored) was already in progress when the
+# release-asset transport was designed; running finalize as an independent workflow lets it be
+# pointed at ANY completed step1/step2 run via input, without needing to re-dispatch step1/step2.
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'Run id of a completed torsweep-k13-t4t5.yml run holding step1/step2-a/step2-b artifacts'
+        required: true
+        type: string
+      exact_b_gzip_sha256:
+        description: 'Expected sha256 of the gzip release asset (torsweep_k13_hnf_construct_v1_20260812.json.gz), verified before use'
+        required: true
+        type: string
+        default: '753f77ab416c94bc2455caa3793c40b809a486ab47c931710699f1da35c05845'
+      release_tag:
+        description: 'GitHub Release tag holding the exact H_basis gzip asset'
+        required: true
+        type: string
+        default: 'k13-basis-v1'
+      timeout_minutes:
+        description: 'finalize job timeout (minutes) -- includes gunzip of a 356MB JSON, budget generously'
+        required: true
+        type: number
+        default: 60
+
+permissions:
+  contents: read
+  actions: read  # needed for cross-run `gh run download`
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy+sympy (pinned to the versions validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1" "sympy==1.14.0"
+
+      - name: Download step1/step2 artifacts from the source run (cross-run)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/in
+          gh run download ${{ inputs.source_run_id }} --repo ${{ github.repository }} \
+            -n torsweep-k13-t4t5-step1-artifact -D ci/in/
+          gh run download ${{ inputs.source_run_id }} --repo ${{ github.repository }} \
+            -n torsweep-k13-t4t5-step2-a-artifact -D ci/in/
+          gh run download ${{ inputs.source_run_id }} --repo ${{ github.repository }} \
+            -n torsweep-k13-t4t5-step2-b-artifact -D ci/in/
+          ls -la ci/in/
+
+      - name: Download exact H_basis release asset + verify sha256 (fail-closed)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/basis
+          gh release download ${{ inputs.release_tag }} --repo ${{ github.repository }} \
+            --pattern "*.gz" -D ci/basis/
+          ls -la ci/basis/
+          got_sha=$(sha256sum ci/basis/*.gz | awk '{print $1}')
+          want_sha="${{ inputs.exact_b_gzip_sha256 }}"
+          echo "got_sha=$got_sha want_sha=$want_sha"
+          if [ "$got_sha" != "$want_sha" ]; then
+            echo "::error::sha256 MISMATCH on downloaded release asset -- got $got_sha, want $want_sha"
+            exit 1
+          fi
+          echo "sha256 verified OK"
+          gunzip -k ci/basis/*.gz
+          ls -la ci/basis/
+
+      - name: Report runner memory (informational)
+        shell: bash
+        run: free -h || true
+
+      - name: Run finalize (K=13)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          EXACT_B=$(ls ci/basis/*.json)
+          python search/torsweep_t4_finalize_k13_gha.py \
+            --step1-artifact ci/in/step1.json \
+            --step2-a-artifact ci/in/step2_a.json \
+            --step2-b-artifact ci/in/step2_b.json \
+            --exact-b-cert "$EXACT_B" \
+            --out ci/out/torsweep_k13_t4t5_finalize.json \
+            2>&1 | tee ci/out/finalize.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check result (informational -- STOP is a valid, reported outcome, not necessarily a CI bug)
+        shell: bash
+        run: |
+          echo "py_exit=${{ steps.run.outputs.py_exit }}"
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::warning::finalize did not complete py_exit=0 -- check ci/out/finalize.log for TORSWEEP_T4_FINALIZE_STOP (expected STOP behavior on a genuine mismatch, not necessarily a CI bug)"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-t4t5-finalize-log
+          path: ci/out/finalize.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-t4t5-final-cert
+          path: ci/out/torsweep_k13_t4t5_finalize.json
+          if-no-files-found: warn
