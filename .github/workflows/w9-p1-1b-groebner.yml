@@ -1,0 +1,82 @@
+name: w9-p1-1b-groebner
+
+# [P1-1'' step1b] lane A ("force lane" -- Groebner basis dimension measurement), 裁定1000.
+# K^(9) window, W9 plane-model ansatz work (docs/notes/w9_k2_diagnosis_v1.md §7 差分v3).
+#
+# all-GHA discipline: this Groebner computation (7 unknowns a,b,s0..s4, 10 equations, high
+# degree) is NOT attempted on the local 8GB machine -- runs entirely on a GHA runner.
+# search/r13_p1_1b_groebner_gha.py is time-boxed internally (55min alarm inside a 1h job cap) and
+# writes a PARTIAL result artifact if the computation has not finished in time, rather than being
+# silently killed with no output.
+#
+# A parallel "lane B" (mathematician's resultant-based elimination, expected to be cheaper) may
+# supersede this -- if lane B's result arrives first, it takes priority; this job is left running
+# regardless (裁定1000: "Groebner job は走らせたまま放置でよい").
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      timeout_minutes:
+        description: 'job timeout (minutes) -- script has its own internal 55min alarm; this is an outer safety cap'
+        required: true
+        type: number
+        default: 65
+
+permissions:
+  contents: read
+
+jobs:
+  groebner:
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install sympy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "sympy==1.14.0"
+
+      - name: Report runner memory (informational)
+        shell: bash
+        run: free -h || true
+
+      - name: Run Groebner basis dimension measurement (time-boxed internally)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/r13_p1_1b_groebner_gha.py 2>&1 | tee ci/out/groebner.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check result (informational -- INCOMPLETE is a valid, reported outcome)
+        shell: bash
+        run: |
+          echo "py_exit=${{ steps.run.outputs.py_exit }}"
+          if grep -q "R13_P1_1B_GROEBNER_INCOMPLETE" ci/out/groebner.log; then
+            echo "::warning::Groebner computation did not finish within the internal time budget -- partial result artifact written (this is a first-class outcome, not a CI failure)"
+          elif ! grep -q "R13_P1_1B_GROEBNER_DONE" ci/out/groebner.log; then
+            echo "::error::neither R13_P1_1B_GROEBNER_DONE nor _INCOMPLETE marker found -- unexpected script exit"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w9-p1-1b-groebner-log
+          path: ci/out/groebner.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w9-p1-1b-groebner-result
+          path: ci/out/r13_p1_1b_groebner_result.json
+          if-no-files-found: warn
