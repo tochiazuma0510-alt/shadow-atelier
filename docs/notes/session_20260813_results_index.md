@@ -53,6 +53,9 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| **R-2 完結** | [R-2-U] 有理 uniformizer 2 本(s⁽¹⁾=w・s⁽²⁾=X/w²)・Newton 多角形 e=3・見張り全 PASS(ord λ₉=18)— 厳密・数値なし | r2_u_uniformizer_v1(cdf036ab) | 1119 |
+| [B″-0] 掃引 | 15 窓一括 — **\|D₀\|≥4 = 双子 [1152,154161/154163] のみ**・z₀>1 = [1134,55](型退化対照)| iset4_b0_sweep_v1 | 1119 |
+| 工房 R-3 | DESC-9 (D-i)(D-iii)+canary 6 件・[U3-1] ℤ[1/2] モデル(**Jacobian 零点は解決せず = (β) 検疫の予防拡張・承認**) | desc9_procedure_v1+u3_model_v1 | 1119 |
 | **★ℚ 降下** | 宣言モデルは **ℚ 上に降りる**(x=ζ₃²X・E_ℚ: Y²+3XY+2Y=X³・標識点全 ℚ-有理)⟹ λ₉ 定義体 ⊆ ℚ・**D2-GAP-7 完全閉鎖**・U3-1 = 真正 ℤ[1/S](v4 不 falsify・精密化) | r2_r3_unram_execution_spec_v1.md(f4989071) | 1118 |
 | R-2/R-3 spec | R-2 残 = [R-2-U] のみ(P0-RAT で縮約)・R-3 = 規約 DESC-9・**prereg (β) 事前登録**(U3-3 の S は a_class 凍結まで検疫)・Sol 分担 3 本 = 便 123 | 同上 | 1118 |
 | U6 読解 | [U6-1] 具体化正(**余剰 C₂ = S_t 符号指標**・U6-GAP-2 解消・有料 = 3 本に会計訂正)・[U6-3] **戦略確定: settled 層限定**(型境界登録・復活路 U6-5)・[B″-0] 先行発注 | u6_prereg_readout_v1.md(03944160) | 1118 |
