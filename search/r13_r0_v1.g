@@ -287,7 +287,7 @@ cert := Concatenation(
   "}",
   ",\"M_assert\":{\"M9_expected\":", String(M9Expected), ",\"M9_observed_via_ramification\":", String(ePAt0), ",\"M9_pass\":", JB(f2RamAt0Is18), "}",
   ",\"F_assert\":{\"F9_field_name\":\"Q(zeta_36)\",\"note\":\"体そのものの構成はR-0の射程外(R-0は有限群の置換計算のみ); ここではdesignで指定されたF_9名を記録するのみで、算術的検証は行っていない\"}",
-  ",\"u_touched\":", JB(f6UTouchedFalse),
+  ",\"u_touched\":", JB(uTouched),
   ",\"d_no_interpretation\":\"machine values only; verdict は司令塔\"",
   ",\"helper_disjoint\":\"本スクリプトは search/k9-package.g を Read()/import せず、BuildPn等を独立に再定義している(既存実測値の独立再現)\"",
   ",\"f4_exact_arithmetic_only\":", JB(f4ExactArithmeticOnly),
@@ -297,7 +297,7 @@ cert := Concatenation(
   "}"
 );;
 
-outPath := "search/certs/r13_r0_v1_20260812.json";;
+outPath := "search/certs/r13_r0_v1_1_20260812.json";;
 WriteFile(outPath, cert);;
 
 Print("\n証明書を書き出した: ", outPath, "\n");
