@@ -159,6 +159,28 @@
 
 **主標的(Theorem 1 の言明+証明)については追加撮影不要**。以下は補助目的で有用(優先順):
 
-1. **References の該当頁**(論文末尾・おそらく pp.104–106 のうち [10] と [2],[7] が載る頁)— [10] の正体確定用。
+1. **References の該当頁**(論文末尾・おそらく pp.104–106 のうち [10] と [2],[7] が載る頁)— [10] の正体確定用。→ **p.106 は入手・下記 Addendum で [10] 確定**(2026-08-12)。残るは [1]〜[7] の載る前頁(p.105)。
 2. **I §5**(pp.56 以降・§4 の続きから)— Φ₁ が pro-l 群である証明(Remark 1 の依存)と Cor. of Prop. 8(Remark 2 の参照先)。目安 pp.56–62 程度(正確な頁は UNKNOWN)。
 3. p.55 の続き(p.56–)— §I.4 Belyi normalization の残り(Prop 4 証明の続き)。
+
+---
+
+## Addendum(2026-08-12・裁定 933)— References 頁 p.106 の照合
+
+- 素材追加: `papers/ihara-annals123-pp43-55/iharaannals106.JPG`(References 頁・印刷 p.106)。画像直読+2 倍/4 倍拡大切り出しで照合済み。
+- **頁の全体像**: p.106 には References の **[8]〜[27]** と末尾の "(Received January 4, 1985)" が載る([1]〜[7] は前頁・本素材に無し)。
+
+### Ad-1. [10] の書誌(逐語・p.106)
+
+> [10] A. Grothendieck, *Eléments de géométrie algébriques IV* (4ᵉ partie) (with Dieudonné), Publ. IHES **32** (1967).
+
+- 正体: **EGA IV 第 4 部**(Publications mathématiques de l'IHÉS, tome 32, 1967)。上記「証明の所在まとめ・外部依存 1」の「SGA 1 と推定されるが UNKNOWN」は本 Addendum で**解消 — SGA 1 ではなく EGA IV(4ᵉ partie)**。
+- 表記注(画像 4 倍拡大で照合): 題は印刷どおり "algébriques"(語尾 s あり・イタリック)。"4ᵉ" の e は上付き。巻号 32 は太字。冒頭の E にアクセント記号は視認されない("Eléments")。
+
+### Ad-2. 本 pin 文書に現れる他の参照番号 — [2](Belyi・p.48 引用文中)・[7](Deligne tangential base point・p.47 "cf. [7]")
+
+- いずれも **p.106 には無い**(本頁は [8] から始まる)。書誌は本素材からは **UNKNOWN** のまま(前頁 p.105 に載ると推定)。
+
+### Ad-3. Deligne の文献(p.53 脚注 "This was proved also by Deligne" 対応)
+
+- p.106 の [8]〜[27] に **Deligne 名義の項目は無い**(著者アルファベット順で D は [1]〜[7] 域)。該当書誌の有無・内容は本素材からは **UNKNOWN**。
