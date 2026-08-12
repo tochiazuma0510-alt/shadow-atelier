@@ -196,7 +196,7 @@
 
 本索引 §5「C1/C3 = open」と §11-2/3 は**誤り**。判定基準を「LEDGER 内の閉鎖裁定本文」に限定したため、**文書正本と CLAIMS が携行する閉鎖記録**を見落とした:
 
-- **C1(n=3 窓同定)= 完全閉鎖**。正本 = `docs/notes/E1_gt_odd_dih_canonical_v1.md` §522 表「C1(n=3 の窓同定)| 完全閉鎖(機械同定+族的機構 W-REL)| 裁定 107(CLOSED_MATCH)・裁定 174」+ L382(類 (2,[1])・cert = c1_class_check_20260728.json・裁定 174 = transport 予言 I24-P1 的中)。裁定 107 の台帳本文は現行 LEDGER.md に不在(早期台帳のアーカイブ探索は別途)— ただし閉鎖の効力は正本 2 箇所+cert で確立。
+- **C1(n=3 窓同定)= 完全閉鎖**。正本 = `docs/notes/E1_gt_odd_dih_canonical_v1.md` §522 表「C1(n=3 の窓同定)| 完全閉鎖(機械同定+族的機構 W-REL)| 裁定 107(CLOSED_MATCH)・裁定 174」+ L382(類 (2,[1])・cert = c1_class_check_20260728.json・裁定 174 = transport 予言 I24-P1 的中)。裁定 107 の台帳本文は現行 LEDGER.md に不在(早期台帳のアーカイブ探索は別途)— ただし閉鎖の効力は**正本 E1 内 2 箇所(§522 表・L382)+cert 1 本**で確立(独立性の担い手は cert・falsifier 指摘で精密化)。
 - **C3 = T63-P1 鎖内で処理**。正本 = `provenance/CLAIMS.md` **W3-24**(2026-07-28・paper-proof candidate・**Sol 検分済 便 76 F3.2**): 「T63-P1/prediction = 数学的に閉鎖: C1(裁定 107)+named framework 前件の下で **P_{9,3}=TRUE・ord(a₉)=9**(FULL_p_DEPTH)。導出鎖 = (6.3-cls)(G3=便75 F3.2)+W1-fam+(W2)-fam 両側+C4-T+res(a₃)=[−1/4]₆ 非自明性。u₉ 非接触・凍結予言 82ca6b7 の紙上確定。measurement receipt は別線・未着(P8-value は前件でない)。Lean verified ではない」。
 - **帰結(裁定 916)**: RECON(d₉=ord(a₉)・裁定 912)との合成で **d₉=9 = Conj 5.1@n=9 は工房内 candidate 完結**(framework-conditional・Lean 未)。R2 の実測 = T63-P1 への**独立 measurement receipt(P8-value 線)**が正しい定義。
 - 教訓(索引作成規律へ): 閉鎖根拠は LEDGER 本文に限定しない — **文書正本(E1 等)・CLAIMS・便カプセル・cert の 4 系統を等価の閉鎖記録として検査する**。
