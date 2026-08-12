@@ -121,3 +121,159 @@ $$\boxed{\ a=3^{\,j}\bmod(\mathbf Q^\times)^9,\qquad L_{9,\mathrm{Aff}}\subseteq
 - **本ノートの新規部分**: ① **INN-HARMLESS**(inner 曖昧さ ⟹ $t\mapsto\pm t$・機械確認済)② ★ **INN-FORCES-TRIVIAL**(charming が inner を強制自明化 ⟹ 罠 3 閉鎖)③ **§3 の 5 段骨子**と **GAP の 1 段への局所化** ④ **§3.2 の条件付き帰結と予言 P-K9U-1 の凍結**(封印姿勢の申告つき)⑤ **K9-LIT-2 を 1 論文 1 命題へ確定**。
 - **検算**: $D_9$ 共役の全数計算のみ(python 単系統)⟹ **cross-checked ではない**。
 - **未実施**: [I1] 未入手・§3 段 (3) 未証明・Lean 未着手・**Sol 未監査**。⟹ **verified ではない**。
+
+
+---
+
+# 【v2 追記】Annals 123 Thm 1(i) による段 (3) の閉鎖 — ★ **検問 2 点 PASS・GAP-2 も閉**
+
+**日付**: 2026-08-12 / **委嘱**: 裁定 931(研究者の JSTOR 配達 → reader pin 化 → 文献ゲート経由)/ **再開**: 裁定 932
+**方式**: **additive addendum**(本文 §1–§5 は不改変)/ ★ **積荷同期: 本ファイルは便に積載済み ⟹ commit 時に通知**
+**新 pin**: `docs/scout/ihara_annals123_unram_pin_v1.md`(65b8356)/ 現物画像 `papers/ihara-annals123-pp43-55/`
+
+> ## ★★ 結論
+> $$\boxed{\ \textbf{段 (3) は }\textbf{Theorem 1(i)(証明全文つき)}\ \textbf{で閉じる。格 = }\textbf{proof-pinned candidate}\ }$$
+> **検問 (i) $\Phi$ の同一性 = PASS**(差 3 点すべて勘定)/ **検問 (ii) 基点系 = PASS**(Deligne 接基点 = Belyi lift 類)
+> ★ **副産物 2 件**: **Belyi Prop 3 が INN-FORCES-TRIVIAL を正典側で代替** / ★ **【UNRAM-GAP-2】も pin で閉鎖**
+
+---
+
+## A. 段 (3) の差し替えと **(2)(3)(4) の縮約**
+
+**旧(v1 §3 段 (3))**: 「specialization 同型の $G_{\mathbf Q_p}$-同変性と $I_p$-自明性 — **在庫文献なし**」= ✘【UNRAM-GAP-1】
+
+**新**: **Ihara, Annals 123 (1986), Theorem 1(i)(p.53)+ 証明全文(p.54)**。
+
+> **Theorem 1.** (i) *The Galois representation* $\varphi_{\mathbf Q}:\mathrm{Gal}(\bar{\mathbf Q}/\mathbf Q)\to\Phi$ *is unramified outside* $l$.
+> (脚注: "This was proved also by Deligne.")
+
+**証明の骨格**(p.54 逐語より): $K_n=K(t^{1/l^n},(1-t)^{1/l^n})$。$0,1,\infty$ の $K_n/K$ における分岐指数がちょうど $l^n$ ゆえ $M=\bigcup_n K_n^{\rm ur}$。$p\ne l$、$k=\mathbf Q_p$ とし、Fermat 曲線 $\mathfrak X_n/\mathbf Z$($X^{l^n}+Y^{l^n}=Z^{l^n}$)へ **Grothendieck comparison theorem [10]** を適用すると $\mathfrak X_n\otimes\bar{\mathbf Q}_p$ と $\mathfrak X_n\otimes\bar{\mathbf F}_p$ の有限エタール pro-$l$ 被覆が**圏同値** ⟹ $M'/\mathbf Q_p^{\rm ur}(t)$ で $M'\cdot\bar{\mathbf Q}_p=M$、$M'\cap\bar{\mathbf Q}_p=\mathbf Q_p^{\rm ur}$ なるものが存在 ⟹ $\varphi_{\mathbf Q_p}$ は $\mathrm{Gal}(\mathbf Q_p^{\rm ur}/\mathbf Q_p)$ を factor through。∎
+
+### A.1 ★ 縮約の判定(司令塔の機構抽出の検証)
+
+| v1 の段 | 内容 | v2 での扱い |
+|---|---|---|
+| (1) | $U/S$ が SGA1 XIII 2.11/2.12 の前提を満たす | ★ **不要になった** — Ihara は Fermat 曲線 $\mathfrak X_n$(**proper**)を使うので、私が開曲線用に用意した前提充足は**そもそも別ルート** |
+| (2) | $\pi_1^{(p')}$ の specialization 全単射 | ★ **Thm 1(i) の証明内部**(圏同値 [10])が担う |
+| (3) | $I_p$ 自明作用 | ★ **Thm 1(i) そのもの** |
+| (4) | pro-3 は $p'$-商 | ★ Ihara は最初から **pro-$l$** で構成 ⟹ 段として不要(代わりに **B.2(a) の落とし込み**が要る) |
+| (5) | INN-FORCES-TRIVIAL(outer → based) | ★ **存続・load-bearing**(さらに C.2 で正典側の代替を得る) |
+
+$$\boxed{\ \textbf{⟹ 骨子 5 段は }\textbf{「Thm 1(i) 引用 1 本 + 段 (5)」}\ \textbf{の 2 段へ縮約される}\ }$$
+★ **司令塔の見立て「(2)(3)(4) は Thm 1(i) の引用 1 本に縮約」は正しい**。⚠ ただし**段 (1) も落ちる**(Ihara は proper な Fermat 曲線経由で、私の開曲線ルートとは別機構)— **縮約は 3 段でなく 4 段**である。
+⚠ **格**: 「引用依存 candidate」→ ★ **proof-pinned candidate**(**証明全文が頁画像で pin 済**)。⚠ **cross-checked ではない**(工房の独立再証明なし)。
+
+---
+
+## B. ★★ 検問 (i) — Ihara の $\Phi$ は私の outer 対象と同一か
+
+### B.1 論文側の定義(逐語)
+
+**(p.49 式 (2))**: $\mathrm{Brd}(\mathfrak G;x_0,\dots,x_r)=\{\sigma\in\mathrm{Aut}\,\mathfrak G\mid\sigma(x_i)\sim x_i^\alpha\ (0\le i\le r),\ \exists\alpha\in\mathbf Z_l^\times\}/\mathrm{Int}\,\mathfrak G$
+**(p.53 式 (1))**: $\Phi=\mathrm{Brd}^{(2)}=\mathrm{Brd}(\mathfrak F;x,y,z)$、$\mathfrak F$ = **free pro-$l$ group** of rank 2、$z=(xy)^{-1}$。
+
+### B.2 差の勘定(**3 点・すべて閉じる**)
+
+| # | 差 | 勘定 | 判定 |
+|---|---|---|---|
+| **(a)** | **完備化**: Ihara は **pro-$l$** の $\mathfrak F$ / 私は **profinite** $\widehat F_2$ | ★ **$t$ は pro-3 を経由する**: $t$ は $\psi_9^{(1)}$ の**交換子群への制限**で定義され、$\psi_9^{(1)}\bigl([\widehat F_2,\widehat F_2]\bigr)\subseteq[D_9,D_9]=\langle r\rangle\cong\mathbf Z/9$ = **3-群**。⟹ $[\widehat F_2,\widehat F_2]\to\mathbf Z/9$ は pro-3 商を経由 ⟹ $\ell=3$ で $\mathfrak F$ 版に落ちる | ★ **PASS** |
+| **(b)** | **$\alpha$ の条件**($\sigma(x_i)\sim x_i^\alpha$・$\alpha$ は $i$ に依らない) | 2405 (1.5) の作用は $g(x)=x^{\chi(g)}$、$g(y)=f_g^{-1}y^{\chi(g)}f_g\sim y^{\chi(g)}$、$z=(xy)^{-1}$ より $g(z)\sim z^{\chi(g)}$ ⟹ $\alpha=\chi(g)$ で $i$ に依らない。★ **Prop 2(p.53)が「$N\circ\varphi$ = $l$-cyclotomic character」を証明済** ⟹ **私の K9-CYC と正典側で一致** | ★ **PASS** |
+| **(c)** | **outer vs based**($/\mathrm{Int}\,\mathfrak F$) | ★ **INN-FORCES-TRIVIAL**(v1 §2.3)が橋。⟹ **さらに C.2 で Belyi Prop 3 が正典側の代替を与える** | ★ **PASS** |
+
+> ### ★★ (a) で再び **charming が効いている**
+> $\psi_9^{(1)}$ 自体は $D_9$(位数 $18$・**3-群ではない**)への射で pro-3 を経由しない。**pro-3 に落ちるのは $f_g\in[\widehat F_2,\widehat F_2]$(charming)だからである。**
+> $$\boxed{\ \textbf{罠 4(奇 dihedral 商全体を 3 群と思わない)の正しい処理は、}\textbf{charming で交換子群へ落とすこと}\ }$$
+> ⟹ **INN-FORCES-TRIVIAL と同じ機構**。R1 第一波 K9-CYC の「非 3 部分は円分」と合わせて**二重に確認**された。
+
+$$\boxed{\ \textbf{検問 (i) = PASS}\ }$$
+
+---
+
+## C. ★★ 検問 (ii) — 基点系は LOCAL-PIN と同一か
+
+### C.1 論文側の正規化(逐語)
+
+**Prop 1(p.51)**: $\iota:\mathfrak F^{(r)}\xrightarrow{\sim}\mathrm{Gal}(M/K)$ で $\iota(x_i)$ が $P_i$ 上のある place の**惰性群を生成**する。$\varphi$ は $\iota$ に依存するが **inner を除いて一意**(p.53: "the dependence of $\varphi$ on $\iota$ is only up to inner automorphisms")。
+
+**(p.47・決定的)**:
+> Deligne, on the other hand, considered a "**tangential base point**" for $\pi_1(\mathbf P^1\setminus\{0,1,\infty\})$ … and has kindly informed the author that **this is equivalent to considering the class of Belyi's liftings for all $\iota$**.
+
+### C.2 ★★★ Belyi の $\Phi^*$ と Proposition 3 — **based 側が正典で確保される**
+
+**(p.54 逐語)**: $\Phi^*=\{\sigma\in\mathrm{Aut}\,\mathfrak F\mid \sigma x\sim x^\alpha,\ \sigma y\approx y^\alpha,\ \sigma z=z^\alpha,\ \exists\alpha\in\mathbf Z_l^\times\}$
+($\approx$ は **$\mathfrak F'=[\mathfrak F,\mathfrak F]$ の元による共役**)
+**(p.55) Proposition 3 (Belyi)**: 「*The canonical homomorphism* $\mathrm{Aut}\,\mathfrak F\to\mathrm{Aut}\,\mathfrak F/\mathrm{Int}\,\mathfrak F$ *induces an isomorphism* $\Phi^*\xrightarrow{\ \sim\ }\Phi$.」
+
+> ### ★★★ 本追記の最大の発見
+> $\Phi^*$ の定義条件「$\sigma y\approx y^\alpha$($[\mathfrak F,\mathfrak F]$ の元による共役)」は、**私の charming 条件 $f_g\in[\widehat F_2,\widehat F_2]^{\rm cl}$ そのもの**である。
+> $$\boxed{\ \textbf{⟹ 私の based 対象は Belyi の }\Phi^*\ \textbf{であり、Prop 3 で }\Phi\ \textbf{と}\textbf{群同型}\ }$$
+> ⟹ **Thm 1(i) の outer 側の不分岐性が、Prop 3 の同型でそのまま based 側へ移る。**
+> ★ **私の INN-FORCES-TRIVIAL は正しかったが、正典はより強い形(群同型)を既に持っていた** — 自前証明は**独立確認**として残す(**二経路一致**)。
+
+### C.3 LOCAL-PIN との照合
+
+| データ | 私の LOCAL-PIN(R1 §1) | Annals 123 | 判定 |
+|---|---|---|---|
+| 接基点 | $\overrightarrow{01}$(Ihara ICM 印刷 pp.105–106) | ★ **p.47 の Deligne tangential base point**(**同一著者・同一対象**) | ★ 同一 |
+| $x,y,z$ | $x$ = $0$ 周りの正向き小ループ、$y=p^{-1}x'p$、$z=(xy)^{-1}$ | $x,y,z$ が $0,1,\infty$ 上の惰性群を生成(Prop 1)、$z=(xy)^{-1}$(p.53) | ★ 同一 |
+| 正規化の型 | 接基点で based | $\iota$ + **Belyi lift の類** = Deligne 接基点(**p.47 が同値と明言**) | ★ 同一 |
+| $\alpha$ | $\chi$(2405 (1.5)) | $N\circ\varphi=\chi_l$(**Prop 2**) | ★ 同一 |
+
+$$\boxed{\ \textbf{検問 (ii) = PASS}\ —\ \textbf{差の勘定は「}l\ \textbf{進成分への制限」1 点のみで、それは B.2(a) で閉じている}\ }$$
+
+---
+
+## D. ★ 副産物 —【UNRAM-GAP-2】も pin で閉鎖
+
+v1 §2.3 段 3 で【要 pin】とした「**自由副有限群の非自明元の中心化群は procyclic**」は、pro-$l$ 版が**二箇所で pin 済**:
+
+1. **Remark 1(p.52 逐語)**: 「the **normalizer** of the group $\langle x_i\rangle$ generated by $x_i$ in $\mathfrak F^{(r)}$ **coincides with $\langle x_i\rangle$ itself**」⟹ 中心化群 $\subseteq$ 正規化群 $=\langle x_i\rangle$。
+2. **Prop 3 の証明(p.55)**: 「**centralizer of $x$ (resp. $y$, $z$) in $\mathfrak F$ is $\langle x\rangle$**」— ★ **中心化群そのものの言明**。
+
+⚠ **差の勘定 1 行**: Ihara は **pro-$l$ の $\mathfrak F$**、私は $\widehat F_2$ で使った。★ **B.2(a) により $t$ は pro-3 を経由する**ので、**INN-FORCES-TRIVIAL を $\mathfrak F=F_2^{(3)}$ 上で走らせれば pin がそのまま適用できる** ⟹ **profinite 版は不要**。
+
+$$\boxed{\ \textbf{【UNRAM-GAP-2】= }\textbf{閉}\ \textbf{(pro-3 版で走らせる・差は 1 行で勘定済)}\ }$$
+
+---
+
+## E. P-K9U-1 の条件更新(**凍結本体は不改変**)
+
+| | v1 §3.2 時点 | ★ **v2** |
+|---|---|---|
+| 不分岐性の根拠 | **Pin A(HS2000)= 引用依存**(結論の主張のみ・証明なし) | ★ **Annals 123 Thm 1(i) = proof-pinned**(証明全文・頁画像) |
+| outer → based | INN-FORCES-TRIVIAL(自前) | ★ **Belyi Prop 3(正典・群同型)** + INN-FORCES-TRIVIAL(独立確認) |
+| 中心化群 | 【UNRAM-GAP-2】要 pin | ★ **閉**(Remark 1 / Prop 3 証明) |
+| **残る条件** | Pin A 引用依存 + GAP-1 + GAP-2 | ★ **framework 層のみ**(K9-COMPOSE の $\operatorname{ord}(a_9)=9$ が framework-conditional) |
+
+$$\boxed{\ \textbf{予言 P-K9U-1}:\ L_{9,\mathrm{Aff}}=\mathbf Q\bigl(\zeta_9,\sqrt[9]{3}\bigr)\quad\textbf{— 条件が }\mathbf{1}\ \textbf{枚外れた(引用依存 → proof-pinned)}\ }$$
+⚠ **凍結本体(commit `bd80c44`)は不改変**。本追記は**条件欄の更新のみ**。
+⚠ **$u_9=3$ の撤回は撤回のまま** — 復活するのは**体**であって、$u_9$ という**別対象の値**ではない(NAME-COLLIDE)。
+
+---
+
+## F. ★ 便 119 P3③ の書換案(**1 行**・裁定 931 指示 4)
+
+> ★ **新(書換案)**: 「**(K9-UNRAM) の文献入力は解決した** — Ann. Math. **123** (1986) **Theorem 1(i)(p.53)+ 証明(p.54)** を頁画像で pin 済(`docs/scout/ihara_annals123_unram_pin_v1.md`)。**請求は「供給」から「監査」へ切り替える**: ① $\Phi$ の同一性判定(pro-$l$ vs profinite・$\alpha=\chi$・outer/based の**差 3 点**)② 基点系の同一性判定(Deligne 接基点 = Belyi lift 類)③ ★ **Belyi Prop 3 の $\Phi^*\cong\Phi$ が私の charming 条件と一致し INN-FORCES-TRIVIAL を代替する**という読みの可否 — の 3 点をご覧いただきたい。」
+
+---
+
+## G. 残 GAP と格
+
+| # | 内容 | 状態 |
+|---|---|---|
+| **【UNRAM-GAP-1】** | ★ **閉**(Thm 1(i)・**proof-pinned candidate**) |
+| **【UNRAM-GAP-2】** | ★ **閉**(Remark 1 / Prop 3 証明・pro-3 版) |
+| ⚠ **[10] の正体** | Grothendieck comparison theorem の**書誌が pin 範囲外**(pp.43–55 に References なし)。SGA 1 と推定だが **UNKNOWN** | ★ 小(追加撮影候補 1) |
+| ⚠ **$\Phi_1$ が pro-$l$** | Remark 1(p.54)が使用・"to be shown later"(I §5・**範囲外**)。⚠ ただし **Thm 1(i) 自体はこれを使わない** ⟹ **私の用途には不要** | 小 |
+| **格** | ★ **proof-pinned candidate**(**cross-checked ではない**・Lean 未・**Sol 未監査**) |
+
+$$\boxed{\ \Longrightarrow\ \textbf{(K9-UNRAM) は}\textbf{文献入力として閉じた}\textbf{。R1 の実質は完結し、残るのは}\textbf{監査}\ }$$
+
+---
+
+## H. 帰属・依存申告(v2 分)
+
+- **頁画像の入手** = **研究者**(JSTOR 閲覧)。**pin 化** = **reader**(65b8356)。**配達・機構抽出** = 司令塔(裁定 931)。
+- **本追記の新規部分**: ① 段 (3) の差し替えと格の昇格 ② ★ **縮約は 3 段でなく 4 段**という判定(段 (1) も落ちる — Ihara は proper な Fermat 曲線経由で私の開曲線ルートとは別機構)③ **検問 (i) の差 3 点の勘定**(特に **charming が pro-3 への落とし込みを担う**という機構)④ **検問 (ii)** と ★ **Belyi $\Phi^*$ の定義条件 = charming 条件という同定**(⟹ Prop 3 が正典側の橋)⑤ **【UNRAM-GAP-2】の pin による閉鎖と差の勘定** ⑥ **P-K9U-1 の条件 1 枚除去** ⑦ **便 119 P3③ 書換案**。
+- **検算**: v2 で新規の機械検算はなし(v1 の $D_9$ 共役全数計算を継承)。⟹ **cross-checked ではない**。
+- **未実施**: [10] の書誌確定・$\Phi_1$ pro-$l$ の確認(いずれも私の用途には不要)・Lean 未着手・**Sol 未監査**。⟹ **verified ではない**。
