@@ -1,0 +1,228 @@
+{
+  "schema": "shadow-atelier/r2_unif/v1",
+  "generated_by": {
+    "tool": "python3+sympy 1.14.0",
+    "script": "search/r2_uniformizer_v1.py",
+    "order": "裁定1118(実装係タスク2・[R-2-U])"
+  },
+  "spec_ref": "docs/notes/r2_r3_unram_execution_spec_v1.md §3 [R-2-U]",
+  "model": {
+    "E_Q": "Y^2 + 3*X*Y + 2*Y = X^3",
+    "W_Q": "X^2*w^3 - 27*Y*(w+1) = 0",
+    "t": "-Y^2/4",
+    "P0": "unique point of W_Q over Q_0=(0,0) on E_Q (W->E totally ramified e=3 at Q_0)"
+  },
+  "u1_local_coordinate_on_E": {
+    "dFE_dY_at_Q0": "2",
+    "uniformizer_ok": true,
+    "note": "implicit function theorem: dF_E/dY(Q0)!=0 ==> Y=Y(X) unbranched power series ==> X is a valid local coordinate at Q0, ord_Q0(X)=1 by construction"
+  },
+  "y_series_on_E": {
+    "order_computed": 12,
+    "coeffs_by_power": {
+      "3": "1/2",
+      "4": "-3/4",
+      "5": "9/8",
+      "6": "-29/16",
+      "7": "99/32",
+      "8": "-351/64",
+      "9": "1277/128",
+      "10": "-4737/256",
+      "11": "17847/512"
+    },
+    "ord_Q0_Y_is_3_confirmed": true
+  },
+  "u2_newton_polygon": {
+    "F_W_with_Y_substituted_points": [
+      [
+        2,
+        3,
+        "1"
+      ],
+      [
+        3,
+        0,
+        "-27/2"
+      ],
+      [
+        3,
+        1,
+        "-27/2"
+      ],
+      [
+        4,
+        0,
+        "81/4"
+      ],
+      [
+        4,
+        1,
+        "81/4"
+      ],
+      [
+        5,
+        0,
+        "-243/8"
+      ],
+      [
+        5,
+        1,
+        "-243/8"
+      ],
+      [
+        6,
+        0,
+        "783/16"
+      ],
+      [
+        6,
+        1,
+        "783/16"
+      ],
+      [
+        7,
+        0,
+        "-2673/32"
+      ],
+      [
+        7,
+        1,
+        "-2673/32"
+      ],
+      [
+        8,
+        0,
+        "9477/64"
+      ],
+      [
+        8,
+        1,
+        "9477/64"
+      ],
+      [
+        9,
+        0,
+        "-34479/128"
+      ],
+      [
+        9,
+        1,
+        "-34479/128"
+      ],
+      [
+        10,
+        0,
+        "127899/256"
+      ],
+      [
+        10,
+        1,
+        "127899/256"
+      ],
+      [
+        11,
+        0,
+        "-481869/512"
+      ],
+      [
+        11,
+        1,
+        "-481869/512"
+      ]
+    ],
+    "edge_line": "3*i + j = 9",
+    "edge_vertices": [
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "all_points_on_or_above_edge": true,
+    "points_exactly_on_edge": [
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "ramification_index_e": 3,
+    "u2_ram_index_3_confirmed": true
+  },
+  "u3_puiseux_series": {
+    "substitution": "X = s^3 (s = local uniformizer candidate at P0)",
+    "order_by_order_equations": [
+      {
+        "order": 9,
+        "equation": "Eq(c1**3 - 27/2, 0)"
+      },
+      {
+        "order": 10,
+        "equation": "Eq(3*c1**2*c2 - 27*c1/2, 0)"
+      },
+      {
+        "order": 11,
+        "equation": "Eq(3*c1**2*c3, 0)"
+      },
+      {
+        "order": 12,
+        "equation": "Eq(3*c1**2*c4 + 81/4 + 729/(8*c1**3), 0)"
+      },
+      {
+        "order": 13,
+        "equation": "Eq(3*c1**2*c5 + 81*c1/4 + 729*(-2*c1**3 - 9)/(16*c1**5), 0)"
+      },
+      {
+        "order": 14,
+        "equation": "Eq(3*c1**2*c6 + 729/(8*c1) + 6561*(-2*c1**3 - 9)/(32*c1**7) + 729*(-4*c1**6 + 18*c1**3 + 81)/(32*c1**7), 0)"
+      }
+    ],
+    "c1_relation": "c1^3 = 27/2",
+    "c1_roots": [
+      "3*2**(2/3)/2",
+      "-3*2**(2/3)/4 - 3*2**(2/3)*sqrt(3)*I/4",
+      "-3*2**(2/3)/4 + 3*2**(2/3)*sqrt(3)*I/4"
+    ],
+    "c_n_for_n_2_to_M": {
+      "2": "9/(2*c1)",
+      "3": "0",
+      "4": "27*(-2*c1**3 - 9)/(8*c1**5)",
+      "5": "27*(-4*c1**6 + 18*c1**3 + 81)/(16*c1**7)",
+      "6": "0"
+    },
+    "w_leading_nonzero_ord_is_exactly_1": true,
+    "s1_definition": "w",
+    "s1_ord_P0": 1,
+    "s1_leading_coeff": "c1 (root of c1^3=27/2)",
+    "s2_definition": "X / w^2",
+    "s2_ord_P0": 1,
+    "s2_leading_coeff": "c1**(-2)",
+    "s1_s2_distinct": true,
+    "s1_s2_distinct_reason": "proportional would require c1 = 1/c1^2 i.e. c1^3=1, but c1^3=27/2 != 1"
+  },
+  "u4_watches": {
+    "w_a_ord_is_1_both": true,
+    "w_b_ord_lambda9_is_18": {
+      "computed_order": 18,
+      "leading_coeff": "-1/16",
+      "pass": true
+    },
+    "w_c_q_rational": {
+      "s1": true,
+      "s2": true
+    },
+    "all_pass": true
+  },
+  "u_touched": false,
+  "c_touched": false,
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+  "provenance": {
+    "script_sha256": "92fe08a071f5ca13036f49671516f57a241e838005bc7e804d76c2d086f1478f"
+  }
+}

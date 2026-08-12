@@ -1,0 +1,255 @@
+{
+  "schema": "shadow-atelier/desc9_procedure/v1-canary",
+  "generated_by": {
+    "tool": "python3",
+    "script": "search/desc9_procedure_v1.py",
+    "order": "裁定1118(実装係タスク3・工房分DESC-9(D-i)(D-iii))"
+  },
+  "spec_ref": "docs/notes/r2_r3_unram_execution_spec_v1.md §5-§7",
+  "canary": true,
+  "real_data_used": false,
+  "note": "prereg規律: d_9/r の値の先行計算・解釈は禁止。本certはcanary較正のみ。real u_9 は一切未使用。本番発火は司令塔検問後(R-3-U9のSol出力を待つ)。",
+  "results": [
+    {
+      "canary_name": "a9=1 (trivial)",
+      "input_a9": "1",
+      "a_class": {
+        "representation": "exponent vector mod 9 over the support primes",
+        "support": [],
+        "exponents": [],
+        "order": 1,
+        "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+      },
+      "a_9_field_note": {
+        "u9_home_field": "Q",
+        "class_mod18_Q": {
+          "support": [],
+          "exponents": []
+        },
+        "image_in_F9": {
+          "support": [],
+          "exponents": [],
+          "note": "F_9 = Q for this declared model (spec r2_r3_unram_execution_spec_v1 §6) => identical to class_mod18_Q"
+        },
+        "desc9_rule": "DESC-9 (D-i)->(D-ii)->(D-iii)",
+        "desc9_step_ii_passed": true
+      },
+      "s1_score_rule_raw": {
+        "support_equals_3": false,
+        "order_equals_9": false,
+        "s1_raw_value": false,
+        "note": "raw machine value only, NOT an interpretation/judgement -- 司令塔検問後の本番発火まで real u_9 には適用しない"
+      }
+    },
+    {
+      "canary_name": "a9=3^18 (should vanish mod 9 -> support empty, order 1)",
+      "input_a9": "387420489",
+      "a_class": {
+        "representation": "exponent vector mod 9 over the support primes",
+        "support": [],
+        "exponents": [],
+        "order": 1,
+        "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+      },
+      "a_9_field_note": {
+        "u9_home_field": "Q",
+        "class_mod18_Q": {
+          "support": [],
+          "exponents": []
+        },
+        "image_in_F9": {
+          "support": [],
+          "exponents": [],
+          "note": "F_9 = Q for this declared model (spec r2_r3_unram_execution_spec_v1 §6) => identical to class_mod18_Q"
+        },
+        "desc9_rule": "DESC-9 (D-i)->(D-ii)->(D-iii)",
+        "desc9_step_ii_passed": true
+      },
+      "s1_score_rule_raw": {
+        "support_equals_3": false,
+        "order_equals_9": false,
+        "s1_raw_value": false,
+        "note": "raw machine value only, NOT an interpretation/judgement -- 司令塔検問後の本番発火まで real u_9 には適用しない"
+      }
+    },
+    {
+      "canary_name": "a9=3 (order 9 on support {3})",
+      "input_a9": "3",
+      "a_class": {
+        "representation": "exponent vector mod 9 over the support primes",
+        "support": [
+          3
+        ],
+        "exponents": [
+          1
+        ],
+        "order": 9,
+        "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+      },
+      "a_9_field_note": {
+        "u9_home_field": "Q",
+        "class_mod18_Q": {
+          "support": [
+            3
+          ],
+          "exponents": [
+            1
+          ]
+        },
+        "image_in_F9": {
+          "support": [
+            3
+          ],
+          "exponents": [
+            1
+          ],
+          "note": "F_9 = Q for this declared model (spec r2_r3_unram_execution_spec_v1 §6) => identical to class_mod18_Q"
+        },
+        "desc9_rule": "DESC-9 (D-i)->(D-ii)->(D-iii)",
+        "desc9_step_ii_passed": true
+      },
+      "s1_score_rule_raw": {
+        "support_equals_3": true,
+        "order_equals_9": true,
+        "s1_raw_value": true,
+        "note": "raw machine value only, NOT an interpretation/judgement -- 司令塔検問後の本番発火まで real u_9 には適用しない"
+      }
+    },
+    {
+      "canary_name": "a9=3^9 (should vanish mod 9 -> order 1)",
+      "input_a9": "19683",
+      "a_class": {
+        "representation": "exponent vector mod 9 over the support primes",
+        "support": [],
+        "exponents": [],
+        "order": 1,
+        "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+      },
+      "a_9_field_note": {
+        "u9_home_field": "Q",
+        "class_mod18_Q": {
+          "support": [
+            3
+          ],
+          "exponents": [
+            9
+          ]
+        },
+        "image_in_F9": {
+          "support": [
+            3
+          ],
+          "exponents": [
+            9
+          ],
+          "note": "F_9 = Q for this declared model (spec r2_r3_unram_execution_spec_v1 §6) => identical to class_mod18_Q"
+        },
+        "desc9_rule": "DESC-9 (D-i)->(D-ii)->(D-iii)",
+        "desc9_step_ii_passed": true
+      },
+      "s1_score_rule_raw": {
+        "support_equals_3": false,
+        "order_equals_9": false,
+        "s1_raw_value": false,
+        "note": "raw machine value only, NOT an interpretation/judgement -- 司令塔検問後の本番発火まで real u_9 には適用しない"
+      }
+    },
+    {
+      "canary_name": "a9=3^3 * 5^6 (order 3 on support {3,5})",
+      "input_a9": "421875",
+      "a_class": {
+        "representation": "exponent vector mod 9 over the support primes",
+        "support": [
+          3,
+          5
+        ],
+        "exponents": [
+          3,
+          6
+        ],
+        "order": 3,
+        "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+      },
+      "a_9_field_note": {
+        "u9_home_field": "Q",
+        "class_mod18_Q": {
+          "support": [
+            3,
+            5
+          ],
+          "exponents": [
+            3,
+            6
+          ]
+        },
+        "image_in_F9": {
+          "support": [
+            3,
+            5
+          ],
+          "exponents": [
+            3,
+            6
+          ],
+          "note": "F_9 = Q for this declared model (spec r2_r3_unram_execution_spec_v1 §6) => identical to class_mod18_Q"
+        },
+        "desc9_rule": "DESC-9 (D-i)->(D-ii)->(D-iii)",
+        "desc9_step_ii_passed": true
+      },
+      "s1_score_rule_raw": {
+        "support_equals_3": false,
+        "order_equals_9": false,
+        "s1_raw_value": false,
+        "note": "raw machine value only, NOT an interpretation/judgement -- 司令塔検問後の本番発火まで real u_9 には適用しない"
+      }
+    },
+    {
+      "canary_name": "a9=2^-8 (matches ds4 in-stock b=2 exponent, order 9 mod9 since -8 mod9=1)",
+      "input_a9": "1/256",
+      "a_class": {
+        "representation": "exponent vector mod 9 over the support primes",
+        "support": [
+          2
+        ],
+        "exponents": [
+          1
+        ],
+        "order": 9,
+        "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+      },
+      "a_9_field_note": {
+        "u9_home_field": "Q",
+        "class_mod18_Q": {
+          "support": [
+            2
+          ],
+          "exponents": [
+            10
+          ]
+        },
+        "image_in_F9": {
+          "support": [
+            2
+          ],
+          "exponents": [
+            10
+          ],
+          "note": "F_9 = Q for this declared model (spec r2_r3_unram_execution_spec_v1 §6) => identical to class_mod18_Q"
+        },
+        "desc9_rule": "DESC-9 (D-i)->(D-ii)->(D-iii)",
+        "desc9_step_ii_passed": true
+      },
+      "s1_score_rule_raw": {
+        "support_equals_3": false,
+        "order_equals_9": true,
+        "s1_raw_value": false,
+        "note": "raw machine value only, NOT an interpretation/judgement -- 司令塔検問後の本番発火まで real u_9 には適用しない"
+      }
+    }
+  ],
+  "u_touched": false,
+  "c_touched": false,
+  "provenance": {
+    "script_sha256": "046bde492ae9012377ab24bb1c44bb47d5b35ed22756b2a562413325ff66f32a"
+  }
+}

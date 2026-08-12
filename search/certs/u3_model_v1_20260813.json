@@ -1,0 +1,85 @@
+{
+  "schema": "shadow-atelier/u3_model/v1",
+  "generated_by": {
+    "tool": "python3+sympy 1.14.0",
+    "script": "search/u3_model_v1.py",
+    "order": "裁定1118(実装係タスク3・工房分[U3-1])"
+  },
+  "spec_ref": "docs/notes/r2_r3_unram_execution_spec_v1.md §9 [U3-1]",
+  "u3_1_model": {
+    "E_Z": {
+      "equation": "-X**3 + 3*X*Y + Y**2 + 2*Y = 0",
+      "a_invariants": [
+        3,
+        0,
+        2,
+        0,
+        0
+      ],
+      "b2": 9,
+      "b4": 6,
+      "b6": 4,
+      "b8": 0,
+      "Delta": -216,
+      "Delta_factored": {
+        "2": 3,
+        "3": 3,
+        "-1": 1
+      },
+      "c4": -63,
+      "delta_matches_known_public_value_m216": true
+    },
+    "W_Z": {
+      "equation": "X**2*w**3 - 27*Y*w - 27*Y = 0",
+      "monomials_XYw_exponents": [
+        {
+          "monom": [
+            2,
+            0,
+            3
+          ],
+          "coeff": "1"
+        },
+        {
+          "monom": [
+            0,
+            1,
+            1
+          ],
+          "coeff": "-27"
+        },
+        {
+          "monom": [
+            0,
+            1,
+            0
+          ],
+          "coeff": "-27"
+        }
+      ]
+    },
+    "t": {
+      "expr": "-Y**2/4",
+      "denominator_ideal_generator": 2,
+      "ring": "Z[1/2]",
+      "alternate_note": "t' := -Y^2 lives over Z but moves branch point to t'=-4; keeping {0,1,inf} normalization means allowing 1/2"
+    }
+  },
+  "u3_1_jacobian_ideal_recorded_not_solved": {
+    "W": "X**2*w**3 - 27*Y*w - 27*Y",
+    "dW_dX": "2*X*w**3",
+    "dW_dY": "-27*w - 27",
+    "dW_dw": "3*X**2*w**2 - 27*Y",
+    "E": "-X**3 + 3*X*Y + Y**2 + 2*Y",
+    "dE_dX": "-3*X**2 + 3*Y",
+    "dE_dY": "3*X + 2*Y + 2",
+    "note": "生成元の記録のみ。零点集合(特異点の実座標)・判別式の因数分解は[U3-2]/[U3-3](Sol分担・便123走行中)の仕事であり本scriptでは計算しない。"
+  },
+  "known_public_lower_bound_note": "Delta(E)=-216=-2^3*3^3 は既公開(宣言v4+r2r3_model_invariants.py)⟹ S含む{2,3}の下限は既知(§12末尾の公開値であり新規計算・prereg抵触ではない)。上限(S<=...)の決定はU3-3の仕事。",
+  "u_touched": false,
+  "c_touched": false,
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+  "provenance": {
+    "script_sha256": "d233dce35aa28ae5aa75626ced78d169f0e1a9f977f56c5042cddf37c1b207e4"
+  }
+}
