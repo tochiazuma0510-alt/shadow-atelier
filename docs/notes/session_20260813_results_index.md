@@ -15,7 +15,10 @@
 | Sol 113(k=3 本体) | t3 m=4 = **指定極点 Π₀=−Q₀ で空**(Gröbner{1}×独立障害 645911・E[2](F₉)=0)/crt-C2 層 (0,5) = **12 分布全て UNKNOWN_BOUNDED**(80 秒 cap) | sol_reply_113 + r13 系 cert(sol/k3-mainlines 枝) | 1036 |
 | T3 再パラメータ化 | **m 走査は誤り — π_*𝒪 = 𝒪_E⊕ℰ^∨・deg ℰ=3 が RH で固定・δ=0 強制** ⟹ 走査 = Atiyah 束 moduli([P1-D2]) | t3_gap12_resolution_v1.md | 1054 |
 | cofinality | **正典で YES 既決**(Prop 3.14+Thm 5.2)— 族の欠けなし・深さは反例側を縛らない(Cor 5.4 非対称) | E_identification_and_cofinality_v1.md | 1033 |
-| **[P1-D2]** | **走行中(CP)** — ℰ-moduli 走査 | — | 1070 |
+| [P1-D2] D2-1 | **YES — B₁⊕B₂=Q₀ 厳密一致(16 検査 PASS)** | p1_d2_scan_v1(6eaddf52) | 1073 |
+| [P1-D2] D2-3/4 | 4 点全て V4 PASS — ただし**V1–V7 は判別力 0 ビット判明**(恒等式・m1081-1) | p1_d2_scan_v2(a99290be)+p1d2_r1_canonicalization_v1.md | 1081/1083 |
+| **R-1 厳密モデル** | **W₉: x²w³−27ζ₃y(w+1)=0 / E: y²+3ζ₃xy+2y=x³・定義体⊆ℚ(ζ₃)・c=ζ₆/2**(candidate・条件 D2-GAP-4 のみ) | p1d2_r1_canonicalization_v1.md(b036267d) | 1083 |
+| **[D2-GAP-4]** | **走行中(CP)** — 次数 18 monodromy ゲート(P₁/P₂・期待 324) | — | 1083 |
 
 ## §2 ③ 線 = (F)/(Ad)/691 戦役の測定
 
