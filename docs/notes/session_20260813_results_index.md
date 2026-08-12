@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| **★r 突合(TRIAD-972)** | **r = 3・\|X∖A\| = 972−12·9·9/3 = 648(生値)**・[a]=[2]⁷ order 9(**S-1 前件不成立 → P8 (u2) 枝 = P-K9U-1 外れ**)・[b]={2:1,3:6} 三重独立導出・S⊇supp(a) 整合・**解釈は数学者検問中(発火の正当性 = (u2) 枝下の公式導出)** | triad972_r_measurement_v1(commit 走行中) | 1122 |
 | **R-2 完結** | [R-2-U] 有理 uniformizer 2 本(s⁽¹⁾=w・s⁽²⁾=X/w²)・Newton 多角形 e=3・見張り全 PASS(ord λ₉=18)— 厳密・数値なし | r2_u_uniformizer_v1(cdf036ab) | 1119 |
 | [B″-0] 掃引 | 15 窓一括 — **\|D₀\|≥4 = 双子 [1152,154161/154163] のみ**・z₀>1 = [1134,55](型退化対照)| iset4_b0_sweep_v1 | 1119 |
 | 工房 R-3 | DESC-9 (D-i)(D-iii)+canary 6 件・[U3-1] ℤ[1/2] モデル(**Jacobian 零点は解決せず = (β) 検疫の予防拡張・承認**) | desc9_procedure_v1+u3_model_v1 | 1119 |
