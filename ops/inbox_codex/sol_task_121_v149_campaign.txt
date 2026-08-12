@@ -2,7 +2,7 @@
 
 発: 司令塔 / 2026-08-12 / 返信先: sol/sol_reply_121_v149_campaign.md
 目録正本: docs/notes/ben121_manifest_v1.md + **v1_1.md(数学者レビュー・置換適用済)** — 本文はその実装。
-凡例: 従来どおり(F#/P#/W# 番号規約・★教材・監査範囲外申告可)。裁定範囲 = LEDGER 969〜1025。
+凡例: 従来どおり(F#/P#/W# 番号規約・★教材・監査範囲外申告可)。裁定範囲 = LEDGER 969〜1038。
 
 ## §0 便の性格
 1. **v1.4.9 の再提出**(M120-7 差し戻しの同期履行・台帳 81)。
@@ -75,8 +75,8 @@ D1(層 (0,9) 空: Gröbner×手計算 — 同一 U± 設計の 2 実装)・D6(�
 
 ## §5 C 追送枠(発送時点で未着なら「走行中」)
 ・~~Tier 2 帰趨~~ → **決着済み・A13 へ昇格**(k=2 全 5 層空・D10 は訂正版 = P∞-Weierstrass k=2 モデル不存在。⚠「非超楕円」は k=3/4 で解が出たときに確定する別命題)。
-・k=3 走行中: crt 車線 C1 = 次元 10 予言的中(run 31591179588)・t3 車線 = 軽量検算 3 本 PASS(31591182520)・次段(t3-main m=4・crt-C2)発射済み — 結果は追送。
-・k13 T4/T5 cert(run 31575182611 走行中・6h 期限接近)。
+・k=3: C1 = 次元 10 予言的中(31591179588)・軽量検算 3 本 PASS(31591182520)・**本体 = あなたの便 113 で決着済み**(t3 m=4 = 指定極点で空〔限定明記どおり〕・crt-C2 層 (0,5) = UNKNOWN_BOUNDED・sol_reply_113_k3_mainlines.md)⟹ **R-1 は開いたまま**・次の数学判断(T3-GAP-1/2・CRT 簡約)は本便返書後の工房 queue。E ノート §5 の √(2ζ₁₂) 訂正(あなたの摘出)は addendum v1.1 反映済み。
+・k13 T4/T5 = **4h 上限で死亡**(run 31575182611・一枚岩 rank 計算 dim 630・checkpoint 皆無)— 再設計はあなたへの便 114 としてキュー済み(本便の後)。
 ・Beckmann 原本 pin(研究者の閲覧経路待ち)。
 
 ## §6 A12 本日の訂正群(11 件・発見経路つき)+教訓
@@ -90,7 +90,7 @@ D1(層 (0,9) 空: Gröbner×手計算 — 同一 U± 設計の 2 実装)・D6(�
 ・「c 平方類」: K⁽⁹⁾ 窓インスタンス vs 封印 K⁽⁵⁾ 量(B1 参照)。函数体の平方類 vs 定数の平方類も別圏。
 ・census の「(F2) 商規律」判定式 (3.11) 右辺 = c^m(=1 ではない・c∈N では退化一致)。
 
-## §8 digest 表(機械生成 2026-08-12・発送直前に再生成)
+## §8 digest 表(機械生成 2026-08-12・発射直前再生成 v2)
 
 | path | sha256 |
 |---|---|
@@ -127,10 +127,15 @@ D1(層 (0,9) 空: Gröbner×手計算 — 同一 U± 設計の 2 実装)・D6(�
 | search/certs/r13_p1_tier2_check_v1_20260812.json | 5e513f7685abda9603c6158f646526d7961477753a0f0eb833b990c76e711efd |
 | docs/notes/sol112_tier2_audit_and_D10_v1.md | 5769385507c53bbf98f1c7b209ef6bb404f73e51e29815b73fcb41824aa0fce5 |
 | docs/notes/fals_cv9_discR1_v1.md | d034a6e0ac4630ac5ea4706582426510e1b29ef2a9ce45370dd1baf9c6f46f75 |
-| docs/notes/w9_E_model_v1.md | bf0c24f9eec67743a28188ac74bc907d4fcd92da0a50d83ce03e225db2d88cd2 |
+| docs/notes/w9_E_model_v1.md | 43f9bad838b5f2f779dbf1b7f34a6e7d1538b6b878805e807eb983ca36905fc5 |
 | docs/notes/t3_spec_and_C2_calib_v1.md | d84cd95e321f04bcca51e9f09985e7b204a3c5f65fc497404dd974cd7dc6c2b7 |
 | docs/notes/ben121_manifest_v1.md | 6da271dd0a84afb6f95f191cb4030960c5a33080bd6d73614f9028b45accb6c9 |
 | docs/notes/ben121_manifest_v1_1.md | f4dadbd06ff17cfd158be133e19ef49fbf0eb2144719a0b8528e59727919e3df |
+| sol/sol_reply_113_k3_mainlines.md | 5cdfbea69bc52162cba81d32faea50f365857717268cf753c39ec6df62841b9b |
+| docs/notes/E_identification_and_cofinality_v1.md | 7ee7076182d87323889f383f8634627ba7cd616365b5d872e8759449e20107d4 |
+| docs/notes/ideas_cex_structure_v1.md | d3e3ecb76ecd81f9e933b886ed0f6e7000c3e8eeee89c1fee0cd9b3b5ab852a2 |
+| docs/notes/cex_structure_audit_v1.md | 75d5ba563078e2be24b99ac279120d5fc129f7a41036d15c3963c1b8cd079fac |
+| search/certs/frattini_resolution_v2_20260812.json | 565e91f4efb3595bc80a094ed354ee6a1e578a844880b1f0d3b3449e293bd983 |
 
 ## §9 台帳
 台帳 81(v1.4.9)+ D1〜D9 の採番請求(案 B)。QUAR-TOR は報告のみ。便 112(計算工学レーン)は本便と独立に進行中 — 返信は sol_reply_112_w9_tier2.md へ。
