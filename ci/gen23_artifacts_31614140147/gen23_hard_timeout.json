@@ -1,0 +1,24 @@
+{
+  "checkpoint": "ci/out/gen23_hard_timeout.json",
+  "child_returncode": 0,
+  "command": [
+    "gap",
+    "-q",
+    "-o",
+    "2g",
+    "search/s2_3_pre_gen23_v1.g"
+  ],
+  "completed_at_utc": "2026-08-12T15:47:33.019905+00:00",
+  "elapsed_seconds": 1.5369553069999995,
+  "heartbeat_seconds": 15.0,
+  "log": "ci/out/gen23_witness.log",
+  "log_bytes": 623,
+  "pid": 5222,
+  "schema": "hard-timeout/v1",
+  "started_at_utc": "2026-08-12T15:47:31.482950+00:00",
+  "state": "COMPLETED",
+  "termination": null,
+  "timed_out": false,
+  "timeout_seconds": 1200.0,
+  "wrapper_returncode": 0
+}

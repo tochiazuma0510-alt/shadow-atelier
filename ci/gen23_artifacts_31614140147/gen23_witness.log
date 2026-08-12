@@ -1,0 +1,15 @@
+q=691 |SL(2,691)|=329938680 |H_2|=659877360 (期待 329938680, 659877360)
+(q-1)/2 = 345  q mod 4 = 3 (期待 3, -1が平方非剰余)
+omega = Z(691)^230 (omega^3=1, omega<>1: true)
+action set size = 1384 (期待 1384)
+[self-check] -I acts as fixed-point-free order-2 permutation: true
+random seed = 20260812 (GlobalMersenneTwister)
+trial 1: Size(<a,b>) = 659877360
+
+*** POSITIVE WITNESS: trial=1 Size(<a,b>)=659877360 ***
+
+試行 = 1 / 2000  経過 = 143 ms
+status = POSITIVE_WITNESS_FOUND
+
+wrote search/certs/s2_3_pre_gen23_v1_20260812.json
+script sha256 = 216267751deb02bd9eeee92942e02cb2d49bae76326a594dba620b16c35783ed
