@@ -1,0 +1,38 @@
+{
+ "schema": "r13-p1-1-k2/v1",
+ "generated_by": {
+  "tool": "python/sympy",
+  "script": "search/r13_p1_1_k2_v1.py",
+  "order": "裁定993 / docs/notes/w9_ansatz_v2_blocks.md §7 [P1-1']"
+ },
+ "k_attempted": 2,
+ "route": "lambda_9 (deg_w=18); mu route NOT used (forbidden per §7 [P1-3])",
+ "target_polynomial_degree": 18,
+ "leading_coeff_is_1": true,
+ "num_equations": 8,
+ "num_unknowns_in_this_parametrization": 10,
+ "design_doc_stated_unknown_count_k2": 11,
+ "unknown_count_discrepancy_note": "this script's own direct Newton-triangle count gives 10 free unknowns for k=2 after (n1)(n2)(n3), not 11 as stated in branchP_and_r_spec_v1.md §4's table; reported not silently reconciled; does not change the finding below either way",
+ "solved_uniquely_for_g0_g7_in_terms_of_ab": true,
+ "g_solutions_in_terms_of_ab": {
+  "g7": "a/2 + b/2",
+  "g6": "3*a**2/8 + a*b/4 + 3*b**2/8",
+  "g5": "5*a**3/16 + 3*a**2*b/16 + 3*a*b**2/16 + 5*b**3/16",
+  "g4": "35*a**4/128 + 5*a**3*b/32 + 9*a**2*b**2/64 + 5*a*b**3/32 + 35*b**4/128",
+  "g3": "63*a**5/256 + 35*a**4*b/256 + 15*a**3*b**2/128 + 15*a**2*b**3/128 + 35*a*b**4/256 + 63*b**5/256",
+  "g2": "231*a**6/1024 + 63*a**5*b/512 + 105*a**4*b**2/1024 + 25*a**3*b**3/256 + 105*a**2*b**4/1024 + 63*a*b**5/512 + 231*b**6/1024",
+  "g1": "429*a**7/2048 + 231*a**6*b/2048 + 189*a**5*b**2/2048 + 175*a**4*b**3/2048 + 175*a**3*b**4/2048 + 189*a**2*b**5/2048 + 231*a*b**6/2048 + 429*b**7/2048",
+  "g0": "6435*a**8/32768 + 429*a**7*b/4096 + 693*a**6*b**2/8192 + 315*a**5*b**3/4096 + 1225*a**4*b**4/16384 + 315*a**3*b**5/4096 + 693*a**2*b**6/8192 + 429*a*b**7/4096 + 6435*b**8/32768"
+ },
+ "g1_watch": {
+  "claim": "解イデアルは0次元でなければならない(docs/notes/w9_structure_and_ansatz_v1.md §5)",
+  "finding": "positive-dimensional (a,b free, >=2 dimensions) -- WATCH VIOLATED",
+  "violated": true,
+  "action_per_spec": "即停止・バグ報告 (STOP and report, per the design's own fail-closed instruction)"
+ },
+ "candidate_explanation_unconfirmed": "matching only the LOCAL branching pattern at t=0,1,infty (this ansatz's (e1) condition) is likely necessary but not sufficient to pin down the SPECIFIC cover with monodromy group order 324 (r13_p1_0_blocks_v1); Hurwitz spaces of covers sharing a passport are generically positive-dimensional unless the monodromy datum is additionally rigid, a separate condition not checked by this ansatz as literally specified in §7. NOT asserted as proven -- reported as the leading candidate explanation.",
+ "u_touched": false,
+ "c_touched": false,
+ "d_no_interpretation": "machine values only; verdict は司令塔",
+ "status": "STOPPED at k=2 per (g1) fail-closed watch; k=3,4,5 NOT attempted"
+}
