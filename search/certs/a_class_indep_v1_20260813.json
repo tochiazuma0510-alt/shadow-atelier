@@ -1,0 +1,171 @@
+{
+  "schema": "shadow-atelier/a_class_indep/v1",
+  "generated_by": {
+    "tool": "python3+sympy 1.14.0",
+    "script": "search/a_class_indep_v1.py",
+    "order": "裁定1123([CP]タスク・a_class 独立第三系統再導出・研究者バグ仮説検証) + 裁定1124(数学者紙検問5点・司令塔追加)"
+  },
+  "quarantine_note": "search/sol123_r3_u9.py, crosscheck/check_sol123_r3_u9.py, search/certs/sol123_r3_u9*.json, search/certs/sol123_p8_a_class_v1_20260813.json は未読。本 cert は Sol の値と比較していない(比較は司令塔の専権)。",
+  "independence_note": "R-2 cert(search/r2_uniformizer_v1.py)は補助変数 s (X=s^3, c1^3=27/2 の無理根)を経由して w(s) を Puiseux 展開した。本 script は s を一切使わず、真の局所座標 w を直接の展開変数として X(w),Y(w) を F_W(厳密代入)+F_E(次数ごと solve)で解く。s^(2)=X/w^2 も w(t) の 級数反転で独立に構成。計算経路として非依存(参照した工房ファイルは R-2 cert の *出力値の再検算対象*であって Sol の実装ではない)。",
+  "spec_ref": "docs/notes/r2_r3_unram_execution_spec_v1.md §4-§7 ([R-3-U9], DESC-9, a_class schema)",
+  "model": {
+    "E_Q": "Y^2 + 3*X*Y + 2*Y = X^3",
+    "W_Q": "X^2*w^3 - 27*Y*(w+1) = 0",
+    "P0": "unique point of W_Q over Q_0=(0,0) on E_Q",
+    "s1_definition": "w  (R-2 cert s^(1))",
+    "s2_definition": "X / w^2  (R-2 cert s^(2))",
+    "model_uses_zeta3": false
+  },
+  "check1_belyi_normalization": {
+    "t_definition": "-Y^2/4",
+    "B_points_definition": "Y^2 + 4 = 0",
+    "t_at_B_symbolic": "1",
+    "belyi_normalization_ok": true,
+    "note": "t(B1)=t(B2)=1 を Y^2=-4 の代数的簡約で厳密確認(数値近似・分岐選択なし)。"
+  },
+  "gauge_convention": {
+    "GAUGE_A": {
+      "t_definition": "-Y^2/4",
+      "label": "declared (spec §0 boxed model, r2_r3_unram_execution_spec_v1.md)",
+      "note": "1/4 の 2 冪を含む。spec §9 [1-3] が同一 t の Z 係数化文脈で言及する定数。"
+    },
+    "GAUGE_B": {
+      "t_definition": "-Y^2",
+      "label": "alternative (spec §9 [1-3], 1/4 落とし)",
+      "note": "GAUGE_A との比 = 4 = 2^2 exactly (u9 leading coeff 比・検証済)"
+    },
+    "w_rescaling_note": "w -> lambda*w (any lambda in Q^x) changes u9 by lambda^18, which is trivial in Q^x/(Q^x)^18 (a fortiori mod 9) by T63-UNIF-INV; this is NOT a source of class ambiguity and is not tested as a separate gauge axis."
+  },
+  "raw_series_data": {
+    "X_order_confirmed_3": true,
+    "X_leading_coeff_a3": "2/27",
+    "Y_order_confirmed_9": true,
+    "Y_leading_coeff_y9_s1": "4/19683",
+    "Y_leading_coeff_y9_s2": "387420489/128",
+    "Y_order_s2_confirmed_9": true
+  },
+  "u9_raw_values": {
+    "u9_s1_gaugeA": "-4/387420489",
+    "u9_s1_gaugeA_exact_fraction": "-4/387420489",
+    "u9_s1_gaugeA_order_is_18": true,
+    "u9_s1_gaugeB": "-16/387420489",
+    "gaugeB_over_gaugeA_ratio": "4",
+    "u9_s2_gaugeA": "-150094635296999121/65536",
+    "u9_s2_gaugeA_exact_fraction": "-150094635296999121/65536",
+    "u9_s2_gaugeA_order_is_18": true,
+    "u9_s2_gaugeB": "-150094635296999121/16384"
+  },
+  "check3_u9_exact_valuations": {
+    "u9_s1_gaugeA": {
+      "v2": 2,
+      "v3": -18,
+      "full_factorization": {
+        "positive_powers": {
+          "2": 2
+        },
+        "negative_powers_denominator": {
+          "3": 18
+        },
+        "sign": -1
+      }
+    },
+    "u9_s2_gaugeA": {
+      "v2": -16,
+      "v3": 36
+    },
+    "u9_s1_gaugeB": {
+      "v2": 4,
+      "v3": -18
+    },
+    "note": "mod 18/mod 9 に落とす前の完全付値(符号なし絶対値ベース、無制限整数)。SUPP2 機構仮説の判定材料として司令塔便の要請どおり明記。解釈はしない。"
+  },
+  "check2_gauge18_measured": {
+    "lemma_ref": "数学者紙・補題 GAUGE-18(uniformizer 取替は u9 を c1^-18 倍するのみ ==> 法18乗類は不変)の実測版",
+    "t63_unif_inv_check": {
+      "u9_s1_over_u9_s2_ratio_gaugeA": "262144/58149737003040059690390169",
+      "is_exact_18th_power": true,
+      "witness_18th_root_abs": "2/27"
+    },
+    "a_class_s1_vs_s2_match": true,
+    "closed_form_crosscheck": {
+      "Y_of_t_leading_closed_form": "387420489/128",
+      "u9_2_gaugeA_closed_form": "-150094635296999121/65536",
+      "matches_series_composition_calc": true,
+      "note": "f(g(t)) の位数/主係数則(g の位数1・f_k の主係数のみで決まる、標準的な 形式的巾級数合成の事実)による閉形式と、実際の級数合成計算(series-based, N_INV=5 反転+ order-13 打切り合成)が一致することを確認。"
+    },
+    "note": "両 uniformizer の一致性 -- 最重要の生値。exact であって近似ではない。"
+  },
+  "check4_desc9_dii_rationality_test": {
+    "u9_is_rational_element_of_Q_runtime_check": true,
+    "F_equals_Q_structural_fact": true,
+    "structural_fact_basis": "spec §6: 宣言モデルが Q に降下(§0)した帰結。iota: Q^x/(Q^x)^9 -> F^x/(F^x)^9 は F=Q のとき恒等写像。",
+    "d_ii_step_passed": true,
+    "note": "fail-closed guard 実行結果。zeta 混入なし(u9 が Fraction への変換に 成功していること自体が実行時証拠 -- 失敗すれば即停止だった)。"
+  },
+  "a_class_gaugeA": {
+    "via_s1": {
+      "representation": "exponent vector mod 9 over the support primes",
+      "support": [
+        2
+      ],
+      "exponents": [
+        7
+      ],
+      "order": 9,
+      "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+    },
+    "via_s2_crosscheck": {
+      "representation": "exponent vector mod 9 over the support primes",
+      "support": [
+        2
+      ],
+      "exponents": [
+        7
+      ],
+      "order": 9,
+      "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+    },
+    "s1_s2_match": true,
+    "a9_inv_used": "-387420489/4",
+    "class_mod18": {
+      "2": 16
+    }
+  },
+  "a_class_gaugeB": {
+    "via_s1": {
+      "representation": "exponent vector mod 9 over the support primes",
+      "support": [
+        2
+      ],
+      "exponents": [
+        5
+      ],
+      "order": 9,
+      "normalization": "a は Q^x/(Q^x)^9 の代表・sign は 9 乗で消えるため無視"
+    },
+    "a9_inv_used": "-387420489/16",
+    "class_mod18": {
+      "2": 14
+    }
+  },
+  "gauge_sensitivity_example": {
+    "diff_exponent_vector_mod9_B_minus_A": {
+      "2": 7
+    },
+    "note": "GAUGE-A -> GAUGE-B (Y^2/4 -> Y^2, factor 4=2^2) がどれだけ a_class を動かすかの 1 例。support が {2} のままか {3} 側に動くかは、この 2 種のゲージ比較だけでは 確定しない(3rd gauge axis 未試験)-- raw 記録のみ、解釈は司令塔。"
+  },
+  "u_touched": true,
+  "c_touched": false,
+  "封印3量_touched": false,
+  "d9_r_interpretation": "none (raw values only, per task instruction)",
+  "u_name_collide_note": "u touched = NAME-COLLIDE 行(K^(9) 窓インスタンス)。d9/r の解釈は行っていない。",
+  "input_sha256": {
+    "docs/notes/r2_r3_unram_execution_spec_v1.md": "da6294da1b2f359f3b80f2281570770e4db616a360a9896bc5fc6ca1055f1c26",
+    "docs/notes/p8_prereg_v3_2.md": "3a9cfb060c5af3bef7e54d9c849709852b9579cacf49d5651d1417cb842161fc",
+    "search/certs/r2_u_uniformizer_v1_20260813.json": "496c494c4299d91f0d610360bccfac7f56a91c08fe2ec44ce00695e275cafb65",
+    "search/desc9_procedure_v1.py": "046bde492ae9012377ab24bb1c44bb47d5b35ed22756b2a562413325ff66f32a"
+  },
+  "provenance": {
+    "script_sha256": "9647c8df862dd34040d7ccc8068ccafc1d1cc711ecba186586a7e351043a340b"
+  }
+}
