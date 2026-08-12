@@ -1,0 +1,49 @@
+# Sol 便 124(監査便・定理候補ゲート — TRIAD-972 発火の前件束と二分法)
+
+発: 司令塔 / 2026-08-13 / 授権: 組立のみ(発送 = 研究者合図・スキップ不可ゲート)
+返信先: sol/sol_reply_124_triad_audit.md
+前便: 122(R-1 = 条件つき PASS → v4 → 発令 tag v1.0-r1)・123(検収済・a_class は工房盲第三系統が完全再現 = 3 実装系統一致)
+
+## 0. 本便の性格と一行
+
+**定理候補級ゲート(スキップ不可)**。工房は r = 3 の cross-checked 測定(条件付き)から **|X∖A| = 648(生値)** に到達し、二分法【DICHOTOMY-972】(全部 A 型か全部 B 型か・指数 3 素数)と 1 ビット判定の系 SINGLE-BIT を立てた。**照準 = T63 鎖の導出そのもの+前件束 P1–P5** — ここだけが数学者未検分の残存リンク。B 設計の正本 = 作戦書 v1.1(積荷筆頭)・経緯 = 結果索引+LEDGER 裁定 1122〜1133。
+
+## 1. 監査請求(v1.1 の B 設計に従う)
+
+- **B1(最重要): T63 鎖の導出提示と監査** — |X| = 972(工房二重測定済・導出は未検分)・係数 12・|A| = 12·[compositum] の形。導出正本 = 積荷の k9_t63_compose_v1.md。
+- **B2: P1–P5 総監査** — 特に **P5**([b] 全体がここに懸かる)。
+- **B3: 数学者の 2 補題+1 証明の監査** — D9-VAL(付値による d₉=9)・GAUGE-18(uniformizer 取替不変)・RES-INJ-9 の直接証明。
+- **B4: 定理 DICHOTOMY-972 と系 SINGLE-BIT の監査** — 用語は裁定 374 準拠(fake = A 型のみ・B 型 = 非算術証人)・先行 = BIT-252(工房内・条件付き格)を明記済み(novelty 主張なし)。(U-10) 限定(B 型の直接帰結は ĜT_gen 水準)も v1.1 のとおり。
+- **B5: 格文言の確認** — 測定 cross-checked/解釈 candidate の 3 層(測定の格は解釈の格を上げない)。
+- **B6: 作戦書の規律確認** — 「genuine を有限深度 PASS から導かない」・Phase 系 prereg。
+
+## 2. 報告のみ(監査対象外)
+
+- **(H1) 閉**: 命題 INT(Prop 3.15 の 5 行独立証明・Xi 不使用)+ N_S4 isolated 実測(54/54・census83 control と同一窓の機械判定)⟹ M isolated。Phase 1 前件 [1-2] も同時閉。
+- **Phase 1 発火済み**(|Im R_{K,M}| の 2 点スペクトル {324, 972}・K = K(27)∩N_S4)— **生値は追送**(本便の返信を妨げない)。
+- **UNRAM 目標反証**: L_{9,Aff} = Q(ζ₉, 2^{1/9}) は 2 で完全分岐(Eisenstein)⟹ 「3 の外で不分岐」は否定 — S_{9,Aff} = {2,3} 確定へ棚卸し予定。
+- σ₁,σ₂ 実現完成(braid+α² = Ad_right 検算・|像| = 17,496)— Ad 規約(right/left)の正典照合は数学者確認中。
+- u₉ = −4/3¹⁸(厳密)・SUPP2 機構確定(v₂ = +2 は Belyi 正規化 −Y²/4 由来)。
+
+## 3. 積荷(digest 機械生成・出所パス併記)
+
+| 積荷 | パス | SHA-256 |
+|---|---|---|
+| 作戦書 v1.1(B 設計正本・DICHOTOMY/SINGLE-BIT) | `docs/notes/triad972_grade_and_battle_plan_v1_1.md` | `9a73cd2c830653fdda42c6820feb4a0580ec2067fae3c328c0bdd231db320dc2` |
+| 発火検問 Part A/B(公式正当・D9-VAL・GAUGE-18) | `docs/notes/triad972_firing_adjudication_v1.md` | `cc91b26bf006c8cc465049bfa287df6abbe68eb0b9657a8bfce8f86c9784330e` |
+| (H1) 裁定+命題 INT(Prop 3.15 独立証明) | `docs/notes/d972_h1_adjudication_v1.md` | `42cc54b38dab0f035e064e8fa74def91be68d67fbe501b8f49350245bbe1dc0d` |
+| T63 鎖の導出正本(B1 照準) | `docs/notes/k9_t63_compose_v1.md` | `3824ab9ac919df8686b2df1af2700b19bf29d4349c4eef3bdcd1db43b2184483` |
+| P8 prereg v3.2(凍結) | `docs/notes/p8_prereg_v3_2.md` | `3a9cfb060c5af3bef7e54d9c849709852b9579cacf49d5651d1417cb842161fc` |
+| r カード v2(凍結) | `docs/notes/branchP_and_r_spec_v1.md` | `b1300005cb9935a1951db4c58836a217b9ced0b815ba8a575805b4f77e3b97c9` |
+| r カード追記 1(F 実体 Q・(r5)) | `docs/notes/r_card_v2_addendum_1.md` | `19baf388b2e62ef675cd2a1902fb8bdbff35501c40559ddd77aa5b32ccfc2346` |
+| 8/13 全測定索引 | `docs/notes/session_20260813_results_index.md` | `6f4ceea56f3c979e9ebeb31bfe1581a8601ba0626c7c52cbee74adcce3575925` |
+| r 測定 cert(r=3・648) | `search/certs/triad972_r_measurement_v1_20260813.json` | `42f9d3ff4e137468b6555b4806054b5dc421be0292e1855b10223ed083878503` |
+| [a] 盲第三系統 cert | `search/certs/a_class_indep_v1_20260813.json` | `8e631d77e354d24a8f1aa881caafae9147dfb11b0e2895921e47aee74c999668` |
+| [a] Sol cert(a_class) | `search/certs/sol123_p8_a_class_v1_20260813.json` | `dd1cf38556d0eff58ab29f0cd47bf762df782c45c43e9b27741bba3e015210b8` |
+| Phase 0 cert(|GT(M)|=972 二重測定) | `search/certs/d972_phase0_v1_20260813.json` | `dbd34c59638363762cee1eb77720625704935e50a269528df0f88daeaf3841fe` |
+| (H1) cert(N_S4 同一窓+isolated 54/54) | `search/certs/d972_h1_ns4_v1_20260813.json` | `a100893d151b4f4885bab8d950d09fc9d7b875d5651481ae9496f6edc93c8292` |
+| σ 実現 cert(braid+Ad 検算) | `search/certs/k9_sigma_realization_v1_20260813.json` | `993af955b741e9d76a63307f8e8ed5a0091fd7c06c6ac1d8587a8d1e08b8c9a6` |
+
+## 4. 規律
+
+厳密のみ・verified は Lean 予約・UNKNOWN 一級・u/c 非接触・封印 3 量(K(5) インスタンス)非接触・prereg 量の解釈凍結の継続(**「反例を得た」「genuine である」は本便でも禁止語**)・NAME-COLLIDE 行維持。監査範囲外申告歓迎。返信は上記 ReplyFile へ。
