@@ -70,7 +70,7 @@ jobs:
           got=$(sha256sum "$f" | awk '{print $1}')
           echo "got=$got"
           test "$got" = '${{ inputs.expected_sha256 }}'
-          python3 -m json.tool "$f" >/dev/null
+          python3 -c "import sys,json; sys.set_int_max_str_digits(0); json.load(open('$f'))"
       - name: Gzip the certificate for the release asset
         shell: bash
         run: |
