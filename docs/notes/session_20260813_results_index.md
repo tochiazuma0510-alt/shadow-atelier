@@ -53,6 +53,7 @@
 | 発案 6+7 検分 | **定理 TORSOR**(fixture は定理の帰結・u≡1 mod 3 の機構が系)・**定理 SUBTOR**(ARITH-T 強化)・I-SET-2 改造採用(類公式・指標表不要)・I-SET-3 **棄却(NOFIRE)**・I-SET-4 保留(charming 交絡・3 分類再測定要)・AT-Q1 的中 | set_surgery_vetting_v1.md(2860805e) | 1089 |
 | ★\|GT(N′)\| 見積り | **3×10⁴ ≲ \|GT(N′)\| ≲ 10⁶⁻⁷**(TORSOR×#Hom 類公式・16 群三系統一致)— **10¹⁷=\|H̃\| の取り違え疑い(約 11 桁)** ⟹ ③ 計数再開可能性(見積り格・SS-GAP-1) | 同上 | 1089 |
 | [Q4-FINAL] 格下げ | f_c は**片側のみ有効**(≠1 ⟹ a_{N′}(c)≠[−1,1] のみ/=1 ⟹ 情報ゼロ)【SS-GAP-7】・1084 検算 B の中心化群は Q 内が正典意図(生値は記述値に再分類) | settled_layer_verdict_v1 補記 | 1089 |
+| 発案 7 テコ 3 本 | P1: 剰余類予測 {5,11,17,23} = 実測**完全一致**(独立再確認)・**AT-4: Q-STAB = fixture で YES**(settled 24/24 → H-settled のみ・類写像 well-defined)・P2 = PARTIAL(coset 爆発実測・直積分解は Sol 警告で保留) | at_levers_v1_20260813(8e2ab1ce) | 1091 |
 | トーサー計数 fixture(発案 6) | **#C([1008,521]¹)=2・類 [24,24]・48=24×2 予言厳密一致**・陽性対照 K(9)=#C 1/108 一致・捻り生存 1/12・1/28(RIGID 整合)・2 核類は well-definedness で分離・marked-factor-map 法 | set_surgery_fixture_v1_20260813(429c18b3) | 1084 |
 
 ## §4 census/屋根掃討の測定
