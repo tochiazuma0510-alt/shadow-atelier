@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| 格裁定+作戦書 v1.1 | 3 層格(測定 cross-checked・解釈 candidate)・**【DICHOTOMY-972】全部 A 型か全部 B 型か(指数 3 素数)**・系 SINGLE-BIT({324,972} の 1 ビット・324 ⟹ 全 A 型+有限証明書)・SUPP2 確定(v₂=+2 は −Y²/4 由来・−2≡7)・**(U-10) 限定**(B 型 ⟹ ĜT_gen 水準・¬井原へは U-10 未解決を経由)・BIT-252 先行明記(検出機構別・格両面)・D972-GAP-1(M isolated 未確認 = Phase 0) | triad972_grade_and_battle_plan_v1_1.md(ea0aa8c6) | 1127/1128/1129 |
 | **★★第三系統一致** | **[a]=[2]⁷ を盲実装が完全再現**(別経路・検疫完守)・u₉ = **−4/3¹⁸ 厳密**(v₂=+2・v₃=−18)・Belyi/GAUGE-18/(D-ii) 全通過・support={2} は 2 ゲージで頑健 ⟹ **バグ仮説閉鎖・r=3/648 は cross-checked 測定値へ昇格**(前件 T63+P1–P5 条件付き)・2-part の出所 = t=−Y²/4 の 4 | a_class_indep_v1(166aa87a) | 1125 |
 | 発火検問 Part A | **公式正当**(2-part/3-part は指数 18 の準素分解 — supp と別物)・**d₉=9 が定理昇格(D9-VAL)**・RES-INJ-9 直接証明・残条件 = T63 鎖 3 本+P1–P5・**GAUGE-18**(uniformizer 自由度ゼロ)・**純 2 冪ズレ仮説は紙で反証**・**発火 ⟺ 予言外れ(同一事象・予言的中なら非発火)**・Part B は第三系統待ち | triad972_firing_adjudication_v1.md(b710a494) | 1124 |
 | ★UNRAM 目標反証 | **L_{9,Aff} = ℚ(ζ₉,2^{1/9}) は 2 で完全分岐**(Eisenstein)⟹ 「3 の外で不分岐」は反証 — UNRAM 線は S={2,3} 確定へ棚卸し | 同上 Part B | 1124 |
