@@ -1,0 +1,23 @@
+{
+  "checker_wrapper_exit": "",
+  "files": {
+    "r13_p1_tier2_math_checkpoint.json": {
+      "bytes": 23915,
+      "sha256": "edd419ecb3fecf740d8c253ec2a4f8c3f01b3e6557cc1966404e8e0aed8cedbf"
+    },
+    "tier2.log": {
+      "bytes": 288,
+      "sha256": "7c583efb6ef1e17411a55ad1241085fdf80d12ed6188b455256c1fce7e65a568"
+    },
+    "tier2_hard_timeout.json": {
+      "bytes": 846,
+      "sha256": "b04c46b755072bca1ffdc5f138ed6ac4efe06f21710c3930f0eb650320220af4"
+    }
+  },
+  "github_ref": "refs/heads/sol/w9-tier2-compute",
+  "github_run_id": "31584810985",
+  "github_sha": "cada1e14cdad4c379c656a7c171f8c16726b3332",
+  "producer_wrapper_exit": "124",
+  "python": "3.13.14",
+  "schema": "w9-tier2-run-receipt/v1"
+}

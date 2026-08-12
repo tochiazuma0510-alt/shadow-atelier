@@ -1,0 +1,31 @@
+{
+  "checkpoint": "ci/out/tier2_hard_timeout.json",
+  "child_returncode": -15,
+  "command": [
+    "python",
+    "search/r13_p1_tier2_gha.py",
+    "--input",
+    "search/certs/r13_p1_1pp_k2_v1_20260812.json",
+    "--output",
+    "ci/out/r13_p1_tier2_result.json",
+    "--checkpoint",
+    "ci/out/r13_p1_tier2_math_checkpoint.json"
+  ],
+  "completed_at_utc": "2026-08-12T10:16:51.848702+00:00",
+  "elapsed_seconds": 1500.1535195899999,
+  "heartbeat_at_utc": "2026-08-12T10:16:39.426829+00:00",
+  "heartbeat_seconds": 15.0,
+  "log": "ci/out/tier2.log",
+  "log_bytes": 288,
+  "pid": 2233,
+  "schema": "hard-timeout/v1",
+  "started_at_utc": "2026-08-12T09:51:51.695179+00:00",
+  "state": "TIMED_OUT",
+  "termination": {
+    "kill_sent": false,
+    "term_sent": true
+  },
+  "timed_out": true,
+  "timeout_seconds": 1500.0,
+  "wrapper_returncode": 124
+}
