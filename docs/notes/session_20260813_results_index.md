@@ -53,12 +53,14 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| **便 122 返書** | **B1 条件つき PASS(修正 3 点で発令可)・B2 PASS = R1-GAP-3 閉鎖・母集団/resolvent = cross-checked 昇格・B3 = 定理 TORSOR/SUBTOR 採用(系 D 前向きは UNKNOWN 維持)・B5 = QUAR-TOR 合議+release 保全** | sol_reply_122_r1_line3.md | 1109 |
+| ★③ 線上界の訂正 | **U_true = 1,915,460.0116…(真の H̃ 直接計数・6 整数)⟹ \|GT(N′)\| ≤ 1,915,460 < 2×10⁶**・U_split=954,962 は改名(calibration 値・上界でない・比 2.006)・**Stage 1 不要 = SSG1-GAP-1 candidate closed** | 便 122 B4(script 添付)| 1109 |
 | U-6 読解 | **非可換 crown = EP 各窓 1 本**(core 単一)・**群論側空**(Z(A_t)=1 ⟹ 拡大自動)・WALL-SURJ(有料 = Kummer+EP の 2 本のみ)・**census+Chebotarev = 全射性の有限証明書(F1–F5)**・U6-GAP-1(wall37 coupling 3 択)・prereg 3 本([U6-3] isolated 性が先行)・census 第 4 系統一致 | wall_crown_u6_reading_v1.md(9a15c74d) | 1108 |
 | I-SET-4 B′ 再測定 | 正分母 **D₀ = 2(非自明 = 空虚でない)**・N_m=6 全 m 一様(SURV-EXACT 整合)・**D₀ 非自明元は全 48 shadow で hexagon 単独切断(C 真・H 偽)= 交絡除去後の RIGID 支持生値**・|Q|=168 実測・K9 対照 UNKNOWN/blocked | iset4_remeasure_v1(1cf428a5) | 1107 |
 | P2 第一段 | **\|Im ρ\| = 7056**(上界 28,224 の 1/4)・ker(ρ)=N∩K₂ 独立突合一致 ⟹ 量子化検定(第二段)解錠 | at2_p2_imrho_v1(1cf428a5) | 1107 |
 | Sol 便 114(k13) | 再設計完走(run 31628909628)・**gcd 369 桁 = 2³·269·103928833037·C(C 未分解 UNKNOWN)**・**QUAR-TOR [2,269,103928833037] rank 206 = 司令塔預かり**・K12 canary 全 true・full cert 237MB(receipt a6f05418…) | torsweep_k13_..._RECEIPT.json | 1104 |
 | Sol 便 114(壁 crown) | **非可換 crown 実在 [3,3,3,5]**(A₅×3 窓・wall37=A₆×5 類)・GT/Φ=S₅/S₆×(C_ℓ:C_{ℓ−1})・**三系統一致 = cross-checked**・U-6 先決データ確定 | wall_crown_census_v1 系 3 cert(8577cab6…) | 1104 |
-| [S0-RECHECK] | **PRED-S0-4 = 12 整数完全一致**+[R-3] 全数対照(p=13・480 万元・行列積直判定)一致 ⟹ **U(691)=954,962.000012572 代入復帰・<10⁷ ビット確定(残条件 SSG1-GAP-1)** | ss_gap1_s0_recheck_v1(9335dc13) | 1105 |
+| [S0-RECHECK] | **PRED-S0-4 = 12 整数完全一致**+[R-3] 全数対照一致 ⟹ 閉形式検証済。⚠1109 訂正: **954,962 は split calibration 値(真上界でない)** — 真値は便 122 B4 の U_true | ss_gap1_s0_recheck_v1(9335dc13) | 1105/1109 |
 | 2 勝 2 敗の真相 | **閉形式無罪** — cert 整数と全 4 点厳密一致(司令塔追試も 4/4)・外れ = 数学者の凍結値転記ミス・司令塔 mod 12 仮説棄却・**PRED-S0-4 再凍結(整数のみ・p=37..47 全類 12 整数)**・U(691)=954,962.000012572 機械凍結(PASS 後復帰)・**恒久規約: 成果物数値は機械生成+script 添付が検収条件** | ssg1_stage0_pred_repair_v1.md(82138f7c) | 1103 |
 | 予言 4 点検定 | **2 勝 2 敗**: p=19,31(≡7 mod 12 = 691 の類)厳密一致/p=23,29 は 10⁻⁶ 級不一致 ⟹ 事前宣言どおり**閉形式破棄・修理へ**・U(691) 代入格は保留降格・counts は 2 系統完全一致 | ss_gap1_s0_predcheck_v1(731cbb72) | 1102 |
 | PRED-S0-2 裁定 | **FAILED 恒久記録**(原因 = 近似 2 段・m1100-1/2)・**補題 TR**(tr 分布 = p³(p+ε))・厳密閉形式で 5 点小数 4 位一致・**観測法則 q mod 12 が証明昇格**・**U(691)=954,962.0000126(代入格・CP-D 63 倍)**・新凍結予言 4 点(p=19..31) | ssg1_stage0_pred_failure_v1.md(00f0ba2b) | 1101 |
