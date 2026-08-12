@@ -1,0 +1,52 @@
+{
+ "schema": "s4-fullsweep-python/v1",
+ "generated_by": {
+  "tool": "python (pure, GAP-independent)",
+  "script": "crosscheck/check_s4_fullsweep_3024.py",
+  "task": "ISO-S4 M119-1 (裁定944, Sol sol_reply_119 §F2(a) 末尾)"
+ },
+ "reused_from": {
+  "group_construction": "crosscheck/check_s4_settled54.py (GF(8)/PGL(2,8)/PGammaL(2,8)/Gg/BFS/homomorphism-well-definedness routines, imported directly per 裁定944)",
+  "note": "both this file and check_s4_settled54.py are from-scratch pure-Python reimplementations independent of GAP; reuse between them does not import any search/*.g code or GAP output beyond the final cert being compared against"
+ },
+ "theta_tau_well_defined": {
+  "theta": true,
+  "tau": true
+ },
+ "sweep": {
+  "charming_set_size": 6,
+  "gg_size": 504,
+  "candidate_total": 3024,
+  "h10_fail": 2640,
+  "h11_fail": 330,
+  "generation_fail": 0,
+  "shadow_total": 54,
+  "stage_count_sum_check": true
+ },
+ "comparison_vs_gap_cert": {
+  "gap_cert_path": "search/certs/s4_settled54_v2_20260812.json",
+  "gap_cert_shadow_total": 54,
+  "python_shadow_total": 54,
+  "sets_equal": true,
+  "only_in_cert_count": 0,
+  "only_in_python_count": 0
+ },
+ "comparison_vs_gap_run_log_stage_counts": {
+  "gap_stage_counts": {
+   "candidate_total": 3024,
+   "h10_fail": 2640,
+   "h11_fail": 330,
+   "generation_fail": 0,
+   "shadow_total": 54
+  },
+  "python_stage_counts": {
+   "candidate_total": 3024,
+   "h10_fail": 2640,
+   "h11_fail": 330,
+   "generation_fail": 0,
+   "shadow_total": 54
+  },
+  "agree": true
+ },
+ "all_checks_pass": true
+}
