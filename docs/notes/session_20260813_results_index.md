@@ -53,6 +53,9 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| Sol 便 114(k13) | 再設計完走(run 31628909628)・**gcd 369 桁 = 2³·269·103928833037·C(C 未分解 UNKNOWN)**・**QUAR-TOR [2,269,103928833037] rank 206 = 司令塔預かり**・K12 canary 全 true・full cert 237MB(receipt a6f05418…) | torsweep_k13_..._RECEIPT.json | 1104 |
+| Sol 便 114(壁 crown) | **非可換 crown 実在 [3,3,3,5]**(A₅×3 窓・wall37=A₆×5 類)・GT/Φ=S₅/S₆×(C_ℓ:C_{ℓ−1})・**三系統一致 = cross-checked**・U-6 先決データ確定 | wall_crown_census_v1 系 3 cert(8577cab6…) | 1104 |
+| [S0-RECHECK] | **PRED-S0-4 = 12 整数完全一致**+[R-3] 全数対照(p=13・480 万元・行列積直判定)一致 ⟹ **U(691)=954,962.000012572 代入復帰・<10⁷ ビット確定(残条件 SSG1-GAP-1)** | ss_gap1_s0_recheck_v1(9335dc13) | 1105 |
 | 2 勝 2 敗の真相 | **閉形式無罪** — cert 整数と全 4 点厳密一致(司令塔追試も 4/4)・外れ = 数学者の凍結値転記ミス・司令塔 mod 12 仮説棄却・**PRED-S0-4 再凍結(整数のみ・p=37..47 全類 12 整数)**・U(691)=954,962.000012572 機械凍結(PASS 後復帰)・**恒久規約: 成果物数値は機械生成+script 添付が検収条件** | ssg1_stage0_pred_repair_v1.md(82138f7c) | 1103 |
 | 予言 4 点検定 | **2 勝 2 敗**: p=19,31(≡7 mod 12 = 691 の類)厳密一致/p=23,29 は 10⁻⁶ 級不一致 ⟹ 事前宣言どおり**閉形式破棄・修理へ**・U(691) 代入格は保留降格・counts は 2 系統完全一致 | ss_gap1_s0_predcheck_v1(731cbb72) | 1102 |
 | PRED-S0-2 裁定 | **FAILED 恒久記録**(原因 = 近似 2 段・m1100-1/2)・**補題 TR**(tr 分布 = p³(p+ε))・厳密閉形式で 5 点小数 4 位一致・**観測法則 q mod 12 が証明昇格**・**U(691)=954,962.0000126(代入格・CP-D 63 倍)**・新凍結予言 4 点(p=19..31) | ssg1_stage0_pred_failure_v1.md(00f0ba2b) | 1101 |
