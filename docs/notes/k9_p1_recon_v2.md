@@ -1,7 +1,8 @@
-# 【K9-P1-RECON】v2 — ★ **判定 = 同一対象(肯定)**。$d_9$ は $\operatorname{ord}(a_9)$ そのもの
+# 【K9-P1-RECON】v2.1 — ★ **判定 = 同一対象(肯定)**。$d_9$ は $\operatorname{ord}(a_9)$ そのもの
 
 **日付**: 2026-08-12 / **起草**: 数学者(Opus 5・後任)/ **委嘱**: 裁定 904 → **裁定 908 で最優先へ格上げ**
 **格**: candidate(紙・単系統・**Sol 未監査**)。三値判定は CV-9 精神に従う。
+**版**: v2(裁定 912)→ ★ **v2.1 = 裁定 918 の帰属訂正**(§2 erratum・第 1 矢印の供給元 = P1 → **T63-P1(W3-24)**。主結論は無傷)
 **前版**: `k9_p1_recon_v1.md` = ★ **本版が supersede**(v1 の「別対象」判定は**誤り** — §0 で自己申告)
 **判読対象**: `docs/notes/E1_gt_odd_dih_canonical_v1.md` §5.1(**(S1)–(S4) + 定理 $R^{\rm cyc}_{\rm formal}$**)/ `fam_u_assembly_v1.md`(P1)/ R1 第一波 `r1_k9_bridge_v1.md`
 
@@ -51,9 +52,17 @@ $$\boxed{\ \textbf{独立な二経路が同じ機械に到達 — 工房内の}\
 
 ## §2 ★ 測定路の全体像(**肯定判定の帰結**)
 
-$$\underbrace{\operatorname{ord}([u_9]_{18})=9}_{\textbf{P1/FAM-U-ASM(発効済・framework-relative)}}\ \Longrightarrow\ \underbrace{\operatorname{ord}(a_9)=9}_{a_9=[u_9^{-1}]_{18},\ \operatorname{ord}(u^{-1})=\operatorname{ord}(u)}\ \overset{\textbf{前件 (0)(1)(2)(3)(5′)(6′)}}{\underset{R^{\rm cyc}_{\rm formal}}{\Longleftrightarrow}}\ \underbrace{\text{(S3)}}_{d_9=9}\ \overset{\textbf{K9-CYC(b)}}{\underset{\textbf{無条件}}{\Longleftrightarrow}}\ \mathrm{Ih}_{K^{(9)}}\ \textbf{全射}$$
+> ### ★★ v2.1 erratum(**裁定 918・帰属の 1 行訂正**)— 本節の第 1 矢印の**供給元を差し替える**
+> **v2 の誤り(引用)**: 第 1 矢印の下に「**P1/FAM-U-ASM(発効済・framework-relative)**」と帰属させた。
+> **誤りの理由**: `p1_corpus_index_v1.md` §1(便 105 **F105-1.2** 逐語)は、P1 発効が**意味しない 3 項**を挙げ、その 1 つが ★ **「全奇数で $\operatorname{ord}(a_n)=n$」**である(candidate/open を保つ)。⟹ **P1 の発効から $\operatorname{ord}(a_9)=9$ は出ない。**
+> **正**: $\operatorname{ord}(a_9)=9$ の供給元は ★ **T63-P1(`provenance/CLAIMS.md` W3-24・2026-07-28・paper-proof candidate・Sol 便 76 F3.2 検分済)**。
+> ⚠ **本ノートの主結論 $d_9=\operatorname{ord}(a_9)$ は無傷** — 訂正は「誰が $\operatorname{ord}(a_9)=9$ を供給するか」の**帰属のみ**。合成の検分は `k9_t63_compose_v1.md`。
 
-⟹ **$d_9=9$ が framework-relative に従う**(前件が立てば)。⟹ **Conj 5.1@$n=9$ が framework-relative に閉じる**。
+$$\underbrace{\operatorname{ord}(a_9)=9}_{\textbf{T63-P1 / CLAIMS W3-24(paper-proof candidate)}}\ \overset{\textbf{前件 (0)(1)(2)(3)(5′)(6′)}}{\underset{R^{\rm cyc}_{\rm formal}}{\Longleftrightarrow}}\ \underbrace{\text{(S3)}}_{d_9=9}\ \overset{\textbf{K9-CYC(b)}}{\underset{\textbf{無条件}}{\Longleftrightarrow}}\ \mathrm{Ih}_{K^{(9)}}\ \textbf{全射}$$
+
+($a_9=[u_9^{-1}]_{18}$ ゆえ $\operatorname{ord}(a_9)=\operatorname{ord}([u_9]_{18})$ — 逆元は位数を変えない。**ただしその値 $=9$ を与えるのは T63-P1 であって P1 ではない**。)
+
+⟹ **$d_9=9$ が framework-conditional に従う**(前件が立てば)。⟹ **Conj 5.1@$n=9$ が framework-conditional に閉じる**。
 
 > ### ⚠⚠ 過大評価の三重の歯止め(**自戒として先に書く**)
 > 1. **framework-relative**: P1 の格は `theorem-framework-relative [TB: canonical-source-pinned/v2]`。candidate 性の残余 = **W2-fam / W5 / Λ-REG / (M-b) / ASM-α / 始点算術**(裁定 908・便 106 erratum)。⟹ **無条件の定理ではない**。
