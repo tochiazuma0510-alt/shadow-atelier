@@ -1,0 +1,15 @@
+week3-battery-common.g loaded.
+|monG| = 324 D = 18 (期待 324, 18)
+[PASS] size-3 代表ブロック見つかった: [ 1, 4, 7 ]
+degree-6 quotient monodromy group |quotG| = 36 (期待 36)
+[PASS] monodromy 位数 = 36: true
+quotG 上のブロックサイズ集合 = [ 3 ] (期待 {3} -- サイズ3ブロック2個 = (3,2)系)
+[PASS] ブロック系(3,2)(サイズ3ブロックが存在): true
+centralizer of quotG in S6, |cent| = 1 (期待 1 = deck群自明)
+[PASS] deck群自明: true
+quotG は6点上で可移: true
+
+[PASS] ★★★ [P1-0d] 指紋一致(位数36・ブロック系(3,2)・deck自明): true
+
+wrote search/certs/w9_k3_p1_0d_check_v1_20260812.json
+script sha256 = 863be59f82db695948fed8670a6a7fe0267cb08f4a3218647fb8b3b7e370abe7
