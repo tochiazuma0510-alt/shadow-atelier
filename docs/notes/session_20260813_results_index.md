@@ -57,6 +57,7 @@
 | ★③ 線上界の訂正 | **U_true = 1,915,460.0116…(真の H̃ 直接計数・6 整数)⟹ \|GT(N′)\| ≤ 1,915,460 < 2×10⁶**・U_split=954,962 は改名(calibration 値・上界でない・比 2.006)・**Stage 1 不要 = SSG1-GAP-1 candidate closed** | 便 122 B4(script 添付)| 1109 |
 | U-6 読解 | **非可換 crown = EP 各窓 1 本**(core 単一)・**群論側空**(Z(A_t)=1 ⟹ 拡大自動)・WALL-SURJ(有料 = Kummer+EP の 2 本のみ)・**census+Chebotarev = 全射性の有限証明書(F1–F5)**・U6-GAP-1(wall37 coupling 3 択)・prereg 3 本([U6-3] isolated 性が先行)・census 第 4 系統一致 | wall_crown_u6_reading_v1.md(9a15c74d) | 1108 |
 | I-SET-4 B′ 再測定 | 正分母 **D₀ = 2(非自明 = 空虚でない)**・N_m=6 全 m 一様(SURV-EXACT 整合)・**D₀ 非自明元は全 48 shadow で hexagon 単独切断(C 真・H 偽)= 交絡除去後の RIGID 支持生値**・|Q|=168 実測・K9 対照 UNKNOWN/blocked | iset4_remeasure_v1(1cf428a5) | 1107 |
+| **P2 第二段(量子化)** | **GT(M)=288 全列挙(2 秒)→ 押し出し X=48(全被覆・異常 0)→ 両核類 trace = 24 = \|S_X\| — 中間サイズゼロ = SUBTOR 量子化法則の初の完全機械実証(装置生存)** | at2_p2_quantization_v1(38cf4bb7) | 1110 |
 | P2 第一段 | **\|Im ρ\| = 7056**(上界 28,224 の 1/4)・ker(ρ)=N∩K₂ 独立突合一致 ⟹ 量子化検定(第二段)解錠 | at2_p2_imrho_v1(1cf428a5) | 1107 |
 | Sol 便 114(k13) | 再設計完走(run 31628909628)・**gcd 369 桁 = 2³·269·103928833037·C(C 未分解 UNKNOWN)**・**QUAR-TOR [2,269,103928833037] rank 206 = 司令塔預かり**・K12 canary 全 true・full cert 237MB(receipt a6f05418…) | torsweep_k13_..._RECEIPT.json | 1104 |
 | Sol 便 114(壁 crown) | **非可換 crown 実在 [3,3,3,5]**(A₅×3 窓・wall37=A₆×5 類)・GT/Φ=S₅/S₆×(C_ℓ:C_{ℓ−1})・**三系統一致 = cross-checked**・U-6 先決データ確定 | wall_crown_census_v1 系 3 cert(8577cab6…) | 1104 |
