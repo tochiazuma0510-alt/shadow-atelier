@@ -53,6 +53,8 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| PRED-S0-2 裁定 | **FAILED 恒久記録**(原因 = 近似 2 段・m1100-1/2)・**補題 TR**(tr 分布 = p³(p+ε))・厳密閉形式で 5 点小数 4 位一致・**観測法則 q mod 12 が証明昇格**・**U(691)=954,962.0000126(代入格・CP-D 63 倍)**・新凍結予言 4 点(p=19..31) | ssg1_stage0_pred_failure_v1.md(00f0ba2b) | 1101 |
+| 余興: 普遍性ノート | C=余等化子 YES・**Frattini 反射 NO**+救済(窓圏 = 全射のみ)・発案 5 着地 = 主束 2 指数・**「普遍性は分母を整理・分子(算術像)に無言」** | surg_torsor_universality_note_v1.md | 1101 |
 | [S0] 完走 | U(5..17) 2 系統一致(p=5 は全数第 3 実装も一致)・e fit=2.0195・**U(691) 外挿 ≈ 1.03×10⁶ ⟹ ≶10⁷ 内側見込み**・CP-D 余裕・**PRED-S0-2 0.47% 超過 → 停止規則発火・数学者裁定中** | ss_gap1_stage0_v2(d5dc460e) | 1100 |
 | **R-1 宣言 v3** | **定義 POP**((C1) passport ∧ (C2) 次数 6 商 ≅ Nielsen 類 #1 ⟹ \|𝔐\|=72・補題 POP で非循環性証明)・**R1-GAP-3**(Sol 再現 ⟹ cross-checked/不一致 ⟹ 保留)・格 = candidate・発令残 = Sol 監査/研究者検分/凍結 tag・**便 122 筆頭積荷確定** | r1_declaration_draft_v3.md(b98fe288) | 1098/1099 |
 | CP-C 裁定 | **装置維持** — 補題 CH-REG(超過 = p³−1・実測 26 と 4 行一致)・**p=691 安全証明済**(691∤2,3)・p=3 → 陽性対照 PC-5b 格上げ | ssg1_stage0_model_adjudication_v1.md(0492ece2) | 1098 |
