@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| U-6 読解 | **非可換 crown = EP 各窓 1 本**(core 単一)・**群論側空**(Z(A_t)=1 ⟹ 拡大自動)・WALL-SURJ(有料 = Kummer+EP の 2 本のみ)・**census+Chebotarev = 全射性の有限証明書(F1–F5)**・U6-GAP-1(wall37 coupling 3 択)・prereg 3 本([U6-3] isolated 性が先行)・census 第 4 系統一致 | wall_crown_u6_reading_v1.md(9a15c74d) | 1108 |
 | I-SET-4 B′ 再測定 | 正分母 **D₀ = 2(非自明 = 空虚でない)**・N_m=6 全 m 一様(SURV-EXACT 整合)・**D₀ 非自明元は全 48 shadow で hexagon 単独切断(C 真・H 偽)= 交絡除去後の RIGID 支持生値**・|Q|=168 実測・K9 対照 UNKNOWN/blocked | iset4_remeasure_v1(1cf428a5) | 1107 |
 | P2 第一段 | **\|Im ρ\| = 7056**(上界 28,224 の 1/4)・ker(ρ)=N∩K₂ 独立突合一致 ⟹ 量子化検定(第二段)解錠 | at2_p2_imrho_v1(1cf428a5) | 1107 |
 | Sol 便 114(k13) | 再設計完走(run 31628909628)・**gcd 369 桁 = 2³·269·103928833037·C(C 未分解 UNKNOWN)**・**QUAR-TOR [2,269,103928833037] rank 206 = 司令塔預かり**・K12 canary 全 true・full cert 237MB(receipt a6f05418…) | torsweep_k13_..._RECEIPT.json | 1104 |
