@@ -1,0 +1,67 @@
+{
+  "definition": {
+    "H_tilde": "{(A,s) in SL^pm(2,Z/p^2) x S3 : det(A)=sgn(s)}",
+    "R": "Z/p^2"
+  },
+  "generated_by": "search/ssg1_utrue_combine_v1.py",
+  "known_lower_bound": {
+    "U_true_floor": 1915460,
+    "U_true_floor_ge_checkpoint_threshold": true,
+    "U_true_floor_lt_1e7": true,
+    "U_true_floor_lt_2e6": true,
+    "a_Nprime_cyclotomic_lower_bound": 30360,
+    "checkpoint_threshold_CP_D": 15180.0,
+    "source": "docs/notes/ss_gap1_count_spec_v1.md CP-D"
+  },
+  "literal_rail": {
+    "J2_formula_value": 2744,
+    "J2_literal": 2744,
+    "J2_match": true,
+    "J3_formula_value": 2745,
+    "J3_literal": 2745,
+    "J3_match": true,
+    "R_cardinality": 49,
+    "SLp_det1_eq_detminus1": true,
+    "SLp_det1_literal": 115248,
+    "SLp_det1_match": true,
+    "SLp_detminus1_literal": 115248,
+    "SLp_detminus1_match": true,
+    "SLp_formula_value": 115248,
+    "expected_total_matrices": 5764801,
+    "p_prime": 7,
+    "total_matrices_enumerated": 5764801
+  },
+  "schema": "ssg1-utrue-cert/v1",
+  "sol_reference_script": {
+    "matches_sol_claim": true,
+    "note": "read for reference; ssg1_utrue_literal_v1.py is an independent fresh implementation, not copied from this script",
+    "recomputed_sha256": "b9af7473fa825bcb81e4ba8eb2319e7a3177393a735934ebe674d575907c5be4",
+    "sol_claimed_sha256": "b9af7473fa825bcb81e4ba8eb2319e7a3177393a735934ebe674d575907c5be4",
+    "source_file": "sol/sol_reply_122_r1_line3.md"
+  },
+  "symbolic_rail": {
+    "H_order": 653158563286621680,
+    "H_order_formula": "6*p^4*(p^2-1)",
+    "J2": 228318044732,
+    "J2_formula": "p^3*(p+1)",
+    "J3": 228318044733,
+    "J3_formula": "1+p^3*(p+1)",
+    "R_cardinality": 477481,
+    "SL_fiber_order": 108859760547770280,
+    "U_true": {
+      "decimal_15dp": "1915460.011602592421696",
+      "den": 79465,
+      "floor": 1915460,
+      "num": 152212029822
+    },
+    "Z_order": 2,
+    "center_argument": "central elements must have identity S3-component (S3 has trivial center) hence det A=1 and A central in GL(2,R), i.e. A=lambda*I with lambda^2=1 in R=Z/p^2; since p is odd, x^2-1=(x-1)(x+1) with gcd(x-1,x+1) a unit in the local ring R, so exactly two roots lambda=+-1, giving Z(H_tilde)={I,-I}",
+    "i2T": 684954134196,
+    "i3R": 456636089466,
+    "p": 691,
+    "p_mod_12": 7,
+    "p_mod_3": 1,
+    "unit_group_order": 476790
+  },
+  "task": "sol reply 122 sec 4.3 3-point plan / \u88c1\u5b9a1109 task A"
+}

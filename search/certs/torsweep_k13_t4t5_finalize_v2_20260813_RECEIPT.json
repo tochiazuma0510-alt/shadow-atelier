@@ -25,6 +25,20 @@
     "asset_size_bytes": 152475282,
     "asset_sha256": "753f77ab416c94bc2455caa3793c40b809a486ab47c931710699f1da35c05845"
   },
+  "finalize_release": {
+    "note": "Sol reply 122 B5 / 裁定1109: preservation of this receipt's own finalize artifact (torsweep-k13-t4t5-v2-finalize, expires 2026-09-11T20:08:21Z) as an immutable release asset, via .github/workflows/k13-t4t5-release-transfer.yml run 31640734365",
+    "tag": "k13-t4t5-cert-v2",
+    "url": "https://github.com/tochiazuma0510-alt/shadow-atelier/releases/tag/k13-t4t5-cert-v2",
+    "asset": "torsweep_k13_t4t5_finalize_v2_20260813.json.gz",
+    "asset_download_url": "https://github.com/tochiazuma0510-alt/shadow-atelier/releases/download/k13-t4t5-cert-v2/torsweep_k13_t4t5_finalize_v2_20260813.json.gz",
+    "asset_size_bytes": 111341543,
+    "asset_sha256_gzip": "abe0bb92c1c76335f2089008669a818d948ecb31cff2f1343674d117e8d22927",
+    "uncompressed_member_sha256": "662029d808cbafcd67d044c58303e9625eb3f1555595d9687adcfba5d6f546da",
+    "uncompressed_member_sha256_matches_receipt_workflow_finalize": true,
+    "transfer_workflow_run_id": 31640734365,
+    "pre_upload_sha256_verified": true,
+    "post_upload_download_reverify_sha256_verified": true
+  },
   "step1": {
     "schema": "tor_sweep_t4_step1_gha.2",
     "artifact_sha256": "c86509cc59c591c82b483b2413c487dd56d031c2db0e1cc20c09d1abe4d9b8f5",
