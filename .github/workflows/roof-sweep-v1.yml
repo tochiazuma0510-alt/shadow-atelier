@@ -1,0 +1,75 @@
+name: roof-sweep-v1
+
+# 異族屋根一括掃討(裁定1059)。K(n)(n=3,9,15,21,27,33,81) x {1152系2窓} + S4 x {1152系2窓}
+# = 16本の異族屋根 + 陽性対照(K(9)xS4=972屋根)。屋根ごとに600秒cap(超過はUNKNOWN記録)・
+# checkpoint方式(1本ごとにcert書き出し)。全体はci/hard_timeout.pyで外側から保護。
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch:
+    inputs:
+      hard_timeout_minutes:
+        description: 'outer hard timeout for the whole GAP process (all 17 roofs)'
+        required: true
+        type: number
+        default: 180
+
+permissions:
+  contents: read
+
+jobs:
+  roof-sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 210
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: '4.16.0'
+
+      - name: Run roof sweep under process hard timeout
+        id: producer
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python3 ci/hard_timeout.py \
+            --timeout-seconds "$(( ${{ inputs.hard_timeout_minutes }} * 60 ))" \
+            --heartbeat-seconds 30 \
+            --kill-grace-seconds 10 \
+            --checkpoint ci/out/roof_sweep_hard_timeout.json \
+            --log ci/out/roof_sweep.log \
+            -- \
+            gap -q -o 8g search/roof_sweep_v1.g
+          rc=$?
+          echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Gate result (informational -- partial checkpoint is a valid outcome)
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -s search/certs/roof_sweep_v1_20260812.json ]; then
+            cp search/certs/roof_sweep_v1_20260812.json ci/out/
+            python3 - <<'PY'
+            import json
+            p = json.load(open('search/certs/roof_sweep_v1_20260812.json', encoding='utf8'))
+            print('progress:', p.get('progress'))
+            for r in p.get('rows', []):
+                print(r.get('left'), 'x', r.get('right'), '->', r.get('status'), 'shadow_total=', r.get('shadow_total'))
+            PY
+          else
+            echo "::warning::no cert written yet (timed out before first roof checkpoint?)"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: roof-sweep-v1-${{ github.run_id }}
+          path: ci/out/
+          if-no-files-found: warn
+          retention-days: 30
