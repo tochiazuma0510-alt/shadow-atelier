@@ -1,0 +1,41 @@
+{
+  "schema": "torsweep-t4-flint-k12-check/v1",
+  "generated_by": "search/check_torsweep_t4_flint_k12.py",
+  "source_run_id": "31565199573",
+  "source_sha256": {
+    "step1": "d6d91f2ce43c0c5d7f542a89966d4a6f12f7eefd39e63226d829dbbe53334045",
+    "step2_a": "b44814f33e04dbab2b4905fe65031c659473395b84ec7108a760b0e1ed904846",
+    "step2_b": "7c2e77f69df109911821d9007c8f4aba344f7e629f1d9ef4fe9a9e3b83eedc7d",
+    "reference_final": "ace6019d935cd9f3d911bf34b8640bbb8fa5ca17f9ed2c062a2b25e18fb6a906"
+  },
+  "engine": "python-flint fmpz_mat product and determinant",
+  "checks": {
+    "step1_dimensions": true,
+    "exact_moduli_agree": true,
+    "n_source_equal": true,
+    "minor_row_sets_equal": true,
+    "minor_determinants_equal": true,
+    "gcd_abs_equal": true,
+    "quar_tor_present_in_reference": true
+  },
+  "all_checks_true": true,
+  "raw": {
+    "minor_determinant_digit_counts": [
+      175,
+      176,
+      175,
+      174,
+      175
+    ],
+    "gcd_abs": "66407214454998795901162794025386489101843672565236979977748568723006227634432347661481681298132189352823304672968000623135843112883692220806194098610312232056105005953340",
+    "reference_quarantined_primes": [
+      2,
+      3,
+      5,
+      13,
+      37,
+      90217,
+      18629640697
+    ]
+  }
+}
