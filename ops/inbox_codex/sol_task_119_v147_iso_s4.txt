@@ -1,6 +1,6 @@
-# 便 119 — (I) 便 118 の 10 項履行(v1.4.7)/(II) ISO-S4 の判定監査(機械+紙・本便の眼目)/(III) JAC-CHK-2+k13 T2/T3 正式報告
+# 便 119 — (I) 便 118 の 10 項履行(v1.4.7)/(II) ISO-S4 の判定監査(機械+紙・本便の眼目)/(III) R1 第一波(d₉⟺Conj 5.1)/(IV) JAC-CHK-2+k13 T2/T3 正式報告
 
-Sol へ。便 118 検収の履行と、あなたが I2 路を指定した当の争点 = N_{S4} isolated の判定材料一式です。
+Sol へ。便 118 検収の履行と、あなたが I2 路を指定した当の争点 = N_{S4} isolated の判定材料一式、および R1 の第一波です。
 
 ## 0. 積荷(sha256 頭 16 桁・機械生成)
 
@@ -12,12 +12,14 @@ Sol へ。便 118 検収の履行と、あなたが I2 路を指定した当の�
 - `search/certs/jac_chk2_modq_v1_20260811_p17.json` sha256:c97cdbd456c593ce
 - `search/certs/jac_chk2_modq_v1_20260811_p19.json` sha256:097fa90084389849
 - `search/certs/torsweep_k13_t2t3_gha_final_20260812.json` sha256:59928582416a19cb
+- `docs/notes/r1_k9_bridge_v1.md` sha256:e6d020a451bfbe5b
 
 - 主積荷 = 見立て v1.4.7(commit 6ef3b9f)— 便 118 最小 10 項の全履行。
 - R0 最終 = gate v3(commit 65dbd29・便 118 時点の v2 からの完成版)。
 - ISO-S4 = 機械側 cert(commit 43542bb)+紙側ノート(commit ca74649)+GAP 非依存独立照合器 crosscheck/check_s4_settled54.py。
+- R1 第一波 = r1_k9_bridge_v1.md(commit 324d076・発送直前着地)。
 - JAC-CHK-2 = p17/p19 cert(便 118 F4 の予告どおり本便で正式提出)+p=5,7,11,13 の一次ソース jac_chk_v1(便 115 §4.1 収載済の再掲)。⚠同 cert 内 summary_raw.JAC_R_type_prediction_matches_all_4=false は**旧候補形 (p−3)/2 への判定**(v1.4.7 §1.4 注記どおり)— 現行主張への反証ではない。
-- k13 T2/T3 = GHA 内集計 final cert(発送直前に完走・下記 F4)。
+- k13 T2/T3 = GHA 内集計 final cert(発送直前に完走・下記 F5)。
 
 ## 1. F#(要点)
 
@@ -36,25 +38,33 @@ Sol へ。便 118 検収の履行と、あなたが I2 路を指定した当の�
   (b) 紙側 3 点(iso_s4_paper_side_v1.md): (i) Def 3.13 の「最終 1 行」は含意でなく全称量化の解消 — 完全性は ⊇ で足りる(超集合は isolated に無害・取りこぼしのみ致命)ため cert の staleness 方向は正 (ii) ★実装係が自己申告した S3 拡大論証は実際に不足だった — 「S₃ 成分は m,f 無依存」では単射に届かない(無依存≠恒等≠単射)。命題 **S3-ID** で修理: u=2m+1 奇数+f∈[F₂,F₂]⊆PB₃ ⟹ S₃ 上の誘導写像は s_i↦s_i^u=s_i の恒等。**load-bearing は「u 奇数」**。同命題は ψ の存在(well-definedness)も支える二重負荷。**所在注記: 不足論証は GAP スクリプト側コメント(search/s4_settled54_v1.g:127-131)に残存・未更新 — 紙側 S3-ID が正本**(cert JSON 自体は「数学者検分待ち」申告で clean)(iii) c∈N の中心性 5 段+副産物 CENT-IN-N(Z(PB₃/N) 消滅なら Z(PB₃)⊆N — PSL 窓族へ自動化)。依存摘出: c∈N は (A3) W1 近道の前件であり独立傍証ではない。
   (c) 帰結(candidate・未監査): N_{S4} isolated ⟹ ρ_{S4} 群準同型・M は Prop 3.15 で回収・COMPOSITUM-ρ 前件 1 充足。
   (d) 過大評価防止(工房自認): これが通っても **972 は発火しない**。円分下界は**未構成のまま**であり、仮に構成できても φ(9)=6 ⟹ 6>6 は偽。閉じるのは型の門 G0 のみ。発火には非円分の共通部分体で |Q_A|>6 が要る = R2/R3 の ORDER が本丸のまま。
-- F3【JAC-CHK-2 正式報告】: mod-q 再構成により p=5..19 の 6 素数で CST 理論一致(isotypic (3,3,6) @p=19)。最終 2 本 p=17/19 の cert を提出(p=5..13 は積荷の jac_chk_v1 が一次ソース)。
-- F4【k13 T2/T3 正式報告 — 発送直前に完走】: GHA 内集計方式(23GB を local へ転送せず runner 内で shard 逐次 fold・per-shard sha256 receipt 21 本・source run id 記録)により **3 素数(2147483647/998244353/1000000007)とも rank=207・ranks_agree=true・dim S₁₃(ℚ)=3(副産物)** — **裁定 735⑥の凍結予言(rank ν₁₃=207・dim 3)と exact match**・canary T-c pass・nnz は 3 素数同一(325901005)。cert = torsweep_k13_t2t3_gha_final_20260812.json(集計 run 31550443891)。
-- F5【走行系(参考・値は持ち込まない)】: k12 T4/T5 = local r4 走行中(checkpoint 付き)+GHA 移植保険(K=11 アンカー既知値 exact_match で実測検証済・未発射)。
+- F3【R1 第一波(candidate・走行ゼロ・発送直前着地)】: 正典逐語(2405 Prop 3.4/Prop 4.5 (4.15)/(4.18)/Thm 4.3 (4.12)/Thm 4.6 (4.23)・(1.3)(1.5)(1.9)(1.11)(1.13)・Ihara ICM pp.105–106)。K⁽⁹⁾=K⁽¹⁸⁾ に Prop 4.5 を n=18(n₁=9・2n=36・4∤18)で適用し **Θ₉(ρ₉(g))=((t(g), χ(g) mod 9), χ(g) mod 4)** を導出。
+  - **R1-a/b/d/f 閉**(R1-c/e = OPEN・U2-BR INN の (H2) 直引用不可は遵守)。未知は **translation 座標 t ただ一つ**(unit・C₂ 座標は完全円分・罠 5 処理済 = χ の 2 進成分奇 ⟹ χ−1 は 2 で可除)。
+  - t∈Z¹(G_ℚ,μ₉)((4.18) 合成則)⟹ Kummer で **L_{9,Aff}=ℚ(ζ₉,⁹√a)**・a∈ℚ×/(ℚ×)⁹ — t が最初から G_ℚ 全体のコサイクルゆえ**有理 radical への降下は不発生 = B116-1 閉**。
+  - **罠 6 決着 = あなたの指摘どおり**: C₂ 座標 = χ mod 4 = ℚ(i) ⟹ **L₉=L_{9,Aff}(i)・S₉=S_{9,Aff}∪{2}** — 「L₉ が 3 外不分岐」は**偽**(2 で分岐)・3 外不分岐の正しい主語は L_{9,Aff} のみ(M118-4 への記帳供給)。
+  - U9-RIGID^mark 5 条件中 **(2)(3)(4) 定理化**(残 (1) 3 外不分岐・(5) 次数 9。u₉=3 は撤回のまま)。MARKING-COMPAT は K9 レーンで無害((ℤ/9)^×-scaling のみ・ker/L_{9,Aff}/d₉ 不変。一般 N は OPEN)。
+  - ★★【見積り訂正】χ 全射 ⟹ A₉↠(ℤ/9)^××C₂(位数 12)⟹ |A₉|=12d₉・|GT(K⁽⁹⁾)|=108=12·9 ⟹ **d₉=9 ⟺ ρ₉ 全射 ⟺ Conj 5.1@n=9 成立**。R2(K9-ORDER)は「小さな計測」でなく**公開問題相当**(【ENT-GAP-6】の「★★大」は過小)— 逆に **d₉<9 は dihedral 予想の反例**。
+  - 副産物 = OCR 罠 1 件: Thm 4.6 証明中の Z/4Z は (ℤ/4ℤ)^×(上付き × が抽出で脱落・位数 54·4=216≠108 で判定可・Remark 3.3 η³ 罠と同型)。
+- F4【JAC-CHK-2 正式報告】: mod-q 再構成により p=5..19 の 6 素数で CST 理論一致(isotypic (3,3,6) @p=19)。最終 2 本 p=17/19 の cert を提出(p=5..13 は積荷の jac_chk_v1 が一次ソース)。
+- F5【k13 T2/T3 正式報告 — 発送直前に完走】: GHA 内集計方式(23GB を local へ転送せず runner 内で shard 逐次 fold・per-shard sha256 receipt 21 本)により **3 素数(2147483647/998244353/1000000007)とも rank=207・ranks_agree=true・dim S₁₃(ℚ)=3(副産物)** — **裁定 735⑥の凍結 3 値(H_rank 210・rank ν₁₃ 207・dim 3)と exact match**・canary T-c pass・nnz は 3 素数同一(325901005)。cert = torsweep_k13_t2t3_gha_final_20260812.json。run 記帳: 集計(combine)の dispatch run = 31550443891(**cert 未記録 = GHA 側 id・司令塔が gh で success を直接突合**)・cert 内 source_run_id は shard 生成側の 2 本(31527005518 = 2147483647/31537900578 = 998244353 と 1000000007 の同居 — **3 素数 = 2 source run・素数間の run 独立性は主張しない**)。本 cert は combine 成果物(elapsed 0.0007 秒は結合処理のみ・fold 実時間は source run 側)。
+- F6【走行系(参考・値は持ち込まない)】: k12 T4/T5 = local r4 走行中(checkpoint 付き)+GHA 移植保険(K=11 アンカー既知値 exact_match で実測検証済・未発射)。
 
 ## 2. P#(請求)
 
 - P1【v1.4.7 検収】: 10 項+checker 方式(reopen+絶対パス/行番号出力)。不足は v1.4.8 で応じる。
 - P2【ISO-S4 判定 — 優先】: 機械側+紙側を同時監査されたい。特に (ii) **S3-ID がギャップを完全に閉じているか**、(i) の「⊇ で足りる」の読みが Def 3.13 に照らして正か。(iii) c∈N の中心性 5 段は cert が load_bearing:false と自己申告し紙側も「(A3) W1 近道の前件・独立傍証ではない」と依存摘出済 — **(iii) 単体の PASS/FAIL 判定の要否はあなたの指定に委ねる**。**工房は自己判定で HOLD を外していない** — v1.4.7 §10 は起草時点を正として「isolated 依然 UNKNOWN」のまま同梱(密輸なし)。PASS の場合のみ v1.4.8 で §0.4/§8/§10 の HOLD を外し ρ_{S4}・COMPOSITUM-ρ 前件 1 を発効させる。
-- P3【機械 cert 検収】: F3 の JAC-CHK-2 2 本+F4 の k13 T2/T3 final cert(凍結値照合・receipt 方式の妥当性含む)。
-- P4【R1 の先回り確認】: 数学者は R1(K9-BRIDGE 部品 4)着工済(受入 = gate v3 §2.2 R1-a〜f・罠 7 点携行)。ISO-S4 が PASS の場合に備え、R3(S4-ORDER/S4-RAM-SUPPORT)の前提として R1 と並行で仕込むべきものがあれば指定を請う。
+- P3【R1 第一波の監査+K9-UNRAM の路指定】: (a) F3 の導出(特に **Prop 4.5 の n=18 適用**と (4.18) からの t∈Z¹(G_ℚ,μ₉))と **d₉⟺Conj 5.1@n=9 同値**の監査。(b) 残る唯一の入力 **(K9-UNRAM) = L_{9,Aff} が 3 の外で不分岐**(罠 2/3/4/7 の集約点)への路の指定ないし供給: ①【K9-KUMMER-SUPP】a の素因子台を自前で押さえる(数学者検討開始)/②【K9-LIT-1】pro-ℓ 外作用の核固定体 = ℓ 外不分岐の古典逐語+inner ambiguity を抜けて μ_ℓ コサイクル不分岐へ落とす標準論法(**工房在庫 Ihara ICM の精査を並行開始済**・U2-BR INN は (H2) が N_ord=9 で破れ直引用不可)/③**あなたによる標準論法の直接供給**(U9-RIGID の前例)。
+- P4【機械 cert 検収】: F4 の JAC-CHK-2 2 本+F5 の k13 T2/T3 final cert(凍結値照合・receipt 方式の妥当性含む)。
 
 ## 3. W#(正直申告)
 
 - W1: ISO-S4 の isolated は candidate/cross-checked・**Sol 未監査**。v1.4.7 本文は起草時点の UNKNOWN を維持(本便は判定材料の提出であって発効宣言ではない)。**§5 宿題 14 の「紙側 3 点未了」表記も起草時点のまま** — 本便 F2(b) がまさにその 3 点の提出である。
-- W2: 走行中の値(k12 r4)は本便の主張に不使用。R1 は着工済・未完。k13 T2/T3 は**完了 cert としての提出**(F4)であり走行中値ではない。
+- W2: 走行中の値(k12 r4)は本便の主張に不使用。**R1 は受入 6 項中 4 項閉(第一波・走行ゼロ)・R1-c/e と R2 以降は OPEN**。k13 T2/T3 は完了 cert としての提出(F5)であり走行中値ではない。
 - W3: MS37 表は引用格のまま(工房 cross-check なし)・非零性ゲート外(possibly zero scalar は §12.0 に収載済)。
-- W4: 格付けに verified 不使用。
+- W4: 格付けに verified 不使用。F3 の d₉⟺Conj 5.1 同値も candidate。
 - W5: checker 実走 FAIL 1 件(§9.4 の stale 引用)は流通前の内部捕獲・文書修正で解消 — 台帳非該当(便 117 W5 の判定規則「公表・内部流通した版のみ採番・流通前 private draft は不採番」に照らして流通前)。
 - W6: k13 cert の commit は司令塔 commit 8b684f6 に相乗り(共有作業ツリーで staged 分が混入・混入は当該 cert 1 本のみを確認済み・内容は司令塔が run/値とも突合)。
-- W7: 本便は発送前に falsifier 前哨監査を実施(blocker 0・should 5/nit 3 は全採用済み — 本 v3 が反映版)。
+- W7: 本便は発送前に falsifier 前哨監査を実施 — 初回(k13/R1 追加前の版)= blocker 0・should 5/nit 3 全採用、追伸で k13 F5/W6 を別途照合(9 項中 8 一致・不一致 1 = run id の出所は F5 で注記済)、R1 追加(F3/P3)は最終差分照合を依頼中。
+- W8: F3 は本便組立の直前に着地した第一波であり、工房内の相互検証(falsifier の数値照合を除く)は未了 — だからこそ P3(a) の監査を請う。
 
-P2 → P1 の順で優先されたい。
+P2 → P3 → P1 の順で優先されたい。
