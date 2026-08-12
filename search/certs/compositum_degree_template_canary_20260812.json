@@ -1,0 +1,119 @@
+{
+ "schema": "compositum-degree/v1-template-canary-batch",
+ "canaries": [
+  {
+   "schema": "compositum-degree/v1-template",
+   "generated_by": {
+    "tool": "python/sympy",
+    "script": "search/compositum_degree_template_v1.py",
+    "task": "準備2(司令塔指示・待機解除メッセージ)ISO-S4 COMPOSITUM-rho 発火用の雛形"
+   },
+   "canary": true,
+   "canary_name": "Q(zeta_12) x Q(cbrt(2))",
+   "real_data_used": false,
+   "result": {
+    "input": {
+     "field1_min_poly": "x**4 - x**2 + 1",
+     "field1_degree": 4,
+     "field2_min_poly": "w**3 - 2",
+     "field2_degree": 3
+    },
+    "method": "resultant_primitive_element",
+    "primitive_element_c": 1,
+    "resultant_poly_degree": 12,
+    "resultant_factorization": [
+     [
+      "z**12 - 3*z**10 - 8*z**9 + 6*z**8 + 17*z**6 + 84*z**5 + 42*z**4 - 76*z**3 + 129*z**2 - 60*z + 25",
+      1,
+      12
+     ]
+    ],
+    "matched_factor_min_poly": "z**12 - 3*z**10 - 8*z**9 + 6*z**8 + 17*z**6 + 84*z**5 + 42*z**4 - 76*z**3 + 129*z**2 - 60*z + 25",
+    "compositum_degree": 12,
+    "product_of_degrees": 12,
+    "collapse_factor": "1",
+    "linearly_disjoint": true
+   },
+   "expected_degree_hand_check": 12,
+   "agrees_with_hand_check": true
+  },
+  {
+   "schema": "compositum-degree/v1-template",
+   "generated_by": {
+    "tool": "python/sympy",
+    "script": "search/compositum_degree_template_v1.py",
+    "task": "準備2(司令塔指示・待機解除メッセージ)ISO-S4 COMPOSITUM-rho 発火用の雛形"
+   },
+   "canary": true,
+   "canary_name": "Q(zeta_12,cbrt2) x Q(i) [Q(i) subset Q(zeta_12) already]",
+   "real_data_used": false,
+   "result": {
+    "input": {
+     "field1_min_poly": "x**12 - 3*x**10 - 8*x**9 + 6*x**8 + 17*x**6 + 84*x**5 + 42*x**4 - 76*x**3 + 129*x**2 - 60*x + 25",
+     "field1_degree": 12,
+     "field2_min_poly": "v**2 + 1",
+     "field2_degree": 2
+    },
+    "method": "resultant_primitive_element",
+    "primitive_element_c": 1,
+    "resultant_poly_degree": 24,
+    "resultant_factorization": [
+     [
+      "z**12 - 3*z**10 - 8*z**9 + 6*z**8 + 17*z**6 + 84*z**5 + 42*z**4 - 76*z**3 + 129*z**2 - 60*z + 25",
+      1,
+      12
+     ],
+     [
+      "z**12 + 9*z**10 - 8*z**9 + 54*z**8 + 213*z**6 + 756*z**5 + 378*z**4 + 1156*z**3 + 1917*z**2 - 828*z + 529",
+      1,
+      12
+     ]
+    ],
+    "matched_factor_min_poly": "z**12 - 3*z**10 - 8*z**9 + 6*z**8 + 17*z**6 + 84*z**5 + 42*z**4 - 76*z**3 + 129*z**2 - 60*z + 25",
+    "compositum_degree": 12,
+    "product_of_degrees": 24,
+    "collapse_factor": "2",
+    "linearly_disjoint": false
+   },
+   "expected_degree_hand_check": 12,
+   "agrees_with_hand_check": true
+  },
+  {
+   "schema": "compositum-degree/v1-template",
+   "generated_by": {
+    "tool": "python/sympy",
+    "script": "search/compositum_degree_template_v1.py",
+    "task": "準備2(司令塔指示・待機解除メッセージ)ISO-S4 COMPOSITUM-rho 発火用の雛形"
+   },
+   "canary": true,
+   "canary_name": "Q(sqrt2) x Q(sqrt3)",
+   "real_data_used": false,
+   "result": {
+    "input": {
+     "field1_min_poly": "p**2 - 2",
+     "field1_degree": 2,
+     "field2_min_poly": "q**2 - 3",
+     "field2_degree": 2
+    },
+    "method": "resultant_primitive_element",
+    "primitive_element_c": 1,
+    "resultant_poly_degree": 4,
+    "resultant_factorization": [
+     [
+      "z**4 - 10*z**2 + 1",
+      1,
+      4
+     ]
+    ],
+    "matched_factor_min_poly": "z**4 - 10*z**2 + 1",
+    "compositum_degree": 4,
+    "product_of_degrees": 4,
+    "collapse_factor": "1",
+    "linearly_disjoint": true
+   },
+   "expected_degree_hand_check": 4,
+   "agrees_with_hand_check": true
+  }
+ ],
+ "all_pass": true
+}
