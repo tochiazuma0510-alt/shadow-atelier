@@ -18,7 +18,8 @@
 | [P1-D2] D2-1 | **YES — B₁⊕B₂=Q₀ 厳密一致(16 検査 PASS)** | p1_d2_scan_v1(6eaddf52) | 1073 |
 | [P1-D2] D2-3/4 | 4 点全て V4 PASS — ただし**V1–V7 は判別力 0 ビット判明**(恒等式・m1081-1) | p1_d2_scan_v2(a99290be)+p1d2_r1_canonicalization_v1.md | 1081/1083 |
 | **R-1 厳密モデル** | **W₉: x²w³−27ζ₃y(w+1)=0 / E: y²+3ζ₃xy+2y=x³・定義体⊆ℚ(ζ₃)・c=ζ₆/2**(candidate・条件 D2-GAP-4 のみ) | p1d2_r1_canonicalization_v1.md(b036267d) | 1083 |
-| **[D2-GAP-4]** | **走行中(CP)** — 次数 18 monodromy ゲート(P₁/P₂・期待 324) | — | 1083 |
+| falsifier 監査(正準化) | 数学 14 検算 PASS(c/ρ 30 桁一致 = CV-9 同一対象・0 ビット判定正)・**B-1「類で一意」偽(passport 実現 13 群)**・B-2 CAN-1 恒真化 ⟹ 「強制」overclaim・**救済: \|Mon(λ₉)\|=324 認証済在庫 2 cert・T18n140 一意**・M-2 GAP-5 既閉・M-5 ζ₃ は W→E 層まで | fals_p1d2_r1_audit_v1.md(16dd7ca8) | 1086 |
+| **[D2-GAP-4 改]** | **走行中(CP)** — 数学者が改案裁定中(W(P₁)/W(P₂) 数値 monodromy vs 認証済 T18n140・4 分岐事前記載) | — | 1083/1086 |
 
 ## §2 ③ 線 = (F)/(Ad)/691 戦役の測定
 
