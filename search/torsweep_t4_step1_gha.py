@@ -50,9 +50,32 @@ K12_M_CERT = os.path.join(REPO_ROOT, "search", "certs", "torsweep_k12_v1_2026080
 K12_B_CERT = os.path.join(REPO_ROOT, "search", "certs", "torsweep_k12_v3_hnf_kernel_20260807.json")
 K12_T23_CERT_GLOB = "torsweep_k12_v3_2_*.json"
 
+# K=13 (裁定992): the EXACT H_basis (torsweep_k13_hnf_construct_v1_20260812.json, 356MB, entries
+# up to 9720 decimal digits) is NOT committed to git (裁定842(2), receipt-only convention -- see
+# search/certs/torsweep_k13_hnf_construct_v1_20260812_RECEIPT.json) and is NOT available as a GHA
+# artifact from any prior run either (it was produced by a LOCAL run of
+# search/torsweep_k13_hnf_construct_v1.py, never uploaded). For step1's OWN purpose here (the
+# rank_nu_j_on_subspace_ambient pivot-column computation, which only ever uses B reduced mod
+# PIVOT_CERT_PRIME=2147483647 -- see main()'s "% PIVOT_CERT_PRIME" line below) the PRE-REDUCED,
+# git-committed, small (~1MB) file search/certs/torsweep_k13_basis_modq/torsweep_k13_B_modq_
+# 2147483647_20260812.json suffices exactly (mod is idempotent, so re-applying "% PIVOT_CERT_PRIME"
+# to already-reduced values is a harmless no-op). M is loaded-but-unused in this script for k=11/12
+# too (see the two existing branches above), so M=None for k=13 is not a functional gap.
+# ⚠ IMPORTANT: this k=13 branch's B is ONLY valid for step1's mod-p use. torsweep_t4_finalize_gha.py
+# ALSO calls load_inputs(K) but uses B in an EXACT (non-modular) integer computation
+# (N_source = B * cols_a) -- for K=13 that exact computation MUST use the TRUE local-only exact
+# H_basis, not this mod-q-reduced stand-in, or the result would be silently wrong. Per 裁定992's
+# own report-back, finalize for K=13 is therefore run LOCALLY (never on a GHA runner) directly
+# against the full local exact-B cert, NOT through this load_inputs() path -- see
+# search/torsweep_t4_finalize_k13_local_v1.py.
+K13_B_MODQ_CERT = os.path.join(
+    REPO_ROOT, "search", "certs", "torsweep_k13_basis_modq",
+    "torsweep_k13_B_modq_2147483647_20260812.json")
+
 EXPECTED = {
     11: {"H_rank": 62, "r_prime": 60, "dim_h": 186},
     12: {"H_rank": 112, "r_prime": 110, "dim_h": 335},
+    13: {"H_rank": 210, "r_prime": 207, "dim_h": 630},
 }
 
 
@@ -95,14 +118,25 @@ def load_inputs(k):
         r_prime = t23cert["stages"]["T2_T3"]["r_prime"]
         assert t23cert["canaries"]["T-c"]["pass"] is True
         return M, B, H_rank, r_prime, n_cols
+    elif k == 13:
+        with open(K13_B_MODQ_CERT, "r", encoding="utf-8") as f:
+            modq = json.load(f)
+        assert modq["prime"] == PIVOT_CERT_PRIME, \
+            (modq["prime"], PIVOT_CERT_PRIME, "K13_B_MODQ_CERT is only valid for step1's own pivot prime")
+        B = modq["B_modq"]  # already reduced mod PIVOT_CERT_PRIME; idempotent under a second "% p"
+        H_rank = modq["H_rank"]
+        n_cols = modq["dim_h"]
+        r_prime = EXPECTED[13]["r_prime"]  # from search/certs/torsweep_k13_t2t3_gha_final_20260812.json
+        M = None  # unused in this script for any k (see k=11/12 branches); no functional gap
+        return M, B, H_rank, r_prime, n_cols
     else:
-        raise ValueError(f"unsupported k={k} (only 11 [regression anchor] "
-                          f"and 12 [target] are wired up)")
+        raise ValueError(f"unsupported k={k} (only 11 [regression anchor], "
+                          f"12, and 13 [targets] are wired up)")
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--k", type=int, required=True, choices=[11, 12])
+    ap.add_argument("--k", type=int, required=True, choices=[11, 12, 13])
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
     K = args.k
