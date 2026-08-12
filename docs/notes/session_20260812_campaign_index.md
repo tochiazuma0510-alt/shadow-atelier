@@ -94,3 +94,15 @@
 | 発火 | census 線(札 6→3 差替→15 深窓→7・実装係②)+ **[P1] 平面モデル本走**(実装係・R-2 停止線・a_class 採録・ℤ 係数配慮)+ 数学者次弾((F) 段 1 spec・GAP-5 要請文) | 983 | LEDGER 983 |
 
 **[P1] の三重負荷**: 同じ F(t,w) が ①R-3(u₉ 抽出 → d₉ receipt)②r 計算の [a] 類 ③U3-1..3(不分岐 S 決定)を一斉解錠する — 反例探索の律速工程。
+
+## §8 追補 3(裁定 984〜986 — ブロッカー 2 件の正当停止と裁定)
+
+| 事項 | 結論 | 裁定 | 正本 |
+|---|---|---|---|
+| [P1] 部分完了 | RR 検算 dim L(18P∞)=15・torsion 18(P₀−P∞)~0 は**既走データから完了**。R-1 は **deg_t 未定でブロック** — W₉(genus 4)の特殊構造(超楕円/trigonal/一般)判定が前件(S4 の genus 2 ⟹ 超楕円は W-48 で流用不可)⟹ **数学者割込最優先** | 984 | r13_r1p_v1 cert(PARTIAL) |
+| (F) 段 1 spec | **LHS 退化**(|S₃| が F₆₉₁ 可逆)で SL(2,691) 上へ+**Sylow 縮約**で dim H²≤1 理論上界・det^i 2 本で EXHAUST・実装秒〜分 → falsifier 前哨中 | 985 | F_stage1_and_unram5_lit_v1.md 第 I 部 |
+| UNRAM-GAP-5 要請 | 要請文完成(B120-2 整合確認済・非 Galois が最重要確認点)。**新 GAP-6**(moduli→核体の橋・大)**GAP-7**(Galois 閉包位数・中)⟹ 路 β は文献 1 本で閉じず **路 α = R-1 判別式が主線** | 985 | 同 第 II 部 |
+| Beckmann 書誌 | J. Algebra 125 (1989) 236–255 確定・statement は Wewers math/0205026 逐語級(非 Galois)vs Obus(G-cover)で**引用食い違い** — 原本 pin 未達(金庫 scout/ 収蔵) | 986 | 金庫 beckmann_fom_scout_20260812.md |
+| **census θ 仕様衝突** | 検分 I.1.3 の θ 処方は **wcp5d_resolution_v1.md(7/29・裁定 164-166・機械照合 1600/1600)に supersede** — 実装係②が着手前捕捉。**正 = (F2) 商規律**(θ̃=Ad(Δ)・τ̃=Ad(δ) 共役・(3.11) 側 = c^m・EnumerateWordLevelHexagon 失効)。数学者へ W-43 記帳+札 5 整合宿題 | 986 | wcp5d_resolution_v1.md |
+| 司令塔自己捕獲 | census 発注文の**窓集合混在**([1728,31095] は C 型 δ=1 = 札 7 別枠・δ>1 の A 型 15 窓に非含有)— 訂正済 | 986 | LEDGER 986 |
+| 札 6 完了 | meas_chi_83win_v1(66e313e)陽性対照 2 部・**15 窓 max_ord_dim1∈{2,6}・6 の非約数なし**(記述統計) | 986 | meas_chi_83win_v1 cert |
