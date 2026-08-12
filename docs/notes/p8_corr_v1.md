@@ -335,3 +335,136 @@ $$\boxed{\ \textbf{⟹ カード凍結の前件では}\textbf{ない}\ \textbf{(
 - **前哨監査**(B-1 blocker + S-1〜S-4 + N-1)= **falsifier**。**(7.1) の所在確定** = 裁定 943(実装係の grep)。**委嘱** = 司令塔(裁定 957)。
 - **本追記の新規部分**: ① **MISS 側の再開順序 3 段の起草**(measurement → 比較 → 紙上鎖・各段に理由)② **prerequisites 欄の設計**(式番号 NAME-COLLIDE 警告つき)③ **(u5) の位置づけ**(K9-FULLPRE の破れ = 座標系の再検査)④ **$n=9$ 特化の残余を「凍結の前件ではなく R-4 の前件」と分離**。
 - **申告**: ⚠ **$\operatorname{ord}$ は計算していない**。走行ゼロ。**Sol 未監査**。
+
+
+---
+
+# 【v1.2 追記】prereg カード **v3** — Sol 便 120 F9 の 4 修正 + ★ (7.1) の $n=9$ 特殊化
+
+**日付**: 2026-08-12 / **委嘱**: 裁定 973(Sol 返書 120 F9)/ **方式**: additive addendum(本文・v1.1 追記とも不改変)
+
+> ## ★★ 本追記の到達点
+> $$\boxed{\ \textbf{4 修正すべて反映。★ さらに v1.1 §C の宿題(}b_9\ \textbf{の走る集合)が}\textbf{解けた}\ \Longrightarrow\ \textbf{凍結可能}\ }$$
+
+---
+
+## A. ★★ (7.1) の $n=9$ 逐語特殊化(**修正 4**・v1.1 §C の宿題を閉じる)
+
+### A.1 原文($K^{(5)}$ 実例・`docs/week4-K5_Rule1_v1_5.md` §7.1 L719・**逐語**)
+
+> - $\ell_i$ := **正の向きの実 local monodromy**。すなわち、$P_0$ における惰性群($\cong\mu_{10}$、全分岐)の生成元で、(1.6) の埋め込みの下で $\lambda$ の周りを**反時計回り**に一周する $\gamma_0$ に対応するもの。
+> - $c_i$ := §4.3 の**一意**な intertwiner $\operatorname{Fib}_{\vec{01}}(W_0^{(i)})\xrightarrow{\sim}\Lambda_i$。
+> $$c_i\,\ell_i\,c_i^{-1}=\tau_i\bigl(\zeta_{10}^{\,b_i}\bigr),\qquad b_i\in(\mathbb Z/10)^\times=\{1,3,7,9\}.\tag{7.1}$$
+> $\tau_i$ は単射なので、右辺が $\tau_i(\langle\zeta_{10}\rangle)$ に属せば $b_i$ は**一意**。
+> $$\text{属さない}\ \Longrightarrow\ \text{actual marking が閉じていない}\ \Longrightarrow\ \textbf{BRIDGE-UNKNOWN}\ (\S9\ \text{U-f}).$$
+
+### A.2 ★ $n=9$ への特殊化(**逐語写像**)
+
+| 項目 | $K^{(5)}$(原文) | ★ **$n=9$** |
+|---|---|---|
+| **modulus $M$** | $10=2\cdot5$ | ★ $\mathbf{18}=2\cdot9$ |
+| **惰性群**($P_0$・全分岐) | $\mu_{10}$ | ★ $\mu_{18}$(t63 **A6**「$M_n=\mathrm{ord}(X_n)=2n$・$\lambda_n^{-1}(0)=\{P_0^{(n)}\}$ 全分岐」と整合) |
+| **根の名** | $\zeta_{10}$ | ★ $\zeta_{18}$ |
+| ★ **$b$ の走る集合** | $(\mathbf Z/10)^\times=\{1,3,7,9\}$ | ★★ $\boxed{b_9\in(\mathbf Z/18)^\times=\{1,5,7,11,13,17\}}$($\varphi(18)=6$・**機械確認**) |
+| **基礎体** | $F_5=\mathbf Q(\zeta_{20})$ | ★ $F_9=\mathbf Q(\zeta_{2M})=\mathbf Q(\zeta_{36})$ |
+| **接基点** | $\vec{01}$ | ★ **同一**($\vec{01}$・LOCAL-PIN と一致) |
+
+$$\boxed{\ \textbf{(7.1)@}n=9:\qquad c_9\,\ell_9\,c_9^{-1}\ =\ \tau_9\bigl(\zeta_{18}^{\,b_9}\bigr),\qquad b_9\in(\mathbf Z/18)^\times\ }$$
+
+> ### ★★ v1.1 §C の宿題が閉じた
+> v1.1 §C は「$b_9$ が走る集合($\mathbf Z/18$ 全体か $(\mathbf Z/18)^\times$ か)は**未判定**」としていた。★ **原文が $b_i\in(\mathbf Z/10)^\times$ と明示している**ので、特殊化は $(\mathbf Z/18)^\times$ で**確定**する。
+> ⚠ **残る未判定**: $b_9$ と $a_9$ の**関係**(P8-value が $\operatorname{ord}(a_9)$ をどう拘束するか)。⟹ **R-4 の前件のまま**(カード凍結の前件ではない)。
+
+### A.3 ★ 固定する 4 点(司令塔の指示「基礎体/逆元/modulus/marking を固定」)
+
+| # | 項目 | ★ 固定値 |
+|---|---|---|
+| **基礎体** | $F_9=\mathbf Q(\zeta_{36})$($=\mathbf Q(\zeta_{2M})$、$M=18$) |
+| **逆元規約** | $a_9:=[u_9^{-1}]_{18}$ — ★ **逆元は $u$ に付く**。$b_9$ には付かない(混同禁止) |
+| **modulus** | $M=18$($\zeta_{18}$ の指数・$b_9\bmod 18$)。⚠ **$\mathbf Q(\zeta_{36})$ の 36 と混同しない**($2M$ は基礎体側) |
+| **marking** | 窓 $H_{2,1,0}$($\alpha=1$)・接基点 $\vec{01}$・生成元は **BFC B5/A7 と同一**(= **T63-MATCH@$\alpha=1$** の主張内容)。$\zeta_{18}$ の命名は **(E-iv)@9**「$\tau(\zeta_{18}^{\rm Rule})=\tau(X_9)$」(`i8_bridge_n9_v3.md` §5) |
+
+### A.4 ★ BRIDGE-UNKNOWN 条項の継承(**新 UNKNOWN 枝 (u6)**)
+
+原文の末尾条項をそのまま持ち込む:
+$$\text{右辺が }\tau_9\bigl(\langle\zeta_{18}\rangle\bigr)\text{ に属さない}\ \Longrightarrow\ \textbf{actual marking が閉じていない}\ \Longrightarrow\ \textbf{BRIDGE-UNKNOWN}$$
+⟹ ★ **カード [2] の UNKNOWN 枝に (u6) として追加**(下記 B)。
+
+---
+
+## B. prereg カード **v3**(★ これが正本・v2 を supersede)
+
+**v2 からの差分のみ記す**(他の欄は v2 のまま)。
+
+```
+=== PREREG CARD: P8-VALUE / a_9 RECEIPT (v3) ===
+card_id      : prereg-a9-receipt/v3
+supersedes   : prereg-a9-receipt/v2 (p8_corr_v1.md v1.1 追記 §A)
+★ 修正 3: digest / 認可 ID
+  prereg_sha           : d7082c1964993d8e            # 凍結対象 digest
+  authorisation        : Sol 返書 120(sol_reply_120_k9repair_r3.md)F9
+                         + 司令塔裁定 973
+  addendum_id          : p8_corr_v1.md / v1.2 追記(本節)
+
+[0] 前件(prerequisites)
+  (7.1) の所在   : docs/week4-K5_Rule1_v1_5.md §7.1 L719(確定・裁定 943)
+  ⚠ NAME-COLLIDE : 「BFC §7 の (7.1)」は同ラベル別式 ⟹ ファイル名+行番号で指す
+  ★ 修正 4: n=9 特殊化(本追記 §A・確定)
+     (7.1)@n=9 : c_9 l_9 c_9^{-1} = tau_9(zeta_18^{b_9})
+     b_9 ∈ (Z/18)^x = {1,5,7,11,13,17}        ★ v1.1 §C の宿題は閉
+     基礎体 F_9 = Q(zeta_36) / modulus M = 18 / 逆元は u 側 / marking = H_{2,1,0}
+  ⚠ 残余(R-4 の前件・カード凍結の前件ではない):
+     b_9 と a_9 の関係(P8-value が ord(a_9) をどう拘束するか)
+
+[2] 判定基準(★ 修正 2 = u5 の書き換え)
+  的中 (HIT)   : ord(a_9) = 9
+  不的中 (MISS): ord(a_9) ∈ {1,3}  → v2 の再開順序 3 段(measurement → 比較 → 紙上鎖)
+  UNKNOWN(★ MISS に優先):
+    (u1)-(u4)  : v2 のまま
+    ★ (u5) 修正: ord(a_9) ∉ {1,3,9}
+         ⟹ ✘「K9-FULLPRE の破れ」とは *しない*(比較前の異常だから)
+         ⟹ ★「測定・モデル・C4/tower・M-a/M-b 比較 を再開して UNKNOWN」
+            (Sol 便 120 F9・M120-8 の受諾)
+    ★ (u6) 新設: (7.1)@n=9 の右辺が tau_9(<zeta_18>) に属さない
+         ⟹ actual marking が閉じていない ⟹ BRIDGE-UNKNOWN(Rule1 §9 U-f)
+
+[3] 同時に判定される命題(★ 修正 1 = 名称)
+  P-K9U-1        : 残前件 = 修理済み K9-COMPOSE + K9-UNRAM の二系統
+  T63-P1^fix     : ord(a_9) = 9(fixed window H_{2,1,0}・GEO9 層)
+  T63-CONNECT^fix: GEO9 / M-a / M-b / R^cyc の四行(便 120 F2(c))
+  ★ T63-UNIF-INV : ← 旧 `TOWER-α-INV`(m120-2 で撤回済の名称)から改称
+       内容 = 固定窓 H_{2,1,0} 内での *uniformizer 不変性* の検査
+       測定値が s_9 の取替で変われば falsify
+       依拠 = (T) の不変性(t63 §2.2・gap2_audit §3.2 で両側機械検算済)
+       ⚠ 全窓不変性(旧 TOWER-α-INV が主張しようとしたこと)は *主張しない*
+
+[5] 出力(追加)
+  b_9_value / b_9_source : (7.1)@n=9 による値と出所   ★ (F3) 順序要件の履行証跡
+  bridge_unknown         : true/false                 ★ (u6) の検出欄
+  s9_variants            : 2 通りの uniformizer の結果(★ T63-UNIF-INV の検査)
+=== END ===
+```
+
+---
+
+## C. 4 修正の反映一覧
+
+| # | Sol 便 120 F9 の指摘 | 反映 | 受諾 |
+|---|---|---|---|
+| **1** | Card[3] の `TOWER-α-INV` → **`T63-UNIF-INV`** | §B [3] | ★ **受諾**。⚠ **撤回済みの名称を再使用したのは私の誤り**(**m120-2**)— 新名は「固定窓内 uniformizer 不変性の検査」という**実態に合う** |
+| **2** | u5 = 「K9-FULLPRE の破れ」→ **「測定・モデル・C4/tower・M-a/M-b 比較を再開して UNKNOWN」** | §B [2] | ★ **受諾**(**M120-8**)。⚠ **比較前の異常を比較後の命題(K9-FULLPRE)の破れと読んだ**のが誤り |
+| **3** | digest / 認可 ID の実値化 | §B ヘッダ | 受諾(`d7082c1964993d8e` + 返書 120 F9 + 裁定 973) |
+| **4** | **(7.1) の $n=9$ 逐語特殊化** | ★ **§A**(+ (u6) 新設) | ★ **受諾**。★ **副産物: v1.1 §C の宿題($b_9$ の集合)が閉じた** |
+
+---
+
+## D. ★ 凍結可能の宣言
+
+$$\boxed{\ \textbf{4 修正すべて反映済。}\ \textbf{prereg カード v3 は}\textbf{凍結可能}\ \textbf{(凍結執行は司令塔)}\ }$$
+
+⚠ **凍結後に解錠されるもの**: **R-3(主係数 $u_9$ の抽出)以降**((F3) 順序要件)。⚠ **R-4** はさらに「$b_9$ と $a_9$ の関係」(§A.2 の残余)が要る。
+⚠ **格**: カードは**手続き**であって数学的主張ではない。receipt の格は **cross-checked 止まり**(独立照合器が一致した場合)・**verified は Lean に予約**。
+
+**帰属**: 4 修正の指摘 = **Sol 便 120 F9**。(7.1) の所在確定 = 裁定 943。委嘱 = 司令塔(裁定 973)。
+**本追記の新規部分**: ① **(7.1)@$n=9$ の逐語特殊化**と ★ **$b_9\in(\mathbf Z/18)^\times$ の確定**(v1.1 §C の宿題を閉じた)② **固定 4 点**(基礎体/逆元/modulus/marking)と ⚠ **$M=18$ と $2M=36$ の混同禁止の明示** ③ ★ **(u6) BRIDGE-UNKNOWN 枝の新設**(原文末尾条項の継承)④ **T63-UNIF-INV** の内容定義(全窓不変性を主張しない)。
+**申告**: ⚠ **$\operatorname{ord}$ 未計算**・走行ゼロ・**Sol 未監査**(本追記自体は)・**verified ではない**。
