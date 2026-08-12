@@ -1,0 +1,230 @@
+name: torsweep-k13-aggregate
+
+# k=13 T2/T3 shard aggregation, GHA-DIRECT (裁定808/897). Runs entirely
+# on GHA runners -- the pile of shard artifacts (~7.7GB/prime, ~23GB for
+# all 3 primes; per-shard ~1-1.2GB, measured from runs 31527005518/
+# 31537900578) is NEVER bulk-downloaded to the local machine. That was
+# tried (search/torsweep_k13_shard_aggregate.py's original local-download
+# design) and failed repeatedly with `wsarecv: An existing connection was
+# forcibly closed by the remote host` on large single-artifact transfers
+# -- 裁定897(4)'s diagnosis: same machine/connection, so the coordinator
+# retrieving locally would hit the identical failure; the fix is to never
+# bring the pile down at all, not to find a more patient puller.
+#
+# Design (裁定897 requirements):
+#   1. aggregate_prime (matrix over the 3 primes): downloads that prime's
+#      shard artifacts ONE AT A TIME (gh run download --name, inside
+#      search/torsweep_k13_gha_aggregate_prime.py), folds each into a
+#      running dense array, computes its sha256, then DELETES it before
+#      the next -- runner disk stays bounded to ~1-2 shards
+#      (~1-2.4GB) at any moment, comfortably inside GHA's ~14GB free
+#      disk. Output: a SMALL (KB-scale) per-prime aggregate JSON (rank +
+#      shard receipts), not the reconstructed matrix.
+#   2. combine (needs all 3 aggregate_prime jobs): assembles the final
+#      T2/T3-shaped cert from the 3 small aggregates (search/torsweep_
+#      k13_gha_combine.py) -- ranks_agree / r_prime / dim_S_Q vs the
+#      frozen 裁定735(6) values (207/3), branch-table STOP both directions.
+#   3. Only the small aggregate/combine JSONs are uploaded as artifacts
+#      (裁定897(2): "artifact 化するのは小型成果物のみ" -- MB-scale, well
+#      under any reasonable cap) -- local download of THESE is fine (small
+#      transfers have a track record of working on this machine/connection,
+#      unlike the multi-hundred-MB+ shard artifacts).
+#   4. Shard sha256 receipts (computed IN the runner, before deletion) are
+#      recorded in the per-prime aggregate JSON and printed to the job log
+#      -- run id, shard artifact name, tree range, sha256, size -- so the
+#      big pile's provenance survives even though the pile itself is never
+#      downloaded locally (裁定897(3)).
+#
+# Cross-run artifact access: this workflow's own run is DIFFERENT from
+# the runs that produced the shard artifacts (31527005518 for prime
+# 2147483647, 31537900578 for primes 998244353/1000000007) -- `gh run
+# download <run-id> --name <name>` works across runs within the same
+# repo as long as GH_TOKEN is set (github.token has actions:read on the
+# repo's own artifacts by default, no extra secret needed).
+#
+# DISPATCH GATE: workflow_dispatch ONLY, no push trigger (same standing
+# discipline as torsweep-k13.yml / torsweep-k12-t4t5.yml / edim.yml).
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id_2147483647:
+        description: 'Source workflow run id holding prime=2147483647 shard artifacts'
+        required: true
+        type: string
+        default: '31527005518'
+      run_id_998244353:
+        description: 'Source workflow run id holding prime=998244353 shard artifacts'
+        required: true
+        type: string
+        default: '31537900578'
+      run_id_1000000007:
+        description: 'Source workflow run id holding prime=1000000007 shard artifacts'
+        required: true
+        type: string
+        default: '31537900578'
+      timeout_minutes_aggregate:
+        description: 'Per-prime aggregate job timeout (minutes) -- sequential DL+fold+delete of ~7 shards, ~1-1.2GB each'
+        required: true
+        type: number
+        default: 120
+      timeout_minutes_combine:
+        description: 'Combine job timeout (minutes) -- cheap, small inputs'
+        required: true
+        type: number
+        default: 20
+
+permissions:
+  contents: read
+  actions: read  # needed for gh run download / gh api .../artifacts across runs
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - name: Build (prime, run_id) matrix
+        id: plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUN_2147483647" "$RUN_998244353" "$RUN_1000000007" <<'PYEOF' >> "$GITHUB_OUTPUT"
+          import json, sys
+          run_a, run_b, run_c = sys.argv[1], sys.argv[2], sys.argv[3]
+          entries = [
+              {"prime": "2147483647", "run_id": run_a},
+              {"prime": "998244353", "run_id": run_b},
+              {"prime": "1000000007", "run_id": run_c},
+          ]
+          print("matrix=" + json.dumps({"include": entries}))
+          PYEOF
+        env:
+          RUN_2147483647: ${{ inputs.run_id_2147483647 }}
+          RUN_998244353: ${{ inputs.run_id_998244353 }}
+          RUN_1000000007: ${{ inputs.run_id_1000000007 }}
+
+  aggregate_prime:
+    needs: plan
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes_aggregate) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install numpy (pinned to the version validated locally)
+        shell: bash
+        run: pip install "numpy==2.5.1"
+
+      - name: Report runner disk/memory (informational)
+        shell: bash
+        run: |
+          df -h . || true
+          free -h || true
+
+      - name: Run per-prime aggregate (sequential DL+fold+delete)
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out ci/tmp_shard_dl
+          python search/torsweep_k13_gha_aggregate_prime.py \
+            --run-id ${{ matrix.run_id }} \
+            --prime ${{ matrix.prime }} \
+            --out ci/out/aggregate_prime_${{ matrix.prime }}.json \
+            --tmp-dir ci/tmp_shard_dl \
+            2>&1 | tee ci/out/aggregate_prime_${{ matrix.prime }}.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check result (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.run.outputs.py_exit }}" != "0" ]; then
+            echo "::error::py_exit=${{ steps.run.outputs.py_exit }} -- see ci/out/aggregate_prime_${{ matrix.prime }}.log"
+            exit 1
+          fi
+          if ! grep -q "TORSWEEP_K13_GHA_AGGREGATE_PRIME_DONE" ci/out/aggregate_prime_${{ matrix.prime }}.log; then
+            echo "::error::TORSWEEP_K13_GHA_AGGREGATE_PRIME_DONE marker not found"
+            exit 1
+          fi
+
+      - name: Report final disk usage (informational -- confirms the pile never accumulated)
+        if: always()
+        shell: bash
+        run: df -h . || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-aggregate-prime-${{ matrix.prime }}-log
+          path: ci/out/aggregate_prime_${{ matrix.prime }}.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: torsweep-k13-aggregate-prime-${{ matrix.prime }}-result
+          path: ci/out/aggregate_prime_${{ matrix.prime }}.json
+          if-no-files-found: error
+
+  combine:
+    needs: aggregate_prime
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJson(inputs.timeout_minutes_combine) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: torsweep-k13-aggregate-prime-*-result
+          path: ci/in/
+          merge-multiple: true
+
+      - name: Run combine
+        id: run
+        shell: bash
+        run: |
+          set +e
+          mkdir -p ci/out
+          python search/torsweep_k13_gha_combine.py \
+            --aggregate ci/in/aggregate_prime_2147483647.json \
+            --aggregate ci/in/aggregate_prime_998244353.json \
+            --aggregate ci/in/aggregate_prime_1000000007.json \
+            --out ci/out/torsweep_k13_t2t3_gha_final.json \
+            2>&1 | tee ci/out/combine.log
+          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check result (informational -- STOP is a valid, reported outcome)
+        shell: bash
+        run: |
+          echo "py_exit=${{ steps.run.outputs.py_exit }}"
+          cat ci/out/combine.log || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-combine-log
+          path: ci/out/combine.log
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: torsweep-k13-t2t3-final-cert
+          path: ci/out/torsweep_k13_t2t3_gha_final.json
+          if-no-files-found: warn
