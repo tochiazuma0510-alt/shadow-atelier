@@ -1,0 +1,35 @@
+{
+ "schema": "r13-p1-tier2/v2",
+ "generated_by": {
+  "tool": "python/sympy",
+  "script": "search/r13_p1_tier2_gha.py",
+  "order": "裁定1010補記 [P1] Tier2 v2 (3 repairs) / docs/notes/w9_laneB_elimination_v1.md §4"
+ },
+ "supersedes_note": "v1 = run 31579129830, crashed writing the partial-result JSON due to an un-jsonable sympy Integer field (fixed: repair 1); also built R1 from the pre-gamma=0 generic c9(a,b) expression giving deg_w(R1)=9 instead of the expected <=8 (fixed: repair 2, c9=2 substituted first)",
+ "layer_0_9_status": "EMPTY (lane B, run 31578468586, Groebner basis = {1}, cross-checked by hand-derivation -- see script docstring)",
+ "layers_this_script_covers": [
+  "(2,7)",
+  "(4,5)",
+  "(6,3)",
+  "(8,1)"
+ ],
+ "time_budget_seconds": 3300,
+ "u_touched": false,
+ "c_touched": false,
+ "d_no_interpretation": "machine values only; verdict は司令塔",
+ "branch_I": {
+  "attempted": true,
+  "discR1_num_terms": 197
+ },
+ "branch_II": {
+  "attempted": false
+ },
+ "status": "INCOMPLETE",
+ "last_checkpoint": "discR1_done",
+ "last_checkpoint_elapsed_seconds": 18.21,
+ "R1_degree_w": 8,
+ "R2_degree_w": 9,
+ "repair2_assert_deg_R1_leq_8": true,
+ "stop_reason": "TIME_BUDGET_EXCEEDED",
+ "elapsed_seconds": 3300.0088686943054
+}

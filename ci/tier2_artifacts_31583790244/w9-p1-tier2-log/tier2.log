@@ -1,0 +1,9 @@
+[    0.00s] reconstructing P(w;a,b) and gamma(a,b)...
+[    3.11s] gamma(a,b) built (repair 2: substituting c9=2 BEFORE forming R1)
+[    3.27s] deg_w R1=8 (assert <=8) deg_w R2=9 (expect 9)
+[    3.27s] computing disc_w(R1) (branch I, deg<=8 Sylvester matrix)...
+[   18.21s] disc_w(R1) computed -- checkpoint written
+[   18.21s] computing resultant_b(gamma, discbranch_I) elimination...
+[ 3300.00s] TIME BUDGET EXCEEDED -- writing partial result (from last checkpoint state)
+[ 3300.01s] wrote FINAL result, status=INCOMPLETE, elapsed=3300.01s
+R13_P1_TIER2_INCOMPLETE
