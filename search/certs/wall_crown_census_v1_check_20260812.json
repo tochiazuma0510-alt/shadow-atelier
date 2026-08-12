@@ -1,0 +1,1026 @@
+{
+  "schema": "wall-crown-census-check/v1",
+  "generated_by": "search/check_wall_crown_census_v1.py",
+  "producer_path": "search/certs/wall_crown_census_v1_20260812.json",
+  "producer_sha256": "8577cab61dfed850c0b520ceccabec2aa0d2b17fd006d67937b8d36ddb8b1b43",
+  "model_path": "search/certs/wall_crown_model_checker_v1_20260812.json",
+  "model_sha256": "0018732bc989af94d5fe61362e606208b4974f9c6344ce90af0a78d9d84e61f3",
+  "positive_controls": {
+    "K9_maximal_class_count": 5,
+    "roof972_maximal_class_count": 8
+  },
+  "walls": [
+    {
+      "label": "wall24",
+      "all_charming_layers_represented": true,
+      "xi_image_equals_normalizer": true,
+      "producer_signature": {
+        "group_order": 41040,
+        "frattini_order": 1,
+        "quotient_order": 41040,
+        "maximal_class_count": 8,
+        "abelian_crown_count": 5,
+        "nonabelian_crown_count": 3,
+        "class_multiset": [
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            3,
+            1,
+            true,
+            3,
+            [
+              3,
+              1
+            ],
+            3,
+            true
+          ],
+          [
+            5,
+            5,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            6,
+            6,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            10,
+            10,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            19,
+            19,
+            false,
+            342,
+            [
+              342,
+              7
+            ],
+            19,
+            true
+          ]
+        ]
+      },
+      "model_signature": {
+        "group_order": 41040,
+        "frattini_order": 1,
+        "quotient_order": 41040,
+        "maximal_class_count": 8,
+        "abelian_crown_count": 5,
+        "nonabelian_crown_count": 3,
+        "class_multiset": [
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            3,
+            1,
+            true,
+            3,
+            [
+              3,
+              1
+            ],
+            3,
+            true
+          ],
+          [
+            5,
+            5,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            6,
+            6,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            10,
+            10,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            19,
+            19,
+            false,
+            342,
+            [
+              342,
+              7
+            ],
+            19,
+            true
+          ]
+        ]
+      },
+      "signatures_equal": true,
+      "independent_theory_signature": {
+        "group_order": 41040,
+        "frattini_order": 1,
+        "quotient_order": 41040,
+        "maximal_class_count": 8,
+        "abelian_crown_count": 5,
+        "nonabelian_crown_count": 3
+      },
+      "independent_theory_fields_equal": true
+    },
+    {
+      "label": "wall28",
+      "all_charming_layers_represented": true,
+      "xi_image_equals_normalizer": true,
+      "producer_signature": {
+        "group_order": 60720,
+        "frattini_order": 1,
+        "quotient_order": 60720,
+        "maximal_class_count": 8,
+        "abelian_crown_count": 5,
+        "nonabelian_crown_count": 3,
+        "class_multiset": [
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            5,
+            5,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            6,
+            6,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            10,
+            10,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            11,
+            1,
+            true,
+            11,
+            [
+              11,
+              1
+            ],
+            11,
+            true
+          ],
+          [
+            23,
+            23,
+            false,
+            506,
+            [
+              506,
+              1
+            ],
+            23,
+            true
+          ]
+        ]
+      },
+      "model_signature": {
+        "group_order": 60720,
+        "frattini_order": 1,
+        "quotient_order": 60720,
+        "maximal_class_count": 8,
+        "abelian_crown_count": 5,
+        "nonabelian_crown_count": 3,
+        "class_multiset": [
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            5,
+            5,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            6,
+            6,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            10,
+            10,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            11,
+            1,
+            true,
+            11,
+            [
+              11,
+              1
+            ],
+            11,
+            true
+          ],
+          [
+            23,
+            23,
+            false,
+            506,
+            [
+              506,
+              1
+            ],
+            23,
+            true
+          ]
+        ]
+      },
+      "signatures_equal": true,
+      "independent_theory_signature": {
+        "group_order": 60720,
+        "frattini_order": 1,
+        "quotient_order": 60720,
+        "maximal_class_count": 8,
+        "abelian_crown_count": 5,
+        "nonabelian_crown_count": 3
+      },
+      "independent_theory_fields_equal": true
+    },
+    {
+      "label": "wall36",
+      "all_charming_layers_represented": true,
+      "xi_image_equals_normalizer": true,
+      "producer_signature": {
+        "group_order": 111600,
+        "frattini_order": 1,
+        "quotient_order": 111600,
+        "maximal_class_count": 9,
+        "abelian_crown_count": 6,
+        "nonabelian_crown_count": 3,
+        "class_multiset": [
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            3,
+            1,
+            true,
+            3,
+            [
+              3,
+              1
+            ],
+            3,
+            true
+          ],
+          [
+            5,
+            1,
+            true,
+            5,
+            [
+              5,
+              1
+            ],
+            5,
+            true
+          ],
+          [
+            5,
+            5,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            6,
+            6,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            10,
+            10,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            31,
+            31,
+            false,
+            930,
+            [
+              930,
+              1
+            ],
+            31,
+            true
+          ]
+        ]
+      },
+      "model_signature": {
+        "group_order": 111600,
+        "frattini_order": 1,
+        "quotient_order": 111600,
+        "maximal_class_count": 9,
+        "abelian_crown_count": 6,
+        "nonabelian_crown_count": 3,
+        "class_multiset": [
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            3,
+            1,
+            true,
+            3,
+            [
+              3,
+              1
+            ],
+            3,
+            true
+          ],
+          [
+            5,
+            1,
+            true,
+            5,
+            [
+              5,
+              1
+            ],
+            5,
+            true
+          ],
+          [
+            5,
+            5,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            6,
+            6,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            10,
+            10,
+            false,
+            120,
+            [
+              120,
+              34
+            ],
+            60,
+            false
+          ],
+          [
+            31,
+            31,
+            false,
+            930,
+            [
+              930,
+              1
+            ],
+            31,
+            true
+          ]
+        ]
+      },
+      "signatures_equal": true,
+      "independent_theory_signature": {
+        "group_order": 111600,
+        "frattini_order": 1,
+        "quotient_order": 111600,
+        "maximal_class_count": 9,
+        "abelian_crown_count": 6,
+        "nonabelian_crown_count": 3
+      },
+      "independent_theory_fields_equal": true
+    },
+    {
+      "label": "wall37",
+      "all_charming_layers_represented": true,
+      "xi_image_equals_normalizer": true,
+      "producer_signature": {
+        "group_order": 669600,
+        "frattini_order": 1,
+        "quotient_order": 669600,
+        "maximal_class_count": 11,
+        "abelian_crown_count": 6,
+        "nonabelian_crown_count": 5,
+        "class_multiset": [
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            3,
+            1,
+            true,
+            3,
+            [
+              3,
+              1
+            ],
+            3,
+            true
+          ],
+          [
+            5,
+            1,
+            true,
+            5,
+            [
+              5,
+              1
+            ],
+            5,
+            true
+          ],
+          [
+            6,
+            6,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            6,
+            6,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            10,
+            10,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            15,
+            15,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            15,
+            15,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            31,
+            31,
+            false,
+            930,
+            [
+              930,
+              1
+            ],
+            31,
+            true
+          ]
+        ]
+      },
+      "model_signature": {
+        "group_order": 669600,
+        "frattini_order": 1,
+        "quotient_order": 669600,
+        "maximal_class_count": 11,
+        "abelian_crown_count": 6,
+        "nonabelian_crown_count": 5,
+        "class_multiset": [
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            2,
+            1,
+            true,
+            2,
+            [
+              2,
+              1
+            ],
+            2,
+            true
+          ],
+          [
+            3,
+            1,
+            true,
+            3,
+            [
+              3,
+              1
+            ],
+            3,
+            true
+          ],
+          [
+            5,
+            1,
+            true,
+            5,
+            [
+              5,
+              1
+            ],
+            5,
+            true
+          ],
+          [
+            6,
+            6,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            6,
+            6,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            10,
+            10,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            15,
+            15,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            15,
+            15,
+            false,
+            720,
+            [
+              720,
+              763
+            ],
+            360,
+            false
+          ],
+          [
+            31,
+            31,
+            false,
+            930,
+            [
+              930,
+              1
+            ],
+            31,
+            true
+          ]
+        ]
+      },
+      "signatures_equal": true,
+      "independent_theory_signature": {
+        "group_order": 669600,
+        "frattini_order": 1,
+        "quotient_order": 669600,
+        "maximal_class_count": 11,
+        "abelian_crown_count": 6,
+        "nonabelian_crown_count": 5
+      },
+      "independent_theory_fields_equal": true
+    }
+  ],
+  "all_signatures_equal": true,
+  "all_independent_theory_fields_equal": true,
+  "quarantine": {
+    "K9": "group-theory positive control only",
+    "K5": "not accessed",
+    "name_collide": "wall-window instance",
+    "u_c": "not accessed"
+  }
+}
