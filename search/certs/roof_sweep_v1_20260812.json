@@ -1,0 +1,206 @@
+{
+ "schema": "roof-sweep/v1",
+ "generated_by": {
+  "tool": "GAP 4.16.0 (merged from run 31615934135 log recovery + run 31621647383 completion)",
+  "script": "search/roof_sweep_v1.g + search/roof_sweep_remaining_v1.g",
+  "order": "裁定1059(異族屋根一括掃討)+裁定1070(欠損4屋根の再走・マージ)"
+ },
+ "per_roof_cap_seconds": 600,
+ "source_runs": {
+  "main_sweep_run_id": "31615934135",
+  "main_sweep_conclusion": "failure (Gate step only; producer succeeded for 13/17 roofs, K(81)x1152[a] OOM-crashed the process at roof 14/17)",
+  "main_sweep_recovery_method": "13 completed rows extracted verbatim from run 31615934135 log text (search/roof_sweep_v1.g Print() output), not from a JSON checkpoint (which was lost -- workflow YAML bug meant the cert was never copied to the uploaded artifact)",
+  "remaining_run_id": "31621647383",
+  "remaining_run_conclusion": "success",
+  "remaining_run_covers": [
+   "K(81) x 1152[a]",
+   "K(81) x 1152[b]",
+   "S4 x 1152[a]",
+   "S4 x 1152[b]"
+  ]
+ },
+ "progress": {
+  "done": 17,
+  "total": 17
+ },
+ "rows": [
+  {
+   "left": "K(9)",
+   "right": "S4(N_S4)",
+   "status": "COMPLETE",
+   "shadow_total": 972,
+   "size_X": 972,
+   "size_Phi": 9,
+   "size_Xbar": 108,
+   "n_classes": 8,
+   "normal_count": 4,
+   "nonnormal_count": 4,
+   "calibration_ok": true,
+   "elapsed_ms": 71298
+  },
+  {
+   "left": "K(3)",
+   "right": "1152[154161]",
+   "status": "COMPLETE",
+   "shadow_total": 144,
+   "size_X": 144,
+   "size_Phi": 2,
+   "size_Xbar": 72,
+   "n_classes": 11,
+   "normal_count": 7,
+   "nonnormal_count": 4,
+   "calibration_ok": true,
+   "elapsed_ms": 2762
+  },
+  {
+   "left": "K(3)",
+   "right": "1152[154163]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "shadow_total": 0,
+   "elapsed_ms": 57
+  },
+  {
+   "left": "K(9)",
+   "right": "1152[154161]",
+   "status": "COMPLETE",
+   "shadow_total": 1296,
+   "size_X": 1296,
+   "size_Phi": 6,
+   "size_Xbar": 216,
+   "n_classes": 12,
+   "normal_count": 8,
+   "nonnormal_count": 4,
+   "calibration_ok": true,
+   "elapsed_ms": 139587
+  },
+  {
+   "left": "K(9)",
+   "right": "1152[154163]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "shadow_total": 0,
+   "elapsed_ms": 58
+  },
+  {
+   "left": "K(15)",
+   "right": "1152[154161]",
+   "status": "COMPLETE",
+   "shadow_total": 2880,
+   "size_X": 2880,
+   "size_Phi": 2,
+   "size_Xbar": 1440,
+   "n_classes": 20,
+   "normal_count": 15,
+   "nonnormal_count": 5,
+   "calibration_ok": true,
+   "elapsed_ms": 1032028
+  },
+  {
+   "left": "K(15)",
+   "right": "1152[154163]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "shadow_total": 0,
+   "elapsed_ms": 61
+  },
+  {
+   "left": "K(21)",
+   "right": "1152[154161]",
+   "status": "UNKNOWN_CAP_EXCEEDED_AT_SCAN",
+   "shadow_total": 3918,
+   "elapsed_ms": 601992
+  },
+  {
+   "left": "K(21)",
+   "right": "1152[154163]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "shadow_total": 0,
+   "elapsed_ms": 70
+  },
+  {
+   "left": "K(27)",
+   "right": "1152[154161]",
+   "status": "UNKNOWN_CAP_EXCEEDED_AT_SCAN",
+   "shadow_total": 2658,
+   "elapsed_ms": 604034
+  },
+  {
+   "left": "K(27)",
+   "right": "1152[154163]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "shadow_total": 0,
+   "elapsed_ms": 94
+  },
+  {
+   "left": "K(33)",
+   "right": "1152[154161]",
+   "status": "UNKNOWN_CAP_EXCEEDED_AT_SCAN",
+   "shadow_total": 1704,
+   "elapsed_ms": 607220
+  },
+  {
+   "left": "K(33)",
+   "right": "1152[154163]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "shadow_total": 0,
+   "elapsed_ms": 117
+  },
+  {
+   "left": "K(81)",
+   "right": "1152[154161]",
+   "status": "UNKNOWN_DERIVED_SUBGROUP_TOO_LARGE",
+   "PB3_over_M": 408146688,
+   "M_ord": 324,
+   "charming_set_size": 216,
+   "derived_order": 34012224,
+   "candidate_total": 0,
+   "shadow_total": 0,
+   "scan_capped": false,
+   "scan_elapsed_seconds": 0.0
+  },
+  {
+   "left": "K(81)",
+   "right": "1152[154163]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "PB3_over_M": 408146688,
+   "M_ord": 162,
+   "charming_set_size": 108,
+   "derived_order": 0,
+   "candidate_total": 0,
+   "shadow_total": 0,
+   "scan_capped": false,
+   "scan_elapsed_seconds": 0.0
+  },
+  {
+   "left": "S4(N_S4)",
+   "right": "1152[154161]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "PB3_over_M": 96768,
+   "M_ord": 36,
+   "charming_set_size": 24,
+   "derived_order": 0,
+   "candidate_total": 0,
+   "shadow_total": 0,
+   "scan_capped": false,
+   "scan_elapsed_seconds": 0.0
+  },
+  {
+   "left": "S4(N_S4)",
+   "right": "1152[154163]",
+   "status": "UNKNOWN_THETA_TAU_NOT_WELL_DEFINED",
+   "PB3_over_M": 96768,
+   "M_ord": 18,
+   "charming_set_size": 12,
+   "derived_order": 0,
+   "candidate_total": 0,
+   "shadow_total": 0,
+   "scan_capped": false,
+   "scan_elapsed_seconds": 0.0
+  }
+ ],
+ "u_touched": false,
+ "c_touched": false,
+ "prereg_value_computed": false,
+ "d_no_interpretation": "machine values only; verdict は司令塔",
+ "provenance": {
+  "roof_sweep_v1_g_sha256": "0be89991df28831eec9c5937a395c32228281069e58f7ea1ff04f97585afd2cd"
+ }
+}

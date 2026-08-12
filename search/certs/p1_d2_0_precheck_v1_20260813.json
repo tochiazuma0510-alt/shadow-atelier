@@ -1,0 +1,56 @@
+{
+ "schema": "r13-p1d2-0/v1",
+ "generated_by": {
+  "tool": "python (arithmetic bookkeeping, no GAP execution)",
+  "script": "search/p1_d2_0_precheck_v1.py",
+  "order": "裁定1070 [P1-D2] step [D2-0] / docs/notes/t3_gap12_resolution_v1.md §5"
+ },
+ "scope_note": "アーカイブ済み分岐データ(w9k3_tricks_audit_v1.md §3.1、独立検算済み・paper-derived)を引用し、算術恒等式(R=6・deg(E-hat)=3・deg(D)=6・delta=0)の整合性のみを検算。[D2-1]〜[D2-3](Atiyah分類・Riemann-Roch・Groebner解法による実際の束構成)は本scriptでは未実施(仕様の具体化が要ると判断・速達確認予定)。",
+ "branch_points": [
+  {
+   "point": "Q0",
+   "e": 3,
+   "contribution": 2
+  },
+  {
+   "point": "Q_inf",
+   "e": 3,
+   "contribution": 2
+  },
+  {
+   "point": "B1",
+   "e": 2,
+   "contribution": 1
+  },
+  {
+   "point": "B2",
+   "e": 2,
+   "contribution": 1
+  }
+ ],
+ "genus_W9": 4,
+ "genus_E": 1,
+ "degree_pi": 3,
+ "checks": {
+  "R_from_branch_sum": 6,
+  "R_from_RH": 6,
+  "branch_sum_matches_RH": true,
+  "R_equals_6": true,
+  "deg_E_hat": 3,
+  "deg_E_hat_equals_3": true,
+  "deg_D": 6,
+  "deg_D_equals_6_E_a": true,
+  "delta": 0,
+  "delta_equals_0_E_b": true,
+  "remainder_R_from_RH_is_even": true,
+  "remainder_deg_D_minus_R_is_even": true
+ },
+ "all_checks_pass": true,
+ "u_touched": false,
+ "c_touched": false,
+ "prereg_value_computed": false,
+ "d_no_interpretation": "machine values only; verdict は司令塔",
+ "provenance": {
+  "script_sha256": "8b2973e5c7068964d1f472dedf2375dc8a4cc4a5715db22a2658d0dc00314b4d"
+ }
+}

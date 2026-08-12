@@ -1,0 +1,77 @@
+week3-battery-common.g loaded.
+Syntax warning: Unbound global variable in search/week3-psl-common.g:309
+  LastRunCInN := rec(sBarSquaredIsIdentity:=(cfg.Sperm^2 = ()));;
+  ^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:350
+  LastRunEnum := rec(gSize:=gSize, dwordsCount:=result.dwords_count,
+  ^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:410
+  LastRunSettled := rec(settledCount:=settledCount, settledDetail:=settledDetail, shadowTotal:=Length(result.shadows));;
+  ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:419
+  kernelEqDetail := [];;
+  ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:422
+    psi := GroupHomomorphismByImages(Gg, Gg, [Xperm, Yperm], [Xperm^u, AbstractProd([f^-1, Yperm^u, f])]);;
+    ^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:423
+    if psi = fail then
+       ^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:424
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=false, kernel_trivial:=false, kernel_size:=fail));
+          ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:426
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=true, kernel_trivial:=(Size(Kernel(psi))=1), kernel_size:=Size(Kernel(psi))));
+          ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:426
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=true, kernel_trivial:=(Size(Kernel(psi))=1), kernel_size:=Size(Kernel(psi))));
+                                                                                                      ^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:426
+      Add(kernelEqDetail, rec(m:=m, f_word:=sh.word, well_defined:=true, kernel_trivial:=(Size(Kernel(psi))=1), kernel_size:=Size(Kernel(psi))));
+                                                                                                                                         ^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:431
+  LastRunKernelEq := rec(detail:=kernelEqDetail);;
+  ^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/week3-psl-common.g:431
+  LastRunKernelEq := rec(detail:=kernelEqDetail);;
+                                 ^^^^^^^^^^^^^^
+week3-psl-common.g loaded.
+Syntax warning: Unbound global variable in search/roof_sweep_remaining_v1.g:102
+  DERIVED_SUBGROUP_SIZE_CAP := 300000;;
+  ^^^^^^^^^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/roof_sweep_remaining_v1.g:103
+  if Size(D) > DERIVED_SUBGROUP_SIZE_CAP then
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/roof_sweep_remaining_v1.g:347
+  SHADOW_TOTAL_COMPOSITION_CAP := 2000;;
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/roof_sweep_remaining_v1.g:348
+  if resM.shadow_total > SHADOW_TOTAL_COMPOSITION_CAP then
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+############################################################
+# roof_sweep_remaining_v1.g -- 欠損4屋根の再走(裁定1070)
+############################################################
+
+=== K(81) x 1152[a] (1/4) ===
+status=UNKNOWN_DERIVED_SUBGROUP_TOO_LARGE shadow_total=0 elapsed_ms=86
+
+=== K(81) x 1152[b] (2/4) ===
+status=UNKNOWN_THETA_TAU_NOT_WELL_DEFINED shadow_total=0 elapsed_ms=72
+
+=== S4 x 1152[a] (3/4) ===
+status=UNKNOWN_THETA_TAU_NOT_WELL_DEFINED shadow_total=0 elapsed_ms=20
+
+=== S4 x 1152[b] (4/4) ===
+status=UNKNOWN_THETA_TAU_NOT_WELL_DEFINED shadow_total=0 elapsed_ms=16
+
+============================================================
+# 一覧表(欠損4屋根)
+============================================================
+K(81) x 1152[154161] | UNKNOWN_DERIVED_SUBGROUP_TOO_LARGE | 0
+K(81) x 1152[154163] | UNKNOWN_THETA_TAU_NOT_WELL_DEFINED | 0
+S4(N_S4) x 1152[154161] | UNKNOWN_THETA_TAU_NOT_WELL_DEFINED | 0
+S4(N_S4) x 1152[154163] | UNKNOWN_THETA_TAU_NOT_WELL_DEFINED | 0
+
+総経過 = 350 ms
+script sha256 = 8762ae04e3eabdec28507d85da4c14e86969d2a23a8552cddef14c9f4b4a3b5a
+wrote search/certs/roof_sweep_remaining_v1_20260813.json
