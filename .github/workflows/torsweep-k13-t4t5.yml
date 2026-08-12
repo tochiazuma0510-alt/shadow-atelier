@@ -406,6 +406,7 @@ jobs:
           counts={x['label']:x['census']['maximal_class_count'] for x in p['positive_controls']}
           assert counts=={'K9':5,'roof972':8}, counts
           assert c['all_signatures_equal'] is True
+          assert c['all_independent_theory_fields_equal'] is True
           assert all(w['all_charming_layers_represented'] for w in p['walls'])
           assert all(w['xi_image_equals_normalizer'] for w in p['walls'])
           print('positive_control_counts',counts)

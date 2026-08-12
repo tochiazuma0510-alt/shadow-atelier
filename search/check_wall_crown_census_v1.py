@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 
 
@@ -41,6 +42,39 @@ def census_signature(census: dict) -> dict:
     }
 
 
+def distinct_prime_count(value: int) -> int:
+    count = 0
+    divisor = 2
+    while divisor * divisor <= value:
+        if value % divisor == 0:
+            count += 1
+            while value % divisor == 0:
+                value //= divisor
+        divisor += 1
+    return count + (value > 1)
+
+
+def theory_signature(ell: int, t: int) -> dict:
+    """Independent direct-product maximal-class count.
+
+    AGL(1,ell) contributes one complement class plus one normal class for
+    each distinct prime divisor of ell-1.  S5 has four maximal classes and
+    S6 has six.  Both factors have a C2 quotient, producing one additional
+    diagonal maximal class.  The nonnormal S_t classes have socle A_t; all
+    remaining primitive socles are cyclic of prime order.
+    """
+    omega = distinct_prime_count(ell - 1)
+    symmetric_maximal_classes = {5: 4, 6: 6}[t]
+    return {
+        "group_order": ell * (ell - 1) * math.factorial(t),
+        "frattini_order": 1,
+        "quotient_order": ell * (ell - 1) * math.factorial(t),
+        "maximal_class_count": omega + 1 + symmetric_maximal_classes + 1,
+        "abelian_crown_count": omega + 3,
+        "nonabelian_crown_count": symmetric_maximal_classes - 1,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--producer", type=Path, required=True)
@@ -59,6 +93,8 @@ def main() -> None:
         m = m_by_label[label]
         ps = census_signature(p["census"])
         ms = census_signature(m)
+        ts = theory_signature(p["ell"], p["t"])
+        theory_fields_equal = all(ps[key] == value for key, value in ts.items())
         rows.append(
             {
                 "label": label,
@@ -69,6 +105,8 @@ def main() -> None:
                 "producer_signature": ps,
                 "model_signature": ms,
                 "signatures_equal": ps == ms,
+                "independent_theory_signature": ts,
+                "independent_theory_fields_equal": theory_fields_equal,
             }
         )
 
@@ -76,9 +114,9 @@ def main() -> None:
     output = {
         "schema": "wall-crown-census-check/v1",
         "generated_by": "search/check_wall_crown_census_v1.py",
-        "producer_path": args.producer.as_posix(),
+        "producer_path": f"search/certs/{args.producer.name}",
         "producer_sha256": digest(args.producer),
-        "model_path": args.model.as_posix(),
+        "model_path": f"search/certs/{args.model.name}",
         "model_sha256": digest(args.model),
         "positive_controls": {
             "K9_maximal_class_count": controls["K9"]["maximal_class_count"],
@@ -88,6 +126,9 @@ def main() -> None:
         },
         "walls": rows,
         "all_signatures_equal": all(row["signatures_equal"] for row in rows),
+        "all_independent_theory_fields_equal": all(
+            row["independent_theory_fields_equal"] for row in rows
+        ),
         "quarantine": {
             "K9": "group-theory positive control only",
             "K5": "not accessed",
