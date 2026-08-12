@@ -1,28 +1,30 @@
 name: w9-p1-tier2
 
-# [P1] Tier 2 (remaining 4 layers (2,7)/(4,5)/(6,3)/(8,1), disc-product route), 裁定1002.
-# K^(9) window, W9 plane-model ansatz work (docs/notes/w9_laneB_elimination_v1.md §4).
+# Exact Tier-2 elimination for the remaining W9 k=2 strata.
 #
-# Layer (0,9) already found EMPTY by lane B (run 31578468586). This job handles the 4 remaining
-# layers via branch I (disc_w(R1)=0, deg R1<=8, tried first -- smaller Sylvester matrix) then
-# branch II (disc_w(R2)=0, deg R2=9), each via a resultant with gamma(a,b)=0 (step1's curve) to
-# eliminate to a univariate polynomial in a, then exact root enumeration + genus-4 sieve
-# (odd-multiplicity root count of Delta=R1*R2, NOT squarefree-part degree).
-#
-# Same job design as w9-p1-1b-groebner.yml / w9-p1-b-laneb.yml: sympy==1.14.0, internal 55min
-# SIGALRM time-box, partial-result artifact preserved (branch I's results are kept even if branch
-# II runs out of budget).
+# The v1 job used one large SymPy resultant and SIGALRM.  The v2 job first
+# quotients the residual scaling action (r=b/a), factors two univariate exact
+# discriminants, and classifies each irreducible factor by exact discriminant
+# divisibility plus degree-preserving finite-field upper-bound witnesses.
+# ci/hard_timeout.py owns a separate process group, writes a
+# periodic heartbeat, and kills the whole tree on expiry.  The producer itself
+# writes an atomic mathematical checkpoint after every completed stage.
 #
 # DISPATCH GATE: workflow_dispatch ONLY.
 
 on:
   workflow_dispatch:
     inputs:
-      timeout_minutes:
-        description: 'job timeout (minutes) -- script has its own internal 55min alarm; this is an outer safety cap'
+      hard_timeout_minutes:
+        description: 'hard child-process timeout; a timeout produces checkpoint artifacts'
         required: true
         type: number
-        default: 65
+        default: 25
+      job_timeout_minutes:
+        description: 'outer GHA timeout; keep this above the hard timeout'
+        required: true
+        type: number
+        default: 35
 
 permissions:
   contents: read
@@ -30,7 +32,7 @@ permissions:
 jobs:
   tier2:
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ fromJson(inputs.timeout_minutes) }}
+    timeout-minutes: ${{ fromJSON(inputs.job_timeout_minutes) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -39,44 +41,136 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install sympy (pinned to the version validated locally)
+      - name: Install exact algebra tools
         shell: bash
-        run: pip install "sympy==1.14.0"
+        run: pip install "sympy==1.14.0" "python-flint==0.8.0"
 
-      - name: Report runner memory (informational)
+      - name: Report tool versions and memory
         shell: bash
-        run: free -h || true
+        run: |
+          python --version
+          python -c "import sympy,flint; print('sympy',sympy.__version__); print('python-flint',flint.__version__)"
+          free -h || true
 
-      - name: Run Tier 2 (time-boxed internally)
-        id: run
+      - name: Calibrate hard-timeout wrapper
+        shell: bash
+        run: python search/test_hard_timeout_runner.py
+
+      - name: Run exact Tier 2 under process hard timeout
+        id: producer
         shell: bash
         run: |
           set +e
           mkdir -p ci/out
-          python search/r13_p1_tier2_gha.py 2>&1 | tee ci/out/tier2.log
-          echo "py_exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          python ci/hard_timeout.py \
+            --timeout-seconds "$(( ${{ inputs.hard_timeout_minutes }} * 60 ))" \
+            --heartbeat-seconds 15 \
+            --kill-grace-seconds 5 \
+            --checkpoint ci/out/tier2_hard_timeout.json \
+            --log ci/out/tier2.log \
+            -- \
+            python search/r13_p1_tier2_gha.py \
+              --input search/certs/r13_p1_1pp_k2_v1_20260812.json \
+              --output ci/out/r13_p1_tier2_result.json \
+              --checkpoint ci/out/r13_p1_tier2_math_checkpoint.json
+          rc=$?
+          echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
 
-      - name: Check result (informational -- INCOMPLETE is a valid, reported outcome)
+      - name: Gate producer result
         shell: bash
         run: |
-          echo "py_exit=${{ steps.run.outputs.py_exit }}"
-          if grep -q "R13_P1_TIER2_INCOMPLETE" ci/out/tier2.log; then
-            echo "::warning::Tier2 computation did not finish within the internal time budget -- partial result artifact written (first-class outcome, not a CI failure)"
-          elif ! grep -q "R13_P1_TIER2_DONE" ci/out/tier2.log; then
-            echo "::error::neither R13_P1_TIER2_DONE nor _INCOMPLETE marker found -- unexpected script exit"
+          set -euo pipefail
+          rc='${{ steps.producer.outputs.wrapper_exit }}'
+          if [ "$rc" = '124' ]; then
+            test -s ci/out/tier2_hard_timeout.json
+            test -s ci/out/r13_p1_tier2_math_checkpoint.json
+            echo "::warning::hard timeout expired; exact mathematical checkpoint retained"
+            exit 0
+          fi
+          if [ "$rc" != '0' ]; then
+            echo "::error::producer wrapper_exit=$rc"
             exit 1
           fi
+          grep -q 'R13_P1_TIER2_DONE' ci/out/tier2.log
+          python - <<'PY'
+          import json
+          p=json.load(open('ci/out/r13_p1_tier2_result.json',encoding='utf8'))
+          assert p['status']=='COMPLETE', p.get('stop_reason')
+          assert p['calibration']['all_artificial_layers_match'] is True
+          assert p['calibration']['known_layer_0_9_basis_is_unit'] is True
+          print('producer_status',p['status'])
+          print('raw_result',p['raw_result'])
+          PY
+
+      - name: Run independent checker
+        if: steps.producer.outputs.wrapper_exit == '0'
+        id: checker
+        shell: bash
+        run: |
+          set +e
+          python ci/hard_timeout.py \
+            --timeout-seconds 900 \
+            --heartbeat-seconds 15 \
+            --kill-grace-seconds 5 \
+            --checkpoint ci/out/tier2_check_hard_timeout.json \
+            --log ci/out/tier2_check.log \
+            -- \
+            python search/check_r13_p1_tier2.py \
+              --input search/certs/r13_p1_1pp_k2_v1_20260812.json \
+              --cert ci/out/r13_p1_tier2_result.json \
+              --output ci/out/r13_p1_tier2_check.json
+          rc=$?
+          echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Gate independent checker
+        if: steps.producer.outputs.wrapper_exit == '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test '${{ steps.checker.outputs.wrapper_exit }}' = '0'
+          grep -q 'R13_P1_TIER2_CHECK_DONE' ci/out/tier2_check.log
+          python - <<'PY'
+          import json
+          p=json.load(open('ci/out/r13_p1_tier2_check.json',encoding='utf8'))
+          assert p['status']=='COMPLETE'
+          assert p['all_checks_true'] is True
+          print('checker_status',p['status'])
+          PY
+
+      - name: Build run receipt
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib,platform
+          out=pathlib.Path('ci/out'); out.mkdir(parents=True,exist_ok=True)
+          files={}
+          for path in sorted(out.iterdir()):
+              if path.is_file() and path.name!='w9_tier2_receipt.json':
+                  files[path.name]={
+                      'bytes':path.stat().st_size,
+                      'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+                  }
+          receipt={
+              'schema':'w9-tier2-run-receipt/v1',
+              'github_run_id':os.environ.get('GITHUB_RUN_ID'),
+              'github_sha':os.environ.get('GITHUB_SHA'),
+              'github_ref':os.environ.get('GITHUB_REF'),
+              'python':platform.python_version(),
+              'producer_wrapper_exit':'${{ steps.producer.outputs.wrapper_exit }}',
+              'checker_wrapper_exit':'${{ steps.checker.outputs.wrapper_exit }}',
+              'files':files,
+          }
+          pathlib.Path('ci/out/w9_tier2_receipt.json').write_text(
+              json.dumps(receipt,indent=2,sort_keys=True)+'\n',encoding='utf8')
+          PY
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: w9-p1-tier2-log
-          path: ci/out/tier2.log
-          if-no-files-found: warn
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: w9-p1-tier2-result
-          path: ci/out/r13_p1_tier2_result.json
-          if-no-files-found: warn
+          name: w9-p1-tier2-v2-${{ github.run_id }}
+          path: ci/out/
+          if-no-files-found: error
+          retention-days: 30
