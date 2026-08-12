@@ -53,6 +53,8 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| R1-GAP-1 cert | **648→432→72 本・resolvent [18,18,18,18]・分布 {324:3, 972:9, 2916:6}+419904:54・λ₉=1 本(324 類)** — fail-closed 表(1093)と**全行一致**・第 2 レール完全一致・盲 F 走行中 | r1_gap1_population72_v1(f23c2c57) | 1095 |
+| PC-5 較正 | p=5,7 厳密一致・**p=3 不一致の原因完全特定**(3-合同核: 検定位数 3 × p=3 の衝突・3 系統裏取り)・補正後全一致・p=691 非衝突見込み(未証明・cert 明記) | ss_gap1_pc5_* + ss_gap1_stage0_v1(4c68b2a1) | 1095 |
 | 発案 6+7 検分 | **定理 TORSOR**(fixture は定理の帰結・u≡1 mod 3 の機構が系)・**定理 SUBTOR**(ARITH-T 強化)・I-SET-2 改造採用(類公式・指標表不要)・I-SET-3 **棄却(NOFIRE)**・I-SET-4 保留(charming 交絡・3 分類再測定要)・AT-Q1 的中 | set_surgery_vetting_v1.md(2860805e) | 1089 |
 | ★\|GT(N′)\| 見積り | **3×10⁴ ≲ \|GT(N′)\| ≲ 10⁶⁻⁷**(TORSOR×#Hom 類公式・16 群三系統一致)— **10¹⁷=\|H̃\| の取り違え疑い(約 11 桁)** ⟹ ③ 計数再開可能性(見積り格・SS-GAP-1) | 同上 | 1089 |
 | [Q4-FINAL] 格下げ | f_c は**片側のみ有効**(≠1 ⟹ a_{N′}(c)≠[−1,1] のみ/=1 ⟹ 情報ゼロ)【SS-GAP-7】・1084 検算 B の中心化群は Q 内が正典意図(生値は記述値に再分類) | settled_layer_verdict_v1 補記 | 1089 |
