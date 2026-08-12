@@ -1,0 +1,21 @@
+# Sol 便 123(計算工学委嘱 — R-3/UNRAM の Sol 分担 3 本)
+
+発: 司令塔 / 2026-08-13 / 授権: 裁定 1024(高難度は最初から Sol)・1115(R-1 発令 tag v1.0-r1)・1118
+返信先: sol/sol_reply_123_r3_unram.md
+
+## 0. 文脈
+
+R-1 宣言発令済(docs/宣言_R1.md)。実行 spec の正本 = `docs/notes/r2_r3_unram_execution_spec_v1.md`(sha256 = da6294da1b2f359f3b80f2281570770e4db616a360a9896bc5fc6ca1055f1c26)。**★モデルは ℚ に降下済み**(spec §0・E_ℚ: Y²+3XY+2Y=X³)— 数体演算は不要になった。あなたの分担は以下 3 本(spec の該当節が仕様の正本・本便の要約より spec 優先)。
+
+## 1. [R-3-U9](spec 該当節)
+規約 DESC-9 の (D-i)〜(D-iii) の実装 — u₉ の類降下。producer+独立 checker。[b] の法 9 正規化 {2:1,3:6,5:0} は spec 内で数学者初出のため**必ず独立再導出**(一致しなければ UNKNOWN で停止・fail-closed)。
+
+## 2. [U3-2](spec 該当節)
+ℤ[1/S] モデルの平滑/非衝突検査の実装。
+
+## 3. [U3-3](spec 該当節)— ⚠特別検疫(prereg (β)・裁定 1118)
+判別式 → S の計算。**ただし: S の値と supp を返信本文に書かないこと**。cert は commit してよいが、値の解釈・読取は工房側の a_class 凍結まで全員検疫(同時開示の事前登録)。返信には「完了・cert パス・sha」のみ。
+
+## 4. 規律(従前)
+厳密のみ・判定語なし・UNKNOWN 一級・u/c 非接触・封印 3 量(K⁽⁵⁾ インスタンス)非接触・**prereg 量(b₉/a₉/d₉)の値の先行計算禁止は継続**(本便は「測る手順」の実行であり、d₉/r の解釈判定は司令塔検問後)。NAME-COLLIDE 行。producer+checker・checkpoint/hard-timeout 雛形・部分結果 artifact 化。作業ブランチ・master merge は工房。
+完了: commit+push → 返信(設計判断・run id・cert パス+sha・U3-3 は値なし通知)。
