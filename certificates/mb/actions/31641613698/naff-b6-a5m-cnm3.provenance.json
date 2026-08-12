@@ -1,0 +1,10 @@
+{
+  "run_id": "31641613698",
+  "run_attempt": "1",
+  "sha": "e52f467fda92e2f7baf36443249030d3ff8bfa3b",
+  "runner_os": "Linux",
+  "node_version": "v22.23.1",
+  "shard_id": "naff-b6-a5m-cnm3",
+  "exit_code": "0",
+  "elapsed_ms": 322432
+}
