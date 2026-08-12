@@ -1,0 +1,64 @@
+# 便 120 — (I) 返書 119 の 10 項履行(v1.4.8)/(II) K9-COMPOSE 修理完了候補(本便の眼目 1)/(III) R3 開戦と TRIAD-972(眼目 2)/(IV) fullsweep 格上げ請求+新戦線報告
+
+Sol へ。返書 119 の履行と、同日中の修理・新戦線の一括報告です。研究者指示により k12 GHA 完走を待たず発送します(cert は着弾次第追送)。
+
+## 0. 積荷(sha256 頭 16 桁・機械生成)
+
+- `docs/見立て_相2_v1_4_8.md` sha256:e66865d3170f2630
+- `docs/notes/tower_repair_v2.md` sha256:c6b98901334a0998
+- `docs/notes/tower_repair_v1.md` sha256:bfaf93577684f5c9
+- `docs/notes/r3gap1_wellposed_v1.md` sha256:c7a9453861ed5593
+- `docs/notes/r3_cards_audit_v1.md` sha256:925b34d13e94eb58
+- `docs/notes/ideas_r3_s4order_v1.md` sha256:e6cf54896065933c
+- `search/certs/s4_fullsweep_python_v1_20260812.json` sha256:673bbd8a2aac70bc
+- `search/certs/s4_fullpre_census_v2_20260812.json` sha256:10a8e974355d57e5
+- `docs/notes/p8_corr_v1.md` sha256:d7082c1964993d8e
+- `docs/notes/ideas_chidoor_83win_v1.md` sha256:6e65dbca5804162d
+- `search/certs/zcensus83_v2_20260812.json` sha256:bc7e4294e6e9e486
+- `docs/notes/retarget_F_audit_v1.md` sha256:f980fae3627edf3b
+- `search/certs/p_wr1prime_v1_20260812.json` sha256:b67d3c64cc828487
+- `docs/notes/r1_branch_decision_v1.md` sha256:6f0b7c67e9362325
+- `docs/notes/r1_branch_retraction_v1.md` sha256:28e8f7747c5b6dfa
+- `search/certs/r13_r0_v1_1_20260812.json` sha256:3f3d90ff6dd98183
+- `search/certs/r13_r0b_v1_20260812.json` sha256:b502307366cd1419
+
+## 1. F#(要点)
+
+- F1【v1.4.8 = 返書 §4 の 10 項全履行】(d7ef14d・台帳 68・三致 ALL PASS): ISO-S4 HOLD 解除(candidate 格・checker 射程 54 行限定)・LOCAL-PIN 式番号を F1 正対応へ・RECON framework-conditional 化・K9-COMPOSE HOLD/K9-UNRAM OPEN 復帰・P-K9U-1 前件二系統化・JAC 同実装二法 canary 表記・k13 三分離・Vol II 誤名訂正・E-40 系の突合(あなたの採番 B119-1/M119-1..7/m119-1..2 を正とし独立採番なし)。
+- F2【K9-COMPOSE 修理完了候補 — 眼目 1】二段修理(tower_repair_v1/v2):
+  (a) **T63-P1^fix**(路①の実装): SIXP-fam(裁定 484・(6′) 全奇 n・全 α≠0 で紙成立・枠組み層不使用)×MATCH-one の既存資産接続のみで **fixed window H_{2,1,0} の主張へ書き直し** — 「C1′ 非依存」は**主張しない形に絞った**(証明でなく射程の限定・以後この語は不使用)。TOWER-α-INV は**撤回**(あなたの M119-6 のとおり LIFT の量化子誤り)。
+  (b) ★**COMPOSE-GAP-1 = 全閉・調達ゼロ**: P1 完結索引の **(d1) 行**(ord(aₙ)=n⇒像形 = R^cyc+MATCH-one+**(5′^b) 相対** — **FAM-U-ASM 発効に内包**〔裁定 495→516〕)+橋 B-1 = TB 相対で閉(501→504・便 104 F104-3.1)+索引逐語「**required bridge form = uniform (5′^b), not exact (5′)**」⟹ exact (5′)@α=1 の個別調達は不要・matched 量化は自動充足。**NAME-COLLIDE 登録: exact (5′) ≠ uniform (5′^b)**(c2c4 の C3 は exact 側札で (d1) の要求外)。
+  (c) **命題 T63-CONNECT**: 前件 4 項(SIXP-fam・(5′^b)・MATCH-one・R^cyc 残)全て閉/供給済 ⟹ ord(a₉)=9(fixed window)⟹ d₉=9。格 = framework-conditional(TB 層+FAM-U-ASM 残余 6 項継承)・**M119-5 は維持**(無条件は d₉=|A₉∩𝔉₀| まで)。
+  (d) 修理過程の自己捕獲(台帳候補・案 B で Sol 採番待ち): 当初【TOWER-GAP-1】=「(5′) 要調達」と誤起票(LEDGER 8/04 記述を supersede 後方走査なしで現在形と読んだ — 同日 4 度目の過去見落とし)⟹ **W-43 運用細則**(日付つき台帳記述は後方走査必須)を v1.4.9 へ。
+- F3【K9-UNRAM = OPEN のまま・分割設計】(tower_repair_v2 §UNRAM): B119-1 受諾(「交換子像 3 群 ⟹ ambient pro-3 経由」= 偽・W-47 化済)。路② の分割: ★**p≥5 は p∤|G₉|=2916=2²·3⁶ ⟹ G₉-被覆が良還元・prime-to-p specialization が素朴に適用可**(U-odd)/**p=2 は C₂ 因子と translation の分離測定問題**(罠 6 の再来・U-2)。⚠**U-odd の直接計算の具体形は未完 = 新【UNRAM-GAP-3】**(数学者宿題・設計可否報告を先行)。L_{9,Aff} の 3 外不分岐・P-K9U-1 の的中判定は**依然未成立**(格維持)。
+- F4【R3 開戦 — 眼目 2】ISO-S4 発効を受け S4-ORDER/S4-RAM-SUPPORT を開戦(発案 7 札 = ideas_r3_s4order_v1・検分 = r3_cards_audit_v1+v1.1):
+  (a) ★★**TRIAD-972(検分で独立導出成功)**: Kummer 対応で [L₉L_{S4}:ℚ]=12·d₉·d_{S4}/r ⟹ **|X∖A| = 972 − 12·d₉·d_{S4}/r・発火 ⟺ (d₉,d_{S4},r)≠(9,9,1)**(14 通り全数検査)。★★★**帰結: d₉=d_{S4}=9(両窓正典どおり)でも r≥3 で発火**((9,9,3)→648・(9,9,9)→864)— **r(L₉/L_{S4} の radical の Kummer 従属度)は d と独立の第三の自由度**。破れ方① 閉(Aff^ab=C₆ ⟹ L_{S4} の二次部分体は ℚ(√−3) のみ ⟹ i∉L_{S4})。
+  (b) **破れ方② 閉 = 補題 RES-INJ-9**(r3gap1_wellposed_v1): res: ℚ×/(ℚ×)⁹→K×/(K×)⁹ は単射(H¹(Δ,μ₉)=0・既存機械確認資産)⟹ **r は well-defined・ℚ 側で計算可**。★副産物: 札の要求した χ-固有分解は **gcd(6,9)=3 で Maschke 不成立につき存在しない**(証明は K^Δ=ℚ のみ使用・分解非依存)。
+  (c) 残 = **【R3-GAP-4】**(COMPOSITUM-ρ 前件 2 = ρ_i=R_i∘ρ_M の関手性・未証明)**【R3-GAP-5】**(前件 3 = CRT-INJ の M instance)— **式は条件付きで有効・d₉/d_{S4}/r の値は全て UNKNOWN**(式の閉と値の決定は別)。
+  (d) ★**S4 の非対称(検分で格上げ)**: N_{S4} は dihedral poset 外+isolated 発効済 ⟹ **d_{S4}<9 ⟺ GT(N_{S4})∖im(Ih_{S4})≠∅ = 井原予想の直接反例**(Conj 5.1 と無矛盾のまま)。実測時は QUAR 検疫を前提に事前固定。
+- F5【ISO-S4 fullsweep = 格上げ請求】(s4_fullsweep_python_v1): あなたの指定仕様どおり **pure Python で 3024 全候補に hexagon 2 本+SURJ を独立適用** — stage counts(2640/330/0)と正規化 (m,f) 54 集合が GAP と**完全一致**(対称差 0)。⟹ M119-1 解消・**列挙の cross-checked 格上げを請求**。
+- F6【census 事件の正直報告】: S4-FULLPRE census の graph 欄で **cert バグを falsifier CV-9 判読が確定**(Q0.1 = 恒等置換 ⟹ Kstd 全自明 ⟹ 「graph 型 0」はバグ産物)。⚠数学者は当初これに「共役類水準+H¹(C₆,μ₉)=0」の**理論を後付け**(H¹=0 自体は真 — **真の補題が誤数値を「説明」できてしまう**危険の実例・W-51/52 起草)。修理 v2(陽性対照 2 本を cert 内新設)= falsifier 独立再現と完全一致(full_pullback 12・graph 24・χ-全射内 3/10)。**帰結: graph 型は群論的に実在 ⟹ A_{S4} の graph 排除は算術論証(複素共役)だけが担う**(K9-FULLPRE も同様と自認)。恒久規範【陽性対照必須】採択(同型欠陥 4 度目)。
+- F7【χ 扉/c∉N 集落の開戦】(ideas_chidoor_83win_v1+zcensus83_v2): 発案 7 札 → 記述統計 3 点完了 — SPLIT-6E 三分(**A 型 15/B 型 66/C 型 2** = 札予測一致・骨格「c∈N ⟹ e|6」は c∈N 側 57/57 で較正 PASS)・**新不変量 z=ord(c mod N) の 83 窓一括測量**(δ=z/z_ab 分布 = {1:68, 2:9, 3:4, 4:2} — **非可換深度 δ>1 は 15 窓に局在**)。札検分は数学者 queue。
+- F8【③線 retarget (F) = GO・C2 前哨 PASS】(retarget_F_audit_v1+p_wr1prime_v1): EXT-NOWIN 回避(H を替えた型)・RIBET-SECTION 非移植(xd2 erratum の但し書きが救う)・**C2 が 1 検査に縮約**(braid 関係+det ⟹ det=−1 強制・SL(2,691) perfect ⟹ Goursat 消滅)→ **既走 cert の det 読み出しで det(x)=det(y)=−1 確認 = C2 PASS**(新規探索ゼロ)。段 1(H²・SL^± 縮約済)の仕様起草は queue。⚠**留保 R-1: 「③ が 972 の |Q_A|>6 を供給する」は未証明**(型 vs 実像 — 段 4 marking まで「供給源」と言わない)。
+- F9【K9 receipt 測定線の現況】: prereg v2(p8_corr_v1 — あなたの F3(f) fail-closed 条項を含む falsifier 前哨の B-1+S1-4+N1 全反映・**MISS 時の再開順序 3 段を事前凍結**)・R-0/R-0b cert(D=18・passport・g(W₉)=4・deck 自明)・**枝 Q は撤回**(「g:4→2」は wac_v1/S4 窓の文献覚書の話 = 窓取り違え・型境界 4 度目・r1_branch_retraction_v1 に自己申告 3 件)⟹ **枝 P(函数階段でモデル直接構成)を採択**。
+- F10【走行系(値は持ち込まない)】: k12 T4/T5 = GHA 再走中(初回 run は **sympy 未導入の環境不備で failure → 診断・修理**〔step2+finalize の pip install 欠落〕→ run 31565199573)。k13 は完了済(前便)。
+
+## 2. P#(請求)
+
+- P1【v1.4.8 検収】: 10 項+台帳 68 三致。
+- P2【K9-COMPOSE 修理の監査 — 眼目 1】: (a) T63-P1^fix の fixed-window 化があなたの路①の正実装か (b) ★**(d1) 内包の読み**(uniform (5′^b) で足り exact (5′) 調達不要・COMPOSE-GAP-1 全閉)の当否 (c) T63-CONNECT の格(framework-conditional・M119-5 維持)。**PASS なら d₉=9 の HOLD 解除と receipt(P8-value)発火の認可**を請う(prereg v2 は凍結準備完了)。
+- P3【TRIAD-972 の監査 — 眼目 2】: 式の導出・RES-INJ-9・R3-GAP-4/5 の残し方(条件付き搭載)の当否。**PASS なら r 測定の設計着手**(r は d と独立の第三の自由度 — 972 戦線の主標的化)を請う。
+- P4【fullsweep 格上げ】: F5 により ISO-S4 の列挙を cross-checked へ。
+- P5【UNRAM 分割方針】: U-odd(p≥5 素朴 specialization)の可否・U-2 の分離・GAP-3 の設計方針への助言。
+- P6【S4 非対称の確認】: F4(d) の「d_{S4}<9 = 井原予想の直接反例」の読みと、実測時 QUAR プロトコルの要件指定。
+
+## 3. W#(正直申告)
+
+- W1: **d₉/d_{S4}/r の値は全て UNKNOWN**。K9-COMPOSE 修理完了は「候補」= あなたの検収前。d₉=9 は HOLD のまま・P-K9U-1 の的中判定も未成立のまま。
+- W2: k12 = 走行中(値不使用)。k13 T4/T5(SNF-MOD-13)は k12 後。
+- W3: 本便の同日自己捕獲群(台帳候補・**案 B = あなたの採番を待って一括**): 枝 Q 窓取り違え(blocker 相当)・被覆次数誤読(major)・R-0b 設計内部矛盾(major)・TOWER-GAP-1 誤起票(major)・census 後付け説明(major・W-51/52 起草)・RECON v1/v2 系(前便申告済)。
+- W4: 単系統箇所: TRIAD-972 検分・RES-INJ-9・T63-CONNECT・retarget 検分 = 数学者の紙(Sol 未監査)。z census・SPLIT-6E = 実装係単系統(較正ゲートのみ二重)。census v2 の 12/24 = GAP×falsifier 再現の二系統一致。
+- W5: 発送は研究者指示(「k12 は時間かかるからさっさと先に進めよう」)により k12 完走を待たない — cert は着弾次第追送。
+- W6: 格付けに verified 不使用。
+
+P2 → P3 → P4 の順で優先されたい。
