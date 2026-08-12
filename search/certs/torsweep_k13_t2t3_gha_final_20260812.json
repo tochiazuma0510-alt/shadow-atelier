@@ -1,0 +1,82 @@
+{
+  "schema": "tor_sweep_k13_gha_combine.1",
+  "ruling_refs": [
+    "裁定735(6)",
+    "裁定808",
+    "裁定897"
+  ],
+  "k": 13,
+  "H_rank": 210,
+  "stages": {
+    "T2_T3": {
+      "per_prime": {
+        "2147483647": {
+          "rank": 207,
+          "nnz_reconstructed": 325901005,
+          "shard_count": 7,
+          "source_run_id": "31527005518",
+          "shard_receipts_sha256": [
+            "0e2b33328f862cbb124208acb75a9ae4f1c4d5f1788f260ffc25ff65f396da6c",
+            "8124eaf5517f83094d9426a244c7d8f638bad2f15441238b195daff4cdc0fc8f",
+            "785c376b96ff30c2965eeb419ce0c272d67359c94d13a7c465ee9a615778864f",
+            "7b70f1707f932257e990fcd54f15048a53e838b18b825262e900d6ccbc52a2de",
+            "47a25bd2270e45f1739c123617754d2fca3404f2df4770e3caaec7639744cf48",
+            "ddcb60b5203700820a1898fe9ddd36885fab68e243d92e2774e8e2bff9d24c84",
+            "d34b050b46e9fd7ed27d37b634cc6f622c612549e6faed273427737752579b3b"
+          ]
+        },
+        "998244353": {
+          "rank": 207,
+          "nnz_reconstructed": 325901005,
+          "shard_count": 7,
+          "source_run_id": "31537900578",
+          "shard_receipts_sha256": [
+            "19b32711a59f85411fdea923d5e31c63a028a6f7723052972d97b91e4f748d43",
+            "4b2a926a8c72f1b6971b48bc0b19d38c0670475940ec2088d07a80cb2572e6c6",
+            "098dda6970879cfdd9a7f9576611b6c3bb9f31eea07b3e7108babde62522e5d8",
+            "93b448ad3ea24a56f50769ab7f4cf11567e77293abe7e81bb33d45857c5400c0",
+            "1da6d08c31c5831c6b50631d980dd59e80d0e94a049b6e13806280fb8e26fdb9",
+            "1ec26e681bd2ecce000cdc4c6a705bbd695a1471d5d668dd374db7281d7be122",
+            "44bcfba1b0e55700537effbe067d5dc0f4f067453ce52649837da07f3aff2f27"
+          ]
+        },
+        "1000000007": {
+          "rank": 207,
+          "nnz_reconstructed": 325901005,
+          "shard_count": 7,
+          "source_run_id": "31537900578",
+          "shard_receipts_sha256": [
+            "be6936fabc7609630c2a3209bc1a98812907fef4e74c629ec9186dc84410541b",
+            "2f0c3b9b868fcf028119c92a7582419506e10425391a0751e4d09008d0d30baa",
+            "bef41a66f93a5b63161b9c8f321e95b83a2a82c129d844ab87f8b4dd05ac50b2",
+            "6492024aeb1ce8b2c38f3d00f4cacc427efc3214db735c3c7fb117b2398587bb",
+            "9e0949c748dd0ff10b0fa3e1e70125147f36c7719f998eb255e94f8694d33178",
+            "04d658c316ea18849bc7dae33e83c526cb89bdbc7a786ca94b9d1d547dad8022",
+            "31be3dbdc9fd947600c28d60f7b823e08f034f26e731b90dca4e677b14901673"
+          ]
+        }
+      },
+      "ranks_agree": true,
+      "r_prime": 207,
+      "dim_S_Q_byproduct": 3,
+      "rank_nu13_matches_expected_207": true,
+      "dim_S13_Q_matches_expected_3": true
+    }
+  },
+  "canaries": {
+    "T-c": {
+      "ranks_by_prime": {
+        "2147483647": 207,
+        "998244353": 207,
+        "1000000007": 207
+      },
+      "pass": true
+    }
+  },
+  "stop_rules": {
+    "S-TOR-4": {
+      "note": "no judgement words; raw values/booleans only"
+    }
+  },
+  "total_elapsed_seconds": 0.0006816387176513672
+}
