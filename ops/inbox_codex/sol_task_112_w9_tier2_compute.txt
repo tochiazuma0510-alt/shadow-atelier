@@ -27,3 +27,6 @@ K⁽⁹⁾ 窓の平面モデル探索(k=2 の残り 4 層)の**厳密消去計�
 
 ## 5. 文脈(必要なら)
 `docs/状態.md` §3.5(全体像)・`docs/notes/w9_structure_and_ansatz_v1.md`(k 走査の元設計)・`docs/notes/w9_ansatz_v2_blocks.md`(ブロック系)。質問があれば reply file に書けば司令塔が拾う。
+
+## 【追記 1・司令塔訂正(裁定 1008)】§2 の診断を訂正
+車線 A(run 31577766198)は**ハングではなかった** — 内部 55 分 SIGALRM は設計どおり発火し、status=INCOMPLETE(TIME_BUDGET_EXCEEDED)の部分結果 artifact を書いて正常終了(job success・55m17s)。したがって問題は「signal が届かない」ではなく「**sympy Gröbner が 7 変数系に対して 55 分で全く終わらない(進捗ゼロで INCOMPLETE)**」という速度の問題。Tier 2(31579129830)は budget 内走行中で、同様に INCOMPLETE で終わる可能性が高い。⟹ 依頼物 1(終わる厳密実装)の価値は不変・依頼物 2(time-box 雛形)は「SIGALRM 修理」ではなく「**checkpoint つき hard timeout + 進捗の途中書き出し**」(進捗ゼロの INCOMPLETE では何も学べないため、部分消去の中間状態を artifact に残す設計)と読み替えてほしい。

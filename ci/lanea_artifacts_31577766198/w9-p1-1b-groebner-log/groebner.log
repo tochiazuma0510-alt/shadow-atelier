@@ -1,0 +1,6 @@
+[    0.00s] loaded 10 equations, 7 unknowns: ['a', 'b', 's0', 's1', 's2', 's3', 's4']
+[    0.07s] parsed equations into sympy expressions
+[    0.07s] starting Groebner basis computation (grevlex)...
+[ 3300.07s] TIME BUDGET EXCEEDED -- writing partial result
+[ 3300.09s] wrote partial/incomplete result
+R13_P1_1B_GROEBNER_INCOMPLETE
