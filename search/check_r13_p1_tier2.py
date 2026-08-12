@@ -3,9 +3,9 @@
 
 This file intentionally does not import the producer.  It rebuilds the
 normalized system and discriminant factorizations from the source certificate,
-then checks every number-field profile at two good finite-field specializations.
-The modular checks are consistency checks; the characteristic-zero decision in
-the producer remains the exact Q[r]/(factor) gcd computation.
+then checks every profile at two independently selected good finite-field
+specializations.  In the producer these good reductions are exact upper-bound
+witnesses, paired with exact discriminant divisibility for the lower bound.
 """
 
 from __future__ import annotations
@@ -251,7 +251,14 @@ def main() -> int:
 
     producer_rows = cert["candidate_factor_classifications"]
     modular = []
-    factor_rows_match = True
+    excluded_sha = {
+        sha
+        for sha, item in all_factors.items()
+        if primitive_coefficients(item["poly"]) == [1, -1]
+    }
+    expected_classified_sha = set(all_factors) - excluded_sha
+    producer_sha = {row["polynomial_sha256"] for row in producer_rows}
+    factor_rows_match = producer_sha == expected_classified_sha
     for row in producer_rows:
         factor_sha = row["polynomial_sha256"]
         if factor_sha not in all_factors:
@@ -280,6 +287,45 @@ def main() -> int:
         item["primitive_integer_coefficients_high_to_low"] == [1, -1]
         for item in cert["excluded_factors"]
     )
+    producer_branch_factorizations_match = True
+    for branch_name, rebuilt in (("branch_I", factors1), ("branch_II", factors2)):
+        expected = {
+            factor_sha: row["exponent"] for factor_sha, row in rebuilt.items()
+        }
+        observed = {
+            row["polynomial_sha256"]: row["exponent"]
+            for row in cert[branch_name]["factors"]
+        }
+        producer_branch_factorizations_match &= expected == observed
+
+    requested_layers = {(2, 7), (4, 5), (6, 3), (8, 1)}
+    recomputed_layer_counts = {f"({a},{b})": 0 for a, b in sorted(requested_layers)}
+    for row in producer_rows:
+        layer = tuple(row["odd_root_profile"])
+        if row["admissible_candidate_factor"] and layer in requested_layers:
+            recomputed_layer_counts[f"({layer[0]},{layer[1]})"] += row[
+                "point_enumeration"
+            ]["ordered_points_over_Qbar"]
+    raw = cert["raw_result"]
+    producer_raw_counts_match = (
+        raw["candidate_factor_count_after_open_conditions"]
+        == sum(bool(row["admissible_candidate_factor"]) for row in producer_rows)
+        and raw["candidate_ordered_point_count_before_genus_sieve"]
+        == sum(
+            row["point_enumeration"]["ordered_points_over_Qbar"]
+            for row in producer_rows
+            if row["admissible_candidate_factor"]
+        )
+        and raw["requested_layer_ordered_point_counts"] == recomputed_layer_counts
+        and raw["surviving_factor_count"]
+        == sum(bool(row["requested_layer"]) for row in producer_rows)
+        and raw["surviving_ordered_point_count"]
+        == sum(
+            row["point_enumeration"]["ordered_points_over_Qbar"]
+            for row in producer_rows
+            if row["requested_layer"]
+        )
+    )
     result = {
         "schema": "r13-p1-tier2-check/v1",
         "status": "COMPLETE",
@@ -305,6 +351,11 @@ def main() -> int:
                 and cert["branch_II"]["degree"] == disc2.degree()
             ),
             "factor_rows_match": bool(factor_rows_match),
+            "producer_factor_set_complete": producer_sha == expected_classified_sha,
+            "producer_branch_factorizations_match": bool(
+                producer_branch_factorizations_match
+            ),
+            "producer_raw_counts_match": bool(producer_raw_counts_match),
             "r_equals_1_exclusion_present": excluded_r1,
             "modular_profiles": modular,
             "all_modular_profiles_have_two_good_specializations": all(
@@ -321,6 +372,9 @@ def main() -> int:
         result["checks"]["producer_source_hash_matches"],
         result["checks"]["producer_disc_degrees_match"],
         result["checks"]["factor_rows_match"],
+        result["checks"]["producer_factor_set_complete"],
+        result["checks"]["producer_branch_factorizations_match"],
+        result["checks"]["producer_raw_counts_match"],
         result["checks"]["r_equals_1_exclusion_present"],
         result["checks"]["all_modular_profiles_have_two_good_specializations"],
     ]

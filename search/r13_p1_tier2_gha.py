@@ -15,9 +15,12 @@ the two normalized discriminant factors are
     S2 = Q0 - (z^9 - H/2)^2,   deg_z S2  = 9.
 
 Thus candidate ratios are roots of the two univariate discriminants in r.
-Each irreducible ratio factor is classified exactly in Q[r]/(factor) using
-python-flint number-field arithmetic and a squarefree-decomposition gcd chain.
-No floating-point decision is made.
+For each irreducible factor f, discriminant divisibility gives the exact lower
+bound deg(gcd(S,S')) >= 1.  A degree-preserving good reduction at a simple
+root of f with gcd degree one gives the exact upper bound <= 1 (specialization
+can only increase gcd degree).  Together these prove the characteristic-zero
+profile.  No floating-point decision is made.  Earlier number-field rows may
+also be reused after a full integrity and coefficient-system check.
 """
 
 from __future__ import annotations
@@ -383,6 +386,102 @@ def odd_root_count(profile: list[dict[str, int]]) -> int:
     )
 
 
+def rational_mod(value: sp.Rational, prime: int) -> int:
+    numerator = int(value.p) % prime
+    denominator = int(value.q) % prime
+    if denominator == 0:
+        raise ZeroDivisionError
+    return numerator * pow(denominator, -1, prime) % prime
+
+
+def evaluate_expression_mod(
+    expression: sp.Expr, r: sp.Symbol, value: int, prime: int
+) -> int:
+    poly = sp.Poly(expression, r, domain=sp.QQ)
+    result = 0
+    for coefficient in poly.all_coeffs():
+        result = (result * value + rational_mod(coefficient, prime)) % prime
+    return result
+
+
+def modular_polynomial(
+    coefficients: list[sp.Expr],
+    r: sp.Symbol,
+    value: int,
+    prime: int,
+    z: sp.Symbol,
+) -> sp.Poly:
+    reduced = [
+        evaluate_expression_mod(coefficient, r, value, prime)
+        for coefficient in coefficients
+    ]
+    return sp.Poly.from_list(list(reversed(reduced)), gens=z, modulus=prime)
+
+
+def quotient_remainder_nonzero(
+    expression: sp.Expr, factor: sp.Poly, r: sp.Symbol
+) -> bool:
+    remainder = sp.rem(
+        sp.Poly(expression, r, domain=sp.QQ),
+        sp.Poly(factor, r, domain=sp.QQ),
+    )
+    return not remainder.is_zero
+
+
+def good_reduction_gcd_one_witnesses(
+    factor: sp.Poly,
+    coefficients: list[sp.Expr],
+    expected_degree: int,
+    r: sp.Symbol,
+    z: sp.Symbol,
+    count: int = 2,
+) -> list[dict[str, Any]]:
+    integer_factor = sp.Poly.from_list(
+        primitive_integer_coefficients(factor), gens=r, domain=sp.ZZ
+    )
+    derivative_factor = integer_factor.diff()
+    witnesses = []
+    for prime in sp.primerange(5, 2000):
+        if int(integer_factor.LC()) % prime == 0:
+            continue
+        for value in range(prime):
+            factor_value = int(integer_factor.eval(value)) % prime
+            derivative_value = int(derivative_factor.eval(value)) % prime
+            if factor_value != 0 or derivative_value == 0:
+                continue
+            try:
+                polynomial = modular_polynomial(coefficients, r, value, prime, z)
+            except ZeroDivisionError:
+                continue
+            if polynomial.degree() != expected_degree:
+                continue
+            gcd = sp.gcd(polynomial, polynomial.diff())
+            if gcd.degree() != 1:
+                continue
+            witnesses.append(
+                {
+                    "prime": int(prime),
+                    "ratio_root": int(value),
+                    "factor_value_mod_prime": factor_value,
+                    "factor_derivative_value_mod_prime": derivative_value,
+                    "degree_preserved": True,
+                    "gcd_with_derivative_degree": gcd.degree(),
+                    "polynomial_coefficients_high_to_low_mod_prime": [
+                        int(coefficient) % prime for coefficient in polynomial.all_coeffs()
+                    ],
+                    "gcd_coefficients_high_to_low_mod_prime": [
+                        int(coefficient) % prime for coefficient in gcd.monic().all_coeffs()
+                    ],
+                }
+            )
+            break
+        if len(witnesses) >= count:
+            return witnesses
+    raise RuntimeError(
+        f"could not find {count} exact good-reduction witnesses for {polynomial_id(factor)}"
+    )
+
+
 def synthetic_polynomial(odd: int, degree: int, start: int, x: sp.Symbol) -> sp.Poly:
     expression: sp.Expr = sp.Integer(1)
     next_root = start
@@ -459,28 +558,71 @@ def classify_factor(
     system: dict[str, Any],
 ) -> dict[str, Any]:
     r = system["r"]
+    z = system["z"]
     started = time.monotonic()
-    field = NumberFieldOps(factor, r)
-    s1 = [field.from_expr(value) for value in system["s1_coefficients"]]
-    s2 = [field.from_expr(value) for value in system["s2_coefficients"]]
-    s1 = trim(s1, field)
-    s2 = trim(s2, field)
-    h = field.from_expr(system["h"])
-    c0 = field.from_expr(system["constant"])
-    gcd_12 = polynomial_gcd(s1, s2, field)
-    profile1 = squarefree_profile(s1, field)
-    profile2 = squarefree_profile(s2, field)
+    branches = {membership["branch"] for membership in memberships}
+    h_nonzero = quotient_remainder_nonzero(system["h"], factor, r)
+    c0_nonzero = quotient_remainder_nonzero(system["constant"], factor, r)
+    s1_degree_8 = quotient_remainder_nonzero(
+        system["s1_coefficients"][-1], factor, r
+    )
+    s2_degree_9 = quotient_remainder_nonzero(
+        system["s2_coefficients"][-1], factor, r
+    )
+
+    profile_proofs: dict[str, Any] = {}
+    if "I" in branches:
+        witnesses = good_reduction_gcd_one_witnesses(
+            factor, system["s1_coefficients"], 8, r, z
+        )
+        profile1 = [
+            {"multiplicity": 1, "distinct_root_degree": 6},
+            {"multiplicity": 2, "distinct_root_degree": 1},
+        ]
+        profile_proofs["S1"] = {
+            "lower_bound": "f divides the exactly reconstructed discriminant, so gcd(S1,dS1) has degree at least 1",
+            "upper_bound": "a degree-preserving simple-root reduction has gcd degree 1; specialization can only increase gcd degree",
+            "characteristic_zero_gcd_degree": 1,
+            "good_reduction_witnesses": witnesses,
+        }
+    else:
+        profile1 = [{"multiplicity": 1, "distinct_root_degree": 8}]
+        profile_proofs["S1"] = {
+            "proof": "f is absent from the exact irreducible factorization of disc(S1)",
+            "characteristic_zero_gcd_degree": 0,
+        }
+
+    if "II" in branches:
+        witnesses = good_reduction_gcd_one_witnesses(
+            factor, system["s2_coefficients"], 9, r, z
+        )
+        profile2 = [
+            {"multiplicity": 1, "distinct_root_degree": 7},
+            {"multiplicity": 2, "distinct_root_degree": 1},
+        ]
+        profile_proofs["S2"] = {
+            "lower_bound": "f divides the exactly reconstructed discriminant, so gcd(S2,dS2) has degree at least 1",
+            "upper_bound": "a degree-preserving simple-root reduction has gcd degree 1; specialization can only increase gcd degree",
+            "characteristic_zero_gcd_degree": 1,
+            "good_reduction_witnesses": witnesses,
+        }
+    else:
+        profile2 = [{"multiplicity": 1, "distinct_root_degree": 9}]
+        profile_proofs["S2"] = {
+            "proof": "f is absent from the exact irreducible factorization of disc(S2)",
+            "characteristic_zero_gcd_degree": 0,
+        }
+
     observed = (odd_root_count(profile1), odd_root_count(profile2))
     coefficients = primitive_integer_coefficients(factor)
     factor_sha = sha256_bytes(canonical_bytes(coefficients))
     degree = factor.degree()
     admissible = (
         degree > 1
-        and not field.is_zero(h)
-        and not field.is_zero(c0)
-        and len(s1) - 1 == 8
-        and len(s2) - 1 == 9
-        and len(gcd_12) - 1 == 0
+        and h_nonzero
+        and c0_nonzero
+        and s1_degree_8
+        and s2_degree_9
     )
     return {
         "factor_id": factor_sha[:16],
@@ -498,17 +640,19 @@ def classify_factor(
             "mu9_and_swap_orbits": degree // 2 if coefficients == list(reversed(coefficients)) else None,
         },
         "open_conditions": {
-            "a_not_zero_from_scale_equation": not field.is_zero(h),
+            "a_not_zero_from_scale_equation": h_nonzero,
             "a_not_equal_b": degree > 1,
-            "H_nonzero": not field.is_zero(h),
-            "c0_nonzero": not field.is_zero(c0),
-            "S1_degree_8": len(s1) - 1 == 8,
-            "S2_degree_9": len(s2) - 1 == 9,
-            "gcd_S1_S2_degree": len(gcd_12) - 1,
+            "H_nonzero": h_nonzero,
+            "c0_nonzero": c0_nonzero,
+            "S1_degree_8": s1_degree_8,
+            "S2_degree_9": s2_degree_9,
+            "gcd_S1_S2_degree": 0,
+            "gcd_S1_S2_proof": "S2-S1=2*H*z^9; a common root would be z=0, contradicted by c0!=0",
         },
         "admissible_candidate_factor": admissible,
         "S1_squarefree_profile": profile1,
         "S2_squarefree_profile": profile2,
+        "exact_profile_proofs": profile_proofs,
         "odd_root_profile": list(observed),
         "odd_root_total": sum(observed),
         "requested_layer": admissible and observed in TARGET_LAYERS,
@@ -649,9 +793,6 @@ def main() -> int:
 
     checkpoint("INPUT_LOADED")
     try:
-        if flint is None:
-            raise RuntimeError("python-flint import failed")
-
         system = build_normalized_system(source)
         state["normalized_system"] = system["metadata"]
         state["normalized_system"]["chart"] = (
