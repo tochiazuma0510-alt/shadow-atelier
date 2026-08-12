@@ -114,11 +114,23 @@ def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
     os.replace(tmp, path)
 
 
+def payload_integrity_is_valid(payload: dict[str, Any]) -> bool:
+    stored = payload.get("integrity", {}).get("canonical_payload_sha256")
+    candidate = copy.deepcopy(payload)
+    candidate.pop("integrity", None)
+    return stored == sha256_bytes(canonical_bytes(candidate))
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--checkpoint", type=Path, default=DEFAULT_CHECKPOINT)
+    parser.add_argument(
+        "--resume-from",
+        type=Path,
+        help="integrity-checked earlier v2 checkpoint whose completed factor rows may be reused",
+    )
     return parser.parse_args()
 
 
@@ -504,6 +516,88 @@ def classify_factor(
     }
 
 
+def validated_resume_rows(
+    path: Path,
+    source_path: Path,
+    state: dict[str, Any],
+    combined: dict[tuple[int, ...], dict[str, Any]],
+) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not payload_integrity_is_valid(payload):
+        raise RuntimeError("resume checkpoint payload integrity mismatch")
+    if payload.get("schema") != "r13-p1-tier2/v2":
+        raise RuntimeError("resume checkpoint schema mismatch")
+    if payload.get("input", {}).get("sha256") != sha256_file(source_path):
+        raise RuntimeError("resume checkpoint source hash mismatch")
+
+    metadata_keys = (
+        "S1_coefficient_system_sha256",
+        "S2_coefficient_system_sha256",
+        "constant_term_correction",
+    )
+    for key in metadata_keys:
+        if payload.get("normalized_system", {}).get(key) != state.get(
+            "normalized_system", {}
+        ).get(key):
+            raise RuntimeError(f"resume normalized-system mismatch: {key}")
+
+    for branch in ("branch_I", "branch_II"):
+        cached = payload.get(branch, {})
+        current = state.get(branch, {})
+        for key in ("degree", "term_count", "factorization_reconstructs_discriminant"):
+            if cached.get(key) != current.get(key):
+                raise RuntimeError(f"resume {branch} mismatch: {key}")
+        if cached.get("factors") != current.get("factors"):
+            raise RuntimeError(f"resume {branch} factor rows mismatch")
+
+    current_by_sha: dict[str, dict[str, Any]] = {}
+    for coefficients, record in combined.items():
+        factor_sha = sha256_bytes(canonical_bytes(list(coefficients)))
+        current_by_sha[factor_sha] = {
+            "coefficients": list(coefficients),
+            "factor": record["poly"],
+            "memberships": record["memberships"],
+        }
+
+    rows: dict[str, dict[str, Any]] = {}
+    for cached_row in payload.get("candidate_factor_classifications", []):
+        factor_sha = cached_row.get("polynomial_sha256")
+        if factor_sha not in current_by_sha:
+            raise RuntimeError(f"resume classification has unknown factor: {factor_sha}")
+        current = current_by_sha[factor_sha]
+        if cached_row.get("primitive_integer_coefficients_high_to_low") != current[
+            "coefficients"
+        ]:
+            raise RuntimeError(f"resume classification coefficient mismatch: {factor_sha}")
+        if cached_row.get("factor_degree") != current["factor"].degree():
+            raise RuntimeError(f"resume classification degree mismatch: {factor_sha}")
+        if cached_row.get("branch_memberships") != current["memberships"]:
+            raise RuntimeError(f"resume classification membership mismatch: {factor_sha}")
+        observed = (
+            odd_root_count(cached_row.get("S1_squarefree_profile", [])),
+            odd_root_count(cached_row.get("S2_squarefree_profile", [])),
+        )
+        if cached_row.get("odd_root_profile") != list(observed):
+            raise RuntimeError(f"resume classification profile mismatch: {factor_sha}")
+        expected_requested = bool(cached_row.get("admissible_candidate_factor")) and (
+            observed in TARGET_LAYERS
+        )
+        if cached_row.get("requested_layer") != expected_requested:
+            raise RuntimeError(f"resume requested-layer mismatch: {factor_sha}")
+        rows[factor_sha] = copy.deepcopy(cached_row)
+
+    provenance = {
+        "path": str(path.relative_to(ROOT)),
+        "file_sha256": sha256_file(path),
+        "payload_integrity_valid": True,
+        "source_github_run_id": payload.get("generated_by", {}).get("github_run_id"),
+        "source_github_sha": payload.get("generated_by", {}).get("github_sha"),
+        "source_script_sha256": payload.get("generated_by", {}).get("script_sha256"),
+        "imported_factor_ids": sorted(row["factor_id"] for row in rows.values()),
+    }
+    return rows, provenance
+
+
 def main() -> int:
     args = parse_args()
     start = time.monotonic()
@@ -597,6 +691,16 @@ def main() -> int:
                     {"branch": branch_name, "discriminant_exponent": row["exponent"]}
                 )
 
+        resumed_rows: dict[str, dict[str, Any]] = {}
+        resume_provenance = None
+        if args.resume_from is not None:
+            resume_path = args.resume_from.resolve()
+            resumed_rows, resume_provenance = validated_resume_rows(
+                resume_path, source_path, state, combined
+            )
+            state["resume"] = resume_provenance
+            checkpoint("RESUME_VALIDATED")
+
         classifications = []
         excluded = []
         for key in sorted(combined, key=lambda item: (len(item), item)):
@@ -611,11 +715,24 @@ def main() -> int:
                     }
                 )
                 continue
-            row = classify_factor(factor, record["memberships"], system)
+            factor_sha = sha256_bytes(canonical_bytes(list(key)))
+            if factor_sha in resumed_rows:
+                row = copy.deepcopy(resumed_rows[factor_sha])
+                row["classification_provenance"] = {
+                    "mode": "integrity_checked_resume",
+                    "checkpoint_file_sha256": resume_provenance["file_sha256"],
+                    "source_github_run_id": resume_provenance["source_github_run_id"],
+                    "source_github_sha": resume_provenance["source_github_sha"],
+                }
+                stage_prefix = "RESUMED"
+            else:
+                row = classify_factor(factor, record["memberships"], system)
+                row["classification_provenance"] = {"mode": "computed_in_this_run"}
+                stage_prefix = "CLASSIFIED"
             classifications.append(row)
             state["candidate_factor_classifications"] = classifications
             state["excluded_factors"] = excluded
-            checkpoint(f"CLASSIFIED_{row['factor_id']}")
+            checkpoint(f"{stage_prefix}_{row['factor_id']}")
 
         layer_counts = {f"({a},{b})": 0 for a, b in sorted(TARGET_LAYERS)}
         survivor_factor_count = 0

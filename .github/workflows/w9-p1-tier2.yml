@@ -71,7 +71,8 @@ jobs:
             python search/r13_p1_tier2_gha.py \
               --input search/certs/r13_p1_1pp_k2_v1_20260812.json \
               --output ci/out/r13_p1_tier2_result.json \
-              --checkpoint ci/out/r13_p1_tier2_math_checkpoint.json
+              --checkpoint ci/out/r13_p1_tier2_math_checkpoint.json \
+              --resume-from search/certs/r13_p1_tier2_checkpoint_v2_run31584810985.json
           rc=$?
           echo "wrapper_exit=$rc" >> "$GITHUB_OUTPUT"
           exit 0
