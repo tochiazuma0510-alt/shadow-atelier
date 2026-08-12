@@ -373,6 +373,18 @@ RunRoof := function(leftW, rightW, capSeconds)
 end;;
 
 # ==== cert writer (checkpoint after each roof) ====
+# self-caught (裁定1070中に発見・run 31621374555で実際にJSON破損): GAPの String(0.0) は
+# "0."(小数点の後に数字なし)を返し、これはJSONの数値構文として不正(末尾に桁が必要)。
+# scan_elapsed_seconds のような浮動小数点フィールドに使う専用フォーマッタ。
+FloatJson := function(x)
+  local s;
+  s := String(x);;
+  if Length(s) > 0 and s[Length(s)] = '.' then
+    s := Concatenation(s, "0");;
+  fi;
+  return s;;
+end;;
+
 ClassJson := function(c)
   return Concatenation("{\"index\":", String(c.index), ",\"normal\":", JB(c.normal),
     ",\"quotient_order\":", String(c.quotient_order), ",\"quotient_abelian\":", JB(c.quotient_abelian),
@@ -389,7 +401,7 @@ RowJson := function(r)
     ",\"candidate_total\":", String(r.candidate_total),
     ",\"shadow_total\":", String(r.shadow_total),
     ",\"scan_capped\":", JB(r.scan_capped),
-    ",\"scan_elapsed_seconds\":", String(r.scan_elapsed_seconds)
+    ",\"scan_elapsed_seconds\":", FloatJson(r.scan_elapsed_seconds)
   );;
   if r.status = "COMPLETE" then
     base := Concatenation(base,
