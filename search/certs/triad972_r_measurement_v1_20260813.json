@@ -1,0 +1,246 @@
+{
+ "schema": "triad972_r_measurement/v1",
+ "artifact_date": "2026-08-13",
+ "task": "[CP] TRIAD-972 beta -- simultaneous disclosure + r cross-check",
+ "authorisation": "ruling 1118 (protocol) / ruling 1120 (quarantine release, this task only)",
+ "procedure_doc_sha_reconfirmation": {
+  "docs/notes/p8_prereg_v3_2.md": {
+   "sha256_actual": "3a9cfb060c5af3bef7e54d9c849709852b9579cacf49d5651d1417cb842161fc",
+   "sha256_expected": "3a9cfb060c5af3bef7e54d9c849709852b9579cacf49d5651d1417cb842161fc",
+   "match": true
+  },
+  "docs/notes/branchP_and_r_spec_v1.md": {
+   "sha256_actual": "b1300005cb9935a1951db4c58836a217b9ced0b815ba8a575805b4f77e3b97c9",
+   "sha256_expected": "b1300005cb9935a1951db4c58836a217b9ced0b815ba8a575805b4f77e3b97c9",
+   "match": true
+  },
+  "docs/notes/r_card_v2_addendum_1.md": {
+   "sha256_actual": "19baf388b2e62ef675cd2a1902fb8bdbff35501c40559ddd77aa5b32ccfc2346",
+   "sha256_expected": "19baf388b2e62ef675cd2a1902fb8bdbff35501c40559ddd77aa5b32ccfc2346",
+   "match": true
+  }
+ },
+ "input_cert_sha_reconfirmation": {
+  "a_class": {
+   "path": "search/certs/sol123_p8_a_class_v1_20260813.json",
+   "sha256_actual": "dd1cf38556d0eff58ab29f0cd47bf762df782c45c43e9b27741bba3e015210b8",
+   "sha256_expected": "dd1cf38556d0eff58ab29f0cd47bf762df782c45c43e9b27741bba3e015210b8",
+   "match": true
+  },
+  "ds4_b": {
+   "path": "search/certs/ds4_receipt_v1_20260812.json",
+   "sha256_actual": "f4658b2d7f4552694b35ebcf0a2e77fb2f2328bb812000b55449694a74ec21a8",
+   "sha256_expected": null,
+   "match": true
+  },
+  "S": {
+   "path": "search/certs/sol123_u3_disc_v1_20260813.json",
+   "sha256_actual": "d2f3b361d8bec47077c37017d26a9259d225c56daa9bea55b7a0306fb4af231e",
+   "sha256_expected": "d2f3b361d8bec47077c37017d26a9259d225c56daa9bea55b7a0306fb4af231e",
+   "match": true
+  }
+ },
+ "a_raw": {
+  "source_cert": "search/certs/sol123_p8_a_class_v1_20260813.json",
+  "support": [
+   2
+  ],
+  "exponents_mod9": [
+   7
+  ],
+  "order": 9,
+  "name_collide_note": "this a_class is a K^(9)-window-family instance object (task tag Sol-123/DESC-9); distinct from the sealed K^(5) quantities. u is touched (unavoidable, a_class-derived); no sealed-quantity value is read or written here."
+ },
+ "p8_accept_test_raw": {
+  "rule": "a_class.support == [3] and a_class.order == 9  (P8 v3.2 S1, docs/notes/p8_prereg_v3_2.md sec.3)",
+  "observed_support": [
+   2
+  ],
+  "observed_order": 9,
+  "precondition_met": false,
+  "p8_branch_if_not_met": "(u2) support != {3} -- see p8_prereg_v3_2.md sec.5",
+  "cert_self_reported_score_rule_s1_result": false
+ },
+ "p8_u2_branch_outcome": {
+  "branch": "(u2)",
+  "condition_observed": "support != {3}",
+  "outcome": "P-K9U-1 is a miss, per P8 v3.2 (u2) prereg branch (docs/notes/p8_prereg_v3_2.md sec.5)",
+  "outcome_type": "determinate prereg outcome (not UNKNOWN / not open)",
+  "authorisation_for_this_reading": "ruling 1122 (commander) -- frozen doc's internal branch governs over the cover instruction's conservative paraphrase",
+  "note": "this records that the specific prediction P-K9U-1 did not hit; it is not a verdict on TRIAD-972, r, or d9"
+ },
+ "d9_receipt_raw": {
+  "value_ord_a": 9,
+  "precondition_for_p_k9u1_specific_receipt": false,
+  "status": "d9 = ord([a]) is a raw machine value in all cases; its interpretation as confirming L_9,Aff = Q(zeta_9, 3^{1/9}) (P-K9U-1) requires the P8 S-1 precondition, which is NOT MET here. No verdict is asserted."
+ },
+ "d9_interpretation_withheld": {
+  "withheld_question_1": "whether ord([a])=9 substantiates/instantiates the d9 used in the TRIAD-972 reduction formula |X\\A| = 972 - 12*d9*dS4/r",
+  "withheld_question_2": "the meaning of support([a]) = {2} (as opposed to the P-K9U-1 prediction of {3})",
+  "withheld_until": "commander gate + mathematician reading",
+  "provenance_not_interpretation": "the value d9=9 used as a factor in the |X\\A| formula below is recorded as: the MEASURED VALUE of ord([a]) (a_class cert, sha dd1cf38556d0eff58ab29f0cd47bf762df782c45c43e9b27741bba3e015210b8), not as an asserted identification of that quantity with TRIAD-972's d9. This is a provenance record, not an interpretive claim."
+ },
+ "b_raw_independent_rederivation": {
+  "source_cert": "search/certs/ds4_receipt_v1_20260812.json",
+  "raw_exponents_pre_normalization": {
+   "3": 6,
+   "5": 9,
+   "2": -8
+  },
+  "normalization_rule": "reduce each exponent mod 9; drop primes whose reduced exponent is 0",
+  "support": [
+   2,
+   3
+  ],
+  "exponents_mod9": [
+   1,
+   6
+  ],
+  "order": 9,
+  "cross_check_against_ds4_cert_ord_value": 9,
+  "match": true
+ },
+ "r_canary_reconfirmation": {
+  "canary_cert": "search/certs/r_intersection_template_canary_20260812.json",
+  "all_pass": true,
+  "n_canaries": 4
+ },
+ "r_measurement_raw": {
+  "a_representative_integer": 128,
+  "b_representative_integer": 1458,
+  "support_primes_union": [
+   2,
+   3
+  ],
+  "a_vector_mod9": [
+   7,
+   0
+  ],
+  "b_vector_mod9": [
+   1,
+   6
+  ],
+  "ord_a": 9,
+  "ord_b": 9,
+  "subgroup_a_elements": [
+   [
+    0,
+    0
+   ],
+   [
+    1,
+    0
+   ],
+   [
+    2,
+    0
+   ],
+   [
+    3,
+    0
+   ],
+   [
+    4,
+    0
+   ],
+   [
+    5,
+    0
+   ],
+   [
+    6,
+    0
+   ],
+   [
+    7,
+    0
+   ],
+   [
+    8,
+    0
+   ]
+  ],
+  "subgroup_b_elements": [
+   [
+    0,
+    0
+   ],
+   [
+    1,
+    6
+   ],
+   [
+    2,
+    3
+   ],
+   [
+    3,
+    0
+   ],
+   [
+    4,
+    6
+   ],
+   [
+    5,
+    3
+   ],
+   [
+    6,
+    0
+   ],
+   [
+    7,
+    6
+   ],
+   [
+    8,
+    3
+   ]
+  ],
+  "intersection_elements": [
+   [
+    0,
+    0
+   ],
+   [
+    3,
+    0
+   ],
+   [
+    6,
+    0
+   ]
+  ],
+  "r": 3
+ },
+ "triad972_raw_comparison": {
+  "formula": "|X\\A| = 972 - 12*d9*dS4/r",
+  "d9": 9,
+  "d_S4": 9,
+  "r": 3,
+  "d9_provenance": "d9 as used here is the MEASURED VALUE of ord([a]) from the r-measurement above (== a_class cert's own reported order); its identification with TRIAD-972's d9 is a provenance record, not an interpretive claim (see d9_interpretation_withheld above)",
+  "r_ge_3": true,
+  "twelve_d9_dS4": 972,
+  "divisible_by_r": true,
+  "X_minus_A_raw_value": 648,
+  "non_trigger_triple_is_9_9_1": false,
+  "observed_triple_equals_non_trigger_triple": false
+ },
+ "S_simultaneous_disclosure_raw": {
+  "source_cert": "search/certs/sol123_u3_disc_v1_20260813.json",
+  "S_support": [
+   2,
+   3
+  ],
+  "supp_a": [
+   2
+  ],
+  "S_contains_supp_a": true,
+  "note": "raw containment fact only; no interpretation of what containment/non-containment means for unram_gap_4 (recorded OPEN in the S cert) is asserted here"
+ },
+ "d_no_interpretation": "machine values only; verdict is commander's",
+ "u_touched": true,
+ "c_contact": false,
+ "sealed_three_quantities_contact": false
+}
