@@ -1,0 +1,193 @@
+{
+ "schema": "r13-p1d2/v2",
+ "generated_by": {
+  "tool": "python (mpmath 60dps complex algebra + sympy for exact B1,B2 derivation carried over from p1_d2_scan_v1.py). No GAP execution.",
+  "script": "search/p1_d2_scan_v2.py",
+  "order": "裁定1080 [D2-3]+[D2-4] / docs/notes/p1d2_concrete_spec_v1.md"
+ },
+ "status": "D2-3 (linear system, all 4 P's) and D2-4 watches V1,V3,V4,V5,V7 COMPLETE. V2 = pre-established global fact (cited, not re-derived). V6 NOT COMPUTED (out of scope for this pass -- see watches.V6).",
+ "target_curve": "E: Y^2+3*zeta3*X*Y+2*Y=X^3, Q_inf=O, Q0=(0,0)",
+ "mathematical_finding": "L(2P-Q0-Q_inf) = L(3P-Q0-Q_inf) exactly (both dim 1) under the branching condition 2P=Q0, forcing B to be a scalar multiple of the SAME generator A0 as A. This reduces the whole D2-3/D2-4(V4) system to a single scalar equality test A0(B1)=?A0(B2), since A0:E->P^1 is a degree-2 map and its fiber over any value has exactly 2 points -- so A0(B1)=A0(B2) (with B1!=B2) is necessary AND sufficient for {B1,B2} to be exactly disc's remaining 2 zeros. See in-script docstring for the derivation.",
+ "B1_target": {
+  "X": "(0.732050807568877293527446341506 - 2.73205080756887729352744634151j)",
+  "Y": "(0.0 + 2.0j)"
+ },
+ "B2_target": {
+  "X": "(-2.73205080756887729352744634151 - 0.732050807568877293527446341506j)",
+  "Y": "(0.0 - 2.0j)"
+ },
+ "d2_2_points_reproduced": [
+  {
+   "label": "P1",
+   "X": "(0.0 + 0.0j)",
+   "Y": "(-2.0 + 0.0j)",
+   "exact": true,
+   "on_curve_residual": "0.0",
+   "twoP_minus_Q0_residual": "0.0"
+  },
+  {
+   "label": "P2",
+   "X": "(1.37007270483432961175101010064 + 0.912964171632262767821564487482j)",
+   "Y": "(2.0 - 3.11150763893057085357203202689e-61j)",
+   "exact": false,
+   "on_curve_residual": "1.53223981425147649858440848544925514009760185902400739274323e-60",
+   "twoP_minus_Q0_residual": "8.80067260480620114383422485406022407920855608315593092179649e-61"
+  },
+  {
+   "label": "P3",
+   "X": "(0.105613812961391104768036474489 + 1.64299985323431971271043974706j)",
+   "Y": "(2.0 + 0.0j)",
+   "exact": false,
+   "on_curve_residual": "7.7787690973264271339300800672251553007378152109014589163764e-62",
+   "twoP_minus_Q0_residual": "1.60007663219889435458961460516612553075741616615436695090974e-61"
+  },
+  {
+   "label": "P4",
+   "X": "(-1.47568651779572071651904657513 - 2.55596402486658248053200423455j)",
+   "Y": "(2.0 + 1.08396776287777228307557864437e-60j)",
+   "exact": false,
+   "on_curve_residual": "2.04255316600222030311995804347513601252836740711284408091406e-59",
+   "twoP_minus_Q0_residual": "1.07843833533233850950838638604178685378713840635490694925798e-59"
+  }
+ ],
+ "d2_3_and_d2_4_per_point": [
+  {
+   "label": "P1",
+   "P": {
+    "X": "(0.0 + 0.0j)",
+    "Y": "(-2.0 + 0.0j)"
+   },
+   "A0_B1": "(0.25 + 0.433012701892219323381861585376j)",
+   "A0_B2": "(0.25 + 0.433012701892219323381861585376j)",
+   "V4_residual_abs": "9.76328490623481375748916607397499987274165297785412396585842e-60",
+   "V4_pass": true,
+   "c_value": "(0.25 + 0.433012701892219323381861585376j)",
+   "c_nonzero": true,
+   "alpha": "1 (normalization)",
+   "beta_squared": "(-0.037037037037037037037037037037 - 0.0641500299099584182787943089447j)",
+   "alpha3_over_beta2_ratio": "(-6.75 + 11.6913429510899217313102628052j)",
+   "V1_pole_order2_probe_A0_near_over_eps_inv2": "4.0",
+   "V1_pass": true,
+   "A0_at_Q0_residual": "0.0",
+   "V3_zero_at_Q0_pass": true,
+   "V3_pass": true,
+   "V5_RH_genus_computed": 4,
+   "V5_pass": true
+  },
+  {
+   "label": "P2",
+   "P": {
+    "X": "(1.37007270483432961175101010064 + 0.912964171632262767821564487482j)",
+    "Y": "(2.0 - 3.11150763893057085357203202689e-61j)"
+   },
+   "A0_B1": "(0.0782258115334652574215129836293 - 0.79981505638573154494921802032j)",
+   "A0_B2": "(0.0782258115334652574215129836293 - 0.79981505638573154494921802032j)",
+   "V4_residual_abs": "8.00117398213242159077359839297717658485405538521793238494637e-60",
+   "V4_pass": true,
+   "c_value": "(0.0782258115334652574215129836293 - 0.79981505638573154494921802032j)",
+   "c_nonzero": true,
+   "alpha": "1 (normalization)",
+   "beta_squared": "(-0.011589009116068927025409330908 + 0.118491119464552821473958225233j)",
+   "alpha3_over_beta2_ratio": "(-0.817598473834161384037612395188 - 8.35948591176718565071650677704j)",
+   "V1_pole_order2_probe_A0_near_over_eps_inv2": "7.270710516",
+   "V1_pass": true,
+   "A0_at_Q0_residual": "4.40033630240310057191711242703011203960427804157796546089825e-61",
+   "V3_zero_at_Q0_pass": true,
+   "V3_pass": true,
+   "V5_RH_genus_computed": 4,
+   "V5_pass": true
+  },
+  {
+   "label": "P3",
+   "P": {
+    "X": "(0.105613812961391104768036474489 + 1.64299985323431971271043974706j)",
+    "Y": "(2.0 + 0.0j)"
+   },
+   "A0_B1": "(-0.731773062926059353867689840116 - 0.332161988173231125188338952604j)",
+   "A0_B2": "(-0.731773062926059353867689840116 - 0.332161988173231125188338952604j)",
+   "V4_residual_abs": "8.00117398213242159077359839297717658485405538521793238494637e-60",
+   "V4_pass": true,
+   "c_value": "(-0.731773062926059353867689840116 - 0.332161988173231125188338952604j)",
+   "c_nonzero": true,
+   "alpha": "1 (normalization)",
+   "beta_squared": "(0.108410824137193978350768865202 + 0.0492091834330712778056798448302j)",
+   "alpha3_over_beta2_ratio": "(7.64832639908558390362344588341 - 3.47168190744782241716948746334j)",
+   "V1_pole_order2_probe_A0_near_over_eps_inv2": "7.270710516",
+   "V1_pass": true,
+   "A0_at_Q0_residual": "7.7787690973264271339300800672251553007378152109014589163764e-62",
+   "V3_zero_at_Q0_pass": true,
+   "V3_pass": true,
+   "V5_RH_genus_computed": 4,
+   "V5_pass": true
+  },
+  {
+   "label": "P4",
+   "P": {
+    "X": "(-1.47568651779572071651904657513 - 2.55596402486658248053200423455j)",
+    "Y": "(2.0 + 1.08396776287777228307557864437e-60j)"
+   },
+   "A0_B1": "(20.9035472513925940964461768565 + 36.2060058978287278640683453884j)",
+   "A0_B2": "(20.9035472513925940964461768565 + 36.2060058978287278640683453884j)",
+   "V4_residual_abs": "1.87402672225839665459862284439905835215853779942838737780348e-58",
+   "V4_pass": true,
+   "c_value": "(20.9035472513925940964461768565 + 36.2060058978287278640683453884j)",
+   "c_nonzero": true,
+   "alpha": "1 (normalization)",
+   "beta_squared": "(-3.09682181502112505132535953429 - 5.36385272560425597986197709458j)",
+   "alpha3_over_beta2_ratio": "(-0.0807279252514225195858334882231 + 0.139824868125086336575731435217j)",
+   "V1_pole_order2_probe_A0_near_over_eps_inv2": "220.6448544",
+   "V1_pass": true,
+   "A0_at_Q0_residual": "2.43016515285385704298800365356845283417308448125642076624179e-60",
+   "V3_zero_at_Q0_pass": true,
+   "V3_pass": true,
+   "V5_RH_genus_computed": 4,
+   "V5_pass": true
+  }
+ ],
+ "watches_V1_V7": {
+  "V1": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "V2": "pre-established globally in [D2-0] (delta=0); not re-derived per-point here",
+  "V3": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "V4": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "V5": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "V6": "NOT COMPUTED -- requires constructing the actual degree-3 cover W9 (z^3=A z+B over E, an explicit genus-4 curve) and computing the order of the divisor class P0-P_inf in its Jacobian. This is a materially larger computation (function-field/Jacobian arithmetic on a genus-4 curve, or period/torsion computation) than [D2-1]-[D2-4]'s elliptic-curve-only algebra, and was not attempted in this pass. Honestly flagged, not fabricated.",
+  "V7": {
+   "all_4_points_failed_V4": false,
+   "note": "at least one P passes V4 -- not a V7 negative result."
+  }
+ },
+ "quarantine_4_lines_1007": {
+  "name_collide_note": "本仕様の平方類/立方類は F_9(E) の函数体類。封印『c 平方類』(K^(5) 窓インスタンス)とは別対象。",
+  "n5_value_computed": false,
+  "derivation_bridge_found": false,
+  "b34_handled_as_divisor": null
+ },
+ "u_touched": false,
+ "c_touched": false,
+ "prereg_touched": false,
+ "precision_note": "mpmath 60 decimal digits; V4 pass threshold = residual < 1e-45 (i.e. ~15 orders of magnitude below working precision floor, not merely round-off). Exact symbolic/CRootOf certificate NOT constructed in this pass -- numeric-only per 裁定1080's conditional phrasing ('必要なら CRootOf... 厳密化'); flagged for upgrade if the coordinator judges it necessary.",
+ "d_no_interpretation": "machine values only; verdict は司令塔",
+ "provenance": {
+  "script_sha256": "27f10b32fefa03dfc9f12baa2981d1f0cbf71961ac514b0773ab5096986afe1e"
+ }
+}
