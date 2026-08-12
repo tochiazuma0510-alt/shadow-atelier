@@ -1,0 +1,80 @@
+{
+  "C2_0_regression_gate": {
+    "all_pass": true,
+    "rows": [
+      {
+        "branch": "branch_I",
+        "double_root_total": 1,
+        "expected_degree": 8,
+        "formula_value": 8,
+        "odd_root_total": 6,
+        "pass": true,
+        "which": "S1"
+      },
+      {
+        "branch": "branch_I",
+        "double_root_total": 0,
+        "expected_degree": 9,
+        "formula_value": 9,
+        "odd_root_total": 9,
+        "pass": true,
+        "which": "S2"
+      },
+      {
+        "branch": "branch_II",
+        "double_root_total": 0,
+        "expected_degree": 8,
+        "formula_value": 8,
+        "odd_root_total": 8,
+        "pass": true,
+        "which": "S1"
+      },
+      {
+        "branch": "branch_II",
+        "double_root_total": 1,
+        "expected_degree": 9,
+        "formula_value": 9,
+        "odd_root_total": 7,
+        "pass": true,
+        "which": "S2"
+      }
+    ],
+    "sol_k2_cert_sha256": "548133edee770e3e9559052637b257d28452830b87424a2c2af7602fcf39fda8"
+  },
+  "C2_1_D_construction": {
+    "coeff_w36_independent_of_P1_P2_three_point_check": true,
+    "coeff_w36_is_zero": true,
+    "coeff_w36_nonzero_perturbation_1": 0,
+    "coeff_w36_nonzero_perturbation_2": 0,
+    "coeff_w36_value": 0,
+    "coeff_w36_zero_perturbation": 0,
+    "method_note": "3点(P1~=P2~=0・2種の非零摂動)で w^36係数が一致することを確認(次数論法の解析的証明ではなく数値的3点確認 -- 18変数の完全記号展開は計算量的に不可だったため、次数論法(P1~の次数<=11<12・P2~の次数<=5<6ゆえ非leading項はw^36に届かない)の妥当性チェックとしてこの3点一致を報告する)"
+  },
+  "bridge_detected": false,
+  "c_touched": false,
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+  "elapsed_seconds": 0.13381656399997155,
+  "generated_by": {
+    "github_run_id": "31592557898",
+    "github_sha": "67bd90027c66e1ebea13f0b90fbf1ccea2d22014",
+    "order": "裁定1023 [C2-0]+[C2-1] (crt-C2 job) / docs/notes/t3_spec_and_C2_calib_v1.md §6-8",
+    "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+    "python": "3.13.14",
+    "script": "search/w9_k3_crt_C2_stage1_gha.py",
+    "sympy": "1.14.0"
+  },
+  "integrity": {
+    "canonical_payload_sha256": "471226f3cf2f703369406614bd4398af01c120382b1b9b0bb30db5cb9aca11dd",
+    "definition": "sha256 of canonical UTF-8 JSON after removing the integrity member"
+  },
+  "prereg_value_computed": false,
+  "quarantine": {
+    "derivation_bridge_stop_rule": "導出橋が現れたら即停止する規約(本runでは現れなかった)。",
+    "n5_window_forbidden": "n=5 窓の値計算は本scriptで一切行っていない。",
+    "name_collide": "本certは K^(9) 窓インスタンス。封印の K^(5) 量とは別対象(裁定1007)。"
+  },
+  "schema": "w9-p1-k3-crt-C2-stage1/v1",
+  "status": "COMPLETE",
+  "u_touched": false,
+  "window": "K^(9)"
+}

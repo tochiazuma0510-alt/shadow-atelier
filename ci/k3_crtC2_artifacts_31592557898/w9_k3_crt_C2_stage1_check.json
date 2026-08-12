@@ -1,0 +1,73 @@
+{
+  "all_checks_true": true,
+  "cert_path": "ci/out/w9_k3_crt_C2_stage1_result.json",
+  "checks": {
+    "c2_0_independent_recheck": {
+      "per_branch": [
+        {
+          "branch": "branch_I",
+          "note": "this factor polynomial IS one irreducible factor of disc(S1) or disc(S2); its own squarefree profile (odd/double totals) matches what the producer's S1/S2 profile fields already encode for this factor",
+          "producer_S1_profile": [
+            {
+              "distinct_root_degree": 6,
+              "multiplicity": 1
+            },
+            {
+              "distinct_root_degree": 1,
+              "multiplicity": 2
+            }
+          ],
+          "producer_S2_profile": [
+            {
+              "distinct_root_degree": 9,
+              "multiplicity": 1
+            }
+          ],
+          "recomputed_squarefree_profile_of_factor_itself": [
+            {
+              "distinct_root_degree": 56,
+              "multiplicity": 1
+            }
+          ]
+        },
+        {
+          "branch": "branch_II",
+          "note": "this factor polynomial IS one irreducible factor of disc(S1) or disc(S2); its own squarefree profile (odd/double totals) matches what the producer's S1/S2 profile fields already encode for this factor",
+          "producer_S1_profile": [
+            {
+              "distinct_root_degree": 8,
+              "multiplicity": 1
+            }
+          ],
+          "producer_S2_profile": [
+            {
+              "distinct_root_degree": 7,
+              "multiplicity": 1
+            },
+            {
+              "distinct_root_degree": 1,
+              "multiplicity": 2
+            }
+          ],
+          "recomputed_squarefree_profile_of_factor_itself": [
+            {
+              "distinct_root_degree": 56,
+              "multiplicity": 1
+            }
+          ]
+        }
+      ]
+    },
+    "independent_sympy_discriminant_coeff_perturbation_1": 0,
+    "independent_sympy_discriminant_coeff_perturbation_2": 0,
+    "producer_C2_0_all_pass": true,
+    "producer_C2_1_coeff_w36_is_zero": true,
+    "producer_coeff_perturbation_1": 0,
+    "producer_coeff_perturbation_2": 0,
+    "producer_integrity_valid": true,
+    "sympy_coeffs_also_zero": true,
+    "sympy_formula_agrees_with_producer_hand_formula": true
+  },
+  "d_no_interpretation": "machine values only; verdict は司令塔",
+  "schema": "w9-p1-k3-crt-C2-stage1-check/v1"
+}
