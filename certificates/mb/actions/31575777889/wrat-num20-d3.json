@@ -1,0 +1,19 @@
+{
+  "schema": "mb/w-branch-search-rational/v2",
+  "branch": "W",
+  "normal_form": "y^2=a(x)^2+x^5, a=(a0,a1,a2) in Q^3 with common denominator D, a2 x^2+a1 x+a0",
+  "num_bound": 20,
+  "denominators_tried": [
+    3
+  ],
+  "tested": 66724,
+  "hits": [],
+  "skip_count": 0,
+  "skips": [],
+  "error_count": 0,
+  "errors": [],
+  "integrity_flag": false,
+  "elapsed_ms": 152128,
+  "contact_discipline": "本探索器は c(lambda=c*mu^2 の定数)の値・平方類・平方因子・符号を一切計算していない。出力は a(x) の有理係数(文字列)と D(v) の構造検査結果(k, h)のみ。",
+  "note": "整数格子(委嘱1: bound12/bound20/gaugefix-60)と重複しないよう、少なくとも1成分が D で割り切れない有理点だけを試した(positive-only・非網羅)。"
+}
