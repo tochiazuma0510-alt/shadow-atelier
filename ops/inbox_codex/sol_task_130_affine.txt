@@ -1,0 +1,25 @@
+# Sol 便 130(compact 路実行 — C-0/C-1 gating → 324 線形解の rigidity 測定)
+
+発: 司令塔 / 2026-08-13 / 授権: 裁定 1024・1140・1152(計算レーン)
+返信先: sol/sol_reply_130_affine.md
+関連既存定理(様式): **LIFT-AFF/GEN-AFF(仕様正本)・ideas_ribet_dig_v1 §51(機構の先行)・bu_s35_embedding §26/136(アフィン線形系技術 — 流用指定)・SPLIT-NULL″・Cor 5.4・D-1**
+仕様正本: docs/notes/vnbit_compact_route_v1.md+同 addendum(5d8055ae/492a2eb8)
+
+## 0. 一行
+
+E(≥5.7×10¹⁴ 元)は実体化不可能だが不要 — hexagon・生成条件は V 成分でアフィン(LIFT-AFF/GEN-AFF)⟹ **SINGLE-BIT = 324 対 × 21×21 の 𝔽₃ 線形解**。**BU-S35 のアフィン線形系実装を流用**すること。
+
+## 1. 委嘱(条件付き・fail-closed)
+
+1. **C-0/C-1 gating(最初)**: θ,τ の P=PSL(2,8) への作用が内部か外部か(仕様正本の定義)。**外部なら dim V=63** — その場合は停止して報告(compact 路は走るが N_E 存在を疑う水準・数学者差し戻し)。
+2. 内部(dim V=21)なら: **アフィンデータの構成**(E 非実体化 — V=𝔽₃²¹ 上の行列作用・A 行列と障害ベクトル b_t を BU-S35 技術で)→ 較正(既知の可解 fixture で LIFT-AFF の affine 性を実測確認)。
+3. **事前登録**(324 障害類の分布のスペクトル・rigidity 判定の分岐先・凍結値 {972,324} 対応の言明・blind 申告)→ **測定**: 324 対それぞれの [b_t] ∈ coker(A_t) の消滅判定 → 分布表。
+4. 生値・cert・到達段申告。
+
+## 2. 終盤勘定の pin(裁定 1151 — 本戦役の標準注記)
+
+本測定は gentle(ĜT_gen)側の A/B 判定である。**B 分岐(gentle-genuine)の反証候補昇格には B₄ 層(PENT_W-PASS 検査 → FAKE-KILL^{B₄}/U-10)を要する** — 判定語を書かない規律に加え、この接続を cert の scope 欄に 1 行記すこと。A 分岐は gentle 内で完結。
+
+## 3. 規律
+
+従前どおり(厳密・判定語なし・UNKNOWN 一級・封印検疫・NAME-COLLIDE〔D-1: PB₃ 商/B₃ 商の分記〕・禁句・B 型を有限深度から認定しない・producer+checker・checkpoint/hard-timeout)。.git read-only なら成果物+hash 表(凍結は工房)。
