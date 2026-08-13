@@ -1,0 +1,1 @@
+{"E_order": 1512, "all_checks_true": true, "complete": true, "derived_order": 504, "elapsed_ms": 1073, "output": "search/certs/d972_phase2c_preflight_v1_check_20260813.json", "raw_image_size": null, "schema": "d972_phase2c_preflight_check_checkpoint/v1", "settled": 54, "shadows": 54, "stage": "complete", "status": "UNKNOWN"}
