@@ -1,0 +1,26 @@
+# Sol 便 133(終端弾 — ESCAPE-28: 非自由成分つき 28 次元窓)
+
+発: 司令塔 / 2026-08-13 / 授権: 裁定 1024・1140・1158(計算レーン)
+返信先: sol/sol_reply_133_escape28.md
+関連既存定理(様式): **系 OBS-VOID-T・命題 ESCAPE-28(仕様正本)**・LIFT-AFF/GEN-AFF/SURJ-LIN/NORM-TWIST/TWIST-2/C-4′(v3)・BU-S35 §142(H² 枠組)・SPLIT-NULL″・Cor 5.4・D-1
+仕様正本: docs/notes/entangled972_reading_v1.md(915ca797)+ vnbit_compact_route_v3.md(工学は全再利用)
+
+## 0. 一行
+
+盲 7 族の外に残る唯一の路。**V = (V₇⊗軌道束) ⊕ (V₇⊗1)・dim 28**(第 2 項は G₃ 自明・3∤7 ⟹ dim H²(C₃,V) ≥ 1 = 障害が初めて生存可能)。発火 ⟹ DICHOTOMY 解決/全障害類 0 ⟹ 新消滅現象(そこで停止・報告 = 自然な区切り)。
+
+## 1. 委嘱(fail-closed・v3 工学の再利用)
+
+1. **入口検査**: dim H²(C₃,V₂₈) ≥ 1 の機械確認(数学者の全 8 Jordan 型検査の再現)+ 対照 1 行: **dim H²(C₃,V₉)**(9 次元ブロック系 — 自由なら OBS-VOID で即死の分類・比較用生値のみ)。
+2. **C-2′/anchor/NORM-TWIST の 28 次元適応**: pure anchor 等式・gauge 勘定(End_W の位数と twist 分類器を 28 次元で再計算 — 窓数の確定)・C-9 系検査。
+3. **SURJ-LIN**(28 次元版)→ 全射類同定 → **事前登録**(テンプレートゲート・rank 整合・blind 申告 — v3 の revision 手順どおり)。
+4. **本走**: 全窓 × 全射類 × 324 行 — 障害類 [b_t] の消滅判定+生成解の独立欄 → 分布表。**今回は障害類が非零になり得る初の設定** — 非零が出た行の生値(どの類・どの t₂)を最重要で記録。
+5. 生値・cert・到達段。**判定語なし**(324 相当でも C-4′ により isolated 証明が先・「A 型」等と書かない)。全障害 0 なら「H²≠0 下の全消滅」として停止・報告(新現象・次の理論が要る旨)。
+
+## 2. 終盤勘定の pin(裁定 1151 標準注記)
+
+gentle 側測定。B 分岐の反証候補昇格は B₄ 層(PENT_W-PASS → FAKE-KILL^{B₄}/U-10)経由 — endgame_scope 欄継続。
+
+## 3. 規律
+
+従前どおり(厳密・UNKNOWN 一級・封印検疫・NAME-COLLIDE・禁句・B 型を有限深度から認定しない・producer+checker・checkpoint/hard-timeout)。.git read-only なら成果物+hash 表(凍結は工房)。
