@@ -1,0 +1,61 @@
+{
+  "schema": "vnbit_compact_preregistration/v3",
+  "registered_at_utc": "2026-08-13T00:00:00Z",
+  "blind_before_measurement": true,
+  "freeze_revision": 2,
+  "preflight_sha256": "f6eb203473632b242f9ca6de32319e5ef906ca733198aaec9bffa08480762ead",
+  "producer_sha256": "4ba20a286e9616c9363a9e8187fb4c35d04e11a6dbc4610c17d3879e5c47eb9a",
+  "universe": {
+    "marking_version": "vnbit-monomial/v3",
+    "windows": ["+", "-"],
+    "surjective_classes_by_window": {"+": 80, "-": 26},
+    "roof_rows_per_class": 324,
+    "total_lift_rows": 34344,
+    "affine_system_shape": [42, 21],
+    "measure_both_windows": true
+  },
+  "predictions": {
+    "P-vNC3-1": {
+      "anchor_solutions": 8,
+      "effective_gauge_order": 4,
+      "orbit_count": 2,
+      "orbit_sizes": [4, 4]
+    },
+    "P-vNC3-2": {
+      "dim_ker_I_plus_theta_by_window": {"+": 11, "-": 10},
+      "dim_ker_sum": 21,
+      "H1_order_by_window": {"+": 81, "-": 27}
+    },
+    "P-vNC3-3": {
+      "dim_ker_I_plus_tau_plus_tau2_by_window": {"+": 14, "-": 14}
+    },
+    "P-vNC3-4": {
+      "rho_X_plus_count": 1,
+      "rho_Y_plus_count": 1,
+      "rho_Y_is_cyclic_shift_of_rho_X": true
+    },
+    "P-vNC3-5_weak": {
+      "same_Im_R_size_in_both_windows": true,
+      "status": "heuristic_only"
+    },
+    "inherited": {
+      "GT_N_W_order": 324,
+      "Theta1_rigid": true,
+      "Im_R_K_M_size_in": [324, 972],
+      "rank_A1_equals_rank_A2": true,
+      "Theta2_rigid": false,
+      "Theta2_status": "weak"
+    }
+  },
+  "superseded_freeze": {
+    "reason": "coefficient gate exposed use of reduced F2 equations where A-42 requires full B3/N equations (3.3) and (3.4)",
+    "lift_outcomes_opened": 0
+  },
+  "measurement_outcomes_opened_before_freeze": 0,
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}
