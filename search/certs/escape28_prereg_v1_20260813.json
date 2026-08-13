@@ -1,0 +1,106 @@
+{
+  "schema": "escape28_prereg/v1",
+  "revision": 1,
+  "frozen_at_utc": "2026-08-13T07:31:00Z",
+  "producer_sha256": "8447c35f06e5e0aa842fa15ffc3595d134656338c32acd5af106583413511033",
+  "preflight_sha256": "5eb683035dd70cb5b25e5e5f965d6f0497ffc49636e7e809fefffe9e34807ab6",
+  "preflight_checker_sha256": "aa371e68fd24151f5225eb9ddd4a3a45d7e8172e1a301ae1aa8e2250c8615975",
+  "preflight_check_cert_sha256": "c2cb325bb28f48d97f5f20341acf45adc1d3f485472e7875f5a1dcf0b40d1527",
+  "preflight_mismatch_count": 0,
+  "blind_before_measurement": true,
+  "lift_outcomes_opened_before_freeze": 0,
+  "entry_gate": {
+    "H2_C3_V28_dimension": 2,
+    "H2_C3_V28_nonzero": true,
+    "H2_C3_V9_dimension": 0,
+    "window_count": 4,
+    "rank_A1_equals_rank_A2_required": true,
+    "full_template_shape": [56, 28]
+  },
+  "universe": {
+    "roof_rows_per_class": 324,
+    "surjective_class_counts": {
+      "eps=+,eta=+": 1920,
+      "eps=+,eta=-": 640,
+      "eps=-,eta=+": 624,
+      "eps=-,eta=-": 208
+    },
+    "total_full_rows": 1099008,
+    "total_surjective_classes": 3392,
+    "window_count": 4
+  },
+  "template_gates": {
+    "eps=+,eta=+": {
+      "A_shape": [56, 28],
+      "component_template_sha256": [
+        "e9a068502f82b052417b5ee1388eab65c54c5519133fbd4986f0963c57011d1c",
+        "f1cbcaaa3941d17ffe9e5981823a9e70ad037d8bb4c4946f4671a1cb5e65cd36"
+      ],
+      "dim_ker_A_distribution": {"7": 324},
+      "factorisation": "orbit 21D direct sum trivial-character 7D",
+      "rank_A1_A2_distribution": {"(21, 21)": 324},
+      "rank_A1_equals_rank_A2_all_rows": true,
+      "rank_A_distribution": {"21": 324}
+    },
+    "eps=+,eta=-": {
+      "A_shape": [56, 28],
+      "component_template_sha256": [
+        "e9a068502f82b052417b5ee1388eab65c54c5519133fbd4986f0963c57011d1c",
+        "80a11d5bf2703e272432d96d72bbbb0ca0b52e3cbf7e06718641ceeb5cf7648c"
+      ],
+      "dim_ker_A_distribution": {"6": 324},
+      "factorisation": "orbit 21D direct sum trivial-character 7D",
+      "rank_A1_A2_distribution": {"(22, 22)": 324},
+      "rank_A1_equals_rank_A2_all_rows": true,
+      "rank_A_distribution": {"22": 324}
+    },
+    "eps=-,eta=+": {
+      "A_shape": [56, 28],
+      "component_template_sha256": [
+        "07853c08a3a909d199b67b9dba4f20f67ea412d3b9cd190f50b156ec792c098a",
+        "f1cbcaaa3941d17ffe9e5981823a9e70ad037d8bb4c4946f4671a1cb5e65cd36"
+      ],
+      "dim_ker_A_distribution": {"6": 324},
+      "factorisation": "orbit 21D direct sum trivial-character 7D",
+      "rank_A1_A2_distribution": {"(22, 22)": 324},
+      "rank_A1_equals_rank_A2_all_rows": true,
+      "rank_A_distribution": {"22": 324}
+    },
+    "eps=-,eta=-": {
+      "A_shape": [56, 28],
+      "component_template_sha256": [
+        "07853c08a3a909d199b67b9dba4f20f67ea412d3b9cd190f50b156ec792c098a",
+        "80a11d5bf2703e272432d96d72bbbb0ca0b52e3cbf7e06718641ceeb5cf7648c"
+      ],
+      "dim_ker_A_distribution": {"5": 324},
+      "factorisation": "orbit 21D direct sum trivial-character 7D",
+      "rank_A1_A2_distribution": {"(23, 23)": 324},
+      "rank_A1_equals_rank_A2_all_rows": true,
+      "rank_A_distribution": {"23": 324}
+    }
+  },
+  "outcome_preregistration": {
+    "obstruction_nonzero_row_count": "UNKNOWN",
+    "generating_solution_distribution": "UNKNOWN",
+    "image_size_distribution": "UNKNOWN",
+    "no_directional_prediction": true,
+    "obstruction_and_generation_recorded_independently": true
+  },
+  "stop_rule": {
+    "if_any_obstruction_nonzero": "record every class and t2 raw row before interpretation",
+    "if_all_obstructions_zero": "H2-nonzero total vanishing; stop and report that a new theory is needed"
+  },
+  "factorisation_gate": {
+    "statement": "LIFT-AFF and GEN-AFF split over the 21D orbit bundle direct sum 7D trivial-character constituent",
+    "full_obstruction_zero_iff_both_component_obstructions_zero": true,
+    "full_solution_count_is_component_product": true,
+    "full_generating_solution_count_is_component_product": true
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  },
+  "status_note": "blind frozen universe and template gates; no lift outcome has been opened"
+}
