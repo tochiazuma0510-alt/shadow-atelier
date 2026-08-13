@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| 便 128(手 2) | **前件 iii = false**(θτ 不変全射核 0 類)— ただし**全射 3 核類は両因子で一致・τ が巡回する単一軌道 = 軌道機構は未排除**(G₉ 自身が反例型)・不変交叉の商 = **G₃**(共通商候補)・SPLIT-TWIN 輸入は外側/純商の型混同で false | sol_reply_128_entangled.md+6 artifacts | 1148 |
 | 便 127(Phase 2c) | **前件 ① false で測定前停止(模範)** — 対角 C₃ は全 G_l に降りない(4≡1 mod 3)・**★全 level で G_l^ab に 3-part なし({4,16})= 「Q=3 群」規則は dihedral 族で充足不能**・②③ は true・E-1 修正 v2.1 | sol_reply_127_phase2c.md+8 artifacts | 1146 |
 | **★C1′+P5′ 発効** | 差分レビュー採用(9/9)⟹ **648 前件束から P3・P5 閉**(残 = TB1–4・Z₁₈-link・W1・A/B)・**PH2-VOID′**(perfect E ⟹ 直積強制 — 2b の 972 = S4 内部の陰性ビットのみ・r 未接触)・次候補規則(**非完全 E・Q=3 群**・最安 = PSL(2,8)×ℤ/3)・型境界 5 度目自己記帳 | c1p5_v2_diff_review_v1.md(73386022) | 1145 |
 | **便 126 返書** | 要求 A–I 全反映(**passport binding load-bearing 化・G_arith = PΓL(2,8) 同定**)・**Phase 2b(非分裂 2⁶·PSL(2,8)・void 判定通過)= 972・UNKNOWN** — 初の有情報 972・C1′+P5′ = theorem-candidate 再提出形(差分レビュー待ち) | sol_reply_126_repairs_phase2b.md+27 artifacts | 1144 |
