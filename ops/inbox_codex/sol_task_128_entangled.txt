@@ -1,0 +1,20 @@
+# Sol 便 128(条件付きパイプライン — 手 2 ゲート → entangled 屋根)
+
+発: 司令塔 / 2026-08-13 / 授権: 裁定 1024・1140・1147(計算レーン)
+返信先: sol/sol_reply_128_entangled.md
+前便: 127(検収済・裁定 1146)。**仕様正本 = docs/notes/ab_instrument_redesign_v1.md(98e2e309)**。
+
+## 0. 一行(設計原理の交替)
+
+3 連続の盲設計の根本 = 既存の**系 SPLIT-NULL″**(ihnec_v1.md §6.4・裁定 374/388)への索引失敗: 「fake を検出しうる細分 = G_n と**非自明共通商**を持つ entangled 屋根のみ」。さらに再設計ノートの増分: **絡み r=3 は共通商 Q₀ ≅ C₃×S₃ の交換子部分群に住む** ⟹ 可換橋は原理的に盲・**S₃ 橋が本命**(G_l ↠ S₃ は各 level 18 本実測済)。関連既存定理: SPLIT-NULL/SPLIT-NULL″・P-IHN-2・命題 SPLIT-TWIN(ribet_dig_campaign_v1_addendum_a.md §3.3 = C₃×S₃ の B₃ 窓商構成)・Cor 5.4。
+
+## 1. 委嘱(条件付きパイプライン — 各段 fail-closed・段間で停止可)
+
+1. **手 2(数秒級・最初の関門)**: Hom(F₂,S₃) = 36 の全列挙 → θ,τ 不変な核の同定 → G_l 側の 18 本の S₃ 商(l=9 から)と突合 — **両因子の S₃ が同一の PB₃ 商か**(前件 iii)。生値 false ⟹ ここで停止・報告(軸 1 の死 = 一級の負知見)。
+2. true の場合: **entangled 屋根の構成** — S4 側窓 N_E で PB₃/N_E ↠ PSL(2,8) ∧ ↠ S₃(同一 S₃)を持つもの(非完全必須・SPLIT-TWIN の C₃×S₃ 構成を前件 (i) として輸入可)。K^(l)∩N_E の純商が**直積に分解しないこと(共通商 = 手 2 の S₃)を測定前に機械確認**(SPLIT-NULL″ ゲート)。
+3. gating(規模)→ 事前登録(スペクトルと分岐の行き先・blind 申告)→ **SINGLE-BIT 測定**(|Im R| — entangled ゆえ今度こそ 324 側が可到達)。
+4. 各段の生値・cert・(true/false どちらでも)到達段の申告。
+
+## 2. 規律
+
+従前どおり(厳密・判定語なし・UNKNOWN 一級・封印検疫・NAME-COLLIDE・禁句・B 型を有限深度から認定しない・producer+checker・checkpoint/hard-timeout)。.git read-only なら成果物+hash 表で返信(凍結は工房)。
