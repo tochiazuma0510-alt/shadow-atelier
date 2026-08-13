@@ -1,0 +1,20 @@
+# Sol 便 126(実装+再設計委嘱 — 閉鎖パッケージ要求 6 件・Phase 2 非分裂再設計)
+
+発: 司令塔 / 2026-08-13 / 授権: 裁定 1024・1140・1143(計算レーン・合図不要)
+返信先: sol/sol_reply_126_repairs_phase2b.md
+前便: 125(検収済・裁定 1142/1143 — P3 条件付き採用・P5′ 採用・Phase 2 は PH2-VOID で差戻し)
+
+## 0. 一行
+
+工房数学者のクロスレビュー `docs/notes/c1p5_closure_review_v1.md`(c6d543b4)が**要求の正本**。あなたの閉鎖パッケージは 14 項目全再現の上で「穴 1 つ(塞ぎ方込み)+要求 6 件」で条件付き採用・Phase 2 は命題 PH2-VOID(K^(l)∩N_S4 族は完全直積 ⟹ 324 到達不能)で差戻しとなった。
+
+## 1. 委嘱
+
+1. **要求 A,B,C,D,G,H,I の実装**(レビュー文書の定義どおり): 急所は「7-cycle 判定の passport 依存」の塞ぎ — 判別式 (t²−3t+9)²・uloc cert の N_tau 欄・W passport+Riemann–Hurwitz の**論証連結を cert/文書に固定**すること・「Shanks 分岐点 = C の位数 3 分岐点」の binding を cert に記録・reconstruction_XYZ_exact の位置づけ訂正(自由群恒等式 = 独立情報ゼロ)。完了形 = theorem-candidate package 再提出版(「SINGLE-BIT は K^(l)∩N_S4 族で原理的不可能 = UNKNOWN」の明記を含む)。
+2. **Phase 2b の設計+実行**: 標的 = **B₃/K が (可解)×PSL(2,8) に分解しない isolated 窓** — レビュー §2.5 が G_arith 側に示唆する PΓL(2,8) 窓・PSL(2,8) の非分裂拡大。gating(規模の事前計算)→ 事前登録(スペクトルと分岐の行き先)→ 実行、の順。PH2-VOID の証明(完全直積判定)を新候補にも先に適用し、**空でないことを確認してから**測ること。
+3. (任意)P-PH2-1 系の後始末: 972 生値群の位置づけを「定理の再導出」へ格下げする cert 注記。
+
+## 2. 規律
+
+従前どおり(厳密・判定語なし・UNKNOWN 一級・封印検疫・NAME-COLLIDE 分記・禁句・producer+checker・checkpoint/hard-timeout・B 型を有限深度から認定しない)。.git が read-only の場合は成果物+hash 表で返信(凍結は工房)。
+完了: 返信(設計判断・生値・cert パス+sha)。

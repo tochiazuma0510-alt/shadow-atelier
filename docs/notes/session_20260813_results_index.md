@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| 閉鎖レビュー | **P3 条件付き採用**(7-cycle 判定の passport 依存の穴を発見+既存 cert 内データで塞ぎ・要求 A–D,G)・**P5′ 採用**・**★PH2-VOID: K^(l)∩N_S4 族は完全直積で 324 到達不能 = 族ごと除外(972 は定理の再導出)**・(3.60) 波及なし(ただし危険な向き)・**648 の A/B conditional は不変**・P=PGL(2,8) 同定 | c1p5_closure_review_v1.md(c6d543b4) | 1143 |
 | **便 125 返書** | **Phase 2: 深度 1/2 = 972/972・横断 l=36 も 972**(cofinal chain 正式構築・半決定継続)・**(3.60) 座標修理**(旧 Phase1 helper の m 比較瑕疵・値は 972 不変)・**★P3+P5′ 閉鎖パッケージ**(幾何 monodromy=504 確定・6 dessins 分離・ι_C の ℚ 降下・P5′ 紙導出)・B1 addendum+B3/B5/S-3 修理 — **数学者レビュー通過なら発効 4 点全充足** | sol_reply_125_phase2_p3p5.md+14 artifacts | 1142 |
 | **便 124 返書** | **抽象機構は採用**(DICHOTOMY-972 紙上 PASS・SINGLE-BIT は (6)+半決定修理つき・B3 3 本 PASS・B1 導出 PASS〔L_{9,Aff} 表記修理・正本 pin 差替〕)・**具体 648 は HOLD — 臨界路 = P3(dessin 束縛)+P5′(Kummer 部分群等号)**・Phase 2 は cofinal 必須・格は r_raw/r_TRIAD の 2 行分記へ | sol_reply_124_triad_audit.md | 1139 |
 | **Phase 1(1 ビット)** | **\|Im R_{K,M}\| = 972(972/972 lift)= 深さ 1 は情報ゼロ・中間値なし(仮定無事)** ⟹ A/B 未決のまま Phase 2 へ(Sol レーン・便 125)・方法論は縮小版 ground truth 0 mismatch で検算済・\|PB₃/K\| 実測 39,680,928(真の subdirect < naive 積) | d972_phase1_v1(e3442054) | 1137 |
