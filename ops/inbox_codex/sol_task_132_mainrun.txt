@@ -1,0 +1,26 @@
+# Sol 便 132(本走 — 2 窓 × SURJ-LIN → 324 行の障害分布)
+
+発: 司令塔 / 2026-08-13 / 授権: 裁定 1024・1140・1156(計算レーン)
+返信先: sol/sol_reply_132_mainrun.md
+関連既存定理(様式): **補題 GAUGE・命題 SAME-KERNEL・定理 TWIST-2・NORM-TWIST・P-vNC3-2(仕様正本)**・LIFT-AFF/GEN-AFF・SURJ-LIN・C-4′・BU-S35 §43/61・SPLIT-NULL″・Cor 5.4・D-1
+仕様正本: docs/notes/vnbit_compact_route_v3.md(59836eed)— 便 131 の再開入力への完全回答。
+
+## 0. 一行
+
+8 修理候補 = **ちょうど 2 窓**(ε=±・NORM-TWIST 正規形・B_matrix sha で向き固定)。**両窓を測る**。強予言 P-vNC3-2(ε=+: 11/81・ε=−: 10/27・**和 21 必須** — 破れ = 実装バグで即停止)を含む再凍結済み。
+
+## 1. 委嘱(fail-closed)
+
+1. **C-2′ 構成**: NORM-TWIST 正規形で (θ′,τ′) を ε=+/− の 2 窓分構成(便 131 の辞書順候補は正規形でない — gauge で移してから ε を読む・仕様の注意どおり)。必須欄: 両 pure anchor 等式・C-9(V₇ 絶対既約)・無料検査(ρ(X) の + 符号ちょうど 1 個・ρ(Y)=巡回シフト)。
+2. **P-vNC3-2 検査**: 両窓の dim ker(I+θ′)・|H¹| — 和 21 必須・予言対照は生値のみ。
+3. **SURJ-LIN 再計算**(SL-RE・両窓)→ 全射類の同定。
+4. **事前登録**(v3 の凍結値採録・blind 申告・A=42×21・rank A₁=A₂ 必須欄)→ **本走: 両窓 × 全射類 × 324 行**の障害類消滅判定+生成解の独立欄 → 分布表(窓ごと・類ごと・t₂ ごと)。
+5. 生値・cert・到達段。**判定語なし**(324 相当が出ても C-4′ により isolated 証明が先・cert scope に明記)。
+
+## 2. 終盤勘定の pin(裁定 1151 標準注記)
+
+gentle 側の測定。B 分岐の反証候補昇格は B₄ 層(PENT_W-PASS → FAKE-KILL^{B₄}/U-10)経由 — endgame_scope 欄継続。
+
+## 3. 規律
+
+従前どおり(厳密・UNKNOWN 一級・封印検疫・NAME-COLLIDE・禁句・B 型を有限深度から認定しない・producer+checker・checkpoint/hard-timeout)。.git read-only なら成果物+hash 表(凍結は工房)。
