@@ -53,6 +53,7 @@
 | crown バッテリー v1 | 5 対象(K3/K9/K27/K81/972 屋根)全較正 PASS・対角較正つき | crown_battery(9f7d735a) | 1058 補記 |
 | 1152 系 2 窓 | **両窓同一: GT=48・Φ=2・商 24・8 類(正規 7〔index2〕+非正規 1〔S₃〕)** | crown_battery_targets_v1(c2a59e7d) | 1059 |
 | mod-Φ 影 | r̄=min(r,3)(Goursat 機械検算 PASS・片側検定・prereg-native 化は次屋根から) | modphi_shadow_prereg_native_v1.md | 1054 |
+| **★C1′+P5′ 発効** | 差分レビュー採用(9/9)⟹ **648 前件束から P3・P5 閉**(残 = TB1–4・Z₁₈-link・W1・A/B)・**PH2-VOID′**(perfect E ⟹ 直積強制 — 2b の 972 = S4 内部の陰性ビットのみ・r 未接触)・次候補規則(**非完全 E・Q=3 群**・最安 = PSL(2,8)×ℤ/3)・型境界 5 度目自己記帳 | c1p5_v2_diff_review_v1.md(73386022) | 1145 |
 | **便 126 返書** | 要求 A–I 全反映(**passport binding load-bearing 化・G_arith = PΓL(2,8) 同定**)・**Phase 2b(非分裂 2⁶·PSL(2,8)・void 判定通過)= 972・UNKNOWN** — 初の有情報 972・C1′+P5′ = theorem-candidate 再提出形(差分レビュー待ち) | sol_reply_126_repairs_phase2b.md+27 artifacts | 1144 |
 | 閉鎖レビュー | **P3 条件付き採用**(7-cycle 判定の passport 依存の穴を発見+既存 cert 内データで塞ぎ・要求 A–D,G)・**P5′ 採用**・**★PH2-VOID: K^(l)∩N_S4 族は完全直積で 324 到達不能 = 族ごと除外(972 は定理の再導出)**・(3.60) 波及なし(ただし危険な向き)・**648 の A/B conditional は不変**・P=PGL(2,8) 同定 | c1p5_closure_review_v1.md(c6d543b4) | 1143 |
 | **便 125 返書** | **Phase 2: 深度 1/2 = 972/972・横断 l=36 も 972**(cofinal chain 正式構築・半決定継続)・**(3.60) 座標修理**(旧 Phase1 helper の m 比較瑕疵・値は 972 不変)・**★P3+P5′ 閉鎖パッケージ**(幾何 monodromy=504 確定・6 dessins 分離・ι_C の ℚ 降下・P5′ 紙導出)・B1 addendum+B3/B5/S-3 修理 — **数学者レビュー通過なら発効 4 点全充足** | sol_reply_125_phase2_p3p5.md+14 artifacts | 1142 |
