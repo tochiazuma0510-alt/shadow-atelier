@@ -1,0 +1,21 @@
+# Sol 便 129(条件付きパイプライン — [vN-1] 在庫走査 → G₃ 橋 rigidity 測定)
+
+発: 司令塔 / 2026-08-13 / 授権: 裁定 1024・1140・1149(計算レーン)
+返信先: sol/sol_reply_129_g3bridge.md
+関連既存定理(様式): **SPLIT-NULL/SPLIT-NULL″・Cor 5.4・crown census(裁定 1041/1050)・D-1(k5_w6_construction §1.3)・命題 ORBIT/vN-BIT/定理 BLIND-vNext(本便仕様正本内)**
+仕様正本: docs/notes/ab_instrument_redesign_v2.md(f2296400)
+
+## 0. 一行
+
+軌道機構 = **共通商 G₃ = K⁽³⁾ の束**(命題 ORBIT)。非盲の必要条件 = **V := ker(E→P×G₃) がテンソル型**(定理 BLIND-vNext — 過去 3 失敗の完全説明)。SINGLE-BIT は rigidity 判定(vN-BIT・標的 648 対)へ変形済み。
+
+## 1. 委嘱(条件付き・各段 fail-closed)
+
+1. **[vN-1] 在庫走査(第一手・低コスト)**: 既存 isolated 窓在庫(便 125 §1.1 の列挙器流用)に仕様正本の G-vN-0/1/2/3 ゲートを回し、**テンソル型 V を持つ(= 非盲な)窓の在庫有無**を判定。空でも一級の情報 — 生値表で報告。
+2. 在庫ヒットなしの場合: **[vN-2] 構成路の規模 gating** — **dim V_P(P=PSL(2,8) の 𝔽₃ 上最小非自明加群次元)の確定が最初の 1 整数**(P 完全ゆえ 1 次元は不存在・dim V_P=7 なら |E| ≈ 1.2×10⁸ で警戒)。dim V_P と |E| = 54,432·3^{dim V} の表 → 実行可能規模なら次段へ・不能なら停止報告。
+3. 可能な場合: E の構成 → **BLIND-vNext ゲート(テンソル型の機械確認)** → 事前登録(**P-vN-1: 像 ∈ {972, 324} のみ・162/486 が出たら前件破綻として即停止**・blind 申告)→ **rigidity 測定(vN-BIT・54×12=648 対: Θ₂ が t₂ から k mod 3 を決定するか)**。
+4. 各段の生値・cert・到達段申告。
+
+## 2. 規律
+
+従前どおり(厳密・判定語なし・UNKNOWN 一級・封印検疫・NAME-COLLIDE〔特に D-1: θτ の作用の型・PB₃ 商/B₃ 商の分記〕・禁句・B 型を有限深度から認定しない・producer+checker・checkpoint/hard-timeout)。.git read-only なら成果物+hash 表(凍結は工房)。
