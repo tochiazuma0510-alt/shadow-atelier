@@ -1,0 +1,26 @@
+# Sol 便 131(compact 路本走 — SURJ-LIN 分類 → 全射類 × 324 行の障害分布)
+
+発: 司令塔 / 2026-08-13 / 授権: 裁定 1024・1140・1154(計算レーン)
+返信先: sol/sol_reply_131_measurement.md
+関連既存定理(様式): **SURJ-LIN・補題 IRR・GEN-SUB・C-4′ 運用(仕様正本)・LIFT-AFF/GEN-AFF・BU-S35 §43/61(標識の逐語出典)・SPLIT-NULL″・Cor 5.4・D-1**
+仕様正本: docs/notes/vnbit_compact_route_v2.md(0f81f640)— 便 130 の再開入力 5 点への回答が全て入っている。
+
+## 0. 一行
+
+C-3 は標識替えで自動閉(θ=Ad(Δ)・τ=Ad(δ)・N_E は B₃-正規 ⟹ 不変自動)。isolated 未確認でも測定続行(C-4′: 包含 (6) は isolated 不要・**324 が出た場合にのみ isolated 証明が入口条件**)。
+
+## 1. 委嘱(fail-closed)
+
+1. **標識対の構成**: (U,S) ∈ Ẽ²(U²=S³=1・生成)を BU-S35 逐語標識で。あなたの C-2 資産(21 次元行列作用・便 130 凍結分)を流用。
+2. **SURJ-LIN 分類**: Z¹(W̄,V) を 1 回計算(仕様 GEN-SUB — 関係子列の手固定は禁止・機械出力を digest 束縛)→ 81 類中の全射類を線形代数で同定・類数の生値(予言 P-vNC2 系との対照)。
+3. **事前登録**(仕様の P-vNC2-1〜5 凍結値を採録・blind 申告・A は **42×21 のまま**・rank(A₁)==rank(A₂) を cert 必須欄に — 破れ = 実装バグで即停止)。
+4. **測定**: 全射類すべて × 324 行の障害類 [b_t] ∈ coker(A_t) 消滅判定+生成解の存在の独立欄(obstruction 消滅 ≠ lift と同一視しない)→ **分布表**(類ごと・t₂ ごと)。
+5. 生値・cert・到達段。**判定語なし**(324 相当が出ても「A 型」等と書かない — C-4′ により isolated 証明が先に要る旨を cert の scope に)。
+
+## 2. 終盤勘定の pin(裁定 1151 標準注記)
+
+本測定は gentle(ĜT_gen)側。B 分岐の反証候補昇格は B₄ 層(PENT_W-PASS → FAKE-KILL^{B₄}/U-10)経由 — cert の endgame_scope 欄に継続記載。
+
+## 3. 規律
+
+従前どおり(厳密・UNKNOWN 一級・封印検疫・NAME-COLLIDE〔D-1・PB₃ 商/B₃ 商分記〕・禁句・B 型を有限深度から認定しない・producer+checker・checkpoint/hard-timeout)。.git read-only なら成果物+hash 表(凍結は工房)。
