@@ -12,7 +12,10 @@ the current GAP/ACE process and all opaque algorithm state at one generation.
 The ordinary CLI is intentionally identical to v1.  The workflow additionally
 sets D972_DMTCP_ENABLED=1 and D972_DMTCP_CONTRACT_SHA256 to the frozen contract
 digest in d972_dovetail_manifest_v2.json.  Direct, uncheckpointed campaign runs
-fail closed.  ``--self-test`` checks the wrapper without invoking GAP.
+fail closed.  ``--campaign-driver`` keeps the producer/checker pair in this
+same checkpointed process alive until a terminal state or the external DMTCP
+supervisor's checkpoint-kill; it never adds a per-cell wall-clock timeout.
+``--self-test`` checks the wrapper without invoking GAP.
 """
 
 from __future__ import annotations
@@ -317,6 +320,17 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
         if bind_current and state.get("receipts", {}).get("v2_runtime_integrity") != runtime_receipt:
             raise legacy.StateStop("STATE_STOP v2 runtime/code binding drift")
 
+    original_next_fallback_table = legacy.next_fallback_table
+
+    def next_fallback_table_without_deadline(
+        k: int, start: int, deadline: float,
+    ) -> tuple[int, list[list[int]] | None, bool]:
+        # The legacy fallback accepts a deadline to support its standalone
+        # finite-slice CLI.  Under DMTCP that would be an unauthorized inner
+        # clock: let the external supervisor interrupt the exact loop instead.
+        del deadline
+        return original_next_fallback_table(k, start, float("inf"))
+
     def run_worker_without_timeout(
         mode: str, out_path: Path, env_extra: dict[str, str], timeout: float
     ) -> dict[str, Any]:
@@ -396,6 +410,7 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
     legacy.transition = transition
     legacy.validate_state = validate_state
     legacy.run_worker = run_worker_without_timeout
+    legacy.next_fallback_table = next_fallback_table_without_deadline
     legacy._current_run_metadata = current_run_metadata
 
 
@@ -470,6 +485,22 @@ def self_test() -> int:
     )
     if taskless_unwrapped.get("all_pass") is not True:
         raise RuntimeError("self-test taskless/null-radices payload was lost")
+    campaign_fixture = [
+        None,
+        {"status": {"code": "CALIBRATION_PENDING", "terminal": False}},
+        {"status": {"code": "UNKNOWN/RESUME", "terminal": False}},
+        {"status": {"code": "CHECKER_PENDING", "terminal": False}},
+        {"status": {"code": "CONTINUE", "terminal": False}},
+        {"status": {"code": "A_WITNESS_CROSSCHECKED", "terminal": True}},
+    ]
+    expected_phases = [
+        "producer", "checker", "producer", "checker", "producer", "terminal",
+    ]
+    observed_phases = [campaign_phase(state) for state in campaign_fixture]
+    if observed_phases != expected_phases:
+        raise RuntimeError(
+            f"campaign loop fixture drift: {observed_phases!r} != {expected_phases!r}"
+        )
     print(json.dumps({
         "schema": "d972-dovetail-producer-selftest/v2",
         "status": "PASS",
@@ -478,12 +509,32 @@ def self_test() -> int:
         "no_internal_worker_timeout": True,
         "synthetic_accepted_payload_unwrap": True,
         "taskless_null_radices_unwrap": True,
+        "campaign_loop_fixture": "PASS",
     }, sort_keys=True))
     return 0
 
 
+CAMPAIGN_CHECKER_PENDING = frozenset({"CALIBRATION_PENDING", "CHECKER_PENDING"})
+CAMPAIGN_PRODUCER_PHASE = frozenset({"INITIALIZED", "UNKNOWN/RESUME", "CONTINUE"})
+
+
+def campaign_phase(state: dict[str, Any] | None) -> str:
+    """Select the only legal next phase, including the fresh-launch phase."""
+    if state is None:
+        return "producer"
+    status = state.get("status", {})
+    if status.get("terminal"):
+        return "terminal"
+    code = status.get("code")
+    if code in CAMPAIGN_CHECKER_PENDING:
+        return "checker"
+    if code in CAMPAIGN_PRODUCER_PHASE:
+        return "producer"
+    raise RuntimeError(f"STATE_STOP campaign status unexpected: {code!r}")
+
+
 def campaign_driver(argv: Sequence[str]) -> int:
-    """Run producer and independent checker in one checkpointed process tree."""
+    """Run producer/checker iterations in one checkpointed process tree."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--state", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
@@ -494,13 +545,6 @@ def campaign_driver(argv: Sequence[str]) -> int:
         "--state", str(args.state), "--out-dir", str(args.out_dir),
         "--slice-seconds", str(args.slice_seconds),
     ]
-    exit_code = main(producer_argv)
-    if exit_code != 0:
-        return exit_code
-    state = json.loads(args.state.read_text(encoding="utf-8"))
-    code = state.get("status", {}).get("code")
-    if code not in {"CALIBRATION_PENDING", "CHECKER_PENDING"}:
-        return 0 if not state.get("status", {}).get("terminal") or code == "A_WITNESS_CROSSCHECKED" else 3
     args.out_dir.mkdir(parents=True, exist_ok=True)
     producer_ledger = args.out_dir / "producer-ledger.jsonl"
     producer_ledger.touch(exist_ok=True)
@@ -514,10 +558,45 @@ def campaign_driver(argv: Sequence[str]) -> int:
         raise RuntimeError("DMTCP_CONTRACT_STOP checker-v2 driver unavailable")
     checker = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(checker)
-    return int(checker.main([
+    checker_argv = [
         "--state", str(args.state), "--producer-ledger", str(producer_ledger),
         "--out-dir", str(args.checker_out_dir),
-    ]))
+    ]
+    while True:
+        before = (
+            json.loads(args.state.read_text(encoding="utf-8"))
+            if args.state.exists() else None
+        )
+        phase = campaign_phase(before)
+        if phase == "terminal":
+            code = before.get("status", {}).get("code")
+            return 0 if code == "A_WITNESS_CROSSCHECKED" else 3
+        before_hash = None if before is None else before.get("hash_chain", {}).get("checkpoint_sha256")
+        if before_hash is not None and (not isinstance(before_hash, str) or len(before_hash) != 64):
+            raise RuntimeError("STATE_STOP campaign loop missing phase input hash")
+
+        if phase == "producer":
+            # The v2 adapter deliberately ignores the legacy worker timeout.
+            # A single GAP cell therefore remains inside this DMTCP process
+            # until it completes or the external supervisor checkpoints and
+            # kills it.
+            exit_code = main(producer_argv)
+            if exit_code != 0:
+                return exit_code
+        else:
+            checker_code = int(checker.main(checker_argv))
+            if checker_code != 0:
+                return checker_code
+
+        after = json.loads(args.state.read_text(encoding="utf-8"))
+        after_hash = after.get("hash_chain", {}).get("checkpoint_sha256")
+        if not isinstance(after_hash, str) or len(after_hash) != 64:
+            raise RuntimeError("STATE_STOP campaign phase produced no checkpoint hash")
+        if before_hash is not None and after_hash == before_hash:
+            raise RuntimeError(f"STATE_STOP campaign {phase} phase made no state progress")
+        # Terminal state is the only natural return.  Every nonterminal state
+        # is fed back through campaign_phase, which selects checker or producer
+        # and rejects an unrecognised/STATE_STOP status fail-closed.
 
 
 def main(argv: Sequence[str] | None = None) -> int:

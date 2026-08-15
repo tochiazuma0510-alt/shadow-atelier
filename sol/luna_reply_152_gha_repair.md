@@ -340,3 +340,122 @@ RUN_31905951044_MATH_STATUS=NO_CAMPAIGN_REACHED;
 RUN_31905951044_FAILURE=DASH_LEADING_REQUIRED_TOKEN_GREP;
 V5_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
 ```
+
+## 10. v6 correction — run 31906350857 DMTCP checkpoint-kill semantics
+
+run `31906350857`（job `95064698522`、source `15ad4e668c5cf3fa2b451218751c5cb14570e85e`）を実測ログと固定 v4.2.0 sourceの両方で監査した。inventory と static tests は成功している。stateful smoke は coordinator開始後、
+
+```text
+Computation was checkpointed and killed.
+```
+
+を出力して step exit 2 で停止した。
+
+source `src/dmtcp_command.cpp` は `--kcheckpoint` を `K` commandへ変換し、`CoordCmdStatus::ERROR_NOT_RUNNING_STATE` の場合に上の成功メッセージを表示し、その直後 `return 2` する。従ってこれは失敗ではなく、DMTCP 4.2.0の checkpoint-and-kill 成功時の client exit semantics である。runの出力とsourceのstatusが一致する。
+
+同じ source の `ProcessInfo::setCkptDir` は checkpoint directory直下を image rootにし、`CKPT_FILE_SUFFIX` は `.dmtcp`。restart scriptの正本名は `dmtcp_restart_script.sh`。v6 manifestに次を追加した。
+
+```json
+{
+  "argv": ["dmtcp_command", "--kcheckpoint"],
+  "allowed_exit_codes": [2],
+  "required_output_tokens": ["Computation was checkpointed and killed."],
+  "image_glob": "*.dmtcp",
+  "image_max_depth": 1,
+  "restart_script": "dmtcp_restart_script.sh"
+}
+```
+
+manifest policyはinventory stepからGITHUB_ENVへ exact値を渡す。stateful smokeとproduction checkpointの両方で、`set +e` の狭い範囲で command output/statusを捕捉し、status=`2`、success token、restart script、少なくとも一つの `.dmtcp` imageを全て要求する。smokeの後続 restart、同一 token completion、productionの `seal-envelope` image/hash検査は維持している。production側の従来の `set -e`による潜在停止も閉じた。
+
+contract/provisioning digestは更新済み。
+
+```text
+contract_sha256       = 8526cf912a0978530be4bc4483a3a5277bbe281e9b8bb0a4457817239a60b903
+provisioning_sha256   = 11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca
+producer binding       = b716579cf4991b66b6f705aa76002abfa611c6c9f6bebfc76f8cdaa011c03a41
+workflow SHA-256       = fa7bf1decf4718873e65fbe8700a7b6a52291a80d73794af68736c9c99595e92
+manifest SHA-256       = dee97f16928ab91faa7ae15104a72c19711c75a5e2650f38e44d8ba3a61b7769
+```
+
+検査結果:
+
+```text
+producer v2 self-test                       PASS
+checker v2 self-test                        PASS
+workflow YAML parse                         PASS
+embedded Python heredocs                    11/11 PASS
+canonical provisioning/contract digest      PASS
+checkpoint-kill policy (exit=2, depth=1)    PASS
+grep/token audit                             PASS
+git diff --check                             PASS
+```
+
+run `31906350857` は数学未到達・artifactなしであり、resume対象ではない。親brokerがv6を含むfresh commitをpush後、`resume_run_id=""`, `slice_minutes="240"` で発火する。commit/push/dispatchは行っていない。
+
+```text
+RUN_31906350857_MATH_STATUS=NO_CAMPAIGN_REACHED;
+RUN_31906350857_FAILURE=EXPECTED_DMTCP_KCHECKPOINT_EXIT_2_UNHANDLED;
+V6_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
+```
+
+## 11. v7 correction — campaign driver repeated producer/checker loop
+
+The v6 smoke repair remains intact. An audit of run `31906350857` also exposed
+that `campaign_driver` returned after exactly one producer cell and one checker
+call. That made a 240-minute DMTCP slice behave as one-cell-per-run, rather
+than keeping the checkpointed process alive until the external
+`dmtcp_command --kcheckpoint`.
+
+The v7 repair changes only the bound producer, manifest, and this reply:
+
+- A fresh launch with no `state.json` enters producer first, allowing v2 to
+  materialize the seed. Existing `CALIBRATION_PENDING`/`CHECKER_PENDING` states
+  enter the checker; `UNKNOWN/RESUME` and `CONTINUE` re-enter producer.
+- Every producer/checker phase must write a new 64-hex state checkpoint hash;
+  unchanged state is a fail-closed `STATE_STOP` busy-loop guard. Any unknown
+  nonterminal status is also fail-closed. Only a terminal state returns
+  naturally; a DMTCP checkpoint-kill remains the external interruption point.
+- The v2 adapter now replaces the legacy fallback enumerator deadline with
+  `float("inf")`, and already ignores legacy subprocess timeout arguments.
+  Thus no inner cell/fallback wall clock can end the campaign; the workflow's
+  supervisor is the only clock. Ledger and checker agreement still occur at
+  each required phase before the next producer iteration.
+- The producer self-test includes a fixture for
+  absent -> producer `CALIBRATION_PENDING` -> checker unlock -> producer
+  `CHECKER_PENDING` -> checker -> next producer -> terminal phase selection.
+
+The manifest contract records `producer_checker_loop`, per-phase hash
+progress, `internal_cell_timeout=false`, and
+`legacy_fallback_deadline_ignored=true`; its contract digest was recomputed
+fail-closed.
+
+```text
+contract_sha256       = 8dc56a0a64a7eb6da4fbe01e20b9055b55d9909bb246a1d4cc9150a92e09b0af
+provisioning_sha256   = 11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca
+producer binding       = 04bd7a76cace80445822c31747e8499ab79ce478bbc923ecc08bc27d1ab055e1
+producer v2 SHA-256    = f13e34832d14f27e503aea342dab6d1e655ee070b28f251f255bae0700e21b27
+workflow SHA-256       = fa7bf1decf4718873e65fbe8700a7b6a52291a80d73794af68736c9c99595e92
+manifest SHA-256       = 256ca51a13d63f5030cf46f79755c3afe469d71ba9cda73d3a2d439f8e0c71eb
+```
+
+```text
+producer v2 self-test (campaign_loop_fixture)  PASS
+checker v2 self-test                         PASS
+Python compile                               PASS
+canonical contract/checkpoint policy digest  PASS
+legacy deadline suppression audit            PASS
+git diff --check                             PASS (after final check)
+```
+
+No GHA dispatch/commit/push was performed. The parent broker should commit
+the intended v6/v7 repair files (workflow, manifest, producer, and this
+reply) and dispatch a fresh 240-minute run; prior run
+`31906350857` reached no mathematics and remains a checkpoint-semantics
+failure, not a campaign result.
+
+```text
+RUN_31906350857_MATH_STATUS=NO_CAMPAIGN_REACHED;
+V7_FAILURE=ONE_CELL_CAMPAIGN_DRIVER_RETURN;
+V7_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
+```
