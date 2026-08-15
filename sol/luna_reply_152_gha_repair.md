@@ -290,3 +290,53 @@ RUN_31905492945_MATH_STATUS=NO_CAMPAIGN_REACHED;
 RUN_31905492945_FAILURE=BASH_PARSE_IN_WILDCARD_MEMBERSHIP_CONDITIONAL;
 V4_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
 ```
+
+## 9. v5 correction — run 31905951044 dash-leading grep token
+
+run `31905951044`（job `95063656915`）を確認した。v4のBash syntax gate、source build、version probe、help status probeは通過している。inventory末尾で
+
+```text
+grep: unrecognized option '--kcheckpoint'
+```
+
+となり exit 2 で停止した。原因はmanifest由来のdash-leading tokenを `grep -Fq "$dmtcp_command_help_token"` としており、grepがpatternをoptionとして解釈したことである。
+
+workflow全体を監査し、外部/manifest由来のrequired token検索をすべて `grep -Fq -- "$token"` にした。対象はlaunch version token、`--kcheckpoint`、`--ckptdir` の三箇所である。固定文字列 `DMTCP`、hex completion regex、secret scanはtoken由来ではないため変更不要である。
+
+同じ実inventory block内に回帰試験も追加した。manifest tokenがそれぞれ `--kcheckpoint` / `--ckptdir` であることを確認し、各token自身を
+
+```bash
+printf '%s\n' "$token" | grep -Fq -- "$token"
+```
+
+で検索する。従ってdash-leading option解釈の再発を、実際に使うinventory blockで検出する。checkout直後の実block `bash -n` gateも維持した。
+
+manifest/contractは変更していない。
+
+```text
+contract_sha256       = 1c97981e298d33f342a6ee9e60b8449889c2450e1d986c69826e743d7b63ccf1
+provisioning_sha256   = 37d739ea0a6775ff119e98e43e083541e954bd473fc2de89d10049655c39de50
+producer binding       = d59f4c6c17dd7a43e97884eadafe586e1336583a44ae81b3afcec0b152bc8bd5
+workflow SHA-256       = 87141c80e12ff7c956f914355c20ade0cd6f5e80087cba36537fdb67a296a6b0
+manifest SHA-256       = 4f6b946e93c271c487ef790f6f0363fe9bdbd0afc646504afe174bc96954fbc7
+```
+
+検査結果:
+
+```text
+producer v2 self-test                       PASS
+checker v2 self-test                        PASS
+workflow YAML parse                         PASS
+embedded Python heredocs                    11/11 PASS
+canonical provisioning/contract digest      PASS
+grep token audit (all required tokens)      PASS
+git diff --check                             PASS
+```
+
+WindowsのGit Bashは既知のsignal-pipe Win32 error 5で起動できず、local `bash -n`直接実行は不可だった。しかしGHAで実際のworkflow blockを抽出して実行するsyntax gateを追加済みであり、v5の変更はそのgate自体にも含まれる。run `31905951044` は数学未到達・artifactなし。親brokerがv5を含むfresh commitをpush後、`resume_run_id=""`, `slice_minutes="240"` で発火する。commit/push/dispatchは行っていない。
+
+```text
+RUN_31905951044_MATH_STATUS=NO_CAMPAIGN_REACHED;
+RUN_31905951044_FAILURE=DASH_LEADING_REQUIRED_TOKEN_GREP;
+V5_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
+```
