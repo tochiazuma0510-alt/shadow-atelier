@@ -459,3 +459,53 @@ RUN_31906350857_MATH_STATUS=NO_CAMPAIGN_REACHED;
 V7_FAILURE=ONE_CELL_CAMPAIGN_DRIVER_RETURN;
 V7_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
 ```
+
+## 12. v8 correction — GAP 4.13 environment accessor compatibility
+
+GHA run `31907793975` / job `95068214317` reached the DMTCP GAP-v2 smoke
+worker and then stopped before the mathematical self-test with:
+
+```text
+Error, Variable: 'GetEnv' must have a value
+```
+
+The source audit found that GAP 4.13 has no `GetEnv` global, while the v2
+worker loads the frozen v1 library before its own provenance code; the v1
+library contains all of the mode/task environment reads. The repair installs
+a compatibility `GetEnv(name)` only when that global is unbound, *before* the
+v1 library is read. It reads the core `GAPInfo.SystemEnvironment` record and
+returns `fail` for an absent name, preserving every existing fallback branch.
+The v2 task-path reads now also use the fallback wrapper explicitly. Existing
+newer GAP versions retain their native `GetEnv` implementation.
+
+The manifest contract now binds this compatibility rule and its missing-value
+semantics. No v1 source was changed and its expected SHA gate remains intact;
+all v1 `GetEnv` calls are covered by the pre-load compatibility definition.
+
+```text
+run_id                  = 31907793975
+job_id                  = 95068214317
+failure                 = GAP_4_13_UNBOUND_GetEnv_BEFORE_MATH
+contract_sha256         = fbce232bab9c1b658529f2e31dacc17f47dee3f48a899d93660cc25322c09b16
+provisioning_sha256     = 11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca
+worker_v2_sha256        = 785a259d9674d896939613d1d3938fb04031f1698af2d6852cc2ad59792a61fa
+workflow_sha256         = fa7bf1decf4718873e65fbe8700a7b6a52291a80d73794af68736c9c99595e92
+manifest_sha256         = 21715258c1083d8e4ffe4efa3ab639a5295756d25b2c8f2f66c3e149ec6dc246
+```
+
+```text
+producer v2 self-test                 PASS
+checker v2 self-test                  PASS
+Python compile                         PASS
+contract canonical digest              PASS
+GetEnv coverage/static ordering audit  PASS
+local GAP launch                      BLOCKED (known Win32 signal-pipe error 5)
+```
+
+No commit, push, or dispatch was performed by Luna.
+
+```text
+RUN_31907793975_MATH_STATUS=NO_CAMPAIGN_REACHED;
+V8_FAILURE=GAP_4_13_GetEnv_UNBOUND;
+V8_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
+```

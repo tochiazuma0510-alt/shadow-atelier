@@ -63,6 +63,11 @@
     },
     "external_supervisor_only_clock": true,
     "python_subprocess_timeout_forbidden": true,
+    "gap_environment_accessor": {
+      "api": "GAPInfo.SystemEnvironment",
+      "compatibility": "define GetEnv only when unbound before loading frozen v1",
+      "missing_value": "fail"
+    },
     "stable_workspace_relative_runtime_root": ".d972-runtime",
     "opaque_state_covered": [
       "canonical_table_relabel",
@@ -79,7 +84,7 @@
     "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
-    "contract_sha256": "8dc56a0a64a7eb6da4fbe01e20b9055b55d9909bb246a1d4cc9150a92e09b0af",
+    "contract_sha256": "fbce232bab9c1b658529f2e31dacc17f47dee3f48a899d93660cc25322c09b16",
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca"
   },
   "launch_spec": {

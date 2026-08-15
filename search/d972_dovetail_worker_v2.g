@@ -29,6 +29,20 @@ D972V2ExpectedV1SHA256 :=
 ## Load all frozen v1 definitions without executing its mode dispatcher/QUIT.
 ## A temporary copy is used because the source is intentionally kept versioned
 ## and immutable.  The digest gate makes this dependency explicit.
+## GAP 4.13 has no GetEnv global (GAP 4.14+ may provide one).  The frozen
+## v1 library below calls GetEnv at load time, so install a compatibility
+## accessor before reading it.  GAPInfo.SystemEnvironment is core GAP state;
+## missing names intentionally return fail and are handled by the callers.
+if not IsBound(GetEnv) then
+  GetEnv := function(name)
+    if IsBound(GAPInfo.SystemEnvironment) and
+       IsBound(GAPInfo.SystemEnvironment.(name)) then
+      return GAPInfo.SystemEnvironment.(name);
+    fi;
+    return fail;
+  end;
+fi;;
+
 D972V2LoadV1Library := function()
   local source, actual, marker, cut, dir, path, prefix;
   source := StringFile(D972V2V1Path);
@@ -77,9 +91,9 @@ D972V2HeartbeatPath := D972V2GetEnv("D972_HEARTBEAT","");;
 D972V2UniverseId := D972V2GetEnv("D972_UNIVERSE_ID","unbound");;
 D972V2InputDigest := D972V2GetEnv("D972_INPUT_DIGEST","unbound");;
 D972V2TaskDigestClaim := D972V2GetEnv("D972_TASK_DIGEST","");;
-D972V2TaskPath := GetEnv("D972_TASK_G");;
+D972V2TaskPath := D972V2GetEnv("D972_TASK_G","");;
 if D972V2TaskPath=fail or D972V2TaskPath="" then
-  D972V2TaskPath:=GetEnv("D972_TASK");
+  D972V2TaskPath:=D972V2GetEnv("D972_TASK","");
 fi;;
 D972V2TaskDigest := "unbound";;
 D972V2TaskMeta := fail;;
