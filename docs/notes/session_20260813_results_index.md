@@ -190,3 +190,17 @@ cert: escape2_mainrun_v1_20260815.json(7daa9cc6…)+checker(7283a8ba…)・返�
 | ⚠provenance | 新規大走査なしゆえ**成果物 cert 未収蔵**(T_t family は SHA のみ)— キャンペーン締めで現物請求 | 1169 |
 
 返書 = sol/sol_reply_137_whyvoid.md(入力 SHA 13/13)
+
+## §12 便138 キャンペーン(裁定1174・EXHAUSTED)
+
+| 項目 | 生値 | 裁定 |
+|---|---|---|
+| 最終停止規則 | nonzero obstruction **0**・missing key **0**・最小 raw image **972**・survivor floor 違反 **0** ⟹ **不発火・最終 1 ビットは UNKNOWN** | 1174 |
+| C1–C3 | 3,240 rank template で正 rank **0**(★**dim H²=4 の窓でも 0** = 便137 の紙予言を実測確認)・C3 の標識両立非零 pure class はちょうど **3 個** | 1174 |
+| C5 d=7 | [16,7,3] = **complement orbit 0 = 真に非分裂**・16 orbit×387,072 行で **image 972・missing 0** | 1174 |
+| C5 d=8 | [16,8,4]・**32 orbit×774,144 行 = 24,772,608 行**で **image 972・missing 0** | 1174 |
+| ★prereg の発火 | 親 prereg「全て elementary」が外れ **positive control passed=false** ⟹ **隠さず再分類**(prereg が声を上げた初の実例) | 1174 |
+| 新盲族候補 | MULTIPLICITY-ABSORB-138 / INDECOMP-ENTRY-138 / MARKED-LIFT-VOID-138 / PERFECT-RELAXED-SURJ-138(全て射程限定つき・**族定理ではない**) | 1174 |
+| 位置 | **有限化可能な A 側候補在庫は尽きた**。続行には C4–C14 に名指しされた**新技術の建造**が先。138b は未消化 | 1174 |
+
+返書 = sol/sol_reply_138_campaign.md(247 行・宣言 SHA 38/38)・凍結 = 6a54dcae
