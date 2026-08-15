@@ -12,7 +12,7 @@
 
 便 141 の最終状態は `ENUM_STATUS: EXHAUSTED_TO_B=2939327` であり、`WITNESS_FOUND` ではない。従って発動条件は成立した。
 
-結論は **型ゲート失敗**である。$\tilde{\mathbf N}^{*}=\mathcal V(PB_4)\le L$ 自体は構成でき、N$^{(19)}$ 正対照も正常に動いた。しかし便 142 §3 の中心命題
+結論は **型ゲート失敗**である。$\tilde{\mathbf N}^{*}=\mathcal V(PB_4)\le L$ 自体は構成でき、$N^{(19)}$ 正対照も正常に動いた。しかし便 142 §3 の中心命題
 
 > 「$GT(M)$ の一元で `PENT_W`-FAIL を示す」
 
@@ -84,10 +84,12 @@ $M$-shadow の charming 代表語を $f\in[F_2,F_2]$ とする。任意の $q\in
 
 を選べる。すると $f$ と $fh$ は同じ $M_F$-coset、従って同じ $M$-shadow を表す一方、$fh$ の NW residue はちょうど $q$ である。
 
-`PENT_W` は $q=1$ では PASS し、BIT-252 の $q_*$ では FAIL する。従って **各 $M$-shadow は PASS 代表元と FAIL 代表元の双方を持つ**。特に恒等 shadow $[0,1]_M$ についてさえ、ある $h\in M_F\cap[F_2,F_2]$ が
+これは word-level の自由度だけではない。$M_{\rm ord}=18$、NW(7) の $N_{\rm ord}=7$ なので、任意の二つの $m$-class は中国剰余定理で同時に持ち上がる。(2) 上では hexagon は成分ごとに成立し、二因子に共通非自明商がないため二つの全射成分を持つ $T_{m,f}$ の像も Goursat により直積全体である。従って **各 $g\in GT(M)$ と 294 個の各 NW(7) shadow は、共通細分 $M\cap\mathbf N$ 上で compatible** である。内訳は各 $g$ について `PENT_W`-PASS の有限 B3 common-refinement 42 個、FAIL の有限 B3 common-refinement 252 個となる。これは $\widehat{GT}$ lift の存在主張ではない。
+
+`PENT_W` は $q=1$ では PASS し、BIT-252 の $q_*$ では FAIL する。従って **各 $M$-shadow は PASS 代表元と FAIL 代表元の双方を持つ**。特に BIT-252 の FAIL shadow の $m$-class を $m_*$ とし、$\mu\equiv0\pmod {18}$、$\mu\equiv m_*\pmod7$ を選べば、恒等 shadow $[0,1]_M$ についてさえ、ある $h\in M_F\cap[F_2,F_2]$ が
 
 \[
-[0,h]_M=[0,1]_M,\qquad \mathrm{PENT}_W(\beta(h))=\mathrm{FAIL}
+[\mu,h]_M=[0,1]_M,\qquad [\mu,\beta(h)]_{\mathbf N}\in GT(\mathbf N),\qquad \mathrm{PENT}_W(\beta(h))=\mathrm{FAIL}
 \]
 
 を満たす。単一代表語を使う規則なら、$\widehat{GT}$ から来ることが自明な恒等元まで「非持上げ」と誤判定する。これは提案された規則に対する陰性対照である。
@@ -132,7 +134,7 @@ B4-CANON により
 
 \[
 C_M:=\bigcap_{i=1}^4p_i^{-1}(M),\qquad
-\tilde K:=C_M\cap\tilde{\mathbf N}^{*}le L
+\tilde K:=C_M\cap\tilde{\mathbf N}^{*}\le L
 \tag{4}
 \]
 
@@ -145,7 +147,7 @@ C_M:=\bigcap_{i=1}^4p_i^{-1}(M),\qquad
 | 経路 | 実行したこと | 停止点 | 次に必要な有限品 |
 |---|---|---|---|
 | 紙路 | $H_M$ と $P_7$ の共通商を Goursat で監査し、(3) を導いた | `PENT_W` は $GT(M)$ 上へ降下せず、恒等 shadow にも FAIL 代表元がある | (4) の reduction fiber 全体を拘束する新しい entanglement 定理。単一代表語・canonical word は代用品にならない |
-| 機械路 | 既存 `p1_build_R.g` と `b4-cal.yml` を GHA 発火し、$\tilde{\mathbf N}^{*}$ と N$^{(19)}$ 計器を再走した | $R_7=PB_4/\mathcal V(PB_4)$ は W 商だけで、$M$ 入力を受ける map がない。`DirectFactorsOfGroup` の成否はこの型欠落を直さない | producer で (4) を構成し、648 個の外側 coset ごとに **全** lift を列挙。独立 checker は marked quotient、reduction、fiber 完備性、hexagon/SURJ/(2.20) を helper 非共有で再構成 |
+| 機械路 | 既存 `p1_build_R.g` と `b4-cal.yml` を GHA 発火し、$\tilde{\mathbf N}^{*}$ と $N^{(19)}$ 計器を再走した | $R_7=PB_4/\mathcal V(PB_4)$ は W 商だけで、$M$ 入力を受ける map がない。`DirectFactorsOfGroup` の成否はこの型欠落を直さない | producer で (4) を構成し、648 個の外側 coset ごとに **全** lift を列挙。独立 checker は marked quotient、reduction、fiber 完備性、hexagon/SURJ/(2.20) を helper 非共有で再構成 |
 | 較正移植路 | `cal_b4_n19_pentagon.g` の GHA 正対照と、Dolgushev らの Package GT による独立 Python 再計算を実行 | 評価器は正常だが、その入力型は NW/B4 quotient の元である。$M$ の任意代表語への適用は section 依存 | `search/probe/b4_m972_v1/m972_b4_fiber.g` 型の producer と `crosscheck/check_b4_m972_fiber.py` 型の独立 checker。入力は $M$ の marked quotient、五余面、$R_7$、(4)、972 shadow の coset ID |
 
 ここで提案した二つのファイル名は必要品の仕様名であり、本便では実装していない。Sol の役割境界上、型が閉じる前に探索器を新造して数を出すことはしない。
@@ -162,11 +164,11 @@ C_M:=\bigcap_{i=1}^4p_i^{-1}(M),\qquad
 - `anupq_smoke`: success
 - `cal_b4`: success（fail-closed marker gate）
 - `p1_build_R`: wrapper job success。ただし raw GAP は $|R_7|=44567640326363195900190045974568007=7^{41}$、`B4-EXQ-1: true`、$|Z(R_7)|=3909821048582988049$ まで印字した後、`DirectFactorsOfGroup` で 6 GB 上限に達した。`P1_PASS/P1_FAIL` marker は未到達で、B4-EXQ-2 は UNKNOWN
-- 発火前から凍結されていた予言: N$^{(19)}$ pentagon-pass $=216$、B4-EXQ-1 $|R_7|=7^{41}$
+- 発火前から凍結されていた予言: $N^{(19)}$ pentagon-pass $=216$、B4-EXQ-1 $|R_7|=7^{41}$
 
 ローカル `gap.ps1` は GAP 起動時の Windows signal-pipe error 5 で走らなかったが、そこで停止せず GHA を発火した。従って本判定はローカル環境を理由にしていない。
 
-### 4.2 N$^{(19)}$ の独立正対照
+### 4.2 $N^{(19)}$ の独立正対照
 
 GHA の GAP producer は、`cal_b4_n19_pentagon.g` 内の二方式で pentagon-pass **216 / 216** を再現し、job の fail-closed gate を通過した。さらに
 
@@ -195,9 +197,9 @@ N19 total (m,f) hexagon pairs     72
 1. $|GT(M)|=972$、$|A_{\rm ar}|=324$、指数 3。
 2. $H_M\cong G_9\times\mathrm{PSL}(2,8)$、$P_7$ は 7 群。
 3. $M_FV=F_2$、かつ $\beta(M_F\cap F_2')=P_7'$。
-4. 各 $M$-coset は NW(7) の任意の commutator residue を持つ代表語を許す。
+4. 各 $M$-shadow は NW(7) の 294 shadows 全てと有限 B3 共通細分上で compatible であり、内訳は PASS 42 / FAIL 252（genuine lift の計数ではない）。
 5. $\tilde{\mathbf N}^{*}\le L$、$|PB_4/\tilde{\mathbf N}^{*}|=7^{41}$、ただし $\tilde{\mathbf N}^{*}_{PB_3}=\mathbf N_0$ と $M$ は比較不能。
-6. N$^{(19)}$ pentagon-pass 216 は GAP/Package GT で照合済み。
+6. $N^{(19)}$ pentagon-pass 216 は GAP/Package GT で照合済み。
 
 ### verdict
 
@@ -258,6 +260,6 @@ B4_VERDICT                           2 files
 | `search/probe/b4_cal_v1/p1_build_R.g` | `9a97767fc81b134477f72bf13b1def05a8afb1f77071493822f04e7a9c145998` |
 | `search/certs/cal_b4_integrated_v2_20260806.json` | `71b6fa73b99c4afafc624df844bda61d654248908bc813a4651864d603d44f1b` |
 
-本便では commit / push を行っていない。`.git` は read-only とし、外部状態の変更は上記 workflow dispatch 1 回だけである。有限悉皆 N$^{(19)}$ と、本件特有の quotient 定理を族定理とは呼ばない。
+本便では commit / push を行っていない。`.git` は read-only とし、外部状態の変更は上記 workflow dispatch 1 回だけである。有限悉皆 $N^{(19)}$ と、本件特有の quotient 定理を族定理とは呼ばない。
 
 B4_VERDICT: GATE_FAILED
