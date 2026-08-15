@@ -74,7 +74,14 @@
       "mapping_group": {
         "replacement_count": 1,
         "needle": "Size(Group(a1,a2))",
-        "replacement": "Size(Group([a1,a2],IdentityMapping(G9)))"
+        "replacement": "D972V2MappingGroupOrder([a1,a2],G9)",
+        "materialization": "AsSSortedList(G9) -> PositionSorted images -> PermList -> Group(perms)",
+        "fail_closed_gates": [
+          "finite source cardinality",
+          "bijective source automorphisms fixing identity",
+          "all images in source",
+          "distinct generator permutations"
+        ]
       },
       "mtc_group": {
         "replacement_count": 1,
@@ -121,7 +128,7 @@
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "fb2ecb913067d7b13d03cc2a9cab41e11082838f6f7f773bff8f19b7d6ad2aff"
+    "contract_sha256": "3841ef3e1dafd04364cb2960168c60b36178a1d5e08bd5f219da2c62d4774616"
   },
   "launch_spec": {
     "cwd": ".",

@@ -27,7 +27,7 @@ D972V2ExpectedV1SHA256 :=
   "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd";;
 D972V2CompatNeedle := "Size(Group(a1,a2))";;
 D972V2CompatReplacement :=
-  "Size(Group([a1,a2],IdentityMapping(G9)))";;
+  "D972V2MappingGroupOrder([a1,a2],G9)";;
 D972V2CompatReplacementCount := 1;;
 D972V2MtcNeedle := "PresentationSubgroupMtc(P, Hsub, \"h\", 0)";;
 D972V2MtcReplacement := "PresentationSubgroupMtc(P, Hsub, \"h\")";;
@@ -108,6 +108,32 @@ D972V2LoadV1Library := function()
 end;;
 
 D972V2LoadV1Library();;
+
+## GAP 4.12.1 does not classify general bijective mappings as
+## IsGeneratorsOfMagmaWithInverses, so even the list-plus-identity Group form
+## is rejected.  Materialize the finite action on the source group as a
+## permutation group before taking its order.  This is only the K9 B3-action
+## compatibility gate; the frozen v1 mappings and all mathematical data stay
+## unchanged.
+D972V2MappingGroupOrder := function(maps, source)
+  local elements, imageRows, perms;
+  elements := AsSSortedList(source);
+  if Length(elements) <> Size(source) or
+     not ForAll(maps, map -> IsBijective(map) and
+       Image(map,One(source))=One(source)) then
+    Error("D972 v2: mapping action is not a finite automorphism action");
+  fi;
+  imageRows := List(maps, map ->
+    List(elements, g -> PositionSorted(elements, Image(map,g))));
+  if ForAny(imageRows, row -> ForAny(row, i -> i=fail)) then
+    Error("D972 v2: mapping action left its finite source group");
+  fi;
+  perms := List(imageRows, row -> PermList(row));
+  if ForAny(perms, p -> p=fail) or Length(Set(perms))<>Length(maps) then
+    Error("D972 v2: mapping action permutation materialization drift");
+  fi;
+  return Size(Group(perms));
+end;;
 
 D972V2GetEnv := function(name, fallback)
   local value;
