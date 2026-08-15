@@ -175,3 +175,18 @@ cert: d972_survival_noncomm_v1_20260815.json(2b79438f…)+verdict(8006d83d…)�
 | ★帰結 | **二例目**: p=3(dim H²=2)と p=2(dim H²=2)の両側で「H²≠0・実障害像 0」⟹ 便137(作業仮説 (H-SPLIT) 判定)へ | 1166 |
 
 cert: escape2_mainrun_v1_20260815.json(7daa9cc6…)+checker(7283a8ba…)・返書 = sol/sol_reply_136_escape2.md・凍結 = 5e65ab5d
+
+## §11 便137(WHY-VOID・裁定1169)
+
+| 項目 | 結果 | 裁定 |
+|---|---|---|
+| 分裂性 | ESCAPE-28 の 3,392 class・ESCAPE-2 の 7 class **全部が通常分裂**(PB₃/K≅V⋊(P×G₉))・非分裂 0 | 1169 |
+| ★(H-SPLIT) | **機構は棄却** — 補題 **EQ-COMP-VOID**(同変補群 ⟹ C⊴Ê ⟹ [C,V]=1 ⟹ V に自明作用。しかし V^{⟨X,Y⟩}=0)⟹ **全 class で同変補群なし**。条件命題自体は正しいが前件が無い(結論の棄却ではない) | 1169 |
+| ★真の機構 | **命題 COCYCLE-ABSORB-137**: 全 1,620 template で **C_tZ = −A_tT_t** ⟹ ω_t: Z¹(Γ,V)→coker A_t が恒等的に零。★**C_tZ≠0 の行が大多数**(318/318/312/312/297)= 欠損は零でなく **Im A_t に吸収**される | 1169 |
+| ★★新ゲート | **r_t^obs := rank[A_t\|C_tZ] − rank A_t** を preflight で先に測る ⟹ **検出力の基準を dim H² から r_t^obs へ更新**(「dim H² を大きくするより直接的」) | 1169 |
+| H² 増量戦略 | **無効と紙で予言** — V₂₄=V₁₂^⊕2 / V₃₅=V₂₁⊕B₇^⊕2 は直和ゆえ因子分解も直和 ⟹ 同 roof で r_t^obs=0。有効な最小候補は UNKNOWN(型 = 非半単純 extension / 別 marking・roof) | 1169 |
+| dim H²=2 の一致 | 原因ではない(p=2 は J₁ 2 個・p=3 は J₂ 2 個の別機構・「必ず 2」の定理もない) | 1169 |
+| 射程 | 凍結宇宙のみに量化 ⟹ **compact 路の一般消滅は UNKNOWN**。★**族定理ではないので cofinality に寄与しない**(裁定 1168 の規律) | 1169 |
+| ⚠provenance | 新規大走査なしゆえ**成果物 cert 未収蔵**(T_t family は SHA のみ)— キャンペーン締めで現物請求 | 1169 |
+
+返書 = sol/sol_reply_137_whyvoid.md(入力 SHA 13/13)
