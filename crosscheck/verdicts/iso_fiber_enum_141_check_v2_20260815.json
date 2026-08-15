@@ -1,0 +1,48 @@
+{
+  "schema": "shadow-atelier/iso-fiber-enum-141-check/v2-continuation",
+  "generated_at_utc": "2026-08-15T11:39:18.2395008Z",
+  "checker": {
+    "runtime": "PowerShell 5.1",
+    "method": "ceiling-to-next-multiple computation; no producer helper imported"
+  },
+  "producer": {
+    "path": "search/certs/iso_fiber_enum_141_v2_20260815.json",
+    "sha256": "cd4a30b4132aaad143faeb015593866c03cd511e58d6cea89917e5e33ffddc8c"
+  },
+  "inputs": {
+    "order_Q": 1469664,
+    "new_B_interval": [1469665, 2939327]
+  },
+  "independent_values": {
+    "first_multiple_of_order_Q_at_or_above_interval": 2939328,
+    "interval_integer_count": 1469663,
+    "new_order_events": 0,
+    "next_event_kernel_order": 2
+  },
+  "checks": {
+    "no_new_multiple_in_interval": true,
+    "interval_count_matches": true,
+    "next_event_matches_two_times_Q": true,
+    "parent_candidate_and_image_preserved": true,
+    "all_producer_fields_match": true
+  },
+  "positive_control": {
+    "claimed_surjective_order": 2939327,
+    "nonzero_remainder": 1469663,
+    "rejected": true
+  },
+  "raw_summary": {
+    "cumulative_completed_through_B": 2939327,
+    "cumulative_marked_classes": 1,
+    "cumulative_image_sizes": [972],
+    "cumulative_zero_fibers": 0,
+    "check_failures": 0
+  },
+  "noncontact": {
+    "sealed_three_quantities_opened": false,
+    "u_opened": false,
+    "c_opened": false,
+    "sealed_K5_opened": false
+  },
+  "interpretation": "independent bounded-census continuation check only; final ENUM_STATUS is reserved for the Sol reply"
+}

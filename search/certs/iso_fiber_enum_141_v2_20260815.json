@@ -1,0 +1,55 @@
+{
+  "schema": "shadow-atelier/iso-fiber-enum-141/v2-continuation",
+  "generated_at_utc": "2026-08-15T11:38:48.3320924Z",
+  "generated_by": {
+    "method": "independent integer interval scan using the divisibility event schedule",
+    "runtime": "node v24"
+  },
+  "prereg": {
+    "path": "search/certs/iso_fiber_enum_141_prereg_v2_20260815.json",
+    "sha256": "22e33f6ba14a053b6ed8b0c52e6050b8756fdd4bfbf5df6853472c97022817b0"
+  },
+  "parent_producer_sha256": "4d1ffe562f2a98381358bd576d71c2b8d21d075bc404e798f73770a636c4f811",
+  "order_Q": 1469664,
+  "new_interval": {
+    "B_min": 1469665,
+    "B_max": 2939327,
+    "integer_B_count": 1469663,
+    "possible_new_order_multiples_of_Q": 0,
+    "new_marked_candidate_count": 0
+  },
+  "cumulative": {
+    "completed_B_min": 1,
+    "completed_B_max": 2939327,
+    "canonical_marked_candidate_count": 1,
+    "candidate_orders": [1469664],
+    "eligible_L": ["M"],
+    "reduction_image_sizes": [972],
+    "zero_fiber_count_in_GT_M_minus_A": 0
+  },
+  "next_order_event": {
+    "B": 2939328,
+    "order_ratio_E_over_Q": 2,
+    "kernel_order_if_surjective": 2,
+    "required_next_census": "marked central C2 extensions E->>Q together with compatible PB3 markings; B3 stability and isolatedness then remain separate filters"
+  },
+  "positive_control": {
+    "synthetic_claimed_new_order": 2939327,
+    "remainder_mod_order_Q": 1469663,
+    "rejected": true
+  },
+  "raw_summary": {
+    "new_B_values_completed": 1469663,
+    "new_candidates": 0,
+    "cumulative_candidates": 1,
+    "cumulative_image_size_324_count": 0,
+    "cumulative_image_size_972_count": 1
+  },
+  "noncontact": {
+    "sealed_three_quantities_opened": false,
+    "u_opened": false,
+    "c_opened": false,
+    "sealed_K5_opened": false
+  },
+  "interpretation": "raw bounded-enumeration continuation only; no A/B or ENUM_STATUS label"
+}

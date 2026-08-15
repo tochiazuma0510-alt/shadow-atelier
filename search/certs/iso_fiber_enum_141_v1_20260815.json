@@ -1,0 +1,108 @@
+{
+  "schema": "shadow-atelier/iso-fiber-enum-141/v1",
+  "generated_at_utc": "2026-08-15T11:36:23.4901338Z",
+  "generated_by": {
+    "method": "theorem-driven bounded marked-quotient enumeration with public certificate replay",
+    "runtime": "node v24"
+  },
+  "prereg": {
+    "path": "search/certs/iso_fiber_enum_141_prereg_v1_20260815.json",
+    "sha256": "528725c89c372b1106a09ec5110ecb0621d199d9b6ae45c759758f32d279833a"
+  },
+  "target": {
+    "name": "M=K^(9) cap N_S4",
+    "quotient": "Q=PB3/M",
+    "order_Q": 1469664
+  },
+  "bounded_run": {
+    "B_min": 1,
+    "B_max": 1469664,
+    "completion_encoding": "two lossless order-event batches; this cert covers every integer B in the interval",
+    "batches": [
+      {
+        "B_interval": [1, 1469663],
+        "marked_candidate_count": 0,
+        "proof": "If psi:E->>Q then |Q| divides |E|, hence |E|>=1469664."
+      },
+      {
+        "B_interval": [1469664, 1469664],
+        "marked_candidate_count": 1,
+        "canonical_candidate": "(Q,pi_M,id_Q)",
+        "proof": "At equal finite orders psi is an isomorphism. Compatibility psi*phi=pi_M gives phi=psi^(-1)*pi_M, so every triple is marked-isomorphic to the canonical one."
+      }
+    ],
+    "duplicate_count": 0,
+    "omitted_marked_class_count": 0
+  },
+  "stage_1_marked_quotients": {
+    "raw_candidate_count": 1,
+    "canonical_marked_candidate_count": 1,
+    "candidate": {
+      "E": "Q=PB3/M",
+      "phi": "pi_M",
+      "psi": "id_Q",
+      "order_E": 1469664,
+      "kernel_L": "M"
+    }
+  },
+  "stage_2_B3_stability": {
+    "L_equals_M": true,
+    "B3_stable": true,
+    "proof": "K^(9) and N_S4 are B3-stable normal finite-index subgroups; their intersection M is B3-stable."
+  },
+  "stage_3_isolated_and_settled": {
+    "K9_isolated": true,
+    "K9_source": "canonical Theorem 4.3",
+    "N_S4_all_kernel_trivial": true,
+    "N_S4_num_C": 1,
+    "N_S4_source": "search/certs/d972_h1_ns4_v1_20260813.json",
+    "M_isolated_by_INT": true,
+    "direct_M_shadow_census_size": 972,
+    "direct_M_shadow_composition_closed": true,
+    "direct_census_source": "search/certs/d972_phase0_v1_20260813.json",
+    "independent_M_shadow_census_size": 972,
+    "independent_census_source": "search/certs/d972_phase1_v1_20260813.json",
+    "settled_GT_M_count": 972,
+    "unsettled_GT_M_count": 0,
+    "settled_proof": "INT gives isolatedness. Independently, the direct census constructs the induced endomorphism for every one of the 972 generating shadows while building the closed composition table; well-defined plus surjective on the finite quotient makes each map an automorphism."
+  },
+  "stage_4_reduction_image": {
+    "reduction": "R_(M,M)=id_GT(M)",
+    "domain_size": 972,
+    "codomain_size": 972,
+    "image_size": 972,
+    "fiber_size_distribution": {"1": 972},
+    "zero_fiber_count_in_GT_M": 0,
+    "zero_fiber_count_in_GT_M_minus_A": 0,
+    "arithmetic_subset_size_anchor": 324
+  },
+  "positive_controls": {
+    "synthetic_order_E": 1469663,
+    "synthetic_false_surjection_rejected": true,
+    "deleted_identity_image_size": 971,
+    "deleted_identity_image_mismatch_detected": true
+  },
+  "source_sha256": {
+    "search/certs/d972_phase0_v1_20260813.json": "dbd34c59638363762cee1eb77720625704935e50a269528df0f88daeaf3841fe",
+    "search/certs/d972_h1_ns4_v1_20260813.json": "a100893d151b4f4885bab8d950d09fc9d7b875d5651481ae9496f6edc93c8292",
+    "search/certs/d972_phase1_v1_20260813.json": "b41c99684af7096af9b609077d2953ccd9b572d86b92ee871ff5e08cf291bb23",
+    "search/d972_phase0_v1.g": "95dd7b45fef229cf54ae31c365701be64bb4abf569db7e5e7946d59750075783",
+    "search/d972_h1_ns4_v1.g": "38fda9322d494f75e5eb382fee21777391aba4201b42349f6d4b760ffc525ab0",
+    "search/d972_phase1_v1.g": "a0796707cf43e9bc5f2bf4670299db2d6afe3b616ca13610f280e964e4b0f966"
+  },
+  "raw_summary": {
+    "completed_through_B": 1469664,
+    "eligible_L_count": 1,
+    "image_size_324_count": 0,
+    "image_size_972_count": 1,
+    "outside_A_zero_fiber_count": 0,
+    "positive_controls_detected": 2
+  },
+  "noncontact": {
+    "sealed_three_quantities_opened": false,
+    "u_opened": false,
+    "c_opened": false,
+    "sealed_K5_opened": false
+  },
+  "interpretation": "raw bounded-enumeration certificate only; no A/B or ENUM_STATUS label"
+}

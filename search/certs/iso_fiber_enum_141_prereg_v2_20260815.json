@@ -1,0 +1,27 @@
+{
+  "schema": "shadow-atelier/iso-fiber-enum-141-prereg/v2",
+  "registered_at_utc": "2026-08-15T11:38:17.0867267Z",
+  "continuation_of": {
+    "producer_path": "search/certs/iso_fiber_enum_141_v1_20260815.json",
+    "producer_sha256": "4d1ffe562f2a98381358bd576d71c2b8d21d075bc404e798f73770a636c4f811",
+    "checker_path": "crosscheck/verdicts/iso_fiber_enum_141_check_v1_20260815.json",
+    "checker_sha256": "c9bbca94238a01f337dadd7d6a3b3aa1e82beffbac7f6c939597f26f88dce5cc",
+    "completed_through_B": 1469664
+  },
+  "target_order_Q": 1469664,
+  "new_B_interval": [1469665, 2939327],
+  "planned_rule": "A surjection E->>Q forces |E| to be a positive multiple of |Q|. No new group order occurs strictly between |Q| and 2|Q|; the already checked order-|Q| marked class remains the complete cumulative census.",
+  "next_unprocessed_event": {
+    "B": 2939328,
+    "possible_kernel_order": 2
+  },
+  "stop_rule": "report cumulative exhaustion through 2939327 only if producer and independent checker both confirm no new order event",
+  "positive_control": "inject |E|=2|Q|-1 as a claimed new surjective order and require divisibility rejection",
+  "noncontact": {
+    "sealed_three_quantities_opened": false,
+    "u_opened": false,
+    "c_opened": false,
+    "sealed_K5_opened": false
+  },
+  "interpretation_embargo": "raw continuation values only; final ENUM_STATUS is reserved for the Sol reply"
+}

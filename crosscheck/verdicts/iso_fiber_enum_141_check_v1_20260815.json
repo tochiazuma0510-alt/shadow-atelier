@@ -1,0 +1,58 @@
+{
+  "schema": "shadow-atelier/iso-fiber-enum-141-check/v1",
+  "generated_at_utc": "2026-08-15T11:37:27.2082357Z",
+  "checker": {
+    "runtime": "PowerShell 5.1",
+    "method": "independent integer/order argument plus structural INT route; no producer helper imported"
+  },
+  "producer": {
+    "path": "search/certs/iso_fiber_enum_141_v1_20260815.json",
+    "sha256": "4d1ffe562f2a98381358bd576d71c2b8d21d075bc404e798f73770a636c4f811"
+  },
+  "prereg_sha256": "528725c89c372b1106a09ec5110ecb0621d199d9b6ae45c759758f32d279833a",
+  "independent_inputs": {
+    "order_PB3_over_K9": 2916,
+    "order_PB3_over_N_S4": 504,
+    "product": 1469664,
+    "order_PB3_over_M_anchor": 1469664,
+    "order_GT_M_anchor": 972,
+    "N_S4_all_kernel_trivial": true,
+    "N_S4_num_C": 1
+  },
+  "checks": {
+    "factor_product_matches_Q": true,
+    "empty_interval_1_through_1469663_complete": true,
+    "boundary_marked_class_unique": true,
+    "boundary_kernel_equals_M": true,
+    "B3_stability_premises_present": true,
+    "INT_isolation_premises_present": true,
+    "direct_and_structural_GT_M_counts_agree": true,
+    "identity_reduction_image_size_972": true,
+    "identity_reduction_zero_fibers_0": true,
+    "all_producer_fields_match": true
+  },
+  "completeness_proof": [
+    "A finite surjection E->>Q forces |Q| to divide |E|, so no candidate exists below |Q|.",
+    "At |E|=|Q|, psi is an isomorphism and psi*phi=pi_M forces one marked-isomorphism class.",
+    "Its kernel is M; K^(9) and N_S4 are B3-stable and isolated, hence M is B3-stable and isolated by intersection/INT.",
+    "For L=M, R_(L,M) is the identity on the 972-element GT(M), so all 972 fibers have size one."
+  ],
+  "positive_controls": {
+    "synthetic_order_1469663_false_surjection_rejected": true,
+    "synthetic_identity_image_971_mismatch_detected": true
+  },
+  "raw_summary": {
+    "completed_through_B": 1469664,
+    "marked_classes": 1,
+    "image_sizes": [972],
+    "zero_fibers": 0,
+    "check_failures": 0
+  },
+  "noncontact": {
+    "sealed_three_quantities_opened": false,
+    "u_opened": false,
+    "c_opened": false,
+    "sealed_K5_opened": false
+  },
+  "interpretation": "independent bounded-census check only; final ENUM_STATUS is reserved for the Sol reply"
+}

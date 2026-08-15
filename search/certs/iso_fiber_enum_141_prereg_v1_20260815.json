@@ -1,0 +1,54 @@
+{
+  "schema": "shadow-atelier/iso-fiber-enum-141-prereg/v1",
+  "registered_at_utc": "2026-08-15T11:35:28.1503088Z",
+  "task": {
+    "path": "ops/inbox_codex/sol_task_141_enum.txt",
+    "sha256": "7a93126f464491588256a944d948da8b5f583c9954c3145b8766895b49eeec18"
+  },
+  "target": {
+    "name": "M=K^(9) cap N_S4",
+    "quotient": "Q=PB3/M",
+    "known_public_order_anchor": 1469664,
+    "order_anchor_source": "search/certs/d972_phase0_v1_20260813.json"
+  },
+  "marked_candidate": "a triple (E,phi,psi) with phi:PB3->>E, psi:E->>Q, and psi*phi=pi_M, modulo marked isomorphism",
+  "bounded_universe": {
+    "B_min": 1,
+    "B_max": 1469664,
+    "lossless_batches": [
+      {"B_interval": [1, 1469663], "planned_rule": "reject by |E|>=|Q| for every surjection E->>Q"},
+      {"B_interval": [1469664, 1469664], "planned_rule": "surjection of equal finite orders is an isomorphism; canonicalize by psi"}
+    ]
+  },
+  "four_stages": [
+    "complete duplicate-free marked quotient census",
+    "B3-stability of L=ker(phi)",
+    "isolatedness and settled GT(L) census",
+    "complete image of R_(L,M) with an independent checker"
+  ],
+  "stop_rule": {
+    "witness": "stop if an eligible L has image size 324 or an element of GT(M)\\A has fiber size 0",
+    "no_witness": "report EXHAUSTED_TO_B=1469664 only if completeness and all four stages pass"
+  },
+  "positive_controls": [
+    "inject a synthetic claimed surjection with |E|=|Q|-1 and require rejection",
+    "delete one point from the identity-image cardinality and require mismatch detection"
+  ],
+  "outcome_fields_frozen_before_run": [
+    "candidate_count_by_batch",
+    "canonical_marked_candidate_count",
+    "B3_stable",
+    "isolated",
+    "GT_L_size",
+    "image_size",
+    "zero_fiber_count",
+    "positive_control_detection"
+  ],
+  "noncontact": {
+    "sealed_three_quantities_opened": false,
+    "u_opened": false,
+    "c_opened": false,
+    "sealed_K5_opened": false
+  },
+  "interpretation_embargo": "raw bounded-enumeration values first; ENUM_STATUS is written only in the Sol reply"
+}
