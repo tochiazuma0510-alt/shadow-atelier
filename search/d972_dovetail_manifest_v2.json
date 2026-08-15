@@ -3,6 +3,18 @@
   "campaign_id": "d972-roof-A-semidecision-v2",
   "universe_id": "B3-stable-marked-extensions-over-K9-intersection-NS4-k-ge-3/v2",
   "search_input_set_sha256": "48d2d91ef56f2cc73a75b559aed378f48d5d28d1e04a964ccfd6fb5502713969",
+  "dmtcp_provisioning": {
+    "method": "pinned-source-build",
+    "release_tag": "v4.2.0",
+    "release_commit_sha": "f8009ce7b4ad211311ca2f72a929b975e4aa1155",
+    "archive_url": "https://api.github.com/repos/dmtcp/dmtcp/tarball/v4.2.0",
+    "archive_sha256": "0288457860517cf3b221da794bbf0bea8804d846fcb629a50181a7225b93a392",
+    "archive_root": "dmtcp-dmtcp-f8009ce",
+    "configure": "./configure --prefix=$GITHUB_WORKSPACE/.dmtcp-prefix",
+    "build": "make -j$(nproc)",
+    "install": "make install",
+    "binary_prefix": ".dmtcp-prefix/bin"
+  },
   "mathematical_state": {
     "schema": "d972-dovetail-state/v1",
     "seed_manifest": "search/d972_dovetail_manifest_v1.json",
@@ -36,7 +48,8 @@
     "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
-    "contract_sha256": "673ad777bd5de76077db25cc7744622783218c0323ba428cec1bd790e1234e57"
+    "contract_sha256": "46a1e95024ebb148c01a982828dc58e163166fbcab65afd3fd1393581e5a403b",
+    "provisioning_sha256": "e91b29b61ebb4eb35ce863c2f66b68bfaeed565dc24c63cd9cfeff2b886cebc0"
   },
   "launch_spec": {
     "cwd": ".",
