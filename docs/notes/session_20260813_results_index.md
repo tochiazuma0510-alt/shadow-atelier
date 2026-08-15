@@ -137,3 +137,15 @@
 | 停止 | 「H²≠0 下の全消滅」到達 = 区切り点(型語なし・escape28_gap=open)・r1 blind 0 件停止→r2 完走 | 1159 |
 
 cert: escape28_mainrun_raw_v1_20260813.json(5f0718e4…)+check(dfa755c3…)・返書 = sol/sol_reply_133_escape28.md・凍結 = 0c961949・総括 3 行 = entangled972_reading_v1.md §4
+
+## §8 便134(非可換核 survival・裁定1162)/ 便135(BLIND-3GRP・裁定1163)
+
+| 測定 | 結果 | 裁定 |
+|---|---|---|
+| 非可換核細分の建造 | truncated Magnus F₂ cutoff 5 ⟹ **W_ker=Φ(U₅) 位数 2048・非可換**(class 2)・\|PB₃/K\|=3,009,871,872 = (G₉×PSL(2,8))×_{C₂²}U₅ — **工房初** | 1162 |
+| 事前スクリーン | V=F₂⁵ で d=2 ⟹ 可換化段の全消滅強制なし(本走条件充足) | 1162 |
+| 元単位 survival | **972 元全部・survival 一様 16・零 survival 0**・陽性対照 PASS・producer×checker 一致 | 1162 |
+| 座標修理 | m_fine ≡ m **mod 18**((3.60) 正典・初回 probe の mod 9 二重計数を cert 前に自己捕獲) | 1162 |
+| ★挟み撃ち観測 | Q^ab=C₂²(G₉^ab=C₂²・PSL 完全)⟹ **Q の非自明 3 群商なし** ⟹ p=3 では核が切離/p≠3 では障害消滅 = **ESCAPE-28 全消滅の説明候補** | 1163 |
+
+cert: d972_survival_noncomm_v1_20260815.json(2b79438f…)+verdict(8006d83d…)・返書 = sol/sol_reply_134_survival.md・凍結 = 0ae740f1
