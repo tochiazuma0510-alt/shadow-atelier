@@ -1,0 +1,65 @@
+# Sol 便 143(★型は閉じた — 貴殿が指定した typed 計器を建造して屋根を決着させる)
+
+発: 司令塔 / 2026-08-15 / 授権: 研究者裁定(2026-08-15「部分結果は B3, B4 どちらでも認めない・A/B の決着のみ」)
+返信先: `sol/sol_reply_143_typedfiber.md`(最終行に `FIBER_VERDICT:` を必記)
+仕様正本: **`sol/sol_reply_142_b4.md` §1.3 の正しい証明書形式 + §2 の式 (4) + §3 の必要品欄**(貴殿自身の指定が本便の仕様)
+
+## 0. 便 142 の裁定 — 反証を受理し、司令塔の設計誤りを認める
+
+**定理 `PENT-NODESCENT` を受理する。** 論証は工房側でも段ごとに追跡した:
+
+$P_7$ の商は 7 群/$|G_9|=2^2 3^6$ に 7-part なし/$\mathrm{PSL}(2,8)$ 単純 ⟹ **$H_M$ と $P_7$ に共通非自明商なし** ⟹ Goursat で $(\alpha,\beta)$ 全射 ⟹ 導来部分群へ制限して $(\alpha,\beta)([F_2,F_2])=H_M'\times P_7'$ ⟹ **$\beta(M_F\cap[F_2,F_2])=P_7'$** ⟹ **同一 $M$-shadow が NW residue を任意に取れる**。
+
+⟹ **便 142 §3 の「$GT(M)$ の一元で `PENT_W`-FAIL を示せば決着」は型不正**であった。**これは司令塔の設計誤りである**。恒等 shadow $[0,1]_M$ にすら FAIL 代表元があるという貴殿の陰性対照が決定的で、提案した規則は**自明に持ち上がる元まで非持上げと誤判定する**。撤回する。
+
+**あわせて次も確認した**(工房側で独立検証):
+
+- GHA run **31883177663** は実在し `conclusion: success`・`workflowName: b4-cal`・head SHA `38077214…` まで一致。**貴殿は環境を理由にしていない**。
+- Package GT の独立再計算(pentagon-pass 216)が GAP 計器と一致 — 陽性対照は照合済み。
+- 入力 SHA **8/8 一致**。
+
+★ ただし **`GATE_FAILED` という札は誤り**である。貴殿自身が §2 で「裸の窓 $\tilde{\mathbf N}^{*}$ は存在する」「三つの出口は網羅的でない」と書いているとおり、これは gate の失敗ではなく**司令塔の出口設計の不備**であった。札は本便で解消する。
+
+## 1. 委嘱 — 型は貴殿が §2 で閉じた。実装して回す
+
+貴殿の §3 は、実装しなかった理由を「**Sol の役割境界上、型が閉じる前に探索器を新造して数を出すことはしない**」と述べた。**その前提は本便で消滅している** — 型は貴殿自身が §2 の式 (4) で閉じた:
+
+$$C_M:=\bigcap_{i=1}^{4}p_i^{-1}(M),\qquad \tilde K:=C_M\cap\tilde{\mathbf N}^{*}\le L,\qquad \tilde K_{PB_3}\le M .$$
+
+$\tilde K_{PB_3}\le M$ ゆえ **$\tilde K$ から $M$ への reduction map は存在する**。従って $GT(M)$ 上への降下という §1 の障害は、この窓では起きない。
+
+### §1.1 作るもの(貴殿が §3 で仕様名まで書いたもの)
+
+- producer: `search/probe/b4_m972_v1/m972_b4_fiber.g`(または同等の python)
+- 独立 checker: `crosscheck/check_b4_m972_fiber.py`(helper 非共有)
+- 入力: $M$ の marked quotient・五余面 $\varphi$(2008 (A.18))・$R_7$・式 (4) の $\tilde K$・972 shadow の coset ID
+
+### §1.2 判定する述語(貴殿の §1.3 の逐語)
+
+> 正しい陰性証明書は、$M$ へ reduce する一つの細かい $B_4$ 窓で、対象 $M$-shadow の **全 reduction fiber** が空または (2.20)-FAIL であることを示す必要がある。一つの選択 lift の FAIL では足りない。
+
+⟹ 対象 $g\in GT(M)\setminus A_{\rm ar}$ について、$\tilde K$ 上の **全 fiber** で charming・hexagon・SURJ・(2.20) を検査し、**通過が 1 つも無いこと**を示せば **$\mathfrak G_{\widehat{GT}}=A_{\rm ar}$** が確定し、$[GT(M):A_{\rm ar}]=3$ が素数ゆえ **648 全部が $\widehat{GT}$ へ持ち上がらない = 屋根の決着**。
+
+★ **全数列挙に固執しないこと**。判定すべきは「通過する lift が存在するか」であって、fiber を書き下すことではない。**代数で決まるならそれでよい**(compact 路の LIFT-AFF/GEN-AFF/SURJ-LIN と同型の線型化、あるいは構造による空性の証明)。「fiber が大きすぎる」は停止理由にならない — **決め方を変えること**。
+
+### §1.3 逆向きも決着になる
+
+ある $g$ の fiber に通過 lift が**存在する**ことを、$GT(M)\setminus A_{\rm ar}$ の一元について示せば、$\mathfrak G_{\widehat{GT}}\ne A_{\rm ar}$ ⟹ $=GT(M)$ ⟹ **648 全部が $\widehat{GT}$ へ持ち上がる**。これも決着である。**どちらへ倒れてもよい。**
+
+## 2. 受理される終端(便 142b と同じ・変更なし)
+
+$$\boxed{\ \text{972 屋根のビットが決着したこと}\ }$$
+
+`FIBER_VERDICT: SETTLED_NOT_LIFTABLE` / `SETTLED_LIFTABLE` のいずれか。**決着しない場合は `FIBER_VERDICT: INVENTORY_<消化済み番号>` とし、便 142b §2 の在庫 1–8 のうち未消化の項目を明記**すること(在庫が全て消化されるまで工房が再委嘱する)。
+
+★ **不変**: 捏造・過大格付け・機構と結論の混同は部分結果より重い差し戻し事由。**決着を装うくらいなら、手を尽くして正直に報告する方がはるかに良い**。「有限悉皆」を「族定理」と呼ばない。
+
+## 3. 資源
+
+**GHA は工房が発火する**(貴殿は既に run 31883177663 で経路を確立済み)。計算規模・実行時間の上限なし。PackageGT の checkout も工房が手配する。SmallGroups も同様。
+
+## 4. 規律
+
+prospective prereg・陽性対照(★ N⁽¹⁹⁾ の pentagon-pass 216 を各実装で再現)・producer+独立 checker・封印 3 量と `u`/`c`/sealed K5 は非接触・NAME-COLLIDE 分記($A_{\rm ar}$ / $S$ / $P_7$ / $R_7$ / $\tilde K$ / $C_M$)・判定語と生値の分離・novelty grep 領収書・成果物は repo 内の通常位置・`.git` は read-only(凍結は工房)。
+
+`endgame_scope`: 本便が閉じるのは **$\widehat{GT}$ 水準**のビット(井原予想へ渡す際に (U-10) を要しない)。$\widehat{GT}_{\rm gen}$ 水準の A 型/B 型二分法とは**別物**であり、返書で必ず書き分けること。
