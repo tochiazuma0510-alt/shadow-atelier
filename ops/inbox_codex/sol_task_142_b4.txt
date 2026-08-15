@@ -1,0 +1,68 @@
+# Sol 便 142(★条件発動 — B₄ 線を使って屋根の 1 ビットを完全決着させる)
+
+発: 司令塔 / 2026-08-15 / 授権: **研究者直接裁定(2026-08-15)**
+返信先: `sol/sol_reply_142_b4.md`(最終行に `B4_VERDICT:` を必記)
+関連既存定理(様式): **定理 B4-DIR**(`b4_direct_adjudication_feasibility_v1_2.md` §2.6)・**定理 B4-VAC**(同 §2.4)・**PENT_W / 定理 PENT-NORM**(`hs_prop7_translation_v1.md`)・**命題 BIT-252**・**定理 PENT-FORM / PENT-FORM′**・**補題 CORE-4 / B4-FORGET / B4-CANON / SPH / ABS**・**TRUNC-FULL**(裁定 490)・**系 FAKE-KILL^{B₄}**・**DICHOTOMY-972 / SINGLE-BIT**・**命題 INT**・**Cor 5.4**
+
+## 0. 発動条件
+
+**便 141 が `ENUM_STATUS: WITNESS_FOUND` で決着した場合、本便は無効**(その旨だけ書いて終えてよい)。
+**それ以外の場合(`EXHAUSTED_TO_B=<n>` / `BLOCKED_AT_<段>` を含む)、本便を実行すること。**
+
+## 1. 研究者裁定(逐語)
+
+> **「もしまた次も部分結果で返ってきたら、必要なら B4 線を使用して決着を付けるように指示しなさい。過去にやっているので出来るはず。言い訳を認めない。次はどのような理由であっても部分結果は認めない。屋根の A/B 完全決着のみ。」**
+
+⟹ **`EXHAUSTED_TO_B=<n>` を受理する**という便 141 §1.2 の条項は、本裁定により**撤回**する。部分結果は理由を問わず受理しない。
+
+★ **不変の一線**: 捏造・過大格付け・機構と結論の混同は、部分結果より重い差し戻し事由である。求めているのは**結論を出すこと**であって**結論を装うこと**ではない。決着できないなら「できない」と書くのではなく、**B₄ 線を実際に使え**というのが本便の趣旨である。
+
+## 2. B₄ 線が持っている、B₃ 線に無い武器
+
+**`PENT_W`-FAIL は有限証明書である。** `hs_prop7_translation_v1.md` の逐語:
+
+> `PENT_W` が偽 ⟹ $[m,\bar f]$ を持ち上げる $\widehat{GT}$ の元は存在しない(= pentagon-fake の有限証明書)。真なら何も結論しない。
+
+そして **`PENT_W` は量化子なしの等式**である(定理 **PENT-NORM**: pentagon = 位数 5 の作用素 $\rho$ のノルム)。⟹ **全深度量化を経由せずに、一元について有限で判定できる。**
+
+**先例がある。** 命題 **BIT-252** は、試験元 $g^*$ の `PENT_W`-FAIL を**機械の悉皆ではなく定理で**示した(DUM-1/p + NW-P5 ⟹ PENT ⟺ $t\eta=0$、$t=1$・$\eta\ne0$ ゆえ FAIL)。**同じ型の論証が本件でも使えるはずである。**
+
+## 3. 委嘱 — 決着させる 1 ビット
+
+$\mathfrak G_{\widehat{GT}}:=\mathrm{Im}\bigl(\widehat{GT}\to GT(M)\bigr)$ と置く。$M$ は isolated(裁定 1133)ゆえ $GT(M)$ は群、合成は準同型、$A\subseteq\mathfrak G_{\widehat{GT}}\subseteq GT(M)$、$[GT(M):A]=3$ は素数。
+
+⟹ **$GT(M)$ の一元でも `PENT_W`-FAIL を示せば $\mathfrak G_{\widehat{GT}}=A$ が確定し、648 全部が「$\widehat{GT}$ へ持ち上がらない」= 屋根の決着**。
+
+### §3.1 必須の技術ゲート(ここを外すと空振りする)
+
+**定理 B4-VAC**: $\tilde{\mathbf N}\in\{\ker\tilde\psi,\ \tilde{\mathbf N}_{\rm core}\}$ では pentagon (2.20) が**全 charming $f$ に恒真** ⟹ **検出力ゼロ**。この 2 窓を使ってはならない。
+
+**定理 B4-DIR (a)**: $\tilde{\mathbf N}\le L$($L$ = $W$ の $PB_4$ への逆像)なら **`PENT_W`-FAIL ⟹ (2.20)-FAIL**。**(b)** そうでない窓では偽。
+
+⟹ **$\tilde{\mathbf N}\le L$ を満たす窓を取ること**。既知の候補は $\tilde{\mathbf N}^*=\mathcal V(PB_4)=\gamma_5PB_4^{\,7}$(pc 群 $7^{41}$・**W 水準の検出力あり**・従来は環境ブロッカー)。
+
+### §3.2 経路(どれでもよい・貴殿が選ぶ)
+
+1. **紙路(BIT-252 型・最有力)**: $M$ の shadow を $W$ 水準へ落とし、`PENT_W` を定理で評価する。BIT-252 が DUM-1/p + NW-P5 でやったのと同型の論証。**一元でよい**。
+2. **機械路**: $\tilde{\mathbf N}^*$ を構成して (2.20) を評価する。`search/probe/b4_cal_v1/p1_build_R.g` が **B4-EXQ-1(|R|=7⁴¹)まで到達済**で、その先の `DirectFactorsOfGroup` でメモリ死した。★**工房が GitHub Actions で発火する** — 必要な `.g` と入力を指定せよ。ローカルのメモリ制約は工房側で回避できる。
+3. **較正の再利用**: `cal_b4_n19_pentagon.g` は **(2.20) の唯一の動く評価器**(C-1〜C-6e 全緑・pentagon 通過 216 を二方式で一致)。この評価器を $M$ 側の窓へ移植する路。
+
+### §3.3 出口(これ以外は受理しない)
+
+- **`B4_VERDICT: NOT_LIFTABLE`** — $GT(M)\setminus A$ の一元で `PENT_W`-FAIL(または (2.20)-FAIL)を示した。⟹ 648 は $\widehat{GT}$ へ持ち上がらない。**屋根は決着**。
+- **`B4_VERDICT: LIFTABLE_ALL`** — 972 全元が `PENT_W`-PASS。★この場合は**何が言えて何が言えないかを厳密に書くこと**(PENT_W-PASS は genuine を意味しない)。そのうえで、**FAKE-KILL^{B₄} の前件表(IH-S / GEN^{B₄} / PR^{B₄} / CHM^{B₄}・裁定 406)のどこまでが充足されるか**を欄で示せ。
+- **`B4_VERDICT: GATE_FAILED`** — $\tilde{\mathbf N}\le L$ を満たす窓が構成できない場合に限る。★その場合は**三経路すべてを試したうえで**、各経路がどこで止まったかを便 140 と同水準(命題形・生値・必要品の可算化)で書くこと。**環境を理由にしてはならない** — GHA 発火の要求を出さずに「環境で止まった」と書いた場合は差し戻す。
+
+## 4. ★ 射程の明示(貴殿が返書に必ず書くこと)
+
+`PENT_W`-FAIL が閉じるのは **$\widehat{GT}$ 水準**(pentagon あり・2008.00066 系)であり、**$\widehat{GT}_{\rm gen}$ 水準の A 型/B 型二分法とは別のビットである**(2405 Remark 1.2 の同名別物)。どちらのビットを閉じたのかを、返書の冒頭で**明示的に書き分けること**。曖昧にした場合は差し戻す。
+
+なお **$\widehat{GT}$ 水準こそが井原予想の対象**であり、`FAKE-KILL^{B₄}` では **(U-10) が前件から消える**(2008 Thm 3.8 により B₄ 塔の極限が最初から $\widehat{GT}$)— 裁定 406/399。従って本便のビットは、井原予想への含意としては B₃ 側より**直接的**である。
+
+## 5. 資源
+
+長時間実行・計算規模上限なし・**GHA は工房が発火する**(要求を書けばよい)・checkpoint と atomic 更新は維持。
+
+## 6. 規律(不変)
+
+prospective prereg・陽性対照(★ `cal_b4_n19_pentagon.g` の N⁽¹⁹⁾ 較正 = pentagon 通過 216 を再現すること)・producer+独立 checker・封印 3 量と `u`/`c`/sealed K5 は非接触・NAME-COLLIDE 分記・判定語と生値の分離・novelty grep 領収書・成果物は repo 内の通常位置・`.git` は read-only。「有限悉皆」と「族定理」を混同しない。
