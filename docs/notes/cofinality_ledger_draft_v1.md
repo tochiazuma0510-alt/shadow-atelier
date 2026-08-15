@@ -108,3 +108,41 @@ $$\boxed{\ \text{機構 A = 相互作用の不在(直積)}\qquad \text{機構 B 
 ## 教訓(記録として)
 
 照合器を先に作った価値は「Sol の見落としを捕まえる」ことではなく、**司令塔側の誤りが正本との差分として可視化されたこと**にあった(今回はその向きにしか働かなかった)。⟹ **独立台帳は作ってよいが、正本は数学レイヤー側に置く**。
+
+---
+
+# 【差分 v1.2(裁定 1177)】Sol 便 139 — 三本のうち split 枝が閉じた
+
+正本 = `sol/sol_reply_139_threetheorems.md`(`BUILD_STATUS: PARTIAL`)。
+
+## 被覆の変化
+
+| 旧状態 | 便 139 後 |
+|---|---|
+| MCOV 不明/破れの直積 roof(v1.1 の未被覆 #5) | ★ **閉鎖** — `MCOV-ISO-139` により isolated split 族では (MCOV) が**自動** |
+| split 族自体の cofinality | **UNKNOWN**(MCOV の閉鎖からは出ない) |
+| base-change 安定な一様吸収(a) | **UNKNOWN**。ただし新規障害を **D_{L/K,t} := ker(coker A_{L,t} -> coker A_{K,t})** に局在化(`ABSORB-BC-139`) |
+| COFINAL-NORMAL-FORM(c) | **UNKNOWN**。★`MONO-CNF-139` により**独立な近道ではない**ことが確定 |
+
+## 新しい族煉瓦(cofinality に加算される初のもの)
+
+- **`MCOV-CRT-139`**(必要十分): (MCOV) ⟺ ρ_d(X_n) ⊆ ρ_d(m(N'))、d = gcd(2n, N'_ord)。一般 CRT。
+- **`MCOV-ISO-139`**(族定理): n 奇数 ≥3・N' isolated なら (MCOV) は自動。⟹ `SPLIT-NULL` の全仮定を満たす全 roof で **R_{M,K^(n)} が全射**。★裁定 388 が退けた「split の有限群構造だけから MCOV が出る」機構は**採用していない** — isolated typing と円分商全射を明示輸入する別証明で結論だけを回収(機構と結論の分離)。
+
+## (a) の停止点が 3 つに名指しされた
+
+1. 全 refinement で D_{L/K,t} を消す構造式が無い。
+2. objectwise solver T_t を**自然変換へ上げる lift** が無い(modular 非半単純圏では短完全列の自然な splitting が供給されない ⟹ objectwise の rank 一致だけでは作れない)。
+3. それらが立っても **GEN-AFF は独立に残る**。
+
+閉じる操作 = block-diagonal 有限直和・係数体の flat 拡大・一段 refinement((1.1) と D=0 の下)・多段(各段が移送できれば帰納的)。**閉じない操作 = 交叉**(INT は isolated 性を与えるが cokernel 写像の単射性を含意しない)と **GEN-AFF**。
+
+## ★(c) の意味が変わった
+
+`MONO-CNF-139`: L ⊆ K ⊆ M なら Im R_{L,M} ⊆ Im R_{K,M}。⟹ 全射族が cofinal なら**任意の isolated 細分の reduction が既に全射**。逆向きに強く、**ある K の像が真部分集合なら、その下のどの L も全射になれない** ⟹ **細分によって悪い段を「覆われた正規形へ逃がす」ことはできない**。
+
+⟹ (c) は (a)(b) より先に置ける純 order-theoretic な前処理**ではない**。named family の合併について (c) を示した瞬間に、全 isolated reduction の全射性まで示したことになる。本台帳 v1.1 §7 が「最後に要る比較定理」と書いたのは、**独立な一手ではなく目標そのもの**だった。
+
+## 残る provenance 債務
+
+便 137 の T_t family は `sol/sol_reply_137_whyvoid.md` の本文にしか無く、checkpoint 群は A_t, C_t, Z, T_t を持たない ⟹ **再現には再走が必要**(export では足りない)。Sol は委嘱の停止規則どおり再走せず、**SHA だけから復元したかのような cert も作らなかった**。⟹ **最有力の B 側候補 `COCYCLE-ABSORB-137` の証拠が、返書本文以外に無い**という債務が残る。
