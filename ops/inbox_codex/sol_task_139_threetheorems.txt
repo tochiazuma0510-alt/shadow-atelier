@@ -1,0 +1,63 @@
+# Sol 便 139(cofinal への三本 — Sol 自身が特定した定理の建造)
+
+発: 司令塔 / 2026-08-15 / 授権: **研究者直接指示(2026-08-15)**「Sol にそのまま投げて」+ 裁定 1024・1140・1158(計算レーン)
+返信先: `sol/sol_reply_139_threetheorems.md`(**1 ファイルに追記して育てる**・最終行に `BUILD_STATUS:` を必記)
+関連既存定理(様式): **定理 COMPACT**(正典 Thm 5.2 の系)・**Cor 5.4**・**SPLIT-NULL**(結論は $\mathfrak F_0$ 方向まで・無条件 `SPLIT-NULL″` は裁定 388 で撤回)・**(MCOV)**・**PH2-VOID**・**OBS-VOID / OBS-VOID-T**(自動は $p\nmid6$)・**COCYCLE-ABSORB-137**・**MULTIPLICITY-ABSORB-138 / INDECOMP-ENTRY-138 / MARKED-LIFT-VOID-138 / PERFECT-RELAXED-SURJ-138**・**EQ-COMP-VOID**・**命題 INT**・**THM44-odd / K5-ENT-INSUF**
+仕様正本: `sol/sol_reply_138_campaign.md` §7.1–§7.7(**貴便の追補がそのまま本便の仕様**)
+
+## 0. 本便の性格
+
+便 138 は `EXHAUSTED` で閉じ、その意味は「現在の道具で prospective に有限化できた C0–C15 の在庫が尽きた」に限ると貴便が明記した。**cofinality の数学は尽きていない**。
+
+貴便 §7.6 が、cofinal までに必要なものを次の三本と特定した。**司令塔は設計を足さない。この三本をそのまま委嘱する。**
+
+> **(a) 非分裂・非可換・modular 非自由・多段を含む base-change 安定な一様吸収定理、(b) split 枝の MCOV 族判定、(c) S4/mixed 枝を含む COFINAL-NORMAL-FORM の三本。**
+
+## 1. 委嘱
+
+### §1 (a) 一様吸収定理 — ★最優先
+
+貴便 §7.5 が形まで特定している。逐語で引く:
+
+> 現時点で最有力の B 側定理候補は、`COCYCLE-ABSORB-137` の数値等式そのものではなく、その背後にある写像包含
+> $$C_t\bigl(Z^1(\Gamma,V)\bigr)\subseteq\operatorname{Im}A_t$$
+> を module、marking、roof、base change に自然な chain homotopy として示すことである。これが交叉と多段合成で保たれ、GEN-AFF も一様に供給されれば、一段半単純という現制限を越える。
+
+これを建てるか、反例を出すか、どこで止まるかを書いてほしい。
+
+- **仮定はできるだけ広く取る**(仮定が広いほど cofinal に近づく)。部分的でも構わないが、**必ず族定理の形**にすること — 有限宇宙の悉皆は cofinality に加算 0 だと貴便自身が §7.4 で勘定したとおり。
+- **base-change 安定性**を落とさないこと(便 135 §3: 中間 $L$ を新基底とする段が要る)。多段合成が閉じないなら、閉じない理由を書く。
+- **GEN-AFF の一様供給**は独立前件である(便 137 F3)。吸収だけ立って生成が立たないなら、その分離を明示すること。
+- ★ **反例が出た場合はそれが A 側の即戦力**: $C_tZ\not\subseteq\operatorname{Im}A_t$ となる module/marking/roof が構成できれば、既存エンジン(`escape28_mainrun_v1.py` / `escape2_producer_v1.py` / `campaign138_*`)で即測定できる。その場合は**測定まで進んでよい**(prospective prereg・陽性対照・producer+独立 checker は従前どおり)。
+
+### §2 (b) split 枝の MCOV 族判定
+
+貴便 §7.2/§7.3 の訂正により、`SPLIT-NULL` 単体では全面的な 972 に届かず、**(MCOV) 付きの部分族**だけが煉瓦として数えられる。(MCOV) がどの族で成り立ち、どこで破れるかを判定してほしい。破れる族が特定できれば、それは**直積 roof でも $m$-fiber を削る = A 側の標的**になる。
+
+### §3 (c) COFINAL-NORMAL-FORM
+
+貴便 §7.6 の最後の層:
+
+> $\forall K\in\mathcal I_M\ \exists L\subseteq K$: $L$ は覆われた全射族のいずれかに属する
+
+この比較定理が立つか。立たないなら、何が障害かを名指ししてほしい(現在この定理は無いと貴便が明記している)。**(a)(b) が完全でなくても、(c) の形だけ先に立つ可能性**があるなら、その順序でよい。
+
+### §4 順序と停止
+
+(a) → (b) → (c) の順。各項目の出口は **定理 / 反例 / 「立たない・どこで止まったか」**のいずれか。**無理に定理を作らない**。(a) で反例が出て測定へ進んだ場合は、そこで一度 `BUILD_STATUS` を書いて報告してよい。
+
+### §5 併せて回収してほしいもの(小)
+
+便 137 は read-only 線型監査だったため**成果物 cert が repo に無く、$T_t$ family は SHA だけが pin されている**。再現可能な形で `search/certs/` へ収蔵してほしい(新規走査が要るなら不要 — 既存 checkpoint からの書き出しで足りる範囲で)。
+
+## 2. 終盤勘定の pin(裁定 1151 標準注記)
+
+gentle 側。B 分岐の反証候補昇格は B₄ 層 **PENT_W-PASS** → `FAKE-KILL^{B₄}/U-10` の順。B₄ の実行は本便の範囲外(工房裁定事項)。`endgame_scope` 欄継続。
+
+## 3. 規律
+
+従前どおり(厳密・**UNKNOWN は一級の結果**・封印 3 量と `u`/`c`/sealed K5 は非接触・NAME-COLLIDE 分記〔核 = $W_{\rm ker}$ / $W=PB_3/N_W$ / $\bar W=B_3/N_W$〕・**判定語なし**・B 型を有限深度から認定しない・負の探索結果は非存在の証明ではない・producer+独立 checker・checkpoint/hard-timeout・novelty grep 領収書は実行後にコピー・成果物は **repo 内の通常位置**へ)。
+
+★ **格の規律(裁定 1165・貴便も §7 で遵守している)**: 「**証明機構が不成立**」と「**結論が偽**」を必ず書き分ける。そして「**有限宇宙の悉皆**」と「**族定理**」を必ず書き分ける(前者は cofinality に加算 0)。
+
+`.git` は read-only。凍結は工房が行う。
