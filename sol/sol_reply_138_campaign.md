@@ -1,6 +1,6 @@
 # 返書 138 — SINGLE-BIT 全路線キャンペーン
 
-- 対象: `ops/inbox_codex/sol_task_138_campaign.txt`
+- 対象: `ops/inbox_codex/sol_task_138_campaign.txt`、追補 `ops/inbox_codex/sol_task_138b_bside.txt`
 - 実行日: 2026-08-15
 - 着手時 HEAD: `e18bc725fd530346a46d3859322579dda9913afc`
 - 完了時観測 HEAD: `8b8682ac93ce9fd91dd20b2eef26186e41c661ae`（本便は `.git` read-only）
@@ -26,28 +26,28 @@ r_t^{\rm obs}:=\operatorname{rank}[A_t\mid C_tZ]-\operatorname{rank}A_t=0
 
 ここで「消費済み」は、その明記した有限宇宙または定理の仮定内だけを指す。「不能」は現環境・現構成器では候補を有限列挙できないことを指し、数学的不存在を意味しない。
 
-| ID | 核・素数・構成・深さ・側 | 実行可能性と規模 | 検出量 | 事前判定 / 停止規則 |
-|---|---|---|---|---|
-| C0 | 可換 compact、\(p=2,3\)、一段、両側 roof | 既走 5 component × 324 | 障害写像、生成 | `COCYCLE-ABSORB-137` の凍結宇宙だけ消費済み |
-| C1 | \(p=2\)、\(V_{12}^{\oplus2}\)、重複方向を混ぜる全標識作用、一段、両側 roof | \(\operatorname{Aut}_{G_3}=GL_2(2)^3\); 有限全列挙可 | \(H^2\)、SURJ、\(r_t^{\rm obs}\) | 全 anchor 軌道を列挙。全 rank 0 なら class outcome を開かず構造停止、正なら全 SURJ class × 324 |
-| C2 | \(p=3\)、\(V_{21}\oplus V_7^{\oplus2}\)、\(V_7\) 重複方向を混ぜる全標識作用 | \(GL_2(3)\) の 2,304 lift 対、有限全列挙可 | 同上 | C1 と同じ |
-| C3 | \(p=2\)、凍結した全 5 単純 \(G_3\)-加群間の非半単純 length-2 extension | 25 ordered pair の \(H^1(G_3,\operatorname{Hom})\) と標識同変部分、有限線型代数 | extension 非分裂性、\(H^2(C_2,-)\)、SURJ、\(r_t^{\rm obs}\) | 標識同変な非零 pure class を全て取り、rank 正なら全 class × 324 |
-| C4 | \(p=3\)、\(P\times G_3\) の tensor/simple 間の非半単純 extension | simple inventory と Ext-quiver の正本が未整備。最大 Hom 次元が少なくとも \(21^2\) | 同上 | C1–C3 後に構成器を試す。有限 universe を正本化できなければ不能として記録 |
-| C5 | 直接 \(H^2(Q,V)\) から作る非分裂可換 2-kernel extension | `PerfectGroup(32256,2)` の一窓は便126で raw 972。残り extension class の列挙器は未整備 | 元 survival、像サイズ、extension class | 既走一窓は消費済み。他 class を完全列挙できる場合だけ走る |
-| C6 | 同じく 3-kernel、mixed-primary、非中心 action | 既登録 bounded target list なし | 元 survival、像サイズ、\(H^2\) class | 標数が 2,3 の modular 成分は理論上残る。構成不能なら UNKNOWN |
-| C7 | Magnus / dimension subgroup、\(p=2\)、cutoff tower | cutoff 2–5 は便134で消費、最初の非可換相対核は cutoff 5、全 972 元の survival は各 16。cutoff 6 は環次元 63 | 元単位 survival、可換化障害 | cutoff 6 の有限群または多項式座標を構成できれば全数。資源上不能なら記録 |
-| C8 | lower-central / Frattini / ANUPQ の別非可換商、多段 | bounded target list なし。便134では ANUPQ が起動前に環境失敗 | 元 survival、image size | 環境を一度再監査。不能は候補消費として数えるが不存在とはしない |
-| C9 | S4 側細分、`GQuotients` / `lins` / 小群 bottom-up | top-down index は巨大。bounded target list があれば bottom-up 可 | reduction image、MCOV、元 survival | `SPLIT-NULL/SPLIT-NULL″` に当たる直積 roof は事前除外。非分裂・両因子非自明だけを残す |
-| C10 | dihedral \(K^{(l)}\) 細分、prime-power / mixed、塔 | 既存奇数族の単独 reduction は `THM44-odd` で全射。\(p\mid l\) の Frattini 非分裂だけでは不足 (`K5-ENT-INSUF`) | MCOV、元 survival | 定理の仮定内の単独奇数 tower は除外。S4 側との絡み、2-primary/mixed のみ残す。封印 K5 には触れない |
-| C11 | fiber product / Goursat、MCOV 破れ窓、両側同時細分 | 既走 119 組は 0 failure だが選択標本。mixed-2 を含む K 側母集団が未定義 | MCOV failure、元 survival | 共通商自明または純商直積なら `SPLIT-NULL` で除外。新しい共通商を明示できた候補だけ走る |
-| C12 | 一段→多段→cofinal tower | 各有限段は実行可能でも全 tower の完了判定は不能 | 最初の survival 0、像の単調減少 | 0 が出れば即停止。有限個の全 survival から逆向きの結論を出さない |
-| C13 | 別 invariant: obstruction class、image size、derived/Frattini quotient | 線型・有限群 invariant は前段 gate として安価 | 非零 obstruction、image < 324、個別元 0 | いずれも発火時だけ raw witness を保存。非発火はその invariant のみの陰性 |
-| C14 | 非測定路: 全有限細分に対する equality の paper proof | 現在は一般命題なし | 普遍 factorisation / residual finiteness | `COCYCLE-ABSORB-137` の一般化、または全 finite quotient を分離する定理が必要。未証明なら UNKNOWN |
-| C15 | B4 refinement / B4 endgame | 本便 scope 外 | — | 発車しない |
+| ID | 核・素数・構成・深さ・側 | 実行可能性と規模 | 検出量 | 事前判定 / 停止規則 | B 側 / cofinality への寄与 |
+|---|---|---|---|---|---|
+| C0 | 可換 compact、\(p=2,3\)、一段、両側 roof | 既走 5 component × 324 | 障害写像、生成 | `COCYCLE-ABSORB-137` の凍結宇宙だけ消費済み | **測定のみ、寄与 0**。任意の module・roof に一様な吸収定理へ上げて初めて煉瓦になる |
+| C1 | \(p=2\)、\(V_{12}^{\oplus2}\)、重複方向を混ぜる全標識作用、一段、両側 roof | \(\operatorname{Aut}_{G_3}=GL_2(2)^3\); 有限全列挙可 | \(H^2\)、SURJ、\(r_t^{\rm obs}\) | 全 anchor 軌道を列挙。全 rank 0 なら class outcome を開かず構造停止、正なら全 SURJ class × 324 | **有限測定のみ、寄与 0**。block-diagonal 直和則は機構化できるが、混合作用全般の族定理ではない |
+| C2 | \(p=3\)、\(V_{21}\oplus V_7^{\oplus2}\)、\(V_7\) 重複方向を混ぜる全標識作用 | \(GL_2(3)\) の 2,304 lift 対、有限全列挙可 | 同上 | C1 と同じ | **有限測定のみ、寄与 0**。`MULTIPLICITY-ABSORB-138` は凍結宇宙 candidate に留まる |
+| C3 | \(p=2\)、凍結した全 5 単純 \(G_3\)-加群間の非半単純 length-2 extension | 25 ordered pair の \(H^1(G_3,\operatorname{Hom})\) と標識同変部分、有限線型代数 | extension 非分裂性、\(H^2(C_2,-)\)、SURJ、\(r_t^{\rm obs}\) | 標識同変な非零 pure class を全て取り、rank 正なら全 class × 324 | **有限測定のみ、寄与 0**。全 indecomposable extension を覆う定理は無い |
+| C4 | \(p=3\)、\(P\times G_3\) の tensor/simple 間の非半単純 extension | simple inventory と Ext-quiver の正本が未整備。最大 Hom 次元が少なくとも \(21^2\) | 同上 | C1–C3 後に構成器を試す。有限 universe を正本化できなければ不能として記録 | 未構成・族定理なし、寄与 0 |
+| C5 | 直接 \(H^2(Q,V)\) から作る非分裂可換 2-kernel extension | `PerfectGroup(32256,2)` の一窓は便126で raw 972。残り extension class の列挙器は未整備 | 元 survival、像サイズ、extension class | 既走一窓は消費済み。他 class を完全列挙できる場合だけ走る | 非分裂群の有限測定まで到達したが、source 条件は緩和され isolated/cofinal 配置も未証明。**寄与 0** |
+| C6 | 同じく 3-kernel、mixed-primary、非中心 action | 既登録 bounded target list なし | 元 survival、像サイズ、\(H^2\) class | 標数が 2,3 の modular 成分は理論上残る。構成不能なら UNKNOWN | 未構成・族定理なし、寄与 0 |
+| C7 | Magnus / dimension subgroup、\(p=2\)、cutoff tower | cutoff 2–5 は便134で消費、最初の非可換相対核は cutoff 5、全 972 元の survival は各 16。cutoff 6 は環次元 63 | 元単位 survival、可換化障害 | cutoff 6 の有限群または多項式座標を構成できれば全数。資源上不能なら記録 | cutoff 2–5 は**測定のみ、寄与 0**。全 cutoff の盲目性と塔の cofinality の二定理が必要 |
+| C8 | lower-central / Frattini / ANUPQ の別非可換商、多段 | bounded target list なし。便134では ANUPQ が起動前に環境失敗 | 元 survival、image size | 環境を一度再監査。不能は候補消費として数えるが不存在とはしない | 未構成・族定理なし、寄与 0 |
+| C9 | S4 側細分、`GQuotients` / `lins` / 小群 bottom-up | top-down index は巨大。bounded target list があれば bottom-up 可 | reduction image、MCOV、元 survival | 直積 roof も **(MCOV) 成立時だけ** `SPLIT-NULL″` で事前除外。MCOV 破れ、非分裂、両因子非自明を残す | 直積 + (MCOV) の範囲だけ族煉瓦。一般の S4 側深化は未被覆 |
+| C10 | dihedral \(K^{(l)}\) 細分、prime-power / mixed、塔 | 既存奇数族の単独 reduction は `THM44-odd` で全射。\(p\mid l\) の Frattini 非分裂だけでは不足 (`K5-ENT-INSUF`) | MCOV、元 survival | 定理の仮定内の単独奇数 tower は除外。S4 側との絡み、2-primary/mixed のみ残す。封印 K5 には触れない | `PH2-VOID` / `THM44-odd` の仮定内は族煉瓦。ただし dihedral 系だけでは isolated 細分全体に cofinal でない |
+| C11 | fiber product / Goursat、MCOV 破れ窓、両側同時細分 | 既走 119 組は 0 failure だが選択標本。mixed-2 を含む K 側母集団が未定義 | MCOV failure、元 survival | 共通商自明でも除外できるのは直積 + (MCOV) の場合だけ。新しい共通商又は MCOV 破れを明示した候補を走る | 119 組は**測定のみ、寄与 0**。直積 + (MCOV) の定理範囲だけ寄与 |
+| C12 | 一段→多段→cofinal tower | 各有限段は実行可能でも全 tower の完了判定は不能 | 最初の survival 0、像の単調減少 | 0 が出れば即停止。有限個の全 survival から逆向きの結論を出さない | **B 側の主軸**。一様全射定理 + 族合併の cofinality が揃えば COMPACT を適用できるが、双方未達 |
+| C13 | 別 invariant: obstruction class、image size、derived/Frattini quotient | 線型・有限群 invariant は前段 gate として安価 | 非零 obstruction、image < 324、個別元 0 | いずれも発火時だけ raw witness を保存。非発火はその invariant のみの陰性 | 陰性測定は寄与 0。全細分での消滅をいう functorial 定理になった場合だけ寄与 |
+| C14 | 非測定路: 全有限細分に対する equality の paper proof | 現在は一般命題なし | 普遍 factorisation / residual finiteness | `COCYCLE-ABSORB-137` の一般化、または全 finite quotient を分離する定理が必要。未証明なら UNKNOWN | COMPACT 直結の B 路だが、現在は定理なし |
+| C15 | B4 refinement / B4 endgame | 本便 scope 外 | — | 発車しない | 本追補でも範囲外 |
 
 ### 1.1 先に除外する構造盲点
 
-1. **分裂 roof**: `SPLIT-NULL` と `SPLIT-NULL″` により、共通非自明商のない直積 pure roof は対象方向を削らない。失敗した証明機構ではなく、明記された仮定内の結論である。
+1. **分裂 roof**: `SPLIT-NULL` が無条件に与えるのは、共通非自明商のない直積 pure roof の像が \(m\)-fiber の合併であり、\(\mathfrak F_0\) 方向を部分的に削らないことまでである。全面的な全射には **(MCOV)** が必要であり、無条件版 `SPLIT-NULL″` は撤回済み、現行版は (MCOV) 付きである。
 2. **外部標数の可換線型障害**: \(p\nmid6\) では有限巡回群 \(C_2,C_3\) に対する averaging により \(H^{>0}(C_i,V)=0\)。従って現在の cyclic obstruction detector は盲である。非可換 kernel 全体への結論ではない。
 3. **既走 component の単なる直和**: C0 の行列包含は直和するので、block-diagonal duplicate は同じ roof で rank 0。これは混合標識作用や非半単純 pure action を除外しない。
 4. **奇数 dihedral 単独 tower**: `THM44-odd` の仮定内では reduction が全射。非分裂性だけで検出力は従わないことは `K5-ENT-INSUF` が明示する。
@@ -186,9 +186,9 @@ metadata inventory 中、nonsplit marker を持つ higher 7 record を全て pro
 | C6 | 標数 3 / mixed-primary の bounded target list がなく、負の有限探索を非存在へ格上げしない | modular (H^2) database、mixed radical action builder、標識 gauge canonicalisation |
 | C7 | Magnus cutoff 2--5 は既走、cutoff 6 は現次元 63 で有限群表示を構成できず、環境限界として消化 | sparse graded-Lie / dimension-subgroup collector と quotient certificate |
 | C8 | 本便 GAP は script 前に signal-pipe error、既便 ANUPQ も起動前失敗。数学的な空集合とはしない | 動作する GAP/ANUPQ worker、同一入力の独立 collector |
-| C9 | split/pure roof は `SPLIT-NULL` / `SPLIT-NULL″` で構造的に盲。残る mixed S4 refinement は index/order bound がない | `GQuotients`/`lins` 用の有限 presentation と事前登録可能な bound |
+| C9 | split/pure roof で無条件に盲なのは \(\mathfrak F_0\) 方向だけ。全面的に全射なのはさらに (MCOV) が立つ部分族。残る MCOV 破れと mixed S4 refinement は index/order bound がない | `GQuotients`/`lins` 用の有限 presentation、事前登録可能な bound、MCOV の族判定 |
 | C10 | odd dihedral単商は `THM44-odd` で reduction 全射、従ってこの detector では盲。(p=2,3) modular tower は未構成 | modular Frattini tower。sealed K5 と `u,c` には本便で接触しない |
-| C11 | 既走 fiber-product 選択標本は MCOV failure 0。split/common-direct-factor は `SPLIT-NULL` で盲 | mixed-2 common quotient の全分類と Goursat data canonicaliser |
+| C11 | 既走 fiber-product 選択標本は MCOV failure 0。split/common-direct-factor でも全面的に盲といえるのは (MCOV) 成立時だけ | mixed-2 common quotient の全分類、Goursat data canonicaliser、MCOV 破れの悉皆化 |
 | C12 | 各有限段は実行可能でも cofinal tower 全体を有限表にできない。有限段の全 survival から逆向きに結論しない | cofinal separation theorem、又は compactness を荷重可能にする証明書 |
 | C13 | rank gate、cyclic obstruction、image cardinality を実行。新しい非零 obstruction は 0 | derived/Frattini quotient 上の新しい functorial obstruction と陽性対照 |
 | C14 | `COCYCLE-ABSORB-137` を全有限商へ一般化する紙の証明も、その反対向きの分離定理もない | universal factorisation 又は residual separation の定理 |
@@ -243,5 +243,147 @@ output: (empty)
 対応 path は各 lane の `search/campaign138_*`, `search/certs/campaign138_*`, `crosscheck/check_campaign138_*`, `crosscheck/verdicts/campaign138_*`。checkpoint も同じ通常位置に保存した。
 
 候補表 C0--C15 は、既在定理による構造除外、cross-checked finite run、又は明記した環境・新技術限界のいずれかに到達した。発火はなく、現在の道具で prospective に有限化できる候補 inventory は尽きたため停止する。
+
+## 7. 便 138b 追補 — B 側と cofinality
+
+### 7.1 COMPACT を使うための量化
+
+固定した基底窓 \(M\) の下の isolated 細分を
+
+\[
+\mathcal I_M:=\{K:K\subseteq M,\ K\text{ は isolated}\}
+\]
+
+とする。部分族 \(\mathcal U\subseteq\mathcal I_M\) がここで必要な意味で cofinal とは
+
+\[
+\forall K\in\mathcal I_M\ \exists L\in\mathcal U:\quad L\subseteq K
+\]
+
+である。\(L\subseteq K\subseteq M\) なら
+
+\[
+\operatorname{Im}R_{L,M}\subseteq\operatorname{Im}R_{K,M},
+\]
+
+従って \(\mathcal U\) が cofinal で、全 \(L\in\mathcal U\) について \(\lvert\operatorname{Im}R_{L,M}\rvert=972\) を**族定理**で示せれば、全 isolated 細分上の像の交わりは \(GT(M)\) になる。正典 Thm 5.2 の系である定理 COMPACT により、これが B 側の確定条件である。
+
+逆に、有限個の窓で 972 を測っても上の全称量化も cofinality も与えない。本便の C0--C13 の陰性値は、対応する族定理へ上がらない限り B 側の勘定ではすべて 0 である。
+
+### 7.2 正典の二つの射程訂正
+
+被覆を数える前に、旧表の略記を現行正本へ戻す。
+
+1. `SPLIT-NULL` の結論は、直積 pure roof の像が \(m\)-fiber の合併であり、\(\mathfrak F_0\) 方向を部分的に削らないことまでである。`ihnec_v1.md` D.1（裁定 388）により、無条件版 `SPLIT-NULL″` は撤回済みである。全面的な全射には
+   \[
+   \forall m\in\mathcal X_n\ \exists\widetilde m:\quad
+   \widetilde m\equiv m\pmod{2n},\qquad
+   \widetilde m\bmod N'_{\rm ord}\in\mathfrak m(N')
+   \tag{MCOV}
+   \]
+   が別に要る。(MCOV) が破れれば、直積 roof でも欠けた \(m\)-fiber 全体を削る。
+2. `OBS-VOID (i)` の自動消滅範囲は \(p\ne3\) ではなく **\(p\nmid6\)** である。\(p=2\) では \(H^2(C_2,V)\)、\(p=3\) では \(H^2(C_3,V)\) が残りうる。
+
+従って L107 の旧残余「非分裂・非テンソル・\(p=3\)・非自由」だけでは不足する。現況には \(p=2\) 非自由、非可換核、多段、S4 側深化、さらに **MCOV が破れる直積 roof** も含める必要がある。
+
+### 7.3 cofinality 被覆台帳
+
+次表の「覆う」は、全面的な像 972 をいう行と、部分機構しか与えない行を明記して分けた。後者を COMPACT の被覆数には算入しない。
+
+| 族名 | 仮定(逐語) | 覆う細分の範囲 | 未被覆として残る範囲 | 定理格(定理/candidate/機構のみ) |
+|---|---|---|---|---|
+| `SPLIT-NULL` | \(n\) は奇数 \(\ge3\)、\(N'\in I\)、\(M=K^{(n)}\cap N'\)、\(G_n\) と \(PB_3/N'\) に共通の非自明商が無い | その全直積 pure roof の **\(\mathfrak F_0\) 方向だけ**。像は \(m\)-fiber の合併 | MCOV 破れによる \(\chi\) 方向、entangled roof、相対拡大 | **定理**（paper-proof 相互監査 PASS、ただし部分機構） |
+| `SPLIT-NULL″` 差替版 | `SPLIT-NULL` の全仮定 **かつ (MCOV)** | その仮定を満たす全直積 roof で \(R_{M,K^{(n)}}\) 全射 | MCOV 不明・破れ、共通商非自明、一般の相対拡大 | **candidate**（paper-proof。(MCOV) 無しの形は撤回） |
+| `PH2-VOID` | \(9\mid l\)、\(K^{(l)}\subseteq K^{(9)}\)、\(K=K^{(l)}\cap N_{S4}\)。dihedral reduction は Thm 4.3 で全射、S4 の各 \(u\)-fiber は 9 元 | 固定 S4 roof の下で dihedral 側だけを深める全 admissible \(l\) | S4 側深化、両側同時細分、一般 isolated 細分 | **定理**（`SPLIT-NULL` + 当該族の MCOV の系） |
+| `PH2-VOID′` / perfect \(E\) | \(PB_3/K\cong G_l\times E\)、reduction が \(\mathrm{id}\times(E\to P)\) | 像公式 \(18\cdot\lvert\operatorname{Im}(GT(N_E)\to GT(N_{S4}))\rvert\)。Phase 2b の一つの \(E\) では右因子全射を測定 | 一般 perfect \(E\) の右因子全射、非完全 \(E\)、非直積拡大 | **機構のみ**。直積性だけでは 972 を与えない |
+| 可換 \(C_3\) 橋 | \(E=P\times C_3\)、\(G_l^{\rm ab}\) は 2 群、従って全 \(l>0\) で共通非自明商なし | 全 level で pure 商が直積になること | MCOV と full image。便 127 は `raw_image_size=null` | **機構のみ**（紙 + preflight 測定） |
+| `BLIND-vNext (c)` | \(E=PB_3/N_E\)、\(V=\ker(E\to P\times G_3)\ne1\)、\(V\) に \(P\) 又は \(G_3\) の一方が自明に作用 | 該当 affine roof がさらに直積分解すること | MCOV、両因子が非自明に作用する加群、非半単純混合 | **定理**（直積化）。COMPACT への全面被覆は **機構のみ** |
+| `OBS-VOID` | \(K=K^{(l)}\cap N_E\)、\(PB_3/N_E=E=V\rtimes W\)、\(V\) は \(\mathbf F_p\)-加群、\(H^2(B_3/\langle c\rangle,V)=0\) | この一段可換 semidirect 族で reduction 全射。十分条件は \(p\nmid6\)、又は \(p=3\) で \(V\!\downarrow_{\langle\tau\rangle}\) が自由 | \(p=2\) の \(\theta\)-非自由、\(p=3\) の \(\tau\)-非自由、非可換・非分裂・多段 | **定理**（paper-proof、単系統。Lean certificate なし） |
+| block-diagonal 直和 | \(V=\bigoplus_iV_i\) で \(A_t,C_t,Z\) が同じ分解に関して block diagonal、各 \(C_{t,i}Z_i\subseteq\operatorname{Im}A_{t,i}\) | 既知の吸収成分の任意有限直和で \(r_t^{\rm obs}=0\) | 混合標識作用、非半単純 extension、GEN-AFF | **機構のみ**（有限次元線型代数の直和則） |
+| `(H-SPLIT)` 条件部 | 相対拡大に \(\theta,\tau\)-同変な群準同型 section があり、さらに GEN-AFF が別に成立 | この強い前件を満たす split 相対拡大では relation を section で運べる | 通常分裂だけの拡大、同変 section 不在、全非分裂拡大 | **機構のみ**。既走 3,399 class では前件成立 0 |
+| `COCYCLE-ABSORB-137` / `MULTIPLICITY-ABSORB-138` / `INDECOMP-ENTRY-138` | frozen S4/K3 roof 324 行と、各命題に列記した有限 module・marking 宇宙 | その有限宇宙で \(C_tZ\subseteq\operatorname{Im}A_t\) | 任意 roof、任意 module、base change、塔 | **candidate**（有限 exhaustive 結論）。**族定理ではない** |
+| `THM44-odd` / `K5-ENT-INSUF` | 指定された odd dihedral reduction。特に \(N=K^{(np)}\subset K^{(n)}\)、\(p\mid n\) でも reduction 全射 | odd dihedral 単独 tower の定理射程 | 2-primary、mixed-primary、S4 と絡む tower | **定理 / candidate**（各札の既存格どおり）。dihedral 族は cofinal でない |
+
+この台帳から全面的な 972 の族煉瓦として数えられるのは、(i) `SPLIT-NULL″` の **(MCOV) 付き**部分族、(ii) `PH2-VOID` の admissible dihedral 部分族、(iii) `OBS-VOID` の \(H^2=0\) 一段可換 semidirect 部分族である。残りの行は部分機構、又は有限 candidate であり、cofinality への加算は 0 である。「7 族」は独立な七方向ではなく、実質的には **直積 + MCOV** と **一段可換核の \(H^2\) 消滅**の二機構に集中している。
+
+### 7.4 測定台帳 — cofinality への加算は全て 0
+
+| 測定 | 有限宇宙と生値 | 族定理との差 |
+|---|---|---|
+| ESCAPE-28 | \(p=3\)、\(\tau\)-非自由。3,392 class、1,099,008 行、全不発 | 一つの module/roof 構成。任意の \(p=3\) 非自由細分へ量化しない |
+| ESCAPE-2 | \(p=2\)、\(\theta\)-非自由。7 class、2,268 行、全不発 | 一つの module/roof 構成。任意の \(p=2\) 非自由細分へ量化しない |
+| 便 134 | 非可換相対核を持つ cutoff 5 の一窓。全 972 元の lift 数は各 16 | 非可換核一般、多段、全 cutoff へ量化しない |
+| C1--C3 | 3,240 rank template で \(r_t^{\rm obs}>0\) は 0 | 凍結した重複度作用と三つの length-2 class に限る |
+| C5 d=7 | `[16,7,3]` は complement orbit 0、16 orbit 全て relaxed raw image 972、missing key 0 | 非分裂**群拡大**の有限測定。source generation は商上全射へ緩和され、isolatedness も未確認 |
+| C5 d=8 | `[16,8,4]` は generating orbit 32、全て relaxed raw image 972、missing key 0 | 同上。一般の非分裂 2-kernel extension へ量化しない |
+| C11 既走標本 | 119 組で MCOV failure 0 | 選択標本であり、MCOV の族定理でも悉皆でもない |
+
+従って、L107 の「非分裂」については更新が要る。**非分裂群拡大の有限例は C5 で得た**ので、抽象的存在が未確認という段階ではない。しかし、その kernel が COMPACT の添字となる isolated 細分であること、本来の source 条件で全射であること、まして非分裂 isolated 細分の族全体が盲であることは示していない。B 側の穴は閉じていない。
+
+### 7.5 `(H-SPLIT)` と非分裂主戦線の裁定
+
+便 137 の判定は次の三層に分かれる。
+
+1. ESCAPE-28 の 3,392 class と ESCAPE-2 の 7 class は、相対拡大としては全て通常分裂した。
+2. \(\theta,\tau\)-同変な補群は全 3,399 class で 0 だった。従って「通常分裂なら全て盲」という族定理は `(H-SPLIT)` から出ない。
+3. 「同変 section は relation を運ぶ」という条件命題は正しいが、GEN-AFF は別前件である。よってこれは強い前件を持つ機構に留まり、現時点の被覆は空である。
+
+ここで pure roof の直積性を扱う `SPLIT-NULL` と、相対拡大の section を扱う `(H-SPLIT)` を混同してはならない。前者でも全面的な盲目性には (MCOV) が要り、後者では通常 section より強い同変 section が要る。
+
+`(H-SPLIT)` の広い族化が立たなかった場合の有限側行動は、本キャンペーン C5 で既に実行した。真に非分裂な `[16,7,3]` と `[16,8,4]` を構成し、緩和 detector で撃った結果は全 orbit 972 / missing 0 だった。ただしこれは陰性測定である。次の分岐は次の二択になる。
+
+- B 側: 非分裂 isolated 細分について、\(C_tZ\subseteq\operatorname{Im}A_t\) を base-change 安定かつ roof 一様に証明する。
+- 有限排除側: C5 の kernel の isolatedness を先に確定し、緩和していない source generation と full reduction を測る。さらに \(p=2,3\)、非半単純、非可換の bounded family を事前登録して同じ gate を掛ける。
+
+現時点で最有力の B 側定理候補は、`COCYCLE-ABSORB-137` の数値等式そのものではなく、その背後にある写像包含
+
+\[
+C_t\bigl(Z^1(\Gamma,V)\bigr)\subseteq\operatorname{Im}A_t
+\]
+
+を module、marking、roof、base change に自然な chain homotopy として示すことである。これが交叉と多段合成で保たれ、GEN-AFF も一様に供給されれば、一段半単純という現制限を越える。現在はその自然変換も保存則も無いので、格は**機構候補**である。
+
+block-diagonal 重複度についてだけは、各成分の包含を直和すれば総包含が従う。この小さな族化は紙の線型代数で可能だが、同じ既知成分の直和しか覆わず、混合作用・非半単純性・多段を全て外す。そのため cofinality を実質的には進めない。C1/C2 の有限結果をこれ以上広く読む根拠はない。
+
+### 7.6 現時点で本当に未被覆の範囲
+
+1. **MCOV 不明又は破れの直積 roof**。`SPLIT-NULL` だけでは全面 972 にならない。
+2. **entangled / Goursat mixed roof**。共通商非自明、両因子非自明の一般形に盲目性定理が無い。
+3. **非分裂 isolated 相対拡大**。群拡大の有限例は得たが、isolated family とその全射定理が無い。
+4. **非可換核**。便 134 は一窓の測定に留まる。
+5. **modular 非自由核**。\(p=3,\tau\)-非自由と \(p=2,\theta\)-非自由は各一設定を測っただけである。
+6. **非半単純・混合標識作用・mixed-primary**。C3 の三 class 以外は canonical universe すら無い。
+7. **多段 / 塔**。一段命題を交叉後の新基底へ移す base-change 安定性が無い。
+8. **S4 側深化と両側同時深化**。bounded target list と族正規形が無い。
+
+そして上の各範囲を個別に覆うだけでも十分ではない。最後に
+
+\[
+\forall K\in\mathcal I_M\ \exists L\subseteq K:\quad
+L\text{ は上記の全射族のいずれかに属する}
+\tag{COFINAL-NORMAL-FORM}
+\]
+
+という **任意の isolated 細分を覆われた正規形へさらに細分する定理**が要る。現在はこの比較定理が無い。cofinal までに必要なものを一言でまとめると、
+
+> **(a) 非分裂・非可換・modular 非自由・多段を含む base-change 安定な一様吸収定理、(b) split 枝の MCOV 族判定、(c) S4/mixed 枝を含む COFINAL-NORMAL-FORM の三本。**
+
+である。現被覆の合併が cofinal だという証拠は無く、B 側の最終 1 ビットは UNKNOWN のままである。
+
+### 7.7 COMPACT 以外の B 側経路
+
+論理的な経路は三つあるが、現在実装可能又は証明済みの第二経路は無い。
+
+1. **整合する逆極限元の直接構成。** \(g_M\in GT(M)\setminus A\) を一つ固定し、cofinal な下降 isolated chain \((K_j)\) 上で
+   \[
+   g_{j+1}\longmapsto g_j,\qquad g_0=g_M
+   \]
+   を満たす \(g_j\in GT(K_j)\) を全深度で作る。各深度の charming/hexagon/SURJ と遷移整合性を一様に証明すれば、Thm 5.2 から逆極限元を得る。個々の深度で像 972 だったことだけでは、同じ元を選び続ける整合性を与えない。必要品は cofinal chain、全遷移の lift section 又は Mittag--Leffler 条件、全深度一様式である。
+2. **大域不変量又は像下界。** \(\widehat{GT}_{\rm gen}\to GT(M)\) の像が 324 元を越えること、又は \(A\) の外へ出ることを、有限窓ごとの全射とは別の functorial invariant で示す。候補は mod-3 deformation class、連続 cohomology class、あるいは coordinate image が \(A\) では満たせない群論的性質である。現台帳にはその invariant も、有限位相群へ積分する定理も無い。接空間の非零だけでは profinite 元の存在にならない。
+3. **変形・コホモロジーからの直接構成。** 実際の算術像の \(M\)-成分が \(A\) なので、\(A\) 外の元を実 Galois 元として作ることは定義上できない。可能なのは、算術起源の deformation 理論等を用いて **generic 側**に新しい profinite 元を積分し、その \(M\)-像が \(A\) 外だと示す経路である。これは一様な有限窓計算を迂回するが、実質的には井原型の主問題を直接解く強さを要する。現在その積分・収束・有限像同定のいずれも無い。
+
+従って、概念上は直接逆極限構成と変形論経路があるものの、現時点で荷重を持つのは定理 COMPACT に向けた cofinal な族定理路だけである。本追補は新しい B 側証明を得たのではなく、既走測定を 0 と正しく勘定し、必要な三本の族定理を特定した。
+
+`EXHAUSTED` は「現在の道具で prospective に有限化できた C0--C15 の在庫が尽きた」という意味に限る。cofinality の数学、上記の新技術、B 側の最終判定が尽きたという意味ではない。
 
 CAMPAIGN_STATUS: EXHAUSTED
