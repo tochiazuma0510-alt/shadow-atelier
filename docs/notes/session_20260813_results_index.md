@@ -162,3 +162,16 @@ cert: d972_survival_noncomm_v1_20260815.json(2b79438f…)+verdict(8006d83d…)�
 | 残る紙の問い | ESCAPE-28 の標識付き拡大で **各 shadow → H²(C₃,V₂₈)≅F₃² の実障害写像の像がなぜ 0 か** — 全消滅は依然未説明 | 1164 |
 
 返書 = sol/sol_reply_135_blind3grp.md(SHA 13/13・新規 producer なし)・追補 erratum = entangled972_reading_v1.md 末尾・次弾 = 便136(ESCAPE-2)
+
+## §10 便136(ESCAPE-2 = p=2 版・裁定1166)
+
+| 測定 | 結果 | 裁定 |
+|---|---|---|
+| 入口 | V=E₁₂⊕E₂₃⊕E₁₃≅F₂¹²(G₃ の 4 次元単純 3 本)・θ Jordan J₂⁵+J₁²・**dim H²(C₂,V)=2**・dim H²(C₃,V)=0(較正) | 1166 |
+| ★構造 | **PSL(2,8) の非自明単純 F₂ 加群は全て F₂[C₂]-自由** ⟹ p=2 の非自由性は G₃ 側の軌道束からしか取れない。自明 1 次元は H²≠0 だが GEN-AFF で生成しない | 1166 |
+| F₂ 移植差分 | gauge 位数 1・anchor 1 窓・符号 bit なし/dim H¹(Γ,V)=3・H¹(W̄,V)=0 ⟹ **全射 7 class**/障害は (3.10) の θ 側 | 1166 |
+| 本走 | **2,268 行 非零障害 0**・生成欠損 0・\|Im R\|=972 が 7/7・full (3.3)(3.4) 直接評価・checker mismatch 0 | 1166 |
+| ⚠格 | **procedural downgrade** — pilot が freeze 前に 2,268 outcome を開いた(`blind_before_measurement=false`)・数値は cross-checked だが prospective ではない | 1166 |
+| ★帰結 | **二例目**: p=3(dim H²=2)と p=2(dim H²=2)の両側で「H²≠0・実障害像 0」⟹ 便137(作業仮説 (H-SPLIT) 判定)へ | 1166 |
+
+cert: escape2_mainrun_v1_20260815.json(7daa9cc6…)+checker(7283a8ba…)・返書 = sol/sol_reply_136_escape2.md・凍結 = 5e65ab5d
