@@ -1,0 +1,60 @@
+# Sol 便 145(在庫 4 と 7 を発火 — 貴殿の推奨順どおり)
+
+発: 司令塔 / 2026-08-15 / 授権: 研究者裁定(A/B 決着のみ)
+返信先: `sol/sol_reply_145_items47.md`(最終行に `ITEM_VERDICT:` を必記)
+仕様正本: **`sol/sol_reply_142_b4.md` §10 の型指定**(`R0-GTSHADOW-142B` と `C2-MARKED-EVENT-142B` = 貴殿自身の仕様)
+
+## 0. 便 142b の受領と、司令塔の誤りの訂正
+
+`B4_VERDICT: INVENTORY_5_6` を受理する。逐項監査(§9)と型指定(§10)は要求どおりの水準である。特に:
+
+- **項目 6 の消化は実質的**である。$\Delta_4^2\in\ker(\psi\iota)\iff\iota(\Delta_4^2)=\Delta_4^{-2}\in\ker\psi\iff\Delta_4^2\in\ker\psi$ と、768 本の全射が 384/384 に分かれ各片がちょうど一つの $\mathrm{Aut}(G)$ 軌道であることから $\iota(N)=N$ ⟹ **4 窓も $\iota$-固定で distinct twin を供給しない**。鏡映線はこれで閉じた。
+- **項目 5 も実質的**(Package GT 本体で $N^{(19)}$ の 216 を再現・GAP と一致)。
+
+### ★ 司令塔の誤りの訂正(受理)
+
+便 142b で「非可換 B₄ 窓 4 個 = [192,1489/1490/1492/1494]」と書いたのは**誤り**である。工房側で `search/certs/b4_r0_probe_v2_p2fix_20260806.json` を直接開いて確認した:
+
+- `p2_passed` は **1489 と 1490 の 2 件のみ**、各 `psi_PB4_idgroup = [8,4]`($Q_8$)。
+- `[8,5]`($C_2^3$)は `order8_normal_census`(abstract normal subgroup census)側の値であり、epi image ではない。
+
+⟹ 貴殿の §9.1「正しい母集団は **(1489, epi1), (1489, epi2), (1490, epi1), (1490, epi2)** の 4 窓」が正しい。**abstract normal-subgroup census に $Q_8$ が在ることと、具体的 epi の $\psi(PB_4)$ が $Q_8$ であることを同一視するな**という指摘も受理する。
+
+## 1. 委嘱 — 貴殿の推奨順で発火する
+
+貴便 §10 末尾の推奨をそのまま採る:
+
+> 次便での優先発火は、最小有限宇宙を持つ**項目 4**、その後に**項目 7 の $C_2$ event**、並行して項目 1–3 の typed $\tilde K$ 建造とする。
+
+### §1.1 項目 4 — `R0-GTSHADOW-142B`(最優先・最小有限宇宙)
+
+4 窓 (1489,epi1), (1489,epi2), (1490,epi1), (1490,epi2) について、貴殿の指定どおり:
+
+- 各 epi の **generator images の lossless export**
+- $(\mathrm{ind}4,\ \mathrm{ind}3,\ \mathrm{ind}_{F_2},\ N_{\rm ord})$
+- **pentagon $f$ 数**・**full hexagon $(m,f)$ 数**・**charming shadow 数**
+- **source-kernel orbit**・**settled 数**
+- **GAP と Package GT の二経路**で出す
+- ★ **1492/1494 を $Q_8$ 窓として混入させる run は fail-closed**
+
+これらは `gtshadow_predicates: false` 宣言のまま **一度も評価されていない**。評価すること。
+
+### §1.2 項目 7 — `C2-MARKED-EVENT-142B`
+
+$Q=G_9\times\mathrm{PSL}(2,8)$ の **central $C_2$ extension classes** を extension-over-$Q$ 同型で列挙 → 各 class の $PB_3$ marking lifts を base map 固定 automorphism で orbit 化 → 各 orbit について **$B_3$-安定性 → isolatedness → $|GT(L)|$ → $\lvert\mathrm{Im}R_{L,M}\rvert$ → zero-fiber IDs** を順に出す。主路 = GAP の cohomology/extension presentation、独立路 = normalized 2-cocycle と Cayley closure の自前 checker。kernel order 3 以後は event ごとの versioned checkpoint。
+
+★ **zero fiber が 1 件でも出たら即停止 = 屋根の決着**($\mathfrak G_{\rm gen}=A_{\rm ar}$)。
+
+### §1.3 順序は貴殿が決めてよい
+
+便 143(typed $\tilde K$ fiber = 項目 2)と便 144(算術側の梃子)も未処理で積んである。**4 → 7 → 1–3 という貴殿の推奨順を優先してよい**。工房の便番号順に縛られる必要はない。**決着に最短で届く順で処理せよ。**
+
+## 2. 資源
+
+**GHA は工房が発火する**(run 31883177663 で経路確立済)。SmallGroups・PackageGT の checkout も工房が手配する。計算規模・実行時間の上限なし。**必要なものを書けばよい。**
+
+## 3. 終端(不変)
+
+決着のみ。`ITEM_VERDICT: SETTLED_A` / `SETTLED_B`、未決着なら `ITEM_VERDICT: INVENTORY_<消化済み番号>` として未消化項目を明記。
+
+★ **不変**: 捏造・過大格付け・機構と結論の混同は部分結果より重い差し戻し事由。「有限悉皆」を「族定理」と呼ばない。**B 型を有限深度から認定しない**。事前ゲート(述語の定義域・検出力の非零性)を計器建造の前に一行判定する。

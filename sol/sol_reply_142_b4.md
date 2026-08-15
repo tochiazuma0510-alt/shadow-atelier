@@ -1,4 +1,4 @@
-# Sol 便 142 返信 — B₄ 屋根ビットの型監査と三経路裁定
+# Sol 便 142 / 142b 統合返信 — B₄ 屋根ビットの型監査と続行在庫
 
 ## 0. 結論と射程
 
@@ -12,19 +12,19 @@
 
 便 141 の最終状態は `ENUM_STATUS: EXHAUSTED_TO_B=2939327` であり、`WITNESS_FOUND` ではない。従って発動条件は成立した。
 
-結論は **型ゲート失敗**である。$\tilde{\mathbf N}^{*}=\mathcal V(PB_4)\le L$ 自体は構成でき、$N^{(19)}$ 正対照も正常に動いた。しかし便 142 §3 の中心命題
+便 142 が指定した **単一の `PENT_W` 経路**には型ゲートの破綻がある。$\tilde{\mathbf N}^{*}=\mathcal V(PB_4)\le L$ 自体は構成でき、$N^{(19)}$ 正対照も正常に動いた。しかし便 142 §3 の中心命題
 
 > 「$GT(M)$ の一元で `PENT_W`-FAIL を示す」
 
 は well-defined でない。`PENT_W` は NW(7) 商の元には定まるが、$GT(M)$ の元には定まらない。同じ $M$-shadow の代表語を変えるだけで `PENT_W`-PASS と FAIL の双方を実現できる。従って、単一代表語の FAIL から $\mathfrak G_{\widehat{GT}}=A_{\rm ar}$ を導くことも、972 元を PASS/FAIL に分類することもできない。
 
-このため `NOT_LIFTABLE` と `LIFTABLE_ALL` のいずれも宣言しない。現時点の屋根ビットは依然
+このため `NOT_LIFTABLE` は宣言できない。さらに便 142b §1 の研究者裁定を受け、`LIFTABLE_ALL` と `GATE_FAILED` を**終端札としては撤回**する。型反証 PENT-NODESCENT は残るが、それは次の計器へ進む理由であって作業の終端ではない。現時点の屋根ビットは依然
 
 \[
 \mathfrak G_{\widehat{GT}}\in\{A_{\rm ar},GT(M)\}
 \]
 
-である。これは環境停止ではなく、提案された有限証明書の定義域が標的と一致しないという数学的反証である。
+である。提案された一つの有限証明書の定義域が標的と一致しない、という数学的反証と、在庫全体の尽きたという主張を分ける。便 142b の在庫監査と続行指定は §8 以下に統合した。
 
 ## 1. 定理 PENT-NODESCENT — `PENT_W` は $GT(M)$ 上の述語でない
 
@@ -140,7 +140,7 @@ C_M:=\bigcap_{i=1}^4p_i^{-1}(M),\qquad
 
 を作れる。$\tilde K_{PB_3}\le M$ なので、これは今後の **typed な**候補窓である。ただし $C_M$ 側の追加条件を含む全 fiber の charming・hexagon・SURJ・(2.20) を列挙した成果物は存在しない。NW residue 一個を選ぶだけでは (4) の fiber 全体を調べたことにならない。
 
-従って §3.3 の `GATE_FAILED` を「$\tilde N\le L$ という裸の窓の不存在」に限定して字義通り読むと、三つの出口は網羅的でない。裸の窓 $\tilde{\mathbf N}^{*}$ は存在する一方、`NOT_LIFTABLE`/`LIFTABLE_ALL` の入力述語は $GT(M)$ 上で未定義だからである。本書の最終札 `GATE_FAILED` は、捏造を避ける fail-closed な **M-binding/descent gate failure** を表し、「B4-CANON が構成できなかった」という意味ではない。
+従って旧 §3.3 の `GATE_FAILED` を「$\tilde N\le L$ という裸の窓の不存在」に限定して字義通り読むと、三つの出口は網羅的でない。裸の窓 $\tilde{\mathbf N}^{*}$ は存在する一方、`NOT_LIFTABLE`/`LIFTABLE_ALL` の入力述語は $GT(M)$ 上で未定義だからである。便 142b により `GATE_FAILED` は終端札から削除する。残す正確な中間結論は **M-binding/descent が無いので、この一経路は A/B を判定しない**という PENT-NODESCENT だけである。
 
 ## 3. 指定三経路を全て試した結果
 
@@ -226,7 +226,7 @@ N19 total (m,f) hexagon pairs     72
 
 ### 7.1 prospective / noncontact / NAME-COLLIDE
 
-GHA run の予言 216 と $7^{41}$ は driver/workflow に発火前から固定済みであり、結果を見て変更していない。屋根 outcome の本走は型ゲートで止めたため、未登録の結果探索は行っていない。
+GHA run の予言 216 と $7^{41}$ は driver/workflow に発火前から固定済みであり、結果を見て変更していない。便 142 の単一経路では屋根 outcome を測らず、便 142b では既存成果物に対する在庫監査だけを行った。未登録の outcome 探索は行っていない。
 
 - sealed three quantities: opened = false
 - $u$: opened = false
@@ -262,4 +262,96 @@ B4_VERDICT                           2 files
 
 本便では commit / push を行っていない。`.git` は read-only とし、外部状態の変更は上記 workflow dispatch 1 回だけである。有限悉皆 $N^{(19)}$ と、本件特有の quotient 定理を族定理とは呼ばない。
 
-B4_VERDICT: GATE_FAILED
+## 8. 便 142b の受領と終端規則の差し替え
+
+- 追補入力: `ops/inbox_codex/sol_task_142b_noexit.txt`
+- SHA-256: `3d6227903fa4cb0d66692e6575ad72e1dd222a0a701e074e572237ce4859375b`
+- 処理順: §0 → §1 → §2 → §3 → §4 → §5
+
+研究者裁定を字義通り受領する。本書で受理終端になり得るのは、次のいずれかを伴う 972 屋根の A/B 決着だけである。
+
+1. $GT(M)\setminus A_{\rm ar}$ の一元について、有資格な isolated 細分の reduction fiber が空である。
+2. cofinal な isolated 細分族について reduction が全射であることを族定理で示す。
+
+便 142 の PENT-NODESCENT、有限窓での全通過、窓の不発見、局所的な 972 全射はどれもこの二条件ではない。従って本追補では `SETTLED_A`、`SETTLED_B`、`NOT_LIFTABLE` のどれも書かない。また、以下に未消化在庫があるので「不可能」「もう手がない」とも申告しない。
+
+## 9. 在庫 1–8 の逐項監査
+
+| # | 状態 | 実行済みの生値・紙結論 | 未消化部分 |
+|---:|---|---|---|
+| 1 | **未消化** | GHA run `31883177663` で $R_7=PB_4/\mathcal V(PB_4)$、$|R_7|=7^{41}$、$|Z(R_7)|=7^{22}$、B4-EXQ-1=`true` まで到達 | `DirectFactorsOfGroup` の 6 GB 死より前へ分岐し、自然射 $PB_4\twoheadrightarrow R_7$ と五余面を保持して full (2.20) を直接評価する工程は未実行 |
+| 2 | **未消化** | `cal_b4_n19_pentagon.g` は $N^{(19)}$ で C-1–C-6e を通し、pentagon 216 を二方式で一致させた | $M$ は $B_3$ 窓であり、そのまま `PaB.py` / (2.20) の target にはならない。移植先を (4) の $\tilde K=C_M\cap\tilde{\mathbf N}^{*}$ と型付けし、全 reduction fiber を走査する移植は未実行 |
+| 3 | **未消化** | Prop 3.3、CORE-4、B4-MONO の紙機構は存在する | $\tilde K$ から source kernels を全数作り、Prop 3.3 の交叉で isolated 化し、$GT(M)\setminus A_{\rm ar}$ の 648 元ごとに survival を測る工程は未実行 |
+| 4 | **未消化** | 正しい母集団は `[192,1489]` と `[192,1490]` の各 2 epi、計 4 窓。各群で B4 全射三つ組 768、$|\operatorname{Aut}G|=384$、2 軌道、$\psi(PB_4)\cong Q_8$、$\operatorname{ord}(\psi(\sigma_i))=8$、$\Delta_4^2$ の kernel bit は 384/384 | $N_{PB_3}$、$N_{\rm ord}$、charming/hexagon/SURJ、pentagon、source kernel、settledness は全て未評価 |
+| 5 | **消化** | Package GT 本体の `penta/hexa1/hexa2/generWF2` をローカル checkout から実行。$N^{(19)}$ で `ind4=216`, `indF2=7776`, pentagon $f=216$, hexagon を持つ $f=36$, $(m,f)=72$。GAP 側の 216 と一致 | これは C-8 の第三者**較正**を消化したもの。項目 1–4 の $M$/新窓評価を代行したとは数えない |
+| 6 | **消化** | MIRROR-SHADOW-B4 は紙で成立し、FIXED-B4 により $\tilde{\mathbf N}^{*}$ と $\tilde{\mathbf N}_{\rm core}$ は $\iota$-固定。下記 §9.2 により 4 個の $Q_8$ 窓も固定 | 現用 6 窓に distinct mirror partner はなく、この線から非持上げ元は出ない |
+| 7 | **未消化** | ISO-FIBER-ENUM は $1\le B\le2|Q|-1=2{,}939{,}327$ を完走。class 1（$L=M$）、image 972、zero fiber 0 | event $B=2|Q|=2{,}939{,}328$ の central $C_2$ extensions、surjective marked orbit、$B_3$-安定性、isolatedness、reduction image は未実行。その後の kernel order $3,4,\ldots$ も未実行 |
+| 8 | **未消化** | 四命題の入力・量化・出力は便 140 §4.2 で定式化済み。STRICT-D-140 は ABSORB-BC 単独では REL-VANISH を導けない抽象反モデルを与える | `CHIEF-COFINAL-140` / `REL-VANISH-140` / `GEN-NONCOVER-140` / `CHAR-LIFT-140` の同一 cofinal family 上での証明は 0 本 |
+
+### 9.1 項目 4 の母集団訂正
+
+追補本文の「1492/1494 も $Q_8$ 商」という読みは、修復 cert と独立第二系統に反する。`search/certs/b4_r0_probe_v2_p2fix_20260806.json` では 1492/1494 の実際の epi image は `[8,5]\cong C_2^3` で可換、`is_window=false` である。P2 の abstract normal-subgroup census に $Q_8$ が存在することと、具体的 epi の $\psi(PB_4)$ が $Q_8$ であることを同一視してはならない。
+
+従って評価対象は
+
+\[
+(1489,\mathrm{epi} 1),(1489,\mathrm{epi} 2),
+(1490,\mathrm{epi} 1),(1490,\mathrm{epi} 2)
+\]
+
+の四つに固定する。候補発見自体は GAP cert と、生 Cayley 表から GAP の判定 helper を共有せず再構成した Python 系で一致している。しかし `scope_declaration.gtshadow_predicates=false` なので、存在確認を shadow/pentagon 評価へ昇格させない。
+
+### 9.2 項目 6 の消化 — Q8 四窓も鏡映固定
+
+$\psi:B_4\twoheadrightarrow G$ を四窓の一つとし、$N=\ker\psi$ とする。$\psi\circ\iota$ も同じ $G$ への全射であり、
+
+\[
+\Delta_4^2\in\ker(\psi\circ\iota)
+\iff \iota(\Delta_4^2)=\Delta_4^{-2}\in\ker\psi
+\iff \Delta_4^2\in\ker\psi .
+\]
+
+独立第二系統の全数表では、1489 と 1490 のそれぞれについて全射 768 本がこの bit で 384/384 に分かれ、各片がちょうど一つの $\operatorname{Aut}(G)$ 軌道である。従って $\psi\circ\iota=\alpha\circ\psi$ となる $\alpha\in\operatorname{Aut}(G)$ があり、
+
+\[
+\iota(N)=\ker(\psi\circ\iota)=\ker(\alpha\circ\psi)=N.
+\]
+
+よって四窓も全て $\iota$-固定である。これは orbit の有限全数照合と紙の一行を組み合わせた結論であり、Lean certificate はない。MIRROR-SHADOW-B4 の $[-1,1]$ は各窓で settled となるため、distinct twin を供給しない。これをもって項目 6 を消化する。
+
+## 10. 未消化項目の障害名・独立経路・発火要求
+
+### 10.1 B4 側（1–4）
+
+1. **`R-EPIMORPHISM-142B`（項目 1）**: 現 driver は `Pq` 後の abstract pc group $R_7$ だけを使い、full pentagon に必要な五つの marked coface map を保存していない。`DirectFactorsOfGroup` は判定に不要なので外す。GHA 用 producer は 117,649 個の $P_7'$ 元について direct (2.20)、$\tilde D$、`PENT_W` を別欄で出し、層 $S_0/S_1/S_2$ の分母と通過数を保存する。独立路は 41 座標の pc presentation・collector relations・五余面の生成元像を lossless export し、独立 Python pc collector で再評価する。既存の `PENT_W` / $\tilde D$ 集計は別 invariant の照合に回す。
+2. **`M-ARITY-142B`（項目 2）**: $M$ は arity 3、(2.20) は arity 4 なので、移植先は裸の $M$ でなく $\tilde K=C_M\cap\tilde{\mathbf N}^{*}$ でなければならない。producer は 972 target IDs と $\tilde K\to M$ の全 fiber を列挙する。checker は marked quotient、五余面、fiber 完備性、hexagon、SURJ、pentagonを helper 非共有で再構成する。
+3. **`PROP33-SOURCE-ENUM-142B`（項目 3）**: Prop 3.3 の交叉は、連結成分の source objects を列挙して初めて有限レシピになる。各 source kernel、交叉前後の index、isolated certificate、648 外側元の fiber 分布を出す。独立路は CORE-4 の四 forgetful maps を生成元上で再構成して kernel equality を照合する。
+4. **`R0-GTSHADOW-142B`（項目 4）**: 既存 cert に必要なのは四 epi の generator images の lossless export。各窓について `(ind4,ind3,indF2,N_ord)`、pentagon $f$ 数、full hexagon $(m,f)$ 数、charming shadow 数、source-kernel orbit、settled 数を GAP と Package GT の二経路で出す。1492/1494 を $Q_8$ 窓として混入させる run は fail-closed とする。
+
+### 10.2 B3 側（7–8）
+
+5. **`C2-MARKED-EVENT-142B`（項目 7）**: $Q=G_9\times\mathrm{PSL}(2,8)$ の central $C_2$ extension classes を extension-over-$Q$ 同型で列挙し、各 class の $PB_3$ marking lifts を base map 固定 automorphism で orbit 化する。各 orbitに対して $B_3$-安定性、isolatedness、$|GT(L)|$、$|\operatorname{Im}R_{L,M}|$、zero-fiber IDs を順に出す。主路は GAP の cohomology/extension presentation、独立路は normalized 2-cocycle と Cayley closure の自前 checker とする。kernel order 3 以後は event ごとの versioned checkpoint を要する。
+6. **`COFINAL-FOUR-142B`（項目 8）**: `CHIEF-COFINAL` は単に $\mathcal U=\mathcal I_M$ と置く循環的な形では計算族を供給しない。restricted かつ enumerable な同一族 $\mathcal U$、各 chief step の relative complex、relation affine space、proper-submodule bad loci、charming representative の compatibility map を明示し、その上で四命題を同時に証明する必要がある。反対向きの実例が出た段は項目 7 の zero-fiber 候補へ戻す。
+
+これらは環境を理由にした停止申告ではなく、GHA / PackageGT / SmallGroups に渡す入力・出力の型指定である。本追補では新規 workflow dispatch は行っていない。次便での優先発火は、最小有限宇宙を持つ項目 4、その後に項目 7 の $C_2$ event、並行して項目 1–3 の typed $\tilde K$ 建造とする。
+
+## 11. provenance と最終勘定
+
+| 入力 | SHA-256 |
+|---|---|
+| `search/certs/b4_r0_probe_v2_p2fix_20260806.json` | `eb62d2bb1a884dd36e525e55f2580df8215279a311717b0f903f7f276e09a024` |
+| `docs/notes/b4r0v2_second_system_verification_v1.md` | `3912a295152e1dcb51f34678349f824b9c697bd60cb8d19d5a3ad9f9f312b75a` |
+| `docs/notes/b4_mirror_transfer_design_v1.md` | `3f898e6ba1f98f77280f3fadaade5fd2a3f064652cb8bfde1b8d9a4fc2212c28` |
+| `search/certs/iso_fiber_enum_141_v2_20260815.json` | `cd4a30b4132aaad143faeb015593866c03cd511e58d6cea89917e5e33ffddc8c` |
+| `sol/sol_reply_140_finish.md` | `3463fe6ca0d876b2b512a270e907c32ea82afa6183848c92de63fee8a0ba0da2` |
+| `sol/sol_reply_141_enum.md` | `1f9f390552b945c56587cb96270b04bd8f6a1f67ddd361b1b9f2ffbf2a98587e` |
+
+- 消化済み: **5, 6**
+- 未消化: **1, 2, 3, 4, 7, 8**
+- outside-$A_{\rm ar}$ の有資格 zero fiber: **0 件**
+- cofinal 全射族定理: **0 本**
+- A/B 決着: **未成立**
+- `GATE_FAILED` / `LIFTABLE_ALL`: **終端札として撤回済み**
+- 便 142b での変更対象: この統合返信のみ。commit / push / workflow dispatch なし
+
+B4_VERDICT: INVENTORY_5_6
