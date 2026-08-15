@@ -166,7 +166,7 @@ for ii in [1..Length(rows)] do
     key:=B4LIKey(rows[ii][1],B4LIBlock(rows[ii][2],0,27),
       B4LIBlock(rows[ii][2],27,9))));
 od;;
-Sort(keyRows,(a,b)->B4LILess(a.key.orderkey,b.key.orderkey));;
+Sort(keyRows,function(a,b) return B4LILess(a.key.orderkey,b.key.orderkey); end);;
 targetKeys:=List(keyRows,r->r.key.string);;
 roofWords:=List(keyRows,r->r.word);;
 targetKeysSorted:=SortedList(targetKeys);;
@@ -186,6 +186,16 @@ if relDigest<>"12fc1146dce5179c2b5fc44a3ceed6356a6b2c4835a564b55e9a9cd679fccd2e"
 fi;
 Print("B4_LI_ROWS=972 TARGET_DIGEST=",targetDigest,
   " WORD_KEY_DIGEST=",artifactDigest,"\n");;
+B4LIWKOut:="ci/out/d972_b4_word_key_artifact_v1.json";;
+if IsBound(D972_B4_WORD_KEY_OUTPUT) then B4LIWKOut:=D972_B4_WORD_KEY_OUTPUT; fi;
+B4LIWKArtifact:=Concatenation(
+  "{\"schema\":\"d972-b4-word-key-artifact/v1\",\"count\":972,",
+  "\"source_target_key_digest\":\"",targetDigest,"\",",
+  "\"canonical_bytes_sha256\":\"",artifactDigest,"\",\"rows\":",
+  B4LIJson(artifactRows),"}");;
+WriteFile(B4LIWKOut,Concatenation(B4LIWKArtifact,"\n"));;
+Print("B4_LI_WORD_KEY_ARTIFACT count=972 digest=",artifactDigest,
+  " output=",B4LIWKOut,"\n");;
 
 B4LIOut:="ci/out/d972_b4_lowindex_v1.json";;
 if IsBound(D972_B4_LOWINDEX_OUTPUT) then B4LIOut:=D972_B4_LOWINDEX_OUTPUT; fi;
@@ -202,6 +212,22 @@ end;;
 rhoWords:=List(rf,D972SignedWord);;
 rhoJson:=B4LIJson(rhoWords);; relJson:=B4LIJson(relWords);;
 targetJson:=B4LIJson(targetKeys);; roofJson:=B4LIJson(roofWords);;
+if Length(relWords)<>158 then Error("B4 low-index: relator count drift"); fi;
+## Export the hash-bound U_M word list for the SAT lane.  This is written on
+## an all-pass bounded quotient run too; it is not a mathematical verdict.
+B4LIRelOut:="ci/out/d972_b4_u_relators_v1.json";;
+if IsBound(D972_B4_RELATOR_OUTPUT) then B4LIRelOut:=D972_B4_RELATOR_OUTPUT; fi;
+B4LIRelArtifact:=Concatenation(
+  "{\"schema\":\"d972-b4-u-relators/v1\",\"count\":158,",
+  "\"canonical_bytes_sha256\":\"",relDigest,"\",\"relators\":",
+  relJson,"}");;
+WriteFile(B4LIRelOut,Concatenation(B4LIRelArtifact,"\n"));;
+Print("B4_LI_RELATOR_ARTIFACT count=158 digest=",relDigest,
+  " output=",B4LIRelOut,"\n");;
+if IsBound(D972_B4_RELATOR_ONLY) and D972_B4_RELATOR_ONLY=true then
+  Print("B4_LI_RELATOR_ONLY_DONE\n");;
+  QUIT;
+fi;
 
 li:=LowIndexSubgroupsFpGroup(Ufp,7);;
 Print("B4_LI_LOWINDEX_COUNT=",Length(li)," MAX=7\n");;
