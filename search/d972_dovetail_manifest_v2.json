@@ -74,6 +74,20 @@
       "forbidden_writer": "PrintTo",
       "reason": "GAP 4.13 byte-faithful long-string file construction"
     },
+    "worker_payload_compatibility": {
+      "selftest_legacy_status": "absent",
+      "selftest_envelope_status": "PASS",
+      "selftest_required_all_pass": true,
+      "production_modes_require_payload_status": true,
+      "candidate_missing_status": "reject"
+    },
+    "gap_smallgrp_dependency": {
+      "package": "smallgrp",
+      "load_call": "LoadPackage(\"smallgrp\") <> true",
+      "missing_package": "fail",
+      "required_globals": ["SmallGroupsAvailable", "AllSmallGroups"],
+      "required_for": "kernel-catalog and GAP 4.13 v1 API compatibility"
+    },
     "stable_workspace_relative_runtime_root": ".d972-runtime",
     "opaque_state_covered": [
       "canonical_table_relabel",
@@ -90,7 +104,7 @@
     "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
-    "contract_sha256": "6d46cf81b4ab73c2e1f1f070972dcef620851718974d23e43e5abf684a25897b",
+    "contract_sha256": "78ce564e6a443f95d52763b21d292af71113bb57a30b59cab36f41819f7d6cb8",
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca"
   },
   "launch_spec": {

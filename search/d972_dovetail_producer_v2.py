@@ -203,7 +203,22 @@ def unwrap_worker_envelope(
         raise ValueError("v2 authority-field types")
     payload = envelope["payload"]
     if not (payload.get("schema") == "d972_dovetail_worker/v1" and
-            payload.get("mode") == mode and payload.get("status") == envelope.get("status")):
+            payload.get("mode") == mode):
+        raise ValueError("v2/v1 payload schema-mode mismatch")
+    if mode == "selftest":
+        # The frozen v1 selftest predates the status field.  Permit only that
+        # exact legacy shape; production modes retain strict status equality.
+        expected_selftest_keys = {
+            "schema", "mode", "table_group", "canonical", "aut_count",
+            "split", "nonsplit", "shadow_formula_toy", "target_identity_key",
+            "target_serializer_pass", "relative_extension_completeness_receipt",
+            "all_pass",
+        }
+        if ("status" in payload or envelope.get("status") != "PASS" or
+                payload.get("all_pass") is not True or
+                set(payload) != expected_selftest_keys):
+            raise ValueError("v2/v1 legacy selftest payload shape mismatch")
+    elif payload.get("status") != envelope.get("status"):
         raise ValueError("v2/v1 payload schema-mode-status mismatch")
     if (envelope.get("outer_cursor_before") != envelope.get("cursor_before") or
             envelope.get("outer_cursor_after") != envelope.get("cursor_after")):
@@ -458,9 +473,38 @@ def self_test() -> int:
     )
     if unwrapped.get("accepted_count") != 1 or len(unwrapped.get("candidates", [])) != 1:
         raise RuntimeError("self-test accepted payload was lost during v2 unwrap")
+    missing_status_payload = json.loads(payload_text)
+    missing_status_payload.pop("status", None)
+    missing_status_text = json.dumps(missing_status_payload, separators=(",", ":"))
+    missing_status = copy.deepcopy(prefix)
+    missing_status["payload_sha256"] = sha_bytes(missing_status_text.encode("utf-8"))
+    missing_status["checkpoint_sha256"] = sha_bytes(
+        worker_authority_material(missing_status).encode("utf-8")
+    )
+    missing_status_raw = (
+        json.dumps(missing_status, separators=(",", ":"))[:-1] +
+        ',"payload":' + missing_status_text + "}"
+    )
+    try:
+        unwrap_worker_envelope(
+            missing_status_raw, mode="candidate", manifest=manifest,
+            task_digest=task_digest, generation="7", expected_cursor=cursor,
+        )
+    except ValueError as exc:
+        if "schema-mode-status mismatch" not in str(exc):
+            raise RuntimeError(f"candidate missing-status gate drifted: {exc}") from exc
+    else:
+        raise RuntimeError("candidate payload without status was accepted")
     taskless_payload_text = (
         '{"schema":"d972_dovetail_worker/v1","mode":"selftest",'
-        '"status":"PASS","all_pass":true}'
+        '"table_group":true,"canonical":true,"aut_count":1,'
+        '"split":{"h_embeds":true,"order":4,"marked_generates":false},'
+        '"nonsplit":{"h_embeds":true,"order":4,"marked_generates":true},'
+        '"shadow_formula_toy":{"n_ord":2,"derived_order":1,'
+        '"full_hexagon_count":2,"shadow_count":2,"settled_count":2},'
+        '"target_identity_key":"(0;0,0,0,0,0,0;1,2,3,4,5,6,7,8,9)",'
+        '"target_serializer_pass":true,'
+        '"relative_extension_completeness_receipt":{},"all_pass":true}'
     )
     taskless = copy.deepcopy(prefix)
     taskless.update({

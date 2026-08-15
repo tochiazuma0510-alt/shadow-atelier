@@ -43,6 +43,16 @@ if not IsBound(GetEnv) then
   end;
 fi;;
 
+## GAP 4.13 does not necessarily autoload the small-groups library.  The
+## frozen v1 kernel-catalog path requires these declarations; load it before
+## reading v1 and fail closed if the pinned runtime lacks the package.
+if LoadPackage("smallgrp") <> true then
+  Error("D972 v2: required smallgrp package unavailable");
+fi;;
+if not IsBound(SmallGroupsAvailable) or not IsBound(AllSmallGroups) then
+  Error("D972 v2: smallgrp API globals unavailable");
+fi;;
+
 D972V2LoadV1Library := function()
   local source, actual, marker, cut, dir, path, prefix;
   source := StringFile(D972V2V1Path);

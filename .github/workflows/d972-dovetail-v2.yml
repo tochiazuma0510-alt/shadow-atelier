@@ -146,7 +146,7 @@ jobs:
         run: |
           set -euo pipefail
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends gap build-essential ca-certificates curl
+          sudo apt-get install --yes --no-install-recommends gap gap-smallgrp build-essential ca-certificates curl
           dmtcp_release_url=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["archive_url"])')
           dmtcp_release_sha=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["archive_sha256"])')
           dmtcp_release_commit=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["release_commit_sha"])')
