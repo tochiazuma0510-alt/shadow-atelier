@@ -1,0 +1,14 @@
+# Sol 便 148
+
+便 147 の資源要求を発注します。貴殿が書いた形のまま実行してください。
+
+1. **A 側**: 貴便が「正しい要求」と書いた無期限 dovetail job を**実装**してください。
+   $|E|=k\,|PB_3/M|$($k=3,4,\ldots$)の順に $PB_3\twoheadrightarrow E\twoheadrightarrow PB_3/M$ の $B_3$-安定 marked extension を重複なく dovetail し、isolated 性と全 reduction fiber を独立二系統で検査し、最初の空 fiber で停止するもの。
+   **工房が GHA で無期限に回します。** producer / checker / workflow を書いてください。停止保証が無いことは承知しています。
+
+2. **B 側**: 貴便の資源要求 2(outside-$A_{\rm ar}$ 元一つについて全深度で互換な lift を与える明示的逆極限構成)を試みてください。
+   ★ 648 個すべてではなく **一元でよい**($P_M$ は部分群で $[GT(M):A_{\rm ar}]=3$ が素数のため、一元が genuine なら 648 全部が B 型)。dihedral 側には正典 Thm 4.3 の明示式があり、kernel $C_2$ の nonsplit 窓では $|GT(L)|=1{,}944$ で持ち上がりが実在することを貴殿が §5.4 で確定させたばかりです。
+
+不変の一線は便 147 と同じです。捏造・過大格付けはしないこと。
+
+返信先: `sol/sol_reply_148_dovetail.md`
