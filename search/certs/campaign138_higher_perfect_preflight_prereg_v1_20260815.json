@@ -1,0 +1,53 @@
+{
+  "schema": "campaign138_higher_perfect_preflight_prereg/v1",
+  "date": "2026-08-15",
+  "blind_before_measurement": true,
+  "producer": "search/campaign138_higher_perfect_preflight_v1.py",
+  "producer_sha256": "8f32e036584680c66e685c6158d1bc51e9b76e84a1861a59cd261f4a6ffc9069",
+  "metadata": "search/certs/campaign138_perfect_metadata_v1_20260815.json",
+  "metadata_sha256": "c984c65acbc211b3340aef9c019d22180831bbe5e95a51bccbf83d004424cb84",
+  "candidate_universe": [
+    {"family_key": [16, 8, 2], "label": "L2(8) N ( 2^6 E 2^1 A ) C 2^1"},
+    {"family_key": [16, 8, 3], "label": "L2(8) N 2^6 E ( 2^1 x 2^1 ) I"},
+    {"family_key": [16, 8, 4], "label": "L2(8) N 2^6 E ( 2^1 x 2^1 ) II"},
+    {"family_key": [16, 8, 5], "label": "L2(8) N 2^6 E ( 2^1 x 2^1 ) III"},
+    {"family_key": [16, 9, 2], "label": "L2(8) N ( 2^6 E ( 2^1 x 2^1 A ) ) C 2^1"},
+    {"family_key": [16, 9, 3], "label": "L2(8) N 2^6 E ( 2^1 x 2^1 x 2^1 )"},
+    {"family_key": [16, 10, 1], "label": "L2(8) N ( 2^6 E ( 2^1 x 2^1 x 2^1 A ) ) C 2^1"}
+  ],
+  "universe_completeness": {
+    "source": "all higher elementary 2-kernel records with the nonsplit marker in the bound PerfectGroups metadata inventory",
+    "dimension_parameters": [8, 9, 10],
+    "excluded_split_records": "handled structurally by SPLIT-NULL/SPLIT-NULL-double-prime",
+    "excluded_nonabelian_kernel_records": "retained in the separate nonabelian-kernel lane"
+  },
+  "preflight_measurements": {
+    "construction": "exact finite presentation and every listed faithful coset block, reconstructed by SymPy",
+    "marking": "all kernel translates of the frozen words S=accbxbccb and T=cacaccwb with orders 2 and 3",
+    "gauge": "all simultaneous conjugations by the full elementary kernel",
+    "order": "family key, then lexicographic permutation pair",
+    "generation_gate": "Schreier-Sims subgroup order for every gauge-orbit representative",
+    "rank_gate": "not applicable at preflight; no shadow or reduction image is opened"
+  },
+  "positive_control": {
+    "each_constructed_record": "group order 504*2^d, kernel order 2^d, kernel element orders 1:1 and 2:(2^d-1)"
+  },
+  "stopping_and_environment": {
+    "preflight": "consume all seven records even when an earlier record has no generating marking",
+    "hard_timeout_seconds_per_candidate": 240,
+    "timeout_meaning": "construction unavailable in this environment; no mathematical nonexistence inference",
+    "checkpoint": "atomic after every record",
+    "downstream": "freeze all generating marked orbits before opening the first shadow; stop at the first missing target key"
+  },
+  "outcomes_opened_before_freeze": {
+    "shadow": 0,
+    "reduction": 0,
+    "element_survival": 0
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}

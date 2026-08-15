@@ -1,0 +1,25 @@
+{
+  "schema": "campaign138_perfect_inventory/v1-environment-failure",
+  "date": "2026-08-15",
+  "status": "ENVIRONMENT_UNAVAILABLE",
+  "command": ".\\gap.ps1 search\\campaign138_perfect_inventory_v1.g",
+  "exit_code": 1,
+  "stderr": "fatal error - couldn't create signal pipe, Win32 error 5",
+  "script_loaded": false,
+  "raw_inventory_created": false,
+  "checkpoint_created": false,
+  "groups_opened": 0,
+  "shadow_outcomes_opened": 0,
+  "reduction_outcomes_opened": 0,
+  "element_survival_outcomes_opened": 0,
+  "interpretation": "The installed PerfectGroups universe was not scanned. This is an environment failure and is not an absence statement.",
+  "preregistration": "search/certs/campaign138_perfect_inventory_prereg_v1_20260815.json",
+  "preregistration_sha256": "1260ccbd3244aee019a024efc6b2855de8227546fe3eb7a6257599030c645f50",
+  "producer_sha256": "fc3c4b419a06ca2677d5e05491ff4e09e32944a28c99bfac7922d949885eb248",
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}

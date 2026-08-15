@@ -1,0 +1,62 @@
+{
+  "schema": "campaign138_d7_measure_prereg/v1",
+  "date": "2026-08-15",
+  "blind_before_measurement": true,
+  "producer": "search/campaign138_d7_measure_v1.py",
+  "producer_sha256": "e9ebaad5b32e21c46e0ef6e15fcc8453d2ab6e393bc41bad48cfa52792ba9a0a",
+  "input_sha256": {
+    "preflight": "dddd51b7c03af8d1644fe9fba99f0a3970d9d3961f94bee0eea83bff66db19b1",
+    "preflight_check": "2fc67f7c4e6fbf06c8256e35b745feb30830957425b53889e76926d36c5c5f8e",
+    "old_control": "648335000ff70f37d357c9c27ec5054cd4366b281c616f0391c4c7580cd4bcb9"
+  },
+  "candidate_universe": {
+    "family_key": [16, 7, 3],
+    "label": "L2(8) N 2^6 E 2^1 II",
+    "marked_orbits": "all 16 kernel-conjugacy orbit representatives frozen in the bound preflight certificate",
+    "orbit_order": "orbit_index 0 through 15",
+    "why_finite": "the two adjacent d=7 records have no order-2 marked lift; this record has exactly 16 generating marked orbits"
+  },
+  "measurement_universe": {
+    "source_rows_per_orbit": 387072,
+    "source_row_formula": "6 charming exponents m in [0,2,3,5,6,8] times all 64512 group elements",
+    "source_row_order": "lexicographic permutation f, then ascending charming exponent",
+    "target_rows": 3024,
+    "target_row_formula": "6 charming exponents times all 504 canonical quotient elements",
+    "target_key_order": "ascending m, then lexicographic canonical quotient element index",
+    "roof_fibre_per_target_key": 18,
+    "source_generation_gate": "generation of the full 504-element quotient; this is a necessary-condition relaxation",
+    "rank_gate": "not applicable: direct finite reduction-image enumeration"
+  },
+  "positive_controls": {
+    "bound_old_run": "raw image 972 and target roof 972 in d972_phase2b_nonsplit_v1_20260813.json",
+    "group": "degree 112, order 64512, elementary kernel order 128, quotient order 504",
+    "target": "54 canonical keys and 972 roof shadows",
+    "internal_floor": "each measured relaxed image must have size at least 324"
+  },
+  "stopping_rule": {
+    "primary": "stop immediately at the first target key absent from the relaxed source image",
+    "error": "stop as implementation error if the raw image is below 324 or any frozen digest/control fails",
+    "negative": "if no key is missing, consume all 16 orbits; a full relaxed image does not make any reverse finite-depth inference",
+    "checkpoint": "atomic after each completed orbit and during every 12000 source rows",
+    "hard_timeout_seconds_per_resumable_invocation": 240,
+    "resume_policy": "rerun from the last completed orbit until primary stop or all 16 are consumed"
+  },
+  "outcomes_opened_before_freeze": {
+    "source_shadow": 0,
+    "reduction": 0,
+    "element_survival": 0
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  },
+  "endgame_scope": {
+    "mode": "gentle",
+    "PENT_W": "NOT_RUN",
+    "B4_U10": "NOT_RUN",
+    "required_order": "PENT_W-PASS -> B4/U-10",
+    "B4_in_scope": false
+  }
+}

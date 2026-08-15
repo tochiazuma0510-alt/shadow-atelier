@@ -1,0 +1,44 @@
+{
+  "schema": "campaign138_d10_preflight_prereg/v1",
+  "date": "2026-08-15",
+  "blind_before_measurement": true,
+  "producer": "search/campaign138_d10_preflight_v1.py",
+  "producer_sha256": "1b07117a7066491e891589bebc357d3053f396c5769c7b8cbfbed20de6b14bfe",
+  "parent_preflight": "search/certs/campaign138_higher_perfect_preflight_v1_20260815.json",
+  "parent_preflight_sha256": "20a09328de0be5839ff551ab8de503b9ee427b0d96e97c1c4eb627b2ef25ef43",
+  "candidate_universe": [
+    {
+      "family_key": [16, 10, 1],
+      "label": "L2(8) N ( 2^6 E ( 2^1 x 2^1 x 2^1 A ) ) C 2^1",
+      "expected_order": 516096,
+      "expected_kernel_order": 1024,
+      "expected_coset_blocks": [288, 112]
+    }
+  ],
+  "reason_for_version": "the parent parser stopped at an inline GAP comment before constructing this group; no group, marking, shadow, or reduction outcome was opened",
+  "marking_universe": {
+    "base_words": {"S": "accbxbccb", "T": "cacaccwb"},
+    "lifts": "all kernel translates filtered by orders 2 and 3",
+    "gauge": "all simultaneous kernel conjugations",
+    "order": "lexicographic permutation pair",
+    "generation_gate": "Schreier-Sims subgroup order for every orbit representative",
+    "rank_gate": "not applicable at preflight"
+  },
+  "positive_control": "group order 516096 and kernel order 1024",
+  "stopping_rule": {
+    "preflight": "consume the complete marked-pair orbit universe",
+    "hard_timeout_seconds": 240,
+    "downstream": "if generating orbits exist, freeze all of them before opening any shadow"
+  },
+  "outcomes_opened_before_freeze": {
+    "shadow": 0,
+    "reduction": 0,
+    "element_survival": 0
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}

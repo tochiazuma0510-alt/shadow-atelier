@@ -1,0 +1,45 @@
+{
+  "schema": "campaign138_d10_preflight_prereg/v2",
+  "date": "2026-08-15",
+  "blind_before_measurement": true,
+  "producer": "search/campaign138_d10_preflight_v2.py",
+  "producer_sha256": "83da8581fb961272ace4e6e8a397e7961e352bf9158fd4aa2afdb49e7ddf4a76",
+  "parent_preregistration": "search/certs/campaign138_d10_preflight_prereg_v1_20260815.json",
+  "parent_preregistration_sha256": "023bf3106bb49bc57cae1514659bebd59f585f2e3338b3842447f221d130ada2",
+  "candidate_universe": [
+    {
+      "family_key": [16, 10, 1],
+      "label": "L2(8) N ( 2^6 E ( 2^1 x 2^1 x 2^1 A ) ) C 2^1",
+      "expected_order": 516096,
+      "expected_kernel_order": 1024,
+      "expected_coset_blocks": [288, 112]
+    }
+  ],
+  "reason_for_version": "v1 stopped while parsing GAP conjugation notation a^b in a subgroup generator; no finite group or marking was constructed and no downstream outcome was opened",
+  "parser_freeze": "translate variable exponent a^b as b^-1*a*b and retain GAP right division as multiplication by an inverse",
+  "marking_universe": {
+    "base_words": {"S": "accbxbccb", "T": "cacaccwb"},
+    "lifts": "all kernel translates filtered by orders 2 and 3",
+    "gauge": "all simultaneous kernel conjugations",
+    "order": "lexicographic permutation pair",
+    "generation_gate": "Schreier-Sims subgroup order for every orbit representative",
+    "rank_gate": "not applicable at preflight"
+  },
+  "positive_control": "group order 516096 and kernel order 1024",
+  "stopping_rule": {
+    "preflight": "consume the complete marked-pair orbit universe",
+    "hard_timeout_seconds": 240,
+    "downstream": "if generating orbits exist, freeze all of them before opening any shadow"
+  },
+  "outcomes_opened_before_freeze": {
+    "shadow": 0,
+    "reduction": 0,
+    "element_survival": 0
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}

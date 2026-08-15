@@ -1,0 +1,59 @@
+{
+  "schema": "campaign138_compact_prereg/v1",
+  "campaign": "C1-C3 compact and nonsemisimple entrance",
+  "date": "2026-08-15",
+  "producer": "search/campaign138_compact_preflight_v1.py",
+  "producer_sha256": "691be784536bbd91687b049b4910f00067caa2175bee62eeca0077570708c9b7",
+  "source_sha256": {
+    "ops/inbox_codex/sol_task_138_campaign.txt": "4bc8e9a15f962ebaac78b9b2313b02ac4c6c8d52f720d68cf9f8bce8a12405dd",
+    "search/certs/escape2_preflight_v1_20260815.json": "d5942eae32b038eaafd3a0bc8a9b67ba78df35b073c4973c98352c4ceefd2a76",
+    "search/certs/escape28_preflight_v1r2_20260813.json": "50b614660db17a560d2e4ef8fc954dcf23705765cb2d2721d28fe19d15f4ce45"
+  },
+  "frozen_candidates": {
+    "C1": "all anchor-compatible marked actions on two copies of the 12-dimensional F2 support-two module, modulo Aut_G3 = GL2(2)^3",
+    "C2": "all anchor-compatible marked actions on two copies of the 7-dimensional F3 heart module, modulo GL2(3); the old 21-dimensional component is a direct summand with frozen zero rank",
+    "C3": "all 25 ordered length-two extensions among the five frozen simple F2 G3 modules (dimensions 1,2,6,12,8), restricted to marked classes whose pure restriction is nonsplit"
+  },
+  "frozen_universe_counts": {
+    "C1_anchor_solutions": 144,
+    "C1_gauge_orbits": 2,
+    "C2_anchor_solutions": 62,
+    "C2_gauge_orbits": 5,
+    "C3_nonsplit_marked_candidates": 3,
+    "rank_templates": 3240
+  },
+  "row_universe": {
+    "roof": "frozen S4/K3 324 rows",
+    "row_order": "canonical gauge representative; then t_index 0..323",
+    "formal_class_outcome_universe_if_rank_positive": "all SURJ classes in lexicographic representative order times all 324 rows",
+    "formal_class_outcome_rows_opened_before_freeze": 0,
+    "element_survival_rows_opened_before_freeze": 0
+  },
+  "rank_gate": {
+    "definition": "rank([A_t | C_t Z])-rank(A_t)",
+    "positive_rule": "if any row is positive, freeze and run all SURJ class outcomes for that entry",
+    "zero_rule": "if every row is zero, stop that entry before opening class outcomes",
+    "directional_prediction": null
+  },
+  "positive_control": {
+    "source": "the frozen ESCAPE-2 result with Im_R_K_M distribution 972:7, plus the ESCAPE-28 evaluated-row count 1099008",
+    "minimum_survivor_value": 324,
+    "failure_rule": "stop campaign before interpreting any new entry"
+  },
+  "stop_rule": {
+    "immediate": "first positive obstruction rank in preflight; in a later outcome run, first nonzero obstruction, image below 324, or zero-survival element",
+    "mismatch": "producer/checker universe, rank distribution, or row digest mismatch",
+    "timeout_seconds": 240
+  },
+  "blindness_record": {
+    "prospective_for_formal_class_and_element_outcomes": true,
+    "engineering_preflight_scope": "basis conventions, finite orbit scale, and rank feasibility only; it is not counted as a formal class/element outcome universe",
+    "outcome_adaptive_candidate_selection": false
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}

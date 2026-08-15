@@ -1,0 +1,32 @@
+{
+  "schema": "campaign138_perfect_metadata_prereg/v1",
+  "date": "2026-08-15",
+  "producer": "search/campaign138_perfect_metadata_v1.py",
+  "producer_sha256": "c3c85ee517dee67d55b2583c3313a984fc348d2022912507d5664a8c311e8e9c",
+  "universe": {
+    "files": "every installed grp/perf*.grp file",
+    "records": "every metadata line with family marker [16,d,i], label beginning L2(8), d>=1, and 504*2^d<=2000000",
+    "order": "d, family index, label"
+  },
+  "positive_control": {
+    "family_key": [16, 6, 2],
+    "label": "L2(8) N 2^6"
+  },
+  "interpretation_boundary": "Metadata membership is only a candidate list. It does not certify the radical, quotient, splitness, marking, isolatedness, or any reduction image.",
+  "stop_rule": {
+    "inventory": "scan every file and line",
+    "hard_timeout_seconds": 120,
+    "downstream": "use the group constructor only after the failed GAP environment is repaired"
+  },
+  "outcomes_opened_before_freeze": {
+    "shadow": 0,
+    "reduction": 0,
+    "element_survival": 0
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}

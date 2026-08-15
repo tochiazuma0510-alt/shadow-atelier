@@ -1,0 +1,44 @@
+{
+  "schema": "campaign138_d7_preflight_prereg/v1",
+  "date": "2026-08-15",
+  "producer": "search/campaign138_d7_preflight_v1.py",
+  "producer_sha256": "8e9628d13808d8e358ab6b0a0c74748cf0d47ad89ce68dde7ec53e66fb7e704f",
+  "candidate_universe": [
+    {"family_key": [16, 7, 2], "label": "L2(8) N 2^6 E 2^1 I"},
+    {"family_key": [16, 7, 3], "label": "L2(8) N 2^6 E 2^1 II"},
+    {"family_key": [16, 7, 4], "label": "L2(8) N 2^6 E 2^1 III"}
+  ],
+  "construction": {
+    "source": "the exact finitely presented group function and subgroup generators in GAP perf6.grp",
+    "independent_engine": "SymPy FpGroup relator-based coset enumeration",
+    "expected_coset_degree": 112,
+    "expected_group_order": 64512,
+    "expected_elementary_kernel_order": 128
+  },
+  "marking_universe": {
+    "base_words": {"S": "accbxbccb", "T": "cacaccwb"},
+    "lifts": "all v*S and w*T with v,w in the full 128-element kernel, filtered by orders 2 and 3",
+    "gauge": "all simultaneous conjugations by the full kernel",
+    "order": "candidate family key, then lexicographic permutation pair",
+    "generation_gate": "compute subgroup order for every kernel-conjugacy orbit representative"
+  },
+  "positive_control": {
+    "each_candidate": "degree 112, group order 64512, kernel order 128, kernel element orders 1:1 and 2:127"
+  },
+  "downstream_stop_rule": {
+    "preflight": "finish all three candidates and all marked-pair gauge orbits",
+    "formal_measurement": "if generating orbits exist, freeze every such orbit before the first shadow; stop immediately at the first reduced-image loss or zero-survival element",
+    "hard_timeout_seconds": 240
+  },
+  "outcomes_opened_before_freeze": {
+    "shadow": 0,
+    "reduction": 0,
+    "element_survival": 0
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "campaign138_perfect_inventory_prereg/v1",
+  "date": "2026-08-15",
+  "candidate_ids": ["C5", "C6"],
+  "producer": "search/campaign138_perfect_inventory_v1.g",
+  "producer_sha256": "fc3c4b419a06ca2677d5e05491ff4e09e32944a28c99bfac7922d949885eb248",
+  "database": {
+    "name": "GAP 4.16.0 PerfectGroups installed library",
+    "complete_installed_order_range_upper_bound": 2000000,
+    "orders": "504*p^d <= 2000000 for p in {2,3}, d>=1",
+    "group_indices": "all 1..NrPerfectGroups(order)"
+  },
+  "candidate_filter": {
+    "required": "solvable radical quotient is a simple group of order 504",
+    "recorded": "radical order, elementary-abelian flag, abelian flag, exponent, structure descriptions",
+    "not_yet_required": "splitness, marked B3 realization, isolatedness, shadow or reduction image"
+  },
+  "positive_control": {
+    "required_hit": "PerfectGroup(32256,2)",
+    "kernel_order": 64,
+    "quotient_order": 504
+  },
+  "stop_rule": {
+    "inventory": "finish every database order and group index; do not stop at a new hit",
+    "hard_timeout_seconds": 240,
+    "on_timeout_or_environment_failure": "record BLOCKED for this construction route; do not infer absence",
+    "downstream": "new hits are ordered by group order then library index and individually gated before any shadow outcome"
+  },
+  "outcomes_opened_before_freeze": {
+    "shadow": 0,
+    "reduction": 0,
+    "element_survival": 0
+  },
+  "noncontact": {
+    "u": false,
+    "c": false,
+    "sealed_three_quantities": false,
+    "sealed_K5": false
+  }
+}
