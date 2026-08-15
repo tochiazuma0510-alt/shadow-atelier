@@ -1,0 +1,8 @@
+{
+  "complete": true,
+  "elapsed_ms": 16385,
+  "output": "search/certs/d972_survival_noncomm_v1_20260815.json",
+  "output_sha256": "2b79438f7bfe574103bfcf6e30d9c873aa358dec7d254c98088a7003b5a25df3",
+  "schema": "d972-survival-noncomm-checkpoint/v1",
+  "stage": "complete"
+}

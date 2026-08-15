@@ -1,0 +1,873 @@
+{
+  "blind_family_audit": [
+    {
+      "applies": false,
+      "family": 1,
+      "reason": "source is a nontrivial fiber product over C2 x C2; its order is product_order/4"
+    },
+    {
+      "applies": false,
+      "family": 2,
+      "reason": "K is not K^(l) intersection N_S4"
+    },
+    {
+      "applies": false,
+      "family": 3,
+      "reason": "the added quotient is a finite 2-group, not a perfect-group window"
+    },
+    {
+      "applies": false,
+      "family": 4,
+      "reason": "the bridge is C2 x C2 and W_ker is noncommutative, not the abelian C3 bridge"
+    },
+    {
+      "applies": false,
+      "family": 5,
+      "reason": "there is no one-sided-trivial abelian module V"
+    },
+    {
+      "applies": false,
+      "family": 6,
+      "reason": "there is no tensor-only F3 module"
+    },
+    {
+      "applies": false,
+      "family": 7,
+      "reason": "the p-not-3 coefficient theorem assumes an abelian normal kernel; W_ker is noncommutative"
+    }
+  ],
+  "candidate": {
+    "K_definition": "K = M intersection preimage(D_5(F2)) in PB3",
+    "PB3_over_K_order": 3009871872,
+    "W_ker": {
+      "abelian": false,
+      "abelianization_invariants": [
+        2,
+        2,
+        4,
+        4,
+        4
+      ],
+      "abelianization_order_histogram": {
+        "1": 1,
+        "2": 31,
+        "4": 224
+      },
+      "center_order": 256,
+      "derived_order": 8,
+      "element_order_histogram": {
+        "1": 1,
+        "2": 255,
+        "4": 1792
+      },
+      "exponent": 4,
+      "minimal_generator_number": 5,
+      "nilpotency_class": 2,
+      "order": 2048,
+      "small_group_id": null,
+      "small_group_id_reason": "order 2048 is outside the complete SmallGroups identification range"
+    },
+    "bridge": "C2 x C2 with marked x,y basis",
+    "characteristic_kernel": "D_5(F2) = {g : g-1 lies in augmentation ideal degree >=5}",
+    "construction": "image of F2 under x->1+X, y->1+Y in F2<X,Y>/(degree>=5)",
+    "cutoff": 5,
+    "projection_image_order": 1469664,
+    "projection_to_M_exists": true,
+    "selection_rule": "field 2; increasing cutoff; first noncommutative W_ker"
+  },
+  "failed_or_deferred_routes": [
+    {
+      "reason": "M has index 1469664 in F2 and a Reidemeister-Schreier presentation has rank 1469665; direct low-index enumeration is beyond the local representation budget",
+      "route": "GAP_lins",
+      "status": "not_constructed"
+    },
+    {
+      "reason": "the known order-32256 extension has elementary abelian relative kernel; no bounded noncentral target list was supplied for a noncommutative relative kernel",
+      "route": "GQuotients_noncentral_extension_of_PSL2_8",
+      "status": "not_constructed"
+    },
+    {
+      "attempts": 2,
+      "command": ".\\gap.ps1 search\\d972_survival_noncomm_inventory_v1.g",
+      "error": "gap.exe could not create signal pipe (Win32 error 5) before reading the script",
+      "exit_code": 1,
+      "route": "GAP_ANUPQ_probe",
+      "status": "environment_startup_failure"
+    }
+  ],
+  "g9_bridge_audit": {
+    "abelianization": [
+      2,
+      2
+    ],
+    "derived_order": 729,
+    "marked_bridge_basis": {
+      "x": [
+        0,
+        1,
+        1
+      ],
+      "y": [
+        1,
+        0,
+        1
+      ]
+    },
+    "maximal_2_quotient": "C2 x C2",
+    "order": 2916
+  },
+  "generated_at_local_date": "2026-08-15",
+  "generated_by": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.14",
+    "script": "search/d972_survival_noncomm_v1.py"
+  },
+  "grading": {
+    "independent_checker_required": true,
+    "lean_certificate": false,
+    "producer": "candidate"
+  },
+  "inputs": {
+    "K9_cert": {
+      "path": "certificates/K9.v1.json",
+      "sha256": "ceac37e0039454d41254e549569aecef415ef4e3e53e484b0fc33ef6bffb8e5e"
+    },
+    "S4_cert": {
+      "path": "certificates/S4.v2.json",
+      "sha256": "c878673aa96dc22e0039e2e2b7868d68984d684ffed622de713af4ad566e0f4d"
+    },
+    "nf_tuples": {
+      "count": 972,
+      "path": "search/certs/nf972_sourcemap_a_tuples_v2_20260804.json",
+      "sha256": "cfa1f3a917e2cd9d21ceaa7f77539633ccb22e8585da8b3248609008d0391801"
+    }
+  },
+  "inventory": [
+    {
+      "B3_normal_reason": "augmentation-ideal dimension subgroup is characteristic",
+      "PB3_over_K_order": 1469664,
+      "P_generator_order": 2,
+      "P_order": 4,
+      "W_ker_abelian": true,
+      "W_ker_order": 1,
+      "cutoff": 2,
+      "field": 2,
+      "route": "truncated_magnus_F2",
+      "tau_order": 3,
+      "theta_order": 2
+    },
+    {
+      "B3_normal_reason": "augmentation-ideal dimension subgroup is characteristic",
+      "PB3_over_K_order": 11757312,
+      "P_generator_order": 4,
+      "P_order": 32,
+      "W_ker_abelian": true,
+      "W_ker_order": 8,
+      "cutoff": 3,
+      "field": 2,
+      "route": "truncated_magnus_F2",
+      "tau_order": 3,
+      "theta_order": 2
+    },
+    {
+      "B3_normal_reason": "augmentation-ideal dimension subgroup is characteristic",
+      "PB3_over_K_order": 47029248,
+      "P_generator_order": 4,
+      "P_order": 128,
+      "W_ker_abelian": true,
+      "W_ker_order": 32,
+      "cutoff": 4,
+      "field": 2,
+      "route": "truncated_magnus_F2",
+      "tau_order": 3,
+      "theta_order": 2
+    },
+    {
+      "B3_normal_reason": "augmentation-ideal dimension subgroup is characteristic",
+      "PB3_over_K_order": 3009871872,
+      "P_generator_order": 8,
+      "P_order": 8192,
+      "W_ker_abelian": false,
+      "W_ker_order": 2048,
+      "cutoff": 5,
+      "field": 2,
+      "route": "truncated_magnus_F2",
+      "tau_order": 3,
+      "theta_order": 2
+    }
+  ],
+  "prescreen": {
+    "W_ker_ab_invariants": [
+      2,
+      2,
+      4,
+      4,
+      4
+    ],
+    "W_ker_ab_order": 256,
+    "action_checks": {
+      "tau_cubed_identity": true,
+      "theta_squared_identity": true
+    },
+    "exact_abelianization": {
+      "intersection_size": 8,
+      "tau_norm_kernel_size": 64,
+      "theta_kernel_size": 32
+    },
+    "forced_total_vanishing": false,
+    "mod2": {
+      "d": 2,
+      "intersection_size": 4,
+      "tau_norm_kernel_size": 16,
+      "theta_kernel_size": 8
+    },
+    "mod2_quotient_dimension": 5
+  },
+  "runtime": {
+    "checkpoint": "search/certs/.d972_survival_noncomm_v1_checkpoint.json",
+    "hard_timeout_seconds": 120.0,
+    "wall_ms": 16373
+  },
+  "schema": "d972-survival-noncomm/v1",
+  "scope": {
+    "base_quotient_order": 1469664,
+    "base_shadow_count": 972,
+    "base_window": "M = K^(9) intersection N_S4",
+    "endgame_scope": "gentle_only; B4 escalation requires PENT_W-PASS then FAKE-KILL^{B4}/U-10",
+    "sealed_values_touched": false
+  },
+  "stage_reached": 4,
+  "status": "completed",
+  "survival_sweep": {
+    "base_order": 18,
+    "compatible_m_count_per_target": 4,
+    "f_fiber_denominator": 128,
+    "fine_order": 72,
+    "pair_denominator_per_target": 512,
+    "per_m": {
+      "0": {
+        "compatible_fine_m": [
+          0,
+          18,
+          36,
+          54
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 0,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 18,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 36,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 54,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "11": {
+        "compatible_fine_m": [
+          11,
+          29,
+          47,
+          65
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 11,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 29,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 47,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 65,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "12": {
+        "compatible_fine_m": [
+          12,
+          30,
+          48,
+          66
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 12,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 30,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 48,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 66,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "14": {
+        "compatible_fine_m": [
+          14,
+          32,
+          50,
+          68
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 14,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 32,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 50,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 68,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "15": {
+        "compatible_fine_m": [
+          15,
+          33,
+          51,
+          69
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 15,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 33,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 51,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 69,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "17": {
+        "compatible_fine_m": [
+          17,
+          35,
+          53,
+          71
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 17,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 35,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 53,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 71,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "2": {
+        "compatible_fine_m": [
+          2,
+          20,
+          38,
+          56
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 2,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 20,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 38,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 56,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "3": {
+        "compatible_fine_m": [
+          3,
+          21,
+          39,
+          57
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 3,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 21,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 39,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 57,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "5": {
+        "compatible_fine_m": [
+          5,
+          23,
+          41,
+          59
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 5,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 23,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 41,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 59,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "6": {
+        "compatible_fine_m": [
+          6,
+          24,
+          42,
+          60
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 6,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 24,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 42,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 60,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "8": {
+        "compatible_fine_m": [
+          8,
+          26,
+          44,
+          62
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 8,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 26,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 44,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 62,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      },
+      "9": {
+        "compatible_fine_m": [
+          9,
+          27,
+          45,
+          63
+        ],
+        "fine_rows": [
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 9,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 27,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 45,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          },
+          {
+            "both_and_surjective_count": 4,
+            "fiber_denominator": 128,
+            "fine_m": 63,
+            "hex310_count": 32,
+            "hex311_count": 16,
+            "surjective_count": 128
+          }
+        ],
+        "pair_denominator_per_target": 512,
+        "survival_count_per_target": 16,
+        "target_count": 81
+      }
+    },
+    "positive_control_minimum": 324,
+    "positive_control_pass": true,
+    "prop34_reduction": {
+      "derived_fiber_abelian": true,
+      "derived_fiber_order": 128,
+      "direct_generation_fixture_count": 48,
+      "direct_generation_fixture_orders": [
+        8192
+      ],
+      "fiber_subset_of_fine_derived": true,
+      "generation_test": "exhaustive marked-basis test in P/Phi(P), plus direct subgroup closures for all 48 compatible fine-m cells",
+      "used": true
+    },
+    "selection": {
+      "engineering_probe_before_versioned_freeze": true,
+      "first_tuple": [
+        0,
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      ],
+      "input_tuple_set_sha256": "27f44b439fac61395dd55398c10cb225e4c5bd0e32709769ffb9ed1c0158575b",
+      "k": 972,
+      "last_tuple": [
+        17,
+        [
+          [
+            8,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        [
+          8,
+          5,
+          6,
+          4,
+          1,
+          2,
+          3,
+          7,
+          9
+        ]
+      ],
+      "outcome_adaptive": false,
+      "preregistration_blind": false,
+      "rule": "all entries of the frozen NF tuple list in stored order",
+      "scope_note": "the full 972-element universe is used, so no target can be reselected or omitted"
+    },
+    "target_nonzero_count": 972,
+    "target_survival_distribution": {
+      "16": 972
+    },
+    "zero_survival_target_count": 0
+  }
+}

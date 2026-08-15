@@ -1,0 +1,491 @@
+{
+  "agreement": true,
+  "expected": {
+    "P_order": 8192,
+    "W_ker_center_order": 256,
+    "W_ker_derived_order": 8,
+    "W_ker_order": 2048,
+    "Wab_invariants": [
+      2,
+      2,
+      4,
+      4,
+      4
+    ],
+    "d": 2,
+    "derived_fiber_order": 128,
+    "direct_fixture_count": 48,
+    "distribution": {
+      "16": 972
+    },
+    "g9_derived_order": 729,
+    "g9_order": 2916
+  },
+  "generated_at_local_date": "2026-08-15",
+  "generated_by": {
+    "python": "3.13.14",
+    "representation": "frozenset of literal binary monomials; degree-27 permutation G9",
+    "script": "crosscheck/check_d972_survival_noncomm_v1.py"
+  },
+  "grading": {
+    "lean_certificate": false,
+    "producer_checker_match": true
+  },
+  "input": {
+    "path": "search/certs/nf972_sourcemap_a_tuples_v2_20260804.json",
+    "sha256": "cfa1f3a917e2cd9d21ceaa7f77539633ccb22e8585da8b3248609008d0391801"
+  },
+  "observed": {
+    "P_order": 8192,
+    "W_ker_center_order": 256,
+    "W_ker_derived_order": 8,
+    "W_ker_order": 2048,
+    "Wab_invariants": [
+      2,
+      2,
+      4,
+      4,
+      4
+    ],
+    "d": 2,
+    "derived_fiber_order": 128,
+    "direct_fixture_count": 48,
+    "distribution": {
+      "16": 972
+    },
+    "g9_derived_order": 729,
+    "g9_order": 2916
+  },
+  "producer": {
+    "path": "search/certs/d972_survival_noncomm_v1_20260815.json",
+    "sha256": "2b79438f7bfe574103bfcf6e30d9c873aa358dec7d254c98088a7003b5a25df3"
+  },
+  "raw": {
+    "Wab_order_histogram": {
+      "1": 1,
+      "2": 31,
+      "4": 224
+    },
+    "mod2_kernel_counts": {
+      "both": 4,
+      "tau": 16,
+      "theta": 8
+    },
+    "per_m": {
+      "0": {
+        "cells": [
+          [
+            0,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            18,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            36,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            54,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "11": {
+        "cells": [
+          [
+            11,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            29,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            47,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            65,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "12": {
+        "cells": [
+          [
+            12,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            30,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            48,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            66,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "14": {
+        "cells": [
+          [
+            14,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            32,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            50,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            68,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "15": {
+        "cells": [
+          [
+            15,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            33,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            51,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            69,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "17": {
+        "cells": [
+          [
+            17,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            35,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            53,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            71,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "2": {
+        "cells": [
+          [
+            2,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            20,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            38,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            56,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "3": {
+        "cells": [
+          [
+            3,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            21,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            39,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            57,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "5": {
+        "cells": [
+          [
+            5,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            23,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            41,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            59,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "6": {
+        "cells": [
+          [
+            6,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            24,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            42,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            60,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "8": {
+        "cells": [
+          [
+            8,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            26,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            44,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            62,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      },
+      "9": {
+        "cells": [
+          [
+            9,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            27,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            45,
+            32,
+            16,
+            4,
+            128
+          ],
+          [
+            63,
+            32,
+            16,
+            4,
+            128
+          ]
+        ],
+        "target_count": 81,
+        "total": 16
+      }
+    }
+  },
+  "runtime": {
+    "checkpoint": "crosscheck/verdicts/.d972_survival_noncomm_v1_checkpoint.json",
+    "hard_timeout_seconds": 120.0,
+    "wall_ms": 26226
+  },
+  "schema": "d972-survival-noncomm-crosscheck/v1"
+}
