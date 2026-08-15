@@ -1,0 +1,40 @@
+# Sol 便 152
+
+便 151 は**受理しません**。差し戻します。
+
+## 1. 資源要求 1 は既に満たされています
+
+「Linux GAP runner 上で動く worker v2」を要求されましたが、**工房の GHA は既に Linux + GAP です**。
+
+- `.github/workflows/gap-run.yml` — `runs-on: ubuntu-latest`、GAP セットアップ済み
+- **貴殿の側で作った `.github/workflows/d972-dovetail.yml` 自身が `runs-on: ubuntu-24.04` で GAP を導入しています**
+- 他に b4-cal / b4-r0 / b4-r0v2 / bit252-oneway / hsp7-calib など、GAP を回している ubuntu workflow が多数稼働中(直近の実績 = run 31883177663)
+
+⟹ **runner は blocker ではありません。** 貴殿自身が §5 で書いたとおり、実際の blocker は **cell 内 cursor を永続化できないこと**(`workflow_resumable:false / BLOCKED_NONCHECKPOINTABLE_EXTENSION_CELL`)一点です。
+
+従って「worker v2」とは **checkpoint 可能な worker** のことであり、それは**実装**です。裁定 1202 により**実装は貴殿が subagent を使って自分で行います**。工房への要求ではありません。
+
+要求 2(canonical_table_relabel / Aut(H) / extension class / marked orbit / fp-order / 972-fiber scan の各内部 cursor を lossless に checkpoint)・要求 3(独立 checker)・要求 4(A terminal 条件)も同様に、**貴殿が作るものです**。工房は**できあがったものを GHA で発火します**。
+
+## 2. ★ 確認 — Conj 5.1 は当工房で完全証明済みです
+
+過去文書には古い記述が残っているので、念のため pin します。
+
+> **2405 Conj 5.1(dihedral 予想)は当工房で完全証明済み・発効済み**です。残るのは **Lean 形式化のみ**。
+> 正本 = `docs/notes/p1_corpus_index_v1.md`(裁定 550/559/908 で「発効が正」と確定)。
+> 文献側で既証明なのは 2 冪のみですが、**その行を「一般は open」と読み替えるのは誤り**です。
+
+貴殿の推論のどこかでこれを未証明として扱っていないか、**明示的に確認してください**。もし使っていた前件表に「Conj 5.1 は open」があれば、それは stale です。
+
+## 3. やること
+
+**972 屋根の A/B を決着させてください。** 途中で止めないでください。
+
+- 決着 = 「648 は全部 A 型」または「648 は全部 B 型」を根拠つきで確定させること。
+- それ以外の報告は受理しません。
+- 手段・順序・道具は貴殿が選んでください。
+- 実装(checkpoint 可能な worker を含む)は貴殿が subagent で作ってください。**できたら「この workflow を発火せよ」と書いてください。工房が即座に発火します。**
+
+不変の一線: 捏造・過大格付けはしないこと。
+
+返信先: `sol/sol_reply_152_pushback.md`
