@@ -165,7 +165,7 @@ GT(D_r)=GT(K^{(9\cdot3^r)})
 で貼れば
 
 \[
-d_r\in GT(D_r),\qquad R_{D_r,M}(d_r)=g_\star,qquad
+d_r\in GT(D_r),\qquad R_{D_r,M}(d_r)=g_\star,\qquad
 R_{D_{r+1},D_r}(d_{r+1})=d_r
 \tag{7}
 \]
@@ -185,7 +185,7 @@ $|GT(L)|=1{,}944$、image size 972 であり、各 target fiber は 2 点であ�
 を二点のうち canonical に小さい方として選べる。ここまでは便 148 が指摘した二資源を
 実際に一元へ適用できた。
 
-### 2.4 しかし二つの部分構成は cofinal でない
+### 2.4 二方向は別々には cofinal でない
 
 奇数 $n$ で $|G_n|=4n^3$ なので (6) について
 
@@ -195,11 +195,11 @@ $|GT(L)|=1{,}944$、image size 972 であり、各 target fiber は 2 点であ�
 \]
 
 一方 $[M:L]=2$。もし $D_r\le L$ なら $2\mid3^{3r}$ となり矛盾する。従って
-dihedral chain は $L$ の下へ一度も入らず、$M$ 以下の isolated refinements に cofinal でない。
-逆に kernel-$C_2$ step だけを反復して得る index $2^s$ の chain は
-$D_1$ の下に入れない（$27\nmid2^s$）。従って $C_2$ 方向も cofinal でない。
+dihedral chain は $L$ の下へ一度も入らない。逆に kernel-$C_2$ step だけを反復して得る
+index $2^s$ の chain は $D_1$ の下に入れない（$27\nmid2^s$）。従って両方向とも
+単独では $M$ 以下の isolated refinements に cofinal でない。
 
-### 2.5 最初の mixed intersection で構成が止まる
+### 2.5 `COPRIME-GLUE-148` — 最初の mixed intersection は通過できる
 
 Prop. 3.15 により
 
@@ -208,22 +208,163 @@ J_r:=D_r\cap L
 \tag{10}
 \]
 
-は isolated である。しかし必要なのは isolatedness ではなく、選んだ二点を同時に持ち上げる
+は isolated である。最終監査では、ここは停止点ではなかった。相対 kernel の位数が互いに素な
+ため、(7) と (8) は実際に貼れる。
+
+$H^F:=H\cap F_2$ と書く。$D_r,M$ は $c$ を含み、§5.4 の nonsplit $E_1$ は
+$x,y$ の lift だけで生成されるので
 
 \[
-GT(J_r)\longrightarrow
-GT(D_r)\times_{GT(M)}GT(L)
+[M^F:D_r^F]=3^{3r},\qquad [M^F:L^F]=2.
 \tag{11}
 \]
 
-の該当 fiber の非空性である。既知の roof 等式は pure quotient の直積分解と
-$F_2$ 分解を前件に持つ。$L$ はまさに nonsplit $C_2$ extension なので、その証明を
-(11) の全射性へ流用できない。Prop. 3.15 も交叉の isolatednessを言うだけで、shadow の
-gluing 全射性を言わない。
+従って $D_rL=M$、$D_r^FL^F=M^F$ であり、full pure quotient と $F_2$ quotient は
+それぞれ対応する fiber product に等しい。$m$ の法は
 
-したがって (7) と (8) から $GT(J_1)$ の一点は作れない。ここで必要になるのは、便 140 の
-語でいえば同じ mixed step 上の `REL-VANISH`、`GEN-COVER`、`CHAR-LIFT` の同時成立である。
-kernel-$C_2$ 単独の三条件成立はこの relative mixed step の成立を含意しない。
+\[
+D_{r,\mathrm{ord}}=18\cdot3^r,\qquad L_{\mathrm{ord}}=36,\qquad
+\gcd(18\cdot3^r,36)=18=M_{\mathrm{ord}},
+\]
+
+なので、$M$ で一致する二つの $m$ は CRT で $J_r$ の法へ一意に貼れ、unit 条件も保たれる。
+
+残る charming 条件も互いに素な kernel で閉じる。一般に
+
+\[
+P=A\times_C B,\qquad
+|\ker(P\to A)|=2,\qquad |\ker(P\to B)|=3^{3r}
+\]
+
+とし、$(a,b)\in A'\times_{C'}B'$ を取る。その $P_{\rm ab}$ での像は
+$P_{\rm ab}\to A_{\rm ab}$ と $P_{\rm ab}\to B_{\rm ab}$ の両 kernel に入る。前者は
+2-primary、後者は 3-primary なので交叉は零、従って $(a,b)\in P'$ である。これを
+$P=F_2/J_r^F$ へ適用すると、(7), (8) の二つの $f$ は一つの
+$f_{J_r}\in(F_2/J_r^F)'$ に貼れる。
+
+二 hexagon は二因子で成立するので fiber product でも成立する。二つの settled map は
+$M$ 上で同じ $g_\star$ に reduce し、componentwise inverse を持つ fiber-product
+automorphism を定めるので generation と settlement も保たれる。よって一意な
+
+\[
+j_r\in GT(J_r),\qquad
+R_{J_r,D_r}(j_r)=d_r,\qquad R_{J_r,L}(j_r)=\ell_\star
+\tag{12}
+\]
+
+が得られる。一意性から $j_{r+1}$ は $j_r$ へ reduce する。従って既知資源は
+dihedral と一つの nonsplit $C_2$ を同時に含む互換 thread まで明示的に延びる。
+これは紙の補題であり、独立 checker も Lean 証明書も無い。
+
+### 2.6 中央 kernel-$C_2$ の三窓は一つにまとめられる
+
+§5.4 の三つの index-2 kernel を、split を $L_{\rm s}$、nonsplit で
+$c\mapsto1,z$ のものを $L_0,L_1$ と書く。§5.4 の標準 marking では
+
+\[
+PB_3/L_{\rm s}=E_0=Q_0\times C_2,\qquad
+PB_3/L_0=E_1,\qquad
+PB_3/L_1=E_1,
+\]
+
+split 側では $x,y$ が $Q_0$ 成分に入り $c$ が新しい中心元を生成し、nonsplit 側では
+$x,y$ の lift が既に $E_1$ 全体を生成する。従って
+
+\[
+K_2:=L_{\rm s}\cap L_0,\qquad
+PB_3/K_2\cong E_1\times C_2,\qquad [M:K_2]=4.
+\tag{13}
+\]
+
+この表示で $x,y\mapsto(\widetilde x,1),(\widetilde y,1)$、$c\mapsto(1,z_{\rm s})$。
+写像
+
+\[
+E_1\times C_2\longrightarrow E_1,\qquad
+(e,z_{\rm s}^{\epsilon})\longmapsto e z^\epsilon
+\]
+
+は $c\mapsto z$ の第三 marking へ factor するので $K_2\le L_1$。よって
+$K_2=L_{\rm s}\cap L_0\cap L_1$ である。
+
+$g_\star$ の $L_{\rm s}$-lift は一意、$L_0$-lift は二点から一つ選べる。両者の
+fiber product の $F_2$ quotient は
+
+\[
+E_1\times_{Q_0}Q_0\cong E_1
+\]
+
+なので、nonsplit 側の charming $f\in E_1'$ がそのまま共通 lift になる。$m$ は
+法 36 と法 18 で既に整合し、二 hexagon と settlement は componentwise に貼れる。
+従って
+
+\[
+k_\star\in GT(K_2),\qquad R_{K_2,M}(k_\star)=g_\star
+\tag{14}
+\]
+
+を明示的に得る。これは三つの central kernel-$C_2$ window 全てへ reduce する。
+
+### 2.7 dihedral thread と中央 $2^2$ 座標も貼れる
+
+\[
+C_r:=D_r\cap K_2.
+\tag{15}
+\]
+
+相対 kernel orders は $3^{3r}$ と $4$ で互いに素く、$F_2$ 側でも
+$3^{3r}$ と $2$ で互いに素い。従って §2.5 と同じ CRT・可換化・componentwise
+automorphism の証明により一意な
+
+\[
+c_r\in GT(C_r),\qquad
+R_{C_r,D_r}(c_r)=d_r,\qquad R_{C_r,K_2}(c_r)=k_\star
+\tag{16}
+\]
+
+があり、$c_{r+1}$ は $c_r$ へ reduce する。また
+
+\[
+[M:C_r]=4\cdot3^{3r}.
+\tag{17}
+\]
+
+従って Thm 4.3 の全 dihedral $3$-tower と、§5.4 の central kernel-order-2 event
+三行全てを同時に含む明示的互換 thread までは構成できた。
+
+### 2.8 次の具体的な未閉鎖点 — 非中央 $C_2^6$ 窓
+
+`docs/notes/d972_phase2b_nonsplit_report_v1.md` の
+
+\[
+W:=K^{(9)}\cap N_E,\qquad
+1\to C_2^6\to PB_3/W\to Q_0\to1
+\]
+
+を取る。これは isolated、$|GT(W)|=7{,}776$、reduction image 972 なので、各 target
+fiber は 8 点である。従って $g_\star$ の lift $w_\star\in GT(W)$ は存在する。一方
+
+\[
+[M:W]=64.
+\tag{18}
+\]
+
+もしある $C_r\le W$ なら $64\mid4\cdot3^{3r}$ となり矛盾する。従って $(C_r)$ は
+この既知 isolated refinement に対してすら cofinal でない。
+
+次に必要なのは
+
+\[
+H_r:=C_r\cap W,\qquad
+R_{H_r,M}^{-1}(g_\star)\ne\varnothing.
+\tag{19}
+\]
+
+ここでは両相対 kernel が非自明な 2-part を持つので `COPRIME-GLUE-148` は使えない。
+また $W$ の $C_2^6$ は非中央・非分裂であり、§5.4 の central $C_2$ 座標へ分解できない。
+既存計算は $C_r$ と $W$ を別々に全射としただけで、その交叉 (19) の
+`REL-VANISH` / `CHAR-LIFT` / generation compatibility を与えていない。
+Prop. 3.15 は $H_r$ の isolatedness を与えるが、fiber の非空性を与えない。
 
 全 isolated refinements $N_1,N_2,\ldots$ を列挙して
 
@@ -234,21 +375,22 @@ Y_d(g_\star)=R_{K_d,M}^{-1}(g_\star)
 
 とすれば $(K_d)$ は cofinal になる。だが各 $Y_d(g_\star)\ne\varnothing$ を示すことは
 まさに B 側の全深度 survival である。これを仮定すれば有限集合の compactness から逆極限は
-非空になるが、その仮定を dihedral thread と一段の $C_2$ lift から導くのが (11) で止まる。
-これは明示構成ではなく結論の言い換えになってしまう。
+非空になるが、その仮定は既知の central-$(2^2)$ plus dihedral thread からは出ない。
 
-### 2.6 B 側裁定
+### 2.9 B 側裁定
 
 素指数 3 は「一つの genuine outside 元で 648 元全部が B 型になる」ことを与えるが、
-その一元を全深度へ持ち上げる transition/gluing を与えない。今回得たのは
+その一元を全深度へ持ち上げる transition/gluing を与えない。今回構成できたのは
 
 \[
-\text{dihedral cofinal でない thread}
+\text{Thm 4.3 dihedral thread}
 \quad+\quad
-\text{nonsplit }C_2\text{ の一段 lift}
+\text{central }C_2\text{ 三窓}
+\quad\xrightarrow{\ \mathrm{COPRIME\mbox{-}GLUE\ }\quad}
+\text{互換な central-}(2^2)\text{ plus dihedral thread}
 \]
 
-までであり、最初の mixed intersection $J_1$ で停止した。
+までである。非中央 $C_2^6$ 窓との交叉 (19) から先は現入力では構成できない。
 従って **`NO_COMPATIBLE_INVERSE_LIMIT_CONSTRUCTION_FROM_CURRENT_INPUTS`** と裁定する。
 これは逆極限元の非存在証明でも A 型の証明でもない。
 
@@ -257,7 +399,7 @@ Y_d(g_\star)=R_{K_d,M}^{-1}(g_\star)
 | 受信節 | 実行結果 | 格 |
 |---|---|---|
 | 1. A 側 producer/checker/workflow | 完全な relative-extension universe、dedup、二系統、checkpoint、terminal rule を固定し、許可された Luna 指示書へ実装発注 | `IMPLEMENTATION_DISPATCHED_NOT_EXECUTED` |
-| 2. B 側一元 inverse limit | Thm 4.3 の互換 dihedral thread と nonsplit $C_2$ 一段 lift を構成。最初の mixed intersection の gluing が未証明 | `UNKNOWN`, construction unavailable |
+| 2. B 側一元 inverse limit | Thm 4.3 thread と central $C_2$ 三窓を一つの互換 thread に貼った。非中央 $C_2^6$ 窓との交叉が未閉鎖 | `UNKNOWN`, partial compatible thread only |
 
 ## provenance
 
@@ -266,12 +408,13 @@ Y_d(g_\star)=R_{K_d,M}^{-1}(g_\star)
 | `ops/inbox_codex/sol_task_148_dovetail.txt` | `8890c29cf3c399da863e6705f3ccc434164c1c233ff82f648b965f99612e71f9` |
 | `docs/week1-定義ノート.md` | `24db1372fd191659f1f0149cb669870dff470db1f779d3e5f83dba4171501c6c` |
 | `docs/notes/d972_phase2_cofinal_execution_v1.md` | `97998cac97611f10065b463efa8a417d5da200b23dd39ca7a8b2beed32de847e` |
+| `docs/notes/d972_phase2b_nonsplit_report_v1.md` | `56f2465ed73c6299026c129fc70fcbe9ebbab028342687d8a18d0e625e1e27e7` |
 | `docs/notes/triad972_canonical_addendum_v2.md` | `5dc660dd0023bf9b1986cefa65ec9947ad5b3b366f210933dbe09ac2544c7659` |
 | `sol/sol_reply_143_typedfiber.md` | `ef6490f286b82ade2ee5995a00a857dd92fbca6f5e136c79f855d81adab7da3a` |
-| `sol/luna_task_148_dovetail.md` | `33870a237d3e59873a5ed015f9f4d2d50a5b6722b3b3fc8951a48cb6c4d2dc2f` |
+| `sol/luna_task_148_dovetail.md` | `e2ec32d145e86e22e26b7d8bdab276c325993629d76738ec4a273e1a5ec1aad2` |
 
 - 新しい機械計算、commit、push、workflow dispatch は行っていない。
 - 本便で変更したのは指定返信と、Sol 契約が明示的に許す Luna 実装指示書だけである。
 - Lean certificate は無く、`verified` の語は用いていない。
 
-FINAL: `A_IMPLEMENTATION_DISPATCHED; B_STOPS_AT_FIRST_MIXED_INTERSECTION; DICHOTOMY_REMAINS_UNKNOWN`
+FINAL: `A_IMPLEMENTATION_DISPATCHED; B_STOPS_AT_NONCENTRAL_C2^6_INTERSECTION; DICHOTOMY_REMAINS_UNKNOWN`

@@ -268,14 +268,14 @@ python crosscheck/check_d972_survival_noncomm_v1.py --producer (Join-Path $blind
 - `.git` は read-only。commit、push、workflow dispatch は行っていない。
 - 新規の producer/cert は作らず、凍結済み二系統を hash 固定で再利用した。
 
-本返信を除外し、`docs/` と `sol/` を対象に実行した novelty grep の行ヒット数は次の通り。
+受信時 HEAD `f43665d4e98902f62c81d495fb723516517d576a` を corpus に固定し、`git grep` で `docs/` と `sol/` を対象に採った行ヒット数は次の通り。作業中に裁定 1164 の後続記帳が入ったため、現在の worktree を使うと本便自身の結論を prior art として数える循環が生じる。この固定によりそれを除外した。
 
 ```text
 Q の非自明 3 群商不存在                 3
-p\nmid6 / p∤6                            35
+p\nmid6 / p∤6                            34
 ESCAPE-28 と C3^28 核の同一行            0
 冪零核と base-change の同一行            0
-H^2(C2,F2) の同一行変種                  6
+H^2(C2,F2) の同一行変種                  5
 ```
 
 商不存在と `p\nmid6` 自体は既出である。本便の増分は、ESCAPE-28 をその商不存在から直積化できない実細分として位置づけたことと、固定基底版の二候補から冪零核命題へ移る際の base-change 前件を分離したことである。grep 0 は数学的新規性の証明には用いない。

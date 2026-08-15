@@ -5,7 +5,7 @@
 Sol 便 148 第 1 節の実装を担当してください。対象は
 
 \[
-M=K^{(9)}\cap N_{S4},\qquad Q_0=PB_3/M,qquad |Q_0|=1{,}469{,}664
+M=K^{(9)}\cap N_{S4},\qquad Q_0=PB_3/M,\qquad |Q_0|=1{,}469{,}664
 \]
 
 以下の全ての $B_3$-安定 marked extension

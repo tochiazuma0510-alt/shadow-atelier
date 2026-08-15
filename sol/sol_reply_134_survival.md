@@ -57,7 +57,7 @@ R_5=\mathbf F_2\langle X,Y\rangle/(\text{degree}\ge5)
 の単元群で
 
 \[
-U_5:=\langle1+X,1+Y\rangle,qquad
+U_5:=\langle1+X,1+Y\rangle,\qquad
 D_5:=\ker(F_2\to U_5)
 \]
 
@@ -109,13 +109,13 @@ W_{\rm ker}=M/K\cong\ker(U_5\to C_2^2)=\Phi(U_5).
 
 | 量 | 値 |
 |---|---:|
-| |(W_{\rm ker})| | 2,048 |
+| $\lvert W_{\rm ker}\rvert$ | 2,048 |
 | 可換 | false |
 | nilpotency class | 2 |
 | exponent | 4 |
 | 最小生成元数 | 5 |
-| |([W_{\rm ker},W_{\rm ker}])| | 8 |
-| |(Z(W_{\rm ker}))| | 256 |
+| $\lvert[W_{\rm ker},W_{\rm ker}]\rvert$ | 8 |
+| $\lvert Z(W_{\rm ker})\rvert$ | 256 |
 | (W_{\rm ker}^{\rm ab}) | (C_4^3\times C_2^2) |
 | 元位数分布 | (1:1, 2:255, 4:1792) |
 | SmallGroup id | `null`。位数 2,048 は完全 ID 在庫外 |
@@ -124,7 +124,7 @@ W_{\rm ker}=M/K\cong\ker(U_5\to C_2^2)=\Phi(U_5).
 
 標数 2、cutoff を 2,3,4,5 の順で固定して調べた。
 
-| cutoff | |(U_d)| | generator order | |(W_{\rm ker})| | 可換 | |(PB_3/K_d)| |
+| cutoff | $\lvert U_d\rvert$ | generator order | $\lvert W_{\rm ker}\rvert$ | 可換 | $\lvert PB_3/K_d\rvert$ |
 |---:|---:|---:|---:|:---:|---:|
 | 2 | 4 | 2 | 1 | true | 1,469,664 |
 | 3 | 32 | 4 | 8 | true | 11,757,312 |
@@ -132,6 +132,8 @@ W_{\rm ker}=M/K\cong\ker(U_5\to C_2^2)=\Phi(U_5).
 | 5 | 8,192 | 8 | 2,048 | false | 3,009,871,872 |
 
 選択規約は「標数 2、cutoff 昇順、最初の非可換 (W_{\rm ker})」で、cutoff 5 に一意に止まる。
+
+構成に用いた主関数は producer の `Magnus2.enumerate_marked` / `infer_w_structure` / `audit_g9` と、独立 checker の `DenseMagnus.enumerate_with_actions` / `independent_g9_audit` である。cutoff 2, 3, 4 は (W_{\rm ker}) が可換なので §3 の前に標的外として落ち、cutoff 5 だけが §3 に入り、そこで全消滅強制なしと判定された。
 
 ### 2.3 他の探索路
 
@@ -160,8 +162,8 @@ V:=W_{\rm ker}^{\rm ab}/2W_{\rm ker}^{\rm ab}\cong\mathbf F_2^5
 
 | 量 | cardinality | dimension |
 |---|---:|---:|
-| |(ker(1+\theta^*))| | 8 | 3 |
-| |(ker(1+\tau^*+\tau^{*2}))| | 16 | 4 |
+| $\lvert\ker(1+\theta^*)\rvert$ | 8 | 3 |
+| $\lvert\ker(1+\tau^*+\tau^{*2})\rvert$ | 16 | 4 |
 | 交わり | 4 | **(d=2)** |
 
 である。(W_{\rm ker}^{\rm ab}) そのものでは対応する cardinality が 32、64、8。従って abelianization 段での全消滅強制は `false` で、§4 へ進む条件を満たした。
@@ -202,6 +204,8 @@ outcome_adaptive = false
 \]
 
 であり、全候補が fine quotient の derived subgroup に入る。従って Prop. 3.4 の二式縮約を使い、full (3.3)(3.4) には切り替えなかった。
+
+frozen tuple の屋根側 (f_Q) は定義上すでに二式を満たす。fine lift は導来群の直積座標で (f_Q,p)、(p\in[U_5,U_5]) と書け、二式は因子ごとに分離する。従って追加条件は (p) と (m_{\rm fine}) だけに依存し、同じ (m) を持つ 81 個の異なる (f_Q) に同一計数を適用してよい。
 
 重要な座標修理として、旧 Phase 1 型の (2m+1) だけの一致は使っていない。正典 (3.60) に従い
 
