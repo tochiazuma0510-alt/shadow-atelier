@@ -1,0 +1,242 @@
+{
+  "schema_version": "d972-dovetail-state/v1",
+  "state_kind": "INITIAL_MANIFEST",
+  "universe": {
+    "base_kernel": "K^(9) intersection N_S4",
+    "q0": "PB3/M",
+    "q0_order": 1469664,
+    "qbar": "B3/M",
+    "qbar_order": 8817984,
+    "start_k": 3,
+    "predicate": "all finite B3-stable marked-over-base extensions, ordered by (k,H,outer_action,extension_class,marked_orbit)",
+    "manual_universe_override": false
+  },
+  "cursor_order": [
+    "k",
+    "H",
+    "outer_action",
+    "extension_class",
+    "marked_orbit"
+  ],
+  "integrity": {
+    "ready": false,
+    "schema": {
+      "path": "search/d972_dovetail_state_schema_v1.json",
+      "sha256": "6b693fde5236216d0839396e19e22b168da81399788c5e4190d29b99d9d6571a"
+    },
+    "code": {
+      "producer": {
+        "path": "search/d972_dovetail_producer_v1.py",
+        "required": true,
+        "sha256": null
+      },
+      "checker": {
+        "path": "search/check_d972_dovetail_v1.py",
+        "required": true,
+        "sha256": null
+      },
+      "gap_worker": {
+        "path": "search/d972_dovetail_worker_v1.g",
+        "required": true,
+        "sha256": null
+      },
+      "workflow": {
+        "path": ".github/workflows/d972-dovetail.yml",
+        "required": true,
+        "sha256": null
+      }
+    },
+    "inputs": [
+      {
+        "path": "docs/notes/d972_phase2_cofinal_execution_v1.md",
+        "sha256": "97998cac97611f10065b463efa8a417d5da200b23dd39ca7a8b2beed32de847e"
+      },
+      {
+        "path": "docs/notes/triad972_canonical_addendum_v2.md",
+        "sha256": "5dc660dd0023bf9b1986cefa65ec9947ad5b3b366f210933dbe09ac2544c7659"
+      },
+      {
+        "path": "docs/week1-定義ノート.md",
+        "sha256": "24db1372fd191659f1f0149cb669870dff470db1f779d3e5f83dba4171501c6c"
+      },
+      {
+        "path": "ops/inbox_codex/sol_task_148_dovetail.txt",
+        "sha256": "8890c29cf3c399da863e6705f3ccc434164c1c233ff82f648b965f99612e71f9"
+      },
+      {
+        "path": "search/certs/nf972_sourcemap_a_tuples_v2_20260804.json",
+        "sha256": "cfa1f3a917e2cd9d21ceaa7f77539633ccb22e8585da8b3248609008d0391801"
+      },
+      {
+        "path": "search/certs/nf972_sourcemap_a_v3_20260804.json",
+        "sha256": "32e268c97c77446b85787c5d7750da758df67646de414eade709ca79baf98b37"
+      },
+      {
+        "path": "search/certs/nf972_sourcemap_b_tuples_v3_20260804.json",
+        "sha256": "8cd10f3a471b3dbae0c8db4961e81f7b4ca22330a51a9337d4e6d2430968254a"
+      },
+      {
+        "path": "search/certs/nf972_sourcemap_b_v6_20260804.json",
+        "sha256": "e27a71fbf00295be9a74761ef11134e3a8f324ed57f523d11d44a67fb5a207de"
+      },
+      {
+        "path": "sol/sol_reply_143_typedfiber.md",
+        "sha256": "ef6490f286b82ade2ee5995a00a857dd92fbca6f5e136c79f855d81adab7da3a"
+      }
+    ],
+    "code_set_sha256": null,
+    "input_set_sha256": "48d2d91ef56f2cc73a75b559aed378f48d5d28d1e04a964ccfd6fb5502713969"
+  },
+  "hash_chain": {
+    "algorithm": "sha256",
+    "canonicalization": "utf8-json-sort-keys-no-whitespace-v1",
+    "digest_scope": "entire document with /hash_chain/checkpoint_sha256 replaced by 64 lowercase zeroes",
+    "sequence": 0,
+    "parent_checkpoint_sha256": null,
+    "checkpoint_sha256": "06d33ce0184df90add797d8e978bee1c7c2eebb47a75a5cb63c063ed3a491daf"
+  },
+  "run": {
+    "run_id": "seed-v1",
+    "run_attempt": 0,
+    "event": "local_seed",
+    "commit_sha": "450ac2c064943ad493721a34b24f37880100e91e",
+    "created_at_utc": "2026-08-15T00:00:00Z",
+    "resume_run_id": null
+  },
+  "status": {
+    "code": "INITIALIZED",
+    "terminal": false,
+    "resumable": true,
+    "reason": "Seed manifest only; required code digests and the calibration gate have not run."
+  },
+  "calibration_gate": {
+    "required": true,
+    "status": "PENDING",
+    "search_unlocked": false,
+    "producer_checker_agree": false,
+    "cases": [
+      {
+        "case_id": "k1_base",
+        "calibration_only": true,
+        "expected": {
+          "marked_orbit_count": 1,
+          "gt_orders": [972],
+          "image_sizes": [972],
+          "zero_fiber_counts": [0],
+          "fiber_histograms": [
+            [
+              {"fiber_size": 1, "target_count": 972}
+            ]
+          ]
+        },
+        "producer": null,
+        "checker": null,
+        "agreed": false
+      },
+      {
+        "case_id": "k2_three_marked_orbits",
+        "calibration_only": true,
+        "expected": {
+          "marked_orbit_count": 3,
+          "gt_orders": [972, 1944, 1944],
+          "image_sizes": [972, 972, 972],
+          "zero_fiber_counts": [0, 0, 0],
+          "fiber_histograms": [
+            [
+              {"fiber_size": 1, "target_count": 972}
+            ],
+            [
+              {"fiber_size": 2, "target_count": 972}
+            ],
+            [
+              {"fiber_size": 2, "target_count": 972}
+            ]
+          ]
+        },
+        "producer": null,
+        "checker": null,
+        "agreed": false
+      }
+    ]
+  },
+  "cursors": {
+    "producer": {
+      "k": 3,
+      "H": {"index": 0, "semantic_key": "@unstarted"},
+      "outer_action": {"index": 0, "semantic_key": "@unstarted"},
+      "extension_class": {"index": 0, "semantic_key": "@unstarted"},
+      "marked_orbit": {"index": 0, "semantic_key": "@unstarted"},
+      "stage": "H"
+    },
+    "checker": {
+      "k": 3,
+      "H": {"index": 0, "semantic_key": "@unstarted"},
+      "outer_action": {"index": 0, "semantic_key": "@unstarted"},
+      "extension_class": {"index": 0, "semantic_key": "@unstarted"},
+      "marked_orbit": {"index": 0, "semantic_key": "@unstarted"},
+      "stage": "H"
+    },
+    "agreed": {
+      "k": 3,
+      "H": {"index": 0, "semantic_key": "@unstarted"},
+      "outer_action": {"index": 0, "semantic_key": "@unstarted"},
+      "extension_class": {"index": 0, "semantic_key": "@unstarted"},
+      "marked_orbit": {"index": 0, "semantic_key": "@unstarted"},
+      "stage": "H"
+    },
+    "exact_equal": true,
+    "agreement_receipt_sha256": null
+  },
+  "enumeration": {
+    "engine_status": "UNASSESSED",
+    "complete_relative_extensions": false,
+    "includes_nonabelian": false,
+    "engine_completeness_receipt_sha256": null,
+    "semantic_key_count": 0,
+    "semantic_key_set_sha256": null,
+    "k_ledger": [
+      {
+        "k": 3,
+        "status": "OPEN",
+        "k_closed": false,
+        "enumerator_complete": false,
+        "producer_checker_agree": true,
+        "remaining_items": null,
+        "completeness_receipt_sha256": null
+      }
+    ],
+    "closure_policy": "no k_closed until complete H/actions/classes/orbits enumeration and producer-checker agreement; no later k closes across the least open k"
+  },
+  "ledgers": {
+    "producer": {
+      "path": null,
+      "sha256": null,
+      "record_count": 0,
+      "through_cursor_sha256": null
+    },
+    "checker": {
+      "path": null,
+      "sha256": null,
+      "record_count": 0,
+      "through_cursor_sha256": null
+    }
+  },
+  "terminal_witness": null,
+  "receipts": {
+    "cli_contract": {
+      "producer": "python search/d972_dovetail_producer_v1.py --state STATE --out-dir PRODUCER_DIR --slice-seconds N [--preflight-only]",
+      "checker": "python search/check_d972_dovetail_v1.py --state PRODUCER_STATE --producer-ledger PRODUCER_LEDGER --out-dir CHECKER_DIR"
+    },
+    "digest_recipes": {
+      "input_set_sha256": "SHA-256 of UTF-8 path=sha256 lines sorted by path, each terminated by LF",
+      "code_set_sha256": "SHA-256 of UTF-8 path=sha256 lines sorted by path for every required code binding, each terminated by LF",
+      "checkpoint_sha256": "Replace /hash_chain/checkpoint_sha256 with 64 zeroes, serialize UTF-8 JSON with keys sorted and separators comma/colon, then SHA-256"
+    },
+    "target_keys": {
+      "count": 972,
+      "source_map_a_sha256": "32e268c97c77446b85787c5d7750da758df67646de414eade709ca79baf98b37",
+      "source_map_b_sha256": "e27a71fbf00295be9a74761ef11134e3a8f324ed57f523d11d44a67fb5a207de",
+      "canonical_tuple_digest": "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62"
+    }
+  }
+}

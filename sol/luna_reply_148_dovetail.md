@@ -1,48 +1,37 @@
-# Luna reply 148 — D972 A-side relative-extension dovetail
+# Luna reply 148 — D972 relative-extension dovetail
 
-## 判定
+## §0 — 結論・成果物
 
-`BLOCKED_RELATIVE_EXTENSION_ENUMERATOR`
+最終判定は **`BLOCKED_RELATIVE_EXTENSION_ENUMERATOR`** である。致命的 subcode は
+```
+NONCHECKPOINTABLE_EXTENSION_CELL
+```
+であり、実装された blocker receipt は `workflow_resumable:false`、
+`liveness_status:"BLOCKED_NONCHECKPOINTABLE_EXTENSION_CELL"` を返す。有限な一セルを最後まで走らせた場合の数学的な全列挙設計は入ったが、そのセル内部を watchdog 境界で永続化して再開する仕組みがないため、(k=3,4,\ldots) の無期限 dovetail としては complete ではない。
 
-`sol/luna_task_148_dovetail.md` は §0 から §8 まで全て読了・処理した。要求された「全ての有限 marked-over-base 相対拡張を、非可換核を含めて、重複なく列挙する」実装は、この作業ツリーには存在しない。従って、k=3,4,… の無限 dovetail を開始したとは報告しない。完全列挙器がない状態で heuristic/catalog lane を complete と扱うこと、`k_closed=true`、terminal、`cross_checked=true`、`verified` を付けることは行っていない。
+作成・更新された成果物と現在の SHA-256 は次の通り。
 
-このターンの変更は本返信ファイルの追加だけである。既存の dirty file は変更していない。commit/push/dispatch は行っていない。
+| path | SHA-256 |
+|---|---|
+| `search/d972_dovetail_producer_v1.py` | `1243f3646fc05cc9ea9f5bf00ff92c0c6c6d82b4ae6b81c57a4fcab874638ac0` |
+| `search/d972_dovetail_worker_v1.g` | `323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd` |
+| `search/check_d972_dovetail_v1.py` | `d2e398ebdc4333a04b726cf8fa68b76e1815c6d15a1db4e14b53fcd3511388a0` |
+| `search/d972_dovetail_state_schema_v1.json` | `6b693fde5236216d0839396e19e22b168da81399788c5e4190d29b99d9d6571a` |
+| `search/d972_dovetail_manifest_v1.json` | `aefba2279d291e63caef56e7c270d3d58a6a3aacbbd9801dbfb6fce0136137be` |
+| `.github/workflows/d972-dovetail.yml` | `21127ce22024310b6272bfd581c7362d959d3303eccab86bdb88168c9cc5c9c2` |
+| `search/fixtures/d972_dovetail_v1/README.md` | `8b0ebb27ecedb90d5b412cff7860ade9e658a60056aba33c58a6555d7970c097` |
+| `search/fixtures/d972_dovetail_v1/negative_witness_mutations.json` | `261b3edc86e484de753af1b47977a473c2c36df2331317fc03ce5ff7b1225e9e` |
+| `search/fixtures/d972_dovetail_v1/negative_state_mutations.json` | `dfb8030c37a0dac7093c8b177ead5e7d48e610fdd497cbac6c41d2168141dd82` |
+| `search/fixtures/d972_dovetail_v1/intentional_interrupt_resume.json` | `394fdfbd310197464eab50f3e89990dc05468798aa00f76b707f8749406fe9ed` |
 
-## §0 — 目的・境界・対象ファイル
-
-正本の対象は
-
-\[
- M=K^{(9)}\cap N_{S_4},\quad Q_0=P B_3/M,\quad |Q_0|=1,469,664,
-\]
-
-および、全ての marked-over-base `(barE,s1,s2,rho)`、`|E|=k|Q0|`、k=3,4,… の相対拡張である。指定の isolation、`GT(E)->GT(M)` の 972 target fibers、producer/checker の独立一致、terminal 条件を確認するには、§3 の complete relative-extension engine と §5 の独立 checker が必要である。
-
-指定された以下の対象は全て未配置だった。
-
-~~~
-search/d972_dovetail_producer_v1.py       NOT FOUND
-search/d972_dovetail_worker_v1.g           NOT FOUND
-search/check_d972_dovetail_v1.py           NOT FOUND
-search/d972_dovetail_state_schema_v1.json  NOT FOUND
-search/d972_dovetail_manifest_v1.json      NOT FOUND
-search/fixtures/d972_dovetail_v1/          NOT FOUND
-.github/workflows/d972-dovetail.yml       NOT FOUND
-~~~
-
-既存の `search/d972_phase0_v1.*`、`d972_phase1_v1.*`、`d972_phase2*` は関連する有限段階・候補・ゲートの記録であり、上記の complete relative-extension engine の代替ではない。
+これらの実装ファイルは現在の worktree では未追跡である。本便では commit、push、workflow dispatch を行っていない。
 
 ## §1 — HEAD と anchor audit
 
-`git rev-parse HEAD` の出力:
+作業開始時 HEAD は `9799237e31d12a4c35029604e26d7afa8703dcc5`、現在の HEAD は
+`450ac2c064943ad493721a34b24f37880100e91e` である。後者への移動は同じ共有 worktree 上の司令塔側変更であり、本便で履歴操作はしていない。
 
-~~~
-9799237e31d12a4c35029604e26d7afa8703dcc5
-~~~
-
-SHA-256 は指定コマンドで再計算し、7 件とも指定値と一致した。
-
-| anchor | 実測 SHA-256 | 指定値との照合 |
+| anchor | SHA-256 | 判定 |
 |---|---|---|
 | `ops/inbox_codex/sol_task_148_dovetail.txt` | `8890c29cf3c399da863e6705f3ccc434164c1c233ff82f648b965f99612e71f9` | MATCH |
 | `docs/week1-定義ノート.md` | `24db1372fd191659f1f0149cb669870dff470db1f779d3e5f83dba4171501c6c` | MATCH |
@@ -52,164 +41,145 @@ SHA-256 は指定コマンドで再計算し、7 件とも指定値と一致し�
 | `search/certs/nf972_sourcemap_a_v3_20260804.json` | `32e268c97c77446b85787c5d7750da758df67646de414eade709ca79baf98b37` | MATCH |
 | `search/certs/nf972_sourcemap_b_v6_20260804.json` | `e27a71fbf00295be9a74761ef11134e3a8f324ed57f523d11d44a67fb5a207de` | MATCH |
 
-変更ファイル（このターン）:
+## §2 — 一セルの exact design と completeness 境界
 
-~~~
-sol/luna_reply_148_dovetail.md  (new)
-~~~
+worker は (\bar Q=B_3/M) を K9、PSL(2,8)、次数 20,520 の直積作用から再構築し、
+`|barQ|=8,817,984`、`|PB3/M|=1,469,664`、`M_ord=18` を exact gate にする。
+`IsomorphismFpGroupByGenerators` により marked two-generator presentation も作る。
 
-## §2 — 相対拡張の数学的対象と completeness
+固定された labelled kernel (H) の一セルでは、次を有限全探索する。
 
-要求対象は abstract group の名前や SmallGroups ID の一覧ではない。`barE`、marked generators `s1,s2`、braid relation、`rho:barE -> barQ`、その lifts、kernel `E`、および `L=ker(B3 -> barE)` を同時に持つ marked-over-base equivalence class である。`|barQ|=8,817,984`、k=3 なら `|barE|=26,453,952` となる。
+1. SmallGroups 利用可能時の全群、および正規化 Cayley table fallback（非可換群を除外しない）。
+2. `Aut(H)^2`、全 base-relator defect tuple、全 (H^2) marked lift pair。
+3. Cayley、共役、relator を含む defect presentation、MTC embedding/order、factor map、braid、generation、epsilon の pure-order gate。
+4. base を固定し marked pair を保存する双方向 bijection による重複判定。unmarked SmallGroup ID は同値判定に用いない。
+5. outer bucket は索引だけで、候補を prune しない。
 
-complete であるために必要な API/math stage は次の通りである。
+order receipt の意味は `extension_order=full_b3_quotient_order=k*8,817,984`、
+`pure_extension_order=k*1,469,664`、`pure_base_order=1,469,664` である。
 
-1. 各 k の全 abstract kernel H を非冗長に列挙する。
-2. 全ての `barQ -> Out(H)` action を列挙する。
-3. obstruction-zero の全 extension class を base+kernel fixed equivalence まで列挙する。
-4. `s1,s2` の全 lifts を生成し、braid、生成性、exact kernel、factor map を検査する。
-5. base-fixing automorphism による marked orbit を取り、semantic key 一回だけを emit する。
+ただし `canonical_table_relabel_enumeration`、`automorphism_enumeration`、
+`presentation_subgroup_mtc_and_fp_order`、
+`shadow_derived_elements_and_full_pair_scan` はセル途中の永続 cursor を持たない。
+このため「各セルが返れば有限範囲を尽くす」と「watchdog-safe な無期限 dovetail」は別であり、後者は未達である。
 
-既存の phase0/phase1 記録は `PB3/M=1,469,664`、`M_ord=18`、`|B3/M|=8,817,984`（normality の一部は derived と明記）、`GT(M)=972` などを保持する。しかし phase0 の marked-factor-map は `AutomorphismGroup(PN)` / full-B3 generators の欠落により `UNKNOWN`、phase1 の `h1_k_isolated` も `UNKNOWN` である。これは §3 の complete nonabelian enumerator ではない。
+## §3 — producer、分類 journal、cursor
 
-したがって、非可換 H、非 split/非 central extension、全 marked lift、orbit dedup の完全性は未実装・未立証である。`SmallGroups` の部分カタログや split/central/solvable-only の探索を complete と昇格させていない。
+producer は state/input/code SHA、canonical JSON checkpoint hash、親 hash、単調 cursor を fail-closed に扱う。
+kernel table fallback は全正規化 Latin table を列挙し、同型分類の完全な representative/duplicate journal を
+`producer-classification-ledger.jsonl` に残す。ledger path は artifact-relative で固定した。
 
-## §3 — engine gate / state / dedup
+raw relative-extension candidate は `RAW_RELATIVE_EXTENSION_ONLY`、
+`ready_for_producer_ledger:false` とし、terminal な shadow/fiber PASS より前に producer ledger へ入らない。
+分類 receipt が complete でなければ `k_closed=true` にできない。今回の blocker では engine status を
+`BLOCKED` とし、cursor は進めない。
 
-| 要求 | 実装・実行状態 | 判定 |
-|---|---|---|
-| k,H,action,extension class,marked orbit の完全列挙 | producer/worker 不在 | BLOCKED |
-| nonabelian を含む extension API と obstruction stage | API/receipt 不在、既存記録は UNKNOWN | BLOCKED |
-| semantic key の exactly-once/checkpoint cursor | state schema/manifest 不在 | BLOCKED |
-| k の prefetch と未閉鎖扱い | 実装不在 | NOT RUN |
-| `k_closed=true` の禁止、timeout の UNKNOWN/RESUME | 実装不在 | NOT RUN |
+producer の自己検査は PASS し、要点は
+`target_keys=972`、target digest
+`9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62`、
+`fallback_k4_raw=216`、`fallback_k4_groups=2`、
+`classification_chain_rows=2`、`cursor_unchanged=true`、
+`raw_shadow_ledger_order=true`、`portable_paths=true` であった。
+Python compile/help も PASS した。
 
-指定の exact API/math stage が実装されるまで、k=3 の列挙開始、k の closure、finite catalog の infinite dovetail への昇格はしない。
+## §4 — shadow/fiber stage
 
-## §4 — 各 L の isolation / hexagon / GT fiber
+各 accepted extension について worker は full (P=B_3/L) と faithful permutation model を再構築し、
+derived subgroup 内の charming (m,f) を全走査する。論文 (3.3)、(3.4) は `AbstractProd` による literal
+full-(B_3) equation、surjectivity、marked endomorphism の bijectivity による settlement、exact source
+kernel を gate にする。(c\notin L) の場合にも theta/tau shortcut は使わない。
 
-§4 の判定順（全 `(m,f)` universe、full B3 hexagon (3.3),(3.4)、`T_{m,f}` surjectivity、全 source kernel が exactly L、isolated L のみ (3.60)、canonical 972 target key set/fiber counts）を実行できる producer は存在しない。
+出力は canonical NF972 reduction、972 target vector、zero-key set、各 digest を含む。raw extension と
+shadow-classification の二段 ledger 順序を強制する設計である。ただし GAP campaign 自体は起動できなかったため、
+実候補の 972-vector、empty fiber、A-side witness、B-side liftはいずれも得ていない。
 
-既存 receipt の範囲は次の通り。
+## §5 — independent checker
 
-| 既存 lane | 実測/記録 | §4 の不足 |
+Python checker は producer/worker を import せず、生成する GAP checker も `Read(...)` を一切使わない。
+`gaplib_common`、`week3-battery-common`、`week3-psl-common` と共有せず、固定 base marking、
+six-coset rule、D9 serializer、paper-product evaluator を checker 内に独立実装した。paper word は逆順に
+GAP 積へ写し、GAP ExtRep の signed word だけは自然順に評価する。
+
+checker は Cayley/Aut/relator/lift/factor map、full (P/Q)、literal hexagon、surjectivity、
+Cayley image と Schreier index の settlement、source kernel、target/fiber/zero set を witness から再構築する。
+duplicate link も両 fp group と marked-pair bijection を再構築する。共有 helper の静的走査は PASS した。
+
+`python -B -m py_compile` と `--self-test` は PASS。self-test は
+`negative_cases=11`、`intentional_interrupt_hash_transition=PASS`、
+`semantic_key_missing=0`、`semantic_key_duplicates_after_resume=0`、
+`parent_hash_match=true` を返した。ただし自己検査自身が示す通り
+`campaign_full_p_backend=REQUIRED_OUTSIDE_PARSE_ONLY_SELFTEST` であり、実 GAP campaign の独立照合は未実行である。
+従って `cross_checked=false` である。
+
+## §6 — calibration、negative tests、terminal gate
+
+k=1/k=2 の数値は manifest の**期待値**であり、観測 raw receipt ではない。
+
+| calibration | 登録モデル | 期待値（未観測） |
 |---|---:|---|
-| phase0 `PB3/M` | 1,469,664 | relative-extension L の全 universe ではない |
-| phase0 shadow / `GT(M)` | 972 / 972 | `M` の isolation は `UNKNOWN` |
-| phase1 m-shadow / `im R_KM` | 972 / 972 | 各 relative L の 972 fiber vector ではない |
-| phase0/phase1 `h1_*_isolated` | `UNKNOWN`, not attempted | full-B3 action/marked map が未解決 |
+| k=1 | 1 | GT 972、image 972、zero 0、histogram (1\times972) |
+| k=2 | 3 | GT ([972,1944,1944])、image は全て 972、zero は全て 0、histogram ([1\times972,2\times972,2\times972]) |
 
-従って、exact target-set digest、全 972 fiber counts、zero-key set、image subgroup 324 の terminal 条件は未計算である。`m mod M_ord` は使うべきだが `M_ord/2` shortcut は使っていない、という既存記録だけでは §4 の完了にはならない。
+k=2 は split と二つの nonsplit (Q_8) model、および全 8 個の
+(H^2(V_4,\mathbf F_2)) coefficient triple を走査するコードを持つ。一方、三モデルが universe を尽くす根拠は
+pinned `sol_reply_143` §5.4 の前提を使っており、独立な model-universe 証明ではない。receipt は
+`independent_model_universe_proof:false`、`calibration_unlock_authority:false` とし、checker は
+`INDEPENDENT_CALIBRATION_WITNESS_NOT_FROZEN` により calibration を FAILED、`search_unlocked=false` に固定する。
 
-## §5 — producer/checker independence
+negative fixture は witness mutation 8件（factor map、kernel、braid、word level、settlement、m modulus、
+fiber row、relator shape）と state mutation 3件（parent hash、sequence gap、duplicate semantic key）の計11件で、
+self-test は 11/11 を拒否した。intentional interrupt/resume fixture は親 hash、sequence +1、cursor 保存、
+semantic key の欠落0・重複0を通過した。parse-only fixture は campaign ledger に昇格できない。
 
-`search/check_d972_dovetail_v1.py` と producer/worker がないため、lossless witness の受け渡しも helper-independent checker の再計算も行われていない。
+従って `A_WITNESS_CROSSCHECKED` は発行していない。A、B、genuine refinement、dihedral/non-dihedral の
+いずれの結論も主張しない。Lean 証明書もなく、`verified=false` である。
 
-| checker requirement | producer | independent checker | 結果 |
-|---|---|---|---|
-| kernel presentation/table または compact permutation witness | absent | absent | NOT RUN |
-| marked lifts, braid, generation, exact kernel, `rho` | absent | absent | NOT RUN |
-| B3 normality / quotient factorization | absent | absent | NOT RUN |
-| independent charming/full-hexagon traversal | absent | absent | NOT RUN |
-| (3.60), exact 972 key set, fiber vector, zero-key set | absent | absent | NOT RUN |
-| isolated / GT order / image / vector agreement | absent | absent | `cross_checked=false` |
+## §7 — workflow と二-run provenance
 
-SHA と件数だけの照合は cross-check として受理していない。Lean 証明書もないため `verified` でもない。
+workflow は dispatch と schedule、固定 concurrency（`cancel-in-progress:false`）、300分 watchdog、
+read-only permissions、単一 predecessor artifact、schema/input/code digest、三 ledger の exact restore、
+emergency artifact、terminal no-op を実装する。manifest の seed checkpoint
+`06d33ce0184df90add797d8e978bee1c7c2eebb47a75a5cb63c063ed3a491daf` は再計算と一致し、
+schema binding、9 input binding、runtime code-set binding も静的検査を通過した。AJV Draft 2020 manifest、
+YAML parse、埋込み Python 4 block の compile、fixture JSON、trailing whitespace の各検査は PASS した。
 
-## §6 — calibration, negative tests, terminal gate
+最終 provenance 修正後の focused two-run test も PASS した。RESUME は restored parent の bytes/digest を変更せず、
+producer/checker の**新しい transition だけ**に `CURRENT_RUN_ID`、`CURRENT_RUN_ATTEMPT`、
+`CURRENT_EVENT`、`CURRENT_COMMIT`、`SOURCE_RUN_ID` を束縛する。各 transition の parent hash は直前 checkpoint
+digest、sequence は +1 であり、三つの非空 ledger は二 run 間で byte-for-byte restore された。
+既に terminal な入力の no-op は transition を作らず digest を保存する。
 
-### k=1, k=2 calibration
+これは workflow の局所的な resume/hash-chain 検査であり GitHub-hosted execution ではない。
+top blocker のため GHA dispatch request はせず、run ID はない。blocked-only v1 は `COMPLETE` を受理しない。
 
-メールに指定された calibration の期待値は次の通りである。既存 tree に、これを producer と independent checker の両方で生の marked-orbit/fiber receipt として再現した成果物はないため、実測 PASS とは扱わない。
+## §8 — acceptance matrix と実行記録
 
-| calibration | 期待 raw orbit/count | 期待 GT / isolation | 期待 image / zero fiber | 実測 receipt |
-|---|---|---|---|---|
-| k=1 base M | 1 orbit | GT=972, isolated | image=972 | M の shadow/GT=972 は既存。full isolation receipt は UNKNOWN |
-| k=2 split | 1 marked orbit | GT=972, isolated | image=972, zero=0 | 不在 |
-| k=2 nonsplit | 2 marked orbits | 各 GT=1944, isolated | image=972, zero=0 | 不在 |
+| # | 受入項目 | 最終結果 |
+|---:|---|---|
+| 1 | HEAD、7 anchors、変更対象 | **PASS** — §0–§1 に固定 |
+| 2 | complete API / nonabelian scope | **FAIL / BLOCKED** — 一セルの有限全探索設計はあるが、要求された checkpointable all-k API は存在しない |
+| 3 | canonical dedup / exactly-once / closure gate | **PARTIAL (static/unit)** — marked-over-base 双方向判定、分類 journal、incomplete 時 cursor/closure 不変は実装したが、marked dedup は GAP で未実行 |
+| 4 | checker helper independence | **PARTIAL (static/design)** — import/Read/shared GAP helper はないが、独立 backend は GAP で未実行 |
+| 5 | k=1,2 raw counts / full histogram | **FAIL (authority)** — 期待値のみ、独立 universe 証明と観測 raw receipt なし、unlock false |
+| 6 | negative tests | **PASS** — 11/11 rejection |
+| 7 | interrupt/resume、semantic key、current-run provenance | **PARTIAL** — outer 二-run、三 ledger restore、current-run provenance、terminal no-op は PASS。inner-cell checkpoint は FAIL |
+| 8 | campaign exit/wall/RSS/disk と数学 receipt | **NOT RUN** — GAP が script load 前に停止 |
+| 9 | workflow static/resume audit | **PASS (local only)** — YAML/embedded code/schema/prepare-resume。GHA run なし |
+| 10 | terminal A/B decision と git mutation | **BLOCKED** — A/B/genuine の主張なし、commit/push/dispatch なし |
 
-既存 phase0/phase1 の 972 件は k=1 の calibration の一部に対応するが、要求された complete source-kernel と full fiber histogram の代わりにはならない。
+主要な実行結果は以下である。
 
-### negative fixtures
+- producer Python compile/help/self-unit: PASS。
+- checker Python compile/self-test: PASS、negative 11/11。
+- worker static audit: delimiter/string、45 function/45 end、if/fi、loop/od、ASCII、末尾空白を PASS。
+- workflow local audit: AJV、YAML、埋込み Python、二-run restore/hash-chain/current-run provenance を PASS。
+- `.\gap.ps1 search\d972_dovetail_worker_v1.g`: exit 1、script load 前に
+  `fatal error - couldn't create signal pipe, Win32 error 5`。
+- `git diff --check`: repository 全体では既存
+  `search/probe/wac_v1/scan_out.txt` 11–15行の末尾空白により exit 2。今回の対象ファイルには新規の whitespace
+  diagnostic はない。
 
-actor map、kernel order、braid relation、ord-level mode、settlement、m modulus、fiber row を変えた FAIL/STOP fixture directory は未配置である。従って expected/actual の全 negative matrix は次のようになる。
-
-| fixture family | expected | actual |
-|---|---|---|
-| actor-map mutation | FAIL/STOP | NOT RUN — fixture absent |
-| kernel-order mutation | FAIL/STOP | NOT RUN — fixture absent |
-| braid mutation | FAIL/STOP | NOT RUN — fixture absent |
-| ord-level mutation | FAIL/STOP | NOT RUN — fixture absent |
-| settlement mutation | FAIL/STOP | NOT RUN — fixture absent |
-| m-modulus mutation | FAIL/STOP | NOT RUN — fixture absent |
-| fiber-row mutation | FAIL/STOP | NOT RUN — fixture absent |
-
-### terminal gate
-
-terminal の必要条件（2 系統一致、exact 972 target set/vector、zero-key nonempty、image subgroup 324、`A_ar <= Im R`、`|A_ar|=324`）を一つも全て確認していない。従って `A_WITNESS_CROSSCHECKED` は発行しない。nonempty fiber が見つかった場合の正しい次状態 `CONTINUE`、不一致の `DISAGREE_STOP`、資源不足の `UNKNOWN/RESUME` も、実行器がないため未適用である。B-refinement や genuine refinement の存続は主張していない。
-
-## §7 — workflow
-
-要求された `.github/workflows/d972-dovetail.yml` は存在しないため、workflow static validation は `NOT RUN / BLOCKED` である。dispatch、schedule、fixed concurrency (`cancel-in-progress: false`)、watchdog、API state restore、schema/code/input digest、parent SHA chain、monotonic cursor、fork/artifact failure の `STATE_STOP`、terminal no-op、read-only permissions、secret 非出力を確認できる workflow はない。
-
-実行 run ID は存在せず、推測で記録していない。workflow の作成・変更、dispatch、self-dispatch、commit/push はこのターンの権限・範囲外なので行っていない。
-
-## §8 — acceptance ledger / commands
-
-| 要求 | 結果 |
-|---|---|
-| 1. HEAD, anchors, changed-file list | HEAD と 7 anchors を取得。変更は返信のみ |
-| 2. completeness/API/nonabelian scope | complete engine 不在。`BLOCKED_RELATIVE_EXTENSION_ENUMERATOR` |
-| 3. canonical dedup proof/gate | producer/schema 不在、未実装 |
-| 4. helper independence | checker/witness 不在、`cross_checked=false` |
-| 5. k=1,2 raw counts/full histogram | 期待値は記録、両系統 raw receipt は不在 |
-| 6. all negative tests | fixture 不在、全て NOT RUN |
-| 7. interrupt/resume and semantic-key audit | state schema/manifest 不在、NOT RUN |
-| 8. commands/exit/wall/RSS/disk | blocker確認コマンドのみ実行。producer/checker の exit/resource は N/A |
-| 9. workflow static validation/run ID | workflow 不在、NOT RUN、run ID なし |
-| 10. diff check/status/no git mutation | 下記。commit/push/dispatch なし |
-
-### 実行した確認コマンドと出力
-
-~~~powershell
-git rev-parse HEAD
-9799237e31d12a4c35029604e26d7afa8703dcc5
-~~~
-
-~~~powershell
-Get-FileHash <each anchor> -Algorithm SHA256
-# 7/7 anchors: MATCH
-~~~
-
-~~~powershell
-Test-Path <each requested producer/checker/schema/manifest/workflow/fixture>
-# all requested paths: False / NOT FOUND
-~~~
-
-producer、GAP worker、checker の実行コマンドは、対象ファイルが存在しないため実行していない。したがって producer/checker の exit code、wall time、RSS、disk usage、fiber vector、checkpoint receipt は `N/A (blocked)` である。
-
-~~~powershell
-git diff --check
-# exit 1; five pre-existing trailing-whitespace lines in search/probe/wac_v1/scan_out.txt (lines 11-15)
-~~~
-
-この返信を書いた後の `git status --short`（raw tracked/untracked lines）は次の通りである。既存変更はこのターンの変更ではない。
-
-~~~text
- M .github/workflows/w9-p1-k3-crt-C2.yml
- D ci/smoke.g
- M search/probe/wac_v1/__pycache__/gt_thirdparty_bootstrap.cpython-313.pyc
- D search/probe/wac_v1/__pycache__/u_meas_caseb_a5.cpython-313.pyc
- M search/probe/wac_v1/scan_out.txt
- M sol/luna_task_148_dovetail.md
- M sol/sol_reply_134_survival.md
- M sol/sol_reply_135_blind3grp.md
- M sol/sol_reply_139_threetheorems.md
- M sol/sol_reply_140_finish.md
- M sol/sol_reply_148_dovetail.md
-?? sol/luna_reply_148_dovetail.md
-~~~
-
-作業ツリーには上記以外にも既存の untracked scratch/artifact があるため、それらは触れていない。最終状態は `BLOCKED_RELATIVE_EXTENSION_ENUMERATOR` であり、次に必要なのは §3 の complete relative-extension enumerator、その lossless witness schema、独立 checker、k=1/k=2 calibration receipts、negative fixtures、そして workflow の事前承認付き実装である。
-
-
+GAP worker が一度も起動していないため、calibration raw count、候補 campaign、生成 GAP checker、
+wall/RSS/disk receipt は存在しない。最終的に
+`workflow_resumable:false` / `NONCHECKPOINTABLE_EXTENSION_CELL` を維持し、
+`cross_checked=false`、`verified=false`、A/B 判定なし、GHA runなし、commit/pushなし、と報告する。

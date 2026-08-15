@@ -1,0 +1,984 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:shadow-atelier:d972-dovetail-state:v1",
+  "title": "D972 relative-extension dovetail checkpoint state v1",
+  "$comment": "Only the receipts object may contain stage-specific extension fields. Core provenance, cursor, calibration, agreement, stop, and closure fields are fail-closed.",
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "nullableSha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/sha256"},
+        {"type": "null"}
+      ]
+    },
+    "utcTimestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+    },
+    "cursorCoordinate": {
+      "type": "object",
+      "required": ["index", "semantic_key"],
+      "properties": {
+        "index": {"type": "integer", "minimum": 0},
+        "semantic_key": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "cursor": {
+      "type": "object",
+      "required": [
+        "k",
+        "H",
+        "outer_action",
+        "extension_class",
+        "marked_orbit",
+        "stage"
+      ],
+      "properties": {
+        "k": {"type": "integer", "minimum": 3},
+        "H": {"$ref": "#/$defs/cursorCoordinate"},
+        "outer_action": {"$ref": "#/$defs/cursorCoordinate"},
+        "extension_class": {"$ref": "#/$defs/cursorCoordinate"},
+        "marked_orbit": {"$ref": "#/$defs/cursorCoordinate"},
+        "stage": {
+          "enum": [
+            "H",
+            "outer_action",
+            "extension_class",
+            "marked_orbit",
+            "candidate_evaluation",
+            "k_closure"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "fileBinding": {
+      "type": "object",
+      "required": ["path", "required", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "required": {"type": "boolean"},
+        "sha256": {"$ref": "#/$defs/nullableSha256"}
+      },
+      "additionalProperties": false
+    },
+    "ledgerBinding": {
+      "type": "object",
+      "required": ["path", "sha256", "record_count", "through_cursor_sha256"],
+      "properties": {
+        "path": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "null"}
+          ]
+        },
+        "sha256": {"$ref": "#/$defs/nullableSha256"},
+        "record_count": {"type": "integer", "minimum": 0},
+        "through_cursor_sha256": {"$ref": "#/$defs/nullableSha256"}
+      },
+      "additionalProperties": false
+    },
+    "histogramRow": {
+      "type": "object",
+      "required": ["fiber_size", "target_count"],
+      "properties": {
+        "fiber_size": {"type": "integer", "minimum": 0},
+        "target_count": {"type": "integer", "minimum": 1, "maximum": 972}
+      },
+      "additionalProperties": false
+    },
+    "calibrationObservation": {
+      "type": "object",
+      "required": [
+        "marked_orbit_count",
+        "gt_orders",
+        "image_sizes",
+        "zero_fiber_counts",
+        "fiber_histograms",
+        "receipt_sha256"
+      ],
+      "properties": {
+        "marked_orbit_count": {"type": "integer", "minimum": 1},
+        "gt_orders": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 1},
+          "minItems": 1
+        },
+        "image_sizes": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0, "maximum": 972},
+          "minItems": 1
+        },
+        "zero_fiber_counts": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0, "maximum": 972},
+          "minItems": 1
+        },
+        "fiber_histograms": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/histogramRow"},
+            "minItems": 1
+          },
+          "minItems": 1
+        },
+        "receipt_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "calibrationExpected": {
+      "type": "object",
+      "required": [
+        "marked_orbit_count",
+        "gt_orders",
+        "image_sizes",
+        "zero_fiber_counts",
+        "fiber_histograms"
+      ],
+      "properties": {
+        "marked_orbit_count": {"type": "integer", "minimum": 1},
+        "gt_orders": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 1},
+          "minItems": 1
+        },
+        "image_sizes": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0, "maximum": 972},
+          "minItems": 1
+        },
+        "zero_fiber_counts": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0, "maximum": 972},
+          "minItems": 1
+        },
+        "fiber_histograms": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/histogramRow"},
+            "minItems": 1
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "k1CalibrationObservation": {
+      "allOf": [
+        {"$ref": "#/$defs/calibrationObservation"},
+        {
+          "type": "object",
+          "properties": {
+            "marked_orbit_count": {"const": 1},
+            "gt_orders": {"const": [972]},
+            "image_sizes": {"const": [972]},
+            "zero_fiber_counts": {"const": [0]},
+            "fiber_histograms": {
+              "const": [[{"fiber_size": 1, "target_count": 972}]]
+            }
+          }
+        }
+      ]
+    },
+    "k2CalibrationObservation": {
+      "allOf": [
+        {"$ref": "#/$defs/calibrationObservation"},
+        {
+          "type": "object",
+          "properties": {
+            "marked_orbit_count": {"const": 3},
+            "gt_orders": {"const": [972, 1944, 1944]},
+            "image_sizes": {"const": [972, 972, 972]},
+            "zero_fiber_counts": {"const": [0, 0, 0]},
+            "fiber_histograms": {
+              "const": [
+                [{"fiber_size": 1, "target_count": 972}],
+                [{"fiber_size": 2, "target_count": 972}],
+                [{"fiber_size": 2, "target_count": 972}]
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "calibrationCase": {
+      "type": "object",
+      "required": ["case_id", "calibration_only", "expected", "producer", "checker", "agreed"],
+      "properties": {
+        "case_id": {"enum": ["k1_base", "k2_three_marked_orbits"]},
+        "calibration_only": {"const": true},
+        "expected": {"$ref": "#/$defs/calibrationExpected"},
+        "producer": {
+          "oneOf": [
+            {"$ref": "#/$defs/calibrationObservation"},
+            {"type": "null"}
+          ]
+        },
+        "checker": {
+          "oneOf": [
+            {"$ref": "#/$defs/calibrationObservation"},
+            {"type": "null"}
+          ]
+        },
+        "agreed": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "kLedgerRow": {
+      "type": "object",
+      "required": [
+        "k",
+        "status",
+        "k_closed",
+        "enumerator_complete",
+        "producer_checker_agree",
+        "remaining_items",
+        "completeness_receipt_sha256"
+      ],
+      "properties": {
+        "k": {"type": "integer", "minimum": 3},
+        "status": {"enum": ["OPEN", "CLOSED", "BLOCKED"]},
+        "k_closed": {"type": "boolean"},
+        "enumerator_complete": {"type": "boolean"},
+        "producer_checker_agree": {"type": "boolean"},
+        "remaining_items": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0},
+            {"type": "null"}
+          ]
+        },
+        "completeness_receipt_sha256": {"$ref": "#/$defs/nullableSha256"}
+      },
+      "allOf": [
+        {
+          "if": {"type": "object", "properties": {"k_closed": {"const": true}}, "required": ["k_closed"]},
+          "then": {
+            "type": "object",
+            "properties": {
+              "status": {"const": "CLOSED"},
+              "enumerator_complete": {"const": true},
+              "producer_checker_agree": {"const": true},
+              "remaining_items": {"const": 0},
+              "completeness_receipt_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        },
+        {
+          "if": {"type": "object", "properties": {"status": {"enum": ["OPEN", "BLOCKED"]}}, "required": ["status"]},
+          "then": {"type": "object", "properties": {"k_closed": {"const": false}}}
+        }
+      ],
+      "additionalProperties": false
+    },
+    "terminalWitness": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "k",
+        "marked_extension_witness_sha256",
+        "isolated",
+        "target_key_count",
+        "image_size",
+        "first_zero_key",
+        "zero_keys",
+        "producer_digest",
+        "checker_digest",
+        "checkpoint_parent_sha256"
+      ],
+      "properties": {
+        "candidate_id": {"type": "string", "minLength": 1},
+        "k": {"type": "integer", "minimum": 3},
+        "marked_extension_witness_sha256": {"$ref": "#/$defs/sha256"},
+        "isolated": {"const": true},
+        "target_key_count": {"const": 972},
+        "image_size": {"const": 324},
+        "first_zero_key": {"type": "string", "minLength": 1},
+        "zero_keys": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "producer_digest": {"$ref": "#/$defs/sha256"},
+        "checker_digest": {"$ref": "#/$defs/sha256"},
+        "checkpoint_parent_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "engineCompletenessReceipt": {
+      "type": "object",
+      "required": [
+        "package_or_api",
+        "theorem_or_documented_scope",
+        "all_kernel_groups",
+        "all_outer_actions",
+        "all_obstruction_zero_extension_classes",
+        "includes_nonabelian",
+        "all_marked_orbits",
+        "independent_count_receipt_sha256"
+      ],
+      "properties": {
+        "package_or_api": {"type": "string", "minLength": 1},
+        "theorem_or_documented_scope": {"type": "string", "minLength": 1},
+        "all_kernel_groups": {"const": true},
+        "all_outer_actions": {"const": true},
+        "all_obstruction_zero_extension_classes": {"const": true},
+        "includes_nonabelian": {"const": true},
+        "all_marked_orbits": {"const": true},
+        "independent_count_receipt_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state_kind",
+    "universe",
+    "cursor_order",
+    "integrity",
+    "hash_chain",
+    "run",
+    "status",
+    "calibration_gate",
+    "cursors",
+    "enumeration",
+    "ledgers",
+    "terminal_witness",
+    "receipts"
+  ],
+  "properties": {
+    "schema_version": {"const": "d972-dovetail-state/v1"},
+    "state_kind": {"enum": ["INITIAL_MANIFEST", "CHECKPOINT", "TERMINAL"]},
+    "universe": {
+      "type": "object",
+      "required": [
+        "base_kernel",
+        "q0",
+        "q0_order",
+        "qbar",
+        "qbar_order",
+        "start_k",
+        "predicate",
+        "manual_universe_override"
+      ],
+      "properties": {
+        "base_kernel": {"const": "K^(9) intersection N_S4"},
+        "q0": {"const": "PB3/M"},
+        "q0_order": {"const": 1469664},
+        "qbar": {"const": "B3/M"},
+        "qbar_order": {"const": 8817984},
+        "start_k": {"const": 3},
+        "predicate": {"const": "all finite B3-stable marked-over-base extensions, ordered by (k,H,outer_action,extension_class,marked_orbit)"},
+        "manual_universe_override": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "cursor_order": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "k"},
+        {"const": "H"},
+        {"const": "outer_action"},
+        {"const": "extension_class"},
+        {"const": "marked_orbit"}
+      ],
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["ready", "schema", "code", "inputs", "code_set_sha256", "input_set_sha256"],
+      "properties": {
+        "ready": {"type": "boolean"},
+        "schema": {
+          "type": "object",
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": {"const": "search/d972_dovetail_state_schema_v1.json"},
+            "sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        },
+        "code": {
+          "type": "object",
+          "required": ["producer", "checker", "gap_worker", "workflow"],
+          "properties": {
+            "producer": {"$ref": "#/$defs/fileBinding"},
+            "checker": {"$ref": "#/$defs/fileBinding"},
+            "gap_worker": {"$ref": "#/$defs/fileBinding"},
+            "workflow": {"$ref": "#/$defs/fileBinding"}
+          },
+          "additionalProperties": false
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            },
+            "additionalProperties": false
+          },
+          "minItems": 7,
+          "uniqueItems": true
+        },
+        "code_set_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "input_set_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "properties": {"ready": {"const": true}},
+            "required": ["ready"]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "code_set_sha256": {"$ref": "#/$defs/sha256"},
+              "code": {
+                "type": "object",
+                "properties": {
+                  "producer": {
+                    "type": "object",
+                    "properties": {"sha256": {"$ref": "#/$defs/sha256"}}
+                  },
+                  "checker": {
+                    "type": "object",
+                    "properties": {"sha256": {"$ref": "#/$defs/sha256"}}
+                  },
+                  "gap_worker": {
+                    "type": "object",
+                    "properties": {"sha256": {"$ref": "#/$defs/sha256"}}
+                  },
+                  "workflow": {
+                    "type": "object",
+                    "properties": {"sha256": {"$ref": "#/$defs/sha256"}}
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "type": "object",
+            "properties": {"code_set_sha256": {"type": "null"}}
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "hash_chain": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "canonicalization",
+        "digest_scope",
+        "sequence",
+        "parent_checkpoint_sha256",
+        "checkpoint_sha256"
+      ],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "canonicalization": {"const": "utf8-json-sort-keys-no-whitespace-v1"},
+        "digest_scope": {"const": "entire document with /hash_chain/checkpoint_sha256 replaced by 64 lowercase zeroes"},
+        "sequence": {"type": "integer", "minimum": 0},
+        "parent_checkpoint_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "checkpoint_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "run": {
+      "type": "object",
+      "required": ["run_id", "run_attempt", "event", "commit_sha", "created_at_utc", "resume_run_id"],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "run_attempt": {"type": "integer", "minimum": 0},
+        "event": {"enum": ["local_seed", "workflow_dispatch", "schedule"]},
+        "commit_sha": {
+          "oneOf": [
+            {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            {"type": "null"}
+          ]
+        },
+        "created_at_utc": {"$ref": "#/$defs/utcTimestamp"},
+        "resume_run_id": {
+          "oneOf": [
+            {"type": "string", "pattern": "^[1-9][0-9]*$"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "type": "object",
+      "required": ["code", "terminal", "resumable", "reason"],
+      "properties": {
+        "code": {
+          "enum": [
+            "INITIALIZED",
+            "CALIBRATION_PENDING",
+            "CHECKER_PENDING",
+            "CALIBRATION_STOP",
+            "CONTINUE",
+            "UNKNOWN/RESUME",
+            "A_WITNESS_CROSSCHECKED",
+            "DISAGREE_STOP",
+            "INCONSISTENT_STOP",
+            "STATE_STOP",
+            "BLOCKED_RELATIVE_EXTENSION_ENUMERATOR"
+          ]
+        },
+        "terminal": {"type": "boolean"},
+        "resumable": {"type": "boolean"},
+        "reason": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "null"}
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "calibration_gate": {
+      "type": "object",
+      "required": ["required", "status", "search_unlocked", "producer_checker_agree", "cases"],
+      "properties": {
+        "required": {"const": true},
+        "status": {"enum": ["PENDING", "PASSED", "FAILED"]},
+        "search_unlocked": {"type": "boolean"},
+        "producer_checker_agree": {"type": "boolean"},
+        "cases": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "allOf": [
+                {"$ref": "#/$defs/calibrationCase"},
+                {
+                  "type": "object",
+                  "properties": {
+                    "case_id": {"const": "k1_base"},
+                    "expected": {
+                      "const": {
+                        "marked_orbit_count": 1,
+                        "gt_orders": [972],
+                        "image_sizes": [972],
+                        "zero_fiber_counts": [0],
+                        "fiber_histograms": [[{"fiber_size": 1, "target_count": 972}]]
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {"$ref": "#/$defs/calibrationCase"},
+                {
+                  "type": "object",
+                  "properties": {
+                    "case_id": {"const": "k2_three_marked_orbits"},
+                    "expected": {
+                      "const": {
+                        "marked_orbit_count": 3,
+                        "gt_orders": [972, 1944, 1944],
+                        "image_sizes": [972, 972, 972],
+                        "zero_fiber_counts": [0, 0, 0],
+                        "fiber_histograms": [
+                          [{"fiber_size": 1, "target_count": 972}],
+                          [{"fiber_size": 2, "target_count": 972}],
+                          [{"fiber_size": 2, "target_count": 972}]
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "allOf": [
+        {
+          "if": {"type": "object", "properties": {"status": {"const": "PASSED"}}, "required": ["status"]},
+          "then": {
+            "type": "object",
+            "properties": {
+              "search_unlocked": {"const": true},
+              "producer_checker_agree": {"const": true},
+              "cases": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "allOf": [
+                      {"$ref": "#/$defs/calibrationCase"},
+                      {
+                        "type": "object",
+                        "properties": {
+                          "case_id": {"const": "k1_base"},
+                          "producer": {"$ref": "#/$defs/k1CalibrationObservation"},
+                          "checker": {"$ref": "#/$defs/k1CalibrationObservation"},
+                          "agreed": {"const": true}
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {"$ref": "#/$defs/calibrationCase"},
+                      {
+                        "type": "object",
+                        "properties": {
+                          "case_id": {"const": "k2_three_marked_orbits"},
+                          "producer": {"$ref": "#/$defs/k2CalibrationObservation"},
+                          "checker": {"$ref": "#/$defs/k2CalibrationObservation"},
+                          "agreed": {"const": true}
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          },
+          "else": {"type": "object", "properties": {"search_unlocked": {"const": false}}}
+        }
+      ],
+      "additionalProperties": false
+    },
+    "cursors": {
+      "type": "object",
+      "required": ["producer", "checker", "agreed", "exact_equal", "agreement_receipt_sha256"],
+      "properties": {
+        "producer": {"$ref": "#/$defs/cursor"},
+        "checker": {"$ref": "#/$defs/cursor"},
+        "agreed": {"$ref": "#/$defs/cursor"},
+        "exact_equal": {"type": "boolean"},
+        "agreement_receipt_sha256": {"$ref": "#/$defs/nullableSha256"}
+      },
+      "additionalProperties": false
+    },
+    "enumeration": {
+      "type": "object",
+      "required": [
+        "engine_status",
+        "complete_relative_extensions",
+        "includes_nonabelian",
+        "engine_completeness_receipt_sha256",
+        "semantic_key_count",
+        "semantic_key_set_sha256",
+        "k_ledger",
+        "closure_policy"
+      ],
+      "properties": {
+        "engine_status": {
+          "enum": ["UNASSESSED", "IMPLEMENTED_UNCALIBRATED", "COMPLETE", "BLOCKED"]
+        },
+        "complete_relative_extensions": {"type": "boolean"},
+        "includes_nonabelian": {"type": "boolean"},
+        "engine_completeness_receipt_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "semantic_key_count": {"type": "integer", "minimum": 0},
+        "semantic_key_set_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "k_ledger": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/kLedgerRow"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "closure_policy": {"const": "no k_closed until complete H/actions/classes/orbits enumeration and producer-checker agreement; no later k closes across the least open k"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "engine_status": {"const": "COMPLETE"}
+            },
+            "required": ["engine_status"]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "complete_relative_extensions": {"const": true},
+              "includes_nonabelian": {"const": true},
+              "engine_completeness_receipt_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          },
+          "else": {
+            "type": "object",
+            "properties": {
+              "complete_relative_extensions": {"const": false},
+              "engine_completeness_receipt_sha256": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": {
+              "complete_relative_extensions": {"const": true}
+            },
+            "required": ["complete_relative_extensions"]
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "engine_status": {"const": "COMPLETE"},
+              "includes_nonabelian": {"const": true},
+              "engine_completeness_receipt_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "ledgers": {
+      "type": "object",
+      "required": ["producer", "checker"],
+      "properties": {
+        "producer": {"$ref": "#/$defs/ledgerBinding"},
+        "checker": {"$ref": "#/$defs/ledgerBinding"}
+      },
+      "additionalProperties": false
+    },
+    "terminal_witness": {
+      "oneOf": [
+        {"$ref": "#/$defs/terminalWitness"},
+        {"type": "null"}
+      ]
+    },
+    "receipts": {
+      "type": "object",
+      "description": "Only extension point for stage-specific, non-core receipts.",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "type": "object",
+        "properties": {"status": {"type": "object", "properties": {"code": {"const": "A_WITNESS_CROSSCHECKED"}}}},
+        "required": ["status"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "state_kind": {"const": "TERMINAL"},
+          "status": {
+            "type": "object",
+            "properties": {
+              "terminal": {"const": true},
+              "resumable": {"const": false},
+              "reason": {"type": "string", "minLength": 1}
+            }
+          },
+          "cursors": {"type": "object", "properties": {"exact_equal": {"const": true}}},
+          "terminal_witness": {"$ref": "#/$defs/terminalWitness"}
+        }
+      },
+      "else": {"type": "object", "properties": {"terminal_witness": {"type": "null"}}}
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "enum": [
+                  "CALIBRATION_STOP",
+                  "DISAGREE_STOP",
+                  "INCONSISTENT_STOP",
+                  "STATE_STOP",
+                  "BLOCKED_RELATIVE_EXTENSION_ENUMERATOR"
+                ]
+              }
+            }
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "state_kind": {"const": "TERMINAL"},
+          "status": {
+            "type": "object",
+            "properties": {
+              "terminal": {"const": true},
+              "resumable": {"const": false},
+              "reason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "enumeration": {
+            "type": "object",
+            "properties": {"complete_relative_extensions": {"const": true}}
+          }
+        },
+        "required": ["enumeration"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "receipts": {
+            "type": "object",
+            "required": ["relative_extension_completeness"],
+            "properties": {
+              "relative_extension_completeness": {
+                "$ref": "#/$defs/engineCompletenessReceipt"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "object",
+            "properties": {
+              "code": {"enum": ["INITIALIZED", "CALIBRATION_PENDING", "CHECKER_PENDING", "CONTINUE", "UNKNOWN/RESUME"]}
+            }
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "state_kind": {"enum": ["INITIAL_MANIFEST", "CHECKPOINT"]},
+          "status": {
+            "type": "object",
+            "properties": {
+              "terminal": {"const": false},
+              "resumable": {"const": true}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "object",
+            "properties": {"code": {"enum": ["CONTINUE", "A_WITNESS_CROSSCHECKED"]}}
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "cursors": {
+            "type": "object",
+            "properties": {
+              "exact_equal": {"const": true},
+              "agreement_receipt_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "object",
+            "properties": {"code": {"enum": ["CHECKER_PENDING", "CONTINUE", "A_WITNESS_CROSSCHECKED"]}}
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "calibration_gate": {
+            "type": "object",
+            "properties": {
+              "status": {"const": "PASSED"},
+              "search_unlocked": {"const": true},
+              "producer_checker_agree": {"const": true}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "object",
+            "properties": {"code": {"enum": ["CHECKER_PENDING", "CONTINUE", "A_WITNESS_CROSSCHECKED"]}}
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "enumeration": {
+            "type": "object",
+            "properties": {
+              "engine_status": {"const": "COMPLETE"},
+              "complete_relative_extensions": {"const": true},
+              "includes_nonabelian": {"const": true},
+              "engine_completeness_receipt_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "object",
+            "properties": {"code": {"const": "BLOCKED_RELATIVE_EXTENSION_ENUMERATOR"}}
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "enumeration": {
+            "type": "object",
+            "properties": {
+              "engine_status": {"const": "BLOCKED"},
+              "complete_relative_extensions": {"const": false}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}
