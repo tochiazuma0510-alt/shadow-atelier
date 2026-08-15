@@ -25,6 +25,13 @@
 D972V2V1Path := "search/d972_dovetail_worker_v1.g";;
 D972V2ExpectedV1SHA256 :=
   "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd";;
+D972V2CompatNeedle := "Size(Group(a1,a2))";;
+D972V2CompatReplacement :=
+  "Size(Group([a1,a2],IdentityMapping(G9)))";;
+D972V2CompatReplacementCount := 1;;
+D972V2MtcNeedle := "PresentationSubgroupMtc(P, Hsub, \"h\", 0)";;
+D972V2MtcReplacement := "PresentationSubgroupMtc(P, Hsub, \"h\")";;
+D972V2MtcReplacementCount := 1;;
 
 ## Load all frozen v1 definitions without executing its mode dispatcher/QUIT.
 ## A temporary copy is used because the source is intentionally kept versioned
@@ -54,7 +61,8 @@ if not IsBound(SmallGroupsAvailable) or not IsBound(AllSmallGroups) then
 fi;;
 
 D972V2LoadV1Library := function()
-  local source, actual, marker, cut, dir, path, prefix;
+  local source, actual, marker, cut, dir, path, prefix, needle, replacement,
+        replacementCount, mtcCount;
   source := StringFile(D972V2V1Path);
   if source = fail then Error("D972 v2: could not read frozen v1 worker"); fi;
   actual := HexSHA256(source);
@@ -66,6 +74,25 @@ D972V2LoadV1Library := function()
   cut := PositionSublist(source,marker);
   if cut = fail then Error("D972 v2: v1 dispatch boundary not found"); fi;
   prefix := source{[1..cut-1]};
+  ## GAP 4.12 rejects Group(a1,a2) when a1/a2 are mappings.  This is a
+  ## compatibility-only materialization rewrite; the frozen v1 digest above
+  ## remains the authority and the exact one-occurrence binding is fail-closed.
+  needle := D972V2CompatNeedle;
+  replacement := D972V2CompatReplacement;
+  replacementCount := Number([1..Length(prefix)],
+    i -> i + Length(needle) - 1 <= Length(prefix) and
+      prefix{[i..i+Length(needle)-1]} = needle);
+  if replacementCount <> D972V2CompatReplacementCount then
+    Error("D972 v2: GAP4.12 compatibility needle count drift: ",replacementCount);
+  fi;
+  prefix := ReplacedString(prefix,needle,replacement);
+  mtcCount := Number([1..Length(prefix)],
+    i -> i + Length(D972V2MtcNeedle) - 1 <= Length(prefix) and
+      prefix{[i..i+Length(D972V2MtcNeedle)-1]} = D972V2MtcNeedle);
+  if mtcCount <> D972V2MtcReplacementCount then
+    Error("D972 v2: MTC compatibility needle count drift: ",mtcCount);
+  fi;
+  prefix := ReplacedString(prefix,D972V2MtcNeedle,D972V2MtcReplacement);
   dir := DirectoryTemporary();
   if dir = fail then Error("D972 v2: no temporary directory"); fi;
   path := Filename(dir,"d972_dovetail_worker_v1_library.g");
@@ -275,7 +302,7 @@ D972ExactEmbeddingGate := function(Pdata, expectedH, expectedQ)
   Hsub:=Subgroup(P,Pdata.h_words{[2..Length(Pdata.h_words)]});
   normal:=IsNormal(P,Hsub);
   D972V2Heartbeat("fp_order","presentation_subgroup_mtc_entered",cursor);
-  pres:=PresentationSubgroupMtc(P,Hsub,"h",0);
+  pres:=PresentationSubgroupMtc(P,Hsub,"h");
   D972V2Heartbeat("fp_order","presentation_subgroup_mtc_completed",cursor);
   Hfp:=FpGroupPresentation(pres);
   D972V2Heartbeat("fp_order","kernel_size_entered",cursor);
@@ -476,6 +503,12 @@ D972Emit := function(payload)
     ",\"h_exhausted\":",D972Bool(hExhausted),
     ",\"terminal_A_eligible\":",D972Bool(terminalA),
     ",\"terminal_A_requires_independent_checker\":true",
+    ",\"gap412_compat_rewrite\":{\"needle\":",D972JsonString(D972V2CompatNeedle),
+      ",\"replacement\":",D972JsonString(D972V2CompatReplacement),
+      ",\"count\":",String(D972V2CompatReplacementCount),"}",
+    ",\"gap412_mtc_rewrite\":{\"needle\":",D972JsonString(D972V2MtcNeedle),
+      ",\"replacement\":",D972JsonString(D972V2MtcReplacement),
+      ",\"count\":",String(D972V2MtcReplacementCount),"}",
     ",\"workflow_resumable\":",D972Bool(D972V2DmtcpReady),
     ",\"opaque_internal_state_checkpointed_by\":\"DMTCP process image; authority is external image manifest\"",
     ",\"dmtcp\":{\"enabled\":",D972Bool(D972V2DmtcpEnabled),

@@ -68,6 +68,22 @@
       "compatibility": "define GetEnv only when unbound before loading frozen v1",
       "missing_value": "fail"
     },
+    "gap_4_12_materialized_rewrites": {
+      "source": "search/d972_dovetail_worker_v1.g",
+      "replacement_count_total": 2,
+      "mapping_group": {
+        "replacement_count": 1,
+        "needle": "Size(Group(a1,a2))",
+        "replacement": "Size(Group([a1,a2],IdentityMapping(G9)))"
+      },
+      "mtc_group": {
+        "replacement_count": 1,
+        "needle": "PresentationSubgroupMtc(P, Hsub, \"h\", 0)",
+        "replacement": "PresentationSubgroupMtc(P, Hsub, \"h\")"
+      },
+      "fail_closed_on_count_drift": true,
+      "frozen_v1_digest_gate": true
+    },
     "gap_v1_library_materialization": {
       "writer": "FileString",
       "round_trip_check": "StringFile(path) equals exact normalized prefix before Read",
@@ -104,8 +120,8 @@
     "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
-    "contract_sha256": "78ce564e6a443f95d52763b21d292af71113bb57a30b59cab36f41819f7d6cb8",
-    "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca"
+    "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
+    "contract_sha256": "fb2ecb913067d7b13d03cc2a9cab41e11082838f6f7f773bff8f19b7d6ad2aff"
   },
   "launch_spec": {
     "cwd": ".",
