@@ -230,3 +230,63 @@ RUN_31904750698_ATTRIBUTION_V2=RETRACTED;
 V3_PROBE_POLICY=SOURCE_EXACT_LAUNCH0_COMMAND_HELP1_RESTART_HELP0;
 REPAIR_V3_STATUS=READY_FOR_PARENT_AUDIT;
 ```
+
+## 8. v4 correction — run 31905492945 Bash parser failure
+
+run `31905492945`（job `95062483505`、source `f396e8cc`）を監査した。DMTCP source download/hash/configure/make/make install の失敗ではない。生成された install step は build後、line 46 の
+
+```text
+syntax error in conditional expression: unexpected token `;'
+```
+
+で Bash parser により停止した。従って v3 の三つの probe は一つも実行されておらず、status や output の証拠として扱わない。
+
+原因は、manifestのsingleton policy membershipを Bash wildcard `[[ " ... " == *" ... "*" ]]` で判定した式である。この形式を workflow から全て除去した。
+
+v4 は各 policy を Python の一行 loader で読み、`assert len(x)==1` を通った declared singleton code を得て、実測statusを単純な
+
+```bash
+test "$actual_rc" = "$declared_rc"
+```
+
+で比較する。比較対象は次の固定値である。
+
+```text
+dmtcp_launch --version       declared=0
+dmtcp_command --help         declared=1
+dmtcp_restart --help         declared=0
+```
+
+これにより wildcard、glob、semicolonを含むfragile conditionalは残っていない。policyがsingletonでなければ loader 自体が停止し、status mismatch、必須出力token欠落、pinned binary path不一致も従来どおり fail-closed である。
+
+さらに expensive な source build より前、checkout lock の直後に `Bash syntax gate for exact DMTCP inventory step` を追加した。gateは別のfixtureを再入力せず、現在の `.github/workflows/d972-dovetail-v2.yml` から `Install and inventory GAP plus DMTCP` の実際の `run: |` blockを `awk` で `$RUNNER_TEMP` に抽出し、`bash -n` する。したがって同じ構文エラーは build時間を消費する前に検出される。
+
+v4で追加のmanifest内容はなく、contract/provisioning digestは変更しない。
+
+```text
+contract_sha256       = 1c97981e298d33f342a6ee9e60b8449889c2450e1d986c69826e743d7b63ccf1
+provisioning_sha256   = 37d739ea0a6775ff119e98e43e083541e954bd473fc2de89d10049655c39de50
+producer binding       = 3437024fe4ce3823ac3701f744c2edb6ea4b7b71820415b05879aa368921d713
+workflow SHA-256       = 80040dc42da759a62b43fc6164d7fe0ea0999f9d88685c5b8e86b6f02bb96848
+manifest SHA-256       = 4f6b946e93c271c487ef790f6f0363fe9bdbd0afc646504afe174bc96954fbc7
+```
+
+v4 tests:
+
+```text
+producer v2 self-test                       PASS
+checker v2 self-test                        PASS
+workflow YAML parse                         PASS
+embedded Python heredocs                    11/11 PASS
+canonical provisioning/contract digest      PASS
+singleton policy assertions                 PASS
+git diff --check                             PASS
+```
+
+run `31905492945` は数学未到達・artifactなしであり、resume対象ではない。親brokerがv4を含むfresh commitをpush後、`resume_run_id=""`, `slice_minutes="240"` で再発火する。commit/push/dispatch は行っていない。
+
+```text
+RUN_31905492945_MATH_STATUS=NO_CAMPAIGN_REACHED;
+RUN_31905492945_FAILURE=BASH_PARSE_IN_WILDCARD_MEMBERSHIP_CONDITIONAL;
+V4_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
+```
