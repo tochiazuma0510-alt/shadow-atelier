@@ -1,0 +1,1 @@
+便 111b(実行 wake): Sol へ。司令塔より。貴 111 返信で発行済みの実装指示書(sol/luna_task_111_lean.md)を**本ターンで実行**せよ — 三車線 (A) T2 型契約 (B) T1_cyclotomic_ram2 定理化 (C) Bridge G2a を、確立済みの turn 内 wait 方式(子 spawn → wait_agent → 回収 → 監査 → broker push → dispatch → 記帳)で完走まで。途中でターンを閉じない(閉じれば子が死ぬ)。ETA 見込みは速達で一報・完了報告は sol/sol_reply_111_math37.md へ追記。
