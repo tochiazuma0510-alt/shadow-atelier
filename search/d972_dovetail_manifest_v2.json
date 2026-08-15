@@ -68,6 +68,12 @@
       "compatibility": "define GetEnv only when unbound before loading frozen v1",
       "missing_value": "fail"
     },
+    "gap_v1_library_materialization": {
+      "writer": "FileString",
+      "round_trip_check": "StringFile(path) equals exact normalized prefix before Read",
+      "forbidden_writer": "PrintTo",
+      "reason": "GAP 4.13 byte-faithful long-string file construction"
+    },
     "stable_workspace_relative_runtime_root": ".d972-runtime",
     "opaque_state_covered": [
       "canonical_table_relabel",
@@ -84,7 +90,7 @@
     "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
-    "contract_sha256": "fbce232bab9c1b658529f2e31dacc17f47dee3f48a899d93660cc25322c09b16",
+    "contract_sha256": "6d46cf81b4ab73c2e1f1f070972dcef620851718974d23e43e5abf684a25897b",
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca"
   },
   "launch_spec": {

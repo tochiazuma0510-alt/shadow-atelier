@@ -59,7 +59,14 @@ D972V2LoadV1Library := function()
   dir := DirectoryTemporary();
   if dir = fail then Error("D972 v2: no temporary directory"); fi;
   path := Filename(dir,"d972_dovetail_worker_v1_library.g");
-  PrintTo(path,prefix);
+  ## FileString is the byte-faithful writer on GAP 4.13.  PrintTo is
+  ## stream/printing oriented and can abbreviate a large string, which
+  ## corrupts the generated v1 prefix at a token boundary.
+  FileString(path,prefix);
+  actual := StringFile(path);
+  if actual <> prefix then
+    Error("D972 v2: generated v1 library is not byte-faithful");
+  fi;
   Read(path);
 end;;
 

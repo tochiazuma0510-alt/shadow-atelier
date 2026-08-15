@@ -509,3 +509,54 @@ RUN_31907793975_MATH_STATUS=NO_CAMPAIGN_REACHED;
 V8_FAILURE=GAP_4_13_GetEnv_UNBOUND;
 V8_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
 ```
+
+## 13. v9 correction — GAP 4.13 byte-faithful v1 library materialization
+
+Fresh GHA run `31908356471` / job `95069552544` passed the v8
+environment-accessor gate, then failed while loading the generated v1 GAP
+library. The actual temporary file contained a lone `.` at the source `od;`
+boundary (line 92), producing `Badly formed number` and leaving
+`D972CanonicalTable` unbound. This is a runtime materialization failure before
+the mathematical smoke, not a mathematical result. The frozen v1 source was
+not edited.
+
+The v2 loader now uses GAP's `FileString(path,prefix)` rather than
+`PrintTo(path,prefix)`, then immediately reads the file back with
+`StringFile(path)` and requires exact equality with the normalized source
+prefix before `Read(path)`. The manifest contract binds this writer,
+round-trip equality, and the explicit `PrintTo` prohibition. The existing
+full-source SHA gate remains before normalization, and the v1 API remains
+unchanged.
+
+```text
+run_id                           = 31908356471
+job_id                           = 95069552544
+failure                          = GAP_4_13_CORRUPT_GENERATED_V1_PREFIX
+contract_sha256                  = 6d46cf81b4ab73c2e1f1f070972dcef620851718974d23e43e5abf684a25897b
+provisioning_sha256              = 11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca
+worker_v2_sha256                 = ed1de9c0a36e115bde1a5c18d5211f346496f558d0e6b75031fe89c38163293b
+manifest_v2_sha256               = 655467b86e46263952532eef1cb9e5c8dc2541898d6fd122ec4a16504fd86125
+producer_v2_sha256               = f13e34832d14f27e503aea342dab6d1e655ee070b28f251f255bae0700e21b27
+workflow_sha256                  = fa7bf1decf4718873e65fbe8700a7b6a52291a80d73794af68736c9c99595e92
+binding_set_sha256               = e991d54f9594cfad1df0045151edfe33d42b9cd779911cb6e66a620867eac0e4
+```
+
+```text
+producer v2 self-test                         PASS
+checker v2 self-test                          PASS
+Python compile                                PASS
+canonical contract digest                    PASS
+FileString round-trip/static loader audit     PASS
+GAP 4.13 local launch                         BLOCKED (known Win32 signal-pipe error 5)
+C4 producer prior attempt                     TIMEOUT_180S_NO_OUTPUT (no JSON; not a result)
+```
+
+The C4 freeze artifact remains preserved; its producer attempt was terminated
+after the 180-second bound without output and therefore supplies no Ext/lift
+or A/B conclusion. No commit, push, or dispatch was performed by Luna.
+
+```text
+RUN_31908356471_MATH_STATUS=NO_CAMPAIGN_REACHED;
+V9_FAILURE=GAP_4_13_PRINTTO_CORRUPTED_V1_PREFIX;
+V9_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
+```
