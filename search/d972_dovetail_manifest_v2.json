@@ -13,7 +13,22 @@
     "configure": "./configure --prefix=$GITHUB_WORKSPACE/.dmtcp-prefix",
     "build": "make -j$(nproc)",
     "install": "make install",
-    "binary_prefix": ".dmtcp-prefix/bin"
+    "binary_prefix": ".dmtcp-prefix/bin",
+    "version_probe": {
+      "argv": ["dmtcp_launch", "--version"],
+      "allowed_exit_codes": [0],
+      "required_output_tokens": ["DMTCP", "4.2.0"]
+    },
+    "command_help_probe": {
+      "argv": ["dmtcp_command", "--help"],
+      "allowed_exit_codes": [1],
+      "required_output_tokens": ["--kcheckpoint"]
+    },
+    "restart_help_probe": {
+      "argv": ["dmtcp_restart", "--help"],
+      "allowed_exit_codes": [0],
+      "required_output_tokens": ["--ckptdir"]
+    }
   },
   "mathematical_state": {
     "schema": "d972-dovetail-state/v1",
@@ -48,8 +63,8 @@
     "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
-    "contract_sha256": "46a1e95024ebb148c01a982828dc58e163166fbcab65afd3fd1393581e5a403b",
-    "provisioning_sha256": "e91b29b61ebb4eb35ce863c2f66b68bfaeed565dc24c63cd9cfeff2b886cebc0"
+    "contract_sha256": "1c97981e298d33f342a6ee9e60b8449889c2450e1d986c69826e743d7b63ccf1",
+    "provisioning_sha256": "37d739ea0a6775ff119e98e43e083541e954bd473fc2de89d10049655c39de50"
   },
   "launch_spec": {
     "cwd": ".",

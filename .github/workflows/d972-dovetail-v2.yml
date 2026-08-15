@@ -137,6 +137,13 @@ jobs:
           dmtcp_release_sha=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["archive_sha256"])')
           dmtcp_release_commit=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["release_commit_sha"])')
           dmtcp_release_root=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["archive_root"])')
+          dmtcp_release_tag=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["release_tag"])')
+          dmtcp_version_token="${dmtcp_release_tag#v}"
+          dmtcp_allowed_exit_codes=$(python3 -c 'import json; print(" ".join(str(x) for x in json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["version_probe"]["allowed_exit_codes"]))')
+          dmtcp_command_help_allowed=$(python3 -c 'import json; print(" ".join(str(x) for x in json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["command_help_probe"]["allowed_exit_codes"]))')
+          dmtcp_command_help_token=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["command_help_probe"]["required_output_tokens"][0])')
+          dmtcp_restart_help_allowed=$(python3 -c 'import json; print(" ".join(str(x) for x in json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["restart_help_probe"]["allowed_exit_codes"]))')
+          dmtcp_restart_help_token=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["restart_help_probe"]["required_output_tokens"][0])')
           [[ "$dmtcp_release_sha" =~ ^[0-9a-f]{64}$ ]]
           [[ "$dmtcp_release_commit" =~ ^[0-9a-f]{40}$ ]]
           dmtcp_archive="$RUNNER_TEMP/dmtcp-v4.2.0.tar.gz"
@@ -164,14 +171,20 @@ jobs:
           echo "PATH=$dmtcp_prefix/bin:$PATH" >> "$GITHUB_ENV"
           mkdir -p "$RUNTIME_ROOT" "$RUNTIME_ROOT/tmp" "$RUNTIME_ROOT/home" "$RUNTIME_ROOT/ckpt" \
             "$RUNTIME_ROOT/artifacts" "$RUNTIME_ROOT/checker" "$RUNTIME_ROOT/lineage"
+          set +e
           dmtcp_version_output=$("$dmtcp_prefix/bin/dmtcp_launch" --version 2>&1)
+          dmtcp_version_rc=$?
+          set -e
+          [[ " $dmtcp_allowed_exit_codes " == *" $dmtcp_version_rc "*" ]]
+          grep -Fq 'DMTCP' <<<"$dmtcp_version_output"
+          grep -Fq "$dmtcp_version_token" <<<"$dmtcp_version_output"
           dmtcp_version=$(head -n 1 <<<"$dmtcp_version_output" | tr -d '\r')
           test -n "$dmtcp_version"
           test "$(command -v dmtcp_launch)" = "$dmtcp_prefix/bin/dmtcp_launch"
           test "$(command -v dmtcp_command)" = "$dmtcp_prefix/bin/dmtcp_command"
           test "$(command -v dmtcp_coordinator)" = "$dmtcp_prefix/bin/dmtcp_coordinator"
           test "$(command -v dmtcp_restart)" = "$dmtcp_prefix/bin/dmtcp_restart"
-          dmtcp_version="$dmtcp_version; release_commit=$dmtcp_release_commit; archive_sha256=$dmtcp_release_sha"
+          dmtcp_version="$dmtcp_version; version_probe_exit=$dmtcp_version_rc; release_commit=$dmtcp_release_commit; archive_sha256=$dmtcp_release_sha"
           gap_version=$(gap -q -b <<'GAP' | tail -n 1
           Print(GAPInfo.Version, "\n");
           QUIT_GAP(0);
@@ -179,10 +192,17 @@ jobs:
           )
           python_version=$(python3 --version 2>&1 | tr -d '\r')
           test -n "$gap_version"
+          set +e
           dmtcp_command_help=$(dmtcp_command --help 2>&1)
+          dmtcp_command_help_rc=$?
           dmtcp_restart_help=$(dmtcp_restart --help 2>&1)
-          grep -q -- '--kcheckpoint' <<<"$dmtcp_command_help"
-          grep -q -- '--ckptdir' <<<"$dmtcp_restart_help"
+          dmtcp_restart_help_rc=$?
+          set -e
+          [[ " $dmtcp_command_help_allowed " == *" $dmtcp_command_help_rc "*" ]]
+          [[ " $dmtcp_restart_help_allowed " == *" $dmtcp_restart_help_rc "*" ]]
+          grep -Fq "$dmtcp_command_help_token" <<<"$dmtcp_command_help"
+          grep -Fq "$dmtcp_restart_help_token" <<<"$dmtcp_restart_help"
+          dmtcp_version="$dmtcp_version; command_help_exit=$dmtcp_command_help_rc; restart_help_exit=$dmtcp_restart_help_rc"
           echo "dmtcp_version=$dmtcp_version" >> "$GITHUB_OUTPUT"
           echo "gap_version=$gap_version" >> "$GITHUB_OUTPUT"
           echo "python_version=$python_version" >> "$GITHUB_OUTPUT"

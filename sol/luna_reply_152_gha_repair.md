@@ -115,3 +115,118 @@ DMTCP_ARCHIVE_SHA256=0288457860517cf3b221da794bbf0bea8804d846fcb629a50181a7225b9
 REPAIR_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
 DISPATCH_REQUIRED=YES;
 ```
+
+## 6. v2 repair — run 31904750698 (`--version` probe)
+
+親から指定された run `31904750698`（job `95060721958`、source commit `2470d8cb77bf0dc40544274be2ee8259ec6dcd36`）を追加監査した。source download の SHA 検査、展開、configure、make、make install はすべて成功している。失敗はその直後で、数学処理には到達していない。
+
+### 6.1 source-level cause audit
+
+DMTCP v4.2.0 source archive の `src/dmtcp_launch.cpp` では、`processArgs` の
+
+```cpp
+} else if ((s == "--version") && argc == 1) {
+  printf("%s", DMTCP_VERSION_AND_COPYRIGHT_INFO);
+  exit(0);
+}
+```
+
+が確認できる。一方、同じ archive の `src/dmtcp_command.cpp` は version 表示後に `return 1`、`src/dmtcprestartinternal.cpp` の restart probe は `exit(0)` である。従って `--version` の終了コードを一律に「表示成功なら常に zero」と仮定するのは危険であり、run 31904750698 の実環境で `dmtcp_launch --version` が `set -e` の assignment を停止させたことを、output を隠したまま無視しないよう修理した。
+
+新 probe は `set +e` の狭い範囲で終了コードを取得し、次を全て要求する。
+
+1. 終了コードが manifest の `version_probe.allowed_exit_codes = [0,1]` に含まれる。
+2. captured output に `DMTCP` が含まれる。
+3. captured output に manifest 固定 release tag `v4.2.0` の version token `4.2.0` が含まれる。
+4. `dmtcp_launch`、`dmtcp_command`、`dmtcp_coordinator`、`dmtcp_restart` は従来どおり pinned prefix の実体である。
+5. runtime receipt は `version_probe_exit`、source commit、archive SHA を結合する。
+
+従って、任意の非 zero を飲み込む変更ではない。version output の内容、pinned source archive、4つの binary path、後続の help gate、stateful restart smoke が全て残り、異常な status/output は fail-closed のままである。今回の実行では source 内の launch 分岐は zero を明記しているため、実際の status が 1 でも正しい固定 output がなければ停止する。
+
+### 6.2 v2 変更と新 digest
+
+`search/d972_dovetail_manifest_v2.json` の provisioning に version probe policy を追加し、provisioning digest と contract digest を更新した。
+
+```text
+provisioning_sha256 = 425dafd0b4a303a8c6b1f59df2a241825382109ca84ddcfe578eb21158ff7570
+contract_sha256     = 8fc91988171621c78e5d674f37f14fd546d487d9a77665934a8c0cd6a0c54ffd
+producer binding    = 5999ea1750af283186d09e8810afbac78dc8a5c4387514b039a240082596ec29
+workflow SHA-256    = 455fb21a440ad93cdea8d9c789651d17fa4b3cdea4ce8674616a2a7d419c8886
+manifest SHA-256    = 7baa250272f5aa5f4add3d481db87be85a2f07cd5f976beb6930fbe114283195
+```
+
+### 6.3 v2 tests
+
+```text
+python -B search/d972_dovetail_producer_v2.py --self-test       PASS
+python -B search/check_d972_dovetail_v2.py --self-test          PASS
+workflow YAML parse                                             PASS
+embedded Python heredocs                                        11/11 PASS
+canonical provisioning + contract digest                        PASS
+git diff --check (workflow, manifest, reply)                     PASS
+```
+
+この session では Linux binary の直接起動はできないため、run 31904750698 の observed status をローカルで捏造していない。次の fresh dispatch は、上記 v2 workflow/manifest を含む親 commit に対して `resume_run_id=""`, `slice_minutes="240"` とする。run 31904750698 は失敗 artifact を持たず、resume 対象ではない。
+
+```text
+RUN_31904750698_MATH_STATUS=NO_CAMPAIGN_REACHED;
+RUN_31904750698_FAILURE=POST_INSTALL_DMTCP_VERSION_PROBE;
+VERSION_PROBE=CAPTURED_OUTPUT_PLUS_PINNED_TOKEN_AND_ALLOWED_RC;
+REPAIR_V2_STATUS=READY_FOR_PARENT_COMMIT_AND_FRESH_GHA;
+```
+
+## 7. v3 correction — run 31904750698 attribution retracted
+
+Sol の親監査を受理し、§6 の帰属を訂正する。run `31904750698` のログは `make install` の最後で止まっており、silent command substitution のどれが nonzero だったかはログだけから特定できない。従って、§6 が「`dmtcp_launch --version` が停止原因」と断定したのは不正確であり、**その attribution を撤回する**。
+
+凍結した v4.2.0 source の一次確認結果は次のとおりである。
+
+- `src/dmtcp_launch.cpp:234-239`: `--version` は `printf` 後 `exit(0)`。
+- `src/dmtcp_command.cpp:86-91`: `--help` と `--version` は表示後 `return 1`。
+- `src/dmtcprestartinternal.cpp:696-701`: `dmtcp_restart --help` は表示後 `exit(0)`。
+
+このため、v3 は probe semantics を source と一致する exact policy にした。
+
+```text
+dmtcp_launch --version       allowed exit = [0]
+dmtcp_command --help         allowed exit = [1]
+dmtcp_restart --help         allowed exit = [0]
+```
+
+各 command はそれぞれ狭い `set +e` 範囲で output と status を捕捉し、manifest宣言の exact status を要求する。`dmtcp_command --help` は `--kcheckpoint`、`dmtcp_restart --help` は `--ckptdir` を必須 token とする。launch probe は `DMTCP` と `4.2.0` を必須とする。任意の nonzero を許容する処理ではなく、source-pinned executable、output token、exact exit code、後続 stateful restart smoke の全てが残る。
+
+v3 manifest provisioning policy と contract は更新済みである。
+
+```text
+provisioning_sha256 = 37d739ea0a6775ff119e98e43e083541e954bd473fc2de89d10049655c39de50
+contract_sha256     = 1c97981e298d33f342a6ee9e60b8449889c2450e1d986c69826e743d7b63ccf1
+producer binding    = 325c2e2868ba5c7bb9566035dc66bf48dc52fbcfcd6189ab7c9939423fe8f4c6
+```
+
+検査結果:
+
+```text
+producer v2 self-test                       PASS
+checker v2 self-test                        PASS
+workflow YAML parse                         PASS
+embedded Python heredocs                    11/11 PASS
+canonical provisioning/contract digest      PASS
+policy semantic assertions                   PASS
+git diff --check                             PASS
+```
+
+v3 の最終ファイル SHA-256 は次のとおり。
+
+```text
+.github/workflows/d972-dovetail-v2.yml      732a899f286403014baf988b777788e13c48eaa29e98e1b50cb70a5362f6ebeb
+search/d972_dovetail_manifest_v2.json       4f6b946e93c271c487ef790f6f0363fe9bdbd0afc646504afe174bc96954fbc7
+```
+
+上記はv3 policyを含む実ファイルの再計算値である。run `31904750698` は数学未到達・artifactなしであり、再dispatch はこのv3 workflow/manifestを含む fresh commit に対してのみ行う。`resume_run_id=""`, `slice_minutes="240"`。commit/push/dispatch は行っていない。
+
+```text
+RUN_31904750698_MATH_STATUS=NO_CAMPAIGN_REACHED;
+RUN_31904750698_ATTRIBUTION_V2=RETRACTED;
+V3_PROBE_POLICY=SOURCE_EXACT_LAUNCH0_COMMAND_HELP1_RESTART_HELP0;
+REPAIR_V3_STATUS=READY_FOR_PARENT_AUDIT;
+```
