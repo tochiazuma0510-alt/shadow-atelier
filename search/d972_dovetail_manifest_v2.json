@@ -1,0 +1,107 @@
+{
+  "schema": "d972-dovetail-orchestration/v2",
+  "campaign_id": "d972-roof-A-semidecision-v2",
+  "universe_id": "B3-stable-marked-extensions-over-K9-intersection-NS4-k-ge-3/v2",
+  "search_input_set_sha256": "48d2d91ef56f2cc73a75b559aed378f48d5d28d1e04a964ccfd6fb5502713969",
+  "mathematical_state": {
+    "schema": "d972-dovetail-state/v1",
+    "seed_manifest": "search/d972_dovetail_manifest_v1.json",
+    "producer_library": "search/d972_dovetail_producer_v1.py",
+    "independent_checker_library": "search/check_d972_dovetail_v1.py",
+    "worker_library": "search/d972_dovetail_worker_v1.g",
+    "calibration_paper_premise": "sol/sol_reply_143_typedfiber.md#5.4"
+  },
+  "dmtcp_contract": {
+    "contract_version": "d972-dmtcp-whole-process/v2",
+    "transport": "DMTCP coordinated checkpoint images for the entire producer Python process tree and every GAP/ACE child",
+    "coordinator_checkpointed": false,
+    "manual_checkpoint_only": true,
+    "checkpoint_open_files": true,
+    "atomic_checkpoint_and_kill_group": "dmtcp_command --kcheckpoint",
+    "external_supervisor_only_clock": true,
+    "python_subprocess_timeout_forbidden": true,
+    "stable_workspace_relative_runtime_root": ".d972-runtime",
+    "opaque_state_covered": [
+      "canonical_table_relabel",
+      "Aut(H)",
+      "extension_class",
+      "marked_orbit",
+      "fp_order_MTC_Size",
+      "972_fiber_scan"
+    ],
+    "resume_authority": "sealed envelope plus every hashed DMTCP image and restart script; logical heartbeat has no authority",
+    "terminal_authority": "none: a suspended image is UNKNOWN/RESUME; only completed producer output plus independent checker may issue A",
+    "terminal_B_from_finite_cap_or_nontermination": false,
+    "runtime_compatibility": "exact source commit, code/input hashes, DMTCP/GAP/Python versions, runner ImageOS, architecture and stable workspace path; restart failure is terminally fail-closed",
+    "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
+    "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
+    "smoke_test_required_each_run": true,
+    "contract_sha256": "673ad777bd5de76077db25cc7744622783218c0323ba428cec1bd790e1234e57"
+  },
+  "launch_spec": {
+    "cwd": ".",
+    "argv": [
+      "python3",
+      "search/d972_dovetail_producer_v2.py",
+      "--campaign-driver",
+      "--state",
+      ".d972-runtime/state.json",
+      "--out-dir",
+      ".d972-runtime/artifacts",
+      "--checker-out-dir",
+      ".d972-runtime/checker",
+      "--slice-seconds",
+      "300"
+    ],
+    "dmtcp_options": [
+      "--join",
+      "--ckpt-open-files",
+      "--ckptdir",
+      ".d972-runtime/ckpt/g<generation:06d>"
+    ],
+    "environment_allowlist": [
+      "CURRENT_COMMIT",
+      "CURRENT_EVENT",
+      "CURRENT_RUN_ATTEMPT",
+      "CURRENT_RUN_ID",
+      "D972_DMTCP_CONTRACT_SHA256",
+      "D972_DMTCP_ENABLED",
+      "D972_DMTCP_GENERATION",
+      "D972_DMTCP_VERSION",
+      "D972_SOURCE_COMMIT",
+      "DMTCP_CHECKPOINT_DIR",
+      "DMTCP_CHECKPOINT_INTERVAL",
+      "DMTCP_COORD_HOST",
+      "DMTCP_COORD_PORT",
+      "DMTCP_GZIP",
+      "HOME",
+      "LANG",
+      "LC_ALL",
+      "PATH",
+      "PYTHONHASHSEED",
+      "SOURCE_RUN_ID",
+      "TMPDIR"
+    ]
+  },
+  "resume_policy": {
+    "artifact_name": "d972-dovetail-v2-state",
+    "latest_predecessor_only": true,
+    "explicit_run_must_equal_latest": true,
+    "source_commit_checkout_required": true,
+    "birth_run_metadata_immutable_across_resume": true,
+    "pending_process_envelope_precedes_terminal_noop": true,
+    "inflight_predecessor_copy_retained_until_completion_or_reseal": true,
+    "generation_parent_hash_required": true,
+    "image_set_hash_required": true,
+    "restart_script_required": true,
+    "supervisor_workflow_content_immutable_across_resume": true,
+    "artifact_retention_days": 7,
+    "incompatible_or_failed_restart": "STATE_STOP"
+  },
+  "terminal_policy": {
+    "A": "one complete exact isolated 972-fiber scan has a zero fiber, the independent reconstruction agrees, and final-v2-completion.json seals the postcheck",
+    "B": "not emitted by this unbounded semidecision workflow",
+    "partial_checkpoint": "UNKNOWN/RESUME only",
+    "finite_cap": "never terminal"
+  }
+}

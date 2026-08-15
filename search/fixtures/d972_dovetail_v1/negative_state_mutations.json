@@ -1,0 +1,21 @@
+{
+  "schema": "d972-dovetail-negative-state-fixtures/v1",
+  "description": "Hash-chain and ledger replay mutations; each must be refused before cursor agreement.",
+  "cases": [
+    {
+      "id": "parent_hash",
+      "replacement": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "expected_gate": "parent checkpoint hash equality"
+    },
+    {
+      "id": "sequence_gap",
+      "replacement": 2,
+      "expected_gate": "exact sequence increment"
+    },
+    {
+      "id": "duplicate_semantic_key",
+      "replacement": 2,
+      "expected_gate": "semantic-key uniqueness across resumed ledger"
+    }
+  ]
+}

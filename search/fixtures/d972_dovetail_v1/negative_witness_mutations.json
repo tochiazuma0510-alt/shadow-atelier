@@ -1,0 +1,56 @@
+{
+  "schema": "d972-dovetail-negative-witness-fixtures/v1",
+  "description": "Each mutation is applied separately to the checker-owned synthetic lossless candidate. Every case must be refused.",
+  "cases": [
+    {
+      "id": "factor_map",
+      "path": "factor_images",
+      "replacement": [0, 0, 1, 1],
+      "reseal_semantic_key": true,
+      "expected_gate": "exact factor generator images"
+    },
+    {
+      "id": "kernel",
+      "path": "kernel_order",
+      "replacement": 2,
+      "expected_gate": "Cayley table/kernel order agreement"
+    },
+    {
+      "id": "braid",
+      "path": "braid",
+      "replacement": false,
+      "expected_gate": "marked braid gate"
+    },
+    {
+      "id": "word_level",
+      "path": "shadow_receipt.theta_tau_shortcut_used",
+      "replacement": true,
+      "expected_gate": "literal full-B3 word-level evaluation"
+    },
+    {
+      "id": "settlement",
+      "path": "shadow_receipt.source_rows.0.settled",
+      "replacement": false,
+      "expected_gate": "isolated source settlement"
+    },
+    {
+      "id": "m_modulus",
+      "path": "shadow_receipt.source_rows.0.m",
+      "replacement": 18,
+      "expected_gate": "canonical m modulo N_ord"
+    },
+    {
+      "id": "fiber_row",
+      "path": "shadow_receipt.source_rows.0.target_index",
+      "replacement": 1,
+      "expected_gate": "lossless target index/key and recomputed fiber vector"
+    },
+    {
+      "id": "relator_shape",
+      "path": "fp_relators.0",
+      "replacement": [1],
+      "reseal_semantic_key": true,
+      "expected_gate": "independently reconstructed extension relators"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "d972-dovetail-interrupt-resume-fixture/v1",
+  "interrupted_status": {
+    "code": "UNKNOWN/RESUME",
+    "terminal": false,
+    "resumable": true,
+    "reason": "intentional interrupt fixture"
+  },
+  "expected_sequence_delta": 1,
+  "expected_parent_is_previous_checkpoint": true,
+  "expected_agreed_cursor_preserved": true,
+  "expected_semantic_key_missing": 0,
+  "expected_semantic_key_duplicates": 0
+}

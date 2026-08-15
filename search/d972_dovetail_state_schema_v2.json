@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:shadow-atelier:d972-dovetail-dmtcp-envelope:v2",
+  "title": "D972 whole-process DMTCP resume envelope v2",
+  "$comment": "This schema covers suspended process images only. Such an envelope is UNKNOWN/RESUME and has no A or B terminal authority.",
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "nullableSha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/sha256"},
+        {"type": "null"}
+      ]
+    },
+    "imageFile": {
+      "type": "object",
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*\\.\\.).+$"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "schema",
+    "state_kind",
+    "campaign_id",
+    "source",
+    "runtime",
+    "contract",
+    "input_state",
+    "checkpoint_images",
+    "external_runtime_files",
+    "launch_environment",
+    "hash_chain",
+    "sealed_at_utc",
+    "terminal_authority",
+    "resume_only"
+  ],
+  "properties": {
+    "schema": {"const": "d972-dovetail-dmtcp-envelope/v2"},
+    "state_kind": {"const": "SUSPENDED_PROCESS_TREE"},
+    "campaign_id": {"const": "d972-roof-A-semidecision-v2"},
+    "source": {
+      "type": "object",
+      "required": ["repository", "run_id", "run_attempt", "commit_sha"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "run_id": {"type": "string", "pattern": "^(local|[1-9][0-9]*)$"},
+        "run_attempt": {"type": "integer", "minimum": 0},
+        "commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      },
+      "additionalProperties": false
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "dmtcp_version", "gap_version", "python_version", "runner_image_os",
+        "runner_arch", "workspace_realpath"
+      ],
+      "properties": {
+        "dmtcp_version": {"type": "string", "minLength": 1},
+        "gap_version": {"type": "string", "minLength": 1},
+        "python_version": {"type": "string", "minLength": 1},
+        "runner_image_os": {"type": "string", "minLength": 1},
+        "runner_arch": {"type": "string", "minLength": 1},
+        "workspace_realpath": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "contract": {
+      "type": "object",
+      "required": [
+        "dmtcp_contract_sha256", "launch_spec_sha256", "v2_binding_set_sha256",
+        "coordinator_status_sha256", "launch_environment_sha256", "run_metadata_sha256"
+      ],
+      "properties": {
+        "dmtcp_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "launch_spec_sha256": {"$ref": "#/$defs/sha256"},
+        "v2_binding_set_sha256": {"$ref": "#/$defs/sha256"},
+        "coordinator_status_sha256": {"$ref": "#/$defs/sha256"},
+        "launch_environment_sha256": {"$ref": "#/$defs/sha256"},
+        "run_metadata_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "input_state": {
+      "type": "object",
+      "required": ["path", "checkpoint_sha256", "file_sha256"],
+      "properties": {
+        "path": {"const": "state.json"},
+        "checkpoint_sha256": {"$ref": "#/$defs/sha256"},
+        "file_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "checkpoint_images": {
+      "type": "object",
+      "required": ["directory", "file_count", "files", "set_sha256"],
+      "properties": {
+        "directory": {"type": "string", "pattern": "^\\.d972-runtime/ckpt/g[0-9]{6}$"},
+        "file_count": {"type": "integer", "minimum": 2},
+        "files": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/imageFile"},
+          "minItems": 2
+        },
+        "set_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "external_runtime_files": {
+      "type": "object",
+      "required": ["file_count", "files", "set_sha256"],
+      "properties": {
+        "file_count": {"type": "integer", "minimum": 1},
+        "files": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/imageFile"},
+          "minItems": 1
+        },
+        "set_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "launch_environment": {
+      "type": "object",
+      "required": [
+        "CURRENT_COMMIT", "CURRENT_EVENT", "CURRENT_RUN_ATTEMPT", "CURRENT_RUN_ID",
+        "D972_DMTCP_CONTRACT_SHA256", "D972_DMTCP_ENABLED", "D972_DMTCP_GENERATION",
+        "D972_DMTCP_VERSION", "D972_SOURCE_COMMIT", "DMTCP_CHECKPOINT_DIR",
+        "DMTCP_CHECKPOINT_INTERVAL", "DMTCP_COORD_HOST", "DMTCP_COORD_PORT",
+        "DMTCP_GZIP", "HOME", "LANG", "LC_ALL", "PATH", "PYTHONHASHSEED",
+        "SOURCE_RUN_ID", "TMPDIR"
+      ],
+      "properties": {
+        "CURRENT_COMMIT": {"type": "string"},
+        "CURRENT_EVENT": {"type": "string"},
+        "CURRENT_RUN_ATTEMPT": {"type": "string"},
+        "CURRENT_RUN_ID": {"type": "string"},
+        "D972_DMTCP_CONTRACT_SHA256": {"$ref": "#/$defs/sha256"},
+        "D972_DMTCP_ENABLED": {"const": "1"},
+        "D972_DMTCP_GENERATION": {"type": "string", "pattern": "^[0-9]+$"},
+        "D972_DMTCP_VERSION": {"type": "string", "minLength": 1},
+        "D972_SOURCE_COMMIT": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "DMTCP_CHECKPOINT_DIR": {"type": "string", "pattern": "^\\.d972-runtime/ckpt/g[0-9]{6}$"},
+        "DMTCP_CHECKPOINT_INTERVAL": {"const": "0"},
+        "DMTCP_COORD_HOST": {"const": "127.0.0.1"},
+        "DMTCP_COORD_PORT": {"type": "string", "pattern": "^[1-9][0-9]*$"},
+        "DMTCP_GZIP": {"enum": ["0", "1"]},
+        "HOME": {"type": "string", "minLength": 1},
+        "LANG": {"type": "string", "minLength": 1},
+        "LC_ALL": {"type": "string", "minLength": 1},
+        "PATH": {"type": "string", "minLength": 1},
+        "PYTHONHASHSEED": {"const": "0"},
+        "SOURCE_RUN_ID": {"type": "string"},
+        "TMPDIR": {"const": ".d972-runtime/tmp"}
+      },
+      "additionalProperties": false
+    },
+    "hash_chain": {
+      "type": "object",
+      "required": ["algorithm", "generation", "parent_envelope_sha256", "envelope_sha256"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "generation": {"type": "integer", "minimum": 0},
+        "parent_envelope_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "envelope_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "sealed_at_utc": {"type": "string", "format": "date-time"},
+    "terminal_authority": {"const": false},
+    "resume_only": {"const": true}
+  },
+  "additionalProperties": false
+}

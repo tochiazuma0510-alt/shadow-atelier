@@ -1,0 +1,488 @@
+name: D972 dovetail v2 whole-process checkpoint
+
+on:
+  workflow_dispatch:
+    inputs:
+      resume_run_id:
+        description: Optional predecessor; if supplied it must be the latest v2 artifact
+        required: false
+        default: ""
+        type: string
+      slice_minutes:
+        description: Minutes before a coordinated process-tree checkpoint (5..240)
+        required: false
+        default: "240"
+        type: string
+  schedule:
+    - cron: "31 */6 * * *"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: d972-dovetail-v2-whole-process
+  cancel-in-progress: false
+
+jobs:
+  resume-or-run:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    env:
+      RUNTIME_ROOT: .d972-runtime
+      ARTIFACT_NAME: d972-dovetail-v2-state
+      MANIFEST_V2: search/d972_dovetail_manifest_v2.json
+      PRODUCER_V2: search/d972_dovetail_producer_v2.py
+      CHECKER_V2: search/check_d972_dovetail_v2.py
+      PENDING_ENVELOPE: .d972-runtime/pending-envelope.json
+      INFLIGHT_ENVELOPE: .d972-runtime/resume-envelope-inflight.json
+      REQUESTED_RESUME: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_run_id || '' }}
+      REQUESTED_SLICE_MINUTES: ${{ github.event_name == 'workflow_dispatch' && inputs.slice_minutes || '240' }}
+
+    steps:
+      - name: Select only the latest predecessor artifact
+        id: predecessor
+        uses: actions/github-script@v7
+        env:
+          ARTIFACT_NAME: d972-dovetail-v2-state
+          REQUESTED_RESUME: ${{ env.REQUESTED_RESUME }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const workflow_id = "d972-dovetail-v2.yml";
+            const runs = await github.paginate(github.rest.actions.listWorkflowRuns, {
+              owner, repo, workflow_id, status: "success", per_page: 100
+            });
+            let latest = null;
+            for (const run of runs) {
+              if (String(run.id) === String(context.runId)) continue;
+              const artifacts = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, {
+                owner, repo, run_id: run.id, per_page: 100
+              });
+              if (artifacts.some(a => !a.expired && a.name === process.env.ARTIFACT_NAME)) {
+                latest = String(run.id);
+                break;
+              }
+            }
+            const requested = (process.env.REQUESTED_RESUME || "").trim();
+            if (requested && !/^[1-9][0-9]*$/.test(requested)) {
+              core.setFailed("resume_run_id is malformed");
+              return;
+            }
+            if (requested && requested !== latest) {
+              core.setFailed(`explicit predecessor ${requested} is not latest ${latest || "none"}`);
+              return;
+            }
+            core.setOutput("run_id", requested || latest || "");
+
+      - name: Check out trigger revision without credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Record immutable supervisor content
+        id: supervisor
+        shell: bash
+        run: |
+          set -euo pipefail
+          supervisor_sha=$(sha256sum .github/workflows/d972-dovetail-v2.yml | cut -d' ' -f1)
+          [[ "$supervisor_sha" =~ ^[0-9a-f]{64}$ ]]
+          echo "sha256=$supervisor_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Restore predecessor runtime
+        if: steps.predecessor.outputs.run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-dovetail-v2-state
+          path: .d972-runtime
+          run-id: ${{ steps.predecessor.outputs.run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Lock checkout to the image source commit
+        id: source
+        shell: bash
+        env:
+          PREDECESSOR_RUN_ID: ${{ steps.predecessor.outputs.run_id }}
+          TRIGGER_SUPERVISOR_SHA256: ${{ steps.supervisor.outputs.sha256 }}
+        run: |
+          set -euo pipefail
+          if [[ -f "$RUNTIME_ROOT/campaign-meta.json" ]]; then
+            source_commit=$(python3 -c 'import json; print(json.load(open(".d972-runtime/campaign-meta.json"))["source_commit"])')
+          else
+            source_commit=$(git rev-parse HEAD)
+          fi
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]]
+          git cat-file -e "${source_commit}^{commit}"
+          git checkout --detach "$source_commit"
+          test "$(git rev-parse HEAD)" = "$source_commit"
+          checked_out_supervisor_sha=$(sha256sum .github/workflows/d972-dovetail-v2.yml | cut -d' ' -f1)
+          test "$checked_out_supervisor_sha" = "$TRIGGER_SUPERVISOR_SHA256"
+          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
+
+      - name: Set up exact Python 3.13.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.14"
+
+      - name: Install and inventory GAP plus DMTCP
+        id: runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends gap dmtcp
+          mkdir -p "$RUNTIME_ROOT" "$RUNTIME_ROOT/tmp" "$RUNTIME_ROOT/home" "$RUNTIME_ROOT/ckpt" \
+            "$RUNTIME_ROOT/artifacts" "$RUNTIME_ROOT/checker" "$RUNTIME_ROOT/lineage"
+          dmtcp_version_output=$(dmtcp_launch --version 2>&1)
+          dmtcp_version=$(head -n 1 <<<"$dmtcp_version_output" | tr -d '\r')
+          gap_version=$(gap -q -b <<'GAP' | tail -n 1
+          Print(GAPInfo.Version, "\n");
+          QUIT_GAP(0);
+          GAP
+          )
+          python_version=$(python3 --version 2>&1 | tr -d '\r')
+          test -n "$dmtcp_version"
+          test -n "$gap_version"
+          dmtcp_command_help=$(dmtcp_command --help 2>&1)
+          dmtcp_restart_help=$(dmtcp_restart --help 2>&1)
+          grep -q -- '--kcheckpoint' <<<"$dmtcp_command_help"
+          grep -q -- '--ckptdir' <<<"$dmtcp_restart_help"
+          echo "dmtcp_version=$dmtcp_version" >> "$GITHUB_OUTPUT"
+          echo "gap_version=$gap_version" >> "$GITHUB_OUTPUT"
+          echo "python_version=$python_version" >> "$GITHUB_OUTPUT"
+
+      - name: Static wrapper and independent-checker tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile "$PRODUCER_V2" "$CHECKER_V2"
+          python3 "$PRODUCER_V2" --self-test
+          python3 "$CHECKER_V2" --self-test
+
+      - name: DMTCP stateful checkpoint-restart smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          smoke="$RUNTIME_ROOT/dmtcp-smoke"
+          mkdir -p "$smoke/ckpt"
+          port_file="$smoke/port"
+          DMTCP_CHECKPOINT_DIR="$smoke/ckpt" DMTCP_CHECKPOINT_INTERVAL=0 \
+            dmtcp_coordinator --daemon --coord-port 0 --port-file "$port_file"
+          for _ in $(seq 1 100); do [[ -s "$port_file" ]] && break; sleep 0.1; done
+          port=$(cat "$port_file")
+          [[ "$port" =~ ^[1-9][0-9]*$ ]]
+          env -i PATH="$PATH" HOME="$HOME" LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+            DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$port" \
+            DMTCP_CHECKPOINT_DIR="$smoke/ckpt" DMTCP_CHECKPOINT_INTERVAL=0 \
+            dmtcp_launch --join --ckpt-open-files --ckptdir "$smoke/ckpt" \
+            python3 -c 'import pathlib,time,uuid; p=pathlib.Path(".d972-runtime/dmtcp-smoke/progress"); token=uuid.uuid4().hex; [(p.write_text(f"{token}:{i}\n"),time.sleep(.15)) for i in range(40)]; pathlib.Path(".d972-runtime/dmtcp-smoke/done").write_text(f"{token}:40\n")' &
+          smoke_pid=$!
+          for _ in $(seq 1 100); do [[ -s "$smoke/progress" ]] && break; sleep 0.1; done
+          before_line=$(cat "$smoke/progress")
+          before=$(cut -d: -f1 <<<"$before_line")
+          before_count=$(cut -d: -f2 <<<"$before_line")
+          [[ "$before_count" =~ ^[0-9]+$ ]]
+          ((before_count < 40))
+          DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$port" dmtcp_command --kcheckpoint
+          wait "$smoke_pid" || true
+          mapfile -t smoke_images < <(find "$smoke/ckpt" -maxdepth 1 -type f -name '*.dmtcp' -print | sort)
+          ((${#smoke_images[@]} > 0))
+          DMTCP_CHECKPOINT_DIR="$smoke/ckpt" DMTCP_CHECKPOINT_INTERVAL=0 \
+            dmtcp_coordinator --daemon --coord-port 0 --port-file "$port_file.restart"
+          for _ in $(seq 1 100); do [[ -s "$port_file.restart" ]] && break; sleep 0.1; done
+          restart_port=$(cat "$port_file.restart")
+          DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$restart_port" \
+            dmtcp_restart --join "${smoke_images[@]}" &
+          restart_pid=$!
+          wait "$restart_pid"
+          after=$(cut -d: -f1 "$smoke/done")
+          test "$before" = "$after"
+          grep -Eq '^[0-9a-f]{32}:40$' "$smoke/done"
+
+          gap_smoke="$RUNTIME_ROOT/gap-v2-smoke"
+          mkdir -p "$gap_smoke/ckpt" "$gap_smoke/home"
+          contract=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_contract"]["contract_sha256"])')
+          universe=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["universe_id"])')
+          inputs=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["search_input_set_sha256"])')
+          DMTCP_CHECKPOINT_DIR="$gap_smoke/ckpt" DMTCP_CHECKPOINT_INTERVAL=0 \
+            dmtcp_coordinator --daemon --coord-port 0 --port-file "$gap_smoke/port"
+          for _ in $(seq 1 100); do [[ -s "$gap_smoke/port" ]] && break; sleep 0.1; done
+          gap_port=$(cat "$gap_smoke/port")
+          env -i PATH="$PATH" HOME="$gap_smoke/home" LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+            DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$gap_port" \
+            DMTCP_CHECKPOINT_DIR="$gap_smoke/ckpt" DMTCP_CHECKPOINT_INTERVAL=0 \
+            D972_DMTCP_ENABLED=1 D972_DMTCP_CONTRACT_SHA256="$contract" \
+            D972_DMTCP_VERSION="${{ steps.runtime.outputs.dmtcp_version }}" \
+            D972_DMTCP_GENERATION=0 D972_UNIVERSE_ID="$universe" D972_INPUT_DIGEST="$inputs" \
+            D972_WORKER_MODE=selftest D972_WORKER_OUTPUT="$gap_smoke/result.json" \
+            dmtcp_launch --join --ckpt-open-files --ckptdir "$gap_smoke/ckpt" \
+            gap -q --quitonbreak search/d972_dovetail_worker_v2.g
+          python3 - "$gap_smoke/result.json" <<'PY'
+          import importlib.util, json, pathlib, sys
+          spec=importlib.util.spec_from_file_location('producer_v2_smoke','search/d972_dovetail_producer_v2.py')
+          module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+          manifest=module.load_manifest(); raw=pathlib.Path(sys.argv[1]).read_text().strip()
+          payload=module.unwrap_worker_envelope(raw,mode='selftest',manifest=manifest,
+                                                task_digest='unbound',generation='0')
+          assert payload['all_pass'] is True
+          PY
+          python3 - <<'PY'
+          import pathlib, shutil
+          runtime=(pathlib.Path.cwd()/'.d972-runtime').resolve()
+          for name in ('dmtcp-smoke', 'gap-v2-smoke'):
+              target=(runtime/name).resolve()
+              if target.parent != runtime:
+                  raise SystemExit('unsafe smoke cleanup target')
+              if target.exists():
+                  shutil.rmtree(target)
+          PY
+
+      - name: Run or resume one whole-process slice
+        id: campaign
+        shell: bash
+        env:
+          PREDECESSOR_RUN_ID: ${{ steps.predecessor.outputs.run_id }}
+          SOURCE_COMMIT: ${{ steps.source.outputs.source_commit }}
+          DMTCP_VERSION_EXACT: ${{ steps.runtime.outputs.dmtcp_version }}
+          GAP_VERSION_EXACT: ${{ steps.runtime.outputs.gap_version }}
+          PYTHON_VERSION_EXACT: ${{ steps.runtime.outputs.python_version }}
+        run: |
+          set -euo pipefail
+          [[ "$REQUESTED_SLICE_MINUTES" =~ ^[0-9]+$ ]]
+          ((REQUESTED_SLICE_MINUTES >= 5 && REQUESTED_SLICE_MINUTES <= 240))
+          contract=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_contract"]["contract_sha256"])')
+          test "$(git rev-parse HEAD)" = "$SOURCE_COMMIT"
+          if [[ ! -f "$RUNTIME_ROOT/campaign-meta.json" ]]; then
+            python3 - "$SOURCE_COMMIT" <<'PY'
+          import json, pathlib, sys
+          pathlib.Path('.d972-runtime/campaign-meta.json').write_text(
+              json.dumps({'campaign_id':'d972-roof-A-semidecision-v2','source_commit':sys.argv[1]}, sort_keys=True) + '\n')
+          PY
+          fi
+          status=$(python3 - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('.d972-runtime/state.json')
+          print(json.load(p.open())['status']['code'] if p.exists() else 'UNSTARTED')
+          PY
+          )
+          test ! -e "$INFLIGHT_ENVELOPE"
+          if [[ "$status" = "A_WITNESS_CROSSCHECKED" && ! -f "$PENDING_ENVELOPE" ]]; then
+            python3 "$CHECKER_V2" verify-final-a \
+              --state "$RUNTIME_ROOT/state.json" \
+              --producer-ledger "$RUNTIME_ROOT/artifacts/producer-ledger.jsonl" \
+              --seal "$RUNTIME_ROOT/final-v2-completion.json" \
+              --source-commit "$SOURCE_COMMIT"
+            echo "outcome=A_TERMINAL_NOOP" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          export D972_DMTCP_VERSION="$DMTCP_VERSION_EXACT"
+          export D972_GAP_VERSION="$GAP_VERSION_EXACT"
+          export D972_PYTHON_VERSION="$PYTHON_VERSION_EXACT"
+          export D972_WORKSPACE_REALPATH="$(realpath .)"
+          export D972_SOURCE_COMMIT="$SOURCE_COMMIT"
+          export D972_DMTCP_CONTRACT_SHA256="$contract"
+
+          write_run_metadata() {
+            python3 - "$SOURCE_COMMIT" "$PREDECESSOR_RUN_ID" <<'PY'
+          from datetime import datetime, timezone
+          import json, os, pathlib, sys
+          commit, predecessor = sys.argv[1:]
+          row = {
+              'run_id': os.environ['GITHUB_RUN_ID'],
+              'run_attempt': int(os.environ['GITHUB_RUN_ATTEMPT']),
+              'event': os.environ['GITHUB_EVENT_NAME'],
+              'commit_sha': commit,
+              'created_at_utc': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+              'resume_run_id': predecessor or None,
+          }
+          pathlib.Path('.d972-runtime/current-run.json').write_text(json.dumps(row, sort_keys=True) + '\n')
+          PY
+          }
+
+          parent_arg=()
+          old_ckpt_dir=""
+          if [[ -f "$PENDING_ENVELOPE" ]]; then
+            verify_parent_arg=()
+            pending_parent=$(python3 -c 'import json; print(json.load(open(".d972-runtime/pending-envelope.json"))["hash_chain"]["parent_envelope_sha256"] or "")')
+            if [[ -n "$pending_parent" ]]; then
+              test -f "$RUNTIME_ROOT/lineage/parent-envelope.json"
+              verify_parent_arg=(--parent-envelope "$RUNTIME_ROOT/lineage/parent-envelope.json")
+            fi
+            old_ckpt_dir=$(python3 -c 'import json; print(json.load(open(".d972-runtime/pending-envelope.json"))["checkpoint_images"]["directory"])')
+            generation=$(python3 -c 'import json; print(json.load(open(".d972-runtime/pending-envelope.json"))["hash_chain"]["generation"] + 1)')
+            python3 "$CHECKER_V2" verify-envelope \
+              --checkpoint-dir "$old_ckpt_dir" --state "$RUNTIME_ROOT/state.json" \
+              --envelope "$PENDING_ENVELOPE" \
+              --launch-environment "$RUNTIME_ROOT/launch-environment.json" \
+              --run-metadata "$RUNTIME_ROOT/current-run.json" \
+              "${verify_parent_arg[@]}"
+            mapfile -t images < <(python3 - "$PENDING_ENVELOPE" <<'PY'
+          import json, pathlib, sys
+          envelope=json.load(open(sys.argv[1]))
+          root=pathlib.Path(envelope['checkpoint_images']['directory'])
+          for row in envelope['checkpoint_images']['files']:
+              if row['path'].endswith('.dmtcp'):
+                  print(root / row['path'])
+          PY
+            )
+            ((${#images[@]} > 0))
+            cp "$PENDING_ENVELOPE" "$RUNTIME_ROOT/lineage/parent-envelope.json"
+            parent_arg=(--parent-envelope "$RUNTIME_ROOT/lineage/parent-envelope.json")
+          else
+            generation=0
+            python3 - <<'PY'
+          import pathlib, shutil
+          root=pathlib.Path('.d972-runtime/ckpt').resolve()
+          expected=(pathlib.Path.cwd()/'.d972-runtime/ckpt').resolve()
+          if root != expected: raise SystemExit('unsafe checkpoint base')
+          for child in root.iterdir():
+              if child.is_dir(): shutil.rmtree(child)
+              else: child.unlink()
+          PY
+          fi
+
+          current_ckpt_dir=$(printf '%s/ckpt/g%06d' "$RUNTIME_ROOT" "$generation")
+          mkdir -p "$current_ckpt_dir"
+          test -z "$(find "$current_ckpt_dir" -mindepth 1 -maxdepth 1 -print -quit)"
+          port_file="$RUNTIME_ROOT/coordinator.port"
+          rm -f "$port_file"
+          DMTCP_CHECKPOINT_DIR="$current_ckpt_dir" DMTCP_CHECKPOINT_INTERVAL=0 \
+            dmtcp_coordinator --daemon --coord-port 0 --port-file "$port_file"
+          for _ in $(seq 1 100); do [[ -s "$port_file" ]] && break; sleep 0.1; done
+          port=$(cat "$port_file")
+          [[ "$port" =~ ^[1-9][0-9]*$ ]]
+          if [[ -n "$old_ckpt_dir" ]]; then
+            mv "$PENDING_ENVELOPE" "$INFLIGHT_ENVELOPE"
+            env -i PATH="$PATH" HOME="$HOME" LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+              DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$port" \
+              DMTCP_CHECKPOINT_DIR="$current_ckpt_dir" DMTCP_CHECKPOINT_INTERVAL=0 \
+              dmtcp_restart --join --ckptdir "$current_ckpt_dir" "${images[@]}" &
+          else
+            write_run_metadata
+            python3 - "$port" "$contract" "$SOURCE_COMMIT" "$generation" \
+              "$DMTCP_VERSION_EXACT" "$PREDECESSOR_RUN_ID" "$current_ckpt_dir" <<'PY'
+          import json, os, pathlib, sys
+          port, contract, commit, generation, version, predecessor, checkpoint_dir = sys.argv[1:]
+          names = json.load(open('search/d972_dovetail_manifest_v2.json'))['launch_spec']['environment_allowlist']
+          values = {
+            'CURRENT_COMMIT': commit, 'CURRENT_EVENT': os.environ['GITHUB_EVENT_NAME'],
+            'CURRENT_RUN_ATTEMPT': os.environ['GITHUB_RUN_ATTEMPT'], 'CURRENT_RUN_ID': os.environ['GITHUB_RUN_ID'],
+            'D972_DMTCP_CONTRACT_SHA256': contract, 'D972_DMTCP_ENABLED': '1',
+            'D972_DMTCP_GENERATION': generation, 'D972_DMTCP_VERSION': version,
+            'D972_SOURCE_COMMIT': commit, 'DMTCP_CHECKPOINT_DIR': checkpoint_dir,
+            'DMTCP_CHECKPOINT_INTERVAL': '0', 'DMTCP_COORD_HOST': '127.0.0.1',
+            'DMTCP_COORD_PORT': port, 'DMTCP_GZIP': '1', 'HOME': '.d972-runtime/home',
+            'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8', 'PATH': os.environ['PATH'],
+            'PYTHONHASHSEED': '0', 'SOURCE_RUN_ID': predecessor, 'TMPDIR': '.d972-runtime/tmp'
+          }
+          assert set(values) == set(names)
+          pathlib.Path('.d972-runtime/launch-environment.json').write_text(json.dumps(values, sort_keys=True) + '\n')
+          PY
+            mapfile -t launch_env < <(python3 - <<'PY'
+          import json
+          for key, value in json.load(open('.d972-runtime/launch-environment.json')).items():
+              print(f'{key}={value}')
+          PY
+            )
+            env -i "${launch_env[@]}" dmtcp_launch --join --ckpt-open-files \
+              --ckptdir "$current_ckpt_dir" python3 "$PRODUCER_V2" \
+              --campaign-driver --state "$RUNTIME_ROOT/state.json" \
+              --out-dir "$RUNTIME_ROOT/artifacts" --checker-out-dir "$RUNTIME_ROOT/checker" \
+              --slice-seconds 300 &
+          fi
+          computation_pid=$!
+          deadline=$((SECONDS + REQUESTED_SLICE_MINUTES * 60))
+          while kill -0 "$computation_pid" 2>/dev/null && ((SECONDS < deadline)); do sleep 20; done
+          if ! kill -0 "$computation_pid" 2>/dev/null; then
+            wait "$computation_pid"
+            rm -f "$PENDING_ENVELOPE"
+            python3 - <<'PY'
+          import pathlib, shutil
+          root=(pathlib.Path.cwd()/'.d972-runtime/ckpt').resolve()
+          runtime=(pathlib.Path.cwd()/'.d972-runtime').resolve()
+          if root.parent != runtime or root.name != 'ckpt':
+              raise SystemExit('unsafe completed checkpoint cleanup root')
+          for child in root.iterdir():
+              if child.is_dir(): shutil.rmtree(child)
+              else: child.unlink()
+          PY
+            code=$(python3 -c 'import json; print(json.load(open(".d972-runtime/state.json"))["status"]["code"])')
+            if [[ "$code" = "A_WITNESS_CROSSCHECKED" ]]; then
+              python3 "$CHECKER_V2" verify-final-a \
+                --state "$RUNTIME_ROOT/state.json" \
+                --producer-ledger "$RUNTIME_ROOT/artifacts/producer-ledger.jsonl" \
+                --seal "$RUNTIME_ROOT/final-v2-completion.json" \
+                --source-commit "$SOURCE_COMMIT"
+            else
+              test ! -e "$RUNTIME_ROOT/final-v2-completion.json"
+            fi
+            rm -f "$INFLIGHT_ENVELOPE"
+            echo "outcome=$code" >> "$GITHUB_OUTPUT"
+          else
+            # --kcheckpoint atomically completes one coordinated generation and
+            # kills the image-bearing process group before it can mutate files.
+            DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$port" \
+              dmtcp_command --kcheckpoint > "$RUNTIME_ROOT/checkpoint-command.txt" 2>&1
+            wait "$computation_pid" || true
+            python3 "$CHECKER_V2" seal-envelope \
+              --checkpoint-dir "$current_ckpt_dir" --state "$RUNTIME_ROOT/state.json" \
+              --envelope "$PENDING_ENVELOPE" \
+              --coordinator-status "$RUNTIME_ROOT/checkpoint-command.txt" \
+              --launch-environment "$RUNTIME_ROOT/launch-environment.json" \
+              --run-metadata "$RUNTIME_ROOT/current-run.json" \
+              "${parent_arg[@]}"
+            rm -f "$INFLIGHT_ENVELOPE"
+            if [[ -n "$old_ckpt_dir" ]]; then
+              python3 - "$old_ckpt_dir" "$current_ckpt_dir" <<'PY'
+          import pathlib, shutil, sys
+          root=(pathlib.Path.cwd()/'.d972-runtime/ckpt').resolve()
+          old=pathlib.Path(sys.argv[1]).resolve()
+          current=pathlib.Path(sys.argv[2]).resolve()
+          if old.parent != root or current.parent != root or old == current:
+              raise SystemExit('unsafe predecessor checkpoint cleanup target')
+          if old.exists():
+              shutil.rmtree(old)
+          PY
+            fi
+            echo "outcome=UNKNOWN_RESUME" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate artifact has no secret-like checkpoint environment
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f "$RUNTIME_ROOT/launch-environment.json" ]]; then
+            ! grep -Eiq 'GITHUB_TOKEN|ACTIONS_RUNTIME_TOKEN|PASSWORD|CREDENTIAL|SECRET' \
+              "$RUNTIME_ROOT/launch-environment.json"
+          fi
+
+      - name: Upload the exact state or suspended process generation
+        if: steps.campaign.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-dovetail-v2-state
+          path: .d972-runtime
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+
+      - name: Summary
+        if: always()
+        continue-on-error: true
+        shell: bash
+        env:
+          OUTCOME: ${{ steps.campaign.outputs.outcome }}
+          SOURCE_COMMIT: ${{ steps.source.outputs.source_commit }}
+        run: |
+          {
+            echo "### D972 dovetail v2"
+            echo "- source commit: \`$SOURCE_COMMIT\`"
+            echo "- predecessor: \`${{ steps.predecessor.outputs.run_id || 'none' }}\`"
+            echo "- outcome: \`${OUTCOME:-STATE_STOP}\`"
+            echo "- suspended DMTCP images are UNKNOWN/RESUME and have no A/B authority"
+            echo "- A authority additionally requires the checked final-v2-completion seal"
+          } >> "$GITHUB_STEP_SUMMARY"
