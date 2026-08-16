@@ -95,11 +95,23 @@ if IsBound(D972_P2_SELFTEST) and D972_P2_SELFTEST=true then
     Error("P2: ExtRep evaluator identity-image selftest failed");
   fi;
   if P2EvalExtRep(P2SelfF6g[1]*P2SelfF6g[2],P2SelfF6g) <>
-     P2SelfF6g[1]*P2SelfF6g[2] then
+  P2SelfF6g[1]*P2SelfF6g[2] then
     Error("P2: ExtRep evaluator multiplication selftest failed");
   fi;
   if P2EvalSigned([1,-2,4,-6],P2SelfIdentityImages) <> P2SelfOne then
     Error("P2: signed evaluator identity-image selftest failed");
+  fi;
+  if IsBound(D972_P2_TARGET_INDEX) then
+  if not IsInt(D972_P2_TARGET_INDEX) or
+       D972_P2_TARGET_INDEX < 1 or D972_P2_TARGET_INDEX > NumberSmallGroups(16) then
+      Error("P2: D972_P2_TARGET_INDEX out of range");
+    fi;
+    P2SelfTargetLabel:=Concatenation("SG16_",String(D972_P2_TARGET_INDEX));;
+    if D972_P2_TARGET_INDEX=14 and P2SelfTargetLabel<>"SG16_14" then
+      Error("P2: target-index selector selftest failed");
+    fi;
+    Print("P2_TARGET_INDEX_SELFTEST_PASS index=",D972_P2_TARGET_INDEX,
+      " label=",P2SelfTargetLabel,"\n");
   fi;
   Print("P2_EVAL_SELFTEST_PASS identity_images=true multiplication=true\n");;
   Print("P2_SELFTEST_PASS source_sha256=",P2SelfSha,
@@ -319,11 +331,26 @@ fi;
 if P2RunMode="full" then
 ## Full mode is exhaustive by default.  A preamble may name one SmallGroup
 ## target for a bounded rerun (for example
-## D972_P2_TARGET:="SG16_14";;) after a worker aborts on that target.  The
-## bounded receipt is deliberately UNKNOWN unless it contains a defect; it
-## is never mistaken for the default all-target scan.
+## D972_P2_TARGET_INDEX:=14;;) after a worker aborts on that target.  The
+## numeric form deliberately survives workflow_dispatch quote stripping;
+## the quoted D972_P2_TARGET label form remains supported.  The bounded
+## receipt is deliberately UNKNOWN unless it contains a defect; it is never
+## mistaken for the default all-target scan.
 P2TargetSelection:=fail;;
 P2TargetSelectionJson:="null";;
+if IsBound(D972_P2_TARGET) and IsBound(D972_P2_TARGET_INDEX) then
+  Error("P2: specify only one bounded target selector");
+fi;
+if IsBound(D972_P2_TARGET_INDEX) then
+  if not IsInt(D972_P2_TARGET_INDEX) or
+     D972_P2_TARGET_INDEX < 1 or D972_P2_TARGET_INDEX > NumberSmallGroups(16) then
+    Error("P2: D972_P2_TARGET_INDEX out of range");
+  fi;
+  P2TargetSelection:=Concatenation("SG16_",String(D972_P2_TARGET_INDEX));;
+  P2TargetSelectionJson:=P2Json(P2TargetSelection);;
+  Print("P2_TARGET_SELECTION bounded index=",D972_P2_TARGET_INDEX,
+    " label=",P2TargetSelection," exhaustive=false\n");
+fi;
 if IsBound(D972_P2_TARGET) then
   if not IsString(D972_P2_TARGET) then
     Error("P2: D972_P2_TARGET must be a target label string");
