@@ -125,12 +125,10 @@ if D972KB160Selftest=1 then
     D972KB160SourceV1SHA,"\n");
   Print("D972_B4_KBMAG160_WRAPPER_FINAL_MARKER status=SELFTEST_PASS\n");
 else
-  ## GAPROOT is supplied by setup-gap.  The fallback is the documented
-  ## setup-gap root; it is still path-checked before shell interpolation.
-  D972KB160GapRoot:=GetEnv("GAPROOT");;
-  if D972KB160GapRoot=fail or D972KB160GapRoot="" then
-    D972KB160GapRoot:="/home/runner/gap";;
-  fi;
+  ## gap-run.yml pins setup-gap's installation root.  GAP 4.16 does not
+  ## provide GetEnv in the bare library, so keep the workflow-owned root as
+  ## a source constant and validate it before shell interpolation.
+  D972KB160GapRoot:="/home/runner/gap";;
   D972KB160CheckPath(D972KB160GapRoot);;
   D972KB160SourceV1Raw:=StringFile(D972KB160SourceV1);;
   if D972KB160SourceV1Raw=fail or
