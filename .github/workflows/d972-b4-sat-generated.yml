@@ -1,0 +1,171 @@
+name: d972-b4-sat-generated
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_word_length:
+        description: "Only nonempty unique roof words up to this length (shortest first). Use 94 for all 485 nonempty words."
+        required: true
+        type: string
+        default: "40"
+      shard_size:
+        description: "Distinct nonempty roof words per OR shard; must be at least 2."
+        required: true
+        type: string
+        default: "8"
+      degrees:
+        description: "Comma-separated permutation degrees in [2,8], for example 6,7,8."
+        required: true
+        type: string
+        default: "8"
+      shards:
+        description: "Shard ordinals, comma-separated, or all."
+        required: true
+        type: string
+        default: "all"
+      timeout_min:
+        description: "Per-shard timeout in minutes."
+        required: true
+        type: string
+        default: "60"
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+      - name: Run SAT source selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B search/sat/encode_d972_b4_perm_v1.py --self-test
+          python -B search/sat/check_d972_b4_perm_model_v1.py --self-test
+          python -B search/sat/check_d972_b4_perm_or_v1.py --self-test
+          python -B search/sat/plan_d972_b4_unique_roof_shards_v1.py --self-test
+          python -B search/sat/prepare_d972_b4_sat_matrix_v1.py --self-test
+          python -B search/sat/run_d972_b4_sat_shard_v1.py --self-test
+      - name: Authenticate archive and prepare matrix
+        id: plan
+        shell: bash
+        env:
+          MAX_WORD_LENGTH: ${{ inputs.max_word_length }}
+          SHARD_SIZE: ${{ inputs.shard_size }}
+          DEGREES: ${{ inputs.degrees }}
+          SHARDS: ${{ inputs.shards }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python -B search/sat/prepare_d972_b4_sat_matrix_v1.py \
+            --artifact search/certs/d972_b4_word_key_artifact_v1_20260816.json \
+            --max-word-length "$MAX_WORD_LENGTH" \
+            --shard-size "$SHARD_SIZE" \
+            --degrees "$DEGREES" \
+            --shards "$SHARDS" \
+            --output ci/out/matrix.json
+          python - <<'PY'
+          import json, os
+          matrix = json.load(open("ci/out/matrix.json", encoding="utf-8"))["matrix"]
+          payload = json.dumps({"include": matrix}, separators=(",", ":"))
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
+              stream.write("matrix=" + payload + "\n")
+          print("matrix_count", len(matrix))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: d972-b4-sat-matrix-${{ github.run_id }}
+          path: ci/out/matrix.json
+          if-no-files-found: error
+
+  build-solvers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build pinned Kissat and DRAT-trim
+        shell: bash
+        run: |
+          set -euo pipefail
+          KISSAT_SHA=8af8e56f174b778aef3aa45af9f739b2a5f492c2
+          DRAT_SHA=2e3b2dc0ecf938addbd779d42877b6ed69d9a985
+          git clone https://github.com/arminbiere/kissat.git tools-kissat
+          git -C tools-kissat checkout "$KISSAT_SHA"
+          test "$(git -C tools-kissat rev-parse HEAD)" = "$KISSAT_SHA"
+          ( cd tools-kissat && ./configure && make -j2 )
+          git clone https://github.com/marijnheule/drat-trim.git tools-drat
+          git -C tools-drat checkout "$DRAT_SHA"
+          test "$(git -C tools-drat rev-parse HEAD)" = "$DRAT_SHA"
+          ( cd tools-drat && make )
+          test -x tools-kissat/build/kissat
+          test -x tools-drat/drat-trim
+          mkdir -p ci/solvers
+          cp tools-kissat/build/kissat ci/solvers/kissat
+          cp tools-drat/drat-trim ci/solvers/drat-trim
+          sha256sum ci/solvers/kissat ci/solvers/drat-trim > ci/solvers/SHA256SUMS.txt
+          printf 'kissat_commit=%s\ndrat_trim_commit=%s\n' "$KISSAT_SHA" "$DRAT_SHA" > ci/solvers/build_manifest.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-b4-sat-solvers-${{ github.run_id }}
+          path: ci/solvers/
+          if-no-files-found: error
+
+  search:
+    needs: [plan, build-solvers]
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ fromJSON(inputs.timeout_min) }}
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: d972-b4-sat-solvers-${{ github.run_id }}
+          path: ci/solvers
+      - name: Verify pinned solver artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum --check ci/solvers/SHA256SUMS.txt
+          chmod +x ci/solvers/kissat ci/solvers/drat-trim
+          test -x ci/solvers/kissat
+          test -x ci/solvers/drat-trim
+      - name: Generate, solve, and independently check one finite shard
+        shell: bash
+        env:
+          DEGREE: ${{ matrix.degree }}
+          SHARD: ${{ matrix.shard }}
+          SHARD_SIZE: ${{ inputs.shard_size }}
+          MAX_WORD_LENGTH: ${{ inputs.max_word_length }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python -B search/sat/run_d972_b4_sat_shard_v1.py \
+            --degree "$DEGREE" \
+            --shard "$SHARD" \
+            --shard-size "$SHARD_SIZE" \
+            --max-word-length "$MAX_WORD_LENGTH" \
+            --relators search/certs/d972_b4_p2_magnus_input_v2_20260816.json \
+            --word-key-artifact search/certs/d972_b4_word_key_artifact_v1_20260816.json \
+            --solver ci/solvers/kissat \
+            --drat-trim ci/solvers/drat-trim \
+            --output-dir ci/out
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: d972-b4-sat-${{ matrix.degree }}-${{ matrix.shard }}-${{ github.run_id }}
+          path: ci/out/
+          if-no-files-found: error

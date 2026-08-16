@@ -135,17 +135,19 @@ Print("P2_BEGIN prime=2 class_bounds=1..5 collector_capacity=4096\n");
 B := D972BuildBase(false);;
 if B.pure_size <> 1469664 then Error("P2: pure base order drift"); fi;
 
-P2InputPath := "search/certs/d972_b4_p2_magnus_input_v1_20260816.json";;
+P2InputPath := "search/certs/d972_b4_p2_magnus_input_v2_20260816.json";;
 P2InputSource := StringFile(P2InputPath);;
 if P2InputSource=fail then Error("P2: pinned Magnus input missing"); fi;
 P2InputFileSha := HexSHA256(P2InputSource);;
-if P2InputFileSha<>"caef3c6735678e1b87bc427791d4c96474d6a4c566d4078a8fafd89742c7d2c8" then
+if P2InputFileSha<>"c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9" then
   Error("P2: pinned Magnus input file digest drift: ",P2InputFileSha);
 fi;
 P2Input := JsonStringToGap(P2InputSource);;
 if P2Input=fail or not IsRecord(P2Input) or
    not IsBound(P2Input.schema) or
-   P2Input.schema<>"d972-b4-p2-magnus-input/v1" then
+   P2Input.schema<>"d972-b4-p2-magnus-input/v2" or
+   not IsBound(P2Input.rho_words_source) or
+   P2Input.rho_words_source<>"universal_v2_canonical" then
   Error("P2: pinned Magnus input schema drift");
 fi;
 Print("P2_PINNED_INPUT_COUNTS relators=",Length(P2Input.all_relators),
@@ -181,7 +183,15 @@ Ufree:=F6;; Ufp:=Ufree/P2RelGroupWords;;
 UfpFree:=Ufree;; relsU:=P2RelGroupWords;;
 Ugens:=GeneratorsOfGroup(Ufp);; Ufreen:=GeneratorsOfGroup(Ufree);;
 P2RhoWords:=List(P2Input.rho_words,ShallowCopy);;
+if P2RhoWords<>[[-6,-5,-3],[3],[5],[-3,-2,-1],[-5,-4,-1],[1]] then
+  Error("P2: canonical universal rho word drift");
+fi;
 rf:=List(P2RhoWords,P2WordFromSigned);;
+if rf<>[(F6g[3]*F6g[5]*F6g[6])^-1,F6g[3],F6g[5],
+       (F6g[1]*F6g[2]*F6g[3])^-1,
+       (F6g[1]*F6g[4]*F6g[5])^-1,F6g[1]] then
+  Error("P2: canonical universal rho reconstruction drift");
+fi;
 
 P2TargetKeys:=List(P2Input.target_keys,ShallowCopy);;
 if Length(Set(P2TargetKeys))<>972 then
@@ -247,7 +257,7 @@ Print("P2_WORD_KEY_BINDING_PASS digest=",P2WordKeyDigest,"\n");
 
 if IsBound(D972_P2_MAGNUS_ONLY) and D972_P2_MAGNUS_ONLY=true then
   P2RunMode:="magnus";;
-  Read("search/d972_b4_p2_magnus_export_v1.g");;
+  Read("search/d972_b4_p2_magnus_export_v2.g");;
 else
   P2RunMode:="full";;
 fi;
@@ -265,6 +275,11 @@ P2MakeReceipt:=function(label,order,h0,scan,epiIndex,epiCount)
     ",\"epi_count\":",String(epiCount),",\"h_images\":",
     P2Json(List(h0,g->List([1..degree],i->i^Image(iso,g)))),
     ",\"rho_words\":",P2Json(P2RhoWords),
+    ",\"rho_words_source\":\"universal_v2_canonical\"",
+    ",\"rho_words_sha256\":\"23db316e11e6486e0475b8425ff8ea6666941b5bff0943bf872e39761d0398ed\"",
+    ",\"source_sha256\":",P2Json(P2InputFileSha),
+    ",\"rho_words_legacy_json_mismatch\":false",
+    ",\"p2_input_schema\":\"d972-b4-p2-magnus-input/v2\"",
     ",\"all_relators\":",P2Json(P2RelWords),
     ",\"all_relators_sha256\":",P2Json(P2RelDigest),
     ",\"relator_bools\":",P2Json(scan.relok),",\"rho5\":",P2Json(scan.rho5),
