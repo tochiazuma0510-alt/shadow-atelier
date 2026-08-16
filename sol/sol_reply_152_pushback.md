@@ -797,3 +797,7 @@ direct-v4 の conditional gate は
 価値は B3/PB3 marking と中心規約の較正に限定する。A/B へ進む次段は、
 F2 kernel を真に細分する B4-normal isolated refinement、または §12.7 の
 minimal-bad-chief joint-correction / global outside-element のいずれかでなければならない。
+
+本節の audit commit は
+`fe9de8d286c3d2be6d0ddb3a7046fc66f7670b63`（branch
+`sol/d972-dmtcp-provision-v420`）である。
