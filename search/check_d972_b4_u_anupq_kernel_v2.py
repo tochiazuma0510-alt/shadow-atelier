@@ -318,6 +318,65 @@ def _pc_evaluate(
     return _pc_normalize(sequence, orders, power, conjugates)
 
 
+def _pc_is_abelian_pcgs(
+    orders: list[int],
+    conjugates: dict[tuple[int, int], list[int]],
+) -> bool:
+    """Strictly recognize a PCGS whose defining conjugates are trivial.
+
+    _pc_contract has already checked coverage, tails, and coordinate bounds.
+    Here every relation g_i^g_j = g_i is required literally (the unit vector,
+    not merely a zero tail in a selected coordinate).  Only this gate permits
+    the additive evaluator below; every other presentation uses the general
+    collector.
+    """
+    dimension = len(orders)
+    expected = {(i, j) for i in range(2, dimension + 1)
+                for j in range(1, i)}
+    if set(conjugates) != expected:
+        return False
+    for (left, _right), vector in conjugates.items():
+        if len(vector) != dimension:
+            return False
+        if any(value != (1 if index == left - 1 else 0)
+               for index, value in enumerate(vector)):
+            return False
+    return True
+
+
+def _pc_evaluate_abelian_modular(
+    word: list[int],
+    images: list[list[int]],
+    orders: list[int],
+    power: list[list[int]],
+) -> list[int]:
+    """Evaluate an abelian PC word by additive vectors and power carries.
+
+    The image of a word is first summed in the PC coordinate lattice.  For
+    each generator in PC order, divmod applies its relative-order relation
+    and carries the quotient through the (strictly later) power tail.  This is
+    exact for the abelian gate above, including C9^10 presentations whose
+    relative orders are all 3 but whose first ten power rows are nonzero.
+    """
+    dimension = len(orders)
+    vector = [0] * dimension
+    for letter in word:
+        image = images[abs(letter) - 1]
+        sign = 1 if letter > 0 else -1
+        for index, coordinate in enumerate(image):
+            vector[index] += sign * coordinate
+    for index, order in enumerate(orders):
+        quotient, remainder = divmod(vector[index], order)
+        vector[index] = remainder
+        if quotient:
+            for tail_index, coordinate in enumerate(power[index]):
+                vector[tail_index] += quotient * coordinate
+    if any(not 0 <= vector[index] < orders[index]
+           for index in range(dimension)):
+        raise ValueError("abelian modular vector normalization drift")
+    return vector
+
+
 def verify(receipt_path: Path, input_path: Path, words_path: Path) -> dict[str, Any]:
     relators, norms = load_inputs(input_path, words_path)
     raw_rows, pair_id = build_raw_rs(relators)
@@ -389,6 +448,7 @@ def verify(receipt_path: Path, input_path: Path, words_path: Path) -> dict[str, 
             any(value not in requested_classes for value in completed_classes)):
         raise ValueError("requested class contract drift")
     defects: list[dict[str, Any]] = []
+    abelian_modular_vector_classes = 0
     for row in classes:
         if not isinstance(row, dict) or row.get("status") not in {
             "ALLPASS", "DEFECT", "UNKNOWN_RESOURCE"
@@ -414,12 +474,21 @@ def verify(receipt_path: Path, input_path: Path, words_path: Path) -> dict[str, 
             orders, row.get("pcgs_power_relations"),
             row.get("pcgs_conjugate_relations"))
         zero = [0] * len(orders)
+        abelian_modular = _pc_is_abelian_pcgs(orders, conjugates)
+        if abelian_modular:
+            abelian_modular_vector_classes += 1
+
+        def evaluate(word: list[int]) -> list[int]:
+            if abelian_modular:
+                return _pc_evaluate_abelian_modular(word, images, orders, power)
+            return _pc_evaluate(word, images, orders, power, conjugates)
+
         for index, relator in enumerate(raw_rows):
-            if _pc_evaluate(relator, images, orders, power, conjugates) != zero:
+            if evaluate(relator) != zero:
                 raise ValueError(f"quotient map fails RS relator {index}")
         computed_defects: list[tuple[int, list[int]]] = []
         for index, norm_row in enumerate(norm_rows):
-            image = _pc_evaluate(norm_row, images, orders, power, conjugates)
+            image = evaluate(norm_row)
             if image != zero:
                 computed_defects.append((index + 1, image))
         if row.get("bad_count") != len(computed_defects):
@@ -467,6 +536,7 @@ def verify(receipt_path: Path, input_path: Path, words_path: Path) -> dict[str, 
         "norms_replayed": True,
         "finite_quotient_classes_replayed": sum(
             row.get("status") != "UNKNOWN_RESOURCE" for row in classes),
+        "abelian_modular_vector_classes": abelian_modular_vector_classes,
         "defects": defects,
         "receipt_sha256": sha_bytes(receipt_bytes),
     }
