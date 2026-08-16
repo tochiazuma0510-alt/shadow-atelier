@@ -80,6 +80,9 @@ end;;
 B4LIJson := function(x)
   local i,p;
   if IsInt(x) then return String(x); fi;
+  ## In GAP, the empty list [] also satisfies IsString.  It is the
+  ## identity signed word and must remain a JSON array, never "".
+  if IsList(x) and Length(x)=0 then return "[]"; fi;
   if IsString(x) then return Concatenation("\"",x,"\""); fi;
   if x=true then return "true"; fi;
   if x=false then return "false"; fi;

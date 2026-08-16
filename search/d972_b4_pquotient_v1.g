@@ -45,6 +45,9 @@ else
 P2Json := function(x)
   local i, parts;
   if IsInt(x) then return String(x); fi;
+  ## GAP classifies [] as a string as well as a list.  Preserve the
+  ## identity signed word as an array in every finite-image receipt.
+  if IsList(x) and Length(x)=0 then return "[]"; fi;
   if IsString(x) then
     return Concatenation("\"", ReplacedString(x,"\"","\\\""), "\"");
   fi;
