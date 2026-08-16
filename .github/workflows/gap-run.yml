@@ -21,6 +21,11 @@ on:
         required: false
         type: string
         default: "60"
+      with_pquot_packages:
+        description: "Install apt GAP SmallGrp/ANUPQ packages (opt-in)"
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   gap:
@@ -32,17 +37,56 @@ jobs:
         uses: gap-actions/setup-gap@v3.8.0
         with:
           gap-version: '4.16.0'
-      - name: Run GAP script
+      - name: Install optional p-quotient GAP packages
+        if: ${{ inputs.with_pquot_packages }}
+        shell: bash
         run: |
-          mkdir -p "${{ inputs.out_dir }}" ci/out
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends gap gap-smallgrp gap-anupq
+          smallgrp_dir="$(find /usr/share/gap /usr/lib/gap -type d -iname 'smallgrp*' -print -quit 2>/dev/null || true)"
+          anupq_dir="$(find /usr/share/gap /usr/lib/gap -type d -iname 'anupq*' -print -quit 2>/dev/null || true)"
+          test -n "$smallgrp_dir"
+          test -n "$anupq_dir"
+          printf 'P2_PACKAGE_PATH_PASS smallgrp=%s anupq=%s\n' "$smallgrp_dir" "$anupq_dir"
+      - name: Run GAP script
+        shell: bash
+        env:
+          GAP_RUN_SCRIPT: ${{ inputs.script }}
+          GAP_RUN_PREAMBLE: ${{ inputs.preamble }}
+          GAP_RUN_OUT_DIR: ${{ inputs.out_dir }}
+          GAP_WITH_PQUOT_PACKAGES: ${{ inputs.with_pquot_packages }}
+        run: |
+          set -euo pipefail
+          case "$GAP_RUN_SCRIPT" in
+            ""|.|..|/*|../*|*/../*|*\\*|*[!A-Za-z0-9_./-]*)
+              echo "unsafe or empty script path" >&2
+              exit 2
+              ;;
+          esac
+          case "$GAP_RUN_OUT_DIR" in
+            ""|.|..|/*|../*|*/../*|*\\*|*[!A-Za-z0-9_./-]*)
+              echo "unsafe or empty artifact directory" >&2
+              exit 2
+              ;;
+          esac
+          test -f "$GAP_RUN_SCRIPT"
+          mkdir -p "$GAP_RUN_OUT_DIR" ci/out
           {
-            if [ -n "${{ inputs.preamble }}" ]; then printf '%s\n' '${{ inputs.preamble }}'; fi
-            printf 'Read("%s");\n' '${{ inputs.script }}'
+            if [ -n "$GAP_RUN_PREAMBLE" ]; then printf '%s\n' "$GAP_RUN_PREAMBLE"; fi
+            if [ "$GAP_WITH_PQUOT_PACKAGES" = "true" ]; then
+              printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;; Print("GAPInfo.Version=",GAPInfo.Version,"\\n");; Print("GAPInfo.RootPaths=",GAPInfo.RootPaths,"\\n");;\n'
+            fi
+            printf 'Read("%s");\n' "$GAP_RUN_SCRIPT"
           } > ci/out/driver.g
-          gap -q -o 12g ci/out/driver.g | tee ci/out/run.log
+          gap_args=()
+          if [ "$GAP_WITH_PQUOT_PACKAGES" = "true" ]; then
+            gap_args=(-l ';/usr/share/gap;/usr/lib/gap')
+          fi
+          gap "${gap_args[@]}" -q -o 12g ci/out/driver.g | tee ci/out/run.log
       - uses: actions/upload-artifact@v4
         with:
           name: gap-run-out
           path: |
             ${{ inputs.out_dir }}/
-            ci/out/run.log
+            ci/out/
