@@ -78,6 +78,9 @@ jobs:
           fi
           test -n "${GAPROOT:-}"
           test -d "$GAPROOT"
+          cd "$p2_build_root/pkg/json"
+          ./configure --with-gaproot="$GAPROOT"
+          make -j"$(nproc)"
           cd "$p2_build_root/pkg/anupq"
           ./configure --with-gaproot="$GAPROOT"
           make -j"$(nproc)"
