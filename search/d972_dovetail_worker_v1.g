@@ -368,7 +368,7 @@ end;;
 D972Can9 := function(perm27)
   local out,i;
   out:=[];
-  for i in [0..2] do Append(out,D972D9Coordinates(D972BlockRestrict(perm27,9*i,9))); od;
+  for i in [0..2] do Add(out,D972D9Coordinates(D972BlockRestrict(perm27,9*i,9))); od;
   return out;
 end;;
 
@@ -377,10 +377,11 @@ D972Can4 := function(perm9)
 end;;
 
 D972NFTargetKey := function(m, perm27, perm9)
-  local can9,can4;
+  local can9,can4,can9flat;
   can9:=D972Can9(perm27); can4:=D972Can4(perm9);
+  can9flat:=Concatenation(can9[1],can9[2],can9[3]);
   return Concatenation("(",String(m mod 18),";",
-    D972Join(List(can9,String),","),";",
+    D972Join(List(can9flat,String),","),";",
     D972Join(List(can4,String),","),")");
 end;;
 
