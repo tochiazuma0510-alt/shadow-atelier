@@ -141,10 +141,10 @@ else
   ## shell-injection surface.  Dispatch uses BOOTSTRAP=1.
   if D972NTZBootstrap=1 then
     D972NTZBuildCommand:=Concatenation(
-      "mkdir -p ",D972NTZShellQuote("/home/runner/gap/pkg/kbmag"),
+      "( mkdir -p ",D972NTZShellQuote("/home/runner/gap/pkg/kbmag"),
       " && cd ",D972NTZShellQuote("/home/runner/gap/pkg/kbmag"),
       " && ./configure ",D972NTZShellQuote("/home/runner/gap"),
-      " && make -j2");;
+      " && make -j2 )");;
     D972NTZRunFixed("KBMAG bootstrap",D972NTZBuildCommand,
       "/tmp/d972_b4_norm_tietze_gap_driver_v1_bootstrap.status",
       "ci/out/d972_b4_norm_tietze_gap_driver_v1_bootstrap.log");
