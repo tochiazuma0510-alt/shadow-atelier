@@ -90,10 +90,14 @@ def verify(receipt:dict[str,Any],rel:list[list[int]],norms:list[list[int]])->dic
         if size_match is not (type(size_value) is int and size_value==EXPECTED_SQ_ORDER): raise ValueError("size match")
     elif size_match is True: raise ValueError("size skipped but matching")
     status=str(receipt.get("status")); final="UNKNOWN_ORIGINAL_AUTOMATIC"
-    names=receipt.get("automaton_names"); states=receipt.get("automaton_states"); shas=receipt.get("automaton_sha256"); paths=receipt.get("automaton_paths")
+    names=receipt.get("automaton_names"); bindings=receipt.get("automaton_bindings"); states=receipt.get("automaton_states"); shas=receipt.get("automaton_sha256"); paths=receipt.get("automaton_paths")
     if status=="B4_B_CANDIDATE_PENDING_REPLAY":
         if receipt.get("automatic_success") is not True or receipt.get("automatic_axiom_checked") is not True or size_status!="COMPUTED": raise ValueError("candidate gate")
+        if not isinstance(receipt.get("kbmag_package_version"),str) or not receipt.get("kbmag_package_version"): raise ValueError("kbmag version")
         if names not in (["wa","diff1","diff2"],["wa","diff1","diff2","reduction"]): raise ValueError("automaton names")
+        expected_bindings=["D972OAWA","D972OADiff1","D972OADiff2"]
+        if len(names)==4: expected_bindings.append("D972OAReduction")
+        if bindings!=expected_bindings: raise ValueError("automaton bindings")
         if not isinstance(states,list) or len(states)!=len(names) or any(type(x) is not int or x<=0 for x in states): raise ValueError("automaton states")
         if not isinstance(shas,list) or len(shas)!=len(names) or any(not isinstance(x,str) or len(x)!=64 for x in shas): raise ValueError("automaton hashes")
         if not isinstance(paths,list) or len(paths)!=len(names): raise ValueError("automaton paths")

@@ -40,6 +40,10 @@ if D972ODObj.schema<>"d972-b4-original-automatic/v1" or D972ODObj.status<>"B4_B_
    D972ODObj.rws_size_matches_expected<>(IsInt(D972ODObj.rws_size) and D972ODObj.rws_size=D972ODExpectedSize) then
   Error("ORIGINAL replay receipt gate failed");
 fi;
+if Length(D972ODObj.reduced_norm_words)<>972 or
+   HexSHA256(D972ODJson(D972ODObj.reduced_norm_words))<>D972ODObj.reduced_norm_words_sha256 then
+  Error("ORIGINAL replay reduced ledger digest drift");
+fi;
 D972ODSourceRaw:=StringFile(D972ODSource);; if D972ODSourceRaw=fail or HexSHA256(D972ODSourceRaw)<>D972ODSourceSha then Error("ORIGINAL replay source SHA drift"); fi;
 D972ODSourceObj:=JsonStringToGap(D972ODSourceRaw);; D972ODRho:=[[-6,-5,-3],[3],[5],[-3,-2,-1],[-5,-4,-1],[1]];;
 if D972ODSourceObj.schema<>"d972-b4-p2-magnus-input/v2" or D972ODSourceObj.rho_words<>D972ODRho or D972ODSourceObj.rho_words_source<>"universal_v2_canonical" or D972ODSourceObj.all_relators_sha256<>D972ODRelSha or D972ODSourceObj.roof_words_sha256<>D972ODRoofSha then Error("ORIGINAL replay source gate failed"); fi;
@@ -50,6 +54,7 @@ if D972ODRoof<>D972ODSourceObj.roof_words or HexSHA256(D972ODJson(D972ODRoof))<>
 D972ODNorms:=List(D972ODRoof,w->D972ODNorm(w,D972ODRho));; if HexSHA256(D972ODJson(D972ODNorms))<>D972ODNormSha then Error("ORIGINAL replay norm drift"); fi;
 D972ODNames:=D972ODObj.automaton_names;; D972ODBindings:=D972ODObj.automaton_bindings;; D972ODPaths:=D972ODObj.automaton_paths;; D972ODStates:=D972ODObj.automaton_states;; D972ODShas:=D972ODObj.automaton_sha256;;
 if D972ODNames<>["wa","diff1","diff2"] and D972ODNames<>["wa","diff1","diff2","reduction"] then Error("ORIGINAL replay automaton names"); fi;
+if D972ODBindings<>["D972OAWA","D972OADiff1","D972OADiff2"] and D972ODBindings<>["D972OAWA","D972OADiff1","D972OADiff2","D972OAReduction"] then Error("ORIGINAL replay automaton bindings"); fi;
 if Length(D972ODPaths)<>Length(D972ODNames) or Length(D972ODStates)<>Length(D972ODNames) or Length(D972ODShas)<>Length(D972ODNames) then Error("ORIGINAL replay automaton ledger"); fi;
 for D972ODI in [1..Length(D972ODPaths)] do if HexSHA256(StringFile(D972ODPaths[D972ODI]))<>D972ODShas[D972ODI] then Error("ORIGINAL replay automaton SHA"); fi; Read(D972ODPaths[D972ODI]); od;
 if not IsBound(D972OAWA) or not IsBound(D972OADiff1) or not IsBound(D972OADiff2) then Error("ORIGINAL replay FSA bindings"); fi;
@@ -57,7 +62,11 @@ if NumberOfStatesFSA(D972OAWA)<>D972ODStates[1] or NumberOfStatesFSA(D972OADiff1
 if not IsDeterministicFSA(D972OAWA) or not IsDeterministicFSA(D972OADiff1) or not IsDeterministicFSA(D972OADiff2) then Error("ORIGINAL replay FSA deterministic"); fi;
 D972ODF:=FreeGroup(6);; D972ODG:=GeneratorsOfGroup(D972ODF);; D972ODRels:=List(D972ODSourceObj.all_relators,w->D972ODSignedWord(w,D972ODG));; D972ODU:=D972ODF/D972ODRels;;
 D972ODRws:=KBMAGRewritingSystem(D972ODU);; SetOrderingOfKBMAGRewritingSystem(D972ODRws,"shortlex");; D972ODRws!.wa:=D972OAWA;; D972ODRws!.diff1:=D972OADiff1;; D972ODRws!.diff2:=D972OADiff2;;
-if Length(D972ODNames)=4 then if not IsBound(D972OAReduction) then Error("ORIGINAL replay reduction binding"); fi; D972ODRws!.reductionFSA:=D972OAReduction; fi;
+if Length(D972ODNames)=4 then
+  if not IsBound(D972OAReduction) then Error("ORIGINAL replay reduction binding"); fi;
+  if NumberOfStatesFSA(D972OAReduction)<>D972ODStates[4] or not IsDeterministicFSA(D972OAReduction) then Error("ORIGINAL replay reduction FSA"); fi;
+  D972ODRws!.reductionFSA:=D972OAReduction;
+fi;
 D972ODReduced:=[];; for D972ODI in [1..972] do D972ODZ:=ReducedForm(D972ODRws,D972ODSignedWord(D972ODNorms[D972ODI],D972ODG));; Add(D972ODReduced,D972ODSignedObj(D972ODZ)); od;
 if D972ODReduced<>D972ODObj.reduced_norm_words or Number(D972ODReduced,x->Length(x)=0)<>972 then Error("ORIGINAL replay reduced ledger/all-empty failure"); fi;
 Print("B4_ORIGINAL_AUTOMATIC_REPLAY_PASS all_empty=972 automata=",D972ODNames,"\n");
