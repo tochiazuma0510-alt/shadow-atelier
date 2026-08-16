@@ -17,6 +17,9 @@
 ##   D972_B4_GQ_MODE:="target";; D972_B4_GQ_TARGET:="SL2_3";;
 ##   D972_B4_GQ_TARGET_INDEX:=7;;  (closed 1..12 numeric table)
 ##   D972_B4_GQ_SELFTEST:=1;;     (numeric selftest override)
+## Quote-free target dispatch may omit D972_B4_GQ_INPUT and
+## D972_B4_GQ_OUTPUT: the canonical input and numeric ci/out path are then
+## selected below.  Explicit paths remain subject to the existing SHA gate.
 #############################################################################
 
 if not IsBound(GetEnv) then GetEnv := name -> fail; fi;
@@ -83,14 +86,44 @@ if not IsInt(D972GQ2SelftestNumeric) or
 fi;
 if D972GQ2SelftestNumeric=1 then D972GQ2Mode:="selftest"; fi;
 if not D972GQ2NumericIndexSet then D972GQ2Target:=D972GQ2StringTarget; fi;
+D972GQ2CanonicalInput:="search/certs/d972_b4_p2_magnus_input_v2_20260816.json";;
 D972GQ2Input:=fail;;
 if IsBound(D972_B4_GQ_INPUT) then D972GQ2Input:=D972_B4_GQ_INPUT; fi;
 if D972GQ2Input=fail then D972GQ2Input:=GetEnv("D972_B4_GQ_INPUT"); fi;
+D972GQ2InputDefaulted:=false;;
+if D972GQ2Input=fail or D972GQ2Input="" then
+  D972GQ2Input:=D972GQ2CanonicalInput;;
+  D972GQ2InputDefaulted:=true;;
+fi;
 D972GQ2Output:=fail;;
 if IsBound(D972_B4_GQ_OUTPUT) then D972GQ2Output:=D972_B4_GQ_OUTPUT; fi;
 if D972GQ2Output=fail then D972GQ2Output:=GetEnv("D972_B4_GQ_OUTPUT"); fi;
+D972GQ2OutputDefaulted:=false;;
 if D972GQ2Output=fail or D972GQ2Output="" then
-  D972GQ2Output:=Filename(DirectoryTemporary(),"d972_b4_gquotient_v2.json");
+  if D972GQ2NumericIndexSet then
+    D972GQ2Output:=Concatenation("ci/out/d972_b4_gquotient_",
+      String(D972GQ2TargetIndex),".json");;
+  elif D972GQ2Mode="selftest" then
+    D972GQ2Output:=Filename(DirectoryTemporary(),"d972_b4_gquotient_v2.json");;
+  else
+    Error("GQ2 default output requires numeric target index");
+  fi;
+  D972GQ2OutputDefaulted:=true;;
+fi;
+D972GQ2InputDefaultMarker:=false;; D972GQ2OutputDefaultMarker:=false;;
+if D972GQ2InputDefaulted then
+  D972GQ2InputDefaultMarker:=true;;
+  Print("B4_GQ2_INPUT_DEFAULT_PASS path=",D972GQ2Input,"\n");
+fi;
+if D972GQ2OutputDefaulted then
+  D972GQ2OutputDefaultMarker:=true;;
+  if D972GQ2NumericIndexSet then
+    Print("B4_GQ2_OUTPUT_DEFAULT_PASS index=",D972GQ2TargetIndex,
+      " path=",D972GQ2Output,"\n");
+  else
+    Print("B4_GQ2_OUTPUT_DEFAULT_PASS index=none path=",D972GQ2Output,
+      "\n");
+  fi;
 fi;
 D972GQ2ReceiptOutput:=Concatenation(D972GQ2Output,".defect.json");;
 D972ExactRelWords:=fail;; D972ExactRoofWords:=fail;;

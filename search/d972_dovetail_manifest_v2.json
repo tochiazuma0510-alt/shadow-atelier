@@ -127,7 +127,7 @@
       "base_permutation_groups": {
         "replacement_count": 15,
         "helper": "D972V2PermutationGroup(generators, degree, stage) -> Subgroup(SymmetricGroup(degree), PermList images)",
-        "source_sha256": "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8",
+        "source_sha256": "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd",
         "exact_degree_bindings": {
           "base_q": "6*2916+6*504",
           "base_pure": "6*2916+6*504",
@@ -157,7 +157,7 @@
       },
       "fail_closed_on_count_drift": true,
       "frozen_v1_digest_gate": true,
-      "frozen_v1_sha256": "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8"
+      "frozen_v1_sha256": "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd"
     },
     "gap_v1_library_materialization": {
       "writer": "FileString",
@@ -196,7 +196,7 @@
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "0ebf3e52328cc127b76d7d8a68c0a5ac31e4763bc7c6d7f970529f9907375c64"
+    "contract_sha256": "903d153cdb7ec169442a7ab95f741eb99c019032ac312034b0182ec02f28ed43"
   },
   "launch_spec": {
     "cwd": ".",
