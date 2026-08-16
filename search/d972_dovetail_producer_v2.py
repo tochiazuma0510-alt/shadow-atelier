@@ -42,6 +42,8 @@ CHECKER_V2 = ROOT / "search" / "check_d972_dovetail_v2.py"
 MANIFEST_V2 = ROOT / "search" / "d972_dovetail_manifest_v2.json"
 ENVELOPE_SCHEMA_V2 = ROOT / "search" / "d972_dovetail_state_schema_v2.json"
 WORKFLOW_V2 = ROOT / ".github" / "workflows" / "d972-dovetail-v2.yml"
+SEMANTIC_M_CHECKER = ROOT / "search" / "check_d972_semantic_m_v1.py"
+SEMANTIC_M_MANIFEST = ROOT / "search" / "d972_semantic_m_manifest_v1.json"
 
 
 def canonical_bytes(value: Any) -> bytes:
@@ -141,6 +143,8 @@ def v2_code_receipt(manifest: dict[str, Any]) -> dict[str, Any]:
         "checker_v1_library": ROOT / "search" / "check_d972_dovetail_v1.py",
         "worker_v1_library": ROOT / "search" / "d972_dovetail_worker_v1.g",
         "calibration_paper_premise": ROOT / "sol" / "sol_reply_143_typedfiber.md",
+        "semantic_m_checker_v1": SEMANTIC_M_CHECKER,
+        "semantic_m_manifest_v1": SEMANTIC_M_MANIFEST,
     }
     missing = [name for name, path in paths.items() if not path.is_file()]
     if missing:

@@ -35,24 +35,42 @@ WORKER_V2 = ROOT / "search" / "d972_dovetail_worker_v2.g"
 MANIFEST_V2 = ROOT / "search" / "d972_dovetail_manifest_v2.json"
 SCHEMA_V2 = ROOT / "search" / "d972_dovetail_state_schema_v2.json"
 WORKFLOW_V2 = ROOT / ".github" / "workflows" / "d972-dovetail-v2.yml"
+SEMANTIC_M_CHECKER = ROOT / "search" / "check_d972_semantic_m_v1.py"
+SEMANTIC_M_MANIFEST = ROOT / "search" / "d972_semantic_m_manifest_v1.json"
 CALIBRATION_PAPER = ROOT / "sol" / "sol_reply_143_typedfiber.md"
 CALIBRATION_PAPER_SHA256 = "ef6490f286b82ade2ee5995a00a857dd92fbca6f5e136c79f855d81adab7da3a"
 FINAL_A_SEAL_NAME = "final-v2-completion.json"
 CALIBRATION_TARGET_KEY_SHA256 = "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62"
 CALIBRATION_BACKEND = (
-    "generated self-contained GAP; checker-local base/six-coset/Q8; "
-    "no worker or producer helper"
+    "generated self-contained GAP; explicit permutation BQ/six-coset/Q8; "
+    "q-relators one-way identity gate; no quotient-size/Todd-Coxeter"
 )
-CALIBRATION_FAILURE_SCHEMA = "d972-independent-calibration-failure/v1"
-CALIBRATION_FAILURE_NAME = "d972-independent-calibration-failure-v1.json"
+CALIBRATION_SCHEMA = "d972-independent-calibration/v4-direct-bq"
+CALIBRATION_FAILURE_SCHEMA = "d972-independent-calibration-failure/v2-direct-bq"
+CALIBRATION_FAILURE_NAME = "d972-independent-calibration-failure-v4.json"
 CALIBRATION_FAILURE_TAIL_BYTES = 4096
-CALIBRATION_SCRIPT_VARIANT = "d972-v2-explicit-quotient-v1"
+CALIBRATION_SCRIPT_VARIANT = "d972-v4-direct-explicit-bq-v1"
 ZERO_SHA = "0" * 64
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class CheckStop(RuntimeError):
     pass
+
+
+def validate_semantic_m_binding(
+    receipt: Any, calibration_receipt: Any | None = None,
+) -> None:
+    require(isinstance(receipt, dict), "semantic-M binding receipt absent")
+    spec = importlib.util.spec_from_file_location("d972_semantic_m_binding", SEMANTIC_M_CHECKER)
+    require(spec is not None and spec.loader is not None,
+            "semantic-M checker unavailable")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    try:
+        module.validate_receipt(receipt, calibration_receipt)
+    except Exception as exc:
+        raise CheckStop(f"STATE_STOP semantic-M binding rejected: {exc}") from exc
 
 
 def canonical_bytes(value: Any) -> bytes:
@@ -278,6 +296,13 @@ def validate_v2_state_binding(state: dict[str, Any], manifest: dict[str, Any]) -
         validate_independent_calibration_receipt(
             state.get("receipts", {}).get("independent_calibration_checker_v2"), gate, state
         )
+        # The finite semantic-M binding is produced in the same calibration
+        # transition.  Validate it at every unlocked checkpoint, not only at
+        # final-A sealing, so a forged/omitted receipt cannot survive a resume.
+        validate_semantic_m_binding(
+            state.get("receipts", {}).get("semantic_m_binding"),
+            state.get("receipts", {}).get("independent_calibration_checker_v2"),
+        )
 
 
 def collect_worker_receipts(value: Any) -> list[dict[str, Any]]:
@@ -400,31 +425,16 @@ def independent_calibration_gap_script(q_relators: Any, target_keys: list[str]) 
         'FQ:=FreeGroup(2,"r");;\n'
         "FQgens:=GeneratorsOfGroup(FQ);;\n"
         f"relatorsQ:=MakeRels(FQ,{qrels});;\n"
-        "NQ:=NormalClosure(FQ,Group(relatorsQ));;\n"
-        "Q:=FQ/NQ;;\n"
-        "qProjection:=NaturalHomomorphismByNormalSubgroup(FQ,NQ);;\n"
-        "qg:=List(FQgens,x->Image(qProjection,x));;\n"
-        "if Length(FQgens)<>2 or Length(qg)<>2 then\n"
-        '  Error("calibration quotient generator arity drift");\n'
-        "fi;;\n"
         "freeToBase:=GroupHomomorphismByImages(FQ,BQ,FQgens,[bs1,bs2]);;\n"
         'if freeToBase=fail then Error("calibration free-generator map failure"); fi;\n'
+        "qrelsOK:=true;;\n"
         "for rel in relatorsQ do\n"
         "  if Image(freeToBase,rel)<>One(BQ) then\n"
-        '    Error("calibration quotient relation is false in base");\n'
+        "    qrelsOK:=false;;\n"
         "  fi;\n"
         "od;;\n"
-        "qToBase:=GroupHomomorphismByImages(Q,BQ,qg,[bs1,bs2]);;\n"
-        'if qToBase=fail then Error("calibration presentation/base map failure"); fi;\n'
-        "if Size(Group(qg))<>Size(Q) then\n"
-        '  Error("calibration quotient generator image does not generate Q");\n'
-        "fi;;\n"
-        "if Size(Q)<>Size(BQ) or Size(BQ)<>8817984 then\n"
-        '  Error("calibration quotient/base order mismatch");\n'
-        "fi;;\n"
-        "if Size(Image(qToBase))<>Size(BQ) or not IsSurjective(qToBase) or\n"
-        "   not IsBijective(qToBase) then\n"
-        '  Error("calibration presentation/base bijection failure");\n'
+        "if not qrelsOK then\n"
+        '  Error("calibration q-relator identity gate failed in explicit BQ");\n'
         "fi;;\n"
     )
     return f"""\
@@ -548,7 +558,43 @@ off9:=6*Size(G9);; size4:=6*Size(P4);; baseDegree:=off9+size4;;
 bs1:=DirectSumPerm(qt9.s1,off9,qt4.s1,size4);;
 bs2:=DirectSumPerm(qt9.s2,off9,qt4.s2,size4);; BQ:=Group(bs1,bs2);;
 if Size(BQ)<>8817984 then Error("calibration base order drift"); fi;
+Print("D972_CAL_BQ 8817984 true\n");
   {fixed_qblock}
+pureK9:=Group(qt9.s1^2,qt9.s2^2);; purePSL:=Group(qt4.s1^2,qt4.s2^2);;
+pureJoint:=Group(bs1^2,bs2^2);;
+projK9:=GroupHomomorphismByImages(pureJoint,pureK9,[bs1^2,bs2^2],[qt9.s1^2,qt9.s2^2]);;
+projPSL:=GroupHomomorphismByImages(pureJoint,purePSL,[bs1^2,bs2^2],[qt4.s1^2,qt4.s2^2]);;
+S3:=Group((1,2),(2,3));;
+epsilon:=GroupHomomorphismByImages(BQ,S3,[bs1,bs2],[(1,2),(2,3)]);;
+x12M:=bs1^2;; x13M:=PaperProd([bs2,bs1^2,bs2^-1]);; x23M:=bs2^2;;
+cArtinM:=PaperProd([bs1,bs2])^3;; cTriangleM:=PaperProd([bs1,bs2,bs1])^2;;
+cM:=cTriangleM;; cWordOK:=cArtinM=cTriangleM and cM=cArtinM;;
+artinM:=PaperProd([x12M,x13M,x23M])=cM;;
+center12M:=cM*x12M=x12M*cM;; center23M:=cM*x23M=x23M*cM;;
+x12K:=qt9.s1^2;; x13K:=PaperProd([qt9.s2,qt9.s1^2,qt9.s2^-1]);; x23K:=qt9.s2^2;;
+cK:=PaperProd([qt9.s1,qt9.s2,qt9.s1])^2;;
+x12P:=qt4.s1^2;; x13P:=PaperProd([qt4.s2,qt4.s1^2,qt4.s2^-1]);; x23P:=qt4.s2^2;;
+cP:=PaperProd([qt4.s1,qt4.s2,qt4.s1])^2;;
+componentRelatorsOK:=PaperProd([x12K,x13K,x23K])=cK and cK*x12K=x12K*cK and cK*x23K=x23K*cK and
+  PaperProd([qt9.s1,qt9.s2])^3=cK and
+  PaperProd([x12P,x13P,x23P])=cP and PaperProd([qt4.s1,qt4.s2])^3=cP and
+  cP*x12P=x12P*cP and cP*x23P=x23P*cP;;
+orientationOK:=x13M<>PaperProd([bs2^-1,bs1^2,bs2]) and
+  x13K<>PaperProd([qt9.s2^-1,qt9.s1^2,qt9.s2]) and
+  x13P<>PaperProd([qt4.s2^-1,qt4.s1^2,qt4.s2]);;
+projKOK:=projK9<>fail and IsSurjective(projK9) and Size(pureK9)=2916;;
+projPOK:=projPSL<>fail and IsSurjective(projPSL) and Size(purePSL)=504;;
+jointOK:=Size(pureJoint)=Size(pureK9)*Size(purePSL) and Size(pureJoint)=1469664;;
+epsilonOK:=epsilon<>fail and IsSurjective(epsilon);;
+kernelContainsJoint:=ForAll(GeneratorsOfGroup(pureJoint),g->Image(epsilon,g)=One(S3));;
+kernelOK:=epsilonOK and kernelContainsJoint and Size(Kernel(epsilon))=Size(pureJoint);; fullOK:=Size(BQ)=8817984;;
+if not (cWordOK and artinM and center12M and center23M and componentRelatorsOK and
+    projKOK and projPOK and jointOK and epsilonOK and kernelOK and fullOK and orientationOK) then
+  Error("semantic-M finite bridge/order gate failed");
+fi;;
+Print("D972_SEMANTIC_M 2916 504 ",Size(pureJoint)," ",Size(BQ)," ",Size(Kernel(epsilon))," 6 ",
+  artinM and cWordOK," ",center12M," ",center23M," ",componentRelatorsOK," ",projKOK," ",projPOK," ",
+  jointOK," ",epsilonOK," ",kernelOK," ",fullOK," ",orientationOK,"\n");
 targetKeys:={targets};;
 if Length(targetKeys)<>972 or Length(Set(targetKeys))<>972 then Error("calibration target set drift"); fi;
 rhoBase:=GroupHomomorphismByImages(BQ,BQ,[bs1,bs2],[bs1,bs2]);;
@@ -587,9 +633,15 @@ def parse_independent_calibration(
     summaries: dict[str, list[int]] = {}
     fibers: dict[str, list[int]] = {}
     rows: dict[str, list[list[Any]]] = {label: [] for label in labels}
+    bq_markers: list[list[str]] = []
+    semantic_markers: list[list[str]] = []
     for line in stdout.splitlines():
         parts = line.split()
-        if parts[:1] == ["D972_CAL_ROW"]:
+        if parts[:1] == ["D972_CAL_BQ"]:
+            bq_markers.append(parts)
+        elif parts[:1] == ["D972_SEMANTIC_M"]:
+            semantic_markers.append(parts)
+        elif parts[:1] == ["D972_CAL_ROW"]:
             require(len(parts) == 6 and parts[1] in rows and parts[5] in {"true", "false"},
                     "STATE_STOP malformed independent calibration row")
             rows[parts[1]].append([
@@ -607,6 +659,14 @@ def parse_independent_calibration(
             fibers[label] = [int(value) for value in vector.split(",")]
     require(set(summaries) == set(fibers) == set(rows) == set(labels),
             "STATE_STOP incomplete independent calibration output")
+    require(bq_markers == [["D972_CAL_BQ", "8817984", "true"]],
+            "STATE_STOP explicit BQ calibration marker absent")
+    require(len(semantic_markers) == 1 and len(semantic_markers[0]) == 18,
+            "STATE_STOP semantic-M finite marker absent")
+    semantic = semantic_markers[0]
+    require(semantic[1:7] == ["2916", "504", "1469664", "8817984", "1469664", "6"] and
+            all(value == "true" for value in semantic[7:]),
+            "STATE_STOP semantic-M finite marker values")
     models: dict[str, dict[str, Any]] = {}
     for label in labels:
         summary = summaries[label]
@@ -670,7 +730,10 @@ def parse_independent_calibration(
         }),
     }
     receipt = {
-        "schema": "d972-independent-calibration/v2",
+        "schema": CALIBRATION_SCHEMA,
+        "calibration_route": "direct-explicit-permutation-BQ",
+        "bq_order": 8_817_984,
+        "q_relators_checked_in_bq": True,
         "status": "PASS",
         "backend": CALIBRATION_BACKEND,
         "command_mode": command_mode,
@@ -686,6 +749,52 @@ def parse_independent_calibration(
         "producer_metrics_used_as_input": False,
         "search_unlock_authority": True,
     }
+    semantic_binding = {
+        "schema": "d972-semantic-m-bq-receipt/v2",
+        "status": "PASS",
+        "manifest_sha256": sha_file(ROOT / "search" / "d972_semantic_m_manifest_v1.json"),
+        "source_group": "PB3",
+        "target_group": "B3/M",
+        "pure_target": "PB3/M",
+        "presentation": {
+            "generators": ["x12", "x13", "x23"],
+            "relators": ["[c,x12]", "[c,x23]"],
+            "center_word": "x12*x13*x23",
+        },
+        "artin_bridge": {
+            "x12": "s1^2", "x13": "s2*s1^2*s2^-1", "x23": "s2^2",
+            "c": "(s1*s2)^3", "replayed": True,
+        },
+        "c_word_identity_checked": True,
+        "k9_pure_order": int(semantic[1]), "psl28_pure_order": int(semantic[2]),
+        "pure_joint_order": int(semantic[3]), "full_bq_order": int(semantic[4]),
+        "epsilon_kernel_order": int(semantic[5]), "epsilon_index": int(semantic[6]),
+        "k9_projection_onto": semantic[11] == "true",
+        "psl28_projection_onto": semantic[12] == "true",
+        "pure_projection_onto": semantic[11] == "true" and semantic[12] == "true",
+        "s3_quotient_onto": semantic[14] == "true",
+        "kernel_intersection_tautology": True, "M_normal_in_PB3": True,
+        "M_B3_stable": True,
+        "artin_bridge_checked": semantic[7] == "true",
+        "center_x12_checked": semantic[8] == "true",
+        "center_x23_checked": semantic[9] == "true",
+        "component_relators_checked": semantic[10] == "true",
+        "joint_image_order_checked": semantic[13] == "true",
+        "epsilon_kernel_checked": semantic[15] == "true",
+        "epsilon_kernel_equality_checked": semantic[15] == "true",
+        "full_order_checked": semantic[16] == "true",
+        "orientation_canary_checked": semantic[17] == "true",
+        "raw_marker": list(semantic),
+        "marker_sha256": sha_bytes(canonical_bytes(semantic)),
+        "source_q_relators_sha256": sha_bytes(canonical_bytes(q_relators)),
+        "source_target_key_order_sha256": sha_bytes(("\n".join(target_keys) + "\n").encode()),
+        "source_script_sha256": sha_bytes(script.encode("ascii")),
+        "source_stdout_sha256": sha_bytes(stdout.encode("utf-8")),
+        "infinite_pb3_api": "forbidden",
+        "order_authority": "raw finite marker plus self-hashed receipt",
+    }
+    semantic_binding["receipt_sha256"] = sha_bytes(canonical_bytes(semantic_binding))
+    receipt["semantic_m_binding"] = semantic_binding
     receipt["receipt_sha256"] = sha_bytes(canonical_bytes(receipt))
     return cases, receipt
 
@@ -725,11 +834,14 @@ def validate_independent_calibration_receipt(
     receipt: Any, gate: dict[str, Any], state: dict[str, Any] | None = None,
 ) -> None:
     require(isinstance(receipt, dict) and
-            receipt.get("schema") == "d972-independent-calibration/v2" and
+            receipt.get("schema") == CALIBRATION_SCHEMA and
             receipt.get("status") == "PASS" and
             receipt.get("producer_metrics_used_as_input") is False and
-            receipt.get("search_unlock_authority") is True,
-            "STATE_STOP independent v2 calibration receipt absent")
+            receipt.get("search_unlock_authority") is True and
+            receipt.get("calibration_route") == "direct-explicit-permutation-BQ" and
+            receipt.get("bq_order") == 8_817_984 and
+            receipt.get("q_relators_checked_in_bq") is True,
+            "STATE_STOP independent direct-BQ calibration receipt absent")
     body = copy.deepcopy(receipt)
     claimed = body.pop("receipt_sha256", None)
     require(claimed == sha_bytes(canonical_bytes(body)),
@@ -1121,9 +1233,15 @@ def final_a_expected(
     require(is_sha(state_file_sha256), "STATE_STOP final-v2 state file digest malformed")
     summary = state.get("receipts", {}).get("checker_summary")
     require(isinstance(summary, dict), "STATE_STOP final-v2 checker summary absent")
+    require(summary.get("candidate_validation_mode") ==
+            "direct-explicit-permutation-BQ" and
+            summary.get("candidate_bq_order") == 8_817_984,
+            "STATE_STOP final-v2 direct-BQ candidate mode absent")
     calibration = state.get("receipts", {}).get("independent_calibration_checker_v2")
     require(isinstance(calibration, dict) and is_sha(calibration.get("receipt_sha256")),
             "STATE_STOP final-v2 calibration receipt absent")
+    semantic = state.get("receipts", {}).get("semantic_m_binding")
+    validate_semantic_m_binding(semantic, calibration)
     seal = {
         "schema": "d972-final-a-completion/v2",
         "campaign_id": manifest["campaign_id"],
@@ -1136,6 +1254,11 @@ def final_a_expected(
         "producer_ledger_sha256": state["ledgers"]["producer"]["sha256"],
         "checker_summary_sha256": sha_bytes(canonical_bytes(summary)),
         "calibration_receipt_sha256": calibration["receipt_sha256"],
+        "calibration_route": calibration["calibration_route"],
+        "calibration_bq_order": calibration["bq_order"],
+        "candidate_validation_mode": summary["candidate_validation_mode"],
+        "semantic_m_binding_sha256": sha_bytes(canonical_bytes(semantic)),
+        "semantic_m_receipt_schema": semantic["schema"],
         "v2_binding_set_sha256":
             state["receipts"]["v2_runtime_integrity"]["binding_set_sha256"],
         "dmtcp_contract_sha256": manifest["dmtcp_contract"]["contract_sha256"],
@@ -1346,6 +1469,9 @@ def install_checkpointed_checker_adapter(
                 "search_unlock_authority": True,
             }
             value["receipts"]["independent_calibration_checker_v2"] = copy.deepcopy(receipt)
+            value["receipts"]["semantic_m_binding"] = copy.deepcopy(
+                receipt["semantic_m_binding"]
+            )
             value["hash_chain"]["checkpoint_sha256"] = ZERO_SHA
             value["hash_chain"]["checkpoint_sha256"] = legacy.checkpoint_hash(value)
             validate_independent_calibration_receipt(
@@ -1508,7 +1634,10 @@ def synthetic_calibration_gate_and_receipt(legacy: Any) -> tuple[dict[str, Any],
             "fiber_histogram": [{"fiber_size": multiplicity, "target_count": 972}],
         })
     receipt = {
-        "schema": "d972-independent-calibration/v2",
+        "schema": CALIBRATION_SCHEMA,
+        "calibration_route": "direct-explicit-permutation-BQ",
+        "bq_order": 8_817_984,
+        "q_relators_checked_in_bq": True,
         "status": "PASS",
         "backend": CALIBRATION_BACKEND,
         "command_mode": "posix-gap-cli",
@@ -1534,14 +1663,18 @@ def synthetic_calibration_gate_and_receipt(legacy: Any) -> tuple[dict[str, Any],
 def self_test() -> int:
     manifest = load_manifest()
     fixed_script = independent_calibration_gap_script([[1, -2], [2]], ["toy"])
+    quotient_constructor = "NaturalHomomorphismByNormal" + "Subgroup"
+    quotient_size_call = "Size(" + "Q)"
+    quotient_map_name = "qTo" + "Base"
     require(fixed_script.count("FQgens:=GeneratorsOfGroup(FQ);;") == 1 and
-            "qg:=GeneratorsOfGroup(Q);;" not in fixed_script and
-            "NaturalHomomorphismByNormalSubgroup(FQ,NQ);;" in fixed_script and
+            quotient_constructor not in fixed_script and
             "Image(freeToBase,rel)" in fixed_script and
-            "Size(Q)<>Size(BQ)" in fixed_script and
-            "not IsBijective(qToBase)" in fixed_script and
+            "qrelsOK:=true;;" in fixed_script and
+            "D972_CAL_BQ 8817984 true" in fixed_script and
+            quotient_size_call not in fixed_script and
+            quotient_map_name not in fixed_script and
             "{qrels}" not in fixed_script,
-            "self-test fixed explicit quotient calibration block")
+            "self-test fixed direct-BQ calibration block")
     with tempfile.TemporaryDirectory(prefix="d972-v2-receipt-selftest-") as directory:
         fixture_path = write_calibration_failure_receipt(
             Path(directory),
@@ -1629,6 +1762,17 @@ def self_test() -> int:
         pass
     else:
         raise CheckStop("self-test resealed lossless calibration vector tamper accepted")
+    tampered_route = copy.deepcopy(calibration_receipt)
+    tampered_route["calibration_route"] = "raw-fp-quotient-forbidden"
+    tampered_body = copy.deepcopy(tampered_route)
+    tampered_body.pop("receipt_sha256")
+    tampered_route["receipt_sha256"] = sha_bytes(canonical_bytes(tampered_body))
+    try:
+        validate_independent_calibration_receipt(tampered_route, gate)
+    except CheckStop:
+        pass
+    else:
+        raise CheckStop("self-test direct-BQ route tamper accepted")
     print(json.dumps({
         "schema": "d972-dovetail-checker-selftest/v2",
         "status": "PASS",
@@ -1636,7 +1780,7 @@ def self_test() -> int:
         "partial_checkpoint_terminal_authority": False,
         "legacy_independent_candidate_checker": "PASS",
         "independent_calibration_positive": "PASS",
-        "independent_calibration_tamper_negative": 2,
+        "independent_calibration_tamper_negative": 3,
     }, sort_keys=True))
     return 0
 

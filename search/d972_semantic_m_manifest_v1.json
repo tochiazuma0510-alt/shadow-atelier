@@ -1,0 +1,41 @@
+{
+  "schema": "d972-semantic-m-manifest/v1",
+  "receipt_schema": "d972-semantic-m-bq-receipt/v2",
+  "source_presentation": "PB3=<x12,x13,x23 | [c,x12]=1,[c,x23]=1>, c=x12*x13*x23",
+  "artin_bridge": {
+    "x12": "s1^2",
+    "x13": "s2*s1^2*s2^-1",
+    "x23": "s2^2",
+    "c": "(s1*s2)^3",
+    "c_word_identity": "(s1*s2)^3=(s1*s2*s1)^2"
+  },
+  "factor_maps": {
+    "K9": {"order": 2916, "degree": 27, "onto_required": true},
+    "PSL(2,8)": {"order": 504, "degree": 9, "onto_required": true}
+  },
+  "pure_joint": {
+    "name": "M",
+    "definition": "K^(9) intersection N_S4",
+    "order": 1469664,
+    "degree": 36,
+    "onto_required": true
+  },
+  "full_bq": {
+    "order": 8817984,
+    "pure_kernel_order": 1469664,
+    "s3_quotient_order": 6,
+    "index": 6
+  },
+  "kernel_intersection": {
+    "identity": "ker(rho_M)=ker(rho_K9) intersection ker(rho_NS4)",
+    "source": "standard marked PB3 presentation",
+    "M_normal_in_PB3": true,
+    "M_B3_stable": true
+  },
+  "infinite_group_api_forbidden": true,
+  "a_binding": {
+    "requires_receipt_status": "PASS",
+    "requires_joint_and_full_order_certificates": true,
+    "requires_direct_bq_candidate_mode": true
+  }
+}

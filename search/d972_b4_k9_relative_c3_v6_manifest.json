@@ -1,0 +1,63 @@
+{
+  "schema": "d972-b4-k9-relative-c3-manifest/v6",
+  "producer": "search/probe/b4_cal_v1/d972_b4_k9_relative_c3_v6.g",
+  "checker": "search/check_d972_b4_k9_relative_c3_v6.py",
+  "cell": "d972-k3-c3-exponent-v6",
+  "coefficient_ring": "Z/9Z",
+  "c9_radix": [1, 2, 4, 5, 7, 8],
+  "pure_radix_rule": "z_pure=2*z_full mod 9",
+  "explicit_BQ": {
+    "order": 8817984,
+    "pure_order": 1469664,
+    "construction": "D972BuildBase(false) finite permutation model",
+    "infinite_fp_conversion": false
+  },
+  "full_marked_bridge": {
+    "source": "P=<s1_tilde,s2_tilde>",
+    "target": "BQ=<s1,s2>",
+    "map": "s1_tilde->s1, s2_tilde->s2",
+    "braid_required": true,
+    "onto_required": true,
+    "kernel_order_required": 9,
+    "marked_images_required": true,
+    "N_le_M_rule": "kernel(B3->P) is contained in kernel(B3->BQ)"
+  },
+  "pure_bridge": {
+    "onto_M_order": 1469664,
+    "kernel_order_required": 9,
+    "purpose": "typed below-M pure relative cell"
+  },
+  "a18": {
+    "coface_count": 5,
+    "edge_order": ["12", "13", "14", "23", "24", "34"],
+    "native_order": "[x12,x13,x23]",
+    "paper_to_native": [1, 3, 2],
+    "tau": "X^-1*Y^-1",
+    "finite_inverse_kernel_equality": true
+  },
+  "frozen_ledger": {
+    "row_count": 972,
+    "row_shape": "[m,key,word]",
+    "word_artifact_sha256": "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9",
+    "canonical_sha256": "fdf5fd367cdd00e4aafde4d1ac4ef3708e6f3efd338f7b7945646879e0002fd2",
+    "canonical_rows_sha256": "e9e1cb711dc700b3588902b7b05f83ae0ca1967983d70d46fc22825b96b0136c",
+    "outside_648_identified": false
+  },
+  "terminal_policy": {
+    "b4_normality": "UNKNOWN",
+    "isolated": "UNKNOWN",
+    "all_shadows_settled": "UNKNOWN",
+    "semantic_M_binding_exact": false,
+    "arithmetic_label": "UNAVAILABLE_TYPED_ARITHMETIC_BRIDGE",
+    "outside_label": "UNAVAILABLE_TYPED_OUTSIDE_LABEL",
+    "terminal_allowed": false,
+    "all_pass_is_B": false
+  },
+  "scope_out": [
+    "local GAP",
+    "infinite IsomorphismFpGroupByGenerators",
+    "B4-normality theorem",
+    "isolated/settled certificate",
+    "typed arithmetic and outside-648 labels"
+  ]
+}

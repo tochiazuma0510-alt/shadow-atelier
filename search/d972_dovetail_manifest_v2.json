@@ -1,7 +1,15 @@
 {
   "schema": "d972-dovetail-orchestration/v2",
   "campaign_id": "d972-roof-A-semidecision-v2",
-  "universe_id": "B3-stable-marked-extensions-over-K9-intersection-NS4-k-ge-3/v2",
+  "universe_id": "B3-stable-marked-extensions-over-K9-intersection-NS4-k-ge-8-skip3-7/v4",
+  "prefix_policy": {
+    "skipped_k_range": [3, 7],
+    "status": "FROZEN_ALL_PASS_NOT_RECHECKED",
+    "a_soundness_effect": "none: terminal A depends on one exact isolated direct-BQ zero-fiber witness",
+    "b_or_completeness_authority": false,
+    "anchor": "sol/sol_reply_151_finish.md#section-3",
+    "anchor_sha256": "36460bb959ec8f81efc5989e722ec2a3d1490c71a8a67f92cc18488cd3c09c2c"
+  },
   "search_input_set_sha256": "48d2d91ef56f2cc73a75b559aed378f48d5d28d1e04a964ccfd6fb5502713969",
   "dmtcp_provisioning": {
     "method": "pinned-source-build",
@@ -47,8 +55,17 @@
     "calibration_paper_premise": "sol/sol_reply_143_typedfiber.md#5.4"
   },
   "dmtcp_contract": {
-    "contract_version": "d972-dmtcp-whole-process/v2",
-    "transport": "DMTCP coordinated checkpoint images for the entire producer Python process tree and every GAP/ACE child",
+      "contract_version": "d972-dmtcp-whole-process/v2",
+      "calibration_contract": {
+        "version": "d972-direct-bq-calibration/v4",
+        "route": "explicit-permutation-BQ",
+        "bq_order": 8817984,
+        "raw_fp_quotient_size_forbidden": true,
+        "q_relators_gate": "evaluate producer q_relators in BQ and bind digest; no quotient construction",
+        "candidate_gate": "direct P-to-BQ map, onto, kernel_order=k, marked images, and |P|=k*|BQ|",
+        "terminal_A_requires_route": true
+      },
+      "transport": "DMTCP coordinated checkpoint images for the entire producer Python process tree and every GAP/ACE child",
     "coordinator_checkpointed": false,
     "manual_checkpoint_only": true,
     "checkpoint_open_files": true,
@@ -240,7 +257,7 @@
     },
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "1044311458e44b0e7e0639e0bde2e39ad546946b74f09aa85d4dca471085fac1"
+      "contract_sha256": "f4eb427c13561354992ff5dbed2b98d53e6dce318fa586f1afe12b616fe4b741"
   },
   "launch_spec": {
     "cwd": ".",

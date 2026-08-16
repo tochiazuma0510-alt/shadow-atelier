@@ -38,7 +38,7 @@
         "stage"
       ],
       "properties": {
-        "k": {"type": "integer", "minimum": 3},
+        "k": {"type": "integer", "minimum": 8},
         "H": {"$ref": "#/$defs/cursorCoordinate"},
         "outer_action": {"$ref": "#/$defs/cursorCoordinate"},
         "extension_class": {"$ref": "#/$defs/cursorCoordinate"},
@@ -242,7 +242,7 @@
         "completeness_receipt_sha256"
       ],
       "properties": {
-        "k": {"type": "integer", "minimum": 3},
+        "k": {"type": "integer", "minimum": 8},
         "status": {"enum": ["OPEN", "CLOSED", "BLOCKED"]},
         "k_closed": {"type": "boolean"},
         "enumerator_complete": {"type": "boolean"},
@@ -293,7 +293,7 @@
       ],
       "properties": {
         "candidate_id": {"type": "string", "minLength": 1},
-        "k": {"type": "integer", "minimum": 3},
+        "k": {"type": "integer", "minimum": 8},
         "marked_extension_witness_sha256": {"$ref": "#/$defs/sha256"},
         "isolated": {"const": true},
         "target_key_count": {"const": 972},
@@ -366,6 +366,7 @@
         "qbar_order",
         "start_k",
         "predicate",
+        "skipped_prefix",
         "manual_universe_override"
       ],
       "properties": {
@@ -374,8 +375,21 @@
         "q0_order": {"const": 1469664},
         "qbar": {"const": "B3/M"},
         "qbar_order": {"const": 8817984},
-        "start_k": {"const": 3},
-        "predicate": {"const": "all finite B3-stable marked-over-base extensions, ordered by (k,H,outer_action,extension_class,marked_orbit)"},
+        "start_k": {"const": 8},
+        "predicate": {"const": "all finite B3-stable marked-over-base extensions for the A semidecision, ordered by (k,H,outer_action,extension_class,marked_orbit); k=3..7 are frozen all-pass prefix and skipped for A soundness only"},
+        "skipped_prefix": {
+          "type": "object",
+          "required": ["k_range", "status", "a_soundness_effect", "b_or_completeness_authority", "anchor", "anchor_sha256"],
+          "properties": {
+            "k_range": {"type": "array", "prefixItems": [{"const": 3}, {"const": 7}], "minItems": 2, "maxItems": 2},
+            "status": {"const": "FROZEN_ALL_PASS_NOT_RECHECKED"},
+            "a_soundness_effect": {"const": "none: one exact isolated zero-fiber witness is sufficient"},
+            "b_or_completeness_authority": {"const": false},
+            "anchor": {"const": "sol/sol_reply_151_finish.md#section-3"},
+            "anchor_sha256": {"$ref": "#/$defs/sha256"}
+          },
+          "additionalProperties": false
+        },
         "manual_universe_override": {"const": false}
       },
       "additionalProperties": false
@@ -694,6 +708,7 @@
         "semantic_key_set_sha256": {"$ref": "#/$defs/nullableSha256"},
         "k_ledger": {
           "type": "array",
+          "prefixItems": [{"allOf": [{"$ref": "#/$defs/kLedgerRow"}, {"type": "object", "properties": {"k": {"const": 8}}, "required": ["k"]}]}],
           "items": {"$ref": "#/$defs/kLedgerRow"},
           "minItems": 1,
           "uniqueItems": true

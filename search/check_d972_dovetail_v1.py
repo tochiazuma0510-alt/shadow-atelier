@@ -43,6 +43,125 @@ SCHEMA_VERSION = "d972-dovetail-state/v1"
 QBAR_ORDER = 8_817_984
 ZERO_SHA = "0" * 64
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+class SchemaViolation(ValueError):
+    """Internal draft-2020-12 validator failure used by the static canary."""
+
+
+def _schema_type_ok(value: Any, expected: str) -> bool:
+    return {
+        "object": isinstance(value, dict),
+        "array": isinstance(value, list),
+        "string": isinstance(value, str),
+        "integer": isinstance(value, int) and not isinstance(value, bool),
+        "boolean": isinstance(value, bool),
+        "null": value is None,
+        "number": isinstance(value, (int, float)) and not isinstance(value, bool),
+    }.get(expected, False)
+
+
+def validate_json_schema(instance: Any, schema: dict[str, Any], *, root: dict[str, Any] | None = None,
+                        path: str = "$") -> None:
+    """Validate the seed with the JSON-Schema 2020-12 keywords used here.
+
+    This is a dependency-free interpreter for the schema's actual vocabulary:
+    refs/defs, type, const, enum, required/properties, additionalProperties,
+    items/prefixItems, oneOf, allOf, if/then/else, bounds, patterns, and
+    uniqueness. Unsupported annotation keywords are intentionally ignored.
+    """
+    if root is None:
+        root = schema
+    ref = schema.get("$ref")
+    if ref is not None:
+        if not ref.startswith("#/$defs/"):
+            raise SchemaViolation(f"{path}: unsupported ref {ref}")
+        name = ref.rsplit("/", 1)[1]
+        defs = root.get("$defs", {})
+        if name not in defs:
+            raise SchemaViolation(f"{path}: missing definition {name}")
+        validate_json_schema(instance, defs[name], root=root, path=path)
+        return
+    if "const" in schema and instance != schema["const"]:
+        raise SchemaViolation(f"{path}: const mismatch")
+    if "enum" in schema and instance not in schema["enum"]:
+        raise SchemaViolation(f"{path}: enum mismatch")
+    expected_type = schema.get("type")
+    if expected_type is not None:
+        types = expected_type if isinstance(expected_type, list) else [expected_type]
+        if not any(_schema_type_ok(instance, item) for item in types):
+            raise SchemaViolation(f"{path}: type mismatch")
+    if "oneOf" in schema:
+        successes = 0
+        for option in schema["oneOf"]:
+            try:
+                validate_json_schema(instance, option, root=root, path=path)
+            except SchemaViolation:
+                continue
+            successes += 1
+        if successes != 1:
+            raise SchemaViolation(f"{path}: oneOf matched {successes} branches")
+    if "allOf" in schema:
+        for option in schema["allOf"]:
+            validate_json_schema(instance, option, root=root, path=path)
+    if "if" in schema:
+        condition = True
+        try:
+            validate_json_schema(instance, schema["if"], root=root, path=path)
+        except SchemaViolation:
+            condition = False
+        branch = schema.get("then" if condition else "else")
+        if branch is not None:
+            validate_json_schema(instance, branch, root=root, path=path)
+    if isinstance(instance, dict):
+        required = schema.get("required", [])
+        for key in required:
+            if key not in instance:
+                raise SchemaViolation(f"{path}: missing {key}")
+        properties = schema.get("properties", {})
+        for key, value in instance.items():
+            if key in properties:
+                validate_json_schema(value, properties[key], root=root, path=f"{path}.{key}")
+            elif schema.get("additionalProperties") is False:
+                raise SchemaViolation(f"{path}: unexpected {key}")
+            elif isinstance(schema.get("additionalProperties"), dict):
+                validate_json_schema(value, schema["additionalProperties"], root=root,
+                                     path=f"{path}.{key}")
+    if isinstance(instance, list):
+        prefix = schema.get("prefixItems", [])
+        for index, item_schema in enumerate(prefix):
+            if index < len(instance):
+                validate_json_schema(instance[index], item_schema, root=root,
+                                     path=f"{path}[{index}]")
+        item_schema = schema.get("items")
+        if isinstance(item_schema, dict):
+            for index in range(len(prefix), len(instance)):
+                validate_json_schema(instance[index], item_schema, root=root,
+                                     path=f"{path}[{index}]")
+        if len(instance) < schema.get("minItems", 0):
+            raise SchemaViolation(f"{path}: minItems")
+        if "maxItems" in schema and len(instance) > schema["maxItems"]:
+            raise SchemaViolation(f"{path}: maxItems")
+        if schema.get("uniqueItems"):
+            encoded = [canonical_bytes(item) for item in instance]
+            if len(encoded) != len(set(encoded)):
+                raise SchemaViolation(f"{path}: uniqueItems")
+    if isinstance(instance, str):
+        if len(instance) < schema.get("minLength", 0):
+            raise SchemaViolation(f"{path}: minLength")
+        if "pattern" in schema and re.search(schema["pattern"], instance) is None:
+            raise SchemaViolation(f"{path}: pattern")
+    if isinstance(instance, (int, float)) and not isinstance(instance, bool):
+        if "minimum" in schema and instance < schema["minimum"]:
+            raise SchemaViolation(f"{path}: minimum")
+        if "maximum" in schema and instance > schema["maximum"]:
+            raise SchemaViolation(f"{path}: maximum")
+
+
+def validate_seed_manifest_schema() -> None:
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    validate_json_schema(manifest, schema)
 TARGET_M_RE = re.compile(r"^\((-?[0-9]+);")
 CURSOR_ORDER = ["k", "H", "outer_action", "extension_class", "marked_orbit"]
 
@@ -170,7 +289,7 @@ def validate_state_core(state: dict[str, Any], *, bind_current: bool = True) -> 
             "STATE_STOP unexpected or missing top-level fields")
     require(state["schema_version"] == SCHEMA_VERSION, "STATE_STOP schema version drift")
     require(state["cursor_order"] == CURSOR_ORDER, "STATE_STOP cursor order drift")
-    require(state["universe"].get("start_k") == 3, "STATE_STOP start-k drift")
+    require(state["universe"].get("start_k") == 8, "STATE_STOP start-k drift")
     require(state["universe"].get("manual_universe_override") is False,
             "STATE_STOP manual universe override")
     chain = state["hash_chain"]
@@ -208,7 +327,7 @@ def validate_state_core(state: dict[str, Any], *, bind_current: bool = True) -> 
     require(cursors.get("exact_equal") is equal,
             "STATE_STOP false cursor equality flag")
 
-    last_k = 2
+    last_k = 7
     open_seen = False
     for row in state["enumeration"]["k_ledger"]:
         k = row.get("k")
@@ -526,9 +645,6 @@ def independent_gap_reconstruction(
     factor = candidate["factor_images"]
     shadow = candidate["shadow_receipt"]
     source_words = [row["f_word"] for row in shadow["source_rows"]]
-    factor_expr = ",".join(
-        "One(Q)" if label == 0 else f"qg[{label}]" for label in factor
-    )
     target_expr = json.dumps(
         target_keys, ensure_ascii=True, separators=(",", ":")
     )
@@ -633,19 +749,11 @@ end;;
 F := FreeGroup({generator_count}, "z");;
 P := F / MakeRels(F, {_gap_word_lists(relators)});;
 pg := GeneratorsOfGroup(P);;
-FQ := FreeGroup(2, "r");;
-Q := FQ / MakeRels(FQ, {_gap_word_lists(q_relators)});;
-qg := GeneratorsOfGroup(Q);;
-rho := GroupHomomorphismByImages(P, Q, pg, [{factor_expr}]);;
-rhoOK := rho <> fail and IsSurjective(rho);;
-if rhoOK then kerSize := Size(Kernel(rho)); else kerSize := -1; fi;;
 h := Concatenation([One(P)], pg{{[1..{k - 1}]}});;
 s1 := h[{lifts[0] + 1}] * pg[{k}];;
 s2 := h[{lifts[1] + 1}] * pg[{k + 1}];;
-pSize := Size(P);; qSize := Size(Q);;
 braidOK := s1*s2*s1 = s2*s1*s2;;
 generatedSize := Size(Group(s1,s2));;
-markedOK := rhoOK and Image(rho,s1)=qg[1] and Image(rho,s2)=qg[2];;
 
 ## Frozen fixed-base generators, stored losslessly as one-line permutations.
 ## These are the K9 degree-27 and PSL(2,8) degree-9 markings allowed by task
@@ -665,14 +773,28 @@ off9 := 6*Size(G9);; size4 := 6*Size(P4);;
 bs1 := DirectSumPerm(qt9.s1,off9,qt4.s1,size4);;
 bs2 := DirectSumPerm(qt9.s2,off9,qt4.s2,size4);;
 BQ := Group(bs1,bs2);;
-qToBase := GroupHomomorphismByImages(Q,BQ,qg,[bs1,bs2]);;
-if qToBase=fail or not IsBijective(qToBase) then
-  Error("canonical D972 marked quotient reconstruction failed");
+if Size(BQ)<>8817984 then
+  Error("checker-local explicit BQ order drift");
 fi;
+FQ := FreeGroup(2, "r");;
+freeToBase := GroupHomomorphismByImages(FQ,BQ,GeneratorsOfGroup(FQ),[bs1,bs2]);;
+relatorsQ := MakeRels(FQ, {_gap_word_lists(q_relators)});;
+qrelsOK := true;;
+for rel in relatorsQ do
+  if Image(freeToBase,rel)<>One(BQ) then qrelsOK:=false;; fi;
+od;;
+if not qrelsOK then Error("producer q-relators are false in explicit BQ"); fi;
+Print("D972_DIRECT_BQ 8817984 true\n");
+rho := GroupHomomorphismByImages(P,BQ,pg,
+  Concatenation(List([1..{k - 1}], i->One(BQ)),[bs1,bs2]));;
+rhoOK := rho <> fail and IsSurjective(rho);;
+if rhoOK then kerSize := Size(Kernel(rho)); else kerSize := -1; fi;;
+pSize := Size(P);; qSize := Size(BQ);;
+markedOK := rhoOK and Image(rho,s1)=bs1 and Image(rho,s2)=bs2;;
 
 isoP := IsomorphismPermGroup(P);; PP := Image(isoP);;
 s1p := Image(isoP,s1);; s2p := Image(isoP,s2);;
-rhoPerm := GroupHomomorphismByImages(PP,Q,[s1p,s2p],qg);;
+rhoPerm := GroupHomomorphismByImages(PP,BQ,[s1p,s2p],[bs1,bs2]);;
 if rhoPerm=fail or not IsSurjective(rhoPerm) or Size(Kernel(rhoPerm))<>{k} then
   Error("permutation factor reconstruction failed");
 fi;
@@ -711,7 +833,7 @@ for m in charming do
         settled:=settledCayley and settledSchreier;
         if settled then settledCount:=settledCount+1;
         else unsettledCount:=unsettledCount+1; fi;
-        qf:=Image(rhoPerm,f);; qp:=Image(qToBase,qf);;
+        qp:=Image(rhoPerm,f);;
         i9:=qt9.posOf(One(G9))^qp;
         i4:=(off9+qt4.posOf(One(P4)))^qp-off9;
         if i9<1 or i9>Length(qt9.elts) or i4<1 or i4>Length(qt4.elts) then
@@ -745,6 +867,10 @@ QUIT_GAP(0);
     ]
     require(len(summaries) == 1 and len(summaries[0]) == 20,
             "STATE_STOP independent shadow reconstruction UNKNOWN: receipt marker absent")
+    direct_bq = [line.split() for line in stdout.splitlines()
+                 if line.startswith("D972_DIRECT_BQ ")]
+    require(direct_bq == [["D972_DIRECT_BQ", "8817984", "true"]],
+            "STATE_STOP direct explicit BQ marker absent")
     parts = summaries[0]
     p_order, q_order, kernel_order, generated_order = map(int, parts[1:5])
     braid_ok, rho_ok, marked_ok = [x == "true" for x in parts[5:8]]
@@ -819,10 +945,14 @@ QUIT_GAP(0);
     )
     return {
         "backend": (
-            "generated isolated GAP program; checker-local fixed-base permutations, "
+            "generated isolated GAP program; direct explicit BQ fixed-base permutations, "
             "six-coset rules, paper-product adapter, and normal form; no repository "
             "GAP helper, campaign producer, or worker read"
         ),
+        "validation_route": "direct-explicit-permutation-BQ",
+        "bq_order": 8_817_984,
+        "q_relators_checked_in_bq": True,
+        "q_relators_sha256": sha_bytes(canonical_bytes(q_relators)),
         "command_mode": command_mode,
         "script_sha256": sha_bytes(script.encode("ascii")),
         "stdout_sha256": sha_bytes(stdout.encode("utf-8")),
@@ -1257,7 +1387,7 @@ def validate_classification_ledger(
         cell = row.get("cell")
         require(isinstance(cell, dict) and
                 row.get("cell_sha256") == sha_bytes(canonical_bytes(cell)) and
-                row["cursor"]["k"] >= 3 and
+                row["cursor"]["k"] >= 8 and
                 row["cursor"]["outer_action"]["index"] == cell.get("aut_pair_index") and
                 row["cursor"]["extension_class"]["index"] == cell.get("defect_index") and
                 row["cursor"]["marked_orbit"]["index"] == cell.get("lift_pair_index"),
@@ -1561,6 +1691,20 @@ def write_checked_state(
         summaries: list[dict[str, Any]] = []
         for row in producer_rows:
             summary = verify_candidate(row, target_keys, require_full_backend=True)
+            direct_backend = summary.get("full_p_reconstruction", {})
+            require_disagreement(
+                direct_backend.get("validation_route") ==
+                "direct-explicit-permutation-BQ" and
+                direct_backend.get("bq_order") == 8_817_984 and
+                direct_backend.get("q_relators_checked_in_bq") is True,
+                "candidate backend is not the direct explicit-BQ route",
+            )
+            require_disagreement(
+                direct_backend.get("q_relators_sha256") == sha_bytes(
+                    canonical_bytes(row["cell"]["q_relators"])
+                ),
+                "candidate direct-BQ q-relator digest mismatch",
+            )
             summaries.append(summary)
             checker_rows.append({"kind": "candidate", **summary})
             if summary["image_size"] == 324 and summary["zero_keys"]:
@@ -1654,6 +1798,8 @@ def write_checked_state(
             "passes a generated self-contained GAP reconstruction with checker-local "
             "fixed-base primitives that reads no repository GAP helper"
         ),
+        "candidate_validation_mode": "direct-explicit-permutation-BQ",
+        "candidate_bq_order": 8_817_984,
     }
     new = transition(old, {
         "state_kind": state_kind,
@@ -1776,6 +1922,38 @@ def set_path(value: Any, path: str, replacement: Any) -> None:
 
 
 def run_selftest() -> int:
+    try:
+        validate_seed_manifest_schema()
+    except (OSError, json.JSONDecodeError, SchemaViolation) as exc:
+        raise CheckStop(f"self-test seed JSON-Schema validation failed: {exc}") from exc
+    schema_fixture = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    seed_fixture = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    bad_ledger = copy.deepcopy(seed_fixture)
+    bad_ledger["enumeration"]["k_ledger"][0].pop("status")
+    try:
+        validate_json_schema(bad_ledger, schema_fixture)
+    except SchemaViolation:
+        pass
+    else:
+        raise CheckStop("self-test first k-ledger field deletion accepted")
+    witness_fixture = {
+        "candidate_id": "fixture", "k": 8, "marked_extension_witness_sha256": "0" * 64,
+        "isolated": True, "target_key_count": 972, "image_size": 324,
+        "first_zero_key": "fixture", "zero_keys": ["fixture"],
+        "producer_digest": "1" * 64, "checker_digest": "2" * 64,
+        "checkpoint_parent_sha256": "3" * 64,
+    }
+    validate_json_schema(witness_fixture, schema_fixture["$defs"]["terminalWitness"],
+                         root=schema_fixture)
+    bad_witness = copy.deepcopy(witness_fixture)
+    bad_witness["k"] = 3
+    try:
+        validate_json_schema(bad_witness, schema_fixture["$defs"]["terminalWitness"],
+                             root=schema_fixture)
+    except SchemaViolation:
+        pass
+    else:
+        raise CheckStop("self-test k=3 terminal witness accepted")
     fixtures = ROOT / "search" / "fixtures" / "d972_dovetail_v1"
     win_command, win_mode = select_gap_command(
         Path("fixture.g"), platform_name="nt", finder=lambda _: "powershell.exe"
