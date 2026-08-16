@@ -70,7 +70,7 @@
     },
     "gap_4_12_materialized_rewrites": {
       "source": "search/d972_dovetail_worker_v1.g",
-      "replacement_count_total": 2,
+      "replacement_count_total": 4,
       "mapping_group": {
         "replacement_count": 1,
         "needle": "Size(Group(a1,a2))",
@@ -93,13 +93,40 @@
           "exactly two materialized generators"
         ]
       },
+      "qt9_group": {
+        "replacement_count": 1,
+        "needle": "Size(Group(qt9.s1,qt9.s2))",
+        "replacement": "D972V2PointActionGroupOrder([qt9.s1,qt9.s2],6*Size(G9))",
+        "materialization": "[qt9.s1,qt9.s2] -> finite point images -> PermList -> Subgroup(SymmetricGroup(6*Size(G9)),perms)",
+        "generator_arity": 2,
+        "fail_closed_gates": [
+          "positive finite point degree",
+          "each image lies in the point set",
+          "permutation materialization succeeds",
+          "exactly two generators"
+        ]
+      },
+      "qt4_group": {
+        "replacement_count": 1,
+        "needle": "Size(Group(qt4.s1,qt4.s2))",
+        "replacement": "D972V2PointActionGroupOrder([qt4.s1,qt4.s2],6*Size(P4))",
+        "materialization": "[qt4.s1,qt4.s2] -> finite point images -> PermList -> Subgroup(SymmetricGroup(6*Size(P4)),perms)",
+        "generator_arity": 2,
+        "fail_closed_gates": [
+          "positive finite point degree",
+          "each image lies in the point set",
+          "permutation materialization succeeds",
+          "exactly two generators"
+        ]
+      },
       "mtc_group": {
         "replacement_count": 1,
         "needle": "PresentationSubgroupMtc(P, Hsub, \"h\", 0)",
         "replacement": "PresentationSubgroupMtc(P, Hsub, \"h\")"
       },
       "fail_closed_on_count_drift": true,
-      "frozen_v1_digest_gate": true
+      "frozen_v1_digest_gate": true,
+      "frozen_v1_sha256": "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd"
     },
     "gap_v1_library_materialization": {
       "writer": "FileString",
@@ -138,7 +165,7 @@
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "0a620aca3af75debffdb3982c9f4ea5b5909996450cae25aa61c78ef8c2bae9c"
+    "contract_sha256": "6d48562009f5e79f0983fb91b19ded96fa5d0d7cc3be1ec28b878ebb8baccee5"
   },
   "launch_spec": {
     "cwd": ".",

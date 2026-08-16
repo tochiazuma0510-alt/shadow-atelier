@@ -29,6 +29,14 @@ D972V2CompatNeedle := "Size(Group(a1,a2))";;
 D972V2CompatReplacement :=
   "D972V2MappingGroupOrder([a1,a2],G9)";;
 D972V2CompatReplacementCount := 1;;
+D972V2QtCompatNeedle := "Size(Group(qt9.s1,qt9.s2))";;
+D972V2QtCompatReplacement :=
+  "D972V2PointActionGroupOrder([qt9.s1,qt9.s2],6*Size(G9))";;
+D972V2QtCompatReplacementCount := 1;;
+D972V2Qt4CompatNeedle := "Size(Group(qt4.s1,qt4.s2))";;
+D972V2Qt4CompatReplacement :=
+  "D972V2PointActionGroupOrder([qt4.s1,qt4.s2],6*Size(P4))";;
+D972V2Qt4CompatReplacementCount := 1;;
 D972V2MtcNeedle := "PresentationSubgroupMtc(P, Hsub, \"h\", 0)";;
 D972V2MtcReplacement := "PresentationSubgroupMtc(P, Hsub, \"h\")";;
 D972V2MtcReplacementCount := 1;;
@@ -62,7 +70,7 @@ fi;;
 
 D972V2LoadV1Library := function()
   local source, actual, marker, cut, dir, path, prefix, needle, replacement,
-        replacementCount, mtcCount;
+        replacementCount, qtCount, qt4Count, mtcCount;
   source := StringFile(D972V2V1Path);
   if source = fail then Error("D972 v2: could not read frozen v1 worker"); fi;
   actual := HexSHA256(source);
@@ -86,6 +94,22 @@ D972V2LoadV1Library := function()
     Error("D972 v2: GAP4.12 compatibility needle count drift: ",replacementCount);
   fi;
   prefix := ReplacedString(prefix,needle,replacement);
+  qtCount := Number([1..Length(prefix)],
+    i -> i + Length(D972V2QtCompatNeedle) - 1 <= Length(prefix) and
+      prefix{[i..i+Length(D972V2QtCompatNeedle)-1]} = D972V2QtCompatNeedle);
+  if qtCount <> D972V2QtCompatReplacementCount then
+    Error("D972 v2: GAP4.12 qt Group compatibility needle count drift: ",qtCount);
+  fi;
+  prefix := ReplacedString(prefix,D972V2QtCompatNeedle,
+    D972V2QtCompatReplacement);
+  qt4Count := Number([1..Length(prefix)],
+    i -> i + Length(D972V2Qt4CompatNeedle) - 1 <= Length(prefix) and
+      prefix{[i..i+Length(D972V2Qt4CompatNeedle)-1]} = D972V2Qt4CompatNeedle);
+  if qt4Count <> D972V2Qt4CompatReplacementCount then
+    Error("D972 v2: GAP4.12 qt4 Group compatibility needle count drift: ",qt4Count);
+  fi;
+  prefix := ReplacedString(prefix,D972V2Qt4CompatNeedle,
+    D972V2Qt4CompatReplacement);
   mtcCount := Number([1..Length(prefix)],
     i -> i + Length(D972V2MtcNeedle) - 1 <= Length(prefix) and
       prefix{[i..i+Length(D972V2MtcNeedle)-1]} = D972V2MtcNeedle);
@@ -146,6 +170,49 @@ D972V2MappingGroupOrder := function(maps, source)
   order := Size(Subgroup(SymmetricGroup(Length(elements)),perms));
   Print("D972V2_MAPPING_STAGE subgroup_done order=",order,"\n");
   return order;
+end;;
+
+## GAP 4.12 can also reject the six-coset transversal action returned by
+## BuildQTGeneral when it is represented as a general bijective mapping.
+## Materialize that action on its finite point set, then use the explicit
+## parent/generator-list Subgroup form.  This is a representation bridge only:
+## the point images, degree, and resulting generated subgroup are unchanged.
+D972V2PointActionGroupOrder := function(maps, degree)
+  local imageRows, perms, row, i, order, imageOf;
+  if Length(maps) <> 2 or degree < 1 then
+    Error("D972 v2: point action needs two generators and positive degree");
+  fi;
+  imageOf := function(map, point)
+    if IsPerm(map) then return point^map; fi;
+    return Image(map,point);
+  end;
+  imageRows := List(maps, map -> List([1..degree],
+    i -> imageOf(map,i)));
+  if ForAny(imageRows, row -> Set(row) <> [1..degree]) then
+    Error("D972 v2: point action is not a permutation of its finite set");
+  fi;
+  perms := List(imageRows, row -> PermList(row));
+  if ForAny(perms, p -> p=fail) then
+    Error("D972 v2: point action permutation materialization failed");
+  fi;
+  Print("D972V2_POINT_ACTION materialized degree=",degree," generators=",
+    Length(perms),"\n");
+  order := Size(Subgroup(SymmetricGroup(degree),perms));
+  Print("D972V2_POINT_ACTION subgroup_done order=",order,"\n");
+  return order;
+end;;
+
+D972V2CompatibilitySelfTest := function()
+  local p,q,expected,got;
+  p := (1,2,3,4); q := (1,3)(2,4);
+  expected := Size(Group(p,q));;
+  got := D972V2PointActionGroupOrder([p,q],4);;
+  if got <> expected then
+    Error("D972 v2: point-action compatibility selftest drift");
+  fi;
+  Print("D972V2_COMPAT_SELFTEST_PASS point_action_order=",got,
+    " qt9_rewrite_count=",D972V2QtCompatReplacementCount,
+    " qt4_rewrite_count=",D972V2Qt4CompatReplacementCount,"\n");
 end;;
 
 D972V2GetEnv := function(name, fallback)
@@ -545,6 +612,12 @@ D972Emit := function(payload)
     ",\"gap412_compat_rewrite\":{\"needle\":",D972JsonString(D972V2CompatNeedle),
       ",\"replacement\":",D972JsonString(D972V2CompatReplacement),
       ",\"count\":",String(D972V2CompatReplacementCount),"}",
+    ",\"gap412_qt_group_rewrite\":{\"needle\":",D972JsonString(D972V2QtCompatNeedle),
+      ",\"replacement\":",D972JsonString(D972V2QtCompatReplacement),
+      ",\"count\":",String(D972V2QtCompatReplacementCount),"}",
+    ",\"gap412_qt4_group_rewrite\":{\"needle\":",D972JsonString(D972V2Qt4CompatNeedle),
+      ",\"replacement\":",D972JsonString(D972V2Qt4CompatReplacement),
+      ",\"count\":",String(D972V2Qt4CompatReplacementCount),"}",
     ",\"gap412_mtc_rewrite\":{\"needle\":",D972JsonString(D972V2MtcNeedle),
       ",\"replacement\":",D972JsonString(D972V2MtcReplacement),
       ",\"count\":",String(D972V2MtcReplacementCount),"}",
@@ -591,6 +664,12 @@ D972V2Dispatch := function()
   elif D972Mode="shadow-fiber" then D972ShadowFiberMode();
   elif D972Mode="compare" then D972CompareMode();
   else Error("mode not implemented yet: ",D972Mode); fi;
+end;;
+
+D972V2V1SelfTest := D972SelfTest;;
+D972SelfTest := function()
+  D972V2CompatibilitySelfTest();;
+  D972V2V1SelfTest();;
 end;;
 
 D972V2Dispatch();
