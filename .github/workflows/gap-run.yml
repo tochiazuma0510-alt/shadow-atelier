@@ -22,7 +22,7 @@ on:
         type: string
         default: "60"
       with_pquot_packages:
-        description: "Install apt GAP SmallGrp/ANUPQ packages (opt-in)"
+        description: "Install GAP SmallGrp/AutPGrp and pinned ANUPQ 3.3.3 (opt-in)"
         required: false
         type: boolean
         default: false
@@ -43,12 +43,34 @@ jobs:
         run: |
           set -euo pipefail
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends gap gap-smallgrp gap-anupq
+          sudo apt-get install --yes --no-install-recommends \
+            ca-certificates curl build-essential gap-smallgrp gap-autpgrp
           smallgrp_dir="$(find /usr/share/gap /usr/lib/gap -type d -iname 'smallgrp*' -print -quit 2>/dev/null || true)"
-          anupq_dir="$(find /usr/share/gap /usr/lib/gap -type d -iname 'anupq*' -print -quit 2>/dev/null || true)"
           test -n "$smallgrp_dir"
-          test -n "$anupq_dir"
-          printf 'P2_PACKAGE_PATH_PASS smallgrp=%s anupq=%s\n' "$smallgrp_dir" "$anupq_dir"
+          p2_build_root=/tmp/gaproot
+          rm -rf "$p2_build_root"
+          mkdir -p "$p2_build_root/pkg"
+          p2_url='https://github.com/gap-packages/anupq/releases/download/v3.3.3/anupq-3.3.3.tar.gz'
+          p2_sha='6a1b25ddcdb05abd933911f8e0e718b195d24b502e5d098d4b431db5f371ffc2'
+          p2_archive="$p2_build_root/anupq-3.3.3.tar.gz"
+          curl --fail --location --silent --show-error --retry 3 \
+            --output "$p2_archive" "$p2_url"
+          printf '%s  %s\n' "$p2_sha" "$p2_archive" | sha256sum --check --status
+          tar --extract --gzip --file "$p2_archive" --directory "$p2_build_root/pkg"
+          p2_src="$(find "$p2_build_root/pkg" -mindepth 1 -maxdepth 1 \
+            -type d -name 'anupq*' -print -quit)"
+          test -n "$p2_src"
+          if [ "$p2_src" != "$p2_build_root/pkg/anupq" ]; then
+            mv "$p2_src" "$p2_build_root/pkg/anupq"
+          fi
+          test -n "${GAPROOT:-}"
+          test -d "$GAPROOT"
+          cd "$p2_build_root/pkg/anupq"
+          ./configure --with-gaproot="$GAPROOT"
+          make -j"$(nproc)"
+          printf 'GAP_P2_PACKAGE_ROOT=%s\n' "$p2_build_root" >> "$GITHUB_ENV"
+          printf 'P2_PACKAGE_BUILD_PASS smallgrp=%s anupq=%s sha256=%s\n' \
+            "$smallgrp_dir" "$p2_build_root/pkg/anupq" "$p2_sha"
       - name: Run GAP script
         shell: bash
         env:
@@ -75,15 +97,15 @@ jobs:
           {
             if [ -n "$GAP_RUN_PREAMBLE" ]; then printf '%s\n' "$GAP_RUN_PREAMBLE"; fi
             if [ "$GAP_WITH_PQUOT_PACKAGES" = "true" ]; then
-              printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;; Print("GAPInfo.Version=",GAPInfo.Version,"\\n");; Print("GAPInfo.RootPaths=",GAPInfo.RootPaths,"\\n");;\n'
+              printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;; if LoadPackage("smallgrp") <> true then Error("smallgrp LoadPackage failed"); fi;; if LoadPackage("autpgrp") <> true then Error("autpgrp LoadPackage failed"); fi;; if LoadPackage("anupq") <> true then Error("anupq LoadPackage failed"); fi;; Print("P2_PACKAGE_LOAD_PASS GAPInfo.Version=",GAPInfo.Version,"\\n");; Print("GAPInfo.RootPaths=",GAPInfo.RootPaths,"\\n");;\n'
             fi
             printf 'Read("%s");\n' "$GAP_RUN_SCRIPT"
           } > ci/out/driver.g
           gap_args=()
           if [ "$GAP_WITH_PQUOT_PACKAGES" = "true" ]; then
-            gap_args=(-l ';/usr/share/gap;/usr/lib/gap')
+            gap_args=(-l ";/usr/share/gap;/usr/lib/gap;${GAP_P2_PACKAGE_ROOT:?}")
           fi
-          gap "${gap_args[@]}" -q -o 12g ci/out/driver.g | tee ci/out/run.log
+          gap "${gap_args[@]}" --quitonbreak -q -o 12g ci/out/driver.g | tee ci/out/run.log
       - uses: actions/upload-artifact@v4
         with:
           name: gap-run-out

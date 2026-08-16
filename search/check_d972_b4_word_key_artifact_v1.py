@@ -24,10 +24,15 @@ FROZEN_PATH = os.path.join(ROOT, "search", "certs",
 FROZEN_TUPLE_SHA256 = (
     "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91"
 )
+FROZEN_TARGET_KEY_SHA256 = (
+    "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62"
+)
 
-# This remains empty until a GAP receipt and this checker agree.  An empty
-# value is intentional fail-closed state, never a permission to adjudicate.
-PINNED_ARTIFACT_SHA256 = ""
+# Pinned only after the independent checker accepted the archived GHA receipt
+# and its rows digest matched the producer's canonical metadata.
+PINNED_ARTIFACT_SHA256 = (
+    "283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930"
+)
 
 
 def cjson(value: Any) -> bytes:
@@ -200,7 +205,7 @@ def row_parts(row: Any) -> tuple[int, list[Any], list[int]]:
     if not isinstance(m, int) or not isinstance(key, list) or not isinstance(word, list):
         raise ValueError("artifact row has invalid field types")
     if any(not isinstance(x, int) or x == 0 for x in word):
-        raise ValueError("artifact word must be a nonzero signed integer list")
+        raise ValueError("artifact word must be a signed integer list")
     return m, key, word
 
 
@@ -208,11 +213,21 @@ def check_artifact(path: str) -> dict[str, Any]:
     frozen, frozen_sha = load_frozen()
     with open(path, encoding="utf-8") as handle:
         obj = json.load(handle)
-    rows = obj.get("rows") if isinstance(obj, dict) else obj
+    if not isinstance(obj, dict):
+        raise ValueError("word/key artifact root must be an object")
+    if obj.get("schema") != "d972-b4-word-key-artifact/v1":
+        raise ValueError("word/key artifact schema drift")
+    if obj.get("count") != 972:
+        raise ValueError("word/key artifact count metadata")
+    if obj.get("source_target_key_digest") != FROZEN_TARGET_KEY_SHA256:
+        raise ValueError("word/key artifact source target digest")
+    if obj.get("frozen_tuple_sha256") != FROZEN_TUPLE_SHA256:
+        raise ValueError("word/key artifact frozen tuple digest")
+    rows = obj.get("rows")
     if not isinstance(rows, list) or len(rows) != 972:
         raise ValueError("word/key artifact must contain exactly 972 rows")
     canonical_sha = sha(rows)
-    declared_sha = obj.get("canonical_bytes_sha256") if isinstance(obj, dict) else None
+    declared_sha = obj.get("canonical_bytes_sha256")
     if declared_sha != canonical_sha:
         raise ValueError("artifact declared digest is not its canonical rows digest")
     if PINNED_ARTIFACT_SHA256 and canonical_sha != PINNED_ARTIFACT_SHA256:
@@ -248,6 +263,8 @@ def selftest() -> None:
         raise AssertionError("compact generators must act on 27+9 points")
     if eval_raw_word([], gens) != identity(36):
         raise AssertionError("empty word evaluation failed")
+    if row_parts([0, [0, [], list(range(1, 10))], []])[2] != []:
+        raise AssertionError("empty signed word row was not accepted")
     if eval_raw_word([1, -1], gens) != identity(36):
         raise AssertionError("inverse signed word evaluation failed")
     # Regression for the D9 normal form and the negative-letter direction.
@@ -276,6 +293,37 @@ def selftest() -> None:
     finally:
         try:
             os.unlink(fake_path)
+        except OSError:
+            pass
+
+    # Archive tamper gate: changing an identity word while recomputing the
+    # producer-declared rows digest must still fail on independent key
+    # reconstruction (not merely on the pinned digest).
+    archive_path = os.path.join(ROOT, "search", "certs",
+                                "d972_b4_word_key_artifact_v1_20260816.json")
+    if not os.path.isfile(archive_path):
+        raise AssertionError("pinned word/key archive missing")
+    with open(archive_path, encoding="utf-8") as handle:
+        archive = json.load(handle)
+    tampered_rows = json.loads(json.dumps(archive["rows"], separators=(",", ":")))
+    tampered_rows[0][2] = [1]
+    tampered = dict(archive)
+    tampered["rows"] = tampered_rows
+    tampered["canonical_bytes_sha256"] = sha(tampered_rows)
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False,
+                                     encoding="utf-8") as handle:
+        tampered_path = handle.name
+        json.dump(tampered, handle, separators=(",", ":"))
+    try:
+        try:
+            check_artifact(tampered_path)
+        except (ValueError, KeyError):
+            pass
+        else:
+            raise AssertionError("tampered archived word/key row was accepted")
+    finally:
+        try:
+            os.unlink(tampered_path)
         except OSError:
             pass
 

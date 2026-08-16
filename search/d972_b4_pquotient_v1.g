@@ -118,7 +118,8 @@ end;;
 
 P2RelWords := fail;; P2RhoWords := fail;; P2TargetKeys := fail;;
 P2RoofWords := fail;; P2TargetDigest := fail;; P2RelDigest := fail;;
-P2RoofDigest := fail;; P2DefectReceipt := fail;; P2ClassRows := [];;
+P2RoofDigest := fail;; P2WordKeyDigest := fail;; P2DefectReceipt := fail;;
+P2ClassRows := [];;
 P2SmallRows := [];;
 Print("P2_ARTIFACT_PATH ci/out/d972_b4_pquotient_v1.json\n");
 Print("P2_ARTIFACT_GATE final_marker_only\n");
@@ -180,7 +181,19 @@ fi;
 ## Exact 972 roof rows and independent key/word correspondence.
 R:=D972ScanCalibrationBase(B);;
 if R.shadow_count<>972 then Error("P2: roof count drift"); fi;
-P2TargetKeys:=R.target_keys;; P2TargetDigest:=R.target_key_set_sorted_sha256;;
+## R.target_keys is the sorted Set(keys), not the shadow enumeration order.
+## Receipts zip target_keys with roof_words, so retain the per-shadow order
+## here and independently recompute the frozen set digest.
+P2TargetKeys:=List(R.shadows,sh->sh.key);;
+if Length(Set(P2TargetKeys))<>972 then
+  Error("P2: shadow target-key enumeration is not unique");
+fi;
+P2TargetDigest:=HexSHA256(Concatenation(
+  D972Join(Set(P2TargetKeys),"\n"),"\n"));;
+if P2TargetDigest<>R.target_key_set_sorted_sha256 or
+   P2TargetDigest<>"9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62" then
+  Error("P2: target-key set digest drift");
+fi;
 ## D972ScanCalibrationBase stores sh.f in fullF2=Group(s1^2,s2^2).
 ## Pull it back through the explicit marked full->compact isomorphism before
 ## asking the compact F2 epimorphism for a word; direct PreImagesRepresentative
@@ -206,7 +219,39 @@ for P2Sh in R.shadows do
 od;
 if Length(P2RoofWords)<>972 then Error("P2: roof words drift"); fi;
 P2RoofDigest:=HexSHA256(P2Json(P2RoofWords));;
+
+## Bind the P2 reconstruction to the independently checked word/key table.
+## The archived artifact hashes canonical rows [m,nested_key,signed_word]
+## after sorting by the nested key.  Rebuild precisely that row stream here;
+## a producer-controlled roof-word list or target-key list alone is not enough
+## for a finite-image receipt to pass the independent checker.
+P2ListLess:=function(a,b)
+  local i, av, bv;
+  if IsInt(a) and IsInt(b) then return a<b; fi;
+  if not (IsList(a) and IsList(b)) then Error("P2: key comparator type drift"); fi;
+  for i in [1..Minimum(Length(a),Length(b))] do
+    av:=a[i]; bv:=b[i];
+    if av=bv then continue; fi;
+    return P2ListLess(av,bv);
+  od;
+  return Length(a)<Length(b);
+end;;
+P2WordKeyRows:=List([1..Length(R.shadows)],i->[
+  R.shadows[i].m,
+  [R.shadows[i].m,
+   D972Can9(D972BlockRestrict(R.shadows[i].f,0,27)),
+   D972Can4(D972BlockRestrict(R.shadows[i].f,27,9))],
+  P2RoofWords[i]]);;
+Sort(P2WordKeyRows,function(a,b) return P2ListLess(a[2],b[2]); end);;
+if Length(Set(List(P2WordKeyRows,r->P2Json(r[2]))))<>972 then
+  Error("P2: duplicate reconstructed word/key target");
+fi;
+P2WordKeyDigest:=HexSHA256(P2Json(P2WordKeyRows));;
+if P2WordKeyDigest<>"283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930" then
+  Error("P2: independently pinned word/key artifact digest drift: ",P2WordKeyDigest);
+fi;
 Print("P2_PRESENTATION_PASS relators=158 roof=972 target_digest=",P2TargetDigest,"\n");
+Print("P2_WORD_KEY_BINDING_PASS digest=",P2WordKeyDigest,"\n");
 
 if IsBound(D972_P2_MAGNUS_ONLY) and D972_P2_MAGNUS_ONLY=true then
   Read("search/d972_b4_p2_magnus_export_v1.g");;
@@ -235,7 +280,7 @@ P2MakeReceipt:=function(label,order,h0,scan,epiIndex,epiCount)
     ",\"witness_index\":",String(wit.index),
     ",\"witness_word\":",P2Json(P2RoofWords[wit.index]),
     ",\"expected_defect\":",P2Json(List([1..degree],i->i^defect)),
-    ",\"word_key_artifact_sha256\":\"\"}");
+    ",\"word_key_artifact_sha256\":",P2Json(P2WordKeyDigest),"}");
 end;;
 
 ## SmallGroup targets: Q8=(8,4), D8=(8,3), and every group of order 16.
@@ -310,6 +355,7 @@ P2Out:=Concatenation(
   ",\"all_relators_sha256\":",P2Json(P2RelDigest),
   ",\"target_key_digest\":",P2Json(P2TargetDigest),
   ",\"roof_words_sha256\":",P2Json(P2RoofDigest),
+  ",\"word_key_artifact_sha256\":",P2Json(P2WordKeyDigest),
   ",\"classes\":",P2ClassesJson,",\"smallgroup_scans\":",P2SmallJson,
   ",\"defect_receipt\":",P2DefectReceipt,"}");
 WriteFile("ci/out/d972_b4_pquotient_v1.json",Concatenation(P2Out,"\n"));;
