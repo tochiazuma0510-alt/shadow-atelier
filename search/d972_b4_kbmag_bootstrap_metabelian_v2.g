@@ -31,8 +31,7 @@ if D972MBV2TargetActualSha<>D972MBV2TargetSha then
   Error("metabelian v2 bootstrap: pinned target SHA drift");
 fi;
 D972MBV2Needle:="  \"search/d972_b4_simplified_orderings_v1.g\" ]";;
-D972MBV2Replacement:=Concatenation(
-  "  \"search/d972_b4_u_metabelian_kbmag_v3.g\" ]");;
+D972MBV2Replacement:="  \"search/d972_b4_u_metabelian_kbmag_v3.g\" ]";;
 D972MBV2At:=PositionSublist(D972MBV2Raw,D972MBV2Needle);;
 if D972MBV2At=fail or
    PositionSublist(
