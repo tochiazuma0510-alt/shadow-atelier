@@ -78,7 +78,8 @@ D972A18ANJson:=function(x)
   Error("A18 ANUPQ: JSON type drift");
 end;;
 D972A18ANWrite:=function(path,text)
-  WriteFile(path,Concatenation(text,"\n"));
+  ## GAP 4.16 has no WriteFile binding; PrintTo is the portable writer.
+  PrintTo(path,text,"\n");
 end;;
 D972A18ANReduce:=function(w)
   local out,x,n;
@@ -93,34 +94,12 @@ end;;
 D972A18ANInverse:=function(w)
   return List(Reversed(w),x->-x);
 end;;
-D972A18ANRhoWord:=function(w)
-  local out,x,img;
-  out:=[];;
-  for x in w do
-    if AbsInt(x)<1 or AbsInt(x)>6 then Error("A18 ANUPQ: rho alphabet drift"); fi;
-    img:=D972A18ANRho[AbsInt(x)];;
-    if x<0 then Append(out,D972A18ANInverse(img)); else Append(out,img); fi;
-  od;
-  return D972A18ANReduce(out);
-end;;
 D972A18ANMarkedSubstitute:=function(w,a,b)
   local out,x,img;
   out:=[];;
   for x in w do
     if AbsInt(x)<>1 and AbsInt(x)<>4 then
       Error("A18 ANUPQ: marked F2 alphabet drift");
-    fi;
-    if AbsInt(x)=1 then img:=a; else img:=b; fi;
-    if x<0 then Append(out,D972A18ANInverse(img)); else Append(out,img); fi;
-  od;
-  return D972A18ANReduce(out);
-end;;
-D972A18ANSubstituteF2:=function(w,a,b)
-  local out,x,img;
-  out:=[];;
-  for x in w do
-    if AbsInt(x)<>1 and AbsInt(x)<>2 then
-      Error("A18 ANUPQ: roof F2 alphabet drift");
     fi;
     if AbsInt(x)=1 then img:=a; else img:=b; fi;
     if x<0 then Append(out,D972A18ANInverse(img)); else Append(out,img); fi;
