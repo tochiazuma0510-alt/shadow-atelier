@@ -43,6 +43,10 @@ CALIBRATION_BACKEND = (
     "generated self-contained GAP; checker-local base/six-coset/Q8; "
     "no worker or producer helper"
 )
+CALIBRATION_FAILURE_SCHEMA = "d972-independent-calibration-failure/v1"
+CALIBRATION_FAILURE_NAME = "d972-independent-calibration-failure-v1.json"
+CALIBRATION_FAILURE_TAIL_BYTES = 4096
+CALIBRATION_SCRIPT_VARIANT = "d972-v2-explicit-quotient-v1"
 ZERO_SHA = "0" * 64
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 
@@ -84,6 +88,84 @@ def atomic_json(path: Path, value: Any) -> None:
             os.unlink(temporary)
         except FileNotFoundError:
             pass
+
+
+def _stream_bytes(value: Any) -> bytes:
+    """Normalize subprocess output without losing a deterministic digest."""
+    if value is None:
+        return b""
+    if isinstance(value, bytes):
+        return value
+    return str(value).encode("utf-8", errors="replace")
+
+
+def _stream_failure_fields(value: Any) -> dict[str, Any]:
+    raw = _stream_bytes(value)
+    tail = raw[-CALIBRATION_FAILURE_TAIL_BYTES:]
+    return {
+        "bytes": len(raw),
+        "sha256": sha_bytes(raw),
+        "tail": tail.decode("utf-8", errors="replace"),
+        "tail_bytes": len(tail),
+        "tail_truncated": len(tail) != len(raw),
+    }
+
+
+def _safe_command_argv(command: Sequence[Any], script_path: Path) -> list[str]:
+    """Keep useful command diagnostics while never publishing temp paths verbatim."""
+    generated = str(script_path)
+    result: list[str] = []
+    for index, item in enumerate(command):
+        value = str(item)
+        if value == generated:
+            result.append("<generated-script>")
+        elif index == 0:
+            result.append(Path(value).name)
+        else:
+            result.append(value)
+    return result
+
+
+def write_calibration_failure_receipt(
+    output_dir: Path | None, *, purpose: str, stage: str,
+    script_path: Path, script_bytes: bytes, command: Sequence[Any], command_mode: str,
+    returncode: int | None, stdout: Any, stderr: Any,
+    error: BaseException | None = None,
+) -> Path | None:
+    """Persist a bounded, fail-closed receipt before deleting the GAP script."""
+    if output_dir is None:
+        return None
+    stdout_fields = _stream_failure_fields(stdout)
+    stderr_fields = _stream_failure_fields(stderr)
+    body: dict[str, Any] = {
+        "schema": CALIBRATION_FAILURE_SCHEMA,
+        "status": "UNKNOWN",
+        "calibration_script_variant": CALIBRATION_SCRIPT_VARIANT,
+        "purpose": purpose,
+        "stage": stage,
+        "returncode": returncode,
+        "command_mode": command_mode,
+        "command_argv": _safe_command_argv(command, script_path),
+        "script_bytes": len(script_bytes),
+        "script_sha256": sha_bytes(script_bytes),
+        "stdout_bytes": stdout_fields["bytes"],
+        "stdout_sha256": stdout_fields["sha256"],
+        "stdout_tail": stdout_fields["tail"],
+        "stdout_tail_bytes": stdout_fields["tail_bytes"],
+        "stdout_tail_truncated": stdout_fields["tail_truncated"],
+        "stderr_bytes": stderr_fields["bytes"],
+        "stderr_sha256": stderr_fields["sha256"],
+        "stderr_tail": stderr_fields["tail"],
+        "stderr_tail_bytes": stderr_fields["tail_bytes"],
+        "stderr_tail_truncated": stderr_fields["tail_truncated"],
+    }
+    if error is not None:
+        body["error_type"] = type(error).__name__
+        body["error"] = str(error)
+    body["receipt_sha256"] = sha_bytes(canonical_bytes(body))
+    path = output_dir / CALIBRATION_FAILURE_NAME
+    atomic_json(path, body)
+    return path
 
 
 def require(condition: bool, message: str) -> None:
@@ -314,6 +396,37 @@ def independent_calibration_gap_script(q_relators: Any, target_keys: list[str]) 
             "STATE_STOP calibration base presentation absent")
     qrels = json.dumps(q_relators, separators=(",", ":"))
     targets = json.dumps(target_keys, ensure_ascii=True, separators=(",", ":"))
+    fixed_qblock = (
+        'FQ:=FreeGroup(2,"r");;\n'
+        "FQgens:=GeneratorsOfGroup(FQ);;\n"
+        f"relatorsQ:=MakeRels(FQ,{qrels});;\n"
+        "NQ:=NormalClosure(FQ,Group(relatorsQ));;\n"
+        "Q:=FQ/NQ;;\n"
+        "qProjection:=NaturalHomomorphismByNormalSubgroup(FQ,NQ);;\n"
+        "qg:=List(FQgens,x->Image(qProjection,x));;\n"
+        "if Length(FQgens)<>2 or Length(qg)<>2 then\n"
+        '  Error("calibration quotient generator arity drift");\n'
+        "fi;;\n"
+        "freeToBase:=GroupHomomorphismByImages(FQ,BQ,FQgens,[bs1,bs2]);;\n"
+        'if freeToBase=fail then Error("calibration free-generator map failure"); fi;\n'
+        "for rel in relatorsQ do\n"
+        "  if Image(freeToBase,rel)<>One(BQ) then\n"
+        '    Error("calibration quotient relation is false in base");\n'
+        "  fi;\n"
+        "od;;\n"
+        "qToBase:=GroupHomomorphismByImages(Q,BQ,qg,[bs1,bs2]);;\n"
+        'if qToBase=fail then Error("calibration presentation/base map failure"); fi;\n'
+        "if Size(Group(qg))<>Size(Q) then\n"
+        '  Error("calibration quotient generator image does not generate Q");\n'
+        "fi;;\n"
+        "if Size(Q)<>Size(BQ) or Size(BQ)<>8817984 then\n"
+        '  Error("calibration quotient/base order mismatch");\n'
+        "fi;;\n"
+        "if Size(Image(qToBase))<>Size(BQ) or not IsSurjective(qToBase) or\n"
+        "   not IsBijective(qToBase) then\n"
+        '  Error("calibration presentation/base bijection failure");\n'
+        "fi;;\n"
+    )
     return f"""\
 MakeRels := function(F,rows)
   local g,out,row,w,x; g:=GeneratorsOfGroup(F); out:=[];
@@ -435,9 +548,7 @@ off9:=6*Size(G9);; size4:=6*Size(P4);; baseDegree:=off9+size4;;
 bs1:=DirectSumPerm(qt9.s1,off9,qt4.s1,size4);;
 bs2:=DirectSumPerm(qt9.s2,off9,qt4.s2,size4);; BQ:=Group(bs1,bs2);;
 if Size(BQ)<>8817984 then Error("calibration base order drift"); fi;
-FQ:=FreeGroup(2,"r");; Q:=FQ/MakeRels(FQ,{qrels});; qg:=GeneratorsOfGroup(Q);;
-qToBase:=GroupHomomorphismByImages(Q,BQ,qg,[bs1,bs2]);;
-if qToBase=fail or not IsBijective(qToBase) then Error("calibration presentation/base mismatch"); fi;
+  {fixed_qblock}
 targetKeys:={targets};;
 if Length(targetKeys)<>972 or Length(Set(targetKeys))<>972 then Error("calibration target set drift"); fi;
 rhoBase:=GroupHomomorphismByImages(BQ,BQ,[bs1,bs2],[bs1,bs2]);;
@@ -1098,8 +1209,10 @@ def verify_final_a(args: argparse.Namespace) -> int:
     return 0
 
 
-def install_checkpointed_checker_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
-    """Install no-timeout GAP and the independent lossless calibration gate."""
+def install_checkpointed_checker_adapter(
+    legacy: Any, manifest: dict[str, Any], checker_out_dir: Path | None = None,
+) -> None:
+    """Install fixed calibration and no-timeout GAP with failure receipts."""
     if os.environ.get("D972_CHECKER_DMTCP_ENABLED") != "1":
         return
     require(os.environ.get("D972_DMTCP_ENABLED") == "1" and
@@ -1107,35 +1220,89 @@ def install_checkpointed_checker_adapter(legacy: Any, manifest: dict[str, Any]) 
             manifest["dmtcp_contract"]["contract_sha256"],
             "STATE_STOP checker DMTCP contract absent")
 
+    require(checker_out_dir is not None,
+            "STATE_STOP checker calibration failure-receipt directory absent")
+    checker_out_dir = checker_out_dir.resolve()
+
     def run_isolated_gap_without_timeout(script: str, purpose: str) -> tuple[str, str, str]:
         handle = tempfile.NamedTemporaryFile(
             mode="w", encoding="ascii", newline="\n", prefix="d972-independent-v2-",
             suffix=".g", delete=False,
         )
         script_path = Path(handle.name)
+        script_bytes = script.encode("ascii")
+        command: list[str] = []
+        command_mode = "unavailable"
+        stage = "calibration.gap.write-script"
+        returncode: int | None = None
+        stdout: Any = b""
+        stderr: Any = b""
+        error: BaseException | None = None
         try:
             with handle:
                 handle.write(script)
                 handle.flush()
                 os.fsync(handle.fileno())
+            stage = "calibration.gap.select-command"
             command, command_mode = legacy.select_gap_command(script_path)
+            stage = "calibration.gap.execute"
             completed = subprocess.run(
-                command, cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
-                errors="replace", check=False,
+                command, cwd=ROOT, capture_output=True, text=False, check=False,
             )
-        except OSError as exc:
-            raise legacy.CheckStop(
-                f"STATE_STOP independent {purpose} UNKNOWN: {type(exc).__name__}"
-            ) from exc
+            returncode = completed.returncode
+            stdout = completed.stdout or b""
+            stderr = completed.stderr or b""
+        except (OSError, ValueError, TypeError, legacy.CheckStop,
+                subprocess.TimeoutExpired) as exc:
+            error = exc
         finally:
+            failed = error is not None or (returncode is not None and returncode != 0)
+            failure_path: Path | None = None
+            if failed:
+                failure_path = write_calibration_failure_receipt(
+                    checker_out_dir,
+                    purpose=purpose,
+                    stage=stage,
+                    script_path=script_path,
+                    script_bytes=script_bytes,
+                    command=command,
+                    command_mode=command_mode,
+                    returncode=returncode,
+                    stdout=stdout,
+                    stderr=stderr,
+                    error=error,
+                )
             try:
                 script_path.unlink()
             except FileNotFoundError:
                 pass
-        legacy.require(completed.returncode == 0,
+        stdout_text = _stream_bytes(stdout).decode("utf-8", errors="replace")
+        stderr_text = _stream_bytes(stderr).decode("utf-8", errors="replace")
+        stdout_fields = _stream_failure_fields(stdout)
+        stderr_fields = _stream_failure_fields(stderr)
+        stdout_tail = stdout_fields["tail"]
+        stderr_tail = stderr_fields["tail"]
+        diagnostic = (
+            f"script_sha256={sha_bytes(script_bytes)}; script_bytes={len(script_bytes)}; "
+            f"stdout_sha256={stdout_fields['sha256']}; stdout_bytes={stdout_fields['bytes']}; "
+            f"stderr_sha256={stderr_fields['sha256']}; stderr_bytes={stderr_fields['bytes']}"
+        )
+        if error is not None:
+            receipt_hint = str(failure_path) if failure_path is not None else "unwritten"
+            raise legacy.CheckStop(
+                f"STATE_STOP independent {purpose} UNKNOWN: {type(error).__name__}; "
+                f"stage={stage}; failure_receipt={receipt_hint}; "
+                f"{diagnostic}; "
+                f"stdout_tail={json.dumps(stdout_tail, ensure_ascii=True)}; "
+                f"stderr_tail={json.dumps(stderr_tail, ensure_ascii=True)}"
+            ) from error
+        legacy.require(returncode == 0,
                        f"STATE_STOP independent {purpose} UNKNOWN: GAP failed with exit "
-                       f"{completed.returncode}")
-        return completed.stdout, completed.stderr, command_mode
+                       f"{returncode}; stage={stage}; failure_receipt={failure_path}; "
+                       f"{diagnostic}; "
+                       f"stdout_tail={json.dumps(stdout_tail, ensure_ascii=True)}; "
+                       f"stderr_tail={json.dumps(stderr_tail, ensure_ascii=True)}")
+        return stdout_text, stderr_text, command_mode
 
     legacy.run_isolated_gap = run_isolated_gap_without_timeout
     calibration_box: dict[str, Any] = {}
@@ -1197,6 +1364,7 @@ def run_campaign_checker(argv: Sequence[str]) -> int:
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("--state", type=Path)
     parser.add_argument("--producer-ledger", type=Path)
+    parser.add_argument("--out-dir", type=Path)
     known, _ = parser.parse_known_args(argv)
     terminal_shadow_bindings: dict[str, dict[str, Any]] = {}
     if "--self-test" not in argv:
@@ -1247,7 +1415,7 @@ def run_campaign_checker(argv: Sequence[str]) -> int:
         require(os.environ.get("D972_DMTCP_PHASE_COMPLETE") == "1",
                 "STATE_STOP producer process has not completed")
     legacy = load_legacy()
-    install_checkpointed_checker_adapter(legacy, manifest)
+    install_checkpointed_checker_adapter(legacy, manifest, known.out_dir)
     exit_code = int(legacy.main(argv))
     if exit_code != 0 or "--self-test" in argv:
         return exit_code
@@ -1365,6 +1533,41 @@ def synthetic_calibration_gate_and_receipt(legacy: Any) -> tuple[dict[str, Any],
 
 def self_test() -> int:
     manifest = load_manifest()
+    fixed_script = independent_calibration_gap_script([[1, -2], [2]], ["toy"])
+    require(fixed_script.count("FQgens:=GeneratorsOfGroup(FQ);;") == 1 and
+            "qg:=GeneratorsOfGroup(Q);;" not in fixed_script and
+            "NaturalHomomorphismByNormalSubgroup(FQ,NQ);;" in fixed_script and
+            "Image(freeToBase,rel)" in fixed_script and
+            "Size(Q)<>Size(BQ)" in fixed_script and
+            "not IsBijective(qToBase)" in fixed_script and
+            "{qrels}" not in fixed_script,
+            "self-test fixed explicit quotient calibration block")
+    with tempfile.TemporaryDirectory(prefix="d972-v2-receipt-selftest-") as directory:
+        fixture_path = write_calibration_failure_receipt(
+            Path(directory),
+            purpose="self-test",
+            stage="calibration.gap.execute",
+            script_path=Path("fixture.g"),
+            script_bytes=b"fixture-script\n",
+            command=["gap", "-q", "fixture.g"],
+            command_mode="posix-gap-cli",
+            returncode=1,
+            stdout=b"stdout fixture\n",
+            stderr=b"stderr fixture\n",
+            error=RuntimeError("fixture failure"),
+        )
+        require(fixture_path is not None and fixture_path.is_file(),
+                "self-test calibration failure receipt missing")
+        failure_fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+        claimed_failure_hash = failure_fixture.pop("receipt_sha256", None)
+        require(claimed_failure_hash == sha_bytes(canonical_bytes(failure_fixture)) and
+                failure_fixture["schema"] == CALIBRATION_FAILURE_SCHEMA and
+                failure_fixture["calibration_script_variant"] == CALIBRATION_SCRIPT_VARIANT and
+                failure_fixture["returncode"] == 1 and
+                failure_fixture["script_bytes"] == len(b"fixture-script\n") and
+                failure_fixture["stderr_tail"] == "stderr fixture\n" and
+                failure_fixture["command_argv"][-1] == "<generated-script>",
+                "self-test calibration failure receipt integrity")
     rewrites = manifest["dmtcp_contract"]["gap_4_12_materialized_rewrites"]
     base_rewrites = rewrites.get("base_permutation_groups", {})
     list_rewrites = rewrites.get("table_group", {})
