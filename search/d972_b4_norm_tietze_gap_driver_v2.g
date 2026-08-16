@@ -140,7 +140,11 @@ else
 
   ## Preserve the ordinary roots already visible to the outer GAP, then add
   ## the optional-package root and the dedicated official KBMAG root.
-  D972KB160Roots:=[];;
+  ## Put the dedicated root first.  GAP stably prefers the first root when
+  ## the same package version occurs more than once; the nested script also
+  ## checks the normalized InstallationPath, so this is provenance, not just
+  ## a version comparison.
+  D972KB160Roots:=[D972KB160TmpRoot];;
   for D972KB160Root in GAPInfo.RootPaths do
     if IsString(D972KB160Root) and Position(D972KB160Roots,D972KB160Root)=fail then
       D972KB160CheckPath(D972KB160Root);;
@@ -150,11 +154,14 @@ else
   if Position(D972KB160Roots,D972KB160GapRoot)=fail then
     Add(D972KB160Roots,D972KB160GapRoot);
   fi;
-  for D972KB160Root in ["/tmp/gaproot",D972KB160TmpRoot] do
+  for D972KB160Root in ["/tmp/gaproot"] do
     D972KB160CheckPath(D972KB160Root);;
     if Position(D972KB160Roots,D972KB160Root)=fail then Add(D972KB160Roots,D972KB160Root); fi;
   od;
-  D972KB160RootArg:=Concatenation(";",D972KB160Join(D972KB160Roots,";"));;
+  ## This explicit list already contains every ordinary outer root.  With no
+  ## leading/trailing semicolon, GAP replaces its root list by exactly this
+  ## order instead of silently appending the dedicated root after defaults.
+  D972KB160RootArg:=D972KB160Join(D972KB160Roots,";");;
 
   D972KB160Build:=Concatenation(
     "set -eu; rm -rf ",D972KB160ShellQuote(D972KB160TmpRoot),
@@ -200,6 +207,7 @@ else
     "if LoadPackage(\"kbmag\") <> true then Error(\"KBMAG 1.6.0 wrapper: kbmag load failed\"); fi;;\n",
     "D972KB160Info:=PackageInfo(\"kbmag\");;\n",
     "if Length(D972KB160Info)=0 or not IsBound(D972KB160Info[1].Version) or D972KB160Info[1].Version <> \"1.6.0\" then Error(\"KBMAG 1.6.0 wrapper: PackageInfo version gate failed\"); fi;;\n",
+    "if not IsBound(D972KB160Info[1].InstallationPath) or not D972KB160Info[1].InstallationPath in [\"/tmp/d972_b4_kbmag160/pkg/kbmag\",\"/tmp/d972_b4_kbmag160/pkg/kbmag/\"] then Error(\"KBMAG 1.6.0 wrapper: PackageInfo installation-path gate failed\"); fi;;\n",
     "Print(\"B4_KBMAG160_PACKAGE_VERSION_PASS version=1.6.0\\n\");;\n",
     "D972_B4_NORM_TZ_BOOTSTRAP:=0;; D972_B4_NORM_TZ_SELFTEST:=0;;\n",
     "Read(\"search/d972_b4_norm_tietze_gap_driver_v1.g\");\n");;
@@ -213,7 +221,14 @@ else
     "gap -l ",D972KB160ShellQuote(D972KB160RootArg),
     " --quitonbreak -q -o 12g ",D972KB160ShellQuote(D972KB160Nested));;
   D972KB160NestedFull:=Concatenation(
-    "rm -f ",D972KB160ShellQuote(D972KB160Status),"; ",D972KB160NestedCommand,
+    "rm -f ",D972KB160ShellQuote(D972KB160Status)," ",
+      D972KB160ShellQuote(D972KB160Log)," ",
+      D972KB160ShellQuote(D972KB160Receipt)," ",
+      D972KB160ShellQuote(D972KB160V1Receipt)," ",
+      D972KB160ShellQuote("ci/out/d972_b4_norm_tietze_trace_v2.json")," ",
+      D972KB160ShellQuote("ci/out/d972_b4_norm_tietze_dense_check_v1.json")," ",
+      D972KB160ShellQuote("ci/out/d972_b4_norm_tietze_kbmag_v2.json"),"; ",
+      D972KB160NestedCommand,
     " > ",D972KB160ShellQuote(D972KB160Log)," 2>&1; rc=$?; printf '%s' \"$rc\" > ",
     D972KB160ShellQuote(D972KB160Status),"; exit \"$rc\"");;
   Exec(D972KB160NestedFull);;
