@@ -112,9 +112,11 @@ D972V2LoadV1Library();;
 ## GAP 4.12.1 does not classify general bijective mappings as
 ## IsGeneratorsOfMagmaWithInverses, so even the list-plus-identity Group form
 ## is rejected.  Materialize the finite action on the source group as a
-## permutation group before taking its order.  This is only the K9 B3-action
-## compatibility gate; the frozen v1 mappings and all mathematical data stay
-## unchanged.
+## permutation group before taking its order.  GAP 4.12's Group(list) dispatch
+## is also version-sensitive here; this call is deliberately the explicit
+## two-generator form used by the frozen K9 audit.  This is only the K9
+## B3-action compatibility gate; the frozen v1 mappings and all mathematical
+## data stay unchanged.
 D972V2MappingGroupOrder := function(maps, source)
   local elements, imageRows, perms;
   elements := AsSSortedList(source);
@@ -132,7 +134,10 @@ D972V2MappingGroupOrder := function(maps, source)
   if ForAny(perms, p -> p=fail) or Length(Set(perms))<>Length(maps) then
     Error("D972 v2: mapping action permutation materialization drift");
   fi;
-  return Size(Group(perms));
+  if Length(perms) <> 2 then
+    Error("D972 v2: K9 mapping action must have exactly two generators");
+  fi;
+  return Size(Group(perms[1],perms[2]));
 end;;
 
 D972V2GetEnv := function(name, fallback)
