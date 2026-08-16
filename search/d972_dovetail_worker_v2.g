@@ -897,6 +897,9 @@ D972Emit := function(payload)
     ",\"checkpoint\":{\"logical_outer_cursor\":",before,
       ",\"internal_cursor_storage\":\"DMTCP process image\",",
       "\"heartbeat_authoritative\":false}",
+    ## This is diagnostic only.  The producer/checker independently rebuild
+    ## the material and still require its hash to equal checkpoint_sha256.
+    ",\"authority_material_diagnostic\":",D972JsonString(material),
     ",\"checkpoint_sha256\":",D972JsonString(HexSHA256(material)),
     ",\"relative_extension_completeness_receipt\":",
       D972CompletenessReceiptJson(),

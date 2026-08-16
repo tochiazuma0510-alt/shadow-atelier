@@ -125,6 +125,20 @@ def worker_authority_material(receipt: dict[str, Any]) -> str:
     return "|".join(f"{key}={value}" for key, value in parts)
 
 
+def authority_material_diagnostic(
+    receipt: dict[str, Any], material: str | None = None,
+) -> str:
+    """Format non-authoritative worker-vs-checker material diagnostics."""
+    if material is None:
+        material = worker_authority_material(receipt)
+    return (
+        "claimed=" + repr(receipt.get("checkpoint_sha256")) +
+        " observed=" + sha_bytes(material.encode("utf-8")) +
+        " checker_material=" + repr(material) +
+        " worker_material=" + repr(receipt.get("authority_material_diagnostic"))
+    )
+
+
 def load_manifest() -> dict[str, Any]:
     try:
         manifest = json.loads(MANIFEST_V2.read_text(encoding="utf-8"))
@@ -236,8 +250,11 @@ def validate_worker_receipt(receipt: dict[str, Any], manifest: dict[str, Any]) -
             re.fullmatch(r"[0-9]+", str(dmtcp.get("generation", ""))) is not None,
             "STATE_STOP v2 worker DMTCP binding")
     material = worker_authority_material(receipt)
-    require(receipt.get("checkpoint_sha256") == sha_bytes(material.encode("utf-8")),
-            "STATE_STOP v2 worker checkpoint digest")
+    worker_material = receipt.get("authority_material_diagnostic")
+    require(isinstance(worker_material, str) and worker_material == material and
+            receipt.get("checkpoint_sha256") == sha_bytes(material.encode("utf-8")),
+            "STATE_STOP v2 worker checkpoint digest/material: " +
+            authority_material_diagnostic(receipt, material))
     require(receipt.get("terminal_A_requires_independent_checker") is True and
             receipt.get("opaque_internal_state_checkpointed_by") ==
             "DMTCP process image; authority is external image manifest",

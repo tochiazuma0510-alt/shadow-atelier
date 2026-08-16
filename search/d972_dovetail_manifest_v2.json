@@ -230,9 +230,17 @@
     "runtime_compatibility": "exact source commit, code/input hashes, DMTCP/GAP/Python versions, runner ImageOS, architecture and stable workspace path; restart failure is terminally fail-closed",
     "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
+    "authority_material_diagnostic": {
+      "field": "authority_material_diagnostic",
+      "encoding": "UTF-8 material string hashed by checkpoint_sha256",
+      "role": "non-authoritative worker/producer/checker mismatch diagnosis",
+      "included_in_checkpoint_sha256": false,
+      "payload_or_secret_free": true,
+      "independent_rebuild_required": true
+    },
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "1a59badf3306446641c0611d59f6c4343360aad1a0435e34dc95dfde760293df"
+    "contract_sha256": "7cd157ae562b242cca0bcd72ec9ee26f7512b18c4f2477835c68cc50043875df"
   },
   "launch_spec": {
     "cwd": ".",

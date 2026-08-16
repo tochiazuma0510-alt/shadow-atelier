@@ -90,6 +90,29 @@ def worker_authority_material(receipt: dict[str, Any]) -> str:
     return "|".join(f"{key}={value}" for key, value in parts)
 
 
+def authority_material_diagnostic(
+    receipt: dict[str, Any], material: str | None = None,
+) -> str:
+    """Return a non-authoritative, secret-free digest mismatch diagnostic.
+
+    The GAP worker publishes the exact material it hashed only as a debugging
+    aid.  The producer still rebuilds the material independently and refuses
+    the envelope on either mismatch.  The material contains only schema,
+    cursors, booleans, and digests; it never contains payload/task contents.
+    """
+    if material is None:
+        material = worker_authority_material(receipt)
+    claimed = receipt.get("checkpoint_sha256")
+    observed = sha_bytes(material.encode("utf-8"))
+    worker_material = receipt.get("authority_material_diagnostic")
+    return (
+        "claimed=" + repr(claimed) +
+        " observed=" + observed +
+        " python_material=" + repr(material) +
+        " worker_material=" + repr(worker_material)
+    )
+
+
 def load_manifest() -> dict[str, Any]:
     try:
         manifest = json.loads(MANIFEST_V2.read_text(encoding="utf-8"))
@@ -189,8 +212,19 @@ def unwrap_worker_envelope(
     if envelope.get("payload_sha256") != sha_bytes(payload_text.encode("utf-8")):
         raise ValueError("v2 payload digest mismatch")
     material = worker_authority_material(envelope)
-    if envelope.get("checkpoint_sha256") != sha_bytes(material.encode("utf-8")):
-        raise ValueError("v2 checkpoint receipt digest mismatch")
+    worker_material = envelope.get("authority_material_diagnostic")
+    if not isinstance(worker_material, str):
+        raise ValueError(
+            "v2 checkpoint authority material diagnostic absent: " +
+            authority_material_diagnostic(envelope, material)
+        )
+    if worker_material != material or envelope.get("checkpoint_sha256") != sha_bytes(
+        material.encode("utf-8")
+    ):
+        raise ValueError(
+            "v2 checkpoint receipt digest mismatch: " +
+            authority_material_diagnostic(envelope, material)
+        )
     boolean_fields = (
         "cell_complete", "classification_complete", "outer_advance_authorized",
         "exhausted", "h_exhausted", "terminal_A_eligible", "workflow_resumable",
@@ -487,7 +521,10 @@ def self_test() -> int:
                             "stage": "marked_orbit", "start": cursor, "stop": cursor},
         "relative_extension_completeness_receipt": completeness,
     }
-    prefix["checkpoint_sha256"] = sha_bytes(worker_authority_material(prefix).encode("utf-8"))
+    prefix["authority_material_diagnostic"] = worker_authority_material(prefix)
+    prefix["checkpoint_sha256"] = sha_bytes(
+        prefix["authority_material_diagnostic"].encode("utf-8")
+    )
     synthetic_raw = json.dumps(prefix, separators=(",", ":"))[:-1] + ',"payload":' + payload_text + "}"
     unwrapped = unwrap_worker_envelope(
         synthetic_raw, mode="candidate", manifest=manifest,
@@ -495,6 +532,24 @@ def self_test() -> int:
     )
     if unwrapped.get("accepted_count") != 1 or len(unwrapped.get("candidates", [])) != 1:
         raise RuntimeError("self-test accepted payload was lost during v2 unwrap")
+    tampered_material = copy.deepcopy(prefix)
+    tampered_material["authority_material_diagnostic"] += "|tampered"
+    tampered_raw = (
+        json.dumps(tampered_material, separators=(",", ":"))[:-1] +
+        ',"payload":' + payload_text + "}"
+    )
+    try:
+        unwrap_worker_envelope(
+            tampered_raw, mode="candidate", manifest=manifest,
+            task_digest=task_digest, generation="7", expected_cursor=cursor,
+        )
+    except ValueError as exc:
+        if not all(token in str(exc) for token in (
+            "python_material=", "worker_material=", "claimed=", "observed=",
+        )):
+            raise RuntimeError(f"authority-material diagnostic drifted: {exc}") from exc
+    else:
+        raise RuntimeError("tampered authority material was accepted")
     missing_status_payload = json.loads(payload_text)
     missing_status_payload.pop("status", None)
     missing_status_text = json.dumps(missing_status_payload, separators=(",", ":"))
@@ -502,6 +557,9 @@ def self_test() -> int:
     missing_status["payload_sha256"] = sha_bytes(missing_status_text.encode("utf-8"))
     missing_status["checkpoint_sha256"] = sha_bytes(
         worker_authority_material(missing_status).encode("utf-8")
+    )
+    missing_status["authority_material_diagnostic"] = worker_authority_material(
+        missing_status
     )
     missing_status_raw = (
         json.dumps(missing_status, separators=(",", ":"))[:-1] +
@@ -538,8 +596,9 @@ def self_test() -> int:
         "outer_advance_authorized": True,
         "completed_range": {"complete": True, "stage": "selftest"},
     })
+    taskless["authority_material_diagnostic"] = worker_authority_material(taskless)
     taskless["checkpoint_sha256"] = sha_bytes(
-        worker_authority_material(taskless).encode("utf-8")
+        taskless["authority_material_diagnostic"].encode("utf-8")
     )
     taskless_raw = (
         json.dumps(taskless, separators=(",", ":"))[:-1] +
