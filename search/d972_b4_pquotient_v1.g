@@ -31,10 +31,11 @@ if P2WorkerSha<>P2WorkerExpectedSha then
 fi;
 D972P2SmallGrp := LoadPackage("smallgrp");;
 D972P2Anupq := LoadPackage("anupq");;
-if D972P2SmallGrp <> true or D972P2Anupq <> true then
-  Error("P2: required packages unavailable (smallgrp/anupq)");
+D972P2Json := LoadPackage("json");;
+if D972P2SmallGrp <> true or D972P2Anupq <> true or D972P2Json <> true then
+  Error("P2: required packages unavailable (smallgrp/anupq/json)");
 fi;
-Print("P2_PACKAGES_PASS smallgrp=true anupq=true\n");
+Print("P2_PACKAGES_PASS smallgrp=true anupq=true json=true\n");
 if IsBound(D972_P2_SELFTEST) and D972_P2_SELFTEST=true then
   P2RunMode:="selftest";;
   Print("P2_SELFTEST_PASS source_sha256=",P2SelfSha,
@@ -83,7 +84,7 @@ P2PermImages := function(h0)
   return List(h0, g -> List([1..degree], i -> i^Image(iso,g)));
 end;;
 
-P2Roof := function(rows, words, h0, rf, relsU)
+P2Roof := function(words, h0, rf, relsU)
   local F6, f6g, hp, rw, t, relok, rho5, eval, i, sw, z, k,
         fails, first;
   F6 := FreeGroup(6); f6g := GeneratorsOfGroup(F6);
@@ -127,132 +128,121 @@ Print("P2_ARTIFACT_PATH ci/out/d972_b4_pquotient_v1.json\n");
 Print("P2_ARTIFACT_GATE final_marker_only\n");
 Print("P2_BEGIN prime=2 class_bounds=1..5 collector_capacity=4096\n");
 
-## Construct the exact U_M presentation (28 + 18*? rho closure = 158).
+## Keep the worker's base-order gate, but materialize the finite-image input
+## from the independently pinned Magnus artifact.  Re-running
+## IsomorphismFpGroupByGenerators here is not deterministic across GAP builds:
+## RelatorsOfFpGroup can return a different (shortened/reordered) presentation.
 B := D972BuildBase(false);;
 if B.pure_size <> 1469664 then Error("P2: pure base order drift"); fi;
-Q0fp := Image(IsomorphismFpGroupByGenerators(
-  B.compact_pure,[B.compact_x,B.compact_y],"p"));;
-relsP := RelatorsOfFpGroup(Q0fp);;
-Q0free:=FreeGroupOfFpGroup(Q0fp);;
-F := FreeGroup("s1","s2","s3");;
-B4 := F/[F.1*F.3*F.1^-1*F.3^-1,
-  F.1*F.2*F.1*(F.2*F.1*F.2)^-1,
-  F.2*F.3*F.2*(F.3*F.2*F.3)^-1];;
-b1:=B4.1;; b2:=B4.2;; b3:=B4.3;;
-X12:=b1^2;; X23:=b2^2;; X34:=b3^2;;
-X13:=b2*b1^2*b2^-1;; X24:=b3*b2^2*b3^-1;; X14:=b3*X13*b3^-1;;
-PB4sub:=Subgroup(B4,[X12,X13,X14,X23,X24,X34]);;
-isoPB:=IsomorphismFpGroupByGenerators(PB4sub,
-  [X12,X13,X14,X23,X24,X34],"x");;
-PB4fp:=Image(isoPB);; Delta2img:=ImageElm(isoPB,(b1*b2*b3)^4);;
-FPB:=FreeGroupOfFpGroup(PB4fp);;
-K05:=FPB/Concatenation(RelatorsOfFpGroup(PB4fp),
-  [UnderlyingElement(Delta2img)]);; gK:=GeneratorsOfGroup(K05);;
-k12:=gK[1];; k13:=gK[2];; k14:=gK[3];;
-k23:=gK[4];; k24:=gK[5];; k34:=gK[6];;
-rhoImgs:=[(k14*k24*k34)^-1,k14,k24,
-  (k12*k13*k14)^-1,(k12*k23*k24)^-1,k12];;
-FK:=FreeGroupOfFpGroup(K05);; fgens:=GeneratorsOfGroup(FK);;
-relsK:=RelatorsOfFpGroup(K05);;
-if Number(relsK,r->not IsOne(MappedWord(r,fgens,rhoImgs)))<>0 then
-  Error("P2: rho does not preserve K05 relators");
+
+P2InputPath := "search/certs/d972_b4_p2_magnus_input_v1_20260816.json";;
+P2InputSource := StringFile(P2InputPath);;
+if P2InputSource=fail then Error("P2: pinned Magnus input missing"); fi;
+P2InputFileSha := HexSHA256(P2InputSource);;
+if P2InputFileSha<>"caef3c6735678e1b87bc427791d4c96474d6a4c566d4078a8fafd89742c7d2c8" then
+  Error("P2: pinned Magnus input file digest drift: ",P2InputFileSha);
 fi;
-rhoHom:=GroupHomomorphismByImagesNC(K05,K05,gK,rhoImgs);;
-fPure:=GeneratorsOfGroup(Q0free);;
-baseJ:=List(relsP,r->MappedWord(r,fPure,[k12,k23]));;
-allJ:=[];; cur:=baseJ;;
-for j in [0..4] do Append(allJ,List(cur,UnderlyingElement));;
-  cur:=List(cur,w->Image(rhoHom,w));;
-od;;
-Ufree:=FK;;
-Ufp:=Ufree/Concatenation(relsK,allJ);;
-relsU:=RelatorsOfFpGroup(Ufp);;
-if Length(relsU)<>158 then Error("P2: U relator count drift"); fi;
-UfpFree:=FreeGroupOfFpGroup(Ufp);;
-Ugens:=GeneratorsOfGroup(Ufp);; Ufreen:=GeneratorsOfGroup(Ufree);;
-F6:=FreeGroup(6);; F6g:=GeneratorsOfGroup(F6);;
-rf:=[(F6g[3]*F6g[5]*F6g[6])^-1,F6g[3],F6g[5],
-  (F6g[1]*F6g[2]*F6g[3])^-1,
-  (F6g[1]*F6g[4]*F6g[5])^-1,F6g[1]];;
-P2RhoWords:=List(rf,P2Signed);; P2RelWords:=List(relsU,P2Signed);;
-P2RelDigest:=HexSHA256(P2Json(P2RelWords));;
-if P2RelDigest<>"12fc1146dce5179c2b5fc44a3ceed6356a6b2c4835a564b55e9a9cd679fccd2e" then
-  Error("P2: frozen relator digest drift");
+P2Input := JsonStringToGap(P2InputSource);;
+if P2Input=fail or not IsRecord(P2Input) or
+   not IsBound(P2Input.schema) or
+   P2Input.schema<>"d972-b4-p2-magnus-input/v1" then
+  Error("P2: pinned Magnus input schema drift");
+fi;
+Print("P2_PINNED_INPUT_COUNTS relators=",Length(P2Input.all_relators),
+  " rho_words=",Length(P2Input.rho_words),
+  " target_keys=",Length(P2Input.target_keys),
+  " roof_words=",Length(P2Input.roof_words),"\n");
+if P2Input.relator_count<>158 or P2Input.roof_count<>972 or
+   Length(P2Input.all_relators)<>158 or Length(P2Input.rho_words)<>6 or
+   Length(P2Input.target_keys)<>972 or Length(P2Input.roof_words)<>972 then
+  Error("P2: pinned Magnus input count drift");
 fi;
 
-## Exact 972 roof rows and independent key/word correspondence.
-R:=D972ScanCalibrationBase(B);;
-if R.shadow_count<>972 then Error("P2: roof count drift"); fi;
-## R.target_keys is the sorted Set(keys), not the shadow enumeration order.
-## Receipts zip target_keys with roof_words, so retain the per-shadow order
-## here and independently recompute the frozen set digest.
-P2TargetKeys:=List(R.shadows,sh->sh.key);;
+F6:=FreeGroup(6);; F6g:=GeneratorsOfGroup(F6);;
+P2WordFromSigned:=function(signed)
+  local w,x;
+  w:=One(F6);;
+  for x in signed do
+    if x=0 or AbsInt(x)>6 then Error("P2: signed word letter drift"); fi;
+    if x>0 then w:=w*F6g[x]; else w:=w*F6g[-x]^-1; fi;
+  od;
+  return w;
+end;;
+P2RelWords:=List(P2Input.all_relators,ShallowCopy);;
+P2RelDigest:=HexSHA256(P2Json(P2RelWords));;
+if P2RelDigest<>P2Input.all_relators_sha256 or
+   P2RelDigest<>"12fc1146dce5179c2b5fc44a3ceed6356a6b2c4835a564b55e9a9cd679fccd2e" then
+  Error("P2: pinned relator digest drift: ",P2RelDigest);
+fi;
+## The quotient presentation is now exactly the 158 signed rows above.
+## Do not call RelatorsOfFpGroup to recover/rewrite these rows.
+P2RelGroupWords:=List(P2RelWords,P2WordFromSigned);;
+Ufree:=F6;; Ufp:=Ufree/P2RelGroupWords;;
+UfpFree:=Ufree;; relsU:=P2RelGroupWords;;
+Ugens:=GeneratorsOfGroup(Ufp);; Ufreen:=GeneratorsOfGroup(Ufree);;
+P2RhoWords:=List(P2Input.rho_words,ShallowCopy);;
+rf:=List(P2RhoWords,P2WordFromSigned);;
+
+P2TargetKeys:=List(P2Input.target_keys,ShallowCopy);;
 if Length(Set(P2TargetKeys))<>972 then
-  Error("P2: shadow target-key enumeration is not unique");
+  Error("P2: pinned target-key enumeration is not unique");
 fi;
 P2TargetDigest:=HexSHA256(Concatenation(
   D972Join(Set(P2TargetKeys),"\n"),"\n"));;
-if P2TargetDigest<>R.target_key_set_sorted_sha256 or
+if P2TargetDigest<>P2Input.target_key_digest or
    P2TargetDigest<>"9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62" then
-  Error("P2: target-key set digest drift");
+  Error("P2: pinned target-key digest drift: ",P2TargetDigest);
 fi;
-## D972ScanCalibrationBase stores sh.f in fullF2=Group(s1^2,s2^2).
-## Pull it back through the explicit marked full->compact isomorphism before
-## asking the compact F2 epimorphism for a word; direct PreImagesRepresentative
-## on the foreign fullF2 element is not a valid round-trip gate.
-P2FullF2:=Group(B.s1^2,B.s2^2);;
-P2FromFull:=GroupHomomorphismByImages(P2FullF2,B.compact_pure,
-  [B.s1^2,B.s2^2],[B.compact_x,B.compact_y]);;
-if P2FromFull=fail or not IsBijective(P2FromFull) then
-  Error("P2: fullF2 to compact_pure marked isomorphism failed");
-fi;
-## One stable F2 domain is used for every row; no factorwise words are joined.
-P2F2:=FreeGroup("u","v");;
-P2Epi:=GroupHomomorphismByImages(P2F2,B.compact_pure,
-  [P2F2.1,P2F2.2],[B.compact_x,B.compact_y]);;
-P2RoofWords:=[];;
-for P2Sh in R.shadows do
-  P2CompactF:=Image(P2FromFull,P2Sh.f);;
-  P2Pre:=PreImagesRepresentative(P2Epi,P2CompactF);;
-  if P2Pre=fail or Image(P2Epi,P2Pre)<>P2CompactF then
-    Error("P2: compact F2 preimage round-trip failed");
-  fi;
-  Add(P2RoofWords,P2Signed(P2Pre));
-od;
-if Length(P2RoofWords)<>972 then Error("P2: roof words drift"); fi;
+P2RoofWords:=List(P2Input.roof_words,ShallowCopy);;
 P2RoofDigest:=HexSHA256(P2Json(P2RoofWords));;
-
-## Bind the P2 reconstruction to the independently checked word/key table.
-## The archived artifact hashes canonical rows [m,nested_key,signed_word]
-## after sorting by the nested key.  Rebuild precisely that row stream here;
-## a producer-controlled roof-word list or target-key list alone is not enough
-## for a finite-image receipt to pass the independent checker.
-P2ListLess:=function(a,b)
-  local i, av, bv;
-  if IsInt(a) and IsInt(b) then return a<b; fi;
-  if not (IsList(a) and IsList(b)) then Error("P2: key comparator type drift"); fi;
-  for i in [1..Minimum(Length(a),Length(b))] do
-    av:=a[i]; bv:=b[i];
-    if av=bv then continue; fi;
-    return P2ListLess(av,bv);
-  od;
-  return Length(a)<Length(b);
-end;;
-P2WordKeyRows:=List([1..Length(R.shadows)],i->[
-  R.shadows[i].m,
-  [R.shadows[i].m,
-   D972Can9(D972BlockRestrict(R.shadows[i].f,0,27)),
-   D972Can4(D972BlockRestrict(R.shadows[i].f,27,9))],
-  P2RoofWords[i]]);;
-Sort(P2WordKeyRows,function(a,b) return P2ListLess(a[2],b[2]); end);;
-if Length(Set(List(P2WordKeyRows,r->P2Json(r[2]))))<>972 then
-  Error("P2: duplicate reconstructed word/key target");
+if P2RoofDigest<>P2Input.roof_words_sha256 or
+   P2RoofDigest<>"3015b4e00a02ca2a9d6183dad4cb7ddabfd21ef03828837198aa96b2dc3461f8" then
+  Error("P2: pinned roof-word digest drift: ",P2RoofDigest);
 fi;
+
+## Independently authenticate the corrected word/key archive and bind its
+## exact pairs to the pinned Magnus rows.  This replaces the old 972-shadow
+## rescan while retaining the load-bearing correspondence gate.
+P2ArtifactPath := "search/certs/d972_b4_word_key_artifact_v1_20260816.json";;
+P2ArtifactSource := StringFile(P2ArtifactPath);;
+if P2ArtifactSource=fail then Error("P2: word/key artifact missing"); fi;
+P2Artifact:=JsonStringToGap(P2ArtifactSource);;
+if P2Artifact=fail or not IsRecord(P2Artifact) or
+   P2Artifact.schema<>"d972-b4-word-key-artifact/v1" or
+   P2Artifact.count<>972 or Length(P2Artifact.rows)<>972 or
+   P2Artifact.source_target_key_digest<>P2TargetDigest or
+   P2Artifact.frozen_tuple_sha256<>"32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91" then
+  Error("P2: word/key artifact metadata drift");
+fi;
+P2WordKeyRows:=P2Artifact.rows;;
 P2WordKeyDigest:=HexSHA256(P2Json(P2WordKeyRows));;
-if P2WordKeyDigest<>"283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930" then
+if P2WordKeyDigest<>P2Artifact.canonical_bytes_sha256 or
+   P2WordKeyDigest<>"283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930" then
   Error("P2: independently pinned word/key artifact digest drift: ",P2WordKeyDigest);
 fi;
-Print("P2_PRESENTATION_PASS relators=158 roof=972 target_digest=",P2TargetDigest,"\n");
+P2ArtifactFlatKey:=function(key)
+  local can9,can9flat,can4;
+  if not IsList(key) or Length(key)<>3 then Error("P2: artifact key shape drift"); fi;
+  can9:=key[2];; can4:=key[3];;
+  if not IsList(can9) or Length(can9)<>3 or
+     not IsList(can4) or Length(can4)<>9 then
+    Error("P2: artifact key coordinates drift");
+  fi;
+  can9flat:=Concatenation(can9[1],can9[2],can9[3]);;
+  return Concatenation("(",String(key[1]),";",
+    D972Join(List(can9flat,String),","),";",
+    D972Join(List(can4,String),","),")");
+end;;
+P2ArtifactPairs:=Set(List(P2WordKeyRows,r->P2Json([
+  P2ArtifactFlatKey(r[2]),r[3]])));;
+P2InputPairs:=Set(List([1..972],i->P2Json([
+  P2TargetKeys[i],P2RoofWords[i]])));;
+if P2ArtifactPairs<>P2InputPairs then
+  Error("P2: pinned Magnus rows do not match word/key artifact");
+fi;
+Print("P2_PRESENTATION_PASS relators=158 rel_digest=",P2RelDigest,
+  " roof=972 roof_digest=",P2RoofDigest,
+  " input_sha256=",P2InputFileSha,"\n");
 Print("P2_WORD_KEY_BINDING_PASS digest=",P2WordKeyDigest,"\n");
 
 if IsBound(D972_P2_MAGNUS_ONLY) and D972_P2_MAGNUS_ONLY=true then
@@ -285,7 +275,8 @@ P2MakeReceipt:=function(label,order,h0,scan,epiIndex,epiCount)
     ",\"witness_index\":",String(wit.index),
     ",\"witness_word\":",P2Json(P2RoofWords[wit.index]),
     ",\"expected_defect\":",P2Json(List([1..degree],i->i^defect)),
-    ",\"word_key_artifact_sha256\":",P2Json(P2WordKeyDigest),"}");
+    ",\"word_key_artifact_sha256\":",P2Json(P2WordKeyDigest),
+    ",\"p2_input_file_sha256\":",P2Json(P2InputFileSha),"}");
 end;;
 
 ## SmallGroup targets: Q8=(8,4), D8=(8,3), and every group of order 16.
@@ -296,7 +287,7 @@ P2ScanTarget:=function(label,G)
   id:=IdGroup(G);; Print("P2_SG_BEGIN label=",label," id=",id," order=",Size(G),"\n");
   qs:=GQuotients(Ufp,G:findall:=true);; count:=Length(qs);; i:=0;
   for epi in qs do i:=i+1;; h0:=List(Ugens,g->Image(epi,g));;
-    scan:=P2Roof(R.shadows,P2RoofWords,h0,rf,relsU);;
+    scan:=P2Roof(P2RoofWords,h0,rf,relsU);;
     row:=Concatenation("{\"label\":",P2Json(label),",\"id\":",P2Json(id),
       ",\"order\":",String(Size(G)),",\"epi_index\":",String(i),
       ",\"epi_count\":",String(count),",\"relator_bad\":",String(Number(scan.relok,x->not x)),
@@ -326,7 +317,7 @@ for cls in [1..5] do
   fi;
   phi:=EpimorphismQuotientSystem(qs);; H:=Image(phi);;
   h0:=List(Ugens,g->Image(phi,g));;
-  scan:=P2Roof(R.shadows,P2RoofWords,h0,rf,relsU);;
+  scan:=P2Roof(P2RoofWords,h0,rf,relsU);;
   status:="ALLPASS";; if Length(scan.fails)>0 then status:="DEFECT"; fi;
   Add(P2ClassRows,Concatenation("{\"class_bound\":",String(cls),
     ",\"status\":",P2Json(status),",\"order\":",String(Size(H)),
@@ -355,6 +346,7 @@ P2Out:=Concatenation(
   P2Json(P2Status),
   ",\"source_sha256\":",P2Json(P2SelfSha),
   ",\"worker_sha256\":",P2Json(P2WorkerSha),
+  ",\"p2_input_file_sha256\":",P2Json(P2InputFileSha),
   ",\"prime\":2,\"collector\":\"combinatorial\",\"collector_capacity\":4096",
   ",\"class_bounds\":[1,2,3,4,5],\"relator_count\":158,\"roof_count\":972",
   ",\"all_relators_sha256\":",P2Json(P2RelDigest),

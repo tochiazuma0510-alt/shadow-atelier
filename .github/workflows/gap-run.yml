@@ -97,7 +97,7 @@ jobs:
           {
             if [ -n "$GAP_RUN_PREAMBLE" ]; then printf '%s\n' "$GAP_RUN_PREAMBLE"; fi
             if [ "$GAP_WITH_PQUOT_PACKAGES" = "true" ]; then
-              printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;; if LoadPackage("smallgrp") <> true then Error("smallgrp LoadPackage failed"); fi;; if LoadPackage("autpgrp") <> true then Error("autpgrp LoadPackage failed"); fi;; if LoadPackage("anupq") <> true then Error("anupq LoadPackage failed"); fi;; Print("P2_PACKAGE_LOAD_PASS GAPInfo.Version=",GAPInfo.Version,"\\n");; Print("GAPInfo.RootPaths=",GAPInfo.RootPaths,"\\n");;\n'
+              printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;; if LoadPackage("smallgrp") <> true then Error("smallgrp LoadPackage failed"); fi;; if LoadPackage("autpgrp") <> true then Error("autpgrp LoadPackage failed"); fi;; if LoadPackage("anupq") <> true then Error("anupq LoadPackage failed"); fi;; if LoadPackage("json") <> true then Error("json LoadPackage failed"); fi;; Print("P2_PACKAGE_LOAD_PASS GAPInfo.Version=",GAPInfo.Version,"\\n");; Print("GAPInfo.RootPaths=",GAPInfo.RootPaths,"\\n");;\n'
             fi
             printf 'Read("%s");\n' "$GAP_RUN_SCRIPT"
           } > ci/out/driver.g
@@ -110,15 +110,30 @@ jobs:
           # has continued.  The P2 selftest therefore has an explicit final
           # marker and a fail-closed diagnostic gate; ordinary gap-run scripts
           # retain the generic runner contract.
-          if [[ "$GAP_RUN_SCRIPT" == "search/d972_b4_pquotient_v1.g" &&
-                "$GAP_RUN_PREAMBLE" == *D972_P2_SELFTEST* ]]; then
+          if [[ "$GAP_RUN_SCRIPT" == "search/d972_b4_pquotient_v1.g" ]]; then
             if grep -Eq '(^|[[:space:]])(Syntax error:|Error,)' ci/out/run.log; then
-              echo "P2_SELFTEST_STOP: GAP syntax/error diagnostic found" >&2
+              echo "P2_RUN_STOP: GAP syntax/error diagnostic found" >&2
               exit 1
             fi
-            if ! grep -q '^P2_SELFTEST_FINAL_MARKER ' ci/out/run.log; then
-              echo "P2_SELFTEST_STOP: final marker missing" >&2
-              exit 1
+            if [[ "$GAP_RUN_PREAMBLE" == *"D972_P2_SELFTEST:=true"* ||
+                  "$GAP_RUN_PREAMBLE" == *"D972_P2_SELFTEST = true"* ]]; then
+              if ! grep -q '^P2_SELFTEST_FINAL_MARKER ' ci/out/run.log; then
+                echo "P2_SELFTEST_STOP: final marker missing" >&2
+                exit 1
+              fi
+            elif [[ "$GAP_RUN_PREAMBLE" == *"D972_P2_MAGNUS_ONLY:=true"* ||
+                    "$GAP_RUN_PREAMBLE" == *"D972_P2_MAGNUS_ONLY = true"* ]]; then
+              if ! grep -q '^P2_MAGNUS_INPUT_WRITTEN ' ci/out/run.log ||
+                 ! grep -q '^P2_FINAL_MARKER mode=magnus$' ci/out/run.log; then
+                echo "P2_MAGNUS_STOP: completion marker missing" >&2
+                exit 1
+              fi
+            else
+              if ! grep -q '^P2_ARTIFACT_WRITTEN ' ci/out/run.log ||
+                 ! grep -q '^P2_FINAL_MARKER mode=full$' ci/out/run.log; then
+                echo "P2_FULL_STOP: artifact/final marker missing" >&2
+                exit 1
+              fi
             fi
           fi
       - uses: actions/upload-artifact@v4
