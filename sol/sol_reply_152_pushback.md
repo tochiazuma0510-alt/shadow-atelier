@@ -845,3 +845,59 @@ Galois lift が存在することに反するため、空行は結果として�
 
 である。有限 all-pass は従来どおり B ではない。この簡約により k8 split lane の未決 gate は
 outside label ではなく、真正な full-Q bridge、semantic-M runtime receipt、isolated 972 scan に集約される。
+
+### 13.4 最終 handoff 索引（2026-08-17 07:00 JST）
+
+研究者の停止指示に従い、新規探索、Luna 再開、workflow dispatch は行っていない。
+子 Luna 3 本はすべて `interrupted`、ローカル GAP/DMTCP process は 0 である。
+作業 branch は `sol/d972-dmtcp-provision-v420`。引継ぎに必要な既知の commit 列は次のとおり。
+
+| commit | 内容 |
+|---|---|
+| `d408f454827c7ae29cff61443bfbbf3212ea3c04` | direct-BQ/semantic-M 静的 bundle、k9-v6 partial、関連報告 |
+| `f128b89772a623b29851ee158b404c8c0fffac5a` | A/B handoff freeze 本体 |
+| `a8bfe9177fd37fb7b161a67f7653c20a994bcbaf` | push 済み handoff commit の台帳 |
+| `fe9de8d286c3d2be6d0ddb3a7046fc66f7670b63` | live 三路線の terminal-capability 静的監査 |
+| `0bdaf1795d2dcb40d8f966f7cc0c860de7328130` | 上記監査 commit の台帳 |
+| `c8d9a66300171d9bfd8419949a1feb010832e6f4` | index-3 zero-fiber 簡約（outside 行ラベル不要） |
+
+`c8d9a66300171d9bfd8419949a1feb010832e6f4` までは
+`origin/sol/d972-dmtcp-provision-v420` に push 済みである。
+
+停止時点の GHA は次のとおり。いずれも job/step は `in_progress`、artifact count は 0。
+
+| run | head SHA | frozen role |
+|---:|---|---|
+| `31967437253` | `170a38ffdfbdfc5fb6a373388aa11bf7c0af3022` | N3 Phase-B1 v2 calibration |
+| `31969443502` | `bf1a23629ae28a99411543f5af6443d5b2f79e72` | explicit 20-block direct-v4 calibration |
+| `31972043453` | `565ee183af983a3d4bf67fd1374e4259055873a5` | semantic-M export v3 calibration |
+
+三本とも成功しても schema 上 terminal A/B にはならない。次担当は終了後の artifact を
+repository 外の一時 directory に回収し、SHA-256 と helper 非共有 checker を通してから
+calibration input としてのみ採用すること。artifact がなければ数学的結果なしとして閉じる。
+
+再開時の最短 terminal 契約は次である。
+
+1. A 側は、F2 kernel を真に細分する semantically typed な `K\le M` を構成し、
+   B4-normal、isolated、全 shadow settled を証明して全 972 fiber を完備走査する。
+   像位数 324 と一つ以上の zero fiber が cross-check されれば A で終端する。
+2. B 側は、一つの finite all-pass ではなく、minimal-bad-chief joint-correction を全 chief layer で閉じるか、
+   `\widehat{GT}\to GT(M)` の像に outside element を直接構成する。B4-B なら直ちに井原反例証明と
+   独立検査 package、PDF を作る。
+3. 7進 verbal first-order、旧 rho-tail 158、center-only direct-v4 の反復を terminal 路線として再開しない。
+   raw-A.18 158、BQ fp relator list、7進窓を再び同一視しない。
+
+未追跡の `search/d972_k8_extension_v4.g`、`search/check_d972_k8_extension_v4.py`、
+`sol/luna_reply_152_k8_extension_v4.md` は、BQ の二生成元 fp relator 数を raw-A.18 の 158 本と
+誤同一視する既知の型バグを含むため、修正前に commit/dispatch してはならない。巨大な既存 dirty tree は
+本便の所有物ではない。再開時も `git add -A`、reset、checkout、clean を避け、採用ファイルだけ exact-stage する。
+
+```text
+HANDOFF_FINAL_SNAPSHOT_20260817_0700_JST=COMPLETE;
+HANDOFF_CONTENT_PUSHED_THROUGH=c8d9a66300171d9bfd8419949a1feb010832e6f4;
+SUBAGENTS_ACTIVE=0;
+LOCAL_GAP_DMTCP_PROCESS_COUNT=0;
+LIVE_GHA_ARTIFACT_COUNT=0,0,0;
+A_B_TERMINAL=UNKNOWN;
+IHARA_COUNTEREXAMPLE_CLAIMED=NO;
+```
