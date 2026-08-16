@@ -63,15 +63,15 @@ D972OA2Json:=function(x)
 end;;
 D972OA2Settings:=Concatenation(
   "{\"producer\":\"d972_b4_original_automatic_v2\",",
-  "\"large\":",D972OA2Json(D972OA2Large),",
-  "\"filestore\":",D972OA2Json(D972OA2Filestore),",
-  "\"diff1\":",D972OA2Json(D972OA2Diff1),",
-  "\"compute_size\":",D972OA2Json(D972OA2ComputeSize),",
-  "\"maxeqns\":",D972OA2Json(D972OA2MaxEqns),",
-  "\"maxstates\":",D972OA2Json(D972OA2MaxStates),",
-  "\"maxwdiffs\":",D972OA2Json(D972OA2MaxWdiffs),",
-  "\"maxstoredlen\":",D972OA2Json(D972OA2MaxStored),",
-  "\"post_replay\":",D972OA2Json(D972OA2PostReplay),",
+  "\"large\":",D972OA2Json(D972OA2Large),",",
+  "\"filestore\":",D972OA2Json(D972OA2Filestore),",",
+  "\"diff1\":",D972OA2Json(D972OA2Diff1),",",
+  "\"compute_size\":",D972OA2Json(D972OA2ComputeSize),",",
+  "\"maxeqns\":",D972OA2Json(D972OA2MaxEqns),",",
+  "\"maxstates\":",D972OA2Json(D972OA2MaxStates),",",
+  "\"maxwdiffs\":",D972OA2Json(D972OA2MaxWdiffs),",",
+  "\"maxstoredlen\":",D972OA2Json(D972OA2MaxStored),",",
+  "\"post_replay\":",D972OA2Json(D972OA2PostReplay),",",
   "\"v1_source_sha256\":\"",D972OA2V1Sha,"\"}");;
 
 ## Bind v1's existing size switch from the v2-typed control.
