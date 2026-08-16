@@ -1,0 +1,488 @@
+# Luna reply 152 — canonical (6/158) presentation and the global bridge
+
+**Date:** 2026-08-16
+**Role:** semantic reverse-trace and implication audit
+**Scope:** the frozen canonical input, its code-level construction, and the
+implication from the 972 exact norm identities to genuine/cofinal survival.
+No local GAP or heavy computation was run. This is an evidence report, not a
+claim that the B4-B receipt has already been obtained.
+
+## 0. Adjudication in one paragraph
+
+The strongest object determined by the code is the following *presentation
+quotient attached to one finite marked window*:
+
+\[
+ U_M^{\rm cand}=K(0,5)/\left\langle\!\left\langle
+    \rho^i\bigl(j(r)\bigr):r\in R_{Q_0},\ 0\leq i<5
+ \right\rangle\!\right\rangle,
+ \qquad j(u)=X_{12},\quad j(v)=X_{23}.
+\]
+
+Here (Q_0) is the pure subgroup of the particular finite marked
+(B_3)-quotient built by `D972BuildBase`, and (R_{Q_0}) is the relator list
+of its two-generator presentation.  This quotient has the ordinary universal
+property of a presented quotient: every map out of (K(0,5)) killing those
+five rho-orbits factors uniquely through (U_M^{\rm cand}).  That is a real
+universal property, but it is not a profinite inverse limit and it is not yet
+proved to be (PB_4/N) for a specified (N\in NFI_{PB_4}(B_4)).
+
+Consequently, even a sound certificate that all 972 pinned six-generator norm
+words are (1) in this quotient proves at most a fixed-window norm/pentagon
+statement after the missing PB4 typing lemmas.  It does **not** imply the
+global all-refinement survival condition.  If (K\leq M), then the relation
+ideal for (K) is generally smaller and there is a natural map
+
+\[
+ U_K^{\rm cand}\longrightarrow U_M^{\rm cand};
+\]
+
+identity in the target does not lift to identity in the source.  A logged
+normal-closure expression in the 158 (M)-relators does not change this
+direction unless its factors are additionally typed as lifts from (K), or
+the log is proved to be the rho-norm of one such lifted (F_2) word.  No such
+refinement or lift data is present in the canonical input or in the current
+IdRel log schema.
+
+## 1. Frozen input and notation
+
+The following values are the semantic audit's fixed byte-level anchors:
+
+| item | frozen value | source/check point |
+|---|---|---|
+| source JSON | `c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9` | `search/d972_b4_pquotient_v1.g:214-236` |
+| six generators | (X_{12},X_{13},X_{14},X_{23},X_{24},X_{34}) | `stage2_k05.g:27-37` |
+| relator count/digest | 158 / `12fc1146dce5179c2b5fc44a3ceed6356a6b2c4835a564b55e9a9cd679fccd2e` | `search/d972_b4_pquotient_v1.g:249-260` |
+| canonical rho words | `[-6,-5,-3], [3], [5], [-3,-2,-1], [-5,-4,-1], [1]` | `search/d972_b4_pquotient_v1.g:261-270` |
+| target-key digest | `9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62` | `search/d972_b4_pquotient_v1.g:272-287` |
+| roof-word digest | `3015b4e00a02ca2a9d6183dad4cb7ddabfd21ef03828837198aa96b2dc3461f8` | `search/d972_b4_pquotient_v1.g:289-327` |
+| word-row canonical digest | `283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930` | `search/d972_b4_word_key_artifact_v1.g:73-83` and current pquotient binding |
+| six-generator norm digest | `ecf0cc8425bc24bdf6a8a352c223398221c4b179e09ee9a0bfe3dc888861683e` | `search/d972_b4_u_idrel_direct_logged_v1.g:244-258` |
+
+The artifact has 972 rows, with 486 unique exact norm words and a complete
+duplicate map.  The empty rows must be represented as GAP/JSON empty lists,
+not strings; the current v2 JSON contract is the canonical type gate.
+
+The six-generator index is not the F2 index.  The norm construction sends
+F2 letters (u^{\pm1},v^{\pm1}) to (X_{12}^{\pm1}) (U index 1) and
+(X_{23}^{\pm1}) (U index 4), respectively.  It then takes the five rho
+iterates and multiplies them in reverse orbit order:
+
+\[
+ N_\rho(j(h))=\rho^4(j(h))\rho^3(j(h))\rho^2(j(h))
+                 \rho(j(h))j(h).
+\]
+
+This is exactly `D972IDLExactNorm` in
+`search/d972_b4_u_idrel_direct_logged_v1.g:154-169`; it is not a
+low-index representative word and it is not the same as evaluating an F2
+word directly on U index 2.
+
+## 2. Reverse trace of the 6/158 source
+
+### 2.1 The finite marked (B_3) window used by the roof producer
+
+`search/d972_dovetail_worker_v1.g:253-345` constructs a marked two-generator
+permutation quotient (Q=\langle s_1,s_2\rangle) as follows.
+
+1. `MakeGn(9)` supplies a group (G_9) of order 2916.  The two checked
+   automorphisms give the braid action, and `BuildQTGeneral` gives the marked
+   full-(B_3) quotient of order 17496.
+2. A (PSL(2,8)) subgroup of order 504 is built from the GF(8) matrices.
+   Its full-(B_3) quotient has order 3024.
+3. The two marked pairs are combined generatorwise in a block permutation
+   model.  The generated (Q) satisfies the braid relation and has order
+   8,817,984 (`worker:300-307`).
+4. The map (Q\to S_3), (s_1\mapsto(1,2)), (s_2\mapsto(2,3)), is checked.
+   Its kernel and the subgroup generated by (s_1^2,s_2^2) both have order
+   1,469,664 (`worker:308-321`).  The compact marked pure model uses
+   (x=s_1^2,y=s_2^2).
+
+Thus the code establishes a finite marked quotient and its pure kernel
+
+\[
+ Q_0=\langle x,y\rangle=\ker(Q\to S_3)
+\]
+
+by the equal-order check.  `universal_v2.g:83-100` then obtains a marked
+two-generator fp presentation of this compact pure group and records its
+relators.  The intended window is the (M=K^{(9)}\cap N_{S4}) window used by
+the surrounding notes, but the worker's code proves the marked permutation
+quotient above; it does not by itself prove the identification of its kernel
+with a named (PB_4) finite-index subgroup or prove that this (M) is
+isolated.  The conditional isolated implication is recorded separately in
+`docs/notes/d972_h1_adjudication_v1.md:13-19,109-119`.
+
+### 2.2 The (K(0,5)) six-generator presentation
+
+`search/probe/hsp7_gap_v1/stage2_k05.g:19-54` starts with the three-generator
+braid presentation, forms the standard pure generators
+
+\[
+ X_{12}=b_1^2,\quad X_{23}=b_2^2,\quad X_{34}=b_3^2,
+\quad X_{13}=b_2b_1^2b_2^{-1},\quad
+ X_{24}=b_3b_2^2b_3^{-1},\quad X_{14}=b_3X_{13}b_3^{-1},
+\]
+
+and takes the fp image of the subgroup on those six marked words.  It then
+adds the image of ((b_1b_2b_3)^4=\Delta_4^2).  This is the code-level
+presentation denoted (K(0,5)).  The comments and the cited HS2000 sphere
+row-product convention identify it with (PB_4/\langle\Delta_4^2\rangle),
+and the paper notes identify the standard (PB_4) generators (see
+`docs/notes/b4_original_gtshadows_extraction_v1.md:4.1-4.2`).
+
+What is actually checked in the source is narrower: the presentation's
+abelianization is `Z^5`, and the six-word rho substitution preserves the
+fp relators (`stage2_k05.g:59-107`).  The current universal v2 additionally
+checks rho^5 on the exact fp group (`search/d972_b4_universal_v2.g:102-129`).
+The code has not supplied an independently replayable proof that the fp
+image is *the* abstract (PB_4), that the added element generates the whole
+center, or that this presentation is the exact quotient required by a chosen
+(N\in NFI_{PB_4}(B_4)).  Those are semantic import obligations, not byte
+digest obligations.
+
+The rho dictionary is the sphere relation (x_{i,5}=(x_{i,1}x_{i,2}x_{i,3}x_{i,4})^{-1}), followed by the cyclic shift
+(x_{ij}\mapsto x_{i+3,j+3}).  In the six-generator order above it is
+
+```text
+X12 -> (X14 X24 X34)^-1,  X13 -> X14,  X14 -> X24,
+X23 -> (X12 X13 X14)^-1,  X24 -> (X12 X23 X24)^-1,  X34 -> X12.
+```
+
+This is the source of the canonical six rho words in the JSON.  The
+asymmetric image (u\mapsto X_{12}), (v\mapsto X_{23}) therefore means
+U indices 1 and 4, not 1 and 2.
+
+### 2.3 The 158 relators and the only unconditional meaning of (U_M)
+
+The historical producer in immutable commit
+`8d8b416f417fe6d1fd15961303dd521b3329b6f2`,
+`search/d972_b4_pquotient_v1.g:124-175`, is the source-level construction
+that generated the pinned rows.  It:
+
+* obtains a marked fp presentation (Q_0=\langle u,v\mid R_{Q_0}\rangle);
+* maps (u\mapsto X_{12}), (v\mapsto X_{23});
+* applies all five rho iterates to every relator in (R_{Q_0});
+* adjoins the 18 relators of (K(0,5)).
+
+The current `search/d972_b4_universal_v2.g:131-164` performs the same
+construction from the frozen source.  If (R_K) denotes the 18 (K(0,5))
+relators and (j(R_{Q_0})) their mapped (Q_0) relators, it creates
+
+\[
+ R_M=R_K\;\cup\;\bigcup_{i=0}^{4}\rho^i(j(R_{Q_0})),
+ \qquad |R_M|=18+5\cdot28=158,
+\]
+
+and sets `B4UMfp := B4Kfree / B4AllRels`.  The containment and rho-descent
+checks at `universal_v2.g:165-184` verify this presentation-level quotient.
+
+Therefore the following statement is sound without any PB4 interpretation:
+
+> For every group (H), every homomorphism from the free (K(0,5)) group to
+> (H) that kills all 158 rows factors uniquely through (U_M^{\rm cand}).
+
+With a compatible rho action on (H), the same assertion can be stated in the
+rho-equivariant category.  This is the precise sense in which the code builds
+a universal coface quotient.  It is not a claim that (U_M^{\rm cand}) is
+finite; `universal_v2.g:186-213` deliberately leaves `B4Finite=false` and
+emits `UNKNOWN_U_FINITE_UNCHECKED`.
+
+### 2.4 The 972 rows are a finite-window calibration ledger
+
+`D972ScanCalibrationBase` in
+`search/d972_dovetail_worker_v1.g:430-510` sets
+
+```text
+F2bar = compact pure Q0,
+D     = DerivedSubgroup(F2bar),
+```
+
+loops every allowed (m\bmod N_{ord}) and every (f\in D), and then checks
+the coded theta/tau shortcut, the two literal equations corresponding to
+(3.3)/(3.4), generation/surjectivity, and whether the induced marked map is
+bijective (`settled`).  The target-key set is required to have exactly 972
+members and digest `9c77...`.
+
+This is exhaustive **for the finite (Q) and for the code's stated search
+domain**: all listed (m)'s and all elements of this finite (D) are looped.
+It is not exhaustive over all (K\leq M), nor over all finite-index PB4
+windows.  Also, the code records `settled` but appends a row whenever the
+preceding shortcut/equation/surjectivity tests pass; it does not use
+`settled=true` as the append filter (`worker:461-491`).  Thus the integer 972
+alone cannot be read as “all settled GT-shadows” without an additional gate
+on the stored `settled` field.
+
+`D972ScanCalibrationOrbit` (`worker:597-695`) only rebuilds the separately
+listed small extension models.  It is a finite diagnostic family, not a
+cofinal enumeration of refinements.
+
+The historical producer selects one F2 preimage for each finite (f) and
+serializes it.  Current `search/d972_b4_pquotient_v1.g:214-329` no longer
+regenerates the presentation; it reads the v2 JSON, reconstructs the six-free-
+generator rows, and independently binds the word/key artifact.  Thus the
+current JSON proves byte identity with the frozen artifact, not the missing
+semantic theorem that every row is a PB4 pentagon for an abstract window.
+
+## 3. What object has actually been identified?
+
+The following distinction is important.
+
+| assertion | status from current code |
+|---|---|
+| There is a six-generator free-group presentation with the 158 pinned rows. | **Established at the input/serialization level.** The source and JSON digest gates are explicit. |
+| The rows are (18) (K(0,5)) relators plus five rho orbits of (28) mapped (Q_0) relators. | **Established syntactically** by `universal_v2.g:131-164` and the historical producer. |
+| (U_M^{\rm cand}) is universal among groups killing these rows. | **Established by the elementary universal property of a presented quotient.** |
+| The six-generator source is (PB_4/\langle\Delta_4^2\rangle=PB_4/Z(PB_4)). | **Candidate/conditional.** The code constructs the claimed presentation and checks anchors; no independent presentation/center certificate is supplied. |
+| (Q_0) is exactly the (PB_3/M_{PB_3}) object induced by a specified (M\in NFI_{PB_4}(B_4)). | **Not established by this lane.** The finite marked (B_3) quotient is built; the named PB4 window/kernel typing is external. |
+| (j(u)=X_{12},j(v)=X_{23}) is the exact PB3-to-PB4 coface map with all required kernel properties. | **Not established.** The source itself says the free-embedding content is deferred to a p-quotient check (`stage2_k05.g:12-17`). A homomorphism from free (F_2) exists, but injectivity/kernel equality is a different claim. |
+| The 972 rows are all relevant B4 GT-pair/shadow rows at (M). | **Not established.** They are exhaustive for the finite calibration loop; `settled` is recorded rather than used as a row filter, and the artifact lacks full equation/onto provenance. |
+| (U_M^{\rm cand}) is finite or an exact finite quotient controlling all refinements. | **Not established.** The universal driver explicitly does not compute finiteness, and no inverse-limit universal property is present. |
+
+The right name for the present object is therefore:
+
+> **the marked coface-quotient candidate attached to the finite (Q_0) window**,
+> with a sound finite list of exact F6 words;
+> not an already identified universal/refinement object for all of (B_4).
+
+## 4. Minimal lemma chain for the claimed global implication
+
+Let (H_{\rm norm}) mean “the 972 exact words from the pinned artifact are
+identity in (U_M^{\rm cand}).”  The shortest logically valid route to the
+desired global conclusion has the following separate lemmas.
+
+### L0 — frozen-input lemma
+
+The source JSON, relator rows, rho rows, roof words, word/key pairs, and all
+digests agree.  This is the current v2 input/checker contract.  It proves
+reproducibility, not mathematical typing.
+
+**Status:** mechanically available; a future terminal receipt still needs an
+independent replay of the actual 972 norm identities.
+
+### L1 — (K(0,5))/PB4 typing lemma
+
+There must be a marked, replayable isomorphism between the six-generator
+source presentation and the intended (PB_4/Z(PB_4)), including the six
+(X_{ij}) images and the center relation.  The rho substitution must be the
+cyclic (x_{ij}\mapsto x_{i+3,j+3}) map on that object.
+
+**Status:** the code checks relator preservation and rho order, and the paper
+records the standard PB4 presentation, but the exact isomorphism/center
+certificate is not in this lane.  This is a candidate lemma, not a closed
+bridge.
+
+### L2 — finite-window/coface kernel lemma
+
+One must identify a specified finite-index (N\in NFI_{PB_4}(B_4)), prove
+that the finite marked (Q_0) is the induced pure quotient, and prove that
+the five images of (R_{Q_0}) are precisely the five coface images of
+(N_{PB_3}) under the paper's (A.18) maps.  In symbols, the normal subgroup
+used to make (U_M) must equal the one induced by (N), not merely have the
+same row count.
+
+**Status:** open.  The code has the edge substitutions and five rho orbits,
+but no kernel equality or independent all-coface replay to the abstract PB4
+relations.  `docs/notes/b4_original_gtshadows_extraction_v1.md:4.2` lists the
+five coface generator values that this lemma must match.
+
+### L3 — finite-row completeness lemma
+
+The row ledger must be shown to be exactly the relevant finite set of
+((m,f)) candidates at (N), with the source/target quotient, (N_{ord}),
+both hexagons, pentagon, (F_2)-commutator condition, and all required onto or
+settled conditions recorded.  A target-key digest alone does not retain these
+proof obligations.
+
+**Status:** only finite calibration completeness is available.  The worker
+does loop all (m,f) in its finite (Q_0), but it records (rather than filters
+on) `settled`, and the pinned roof rows contain a chosen F2 preimage rather
+than a complete typed equation certificate.
+
+### L4 — local pentagon/norm bridge lemma
+
+For every row, prove that the exact F6 word
+
+\[
+ N_\rho(j(f))=\rho^4(j(f))\rho^3(j(f))\rho^2(j(f))\rho(j(f))j(f)
+\]
+
+is exactly the defect in paper equation (2.20), with the same orientation and
+the same (N)-quotient.  Then (H_{\rm norm}) proves the selected finite
+window pentagon equations.
+
+**Status:** not yet typed.  The F6 construction is exact as a word operation,
+but the current artifact does not include the PB4 generator map, the A.18
+coface labels for each factor, or an equation-ID replay.  A successful IdRel
+log would prove normal-closure membership in the F6 presentation; it would
+still need L1--L3 to become paper equation (2.20).
+
+### L5 — finite B4 GT-shadow lemma
+
+For the chosen row/candidate, prove membership in (GT^\heartsuit(N)): the
+two hexagons (2.18),(2.19), the pentagon (2.20), the unit condition on
+(2m+1), the relevant target/source maps, and the onto conditions.  A
+pentagon identity alone is insufficient.
+
+The primary paper states this definition in Definition 2.6 and the induced
+maps in Corollary 2.7 (`papers/txt/2008.00066-what-are-gt-shadows.txt:925-952`).
+Its finite Furusho properties are separate hypotheses: Property 4.2/4.3 and
+the examples (216\to36) for (N^{(19)}) and (4096\to243) for (N^{(34)})
+show that pentagon solutions do not automatically acquire hexagons
+(`papers/txt/2008.00066-what-are-gt-shadows.txt:3507-3546`).
+
+**Status:** the calibration code checks some literal equations in the finite
+permutation model, but the canonical 6/158/norm artifact is not a complete
+typed GT-pair certificate.  (H_{\rm norm}) alone cannot supply this lemma.
+
+### L6 — all-refinement survival lemma
+
+For every (K\in NFI_{PB_4}(B_4)) with (K\leq N), one must exhibit a
+((m_K,f_K)\in GT^\heartsuit(K)) with the reduction congruences
+
+\[
+ m_K\equiv m\pmod {N_{ord}},
+ \qquad f_K N_{F_2}=f N_{F_2}.
+\]
+
+This is the quantifier in Definition 3.12 and Corollary 3.13 of the paper
+(`papers/txt/2008.00066-what-are-gt-shadows.txt:2980-3029`).  It is not a
+statement about one fixed quotient presentation.
+
+**Status:** completely absent from the 972 input.  There are no (K)'s, no
+reduction maps, no (m_K,f_K), and no congruence ledger.
+
+### L7 — cofinal/compactness lemma
+
+One may replace the literal universal family in L6 by a proved cofinal family
+only if every relevant refinement is dominated by a member of that family and
+the finite candidate sets have compatible nonempty prefixes.  A compatible
+inverse-limit tuple then gives the required profinite object; the mere fact
+that each finite computation has 972 rows does not give compatibility.
+
+**Status:** no such family theorem is attached to (U_M^{\rm cand}).  The
+three small extension models in `D972ScanCalibrationOrbit` are a diagnostic
+list, not a cofinal family.  The repository's phase-2 note explicitly labels
+finite 972 all-pass as an A-side semidecision and forbids a B conclusion from
+finite depth (`docs/notes/d972_phase2_cofinal_execution_v1.md:5,25-31,48-50,84`).
+
+### L8 — genuine conclusion
+
+If L5 holds and L6 holds for all (K\leq N), Corollary 3.13 gives genuine.
+Alternatively, a proved L7 compatibility theorem plus the inverse-limit
+theorem can construct the global genuine element.
+
+**Status:** conditional only.  This is the first point at which a genuine
+global B4 conclusion is mathematically licensed.
+
+Nonarithmeticity is a further, independent lemma: one must prove the resulting
+element is outside the full image of (G_{\mathbb Q}\) under Ihara's map.  It
+does not follow from L8 or from the norm ledger; the repository records the
+Ihara-surjectivity problem as open (`docs/notes/b4_original_gtshadows_extraction_v1.md:140-144`).
+
+## 5. The refinement-direction obstruction
+
+This is the short algebraic reason the proposed implication fails without
+extra hypotheses.  Write (M_{F_2}) and (K_{F_2}) for the induced kernels in
+the F2 factor.  For a refinement (K\leq M),
+
+\[
+ K_{F_2}\leq M_{F_2},
+ \qquad
+ I_K:=\left\langle\!\left\langle\rho^i(j(K_{F_2}))\right\rangle\!\right\rangle
+ \leq
+ I_M:=\left\langle\!\left\langle\rho^i(j(M_{F_2}))\right\rangle\!\right\rangle.
+\]
+
+Therefore there is a canonical quotient map
+
+\[
+ U_K=K(0,5)/I_K\ \longrightarrow\ U_M=K(0,5)/I_M.
+\]
+
+The implication supplied by this map is
+
+\[
+ w=1\text{ in }U_K\quad\Longrightarrow\quad w=1\text{ in }U_M,
+\]
+
+not the converse needed for survival.  A word can lie in (I_M\setminus I_K):
+it is then an identity in the fixed (M) quotient but a defect in the
+refinement (K).  The one-generator toy model (F=\langle a\rangle),
+(I_M=\langle\!\langle a\rangle\!\rangle), (I_K=1), (w=a), is an
+explicit algebraic countermodel to reversing the implication.  This toy model
+is not asserted to be an actual B4 window; it proves that the reverse
+implication is not a consequence of quotient logic.
+
+The same issue survives a logged van Kampen/IdRel certificate.  The current
+checker replays each rule as a product of conjugates of one of the 158 fixed
+relators (`search/d972_b4_u_idrel_direct_logged_v1.g:324-357,419-449`).  Thus
+the output establishes, at best,
+
+\[
+ N_\rho(j(f))\in I_M.
+\]
+
+It does **not** establish that every factor is the image of a relator in
+(K_{F_2}), nor that the whole product is a single rho-norm/coboundary
+(N_\rho(j(f_K))) for one (f_K) satisfying the reduction congruence.  To
+make the log useful for L6, the certificate would need, for each refinement,
+the lift (f_K), the map (K_{F_2}\to M_{F_2}), and a factor-by-factor or
+single-orbit replay proving the lifted equations.  The current schema has only
+relator indices (1\ldots158), conjugators, reduced words, and F6 free-group
+equalities; it has none of these K-dependent fields.
+
+## 6. What a genuinely terminal global certificate would have to add
+
+The following is the minimal additional contract.  It is intentionally
+stronger than a finite all-pass receipt.
+
+1. **Window identity:** a marked finite-index (N\in NFI_{PB_4}(B_4)), the
+   exact (PB_4/Z\) presentation, the induced (N_{PB_3}) and (N_{F_2}),
+   (N_{ord}), and replayable maps in both directions.
+2. **Coface identity:** a proof that the five A.18 cofaces equal the five rho
+   substitutions in the 158-row construction, including all generator images
+   and normal-closure equality.
+3. **Row identity:** for every row, (m,f), source/target, equation IDs
+   (2.18),(2.19),(2.20), onto/settled booleans, and a replayable relation from
+   the row's F2 word to its PB4 candidate.  The 972 count/digest is not a
+   substitute for these fields.
+4. **Local norm proof:** all 972 exact norms replay to the identity in the
+   typed (U_M), with every derived rewrite traced to the original 158 rows.
+   This is the proper B4-B local certificate, if obtained.
+5. **Refinement ledger:** for every (K\leq N), or for a proved cofinal
+   family, provide (f_K,m_K), (R_{K,N}), the two congruences, and all
+   finite GT-shadow equations.  Nonempty compatible prefixes are required for
+   the inverse-limit route.
+6. **Global theorem gate:** only after item 5 may Corollary 3.13/Theorem 3.8
+   be invoked for genuine/global survival.  Arithmetic nonmembership is a
+   separate gate and is not supplied by any of items 1--5 alone.
+
+The current canonical artifacts satisfy only the input part of item 4 and the
+presentation-level part of items 1--2.  They do not contain item 5.
+
+## 7. Final verdict
+
+* The code does define a precise finitely presented **coface quotient
+  candidate** (U_M^{\rm cand}), and its ordinary quotient universal property
+  is sound.
+* The code also gives a finite, digest-bound 972-row ledger for one marked
+  (B_3) calibration quotient and an exact six-generator rho-norm operation.
+* It does not yet prove that (U_M^{\rm cand}=PB_4/N) for a specified finite
+  window, that every row is a typed original B4 GT-pair, or that the rows are
+  exhaustive after the `settled`/onto semantics are restored.
+* Even granting all 972 norm identities in (U_M^{\rm cand}), the quotient
+  direction (U_K\to U_M), the absence of K-dependent lift data, and the
+  missing cofinality theorem make
+
+  \[
+  \text{all 972 exact norms}=1
+  \ \not\Rightarrow\
+  \text{global all-refinement survival/B4 genuine}.
+  \]
+
+The mathematically correct current label is therefore
+`LOCAL_972_NORM_STATEMENT / GLOBAL_SURVIVAL_UNKNOWN`, not B4-B global.  A
+future IdRel receipt can close the local word-membership layer, but it cannot
+be promoted to the global conclusion unless it is augmented by the typed
+cofinal/refinement certificate in item 5.
