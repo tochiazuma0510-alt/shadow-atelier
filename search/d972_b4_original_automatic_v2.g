@@ -112,7 +112,7 @@ if D972OA2ReceiptRaw=fail then
   Error("ORIGINAL automatic v2: producer receipt missing");
 fi;
 D972OA2Rev:=Reversed(D972OA2ReceiptRaw);;
-D972OA2Last:=Position(D972OA2Rev,"}");;
+D972OA2Last:=PositionSublist(D972OA2Rev,"}");;
 if D972OA2Last=fail then Error("ORIGINAL automatic v2: malformed receipt"); fi;
 D972OA2At:=Length(D972OA2ReceiptRaw)-D972OA2Last+1;;
 D972OA2ReceiptRaw:=Concatenation(
