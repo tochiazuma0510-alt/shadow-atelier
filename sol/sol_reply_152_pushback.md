@@ -801,3 +801,47 @@ minimal-bad-chief joint-correction / global outside-element のいずれかで�
 本節の audit commit は
 `fe9de8d286c3d2be6d0ddb3a7046fc66f7670b63`（branch
 `sol/d972-dmtcp-provision-v420`）である。
+
+### 13.3 A terminal に outside-648 の行ラベルは不要
+
+補助 k8/k9 lane は `outside_648_lossless_label=MISSING` を terminal-A blocker としていたが、
+これは主 dovetail 契約より強すぎる。isolated refinement (K\le M) に対し
+
+\[
+ P_K:=\operatorname{Im}\bigl(R_{K,M}:GT(K)\to GT(M)\bigr)
+\]
+
+と置く。算術 Galois 作用は全レベルで自然なので
+
+\[
+ A_{\rm ar}\le P_K\le GT(M),
+ \qquad |A_{\rm ar}|=324,\qquad |GT(M)|=972.
+\]
+
+従って Lagrange により \(|P_K|\in\{324,972\}\)。全 972 target の exact fiber scan で
+一行でも空なら (P_K\ne GT(M)) だから
+
+\[
+ |P_K|=324,\qquad P_K=A_{\rm ar}.
+\]
+
+よって空行をあらかじめ arithmetic/outside とラベル付けする必要はない。その行が算術なら
+Galois lift が存在することに反するため、空行は結果として自動的に outside である。
+
+現行の主 checker `search/check_d972_dovetail_v1.py` は既にこの正しい形を実装している。
+独立に fiber vector を再構成し、`isolated`、uniformity、
+`image_size in {324,972}` を確認した後、`image_size==324` かつ `zero_keys` 非空のときだけ
+`campaign_stop_first_empty_fiber=true` とする。v2 final seal も
+`isolated=true,target_key_count=972,image_size=324,zero_keys!=[]` を要求し、outside label は要求しない。
+
+従って再開時には k8/k9 補助契約の
+`R4_OUTSIDE_648_LOSSLESS_LABEL` を terminal-A 要件から削除してよい。代わりに落としてはならないのは
+
+1. exact semantic (M=K^{(9)}\cap N_{S4}) binding、
+2. (K\le M) と B4/B3 typing、
+3. isolated/全 shadow settled、
+4. 全 972 fiber の完備・一様性・像位数 324、
+5. producer と helper 非共有 checker の一致
+
+である。有限 all-pass は従来どおり B ではない。この簡約により k8 split lane の未決 gate は
+outside label ではなく、真正な full-Q bridge、semantic-M runtime receipt、isolated 972 scan に集約される。
