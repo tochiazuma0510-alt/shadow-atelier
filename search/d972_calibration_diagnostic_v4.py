@@ -524,7 +524,11 @@ def diagnose(args: argparse.Namespace) -> int:
         checker_v2 = load_v2_checker()
         legacy_v1 = checker_v2.load_legacy()
         manifest = load_frozen_manifest()
-        target_keys = checker_v2.canonical_target_keys()
+        # The v2 checker deliberately keeps the legacy implementation behind
+        # load_legacy(); canonical_target_keys is part of that frozen v1
+        # module, not the thin v2 wrapper.  Calling the wrapper worked in the
+        # mocked self-test but fails on the production import path.
+        target_keys = legacy_v1.canonical_target_keys()
         require(len(target_keys) == 972 and
                 sha_bytes(("\n".join(target_keys) + "\n").encode()) ==
                 EXPECTED_TARGET_KEY_SHA256,
@@ -619,6 +623,11 @@ def diagnose(args: argparse.Namespace) -> int:
 
 def self_test() -> int:
     checker_v2 = load_v2_checker()
+    legacy_v1 = checker_v2.load_legacy()
+    require(callable(getattr(legacy_v1, "canonical_target_keys", None)),
+            "self-test legacy canonical-target API missing")
+    require(not hasattr(checker_v2, "canonical_target_keys"),
+            "self-test v2 wrapper unexpectedly owns canonical-target API")
     q_relators = [[1, -2], [2, -1]]
     target_keys = ["toy"]
     script = build_fixed_script(checker_v2, q_relators, target_keys)
