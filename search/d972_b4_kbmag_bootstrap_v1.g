@@ -98,7 +98,7 @@ D972KBBWriteReceipt:=function(status,loaded,probe,version,build,target)
     "\"kbprog_probe\":",D972KBBJson(probe),",",
     "\"kbmag_version\":",D972KBBJson(version),",",
     "\"build_pass\":",D972KBBJson(build),",",
-    "\"target\":",D972KBBJson(target),",
+    "\"target\":",D972KBBJson(target),",",
     "\"source\":\"setup-gap GAP 4.16.0 pkg/kbmag\",",
     "\"source_policy\":\"no_network_download\"}");
   f:=OutputTextFile(D972KBBOutput,false);;

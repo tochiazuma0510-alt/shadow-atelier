@@ -14,6 +14,7 @@ D972MCV3V1Sha :=
   "a3972236122dac32e74c6c8527d8dec8c8adc61e7f4dabb107af7660bc039dac";;
 D972MCV3Output := "ci/out/d972_b4_u_metabelian_kbmag_v3.json";;
 D972MCV3ReplayPath := "ci/out/d972_b4_u_metabelian_kbmag_replay_v1.json";;
+D972MCV3Reached := false;;
 if IsBound(D972_B4_METABELIAN_V3_OUTPUT) then
   D972MCV3Output := D972_B4_METABELIAN_V3_OUTPUT;
 fi;
@@ -50,6 +51,7 @@ end;;
 D972MCV3Selftest := IsBound(D972_B4_METABELIAN_V3_SELFTEST) and
   D972_B4_METABELIAN_V3_SELFTEST=true;;
 if D972MCV3Selftest then
+  D972MCV3Reached := true;;
   Print("B4_U_METABELIAN_V3_SELFTEST_PASS source_sha256=",D972MCV3V1Sha,
     " replay_forced=true canonical_receipt=true\n");
 else
@@ -216,6 +218,7 @@ else
   SetPrintFormattingStatus(D972MCV3F,false);;
   PrintTo(D972MCV3F,Concatenation(D972MCV3Out,"\n"));;
   CloseStream(D972MCV3F);;
+  D972MCV3Reached := true;;
   if D972MCV3Status="B4_A_TERMINAL" or
      D972MCV3Status="B4_B_FINITE_ORDER_TERMINAL" then
     Print("B4_U_METABELIAN_V3_TERMINAL_MARKER status=",D972MCV3Status,

@@ -8,9 +8,9 @@
 #############################################################################
 
 D972MBV2BasePath:="search/d972_b4_kbmag_bootstrap_v1.g";;
-D972MBV2BaseSha:="bc9fdfd7a8314436b81ed75d908542727f03515c83dbcb851ebe5a5d6d083c0b";;
+D972MBV2BaseSha:="ea679047579065c03ac47680aaf97fe3b1ee7726fbc6f2eee273277307d6fb25";;
 D972MBV2Target:="search/d972_b4_u_metabelian_kbmag_v3.g";;
-D972MBV2TargetSha:="9641affde28bf008e0ae0acf72627fb41cf29c616f8b55b82e033590692d6550";;
+D972MBV2TargetSha:="d17042715a82f18caab996dcc1d3f33edd7389ac839a6028adba8f359ef1092b";;
 if IsBound(D972_B4_KBMAG_BOOTSTRAP_TARGET) then
   if D972_B4_KBMAG_BOOTSTRAP_TARGET<>D972MBV2Target then
     Error("metabelian v2 bootstrap: target must be v2 wrapper");
@@ -46,5 +46,8 @@ D972MBV2Temp:=Filename(DirectoryTemporary(),
   "d972_b4_kbmag_bootstrap_metabelian_v2_base.g");;
 FileString(D972MBV2Temp,D972MBV2Patched);;
 Read(D972MBV2Temp);;
+if not IsBound(D972MCV3Reached) or D972MCV3Reached<>true then
+  Error("metabelian v2 bootstrap: v3 completion marker missing");
+fi;
 Print("B4_KBMAG_METABELIAN_V2_BOOTSTRAP_SHIM_PASS target=",D972MBV2Target,
   " target_sha256=",D972MBV2TargetSha," base_sha256=",D972MBV2BaseSha,"\n");
