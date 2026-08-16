@@ -36,8 +36,72 @@ if D972P2SmallGrp <> true or D972P2Anupq <> true or D972P2Json <> true then
   Error("P2: required packages unavailable (smallgrp/anupq/json)");
 fi;
 Print("P2_PACKAGES_PASS smallgrp=true anupq=true json=true\n");
+
+## GAP 4.16 does not provide a stable three-argument MappedWord method for
+## every combination of free-group and permutation elements used here.  Keep
+## the substitution primitive local and explicit: ExtRepOfObj gives pairs
+## (generator, exponent), and the image list is multiplied in that order.
+## This is the same left-to-right homomorphism convention used by the
+## signed-word checker, but it does not depend on GAP's MappedWord dispatch.
+P2EvalExtRep := function(w, imgs)
+  local e, i, g, n, q;
+  if not IsList(imgs) or Length(imgs)=0 then
+    Error("P2: empty image list");
+  fi;
+  e := ExtRepOfObj(w);
+  if not IsList(e) or Length(e) mod 2 <> 0 then
+    Error("P2: malformed free-group external representation");
+  fi;
+  q := One(imgs[1]);
+  i := 1;
+  while i <= Length(e) do
+    g := e[i]; n := e[i+1];
+    if not IsInt(g) or not IsInt(n) or g < 1 or g > Length(imgs) then
+      Error("P2: free-group external representation index drift");
+    fi;
+    q := q * imgs[g]^n;
+    i := i+2;
+  od;
+  return q;
+end;;
+
+P2EvalSigned := function(sw, imgs)
+  local q, x, g;
+  if not IsList(imgs) or Length(imgs)=0 then
+    Error("P2: empty signed-word image list");
+  fi;
+  q := One(imgs[1]);
+  for x in sw do
+    if not IsInt(x) or x=0 or AbsInt(x)>Length(imgs) then
+      Error("P2: signed-word generator index drift");
+    fi;
+    g := AbsInt(x);
+    if x > 0 then q := q * imgs[g];
+    else q := q * imgs[g]^-1;
+    fi;
+  od;
+  return q;
+end;;
+
 if IsBound(D972_P2_SELFTEST) and D972_P2_SELFTEST=true then
   P2RunMode:="selftest";;
+  P2SelfF6 := FreeGroup(6);;
+  P2SelfF6g := GeneratorsOfGroup(P2SelfF6);;
+  P2SelfOne := One(P2SelfF6);;
+  P2SelfIdentityImages := List([1..6], i -> P2SelfOne);;
+  P2SelfWord := P2SelfF6g[1]*P2SelfF6g[2]^-3*
+    P2SelfF6g[4]*P2SelfF6g[6]^-1;;
+  if P2EvalExtRep(P2SelfWord,P2SelfIdentityImages) <> P2SelfOne then
+    Error("P2: ExtRep evaluator identity-image selftest failed");
+  fi;
+  if P2EvalExtRep(P2SelfF6g[1]*P2SelfF6g[2],P2SelfF6g) <>
+     P2SelfF6g[1]*P2SelfF6g[2] then
+    Error("P2: ExtRep evaluator multiplication selftest failed");
+  fi;
+  if P2EvalSigned([1,-2,4,-6],P2SelfIdentityImages) <> P2SelfOne then
+    Error("P2: signed evaluator identity-image selftest failed");
+  fi;
+  Print("P2_EVAL_SELFTEST_PASS identity_images=true multiplication=true\n");;
   Print("P2_SELFTEST_PASS source_sha256=",P2SelfSha,
     " worker_sha256=",P2WorkerSha,"\n");;
 else
@@ -85,31 +149,21 @@ P2PermImages := function(h0)
 end;;
 
 P2Roof := function(words, h0, rf, relsU)
-  local F6, f6g, hp, rw, t, relok, rho5, eval, i, sw, z, k,
+  local F6, f6g, hp, rw, t, relok, rho5, i, sw, z,
         fails, first;
   F6 := FreeGroup(6); f6g := GeneratorsOfGroup(F6);
   hp := []; rw := ShallowCopy(f6g);
   for t in [0..4] do
-    Add(hp, List(rw, w -> MappedWord(w,f6g,h0)));
-    rw := List(rw, w -> MappedWord(w,f6g,rf));
+    Add(hp, List(rw, w -> P2EvalExtRep(w,h0)));
+    rw := List(rw, w -> P2EvalExtRep(w,rf));
   od;
-  rho5 := List(rw,w -> MappedWord(w,f6g,h0)) = h0;
-  relok := List(relsU,r -> IsOne(MappedWord(r,
-    GeneratorsOfGroup(UfpFree),h0)));
-  eval := function(sw,a,b)
-    local q,v;
-    q := One(a);
-    for v in sw do
-      if v=1 then q:=q*a; elif v=2 then q:=q*b;
-      elif v=-1 then q:=q*a^-1; elif v=-2 then q:=q*b^-1; fi;
-    od;
-    return q;
-  end;
+  rho5 := List(rw,w -> P2EvalExtRep(w,h0)) = h0;
+  relok := List(relsU,r -> IsOne(P2EvalExtRep(r,h0)));
   fails := []; first := fail;
   for i in [1..Length(words)] do
     sw := words[i]; z := One(h0[1]);
     for t in Reversed([0..4]) do
-      z := z * eval(sw,hp[t+1][1],hp[t+1][4]);
+      z := z * P2EvalSigned(sw,[hp[t+1][1],hp[t+1][4]]);
     od;
     if not IsOne(z) then
       Add(fails,i);
@@ -263,6 +317,30 @@ else
 fi;
 
 if P2RunMode="full" then
+## Full mode is exhaustive by default.  A preamble may name one SmallGroup
+## target for a bounded rerun (for example
+## D972_P2_TARGET:="SG16_14";;) after a worker aborts on that target.  The
+## bounded receipt is deliberately UNKNOWN unless it contains a defect; it
+## is never mistaken for the default all-target scan.
+P2TargetSelection:=fail;;
+P2TargetSelectionJson:="null";;
+if IsBound(D972_P2_TARGET) then
+  if not IsString(D972_P2_TARGET) then
+    Error("P2: D972_P2_TARGET must be a target label string");
+  fi;
+  P2AllowedTargetLabels:=Concatenation(
+    ["Q8_8_4","D8_8_3"],
+    List([1..NumberSmallGroups(16)],
+      j -> Concatenation("SG16_",String(j))));;
+  if Position(P2AllowedTargetLabels,D972_P2_TARGET)=fail then
+    Error("P2: unsupported D972_P2_TARGET label: ",D972_P2_TARGET);
+  fi;
+  P2TargetSelection:=D972_P2_TARGET;;
+  P2TargetSelectionJson:=P2Json(P2TargetSelection);;
+  Print("P2_TARGET_SELECTION bounded label=",P2TargetSelection,
+    " exhaustive=false\n");
+fi;
+
 P2MakeReceipt:=function(label,order,h0,scan,epiIndex,epiCount)
   local H,iso,Hp,degree,wit,defect;
   H:=Group(h0);; iso:=IsomorphismPermGroup(H);;
@@ -314,13 +392,23 @@ P2ScanTarget:=function(label,G)
   od;;
   Print("P2_SG_DONE label=",label," epis=",count,"\n");
 end;;
-P2ScanTarget("Q8_8_4",SmallGroup(8,4));;
-P2ScanTarget("D8_8_3",SmallGroup(8,3));;
+if P2TargetSelection=fail or P2TargetSelection="Q8_8_4" then
+  P2ScanTarget("Q8_8_4",SmallGroup(8,4));;
+fi;
+if P2TargetSelection=fail or P2TargetSelection="D8_8_3" then
+  P2ScanTarget("D8_8_3",SmallGroup(8,3));;
+fi;
 for i in [1..NumberSmallGroups(16)] do
-  P2ScanTarget(Concatenation("SG16_",String(i)),SmallGroup(16,i));
+  if P2TargetSelection=fail or
+     P2TargetSelection=Concatenation("SG16_",String(i)) then
+    P2ScanTarget(Concatenation("SG16_",String(i)),SmallGroup(16,i));
+  fi;
 od;;
 
 ## p=2 lower exponent-2 / p-central quotients, class 1..5.
+if P2TargetSelection<>fail then
+  Print("P2_CLASS_SKIP bounded_target=",P2TargetSelection,"\n");
+else
 for cls in [1..5] do
   Print("P2_CLASS_BEGIN class=",cls,"\n");;
   qs:=PQuotient(Ufp,2,cls,4096,"combinatorial":noninteractive);;
@@ -347,6 +435,7 @@ for cls in [1..5] do
       Size(H),h0,scan,1,1);
   fi;
 od;;
+fi;
 
 if P2DefectReceipt=fail then P2DefectReceipt:="null"; fi;
 P2ClassesJson:=Concatenation("[",D972Join(P2ClassRows,","),"]");;
@@ -364,6 +453,8 @@ P2Out:=Concatenation(
   ",\"p2_input_file_sha256\":",P2Json(P2InputFileSha),
   ",\"prime\":2,\"collector\":\"combinatorial\",\"collector_capacity\":4096",
   ",\"class_bounds\":[1,2,3,4,5],\"relator_count\":158,\"roof_count\":972",
+  ",\"target_selection\":",P2TargetSelectionJson,
+  ",\"exhaustive\":",P2Json(P2TargetSelection=fail),
   ",\"all_relators_sha256\":",P2Json(P2RelDigest),
   ",\"target_key_digest\":",P2Json(P2TargetDigest),
   ",\"roof_words_sha256\":",P2Json(P2RoofDigest),
