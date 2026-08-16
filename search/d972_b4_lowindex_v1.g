@@ -115,16 +115,17 @@ end;;
 B4LICan9 := function(p)
   local out,i;
   out:=[];;
-  for i in [0..2] do Append(out,B4LID9(B4LIBlock(p,9*i,9))); od;
+  for i in [0..2] do Add(out,B4LID9(B4LIBlock(p,9*i,9))); od;
   return out;
 end;;
 
 B4LIKey := function(m,p27,p9)
-  local c9,c4;
+  local c9,c4,c9flat;
   c9:=B4LICan9(p27);; c4:=List([1..9],j->j^p9);;
+  c9flat:=Concatenation(c9[1],c9[2],c9[3]);;
   return rec(orderkey:=[m,c9,c4],
     string:=Concatenation("(",String(m mod 18),";",
-      JoinC(List(c9,String),","),";",
+      JoinC(List(c9flat,String),","),";",
       JoinC(List(c4,String),","),")"));
 end;;
 
@@ -140,7 +141,7 @@ epc:=GroupHomomorphismByImages(F2c,compactPure,[F2c.1,F2c.2],
   [compactX,compactY]);;
 th:=GroupHomomorphismByImages(compactPure,compactPure,
   [compactX,compactY],[compactY,compactX]);;
-zc:=(compactX*compactY)^-1;;
+zc:=AbstractProd([compactX,compactY])^-1;;
 ta:=GroupHomomorphismByImages(compactPure,compactPure,
   [compactX,compactY],[compactY,zc]);;
 rows:=[];
@@ -148,16 +149,19 @@ for mm in ch do
   uu:=2*mm+1;;
   for ff in de do
     tf:=Image(th,ff);;
-    if ff*tf=One(compactPure) then
-      ym:=compactY^mm*ff;; ty:=Image(ta,ym);; t2:=Image(ta,ty);;
-      if t2*ty*ym=One(compactPure) and
-         Size(Group(compactX^uu,ff^-1*compactY^uu*ff))=Size(compactPure) then
+    if AbstractProd([ff,tf])=One(compactPure) then
+      ym:=AbstractProd([compactY^mm,ff]);; ty:=Image(ta,ym);; t2:=Image(ta,ty);;
+      if AbstractProd([t2,ty,ym])=One(compactPure) and
+         Size(Group(compactX^uu,AbstractProd([ff^-1,compactY^uu,ff])))=Size(compactPure) then
         Add(rows,[mm,ff]);
       fi;
     fi;
   od;
 od;;
-if Length(rows)<>972 then Error("B4 low-index: exact roof count drift"); fi;
+if Length(rows)<>972 then
+  Print("B4_LI_ROOF_COUNT_DEBUG=",Length(rows),"\n");
+  Error("B4 low-index: exact roof count drift");
+fi;
 swRows:=List(rows,r->D972SignedWord(PreImagesRepresentative(epc,r[2])));;
 
 keyRows:=[];
@@ -168,8 +172,9 @@ for ii in [1..Length(rows)] do
 od;;
 Sort(keyRows,function(a,b) return B4LILess(a.key.orderkey,b.key.orderkey); end);;
 targetKeys:=List(keyRows,r->r.key.string);;
+targetKeys:=Set(targetKeys);;
 roofWords:=List(keyRows,r->r.word);;
-targetKeysSorted:=SortedList(targetKeys);;
+targetKeysSorted:=targetKeys;;
 targetDigest:=HexSHA256(Concatenation(JoinC(targetKeysSorted,"\n"),"\n"));;
 fu:=FreeGroupOfFpGroup(Ufp);; fugen:=GeneratorsOfGroup(fu);;
 ug:=GeneratorsOfGroup(Ufp);; relsU:=RelatorsOfFpGroup(Ufp);;
@@ -178,19 +183,29 @@ relDigest:=HexSHA256(B4LIJson(relWords));;
 roofDigest:=HexSHA256(B4LIJson(roofWords));;
 artifactRows:=List(keyRows,r->[r.m,r.key.orderkey,r.word]);;
 artifactDigest:=HexSHA256(B4LIJson(artifactRows));;
+tupleRows:=List(artifactRows,r->r[2]);;
+tupleDigest:=HexSHA256(B4LIJson(tupleRows));;
+Print("B4_LI_DEBUG TARGET=",targetDigest," TUPLE=",tupleDigest,
+  " FIRST=",targetKeys[1]," LAST=",targetKeys[Length(targetKeys)],"\n");;
 if targetDigest<>"9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62" then
-  Error("B4 low-index: target-key digest drift");
+  Error("B4 low-index: target-key string-set digest drift");
+fi;
+if tupleDigest<>"32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91" then
+  Error("B4 low-index: frozen orderkey tuple digest drift");
 fi;
 if relDigest<>"12fc1146dce5179c2b5fc44a3ceed6356a6b2c4835a564b55e9a9cd679fccd2e" then
   Error("B4 low-index: relator digest drift");
 fi;
 Print("B4_LI_ROWS=972 TARGET_DIGEST=",targetDigest,
+  " TUPLE_DIGEST=",tupleDigest,
   " WORD_KEY_DIGEST=",artifactDigest,"\n");;
+Print("B4_LI_KEY_FIRST=",targetKeys[1]," LAST=",targetKeys[Length(targetKeys)],"\n");;
 B4LIWKOut:="ci/out/d972_b4_word_key_artifact_v1.json";;
 if IsBound(D972_B4_WORD_KEY_OUTPUT) then B4LIWKOut:=D972_B4_WORD_KEY_OUTPUT; fi;
 B4LIWKArtifact:=Concatenation(
   "{\"schema\":\"d972-b4-word-key-artifact/v1\",\"count\":972,",
   "\"source_target_key_digest\":\"",targetDigest,"\",",
+  "\"frozen_tuple_sha256\":\"",tupleDigest,"\",",
   "\"canonical_bytes_sha256\":\"",artifactDigest,"\",\"rows\":",
   B4LIJson(artifactRows),"}");;
 WriteFile(B4LIWKOut,Concatenation(B4LIWKArtifact,"\n"));;
@@ -279,6 +294,7 @@ if first=fail and Length(qRows)=Length(li) then
     "\"quotient_count\":",String(Length(li)),",\"roof_count\":972,",
     "\"all_relators_sha256\":\"",relDigest,"\",",
     "\"target_key_digest\":\"",targetDigest,"\",",
+    "\"frozen_tuple_sha256\":\"",tupleDigest,"\",",
     "\"word_key_artifact_sha256\":\"",artifactDigest,"\",",
     "\"quotients\":",B4LIJson(qAgg),"}"));
   Print("B4_LI_ALLPASS UNKNOWN quotients=",Length(li),"\n");;
