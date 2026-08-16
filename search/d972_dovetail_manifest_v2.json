@@ -75,7 +75,15 @@
         "replacement_count": 1,
         "needle": "Size(Group(a1,a2))",
         "replacement": "D972V2MappingGroupOrder([a1,a2],G9)",
-        "materialization": "AsSSortedList(G9) -> PositionSorted images -> PermList -> explicit Group(perms[1],perms[2])",
+        "materialization": "AsSSortedList(G9) -> PositionSorted images -> PermList -> Subgroup(SymmetricGroup(Length(elements)),perms)",
+        "stage_markers": [
+          "D972V2_MAPPING_STAGE materialize_begin",
+          "D972V2_MAPPING_STAGE source_gate_pass",
+          "D972V2_MAPPING_STAGE images_materialized",
+          "D972V2_MAPPING_STAGE perms_constructed",
+          "D972V2_MAPPING_STAGE subgroup_begin",
+          "D972V2_MAPPING_STAGE subgroup_done"
+        ],
         "generator_arity": 2,
         "fail_closed_gates": [
           "finite source cardinality",
@@ -130,7 +138,7 @@
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "e9f7cecb485d1e3f02cce11d6697a429fb703189adba45e4b66b3bc4717703f2"
+    "contract_sha256": "0a620aca3af75debffdb3982c9f4ea5b5909996450cae25aa61c78ef8c2bae9c"
   },
   "launch_spec": {
     "cwd": ".",

@@ -112,32 +112,40 @@ D972V2LoadV1Library();;
 ## GAP 4.12.1 does not classify general bijective mappings as
 ## IsGeneratorsOfMagmaWithInverses, so even the list-plus-identity Group form
 ## is rejected.  Materialize the finite action on the source group as a
-## permutation group before taking its order.  GAP 4.12's Group(list) dispatch
-## is also version-sensitive here; this call is deliberately the explicit
-## two-generator form used by the frozen K9 audit.  This is only the K9
+## permutation group before taking its order.  Use the explicit Subgroup
+## parent/generator-list form: GAP 4.12's Group(list) and Group(p,q)
+## dispatches are both version-sensitive here.  This is only the K9
 ## B3-action compatibility gate; the frozen v1 mappings and all mathematical
 ## data stay unchanged.
 D972V2MappingGroupOrder := function(maps, source)
-  local elements, imageRows, perms;
+  local elements, imageRows, perms, order;
   elements := AsSSortedList(source);
+  Print("D972V2_MAPPING_STAGE materialize_begin n=",Length(elements),"\n");
   if Length(elements) <> Size(source) or
      not ForAll(maps, map -> IsBijective(map) and
        Image(map,One(source))=One(source)) then
     Error("D972 v2: mapping action is not a finite automorphism action");
   fi;
+  Print("D972V2_MAPPING_STAGE source_gate_pass n=",Length(elements),"\n");
   imageRows := List(maps, map ->
     List(elements, g -> PositionSorted(elements, Image(map,g))));
+  Print("D972V2_MAPPING_STAGE images_materialized generators=",
+    Length(imageRows),"\n");
   if ForAny(imageRows, row -> ForAny(row, i -> i=fail)) then
     Error("D972 v2: mapping action left its finite source group");
   fi;
   perms := List(imageRows, row -> PermList(row));
+  Print("D972V2_MAPPING_STAGE perms_constructed generators=",Length(perms),"\n");
   if ForAny(perms, p -> p=fail) or Length(Set(perms))<>Length(maps) then
     Error("D972 v2: mapping action permutation materialization drift");
   fi;
   if Length(perms) <> 2 then
     Error("D972 v2: K9 mapping action must have exactly two generators");
   fi;
-  return Size(Group(perms[1],perms[2]));
+  Print("D972V2_MAPPING_STAGE subgroup_begin degree=",Length(elements),"\n");
+  order := Size(Subgroup(SymmetricGroup(Length(elements)),perms));
+  Print("D972V2_MAPPING_STAGE subgroup_done order=",order,"\n");
+  return order;
 end;;
 
 D972V2GetEnv := function(name, fallback)
