@@ -431,6 +431,15 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
 
 def self_test() -> int:
     manifest = load_manifest()
+    rewrites = manifest["dmtcp_contract"]["gap_4_12_materialized_rewrites"]
+    base_rewrites = rewrites.get("base_permutation_groups", {})
+    if (rewrites.get("replacement_count_total") != 19 or
+            base_rewrites.get("replacement_count") != 15 or
+            base_rewrites.get("helper") !=
+            "D972V2PermutationGroup(generators, degree, stage) -> "
+            "Subgroup(SymmetricGroup(degree), PermList images)" or
+            base_rewrites.get("fail_closed_on_count_drift") is not True):
+        raise RuntimeError("self-test GAP4.12 base permutation rewrite contract drift")
     receipt = v2_code_receipt(manifest)
     if receipt["whole_process_tree_required"] is not True:
         raise RuntimeError("self-test invariant failed")

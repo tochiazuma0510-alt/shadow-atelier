@@ -70,7 +70,7 @@
     },
     "gap_4_12_materialized_rewrites": {
       "source": "search/d972_dovetail_worker_v1.g",
-      "replacement_count_total": 4,
+      "replacement_count_total": 19,
       "mapping_group": {
         "replacement_count": 1,
         "needle": "Size(Group(a1,a2))",
@@ -124,9 +124,40 @@
         "needle": "PresentationSubgroupMtc(P, Hsub, \"h\", 0)",
         "replacement": "PresentationSubgroupMtc(P, Hsub, \"h\")"
       },
+      "base_permutation_groups": {
+        "replacement_count": 15,
+        "helper": "D972V2PermutationGroup(generators, degree, stage) -> Subgroup(SymmetricGroup(degree), PermList images)",
+        "source_sha256": "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8",
+        "exact_degree_bindings": {
+          "base_q": "6*2916+6*504",
+          "base_pure": "6*2916+6*504",
+          "base_compact_pure": "27+9",
+          "base_full_pure": "6*2916+6*504",
+          "base_shortcut_pure": "27+9",
+          "base_scan_surjectivity": "6*2916+6*504",
+          "small_c2": "6*Size(C2)",
+          "small_q8": "6*Size(q8.G)",
+          "combined_full": "baseDegree+M.degree",
+          "combined_full_gate": "baseDegree+M.degree",
+          "combined_pure": "baseDegree+M.degree",
+          "combined_pure_with_c": "baseDegree+M.degree",
+          "orbit_pure": "B.component9_degree+B.component4_degree+M.degree",
+          "base_derived": "B.component9_degree+B.component4_degree",
+          "orbit_surjectivity": "B.component9_degree+B.component4_degree+M.degree"
+        },
+        "stage_markers": [
+          "D972V2_REWRITE label=base_q",
+          "D972V2_REWRITE label=base_pure",
+          "D972V2_REWRITE label=base_compact_pure",
+          "D972V2_PERM_GROUP materialize_begin",
+          "D972V2_PERM_GROUP perms_constructed",
+          "D972V2_PERM_GROUP subgroup_done"
+        ],
+        "fail_closed_on_count_drift": true
+      },
       "fail_closed_on_count_drift": true,
       "frozen_v1_digest_gate": true,
-      "frozen_v1_sha256": "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd"
+      "frozen_v1_sha256": "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8"
     },
     "gap_v1_library_materialization": {
       "writer": "FileString",
@@ -165,7 +196,7 @@
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "6d48562009f5e79f0983fb91b19ded96fa5d0d7cc3be1ec28b878ebb8baccee5"
+    "contract_sha256": "0ebf3e52328cc127b76d7d8a68c0a5ac31e4763bc7c6d7f970529f9907375c64"
   },
   "launch_spec": {
     "cwd": ".",

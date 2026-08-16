@@ -1348,6 +1348,17 @@ def synthetic_calibration_gate_and_receipt(legacy: Any) -> tuple[dict[str, Any],
 
 def self_test() -> int:
     manifest = load_manifest()
+    rewrites = manifest["dmtcp_contract"]["gap_4_12_materialized_rewrites"]
+    base_rewrites = rewrites.get("base_permutation_groups", {})
+    require(
+        rewrites.get("replacement_count_total") == 19 and
+        base_rewrites.get("replacement_count") == 15 and
+        base_rewrites.get("helper") ==
+        "D972V2PermutationGroup(generators, degree, stage) -> "
+        "Subgroup(SymmetricGroup(degree), PermList images)" and
+        base_rewrites.get("fail_closed_on_count_drift") is True,
+        "STATE_STOP GAP4.12 base permutation rewrite contract drift",
+    )
     require(expected_runtime_receipt(manifest)["whole_process_tree_required"] is True,
             "self-test runtime binding")
     legacy = load_legacy()

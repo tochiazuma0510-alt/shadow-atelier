@@ -24,7 +24,7 @@
 
 D972V2V1Path := "search/d972_dovetail_worker_v1.g";;
 D972V2ExpectedV1SHA256 :=
-  "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd";;
+  "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8";;
 D972V2CompatNeedle := "Size(Group(a1,a2))";;
 D972V2CompatReplacement :=
   "D972V2MappingGroupOrder([a1,a2],G9)";;
@@ -40,6 +40,132 @@ D972V2Qt4CompatReplacementCount := 1;;
 D972V2MtcNeedle := "PresentationSubgroupMtc(P, Hsub, \"h\", 0)";;
 D972V2MtcReplacement := "PresentationSubgroupMtc(P, Hsub, \"h\")";;
 D972V2MtcReplacementCount := 1;;
+
+## GAP 4.12 can reject otherwise-valid permutation pairs passed through the
+## two-argument Group(a,b) dispatcher.  These needles are restricted to the
+## base-audit path, where every permutation degree/parent is exact and fixed.
+## The v1 source remains immutable; D972V2LoadV1Library applies these rewrites
+## only to its temporary in-memory library copy.
+D972V2BaseQNeedle := "Q := Group(s1,s2);";;
+D972V2BaseQReplacement :=
+  "Q := D972V2PermutationGroup([s1,s2],6*2916+6*504,\"base_q\");";;
+D972V2BaseQReplacementCount := 1;;
+D972V2BasePureNeedle := "pureSize := Size(Group(s1^2,s2^2));";;
+D972V2BasePureReplacement :=
+  "pureSize := Size(D972V2PermutationGroup([s1^2,s2^2],6*2916+6*504,\"base_pure\"));";;
+D972V2BasePureReplacementCount := 1;;
+D972V2BaseCompactNeedle := "compactPure:=Group(compactX,compactY);";;
+D972V2BaseCompactReplacement :=
+  "compactPure:=D972V2PermutationGroup([compactX,compactY],27+9,\"base_compact_pure\");";;
+D972V2BaseCompactReplacementCount := 1;;
+D972V2BaseFullPureNeedle := "fullF2:=Group(x,y);";;
+D972V2BaseFullPureReplacement :=
+  "fullF2:=D972V2PermutationGroup([x,y],6*2916+6*504,\"base_full_pure\");";;
+D972V2BaseFullPureReplacementCount := 1;;
+D972V2BaseShortcutNeedle := Concatenation(
+  "Size(Group(compactX^u,\n",
+  "             AbstractProd([f^-1,compactY^u,f])))");;
+D972V2BaseShortcutReplacement := Concatenation(
+  "Size(D972V2PermutationGroup([compactX^u,\n",
+  "             AbstractProd([f^-1,compactY^u,f])],27+9,\"base_shortcut_pure\"))");;
+D972V2BaseShortcutReplacementCount := 1;;
+D972V2BaseSurjNeedle := "if Size(Group(img1,img2))<>Size(P) then";;
+D972V2BaseSurjReplacement :=
+  "if Size(D972V2PermutationGroup([img1,img2],6*2916+6*504,\"base_scan_surjectivity\"))<>Size(P) then";;
+D972V2BaseSurjReplacementCount := 1;;
+D972V2SmallC2Needle := "S:=Group(qt.s1,qt.s2); degree:=6*Size(C2);";;
+D972V2SmallC2Replacement :=
+  "degree:=6*Size(C2); S:=D972V2PermutationGroup([qt.s1,qt.s2],degree,\"small_c2\");";;
+D972V2SmallC2ReplacementCount := 1;;
+D972V2SmallQ8Needle := "S:=Group(qt.s1,qt.s2); degree:=6*Size(q8.G);";;
+D972V2SmallQ8Replacement :=
+  "degree:=6*Size(q8.G); S:=D972V2PermutationGroup([qt.s1,qt.s2],degree,\"small_q8\");";;
+D972V2SmallQ8ReplacementCount := 1;;
+D972V2CombinedPNeedle := "P:=Group(s1,s2);";;
+D972V2CombinedPReplacement :=
+  "P:=D972V2PermutationGroup([s1,s2],baseDegree+M.degree,\"combined_full\");";;
+D972V2CombinedPReplacementCount := 1;;
+D972V2CombinedSizeNeedle := "Size(Group(s1,s2))<>Size(P) or";;
+D972V2CombinedSizeReplacement :=
+  "Size(D972V2PermutationGroup([s1,s2],baseDegree+M.degree,\"combined_full_gate\"))<>Size(P) or";;
+D972V2CombinedSizeReplacementCount := 1;;
+D972V2CombinedF2Needle := "F2bar:=Group(s1^2,s2^2); cInF2:=c in F2bar;";;
+D972V2CombinedF2Replacement :=
+  "F2bar:=D972V2PermutationGroup([s1^2,s2^2],baseDegree+M.degree,\"combined_pure\"); cInF2:=c in F2bar;";;
+D972V2CombinedF2ReplacementCount := 1;;
+D972V2CombinedPureCNeedle := "Size(Group(s1^2,s2^2,c))<>Size(pure) or";;
+D972V2CombinedPureCReplacement :=
+  "Size(D972V2PermutationGroup([s1^2,s2^2,c],baseDegree+M.degree,\"combined_pure_with_c\"))<>Size(pure) or";;
+D972V2CombinedPureCReplacementCount := 1;;
+D972V2OrbitF2Needle := Concatenation(
+  "C:=D972CalibrationCombinedModel(B,M);\n",
+  "  P:=C.group; s1:=C.s1; s2:=C.s2; rho:=C.rho;\n",
+  "  x:=s1^2; y:=s2^2; c:=C.c;\n",
+  "  F2bar:=Group(x,y); D:=DerivedSubgroup(F2bar);");;
+D972V2OrbitF2Replacement := Concatenation(
+  "C:=D972CalibrationCombinedModel(B,M);\n",
+  "  P:=C.group; s1:=C.s1; s2:=C.s2; rho:=C.rho;\n",
+  "  x:=s1^2; y:=s2^2; c:=C.c;\n",
+  "  F2bar:=D972V2PermutationGroup([x,y],B.component9_degree+\n",
+  "    B.component4_degree+M.degree,\"orbit_pure\"); D:=DerivedSubgroup(F2bar);");;
+D972V2OrbitF2ReplacementCount := 1;;
+D972V2BaseDNeedle := "baseD:=DerivedSubgroup(Group(B.s1^2,B.s2^2));";;
+D972V2BaseDReplacement :=
+  "baseD:=DerivedSubgroup(D972V2PermutationGroup([B.s1^2,B.s2^2],B.component9_degree+B.component4_degree,\"base_derived\"));";;
+D972V2BaseDReplacementCount := 1;;
+D972V2OrbitSurjNeedle := "if Size(Group(img1,img2))=Size(P) then";;
+D972V2OrbitSurjReplacement :=
+  "if Size(D972V2PermutationGroup([img1,img2],B.component9_degree+B.component4_degree+M.degree,\"orbit_surjectivity\"))=Size(P) then";;
+D972V2OrbitSurjReplacementCount := 1;;
+D972V2BaseRewriteTotalCount := 15;;
+
+D972V2PermutationGroup := function(generators, degree, stage)
+  local imageOf, imageRows, perms, row, G;
+  if not IsList(generators) or Length(generators) < 1 or degree < 1 then
+    Error("D972 v2: permutation group needs generators and positive degree");
+  fi;
+  Print("D972V2_PERM_GROUP materialize_begin stage=",stage,
+    " degree=",degree," generators=",Length(generators),"\n");
+  imageOf := function(g, point)
+    if IsPerm(g) then return point^g; fi;
+    return Image(g,point);
+  end;
+  imageRows := List(generators, g -> List([1..degree],
+    i -> imageOf(g,i)));
+  if ForAny(imageRows, row -> Set(row) <> [1..degree]) then
+    Error("D972 v2: permutation group generator left its finite point set");
+  fi;
+  perms := List(imageRows, row -> PermList(row));
+  if ForAny(perms, p -> p=fail) then
+    Error("D972 v2: permutation group materialization failed");
+  fi;
+  Print("D972V2_PERM_GROUP perms_constructed stage=",stage,
+    " degree=",degree," generators=",Length(perms),"\n");
+  G := Subgroup(SymmetricGroup(degree),perms);
+  Print("D972V2_PERM_GROUP subgroup_done stage=",stage,
+    " degree=",degree," order=",Size(G),"\n");
+  return G;
+end;;
+
+D972V2CountNeedle := function(source, needle)
+  local i, n;
+  n := 0;
+  for i in [1..Length(source)-Length(needle)+1] do
+    if source{[i..i+Length(needle)-1]} = needle then n:=n+1; fi;
+  od;
+  return n;
+end;;
+
+D972V2Rewrite := function(source, needle, replacement, expected, label)
+  local observed;
+  observed := D972V2CountNeedle(source,needle);
+  if observed <> expected then
+    Error("D972 v2: GAP4.12 rewrite count drift label=",label,
+      " observed=",observed," expected=",expected);
+  fi;
+  Print("D972V2_REWRITE label=",label," count=",observed,"\n");
+  return ReplacedString(source,needle,replacement);
+end;;
 
 ## Load all frozen v1 definitions without executing its mode dispatcher/QUIT.
 ## A temporary copy is used because the source is intentionally kept versioned
@@ -69,8 +195,7 @@ if not IsBound(SmallGroupsAvailable) or not IsBound(AllSmallGroups) then
 fi;;
 
 D972V2LoadV1Library := function()
-  local source, actual, marker, cut, dir, path, prefix, needle, replacement,
-        replacementCount, qtCount, qt4Count, mtcCount;
+  local source, actual, marker, cut, dir, path, prefix;
   source := StringFile(D972V2V1Path);
   if source = fail then Error("D972 v2: could not read frozen v1 worker"); fi;
   actual := HexSHA256(source);
@@ -82,41 +207,55 @@ D972V2LoadV1Library := function()
   cut := PositionSublist(source,marker);
   if cut = fail then Error("D972 v2: v1 dispatch boundary not found"); fi;
   prefix := source{[1..cut-1]};
-  ## GAP 4.12 rejects Group(a1,a2) when a1/a2 are mappings.  This is a
-  ## compatibility-only materialization rewrite; the frozen v1 digest above
-  ## remains the authority and the exact one-occurrence binding is fail-closed.
-  needle := D972V2CompatNeedle;
-  replacement := D972V2CompatReplacement;
-  replacementCount := Number([1..Length(prefix)],
-    i -> i + Length(needle) - 1 <= Length(prefix) and
-      prefix{[i..i+Length(needle)-1]} = needle);
-  if replacementCount <> D972V2CompatReplacementCount then
-    Error("D972 v2: GAP4.12 compatibility needle count drift: ",replacementCount);
-  fi;
-  prefix := ReplacedString(prefix,needle,replacement);
-  qtCount := Number([1..Length(prefix)],
-    i -> i + Length(D972V2QtCompatNeedle) - 1 <= Length(prefix) and
-      prefix{[i..i+Length(D972V2QtCompatNeedle)-1]} = D972V2QtCompatNeedle);
-  if qtCount <> D972V2QtCompatReplacementCount then
-    Error("D972 v2: GAP4.12 qt Group compatibility needle count drift: ",qtCount);
-  fi;
-  prefix := ReplacedString(prefix,D972V2QtCompatNeedle,
-    D972V2QtCompatReplacement);
-  qt4Count := Number([1..Length(prefix)],
-    i -> i + Length(D972V2Qt4CompatNeedle) - 1 <= Length(prefix) and
-      prefix{[i..i+Length(D972V2Qt4CompatNeedle)-1]} = D972V2Qt4CompatNeedle);
-  if qt4Count <> D972V2Qt4CompatReplacementCount then
-    Error("D972 v2: GAP4.12 qt4 Group compatibility needle count drift: ",qt4Count);
-  fi;
-  prefix := ReplacedString(prefix,D972V2Qt4CompatNeedle,
-    D972V2Qt4CompatReplacement);
-  mtcCount := Number([1..Length(prefix)],
-    i -> i + Length(D972V2MtcNeedle) - 1 <= Length(prefix) and
-      prefix{[i..i+Length(D972V2MtcNeedle)-1]} = D972V2MtcNeedle);
-  if mtcCount <> D972V2MtcReplacementCount then
-    Error("D972 v2: MTC compatibility needle count drift: ",mtcCount);
-  fi;
-  prefix := ReplacedString(prefix,D972V2MtcNeedle,D972V2MtcReplacement);
+  ## GAP 4.12 compatibility-only materialization rewrites.  Every replacement
+  ## is count-gated before it touches the temporary library copy.
+  prefix := D972V2Rewrite(prefix,D972V2CompatNeedle,
+    D972V2CompatReplacement,D972V2CompatReplacementCount,"mapping_group");
+  prefix := D972V2Rewrite(prefix,D972V2QtCompatNeedle,
+    D972V2QtCompatReplacement,D972V2QtCompatReplacementCount,"qt9_group");
+  prefix := D972V2Rewrite(prefix,D972V2Qt4CompatNeedle,
+    D972V2Qt4CompatReplacement,D972V2Qt4CompatReplacementCount,"qt4_group");
+  prefix := D972V2Rewrite(prefix,D972V2MtcNeedle,
+    D972V2MtcReplacement,D972V2MtcReplacementCount,"mtc_group");
+  prefix := D972V2Rewrite(prefix,D972V2BaseQNeedle,
+    D972V2BaseQReplacement,D972V2BaseQReplacementCount,"base_q");
+  prefix := D972V2Rewrite(prefix,D972V2BasePureNeedle,
+    D972V2BasePureReplacement,D972V2BasePureReplacementCount,"base_pure");
+  prefix := D972V2Rewrite(prefix,D972V2BaseCompactNeedle,
+    D972V2BaseCompactReplacement,D972V2BaseCompactReplacementCount,
+    "base_compact_pure");
+  prefix := D972V2Rewrite(prefix,D972V2BaseFullPureNeedle,
+    D972V2BaseFullPureReplacement,D972V2BaseFullPureReplacementCount,
+    "base_full_pure");
+  prefix := D972V2Rewrite(prefix,D972V2BaseShortcutNeedle,
+    D972V2BaseShortcutReplacement,D972V2BaseShortcutReplacementCount,
+    "base_shortcut_pure");
+  prefix := D972V2Rewrite(prefix,D972V2BaseSurjNeedle,
+    D972V2BaseSurjReplacement,D972V2BaseSurjReplacementCount,
+    "base_scan_surjectivity");
+  prefix := D972V2Rewrite(prefix,D972V2SmallC2Needle,
+    D972V2SmallC2Replacement,D972V2SmallC2ReplacementCount,"small_c2");
+  prefix := D972V2Rewrite(prefix,D972V2SmallQ8Needle,
+    D972V2SmallQ8Replacement,D972V2SmallQ8ReplacementCount,"small_q8");
+  prefix := D972V2Rewrite(prefix,D972V2CombinedPNeedle,
+    D972V2CombinedPReplacement,D972V2CombinedPReplacementCount,
+    "combined_full");
+  prefix := D972V2Rewrite(prefix,D972V2CombinedSizeNeedle,
+    D972V2CombinedSizeReplacement,D972V2CombinedSizeReplacementCount,
+    "combined_size");
+  prefix := D972V2Rewrite(prefix,D972V2CombinedF2Needle,
+    D972V2CombinedF2Replacement,D972V2CombinedF2ReplacementCount,
+    "combined_pure");
+  prefix := D972V2Rewrite(prefix,D972V2CombinedPureCNeedle,
+    D972V2CombinedPureCReplacement,D972V2CombinedPureCReplacementCount,
+    "combined_pure_with_c");
+  prefix := D972V2Rewrite(prefix,D972V2OrbitF2Needle,
+    D972V2OrbitF2Replacement,D972V2OrbitF2ReplacementCount,"orbit_pure");
+  prefix := D972V2Rewrite(prefix,D972V2BaseDNeedle,
+    D972V2BaseDReplacement,D972V2BaseDReplacementCount,"base_derived");
+  prefix := D972V2Rewrite(prefix,D972V2OrbitSurjNeedle,
+    D972V2OrbitSurjReplacement,D972V2OrbitSurjReplacementCount,
+    "orbit_surjectivity");
   dir := DirectoryTemporary();
   if dir = fail then Error("D972 v2: no temporary directory"); fi;
   path := Filename(dir,"d972_dovetail_worker_v1_library.g");
@@ -618,10 +757,13 @@ D972Emit := function(payload)
     ",\"gap412_qt4_group_rewrite\":{\"needle\":",D972JsonString(D972V2Qt4CompatNeedle),
       ",\"replacement\":",D972JsonString(D972V2Qt4CompatReplacement),
       ",\"count\":",String(D972V2Qt4CompatReplacementCount),"}",
-    ",\"gap412_mtc_rewrite\":{\"needle\":",D972JsonString(D972V2MtcNeedle),
-      ",\"replacement\":",D972JsonString(D972V2MtcReplacement),
-      ",\"count\":",String(D972V2MtcReplacementCount),"}",
-    ",\"workflow_resumable\":",D972Bool(D972V2DmtcpReady),
+     ",\"gap412_mtc_rewrite\":{\"needle\":",D972JsonString(D972V2MtcNeedle),
+       ",\"replacement\":",D972JsonString(D972V2MtcReplacement),
+       ",\"count\":",String(D972V2MtcReplacementCount),"}",
+     ",\"gap412_base_permutation_group_rewrites\":{\"helper\":\"D972V2PermutationGroup\"",
+       ",\"replacement_count\":",String(D972V2BaseRewriteTotalCount),
+       ",\"frozen_v1_sha256\":",D972JsonString(D972V2ExpectedV1SHA256),"}",
+     ",\"workflow_resumable\":",D972Bool(D972V2DmtcpReady),
     ",\"opaque_internal_state_checkpointed_by\":\"DMTCP process image; authority is external image manifest\"",
     ",\"dmtcp\":{\"enabled\":",D972Bool(D972V2DmtcpEnabled),
       ",\"contract_ready\":",D972Bool(D972V2DmtcpReady),
