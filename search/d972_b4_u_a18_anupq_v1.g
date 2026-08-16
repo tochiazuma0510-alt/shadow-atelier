@@ -78,8 +78,12 @@ D972A18ANJson:=function(x)
   Error("A18 ANUPQ: JSON type drift");
 end;;
 D972A18ANWrite:=function(path,text)
-  ## GAP 4.16 has no WriteFile binding; PrintTo is the portable writer.
-  PrintTo(path,text,"\n");
+  local f;
+  ## Disable GAP's pretty-printer wrapping: JSON must remain one raw line.
+  f:=OutputTextFile(path,false);
+  SetPrintFormattingStatus(f,false);
+  PrintTo(f,text,"\n");
+  CloseStream(f);
 end;;
 D972A18ANReduce:=function(w)
   local out,x,n;
