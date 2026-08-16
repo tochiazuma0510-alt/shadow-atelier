@@ -1,0 +1,235 @@
+name: D972 calibration diagnostic v4
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Fresh frozen-v2 reconstruction is the required default; state is an optional replay.
+        required: true
+        default: fresh
+        type: choice
+        options:
+          - fresh
+          - state
+      state_run_id:
+        description: Required only for optional state replay mode.
+        required: false
+        default: ""
+        type: string
+      artifact_name:
+        description: Exact v2 state artifact name
+        required: false
+        default: d972-dovetail-v2-state
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  calibration-diagnostic:
+    name: fail-closed qToBase calibration diagnostic
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    env:
+      MODE: ${{ inputs.mode }}
+      STATE_RUN_ID: ${{ inputs.state_run_id }}
+      REQUESTED_ARTIFACT: ${{ inputs.artifact_name }}
+      SOURCE_ROOT: .d972-calibration-source
+      DIAG_ROOT: .d972-calibration-diagnostic
+      DIAG: search/d972_calibration_diagnostic_v4.py
+      RECEIPT_CHECKER: search/check_d972_calibration_diagnostic_v4.py
+
+    steps:
+      - name: Check out trigger revision without credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up exact Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install GAP runtime only in GHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends gap gap-smallgrp
+
+      - name: Static diagnostic binding and self-test
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum search/check_d972_dovetail_v2.py | cut -d' ' -f1)" = \
+            624436f2d6a5ed4ad72a92ec5360fa22acbfe792e5dad56c1f6a267858baa8b1
+          test "$(sha256sum search/d972_dovetail_manifest_v2.json | cut -d' ' -f1)" = \
+            0f90776483342f84eb4424e4fbc4a8e7407672a070f3ed493260b3c09a1963f8
+          test "$(sha256sum search/d972_dovetail_worker_v2.g | cut -d' ' -f1)" = \
+            93d54d70a42ad283d95fed981eb2732ed8c8dd7fb37da5772fd6d486038f69f2
+          python3 -m py_compile "$DIAG" "$RECEIPT_CHECKER"
+          python3 -B "$DIAG" --self-test
+          python3 -B "$RECEIPT_CHECKER" --self-test
+          mkdir -p "$SOURCE_ROOT" "$DIAG_ROOT"
+
+      - name: Select exactly one completed v2 state artifact
+        if: ${{ inputs.mode == 'state' }}
+        id: source
+        uses: actions/github-script@v7
+        env:
+          REQUESTED_RUN: ${{ env.STATE_RUN_ID }}
+          REQUESTED_ARTIFACT: ${{ env.REQUESTED_ARTIFACT }}
+          CURRENT_RUN: ${{ github.run_id }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const runId = (process.env.REQUESTED_RUN || '').trim();
+            const artifactName = (process.env.REQUESTED_ARTIFACT || '').trim();
+            if (!/^[1-9][0-9]*$/.test(runId) || runId === String(process.env.CURRENT_RUN)) {
+              core.setFailed('state_run_id must be a different positive run id');
+              return;
+            }
+            if (!artifactName || /[\\r\\n]/.test(artifactName)) {
+              core.setFailed('artifact_name is empty or contains a newline');
+              return;
+            }
+            try {
+              const run = (await github.rest.actions.getWorkflowRun({
+                owner, repo, run_id: Number(runId)
+              })).data;
+              if (run.path !== '.github/workflows/d972-dovetail-v2.yml' ||
+                  run.status !== 'completed' || run.conclusion !== 'success') {
+                core.setFailed('state run is not a completed successful v2 run');
+                return;
+              }
+              const artifacts = await github.paginate(
+                github.rest.actions.listWorkflowRunArtifacts,
+                {owner, repo, run_id: Number(runId), per_page: 100}
+              );
+              const exact = artifacts.filter(a => a.name === artifactName && !a.expired);
+              if (exact.length !== 1) {
+                core.setFailed(`expected exactly one live state artifact, found ${exact.length}`);
+                return;
+              }
+              core.setOutput('run_id', runId);
+              core.setOutput('artifact_name', exact[0].name);
+              core.setOutput('source_sha', run.head_sha || '');
+            } catch (error) {
+              core.setFailed(`state artifact API failure: ${error.name || 'Error'}`);
+            }
+
+      - name: Download immutable v2 state artifact
+        if: ${{ inputs.mode == 'state' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ steps.source.outputs.artifact_name }}
+          path: ${{ env.SOURCE_ROOT }}
+          run-id: ${{ steps.source.outputs.run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Run calibration diagnostic and preserve failure receipt
+        id: diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$DIAG_ROOT"
+          set +e
+          if [[ "$MODE" = fresh ]]; then
+            python3 "$DIAG" \
+              --mode fresh \
+              --receipt "$DIAG_ROOT/calibration-diagnostic.json" \
+              --script-output "$DIAG_ROOT/generated-calibration.g" \
+              --worker-output "$DIAG_ROOT/frozen-v2-base-presentation.json" \
+              > "$DIAG_ROOT/diagnostic-console.log" 2>&1
+            diagnostic_rc=$?
+          elif [[ "$MODE" = state ]]; then
+            mapfile -t states < <(find "$SOURCE_ROOT" -type f -name state.json -print | sort)
+            if [[ "${#states[@]}" != 1 ]]; then
+              echo "state mode requires exactly one state.json" >&2
+              diagnostic_rc=3
+            else
+              state_path="${states[0]}"
+              python3 "$DIAG" \
+                --mode state \
+                --state "$state_path" \
+                --receipt "$DIAG_ROOT/calibration-diagnostic.json" \
+                --script-output "$DIAG_ROOT/generated-calibration.g" \
+                > "$DIAG_ROOT/diagnostic-console.log" 2>&1
+              diagnostic_rc=$?
+            fi
+          else
+            echo "unsupported diagnostic mode: $MODE" >&2
+            diagnostic_rc=3
+          fi
+          set -e
+          printf '%s\n' "$diagnostic_rc" > "$DIAG_ROOT/diagnostic-exit-code.txt"
+          test -s "$DIAG_ROOT/calibration-diagnostic.json"
+          test -s "$DIAG_ROOT/generated-calibration.g" || \
+            test "$(python3 -c 'import json; print(json.load(open(".d972-calibration-diagnostic/calibration-diagnostic.json")).get("status"))')" = DIAGNOSTIC_STOP
+          echo "diagnostic_rc=$diagnostic_rc" >> "$GITHUB_OUTPUT"
+          case "$diagnostic_rc" in
+            0|2|3) exit 0 ;;
+            *) exit "$diagnostic_rc" ;;
+          esac
+
+      - name: Independently cross-check diagnostic receipt
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          receipt="$DIAG_ROOT/calibration-diagnostic.json"
+          script="$DIAG_ROOT/generated-calibration.g"
+          if [[ -s "$receipt" ]]; then
+            if [[ -s "$script" ]]; then
+              if [[ "$MODE" = fresh && -s "$DIAG_ROOT/frozen-v2-base-presentation.json" ]]; then
+                python3 "$RECEIPT_CHECKER" --receipt "$receipt" --script "$script" \
+                  --worker-output "$DIAG_ROOT/frozen-v2-base-presentation.json"
+              else
+                python3 "$RECEIPT_CHECKER" --receipt "$receipt" --script "$script"
+              fi
+            elif [[ "$MODE" = fresh && -s "$DIAG_ROOT/frozen-v2-base-presentation.json" ]]; then
+              python3 "$RECEIPT_CHECKER" --receipt "$receipt" \
+                --worker-output "$DIAG_ROOT/frozen-v2-base-presentation.json"
+            else
+              python3 "$RECEIPT_CHECKER" --receipt "$receipt"
+            fi
+          fi
+
+      - name: Upload bounded calibration diagnostic receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-calibration-diagnostic-v4-${{ github.run_id }}
+          path: .d972-calibration-diagnostic/
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+      - name: Summary
+        if: always()
+        shell: bash
+        env:
+          DIAGNOSTIC_RC: ${{ steps.diagnostic.outputs.diagnostic_rc }}
+        run: |
+          {
+            echo "### D972 calibration diagnostic v4"
+            echo "- mode: \`${MODE}\` (fresh frozen-v2 is the required default)"
+            echo "- source v2 run: \`${STATE_RUN_ID:-none}\`"
+            echo "- result: \`${DIAGNOSTIC_RC:-INPUT_OR_RUNTIME_STOP}\`"
+            echo "- nonzero GAP, malformed qToBase relation/order, and timeout remain UNKNOWN"
+            echo "- this lane never emits A or B and does not alter the v2 checker"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail closed on diagnostic UNKNOWN
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          rc="${{ steps.diagnostic.outputs.diagnostic_rc }}"
+          if [[ -z "$rc" || "$rc" != "0" ]]; then
+            echo "CALIBRATION_UNKNOWN diagnostic_rc=${rc:-missing}" >&2
+            exit 2
+          fi
