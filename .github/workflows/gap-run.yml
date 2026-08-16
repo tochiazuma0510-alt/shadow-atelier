@@ -106,6 +106,21 @@ jobs:
             gap_args=(-l ";/usr/share/gap;/usr/lib/gap;${GAP_P2_PACKAGE_ROOT:?}")
           fi
           gap "${gap_args[@]}" --quitonbreak -q -o 12g ci/out/driver.g | tee ci/out/run.log
+          # GAP may print a syntax error while returning success after Read()
+          # has continued.  The P2 selftest therefore has an explicit final
+          # marker and a fail-closed diagnostic gate; ordinary gap-run scripts
+          # retain the generic runner contract.
+          if [[ "$GAP_RUN_SCRIPT" == "search/d972_b4_pquotient_v1.g" &&
+                "$GAP_RUN_PREAMBLE" == *D972_P2_SELFTEST* ]]; then
+            if grep -Eq '(^|[[:space:]])(Syntax error:|Error,)' ci/out/run.log; then
+              echo "P2_SELFTEST_STOP: GAP syntax/error diagnostic found" >&2
+              exit 1
+            fi
+            if ! grep -q '^P2_SELFTEST_FINAL_MARKER ' ci/out/run.log; then
+              echo "P2_SELFTEST_STOP: final marker missing" >&2
+              exit 1
+            fi
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: gap-run-out

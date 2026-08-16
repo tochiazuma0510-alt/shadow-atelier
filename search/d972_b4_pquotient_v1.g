@@ -1,7 +1,7 @@
 #############################################################################
 ## B4 pure-2 p-central quotient lane.  Repository-relative, versioned.
-## GAP errors intentionally occur before the final artifact marker; absence
-## of P2_ARTIFACT_WRITTEN is therefore an explicit incomplete run.
+## GAP errors intentionally occur before the final marker; the runner gates on
+## the marker and on GAP's syntax/error diagnostics (especially selftest).
 #############################################################################
 
 D972P2LoadPrefix := function(path, marker)
@@ -36,9 +36,11 @@ if D972P2SmallGrp <> true or D972P2Anupq <> true then
 fi;
 Print("P2_PACKAGES_PASS smallgrp=true anupq=true\n");
 if IsBound(D972_P2_SELFTEST) and D972_P2_SELFTEST=true then
+  P2RunMode:="selftest";;
   Print("P2_SELFTEST_PASS source_sha256=",P2SelfSha,
     " worker_sha256=",P2WorkerSha,"\n");;
 else
+  P2RunMode:="full";;
   D972P2LoadPrefix("search/d972_dovetail_worker_v1.g",
     "\nif D972Mode = \"selftest\" then");;
 
@@ -254,10 +256,13 @@ Print("P2_PRESENTATION_PASS relators=158 roof=972 target_digest=",P2TargetDigest
 Print("P2_WORD_KEY_BINDING_PASS digest=",P2WordKeyDigest,"\n");
 
 if IsBound(D972_P2_MAGNUS_ONLY) and D972_P2_MAGNUS_ONLY=true then
+  P2RunMode:="magnus";;
   Read("search/d972_b4_p2_magnus_export_v1.g");;
-  QUIT;
+else
+  P2RunMode:="full";;
 fi;
 
+if P2RunMode="full" then
 P2MakeReceipt:=function(label,order,h0,scan,epiIndex,epiCount)
   local H,iso,Hp,degree,wit,defect;
   H:=Group(h0);; iso:=IsomorphismPermGroup(H);;
@@ -361,4 +366,10 @@ P2Out:=Concatenation(
 WriteFile("ci/out/d972_b4_pquotient_v1.json",Concatenation(P2Out,"\n"));;
 Print("P2_ARTIFACT_WRITTEN ci/out/d972_b4_pquotient_v1.json\n");
 fi;
-QUIT;
+fi;
+if P2RunMode="selftest" then
+  Print("P2_SELFTEST_FINAL_MARKER source_sha256=",P2SelfSha,
+    " worker_sha256=",P2WorkerSha,"\n");
+else
+  Print("P2_FINAL_MARKER mode=",P2RunMode,"\n");
+fi;
