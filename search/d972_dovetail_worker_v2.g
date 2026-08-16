@@ -24,7 +24,7 @@
 
 D972V2V1Path := "search/d972_dovetail_worker_v1.g";;
 D972V2ExpectedV1SHA256 :=
-  "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd";;
+  "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8";;
 D972V2CompatNeedle := "Size(Group(a1,a2))";;
 D972V2CompatReplacement :=
   "D972V2MappingGroupOrder([a1,a2],G9)";;

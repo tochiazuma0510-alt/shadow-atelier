@@ -161,7 +161,7 @@
       "base_permutation_groups": {
         "replacement_count": 17,
         "helper": "D972V2PermutationGroup(generators, degree, stage) -> Subgroup(SymmetricGroup(degree), PermList images)",
-        "source_sha256": "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd",
+        "source_sha256": "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8",
         "exact_degree_bindings": {
           "base_q": "6*2916+6*504",
           "base_psl4": "9",
@@ -193,7 +193,7 @@
       },
       "fail_closed_on_count_drift": true,
       "frozen_v1_digest_gate": true,
-      "frozen_v1_sha256": "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd"
+      "frozen_v1_sha256": "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8"
     },
     "gap_v1_library_materialization": {
       "writer": "FileString",
@@ -240,7 +240,7 @@
     },
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "7cd157ae562b242cca0bcd72ec9ee26f7512b18c4f2477835c68cc50043875df"
+    "contract_sha256": "1044311458e44b0e7e0639e0bde2e39ad546946b74f09aa85d4dca471085fac1"
   },
   "launch_spec": {
     "cwd": ".",
