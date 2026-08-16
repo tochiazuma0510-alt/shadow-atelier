@@ -1,0 +1,41 @@
+{
+  "schema": "d972-b4-marity-reduction-maps/v1",
+  "status": "PROVED_BY_CANONICAL_STRAND_FORGETTING",
+  "source_group": "PB4",
+  "target_group": "PB3",
+  "source_generator_labels": ["x12", "x13", "x14", "x23", "x24", "x34"],
+  "target_generator_labels": ["y12", "y13", "y23"],
+  "image_encoding": "signed_target_generator_indices",
+  "maps": [
+    {
+      "index": 1,
+      "deleted_strand": 1,
+      "generator_images": [[], [], [], [1], [2], [3]]
+    },
+    {
+      "index": 2,
+      "deleted_strand": 2,
+      "generator_images": [[], [1], [2], [], [], [3]]
+    },
+    {
+      "index": 3,
+      "deleted_strand": 3,
+      "generator_images": [[1], [], [2], [], [3], []]
+    },
+    {
+      "index": 4,
+      "deleted_strand": 4,
+      "generator_images": [[1], [2], [], [3], [], []]
+    }
+  ],
+  "conjugation_identities": [
+    "p4 o c_(sigma3^-1) = p3",
+    "p3 o c_(sigma2^-1) = p2",
+    "p2 o c_(sigma1^-1) = p1"
+  ],
+  "source_references": [
+    "docs/notes/b4_direct_adjudication_feasibility_v1_2.md:65-76",
+    "docs/notes/b4_theorem_check_v1.md:41-80"
+  ],
+  "maps_sha256": "31c1aa38eae32035c806e5fe5a422048fe6fca36e55c0314d7510fd3087deb6d"
+}
