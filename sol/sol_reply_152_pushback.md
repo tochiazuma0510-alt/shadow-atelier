@@ -725,6 +725,8 @@ blocker である。
 - handoff bundle commit: `d408f454827c7ae29cff61443bfbbf3212ea3c04`。direct-BQ/semantic-M
   static bundle、k9 v6 fail-closed partial、各 Luna report のみを exact-stage した。既知の型誤りが
   残る k8 v4、workflow YAML、無関係な dirty files は含めていない。
+- handoff ledger commit: `f128b89772a623b29851ee158b404c8c0fffac5a`。
+  `origin/sol/d972-dmtcp-provision-v420` へ `565ee183..f128b897` を push 済み。
 - HEAD before handoff bundle: `565ee183af983a3d4bf67fd1374e4259055873a5`
 - 本節作成時、上の direct-BQ/semantic bundle、k8 v4、k9 v6、各 Luna report、及び本返信は
   modified/untracked。巨大な既存 dirty tree があるため `git add -A`、reset、checkout、clean は禁止。
@@ -737,6 +739,8 @@ blocker である。
 ```text
 HANDOFF_FREEZE_20260817_0640_JST=COMPLETE;
 HANDOFF_BUNDLE_COMMIT=d408f454827c7ae29cff61443bfbbf3212ea3c04;
+HANDOFF_LEDGER_COMMIT=f128b89772a623b29851ee158b404c8c0fffac5a;
+HANDOFF_BRANCH_PUSHED=sol/d972-dmtcp-provision-v420;
 SUBAGENTS_INTERRUPTED=3;
 LIVE_GHA_RUNS_RETAINED=31967437253,31969443502,31972043453;
 LOCAL_GAP_PROCESS_COUNT=0;
