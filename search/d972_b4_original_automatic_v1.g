@@ -140,8 +140,7 @@ if D972OAPrecheck=1 then
   D972OAPreF:=OutputTextFile(D972OAOutput,false);; SetPrintFormattingStatus(D972OAPreF,false);
   PrintTo(D972OAPreF,Concatenation(D972OAPreOut,"\n"));; CloseStream(D972OAPreF);
   Print("B4_ORIGINAL_AUTOMATIC_PRECHECK_FINAL_MARKER output=",D972OAOutput," status=INPUT_PRECHECK_PASS\n");
-  QUIT;
-fi;
+else
 
 D972OAF:=FreeGroup(6);; D972OAG:=GeneratorsOfGroup(D972OAF);;
 D972OARels:=List(D972OAObj.all_relators,w->D972OASignedWordObj(w,D972OAG));;
@@ -212,3 +211,4 @@ D972OAOut:=Concatenation(
 D972OAFout:=OutputTextFile(D972OAOutput,false);; SetPrintFormattingStatus(D972OAFout,false); PrintTo(D972OAFout,Concatenation(D972OAOut,"\n"));; CloseStream(D972OAFout);
 Print("B4_ORIGINAL_AUTOMATIC_FINAL_MARKER output=",D972OAOutput," status=",D972OAStatus,
   " size_status=",D972OASizeStatus," empty=",D972OAEmpty,"/972\n");
+fi;
