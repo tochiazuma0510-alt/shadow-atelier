@@ -44,6 +44,10 @@ end;;
 D972ANV2Json:=function(x)
   local p,i;
   if IsInt(x) then return String(x); fi;
+  ## GAP 4.16 also classifies the empty list [] as IsString.  Preserve
+  ## JSON array semantics before the string branch; the word artifact has
+  ## two intentionally empty word rows.
+  if IsList(x) and Length(x)=0 then return "[]"; fi;
   if IsString(x) then
     return Concatenation("\"",ReplacedString(x,"\"","\\\""),"\"");
   fi;
@@ -51,7 +55,6 @@ D972ANV2Json:=function(x)
   if x=false then return "false"; fi;
   if x=fail then return "null"; fi;
   if not IsList(x) then Error("ANUPQ v2 JSON type drift"); fi;
-  if Length(x)=0 then return "[]"; fi;
   p:=List([1..Length(x)],i->D972ANV2Json(x[i]));
   return Concatenation("[",D972ANV2Join(p,","),"]");
 end;;
@@ -76,6 +79,10 @@ D972ANV2InverseWord:=function(word)
   return List(Reversed(word),x->-x);
 end;;
 D972ANV2Toggle:=function(mask,bit)
+  ## The sixth image is the XOR mask 31, not a binary place value.  The
+  ## quotient/parity test below is valid for 1,2,4,8,16 only; handle 31 as
+  ## the complement on the five-bit vertex set.
+  if bit=31 then return 31-mask; fi;
   if QuoInt(mask,bit) mod 2=1 then return mask-bit; fi;
   return mask+bit;
 end;;
@@ -224,13 +231,15 @@ fi;
 Print("B4_ANUPQ_V2_RAW_RS_PASS generators=",Length(D972ANV2Raw.pair_words),
   " relators=",Length(D972ANV2Raw.relators)," raw_relators_sha256=",D972ANV2RawRelSha,
   " norm_rs_sha256=",D972ANV2NormRSSha," norms=972\n");
-if IsBound(D972_B4_ANUPQ_SELFTEST) and D972_B4_ANUPQ_SELFTEST=true then
+ D972ANV2Selftest:=IsBound(D972_B4_ANUPQ_SELFTEST) and D972_B4_ANUPQ_SELFTEST=true;;
+if D972ANV2Selftest then
   Print("B4_ANUPQ_V2_SELFTEST_PASS basis=raw161 relators=5056 norms=972\n");
   Print("B4_ANUPQ_V2_SELFTEST_FINAL_MARKER source_sha256=",D972ANV2SourceSha,
     " raw_rs_sha256=",D972ANV2ExpectedRawRelSha," norm_rs_sha256=",
     D972ANV2ExpectedNormRSSha,"\n");
-  QUIT;
 fi;
+
+if not D972ANV2Selftest then
 
 ## Build the exact raw presentation.  This is intentionally 161-generator;
 ## no transported images or reduced presentation enters the quotient map.
@@ -361,4 +370,4 @@ PrintTo(D972ANV2Fout,Concatenation(D972ANV2Out,"\n"));;
 CloseStream(D972ANV2Fout);
 Print("B4_ANUPQ_V2_FINAL_MARKER output=",D972ANV2Output,
   " status=",D972ANV2TopStatus,"\n");
-QUIT;
+fi;
