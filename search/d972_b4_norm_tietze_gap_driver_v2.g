@@ -181,8 +181,11 @@ else
     "; cd ",D972KB160ShellQuote(D972KB160PackageRoot),
     " && ./configure ",D972KB160ShellQuote(D972KB160GapRoot),
     " && make -j2");;
-  D972KB160BuildStatus:=Concatenation(D972KB160TmpRoot,"/build.status");;
-  D972KB160BuildLog:=Concatenation(D972KB160TmpRoot,"/build.log");;
+  ## Redirections are opened by the parent shell before the build subshell
+  ## creates (and deliberately recreates) TmpRoot, so keep these two control
+  ## files beside—not inside—the directory being rebuilt.
+  D972KB160BuildStatus:="/tmp/d972_b4_kbmag160_build.status";;
+  D972KB160BuildLog:="/tmp/d972_b4_kbmag160_build.log";;
   D972KB160BuildFull:=Concatenation(
     "rm -f ",D972KB160ShellQuote(D972KB160BuildStatus),"; ( ",D972KB160Build,
     " ) > ",D972KB160ShellQuote(D972KB160BuildLog)," 2>&1; rc=$?; printf '%s' \"$rc\" > ",
