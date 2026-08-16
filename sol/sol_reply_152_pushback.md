@@ -173,3 +173,74 @@ WORKFLOW_DISPATCH_PERFORMED_BY_SOL=NO;
 CURRENT_RUN_ID=NONE;
 A_B_TERMINAL=AWAITING_GHA_RECEIPT;
 ```
+
+## 6. 継続台帳（旧型への逆戻り禁止）
+
+2026-08-17 の直接指示を受け、以後の A/B 判定では次を不変条件とする。
+
+- 「細分が一つもない」路線の正確な証明義務は、細分一般の不存在ではなく、固定した outside shadow を壊す bad refinement の不存在である。
+- fake を仮定すれば、指数最小の bad refinement を一段の B4-stable chief factor `K < H <= M`（`H` では survive、`K` では fail）へ圧縮できる。この chief-compression だけは成立している。
+- 全 chief factor でその一段の marked/coface/hexagon/pentagon lift を吸収する一様定理は未証明である。従って、旧型でも訂正版でも `NO_BAD_REFINEMENT` はまだ発効していない。
+- rho は current rho
+  `[-6,-5,-3],[3],[5],[-3,-2,-1],[-5,-4,-1],[1]`
+  を正とし、legacy inverse-order rho は使用しない。
+- `M=K^(9) intersection N_S4` は B3/PB3 側の named target であり、`M.B4_stable` は型誤りである。B4-normal refinement/core は五つの A.18 coface images から作る別対象として扱う。
+- 固定 6/158 object での nonidentity は、semantic/core gate 後に A へ進む一方向の witness になり得る。固定 object の all-pass は全 refinement survival、B、又は Ihara 結論を含意しない。
+- B の終端は、訂正版の型で全 bad refinements を排除する一様定理、又は同値な compatible profinite lift の明示構成に限る。有限 prefix/all-pass、timeout、cap は B に格上げしない。
+
+この節は live continuity pin であり、最終 A/B receipt が得られた時点で run ID、commit SHA、artifact hash、独立照合結果とともに終端報告へ統合する。
+
+## 7. 厳密 6/158 の終局裁定（B4 専用）
+
+2026-08-17、B3 路線を保留し、現行 rho と正しい B4 coface/core の型で 6 生成元・158 relator 窓を再裁定した。
+
+- 158 relator は、意味論 bridge が完了した場合に限り、固定商
+  `U_M=K(0,5)/<<five A.18 coface images of C_M>>`
+  における pentagon defect を扱う。実際の defect は
+  `f(x45,x34)^-1 f(x12,x15)^-1 f(x23,x34) f(x45,x51) f(x12,x23)`
+  であり、condition (I) を独立再生した後にだけ reverse-rho norm と同一視できる。
+- exact 158 all-pass の最大の無条件結論は `LOCAL_U158_PENTAGON_ONLY` である。これは finer B4-normal refinement での恒等式、補正代表の存在、compatible profinite lift、genuine、B4-B のいずれも含意しない。
+- 理由は商写像の向きである。`K <= L_M` なら `G/K -> G/L_M` なので、defect が `L_M` に入ることから `K` に入ることは従わない。さらに finer level では旧 f そのものではなく `f*c` という補正代表を許すため、必要なのは hexagon 二式と pentagon 一式を同時に解く correction-lifting equation である。
+- 従って 158 all-pass を B4-B 証明路線として使う案は終了する。B4-B の残る本命証明義務は、全 B4-stable chief step でこの補正方程式が解け、解集合の遷移が compatible/onto になること、又は同値な `Out^]_5` の明示 profinite lift である。
+- 一方、semantically typed な有限像で 158 norm の nonidentity が得られれば A 側の有限障害になり得る。この一方向の用途のため、GHA direct 6/158 run `31955279723` は継続するが、all-pass を B に格上げしない。
+
+この裁定により、「厳密 158 がそのまま B を証明するか」という問いは **NO** で閉じた。A/B 本体は B4 correction-lifting / `Out^]_5` 路線で継続する。
+
+## 8. 旧 rho-tail 158 の意味論棄却と raw A.18 版への交換
+
+§7 で「意味論 bridge が完了した場合」と留保した点を有限証明書で裁定した。結論は **bridge 不成立** である。従来の
+
+\[
+N_\rho=\langle\!\langle R_0,B_0,\rho(B_0),\ldots,\rho^4(B_0)\rangle\!\rangle_{F_6}
+\]
+
+と、論文 A.18 を文字どおり入れた
+
+\[
+N_{A18}=\langle\!\langle R_0,A_{123},A_{234},A_{12,3,4},A_{1,23,4},A_{1,2,34}\rangle\!\rangle_{F_6}
+\]
+
+は同じ正規閉包ではない。
+
+- `search/d972_b4_158_a18_rs_separation_v1.py` は正本 JSON から現行 rho-tail 158 本を再構成し、正則 `C2^5` transversal による 161 Schreier 生成元・5056 relator を作る。
+- その exponent quotient over `F3` で、5056 本すべてを消す線形汎関数が、literal A.18 の 140 本中 41 本を消さない。
+- 最初の witness は map `12,3,4`、seed row 5 で pairing は `1 mod 3`。従ってこの A.18 relator は `N_A18` に属するが `N_rho` には属さず、`N_A18` は `N_rho` の部分集合ではない。
+- producer helper を共有しない `search/check_d972_b4_158_a18_rs_separation_v1.py` が全 5056 current rows と全 140 raw A.18 rows を再構成し、`B4_A18_PRESENTATION_SEPARATED_BY_FINITE_RS_QUOTIENT_CROSSCHECKED` を返した。producer receipt SHA-256 は `7514eee4727e7ca074665bcdd4ba783faaeabcb9ca9b007ef9eed690dffa6001`。
+- 既存 GHA run `31956732848` の有限 3-group receipt も別経路で class 2/3 とも 47 本の raw A.18 defect を返し、最初の map/seed は同じであった。
+
+従って旧 rho-tail 158 と、それを使った run の all-pass / defect を B4 A/B の証拠に使用してはならない。§7 の `31955279723` 継続記述はここで撤回し、旧型 run は判定対象から除外する。
+
+交換後の正しい固定対象は、18 K05 relators と五つの literal A.18 images（140 本）からなる raw A.18 presentation、canonical relator digest
+
+`783d7d80f472fbf6abc8a2f58454048de361e95774c76ce1c511982bb44eb305`
+
+である。評価語は condition (I) を仮定しない PENT-FORM' defect
+
+\[
+\widetilde D(f)=f(x_{45},x_{34})^{-1}f(x_{12},x_{15})^{-1}
+f(x_{23},x_{34})f(x_{45},x_{51})f(x_{12},x_{23})
+\]
+
+の 972 本であり、digest は `32cdc85b315817e939feca628bc15235a55664157ca1e272815a53f1de4631ef`。その `C2^5` Schreier relator digest は `db25c0268cdc774ef3205c9c1d1cf62cd013e6daaf73cf959e7972af5b3082bb`、972 defect の Schreier digest は `418e88934210e726de0e7e1f375bac2e6151f465be84f913884c58129217259c` である。
+
+この交換は旧158の型誤りを終端させるが、それ自体は A/B の終端ではない。以後の有限障害探索は `search/d972_b4_u_a18_anupq_v1.g` と独立 checker でこの三つの digest を fail-closed に固定して行う。
