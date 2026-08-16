@@ -433,8 +433,21 @@ def self_test() -> int:
     manifest = load_manifest()
     rewrites = manifest["dmtcp_contract"]["gap_4_12_materialized_rewrites"]
     base_rewrites = rewrites.get("base_permutation_groups", {})
-    if (rewrites.get("replacement_count_total") != 19 or
-            base_rewrites.get("replacement_count") != 15 or
+    list_rewrites = rewrites.get("table_group", {})
+    outer_rewrites = rewrites.get("outer_bucket_inner", {})
+    parent_rewrites = rewrites.get("exact_parent_subgroups", {})
+    if (rewrites.get("replacement_count_total") != 34 or
+            base_rewrites.get("replacement_count") != 17 or
+            list_rewrites.get("replacement_count") != 1 or
+            outer_rewrites.get("replacement_count") != 1 or
+            parent_rewrites.get("replacement_count") != 11 or
+            parent_rewrites.get("fail_closed_on_count_drift") is not True or
+            list_rewrites.get("needle") != "G := Group(perms);" or
+            list_rewrites.get("replacement") !=
+            "G := D972V2PermutationGroup(perms,n,\"table_group\");" or
+            outer_rewrites.get("needle") != "I := Group(innerPerms);" or
+            outer_rewrites.get("replacement") !=
+            "I := D972V2PermutationGroup(innerPerms,k,\"outer_bucket_inner\");" or
             base_rewrites.get("helper") !=
             "D972V2PermutationGroup(generators, degree, stage) -> "
             "Subgroup(SymmetricGroup(degree), PermList images)" or

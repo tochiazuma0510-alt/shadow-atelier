@@ -70,7 +70,7 @@
     },
     "gap_4_12_materialized_rewrites": {
       "source": "search/d972_dovetail_worker_v1.g",
-      "replacement_count_total": 19,
+      "replacement_count_total": 34,
       "mapping_group": {
         "replacement_count": 1,
         "needle": "Size(Group(a1,a2))",
@@ -124,12 +124,47 @@
         "needle": "PresentationSubgroupMtc(P, Hsub, \"h\", 0)",
         "replacement": "PresentationSubgroupMtc(P, Hsub, \"h\")"
       },
+      "table_group": {
+        "replacement_count": 1,
+        "needle": "G := Group(perms);",
+        "replacement": "G := D972V2PermutationGroup(perms,n,\"table_group\");",
+        "materialization": "table-derived permutations -> PermList images -> Subgroup(SymmetricGroup(n),perms)",
+        "exact_degree_binding": "n=Length(tbl)",
+        "stage_marker": "D972V2_PERM_GROUP subgroup_done stage=table_group"
+      },
+      "outer_bucket_inner": {
+        "replacement_count": 1,
+        "needle": "I := Group(innerPerms);",
+        "replacement": "I := D972V2PermutationGroup(innerPerms,k,\"outer_bucket_inner\");",
+        "materialization": "inner conjugation permutations -> PermList images -> Subgroup(SymmetricGroup(k),innerPerms)",
+        "exact_degree_binding": "k=Length(tbl)",
+        "stage_marker": "D972V2_PERM_GROUP subgroup_done stage=outer_bucket_inner"
+      },
+      "exact_parent_subgroups": {
+        "replacement_count": 11,
+        "materialization": "Subgroup(existing exact parent,[existing generators]); no ambient degree inference",
+        "exact_parent_bindings": {
+          "small_c2_parent": "SymmetricGroup(2)",
+          "candidate_generation_parent": "P",
+          "shadow_marked_parent": "P",
+          "shadow_perm_marked_parent": "P after IsomorphismPermGroup",
+          "shadow_perm_pure_parent": "P after IsomorphismPermGroup",
+          "shadow_perm_surjectivity_parent": "P after IsomorphismPermGroup",
+          "compare_parent": "L.group and R.group",
+          "selftest_split_parent": "split.fp",
+          "selftest_nonsplit_parent": "nonsplit.fp",
+          "selftest_derived_parent": "nonsplit.fp",
+          "selftest_surjectivity_parent": "nonsplit.fp"
+        },
+        "fail_closed_on_count_drift": true
+      },
       "base_permutation_groups": {
-        "replacement_count": 15,
+        "replacement_count": 17,
         "helper": "D972V2PermutationGroup(generators, degree, stage) -> Subgroup(SymmetricGroup(degree), PermList images)",
         "source_sha256": "323d18de4fadcf4561222995f5b6590bb560cd617048d2e9b54049ae3eea9efd",
         "exact_degree_bindings": {
           "base_q": "6*2916+6*504",
+          "base_psl4": "9",
           "base_pure": "6*2916+6*504",
           "base_compact_pure": "27+9",
           "base_full_pure": "6*2916+6*504",
@@ -141,6 +176,7 @@
           "combined_full_gate": "baseDegree+M.degree",
           "combined_pure": "baseDegree+M.degree",
           "combined_pure_with_c": "baseDegree+M.degree",
+          "combined_split_pure_with_c": "baseDegree+M.degree",
           "orbit_pure": "B.component9_degree+B.component4_degree+M.degree",
           "base_derived": "B.component9_degree+B.component4_degree",
           "orbit_surjectivity": "B.component9_degree+B.component4_degree+M.degree"
@@ -196,7 +232,7 @@
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-    "contract_sha256": "903d153cdb7ec169442a7ab95f741eb99c019032ac312034b0182ec02f28ed43"
+    "contract_sha256": "1a59badf3306446641c0611d59f6c4343360aad1a0435e34dc95dfde760293df"
   },
   "launch_spec": {
     "cwd": ".",
