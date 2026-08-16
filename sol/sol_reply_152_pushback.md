@@ -748,3 +748,52 @@ PERMANENT_EXCLUSIONS_RECORDED=YES;
 TRUE_RAW_A18_158_DISTINGUISHED_FROM_7ADIC_AND_BQ_FP_RELATORS=YES;
 A_B_TERMINAL=UNKNOWN;
 ```
+
+## 13. 凍結後の read-only 終端能力監査
+
+### 13.1 live 3 run は完走しても A/B 終端にならない
+
+2026-08-17 の凍結後に exact head の producer/checker を静的に再監査した。
+
+- `31967437253` の N3 Phase-B1 v2 は artifact 自身が
+  `gentle_fiber_gate.status=BLOCKED_NOT_IMPLEMENTED`、
+  `M_B4_stable=false`、`GT_descent=UNPROVED` を要求する。
+- `31969443502` の explicit-20-block direct-v4 は artifact 自身が
+  `gentle_fiber_gate.status=BLOCKED_MISSING_TYPED_B3_EXTENSION`、
+  `M_B4_stable=false`、`GT_descent=UNPROVEN` を要求する。
+- `31972043453` の semantic-M export v3 は (PB_3/M) の marking/order/center を
+  型付けするだけで、`M_B4_stable=false`、`four_face_GT_descent=UNPROVED` を要求する。
+
+従って三本はいずれも、success artifact と独立 checker PASS が得られても
+**次段入力の較正**にしかならず、A/B の terminal seal として採用してはならない。
+この監査時点では三本とも GAP step `in_progress`、artifact 0 であった。
+
+### 13.2 direct-v4 の期待分岐は center-only であり判別力がない
+
+direct-v4 の conditional gate は
+
+\[
+ |PB_3/N_3|=18\,|PB_3/M|,
+ \qquad |F_2/N_{3,F_2}|=|F_2/M_{F_2}|=1{,}469{,}664,
+ \qquad |cN_3|=18
+\]
+
+である。一方、凍結済み Phase-0 certificate は (M_{\rm ord}=18) を固定する。
+従ってこの gate と typed B3 extension がすべて通る場合、意図された分解は
+
+\[
+ PB_3/N_3\simeq (PB_3/M)\times C_{18},
+ \qquad N_{3,F_2}=M_{F_2}
+\]
+
+であり、roof の (f)-座標も (m\bmod18) も粗い 972 宇宙から増えない。
+既報の center-cancellation 計算の下では reduction fiber は同じ 972 行を返すだけである。
+ゆえにこの枝は
+
+- zero fiber を作れないので A-semidecision にはならず、
+- 一つの非 cofinal center-only refinement の all-pass に過ぎないので B 証明にもならない。
+
+再開時に direct-v4 の後へ 972-fiber producer を足すことを本命にしてはならない。
+価値は B3/PB3 marking と中心規約の較正に限定する。A/B へ進む次段は、
+F2 kernel を真に細分する B4-normal isolated refinement、または §12.7 の
+minimal-bad-chief joint-correction / global outside-element のいずれかでなければならない。
