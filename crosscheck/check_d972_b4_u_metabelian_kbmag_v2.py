@@ -26,6 +26,8 @@ SOURCE_SHA = "c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9"
 V1_SHA = "a3972236122dac32e74c6c8527d8dec8c8adc61e7f4dabb107af7660bc039dac"
 RELATOR_SHA = "12fc1146dce5179c2b5fc44a3ceed6356a6b2c4835a564b55e9a9cd679fccd2e"
 NORM_SHA = "ecf0cc8425bc24bdf6a8a352c223398221c4b179e09ee9a0bfe3dc888861683e"
+RHO_SHA = "23db316e11e6486e0475b8425ff8ea6666941b5bff0943bf872e39761d0398ed"
+RS_CONSTRUCTOR_SHA = "ae605e53f0a6823b6362ffe9e063cb9b4ea824ff1a28992c17da8706feb62576"
 WORDS_SHA = "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"
 WORDS_CANONICAL_SHA = "283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930"
 RAW_RS_SHA = "29c65a6cf9d0308e25ca462c752d7b540a6856e7d99d5d1d016919240b575c0e"
@@ -35,6 +37,7 @@ GEN_BITS = [1, 2, 4, 8, 16, 31]
 AB = [9] * 10
 KERNEL_ORDER = 9**10
 U_ORDER = 32 * KERNEL_ORDER
+REPLAY_NAME = "d972_b4_u_metabelian_kbmag_replay_v1.json"
 
 
 def compact(value: object) -> str:
@@ -225,7 +228,92 @@ def _pair_id(pair_words: list[list[int]]) -> list[list[int]]:
     return pair_id
 
 
-def snf_invariants(raw_relators: list[list[int]]) -> list[int]:
+def resolve_replay_path(receipt_path: Path, explicit: Path | None) -> Path:
+    """Require the same-job replay beside the v3 receipt, or an explicit path."""
+    replay_path = explicit if explicit is not None else receipt_path.with_name(REPLAY_NAME)
+    if not replay_path.is_file():
+        raise ValueError(
+            f"same-job replay receipt missing: {replay_path}; pass --replay explicitly"
+        )
+    return replay_path
+
+
+def _expected_replay_status(comm: list[bool], norms: list[bool]) -> str:
+    if sum(comm) != 12880:
+        return "UNKNOWN_K_NONABELIAN_REPLAYED"
+    if sum(norms) < 972:
+        return "B4_A_CANDIDATE_METABELIAN_REPLAYED"
+    return "B4_B_TERMINAL_CANDIDATE_METABELIAN_REPLAYED"
+
+
+def validate_replay_binding(
+    receipt: dict,
+    replay_raw: bytes,
+    replay: object,
+    comm: list[bool],
+    norms: list[bool],
+) -> None:
+    """Check the outer -> replay -> inner receipt chain and replay ledgers."""
+    if receipt.get("post_replay_requested") is not True:
+        raise ValueError("same-job replay was not requested")
+    if not isinstance(replay, dict):
+        raise ValueError("same-job replay receipt is not an object")
+    replay_sha = hashlib.sha256(replay_raw).hexdigest()
+    if receipt.get("replay_receipt_sha256") != replay_sha:
+        raise ValueError("outer replay receipt SHA mismatch")
+    inner_sha = receipt.get("inner_receipt_sha256")
+    if not isinstance(inner_sha, str) or len(inner_sha) != 64:
+        raise ValueError("outer inner receipt SHA missing")
+    if replay.get("producer_receipt_sha256") != inner_sha:
+        raise ValueError("replay is not bound to the v1 inner receipt")
+    if replay.get("schema") != "d972-b4-u-metabelian-kbmag-replay/v1":
+        raise ValueError("same-job replay schema drift")
+    if replay.get("status") != _expected_replay_status(comm, norms):
+        raise ValueError("same-job replay status drift")
+    for field, expected in (
+        ("source_sha256", SOURCE_SHA),
+        ("rs_constructor_sha256", RS_CONSTRUCTOR_SHA),
+        ("rho_words_sha256", RHO_SHA),
+        ("relator_sha256", RELATOR_SHA),
+        ("norm_original_sha256", NORM_SHA),
+    ):
+        if replay.get(field) != expected or receipt.get(field) != expected:
+            raise ValueError(f"same-job replay binding drift: {field}")
+    if replay.get("norm_count") != 972 or replay.get("commutator_count") != 12880:
+        raise ValueError("same-job replay ledger count drift")
+    if (
+        replay.get("gpgenmult_rechecked") is not True
+        or replay.get("gpcheckmult_rechecked") is not True
+        or replay.get("gpaxioms_rechecked") is not True
+        or replay.get("automata_replayed") is not True
+    ):
+        raise ValueError("same-job replay GAP/FSA gate not satisfied")
+    for field in ("commutator_ledger_sha256", "norm_ledger_sha256"):
+        if replay.get(field) != receipt.get(field):
+            raise ValueError(f"same-job replay ledger binding drift: {field}")
+    if replay.get("commutator_ledger_sha256") != digest(comm):
+        raise ValueError("same-job replay commutator ledger digest mismatch")
+    if replay.get("norm_ledger_sha256") != digest(norms):
+        raise ValueError("same-job replay norm ledger digest mismatch")
+    if replay.get("commutator_empty_count") != sum(comm):
+        raise ValueError("same-job replay commutator count mismatch")
+    if replay.get("norm_empty_count") != sum(norms):
+        raise ValueError("same-job replay norm count mismatch")
+    if replay.get("proof_level") != "DIRECT_GPAxioms_FSA_REPLAY_PENDING_LEAN":
+        raise ValueError("same-job replay proof-level drift")
+
+
+def _checked_snf_diagonal(diagonal: list[int], width: int = 161) -> tuple[int, list[int]]:
+    """Reject free factors before interpreting the non-unit SNF entries."""
+    if len(diagonal) != width:
+        raise ValueError(f"SNF diagonal width drift: {len(diagonal)} != {width}")
+    rank = sum(value != 0 for value in diagonal)
+    if rank != width or any(value == 0 for value in diagonal):
+        raise ValueError(f"SNF rank is not full: rank={rank} width={width}")
+    return rank, sorted(abs(value) for value in diagonal if abs(value) > 1)
+
+
+def snf_invariants(raw_relators: list[list[int]]) -> tuple[int, list[int]]:
     matrix_rows: list[list[int]] = []
     for word in raw_relators:
         row = [0] * 161
@@ -234,10 +322,12 @@ def snf_invariants(raw_relators: list[list[int]]) -> list[int]:
         matrix_rows.append(row)
     smith = smith_normal_form(Matrix(matrix_rows), domain=ZZ)
     diagonal = [int(smith[i, i]) for i in range(min(smith.shape))]
-    return sorted(abs(value) for value in diagonal if abs(value) > 1)
+    return _checked_snf_diagonal(diagonal)
 
 
-def validate(receipt_path: Path, output_path: Path) -> dict:
+def validate(
+    receipt_path: Path, output_path: Path, replay_path: Path | None = None
+) -> dict:
     _, raw_relators, norm_rows = load_canonical()
     receipt_raw = receipt_path.read_bytes()
     receipt = json.loads(receipt_raw.decode("utf-8"))
@@ -247,6 +337,11 @@ def validate(receipt_path: Path, output_path: Path) -> dict:
         raise ValueError("producer v1 digest drift")
     if receipt.get("source_sha256") != SOURCE_SHA or receipt.get("relator_sha256") != RELATOR_SHA:
         raise ValueError("receipt source digest drift")
+    if (
+        receipt.get("rs_constructor_sha256") != RS_CONSTRUCTOR_SHA
+        or receipt.get("rho_words_sha256") != RHO_SHA
+    ):
+        raise ValueError("receipt constructor/rho digest drift")
     if receipt.get("norm_original_sha256") != NORM_SHA:
         raise ValueError("receipt norm digest drift")
     if receipt.get("word_artifact_sha256") != WORDS_SHA or \
@@ -282,11 +377,18 @@ def validate(receipt_path: Path, output_path: Path) -> dict:
     if receipt.get("norm_empty_count") != sum(norms):
         raise ValueError("norm empty count mismatch")
 
+    replay_file = resolve_replay_path(receipt_path, replay_path)
+    replay_raw = replay_file.read_bytes()
+    replay = json.loads(replay_raw.decode("utf-8"))
+    validate_replay_binding(receipt, replay_raw, replay, comm, norms)
+
     # Ensure the producer's claimed K_ab is independently reproduced from the
     # canonical raw relators, rather than accepted from its JSON field.
-    invariants = snf_invariants(raw_relators)
+    snf_rank, invariants = snf_invariants(raw_relators)
     if invariants != AB or receipt.get("abelian_invariants") != AB:
         raise ValueError(f"K_ab SNF mismatch: {invariants}")
+    if snf_rank != 161 or receipt.get("snf_rank") != 161:
+        raise ValueError(f"K_ab SNF rank mismatch: {snf_rank}")
 
     status = receipt.get("status")
     if status == "B4_B_FINITE_ORDER_TERMINAL":
@@ -310,6 +412,10 @@ def validate(receipt_path: Path, output_path: Path) -> dict:
         "status": status,
         "proof_level": "INDEPENDENT_RAW_RS_LEDGER_AND_SNF_CROSSCHECK",
         "producer_receipt_sha256": hashlib.sha256(receipt_raw).hexdigest(),
+        "replay_receipt_sha256": hashlib.sha256(replay_raw).hexdigest(),
+        "inner_receipt_sha256": receipt["inner_receipt_sha256"],
+        "replay_status": replay["status"],
+        "post_replay_requested": True,
         "source_sha256": SOURCE_SHA,
         "raw_rs_relators_sha256": RAW_RS_SHA,
         "norm_rs_sha256": NORM_RS_SHA,
@@ -322,11 +428,13 @@ def validate(receipt_path: Path, output_path: Path) -> dict:
         "norm_count": len(norms),
         "norm_empty_count": sum(norms),
         "abelian_invariants": AB,
+        "snf_rank": snf_rank,
         "kernel_index": 32,
         "kernel_order": KERNEL_ORDER,
         "u_order": U_ORDER,
         "independent_raw_rs_replay": True,
         "independent_snf_match": True,
+        "independent_replay_binding": True,
     }
     output_path.write_text(compact(result) + "\n", encoding="utf-8")
     print("B4_U_METABELIAN_V2_CHECK", f"status={status}",
@@ -336,7 +444,7 @@ def validate(receipt_path: Path, output_path: Path) -> dict:
 
 
 def selftest() -> None:
-    """Small shape/normalization test; deliberately does not load SNF data."""
+    """Light fail-closed tests; no canonical SNF or 5056-row load is done."""
     assert free_reduce([1, -1, 2, 2, -2]) == [2]
     assert toggle(0, 1) == 1
     assert toggle(1, 1) == 0
@@ -350,13 +458,56 @@ def selftest() -> None:
     rows, legacy = normalize_word_rows(fixture)
     assert legacy == [0, 891]
     assert rows[0][2] == [] and rows[1][2] == [1, -1]
-    print("B4_U_METABELIAN_V2_SELFTEST_PASS")
+
+    rank, invariants = _checked_snf_diagonal([1] * 151 + [9] * 10)
+    assert rank == 161 and invariants == AB
+
+    def must_reject(thunk, label: str) -> None:
+        try:
+            thunk()
+        except (OSError, TypeError, ValueError, KeyError, IndexError):
+            return
+        raise AssertionError(f"negative selftest accepted: {label}")
+
+    must_reject(
+        lambda: resolve_replay_path(Path("d972_missing_receipt.json"), None),
+        "missing replay receipt",
+    )
+    must_reject(
+        lambda: _checked_snf_diagonal([1] * 160 + [0]),
+        "zero SNF diagonal",
+    )
+    forged_raw = b"{}\n"
+    forged_outer = {
+        "post_replay_requested": True,
+        "replay_receipt_sha256": hashlib.sha256(forged_raw).hexdigest(),
+        "inner_receipt_sha256": "1" * 64,
+    }
+    forged_replay = {
+        "schema": "d972-b4-u-metabelian-kbmag-replay/v1",
+        "producer_receipt_sha256": "2" * 64,
+    }
+    must_reject(
+        lambda: validate_replay_binding(
+            forged_outer, forged_raw, forged_replay, [True] * 12880, [True] * 972
+        ),
+        "forged replay inner binding",
+    )
+    print(
+        "B4_U_METABELIAN_V2_SELFTEST_PASS",
+        "snf_rank=161 missing_replay=BLOCKED zero_diagonal=BLOCKED forged_replay=BLOCKED",
+    )
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("receipt", type=Path, nargs="?")
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--replay",
+        type=Path,
+        help=f"same-job replay receipt (default: sibling {REPLAY_NAME})",
+    )
     parser.add_argument("--selftest", action="store_true")
     args = parser.parse_args()
     if args.selftest:
@@ -365,7 +516,7 @@ def main() -> int:
     if args.receipt is None or args.output is None:
         parser.error("receipt and --output are required unless --selftest is used")
     try:
-        validate(args.receipt, args.output)
+        validate(args.receipt, args.output, args.replay)
     except (OSError, TypeError, ValueError, KeyError, IndexError) as exc:
         print(f"B4_U_METABELIAN_V2_CHECK_ERROR {exc}", file=sys.stderr)
         return 2

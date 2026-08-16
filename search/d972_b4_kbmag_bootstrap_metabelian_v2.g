@@ -10,7 +10,7 @@
 D972MBV2BasePath:="search/d972_b4_kbmag_bootstrap_v1.g";;
 D972MBV2BaseSha:="ea679047579065c03ac47680aaf97fe3b1ee7726fbc6f2eee273277307d6fb25";;
 D972MBV2Target:="search/d972_b4_u_metabelian_kbmag_v3.g";;
-D972MBV2TargetSha:="d17042715a82f18caab996dcc1d3f33edd7389ac839a6028adba8f359ef1092b";;
+D972MBV2TargetSha:="d57e8556076d1bc6ea684ae7ba5d9dd47fccf195e58bac172c92c252a9c0026e";;
 if IsBound(D972_B4_KBMAG_BOOTSTRAP_TARGET) then
   if D972_B4_KBMAG_BOOTSTRAP_TARGET<>D972MBV2Target then
     Error("metabelian v2 bootstrap: target must be v2 wrapper");

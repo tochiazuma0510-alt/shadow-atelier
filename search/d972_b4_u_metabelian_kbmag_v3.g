@@ -48,12 +48,100 @@ D972MCV3Json := function(x)
   return Concatenation("[",JoinStringsWithSeparator(p,","),"]");
 end;;
 
+## Convert a GAP group element to the signed generator-row convention used by
+## the receipt.  The frozen v1 producer accidentally sends a group object to
+## D972ANV2SignedWord on its two nonidentity diagnostic paths.  Keep the
+## source hash frozen and repair those two calls in the TEMP copy below.
+D972MCV3SignedObj := function(w)
+  local e,out,i,g,n,j;
+  e:=ExtRepOfObj(w);;
+  out:=[];; i:=1;;
+  while i<=Length(e) do
+    g:=e[i];; n:=e[i+1];;
+    if n>0 then
+      for j in [1..n] do Add(out,g); od;
+    else
+      for j in [1..-n] do Add(out,-g); od;
+    fi;
+    i:=i+2;;
+  od;
+  return out;
+end;;
+
 D972MCV3Selftest := IsBound(D972_B4_METABELIAN_V3_SELFTEST) and
   D972_B4_METABELIAN_V3_SELFTEST=true;;
+
+## This construction is deliberately outside the heavy branch: the numeric
+## selftest must execute the same GAP string operations that patch the v1
+## producer, including both line-ending variants.
+D972MCV3CountSub:=function(text,needle)
+  local i,last,n;
+  n:=0;; last:=Length(text)-Length(needle)+1;;
+  if last<1 then return 0; fi;
+  for i in [1..last] do
+    if text{[i..i+Length(needle)-1]}=needle then n:=n+1; fi;
+  od;
+  return n;
+end;;
+D972MCV3BadCRLF:=Concatenation(")",List([44,34,44,13,10],CharInt));;
+D972MCV3GoodCRLF:=Concatenation(")",List([44,34,44,34,44,13,10],CharInt));;
+D972MCV3BadLF:=Concatenation(")",List([44,34,44,10],CharInt));;
+D972MCV3GoodLF:=Concatenation(")",List([44,34,44,34,44,10],CharInt));;
+D972MCV3ExpectedCommaFields:=29;;
+D972MCV3BadCount:=D972MCV3CountSub(D972MCV3V1Raw,D972MCV3BadCRLF)+
+  D972MCV3CountSub(D972MCV3V1Raw,D972MCV3BadLF);;
+D972MCV3GoodBefore:=D972MCV3CountSub(D972MCV3V1Raw,D972MCV3GoodCRLF)+
+  D972MCV3CountSub(D972MCV3V1Raw,D972MCV3GoodLF);;
+D972MCV3ObjNeedle:="D972ANV2SignedWord(D972MCZ,D972MCKG)";;
+D972MCV3ObjReplacement:="D972MCV3SignedObj(D972MCZ)";;
+D972MCV3SnfField:=",\"snf_rank\":161";;
+D972MCV3ObjCount:=D972MCV3CountSub(D972MCV3V1Raw,D972MCV3ObjNeedle);;
+if D972MCV3BadCount<>D972MCV3ExpectedCommaFields or
+   D972MCV3GoodBefore<>0 or D972MCV3ObjCount<>2 then
+  Error("metabelian v3: frozen v1 patch occurrence drift");
+fi;
+
 if D972MCV3Selftest then
+  D972MCV3Patched := ReplacedString(D972MCV3V1Raw,
+    D972MCV3BadCRLF,D972MCV3GoodCRLF);;
+  D972MCV3Patched := ReplacedString(D972MCV3Patched,
+    D972MCV3BadLF,D972MCV3GoodLF);;
+  D972MCV3Patched := ReplacedString(D972MCV3Patched,
+    D972MCV3ObjNeedle,D972MCV3ObjReplacement);;
+  if D972MCV3BadCount<>29 or D972MCV3GoodBefore<>0 or
+     D972MCV3ObjCount<>2 or
+     D972MCV3CountSub(D972MCV3Patched,D972MCV3BadCRLF)+
+       D972MCV3CountSub(D972MCV3Patched,D972MCV3BadLF)<>0 or
+     D972MCV3CountSub(D972MCV3Patched,D972MCV3GoodCRLF)+
+       D972MCV3CountSub(D972MCV3Patched,D972MCV3GoodLF)<>29 or
+     D972MCV3CountSub(D972MCV3Patched,D972MCV3ObjNeedle)<>0 or
+     D972MCV3CountSub(D972MCV3Patched,D972MCV3ObjReplacement)<>2 then
+    Error("metabelian v3 selftest: patched occurrence gate failed");
+  fi;
+  D972MCV3TestF:=FreeGroup(2,"d972_v3_obj_test");;
+  D972MCV3TestG:=GeneratorsOfGroup(D972MCV3TestF);;
+  if D972MCV3SignedObj(D972MCV3TestG[1]*D972MCV3TestG[2]^-1)<>[1,-2] then
+    Error("metabelian v3 selftest: ExtRep signed-row conversion failed");
+  fi;
+  if LoadPackage("json")<>true then
+    Error("metabelian v3 selftest: json package unavailable");
+  fi;
+  D972MCV3MetaProbe:=Concatenation(
+    "{\"post_replay_requested\":true",D972MCV3SnfField,
+    ",\"kernel_index\":32,\"kernel_order\":1}");;
+  if PositionSublist(D972MCV3MetaProbe,",,")<>fail then
+    Error("metabelian v3 selftest: metadata double comma");
+  fi;
+  D972MCV3MetaProbeObj:=JsonStringToGap(D972MCV3MetaProbe);;
+  if not IsRecord(D972MCV3MetaProbeObj) or
+     D972MCV3MetaProbeObj.post_replay_requested<>true or
+     D972MCV3MetaProbeObj.snf_rank<>161 or
+     D972MCV3MetaProbeObj.kernel_index<>32 then
+    Error("metabelian v3 selftest: metadata JSON parse failed");
+  fi;
   D972MCV3Reached := true;;
   Print("B4_U_METABELIAN_V3_SELFTEST_PASS source_sha256=",D972MCV3V1Sha,
-    " replay_forced=true canonical_receipt=true\n");
+    " replay_forced=true comma_bad=29 comma_good=29 object_calls=2\n");
 else
   ## The v1 producer writes its private receipt and automata to TEMP.  The
   ## replay then reads those exact paths in the same GAP process and writes
@@ -66,41 +154,23 @@ else
   ## comma string.  Insert that quote in TEMP; preserve the JSON comma.
   ## Count both line-ending variants exactly, and reject any pre-existing
   ## corrected occurrence or any dangling occurrence after replacement.
-  D972MCV3CountSub:=function(text,needle)
-    local i,last,n;
-    n:=0;; last:=Length(text)-Length(needle)+1;;
-    if last<1 then return 0; fi;
-    for i in [1..last] do
-      if text{[i..i+Length(needle)-1]}=needle then n:=n+1; fi;
-    od;
-    return n;
-  end;;
-  D972MCV3BadCRLF:=Concatenation(")",CharInt(44),CharInt(34),CharInt(44),
-    CharInt(13),CharInt(10));;
-  D972MCV3GoodCRLF:=Concatenation(")",CharInt(44),CharInt(34),CharInt(44),
-    CharInt(34),CharInt(44),CharInt(13),CharInt(10));;
-  D972MCV3BadLF:=Concatenation(")",CharInt(44),CharInt(34),CharInt(44),
-    CharInt(10));;
-  D972MCV3GoodLF:=Concatenation(")",CharInt(44),CharInt(34),CharInt(44),
-    CharInt(34),CharInt(44),CharInt(10));;
-  D972MCV3ExpectedCommaFields:=29;;
-  D972MCV3BadCount:=D972MCV3CountSub(D972MCV3V1Raw,D972MCV3BadCRLF)+
-    D972MCV3CountSub(D972MCV3V1Raw,D972MCV3BadLF);;
-  D972MCV3GoodBefore:=D972MCV3CountSub(D972MCV3V1Raw,D972MCV3GoodCRLF)+
-    D972MCV3CountSub(D972MCV3V1Raw,D972MCV3GoodLF);;
   if D972MCV3BadCount<>D972MCV3ExpectedCommaFields or
-     D972MCV3GoodBefore<>0 then
+     D972MCV3GoodBefore<>0 or D972MCV3ObjCount<>2 then
     Error("metabelian v3: v1 JSON comma occurrence drift");
   fi;
   D972MCV3Patched := ReplacedString(D972MCV3V1Raw,
     D972MCV3BadCRLF,D972MCV3GoodCRLF);;
   D972MCV3Patched := ReplacedString(D972MCV3Patched,
     D972MCV3BadLF,D972MCV3GoodLF);;
+  D972MCV3Patched := ReplacedString(D972MCV3Patched,
+    D972MCV3ObjNeedle,D972MCV3ObjReplacement);;
   if D972MCV3CountSub(D972MCV3Patched,D972MCV3BadCRLF)+
      D972MCV3CountSub(D972MCV3Patched,D972MCV3BadLF)<>0 or
      D972MCV3CountSub(D972MCV3Patched,D972MCV3GoodCRLF)+
      D972MCV3CountSub(D972MCV3Patched,D972MCV3GoodLF)<>
-       D972MCV3ExpectedCommaFields then
+        D972MCV3ExpectedCommaFields or
+     D972MCV3CountSub(D972MCV3Patched,D972MCV3ObjNeedle)<>0 or
+     D972MCV3CountSub(D972MCV3Patched,D972MCV3ObjReplacement)<>2 then
     Error("metabelian v3: patched JSON comma gate failed");
   fi;
   D972MCV3V1Temp := Filename(DirectoryTemporary(),
@@ -179,6 +249,7 @@ else
     D972MCV3Json(D972MCV3Status),
     ",\"producer_v1_sha256\":",D972MCV3Json(D972MCV3V1Sha),
     ",\"replay_receipt_sha256\":",D972MCV3Json(HexSHA256(D972MCV3ReplayRaw)),
+    ",\"inner_receipt_sha256\":",D972MCV3Json(HexSHA256(D972MCV3InnerRaw)),
     ",\"source_sha256\":",D972MCV3Json(D972ANV2SourceSha),
     ",\"rs_constructor_sha256\":",D972MCV3Json(D972MCSourceSha),
     ",\"rho_words_sha256\":",D972MCV3Json(D972MCRhoSha),
@@ -209,6 +280,7 @@ else
     ",\"filestore\":",D972MCV3Json(D972MCFilestore),
     ",\"diff1\":",D972MCV3Json(D972MCDiff1),
     ",\"abelian_invariants\":",D972MCV3Json(D972MCV3AbSorted),
+    D972MCV3SnfField,
     ",\"kernel_index\":32,\"kernel_order\":",String(D972MCV3AbOrder),
     ",\"u_order\":",String(32*D972MCV3AbOrder),
     ",\"first_norm_defect\":",D972MCV3Json(D972MCV3NormFirst),
