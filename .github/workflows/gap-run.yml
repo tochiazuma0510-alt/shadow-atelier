@@ -63,14 +63,28 @@ jobs:
           if [ "$p2_src" != "$p2_build_root/pkg/anupq" ]; then
             mv "$p2_src" "$p2_build_root/pkg/anupq"
           fi
+          json_url='https://github.com/gap-packages/json/releases/download/v2.4.0/json-2.4.0.tar.gz'
+          json_sha='ce49399f5f5dc4caf95213f5dd7ec09988f2ae93364817e88ff075a09a22826a'
+          json_archive="$p2_build_root/json-2.4.0.tar.gz"
+          curl --fail --location --silent --show-error --retry 3 \
+            --output "$json_archive" "$json_url"
+          printf '%s  %s\n' "$json_sha" "$json_archive" | sha256sum --check --status
+          tar --extract --gzip --file "$json_archive" --directory "$p2_build_root/pkg"
+          json_src="$(find "$p2_build_root/pkg" -mindepth 1 -maxdepth 1 \
+            -type d -name 'json*' -print -quit)"
+          test -n "$json_src"
+          if [ "$json_src" != "$p2_build_root/pkg/json" ]; then
+            mv "$json_src" "$p2_build_root/pkg/json"
+          fi
           test -n "${GAPROOT:-}"
           test -d "$GAPROOT"
           cd "$p2_build_root/pkg/anupq"
           ./configure --with-gaproot="$GAPROOT"
           make -j"$(nproc)"
           printf 'GAP_P2_PACKAGE_ROOT=%s\n' "$p2_build_root" >> "$GITHUB_ENV"
-          printf 'P2_PACKAGE_BUILD_PASS smallgrp=%s anupq=%s sha256=%s\n' \
-            "$smallgrp_dir" "$p2_build_root/pkg/anupq" "$p2_sha"
+          printf 'P2_PACKAGE_BUILD_PASS smallgrp=%s anupq=%s anupq_sha256=%s json=%s json_sha256=%s\n' \
+            "$smallgrp_dir" "$p2_build_root/pkg/anupq" "$p2_sha" \
+            "$p2_build_root/pkg/json" "$json_sha"
       - name: Run GAP script
         shell: bash
         env:
