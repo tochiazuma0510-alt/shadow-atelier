@@ -140,9 +140,9 @@ if D972BFMode="selftest" then
     Error("reversed x13 conjugate accepted"); fi;;
   if D972BFPP([D972BFS[1],D972BFS[2]])=D972BFS[1]*D972BFS[2] then
     Error("reverse PaperProd accepted"); fi;;
-  D972BFd1:=D972BFPP([D972BFPP([D972BFS[1],D972BFS[3]])^-1,
+  D972BFd1:=D972BFPP([D972BFPP([D972BFS[1],D972BFS[2]])^-1,
     D972BFS[2],D972BFS[1],D972BFS[3]]);;
-  D972BFd2:=D972BFPP([D972BFPP([D972BFS[3],D972BFS[1]])^-1,
+  D972BFd2:=D972BFPP([D972BFPP([D972BFS[2],D972BFS[1]])^-1,
     D972BFS[2],D972BFS[1],D972BFS[3]]);;
   if D972BFd1=D972BFd2 then Error("swapped leading A18 factors accepted"); fi;;
   D972BFToyK:=Group((1,2));;
