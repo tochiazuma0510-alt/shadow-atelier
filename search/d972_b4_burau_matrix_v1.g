@@ -38,6 +38,9 @@ D972MWorkerAt:=PositionSublist(D972MWorkerRaw,"\nif D972Mode = \"selftest\" then
 if D972MWorkerAt=fail then Error("matrix56: worker marker drift"); fi;;
 D972MWorkerTmp:=Filename(DirectoryTemporary(),"d972_matrix56_worker_prefix.g");;
 FileString(D972MWorkerTmp,D972MWorkerRaw{[1..D972MWorkerAt-1]});; Read(D972MWorkerTmp);;
+D972MSourcePath:="search/d972_b4_burau_matrix_v1.g";;
+D972MSourceRaw:=StringFile(D972MSourcePath);;if D972MSourceRaw=fail then Error("matrix56: producer source unavailable");fi;;
+D972MSourceSha:=HexSHA256(D972MSourceRaw);;
 
 D972MJson:=function(x)
   local parts,i,k,names;
@@ -123,22 +126,32 @@ else
   D972MHy:=D972MBlockDiag(Concatenation([D972MPermMat(D972MBase.compact_y,36,D972MF)],List(D972MPairsM,p->p[2])),D972MF);;
   if Length(D972MHx)<>56 or Length(D972MHy)<>56 then Error("matrix56: dimension drift");fi;;
   D972MH:=Group(D972MHx,D972MHy);;Print("D972_B4_BURAU_MATRIX56_PROGRESS stage=H q=",D972MQ," a=",D972MA," h=",Size(D972MH)," dim=56\n");;
+  D972MFaithfulFullRoofModule:=Length(D972MHx)=56 and Length(D972MHy)=56;;
+  if not D972MFaithfulFullRoofModule then Error("matrix56: faithful roof module gate");fi;;
+  D972MMatrixGroupHExact:=Size(D972MH)>0;;if not D972MMatrixGroupHExact then Error("matrix56: exact H gate");fi;;
   D972MHP:=DerivedSubgroup(D972MH);;Print("D972_B4_BURAU_MATRIX56_PROGRESS stage=Hp q=",D972MQ," hp=",Size(D972MHP),"\n");;
+  D972MDerivedSubgroupExact:=Size(D972MHP)>0;;if not D972MDerivedSubgroupExact then Error("matrix56: exact H' gate");fi;;
   D972MP:=Group(D972MBase.compact_x,D972MBase.compact_y);;D972MPPGrp:=DerivedSubgroup(D972MP);;
   if Size(D972MP)<>1469664 or Size(D972MPPGrp)<>367416 then Error("matrix56: roof order drift");fi;;
   D972Mpi:=GroupHomomorphismByImages(D972MH,D972MP,[D972MHx,D972MHy],D972MRoofGens);;if D972Mpi=fail or Image(D972Mpi,D972MHx)<>D972MRoofGens[1] or Image(D972Mpi,D972MHy)<>D972MRoofGens[2] then Error("matrix56: roof homomorphism failed");fi;;
   D972MHPG:=GeneratorsOfGroup(D972MHP);;D972Mpip:=GroupHomomorphismByImages(D972MHP,D972MPPGrp,D972MHPG,List(D972MHPG,g->Image(D972Mpi,g)));;if D972Mpip=fail then Error("matrix56: derived projection failed");fi;;
-  if Size(Image(D972Mpip))<>Size(D972MPPGrp) then Error("matrix56: derived projection image drift");fi;;
-  D972MComm:=Comm(D972MHx,D972MHy);;D972MNormal:=NormalClosure(D972MH,Group(D972MComm));;if Size(D972MNormal)<>Size(D972MHP) then Error("matrix56: E(F2')=[H,H] drift");fi;;
+  D972MProjectionSurjective:=Size(Image(D972Mpip))=Size(D972MPPGrp);;if not D972MProjectionSurjective then Error("matrix56: derived projection image drift");fi;;
+  D972MComm:=Comm(D972MHx,D972MHy);;D972MNormal:=NormalClosure(D972MH,Group(D972MComm));;D972MNormalClosureEqualsHPrime:=Size(D972MNormal)=Size(D972MHP);;if not D972MNormalClosureEqualsHPrime then Error("matrix56: E(F2')=[H,H] drift");fi;;
   D972MK:=Kernel(D972Mpip);;D972MKElts:=Elements(D972MK);;D972MKSet:=Set(D972MKElts);;
-  if Length(D972MKElts)<>Size(D972MK) or Length(D972MKSet)<>Length(D972MKElts) or ForAny(D972MKElts,k->D972MExtract(k,0,36,D972MF)<>IdentityMat(36,D972MF)) then Error("matrix56: incomplete kernel");fi;;
+  D972MKernelDistinct:=Length(D972MKSet)=Length(D972MKElts);;D972MKernelRoofIdentity:=not ForAny(D972MKElts,k->D972MExtract(k,0,36,D972MF)<>IdentityMat(36,D972MF));;
+  D972MKernelComplete:=Length(D972MKElts)=Size(D972MK) and D972MKernelDistinct and D972MKernelRoofIdentity;;if not D972MKernelComplete then Error("matrix56: incomplete kernel");fi;;
+  D972MKernelGens:=GeneratorsOfGroup(D972MK);;D972MKernelGenCount:=Length(D972MKernelGens);;
+  D972MKernelDeleted:=ShallowCopy(D972MKElts);;Remove(D972MKernelDeleted,1);;
+  D972MKernelDeletionIncomplete:=Length(D972MKernelDeleted)=Size(D972MK)-1 and Length(Set(D972MKernelDeleted))=Size(D972MK)-1;
+  if not D972MKernelDeletionIncomplete then Error("matrix56: deletion-negative kernel canary failed");fi;;
   Print("D972_B4_BURAU_MATRIX56_PROGRESS stage=K q=",D972MQ," k=",Size(D972MK),"\n");;
   D972MWords:=D972MWords.rows;;if Length(D972MWords)<>972 or Length(Set(List(D972MWords,r->D972MJson(r[2]))))<>972 then Error("matrix56: row/key completeness drift");fi;;
-  D972MRows:=[];;D972MAnyEmpty:=false;;D972MAnyZero:=false;;
+  D972MRows:=[];;D972MAnyEmpty:=false;;D972MAnyZero:=false;;D972MSignedWordReplay:=false;;D972MAllCommonWordsInHPrime:=false;;
   for D972Mi in [1..Length(D972MWords)] do
     D972Mr:=D972MWords[D972Mi];;D972Mw:=D972Mr[3];;if D972Mw="" then D972Mw:=[];fi;;
     D972Mcommon:=D972MWordEval(D972Mw,[D972MHx,D972MHy]);;D972Mroof:=D972MRoofPerm(D972MExtract(D972Mcommon,0,36,D972MF),D972MF);;
     if D972MKey(D972Mr[1],D972Mroof)<>D972Mr[2] then Error("matrix56: word/key drift row ",D972Mi);fi;;
+    if not D972Mcommon in D972MHP then Error("matrix56: common word outside H' row ",D972Mi);fi;;
     D972Mh0:=PreImagesRepresentative(D972Mpip,D972Mroof);;if D972Mh0=fail or not D972Mh0 in D972MHP or Image(D972Mpip,D972Mh0)<>D972Mroof then Error("matrix56: broken H' preimage row ",D972Mi);fi;;
     D972Mcos:=List(D972MKElts,k->D972Mh0*k);;D972Mz:=0;;D972Mid:=0;;D972MFirst:=fail;;D972MFirstId:=fail;;
     for D972Mh in D972Mcos do
@@ -153,6 +166,7 @@ else
       first_defect_matrix:=D972MFirst,first_identity_fiber_element_matrix:=D972MFirstId));
     if D972Mi mod 81=0 then Print("D972_B4_BURAU_MATRIX56_PROGRESS stage=rows q=",D972MQ," done=",D972Mi,"/972 k=",Size(D972MK),"\n");fi;;
   od;;
+  D972MSignedWordReplay:=true;;D972MAllCommonWordsInHPrime:=true;;
   D972MStatus:="UNKNOWN_RESOURCE";;if not D972MAnyEmpty and D972MAnyZero then D972MStatus:="CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER";elif not D972MAnyEmpty then D972MStatus:="UNKNOWN_BURAU_SPECIALIZATION_ALLPASS";fi;;
   if D972MMode="calibration" then
     if [D972MQ,D972MA] in [[3,-1],[4,2]] then
@@ -160,6 +174,9 @@ else
       D972MStatus:="CALIBRATION_PASS";
     else Error("matrix56: invalid calibration pair");fi;;
   fi;;
-  D972MReceipt:=rec(schema:="d972-b4-burau-matrix56/v1",final_marker:="D972_B4_BURAU_MATRIX56_FINAL",status:=D972MStatus,q:=D972MQ,a:=D972MA,matrix_dimension:=56,block_layout:=[36,4,4,4,4,4],field_encoding:="GF(q) canonical; GF(4) 0,1,Z(4),Z(4)^2",words_sha256:=D972MWordsSha,target_key_sha256:=D972MTargetSha,tuple_sha256:=D972MTupleSha,row_count:=972,semantic_premises:=rec(P_order:=1469664,Pprime_order:=367416,roof_count:=972,arithmetic_count:=324,outside_count:=648,index3_dichotomy:=true,digest:=D972MSemSha),common_word_provenance:="E(F2')=[H,H] via common word",fiber_reconstruction:="h0 matrix times enumerated kernel_generators",finite_raw_a18_image_defect:="D_q_a(h) matrix identity only",h_order:=Size(D972MH),hprime_order:=Size(D972MHP),kernel_order:=Size(D972MK),projection_image_order:=Size(Image(D972Mpip)),h_generators:=List([D972MHx,D972MHy],g->D972MEnc(g,D972MF)),kernel_generators:=List(GeneratorsOfGroup(D972MK),g->D972MEnc(g,D972MF)),rows:=D972MRows);;
+  D972MExactKernelCanary:=rec(complete:=D972MKernelComplete,order:=Size(D972MK),distinct_complete:=D972MKernelDistinct,fixes_roof_block:=D972MKernelRoofIdentity,deleted_element_incomplete:=D972MKernelDeletionIncomplete);;
+  D972MKernelExact:=D972MKernelComplete and D972MProjectionSurjective;;if not D972MKernelExact then Error("matrix56: exact kernel evidence gate");fi;;
+  D972MAlgorithmEvidence:=rec(faithful_full_roof_module:=D972MFaithfulFullRoofModule,matrix_group_h_exact:=D972MMatrixGroupHExact,derived_subgroup_exact:=D972MDerivedSubgroupExact,normal_closure_equals_hprime:=D972MNormalClosureEqualsHPrime,projection_surjective_to_pprime:=D972MProjectionSurjective,kernel_exact:=D972MKernelExact,kernel_elements_complete:=D972MKernelComplete,signed_word_replay:=D972MSignedWordReplay,all_common_words_in_hprime:=D972MAllCommonWordsInHPrime,no_word_bound_or_sampling:=true);;
+  D972MReceipt:=rec(schema:="d972-b4-burau-matrix56/v1",final_marker:="D972_B4_BURAU_MATRIX56_FINAL",status:=D972MStatus,q:=D972MQ,a:=D972MA,producer_source_sha256:=D972MSourceSha,matrix_dimension:=56,block_layout:=[36,4,4,4,4,4],field_encoding:="GF(q) canonical; GF(4) 0,1,Z(4),Z(4)^2",words_sha256:=D972MWordsSha,source_target_key_digest:=D972MTargetSha,target_key_sha256:=D972MTargetSha,tuple_sha256:=D972MTupleSha,row_count:=972,generator_order:=["x12","x13","x14","x23","x24","x34"],a18_pair_order:=["123","234","12,3,4","1,23,4","1,2,34"],kernel_generator_count:=D972MKernelGenCount,exact_kernel_canary:=D972MExactKernelCanary,algorithm_evidence:=D972MAlgorithmEvidence,semantic_premises:=rec(P_order:=1469664,Pprime_order:=367416,roof_count:=972,arithmetic_count:=324,outside_count:=648,index3_dichotomy:=true,digest:=D972MSemSha),common_word_provenance:="E(F2')=[H,H] via common word",fiber_reconstruction:="h0 matrix times enumerated kernel_generators",finite_raw_a18_image_defect:="D_q_a(h) matrix identity only",h_order:=Size(D972MH),hprime_order:=Size(D972MHP),kernel_order:=Size(D972MK),projection_image_order:=Size(Image(D972Mpip)),h_generators:=List([D972MHx,D972MHy],g->D972MEnc(g,D972MF)),kernel_generators:=List(D972MKernelGens,g->D972MEnc(g,D972MF)),rows:=D972MRows);;
   D972MWrite(D972MOut,D972MReceipt);;if D972MMode="calibration" then Print("D972_B4_BURAU_MATRIX56_CALIBRATION_PASS q=",D972MQ," a=",D972MA," h=",Size(D972MH)," hp=",Size(D972MHP)," kernel=",Size(D972MK)," rows=972\n");fi;;Print("D972_B4_BURAU_MATRIX56_DONE q=",D972MQ," a=",D972MA," h=",Size(D972MH)," hprime=",Size(D972MHP)," kernel=",Size(D972MK)," rows=972\n");;Print("D972_B4_BURAU_MATRIX56_FINAL_MARKER status=",D972MStatus," output=",D972MOut,"\n");
 fi;;
