@@ -1,0 +1,307 @@
+name: d972-burau-q7-v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-burau-q7-v1.yml
+      - search/d972_b4_burau_fiber_v5.py
+      - search/check_d972_b4_burau_fiber_v5.py
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PYTHON_VERSION: '3.13.5'
+
+jobs:
+  calibrate:
+    name: calibration q=${{ matrix.q }} a=${{ matrix.a }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {q: "3", a: "-1", tag: q3}
+          - {q: "4", a: "2", tag: q4}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Run frozen calibration
+        shell: bash
+        env:
+          BURAU_Q: ${{ matrix.q }}
+          BURAU_A: ${{ matrix.a }}
+          BURAU_TAG: ${{ matrix.tag }}
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out ci/wheels
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+          python -c 'import resource; soft, hard = resource.getrlimit(resource.RLIMIT_AS); expected = 12000000 * 1024; assert soft == expected; print("Q7_VMEM_GUARD_PASS", "bytes", soft, "expected", expected, "hard", hard)'
+          producer_sha="$(sha256sum search/d972_b4_burau_fiber_v5.py | cut -d" " -f1)"
+          checker_sha="$(sha256sum search/check_d972_b4_burau_fiber_v5.py | cut -d" " -f1)"
+          words_sha="$(sha256sum search/certs/d972_b4_word_key_artifact_v1_20260816.json | cut -d" " -f1)"
+          test "$producer_sha" = "706b094b6fd434a04abdaf88b64e023c88151e4132dbceed765e2f9dc942a1e7"
+          test "$checker_sha" = "eed56e60ff92bf819e80b42b68a7fcf97aaa65c3c16cc6e8dfdc38c678114a1b"
+          test "$words_sha" = "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"
+          {
+            echo "producer_sha256=$producer_sha"
+            echo "checker_sha256=$checker_sha"
+            echo "words_sha256=$words_sha"
+          } > ci/out/input-sha256.txt
+          python search/d972_b4_burau_fiber_v5.py --self-test > ci/out/selftest-$BURAU_TAG.log 2>&1
+          cat ci/out/selftest-$BURAU_TAG.log
+          grep -Fxc 'D972_B4_BURAU_FIBER_V5_SELFTEST_PASS' ci/out/selftest-$BURAU_TAG.log | grep -Fx 1
+          receipt="ci/out/d972_b4_burau_fiber_v5_$BURAU_TAG.json"
+          log="ci/out/full-$BURAU_TAG.log"
+          set +e
+          python search/d972_b4_burau_fiber_v5.py --q "$BURAU_Q" --a "$BURAU_A" --output "$receipt" > "$log" 2>&1
+          producer_status=$?
+          cat "$log"
+          set -e
+          test "$producer_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception)' "$log"
+          expected="D972_B4_BURAU_FIBER_V5_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=$receipt"
+          test "$(grep -Fxc -- "$expected" "$log" || true)" -eq 1
+          python - "$receipt" "$BURAU_Q" "$BURAU_A" <<'PY'
+          import json, sys
+          r = json.load(open(sys.argv[1], encoding="utf-8"))
+          if (r.get("schema") != "d972-b4-burau-fiber/v5-lowmem" or
+              r.get("final_marker") != "D972_B4_BURAU_FIBER_V5_FINAL" or
+              r.get("status") != "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" or
+              r.get("q") != int(sys.argv[2]) or r.get("a") != int(sys.argv[3]) or
+              r.get("h_order") != 105815808 or r.get("hprime_order") != 2939328 or
+              r.get("kernel_order") != 8 or r.get("projection_image_order") != 367416):
+              raise SystemExit("calibration scalar gate failed")
+          rows = r.get("rows")
+          if not isinstance(rows, list) or len(rows) != 972:
+              raise SystemExit("calibration row count failed")
+          keys = []
+          for i, row in enumerate(rows, 1):
+              if (row.get("row_index") != i or row.get("fiber_size") != 8 or
+                  row.get("identity_image_defect_count") != 1 or
+                  row.get("nonidentity_image_defect_count") != 7):
+                  raise SystemExit("calibration fiber gate failed")
+              keys.append(json.dumps(row.get("target_key"), sort_keys=True, separators=(",", ":")))
+          if len(set(keys)) != 972:
+              raise SystemExit("calibration key gate failed")
+          print("D972_B4_BURAU_V5_CALIBRATION_RECEIPT_GATE_PASS")
+          PY
+          python search/check_d972_b4_burau_fiber_v5.py "$receipt" > ci/out/check-$BURAU_TAG.log 2>&1
+          cat ci/out/check-$BURAU_TAG.log
+          grep -Fq 'D972_B4_BURAU_FIBER_V5_CHECK_PASS ' ci/out/check-$BURAU_TAG.log
+          receipt_sha="$(sha256sum "$receipt" | cut -d" " -f1)"
+          echo "receipt_sha256=$receipt_sha" >> ci/out/input-sha256.txt
+          echo "D972_B4_BURAU_V5_CALIBRATION_INDEPENDENT_CHECK_PASS tag=$BURAU_TAG"
+      - name: Upload calibration evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-q7-calibration-${{ matrix.tag }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 14
+          path: ci/out/
+
+  q7:
+    name: q=7 a=${{ matrix.a }}
+    needs: calibrate
+    if: ${{ needs.calibrate.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        a: ["1", "2", "3", "4", "5", "6"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Download q3 calibration
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-q7-calibration-q3-attempt${{ github.run_attempt }}
+          path: ci/in/q3
+      - name: Download q4 calibration
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-q7-calibration-q4-attempt${{ github.run_attempt }}
+          path: ci/in/q4
+      - name: Run exact q7 lane
+        shell: bash
+        env:
+          BURAU_A: ${{ matrix.a }}
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out ci/wheels
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+          python -c 'import resource; soft, hard = resource.getrlimit(resource.RLIMIT_AS); expected = 12000000 * 1024; assert soft == expected; print("Q7_VMEM_GUARD_PASS", "bytes", soft, "expected", expected, "hard", hard)'
+          q3=ci/in/q3/d972_b4_burau_fiber_v5_q3.json
+          q4=ci/in/q4/d972_b4_burau_fiber_v5_q4.json
+          test -s "$q3"
+          test -s "$q4"
+          producer_sha="$(sha256sum search/d972_b4_burau_fiber_v5.py | cut -d" " -f1)"
+          checker_sha="$(sha256sum search/check_d972_b4_burau_fiber_v5.py | cut -d" " -f1)"
+          words_sha="$(sha256sum search/certs/d972_b4_word_key_artifact_v1_20260816.json | cut -d" " -f1)"
+          test "$producer_sha" = "706b094b6fd434a04abdaf88b64e023c88151e4132dbceed765e2f9dc942a1e7"
+          test "$checker_sha" = "eed56e60ff92bf819e80b42b68a7fcf97aaa65c3c16cc6e8dfdc38c678114a1b"
+          test "$words_sha" = "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"
+          {
+            sha256sum "$q3" "$q4"
+            echo "producer_sha256=$producer_sha"
+            echo "checker_sha256=$checker_sha"
+            echo "words_sha256=$words_sha"
+          } > ci/out/input-sha256.txt
+          python - "$q3" "$q4" <<'PY'
+          import json, sys
+          for path in sys.argv[1:]:
+              r = json.load(open(path, encoding="utf-8"))
+              if (r.get("status") != "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" or
+                  r.get("row_count") != 972 or r.get("kernel_order") != 8):
+                  raise SystemExit("calibration artifact scalar mismatch")
+          PY
+          receipt="ci/out/d972_b4_burau_fiber_v5_q7_a$BURAU_A.json"
+          producer_log="ci/out/producer-a$BURAU_A.log"
+          set +e
+          python search/d972_b4_burau_fiber_v5.py --q 7 --a "$BURAU_A" --calibration-q3 "$q3" --calibration-q4 "$q4" --output "$receipt" > "$producer_log" 2>&1
+          producer_status=$?
+          cat "$producer_log"
+          set -e
+          test "$producer_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception)' "$producer_log"
+          candidate="D972_B4_BURAU_FIBER_V5_FINAL status=CANDIDATE_B4_A_BURAU_Q7_ZERO_FIBER output=$receipt"
+          allpass="D972_B4_BURAU_FIBER_V5_FINAL status=UNKNOWN_BURAU_Q7_SPECIALIZATION_ALLPASS output=$receipt"
+          c="$(grep -Fxc -- "$candidate" "$producer_log" || true)"
+          u="$(grep -Fxc -- "$allpass" "$producer_log" || true)"
+          test "$((c + u))" -eq 1
+          python - "$receipt" "$BURAU_A" <<'PY'
+          import json, sys
+          r = json.load(open(sys.argv[1], encoding="utf-8"))
+          if (r.get("schema") != "d972-b4-burau-fiber/v5-lowmem" or
+              r.get("final_marker") != "D972_B4_BURAU_FIBER_V5_FINAL" or
+              r.get("q") != 7 or r.get("a") != int(sys.argv[2]) or
+              r.get("status") not in {"CANDIDATE_B4_A_BURAU_Q7_ZERO_FIBER", "UNKNOWN_BURAU_Q7_SPECIALIZATION_ALLPASS"} or
+              r.get("row_count") != 972 or len(r.get("rows", [])) != 972):
+              raise SystemExit("q7 receipt scalar gate failed")
+          for i, row in enumerate(r["rows"], 1):
+              if row.get("row_index") != i or row.get("fiber_size", 0) <= 0:
+                  raise SystemExit("q7 row/fiber gate failed")
+          print("D972_B4_BURAU_V5_Q7_RECEIPT_GATE_PASS")
+          PY
+          checker_log="ci/out/check-a$BURAU_A.log"
+          python search/check_d972_b4_burau_fiber_v5.py "$receipt" --calibration-q3 "$q3" --calibration-q4 "$q4" > "$checker_log" 2>&1
+          cat "$checker_log"
+          test "$(grep -Ec '^D972_B4_BURAU_FIBER_V5_CHECK_PASS ' "$checker_log")" -eq 1
+          echo "D972_B4_BURAU_V5_Q7_CHECKER_PASS a=$BURAU_A" | tee -a "$checker_log"
+      - name: Upload q7 evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-q7-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 14
+          path: ci/out/
+
+  aggregate:
+    name: fail-closed q7 aggregate
+    needs: [calibrate, q7]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Download all q7 evidence
+        if: ${{ always() }}
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: d972-burau-q7-a*-attempt${{ github.run_attempt }}
+          path: ci/all
+          merge-multiple: true
+      - name: Fail-closed aggregation
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/all
+          test "${{ needs.calibrate.result }}" = success
+          test "${{ needs.q7.result }}" = success
+          candidate_count=0
+          allpass_count=0
+          for a in 1 2 3 4 5 6; do
+            receipt="ci/all/d972_b4_burau_fiber_v5_q7_a$a.json"
+            producer_log="ci/all/producer-a$a.log"
+            checker_log="ci/all/check-a$a.log"
+            test -s "$receipt"
+            test -s "$producer_log"
+            test -s "$checker_log"
+            test "$(grep -Ec '^D972_B4_BURAU_FIBER_V5_CHECK_PASS ' "$checker_log")" -eq 1
+            ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception|UNKNOWN_RESOURCE)' "$producer_log" "$checker_log"
+            check_marker="^D972_B4_BURAU_V5_Q7_CHECKER_PASS a=$a$"
+            test "$(grep -Ec "$check_marker" "$checker_log")" -eq 1
+            status="$(python - "$receipt" "$a" <<'PY'
+          import json, sys
+          r = json.load(open(sys.argv[1], encoding="utf-8"))
+          if (r.get("schema") != "d972-b4-burau-fiber/v5-lowmem" or
+              r.get("final_marker") != "D972_B4_BURAU_FIBER_V5_FINAL" or
+              r.get("q") != 7 or r.get("a") != int(sys.argv[2]) or
+              r.get("row_count") != 972 or len(r.get("rows", [])) != 972):
+              raise SystemExit("aggregate scalar mismatch")
+          s = r.get("status")
+          zeros = sum(x.get("identity_image_defect_count") == 0 for x in r["rows"])
+          if s == "CANDIDATE_B4_A_BURAU_Q7_ZERO_FIBER" and zeros > 0:
+              print("candidate"); raise SystemExit(0)
+          if s == "UNKNOWN_BURAU_Q7_SPECIALIZATION_ALLPASS" and zeros == 0:
+              print("allpass"); raise SystemExit(0)
+          raise SystemExit("nonterminal q7 status/count mismatch")
+          PY
+            )"
+            case "$status" in
+              candidate) candidate_count=$((candidate_count + 1)) ;;
+              allpass) allpass_count=$((allpass_count + 1)) ;;
+              *) exit 1 ;;
+            esac
+          done
+          test "$((candidate_count + allpass_count))" -eq 6
+          if test "$candidate_count" -gt 0; then
+            echo "D972_B4_BURAU_Q7_CAMPAIGN_FINAL status=CANDIDATE_ZERO_AFTER_CHECKER lanes=6"
+          else
+            test "$allpass_count" -eq 6
+            echo "D972_B4_BURAU_Q7_CAMPAIGN_FINAL status=UNKNOWN_ALLPASS_AFTER_CHECKER lanes=6"
+          fi
+      - name: Upload aggregate evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-q7-aggregate-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 14
+          path: ci/
