@@ -1,0 +1,123 @@
+name: d972-power-spectrum-v3
+
+on:
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-power-spectrum-v3.yml
+      - search/d972_power_spectrum_v3.g
+      - search/check_d972_power_spectrum_v3.py
+      - search/d972_dovetail_core_v2.g
+      - search/probe/wac_v1/gap_output_prelude.g
+      - search/gaplib_common.g
+      - search/week3-battery-common.g
+      - search/week3-psl-common.g
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  D972_PS3_GAP_VERSION: "4.16.0"
+  D972_PS3_PRODUCER_SHA256: "e9a11a427ce133f4f561528f8c78dd25e668cb24f53cff30a756fc546e362d87"
+  D972_PS3_CHECKER_SHA256: "adc92aef61da3f96a593c7acfc6f3b7ab95a93d57ae5d4e3dbcd848381f3097f"
+  D972_PS3_CORE_SHA256: "1c3348003805df874ab6d42503720259564eec25c1aebfb1c548a759e3d9f7ae"
+  D972_PS3_PRELUDE_SHA256: "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+  D972_PS3_GAPLIB_SHA256: "f80eeeae71c4e39f8b3d62d997d18635f5ea8fb339a6d0578e834300ea4d4911"
+  D972_PS3_BATTERY_SHA256: "aadf1afa5e1a171d10d0aa1f9657e823cad669b960e08da7b9e7618f2ea4f998"
+  D972_PS3_PSL_SHA256: "e48e50d55562983415b5691d07e3d893182620b1f73b8fe35ea77815ad9695c4"
+  D972_PS3_ARTIFACT_SHA256: "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"
+
+jobs:
+  power-spectrum:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@f12222f1b86ce1f8a246c4000abfd6e69893411c # v3.8.0
+        with:
+          gap-version: "4.16.0"
+
+      - name: Bind producer, checker, and runtime inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' "$D972_PS3_PRODUCER_SHA256" search/d972_power_spectrum_v3.g | sha256sum --check --status
+          printf '%s  %s\n' "$D972_PS3_CHECKER_SHA256" search/check_d972_power_spectrum_v3.py | sha256sum --check --status
+          printf '%s  %s\n' "$D972_PS3_CORE_SHA256" search/d972_dovetail_core_v2.g | sha256sum --check --status
+          printf '%s  %s\n' "$D972_PS3_PRELUDE_SHA256" search/probe/wac_v1/gap_output_prelude.g | sha256sum --check --status
+          printf '%s  %s\n' "$D972_PS3_GAPLIB_SHA256" search/gaplib_common.g | sha256sum --check --status
+          printf '%s  %s\n' "$D972_PS3_BATTERY_SHA256" search/week3-battery-common.g | sha256sum --check --status
+          printf '%s  %s\n' "$D972_PS3_PSL_SHA256" search/week3-psl-common.g | sha256sum --check --status
+          printf '%s  %s\n' "$D972_PS3_ARTIFACT_SHA256" search/certs/d972_b4_word_key_artifact_v1_20260816.json | sha256sum --check --status
+          python3 -m py_compile search/check_d972_power_spectrum_v3.py
+
+      - name: GAP and independent-checker selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          printf '%s\n' \
+            'if GAPInfo.Version <> "4.16.0" then Error("157bf: GAP version drift"); fi;;' \
+            'D972_POWER_MODE:="selftest";;' \
+            'D972_POWER_OUTPUT:="ci/out/selftest.json";;' \
+            'Read("search/d972_power_spectrum_v3.g");' \
+            > ci/out/driver-selftest.g
+          gap -l "$GAPROOT" --quitonbreak -q ci/out/driver-selftest.g 2>&1 | tee ci/out/gap-selftest.log
+          grep -Fxc 'D972_POWER_SPECTRUM_V3_GAP_SELFTEST_PASS' ci/out/gap-selftest.log | grep -Fx 1
+          python3 search/check_d972_power_spectrum_v3.py --self-test | tee ci/out/check-selftest.log
+          grep -Fxc 'D972_POWER_SPECTRUM_V3_CHECKER_SELFTEST_PASS' ci/out/check-selftest.log | grep -Fx 1
+
+      - name: Full producer and independent square-subgroup checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          receipt='ci/out/d972_power_spectrum_v3.json'
+          printf '%s\n' \
+            'if GAPInfo.Version <> "4.16.0" then Error("157bf: GAP version drift"); fi;;' \
+            'D972_POWER_MODE:="full";;' \
+            'D972_POWER_OUTPUT:="ci/out/d972_power_spectrum_v3.json";;' \
+            'Read("search/d972_power_spectrum_v3.g");' \
+            > ci/out/driver-full.g
+          set +e
+          timeout --signal=TERM --kill-after=60s 330m \
+            gap -l "$GAPROOT" --quitonbreak -q ci/out/driver-full.g \
+            2>&1 | tee ci/out/gap-full.log
+          gap_status=${PIPESTATUS[0]}
+          set -e
+          if [ "$gap_status" -eq 124 ]; then
+            python3 - "$receipt" <<'PY'
+          import json, sys
+          json.dump({
+              "schema": "d972-power-spectrum/v3",
+              "final_marker": "D972_POWER_SPECTRUM_V3_GAP_FINAL",
+              "status": "UNKNOWN_TIMEOUT",
+              "reason": "GAP producer exceeded the bounded 330 minute wall clock",
+              "proof_level": "UNKNOWN",
+          }, open(sys.argv[1], "w", encoding="utf-8"), sort_keys=True)
+          PY
+            echo 'D972_POWER_SPECTRUM_V3_TIMEOUT status=UNKNOWN_TIMEOUT'
+            exit 0
+          fi
+          test "$gap_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,|break loop)' ci/out/gap-full.log
+          grep -Fxc 'D972_POWER_SPECTRUM_V3_GAP_FINAL' ci/out/gap-full.log | grep -Fx 1
+          test -s "$receipt"
+          python3 search/check_d972_power_spectrum_v3.py --receipt "$receipt" | tee ci/out/check-full.log
+          grep -Fxc 'D972_POWER_SPECTRUM_V3_CHECKER_PASS' ci/out/check-full.log | grep -Fx 1
+
+      - name: Upload lossless attempt evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: d972-power-spectrum-v3-${{ github.run_id }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
