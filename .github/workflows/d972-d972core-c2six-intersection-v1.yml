@@ -1,0 +1,143 @@
+name: d972-d972core-c2six-intersection-v1
+
+on:
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-d972core-c2six-intersection-v1.yml
+      - search/d972_d972core_c2six_intersection_v1.g
+      - search/check_d972_d972core_c2six_intersection_v1.py
+      - search/certs/d972_phase2b_nonsplit_v1_20260813.json
+      - search/certs/d972_phase2b_nonsplit_v1_check_20260813.json
+      - search/certs/d972_b4_marity_reduction_maps_v1.json
+      - search/check_d972_b4_marity_reduction_maps_v1.py
+      - search/week3-battery-common.g
+      - search/d972_dovetail_core_v2.g
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  D972_BD_PRODUCER_SHA256: "52005b33e3357afa85a5f0400eb9f9589ab052d0f18f0844a7e514bb16438aae"
+  D972_BD_CHECKER_SHA256: "d0ba83e21fab0dcb2dd29a9b5d70ab67f2abb5938be4cf9f99c5df0d6c4dc06c"
+  D972_BD_SOURCE_SHA256: "648335000ff70f37d357c9c27ec5054cd4366b281c616f0391c4c7580cd4bcb9"
+  D972_BD_SOURCE_CHECK_SHA256: "90db0fc500eb44bd905059d7a00dfaf4920c8c9890ed151d773141456fd059bb"
+  D972_BD_MAPS_SHA256: "6bab29852ec35210abe7bfc46e68c5457abc76653af3778921a71be8256dbfc2"
+  D972_BD_MAP_CHECKER_SHA256: "eb87e9d42ecde979b82a31beec8fdedea3e221a55d4881f8a71dbaffc2a7a032"
+  D972_BD_GN_SOURCE_SHA256: "aadf1afa5e1a171d10d0aa1f9657e823cad669b960e08da7b9e7618f2ea4f998"
+  D972_BD_DOVETAIL_SOURCE_SHA256: "1c3348003805df874ab6d42503720259564eec25c1aebfb1c548a759e3d9f7ae"
+
+jobs:
+  d972-core-intersection:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: "4.16.0"
+
+      - name: Install pinned JSON package
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends ca-certificates curl build-essential libgmp-dev libreadline-dev libncurses-dev zlib1g-dev
+          json_root="$(mktemp -d "${RUNNER_TEMP}/d972-bd-json.XXXXXX")"
+          json_url='https://github.com/gap-packages/json/releases/download/v2.4.0/json-2.4.0.tar.gz'
+          json_sha='ce49399f5f5dc4caf95213f5dd7ec09988f2ae93364817e88ff075a09a22826a'
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 -o "$json_root/json.tgz" "$json_url"
+          printf '%s  %s\n' "$json_sha" "$json_root/json.tgz" | sha256sum --check --status
+          mkdir -p "$json_root/pkg"
+          tar --extract --gzip --no-same-owner -f "$json_root/json.tgz" -C "$json_root/pkg"
+          json_src="$(find "$json_root/pkg" -mindepth 1 -maxdepth 1 -type d -name 'json-*' -print -quit)"
+          test -n "$json_src"
+          mv "$json_src" "$json_root/pkg/json"
+          test -n "${GAPROOT:-}"
+          (cd "$json_root/pkg/json" && ./configure --with-gaproot="$GAPROOT" && make -j"$(nproc)")
+          # GAP searches $GAPROOT/pkg/<package>; bind the package parent.
+          printf 'D972_BD_JSON_ROOT=%s\n' "$json_root" >> "$GITHUB_ENV"
+
+      - name: Bind executable and input hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' "$D972_BD_PRODUCER_SHA256" search/d972_d972core_c2six_intersection_v1.g | sha256sum --check --status
+          printf '%s  %s\n' "$D972_BD_CHECKER_SHA256" search/check_d972_d972core_c2six_intersection_v1.py | sha256sum --check --status
+          printf '%s  %s\n' "$D972_BD_SOURCE_SHA256" search/certs/d972_phase2b_nonsplit_v1_20260813.json | sha256sum --check --status
+          printf '%s  %s\n' "$D972_BD_SOURCE_CHECK_SHA256" search/certs/d972_phase2b_nonsplit_v1_check_20260813.json | sha256sum --check --status
+          printf '%s  %s\n' "$D972_BD_MAPS_SHA256" search/certs/d972_b4_marity_reduction_maps_v1.json | sha256sum --check --status
+          printf '%s  %s\n' "$D972_BD_MAP_CHECKER_SHA256" search/check_d972_b4_marity_reduction_maps_v1.py | sha256sum --check --status
+          printf '%s  %s\n' "$D972_BD_GN_SOURCE_SHA256" search/week3-battery-common.g | sha256sum --check --status
+          printf '%s  %s\n' "$D972_BD_DOVETAIL_SOURCE_SHA256" search/d972_dovetail_core_v2.g | sha256sum --check --status
+          python3 -m py_compile search/check_d972_d972core_c2six_intersection_v1.py
+
+      - name: GAP and independent-checker selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          printf '%s\n' \
+            'if GAPInfo.Version <> "4.16.0" then Error("157bd: GAP version drift"); fi;;' \
+            'D972_BD_MODE:="selftest";;' \
+            'D972_BD_OUTPUT:="ci/out/selftest.json";;' \
+            'Read("search/d972_d972core_c2six_intersection_v1.g");' \
+            > ci/out/driver-selftest.g
+          gap -l "$GAPROOT;$D972_BD_JSON_ROOT" --quitonbreak -q ci/out/driver-selftest.g 2>&1 | tee ci/out/gap-selftest.log
+          grep -Fxc 'D972_CORE_INTERSECTION_GAP_SELFTEST_PASS maps=4 tuples=6 g9=2916 rank=24' ci/out/gap-selftest.log | grep -Fx 1
+          python3 search/check_d972_d972core_c2six_intersection_v1.py --self-test | tee ci/out/check-selftest.log
+          grep -Fxc 'D972_CORE_INTERSECTION_CHECKER_SELFTEST_PASS' ci/out/check-selftest.log | grep -Fx 1
+
+      - name: Full joint producer and independent checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          receipt='ci/out/d972_d972core_c2six_intersection_v1.json'
+          printf '%s\n' \
+            'if GAPInfo.Version <> "4.16.0" then Error("157bd: GAP version drift"); fi;;' \
+            'D972_BD_MODE:="full";;' \
+            'D972_BD_OUTPUT:="ci/out/d972_d972core_c2six_intersection_v1.json";;' \
+            'Read("search/d972_d972core_c2six_intersection_v1.g");' \
+            > ci/out/driver-full.g
+          set +e
+          timeout --signal=TERM --kill-after=60s 330m \
+            gap -l "$GAPROOT;$D972_BD_JSON_ROOT" --quitonbreak -q ci/out/driver-full.g \
+            2>&1 | tee ci/out/gap-full.log
+          gap_status=${PIPESTATUS[0]}
+          set -e
+          if [ "$gap_status" -eq 124 ]; then
+            python3 - "$receipt" <<'PY'
+          import json, sys
+          json.dump({
+              "schema": "d972-d972core-c2six-intersection/v1",
+              "final_marker": "D972_CORE_INTERSECTION_FINAL",
+              "status": "UNKNOWN_TIMEOUT",
+              "reason": "GAP producer exceeded the bounded 330 minute wall clock",
+              "proof_level": "UNKNOWN",
+          }, open(sys.argv[1], "w", encoding="utf-8"), sort_keys=True)
+          PY
+            echo 'D972_CORE_INTERSECTION_TIMEOUT status=UNKNOWN_TIMEOUT'
+            exit 0
+          fi
+          test "$gap_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,|break loop)' ci/out/gap-full.log
+          grep -Eq '^D972_CORE_INTERSECTION_FINAL status=CORE_INTERSECTION_COMPUTED output=.* E4=1082535236962615296 P4=64524128256 H9four=[0-9]+ rank=24$' ci/out/gap-full.log
+          test -s "$receipt"
+          python3 search/check_d972_d972core_c2six_intersection_v1.py --receipt "$receipt" | tee ci/out/check-full.log
+          grep -Fxc 'D972_CORE_INTERSECTION_CHECK_PASS ci/out/d972_d972core_c2six_intersection_v1.json' ci/out/check-full.log | grep -Fx 1
+
+      - name: Upload lossless 157bd evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: d972-d972core-c2six-intersection-v1-${{ github.run_id }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
