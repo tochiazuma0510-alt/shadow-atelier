@@ -1,0 +1,95 @@
+name: d972-power-spectrum-v2
+
+on:
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-power-spectrum-v2.yml
+      - search/d972_power_spectrum_v2.g
+      - search/check_d972_power_spectrum_v2.py
+      - search/d972_dovetail_core_v2.g
+      - search/probe/wac_v1/gap_output_prelude.g
+      - search/gaplib_common.g
+      - search/week3-battery-common.g
+      - search/week3-psl-common.g
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  D972_GAP_VERSION: "4.12.1"
+  D972_GAP_PACKAGE_VERSION: "4.12.1-2build2"
+  D972_PRODUCER_SHA256: "1855cf69b78cda06f5a829f4a4d500f4f8e89431e88110271e2567d78e6ba651"
+  D972_CHECKER_SHA256: "c5a837d5c194ecb42163d8944c59aaa919705bd488129068aa5324830ae00213"
+
+jobs:
+  power-spectrum:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout source (v4.2.2 immutable commit)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Bind exact source manifest and runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' "$D972_PRODUCER_SHA256" search/d972_power_spectrum_v2.g | sha256sum -c -
+          printf '%s  %s\n' "$D972_CHECKER_SHA256" search/check_d972_power_spectrum_v2.py | sha256sum -c -
+          printf '%s  %s\n' 1c3348003805df874ab6d42503720259564eec25c1aebfb1c548a759e3d9f7ae search/d972_dovetail_core_v2.g | sha256sum -c -
+          printf '%s  %s\n' 2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece search/probe/wac_v1/gap_output_prelude.g | sha256sum -c -
+          printf '%s  %s\n' f80eeeae71c4e39f8b3d62d997d18635f5ea8fb339a6d0578e834300ea4d4911 search/gaplib_common.g | sha256sum -c -
+          printf '%s  %s\n' aadf1afa5e1a171d10d0aa1f9657e823cad669b960e08da7b9e7618f2ea4f998 search/week3-battery-common.g | sha256sum -c -
+          printf '%s  %s\n' e48e50d55562983415b5691d07e3d893182620b1f73b8fe35ea77815ad9695c4 search/week3-psl-common.g | sha256sum -c -
+          printf '%s  %s\n' 564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9 search/certs/d972_b4_word_key_artifact_v1_20260816.json | sha256sum -c -
+
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends gap="$D972_GAP_PACKAGE_VERSION"
+          actual_gap="$(gap -q -c 'Print(GAPInfo.Version); quit;')"
+          test "$actual_gap" = "$D972_GAP_VERSION"
+          printf 'D972_GAP_RUNTIME_PASS version=%s\n' "$actual_gap"
+
+      - name: Selftest, then exact producer and independent checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          self_log=ci/out/selftest.log
+          full_log=ci/out/full.log
+          self_receipt=ci/out/selftest.json
+          receipt=ci/out/d972_power_spectrum_v2.json
+
+          set +e
+          D972_POWER_MODE=selftest D972_POWER_OUTPUT="$self_receipt" \
+            gap -q search/d972_power_spectrum_v2.g 2>&1 | tee "$self_log"
+          self_status=${PIPESTATUS[0]}
+          set -e
+          test "$self_status" -eq 0
+          test "$(grep -Fxc 'D972_POWER_SPECTRUM_V2_GAP_SELFTEST_PASS' "$self_log" || true)" -eq 1
+          python3 search/check_d972_power_spectrum_v2.py --self-test
+
+          set +e
+          D972_POWER_MODE=full D972_POWER_OUTPUT="$receipt" \
+            gap -q search/d972_power_spectrum_v2.g 2>&1 | tee "$full_log"
+          gap_status=${PIPESTATUS[0]}
+          set -e
+          test "$gap_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,|Reading|break loop)' "$full_log"
+          grep -Fxc 'D972_POWER_SPECTRUM_V2_GAP_FINAL status=POWER_SPECTRUM_V2_COMPLETE output=ci/out/d972_power_spectrum_v2.json' "$full_log" | grep -Fx 1
+          test -s "$receipt"
+          python3 search/check_d972_power_spectrum_v2.py --receipt "$receipt" | tee ci/out/checker.log
+          grep -Fxc 'D972_POWER_SPECTRUM_V2_CHECKER_PASS' ci/out/checker.log | grep -Fx 1
+
+      - name: Upload attempt-unique evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: d972-power-spectrum-v2-${{ github.run_id }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
