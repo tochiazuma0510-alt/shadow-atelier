@@ -938,3 +938,8 @@ LIVE_GHA_RUN_COUNT=0;
 RECOVERABLE_GHA_ARTIFACT_COUNT=0;
 A_B_TERMINAL=UNKNOWN;
 ```
+
+GHA 三本の終端状態を最初に記録した commit は
+`546e5ab6c7127cc24034bf9d4d329804a3f67854`、節位置修正と「前の158」分類を固定した commit は
+`1fa8bfbfd229577296bebdeb95f2961070b9aec2` であり、いずれも
+`origin/sol/d972-dmtcp-provision-v420` へ push 済みである。
