@@ -1,0 +1,199 @@
+name: d972-burau-matrix-v1
+
+on:
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-burau-matrix-v1.yml
+      - search/d972_b4_burau_matrix_v1.g
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+      - search/d972_dovetail_worker_v1.g
+      - search/probe/wac_v1/gap_output_prelude.g
+      - search/gaplib_common.g
+      - search/week3-battery-common.g
+      - search/week3-psl-common.g
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {q: "3", a: "-1", tag: q3}
+          - {q: "4", a: "2", tag: q4}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build pinned GAP and run calibration
+        shell: bash
+        env:
+          BURAU_Q: ${{ matrix.q }}
+          BURAU_A: ${{ matrix.a }}
+          BURAU_TAG: ${{ matrix.tag }}
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends ca-certificates curl build-essential libgmp-dev libreadline-dev libncurses-dev zlib1g-dev
+          job_root="$(mktemp -d "${RUNNER_TEMP}/d972-matrix.XXXXXX")"
+          core_url='https://github.com/gap-system/gap/releases/download/v4.16.0/gap-4.16.0-core.tar.gz'
+          core_sha='8c35f406046f1172de658375dcd5beaf9644888cd16f8f5e7db163afc9fade1a'
+          required_url='https://github.com/gap-system/gap/releases/download/v4.16.0/packages-required-v4.16.0.tar.gz'
+          required_sha='ad9652185df53a7cf81dc41520dc3cca8321b171bbcc921b7ee9c66f5e9c35e2'
+          json_url='https://github.com/gap-packages/json/releases/download/v2.4.0/json-2.4.0.tar.gz'
+          json_sha='ce49399f5f5dc4caf95213f5dd7ec09988f2ae93364817e88ff075a09a22826a'
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 -o "$job_root/core.tgz" "$core_url"
+          printf '%s  %s\n' "$core_sha" "$job_root/core.tgz" | sha256sum --check --status
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 -o "$job_root/required.tgz" "$required_url"
+          printf '%s  %s\n' "$required_sha" "$job_root/required.tgz" | sha256sum --check --status
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 -o "$job_root/json.tgz" "$json_url"
+          printf '%s  %s\n' "$json_sha" "$job_root/json.tgz" | sha256sum --check --status
+          mkdir "$job_root/core" "$job_root/json-src" "$job_root/gap-packages"
+          extract_one_root() { local archive="$1" destination="$2" label="$3"; local roots=() entries=(); mkdir -p "$destination"; tar --extract --gzip --no-same-owner -f "$archive" -C "$destination"; mapfile -t roots < <(find "$destination" -mindepth 1 -maxdepth 1 -type d -print); mapfile -t entries < <(find "$destination" -mindepth 1 -maxdepth 1 -print); if (( ${#roots[@]} != 1 || ${#entries[@]} != 1 )); then echo "ambiguous $label roots" >&2; exit 1; fi; printf '%s\n' "${roots[0]}"; }
+          core_src="$(extract_one_root "$job_root/core.tgz" "$job_root/core-check" GAP)"
+          json_src="$(extract_one_root "$job_root/json.tgz" "$job_root/json-check" JSON)"
+          test "$(basename "$core_src")" = gap-4.16.0; test "$(basename "$json_src")" = json-2.4.0
+          (cd "$core_src" && ./configure && make -j"$(nproc)")
+          mkdir -p "$job_root/gap-packages/pkg"
+          tar --extract --gzip --no-same-owner -f "$job_root/required.tgz" -C "$job_root/gap-packages/pkg"
+          mapfile -t required_roots < <(find "$job_root/gap-packages/pkg" -mindepth 1 -maxdepth 1 -type d -print); mapfile -t required_entries < <(find "$job_root/gap-packages/pkg" -mindepth 1 -maxdepth 1 -print); if (( ${#required_roots[@]} == 0 || ${#required_roots[@]} != ${#required_entries[@]} )); then echo 'ambiguous required package roots' >&2; exit 1; fi
+          mv "$json_src" "$job_root/gap-packages/pkg/json"
+          (cd "$job_root/gap-packages/pkg/json" && ./configure --with-gaproot="$core_src" && make -j"$(nproc)")
+          self_driver="ci/out/driver-matrix-selftest-${BURAU_TAG}.g"
+          self_log="ci/out/run-matrix-selftest-${BURAU_TAG}.log"
+          {
+            printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP version"); fi;;\n'
+            printf 'if LoadPackage("json") <> true then Error("json"); fi;;\n'
+            printf 'D972_B4_BURAU_Q:=%s;; D972_B4_BURAU_A:=%s;; D972_B4_BURAU_MODE:="selftest";;\n' "$BURAU_Q" "$BURAU_A"
+            printf 'Read("search/d972_b4_burau_matrix_v1.g");\n'
+          } > "$self_driver"
+          set +e
+          "$core_src/gap" -l "$core_src;$job_root/gap-packages" --quitonbreak -q -o 12g "$self_driver" 2>&1 | tee "$self_log"
+          self_status=${PIPESTATUS[0]}
+          set -e
+          test "$self_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,)' "$self_log"
+          grep -Fxc "D972_B4_BURAU_MATRIX56_GAP_SELFTEST_PASS q=$BURAU_Q a=$BURAU_A dim=56" "$self_log" | grep -Fx 1
+          grep -Fxc 'D972_B4_BURAU_MATRIX56_GAP_FINAL_MARKER status=PASS' "$self_log" | grep -Fx 1
+          driver="ci/out/driver-matrix-${BURAU_TAG}.g"
+          log="ci/out/run-matrix-${BURAU_TAG}.log"
+          {
+            printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP version"); fi;;\n'
+            printf 'if LoadPackage("GAPDoc") <> true then Error("GAPDoc"); fi;;\n'
+            printf 'if LoadPackage("json") <> true then Error("json"); fi;;\n'
+            printf 'D972_B4_BURAU_Q:=%s;; D972_B4_BURAU_A:=%s;; D972_B4_BURAU_MODE:="calibration";; D972_B4_BURAU_OUTPUT:="ci/out/d972_burau_matrix_%s.json";;\n' "$BURAU_Q" "$BURAU_A" "$BURAU_TAG"
+            printf 'Read("search/d972_b4_burau_matrix_v1.g");\n'
+          } > "$driver"
+          set +e
+          "$core_src/gap" -l "$core_src;$job_root/gap-packages" --quitonbreak -q -o 12g "$driver" 2>&1 | tee "$log"
+          gap_status=${PIPESTATUS[0]}
+          set -e
+          test "$gap_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,)' "$log"
+          grep -Fxc "D972_B4_BURAU_MATRIX56_CALIBRATION_PASS q=$BURAU_Q a=$BURAU_A h=105815808 hp=2939328 kernel=8 rows=972" "$log" | grep -Fx 1
+          grep -Fxc 'D972_B4_BURAU_MATRIX56_FINAL_MARKER status=CALIBRATION_PASS output=ci/out/d972_burau_matrix_'"$BURAU_TAG"'.json' "$log" | grep -Fx 1
+          test -s "ci/out/d972_burau_matrix_${BURAU_TAG}.json"
+      - name: Upload calibration evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-matrix-calibration-${{ matrix.tag }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: ci/out/
+
+  matrix56:
+    needs: calibrate
+    if: ${{ needs.calibrate.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        a: ["2", "4"]
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build pinned GAP and run matrix-56 producer
+        shell: bash
+        env:
+          BURAU_A: ${{ matrix.a }}
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends ca-certificates curl build-essential libgmp-dev libreadline-dev libncurses-dev zlib1g-dev
+          job_root="$(mktemp -d "${RUNNER_TEMP}/d972-matrix.XXXXXX")"
+          core_url='https://github.com/gap-system/gap/releases/download/v4.16.0/gap-4.16.0-core.tar.gz'
+          core_sha='8c35f406046f1172de658375dcd5beaf9644888cd16f8f5e7db163afc9fade1a'
+          required_url='https://github.com/gap-system/gap/releases/download/v4.16.0/packages-required-v4.16.0.tar.gz'
+          required_sha='ad9652185df53a7cf81dc41520dc3cca8321b171bbcc921b7ee9c66f5e9c35e2'
+          json_url='https://github.com/gap-packages/json/releases/download/v2.4.0/json-2.4.0.tar.gz'
+          json_sha='ce49399f5f5dc4caf95213f5dd7ec09988f2ae93364817e88ff075a09a22826a'
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 -o "$job_root/core.tgz" "$core_url"
+          printf '%s  %s\n' "$core_sha" "$job_root/core.tgz" | sha256sum --check --status
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 -o "$job_root/required.tgz" "$required_url"
+          printf '%s  %s\n' "$required_sha" "$job_root/required.tgz" | sha256sum --check --status
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 -o "$job_root/json.tgz" "$json_url"
+          printf '%s  %s\n' "$json_sha" "$job_root/json.tgz" | sha256sum --check --status
+          mkdir "$job_root/core" "$job_root/json-src" "$job_root/gap-packages"
+          extract_one_root() { local archive="$1" destination="$2" label="$3"; local roots=() entries=(); mkdir -p "$destination"; tar --extract --gzip --no-same-owner -f "$archive" -C "$destination"; mapfile -t roots < <(find "$destination" -mindepth 1 -maxdepth 1 -type d -print); mapfile -t entries < <(find "$destination" -mindepth 1 -maxdepth 1 -print); if (( ${#roots[@]} != 1 || ${#entries[@]} != 1 )); then echo "ambiguous $label roots" >&2; exit 1; fi; printf '%s\n' "${roots[0]}"; }
+          core_src="$(extract_one_root "$job_root/core.tgz" "$job_root/core-check" GAP)"; json_src="$(extract_one_root "$job_root/json.tgz" "$job_root/json-check" JSON)"
+          test "$(basename "$core_src")" = gap-4.16.0; test "$(basename "$json_src")" = json-2.4.0
+          (cd "$core_src" && ./configure && make -j"$(nproc)")
+          mkdir -p "$job_root/gap-packages/pkg"
+          tar --extract --gzip --no-same-owner -f "$job_root/required.tgz" -C "$job_root/gap-packages/pkg"
+          mapfile -t required_roots < <(find "$job_root/gap-packages/pkg" -mindepth 1 -maxdepth 1 -type d -print); mapfile -t required_entries < <(find "$job_root/gap-packages/pkg" -mindepth 1 -maxdepth 1 -print); if (( ${#required_roots[@]} == 0 || ${#required_roots[@]} != ${#required_entries[@]} )); then echo 'ambiguous required package roots' >&2; exit 1; fi
+          mv "$json_src" "$job_root/gap-packages/pkg/json"
+          (cd "$job_root/gap-packages/pkg/json" && ./configure --with-gaproot="$core_src" && make -j"$(nproc)")
+          self_driver="ci/out/driver-matrix-selftest-a${BURAU_A}.g"
+          self_log="ci/out/run-matrix-selftest-a${BURAU_A}.log"
+          {
+            printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP version"); fi;;\n'
+            printf 'if LoadPackage("json") <> true then Error("json"); fi;;\n'
+            printf 'D972_B4_BURAU_Q:=5;; D972_B4_BURAU_A:=%s;; D972_B4_BURAU_MODE:="selftest";;\n' "$BURAU_A"
+            printf 'Read("search/d972_b4_burau_matrix_v1.g");\n'
+          } > "$self_driver"
+          set +e
+          "$core_src/gap" -l "$core_src;$job_root/gap-packages" --quitonbreak -q -o 12g "$self_driver" 2>&1 | tee "$self_log"
+          self_status=${PIPESTATUS[0]}
+          set -e
+          test "$self_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,)' "$self_log"
+          grep -Fxc "D972_B4_BURAU_MATRIX56_GAP_SELFTEST_PASS q=5 a=$BURAU_A dim=56" "$self_log" | grep -Fx 1
+          grep -Fxc 'D972_B4_BURAU_MATRIX56_GAP_FINAL_MARKER status=PASS' "$self_log" | grep -Fx 1
+          driver="ci/out/driver-matrix-a${BURAU_A}.g"; log="ci/out/run-matrix-a${BURAU_A}.log"
+          {
+            printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP version"); fi;;\n'
+            printf 'if LoadPackage("GAPDoc") <> true then Error("GAPDoc"); fi;;\n'
+            printf 'if LoadPackage("json") <> true then Error("json"); fi;;\n'
+            printf 'D972_B4_BURAU_Q:=5;; D972_B4_BURAU_A:=%s;; D972_B4_BURAU_MODE:="run";; D972_B4_BURAU_OUTPUT:="ci/out/d972_burau_matrix_a%s.json";;\n' "$BURAU_A" "$BURAU_A"
+            printf 'Read("search/d972_b4_burau_matrix_v1.g");\n'
+          } > "$driver"
+          set +e
+          "$core_src/gap" -l "$core_src;$job_root/gap-packages" --quitonbreak -q -o 12g "$driver" 2>&1 | tee "$log"
+          gap_status=${PIPESTATUS[0]}
+          set -e
+          test "$gap_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,)' "$log"
+          grep -Ec '^D972_B4_BURAU_MATRIX56_DONE q=5 a='"$BURAU_A"' h=[0-9]+ hprime=[0-9]+ kernel=[0-9]+ rows=972$' "$log" | grep -Fx 1
+          grep -Ec '^D972_B4_BURAU_MATRIX56_FINAL_MARKER status=(UNKNOWN_RESOURCE|CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER|UNKNOWN_BURAU_SPECIALIZATION_ALLPASS) output=ci/out/d972_burau_matrix_a'"$BURAU_A"'\.json$' "$log" | grep -Fx 1
+          test -s "ci/out/d972_burau_matrix_a${BURAU_A}.json"
+      - name: Upload matrix-56 evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-matrix-q5-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: ci/out/
