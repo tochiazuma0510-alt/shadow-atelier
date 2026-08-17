@@ -22,7 +22,7 @@ permissions:
 env:
   D972_GAP_VERSION: "4.12.1"
   D972_GAP_PACKAGE_VERSION: "4.12.1-2build2"
-  D972_PRODUCER_SHA256: "1855cf69b78cda06f5a829f4a4d500f4f8e89431e88110271e2567d78e6ba651"
+  D972_PRODUCER_SHA256: "7ac226ff44f631bbaa4ab2a5c9700b4657fd94c7d959dcaa371ba3f860b97699"
   D972_CHECKER_SHA256: "c5a837d5c194ecb42163d8944c59aaa919705bd488129068aa5324830ae00213"
 
 jobs:
@@ -70,8 +70,12 @@ jobs:
           receipt=ci/out/d972_power_spectrum_v2.json
 
           set +e
-          D972_POWER_MODE=selftest D972_POWER_OUTPUT="$self_receipt" \
-            gap -q search/d972_power_spectrum_v2.g 2>&1 | tee "$self_log"
+          gap -q -b <<'GAP' 2>&1 | tee "$self_log"
+          D972_POWER_MODE := "selftest";;
+          D972_POWER_OUTPUT := "ci/out/selftest.json";;
+          Read("search/d972_power_spectrum_v2.g");;
+          QUIT_GAP(0);
+          GAP
           self_status=${PIPESTATUS[0]}
           set -e
           test "$self_status" -eq 0
@@ -79,8 +83,12 @@ jobs:
           python3 search/check_d972_power_spectrum_v2.py --self-test
 
           set +e
-          D972_POWER_MODE=full D972_POWER_OUTPUT="$receipt" \
-            gap -q search/d972_power_spectrum_v2.g 2>&1 | tee "$full_log"
+          gap -q -b <<'GAP' 2>&1 | tee "$full_log"
+          D972_POWER_MODE := "full";;
+          D972_POWER_OUTPUT := "ci/out/d972_power_spectrum_v2.json";;
+          Read("search/d972_power_spectrum_v2.g");;
+          QUIT_GAP(0);
+          GAP
           gap_status=${PIPESTATUS[0]}
           set -e
           test "$gap_status" -eq 0

@@ -7,11 +7,24 @@
 
 Read("search/d972_dovetail_core_v2.g");;
 
-DPS2Mode := GetEnv("D972_POWER_MODE");;
-if DPS2Mode = fail or DPS2Mode = "" then DPS2Mode := "full"; fi;;
-DPS2Output := GetEnv("D972_POWER_OUTPUT");;
-if DPS2Output = fail or DPS2Output = "" then
+## The workflow binds these globals before Read().  GAP 4.12 has no
+## dependable environment lookup interface, so an absent binding is the only case
+## where a deterministic default is permitted.
+if IsBound(D972_POWER_MODE) then
+  DPS2Mode := D972_POWER_MODE;
+else
+  DPS2Mode := "full";
+fi;;
+if not IsString(DPS2Mode) or not (DPS2Mode in ["selftest", "full"]) then
+  Error("D972 power spectrum v2: invalid D972_POWER_MODE");
+fi;;
+if IsBound(D972_POWER_OUTPUT) then
+  DPS2Output := D972_POWER_OUTPUT;
+else
   DPS2Output := "ci/out/d972_power_spectrum_v2.json";
+fi;;
+if not IsString(DPS2Output) or Length(DPS2Output) = 0 then
+  Error("D972 power spectrum v2: empty D972_POWER_OUTPUT");
 fi;;
 
 DPS2RuntimeManifest :=
