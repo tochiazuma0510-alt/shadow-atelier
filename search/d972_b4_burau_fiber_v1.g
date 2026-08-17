@@ -116,6 +116,9 @@ D972BFRestrict:=function(p,off,size)
   if Set(a)<>[1..size] then Error("Burau block preservation drift"); fi;;
   return PermList(a);
 end;;
+D972BFPermOneLine:=function(p,degree)
+  return List([1..degree],i->i^p);
+end;;
 D972BFDirect:=function(ps,offsets,sizes)
   local imgs,i,j;
   imgs:=[];;
@@ -134,6 +137,8 @@ end;;
   vec:=D972BFVectorPerm(s[1],D972BFQ);;
   if Length(List([1..D972BFQ^4],i->i^vec))<>D972BFQ^4 then
     Error("Burau vector roundtrip canary failed"); fi;;
+  if D972BFPermOneLine(vec,D972BFQ^4)<>List([1..D972BFQ^4],i->i^vec) then
+    Error("Burau one-line permutation encoder failed"); fi;;
   if s[1]*s[2]*s[1]<>s[2]*s[1]*s[2] then
     Error("Burau braid selftest failed"); fi;;
   if D972BFPP([s[2],s[1]^2,s[2]^-1])=
