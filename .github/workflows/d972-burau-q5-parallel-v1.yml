@@ -1,0 +1,627 @@
+name: d972-burau-q5-parallel-v1
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-burau-q5-parallel-v1.yml
+      - search/d972_b4_burau_fiber_v4.py
+      - search/check_d972_b4_burau_fiber_v4.py
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CAL_RUN_ID: "32051744038"
+  CAL_Q3_ID: "9296644565"
+  CAL_Q4_ID: "9297445824"
+  CAL_Q3_NAME: d972-burau-tuple-v4-calibration-q3-attempt1
+  CAL_Q4_NAME: d972-burau-tuple-v4-calibration-q4-attempt1
+  CAL_Q3_SIZE: "95607"
+  CAL_Q4_SIZE: "95523"
+  CAL_Q3_SHA256: 0813a151cd47a56f29aab629ebfc35a0293a8ce84d98c24f3a3ac3e0601ad8e2
+  CAL_Q4_SHA256: 414c13fe680c2eeb6f3f75c7f6a7206a707c18a426da619543232e1a98855de2
+  PRODUCER_SHA256: aa8726570c58840a000b4b247b34eccd39a958f97087e6745216e2055b578cec
+  CHECKER_SHA256: e0b4cb923c1bd73b9afdc7f47de739f91c8aa3c0d7764c239e1df76d74fbce14
+
+jobs:
+  calibration_check:
+    name: calibration-check-${{ matrix.tag }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {q: "3", a: "-1", tag: q3, artifact_id: "9296644565", artifact_name: d972-burau-tuple-v4-calibration-q3-attempt1, artifact_size: "95607", receipt_sha: 0813a151cd47a56f29aab629ebfc35a0293a8ce84d98c24f3a3ac3e0601ad8e2}
+          - {q: "4", a: "2", tag: q4, artifact_id: "9297445824", artifact_name: d972-burau-tuple-v4-calibration-q4-attempt1, artifact_size: "95523", receipt_sha: 414c13fe680c2eeb6f3f75c7f6a7206a707c18a426da619543232e1a98855de2}
+    env:
+      CAL_Q: ${{ matrix.q }}
+      CAL_A: ${{ matrix.a }}
+      CAL_TAG: ${{ matrix.tag }}
+      CAL_ARTIFACT_ID: ${{ matrix.artifact_id }}
+      CAL_ARTIFACT_NAME: ${{ matrix.artifact_name }}
+      CAL_ARTIFACT_SIZE: ${{ matrix.artifact_size }}
+      CAL_RECEIPT_SHA256: ${{ matrix.receipt_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Authenticate pinned calibration artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from urllib.request import Request, urlopen
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          run_id = int(os.environ["CAL_RUN_ID"])
+          artifact_id = int(os.environ["CAL_ARTIFACT_ID"])
+          url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100"
+          req = Request(url, headers={
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+              "X-GitHub-Api-Version": "2022-11-28",
+          })
+          with urlopen(req, timeout=30) as response:
+              payload = json.load(response)
+          matches = [x for x in payload.get("artifacts", []) if int(x.get("id", -1)) == artifact_id]
+          if len(matches) != 1:
+              raise SystemExit("pinned calibration artifact id is missing or ambiguous")
+          item = matches[0]
+          same_name = [x for x in payload.get("artifacts", []) if x.get("name") == os.environ["CAL_ARTIFACT_NAME"]]
+          if len(same_name) != 1 or int(same_name[0].get("id", -1)) != artifact_id:
+              raise SystemExit("pinned calibration artifact name is missing or ambiguous")
+          expected = {
+              "name": os.environ["CAL_ARTIFACT_NAME"],
+              "size_in_bytes": int(os.environ["CAL_ARTIFACT_SIZE"]),
+          }
+          if item.get("name") != expected["name"]:
+              raise SystemExit("pinned calibration artifact name drift")
+          if int(item.get("size_in_bytes", -1)) != expected["size_in_bytes"]:
+              raise SystemExit("pinned calibration artifact size drift")
+          if item.get("expired") is not False:
+              raise SystemExit("pinned calibration artifact expired or malformed")
+          if int((item.get("workflow_run") or {}).get("id", -1)) != run_id:
+              raise SystemExit("pinned calibration artifact run binding drift")
+          print("D972_BURAU_Q5_PARALLEL_PINNED_ARTIFACT_API_PASS")
+          PY
+      - name: Download pinned calibration receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32051744038
+          path: ci/in/${{ matrix.tag }}
+      - name: Install pinned checker dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out ci/wheels
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+      - name: Verify receipt source and current metadata gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          receipt="$(find "ci/in/${CAL_TAG}" -type f -name "d972_b4_burau_fiber_v4_q${CAL_Q}.json" -print -quit)"
+          test -n "$receipt" && test -s "$receipt"
+          cp "$receipt" "ci/out/d972_b4_burau_fiber_v4_q${CAL_Q}.json"
+          python - "$receipt" <<'PY'
+          import hashlib
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          path = Path(sys.argv[1])
+          if hashlib.sha256(path.read_bytes()).hexdigest() != os.environ["CAL_RECEIPT_SHA256"]:
+              raise SystemExit("calibration receipt SHA drift")
+          source_hashes = {
+              Path("search/d972_b4_burau_fiber_v4.py"): os.environ["PRODUCER_SHA256"],
+              Path("search/check_d972_b4_burau_fiber_v4.py"): os.environ["CHECKER_SHA256"],
+          }
+          for source, expected_sha in source_hashes.items():
+              if hashlib.sha256(source.read_bytes()).hexdigest() != expected_sha:
+                  raise SystemExit(f"current source SHA drift: {source}")
+          r = json.loads(path.read_bytes())
+          expected = {
+              "schema": "d972-b4-burau-fiber/v4-lowmem",
+              "final_marker": "D972_B4_BURAU_FIBER_V4_FINAL",
+              "status": "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+              "producer_source_sha256": os.environ["PRODUCER_SHA256"],
+              "words_sha256": "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9",
+              "artifact_rows_sha256": "283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930",
+              "target_sha256": "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62",
+              "tuple_sha256": "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91",
+              "row_count": 972, "roof_order": 1469664,
+              "projection_image_order": 367416, "h_order": 105815808,
+              "hprime_order": 2939328, "kernel_order": 8,
+          }
+          for key, value in expected.items():
+              if r.get(key) != value:
+                  raise SystemExit(f"calibration metadata drift: {key}")
+          if r.get("q") != int(os.environ["CAL_Q"]) or r.get("a") != int(os.environ["CAL_A"]):
+              raise SystemExit("calibration q/a drift")
+          rows = r.get("rows")
+          if not isinstance(rows, list) or len(rows) != 972:
+              raise SystemExit("calibration row ledger drift")
+          if any(x.get("row_index") != i or x.get("fiber_size") != 8 or
+                 x.get("identity_image_defect_count") != 1 or
+                 x.get("nonidentity_image_defect_count") != 7
+                 for i, x in enumerate(rows, 1)):
+              raise SystemExit("calibration fiber gate drift")
+          print("D972_BURAU_Q5_PARALLEL_CALIBRATION_METADATA_PASS")
+          PY
+      - name: Run repaired independent calibration checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          receipt="ci/out/d972_b4_burau_fiber_v4_q${CAL_Q}.json"
+          set +e
+          python search/check_d972_b4_burau_fiber_v4.py "$receipt" 2>&1 | tee "ci/out/check-${CAL_TAG}.log"
+          checker_status=${PIPESTATUS[0]}
+          printf '%s\n' "$checker_status" > "ci/out/checker-status-${CAL_TAG}.txt"
+          set -e
+          test "$checker_status" -eq 0
+          marker_count="$(grep -Ec '^D972_B4_BURAU_FIBER_V4_CHECK_PASS ' "ci/out/check-${CAL_TAG}.log" || true)"
+          test "$marker_count" -eq 1
+          echo D972_BURAU_Q5_PARALLEL_CALIBRATION_CHECK_PASS
+      - name: Write calibration seal
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          receipt = Path(f"ci/out/d972_b4_burau_fiber_v4_q{os.environ['CAL_Q']}.json")
+          log = Path(f"ci/out/check-{os.environ['CAL_TAG']}.log")
+          status_file = Path(f"ci/out/checker-status-{os.environ['CAL_TAG']}.txt")
+          marker = "D972_B4_BURAU_FIBER_V4_CHECK_PASS "
+          marker_count = sum(line.startswith(marker) for line in log.read_text(encoding="utf-8").splitlines()) if log.is_file() else 0
+          checker_status = int(status_file.read_text().strip()) if status_file.is_file() else 999
+          receipt_sha = hashlib.sha256(receipt.read_bytes()).hexdigest() if receipt.is_file() else None
+          receipt_obj = json.loads(receipt.read_bytes()) if receipt.is_file() else {}
+          complete = checker_status == 0 and marker_count == 1 and receipt_sha == os.environ["CAL_RECEIPT_SHA256"]
+          seal = {
+              "schema": "d972-burau-q5-parallel/calibration-seal/v1",
+              "complete": complete,
+              "run_id": int(os.environ["CAL_RUN_ID"]),
+              "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+              "artifact_id": int(os.environ["CAL_ARTIFACT_ID"]),
+              "artifact_name": os.environ["CAL_ARTIFACT_NAME"],
+              "artifact_size": int(os.environ["CAL_ARTIFACT_SIZE"]),
+              "artifact_run_id": int(os.environ["CAL_RUN_ID"]),
+              "receipt_sha256": receipt_sha,
+              "producer_sha256": os.environ["PRODUCER_SHA256"],
+              "checker_sha256": os.environ["CHECKER_SHA256"],
+              "q": int(os.environ["CAL_Q"]), "a": int(os.environ["CAL_A"]),
+              "rows": receipt_obj.get("row_count"),
+              "checker_marker": "D972_B4_BURAU_FIBER_V4_CHECK_PASS",
+              "checker_marker_count": marker_count,
+              "checker_exit": checker_status,
+              "receipt_final_marker": receipt_obj.get("final_marker"),
+              "receipt_status": receipt_obj.get("status"),
+          }
+          Path(f"ci/out/calibration-seal-{os.environ['CAL_TAG']}.json").write_text(
+              json.dumps(seal, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+          print("D972_BURAU_Q5_PARALLEL_CALIBRATION_SEAL_WRITTEN", complete)
+          PY
+      - name: Upload calibration seal and source evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-q5-parallel-v1-calibration-${{ matrix.tag }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: ci/out/
+
+  q5_produce:
+    name: q5-produce-a${{ matrix.a }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        a: ["2", "4"]
+    env:
+      BURAU_A: ${{ matrix.a }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Authenticate pinned q3 and q4 artifacts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from urllib.request import Request, urlopen
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          run_id = int(os.environ["CAL_RUN_ID"])
+          url = f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100"
+          req = Request(url, headers={
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+              "X-GitHub-Api-Version": "2022-11-28",
+          })
+          with urlopen(req, timeout=30) as response:
+              artifacts = {int(x["id"]): x for x in json.load(response).get("artifacts", [])}
+          expected = {
+              int(os.environ["CAL_Q3_ID"]): (os.environ["CAL_Q3_NAME"], int(os.environ["CAL_Q3_SIZE"])),
+              int(os.environ["CAL_Q4_ID"]): (os.environ["CAL_Q4_NAME"], int(os.environ["CAL_Q4_SIZE"])),
+          }
+          for artifact_id, (name, size) in expected.items():
+              item = artifacts.get(artifact_id)
+              if item is None or item.get("name") != name or int(item.get("size_in_bytes", -1)) != size or item.get("expired") is not False or int((item.get("workflow_run") or {}).get("id", -1)) != run_id:
+                  raise SystemExit("pinned calibration artifact identity gate failed")
+              if sum(1 for x in artifacts.values() if x.get("name") == name) != 1:
+                  raise SystemExit("pinned calibration artifact name is missing or ambiguous")
+          print("D972_BURAU_Q5_PARALLEL_BOTH_ARTIFACT_API_PASS")
+          PY
+      - name: Download pinned q3 calibration
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-tuple-v4-calibration-q3-attempt1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32051744038
+          path: ci/in/q3
+      - name: Download pinned q4 calibration
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-tuple-v4-calibration-q4-attempt1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32051744038
+          path: ci/in/q4
+      - name: Install pinned producer dependencies and authenticate receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out ci/wheels
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          def find_receipt(root, q):
+              found = list(Path(root).rglob(f"d972_b4_burau_fiber_v4_q{q}.json"))
+              if len(found) != 1:
+                  raise SystemExit(f"q{q} receipt missing or ambiguous")
+              return found[0]
+
+          expected = {
+              3: (os.environ["CAL_Q3_SHA256"], -1),
+              4: (os.environ["CAL_Q4_SHA256"], 2),
+          }
+          for q, (sha, a) in expected.items():
+              path = find_receipt(f"ci/in/q{q}", q)
+              if hashlib.sha256(path.read_bytes()).hexdigest() != sha:
+                  raise SystemExit(f"q{q} receipt SHA drift")
+              r = json.loads(path.read_bytes())
+              common = {
+                  "schema": "d972-b4-burau-fiber/v4-lowmem",
+                  "final_marker": "D972_B4_BURAU_FIBER_V4_FINAL",
+                  "status": "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+                  "producer_source_sha256": os.environ["PRODUCER_SHA256"],
+                  "words_sha256": "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9",
+                  "artifact_rows_sha256": "283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930",
+                  "target_sha256": "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62",
+                  "tuple_sha256": "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91",
+                  "row_count": 972, "roof_order": 1469664,
+                  "projection_image_order": 367416, "h_order": 105815808,
+                  "hprime_order": 2939328, "kernel_order": 8,
+              }
+              if any(r.get(key) != value for key, value in common.items()) or r.get("q") != q or r.get("a") != a:
+                  raise SystemExit(f"q{q} current metadata gate failed")
+              rows = r.get("rows")
+              if not isinstance(rows, list) or len(rows) != 972 or [x.get("row_index") for x in rows] != list(range(1, 973)):
+                  raise SystemExit(f"q{q} row ledger gate failed")
+          for source, expected_sha in {
+              Path("search/d972_b4_burau_fiber_v4.py"): os.environ["PRODUCER_SHA256"],
+              Path("search/check_d972_b4_burau_fiber_v4.py"): os.environ["CHECKER_SHA256"],
+          }.items():
+              if hashlib.sha256(source.read_bytes()).hexdigest() != expected_sha:
+                  raise SystemExit(f"current source SHA drift: {source}")
+          print("D972_BURAU_Q5_PARALLEL_RECEIPT_HASH_GATE_PASS")
+          PY
+      - name: Start unchanged q5 producer
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          q3=ci/in/q3/d972_b4_burau_fiber_v4_q3.json
+          q4=ci/in/q4/d972_b4_burau_fiber_v4_q4.json
+          set +e
+          python search/d972_b4_burau_fiber_v4.py --q 5 --a "$BURAU_A" --calibration-q3 "$q3" --calibration-q4 "$q4" --output "ci/out/d972_b4_burau_fiber_v4_a${BURAU_A}.json" 2>&1 | tee "ci/out/full-a${BURAU_A}.log"
+          producer_status=${PIPESTATUS[0]}
+          printf '%s\n' "$producer_status" > "ci/out/producer-status-a${BURAU_A}.txt"
+          set -e
+          exit "$producer_status"
+      - name: Write q5 producer seal
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          a = os.environ["BURAU_A"]
+          receipt = Path(f"ci/out/d972_b4_burau_fiber_v4_a{a}.json")
+          log = Path(f"ci/out/full-a{a}.log")
+          status_file = Path(f"ci/out/producer-status-a{a}.txt")
+          marker_prefix = "D972_B4_BURAU_FIBER_V4_FINAL status="
+          lines = log.read_text(encoding="utf-8").splitlines() if log.is_file() else []
+          candidate = f"D972_B4_BURAU_FIBER_V4_FINAL status=CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER output=ci/out/d972_b4_burau_fiber_v4_a{a}.json"
+          unknown = f"D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a{a}.json"
+          candidate_count = lines.count(candidate)
+          unknown_count = lines.count(unknown)
+          producer_status = int(status_file.read_text().strip()) if status_file.is_file() else 999
+          obj = json.loads(receipt.read_bytes()) if receipt.is_file() else {}
+          receipt_sha = hashlib.sha256(receipt.read_bytes()).hexdigest() if receipt.is_file() else None
+          seal = {
+              "schema": "d972-burau-q5-parallel/q5-producer-seal/v1",
+              "complete": producer_status == 0 and candidate_count + unknown_count == 1 and obj.get("status") in {"CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER", "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS"},
+              "run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+              "a": int(a), "producer_exit": producer_status,
+              "producer_sha256": os.environ["PRODUCER_SHA256"],
+              "checker_sha256": os.environ["CHECKER_SHA256"],
+              "q3_receipt_sha256": os.environ["CAL_Q3_SHA256"],
+              "q4_receipt_sha256": os.environ["CAL_Q4_SHA256"],
+              "q5_receipt_sha256": receipt_sha,
+              "q5_status": obj.get("status"),
+              "q5_final_marker": obj.get("final_marker"),
+              "q5_row_count": obj.get("row_count"),
+              "candidate_marker_count": candidate_count,
+              "unknown_marker_count": unknown_count,
+              "terminal_marker_prefix": marker_prefix,
+          }
+          Path(f"ci/out/q5-producer-seal-a{a}.json").write_text(json.dumps(seal, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+          print("D972_BURAU_Q5_PARALLEL_PRODUCER_SEAL_WRITTEN", seal["complete"])
+          PY
+      - name: Enforce q5 producer result gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$BURAU_A" <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          a = sys.argv[1]
+          r = json.loads(Path(f"ci/out/d972_b4_burau_fiber_v4_a{a}.json").read_bytes())
+          if r.get("status") not in {"CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER", "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS"} or r.get("schema") != "d972-b4-burau-fiber/v4-lowmem" or r.get("final_marker") != "D972_B4_BURAU_FIBER_V4_FINAL" or r.get("q") != 5 or r.get("a") != int(a) or r.get("producer_source_sha256") != os.environ["PRODUCER_SHA256"] or r.get("row_count") != 972:
+              raise SystemExit("q5 producer receipt gate failed")
+          rows = r.get("rows")
+          if not isinstance(rows, list) or len(rows) != 972 or [x.get("row_index") for x in rows] != list(range(1, 973)):
+              raise SystemExit("q5 row/index gate failed")
+          keys = [json.dumps(x.get("target_key"), sort_keys=True, separators=(",", ":")) for x in rows]
+          if len(set(keys)) != 972:
+              raise SystemExit("q5 key gate failed")
+          log = Path(f"ci/out/full-a{a}.log").read_text(encoding="utf-8").splitlines()
+          candidate = f"D972_B4_BURAU_FIBER_V4_FINAL status=CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER output=ci/out/d972_b4_burau_fiber_v4_a{a}.json"
+          unknown = f"D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a{a}.json"
+          if log.count(candidate) + log.count(unknown) != 1:
+              raise SystemExit("q5 terminal marker cardinality failed")
+          print("D972_BURAU_Q5_PARALLEL_PRODUCER_RESULT_GATE_PASS")
+          PY
+      - name: Upload q5 raw receipt and producer seal
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-q5-parallel-v1-q5-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: ci/out/
+
+  q5_check:
+    name: q5-check-a${{ matrix.a }}
+    if: ${{ always() }}
+    needs: [calibration_check, q5_produce]
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        a: ["2", "4"]
+    env:
+      BURAU_A: ${{ matrix.a }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Initialize checked evidence directory
+        shell: bash
+        run: mkdir -p ci/out ci/in
+      - name: Require all upstream matrix lanes succeeded
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ needs.calibration_check.result }}" != "success" || "${{ needs.q5_produce.result }}" != "success" ]]; then
+            echo "upstream matrix lane failed; q5 check is fail-closed" | tee ci/out/upstream-blocked.log
+            exit 1
+          fi
+          echo Q5_PARALLEL_UPSTREAM_MATRIX_SUCCESS
+      - name: Download q3 calibration seal
+        if: ${{ needs.calibration_check.result == 'success' && needs.q5_produce.result == 'success' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-q5-parallel-v1-calibration-q3-attempt${{ github.run_attempt }}
+          path: ci/in/cal-q3
+      - name: Download q4 calibration seal
+        if: ${{ needs.calibration_check.result == 'success' && needs.q5_produce.result == 'success' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-q5-parallel-v1-calibration-q4-attempt${{ github.run_attempt }}
+          path: ci/in/cal-q4
+      - name: Download matching q5 producer artifact
+        if: ${{ needs.calibration_check.result == 'success' && needs.q5_produce.result == 'success' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-q5-parallel-v1-q5-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          path: ci/in/q5
+      - name: Reauthenticate seals, raw receipts, and terminal marker
+        if: ${{ needs.calibration_check.result == 'success' && needs.q5_produce.result == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$BURAU_A" <<'PY'
+          import hashlib
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          def one(root: str, name: str) -> Path:
+              found = list(Path(root).rglob(name))
+              if len(found) != 1:
+                  raise SystemExit(f"missing or ambiguous {name}")
+              return found[0]
+
+          def sha(path: Path) -> str:
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          def load(root: str, name: str):
+              path = one(root, name)
+              return path, json.loads(path.read_bytes())
+
+          attempt = int(os.environ["GITHUB_RUN_ATTEMPT"])
+          cal_expected = {
+              "q3": ("3", "-1", os.environ["CAL_Q3_ID"], os.environ["CAL_Q3_NAME"], os.environ["CAL_Q3_SIZE"], os.environ["CAL_Q3_SHA256"]),
+              "q4": ("4", "2", os.environ["CAL_Q4_ID"], os.environ["CAL_Q4_NAME"], os.environ["CAL_Q4_SIZE"], os.environ["CAL_Q4_SHA256"]),
+          }
+          cal_paths = {}
+          for tag, (q, a, artifact_id, artifact_name, artifact_size, receipt_sha) in cal_expected.items():
+              seal_path, seal = load(f"ci/in/cal-{tag}", f"calibration-seal-{tag}.json")
+              receipt_path, receipt = load(f"ci/in/cal-{tag}", f"d972_b4_burau_fiber_v4_q{q}.json")
+              if seal.get("schema") != "d972-burau-q5-parallel/calibration-seal/v1" or seal.get("complete") is not True:
+                  raise SystemExit(f"{tag} calibration seal incomplete")
+              for key, value in {"run_id": int(os.environ["CAL_RUN_ID"]), "run_attempt": attempt, "artifact_id": int(artifact_id), "artifact_name": artifact_name, "artifact_size": int(artifact_size), "artifact_run_id": int(os.environ["CAL_RUN_ID"]), "receipt_sha256": receipt_sha, "producer_sha256": os.environ["PRODUCER_SHA256"], "checker_sha256": os.environ["CHECKER_SHA256"], "q": int(q), "a": int(a), "rows": 972, "checker_marker_count": 1, "checker_exit": 0}.items():
+                  if seal.get(key) != value:
+                      raise SystemExit(f"{tag} calibration seal drift: {key}")
+              if seal.get("receipt_final_marker") != "D972_B4_BURAU_FIBER_V4_FINAL" or seal.get("receipt_status") != "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" or sha(receipt_path) != receipt_sha:
+                  raise SystemExit(f"{tag} calibration receipt/seal mismatch")
+              if receipt.get("q") != int(q) or receipt.get("a") != int(a) or receipt.get("producer_source_sha256") != os.environ["PRODUCER_SHA256"] or receipt.get("row_count") != 972:
+                  raise SystemExit(f"{tag} calibration receipt metadata drift")
+              cal_paths[tag] = receipt_path
+          a = sys.argv[1]
+          q5_seal_path, q5_seal = load("ci/in/q5", f"q5-producer-seal-a{a}.json")
+          q5_path, q5 = load("ci/in/q5", f"d972_b4_burau_fiber_v4_a{a}.json")
+          q5_log = one("ci/in/q5", f"full-a{a}.log")
+          if q5_seal.get("schema") != "d972-burau-q5-parallel/q5-producer-seal/v1" or q5_seal.get("complete") is not True:
+              raise SystemExit("q5 producer seal incomplete")
+          for key, value in {"run_id": int(os.environ["GITHUB_RUN_ID"]), "run_attempt": attempt, "a": int(a), "producer_exit": 0, "producer_sha256": os.environ["PRODUCER_SHA256"], "checker_sha256": os.environ["CHECKER_SHA256"], "q3_receipt_sha256": os.environ["CAL_Q3_SHA256"], "q4_receipt_sha256": os.environ["CAL_Q4_SHA256"], "q5_receipt_sha256": sha(q5_path), "q5_status": q5.get("status"), "q5_final_marker": "D972_B4_BURAU_FIBER_V4_FINAL", "q5_row_count": 972, "candidate_marker_count": 1 if q5.get("status") == "CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER" else 0, "unknown_marker_count": 1 if q5.get("status") == "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" else 0}.items():
+              if q5_seal.get(key) != value:
+                  raise SystemExit(f"q5 producer seal drift: {key}")
+          if q5.get("schema") != "d972-b4-burau-fiber/v4-lowmem" or q5.get("final_marker") != "D972_B4_BURAU_FIBER_V4_FINAL" or q5.get("q") != 5 or q5.get("a") != int(a) or q5.get("status") not in {"CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER", "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS"} or q5.get("producer_source_sha256") != os.environ["PRODUCER_SHA256"] or q5.get("row_count") != 972:
+              raise SystemExit("q5 raw receipt metadata gate failed")
+          lines = q5_log.read_text(encoding="utf-8").splitlines()
+          candidate = f"D972_B4_BURAU_FIBER_V4_FINAL status=CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER output=ci/out/d972_b4_burau_fiber_v4_a{a}.json"
+          unknown = f"D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a{a}.json"
+          candidate_count = lines.count(candidate)
+          unknown_count = lines.count(unknown)
+          if q5_seal.get("candidate_marker_count") != candidate_count or q5_seal.get("unknown_marker_count") != unknown_count:
+              raise SystemExit("q5 producer seal/log marker count mismatch")
+          if candidate_count + unknown_count != 1:
+              raise SystemExit("q5 producer terminal marker cardinality failed")
+          print("D972_BURAU_Q5_PARALLEL_SEAL_REAUTH_PASS")
+          PY
+      - name: Install pinned checker dependencies
+        if: ${{ needs.calibration_check.result == 'success' && needs.q5_produce.result == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/wheels
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+      - name: Run repaired checker on matching q5 receipt
+        if: ${{ needs.calibration_check.result == 'success' && needs.q5_produce.result == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          q3="$(find ci/in/cal-q3 -type f -name 'd972_b4_burau_fiber_v4_q3.json' -print -quit)"
+          q4="$(find ci/in/cal-q4 -type f -name 'd972_b4_burau_fiber_v4_q4.json' -print -quit)"
+          q5="$(find ci/in/q5 -type f -name "d972_b4_burau_fiber_v4_a${BURAU_A}.json" -print -quit)"
+          set +e
+          python search/check_d972_b4_burau_fiber_v4.py "$q5" --calibration-q3 "$q3" --calibration-q4 "$q4" 2>&1 | tee "ci/out/checked-a${BURAU_A}.log"
+          checker_status=${PIPESTATUS[0]}
+          printf '%s\n' "$checker_status" > "ci/out/checked-status-a${BURAU_A}.txt"
+          set -e
+          test "$checker_status" -eq 0
+          marker_count="$(grep -Fc 'D972_B4_BURAU_FIBER_V4_CHECK_PASS ' "ci/out/checked-a${BURAU_A}.log" || true)"
+          test "$marker_count" -eq 1
+          echo D972_BURAU_Q5_PARALLEL_FINAL_CHECK_PASS
+      - name: Append concise checked result
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          {
+            echo "## D972 Burau q5 parallel DAG result"
+            echo "- lane: q=5, a=${BURAU_A}"
+            echo "- calibration matrix result: ${{ needs.calibration_check.result }}"
+            echo "- q5 producer matrix result: ${{ needs.q5_produce.result }}"
+            if [[ -f "ci/out/checked-status-a${BURAU_A}.txt" ]]; then
+              echo "- repaired checker exit: $(cat "ci/out/checked-status-a${BURAU_A}.txt")"
+            else
+              echo "- repaired checker: not run (fail-closed upstream gate)"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload checked q5 evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-q5-parallel-v1-checked-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
+            ci/in/

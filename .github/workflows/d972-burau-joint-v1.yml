@@ -48,7 +48,7 @@ jobs:
           python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
           python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
           ulimit -v 12000000
-          python -c 'import resource; soft, hard = resource.getrlimit(resource.RLIMIT_AS); assert soft == 12000000; print("JOINT_V1_VMEM_GUARD_PASS", soft, hard)'
+          python -c 'import resource; soft, hard = resource.getrlimit(resource.RLIMIT_AS); expected = 12000000 * 1024; assert soft == expected; print("JOINT_V1_VMEM_GUARD_PASS", "bytes", soft, "expected", expected, "hard", hard)'
           set +e
           python search/d972_b4_burau_joint_v1.py --self-test 2>&1 | tee ci/out/selftest-$JOINT_CONFIG.log
           self_status=${PIPESTATUS[0]}
