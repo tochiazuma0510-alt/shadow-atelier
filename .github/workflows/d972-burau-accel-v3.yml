@@ -1,0 +1,589 @@
+name: d972-burau-accel-v3-nested-sealed-faststart
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-burau-accel-v3.yml
+      - search/d972_b4_burau_accel_v1.py
+      - search/check_d972_b4_burau_accel_v1.py
+      - search/d972_b4_burau_fiber_v4.py
+      - search/check_d972_b4_burau_fiber_v4.py
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  OUTER_RUN_ID: "32072654277"
+  OUTER_HEAD_SHA: 303778b34e173acf6a35ad09297cf37f18dfce53
+  OUTER_RUN_ATTEMPT: "1"
+  OUTER_Q3_ID: "9303461247"
+  OUTER_Q4_ID: "9303700869"
+  OUTER_Q3_NAME: d972-burau-q5-parallel-v1-calibration-q3-attempt1
+  OUTER_Q4_NAME: d972-burau-q5-parallel-v1-calibration-q4-attempt1
+  OUTER_Q3_SIZE: "95914"
+  OUTER_Q4_SIZE: "95831"
+  OUTER_Q3_ARCHIVE_DIGEST: sha256:24bf1fc9fcb7505a7fe83e7521bcc7c65a32b58947ce04edb471013e4720df24
+  OUTER_Q4_ARCHIVE_DIGEST: sha256:38be12c17437dba07b3b1b33c82d558ba38478a059dbcbe6641fdfc0146ccf62
+  INNER_RUN_ID: "32051744038"
+  INNER_HEAD_SHA: 983bd8b960c5d71ef686ee0d8a590728913f61d7
+  INNER_RUN_ATTEMPT: "1"
+  INNER_Q3_ID: "9296644565"
+  INNER_Q4_ID: "9297445824"
+  INNER_Q3_NAME: d972-burau-tuple-v4-calibration-q3-attempt1
+  INNER_Q4_NAME: d972-burau-tuple-v4-calibration-q4-attempt1
+  INNER_Q3_SIZE: "95607"
+  INNER_Q4_SIZE: "95523"
+  INNER_Q3_ARCHIVE_DIGEST: sha256:73c561bdddcb777c83bd5e1a8e4464ed148ab074ab7f3e85d840effbb9a3f611
+  INNER_Q4_ARCHIVE_DIGEST: sha256:0088f0027ea2ec3edc8e5cef853e8e2b756401ace3527785b96e92129c49510c
+  CAL_Q3_RECEIPT_SHA256: 0813a151cd47a56f29aab629ebfc35a0293a8ce84d98c24f3a3ac3e0601ad8e2
+  CAL_Q4_RECEIPT_SHA256: 414c13fe680c2eeb6f3f75c7f6a7206a707c18a426da619543232e1a98855de2
+  CAL_PRODUCER_SHA256: aa8726570c58840a000b4b247b34eccd39a958f97087e6745216e2055b578cec
+  CAL_CHECKER_SHA256: e0b4cb923c1bd73b9afdc7f47de739f91c8aa3c0d7764c239e1df76d74fbce14
+  PRODUCER_SHA256: fe9ee097c50a54ffc69ce9bcb820e7ac09847581eb82a3dd2d83962aab69e2dc
+  CHECKER_SHA256: e36405fafb75ea3eaf096e507920b9d2ebe683e867a49a35c8f1bdcb708a0c7a
+  WORDS_SHA256: 564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9
+
+jobs:
+  q5:
+    name: q5-a${{ matrix.a }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        a: ["2", "4"]
+    env:
+      BURAU_A: ${{ matrix.a }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: '3.13.5'
+
+      - name: Authenticate outer wrappers and inner source artifacts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          headers = {
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+
+          def get_json(url):
+              with urlopen(Request(url, headers=headers), timeout=30) as response:
+                  return json.load(response)
+
+          def all_artifacts(run_id):
+              artifacts = []
+              total = None
+              for page in range(1, 101):
+                  payload = get_json(
+                      f"https://api.github.com/repos/{repo}/actions/runs/{run_id}/artifacts"
+                      f"?per_page=100&page={page}")
+                  if not isinstance(payload, dict) or not isinstance(payload.get("artifacts"), list):
+                      raise SystemExit("malformed artifact API payload")
+                  seen_total = int(payload.get("total_count", -1))
+                  if seen_total < 0 or (total is not None and seen_total != total):
+                      raise SystemExit("artifact API total_count drift")
+                  total = seen_total
+                  batch = payload["artifacts"]
+                  artifacts.extend(batch)
+                  if len(artifacts) >= total:
+                      break
+                  if not batch:
+                      raise SystemExit("artifact API pagination stopped early")
+              if total is None or len(artifacts) != total:
+                  raise SystemExit("artifact API pagination/coverage drift")
+              return artifacts
+
+          def authenticate(prefix):
+              run_id = int(os.environ[f"{prefix}_RUN_ID"])
+              attempt = int(os.environ[f"{prefix}_RUN_ATTEMPT"])
+              head_sha = os.environ[f"{prefix}_HEAD_SHA"]
+              run = get_json(f"https://api.github.com/repos/{repo}/actions/runs/{run_id}")
+              if (int(run.get("id", -1)) != run_id or
+                  run.get("head_sha") != head_sha or
+                  int(run.get("run_attempt", -1)) != attempt):
+                  raise SystemExit(f"{prefix.lower()} run identity drift")
+              artifacts = all_artifacts(run_id)
+              expected = {}
+              for tag in ("Q3", "Q4"):
+                  artifact_id = int(os.environ[f"{prefix}_{tag}_ID"])
+                  expected[tag.lower()] = {
+                      "id": artifact_id,
+                      "name": os.environ[f"{prefix}_{tag}_NAME"],
+                      "size": int(os.environ[f"{prefix}_{tag}_SIZE"]),
+                      "digest": os.environ[f"{prefix}_{tag}_ARCHIVE_DIGEST"],
+                  }
+              if len({x["id"] for x in expected.values()}) != 2 or len({x["name"] for x in expected.values()}) != 2:
+                  raise SystemExit(f"{prefix.lower()} q3/q4 constants collide")
+              for tag, want in expected.items():
+                  id_matches = [x for x in artifacts if int(x.get("id", -1)) == want["id"]]
+                  name_matches = [x for x in artifacts if x.get("name") == want["name"]]
+                  if len(id_matches) != 1 or len(name_matches) != 1 or id_matches[0] is not name_matches[0]:
+                      raise SystemExit(f"{prefix.lower()} {tag} artifact missing, ambiguous, or crossed")
+                  item = id_matches[0]
+                  workflow_run = item.get("workflow_run") or {}
+                  if (item.get("name") != want["name"] or
+                      int(item.get("size_in_bytes", -1)) != want["size"] or
+                      item.get("digest") != want["digest"] or
+                      item.get("expired") is not False or
+                      int(workflow_run.get("id", -1)) != run_id or
+                      workflow_run.get("head_sha") != head_sha):
+                      raise SystemExit(f"{prefix.lower()} {tag} artifact identity/digest drift")
+              return {
+                  "run": {"id": run_id, "head_sha": head_sha, "attempt": attempt},
+                  "artifacts": expected,
+              }
+
+          outer = authenticate("OUTER")
+          inner = authenticate("INNER")
+          ledger = {
+              "schema": "d972-burau-accel/nested-api-binding/v3",
+              "outer": outer,
+              "inner": inner,
+              "bindings": {
+                  "q3": {"q": 3, "a": -1,
+                         "outer_id": outer["artifacts"]["q3"]["id"],
+                         "inner_id": inner["artifacts"]["q3"]["id"],
+                         "receipt_sha256": os.environ["CAL_Q3_RECEIPT_SHA256"]},
+                  "q4": {"q": 4, "a": 2,
+                         "outer_id": outer["artifacts"]["q4"]["id"],
+                         "inner_id": inner["artifacts"]["q4"]["id"],
+                         "receipt_sha256": os.environ["CAL_Q4_RECEIPT_SHA256"]},
+              },
+          }
+          Path("ci/out/nested-api-binding-v3.json").write_text(
+              json.dumps(ledger, sort_keys=True, separators=(",", ":")) + "\n",
+              encoding="utf-8")
+          print("D972_BURAU_ACCEL_V3_OUTER_INNER_API_PASS")
+          PY
+
+      - name: Download exact sealed q3 calibration bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: d972-burau-q5-parallel-v1-calibration-q3-attempt1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32072654277
+          path: ci/in/q3
+
+      - name: Download exact sealed q4 calibration bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: d972-burau-q5-parallel-v1-calibration-q4-attempt1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32072654277
+          path: ci/in/q4
+
+      - name: Install dependencies and authenticate sealed evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/wheels ci/out
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+          python - <<'PY'
+          import copy
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          class GateError(Exception):
+              pass
+
+          def require(condition, message):
+              if not condition:
+                  raise GateError(message)
+
+          def sha(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          def one(root, name):
+              found = list(Path(root).rglob(name))
+              require(len(found) == 1, f"missing or ambiguous sealed file: {root}/{name}")
+              return found[0]
+
+          def artifact(prefix, tag):
+              key = tag.upper()
+              return {
+                  "id": int(os.environ[f"{prefix}_{key}_ID"]),
+                  "name": os.environ[f"{prefix}_{key}_NAME"],
+                  "size": int(os.environ[f"{prefix}_{key}_SIZE"]),
+                  "digest": os.environ[f"{prefix}_{key}_ARCHIVE_DIGEST"],
+              }
+
+          def run(prefix):
+              return {
+                  "id": int(os.environ[f"{prefix}_RUN_ID"]),
+                  "head_sha": os.environ[f"{prefix}_HEAD_SHA"],
+                  "attempt": int(os.environ[f"{prefix}_RUN_ATTEMPT"]),
+              }
+
+          specs = {
+              "q3": {"q": 3, "a": -1,
+                     "receipt_sha": os.environ["CAL_Q3_RECEIPT_SHA256"],
+                     "outer": artifact("OUTER", "q3"),
+                     "inner": artifact("INNER", "q3")},
+              "q4": {"q": 4, "a": 2,
+                     "receipt_sha": os.environ["CAL_Q4_RECEIPT_SHA256"],
+                     "outer": artifact("OUTER", "q4"),
+                     "inner": artifact("INNER", "q4")},
+          }
+          outer_run = run("OUTER")
+          inner_run = run("INNER")
+
+          def expected_api_ledger():
+              return {
+                  "schema": "d972-burau-accel/nested-api-binding/v3",
+                  "outer": {"run": outer_run,
+                            "artifacts": {tag: spec["outer"] for tag, spec in specs.items()}},
+                  "inner": {"run": inner_run,
+                            "artifacts": {tag: spec["inner"] for tag, spec in specs.items()}},
+                  "bindings": {
+                      tag: {"q": spec["q"], "a": spec["a"],
+                            "outer_id": spec["outer"]["id"],
+                            "inner_id": spec["inner"]["id"],
+                            "receipt_sha256": spec["receipt_sha"]}
+                      for tag, spec in specs.items()
+                  },
+              }
+
+          def validate_api_ledger(ledger):
+              require(ledger == expected_api_ledger(),
+                      "outer/inner API binding ledger drift or mix-and-match")
+
+          sources = {
+              Path("search/d972_b4_burau_accel_v1.py"): os.environ["PRODUCER_SHA256"],
+              Path("search/check_d972_b4_burau_accel_v1.py"): os.environ["CHECKER_SHA256"],
+              Path("search/d972_b4_burau_fiber_v4.py"): os.environ["CAL_PRODUCER_SHA256"],
+              Path("search/check_d972_b4_burau_fiber_v4.py"): os.environ["CAL_CHECKER_SHA256"],
+              Path("search/certs/d972_b4_word_key_artifact_v1_20260816.json"): os.environ["WORDS_SHA256"],
+          }
+          for path, expected in sources.items():
+              require(sha(path) == expected, f"current source/artifact SHA drift: {path}")
+
+          common = {
+              "schema": "d972-b4-burau-fiber/v4-lowmem",
+              "final_marker": "D972_B4_BURAU_FIBER_V4_FINAL",
+              "status": "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+              "producer_source_sha256": os.environ["CAL_PRODUCER_SHA256"],
+              "words_sha256": os.environ["WORDS_SHA256"],
+              "artifact_rows_sha256": "283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930",
+              "target_sha256": "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62",
+              "tuple_sha256": "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91",
+              "row_count": 972,
+              "roof_order": 1469664,
+              "projection_image_order": 367416,
+              "h_order": 105815808,
+              "hprime_order": 2939328,
+              "kernel_order": 8,
+              "quotient_h_over_hprime_order": 36,
+          }
+
+          def seal_expected(spec):
+              inner = spec["inner"]
+              return {
+                  "schema": "d972-burau-q5-parallel/calibration-seal/v1",
+                  "complete": True,
+                  "run_id": inner_run["id"],
+                  "run_attempt": inner_run["attempt"],
+                  "artifact_id": inner["id"],
+                  "artifact_name": inner["name"],
+                  "artifact_size": inner["size"],
+                  "artifact_run_id": inner_run["id"],
+                  "receipt_sha256": spec["receipt_sha"],
+                  "producer_sha256": os.environ["CAL_PRODUCER_SHA256"],
+                  "checker_sha256": os.environ["CAL_CHECKER_SHA256"],
+                  "q": spec["q"], "a": spec["a"], "rows": 972,
+                  "checker_marker": "D972_B4_BURAU_FIBER_V4_CHECK_PASS",
+                  "checker_marker_count": 1, "checker_exit": 0,
+                  "receipt_final_marker": "D972_B4_BURAU_FIBER_V4_FINAL",
+                  "receipt_status": "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+              }
+
+          def validate_objects(tag, spec, receipt, receipt_digest, seal,
+                               log_lines, checker_status):
+              require(receipt_digest == spec["receipt_sha"],
+                      f"{tag} sealed receipt SHA drift")
+              require(isinstance(receipt, dict), f"{tag} receipt is not an object")
+              require(all(receipt.get(key) == value for key, value in common.items()),
+                      f"{tag} sealed receipt metadata drift")
+              require(receipt.get("q") == spec["q"] and receipt.get("a") == spec["a"],
+                      f"{tag} sealed receipt q/a drift")
+              rows = receipt.get("rows")
+              require(isinstance(rows, list) and len(rows) == 972,
+                      f"{tag} sealed receipt row count drift")
+              require([row.get("row_index") for row in rows] == list(range(1, 973)),
+                      f"{tag} sealed receipt row-index coverage drift")
+              require(all(row.get("fiber_size") == 8 and
+                          row.get("identity_image_defect_count") == 1 and
+                          row.get("nonidentity_image_defect_count") == 7
+                          for row in rows),
+                      f"{tag} sealed receipt row/fiber gate drift")
+              keys = [json.dumps(row.get("target_key"), sort_keys=True,
+                                 separators=(",", ":")) for row in rows]
+              require(len(set(keys)) == 972, f"{tag} sealed target-key uniqueness drift")
+              require(seal == seal_expected(spec),
+                      f"{tag} inner calibration seal drift or outer/inner substitution")
+              marker = "D972_B4_BURAU_FIBER_V4_CHECK_PASS "
+              require(sum(line.startswith(marker) for line in log_lines) == 1,
+                      f"{tag} checker marker count drift")
+              require(checker_status == "0", f"{tag} checker exit status drift")
+
+          def validate_bundle(tag, spec):
+              root = Path("ci/in") / tag
+              receipt_path = one(root, f"d972_b4_burau_fiber_v4_{tag}.json")
+              seal_path = one(root, f"calibration-seal-{tag}.json")
+              log_path = one(root, f"check-{tag}.log")
+              status_path = one(root, f"checker-status-{tag}.txt")
+              other = "q4" if tag == "q3" else "q3"
+              for forbidden in (f"d972_b4_burau_fiber_v4_{other}.json",
+                                f"calibration-seal-{other}.json",
+                                f"check-{other}.log",
+                                f"checker-status-{other}.txt"):
+                  require(not list(root.rglob(forbidden)),
+                          f"{tag} wrapper contains crossed {other} evidence")
+              receipt = json.loads(receipt_path.read_bytes())
+              seal = json.loads(seal_path.read_bytes())
+              lines = log_path.read_text(encoding="utf-8").splitlines()
+              checker_status = status_path.read_text(encoding="utf-8").strip()
+              validate_objects(tag, spec, receipt, sha(receipt_path), seal,
+                               lines, checker_status)
+              binding = {
+                  "schema": "d972-burau-accel/nested-evidence-binding/v3",
+                  "tag": tag, "q": spec["q"], "a": spec["a"],
+                  "outer_run": outer_run, "outer_artifact": spec["outer"],
+                  "inner_run": inner_run, "inner_artifact": spec["inner"],
+                  "receipt_sha256": sha(receipt_path),
+                  "seal_sha256": sha(seal_path),
+                  "checker_log_sha256": sha(log_path),
+                  "checker_status_sha256": sha(status_path),
+              }
+              Path(f"ci/out/nested-evidence-binding-{tag}-v3.json").write_text(
+                  json.dumps(binding, sort_keys=True, separators=(",", ":")) + "\n",
+                  encoding="utf-8")
+              return receipt, seal, lines, checker_status
+
+          def reject(label, function):
+              try:
+                  function()
+              except GateError:
+                  return
+              raise GateError(f"negative nested-provenance fixture accepted: {label}")
+
+          try:
+              api_ledger = json.loads(one("ci/out", "nested-api-binding-v3.json").read_bytes())
+              validate_api_ledger(api_ledger)
+              real = {tag: validate_bundle(tag, spec) for tag, spec in specs.items()}
+              mutations = 0
+
+              for tag, spec in specs.items():
+                  receipt, seal, lines, status = real[tag]
+                  for field, value in {
+                      "run_id": outer_run["id"],
+                      "artifact_run_id": outer_run["id"],
+                      "artifact_id": spec["outer"]["id"],
+                      "artifact_name": spec["outer"]["name"],
+                      "artifact_size": spec["outer"]["size"],
+                  }.items():
+                      changed = copy.deepcopy(seal)
+                      changed[field] = value
+                      reject(f"{tag}-seal-inner-{field}-replaced-by-outer",
+                             lambda changed=changed, tag=tag, spec=spec,
+                                    receipt=receipt, lines=lines, status=status:
+                             validate_objects(tag, spec, receipt, spec["receipt_sha"],
+                                              changed, lines, status))
+                      mutations += 1
+
+              q3_receipt, q3_seal, q3_lines, q3_status = real["q3"]
+              q4_receipt, q4_seal, q4_lines, q4_status = real["q4"]
+              reject("q3-wrapper-with-q4-inner-seal",
+                     lambda: validate_objects("q3", specs["q3"], q3_receipt,
+                                              specs["q3"]["receipt_sha"], q4_seal,
+                                              q3_lines, q3_status))
+              mutations += 1
+              reject("q4-wrapper-with-q3-inner-seal",
+                     lambda: validate_objects("q4", specs["q4"], q4_receipt,
+                                              specs["q4"]["receipt_sha"], q3_seal,
+                                              q4_lines, q4_status))
+              mutations += 1
+              reject("q3-wrapper-with-q4-receipt",
+                     lambda: validate_objects("q3", specs["q3"], q4_receipt,
+                                              specs["q4"]["receipt_sha"], q3_seal,
+                                              q3_lines, q3_status))
+              mutations += 1
+              reject("q4-wrapper-with-q3-receipt",
+                     lambda: validate_objects("q4", specs["q4"], q3_receipt,
+                                              specs["q3"]["receipt_sha"], q4_seal,
+                                              q4_lines, q4_status))
+              mutations += 1
+              crossed_seal_receipt = copy.deepcopy(q3_seal)
+              crossed_seal_receipt["receipt_sha256"] = specs["q4"]["receipt_sha"]
+              reject("q3-seal-with-q4-receipt-sha",
+                     lambda: validate_objects("q3", specs["q3"], q3_receipt,
+                                              specs["q3"]["receipt_sha"],
+                                              crossed_seal_receipt, q3_lines, q3_status))
+              mutations += 1
+
+              crossed_runs = copy.deepcopy(api_ledger)
+              crossed_runs["outer"]["run"], crossed_runs["inner"]["run"] = (
+                  crossed_runs["inner"]["run"], crossed_runs["outer"]["run"])
+              reject("api-outer-inner-run-swap", lambda: validate_api_ledger(crossed_runs))
+              mutations += 1
+              crossed_ids = copy.deepcopy(api_ledger)
+              crossed_ids["outer"]["artifacts"]["q3"], crossed_ids["outer"]["artifacts"]["q4"] = (
+                  crossed_ids["outer"]["artifacts"]["q4"],
+                  crossed_ids["outer"]["artifacts"]["q3"])
+              reject("api-q3-q4-wrapper-swap", lambda: validate_api_ledger(crossed_ids))
+              mutations += 1
+              crossed_inner = copy.deepcopy(api_ledger)
+              crossed_inner["inner"]["artifacts"]["q3"], crossed_inner["inner"]["artifacts"]["q4"] = (
+                  crossed_inner["inner"]["artifacts"]["q4"],
+                  crossed_inner["inner"]["artifacts"]["q3"])
+              reject("api-q3-q4-source-swap", lambda: validate_api_ledger(crossed_inner))
+              mutations += 1
+              crossed_receipts = copy.deepcopy(api_ledger)
+              crossed_receipts["bindings"]["q3"]["receipt_sha256"], crossed_receipts["bindings"]["q4"]["receipt_sha256"] = (
+                  crossed_receipts["bindings"]["q4"]["receipt_sha256"],
+                  crossed_receipts["bindings"]["q3"]["receipt_sha256"])
+              reject("api-q3-q4-receipt-swap", lambda: validate_api_ledger(crossed_receipts))
+              mutations += 1
+          except GateError as error:
+              raise SystemExit(str(error)) from None
+
+          print("D972_BURAU_ACCEL_V3_REAL_NESTED_FIXTURE_PASS", mutations)
+          print("D972_BURAU_ACCEL_V3_SEALED_EVIDENCE_AUTH_PASS")
+          PY
+
+      - name: Run q5 producer and checker selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python search/d972_b4_burau_accel_v1.py --self-test | tee ci/out/accel-producer-selftest.log
+          grep -Fxc 'D972_B4_BURAU_ACCEL_V1_SELFTEST_PASS' ci/out/accel-producer-selftest.log | grep -Fx 1
+          python search/check_d972_b4_burau_accel_v1.py --self-test | tee ci/out/accel-checker-selftest.log
+          grep -Fxc 'D972_B4_BURAU_ACCEL_CHECKER_FINAL_MARKER status=PASS' ci/out/accel-checker-selftest.log | grep -Fx 1
+          grep -Fxc 'D972_B4_BURAU_ACCEL_PARTIAL_ALLPASS_NEGATIVE_PASS' ci/out/accel-checker-selftest.log | grep -Fx 1
+          echo D972_BURAU_ACCEL_SELFTESTS_PASS
+
+      - name: Run exact q5 acceleration producer
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          q3="$(find ci/in/q3 -type f -name 'd972_b4_burau_fiber_v4_q3.json' -print -quit)"
+          q4="$(find ci/in/q4 -type f -name 'd972_b4_burau_fiber_v4_q4.json' -print -quit)"
+          test -n "$q3" && test -n "$q4"
+          receipt="ci/out/d972_b4_burau_accel_v1_a$BURAU_A.json"
+          set +e
+          python search/d972_b4_burau_accel_v1.py --q 5 --a "$BURAU_A" --calibration-q3 "$q3" --calibration-q4 "$q4" --output "$receipt" 2>&1 | tee "ci/out/accel-a$BURAU_A.log"
+          producer_status=${PIPESTATUS[0]}
+          printf '%s\n' "$producer_status" > "ci/out/producer-status-a$BURAU_A.txt"
+          set -e
+          test "$producer_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception|UNKNOWN_RESOURCE)' "ci/out/accel-a$BURAU_A.log"
+          expected_candidate="D972_B4_BURAU_ACCEL_V1_FINAL status=CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER output=$receipt"
+          expected_allpass="D972_B4_BURAU_ACCEL_V1_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=$receipt"
+          candidate_count=$(grep -Fxc -- "$expected_candidate" "ci/out/accel-a$BURAU_A.log" || true)
+          allpass_count=$(grep -Fxc -- "$expected_allpass" "ci/out/accel-a$BURAU_A.log" || true)
+          test $((candidate_count + allpass_count)) -eq 1
+          python - "$receipt" "$BURAU_A" "$q3" "$q4" <<'PY'
+          import json
+          import os
+          import sys
+          r = json.load(open(sys.argv[1], encoding="utf-8"))
+          allowed = {"CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER",
+                     "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS"}
+          if (r.get("status") not in allowed or
+              r.get("schema") != "d972-b4-burau-accel/v1-witness" or
+              r.get("final_marker") != "D972_B4_BURAU_ACCEL_V1_FINAL" or
+              r.get("q") != 5 or r.get("a") != int(sys.argv[2]) or
+              r.get("producer_source_sha256") != os.environ["PRODUCER_SHA256"] or
+              r.get("row_count") != 972 or
+              r.get("kernel_generator_method") !=
+              "single exact BFS discovery witnesses"):
+              raise SystemExit("q5 status/source/method gate failed")
+          rows = r.get("rows")
+          if (not isinstance(rows, list) or not 1 <= len(rows) <= 972 or
+              [x.get("row_index") for x in rows] != list(range(1, len(rows) + 1)) or
+              len({json.dumps(x.get("target_key"), sort_keys=True) for x in rows}) != len(rows)):
+              raise SystemExit("q5 row ledger/key gate failed")
+          zeros = [x for x in rows if x.get("identity_image_defect_count") == 0]
+          if r["status"].startswith("CANDIDATE"):
+              if (not zeros or len(zeros) != 1 or
+                  r.get("row_scan_complete") is not False or
+                  r.get("row_scan_rows") != len(rows) or
+                  r.get("terminal_zero_row_index") != len(rows) or
+                  rows[-1].get("identity_image_defect_count") != 0):
+                  raise SystemExit("candidate early-stop gate failed")
+          else:
+              if (zeros or len(rows) != 972 or
+                  r.get("row_scan_complete") is not True or
+                  r.get("row_scan_rows") != 972 or
+                  r.get("terminal_zero_row_index") is not None):
+                  raise SystemExit("all-pass complete-scan gate failed")
+          gate = r.get("calibration_gate") or {}
+          if (gate.get("required_for_q5") is not True or
+              gate.get("frozen_q3_q4_match") is not True or
+              gate.get("accepted_receipt_sha256") != {
+                  "q3_sha256": os.environ["CAL_Q3_RECEIPT_SHA256"],
+                  "q4_sha256": os.environ["CAL_Q4_RECEIPT_SHA256"],
+              }):
+              raise SystemExit("q5 calibration receipt binding gate failed")
+          print("D972_BURAU_ACCEL_Q5_RECEIPT_GATE_PASS", r["status"], len(zeros))
+          PY
+
+      - name: Independently check exact q5 receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          q3="$(find ci/in/q3 -type f -name 'd972_b4_burau_fiber_v4_q3.json' -print -quit)"
+          q4="$(find ci/in/q4 -type f -name 'd972_b4_burau_fiber_v4_q4.json' -print -quit)"
+          receipt="ci/out/d972_b4_burau_accel_v1_a$BURAU_A.json"
+          set +e
+          python search/check_d972_b4_burau_accel_v1.py "$receipt" --calibration-q3 "$q3" --calibration-q4 "$q4" 2>&1 | tee "ci/out/accel-check-a$BURAU_A.log"
+          checker_status=${PIPESTATUS[0]}
+          printf '%s\n' "$checker_status" > "ci/out/checker-status-a$BURAU_A.txt"
+          set -e
+          test "$checker_status" -eq 0
+          marker_count="$(grep -Fc 'D972_B4_BURAU_ACCEL_CHECK_PASS ' "ci/out/accel-check-a$BURAU_A.log" || true)"
+          test "$marker_count" -eq 1
+          echo D972_BURAU_ACCEL_INDEPENDENT_CHECK_PASS
+
+      - name: Upload sealed calibration, q5, and failure evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-burau-accel-v3-q5-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
+            ci/in/
