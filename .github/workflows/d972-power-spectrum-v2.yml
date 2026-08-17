@@ -50,7 +50,12 @@ jobs:
 
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends gap="$D972_GAP_PACKAGE_VERSION"
-          actual_gap="$(gap -q -c 'Print(GAPInfo.Version); quit;')"
+          actual_gap="$(gap -q -b <<'GAP' | tail -n 1
+          Print(GAPInfo.Version, "\n");
+          QUIT_GAP(0);
+          GAP
+          )"
+          test -n "$actual_gap"
           test "$actual_gap" = "$D972_GAP_VERSION"
           printf 'D972_GAP_RUNTIME_PASS version=%s\n' "$actual_gap"
 
