@@ -38,5 +38,4 @@ Do not run local GAP, git, push, or GHA.
 5. Include hostile static cases for absent mode, invalid mode, and empty output
    path.  State the exact behavior.
 6. Return `POWER_GAP412_GETENV_REPAIR_READY` or `BLOCKER: <exact defect>`, with
-   final producer/workflow hashes.
-
+final producer/workflow hashes.
