@@ -26,6 +26,9 @@ if IsBound(D972_B4_BURAU_A) then D972BFA:=D972_B4_BURAU_A; fi;;
 if not D972BFQ in [3,4] then Error("Burau fiber supports only GF(3) and GF(4)"); fi;;
 D972BFMode:=GetEnv("D972_B4_BURAU_MODE");;
 if IsBound(D972_B4_BURAU_MODE) then D972BFMode:=D972_B4_BURAU_MODE; fi;;
+if IsBound(D972_B4_BURAU_SELFTEST) and D972_B4_BURAU_SELFTEST=true then
+  D972BFMode:="selftest";
+fi;;
 if D972BFMode=fail or D972BFMode="" then D972BFMode:="run"; fi;;
 D972BFWordsPath:="search/certs/d972_b4_word_key_artifact_v1_20260816.json";;
 D972BFOut:=GetEnv("D972_B4_BURAU_OUTPUT");;

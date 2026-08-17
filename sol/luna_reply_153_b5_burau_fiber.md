@@ -22,7 +22,7 @@ Frozen input bindings:
 |---|---|
 | `search/certs/d972_b4_word_key_artifact_v1_20260816.json` | `564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9` |
 | semantic premise object (`M`, `P`, 972/324/648, index-3) | `3a2168fc88c86c21eea4bff6fd2958bf18fe7bcee506e0c3cdf6c6f2a2cef729` |
-| `search/d972_b4_burau_fiber_v1.g` (current draft) | `8a65fe2fa8c56a2b7552ace96df482cc1d5ad32ee28512824946a44daf59b4d8` |
+| `search/d972_b4_burau_fiber_v1.g` (current draft) | `9b610ab68affbc1fc5e7afe7e1dba3d30db88c16786eb9153228d5a71fccd451` |
 | independent SymPy/roof checker | `819519e93a95e0fbff7b7d4d51f5af633da029e033f33038f100db968e53169e` |
 
 ## GHA handoff
@@ -32,10 +32,12 @@ After the parent session commits the versioned files, invoke the existing workfl
 ```text
 gh workflow run gap-run.yml --ref <source-commit> \
   -f script=search/d972_b4_burau_fiber_v1.g \
-  -f preamble='D972_B4_BURAU_MODE:="run";; D972_B4_BURAU_Q:=3;; D972_B4_BURAU_A:=-1;; D972_B4_BURAU_OUTPUT:="search/certs/d972_b4_burau_fiber_q3_a-1.json";;' \
+  -f preamble='D972_B4_BURAU_Q:=3;; D972_B4_BURAU_A:=-1;;' \
   -f out_dir=search/certs -f timeout_min=330 -f with_pquot_packages=false
 ```
 
-Expected artifact: `search/certs/d972_b4_burau_fiber_q3_a-1.json`; run the checker against that artifact after download.  If q3 is all-pass, run the same invocation in parallel with `D972_B4_BURAU_Q:=4;; D972_B4_BURAU_A:=2;;` and output `search/certs/d972_b4_burau_fiber_q4_a2.json`.  The current producer/checker contract advertises only these GF(3)/GF(4) lanes; all-pass remains `UNKNOWN`, and timeout/resource failure remains `UNKNOWN_RESOURCE`.
+Quote-free GAP selftest preamble: `D972_B4_BURAU_SELFTEST:=true;;`.
+
+Expected producer artifact: `ci/out/d972_b4_burau_fiber_v1.json` (uploaded by the existing workflow); run the checker against that artifact after download.  If q3 is all-pass, run the same invocation in parallel with `D972_B4_BURAU_Q:=4;; D972_B4_BURAU_A:=2;;`.  The current producer/checker contract advertises only these GF(3)/GF(4) lanes; all-pass remains `UNKNOWN`, and timeout/resource failure remains `UNKNOWN_RESOURCE`.
 
 Resource scale is degree `36+5q^4` (441 at q=3; 1316 at q=4), with exact kernel enumeration and complete coset scans.  The q=4 lane is consequently substantially more memory-intensive; use the 330-minute workflow timeout and retain the fail-closed status if enumeration does not finish.
