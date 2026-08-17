@@ -378,7 +378,11 @@ else
     input_boundary:=rec(old_raw_158_used:=false,typed_four_forget_maps:=true,
       B4_isolatedness_claimed:=false,cofinal_B4_B_claimed:=false));
   D972AXWrite(D972AXOutput,D972AXReceipt);;
-  Print("D972_C2SIX_FOURFORGET_CORE_FINAL status=FOURFORGET_CORE_COMPUTED output=",
-    D972AXOutput," GE=",D972AXGEOrder," GP=",D972AXGPOrder,
+  ## Keep the machine-grepped completion token short enough that GAP 4.16
+  ## cannot wrap it at its line printer width.  Numeric/order gates remain
+  ## losslessly in the receipt and are independently checked.
+  Print("D972_C2SIX_FOURFORGET_CORE_FINAL\n");
+  Print("status=FOURFORGET_CORE_COMPUTED output=",D972AXOutput,
+    " GE=",D972AXGEOrder," GP=",D972AXGPOrder,
     " kernel=",D972AXKernelOrder," rank=24\n");
 fi;;

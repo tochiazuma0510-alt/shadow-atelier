@@ -131,7 +131,7 @@ Created/updated only within the authorized scope:
 - this reply
 - the parent-directed 157ax JSON-root/inline-if repair and its reply note.
 
-Final 157bd hashes:
+Final 157bd hashes (before the parent-directed witness-index repair):
 
 - producer:
   52005b33e3357afa85a5f0400eb9f9589ab052d0f18f0844a7e514bb16438aae;
@@ -147,5 +147,32 @@ The bounded Python selftest passes:
 No local GAP, git, push, or GHA was run.  The workflow uses the corrected
 JSON package parent ($json_root, containing pkg/json) and emits
 UNKNOWN_TIMEOUT rather than treating a timeout as a mathematical result.
+
+## Parent-directed witness-index correction
+
+An independent audit found a coordinate indexing defect in the pure-coordinate
+witness replay: the 1-based witness coordinate was compared directly with the
+0-based tuple index.  It is now compared as `index == coordinate - 1`.  The
+bounded checker selftest additionally replays all four pure witnesses and
+rejects a mutated witness permutation.  No producer mathematics changed and
+no local GAP, git, push, or GHA was run.
+
+The repaired checker selftest remains
+`D972_CORE_INTERSECTION_CHECKER_SELFTEST_PASS`.  The hashes below are the
+repaired working-tree bindings and await the parent commit/rerun:
+
+    52005b33e3357afa85a5f0400eb9f9589ab052d0f18f0844a7e514bb16438aae  search/d972_d972core_c2six_intersection_v1.g
+    bf08617ec9b1c9943ed3f655efecaa8fdb12a3125aaea7f9fa80564c81d5bd22  search/check_d972_d972core_c2six_intersection_v1.py
+    77efe8d1cdef6ce69b95c00109abf42d13991de37f8e5a6a76e9223a190bead6  .github/workflows/d972-d972core-c2six-intersection-v1.yml
+
+## Operational run record
+
+The current 157bd broker run is `32063204094` on commit `fb81f566`; it is the
+pre-repair run and must not be read as validation of the repaired bundle.  The
+workflow's short-marker-prefix gate and the checker coordinate/mutation repairs
+are awaiting the parent commit and rerun.  The exact order/rank values remain
+receipt and independent-checker gates.  The repaired checker selftest remains
+`D972_CORE_INTERSECTION_CHECKER_SELFTEST_PASS`.  No local GAP, git, push, or
+GHA was run in this follow-up.
 
 D972_CORE_INTERSECTION_RANK_24_READY_FOR_GHA

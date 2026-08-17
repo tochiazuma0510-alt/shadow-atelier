@@ -27,7 +27,7 @@ SOURCE_CHECK_SHA = "90db0fc500eb44bd905059d7a00dfaf4920c8c9890ed151d773141456fd0
 MAPS_PATH = ROOT / "search/certs/d972_b4_marity_reduction_maps_v1.json"
 MAPS_SHA = "6bab29852ec35210abe7bfc46e68c5457abc76653af3778921a71be8256dbfc2"
 MAP_CHECKER_SHA = "eb87e9d42ecde979b82a31beec8fdedea3e221a55d4881f8a71dbaffc2a7a032"
-PRODUCER_SHA = "92b609f2176beb7a5881b7df9c7cd2ec2100922ed26f00acfc5e618ad963b463"
+PRODUCER_SHA = "f08142861b5e3d85593f10666275753b82283d214c5711c1d508e8e9d322218c"
 DEGREE = 72
 LABELS = ("x12", "x13", "x14", "x23", "x24", "x34")
 EXPECTED_LABEL_ROWS = (
@@ -490,7 +490,7 @@ def validate_report(report: dict, core: dict, maps: dict) -> None:
     for coordinate, pair in enumerate(witness_pairs, 1):
         actual = comm(tuple_gens[pair[0] - 1], tuple_gens[pair[1] - 1])
         expected_pure = embed_blocks(
-            tuple(core["comm_e"] if index == coordinate else one(DEGREE) for index in range(4))
+            tuple(core["comm_e"] if index == coordinate - 1 else one(DEGREE) for index in range(4))
         )
         if actual != expected_pure:
             raise AssertionError(f"pure coordinate witness failed at {coordinate}")
@@ -610,6 +610,17 @@ def static_selftest() -> None:
     expected = expected_tuple_values(core, maps)
     assert tuple(tuple(row) for row in EXPECTED_LABEL_ROWS) == EXPECTED_LABEL_ROWS
     assert all(len(row) == 4 for row in expected)
+    tuple_gens = tuple(embed_blocks(row) for row in expected)
+    witness_pairs = ([4, 6], [2, 6], [1, 5], [1, 4])
+    for coordinate, pair in enumerate(witness_pairs, 1):
+        actual = comm(tuple_gens[pair[0] - 1], tuple_gens[pair[1] - 1])
+        expected_pure = embed_blocks(
+            tuple(core["comm_e"] if index == coordinate - 1 else one(DEGREE) for index in range(4))
+        )
+        assert actual == expected_pure
+        mutated = list(expected_pure)
+        mutated[0], mutated[1] = mutated[1], mutated[0]
+        assert tuple(mutated) != actual, "pure witness mutation accepted"
     mutated = copy.deepcopy(maps)
     mutated["maps"][0]["generator_images"][0] = ""
     try:

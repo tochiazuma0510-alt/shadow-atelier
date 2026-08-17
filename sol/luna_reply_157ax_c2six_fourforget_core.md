@@ -153,3 +153,28 @@ producer hash is
 `1794d5afb8145ff0b8ccaead22c3f26033c552624288d478562e3c0f4bb3bc08`; the
 workflow binding was updated again.  A bracket-balance audit now passes for
 both the repaired 157ax producer and the 157bd producer.
+
+The subsequent full run `32062943214` on parent commit `0baa39f2` completed the
+mathematics successfully: the receipt/checker reached
+`GE/GP/kernel/rank=24`.  It also supplied the failing-operational evidence:
+the long one-line final print was wrapped by GAP's line printer, so the exact
+full-line workflow grep was not robust even though the numeric receipt gates
+passed.  Thus that run/commit is evidence for the successful mathematics and
+the operational failure; it does not contain the repaired marker/index bundle.
+The repaired producer/checker/workflow/reply are now awaiting the parent
+commit and rerun.  No local GAP, git, push, or GHA was run in this Luna task.
+
+The repaired working-tree bundle includes the independent coordinate-index
+repair (`index == coordinate - 1`) and the pure-witness mutation regression.
+It awaits the parent commit and rerun; the hashes below are the repaired
+working-tree bindings, not contents attributed to `0baa39f2`:
+
+    f08142861b5e3d85593f10666275753b82283d214c5711c1d508e8e9d322218c  search/d972_c2six_fourforget_core_v1.g
+    5d201c211217787f33c116d37964d015e65c040a54f778d4f615ecc8ef9a3c86  search/check_d972_c2six_fourforget_core_v1.py
+    440673bff6b4126770cf84b9ea20f242ee65ff0dc3ba08132112c9a08a146b58  .github/workflows/d972-c2six-fourforget-core-v1.yml
+
+The bounded checker selftest is
+`D972_C2SIX_FOURFORGET_CORE_CHECKER_SELFTEST_PASS`; the producer's completion
+token is the short unwrapped `D972_C2SIX_FOURFORGET_CORE_FINAL`.
+
+FOURFORGET_CORE_READY_FOR_GHA

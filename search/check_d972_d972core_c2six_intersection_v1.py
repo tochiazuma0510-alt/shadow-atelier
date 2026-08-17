@@ -552,7 +552,7 @@ def validate_report(report: dict, core: dict, maps: dict) -> None:
     for coordinate, pair in enumerate(witnesses, 1):
         actual = comm(tuple_e_gens[pair[0] - 1], tuple_e_gens[pair[1] - 1])
         expected_pure = embed_blocks(
-            tuple(core["comm_e"] if index == coordinate else one(DEGREE_E) for index in range(4))
+            tuple(core["comm_e"] if index == coordinate - 1 else one(DEGREE_E) for index in range(4))
         )
         if actual != expected_pure or pure_report[coordinate - 1] != list(expected_pure):
             raise AssertionError(f"pure witness replay drift at {coordinate}")
@@ -671,6 +671,17 @@ def static_selftest() -> None:
     assert all(len(row) == 4 for row in expected_e)
     assert all(len(row) == 4 for row in expected_p)
     assert all(len(row) == 4 for row in expected_g9)
+    tuple_e_gens = tuple(embed_blocks(row) for row in expected_e)
+    witnesses = ([4, 6], [2, 6], [1, 5], [1, 4])
+    for coordinate, pair in enumerate(witnesses, 1):
+        actual = comm(tuple_e_gens[pair[0] - 1], tuple_e_gens[pair[1] - 1])
+        expected_pure = embed_blocks(
+            tuple(core["comm_e"] if index == coordinate - 1 else one(DEGREE_E) for index in range(4))
+        )
+        assert actual == expected_pure
+        mutated_pure = list(expected_pure)
+        mutated_pure[0], mutated_pure[1] = mutated_pure[1], mutated_pure[0]
+        assert tuple(mutated_pure) != actual, "pure witness mutation accepted"
     mutated = copy.deepcopy(maps)
     mutated["maps"][0]["generator_images"][0] = ""
     try:
