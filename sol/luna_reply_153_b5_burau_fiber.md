@@ -14,6 +14,8 @@ D972_B4_BURAU_FIBER_CHECKER_FINAL_MARKER status=PASS
 
 One requested local q=3 GAP selftest was attempted through `gap.ps1`; Windows GAP stopped before script logic with `couldn't create signal pipe, Win32 error 5` (exit `-1073741502`). No local full scan was run.
 
+GHA runs `32039156209` and `32039158440` exposed a GAP parse error from a top-level `QUIT` inside the selftest conditional.  The producer now uses a parse-safe `D972BFSelfTest` function and an explicit selftest/full-mode branch; no `QUIT` remains in the conditional.
+
 The producer uses the unreduced Burau block `[[1-a,a],[1,0]]`, supports `q=3` and `q=4` (GF(4) integer encoding `a=2` is the primitive element), checks braid/invertibility canaries, uses the explicit reverse-list `PaperProd`, and preserves `x13=PaperProd([s2,s1^2,s2^-1])`.  It reconstructs all six pure generators and the five literal A.18 pairs.  For each artifact row it independently replays the representative word to the stored roof key, obtains an exact representative with `PreImagesRepresentative(pi|H',f)`, and scans the complete coset `h0*ker(pi|H')`; no word-length/random truncation is used.
 
 Receipt contract includes exact `|H|`, `|H'|`, projection order and kernel order, every row’s exact `H'` representative and complete kernel-coset size, separate identity/nonidentity finite image-defect counts, first witnesses, `E(F2')=[H,H]`/common-word provenance, semantic premise digest, and all five negative-test labels.  The checker independently reconstructs the kernel and cosets, so the producer does not duplicate all kernel elements or every coset in the receipt.  GAP emits only `CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER`; only producer/checker agreement may promote it to `B4_A_BURAU_FINITE_ZERO_FIBER_CROSSCHECKED`.  Finite matrix identity is recorded only as the tested raw-A.18 image defect `D_(q,a)(h)=I`, never as profinite identity.
@@ -24,7 +26,7 @@ Frozen input bindings:
 |---|---|
 | `search/certs/d972_b4_word_key_artifact_v1_20260816.json` | `564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9` |
 | semantic premise object (`M`, `P`, 972/324/648, index-3) | `3a2168fc88c86c21eea4bff6fd2958bf18fe7bcee506e0c3cdf6c6f2a2cef729` |
-| `search/d972_b4_burau_fiber_v1.g` (current draft) | `0af185ea48f32c1c46e375c5c1b935874f0391921263bf9507b07c20f79a4422` |
+| `search/d972_b4_burau_fiber_v1.g` (current draft) | `551e9a6e0988921d95c5773c8500b4b2727625366e204e45b3ca05bbb15df0b7` |
 | independent SymPy/roof checker | `819519e93a95e0fbff7b7d4d51f5af633da029e033f33038f100db968e53169e` |
 
 ## GHA handoff

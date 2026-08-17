@@ -128,30 +128,34 @@ D972BFDefect:=function(parts)
   return D972BFPP([D972BFPP([parts[5],parts[3]])^-1,
     parts[2],parts[4],parts[1]]);
 end;;
-if D972BFMode="selftest" then
-  D972BFS:=D972BFBurau(D972BFQ,D972BFA);;
-  D972BFVecCan:=D972BFVectorPerm(D972BFS[1],D972BFQ);;
-  if Length(List([1..D972BFQ^4],i->i^D972BFVecCan))<>D972BFQ^4 then
+ D972BFSelfTest:=function()
+  local s,vec,d1,d2,toyk;
+  s:=D972BFBurau(D972BFQ,D972BFA);;
+  vec:=D972BFVectorPerm(s[1],D972BFQ);;
+  if Length(List([1..D972BFQ^4],i->i^vec))<>D972BFQ^4 then
     Error("Burau vector roundtrip canary failed"); fi;;
-  if D972BFS[1]*D972BFS[2]*D972BFS[1]<>D972BFS[2]*D972BFS[1]*D972BFS[2] then
+  if s[1]*s[2]*s[1]<>s[2]*s[1]*s[2] then
     Error("Burau braid selftest failed"); fi;;
-  D972BFP:=D972BFPP([D972BFS[2],D972BFS[1]^2,D972BFS[2]^-1]);;
-  if D972BFP=D972BFPP([D972BFS[2]^-1,D972BFS[1]^2,D972BFS[2]]) then
+  if D972BFPP([s[2],s[1]^2,s[2]^-1])=
+     D972BFPP([s[2]^-1,s[1]^2,s[2]]) then
     Error("reversed x13 conjugate accepted"); fi;;
-  if D972BFPP([D972BFS[1],D972BFS[2]])=D972BFS[1]*D972BFS[2] then
+  if D972BFPP([s[1],s[2]])=s[1]*s[2] then
     Error("reverse PaperProd accepted"); fi;;
-  D972BFd1:=D972BFPP([D972BFPP([D972BFS[1],D972BFS[2]])^-1,
-    D972BFS[2],D972BFS[1],D972BFS[3]]);;
-  D972BFd2:=D972BFPP([D972BFPP([D972BFS[2],D972BFS[1]])^-1,
-    D972BFS[2],D972BFS[1],D972BFS[3]]);;
-  if D972BFd1=D972BFd2 then Error("swapped leading A18 factors accepted"); fi;;
-  D972BFToyK:=Group((1,2));;
-  if Length(Elements(D972BFToyK))=Length(Elements(Group(()))) then
+  d1:=D972BFPP([D972BFPP([s[1],s[2]])^-1,s[2],s[1],s[3]]);;
+  d2:=D972BFPP([D972BFPP([s[2],s[1]])^-1,s[2],s[1],s[3]]);;
+  if d1=d2 then Error("swapped leading A18 factors accepted"); fi;;
+  toyk:=Group((1,2));;
+  if Length(Elements(toyk))=Length(Elements(Group(()))) then
     Error("deleted kernel element accepted"); fi;;
   if [1,2] = [1,3] then Error("corrupt roof key accepted"); fi;;
+  return true;
+end;;
+
+if D972BFMode="selftest" then
+  D972BFSelfTest();;
   Print("D972_B4_BURAU_FIBER_GAP_SELFTEST_PASS q=",D972BFQ," a=",D972BFA,"\n");
-  Print("D972_B4_BURAU_FIBER_GAP_FINAL_MARKER status=PASS\n"); QUIT;
-fi;;
+  Print("D972_B4_BURAU_FIBER_GAP_FINAL_MARKER status=PASS\n");
+else
 
 D972BFWordsRaw:=StringFile(D972BFWordsPath);;
 if D972BFWordsRaw=fail or HexSHA256(D972BFWordsRaw)<>D972BFWordsSha then
@@ -281,3 +285,4 @@ D972BFWrite(D972BFOut,D972BFReceipt);;
 Print("D972_B4_BURAU_FIBER_V1_DONE q=",D972BFQ," a=",D972BFA," h=",Size(D972BFH),
   " hprime=",Size(D972BFHp)," kernel=",Size(D972BFK)," rows=972\n");
 Print("D972_B4_BURAU_FIBER_V1_FINAL_MARKER status=",D972BFStatus," output=",D972BFOut,"\n");
+fi;;
