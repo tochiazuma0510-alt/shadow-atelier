@@ -118,3 +118,9 @@ as a result.
 
 FOURFORGET_CORE_READY_FOR_GHA
 
+## Parent broker record
+
+The parent Sol session committed and pushed the frozen 157ax bundle at
+commit `8d761af957285e322019eba8195cbf19c6e1113c`.  The resulting GitHub Actions
+run is `32059992054` (`d972-c2six-fourforget-core-v1`), initially queued on
+2026-08-18 JST.  Its runtime result is not predeclared here.
