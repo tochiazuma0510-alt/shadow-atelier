@@ -145,3 +145,11 @@ The updated producer hash is
 workflow hash binding was updated.  A static audit found no remaining inline
 conditional expressions in either the repaired 157ax producer or the new
 157bd producer; no local GAP was run.
+
+The next rerun `32062418122` exposed one further GAP parser issue in the
+expected six-by-four row literal: the first row had one extra opening list
+bracket.  It was removed without changing any row value.  The current 157ax
+producer hash is
+`1794d5afb8145ff0b8ccaead22c3f26033c552624288d478562e3c0f4bb3bc08`; the
+workflow binding was updated again.  A bracket-balance audit now passes for
+both the repaired 157ax producer and the 157bd producer.
