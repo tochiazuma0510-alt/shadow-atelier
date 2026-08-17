@@ -909,17 +909,27 @@ IHARA_COUNTEREXAMPLE_CLAIMED=NO;
 
 | run | 終了時刻 (JST) | GAP 実行時間概算 | 最終観測 |
 |---:|---|---:|---|
-| `31967437253` | 2026-08-17 08:23 | 4時間 | **前の158側**の A.18-coface 派生 N3 Phase-B1 v2。common file load 後に無出力のまま timeout |
-| `31969443502` | 2026-08-17 08:04 | 3時間 | **前の158側**の A.18-coface/20-block 派生 direct-v4。common file load 後に無出力のまま timeout |
-| `31972043453` | 2026-08-17 11:57 | 6時間 | 同じ旧 campaign の補助 semantic-M export v3（158本体ではない）。common file load 後に無出力のまま timeout |
+| `31967437253` | 2026-08-17 08:23 | 4時間 | **偽158**の N3 Phase-B1 v2。common file load 後に無出力のまま timeout |
+| `31969443502` | 2026-08-17 08:04 | 3時間 | **偽158**の A.18-coface/20-block direct-v4。common file load 後に無出力のまま timeout |
+| `31972043453` | 2026-08-17 11:57 | 6時間 | 補助 semantic-M export v3（158ではない）。common file load 後に無出力のまま timeout |
 
-研究者注記「最後に回収したものは前の158」を次の exact-head 分類で固定する。
-`31967437253` と `31969443502` は五つの A.18 coface と deletion/20-block 合成を使う
-Phase-B1 系なので、引継ぎ上は **前の158由来の calibration** として保管する。ただし両 script とも、
-現在の正本である `18+5*28=158` 本の raw-A.18 relator list やその frozen digest を生成・照合していない。
-従って「本当の158」の成功・失敗・反証として再利用してはならない。`31972043453` は exact `M` marking/order を
-作る補助 exporter であり、158 scan 自体ではない。三本をまとめた最終回収束は
-`LEGACY_158_DERIVED_CALIBRATION_ONLY` とラベル付けし、現行158証拠から隔離する。
+研究者訂正に従い、`31967437253` と `31969443502` は「前の158由来」ではなく、明示的に
+**偽158** と分類する。両 script は A.18 coface/deletion を素材にするが、現在の正本である
+`18+5*28=158` 本の raw-A.18 relator list と frozen digest を生成・照合していない。
+従って本物の158の成功・失敗・反証として再利用してはならない。`31972043453` は exact `M`
+marking/order の補助 exporter で、158 scan ではない。停止前の三本組は
+`FAKE_158_PHASEB1_X2_PLUS_SEMANTIC_M_AUX` として現行158証拠から隔離する。
+
+一方、**本物の raw-A.18 158 は既に回収済みで、引継ぎ文書に残っている。** 定義・三つの frozen digest は
+§8、回収・独立再生結果は §11.2 にある。GHA run `31969798235` は success、head
+`565ee183af983a3d4bf67fd1374e4259055873a5`、artifact ID `9269481348`。artifact archive SHA-256 は
+`4aacaf8074212cf5c18957c5a79ec821e4b670ce2263b0b498bcb88a9ccf6fce`、内部 receipt SHA-256 は
+`cf849f811b0dc94d73483dd70990b123db569444d4f585dcb11490ac8109114b`、producer log SHA-256 は
+`980f8ebeed03a907d671dcd72004c1523aa6eb92f70358e0023856fc9d6151a2`。2026-08-17 20:38 JST の
+GitHub API 再確認では artifact は `expired=false`、expiry は 2026-11-14 20:11:02 UTC である。
+独立 checker は \(\mathbf F_2^5\) 上で本物の158本と972 defectを再評価して
+`C2^5_LINEAR_REPLAY_PASS` を得ている。これは回収済みの真正な **有限 all-pass** 証拠だが、
+typed PB4/M bridge がないので A/B terminal 証明ではない、という境界も維持する。
 
 三本の log tail には `week3-battery-common.g loaded.`、`week3-psl-common.g loaded.` と既知の
 unbound-global syntax warning 以外に、producer 固有の progress marker、receipt、final marker、
@@ -932,10 +942,14 @@ terminal 路線としては再 dispatch しない。
 RUN_31967437253=CANCELLED_4H_NO_ARTIFACT_NO_MARKER;
 RUN_31969443502=CANCELLED_3H_NO_ARTIFACT_NO_MARKER;
 RUN_31972043453=CANCELLED_6H_NO_ARTIFACT_NO_MARKER;
-RECOVERY_BUNDLE_CLASS=LEGACY_158_DERIVED_CALIBRATION_ONLY;
-CURRENT_RAW_A18_158_EVIDENCE=NONE;
+FAKE_158_RUNS=31967437253,31969443502;
+RECOVERY_BUNDLE_CLASS=FAKE_158_PHASEB1_X2_PLUS_SEMANTIC_M_AUX;
+REAL_RAW_A18_158_RUN=31969798235;
+REAL_RAW_A18_158_ARTIFACT_ID=9269481348;
+REAL_RAW_A18_158_ARCHIVE_SHA256=4aacaf8074212cf5c18957c5a79ec821e4b670ce2263b0b498bcb88a9ccf6fce;
+CURRENT_RAW_A18_158_EVIDENCE=RECOVERED_CROSSCHECKED_FINITE_ALLPASS_NONTERMINAL;
 LIVE_GHA_RUN_COUNT=0;
-RECOVERABLE_GHA_ARTIFACT_COUNT=0;
+RETAINED_TIMEOUT_RUN_ARTIFACT_COUNT=0;
 A_B_TERMINAL=UNKNOWN;
 ```
 
