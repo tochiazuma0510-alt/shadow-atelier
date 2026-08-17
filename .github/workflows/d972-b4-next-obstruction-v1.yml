@@ -1,0 +1,751 @@
+name: d972-b4-next-obstruction-v1-literal-a18
+
+on:
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-b4-next-obstruction-v1.yml
+      - search/d972_b4_next_obstruction_v1.py
+      - search/check_d972_b4_next_obstruction_v1.py
+      - search/d972_b4_magnus_ideal_shard_v2.py
+      - search/d972_b4_magnus_ideal_merge_v2.py
+      - search/d972_b4_magnus_ideal_merge_v3.py
+      - search/certs/d972_b4_p2_magnus_input_v2_20260816.json
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PRODUCER_SHA256: "bbf91f461e0c0d9d67ea49186450e709fcb97025ac4ebc3462b3dc6c278eb886"
+  CHECKER_SHA256: "2cd42ed369d9bb946f474cc6c10d90aaa4a32ab53e299c190763749a07660994"
+  CORE_SHARD_SHA256: "1a18994e3933d5d42e85274af62badb89c2f9a65c92c63862d1740ac2d47da63"
+  CORE_MERGE_SHA256: "6ccce4e95378dfa22051bd8c09e3d3aa5a91234b8d155c0fb57fd18c34f24bf5"
+  CORE_BASE_MERGE_SHA256: "c79abb6ff51bccaaf98992fa070fecf3aba9d70ea4f6b6deff90d4cfcef1814c"
+  INPUT_SHA256: "c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9"
+  WORDS_SHA256: "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"
+  RELATOR_SHA256: "12fc1146dce5179c2b5fc44a3ceed6356a6b2c4835a564b55e9a9cd679fccd2e"
+  PREFIX_SHA256: "62ccbb87e2b27784b5330812252a2eaf247fea0fef4eda078ea6724c5b2a31e6"
+  SEED_SHA256: "366c893977a0684a294e8bd488741c735016ec5caf18804415dfc73acdb09822"
+  A18_ROWS_SHA256: "1f0cacaa20ab8474245f30568469de807b5877b2ca7dd0d6668c9b8956750722"
+  PRESENTATION_SHA256: "783d7d80f472fbf6abc8a2f58454048de361e95774c76ce1c511982bb44eb305"
+  DTILDE_SHA256: "32cdc85b315817e939feca628bc15235a55664157ca1e272815a53f1de4631ef"
+  LITERAL_INPUT_SHA256: "60efdb2f7fc847d065701bf27d676cec558e0be9a276ee2a782c3ff0c5754494"
+  ROOF_WORDS_SHA256: "3015b4e00a02ca2a9d6183dad4cb7ddabfd21ef03828837198aa96b2dc3461f8"
+  RHO_WORDS_SHA256: "23db316e11e6486e0475b8425ff8ea6666941b5bff0943bf872e39761d0398ed"
+  SEMANTICS: "raw_a18_18_plus_140"
+
+jobs:
+  shards:
+    name: literal A18 d${{ matrix.degree }} shard ${{ matrix.index }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        include:
+          - {degree: 2, index: 0, count: 1}
+          - {degree: 3, index: 0, count: 1}
+          - {degree: 4, index: 0, count: 1}
+          - {degree: 5, index: 0, count: 1}
+          - {degree: 6, index: 0, count: 16}
+          - {degree: 6, index: 1, count: 16}
+          - {degree: 6, index: 2, count: 16}
+          - {degree: 6, index: 3, count: 16}
+          - {degree: 6, index: 4, count: 16}
+          - {degree: 6, index: 5, count: 16}
+          - {degree: 6, index: 6, count: 16}
+          - {degree: 6, index: 7, count: 16}
+          - {degree: 6, index: 8, count: 16}
+          - {degree: 6, index: 9, count: 16}
+          - {degree: 6, index: 10, count: 16}
+          - {degree: 6, index: 11, count: 16}
+          - {degree: 6, index: 12, count: 16}
+          - {degree: 6, index: 13, count: 16}
+          - {degree: 6, index: 14, count: 16}
+          - {degree: 6, index: 15, count: 16}
+    env:
+      DEGREE: ${{ matrix.degree }}
+      SHARD_INDEX: ${{ matrix.index }}
+      SHARD_COUNT: ${{ matrix.count }}
+
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up exact Python
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+
+      - name: Bind source and frozen semantic inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_sha() { test "$(sha256sum "$2" | cut -d' ' -f1)" = "$1"; }
+          check_sha "$PRODUCER_SHA256" search/d972_b4_next_obstruction_v1.py
+          check_sha "$CHECKER_SHA256" search/check_d972_b4_next_obstruction_v1.py
+          check_sha "$CORE_SHARD_SHA256" search/d972_b4_magnus_ideal_shard_v2.py
+          check_sha "$CORE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v3.py
+          check_sha "$CORE_BASE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v2.py
+          check_sha "$INPUT_SHA256" search/certs/d972_b4_p2_magnus_input_v2_20260816.json
+          check_sha "$WORDS_SHA256" search/certs/d972_b4_word_key_artifact_v1_20260816.json
+          python3 -m py_compile search/d972_b4_next_obstruction_v1.py search/check_d972_b4_next_obstruction_v1.py
+
+      - name: Literal-A18 producer/checker selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python3 -B search/d972_b4_next_obstruction_v1.py --mode self-test 2>&1 | tee ci/out/selftest-producer.log
+          grep -Fxc 'D972_B4_NEXT_OBSTRUCTION_V2_SELFTEST_PASS' ci/out/selftest-producer.log | grep -Fx 1
+          python3 -B search/check_d972_b4_next_obstruction_v1.py --self-test 2>&1 | tee ci/out/selftest-checker.log
+          grep -Fxc 'D972_B4_NEXT_OBSTRUCTION_CHECKER_V2_SELFTEST_PASS' ci/out/selftest-checker.log | grep -Fx 1
+
+      - name: Exact literal-A18 Magnus shard
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          out="ci/out/d972_b4_next_d${DEGREE}_shard_${SHARD_INDEX}_of_${SHARD_COUNT}.json"
+          log="ci/out/shard-d${DEGREE}-${SHARD_INDEX}.log"
+          timeout --signal=TERM --kill-after=60s 350m \
+            python3 -B search/d972_b4_next_obstruction_v1.py --mode shard \
+              --degree "$DEGREE" --shard-index "$SHARD_INDEX" --shard-count "$SHARD_COUNT" \
+              --output "$out" 2>&1 | tee "$log"
+          python3 - "$log" "$out" "$DEGREE" "$SHARD_INDEX" "$SHARD_COUNT" <<'PY'
+          import hashlib, json, os, sys
+          log, output, degree, index, count = sys.argv[1:]
+          degree, index, count = map(int, (degree, index, count))
+          expected = (f"D972_B4_NEXT_OBSTRUCTION_V2_FINAL phase=SHARD status=PASS "
+                      f"degree={degree} output={output}")
+          lines = [line.strip() for line in open(log, encoding="utf-8")
+                   if line.startswith("D972_B4_NEXT_OBSTRUCTION_V2_FINAL phase=SHARD")]
+          if lines != [expected]:
+              raise SystemExit(f"shard marker mismatch: {lines!r}")
+          obj = json.load(open(output, encoding="utf-8"))
+          assigned = [i + 1 for i in range(158) if i % count == index]
+          assigned_sha = hashlib.sha256(json.dumps(
+              assigned, ensure_ascii=True, separators=(",", ":")).encode("ascii")).hexdigest()
+          input_digests = {
+              "all_relators_sha256": os.environ["PRESENTATION_SHA256"],
+              "roof_words_sha256": os.environ["ROOF_WORDS_SHA256"],
+              "rho_words_sha256": os.environ["RHO_WORDS_SHA256"],
+              "target_key_digest": "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62",
+          }
+          if (obj.get("campaign_schema") != "d972-b4-next-obstruction/v2" or
+              obj.get("campaign_degree") != degree or obj.get("degree") != degree or
+              obj.get("shard_index") != index or obj.get("shard_count") != count or
+              obj.get("relator_indices") != assigned or
+              obj.get("relator_indices_sha256") != assigned_sha or
+              obj.get("presentation_semantics") != "raw_a18_18_plus_140" or
+              obj.get("raw_source_sha256") != os.environ["INPUT_SHA256"] or
+              obj.get("word_artifact_sha256") != os.environ["WORDS_SHA256"] or
+              obj.get("relator_sha256") != os.environ["RELATOR_SHA256"] or
+              obj.get("prefix_sha256") != os.environ["PREFIX_SHA256"] or
+              obj.get("seed_sha256") != os.environ["SEED_SHA256"] or
+              obj.get("a18_rows_sha256") != os.environ["A18_ROWS_SHA256"] or
+              obj.get("presentation_sha256") != os.environ["PRESENTATION_SHA256"] or
+              obj.get("dtilde_sha256") != os.environ["DTILDE_SHA256"] or
+              obj.get("input_sha256") != os.environ["LITERAL_INPUT_SHA256"] or
+              obj.get("literal_input_sha256") != os.environ["LITERAL_INPUT_SHA256"] or
+              obj.get("input_digests") != input_digests or
+              obj.get("campaign_wrapper_sha256") != os.environ["PRODUCER_SHA256"] or
+              obj.get("core_shard_sha256") != os.environ["CORE_SHARD_SHA256"] or
+              obj.get("core_merge_sha256") != os.environ["CORE_MERGE_SHA256"] or
+              obj.get("core_base_merge_sha256") != os.environ["CORE_BASE_MERGE_SHA256"] or
+              obj.get("rho_tail_used") is not False or obj.get("rho_used") is not False or
+              obj.get("rho_role") != "omitted_from_ideal_and_defect"):
+              raise SystemExit("shard semantic binding mismatch")
+          expected_monomials = sum(6 ** n for n in range(degree + 1))
+          if obj.get("monomial_count") != expected_monomials:
+              raise SystemExit("shard monomial count mismatch")
+          print("D972_B4_NEXT_OBSTRUCTION_SHARD_PREFLIGHT_PASS")
+          PY
+
+      - name: Upload lossless shard evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-next-a18-d${{ matrix.degree }}-shard-${{ matrix.index }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          path: ci/out/
+
+  merge:
+    name: literal-A18 exact merge degrees 2-6
+    needs: shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up exact Python
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+
+      - name: Download all shard evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: d972-next-a18-d*-shard-*-attempt${{ github.run_attempt }}
+          path: ci/in
+          merge-multiple: true
+
+      - name: Bind source and normalize complete degree/shard set
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_sha() { test "$(sha256sum "$2" | cut -d' ' -f1)" = "$1"; }
+          check_sha "$PRODUCER_SHA256" search/d972_b4_next_obstruction_v1.py
+          check_sha "$CHECKER_SHA256" search/check_d972_b4_next_obstruction_v1.py
+          check_sha "$CORE_SHARD_SHA256" search/d972_b4_magnus_ideal_shard_v2.py
+          check_sha "$CORE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v3.py
+          check_sha "$CORE_BASE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v2.py
+          check_sha "$INPUT_SHA256" search/certs/d972_b4_p2_magnus_input_v2_20260816.json
+          check_sha "$WORDS_SHA256" search/certs/d972_b4_word_key_artifact_v1_20260816.json
+          mkdir -p ci/normalized
+          python3 - <<'PY'
+          import json, shutil
+          from pathlib import Path
+          root = Path("ci/in")
+          target = Path("ci/normalized")
+          jobs = [(degree, 1) for degree in (2, 3, 4, 5)] + [(6, 16)]
+          for degree, count in jobs:
+              for index in range(count):
+                  name = f"d972_b4_next_d{degree}_shard_{index}_of_{count}.json"
+                  matches = list(root.rglob(name))
+                  if len(matches) != 1:
+                      raise SystemExit(f"expected one {name}, found {matches}")
+                  obj = json.loads(matches[0].read_text(encoding="utf-8"))
+                  if (obj.get("campaign_schema") != "d972-b4-next-obstruction/v2" or
+                      obj.get("campaign_degree") != degree or obj.get("degree") != degree or
+                      obj.get("shard_index") != index or obj.get("shard_count") != count or
+                      obj.get("presentation_semantics") != "raw_a18_18_plus_140" or
+                      obj.get("rho_tail_used") is not False or obj.get("rho_used") is not False):
+                      raise SystemExit(f"semantic/shard binding mismatch in {name}")
+                  shutil.copyfile(matches[0], target / name)
+          print("D972_B4_NEXT_OBSTRUCTION_SHARD_SET_PASS")
+          PY
+
+      - name: Merge complete literal ideals and all unconditional defects
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          for degree in 2 3 4 5 6; do
+            if [ "$degree" -eq 6 ]; then count=16; else count=1; fi
+            out="ci/out/d972_b4_next_obstruction_d${degree}.json"
+            log="ci/out/merge-d${degree}.log"
+            timeout --signal=TERM --kill-after=60s 350m \
+              python3 -B search/d972_b4_next_obstruction_v1.py --mode merge \
+                --degree "$degree" --shard-dir ci/normalized --shard-count "$count" \
+                --pattern 'd972_b4_next_d{degree}_shard_{index}_of_{count}.json' \
+                --output "$out" 2>&1 | tee "$log"
+            grep -E "^D972_B4_NEXT_OBSTRUCTION_V2_FINAL phase=MERGE status=(D${degree}_MAGNUS_GATE_FAILURE|D${degree}_A_CANDIDATE_NEEDS_CHECK|D${degree}_ALLPASS_UNKNOWN) degree=${degree} output=" "$log" | wc -l | grep -Fx 1
+          done
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          allowed = {"MAGNUS_GATE_FAILURE", "A_CANDIDATE_NEEDS_CHECK", "ALLPASS_UNKNOWN"}
+          record_fields = {
+              "path", "sha256", "degree", "shard_index", "shard_count",
+              "relator_count", "relator_indices", "relator_indices_sha256",
+              "monomial_count", "ideal_rank", "input_sha256", "literal_input_sha256",
+              "input_digests", "campaign_schema", "campaign_degree",
+              "presentation_semantics", "raw_source_sha256", "word_artifact_sha256",
+              "relator_sha256", "prefix_sha256", "seed_sha256", "a18_rows_sha256",
+              "presentation_sha256", "dtilde_sha256", "rho_tail_used", "rho_used",
+              "rho_role", "campaign_wrapper_sha256", "core_shard_sha256",
+              "core_merge_sha256", "core_base_merge_sha256", "complete_two_sided_ideal",
+          }
+          input_digests = {
+              "all_relators_sha256": os.environ["PRESENTATION_SHA256"],
+              "roof_words_sha256": os.environ["ROOF_WORDS_SHA256"],
+              "rho_words_sha256": os.environ["RHO_WORDS_SHA256"],
+              "target_key_digest": "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62",
+          }
+          def digest(value):
+              return hashlib.sha256(json.dumps(
+                  value, ensure_ascii=True, separators=(",", ":")).encode("ascii")).hexdigest()
+          def file_sha(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+          def validate_records(row, degree, count):
+              records = row.get("shards")
+              if not isinstance(records, list) or len(records) != count:
+                  raise SystemExit(f"merge shard record count mismatch at degree {degree}")
+              coverage = []
+              for index, record in enumerate(records):
+                  expected = [i + 1 for i in range(158) if i % count == index]
+                  name = f"d972_b4_next_d{degree}_shard_{index}_of_{count}.json"
+                  shard_path = Path("ci/normalized") / name
+                  if (not isinstance(record, dict) or set(record) != record_fields or
+                      record.get("degree") != degree or record.get("campaign_degree") != degree or
+                      record.get("shard_index") != index or record.get("shard_count") != count or
+                      record.get("relator_count") != len(expected) or
+                      record.get("relator_indices") != expected or
+                      record.get("relator_indices_sha256") != digest(expected) or
+                      Path(str(record.get("path", ""))).name != name or
+                      record.get("sha256") != file_sha(shard_path) or
+                      record.get("input_sha256") != os.environ["LITERAL_INPUT_SHA256"] or
+                      record.get("literal_input_sha256") != os.environ["LITERAL_INPUT_SHA256"] or
+                      record.get("input_digests") != input_digests or
+                      record.get("campaign_schema") != "d972-b4-next-obstruction/v2" or
+                      record.get("presentation_semantics") != "raw_a18_18_plus_140" or
+                      record.get("raw_source_sha256") != os.environ["INPUT_SHA256"] or
+                      record.get("word_artifact_sha256") != os.environ["WORDS_SHA256"] or
+                      record.get("relator_sha256") != os.environ["RELATOR_SHA256"] or
+                      record.get("prefix_sha256") != os.environ["PREFIX_SHA256"] or
+                      record.get("seed_sha256") != os.environ["SEED_SHA256"] or
+                      record.get("a18_rows_sha256") != os.environ["A18_ROWS_SHA256"] or
+                      record.get("presentation_sha256") != os.environ["PRESENTATION_SHA256"] or
+                      record.get("dtilde_sha256") != os.environ["DTILDE_SHA256"] or
+                      record.get("campaign_wrapper_sha256") != os.environ["PRODUCER_SHA256"] or
+                      record.get("core_shard_sha256") != os.environ["CORE_SHARD_SHA256"] or
+                      record.get("core_merge_sha256") != os.environ["CORE_MERGE_SHA256"] or
+                      record.get("core_base_merge_sha256") != os.environ["CORE_BASE_MERGE_SHA256"] or
+                      record.get("rho_tail_used") is not False or
+                      record.get("rho_used") is not False or
+                      record.get("rho_role") != "omitted_from_ideal_and_defect" or
+                      record.get("complete_two_sided_ideal") is not True):
+                      raise SystemExit(f"merge shard record mismatch d{degree}/{index}")
+                  coverage.extend(expected)
+              if sorted(coverage) != list(range(1, 159)) or len(coverage) != len(set(coverage)):
+                  raise SystemExit(f"merge shard record coverage mismatch at degree {degree}")
+          for degree in range(2, 7):
+              path = Path(f"ci/out/d972_b4_next_obstruction_d{degree}.json")
+              obj = json.loads(path.read_text(encoding="utf-8"))
+              if (obj.get("schema") != "d972-b4-next-obstruction/v2" or
+                  obj.get("final_marker") != "D972_B4_NEXT_OBSTRUCTION_V2_FINAL" or
+                  obj.get("campaign_degree") != degree or
+                  obj.get("presentation_semantics") != "raw_a18_18_plus_140" or
+                  obj.get("source_sha256") != "c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9" or
+                  obj.get("word_artifact_sha256") != "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9" or
+                  obj.get("a18_rows_sha256") != "1f0cacaa20ab8474245f30568469de807b5877b2ca7dd0d6668c9b8956750722" or
+                  obj.get("presentation_sha256") != "783d7d80f472fbf6abc8a2f58454048de361e95774c76ce1c511982bb44eb305" or
+                   obj.get("dtilde_sha256") != "32cdc85b315817e939feca628bc15235a55664157ca1e272815a53f1de4631ef" or
+                   obj.get("literal_input_sha256") != os.environ["LITERAL_INPUT_SHA256"] or
+                   obj.get("input_digests") != input_digests or
+                   obj.get("rho_tail_used") is not False or obj.get("rho_used") is not False or
+                  not obj.get("complete_two_sided_ideal") or
+                  obj.get("status", "").split("_", 1)[-1] not in allowed):
+                  raise SystemExit(f"merge receipt binding/status mismatch at degree {degree}")
+              row = obj.get("degrees", {}).get(str(degree), {})
+              if (not isinstance(row, dict) or row.get("dtilde_count") != 972 or
+                  row.get("rho_tail_used") is not False or row.get("rho_used") is not False or
+                  row.get("rho_role") != "omitted_from_ideal_and_defect"):
+                  raise SystemExit(f"degree {degree} D-tilde coverage mismatch")
+              validate_records(row, degree, 16 if degree == 6 else 1)
+          print("D972_B4_NEXT_OBSTRUCTION_MERGE_SET_PASS")
+          PY
+
+      - name: Upload lossless merge evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-next-a18-merge-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          path: ci/out/
+
+  checker:
+    name: independent literal-A18 checker degrees 2-6
+    needs: merge
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up exact Python
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+
+      - name: Download merge evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: d972-next-a18-merge-attempt${{ github.run_attempt }}
+          path: ci/in
+          merge-multiple: true
+
+      - name: Bind source and normalize merge receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_sha() { test "$(sha256sum "$2" | cut -d' ' -f1)" = "$1"; }
+          check_sha "$PRODUCER_SHA256" search/d972_b4_next_obstruction_v1.py
+          check_sha "$CHECKER_SHA256" search/check_d972_b4_next_obstruction_v1.py
+          check_sha "$CORE_SHARD_SHA256" search/d972_b4_magnus_ideal_shard_v2.py
+          check_sha "$CORE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v3.py
+          check_sha "$CORE_BASE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v2.py
+          check_sha "$INPUT_SHA256" search/certs/d972_b4_p2_magnus_input_v2_20260816.json
+          check_sha "$WORDS_SHA256" search/certs/d972_b4_word_key_artifact_v1_20260816.json
+          mkdir -p ci/normalized
+          python3 - <<'PY'
+          import shutil
+          from pathlib import Path
+          root = Path("ci/in")
+          target = Path("ci/normalized")
+          for degree in range(2, 7):
+              name = f"d972_b4_next_obstruction_d{degree}.json"
+              matches = list(root.rglob(name))
+              if len(matches) != 1:
+                  raise SystemExit(f"expected one {name}, found {matches}")
+              shutil.copyfile(matches[0], target / name)
+          PY
+
+      - name: Independent literal reconstruction and exact checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          python3 -B search/check_d972_b4_next_obstruction_v1.py --self-test 2>&1 | tee ci/out/selftest-checker.log
+          grep -Fxc 'D972_B4_NEXT_OBSTRUCTION_CHECKER_V2_SELFTEST_PASS' ci/out/selftest-checker.log | grep -Fx 1
+          log=ci/out/checker.log
+          out=ci/out/check.json
+          set +e
+          timeout --signal=TERM --kill-after=60s 350m \
+            python3 -B search/check_d972_b4_next_obstruction_v1.py \
+              --receipt-dir ci/normalized \
+              --output "$out" 2>&1 | tee "$log"
+          checker_status=${PIPESTATUS[0]}
+          set -e
+          grep -E '^D972_B4_NEXT_OBSTRUCTION_CHECKER_V2_FINAL status=(D972_B4_NEXT_OBSTRUCTION_CHECKER_GATE_FAILURE|D972_B4_A18_Dtilde_CANDIDATE_CROSSCHECKED|UNKNOWN_CORRECT_A18_Dtilde_ALLPASS) degrees=2,3,4,5,6$' "$log" | wc -l | grep -Fx 1
+          test -s "$out"
+          test "$checker_status" -eq 0
+
+      - name: Upload lossless checker evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-next-a18-check-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          path: ci/out/
+
+  aggregate:
+    name: fail-closed literal-A18 aggregate
+    if: ${{ always() }}
+    needs: [shards, merge, checker]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SHARDS_RESULT: ${{ needs.shards.result }}
+      MERGE_RESULT: ${{ needs.merge.result }}
+      CHECKER_RESULT: ${{ needs.checker.result }}
+
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Download all evidence
+        if: ${{ always() }}
+        continue-on-error: true
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: d972-next-a18-*-attempt${{ github.run_attempt }}
+          path: ci/evidence
+          merge-multiple: true
+
+      - name: Emit fail-closed aggregate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+
+          def sha(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          def reject(reason):
+              Path("ci/out/campaign-final.json").write_text(
+                  json.dumps({"schema": "d972-b4-next-obstruction-campaign/v2",
+                              "status": "REJECTED", "reason": reason},
+                             sort_keys=True, indent=2) + "\n", encoding="utf-8")
+              print(f"D972_B4_NEXT_OBSTRUCTION_CAMPAIGN_V2_REJECTED reason={reason}")
+              raise SystemExit(1)
+
+          expected = {
+              "search/d972_b4_next_obstruction_v1.py": os.environ["PRODUCER_SHA256"],
+              "search/check_d972_b4_next_obstruction_v1.py": os.environ["CHECKER_SHA256"],
+              "search/d972_b4_magnus_ideal_shard_v2.py": os.environ["CORE_SHARD_SHA256"],
+              "search/d972_b4_magnus_ideal_merge_v3.py": os.environ["CORE_MERGE_SHA256"],
+              "search/d972_b4_magnus_ideal_merge_v2.py": os.environ["CORE_BASE_MERGE_SHA256"],
+              "search/certs/d972_b4_p2_magnus_input_v2_20260816.json": os.environ["INPUT_SHA256"],
+              "search/certs/d972_b4_word_key_artifact_v1_20260816.json": os.environ["WORDS_SHA256"],
+          }
+          for name, value in expected.items():
+              if not Path(name).is_file() or sha(Path(name)) != value:
+                  reject(f"source hash drift: {name}")
+
+          def compact_digest(value):
+              return hashlib.sha256(json.dumps(
+                  value, ensure_ascii=True, separators=(",", ":")).encode("ascii")).hexdigest()
+          def inverse(word):
+              return [-int(value) for value in reversed(word)]
+          def free_reduce(word):
+              out = []
+              for value in word:
+                  value = int(value)
+                  if out and out[-1] == -value:
+                      out.pop()
+                  else:
+                      out.append(value)
+              return out
+          def substitute(word, left, right):
+              out = []
+              for value in word:
+                  image = list(left if abs(int(value)) == 1 else right)
+                  out.extend(inverse(image) if int(value) < 0 else image)
+              return free_reduce(out)
+
+          source = json.loads(Path(
+              "search/certs/d972_b4_p2_magnus_input_v2_20260816.json").read_text(
+                  encoding="utf-8"))
+          source_relators = source.get("all_relators", [])
+          prefix = source_relators[:18]
+          seeds = source_relators[18:46]
+          maps = [((1,), (4,)), ((4,), (6,)), ((2, 4), (6,)),
+                  ((1, 2), (5, 6)), ((1,), (4, 5))]
+          a18 = [substitute(seed, left, right)
+                 for left, right in maps for seed in seeds]
+          presentation = prefix + a18
+          if (len(prefix) != 18 or len(seeds) != 28 or len(a18) != 140 or
+              compact_digest(source_relators) != os.environ["RELATOR_SHA256"] or
+              compact_digest(prefix) != os.environ["PREFIX_SHA256"] or
+              compact_digest(seeds) != os.environ["SEED_SHA256"] or
+              compact_digest(a18) != os.environ["A18_ROWS_SHA256"] or
+              compact_digest(presentation) != os.environ["PRESENTATION_SHA256"] or
+              compact_digest(source.get("roof_words")) != os.environ["ROOF_WORDS_SHA256"] or
+              compact_digest(source.get("rho_words")) != os.environ["RHO_WORDS_SHA256"]):
+              reject("independent literal transport source reconstruction drift")
+          literal = dict(source)
+          literal.update({
+              "all_relators": presentation,
+              "all_relators_sha256": os.environ["PRESENTATION_SHA256"],
+              "presentation_semantics": "raw_a18_18_plus_140",
+              "raw_source_sha256": os.environ["INPUT_SHA256"],
+              "prefix_sha256": os.environ["PREFIX_SHA256"],
+              "seed_sha256": os.environ["SEED_SHA256"],
+              "a18_rows_sha256": os.environ["A18_ROWS_SHA256"],
+              "presentation_sha256": os.environ["PRESENTATION_SHA256"],
+              "dtilde_sha256": os.environ["DTILDE_SHA256"],
+              "rho_tail_used": False,
+              "rho_used": False,
+              "rho_role": "transport_only_not_used_in_ideal_or_defect",
+          })
+          literal_payload = (json.dumps(literal, ensure_ascii=True, sort_keys=True,
+                                        indent=2) + "\n").encode("utf-8")
+          literal_sha = hashlib.sha256(literal_payload).hexdigest()
+          if literal_sha != os.environ["LITERAL_INPUT_SHA256"]:
+              reject("independent literal transport SHA mismatch")
+          input_digests = {
+              "all_relators_sha256": os.environ["PRESENTATION_SHA256"],
+              "roof_words_sha256": os.environ["ROOF_WORDS_SHA256"],
+              "rho_words_sha256": os.environ["RHO_WORDS_SHA256"],
+              "target_key_digest": "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62",
+          }
+          if any(os.environ.get(key) != "success"
+                 for key in ("SHARDS_RESULT", "MERGE_RESULT", "CHECKER_RESULT")):
+              reject("required job did not conclude success")
+
+          def one_path(root, name):
+              matches = list(Path(root).rglob(name))
+              if len(matches) != 1:
+                  reject(f"expected exactly one {name}, found {matches}")
+              return matches[0]
+          def one(root, name):
+              return json.loads(one_path(root, name).read_text(encoding="utf-8"))
+
+          shard_files = {}
+          for degree, count in [(2, 1), (3, 1), (4, 1), (5, 1), (6, 16)]:
+              for index in range(count):
+                  name = f"d972_b4_next_d{degree}_shard_{index}_of_{count}.json"
+                  shard_path = one_path("ci/evidence", name)
+                  obj = json.loads(shard_path.read_text(encoding="utf-8"))
+                  assigned = [i + 1 for i in range(158) if i % count == index]
+                  if (obj.get("campaign_schema") != "d972-b4-next-obstruction/v2" or
+                      obj.get("campaign_degree") != degree or obj.get("degree") != degree or
+                      obj.get("shard_index") != index or obj.get("shard_count") != count or
+                      obj.get("relator_indices") != assigned or
+                      obj.get("relator_indices_sha256") != compact_digest(assigned) or
+                      obj.get("presentation_semantics") != "raw_a18_18_plus_140" or
+                      obj.get("rho_tail_used") is not False or obj.get("rho_used") is not False or
+                      obj.get("rho_role") != "omitted_from_ideal_and_defect" or
+                      obj.get("raw_source_sha256") != os.environ["INPUT_SHA256"] or
+                      obj.get("word_artifact_sha256") != os.environ["WORDS_SHA256"] or
+                      obj.get("relator_sha256") != os.environ["RELATOR_SHA256"] or
+                      obj.get("prefix_sha256") != os.environ["PREFIX_SHA256"] or
+                      obj.get("seed_sha256") != os.environ["SEED_SHA256"] or
+                      obj.get("a18_rows_sha256") != os.environ["A18_ROWS_SHA256"] or
+                      obj.get("presentation_sha256") != os.environ["PRESENTATION_SHA256"] or
+                      obj.get("dtilde_sha256") != os.environ["DTILDE_SHA256"] or
+                      obj.get("input_sha256") != literal_sha or
+                      obj.get("literal_input_sha256") != literal_sha or
+                      obj.get("input_digests") != input_digests or
+                      obj.get("campaign_wrapper_sha256") != os.environ["PRODUCER_SHA256"] or
+                      obj.get("core_shard_sha256") != os.environ["CORE_SHARD_SHA256"] or
+                      obj.get("core_merge_sha256") != os.environ["CORE_MERGE_SHA256"] or
+                      obj.get("core_base_merge_sha256") != os.environ["CORE_BASE_MERGE_SHA256"]):
+                      reject(f"shard binding mismatch d{degree}/{index}")
+                  shard_files[(degree, index)] = (shard_path, obj)
+
+          record_fields = {
+              "path", "sha256", "degree", "shard_index", "shard_count",
+              "relator_count", "relator_indices", "relator_indices_sha256",
+              "monomial_count", "ideal_rank", "input_sha256", "literal_input_sha256",
+              "input_digests", "campaign_schema", "campaign_degree",
+              "presentation_semantics", "raw_source_sha256", "word_artifact_sha256",
+              "relator_sha256", "prefix_sha256", "seed_sha256", "a18_rows_sha256",
+              "presentation_sha256", "dtilde_sha256", "rho_tail_used", "rho_used",
+              "rho_role", "campaign_wrapper_sha256", "core_shard_sha256",
+              "core_merge_sha256", "core_base_merge_sha256", "complete_two_sided_ideal",
+          }
+          def validate_merge_records(row, degree, count):
+              records = row.get("shards")
+              if not isinstance(records, list) or len(records) != count:
+                  reject(f"merge shard record count mismatch d{degree}")
+              coverage = []
+              for index, record in enumerate(records):
+                  assigned = [i + 1 for i in range(158) if i % count == index]
+                  name = f"d972_b4_next_d{degree}_shard_{index}_of_{count}.json"
+                  shard_path, shard_obj = shard_files[(degree, index)]
+                  if (not isinstance(record, dict) or set(record) != record_fields or
+                      record.get("degree") != degree or record.get("campaign_degree") != degree or
+                      record.get("shard_index") != index or record.get("shard_count") != count or
+                      record.get("relator_count") != len(assigned) or
+                      record.get("relator_indices") != assigned or
+                      record.get("relator_indices_sha256") != compact_digest(assigned) or
+                      Path(str(record.get("path", ""))).name != name or
+                      record.get("sha256") != sha(shard_path) or
+                      record.get("monomial_count") != sum(6 ** n for n in range(degree + 1)) or
+                      record.get("ideal_rank") != shard_obj.get("ideal_rank") or
+                      record.get("input_sha256") != literal_sha or
+                      record.get("literal_input_sha256") != literal_sha or
+                      record.get("input_digests") != input_digests or
+                      record.get("campaign_schema") != "d972-b4-next-obstruction/v2" or
+                      record.get("presentation_semantics") != "raw_a18_18_plus_140" or
+                      record.get("raw_source_sha256") != os.environ["INPUT_SHA256"] or
+                      record.get("word_artifact_sha256") != os.environ["WORDS_SHA256"] or
+                      record.get("relator_sha256") != os.environ["RELATOR_SHA256"] or
+                      record.get("prefix_sha256") != os.environ["PREFIX_SHA256"] or
+                      record.get("seed_sha256") != os.environ["SEED_SHA256"] or
+                      record.get("a18_rows_sha256") != os.environ["A18_ROWS_SHA256"] or
+                      record.get("presentation_sha256") != os.environ["PRESENTATION_SHA256"] or
+                      record.get("dtilde_sha256") != os.environ["DTILDE_SHA256"] or
+                      record.get("campaign_wrapper_sha256") != os.environ["PRODUCER_SHA256"] or
+                      record.get("core_shard_sha256") != os.environ["CORE_SHARD_SHA256"] or
+                      record.get("core_merge_sha256") != os.environ["CORE_MERGE_SHA256"] or
+                      record.get("core_base_merge_sha256") != os.environ["CORE_BASE_MERGE_SHA256"] or
+                      record.get("rho_tail_used") is not False or
+                      record.get("rho_used") is not False or
+                      record.get("rho_role") != "omitted_from_ideal_and_defect" or
+                      record.get("complete_two_sided_ideal") is not True):
+                      reject(f"merge shard record mismatch d{degree}/{index}")
+                  coverage.extend(assigned)
+              if sorted(coverage) != list(range(1, 159)) or len(coverage) != len(set(coverage)):
+                  reject(f"merge shard record coverage mismatch d{degree}")
+
+          merges = []
+          for degree in range(2, 7):
+              obj = one("ci/evidence", f"d972_b4_next_obstruction_d{degree}.json")
+              if (obj.get("schema") != "d972-b4-next-obstruction/v2" or
+                  obj.get("final_marker") != "D972_B4_NEXT_OBSTRUCTION_V2_FINAL" or
+                  obj.get("campaign_degree") != degree or
+                  obj.get("presentation_semantics") != "raw_a18_18_plus_140" or
+                   obj.get("rho_tail_used") is not False or obj.get("rho_used") is not False or
+                   obj.get("rho_role") != "omitted_from_ideal_and_defect" or
+                   obj.get("source_sha256") != os.environ["INPUT_SHA256"] or
+                   obj.get("word_artifact_sha256") != os.environ["WORDS_SHA256"] or
+                   obj.get("relator_sha256") != os.environ["RELATOR_SHA256"] or
+                   obj.get("prefix_sha256") != os.environ["PREFIX_SHA256"] or
+                   obj.get("seed_sha256") != os.environ["SEED_SHA256"] or
+                   obj.get("a18_rows_sha256") != os.environ["A18_ROWS_SHA256"] or
+                   obj.get("presentation_sha256") != os.environ["PRESENTATION_SHA256"] or
+                   obj.get("dtilde_sha256") != os.environ["DTILDE_SHA256"] or
+                   obj.get("literal_input_sha256") != literal_sha or
+                   obj.get("input_digests") != input_digests or
+                   obj.get("campaign_wrapper_sha256") != os.environ["PRODUCER_SHA256"] or
+                   obj.get("core_shard_sha256") != os.environ["CORE_SHARD_SHA256"] or
+                   obj.get("core_merge_sha256") != os.environ["CORE_MERGE_SHA256"] or
+                   obj.get("core_base_merge_sha256") != os.environ["CORE_BASE_MERGE_SHA256"] or
+                   obj.get("complete_two_sided_ideal") is not True):
+                  reject(f"merge binding mismatch d{degree}")
+              row = obj.get("degrees", {}).get(str(degree))
+              if (not isinstance(row, dict) or row.get("dtilde_count") != 972 or
+                  row.get("rho_tail_used") is not False or row.get("rho_used") is not False or
+                  row.get("rho_role") != "omitted_from_ideal_and_defect"):
+                  reject(f"merge D-tilde coverage mismatch d{degree}")
+              validate_merge_records(row, degree, 16 if degree == 6 else 1)
+              if obj.get("status") not in {f"D{degree}_A_CANDIDATE_NEEDS_CHECK", f"D{degree}_ALLPASS_UNKNOWN"}:
+                  reject(f"merge did not produce a clean candidate/allpass d{degree}")
+              merges.append(obj)
+
+          check = one("ci/evidence", "check.json")
+          if (check.get("schema") != "d972-b4-next-obstruction-check/v2" or
+              check.get("final_marker") != "D972_B4_NEXT_OBSTRUCTION_CHECKER_V2_FINAL" or
+              check.get("source_sha256") != os.environ["INPUT_SHA256"] or
+              check.get("word_artifact_sha256") != os.environ["WORDS_SHA256"] or
+              check.get("presentation_semantics") != "raw_a18_18_plus_140" or
+              check.get("rho_used") is not False or check.get("rho_tail_used") is not False or
+              len(check.get("degrees", [])) != 5):
+              reject("checker receipt binding/coverage mismatch")
+          statuses = [row["status"] for row in merges]
+          if any("A_CANDIDATE" in value for value in statuses):
+              final_status = "D972_B4_A18_Dtilde_CANDIDATE_CROSSCHECKED"
+          elif all("ALLPASS_UNKNOWN" in value for value in statuses):
+              final_status = "UNKNOWN_CORRECT_A18_Dtilde_ALLPASS"
+          else:
+              reject("unexpected merge status set")
+          if check.get("status") != final_status:
+              reject("producer/checker status disagreement")
+          for path in Path("ci/evidence").rglob("*"):
+              if path.is_file() and path.suffix in {".json", ".log"}:
+                  text = path.read_text(encoding="utf-8", errors="replace")
+                  if "status=ERROR" in text or '"status": "REJECTED"' in text:
+                      reject(f"error/rejected evidence: {path}")
+          result = {
+              "schema": "d972-b4-next-obstruction-campaign/v2",
+              "final_marker": "D972_B4_NEXT_OBSTRUCTION_CAMPAIGN_V2_FINAL",
+              "status": final_status, "degrees": [2, 3, 4, 5, 6],
+              "input_sha256": os.environ["INPUT_SHA256"],
+              "word_artifact_sha256": os.environ["WORDS_SHA256"],
+              "presentation_semantics": "raw_a18_18_plus_140",
+              "defect_model": "unconditional five-coface Dtilde(f)",
+              "rho_used": False, "rho_tail_used": False,
+              "complete_two_sided_ideal": True,
+          }
+          Path("ci/out/campaign-final.json").write_text(
+              json.dumps(result, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+          print(f"D972_B4_NEXT_OBSTRUCTION_CAMPAIGN_V2_FINAL status={final_status} degrees=2,3,4,5,6")
+          PY
+
+      - name: Upload complete campaign evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-next-a18-campaign-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          path: ci/out/
