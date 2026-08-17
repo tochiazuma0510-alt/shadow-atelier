@@ -1,0 +1,1097 @@
+"""Independent checker for the GF(5) finite Burau fiber.
+
+This file is intentionally standalone.  It imports neither the v1 checker nor
+any GAP/producer code.  The compact D972 roof, prime-field Burau matrices,
+SymPy group, derived subgroup, roof pointwise stabilizer, exact cosets, and
+raw A.18 defects are all reconstructed here.
+"""
+from __future__ import annotations
+
+import argparse
+import copy
+import functools
+import hashlib
+import json
+from pathlib import Path
+from typing import Any, Iterable, Sequence
+
+from sympy.combinatorics import Permutation, PermutationGroup
+
+WORDS_PATH = Path("search/certs/d972_b4_word_key_artifact_v1_20260816.json")
+WORDS_SHA = "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"
+ARTIFACT_ROWS_SHA = "283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930"
+TARGET_SHA = "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62"
+TUPLE_SHA = "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91"
+SEMANTIC_SHA = "3a2168fc88c86c21eea4bff6fd2958bf18fe7bcee506e0c3cdf6c6f2a2cef729"
+P_ORDER = 1469664
+PPRIME_ORDER = 367416
+SCHEMA = "d972-b4-burau-fiber/v2"
+FINAL = "D972_B4_BURAU_FIBER_V2_FINAL"
+GENERATOR_ORDER = ("x12", "x13", "x14", "x23", "x24", "x34")
+A18_NAMES = ("123", "234", "12,3,4", "1,23,4", "1,2,34")
+ID_FIELD = "identity_image_defect_count"
+N = 4
+Matrix = tuple[tuple[int, ...], ...]
+Perm = tuple[int, ...]
+
+
+def require(ok: bool, msg: str) -> None:
+    if not ok:
+        raise ValueError(msg)
+
+
+def validate_exact_kernel_canary(canary: Any, kernel_order: int) -> None:
+    """Validate the producer's runtime exact-kernel canary contract."""
+    require(isinstance(canary, dict),
+            "missing producer runtime exact-kernel canary metadata")
+    require(canary.get("complete") is True and
+            int(canary.get("order", -1)) == kernel_order and
+            canary.get("distinct_complete") is True and
+            canary.get("fixes_roof_block") is True and
+            canary.get("deleted_element_incomplete") is True,
+            "producer exact-kernel canary drift")
+
+
+def cjson(x: Any) -> bytes:
+    return json.dumps(x, ensure_ascii=True, sort_keys=True,
+                      separators=(",", ":")).encode("ascii")
+
+
+def digest(x: Any) -> str:
+    return hashlib.sha256(cjson(x)).hexdigest()
+
+
+def file_sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def ident(n: int) -> Perm:
+    return tuple(range(1, n + 1))
+
+
+def pprod(a: Perm, b: Perm) -> Perm:
+    return tuple(b[a[i] - 1] for i in range(len(a)))
+
+
+def pinv(p: Perm) -> Perm:
+    out = [0] * len(p)
+    for i, x in enumerate(p, 1):
+        out[x - 1] = i
+    return tuple(out)
+
+
+def ppow(p: Perm, n: int) -> Perm:
+    if n < 0:
+        return ppow(pinv(p), -n)
+    out = ident(len(p))
+    while n:
+        if n & 1:
+            out = pprod(out, p)
+        p = pprod(p, p)
+        n >>= 1
+    return out
+
+
+def paper_prod(xs: Iterable[Perm]) -> Perm:
+    vals = list(xs)
+    require(vals, "PaperProd empty")
+    out = ident(len(vals[0]))
+    for x in reversed(vals):
+        out = pprod(out, x)
+    return out
+
+
+def direct_sum(a: Perm, b: Perm) -> Perm:
+    n = len(a)
+    return a + tuple(n + x for x in b)
+
+
+def block(p: Perm, offset: int, size: int) -> Perm:
+    z = tuple(p[offset + i] - offset for i in range(size))
+    require(set(z) == set(range(1, size + 1)), "permutation block drift")
+    return z
+
+
+def eval_word(word: Iterable[int], gens: Sequence[Perm]) -> Perm:
+    out = ident(len(gens[0]))
+    for x in word:
+        require(isinstance(x, int) and not isinstance(x, bool) and x and
+                abs(x) <= len(gens), "invalid signed word")
+        out = pprod(out, ppow(gens[abs(x) - 1], 1 if x > 0 else -1))
+    return out
+
+
+# ---- compact roof, ported independently from the frozen formulae ----------
+
+def make_dn(n: int) -> tuple[Perm, Perm]:
+    r = tuple(range(2, n + 1)) + (1,)
+    s = tuple(((n - (j - 1)) % n) + 1 for j in range(1, n + 1))
+    require(pprod(pprod(s, r), pinv(s)) == pinv(r), "MakeDn relation drift")
+    return r, s
+
+
+def make_gn(n: int) -> tuple[Perm, Perm]:
+    r, s = make_dn(n)
+
+    def tr(p: Perm, which: int) -> Perm:
+        out = list(range(1, 3 * n + 1))
+        off = (which - 1) * n
+        for j in range(n):
+            out[off + j] = off + p[j]
+        return tuple(out)
+
+    sr = pprod(s, r)
+    return (pprod(pprod(tr(r, 1), tr(s, 2)), tr(s, 3)),
+            pprod(pprod(tr(sr, 1), tr(r, 2)), tr(sr, 3)))
+
+
+def gf8_mul(a: int, b: int) -> int:
+    z = 0
+    for i in range(3):
+        if (b >> i) & 1:
+            z ^= a << i
+    for i in (4, 3):
+        if z & (1 << i):
+            z ^= 0b1011 << (i - 3)
+    return z
+
+
+def gf8_inv(a: int) -> int:
+    require(1 <= a <= 7, "GF8 inverse drift")
+    for b in range(1, 8):
+        if gf8_mul(a, b) == 1:
+            return b
+    raise ValueError("GF8 inverse missing")
+
+
+def gf8_perm(m: list[list[int]]) -> Perm:
+    a, b = m[0]
+    c, d = m[1]
+    out = [1 if c == 0 else 2 + gf8_mul(a, gf8_inv(c))]
+    for x in range(8):
+        num = gf8_mul(a, x) ^ b
+        den = gf8_mul(c, x) ^ d
+        out.append(1 if den == 0 else 2 + gf8_mul(num, gf8_inv(den)))
+    return tuple(out)
+
+def build_roof() -> tuple[Perm, Perm]:
+    x9, y9 = make_gn(9)
+    s = gf8_perm([[1, 0], [1, 1]])
+    t = gf8_perm([[4, 3], [1, 5]])
+    w = pprod(s, pinv(t))
+    x4 = pprod(w, w)
+    y4 = pprod(pprod(pinv(s), x4), s)
+    return direct_sum(x9, x4), direct_sum(y9, y4)
+
+
+def d9_coords(p: Perm) -> list[int]:
+    r, s = make_dn(9)
+    for a in range(9):
+        for e in range(2):
+            if p == pprod(ppow(r, a), ppow(s, e)):
+                return [a, e]
+    raise ValueError("D9 coordinate drift")
+
+
+def roof_key(word: list[int], roof: tuple[Perm, Perm], m: int) -> list[Any]:
+    f = eval_word(word, roof)
+    p27, p9 = block(f, 0, 27), block(f, 27, 9)
+    return [int(m), [d9_coords(block(p27, 9 * i, 9)) for i in range(3)], list(p9)]
+
+
+def load_words(path: Path = WORDS_PATH) -> list[list[Any]]:
+    require(file_sha(path) == WORDS_SHA, "word artifact SHA drift")
+    obj = json.loads(path.read_bytes())
+    rows = obj.get("rows")
+    require(obj.get("schema") == "d972-b4-word-key-artifact/v1" and
+            obj.get("count") == 972 and isinstance(rows, list) and len(rows) == 972,
+            "word artifact shape drift")
+    require(obj.get("canonical_bytes_sha256") == digest(rows) == ARTIFACT_ROWS_SHA,
+            "word artifact canonical digest drift")
+    require(obj.get("source_target_key_digest") == TARGET_SHA and
+            obj.get("frozen_tuple_sha256") == TUPLE_SHA and
+            digest([r[1] for r in rows]) == TUPLE_SHA,
+            "word artifact metadata/target digest drift")
+    for row in rows:
+        require(isinstance(row, list) and len(row) == 3 and isinstance(row[2], list),
+                "word row shape drift")
+    require(len({digest(r[1]) for r in rows}) == 972, "duplicate roof keys")
+    return rows
+
+
+# ---- GF(5) and unreduced Burau -------------------------------------------
+def fmul(a: int, b: int, q: int) -> int:
+    return (a * b) % q
+
+
+def finv(a: int, q: int) -> int:
+    require(a % q != 0, "field inverse of zero")
+    for b in range(1, q):
+        if a * b % q == 1:
+            return b
+    raise ValueError("prime-field inverse missing")
+
+
+def mmul(a: Matrix, b: Matrix, q: int) -> Matrix:
+    return tuple(tuple(sum(a[i][k] * b[k][j] for k in range(N)) % q
+                       for j in range(N)) for i in range(N))
+
+def eye() -> Matrix:
+    return tuple(tuple(int(i == j) for j in range(N)) for i in range(N))
+
+
+def minv(a: Matrix, q: int) -> Matrix:
+    rows = [list(a[i]) + list(eye()[i]) for i in range(N)]
+    for c in range(N):
+        r = next((z for z in range(c, N) if rows[z][c] % q), None)
+        require(r is not None, "singular Burau matrix")
+        rows[c], rows[r] = rows[r], rows[c]
+        z = finv(rows[c][c], q)
+        rows[c] = [(x * z) % q for x in rows[c]]
+        for rr in range(N):
+            if rr != c:
+                z = rows[rr][c] % q
+                rows[rr] = [(x - z * y) % q for x, y in zip(rows[rr], rows[c])]
+    return tuple(tuple(x[N:]) for x in rows)
+
+
+def det_nonzero(a: Matrix, q: int) -> bool:
+    rows = [list(x) for x in a]
+    for c in range(N):
+        r = next((z for z in range(c, N) if rows[z][c] % q), None)
+        if r is None:
+            return False
+        rows[c], rows[r] = rows[r], rows[c]
+        z = finv(rows[c][c], q)
+        for rr in range(c + 1, N):
+            scale = rows[rr][c] * z % q
+            for j in range(c, N):
+                rows[rr][j] = (rows[rr][j] - scale * rows[c][j]) % q
+    return True
+
+
+def burau_generators(q: int, a: int) -> tuple[Matrix, Matrix, Matrix]:
+    require(q == 5 and a in (2, 4), "only preregistered GF(5) parameters 2,4")
+    out = []
+    for i in range(3):
+        m = [list(x) for x in eye()]
+        m[i][i], m[i][i + 1] = (1 - a) % q, a
+        m[i + 1][i], m[i + 1][i + 1] = 1, 0
+        out.append(tuple(tuple(x) for x in m))
+    return tuple(out)  # type: ignore[return-value]
+
+
+def mpow(a: Matrix, n: int, q: int) -> Matrix:
+    out = eye()
+    while n:
+        if n & 1:
+            out = mmul(out, a, q)
+        a = mmul(a, a, q)
+        n >>= 1
+    return out
+def matrix_paper_prod(xs: Iterable[Matrix], q: int) -> Matrix:
+    out = eye()
+    for x in reversed(list(xs)):
+        out = mmul(out, x, q)
+    return out
+
+
+def pure_generators(q: int, a: int) -> tuple[Matrix, ...]:
+    s1, s2, s3 = burau_generators(q, a)
+    i2, i3 = minv(s2, q), minv(s3, q)
+    p1, p4, p6 = mpow(s1, 2, q), mpow(s2, 2, q), mpow(s3, 2, q)
+    return (p1, matrix_paper_prod((s2, p1, i2), q),
+            matrix_paper_prod((s3, s2, p1, i2, i3), q), p4,
+            matrix_paper_prod((s3, p4, i3), q), p6)
+def a18_pairs(pure: tuple[Matrix, ...], q: int) -> tuple[tuple[Matrix, Matrix], ...]:
+    x12, x13, x14, x23, x24, x34 = pure
+    return ((x12, x23), (x23, x34),
+            (matrix_paper_prod((x13, x23), q), x34),
+            (matrix_paper_prod((x12, x13), q),
+             matrix_paper_prod((x24, x34), q)),
+            (x12, matrix_paper_prod((x23, x24), q)))
+
+def matrix_perm(m: Matrix, q: int) -> Perm:
+    vectors = [(n // (q ** 3) % q, n // (q ** 2) % q, n // q % q, n % q)
+               for n in range(q ** 4)]
+    pos = {v: i + 1 for i, v in enumerate(vectors)}
+    out = []
+    for v in vectors:
+        out.append(pos[tuple(sum(v[k] * m[k][j] for k in range(N)) % q
+                             for j in range(N))])
+    return tuple(out)
+
+
+def combined_generators(q: int, a: int) -> tuple[Perm, Perm]:
+    roof = build_roof()
+    pairs = a18_pairs(pure_generators(q, a), q)
+    hx, hy = roof
+    off = 36
+    for x, y in pairs:
+        hx += tuple(off + z for z in matrix_perm(x, q))
+        hy += tuple(off + z for z in matrix_perm(y, q))
+        off += q ** 4
+    return hx, hy
+def defect(parts: Sequence[Perm]) -> Perm:
+    require(len(parts) == 5, "A.18 part count drift")
+    return paper_prod((pinv(paper_prod((parts[4], parts[2]))),
+                       parts[1], parts[3], parts[0]))
+
+
+# ---- SymPy exact finite group machinery ----------------------------------
+def sympy_perm(p: Perm) -> Permutation:
+    return Permutation([x - 1 for x in p], size=len(p))
+
+
+def own_perm(p: Permutation, n: int) -> Perm:
+    a = p.array_form
+    return tuple((a[i] if i < len(a) else i) + 1 for i in range(n))
+
+def sym_group(gens: Sequence[Perm]) -> PermutationGroup:
+    G = PermutationGroup([sympy_perm(x) for x in gens])
+    G.schreier_sims()
+    return G
+
+
+def validate_supplied_kernel_generators(
+        gens: Sequence[Perm], K: PermutationGroup, kernel_order: int) -> None:
+    """Check supplied one-line generators against the reconstructed K."""
+    for g in gens:
+        require(sympy_perm(g) in K, "supplied kernel generator is outside K")
+    if not gens:
+        require(kernel_order == 1,
+                "empty supplied kernel generators for nontrivial K")
+        return
+    supplied_k = sym_group(gens)
+    require(supplied_k.order() == kernel_order,
+            "supplied kernel generators do not generate reconstructed K")
+
+
+def enumerate_sym(G: PermutationGroup, expected: int) -> list[Perm]:
+    require(G.order() == expected, "group order before enumeration drift")
+    vals = sorted(set(own_perm(x, G.degree) for x in G.generate_dimino()))
+    require(len(vals) == expected, "SymPy enumeration incomplete")
+    return vals
+
+
+def pointwise_stabilizer(G: PermutationGroup) -> PermutationGroup:
+    K = G
+    for p in range(36):
+        K = K.stabilizer(p)
+        K.schreier_sims()
+    return K
+
+
+def roof_image_for_key(key: list[Any]) -> Perm:
+    r, s = make_dn(9)
+    p27 = tuple(9 * i + x
+                for i, (a, e) in enumerate(key[1])
+                for x in pprod(ppow(r, int(a)), ppow(s, int(e))))
+    return p27 + tuple(27 + int(x) for x in key[2])
+
+
+def validate_semantics(r: dict[str, Any]) -> None:
+    e = {"M": "K^(9) intersect N_S4", "P": "G9 x PSL(2,8)",
+         "P_order": 1469664, "roof_count": 972,
+         "arithmetic_count": 324, "outside_count": 648,
+         "index3_dichotomy": True}
+    s = r.get("semantic_premises")
+    require(isinstance(s, dict) and {k: s.get(k) for k in e} == e and
+            s.get("digest") == SEMANTIC_SHA and digest(e) == SEMANTIC_SHA,
+            "semantic premise digest drift")
+
+
+def check_receipt(path: Path) -> dict[str, Any]:
+    rows = load_words()
+    r = json.loads(path.read_bytes())
+    require(r.get("schema") == SCHEMA and r.get("final_marker") == FINAL,
+            "receipt schema/final marker drift")
+    require(r.get("status") in {"CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER",
+                                 "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+                                 "UNKNOWN_RESOURCE"}, "producer self-promotion/unknown status")
+    require(not r.get("syntax_error") and not r.get("error_diagnostics"),
+            "syntax/error receipt is not admissible")
+    for field in ("diagnostics", "errors", "syntax_errors"):
+        require(not r.get(field), f"receipt {field} is not admissible")
+    require(r.get("words_sha256") == WORDS_SHA and r.get("row_count") == 972 and
+            isinstance(r.get("rows"), list) and len(r["rows"]) == 972,
+            "receipt source/row truncation drift")
+    validate_semantics(r)
+    q, a = int(r.get("q", 0)), int(r.get("a", 0))
+    require(q == 5 and a in (2, 4), "unsupported GF(5) receipt parameter")
+    require(r.get("generator_order") == list(GENERATOR_ORDER) and
+            r.get("a18_pair_order") == list(A18_NAMES),
+            "generator/A.18 order metadata drift")
+    s = burau_generators(q, a)
+    require(mmul(mmul(s[0], s[1], q), s[0], q) ==
+            mmul(mmul(s[1], s[0], q), s[1], q), "Burau braid drift")
+    require(mmul(mmul(s[1], s[2], q), s[1], q) ==
+            mmul(mmul(s[2], s[1], q), s[2], q), "Burau s2/s3 braid drift")
+    require(mmul(s[0], s[2], q) == mmul(s[2], s[0], q),
+            "Burau s1/s3 commuting drift")
+    require(all(det_nonzero(x, q) for x in s), "Burau invertibility drift")
+    pairs = a18_pairs(pure_generators(q, a), q)
+    hx, hy = combined_generators(q, a)
+    degree = 36 + 5 * q ** 4
+    require(int(r.get("permutation_degree", 0)) == degree and
+            [tuple(int(z) for z in x) for x in r.get("h_generators", [])] == [hx, hy],
+            "H generator/degree binding drift")
+    H = sym_group([hx, hy])
+    require(H.order() == int(r.get("h_order", -1)), "H order drift")
+    roof = build_roof()
+    PG = sym_group(list(roof))
+    require(PG.order() == 1469664 and PG.derived_subgroup().order() == 367416,
+            "compact roof order drift")
+    Hp = H.derived_subgroup(); Hp.schreier_sims()
+    require(Hp.order() == int(r.get("hprime_order", -1)), "H' order drift")
+    K = pointwise_stabilizer(Hp)
+    ko = K.order()
+    require(ko == int(r.get("kernel_order", -1)) and ko > 0, "kernel order drift")
+    kernel = enumerate_sym(K, ko)
+    # The receipt may expose only a generating set, but that set is still
+    # independently checked against the reconstructed pointwise kernel.
+    kg_raw = r.get("kernel_generators")
+    require(isinstance(kg_raw, list), "malformed runtime kernel generators")
+    kg = []
+    for j, raw in enumerate(kg_raw, 1):
+        require(isinstance(raw, list), f"malformed kernel generator {j}")
+        g = tuple(int(z) for z in raw)
+        require(len(g) == degree and set(g) == set(range(1, degree + 1)),
+                f"kernel generator shape drift at {j}")
+        require(block(g, 0, 36) == ident(36),
+                f"kernel generator is not roof-pointwise at {j}")
+        kg.append(g)
+    require(int(r.get("kernel_generator_count", -1)) == len(kg),
+            "kernel generator count drift")
+    if ko != 1:
+        require(kg, "missing runtime kernel generators")
+    validate_supplied_kernel_generators(kg, K, ko)
+    # A producer-side runtime canary is required in addition to this
+    # independent reconstruction; a static receipt assertion is insufficient.
+    validate_exact_kernel_canary(r.get("exact_kernel_canary"), ko)
+    deleted_kernel = kernel[:-1]
+    require(len(deleted_kernel) == ko - 1 and
+            len(set(deleted_kernel)) == ko - 1 and
+            set(deleted_kernel) != set(kernel) and
+            digest([list(x) for x in deleted_kernel]) !=
+            digest([list(x) for x in kernel]),
+            "reconstructed-K deletion mutation was not detected")
+    proj = sym_group([block(own_perm(g, degree), 0, 36) for g in Hp.generators])
+    require(proj.order() == int(r.get("projection_image_order", -1)) == 367416,
+            "projection image order drift")
+    require(proj.order() * ko == Hp.order(), "projection/kernel product drift")
+    roof_keys = {digest(x[1]) for x in rows}
+    seen = set()
+    counts = []
+    for i, (source, item) in enumerate(zip(rows, r["rows"], strict=True), 1):
+        m, key, word = source
+        require(item.get("row_index") == i and item.get("target_key") == key,
+                f"row binding drift at {i}")
+        require(digest(word) == item.get("representative_word_digest"),
+                f"word digest drift at {i}")
+        require(roof_key(word, roof, m) == key, f"roof replay drift at {i}")
+        kd = digest(key); require(kd not in seen and kd in roof_keys, f"duplicate key at {i}")
+        seen.add(kd)
+        require(int(item.get("fiber_size", -1)) == ko and ko > 0, f"incomplete fiber at {i}")
+        h0 = tuple(int(z) for z in item.get("fiber_representative", []))
+        require(len(h0) == degree and set(h0) == set(range(1, degree + 1)),
+                f"fiber representative shape at {i}")
+        require(sympy_perm(h0) in Hp and block(h0, 0, 36) == roof_image_for_key(key),
+                f"fiber representative binding at {i}")
+        coset = sorted(pprod(h0, k) for k in kernel)
+        require(all(sympy_perm(x) in Hp for x in coset), f"coset membership at {i}")
+        if item.get("fiber_digest") is not None:
+            require(item["fiber_digest"] == digest([list(x) for x in coset]),
+                    f"fiber digest drift at {i}")
+        z = 0; defects: set[Perm] = set()
+        for h in coset:
+            parts = [block(h, 36 + j * q ** 4, q ** 4) for j in range(5)]
+            d = defect(parts)
+            if d == ident(q ** 4): z += 1
+            else: defects.add(d)
+        declared_id = item.get(ID_FIELD, item.get("identity_defect_count", -1))
+        declared_non = item.get("nonidentity_image_defect_count",
+                                item.get("nonidentity_defect_count", -1))
+        require(int(declared_id) == z and int(declared_non) == ko - z,
+                f"defect counts drift at {i}")
+        if defects:
+            w = item.get("first_defect_witness")
+            require(isinstance(w, list) and len(w) == q ** 4 and
+                    tuple(int(x) for x in w) in defects,
+                    f"defect witness drift at {i}")
+        counts.append(z)
+    require(seen == roof_keys and len(seen) == 972, "receipt key set incomplete")
+    status = r["status"]
+    zero = sum(z == 0 for z in counts)
+    require((status == "CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER" and zero > 0) or
+            (status == "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" and zero == 0) or
+            status == "UNKNOWN_RESOURCE", "status/count mismatch")
+    return {"status": ("B4_A_BURAU_FINITE_ZERO_FIBER_CROSSCHECKED"
+                        if status == "CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER" else status),
+            "rows": 972, "h_order": H.order(), "hprime_order": Hp.order(),
+            "kernel_order": ko, "zero_fibers": zero}
+
+
+def mutation_tests() -> None:
+    roof = build_roof(); rows = load_words()
+    require(pprod((2, 1, 3), (1, 3, 2)) != pprod((1, 3, 2), (2, 1, 3)),
+            "noncommuting mutation fixture drift")
+    require(paper_prod(((2, 1, 3), (1, 3, 2))) !=
+            pprod((2, 1, 3), (1, 3, 2)), "reverse PaperProd mutation accepted")
+    s1, s2, _ = burau_generators(5, 2)
+    x13 = matrix_paper_prod((s2, mpow(s1, 2, 5), minv(s2, 5)), 5)
+    wrong = matrix_paper_prod((minv(s2, 5), mpow(s1, 2, 5), s2), 5)
+    require(x13 != wrong, "reverse x13 mutation accepted")
+    pairs = a18_pairs(pure_generators(5, 2), 5)
+    def meval(w: Sequence[int], pair: tuple[Matrix, Matrix]) -> Matrix:
+        out = eye()
+        for z in w:
+            out = mmul(out, pair[z - 1] if z > 0 else minv(pair[-z - 1], 5), 5)
+        return out
+    parts = [matrix_perm(meval((1, 2), p), 5) for p in pairs]
+    good = defect(parts)
+    swapped = paper_prod((pinv(paper_prod((parts[2], parts[4]))), parts[1],
+                          parts[3], parts[0]))
+    require(good != swapped, "swapped leading A.18 mutation accepted")
+    k = [ident(3), (2, 1, 3)]
+    require(digest([list(x) for x in k]) != digest([list(x) for x in k[:1]]),
+            "deleted kernel mutation accepted")
+    bad = copy.deepcopy(rows[0][1]); bad[2][0] = 2 if bad[2][0] != 2 else 1
+    require(roof_key(rows[0][2], roof, rows[0][0]) != bad,
+            "corrupt roof key mutation accepted")
+    bw = list(rows[1][2]); bw[0] = -bw[0]
+    require(roof_key(bw, roof, rows[1][0]) != rows[1][1],
+            "corrupt roof word mutation accepted")
+
+
+def selftest() -> None:
+    roof = build_roof(); require(len(roof[0]) == 36, "roof degree drift")
+    rows = load_words()
+    require(all(roof_key(row[2], roof, row[0]) == row[1] for row in rows),
+            "972 roof replay selftest failed")
+    require(all(block(eval_word(row[2], roof), 0, 36) ==
+                roof_image_for_key(row[1]) for row in rows),
+            "972 key-to-roof-image regression failed")
+    s = burau_generators(5, 2)
+    validate_exact_kernel_canary(
+        {"complete": True, "order": 1, "distinct_complete": True,
+         "fixes_roof_block": True, "deleted_element_incomplete": True}, 1)
+    try:
+        validate_exact_kernel_canary(
+            {"complete": True, "order": 1, "distinct_complete": True,
+             "fixes_roof_block": True, "deleted_element_incomplete": False}, 1)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("exact-kernel canary mutation accepted")
+    # Lightweight edge fixture only: for |K|=1, deleting identity to [] is
+    # itself a valid completeness mutation; terminal receipt checks use K.
+    toy_kernel = [ident(1)]
+    toy_deleted = toy_kernel[:-1]
+    require(len(toy_deleted) == 0 and digest(toy_deleted) != digest(toy_kernel),
+            "trivial-kernel deletion mutation drift")
+    # Exercise both admissible trivial-kernel producer encodings: GAP may
+    # serialize either no generators or an explicit identity generator.
+    trivial_group = sym_group([ident(1)])
+    validate_supplied_kernel_generators([], trivial_group, 1)
+    validate_supplied_kernel_generators([ident(1)], trivial_group, 1)
+    require(mmul(mmul(s[0], s[1], 5), s[0], 5) ==
+            mmul(mmul(s[1], s[0], 5), s[1], 5), "GF5 braid selftest failed")
+    require(mmul(mmul(s[1], s[2], 5), s[1], 5) ==
+            mmul(mmul(s[2], s[1], 5), s[2], 5), "GF5 s2/s3 braid selftest failed")
+    require(mmul(s[0], s[2], 5) == mmul(s[2], s[0], 5),
+            "GF5 s1/s3 commuting selftest failed")
+    require(all(det_nonzero(x, 5) for x in s), "GF5 determinant selftest failed")
+    for m in s:
+        p = matrix_perm(m, 5)
+        require(len(p) == 625 and set(p) == set(range(1, 626)),
+                "GF5 vector bijection selftest failed")
+    mutation_tests()
+    print("D972_B4_BURAU_FIBER_V2_CHECKER_SELFTEST_PASS")
+    print("D972_B4_BURAU_FIBER_V2_CHECKER_FINAL_MARKER status=PASS")
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("receipt", nargs="?")
+    ap.add_argument("--self-test", action="store_true")
+    a = ap.parse_args()
+    if a.self_test:
+        selftest()
+    elif a.receipt:
+        print("D972_B4_BURAU_FIBER_V2_CHECK_PASS",
+              json.dumps(check_receipt(Path(a.receipt)), sort_keys=True))
+    else:
+        ap.error("receipt path or --self-test required")
+
+
+V4_SCHEMA = "d972-b4-burau-accel/v1-witness"
+V4_FINAL = "D972_B4_BURAU_ACCEL_V1_FINAL"
+V4_PRODUCER = Path("search/d972_b4_burau_accel_v1.py")
+V4_SOURCE_ROLE = "frozen signed word binds roof/key only; literal word need not lie in H'"
+V4_H0_ROLE = "exact H' Schreier section representative above the replayed roof"
+V4_FIBER_ROLE = "complete right fiber h0*K with exact matrix-only kernel K"
+V4_ALGORITHM = "exact tuple Reidemeister-Schreier normal closure with single-BFS witnesses"
+CAL_SCHEMA = "d972-b4-burau-fiber/v4-lowmem"
+CAL_FINAL = "D972_B4_BURAU_FIBER_V4_FINAL"
+CAL_PRODUCER = Path("search/d972_b4_burau_fiber_v4.py")
+CAL_PRODUCER_SHA256 = "aa8726570c58840a000b4b247b34eccd39a958f97087e6745216e2055b578cec"
+CAL_ALGORITHM = "exact tuple Reidemeister-Schreier normal closure"
+CAL_Q3_SHA256 = "0813a151cd47a56f29aab629ebfc35a0293a8ce84d98c24f3a3ac3e0601ad8e2"
+CAL_Q4_SHA256 = "414c13fe680c2eeb6f3f75c7f6a7206a707c18a426da619543232e1a98855de2"
+
+
+def scan_metadata_ok(status: str, row_count: int, complete: Any,
+                     scanned: Any, terminal: Any) -> bool:
+    if status in {"UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+                  "UNKNOWN_BURAU_Q7_SPECIALIZATION_ALLPASS"}:
+        return (complete is True and row_count == 972 and scanned == 972 and
+                terminal is None)
+    if status in {"CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER",
+                  "CANDIDATE_B4_A_BURAU_Q7_ZERO_FIBER"}:
+        return (complete is False and 1 <= row_count <= 972 and
+                scanned == row_count and terminal == row_count)
+    return False
+def v4_free_ab(word: Iterable[int]) -> tuple[int, int]:
+    ex = [0, 0]
+    for z in word:
+        require(isinstance(z, int) and not isinstance(z, bool) and z and abs(z) <= 2,
+                "invalid signed source word")
+        ex[abs(z) - 1] += 1 if z > 0 else -1
+    return tuple(ex)
+
+def v4_rows() -> list[list[Any]]:
+    rows = load_words()
+    ex = [v4_free_ab(r[2]) for r in rows]
+    require(ex[1] == (-4, -8) and sum(x != (0, 0) for x in ex) == 956,
+            "source-word roof-only negative regression drift")
+    return rows
+
+def v4_add(a: int, b: int, q: int) -> int:
+    return (a ^ b) if q == 4 else (a + b) % q
+
+
+def v4_neg(a: int, q: int) -> int:
+    return a if q == 4 else (-a) % q
+
+def v4_mul(a: int, b: int, q: int) -> int:
+    if q != 4:
+        return a * b % q
+    z = 0
+    while b:
+        if b & 1:
+            z ^= a
+        b >>= 1
+        a <<= 1
+    return z ^ 0b111 if z & 4 else z
+
+
+def v4_inv(a: int, q: int) -> int:
+    require(a != 0, "field inverse zero")
+    for b in range(1, q):
+        if v4_mul(a, b, q) == 1:
+            return b
+    raise ValueError("field inverse missing")
+
+
+def v4_eye() -> Matrix:
+    return tuple(tuple(int(i == j) for j in range(4)) for i in range(4))
+
+def v4_mmul(a: Matrix, b: Matrix, q: int) -> Matrix:
+    return tuple(tuple(
+        _v4_sum((v4_mul(a[i][k], b[k][j], q) for k in range(4)), q)
+        for j in range(4)) for i in range(4))
+
+
+def _v4_sum(xs: Iterable[int], q: int) -> int:
+    z = 0
+    for x in xs:
+        z = v4_add(z, x, q)
+    return z
+
+
+def v4_minv(a: Matrix, q: int) -> Matrix:
+    rows = [list(a[i]) + list(v4_eye()[i]) for i in range(4)]
+    for c in range(4):
+        r = next((j for j in range(c, 4) if rows[j][c] != 0), None)
+        require(r is not None, "singular Burau block")
+        rows[c], rows[r] = rows[r], rows[c]
+        z = v4_inv(rows[c][c], q)
+        rows[c] = [v4_mul(x, z, q) for x in rows[c]]
+        for j in range(4):
+            if j != c:
+                z = rows[j][c]
+                rows[j] = [v4_add(x, v4_neg(v4_mul(z, y, q), q), q)
+                           for x, y in zip(rows[j], rows[c])]
+    return tuple(tuple(x[4:]) for x in rows)
+
+
+def v4_mpow(a: Matrix, n: int, q: int) -> Matrix:
+    out = v4_eye()
+    while n:
+        if n & 1:
+            out = v4_mmul(out, a, q)
+        a = v4_mmul(a, a, q)
+        n >>= 1
+    return out
+def v4_paper_mprod(xs: Iterable[Matrix], q: int) -> Matrix:
+    out = v4_eye()
+    for x in reversed(list(xs)):
+        out = v4_mmul(out, x, q)
+    return out
+
+
+def v4_burau(q: int, a: int) -> tuple[Matrix, Matrix, Matrix]:
+    require((q, a) in ((3, -1), (4, 2), (5, 2), (5, 4)),
+            "unsupported Burau specialization")
+    av = a % q if q != 4 else a
+    ans = []
+    for i in range(3):
+        m = [list(x) for x in v4_eye()]
+        m[i][i], m[i][i + 1] = v4_add(1, v4_neg(av, q), q), av
+        m[i + 1][i], m[i + 1][i + 1] = 1, 0
+        ans.append(tuple(tuple(x) for x in m))
+    return tuple(ans)  # type: ignore[return-value]
+
+
+def v4_pure(q: int, a: int) -> tuple[Matrix, ...]:
+    s1, s2, s3 = v4_burau(q, a)
+    i2, i3 = v4_minv(s2, q), v4_minv(s3, q)
+    p1, p4, p6 = v4_mpow(s1, 2, q), v4_mpow(s2, 2, q), v4_mpow(s3, 2, q)
+    return (p1, v4_paper_mprod((s2, p1, i2), q),
+            v4_paper_mprod((s3, s2, p1, i2, i3), q), p4,
+            v4_paper_mprod((s3, p4, i3), q), p6)
+
+
+def v4_a18(q: int, a: int) -> tuple[tuple[Matrix, Matrix], ...]:
+    x12, x13, x14, x23, x24, x34 = v4_pure(q, a)
+    return ((x12, x23), (x23, x34),
+            (v4_paper_mprod((x13, x23), q), x34),
+            (v4_paper_mprod((x12, x13), q),
+             v4_paper_mprod((x24, x34), q)),
+            (x12, v4_paper_mprod((x23, x24), q)))
+
+
+def v4_defect(parts: Sequence[Matrix], q: int) -> Matrix:
+    require(len(parts) == 5, "A.18 part count")
+    return v4_paper_mprod((v4_minv(v4_paper_mprod((parts[4], parts[2]), q), q),
+                           parts[1], parts[3], parts[0]), q)
+
+
+V4Tuple = tuple[Perm, tuple[Matrix, ...]]
+
+
+def v4_tid(q: int) -> V4Tuple:
+    del q
+    return ident(36), tuple(v4_eye() for _ in range(5))
+
+
+def v4_tprod(a: V4Tuple, b: V4Tuple, q: int) -> V4Tuple:
+    return pprod(a[0], b[0]), tuple(v4_mmul(x, y, q) for x, y in zip(a[1], b[1]))
+def v4_tinv(a: V4Tuple, q: int) -> V4Tuple:
+    return pinv(a[0]), tuple(v4_minv(x, q) for x in a[1])
+
+
+def v4_tcomm(a: V4Tuple, b: V4Tuple, q: int) -> V4Tuple:
+    return v4_tprod(v4_tprod(v4_tprod(v4_tinv(a, q), v4_tinv(b, q), q), a, q), b, q)
+
+def v4_tsigned(gens: Sequence[V4Tuple], q: int) -> list[V4Tuple]:
+    return list(gens) + [v4_tinv(g, q) for g in gens]
+
+
+def v4_gens(q: int, a: int) -> tuple[V4Tuple, V4Tuple]:
+    roof = build_roof(); pairs = v4_a18(q, a)
+    return (roof[0], tuple(x for x, _ in pairs)), (roof[1], tuple(y for _, y in pairs))
+
+def v4_section(gens: Sequence[V4Tuple], q: int) -> dict[Perm, V4Tuple]:
+    one = v4_tid(q); sec = {one[0]: one}; todo = [one[0]]
+    while todo:
+        r = todo.pop(0); lift = sec[r]
+        for g in v4_tsigned(gens, q):
+            nr = pprod(r, g[0])
+            if nr not in sec:
+                sec[nr] = v4_tprod(lift, g, q); todo.append(nr)
+    return sec
+
+
+def v4_kernel_rels(gens: Sequence[V4Tuple], sec: dict[Perm, V4Tuple], q: int) -> list[V4Tuple]:
+    one = v4_tid(q); rels: set[V4Tuple] = set()
+    for r, lift in sec.items():
+        for g in v4_tsigned(gens, q):
+            nr = pprod(r, g[0])
+            z = v4_tprod(v4_tprod(lift, g, q), v4_tinv(sec[nr], q), q)
+            require(z[0] == one[0], "Schreier roof drift")
+            if z != one:
+                rels.add(z)
+    return list(rels)
+def v4_enum_kernel(gens: Sequence[V4Tuple], q: int) -> list[V4Tuple]:
+    one = v4_tid(q); vals = {one}; todo = [one]
+    while todo:
+        x = todo.pop()
+        for g in v4_tsigned(gens, q):
+            z = v4_tprod(x, g, q); require(z[0] == one[0], "kernel roof drift")
+            if z not in vals:
+                vals.add(z); todo.append(z)
+    return sorted(vals, key=lambda z: (z[0], z[1]))
+
+
+def v4_in_ext(x: V4Tuple, sec: dict[Perm, V4Tuple], kernel: set[V4Tuple], q: int) -> bool:
+    s = sec.get(x[0])
+    return s is not None and v4_tprod(v4_tinv(s, q), x, q) in kernel
+def v4_complete(x: V4Tuple, y: V4Tuple, q: int, expected: int):
+    gens = [v4_tcomm(x, y, q)]; seen = set(gens); hs = (x, y, v4_tinv(x, q), v4_tinv(y, q))
+    while True:
+        sec = v4_section(gens, q); require(len(sec) <= expected, "H' projection exceeded")
+        rels = v4_kernel_rels(gens, sec, q); kernel = v4_enum_kernel(rels, q); ks = set(kernel)
+        add = []
+        for g in tuple(gens):
+            for h in hs:
+                z = v4_tprod(v4_tprod(v4_tinv(h, q), g, q), h, q)
+                if z not in seen:
+                    seen.add(z)
+                    if not v4_in_ext(z, sec, ks, q): add.append(z)
+        if not add:
+            require(len(sec) == expected, "H' projected section incomplete")
+            return sec, kernel, gens
+        gens.extend(add)
+
+
+def v4_quotient_reps(x: V4Tuple, y: V4Tuple, sec: dict[Perm, V4Tuple],
+                     kernel: set[V4Tuple], q: int) -> list[V4Tuple]:
+    reps = [v4_tid(q)]; todo = [reps[0]]
+    while todo:
+        r = todo.pop(0)
+        for g in (x, y, v4_tinv(x, q), v4_tinv(y, q)):
+            z = v4_tprod(r, g, q)
+            if not any(v4_in_ext(v4_tprod(v4_tinv(s, q), z, q), sec, kernel, q)
+                       for s in reps):
+                reps.append(z); todo.append(z)
+    return reps
+
+
+def v4_serialize(x: V4Tuple) -> dict[str, Any]:
+    return {"roof": list(x[0]), "blocks": [[list(r) for r in m] for m in x[1]]}
+
+
+def v4_decode(x: Any, q: int) -> V4Tuple:
+    require(isinstance(x, dict) and set(x) == {"roof", "blocks"}, "tuple shape")
+    roof, blocks = x["roof"], x["blocks"]
+    require(isinstance(roof, list) and len(roof) == 36 and sorted(roof) == list(range(1, 37)), "tuple roof")
+    out = []
+    for m in blocks:
+        require(isinstance(m, list) and len(m) == 4 and all(isinstance(r, list) and len(r) == 4 for r in m), "tuple block")
+        require(all(isinstance(z, int) and 0 <= z < q for r in m for z in r), "tuple field")
+        out.append(tuple(tuple(r) for r in m))
+    require(len(out) == 5, "tuple block count")
+    return tuple(roof), tuple(out)
+
+
+def calibration_receipt_ok(path: Path, q: int, a: int) -> bool:
+    """Fail closed on the pinned legacy v4 calibration contract."""
+    try:
+        r = json.loads(path.read_bytes())
+        rows = v4_rows()
+        if (r.get("schema") != CAL_SCHEMA or r.get("final_marker") != CAL_FINAL or
+                r.get("status") != "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" or
+                r.get("producer_source_sha256") != CAL_PRODUCER_SHA256 or
+                r.get("q") != q or r.get("a") != a or
+                r.get("words_sha256") != WORDS_SHA or
+                r.get("artifact_rows_sha256") != ARTIFACT_ROWS_SHA or
+                r.get("target_sha256") != TARGET_SHA or
+                r.get("tuple_sha256") != TUPLE_SHA or
+                r.get("algorithm") != CAL_ALGORITHM or
+                r.get("roof_order") != P_ORDER or
+                r.get("projection_image_order") != PPRIME_ORDER or
+                r.get("h_order") != 105815808 or
+                r.get("hprime_order") != 2939328 or
+                r.get("kernel_order") != 8 or
+                r.get("quotient_h_over_hprime_order") != 36 or
+                r.get("row_count") != 972 or
+                not isinstance(r.get("rows"), list) or len(r["rows"]) != 972):
+            return False
+        seen = set()
+        roof = build_roof()
+        for i, (source, item) in enumerate(zip(rows, r["rows"], strict=True), 1):
+            m, key, word = source
+            if (item.get("row_index") != i or item.get("target_key") != key or
+                    item.get("representative_word_digest") != digest(word) or
+                    item.get("fiber_size") != 8 or
+                    item.get("identity_image_defect_count") != 1 or
+                    item.get("nonidentity_image_defect_count") != 7 or
+                    roof_key(word, roof, m) != key):
+                return False
+            kd = digest(key)
+            if kd in seen:
+                return False
+            seen.add(kd)
+        return len(seen) == 972
+    except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError):
+        return False
+def v4_check_receipt(path: Path, cal_q3: Path | None = None, cal_q4: Path | None = None) -> dict[str, Any]:
+    r = json.loads(path.read_bytes()); rows = v4_rows()
+    require(r.get("schema") == V4_SCHEMA and r.get("final_marker") == V4_FINAL, "schema/final")
+    require(r.get("status") in {"CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER",
+                                 "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+                                 "CANDIDATE_B4_A_BURAU_Q7_ZERO_FIBER",
+                                 "UNKNOWN_BURAU_Q7_SPECIALIZATION_ALLPASS",
+                                 "UNKNOWN_RESOURCE"}, "status")
+    require(r.get("producer_source_sha256") == file_sha(V4_PRODUCER), "producer source hash")
+    receipt_rows = r.get("rows")
+    require(r.get("words_sha256") == WORDS_SHA and r.get("artifact_rows_sha256") == ARTIFACT_ROWS_SHA and
+            r.get("target_sha256") == TARGET_SHA and r.get("tuple_sha256") == TUPLE_SHA and
+            r.get("row_count") == 972 and isinstance(receipt_rows, list) and
+            1 <= len(receipt_rows) <= 972, "source hashes/rows")
+    scan_complete = r.get("row_scan_complete")
+    require(scan_metadata_ok(r.get("status"), len(receipt_rows), scan_complete,
+                             r.get("row_scan_rows"),
+                             r.get("terminal_zero_row_index")),
+            "row-scan metadata is incomplete or inconsistent")
+    require(r.get("source_word_role") == V4_SOURCE_ROLE and r.get("hprime_preimage_role") == V4_H0_ROLE and
+            r.get("fiber_reconstruction") == V4_FIBER_ROLE, "source role drift")
+    q, a = int(r.get("q", 0)), int(r.get("a", 0)); require((q, a) in ((3, -1), (4, 2), (5, 2), (5, 4)), "q/a")
+    require(r.get("generator_order") == list(GENERATOR_ORDER) and
+            r.get("a18_pair_order") == list(A18_NAMES) and
+            r.get("algorithm") == V4_ALGORITHM, "generator/A.18/algorithm order")
+    validate_semantics(r)
+    roof = build_roof()
+    roof_group = sym_group(list(roof))
+    roof_group.schreier_sims()
+    roof_derived = roof_group.derived_subgroup(); roof_derived.schreier_sims()
+    require(roof_group.order() == P_ORDER and roof_derived.order() == PPRIME_ORDER and
+            r.get("roof_order") == P_ORDER, "compact roof order")
+    s = v4_burau(q, a)
+    require(v4_mmul(v4_mmul(s[0], s[1], q), s[0], q) ==
+            v4_mmul(v4_mmul(s[1], s[0], q), s[1], q) and
+            v4_mmul(v4_mmul(s[1], s[2], q), s[1], q) ==
+            v4_mmul(v4_mmul(s[2], s[1], q), s[2], q) and
+            v4_mmul(s[0], s[2], q) == v4_mmul(s[2], s[0], q), "Burau relation order")
+    x, y = v4_gens(q, a); sec, kernel, _ = v4_complete(x, y, q, PPRIME_ORDER); ks = set(kernel)
+    quotient = v4_quotient_reps(x, y, sec, ks, q)
+    require(r.get("projection_image_order") == PPRIME_ORDER and r.get("kernel_order") == len(kernel), "orders")
+    require(r.get("hprime_order") == len(sec) * len(kernel) and
+            r.get("h_order") == len(quotient) * len(sec) * len(kernel) and
+            r.get("quotient_h_over_hprime_order") == len(quotient), "H/H' order")
+    ke = r.get("kernel_elements"); require(isinstance(ke, list) and len(ke) == len(kernel), "kernel completeness")
+    decoded = [v4_decode(z, q) for z in ke]
+    require(decoded == kernel, "kernel elements drift")
+    kg = [v4_decode(z, q) for z in r.get("kernel_generators", [])]
+    require(all(z in ks for z in kg), "kernel generator outside K")
+    require(kg or len(kernel) == 1, "missing kernel generators")
+    if kg:
+        require(set(v4_enum_kernel(kg, q)) == ks, "kernel generators incomplete")
+    evidence = r.get("presentation_evidence"); require(isinstance(evidence, dict), "presentation evidence")
+    hpg = evidence.get("hprime_generator_count")
+    require(evidence.get("seed") == "[x,y]" and evidence.get("normal_closure_closed") is True and
+            evidence.get("projected_section_complete") is True and evidence.get("kernel_complete") is True and
+            evidence.get("no_word_bound_or_random_sampling") is True and isinstance(hpg, int) and hpg >= 1 and
+            evidence.get("schreier_edge_count") == PPRIME_ORDER * 2 * hpg and
+            evidence.get("kernel_generator_method") ==
+            "single exact BFS discovery witnesses" and
+            r.get("kernel_generator_method") ==
+            "single exact BFS discovery witnesses", "incomplete exact evidence")
+    require(r.get("common_word_provenance") is None and all("common_word_in_hprime" not in z for z in receipt_rows), "invalid source membership premise")
+    any_zero = False
+    for i, (source, item) in enumerate(zip(rows[:len(receipt_rows)], receipt_rows, strict=True), 1):
+        m, key, word = source
+        require(item.get("row_index") == i and item.get("target_key") == key and
+                item.get("representative_word_digest") == digest(word), f"row binding {i}")
+        require(roof_key(word, build_roof(), m) == key, f"roof replay {i}")
+        h0 = v4_decode(item.get("fiber_representative"), q)
+        target = roof_image_for_key(key)
+        require(h0[0] == target and v4_in_ext(h0, sec, ks, q), f"h0 binding {i}")
+        fiber = sorted((v4_tprod(h0, k, q) for k in kernel), key=lambda z: (z[0], z[1]))
+        require(item.get("fiber_size") == len(kernel) and item.get("fiber_digest") == digest([v4_serialize(z) for z in fiber]), f"fiber completeness {i}")
+        ids = 0; first = None
+        for h in fiber:
+            d = v4_defect(h[1], q)
+            if d == v4_eye(): ids += 1
+            elif first is None: first = d
+        require(item.get("identity_image_defect_count") == ids and item.get("nonidentity_image_defect_count") == len(fiber) - ids, f"defect counts {i}")
+        if first is not None:
+            require(item.get("first_nonidentity_image_defect") == [list(z) for z in first], f"defect witness {i}")
+        any_zero |= ids == 0
+    if q in (3, 4):
+        require(r.get("status") == "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" and
+                not any_zero and scan_complete is True and len(receipt_rows) == 972,
+                "calibration status")
+    elif r.get("status", "").startswith("CANDIDATE"):
+        require(any_zero and receipt_rows[-1].get("identity_image_defect_count") == 0 and
+                sum(z.get("identity_image_defect_count") == 0 for z in receipt_rows) == 1,
+                "candidate without exactly one terminal zero fiber")
+    elif r.get("status", "").startswith("UNKNOWN_BURAU"):
+        require(not any_zero and scan_complete is True and len(receipt_rows) == 972,
+                "allpass with zero or partial fiber scan")
+    if q == 5:
+        gate = r.get("calibration_gate")
+        require(isinstance(gate, dict) and gate.get("required_for_q5") is True,
+                "q5 calibration gate")
+        require(cal_q3 is not None and cal_q4 is not None and
+                file_sha(cal_q3) == CAL_Q3_SHA256 and
+                file_sha(cal_q4) == CAL_Q4_SHA256 and
+                calibration_receipt_ok(cal_q3, 3, -1) and
+                calibration_receipt_ok(cal_q4, 4, 2),
+                "q5 checked calibrations")
+        require(gate.get("accepted_receipt_sha256") ==
+                {"q3_sha256": file_sha(cal_q3),
+                 "q4_sha256": file_sha(cal_q4)},
+                "q5 calibration binding")
+    return {"status": "B4_A_BURAU_FINITE_ZERO_FIBER_CROSSCHECKED" if any_zero else r["status"], "q": q, "a": a, "rows": len(receipt_rows), "kernel_order": len(kernel), "zero_fibers": sum(1 for z in receipt_rows if z.get("identity_image_defect_count") == 0)}
+
+def v4_mutation_selftest() -> None:
+    rows = v4_rows(); roof = build_roof()
+    require(roof_key(rows[1][2], roof, rows[1][0]) == rows[1][1], "baseline roof")
+    bad = list(rows[1][2]); bad[0] = -bad[0]
+    require(roof_key(bad, roof, rows[1][0]) != rows[1][1], "corrupt word accepted")
+    bad_key = copy.deepcopy(rows[0][1]); bad_key[2][0] = 2 if bad_key[2][0] != 2 else 1
+    require(roof_key(rows[0][2], roof, rows[0][0]) != bad_key, "corrupt key accepted")
+    require(v4_paper_mprod((v4_burau(5, 2)[0], v4_burau(5, 2)[1]), 5) !=
+            v4_paper_mprod((v4_burau(5, 2)[1], v4_burau(5, 2)[0]), 5), "product mutation")
+
+
+def v4_selftest() -> None:
+    rows = v4_rows(); roof = build_roof()
+    # Keep the frozen compact-roof constants executable: omission or drift
+    # must fail before a receipt is accepted, not only at receipt time.
+    require(P_ORDER == 1469664 and PPRIME_ORDER == 367416,
+            "frozen compact-roof constants drift")
+    roof_group = sym_group(list(roof))
+    roof_group.schreier_sims()
+    roof_derived = roof_group.derived_subgroup(); roof_derived.schreier_sims()
+    require(roof_group.order() == P_ORDER and
+            roof_derived.order() == PPRIME_ORDER,
+            "compact-roof order selftest drift")
+    require(all(roof_key(z[2], roof, z[0]) == z[1] for z in rows), "972 roof replay")
+    require(all(v4_free_ab(z[2]) for z in rows[1:2]), "negative fixture")
+    for q, a in ((3, -1), (4, 2), (5, 2), (5, 4)):
+        s = v4_burau(q, a)
+        require(v4_mmul(v4_mmul(s[0], s[1], q), s[0], q) == v4_mmul(v4_mmul(s[1], s[0], q), s[1], q), "braid")
+        require(v4_mmul(v4_mmul(s[1], s[2], q), s[1], q) == v4_mmul(v4_mmul(s[2], s[1], q), s[2], q), "braid2")
+        require(v4_mmul(s[0], s[2], q) == v4_mmul(s[2], s[0], q), "commute")
+    v4_mutation_selftest()
+    require(scan_metadata_ok("CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER", 1,
+                             False, 1, 1),
+            "candidate partial-scan contract rejected")
+    require(not scan_metadata_ok("UNKNOWN_BURAU_SPECIALIZATION_ALLPASS", 1,
+                                 False, 1, 1),
+            "partial all-pass mutation accepted")
+    print("D972_B4_BURAU_ACCEL_PARTIAL_ALLPASS_NEGATIVE_PASS")
+    print("D972_B4_BURAU_ACCEL_SOURCE_WORD_ROOF_ONLY_NEGATIVE_PASS row=2 exponent=(-4,-8) nonzero=956")
+    print("D972_B4_BURAU_ACCEL_CHECKER_SELFTEST_PASS")
+    print("D972_B4_BURAU_ACCEL_CHECKER_FINAL_MARKER status=PASS")
+
+
+def main_v4() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("receipt", nargs="?")
+    ap.add_argument("--calibration-q3", type=Path)
+    ap.add_argument("--calibration-q4", type=Path)
+    ap.add_argument("--self-test", action="store_true")
+    a = ap.parse_args()
+    if a.self_test:
+        v4_selftest(); return
+    if not a.receipt:
+        ap.error("receipt path or --self-test required")
+    print("D972_B4_BURAU_ACCEL_CHECK_PASS", json.dumps(v4_check_receipt(Path(a.receipt), a.calibration_q3, a.calibration_q4), sort_keys=True))
+
+
+if __name__ == "__main__":
+    main_v4()
