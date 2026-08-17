@@ -1,0 +1,205 @@
+name: d972-burau-tuple-v4
+
+on:
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-burau-tuple-v4.yml
+      - search/d972_b4_burau_fiber_v4.py
+      - search/check_d972_b4_burau_fiber_v4.py
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {q: "3", a: "-1", tag: q3}
+          - {q: "4", a: "2", tag: q4}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Selftest and calibration
+        shell: bash
+        env:
+          BURAU_Q: ${{ matrix.q }}
+          BURAU_A: ${{ matrix.a }}
+          BURAU_TAG: ${{ matrix.tag }}
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          mkdir -p ci/wheels
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+          set +e
+          python search/d972_b4_burau_fiber_v4.py --self-test 2>&1 | tee ci/out/selftest-$BURAU_TAG.log
+          self_status=${PIPESTATUS[0]}
+          set -e
+          test "$self_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception)' ci/out/selftest-$BURAU_TAG.log
+          grep -Fxc 'D972_B4_BURAU_FIBER_V4_SELFTEST_PASS' ci/out/selftest-$BURAU_TAG.log | grep -Fx 1
+          set +e
+          python search/d972_b4_burau_fiber_v4.py --q "$BURAU_Q" --a "$BURAU_A" --output ci/out/d972_b4_burau_fiber_v4_$BURAU_TAG.json 2>&1 | tee ci/out/full-$BURAU_TAG.log
+          full_status=${PIPESTATUS[0]}
+          set -e
+          test "$full_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception)' ci/out/full-$BURAU_TAG.log
+          grep -Fxc 'D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_'\"$BURAU_TAG\"'.json' ci/out/full-$BURAU_TAG.log | grep -Fx 1
+          receipt=ci/out/d972_b4_burau_fiber_v4_$BURAU_TAG.json
+          test -s "$receipt"
+          python - "$receipt" "$BURAU_Q" "$BURAU_A" <<'PY'
+          import json, sys
+          r = json.load(open(sys.argv[1], encoding="utf-8"))
+          if (r.get("schema") != "d972-b4-burau-fiber/v4-lowmem" or
+              r.get("final_marker") != "D972_B4_BURAU_FIBER_V4_FINAL" or
+              r.get("status") != "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" or
+              r.get("q") != int(sys.argv[2]) or r.get("a") != int(sys.argv[3]) or
+              r.get("h_order") != 105815808 or r.get("hprime_order") != 2939328 or
+              r.get("kernel_order") != 8 or r.get("projection_image_order") != 367416):
+              raise SystemExit("calibration scalar gate failed")
+          rows = r.get("rows")
+          if not isinstance(rows, list) or len(rows) != 972:
+              raise SystemExit("calibration row count failed")
+          keys = []
+          for i, row in enumerate(rows, 1):
+              if (row.get("row_index") != i or row.get("fiber_size") != 8 or
+                  row.get("identity_image_defect_count") != 1 or
+                  row.get("nonidentity_image_defect_count") != 7):
+                  raise SystemExit("calibration fiber gate failed")
+              keys.append(json.dumps(row.get("target_key"), sort_keys=True, separators=(",", ":")))
+          if len(set(keys)) != 972:
+              raise SystemExit("calibration key gate failed")
+          print("D972_B4_BURAU_V4_CALIBRATION_RECEIPT_GATE_PASS")
+          PY
+          set +e
+          python search/check_d972_b4_burau_fiber_v4.py "$receipt" 2>&1 | tee ci/out/check-$BURAU_TAG.log
+          check_status=${PIPESTATUS[0]}
+          set -e
+          test "$check_status" -eq 0
+          grep -Fq 'D972_B4_BURAU_FIBER_V4_CHECK_PASS' ci/out/check-$BURAU_TAG.log
+          echo D972_B4_BURAU_V4_CALIBRATION_INDEPENDENT_CHECK_PASS
+      - name: Upload calibration evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-tuple-v4-calibration-${{ matrix.tag }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: ci/out/
+
+  q5:
+    needs: calibrate
+    if: ${{ needs.calibrate.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        a: ["2", "4"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Download q3 calibration
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-tuple-v4-calibration-q3-attempt${{ github.run_attempt }}
+          path: ci/in/q3
+      - name: Download q4 calibration
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-tuple-v4-calibration-q4-attempt${{ github.run_attempt }}
+          path: ci/in/q4
+      - name: Authenticate calibrations and run q5
+        shell: bash
+        env:
+          BURAU_A: ${{ matrix.a }}
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          mkdir -p ci/wheels
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+          q3=ci/in/q3/d972_b4_burau_fiber_v4_q3.json
+          q4=ci/in/q4/d972_b4_burau_fiber_v4_q4.json
+          test -s "$q3"
+          test -s "$q4"
+          set +e
+          python search/check_d972_b4_burau_fiber_v4.py "$q3" 2>&1 | tee ci/out/check-q3.log
+          c3_status=${PIPESTATUS[0]}
+          python search/check_d972_b4_burau_fiber_v4.py "$q4" 2>&1 | tee ci/out/check-q4.log
+          c4_status=${PIPESTATUS[0]}
+          set -e
+          test "$c3_status" -eq 0
+          test "$c4_status" -eq 0
+          grep -Fq 'D972_B4_BURAU_FIBER_V4_CHECK_PASS' ci/out/check-q3.log
+          grep -Fq 'D972_B4_BURAU_FIBER_V4_CHECK_PASS' ci/out/check-q4.log
+          echo D972_B4_BURAU_V4_Q5_CALIBRATIONS_INDEPENDENT_CHECK_PASS
+          set +e
+          python search/d972_b4_burau_fiber_v4.py --q 5 --a "$BURAU_A" --calibration-q3 "$q3" --calibration-q4 "$q4" --output ci/out/d972_b4_burau_fiber_v4_a$BURAU_A.json 2>&1 | tee ci/out/full-a$BURAU_A.log
+          full_status=${PIPESTATUS[0]}
+          set -e
+          ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception)' ci/out/full-a$BURAU_A.log
+          receipt=ci/out/d972_b4_burau_fiber_v4_a$BURAU_A.json
+          test -s "$receipt"
+          python - "$receipt" "$BURAU_A" <<'PY'
+          import json, sys
+          r = json.load(open(sys.argv[1], encoding="utf-8"))
+          allowed = {"CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER", "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS"}
+          if r.get("status") == "UNKNOWN_RESOURCE":
+              raise SystemExit("q5 resource stop is non-successful")
+          if (r.get("schema") != "d972-b4-burau-fiber/v4-lowmem" or
+              r.get("final_marker") != "D972_B4_BURAU_FIBER_V4_FINAL" or
+              r.get("q") != 5 or r.get("a") != int(sys.argv[2]) or
+              r.get("status") not in allowed or r.get("row_count") != 972):
+              raise SystemExit("q5 receipt gate failed")
+          rows = r.get("rows")
+          if not isinstance(rows, list) or len(rows) != 972:
+              raise SystemExit("q5 row count failed")
+          keys = [json.dumps(x.get("target_key"), sort_keys=True, separators=(",", ":")) for x in rows]
+          if len(set(keys)) != 972 or [x.get("row_index") for x in rows] != list(range(1, 973)):
+              raise SystemExit("q5 key/index gate failed")
+          print("D972_B4_BURAU_V4_Q5_RECEIPT_GATE_PASS")
+          PY
+          test "$full_status" -eq 0
+          grep -Fxc 'D972_B4_BURAU_FIBER_V4_FINAL status=CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER output=ci/out/d972_b4_burau_fiber_v4_a'\"$BURAU_A\"'.json' ci/out/full-a$BURAU_A.log | grep -Fx 1 || grep -Fxc 'D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a'\"$BURAU_A\"'.json' ci/out/full-a$BURAU_A.log | grep -Fx 1
+          set +e
+          python search/check_d972_b4_burau_fiber_v4.py "$receipt" --calibration-q3 "$q3" --calibration-q4 "$q4" 2>&1 | tee ci/out/check-a$BURAU_A.log
+          check_status=${PIPESTATUS[0]}
+          set -e
+          test "$check_status" -eq 0
+          grep -Fq 'D972_B4_BURAU_FIBER_V4_CHECK_PASS' ci/out/check-a$BURAU_A.log
+      - name: Upload q5 evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-tuple-v4-q5-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
+            ci/in/
