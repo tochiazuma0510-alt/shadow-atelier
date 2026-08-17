@@ -1,0 +1,247 @@
+name: d972-burau-direct-v1
+
+on:
+  workflow_dispatch:
+    inputs:
+      a:
+        description: "GF(5) Burau parameter"
+        required: true
+        type: choice
+        options:
+          - "2"
+          - "4"
+        default: "2"
+      mode:
+        description: "Producer mode"
+        required: true
+        type: choice
+        options:
+          - selftest
+          - full
+        default: selftest
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-burau-direct-v1.yml
+      - search/d972_b4_burau_fiber_v2.g
+      - search/d972_dovetail_worker_v1.g
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+
+permissions:
+  contents: read
+
+jobs:
+  direct-gap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        a: ${{ fromJSON(github.event_name == 'push' && '["2","4"]' || format('["{0}"]', inputs.a)) }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Build pinned GAP and run Burau producer
+        shell: bash
+        env:
+          BURAU_A: ${{ matrix.a }}
+          BURAU_MODE: ${{ github.event_name == 'push' && 'campaign' || inputs.mode }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          case "$BURAU_A" in
+            2|4) ;;
+            *) echo "closed input violation: a=$BURAU_A" >&2; exit 2 ;;
+          esac
+          case "$BURAU_MODE" in
+            selftest|full|campaign) ;;
+            *) echo "closed input violation: mode=$BURAU_MODE" >&2; exit 2 ;;
+          esac
+
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            ca-certificates curl build-essential libgmp-dev libreadline-dev libncurses-dev zlib1g-dev
+
+          job_root="$(mktemp -d "${RUNNER_TEMP}/d972-burau.XXXXXX")"
+          core_url='https://github.com/gap-system/gap/releases/download/v4.16.0/gap-4.16.0-core.tar.gz'
+          core_sha='8c35f406046f1172de658375dcd5beaf9644888cd16f8f5e7db163afc9fade1a'
+          required_url='https://github.com/gap-system/gap/releases/download/v4.16.0/packages-required-v4.16.0.tar.gz'
+          required_sha='ad9652185df53a7cf81dc41520dc3cca8321b171bbcc921b7ee9c66f5e9c35e2'
+          json_url='https://github.com/gap-packages/json/releases/download/v2.4.0/json-2.4.0.tar.gz'
+          json_sha='ce49399f5f5dc4caf95213f5dd7ec09988f2ae93364817e88ff075a09a22826a'
+          core_archive="$job_root/gap-4.16.0-core.tar.gz"
+          required_archive="$job_root/packages-required-v4.16.0.tar.gz"
+          json_archive="$job_root/json-2.4.0.tar.gz"
+
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 \
+            --output "$core_archive" "$core_url"
+          printf '%s  %s\n' "$core_sha" "$core_archive" | sha256sum --check --status
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 \
+            --output "$required_archive" "$required_url"
+          printf '%s  %s\n' "$required_sha" "$required_archive" | sha256sum --check --status
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 \
+            --output "$json_archive" "$json_url"
+          printf '%s  %s\n' "$json_sha" "$json_archive" | sha256sum --check --status
+
+          extract_one_root() {
+            local archive="$1"
+            local destination="$2"
+            local label="$3"
+            local roots=()
+            local entries=()
+            mkdir -p "$destination"
+            tar --extract --gzip --no-same-owner --file "$archive" --directory "$destination"
+            mapfile -t roots < <(find "$destination" -mindepth 1 -maxdepth 1 -type d -print)
+            mapfile -t entries < <(find "$destination" -mindepth 1 -maxdepth 1 -print)
+            if (( ${#roots[@]} != 1 || ${#entries[@]} != 1 )); then
+              echo "ambiguous $label extraction roots" >&2
+              exit 1
+            fi
+            printf '%s\n' "${roots[0]}"
+          }
+
+          core_extract="$job_root/core"
+          gap_src="$(extract_one_root "$core_archive" "$core_extract" GAP)"
+          [[ "$(basename "$gap_src")" == 'gap-4.16.0' ]]
+          (
+            cd "$gap_src"
+            ./configure
+            make -j"$(nproc)"
+          )
+          gap_bin="$gap_src/gap"
+          test -x "$gap_bin"
+
+          package_extract="$job_root/json-extract"
+          json_src="$(extract_one_root "$json_archive" "$package_extract" JSON)"
+          [[ "$(basename "$json_src")" == 'json-2.4.0' ]]
+          private_pkg_root="$job_root/gap-packages"
+          mkdir -p "$private_pkg_root/pkg"
+          tar --extract --gzip --no-same-owner --file "$required_archive" \
+            --directory "$private_pkg_root/pkg"
+          mapfile -t required_roots < <(find "$private_pkg_root/pkg" -mindepth 1 -maxdepth 1 -type d -print)
+          mapfile -t required_entries < <(find "$private_pkg_root/pkg" -mindepth 1 -maxdepth 1 -print)
+          if (( ${#required_roots[@]} == 0 || ${#required_roots[@]} != ${#required_entries[@]} )); then
+            echo 'ambiguous required-packages extraction roots' >&2
+            exit 1
+          fi
+          mv "$json_src" "$private_pkg_root/pkg/json"
+          (
+            cd "$private_pkg_root/pkg/json"
+            ./configure --with-gaproot="$gap_src"
+            make -j"$(nproc)"
+          )
+
+          run_producer_mode() {
+            local run_mode="$1"
+            local driver="ci/out/driver-${run_mode}-a${BURAU_A}.g"
+            local gap_log="ci/out/run-${run_mode}-a${BURAU_A}.log"
+            {
+              printf 'if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;;\n'
+              printf 'if LoadPackage("GAPDoc") <> true then Error("GAPDoc LoadPackage failed"); fi;;\n'
+              printf 'if LoadPackage("json") <> true then Error("json LoadPackage failed"); fi;;\n'
+              printf 'Print("D972_BURAU_DIRECT_PROVENANCE core_sha256=%s required_sha256=%s json_sha256=%s\\n");;\n' \
+                "$core_sha" "$required_sha" "$json_sha"
+              printf 'D972_B4_BURAU_Q:=5;;\n'
+              printf 'D972_B4_BURAU_A:=%s;;\n' "$BURAU_A"
+              if [[ "$run_mode" == selftest ]]; then
+                printf 'D972_B4_BURAU_MODE:="selftest";;\n'
+              else
+                printf 'D972_B4_BURAU_MODE:="run";;\n'
+                printf 'D972_B4_BURAU_OUTPUT:="ci/out/d972_b4_burau_fiber_v2.json";;\n'
+              fi
+              printf 'Read("search/d972_b4_burau_fiber_v2.g");\n'
+            } > "$driver"
+
+            set +e
+            "$gap_bin" -l "$gap_src;$private_pkg_root" --quitonbreak -q -o 12g \
+              "$driver" 2>&1 | tee "$gap_log"
+            gap_status=${PIPESTATUS[0]}
+            set -e
+            gate_status=0
+            if grep -Eq '(^|[[:space:]])(Syntax error:|Error,)' "$gap_log"; then
+              echo "DIRECT_GAP_DIAGNOSTIC_GATE_FAIL mode=$run_mode" >&2
+              gate_status=1
+            fi
+            if (( gap_status != 0 )); then
+              echo "DIRECT_GAP_EXIT_FAIL mode=$run_mode status=$gap_status" >&2
+              gate_status=1
+            fi
+
+            count_exact() {
+              local needle="$1"
+              local file="$2"
+              grep -Fxc -- "$needle" "$file" || true
+            }
+            if [[ "$run_mode" == selftest ]]; then
+              selftest_expected="D972_B4_BURAU_FIBER_V2_GAP_SELFTEST_PASS q=5 a=$BURAU_A"
+              final_expected='D972_B4_BURAU_FIBER_V2_GAP_FINAL_MARKER status=PASS'
+              selftest_count="$(count_exact "$selftest_expected" "$gap_log")"
+              final_count="$(count_exact "$final_expected" "$gap_log")"
+              if [[ "$selftest_count" != 1 || "$final_count" != 1 ]]; then
+                echo "DIRECT_GAP_SELFTEST_MARKER_GATE_FAIL pass=$selftest_count final=$final_count" >&2
+                gate_status=1
+              fi
+            else
+              done_count="$(grep -Ec "^D972_B4_BURAU_FIBER_V2_DONE q=5 a=$BURAU_A h=[0-9]+ hprime=[0-9]+ kernel=[0-9]+ rows=972$" "$gap_log" || true)"
+              final_count="$(grep -Ec '^D972_B4_BURAU_FIBER_V2_FINAL_MARKER status=(UNKNOWN_RESOURCE|CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER|UNKNOWN_BURAU_SPECIALIZATION_ALLPASS) output=ci/out/d972_b4_burau_fiber_v2\.json$' "$gap_log" || true)"
+              if [[ "$done_count" != 1 || "$final_count" != 1 ]]; then
+                echo "DIRECT_GAP_FULL_MARKER_GATE_FAIL done=$done_count final=$final_count" >&2
+                gate_status=1
+              fi
+              receipt='ci/out/d972_b4_burau_fiber_v2.json'
+              if [[ ! -s "$receipt" ]]; then
+                echo 'DIRECT_GAP_RECEIPT_GATE_FAIL' >&2
+                gate_status=1
+              else
+                if ! python3 - "$receipt" "$BURAU_A" <<'PY'
+          import json
+          import sys
+
+          receipt_path, expected_a = sys.argv[1:]
+          with open(receipt_path, encoding="utf-8") as handle:
+              data = json.load(handle)
+          if data.get("q") != 5 or data.get("a") != int(expected_a):
+              raise SystemExit("receipt q/a mismatch")
+          rows = data.get("rows")
+          if not isinstance(rows, list) or len(rows) != 972:
+              raise SystemExit("receipt row count mismatch")
+          keys = [json.dumps(row.get("target_key"), sort_keys=True, separators=(",", ":"))
+                  for row in rows]
+          if len(set(keys)) != 972:
+              raise SystemExit("receipt target keys are not unique")
+          allowed = {
+              "UNKNOWN_RESOURCE",
+              "CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER",
+              "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+          }
+          if data.get("status") not in allowed:
+              raise SystemExit("receipt status is terminal or unauthorized")
+          PY
+                then
+                  echo 'DIRECT_GAP_RECEIPT_JSON_GATE_FAIL' >&2
+                  gate_status=1
+                fi
+              fi
+            fi
+            return "$gate_status"
+          }
+
+          if [[ "$BURAU_MODE" == campaign ]]; then
+            run_producer_mode selftest
+            run_producer_mode full
+          else
+            run_producer_mode "$BURAU_MODE"
+          fi
+
+      - name: Upload direct GAP evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-direct-${{ github.event_name == 'push' && 'campaign' || inputs.mode }}-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
