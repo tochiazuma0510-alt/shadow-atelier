@@ -38,6 +38,19 @@ jobs:
           BURAU_TAG: ${{ matrix.tag }}
         run: |
           set -euo pipefail
+          marker_probe="$(mktemp)"
+          trap 'rm -f "$marker_probe"' EXIT
+          BURAU_TAG_PROBE=q3
+          expected_probe="D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_${BURAU_TAG_PROBE}.json"
+          printf '%s\n' "$expected_probe" > "$marker_probe"
+          probe_count="$(grep -Fxc -- "$expected_probe" "$marker_probe" || true)"
+          test "$probe_count" -eq 1
+          printf '%s\n' 'D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_$BURAU_TAG.json' > "$marker_probe"
+          probe_count="$(grep -Fxc -- "$expected_probe" "$marker_probe" || true)"
+          test "$probe_count" -eq 0
+          rm -f "$marker_probe"
+          trap - EXIT
+          echo BURAU_TUPLE_V4_MARKER_EXPANSION_REGRESSION_PASS
           ulimit -v 12000000
           mkdir -p ci/out
           cat > ci/requirements-hashed.txt <<'EOF'
@@ -61,7 +74,9 @@ jobs:
           set -e
           test "$full_status" -eq 0
           ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception)' ci/out/full-$BURAU_TAG.log
-          grep -Fxc 'D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_'\"$BURAU_TAG\"'.json' ci/out/full-$BURAU_TAG.log | grep -Fx 1
+          expected_calibration_marker="D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_${BURAU_TAG}.json"
+          calibration_marker_count="$(grep -Fxc -- "$expected_calibration_marker" ci/out/full-$BURAU_TAG.log || true)"
+          test "$calibration_marker_count" -eq 1
           receipt=ci/out/d972_b4_burau_fiber_v4_$BURAU_TAG.json
           test -s "$receipt"
           python - "$receipt" "$BURAU_Q" "$BURAU_A" <<'PY'
@@ -135,6 +150,19 @@ jobs:
           BURAU_A: ${{ matrix.a }}
         run: |
           set -euo pipefail
+          marker_probe="$(mktemp)"
+          trap 'rm -f "$marker_probe"' EXIT
+          BURAU_A_PROBE=2
+          expected_probe="D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a${BURAU_A_PROBE}.json"
+          printf '%s\n' "$expected_probe" > "$marker_probe"
+          probe_count="$(grep -Fxc -- "$expected_probe" "$marker_probe" || true)"
+          test "$probe_count" -eq 1
+          printf '%s\n' 'D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a$BURAU_A.json' > "$marker_probe"
+          probe_count="$(grep -Fxc -- "$expected_probe" "$marker_probe" || true)"
+          test "$probe_count" -eq 0
+          rm -f "$marker_probe"
+          trap - EXIT
+          echo BURAU_TUPLE_V4_Q5_MARKER_EXPANSION_REGRESSION_PASS
           ulimit -v 12000000
           mkdir -p ci/out
           cat > ci/requirements-hashed.txt <<'EOF'
@@ -187,7 +215,12 @@ jobs:
           print("D972_B4_BURAU_V4_Q5_RECEIPT_GATE_PASS")
           PY
           test "$full_status" -eq 0
-          grep -Fxc 'D972_B4_BURAU_FIBER_V4_FINAL status=CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER output=ci/out/d972_b4_burau_fiber_v4_a'\"$BURAU_A\"'.json' ci/out/full-a$BURAU_A.log | grep -Fx 1 || grep -Fxc 'D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a'\"$BURAU_A\"'.json' ci/out/full-a$BURAU_A.log | grep -Fx 1
+          expected_q5_candidate="D972_B4_BURAU_FIBER_V4_FINAL status=CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER output=ci/out/d972_b4_burau_fiber_v4_a${BURAU_A}.json"
+          expected_q5_unknown="D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a${BURAU_A}.json"
+          q5_candidate_count="$(grep -Fxc -- "$expected_q5_candidate" ci/out/full-a$BURAU_A.log || true)"
+          q5_unknown_count="$(grep -Fxc -- "$expected_q5_unknown" ci/out/full-a$BURAU_A.log || true)"
+          q5_allowed_terminal_count=$((q5_candidate_count + q5_unknown_count))
+          test "$q5_allowed_terminal_count" -eq 1
           set +e
           python search/check_d972_b4_burau_fiber_v4.py "$receipt" --calibration-q3 "$q3" --calibration-q4 "$q4" 2>&1 | tee ci/out/check-a$BURAU_A.log
           check_status=${PIPESTATUS[0]}
