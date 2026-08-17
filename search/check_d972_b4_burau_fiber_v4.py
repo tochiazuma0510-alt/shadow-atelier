@@ -23,6 +23,8 @@ ARTIFACT_ROWS_SHA = "283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a36
 TARGET_SHA = "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62"
 TUPLE_SHA = "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91"
 SEMANTIC_SHA = "3a2168fc88c86c21eea4bff6fd2958bf18fe7bcee506e0c3cdf6c6f2a2cef729"
+P_ORDER = 1469664
+PPRIME_ORDER = 367416
 SCHEMA = "d972-b4-burau-fiber/v2"
 FINAL = "D972_B4_BURAU_FIBER_V2_FINAL"
 GENERATOR_ORDER = ("x12", "x13", "x14", "x23", "x24", "x34")
@@ -986,6 +988,16 @@ def v4_mutation_selftest() -> None:
 
 def v4_selftest() -> None:
     rows = v4_rows(); roof = build_roof()
+    # Keep the frozen compact-roof constants executable: omission or drift
+    # must fail before a receipt is accepted, not only at receipt time.
+    require(P_ORDER == 1469664 and PPRIME_ORDER == 367416,
+            "frozen compact-roof constants drift")
+    roof_group = sym_group(list(roof))
+    roof_group.schreier_sims()
+    roof_derived = roof_group.derived_subgroup(); roof_derived.schreier_sims()
+    require(roof_group.order() == P_ORDER and
+            roof_derived.order() == PPRIME_ORDER,
+            "compact-roof order selftest drift")
     require(all(roof_key(z[2], roof, z[0]) == z[1] for z in rows), "972 roof replay")
     require(all(v4_free_ab(z[2]) for z in rows[1:2]), "negative fixture")
     for q, a in ((3, -1), (4, 2), (5, 2), (5, 4)):
