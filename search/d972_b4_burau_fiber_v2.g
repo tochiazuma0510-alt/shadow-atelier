@@ -1,13 +1,13 @@
 #############################################################################
-## Exact finite Burau-fiber producer for D972 raw A.18.
+## Exact finite GF(5) Burau-fiber producer for D972 raw A.18 (v2).
 ##
 ## This file deliberately enumerates Elements(Kernel(pi|H')) and scans each
 ## exact representative coset; no word-length or random-word bound is used.
 ## The five matrix blocks are
 ## permutation actions on all q^4 vectors, so GAP's finite permutation-group
 ## algorithms provide an exact finite image.  q is a bounded integer input
-## (q=3 by default; q=4 is supported for GF(4) shards), and a is encoded as
-## an integer in 0..q-1 (for GF(4), 2 is the primitive element).
+## (q=5 by default; a=2 is default and a=4 is supported), and a is encoded as
+## an integer in {2,4} for GF(5).
 #############################################################################
 
 if not IsBound(GetEnv) then GetEnv:=name->fail; fi;;
@@ -19,11 +19,11 @@ D972BFInt:=function(name,default)
   if x=fail or x="" then return default; fi;;
   return Int(x);
 end;;
-D972BFQ:=D972BFInt("D972_B4_BURAU_Q",3);;
-D972BFA:=D972BFInt("D972_B4_BURAU_A",-1);;
+D972BFQ:=D972BFInt("D972_B4_BURAU_Q",5);;
+D972BFA:=D972BFInt("D972_B4_BURAU_A",2);;
 if IsBound(D972_B4_BURAU_Q) then D972BFQ:=D972_B4_BURAU_Q; fi;;
 if IsBound(D972_B4_BURAU_A) then D972BFA:=D972_B4_BURAU_A; fi;;
-if not D972BFQ in [3,4] then Error("Burau fiber supports only GF(3) and GF(4)"); fi;;
+if D972BFQ<>5 or not D972BFA in [2,4] then Error("GF(5) Burau fiber supports only a=2 or a=4"); fi;;
 D972BFMode:=GetEnv("D972_B4_BURAU_MODE");;
 if IsBound(D972_B4_BURAU_MODE) then D972BFMode:=D972_B4_BURAU_MODE; fi;;
 if IsBound(D972_B4_BURAU_SELFTEST) and D972_B4_BURAU_SELFTEST=true then
@@ -33,7 +33,7 @@ if D972BFMode=fail or D972BFMode="" then D972BFMode:="run"; fi;;
 D972BFWordsPath:="search/certs/d972_b4_word_key_artifact_v1_20260816.json";;
 D972BFOut:=GetEnv("D972_B4_BURAU_OUTPUT");;
 if IsBound(D972_B4_BURAU_OUTPUT) then D972BFOut:=D972_B4_BURAU_OUTPUT; fi;;
-if D972BFOut=fail or D972BFOut="" then D972BFOut:="ci/out/d972_b4_burau_fiber_v1.json"; fi;;
+if D972BFOut=fail or D972BFOut="" then D972BFOut:="ci/out/d972_b4_burau_fiber_v2.json"; fi;;
 D972BFWordsSha:="564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9";;
 D972BFTargetSha:="9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62";;
 D972BFTupleSha:="32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91";;
@@ -96,7 +96,7 @@ D972BFVectorPerm:=function(M,q)
   local F,digits,vecs,pos,n,v,w,j,k,images;
   F:=GF(q);; vecs:=[];;
   if q=4 then digits:=[Zero(F),One(F),Z(4),Z(4)^2];
-  else digits:=[Zero(F),One(F),2*One(F)]; fi;;
+  else digits:=List([0..q-1],x->x*One(F)); fi;;
   for n in [0..q^4-1] do
     Add(vecs,List([3,2,1,0],k->digits[(QuoInt(n,q^k) mod q)+1]));
   od;;
@@ -132,7 +132,7 @@ D972BFDefect:=function(parts)
     parts[2],parts[4],parts[1]]);
 end;;
  D972BFSelfTest:=function()
-  local s,vec,d1,d2,toyk,toyelts,toyrep,toycoset,toyshort;
+  local s,vec,d1,d2,toyk,toyelts,toyrep,toycoset,toyshort,word,key;
   s:=D972BFBurau(D972BFQ,D972BFA);;
   vec:=D972BFVectorPerm(s[1],D972BFQ);;
   if Length(List([1..D972BFQ^4],i->i^vec))<>D972BFQ^4 then
@@ -152,19 +152,24 @@ end;;
   d1:=D972BFPP([D972BFPP([s[1],s[2]])^-1,s[2],s[1],s[3]]);;
   d2:=D972BFPP([D972BFPP([s[2],s[1]])^-1,s[2],s[1],s[3]]);;
   if d1=d2 then Error("swapped leading A18 factors accepted"); fi;;
-  toyk:=Group((1,2));; toyelts:=Elements(toyk);; toyrep:=(1,3);;
+  toyk:=Group((1,2));;
+  toyelts:=Elements(toyk);; toyrep:=(1,3);;
   toycoset:=Set(List(toyelts,k->toyrep*k));;
   toyshort:=Set(List(toyelts{[1..Length(toyelts)-1]},k->toyrep*k));;
   if Length(toycoset)<>Length(toyelts) or Length(toyshort)=Length(toycoset) then
     Error("deleted kernel element accepted"); fi;;
-  if [1,2] = [1,3] then Error("corrupt roof key accepted"); fi;;
+  word:=[1,-1];;
+  if D972BFJson(word)=D972BFJson([1,1]) then Error("corrupt roof word accepted"); fi;;
+  key:=[0,[[0,0],[0,0],[0,0]],[1,2,3,4,5,6,7,8,9]];;
+  if D972BFJson(key)=D972BFJson([0,[[0,0],[0,0],[0,0]],[1,2,3,4,5,6,7,8,8]]) then
+    Error("corrupt roof key accepted"); fi;;
   return true;
 end;;
 
 if D972BFMode="selftest" then
   D972BFSelfTest();;
-  Print("D972_B4_BURAU_FIBER_GAP_SELFTEST_PASS q=",D972BFQ," a=",D972BFA,"\n");
-  Print("D972_B4_BURAU_FIBER_GAP_FINAL_MARKER status=PASS\n");
+  Print("D972_B4_BURAU_FIBER_V2_GAP_SELFTEST_PASS q=",D972BFQ," a=",D972BFA,"\n");
+  Print("D972_B4_BURAU_FIBER_V2_GAP_FINAL_MARKER status=PASS\n");
 else
 
 D972BFWordsRaw:=StringFile(D972BFWordsPath);;
@@ -209,6 +214,21 @@ if D972BFpi=fail then Error("Burau projection homomorphism failed"); fi;;
 D972BFHpG:=GeneratorsOfGroup(D972BFHp);;
 D972BFpip:=GroupHomomorphismByImages(D972BFHp,D972BFP,D972BFHpG,List(D972BFHpG,g->Image(D972BFpi,g)));;
 D972BFK:=Kernel(D972BFpip);; D972BFKElts:=Elements(D972BFK);;
+D972BFKSet:=Set(D972BFKElts);;
+if Length(D972BFKElts)<>Size(D972BFK) or
+   Length(D972BFKSet)<>Length(D972BFKElts) or
+   ForAny(D972BFKElts,k->D972BFRestrict(k,0,36)<>One(D972BFP)) then
+  Error("exact projection-kernel enumeration canary failed"); fi;;
+D972BFKShort:=[];;
+if Length(D972BFKElts)>1 then
+  D972BFKShort:=D972BFKElts{[1..Length(D972BFKElts)-1]};;
+fi;;
+D972BFKFullCoset:=Set(List(D972BFKElts,k->One(D972BFHp)*k));;
+D972BFKShortCoset:=Set(List(D972BFKShort,k->One(D972BFHp)*k));;
+if Length(D972BFKFullCoset)<>Size(D972BFK) or
+   Length(D972BFKShortCoset)<>Size(D972BFK)-1 or
+   D972BFKFullCoset=D972BFKShortCoset then
+  Error("deleted actual kernel element accepted"); fi;;
 D972BFWordEval:=function(word)
   local out,x;
   out:=One(D972BFHx);;
@@ -275,7 +295,7 @@ od;;
 D972BFStatus:="UNKNOWN_RESOURCE";;
 if not D972BFAnyZero and D972BFAnyZeroIdentity then D972BFStatus:="CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER";
 elif not D972BFAnyZero then D972BFStatus:="UNKNOWN_BURAU_SPECIALIZATION_ALLPASS"; fi;;
-D972BFReceipt:=rec(schema:="d972-b4-burau-fiber/v1",final_marker:="D972_B4_BURAU_FIBER_V1_FINAL",
+D972BFReceipt:=rec(schema:="d972-b4-burau-fiber/v2",final_marker:="D972_B4_BURAU_FIBER_V2_FINAL",
   status:=D972BFStatus,q:=D972BFQ,a:=D972BFA,words_sha256:=D972BFWordsSha,
   row_count:=972,permutation_degree:=D972BFN,generator_order:=["x12","x13","x14","x23","x24","x34"],
   a18_pair_order:=["123","234","12,3,4","1,23,4","1,2,34"],
@@ -286,7 +306,12 @@ D972BFReceipt:=rec(schema:="d972-b4-burau-fiber/v1",final_marker:="D972_B4_BURAU
   finite_raw_a18_image_defect:="D_q_a(h) matrix identity only",paperprod_canary:=true,
   burau_braid_relation:=true,burau_invertibility:=true,
   negative_selftests:=["reverse PaperProd","reverse x13","swap leading A18 factors",
-    "delete kernel element","corrupt roof word/key"],
+    "delete kernel element","delete actual kernel element","corrupt roof word/key"],
+  exact_kernel_canary:=rec(complete:=true,order:=Size(D972BFK),
+    distinct_complete:=true,fixes_roof_block:=true,
+    deleted_element_incomplete:=true,
+    deleted_nontrivial_incomplete:=Length(D972BFKElts)>1,
+    kernel_nontrivial:=Length(D972BFKElts)>1),
   nonempty_exact_fibers:=not D972BFAnyZero,
   h_order:=Size(D972BFH),hprime_order:=Size(D972BFHp),kernel_order:=Size(D972BFK),
   projection_image_order:=Size(Image(D972BFpip)),kernel_generator_count:=Length(GeneratorsOfGroup(D972BFK)),
@@ -294,7 +319,7 @@ D972BFReceipt:=rec(schema:="d972-b4-burau-fiber/v1",final_marker:="D972_B4_BURAU
   kernel_generators:=List(GeneratorsOfGroup(D972BFK),g->D972BFPermOneLine(g,D972BFN)),
   rows:=D972BFRowOut);
 D972BFWrite(D972BFOut,D972BFReceipt);;
-Print("D972_B4_BURAU_FIBER_V1_DONE q=",D972BFQ," a=",D972BFA," h=",Size(D972BFH),
+Print("D972_B4_BURAU_FIBER_V2_DONE q=",D972BFQ," a=",D972BFA," h=",Size(D972BFH),
   " hprime=",Size(D972BFHp)," kernel=",Size(D972BFK)," rows=972\n");
-Print("D972_B4_BURAU_FIBER_V1_FINAL_MARKER status=",D972BFStatus," output=",D972BFOut,"\n");
+Print("D972_B4_BURAU_FIBER_V2_FINAL_MARKER status=",D972BFStatus," output=",D972BFOut,"\n");
 fi;;

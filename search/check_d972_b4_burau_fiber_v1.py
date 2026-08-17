@@ -447,7 +447,12 @@ def check_receipt(receipt_path: Path, words_path: Path = WORDS_PATH) -> dict[str
     q, a = int(receipt.get("q", 0)), int(receipt.get("a", 0))
     s = burau_generators(q, a)
     require(mmul(mmul(s[0], s[1], q), s[0], q) == mmul(mmul(s[1], s[0], q), s[1], q),
-            "Burau braid relation drift")
+            "Burau s1/s2 braid relation drift")
+    require(mmul(mmul(s[1], s[2], q), s[1], q) ==
+            mmul(mmul(s[2], s[1], q), s[2], q),
+            "Burau s2/s3 braid relation drift")
+    require(mmul(s[0], s[2], q) == mmul(s[2], s[0], q),
+            "Burau s1/s3 commuting relation drift")
     require(all(det_nonzero(x, q) for x in s), "Burau invertibility drift")
     pure = pure_generators(q, a)
     pairs = a18_pairs(pure, q)
@@ -553,9 +558,10 @@ def _roof_images_for_key(target: list[Any], roof: tuple[Perm, Perm]) -> set[Perm
     # 36-point one-line image from the three D9 coordinates and PSL block.
     p27 = []
     r, s = make_dn(9)
-    for a, e in target[1]:
-        p27.extend(pprod(ppow(r, int(a)), ppow(s, int(e))))
-    return {tuple(p27) + tuple(int(x) for x in target[2])}
+    for i, (a, e) in enumerate(target[1]):
+        local = pprod(ppow(r, int(a)), ppow(s, int(e)))
+        p27.extend(9 * i + z for z in local)
+    return {tuple(p27) + tuple(27 + int(x) for x in target[2])}
 
 
 def mutation_tests() -> None:
@@ -609,6 +615,9 @@ def selftest() -> None:
     rows = load_words()
     require(all(roof_key(row[2], (x, y), row[0]) == row[1] for row in rows),
             "all 972 independent roof replays failed")
+    require(all(block(eval_word(row[2], (x, y)), 0, 36) in
+                _roof_images_for_key(row[1], (x, y)) for row in rows),
+            "all 972 key-to-roof-image regressions failed")
     a3, b3 = tuple([2, 1, 3]), tuple([1, 3, 2])
     require(own_perm(sympy_perm(a3), 3) == a3 and
             own_perm(sympy_perm(pprod(a3, b3)), 3) == pprod(a3, b3) and
@@ -618,6 +627,11 @@ def selftest() -> None:
         s = burau_generators(q, a)
         require(mmul(mmul(s[0], s[1], q), s[0], q) ==
                 mmul(mmul(s[1], s[0], q), s[1], q), "Burau braid selftest")
+        require(mmul(mmul(s[1], s[2], q), s[1], q) ==
+                mmul(mmul(s[2], s[1], q), s[2], q),
+                "Burau s2/s3 braid selftest")
+        require(mmul(s[0], s[2], q) == mmul(s[2], s[0], q),
+                "Burau s1/s3 commuting selftest")
         require(all(det_nonzero(z, q) for z in s), "Burau determinant selftest")
         p = pure_generators(q, a)
         require(len(a18_pairs(p, q)) == 5, "A.18 pair selftest")
