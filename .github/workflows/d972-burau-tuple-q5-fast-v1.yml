@@ -1,0 +1,292 @@
+name: d972-burau-tuple-q5-fast-v1
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-burau-tuple-q5-fast-v1.yml
+      - search/d972_b4_burau_fiber_v4.py
+      - search/check_d972_b4_burau_fiber_v4.py
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  CAL_RUN_ID: "32051744038"
+  CAL_Q3_ID: "9296644565"
+  CAL_Q4_ID: "9297445824"
+  CAL_Q3_NAME: d972-burau-tuple-v4-calibration-q3-attempt1
+  CAL_Q4_NAME: d972-burau-tuple-v4-calibration-q4-attempt1
+  CAL_Q3_SHA256: 0813a151cd47a56f29aab629ebfc35a0293a8ce84d98c24f3a3ac3e0601ad8e2
+  CAL_Q4_SHA256: 414c13fe680c2eeb6f3f75c7f6a7206a707c18a426da619543232e1a98855de2
+  PRODUCER_SHA256: aa8726570c58840a000b4b247b34eccd39a958f97087e6745216e2055b578cec
+  CHECKER_SHA256: bb398fe265bb81d5dc36312b4468238b8420fc866cc6a8cae7ad1eacee5ab2c7
+
+jobs:
+  q5:
+    name: q5-a${{ matrix.a }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        a: ["2", "4"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+
+      - name: Verify pinned calibration artifact identities
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from urllib.request import Request, urlopen
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          run_id = int(os.environ["CAL_RUN_ID"])
+          expected = {
+              int(os.environ["CAL_Q3_ID"]): {
+                  "name": os.environ["CAL_Q3_NAME"],
+                  "size": 95607,
+              },
+              int(os.environ["CAL_Q4_ID"]): {
+                  "name": os.environ["CAL_Q4_NAME"],
+                  "size": 95523,
+              },
+          }
+          url = (f"https://api.github.com/repos/{repo}/actions/runs/"
+                 f"{run_id}/artifacts?per_page=100")
+          req = Request(url, headers={
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+              "X-GitHub-Api-Version": "2022-11-28",
+          })
+          with urlopen(req, timeout=30) as response:
+              payload = json.load(response)
+          artifacts = {int(item["id"]): item for item in payload.get("artifacts", [])}
+          if set(expected) - set(artifacts):
+              raise SystemExit("pinned calibration artifact id missing")
+          for artifact_id, want in expected.items():
+              item = artifacts[artifact_id]
+              if item.get("name") != want["name"]:
+                  raise SystemExit(f"artifact {artifact_id} name drift")
+              if item.get("expired") is not False:
+                  raise SystemExit(f"artifact {artifact_id} expired or malformed")
+              if int(item.get("size_in_bytes", -1)) != want["size"]:
+                  raise SystemExit(f"artifact {artifact_id} size drift")
+              workflow_run = item.get("workflow_run") or {}
+              if int(workflow_run.get("id", -1)) != run_id:
+                  raise SystemExit(f"artifact {artifact_id} run binding drift")
+          print("D972_BURAU_Q5_FAST_PINNED_ARTIFACT_IDENTITY_PASS")
+          PY
+
+      - name: Download pinned q3 calibration
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-tuple-v4-calibration-q3-attempt1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32051744038
+          path: ci/in/q3
+
+      - name: Download pinned q4 calibration
+        uses: actions/download-artifact@v4
+        with:
+          name: d972-burau-tuple-v4-calibration-q4-attempt1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32051744038
+          path: ci/in/q4
+
+      - name: Verify source and calibration receipt hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          cat > ci/requirements-hashed.txt <<'EOF'
+          sympy==1.14.0 --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+          mpmath==1.3.0 --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+          EOF
+          mkdir -p ci/wheels
+          python -m pip download --disable-pip-version-check --no-input --only-binary=:all: --no-deps --require-hashes --dest ci/wheels -r ci/requirements-hashed.txt
+          python -m pip install --disable-pip-version-check --no-input --no-index --no-deps --require-hashes --find-links ci/wheels -r ci/requirements-hashed.txt
+          python -c 'import sys, sympy; assert sys.version_info[:2] == (3,13); assert sympy.__version__ == "1.14.0"; print("PYTHON_SYMPY_VERSION_PASS", sys.version, sympy.__version__)'
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          import os
+
+          def sha(path: Path) -> str:
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          files = {
+              Path("search/d972_b4_burau_fiber_v4.py"): os.environ["PRODUCER_SHA256"],
+              Path("search/check_d972_b4_burau_fiber_v4.py"): os.environ["CHECKER_SHA256"],
+          }
+          for path, expected in files.items():
+              if sha(path) != expected:
+                  raise SystemExit(f"source hash drift: {path}")
+
+          common = {
+              "schema": "d972-b4-burau-fiber/v4-lowmem",
+              "final_marker": "D972_B4_BURAU_FIBER_V4_FINAL",
+              "status": "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+              "producer_source_sha256": os.environ["PRODUCER_SHA256"],
+              "words_sha256": "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9",
+              "artifact_rows_sha256": "283bf9cc728ced084a3b276e4496fbbc69026589813a2f31caa0dcb7a3682930",
+              "target_sha256": "9c77e6768feb7ffe7143abf18f753af70e81b8e9cc792910c30ae0075d3b1d62",
+              "tuple_sha256": "32e78ca5b97cd8a6fa59a150dac77719c1b8cb527f0467570c4d284600465a91",
+              "row_count": 972,
+              "roof_order": 1469664,
+              "projection_image_order": 367416,
+              "h_order": 105815808,
+              "hprime_order": 2939328,
+              "kernel_order": 8,
+          }
+          receipts = {
+              "q3": (Path("ci/in/q3/d972_b4_burau_fiber_v4_q3.json"),
+                     os.environ["CAL_Q3_SHA256"], 3, -1),
+              "q4": (Path("ci/in/q4/d972_b4_burau_fiber_v4_q4.json"),
+                     os.environ["CAL_Q4_SHA256"], 4, 2),
+          }
+          for label, (path, expected_sha, q, a) in receipts.items():
+              if not path.is_file():
+                  raise SystemExit(f"{label} receipt missing: {path}")
+              if sha(path) != expected_sha:
+                  raise SystemExit(f"{label} receipt SHA256 mismatch")
+              receipt = json.loads(path.read_bytes())
+              for key, expected in common.items():
+                  if receipt.get(key) != expected:
+                      raise SystemExit(f"{label} metadata drift: {key}")
+              if receipt.get("q") != q or receipt.get("a") != a:
+                  raise SystemExit(f"{label} q/a drift")
+              rows = receipt.get("rows")
+              if not isinstance(rows, list) or len(rows) != 972:
+                  raise SystemExit(f"{label} row ledger drift")
+          print("D972_BURAU_Q5_FAST_SOURCE_AND_CALIBRATION_SHA_PASS")
+          PY
+
+      - name: Recheck pinned q3 and q4 receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python search/check_d972_b4_burau_fiber_v4.py ci/in/q3/d972_b4_burau_fiber_v4_q3.json 2>&1 | tee ci/out/check-q3.log
+          grep -Fq 'D972_B4_BURAU_FIBER_V4_CHECK_PASS' ci/out/check-q3.log
+          python search/check_d972_b4_burau_fiber_v4.py ci/in/q4/d972_b4_burau_fiber_v4_q4.json 2>&1 | tee ci/out/check-q4.log
+          grep -Fq 'D972_B4_BURAU_FIBER_V4_CHECK_PASS' ci/out/check-q4.log
+          echo D972_BURAU_Q5_FAST_CALIBRATIONS_INDEPENDENT_CHECK_PASS
+
+      - name: Run unchanged q5 producer
+        shell: bash
+        env:
+          BURAU_A: ${{ matrix.a }}
+        run: |
+          set -euo pipefail
+          marker_probe="$(mktemp)"
+          trap 'rm -f "$marker_probe"' EXIT
+          BURAU_A_PROBE=2
+          expected_probe="D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a${BURAU_A_PROBE}.json"
+          printf '%s\n' "$expected_probe" > "$marker_probe"
+          probe_count="$(grep -Fxc -- "$expected_probe" "$marker_probe" || true)"
+          test "$probe_count" -eq 1
+          printf '%s\n' 'D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a$BURAU_A.json' > "$marker_probe"
+          probe_count="$(grep -Fxc -- "$expected_probe" "$marker_probe" || true)"
+          test "$probe_count" -eq 0
+          rm -f "$marker_probe"
+          trap - EXIT
+          echo BURAU_TUPLE_V4_Q5_MARKER_EXPANSION_REGRESSION_PASS
+          ulimit -v 12000000
+          q3=ci/in/q3/d972_b4_burau_fiber_v4_q3.json
+          q4=ci/in/q4/d972_b4_burau_fiber_v4_q4.json
+          set +e
+          python search/d972_b4_burau_fiber_v4.py --q 5 --a "$BURAU_A" --calibration-q3 "$q3" --calibration-q4 "$q4" --output ci/out/d972_b4_burau_fiber_v4_a$BURAU_A.json 2>&1 | tee ci/out/full-a$BURAU_A.log
+          full_status=${PIPESTATUS[0]}
+          set -e
+          test "$full_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Traceback|Error|Exception)' ci/out/full-a$BURAU_A.log
+          expected_q5_candidate="D972_B4_BURAU_FIBER_V4_FINAL status=CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER output=ci/out/d972_b4_burau_fiber_v4_a${BURAU_A}.json"
+          expected_q5_unknown="D972_B4_BURAU_FIBER_V4_FINAL status=UNKNOWN_BURAU_SPECIALIZATION_ALLPASS output=ci/out/d972_b4_burau_fiber_v4_a${BURAU_A}.json"
+          q5_candidate_count="$(grep -Fxc -- "$expected_q5_candidate" ci/out/full-a$BURAU_A.log || true)"
+          q5_unknown_count="$(grep -Fxc -- "$expected_q5_unknown" ci/out/full-a$BURAU_A.log || true)"
+          q5_allowed_terminal_count=$((q5_candidate_count + q5_unknown_count))
+          test "$q5_allowed_terminal_count" -eq 1
+          receipt=ci/out/d972_b4_burau_fiber_v4_a$BURAU_A.json
+          test -s "$receipt"
+          python - "$receipt" "$BURAU_A" <<'PY'
+          import json
+          import os
+          import sys
+
+          receipt = json.load(open(sys.argv[1], encoding="utf-8"))
+          allowed = {
+              "CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER",
+              "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS",
+          }
+          if receipt.get("status") not in allowed:
+              raise SystemExit("q5 resource or malformed status")
+          if (receipt.get("schema") != "d972-b4-burau-fiber/v4-lowmem" or
+              receipt.get("final_marker") != "D972_B4_BURAU_FIBER_V4_FINAL" or
+              receipt.get("q") != 5 or receipt.get("a") != int(sys.argv[2]) or
+              receipt.get("producer_source_sha256") != os.environ["PRODUCER_SHA256"] or
+              receipt.get("row_count") != 972):
+              raise SystemExit("q5 receipt metadata gate failed")
+          rows = receipt.get("rows")
+          if not isinstance(rows, list) or len(rows) != 972:
+              raise SystemExit("q5 row count gate failed")
+          keys = [json.dumps(x.get("target_key"), sort_keys=True, separators=(",", ":")) for x in rows]
+          if len(set(keys)) != 972 or [x.get("row_index") for x in rows] != list(range(1, 973)):
+              raise SystemExit("q5 key/index gate failed")
+          zero_rows = [x for x in rows if x.get("identity_image_defect_count") == 0]
+          if receipt["status"] == "CANDIDATE_B4_A_BURAU_FINITE_ZERO_FIBER" and not zero_rows:
+              raise SystemExit("candidate without zero row")
+          if receipt["status"] == "UNKNOWN_BURAU_SPECIALIZATION_ALLPASS" and zero_rows:
+              raise SystemExit("all-pass with zero row")
+          summary = os.environ["GITHUB_STEP_SUMMARY"]
+          with open(summary, "a", encoding="utf-8") as out:
+              out.write("## D972 Burau q5 fast result\n")
+              out.write(f"- q=5, a={receipt['a']}\n")
+              out.write(f"- status: `{receipt['status']}`\n")
+              out.write(f"- zero identity-defect rows: `{len(zero_rows)}`\n")
+              if zero_rows:
+                  out.write(f"- first zero row: `{zero_rows[0]['row_index']}`\n")
+          print("D972_BURAU_Q5_FAST_RECEIPT_GATE_PASS",
+                f"status={receipt['status']}", f"zero_rows={len(zero_rows)}")
+          PY
+
+      - name: Independently check q5 receipt
+        shell: bash
+        env:
+          BURAU_A: ${{ matrix.a }}
+        run: |
+          set -euo pipefail
+          q3=ci/in/q3/d972_b4_burau_fiber_v4_q3.json
+          q4=ci/in/q4/d972_b4_burau_fiber_v4_q4.json
+          receipt=ci/out/d972_b4_burau_fiber_v4_a$BURAU_A.json
+          python search/check_d972_b4_burau_fiber_v4.py "$receipt" --calibration-q3 "$q3" --calibration-q4 "$q4" 2>&1 | tee ci/out/check-a$BURAU_A.log
+          grep -Fq 'D972_B4_BURAU_FIBER_V4_CHECK_PASS' ci/out/check-a$BURAU_A.log
+          echo D972_BURAU_Q5_FAST_INDEPENDENT_CHECK_PASS
+
+      - name: Upload q5 fast evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-burau-tuple-q5-fast-v1-a${{ matrix.a }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
+            ci/in/
