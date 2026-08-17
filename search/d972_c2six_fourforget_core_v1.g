@@ -154,8 +154,12 @@ D972AXMatrixUnderHom := function(h,module,E)
 end;;
 
 D972AXPureExpected := function(coord,comm,eone)
-  return D972AXTuple(List([1..4],i->
-    if i=coord then comm; else eone; fi));
+  local vals,i;
+  vals:=[];;
+  for i in [1..4] do
+    if i=coord then Add(vals,comm); else Add(vals,eone); fi;
+  od;
+  return D972AXTuple(vals);
 end;;
 
 D972AXSource := D972AXReadJson(D972AXSourcePath,D972AXSourceSha,"phase2b receipt");;

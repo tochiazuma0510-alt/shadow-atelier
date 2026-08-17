@@ -124,3 +124,24 @@ The parent Sol session committed and pushed the frozen 157ax bundle at
 commit `8d761af957285e322019eba8195cbf19c6e1113c`.  The resulting GitHub Actions
 run is `32059992054` (`d972-c2six-fourforget-core-v1`), initially queued on
 2026-08-18 JST.  Its runtime result is not predeclared here.
+
+## JSON package root repair (parent-directed)
+
+Run `32059992054` failed before the GAP mathematics: `LoadPackage("json")`
+was unavailable.  The workflow had built the package at
+`$json_root/pkg/json` but exported `$json_root/pkg`; GAP consequently searched
+the wrong package parent.  The one-line repair exports `$json_root`, so GAP
+searches `$json_root/pkg/json`.  The parent committed and pushed this repair
+as `89940c65d92aaa40191ac038f671fb1b7c923bfe`; rerun `32061782819`
+(`d972-c2six-fourforget-core-v1`) was launched and then failed at the GAP
+selftest as described below.  No local GAP was run.
+
+The same rerun then reached the GAP selftest and exposed a GAP 4.16 syntax
+error at producer line 158: GAP does not accept an inline `if ... then ...
+else ... fi` as a `List` expression.  The pure-coordinate expected-value
+helper was rewritten as an explicit loop, with no change to its mathematics.
+The updated producer hash is
+`19e6f491d6fc2b187f781b8d29d3ae80707a53186b5c35c5e04c14924209337a` and the
+workflow hash binding was updated.  A static audit found no remaining inline
+conditional expressions in either the repaired 157ax producer or the new
+157bd producer; no local GAP was run.
