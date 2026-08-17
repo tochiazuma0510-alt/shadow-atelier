@@ -58,7 +58,9 @@ jobs:
           mv "$json_src" "$json_root/pkg/json"
           test -n "${GAPROOT:-}"
           (cd "$json_root/pkg/json" && ./configure --with-gaproot="$GAPROOT" && make -j"$(nproc)")
-          printf 'D972_AX_JSON_ROOT=%s\n' "$json_root/pkg" >> "$GITHUB_ENV"
+          # GAP searches $GAPROOT/pkg/<package>; json was moved to
+          # $json_root/pkg/json, so bind the package root, not pkg itself.
+          printf 'D972_AX_JSON_ROOT=%s\n' "$json_root" >> "$GITHUB_ENV"
 
       - name: Bind all executable and input hashes
         shell: bash
