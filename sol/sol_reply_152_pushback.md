@@ -582,6 +582,33 @@ A_B_TERMINAL=UNKNOWN;
 IHARA_COUNTEREXAMPLE_CLAIMED=NO;
 ```
 
+### 13.5 停止前 GHA 三本の最終回収（2026-08-17 20:29 JST）
+
+停止時点で走っていた三本はすべて workflow の時間上限で `cancelled` となった。
+`Run GAP script` の完了 marker はなく、upload step はすべて `skipped`、最終 artifact count は三本とも 0。
+
+| run | 終了時刻 (JST) | GAP 実行時間概算 | 最終観測 |
+|---:|---|---:|---|
+| `31967437253` | 2026-08-17 08:23 | 4時間 | N3 Phase-B1 v2。common file load 後に無出力のまま timeout |
+| `31969443502` | 2026-08-17 08:04 | 3時間 | explicit direct-v4。common file load 後に無出力のまま timeout |
+| `31972043453` | 2026-08-17 11:57 | 6時間 | semantic-M export v3。common file load 後に無出力のまま timeout |
+
+三本の log tail には `week3-battery-common.g loaded.`、`week3-psl-common.g loaded.` と既知の
+unbound-global syntax warning 以外に、producer 固有の progress marker、receipt、final marker、
+GAP error はない。従って途中結果を復元する根拠もなく、A/B evidence は 0 のままである。
+この三本は再開時に artifact 回収を待つ対象から削除し、`TIMEOUT_NO_ARTIFACT_NO_MARKER` として閉じる。
+同一 script を時間だけ延ばして再実行しても terminal 能力がないことは §13.1--13.2 の静的監査で確定済みなので、
+terminal 路線としては再 dispatch しない。
+
+```text
+RUN_31967437253=CANCELLED_4H_NO_ARTIFACT_NO_MARKER;
+RUN_31969443502=CANCELLED_3H_NO_ARTIFACT_NO_MARKER;
+RUN_31972043453=CANCELLED_6H_NO_ARTIFACT_NO_MARKER;
+LIVE_GHA_RUN_COUNT=0;
+RECOVERABLE_GHA_ARTIFACT_COUNT=0;
+A_B_TERMINAL=UNKNOWN;
+```
+
 したがって、この便は研究成果の終端報告ではなく、再開時に同じ型誤り・有限窓の過大解釈・
 GAP 規約事故を繰り返さないための handoff である。研究者が認める A/B 決着はまだ得ていない。
 
