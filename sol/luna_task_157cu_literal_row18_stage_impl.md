@@ -192,9 +192,20 @@ Current implementation pointer (2026-08-18 JST):
   `c7c6d72980f79ed07b3260d00d6db40cd7547b34`, recorded it through bootstrap
   head `21371057e9ea512bbbd74fd8d53161a4741695ac`, pushed that exact head, and
   dispatched registered literal-only run `32106551371` at
-  `2026-08-18T06:21:05Z`.  The active next step is to monitor that immutable
-  run and collect its lossless receipt.  No local GAP or heavy Python is
-  authorized.
+  `2026-08-18T06:21:05Z`.  The run completed successfully at
+  `2026-08-18T06:26:27Z`: the producer took 3m35s, the independent checker
+  passed in 31s, and the artifact upload passed.  Artifact id is `9313471017`,
+  artifact ZIP digest is
+  `sha256:b5537fcf1a668c87a1657b7e39f8171d5231d71b56d50cc3659906d0340305ea`,
+  and the lossless receipt SHA is
+  `af4061635fb01faf7f95dd164b21649b9dd58d77d541f43db68ad08b77b04466`.
+  The corrected receipt still reports `EXACT_FINITE_STAGE_OBSTRUCTION` in the
+  registered two-powers by 64-corrections universe: both power records have
+  zero local solutions and zero candidates reaching transport/onto/settlement.
+  This is not a B4 A/B conclusion.  The active next step is an exact
+  all-128-candidate decomposition of the remaining cheap gates
+  (roof/charming/hexagon/literal-relation coefficient), before changing the
+  universe or proof design.  No local GAP or heavy Python is authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
