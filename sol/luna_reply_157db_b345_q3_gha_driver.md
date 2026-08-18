@@ -19,7 +19,7 @@ checks:
 
 ```text
 search/d972_b345_q3_chief_v1.g
-  5a7146b2d119b667425e897b1a54d6daaf6582884e78bb87498179163f470a17
+  459c9b1728316a064644ce2e658c0e09dd06b0722fab3e767aaf6f51ebb91d45
 
 search/check_d972_b345_q3_chief_v1.py
   9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
@@ -112,7 +112,7 @@ gh workflow run gap-run.yml --ref <COMMIT_SHA> `
 
 | File | Bytes | SHA256 |
 |---|---:|---|
-| `search/d972_b345_q3_gha_driver_v1.g` | 5,108 | `fbf48d6e4103409362c3c93912ce2523a9f67f28b058665cac0034e2a073115b` |
+| `search/d972_b345_q3_gha_driver_v1.g` | 5,108 | `e3883d8f28dc07ddad5088f2b19e4f78680f5953ed7b5e3220e3f0dd892f4da1` |
 
 Canary run `32129602522` at commit
 `b40c7fcae815a4fe6e725001496982e24d6198aa` completed setup and reached the GAP
@@ -129,4 +129,12 @@ execution or runtime syntax claim is made; the repaired registered canary is the
 next gate. The failed run was a serialization mutability bug, not a driver,
 checker, ANUPQ, or mathematical predicate failure.
 
-No workflow, 157da file, certificate, or mathematical predicate was modified.
+Follow-up canary run `32130140976` at commit
+`522dc918e51fe14f5c68ea19620b214e7930ec92` passed that immutable-list point,
+then stopped before ANUPQ with
+`157da selftest: cross-language formula digest drift`. GAP classifies the empty
+list as a string as well as a list, so the producer serialized empty formula
+arrays as `""`; Python canonical JSON uses `[]`. The producer now handles the
+empty-list case before `IsString`, and this driver pins that repaired producer.
+The next GHA canary is the runtime test. No workflow, checker, certificate, or
+mathematical predicate was modified.

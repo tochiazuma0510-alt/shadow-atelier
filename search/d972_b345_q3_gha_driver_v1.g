@@ -8,7 +8,7 @@
 
 D972Q3GDProducerPath := "search/d972_b345_q3_chief_v1.g";;
 D972Q3GDProducerSHA :=
-  "5a7146b2d119b667425e897b1a54d6daaf6582884e78bb87498179163f470a17";;
+  "459c9b1728316a064644ce2e658c0e09dd06b0722fab3e767aaf6f51ebb91d45";;
 D972Q3GDCheckerPath := "search/check_d972_b345_q3_chief_v1.py";;
 D972Q3GDCheckerSHA :=
   "9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb";;

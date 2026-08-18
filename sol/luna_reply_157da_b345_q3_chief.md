@@ -299,7 +299,7 @@ full PB5 collector/maps; a 162-candidate negative branch builds them exactly onc
 
 | File | Bytes | SHA256 |
 |---|---:|---|
-| `search/d972_b345_q3_chief_v1.g` | 74,456 | `5a7146b2d119b667425e897b1a54d6daaf6582884e78bb87498179163f470a17` |
+| `search/d972_b345_q3_chief_v1.g` | 74,595 | `459c9b1728316a064644ce2e658c0e09dd06b0722fab3e767aaf6f51ebb91d45` |
 | `search/check_d972_b345_q3_chief_v1.py` | 87,732 | `9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb` |
 
 GHA canary run `32129602522` at commit
@@ -309,6 +309,17 @@ GAP 4.16 returns an immutable list from `RecNames`; the serializer attempted to
 sort it in place. The repaired producer sorts
 `ShallowCopy(RecNames(x))`. This changes neither JSON ordering nor any formula,
 group, candidate, predicate, schema, terminal, or performance schedule.
+
+The follow-up canary run `32130140976` at commit
+`522dc918e51fe14f5c68ea19620b214e7930ec92` passed the immutable-`RecNames`
+point, then stopped before ANUPQ with
+`157da selftest: cross-language formula digest drift`. Static diagnosis found a
+second GAP JSON type-order issue: the empty list also satisfies `IsString`, so
+empty word/map arrays were emitted as `""` instead of `[]`. `D972Q3Json` now
+returns `[]` for a length-zero list before its string branch. The expected
+cross-language formula SHA remains `b43284edac5b4dae945bb3b30ac0f177dc47df8724cb32acd6057b26d82a27ef`.
+This is another pre-ANUPQ serializer stop, not a mathematical or ANUPQ result;
+the next GHA canary is the runtime test of this repair.
 
 Pinned inputs include both row18-v2 files, not stale v1:
 
@@ -338,8 +349,8 @@ API/performance scan, exact SHA audit, and new unexecuted conjugation-orientatio
 and terminal-relabel mutation canaries. It also statically binds the normalized
 orbit, B2 completeness, endpoint reuse, factor-membership, all-candidate settled
 bitset, and global-call counters. No local GAP syntax/runtime claim is made; the
-repaired registered GHA canary is required next. The first canary failure above
-was a serializer mutability bug, not an ANUPQ or mathematical failure.
+newly repaired registered GHA canary is required next. Both canary failures
+above were pre-ANUPQ serializer bugs, not ANUPQ or mathematical failures.
 
 ## 8. Generic-workflow dispatch inputs
 

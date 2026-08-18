@@ -58,6 +58,8 @@ D972Q3Json := function(x)
   if x=true then return "true"; fi;
   if x=false then return "false"; fi;
   if IsInt(x) then return String(x); fi;
+  # GAP's empty list also satisfies IsString; empty values in this schema are arrays.
+  if IsList(x) and Length(x)=0 then return "[]"; fi;
   if IsString(x) then return Concatenation("\"",D972Q3Escape(x),"\""); fi;
   if IsRecord(x) then
     names := ShallowCopy(RecNames(x));; Sort(names);;

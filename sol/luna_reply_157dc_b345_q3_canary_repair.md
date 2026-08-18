@@ -58,20 +58,29 @@ The updated prior replies are:
 
 ```text
 sol/luna_reply_157da_b345_q3_chief.md
-16,846 bytes
-950ed4156ec913d19e9f798958e1811e08cb815a31b6904e91db2d30effece64
+17,557 bytes
+c96a3dd92c31bb9da2f4d59472add82275a7ef7047bfd40931f0410a34aafcb0
 
 sol/luna_reply_157db_b345_q3_gha_driver.md
-4,299 bytes
-45fbbd50e7640e1b263d1ba651b65141d660e5661bf54e23a2069496840730f1
+4,805 bytes
+3e68f51cc494264ebd53d2b4080a65c7c8a886d9b928122ecfbc1c8d1891758b
 ```
 
-Both now present the repaired producer/driver hashes as current and record run
-`32129602522` with the exact immutable-list diagnosis.
+Both now present the superseding 157dd producer/driver hashes as current and
+record runs `32129602522` and `32130140976` with their exact pre-ANUPQ
+serializer diagnoses.
+
+The current code snapshot after that superseding empty-list repair is:
+
+| File | Bytes | SHA256 |
+|---|---:|---|
+| `search/d972_b345_q3_chief_v1.g` | 74,595 | `459c9b1728316a064644ce2e658c0e09dd06b0722fab3e767aaf6f51ebb91d45` |
+| `search/d972_b345_q3_gha_driver_v1.g` | 5,108 | `e3883d8f28dc07ddad5088f2b19e4f78680f5953ed7b5e3220e3f0dd892f4da1` |
 
 ## Static audit
 
-Static inspection confirms that the only code changes are:
+For the 157dc repair itself, static inspection confirms that the only code
+changes were:
 
 1. `RecNames(x)` is wrapped in `ShallowCopy` before the existing `Sort`;
 2. the driver's frozen producer SHA is changed from the old producer digest to
@@ -83,4 +92,8 @@ Delimiter/control-token balance is unchanged, and the prior replies contain no
 stale old hash presented as current. No workflow or mathematical file other
 than the one-line serializer repair was changed.
 
-The repaired GHA canary is the required runtime test.
+Canary `32130140976` subsequently passed this immutable-sort repair and stopped
+before ANUPQ because GAP serialized empty lists as strings. The superseding
+157dd guard handles a length-zero list before `IsString`; it changes no formula,
+predicate, universe, schema, or terminal. The next GHA canary is the required
+runtime test.
