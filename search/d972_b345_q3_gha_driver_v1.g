@@ -11,7 +11,7 @@ D972Q3GDProducerSHA :=
   "b95fc29b326c3d6a378249cdeb03595eed8d0211a7fe0358fc02447d70d5f755";;
 D972Q3GDCheckerPath := "search/check_d972_b345_q3_chief_v1.py";;
 D972Q3GDCheckerSHA :=
-  "9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb";;
+  "ddb52ddae18327209692f0f6eb8b4f65cbdd446155be660a621de24274cc3f73";;
 D972Q3GDArtifactPath := "ci/out/d972_b345_q3_chief_v1.json";;
 D972Q3GDSelfLogPath := "ci/out/d972_b345_q3_checker_selftest.log";;
 D972Q3GDSelfSentinelPath := "ci/out/d972_b345_q3_checker_selftest.ok";;

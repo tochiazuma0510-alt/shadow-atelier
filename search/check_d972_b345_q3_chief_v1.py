@@ -665,6 +665,7 @@ class PcCollector:
         return (0,) * self.n
 
     def unit(self, i: int) -> tuple[int, ...]:
+        require(isinstance(i, int) and 1 <= i <= self.n, "pc unit index")
         row = [0] * self.n
         row[i - 1] = 1
         return tuple(row)
@@ -822,6 +823,23 @@ def validate_hom(source: PcCollector, target: PcCollector,
         lhs = target.conjugate(images[i - 1], target.inverse(images[j - 1]))
         rhs = eval_pc_relation_by_images(source, target, images, row["coords"])
         require(lhs == rhs, "homomorphism inverse-conjugate relation")
+
+
+def validate_inverse_pc_maps(pc: PcCollector,
+                             forward_rows: Sequence[Sequence[int]],
+                             inverse_rows: Sequence[Sequence[int]]) \
+        -> tuple[list[tuple[int, ...]], list[tuple[int, ...]]]:
+    """Replay two mutually inverse pc maps, including both composition orders."""
+    forward = [pc._coord(row) for row in forward_rows]
+    inverse = [pc._coord(row) for row in inverse_rows]
+    validate_hom(pc, pc, forward)
+    validate_hom(pc, pc, inverse)
+    for idx in range(pc.n):
+        expected = pc.unit(idx + 1)
+        require(pc.eval_coords_by_images(forward[idx], pc, inverse) == expected and
+                pc.eval_coords_by_images(inverse[idx], pc, forward) == expected,
+                "pc inverse compositions")
+    return forward, inverse
 
 
 def expected_map_words(kind: str, source_rank: int, target_rank: int,
@@ -1563,14 +1581,9 @@ def validate_direct_route(data: dict[str, Any], pc3: PcCollector,
             pc_eval(w, p4_images, pc4) == pc4._coord(p4_marks[i])
             for i, w in enumerate(p4_inverse_words)),
             "independent Pi4 marked settlement surjectivity")
-        forward = [pc4._coord(x) for x in settlement["Pi4_forward_pc_images"]]
-        inverse = [pc4._coord(x) for x in settlement["Pi4_inverse_pc_images"]]
-        validate_hom(pc4, pc4, forward)
-        validate_hom(pc4, pc4, inverse)
-        for i in range(pc4.n):
-            require(pc4.eval_coords_by_images(forward[i], pc4, inverse) == pc4.unit(i) and
-                    pc4.eval_coords_by_images(inverse[i], pc4, forward) == pc4.unit(i),
-                    "Pi4 settlement inverse compositions")
+        forward, inverse = validate_inverse_pc_maps(
+            pc4, settlement["Pi4_forward_pc_images"],
+            settlement["Pi4_inverse_pc_images"])
         for source_mark, expected in zip(p4_marks, p4_images):
             require(pc4.eval_coords_by_images(source_mark, pc4, forward) == expected,
                     "Pi4 marked/pc settlement binding")
@@ -1819,6 +1832,21 @@ def self_test() -> None:
     bad_pc = json.loads(json.dumps(cyclic))
     bad_pc["power_relations"][0][0] = 1
     expect_reject(lambda: PcCollector(bad_pc), "pc relation")
+    rank2_elementary = {
+        "name": "E2[3]", "rank": 2, "order_decimal": "9", "exponent": 3,
+        "nilpotency_class": 1, "generator_count": 2,
+        "relative_orders": [3, 3], "power_relations": [[0, 0], [0, 0]],
+        "inverses": [[2, 0], [0, 2]],
+        "conjugate_relations": [{"i": 2, "j": 1, "coords": [0, 1]}],
+        "inverse_conjugate_relations": [{"i": 2, "j": 1, "coords": [0, 1]}],
+    }
+    e2 = PcCollector(rank2_elementary)
+    e2_identity = [e2.unit(1), e2.unit(2)]
+    validate_inverse_pc_maps(e2, e2_identity, e2_identity)
+    expect_reject(lambda: e2.unit(0), "pc unit index")
+    e2_swapped = [e2.unit(2), e2.unit(1)]
+    expect_reject(lambda: validate_inverse_pc_maps(e2, e2_identity, e2_swapped),
+                  "rank-2 noninverse pair")
     typed = {
         "executed": True,
         "chief_action_matrices": [[[1, 0], [0, 1]]],
@@ -1843,7 +1871,8 @@ def self_test() -> None:
         "chief_fox": {"executed": False},
     }
     expect_reject(lambda: validate_terminal(false_terminal), "false terminal")
-    print("D972_B345_Q3_CHECKER_SELFTEST_PASS mutations=7 orientation_canaries=1 "
+    print("D972_B345_Q3_CHECKER_SELFTEST_PASS mutations=9 orientation_canaries=1 "
+          "rank2_pc_inverse_canaries=2 "
           f"formula_sha256={digest_obj(formulas)}")
 
 

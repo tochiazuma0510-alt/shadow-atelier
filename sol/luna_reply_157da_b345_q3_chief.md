@@ -456,3 +456,30 @@ producer  76,867  b95fc29b326c3d6a378249cdeb03595eed8d0211a7fe0358fc02447d70d5f7
 driver     5,488  93a03d8d44694f016603bebd3909fe718dbbd6fe8018c17f5460c040bc3aea76
 checker   87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
 ```
+
+## 157di checker-index supersession
+
+Run `32134100496` at commit `c7ef41aab6507d2992f3c89913db84ac839ca3dd`
+produced the exact first typed witness (`evaluated=28`, `exponent=2`,
+`correction_index=1`), but the independent checker stopped at `Pi4 settlement
+inverse compositions`. This was a checker-only off-by-one: `PcCollector.unit`
+is one-based while the old zero-based composition loop called `unit(0)`, which
+selected Python's final coordinate. The producer receipt, 162-row universe,
+formulas, and terminal predicate were not changed.
+
+The repaired checker centralizes both homomorphism and both inverse-composition
+orders in `validate_inverse_pc_maps`, iterating `idx in range(pc.n)` and
+comparing to `pc.unit(idx + 1)`; `unit` now rejects indices outside 1..n. Its
+rank-2 elementary-abelian exponent-3 canary accepts the identity pair, rejects
+the deliberately noninverse identity/swapped pair, and rejects `unit(0)`. The
+one permitted self-test passed with
+`D972_B345_Q3_CHECKER_SELFTEST_PASS mutations=9 orientation_canaries=1
+rank2_pc_inverse_canaries=2`.
+
+Current pins are producer 76,867 bytes
+`b95fc29b326c3d6a378249cdeb03595eed8d0211a7fe0358fc02447d70d5f755`, driver
+5,488 bytes `c397cd837ff6814f7b7a8ca0604c6aed54fa0bc85bb577516ea1c6e7df83a831`,
+and checker 89,082 bytes
+`ddb52ddae18327209692f0f6eb8b4f65cbdd446155be660a621de24274cc3f73`. The
+repaired bundle is ready for a fresh GHA replay; the candidate remains pending
+that checker pass and is not an A/B conclusion.
