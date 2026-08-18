@@ -188,8 +188,13 @@ Current implementation pointer (2026-08-18 JST):
   reconstructs both normal closures.  The 24 literal certificates, A.18,
   candidate universe, hexagon, pentagon, transport, onto, and settlement code
   are unchanged.  Parent and independent Sol(max) static audits both return
-  GO.  The active next step is parent commit/push and the same registered GHA
-  rerun.  No local GAP or heavy Python is authorized.
+  GO.  Parent committed the repair as
+  `c7c6d72980f79ed07b3260d00d6db40cd7547b34`, recorded it through bootstrap
+  head `21371057e9ea512bbbd74fd8d53161a4741695ac`, pushed that exact head, and
+  dispatched registered literal-only run `32106551371` at
+  `2026-08-18T06:21:05Z`.  The active next step is to monitor that immutable
+  run and collect its lossless receipt.  No local GAP or heavy Python is
+  authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
