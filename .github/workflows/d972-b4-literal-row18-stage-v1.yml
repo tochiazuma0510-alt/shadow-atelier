@@ -23,6 +23,7 @@ env:
   LR_LITERAL_SHA256: "c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9"
   LR_PAB_SHA256: "e54c08d3437d0706b4639d7db31f7177c1c82de9c2f820fa7b194fa1c4e378f2"
   LR_PACKAGEGT_ZIP_URL: "https://sites.temple.edu/vald/files/2024/05/PackageGT.zip"
+  LR_PACKAGEGT_ZIP_FALLBACK_URL: "https://web.archive.org/web/20250208231651id_/https://sites.temple.edu/vald/files/2024/05/PackageGT.zip"
   LR_PACKAGEGT_ZIP_SHA256: "c3124483cb1464b9010c091011370db091a76561a2af923a38efb6900f645f95"
 
 jobs:
@@ -60,16 +61,24 @@ jobs:
           (cd "$json_root/pkg/json" && ./configure --with-gaproot="$GAPROOT" && make -j"$(nproc)")
           printf 'LR_JSON_ROOT=%s\n' "$json_root" >> "$GITHUB_ENV"
 
-      - name: Fetch pinned official PackageGT PaB source
+      - name: Fetch pinned PackageGT PaB source
         shell: bash
         run: |
           set -euo pipefail
           packagegt_tmp="$(mktemp -d "${RUNNER_TEMP}/d972-lr-packagegt.XXXXXX")"
           packagegt_zip="$packagegt_tmp/PackageGT.zip"
           packagegt_target='thirdparty/packageGT/extracted/PackageGT/PaB.py'
-          curl --fail --location --silent --show-error \
-            --retry 5 --retry-all-errors --retry-delay 2 \
-            --output "$packagegt_zip" "$LR_PACKAGEGT_ZIP_URL"
+          packagegt_curl=(--fail --location --silent --show-error --ipv4 --http1.1
+            --connect-timeout 20 --retry 5 --retry-all-errors --retry-delay 2)
+          if ! curl "${packagegt_curl[@]}" \
+            --output "$packagegt_zip" "$LR_PACKAGEGT_ZIP_URL"; then
+            printf '%s\n' 'official PackageGT endpoint unavailable; using pinned archival replay' >&2
+            packagegt_zip="$packagegt_tmp/PackageGT.archive.zip"
+            # Timestamp-fixed capture of the official URL; the archive SHA below
+            # remains authoritative for either transport.
+            curl "${packagegt_curl[@]}" \
+              --output "$packagegt_zip" "$LR_PACKAGEGT_ZIP_FALLBACK_URL"
+          fi
           printf '%s  %s\n' "$LR_PACKAGEGT_ZIP_SHA256" "$packagegt_zip" | \
             sha256sum --check --status
           python3 - "$packagegt_zip" "$packagegt_target" "$LR_PAB_SHA256" <<'PY'

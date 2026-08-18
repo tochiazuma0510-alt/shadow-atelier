@@ -63,7 +63,7 @@ Current implementation pointer (2026-08-18 JST):
   independent checker
   `fab6aae53504d3692adf172464684a7e7d569dece84918446f12c3d375a5a4dc`,
   and workflow
-  `c15c18bfe0242a4a3c4f936e6bfab49979440a50aa8f1826f73ece26c8e4f9e6`.
+  `9f8ae1d0e99252c16eec2280527bb769748f6c8c8378b67f32b11f4a318e17b7`.
   Python AST, checker self-test, YAML and embedded-Python parse, frozen hash and
   action pins, single-semicolon audit, and `git diff --check` pass.  Strict
   subgroup additions are bounded by 105 and conjugation attempts by 1260;
@@ -136,9 +136,17 @@ Current implementation pointer (2026-08-18 JST):
   `2026-08-18T05:13:04Z`.  Attempt 1 failed before any mathematical step:
   the official PackageGT ZIP endpoint reset all six `curl` attempts, so the
   producer and checker were never started and this is not an A/B result.
-  Parent immediately requested attempt 2 of the same immutable run/head; it is
-  queued/in progress and must be monitored through producer and independent
-  checker.  No local GAP or heavy Python is authorized.
+  Parent immediately requested attempt 2 of the same immutable run/head; it
+  failed at the identical pre-mathematics transport step.  Both attempts left
+  producer and checker unstarted, so neither is an A/B result.  A timestamped
+  Internet Archive capture of the same official URL (`20250208231651`) has
+  now been downloaded independently and matches the frozen archive SHA
+  `c3124483...f95` byte for byte.  The implemented repair is restricted to an
+  official-primary / timestamp-fixed-archive-fallback fetch; the archive SHA,
+  unique-member gate, member SHA, and exclusive write remain mandatory.
+  Luna and parent independently passed YAML, embedded-Python, immutable-action,
+  producer/checker-pin, archive/member, and diff checks.  No local GAP or heavy
+  Python is authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
