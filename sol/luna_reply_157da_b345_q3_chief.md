@@ -399,3 +399,38 @@ itself the uniform cofinal-stage theorem or final B4-B conclusion.
 If all 162 fail, the exact first missing object is the relative six-face
 `Q3_TYPED_D2`/chief construction in Pi5[3]; the result is not promoted to a finite
 obstruction and does not decide A/B.
+
+## 157df atomic-write supersession
+
+The registered canary `32130817181` passed, while full run `32131160061`
+stopped before ANUPQ at its first checkpoint because the GAP process had no
+binding for the old rename primitive. The bounded repair uses the official IO
+package and `IO_rename` only after the same-directory temporary stream is
+closed; it never removes the destination before replacement and fails closed
+if the package, operation, or replacement result is unavailable.
+
+The producer self-test now performs two writes to the fixed
+`ci/out/d972_b345_q3_atomic_io_smoke.json`, reads the second canonical JSON
+plus newline, checks that it is not the first payload, removes the smoke file,
+and prints exactly one
+`D972_B345_Q3_ATOMIC_IO_SELFTEST_PASS backend=IO_rename replace=true` marker.
+The thin driver creates `ci/out` before reading the producer and gates that
+marker through the producer's one-count self-test binding. Immediately after
+the direct scan, the producer emits one branch marker for either the selected
+first typed witness or all 162 candidates exhausted; neither marker is an A/B
+conclusion.
+
+Current code pins (checker and all mathematical inputs are unchanged):
+
+```text
+search/d972_b345_q3_chief_v1.g        76,704  e3dad87ad066fc9c605e1eecaddbe63efd63ac68500e0fcff0d6d62eb7d83af3
+search/d972_b345_q3_gha_driver_v1.g    5,463  6a3cb5339468dd7f1b214c67d9791b0f752d0df625f06781470dc24c92a8a859
+search/check_d972_b345_q3_chief_v1.py 87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
+```
+
+The source-only audit is limited to the I/O and logging changes above:
+replacement is real and same-directory, the driver gate is exact-one, the
+direct scan has no per-candidate logging, and no predicate, candidate order,
+terminal mapping, ANUPQ budget, or receipt acceptance rule was altered. The
+implementation token is
+`B345_Q3_ATOMIC_WRITE_REPAIR_READY_FOR_GHA`.

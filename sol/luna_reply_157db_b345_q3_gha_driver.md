@@ -138,3 +138,33 @@ arrays as `""`; Python canonical JSON uses `[]`. The producer now handles the
 empty-list case before `IsString`, and this driver pins that repaired producer.
 The next GHA canary is the runtime test. No workflow, checker, certificate, or
 mathematical predicate was modified.
+
+## 157df atomic-write driver supersession
+
+Canary `32130817181` passed. Full run `32131160061` stopped before ANUPQ at
+the first checkpoint because the GAP process lacked the prior rename binding.
+The producer now requires the official IO package and a successful
+`IO_rename` after closing a same-directory temporary stream. The destination
+is not removed first, and any unavailable package/operation/failure result is
+fatal.
+
+The self-test branch now creates `ci/out` before reading the producer. After
+the read it requires exactly one producer-side atomic-I/O self-test count and
+the exact marker
+`D972_B345_Q3_ATOMIC_IO_SELFTEST_PASS backend=IO_rename replace=true` before
+invoking the independent checker self-test. The producer's direct scan also
+has exactly one post-return branch marker, for first typed witness or all 162
+exhausted; this is operational reporting, not an A/B verdict.
+
+Current pins:
+
+```text
+producer  search/d972_b345_q3_chief_v1.g        76,704  e3dad87ad066fc9c605e1eecaddbe63efd63ac68500e0fcff0d6d62eb7d83af3
+driver    search/d972_b345_q3_gha_driver_v1.g     5,463  6a3cb5339468dd7f1b214c67d9791b0f752d0df625f06781470dc24c92a8a859
+checker   search/check_d972_b345_q3_chief_v1.py 87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
+```
+
+Only I/O, self-test, and direct-scan logging gates changed. Mathematical
+inputs, predicates, ordering, terminal mapping, ANUPQ budget, and receipt
+acceptance are unchanged. Ready token:
+`B345_Q3_ATOMIC_WRITE_REPAIR_READY_FOR_GHA`.

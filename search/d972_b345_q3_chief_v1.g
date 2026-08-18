@@ -23,6 +23,9 @@ D972Q3Words := "search/certs/d972_b4_word_key_artifact_v1_20260816.json";;
 D972Q3WordsSHA := "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9";;
 D972Q3Core := "search/d972_d972core_c2six_intersection_v2.g";;
 D972Q3CoreSHA := "577de029a49e2db3a33cf3b4437c78548214f9635b1750185d48a5385c161f4c";;
+D972Q3AtomicIoSelftestMarker :=
+  "D972_B345_Q3_ATOMIC_IO_SELFTEST_PASS backend=IO_rename replace=true";;
+D972Q3AtomicIoSelftestMarkerCount := 0;;
 
 D972Q3Phase := function(label, start)
   local now;
@@ -79,13 +82,18 @@ D972Q3Digest := x -> HexSHA256(D972Q3Json(x));;
 
 D972Q3AtomicWrite := function(path, obj)
   local tmp, f;
+  if LoadPackage("io")<>true then
+    Error("157df: official IO package unavailable");
+  fi;
+  if not IsBoundGlobal("IO_rename") then
+    Error("157df: official IO rename operation unavailable");
+  fi;
   tmp := Concatenation(path,".tmp");;
   f := OutputTextFile(tmp,false);;
   if f=fail then Error("157da: cannot open output ",tmp); fi;
   SetPrintFormattingStatus(f,false);;
   PrintTo(f,D972Q3Json(obj),"\n");; CloseStream(f);;
-  if IsExistingFile(path) then RemoveFile(path); fi;
-  if RenameFile(tmp,path)<>true then Error("157da: atomic rename failed: ",path); fi;
+  if IO_rename(tmp,path)<>true then Error("157df: atomic replacement failed: ",path); fi;
 end;;
 
 #############################################################################
@@ -1227,7 +1235,29 @@ end;;
 #############################################################################
 
 D972Q3SelfTest := function()
-  local f,c34,c45,d4,m,small,q,Q;
+  local f,c34,c45,d4,m,small,q,Q,smokePath,smokeFirst,smokeSecond,smokeRaw;
+  D972Q3AtomicIoSelftestMarkerCount:=0;;
+  smokePath:="ci/out/d972_b345_q3_atomic_io_smoke.json";;
+  smokeFirst:=rec(payload:="first",replacement:=1);;
+  smokeSecond:=rec(payload:="second",replacement:=2);;
+  D972Q3AtomicWrite(smokePath,smokeFirst);;
+  D972Q3AtomicWrite(smokePath,smokeSecond);;
+  if not IsExistingFile(smokePath) then
+    Error("157df selftest: atomic smoke output missing");
+  fi;
+  smokeRaw:=StringFile(smokePath);;
+  if smokeRaw<>Concatenation(D972Q3Json(smokeSecond),"\n") or
+     smokeRaw=Concatenation(D972Q3Json(smokeFirst),"\n") then
+    Error("157df selftest: atomic replacement readback drift");
+  fi;
+  RemoveFile(smokePath);;
+  if IsExistingFile(smokePath) then
+    Error("157df selftest: atomic smoke cleanup failed");
+  fi;
+  D972Q3AtomicIoSelftestMarkerCount:=
+    D972Q3AtomicIoSelftestMarkerCount+1;;
+  Print(D972Q3AtomicIoSelftestMarker,"\n");;
+  if IsBoundGlobal("FlushAllStreams") then FlushAllStreams(); fi;
   f:=D972Q3FormulaManifest();;
   if D972Q3Digest(f)<>D972Q3ExpectedFormulaSHA then
     Error("157da selftest: cross-language formula digest drift");
@@ -1447,6 +1477,21 @@ D972Q3Run := function()
   od;
   directScan:=D972Q3DirectScan(powers,correction,Q0,q0x,q0y,CoarseQ4,
     coarseQ4Marks,B2,b2x,b2y,Q4,m4,pc4.pcgs_internal,D972BDG9Series[2]);;
+  if directScan.stop_reason="FIRST_TYPED_WITNESS" and
+     directScan.solution_count=1 then
+    WriteLine(OutputTextUser(),Concatenation(
+      "D972_B345_Q3_DIRECT_SCAN_RESULT result=first_typed_witness evaluated=",
+      String(directScan.evaluated_candidates)," exponent=",
+      String(directScan.solutions[1].exponent)," correction_index=",
+      String(directScan.solutions[1].correction_index)));;
+  elif directScan.stop_reason="ALL_162_EXHAUSTED" and
+       directScan.solution_count=0 and directScan.evaluated_candidates=162 then
+    WriteLine(OutputTextUser(),
+      "D972_B345_Q3_DIRECT_SCAN_RESULT result=all_162_negative evaluated=162 next=PB5_typed_d2_bundle");;
+  else
+    Error("157df: direct scan terminal marker contract drift");
+  fi;
+  if IsBoundGlobal("FlushAllStreams") then FlushAllStreams(); fi;
   D972Q3Checkpoint("direct_scan",rec(schema:=D972Q3Schema,phase:="direct_scan",
     correction_fibre:=correctionPublic,canonical_roof_powers:=powers,
     direct_word_scan:=directScan));;

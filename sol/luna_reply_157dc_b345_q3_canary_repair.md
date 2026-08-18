@@ -97,3 +97,33 @@ before ANUPQ because GAP serialized empty lists as strings. The superseding
 157dd guard handles a length-zero list before `IsString`; it changes no formula,
 predicate, universe, schema, or terminal. The next GHA canary is the required
 runtime test.
+
+## 157df atomic-write supersession
+
+Canary `32130817181` passed; full run `32131160061` stopped before ANUPQ at
+the first checkpoint because the GAP process lacked the prior rename binding.
+The producer now loads the official IO package, closes its same-directory
+temporary stream, and accepts replacement only when `IO_rename` returns true.
+It does not remove the destination first and fails closed on package,
+operation, or return-value failure.
+
+The producer self-test performs two writes to
+`ci/out/d972_b345_q3_atomic_io_smoke.json`, checks the exact second canonical
+JSON plus newline against the first payload, removes the smoke file, and emits
+exactly one `D972_B345_Q3_ATOMIC_IO_SELFTEST_PASS backend=IO_rename replace=true`
+marker. The thin driver creates `ci/out` before reading the producer and gates
+the marker count at one. The direct scan has one immediate post-return branch
+marker for first typed witness or all 162 exhausted, with no per-candidate
+logging and no A/B conclusion.
+
+The superseding code hashes are:
+
+```text
+search/d972_b345_q3_chief_v1.g        76,704  e3dad87ad066fc9c605e1eecaddbe63efd63ac68500e0fcff0d6d62eb7d83af3
+search/d972_b345_q3_gha_driver_v1.g    5,463  6a3cb5339468dd7f1b214c67d9791b0f752d0df625f06781470dc24c92a8a859
+search/check_d972_b345_q3_chief_v1.py 87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
+```
+
+No formula, predicate, candidate order, terminal mapping, ANUPQ budget,
+receipt acceptance, or checker code changed. Ready token:
+`B345_Q3_ATOMIC_WRITE_REPAIR_READY_FOR_GHA`.

@@ -81,3 +81,32 @@ its frozen producer SHA. The checker pin remains exactly
 Run `32130140976` is recorded as a pre-ANUPQ serialization stop, not an ANUPQ
 or mathematical result. The next registered GHA canary is the runtime test of
 this repair.
+
+## 157df atomic-write supersession
+
+Canary `32130817181` passed. Full run `32131160061` stopped before ANUPQ at
+the first checkpoint because the GAP process lacked the prior rename binding.
+The producer now uses the official IO package and a closed same-directory
+temporary stream with `IO_rename`; destination deletion before replacement is
+not permitted, and all package/operation/return failures are fatal.
+
+Its self-test performs two atomic writes to the fixed `ci/out` smoke path,
+reads back the second exact canonical JSON plus newline, verifies it differs
+from the first payload, removes the smoke file, and emits exactly one
+`D972_B345_Q3_ATOMIC_IO_SELFTEST_PASS backend=IO_rename replace=true` marker.
+The driver creates `ci/out` before reading the producer and enforces the
+producer marker count. Immediately after the direct scan, one branch marker
+records first typed witness or all 162 exhausted; it is not an A/B conclusion.
+
+Current hashes:
+
+```text
+search/d972_b345_q3_chief_v1.g        76,704  e3dad87ad066fc9c605e1eecaddbe63efd63ac68500e0fcff0d6d62eb7d83af3
+search/d972_b345_q3_gha_driver_v1.g    5,463  6a3cb5339468dd7f1b214c67d9791b0f752d0df625f06781470dc24c92a8a859
+search/check_d972_b345_q3_chief_v1.py 87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
+```
+
+The static semantic diff is limited to I/O, self-test, and logging gates;
+formula, predicate, universe/order, terminal mapping, ANUPQ budget, receipt
+acceptance, and checker remain unchanged. Ready token:
+`B345_Q3_ATOMIC_WRITE_REPAIR_READY_FOR_GHA`.
