@@ -134,7 +134,7 @@ sigma2: x12 -> [-4,2,4]
 sigma3: x13 -> [-6,3,6], x23 -> [-6,5,6]
 ```
 
-を producer/checker 双方へ反映した。task の「one lightweight selftest」上限を消費したため再実行はしていない。修正後は Python AST PASS、placeholder なし、producer/checker SHA chain と driver pin 一致を静的確認した。したがって最初の GHA では driver の selftest mode を先行させること。
+を producer/checker 双方へ反映した。task の「one lightweight selftest」上限を消費したためローカル再実行はしていない。修正後は Python AST PASS、placeholder なし、producer/checker SHA chain と driver pin 一致を静的確認した。その後、下記 GHA canary で修正後の全 selftest を実行し、12 mutation を含め PASS した。
 
 ## 性能契約
 
@@ -156,6 +156,23 @@ source-only estimate は selftest/full とも数十秒以内、保守的上限 2
 - full-verbal tower への乗換え: 実施していない
 - `K` の isolatedness: 未証明。ただし FV-5 によりこの登録/NA-5適用の前件ではない
 
+## GHA 実行記録（2026-08-19 JST）
+
+- 実装登録 commit: `016cc6560d8f7f1e5680e49a9e6b15fbcf5ed812`
+- pinned T-40 正本追加後の実行 commit: `6c5eb06ad4e7745ddb1d9021897c9c24aee233ee`
+- 初回 canary run `32153199365`: failure。数学コードへ入る前に、pinned `docs/notes/fullverbal_tower_screening_v1.md` が当該 commit に未収録だったため fail-closed。正本を上記 successor commit に追加した。
+- 再 canary run `32153625886`: success。
+  - `D972_B4_FC8_CHECKED_IO_SELFTEST_PASS`
+  - `D972_B4_FC8_CHECKER_SELFTEST_PASS mutations=12 h9_nakayama_rank=12`
+  - `FC8_A5_FOUR_GHA_DRIVER_PASS mode=selftest`
+- full run `32153799126`: success。
+  - producer terminal: `FC8_A5_FOUR_CHIEF_CROSSCHECKED`
+  - independent checker: `S=A5 t=4 CB3=cyclic`
+  - producer runtime: `601 ms`
+  - receipt SHA-256: `558faee7864ab1162aaa40a9d2e2ad7bd1926987561cde9e3d3a9ee69690c584`
+
+従ってこの便の正確な終端は次である。
+
 ```text
-FC8_A5_FOUR_IMPLEMENTED_GHA_SELFTEST_PENDING
+FC8_A5_FOUR_CHIEF_CROSSCHECKED
 ```
