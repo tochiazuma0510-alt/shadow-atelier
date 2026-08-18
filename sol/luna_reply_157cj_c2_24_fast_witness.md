@@ -114,13 +114,13 @@ Final SHA-256 bindings:
 
 ```text
 search/d972_d972core_c2six_intersection_v2.g
-40aa4ce7ff0250f41369348335c4f42bbffe699cc5b0b8b6123b9d2b13042058
+57b340ad02d2864355ed5e2bd4c6ee4500a4509dafd5152e71c84b513b2738ad
 
 search/check_d972_d972core_c2six_intersection_v2.py
 c84519d3d0f9d9e5d97c229220ef95cf178f8948661fd67663cda1b388619a90
 
 .github/workflows/d972-d972core-c2six-intersection-v2.yml
-b5b85ad8f5bab159d510a8dc2df32124d9bf323276c477004e23f9d9b106b953
+45f14fba45498cb16f0a0da9455a249f78bc57a367518a135932b59e9b8bc879
 ```
 
 The GHA receipt is still required before treating the bundle as
@@ -131,3 +131,32 @@ the action-ref fixture had literal backslashes around the awk string quotes.
 The v2 workflow now contains the valid YAML-literal shell form
 `awk '$1 == "uses:" { print $2 }'`; no mathematical or producer logic was
 changed.
+
+## Post-run producer convention repair
+
+Run `32083594772` completed the producer's mathematical computation (including
+rank 24) in about one second, but the independent checker failed at
+`P tuple table mismatch at 1,3`.  The cause was a genuine convention mismatch:
+the producer's `D972BDMatPerm` used the old column/Mobius formula, while the
+checker intentionally uses the canonical row-vector action
+`(left,right) -> (left,right)M` with affine coordinate `second/first`.
+
+The authorized producer was repaired minimally.  Its infinity and affine
+branches now use exactly the checker formula; the independent
+abstract-to-canonical quotient homomorphism gate and all E/G9 logic are
+unchanged.  The workflow producer binding was refreshed.  This repair is not
+a mathematical result and requires a parent-dispatched rerun before the
+bundle can be called cross-checked.
+
+Current bindings after the repair:
+
+```text
+search/d972_d972core_c2six_intersection_v2.g
+57b340ad02d2864355ed5e2bd4c6ee4500a4509dafd5152e71c84b513b2738ad
+
+search/check_d972_d972core_c2six_intersection_v2.py
+c84519d3d0f9d9e5d97c229220ef95cf178f8948661fd67663cda1b388619a90
+
+.github/workflows/d972-d972core-c2six-intersection-v2.yml
+45f14fba45498cb16f0a0da9455a249f78bc57a367518a135932b59e9b8bc879
+```

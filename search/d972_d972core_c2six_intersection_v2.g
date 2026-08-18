@@ -260,13 +260,16 @@ D972BDMatPerm:=function(M)
   local images,a,b,c,d,num,den,x;
   a:=M[1][1];; b:=M[1][2];; c:=M[2][1];; d:=M[2][2];;
   images:=[];;
+  # The independent checker uses the ordered row-vector model
+  # (left,right) -> (left,right)M, with affine coordinate second/first.
+  # Keep this canonical P model byte-for-byte convention-compatible.
   if c=0 then images[1]:=1;
-  else images[1]:=2+D972BDMul(a,D972BDInv(c)); fi;
+  else images[1]:=2+D972BDMul(d,D972BDInv(c)); fi;
   for x in [0..7] do
-    num:=D972BDXor(D972BDMul(a,x),b);;
-    den:=D972BDXor(D972BDMul(c,x),d);;
-    if den=0 then images[2+x]:=1;
-    else images[2+x]:=2+D972BDMul(num,D972BDInv(den)); fi;
+    num:=D972BDXor(a,D972BDMul(x,c));;
+    den:=D972BDXor(b,D972BDMul(x,d));;
+    if num=0 then images[2+x]:=1;
+    else images[2+x]:=2+D972BDMul(den,D972BDInv(num)); fi;
   od;
   return PermList(images);
 end;;
