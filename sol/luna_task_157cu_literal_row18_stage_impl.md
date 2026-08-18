@@ -83,11 +83,27 @@ Current implementation pointer (2026-08-18 JST):
   checkout.  This is a CI packaging failure, not a finite or mathematical
   result.  Task `157cw` is adding a fail-closed download of the official
   PackageGT ZIP (archive and PaB member both SHA-pinned) without vendoring it.
-  That `157cw` repair is now statically complete; the next action is exact
-  staging/push and immediate redispatch through the registered launcher.
+  Parent committed/pushed that `157cw` repair as
+  `9832127ee234b5d978a8ae4a794b293b8e0abdc4` and redispatched the literal
+  gate as GHA run `32090719159`, now running.
   The same push also started unchanged fast-core confirmation run
   `32090192885`, currently running.  Repair only this concrete packaging
   failure and redispatch; no proof-side audit intervenes.
+- Run `32090719159` remains the primary immutable terminal run and must not be
+  cancelled.  Task `157cx` produced a semantics-preserving performance
+  contingency: cheap exact gates precede the two onto `Size(Group(...))`
+  calls, repeated word evaluations are cached, and flushed phase markers are
+  added.  It changes no accepted solution, gate, receipt meaning, or proof
+  claim.  Parent static review passed, and the exact five-file bundle was
+  committed/pushed as
+  `4cf64130b7956fe7d790d4840488c6995943868d`; producer SHA is
+  `18a9ce2fce470cf27b1fd822ab1863a92abb7b9c3e2aaf0bf5144bc4d154f326`
+  and workflow SHA is
+  `b5f0d6ba799874c3c4133e37a62f6d1eb8473d99906169e28be3aeafd3aafb11`.
+  Parent dispatched accelerated GHA run `32094134098`; it is running in
+  parallel while immutable original run `32090719159` continues.  Whichever
+  same-gate run completes first must still pass the unchanged independent
+  checker before its receipt is used.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
