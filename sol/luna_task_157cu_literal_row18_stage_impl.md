@@ -48,8 +48,25 @@ Current implementation pointer (2026-08-18 JST):
   it required all 13 intermediate E-solver generators to have trivial P
   image, which is impossible for generators closing to E of order 32256 over
   V of order 64.  The exact stored P values replay; G9 is trivial; the final
-  24 expanded basis words are P/G9-trivial.  Luna is removing only that
-  contradictory intermediate-P gate and refreshing the checker binding.
+  24 expanded basis words are P/G9-trivial.  Luna removed only that
+  contradictory intermediate-P gate; parent Sol committed/pushed it as
+  `0ca94d88f53e496e721bb2a86bf59c6e2e962192`.  Automatic cross-check rerun
+  `32088693149` completed successfully: GAP producer and independent Python
+  checker agree on the lossless 24-word basis, `rank=24`, with all final
+  P/G9 gates passing.  This is the current cross-checked finite C2^24 input
+  for `157cu` (not a Lean verification and not by itself the terminal B4-B).
+- The four-file `157cu` literal-row18 bundle is implemented and has passed
+  parent static review.  Its current immutable hashes are producer
+  `e3a8df2d61d7e4f2527bd3a46ef631c2349f2b1f31d1afa84266f545d040c6d9`,
+  independent checker
+  `1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649`,
+  and workflow
+  `589b445975c9eac3452ca7bf13ddc3916a3d92b180874ae6f8a4691e42e12581`.
+  The stale C2 dependency pins are repaired.  The exact B4 action-image gate
+  now includes four single-coordinate commutator witnesses, factor normal
+  closures of order 504, and the transitive coordinate S4 certificate in
+  both producer and independent checker.  The next action is parent-only
+  exact staging, push, and workflow dispatch; no proof-side audit intervenes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.

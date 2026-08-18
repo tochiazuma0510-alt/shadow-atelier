@@ -220,3 +220,11 @@ search/d972_d972core_c2six_intersection_v2.g
 search/check_d972_d972core_c2six_intersection_v2.py
 ab6b26d40c268de5e309ebcd9b56eddd52e91de2cc147ef8a1af9198a6523761
 ```
+
+## Successful rerun
+
+GHA run `32088693149` completed successfully: GAP self-test PASS, checker
+self-test PASS, producer `CORE_INTERSECTION_V2_COMPUTED` with `rank=24`, and
+independent `D972_CORE_INTERSECTION_V2_CHECK_PASS`.  This is a
+cross-checked finite `C2^24` result.  It is not Lean-verified and is not by
+itself a terminal B4-B conclusion.

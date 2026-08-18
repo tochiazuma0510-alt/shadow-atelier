@@ -1,0 +1,148 @@
+name: d972-b4-literal-row18-stage-v1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LR_PRODUCER_SHA256: "e3a8df2d61d7e4f2527bd3a46ef631c2349f2b1f31d1afa84266f545d040c6d9"
+  LR_CHECKER_SHA256: "1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649"
+  LR_CORE_PRODUCER_SHA256: "577de029a49e2db3a33cf3b4437c78548214f9635b1750185d48a5385c161f4c"
+  LR_CORE_CHECKER_SHA256: "ab6b26d40c268de5e309ebcd9b56eddd52e91de2cc147ef8a1af9198a6523761"
+  LR_SOURCE_SHA256: "648335000ff70f37d357c9c27ec5054cd4366b281c616f0391c4c7580cd4bcb9"
+  LR_SOURCE_CHECK_SHA256: "90db0fc500eb44bd905059d7a00dfaf4920c8c9890ed151d773141456fd059bb"
+  LR_MAPS_SHA256: "6bab29852ec35210abe7bfc46e68c5457abc76653af3778921a71be8256dbfc2"
+  LR_MAP_CHECKER_SHA256: "eb87e9d42ecde979b82a31beec8fdedea3e221a55d4881f8a71dbaffc2a7a032"
+  LR_GN_SHA256: "aadf1afa5e1a171d10d0aa1f9657e823cad669b960e08da7b9e7618f2ea4f998"
+  LR_DOVETAIL_SHA256: "1c3348003805df874ab6d42503720259564eec25c1aebfb1c548a759e3d9f7ae"
+  LR_WORDS_SHA256: "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"
+  LR_TUPLES_SHA256: "cfa1f3a917e2cd9d21ceaa7f77539633ccb22e8585da8b3248609008d0391801"
+  LR_LITERAL_SHA256: "c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9"
+  LR_PAB_SHA256: "e54c08d3437d0706b4639d7db31f7177c1c82de9c2f820fa7b194fa1c4e378f2"
+
+jobs:
+  literal-row18-stage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@f12222f1b86ce1f8a246c4000abfd6e69893411c
+        with:
+          gap-version: "4.16.0"
+
+      - name: Install pinned JSON package
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends ca-certificates curl build-essential libgmp-dev libreadline-dev libncurses-dev zlib1g-dev
+          json_root="$(mktemp -d "${RUNNER_TEMP}/d972-lr-json.XXXXXX")"
+          json_url='https://github.com/gap-packages/json/releases/download/v2.4.0/json-2.4.0.tar.gz'
+          json_sha='ce49399f5f5dc4caf95213f5dd7ec09988f2ae93364817e88ff075a09a22826a'
+          curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 -o "$json_root/json.tgz" "$json_url"
+          printf '%s  %s\n' "$json_sha" "$json_root/json.tgz" | sha256sum --check --status
+          mkdir -p "$json_root/pkg"
+          tar --extract --gzip --no-same-owner -f "$json_root/json.tgz" -C "$json_root/pkg"
+          json_src="$(find "$json_root/pkg" -mindepth 1 -maxdepth 1 -type d -name 'json-*' -print -quit)"
+          test -n "$json_src"
+          mv "$json_src" "$json_root/pkg/json"
+          test -n "${GAPROOT:-}"
+          (cd "$json_root/pkg/json" && ./configure --with-gaproot="$GAPROOT" && make -j"$(nproc)")
+          printf 'LR_JSON_ROOT=%s\n' "$json_root" >> "$GITHUB_ENV"
+
+      - name: Bind executable and all frozen input hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          action_refs="$(awk '$1 == "uses:" { print $2 }' .github/workflows/d972-b4-literal-row18-stage-v1.yml)"
+          test -n "$action_refs"
+          while IFS= read -r action_ref; do
+            [[ "$action_ref" =~ ^[^@]+@[0-9a-fA-F]{40}$ ]] || { echo "mutable action ref: $action_ref" >&2; exit 1; }
+          done <<< "$action_refs"
+          printf '%s  %s\n' "$LR_PRODUCER_SHA256" search/d972_b4_literal_row18_stage_v1.g | sha256sum --check --status
+          printf '%s  %s\n' "$LR_CHECKER_SHA256" search/check_d972_b4_literal_row18_stage_v1.py | sha256sum --check --status
+          printf '%s  %s\n' "$LR_CORE_PRODUCER_SHA256" search/d972_d972core_c2six_intersection_v2.g | sha256sum --check --status
+          printf '%s  %s\n' "$LR_CORE_CHECKER_SHA256" search/check_d972_d972core_c2six_intersection_v2.py | sha256sum --check --status
+          printf '%s  %s\n' "$LR_SOURCE_SHA256" search/certs/d972_phase2b_nonsplit_v1_20260813.json | sha256sum --check --status
+          printf '%s  %s\n' "$LR_SOURCE_CHECK_SHA256" search/certs/d972_phase2b_nonsplit_v1_check_20260813.json | sha256sum --check --status
+          printf '%s  %s\n' "$LR_MAPS_SHA256" search/certs/d972_b4_marity_reduction_maps_v1.json | sha256sum --check --status
+          printf '%s  %s\n' "$LR_MAP_CHECKER_SHA256" search/check_d972_b4_marity_reduction_maps_v1.py | sha256sum --check --status
+          printf '%s  %s\n' "$LR_GN_SHA256" search/week3-battery-common.g | sha256sum --check --status
+          printf '%s  %s\n' "$LR_DOVETAIL_SHA256" search/d972_dovetail_core_v2.g | sha256sum --check --status
+          printf '%s  %s\n' "$LR_WORDS_SHA256" search/certs/d972_b4_word_key_artifact_v1_20260816.json | sha256sum --check --status
+          printf '%s  %s\n' "$LR_TUPLES_SHA256" search/certs/nf972_sourcemap_a_tuples_v2_20260804.json | sha256sum --check --status
+          printf '%s  %s\n' "$LR_LITERAL_SHA256" search/certs/d972_b4_p2_magnus_input_v2_20260816.json | sha256sum --check --status
+          printf '%s  %s\n' "$LR_PAB_SHA256" thirdparty/packageGT/extracted/PackageGT/PaB.py | sha256sum --check --status
+          python3 -m py_compile search/check_d972_b4_literal_row18_stage_v1.py
+
+      - name: Static independent mutation tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python3 search/check_d972_b4_literal_row18_stage_v1.py --self-test | tee ci/out/check-selftest.log
+          grep -Fxc 'D972_B4_LITERAL_ROW18_STAGE_V1_CHECKER_SELFTEST_PASS' ci/out/check-selftest.log | grep -Fx 1
+
+      - name: Exact producer with bounded resource outcome
+        id: producer
+        shell: bash
+        run: |
+          set -euo pipefail
+          receipt='ci/out/d972_b4_literal_row18_stage_v1.json'
+          printf '%s\n' \
+            'if GAPInfo.Version <> "4.16.0" then Error("157cu: GAP version drift"); fi;;' \
+            'D972_LITERAL_ROW18_MODE:="full";;' \
+            'D972_LITERAL_ROW18_OUTPUT:="ci/out/d972_b4_literal_row18_stage_v1.json";;' \
+            'D972_LITERAL_ROW18_CORE_OUTPUT:="ci/out/d972_d972core_c2six_intersection_v2.json";;' \
+            'Read("search/d972_b4_literal_row18_stage_v1.g");' \
+            > ci/out/driver-full.g
+          set +e
+          timeout --signal=TERM --kill-after=30s 100m \
+            gap -l "$GAPROOT;$LR_JSON_ROOT" --quitonbreak -q ci/out/driver-full.g \
+            2>&1 | tee ci/out/gap-full.log
+          gap_status=${PIPESTATUS[0]}
+          set -e
+          if [ "$gap_status" -eq 124 ]; then
+            python3 - "$receipt" <<'PY'
+          import json,sys
+          json.dump({"schema":"d972-b4-literal-row18-stage/v1",
+                     "final_marker":"D972_B4_LITERAL_ROW18_STAGE_V1_FINAL",
+                     "status":"UNKNOWN_RESOURCE","reason":"bounded 100 minute GAP timeout",
+                     "proof_level":"UNKNOWN"},open(sys.argv[1],"w",encoding="utf-8"),sort_keys=True)
+          PY
+            printf 'timed_out=true\n' >> "$GITHUB_OUTPUT"
+            echo 'D972_B4_LITERAL_ROW18_STAGE_V1_TIMEOUT status=UNKNOWN_RESOURCE'
+            exit 0
+          fi
+          printf 'timed_out=false\n' >> "$GITHUB_OUTPUT"
+          test "$gap_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,|break loop)' ci/out/gap-full.log
+          grep -Fxc 'D972_B4_LITERAL_ROW18_STAGE_V1_FINAL' ci/out/gap-full.log | grep -Fx 1
+          test -s "$receipt"
+
+      - name: Independent core and literal-stage replay
+        if: ${{ steps.producer.outputs.timed_out == 'false' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 search/check_d972_d972core_c2six_intersection_v2.py \
+            --receipt ci/out/d972_d972core_c2six_intersection_v2.json | tee ci/out/check-core.log
+          python3 search/check_d972_b4_literal_row18_stage_v1.py \
+            --receipt ci/out/d972_b4_literal_row18_stage_v1.json | tee ci/out/check-stage.log
+          grep -Fxc 'D972_B4_LITERAL_ROW18_STAGE_V1_CHECK_PASS ci/out/d972_b4_literal_row18_stage_v1.json' ci/out/check-stage.log | grep -Fx 1
+
+      - name: Upload lossless row18 stage evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: d972-b4-literal-row18-stage-v1-${{ github.run_id }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: |
+            ci/out/
