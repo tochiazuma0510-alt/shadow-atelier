@@ -514,7 +514,7 @@ D972LRPhaseEnd("fp_artin_action",D972LRPhaseStart);;
 #############################################################################
 ## Literal A.18 transport, row 18, and the exact finite torsor equation.
 #############################################################################
-D972LRPhaseStart:=D972LRPhaseBegin("literal_a18_relation_closure");;
+D972LRPhaseStart:=D972LRPhaseBegin("literal_a18_reconstruction");;
 D972LRPrefix:=D972LRLiteral.all_relators{[1..18]};;
 D972LRSeeds:=D972LRLiteral.all_relators{[19..46]};;
 if D972LRDigest(D972LRPrefix)<>D972LRPrefixSha or D972LRDigest(D972LRSeeds)<>D972LRSeedSha then
@@ -657,66 +657,210 @@ if D972LRDigest(List(D972LRWords.rows,r->D972LRDtildeWord(r[3])))<>D972LRDtildeS
   Error("157cu: all-row ordered Dtilde digest drift");
 fi;;
 
-## Literal prefix is a true PB4 boundary.  Raw coface rows must vanish in the
-## base P4/G9^4 quotient and give marked vectors in V4 upstairs.
+## Literal prefix is a true PB4 boundary.  The 140 individual coface rows need
+## not lie in the marked kernel: the literal boundary is obtained only after
+## taking their normal closure jointly with the 18 prefix relators.
 if ForAny(D972LRPrefix,w->D972LRWordElm(w,D972BDTupleGens)<>One(D972BDTupleGens[1])) or
    ForAny(D972LRPrefix,w->D972LRWordElm(w,D972BDTupleG9Gens)<>One(D972BDTupleG9Gens[1])) then
   Error("157cu: K(0,5) prefix relation replay drift");
 fi;;
-D972LRRawMasks:=[];;
-for D972LRI in [1..Length(D972LRA18Rows)] do
-  D972LRW:=D972LRA18Rows[D972LRI];;
-  D972LRRawP:=D972LRWordElm(D972LRW,D972BDTuplePGens);;
-  D972LRRawG9:=D972LRWordElm(D972LRW,D972BDTupleG9Gens);;
-  if D972LRRawP<>One(D972BDTuplePGens[1]) or
-     D972LRRawG9<>One(D972BDTupleG9Gens[1]) then
-    Error("157cu: raw A.18 row does not lie in the marked C2 stage: index=",
-      D972LRI," coface=",D972LRA18Meta[D972LRI].coface,
-      " seed=",D972LRA18Meta[D972LRI].seed_index,
-      " P_order=",Order(D972LRRawP)," P_array=",
-      D972BDZeroArray(D972LRRawP,4*D972BDDegreeP),
-      " G9_order=",Order(D972LRRawG9)," G9_array=",
-      D972BDZeroArray(D972LRRawG9,4*D972BDDegreeG9));
-  fi;
-  Add(D972LRRawMasks,D972LRMask24(D972LRWordElm(D972LRW,D972BDTupleGens)));
-od;
 
-## Close the relation-boundary image under the computed Artin action.  Each
-## independent generator retains an actual conjugated word and action path.
-D972LRRelationSpan:=D972LRNewSpan(24);; D972LRRelationGens:=[];; D972LRPos:=1;;
-for D972LRI in [1..140] do
-  D972LRM:=D972LRRawMasks[D972LRI];; D972LRJ:=Length(D972LRRelationGens)+1;;
-  if D972LRInsert(D972LRRelationSpan,D972LRM,2^(D972LRJ-1)) then
-    Add(D972LRRelationGens,rec(vector:=D972LRM,word:=D972LRA18Rows[D972LRI],
-      raw_index:=D972LRI,action_word:=[]));
+D972LRPhaseEnd("literal_a18_reconstruction",D972LRPhaseStart);;
+
+## Search only for a positive certificate C <= <<literal relators>>.  The
+## subgroup grows monotonically by independent literal-relator conjugates;
+## targets are tested in one batch at the end of each breadth-first round and
+## the search stops as soon as all 24 marked basis elements are present.
+D972LRPhaseStart:=D972LRPhaseBegin("literal_normal_membership_search");;
+D972LRLiteralRelators:=Concatenation(D972LRPrefix,D972LRA18Rows);;
+D972LRJointGens:=List([1..6],i->
+  D972BDJoint(D972BDTupleRows[i],D972BDTupleG9Rows[i]));;
+D972LRJointOne:=One(D972LRJointGens[1]);;
+D972LRLiteralJointValues:=List(D972LRLiteralRelators,w->
+  D972LRWordElm(w,D972LRJointGens));;
+D972LRTargetJoint:=List(D972BDWords,r->
+  D972LRWordElm(r.source_word,D972LRJointGens));;
+D972LRNormalRecords:=[];; D972LRNormalValues:=[];;
+D972LRNormalGroup:=Group(D972LRJointOne);;
+## J <= E^4 x G9^4, so every strict subgroup enlargement at least doubles
+## order and there are at most floor(log2((32256*2916)^4))=105 of them.
+## Each retained generator is conjugated by the six actors and their inverses.
+D972LRNormalGeneratorBound:=105;; D972LRAttemptBound:=1260;;
+for D972LRI in [1..Length(D972LRLiteralRelators)] do
+  D972LRValue:=D972LRLiteralJointValues[D972LRI];;
+  if not D972LRValue in D972LRNormalGroup then
+    Add(D972LRNormalRecords,rec(base_relator_index:=D972LRI,
+      conjugator_word:=[],word:=D972LRLiteralRelators[D972LRI],
+      element:=D972LRValue));;
+    Add(D972LRNormalValues,D972LRValue);;
+    D972LRNormalGroup:=ClosureGroup(D972LRNormalGroup,D972LRValue);;
+    if Length(D972LRNormalRecords)>D972LRNormalGeneratorBound then
+      Error("157cu: literal normal generator bound exceeded during raw insertion");
+    fi;
   fi;
 od;
-while D972LRPos<=Length(D972LRRelationGens) do
-  D972LRR:=D972LRRelationGens[D972LRPos];; D972LRPos:=D972LRPos+1;;
-  for D972LRI in [1..3] do
-    D972LRM:=D972LRApplyMatrix(D972LRR.vector,D972LRActionRows[D972LRI]);;
-    if D972LRSolve(D972LRRelationSpan,D972LRM)=fail then
-      D972LRW:=D972LRSubstitute(D972LRR.word,D972LRArtinWords[D972LRI]);;
-      if D972LRMask24(D972LRWordElm(D972LRW,D972BDTupleGens))<>D972LRM then
-        Error("157cx2: relation/action equivariance drift");
+D972LRUnresolved:=Filtered([1..24],i->
+  not D972LRTargetJoint[i] in D972LRNormalGroup);;
+D972LRActorLetters:=Concatenation([1..6],List([1..6],i->-i));;
+D972LRPos:=1;; D972LRRound:=0;; D972LRAttempts:=0;;
+WriteLine(OutputTextUser(),Concatenation(
+  "D972_ROW18_NORMAL_SEARCH round=0 additions=",
+  String(Length(D972LRNormalRecords))," generators=",
+  String(Length(D972LRNormalRecords))," unresolved=",
+  String(D972LRUnresolved)," runtime_ms=",String(Runtime())));;
+while Length(D972LRUnresolved)>0 and D972LRPos<=Length(D972LRNormalRecords) do
+  D972LRRound:=D972LRRound+1;;
+  D972LRRoundEnd:=Length(D972LRNormalRecords);;
+  D972LRRoundAdded:=0;;
+  while D972LRPos<=D972LRRoundEnd do
+    D972LRR:=D972LRNormalRecords[D972LRPos];;
+    D972LRPos:=D972LRPos+1;;
+    for D972LRLetter in D972LRActorLetters do
+      D972LRAttempts:=D972LRAttempts+1;;
+      if D972LRAttempts>D972LRAttemptBound then
+        Error("157cu: literal normal conjugation-attempt bound exceeded");
       fi;
-      D972LRJ:=Length(D972LRRelationGens)+1;;
-      if not D972LRInsert(D972LRRelationSpan,D972LRM,2^(D972LRJ-1)) then
-        Error("157cx2: relation independence race");
+      if D972LRLetter>0 then
+        D972LRActor:=D972LRJointGens[D972LRLetter];;
+      else
+        D972LRActor:=D972LRJointGens[-D972LRLetter]^-1;;
       fi;
-      Add(D972LRRelationGens,rec(vector:=D972LRM,word:=D972LRW,
-        raw_index:=D972LRR.raw_index,
-        action_word:=Concatenation(D972LRR.action_word,[D972LRI])));
-    fi;
+      D972LRValue:=D972LRR.element^D972LRActor;;
+      if not D972LRValue in D972LRNormalGroup then
+        D972LRConjugator:=D972LRReduce(Concatenation(
+          D972LRR.conjugator_word,[D972LRLetter]));;
+        D972LRW:=D972LRReduce(Concatenation(D972LRInvWord(D972LRConjugator),
+          D972LRLiteralRelators[D972LRR.base_relator_index],D972LRConjugator));;
+        if D972LRWordElm(D972LRW,D972LRJointGens)<>D972LRValue then
+          Error("157cu: tracked literal conjugate replay drift");
+        fi;
+        Add(D972LRNormalRecords,rec(
+          base_relator_index:=D972LRR.base_relator_index,
+          conjugator_word:=D972LRConjugator,word:=D972LRW,
+          element:=D972LRValue));;
+        Add(D972LRNormalValues,D972LRValue);;
+        D972LRNormalGroup:=ClosureGroup(D972LRNormalGroup,D972LRValue);;
+        if Length(D972LRNormalRecords)>D972LRNormalGeneratorBound then
+          Error("157cu: literal normal generator bound exceeded during closure");
+        fi;
+        D972LRRoundAdded:=D972LRRoundAdded+1;;
+      fi;
+    od;
   od;
+  D972LRUnresolved:=Filtered(D972LRUnresolved,i->
+    not D972LRTargetJoint[i] in D972LRNormalGroup);;
+  WriteLine(OutputTextUser(),Concatenation(
+    "D972_ROW18_NORMAL_SEARCH round=",String(D972LRRound),
+    " additions=",String(D972LRRoundAdded),
+    " generators=",String(Length(D972LRNormalRecords)),
+    " unresolved=",String(D972LRUnresolved),
+    " runtime_ms=",String(Runtime())));;
+  if D972LRRoundAdded=0 and Length(D972LRUnresolved)>0 then break; fi;
 od;
+if Length(D972LRUnresolved)>0 then
+  Error("157cu: literal normal closure misses marked C basis indices=",
+    D972LRUnresolved," tracked_generators=",Length(D972LRNormalRecords),
+    " conjugation_attempts=",D972LRAttempts);
+fi;;
+D972LRNormalSearchGeneratorCount:=Length(D972LRNormalRecords);;
+D972LRPhaseEnd("literal_normal_membership_search",D972LRPhaseStart);;
+
+## Extract 24 actual words in literal conjugates, expand them back to F6, and
+## compact the receipt to the normal generators used by those preimages.
+D972LRPhaseStart:=D972LRPhaseBegin("literal_normal_certificate_expansion");;
+D972LRNormalFree:=FreeGroup(Length(D972LRNormalRecords),"lr_literal_normal");;
+D972LRNormalFreeGens:=GeneratorsOfGroup(D972LRNormalFree);;
+D972LRNormalEpi:=GroupHomomorphismByImages(D972LRNormalFree,D972LRNormalGroup,
+  D972LRNormalFreeGens,D972LRNormalValues);;
+if D972LRNormalEpi=fail then Error("157cu: literal normal epimorphism failed"); fi;;
+D972LRBasisCombinations:=[];;
+for D972LRI in [1..24] do
+  D972LRPre:=PreImagesRepresentative(D972LRNormalEpi,D972LRTargetJoint[D972LRI]);;
+  if D972LRPre=fail then
+    Error("157cu: marked C basis preimage failed at index=",D972LRI);
+  fi;
+  D972LRCombination:=D972LRReduce(D972BDSignedWord(D972LRPre));;
+  D972LRW:=D972LRSubstitute(D972LRCombination,
+    List(D972LRNormalRecords,r->r.word));;
+  D972LRE:=D972LRWordElm(D972LRW,D972BDTupleGens);;
+  D972LRP:=D972LRWordElm(D972LRW,D972BDTuplePGens);;
+  D972LRG9:=D972LRWordElm(D972LRW,D972BDTupleG9Gens);;
+  D972LRM:=D972LRMask24(D972LRE);;
+  if D972LRP<>One(D972BDTuplePGens[1]) or
+     D972LRG9<>One(D972BDTupleG9Gens[1]) or D972LRM<>2^(D972LRI-1) then
+    Error("157cu: literal normal C-basis replay failed at index=",D972LRI,
+      " mask=",D972LRM," P_order=",Order(D972LRP),
+      " G9_order=",Order(D972LRG9));
+  fi;
+  Add(D972LRBasisCombinations,rec(basis_index:=D972LRI,
+    target_source_word:=D972BDWords[D972LRI].source_word,
+    normal_generator_word:=D972LRCombination,expanded_word:=D972LRW,
+    E_mask:=D972LRM,E_value:=D972LRE,P_value:=D972LRP,G9_value:=D972LRG9));
+od;
+D972LRUsedNormal:=Set(Concatenation(List(D972LRBasisCombinations,r->
+  List(r.normal_generator_word,AbsInt))));;
+if Length(D972LRUsedNormal)=0 then Error("157cu: empty literal normal certificate"); fi;;
+D972LRCompactNormal:=D972LRNormalRecords{D972LRUsedNormal};;
+for D972LRR in D972LRBasisCombinations do
+  D972LRCombination:=List(D972LRR.normal_generator_word,a->
+    SignInt(a)*Position(D972LRUsedNormal,AbsInt(a)));;
+  D972LRW:=D972LRSubstitute(D972LRCombination,
+    List(D972LRCompactNormal,r->r.word));;
+  if D972LRW<>D972LRR.expanded_word then
+    Error("157cu: compressed literal normal word drift");
+  fi;
+  D972LRR.normal_generator_word:=D972LRCombination;;
+od;
+D972LRNormalRecords:=D972LRCompactNormal;;
+D972LRNormalReceipt:=List([1..Length(D972LRNormalRecords)],i->rec(
+  index:=i,
+  base_relator_index:=D972LRNormalRecords[i].base_relator_index,
+  conjugator_word:=D972LRNormalRecords[i].conjugator_word,
+  word:=D972LRNormalRecords[i].word,
+  image_E:=D972BDZeroArray(D972LRWordElm(D972LRNormalRecords[i].word,
+    D972BDTupleGens),4*D972BDDegreeE),
+  image_P:=D972BDZeroArray(D972LRWordElm(D972LRNormalRecords[i].word,
+    D972BDTuplePGens),4*D972BDDegreeP),
+  image_G9:=D972BDZeroArray(D972LRWordElm(D972LRNormalRecords[i].word,
+    D972BDTupleG9Gens),4*D972BDDegreeG9)));;
+D972LRBasisCombinationReceipt:=List(D972LRBasisCombinations,r->rec(
+  basis_index:=r.basis_index,target_source_word:=r.target_source_word,
+  normal_generator_word:=r.normal_generator_word,expanded_word:=r.expanded_word,
+  E_mask:=r.E_mask,
+  image_E:=D972BDZeroArray(r.E_value,4*D972BDDegreeE),
+  image_P:=D972BDZeroArray(r.P_value,4*D972BDDegreeP),
+  image_G9:=D972BDZeroArray(r.G9_value,4*D972BDDegreeG9)));;
+WriteLine(OutputTextUser(),Concatenation(
+  "D972_ROW18_NORMAL_CERT search_generators=",
+  String(D972LRNormalSearchGeneratorCount)," certificate_generators=",
+  String(Length(D972LRNormalRecords))," combinations=24 attempts=",
+  String(D972LRAttempts)," runtime_ms=",String(Runtime())));;
+D972LRPhaseEnd("literal_normal_certificate_expansion",D972LRPhaseStart);;
+
+## These 24 actual literal-normal words are the standard marked C basis, so
+## D contains C; the accepted stage inclusion D<=C gives D=C.  Initialize the
+## relation span from exactly these words, not from the 140 raw coface rows.
+D972LRPhaseStart:=D972LRPhaseBegin("literal_relation_basis");;
+D972LRRelationSpan:=D972LRNewSpan(24);; D972LRRelationGens:=[];;
+for D972LRI in [1..24] do
+  D972LRM:=2^(D972LRI-1);;
+  if not D972LRInsert(D972LRRelationSpan,D972LRM,D972LRM) then
+    Error("157cu: standard literal relation basis dependence");
+  fi;
+  Add(D972LRRelationGens,rec(vector:=D972LRM,
+    word:=D972LRBasisCombinations[D972LRI].expanded_word,
+    basis_index:=D972LRI,
+    normal_generator_word:=D972LRBasisCombinations[D972LRI].normal_generator_word,
+    action_word:=[]));
+od;
+if D972LRRelationSpan.rank<>24 then Error("157cu: literal relation rank drift"); fi;;
 for D972LRR in D972LRRelationGens do for D972LRI in [1..3] do
   if D972LRSolve(D972LRRelationSpan,
      D972LRApplyMatrix(D972LRR.vector,D972LRActionRows[D972LRI]))=fail then
     Error("157cu: relation boundary is not B4 invariant");
   fi;
 od; od;
-D972LRPhaseEnd("literal_a18_relation_closure",D972LRPhaseStart);;
+D972LRPhaseEnd("literal_relation_basis",D972LRPhaseStart);;
 
 D972LRCorrectionWord := function(bits)
   local out,i;
@@ -1000,51 +1144,44 @@ if D972LRSelected<>fail then
     D972BDTuplePRows,D972LRSelectedSourceP,D972BDDegreeP);;
   D972LRFactorCertG9:=D972LRFactorAutoCertificate("G9",D972BDG9,D972BDX9,D972BDY9,
     D972BDTupleG9Rows,D972LRSelectedSourceG9,D972BDDegreeG9);;
+  ## Exact kernel-diagram gate.  Here the literal relation boundary is
+  ## D=C=V^4=ker(E^4->P^4).  Evaluation of the same six source words upstairs
+  ## and downstairs makes the square commute; bijectivity on E and P then
+  ## forces the E automorphism to preserve C and identifies its descent on
+  ## E^4/D with the recorded P^4 automorphism.  In this construction the 158
+  ## A.18 words define only the kernel relation boundary
+  ## D=<<relators>> intersect C.  The raw normal image outside C is therefore
+  ## not itself the defining subgroup of the chief-fibre quotient; the exact
+  ## P/G9 gates below replay the 24 kernel combinations and typed predicates.
+  D972LRAbstractToP:=GroupHomomorphismByImages(D972BDAbstractP,D972BDP,
+    [D972BDAbstractPX,D972BDAbstractPY],[D972BDPX,D972BDPY]);;
+  if D972LRAbstractToP=fail or not IsBijective(D972LRAbstractToP) then
+    Error("157cu: E/V to canonical P isomorphism drift");
+  fi;;
+  D972LRQuotientDiagramOK:=ForAll([1..6],j->ForAll([1..4],c->
+    Image(D972LRAbstractToP,Image(D972BDQMap,D972BDBlockRestrict(
+      D972LRSelectedSourceE[j],(c-1)*D972BDDegreeE,D972BDDegreeE)))=
+    D972BDBlockRestrict(D972LRSelectedSourceP[j],
+      (c-1)*D972BDDegreeP,D972BDDegreeP)));;
   D972LRFastSettlement:=D972LRFactorCertE<>fail and D972LRFactorCertP<>fail and
     D972LRFactorCertG9<>fail and D972LRRowRank(D972LRSelectedAction,24)=24 and
-    D972LRRelationPreserved;;
+    D972LRRelationPreserved and D972LRRelationSpan.rank=24 and
+    D972LRQuotientDiagramOK;;
   D972LRSettlementOK:=D972LRFastSettlement;;
   D972LRBoundaryOrder:=2^D972LRRelationSpan.rank;;
   D972LRLiteralQuotientOrder:=Size(D972BDE)^4/D972LRBoundaryOrder;;
-  D972LRSettlementMethod:="factor_automorphisms_and_invariant_module_quotient";;
+  D972LRSettlementMethod:="factor_automorphisms_and_exact_kernel_diagram";;
   D972LRFactorCertificateReceipt:=fail;;
   if D972LRFastSettlement then
     D972LRFactorCertificateReceipt:=rec(coordinate_map:=[1,2,3,4],
       E:=D972LRFactorCertE.receipt,P:=D972LRFactorCertP.receipt,
       G9:=D972LRFactorCertG9.receipt,relation_boundary_preserved:=true,
+      literal_boundary_equals_marked_kernel:=true,
+      quotient_diagram_commutes:=true,
+      quotient_kernel_lemma:="D=C=ker(E4->P4); commuting E/P automorphisms descend bijectively to E4/D",
       kernel_action_bijective:=true,ambient_E4_automorphism:=true,
       P4_automorphism:=true,G9_fourfold_image_automorphism:=true,
       quotient_automorphism:=true);
-  else
-    ## Predicate-preserving fallback: retain the original generic finite gates
-    ## whenever the faster sufficient certificate is unavailable.
-    D972LRSettlementMethod:="generic_literal_quotient_fallback";;
-    D972LRP4Group:=Group(D972BDTuplePGens);; D972LRE4Group:=Group(D972BDTupleGens);;
-    D972LRG94Group:=Group(D972BDTupleG9Gens);;
-    D972LRBoundaryGroup:=Group(List(D972LRRelationGens,
-      r->D972LRWordElm(r.word,D972BDTupleGens)));;
-    if Size(D972LRBoundaryGroup)<>D972LRBoundaryOrder or
-       not IsNormal(D972LRE4Group,D972LRBoundaryGroup) then
-      Error("157cx2: literal boundary subgroup order/normality drift");
-    fi;
-    D972LRLiteralQMap:=NaturalHomomorphismByNormalSubgroup(D972LRE4Group,
-      D972LRBoundaryGroup);;
-    D972LRLiteralQ:=Image(D972LRLiteralQMap);;
-    D972LRLiteralQGens:=List(D972BDTupleGens,g->Image(D972LRLiteralQMap,g));;
-    D972LRSelectedSourceQ:=List(D972LRSelectedSourceE,g->Image(D972LRLiteralQMap,g));;
-    D972LRHomP:=GroupHomomorphismByImages(D972LRP4Group,Group(D972LRSelectedSourceP),
-      D972BDTuplePGens,D972LRSelectedSourceP);;
-    D972LRHomG9:=GroupHomomorphismByImages(D972LRG94Group,Group(D972LRSelectedSourceG9),
-      D972BDTupleG9Gens,D972LRSelectedSourceG9);;
-    D972LRHomQ:=GroupHomomorphismByImages(D972LRLiteralQ,Group(D972LRSelectedSourceQ),
-      D972LRLiteralQGens,D972LRSelectedSourceQ);;
-    D972LRSettlementOK:=D972LRRowRank(D972LRSelectedAction,24)=24 and
-      D972LRHomP<>fail and D972LRHomG9<>fail and D972LRHomQ<>fail and
-      IsBijective(D972LRHomP) and IsBijective(D972LRHomG9) and
-      IsBijective(D972LRHomQ);;
-    if D972LRSettlementOK then
-      D972LRLiteralQuotientOrder:=Size(D972LRLiteralQ);
-    fi;
   fi;
   if not D972LRSettlementOK then
     AddSet(D972LRGlobalMissing,"settlement.source_endomorphism_bijective");;
@@ -1067,7 +1204,8 @@ fi;;
 D972LRPhaseEnd("settlement",D972LRPhaseStart);;
 
 D972LRRelationReceipt:=List(D972LRRelationGens,r->rec(vector:=r.vector,
-  vector_bits:=D972LRBits(r.vector,24),raw_index:=r.raw_index,
+  vector_bits:=D972LRBits(r.vector,24),basis_index:=r.basis_index,
+  normal_generator_word:=r.normal_generator_word,
   action_word:=r.action_word,word:=r.word));;
 D972LRBasisReceipt:=List(D972BDWords,r->rec(coordinate:=r.coordinate,
   module_index:=r.module_index,source_word:=r.source_word,target_E:=r.target_E,
@@ -1122,7 +1260,21 @@ D972LRReceipt:=rec(
     coface_order:=List(D972LRMaps,r->r.name),prefix_sha256:=D972LRPrefixSha,
     seed_sha256:=D972LRSeedSha,a18_rows_sha256:=D972LRA18Sha,
     presentation_sha256:=D972LRPresentationSha,dtilde_sha256:=D972LRDtildeSha,
-    raw_relation_masks:=D972LRRawMasks,relation_boundary_rank:=D972LRRelationSpan.rank,
+    literal_normal_certificate:=rec(
+      method:="incremental subgroup of tracked literal-relator conjugates; stop after all 24 marked basis targets enter",
+      boundary_definition:="D=normal closure of the 158 literal relators in the joint image, intersected with C",
+      literal_relator_count:=Length(D972LRLiteralRelators),
+      normal_generator_count:=Length(D972LRNormalReceipt),
+      normal_generators:=D972LRNormalReceipt,
+      C_basis_combination_count:=Length(D972LRBasisCombinationReceipt),
+      C_basis_combinations:=D972LRBasisCombinationReceipt,
+      C_basis_masks:=List([0..23],i->2^i),C_basis_rank:=24,
+      certificate_compressed:=true,all_C_basis_membership:=true,
+      C_subset_kernel_boundary_D:=true,kernel_boundary_D_subset_C:=true,
+      raw_normal_not_used_as_chief_quotient:=true,
+      kernel_combinations_P_G9_trivial:=true,
+      conclusion:="literal boundary D equals marked kernel C"),
+    relation_boundary_rank:=D972LRRelationSpan.rank,
     relation_boundary_generators:=D972LRRelationReceipt,
     literal_residual_to_C_P_over_C_E_matrix:=List(D972LRPowerRecords,r->
       rec(exponent:=r.exponent,row_index:=r.row_index,hexagon_masks:=r.base_hexagon_masks,
@@ -1140,7 +1292,7 @@ D972LRReceipt:=rec(
     total_solution_count:=Length(D972LRSolutions),selected:=D972LRSelected,
     relation_boundary_closed_under_B4:=true,representative_independence:=true,
     marking_checked:=true,charming_onto_checked:=true,settlement:=D972LRSettlement,
-    settlement_method:="exact factor automorphisms plus invariant-module quotient, with generic literal quotient fallback"),
+    settlement_method:="exact factor automorphisms plus D=C kernel diagram; no generic fallback"),
   logical_boundary:=rec(stage_only:=true,common_refinement_compactness_not_recomputed:=true,
     timeout_or_resource_is_unknown:=true,burau_or_magnus_zero_used_as_lift:=false));;
 

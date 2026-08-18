@@ -225,6 +225,12 @@ def inv_word(word: Sequence[int]) -> list[int]:
     return [-int(x) for x in reversed(word)]
 
 
+def signed_word_ok(word: object, alphabet: int) -> bool:
+    return (isinstance(word, list) and
+            all(type(x) is int and x != 0 and abs(x) <= alphabet for x in word) and
+            free_reduce(word) == word)
+
+
 def substitute(word: Sequence[int], images: Sequence[Sequence[int]]) -> list[int]:
     out: list[int] = []
     for raw in word:
@@ -791,33 +797,6 @@ def validate_report(report: dict) -> None:
             a18.append(marked_sub(seed,left,right)); meta.append((name,j))
     require(digest(a18)==A18_SHA and digest(prefix+a18)==PRESENTATION_SHA,
             "literal transport digest")
-    require(all(word_value(w,egens)==onee4 and word_value(w,ggens)==oneg4 for w in prefix),
-            "prefix evaluation drift")
-    raw_masks=[]
-    for word in a18:
-        require(word_value(word,pgens)==onep4 and word_value(word,ggens)==oneg4,
-                "A18 row base membership")
-        raw_masks.append(mask24(word_value(word,egens),masks))
-
-    span=Span(24); relation=[]
-    for index,(word,vector) in enumerate(zip(a18,raw_masks),1):
-        k=len(relation)
-        if span.insert(vector,1<<k):
-            relation.append({"vector":vector,"word":word,"raw_index":index,"action_word":[]})
-    pos=0
-    while pos<len(relation):
-        row=relation[pos]; pos+=1
-        for i,images in enumerate(ARTIN,1):
-            vector=apply_matrix(row["vector"],action_rows[i-1])
-            if span.solve(vector) is None:
-                word=substitute(row["word"],images)
-                require(mask24(word_value(word,egens),masks)==vector,"relation equivariance")
-                k=len(relation)
-                require(span.insert(vector,1<<k),"relation independence race")
-                relation.append({"vector":vector,"word":word,"raw_index":row["raw_index"],
-                                 "action_word":row["action_word"]+[i]})
-    require(all(span.solve(apply_matrix(r["vector"],m)) is not None
-                for r in relation for m in action_rows), "relation not invariant")
     literal_obj=report.get("literal_a18",{})
     require(literal_obj.get("prefix_count")==18 and literal_obj.get("seed_count")==28 and
             literal_obj.get("coface_count")==5 and
@@ -826,10 +805,94 @@ def validate_report(report: dict) -> None:
             literal_obj.get("a18_rows_sha256")==A18_SHA and
             literal_obj.get("presentation_sha256")==PRESENTATION_SHA and
             literal_obj.get("dtilde_sha256")==DTILDE_SHA,"literal scalar gate drift")
+    require(all(word_value(w,egens)==onee4 and word_value(w,ggens)==oneg4 for w in prefix),
+            "prefix evaluation drift")
+
+    # The producer's subgroup search is deliberately not reproduced.  This
+    # checker accepts only a positive word certificate: every recorded normal
+    # generator must literally be r^u=u^-1*r*u for one of the 158 relators,
+    # and the 24 supplied combinations must expand to the standard C basis.
+    literal_relators=prefix+a18
+    normal_obj=literal_obj.get("literal_normal_certificate",{})
+    normal_rows=normal_obj.get("normal_generators")
+    require(isinstance(normal_rows,list) and 1 <= len(normal_rows) <= 105,
+            "literal normal generator receipt shape")
+    normal_words=[]; expected_normal=[]; normal_images=set()
+    for index,row in enumerate(normal_rows,1):
+        require(isinstance(row,dict),"literal normal generator row shape")
+        base=row.get("base_relator_index"); conjugator=row.get("conjugator_word")
+        require(type(base) is int and 1 <= base <= len(literal_relators),
+                "literal normal base-relator index")
+        require(signed_word_ok(conjugator,6) and len(conjugator) <= 105,
+                "literal normal conjugator syntax")
+        expected_word=free_reduce(inv_word(conjugator)+literal_relators[base-1]+conjugator)
+        require(row.get("word")==expected_word,"literal normal conjugate expansion")
+        ev=word_value(expected_word,egens); pv=word_value(expected_word,pgens)
+        gv=word_value(expected_word,ggens); image_pair=(ev,gv)
+        require(image_pair != (onee4,oneg4) and image_pair not in normal_images,
+                "literal normal generator image compression")
+        normal_images.add(image_pair); normal_words.append(expected_word)
+        expected={"index":index,"base_relator_index":base,
+                  "conjugator_word":conjugator,"word":expected_word,
+                  "image_E":list(ev),"image_P":list(pv),"image_G9":list(gv)}
+        require(row==expected,"literal normal generator receipt drift")
+        expected_normal.append(expected)
+
+    combination_rows=normal_obj.get("C_basis_combinations")
+    require(isinstance(combination_rows,list) and len(combination_rows)==24,
+            "literal C-basis combination receipt shape")
+    span=Span(24); relation=[]; expected_combinations=[]; used_normal=set(); cert_masks=[]
+    for index,row in enumerate(combination_rows,1):
+        require(isinstance(row,dict),"literal C-basis combination row shape")
+        combination=row.get("normal_generator_word")
+        require(signed_word_ok(combination,len(normal_words)) and bool(combination),
+                "literal C-basis combination syntax")
+        expanded=substitute(combination,normal_words)
+        require(row.get("expanded_word")==expanded and
+                row.get("target_source_word")==basis_words[index-1],
+                "literal C-basis word expansion/binding")
+        ev=word_value(expanded,egens); pv=word_value(expanded,pgens)
+        gv=word_value(expanded,ggens); vector=mask24(ev,masks)
+        require(ev==word_value(basis_words[index-1],egens) and
+                pv==onep4 and gv==oneg4 and vector==1<<(index-1),
+                "literal C-basis E/P/G replay")
+        expected={"basis_index":index,"target_source_word":basis_words[index-1],
+                  "normal_generator_word":combination,"expanded_word":expanded,
+                  "E_mask":vector,"image_E":list(ev),"image_P":list(pv),
+                  "image_G9":list(gv)}
+        require(row==expected,"literal C-basis combination receipt drift")
+        expected_combinations.append(expected); cert_masks.append(vector)
+        used_normal.update(abs(x) for x in combination)
+        require(span.insert(vector,1<<(index-1)),"standard literal relation basis dependence")
+        relation.append({"vector":vector,"word":expanded,"basis_index":index,
+                         "normal_generator_word":combination,"action_word":[]})
+    require(used_normal==set(range(1,len(normal_words)+1)),
+            "literal normal certificate was not compressed")
+    require(span.rank==24 and cert_masks==[1<<i for i in range(24)],
+            "literal C-basis rank/order drift")
+    require(all(span.solve(apply_matrix(r["vector"],matrix)) is not None
+                for r in relation for matrix in action_rows), "relation not invariant")
+    expected_normal_obj={
+        "method":"incremental subgroup of tracked literal-relator conjugates; stop after all 24 marked basis targets enter",
+        "boundary_definition":
+            "D=normal closure of the 158 literal relators in the joint image, intersected with C",
+        "literal_relator_count":158,"normal_generator_count":len(expected_normal),
+        "normal_generators":expected_normal,
+        "C_basis_combination_count":24,"C_basis_combinations":expected_combinations,
+        "C_basis_masks":[1<<i for i in range(24)],"C_basis_rank":24,
+        "certificate_compressed":True,"all_C_basis_membership":True,
+        "C_subset_kernel_boundary_D":True,"kernel_boundary_D_subset_C":True,
+        "raw_normal_not_used_as_chief_quotient":True,
+        "kernel_combinations_P_G9_trivial":True,
+        "conclusion":"literal boundary D equals marked kernel C",
+    }
+    require(normal_obj==expected_normal_obj,"literal normal certificate drift")
     expected_relation=[{"vector":r["vector"],"vector_bits":[(r["vector"]>>j)&1 for j in range(24)],
-                        "raw_index":r["raw_index"],"action_word":r["action_word"],"word":r["word"]}
+                        "basis_index":r["basis_index"],
+                        "normal_generator_word":r["normal_generator_word"],
+                        "action_word":r["action_word"],"word":r["word"]}
                        for r in relation]
-    require(literal_obj.get("raw_relation_masks")==raw_masks and
+    require("raw_relation_masks" not in literal_obj and
             literal_obj.get("relation_boundary_rank")==span.rank and
             literal_obj.get("relation_boundary_generators")==expected_relation,
             "relation boundary receipt drift")
@@ -965,13 +1028,31 @@ def validate_report(report: dict) -> None:
         factor_e=factor_auto_certificate("E",(core["x"],core["y"]),egens,se,DEG_E,32256)
         factor_p=factor_auto_certificate("P",(core["px"],core["py"]),pgens,sp4,DEG_P,504)
         factor_g=factor_auto_certificate("G9",(core["gx"],core["gy"]),ggens,sg4,DEG_G9,2916)
+        # Exact commutative-square/kernel gate for D=C=ker(E^4 -> P^4).
+        # The raw 158-word normal image may have components outside C.  It is
+        # not used as the chief-fibre quotient: A.18 supplies the kernel
+        # boundary D=R intersect C, which the positive 24-word certificate
+        # proves is all of C.  P/G9 separately replay those 24 kernel words
+        # and the typed predicates.
+        quotient_table=marked_hom_table((core["x"],core["y"]),(core["px"],core["py"]))
+        quotient_kernel={e for e,value in quotient_table.items() if value==one(DEG_P)}
+        require(len(quotient_table)==32256 and len(set(quotient_table.values()))==504 and
+                quotient_kernel==closure(module,DEG_E),
+                "E/V to canonical P quotient-kernel drift")
+        quotient_diagram=all(
+            quotient_table[blocks(se[j],DEG_E)[c]] == blocks(sp4[j],DEG_P)[c]
+            for j in range(6) for c in range(4))
         relation_preserved=all(span.solve(apply_matrix(r["vector"],sa)) is not None for r in relation)
-        if row_rank(sa,24)!=24 or not relation_preserved:
+        if row_rank(sa,24)!=24 or not relation_preserved or span.rank!=24 or not quotient_diagram:
             global_missing.append("settlement.source_endomorphism_bijective")
             selected=None
         else:
             factor_receipt={"coordinate_map":[1,2,3,4],"E":factor_e,"P":factor_p,"G9":factor_g,
                             "relation_boundary_preserved":True,"kernel_action_bijective":True,
+                            "literal_boundary_equals_marked_kernel":True,
+                            "quotient_diagram_commutes":True,
+                            "quotient_kernel_lemma":
+                                "D=C=ker(E4->P4); commuting E/P automorphisms descend bijectively to E4/D",
                             "ambient_E4_automorphism":True,"P4_automorphism":True,
                             "G9_fourfold_image_automorphism":True,"quotient_automorphism":True}
             settlement={"source_words":sword,"source_images_E":[list(x) for x in se],
@@ -983,7 +1064,7 @@ def validate_report(report: dict) -> None:
                         "literal_quotient_order":32256**4//(2**span.rank),
                         "P4_bijective":True,"G9_fourfold_image_bijective":True,
                         "literal_quotient_bijective":True,
-                        "settlement_method":"factor_automorphisms_and_invariant_module_quotient",
+                        "settlement_method":"factor_automorphisms_and_exact_kernel_diagram",
                         "factor_automorphism_certificate":factor_receipt,"settled":True}
             selected["settlement"]=settlement
     global_missing=sorted(set(global_missing))
@@ -997,7 +1078,9 @@ def validate_report(report: dict) -> None:
     require(stage.get("settlement")==settlement,"settlement receipt drift")
     require(stage.get("relation_boundary_closed_under_B4") is True and
             stage.get("representative_independence") is True and
-            stage.get("marking_checked") is True and stage.get("charming_onto_checked") is True,
+            stage.get("marking_checked") is True and stage.get("charming_onto_checked") is True and
+            stage.get("settlement_method")==
+                "exact factor automorphisms plus D=C kernel diagram; no generic fallback",
             "typed stage boolean gate drift")
     power_obj=report.get("power_selector",{})
     require(power_obj.get("root_word")==root and power_obj.get("powered_word")==square and
@@ -1034,6 +1117,15 @@ def self_test() -> None:
     basis=[[-1,-2],[1]]; toy_c=(1,2,0)
     require(correction_word(1,basis)!=correction_word(0,basis),"correction-bit mutation")
     require(word_value([1],(toy_c,))!=word_value([-1],(toy_c,)),"basis-word mutation accepted")
+    require(signed_word_ok([1,-2,3],3) and not signed_word_ok([1,0,3],3) and
+            not signed_word_ok([1,-1],3),"literal normal signed-word mutation")
+    toy_rel=[1,2,-1]; toy_conj=[2,-1]
+    require(free_reduce(inv_word(toy_conj)+toy_rel+toy_conj) !=
+            free_reduce(toy_conj+toy_rel+inv_word(toy_conj)),
+            "literal normal conjugation orientation mutation")
+    toy_span=Span(3)
+    require(all(toy_span.insert(1<<i,1<<i) for i in range(3)) and toy_span.rank==3,
+            "literal standard-basis rank mutation")
     require(504 != 503,"factor-order mutation accepted")
     toy_m1=[2,1,4]; toy_m2=[3,2,4]; identity3=[1,2,4]
     require(matmul(toy_m1,matrix_inverse(toy_m1))==identity3 and

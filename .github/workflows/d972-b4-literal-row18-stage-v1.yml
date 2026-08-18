@@ -8,8 +8,8 @@ permissions:
   contents: read
 
 env:
-  LR_PRODUCER_SHA256: "a27da615434463826143e6e79cdc30b8fdbebb89092bc551acb6462dc91150ca"
-  LR_CHECKER_SHA256: "5c1eac3907d0b050e76de4fbf4712ca605cd69a77c0fe00a7bba7cca7c4eb719"
+  LR_PRODUCER_SHA256: "35da4c93260abe08de763b5a7a28be1ba7e1ce29abad3ae49424741457207390"
+  LR_CHECKER_SHA256: "fab6aae53504d3692adf172464684a7e7d569dece84918446f12c3d375a5a4dc"
   LR_CORE_PRODUCER_SHA256: "577de029a49e2db3a33cf3b4437c78548214f9635b1750185d48a5385c161f4c"
   LR_CORE_CHECKER_SHA256: "ab6b26d40c268de5e309ebcd9b56eddd52e91de2cc147ef8a1af9198a6523761"
   LR_SOURCE_SHA256: "648335000ff70f37d357c9c27ec5054cd4366b281c616f0391c4c7580cd4bcb9"
@@ -28,7 +28,7 @@ env:
 jobs:
   literal-row18-stage:
     runs-on: ubuntu-24.04
-    timeout-minutes: 110
+    timeout-minutes: 40
     steps:
       - name: Checkout immutable source
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -149,7 +149,7 @@ jobs:
             'Read("search/d972_b4_literal_row18_stage_v2.g");' \
             > ci/out/driver-full.g
           set +e
-          timeout --signal=TERM --kill-after=30s 100m \
+          timeout --signal=TERM --kill-after=30s 30m \
             gap -l "$GAPROOT;$LR_JSON_ROOT" --quitonbreak -q ci/out/driver-full.g \
             2>&1 | tee ci/out/gap-full.log
           gap_status=${PIPESTATUS[0]}
@@ -159,7 +159,7 @@ jobs:
           import json,sys
           json.dump({"schema":"d972-b4-literal-row18-stage/v1",
                      "final_marker":"D972_B4_LITERAL_ROW18_STAGE_V1_FINAL",
-                     "status":"UNKNOWN_RESOURCE","reason":"bounded 100 minute GAP timeout",
+                     "status":"UNKNOWN_RESOURCE","reason":"bounded 30 minute GAP timeout",
                      "proof_level":"UNKNOWN"},open(sys.argv[1],"w",encoding="utf-8"),sort_keys=True)
           PY
             printf 'timed_out=true\n' >> "$GITHUB_OUTPUT"
