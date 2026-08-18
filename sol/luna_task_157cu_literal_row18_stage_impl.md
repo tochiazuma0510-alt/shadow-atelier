@@ -57,13 +57,13 @@ Current implementation pointer (2026-08-18 JST):
   been removed.  The independent checker reconstructs every certificate and
   no longer accepts either raw-row relabelling or the old projection-order-only
   settlement surrogate.
-- Current exact v2 implementation bundle is commit
-  `a776bca2b19ead82580b27b1f18641d691436f01`, with producer
-  `b84accc3a59eb9d61610618b5d5a9dbd1f91a98f95d346c39b58c881a059fc0c`,
+- Current exact v2 implementation bundle is the audited charm-repair bundle,
+  with producer
+  `f170a208c3937f2f05d51fd21114a2c8314ee086baae56bb85e82c3b4053fd94`,
   independent checker
-  `7f867f44c398a444685b33aef64108347e559cb1047bd9a6edec0c16744debd4`,
+  `af54af1ff86bcfd6d5d29a58cca10fc4f0ee83ee1a9177b50b993d35d02141cc`,
   and workflow
-  `7e7ac7f6bf5a54c7eba05baa39e08cb71d38ce854b5a9efa84fa058e5108cbf5`.
+  `45aedca4cbad580ed4399dcc96f4af27fcd1dbd0eb45d469a571d2c53a43ddc9`.
   Python AST, checker self-test, YAML and embedded-Python parse, frozen hash and
   action pins, single-semicolon audit, and `git diff --check` pass.  Strict
   subgroup additions are bounded by 105 and conjugation attempts by 1260;
@@ -173,17 +173,23 @@ Current implementation pointer (2026-08-18 JST):
   `88de550bb740eae5fcf5c68bb45fa9c5db4cc35c`, and dispatched registered
   literal-only run `32104681787` at that immutable head on
   `2026-08-18T05:54:04Z`.  GAP producer and independent Python checker both
-  passed.  The lossless receipt SHA is
-  `c0400451c7d8931a2e01e29c9450f18f18329e3d2781e21fa29c3ac0a99833ea`
-  and its exact status is `EXACT_FINITE_STAGE_OBSTRUCTION`: the 24 literal
-  certificates pass, but neither exponent 1 nor exponent 2 has a local
-  solution among its 64 corrections.  No candidate reached the expensive
-  transport/onto/settlement gates because every candidate failed an earlier
-  direct typed condition.  This is cross-checked finite negative evidence,
-  not a B4 A/B conclusion.  The active next step is a lossless cheap-gate
-  decomposition and, subject to finite roof/outside audit, the complete set of
-  distinct arithmetic-outside GT powers with the same direct typed replay.
-  No local GAP or heavy Python is authorized.
+  passed, but the emitted `EXACT_FINITE_STAGE_OBSTRUCTION` is invalid and must
+  not be reused: both programs incorrectly tested original-B4 charmingness by
+  requiring zero exponent sums of the chosen raw free representative.  The
+  fixed row-18 word has exponent sums `(6,-4)` and all six corrections have
+  `(0,0)`, so that over-strong test forced all 128 candidates to fail before
+  transport.  Definition 2.19 of 2008.00066 instead requires the coset to have
+  a representative in `[F2,F2]`, equivalently membership in the derived
+  subgroup of the actual finite quotient; its separate `T^F2`-onto condition
+  remains the existing `onto_E`/`onto_G9` gate.  The fine quotient is the
+  pinned `E direct-product G9`, with orders `32256` and `2916`, `E` perfect,
+  and `|G9'|=729`.  The current bundle replaces only the false charm gate by
+  `candidate_E in E'` and `candidate_G9 in G9'`; the checker independently
+  reconstructs both normal closures.  The 24 literal certificates, A.18,
+  candidate universe, hexagon, pentagon, transport, onto, and settlement code
+  are unchanged.  Parent and independent Sol(max) static audits both return
+  GO.  The active next step is parent commit/push and the same registered GHA
+  rerun.  No local GAP or heavy Python is authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.

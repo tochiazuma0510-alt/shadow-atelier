@@ -4,7 +4,9 @@
 No producer module is imported.  The checker reconstructs the marked
 E/V/PSL(2,8), MakeGn(9), four strand deletions, all 24 source words, the
 natural Artin action, the literal 18+5*28 A.18 transport, and the complete
-64-element correction fibre for the root and its exact GT square.
+64-element correction fibre for the root and its exact GT square.  In
+particular, charmingness is checked in the actual fine quotient E x G9,
+not by exponent sums of a raw free representative.
 """
 
 from __future__ import annotations
@@ -219,6 +221,32 @@ def conjugate(value: Perm, by: Perm) -> Perm:
     return compose(compose(inverse(by), value), by)
 
 
+def commutator(left: Perm, right: Perm) -> Perm:
+    return compose(compose(compose(inverse(left), inverse(right)), left), right)
+
+
+def normal_generated(seed: Perm, actors: Sequence[Perm]) -> tuple[set[Perm], tuple[Perm, ...]]:
+    """Independent normal closure, retaining a small generating certificate."""
+    basis = [seed]
+    while True:
+        subgroup = closure(basis)
+        extra = None
+        for generator in tuple(basis):
+            for actor in actors:
+                for by in (actor, inverse(actor)):
+                    candidate = conjugate(generator, by)
+                    if candidate not in subgroup:
+                        extra = candidate
+                        break
+                if extra is not None:
+                    break
+            if extra is not None:
+                break
+        if extra is None:
+            return subgroup, tuple(basis)
+        basis.append(extra)
+
+
 def word_value(word: Sequence[int], gens: Sequence[Perm]) -> Perm:
     out = one(len(gens[0]))
     for raw in word:
@@ -399,7 +427,8 @@ def reconstruct_core() -> dict:
             "marked E/V to row-vector PSL quotient drift")
     return {"x": x, "y": y, "z": z, "e": e, "module": module, "v": v,
             "px": px, "py": py, "pz": pz, "p": p,
-            "gx": gx, "gy": gy, "gz": gz, "g9": g9, "maps": maps}
+            "gx": gx, "gy": gy, "gz": gz, "g9": g9, "maps": maps,
+            "source_g3": source["G3_receipt"]}
 
 
 def tuple_rows(core: dict, family: str) -> tuple[tuple[Perm, ...], ...]:
@@ -641,6 +670,57 @@ def validate_report(report: dict) -> None:
     pgens = tuple(embed_blocks(row) for row in prows)
     ggens = tuple(embed_blocks(row) for row in grows)
     onee4, onep4, oneg4 = one(4*DEG_E), one(4*DEG_P), one(4*DEG_G9)
+
+    # The pinned Phase-2b source and a live independent replay agree that the
+    # fine F2/N_F2 is E x G9.  The marked subgroup is subdirect; E is perfect
+    # and G9 is solvable (its independently reconstructed derived subgroup is
+    # abelian), so their common Goursat quotient is trivial.
+    require(core["source_g3"] == {
+        "E_perfect": True, "G9_solvable": True,
+        "nontrivial_common_quotient_exists": False,
+        "source_pure_quotient": "G9 direct-product E",
+        "source_pure_quotient_order": 94058496,
+    }, "pinned fine F2 quotient typing drift")
+    fine_derived_e, fine_e_basis = normal_generated(
+        commutator(core["x"], core["y"]), (core["x"], core["y"]))
+    fine_derived_g9, fine_g9_basis = normal_generated(
+        commutator(core["gx"], core["gy"]), (core["gx"], core["gy"]))
+    require(len(fine_derived_e) == len(core["e"]) == 32256,
+            "fine E perfectness replay drift")
+    require(len(fine_derived_g9) == 729 and
+            all(compose(a,b) == compose(b,a) for a in fine_g9_basis for b in fine_g9_basis),
+            "fine G9 derived/solvability replay drift")
+    fine_charming_receipt = {
+        "definition": "f N_F2 lies in [F2/N_F2,F2/N_F2]",
+        "definition_source":
+            "2008.00066 Definition 2.19; docs/notes/gtpi_v1_addendum_upb4.md:14-18,30-34",
+        "original_B4_charming_not_B3_gentle_substitution": True,
+        "marking_m": 0, "lambda": 1, "lambda_unit_precondition": True,
+        "GT_shadow_equation_preconditions":
+            "existing roof, hexagon, and pentagon gates; unchanged",
+        "condition_i":
+            "coset has a representative in [F2,F2], equivalently fine derived membership",
+        "condition_i_equivalence":
+            "under F2 onto Q, the preimage of Q' is [F2,F2] N_F2",
+        "condition_i_repaired_here": True,
+        "condition_ii": "T^F2 is surjective",
+        "condition_ii_existing_gate": "onto_E and onto_G9; unchanged",
+        "condition_ii_candidate_fields": ["onto_E", "onto_G9"],
+        "fine_F2_quotient": "E direct-product G9",
+        "marked_generators": "(X_E,X_G9),(Y_E,Y_G9)",
+        "quotient_order": 32256 * 2916,
+        "goursat_direct_product": True,
+        "nontrivial_common_quotient_exists": False,
+        "E_order": 32256, "E_derived_order": len(fine_derived_e),
+        "E_perfect": True, "G9_order": 2916,
+        "G9_derived_order": len(fine_derived_g9), "G9_solvable": True,
+        "derived_order": len(fine_derived_e) * len(fine_derived_g9),
+        "membership_test":
+            "candidate_E in DerivedSubgroup(E) and candidate_G9 in DerivedSubgroup(G9)",
+        "coarse_P_not_defining": True, "raw_free_exponent_sums_used": False,
+    }
+    require(report.get("charming_gate") == fine_charming_receipt,
+            "fine charming receipt drift")
 
     frozen = report.get("frozen_inputs", {})
     require(frozen == {
@@ -1024,8 +1104,8 @@ def validate_report(report: dict) -> None:
                               "hexagon2":base_hex_masks[1]^hex_masks[1],
                               "pentagon":base_mask^cmask})
             roof_ok=(cached[1][0]==base_contexts[1][0] and cached[2][0]==base_contexts[2][0])
-            charm=(sum(1 if x>0 else -1 for x in candidate if abs(x)==1)==0 and
-                   sum(1 if x>0 else -1 for x in candidate if abs(x)==2)==0)
+            charm=(cached[0][0] in fine_derived_e and
+                   cached[2][0] in fine_derived_g9)
             cheap_preliminary=(roof_ok and charm and all(x==one(len(x)) for x in he+hp+hg) and
                                coeff is not None)
             candidate_dword=None; candidate_transport=False
@@ -1062,7 +1142,9 @@ def validate_report(report: dict) -> None:
                       "corrected_pentagon_word":corrected,"hexagon_E_identity":True,
                      "hexagon_P_identity":True,"hexagon_G9_identity":True,
                      "pentagon_mod_literal_relations":True,"marking_m":0,"lambda":1,
-                     "charming":True,"onto_E":True,"onto_G9":True,"roof_reduction_exact":True}
+                     "charming":True,"charming_E_derived":True,
+                     "charming_G9_derived":True,"onto_E":True,"onto_G9":True,
+                     "roof_reduction_exact":True}
                 power_solutions.append(sol); all_solutions.append(sol)
         power_records.append({"exponent":exponent,"row_index":row_index,"roof_key":key,
                               "source_word":pword,"base_dtilde_word":dword,
@@ -1222,6 +1304,12 @@ def self_test() -> None:
     require(word_value([1],(toy_c,))!=word_value([-1],(toy_c,)),"basis-word mutation accepted")
     require(try_mask24(one(4*DEG_E),{one(DEG_E):0})==0 and
             try_mask24(one(4*DEG_E),{}) is None,"optional root-action membership branch")
+    require((sum(x for x in EXPECTED_WORD if abs(x)==1),
+             sum(1 if x==2 else -1 if x==-2 else 0 for x in EXPECTED_WORD)) != (0,0),
+            "raw-free charming negative control drift")
+    toy_derived,_ = normal_generated(commutator((1,0,2),(1,2,0)),
+                                     ((1,0,2),(1,2,0)))
+    require(len(toy_derived)==3,"finite-quotient derived membership selftest")
     require(signed_word_ok([1,-2,3],3) and not signed_word_ok([1,0,3],3) and
             not signed_word_ok([1,-1],3),"literal normal signed-word mutation")
     toy_rel=[1,2,-1]; toy_conj=[2,-1]

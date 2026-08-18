@@ -971,6 +971,57 @@ D972LRSolutions:=[];; D972LRPowerRecords:=[];; D972LRGlobalMissing:=[];;
 D972LROntoECacheKeys:=[];; D972LROntoECacheValues:=[];;
 D972LROntoG9CacheKeys:=[];; D972LROntoG9CacheValues:=[];;
 D972LRETargetSize:=Size(D972BDE);; D972LRG9TargetSize:=Size(D972BDG9);;
+
+## This is original B4 charmingness (2008.00066, Definition 2.19), not a
+## silent replacement by the B3-gentle terminology.  Its first condition says
+## that the coset has a representative in [F2,F2], equivalently that its
+## image belongs to the derived subgroup of the actual finite F2 quotient;
+## it never asks that this particular raw free representative have zero
+## exponent sums.  The second condition is T^F2 onto and remains the existing
+## onto_E/onto_G9 gate below.  See the pinned comparison
+## docs/notes/gtpi_v1_addendum_upb4.md:14-18,30-34.
+##
+## At this fine stage the marked quotient is E x G9.  The two marked
+## projections are onto by construction; E is perfect and G9 is solvable, so
+## Goursat gives the direct product.  Pin that primary Phase-2b typing and
+## replay both derived subgroups here.
+D972LRFineG3:=D972BDS.G3_receipt;;
+if D972LRFineG3.source_pure_quotient<>"G9 direct-product E" or
+   D972LRFineG3.source_pure_quotient_order<>94058496 or
+   D972LRFineG3.E_perfect<>true or D972LRFineG3.G9_solvable<>true or
+   D972LRFineG3.nontrivial_common_quotient_exists<>false then
+  Error("157cu: pinned fine F2 quotient typing drift");
+fi;;
+D972LRFineDerivedE:=DerivedSubgroup(D972BDE);;
+D972LRFineDerivedG9:=DerivedSubgroup(D972BDG9);;
+if Size(D972LRFineDerivedE)<>32256 or
+   Size(D972LRFineDerivedE)<>Size(D972BDE) or
+   Size(D972LRFineDerivedG9)<>729 or not IsSolvableGroup(D972BDG9) or
+   Size(D972BDE)*Size(D972BDG9)<>94058496 then
+  Error("157cu: fine charming quotient replay drift");
+fi;;
+D972LRFineCharmingReceipt:=rec(
+  definition:="f N_F2 lies in [F2/N_F2,F2/N_F2]",
+  definition_source:="2008.00066 Definition 2.19; docs/notes/gtpi_v1_addendum_upb4.md:14-18,30-34",
+  original_B4_charming_not_B3_gentle_substitution:=true,
+  marking_m:=0,lambda:=1,lambda_unit_precondition:=true,
+  GT_shadow_equation_preconditions:="existing roof, hexagon, and pentagon gates; unchanged",
+  condition_i:="coset has a representative in [F2,F2], equivalently fine derived membership",
+  condition_i_equivalence:="under F2 onto Q, the preimage of Q' is [F2,F2] N_F2",
+  condition_i_repaired_here:=true,
+  condition_ii:="T^F2 is surjective",
+  condition_ii_existing_gate:="onto_E and onto_G9; unchanged",
+  condition_ii_candidate_fields:=["onto_E","onto_G9"],
+  fine_F2_quotient:="E direct-product G9",
+  marked_generators:="(X_E,X_G9),(Y_E,Y_G9)",
+  quotient_order:=Size(D972BDE)*Size(D972BDG9),
+  goursat_direct_product:=true,nontrivial_common_quotient_exists:=false,
+  E_order:=Size(D972BDE),E_derived_order:=Size(D972LRFineDerivedE),
+  E_perfect:=true,G9_order:=Size(D972BDG9),
+  G9_derived_order:=Size(D972LRFineDerivedG9),G9_solvable:=true,
+  derived_order:=Size(D972LRFineDerivedE)*Size(D972LRFineDerivedG9),
+  membership_test:="candidate_E in DerivedSubgroup(E) and candidate_G9 in DerivedSubgroup(G9)",
+  coarse_P_not_defining:=true,raw_free_exponent_sums_used:=false);;
 ## Thirty fixed marked contexts: five hexagon contexts and five pentagon
 ## contexts in each of E, P and G9.  The six correction words are evaluated
 ## once per context, rather than once per one of the 128 candidates.
@@ -1044,8 +1095,9 @@ for D972LRPow in D972LRPowers do
     D972LRCandidateG9:=D972LRHexContextG9[1];;
     D972LRRoofOK:=D972LRCandidateP=D972LRPowP and
       D972LRCandidateG9=D972LRPowG9;;
-    D972LRCharm:=Sum(Filtered(D972LRCandidate,x->AbsInt(x)=1),SignInt)=0 and
-      Sum(Filtered(D972LRCandidate,x->AbsInt(x)=2),SignInt)=0;;
+    D972LRCharmE:=D972LRCandidateE in D972LRFineDerivedE;;
+    D972LRCharmG9:=D972LRCandidateG9 in D972LRFineDerivedG9;;
+    D972LRCharm:=D972LRCharmE and D972LRCharmG9;;
     D972LRHexE:=D972LRHexFromValues(D972LRHexContextE,0,D972BDX,D972BDY);;
     D972LRHexP:=D972LRHexFromValues(D972LRHexContextP,0,D972BDPX,D972BDPY);;
     D972LRHexG9:=D972LRHexFromValues(D972LRHexContextG9,0,D972BDX9,D972BDY9);;
@@ -1118,7 +1170,8 @@ for D972LRPow in D972LRPowers do
         corrected_pentagon_word:=D972LRCorrected,
         hexagon_E_identity:=true,hexagon_P_identity:=true,hexagon_G9_identity:=true,
         pentagon_mod_literal_relations:=true,marking_m:=0,lambda:=1,
-        charming:=true,onto_E:=true,onto_G9:=true,roof_reduction_exact:=true);;
+        charming:=true,charming_E_derived:=true,charming_G9_derived:=true,
+        onto_E:=true,onto_G9:=true,roof_reduction_exact:=true);;
       Add(D972LRPowSolutions,D972LRSol);; Add(D972LRSolutions,D972LRSol);
     fi;
   od;
@@ -1367,6 +1420,7 @@ D972LRReceipt:=rec(
     norm_identity_mod_literal_relations:=D972LRNormOK,
     norm_role:="diagnostic_only; terminal acceptance uses direct candidate replay and settlement",
     outside_proof:="pure axis exponent n with 3 not dividing n remains outside both arithmetic Kummer lines"),
+  charming_gate:=D972LRFineCharmingReceipt,
   exhaustive_stage:=rec(correction_count:=64,power_records:=D972LRPowerRecords,
     total_solution_count:=Length(D972LRSolutions),selected:=D972LRSelected,
     settlement_attempt_count:=D972LRSettlementAttempts,
@@ -1385,6 +1439,10 @@ if D972LRMode="selftest" then
     Error("157cu: basis/roof mutation accepted"); fi;
   if D972LRGTComposeM0([1,2],[1,2])=D972LRReduce([1,2,1,2]) then
     Error("157cu: naive GT composition order accepted"); fi;
+  if Sum(Filtered(D972LRF0,x->AbsInt(x)=1),SignInt)=0 and
+     Sum(Filtered(D972LRF0,x->AbsInt(x)=2),SignInt)=0 then
+    Error("157cu: raw-free charming negative control drift");
+  fi;
   Print("D972_B4_LITERAL_ROW18_STAGE_V1_GAP_SELFTEST_PASS\n");
 fi;;
 D972LRWrite(D972LROutput,D972LRReceipt);;
