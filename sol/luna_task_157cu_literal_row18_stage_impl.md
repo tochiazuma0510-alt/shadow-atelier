@@ -145,8 +145,13 @@ Current implementation pointer (2026-08-18 JST):
   official-primary / timestamp-fixed-archive-fallback fetch; the archive SHA,
   unique-member gate, member SHA, and exclusive write remain mandatory.
   Luna and parent independently passed YAML, embedded-Python, immutable-action,
-  producer/checker-pin, archive/member, and diff checks.  No local GAP or heavy
-  Python is authorized.
+  producer/checker-pin, archive/member, and diff checks; a separate Sol(max)
+  transport audit also returned GO.  Parent committed and pushed the repair as
+  `da918277594f0a43bd4fa699ea3fa3bb86cf2ac5` and dispatched registered
+  literal-only run `32102847972` at that immutable head on
+  `2026-08-18T05:25:55Z`.  This is the active run and must be monitored through
+  producer and independent checker.  No local GAP or heavy Python is
+  authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
