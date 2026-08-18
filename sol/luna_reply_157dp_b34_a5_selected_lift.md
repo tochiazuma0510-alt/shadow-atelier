@@ -274,6 +274,31 @@ same receipt-basis coordinates; it now also gates all direct PC rows at the
 registered PB3/PB4 collector widths.  No candidate word, group operation,
 gate, scan order, universe size, or terminal implication changed.
 
+## Cross-checked positive run 32171982444
+
+The repaired bundle completed successfully on commit
+`834d7d691dda98e30bb513191212bac7795be70b`:
+
+- GHA run: `32171982444` (`SUCCESS`);
+- raw `d972_b34_a5_selected_lift_v1.json` SHA256:
+  `d3cb729d972a1b460cd8f0a76b49cd6abf4eafd7fe0c112ad0ad742de5200157`;
+- uploaded artifact ZIP SHA256:
+  `d01074e98555d60aa364bd2a6dfdfa437e4748e85a0ab121966b29622550b5ae`;
+- independent checker: `PASS`, terminal
+  `B34_A5_LAYER_FIXED_OUTSIDE_ROOF_LIFT_CROSSCHECKED`, evaluated `124`;
+- selected coordinate: outer `1`, marking shift `0`, correction `124`;
+- producer diagnostics: `new_charming=9`, `resource_skips=0`, runtime
+  `366 ms`;
+- independently matched direct-context digest:
+  `5bc5f9c4d2b74bff28f93a436a97f2649a13c583f39cbb636107fef868caff4e`.
+
+This is therefore **cross-checked evidence for an actual typed lift through
+the concrete `A5^4` chief layer** over the fixed q3 outside roof.  It is not a
+global B4-B theorem: the uniform/cofinal absorption of every subsequent
+required chief layer and the final finite-fibre compactness passage remain
+separate obligations.  In particular, the run does not promote the
+non-isolated computational window `L` itself to an isolated terminal window.
+
 ## Source-only operation and runtime estimate
 
 New producer heavy-operation contract:
