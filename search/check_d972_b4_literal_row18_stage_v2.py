@@ -1079,6 +1079,21 @@ def validate_report(report: dict) -> None:
         if pp==onep4 and pg==oneg4: base_mask=try_mask24(pe,masks)
         gauge=[]; power_solutions=[]
         candidate_transport_evaluated_count=0; candidate_transport_pass_count=0
+        # Lossless diagnostics only: exact fibres of the existing cheap gates.
+        # The progressive final fibre is asserted equal to cheap_preliminary,
+        # so these counters cannot silently change candidate acceptance.
+        cheap_gate_bits={key:[] for key in (
+            "roof","charming_E_derived","charming_G9_derived","charming",
+            "hexagon_E_1_identity","hexagon_E_2_identity","hexagon_E_identity",
+            "hexagon_P_1_identity","hexagon_P_2_identity","hexagon_P_identity",
+            "hexagon_G9_1_identity","hexagon_G9_2_identity","hexagon_G9_identity",
+            "pentagon_P_identity","pentagon_G9_identity","pentagon_E_in_C",
+            "literal_coefficient_available")}
+        progressive_gate_bits={key:[] for key in (
+            "roof","roof_charming","roof_charming_hexagon_E",
+            "roof_charming_hexagon_E_P","roof_charming_hexagon_E_P_G9",
+            "through_pentagon_P","through_pentagon_P_G9",
+            "through_pentagon_P_G9_E_in_C","through_literal_coefficient")}
         for bits in range(64):
             corr=correction_word(bits,cbasis); candidate=free_reduce(pword+corr)
             cached=[context_values(base_contexts[i],correction_tables[i],bits) for i in range(6)]
@@ -1092,11 +1107,18 @@ def validate_report(report: dict) -> None:
             hp=hex_from_values(cached[1],0,core["px"],core["py"])
             hg=hex_from_values(cached[2],0,core["gx"],core["gy"])
             ce=pent_from_values(cached[3]); cp=pent_from_values(cached[4]); cg=pent_from_values(cached[5])
+            hex_e_equations=[x==one(len(x)) for x in he]
+            hex_p_equations=[x==one(len(x)) for x in hp]
+            hex_g9_equations=[x==one(len(x)) for x in hg]
+            hex_e_ok=all(hex_e_equations); hex_p_ok=all(hex_p_equations)
+            hex_g9_ok=all(hex_g9_equations)
+            pent_p_ok=(cp==onep4); pent_g9_ok=(cg==oneg4)
+            pent_e_mask=try_mask24(ce,masks); pent_e_in_c=(pent_e_mask is not None)
             cmask=None; coeff=None; hex_masks=None
             if all(x==one(len(x)) for x in hp+hg) and all(x in masks for x in he):
                 hex_masks=[masks[x] for x in he]
-            if cp==onep4 and cg==oneg4:
-                cmask=try_mask24(ce,masks)
+            if pent_p_ok and pent_g9_ok:
+                cmask=pent_e_mask
                 if cmask is not None: coeff=span.solve(cmask)
             if (bits in (1,2,4,8,16,32) and base_mask is not None and cmask is not None and
                     base_hex_masks is not None and hex_masks is not None):
@@ -1104,10 +1126,51 @@ def validate_report(report: dict) -> None:
                               "hexagon2":base_hex_masks[1]^hex_masks[1],
                               "pentagon":base_mask^cmask})
             roof_ok=(cached[1][0]==base_contexts[1][0] and cached[2][0]==base_contexts[2][0])
-            charm=(cached[0][0] in fine_derived_e and
-                   cached[2][0] in fine_derived_g9)
-            cheap_preliminary=(roof_ok and charm and all(x==one(len(x)) for x in he+hp+hg) and
+            charm_e=(cached[0][0] in fine_derived_e)
+            charm_g9=(cached[2][0] in fine_derived_g9)
+            charm=(charm_e and charm_g9)
+            cheap_values={
+                "roof":roof_ok,"charming_E_derived":charm_e,
+                "charming_G9_derived":charm_g9,"charming":charm,
+                "hexagon_E_1_identity":hex_e_equations[0],
+                "hexagon_E_2_identity":hex_e_equations[1],
+                "hexagon_E_identity":hex_e_ok,
+                "hexagon_P_1_identity":hex_p_equations[0],
+                "hexagon_P_2_identity":hex_p_equations[1],
+                "hexagon_P_identity":hex_p_ok,
+                "hexagon_G9_1_identity":hex_g9_equations[0],
+                "hexagon_G9_2_identity":hex_g9_equations[1],
+                "hexagon_G9_identity":hex_g9_ok,
+                "pentagon_P_identity":pent_p_ok,
+                "pentagon_G9_identity":pent_g9_ok,
+                "pentagon_E_in_C":pent_e_in_c,
+                "literal_coefficient_available":coeff is not None,
+            }
+            for gate,passed in cheap_values.items():
+                if passed: cheap_gate_bits[gate].append(bits)
+            progressive_values={}
+            progressive_values["roof"]=roof_ok
+            progressive_values["roof_charming"]=(progressive_values["roof"] and charm)
+            progressive_values["roof_charming_hexagon_E"]=(
+                progressive_values["roof_charming"] and hex_e_ok)
+            progressive_values["roof_charming_hexagon_E_P"]=(
+                progressive_values["roof_charming_hexagon_E"] and hex_p_ok)
+            progressive_values["roof_charming_hexagon_E_P_G9"]=(
+                progressive_values["roof_charming_hexagon_E_P"] and hex_g9_ok)
+            progressive_values["through_pentagon_P"]=(
+                progressive_values["roof_charming_hexagon_E_P_G9"] and pent_p_ok)
+            progressive_values["through_pentagon_P_G9"]=(
+                progressive_values["through_pentagon_P"] and pent_g9_ok)
+            progressive_values["through_pentagon_P_G9_E_in_C"]=(
+                progressive_values["through_pentagon_P_G9"] and pent_e_in_c)
+            progressive_values["through_literal_coefficient"]=(
+                progressive_values["through_pentagon_P_G9_E_in_C"] and coeff is not None)
+            for gate,passed in progressive_values.items():
+                if passed: progressive_gate_bits[gate].append(bits)
+            cheap_preliminary=(roof_ok and charm and hex_e_ok and hex_p_ok and hex_g9_ok and
                                coeff is not None)
+            require(cheap_preliminary==progressive_values["through_literal_coefficient"],
+                    "diagnostic progressive gate changed acceptance")
             candidate_dword=None; candidate_transport=False
             if cheap_preliminary:
                 candidate_transport_evaluated_count += 1
@@ -1151,6 +1214,12 @@ def validate_report(report: dict) -> None:
                               "dtilde_transport_ok":transport,"base_hexagon_masks":base_hex_masks,
                               "base_defect_mask":base_mask,
                               "gauge_columns":gauge,
+                              "cheap_gate_passing_bits":cheap_gate_bits,
+                              "cheap_gate_counts":{key:len(value)
+                                                   for key,value in cheap_gate_bits.items()},
+                              "progressive_gate_passing_bits":progressive_gate_bits,
+                              "progressive_gate_counts":{key:len(value)
+                                                         for key,value in progressive_gate_bits.items()},
                               "candidate_transport_evaluated_count":candidate_transport_evaluated_count,
                               "candidate_transport_pass_count":candidate_transport_pass_count,
                               "solution_count":len(power_solutions)})

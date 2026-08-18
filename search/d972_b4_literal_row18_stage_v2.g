@@ -1075,6 +1075,21 @@ for D972LRPow in D972LRPowers do
   D972LRGaugeCols:=[];; D972LRPowSolutions:=[];;
   D972LRCandidateTransportEvaluatedCount:=0;;
   D972LRCandidateTransportPassCount:=0;;
+  ## Lossless diagnostics only.  These lists record the exact correction-bit
+  ## fibres of each already-existing cheap gate; they do not alter candidate
+  ## acceptance or the terminal classification.
+  D972LRCheapGateBits:=rec(
+    roof:=[],charming_E_derived:=[],charming_G9_derived:=[],charming:=[],
+    hexagon_E_1_identity:=[],hexagon_E_2_identity:=[],hexagon_E_identity:=[],
+    hexagon_P_1_identity:=[],hexagon_P_2_identity:=[],hexagon_P_identity:=[],
+    hexagon_G9_1_identity:=[],hexagon_G9_2_identity:=[],hexagon_G9_identity:=[],
+    pentagon_P_identity:=[],pentagon_G9_identity:=[],pentagon_E_in_C:=[],
+    literal_coefficient_available:=[]);;
+  D972LRProgressiveGateBits:=rec(
+    roof:=[],roof_charming:=[],roof_charming_hexagon_E:=[],
+    roof_charming_hexagon_E_P:=[],roof_charming_hexagon_E_P_G9:=[],
+    through_pentagon_P:=[],through_pentagon_P_G9:=[],
+    through_pentagon_P_G9_E_in_C:=[],through_literal_coefficient:=[]);;
   for D972LRBitsValue in [0..63] do
     D972LRCorr:=D972LRCorrectionWord(D972LRBitsValue);;
     D972LRCandidate:=D972LRReduce(Concatenation(D972LRPow.word,D972LRCorr));;
@@ -1104,14 +1119,18 @@ for D972LRPow in D972LRPowers do
     D972LRPentE:=D972LRPentFromValues(D972LRPentContextE);;
     D972LRPentP:=D972LRPentFromValues(D972LRPentContextP);;
     D972LRPentG9:=D972LRPentFromValues(D972LRPentContextG9);;
+    D972LRHexEOK:=ForAll(D972LRHexE,IsOne);;
+    D972LRHexPOK:=ForAll(D972LRHexP,IsOne);;
+    D972LRHexG9OK:=ForAll(D972LRHexG9,IsOne);;
+    D972LRPentPOK:=IsOne(D972LRPentP);;
+    D972LRPentG9OK:=IsOne(D972LRPentG9);;
+    D972LRPentEInC:=D972LRValueInV4(D972LRPentE);;
     D972LRMask:=fail;; D972LRCoeff:=fail;; D972LRHexMasks:=fail;;
     if ForAll(Concatenation(D972LRHexP,D972LRHexG9),IsOne) and
        ForAll(D972LRHexE,e->e in D972BDV) then
       D972LRHexMasks:=List(D972LRHexE,D972LRMask6);;
     fi;
-    if D972LRPentP=One(D972BDTuplePGens[1]) and
-       D972LRPentG9=One(D972BDTupleG9Gens[1]) and
-       D972LRValueInV4(D972LRPentE) then
+    if D972LRPentPOK and D972LRPentG9OK and D972LRPentEInC then
       D972LRMask:=D972LRMask24(D972LRPentE);;
       D972LRCoeff:=D972LRSolve(D972LRRelationSpan,D972LRMask);;
     fi;
@@ -1122,9 +1141,49 @@ for D972LRPow in D972LRPowers do
         hexagon2:=D972LRXor(D972LRBaseHexMasks[2],D972LRHexMasks[2]),
         pentagon:=D972LRXor(D972LRBaseMask,D972LRMask)));
     fi;
-    D972LRHexOK:=ForAll(Concatenation(D972LRHexE,D972LRHexP,D972LRHexG9),IsOne);;
+    if D972LRRoofOK then Add(D972LRCheapGateBits.roof,D972LRBitsValue); fi;
+    if D972LRCharmE then Add(D972LRCheapGateBits.charming_E_derived,D972LRBitsValue); fi;
+    if D972LRCharmG9 then Add(D972LRCheapGateBits.charming_G9_derived,D972LRBitsValue); fi;
+    if D972LRCharm then Add(D972LRCheapGateBits.charming,D972LRBitsValue); fi;
+    if IsOne(D972LRHexE[1]) then Add(D972LRCheapGateBits.hexagon_E_1_identity,D972LRBitsValue); fi;
+    if IsOne(D972LRHexE[2]) then Add(D972LRCheapGateBits.hexagon_E_2_identity,D972LRBitsValue); fi;
+    if D972LRHexEOK then Add(D972LRCheapGateBits.hexagon_E_identity,D972LRBitsValue); fi;
+    if IsOne(D972LRHexP[1]) then Add(D972LRCheapGateBits.hexagon_P_1_identity,D972LRBitsValue); fi;
+    if IsOne(D972LRHexP[2]) then Add(D972LRCheapGateBits.hexagon_P_2_identity,D972LRBitsValue); fi;
+    if D972LRHexPOK then Add(D972LRCheapGateBits.hexagon_P_identity,D972LRBitsValue); fi;
+    if IsOne(D972LRHexG9[1]) then Add(D972LRCheapGateBits.hexagon_G9_1_identity,D972LRBitsValue); fi;
+    if IsOne(D972LRHexG9[2]) then Add(D972LRCheapGateBits.hexagon_G9_2_identity,D972LRBitsValue); fi;
+    if D972LRHexG9OK then Add(D972LRCheapGateBits.hexagon_G9_identity,D972LRBitsValue); fi;
+    if D972LRPentPOK then Add(D972LRCheapGateBits.pentagon_P_identity,D972LRBitsValue); fi;
+    if D972LRPentG9OK then Add(D972LRCheapGateBits.pentagon_G9_identity,D972LRBitsValue); fi;
+    if D972LRPentEInC then Add(D972LRCheapGateBits.pentagon_E_in_C,D972LRBitsValue); fi;
+    if D972LRCoeff<>fail then
+      Add(D972LRCheapGateBits.literal_coefficient_available,D972LRBitsValue);
+    fi;
+    D972LRProgRoofOK:=D972LRRoofOK;;
+    D972LRProgCharmOK:=D972LRProgRoofOK and D972LRCharm;;
+    D972LRProgHexEOK:=D972LRProgCharmOK and D972LRHexEOK;;
+    D972LRProgHexPOK:=D972LRProgHexEOK and D972LRHexPOK;;
+    D972LRProgHexG9OK:=D972LRProgHexPOK and D972LRHexG9OK;;
+    D972LRProgPentPOK:=D972LRProgHexG9OK and D972LRPentPOK;;
+    D972LRProgPentG9OK:=D972LRProgPentPOK and D972LRPentG9OK;;
+    D972LRProgPentEOK:=D972LRProgPentG9OK and D972LRPentEInC;;
+    D972LRProgCoeffOK:=D972LRProgPentEOK and D972LRCoeff<>fail;;
+    if D972LRProgRoofOK then Add(D972LRProgressiveGateBits.roof,D972LRBitsValue); fi;
+    if D972LRProgCharmOK then Add(D972LRProgressiveGateBits.roof_charming,D972LRBitsValue); fi;
+    if D972LRProgHexEOK then Add(D972LRProgressiveGateBits.roof_charming_hexagon_E,D972LRBitsValue); fi;
+    if D972LRProgHexPOK then Add(D972LRProgressiveGateBits.roof_charming_hexagon_E_P,D972LRBitsValue); fi;
+    if D972LRProgHexG9OK then Add(D972LRProgressiveGateBits.roof_charming_hexagon_E_P_G9,D972LRBitsValue); fi;
+    if D972LRProgPentPOK then Add(D972LRProgressiveGateBits.through_pentagon_P,D972LRBitsValue); fi;
+    if D972LRProgPentG9OK then Add(D972LRProgressiveGateBits.through_pentagon_P_G9,D972LRBitsValue); fi;
+    if D972LRProgPentEOK then Add(D972LRProgressiveGateBits.through_pentagon_P_G9_E_in_C,D972LRBitsValue); fi;
+    if D972LRProgCoeffOK then Add(D972LRProgressiveGateBits.through_literal_coefficient,D972LRBitsValue); fi;
+    D972LRHexOK:=D972LRHexEOK and D972LRHexPOK and D972LRHexG9OK;;
     D972LRCheapPreOntoOK:=D972LRRoofOK and D972LRCharm and D972LRHexOK and
       D972LRCoeff<>fail;;
+    if D972LRCheapPreOntoOK<>D972LRProgCoeffOK then
+      Error("157cu: diagnostic progressive gate changed acceptance");
+    fi;
     D972LRCandidateDword:=fail;; D972LRCandidateTransportOK:=false;;
     if D972LRCheapPreOntoOK then
       D972LRCandidateTransportEvaluatedCount:=
@@ -1175,11 +1234,43 @@ for D972LRPow in D972LRPowers do
       Add(D972LRPowSolutions,D972LRSol);; Add(D972LRSolutions,D972LRSol);
     fi;
   od;
+  D972LRCheapGateCounts:=rec(
+    roof:=Length(D972LRCheapGateBits.roof),
+    charming_E_derived:=Length(D972LRCheapGateBits.charming_E_derived),
+    charming_G9_derived:=Length(D972LRCheapGateBits.charming_G9_derived),
+    charming:=Length(D972LRCheapGateBits.charming),
+    hexagon_E_1_identity:=Length(D972LRCheapGateBits.hexagon_E_1_identity),
+    hexagon_E_2_identity:=Length(D972LRCheapGateBits.hexagon_E_2_identity),
+    hexagon_E_identity:=Length(D972LRCheapGateBits.hexagon_E_identity),
+    hexagon_P_1_identity:=Length(D972LRCheapGateBits.hexagon_P_1_identity),
+    hexagon_P_2_identity:=Length(D972LRCheapGateBits.hexagon_P_2_identity),
+    hexagon_P_identity:=Length(D972LRCheapGateBits.hexagon_P_identity),
+    hexagon_G9_1_identity:=Length(D972LRCheapGateBits.hexagon_G9_1_identity),
+    hexagon_G9_2_identity:=Length(D972LRCheapGateBits.hexagon_G9_2_identity),
+    hexagon_G9_identity:=Length(D972LRCheapGateBits.hexagon_G9_identity),
+    pentagon_P_identity:=Length(D972LRCheapGateBits.pentagon_P_identity),
+    pentagon_G9_identity:=Length(D972LRCheapGateBits.pentagon_G9_identity),
+    pentagon_E_in_C:=Length(D972LRCheapGateBits.pentagon_E_in_C),
+    literal_coefficient_available:=Length(D972LRCheapGateBits.literal_coefficient_available));;
+  D972LRProgressiveGateCounts:=rec(
+    roof:=Length(D972LRProgressiveGateBits.roof),
+    roof_charming:=Length(D972LRProgressiveGateBits.roof_charming),
+    roof_charming_hexagon_E:=Length(D972LRProgressiveGateBits.roof_charming_hexagon_E),
+    roof_charming_hexagon_E_P:=Length(D972LRProgressiveGateBits.roof_charming_hexagon_E_P),
+    roof_charming_hexagon_E_P_G9:=Length(D972LRProgressiveGateBits.roof_charming_hexagon_E_P_G9),
+    through_pentagon_P:=Length(D972LRProgressiveGateBits.through_pentagon_P),
+    through_pentagon_P_G9:=Length(D972LRProgressiveGateBits.through_pentagon_P_G9),
+    through_pentagon_P_G9_E_in_C:=Length(D972LRProgressiveGateBits.through_pentagon_P_G9_E_in_C),
+    through_literal_coefficient:=Length(D972LRProgressiveGateBits.through_literal_coefficient));;
   Add(D972LRPowerRecords,rec(exponent:=D972LRPow.exponent,row_index:=D972LRPow.row_index,
     roof_key:=D972LRPow.key,source_word:=D972LRPow.word,
     base_dtilde_word:=D972LRBaseDword,dtilde_transport_ok:=D972LRTransportOK,
     base_hexagon_masks:=D972LRBaseHexMasks,base_defect_mask:=D972LRBaseMask,
     gauge_columns:=D972LRGaugeCols,
+    cheap_gate_passing_bits:=D972LRCheapGateBits,
+    cheap_gate_counts:=D972LRCheapGateCounts,
+    progressive_gate_passing_bits:=D972LRProgressiveGateBits,
+    progressive_gate_counts:=D972LRProgressiveGateCounts,
     candidate_transport_evaluated_count:=D972LRCandidateTransportEvaluatedCount,
     candidate_transport_pass_count:=D972LRCandidateTransportPassCount,
     solution_count:=Length(D972LRPowSolutions)));
