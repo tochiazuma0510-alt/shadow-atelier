@@ -19,7 +19,7 @@ checks:
 
 ```text
 search/d972_b345_q3_chief_v1.g
-  46827beb2b3cd93a9b29f9431b76ffc9626f7d40307dc2a6733f6900fa955b32
+  5a7146b2d119b667425e897b1a54d6daaf6582884e78bb87498179163f470a17
 
 search/check_d972_b345_q3_chief_v1.py
   9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
@@ -112,12 +112,21 @@ gh workflow run gap-run.yml --ref <COMMIT_SHA> `
 
 | File | Bytes | SHA256 |
 |---|---:|---|
-| `search/d972_b345_q3_gha_driver_v1.g` | 5,108 | `d44747f24a4d89d86b603ea3b7ec2c166f0e5fe90e235d03ab316047d1b5e135` |
+| `search/d972_b345_q3_gha_driver_v1.g` | 5,108 | `fbf48d6e4103409362c3c93912ce2523a9f67f28b058665cac0034e2a073115b` |
+
+Canary run `32129602522` at commit
+`b40c7fcae815a4fe6e725001496982e24d6198aa` completed setup and reached the GAP
+script, then failed after about 1m39s with
+`Error, immutable lists cannot be sorted`. The exact cause was the producer's
+in-place sort of GAP 4.16's immutable `RecNames` result. The producer now sorts
+a `ShallowCopy`; the driver change is only its corresponding producer SHA pin.
 
 Static inspection found balanced round/square delimiters and balanced
 `if/fi`, loop/`od`, and `function/end` tokens after removing comments and string
 literals. Both shell commands are fixed source strings, contain exactly one
-Python invocation, and remove only their named log/sentinel pair. No execution
-or runtime syntax claim is made; the registered canary is the next gate.
+Python invocation, and remove only their named log/sentinel pair. No local
+execution or runtime syntax claim is made; the repaired registered canary is the
+next gate. The failed run was a serialization mutability bug, not a driver,
+checker, ANUPQ, or mathematical predicate failure.
 
 No workflow, 157da file, certificate, or mathematical predicate was modified.

@@ -60,7 +60,7 @@ D972Q3Json := function(x)
   if IsInt(x) then return String(x); fi;
   if IsString(x) then return Concatenation("\"",D972Q3Escape(x),"\""); fi;
   if IsRecord(x) then
-    names := RecNames(x);; Sort(names);;
+    names := ShallowCopy(RecNames(x));; Sort(names);;
     parts := [];;
     for n in names do
       Add(parts,Concatenation(D972Q3Json(n),":",D972Q3Json(x.(n))));

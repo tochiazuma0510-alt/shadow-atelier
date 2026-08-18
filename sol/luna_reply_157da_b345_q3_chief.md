@@ -299,8 +299,16 @@ full PB5 collector/maps; a 162-candidate negative branch builds them exactly onc
 
 | File | Bytes | SHA256 |
 |---|---:|---|
-| `search/d972_b345_q3_chief_v1.g` | 74,443 | `46827beb2b3cd93a9b29f9431b76ffc9626f7d40307dc2a6733f6900fa955b32` |
+| `search/d972_b345_q3_chief_v1.g` | 74,456 | `5a7146b2d119b667425e897b1a54d6daaf6582884e78bb87498179163f470a17` |
 | `search/check_d972_b345_q3_chief_v1.py` | 87,732 | `9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb` |
+
+GHA canary run `32129602522` at commit
+`b40c7fcae815a4fe6e725001496982e24d6198aa` reached the GAP script and then
+failed after about 1m39s with `Error, immutable lists cannot be sorted`.
+GAP 4.16 returns an immutable list from `RecNames`; the serializer attempted to
+sort it in place. The repaired producer sorts
+`ShallowCopy(RecNames(x))`. This changes neither JSON ordering nor any formula,
+group, candidate, predicate, schema, terminal, or performance schedule.
 
 Pinned inputs include both row18-v2 files, not stale v1:
 
@@ -329,8 +337,9 @@ final snapshot received a static delimiter-balance audit, stale-pin scan, forbid
 API/performance scan, exact SHA audit, and new unexecuted conjugation-orientation
 and terminal-relabel mutation canaries. It also statically binds the normalized
 orbit, B2 completeness, endpoint reuse, factor-membership, all-candidate settled
-bitset, and global-call counters. No local GAP syntax/runtime claim is
-made; the registered GHA canary is required next.
+bitset, and global-call counters. No local GAP syntax/runtime claim is made; the
+repaired registered GHA canary is required next. The first canary failure above
+was a serializer mutability bug, not an ANUPQ or mathematical failure.
 
 ## 8. Generic-workflow dispatch inputs
 
