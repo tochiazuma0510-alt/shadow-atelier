@@ -34,8 +34,8 @@ an acceptance or rejection gate.
 | file | bytes | SHA256 |
 |---|---:|---|
 | `search/d972_b34_a5_selected_lift_v1.g` | 54196 | `ed350659ea6f77c0151e84e92395b050e7c0d65455c2e8e8a7d9851af9393440` |
-| `search/check_d972_b34_a5_selected_lift_v1.py` | 72180 | `e4bd98a491c1017ebae2c8529318935e2bff613436d8c1a57bcb64fbf0dfcaa6` |
-| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `840b05a5fff218fb6ade4120dc0dd3d2f6136343330b5d008ce41d7603026923` |
+| `search/check_d972_b34_a5_selected_lift_v1.py` | 72946 | `1040c5322bcdccc7ceb973585215713a7eb2bcbebb4668eb276cbe43798cbfde` |
+| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `bd2c029541679123e85a97aae1e0e6de46f96755b2ecab6642ebd6041d7d203d` |
 
 The driver hard-pins the first two hashes.  It also pins the q3 and FC8
 producer/checker/driver sources and the frozen word/pure-axis inputs.
@@ -126,14 +126,14 @@ the 157dp receipt.
 - Checker self-test:
 
 ```text
-D972_B34_A5_SELECTED_LIFT_CHECKER_SELFTEST_PASS mutations=19
+D972_B34_A5_SELECTED_LIFT_CHECKER_SELFTEST_PASS mutations=20
 ```
 
 The mutations cover a q3 word, duplicate and missing q3 records, coface,
 deletion, A5 marking, cyclic coordinate, marking shift, direct-product kernel,
 charming rule, literal residual, outside roof key, both upstream artifact
 hashes, coverage digest, derived count, settlement gate, nested rhoA/block
-conversion, and terminal relabel.
+conversion, the PB3-to-F2 alphabet projection, and terminal relabel.
 
 ## Run 32164627934 checker repair
 
@@ -155,6 +155,34 @@ all twenty component rows first, converts each receipt row with
 degree-20 permutations.  A focused mutation changes one nested A5 component
 and is rejected.  No candidate predicate, group operation, registered universe,
 terminal implication, producer source, or frozen input pin changed.
+
+## Run 32165338456 checker repair
+
+The rerun at commit `ae1607a3` again produced the same positive candidate 124
+(`new_charming=9`, producer runtime 529 ms).  The repaired checker passed the
+rhoA gate and then stopped at `q3 ambient coords`.  This was a second
+checker-only typing error.
+
+The q3 `correction_fibre.records[*].word`, the selected row-37 word, every
+outer word, and every materialized correction candidate are words in
+`F2=<x12,x23>`.  The GAP producer evaluates them with
+`[b2x,b2y]=[PB3 marked generator 1, PB3 marked generator 3]`.  The checker had
+used the complete canonical PB3 list `[x12,x13,x23]`; its letter `2` therefore
+meant `x13`, contradicting both the frozen q3 checker and the producer.
+
+All four F2-word sites now use the explicit projected alphabet
+`[marked3[0],marked3[2]]`:
+
+1. q3 correction word versus `ambient_Pi3_coords`;
+2. each outer word's B(2,3) main value;
+3. the selected materialized candidate's B(2,3) value;
+4. its comparison with the cached outer value.
+
+The PB2 coface words remain correctly evaluated on the full three-generator
+PB3 marking.  A focused canary fixes canonical PB3 order
+`(x12,x13,x23)` and requires the F2 projection `(x12,x23)`.  Again, the
+producer, registered 202500 universe, candidate predicate, and mathematical
+terminal implications are unchanged; candidate 124 was not refuted.
 
 ## Source-only operation and runtime estimate
 

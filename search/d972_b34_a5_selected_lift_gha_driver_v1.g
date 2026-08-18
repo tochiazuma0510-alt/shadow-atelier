@@ -10,7 +10,7 @@ if LoadPackage("json")<>true then Error("157dp driver: GAP json unavailable"); f
 D972A5LGDProducerPath := "search/d972_b34_a5_selected_lift_v1.g";;
 D972A5LGDProducerSHA := "ed350659ea6f77c0151e84e92395b050e7c0d65455c2e8e8a7d9851af9393440";;
 D972A5LGDCheckerPath := "search/check_d972_b34_a5_selected_lift_v1.py";;
-D972A5LGDCheckerSHA := "e4bd98a491c1017ebae2c8529318935e2bff613436d8c1a57bcb64fbf0dfcaa6";;
+D972A5LGDCheckerSHA := "1040c5322bcdccc7ceb973585215713a7eb2bcbebb4668eb276cbe43798cbfde";;
 D972A5LGDQ3DriverPath := "search/d972_b345_q3_gha_driver_v1.g";;
 D972A5LGDQ3DriverSHA := "c397cd837ff6814f7b7a8ca0604c6aed54fa0bc85bb577516ea1c6e7df83a831";;
 D972A5LGDFC8DriverPath := "search/d972_b4_fc8_a5four_gha_driver_v1.g";;

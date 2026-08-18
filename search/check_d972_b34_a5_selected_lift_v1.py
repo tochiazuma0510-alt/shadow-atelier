@@ -591,6 +591,14 @@ def pc_eval(word: Sequence[int], marked: Sequence[dict[str, Any]],
     return out
 
 
+def f2_marked_generators(marked3: Sequence[dict[str, Any]]) \
+        -> list[dict[str, Any]]:
+    """Return the F2=<x12,x23> alphabet, excluding canonical PB3 x13."""
+    require([row["pair"] for row in marked3] == [[1, 2], [1, 3], [2, 3]],
+            "PB3/F2 marked-generator order")
+    return [marked3[0], marked3[2]]
+
+
 def pc_context(word: Sequence[int], contexts: Sequence[Sequence[tuple[int, ...]]],
                pc: PcCollector) -> list[tuple[int, ...]]:
     return [eval_word(word, p, pc.zero(), pc.mul, pc.inverse) for p in contexts]
@@ -914,7 +922,8 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
     pc3.validate()
     pc4.validate()
     marked3, marked4 = q3["groups"]["PB3"]["marked_generators"], q3["groups"]["PB4"]["marked_generators"]
-    b2x, b2y = tuple(marked3[0]["coords"]), tuple(marked3[2]["coords"])
+    f2marked3 = f2_marked_generators(marked3)
+    b2x, b2y = tuple(f2marked3[0]["coords"]), tuple(f2marked3[1]["coords"])
     b2 = pc_group([b2x, b2y], pc3, 28)
     require(len(b2) == 27, "B(2,3) order")
     b2_derived = pc_derived([b2x, b2y], pc3, 3)
@@ -976,7 +985,7 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
     for row in qcorr:
         require(eval_word(row["word"], q0marks, one(36), mul, inv) == one(36),
                 "q3 correction coarse identity")
-        value = pc_eval(row["word"], marked3, pc3)
+        value = pc_eval(row["word"], f2marked3, pc3)
         require(list(value) == row["ambient_Pi3_coords"], "q3 ambient coords")
         qvalues.append(value)
     require(set(qvalues) == b2 and len(set(qvalues)) == 27, "q3 fibre exact B2")
@@ -1089,7 +1098,7 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
     onto_b: dict[tuple[int, ...], bool] = {}
     for i, word in enumerate(outer_words):
         main_q = eval_word(word, q0marks, one(36), mul, inv)
-        main_b = pc_eval(word, marked3, pc3)
+        main_b = pc_eval(word, f2marked3, pc3)
         hq = context(word, q0_hex, one(36), mul, inv)
         hb = pc_context(word, b2_hex, pc3)
         pq = context(word, q4_pent, one(144), mul, inv)
@@ -1248,7 +1257,7 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
                     cword = expand_section(ci + 1, sections["records"], sections["selected"])
                     candidate = reduce_word(outer_words[oi] + cword)
                     dq = eval_word(candidate, q0marks, one(36), mul, inv)
-                    db = pc_eval(candidate, marked3, pc3)
+                    db = pc_eval(candidate, f2marked3, pc3)
                     hq = context(candidate, q0_hex, one(36), mul, inv)
                     hb = pc_context(candidate, b2_hex, pc3)
                     pq = context(candidate, q4_pent, one(144), mul, inv)
@@ -1260,7 +1269,7 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
                     nh = context(candidate, new_hex, one(100), mul, inv)
                     np = context(candidate, new_pent, one(20), mul, inv)
                     require(dq == eval_word(outer_words[oi], q0marks, one(36), mul, inv) and
-                            db == pc_eval(outer_words[oi], marked3, pc3) and
+                            db == pc_eval(outer_words[oi], f2marked3, pc3) and
                             hq == context(outer_words[oi], q0_hex, one(36), mul, inv) and
                             hb == pc_context(outer_words[oi], b2_hex, pc3) and
                             pq == context(outer_words[oi], q4_pent, one(144), mul, inv) and
@@ -1409,6 +1418,8 @@ def validate_fixture(obj: dict[str, Any]) -> None:
     require(obj["settlement_gate"] is False, "settlement gate")
     require(rho_block_permutations(obj["rho_nested"]) == [one(20)] * 6,
             "rhoA nested/block convention")
+    require([row["tag"] for row in f2_marked_generators(obj["pb3_marked"])] ==
+            ["x12", "x23"], "F2 excludes PB3 x13")
     require(obj["terminal"] == NEGATIVE, "terminal relabel")
 
 
@@ -1426,6 +1437,9 @@ def self_test() -> None:
                "settlement_gate": False,
                "rho_nested": [[[1, 2, 3, 4, 5] for _ in range(4)]
                               for _ in range(6)],
+               "pb3_marked": [{"pair": [1, 2], "tag": "x12"},
+                              {"pair": [1, 3], "tag": "x13"},
+                              {"pair": [2, 3], "tag": "x23"}],
                "terminal": NEGATIVE}
     validate_fixture(fixture)
     mutations = [
@@ -1447,6 +1461,7 @@ def self_test() -> None:
         lambda x: x["derived"].__setitem__(0, 8099),
         lambda x: x.__setitem__("settlement_gate", True),
         lambda x: x["rho_nested"][0].__setitem__(0, [2, 1, 3, 4, 5]),
+        lambda x: x["pb3_marked"][2].__setitem__("pair", [1, 3]),
         lambda x: x.__setitem__("terminal", POSITIVE),
     ]
     for mutation in mutations:
