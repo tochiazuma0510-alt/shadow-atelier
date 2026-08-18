@@ -62,7 +62,7 @@ Current implementation pointer (2026-08-18 JST):
   independent checker
   `1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649`,
   and workflow
-  `f508b7b82bdba4077a233ccca7df569cfbedf092aeb149ef58f717f64a897a4b`.
+  `57c90154335128d5f4f1863452a82a4caf3bd016df6342540bf908a19df4a20d`.
   The stale C2 dependency pins are repaired.  The exact B4 action-image gate
   now includes four single-coordinate commutator witnesses, factor normal
   closures of order 504, and the transitive coordinate S4 certificate in
@@ -74,9 +74,20 @@ Current implementation pointer (2026-08-18 JST):
   registered C2-v2 workflow now has a reviewed same-ref reusable launcher,
   SHA
   `e8dbd952c8dd44b192341d35354dc221e12698dde6c2ca3ea9f464d1506931c8`,
-  with explicit target `literal-row18`.  The next action is parent-only exact
-  staging/push of that launcher and dispatch through the registered workflow;
-  no proof-side audit intervenes.
+  with explicit target `literal-row18`.  Parent committed/pushed the launcher
+  as `2e9e69d477bde11ee889b0d2a9f21e2bfa23321f` and dispatched GHA run
+  `32090197520`.  The launcher selected only the literal job correctly, but
+  the run failed before selftests/GAP at the frozen-input hash step because
+  the deliberately gitignored local path
+  `thirdparty/packageGT/extracted/PackageGT/PaB.py` is absent on a clean GHA
+  checkout.  This is a CI packaging failure, not a finite or mathematical
+  result.  Task `157cw` is adding a fail-closed download of the official
+  PackageGT ZIP (archive and PaB member both SHA-pinned) without vendoring it.
+  That `157cw` repair is now statically complete; the next action is exact
+  staging/push and immediate redispatch through the registered launcher.
+  The same push also started unchanged fast-core confirmation run
+  `32090192885`, currently running.  Repair only this concrete packaging
+  failure and redispatch; no proof-side audit intervenes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.

@@ -10,14 +10,16 @@ or heavy Python.
 ## Reusable row18 workflow
 
 `.github/workflows/d972-b4-literal-row18-stage-v1.yml` now exposes
-`workflow_call` while retaining `workflow_dispatch`.  Its existing job,
-permissions, frozen hashes, immutable action revisions, producer command,
-independent checker, timeout behavior, and evidence upload are unchanged.
+`workflow_call` while retaining `workflow_dispatch`.  Its permissions, frozen
+computational hashes, immutable action revisions, producer command,
+independent checker, timeout behavior, and evidence upload remain unchanged.
+The later 157cw packaging repair adds only a pinned official-ZIP bootstrap for
+the intentionally gitignored PackageGT `PaB.py` before its existing hash gate.
 
 Final SHA-256:
 
 ```text
-f508b7b82bdba4077a233ccca7df569cfbedf092aeb149ef58f717f64a897a4b
+57c90154335128d5f4f1863452a82a4caf3bd016df6342540bf908a19df4a20d
 ```
 
 The same value replaces the former literal-workflow hash in

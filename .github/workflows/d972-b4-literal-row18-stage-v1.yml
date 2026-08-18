@@ -22,6 +22,8 @@ env:
   LR_TUPLES_SHA256: "cfa1f3a917e2cd9d21ceaa7f77539633ccb22e8585da8b3248609008d0391801"
   LR_LITERAL_SHA256: "c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9"
   LR_PAB_SHA256: "e54c08d3437d0706b4639d7db31f7177c1c82de9c2f820fa7b194fa1c4e378f2"
+  LR_PACKAGEGT_ZIP_URL: "https://sites.temple.edu/vald/files/2024/05/PackageGT.zip"
+  LR_PACKAGEGT_ZIP_SHA256: "c3124483cb1464b9010c091011370db091a76561a2af923a38efb6900f645f95"
 
 jobs:
   literal-row18-stage:
@@ -57,6 +59,48 @@ jobs:
           test -n "${GAPROOT:-}"
           (cd "$json_root/pkg/json" && ./configure --with-gaproot="$GAPROOT" && make -j"$(nproc)")
           printf 'LR_JSON_ROOT=%s\n' "$json_root" >> "$GITHUB_ENV"
+
+      - name: Fetch pinned official PackageGT PaB source
+        shell: bash
+        run: |
+          set -euo pipefail
+          packagegt_tmp="$(mktemp -d "${RUNNER_TEMP}/d972-lr-packagegt.XXXXXX")"
+          packagegt_zip="$packagegt_tmp/PackageGT.zip"
+          packagegt_target='thirdparty/packageGT/extracted/PackageGT/PaB.py'
+          curl --fail --location --silent --show-error \
+            --retry 5 --retry-all-errors --retry-delay 2 \
+            --output "$packagegt_zip" "$LR_PACKAGEGT_ZIP_URL"
+          printf '%s  %s\n' "$LR_PACKAGEGT_ZIP_SHA256" "$packagegt_zip" | \
+            sha256sum --check --status
+          python3 - "$packagegt_zip" "$packagegt_target" "$LR_PAB_SHA256" <<'PY'
+          import hashlib
+          import pathlib
+          import sys
+          import zipfile
+
+          archive = pathlib.Path(sys.argv[1])
+          target = pathlib.Path(sys.argv[2])
+          expected = sys.argv[3]
+          member = "PackageGT/PaB.py"
+          with zipfile.ZipFile(archive, "r") as source:
+              matches = [info for info in source.infolist()
+                         if info.filename == member]
+              if len(matches) != 1 or matches[0].is_dir():
+                  raise SystemExit(
+                      f"expected exactly one regular {member}, found {len(matches)}")
+              payload = source.read(matches[0])
+          digest = hashlib.sha256(payload).hexdigest()
+          if digest != expected:
+              raise SystemExit(f"PackageGT member SHA drift: {digest}")
+          target.parent.mkdir(parents=True, exist_ok=True)
+          with target.open("xb") as output:
+              output.write(payload)
+          written = hashlib.sha256(target.read_bytes()).hexdigest()
+          if written != expected:
+              raise SystemExit(f"written PackageGT member SHA drift: {written}")
+          PY
+          printf '%s  %s\n' "$LR_PAB_SHA256" "$packagegt_target" | \
+            sha256sum --check --status
 
       - name: Bind executable and all frozen input hashes
         shell: bash

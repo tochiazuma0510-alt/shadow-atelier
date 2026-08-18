@@ -136,7 +136,11 @@ It supports both direct manual dispatch and same-ref reusable `workflow_call`,
 uses immutable 40-hex action revisions, and checks
 the exact SHA-256 of the producer, checker, fast-v2 producer/checker, all
 phase2b/map/core inputs, both frozen roof artifacts, literal input, and the
-PackageGT source.  It installs the same pinned JSON 2.4.0 package as the
+PackageGT source.  Because that source is intentionally gitignored, the job
+downloads the official `PackageGT.zip`, verifies archive SHA-256
+`c3124483cb1464b9010c091011370db091a76561a2af923a38efb6900f645f95`,
+extracts only the unique `PackageGT/PaB.py` member, and verifies its existing
+SHA pin before the all-input gate.  It installs the same pinned JSON 2.4.0 package as the
 repaired v2 workflow, requires GAP 4.16.0, uses one job, and runs the existing
 independent core checker before the new independent stage checker.  The
 100-minute command bound is below the 110-minute job bound.  Receipt and all
@@ -167,7 +171,7 @@ search/check_d972_b4_literal_row18_stage_v1.py
   1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649
 
 .github/workflows/d972-b4-literal-row18-stage-v1.yml
-  f508b7b82bdba4077a233ccca7df569cfbedf092aeb149ef58f717f64a897a4b
+  57c90154335128d5f4f1863452a82a4caf3bd016df6342540bf908a19df4a20d
 ```
 
 The workflow contains the first two hashes verbatim, has no placeholder,
