@@ -33,7 +33,7 @@ global B4-B.
 |---|---:|---|
 | `search/d972_b34_total_linking_c3_chief_v1.g` | 38547 | `dba9adc5a8d06665c89e97697bc737a28ec68096ccd02a58db03ccfe63d1d837` |
 | `search/check_d972_b34_total_linking_c3_chief_v1.py` | 53000 | `917b3fef37129850887b3b498d4c7c9ee573cdb7944139652deb2acaf5f2064a` |
-| `search/d972_b34_total_linking_c3_chief_gha_driver_v1.g` | 11628 | `c6e04e7f6d1500225ce93cc637b50be9b89db9f1af8f263ce031d0e7df652b65` |
+| `search/d972_b34_total_linking_c3_chief_gha_driver_v1.g` | 11632 | `46dd32aacb9cc23aad52bfa4944786a45ca060441a73a5e5393419fc2f76e766` |
 
 The driver hard-pins the producer and checker hashes above.  It also pins the
 q3, FC8, and 157dp receipts and all registered source/theorem inputs required
@@ -223,6 +223,36 @@ No full PB3 pullback group is enumerated.  The largest explicit checker
 enumerations remain the already established small `G9`/A5/D_F groups; the new
 five-component check is word evaluation only.
 
+### Transport-only failure in run 32194128426
+
+The first registration run, commit `a5769bab`, was reported green by the
+outer job but did not start an upstream producer.  GAP stopped while parsing
+driver line 162: the two double-quoted strings inside the shell `-c` payload
+were not escaped inside the enclosing GAP string.  The uploaded artifact
+contained only the driver source and run log; it contained no q3/FC8/157dp
+receipt, no 157dq receipt, and no mathematical checker result.  Run
+`32194128426` is therefore a transport failure and supplies no mathematical
+evidence.
+
+The repair changes only those two delimiters, exactly following the frozen
+157dp driver's quoting convention:
+
+```text
+D972_B34_A5_SELECTED_LIFT_OUTPUT:=\"ci/out/...json\"
+Read(\"search/...driver_v1.g\")
+```
+
+Producer, checker, candidate, predicates, terminal meanings, and all frozen
+input pins are unchanged.  The permitted local driver SELFTEST subsequently
+parsed the repaired driver and returned exactly:
+
+```text
+D972_B34_A5_SELECTED_LIFT_CHECKED_IO_SELFTEST_PASS
+D972_B34_TOTAL_LINKING_C3_CHECKED_IO_SELFTEST_PASS
+D972_B34_TOTAL_LINKING_C3_CHECKER_SELFTEST_PASS mutations=21
+B34_TOTAL_LINKING_C3_GHA_DRIVER_PASS mode=selftest
+```
+
 Source-only estimate, pending first GHA calibration:
 
 - new producer: approximately 2--10 seconds;
@@ -239,8 +269,10 @@ Source-only estimate, pending first GHA calibration:
 - forbidden new PB5/ANUPQ/full-universe operations: absent;
 - only the four authorized files were created or changed.
 
-The first development self-test invocation exposed only aliasing in the
+The first development Python self-test invocation exposed only aliasing in the
 synthetic mutation fixture (list multiplication had shared rows).  The fixture
 was corrected without changing production logic.  After explicit permission,
 the single corrective invocation produced the 21-mutation PASS quoted above;
-no further Python, GAP, Git, or GHA run was made.
+no further Python run was made.  After the transport repair, one separately
+authorized GAP driver SELFTEST produced the four PASS markers above.  No local
+production GAP, Git, or GHA run was made.
