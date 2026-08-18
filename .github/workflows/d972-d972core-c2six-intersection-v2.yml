@@ -15,6 +15,15 @@ on:
       - search/week3-battery-common.g
       - search/d972_dovetail_core_v2.g
   workflow_dispatch:
+    inputs:
+      target:
+        description: Workflow target to run at the selected ref
+        required: false
+        type: choice
+        default: core
+        options:
+          - core
+          - literal-row18
 
 permissions:
   contents: read
@@ -31,6 +40,7 @@ env:
 
 jobs:
   d972-core-intersection:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.target == 'core' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -72,6 +82,9 @@ jobs:
           action_refs="$(awk '$1 == "uses:" { print $2 }' .github/workflows/d972-d972core-c2six-intersection-v2.yml)"
           test -n "$action_refs"
           while IFS= read -r action_ref; do
+            if [[ "$action_ref" == './.github/workflows/d972-b4-literal-row18-stage-v1.yml' ]]; then
+              continue
+            fi
             if [[ ! "$action_ref" =~ ^[^@]+@[0-9a-fA-F]{40}$ ]]; then
               echo "mutable or malformed action ref: $action_ref" >&2
               exit 1
@@ -152,3 +165,9 @@ jobs:
           if-no-files-found: warn
           path: |
             ci/out/
+
+  literal-row18-stage:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.target == 'literal-row18' }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/d972-b4-literal-row18-stage-v1.yml

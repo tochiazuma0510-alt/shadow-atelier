@@ -132,7 +132,8 @@ The mutation selftest covers every requested class:
 
 Created `.github/workflows/d972-b4-literal-row18-stage-v1.yml`.
 
-It is manual-dispatch only, uses immutable 40-hex action revisions, checks
+It supports both direct manual dispatch and same-ref reusable `workflow_call`,
+uses immutable 40-hex action revisions, and checks
 the exact SHA-256 of the producer, checker, fast-v2 producer/checker, all
 phase2b/map/core inputs, both frozen roof artifacts, literal input, and the
 PackageGT source.  It installs the same pinned JSON 2.4.0 package as the
@@ -166,7 +167,7 @@ search/check_d972_b4_literal_row18_stage_v1.py
   1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649
 
 .github/workflows/d972-b4-literal-row18-stage-v1.yml
-  589b445975c9eac3452ca7bf13ddc3916a3d92b180874ae6f8a4691e42e12581
+  f508b7b82bdba4077a233ccca7df569cfbedf092aeb149ef58f717f64a897a4b
 ```
 
 The workflow contains the first two hashes verbatim, has no placeholder,

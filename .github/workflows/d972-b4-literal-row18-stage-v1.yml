@@ -2,6 +2,7 @@ name: d972-b4-literal-row18-stage-v1
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read

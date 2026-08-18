@@ -32,7 +32,8 @@ Frozen, non-regressible conclusions:
 
 Current implementation pointer (2026-08-18 JST):
 
-- This task, `157cu`, is the active implementation task.
+- `157cu` remains the active finite computation.  Task `157cv` is only its
+  GitHub workflow-registration launcher and changes no mathematics or gate.
 - Literal-A.18 run `32083392589` has completed all shards and the exact merge;
   its independent v2 checker is running.
 - Repaired C2^24 producer run `32086984144` reproduced `rank=24`; its checker
@@ -61,12 +62,21 @@ Current implementation pointer (2026-08-18 JST):
   independent checker
   `1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649`,
   and workflow
-  `589b445975c9eac3452ca7bf13ddc3916a3d92b180874ae6f8a4691e42e12581`.
+  `f508b7b82bdba4077a233ccca7df569cfbedf092aeb149ef58f717f64a897a4b`.
   The stale C2 dependency pins are repaired.  The exact B4 action-image gate
   now includes four single-coordinate commutator witnesses, factor normal
   closures of order 504, and the transitive coordinate S4 certificate in
-  both producer and independent checker.  The next action is parent-only
-  exact staging, push, and workflow dispatch; no proof-side audit intervenes.
+  both producer and independent checker.  Parent committed and pushed the
+  computation bundle as
+  `ad1be4cb53e726da8587a96392c497286dbb6310`.  Direct dispatch of the newly
+  added workflow returned GitHub HTTP 404 because it is not registered on the
+  default branch; no computation was started by that failed request.  The
+  registered C2-v2 workflow now has a reviewed same-ref reusable launcher,
+  SHA
+  `e8dbd952c8dd44b192341d35354dc221e12698dde6c2ca3ea9f464d1506931c8`,
+  with explicit target `literal-row18`.  The next action is parent-only exact
+  staging/push of that launcher and dispatch through the registered workflow;
+  no proof-side audit intervenes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
