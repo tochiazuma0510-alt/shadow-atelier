@@ -179,6 +179,14 @@ D972LRMask24 := function(value)
   od;
   return out;
 end;;
+D972LRValueInV4 := function(value)
+  local c,b;
+  for c in [1..4] do
+    b:=D972BDBlockRestrict(value,(c-1)*D972BDDegreeE,D972BDDegreeE);;
+    if not b in D972BDV then return false; fi;
+  od;
+  return true;
+end;;
 D972LRMask6 := function(value)
   if not value in D972BDV then Error("157cu: value outside V"); fi;
   return D972BDModuleMask(value,D972BDModule,D972BDE);
@@ -876,8 +884,11 @@ D972LRGTComposeM0 := function(left,right)
   return D972LRReduce(Concatenation(newright,left));
 end;;
 
-## Full m=0 sourcePB4 word formula, canonical generator order.  Its induced
-## map on V4 is the action/norm operator used by the power selector.
+## Full m=0 sourcePB4 word formula, canonical generator order.  If the
+## uncorrected root preserves the joint marked kernel C, its induced map on
+## V4 supplies an action/norm diagnostic.  The diagnostic is not acceptance
+## evidence: the exponent-1 word and its explicit GT square are independently
+## enumerated below and accepted only by direct typed replay plus settlement.
 D972LRSourceWordsM0 := function(f)
   local ff,g,gs,f1234,h,x123;
   ff:=D972LRSubstitute(f,[[1],[4]]);;
@@ -895,19 +906,48 @@ D972LRSourceWordsM0 := function(f)
 end;;
 D972LRRootSource:=D972LRSourceWordsM0(D972LRF0);;
 D972LRRootSourceE:=List(D972LRRootSource,w->D972LRWordElm(w,D972BDTupleGens));;
-D972LRRootAction:=[];;
+D972LRRootSourceP:=List(D972LRRootSource,w->D972LRWordElm(w,D972BDTuplePGens));;
+D972LRRootSourceG9:=List(D972LRRootSource,w->D972LRWordElm(w,D972BDTupleG9Gens));;
+D972LRRootActionRows:=[];; D972LRRootActionUndefinedBasis:=[];;
+D972LRRootEOutsideBasis:=[];; D972LRRootPNonidentityBasis:=[];;
+D972LRRootG9NonidentityBasis:=[];;
 for D972LRI in [1..24] do
   D972LRE:=D972LRWordElm(D972BDWords[D972LRI].source_word,D972LRRootSourceE);;
+  D972LRP:=D972LRWordElm(D972BDWords[D972LRI].source_word,D972LRRootSourceP);;
+  D972LRG9:=D972LRWordElm(D972BDWords[D972LRI].source_word,D972LRRootSourceG9);;
+  D972LREInV4:=D972LRValueInV4(D972LRE);;
   if D972LRI=1 then
     D972LRW:=D972LRSubstitute(D972BDWords[D972LRI].source_word,D972LRRootSource);;
     if D972LRWordElm(D972LRW,D972BDTupleGens)<>D972LRE then
       Error("157cx2: root substitution/evaluation drift");
     fi;
   fi;
-  Add(D972LRRootAction,D972LRMask24(D972LRE));
+  if not D972LREInV4 then Add(D972LRRootEOutsideBasis,D972LRI); fi;
+  if D972LRP<>One(D972BDTuplePGens[1]) then
+    Add(D972LRRootPNonidentityBasis,D972LRI);
+  fi;
+  if D972LRG9<>One(D972BDTupleG9Gens[1]) then
+    Add(D972LRRootG9NonidentityBasis,D972LRI);
+  fi;
+  if D972LREInV4 and D972LRP=One(D972BDTuplePGens[1]) and
+     D972LRG9=One(D972BDTupleG9Gens[1]) then
+    Add(D972LRRootActionRows,D972LRMask24(D972LRE));
+  else
+    Add(D972LRRootActionUndefinedBasis,D972LRI);
+  fi;
 od;
-if D972LRRowRank(D972LRRootAction,24)<>24 then Error("157cu: root action is singular"); fi;;
-D972LRNorm2:=D972LRMatAdd(D972LRIdentityRows(24),D972LRRootAction);;
+D972LRRootActionDefined:=Length(D972LRRootActionUndefinedBasis)=0;;
+D972LRRootAction:=fail;; D972LRNorm2:=fail;;
+D972LRRootActionReceipt:=fail;; D972LRNorm2Receipt:=fail;;
+D972LRRootActionRank:=fail;; D972LRRootActionBijective:=fail;;
+if D972LRRootActionDefined then
+  D972LRRootAction:=D972LRRootActionRows;;
+  D972LRRootActionRank:=D972LRRowRank(D972LRRootAction,24);;
+  D972LRRootActionBijective:=D972LRRootActionRank=24;;
+  D972LRNorm2:=D972LRMatAdd(D972LRIdentityRows(24),D972LRRootAction);;
+  D972LRRootActionReceipt:=List(D972LRRootAction,r->D972LRBits(r,24));;
+  D972LRNorm2Receipt:=List(D972LRNorm2,r->D972LRBits(r,24));;
+fi;;
 
 D972LRRootP:=D972LRWordElm(D972LRF0,[D972BDPX,D972BDPY]);;
 D972LRRootG9:=D972LRWordElm(D972LRF0,[D972BDX9,D972BDY9]);;
@@ -920,7 +960,7 @@ for D972LRI in [1..972] do
      D972LRWordElm(D972LRWords.rows[D972LRI][3],[D972BDPX,D972BDPY])=D972LRSquareP and
      D972LRWordElm(D972LRWords.rows[D972LRI][3],[D972BDX9,D972BDY9])=D972LRSquareG9 then
     if D972LRSquareIndex<>fail then Error("157cu: powered roof is not unique"); fi;
-    D972LRSquareIndex:=D972LRI;; D972LRSquareKey:=D972LRWords.rows[D972LRI][2];
+    D972LRSquareIndex:=D972LRI;; D972LRSquareKey:=D972LRWords.rows[D972LRI][2];;
   fi;
 od;
 if D972LRSquareIndex=fail then Error("157cu: GT square roof missing from frozen 972 rows"); fi;;
@@ -963,27 +1003,27 @@ for D972LRPow in D972LRPowers do
   D972LRBaseHexP:=D972LRHexFromValues(D972LRBaseHexContextP,0,D972BDPX,D972BDPY);;
   D972LRBaseHexG9:=D972LRHexFromValues(D972LRBaseHexContextG9,0,D972BDX9,D972BDY9);;
   D972LRBaseHexMasks:=fail;;
-  if ForAll(Concatenation(D972LRBaseHexP,D972LRBaseHexG9),IsOne) then
-    D972LRBaseHexMasks:=List(D972LRBaseHexE,D972LRMask6);
-  else
-    AddSet(D972LRGlobalMissing,"stage.row_power_base_hexagon_membership");
+  if ForAll(Concatenation(D972LRBaseHexP,D972LRBaseHexG9),IsOne) and
+     ForAll(D972LRBaseHexE,e->e in D972BDV) then
+    D972LRBaseHexMasks:=List(D972LRBaseHexE,D972LRMask6);;
   fi;
   D972LRBasePentE:=D972LRPentFromValues(D972LRBasePentContextE);;
   D972LRBasePentP:=D972LRPentFromValues(D972LRBasePentContextP);;
   D972LRBasePentG9:=D972LRPentFromValues(D972LRBasePentContextG9);;
   D972LRDwordE:=D972LRWordElm(D972LRBaseDword,D972BDTupleGens);;
-  D972LRTransportOK:=D972LRDwordE=D972LRBasePentE;;
-  if not D972LRTransportOK then
-    AddSet(D972LRGlobalMissing,"a18_comparison.dtilde_to_pab_pentagon_transport");
-  fi;
+  D972LRDwordP:=D972LRWordElm(D972LRBaseDword,D972BDTuplePGens);;
+  D972LRDwordG9:=D972LRWordElm(D972LRBaseDword,D972BDTupleG9Gens);;
+  D972LRTransportOK:=D972LRDwordE=D972LRBasePentE and
+    D972LRDwordP=D972LRBasePentP and D972LRDwordG9=D972LRBasePentG9;;
   D972LRBaseMask:=fail;;
   if D972LRBasePentP=One(D972BDTuplePGens[1]) and
-     D972LRBasePentG9=One(D972BDTupleG9Gens[1]) then
-    D972LRBaseMask:=D972LRMask24(D972LRBasePentE);
-  else
-    AddSet(D972LRGlobalMissing,"stage.row_power_base_pentagon_membership");
+     D972LRBasePentG9=One(D972BDTupleG9Gens[1]) and
+     D972LRValueInV4(D972LRBasePentE) then
+    D972LRBaseMask:=D972LRMask24(D972LRBasePentE);;
   fi;
   D972LRGaugeCols:=[];; D972LRPowSolutions:=[];;
+  D972LRCandidateTransportEvaluatedCount:=0;;
+  D972LRCandidateTransportPassCount:=0;;
   for D972LRBitsValue in [0..63] do
     D972LRCorr:=D972LRCorrectionWord(D972LRBitsValue);;
     D972LRCandidate:=D972LRReduce(Concatenation(D972LRPow.word,D972LRCorr));;
@@ -1013,13 +1053,15 @@ for D972LRPow in D972LRPowers do
     D972LRPentP:=D972LRPentFromValues(D972LRPentContextP);;
     D972LRPentG9:=D972LRPentFromValues(D972LRPentContextG9);;
     D972LRMask:=fail;; D972LRCoeff:=fail;; D972LRHexMasks:=fail;;
-    if ForAll(Concatenation(D972LRHexP,D972LRHexG9),IsOne) then
-      D972LRHexMasks:=List(D972LRHexE,D972LRMask6);
+    if ForAll(Concatenation(D972LRHexP,D972LRHexG9),IsOne) and
+       ForAll(D972LRHexE,e->e in D972BDV) then
+      D972LRHexMasks:=List(D972LRHexE,D972LRMask6);;
     fi;
     if D972LRPentP=One(D972BDTuplePGens[1]) and
-       D972LRPentG9=One(D972BDTupleG9Gens[1]) then
+       D972LRPentG9=One(D972BDTupleG9Gens[1]) and
+       D972LRValueInV4(D972LRPentE) then
       D972LRMask:=D972LRMask24(D972LRPentE);;
-      D972LRCoeff:=D972LRSolve(D972LRRelationSpan,D972LRMask);
+      D972LRCoeff:=D972LRSolve(D972LRRelationSpan,D972LRMask);;
     fi;
     if D972LRBitsValue>0 and (D972LRBitsValue=2^(LogInt(D972LRBitsValue,2))) and
        D972LRBaseMask<>fail and D972LRMask<>fail and D972LRBaseHexMasks<>fail and
@@ -1029,8 +1071,24 @@ for D972LRPow in D972LRPowers do
         pentagon:=D972LRXor(D972LRBaseMask,D972LRMask)));
     fi;
     D972LRHexOK:=ForAll(Concatenation(D972LRHexE,D972LRHexP,D972LRHexG9),IsOne);;
-    D972LRPreOntoOK:=D972LRTransportOK and D972LRRoofOK and D972LRCharm and
-      D972LRHexOK and D972LRCoeff<>fail;;
+    D972LRCheapPreOntoOK:=D972LRRoofOK and D972LRCharm and D972LRHexOK and
+      D972LRCoeff<>fail;;
+    D972LRCandidateDword:=fail;; D972LRCandidateTransportOK:=false;;
+    if D972LRCheapPreOntoOK then
+      D972LRCandidateTransportEvaluatedCount:=
+        D972LRCandidateTransportEvaluatedCount+1;;
+      D972LRCandidateDword:=D972LRDtildeWord(D972LRCandidate);;
+      D972LRCandidateDwordE:=D972LRWordElm(D972LRCandidateDword,D972BDTupleGens);;
+      D972LRCandidateDwordP:=D972LRWordElm(D972LRCandidateDword,D972BDTuplePGens);;
+      D972LRCandidateDwordG9:=D972LRWordElm(D972LRCandidateDword,D972BDTupleG9Gens);;
+      D972LRCandidateTransportOK:=D972LRCandidateDwordE=D972LRPentE and
+        D972LRCandidateDwordP=D972LRPentP and
+        D972LRCandidateDwordG9=D972LRPentG9;;
+      if D972LRCandidateTransportOK then
+        D972LRCandidateTransportPassCount:=D972LRCandidateTransportPassCount+1;;
+      fi;
+    fi;
+    D972LRPreOntoOK:=D972LRCheapPreOntoOK and D972LRCandidateTransportOK;;
     D972LROntoE:=false;; D972LROntoG9:=false;;
     if D972LRPreOntoOK then
       D972LROntoE:=D972LROntoCached(D972LRCandidateE,D972BDX,D972BDY,
@@ -1041,7 +1099,7 @@ for D972LRPow in D972LRPowers do
     if D972LRPreOntoOK and D972LROntoE and D972LROntoG9 then
       D972LRSelectedRel:=Filtered([1..Length(D972LRRelationGens)],i->
         QuoInt(D972LRCoeff,2^(i-1)) mod 2=1);;
-      D972LRCorrected:=D972LRDtildeWord(D972LRCandidate);;
+      D972LRCorrected:=ShallowCopy(D972LRCandidateDword);;
       for D972LRI in D972LRSelectedRel do
         Append(D972LRCorrected,D972LRRelationGens[D972LRI].word);
       od;
@@ -1056,6 +1114,7 @@ for D972LRPow in D972LRPowers do
         roof_row_index:=D972LRPow.row_index,roof_key:=D972LRPow.key,
         defect_mask:=D972LRMask,relation_combination:=D972LRCoeff,
         relation_generator_indices:=D972LRSelectedRel,
+        dtilde_word:=D972LRCandidateDword,dtilde_transport_ok:=true,
         corrected_pentagon_word:=D972LRCorrected,
         hexagon_E_identity:=true,hexagon_P_identity:=true,hexagon_G9_identity:=true,
         pentagon_mod_literal_relations:=true,marking_m:=0,lambda:=1,
@@ -1068,33 +1127,26 @@ for D972LRPow in D972LRPowers do
     base_dtilde_word:=D972LRBaseDword,dtilde_transport_ok:=D972LRTransportOK,
     base_hexagon_masks:=D972LRBaseHexMasks,base_defect_mask:=D972LRBaseMask,
     gauge_columns:=D972LRGaugeCols,
+    candidate_transport_evaluated_count:=D972LRCandidateTransportEvaluatedCount,
+    candidate_transport_pass_count:=D972LRCandidateTransportPassCount,
     solution_count:=Length(D972LRPowSolutions)));
   D972LRPhaseEnd(D972LRPowerPhaseName,D972LRPowerPhaseStart);;
 od;
 
-D972LRNormOK:=false;;
-if D972LRPowerRecords[1].base_defect_mask<>fail and D972LRPowerRecords[2].base_defect_mask<>fail then
+D972LRNormOK:=fail;;
+if D972LRRootActionDefined then
+  D972LRNormOK:=false;;
+fi;;
+if D972LRRootActionDefined and D972LRPowerRecords[1].base_defect_mask<>fail and
+   D972LRPowerRecords[2].base_defect_mask<>fail then
   D972LRNormResidual:=D972LRXor(D972LRPowerRecords[2].base_defect_mask,
     D972LRApplyMatrix(D972LRPowerRecords[1].base_defect_mask,D972LRNorm2));;
-  D972LRNormOK:=D972LRSolve(D972LRRelationSpan,D972LRNormResidual)<>fail;
-fi;;
-
-D972LRStatus:="UNKNOWN_MISSING_INPUT";; D972LRSelected:=fail;;
-if Length(D972LRGlobalMissing)=0 then
-  if Length(D972LRSolutions)>0 then
-    ## Prefer the fixed target itself; use the accepted square only if needed.
-    D972LRSelected:=First(D972LRSolutions,s->s.exponent=1);;
-    if D972LRSelected=fail then D972LRSelected:=D972LRSolutions[1]; fi;
-    D972LRStatus:="ROW18_TYPED_STAGE_LIFT";
-  else
-    D972LRStatus:="EXACT_FINITE_STAGE_OBSTRUCTION";
-  fi;
+  D972LRNormOK:=D972LRSolve(D972LRRelationSpan,D972LRNormResidual)<>fail;;
 fi;;
 
 ## Settlement is an exact finite homomorphism gate in the literal quotient.
-## The raw A.18 boundary subgroup R<=V4 is imposed before testing the source;
-## requiring an automorphism of raw E4 would incorrectly forget the literal
-## relation surgery which just closed the pentagon.
+## The imposed chief boundary is D=R intersect C=C, not the raw normal image
+## R (which can have components outside C).
 D972LRFactorXYRows:=[[4,6],[2,6],[1,5],[1,4]];;
 D972LRFactorAutoCertificate := function(label,G,x,y,tupleRows,selectedImages,degree)
   local homs,receipt,c,xrow,yrow,hx,hy,H,hom,j,sourceBlock,targetBlock;
@@ -1105,7 +1157,8 @@ D972LRFactorAutoCertificate := function(label,G,x,y,tupleRows,selectedImages,deg
     hy:=D972BDBlockRestrict(selectedImages[yrow],(c-1)*degree,degree);;
     H:=Group(hx,hy);;
     hom:=GroupHomomorphismByImages(G,H,[x,y],[hx,hy]);;
-    if hom=fail or not IsBijective(hom) then return fail; fi;
+    if hom=fail then return fail; fi;
+    if not IsBijective(hom) then return fail; fi;
     for j in [1..6] do
       sourceBlock:=tupleRows[j][c];;
       targetBlock:=D972BDBlockRestrict(selectedImages[j],(c-1)*degree,degree);;
@@ -1118,89 +1171,106 @@ D972LRFactorAutoCertificate := function(label,G,x,y,tupleRows,selectedImages,deg
   od;
   return rec(homomorphisms:=homs,receipt:=receipt);
 end;;
-D972LRPhaseStart:=D972LRPhaseBegin("settlement");;
-D972LRSettlement:=fail;;
-if D972LRSelected<>fail then
-  D972LRSelectedSourceWords:=D972LRSourceWordsM0(D972LRSelected.typed_source_word);;
-  D972LRSelectedSourceE:=List(D972LRSelectedSourceWords,
-    w->D972LRWordElm(w,D972BDTupleGens));;
-  D972LRSelectedSourceP:=List(D972LRSelectedSourceWords,
-    w->D972LRWordElm(w,D972BDTuplePGens));;
-  D972LRSelectedSourceG9:=List(D972LRSelectedSourceWords,
-    w->D972LRWordElm(w,D972BDTupleG9Gens));;
-  D972LRSelectedAction:=List(D972BDWords,r->D972LRMask24(
-    D972LRWordElm(r.source_word,D972LRSelectedSourceE)));;
-  D972LRW:=D972LRSubstitute(D972BDWords[1].source_word,D972LRSelectedSourceWords);;
-  if D972LRWordElm(D972LRW,D972BDTupleGens)<>
-     D972LRWordElm(D972BDWords[1].source_word,D972LRSelectedSourceE) then
-    Error("157cx2: selected substitution/evaluation drift");
-  fi;
-  D972LRRelationPreserved:=ForAll(D972LRRelationGens,r->
-    D972LRSolve(D972LRRelationSpan,
-      D972LRApplyMatrix(r.vector,D972LRSelectedAction))<>fail);;
-  D972LRFactorCertE:=D972LRFactorAutoCertificate("E",D972BDE,D972BDX,D972BDY,
-    D972BDTupleRows,D972LRSelectedSourceE,D972BDDegreeE);;
-  D972LRFactorCertP:=D972LRFactorAutoCertificate("P",D972BDP,D972BDPX,D972BDPY,
-    D972BDTuplePRows,D972LRSelectedSourceP,D972BDDegreeP);;
-  D972LRFactorCertG9:=D972LRFactorAutoCertificate("G9",D972BDG9,D972BDX9,D972BDY9,
-    D972BDTupleG9Rows,D972LRSelectedSourceG9,D972BDDegreeG9);;
-  ## Exact kernel-diagram gate.  Here the literal relation boundary is
-  ## D=C=V^4=ker(E^4->P^4).  Evaluation of the same six source words upstairs
-  ## and downstairs makes the square commute; bijectivity on E and P then
-  ## forces the E automorphism to preserve C and identifies its descent on
-  ## E^4/D with the recorded P^4 automorphism.  In this construction the 158
-  ## A.18 words define only the kernel relation boundary
-  ## D=<<relators>> intersect C.  The raw normal image outside C is therefore
-  ## not itself the defining subgroup of the chief-fibre quotient; the exact
-  ## P/G9 gates below replay the 24 kernel combinations and typed predicates.
-  D972LRAbstractToP:=GroupHomomorphismByImages(D972BDAbstractP,D972BDP,
-    [D972BDAbstractPX,D972BDAbstractPY],[D972BDPX,D972BDPY]);;
-  if D972LRAbstractToP=fail or not IsBijective(D972LRAbstractToP) then
-    Error("157cu: E/V to canonical P isomorphism drift");
-  fi;;
-  D972LRQuotientDiagramOK:=ForAll([1..6],j->ForAll([1..4],c->
-    Image(D972LRAbstractToP,Image(D972BDQMap,D972BDBlockRestrict(
-      D972LRSelectedSourceE[j],(c-1)*D972BDDegreeE,D972BDDegreeE)))=
-    D972BDBlockRestrict(D972LRSelectedSourceP[j],
-      (c-1)*D972BDDegreeP,D972BDDegreeP)));;
-  D972LRFastSettlement:=D972LRFactorCertE<>fail and D972LRFactorCertP<>fail and
-    D972LRFactorCertG9<>fail and D972LRRowRank(D972LRSelectedAction,24)=24 and
-    D972LRRelationPreserved and D972LRRelationSpan.rank=24 and
-    D972LRQuotientDiagramOK;;
-  D972LRSettlementOK:=D972LRFastSettlement;;
-  D972LRBoundaryOrder:=2^D972LRRelationSpan.rank;;
-  D972LRLiteralQuotientOrder:=Size(D972BDE)^4/D972LRBoundaryOrder;;
-  D972LRSettlementMethod:="factor_automorphisms_and_exact_kernel_diagram";;
-  D972LRFactorCertificateReceipt:=fail;;
-  if D972LRFastSettlement then
-    D972LRFactorCertificateReceipt:=rec(coordinate_map:=[1,2,3,4],
-      E:=D972LRFactorCertE.receipt,P:=D972LRFactorCertP.receipt,
-      G9:=D972LRFactorCertG9.receipt,relation_boundary_preserved:=true,
-      literal_boundary_equals_marked_kernel:=true,
-      quotient_diagram_commutes:=true,
-      quotient_kernel_lemma:="D=C=ker(E4->P4); commuting E/P automorphisms descend bijectively to E4/D",
-      kernel_action_bijective:=true,ambient_E4_automorphism:=true,
-      P4_automorphism:=true,G9_fourfold_image_automorphism:=true,
-      quotient_automorphism:=true);
-  fi;
-  if not D972LRSettlementOK then
-    AddSet(D972LRGlobalMissing,"settlement.source_endomorphism_bijective");;
-    D972LRStatus:="UNKNOWN_MISSING_INPUT";; D972LRSelected:=fail;
-  else
-    D972LRSettlement:=rec(source_words:=D972LRSelectedSourceWords,
-      source_images_E:=List(D972LRSelectedSourceE,p->D972BDZeroArray(p,4*D972BDDegreeE)),
-      source_images_P:=List(D972LRSelectedSourceP,p->D972BDZeroArray(p,4*D972BDDegreeP)),
-      source_images_G9:=List(D972LRSelectedSourceG9,p->D972BDZeroArray(p,4*D972BDDegreeG9)),
-      kernel_action_matrix:=List(D972LRSelectedAction,r->D972LRBits(r,24)),
-      kernel_action_rank:=24,literal_boundary_order:=D972LRBoundaryOrder,
-      literal_kernel_quotient_dimension:=24-D972LRRelationSpan.rank,
-      literal_quotient_order:=D972LRLiteralQuotientOrder,P4_bijective:=true,
-      G9_fourfold_image_bijective:=true,literal_quotient_bijective:=true,
-      settlement_method:=D972LRSettlementMethod,
-      factor_automorphism_certificate:=D972LRFactorCertificateReceipt,settled:=true);
-    D972LRSelected.settlement:=D972LRSettlement;
-  fi;
+D972LRAbstractToP:=GroupHomomorphismByImages(D972BDAbstractP,D972BDP,
+  [D972BDAbstractPX,D972BDAbstractPY],[D972BDPX,D972BDPY]);;
+if D972LRAbstractToP=fail then Error("157cu: E/V to canonical P map drift"); fi;;
+if not IsBijective(D972LRAbstractToP) then
+  Error("157cu: E/V to canonical P isomorphism drift");
 fi;;
+D972LRBoundaryOrder:=2^D972LRRelationSpan.rank;;
+D972LRLiteralQuotientOrder:=Size(D972BDE)^4/D972LRBoundaryOrder;;
+D972LRSettlementMethod:="factor_automorphisms_and_exact_kernel_diagram";;
+
+## A local hexagon/pentagon solution is only a candidate.  Settlement is
+## tested for every candidate in the already deterministic order
+## (exponent 1, bits 0..63; then exponent 2, bits 0..63).  Candidate failure
+## is a finite negative, not a missing input.  Only the source-word/evaluation
+## composition canary and the frozen quotient model remain hard errors.
+D972LRTrySettlement := function(sol)
+  local sourceWords,sourceE,sourceP,sourceG9,w,action,r,evalue,pvalue,gvalue,
+    relationPreserved,factorE,factorP,factorG9,quotientOK,factorReceipt;
+  sourceWords:=D972LRSourceWordsM0(sol.typed_source_word);;
+  sourceE:=List(sourceWords,w->D972LRWordElm(w,D972BDTupleGens));;
+  sourceP:=List(sourceWords,w->D972LRWordElm(w,D972BDTuplePGens));;
+  sourceG9:=List(sourceWords,w->D972LRWordElm(w,D972BDTupleG9Gens));;
+  w:=D972LRSubstitute(D972BDWords[1].source_word,sourceWords);;
+  if D972LRWordElm(w,D972BDTupleGens)<>
+       D972LRWordElm(D972BDWords[1].source_word,sourceE) or
+     D972LRWordElm(w,D972BDTuplePGens)<>
+       D972LRWordElm(D972BDWords[1].source_word,sourceP) or
+     D972LRWordElm(w,D972BDTupleG9Gens)<>
+       D972LRWordElm(D972BDWords[1].source_word,sourceG9) then
+    Error("157cx2: settlement substitution/evaluation drift");
+  fi;
+  action:=[];;
+  for r in D972BDWords do
+    evalue:=D972LRWordElm(r.source_word,sourceE);;
+    pvalue:=D972LRWordElm(r.source_word,sourceP);;
+    gvalue:=D972LRWordElm(r.source_word,sourceG9);;
+    if not D972LRValueInV4(evalue) or
+       pvalue<>One(D972BDTuplePGens[1]) or
+       gvalue<>One(D972BDTupleG9Gens[1]) then return fail; fi;
+    Add(action,D972LRMask24(evalue));
+  od;
+  relationPreserved:=ForAll(D972LRRelationGens,r->
+    D972LRSolve(D972LRRelationSpan,
+      D972LRApplyMatrix(r.vector,action))<>fail);;
+  if D972LRRowRank(action,24)<>24 or not relationPreserved or
+     D972LRRelationSpan.rank<>24 then return fail; fi;
+  factorE:=D972LRFactorAutoCertificate("E",D972BDE,D972BDX,D972BDY,
+    D972BDTupleRows,sourceE,D972BDDegreeE);;
+  if factorE=fail then return fail; fi;
+  factorP:=D972LRFactorAutoCertificate("P",D972BDP,D972BDPX,D972BDPY,
+    D972BDTuplePRows,sourceP,D972BDDegreeP);;
+  if factorP=fail then return fail; fi;
+  factorG9:=D972LRFactorAutoCertificate("G9",D972BDG9,D972BDX9,D972BDY9,
+    D972BDTupleG9Rows,sourceG9,D972BDDegreeG9);;
+  if factorG9=fail then return fail; fi;
+  quotientOK:=ForAll([1..6],j->ForAll([1..4],c->
+    Image(D972LRAbstractToP,Image(D972BDQMap,D972BDBlockRestrict(
+      sourceE[j],(c-1)*D972BDDegreeE,D972BDDegreeE)))=
+    D972BDBlockRestrict(sourceP[j],(c-1)*D972BDDegreeP,D972BDDegreeP)));;
+  if not quotientOK then return fail; fi;
+  factorReceipt:=rec(coordinate_map:=[1,2,3,4],
+    E:=factorE.receipt,P:=factorP.receipt,G9:=factorG9.receipt,
+    relation_boundary_preserved:=true,literal_boundary_equals_marked_kernel:=true,
+    quotient_diagram_commutes:=true,
+    quotient_kernel_lemma:="D=C=ker(E4->P4); commuting E/P automorphisms descend bijectively to E4/D",
+    kernel_action_bijective:=true,ambient_E4_automorphism:=true,
+    P4_automorphism:=true,G9_fourfold_image_automorphism:=true,
+    quotient_automorphism:=true);;
+  return rec(source_words:=sourceWords,
+    source_images_E:=List(sourceE,p->D972BDZeroArray(p,4*D972BDDegreeE)),
+    source_images_P:=List(sourceP,p->D972BDZeroArray(p,4*D972BDDegreeP)),
+    source_images_G9:=List(sourceG9,p->D972BDZeroArray(p,4*D972BDDegreeG9)),
+    kernel_action_matrix:=List(action,r->D972LRBits(r,24)),
+    kernel_action_rank:=24,literal_boundary_order:=D972LRBoundaryOrder,
+    literal_kernel_quotient_dimension:=24-D972LRRelationSpan.rank,
+    literal_quotient_order:=D972LRLiteralQuotientOrder,P4_bijective:=true,
+    G9_fourfold_image_bijective:=true,literal_quotient_bijective:=true,
+    settlement_method:=D972LRSettlementMethod,
+    factor_automorphism_certificate:=factorReceipt,settled:=true);
+end;;
+
+D972LRPhaseStart:=D972LRPhaseBegin("settlement");;
+D972LRStatus:="EXACT_FINITE_STAGE_OBSTRUCTION";; D972LRSelected:=fail;;
+D972LRSettlement:=fail;; D972LRSettlementAttempts:=0;;
+D972LRSettlementRejected:=0;;
+if Length(D972LRGlobalMissing)<>0 then
+  Error("157cx2: diagnostic data entered terminal missing-input gate");
+fi;;
+for D972LRSol in D972LRSolutions do
+  D972LRSettlementAttempts:=D972LRSettlementAttempts+1;;
+  D972LRTry:=D972LRTrySettlement(D972LRSol);;
+  if D972LRTry<>fail then
+    D972LRSelected:=D972LRSol;;
+    D972LRSettlement:=D972LRTry;;
+    D972LRSelected.settlement:=D972LRSettlement;;
+    D972LRStatus:="ROW18_TYPED_STAGE_LIFT";;
+    break;
+  fi;
+  D972LRSettlementRejected:=D972LRSettlementRejected+1;;
+od;
 D972LRPhaseEnd("settlement",D972LRPhaseStart);;
 
 D972LRRelationReceipt:=List(D972LRRelationGens,r->rec(vector:=r.vector,
@@ -1284,12 +1354,24 @@ D972LRReceipt:=rec(
     root_row_index:=19,root_key:=D972LRExpectedKey,root_word:=D972LRF0,
     exponent_candidates:=[1,2],powered_word:=D972LRSquare,
     powered_row_index:=D972LRSquareIndex,powered_key:=D972LRSquareKey,
-    root_action_matrix:=List(D972LRRootAction,r->D972LRBits(r,24)),
-    norm_I_plus_T:=List(D972LRNorm2,r->D972LRBits(r,24)),
+    root_basis_images_in_C:=D972LRRootActionDefined,
+    root_basis_E_outside_indices:=D972LRRootEOutsideBasis,
+    root_basis_P_nonidentity_indices:=D972LRRootPNonidentityBasis,
+    root_basis_G9_nonidentity_indices:=D972LRRootG9NonidentityBasis,
+    root_action_defined:=D972LRRootActionDefined,
+    root_action_undefined_basis_indices:=D972LRRootActionUndefinedBasis,
+    root_action_rank:=D972LRRootActionRank,
+    root_action_bijective:=D972LRRootActionBijective,
+    root_action_matrix:=D972LRRootActionReceipt,
+    norm_I_plus_T:=D972LRNorm2Receipt,
     norm_identity_mod_literal_relations:=D972LRNormOK,
+    norm_role:="diagnostic_only; terminal acceptance uses direct candidate replay and settlement",
     outside_proof:="pure axis exponent n with 3 not dividing n remains outside both arithmetic Kummer lines"),
   exhaustive_stage:=rec(correction_count:=64,power_records:=D972LRPowerRecords,
     total_solution_count:=Length(D972LRSolutions),selected:=D972LRSelected,
+    settlement_attempt_count:=D972LRSettlementAttempts,
+    settlement_rejected_count:=D972LRSettlementRejected,
+    settlement_candidate_order:="exponent_1_bits_0_to_63_then_exponent_2_bits_0_to_63",
     relation_boundary_closed_under_B4:=true,representative_independence:=true,
     marking_checked:=true,charming_onto_checked:=true,settlement:=D972LRSettlement,
     settlement_method:="exact factor automorphisms plus D=C kernel diagram; no generic fallback"),

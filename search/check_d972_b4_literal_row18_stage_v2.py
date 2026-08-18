@@ -173,23 +173,42 @@ def marked_hom_table(domain: Sequence[Perm], image: Sequence[Perm]) -> dict[Perm
     return table
 
 
+def try_marked_hom_table(domain: Sequence[Perm], image: Sequence[Perm]) -> dict[Perm,Perm] | None:
+    """Candidate-local marked homomorphism; relation failure is a negative."""
+    d0=one(len(domain[0])); i0=one(len(image[0])); table={d0:i0}; queue=deque([d0])
+    steps=((domain[0],image[0]),(inverse(domain[0]),inverse(image[0])),
+           (domain[1],image[1]),(inverse(domain[1]),inverse(image[1])))
+    while queue:
+        x=queue.popleft()
+        for ds,is_ in steps:
+            y=compose(x,ds); z=compose(table[x],is_)
+            if y in table:
+                if table[y]!=z:
+                    return None
+            else:
+                table[y]=z; queue.append(y)
+    return table
+
+
 FACTOR_XY_ROWS = ((3,5),(1,5),(0,4),(0,3))
 
 
-def factor_auto_certificate(label: str, domain: Sequence[Perm], tuple_gens: Sequence[Perm],
-                            selected: Sequence[Perm], degree: int, order: int) -> list[dict]:
-    """Independently prove the selected six rows come from four factor automorphisms."""
+def try_factor_auto_certificate(label: str, domain: Sequence[Perm], tuple_gens: Sequence[Perm],
+                                selected: Sequence[Perm], degree: int,
+                                order: int) -> list[dict] | None:
+    """Return None, rather than raising, when one candidate is not an automorphism."""
     original_blocks = [blocks(g, degree) for g in tuple_gens]
     selected_blocks = [blocks(g, degree) for g in selected]
     receipt: list[dict] = []
     for c, (xrow, yrow) in enumerate(FACTOR_XY_ROWS):
-        table = marked_hom_table(domain,
-                                 (selected_blocks[xrow][c], selected_blocks[yrow][c]))
-        require(len(table) == order and len(set(table.values())) == order,
-                f"{label} factor automorphism drift")
+        table = try_marked_hom_table(domain,
+                                     (selected_blocks[xrow][c], selected_blocks[yrow][c]))
+        if table is None or len(table)!=order or len(set(table.values()))!=order:
+            return None
         for j in range(6):
-            require(table[original_blocks[j][c]] == selected_blocks[j][c],
-                    f"{label} tuple binding drift")
+            if original_blocks[j][c] not in table or \
+                    table[original_blocks[j][c]] != selected_blocks[j][c]:
+                return None
         receipt.append({"family":label,"coordinate":c+1,"x_source_row":xrow+1,
                         "y_source_row":yrow+1,"factor_order":order,
                         "bijective":True,"all_six_tuple_rows_bound":True})
@@ -407,6 +426,15 @@ def mask24(value: Perm, masks: dict[Perm, int]) -> int:
     out = 0
     for c, block in enumerate(blocks(value, DEG_E)):
         require(block in masks, "value outside V4")
+        out |= masks[block] << (6*c)
+    return out
+
+
+def try_mask24(value: Perm, masks: dict[Perm, int]) -> int | None:
+    out = 0
+    for c, block in enumerate(blocks(value, DEG_E)):
+        if block not in masks:
+            return None
         out |= masks[block] << (6*c)
     return out
 
@@ -916,10 +944,25 @@ def validate_report(report: dict) -> None:
     square_index,square_key=matches[0]
     root_source=source_words_m0(root)
     root_source_e=[word_value(w,egens) for w in root_source]
-    root_action=[mask24(word_value(w,root_source_e),masks) for w in basis_words]
+    root_source_p=[word_value(w,pgens) for w in root_source]
+    root_source_g=[word_value(w,ggens) for w in root_source]
+    root_basis_e=[word_value(w,root_source_e) for w in basis_words]
+    root_basis_p=[word_value(w,root_source_p) for w in basis_words]
+    root_basis_g=[word_value(w,root_source_g) for w in basis_words]
+    root_e_masks=[try_mask24(value,masks) for value in root_basis_e]
+    root_e_outside=[i+1 for i,row in enumerate(root_e_masks) if row is None]
+    root_p_nonidentity=[i+1 for i,value in enumerate(root_basis_p) if value!=onep4]
+    root_g_nonidentity=[i+1 for i,value in enumerate(root_basis_g) if value!=oneg4]
+    root_action_undefined=sorted(set(root_e_outside+root_p_nonidentity+root_g_nonidentity))
+    root_action_defined=not root_action_undefined
+    root_action=([int(row) for row in root_e_masks]
+                 if root_action_defined else None)
     require(word_value(substitute(basis_words[0],root_source),egens)==
             word_value(basis_words[0],root_source_e),"root composition canary")
-    norm=[(1<<i)^root_action[i] for i in range(24)]
+    root_action_rank=(row_rank(root_action,24) if root_action is not None else None)
+    root_action_bijective=(root_action_rank==24 if root_action_rank is not None else None)
+    norm=([(1<<i)^root_action[i] for i in range(24)]
+          if root_action is not None else None)
 
     hex_contexts_e=hex_pairs(core["x"],core["y"])
     hex_contexts_p=hex_pairs(core["px"],core["py"])
@@ -932,6 +975,7 @@ def validate_report(report: dict) -> None:
                        correction_context_table(pent_contexts_p,cbasis),
                        correction_context_table(pent_contexts_g,cbasis))
     global_missing=[]; all_solutions=[]; power_records=[]
+    onto_e_cache: dict[Perm,bool]={}; onto_g_cache: dict[Perm,bool]={}
     power_inputs=((1,root,19,EXPECTED_KEY),(2,square,square_index,square_key))
     for exponent,pword,row_index,key in power_inputs:
         dword=dtilde_word(pword)
@@ -945,17 +989,16 @@ def validate_report(report: dict) -> None:
         bhp=hex_from_values(base_contexts[1],0,core["px"],core["py"])
         bhg=hex_from_values(base_contexts[2],0,core["gx"],core["gy"])
         base_hex_masks=None
-        if all(x==one(len(x)) for x in bhp+bhg):
+        if all(x==one(len(x)) for x in bhp+bhg) and all(x in masks for x in bhe):
             base_hex_masks=[masks[x] for x in bhe]
-        else: global_missing.append("stage.row_power_base_hexagon_membership")
         pe=pent_from_values(base_contexts[3]); pp=pent_from_values(base_contexts[4])
         pg=pent_from_values(base_contexts[5])
-        transport=word_value(dword,egens)==pe
-        if not transport: global_missing.append("a18_comparison.dtilde_to_pab_pentagon_transport")
+        transport=(word_value(dword,egens)==pe and word_value(dword,pgens)==pp and
+                   word_value(dword,ggens)==pg)
         base_mask=None
-        if pp==onep4 and pg==oneg4: base_mask=mask24(pe,masks)
-        else: global_missing.append("stage.row_power_base_pentagon_membership")
+        if pp==onep4 and pg==oneg4: base_mask=try_mask24(pe,masks)
         gauge=[]; power_solutions=[]
+        candidate_transport_evaluated_count=0; candidate_transport_pass_count=0
         for bits in range(64):
             corr=correction_word(bits,cbasis); candidate=free_reduce(pword+corr)
             cached=[context_values(base_contexts[i],correction_tables[i],bits) for i in range(6)]
@@ -970,9 +1013,11 @@ def validate_report(report: dict) -> None:
             hg=hex_from_values(cached[2],0,core["gx"],core["gy"])
             ce=pent_from_values(cached[3]); cp=pent_from_values(cached[4]); cg=pent_from_values(cached[5])
             cmask=None; coeff=None; hex_masks=None
-            if all(x==one(len(x)) for x in hp+hg): hex_masks=[masks[x] for x in he]
+            if all(x==one(len(x)) for x in hp+hg) and all(x in masks for x in he):
+                hex_masks=[masks[x] for x in he]
             if cp==onep4 and cg==oneg4:
-                cmask=mask24(ce,masks); coeff=span.solve(cmask)
+                cmask=try_mask24(ce,masks)
+                if cmask is not None: coeff=span.solve(cmask)
             if (bits in (1,2,4,8,16,32) and base_mask is not None and cmask is not None and
                     base_hex_masks is not None and hex_masks is not None):
                 gauge.append({"hexagon1":base_hex_masks[0]^hex_masks[0],
@@ -981,24 +1026,40 @@ def validate_report(report: dict) -> None:
             roof_ok=(cached[1][0]==base_contexts[1][0] and cached[2][0]==base_contexts[2][0])
             charm=(sum(1 if x>0 else -1 for x in candidate if abs(x)==1)==0 and
                    sum(1 if x>0 else -1 for x in candidate if abs(x)==2)==0)
-            preliminary=(transport and roof_ok and charm and all(x==one(len(x)) for x in he+hp+hg) and coeff is not None)
+            cheap_preliminary=(roof_ok and charm and all(x==one(len(x)) for x in he+hp+hg) and
+                               coeff is not None)
+            candidate_dword=None; candidate_transport=False
+            if cheap_preliminary:
+                candidate_transport_evaluated_count += 1
+                candidate_dword=dtilde_word(candidate)
+                candidate_transport=(word_value(candidate_dword,egens)==ce and
+                                     word_value(candidate_dword,pgens)==cp and
+                                     word_value(candidate_dword,ggens)==cg)
+                candidate_transport_pass_count += int(candidate_transport)
+            preliminary=cheap_preliminary and candidate_transport
             if preliminary:
                 fe=cached[0][0]; fg=cached[2][0]
-                onto_e=len(closure((core["x"],paper_product((inverse(fe),core["y"],fe)))))==32256
-                onto_g=len(closure((core["gx"],paper_product((inverse(fg),core["gy"],fg)))))==2916
+                if fe not in onto_e_cache:
+                    onto_e_cache[fe]=(len(closure((core["x"],paper_product(
+                        (inverse(fe),core["y"],fe)))))==32256)
+                if fg not in onto_g_cache:
+                    onto_g_cache[fg]=(len(closure((core["gx"],paper_product(
+                        (inverse(fg),core["gy"],fg)))))==2916)
+                onto_e=onto_e_cache[fe]; onto_g=onto_g_cache[fg]
             else: onto_e=onto_g=False
             if preliminary and onto_e and onto_g:
                 selected=[i for i in range(len(relation)) if coeff & (1<<i)]
-                corrected=dtilde_word(candidate)
+                corrected=list(candidate_dword)
                 for i in selected: corrected.extend(relation[i]["word"])
                 corrected=free_reduce(corrected)
                 require(word_value(corrected,egens)==onee4 and word_value(corrected,pgens)==onep4 and
                         word_value(corrected,ggens)==oneg4,"corrected pentagon replay")
                 sol={"exponent":exponent,"correction_bits":bits,"correction_word":corr,
                      "typed_source_word":candidate,"roof_row_index":row_index,"roof_key":key,
-                     "defect_mask":cmask,"relation_combination":coeff,
-                     "relation_generator_indices":[i+1 for i in selected],
-                     "corrected_pentagon_word":corrected,"hexagon_E_identity":True,
+                      "defect_mask":cmask,"relation_combination":coeff,
+                      "relation_generator_indices":[i+1 for i in selected],
+                      "dtilde_word":candidate_dword,"dtilde_transport_ok":True,
+                      "corrected_pentagon_word":corrected,"hexagon_E_identity":True,
                      "hexagon_P_identity":True,"hexagon_G9_identity":True,
                      "pentagon_mod_literal_relations":True,"marking_m":0,"lambda":1,
                      "charming":True,"onto_E":True,"onto_G9":True,"roof_reduction_exact":True}
@@ -1007,67 +1068,90 @@ def validate_report(report: dict) -> None:
                               "source_word":pword,"base_dtilde_word":dword,
                               "dtilde_transport_ok":transport,"base_hexagon_masks":base_hex_masks,
                               "base_defect_mask":base_mask,
-                              "gauge_columns":gauge,"solution_count":len(power_solutions)})
+                              "gauge_columns":gauge,
+                              "candidate_transport_evaluated_count":candidate_transport_evaluated_count,
+                              "candidate_transport_pass_count":candidate_transport_pass_count,
+                              "solution_count":len(power_solutions)})
     global_missing=sorted(set(global_missing))
-    norm_ok=False
-    if power_records[0]["base_defect_mask"] is not None and power_records[1]["base_defect_mask"] is not None:
+    norm_ok=None
+    if norm is not None:
+        norm_ok=False
+    if norm is not None and power_records[0]["base_defect_mask"] is not None and power_records[1]["base_defect_mask"] is not None:
         residual=power_records[1]["base_defect_mask"] ^ apply_matrix(power_records[0]["base_defect_mask"],norm)
         norm_ok=span.solve(residual) is not None
-    selected=None
+    quotient_table=None
     if all_solutions:
-        selected=next((s for s in all_solutions if s["exponent"]==1),all_solutions[0])
-    settlement=None
-    if selected is not None and not global_missing:
-        sword=source_words_m0(selected["typed_source_word"])
-        se=[word_value(w,egens) for w in sword]
-        sp4=[word_value(w,pgens) for w in sword]
-        sg4=[word_value(w,ggens) for w in sword]
-        sa=[mask24(word_value(w,se),masks) for w in basis_words]
-        require(word_value(substitute(basis_words[0],sword),egens)==word_value(basis_words[0],se),
-                "selected composition canary")
-        factor_e=factor_auto_certificate("E",(core["x"],core["y"]),egens,se,DEG_E,32256)
-        factor_p=factor_auto_certificate("P",(core["px"],core["py"]),pgens,sp4,DEG_P,504)
-        factor_g=factor_auto_certificate("G9",(core["gx"],core["gy"]),ggens,sg4,DEG_G9,2916)
-        # Exact commutative-square/kernel gate for D=C=ker(E^4 -> P^4).
-        # The raw 158-word normal image may have components outside C.  It is
-        # not used as the chief-fibre quotient: A.18 supplies the kernel
-        # boundary D=R intersect C, which the positive 24-word certificate
-        # proves is all of C.  P/G9 separately replay those 24 kernel words
-        # and the typed predicates.
         quotient_table=marked_hom_table((core["x"],core["y"]),(core["px"],core["py"]))
         quotient_kernel={e for e,value in quotient_table.items() if value==one(DEG_P)}
         require(len(quotient_table)==32256 and len(set(quotient_table.values()))==504 and
                 quotient_kernel==closure(module,DEG_E),
                 "E/V to canonical P quotient-kernel drift")
+
+    def try_settlement(sol: dict) -> dict | None:
+        sword=source_words_m0(sol["typed_source_word"])
+        se=[word_value(w,egens) for w in sword]
+        sp4=[word_value(w,pgens) for w in sword]
+        sg4=[word_value(w,ggens) for w in sword]
+        composed=substitute(basis_words[0],sword)
+        require(word_value(composed,egens)==word_value(basis_words[0],se) and
+                word_value(composed,pgens)==word_value(basis_words[0],sp4) and
+                word_value(composed,ggens)==word_value(basis_words[0],sg4),
+                "settlement composition canary")
+        sa=[]
+        for word in basis_words:
+            ev=word_value(word,se); pv=word_value(word,sp4); gv=word_value(word,sg4)
+            row=try_mask24(ev,masks)
+            if row is None or pv!=onep4 or gv!=oneg4:
+                return None
+            sa.append(row)
+        relation_preserved=all(span.solve(apply_matrix(r["vector"],sa)) is not None
+                               for r in relation)
+        if row_rank(sa,24)!=24 or not relation_preserved or span.rank!=24:
+            return None
+        factor_e=try_factor_auto_certificate(
+            "E",(core["x"],core["y"]),egens,se,DEG_E,32256)
+        if factor_e is None: return None
+        factor_p=try_factor_auto_certificate(
+            "P",(core["px"],core["py"]),pgens,sp4,DEG_P,504)
+        if factor_p is None: return None
+        factor_g=try_factor_auto_certificate(
+            "G9",(core["gx"],core["gy"]),ggens,sg4,DEG_G9,2916)
+        if factor_g is None: return None
+        require(quotient_table is not None,"settlement quotient table unavailable")
         quotient_diagram=all(
-            quotient_table[blocks(se[j],DEG_E)[c]] == blocks(sp4[j],DEG_P)[c]
+            quotient_table.get(blocks(se[j],DEG_E)[c]) == blocks(sp4[j],DEG_P)[c]
             for j in range(6) for c in range(4))
-        relation_preserved=all(span.solve(apply_matrix(r["vector"],sa)) is not None for r in relation)
-        if row_rank(sa,24)!=24 or not relation_preserved or span.rank!=24 or not quotient_diagram:
-            global_missing.append("settlement.source_endomorphism_bijective")
-            selected=None
-        else:
-            factor_receipt={"coordinate_map":[1,2,3,4],"E":factor_e,"P":factor_p,"G9":factor_g,
-                            "relation_boundary_preserved":True,"kernel_action_bijective":True,
-                            "literal_boundary_equals_marked_kernel":True,
-                            "quotient_diagram_commutes":True,
-                            "quotient_kernel_lemma":
-                                "D=C=ker(E4->P4); commuting E/P automorphisms descend bijectively to E4/D",
-                            "ambient_E4_automorphism":True,"P4_automorphism":True,
-                            "G9_fourfold_image_automorphism":True,"quotient_automorphism":True}
-            settlement={"source_words":sword,"source_images_E":[list(x) for x in se],
-                        "source_images_P":[list(x) for x in sp4],
-                        "source_images_G9":[list(x) for x in sg4],
-                        "kernel_action_matrix":[[(r>>j)&1 for j in range(24)] for r in sa],
-                        "kernel_action_rank":24,"literal_boundary_order":2**span.rank,
-                        "literal_kernel_quotient_dimension":24-span.rank,
-                        "literal_quotient_order":32256**4//(2**span.rank),
-                        "P4_bijective":True,"G9_fourfold_image_bijective":True,
-                        "literal_quotient_bijective":True,
-                        "settlement_method":"factor_automorphisms_and_exact_kernel_diagram",
-                        "factor_automorphism_certificate":factor_receipt,"settled":True}
+        if not quotient_diagram: return None
+        factor_receipt={"coordinate_map":[1,2,3,4],"E":factor_e,"P":factor_p,"G9":factor_g,
+                        "relation_boundary_preserved":True,"kernel_action_bijective":True,
+                        "literal_boundary_equals_marked_kernel":True,
+                        "quotient_diagram_commutes":True,
+                        "quotient_kernel_lemma":
+                            "D=C=ker(E4->P4); commuting E/P automorphisms descend bijectively to E4/D",
+                        "ambient_E4_automorphism":True,"P4_automorphism":True,
+                        "G9_fourfold_image_automorphism":True,"quotient_automorphism":True}
+        return {"source_words":sword,"source_images_E":[list(x) for x in se],
+                "source_images_P":[list(x) for x in sp4],
+                "source_images_G9":[list(x) for x in sg4],
+                "kernel_action_matrix":[[(r>>j)&1 for j in range(24)] for r in sa],
+                "kernel_action_rank":24,"literal_boundary_order":2**span.rank,
+                "literal_kernel_quotient_dimension":24-span.rank,
+                "literal_quotient_order":32256**4//(2**span.rank),
+                "P4_bijective":True,"G9_fourfold_image_bijective":True,
+                "literal_quotient_bijective":True,
+                "settlement_method":"factor_automorphisms_and_exact_kernel_diagram",
+                "factor_automorphism_certificate":factor_receipt,"settled":True}
+
+    selected=None; settlement=None; settlement_attempt_count=0; settlement_rejected_count=0
+    for sol in all_solutions:
+        settlement_attempt_count += 1
+        candidate_settlement=try_settlement(sol)
+        if candidate_settlement is not None:
+            selected=sol; settlement=candidate_settlement
             selected["settlement"]=settlement
-    global_missing=sorted(set(global_missing))
+            break
+        settlement_rejected_count += 1
+    require(not global_missing,"diagnostic data entered terminal missing-input gate")
     status=classify(global_missing,[] if selected is None else [selected])
     require(report.get("status")==status and report.get("missing_inputs")==global_missing,
             "terminal status drift")
@@ -1075,6 +1159,11 @@ def validate_report(report: dict) -> None:
     require(stage.get("correction_count")==64 and stage.get("power_records")==power_records and
             stage.get("total_solution_count")==len(all_solutions) and stage.get("selected")==selected,
             "exhaustive stage receipt drift")
+    require(stage.get("settlement_attempt_count")==settlement_attempt_count and
+            stage.get("settlement_rejected_count")==settlement_rejected_count and
+            stage.get("settlement_candidate_order")==
+                "exponent_1_bits_0_to_63_then_exponent_2_bits_0_to_63",
+            "settlement enumeration receipt drift")
     require(stage.get("settlement")==settlement,"settlement receipt drift")
     require(stage.get("relation_boundary_closed_under_B4") is True and
             stage.get("representative_independence") is True and
@@ -1087,9 +1176,21 @@ def validate_report(report: dict) -> None:
             power_obj.get("root_row_index")==19 and power_obj.get("root_key")==EXPECTED_KEY and
             power_obj.get("exponent_candidates")==[1,2] and
             power_obj.get("powered_row_index")==square_index and power_obj.get("powered_key")==square_key and
-            power_obj.get("root_action_matrix")==[[(r>>j)&1 for j in range(24)] for r in root_action] and
-            power_obj.get("norm_I_plus_T")==[[(r>>j)&1 for j in range(24)] for r in norm] and
+            power_obj.get("root_basis_images_in_C")==root_action_defined and
+            power_obj.get("root_basis_E_outside_indices")==root_e_outside and
+            power_obj.get("root_basis_P_nonidentity_indices")==root_p_nonidentity and
+            power_obj.get("root_basis_G9_nonidentity_indices")==root_g_nonidentity and
+            power_obj.get("root_action_defined")==root_action_defined and
+            power_obj.get("root_action_undefined_basis_indices")==root_action_undefined and
+            power_obj.get("root_action_rank")==root_action_rank and
+            power_obj.get("root_action_bijective")==root_action_bijective and
+            power_obj.get("root_action_matrix")==
+                (None if root_action is None else [[(r>>j)&1 for j in range(24)] for r in root_action]) and
+            power_obj.get("norm_I_plus_T")==
+                (None if norm is None else [[(r>>j)&1 for j in range(24)] for r in norm]) and
             power_obj.get("norm_identity_mod_literal_relations")==norm_ok and
+            power_obj.get("norm_role")==
+                "diagnostic_only; terminal acceptance uses direct candidate replay and settlement" and
             power_obj.get("used")==bool(selected and selected["exponent"]>1), "power receipt drift")
     require(power_obj.get("outside_proof")==
             "pure axis exponent n with 3 not dividing n remains outside both arithmetic Kummer lines",
@@ -1109,6 +1210,8 @@ def self_test() -> None:
             digest([marked_sub([1,4,-1],(1,),(5,))]),"coface mutation accepted")
     toy_a=(1,0,2); toy_b=(0,2,1)
     require(compose(toy_a,toy_b)!=paper_product((toy_a,toy_b)),"GT composition-order mutation")
+    require(try_marked_hom_table(((1,0),(1,0)),((0,1),(1,0))) is None,
+            "candidate-local homomorphism failure branch")
     require(gt_compose_m0([1,2],[1,2])!=[1,2,1,2],"naive GT word power accepted")
     require(EXPECTED_KEY != [0,[[2,0],[7,0],[0,0]],[1,2,3,4,5,6,7,8,8]],"key mutation")
     require(EXPECTED_WORD != EXPECTED_WORD[:-1]+[-1],"word mutation")
@@ -1117,6 +1220,8 @@ def self_test() -> None:
     basis=[[-1,-2],[1]]; toy_c=(1,2,0)
     require(correction_word(1,basis)!=correction_word(0,basis),"correction-bit mutation")
     require(word_value([1],(toy_c,))!=word_value([-1],(toy_c,)),"basis-word mutation accepted")
+    require(try_mask24(one(4*DEG_E),{one(DEG_E):0})==0 and
+            try_mask24(one(4*DEG_E),{}) is None,"optional root-action membership branch")
     require(signed_word_ok([1,-2,3],3) and not signed_word_ok([1,0,3],3) and
             not signed_word_ok([1,-1],3),"literal normal signed-word mutation")
     toy_rel=[1,2,-1]; toy_conj=[2,-1]
