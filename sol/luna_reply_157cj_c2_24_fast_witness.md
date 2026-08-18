@@ -102,6 +102,8 @@ No local GAP, Git operation, GHA dispatch, or credential was used.
   → `D972_CORE_INTERSECTION_V2_CHECKER_SELFTEST_PASS`
 * Python AST parse → `PY_AST_PASS`
 * PyYAML parse of the workflow → `YAML_PARSE_PASS`
+* exact extraction of the YAML-literal awk command with no escaped quotes →
+  `ACTION_AWK_LITERAL_STATIC_PASS`
 * every workflow `uses:` reference is immutable 40-hex → `ACTION_REF_GATE_PASS`
 * producer/checker/workflow SHA binding check → `HASH_BINDING_PASS`
 * bounded Python model sanity replay found an E-pure metabelian-law seed and a
@@ -118,8 +120,14 @@ search/check_d972_d972core_c2six_intersection_v2.py
 c84519d3d0f9d9e5d97c229220ef95cf178f8948661fd67663cda1b388619a90
 
 .github/workflows/d972-d972core-c2six-intersection-v2.yml
-ee086dea03fe8abb8b8ebb4341e8fb59c22c76a1569a4f36ca5fa22dd3269af2
+b5b85ad8f5bab159d510a8dc2df32124d9bf323276c477004e23f9d9b106b953
 ```
 
 The GHA receipt is still required before treating the bundle as
 cross-checked.
+
+The first dispatch, run `32083286058`, stopped before the hash stage because
+the action-ref fixture had literal backslashes around the awk string quotes.
+The v2 workflow now contains the valid YAML-literal shell form
+`awk '$1 == "uses:" { print $2 }'`; no mathematical or producer logic was
+changed.
