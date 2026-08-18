@@ -129,9 +129,13 @@ Current implementation pointer (2026-08-18 JST):
   dispatch-stopping blocker: the positive normal-membership certificate,
   105/1260 bounds, F6 expansion, independent checker, `D=C` quotient diagram,
   GAP API surface, and 30-minute workflow bound all pass static review.  Parent
-  has committed the exact three-file bundle as the SHA above; after recording
-  this snapshot it will push and dispatch through the registered literal-only
-  launcher.  No local GAP or heavy Python is authorized.
+  committed the exact three-file bundle as the SHA above, recorded and pushed
+  it through bootstrap commit
+  `a55fd48adb722104908b3e6dacd9784e37e3aa2e`, and dispatched registered
+  literal-only GHA run `32102023241` at that exact head at
+  `2026-08-18T05:13:04Z`.  The run is currently in progress and must be
+  monitored through producer and independent checker.  No local GAP or heavy
+  Python is authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
