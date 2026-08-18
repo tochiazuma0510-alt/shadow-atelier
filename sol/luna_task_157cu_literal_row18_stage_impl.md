@@ -102,8 +102,11 @@ Current implementation pointer (2026-08-18 JST):
   the exact row index, coface, seed, P/G9 orders, and lossless permutation
   arrays.  Diagnostic producer hash:
   `a27da615434463826143e6e79cdc30b8fdbebb89092bc551acb6462dc91150ca`.
-  Dispatch it while continuing to monitor `32094134098`; no run may support a
-  terminal claim until its independent checker passes.
+  Parent committed/pushed the diagnostic as
+  `577f05a0ef589b0c105305cd5d30df89d0ee6234` and dispatched immutable
+  literal-only GHA run `32099865818`.  Monitor it while continuing to monitor
+  `32094134098`; no run may support a terminal claim until its independent
+  checker passes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
