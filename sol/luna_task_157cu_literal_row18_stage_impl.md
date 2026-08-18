@@ -76,8 +76,11 @@ Current implementation pointer (2026-08-18 JST):
   variable by separate `row` and `image` locals and added exact diagnostic
   values; the repaired producer hash is
   `e06bc99c71ea6c6ecfe0e13eb2382c6e3b799d35e75a2cf4afccae3eeb649440`.
-  Redispatch this repair while continuing to monitor `32094134098`; no run may
-  support a terminal claim until its independent checker passes.
+  Parent committed/pushed the repair as
+  `f263c40bd00f7aad2635e75bbc2d2669445ec140` and dispatched immutable
+  literal-only GHA run `32099098286`.  Monitor it while continuing to monitor
+  `32094134098`; no run may support a terminal claim until its independent
+  checker passes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
