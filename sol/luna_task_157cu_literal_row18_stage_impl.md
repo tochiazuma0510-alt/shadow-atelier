@@ -58,12 +58,12 @@ Current implementation pointer (2026-08-18 JST):
   no longer accepts either raw-row relabelling or the old projection-order-only
   settlement surrogate.
 - Current exact v2 implementation bundle is commit
-  `324592994ef0514a800c1360a63bdfc2714271ef`, with producer
-  `35da4c93260abe08de763b5a7a28be1ba7e1ce29abad3ae49424741457207390`,
+  `a776bca2b19ead82580b27b1f18641d691436f01`, with producer
+  `b84accc3a59eb9d61610618b5d5a9dbd1f91a98f95d346c39b58c881a059fc0c`,
   independent checker
-  `fab6aae53504d3692adf172464684a7e7d569dece84918446f12c3d375a5a4dc`,
+  `7f867f44c398a444685b33aef64108347e559cb1047bd9a6edec0c16744debd4`,
   and workflow
-  `9f8ae1d0e99252c16eec2280527bb769748f6c8c8378b67f32b11f4a318e17b7`.
+  `7e7ac7f6bf5a54c7eba05baa39e08cb71d38ce854b5a9efa84fa058e5108cbf5`.
   Python AST, checker self-test, YAML and embedded-Python parse, frozen hash and
   action pins, single-semicolon audit, and `git diff --check` pass.  Strict
   subgroup additions are bounded by 105 and conjugation attempts by 1260;
@@ -149,9 +149,27 @@ Current implementation pointer (2026-08-18 JST):
   transport audit also returned GO.  Parent committed and pushed the repair as
   `da918277594f0a43bd4fa699ea3fa3bb86cf2ac5` and dispatched registered
   literal-only run `32102847972` at that immutable head on
-  `2026-08-18T05:25:55Z`.  This is the active run and must be monitored through
-  producer and independent checker.  No local GAP or heavy Python is
-  authorized.
+  `2026-08-18T05:25:55Z`.  The transport, every frozen hash, and self-test
+  passed.  The new positive normal certificate then succeeded quickly: round
+  zero retained 12 literal relators, all 24 marked targets were already in
+  their subgroup, and 24 explicit combinations were expanded.  The producer
+  subsequently failed at `value outside V4` while trying to form an optional
+  norm operator from the still-untyped raw row-18 root; the direct 128-candidate
+  replay and checker were therefore not reached.  This is not an A/B result
+  and does not invalidate the 24 literal certificates.  The active repair is
+  to represent an unavailable raw-root action/norm honestly and continue the
+  already independent direct exponent-1/exponent-2 typed replay.  The
+  completed Sol audit also requires candidate-specific Dtilde/pentagon
+  transport (not a base-only proxy), treats base masks/gauge/norm as
+  diagnostics rather than terminal inputs, and settlement-tests every local
+  solution in exponent-1-first order instead of stopping at the first local
+  candidate.  Only a fully settled candidate is selected; if none settles,
+  the bounded universe is an exact finite-stage obstruction.  Luna completed
+  this three-file repair; checker self-test, Python/YAML/embedded-Python parse,
+  immutable action and source pins, and diff checks pass.  A final independent
+  Sol(max) audit returned GO with no dispatch-stopping blocker.  Parent
+  committed and pushed the exact three-file repair as the current bundle SHA
+  above.  No local GAP or heavy Python is authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
