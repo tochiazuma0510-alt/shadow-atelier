@@ -41,31 +41,36 @@ Current implementation pointer (2026-08-18 JST):
   mathematical A/B conclusion was emitted and its checker was correctly
   skipped.
 - Semantics-preserving first acceleration commit
-  `4cf64130b7956fe7d790d4840488c6995943868d` is executing as immutable GHA
-  run `32094134098`.  It remains live and must not be cancelled; its exact
-  producer began at `2026-08-18T03:07:28Z`, with checker pending.
-- A stronger exact v2 contingency is locally ready for dispatch.  It keeps
-  the complete two-powers by 64-corrections universe, literal predicates,
-  selected word, receipt meaning, and fail-closed generic settlement fallback.
-  It replaces 3840 repeated long-word evaluations by 240 fixed-context
-  evaluations, replaces the high-variance PB4 fp conversion by a faithful
-  Artin action on F4, evaluates action words compositionally, materializes
-  only independent relation rows, and uses exact small-factor automorphism
-  certificates plus invariant-module descent before the unchanged generic
-  fallback.  The independent checker reconstructs all of these gates and no
-  longer accepts the old projection-order-only settlement surrogate.
-- Current v2 hashes are producer
-  `ed60d787997fa912f72afadabe3d48be7dda9f128d0fe62a51ca9e179bdeef52`,
+  `4cf64130b7956fe7d790d4840488c6995943868d` completed as immutable GHA run
+  `32094134098`.  Its exact producer ran from `2026-08-18T03:07:28Z` to the
+  100-minute bound at `2026-08-18T04:47:28Z`, emitted
+  `UNKNOWN_RESOURCE`, and correctly skipped the checker.  This is not an A/B
+  conclusion and no longer needs monitoring.
+- The exact v2 bundle is the active implementation.  It keeps the complete
+  two-powers by 64-corrections universe, literal predicates, selected word,
+  and receipt meaning.  It replaces 3840 repeated long-word evaluations by
+  240 fixed-context evaluations, replaces the high-variance PB4 fp conversion
+  by a faithful Artin action on F4, and uses exact small-factor automorphism
+  certificates.  The corrected literal comparison uses explicit products of
+  relator conjugates for all 24 marked-kernel basis elements and the exact
+  `D=R intersect C=C` kernel diagram; the old generic settlement fallback has
+  been removed.  The independent checker reconstructs every certificate and
+  no longer accepts either raw-row relabelling or the old projection-order-only
+  settlement surrogate.
+- Current exact v2 implementation bundle is commit
+  `324592994ef0514a800c1360a63bdfc2714271ef`, with producer
+  `35da4c93260abe08de763b5a7a28be1ba7e1ce29abad3ae49424741457207390`,
   independent checker
-  `5c1eac3907d0b050e76de4fbf4712ca605cd69a77c0fe00a7bba7cca7c4eb719`,
+  `fab6aae53504d3692adf172464684a7e7d569dece84918446f12c3d375a5a4dc`,
   and workflow
-  `d6acd056c2d58ae06e851fa0b6b0323499116d10729561d5940ed850067964ee`.
-  Python AST, checker self-test, YAML parse, frozen hash pins, and
-  `git diff --check` pass.  A read-only Sol(max) adversarial audit found no
-  dispatch-stopping error in the intended fast path; if its sufficient factor
-  certificate failed but the old generic fallback succeeded, the checker
-  would reject fail-closed rather than risk a false PASS.  No local GAP or
-  heavy Python has been run.  Parent committed and pushed the exact four-file
+  `c15c18bfe0242a4a3c4f936e6bfab49979440a50aa8f1826f73ece26c8e4f9e6`.
+  Python AST, checker self-test, YAML and embedded-Python parse, frozen hash and
+  action pins, single-semicolon audit, and `git diff --check` pass.  Strict
+  subgroup additions are bounded by 105 and conjugation attempts by 1260;
+  no joint-group `Size` is computed, membership is batched, and all 24 targets
+  stop the search immediately.  The workflow producer bound is 30 minutes and
+  the job bound 40 minutes, replacing the obsolete 100/110-minute limits.  No
+  local GAP or heavy Python has been run.  Earlier, parent committed and pushed the exact four-file
   v2 bundle as `32881fb2c6f3e6143baf82af55fc03f74664cc4d`, then dispatched registered
   literal-only GHA run `32098738964` at that immutable commit.  The run passed
   setup, all frozen hashes, checker self-test, core reconstruction, and the F4
@@ -104,9 +109,29 @@ Current implementation pointer (2026-08-18 JST):
   `a27da615434463826143e6e79cdc30b8fdbebb89092bc551acb6462dc91150ca`.
   Parent committed/pushed the diagnostic as
   `577f05a0ef589b0c105305cd5d30df89d0ee6234` and dispatched immutable
-  literal-only GHA run `32099865818`.  Monitor it while continuing to monitor
-  `32094134098`; no run may support a terminal claim until its independent
-  checker passes.
+  literal-only GHA run `32099865818`.  That diagnostic completed and gave the
+  first exact counterexample to the implementation shortcut: A.18 coface
+  `123`, seed `5` has both P4 and G9^4 image order `9`.  Thus individual raw
+  A.18 rows cannot be relabelled as vectors in the marked C2^24 kernel.  This
+  is a comparison/implementation error, not an error in the frozen B4-B
+  mathematics and not an A/B result.
+- The completed exact repair forms the literal normal closure in the joint
+  finite image and extracts only base-cancelling kernel combinations.  Its
+  release certificate must express each of the 24 standard C2^24 basis words
+  as an explicit product of conjugates of the 158 literal relators.  The
+  independent checker will reconstruct those conjugate words, replay E/P/G9,
+  require P4=G9^4=1, require the 24 standard E masks and rank 24, and will not
+  duplicate or trust the producer's normal-closure search.  The producer must
+  cache images, grow its subgroup monotonically, test the 24 targets in
+  batches, stop as soon as all are present, expand free words only afterward,
+  and emit phase timings.  It has no generic fallback.  Parent Sol and a
+  separate read-only Sol(max) adversarial audit both found no
+  dispatch-stopping blocker: the positive normal-membership certificate,
+  105/1260 bounds, F6 expansion, independent checker, `D=C` quotient diagram,
+  GAP API surface, and 30-minute workflow bound all pass static review.  Parent
+  has committed the exact three-file bundle as the SHA above; after recording
+  this snapshot it will push and dispatch through the registered literal-only
+  launcher.  No local GAP or heavy Python is authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
