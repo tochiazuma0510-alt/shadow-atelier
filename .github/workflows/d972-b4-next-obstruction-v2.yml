@@ -1,0 +1,305 @@
+name: d972-b4-next-obstruction-v2-literal-a18
+
+on:
+  push:
+    branches:
+      - sol/d972-dmtcp-provision-v420
+    paths:
+      - .github/workflows/d972-b4-next-obstruction-v2.yml
+      - search/d972_b4_next_obstruction_v2.py
+      - search/check_d972_b4_next_obstruction_v2.py
+      - search/d972_b4_next_obstruction_v1.py
+      - search/check_d972_b4_next_obstruction_v1.py
+      - search/d972_b4_magnus_ideal_v1.py
+      - search/d972_b4_magnus_ideal_shard_v2.py
+      - search/d972_b4_magnus_ideal_merge_v2.py
+      - search/d972_b4_magnus_ideal_merge_v3.py
+      - search/certs/d972_b4_p2_magnus_input_v2_20260816.json
+      - search/certs/d972_b4_word_key_artifact_v1_20260816.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  V2_PRODUCER_SHA256: "85e2c3e954a2778579fcc3fa6d375a44effb49d34bf87b7e9c391970d2639f98"
+  V2_CHECKER_SHA256: "5c746220d3ef4e0bfb458b9736e03fd3e8553421603c3d8b87a12e4a7e893181"
+  PRODUCER_SHA256: "bbf91f461e0c0d9d67ea49186450e709fcb97025ac4ebc3462b3dc6c278eb886"
+  CHECKER_SHA256: "2cd42ed369d9bb946f474cc6c10d90aaa4a32ab53e299c190763749a07660994"
+  BASE_PRODUCER_SHA256: "b2e5184e31e177dcf5bfdc9fcd715e2146db877e0eccda2056cc5d7f999ae6bc"
+  CORE_SHARD_SHA256: "1a18994e3933d5d42e85274af62badb89c2f9a65c92c63862d1740ac2d47da63"
+  CORE_MERGE_SHA256: "6ccce4e95378dfa22051bd8c09e3d3aa5a91234b8d155c0fb57fd18c34f24bf5"
+  CORE_BASE_MERGE_SHA256: "c79abb6ff51bccaaf98992fa070fecf3aba9d70ea4f6b6deff90d4cfcef1814c"
+  INPUT_SHA256: "c61b2b77131127aca83a8d7c56b7fdadd2d519b040ea4d91093622c813c2b4a9"
+  WORDS_SHA256: "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"
+  SEMANTICS: "raw_a18_18_plus_140"
+
+jobs:
+  shards:
+    name: literal A18 d${{ matrix.degree }} shard ${{ matrix.index }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        include:
+          - {degree: 2, index: 0, count: 1}
+          - {degree: 3, index: 0, count: 1}
+          - {degree: 4, index: 0, count: 1}
+          - {degree: 5, index: 0, count: 1}
+          - {degree: 6, index: 0, count: 16}
+          - {degree: 6, index: 1, count: 16}
+          - {degree: 6, index: 2, count: 16}
+          - {degree: 6, index: 3, count: 16}
+          - {degree: 6, index: 4, count: 16}
+          - {degree: 6, index: 5, count: 16}
+          - {degree: 6, index: 6, count: 16}
+          - {degree: 6, index: 7, count: 16}
+          - {degree: 6, index: 8, count: 16}
+          - {degree: 6, index: 9, count: 16}
+          - {degree: 6, index: 10, count: 16}
+          - {degree: 6, index: 11, count: 16}
+          - {degree: 6, index: 12, count: 16}
+          - {degree: 6, index: 13, count: 16}
+          - {degree: 6, index: 14, count: 16}
+          - {degree: 6, index: 15, count: 16}
+    env:
+      DEGREE: ${{ matrix.degree }}
+      SHARD_INDEX: ${{ matrix.index }}
+      SHARD_COUNT: ${{ matrix.count }}
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up exact Python
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+      - name: Hash recursive dependency closure before imports
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_sha() { test "$(sha256sum "$2" | cut -d' ' -f1)" = "$1"; }
+          check_sha "$V2_PRODUCER_SHA256" search/d972_b4_next_obstruction_v2.py
+          check_sha "$V2_CHECKER_SHA256" search/check_d972_b4_next_obstruction_v2.py
+          check_sha "$PRODUCER_SHA256" search/d972_b4_next_obstruction_v1.py
+          check_sha "$CHECKER_SHA256" search/check_d972_b4_next_obstruction_v1.py
+          check_sha "$BASE_PRODUCER_SHA256" search/d972_b4_magnus_ideal_v1.py
+          check_sha "$CORE_SHARD_SHA256" search/d972_b4_magnus_ideal_shard_v2.py
+          check_sha "$CORE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v3.py
+          check_sha "$CORE_BASE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v2.py
+          check_sha "$INPUT_SHA256" search/certs/d972_b4_p2_magnus_input_v2_20260816.json
+          check_sha "$WORDS_SHA256" search/certs/d972_b4_word_key_artifact_v1_20260816.json
+          python3 -m py_compile search/d972_b4_next_obstruction_v2.py search/check_d972_b4_next_obstruction_v2.py search/d972_b4_next_obstruction_v1.py search/check_d972_b4_next_obstruction_v1.py search/d972_b4_magnus_ideal_v1.py search/d972_b4_magnus_ideal_shard_v2.py search/d972_b4_magnus_ideal_merge_v2.py search/d972_b4_magnus_ideal_merge_v3.py
+      - name: Bounded producer/checker dependency selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          python3 -B search/d972_b4_next_obstruction_v2.py --mode self-test 2>&1 | tee ci/out/selftest-producer.log
+          grep -Fxc 'D972_B4_NEXT_OBSTRUCTION_V2_DEPENDENCY_SELFTEST_PASS' ci/out/selftest-producer.log | grep -Fx 1
+          python3 -B search/check_d972_b4_next_obstruction_v2.py --self-test 2>&1 | tee ci/out/selftest-checker.log
+          grep -Fxc 'D972_B4_NEXT_OBSTRUCTION_CHECKER_V2_DEPENDENCY_SELFTEST_PASS' ci/out/selftest-checker.log | grep -Fx 1
+      - name: Exact literal-A18 Magnus shard
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          out="ci/out/d972_b4_next_d${DEGREE}_shard_${SHARD_INDEX}_of_${SHARD_COUNT}.json"
+          log="ci/out/shard-d${DEGREE}-${SHARD_INDEX}.log"
+          timeout --signal=TERM --kill-after=60s 350m python3 -B search/d972_b4_next_obstruction_v2.py --mode shard --degree "$DEGREE" --shard-index "$SHARD_INDEX" --shard-count "$SHARD_COUNT" --output "$out" 2>&1 | tee "$log"
+          python3 - "$out" "$DEGREE" "$SHARD_INDEX" "$SHARD_COUNT" <<'PY'
+          import json, os, sys
+          obj = json.load(open(sys.argv[1], encoding="utf-8"))
+          degree, index, count = map(int, sys.argv[2:])
+          files = obj["dependency_closure"]["files"]
+          base = next((row for row in files if row.get("role") == "magnus_base_producer"), None)
+          if (obj.get("campaign_schema") != "d972-b4-next-obstruction/v2" or
+              obj.get("campaign_degree") != degree or obj.get("shard_index") != index or
+              obj.get("shard_count") != count or obj.get("presentation_semantics") != os.environ["SEMANTICS"] or
+              obj.get("rho_tail_used") is not False or obj.get("rho_used") is not False or
+              not isinstance(base, dict) or base.get("sha256") != os.environ["BASE_PRODUCER_SHA256"] or
+              obj.get("dependency_closure_sha256") is None):
+              raise SystemExit("v2 shard dependency/semantic binding mismatch")
+          print("D972_B4_NEXT_OBSTRUCTION_V2_SHARD_PREFLIGHT_PASS")
+          PY
+      - name: Upload lossless shard evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-next-a18-v2-d${{ matrix.degree }}-shard-${{ matrix.index }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          path: ci/out/
+
+  merge:
+    name: literal-A18 v2 exact merge degrees 2-6
+    needs: shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up exact Python
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+      - name: Download all v2 shard evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: d972-next-a18-v2-d*-shard-*-attempt${{ github.run_attempt }}
+          path: ci/in
+          merge-multiple: true
+      - name: Hash closure and normalize exact shard partition
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_sha() { test "$(sha256sum "$2" | cut -d' ' -f1)" = "$1"; }
+          check_sha "$V2_PRODUCER_SHA256" search/d972_b4_next_obstruction_v2.py
+          check_sha "$V2_CHECKER_SHA256" search/check_d972_b4_next_obstruction_v2.py
+          check_sha "$BASE_PRODUCER_SHA256" search/d972_b4_magnus_ideal_v1.py
+          check_sha "$CORE_BASE_MERGE_SHA256" search/d972_b4_magnus_ideal_merge_v2.py
+          mkdir -p ci/normalized
+          python3 - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+          root, target = Path("ci/in"), Path("ci/normalized")
+          jobs = [(d, 1) for d in (2, 3, 4, 5)] + [(6, 16)]
+          for degree, count in jobs:
+              for index in range(count):
+                  name = f"d972_b4_next_d{degree}_shard_{index}_of_{count}.json"
+                  found = list(root.rglob(name))
+                  if len(found) != 1:
+                      raise SystemExit(f"expected exactly one {name}: {found}")
+                  obj = json.loads(found[0].read_text(encoding="utf-8"))
+                  closure = obj.get("dependency_closure", {})
+                  base = next((x for x in closure.get("files", []) if x.get("role") == "magnus_base_producer"), None)
+                  if (obj.get("campaign_degree") != degree or obj.get("degree") != degree or
+                      obj.get("shard_index") != index or obj.get("shard_count") != count or
+                      obj.get("rho_used") is not False or obj.get("rho_tail_used") is not False or
+                      not isinstance(base, dict) or base.get("sha256") != os.environ["BASE_PRODUCER_SHA256"]):
+                      raise SystemExit(f"dependency/partition drift in {name}")
+                  shutil.copyfile(found[0], target / name)
+          print("D972_B4_NEXT_OBSTRUCTION_V2_SHARD_SET_PASS")
+          PY
+      - name: Merge complete literal ideals and unconditional defects
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 12000000
+          mkdir -p ci/out
+          for degree in 2 3 4 5 6; do
+            if [ "$degree" -eq 6 ]; then count=16; else count=1; fi
+            out="ci/out/d972_b4_next_obstruction_d${degree}.json"
+            timeout --signal=TERM --kill-after=60s 350m python3 -B search/d972_b4_next_obstruction_v2.py --mode merge --degree "$degree" --shard-dir ci/normalized --shard-count "$count" --pattern 'd972_b4_next_d{degree}_shard_{index}_of_{count}.json' --output "$out" 2>&1 | tee "ci/out/merge-d${degree}.log"
+            test -s "$out"
+          done
+      - name: Upload lossless v2 merge evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-next-a18-v2-merge-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          path: ci/out/
+
+  check:
+    name: independent v2 checker and aggregate binding
+    needs: merge
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up exact Python
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+      - name: Download all v2 merge evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: d972-next-a18-v2-merge-attempt${{ github.run_attempt }}
+          path: ci/in
+          merge-multiple: true
+      - name: Hash closure and run independent checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_sha() { test "$(sha256sum "$2" | cut -d' ' -f1)" = "$1"; }
+          check_sha "$V2_CHECKER_SHA256" search/check_d972_b4_next_obstruction_v2.py
+          check_sha "$V2_PRODUCER_SHA256" search/d972_b4_next_obstruction_v2.py
+          check_sha "$BASE_PRODUCER_SHA256" search/d972_b4_magnus_ideal_v1.py
+          mkdir -p ci/evidence ci/out
+          python3 - <<'PY'
+          import shutil
+          from pathlib import Path
+          source, target = Path("ci/in"), Path("ci/evidence")
+          for degree in range(2, 7):
+              matches = list(source.rglob(f"d972_b4_next_obstruction_d{degree}.json"))
+              if len(matches) != 1:
+                  raise SystemExit(f"missing unique degree receipt {degree}: {matches}")
+              shutil.copyfile(matches[0], target / matches[0].name)
+          PY
+          python3 -B search/check_d972_b4_next_obstruction_v2.py --receipt-dir ci/evidence --output ci/out/check.json 2>&1 | tee ci/out/check.log
+          python3 - ci/out/check.json "$BASE_PRODUCER_SHA256" <<'PY'
+          import json, sys
+          obj = json.load(open(sys.argv[1], encoding="utf-8"))
+          base_sha = sys.argv[2]
+          if not obj.get("dependency_closure") or obj.get("dependency_closure_sha256") is None:
+              raise SystemExit("aggregate dependency closure missing")
+          base = next((x for x in obj["dependency_closure"].get("files", []) if x.get("role") == "magnus_base_producer"), None)
+          if not isinstance(base, dict) or base.get("sha256") != base_sha:
+              raise SystemExit("aggregate base dependency binding missing")
+          if len(obj.get("degrees", [])) != 5:
+              raise SystemExit("aggregate degree set incomplete")
+          print("D972_B4_NEXT_OBSTRUCTION_V2_AGGREGATE_BINDING_PASS")
+          PY
+      - name: Upload independent v2 checker evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: d972-next-a18-v2-check-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          compression-level: 0
+          path: ci/out/
+
+  campaign:
+    name: v2 campaign aggregate closure
+    needs: check
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout immutable source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up exact Python
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+      - name: Download checker aggregate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: d972-next-a18-v2-check-attempt${{ github.run_attempt }}
+          path: ci/in
+          merge-multiple: true
+      - name: Seal aggregate dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum search/d972_b4_magnus_ideal_v1.py | cut -d' ' -f1)" = "$BASE_PRODUCER_SHA256"
+          python3 - ci/in/check.json "$BASE_PRODUCER_SHA256" <<'PY'
+          import json, sys
+          obj = json.load(open(sys.argv[1], encoding="utf-8"))
+          base = next((x for x in obj.get("dependency_closure", {}).get("files", []) if x.get("role") == "magnus_base_producer"), None)
+          if not obj.get("dependency_closure") or not isinstance(base, dict) or base.get("sha256") != sys.argv[2]:
+              raise SystemExit("campaign aggregate closure rejected")
+          print("D972_B4_NEXT_OBSTRUCTION_V2_CAMPAIGN_CLOSURE_PASS")
+          PY
