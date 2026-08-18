@@ -172,9 +172,18 @@ Current implementation pointer (2026-08-18 JST):
   above, recorded it through bootstrap head
   `88de550bb740eae5fcf5c68bb45fa9c5db4cc35c`, and dispatched registered
   literal-only run `32104681787` at that immutable head on
-  `2026-08-18T05:54:04Z`.  This is the active run and must be monitored through
-  producer and independent checker.  No local GAP or heavy Python is
-  authorized.
+  `2026-08-18T05:54:04Z`.  GAP producer and independent Python checker both
+  passed.  The lossless receipt SHA is
+  `c0400451c7d8931a2e01e29c9450f18f18329e3d2781e21fa29c3ac0a99833ea`
+  and its exact status is `EXACT_FINITE_STAGE_OBSTRUCTION`: the 24 literal
+  certificates pass, but neither exponent 1 nor exponent 2 has a local
+  solution among its 64 corrections.  No candidate reached the expensive
+  transport/onto/settlement gates because every candidate failed an earlier
+  direct typed condition.  This is cross-checked finite negative evidence,
+  not a B4 A/B conclusion.  The active next step is a lossless cheap-gate
+  decomposition and, subject to finite roof/outside audit, the complete set of
+  distinct arithmetic-outside GT powers with the same direct typed replay.
+  No local GAP or heavy Python is authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
