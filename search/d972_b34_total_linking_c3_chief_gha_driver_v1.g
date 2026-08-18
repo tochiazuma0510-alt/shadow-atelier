@@ -6,9 +6,9 @@ Read("search/gaplib_common.g");;
 if LoadPackage("json")<>true then Error("157dq driver: JSON unavailable"); fi;;
 
 D972TLGDProducer := "search/d972_b34_total_linking_c3_chief_v1.g";;
-D972TLGDProducerSHA := "dba9adc5a8d06665c89e97697bc737a28ec68096ccd02a58db03ccfe63d1d837";;
+D972TLGDProducerSHA := "d3096078bf1b7ff99dbf72ae6a1142c701e1db4d6cba31ca07bfabcaba0d64e8";;
 D972TLGDChecker := "search/check_d972_b34_total_linking_c3_chief_v1.py";;
-D972TLGDCheckerSHA := "58c2a67b13f11da04f616e12875cce4fc6e4152cd75231577c4fe111b6a8ff22";;
+D972TLGDCheckerSHA := "33aecc2fb86957addc9fc0cbc4c9bc0b30040dfe93a99b08391a317153617107";;
 D972TLGDOldDriver := "search/d972_b34_a5_selected_lift_gha_driver_v1.g";;
 D972TLGDOldDriverSHA := "cce2dff8e4a96046d97f70f64a31f279ced5feeeb08dca55de82b59f7154171e";;
 D972TLGDOldChecker := "search/check_d972_b34_a5_selected_lift_v1.py";;

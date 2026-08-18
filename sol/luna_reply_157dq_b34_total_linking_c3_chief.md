@@ -1,320 +1,215 @@
-# Luna reply 157dq — total-linking C3 chief descent
+# Luna reply 157dq - total-linking C3 chief descent
 
 ## Verdict
 
-The three versioned executable files are implemented and statically frozen.
-They give a fail-closed, same-job producer/checker lane for one strict
-index-three descent
+`B34_TOTAL_LINKING_C3_CHIEF_REPAIRED_GO`.
 
-```text
-L = H ∩ ker(rho_A5)  >  L' = L ∩ ker(total-linking mod 18).
-```
+The false-negative predicate exposed by run `32195410958` is repaired and the
+same candidate-124 lane is ready for a same-job producer/checker replay.  The
+repair changes only the PB3 joint-quotient onto test:
 
-No production GAP, Git, or GHA command was run.  The final corrective
-lightweight checker self-test passed:
+- the 30 strict coface intertwining equalities remain lossless diagnostics;
+- they are no longer acceptance conditions;
+- Definition 2.9 onto is certified by PB3 relation descent and joint-tuple
+  generator recovery;
+- the reverse relation/recovery direction remains an independently recorded
+  diagnostic canary and is excluded from acceptance.
 
-```text
-D972_B34_TOTAL_LINKING_C3_CHECKER_SELFTEST_PASS mutations=21
-```
+No candidate, inverse search, 27-element fibre, literal hexagon/pentagon,
+chief-factor, A5, order, outside-class, terminal-boundary, or resource gate was
+changed.  No local production GAP, Git, or GHA command was run.
 
-The bundle is ready for its first GHA production replay:
-
-```text
-B34_TOTAL_LINKING_C3_CHIEF_V1_GO
-```
-
-This is deliberately one chief descent only.  Even a production PASS will not
-assert isolation of `L` or `L'`, uniform/cofinal iteration, compactness, or
-global B4-B.
-
-## Frozen files and SHA-256
+## Frozen files
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_b34_total_linking_c3_chief_v1.g` | 38547 | `dba9adc5a8d06665c89e97697bc737a28ec68096ccd02a58db03ccfe63d1d837` |
-| `search/check_d972_b34_total_linking_c3_chief_v1.py` | 53366 | `58c2a67b13f11da04f616e12875cce4fc6e4152cd75231577c4fe111b6a8ff22` |
-| `search/d972_b34_total_linking_c3_chief_gha_driver_v1.g` | 11632 | `6e55b637188c5cfcbe65966c299687dfb75af35a067ccc429bbdded35086ea2b` |
+| `search/d972_b34_total_linking_c3_chief_v1.g` | 41483 | `d3096078bf1b7ff99dbf72ae6a1142c701e1db4d6cba31ca07bfabcaba0d64e8` |
+| `search/check_d972_b34_total_linking_c3_chief_v1.py` | 57969 | `33aecc2fb86957addc9fc0cbc4c9bc0b30040dfe93a99b08391a317153617107` |
+| `search/d972_b34_total_linking_c3_chief_gha_driver_v1.g` | 11632 | `1a6ae128c67d67fc7358365933c80000de737c6a982ff31dc74c3f21e205526c` |
 
-The driver hard-pins the producer and checker hashes above.  It also pins the
-q3, FC8, and 157dp receipts and all registered source/theorem inputs required
-by the task.
+The driver pins the exact producer and checker hashes above.  Existing q3,
+FC8, 157dp, source, and theorem pins are unchanged.
 
-## FC-beta-1: actual marked lattice and chief factor
+## Mathematical correction
 
-Producer and checker independently reconstruct the four deletion images in
-the actual `G9` marking.  In tuple order
-`[12,13,14,23,24,34]`, the emitted `8 x 6` matrix is
+The primary 2008 GT-shadow definitions distinguish two statements:
 
-```text
-000110
-000011
-011000
-001001
-101000
-001010
-110000
-010100
-```
+1. Definition 2.9 and Proposition 2.10, p.17, require the induced PB3 map to
+   be onto.
+2. Proposition 2.11, equation (2.38), p.19, gives coface compatibility with a
+   parenthesization conjugator `g`.
 
-Both sides obtain rank `5`, kernel
-`{000000,111111}`, and image order `32`.  The producer computes the actual
-marked `H9` group once and gates
+The superseded implementation tested, for each of five cofaces and three PB3
+generators, the literal equality
 
 ```text
-|H9|  = 32 * 3^24,
-|H9'| = 3^24.
+d_i(S_3(x_j)) = S_4(d_i(x_j))
 ```
 
-The checker does not trust those two GAP booleans: it reconstructs `G9'`, the
-commutator/conjugation module, and the rank-12 Nakayama certificate proving
-`H9'=(G9')^4`.  It also reconstructs the exponent-three collector and proves
-that the marked `Pi4[3]` abelian matrix is exactly `I6 mod 3` and that its
-derived subgroup has order `3^4`.
+and its inverse analogue.  This sets the conjugator in (2.38) to the identity.
+That is stronger than Definition 2.9 and is not a valid rejection gate.
 
-The integral lattice is then rebuilt by enumerating the complete `6^6`
-residue box:
+For each of the five actual `(Q4, Pi4[3], C18)` components, the repaired
+producer and independent checker instead replay:
 
 ```text
-ker(q_ab) = {3w : w mod 2 is 000000 or 111111}.
+S sends every PB3 defining relation to 1;
+S(T_i) = x_i for i=1,2,3.
 ```
 
-Its canonical row basis is `6e1,...,6e5,3(1,1,1,1,1,1)`, determinant/index
-`23328`, with basis linking sums `[6,6,6,6,6,18]` and gcd `6`.  The receipt
-binds the exact-sequence reason
-`im(H -> PB4_ab)=ker(PB4_ab -> E4_ab)` and explicitly makes no claim that
-`A12^6` itself lies in `H`.
-
-Consequently the certified conclusions are
+The first line makes `S` a homomorphism on the actual joint quotient; the
+second recovers every marked generator, hence proves surjectivity.  The
+following are retained losslessly as diagnostics, but are not acceptance
+conditions:
 
 ```text
-ell(H)=6Z,
-beta(h)=ell(h)/6 mod 3 is onto,
-Kbeta=H ∩ ker(ell mod 18),
-Phi3(H) <= Kbeta.
+T sends every PB3 defining relation to 1;
+T(S_i) = x_i for i=1,2,3.
 ```
 
-The natural three adjacent transpositions are replayed on all six edge
-classes.  Their Artin word maps and explicit inverse word maps preserve every
-PB4 relation and compose to the identity in both `Q4` and `Pi4[3]`.  Their
-abelian matrices preserve total linking, hence beta.  Thus `Kbeta` is
-`B4`-normal, and the prime-order quotient `H/Kbeta=C3` is an actual chief
-factor.
-
-## FC-beta-2: the actual candidate 124
-
-The producer and checker independently expand the registered section DAG
+The receipt separates these facts explicitly:
 
 ```text
-124 -> 45 -> 16 -> 5 -> 1
+definition_2_9_S_relation_descent
+definition_2_9_S_of_T_generator_recovery
+T_relation_and_T_of_S_canaries
+T_canaries_required_for_acceptance = false
+strict_global_intertwining_required_for_acceptance = false
+strict_intertwining_not_Def2_9_gate = true
+strict_intertwining_parenthesization_conjugator_not_forced_identity = true
+strict_intertwining_diagnostic_pass
 ```
 
-and reconstruct the exact 92-letter candidate (base length 20 plus the
-registered correction).  They require
+Each component carries the corresponding four per-component booleans and all
+underlying residual words/values.  Its `pass` is exactly `S` relation descent
+plus `S(T_i)=x_i`; neither T canary contributes.  At the outer source level,
+T relations, `T(S_i)`, five-character rows, and the T exponent matrix remain
+in the receipt and residual digest but do not feed `all_pass`.  The misleading old field
+`global_E4_C18_automorphism_restricted_by_intertwining` is removed.  The
+`inverse.found=false` branch emits the same exact top-level schema with false
+acceptance fields.  Because the inverse word is certificate supply rather
+than a literal negative predicate, its absence yields
+`B34_TOTAL_LINKING_C3_CHIEF_UNKNOWN_INPUT`, never candidate REJECT.
+The 27-fibre selector itself now chooses the first word satisfying only the
+load-bearing `S(T_i)=x_i` equations; T relations and `T(S_i)=x_i` are computed
+after selection as diagnostics and cannot indirectly suppress availability.
+
+## Reclassification of run 32195410958
+
+Run `32195410958`, commit `53f525f9`, produced and independently replayed the
+following receipt under the superseded predicate:
 
 ```text
-outer=1, shift=0, correction=124,
-free exponent sums=(0,0),
-word SHA-256=c113c06d51480c8c819a563f6efc2323afecb7a54aabee96e7104d1d2921505b.
+old terminal             B34_TOTAL_LINKING_C3_CANDIDATE_REJECTED_CROSSCHECKED
+receipt SHA-256          06dcf42a038ed16150814b9b2b38300d970acf4a7d7550ad63fd84e49fe30559
+producer log runtime     5999 ms
+receipt runtime_ms       5790 ms
+literal residuals        131
+inverse attempts         1
+old checker              PASS
 ```
 
-Every acceptance equation is stored losslessly with its reduced word, word
-digest, `Q4` row, `Pi4[3]` coordinates, integer total linking, and `C18`
-residue.  Direct gates cover:
+That token is now retracted as a mathematical rejection.  It established only
+that producer and checker agreed on an overstrong implementation predicate.
+It did not establish that candidate 124 fails Definition 2.9.
 
-- both hexagons through all five cofaces;
-- the ordered A.18 pentagon;
-- the candidate/base correction and the registered A5 correction in `E3`
-  and through all five finer cofaces;
-- all six FC-30 source differences;
-- all S and T PB4 relations;
-- every ST and TS generator composition.
+The old receipt localizes all twelve failures to strict Q4 intertwining:
 
-The T word is not an abstract existence witness: it is selected from the
-pinned normalized exponent-seven row times the complete registered 27-element
-q3 fibre.  Every attempted word is evaluated directly, and the selected
-word, attempt count, relations, and two-sided residuals are recorded.
+- component 1: S/T, generators 1,2,3 (six records);
+- component 3: S/T, generator 1 (two records);
+- component 4: S/T, generators 2,3 (four records).
 
-### Five-coface coupling correction
+Components 2 and 5 pass those diagnostics.  Every failed diagnostic has
+identity `Pi4[3]` value and zero `C18` residue.  More importantly, all five
+components pass the PB3 relations and both three-generator recovery
+directions.  Thus the old receipt supports the repaired onto gate but cannot
+itself be promoted because its schema and checker pins predate this repair.
+A fresh same-job replay is required.
 
-The five formal total-linking rows are exactly
+## Unchanged certified construction
+
+The lane still reconstructs the actual total-linking chief rather than an
+abstract C3:
+
+- the marked H9 binary matrix has rank 5 and kernel generated by `111111`;
+- `|H9|=32*3^24` and `|H9'|=3^24` are producer gates independently checked by
+  the G9 commutator/conjugation module and rank-12 Nakayama certificate;
+- the marked `Pi4[3]` abelian action is `I6 mod 3`;
+- the integral lattice is
+  `{3w : w mod 2 is 000000 or 111111}`;
+- its canonical basis has determinant/index 23328 and linking gcd 6;
+- `ell(H)=6Z`, `beta=ell/6 mod 3` is onto, and
+  `Kbeta=H cap ker(ell mod 18)` is B4-normal;
+- the natural adjacent transpositions and inverse maps are replayed on all
+  relations and marked generators.
+
+Candidate 124 remains the exact 92-letter registered word with
 
 ```text
-111, 221, 212, 122, 111  (mod 3 when reduced),
+outer=1, shift=0, correction=124
+free exponent sums=(0,0)
+SHA-256=c113c06d51480c8c819a563f6efc2323afecb7a54aabee96e7104d1d2921505b
 ```
 
-with formal rank `3` and F2-column rank `2`.  These ranks are explicitly
-diagnostic only; the implementation does not infer the joint pullback image
-from component abelianizations.
+Its inverse still comes from the complete registered 27-element q3 fibre.
+The literal residual records still cover both hexagons through all five
+cofaces, the ordered A.18 pentagon, candidate/base and A5 correction bindings,
+all FC-30 differences, PB4 relations, and two-sided generator compositions.
 
-Instead it restricts S and T to canonical PB3 order `[x12,x13,x23]` and, for
-each of all five cofaces, directly replays:
-
-- S and T PB3 relation residuals;
-- ST and TS on all three generators;
-- the intertwining of each source image with the authenticated global
-  `E4 x C18` automorphism.
-
-This common-global-automorphism/intertwining diagram handles possible
-cross-component coupling without constructing or enumerating the joint
-group.  The same actual fifteen-component tuple is also used to compute
-`N_ord` from `x`, `y`, and `c=x12*x13*x23`.
-
-## FC-beta-3: A5 intersection, orders, and outside class
-
-The FC8 input is not consumed as a `surjective=true` assertion.  Both sides
-reconstruct the compact `D_F` image and its derived subgroup, the four
-single-support words, each order-60 normal closure, the transitive `S4`
-factor action, and the perfect/simple `A5` factor.  Perfectness supplies the
-no-`C3`-quotient gate, so Goursat gives `L Kbeta=H` and `[L:L']=3`.
-
-Definition 3.1 orders are evaluated in the actual quotient components using
-all three words `x`, `y`, and `c`, never only `A12`:
+The FC8 intersection, FC-29 orders, and outside classifier are unchanged:
 
 ```text
-H_ord=18, Kbeta_ord=18, L_ord=90, L'_ord=90,
-gcd(L_ord,Kbeta_ord)=18.                 (FC-29)
+H_ord=18, Kbeta_ord=18, L_ord=90, Lprime_ord=90
+gcd(L_ord,Kbeta_ord)=18
+row37 = exponent 2 of the row19 pure axis; 3 does not divide 2
 ```
 
-The selected roof is rebound independently to the frozen 972-key normalized
-orbit: row 37 is exponent `2`, the square of the row-19 pure axis, and
-`3` does not divide `2`.  The accepted `X/W ~= S3 x C6` complement classifier
-then proves it is outside `A`; no q3 arithmetic-outside boolean is used.
+## Terminal scope
 
-## Terminal and claim boundary
+After a fresh repaired replay, the only possible decisive lane tokens remain:
 
-The checker reconstructs the terminal bidirectionally:
+- `B34_TOTAL_LINKING_C3_CHIEF_DESCENT_CROSSCHECKED` when every literal and
+  chief gate passes;
+- `B34_TOTAL_LINKING_C3_CANDIDATE_REJECTED_CROSSCHECKED` when a genuine
+  remaining literal gate fails.
+- `B34_TOTAL_LINKING_C3_CHIEF_UNKNOWN_INPUT` when the registered 27-fibre
+  does not supply the inverse/preimage certificate needed to evaluate onto.
 
-- all gates pass: `B34_TOTAL_LINKING_C3_CHIEF_DESCENT_CROSSCHECKED`;
-- a fully evaluated literal gate fails:
-  `B34_TOTAL_LINKING_C3_CANDIDATE_REJECTED_CROSSCHECKED`.
+A positive result proves one strict C3-chief descent for this outside pair.
+A negative result rejects only this fixed candidate.  Neither token alone is
+B4-A or B4-B, and neither proves isolation, cofinal iteration, or compactness.
+Settlement remains diagnostic-only.
 
-The latter is only a rejection of candidate 124 and is never B4-A.  Missing
-or capped typed input is reserved for the two explicit UNKNOWN tokens.  On a
-PASS the exact permitted implication is only:
+## Run history
 
-> one outside `GT^heart(L')` pair exists, and accepted T48-1 moves the known
-> window from `L` to the strict index-three subgroup `L'`.
-
-Settlement is recorded as diagnostic-only.
-
-## Driver and resource contract
-
-The thin driver removes all fixed artifacts/logs/sentinels, regenerates q3,
-FC8, and 157dp through the pinned 157dp driver exactly once, and requires each
-independent checker PASS before running the new producer/checker in the same
-job.  The registered two nonsemantic 157dp runtime observations are normalized
-only after proving every other parsed field unchanged; the frozen raw SHA is
-then required and the upstream checker is rerun.
-
-New-core operation bounds are:
-
-```text
-candidate scans                  0
-registered candidates replayed  1
-inverse fibre cap                27
-H / E4 / A5^4 element listings   0
-PB5 / ANUPQ calls                0
-translation BFS                 0
-sparse Gaussian searches        0
-five-component intertwining     30 residuals
-```
-
-No full PB3 pullback group is enumerated.  The largest explicit checker
-enumerations remain the already established small `G9`/A5/D_F groups; the new
-five-component check is word evaluation only.
-
-### Transport-only failure in run 32194128426
-
-The first registration run, commit `a5769bab`, was reported green by the
-outer job but did not start an upstream producer.  GAP stopped while parsing
-driver line 162: the two double-quoted strings inside the shell `-c` payload
-were not escaped inside the enclosing GAP string.  The uploaded artifact
-contained only the driver source and run log; it contained no q3/FC8/157dp
-receipt, no 157dq receipt, and no mathematical checker result.  Run
-`32194128426` is therefore a transport failure and supplies no mathematical
-evidence.
-
-The repair changes only those two delimiters, exactly following the frozen
-157dp driver's quoting convention:
-
-```text
-D972_B34_A5_SELECTED_LIFT_OUTPUT:=\"ci/out/...json\"
-Read(\"search/...driver_v1.g\")
-```
-
-Producer, checker, candidate, predicates, terminal meanings, and all frozen
-input pins are unchanged.  The permitted local driver SELFTEST subsequently
-parsed the repaired driver and returned exactly:
-
-```text
-D972_B34_A5_SELECTED_LIFT_CHECKED_IO_SELFTEST_PASS
-D972_B34_TOTAL_LINKING_C3_CHECKED_IO_SELFTEST_PASS
-D972_B34_TOTAL_LINKING_C3_CHECKER_SELFTEST_PASS mutations=21
-B34_TOTAL_LINKING_C3_GHA_DRIVER_PASS mode=selftest
-```
-
-### Input-packaging failure in run 32194643806
-
-Run `32194643806` stopped before a mathematical replay because the pinned,
-previously untracked T48 input was absent from the dispatched checkout.  It
-therefore supplies no producer/checker result and no mathematical evidence.
-The missing input was an upstream transport/registration issue, not a
-candidate failure.
-
-### Checker API repair after run 32194873275
-
-Run `32194873275` reached the unchanged producer.  It emitted
-`B34_TOTAL_LINKING_C3_CANDIDATE_REJECTED_CROSSCHECKED` after `5672 ms`, but the
-independent checker then crashed before completing.  That producer-only token
-is **not cross-checked** and is not adopted as a mathematical rejection.
-
-The exact checker failure was an implementation-interface mismatch.  The
-checker correctly uses the frozen 157dp `PcCollector` for its independent
-current computations; that class has `mul` and `inverse` but no `power`
-method.  One line passed that collector into
-`q3mod.validate_inverse_pc_maps`, whose own validator requires the q3
-collector's `power` API.
-
-The checker now constructs and validates a q3-native PB4 collector from the
-same frozen PB4 receipt and uses it only for
-`q3mod.validate_inverse_pc_maps`.  An explicit callable-`power` gate fails
-closed.  The old 157dp collector remains in every other current check, so the
-two independent implementations are not conflated.  Producer source,
-candidate 124, every predicate, terminal semantics, and receipt schema are
-unchanged.
-
-After repinning, the separately authorized lightweight checker self-test
-passed:
-
-```text
-D972_B34_TOTAL_LINKING_C3_CHECKER_SELFTEST_PASS mutations=21
-```
-
-Because this fixture-only self-test has no frozen artifacts, the corrected
-q3 collector call still requires the next same-job full checker replay before
-any producer rejection can be called cross-checked.
-
-Source-only estimate, pending first GHA calibration:
-
-- new producer: approximately 2--10 seconds;
-- new independent checker: approximately 3--12 seconds;
-- same-job regeneration plus new lane: approximately 25--60 seconds;
-- expected peak memory: below 1 GB.
+- `32194128426` / `a5769bab`: driver quoting transport failure; no producer.
+- `32194643806`: missing untracked T48 input; no mathematical replay.
+- `32194873275`: producer ran, checker crashed on the wrong collector API;
+  producer-only result was not cross-checked.
+- `32195410958` / `53f525f9`: producer/checker agreed under the now-superseded
+  strict-intertwining predicate; its rejection token is reclassified above.
 
 ## Static audit
 
 - producer function/end balance: `27/27`;
-- producer conditional balance: `43/43`;
-- producer and driver are ASCII-only;
-- driver producer/checker pin chain: exact;
-- forbidden new PB5/ANUPQ/full-universe operations: absent;
-- only the four authorized files were created or changed.
+- producer if/fi balance: `43/43`;
+- the obsolete intertwining acceptance field/string is absent;
+- strict diagnostics remain present in all 30 records and in the digest;
+- all T relation/reverse/character/exponent canaries remain in the receipt and
+  digest but are absent from both component and outer acceptance predicates;
+- producer/checker receipt schemas, including the inverse-not-found branch,
+  match exactly;
+- driver producer/checker pins match the frozen hashes;
+- no PB5, ANUPQ, full-universe, or new heavy operation was added.
 
-The first development Python self-test invocation exposed only aliasing in the
-synthetic mutation fixture (list multiplication had shared rows).  The fixture
-was corrected without changing production logic.  After explicit permission,
-the single corrective invocation produced the 21-mutation PASS quoted above;
-after the later collector-interface repair, one separately authorized
-checker self-test again produced the same 21-mutation PASS.  After the
-transport repair, one separately authorized GAP driver SELFTEST produced the
-four PASS markers above.  No local production GAP, Git, or GHA run was made.
+The one authorized lightweight checker self-test after the predicate split
+passed:
+
+```text
+D972_B34_TOTAL_LINKING_C3_CHECKER_SELFTEST_PASS mutations=22
+```
+
+It sets both T canaries false and flips the strict-intertwining diagnostic
+while still accepting the fixture; mutations of S-relation descent or
+`S(T_i)=x_i` recovery are rejected.  The final pin/reply updates were then
+audited statically; no further execution was performed.

@@ -329,8 +329,9 @@ D972TLFindInverse := function(q3,S,relations,q4marks,pc4)
     srels:=List(relations,r->D972A5LSub(r,T));;
     st:=List([1..6],j->D972A5LReduce(Concatenation(D972A5LSub(T[j],S),[-j])));;
     ts:=List([1..6],j->D972A5LReduce(Concatenation(D972A5LSub(S[j],T),[-j])));;
-    if D972TLAllWordsPass(srels,q4marks,pc4) and
-       D972TLAllWordsPass(st,q4marks,pc4) and D972TLAllWordsPass(ts,q4marks,pc4) then
+    # Availability means exactly that T supplies preimages S(T_i)=x_i.
+    # T-relations and T(S_i)=x_i are recorded below but do not select T.
+    if D972TLAllWordsPass(st,q4marks,pc4) then
       chosen:=rec(normalized_exponent:=7,roof_row_index:=row.row_index,
         correction_index:=i,word:=w,source_words:=T,relation_words:=srels,
         ST_words:=st,TS_words:=ts);; break;
@@ -361,7 +362,8 @@ end;;
 D972TLPB3FiveComponentOnto := function(q3,S,T,q4marks,pc4)
   local cofaces,relations,S3,T3,components,tupleComponents,z,i,c,qg,pg,cg,
     qs,ps,cs,qt,pt,ct,srels,trels,st3,ts3,st,ts,sinter,tinter,
-    allRecords,componentRecords,allPass;
+    allRecords,acceptanceRecords,diagnosticRecords,allAcceptance,allDiagnostic,
+    componentRecovery,allPass;
   cofaces:=q3.formulas.cofaces_3_4;;
   relations:=q3.formulas.presentations.PB3.relations;;
   S3:=D972TLSourceWords3(S);; T3:=D972TLSourceWords3(T);;
@@ -380,9 +382,11 @@ D972TLPB3FiveComponentOnto := function(q3,S,T,q4marks,pc4)
     qt:=List(T3,w->D972A5LEval(D972A5LSub(w,c),q4marks));;
     pt:=List(T3,w->D972A5LEval(D972A5LSub(w,c),pc4.marks));;
     ct:=List(T3,w->z^Sum(D972A5LSub(w,c),SignInt));;
-    # Intertwining with the already authenticated global E4 x C18
-    # automorphism is the kernel-preservation certificate for the actual
-    # five-component joint image; no component or joint group is enumerated.
+    # Proposition 2.11 compatibility includes a parenthesization conjugator.
+    # The strict g=1 comparison below is retained as a lossless diagnostic,
+    # not as Definition 2.9's onto gate.  Actual joint-quotient descent/onto is
+    # certified minimally by S-relations plus S(T_i)=x_i.  T-relations and
+    # T(S_i)=x_i are retained as independent two-sided canaries.
     sinter:=List([1..3],j->D972TLPB4Record(
       Concatenation("PB3.component",String(i),".S.intertwining.",String(j)),
       D972A5LReduce(Concatenation(D972A5LSub(S3[j],c),
@@ -403,8 +407,13 @@ D972TLPB3FiveComponentOnto := function(q3,S,T,q4marks,pc4)
     ts:=List([1..3],j->D972TLPB4Record(
       Concatenation("PB3.component",String(i),".TS.generator.",String(j)),
       D972A5LSub(ts3[j],c),q4marks,pc4));;
-    componentRecords:=Concatenation(sinter,tinter,srels,trels,st,ts);;
-    Append(allRecords,componentRecords);;
+    diagnosticRecords:=Concatenation(sinter,tinter);;
+    acceptanceRecords:=Concatenation(srels,st);;
+    # Preserve the registered record/digest order while separating semantics.
+    Append(allRecords,Concatenation(diagnosticRecords,srels,trels,st,ts));;
+    allAcceptance:=ForAll(acceptanceRecords,r->r.pass);;
+    allDiagnostic:=ForAll(diagnosticRecords,r->r.pass);;
+    componentRecovery:=ForAll(st,r->r.pass);;
     Add(tupleComponents,qg);; Add(tupleComponents,pg);; Add(tupleComponents,cg);;
     Add(components,rec(coface_index:=i,coface_words:=c,
       original:=rec(q4_rows:=List(qg,x->D972A5LPermRow(x,144)),
@@ -417,16 +426,38 @@ D972TLPB3FiveComponentOnto := function(q3,S,T,q4marks,pc4)
         pi4_coords:=List(pt,x->List(Exponents(x),Int)),
         c18_residues:=List(T3,w->Sum(D972A5LSub(w,c),SignInt) mod 18)),
       S_global_intertwining_residuals:=sinter,T_global_intertwining_residuals:=tinter,
+      strict_intertwining_diagnostic_pass:=allDiagnostic,
+      strict_intertwining_diagnostic_only:=true,
       S_relation_residuals:=srels,T_relation_residuals:=trels,
       ST_generator_residuals:=st,TS_generator_residuals:=ts,
-      pass:=ForAll(componentRecords,r->r.pass)));
+      definition_2_9_S_relation_descent_pass:=ForAll(srels,r->r.pass),
+      definition_2_9_S_of_T_generator_recovery:=ForAll(st,r->r.pass),
+      T_relation_canary_pass:=ForAll(trels,r->r.pass),
+      T_of_S_generator_canary_pass:=ForAll(ts,r->r.pass),
+      T_canaries_diagnostic_only:=true,
+      relation_descent_pass:=ForAll(srels,r->r.pass),
+      joint_tuple_generator_recovery:=componentRecovery,
+      pass:=allAcceptance));
   od;
-  allPass:=ForAll(components,r->r.pass) and ForAll(allRecords,r->r.pass);;
+  allPass:=ForAll(components,r->r.pass);;
   return rec(source_generator_order:=["x12","x13","x23"],
     S_source_words:=S3,T_source_words:=T3,components:=components,
     actual_joint_tuple_N_ord:=D972TLTupleOrder([[1],[3],[1,2,3]],tupleComponents),
-    global_E4_C18_automorphism_restricted_by_intertwining:=true,
+    strict_global_intertwining_required_for_acceptance:=false,
     joint_coupling_handled_without_character_rank_assumption:=true,
+    definition_2_9_onto_gate:="S relations plus S(T_i)=x_i joint-quotient generator recovery",
+    definition_2_9_S_relation_descent:=ForAll(components,
+      r->r.definition_2_9_S_relation_descent_pass),
+    definition_2_9_S_of_T_generator_recovery:=ForAll(components,
+      r->r.definition_2_9_S_of_T_generator_recovery),
+    T_relation_and_T_of_S_canaries:=ForAll(components,
+      r->r.T_relation_canary_pass and r.T_of_S_generator_canary_pass),
+    T_canaries_required_for_acceptance:=false,
+    joint_tuple_generator_recovery:=ForAll(components,r->r.joint_tuple_generator_recovery),
+    strict_intertwining_not_Def2_9_gate:=true,
+    strict_intertwining_parenthesization_conjugator_not_forced_identity:=true,
+    strict_intertwining_diagnostic_pass:=ForAll(components,
+      r->r.strict_intertwining_diagnostic_pass),
     component_intertwining_residuals:=5*2*3,residual_count:=Length(allRecords),
     all_pass:=allPass);
 end;;
@@ -487,8 +518,16 @@ D972TLSourceResiduals := function(q3,candidate,base,q4marks,pc3,pc4)
     pb3onto:=rec(source_generator_order:=["x12","x13","x23"],
       S_source_words:=[],T_source_words:=[],components:=[],
       actual_joint_tuple_N_ord:=fail,
-      global_E4_C18_automorphism_restricted_by_intertwining:=false,
+      strict_global_intertwining_required_for_acceptance:=false,
       joint_coupling_handled_without_character_rank_assumption:=false,
+      definition_2_9_onto_gate:="S relations plus S(T_i)=x_i joint-quotient generator recovery",
+      definition_2_9_S_relation_descent:=false,
+      definition_2_9_S_of_T_generator_recovery:=false,
+      T_relation_and_T_of_S_canaries:=false,
+      T_canaries_required_for_acceptance:=false,
+      joint_tuple_generator_recovery:=false,strict_intertwining_not_Def2_9_gate:=true,
+      strict_intertwining_parenthesization_conjugator_not_forced_identity:=true,
+      strict_intertwining_diagnostic_pass:=false,
       component_intertwining_residuals:=0,residual_count:=0,all_pass:=false);;
   fi;
   chars:=List(cofaces,m->List(m,w->Sum(w,SignInt)));;
@@ -517,13 +556,21 @@ D972TLSourceResiduals := function(q3,candidate,base,q4marks,pc3,pc4)
       rank_is_diagnostic_not_joint_image_theorem:=true,
       S_integer_rows:=charsS,T_integer_rows:=charsT,
       S_preserves_all_five:=(charsS=chars),T_preserves_all_five:=(charsT=chars)),
+    inverse_certificate_availability_required:=true,
+    inverse_absence_terminal_token:=D972TLUnknownInput,
+    T_canaries_diagnostic_only:=true,T_canaries_required_for_acceptance:=false,
+    T_relation_canary_pass:=inverse.found and ForAll(trels,r->r.pass),
+    T_of_S_generator_canary_pass:=inverse.found and ForAll(ts,r->r.pass),
+    T_character_canary_pass:=inverse.found and charsT=chars,
+    T_exponent_canary_pass:=inverse.found and tmat=IdentityMat(6),
     residual_count:=Length(allRecords)+pb3onto.residual_count,
     residual_digest_sha256:=D972A5LDigest(rec(diffs:=diffs,hex:=hex,pent:=pent,
-      S:=srels,T:=trels,ST:=st,TS:=ts,PB3:=pb3onto)),
+      S:=srels,T:=trels,ST:=st,TS:=ts,PB3:=pb3onto,
+      T_character_rows:=charsT,T_exponent_matrix:=tmat)),
     all_pass:=auth.pass and inverse.found and pb3onto.all_pass and
-      ForAll(allRecords,r->r.pass) and
-      ForAll(hex,r->r.pass) and charsS=chars and charsT=chars and
-      D972TLExponentMatrix(S,6)=IdentityMat(6) and D972TLExponentMatrix(T,6)=IdentityMat(6));
+      ForAll(Concatenation(diffs,srels,st,[pent]),r->r.pass) and
+      ForAll(hex,r->r.pass) and charsS=chars and
+      D972TLExponentMatrix(S,6)=IdentityMat(6));
 end;;
 
 D972TLTupleOrder := function(words,componentMarks)
@@ -677,7 +724,8 @@ D972TLMain := function(output)
     source.PB3_five_component_onto.actual_joint_tuple_N_ord=orders.Kbeta_ord and
     a5.pass and orders.FC29_pass and outside.outside_A and lattice.beta.onto and
     lattice.B4_action.chief_by_prime_order;;
-  if allPass then terminal:=D972TLPass;; else terminal:=D972TLReject;; fi;
+  if not source.T_inverse_binding.found then terminal:=D972TLUnknownInput;;
+  elif allPass then terminal:=D972TLPass;; else terminal:=D972TLReject;; fi;
   receipt:=rec(schema:=D972TLSchema,status:=terminal,terminal_token:=terminal,
     terminal:=true,pins:=pins,marked_abelian_lattice:=lattice,
     candidate_binding:=rec(outer_index:=1,m_shift_index:=0,correction_index:=124,

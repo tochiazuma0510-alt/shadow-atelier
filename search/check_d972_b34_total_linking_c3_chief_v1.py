@@ -253,9 +253,9 @@ def find_inverse(base: Any, q3: dict[str, Any], s_words: Sequence[Sequence[int]]
               for i in range(6)]
         ts = [base.reduce_word(base.substitute(s_words[i], t_words) + [-(i + 1)])
               for i in range(6)]
-        if (all_words_pass(base, rel_words, q4marks, pc4, marked4) and
-                all_words_pass(base, st, q4marks, pc4, marked4) and
-                all_words_pass(base, ts, q4marks, pc4, marked4)):
+        # Certificate availability is exactly S(T_i)=x_i.  The T relation
+        # and T(S_i)=x_i values remain lossless diagnostics only.
+        if all_words_pass(base, st, q4marks, pc4, marked4):
             return {"normalized_exponent": 7, "roof_row_index": row["row_index"],
                     "correction_index": index, "word": word, "source_words": t_words,
                     "relation_words": rel_words, "ST_words": st, "TS_words": ts,
@@ -325,7 +325,10 @@ def pb3_five_component_onto(base: Any, q3: dict[str, Any], s_words: Sequence[Any
         ts = [pb4_record(base, f"PB3.component{index}.TS.generator.{j + 1}",
                          base.substitute(word, coface), q4marks, pc4, marked4)
               for j, word in enumerate(ts3)]
-        records = sinter + tinter + srels + trels + st + ts
+        diagnostics = sinter + tinter
+        acceptance = srels + st
+        # Keep the registered record/digest order; only semantics are split.
+        records = diagnostics + srels + trels + st + ts
         all_records.extend(records)
         tuple_components.extend([
             (qg, base.one(144), base.mul, base.inv, 1000),
@@ -341,20 +344,49 @@ def pb3_five_component_onto(base: Any, q3: dict[str, Any], s_words: Sequence[Any
                          "pi4_coords": [list(x) for x in pt], "c18_residues": ct},
             "S_global_intertwining_residuals": sinter,
             "T_global_intertwining_residuals": tinter,
+            "strict_intertwining_diagnostic_pass":
+                all(row["pass"] for row in diagnostics),
+            "strict_intertwining_diagnostic_only": True,
             "S_relation_residuals": srels,
             "T_relation_residuals": trels, "ST_generator_residuals": st,
             "TS_generator_residuals": ts,
-            "pass": all(row["pass"] for row in records)})
+            "definition_2_9_S_relation_descent_pass":
+                all(row["pass"] for row in srels),
+            "definition_2_9_S_of_T_generator_recovery":
+                all(row["pass"] for row in st),
+            "T_relation_canary_pass": all(row["pass"] for row in trels),
+            "T_of_S_generator_canary_pass": all(row["pass"] for row in ts),
+            "T_canaries_diagnostic_only": True,
+            "relation_descent_pass": all(row["pass"] for row in srels),
+            "joint_tuple_generator_recovery": all(row["pass"] for row in st),
+            "pass": all(row["pass"] for row in acceptance)})
     words = [[1], [3], [1, 2, 3]]
     return {"source_generator_order": ["x12", "x13", "x23"],
             "S_source_words": s3, "T_source_words": t3, "components": components,
             "actual_joint_tuple_N_ord": tuple_nord(base, words, tuple_components),
-            "global_E4_C18_automorphism_restricted_by_intertwining": True,
+            "strict_global_intertwining_required_for_acceptance": False,
             "joint_coupling_handled_without_character_rank_assumption": True,
+            "definition_2_9_onto_gate":
+                "S relations plus S(T_i)=x_i joint-quotient generator recovery",
+            "definition_2_9_S_relation_descent":
+                all(row["definition_2_9_S_relation_descent_pass"]
+                    for row in components),
+            "definition_2_9_S_of_T_generator_recovery":
+                all(row["definition_2_9_S_of_T_generator_recovery"]
+                    for row in components),
+            "T_relation_and_T_of_S_canaries":
+                all(row["T_relation_canary_pass"] and
+                    row["T_of_S_generator_canary_pass"] for row in components),
+            "T_canaries_required_for_acceptance": False,
+            "joint_tuple_generator_recovery":
+                all(row["joint_tuple_generator_recovery"] for row in components),
+            "strict_intertwining_not_Def2_9_gate": True,
+            "strict_intertwining_parenthesization_conjugator_not_forced_identity": True,
+            "strict_intertwining_diagnostic_pass":
+                all(row["strict_intertwining_diagnostic_pass"] for row in components),
             "component_intertwining_residuals": 5 * 2 * 3,
             "residual_count": len(all_records),
-            "all_pass": all(row["pass"] for row in components) and
-                        all(row["pass"] for row in all_records)}
+            "all_pass": all(row["pass"] for row in components)}
 
 
 def source_residuals(base: Any, q3mod: Any, q3: dict[str, Any], candidate: Sequence[int],
@@ -422,8 +454,18 @@ def source_residuals(base: Any, q3mod: Any, q3: dict[str, Any], candidate: Seque
                {"source_generator_order": ["x12", "x13", "x23"],
                 "S_source_words": [], "T_source_words": [], "components": [],
                 "actual_joint_tuple_N_ord": None,
-                "global_E4_C18_automorphism_restricted_by_intertwining": False,
+                "strict_global_intertwining_required_for_acceptance": False,
                 "joint_coupling_handled_without_character_rank_assumption": False,
+                "definition_2_9_onto_gate":
+                    "S relations plus S(T_i)=x_i joint-quotient generator recovery",
+                "definition_2_9_S_relation_descent": False,
+                "definition_2_9_S_of_T_generator_recovery": False,
+                "T_relation_and_T_of_S_canaries": False,
+                "T_canaries_required_for_acceptance": False,
+                "joint_tuple_generator_recovery": False,
+                "strict_intertwining_not_Def2_9_gate": True,
+                "strict_intertwining_parenthesization_conjugator_not_forced_identity": True,
+                "strict_intertwining_diagnostic_pass": False,
                 "component_intertwining_residuals": 0, "residual_count": 0,
                 "all_pass": False})
     chars = [[sum(1 if x > 0 else -1 for x in word) for word in mapping]
@@ -458,18 +500,30 @@ def source_residuals(base: Any, q3mod: Any, q3: dict[str, Any], candidate: Seque
                     "S_preserves_all_five": chars_s == chars,
                     "T_preserves_all_five": chars_t == chars,
                 },
+                "inverse_certificate_availability_required": True,
+                "inverse_absence_terminal_token": UNKNOWN_INPUT,
+                "T_canaries_diagnostic_only": True,
+                "T_canaries_required_for_acceptance": False,
+                "T_relation_canary_pass": (inverse["found"] and
+                                             all(x["pass"] for x in trels)),
+                "T_of_S_generator_canary_pass": (inverse["found"] and
+                                                   all(x["pass"] for x in ts)),
+                "T_character_canary_pass": inverse["found"] and chars_t == chars,
+                "T_exponent_canary_pass": (inverse["found"] and
+                    exponent_matrix(t_words, 6) ==
+                    [[int(i == j) for j in range(6)] for i in range(6)]),
                 "residual_count": len(records) + pb3onto["residual_count"],
                 "residual_digest_sha256": digest_obj({
                     "diffs": diffs, "hex": hexes, "pent": pent,
                     "S": srels, "T": trels, "ST": st, "TS": ts,
-                    "PB3": pb3onto}),
+                    "PB3": pb3onto, "T_character_rows": chars_t,
+                    "T_exponent_matrix": (exponent_matrix(t_words, 6)
+                                            if inverse["found"] else [])}),
                 "all_pass": (authentication["pass"] and inverse["found"] and
                              pb3onto["all_pass"] and
-                             all(x["pass"] for x in records) and
+                             all(x["pass"] for x in diffs + srels + st + [pent]) and
                              all(x["pass"] for x in hexes) and chars_s == chars and
-                             chars_t == chars and exponent_matrix(s_words, 6) ==
-                             [[int(i == j) for j in range(6)] for i in range(6)] and
-                             exponent_matrix(t_words, 6) ==
+                             exponent_matrix(s_words, 6) ==
                              [[int(i == j) for j in range(6)] for i in range(6)])}
     return expected
 
@@ -852,7 +906,8 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
                 orders["Kbeta_ord"] and a5["pass"] and orders["FC29_pass"] and
                 outside["outside_A"] and lattice["beta"]["onto"] and
                 lattice["B4_action"]["chief_by_prime_order"])
-    expected_terminal = PASS if all_pass else REJECT
+    expected_terminal = (UNKNOWN_INPUT if not residuals["T_inverse_binding"]["found"]
+                         else PASS if all_pass else REJECT)
     require(receipt["terminal_token"] == receipt["status"] == expected_terminal and
             receipt["terminal"] is True, "terminal bidirectional gate")
     claim = receipt["claim_boundary"]
@@ -904,9 +959,13 @@ def fixture() -> dict[str, Any]:
             "basis": basis, "index": 23328, "gcd": 6,
             "candidate": {"index": 124, "length": 92, "word": word,
                           "sha": digest_obj(word)},
-            "residuals": {"hex": True, "pent": True, "S": True,
-                          "T": True, "ST": True, "TS": True,
-                          "PB3_tuple_onto": True},
+            "residuals": {"hex": True, "pent": True,
+                          "S_relation_descent": True,
+                          "S_of_T_generator_recovery": True,
+                          "T_relation_canary": True,
+                          "T_of_S_generator_canary": True,
+                          "PB3_tuple_onto": True,
+                          "strict_intertwining_diagnostic": False},
             "orders": [18, 18, 90, 90], "fc8": {"perfect": True, "no_c3": True},
             "outside_row": 37, "terminal": PASS,
             "claim": {"global": False, "one_step": True}}
@@ -922,7 +981,13 @@ def validate_fixture(row: dict[str, Any]) -> None:
     c = row["candidate"]
     require(c["index"] == 124 and c["length"] == len(c["word"]) == 92 and
             c["sha"] == digest_obj(c["word"]), "candidate fixture")
-    require(all(row["residuals"].values()), "residual fixture")
+    required = ("hex", "pent", "S_relation_descent",
+                "S_of_T_generator_recovery", "PB3_tuple_onto")
+    diagnostics = ("T_relation_canary", "T_of_S_generator_canary",
+                   "strict_intertwining_diagnostic")
+    require(all(row["residuals"][key] is True for key in required) and
+            all(isinstance(row["residuals"][key], bool) for key in diagnostics),
+            "residual acceptance/diagnostic fixture")
     require(row["orders"] == [18, 18, 90, 90], "FC29 fixture")
     require(row["fc8"] == {"perfect": True, "no_c3": True}, "FC8 fixture")
     require(row["outside_row"] == 37, "outside fixture")
@@ -933,6 +998,12 @@ def validate_fixture(row: dict[str, Any]) -> None:
 def self_test() -> None:
     good = fixture()
     validate_fixture(good)
+    # All three diagnostics may be false without changing Def.2.9 acceptance.
+    diagnostic_false = copy.deepcopy(good)
+    diagnostic_false["residuals"]["T_relation_canary"] = False
+    diagnostic_false["residuals"]["T_of_S_generator_canary"] = False
+    diagnostic_false["residuals"]["strict_intertwining_diagnostic"] = True
+    validate_fixture(diagnostic_false)
     mutations = [
         lambda x: x["matrix"][0].__setitem__(0, 0),
         lambda x: x.__setitem__("rank", 5),
@@ -944,11 +1015,12 @@ def self_test() -> None:
         lambda x: x["candidate"].__setitem__("sha", "0" * 64),
         lambda x: x["residuals"].__setitem__("hex", False),
         lambda x: x["residuals"].__setitem__("pent", False),
-        lambda x: x["residuals"].__setitem__("S", False),
-        lambda x: x["residuals"].__setitem__("T", False),
-        lambda x: x["residuals"].__setitem__("ST", False),
-        lambda x: x["residuals"].__setitem__("TS", False),
+        lambda x: x["residuals"].__setitem__("S_relation_descent", False),
+        lambda x: x["residuals"].__setitem__("T_relation_canary", "invalid"),
+        lambda x: x["residuals"].__setitem__("S_of_T_generator_recovery", False),
+        lambda x: x["residuals"].__setitem__("T_of_S_generator_canary", "invalid"),
         lambda x: x["residuals"].__setitem__("PB3_tuple_onto", False),
+        lambda x: x["residuals"].__setitem__("strict_intertwining_diagnostic", "invalid"),
         lambda x: x["orders"].__setitem__(1, 54),
         lambda x: x["fc8"].__setitem__("perfect", False),
         lambda x: x["fc8"].__setitem__("no_c3", False),
