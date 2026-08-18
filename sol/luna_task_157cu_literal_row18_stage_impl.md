@@ -82,7 +82,9 @@ Current implementation pointer (2026-08-18 JST):
   closure gates in finite permutation groups; raw matrices and the independent
   invariant-rank checks remain unchanged.  The repaired producer hash is
   `59cb71ce21031f309873fbfcef1887a8f0361fb258ffde343bc236443d381174`.
-  Commit and redispatch this repair while continuing to monitor
+  Parent committed/pushed this repair as
+  `5ab0c703b21b947152523a299c58e41bdb8b99e5` and dispatched immutable
+  literal-only GHA run `32099345952`.  Monitor it while continuing to monitor
   `32094134098`; no run may support a terminal claim until its independent
   checker passes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
