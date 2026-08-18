@@ -8,7 +8,7 @@ if LoadPackage("json")<>true then Error("157dq driver: JSON unavailable"); fi;;
 D972TLGDProducer := "search/d972_b34_total_linking_c3_chief_v1.g";;
 D972TLGDProducerSHA := "dba9adc5a8d06665c89e97697bc737a28ec68096ccd02a58db03ccfe63d1d837";;
 D972TLGDChecker := "search/check_d972_b34_total_linking_c3_chief_v1.py";;
-D972TLGDCheckerSHA := "917b3fef37129850887b3b498d4c7c9ee573cdb7944139652deb2acaf5f2064a";;
+D972TLGDCheckerSHA := "58c2a67b13f11da04f616e12875cce4fc6e4152cd75231577c4fe111b6a8ff22";;
 D972TLGDOldDriver := "search/d972_b34_a5_selected_lift_gha_driver_v1.g";;
 D972TLGDOldDriverSHA := "cce2dff8e4a96046d97f70f64a31f279ced5feeeb08dca55de82b59f7154171e";;
 D972TLGDOldChecker := "search/check_d972_b34_a5_selected_lift_v1.py";;

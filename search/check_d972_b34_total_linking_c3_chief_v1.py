@@ -379,7 +379,13 @@ def source_residuals(base: Any, q3mod: Any, q3: dict[str, Any], candidate: Seque
     pinvok = all(base.eval_word(w, pimages, pc4.zero(), pc4.mul, pc4.inverse) ==
                  tuple(marked4[i]["coords"])
                  for i, w in enumerate(settlement["Pi4_inverse_words"]))
-    q3mod.validate_inverse_pc_maps(pc4, settlement["Pi4_forward_pc_images"],
+    # q3mod's independent inverse-map validator needs its own collector API
+    # (notably .power).  The frozen 157dp collector remains the independent
+    # implementation for every other replay in this checker.
+    q3pc4 = q3mod.PcCollector(q3["groups"]["PB4"])
+    q3pc4.validate()
+    require(callable(getattr(q3pc4, "power", None)), "q3 collector power API")
+    q3mod.validate_inverse_pc_maps(q3pc4, settlement["Pi4_forward_pc_images"],
                                    settlement["Pi4_inverse_pc_images"])
     authentication = {
         "upstream_settlement_sha256": digest_obj(settlement),

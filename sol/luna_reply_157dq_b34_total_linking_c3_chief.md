@@ -32,8 +32,8 @@ global B4-B.
 | file | bytes | SHA-256 |
 |---|---:|---|
 | `search/d972_b34_total_linking_c3_chief_v1.g` | 38547 | `dba9adc5a8d06665c89e97697bc737a28ec68096ccd02a58db03ccfe63d1d837` |
-| `search/check_d972_b34_total_linking_c3_chief_v1.py` | 53000 | `917b3fef37129850887b3b498d4c7c9ee573cdb7944139652deb2acaf5f2064a` |
-| `search/d972_b34_total_linking_c3_chief_gha_driver_v1.g` | 11632 | `46dd32aacb9cc23aad52bfa4944786a45ca060441a73a5e5393419fc2f76e766` |
+| `search/check_d972_b34_total_linking_c3_chief_v1.py` | 53366 | `58c2a67b13f11da04f616e12875cce4fc6e4152cd75231577c4fe111b6a8ff22` |
+| `search/d972_b34_total_linking_c3_chief_gha_driver_v1.g` | 11632 | `6e55b637188c5cfcbe65966c299687dfb75af35a067ccc429bbdded35086ea2b` |
 
 The driver hard-pins the producer and checker hashes above.  It also pins the
 q3, FC8, and 157dp receipts and all registered source/theorem inputs required
@@ -253,6 +253,47 @@ D972_B34_TOTAL_LINKING_C3_CHECKER_SELFTEST_PASS mutations=21
 B34_TOTAL_LINKING_C3_GHA_DRIVER_PASS mode=selftest
 ```
 
+### Input-packaging failure in run 32194643806
+
+Run `32194643806` stopped before a mathematical replay because the pinned,
+previously untracked T48 input was absent from the dispatched checkout.  It
+therefore supplies no producer/checker result and no mathematical evidence.
+The missing input was an upstream transport/registration issue, not a
+candidate failure.
+
+### Checker API repair after run 32194873275
+
+Run `32194873275` reached the unchanged producer.  It emitted
+`B34_TOTAL_LINKING_C3_CANDIDATE_REJECTED_CROSSCHECKED` after `5672 ms`, but the
+independent checker then crashed before completing.  That producer-only token
+is **not cross-checked** and is not adopted as a mathematical rejection.
+
+The exact checker failure was an implementation-interface mismatch.  The
+checker correctly uses the frozen 157dp `PcCollector` for its independent
+current computations; that class has `mul` and `inverse` but no `power`
+method.  One line passed that collector into
+`q3mod.validate_inverse_pc_maps`, whose own validator requires the q3
+collector's `power` API.
+
+The checker now constructs and validates a q3-native PB4 collector from the
+same frozen PB4 receipt and uses it only for
+`q3mod.validate_inverse_pc_maps`.  An explicit callable-`power` gate fails
+closed.  The old 157dp collector remains in every other current check, so the
+two independent implementations are not conflated.  Producer source,
+candidate 124, every predicate, terminal semantics, and receipt schema are
+unchanged.
+
+After repinning, the separately authorized lightweight checker self-test
+passed:
+
+```text
+D972_B34_TOTAL_LINKING_C3_CHECKER_SELFTEST_PASS mutations=21
+```
+
+Because this fixture-only self-test has no frozen artifacts, the corrected
+q3 collector call still requires the next same-job full checker replay before
+any producer rejection can be called cross-checked.
+
 Source-only estimate, pending first GHA calibration:
 
 - new producer: approximately 2--10 seconds;
@@ -273,6 +314,7 @@ The first development Python self-test invocation exposed only aliasing in the
 synthetic mutation fixture (list multiplication had shared rows).  The fixture
 was corrected without changing production logic.  After explicit permission,
 the single corrective invocation produced the 21-mutation PASS quoted above;
-no further Python run was made.  After the transport repair, one separately
-authorized GAP driver SELFTEST produced the four PASS markers above.  No local
-production GAP, Git, or GHA run was made.
+after the later collector-interface repair, one separately authorized
+checker self-test again produced the same 21-mutation PASS.  After the
+transport repair, one separately authorized GAP driver SELFTEST produced the
+four PASS markers above.  No local production GAP, Git, or GHA run was made.
