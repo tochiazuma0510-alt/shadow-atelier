@@ -62,7 +62,8 @@ replays.  It checks, for every fast record:
 * the metabelian law and the four seed operand replays;
 * exact E-coordinate support of every seed and solver value;
 * the claimed coordinate solver order 32256 and closure of all 13 values;
-* P^4/G9^4 identity for every solver word;
+* G9^4 identity for every solver word, with each stored P^4 target replayed
+  exactly (the intermediate P^4 value need not be identity);
 * all 24 final source words, their E targets, and their P/G9 identities;
 * the unchanged v1 pure-coordinate, factor-order, action, map, source, and
   terminal-status gates.
@@ -182,6 +183,20 @@ c84519d3d0f9d9e5d97c229220ef95cf178f8948661fd67663cda1b388619a90
 45f14fba45498cb16f0a0da9455a249f78bc57a367518a135932b59e9b8bc879
 ```
 
+## Post-run solver-contract repair
+
+Run `32088182066` passed the tuple table and rank-24 producer gates, then the
+checker rejected the first fast solver record because its intermediate P value
+was nonidentity while its G9 value was identity.  Requiring P identity for all
+13 solver words is incompatible with the recorded E closure of order 32256:
+words with P^4 identity lie in the V^4 kernel of order 64.  The checker now
+requires G9 identity for every intermediate solver word and retains exact
+replay of each stored P^4 array.  The final 24 expanded basis words still
+require and replay P^4=G9^4=1 at the later gate.
+
+This is a checker-contract repair only; the producer is unchanged.  A
+parent-dispatched rerun is required before cross-checked status.
+
 ## Post-run P1-point-order repair
 
 Run `32087818507` again reached producer rank 24, then the checker reached
@@ -203,5 +218,5 @@ search/d972_d972core_c2six_intersection_v2.g
 577de029a49e2db3a33cf3b4437c78548214f9635b1750185d48a5385c161f4c
 
 search/check_d972_d972core_c2six_intersection_v2.py
-f4bc999b0ffafd716130fa5d58ee26be8197a6015ce0c8cf5e3c915a4f58871b
+ab6b26d40c268de5e309ebcd9b56eddd52e91de2cc147ef8a1af9198a6523761
 ```

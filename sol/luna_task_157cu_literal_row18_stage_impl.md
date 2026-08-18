@@ -41,8 +41,15 @@ Current implementation pointer (2026-08-18 JST):
   `1b91f3067358e3daba793319ce95bdd47eddacfd`.  Automatic rerun `32087818507`
   again reproduced `rank=24` and exposed one remaining finite convention bug:
   producer point order `[infinity,0,...,7]` versus checker order
-  `[0,...,7,infinity]`.  Luna is applying the exact nine-point relabelling and
-  refreshing the chained hashes before the next rerun.
+  `[0,...,7,infinity]`.  Luna applied the exact nine-point relabelling; parent
+  Sol committed/pushed it as
+  `9c8b71edfc10f4ac14dc3ac85230c9f1f5e76107`.  Automatic rerun `32088182066`
+  passed the tuple/rank gates and exposed an overstrong checker condition:
+  it required all 13 intermediate E-solver generators to have trivial P
+  image, which is impossible for generators closing to E of order 32256 over
+  V of order 64.  The exact stored P values replay; G9 is trivial; the final
+  24 expanded basis words are P/G9-trivial.  Luna is removing only that
+  contradictory intermediate-P gate and refreshing the checker binding.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.

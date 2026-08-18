@@ -538,8 +538,8 @@ def validate_fast_construction(
             e_value = word_value(word, tuple_e_gens)
             p_value = word_value(word, tuple_p_gens)
             g9_value = word_value(word, tuple_g9_gens)
-            if p_value != identity_p4 or g9_value != identity_g94:
-                raise AssertionError(f"fast solver P/G9 drift at {coordinate},{index}")
+            if g9_value != identity_g94:
+                raise AssertionError(f"fast solver G9 drift at {coordinate},{index}")
             blocks = block_values(e_value, DEGREE_E)
             if check_perm_array(e_array, DEGREE_E, "fast solver E") != blocks[coordinate - 1]:
                 raise AssertionError(f"fast solver E target drift at {coordinate},{index}")
