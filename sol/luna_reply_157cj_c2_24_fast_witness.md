@@ -132,6 +132,27 @@ The v2 workflow now contains the valid YAML-literal shell form
 `awk '$1 == "uses:" { print $2 }'`; no mathematical or producer logic was
 changed.
 
+## Post-run checker binding repair
+
+Run `32086984144` completed the producer with rank 24, but the independent
+checker stopped at its fail-closed producer binding gate.  The checker still
+contained the superseded producer SHA `40aa4c...`, while the repaired producer
+and workflow bind `57b340ad02d2864355ed5e2bd4c6ee4500a4509dafd5152e71c84b513b2738ad`.
+The authorized repair changes only that checker constant; the workflow checker
+binding is refreshed to the resulting checker SHA below.  The run is therefore
+evidence of successful producer mathematics plus an operational binding
+failure, not a cross-checked receipt; a parent-dispatched rerun is required.
+
+Updated bindings:
+
+```text
+search/check_d972_d972core_c2six_intersection_v2.py
+79325fb7a441890552baa04f84c141f56cfeebeb612c90c24049d15105f55e05
+
+.github/workflows/d972-d972core-c2six-intersection-v2.yml
+(refreshed to the checker SHA above)
+```
+
 ## Post-run producer convention repair
 
 Run `32083594772` completed the producer's mathematical computation (including
