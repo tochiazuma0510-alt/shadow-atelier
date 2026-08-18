@@ -434,3 +434,25 @@ direct scan has no per-candidate logging, and no predicate, candidate order,
 terminal mapping, ANUPQ budget, or receipt acceptance rule was altered. The
 implementation token is
 `B345_Q3_ATOMIC_WRITE_REPAIR_READY_FOR_GHA`.
+
+## 157dg checked-write supersession
+
+Canary `32132850360` showed that the optional I/O package is unavailable on
+the setup-gap 4.16.0 runner, before ANUPQ or candidate enumeration. The I/O
+contract is superseded by a core checked closed write: canonical JSON plus one
+newline is built once, written to the final path with `OutputTextFile`, closed,
+reread with `StringFile`, and accepted only on exact byte equality. No
+atomicity claim is made.
+
+The two-write smoke remains and now emits exactly one
+`D972_B345_Q3_CHECKED_IO_SELFTEST_PASS backend=OutputTextFile replace=true readback=true`
+marker. A killed or failed producer cannot return to the driver; consequently
+the checker is not invoked and the final driver marker is absent.
+
+Current code pins (math/checker/direct markers unchanged):
+
+```text
+producer  76,867  b95fc29b326c3d6a378249cdeb03595eed8d0211a7fe0358fc02447d70d5f755
+driver     5,488  93a03d8d44694f016603bebd3909fe718dbbd6fe8018c17f5460c040bc3aea76
+checker   87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
+```

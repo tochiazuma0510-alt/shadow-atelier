@@ -110,3 +110,24 @@ The static semantic diff is limited to I/O, self-test, and logging gates;
 formula, predicate, universe/order, terminal mapping, ANUPQ budget, receipt
 acceptance, and checker remain unchanged. Ready token:
 `B345_Q3_ATOMIC_WRITE_REPAIR_READY_FOR_GHA`.
+
+## 157dg checked-write supersession
+
+Canary `32132850360` failed before ANUPQ because the optional I/O package was
+unavailable. The output helper is now a core checked closed write: construct
+canonical JSON plus newline once, write the final path, close, reread with
+`StringFile`, and require exact equality. It makes no atomicity claim.
+
+The replacement smoke remains two distinct writes and now emits exactly one
+`D972_B345_Q3_CHECKED_IO_SELFTEST_PASS backend=OutputTextFile replace=true readback=true`
+marker, which the driver requires before checker execution. A partial file
+cannot reach checker or final-driver success because producer return/readback
+must succeed first.
+
+Current pins:
+
+```text
+producer  76,867  b95fc29b326c3d6a378249cdeb03595eed8d0211a7fe0358fc02447d70d5f755
+driver     5,488  93a03d8d44694f016603bebd3909fe718dbbd6fe8018c17f5460c040bc3aea76
+checker   87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
+```

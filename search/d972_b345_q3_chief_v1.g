@@ -23,9 +23,9 @@ D972Q3Words := "search/certs/d972_b4_word_key_artifact_v1_20260816.json";;
 D972Q3WordsSHA := "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9";;
 D972Q3Core := "search/d972_d972core_c2six_intersection_v2.g";;
 D972Q3CoreSHA := "577de029a49e2db3a33cf3b4437c78548214f9635b1750185d48a5385c161f4c";;
-D972Q3AtomicIoSelftestMarker :=
-  "D972_B345_Q3_ATOMIC_IO_SELFTEST_PASS backend=IO_rename replace=true";;
-D972Q3AtomicIoSelftestMarkerCount := 0;;
+D972Q3CheckedIoSelftestMarker :=
+  "D972_B345_Q3_CHECKED_IO_SELFTEST_PASS backend=OutputTextFile replace=true readback=true";;
+D972Q3CheckedIoSelftestMarkerCount := 0;;
 
 D972Q3Phase := function(label, start)
   local now;
@@ -80,20 +80,17 @@ end;;
 
 D972Q3Digest := x -> HexSHA256(D972Q3Json(x));;
 
-D972Q3AtomicWrite := function(path, obj)
-  local tmp, f;
-  if LoadPackage("io")<>true then
-    Error("157df: official IO package unavailable");
-  fi;
-  if not IsBoundGlobal("IO_rename") then
-    Error("157df: official IO rename operation unavailable");
-  fi;
-  tmp := Concatenation(path,".tmp");;
-  f := OutputTextFile(tmp,false);;
-  if f=fail then Error("157da: cannot open output ",tmp); fi;
+D972Q3CheckedWrite := function(path, obj)
+  local expected, f, raw;
+  expected := Concatenation(D972Q3Json(obj),"\n");;
+  f := OutputTextFile(path,false);;
+  if f=fail then Error("157dg: cannot open output ",path); fi;
   SetPrintFormattingStatus(f,false);;
-  PrintTo(f,D972Q3Json(obj),"\n");; CloseStream(f);;
-  if IO_rename(tmp,path)<>true then Error("157df: atomic replacement failed: ",path); fi;
+  PrintTo(f,expected);; CloseStream(f);;
+  raw := StringFile(path);;
+  if raw=fail or raw<>expected then
+    Error("157dg: closed-write readback mismatch: ",path);
+  fi;
 end;;
 
 #############################################################################
@@ -617,7 +614,7 @@ D972Q3PublicMap := function(r)
 end;;
 
 D972Q3Checkpoint := function(label,obj)
-  D972Q3AtomicWrite(Concatenation(D972_B345_Q3_OUTPUT,".",label,".json"),obj);
+  D972Q3CheckedWrite(Concatenation(D972_B345_Q3_OUTPUT,".",label,".json"),obj);
 end;;
 
 #############################################################################
@@ -1236,27 +1233,27 @@ end;;
 
 D972Q3SelfTest := function()
   local f,c34,c45,d4,m,small,q,Q,smokePath,smokeFirst,smokeSecond,smokeRaw;
-  D972Q3AtomicIoSelftestMarkerCount:=0;;
-  smokePath:="ci/out/d972_b345_q3_atomic_io_smoke.json";;
+  D972Q3CheckedIoSelftestMarkerCount:=0;;
+  smokePath:="ci/out/d972_b345_q3_checked_io_smoke.json";;
   smokeFirst:=rec(payload:="first",replacement:=1);;
   smokeSecond:=rec(payload:="second",replacement:=2);;
-  D972Q3AtomicWrite(smokePath,smokeFirst);;
-  D972Q3AtomicWrite(smokePath,smokeSecond);;
+  D972Q3CheckedWrite(smokePath,smokeFirst);;
+  D972Q3CheckedWrite(smokePath,smokeSecond);;
   if not IsExistingFile(smokePath) then
-    Error("157df selftest: atomic smoke output missing");
+    Error("157dg selftest: checked-write smoke output missing");
   fi;
   smokeRaw:=StringFile(smokePath);;
   if smokeRaw<>Concatenation(D972Q3Json(smokeSecond),"\n") or
      smokeRaw=Concatenation(D972Q3Json(smokeFirst),"\n") then
-    Error("157df selftest: atomic replacement readback drift");
+    Error("157dg selftest: checked-write replacement readback drift");
   fi;
   RemoveFile(smokePath);;
   if IsExistingFile(smokePath) then
-    Error("157df selftest: atomic smoke cleanup failed");
+    Error("157dg selftest: checked-write smoke cleanup failed");
   fi;
-  D972Q3AtomicIoSelftestMarkerCount:=
-    D972Q3AtomicIoSelftestMarkerCount+1;;
-  Print(D972Q3AtomicIoSelftestMarker,"\n");;
+  D972Q3CheckedIoSelftestMarkerCount:=
+    D972Q3CheckedIoSelftestMarkerCount+1;;
+  Print(D972Q3CheckedIoSelftestMarker,"\n");;
   if IsBoundGlobal("FlushAllStreams") then FlushAllStreams(); fi;
   f:=D972Q3FormulaManifest();;
   if D972Q3Digest(f)<>D972Q3ExpectedFormulaSHA then
@@ -1419,7 +1416,7 @@ D972Q3Run := function()
       production_anupq_calls:=0,PB5_skipped_before_known_typed_stop:=true,
       provenance:=rec(producer:=D972Q3Producer,
         checker:="search/check_d972_b345_q3_chief_v1.py"));;
-    D972Q3AtomicWrite(D972_B345_Q3_OUTPUT,receipt);;
+    D972Q3CheckedWrite(D972_B345_Q3_OUTPUT,receipt);;
     Print("B345_Q3_MISSING_RELATIVE_HORN_EFFECTIVITY phase=coarse_common_quotient_gate anupq_calls=0\n");
     return;
   fi;
@@ -1437,7 +1434,7 @@ D972Q3Run := function()
       pins:=pins,formulas:=formula,formula_sha256:=formulaSha,
       short_common_quotient_gate:=shortGate,coarse_models:=coarseModels,
       production_anupq_calls:=1,no_mathematical_obstruction_claimed:=true);;
-    D972Q3AtomicWrite(D972_B345_Q3_OUTPUT,receipt);;
+    D972Q3CheckedWrite(D972_B345_Q3_OUTPUT,receipt);;
     Print("B345_Q3_UNKNOWN_RESOURCE phase=PB5_ANUPQ\n"); return;
   fi;
   Q5:=Image(qmap);; m5:=List(p5.gens,g->Image(qmap,g));;
@@ -1636,14 +1633,19 @@ D972Q3Run := function()
       large_group_full_enumeration:=false,bounded_order27_enumeration:=true,
       fixed_word_context_caches:=true,frozen_972_rows_evaluated_once:=true,
       settlement_image_cache:=true,
-      atomic_checkpoint_policy:="presentation, coarse gate, PB5 summary, PB4/PB3 light, direct scan; PB5 full collector/cofaces only after exhaustive negative",
+      checked_write_policy:="closed exact write with immediate byte readback for every output; PB5 full collector/cofaces only after exhaustive negative",
+      partial_write_nonpromotion:=rec(
+        producer_return_requires_exact_readback:=true,
+        checker_invocation_requires_producer_return:=true,
+        final_driver_marker_requires_checker_success:=true,
+        partial_file_consumed_by_checker:=false),
       direct_scan_checkpoint:=true,full_PB5_checkpoints_only_after_negative:=true),
     provenance:=rec(producer:=D972Q3Producer,
       checker:="search/check_d972_b345_q3_chief_v1.py"));;
   if selectedSolution<>fail then
     receipt.roof_power_a_mod_9:=selectedSolution.exponent;;
   fi;
-  D972Q3AtomicWrite(D972_B345_Q3_OUTPUT,receipt);;
+  D972Q3CheckedWrite(D972_B345_Q3_OUTPUT,receipt);;
   t:=D972Q3Phase("artifact",t);;
   Print(terminal," output=",D972_B345_Q3_OUTPUT,
     " formula_sha256=",formulaSha," PB5_order=",pub5.order_decimal,

@@ -8,7 +8,7 @@
 
 D972Q3GDProducerPath := "search/d972_b345_q3_chief_v1.g";;
 D972Q3GDProducerSHA :=
-  "e3dad87ad066fc9c605e1eecaddbe63efd63ac68500e0fcff0d6d62eb7d83af3";;
+  "b95fc29b326c3d6a378249cdeb03595eed8d0211a7fe0358fc02447d70d5f755";;
 D972Q3GDCheckerPath := "search/check_d972_b345_q3_chief_v1.py";;
 D972Q3GDCheckerSHA :=
   "9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb";;
@@ -80,11 +80,11 @@ fi;
 if D972Q3GDSelfSelected then
   Exec("mkdir -p 'ci/out'");;
   Read(D972Q3GDProducerPath);;
-  if not IsBound(D972Q3AtomicIoSelftestMarker) or
-     D972Q3AtomicIoSelftestMarker<>"D972_B345_Q3_ATOMIC_IO_SELFTEST_PASS backend=IO_rename replace=true" or
-     not IsBound(D972Q3AtomicIoSelftestMarkerCount) or
-     D972Q3AtomicIoSelftestMarkerCount<>1 then
-    Error("157df: atomic IO selftest marker count drift");
+  if not IsBound(D972Q3CheckedIoSelftestMarker) or
+     D972Q3CheckedIoSelftestMarker<>"D972_B345_Q3_CHECKED_IO_SELFTEST_PASS backend=OutputTextFile replace=true readback=true" or
+     not IsBound(D972Q3CheckedIoSelftestMarkerCount) or
+     D972Q3CheckedIoSelftestMarkerCount<>1 then
+    Error("157dg: checked IO selftest marker count drift");
   fi;
   Exec("mkdir -p 'ci/out' && rm -f 'ci/out/d972_b345_q3_checker_selftest.log' 'ci/out/d972_b345_q3_checker_selftest.ok' && python3 -B search/check_d972_b345_q3_chief_v1.py --self-test > 'ci/out/d972_b345_q3_checker_selftest.log' 2>&1 && printf '%s' 'D972_B345_Q3_CHECKER_SELFTEST_EXIT_ZERO' > 'ci/out/d972_b345_q3_checker_selftest.ok'");;
   D972Q3GDSelfLog:=D972Q3GDEchoLog(D972Q3GDSelfLogPath);;

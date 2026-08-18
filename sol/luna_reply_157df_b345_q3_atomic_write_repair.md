@@ -82,3 +82,26 @@ checker pin; and exactly two source branch forms for the one runtime direct
 scan marker. The producer's control flow and pins outside I/O/logging were
 left unchanged. No runtime success, cross-check, or A/B claim is made here;
 the next GHA canary is required.
+
+## 157dg correction: checked closed write
+
+Canary `32132850360` showed that the optional I/O package is unavailable on
+the runner. The 157df replacement contract is superseded: the producer now
+builds canonical JSON plus newline once, writes the final target with core
+`OutputTextFile`, closes it, rereads it with `StringFile`, and fails unless the
+bytes match exactly. This is not atomicity; it is a checked closed write.
+
+The two-write smoke remains real and now uses exactly one
+`D972_B345_Q3_CHECKED_IO_SELFTEST_PASS backend=OutputTextFile replace=true readback=true`
+marker, enforced by the driver before checker execution. A killed/error
+producer cannot return, so a partial file cannot be consumed and the final
+driver marker is absent. The direct-scan markers and all mathematical pins are
+unchanged.
+
+Current code hashes:
+
+```text
+producer  76,867  b95fc29b326c3d6a378249cdeb03595eed8d0211a7fe0358fc02447d70d5f755
+driver     5,488  93a03d8d44694f016603bebd3909fe718dbbd6fe8018c17f5460c040bc3aea76
+checker   87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
+```

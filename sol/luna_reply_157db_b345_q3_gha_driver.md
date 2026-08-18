@@ -168,3 +168,21 @@ Only I/O, self-test, and direct-scan logging gates changed. Mathematical
 inputs, predicates, ordering, terminal mapping, ANUPQ budget, and receipt
 acceptance are unchanged. Ready token:
 `B345_Q3_ATOMIC_WRITE_REPAIR_READY_FOR_GHA`.
+
+## 157dg checked-write driver supersession
+
+Canary `32132850360` stopped before ANUPQ because the optional I/O package was
+unavailable. The producer now performs a core closed write followed by exact
+`StringFile` readback; this is a checked-write contract, not an atomicity
+claim. The driver gates the exact-one marker
+`D972_B345_Q3_CHECKED_IO_SELFTEST_PASS backend=OutputTextFile replace=true readback=true`
+before invoking the checker. If the producer is killed or readback fails, the
+driver cannot reach the checker or its final success marker.
+
+Current pins:
+
+```text
+producer  76,867  b95fc29b326c3d6a378249cdeb03595eed8d0211a7fe0358fc02447d70d5f755
+driver     5,488  93a03d8d44694f016603bebd3909fe718dbbd6fe8018c17f5460c040bc3aea76
+checker   87,732  9864e55f6e0ee1ae8100788e5ba127ef95bffd62535c3aa23a192cde6109cfcb
+```
