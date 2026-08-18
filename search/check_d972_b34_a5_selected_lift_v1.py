@@ -76,6 +76,19 @@ def require(condition: bool, message: str) -> None:
         raise CheckError(message)
 
 
+def comparison_stamp(value: Any) -> str:
+    """Bounded diagnostic for exact producer/checker receipt comparisons."""
+    if value is None or isinstance(value, (bool, int, str)):
+        return repr(value)
+    return f"sha256={digest_obj(value)}"
+
+
+def require_equal(actual: Any, expected: Any, label: str) -> None:
+    if actual != expected:
+        raise CheckError(f"{label} actual({comparison_stamp(actual)}) "
+                         f"expected({comparison_stamp(expected)})")
+
+
 def canonical_bytes(obj: Any) -> bytes:
     return json.dumps(obj, sort_keys=True, separators=(",", ":"),
                       ensure_ascii=True).encode("ascii")
@@ -1377,11 +1390,39 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
     exhaustive = selected_actual is None and evaluated == 202500
     expected_terminal = POSITIVE if selected_actual is not None else (NEGATIVE if exhaustive else UNKNOWN)
     scan = receipt["scan"]
-    require(scan["evaluated_candidates"] == evaluated and scan["exhaustive"] == exhaustive and
-            scan["counts"] == counts and scan["rejection_rle"] == rle and
-            scan["rejection_stream_sha256"] == hashlib.sha256("".join(codes).encode()).hexdigest() and
-            scan["selected"] == selected_actual and scan["settlement_is_acceptance_gate"] is False and
-            scan["resource_skips"] == 0, "scan replay")
+    # Keep every lossless scan component as an independent fail-closed gate.
+    # Besides avoiding an opaque composite failure, the bounded stamps identify
+    # representation drift without printing the candidate word or full RLE.
+    require_equal(scan["evaluated_candidates"], evaluated,
+                  "scan.evaluated_candidates")
+    require_equal(scan["exhaustive"], exhaustive, "scan.exhaustive")
+    require_equal(scan["counts"], counts, "scan.counts")
+    require_equal(scan["rejection_rle"], rle, "scan.rejection_rle")
+    require_equal(scan["rejection_stream_sha256"],
+                  hashlib.sha256("".join(codes).encode()).hexdigest(),
+                  "scan.rejection_stream_sha256")
+    if selected_actual is None:
+        require_equal(scan["selected"], None, "scan.selected")
+    else:
+        selected_receipt = scan["selected"]
+        require(isinstance(selected_receipt, dict), "scan.selected layout")
+        require(set(selected_receipt) == set(selected_actual),
+                "scan.selected field set")
+        for field in selected_actual:
+            if field != "direct_materialization_replay":
+                require_equal(selected_receipt[field], selected_actual[field],
+                              f"scan.selected.{field}")
+        direct_receipt = selected_receipt["direct_materialization_replay"]
+        direct_expected = selected_actual["direct_materialization_replay"]
+        require(isinstance(direct_receipt, dict) and
+                set(direct_receipt) == set(direct_expected),
+                "scan.selected.direct_materialization_replay field set")
+        for field in direct_expected:
+            require_equal(direct_receipt[field], direct_expected[field],
+                          f"scan.selected.direct_materialization_replay.{field}")
+    require_equal(scan["settlement_is_acceptance_gate"], False,
+                  "scan.settlement_is_acceptance_gate")
+    require_equal(scan["resource_skips"], 0, "scan.resource_skips")
     require(receipt["status"] == terminal and isinstance(receipt["terminal"], bool) and
             receipt["terminal"] == (terminal in (POSITIVE, NEGATIVE)),
             "status/terminal boolean")
@@ -1526,6 +1567,13 @@ def self_test() -> None:
         except CheckError:
             continue
         raise CheckError("mutation unexpectedly accepted")
+    try:
+        require_equal({"total": 124}, {"total": 123}, "scan.counts")
+    except CheckError as exc:
+        require(str(exc).startswith("scan.counts actual(sha256="),
+                "named scan diagnostic canary")
+    else:
+        raise CheckError("named scan diagnostic unexpectedly accepted")
     print(f"D972_B34_A5_SELECTED_LIFT_CHECKER_SELFTEST_PASS mutations={len(mutations)}")
 
 

@@ -34,8 +34,8 @@ an acceptance or rejection gate.
 | file | bytes | SHA256 |
 |---|---:|---|
 | `search/d972_b34_a5_selected_lift_v1.g` | 54196 | `ed350659ea6f77c0151e84e92395b050e7c0d65455c2e8e8a7d9851af9393440` |
-| `search/check_d972_b34_a5_selected_lift_v1.py` | 75950 | `57c30d908786b63fc0ee95eaa59a742e7b7d57b919a435748a826e7cc40df891` |
-| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `2425f0338f295ad9ef21679c2fda114daf5667c7ac731fc9cb7003a512e9516b` |
+| `search/check_d972_b34_a5_selected_lift_v1.py` | 78293 | `e062b4e16f323bee1c8af1f23cfdce5820a9b782066c8bf6bbf1327506f8f0f4` |
+| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `598b2edc3b3847207f993f493859179d91b1465b6c1e679bd3f0a89315ec30cc` |
 
 The driver hard-pins the first two hashes.  It also pins the q3 and FC8
 producer/checker/driver sources and the frozen word/pure-axis inputs.
@@ -209,6 +209,38 @@ reconstructed first positive, so missing or extra selected fields fail closed.
 A focused mutation inserts the stale top-level location and is rejected.  No
 producer code, candidate predicate, registered universe, or terminal semantics
 changed.
+
+## Run 32169507334 scan-diagnostic repair
+
+At commit `1bb5705f`, the producer again returned the same positive candidate
+124 (`new_charming=9`, runtime 369 ms).  The checker passed the rhoA, F2-word,
+receipt-layout, outer-fibre, and derived-total gates, then stopped at the old
+composite message `scan replay`.
+
+A field-by-field static comparison found no discrepancy in the registered
+loop order, short-circuit order, counter update points, section-state
+multiplication, hexagon/pentagon formulas, or onto predicate.  Consequently I
+did not guess at, remove, or weaken a mathematical predicate.  The remaining
+failure domain is exactly the serialized lossless scan transcript.
+
+The checker now has separate fail-closed gates for:
+
+1. `evaluated_candidates`;
+2. `exhaustive`;
+3. `counts`;
+4. `rejection_rle`;
+5. `rejection_stream_sha256`;
+6. every ordinary field of `selected` and every field of its nested
+   `direct_materialization_replay` record;
+7. `settlement_is_acceptance_gate`;
+8. `resource_skips`.
+
+For a compound mismatch it prints only bounded canonical SHA256 stamps, never
+the long selected word or full RLE.  This change is diagnostic and
+fail-closed: equality predicates and expected values are unchanged.  The
+focused self-test checks that a counts mismatch is reported specifically as
+`scan.counts`; the complete lightweight self-test remains PASS with 21
+mutation cases.  The producer SHA is unchanged.
 
 ## Source-only operation and runtime estimate
 
