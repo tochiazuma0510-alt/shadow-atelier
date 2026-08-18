@@ -2,11 +2,11 @@
 
 ## Verdict
 
-`B34_TOTAL_LINKING_C3_CHIEF_REPAIRED_GO`.
+`B34_TOTAL_LINKING_C3_CHIEF_DESCENT_CROSSCHECKED`.
 
 The false-negative predicate exposed by run `32195410958` is repaired and the
-same candidate-124 lane is ready for a same-job producer/checker replay.  The
-repair changes only the PB3 joint-quotient onto test:
+same candidate-124 lane passed its same-job producer/checker replay in run
+`32197397734`.  The repair changes only the PB3 joint-quotient onto test:
 
 - the 30 strict coface intertwining equalities remain lossless diagnostics;
 - they are no longer acceptance conditions;
@@ -15,7 +15,7 @@ repair changes only the PB3 joint-quotient onto test:
 - the reverse relation/recovery direction remains an independently recorded
   diagnostic canary and is excluded from acceptance.
 
-No candidate, inverse search, 27-element fibre, literal hexagon/pentagon,
+No candidate, 27-element fibre, literal hexagon/pentagon,
 chief-factor, A5, order, outside-class, terminal-boundary, or resource gate was
 changed.  No local production GAP, Git, or GHA command was run.
 
@@ -124,6 +124,46 @@ identity `Pi4[3]` value and zero `C18` residue.  More importantly, all five
 components pass the PB3 relations and both three-generator recovery
 directions.  Thus the old receipt supports the repaired onto gate but cannot
 itself be promoted because its schema and checker pins predate this repair.
+
+## Cross-checked repaired run 32197397734
+
+Commit `80a20cdf5fd9022f7951834c7e450625e787876e` completed the repaired
+producer and independent checker in the same job:
+
+```text
+GHA run                 32197397734
+URL                     https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32197397734
+terminal/status         B34_TOTAL_LINKING_C3_CHIEF_DESCENT_CROSSCHECKED
+artifact id             9346352687
+artifact name           gap-run-out
+artifact archive size   102420 bytes
+receipt SHA-256         86dfc0cb513eacbc1d4df26a7ce6ae64d3f96b727351b413905eb5572376e326
+receipt size            966678 bytes
+receipt runtime_ms      5385
+producer final runtime  5590 ms
+literal residuals       131
+inverse attempts        1
+checker log SHA-256     b48198fe91d01a694a8e67397466c8b7921434e9f9c9b9d106f0f4a2fb8091d6
+independent checker     PASS
+```
+
+The receipt independently replays the exact Definition 2.9 acceptance data:
+
+- S relation descent is true;
+- `S(T_i)=x_i` generator recovery is true;
+- all five component `pass` values are true;
+- source `all_pass`, the outside classifier, and FC-29 are true;
+- twelve of the 30 strict intertwining records are false, but are explicitly
+  diagnostic-only;
+- all T canaries happen to be true and are explicitly not required.
+
+The exact licensed conclusion is:
+
+> One outside `GT^heart(L')` pair exists, and accepted T48-1 moves the known
+> window from `L` to the strict index-three subgroup `L'`.
+
+This is one chief descent.  It is not global B4-B and does not establish a
+uniform/cofinal iteration, isolation of `L` or `L'`, or compactness.
 A fresh same-job replay is required.
 
 ## Unchanged certified construction
@@ -166,7 +206,8 @@ row37 = exponent 2 of the row19 pure axis; 3 does not divide 2
 
 ## Terminal scope
 
-After a fresh repaired replay, the only possible decisive lane tokens remain:
+The repaired replay returned the positive token.  The lane's exact outcomes
+remain:
 
 - `B34_TOTAL_LINKING_C3_CHIEF_DESCENT_CROSSCHECKED` when every literal and
   chief gate passes;
@@ -188,6 +229,12 @@ Settlement remains diagnostic-only.
   producer-only result was not cross-checked.
 - `32195410958` / `53f525f9`: producer/checker agreed under the now-superseded
   strict-intertwining predicate; its rejection token is reclassified above.
+- `32197159346` / `80a20cdf`: transport failed before mathematics because the
+  preamble quotes were lost and GAP read `ci` as a variable; no artifact.
+- `32197284524` / `80a20cdf`: quoting was corrected, but the optional JSON
+  package was absent; no mathematical producer result or artifact.
+- `32197397734` / `80a20cdf`: repaired producer and independent checker PASS;
+  the cross-checked positive record is fixed above.
 
 ## Static audit
 
