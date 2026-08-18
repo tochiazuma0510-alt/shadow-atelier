@@ -32,78 +32,41 @@ Frozen, non-regressible conclusions:
 
 Current implementation pointer (2026-08-18 JST):
 
-- `157cu` remains the active finite computation.  Task `157cv` is only its
-  GitHub workflow-registration launcher and changes no mathematics or gate.
-- Literal-A.18 run `32083392589` has completed all shards and the exact merge;
-  its independent v2 checker is running.
-- Repaired C2^24 producer run `32086984144` reproduced `rank=24`; its checker
-  stopped only because one embedded producer SHA was stale.  Luna repaired
-  that binding; parent Sol committed/pushed it as
-  `1b91f3067358e3daba793319ce95bdd47eddacfd`.  Automatic rerun `32087818507`
-  again reproduced `rank=24` and exposed one remaining finite convention bug:
-  producer point order `[infinity,0,...,7]` versus checker order
-  `[0,...,7,infinity]`.  Luna applied the exact nine-point relabelling; parent
-  Sol committed/pushed it as
-  `9c8b71edfc10f4ac14dc3ac85230c9f1f5e76107`.  Automatic rerun `32088182066`
-  passed the tuple/rank gates and exposed an overstrong checker condition:
-  it required all 13 intermediate E-solver generators to have trivial P
-  image, which is impossible for generators closing to E of order 32256 over
-  V of order 64.  The exact stored P values replay; G9 is trivial; the final
-  24 expanded basis words are P/G9-trivial.  Luna removed only that
-  contradictory intermediate-P gate; parent Sol committed/pushed it as
-  `0ca94d88f53e496e721bb2a86bf59c6e2e962192`.  Automatic cross-check rerun
-  `32088693149` completed successfully: GAP producer and independent Python
-  checker agree on the lossless 24-word basis, `rank=24`, with all final
-  P/G9 gates passing.  This is the current cross-checked finite C2^24 input
-  for `157cu` (not a Lean verification and not by itself the terminal B4-B).
-- The four-file `157cu` literal-row18 bundle is implemented and has passed
-  parent static review.  Its current immutable hashes are producer
-  `e3a8df2d61d7e4f2527bd3a46ef631c2349f2b1f31d1afa84266f545d040c6d9`,
+- `157cu` remains the active finite computation.  The cross-checked C2^24
+  input is immutable GHA run `32088693149`: GAP producer and independent
+  Python checker agree on the lossless 24-word basis and `rank=24` (not Lean
+  verified and not by itself terminal B4-B).
+- Original literal-row18 run `32090719159` completed with the bounded exact
+  result `UNKNOWN_RESOURCE`: its producer reached the 100-minute limit, so no
+  mathematical A/B conclusion was emitted and its checker was correctly
+  skipped.
+- Semantics-preserving first acceleration commit
+  `4cf64130b7956fe7d790d4840488c6995943868d` is executing as immutable GHA
+  run `32094134098`.  It remains live and must not be cancelled; its exact
+  producer began at `2026-08-18T03:07:28Z`, with checker pending.
+- A stronger exact v2 contingency is locally ready for dispatch.  It keeps
+  the complete two-powers by 64-corrections universe, literal predicates,
+  selected word, receipt meaning, and fail-closed generic settlement fallback.
+  It replaces 3840 repeated long-word evaluations by 240 fixed-context
+  evaluations, replaces the high-variance PB4 fp conversion by a faithful
+  Artin action on F4, evaluates action words compositionally, materializes
+  only independent relation rows, and uses exact small-factor automorphism
+  certificates plus invariant-module descent before the unchanged generic
+  fallback.  The independent checker reconstructs all of these gates and no
+  longer accepts the old projection-order-only settlement surrogate.
+- Current v2 hashes are producer
+  `ed60d787997fa912f72afadabe3d48be7dda9f128d0fe62a51ca9e179bdeef52`,
   independent checker
-  `1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649`,
+  `5c1eac3907d0b050e76de4fbf4712ca605cd69a77c0fe00a7bba7cca7c4eb719`,
   and workflow
-  `57c90154335128d5f4f1863452a82a4caf3bd016df6342540bf908a19df4a20d`.
-  The stale C2 dependency pins are repaired.  The exact B4 action-image gate
-  now includes four single-coordinate commutator witnesses, factor normal
-  closures of order 504, and the transitive coordinate S4 certificate in
-  both producer and independent checker.  Parent committed and pushed the
-  computation bundle as
-  `ad1be4cb53e726da8587a96392c497286dbb6310`.  Direct dispatch of the newly
-  added workflow returned GitHub HTTP 404 because it is not registered on the
-  default branch; no computation was started by that failed request.  The
-  registered C2-v2 workflow now has a reviewed same-ref reusable launcher,
-  SHA
-  `e8dbd952c8dd44b192341d35354dc221e12698dde6c2ca3ea9f464d1506931c8`,
-  with explicit target `literal-row18`.  Parent committed/pushed the launcher
-  as `2e9e69d477bde11ee889b0d2a9f21e2bfa23321f` and dispatched GHA run
-  `32090197520`.  The launcher selected only the literal job correctly, but
-  the run failed before selftests/GAP at the frozen-input hash step because
-  the deliberately gitignored local path
-  `thirdparty/packageGT/extracted/PackageGT/PaB.py` is absent on a clean GHA
-  checkout.  This is a CI packaging failure, not a finite or mathematical
-  result.  Task `157cw` is adding a fail-closed download of the official
-  PackageGT ZIP (archive and PaB member both SHA-pinned) without vendoring it.
-  Parent committed/pushed that `157cw` repair as
-  `9832127ee234b5d978a8ae4a794b293b8e0abdc4` and redispatched the literal
-  gate as GHA run `32090719159`, now running.
-  The same push also started unchanged fast-core confirmation run
-  `32090192885`, currently running.  Repair only this concrete packaging
-  failure and redispatch; no proof-side audit intervenes.
-- Run `32090719159` remains the primary immutable terminal run and must not be
-  cancelled.  Task `157cx` produced a semantics-preserving performance
-  contingency: cheap exact gates precede the two onto `Size(Group(...))`
-  calls, repeated word evaluations are cached, and flushed phase markers are
-  added.  It changes no accepted solution, gate, receipt meaning, or proof
-  claim.  Parent static review passed, and the exact five-file bundle was
-  committed/pushed as
-  `4cf64130b7956fe7d790d4840488c6995943868d`; producer SHA is
-  `18a9ce2fce470cf27b1fd822ab1863a92abb7b9c3e2aaf0bf5144bc4d154f326`
-  and workflow SHA is
-  `b5f0d6ba799874c3c4133e37a62f6d1eb8473d99906169e28be3aeafd3aafb11`.
-  Parent dispatched accelerated GHA run `32094134098`; it is running in
-  parallel while immutable original run `32090719159` continues.  Whichever
-  same-gate run completes first must still pass the unchanged independent
-  checker before its receipt is used.
+  `d6acd056c2d58ae06e851fa0b6b0323499116d10729561d5940ed850067964ee`.
+  Python AST, checker self-test, YAML parse, frozen hash pins, and
+  `git diff --check` pass.  A read-only Sol(max) adversarial audit found no
+  dispatch-stopping error in the intended fast path; if its sufficient factor
+  certificate failed but the old generic fallback succeeded, the checker
+  would reject fail-closed rather than risk a false PASS.  No local GAP or
+  heavy Python has been run.  Parent will commit, push, and dispatch this v2
+  while continuing to monitor `32094134098`.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.

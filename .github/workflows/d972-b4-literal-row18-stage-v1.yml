@@ -8,8 +8,8 @@ permissions:
   contents: read
 
 env:
-  LR_PRODUCER_SHA256: "18a9ce2fce470cf27b1fd822ab1863a92abb7b9c3e2aaf0bf5144bc4d154f326"
-  LR_CHECKER_SHA256: "1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649"
+  LR_PRODUCER_SHA256: "ed60d787997fa912f72afadabe3d48be7dda9f128d0fe62a51ca9e179bdeef52"
+  LR_CHECKER_SHA256: "5c1eac3907d0b050e76de4fbf4712ca605cd69a77c0fe00a7bba7cca7c4eb719"
   LR_CORE_PRODUCER_SHA256: "577de029a49e2db3a33cf3b4437c78548214f9635b1750185d48a5385c161f4c"
   LR_CORE_CHECKER_SHA256: "ab6b26d40c268de5e309ebcd9b56eddd52e91de2cc147ef8a1af9198a6523761"
   LR_SOURCE_SHA256: "648335000ff70f37d357c9c27ec5054cd4366b281c616f0391c4c7580cd4bcb9"
@@ -111,8 +111,8 @@ jobs:
           while IFS= read -r action_ref; do
             [[ "$action_ref" =~ ^[^@]+@[0-9a-fA-F]{40}$ ]] || { echo "mutable action ref: $action_ref" >&2; exit 1; }
           done <<< "$action_refs"
-          printf '%s  %s\n' "$LR_PRODUCER_SHA256" search/d972_b4_literal_row18_stage_v1.g | sha256sum --check --status
-          printf '%s  %s\n' "$LR_CHECKER_SHA256" search/check_d972_b4_literal_row18_stage_v1.py | sha256sum --check --status
+          printf '%s  %s\n' "$LR_PRODUCER_SHA256" search/d972_b4_literal_row18_stage_v2.g | sha256sum --check --status
+          printf '%s  %s\n' "$LR_CHECKER_SHA256" search/check_d972_b4_literal_row18_stage_v2.py | sha256sum --check --status
           printf '%s  %s\n' "$LR_CORE_PRODUCER_SHA256" search/d972_d972core_c2six_intersection_v2.g | sha256sum --check --status
           printf '%s  %s\n' "$LR_CORE_CHECKER_SHA256" search/check_d972_d972core_c2six_intersection_v2.py | sha256sum --check --status
           printf '%s  %s\n' "$LR_SOURCE_SHA256" search/certs/d972_phase2b_nonsplit_v1_20260813.json | sha256sum --check --status
@@ -125,14 +125,14 @@ jobs:
           printf '%s  %s\n' "$LR_TUPLES_SHA256" search/certs/nf972_sourcemap_a_tuples_v2_20260804.json | sha256sum --check --status
           printf '%s  %s\n' "$LR_LITERAL_SHA256" search/certs/d972_b4_p2_magnus_input_v2_20260816.json | sha256sum --check --status
           printf '%s  %s\n' "$LR_PAB_SHA256" thirdparty/packageGT/extracted/PackageGT/PaB.py | sha256sum --check --status
-          python3 -m py_compile search/check_d972_b4_literal_row18_stage_v1.py
+          python3 -m py_compile search/check_d972_b4_literal_row18_stage_v2.py
 
       - name: Static independent mutation tests
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p ci/out
-          python3 search/check_d972_b4_literal_row18_stage_v1.py --self-test | tee ci/out/check-selftest.log
+          python3 search/check_d972_b4_literal_row18_stage_v2.py --self-test | tee ci/out/check-selftest.log
           grep -Fxc 'D972_B4_LITERAL_ROW18_STAGE_V1_CHECKER_SELFTEST_PASS' ci/out/check-selftest.log | grep -Fx 1
 
       - name: Exact producer with bounded resource outcome
@@ -146,7 +146,7 @@ jobs:
             'D972_LITERAL_ROW18_MODE:="full";;' \
             'D972_LITERAL_ROW18_OUTPUT:="ci/out/d972_b4_literal_row18_stage_v1.json";;' \
             'D972_LITERAL_ROW18_CORE_OUTPUT:="ci/out/d972_d972core_c2six_intersection_v2.json";;' \
-            'Read("search/d972_b4_literal_row18_stage_v1.g");' \
+            'Read("search/d972_b4_literal_row18_stage_v2.g");' \
             > ci/out/driver-full.g
           set +e
           timeout --signal=TERM --kill-after=30s 100m \
@@ -179,7 +179,7 @@ jobs:
           set -euo pipefail
           python3 search/check_d972_d972core_c2six_intersection_v2.py \
             --receipt ci/out/d972_d972core_c2six_intersection_v2.json | tee ci/out/check-core.log
-          python3 search/check_d972_b4_literal_row18_stage_v1.py \
+          python3 search/check_d972_b4_literal_row18_stage_v2.py \
             --receipt ci/out/d972_b4_literal_row18_stage_v1.json | tee ci/out/check-stage.log
           grep -Fxc 'D972_B4_LITERAL_ROW18_STAGE_V1_CHECK_PASS ci/out/d972_b4_literal_row18_stage_v1.json' ci/out/check-stage.log | grep -Fx 1
 
