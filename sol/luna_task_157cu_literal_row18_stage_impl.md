@@ -95,9 +95,15 @@ Current implementation pointer (2026-08-18 JST):
   `2044f6f2a6a4fabd98b2bde990ccbcf44ca836c56cb49a573f2ad2266a9844d7`.
   Parent committed/pushed this repair as
   `3da719fc7ab596dc225120bd9851226f7f098fd9` and dispatched immutable
-  literal-only GHA run `32099636331`.  Monitor it while continuing to monitor
-  `32094134098`; no run may support a terminal claim until its independent
-  checker passes.
+  literal-only GHA run `32099636331`.  The complete action block then passed
+  in about 2.25 seconds; the run stopped at the first raw A.18 row whose
+  P4/G9 projection was not identity.  This is not an A/B result.  Before
+  changing that fail-closed gate, parent added a bounded diagnostic giving
+  the exact row index, coface, seed, P/G9 orders, and lossless permutation
+  arrays.  Diagnostic producer hash:
+  `a27da615434463826143e6e79cdc30b8fdbebb89092bc551acb6462dc91150ca`.
+  Dispatch it while continuing to monitor `32094134098`; no run may support a
+  terminal claim until its independent checker passes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.

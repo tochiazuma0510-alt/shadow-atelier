@@ -664,10 +664,19 @@ if ForAny(D972LRPrefix,w->D972LRWordElm(w,D972BDTupleGens)<>One(D972BDTupleGens[
   Error("157cu: K(0,5) prefix relation replay drift");
 fi;;
 D972LRRawMasks:=[];;
-for D972LRW in D972LRA18Rows do
-  if D972LRWordElm(D972LRW,D972BDTuplePGens)<>One(D972BDTuplePGens[1]) or
-     D972LRWordElm(D972LRW,D972BDTupleG9Gens)<>One(D972BDTupleG9Gens[1]) then
-    Error("157cu: raw A.18 row does not lie in the marked C2 stage");
+for D972LRI in [1..Length(D972LRA18Rows)] do
+  D972LRW:=D972LRA18Rows[D972LRI];;
+  D972LRRawP:=D972LRWordElm(D972LRW,D972BDTuplePGens);;
+  D972LRRawG9:=D972LRWordElm(D972LRW,D972BDTupleG9Gens);;
+  if D972LRRawP<>One(D972BDTuplePGens[1]) or
+     D972LRRawG9<>One(D972BDTupleG9Gens[1]) then
+    Error("157cu: raw A.18 row does not lie in the marked C2 stage: index=",
+      D972LRI," coface=",D972LRA18Meta[D972LRI].coface,
+      " seed=",D972LRA18Meta[D972LRI].seed_index,
+      " P_order=",Order(D972LRRawP)," P_array=",
+      D972BDZeroArray(D972LRRawP,4*D972BDDegreeP),
+      " G9_order=",Order(D972LRRawG9)," G9_array=",
+      D972BDZeroArray(D972LRRawG9,4*D972BDDegreeG9));
   fi;
   Add(D972LRRawMasks,D972LRMask24(D972LRWordElm(D972LRW,D972BDTupleGens)));
 od;
