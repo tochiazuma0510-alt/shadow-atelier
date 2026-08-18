@@ -93,7 +93,9 @@ Current implementation pointer (2026-08-18 JST):
   permutation image.  A matrix/permutation commutator canary binds the two.
   The repaired producer hash is
   `2044f6f2a6a4fabd98b2bde990ccbcf44ca836c56cb49a573f2ad2266a9844d7`.
-  Commit and redispatch this repair while continuing to monitor
+  Parent committed/pushed this repair as
+  `3da719fc7ab596dc225120bd9851226f7f098fd9` and dispatched immutable
+  literal-only GHA run `32099636331`.  Monitor it while continuing to monitor
   `32094134098`; no run may support a terminal claim until its independent
   checker passes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
