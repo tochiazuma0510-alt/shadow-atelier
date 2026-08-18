@@ -263,6 +263,28 @@ D972LRRowRank := function(rows,n)
   for r in rows do D972LRInsert(S,r,1); od;
   return S.rank;
 end;;
+D972LRInverseMatrixRows := function(rows,n)
+  local S,i,answer;
+  S:=D972LRNewSpan(n);;
+  for i in [1..n] do D972LRInsert(S,rows[i],2^(i-1)); od;
+  if S.rank<>n then Error("157cx2: singular F2 matrix"); fi;
+  answer:=List([1..n],i->D972LRSolve(S,2^(i-1)));;
+  if D972LRMatMul(rows,answer)<>D972LRIdentityRows(n) or
+     D972LRMatMul(answer,rows)<>D972LRIdentityRows(n) then
+    Error("157cx2: F2 matrix inverse replay drift");
+  fi;
+  return answer;
+end;;
+D972LRMatrixWordRows := function(word,gens,n)
+  local inverses,out,a,step;
+  inverses:=List(gens,g->D972LRInverseMatrixRows(g,n));;
+  out:=D972LRIdentityRows(n);;
+  for a in word do
+    if a>0 then step:=gens[a];; else step:=inverses[-a]; fi;
+    out:=D972LRMatMul(out,step);
+  od;
+  return out;
+end;;
 
 #############################################################################
 ## Full marked Artin action, independently rederived in B4.
@@ -408,8 +430,7 @@ D972LRFactorOrders:=[];; D972LRFactorModuleIrreducible:=[];;
 D972LRFactorGroups:=[];; D972LRFactorMatricesByCoordinate:=[];;
 D972LRFactorPermutationsByCoordinate:=[];;
 for D972LRC in [1..4] do
-  D972LRFactorMats:=List(D972BDPureMatrices,row->ImmutableMatrix(GF(2),
-    List(row[D972LRC],m->D972LRBits(m,6))));;
+  D972LRFactorMats:=List(D972BDPureMatrices,row->row[D972LRC]);;
   D972LRFactorPerms:=List(D972BDPureMatrices,row->
     D972LRMatrixPerm(row[D972LRC],6));;
   D972LRFactorGroup:=Group(D972LRFactorPerms);;
@@ -433,16 +454,12 @@ fi;;
 ## Replay all six canonical PB4 generators as actual B4 words, not merely the
 ## three adjacent squares.  This binds the block-diagonal pure action to the
 ## recorded three-generator B4 action.
-D972LRActionMatrixObjects:=List(D972LRActionRows,r->
-  ImmutableMatrix(GF(2),List(r,m->D972LRBits(m,24))));;
 D972LRPureFullRows:=List([1..6],g->List([1..24],i->
   D972BDPureMatrices[g][QuoInt(i-1,6)+1][((i-1) mod 6)+1]*
     2^(6*QuoInt(i-1,6))));;
-D972LRPureFullMatrixObjects:=List(D972LRPureFullRows,r->
-  ImmutableMatrix(GF(2),List(r,m->D972LRBits(m,24))));;
 for D972LRI in [1..6] do
-  if D972LRWordElm(D972LRPureBraidWords[D972LRI],D972LRActionMatrixObjects)<>
-     D972LRPureFullMatrixObjects[D972LRI] then
+  if D972LRMatrixWordRows(D972LRPureBraidWords[D972LRI],
+     D972LRActionRows,24)<>D972LRPureFullRows[D972LRI] then
     Error("157cu: pure generator/B4 matrix replay drift at ",D972LRI);
   fi;
 od;
@@ -456,17 +473,21 @@ D972LRSingleSupportWitnesses:=[];; D972LRNormalClosureOrders:=[];;
 for D972LRC in [1..4] do
   D972LRA:=D972LRWitnessPairs[D972LRC][1];;
   D972LRB:=D972LRWitnessPairs[D972LRC][2];;
-  D972LRWitnessBlocks:=List([1..4],d->Comm(
-    D972LRFactorMatricesByCoordinate[d][D972LRA],
-    D972LRFactorMatricesByCoordinate[d][D972LRB]));;
+  D972LRWitnessBlocks:=List([1..4],d->D972LRMatrixWordRows(
+    [-1,-2,1,2],[D972LRFactorMatricesByCoordinate[d][D972LRA],
+      D972LRFactorMatricesByCoordinate[d][D972LRB]],6));;
   D972LRWitnessSupport:=Filtered([1..4],d->
-    D972LRWitnessBlocks[d]<>One(D972LRWitnessBlocks[d]));;
+    D972LRWitnessBlocks[d]<>D972LRIdentityRows(6));;
   if D972LRWitnessSupport<>[D972LRC] then
     Error("157cu: single-support commutator drift at coordinate ",D972LRC);
   fi;
   D972LRWitnessPermutation:=Comm(
     D972LRFactorPermutationsByCoordinate[D972LRC][D972LRA],
     D972LRFactorPermutationsByCoordinate[D972LRC][D972LRB]);;
+  if D972LRMatrixPerm(D972LRWitnessBlocks[D972LRC],6)<>
+     D972LRWitnessPermutation then
+    Error("157cx2: matrix/permutation commutator orientation drift");
+  fi;
   D972LRNormal:=NormalClosure(D972LRFactorGroups[D972LRC],
     Subgroup(D972LRFactorGroups[D972LRC],[D972LRWitnessPermutation]));;
   Add(D972LRNormalClosureOrders,Size(D972LRNormal));;
@@ -474,7 +495,7 @@ for D972LRC in [1..4] do
     generator_indices:=[D972LRA,D972LRB],
     commutator_word:=[-D972LRA,-D972LRB,D972LRA,D972LRB],
     support_coordinates:=D972LRWitnessSupport,
-    block_row_masks:=List(D972LRWitnessBlocks,D972LRMatrixRows),
+    block_row_masks:=D972LRWitnessBlocks,
     factor_normal_closure_order:=Size(D972LRNormal)));
 od;
 if D972LRNormalClosureOrders<>[504,504,504,504] then

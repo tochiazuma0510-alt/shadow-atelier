@@ -84,7 +84,16 @@ Current implementation pointer (2026-08-18 JST):
   `59cb71ce21031f309873fbfcef1887a8f0361fb258ffde343bc236443d381174`.
   Parent committed/pushed this repair as
   `5ab0c703b21b947152523a299c58e41bdb8b99e5` and dispatched immutable
-  literal-only GHA run `32099345952`.  Monitor it while continuing to monitor
+  literal-only GHA run `32099345952`.  The finite permutation order and
+  irreducibility gates passed immediately; the run then exposed the same
+  generic MatrixObj arithmetic mismatch in the six-pure-braid replay.  Parent
+  removed the remaining MatrixObj dependence: multiplication, inversion,
+  pure-word replay, commutator support, and receipt rows now use exact GF(2)
+  bit-row algebra, while order/normal-closure stays in the faithful 63-point
+  permutation image.  A matrix/permutation commutator canary binds the two.
+  The repaired producer hash is
+  `2044f6f2a6a4fabd98b2bde990ccbcf44ca836c56cb49a573f2ad2266a9844d7`.
+  Commit and redispatch this repair while continuing to monitor
   `32094134098`; no run may support a terminal claim until its independent
   checker passes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
