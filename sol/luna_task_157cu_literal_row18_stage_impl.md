@@ -169,7 +169,12 @@ Current implementation pointer (2026-08-18 JST):
   immutable action and source pins, and diff checks pass.  A final independent
   Sol(max) audit returned GO with no dispatch-stopping blocker.  Parent
   committed and pushed the exact three-file repair as the current bundle SHA
-  above.  No local GAP or heavy Python is authorized.
+  above, recorded it through bootstrap head
+  `88de550bb740eae5fcf5c68bb45fa9c5db4cc35c`, and dispatched registered
+  literal-only run `32104681787` at that immutable head on
+  `2026-08-18T05:54:04Z`.  This is the active run and must be monitored through
+  producer and independent checker.  No local GAP or heavy Python is
+  authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
