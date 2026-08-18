@@ -133,9 +133,12 @@ Current implementation pointer (2026-08-18 JST):
   it through bootstrap commit
   `a55fd48adb722104908b3e6dacd9784e37e3aa2e`, and dispatched registered
   literal-only GHA run `32102023241` at that exact head at
-  `2026-08-18T05:13:04Z`.  The run is currently in progress and must be
-  monitored through producer and independent checker.  No local GAP or heavy
-  Python is authorized.
+  `2026-08-18T05:13:04Z`.  Attempt 1 failed before any mathematical step:
+  the official PackageGT ZIP endpoint reset all six `curl` attempts, so the
+  producer and checker were never started and this is not an A/B result.
+  Parent immediately requested attempt 2 of the same immutable run/head; it is
+  queued/in progress and must be monitored through producer and independent
+  checker.  No local GAP or heavy Python is authorized.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
