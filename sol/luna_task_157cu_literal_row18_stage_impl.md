@@ -57,8 +57,8 @@ Current implementation pointer (2026-08-18 JST):
   been removed.  The independent checker reconstructs every certificate and
   no longer accepts either raw-row relabelling or the old projection-order-only
   settlement surrogate.
-- Current exact v2 implementation bundle is the audited charm-repair bundle,
-  with producer
+- Current exact v2 implementation bundle is the audited charm-repair commit
+  `c7c6d72980f79ed07b3260d00d6db40cd7547b34`, with producer
   `f170a208c3937f2f05d51fd21114a2c8314ee086baae56bb85e82c3b4053fd94`,
   independent checker
   `af54af1ff86bcfd6d5d29a58cca10fc4f0ee83ee1a9177b50b993d35d02141cc`,
