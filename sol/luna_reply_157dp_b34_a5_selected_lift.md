@@ -34,8 +34,8 @@ an acceptance or rejection gate.
 | file | bytes | SHA256 |
 |---|---:|---|
 | `search/d972_b34_a5_selected_lift_v1.g` | 54196 | `ed350659ea6f77c0151e84e92395b050e7c0d65455c2e8e8a7d9851af9393440` |
-| `search/check_d972_b34_a5_selected_lift_v1.py` | 72946 | `1040c5322bcdccc7ceb973585215713a7eb2bcbebb4668eb276cbe43798cbfde` |
-| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `bd2c029541679123e85a97aae1e0e6de46f96755b2ecab6642ebd6041d7d203d` |
+| `search/check_d972_b34_a5_selected_lift_v1.py` | 75950 | `57c30d908786b63fc0ee95eaa59a742e7b7d57b919a435748a826e7cc40df891` |
+| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `2425f0338f295ad9ef21679c2fda114daf5667c7ac731fc9cb7003a512e9516b` |
 
 The driver hard-pins the first two hashes.  It also pins the q3 and FC8
 producer/checker/driver sources and the frozen word/pure-axis inputs.
@@ -126,7 +126,7 @@ the 157dp receipt.
 - Checker self-test:
 
 ```text
-D972_B34_A5_SELECTED_LIFT_CHECKER_SELFTEST_PASS mutations=20
+D972_B34_A5_SELECTED_LIFT_CHECKER_SELFTEST_PASS mutations=21
 ```
 
 The mutations cover a q3 word, duplicate and missing q3 records, coface,
@@ -183,6 +183,32 @@ PB3 marking.  A focused canary fixes canonical PB3 order
 `(x12,x13,x23)` and requires the F2 projection `(x12,x23)`.  Again, the
 producer, registered 202500 universe, candidate predicate, and mathematical
 terminal implications are unchanged; candidate 124 was not refuted.
+
+## Run 32166647535 checker schema repair
+
+At commit `d50ecb01`, the producer again returned the same positive candidate
+124 (`new_charming=9`, runtime 573 ms).  The checker passed both previous
+repairs and then raised `KeyError: 'derived_slice'`.
+
+The producer's internal `D972A5LScan` record has a `derived_slice` diagnostic,
+but the pinned top-level JSON constructor deliberately serializes only its two
+load-bearing totals inside `scan.counts` as `derived_all` and
+`friendly_derived`; it does not serialize a top-level `derived_slice` field.
+The checker was therefore reading an unregistered internal field rather than
+the actual receipt schema.
+
+The checker now reads the two totals from `scan.counts`, compares them with its
+independently reconstructed values, and explicitly rejects a stale top-level
+`derived_slice`.  To avoid serial schema KeyErrors after this point, it also
+checks the exact top-level, `scan`, and `performance` key sets before the heavy
+audit, verifies provenance and runtime types, and checks the exact positive/
+negative proof-record layouts before dereferencing them.  The selected record
+continues to be compared as a complete dictionary against the independently
+reconstructed first positive, so missing or extra selected fields fail closed.
+
+A focused mutation inserts the stale top-level location and is rejected.  No
+producer code, candidate predicate, registered universe, or terminal semantics
+changed.
 
 ## Source-only operation and runtime estimate
 

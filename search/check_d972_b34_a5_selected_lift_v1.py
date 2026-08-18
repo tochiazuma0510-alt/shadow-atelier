@@ -44,6 +44,27 @@ SOURCE_PINS = {
         ("sol/luna_reply_157cp_c5_surgery_torsor_chief.md", AXIS_SHA),
 }
 SELECTED_WORD = [-2,-2,-1,-1,2,2,1,-2,-1,-1,2,2,2,-1,-2,-2,1,1,1,1]
+RECEIPT_FIELDS = {
+    "schema", "status", "terminal_token", "terminal", "pins",
+    "frozen_outside", "fine_layer_binding", "d1_preflight", "source_fibre",
+    "composite_universe", "outer_q3_fibre", "scan", "performance",
+    "proof_implication", "provenance", "runtime_ms",
+}
+SCAN_FIELDS = {
+    "evaluated_candidates", "exhaustive", "counts", "rejection_rle",
+    "rejection_stream_sha256", "selected", "settlement_is_acceptance_gate",
+    "resource_skips",
+}
+PERFORMANCE_FIELDS = {
+    "candidate_long_word_builds", "compact_candidates",
+    "new_literal_gate_candidates", "full_universe_coordinates",
+    "fixed_contexts_precomputed", "derived_slice_precomputed_before_acceptance_scan",
+    "section_source_words_materialized_in_hot_loop",
+    "selected_word_materializations_at_most_one", "new_onto_cache_entries",
+    "new_onto_cache_upper_bound", "old_factor_onto_cache_entries",
+    "settlement_calls", "ANUPQ_calls", "PB5_constructions",
+    "Elements_A5four_calls", "generic_large_joint_kernel_calls",
+}
 
 
 class CheckError(RuntimeError):
@@ -847,8 +868,31 @@ def rle_add(rle: list[dict[str, Any]], code: str) -> None:
         rle.append({"code": code, "count": 1})
 
 
+def derived_counts_from_current_layout(receipt: dict[str, Any]) -> list[int]:
+    """The pinned producer stores derived totals in scan.counts, not top-level."""
+    require("derived_slice" not in receipt, "unexpected top-level derived_slice")
+    scan = receipt.get("scan")
+    require(isinstance(scan, dict), "scan receipt layout")
+    counts = scan.get("counts")
+    require(isinstance(counts, dict) and
+            isinstance(counts.get("derived_all"), int) and
+            isinstance(counts.get("friendly_derived"), int),
+            "derived counts missing from scan.counts")
+    return [counts["derived_all"], counts["friendly_derived"]]
+
+
 def validate_receipt(receipt: dict[str, Any]) -> str:
     require(receipt.get("schema") == SCHEMA, "schema")
+    require(set(receipt) == RECEIPT_FIELDS and
+            isinstance(receipt.get("runtime_ms"), int) and receipt["runtime_ms"] >= 0,
+            "top-level receipt layout")
+    require(set(receipt["scan"]) == SCAN_FIELDS, "scan receipt layout")
+    require(set(receipt["performance"]) == PERFORMANCE_FIELDS,
+            "performance receipt layout")
+    require(receipt["provenance"] == {
+        "producer": "search/d972_b34_a5_selected_lift_v1.g",
+        "checker": "search/check_d972_b34_a5_selected_lift_v1.py",
+    }, "provenance layout")
     terminal = receipt.get("terminal_token")
     require(terminal in (POSITIVE, NEGATIVE, UNKNOWN), "terminal token")
     require(digest_file(Q3_PATH) == Q3_SHA, "q3 artifact SHA")
@@ -1185,14 +1229,9 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
                                       for m in m_values) * sum(derived_counts)
     require(counts["derived_all"] <= 8100 and counts["friendly_derived"] <= 6480,
             "derived-slice bounds")
-    require(receipt["derived_slice"] == {
-        "per_outer_correction_counts": derived_counts,
-        "per_outer_indices_sha256": digest_obj(derived_indices),
-        "all_five_shifts_count": counts["derived_all"],
-        "friendly_four_shifts_count": counts["friendly_derived"],
-        "all_five_upper_bound": 8100,
-        "friendly_upper_bound": 6480,
-    }, "derived-slice receipt")
+    require(derived_counts_from_current_layout(receipt) ==
+            [counts["derived_all"], counts["friendly_derived"]],
+            "derived totals in scan.counts")
     rle: list[dict[str, Any]] = []
     codes: list[str] = []
     selected_actual: dict[str, Any] | None = None
@@ -1367,6 +1406,17 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
             "performance/no-settlement contract")
     require(terminal == expected_terminal, "terminal/result equivalence")
     proof = receipt["proof_implication"]
+    require(set(proof) == {"positive", "negative"} and
+            set(proof["positive"]) == {"L_isolated_assumed", "implication",
+                                         "remaining_boundary"} and
+            set(proof["negative"]) == {"applicable", "corollary_3_13",
+                                         "L_B4_normal_finite_index",
+                                         "fixed_outside_roof_full_fibre_empty",
+                                         "global_genuine_image_subgroup",
+                                         "arithmetic_contained_in_genuine",
+                                         "subgroup_chain", "index_X_A", "deduction",
+                                         "isolated_fallback"},
+            "proof implication layout")
     require(proof["positive"]["L_isolated_assumed"] is False and
             proof["positive"]["remaining_boundary"] ==
             "uniform/cofinal absorption of every later required chief layer" and
@@ -1414,7 +1464,8 @@ def validate_fixture(obj: dict[str, Any]) -> None:
                                                 list(range(1, 10))]), "outside roof key")
     require(obj["artifacts"] == [Q3_SHA, FC8_HISTORICAL_SHA], "artifact hash")
     require(obj["coverage"] == digest_obj([27, 5, 1500]), "coverage digest")
-    require(obj["derived"] == [8100, 6480], "derived-slice counters")
+    require(obj["derived"] == derived_counts_from_current_layout(obj) == [8100, 6480],
+            "derived totals live in scan.counts")
     require(obj["settlement_gate"] is False, "settlement gate")
     require(rho_block_permutations(obj["rho_nested"]) == [one(20)] * 6,
             "rhoA nested/block convention")
@@ -1434,6 +1485,8 @@ def self_test() -> None:
                                              list(range(1, 10))]),
                "artifacts": [Q3_SHA, FC8_HISTORICAL_SHA],
                "coverage": digest_obj([27, 5, 1500]), "derived": [8100, 6480],
+               "scan": {"counts": {"derived_all": 8100,
+                                    "friendly_derived": 6480}},
                "settlement_gate": False,
                "rho_nested": [[[1, 2, 3, 4, 5] for _ in range(4)]
                               for _ in range(6)],
@@ -1459,6 +1512,7 @@ def self_test() -> None:
         lambda x: x["artifacts"].__setitem__(1, "0" * 64),
         lambda x: x.__setitem__("coverage", "0" * 64),
         lambda x: x["derived"].__setitem__(0, 8099),
+        lambda x: x.__setitem__("derived_slice", {"stale_location": True}),
         lambda x: x.__setitem__("settlement_gate", True),
         lambda x: x["rho_nested"][0].__setitem__(0, [2, 1, 3, 4, 5]),
         lambda x: x["pb3_marked"][2].__setitem__("pair", [1, 3]),
