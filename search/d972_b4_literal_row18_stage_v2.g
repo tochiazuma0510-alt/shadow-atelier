@@ -238,13 +238,13 @@ D972LRSolve := function(S,v)
   return comb;
 end;;
 D972LRInvariantClosureRank := function(seed,rows,n)
-  local S,queue,pos,v,r;
+  local S,queue,pos,v,row,image;
   S:=D972LRNewSpan(n);; D972LRInsert(S,seed,1);; queue:=[seed];; pos:=1;;
   while pos<=Length(queue) do
     v:=queue[pos];; pos:=pos+1;;
-    for r in rows do
-      r:=D972LRApplyMatrix(v,r);;
-      if D972LRInsert(S,r,1) then Add(queue,r); fi;
+    for row in rows do
+      image:=D972LRApplyMatrix(v,row);;
+      if D972LRInsert(S,image,1) then Add(queue,image); fi;
     od;
   od;
   return S.rank;
@@ -414,7 +414,8 @@ for D972LRC in [1..4] do
 od;
 if D972LRFactorOrders<>[504,504,504,504] or
    ForAny(D972LRFactorModuleIrreducible,x->x=false) then
-  Error("157cu: P-factor action/chief decomposition drift");
+  Error("157cu: P-factor action/chief decomposition drift: orders=",
+    D972LRFactorOrders," irreducible=",D972LRFactorModuleIrreducible);
 fi;;
 
 ## Replay all six canonical PB4 generators as actual B4 words, not merely the

@@ -67,9 +67,17 @@ Current implementation pointer (2026-08-18 JST):
   would reject fail-closed rather than risk a false PASS.  No local GAP or
   heavy Python has been run.  Parent committed and pushed the exact four-file
   v2 bundle as `32881fb2c6f3e6143baf82af55fc03f74664cc4d`, then dispatched registered
-  literal-only GHA run `32098738964` at that immutable commit.  Monitor it and
-  `32094134098` concurrently; neither run may support a terminal claim until
-  its independent checker passes.
+  literal-only GHA run `32098738964` at that immutable commit.  The run passed
+  setup, all frozen hashes, checker self-test, core reconstruction, and the F4
+  Artin replay, then stopped at the producer's P-factor irreducibility gate;
+  this is an implementation failure, not an A/B result.  The emitted immutable
+  core rows independently give order 504 and invariant-closure rank 6 in all
+  four factors.  Parent replaced the GAP closure routine's reassigned loop
+  variable by separate `row` and `image` locals and added exact diagnostic
+  values; the repaired producer hash is
+  `e06bc99c71ea6c6ecfe0e13eb2382c6e3b799d35e75a2cf4afccae3eeb649440`.
+  Redispatch this repair while continuing to monitor `32094134098`; no run may
+  support a terminal claim until its independent checker passes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.
