@@ -43,6 +43,19 @@ D972LRRaw := function(path,sha,label)
   if raw=fail or HexSHA256(raw)<>sha then Error("157cu: ",label," SHA drift"); fi;
   return raw;
 end;;
+D972LRPhaseBegin := function(label)
+  local now;
+  now:=Runtime();;
+  WriteLine(OutputTextUser(),Concatenation("D972_ROW18_PHASE name=",label,
+    " state=begin runtime_ms=",String(now)));;
+  return now;
+end;;
+D972LRPhaseEnd := function(label,start)
+  local now;
+  now:=Runtime();;
+  WriteLine(OutputTextUser(),Concatenation("D972_ROW18_PHASE name=",label,
+    " state=end runtime_ms=",String(now)," elapsed_ms=",String(now-start)));;
+end;;
 D972LRCoreRaw:=D972LRRaw(D972LRCorePath,D972LRCoreSha,"core producer");;
 D972LRWordsRaw:=D972LRRaw(D972LRWordsPath,D972LRWordsSha,"word artifact");;
 D972LRTuplesRaw:=D972LRRaw(D972LRTuplesPath,D972LRTuplesSha,"tuple artifact");;
@@ -50,9 +63,11 @@ D972LRLiteralRaw:=D972LRRaw(D972LRLiteralPath,D972LRLiteralSha,"literal source")
 D972LRPaBRaw:=D972LRRaw(D972LRPaBPath,D972LRPaBSha,"PackageGT PaB");;
 
 ## Rerun the fast, lossless v2 basis constructor in this same pinned process.
+D972LRPhaseStart:=D972LRPhaseBegin("core_reconstruction");;
 D972_BD_MODE := "full";;
 D972_BD_OUTPUT := D972LRCoreOutput;;
 Read(D972LRCorePath);
+D972LRPhaseEnd("core_reconstruction",D972LRPhaseStart);;
 
 D972LRWords:=JsonStringToGap(D972LRWordsRaw);;
 D972LRTuples:=JsonStringToGap(D972LRTuplesRaw);;
@@ -244,6 +259,7 @@ end;;
 #############################################################################
 ## Full marked Artin action, independently rederived in B4.
 #############################################################################
+D972LRPhaseStart:=D972LRPhaseBegin("fp_artin_action");;
 D972LRArtinWords := [
   [[1],[-1,4,1],[-1,5,1],[2],[3],[6]],
   [[-4,2,4],[1],[3],[4],[-4,6,4],[5]],
@@ -414,10 +430,12 @@ if D972LRCoordinateImageOrder<>24 or not D972LRCoordinateTransitive then
   Error("157cu: coordinate S4 image drift");
 fi;;
 D972LRActionImageOrder:=D972LRPureImageOrder*D972LRCoordinateImageOrder;;
+D972LRPhaseEnd("fp_artin_action",D972LRPhaseStart);;
 
 #############################################################################
 ## Literal A.18 transport, row 18, and the exact finite torsor equation.
 #############################################################################
+D972LRPhaseStart:=D972LRPhaseBegin("literal_a18_relation_closure");;
 D972LRPrefix:=D972LRLiteral.all_relators{[1..18]};;
 D972LRSeeds:=D972LRLiteral.all_relators{[19..46]};;
 if D972LRDigest(D972LRPrefix)<>D972LRPrefixSha or D972LRDigest(D972LRSeeds)<>D972LRSeedSha then
@@ -484,14 +502,24 @@ D972LRPent := function(word,g)
   pairs:=D972LRPairs(g);; parts:=List(pairs,p->D972LRWordElm(word,p));;
   return D972LRPP([D972LRPP([parts[5],parts[3]])^-1,parts[2],parts[4],parts[1]]);
 end;;
-D972LRHex := function(word,m,x,y)
-  local z,u,fxy,fxz,fyz,fux,fuy;
+D972LRHexCached := function(word,m,x,y,fxy)
+  local z,u,fxz,fyz,fux,fuy;
   z:=D972LRPP([x,y])^-1;; u:=D972LRPP([y,x])^-1;;
-  fxy:=D972LRWordElm(word,[x,y]);;
   fxz:=D972LRWordElm(word,[x,z]);; fyz:=D972LRWordElm(word,[y,z]);;
   fux:=D972LRWordElm(word,[u,x]);; fuy:=D972LRWordElm(word,[u,y]);;
   return [D972LRPP([y^m,fxy,x^m,fxz^-1,z^m,fyz]),
     D972LRPP([fux^-1,x^m,fxy^-1,y^m,fuy,u^m])];
+end;;
+D972LRHex := function(word,m,x,y)
+  return D972LRHexCached(word,m,x,y,D972LRWordElm(word,[x,y]));
+end;;
+D972LROntoCached := function(value,x,y,targetSize,keys,values)
+  local pos,result;
+  pos:=Position(keys,value);;
+  if pos<>fail then return values[pos]; fi;
+  result:=Size(Group(x,D972LRPP([value^-1,y,value])))=targetSize;;
+  Add(keys,value);; Add(values,result);;
+  return result;
 end;;
 D972LRDtildeWord := function(word)
   local marked,x15,x45,a,b,c,d,e;
@@ -555,6 +583,7 @@ for D972LRR in D972LRRelationGens do for D972LRI in [1..3] do
     Error("157cu: relation boundary is not B4 invariant");
   fi;
 od; od;
+D972LRPhaseEnd("literal_a18_relation_closure",D972LRPhaseStart);;
 
 D972LRCorrectionWord := function(bits)
   local out,i;
@@ -615,11 +644,20 @@ if D972LRSquareIndex=fail then Error("157cu: GT square roof missing from frozen 
 D972LRPowers:=[rec(exponent:=1,word:=D972LRF0,row_index:=19,key:=D972LRExpectedKey),
   rec(exponent:=2,word:=D972LRSquare,row_index:=D972LRSquareIndex,key:=D972LRSquareKey)];;
 D972LRSolutions:=[];; D972LRPowerRecords:=[];; D972LRGlobalMissing:=[];;
+D972LROntoECacheKeys:=[];; D972LROntoECacheValues:=[];;
+D972LROntoG9CacheKeys:=[];; D972LROntoG9CacheValues:=[];;
+D972LRETargetSize:=Size(D972BDE);; D972LRG9TargetSize:=Size(D972BDG9);;
 for D972LRPow in D972LRPowers do
+  D972LRPowerPhaseName:=Concatenation("power_",String(D972LRPow.exponent),
+    "_correction_fibre");;
+  D972LRPowerPhaseStart:=D972LRPhaseBegin(D972LRPowerPhaseName);;
+  D972LRPowE:=D972LRWordElm(D972LRPow.word,[D972BDX,D972BDY]);;
+  D972LRPowP:=D972LRWordElm(D972LRPow.word,[D972BDPX,D972BDPY]);;
+  D972LRPowG9:=D972LRWordElm(D972LRPow.word,[D972BDX9,D972BDY9]);;
   D972LRBaseDword:=D972LRDtildeWord(D972LRPow.word);;
-  D972LRBaseHexE:=D972LRHex(D972LRPow.word,0,D972BDX,D972BDY);;
-  D972LRBaseHexP:=D972LRHex(D972LRPow.word,0,D972BDPX,D972BDPY);;
-  D972LRBaseHexG9:=D972LRHex(D972LRPow.word,0,D972BDX9,D972BDY9);;
+  D972LRBaseHexE:=D972LRHexCached(D972LRPow.word,0,D972BDX,D972BDY,D972LRPowE);;
+  D972LRBaseHexP:=D972LRHexCached(D972LRPow.word,0,D972BDPX,D972BDPY,D972LRPowP);;
+  D972LRBaseHexG9:=D972LRHexCached(D972LRPow.word,0,D972BDX9,D972BDY9,D972LRPowG9);;
   D972LRBaseHexMasks:=fail;;
   if ForAll(Concatenation(D972LRBaseHexP,D972LRBaseHexG9),IsOne) then
     D972LRBaseHexMasks:=List(D972LRBaseHexE,D972LRMask6);
@@ -645,9 +683,19 @@ for D972LRPow in D972LRPowers do
   for D972LRBitsValue in [0..63] do
     D972LRCorr:=D972LRCorrectionWord(D972LRBitsValue);;
     D972LRCandidate:=D972LRReduce(Concatenation(D972LRPow.word,D972LRCorr));;
-    D972LRHexE:=D972LRHex(D972LRCandidate,0,D972BDX,D972BDY);;
-    D972LRHexP:=D972LRHex(D972LRCandidate,0,D972BDPX,D972BDPY);;
-    D972LRHexG9:=D972LRHex(D972LRCandidate,0,D972BDX9,D972BDY9);;
+    D972LRCandidateE:=D972LRWordElm(D972LRCandidate,[D972BDX,D972BDY]);;
+    D972LRCandidateP:=D972LRWordElm(D972LRCandidate,[D972BDPX,D972BDPY]);;
+    D972LRCandidateG9:=D972LRWordElm(D972LRCandidate,[D972BDX9,D972BDY9]);;
+    D972LRRoofOK:=D972LRCandidateP=D972LRPowP and
+      D972LRCandidateG9=D972LRPowG9;;
+    D972LRCharm:=Sum(Filtered(D972LRCandidate,x->AbsInt(x)=1),SignInt)=0 and
+      Sum(Filtered(D972LRCandidate,x->AbsInt(x)=2),SignInt)=0;;
+    D972LRHexE:=D972LRHexCached(D972LRCandidate,0,D972BDX,D972BDY,
+      D972LRCandidateE);;
+    D972LRHexP:=D972LRHexCached(D972LRCandidate,0,D972BDPX,D972BDPY,
+      D972LRCandidateP);;
+    D972LRHexG9:=D972LRHexCached(D972LRCandidate,0,D972BDX9,D972BDY9,
+      D972LRCandidateG9);;
     D972LRPentE:=D972LRPent(D972LRCandidate,D972BDTupleGens);;
     D972LRPentP:=D972LRPent(D972LRCandidate,D972BDTuplePGens);;
     D972LRPentG9:=D972LRPent(D972LRCandidate,D972BDTupleG9Gens);;
@@ -667,21 +715,17 @@ for D972LRPow in D972LRPowers do
         hexagon2:=D972LRXor(D972LRBaseHexMasks[2],D972LRHexMasks[2]),
         pentagon:=D972LRXor(D972LRBaseMask,D972LRMask)));
     fi;
-    D972LRRoofOK:=D972LRWordElm(D972LRCandidate,[D972BDPX,D972BDPY])=
-        D972LRWordElm(D972LRPow.word,[D972BDPX,D972BDPY]) and
-      D972LRWordElm(D972LRCandidate,[D972BDX9,D972BDY9])=
-        D972LRWordElm(D972LRPow.word,[D972BDX9,D972BDY9]);;
-    D972LRCharm:=Sum(Filtered(D972LRCandidate,x->AbsInt(x)=1),SignInt)=0 and
-      Sum(Filtered(D972LRCandidate,x->AbsInt(x)=2),SignInt)=0;;
-    D972LROntoE:=Size(Group(D972BDX,D972LRPP([
-      D972LRWordElm(D972LRCandidate,[D972BDX,D972BDY])^-1,D972BDY,
-      D972LRWordElm(D972LRCandidate,[D972BDX,D972BDY])])))=Size(D972BDE);;
-    D972LROntoG9:=Size(Group(D972BDX9,D972LRPP([
-      D972LRWordElm(D972LRCandidate,[D972BDX9,D972BDY9])^-1,D972BDY9,
-      D972LRWordElm(D972LRCandidate,[D972BDX9,D972BDY9])])))=Size(D972BDG9);;
-    if D972LRTransportOK and D972LRRoofOK and D972LRCharm and D972LROntoE and D972LROntoG9 and
-       ForAll(Concatenation(D972LRHexE,D972LRHexP,D972LRHexG9),IsOne) and
-       D972LRCoeff<>fail then
+    D972LRHexOK:=ForAll(Concatenation(D972LRHexE,D972LRHexP,D972LRHexG9),IsOne);;
+    D972LRPreOntoOK:=D972LRTransportOK and D972LRRoofOK and D972LRCharm and
+      D972LRHexOK and D972LRCoeff<>fail;;
+    D972LROntoE:=false;; D972LROntoG9:=false;;
+    if D972LRPreOntoOK then
+      D972LROntoE:=D972LROntoCached(D972LRCandidateE,D972BDX,D972BDY,
+        D972LRETargetSize,D972LROntoECacheKeys,D972LROntoECacheValues);;
+      D972LROntoG9:=D972LROntoCached(D972LRCandidateG9,D972BDX9,D972BDY9,
+        D972LRG9TargetSize,D972LROntoG9CacheKeys,D972LROntoG9CacheValues);;
+    fi;;
+    if D972LRPreOntoOK and D972LROntoE and D972LROntoG9 then
       D972LRSelectedRel:=Filtered([1..Length(D972LRRelationGens)],i->
         QuoInt(D972LRCoeff,2^(i-1)) mod 2=1);;
       D972LRCorrected:=D972LRDtildeWord(D972LRCandidate);;
@@ -712,6 +756,7 @@ for D972LRPow in D972LRPowers do
     base_hexagon_masks:=D972LRBaseHexMasks,base_defect_mask:=D972LRBaseMask,
     gauge_columns:=D972LRGaugeCols,
     solution_count:=Length(D972LRPowSolutions)));
+  D972LRPhaseEnd(D972LRPowerPhaseName,D972LRPowerPhaseStart);;
 od;
 
 D972LRNormOK:=false;;
@@ -737,6 +782,7 @@ fi;;
 ## The raw A.18 boundary subgroup R<=V4 is imposed before testing the source;
 ## requiring an automorphism of raw E4 would incorrectly forget the literal
 ## relation surgery which just closed the pentagon.
+D972LRPhaseStart:=D972LRPhaseBegin("settlement");;
 D972LRSettlement:=fail;;
 if D972LRSelected<>fail then
   D972LRSelectedSourceWords:=D972LRSourceWordsM0(D972LRSelected.typed_source_word);;
@@ -785,6 +831,7 @@ if D972LRSelected<>fail then
     D972LRSelected.settlement:=D972LRSettlement;
   fi;
 fi;;
+D972LRPhaseEnd("settlement",D972LRPhaseStart);;
 
 D972LRRelationReceipt:=List(D972LRRelationGens,r->rec(vector:=r.vector,
   vector_bits:=D972LRBits(r.vector,24),raw_index:=r.raw_index,

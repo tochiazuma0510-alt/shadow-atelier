@@ -72,7 +72,13 @@ process.
    pentagon residual, the six gauge columns, the complete relation
    combination, and the corrected lossless pentagon word.  Marking,
    charmingness, PB3 onto, exact roof reduction, and representative
-   independence are all gates, not annotations.
+   independence are all gates, not annotations.  The accelerated evaluation
+   still exhausts both 64-element fibres.  It caches exact `E`, `P`, and `G9`
+   word values and postpones only the two exact `Size(Group(...))` onto tests
+   until transport, roof, charmingness, both hexagons, and the literal
+   pentagon coefficient have already passed.  A pre-gate failure assigns both
+   onto predicates `false`; hence this changes evaluation order only, not the
+   accepted solutions, counts, receipt schema, or exponent-1 preference.
 7. It also constructs the exact GT-shadow square with the composition
    substitution formula, never by concatenating a naive word square.  It
    finds the unique powered roof among the frozen 972 rows, computes the root
@@ -143,8 +149,11 @@ extracts only the unique `PackageGT/PaB.py` member, and verifies its existing
 SHA pin before the all-input gate.  It installs the same pinned JSON 2.4.0 package as the
 repaired v2 workflow, requires GAP 4.16.0, uses one job, and runs the existing
 independent core checker before the new independent stage checker.  The
-100-minute command bound is below the 110-minute job bound.  Receipt and all
-logs are uploaded under `always()`, including timeout and failure paths.
+100-minute command bound is below the 110-minute job bound.  Immediate
+`Runtime()` phase lines delimit core reconstruction, the fp/Artin action,
+literal A.18 closure, each correction fibre, and settlement without entering
+the receipt.  Receipt and all logs are uploaded under `always()`, including
+timeout and failure paths.
 
 The stale fast-v2 pins were replaced and independently rehashed as follows:
 
@@ -165,13 +174,13 @@ to bind the audited upstream bundle version.
 
 ```text
 search/d972_b4_literal_row18_stage_v1.g
-  e3a8df2d61d7e4f2527bd3a46ef631c2349f2b1f31d1afa84266f545d040c6d9
+  18a9ce2fce470cf27b1fd822ab1863a92abb7b9c3e2aaf0bf5144bc4d154f326
 
 search/check_d972_b4_literal_row18_stage_v1.py
   1c9b9fb4f2c1e331323ec0cd8cf6e46bcac9fd2957780493f02ea3991c4d7649
 
 .github/workflows/d972-b4-literal-row18-stage-v1.yml
-  57c90154335128d5f4f1863452a82a4caf3bd016df6342540bf908a19df4a20d
+  b5f0d6ba799874c3c4133e37a62f6d1eb8473d99906169e28be3aeafd3aafb11
 ```
 
 The workflow contains the first two hashes verbatim, has no placeholder,
