@@ -36,9 +36,13 @@ Current implementation pointer (2026-08-18 JST):
 - Literal-A.18 run `32083392589` has completed all shards and the exact merge;
   its independent v2 checker is running.
 - Repaired C2^24 producer run `32086984144` reproduced `rank=24`; its checker
-  stopped only because one embedded producer SHA was stale.  The minimal SHA
-  binding repair is in progress and must be recommitted/re-dispatched by the
-  parent Sol broker.
+  stopped only because one embedded producer SHA was stale.  Luna repaired
+  that binding; parent Sol committed/pushed it as
+  `1b91f3067358e3daba793319ce95bdd47eddacfd`.  Automatic rerun `32087818507`
+  again reproduced `rank=24` and exposed one remaining finite convention bug:
+  producer point order `[infinity,0,...,7]` versus checker order
+  `[0,...,7,infinity]`.  Luna is applying the exact nine-point relabelling and
+  refreshing the chained hashes before the next rerun.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
 
 The terminal objective remains B4-B, not a partial finite result.

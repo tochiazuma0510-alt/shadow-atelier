@@ -181,3 +181,27 @@ c84519d3d0f9d9e5d97c229220ef95cf178f8948661fd67663cda1b388619a90
 .github/workflows/d972-d972core-c2six-intersection-v2.yml
 45f14fba45498cb16f0a0da9455a249f78bc57a367518a135932b59e9b8bc879
 ```
+
+## Post-run P1-point-order repair
+
+Run `32087818507` again reached producer rank 24, then the checker reached
+`P tuple table mismatch at 1,3`.  The remaining issue was not the row-vector
+formula: the checker orders the projective line as `[0..7,infinity]`, whereas
+GAP `D972BDMatPerm` still serialized `[infinity,0..7]`.
+
+The producer was repaired so affine inputs occupy slots `1..8`, with output
+`1+den/num` (or slot `9` for infinity), and the infinity input occupies slot
+`9`, with output `1+d/c` (or `9` when `c=0`).  The checker producer binding and
+workflow producer/checker bindings were refreshed.  This is an operational
+convention repair; run `32087818507` is not a cross-checked receipt and needs a
+parent-dispatched rerun.
+
+Updated bindings:
+
+```text
+search/d972_d972core_c2six_intersection_v2.g
+577de029a49e2db3a33cf3b4437c78548214f9635b1750185d48a5385c161f4c
+
+search/check_d972_d972core_c2six_intersection_v2.py
+f4bc999b0ffafd716130fa5d58ee26be8197a6015ce0c8cf5e3c915a4f58871b
+```
