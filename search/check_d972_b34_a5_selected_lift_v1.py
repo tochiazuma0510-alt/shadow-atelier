@@ -130,6 +130,13 @@ def block(perms: Sequence[Perm]) -> Perm:
     return tuple(out)
 
 
+def rho_block_permutations(rows: Sequence[Sequence[Sequence[int]]]) -> list[Perm]:
+    """Convert the frozen 6 x 4 x 5 rhoA rows to six degree-20 blocks."""
+    require(len(rows) == 6 and all(len(value) == 4 for value in rows),
+            "rhoA nested 6x4 shape")
+    return [block([perm(component) for component in value]) for value in rows]
+
+
 def restrict(p: Perm, offset: int, width: int) -> Perm:
     row = tuple(p[offset + i] - offset for i in range(width))
     require(set(row) == set(range(width)), "block restriction")
@@ -684,12 +691,18 @@ def build_d1(fc: dict[str, Any]) -> dict[str, Any]:
     paired, _ = enumerate_group([block([compact_marks[0], full_marks[0]]),
                                  block([compact_marks[2], full_marks[2]])], 1501)
     require(len(paired) == 1500, "compact/full graph")
-    pb4_marks = []
+    pb4_components: list[list[Perm]] = []
     for generator in range(6):
-        pb4_marks.append(block([eval_word(deletion[generator], [x, z, y], one(5), mul, inv)
-                                for deletion in d4]))
-    require([[v + 1 for v in p] for p in pb4_marks] == fc["rhoA"]["marked_images"],
-            "rhoA replay")
+        pb4_components.append([
+            eval_word(deletion[generator], [x, z, y], one(5), mul, inv)
+            for deletion in d4])
+    expected_rho_nested = [[[v + 1 for v in component] for component in value]
+                           for value in pb4_components]
+    require(expected_rho_nested == fc["rhoA"]["marked_images"],
+            "rhoA nested component replay")
+    pb4_marks = [block(value) for value in pb4_components]
+    require(pb4_marks == rho_block_permutations(fc["rhoA"]["marked_images"]),
+            "rhoA nested-to-block convention")
     pb2_words = [row[0] for row in cofaces(2)]
     pb2_new = block([eval_word(w, full_marks, one(100), mul, inv) for w in pb2_words])
     require(order(pb2_new) == 5, "PB2 new factor")
@@ -1394,6 +1407,8 @@ def validate_fixture(obj: dict[str, Any]) -> None:
     require(obj["coverage"] == digest_obj([27, 5, 1500]), "coverage digest")
     require(obj["derived"] == [8100, 6480], "derived-slice counters")
     require(obj["settlement_gate"] is False, "settlement gate")
+    require(rho_block_permutations(obj["rho_nested"]) == [one(20)] * 6,
+            "rhoA nested/block convention")
     require(obj["terminal"] == NEGATIVE, "terminal relabel")
 
 
@@ -1408,7 +1423,10 @@ def self_test() -> None:
                                              list(range(1, 10))]),
                "artifacts": [Q3_SHA, FC8_HISTORICAL_SHA],
                "coverage": digest_obj([27, 5, 1500]), "derived": [8100, 6480],
-               "settlement_gate": False, "terminal": NEGATIVE}
+               "settlement_gate": False,
+               "rho_nested": [[[1, 2, 3, 4, 5] for _ in range(4)]
+                              for _ in range(6)],
+               "terminal": NEGATIVE}
     validate_fixture(fixture)
     mutations = [
         lambda x: x["q3_words"][1].append(2),
@@ -1428,6 +1446,7 @@ def self_test() -> None:
         lambda x: x.__setitem__("coverage", "0" * 64),
         lambda x: x["derived"].__setitem__(0, 8099),
         lambda x: x.__setitem__("settlement_gate", True),
+        lambda x: x["rho_nested"][0].__setitem__(0, [2, 1, 3, 4, 5]),
         lambda x: x.__setitem__("terminal", POSITIVE),
     ]
     for mutation in mutations:

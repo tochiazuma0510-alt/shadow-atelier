@@ -34,8 +34,8 @@ an acceptance or rejection gate.
 | file | bytes | SHA256 |
 |---|---:|---|
 | `search/d972_b34_a5_selected_lift_v1.g` | 54196 | `ed350659ea6f77c0151e84e92395b050e7c0d65455c2e8e8a7d9851af9393440` |
-| `search/check_d972_b34_a5_selected_lift_v1.py` | 71187 | `7608ee7ccd8b51c0263953aa1bcb04efc5df968cc65eda6c1671db3ece2208c3` |
-| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `5b82f2c3cf22020cba3c9268f03730f157220f61416fc16817b3564427d924c4` |
+| `search/check_d972_b34_a5_selected_lift_v1.py` | 72180 | `e4bd98a491c1017ebae2c8529318935e2bff613436d8c1a57bcb64fbf0dfcaa6` |
+| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `840b05a5fff218fb6ade4120dc0dd3d2f6136343330b5d008ce41d7603026923` |
 
 The driver hard-pins the first two hashes.  It also pins the q3 and FC8
 producer/checker/driver sources and the frozen word/pure-axis inputs.
@@ -126,13 +126,35 @@ the 157dp receipt.
 - Checker self-test:
 
 ```text
-D972_B34_A5_SELECTED_LIFT_CHECKER_SELFTEST_PASS mutations=18
+D972_B34_A5_SELECTED_LIFT_CHECKER_SELFTEST_PASS mutations=19
 ```
 
 The mutations cover a q3 word, duplicate and missing q3 records, coface,
 deletion, A5 marking, cyclic coordinate, marking shift, direct-product kernel,
 charming rule, literal residual, outside roof key, both upstream artifact
-hashes, coverage digest, derived count, settlement gate, and terminal relabel.
+hashes, coverage digest, derived count, settlement gate, nested rhoA/block
+conversion, and terminal relabel.
+
+## Run 32164627934 checker repair
+
+The first full run at commit `82bf4bb1` reached a producer positive at
+candidate 124 (`new_charming=9`, producer runtime 410 ms), then the checker
+stopped at `rhoA replay`.  This did not refute the candidate.  The exact cause
+was a checker-only representation mismatch:
+
+- the frozen FC8 field `rhoA.marked_images` is shaped `6 x 4 x 5` (six PB4
+  generators, four A5 coordinates, five permutation images);
+- the checker constructed six degree-20 block permutations and compared those
+  flat rows directly with the nested receipt;
+- the GAP producer had already converted the four receipt components to one
+  degree-20 block before comparison, which is why its replay passed.
+
+The checker now independently validates the exact `6 x 4 x 5` shape, compares
+all twenty component rows first, converts each receipt row with
+`block([perm(component) for component in row])`, and then compares the six
+degree-20 permutations.  A focused mutation changes one nested A5 component
+and is rejected.  No candidate predicate, group operation, registered universe,
+terminal implication, producer source, or frozen input pin changed.
 
 ## Source-only operation and runtime estimate
 
