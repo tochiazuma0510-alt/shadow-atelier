@@ -33,9 +33,9 @@ an acceptance or rejection gate.
 
 | file | bytes | SHA256 |
 |---|---:|---|
-| `search/d972_b34_a5_selected_lift_v1.g` | 54196 | `ed350659ea6f77c0151e84e92395b050e7c0d65455c2e8e8a7d9851af9393440` |
-| `search/check_d972_b34_a5_selected_lift_v1.py` | 78293 | `e062b4e16f323bee1c8af1f23cfdce5820a9b782066c8bf6bbf1327506f8f0f4` |
-| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `598b2edc3b3847207f993f493859179d91b1465b6c1e679bd3f0a89315ec30cc` |
+| `search/d972_b34_a5_selected_lift_v1.g` | 54576 | `9fb5fa16cd913ba559e96a0431cf6be4b902f1dedff289ab7e5e3d6c9adb6500` |
+| `search/check_d972_b34_a5_selected_lift_v1.py` | 78529 | `2d30b1458725cb70d94cb4ab35256988bf23cc2d796a422d3f0b14d1c2f6805e` |
+| `search/d972_b34_a5_selected_lift_gha_driver_v1.g` | 12310 | `cce2dff8e4a96046d97f70f64a31f279ced5feeeb08dca55de82b59f7154171e` |
 
 The driver hard-pins the first two hashes.  It also pins the q3 and FC8
 producer/checker/driver sources and the frozen word/pure-axis inputs.
@@ -241,6 +241,38 @@ fail-closed: equality predicates and expected values are unchanged.  The
 focused self-test checks that a counts mismatch is reported specifically as
 `scan.counts`; the complete lightweight self-test remains PASS with 21
 mutation cases.  The producer SHA is unchanged.
+
+## Run 32170710664 defining-collector coordinate repair
+
+The next run again produced candidate 124 (`new_charming=9`, runtime 563 ms).
+Every named scan field and every selected field agreed except
+`direct_materialization_replay.context_sha256`: producer
+`bb78029c01c62f5b874dc6de2f0c088511460d6dae4e267be745319a2e6ac3fd`
+versus independent checker
+`5bc5f9c4d2b74bff28f93a436a97f2649a13c583f39cbb636107fef868caff4e`.
+
+The cause was confined to the producer's diagnostic PC-coordinate payload.
+The imported exponent-three groups are created directly from the frozen
+collector, so their canonical receipt coordinates are the Pcp elements'
+stored `Exponents`.  The producer instead called
+`ExponentsOfPcElement(Pcgs(G), value)`.  `Pcgs(G)` is a derived group-level
+pcgs choice and is not the registered defining-collector coordinate contract.
+This affected only `old_b2_main`, `old_b2_hex`, and `old_pi4_pent` inside the
+aggregate context digest; none of those coordinate displays is used by the
+candidate predicate.
+
+The producer now:
+
+- serializes those three fields with canonical `Exponents(value)`;
+- proves every imported defining generator has its registered unit vector;
+- proves every imported marked element and its inverse have exactly the
+  receipt `coords` and `inverse_coords`;
+- no longer exposes or uses an unregistered `Pcgs(G)` coordinate basis.
+
+The checker retains the aggregate digest and independently constructs the
+same receipt-basis coordinates; it now also gates all direct PC rows at the
+registered PB3/PB4 collector widths.  No candidate word, group operation,
+gate, scan order, universe size, or terminal implication changed.
 
 ## Source-only operation and runtime estimate
 

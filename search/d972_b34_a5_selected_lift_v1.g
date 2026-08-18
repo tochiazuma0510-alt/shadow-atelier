@@ -269,7 +269,7 @@ D972A5LCoordElt := function(gens,coords)
 end;;
 
 D972A5LImportPC := function(r,label)
-  local n,coll,i,row,G,gens,marks;
+  local n,coll,i,row,G,gens,marks,unit;
   n:=r.generator_count;;
   if n<>Length(r.relative_orders) or n>175 then Error("157dp: pc width ",label); fi;
   if ForAny(r.relative_orders,x->x<>3) then Error("157dp: pc order ",label); fi;
@@ -290,8 +290,18 @@ D972A5LImportPC := function(r,label)
   marks:=List(r.marked_generators,x->D972A5LCoordElt(gens,x.coords));;
   if Size(G)<>Int(r.order_decimal) then Error("157dp: pc size ",label); fi;
   for i in [1..n] do
+    unit:=List([1..n],j->0);; unit[i]:=1;;
+    if List(Exponents(gens[i]),Int)<>unit then
+      Error("157dp: defining collector coordinate basis ",label);
+    fi;
     if D972A5LCoordElt(gens,r.inverses[i])<>gens[i]^-1 then
       Error("157dp: pc inverse ",label);
+    fi;
+  od;
+  for i in [1..Length(marks)] do
+    if List(Exponents(marks[i]),Int)<>r.marked_generators[i].coords or
+       List(Exponents(marks[i]^-1),Int)<>r.marked_generators[i].inverse_coords then
+      Error("157dp: marked defining-basis coordinates ",label);
     fi;
   od;
   for row in r.conjugate_relations do
@@ -304,7 +314,7 @@ D972A5LImportPC := function(r,label)
       Error("157dp: pc inverse conjugate ",label);
     fi;
   od;
-  return rec(group:=G,gens:=gens,marks:=marks,pcgs:=Pcgs(G));
+  return rec(group:=G,gens:=gens,marks:=marks,generator_count:=n);
 end;;
 
 #############################################################################
@@ -633,11 +643,11 @@ D972A5LPositiveCanary := function(candidate,outerWord,m,d1,pc3,pc4,
   fi;
   payload:=rec(m:=m,lambda:=2*m+1,
     old_q0_main:=D972A5LPermRow(dq,36),
-    old_b2_main:=List(ExponentsOfPcElement(pc3.pcgs,db),Int),
+    old_b2_main:=List(Exponents(db),Int),
     old_q0_hex:=List(hq,x->D972A5LPermRow(x,36)),
-    old_b2_hex:=List(hb,x->List(ExponentsOfPcElement(pc3.pcgs,x),Int)),
+    old_b2_hex:=List(hb,x->List(Exponents(x),Int)),
     old_q4_pent:=List(pq,x->D972A5LPermRow(x,144)),
-    old_pi4_pent:=List(pp,x->List(ExponentsOfPcElement(pc4.pcgs,x),Int)),
+    old_pi4_pent:=List(pp,x->List(Exponents(x),Int)),
     new_compact_main:=D972A5LPermRow(nc,15),new_full_main:=D972A5LPermRow(nf,100),
     new_hex:=List(nh,x->D972A5LPermRow(x,100)),
     new_pent:=List(np,x->D972A5LPermRow(x,20)));

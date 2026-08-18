@@ -1320,6 +1320,9 @@ def validate_receipt(receipt: dict[str, Any]) -> str:
                                                 d1["full_marks"][2]], one(100), mul, inv)
                     nh = context(candidate, new_hex, one(100), mul, inv)
                     np = context(candidate, new_pent, one(20), mul, inv)
+                    require(len(db) == pc3.n and all(len(value) == pc3.n for value in hb) and
+                            all(len(value) == pc4.n for value in ppc),
+                            "direct PC payload defining-basis widths")
                     require(dq == eval_word(outer_words[oi], q0marks, one(36), mul, inv) and
                             db == pc_eval(outer_words[oi], f2marked3, pc3) and
                             hq == context(outer_words[oi], q0_hex, one(36), mul, inv) and
