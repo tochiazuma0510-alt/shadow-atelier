@@ -210,6 +210,14 @@ D972LRMatrixRows := function(m)
   od;
   return out;
 end;;
+D972LRMatrixPerm := function(rows,n)
+  local images;
+  images:=List([1..2^n-1],v->D972LRApplyMatrix(v,rows));;
+  if Set(images)<>[1..2^n-1] then
+    Error("157cx2: singular finite matrix action");
+  fi;
+  return PermList(images);
+end;;
 
 D972LRNewSpan := function(n) return rec(n:=n,pivots:=List([1..n],i->fail),rank:=0); end;;
 D972LRInsert := function(S,v,comb)
@@ -398,11 +406,15 @@ od;
 ## prove a direct product: the four single-support commutators below do.
 D972LRFactorOrders:=[];; D972LRFactorModuleIrreducible:=[];;
 D972LRFactorGroups:=[];; D972LRFactorMatricesByCoordinate:=[];;
+D972LRFactorPermutationsByCoordinate:=[];;
 for D972LRC in [1..4] do
   D972LRFactorMats:=List(D972BDPureMatrices,row->ImmutableMatrix(GF(2),
     List(row[D972LRC],m->D972LRBits(m,6))));;
-  D972LRFactorGroup:=Group(D972LRFactorMats);;
+  D972LRFactorPerms:=List(D972BDPureMatrices,row->
+    D972LRMatrixPerm(row[D972LRC],6));;
+  D972LRFactorGroup:=Group(D972LRFactorPerms);;
   Add(D972LRFactorMatricesByCoordinate,D972LRFactorMats);;
+  Add(D972LRFactorPermutationsByCoordinate,D972LRFactorPerms);;
   Add(D972LRFactorGroups,D972LRFactorGroup);;
   Add(D972LRFactorOrders,Size(D972LRFactorGroup));;
   D972LRModuleIrreducible:=true;;
@@ -452,8 +464,11 @@ for D972LRC in [1..4] do
   if D972LRWitnessSupport<>[D972LRC] then
     Error("157cu: single-support commutator drift at coordinate ",D972LRC);
   fi;
+  D972LRWitnessPermutation:=Comm(
+    D972LRFactorPermutationsByCoordinate[D972LRC][D972LRA],
+    D972LRFactorPermutationsByCoordinate[D972LRC][D972LRB]);;
   D972LRNormal:=NormalClosure(D972LRFactorGroups[D972LRC],
-    Subgroup(D972LRFactorGroups[D972LRC],[D972LRWitnessBlocks[D972LRC]]));;
+    Subgroup(D972LRFactorGroups[D972LRC],[D972LRWitnessPermutation]));;
   Add(D972LRNormalClosureOrders,Size(D972LRNormal));;
   Add(D972LRSingleSupportWitnesses,rec(coordinate:=D972LRC,
     generator_indices:=[D972LRA,D972LRB],

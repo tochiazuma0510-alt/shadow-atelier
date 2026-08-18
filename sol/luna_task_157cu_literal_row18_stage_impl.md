@@ -72,13 +72,17 @@ Current implementation pointer (2026-08-18 JST):
   Artin replay, then stopped at the producer's P-factor irreducibility gate;
   this is an implementation failure, not an A/B result.  The emitted immutable
   core rows independently give order 504 and invariant-closure rank 6 in all
-  four factors.  Parent replaced the GAP closure routine's reassigned loop
-  variable by separate `row` and `image` locals and added exact diagnostic
-  values; the repaired producer hash is
-  `e06bc99c71ea6c6ecfe0e13eb2382c6e3b799d35e75a2cf4afccae3eeb649440`.
-  Parent committed/pushed the repair as
-  `f263c40bd00f7aad2635e75bbc2d2669445ec140` and dispatched immutable
-  literal-only GHA run `32099098286`.  Monitor it while continuing to monitor
+  four factors.  Diagnostic repair run `32099098286` (commit
+  `f263c40bd00f7aad2635e75bbc2d2669445ec140`) made the mismatch exact:
+  invariant closure is `[true,true,true,true]`, while GAP reports the four
+  generic MatrixObj-generated group sizes as `[infinity,infinity,infinity,
+  infinity]`.  This is a representation-recognition issue, not a mathematical
+  failure.  Parent now sends the same invertible 6x6 actions faithfully to
+  permutations of the 63 nonzero vectors and performs the order-504 and normal
+  closure gates in finite permutation groups; raw matrices and the independent
+  invariant-rank checks remain unchanged.  The repaired producer hash is
+  `59cb71ce21031f309873fbfcef1887a8f0361fb258ffde343bc236443d381174`.
+  Commit and redispatch this repair while continuing to monitor
   `32094134098`; no run may support a terminal claim until its independent
   checker passes.
 - Tasks `157cs` and `157ct` are cancelled/superseded and must not be resumed.
