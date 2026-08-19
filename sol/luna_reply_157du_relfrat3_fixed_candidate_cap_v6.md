@@ -139,6 +139,46 @@ sparse entries, 360 thousand pivots, 0.98 million pool elements, and
 unchanged 4.5-GiB RSS guard. Any different cap reached remains an honest
 UNKNOWN_RESOURCE with no obstruction claim.
 
+## Cross-checked GHA run record
+
+The parent broker subsequently dispatched the frozen sources at commit
+`4cade81aa37f7df056b97015ca86bf025ec27536`.
+
+Canary run `32214206738` passed with producer, checker, and driver markers each
+appearing once. Its `gap-run-out` artifact has ID `9351797000`, size 1,688
+bytes, and archive digest
+`sha256:2c8995ff81f0a41b5a90351795ff0e389e39e4359cb9a972b055dc0e34ac32ff`.
+
+Full run `32214317453` completed successfully with producer, independent
+checker, and driver PASS. Its artifact has ID
+`9351964059`, name `gap-run-out`, size 50,897 bytes, and archive digest
+`sha256:4c4dde33c752004bb1450ac4c7bac3aac55803e053ea23fdac9a03e5fb18e9ef`.
+The receipt SHA-256 is
+`cd7cf742ad3304bd87ae54e74a0ab83e18aa85c531b76f2df71949e597640018`.
+
+The cross-checked terminal is
+`B345_RELFRAT3_FIXED_CANDIDATE_INCOMPLETE`. The exact completed bounded prefix
+is:
+
+```text
+translations                   32768
+columns                        360448
+pivots                         360432
+live sparse entries            3072055
+element pool                   969407
+DAG nodes / edges              669309 / 492108
+peak sampled RSS               692957184 bytes
+producer runtime               240.388 s
+candidate attempts / rollbacks 1 / 1
+fixed blocker                  target 6, hexagon_1_coface_0, component 4
+blocker pivot                  absent at every checkpoint, including 16384 and 32768
+```
+
+This exhausts only the registered translation bound for correction index 1.
+It is fixed-candidate-only and `unknown_not_obstruction`: absence of this one
+pivot is not nonmembership, a finite-stage obstruction, a statement about
+candidates 2–4096, or a B4-A/B4-B conclusion.
+
 ## Final sources
 
 | File | Bytes | SHA-256 |
