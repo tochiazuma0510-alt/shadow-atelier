@@ -74,4 +74,39 @@ timeout_minutes=330
 
 source-only 見積りは q3 + frozen v6 prefix が約4--7分、短い directed closure を含む通常域が約8--20分。300分 producer wall、4.5 GiB RSS、外部330分 job limit は fail-closed safety bound であって成功時間の主張ではない。
 
+## GHA 実行記録
+
+実行系列は次のとおり。
+
+- run `32219074110`: canary PASS。
+- run `32219214161`: transport-only failure。数学 producer/checker の結果ではない。
+- run `32219411377`: 重複便として cancel。数学的結果を持たない。
+- run `32219440063`: commit `c40f4f5a0b2fe6a520439d2e921463b3d72d2b6b` 上の full run。producer と独立 checker が完走し、checker PASS。
+
+full run の artifact は ID `9353620461`、name `gap-run-out`、size `116179` bytes、archive digest
+`sha256:0a037f89e9da27eea00fe8a65879f592903c7ef5240c09643b8b38efcb7fbed0`。
+receipt は `598085` bytes、SHA-256
+`e91684ffefa3eab3ef51cee90758b3fcfbc7fa00e79768d499675de327155094`。
+
+cross-checked terminal は `B345_RELFRAT3_PIVOT_SURGERY_INCOMPLETE`。停止理由は
+`no_new_exact_directed_translation`、claim classification/scope はそれぞれ
+`unknown_not_obstruction` / `fixed_candidate_pivot_surgery_only` である。exact ledger は以下。
+
+- directed rounds: `32`
+- directed translations added: `207`
+- directed columns added: `2277`
+- final round: new translations `0`, duplicate translations `10`
+- unresolved target: `hexagon_1_coface_0`, ordinal `6`（1-based）
+- final blocker SHA-256: `0cd653ee0966ccc83d270802bbb5d00b61731f28e27eec1918bb5ea282e00903`
+- base translations: `32768`
+- total columns: `362725`
+- pivots: `362709`
+- live sparse entries: `3090367`
+- element pool size: `976408`
+- peak RSS: `701743104` bytes
+- producer runtime: `231.6906` seconds
+- independent checker: PASS
+
+これは当該 fixed candidate に対する exact directed lane が新しい translation を生成しなくなった、という saturation 記録だけである。数学的 obstruction ではなく、全 `4096` corrections の探索結果でもない。したがって B4-A、B4-B、または他の global/negative claim を一切与えない。
+
 B345_RELFRAT3_PIVOT_SURGERY_V7_READY_FOR_GHA
