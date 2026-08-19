@@ -143,4 +143,68 @@ coface preimage に入り、二つの明示 target-6 residual がこの fixed qu
 ことだけである。W-FORM universality、full H3 coverage、nonmembership、finite obstruction、
 B4-A、B4-B、cofinality/uniform iteration は一切主張しない。
 
+## GHA production runs
+
+### Transport-only failure
+
+- run: `32278213213`
+- commit: `99b78fb63c5e4c51df26de2b04924f7917c62981`
+- URL: `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32278213213`
+- result: workflow `failure`; artifact なし
+
+最初の dispatch は PowerShell から `gh` へ渡す際に preamble 内の二重引用符が
+失われ、GAP は output path を文字列でなく未束縛変数 `ci` として読んだ。本体は
+開始前に1秒で停止しており、数学的 evidence ではない。JSON stdin dispatch に
+切り替え、同一 commit・同一 source/predicate を次の run で再実行した。
+
+### Cross-checked positive run
+
+- run: `32278425502`
+- commit: `99b78fb63c5e4c51df26de2b04924f7917c62981`
+- URL: `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32278425502`
+- artifact ID/name: `9375012872` / `gap-run-out`
+- artifact ZIP size/digest: `103,465` bytes /
+  `sha256:ff82cc3e3b98179c8a39f39f45601e34cc08d60f1ca9cdd90c6daf270684ff89`
+- receipt size/SHA-256: `573,316` bytes /
+  `3857af02b3cb01c9df9652e8f27c174adfaf3c664e5300cb43eb803218b21701`
+- producer terminal: `B345_T53_STRONG_S_EXACT_TYPED_INERT`
+- checker marker: `B345_T53_STRONG_S_INERTNESS_CHECKER_PASS terminal=B345_T53_STRONG_S_EXACT_TYPED_INERT`
+- driver marker: `B345_T53_STRONG_S_INERTNESS_GHA_DRIVER_PASS mode=full`
+- workflow: success; total `4m19s`, GAP script step `3m16s`
+- producer receipt runtime / peak RSS: `94.620197813s` / `691,224,576` bytes
+
+receipt と independent checker は次を一致して再生した。
+
+```text
+membership_bits             = [true,true,true,true,true,true]
+coface_membership_bits      = [true,true,true,true,true]
+delta_membership_bit        = true
+explicit_s_JPhi_proved      = true
+target6_class_equality      = true
+exact_typed_inert           = true
+```
+
+fresh prefix は `32768` BFS translations と `207` directed translations、
+`362725` columns、`362709` pivots、`16` dependent columns で、旧artifactの
+basis/DAGは入力していない。6 target は全て quotient identity で、さらに6本とも
+raw left-Fox gradient 自体が空ベクトル（entry count `0`、SHA-256
+`e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`）だった。
+したがってこの run では非自明な境界列の線形結合を必要とせず、6 certificate の
+packed proof は共通の zero root を指す。checker は literal word、E3/E4 identity、
+Fox subtraction、fresh prefix、zero roots と全 claim key を独立再構成した。
+
+これは evaluator が全てを空にした結果ではない。`r0` と `rs` の raw gradient は
+それぞれ非零の `72` entries で、両者の canonical SHA-256 はともに
+`0a2029c8b91b5cf09d52ad215ef69241cdb1d8a5a7afcfaa5fc796886561f9e8`、
+canonical rows も逐語一致した。その差 `delta` だけが零であるため、実測は厳密に
+`D(rs)=D(r0)` を示している。5 coface word も非空で、長さは順に
+`72/108/144/108/72`。したがって6問の陽性は fixed-prefix membership より強く、
+D2 商を取る前の Fox chain level ですでに零である。
+
+この cross-checked positive が確定するのは、明示語
+`s=y^-18 x^-18 y^18 x^18` が5 cofaceすべてで `Phi_3(H4)` に入り、かつ
+`f0` と `f0*s` の target-6 residual が同じ `H4/Phi_3(H4)` class を持つことだけで
+ある。T-53 のこの concrete strong-word inertness 予言には肯定だが、全 strong word、
+4096 dictionary、full `H3`、B4-A/B、cofinality の主張には昇格しない。
+
 B345_T53_STRONG_S_INERTNESS_V1_READY_FOR_GHA
