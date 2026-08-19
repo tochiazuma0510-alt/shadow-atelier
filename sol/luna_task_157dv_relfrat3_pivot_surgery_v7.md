@@ -90,6 +90,12 @@ feed candidate acceptance, `all_pass`, target membership roots, or terminal
 selection.  A false diagnostic is allowed on a PASS.  Conversely, any failed
 S relation or S(T_i) recovery is an acceptance failure.  Record:
 
+For each diagnostic, first replay its exact quotient value.  If that value is
+nonidentity, record the diagnostic as false and do not require a Fox-membership
+root.  Only an identity-valued diagnostic may be tested for optional Fox
+membership.  In either case its truth value remains diagnostic-only and a
+false value must not suppress a PASS.
+
 ```text
 acceptance_target_count=33
 diagnostic_target_count=17
@@ -142,6 +148,8 @@ Pre-register these additional caps:
 directed_surgery_rounds       256
 directed_unique_translations  32768
 directed_columns              360448
+directed_section_expr_nodes   131072
+directed_section_expr_edges   262144
 ```
 
 Keep every v6 cap unchanged, including sparse entries 4,194,304, element pool
@@ -151,10 +159,31 @@ exact prefix.  Do not raise a cap preemptively.
 
 ## C. Exact section oracle and provenance
 
-Directed translations lie outside the BFS section table.  Every pool element
-which may become a residual blocker must have an exact section witness.
-Implement a compact, append-only-or-transactional section-expression oracle
-bound to canonical E4 equality:
+Directed translations lie outside the BFS section table, but attaching a
+section to every element-pool value is forbidden: the frozen v6 run had
+969,407 pool values while its BFS section SLP cap was only 65,536.  Use the
+following sparse, complete oracle instead, always keyed by canonical E4 bytes
+rather than by recyclable pool IDs:
+
+1. Persist section roots only for BFS translations and registered directed
+   translations.
+2. Freeze an exact Fox-prefix section for every canonical base-D2 support
+   occurrence.
+3. While constructing one candidate target, keep a transient map from each
+   target-support key to its exact prefix section.  Export the blocker section
+   before rolling this transaction back.
+4. Recover a blocker `g` first from that transient target map.  If it is not
+   there, traverse same-component base support terms `h0` in canonical order,
+   compute `t0=g*h0^-1`, and require a matching registered translation.  Then
+   recover it exactly as `w_g=w_t0*w_h0` and replay that value as `g`.
+
+This recovery is complete: row elimination creates no new support key, so a
+basis-row support is contained in the union of the raw translated-column
+supports.  A recovery failure is therefore an internal invariant violation
+and a nonzero hard FAIL, never `UNKNOWN_INPUT` and never a guessed word.
+
+Represent the sparse oracle by a compact typed expression DAG bound to exact
+canonical equality:
 
 ```text
 identity
@@ -164,11 +193,15 @@ inverse(parent)
 registered flat word (only with direct quotient replay)
 ```
 
-Prefer one first-seen expression root per exact pool value.  New multiplication
-and inverse values must record their parents.  Any raw `intern(value)` without
-a section witness is forbidden on the active route.  Pool suffix rollback and
-ID reuse must also roll back or safely detach the corresponding section roots;
-no stale numeric-ID reference is allowed.
+Use one first-seen root per registered translation value, not per pool value.
+Precompute/reuse inverse roots for the finite base-prefix table.  Do not create
+an expression for a duplicate directed translation.  The registered caps
+`directed_section_expr_nodes=131072` and
+`directed_section_expr_edges=262144` are separate from the unchanged 65,536
+BFS-section SLP cap; a hit is `UNKNOWN_RESOURCE`.  Each persistent directed
+root is charged to a registered directed translation.  Pool suffix rollback
+and ID reuse cannot affect these roots because their bindings are canonical
+bytes, never numeric IDs.
 
 For blocker section `w_g` and a base-prefix section `w_h`, the directed
 translation section is the ordinary composition
@@ -179,8 +212,7 @@ w_t = reduce(w_g + inverse(w_h)),
 
 not paper-product reversal.  A later blocker may come from target support or
 from an inserted raw-column support.  The oracle must reconstruct it in both
-cases.  Missing section provenance is a hard invariant failure or an honest
-UNKNOWN_INPUT, never a guessed word.
+cases by the preceding finite lookup theorem.
 
 On PASS, serialize only the section-expression roots reachable from proof-DAG
 leaves, with exact canonical-value bindings, typed arrays or another compact
@@ -228,8 +260,10 @@ B345_RELFRAT3_PIVOT_SURGERY_UNKNOWN_INPUT
 
 `INCOMPLETE` requires either no new exact directed translation/column or all
 256 rounds without a PASS.  `UNKNOWN_RESOURCE` must name a closed registered
-resource reason.  Invariant/schema/orientation drift is a nonzero hard FAIL,
-not UNKNOWN.  Every non-PASS receipt must contain exactly:
+resource reason.  `UNKNOWN_INPUT` is reserved for a missing or mismatched
+external pin, schema, or authenticated input; it must not absorb an internal
+section-recovery failure.  Invariant/schema/orientation drift is a nonzero hard
+FAIL, not UNKNOWN.  Every non-PASS receipt must contain exactly:
 
 ```text
 claim_classification=unknown_not_obstruction
@@ -264,7 +298,8 @@ implementation.  It must include:
 4. candidate rollback versus persistent directed-basis commit;
 5. a new-smaller-pivot case proving that no progress remains INCOMPLETE rather
    than obstruction;
-6. section-oracle product/inverse/rollback/ID-reuse mutations;
+6. sparse section-oracle target/raw-column recovery, product/inverse, rollback,
+   and ID-reuse mutations;
 7. PASS, INCOMPLETE, UNKNOWN_RESOURCE, UNKNOWN_INPUT, and hard-fail fixtures;
 8. diagnostic T/TS false with all 33 acceptance targets true still PASS;
 9. S-relation or S(T_i) mutation rejects;
