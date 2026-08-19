@@ -346,6 +346,11 @@ when the exact expanded count is within the registered flat-word cap.
 
 Then perform a fresh direct replay, not the linear prediction:
 
+- the same fixed roof row/outside binding as v9, with the correction reducing
+  to the E3 kernel so the roof image is unchanged;
+- `m=0`, `lambda=1`, `u=1`, exact friendly and free exponent-sum gates, and
+  the corrected-Def2.9 convention that settlement and T/TS canaries are not
+  acceptance predicates;
 - correction occurrence and five-coface E4 identities;
 - six source tuple equality and normalized inverse binding;
 - all 33 acceptance quotient identities;
