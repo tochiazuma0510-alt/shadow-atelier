@@ -98,4 +98,68 @@ Frozen dependency confirmations:
 No negative/obstruction/B4-A/B conclusion is added by this transport/checker
 repair.
 
+## Production GHA record
+
+The repaired v10 checker was dispatched by the parent broker and the full job
+completed successfully:
+
+- run: `32261068150`
+- URL: `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32261068150`
+- commit: `3553c18011d40056dd2e26623aeec3ba72a856b7`
+- job ID: `96094192445`
+- GAP step: `2026-08-19T13:57:56Z`--`2026-08-19T16:01:58Z`
+- artifact: `gap-run-out`, ID `9373093887`, API size `1489376` bytes
+- downloaded ZIP SHA-256:
+  `503b8dbf506f0a03429b82a6efdf5645006f2c90540cc69b406163f9bb0f4c7e`
+- receipt: `d972_b345_relfrat3_wordexpr_memo_v9.json`, `5504869`
+  bytes, SHA-256
+  `0675e0ac957796cd2a9facee805b8f5e258d36f0c824e68ba916fdedeeedeade`
+- same-job q3 artifact SHA-256:
+  `3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72`
+
+Producer terminal:
+
+```text
+B345_RELFRAT3_WORDEXPR_SEARCH_INCOMPLETE output=ci/out/d972_b345_relfrat3_wordexpr_memo_v9.json receipt_sha256=0675e0ac957796cd2a9facee805b8f5e258d36f0c824e68ba916fdedeeedeade
+```
+
+Independent checker terminal:
+
+```text
+B345_RELFRAT3_WORDEXPR_MEMO_V10_CHECKER_PASS terminal=B345_RELFRAT3_WORDEXPR_SEARCH_INCOMPLETE claim_classification=unknown_not_obstruction artifact_sha256=0675e0ac957796cd2a9facee805b8f5e258d36f0c824e68ba916fdedeeedeade
+```
+
+The registered 4096-candidate scan is complete (`evaluated=4096`).  It found no
+positive certificate.  Every candidate first failed at target ordinal `6`,
+`hexagon_1_coface_0`, component `4`; all 17 diagnostic targets were replayed for
+each candidate.  This regularity is now cross-checked.  It is not a common
+obstruction class: the exact blocker bytes have 31 distinct SHA-256 values (the
+largest class has 2348 rows).  In particular, a common target slot/component
+does not imply a common cokernel coset.
+
+Exact scan bindings:
+
+- candidate order SHA-256:
+  `3410bbab776fbe1da267d3c3932bf63f9e09bdd02415ee82926619e312d7bbf5`
+- record bindings SHA-256:
+  `883d491f1fcc0e2e7e22e71d963ff0ae93726043f6b3ff700043e66bc3788112`
+- array manifest SHA-256:
+  `0767907fee8ac769647048929e7f2380ea588399360fd6c03fd04b973c52e8de`
+- candidate-1 blocker SHA-256:
+  `0cd653ee0966ccc83d270802bbb5d00b61731f28e27eec1918bb5ea282e00903`
+
+The frozen prefix has 32768 BFS translations plus 207 directed translations,
+362725 columns, 362709 pivots, 3090367 live sparse entries, and pool size
+976408.  Producer runtime was `3925.4653983149997` seconds; peak RSS was
+`829943808` bytes.  Candidate memo statistics were 16637 hits and 45260 misses,
+with no evictions; value evaluation dominated at about 2773 seconds.
+
+The terminal remains deliberately nonnegative:
+`claim_classification=unknown_not_obstruction`,
+`claim_scope=registered_4096_wordexpr_positive_search_only`,
+`full_universe_claimed=false`, and `negative_claimed=false`.  No B4-A/B,
+nonexistence, full-H3, or W-P0 conclusion follows.  The preregistered explicit
+strong correction `y^-18 x^-18 y^18 x^18` is not among these 4096 registered
+corrections, so it requires a separate typed single-word lane.
+
 `B345_RELFRAT3_WORDEXPR_MEMO_V10_READY_FOR_GHA`
