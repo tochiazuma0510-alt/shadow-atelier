@@ -44,12 +44,12 @@ live entries/pool/peak RSS     3090367 / 976408 / 701743104
 producer runtime               231.690623611 s
 ```
 
-The exact v7 ordered bindings which a fresh v8 reconstruction must reproduce
-before the full scan are:
+The exact deterministic v7 ordered bindings which a fresh v8 reconstruction
+must reproduce before the full scan are:
 
 ```text
-rounds_sha256
-  e1c11cd5a436229c8730d5174b9a6981a508901a6e44d5362219e03d74557391
+stable_rounds_projection_sha256
+  75a2894da0f19d0e541e27924ee63e220a6eca35e852b21088ee304ba42fc42d
 translations_sha256
   a4b952bce888713e293587cd63d710465121e782448a3e2a571d80b992ea363f
 columns_sha256
@@ -60,8 +60,14 @@ final blocker sha256
   0cd653ee0966ccc83d270802bbb5d00b61731f28e27eec1918bb5ea282e00903
 ```
 
-These values are post-reconstruction drift canaries only. Do not import the
-v7 receipt, basis, pool, DAG, or blocker as a checkpoint or mathematical input.
+The stable rounds projection is the ordered list of all v7 public round rows
+with exactly `elapsed_seconds` and `RSS_bytes` removed from every row before
+canonical JSON hashing. The original receipt's full rounds SHA
+`e1c11cd5a436229c8730d5174b9a6981a508901a6e44d5362219e03d74557391`
+contains those two volatile measurements and is provenance only; a fresh run
+must not be forced to reproduce it or copy its values. All listed stable values
+are post-reconstruction drift canaries only. Do not import the v7 receipt,
+basis, pool, DAG, or blocker as a checkpoint or mathematical input.
 
 ## Authorized files
 
