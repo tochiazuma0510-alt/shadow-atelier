@@ -170,6 +170,44 @@ range.  Otherwise the unchanged sparse basis may consume the entire
 300-minute producer / 330-minute workflow budget or approach the 4.5 GiB RSS
 guard.  Such a bounded stop is UNKNOWN_RESOURCE and has no negative meaning.
 
+## Cross-checked GHA run record
+
+The parent broker subsequently dispatched the frozen sources at commit
+`6b8a93a6d77187dacdb69c17226bcf3354ba62bb`.
+
+The canary [run 32211875374](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32211875374)
+passed.  Its `gap-run-out` artifact has ID `9351149748`, size 1,570 bytes,
+and archive SHA-256
+`bf7d4dd184454490d2277f6e9eb3989facb73eba7ddda9547a5f2a55c50d83bb`.
+
+The full [run 32212335985](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32212335985)
+completed with producer, independent checker, and driver PASS.  Artifact
+`9351317721` is named `gap-run-out`, has size 48,716 bytes, and archive
+SHA-256
+`be02babfe2c7219ef9ea16946b077a319e7942aee8aa4b055e3f9e4816afc8ff`.
+The receipt has SHA-256
+`c9231ebb8fe65c47107556c6e06873fa68b74e148e1ab248cfada08a699975d4`.
+
+The cross-checked terminal is
+`B345_RELFRAT3_FIXED_CANDIDATE_UNKNOWN_RESOURCE`, with exact reason
+`total_sparse_group_ring_keys`.  At the synchronized stop the receipt records:
+
+```text
+translations                         10,809
+live sparse group-ring keys          999,999
+pivots                               118,893
+element pool                         330,011
+section nodes                        32,768
+DAG nodes / edges                    218,739 / 157,480
+peak sampled RSS                     296 MB
+producer runtime                     193 s
+fixed blocker pivot                  absent through checkpoint 8,192
+```
+
+This is an exact resource boundary, not a failed literal gate, nonmembership,
+obstruction, or negative result.  The run covers only correction index 1 and
+does not support any claim about the omitted 4,095 corrections or B4-A/B4-B.
+
 ## Final files
 
 | File | Bytes | SHA-256 |
