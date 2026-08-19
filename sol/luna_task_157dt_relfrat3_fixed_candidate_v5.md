@@ -104,13 +104,17 @@ Their meanings are strict:
   replayable Fox/DAG membership certificate;
 - INCOMPLETE: the unchanged registered translation bound was exhausted
   without certifying this pair; this is not nonmembership or obstruction;
-- UNKNOWN_RESOURCE: a wall/RSS/structural cap or invariant failure prevented
-  completion; this is not nonmembership or obstruction.
+- UNKNOWN_RESOURCE: a registered wall/RSS/structural resource cap prevented
+  completion; this is not nonmembership or obstruction.  Any invariant,
+  schema, pin, blocker-drift, or replay failure is instead a nonzero hard FAIL
+  and must not produce or promote an artifact.
 
-No nonpositive receipt may use the words obstruction, impossible,
-nonexistence, exhaustive 4096, or B4-A/B4-B as a claim.  A PASS is only the
-same relative-Frattini outside-pair existence result scoped to this stage; it
-does not close uniform/cofinal/compactness.
+No nonpositive receipt may make an affirmative obstruction, impossible,
+nonexistence, exhaustive-4096, or B4-A/B4-B claim.  The exact negative-form
+fields `claim_classification=unknown_not_obstruction` and
+`no_mathematical_obstruction_claimed=true` are mandatory and explicitly
+allowed.  A PASS is only the same relative-Frattini outside-pair existence
+result scoped to this stage; it does not close uniform/cofinal/compactness.
 
 ## B. Candidate reconstruction and literal gates
 
@@ -158,7 +162,8 @@ fail-closed drift, not permission to substitute the old receipt value.
 
 As the persistent basis grows, do not reconstruct the candidate while its
 exact canonical blocker pivot is absent.  At the first geometric checkpoint
-after that pivot is introduced, retry from target 0.  A retry may solve farther
+after that pivot is introduced, retry from the first target (ordinal 1).  A
+retry may solve farther
 and produce a new exact blocker; replace the watch and continue by the same
 rule.  Existing basis rows never mutate, so the missing-pivot monotonicity
 argument is the same as v4.
