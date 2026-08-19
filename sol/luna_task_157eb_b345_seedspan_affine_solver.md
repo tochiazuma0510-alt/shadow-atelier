@@ -280,6 +280,13 @@ the 157ea raw-Fox canary without importing its receipt.
 Rebuild the immutable prefix basis as in 157ea.  Add a provenance-free
 `full_remainder` operation with this exact behavior:
 
+Before using it, gate the echelon invariant on every stored basis row: the
+registered pivot is the least canonical key in that row, its coefficient is
+one, pivots are unique, and the row contains no key preceding its pivot.  The
+basis is immutable during all affine probes.  This invariant is the reason a
+free key moved to the remainder can never be reintroduced by eliminating a
+later pivot; linearity samples alone are not a substitute for this gate.
+
 1. Process vector keys in the same canonical `(component, exact E4 bytes)`
    order as the basis.
 2. If the least working key is a pivot, eliminate it with the normalized basis
