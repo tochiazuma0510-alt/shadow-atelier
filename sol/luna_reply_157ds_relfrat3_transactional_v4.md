@@ -49,6 +49,39 @@ cache hits; afterward three persistent candidate gradients accumulated
 cumulative cap.  These two independently measured costs are exactly the two
 representation-only targets repaired in v4.
 
+## First cross-checked v4 production run
+
+The parent broker committed and ran this frozen v4 bundle as
+`e7a69c5517b7f83f155622e66578b899324bc4ed`.  Canary run
+[32208843272](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32208843272)
+passed with the producer, checker, and driver markers each occurring exactly
+once.  Its artifact `gap-run-out` has id `9350090673`, reported size 2,184
+bytes, and archive SHA-256
+`09a5f420b5aca529d728fe110ca0ea782bb3ee1480de314fe980af40b5fcdbbe`.
+
+Full GHA run
+[32209072242](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32209072242)
+completed the workflow successfully; the independent checker passed.  Artifact
+`gap-run-out` has id `9350213499`, reported size 242,201 bytes, and archive
+SHA-256 `dbf774a26d0f881d23102efec460d97da1016bc5b7b9eaaf4557741ad63aacff`.
+The receipt is 14,523,463 bytes with SHA-256
+`b35f69ec7584c98f7dba92d7e50e33ea4639e2526824b0815631e201871128e5`.
+
+The cross-checked terminal is `B345_RELFRAT3_UNKNOWN_RESOURCE`, precise reason
+`single_word_or_section_length`, with producer runtime 176.6198 seconds and
+peak sampled RSS 175,161,344 bytes.  The fixed-context DP completed all 4,096
+candidates and all 4,096 survived.  Candidate 1 reached target 6 at checkpoint
+1, recorded an exact missing-pivot blocker, and was correctly skipped at
+checkpoints 2, 4, and 8.  At checkpoint 8, candidate 2 passed its direct cheap
+replay and hit the word/section representation cap before target 1
+(`target_ordinal=null` in the bounded prefix).  At the stop the basis had 88
+pivots and 774 live entries, the element pool had 306 elements, and the exact
+transaction ledger had two starts and two rollbacks.
+
+Thus the v4 DP, blocker, transaction, rollback, bounded-UNKNOWN receipt, and
+independent-checker contracts all worked in production.  This terminal is a
+representation-bound UNKNOWN, not an obstruction or global B4-A/B result.
+
 Frozen v3 source pins retained by both the receipt contract and driver are:
 
 ```text
