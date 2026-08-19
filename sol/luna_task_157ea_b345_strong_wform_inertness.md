@@ -6,8 +6,9 @@ You are Luna.  Implement a new, diagnostic-only lane for the single explicit
 T-53 strong correction
 
 ```text
-x := PB3 letter 1 = A12
-y := PB3 letter 2 = A23
+x,y := the two F2 letters
+embed_F2_PB3(x) := PB3 letter 1 = A12
+embed_F2_PB3(y) := PB3 letter 3 = A23
 xi  := x^18
 eta := y^18
 [a,b] := a^-1 b^-1 a b
@@ -122,7 +123,8 @@ digest_obj(f0)
   = b79f105ec2963ae55b69480f8ed8ab13083d01cb936da32edb4798698c22055d
 ```
 
-Construct `xi`, `eta`, and `s` by the registered free-word operations and
+Construct `xi`, `eta`, and `s` first in the signed two-letter F2 alphabet by
+the registered free-word operations and
 require the literal reduced form
 
 ```text
@@ -133,7 +135,10 @@ digest_obj(s)
 ```
 
 Require the code convention `[a,b]=a^-1 b^-1 a b` and independently replay
-`s=[eta,xi]` as a free-word equality.  Construct
+`s=[eta,xi]` as an F2 free-word equality.  Whenever an F2 word is evaluated in
+PB3/E3 or passed through a coface, apply the exact embedding
+`1 -> PB3 generator 1` and `2 -> PB3 generator 3`.  PB3 generator 2 is A13 and
+must never be used as the image of the F2 letter `y`.  Construct
 
 ```text
 fs = reduce(f0+s)
@@ -143,7 +148,7 @@ digest_obj(fs)
 ```
 
 Gate exponent sums `(0,0)` for `f0`, `s`, and `fs`.  In the authenticated E3
-quotient, directly require `xi=eta=s=1`.  For the five canonical cofaces
+quotient, directly require the embedded PB3 words `xi=eta=s=1`.  For the five canonical cofaces
 `d_j:PB3->PB4`, directly require `d_j(xi)=d_j(eta)=d_j(s)=1` in E4.  These
 identity tests are element comparisons, never digest comparisons.  Record all
 words, canonical values, and ordered digests losslessly.
@@ -313,7 +318,8 @@ independently reconstruct:
 - all six reductions and all positive proof roots;
 - exact top-level/schema/terminal/claim key sets.
 
-Include mutations for at least: commutator orientation, one exponent, coface
+Include mutations for at least: the wrong F2-to-PB3 map `y -> generator 2`
+instead of generator 3, commutator orientation, one exponent, coface
 order, target-6 formula/coface, negative-letter Fox prefix order, quotient
 identity, delta product order, gradient subtraction sign, missing-pivot
 component/value, stable-prefix hash, proof coefficient/leaf/section/root,
