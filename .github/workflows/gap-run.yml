@@ -22,7 +22,7 @@ on:
         type: string
         default: "60"
       with_pquot_packages:
-        description: "Install GAP SmallGrp/AutPGrp and pinned ANUPQ 3.3.3 (opt-in)"
+        description: "Build bundled SmallGrp/AutPGrp/ANUPQ/json packages (opt-in)"
         required: false
         type: boolean
         default: false
@@ -33,61 +33,149 @@ jobs:
     timeout-minutes: ${{ fromJSON(inputs.timeout_min) }}
     steps:
       - uses: actions/checkout@v4
-      - name: Setup GAP 4.16.0 (release tarball, sha256-verified)
-        uses: gap-actions/setup-gap@v3.8.0
-        with:
-          gap-version: '4.16.0'
-      - name: Install optional p-quotient GAP packages
+      - name: Setup GAP 4.16.0 from the official full archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          for required in bash curl tar sha256sum make gcc g++ nproc; do
+            command -v "$required" >/dev/null
+          done
+          gap_url='https://github.com/gap-system/gap/releases/download/v4.16.0/gap-4.16.0.tar.gz'
+          gap_sha='aaa296b32a5d7bf25fd80f241d23ec1f58b74e991ae730fafe40e54eb3af6e7e'
+          gap_archive="$RUNNER_TEMP/gap-4.16.0.tar.gz"
+          gap_root="$RUNNER_TEMP/gap-4.16.0"
+          test -n "$RUNNER_TEMP"
+          rm -f "$gap_archive"
+          rm -rf "$gap_root"
+          curl --fail --location --silent --show-error \
+            --connect-timeout 20 --max-time 900 \
+            --retry 5 --retry-delay 5 --retry-max-time 1200 \
+            --retry-all-errors --output "$gap_archive" "$gap_url"
+          printf '%s  %s\n' "$gap_sha" "$gap_archive" | \
+            sha256sum --check --status
+          tar --extract --gzip --file "$gap_archive" \
+            --directory "$RUNNER_TEMP"
+          test -d "$gap_root"
+          cd "$gap_root"
+          ./configure
+          make -j"$(nproc)"
+          test -x "$gap_root/gap"
+          printf 'GAPROOT=%s\n' "$gap_root" >> "$GITHUB_ENV"
+          printf '%s\n' "$gap_root" >> "$GITHUB_PATH"
+          printf '%s\n' \
+            'if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 smoke gate failed"); fi;;' \
+            'QUIT_GAP(0);;' | "$gap_root/gap" --quitonbreak -q
+          printf 'GAP_SOURCE_SETUP_PASS version=4.16.0 release_sha256=%s gaproot=%s\n' \
+            "$gap_sha" "$gap_root"
+      - name: Build and load bundled optional p-quotient GAP packages
         if: ${{ inputs.with_pquot_packages }}
         shell: bash
         run: |
           set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends \
-            ca-certificates curl build-essential gap-smallgrp gap-autpgrp
-          smallgrp_dir="$(find /usr/share/gap /usr/lib/gap -type d -iname 'smallgrp*' -print -quit 2>/dev/null || true)"
-          test -n "$smallgrp_dir"
-          p2_build_root=/tmp/gaproot
-          rm -rf "$p2_build_root"
-          mkdir -p "$p2_build_root/pkg"
-          p2_url='https://github.com/gap-packages/anupq/releases/download/v3.3.3/anupq-3.3.3.tar.gz'
-          p2_sha='6a1b25ddcdb05abd933911f8e0e718b195d24b502e5d098d4b431db5f371ffc2'
-          p2_archive="$p2_build_root/anupq-3.3.3.tar.gz"
-          curl --fail --location --silent --show-error --retry 3 \
-            --output "$p2_archive" "$p2_url"
-          printf '%s  %s\n' "$p2_sha" "$p2_archive" | sha256sum --check --status
-          tar --extract --gzip --file "$p2_archive" --directory "$p2_build_root/pkg"
-          p2_src="$(find "$p2_build_root/pkg" -mindepth 1 -maxdepth 1 \
-            -type d -name 'anupq*' -print -quit)"
-          test -n "$p2_src"
-          if [ "$p2_src" != "$p2_build_root/pkg/anupq" ]; then
-            mv "$p2_src" "$p2_build_root/pkg/anupq"
-          fi
-          json_url='https://github.com/gap-packages/json/releases/download/v2.4.0/json-2.4.0.tar.gz'
-          json_sha='ce49399f5f5dc4caf95213f5dd7ec09988f2ae93364817e88ff075a09a22826a'
-          json_archive="$p2_build_root/json-2.4.0.tar.gz"
-          curl --fail --location --silent --show-error --retry 3 \
-            --output "$json_archive" "$json_url"
-          printf '%s  %s\n' "$json_sha" "$json_archive" | sha256sum --check --status
-          tar --extract --gzip --file "$json_archive" --directory "$p2_build_root/pkg"
-          json_src="$(find "$p2_build_root/pkg" -mindepth 1 -maxdepth 1 \
-            -type d -name 'json*' -print -quit)"
-          test -n "$json_src"
-          if [ "$json_src" != "$p2_build_root/pkg/json" ]; then
-            mv "$json_src" "$p2_build_root/pkg/json"
-          fi
+          for required in bash find grep make nproc sha256sum tee; do
+            command -v "$required" >/dev/null
+          done
           test -n "${GAPROOT:-}"
-          test -d "$GAPROOT"
-          cd "$p2_build_root/pkg/json"
-          ./configure --with-gaproot="$GAPROOT"
-          make -j"$(nproc)"
-          cd "$p2_build_root/pkg/anupq"
-          ./configure --with-gaproot="$GAPROOT"
-          make -j"$(nproc)"
-          printf 'GAP_P2_PACKAGE_ROOT=%s\n' "$p2_build_root" >> "$GITHUB_ENV"
-          printf 'P2_PACKAGE_BUILD_PASS smallgrp=%s anupq=%s anupq_sha256=%s json=%s json_sha256=%s\n' \
-            "$smallgrp_dir" "$p2_build_root/pkg/anupq" "$p2_sha" \
-            "$p2_build_root/pkg/json" "$json_sha"
+          test -x "$GAPROOT/gap"
+          test -d "$GAPROOT/pkg"
+
+          find_one_package() {
+            local pattern="$1"
+            local label="$2"
+            local -a matches=()
+            while IFS= read -r -d '' path; do
+              matches+=("$path")
+            done < <(find "$GAPROOT/pkg" -mindepth 1 -maxdepth 1 \
+              -type d -iname "$pattern" -print0)
+            if [ "${#matches[@]}" -ne 1 ]; then
+              printf 'expected exactly one bundled %s directory, found %s\n' \
+                "$label" "${#matches[@]}" >&2
+              exit 1
+            fi
+            printf '%s\n' "${matches[0]}"
+          }
+
+          smallgrp_dir="$(find_one_package 'smallgrp*' smallgrp)"
+          autpgrp_dir="$(find_one_package 'autpgrp*' autpgrp)"
+          anupq_dir="$(find_one_package 'anupq*' anupq)"
+          json_dir="$(find_one_package 'json*' json)"
+          smallgrp_info="$smallgrp_dir/PackageInfo.g"
+          autpgrp_info="$autpgrp_dir/PackageInfo.g"
+          anupq_info="$anupq_dir/PackageInfo.g"
+          json_info="$json_dir/PackageInfo.g"
+          for package_info in \
+            "$smallgrp_info" "$autpgrp_info" "$anupq_info" "$json_info"; do
+            test -f "$package_info"
+          done
+
+          metadata_log="$RUNNER_TEMP/gap-p2-metadata.log"
+          "$GAPROOT/gap" --quitonbreak -q <<'GAP' | tee "$metadata_log"
+          RequirePackageVersion := function(name, expected)
+            local infos;
+            infos := PackageInfo(name);
+            if Length(infos) <> 1 then
+              Error("expected exactly one PackageInfo entry for ", name);
+            fi;
+            if infos[1].Version <> expected then
+              Error("package version mismatch for ", name, ": ", infos[1].Version);
+            fi;
+          end;;
+          if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;;
+          RequirePackageVersion("smallgrp", "1.5.4");;
+          RequirePackageVersion("autpgrp", "1.12.0");;
+          RequirePackageVersion("anupq", "3.3.3");;
+          RequirePackageVersion("json", "2.4.0");;
+          Print("P2_PACKAGE_METADATA_PASS\n");;
+          QUIT_GAP(0);;
+          GAP
+          test "$(grep -c '^P2_PACKAGE_METADATA_PASS$' "$metadata_log")" -eq 1
+
+          for build_dir in "$json_dir" "$anupq_dir"; do
+            test -x "$build_dir/configure"
+            (
+              cd "$build_dir"
+              ./configure --with-gaproot="$GAPROOT"
+              make -j"$(nproc)"
+            )
+          done
+
+          read -r smallgrp_info_sha _ < <(sha256sum "$smallgrp_info")
+          read -r autpgrp_info_sha _ < <(sha256sum "$autpgrp_info")
+          read -r anupq_info_sha _ < <(sha256sum "$anupq_info")
+          read -r json_info_sha _ < <(sha256sum "$json_info")
+          printf 'GAP_P2_PACKAGE_ROOT=%s\n' "$GAPROOT" >> "$GITHUB_ENV"
+          printf 'P2_PACKAGE_BUILD_PASS gap_release_sha256=%s smallgrp=%s smallgrp_version=1.5.4 smallgrp_info_sha256=%s autpgrp=%s autpgrp_version=1.12.0 autpgrp_info_sha256=%s anupq=%s anupq_version=3.3.3 anupq_info_sha256=%s json=%s json_version=2.4.0 json_info_sha256=%s\n' \
+            'aaa296b32a5d7bf25fd80f241d23ec1f58b74e991ae730fafe40e54eb3af6e7e' \
+            "$smallgrp_dir" "$smallgrp_info_sha" \
+            "$autpgrp_dir" "$autpgrp_info_sha" \
+            "$anupq_dir" "$anupq_info_sha" \
+            "$json_dir" "$json_info_sha"
+
+          load_log="$RUNNER_TEMP/gap-p2-load.log"
+          "$GAPROOT/gap" --quitonbreak -q <<'GAP' | tee "$load_log"
+          RequirePackageVersion := function(name, expected)
+            local infos;
+            infos := PackageInfo(name);
+            if Length(infos) <> 1 then
+              Error("expected exactly one PackageInfo entry for ", name);
+            fi;
+            if infos[1].Version <> expected then
+              Error("package version mismatch for ", name, ": ", infos[1].Version);
+            fi;
+          end;;
+          if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;;
+          if LoadPackage("smallgrp") <> true then Error("smallgrp LoadPackage failed"); fi;;
+          if LoadPackage("autpgrp") <> true then Error("autpgrp LoadPackage failed"); fi;;
+          if LoadPackage("anupq") <> true then Error("anupq LoadPackage failed"); fi;;
+          if LoadPackage("json") <> true then Error("json LoadPackage failed"); fi;;
+          RequirePackageVersion("smallgrp", "1.5.4");;
+          RequirePackageVersion("autpgrp", "1.12.0");;
+          RequirePackageVersion("anupq", "3.3.3");;
+          RequirePackageVersion("json", "2.4.0");;
+          Print("P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0 smallgrp=1.5.4 autpgrp=1.12.0 anupq=3.3.3 json=2.4.0\n");;
+          QUIT_GAP(0);;
+          GAP
+          test "$(grep -c '^P2_PACKAGE_LOAD_PASS ' "$load_log")" -eq 1
       - name: Run GAP script
         shell: bash
         env:
@@ -120,7 +208,7 @@ jobs:
           } > ci/out/driver.g
           gap_args=()
           if [ "$GAP_WITH_PQUOT_PACKAGES" = "true" ]; then
-            gap_args=(-l ";/usr/share/gap;/usr/lib/gap;${GAP_P2_PACKAGE_ROOT:?}")
+            gap_args=(-l "${GAP_P2_PACKAGE_ROOT:?}")
           fi
           gap "${gap_args[@]}" --quitonbreak -q -o 12g ci/out/driver.g | tee ci/out/run.log
           # GAP may print a syntax error while returning success after Read()
