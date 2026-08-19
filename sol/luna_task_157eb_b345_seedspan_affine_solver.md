@@ -188,11 +188,37 @@ frozen source tuple, terminate `SEARCH_INCOMPLETE` with
 and no obstruction claim.  Do not misclassify this as `UNKNOWN_INPUT`, and do
 not silently delete the offending seed or shrink the 104-seed universe.
 
-## B. Affine-linearity theorem and target-6 orientation canary
+## B. Raw Fox-chain affine-linearity theorem and target-6 orientation canary
 
-Work in `M4=H4/Phi_3(H4)`.  If each occurrence of corrections `c,d` lies in
-`H4`, then kernel elements act trivially by conjugation on `M4`; therefore for
-every fixed WordExpr residual
+The load-bearing theorem must be proved first in the raw Fox chain module
+
+```text
+C1 = F3[E4]^6,
+D(uv) = D(u) + pi(u) D(v).
+```
+
+Do **not** prove additivity only after passing to
+`M4=H4/Phi_3(H4)=ker(D1)/im(D2)`.  Equality in `M4` may differ by a full D2
+boundary which is absent from the registered fixed prefix, so it would not
+justify an inconsistency statement for the prefix remainder map.
+
+For a typed residual WordExpr, evaluate every node in the semidirect Fox object
+`C1 semidirect E4`.  Every correction leaf and every registered occurrence
+homomorphism has E4 component one.  Structural induction on FLAT, PRODUCT,
+INVERSE, and SUBSTITUTE therefore gives the **raw equality**
+
+```text
+D(R_j(f0*c(a))) = z_j + sum_k a_k delta_j,k  in C1,
+```
+
+for every coefficient vector `a in F3^104`, before quotienting by any D2
+columns.  Product uses the left action by the exact prefix E4 value; inverse
+uses the corresponding negative translated gradient; substitution must bind
+rank/arity and occurrence order.  Only after this raw theorem is established
+may the linear fixed-prefix remainder map be applied.
+
+Equivalently, if each occurrence of corrections `c,d` has E4 value one, then
+for every fixed WordExpr residual the raw Fox differences satisfy
 
 ```text
 Delta_R(cd) = Delta_R(c) + Delta_R(d),
@@ -200,17 +226,19 @@ Delta_R(c^-1) = -Delta_R(c),
 Delta_R(c^3) = 0.
 ```
 
-Encode this as a stated lemma in the receipt and independently exercise it in
-the checker.  The final positive path must still replay the constructed word,
-so the lemma can never create a false PASS.
+Encode the structural induction and exact opcode/orientation rules as a stated
+certificate in the receipt and independently replay it in the checker.  For
+every one of the 33 target constructors, the checker must rebuild the typed
+tree, require all correction occurrence E4 values one, and compare the
+symbolically derived raw constant/104 columns with direct base/one-seed raw Fox
+evaluations.  This all-target equality, not a sample of seed pairs, is what
+authorizes the `SEARCH_INCOMPLETE` affine conclusion.
 
-The receipt must include the proof skeleton: evaluate every typed residual in
-the semidirect product `M4 semidirect E4`; each correction occurrence has E4
-component one; multiplication/inversion in the `M4` component is linear; and a
-kernel element acts trivially by conjugation on `H4/Phi_3(H4)`.  Add direct
-production canaries for fixed seed pairs, inverses, and squares, comparing the
-raw direct Fox differences with the corresponding sums/negatives/scalar-two
-predictions.  These canaries are theorem gates, not sampling evidence.
+The final positive path must still replay the constructed word, so the theorem
+can never create a false PASS.  Add direct production canaries for fixed seed
+pairs, inverses, and squares as extra falsifiers, comparing raw direct Fox
+differences with sums/negatives/scalar-two predictions.  These canaries alone
+are not the proof of the universal coefficient identity.
 
 For target 6, use the exact convention
 
@@ -298,7 +326,8 @@ Start with the full coefficient space `F3^104`.  At each acceptance ordinal:
 1. Reconstruct the base target and each one-seed target by typed WordExpr.
 2. Require their E4 values to be identity.
 3. Compute the exact raw left-Fox gradient, form the 104 direct differences,
-   and take canonical full remainders.
+   compare them with the typed raw-chain affine certificate, and take canonical
+   full remainders.
 4. Intersect the current affine coefficient solution space with all coordinate
    equations for this target.  Use deterministic F3 Gaussian elimination,
    fixed seed-column order 1..104, canonical coordinate-row order, normalized
