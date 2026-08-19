@@ -138,9 +138,9 @@ Delete the cross-checkpoint `candidate_cache` of all gradients.  At each
 geometric checkpoint, preserve the exact v3 candidate scheduling and process
 one candidate at a time:
 
-1. materialize/complete the candidate and hard-check direct cheap/full gates;
-2. take an element-pool checkpoint and a provenance-DAG checkpoint before
-   candidate-only gradients are interned;
+1. take an element-pool checkpoint and a provenance-DAG checkpoint before any
+   candidate-specific inverse/source tuple or gradient is interned;
+2. materialize/complete the candidate and hard-check direct cheap/full gates;
 3. generate targets in the frozen order, **one target at a time**;
 4. generate that target's packed Fox gradient and immediately call the same
    basis solve;
@@ -176,7 +176,9 @@ the registered final cap.
 
 Add an explicit candidate transaction to the v3 exact element pool.
 
-- Snapshot the pool length before candidate-only work.
+- Snapshot the pool length before `complete_candidate` or any other
+  candidate-only operation that can call `pool.intern`, not merely before the
+  first Fox gradient.
 - A failed candidate must roll the proof DAG back to its checkpoint.
 - Delete every `ids` entry and canonical byte row in the pool suffix.
 - Before any numeric ID is reused, clear the element product and inverse LRUs;
