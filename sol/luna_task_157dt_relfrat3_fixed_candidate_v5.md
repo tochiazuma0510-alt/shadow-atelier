@@ -112,6 +112,7 @@ Their meanings are strict:
 No nonpositive receipt may make an affirmative obstruction, impossible,
 nonexistence, exhaustive-4096, or B4-A/B4-B claim.  The exact negative-form
 fields `claim_classification=unknown_not_obstruction` and
+`claim_scope=fixed_candidate_only` and
 `no_mathematical_obstruction_claimed=true` are mandatory and explicitly
 allowed.  A PASS is only the same relative-Frattini outside-pair existence
 result scoped to this stage; it does not close uniform/cofinal/compactness.
