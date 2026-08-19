@@ -223,6 +223,56 @@ producer byte.  The already-consumed single-selftest allowance was not reused;
 the repaired checker was instead AST-parsed, every remaining `.pc` occurrence
 was statically audited, and the new checker SHA was repinned in the driver.
 
+## Parent GHA execution record
+
+The parent Sol broker committed and pushed this frozen bundle as
+`84bea6176b29adab5e24e8595be71f7466e0cc3d` on
+`sol/b345-q3-chief-v1`.
+
+1. GHA selftest run
+   [32202347904](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32202347904)
+   completed successfully.  The producer selftest marker, checker selftest
+   marker, and `B345_RELFRAT3_PACKED_V3_GHA_DRIVER_PASS mode=selftest` each
+   occurred exactly once.  Optional p-quotient packages were enabled and the
+   pinned ANUPQ/JSON package build/load path passed.
+2. Run
+   [32202487446](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32202487446)
+   failed before reading the fixed output path because the CLI field form
+   stripped the GAP string quotes from the preamble.  Its logged value was
+   `D972_B345_RELFRAT3_V3_OUTPUT:=ci/out/d972_b345_relfrat3_v3.json`, and GAP
+   stopped at undefined variable `ci`.  It did not enter q3 or the search and
+   is transport evidence only.  Subsequent full dispatches must use the JSON
+   input path (or another byte-preserving API) for quoted GAP strings.
+3. Full run
+   [32202638830](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32202638830)
+   completed the workflow successfully in 38m54s.  Artifact
+   `gap-run-out` has id `9348803701` and archived size 227,111 bytes.  The
+   producer receipt and independent checker agree on SHA-256
+   `a8dd8c9d5938b9257f7585d31a904eb98505f88902bc767ec19486c55c697095`.
+   The q3 checker marker, relative-Frattini checker marker, and full driver
+   marker each occurred exactly once.
+
+The cross-checked terminal is
+`B345_RELFRAT3_UNKNOWN_RESOURCE`, with
+`claim_classification=unknown_not_obstruction` and precise reason
+`compact_candidate_sparse_entries`.  This is not a mathematical obstruction.
+At the stop, the producer had used 2,253.417311103 seconds and sampled peak RSS
+of only 288,403,456 bytes.  The basis had 8 translations, 88 columns/pivots,
+and 774 live sparse entries; the packed DAG had 184 nodes/150 edges.  Three
+retained candidate gradients already contained 688,932 sparse entries, and
+the fourth candidate would exceed the registered cumulative one-million
+candidate-entry cap.  The exact element pool was 431,843 elements (66,503,822
+packed payload bytes), well below both the pool and RSS caps.
+
+The live log also isolates the dominant pre-search cost: 2,182.984 seconds
+elapsed before the first sparse checkpoint, with about 364 million PC-cache
+hits from reevaluating all 4,096 long correction words.  Thus v3 achieved its
+primary operational goal--it replaced the former unrecorded runner/OOM loss
+with a fast, atomic, independently checked UNKNOWN receipt--and exposed two
+separate semantics-neutral v4 targets: fixed-context parent/seed propagation
+for the cheap gates, and candidate-local streamed gradient transactions rather
+than cumulative cross-checkpoint gradient retention.
+
 ## Source-only performance estimate and residual risk
 
 This is an estimate, not a production benchmark.  The q3 regeneration and
@@ -246,7 +296,7 @@ v3 starts from the frozen q3 receipt and cannot resume v2.
 | `search/d972_b345_relfrat3_v3.py` | 158,867 | `df60849f9fa4bb6a09e0d23d799e31473960544728db6eb5507a6fd54749343b` |
 | `search/check_d972_b345_relfrat3_v3.py` | 94,677 | `11345a8db5ff6d08fa8395301c270532d0d96714cc8d77d98643dac04a6856cf` |
 | `search/d972_b345_relfrat3_gha_driver_v3.g` | 9,792 | `fe7a76191a484194696931c5acb59ec6ee0115af75d543613281c28e4d6a4d7a` |
-| `sol/luna_reply_157dr_relfrat3_packed_v3.md` | REPLY_BYTES=013188 | final file SHA-256 is returned after close in the completion message |
+| `sol/luna_reply_157dr_relfrat3_packed_v3.md` | REPLY_BYTES=016123 | final file SHA-256 is returned after close in the completion message |
 
 The reply cannot contain its own ordinary file SHA-256 without changing the
 bytes being hashed; its exact final byte count is fixed above and its exact
