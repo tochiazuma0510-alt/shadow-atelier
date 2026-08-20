@@ -221,6 +221,82 @@ a candidate only: it proves neither B1/full-D2 inconsistency, nonexistence,
 failed lift, B4-A, nor B4-B.  The failed runner-local receipt is not an input;
 the v4 contract requires a fresh same-job P(v2)+C(v4) run.
 
+## Fresh cross-checked run 32401947156
+
+The required fresh same-job rerun completed successfully:
+
+```text
+run:       32401947156
+head:      2808c3fb61962d7180a192947fed375c754a25ce
+URL:       https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32401947156
+workflow:  success
+job:       success
+```
+
+Step ledger (UTC): GAP setup `18:13:06--18:13:46`, bundled package
+build/load `18:13:46--18:13:57`, math `18:13:57--18:37:54`, and artifact
+upload `18:37:54--18:37:55`; all four completed successfully.  q3 producer,
+q3 checker, unchanged P(v2), C(v4), and v4 driver PASS markers each occur
+exactly once in their bounded logs.  Traceback and `RuntimeError` counts are
+zero.  Common-deadline accounting is producer 708s, checker initial remaining
+17292s, final elapsed 1420s, and final margin 16580s.
+
+Artifact and receipt evidence:
+
+```text
+artifact id:      9419642796
+artifact name:    gap-run-out
+archive SHA-256:  1d764a5f1c5c6581229b636ad2a8d0d69ae3673412348e1a16e86eccd5c7f73d
+archive bytes:    160648
+receipt SHA-256:  746ca938a962f4d918c07ee270d4e03c3e4f75e40689f3a0507c8daff9d57053
+receipt bytes:    1314365
+canonical JSON:   true
+producer log:     73470b1f7b7ebfe187d0e4b703a49f85c2b6fcbccbcf218cc85cb60cce80aee4 / 56786
+checker log:      5540a67099c9f080e4e31854892bdf414bda995f9372460016e6c02fa05a0c97 / 753
+artifact run.log: cf8c77a22a2289da47e2e8dbf6aebcbbf4befa8fd90e8979b575874df172a535 / 65974
+job log:          e4a673e15162cd0aa1953294a029c936490531988150f2fe083d8fb39090d95e / 196924
+```
+
+The archive was downloaded again as raw ZIP and independently hashed to the
+same GitHub digest.  Repository-external extracted evidence is at:
+
+```text
+C:\Users\81905\AppData\Local\Temp\shadow157el-run32401947156-94904c5163be43b7917a8e22cff2ece5
+```
+
+The terminal is cross-checked
+`B345_E4_D2_LEXBLOCK_TARGET6_INCONSISTENT`.  The complete correlation has 886
+pair attempts, 724 nonzero-before-cancellation candidates, 156 cancellations,
+568 active rows, and scalar distribution 284/284.  Its lexicographically first
+active row is relator 9 with scalar 1 at translation ordinal 32976; the exact
+154-byte translation has SHA-256
+`b4e86ceeaee5ad995a64442abd9ba397322951feb80a6aad59215c0584ee2e7e`.
+
+The one complete block contains all 11 relator columns, all independent:
+rank gain and shadow rank are 11, relator 9 is independently pivoting, and its
+actual pivot count changes `362717 -> 362718`.  The block changes public basis
+accounting from columns/pivots/dependent/live
+`362725/362709/16/3090367` to
+`362736/362720/16/3090463`; the public post-block anchor matches exactly.
+
+Target 6 was recomputed with 109 fresh remainders on that B1 basis.  The full
+33687-coordinate, 108-variable system has rank 54, nullity 54, and is
+inconsistent after complete absorption (not first-contradiction stopping).
+The normalized dual has support 1, normalized RHS 1, `yTz=2`, and annihilates
+all 108 registered directions.  Its sole coordinate is target 6,
+`hexagon_1_coface_0`, component 4, with exact element-byte SHA-256
+`0cd653ee0966ccc83d270802bbb5d00b61731f28e27eec1918bb5ea282e00903`.
+
+Producer receipt runtime is 707.496644s with peak RSS 787005440 bytes.  The
+cross-process state-no-mutation gate is exact, no old B0 remainder/dual was
+imported, no full E4 enumeration occurred, and the independent checker replay
+passed.
+
+The result is limited to the exact 108-variable target-6 affine system after
+the single fixed lex-first 11-relator block over the frozen prefix.  It is not
+a full-D2 obstruction, global nonexistence theorem, failed lift, B4-A, B4-B,
+or a result for targets 7--33.  It is cross-checked, not Lean-verified.
+
 ## Recurrence-prevention table
 
 | Boundary | Required type/gate | Forbidden recurrence | Static result |
@@ -247,7 +323,8 @@ driver P(v2) -> C(v4) active paths: PASS
 driver v2 schema/output preserved: PASS
 unfinished-token scan: 0
 combined self-test: PASS, exactly once
-full production/GAP/GHA/Git: NOT RUN
+local GAP/full/Git by Luna: NOT RUN
+authorized GHA full run: PASS, recorded above
 ```
 
 Scoped status at freeze contains only the pre-existing task and the three
