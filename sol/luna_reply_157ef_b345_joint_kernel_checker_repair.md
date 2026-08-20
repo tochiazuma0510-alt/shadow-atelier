@@ -64,4 +64,41 @@ The parent should dispatch the v2 GHA self-test first and require the v2 driver
 marker, then rerun full mode.  Only a subsequent checker PASS may promote the
 observed producer CLOSED terminal to cross-checked status.
 
+## GHA run record
+
+The v2 GHA self-test succeeded:
+
+- run `32359804965`;
+- commit `1696e7b44792b97c51a435d4160259462963c52d`;
+- producer, checker-v1 core, checker-v2 repair, driver-v1, and driver-v2
+  markers each occurred exactly once.
+
+The full same-job rerun then succeeded and is cross-checked:
+
+- run `32359956713`;
+- commit `1696e7b44792b97c51a435d4160259462963c52d`;
+- artifact ID `9403505687`, name `gap-run-out`, archive size 227,958 bytes,
+  archive digest
+  `sha256:9fe43b570dd135c4f26c910dff983e0e58492bb3250beb4cbe01d7e8bcca1192`;
+- receipt size 2,166,036 bytes, SHA-256
+  `1c3ad7a7124cee152eb40968cf212c14641a9f8720063c85f70533864898d0df`;
+- terminal `B345_JOINT_KERNEL_QSTAR_CLOSED`, reason
+  `joint_kernel_presentation_potential_zero`;
+- producer elapsed 325.759814168 seconds, peak RSS 764,940,288 bytes;
+- same-job producer elapsed ledger 326 seconds, final elapsed 713 seconds,
+  final common-deadline margin 17,287 seconds.
+
+The independent reconstruction matched the fixed prefix
+(362,725 columns, 362,709 pivots, 16 dependent columns, 3,090,367 live
+entries), the 362,710-entry raw-lambda oracle, and base target6 lambda 2.
+It reconstructed the group of order 243 (exponent 9, center 27, derived
+subgroup 3, Frattini subgroup 27, quotient 9) and obtained scalar zero for all
+6,318 internal Cayley relations, all 104 `x/y` action relations, and all 19
+complete `Q0` relators.  Five direct/raw-normal-form canaries also matched.
+
+The cross-checked claim is exactly that the registered joint typing kernel
+cannot change the nonzero qstar obstruction against the fixed prefix.  The
+receipt explicitly makes no full-D2, full-H3, global lift-nonexistence, B4-A,
+or B4-B claim.
+
 B345_JOINT_KERNEL_QSTAR_CHECKER_V2_READY_FOR_GHA
