@@ -337,6 +337,31 @@ class Budget:
                     tuple_value=tuple_value,
                 )
 
+    def reserve(self, phase: str, additional_bytes: int) -> None:
+        """Mirror the pinned prefix builder's fail-closed RSS reservation API."""
+        require(isinstance(additional_bytes, int) and additional_bytes >= 0,
+                "producer RSS reservation")
+        self.checks += 1
+        rss = self.rss_bytes()
+        self.peak_rss_bytes = max(self.peak_rss_bytes, rss)
+        attempted = rss + additional_bytes
+        if attempted >= CAPS["producer_soft_rss_bytes"]:
+            self.hit_reason = "producer_soft_rss_bytes"
+            raise ResourceStop(
+                self.hit_reason, cap_key=self.hit_reason,
+                cap_limit=CAPS[self.hit_reason], observed_count=attempted,
+                trigger_relation="ge", phase=phase)
+        if time.monotonic() >= self.deadline:
+            self.hit_reason = "common_math_soft_deadline_seconds"
+            raise ResourceStop(
+                self.hit_reason,
+                cap_key="common_math_soft_deadline_seconds",
+                cap_limit=CAPS["common_math_soft_deadline_seconds"],
+                observed_count=max(
+                    CAPS["common_math_soft_deadline_seconds"],
+                    int(time.monotonic() - self.started)),
+                trigger_relation="ge", phase=phase)
+
     def public(self) -> dict[str, Any]:
         return {
             "common_start_monotonic": self.started,
@@ -2475,6 +2500,10 @@ def affine_self_test() -> None:
     require(remainder_budget.initial_seconds == remaining and remaining < 18000,
             "common-deadline remainder")
     _expect_failure(lambda: Budget(18001.0), "common-deadline reset")
+    reserve_checks = remainder_budget.checks
+    remainder_budget.reserve("proof_DAG_array_bytes", 0)
+    require(remainder_budget.checks == reserve_checks+1,
+            "prefix monitor reserve compatibility")
 
     # Exercise the exact authenticated production import path.  Dataclasses
     # require their module to be registered in sys.modules during execution.
@@ -2493,7 +2522,7 @@ def affine_self_test() -> None:
           "resource_phase_normalization=1 upstream_cap_registry=1 "
           "packed_classes=1 dependent_event=1 cache_neutrality=1 "
           "source_dag=1 formula_hard_fail=1 deadline_remainder=1 "
-          "pinned_import=1",
+          "pinned_import=1 monitor_reserve=1",
           flush=True)
 
 
