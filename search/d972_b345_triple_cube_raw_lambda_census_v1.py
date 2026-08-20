@@ -359,7 +359,15 @@ def load_pinned_module(path: Path, expected: str, name: str) -> Any:
     if spec is None or spec.loader is None:
         raise AffineInput(f"import spec {path.as_posix()}")
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    if name in sys.modules:
+        raise AffineInput(f"authenticated module name already bound: {name}")
+    sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except BaseException:
+        if sys.modules.get(name) is module:
+            del sys.modules[name]
+        raise
     return module
 
 
@@ -2468,13 +2476,24 @@ def affine_self_test() -> None:
             "common-deadline remainder")
     _expect_failure(lambda: Budget(18001.0), "common-deadline reset")
 
+    # Exercise the exact authenticated production import path.  Dataclasses
+    # require their module to be registered in sys.modules during execution.
+    pinned_name = "_d972_157ed_old_producer_selftest"
+    pinned_old = load_pinned_module(OLD_PRODUCER, OLD_PRODUCER_SHA, pinned_name)
+    require(hasattr(pinned_old, "AffineSystem") and
+            hasattr(pinned_old, "affine_seed_words"),
+            "authenticated predecessor import")
+    require(sys.modules.get(pinned_name) is pinned_old,
+            "authenticated predecessor module registration")
+
     print("D972_B345_TRIPLE_CUBE_RAW_LAMBDA_PRODUCER_SELFTEST_PASS "
           "cube_empty_order=1 fox_nonabelian=1 action_orientation=1 "
           "lambda_reverse_nf=1 lambda_mutations=1 qstar_mutations=1 "
           "first_reason=1 complete_active_inert=1 partial_resource=5 "
           "resource_phase_normalization=1 upstream_cap_registry=1 "
           "packed_classes=1 dependent_event=1 cache_neutrality=1 "
-          "source_dag=1 formula_hard_fail=1 deadline_remainder=1",
+          "source_dag=1 formula_hard_fail=1 deadline_remainder=1 "
+          "pinned_import=1",
           flush=True)
 
 

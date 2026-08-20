@@ -218,7 +218,16 @@ def load_old() -> Any:
         "_d972_157ed_independent_old_checker", ROOT/OLD_CHECKER)
     require(spec is not None and spec.loader is not None,
             "checker old module spec")
-    module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+    name = "_d972_157ed_independent_old_checker"
+    require(name not in sys.modules, "checker old module name unbound")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except BaseException:
+        if sys.modules.get(name) is module:
+            del sys.modules[name]
+        raise
     return module
 
 
@@ -1795,13 +1804,19 @@ def checker_self_test() -> None:
             "checker common deadline remainder")
     expect_failure(lambda:Deadline(18001.0),"checker deadline reset")
     require(78*2==156,"checker leaf/square pair/evaluation split")
+    pinned_old=load_old()
+    require(hasattr(pinned_old,"CheckerAffineSystem") and
+            hasattr(pinned_old,"replay_pivot_surgery") and
+            sys.modules.get("_d972_157ed_independent_old_checker") is pinned_old,
+            "checker authenticated predecessor import")
     print("D972_B345_TRIPLE_CUBE_RAW_LAMBDA_CHECKER_SELFTEST_PASS "
           "cube_empty_order=1 packed_3cube=1 action_orientation=1 "
           "lambda_reverse_nf=1 lambda_mutations=1 qstar_mutations=1 "
           "first_reason=1 complete_active_inert=1 partial_resource=5 "
           "resource_phase_normalization=1 upstream_cap_registry=1 "
           "packed_classes=1 dependent_event=1 cache_neutrality=1 "
-          "source_dag=1 formula_hard_fail=1 deadline_remainder=1",
+          "source_dag=1 formula_hard_fail=1 deadline_remainder=1 "
+          "pinned_import=1",
           flush=True)
 
 
