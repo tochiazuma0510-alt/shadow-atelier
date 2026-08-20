@@ -8848,7 +8848,7 @@ def _affine_candidate_values(compiled: dict[str, Any],
     evaluator = WordExprEvaluator(
         compiled["dag"], e4,
         {"candidate_index": candidate_index, "fixture": "seedspan-affine"},
-        memo_static_quotient_binding=static_binding)
+        memo_static_binding=static_binding)
     evaluator.evaluate_values(value_roots)
     if pin_sources:
         evaluator.pin_source_roots(compiled["source_roots"])
@@ -9902,6 +9902,13 @@ def affine_self_test() -> None:
     target6_typed = {"dag": target6_dag,
                      "candidate_root": target6_candidate}
     target6_built = _affine_build_typed_target6(target6_typed)
+    target6_static_binding = build_memo_static_quotient_binding(toy_e4)
+    target6_candidate_eval = _affine_candidate_values(
+        target6_typed, toy_e4, 1, static_binding=target6_static_binding,
+        value_roots=[target6_candidate])
+    require(target6_candidate_eval.values[target6_candidate-1] == toy_e4.identity,
+            "selftest affine candidate evaluator static binding")
+    target6_candidate_eval.discard_candidate_memo()
     require(_affine_select_typed_target_root(target6_built, 6) ==
             target6_built["acceptance"][0][2],
             "selftest target6-only acceptance selection")
@@ -10017,7 +10024,8 @@ def affine_self_test() -> None:
           "base_delta_split=1 target6_order=1 full_remainder=1 later_pivot=1 "
            "affine_consistent=1 affine_inconsistent=1 exponent_two=1 "
            "diagnostics_excluded=1 resource_pre_target=1 "
-           "transposed_rollback=1 phase_boundary=1 terminals=4", flush=True)
+           "transposed_rollback=1 phase_boundary=1 "
+           "candidate_static_binding=1 terminals=4", flush=True)
 
 
 def main() -> int:

@@ -7,7 +7,7 @@ D972AFFQ3Driver := "search/d972_b345_q3_gha_driver_v1.g";;
 D972AFFQ3DriverSHA :=
   "c397cd837ff6814f7b7a8ca0604c6aed54fa0bc85bb577516ea1c6e7df83a831";;
 D972AFFProducer := "search/d972_b345_seedspan_affine_solver_v1.py";;
-D972AFFProducerSHA := "8f911ba8fec127e543f5aad65ed8c3b635ce83855703483d8f1a497bc3825e15";;
+D972AFFProducerSHA := "804414e69155f2b8d9aa2a2412b0120d64eb373945a0fa6163f1214b4673e19a";;
 D972AFFChecker := "search/check_d972_b345_seedspan_affine_solver_v1.py";;
 D972AFFCheckerSHA := "67ad8d8227f1a8a60e481977fd2d07d819d532deb2651cd28667db997ec46081";;
 D972AFFQ3Artifact := "ci/out/d972_b345_q3_chief_v1.json";;

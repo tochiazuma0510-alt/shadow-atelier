@@ -90,11 +90,21 @@ mid-absorption stop and checks the exact pre-state digest/equation/consistency,
 so an interrupted target cannot leak partial rows into the completed-target
 receipt.
 
+Transport repair record: run `32316709399` stopped deterministically before
+mathematics when `_affine_candidate_values` passed the nonexistent keyword
+`memo_static_quotient_binding` to `WordExprEvaluator`; the constructor accepts
+`memo_static_binding`. This was an implementation transport failure, with no
+mathematical result or obstruction evidence. The active affine-path evaluator
+calls were audited against the constructor signature, the keyword was repaired,
+and the producer selftest now constructs a tiny compiled DAG and calls the
+production helper with `static_binding=...` so future signature drift fails in
+selftest.
+
 The final bounded combined lightweight selftest (producer followed by checker)
 passed:
 
 ```text
-D972_B345_SEEDSPAN_AFFINE_PRODUCER_SELFTEST_PASS seed_order=1 seed_digest=1 source_anchor_policy=1 occurrence_gate=1 raw_chain=1 raw_pair=1 raw_inverse=1 raw_square=1 base_delta_split=1 target6_order=1 full_remainder=1 later_pivot=1 affine_consistent=1 affine_inconsistent=1 exponent_two=1 diagnostics_excluded=1 resource_pre_target=1 transposed_rollback=1 phase_boundary=1 terminals=4
+D972_B345_SEEDSPAN_AFFINE_PRODUCER_SELFTEST_PASS seed_order=1 seed_digest=1 source_anchor_policy=1 occurrence_gate=1 raw_chain=1 raw_pair=1 raw_inverse=1 raw_square=1 base_delta_split=1 target6_order=1 full_remainder=1 later_pivot=1 affine_consistent=1 affine_inconsistent=1 exponent_two=1 diagnostics_excluded=1 resource_pre_target=1 transposed_rollback=1 phase_boundary=1 candidate_static_binding=1 terminals=4
 D972_B345_SEEDSPAN_AFFINE_CHECKER_SELFTEST_PASS shared_core=1 provider_boundary=1 seed_order=1 seed_digest=1 raw_chain=1 raw_pair=1 raw_inverse=1 raw_square=1 base_delta_split=1 context_registry=1 target6_order=1 full_remainder=1 later_pivot=1 affine_consistent=1 affine_inconsistent=1 selected_proof=1 diagnostics_excluded=1 terminals=4 resource_phases=4 gt_ge=1 source_seed=1 positive_phase=1 positive_ranges=1 prefix_counts=1 deadline=1
 ```
 
@@ -123,9 +133,9 @@ replay. A cap is `UNKNOWN_RESOURCE`, never a mathematical conclusion.
 ## Versioned artifacts
 
 ```text
-search/d972_b345_seedspan_affine_solver_v1.py             487345 bytes  8f911ba8fec127e543f5aad65ed8c3b635ce83855703483d8f1a497bc3825e15
+search/d972_b345_seedspan_affine_solver_v1.py             487819 bytes  804414e69155f2b8d9aa2a2412b0120d64eb373945a0fa6163f1214b4673e19a
 search/check_d972_b345_seedspan_affine_solver_v1.py       523575 bytes  67ad8d8227f1a8a60e481977fd2d07d819d532deb2651cd28667db997ec46081
-search/d972_b345_seedspan_affine_solver_gha_driver_v1.g      9028 bytes  fca917211a04c553faf3d85e43fd3dbb184a5c28c6424c04070f5d52c7b4c508
+search/d972_b345_seedspan_affine_solver_gha_driver_v1.g      9028 bytes  1c7a6169292146ada37007d2e5b9a48f21b7f1ae545fe84a969409d8b9741057
 ```
 
 The thin GAP driver pins the producer/checker hashes above, runs the q3 child
