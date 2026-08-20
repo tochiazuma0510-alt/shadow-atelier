@@ -130,6 +130,15 @@ for a same-component lambda support coordinate `(c,g)` and base occurrence
 exactly, including cancellations.  Therefore this finite support correlation
 is exhaustive over the entire (very large) E4 without enumerating E4.
 
+Type clarification after T-61: the acting group in this D2 chain module is the
+pinned PB4 quotient **E4**, not the joint F2 correction quotient called `J` in
+157ee/T-61.  The 11 unshifted PB4 relator columns are, by definition, the 11
+orbit representatives whose E4-left translates generate `Bfull`.  Hence no
+extra `prefix_generates_module`/FC-44 assumption is needed.  Do not replace
+this exact correlation by a coinvariant `(x-1),(y-1)` shortcut: one direction
+of that shortcut was explicitly left unaudited in T-61.  The support argument
+above evaluates all E4 translates directly and is the load-bearing theorem.
+
 ## B. Fresh prefix, lambda support, and base columns
 
 Producer imports the pinned 157ed producer only through an authenticated
