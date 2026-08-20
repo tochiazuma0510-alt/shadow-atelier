@@ -252,6 +252,15 @@ flat word and never a transient pool ID.  Directly evaluate `w_g` and `w_t`
 in E4.  Recovery failure is a hard invariant failure, not `UNKNOWN_INPUT`.
 Checker reconstructs the sparse recovery search independently.
 
+Legacy API trap: the pinned seedspan predecessor's
+`SectionExpressionDAG.materialize()` still contains the formerly unreachable
+name `inverse_word` instead of `inv_word`.  ACTIVE makes an INVERSE node live,
+so calling that inherited method would deterministically crash.  Do not edit
+the predecessor and do not call this method for the witness.  Materialize or
+stream-replay the reachable typed DAG in the new producer/checker with their
+own explicit inverse/reduction helper, cap and value gates.  The ACTIVE
+production-path self-test must execute an actual INVERSE node.
+
 The target-6 prefix map is rebuilt fresh from the literal base target-6 Fox
 replay after the prefix is complete; it is not imported from the transient
 map used by the earlier prefix probe.  Re-running
