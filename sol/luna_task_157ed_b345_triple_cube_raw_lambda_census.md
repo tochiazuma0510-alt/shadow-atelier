@@ -183,10 +183,18 @@ The raw-Fox formula/direct comparison is **not** a sixth typed predicate.  It
 is an internal convention theorem.  Prove it on bounded production canaries
 (the empty correction, all 26 cube leaves, all 26 literal squares, the four
 frozen 157ec triples, and the first and last typed tuple if they exist) by two
-independently built routes.  Any value, action, sign, product-order, or
-formula/direct drift is a hard failure; it must never be encoded as an untyped
-tuple or an `UNKNOWN_*` result.  The complete census uses the theorem-backed
-streaming formula below, not a per-tuple flat replay.
+independently built routes.  The leaf and square canaries generally have
+nonidentity values: for each of the three substitutions `t in {a,b,c}`, compare
+the generic typed left-Fox PRODUCT construction of `D_t(cube_i)` and
+`D_t(cube_i*cube_i)` with a flat direct replay of that same substituted
+correction word.  Do **not** apply the simplified target-6 delta formula to
+those nonidentity canaries.  The simplified
+`L_C(D(c)-D(b))+L_h(D(a))` comparison is used only for the empty correction and
+for triple canaries after all three correction-context values have been gated
+to identity.  Any value, action, sign, product-order, or formula/direct drift
+is a hard failure; it must never be encoded as an untyped tuple or an
+`UNKNOWN_*` result.  The complete census uses the theorem-backed streaming
+formula below, not a per-tuple flat replay.
 
 Gate 3 is also not shorthand for a product of three correction values.  Build
 the single typed word-expression `f=f0*s_ijk`, evaluate it in the six frozen
@@ -312,8 +320,10 @@ The implementation must gate:
 - every pivot row has lambda zero;
 - all 16 dependent prefix columns have lambda zero after exact reduction;
 - the resulting raw oracle agrees with direct `qstar` extraction after
-  `NF_B` on the base, all 108 old columns, all 26 cube leaf canaries, all 26
-  square canaries, and all four frozen 157ec triple words.
+  `NF_B` on the base, all 108 old columns, all three-substitution raw vectors
+  `D_t(cube_i)` and `D_t(cube_i*cube_i)` defined by the generic canary route
+  above, and the simplified target-6 delta vectors of all four frozen typed
+  157ec triple words.
 
 `raw_lambda_oracle_entries` counts the immutable pivot-lambda table plus the
 explicit qstar entry; require exactly `362709+1=362710`.  It does not count
@@ -607,8 +617,12 @@ external_job_limit_minutes        330
 safety_margin_minutes             30
 ```
 
-The first nine values are exact universe/binding equalities, not adjustable
-caps.  Structural cap hits use a closed reason registry and become
+The first ten values, through `raw_lambda_oracle_entries=362710`, are exact
+universe/binding equalities, not adjustable caps; a mismatch is a hard
+failure.  `raw_lambda_recursion_edges=8388608` and the following resource
+limits are caps, while the separately reconstructed frozen row-tail count
+`2727658` is also an exact hard gate.  Structural cap hits use a closed reason
+registry and become
 `UNKNOWN_RESOURCE` with cap key, limit, observed value, exact comparator,
 phase, tuple ordinal, `(i,j,k)`, typed/active counts, queried oracle count, and
 the committed packed-prefix digest.  The driver starts one common
