@@ -13,3 +13,8 @@ lambda非零support×base76項の `t=g*h^-1` 相関で全 E4 translates を直�
 ACTIVEが1本でも出ても `beta in im D2_full` はまだ従わない。分かるのは現lambdaが
 full separatorでないことと、追加すべきlex-first 11-column blockだけ。追加・再reduceを
 反復して初めてmembershipへ進む。global lift/B4-A/Bはいずれも非宣言。
+
+FC-46について: 157eeは26生成元だけの検査ではない。243-state Cayleyの全6318辺、
+x/y作用104関係、complete Q0 presentationの19 lifted relations（defectsがGammaをnormal
+generate）を検査し、checkerも全体を再構成した。従って登録joint presentationに対する
+`mu(K)=0`のtranslate coverageは既に閉じており、FC-46を新しい前件にはしない。
