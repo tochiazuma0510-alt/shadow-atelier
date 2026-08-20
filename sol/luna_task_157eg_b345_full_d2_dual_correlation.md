@@ -153,6 +153,14 @@ Independently rebuild all 11 base columns from the PB4 relators.  Require the
 76-occurrence count, the per-relator and per-component counts above, the
 ordered public digest, quotient identity, and `D1*D2=0` for every column.
 
+Actual helper-shape warning: the frozen `build_fresh_prefix` return contains
+private `model4`, `pool`, and `sections`, plus the **public**
+`directed_base_support`; it does not contain a private `base_occurrences`
+field.  Reconstruct internal occurrences from `model4` with
+`freeze_base_support_occurrences(model4,pool,sections)` (which must reuse the
+already registered canonical roots), and exact-compare its public projection.
+Reading `prefix["base_occurrences"]` is a dispatch-stopping shape bug.
+
 ## C. Exhaustive correlation algorithm
 
 Precompute the inverse of each of the 76 base E4 values once.  For each
