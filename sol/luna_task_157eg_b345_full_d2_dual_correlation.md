@@ -37,6 +37,14 @@ Hard-authenticate these exact files before doing mathematics:
   `search/d972_b345_triple_cube_raw_lambda_census_v1.py`, SHA-256
   `d4a290984ae8a93b6959f06d20c1de037b2814707778fba03c59ac87b2f736db`,
   126942 bytes.
+- 157ed checker
+  `search/check_d972_b345_triple_cube_raw_lambda_census_v1.py`, SHA-256
+  `677aa1b69e4415da9629c34fcf0e469ad974cf3c888be7e768635bac50f672ce`,
+  97363 bytes.
+- 157ed driver
+  `search/d972_b345_triple_cube_raw_lambda_census_gha_driver_v1.g`, SHA-256
+  `29a31752d42bd3f5a0e7f27ca38495bdd54c9cc694d12ddf9fe637e8749975e9`,
+  10223 bytes.
 - frozen prefix implementation
   `search/d972_b345_seedspan_triple4_v1.py`, SHA-256
   `fe18fc31fdf3f9416ebb829112ccbd514c27e6a8d30fe24691842865277a0b29`,
