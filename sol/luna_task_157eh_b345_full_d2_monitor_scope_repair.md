@@ -167,8 +167,12 @@ The base monitor alone owns:
 - peak RSS and hit reason;
 - local deadline/RSS cap enforcement.
 
-The adapter is constructed with `(base, outer, exact_allowed_inner_set)`.  It
-must expose the actual imported-helper API:
+The adapter is constructed from `(base, outer)` and obtains its immutable
+allowed-inner frozenset from the canonical registry above.  A caller may not
+supply or widen an arbitrary allowed set.  If the implementation accepts an
+allowed set for testability, it must require exact equality with the canonical
+set for that outer before storing it.  The adapter must expose the actual
+imported-helper API:
 
 ```text
 .started
@@ -188,11 +192,20 @@ Use adapters as follows:
 - pass the raw-lambda adapter to `ed.RawLambdaOracle`;
 - pass the section-witness adapter to `make_section_witness`;
 - use the base monitor's explicit outer check for authenticated input,
-  base-columns, dual-correlation, receipt serialization, and other v2-owned
-  stage boundaries.
+  base-columns, dual-correlation, and other v2-owned registered stage
+  boundaries.
 
-Do not expose adapters to a wider stage.  Do not retain an adapter in a global
-or reuse it after its outer stage.  `old.ResourceStop`/`ed.ResourceStop`
+Receipt serialization is not a monitor stage in v1 and is intentionally absent
+from the exact pair registry.  Preserve its existing local byte-cap,
+`write_checked`, and RESOURCE fallback without adding a monitor check.
+
+Do not expose adapters to a wider stage.  The frozen prefix builder stores its
+monitor in both `prefix["dag"].deadline` and `prefix["basis"].deadline`.  On
+successful return, require both fields to be the exact fresh adapter, then set
+both to `None` before entering raw-lambda or any later stage.  Require them to
+remain `None` thereafter; later read-only basis access must not silently reuse
+the fresh scope.  Do not retain an adapter in a global or otherwise reuse it
+after its outer stage.  `old.ResourceStop`/`ed.ResourceStop`
 conversion remains bound to the explicit current outer selected by the caller;
 an inherited `exc.phase` is diagnostic only and may not choose the public
 terminal phase.
@@ -244,18 +257,21 @@ fixture validator.  At minimum require:
 4. two adapters share exactly one `started`, absolute deadline, check counter,
    peak RSS, and hit state; mutation attempting a reset/extension is rejected;
 5. `reserve` and `check(force=True)` both preserve the pinned outer;
-6. an actual frozen `ProvenanceDAG`/packed-DAG production helper creates enough
+6. the frozen prefix initially retains the exact fresh adapter in both DAG and
+   basis, the production detach helper clears both after the build, and any
+   later callback through either detached object is impossible/rejected;
+7. an actual frozen `ProvenanceDAG`/packed-DAG production helper creates enough
    nodes to cross its 1024-node cadence boundary and reaches
    `packed_provenance_dag_growth` through the fresh adapter.  Set the base
    cadence state so the callback actually samples wall/RSS; a ten-node toy that
    never invokes the callback is insufficient;
-7. actual packed pivot and target reducer callbacks are bound to the fresh
+8. actual packed pivot and target reducer callbacks are bound to the fresh
    adapter (bounded toy columns are enough, but use the production helper);
-8. actual section-expression serialization reaches all three proof-DAG
+9. actual section-expression serialization reaches all three proof-DAG
    reserve/check labels through both relevant outer adapters;
-9. registry/digest, pair, outer-phase, inner-diagnostic, and stale-prefix
+10. registry/digest, pair, outer-phase, inner-diagnostic, and stale-prefix
    mutations are independently rejected by the checker;
-10. prior v1 fixture coverage remains: typed Element blob, packed section DAG,
+11. prior v1 fixture coverage remains: typed Element blob, packed section DAG,
     opcode/parent/value/role mutations, cap-source, shared deadline, exact
     provenance, and real receipt-serialization overflow fallback.
 
