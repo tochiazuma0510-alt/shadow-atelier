@@ -145,4 +145,42 @@ successful producer plus checker artifact is **cross-checked**, not Lean
 verified, and is only a finite registered seed-span result; it does not by
 itself claim B4-A, B4-B, full D2, full H3, or cofinality.
 
+## Cross-checked GHA result
+
+Run `32317468871` at commit
+`e1da83b6963ce10e3ba3041947a4c3a7555c0f11` completed successfully:
+
+- URL: `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32317468871`
+- artifact id/name: `9389076593` / `gap-run-out`
+- artifact archive digest/size:
+  `sha256:6f32b9f54b882c918af72c2c99feef031006991dcec2476f1a0aec52aa4fe30a`
+  / `119387` bytes
+- receipt SHA/size:
+  `dfb0627849e29bd9be83e8dc74de6845e8263ed3fe5ced5d04e37bb7d9b9076a`
+  / `796861` bytes
+- checker terminal:
+  `D972_B345_SEEDSPAN_AFFINE_CHECK_PASS`
+- producer terminal:
+  `B345_SEEDSPAN_AFFINE_SEARCH_INCOMPLETE`
+
+Targets 1--5, the five charming-error cofaces, were exact identity-root rows
+and left the affine system at rank `0`, nullity `104`. Target 6,
+`hexagon_1_coface_0`, produced `33293` coordinate equations from the fixed
+prefix remainders. Its base remainder had `184` nonzero entries; the 104 seed
+directions contributed `219404` live remainder entries and rank `50`. The
+augmented affine system was inconsistent, leaving the homogeneous nullity
+`54`. The independent checker rebuilt the same `362725` columns / `362709`
+pivots and accepted the complete receipt.
+
+The producer runtime was `664.0106779979999` seconds and peak RSS was
+`738705408` bytes. No wall/RSS/structural resource guard fired. The complete
+same-job GAP-script step, including the independent checker rebuild, ran from
+`2026-08-20T00:29:53Z` to `2026-08-20T00:52:24Z`.
+
+This is a cross-checked nonexistence result only in the preregistered
+`fixed D2 prefix x ordered 104-seed affine span`. It does **not** prove
+nonexistence in full D2/full H3, is not a global obstruction, and makes no
+B4-A/B4-B/cofinality claim. In particular, the exact claim classification in
+the receipt remains `unknown_not_obstruction`.
+
 B345_SEEDSPAN_AFFINE_V1_READY_FOR_GHA
