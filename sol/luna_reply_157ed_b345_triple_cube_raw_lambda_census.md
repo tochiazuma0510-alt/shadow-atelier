@@ -1,156 +1,140 @@
-# Luna reply 157ed — triple-cube raw-lambda census bundle
+# Luna reply 157ed - ordered triple-cube raw-lambda census
 
 ## Status
 
-The four-file bundle is frozen for hostile pre-dispatch audit. The final code
-has **not** passed a combined selftest: an authorized intermediate corrective
-invocation was made, but its output and exit status were not retained, so its
-outcome is `UNCONFIRMED`; producer/checker code changed afterward. No rerun was
-made. This reply therefore does not claim READY or a selftest PASS.
-
-No production census, GAP mathematics run, Git operation, GHA dispatch,
-workflow edit, or unrelated worktree edit was performed.
+`CROSS-CHECKED`.  The producer completed the preregistered ordered `26^3`
+census and the independent checker reconstructed the q3 models, fixed prefix,
+raw-lambda oracle, typing decisions, and all scalar values.  This is not a Lean
+verification and is not a global nonexistence result.
 
 Canonical task:
 
 - `sol/luna_task_157ed_b345_triple_cube_raw_lambda_census.md`
 - SHA-256 `15511f73e665a90f1e518383cb7bd218d8dd8e747026c498c3b4acce62837c2f`
-- 36,171 bytes / 803 lines; source commit prefix `461b9ca1`.
+- 36,171 bytes / 803 lines
+
+Final source commit:
+
+- `4226e73be45ba464b092bc3d5ff91dad54adc868`
+- branch `sol/b345-q3-chief-v1`
 
 ## Frozen files
 
 | file | SHA-256 | bytes |
 |---|---|---:|
-| `search/d972_b345_triple_cube_raw_lambda_census_v1.py` | `1fbeb2656872fa3e6eaae96a4868b7ba830173401dba4e22605535dd6eea3262` | 123,616 |
-| `search/check_d972_b345_triple_cube_raw_lambda_census_v1.py` | `a3e33e6eb042fb4627931f494dd550261816a79486145f704b6667ebf8bd9cb3` | 96,768 |
-| `search/d972_b345_triple_cube_raw_lambda_census_gha_driver_v1.g` | `181448bc01db70f9dde47a6a3cf4e4748b60194463c10d9734c37ad5e37e36e2` | 10,223 |
+| `search/d972_b345_triple_cube_raw_lambda_census_v1.py` | `d4a290984ae8a93b6959f06d20c1de037b2814707778fba03c59ac87b2f736db` | 126,942 |
+| `search/check_d972_b345_triple_cube_raw_lambda_census_v1.py` | `677aa1b69e4415da9629c34fcf0e469ad974cf3c888be7e768635bac50f672ce` | 97,363 |
+| `search/d972_b345_triple_cube_raw_lambda_census_gha_driver_v1.g` | `29a31752d42bd3f5a0e7f27ca38495bdd54c9cc694d12ddf9fe637e8749975e9` | 10,223 |
 | this reply | self-referential final value reported out of band | reported out of band |
 
-The driver pins the producer and checker SHAs shown above exactly.
+The driver pins the producer and checker hashes exactly.
 
-## Authenticated inputs
+## Cross-checked result
 
-The bundle fail-closed pins the predecessor 157ec producer/checker/driver/task
-to `fe18fc31…a0b29`, `ef5125e3…0b981`, `a9c88540…8fca4`, and
-`1173f2f8…7f89b`; the strong-prefix source to `d41123a8…244be`; the q3
-producer/checker/driver/artifact to `b95fc29b…f755`, `ddb52dda…3f73`,
-`c397cd83…a831`, and `3d37c8c…da72`; formula manifest to `b43284ed…27ef`;
-and 157eb producer/checker/driver to `804414e6…3e19a`,
-`67ad8d82…46081`, and `1c7a6169…41057`. It also binds the old-104 seed
-digest `e99602b0…2f9e`, cube digest `3d26302d…9163`, predecessor run
-`32326652060`, and predecessor receipt `d556a3e5…fc8d`. The predecessor
-receipt is provenance only; no predecessor basis, row, or scalar is imported.
+Final terminal:
 
-## Exact finite contract
+`B345_TRIPLE_CUBE_RAW_LAMBDA_INERT`
 
-The producer freshly reconstructs the q3 quotients, the immutable
-362,725-column prefix, 362,709 pivots, 16 dependent raw columns, the rank-50
-old104/rank-54 full108 target-6 matrix, and the support-one dual. The semantic
-lambda key is `(one-based component, exact 154-byte E4 blob)`. Reverse
-canonical-pivot recurrence builds 362,709 pivot values plus explicit nonpivot
-`qstar`, exactly 362,710 entries. Census queries never intern new pool values.
+Reason:
 
-The registered universe is the lexicographic ordered `26^3 = 17,576` triple
-products, repetitions included. The 31 distinct literal F2 contexts use F2
-pairs directly; E3/coface routes use `x -> A12`, `y -> A23` (PB3 generators
-1 and 3). Gate 3 reconstructs all six standard marked-source images with the
-full inverse/conjugation DAG. Gate 5 evaluates the actual target-6 expression
-`C*c*b^-1*C^-1*h*a*h^-1`.
+`complete_scan_all_typed_scalars_zero`
 
-The scalar route implements the left Fox law exactly. Per substitution
-`a,b,c`, it precomputes 26 outer-applied leaf scalars and 676 cumulative
-first-plus-second scalars. Each tuple then streams only the third cube
-gradient under the exact outer/pair multiplier. It retains 26 leaf gradients,
-26 values and 676 pair values, but no 676 pair sparse gradients and no flattened
-triple target word. Three nontrivial tuples compare this route with the full
-three-factor streaming formula.
-
-## Receipt, terminals, and boundary
-
-Schema: `d972-b345-triple-cube-raw-lambda-census/v1`.
-
-Allowed terminals, and no others:
-
-- `B345_TRIPLE_CUBE_RAW_LAMBDA_ACTIVE`
-- `B345_TRIPLE_CUBE_RAW_LAMBDA_INERT`
-- `B345_TRIPLE_CUBE_RAW_LAMBDA_UNKNOWN_RESOURCE`
-- `B345_TRIPLE_CUBE_RAW_LAMBDA_UNKNOWN_INPUT`
-
-The packed census uses an LSB-first typed bitmask, u8 lambda and first-failure
-codes, little-endian u16 tuple-to-class/first-ordinal arrays, little-endian u32
-class lengths, and raw 32-byte signed-word hashes. Complete arrays decode to
-17,576 entries; resource arrays decode to the exact committed prefix with zero
-padding. Terminal- and phase-specific top-level/nested keysets are exact.
-
-`ACTIVE` is only a nonzero-scalar handoff. `INERT` is only the fixed-prefix
-linear contradiction for old108 plus this registered typed triple universe.
-Every terminal explicitly sets full-D2, full-H3, all-depth3,
-all-corrections, literal-pair, global-negative, B4-A, and B4-B claims false.
-
-Registered limits are exactly those in task §G: 26/676/17,576 universe,
-31/46 contexts, 9,162 cube letters, 18,580,536 unreduced triple letters,
-362,725 columns, 362,709 pivots, 362,710 lambda entries, 8,388,608 recurrence
-edges, 1,048,576 DP-state records, 16 MiB receipt, 18,000-second common math
-budget, and 4.5 GiB producer RSS. Resource receipts bind comparator, phase,
-tuple, committed packed-prefix digest, exact budget ledger, and stage projection.
-Helper-local monitor labels such as `strong_wform_fresh_BFS`,
-`affine_remainder`, and `affine_transposed_row_absorption` are normalized at
-the producer catch boundary to the current registered outer committed phase.
-They can no longer leak into the closed public phase registry; the checker
-explicitly rejects such an unnormalized helper phase.
-
-Upstream structural limits are not relabelled as task limits. A separate
-25-key `UPSTREAM_RESOURCE_CAPS` registry is reconstructed from the pinned
-157ec `AFFINE_INHERITED_CAPS`, the three affine limits, and the zero-tolerance
-missing-inverse limit. Its canonical digest is
-`f78c5df93b518f324f041023ceaa52979a20c1fbaeea051de3d0975789d07329`.
-Normal and resource receipts bind the full registry and digest. Conversion of
-an old `ResourceStop` requires exact key membership and exact frozen limit;
-its reason must also equal its cap key. An unknown key, unknown reason, or
-stale limit is a hard failure. Producer and checker independently impose the
-same reason/key equality on every task-local or upstream resource receipt.
-
-## Checker and transport
-
-The checker imports only the pinned independent predecessor checker. It
-reconstructs q3, contexts, cubes, prefix schedule, all 16 dependent events,
-canonical lambda table, predecessor rank/dual, every typed classification,
-and every scalar. Producer packed arrays and booleans are not mathematical
-inputs. Formula canaries distinguish 78 leaf/square pairs from 156 actual Fox
-evaluations.
-
-The driver regenerates and independently checks q3 once, deletes stale fixed
-outputs, and runs producer/checker under one `bash -o pipefail` command. Bash
-`SECONDS` starts at producer launch; only `18000-SECONDS` is passed to the
-checker. Both streams use `tee`, exact sentinels, exactly one allowed terminal,
-and exactly one checker PASS marker.
-
-Expected hosted band remains 35–80 minutes normally and 90–180 minutes
-pessimistically, with roughly 0.9–1.5 GiB peak RSS. Progress is emitted at
-phase boundaries and every 256 tuples; RSS/deadline checks occur at least every
-64 tuples.
-
-## Static audit and selftest ledger
-
-Final producer/checker sources passed Python AST parse plus bytecode compilation
-in memory (`AST_COMPILE_PASS 2`). Generated `__pycache__` artifacts from older
-compile attempts were removed and absence checked. A non-Git whitespace,
-conflict-marker, placeholder, ASCII-driver, SHA-pin, and authorized-path audit
-was performed at freeze.
-
-The driver’s bounded combined command is:
+The complete lexicographic ordered universe, with repetitions retained, has
+17,576 tuples.  Exactly 15 tuples passed all registered typing gates.  Their
+ordinals and one-based cube triples are:
 
 ```text
-python3 -u -B search/d972_b345_triple_cube_raw_lambda_census_v1.py --self-test
-python3 -u -B search/check_d972_b345_triple_cube_raw_lambda_census_v1.py --self-test
+894    (2,9,10)
+1119   (2,18,1)
+5452   (9,2,18)
+5626   (9,9,10)
+5651   (9,10,9)
+5671   (9,11,3)
+5852   (9,18,2)
+6979   (11,9,11)
+7021   (11,11,1)
+7029   (11,11,9)
+11519  (18,2,1)
+11694  (18,8,20)
+11954  (18,18,20)
+12004  (18,20,18)
+13296  (20,18,10)
 ```
 
-It requires exactly one producer marker and one checker marker. The implemented
-fixtures cover cube order/empty record, ordered repeated triples, signed class
-collision and packed layout, noncommutative Fox action, reverse-pivot/direct-NF
-lambda, qstar/sign/width mutations, first-failure order, ACTIVE/INERT and five
-resource envelopes, dependent raw events, cache neutrality, source-DAG/formula
-drift, and common-deadline remainder. These final fixtures are **not reported
-PASS**, because no final-hash combined selftest was executed.
+All 15 have raw-lambda scalar `0`; scalar counts are exactly
+`{0:15, 1:0, 2:0}`.  The other 17,561 tuples failed the first typing gate.
+There are 17,414 exact signed-word classes.  The typed-mask SHA-256 is
+`ff194ddd9e5b5d8416e683fa237a756209f44a624c52f2a4aa629fbcf8c430f8`;
+the decoded tuple-to-class SHA-256 is
+`3c00eeda0d299495907b6299f9f9a78c537615d1549ba727c662b25b79dc8089`.
 
-Freeze marker: `157ED_STATIC_FREEZE_SELFTEST_UNCONFIRMED`.
+The freshly rebuilt prefix has 32,768 BFS translations, 207 directed
+translations, 362,725 columns, 362,709 pivots, 16 dependent columns, and
+3,090,367 live sparse entries.  Reverse canonical-pivot propagation visited
+2,727,658 row-tail entries and produced 362,710 semantic lambda entries
+(362,709 pivots plus the explicit nonpivot qstar).  The lambda semantic digest
+is `601681f16d88c85405eb8f460c9014408514e4bf0702aab2c5aa35d5c384e92b`.
+All 362,709 pivot rows and all 16 original dependent columns are annihilated.
+
+The predecessor target-6 system was independently reconstructed with
+old-104 rank 50, full-108 rank 54, nullity 54, 33,687 coordinates, base
+remainder support 184, `lambda(base)=2`, and `lambda(-base)=1`.  The public
+dual has support one at target 6 (`hexagon_1_coface_0`), component 4, on the
+exact canonical 154-byte E4 key.  Its all-108 annihilation digest is
+`400f67f74b1250e538c395aa8bf647f6f7432ec07fe2582aaff06e5a47fe7ed5`.
+
+Therefore none of the 15 typed words in this registered ordered triple
+universe moves the fixed-prefix qstar obstruction.  This does **not** claim
+full-D2 or full-H3 nonmembership, all-depth-3 exhaustion, all-correction
+exhaustion, a global negative result, or nonexistence of a lift.  Every such
+claim flag is false in the receipt.
+
+## Final GHA evidence
+
+Bounded final-hash selftest:
+
+- run `32341939583`
+- commit `4226e73be45ba464b092bc3d5ff91dad54adc868`
+- URL: <https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32341939583>
+- producer, checker, and driver PASS markers each occurred exactly once
+- `cube_row_index=1` occurred exactly once
+
+Cross-checked full run:
+
+- run `32342044284`
+- commit `4226e73be45ba464b092bc3d5ff91dad54adc868`
+- URL: <https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32342044284>
+- artifact id `9397268505`, name `gap-run-out`, compressed size 748,800 bytes
+- artifact URL: <https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32342044284/artifacts/9397268505>
+- artifact archive digest `sha256:7bdf9244958c1fe6fb5096ef13e46bdd9d26abaf2cba664e77f355ab30999e7e`
+- receipt `d972_b345_triple_cube_raw_lambda_census_v1.json`: 1,571,542 bytes,
+  SHA-256 `aa3e61ef1e3f3492bdaf4551f58833f270a5563cc913304c385669304d6efd85`
+- producer terminal, producer zero-exit sentinel, checker PASS, and full-driver
+  PASS markers each occurred exactly once
+- producer elapsed 650.115 seconds; producer plus checker 1,317 seconds;
+  run step 1,335 seconds; producer peak RSS 769,536,000 bytes
+
+The q3 child artifact remained SHA-256
+`3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72`.
+
+## Corrective run ledger
+
+The production predicate was not changed by the transport/API repairs below.
+Each failed full run stopped before a cross-checked terminal:
+
+- `32338608942`: initial bounded selftest fixture failure.
+- `32338913226`: bounded selftest PASS after fixture repair.
+- `32339013984`: full stopped at Python 3.12 dynamic dataclass import.
+- `32339417891`: bounded selftest PASS with pinned-import canary.
+- `32339510722`: full stopped because the new budget wrapper lacked the
+  predecessor monitor `reserve` API.
+- `32340105187`: bounded selftest PASS with `monitor_reserve=1`.
+- `32340204744`: full stopped after prefix because pool IDs were compared
+  directly with raw E4 source-anchor values.
+- `32340896270`: bounded selftest PASS with `anchor_decode=1`.
+- `32341037385`: producer completed with the same INERT data, but checker
+  rejected a receipt-only one-based cube-index offset.
+- `32341939583`: final bounded selftest PASS with `cube_row_index=1`.
+- `32342044284`: final full cross-check PASS.
+
+Final marker: `B345_TRIPLE_CUBE_RAW_LAMBDA_CENSUS_CROSSCHECKED`.
