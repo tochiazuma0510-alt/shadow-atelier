@@ -637,6 +637,16 @@ def build_instrumented_prefix(old: Any, e4: Any, monitor: Budget,
     return prefix, events
 
 
+def cube_public_rows(cubes: Sequence[Sequence[int]],
+                     record_to_cube: dict[int, int]) -> list[dict[str, Any]]:
+    return [
+        {"cube_index": cube_index, "record_index": record_index,
+         "length": len(cubes[cube_index-1]),
+         "sha256": digest_obj(cubes[cube_index-1])}
+        for record_index, cube_index in sorted(record_to_cube.items())
+    ]
+
+
 def cube_words(old: Any, q3: dict[str, Any], e3: Any) -> tuple[
         list[list[int]], dict[int, int], list[dict[str, Any]]]:
     records = q3["correction_fibre"]["records"]
@@ -659,11 +669,7 @@ def cube_words(old: Any, q3: dict[str, Any], e3: Any) -> tuple[
     require(len(cubes) == 26 and digest_obj(cubes) == CUBE_SHA,
             "cube manifest")
     require(sum(map(len, cubes)) == 9162, "cube total length")
-    return cubes, record_to_cube, [
-        {"cube_index": i+1, "record_index": r,
-         "length": len(cubes[i-1]), "sha256": digest_obj(cubes[i-1])}
-        for r, i in sorted(record_to_cube.items())
-    ]
+    return cubes, record_to_cube, cube_public_rows(cubes, record_to_cube)
 
 
 def context_dp(old: Any, e4: Any, cubes: list[list[int]]) -> tuple[
@@ -2066,6 +2072,9 @@ def affine_self_test() -> None:
     toy_records = [[]] + [[1]*(index+1) for index in range(26)]
     toy_cubes = toy_cube_manifest(toy_records)
     toy_cube_digest = digest_obj(toy_cubes)
+    require([row["cube_index"] for row in
+             cube_public_rows(toy_cubes, {2: 1, 3: 2})] == [1, 2],
+            "one-based cube row indices")
     _expect_failure(lambda: toy_cube_manifest(
         [toy_records[1], []]+toy_records[2:]), "empty record moved")
     reordered_records = [[]] + [toy_records[2], toy_records[1]] + toy_records[3:]
@@ -2531,7 +2540,8 @@ def affine_self_test() -> None:
           "resource_phase_normalization=1 upstream_cap_registry=1 "
           "packed_classes=1 dependent_event=1 cache_neutrality=1 "
           "source_dag=1 formula_hard_fail=1 deadline_remainder=1 "
-          "pinned_import=1 monitor_reserve=1 anchor_decode=1",
+          "pinned_import=1 monitor_reserve=1 anchor_decode=1 "
+          "cube_row_index=1",
           flush=True)
 
 
