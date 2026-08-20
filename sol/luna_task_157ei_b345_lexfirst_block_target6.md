@@ -138,20 +138,31 @@ where `t` is the canonical lexicographically first ACTIVE translation from
 157eh.  The old functional `q*` satisfies
 
 ```text
-q*(B0)=0,  q*(c_9)=1.
+q*(B0)=0,
+q*(c_j)=0 for 1 <= j <= 8,
+q*(c_9)=1.
 ```
 
-Therefore `c_9` is not in `B0` and
+The zero values for `j=1..8` are load-bearing, not an optional diagnostic.
+The complete 157eh correlation is exhaustive, and its public order is
+`(translation blob, relator index)`.  Its first nonzero row is `(t,9)`, so the
+same translation `t` has no nonzero rows at relator indices 1 through 8.
+Termwise direct replay must independently confirm these eight zeros.
+
+Consequently, after inserting `c_1,...,c_8`, their span together with `B0` is
+still annihilated by `q*`.  Since `q*(c_9)=1`, relator 9 is necessarily
+independent at its insertion step.  In particular,
 
 ```text
 1 <= dim(B1/B0) <= 11.
 ```
 
 This is the exact progress theorem.  Add the complete block in relator order
-`1,2,...,11`.  In that order an earlier column may make relator 9 dependent;
-do **not** require relator 9 itself to be the inserted pivot.  Require only the
-cumulative rank gain to lie in `1..11`, together with the direct pre-insertion
-gate `q*(c_9)=1`.
+`1,2,...,11`.  Require direct pre-insertion values zero for relators 1--8 and
+one for relator 9, require relator 9's reducer outcome to be independent, and
+require the cumulative rank gain to lie in `1..11`.  Relator 9's canonical
+pivot need not equal the public qstar coordinate, but the column must add one
+new pivot at that step.
 
 Adding all 568 old ACTIVE `(t,j)` rows is forbidden in v1.  They are active for
 the old dual only, do not exhaust full D2, and would require a new all-section
@@ -195,6 +206,8 @@ the same left action as the correlation.  For every raw translated column:
 - recompute it term by term from the unshifted base column;
 - require exact canonical sparse equality with direct left translation;
 - require quotient identity and `D1*D2=0`;
+- require its direct old-qstar scalar to be zero for relators 1--8 and one for
+  relator 9; make no scalar assertion for relators 10--11 beyond direct replay;
 - record a canonical semantic digest ordered by relator, component, and exact
   154-byte E4 blob;
 - record dependent/independent outcome and, for an independent row, the
@@ -210,7 +223,10 @@ post dependent     = 16 + (11-rank_gain)
 ```
 
 The rank gain is recomputed from pre/post basis rank and independently from the
-11 raw columns modulo B0.  A digest alone is never equality.  Preserve the
+11 raw columns modulo B0.  Additionally require the pivot count immediately
+after relator 9 to be exactly one more than immediately before relator 9; a
+dependent relator-9 outcome is a hard theorem failure.  A digest alone is
+never equality.  Preserve the
 post-block pool, section, basis, and DAG as the immutable anchor for every
 target remainder transaction.  Candidate rollback snapshots must be taken
 **after** this anchor and must explicitly retain `t`, its section, all 11
@@ -410,7 +426,8 @@ fixtures and all four terminal envelopes.  At minimum reject mutations for:
 - selecting a first row before completing/cancelling the full correlation;
 - `h^-1*g`, right action, wrong inverse, relator/scalar/blob drift;
 - adding only relator 9, omitting/duplicating/reordering a block column;
-- requiring relator 9 itself, rather than the whole block, to be independent;
+- accepting a nonzero old-qstar value on any of relators 1--8, accepting a
+  value other than one on relator 9, or accepting relator 9 as dependent;
 - importing an old B0 remainder/dual after B1 is installed;
 - taking rollback anchors before the persistent t/11-column block;
 - using `formula([])=0` as the base target-6 gradient or reversing `b=-z`;
