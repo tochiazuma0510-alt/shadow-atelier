@@ -81,8 +81,8 @@ mutations, and all inherited v1 fixture coverage.
 
 The implementation was statically checked for Python AST/compile validity,
 ASCII-only GAP driver text, exact source-pin hashes, v2 paths/markers, balanced
-driver delimiters, conflict markers, and placeholder strings.  No GAP, GHA,
-full computation, or Git operation was run.
+driver delimiters, conflict markers, and placeholder strings.  At this static
+freeze boundary no GAP, GHA, full computation, or Git operation had been run.
 The first task-authorized combined attempt was run after hostile-review GO:
 
 - command sequence: `python -u -B
@@ -121,7 +121,7 @@ The corrective combined attempt used the same command sequence exactly once:
   and pre-update reply
   `e197c412dafa0048adf0fc39618b84299b499c8c6dd155324da57c1836c9d7e7`.
 
-No further selftest was executed after this PASS.
+No further local selftest was executed after this PASS.
 
 Final code hashes:
 
@@ -131,7 +131,57 @@ Final code hashes:
 | `search/check_d972_b345_full_d2_dual_correlation_v2.py` | `881719f18b302afcb5ee25fd22e36ef7d6b50ee38a3562f208a2adb2a6e74060` | 21933 |
 | `search/d972_b345_full_d2_dual_correlation_gha_driver_v2.g` | `5b76b267a36526f4f2d9e325b4b92e36c7b241f6f9d75abec7e08c3c9ff74cde` | 13253 |
 
-## Dispatch and expected cost
+## GHA dispatch and cross-checked result
+
+The frozen four-file bundle was committed and pushed at
+`9e1da3ca55133ae17fe6349bf64e7695fdda14f6`.  Both workflow dispatches used
+JSON string inputs, not `gh workflow run -f`.
+
+- Combined GHA selftest run `32374112118` completed successfully in 52 seconds.
+- Full run `32374248796` used the same exact head commit and completed
+  successfully.  The GAP step ran from 13:27:16Z to 13:37:16Z.
+- Artifact `gap-run-out`, id `9408752095`, has archive SHA-256
+  `9a504033f6109697bc6c8b6f7606d677d8c8a899a10b509d9c6836da06f27ad8`.
+- The canonical receipt is 605197 bytes with SHA-256
+  `7c9de4d4aa5dc0facf94cec9c4b2b71d81c1b8cc590e84aa574cace18c1cb7d5`.
+- q3 checker, producer, independent correlation checker, and driver all
+  emitted their PASS markers exactly once.  There was no competing terminal.
+
+The cross-checked terminal is
+`B345_E4_FULL_D2_ACTIVE_TRANSLATION`, with reason
+`complete_correlation_has_nonzero_translation` and exact claim
+`first_active_full_D2_translation_exported_not_a_lift`.
+
+The complete correlation made 886 support-pair attempts.  Before deletion
+there were 724 candidate translation/relator pairs: 156 cancelled to zero and
+568 remained active, split exactly as 284 scalar-one and 284 scalar-two rows.
+The packed 568-row table is 88608 bytes with SHA-256
+`8f69ef922a646c0306f2c9ebcf0c8f03531c84b057e29ad4e580a508911c6551`.
+The canonical first active row has component 4, relator 9, scalar 1, and uses
+the registered left-translation orientation `t=g*h^-1`.  Its 154-byte
+translation has SHA-256
+`b4e86ceeaee5ad995a64442abd9ba397322951feb80a6aad59215c0584ee2e7e`;
+the exact section witness has 13 DAG nodes and 16 edges.  The identity
+translation, wrong-orientation, full-column, and cancellation canaries all
+passed independently.
+
+The producer took 283.704880302 seconds, the same-job producer-plus-checker
+ledger ended at 582 seconds, and the shared deadline retained 17418 seconds.
+Peak producer RSS was 766435328 bytes.  The fixed prefix remained exactly
+32768 BFS plus 207 directed translations, 362725 columns, 362709 pivots, and
+16 dependent columns.  Correlation interned no pool element, materialized no
+full sparse translate, enumerated no full E4 universe, and left the prefix,
+pool, basis, DAG, and section state unchanged.
+
+The exact mathematical scope is deliberately narrow: for the pinned E4 roof,
+the support-one qstar functional does **not** annihilate full D2.  Thus the
+fixed-prefix separator cannot be promoted through this functional.  The
+ACTIVE section witness proves a genuine translated D2 column, not a lift and
+not target6 membership.  This result does not decide existence or
+nonexistence of a lift, alternate roofs, full H3, B4-A, or B4-B.  It is
+cross-checked, not Lean verified.
+
+## Dispatch and measured cost
 
 Use JSON workflow inputs for any GAP preamble containing quotes; do not use
 `gh workflow run -f`.  The preferred full preamble is boolean-only:
@@ -141,11 +191,12 @@ D972_B345_FULL_D2_DUAL_CORRELATION_V2_RUN:=true;;
 Read("search/d972_b345_full_d2_dual_correlation_gha_driver_v2.g");;
 ```
 
-The repair adds only constant-size scope checks/counters.  The completed
-runtime should therefore remain in the v1 lane's prior range rather than
-becoming faster: the failed v1 run reached the first exposed prefix callback
-after roughly 143 seconds, while the complete fresh-prefix construction and
-independent replay remain the dominant, potentially multi-hour work within
-the shared 18000-second bound.  No ACTIVE or SEPARATOR result is promised.
+The measured full run took about 9.7 minutes for producer plus independent
+checker and used about 731 MiB peak producer RSS.  The result supplies a
+canonical first translated D2 direction for a separately preregistered
+column-generation successor; it does not itself authorize changing this
+frozen predicate or calling the direction a lift.
 
 `B345_FULL_D2_DUAL_CORRELATION_V2_READY_FOR_GHA_SELFTEST`
+
+`B345_FULL_D2_DUAL_CORRELATION_V2_GHA_CROSSCHECKED_ACTIVE`
