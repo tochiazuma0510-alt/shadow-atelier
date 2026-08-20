@@ -1742,7 +1742,7 @@ def checker_self_test() -> None:
                    "producer_soft_rss_bytes","ge"),
                resource_envelope(0,None,"predecessor_target6",
                    "affine_rows")]
-    require(resources[-1]["census"]["provisional_first_active"]["ordinal"]==3,
+    require(resources[3]["census"]["provisional_first_active"]["ordinal"]==3,
             "checker resource provisional active")
     bad=copy.deepcopy(resources[2]); bad["partial"]["phase"]="wrong"
     expect_failure(lambda:envelope(bad),"resource phase")

@@ -8,7 +8,7 @@ D972RLCQ3DriverSHA :=
 D972RLCProducer := "search/d972_b345_triple_cube_raw_lambda_census_v1.py";;
 D972RLCProducerSHA := "1fbeb2656872fa3e6eaae96a4868b7ba830173401dba4e22605535dd6eea3262";;
 D972RLCChecker := "search/check_d972_b345_triple_cube_raw_lambda_census_v1.py";;
-D972RLCCheckerSHA := "a3e33e6eb042fb4627931f494dd550261816a79486145f704b6667ebf8bd9cb3";;
+D972RLCCheckerSHA := "c46d8b97c000c0d01412165726d50153f6d45efff2630e17fcca665400acac80";;
 D972RLCQ3Artifact := "ci/out/d972_b345_q3_chief_v1.json";;
 D972RLCQ3ArtifactSHA :=
   "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72";;
