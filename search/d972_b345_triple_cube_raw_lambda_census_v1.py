@@ -1649,7 +1649,11 @@ def census(q3_path: Path, *, budget: Budget | None = None) -> dict[str, Any]:
               flush=True)
         prefix, dependent_events = build_instrumented_prefix(
             old, e4, budget, raw_source_key)
-        require(tuple(prefix["base_source_key"]) == tuple(raw_source_key),
+        pool = prefix["pool"]
+        anchor_ids = tuple(prefix["base_source_key"])
+        require(tuple(prefix["raw_source_tuple"]) == tuple(raw_source_key) and
+                tuple(pool.value(identifier) for identifier in anchor_ids) ==
+                    tuple(raw_source_key),
                 "fresh prefix source anchors")
         receipt["directed_base_support"] = prefix["directed_base_support"]
         receipt["directed_surgery"] = prefix["directed_surgery"]
@@ -1662,7 +1666,6 @@ def census(q3_path: Path, *, budget: Budget | None = None) -> dict[str, Any]:
                 prefix["directed_surgery"]["blocker_history_sha256"] ==
                     PREFIX_BLOCKERS_SHA,
                 "fresh directed prefix semantic schedule")
-        pool = prefix["pool"]
         receipt["prefix"] = {
             "counts": PREFIX_COUNTS,
             "accounting": prefix["accounting"],
@@ -2514,6 +2517,12 @@ def affine_self_test() -> None:
             "authenticated predecessor import")
     require(sys.modules.get(pinned_name) is pinned_old,
             "authenticated predecessor module registration")
+    toy_raw_anchors = ((b"a", b""), (b"b", b""))
+    toy_values = [toy_raw_anchors[1], toy_raw_anchors[0]]
+    toy_anchor_ids = (1, 0)
+    require(tuple(toy_values[identifier] for identifier in toy_anchor_ids) ==
+                toy_raw_anchors and tuple(toy_anchor_ids) != toy_raw_anchors,
+            "prefix source anchor ID decoding")
 
     print("D972_B345_TRIPLE_CUBE_RAW_LAMBDA_PRODUCER_SELFTEST_PASS "
           "cube_empty_order=1 fox_nonabelian=1 action_orientation=1 "
@@ -2522,7 +2531,7 @@ def affine_self_test() -> None:
           "resource_phase_normalization=1 upstream_cap_registry=1 "
           "packed_classes=1 dependent_event=1 cache_neutrality=1 "
           "source_dag=1 formula_hard_fail=1 deadline_remainder=1 "
-          "pinned_import=1 monitor_reserve=1",
+          "pinned_import=1 monitor_reserve=1 anchor_decode=1",
           flush=True)
 
 
