@@ -234,6 +234,11 @@ If an active row exists, retain the lexicographically first contributing pair
 `(c,g,l;j,c,h,a)` and verify `t=g*h^-1`; also recompute the complete scalar so
 the single pair is never mistaken for the total.
 
+For a fixed public `(t,j)` row, "lexicographically first" means the exact tuple
+`(component, g_blob, h_blob, lambda_coefficient, base_coefficient)`, with blobs
+compared as raw 154-byte strings.  It must not depend on dictionary insertion,
+pool IDs, or the producer/checker loop organization.
+
 Construct an exact section expression for `g` by the sparse-oracle theorem:
 
 1. first try the base target-6 Fox prefix map (this covers qstar support);
@@ -246,6 +251,12 @@ Use a typed PRODUCT/INVERSE section DAG bound to canonical blobs, not a long
 flat word and never a transient pool ID.  Directly evaluate `w_g` and `w_t`
 in E4.  Recovery failure is a hard invariant failure, not `UNKNOWN_INPUT`.
 Checker reconstructs the sparse recovery search independently.
+
+The target-6 prefix map is rebuilt fresh from the literal base target-6 Fox
+replay after the prefix is complete; it is not imported from the transient
+map used by the earlier prefix probe.  Re-running
+`freeze_base_support_occurrences(model4,pool,sections)` must reuse and gate the
+already registered `base_prefix_roots`, not allocate a second semantic set.
 
 This witness identifies the next complete 11-relator translation block.  This
 lane does not add that block and does not claim a lift.
