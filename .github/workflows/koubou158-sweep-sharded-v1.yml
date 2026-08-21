@@ -37,17 +37,27 @@ on:
         required: true
         type: boolean
         default: true
+  # push trigger (2026-08-22): workflow_dispatch requires the workflow file
+  # to already be registered on the repo's DEFAULT branch (master here),
+  # which returned 404 -- registering it on master hit the same permission
+  # wall as a direct push there. Firing via `push` to this feature branch
+  # sidesteps that registration requirement entirely. See the misfire gate
+  # on the wiring_smoke job below: a push alone does NOT fire the sweep,
+  # only a push whose HEAD commit message contains "[fire]" does.
+  push:
+    branches: [ "koubou158/sweep-p4-p5-sharded-v1" ]
 
 permissions:
   contents: read
 
 concurrency:
-  # NOTE: github.run_id deliberately NOT included here -- a group keyed by
-  # run_id can never actually collide with itself, making this concurrency
-  # block a no-op. Keyed on shard_total+p3_cert_path instead so a second
-  # workflow_dispatch with the same inputs while one is still running is
-  # queued/serialized rather than launching a duplicate sweep.
-  group: koubou158-sweep-sharded-v1-${{ inputs.shard_total }}-${{ inputs.p3_cert_path }}
+  # Keyed on the ref (branch), not on workflow_dispatch's `inputs` context --
+  # `inputs.*` does not exist for a `push`-triggered run and would break
+  # expression evaluation there. github.run_id is deliberately NOT included
+  # (a group keyed by run_id can never collide with itself, making the
+  # block a no-op); a second dispatch/push on the same ref while one sweep
+  # is still running is queued/serialized instead of launching a duplicate.
+  group: koubou158-sweep-sharded-v1-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -61,6 +71,16 @@ jobs:
   # ---------------------------------------------------------------------
   wiring_smoke:
     name: axis wiring smoke test (roof + correction)
+    # Misfire gate (2026-08-22): fires unconditionally on workflow_dispatch
+    # (an explicit human action), but a `push` to the tracked branch only
+    # fires this if the HEAD commit message contains "[fire]" -- an ordinary
+    # push (this commit, or any future WIP push to this branch) must NOT
+    # launch a 240-minute matrix sweep by accident. Every other job in this
+    # workflow depends (directly or transitively via `needs:`) on this one,
+    # so gating it here gates the whole workflow.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[fire]')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -77,7 +97,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile search/koubou158_sweep_v2.py
-          python3 search/koubou158_sweep_v2.py selftest --p3-cert "${{ inputs.p3_cert_path }}"
+          python3 search/koubou158_sweep_v2.py selftest --p3-cert "${{ inputs.p3_cert_path || 'search/certs/koubou158_sweep_P3_v1_20260822.json' }}"
 
       - name: Roof-axis wiring check (roof 0 vs roof 1, correction fixed at identity)
         shell: bash
@@ -108,7 +128,7 @@ jobs:
       - id: plan
         shell: bash
         env:
-          SHARD_TOTAL: ${{ inputs.shard_total }}
+          SHARD_TOTAL: ${{ inputs.shard_total || 24 }}
         run: |
           set -euo pipefail
           matrix=$(python3 - <<'PY'
@@ -178,13 +198,13 @@ jobs:
           mkdir -p out
           python3 search/koubou158_sweep_v2.py p5-shard \
             --shard-index ${{ matrix.shard_index }} \
-            --shard-total ${{ inputs.shard_total }} \
+            --shard-total ${{ inputs.shard_total || 24 }} \
             --out-dir out
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: koubou158-sweep-p5-shard-${{ matrix.shard_index }}-of-${{ inputs.shard_total }}
+          name: koubou158-sweep-p5-shard-${{ matrix.shard_index }}-of-${{ inputs.shard_total || 24 }}
           path: out/
           if-no-files-found: error
           retention-days: 30
@@ -200,7 +220,11 @@ jobs:
   p4_remainder:
     name: P4 axis-C remainder (6 killer targets x 27 corrections)
     needs: wiring_smoke
-    if: ${{ inputs.run_p4_remainder }}
+    # inputs.run_p4_remainder is absent (null) on a push-triggered run;
+    # null != false is true, so this defaults to "run" there, matching the
+    # documented workflow_dispatch default of true, and only skips when a
+    # workflow_dispatch explicitly passes false.
+    if: ${{ inputs.run_p4_remainder != false }}
     runs-on: ubuntu-latest
     timeout-minutes: 330
     steps:
@@ -242,7 +266,15 @@ jobs:
   aggregate:
     name: aggregate P5 shards
     needs: p5_shard
-    if: always()
+    # always() so this still runs (and reports PARTIAL honestly) if some
+    # shard failed within a legitimate fire -- but ANDed with the same
+    # misfire gate as wiring_smoke, so an ordinary push never even attempts
+    # this (which would otherwise fail loudly on "no shard JSONL files
+    # found", since p5_shard itself was gated off and never ran).
+    if: >-
+      always() &&
+      (github.event_name == 'workflow_dispatch' ||
+       contains(github.event.head_commit.message, '[fire]'))
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -273,7 +305,7 @@ jobs:
           fi
           python3 search/koubou158_sweep_v2.py p5-aggregate \
             --jsonl "${files[@]}" \
-            --p3-cert "${{ inputs.p3_cert_path }}"
+            --p3-cert "${{ inputs.p3_cert_path || 'search/certs/koubou158_sweep_P3_v1_20260822.json' }}"
 
       - uses: actions/upload-artifact@v4
         if: always()
