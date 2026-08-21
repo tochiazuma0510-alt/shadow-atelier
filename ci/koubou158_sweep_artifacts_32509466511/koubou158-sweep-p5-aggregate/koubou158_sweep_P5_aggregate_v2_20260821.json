@@ -1,0 +1,28 @@
+{
+  "schema": "shadow-atelier/koubou158-sweep-P5-aggregate/v2",
+  "n_branches_collected": 162,
+  "n_branches_expected": 162,
+  "COMPLETE": true,
+  "canary_c0_matches_p3": {
+    "attempted": true,
+    "p3_cert_path": "search/certs/koubou158_sweep_P3_v1_20260822.json",
+    "p3_cert_sha256": "e7fbc7ba8d8a6594b146618c33f0081710016bc86e60d14b78cf3cda7a4523e1",
+    "p3_T6": {
+      "r108": 2012,
+      "r109": 2013,
+      "NM": true
+    },
+    "v2_T6": {
+      "r108": 2012,
+      "r109": 2013,
+      "NM": true
+    },
+    "match": true
+  },
+  "n_DEAD": 162,
+  "n_ALIVE_L1": 0,
+  "ALIVE_L1_branch_ids": [],
+  "theorem_boundary": "see per-shard summaries; aggregate claim boundary below",
+  "verdict": "aggregate over all 162/162 branches: 162 DEAD, 0 ALIVE-L1. claim boundary: DEAD is L1/registered-108-seed-family only (design doc sec 0 correction 3); ALIVE-L1 branches need L0/L2/L3 promotion (P6) before being treated as real candidates; even n_ALIVE_L1==0 across all 162 is NOT an OBS*-grade obstruction certificate (design doc's own limit statement, see theorem_boundary).",
+  "claim_boundary_same_line_as_verdict": "aggregate over all 162/162 branches: 162 DEAD, 0 ALIVE-L1. claim boundary: DEAD is L1/registered-108-seed-family only (design doc sec 0 correction 3); ALIVE-L1 branches need L0/L2/L3 promotion (P6) before being treated as real candidates; even n_ALIVE_L1==0 across all 162 is NOT an OBS*-grade obstruction certificate (design doc's own limit statement, see theorem_boundary)."
+}

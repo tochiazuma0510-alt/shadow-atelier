@@ -1,0 +1,269 @@
+{
+  "schema": "shadow-atelier/koubou158-sweep-P5-v2/v1",
+  "namespace": "koubou158_sweep_*",
+  "lane": "koubou160-bsweep-v1 / koubou158-sweep-sharded-v1 (GHA)",
+  "generated_by": "search/koubou158_sweep_archive_v1.py",
+  "generated_at_unix": 1787334889.477589,
+  "run": {
+    "run_id": "32509466511",
+    "run_url": "https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/32509466511",
+    "commit_fired": "fa1b2c6e",
+    "commit_verified_in_local_repo": true,
+    "workflow": ".github/workflows/koubou158-sweep-sharded-v1.yml",
+    "trigger": "push with HEAD commit message containing [fire] (misfire gate)"
+  },
+  "wiring_smoke": {
+    "job_id": 96856960912,
+    "roof_axis_check": {
+      "index_a": 0,
+      "index_b": 1,
+      "digest_a": "c91199e3d0467a0943e0ebeebe6eab17d41e717ebefdcc90bd66f862ae98a523",
+      "digest_b": "c7e69eeda360d2e7ad838d80b67a2740f5e942d9e548105ecf1cbff3733f8210",
+      "wired": true
+    },
+    "correction_axis_check": {
+      "index_a": 0,
+      "index_b": 1,
+      "digest_a": "c7e69eeda360d2e7ad838d80b67a2740f5e942d9e548105ecf1cbff3733f8210",
+      "digest_b": "8c9bfad8b973ef5bd4400db05db437fbdbe1d631c41c9fcb7b746a6f85a83286",
+      "wired": true
+    },
+    "note": "digest_a of the correction-axis check equals digest_b of the roof-axis check (both are T6's pi(nabla_b) digest at roof=pi0(index 1), correction=identity(index 0)) -- an internal consistency check, not a coincidence."
+  },
+  "known_issue_P4_remainder_skipped": "the optional 'P4 axis-C remainder' job was SKIPPED on this run, not run. Root cause: the job's `if: inputs.run_p4_remainder != false` was intended to default to 'run' on a push-triggered event (where `inputs` is absent/null), matching the documented workflow_dispatch default of true. GitHub Actions expression comparison coerces both `null` and `false` to 0 before comparing, so `null != false` evaluates to `0 != 0` = false, NOT true as informally expected -- the job condition evaluated false and the job was skipped. This is a known, non-blocking bug in the workflow's expression logic (P5 itself, the object of this run, was unaffected -- P4's remainder is a separate, optional axis-C-only re-confirmation). Fix for next fire: invert to `if: inputs.run_p4_remainder == true || github.event_name == 'push'` or equivalent, and re-verify with an actual push-triggered dry run before relying on it.",
+  "manifest": {
+    "path": "ci/koubou158_sweep_artifacts_32509466511/MANIFEST.md",
+    "n_files": 50
+  },
+  "aggregate_source": {
+    "path": "ci/koubou158_sweep_artifacts_32509466511/koubou158-sweep-p5-aggregate/koubou158_sweep_P5_aggregate_v2_20260821.json",
+    "sha256": "3cacd64c31d8558cdae29d14beca23b9412d93f42748340cb47358a21caabdc2"
+  },
+  "aggregate_verbatim": {
+    "schema": "shadow-atelier/koubou158-sweep-P5-aggregate/v2",
+    "n_branches_collected": 162,
+    "n_branches_expected": 162,
+    "COMPLETE": true,
+    "canary_c0_matches_p3": {
+      "attempted": true,
+      "p3_cert_path": "search/certs/koubou158_sweep_P3_v1_20260822.json",
+      "p3_cert_sha256": "e7fbc7ba8d8a6594b146618c33f0081710016bc86e60d14b78cf3cda7a4523e1",
+      "p3_T6": {
+        "r108": 2012,
+        "r109": 2013,
+        "NM": true
+      },
+      "v2_T6": {
+        "r108": 2012,
+        "r109": 2013,
+        "NM": true
+      },
+      "match": true
+    },
+    "n_DEAD": 162,
+    "n_ALIVE_L1": 0,
+    "ALIVE_L1_branch_ids": [],
+    "theorem_boundary": "see per-shard summaries; aggregate claim boundary below",
+    "verdict": "aggregate over all 162/162 branches: 162 DEAD, 0 ALIVE-L1. claim boundary: DEAD is L1/registered-108-seed-family only (design doc sec 0 correction 3); ALIVE-L1 branches need L0/L2/L3 promotion (P6) before being treated as real candidates; even n_ALIVE_L1==0 across all 162 is NOT an OBS*-grade obstruction certificate (design doc's own limit statement, see theorem_boundary).",
+    "claim_boundary_same_line_as_verdict": "aggregate over all 162/162 branches: 162 DEAD, 0 ALIVE-L1. claim boundary: DEAD is L1/registered-108-seed-family only (design doc sec 0 correction 3); ALIVE-L1 branches need L0/L2/L3 promotion (P6) before being treated as real candidates; even n_ALIVE_L1==0 across all 162 is NOT an OBS*-grade obstruction certificate (design doc's own limit statement, see theorem_boundary)."
+  },
+  "shard_artifact_shas": [
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-0-of-24",
+      "file": "koubou158_sweep_P5_v2_shard0of24.jsonl",
+      "sha256": "ab7dcb74709b8d6df74b8c64d7cef5814fd3df5cc4ffc47d68100d9efd5af6e4",
+      "bytes": 6483,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-1-of-24",
+      "file": "koubou158_sweep_P5_v2_shard1of24.jsonl",
+      "sha256": "cc73762af76cedd1708f8b14f9168144029da256a89e36673c3aa19631133716",
+      "bytes": 6494,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-10-of-24",
+      "file": "koubou158_sweep_P5_v2_shard10of24.jsonl",
+      "sha256": "27d69bc18fe515a4dcc3de646a35365f64185db71c28da7abe97ba217af58849",
+      "bytes": 6491,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-11-of-24",
+      "file": "koubou158_sweep_P5_v2_shard11of24.jsonl",
+      "sha256": "a0e2cde86c519b3633a69d5e35e721d64f8775b2467c48ad25da59edbd07b9ea",
+      "bytes": 6493,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-12-of-24",
+      "file": "koubou158_sweep_P5_v2_shard12of24.jsonl",
+      "sha256": "29a203452902694f2aae7ebcba19a50fd5bf8b31fafb132b4fc26ba834103103",
+      "bytes": 6479,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-13-of-24",
+      "file": "koubou158_sweep_P5_v2_shard13of24.jsonl",
+      "sha256": "13739844d001b148a973b6c8705f63fc3f21b3ced8465340b14b3ed531dde291",
+      "bytes": 6500,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-14-of-24",
+      "file": "koubou158_sweep_P5_v2_shard14of24.jsonl",
+      "sha256": "382c280bbb97194810380d80c6c024d3ced0ef9f73bd6b8288aa6cf3d44fd28d",
+      "bytes": 6499,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-15-of-24",
+      "file": "koubou158_sweep_P5_v2_shard15of24.jsonl",
+      "sha256": "f3110f560e7d8fcaed40204ab985aa3a25dd3e4eac76255b2b5098935685c2a9",
+      "bytes": 6489,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-16-of-24",
+      "file": "koubou158_sweep_P5_v2_shard16of24.jsonl",
+      "sha256": "d93fd2dedf6509df03845ffb86d842f1d42aab050576344513047cf89cafabec",
+      "bytes": 6483,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-17-of-24",
+      "file": "koubou158_sweep_P5_v2_shard17of24.jsonl",
+      "sha256": "091d983aa2936b09b622e3ddb69d4cbdd268553d57044a67a34bda036180c677",
+      "bytes": 6501,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-18-of-24",
+      "file": "koubou158_sweep_P5_v2_shard18of24.jsonl",
+      "sha256": "8975a6617f321ff03e88869561172ee5e2d4e75470673fb6bedf6caa135a513a",
+      "bytes": 5571,
+      "n_lines": 6
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-19-of-24",
+      "file": "koubou158_sweep_P5_v2_shard19of24.jsonl",
+      "sha256": "b079b82e103c757452989dabf08688ec95625ba44c80ec1a685ba53ecf6c35dc",
+      "bytes": 5565,
+      "n_lines": 6
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-2-of-24",
+      "file": "koubou158_sweep_P5_v2_shard2of24.jsonl",
+      "sha256": "8d13227191b144b3b35dac2710865e84a6eb880b6c4ae6f037fb797368a4396a",
+      "bytes": 6497,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-20-of-24",
+      "file": "koubou158_sweep_P5_v2_shard20of24.jsonl",
+      "sha256": "bd87aac7e60e898f0b1a9586f0d9f7a578788dfda0c85be55bf5bb510cbfe0d4",
+      "bytes": 5552,
+      "n_lines": 6
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-21-of-24",
+      "file": "koubou158_sweep_P5_v2_shard21of24.jsonl",
+      "sha256": "a3a6035ec5333f1b60374baf8927e240e208c09af3cbb201df56d15b308a182c",
+      "bytes": 5569,
+      "n_lines": 6
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-22-of-24",
+      "file": "koubou158_sweep_P5_v2_shard22of24.jsonl",
+      "sha256": "6b89f215102cca864e8190e0fb9b57e45cd804ba8d9e516733c266b41f56aad7",
+      "bytes": 5570,
+      "n_lines": 6
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-23-of-24",
+      "file": "koubou158_sweep_P5_v2_shard23of24.jsonl",
+      "sha256": "140cb21bf20bb81ef75da6f3ac3f7a8b90eecade0d193281bb7453e3b2024ab3",
+      "bytes": 5565,
+      "n_lines": 6
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-3-of-24",
+      "file": "koubou158_sweep_P5_v2_shard3of24.jsonl",
+      "sha256": "9f94fae48c6f1c0b4db1fbc77131ce1069006ecfb1fafff3547dbfcfe39e40da",
+      "bytes": 6496,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-4-of-24",
+      "file": "koubou158_sweep_P5_v2_shard4of24.jsonl",
+      "sha256": "5dd03ccfc0255e9ef280e547b52fb686a219ace7b92ef32bdb8f1069f1c05966",
+      "bytes": 6484,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-5-of-24",
+      "file": "koubou158_sweep_P5_v2_shard5of24.jsonl",
+      "sha256": "02661073ea519ce36fedd20907b47d57411fde8da59c4acb248fb98124d9b86e",
+      "bytes": 6492,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-6-of-24",
+      "file": "koubou158_sweep_P5_v2_shard6of24.jsonl",
+      "sha256": "34fe23a938f6df3489d61e7db3ec3e954523a00e198b0fd0038ec73d7fc4c387",
+      "bytes": 6501,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-7-of-24",
+      "file": "koubou158_sweep_P5_v2_shard7of24.jsonl",
+      "sha256": "d5ef0380e318eee8facb1b3701e61f7a478ea7bf38ebca43d476c93e0f0030f5",
+      "bytes": 6492,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-8-of-24",
+      "file": "koubou158_sweep_P5_v2_shard8of24.jsonl",
+      "sha256": "91955d13693967527e6a3335dec03d3189b47917653b74db1aee9994d0cae128",
+      "bytes": 6481,
+      "n_lines": 7
+    },
+    {
+      "shard_dir": "koubou158-sweep-p5-shard-9-of-24",
+      "file": "koubou158_sweep_P5_v2_shard9of24.jsonl",
+      "sha256": "d07f2b4d134b3c5a654bd50e693eff81681bcf89a8bf7438afe6217e10625536",
+      "bytes": 6498,
+      "n_lines": 7
+    }
+  ],
+  "n_shards": 24,
+  "separator_census": {
+    "n_dead_branches_checked": 162,
+    "n_separator_confirmed": 162,
+    "n_separator_confirmed_over_total": "162/162",
+    "missing_separator_branch_ids": [],
+    "all_confirmed": true,
+    "per_branch_sample": [
+      {
+        "branch_id": "r0_c0",
+        "killer_target": "T6_hexagon_1_coface_0",
+        "separator_confirmed": true,
+        "separator_sha256": "d68fca50da5bb46041ea3c94d7dda3e581a48bb86e3e43c50546d8e9f63d7fe8"
+      },
+      {
+        "branch_id": "r0_c1",
+        "killer_target": "T6_hexagon_1_coface_0",
+        "separator_confirmed": true,
+        "separator_sha256": "b6c36bced453c2203893fc5249e7cea8fc65bb68d4d45c277a05b887cddd09cc"
+      },
+      {
+        "branch_id": "r0_c2",
+        "killer_target": "T6_hexagon_1_coface_0",
+        "separator_confirmed": true,
+        "separator_sha256": "e454ec6a1a32990c2b4a61ec660315adc73353715ac4f5529e6f39d6a7d35735"
+      }
+    ]
+  },
+  "claim_boundary_same_line_as_verdict": "aggregate over all 162/162 branches: 162 DEAD, 0 ALIVE-L1. claim boundary: DEAD is L1/registered-108-seed-family only (design doc sec 0 correction 3); ALIVE-L1 branches need L0/L2/L3 promotion (P6) before being treated as real candidates; even n_ALIVE_L1==0 across all 162 is NOT an OBS*-grade obstruction certificate (design doc's own limit statement, see theorem_boundary)."
+}

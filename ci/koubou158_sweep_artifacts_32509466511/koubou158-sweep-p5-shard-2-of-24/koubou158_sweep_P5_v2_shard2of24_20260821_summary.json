@@ -1,0 +1,23 @@
+{
+  "schema": "shadow-atelier/koubou158-sweep-P5-shard-summary/v2",
+  "shard_index": 2,
+  "shard_total": 24,
+  "branch_ids_assigned": [
+    "r0_c14",
+    "r0_c15",
+    "r0_c16",
+    "r0_c17",
+    "r0_c18",
+    "r0_c19",
+    "r0_c20"
+  ],
+  "jsonl_path": "out/koubou158_sweep_P5_v2_shard2of24.jsonl",
+  "jsonl_sha256": "8d13227191b144b3b35dac2710865e84a6eb880b6c4ae6f037fb797368a4396a",
+  "roof_wiring_check_skipped": false,
+  "block_invariance": {
+    "size_Ebar": 504,
+    "G7_homomorphism_ok": true
+  },
+  "wall_seconds": 165.76962280273438,
+  "SHARD_DOES_NOT_CLAIM_OVERALL_ALIVE_DEAD": true
+}
