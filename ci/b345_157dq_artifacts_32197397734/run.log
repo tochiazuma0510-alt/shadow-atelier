@@ -1,0 +1,13 @@
+P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0
+GAPInfo.RootPaths=[ "/home/runner/.gap/", "/tmp/gaproot/", 
+  "/home/runner/gap/", "/usr/share/gap/", "/usr/lib/gap/", "/tmp/gaproot/" ]
+D972_B34_A5_SELECTED_LIFT_CHECKED_IO_SELFTEST_PASS
+B34_TOTAL_LINKING_C3_CHIEF_DESCENT_CROSSCHECKED output=ci/out/d972_b34_total_l\
+inking_c3_chief_v1.json residuals=131 inverse_attempts=1 runtime_ms=5590
+B34_TOTAL_LINKING_C3_CHECKER_PASS terminal=B34_TOTAL_LINKING_C3_CHIEF_DESCENT_\
+CROSSCHECKED residuals=131
+
+B34_TOTAL_LINKING_C3_GHA_DRIVER_PASS terminal=B34_TOTAL_LINKING_C3_CHIEF_DESCE\
+NT_CROSSCHECKED artifact_sha256=86dfc0cb513eacbc1d4df26a7ce6ae64d3f96b727351b4\
+13905eb5572376e326 upstream_log_sha256=51c841c513c5f05afd71c08d9e07f937b407b20\
+931fcbb5e6ee119bb0030a4fc dp_fresh_runtime_ms=524 fc8_fresh_runtime_ms=774

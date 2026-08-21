@@ -1,0 +1,13 @@
+P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0
+GAPInfo.RootPaths=[ "/home/runner/.gap/", "/tmp/gaproot/", 
+  "/home/runner/gap/", "/usr/share/gap/", "/usr/lib/gap/", "/tmp/gaproot/" ]
+B34_A5_LAYER_FIXED_OUTSIDE_ROOF_LIFT_CROSSCHECKED output=ci/out/d972_b34_a5_se\
+lected_lift_v1.json evaluated=124 charm=9 runtime_ms=392
+B34_A5_SELECTED_LIFT_CHECKER_PASS terminal=B34_A5_LAYER_FIXED_OUTSIDE_ROOF_LIF\
+T_CROSSCHECKED evaluated=124
+
+B34_A5_SELECTED_LIFT_GHA_DRIVER_PASS terminal=B34_A5_LAYER_FIXED_OUTSIDE_ROOF_\
+LIFT_CROSSCHECKED artifact_sha256=d3cb729d972a1b460cd8f0a76b49cd6abf4eafd7fe0c\
+112ad0ad742de5200157 q3_bootstrap_sha256=f592f8f9e1160a5d1ea7d48c20d0034d37eb1\
+cefd9f87ec256a45034a589f07a fc8_bootstrap_sha256=5671824661ec66bcb32d69bef783b\
+5a419c2a044f129a796f4c9ee6a0c4f668e fc8_fresh_runtime_ms=500

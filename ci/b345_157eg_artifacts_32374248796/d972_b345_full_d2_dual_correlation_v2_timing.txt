@@ -1,0 +1,4 @@
+producer_elapsed=284
+checker_initial_remaining=17716
+final_elapsed=582
+final_margin=17418

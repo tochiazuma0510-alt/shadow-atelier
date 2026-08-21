@@ -1,0 +1,113 @@
+{
+  "families": [
+    {
+      "CZ_in_I_all_rows": null,
+      "dim_I": null,
+      "distinct_colspace_count": 108,
+      "family_id": "orbit_bundle:+",
+      "fc18_verdict": "NO",
+      "field_order": 3,
+      "hash_verified_rows": 324,
+      "kind": "orbit_bundle",
+      "module_dimension": 21,
+      "product_identity_verified_rows": 324,
+      "rank_s": 14,
+      "rank_s2": 7,
+      "row_count": 324,
+      "s_degenerate": false,
+      "s_formula": "s = rho(tau) - 1 (char 3)"
+    },
+    {
+      "CZ_in_I_all_rows": null,
+      "dim_I": null,
+      "distinct_colspace_count": 108,
+      "family_id": "orbit_bundle:-",
+      "fc18_verdict": "NO",
+      "field_order": 3,
+      "hash_verified_rows": 324,
+      "kind": "orbit_bundle",
+      "module_dimension": 21,
+      "product_identity_verified_rows": 324,
+      "rank_s": 14,
+      "rank_s2": 7,
+      "row_count": 324,
+      "s_degenerate": false,
+      "s_formula": "s = rho(tau) - 1 (char 3)"
+    },
+    {
+      "CZ_in_I_all_rows": null,
+      "dim_I": null,
+      "distinct_colspace_count": 54,
+      "family_id": "trivial_character:+",
+      "fc18_verdict": "NO",
+      "field_order": 3,
+      "hash_verified_rows": 324,
+      "kind": "trivial_character",
+      "module_dimension": 7,
+      "product_identity_verified_rows": 324,
+      "rank_s": 4,
+      "rank_s2": 1,
+      "row_count": 324,
+      "s_degenerate": false,
+      "s_formula": "s = rho(tau) - 1 (char 3)"
+    },
+    {
+      "CZ_in_I_all_rows": null,
+      "dim_I": null,
+      "distinct_colspace_count": 54,
+      "family_id": "trivial_character:-",
+      "fc18_verdict": "NO",
+      "field_order": 3,
+      "hash_verified_rows": 324,
+      "kind": "trivial_character",
+      "module_dimension": 7,
+      "product_identity_verified_rows": 324,
+      "rank_s": 4,
+      "rank_s2": 1,
+      "row_count": 324,
+      "s_degenerate": false,
+      "s_formula": "s = rho(tau) - 1 (char 3)"
+    },
+    {
+      "CZ_in_I_all_rows": null,
+      "dim_I": null,
+      "distinct_colspace_count": 12,
+      "family_id": "support_two_orbit",
+      "fc18_verdict": "NO",
+      "field_order": 2,
+      "hash_verified_rows": 324,
+      "kind": "support_two_orbit",
+      "module_dimension": 12,
+      "product_identity_verified_rows": 324,
+      "rank_s": 5,
+      "rank_s2": 0,
+      "row_count": 324,
+      "s_degenerate": false,
+      "s_formula": "s = rho(theta) + 1 (char 2)"
+    }
+  ],
+  "generated_at_utc": "2026-08-18T15:54:34.592063+00:00",
+  "generated_by": {
+    "driver": "implementer replay of sol/sol_reply_140_finish.md section 3.1 recipe (search/escape28_mainrun_v1.model_data / search/escape2_producer_v1.build_model), run in two isolated processes (F=3 half, F=2 half) to avoid module-level F/BLOCK contamination",
+    "numpy": "2.5.1",
+    "python": "3.13.14"
+  },
+  "noncontact": {
+    "c": false,
+    "sealed_K5": false,
+    "sealed_three_quantities": false,
+    "u": false
+  },
+  "predicate_note": "Predicate fixed before execution per task spec: same column space (RREF-canonical, F_p) across all 324 rows -> YES/count=1, else NO/count=distinct forms observed. s formula fixed per field characteristic (char 2: rho(theta)+1; char 3: rho(tau)-1).",
+  "purpose": "FC-18: is the column space of A_t (gentle-side absorbing matrix) a fixed subspace across all 324 roof rows t, per family? Plus FC-17 step-0 rank(s)/rank(s^2) on V.",
+  "schema": "fc18_imAt_constancy/v1",
+  "source_sha256": {
+    "crosscheck/check_escape2_v1.py": "c7fcbfb4b3bafd3504420158827f4dd6c5d42a9c4433cc271e3d3bdc62529383",
+    "search/certs/cocycle_absorb_137_t_families_v1_20260815.json": "adf9ceb2e074792ebc6b381fb595783716e2697e85db31188f7f22163f364c34",
+    "search/check_escape28_mainrun_v1.py": "aa371e68fd24151f5225eb9ddd4a3a45d7e8172e1a301ae1aa8e2250c8615975",
+    "search/escape28_mainrun_v1.py": "2acdbdd17c30f28ea3709cf6f44ee47dd81e9868a8ae64b364926f3c4e1ea6b8",
+    "search/escape2_producer_v1.py": "3bf3c92fe66f2a121753a092135e2155e1878660bd411f88311abaff43b24996",
+    "search/vnbit_compact_mainrun_v3.py": "4ba20a286e9616c9363a9e8187fb4c35d04e11a6dbc4610c17d3879e5c47eb9a",
+    "sol/sol_reply_140_finish.md": "3463fe6ca0d876b2b512a270e907c32ea82afa6183848c92de63fee8a0ba0da2"
+  }
+}

@@ -1,0 +1,3 @@
+D972_B345_TRIPLE_CUBE_RAW_LAMBDA_RUN:=true;; D972_B345_TRIPLE_CUBE_RAW_LAMBDA_OUTPUT:="ci/out/d972_b345_triple_cube_raw_lambda_census_v1.json";;
+if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;; if LoadPackage("smallgrp") <> true then Error("smallgrp LoadPackage failed"); fi;; if LoadPackage("autpgrp") <> true then Error("autpgrp LoadPackage failed"); fi;; if LoadPackage("anupq") <> true then Error("anupq LoadPackage failed"); fi;; if LoadPackage("json") <> true then Error("json LoadPackage failed"); fi;; Print("P2_PACKAGE_LOAD_PASS GAPInfo.Version=",GAPInfo.Version,"\n");; Print("GAPInfo.RootPaths=",GAPInfo.RootPaths,"\n");;
+Read("search/d972_b345_triple_cube_raw_lambda_census_gha_driver_v1.g");

@@ -1,0 +1,134 @@
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:35
+  if IsBoundGlobal("FlushAllStreams") then FlushAllStreams(); fi;
+                                           ^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:411
+  k5:=D972Q3BuildK5();;
+      ^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1257
+  if IsBoundGlobal("FlushAllStreams") then FlushAllStreams(); fi;
+                                           ^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1318
+  D972_BD_MODE:="full";;
+  ^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1319
+  D972_BD_OUTPUT:=Concatenation(D972_B345_Q3_OUTPUT,".row18_core.json");;
+  ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1321
+  coarseQ4Marks:=List([1..6],i->D972Q3JointBlocks(D972BDTuplePRows[i],9,
+                                                  ^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1322
+    D972BDTupleG9Rows[i],27));;
+    ^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1323
+  CoarseQ4:=Group(coarseQ4Marks);; H9:=D972BDG9Image;;
+                                       ^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1324
+  q0x:=D972Q3JointBlocks([D972BDPX],9,[D972BDX9],27);;
+                          ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1324
+  q0x:=D972Q3JointBlocks([D972BDPX],9,[D972BDX9],27);;
+                                       ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1325
+  q0y:=D972Q3JointBlocks([D972BDPY],9,[D972BDY9],27);;
+                          ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1325
+  q0y:=D972Q3JointBlocks([D972BDPY],9,[D972BDY9],27);;
+                                       ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1327
+  if Size(Q0)<>Size(D972BDP)*Size(D972BDG9) then
+                    ^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1327
+  if Size(Q0)<>Size(D972BDP)*Size(D972BDG9) then
+                                  ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1330
+  if Size(CoarseQ4)<>Size(D972BDP)^4*Size(H9) then
+                          ^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1334
+       not (D972Q3BlockRestrict(g,9*i,9) in D972BDP))) then
+                                            ^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1337
+  if ForAny(D972BDTupleG9Gens,g->ForAny([0..3],i->
+            ^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1338
+       not (D972Q3BlockRestrict(g,27*i,27) in D972BDG9))) then
+                                              ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1348
+  if D972BDG9SeriesOrders<>[2916,729,1] then
+     ^^^^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1355
+  abG9:=rec(name:="G9",order_decimal:=String(Size(D972BDG9)),
+                                                  ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1361
+    derived_order_decimal:=String(Size(D972BDP)^4*
+                                       ^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1368
+    derived_order_decimal:=String(Size(D972BDP)*
+                                       ^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1369
+      QuoInt(Size(D972BDG9),abG9.abelianization_order)),
+                  ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1378
+      marked_permutations:=List(D972BDTupleG9Gens,g->D972Q3PermRow(g,108))),
+                                ^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1381
+    G9:=rec(degree:=27,order_decimal:=String(Size(D972BDG9)),
+                                                  ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1382
+      marked_permutations:=List([D972BDX9,D972BDY9],g->D972Q3PermRow(g,27))),
+                                 ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1382
+      marked_permutations:=List([D972BDX9,D972BDY9],g->D972Q3PermRow(g,27))),
+                                          ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1383
+    P:=rec(degree:=9,order_decimal:=String(Size(D972BDP)),perfect:=true,
+                                                ^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1384
+      marked_permutations:=List([D972BDPX,D972BDPY],g->D972Q3PermRow(g,9))));;
+                                 ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1384
+      marked_permutations:=List([D972BDPX,D972BDPY],g->D972Q3PermRow(g,9))));;
+                                          ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1428
+  if IsBoundGlobal("FlushAllStreams") then FlushAllStreams(); fi;
+                                           ^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1469
+  powers:=D972Q3CanonicalPowers(wordsObj,D972BDPX,D972BDPY,D972BDX9,
+                                         ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1469
+  powers:=D972Q3CanonicalPowers(wordsObj,D972BDPX,D972BDPY,D972BDX9,
+                                                  ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1469
+  powers:=D972Q3CanonicalPowers(wordsObj,D972BDPX,D972BDPY,D972BDX9,
+                                                           ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1470
+    D972BDY9,b2x,b2y,correction);;
+    ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1476
+    coarseQ4Marks,B2,b2x,b2y,Q4,m4,pc4.pcgs_internal,D972BDG9Series[2]);;
+                                                     ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b345_q3_chief_v1.g:1491
+  if IsBoundGlobal("FlushAllStreams") then FlushAllStreams(); fi;
+                                           ^^^^^^^^^^^^^^^
+D972_B345_Q3_PHASE pins runtime_ms=1401 delta_ms=3
+D972_B345_Q3_PHASE presentation runtime_ms=2973 delta_ms=1572
+D972_CORE_INTERSECTION_V2_FINAL status=CORE_INTERSECTION_V2_COMPUTED output=ci\
+/out/d972_b345_q3_chief_v1.json.row18_core.json E4=1082535236962615296 P4=
+64524128256 H9four=9037745167392 rank=24
+D972_CORE_INTERSECTION_V2_FINAL
+D972_B345_Q3_PHASE coarse_common_quotient_gate runtime_ms=3673 delta_ms=700
+D972_B345_Q3_HEAVY_BEGIN operation=PqEpimorphism_PB5 prime=3 class_bound=4 exp\
+onent=3 pc_cap=175
+D972_B345_Q3_PHASE PB5_q3_summary runtime_ms=3684 delta_ms=11
+D972_B345_Q3_PHASE PB4_PB3_light_collectors runtime_ms=3688 delta_ms=4
+D972_B345_Q3_DIRECT_SCAN_RESULT result=first_typed_witness evaluated=28 exponent=2 correction_index=1
+D972_B345_Q3_PHASE direct_word_scan runtime_ms=9526 delta_ms=5838
+D972_B345_Q3_PHASE artifact runtime_ms=9577 delta_ms=51
+B345_Q3_TYPED_SIGN_EXACT_WITH_WORD_CORRECTION output=ci/out/d972_b345_q3_chief\
+_v1.json formula_sha256=b43284edac5b4dae945bb3b30ac0f177dc47df8724cb32acd6057b\
+26d82a27ef PB5_order=3486784401 solutions=1 evaluated=28 runtime_ms=9577
+B345_Q3_CHECKER_PASS terminal=B345_Q3_TYPED_SIGN_EXACT_WITH_WORD_CORRECTION fo\
+rmula_sha256=b43284edac5b4dae945bb3b30ac0f177dc47df8724cb32acd6057b26d82a27ef \
+PB5_order=3486784401
+
+B345_Q3_GHA_DRIVER_PASS mode=full artifact_sha256=3d37c8c5f1fae47c66877090f9f7\
+3d1a8ff4a826214ed610175cf6e8ac41da72

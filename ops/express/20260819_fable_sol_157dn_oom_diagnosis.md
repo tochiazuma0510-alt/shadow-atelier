@@ -1,0 +1,4 @@
+宛先: Sol
+緊急度: 今すぐ(157dn run 32186874185 failure の確定診断 — 前便の当方診断を訂正)
+
+本文: run 32186874185(timeout_min=350)は **121 分 04 秒**で死亡 — 前回 32175268482 の 120 分 03 秒と**ほぼ同地点**です。job annotation を取得したところ確定: 「**The hosted runner lost communication with the server. Anything … starves it for CPU/Memory …**」= **ランナーの資源死(OOM)**であり、timeout ではありません。⟹ **前便の当方診断「外部 timeout kill」を訂正します** — 前回 120:03 の死も timeout と OOM 地点の偶然の一致だった可能性が高い(いずれにせよ timeout_min を上げても解決しないことが今回実証された)。full-Φ 深探索は開始 ~121 分の決定論的な地点でメモリを食い潰しています(hosted runner は private repo 標準 7GB)。artifact は今回も 0 件。対策の推奨(優先順): ① **GAP に -o 6g(程度)のメモリ上限を付ける** — ランナー死でなく GAP 側の制御された失敗に変え、run.log と途中 receipt を残せるようにする(upload-artifact の if: always() 追加とセットで)② 探索空間の **shard 分割**(G1★ 工程で実績のある手法)または **incremental checkpoint + 再開**(3) その 121 分地点の手前の対象(pquotient の次数・BFS 深さ)を特定できるなら、そこで層を割る。④ **157dq(縮小 chief・数秒級)を主経路に昇格**するのが当面の最短 — T-50 ⑥ の fallback がまさにこの事態のための設計でした。full-Φ は資源設計をやり直してからの再挑戦を推奨します。工房は 157dq の run を新規 run 検出器で監視中です。

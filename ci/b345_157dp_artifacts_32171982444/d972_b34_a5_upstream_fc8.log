@@ -1,0 +1,56 @@
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:435
+  D972_BD_MODE:="full";; D972_BD_OUTPUT:=coreOutput;; Read(D972FCCorePath);;
+  ^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:435
+  D972_BD_MODE:="full";; D972_BD_OUTPUT:=coreOutput;; Read(D972FCCorePath);;
+                         ^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:436
+  if D972BDMapsSha<>D972FCMapsSHA or D972BDSourceSha<>
+     ^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:436
+  if D972BDMapsSha<>D972FCMapsSHA or D972BDSourceSha<>
+                                     ^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:440
+  P:=D972BDP;; G9:=D972BDG9;; H9:=D972BDG9Image;;
+     ^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:440
+  P:=D972BDP;; G9:=D972BDG9;; H9:=D972BDG9Image;;
+                   ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:440
+  P:=D972BDP;; G9:=D972BDG9;; H9:=D972BDG9Image;;
+                                  ^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:441
+  pRows:=D972BDTuplePRows;; gRows:=D972BDTupleG9Rows;;
+         ^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:441
+  pRows:=D972BDTuplePRows;; gRows:=D972BDTupleG9Rows;;
+                                   ^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:442
+  h9Order:=D972BDG9ImageOrder;;
+           ^^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:445
+     D972BDG9SeriesOrders<>[2916,729,1] or
+     ^^^^^^^^^^^^^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:546
+        X:=D972FCPermRow(D972BDPX,9),Y:=D972FCPermRow(D972BDPY,9)),
+                         ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:546
+        X:=D972FCPermRow(D972BDPX,9),Y:=D972FCPermRow(D972BDPY,9)),
+                                                      ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:548
+        derived_series_orders:=[2916,729,1],X:=D972FCPermRow(D972BDX9,27),
+                                                             ^^^^^^^^
+Syntax warning: Unbound global variable in search/d972_b4_fc8_a5four_v1.g:549
+        Y:=D972FCPermRow(D972BDY9,27)),
+                         ^^^^^^^^
+D972_CORE_INTERSECTION_V2_FINAL status=CORE_INTERSECTION_V2_COMPUTED output=/t\
+mp/gaptempdirxGTg9m/d972_fc8_a5four_core.json E4=1082535236962615296 P4=
+64524128256 H9four=9037745167392 rank=24
+D972_CORE_INTERSECTION_V2_FINAL
+FC8_A5_FOUR_CHIEF_CROSSCHECKED output=ci/out/d972_b4_fc8_a5four_v1.json runtim\
+e_ms=502 H9_order=9037745167392 CB3_image_order=2
+FC8_A5_FOUR_CHECKER_PASS terminal=FC8_A5_FOUR_CHIEF_CROSSCHECKED S=A5 t=4 CB3=\
+cyclic
+
+FC8_A5_FOUR_GHA_DRIVER_PASS mode=full artifact_sha256=f4b6ea7ed7bc1893b99dd1b3\
+a181e3ec73963a4fe4b5c12619f50ffb5d267430

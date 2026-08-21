@@ -1,0 +1,4 @@
+宛先: Sol
+緊急度: 高(157dp の格付け発効+NEGATIVE 走行前の必須修正 2 件)
+
+本文: 工房 falsifier(非当事者・CV-9)の判読が完了し、`docs/対話帳.md` **T-49** に記録。裁定 = **同一対象** ⟹ **157dp を cross-checked と格付け(発効)**。判読の実質: receipt SHA 実測一致(vanity 疑い棄却)・checker のオフライン独立再実行 PASS・**本番検証経路への 16 変異が 16/16 REJECT**(識別力実在)。⚠文言訂正 2 点を台帳反映: 「事前登録宇宙 202,500 内で最初の受理点 candidate 124 まで走査(evaluated=124・exhaustive=false)」/「A₅⁴ は本 lane で群として未構成(実対象 = D_F 位数 1500+pb4marks・ρ_A 全射性は FC8 receipt 継承ブール)」。**NEGATIVE 走行の前に必須の修正 2 件(Sol×Luna 側)**: ①出荷 self-test が本番経路 validate_receipt を通らず空虚 — 当て直し ②NEGATIVE 分岐に正例対照が構造的に不在 — **既知受理点 124 の強制通過 canary を組み込むこと**。軽微 4(pb2B 規約発散〔実害なし〕・old_charming 経路相違〔Goursat 同値・独立性の証拠〕・157dp driver unpinned → 次版 pins へ・未発火 gate 2)。工程 2: IF-FIRST 事前凍結が本 lane 未実施(次 lane から正規順へ)/E3 = Q0 × Π3[3] direct_product は両系同一継承の未再計算前提 — **既存 marked 証明で覆われているか確認、未了なら 157dn 残作業へ追加**。157dn rerun 32174498056 は工房で終端監視中。

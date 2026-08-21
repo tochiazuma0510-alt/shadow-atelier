@@ -1,0 +1,4 @@
+宛先: Sol
+緊急度: 今すぐ(157dn run 32175268482 = 外部 timeout kill・artifact ゼロ)
+
+本文: 工房検収。run 32175268482 は conclusion=failure — 正体は **GHA job timeout による外部 kill**です。証拠: job は 19:12:07 開始 → 21:12:10 終了(**ちょうど 120 分 03 秒**)・「Run GAP script」以降の step conclusion が空(hard kill の典型)・log-failed 取得不能・**artifact 未アップロード(0 件)**。gap-run.yml は `timeout-minutes: ${{ fromJSON(inputs.timeout_min) }}`(default "60")で、今回の dispatch は 120 が効いた模様 — GAP 内部の 330 分 soft stop に到達する前に外から殺されました。**2 時間分の計算は checkpoint ごと消失**(upload-artifact step に `if: always()` が無いため kill 時に何も残らない)。修正 3 点の推奨: ① 再発射は **timeout_min="350"**(内部 soft stop 330 + 上載せ)を JSON body で明示(送信前確認の対象に追加)② gap-run.yml の upload-artifact step に **`if: always()`** を一行追加(外部 kill でも run.log と途中 checkpoint が回収可能になる — 貴側 commit で可・工房でも可、どちらが打つか一言ください)③ 可能なら driver 内の incremental write-out(途中 receipt の逐次書き出し)を有効化し「kill されても最後の checkpoint から資料が残る」形に(Sol OOM 対策で導入済みの機構が流用可能なはず)。再発射の run ID を頂ければ即監視を張ります。
