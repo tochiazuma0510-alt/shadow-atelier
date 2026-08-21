@@ -1,0 +1,209 @@
+{
+  "schema": "shadow-atelier/koubou158-sweep-P3/v1",
+  "namespace": "koubou158_sweep_*",
+  "lane": "koubou160-bsweep-v1",
+  "generated_by": "search/koubou158_sweep_v1.py (run_p3_battery)",
+  "generated_at_unix": 1787325128.7295587,
+  "design_authority": "docs/notes/branch_sweep_design_v1.md sec 3.2-3.3, 4 (P3)",
+  "branch": "pi0 (current FIXED_WORD roof, correction=identity/records[0].word=[])",
+  "wordexpr_source_pin": {
+    "path": "search/d972_b345_relfrat3_wordexpr_memo_v9.py",
+    "sha256": "7dede323c3c52bc7cf7d99af6d542b3683823879a4bb3e340aca8ce53dcf196f",
+    "note": "structure (which contexts/opcodes build each target) read from here; gradient arithmetic is this script's own independent evaluator, not the producer's WordExprDAG."
+  },
+  "n_targets": 22,
+  "per_target_results": [
+    {
+      "target": "T6_hexagon_1_coface_0",
+      "b_prime_entry_count": 72,
+      "r108": 2012,
+      "r109": 2013,
+      "NM": true,
+      "wall_seconds": 20.960144519805908
+    },
+    {
+      "target": "T7_hexagon_1_coface_1",
+      "b_prime_entry_count": 108,
+      "r108": 2012,
+      "r109": 2013,
+      "NM": true,
+      "wall_seconds": 29.894776344299316
+    },
+    {
+      "target": "T8_hexagon_1_coface_2",
+      "b_prime_entry_count": 144,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 39.22623348236084
+    },
+    {
+      "target": "T9_hexagon_1_coface_3",
+      "b_prime_entry_count": 108,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 26.45608878135681
+    },
+    {
+      "target": "T10_hexagon_1_coface_4",
+      "b_prime_entry_count": 72,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 19.06687331199646
+    },
+    {
+      "target": "T11_hexagon_2_coface_0",
+      "b_prime_entry_count": 72,
+      "r108": 2012,
+      "r109": 2013,
+      "NM": true,
+      "wall_seconds": 24.21239924430847
+    },
+    {
+      "target": "T12_hexagon_2_coface_1",
+      "b_prime_entry_count": 108,
+      "r108": 2012,
+      "r109": 2013,
+      "NM": true,
+      "wall_seconds": 36.99982714653015
+    },
+    {
+      "target": "T13_hexagon_2_coface_2",
+      "b_prime_entry_count": 144,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 47.93808603286743
+    },
+    {
+      "target": "T14_hexagon_2_coface_3",
+      "b_prime_entry_count": 108,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 33.41220235824585
+    },
+    {
+      "target": "T15_hexagon_2_coface_4",
+      "b_prime_entry_count": 72,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 23.708115816116333
+    },
+    {
+      "target": "T16_ordered_A18_pentagon",
+      "b_prime_entry_count": 140,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 46.711384534835815
+    },
+    {
+      "target": "T17_S_relation_1",
+      "b_prime_entry_count": 176,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 100.5013279914856
+    },
+    {
+      "target": "T18_S_relation_2",
+      "b_prime_entry_count": 118,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 65.85896062850952
+    },
+    {
+      "target": "T19_S_relation_3",
+      "b_prime_entry_count": 464,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 331.9331192970276
+    },
+    {
+      "target": "T20_S_relation_4",
+      "b_prime_entry_count": 382,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 238.80609965324402
+    },
+    {
+      "target": "T21_S_relation_5",
+      "b_prime_entry_count": 116,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 55.53060531616211
+    },
+    {
+      "target": "T22_S_relation_6",
+      "b_prime_entry_count": 544,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 286.7700390815735
+    },
+    {
+      "target": "T23_S_relation_7",
+      "b_prime_entry_count": 972,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 492.10891699790955
+    },
+    {
+      "target": "T24_S_relation_8",
+      "b_prime_entry_count": 366,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 181.04905009269714
+    },
+    {
+      "target": "T25_S_relation_9",
+      "b_prime_entry_count": 116,
+      "r108": 2012,
+      "r109": 2012,
+      "NM": false,
+      "wall_seconds": 123.47791910171509
+    },
+    {
+      "target": "T26_S_relation_10",
+      "b_prime_entry_count": 650,
+      "r108": 2012,
+      "r109": 2013,
+      "NM": true,
+      "wall_seconds": 384.89372205734253
+    },
+    {
+      "target": "T27_S_relation_11",
+      "b_prime_entry_count": 430,
+      "r108": 2012,
+      "r109": 2013,
+      "NM": true,
+      "wall_seconds": 237.39110350608826
+    }
+  ],
+  "n_targets_NM": 6,
+  "branch_pi0_status": "DEAD",
+  "BS_1_note": "Lemma BS-1 (design doc sec 0 correction 1): a single NM=1 acceptance target kills the branch within the registered 108-seed family. This uses acceptance rows ONLY (T6-T27); diagnostic rows (D1-D17, not built this pass) never kill a branch per design doc sec 1.2.",
+  "stacked": {
+    "n_targets": 22,
+    "seed_columns": 108,
+    "relator_translate_columns": 121968,
+    "r108": 44264,
+    "r109": 44270,
+    "STACKED_DEAD": true,
+    "wall_seconds": 1.7543487548828125,
+    "note": "shared 108-dim x (one column per seed, spanning all 22 target blocks at once) + 22 independent relator-translate blocks + 22 target constraint vectors added together. STACKED_DEAD means no single x is simultaneously consistent across all 22 targets, even if some/all individual targets were member_at_L1."
+  },
+  "verdict": "branch pi0 (T6..T27 individual): DEAD (6/22 targets NM=1). STACKED: DEAD. Overall: DEAD -- claim boundary (design doc sec 0 correction 3, verbatim): DEAD here means ONLY 'within the registered 108-seed family, at L1, for branch pi0'. Even if all 162 branches (not just pi0) turn out DEAD, that does NOT constitute an OBS*-grade obstruction certificate -- (ii) seed span extension and (iii) the full Syl_3(ML(H)) generating set remain outside this sweep's reach.",
+  "claim_boundary_same_line_as_verdict": "branch pi0 (T6..T27 individual): DEAD (6/22 targets NM=1). STACKED: DEAD. Overall: DEAD -- claim boundary (design doc sec 0 correction 3, verbatim): DEAD here means ONLY 'within the registered 108-seed family, at L1, for branch pi0'. Even if all 162 branches (not just pi0) turn out DEAD, that does NOT constitute an OBS*-grade obstruction certificate -- (ii) seed span extension and (iii) the full Syl_3(ML(H)) generating set remain outside this sweep's reach.",
+  "wall_seconds": 2848.7112579345703
+}

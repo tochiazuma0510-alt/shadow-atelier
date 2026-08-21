@@ -1,0 +1,4 @@
+producer_elapsed=18001
+final_margin=-1
+target6_v2_checker_processes=0
+soft_deadline_seconds=18000

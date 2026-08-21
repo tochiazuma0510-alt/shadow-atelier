@@ -1,0 +1,67 @@
+{
+  "schema": "shadow-atelier/koubou158-sweep-P0-P1/v1",
+  "namespace": "koubou158_sweep_*",
+  "lane": "koubou160-bsweep-v1",
+  "generated_by": "search/koubou158_sweep_v1.py",
+  "generated_at_unix": 1787325108.26601,
+  "design_authority": "docs/notes/branch_sweep_design_v1.md sec 2.1, 4 (P0-P1)",
+  "phase": "P0-P1 only (see module docstring for exact scope + NOT DONE list)",
+  "blockers": [
+    {
+      "id": "P2-blocker",
+      "detail": "BSW-1 (NM at L1, barE=PSL(2,8) order 504) needs projection pi:E4->P via GAP orbit-block identification (addendum v1.1 sec 3's own recommended procedure is a GAP session) -- not attempted this pass."
+    },
+    {
+      "id": "P3-blocker",
+      "detail": "T7-T27 composition formulas (hexagon_2/pentagon/source row structure) were not located in the receipts read this pass; only T6's formula (registered product_order='h1=C*B^-1*A') and T1-T5 (vacuous identity, per design doc sec 0 correction 2) were confirmed. 22-target battery NOT built."
+    },
+    {
+      "id": "c5-blocker",
+      "detail": "D1 canary operator definition not located in the addendum; not guessed at."
+    }
+  ],
+  "frozen_inputs": {
+    "q3_sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72",
+    "colgen_sha256": "54e795e0411af5cc5194ebad10235363e16623f06a4e11db475e638fcb783135"
+  },
+  "G9_fixed_word_pin": {
+    "seedspan_module_sha256": "fe18fc31fdf3f9416ebb829112ccbd514c27e6a8d30fe24691842865277a0b29",
+    "FIXED_WORD_sha256": "d1bee01cacd7dfa748ba65abb6cee4c789c62d36ea631e6a4f2b122e94f57dbe"
+  },
+  "canary_c2_nabla_b": {
+    "h1bar_is_identity": true,
+    "my_entry_count": 72,
+    "expected_entry_count_base_gradient": 72,
+    "expected_entry_count_raw_parent_manifest": 72,
+    "my_canonical_sha256": "0cb9f2a4c2a76c6042091b4a484d1d74e8170810cd30f3049410be41e713b7b8",
+    "raw_parent_manifest_gradient_sha256 (retargeted canary)": "0cb9f2a4c2a76c6042091b4a484d1d74e8170810cd30f3049410be41e713b7b8",
+    "base_gradient_canonical_gradient_sha256 (legacy target, non-blocking)": "0a2029c8b91b5cf09d52ad215ef69241cdb1d8a5a7afcfaa5fc796886561f9e8",
+    "pass_vs_raw_parent_manifest": true,
+    "pass_vs_base_gradient_legacy_non_blocking": false,
+    "pass": true,
+    "base_gradient_sha_note": "base_gradient.canonical_gradient_sha256 uses a different, undocumented internal convention (self-flagged 'digest_is_binding_only_not_element_equality'); a mismatch there is expected and non-blocking. The canonical canary is raw_parent_manifest."
+  },
+  "canary_c1_seed_gradients_via_generic_evaluator": {
+    "target": "raw_parent_manifest.rows[seed_index].gradient_sha256 (retargeted per commander correction; implementation A independently confirmed 109/109 under this same [component, element_hex, coefficient]-sorted convention)",
+    "n_seeds": 108,
+    "n_pass": 108,
+    "all_pass": true,
+    "failures": []
+  },
+  "canary_c3_BSW0_targets_1_5_vacuous": {
+    "grad_base_is_empty": true,
+    "grad_delta_empty_for_all_108_seeds": true,
+    "pass": true
+  },
+  "overall": {
+    "sha256_canary_all_pass (retargeted to raw_parent_manifest, three-way cross-check with implementation A)": true,
+    "BSW_0": {
+      "predicate": "T1-5 b' and all s'_j are exactly 0",
+      "predicted": "TRUE",
+      "observed": true
+    },
+    "note": "This cert makes NO branch-liveness (NM/DEAD/ALIVE) claim -- P2/P3 continue below in this same script (reusing the ladder lane's L1 projection, read-only)."
+  },
+  "claim_boundary_same_line_as_verdict_P0P1": "P0-P1: sha256_canary_all_pass=True (retargeted to raw_parent_manifest per commander correction -- third independent confirmation alongside implementation A), BSW-0 (T1-5 vacuous) TRUE. NOT a branch-liveness result by itself.",
+  "wall_seconds": 20.185091733932495
+}

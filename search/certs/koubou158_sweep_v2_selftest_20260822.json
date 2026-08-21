@@ -1,0 +1,51 @@
+{
+  "schema": "shadow-atelier/koubou158-sweep-v2-selftest/v1",
+  "all_checks": "PASS",
+  "block_invariance": {
+    "size_Ebar": 504,
+    "G7_homomorphism_ok": true
+  },
+  "r_k_bar_count": 11,
+  "r_k_bar_vecs_count": 5544,
+  "roof_wired": true,
+  "correction_wired": true,
+  "branch_result_T6": {
+    "target": "T6_hexagon_1_coface_0",
+    "r108": 2012,
+    "wall_seconds": 18.799628973007202,
+    "r109": 2013,
+    "r109_note": "r109 is a DERIVED value (r108+1 if NM else r108), not an independent rank measurement -- see the 'separator' block below (present when NM=True) for the direct, independent evidence (phi.v==0 for every raw column, phi.target!=0).",
+    "NM": true,
+    "separator": {
+      "entry_count": 2,
+      "canonical_sha256": "586ca2a0e132e9250542303261e4d5a95257bce7680f9632fe5931010d302ad7",
+      "phi_rows": [
+        [
+          4,
+          "020803040507000106",
+          2
+        ],
+        [
+          6,
+          "080607050204030001",
+          1
+        ]
+      ],
+      "verification": {
+        "n_raw_vectors_checked": 5652,
+        "n_raw_vectors_nonzero_dot (should be 0)": 0,
+        "bad_indices_sample": [],
+        "target_dot (should be nonzero)": 2,
+        "all_zero_on_raw": true,
+        "nonzero_on_target": true,
+        "CONFIRMED": true
+      }
+    }
+  },
+  "p3_T6_reference": {
+    "r108": 2012,
+    "r109": 2013,
+    "NM": true
+  },
+  "wall_seconds": 38.2035346031189
+}

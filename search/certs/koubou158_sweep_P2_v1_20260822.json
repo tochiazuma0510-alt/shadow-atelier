@@ -1,0 +1,38 @@
+{
+  "schema": "shadow-atelier/koubou158-sweep-P2-L1/v1",
+  "namespace": "koubou158_sweep_*",
+  "lane": "koubou160-bsweep-v1",
+  "generated_by": "search/koubou158_sweep_v1.py (run_p2_l1)",
+  "generated_at_unix": 1787325128.5233011,
+  "design_authority": "docs/notes/branch_sweep_design_v1.md sec 3.2 (NM predicate), sec 4 (P2: BSW-1)",
+  "projection_reuse_note": "pi:E4->P (perm[0:9]) reused read-only from implementation A's search/koubou158_ladder_L1_v1.py / search/koubou158_ladder_blocks_v1.g (GAP orbit verification NOT redone here, per commander authorization 2026-08-21: '\u72ec\u7acb\u6027\u306e\u8981\u4ef6\u306f\u7167\u5408\u5668\u5074\u3060\u3051\u306e\u8a71'). The RANK COMPUTATION below is an independent from-scratch implementation (F3RankTracker), not an import of seedspan.AffineSystem -- this IS the producer/checker double-implementation the design doc sec 4 asks for on the rank side.",
+  "projection": {
+    "size_Ebar": 504,
+    "expected_504": true,
+    "G7_homomorphism_spot_check": true
+  },
+  "s4_membership_test": {
+    "dimension_6_times_Ebar": 3024,
+    "seed_columns": 108,
+    "relator_translate_columns": 5544,
+    "r108": 2012,
+    "r109": 2013,
+    "non_member_at_L1": true
+  },
+  "cross_check_vs_implementation_A": {
+    "A_r108": 2012,
+    "A_r109": 2013,
+    "A_non_member": true,
+    "match": true,
+    "A_cert_path": "search/certs/koubou158_ladder_L1_v1_20260821.json"
+  },
+  "BSW_1": {
+    "predicate": "current branch pi0, T6, NM=1 (non-member) at L1 -- reproduced?",
+    "predicted": "TRUE (reproduction of already-run result)",
+    "observed": true,
+    "matches_prediction": true
+  },
+  "verdict": "BSW-1 CONFIRMED via an independent (from-scratch F3 rank tracker, not seedspan.AffineSystem) implementation: r108=2012, r109=2013, non_member_at_L1=True. cross-check vs implementation A: True. claim boundary (design doc sec 0 correction 3, verbatim): DEAD/NM here means ONLY 'within the registered 108-seed family, at rung L1' -- it does NOT prove non-membership at full E4 (that needs L2/L3), does NOT imply OBS*-grade obstruction even if every branch turns out DEAD (design doc's own limit statement), and by Theorem D' a non-member finding at L1 DOES lift to a valid non-member statement at E4 for this exact (roof, correction, target) triple -- but says nothing about other branches until the sweep (P4-P5) actually visits them.",
+  "claim_boundary_same_line_as_verdict": "BSW-1 CONFIRMED via an independent (from-scratch F3 rank tracker, not seedspan.AffineSystem) implementation: r108=2012, r109=2013, non_member_at_L1=True. cross-check vs implementation A: True. claim boundary (design doc sec 0 correction 3, verbatim): DEAD/NM here means ONLY 'within the registered 108-seed family, at rung L1' -- it does NOT prove non-membership at full E4 (that needs L2/L3), does NOT imply OBS*-grade obstruction even if every branch turns out DEAD (design doc's own limit statement), and by Theorem D' a non-member finding at L1 DOES lift to a valid non-member statement at E4 for this exact (roof, correction, target) triple -- but says nothing about other branches until the sweep (P4-P5) actually visits them.",
+  "wall_seconds": 0.1976149082183838
+}

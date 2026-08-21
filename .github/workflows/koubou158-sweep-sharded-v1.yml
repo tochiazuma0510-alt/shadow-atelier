@@ -1,0 +1,284 @@
+# koubou158-sweep-sharded-v1: P4(remainder)/P5 axis-C x axis-R branch sweep,
+# sharded across GHA matrix jobs. Namespace koubou158-sweep-sharded-v1 per
+# commander instruction (2026-08-22). Uses search/koubou158_sweep_v2.py
+# (hardened successor to v1.py; falsifier-mandated fixes: fail-closed
+# require() gates, resumable per-branch JSONL, real NM separator
+# construction+verification, real canary-vs-P3 comparison -- see that
+# file's module docstring for the itemized list).
+#
+# v1.py stays UNCHANGED and keeps running as a separate local cross-check
+# (not run from this workflow). This workflow ONLY ever runs v2.
+#
+# Pure Python (no GAP, no DMTCP) -- ubuntu-latest is enough; RAM is not the
+# constraint that local runs have (commander note: GHA runners don't need
+# the local 8GB carefulness).
+#
+# DISPATCH GATE: workflow_dispatch only. Per commander instruction
+# (2026-08-22), this workflow is NOT to be dispatched until the falsifier's
+# GHA pre-flight (parallel review, short) returns PASS on this draft.
+
+name: koubou158-sweep-sharded-v1
+
+on:
+  workflow_dispatch:
+    inputs:
+      shard_total:
+        description: "Number of P5 shards (matrix size). ~6 roofs x 4 correction-sub-shards = 24 is the commander's suggested granularity."
+        required: true
+        type: number
+        default: 24
+      p3_cert_path:
+        description: "Repo-relative path to the frozen P3 cert used for the aggregator's canary_c0_matches_p3 check"
+        required: true
+        type: string
+        default: "search/certs/koubou158_sweep_P3_v1_20260822.json"
+      run_p4_remainder:
+        description: "Also run the P4 axis-C-only remainder (27 corrections x 6 killer targets, roof fixed) as a single extra job"
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  # NOTE: github.run_id deliberately NOT included here -- a group keyed by
+  # run_id can never actually collide with itself, making this concurrency
+  # block a no-op. Keyed on shard_total+p3_cert_path instead so a second
+  # workflow_dispatch with the same inputs while one is still running is
+  # queued/serialized rather than launching a duplicate sweep.
+  group: koubou158-sweep-sharded-v1-${{ inputs.shard_total }}-${{ inputs.p3_cert_path }}
+  cancel-in-progress: false
+
+jobs:
+  # ---------------------------------------------------------------------
+  # Job 1 (commander instruction: "P5 の屋根方向配線検査を workflow の先頭
+  # job に"): a 1-minute smoke test. If pi:E4->P is not actually sensitive
+  # to the roof or the correction axis, every one of the 24 shard jobs
+  # below would be repeating the identical computation 24 times for nothing
+  # -- fail the whole workflow here instead, before spending any matrix
+  # minutes.
+  # ---------------------------------------------------------------------
+  wiring_smoke:
+    name: axis wiring smoke test (roof + correction)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Static self-test (compile + selftest c=0 branch vs frozen P3 cert)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile search/koubou158_sweep_v2.py
+          python3 search/koubou158_sweep_v2.py selftest --p3-cert "${{ inputs.p3_cert_path }}"
+
+      - name: Roof-axis wiring check (roof 0 vs roof 1, correction fixed at identity)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 search/koubou158_sweep_v2.py roof-wiring-check --a 0 --b 1
+
+      - name: Correction-axis wiring check (correction 0 vs correction 1, roof fixed at pi0)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 search/koubou158_sweep_v2.py correction-wiring-check --a 0 --b 1
+
+  # ---------------------------------------------------------------------
+  # Job 1b: compute the shard-index matrix as JSON (GitHub Actions
+  # expressions have no range()/sequence function, so this is a small
+  # script job, matching this repo's existing convention -- see e.g. the
+  # `plan` job in .github/workflows/torsweep-k13-t4t5.yml).
+  # ---------------------------------------------------------------------
+  plan:
+    name: plan P5 shard matrix
+    needs: wiring_smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - id: plan
+        shell: bash
+        env:
+          SHARD_TOTAL: ${{ inputs.shard_total }}
+        run: |
+          set -euo pipefail
+          matrix=$(python3 - <<'PY'
+          import json, os
+          n = int(os.environ["SHARD_TOTAL"])
+          assert n >= 1
+          print(json.dumps({"shard_index": list(range(n))}))
+          PY
+          )
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  # ---------------------------------------------------------------------
+  # Job 2: 24 (default) independent P5 shards. Each shard runs its own
+  # complete branches (never splits a branch across shards -- see
+  # koubou158_sweep_v2.py module docstring (a).4), appends one JSONL line
+  # per branch immediately (resumable if the job is re-run with the same
+  # shard_total), and re-verifies the wiring/block-invariance/relator-count
+  # gates itself (defense in depth on top of job 1's global smoke test --
+  # GHA compute is cheap per commander note, this is not RAM-constrained).
+  # ---------------------------------------------------------------------
+  p5_shard:
+    name: P5 shard ${{ matrix.shard_index }}
+    needs: [wiring_smoke, plan]
+    runs-on: ubuntu-latest
+    # 240, not 60: a shard with ~7 branches that all turn out ALIVE-L1 (worst
+    # case -- every branch tests the full 22-target battery including the
+    # slow S_relation targets) can take ~63 minutes on this repo's own
+    # measured per-target timings (see search/certs/koubou158_sweep_P3_v1_
+    # *.json wall_seconds and koubou158_sweep_P4_v1_*.json), which already
+    # exceeds a 60-minute cap; P4's own job below uses 330 for the same
+    # reason at a larger scale. Falsifier finding, 2026-08-22.
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # NO cross-attempt artifact resume in this workflow (falsifier finding
+      # 2026-08-22, option (ii) -- "1 run完走設計と割り切る", least-effort
+      # fix): actions/download-artifact@v4 without an explicit run-id only
+      # ever sees artifacts from the CURRENT workflow run, so a genuinely
+      # fresh workflow_dispatch (a new run_id) never had anything to resume
+      # from in the first place, and a `continue-on-error: true` guard around
+      # a "maybe nothing to download yet" step also silently swallows real
+      # download failures -- indistinguishable in the logs. This workflow
+      # instead relies on the generous timeout above (a shard should
+      # complete in one attempt) and on the JSONL append+fsync-flush design
+      # bounding any loss, if a shard genuinely needs to be re-run, to a
+      # cheap from-scratch redo of that one small (~7-branch) shard -- not a
+      # multi-hour loss. If true cross-run resume is ever needed, implement
+      # option (i) (explicit resume_run_id input + `run-id:`/`github-token:`
+      # on download-artifact, gated by `if: inputs.resume_run_id != ''`,
+      # matching .github/workflows/d972-dovetail-sharded-v3.yml's existing
+      # pattern in this repo) rather than re-adding a bare continue-on-error.
+
+      - name: Run P5 shard
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python3 search/koubou158_sweep_v2.py p5-shard \
+            --shard-index ${{ matrix.shard_index }} \
+            --shard-total ${{ inputs.shard_total }} \
+            --out-dir out
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: koubou158-sweep-p5-shard-${{ matrix.shard_index }}-of-${{ inputs.shard_total }}
+          path: out/
+          if-no-files-found: error
+          retention-days: 30
+
+  # ---------------------------------------------------------------------
+  # Job 3 (optional, commander instruction 1): the P4 axis-C-only remainder
+  # (27 corrections x the 6 killer targets, roof fixed at pi0) -- separate
+  # from P5's full 162-branch x 22-target sweep. Single job (162 combos at
+  # P4's cost profile, same 27-correction scale v1 is running locally right
+  # now, kept as a second independent GHA-side confirmation). Resumable
+  # JSONL for the same reason as P5.
+  # ---------------------------------------------------------------------
+  p4_remainder:
+    name: P4 axis-C remainder (6 killer targets x 27 corrections)
+    needs: wiring_smoke
+    if: ${{ inputs.run_p4_remainder }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # No cross-attempt artifact resume -- same reasoning and same
+      # falsifier finding as the p5_shard job above (see its comment block).
+
+      - name: Run P4 v2
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python3 search/koubou158_sweep_v2.py p4 \
+            --corr-start 0 --corr-end 27 \
+            --out-dir out
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: koubou158-sweep-p4-remainder
+          path: out/
+          if-no-files-found: error
+          retention-days: 30
+
+  # ---------------------------------------------------------------------
+  # Job 4: aggregate ALL P5 shard artifacts. This is the ONLY job allowed
+  # to print an overall ALIVE-L1/DEAD verdict (koubou158_sweep_v2.py's
+  # aggregate_p5_v2 refuses to do so unless all 162 branches were actually
+  # collected -- a partial download here just produces a PARTIAL report,
+  # never a false ALIVE/DEAD claim).
+  # ---------------------------------------------------------------------
+  aggregate:
+    name: aggregate P5 shards
+    needs: p5_shard
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Download all shard artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: koubou158-sweep-p5-shard-*
+          path: shards
+          merge-multiple: true
+
+      - name: Aggregate
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(shards/*.jsonl)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::no shard JSONL files found -- nothing to aggregate"
+            exit 1
+          fi
+          python3 search/koubou158_sweep_v2.py p5-aggregate \
+            --jsonl "${files[@]}" \
+            --p3-cert "${{ inputs.p3_cert_path }}"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: koubou158-sweep-p5-aggregate
+          path: search/certs/koubou158_sweep_P5_aggregate_v2_*.json
+          if-no-files-found: warn
+          retention-days: 90
