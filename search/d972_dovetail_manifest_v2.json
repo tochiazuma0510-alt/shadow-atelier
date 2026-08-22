@@ -55,7 +55,22 @@
     "calibration_paper_premise": "sol/sol_reply_143_typedfiber.md#5.4"
   },
   "dmtcp_contract": {
-      "contract_version": "d972-dmtcp-whole-process/v2",
+      "contract_version": "d972-dmtcp-whole-process/v2.1",
+      "legacy_seed_workflow_rebind": {
+        "version": "d972-legacy-seed-workflow-rebind/v1",
+        "scope": "fresh-genesis-seed-only",
+        "precondition": {
+          "path": ".github/workflows/d972-dovetail.yml",
+          "required": true,
+          "sha256": null
+        },
+        "replacement": {
+          "path": ".github/workflows/d972-dovetail-v2.yml",
+          "required": true
+        },
+        "existing_checkpoint_migration": false,
+        "fail_closed_on_precondition_drift": true
+      },
       "calibration_contract": {
         "version": "d972-direct-bq-calibration/v4",
         "route": "explicit-permutation-BQ",
@@ -257,7 +272,7 @@
     },
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-      "contract_sha256": "f4eb427c13561354992ff5dbed2b98d53e6dce318fa586f1afe12b616fe4b741"
+      "contract_sha256": "343ffe0b5c14d186b6e423c449048084c2b6a03e0e651c160a61810887f0c750"
   },
   "launch_spec": {
     "cwd": ".",

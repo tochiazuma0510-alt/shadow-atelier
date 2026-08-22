@@ -45,6 +45,22 @@ WORKFLOW_V2 = ROOT / ".github" / "workflows" / "d972-dovetail-v2.yml"
 SEMANTIC_M_CHECKER = ROOT / "search" / "check_d972_semantic_m_v1.py"
 SEMANTIC_M_MANIFEST = ROOT / "search" / "d972_semantic_m_manifest_v1.json"
 
+LEGACY_SEED_WORKFLOW_REBIND_SPEC = {
+    "version": "d972-legacy-seed-workflow-rebind/v1",
+    "scope": "fresh-genesis-seed-only",
+    "precondition": {
+        "path": ".github/workflows/d972-dovetail.yml",
+        "required": True,
+        "sha256": None,
+    },
+    "replacement": {
+        "path": ".github/workflows/d972-dovetail-v2.yml",
+        "required": True,
+    },
+    "existing_checkpoint_migration": False,
+    "fail_closed_on_precondition_drift": True,
+}
+
 
 def canonical_bytes(value: Any) -> bytes:
     return json.dumps(
@@ -132,6 +148,9 @@ def load_manifest() -> dict[str, Any]:
 
 
 def v2_code_receipt(manifest: dict[str, Any]) -> dict[str, Any]:
+    rebind_spec = manifest["dmtcp_contract"].get("legacy_seed_workflow_rebind")
+    if rebind_spec != LEGACY_SEED_WORKFLOW_REBIND_SPEC:
+        raise RuntimeError("DMTCP_CONTRACT_STOP legacy seed workflow rebind drift")
     paths = {
         "producer_v2": Path(__file__).resolve(),
         "checker_v2": CHECKER_V2,
@@ -167,6 +186,7 @@ def v2_code_receipt(manifest: dict[str, Any]) -> dict[str, Any]:
         "binding_set_sha256": sha_bytes(binding_material),
         "timeout_policy": "no subprocess wall timeout; external DMTCP supervisor only",
         "whole_process_tree_required": True,
+        "legacy_seed_workflow_rebind": copy.deepcopy(rebind_spec),
     }
 
 
@@ -327,6 +347,37 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
     original_initial_state = legacy.initial_state
     original_transition = legacy.transition
     original_validate_state = legacy.validate_state
+    original_bind_seed_integrity = legacy._bind_seed_integrity
+
+    def bind_fresh_seed_to_v2_workflow(state: dict[str, Any]) -> None:
+        """Replace the deleted v1 supervisor only on an unbound genesis seed."""
+        spec = manifest["dmtcp_contract"].get("legacy_seed_workflow_rebind")
+        if spec != LEGACY_SEED_WORKFLOW_REBIND_SPEC:
+            raise legacy.StateStop("STATE_STOP legacy seed workflow rebind contract drift")
+        try:
+            integrity = state["integrity"]
+            row = integrity["code"]["workflow"]
+        except (KeyError, TypeError) as exc:
+            raise legacy.StateStop(
+                "STATE_STOP legacy seed workflow binding row absent"
+            ) from exc
+        if (state.get("schema_version") != "d972-dovetail-state/v1" or
+                integrity.get("ready") is not False or
+                row != spec["precondition"]):
+            raise legacy.StateStop(
+                "STATE_STOP legacy seed workflow rebind precondition drift"
+            )
+        if not WORKFLOW_V2.is_file():
+            raise legacy.StateStop("STATE_STOP v2 supervisor workflow absent")
+        row["path"] = spec["replacement"]["path"]
+        original_bind_seed_integrity(state)
+        expected = {
+            "path": spec["replacement"]["path"],
+            "required": spec["replacement"]["required"],
+            "sha256": sha_file(WORKFLOW_V2),
+        }
+        if row != expected:
+            raise legacy.StateStop("STATE_STOP v2 supervisor workflow bind drift")
 
     def current_run_metadata() -> dict[str, Any]:
         path = ROOT / ".d972-runtime" / "current-run.json"
@@ -462,6 +513,7 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
     legacy.initial_state = initial_state
     legacy.transition = transition
     legacy.validate_state = validate_state
+    legacy._bind_seed_integrity = bind_fresh_seed_to_v2_workflow
     legacy.run_worker = run_worker_without_timeout
     legacy.next_fallback_table = next_fallback_table_without_deadline
     legacy._current_run_metadata = current_run_metadata
@@ -494,6 +546,36 @@ def self_test() -> int:
     receipt = v2_code_receipt(manifest)
     if receipt["whole_process_tree_required"] is not True:
         raise RuntimeError("self-test invariant failed")
+    legacy = load_legacy()
+    install_v2_adapter(legacy, manifest)
+    seed_fixture = json.loads(
+        (ROOT / manifest["mathematical_state"]["seed_manifest"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    legacy._bind_seed_integrity(seed_fixture)
+    workflow_row = seed_fixture["integrity"]["code"]["workflow"]
+    if workflow_row != {
+        "path": ".github/workflows/d972-dovetail-v2.yml",
+        "required": True,
+        "sha256": sha_file(WORKFLOW_V2),
+    }:
+        raise RuntimeError("self-test legacy seed workflow rebind failed")
+    negative_fixture = json.loads(
+        (ROOT / manifest["mathematical_state"]["seed_manifest"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    negative_fixture["integrity"]["code"]["workflow"]["required"] = False
+    try:
+        legacy._bind_seed_integrity(negative_fixture)
+    except legacy.StateStop as exc:
+        if "rebind precondition drift" not in str(exc):
+            raise RuntimeError(
+                f"self-test workflow rebind negative-canary drifted: {exc}"
+            ) from exc
+    else:
+        raise RuntimeError("self-test workflow rebind accepted a nonfrozen seed")
     payload_text = '{"schema":"d972_dovetail_worker/v1","mode":"candidate","status":"PASS","cursor":{"aut_pair_index":0,"defect_index":0,"lift_pair_index":0},"next_cursor":{"aut_pair_index":0,"defect_index":0,"lift_pair_index":1},"accepted_count":1,"candidates":[{"synthetic":true}]}'
     payload_sha = sha_bytes(payload_text.encode("utf-8"))
     cursor = {"aut_pair_index": 0, "defect_index": 0, "lift_pair_index": 0}
@@ -639,6 +721,7 @@ def self_test() -> int:
         "synthetic_accepted_payload_unwrap": True,
         "taskless_null_radices_unwrap": True,
         "campaign_loop_fixture": "PASS",
+        "legacy_seed_workflow_rebind": "PASS",
     }, sort_keys=True))
     return 0
 
