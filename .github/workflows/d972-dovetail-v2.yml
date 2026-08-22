@@ -559,24 +559,32 @@ jobs:
             test -e "$current_ckpt_dir/$D972_RESTART_SCRIPT"
             ((${#current_images[@]} > 0))
             python3 - "$RUNTIME_ROOT" <<'PY'
-          import os, pathlib, sys
+          import os, pathlib, re, sys
           root = pathlib.Path(sys.argv[1]).resolve(strict=True)
           tmp = pathlib.Path('/tmp').resolve(strict=True)
           removed = []
+          retained = []
           for path in sorted(root.rglob('*')):
               if not path.is_symlink():
                   continue
               target = path.resolve(strict=True)
-              relative = target.relative_to(tmp)
-              if (not any(part.startswith('dmtcp-') for part in relative.parts[:-1]) or
-                      not target.name.startswith('dmtcp') or target.suffix != '.log'):
-                  raise SystemExit(f'unsafe runtime symlink: {path} -> {os.readlink(path)}')
-              path.unlink()
-              removed.append(path.relative_to(root).as_posix())
+              if (target.is_relative_to(root) and path.name == 'dmtcp_restart_script.sh' and
+                      target.parent == path.parent and
+                      re.fullmatch(r'dmtcp_restart_script_[0-9A-Za-z._-]+[.]sh', target.name)):
+                  retained.append(path.relative_to(root).as_posix())
+                  continue
+              if target.is_relative_to(tmp):
+                  relative = target.relative_to(tmp)
+                  if (any(part.startswith('dmtcp-') for part in relative.parts[:-1]) and
+                          target.name.startswith('dmtcp') and target.suffix == '.log'):
+                      path.unlink()
+                      removed.append(path.relative_to(root).as_posix())
+                      continue
+              raise SystemExit(f'unsafe runtime symlink: {path} -> {os.readlink(path)}')
           remaining = [path for path in root.rglob('*') if path.is_symlink()]
-          if remaining:
-              raise SystemExit('runtime symlink removal incomplete')
-          print(f'D972_TRANSIENT_DMTCP_LOG_LINKS_REMOVED count={len(removed)}')
+          if len(remaining) != len(retained):
+              raise SystemExit('runtime symlink classification changed during removal')
+          print(f'D972_DMTCP_LINK_POLICY removed_logs={len(removed)} retained_restart={len(retained)}')
           PY
             python3 "$CHECKER_V2" seal-envelope \
               --checkpoint-dir "$current_ckpt_dir" --state "$RUNTIME_ROOT/state.json" \
@@ -610,7 +618,18 @@ jobs:
             ! grep -Eiq 'GITHUB_TOKEN|ACTIONS_RUNTIME_TOKEN|PASSWORD|CREDENTIAL|SECRET' \
               "$RUNTIME_ROOT/launch-environment.json"
           fi
-          test -z "$(find "$RUNTIME_ROOT" -type l -print -quit)"
+          python3 - "$RUNTIME_ROOT" <<'PY'
+          import pathlib, re, sys
+          root = pathlib.Path(sys.argv[1]).resolve(strict=True)
+          links = [path for path in root.rglob('*') if path.is_symlink()]
+          for path in links:
+              target = path.resolve(strict=True)
+              if not (target.is_relative_to(root) and path.name == 'dmtcp_restart_script.sh' and
+                      target.parent == path.parent and
+                      re.fullmatch(r'dmtcp_restart_script_[0-9A-Za-z._-]+[.]sh', target.name)):
+                  raise SystemExit(f'unsafe pre-upload symlink: {path}')
+          print(f'D972_PREUPLOAD_INTERNAL_RESTART_LINKS count={len(links)}')
+          PY
 
       - name: Upload the exact state or suspended process generation
         if: steps.campaign.outcome == 'success'
