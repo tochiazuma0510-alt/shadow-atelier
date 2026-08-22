@@ -1,0 +1,231 @@
+{
+  "cert_id": "koubou83_survival_k3_v1_1_20260822",
+  "supersedes": "koubou83_survival_k3_v1_20260822.json (v1 used an unfixed sign convention and an incomplete random search for the DIES-side candidates -- see bug_history below; v1's order3/positive-control SURVIVES-K3 rows were immune and are reconfirmed unchanged here)",
+  "campaign": "koubou83-survival, lane B-4 (p=3 depth K3=[N,N]N^3)",
+  "grade": "candidate / cross-checked-pending (NOT verified -- Lean not run)",
+  "construction": "F3 A-differential method, AUGMENTED with 4 exact F3-linear/affine rows for legal([t3]=0, gamma(w)=0 mod3) and charming(a(f)+a(w)=0, b(f)+b(w)=0 mod3), solved exactly via SolutionMat (no random search). The 3rd charming condition (9|(a(f')+b(f')) exactly, i.e. mod-9 divisibility of the TRUE integer sum, not just mod-3 residues) is checked directly on the resulting witness (not linearized into the augmented system) since it depends on true integer values, not residues.",
+  "bug_history": [
+    {
+      "bug": "verdict-labeling bug (fixed before this run)",
+      "detail": "earlier script version printed SURVIVES-K3 whenever the hexagon linear system was merely solvable, without gating on legal/charming/direct_verify."
+    },
+    {
+      "bug": "witness-multiplicity bug (fixed before this run)",
+      "detail": "GF(3) coefficient 2 (=-1 mod3) must repeat a basis word twice, not once; harmless under GF(2) (only 0/1 exist) but silently wrong under GF(3). Fixed via IntFFE(xi[i])."
+    },
+    {
+      "bug": "row/column swap in T-A/predicted verification code (found and fixed this session)",
+      "detail": "Amat1:=TransposedMat(cols1) stores generator j's data in COLUMN j; the verification code used ej*Amat1 (row-vector times matrix), which extracts ROW j, not column j -- the SAME class of bug this campaign found and fixed once before (L2 forensic, mod-2 era). Fixed by using cols1[j]/cols2[j] directly, or xiAug*cols1 (not xiAug*Amat1)."
+    },
+    {
+      "bug": "SIGN BUG in the augmented system's hexagon target (root cause of the '54/54 solvable but direct_verify=false' anomaly; found, diagnosed, and fixed this session)",
+      "detail": "The correct condition for R_i(m,f.w) to land in K3 is Phi3(R_i)=r_i+A_i.xi=0, so A_i.xi must equal -r_i, not +r_i. The code solved A_i.xi=+r_i (predicted1=r_i+A_i.xi then equalled r_i+r_i=2*r_i=-r_i mod3, i.e. never zero unless r_i=0). Invisible under GF(2) since -r=r there. The order3/positive-control SURVIVES-K3 rows were immune because their baseline r_i was already exactly 0 (witness_support=0 for the bare candidate). Fixed via target:=Concatenation(-r1coeffs,-r2coeffs) (charming rows already correctly used -a(f),-b(f)). Confirmed via (1) analytic derivation, (2) minimal-counterexample export showing predicted=actual=2*r_i exactly for the pre-fix run, (3) a gamma-canary (gamma(A1.n_j)=+gamma(n_j), gamma(A2.n_j)=-gamma(n_j) for ALL basis n_j) passing with 0 fails/196 (window1) and 0 fails/100 (window2) at every m' tested post-fix, (4) all 18 previously-DIES candidates cleanly reversing to SOLVABLE+legal+charming+direct_verify=true immediately (no m'-sweep needed beyond the base m)."
+    }
+  ],
+  "K3_ord_determination": {
+    "method": "direct probe: does x^12, x^24, x^36 (resp. y^12,y^24,y^36, c^kappa) reduce to zero in V3=H1(N;F3) (i.e. lie in K3)?",
+    "result": "K3_ord=36 CONFIRMED both windows: x^12,x^24 do NOT reduce to zero (Phi3_red != 0), x^36 DOES reduce to zero, both windows. y^12/y^24/y^36 pattern identical. c^kappa does NOT reduce to zero (kappa=Order(c): 2 for window154161, 4 for window154163).",
+    "note": "matches the mathematician's prior suspicion exactly; this made the mandatory m'-sweep {m,m+12,m+24} for every DIES candidate necessary before any DIES-AT-K3 verdict could be trusted."
+  },
+  "sanity_checks": {
+    "NC1_bare_family_control": {
+      "description": "PC-fam-n4 (y^4 x^-4, n=4=1 mod3) tested BARE (w=[], no correction)",
+      "prediction": "charming must be FALSE",
+      "result_window154161": "(a,b,gamma)_f=[-8,8,0], charming=false -- PASS",
+      "result_window154163": "(a,b,gamma)_f=[-8,8,0], charming=false -- PASS",
+      "note": "confirms the charming filter is sound; also confirms the 'rescue' semantics used throughout this cert are healthy: the bare witness (w=[]) correctly fails charming, and the augmented system finds a DIFFERENT, legitimate witness w!=1 that IS charming while still solving the hexagon identity -- not a fudge."
+    },
+    "PC1_true_commutator_control": {
+      "description": "an ACTUAL group commutator [basisWords3[1],basisWords3[2]] of two genuine N-elements, tested BARE (w=[]). Guaranteed by the homomorphism argument to have (a,b) EXACTLY (0,0) as integers (any homomorphism to an abelian group kills commutators), unlike an arbitrary basis word merely satisfying (a,b)=(0,0) mod3 (which can have nonzero exact values, e.g. (-6,-6) -- confirmed as a FIRST, flawed PC-1 attempt that correctly triggered cond3=false, validating cond3).",
+      "prediction": "charming must be TRUE",
+      "result_window154161": "(a,b,gamma)_f=[0,0,0], cond1=cond2=cond3=true, charming=true -- PASS",
+      "result_window154163": "(a,b,gamma)_f=[0,0,0], cond1=cond2=cond3=true, charming=true -- PASS"
+    }
+  },
+  "verdicts": {
+    "window_1152_154161": {
+      "dimV3": 98,
+      "dBasis3": 98,
+      "PC-unit": {
+        "verdict": "SURVIVES-K3",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "search": "first_witness"
+      },
+      "PC-fam-n4": {
+        "verdict": "SURVIVES-K3",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "search": "rescued",
+        "search_tried": 1
+      },
+      "C6-elt2 (order3, P-83-2 target)": {
+        "verdict": "SURVIVES-K3",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "search": "rescued",
+        "search_tried": 2
+      },
+      "C6-elt3 (order3, P-83-2 target)": {
+        "verdict": "SURVIVES-K3",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "search": "rescued",
+        "search_tried": 13
+      },
+      "C6-elt4 (order6, P-83-1 target)": {
+        "verdict": "SURVIVES-K3 (post sign-fix)",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "m_used": 24,
+        "witness_support": 43
+      },
+      "C6-elt5 (order2)": {
+        "verdict": "SURVIVES-K3 (post sign-fix)",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "m_used": 24,
+        "witness_support": 35
+      },
+      "C6-elt6 (order6, P-83-1 target)": {
+        "verdict": "SURVIVES-K3 (post sign-fix)",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "m_used": 24,
+        "witness_support": 54
+      },
+      "m6-elt1..6": {
+        "verdict": "SURVIVES-K3 (post sign-fix), all 6",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "m_used": 30,
+        "witness_support_by_elt": [
+          47,
+          54,
+          33,
+          11,
+          32,
+          22
+        ]
+      }
+    },
+    "window_1152_154163": {
+      "dimV3": 50,
+      "dBasis3": 50,
+      "PC-unit": {
+        "verdict": "SURVIVES-K3",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "search": "first_witness"
+      },
+      "PC-fam-n4": {
+        "verdict": "SURVIVES-K3",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "search": "rescued",
+        "search_tried": 1
+      },
+      "C6-elt2 (order3, P-83-2 target)": {
+        "verdict": "SURVIVES-K3",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "search": "rescued",
+        "search_tried": 7
+      },
+      "C6-elt3 (order3, P-83-2 target)": {
+        "verdict": "SURVIVES-K3",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "search": "rescued",
+        "search_tried": 13
+      },
+      "C6-elt4 (order6, P-83-1 target)": {
+        "verdict": "SURVIVES-K3 (post sign-fix)",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "m_used": 24,
+        "witness_support": 20
+      },
+      "C6-elt5 (order2)": {
+        "verdict": "SURVIVES-K3 (post sign-fix)",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "m_used": 24,
+        "witness_support": 22
+      },
+      "C6-elt6 (order6, P-83-1 target)": {
+        "verdict": "SURVIVES-K3 (post sign-fix)",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "m_used": 24,
+        "witness_support": 28
+      },
+      "m6-elt1..6": {
+        "verdict": "SURVIVES-K3 (post sign-fix), all 6",
+        "legal": true,
+        "charming": true,
+        "direct_verify": true,
+        "m_used": 30,
+        "witness_support_by_elt": [
+          15,
+          27,
+          20,
+          25,
+          28,
+          20
+        ]
+      }
+    }
+  },
+  "p83_predictions_final": {
+    "P-83-1": {
+      "prediction": "order6 elements (C6-elt4,elt6) DIES-AT-K both windows",
+      "actual": "SURVIVES-K3 (and also SURVIVES-K at the earlier mod-2 depth) both windows",
+      "verdict": "FALSIFIED"
+    },
+    "P-83-2": {
+      "prediction": "order3 elements (C6-elt2,elt3) DIES-AT-K3 both windows",
+      "actual": "SURVIVES-K3 both windows",
+      "verdict": "FALSIFIED"
+    },
+    "summary": "ALL 24 nontrivial candidates (5 nontrivial C6-kernel elements + 6 m=6-layer elements, x2 windows) plus 2 positive controls -- 26 rows total -- SURVIVE K3 with ZERO exceptions, in both isolated windows. No candidate registered in this campaign has been found to die at either the mod-2 (K) or mod-3 (K3) depth."
+  },
+  "open_items_pending_mathematician_guidance": {
+    "W1_abelianization_of_witness_product": {
+      "description": "(a,b,gamma) of f'=f.w (the ACTUAL PRODUCT, computed directly, not f and w separately) for the C6-elt2 (order3) SURVIVES-K3 witness, window154161",
+      "prediction_P83_3": "(0,0)",
+      "raw_result": "(a,b,gamma)_f' = [-72, -18, -30]",
+      "commander_ruling_2026_08_22": "(-72,-18) satisfies 3|(-72) AND 3|(-18) AND 9|(-72+-18)=9|(-90) EXACTLY -- i.e. (-72,-18) is precisely an element of 3*Lambda_N, the ambiguity lattice at depth K3. Whether this counts as confirming P-83-3's '(0,0)' prediction is a CONVENTION QUESTION: read literally in Z^2 it is not (0,0); read in Z^2/(3*Lambda_N) it IS the zero class, so the prediction is satisfied under that reading. Whether an EXACT-(0,0) representative also exists in the solution space is itself a solvable linear question (an augmented-system variant imposing a(xi)=-a(f), b(xi)=-b(f) at the Z level, not just mod3) -- not yet run. NOT declared a falsification; held pending the mathematician's ruling on which reading is intended and whether the Z-level exact variant should be solved.",
+      "status": "HELD PENDING mathematician ruling (dispatched) -- not resolved as confirm or falsify.",
+      "FINAL_RULING_2026_08_22": "Supersession chain (recorded per instruction, closing the loop): confirmed(via equivalence thm) -> withdrawn as ill-posed(representative-dependence concern) -> re-confirmed(via the same equivalence thm, representative-dependence resolved) -> FINAL: VOID. The mathematician's final ruling: this question is a rephrasing of the charming filter itself and carries NO independent information (self-identified design mistake by the mathematician, not an implementer error). Not counted as confirm or falsify of P-83-3."
+    },
+    "W2_free_group_symbolic_test": {
+      "description": "f'*theta(f')=1 and tau^2(f')*tau(f')*f'=1 tested in the free group (theta:x<->y, tau:x->y,y->y^-1x^-1)",
+      "status": "HELD, not implemented -- theta/tau are only defined on xy-words in the current code; the witness is a general N-element sigma-word, not guaranteed to be in the 'doubled x/y-power' encoding UndoubleSigmaToXY requires, so concatenating Fsigma.witnessWord and undoubling crashes. Commander ruling 2026-08-22: awaiting the mathematician's specification of theta/tau extended to sigma-words directly (candidate: B3-level Ad(Delta)/Ad(delta)-type action, word problem solved via the faithful Artin representation -- evaluate as F2 automorphisms and compare free-reduced images) -- do NOT implement until that specification arrives.",
+      "FINAL_RULING_2026_08_22": "W-2 stands UNCHANGED from the koubou83_leg1_h2_w2_v1 run: judged using the gamma=0, exact (a,b)=(0,0) normal representative f'' (see koubou83_k3_witness_export_v1_20260822.json for the raw f,w,k,f'' sigma-words). Result: f''*theta(f'')=1(free) = FALSE and tau^2(f'')*tau(f'')*f''=1(free) = FALSE, for ALL 12 nontrivial candidates tested, both windows (uniform, no exceptions)."
+    }
+  },
+  "claim_boundary": {
+    "grade": "candidate / cross-checked-pending",
+    "single_depth_caveat": "This cert covers ONE depth step (K3=[N,N]N^3) beyond the earlier mod-2 K depth, for the SAME two isolated windows. Survival at both p=2 and p=3 depths does NOT mean 'genuine' in any stronger sense -- it is evidence at this specific depth pair only, not a claim about all primes or about eventual survival at arbitrary depth.",
+    "single_system_caveat": "This cert is the output of ONE explorer system (this implementer's GAP pipeline). It has NOT been independently cross-checked by a second implementation -- per this project's explorer/checker separation discipline, an independent cross-check is the PRECONDITION for upgrading this cert's grade from 'candidate' to 'cross-checked' (never 'verified' -- that term is reserved for Lean).",
+    "m_fixed_caveat": "K3_ord=36 was measured for x,y themselves (i.e. Order(x)=Order(y) in the finite quotient PN), and the mandatory m'-sweep {m,m+12,m+24} was performed for every DIES-turned-SURVIVES candidate above (all resolved at the FIRST m' tried, no candidate needed m+12 or m+24). If any FUTURE candidate is declared a genuine DIES-AT-K3 (FRED-1: Fredholm+T-A both systems), the mathematician should rule whether a wider m'-sweep beyond {m,m+12,m+24} is required, given K3_ord's confirmed non-trivial 36-periodicity.",
+    "not_verified": "Lean has not checked any of this; 'cross-checked' is reserved for an independent second implementation, which has not yet been run for the K3 lane specifically."
+  },
+  "proposition_CH_0": "Extracted permanent result (mathematician, 2026-08-22): this candidate class (all 24 nontrivial K3-survivors + 2 positive controls, both windows) contains a CHARMING representative at EVERY depth tested (confirmed via the f''=(0,0,0)-exact normal representative construction, koubou83_k3_witness_export_v1_20260822.json) -- therefore the CHARMING FILTER can never, by itself, kill this candidate group at any depth. Any future DIES verdict for this group must come from the hexagon system (A1/A2 augmented solvability) alone, not from charming failing."
+}

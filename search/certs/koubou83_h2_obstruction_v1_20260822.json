@@ -1,0 +1,183 @@
+{
+  "cert_id": "koubou83_h2_obstruction_v1_20260822",
+  "campaign": "koubou83-survival, H2-SPEC verbatim (mathematician 2026-08-22): explicit obstruction",
+  "grade": "candidate / cross-checked-pending (NOT verified -- Lean not run)",
+  "theory": "B3 = <Delta,delta | Delta^2 delta^-3> is a K(pi,1), so this 2-generator-1-relator presentation's Fox-calculus computation IS the genuine H^2(B3,V_p). T(sigma1):=sigma1^u, T(sigma2):=f^-1 sigma2^u f (word-level lift, no choice involved). Delta~:=T(sigma1)T(sigma2)T(sigma1), delta~:=T(sigma1)T(sigma2). z:=Phi(Delta~^2 delta~^-3) in V; obstruction class = z mod B_sub, B_sub:=im(I+P)+im(I+Q+Q^2), P:=rho(Delta~), Q:=rho(delta~) (conjugation action, built via DIRECT per-basis-word conjugation, NOT matrix composition, for the primary B_sub computation; matrix composition used ONLY for the C-H2-3 canary check).",
+  "dim_H2_two_independent_measurements": {
+    "method_A_universal_Delta_delta": {
+      "description": "dim H2 = dBasis_p - rank(im(1+rho_Delta)+im(1+rho_delta+rho_delta^2)) using the FIXED, candidate-independent Delta=sigma1 sigma2 sigma1, delta=sigma1 sigma2",
+      "window_1152_154161": {
+        "p3": 23,
+        "p2": 23
+      },
+      "window_1152_154163": {
+        "p3": 11,
+        "p2": 11
+      },
+      "note": "p=2 and p=3 give IDENTICAL dimensions -- matches the earlier expected 23/11 from prior work"
+    },
+    "method_B_identity_shadow_calibration": {
+      "description": "the H2-SPEC construction (P,Q via T(sigma_i)) specialized to f=[] (identity), u=1, where T(sigma_i)=sigma_i exactly by construction -- this reduces P,Q EXACTLY to method A's Delta,delta, so C-H2-2/C-H2-1/C-H2-3 passing on the identity shadow (all TRUE, both windows) confirms the two constructions coincide by design rather than by a separate numeric re-derivation."
+    }
+  },
+  "canaries": {
+    "C-H2-1": "Delta~^2 delta~^-3 (as a raw sigma-word) evaluates to Identity in Bq=B3/N for EVERY candidate tested (both windows) -- PASS (26/26 rows including identity-shadow calibration)",
+    "C-H2-2": "identity shadow (f=[],u=1): obstruction class = 0 exactly -- PASS both windows",
+    "C-H2-3": "P^2 = Q^3 as matrices (independently built via per-basis-word conjugation, matrix-multiplied only for this check) -- PASS for ALL 26 rows, both windows",
+    "C-H2-4": "augmented system solvable (established for all 24 nontrivial candidates + 2 controls in koubou83_survival_k3_v1_1) implies obstruction class must be 0 -- NO CONTRADICTION found: every candidate with a solvable augmented system also shows obstruction class=0",
+    "C-H2-5": "dim H2 via the two independent measurement paths -- satisfied by construction (see dim_H2_two_independent_measurements.method_B note above), not a separate numeric check"
+  },
+  "results": {
+    "window_1152_154161": {
+      "dimV3": 98,
+      "dBasis3": 98,
+      "rows": {
+        "IDENTITY-SHADOW (calibration)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "PC-fam-n4": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt2 (order3)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt3 (order3)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt4 (order6)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt5 (order2)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt6 (order6)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt1": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt2": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt3": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt4": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt5": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt6": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        }
+      }
+    },
+    "window_1152_154163": {
+      "dimV3": 50,
+      "dBasis3": 50,
+      "rows": {
+        "IDENTITY-SHADOW (calibration)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "PC-fam-n4": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt2 (order3)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt3 (order3)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt4 (order6)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt5 (order2)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "C6-elt6 (order6)": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt1": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt2": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt3": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt4": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt5": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        },
+        "m6-elt6": {
+          "c_h2_1": true,
+          "obstruction_class_zero": true,
+          "c_h2_3": true
+        }
+      }
+    }
+  },
+  "conclusion": "For ALL 26 rows tested (24 nontrivial candidates + 2 positive controls, both isolated windows [1152,154161] and [1152,154163]), the explicit obstruction class Delta~^2 delta~^-3 mod B_sub in H^2(B3,V_3) IS ZERO -- confirmed by DIRECT computation, not merely inferred from augmented-system solvability. This is direct evidence for C-83 (settled shadows lift one step at every prime tested with zero exceptions).",
+  "claim_boundary": {
+    "grade": "candidate / cross-checked-pending",
+    "single_system_caveat": "output of ONE explorer system (this implementer's GAP pipeline), not independently cross-checked by a second implementation.",
+    "prime_scope": "p=3 only in this run (the H2-SPEC machinery is prime-generic; p=2 dim-H2 cross-check was run as a sanity measurement, but the FULL obstruction-class canary suite was only run at p=3 in this pass).",
+    "not_verified": "Lean has not checked any of this."
+  },
+  "mathematician_final_H2_SPEC_note_2026_08_22": "The mathematician independently re-derived and verified this construction via THREE paths (Delta-delta representation J1=I+rho(T(Delta)), J2=I+rho(T(delta))+rho(T(delta))^2 -- what this cert computed -- AND an independent sigma-representation J1'=I+g1g2-g2, J2'=g1-I-g2g1 where g1:=rho(sigma1-bar)^u, g2:=F^-1 rho(sigma2-bar)^u F -- NOT reimplemented in this GAP pass, credited as the mathematician's own independent cross-check). All three paths agree: rank(im J1 + im J2) = 75 (window154161) / 39 (window154163), dim H^2 = 23 (window154161) / 11 (window154163). Omega (this cert's z) evaluated as a raw sigma-word using T(sigma1)=sigma1^u, T(sigma2)=f^-1 sigma2^u f is group-theoretically IDENTICAL to (T(sigma1)T(sigma2)T(sigma1))^2 * ((T(sigma1)T(sigma2))^3)^-1 by the standard identity (ghk)^-1=k^-1h^-1g^-1 applied to delta~^3 -- no change to the computation was needed. C-Omega-4 (Gamma-invariant functional lambda(J1.v)=2*lambda(v), lambda(J2.v)=3*lambda(v)) was NOT separately re-run in this GAP pass; flagged as an open item if an independent confirmation of this specific functional identity is wanted from the implementer side.",
+  "SEMANTIC_CAVEAT_H2_zero_is_necessary_not_sufficient": "CRITICAL, must not be conflated: H^2 vanishing (the obstruction class computed in this cert being 0) is a NECESSARY condition for the settled shadow to lift one step at a given prime, NOT a sufficient one. H^2 permits FREE adjustment of the lifts Delta~,delta~ independently, but the actual GT-shadow structure additionally constrains how sigma1 itself must lift (the GT-shape condition on the hexagon system is STRICTLY STRONGER than H^2 vanishing alone). The augmented hexagon system (A1,A2 -- this campaign's actual SURVIVES-K3/K5 decision procedure) is the authority for the real verdict; this H2 obstruction-class computation is supporting/explanatory evidence for C-83, not a replacement for the hexagon system check. If a future candidate is EVER found with H^2=0 (obstruction class zero) but the augmented hexagon system UNSOLVABLE (genuine DIES verdict), that is a NEW, reportable finding -- flag immediately, do not silently reconcile."
+}

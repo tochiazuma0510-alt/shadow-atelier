@@ -1,0 +1,105 @@
+{
+  "O1_f_list": {
+    "n_words": 27,
+    "sha256_canonical_word_list": "c02feb399b966562c8f32307338a96162fdc2ee496df9dc3bf51be02355cabdd",
+    "source": "q3.correction_fibre.records[*].word (order-27 correction kernel, frozen, NOT re-derived/guessed)",
+    "word_lengths": [
+      0,
+      68,
+      34,
+      146,
+      112,
+      80,
+      226,
+      192,
+      160,
+      68,
+      136,
+      102,
+      112,
+      78,
+      46,
+      192,
+      158,
+      126,
+      34,
+      102,
+      68,
+      180,
+      146,
+      114,
+      158,
+      124,
+      92
+    ]
+  },
+  "O2_positive_control": {
+    "check_33": true,
+    "check_34": true,
+    "f_index": 0,
+    "gt_pair": true,
+    "m": 0,
+    "pass": true
+  },
+  "O3_entrance_gate": {
+    "fail_indices_quarantined": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      17,
+      18,
+      19,
+      20,
+      21,
+      23,
+      24,
+      25,
+      26
+    ],
+    "n_fail": 24,
+    "n_pass": 3,
+    "pass_indices": [
+      0,
+      16,
+      22
+    ]
+  },
+  "O4_sha_match": {
+    "checked": "is FIXED_WORD (B's own h1(0)-generating word) a literal member of the O-1 27-word list?",
+    "fixed_word_is_member": false,
+    "verdict": "MISMATCH -- B's h1(0) is NOT built from a word in this list"
+  },
+  "O5_sweep": {
+    "N_ord_provisional_note": "measured this session via direct nabla_b_pi periodicity scan; P3-level re-measurement still pending per prior ruling",
+    "N_ord_used": 9,
+    "per_f_gt_pair_m_set": {
+      "0": [
+        0
+      ],
+      "16": [
+        0
+      ],
+      "22": [
+        0
+      ]
+    },
+    "total_gt_pairs": 3
+  },
+  "engine": "scratchpad/audit_P0_naive_judge_v4.py (composition-order-fixed, self-tests PASSED)",
+  "generated_at_utc": "2026-08-22T07:42:39.817199+00:00",
+  "grade": "candidate, single-system measurement (this file's own from-scratch artin/meridian engine, composition-order-fixed); O-1 list is the FROZEN correction_fibre enumeration (not guessed); O-4 shows a literal MISMATCH between B's own h1(0) and this list -- flagged, not resolved here.",
+  "schema": "d972-atype-gtpair-sweep/v2-O1O5",
+  "spec_source": "commander contract O-1..O-5 + BK, 2026-08-22, superseding v1's ad-hoc Q=<x,y> scope"
+}

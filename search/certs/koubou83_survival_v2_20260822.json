@@ -1,0 +1,47 @@
+{
+  "schema": "shadow-atelier/koubou83-survival/v2",
+  "generated_by": "implementer (commander instruction 2026-08-22, mathematician's corrected spec -- discards the earlier theta_*/tau_* linearization in koubou83_survival_v1/koubou83_theta_linearization_v1)",
+  "status": "PARTIAL -- (1) PRECHECK-FREE and (2) weak-version litmus complete for all 4 representatives; (3) the full R-b linear system (Reidemeister-Schreier on B3 itself, index 1152) has NOT been started -- scope/design confirmation requested from commander before implementing, to avoid a third discarded design iteration.",
+  "representatives": "4 total: order-2 element + order-3 element (from the confirmed C6 kernel structure), in each of the 2 isolated windows [1152,154161] and [1152,154163]. All representatives have m=0, u=1 (per S0/Section on koubou83_survival_v1_20260822.json).",
+  "precheck_free": {
+    "_alias_of": "step1_precheck_free (below) -- duplicated under the exact field name requested by the commander 2026-08-22 for the interim bookkeeping cert; values identical, not recomputed.",
+    "method": "For each representative (m=0, u=1, f), build R1(m,f) = [sigma1^u f^-1 sigma2^u f].[f^-1 sigma1 sigma2 x12^{-m} c^m]^-1 and R2(m,f) = [f^-1 sigma2^u f sigma1^u].[sigma2 sigma1 x23^{-m} c^m f]^-1 as EXPLICIT WORDS in the free letters {sigma1,sigma2}, then apply FREE REDUCTION ONLY (no group relation imposed) and check whether the result is the empty word.",
+    "results": [
+      {"id_group": [1152, 154161], "representative": "order2", "R1_reduced_length": 58, "R1_is_free_identity": false, "R2_reduced_length": 52, "R2_is_free_identity": false},
+      {"id_group": [1152, 154161], "representative": "order3", "R1_reduced_length": 14, "R1_is_free_identity": false, "R2_reduced_length": 16, "R2_is_free_identity": false},
+      {"id_group": [1152, 154163], "representative": "order2", "R1_reduced_length": 44, "R1_is_free_identity": false, "R2_reduced_length": 46, "R2_is_free_identity": false},
+      {"id_group": [1152, 154163], "representative": "order3", "R1_reduced_length": 14, "R1_is_free_identity": false, "R2_reduced_length": 16, "R2_is_free_identity": false}
+    ],
+    "verdict": "ALL 4/4 test cases FALSE (R1, R2 not free-group identities) -- all 4 proceed to step 3 (on hold)."
+  },
+  "weakened_reclassification": {
+    "_alias_of": "step2_weak_version_litmus (below) -- duplicated under the exact field name requested by the commander 2026-08-22; values identical, not recomputed.",
+    "old_verdict": "SURVIVES (x4, koubou83_weak_depth0_v1.g, w ranging over all of PN, |PN|=192)",
+    "new_verdict": "VACUOUS_IF_TESTED_AT_N",
+    "reason": "N水準測定・w=1自明解 -- the depth-0 search let w range over the full finite subgroup PN itself (N level), not a genuine refinement into K=[N,N]N^2, so w=identity is always a trivially-available solution (f is already a known genuine settled shadow). Not counted as evidence either way; held pending step 3's genuine K-level (depth-1) analysis."
+  },
+  "step1_precheck_free": {
+    "method": "For each representative (m=0, u=1, f), build R1(m,f) = [sigma1^u f^-1 sigma2^u f].[f^-1 sigma1 sigma2 x12^{-m} c^m]^-1 and R2(m,f) = [f^-1 sigma2^u f sigma1^u].[sigma2 sigma1 x23^{-m} c^m f]^-1 as EXPLICIT WORDS in the free letters {sigma1,sigma2} (f expressed as a sigma1,sigma2-word via x=sigma1^2, y=sigma2^2 substitution applied to f's own x,y-word), then apply FREE REDUCTION ONLY (no group relation of any kind imposed, purely symbolic letter-cancellation) and check whether the result is the empty word.",
+    "results": [
+      {"id_group": [1152, 154161], "representative": "order2", "R1_reduced_length": 58, "R1_is_free_identity": false, "R2_reduced_length": 52, "R2_is_free_identity": false},
+      {"id_group": [1152, 154161], "representative": "order3", "R1_reduced_length": 14, "R1_is_free_identity": false, "R2_reduced_length": 16, "R2_is_free_identity": false},
+      {"id_group": [1152, 154163], "representative": "order2", "R1_reduced_length": 44, "R1_is_free_identity": false, "R2_reduced_length": 46, "R2_is_free_identity": false},
+      {"id_group": [1152, 154163], "representative": "order3", "R1_reduced_length": 14, "R1_is_free_identity": false, "R2_reduced_length": 16, "R2_is_free_identity": false}
+    ],
+    "verdict": "ALL 4/4 test cases: R1 and R2 are NOT free-group identities (matches the commander's own stated expectation, '見込み'). Hexagon-based fake-judgment is NOT ruled out universally for any of the 4 representatives -- all 4 proceed to step 3."
+  },
+  "step2_weak_version_litmus": {
+    "question": "Did the earlier 4 SURVIVES results (koubou83_weak_depth0_v1.g, w ranging over all of PN, |PN|=192) test membership at the N level or the K level?",
+    "answer": "N level. The earlier depth-0 search let w range over the FULL finite subgroup PN itself (no further refinement into K=[N,N]N^2), so w=identity is always a trivially-available solution (f itself is already a known genuine settled shadow) -- this matches the implementer's own earlier honest flag that the depth-0 SURVIVES result was likely degenerate.",
+    "verdict_correction": "Reclassifying all 4 earlier 'SURVIVES' results from koubou83_weak_depth0_v1.g as VACUOUS_IF_TESTED_AT_N -- held pending step 3's genuine K-level (depth-1) analysis. NOT counted as evidence either way."
+  },
+  "step3_full_linear_system": {
+    "status": "NOT STARTED -- scope confirmation requested from commander (2026-08-22 message) before implementing.",
+    "required_construction": "N = N_PB3 (the window's own B3-normal subgroup, index 1152 -- NOT the previously-built N_F2=ker(F(x,y)->PN) from the discarded v1 attempt). K := [N,N]*N^2 (mod-2 relative Frattini, characteristic in N hence normal in B3). V := H_1(N;F2) (an F2[B3/N]-module, dim to be computed). Requires Reidemeister-Schreier on B3 ITSELF (which has ONE relator, aba=bab -- NOT a free group) restricted to the index-1152 subgroup N: transversal over all of Bq=B3/N (1152 cosets), 2*1152=2304 raw Schreier generators, 1152 relator-transform words (rewriting the single braid relator through each coset representative), mod-2 abelianization to get dim(V) and the relation matrix.",
+    "membership_condition_verbatim": "[R1(m,f)] + (sigma1bar^u + Qbar + 1)[w] = 0 in V ; [R2(m,f)] + (1 + Qbar'*sigma1bar^{-u} + Qbar')[w] = 0 in V ; where Q = f^-1*sigma1*sigma2*x12^{-m}*c^m, Q' = sigma2*sigma1*x23^{-m}*c^m*f. Conjugation operators needed: only 4 matrices (sigma1bar^u, Qbar, Qbar', sigma1bar^{-u}) -- no theta/tau/c ambiguity per this corrected spec.",
+    "scale_estimate": "~12x larger than the discarded v1 attempt's r=193 construction (2304 raw Schreier generators vs 193, transversal over 1152 cosets vs 192) -- a genuinely new implementation, not a reuse of v1's scaffold.",
+    "commander_consultation": "Flagged to commander via message before starting, given this is the THIRD design iteration on this survival-linearization sub-task (E interpretation confirmed then superseded; theta_*/tau_* linearization built then discarded) -- requesting either explicit go-ahead to implement, or a concrete matrix-construction recipe from the mathematician to reduce implementation risk."
+  },
+  "grade": "candidate for steps 1-2 (machine-computed, no design ambiguity) -- step 3 not started, no verdict yet.",
+  "wall_seconds_approx": 30
+}

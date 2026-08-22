@@ -1,0 +1,56 @@
+{
+  "cert_id": "koubou83_survival_k5_v1_20260822",
+  "campaign": "koubou83-survival, lane B-5 (p=5 depth K5=[N,N]N^5)",
+  "grade": "candidate / cross-checked-pending (NOT verified -- Lean not run)",
+  "preregistered_prediction": {
+    "source": "mathematician, via C-83 reasoning (2026-08-22)",
+    "prediction": "ALL 22 candidates (5 nontrivial C6 + 6 m6-layer, x2 windows) plus 2 calibration controls SURVIVE-K5 in both windows -- reasoning: the n=1 mod3 AND 5|n family escape route is solvable via CRT (unlike p=3, the family does not get blocked)."
+  },
+  "construction": "F5 A-differential method, direct generalization of the (sign-fixed, row/column-corrected) F3 machine: CHAR-1 sign table written out before coding (negative Fox-derivative letter contributes -1, not +1 -- the mod-2 shortcut trap), Aug system solves A.xi=-r_i from the start (sign fix applied proactively, not rediscovered), charming = Lambda_K5=5*Lambda_N (ONLY 2 mod-5 conditions per mathematician spec -- no mod-25 refinement analogous to p=3's 3rd condition was specified for p=5), legal = [t5]=0 AND gamma(w)=0 mod5, gamma-canary (F5 version) run before trusting every solve.",
+  "calibrations": {
+    "Fox5_identity_canary": "PASSED both windows (0/4 fails)",
+    "CAL-unit (identity shadow, m=0,u=1)": "SOLVABLE, legal=true, charming=true, direct_verify=true, witness_support=0 -- both windows",
+    "CAL-fam-n6 (y^6 x^-6, n=6=1 mod5)": "SOLVABLE, legal=true, charming=true, direct_verify=true -- both windows (note: n=4, used for the p=3 family calibration since 4=1 mod3, is NOT 1 mod5 (4 mod5=4); n=6 is the correct F5 analogue since 6=1 mod5)"
+  },
+  "dimV5": {
+    "window_1152_154161": 98,
+    "window_1152_154163": 50
+  },
+  "results": {
+    "window_1152_154161": {
+      "C6-elt2 (order3)": "SURVIVES-K5 (legal=true charming=true direct_verify=true, witness_support=2)",
+      "C6-elt3 (order3)": "SURVIVES-K5 (legal=true charming=true direct_verify=true, witness_support=1)",
+      "C6-elt4 (order6)": "SURVIVES-K5 (legal=true charming=true direct_verify=true, witness_support=34)",
+      "C6-elt5 (order2)": "SURVIVES-K5 (legal=true charming=true direct_verify=true, witness_support=31)",
+      "C6-elt6 (order6)": "SURVIVES-K5 (legal=true charming=true direct_verify=true, witness_support=21)",
+      "m6-elt1": "SURVIVES-K5 (witness_support=50)",
+      "m6-elt2": "SURVIVES-K5 (witness_support=58)",
+      "m6-elt3": "SURVIVES-K5 (witness_support=35)",
+      "m6-elt4": "SURVIVES-K5 (witness_support=17)",
+      "m6-elt5": "SURVIVES-K5 (witness_support=15)",
+      "m6-elt6": "SURVIVES-K5 (witness_support=14)",
+      "gamma_canary_F5": "0 fails / 196, for every single candidate tested"
+    },
+    "window_1152_154163": {
+      "C6-elt2 (order3)": "SURVIVES-K5 (witness_support=2)",
+      "C6-elt3 (order3)": "SURVIVES-K5 (witness_support=1)",
+      "C6-elt4 (order6)": "SURVIVES-K5 (witness_support=18)",
+      "C6-elt5 (order2)": "SURVIVES-K5 (witness_support=23)",
+      "C6-elt6 (order6)": "SURVIVES-K5 (witness_support=19)",
+      "m6-elt1": "SURVIVES-K5 (witness_support=15)",
+      "m6-elt2": "SURVIVES-K5 (witness_support=28)",
+      "m6-elt3": "SURVIVES-K5 (witness_support=11)",
+      "m6-elt4": "SURVIVES-K5 (witness_support=25)",
+      "m6-elt5": "SURVIVES-K5 (witness_support=25)",
+      "m6-elt6": "SURVIVES-K5 (witness_support=24)",
+      "gamma_canary_F5": "0 fails / 100, for every single candidate tested"
+    }
+  },
+  "conclusion": "The pre-registered prediction (ALL SURVIVES-K5) is CONFIRMED with ZERO exceptions: 22/22 nontrivial candidates + 2/2 calibrations, both windows -- clean, uniform, one-shot solves (no m'-sweep or search needed; all base m values sufficed immediately). Combined with the K (mod2) and K3 (mod3) survival results, this is the THIRD prime at which this candidate group survives with zero exceptions -- further direct evidence for C-83.",
+  "claim_boundary": {
+    "grade": "candidate / cross-checked-pending",
+    "single_system_caveat": "output of ONE explorer system, not independently cross-checked.",
+    "not_verified": "Lean has not checked any of this.",
+    "no_h2_obstruction_check_at_p5": "unlike p=3, the explicit H2-obstruction-class computation (koubou83_h2_obstruction_v1) was NOT run at p=5 in this pass -- this cert's SURVIVES-K5 verdicts rest on the augmented hexagon system alone (direct_verify confirmed for every row), which is the authoritative check regardless."
+  }
+}

@@ -1,0 +1,813 @@
+{
+  "cert_id": "koubou83_survival_k3_v1_20260822",
+  "campaign": "koubou83-survival, lane B-4 (p=3 depth K3=[N,N]N^3)",
+  "grade": "candidate / cross-checked-pending (NOT verified -- Lean not run)",
+  "construction": "F3 A-differential method (A_i column j = Phi3_red(R_i(f*n_j)) - Phi3_red(R_i(f))), mirroring the mod-2 B-3 sweep construction but over GF(3) with correct Fox-derivative signs (Fox3 identity canary PASSED both windows prior to this run). V3=H1(N;F3) full basis (incl. [t3]=k mod 3 coordinate). dimV3/dBasis3 = 98/98 (window 154161), 50/50 (window 154163), matching commander ruling: coinv(97/49) + total(98/50) both structural-theorem-consistent.",
+  "gate_definition": {
+    "legal": "[t3]=0 (k mod 3 =0, i.e. w in N_F2 side) AND gamma(w) mod 3 = 0",
+    "charming_3_conditions": [
+      "(a(f)+a(w)) mod 3 = 0",
+      "(b(f)+b(w)) mod 3 = 0",
+      "((a(f)+a(w)+b(f)+b(w))/3) mod 3 = 0  -- the NEW 3rd condition per commander ruling 2026-08-22, computed only when the first two hold as integers (division by 3 is then exact)"
+    ],
+    "direct_verify": "Phi3-only re-check: R1(f,w) and R2(f,w) both reduce to zero in V3 (RedVec3)",
+    "survives_k3": "solvable AND (legal AND charming_3cond AND direct_verify) for SOME witness in the affine solution space xi+ker(Mstack)",
+    "dies_at_k3_by_exhausted_search": "solvable=true (system consistent) but NO witness found satisfying the gate within the search budget (first witness + up to 3000 additional affine perturbations, exhaustive only when ker(Mstack) dim <= 9). EXPLICITLY NOT a FRED-1 (Fredholm+T-A) certificate -- the mathematician's original spec requires Fredholm lambda + F3 T-A(all basis) PASS bundled for any DIES verdict; this run instead follows the commander's separate 're-search -> if none found, reclassify DIES' instruction. This is flagged as a rigor gap: these DIES verdicts assert 'not found in an incomplete search', not 'proven absent'."
+  },
+  "bugs_found_and_fixed_before_this_run": [
+    "verdict-labeling bug: earlier version of this script printed SURVIVES-K3 whenever the linear system was merely solvable, without gating on legal/charming/direct_verify (contradicted the script's own header spec). Fixed: verdict now requires the full gate.",
+    "witness-multiplicity bug: WitnessFromXi previously included a basis word once for ANY nonzero GF(3) coefficient, ignoring that coefficient=2 (=-1 mod 3) needs the word included twice. This was harmless under GF(2) (only 0/1 existed) but silently wrong under GF(3). Fixed via IntFFE(xic[i]) repeat count.",
+    "3rd charming condition (mod-9 divisibility of a+b) was missing from the first run; added per commander instruction 2026-08-22."
+  ],
+  "search_budget_caveat": {
+    "window_154161": "ker(Mstack) dim=23 for all candidates -- 3^23 is far too large for exhaustive search; the 3000-trial random search covers a negligible fraction of the affine solution space.",
+    "window_154163": "ker(Mstack) dim=11 for all candidates -- 3^11=177147 IS feasible for exhaustive search but this run only performed a 3000-trial random search (exhaustive threshold was set at dim<=9, not raised to 11). This is a resource-cost decision, NOT a mathematical necessity -- flagged for the commander/mathematician to decide whether to spend the extra compute for a genuinely exhaustive negative result on this window."
+  },
+  "windows": [
+    {
+      "id": [
+        1152,
+        154161
+      ],
+      "dimV3": 98,
+      "dBasis3": 98,
+      "results": [
+        {
+          "label": "PC-unit",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "witness_support": 0,
+          "t3": 0,
+          "abg_f": [
+            0,
+            0,
+            0
+          ],
+          "abg_w": [
+            0,
+            0,
+            0
+          ],
+          "legal": true,
+          "charming": true,
+          "direct_verify": true,
+          "verdict": "SURVIVES-K3",
+          "search": "first_witness"
+        },
+        {
+          "label": "PC-fam-n4",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "first_witness_support": 0,
+          "t3_first": 0,
+          "abg_f": [
+            -8,
+            8,
+            0
+          ],
+          "abg_w_first": [
+            0,
+            0,
+            0
+          ],
+          "legal_first": true,
+          "charming_first": false,
+          "direct_verify_first": true,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 1,
+            "exhaustive": false,
+            "found": true,
+            "witness_support": 65,
+            "legal": true,
+            "charming": true,
+            "direct_verify": true
+          },
+          "verdict": "SURVIVES-K3",
+          "search": "rescued"
+        },
+        {
+          "label": "C6-elt2",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "first_witness_support": 0,
+          "t3_first": 0,
+          "abg_f": [
+            -2,
+            2,
+            0
+          ],
+          "abg_w_first": [
+            0,
+            0,
+            0
+          ],
+          "legal_first": true,
+          "charming_first": false,
+          "direct_verify_first": true,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 2,
+            "exhaustive": false,
+            "found": true,
+            "witness_support": 61,
+            "legal": true,
+            "charming": true,
+            "direct_verify": true
+          },
+          "verdict": "SURVIVES-K3",
+          "search": "rescued",
+          "order_label": "order3 (P-83-2 target)"
+        },
+        {
+          "label": "C6-elt3",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "first_witness_support": 0,
+          "t3_first": 0,
+          "abg_f": [
+            2,
+            -2,
+            0
+          ],
+          "abg_w_first": [
+            0,
+            0,
+            0
+          ],
+          "legal_first": true,
+          "charming_first": false,
+          "direct_verify_first": true,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 1,
+            "exhaustive": false,
+            "found": true,
+            "witness_support": 65,
+            "legal": true,
+            "charming": true,
+            "direct_verify": true
+          },
+          "verdict": "SURVIVES-K3",
+          "search": "rescued",
+          "order_label": "order3 (P-83-2 target)"
+        },
+        {
+          "label": "C6-elt4",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "witness_support": 8,
+          "t3": 0,
+          "abg_f": [
+            -6,
+            -6,
+            0
+          ],
+          "abg_w": [
+            14,
+            -8,
+            -6
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH",
+          "order_label": "order6"
+        },
+        {
+          "label": "C6-elt5",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "witness_support": 23,
+          "t3": 0,
+          "abg_f": [
+            -14,
+            -4,
+            0
+          ],
+          "abg_w": [
+            -62,
+            44,
+            -24
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH",
+          "order_label": "order2"
+        },
+        {
+          "label": "C6-elt6",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "witness_support": 7,
+          "t3": 0,
+          "abg_f": [
+            -6,
+            -6,
+            0
+          ],
+          "abg_w": [
+            16,
+            -10,
+            -12
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH",
+          "order_label": "order6"
+        },
+        {
+          "label": "m6-elt1",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 44,
+          "t3": 0,
+          "abg_f": [
+            0,
+            0,
+            0
+          ],
+          "abg_w": [
+            24,
+            102,
+            -78
+          ],
+          "legal": true,
+          "charming": true,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt2",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 54,
+          "t3": 0,
+          "abg_f": [
+            0,
+            0,
+            0
+          ],
+          "abg_w": [
+            -66,
+            -6,
+            -48
+          ],
+          "legal": true,
+          "charming": true,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt3",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 36,
+          "t3": 0,
+          "abg_f": [
+            2,
+            4,
+            0
+          ],
+          "abg_w": [
+            -76,
+            -26,
+            0
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt4",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 11,
+          "t3": 0,
+          "abg_f": [
+            12,
+            0,
+            0
+          ],
+          "abg_w": [
+            -18,
+            -24,
+            6
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt5",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 13,
+          "t3": 0,
+          "abg_f": [
+            10,
+            2,
+            0
+          ],
+          "abg_w": [
+            -90,
+            -42,
+            18
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt6",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 13,
+          "t3": 0,
+          "abg_f": [
+            8,
+            4,
+            0
+          ],
+          "abg_w": [
+            -48,
+            -48,
+            18
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 23,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        }
+      ]
+    },
+    {
+      "id": [
+        1152,
+        154163
+      ],
+      "dimV3": 50,
+      "dBasis3": 50,
+      "results": [
+        {
+          "label": "PC-unit",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "witness_support": 0,
+          "t3": 0,
+          "abg_f": [
+            0,
+            0,
+            0
+          ],
+          "abg_w": [
+            0,
+            0,
+            0
+          ],
+          "legal": true,
+          "charming": true,
+          "direct_verify": true,
+          "verdict": "SURVIVES-K3",
+          "search": "first_witness"
+        },
+        {
+          "label": "PC-fam-n4",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "first_witness_support": 0,
+          "t3_first": 0,
+          "abg_f": [
+            -8,
+            8,
+            0
+          ],
+          "abg_w_first": [
+            0,
+            0,
+            0
+          ],
+          "legal_first": true,
+          "charming_first": false,
+          "direct_verify_first": true,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 1,
+            "exhaustive": false,
+            "found": true,
+            "witness_support": 30,
+            "legal": true,
+            "charming": true,
+            "direct_verify": true
+          },
+          "verdict": "SURVIVES-K3",
+          "search": "rescued"
+        },
+        {
+          "label": "C6-elt2",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "first_witness_support": 0,
+          "t3_first": 0,
+          "abg_f": [
+            -2,
+            2,
+            0
+          ],
+          "abg_w_first": [
+            0,
+            0,
+            0
+          ],
+          "legal_first": true,
+          "charming_first": false,
+          "direct_verify_first": true,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 7,
+            "exhaustive": false,
+            "found": true,
+            "witness_support": 26,
+            "legal": true,
+            "charming": true,
+            "direct_verify": true
+          },
+          "verdict": "SURVIVES-K3",
+          "search": "rescued",
+          "order_label": "order3 (P-83-2 target)"
+        },
+        {
+          "label": "C6-elt3",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "first_witness_support": 0,
+          "t3_first": 0,
+          "abg_f": [
+            2,
+            -2,
+            0
+          ],
+          "abg_w_first": [
+            0,
+            0,
+            0
+          ],
+          "legal_first": true,
+          "charming_first": false,
+          "direct_verify_first": true,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 13,
+            "exhaustive": false,
+            "found": true,
+            "witness_support": 31,
+            "legal": true,
+            "charming": true,
+            "direct_verify": true
+          },
+          "verdict": "SURVIVES-K3",
+          "search": "rescued",
+          "order_label": "order3 (P-83-2 target)"
+        },
+        {
+          "label": "C6-elt4",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "witness_support": 16,
+          "t3": 0,
+          "abg_f": [
+            0,
+            -6,
+            0
+          ],
+          "abg_w": [
+            -16,
+            10,
+            0
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH",
+          "order_label": "order6"
+        },
+        {
+          "label": "C6-elt5",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "witness_support": 17,
+          "t3": 0,
+          "abg_f": [
+            -4,
+            -2,
+            0
+          ],
+          "abg_w": [
+            -20,
+            32,
+            -24
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH",
+          "order_label": "order2"
+        },
+        {
+          "label": "C6-elt6",
+          "m": 0,
+          "u": 1,
+          "solvable": true,
+          "witness_support": 16,
+          "t3": 0,
+          "abg_f": [
+            0,
+            -6,
+            0
+          ],
+          "abg_w": [
+            -26,
+            2,
+            -18
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH",
+          "order_label": "order6"
+        },
+        {
+          "label": "m6-elt1",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 14,
+          "t3": 0,
+          "abg_f": [
+            6,
+            0,
+            0
+          ],
+          "abg_w": [
+            -24,
+            12,
+            6
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt2",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 28,
+          "t3": 0,
+          "abg_f": [
+            4,
+            2,
+            0
+          ],
+          "abg_w": [
+            -106,
+            -50,
+            18
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt3",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 10,
+          "t3": 0,
+          "abg_f": [
+            2,
+            4,
+            0
+          ],
+          "abg_w": [
+            -66,
+            -36,
+            18
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt4",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 22,
+          "t3": 0,
+          "abg_f": [
+            0,
+            0,
+            0
+          ],
+          "abg_w": [
+            -42,
+            -12,
+            -6
+          ],
+          "legal": true,
+          "charming": true,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt5",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 22,
+          "t3": 0,
+          "abg_f": [
+            0,
+            0,
+            0
+          ],
+          "abg_w": [
+            -50,
+            -22,
+            -6
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        },
+        {
+          "label": "m6-elt6",
+          "m": 6,
+          "u": 13,
+          "solvable": true,
+          "witness_support": 22,
+          "t3": 0,
+          "abg_f": [
+            2,
+            -2,
+            0
+          ],
+          "abg_w": [
+            -40,
+            40,
+            -30
+          ],
+          "legal": true,
+          "charming": false,
+          "direct_verify": false,
+          "rescue": {
+            "ker_dim": 11,
+            "tried": 3000,
+            "exhaustive": false,
+            "found": false
+          },
+          "verdict": "DIES-AT-K3-BY-EXHAUSTED-SEARCH"
+        }
+      ]
+    }
+  ],
+  "p83_2_prediction_check": {
+    "prediction": "order3 elements (C6-elt2, C6-elt3 = fake torus image) DIES-AT-K3 in BOTH windows",
+    "actual_result": "C6-elt2 and C6-elt3 SURVIVE-K3 in BOTH windows (via rescued witness, all gates true, direct_verify=true) -- OPPOSITE of the prediction",
+    "verdict": "P-83-2 FALSIFIED",
+    "structural_note": "In BOTH windows, exactly the two order-3 C6 elements (plus the 2 positive controls) survive; ALL order-2, order-6, and m=6-layer elements come back DIES-AT-K3-BY-EXHAUSTED-SEARCH (not FRED-1 certified -- see search_budget_caveat). This mirrors (inverts) the earlier B-3 mod-2 finding where ALL 24 elements (including order-6) survived K -- at K3 the order-non-3 elements no longer find a charming witness within the search budget actually performed."
+  },
+  "superseded_note_2026_08_22": "SUPERSEDED by search/certs/koubou83_survival_k3_v1_1_20260822.json. v1's DIES-AT-K3-BY-EXHAUSTED-SEARCH verdicts (C6-elt4,5,6 and m6-elt1..6, both windows) were computed under an UNFIXED sign bug in the augmented linear system (target should have been -r_i, not +r_i; invisible under GF(2), and the order3/positive-control SURVIVES-K3 rows in THIS v1 cert were immune since their baseline r_i was already 0 -- those rows remain valid and are reconfirmed unchanged in v1.1). After the sign fix, ALL 9 previously-DIES candidates in both windows reversed cleanly to SURVIVES-K3 (legal+charming+direct_verify all true, gamma-canary 0 fails). v1's values below are NOT altered by this note -- see v1.1 for the corrected verdicts, full bug history, K3_ord=36 determination, and W-1/W-2 findings (held pending mathematician ruling)."
+}

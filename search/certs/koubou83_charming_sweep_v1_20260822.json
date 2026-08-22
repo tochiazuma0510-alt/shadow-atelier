@@ -1,0 +1,526 @@
+{
+  "schema": "shadow-atelier/koubou83-charming-sweep/v1",
+  "generated_by": "implementer (commander instruction 2026-08-22, B-3 charming-at-K sweep cert)",
+  "task": "24-candidate (12 per window: 6 C6 kernel elements [m=0] + 6 m=6-layer elements [u=13]) sweep testing SURVIVES-K + legal (gamma(w) even) + charming (a(f)+a(w), b(f)+b(w) both even) via strand-tracking linking numbers (a,b,gamma) on the A1/A2 differential-definition witness.",
+  "script": "scratchpad/koubou83_B3_sweep_v1.g",
+  "p83_1_prediction_falsification": {
+    "prediction": "P-83-1 (pre-registered): order6 elements (C6-elt4, C6-elt6, both windows) predicted DIES-AT-K.",
+    "measured": "ALL 4 order6 instances (2 per window) came back SURVIVES-K, legal=true, charming=true.",
+    "verdict": "P-83-1 IS FALSIFIED. Recorded honestly, not smoothed over -- the prediction was wrong, the measurement stands."
+  },
+  "order_labels_C6": {
+    "1": "identity(order1)",
+    "3": "order3",
+    "6": "order6",
+    "2": "order2"
+  },
+  "windows": {
+    "1152_154161": {
+      "order_under_353_C6elt1_to_6": [
+        1,
+        3,
+        3,
+        6,
+        2,
+        6
+      ],
+      "candidates": [
+        {
+          "label": "C6-elt1",
+          "order_under_353": 1,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 0,
+          "abgamma_f": [
+            0,
+            0,
+            0
+          ],
+          "abgamma_w": [
+            0,
+            0,
+            0
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt2",
+          "order_under_353": 3,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 0,
+          "abgamma_f": [
+            -2,
+            2,
+            0
+          ],
+          "abgamma_w": [
+            0,
+            0,
+            0
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt3",
+          "order_under_353": 3,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 0,
+          "abgamma_f": [
+            2,
+            -2,
+            0
+          ],
+          "abgamma_w": [
+            0,
+            0,
+            0
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt4",
+          "order_under_353": 6,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 7,
+          "abgamma_f": [
+            -6,
+            -6,
+            0
+          ],
+          "abgamma_w": [
+            8,
+            -8,
+            -4
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt5",
+          "order_under_353": 2,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 21,
+          "abgamma_f": [
+            -14,
+            -4,
+            0
+          ],
+          "abgamma_w": [
+            -30,
+            24,
+            -8
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt6",
+          "order_under_353": 6,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 8,
+          "abgamma_f": [
+            -6,
+            -6,
+            0
+          ],
+          "abgamma_w": [
+            8,
+            -8,
+            -8
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt1",
+          "xy_word": "x*y*x^-1*y^-1",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 33,
+          "abgamma_f": [
+            0,
+            0,
+            0
+          ],
+          "abgamma_w": [
+            -44,
+            -4,
+            0
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt2",
+          "xy_word": "x^-1*y^-1*x*y",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 38,
+          "abgamma_f": [
+            0,
+            0,
+            0
+          ],
+          "abgamma_w": [
+            -26,
+            26,
+            -28
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt3",
+          "xy_word": "x*y*x^-1*y*x",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 23,
+          "abgamma_f": [
+            2,
+            4,
+            0
+          ],
+          "abgamma_w": [
+            -6,
+            12,
+            -20
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt4",
+          "xy_word": "x^6",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 10,
+          "abgamma_f": [
+            12,
+            0,
+            0
+          ],
+          "abgamma_w": [
+            -12,
+            -12,
+            4
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt5",
+          "xy_word": "x^3*y*x^2",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 12,
+          "abgamma_f": [
+            10,
+            2,
+            0
+          ],
+          "abgamma_w": [
+            -56,
+            -28,
+            12
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt6",
+          "xy_word": "x^3*y^2*x",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 13,
+          "abgamma_f": [
+            8,
+            4,
+            0
+          ],
+          "abgamma_w": [
+            -30,
+            -30,
+            12
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        }
+      ]
+    },
+    "1152_154163": {
+      "order_under_353_C6elt1_to_6": [
+        1,
+        3,
+        3,
+        6,
+        2,
+        6
+      ],
+      "candidates": [
+        {
+          "label": "C6-elt1",
+          "order_under_353": 1,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 0,
+          "abgamma_f": [
+            0,
+            0,
+            0
+          ],
+          "abgamma_w": [
+            0,
+            0,
+            0
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt2",
+          "order_under_353": 3,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 0,
+          "abgamma_f": [
+            -2,
+            2,
+            0
+          ],
+          "abgamma_w": [
+            0,
+            0,
+            0
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt3",
+          "order_under_353": 3,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 0,
+          "abgamma_f": [
+            2,
+            -2,
+            0
+          ],
+          "abgamma_w": [
+            0,
+            0,
+            0
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt4",
+          "order_under_353": 6,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 13,
+          "abgamma_f": [
+            0,
+            -6,
+            0
+          ],
+          "abgamma_w": [
+            -10,
+            4,
+            -4
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt5",
+          "order_under_353": 2,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 18,
+          "abgamma_f": [
+            -4,
+            -2,
+            0
+          ],
+          "abgamma_w": [
+            -22,
+            16,
+            -8
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "C6-elt6",
+          "order_under_353": 6,
+          "m": 0,
+          "u": 1,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 15,
+          "abgamma_f": [
+            0,
+            -6,
+            0
+          ],
+          "abgamma_w": [
+            -18,
+            0,
+            -12
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt1",
+          "xy_word": "x^3",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 10,
+          "abgamma_f": [
+            6,
+            0,
+            0
+          ],
+          "abgamma_w": [
+            0,
+            18,
+            -12
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt2",
+          "xy_word": "y*x^2",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 24,
+          "abgamma_f": [
+            4,
+            2,
+            0
+          ],
+          "abgamma_w": [
+            -50,
+            -16,
+            8
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt3",
+          "xy_word": "y^2*x",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 9,
+          "abgamma_f": [
+            2,
+            4,
+            0
+          ],
+          "abgamma_w": [
+            -42,
+            -24,
+            12
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt4",
+          "xy_word": "x*y*x^-1*y^-1",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 14,
+          "abgamma_f": [
+            0,
+            0,
+            0
+          ],
+          "abgamma_w": [
+            -20,
+            -16,
+            4
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt5",
+          "xy_word": "x^-1*y^-1*x*y",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 13,
+          "abgamma_f": [
+            0,
+            0,
+            0
+          ],
+          "abgamma_w": [
+            -20,
+            -16,
+            4
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        },
+        {
+          "label": "m6-elt6",
+          "xy_word": "x*y*x*y^-1*x^-1*y^-1",
+          "m": 6,
+          "u": 13,
+          "verdict": "SURVIVES-K",
+          "witness_support_size": 21,
+          "abgamma_f": [
+            2,
+            -2,
+            0
+          ],
+          "abgamma_w": [
+            -30,
+            30,
+            -16
+          ],
+          "legal_gamma_w_even": true,
+          "charming_a_even_and_b_even": true
+        }
+      ]
+    }
+  },
+  "claim_boundary": "Verdicts are about depth-K=[N,N]N^2 survival ONLY (p=2 apparatus). SURVIVES-K does not imply genuine/arithmetic. legal/charming are necessary conditions checked at this depth via linking-number invariants (a,b,gamma) of the representative f and the found witness w; charming being satisfied does not itself certify anything beyond this specific necessary-condition test. m is either 0 (C6 kernel, u=1) or 6 (m6 layer, u=13) as registered; no other m values are covered by this sweep. Grade: candidate -- A1/A2 differential-definition solve (GAP-computed, T-A/T-B validated on order3 earlier in this campaign), not yet Sol-audited, 'verified' remains reserved for Lean.",
+  "grade": "candidate",
+  "generated_at_unix": 1787377224.7167535
+}

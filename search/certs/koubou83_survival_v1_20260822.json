@@ -1,0 +1,70 @@
+{
+  "schema": "shadow-atelier/koubou83-survival/v1",
+  "generated_by": "implementer (commander instruction 2026-08-22, mathematician spec S0-S5)",
+  "status": "PARTIAL -- S0/canary-1/canary-2 complete and confirmed; S1(full)-S5 (Schreier generators + affine linear system) implementation scope turned out to exceed the expected minutes-order budget and required a design clarification query sent to the commander before continuing (to avoid an unverified/high-risk from-scratch Reidemeister-Schreier + Fox-calculus module construction). This cert records the confirmed partial results honestly; it is NOT a final survive/fake verdict.",
+  "theta_tau_definitions": {
+    "theta": "x -> y, y -> x (simple swap; confirmed by mathematician, ruling 1393/1394; independently reconfirmed here: matches Ad(Delta) shortcut on ALL tested generic elements, 7/7 both windows)",
+    "tau": "x -> y, y -> (y x)^-1 = x^-1 y^-1 (confirmed by mathematician per the 972 z-convention lesson; independently found to DIFFER from the Ad(delta) shortcut on most generic elements -- see canary-2)",
+    "naming_convention_going_forward": "theta_tau_word (free-word letter substitution, materialized BEFORE pushing to any quotient) vs theta_tau_quotient (Ad(Delta)/Ad(delta) computed directly inside E or PN) -- these are DIFFERENT maps in general (confirmed for tau); NAME-COLLIDE avoided per commander's registry note."
+  },
+  "S0_kernel_structure": {
+    "method": "Raw permutation-group generation of the 6 u=1 (m=0) settled elements gives a MISLEADING answer (Size=64, non-abelian C4.(C4xC4)) because the true composition law on GT^settled(N) is the canonical (3.53) rule, NOT raw permutation multiplication of the f-values. Rebuilt the correct (3.53) Cayley table on the 6 elements (all m=0, so composition reduces to f1*psi_{0,f1}(f2) with psi_{0,f1}: x->x, y->f1^-1*y*f1).",
+    "windows": [
+      {
+        "id_group": [1152, 154161],
+        "element_orders_under_353": [1, 3, 3, 6, 2, 6],
+        "commutative": true,
+        "verdict": "C6 (the only abelian order-6 group)"
+      },
+      {
+        "id_group": [1152, 154163],
+        "element_orders_under_353": [1, 3, 3, 2, 6, 6],
+        "commutative": true,
+        "verdict": "C6"
+      }
+    ],
+    "P_K_prediction_check": "P-K (ker~=C6, weak prereg) CONFIRMED in both windows.",
+    "representative_selection": "order-2 element + one order-3 element, per window (identifiable from the orders list above; explicit permutations available in scratchpad/koubou83_s0_kerstruct_v2.g run log)."
+  },
+  "canary_1_c_in_N_F2": {
+    "operationalization": "c (=Delta^2) maps to the identity of E (equivalently: does c in N_F2, where N_F2 is the kernel of the map sending the census's marked generator pair onto E)?",
+    "windows": [
+      {"id_group": [1152, 154161], "c_in_N_F2": false},
+      {"id_group": [1152, 154163], "c_in_N_F2": false}
+    ],
+    "note": "Mathematician's prediction was '154163 expected False (possible twin asymmetry)'. Measured: BOTH windows False -- no asymmetry detected on this specific indicator. If a twin asymmetry exists, it is not visible via this particular canary."
+  },
+  "canary_2_word_vs_shortcut": {
+    "method": "Tested theta_word/tau_word (free-letter substitution on x,y, then evaluated in PN) against the shortcut Ad(Delta)/Ad(delta) (TH/TT, computed directly as conjugation inside PN/E) on 7 GENERIC (non-solution) test words per window, to get a non-degenerate comparison (testing on a KNOWN solution f is uninformative since H_theta(f)=1 trivially under either convention by construction -- confirmed this degeneracy first, then re-tested on generic elements).",
+    "theta_result": "7/7 word-level = shortcut match, BOTH windows -- theta's Ad(Delta) shortcut is safe (theta genuinely equals conjugation by Delta on all tested elements).",
+    "tau_result": "Mostly MISMATCH (5-6 out of 7 generic words diverge), BOTH windows -- tau's word-level substitution (x->y, y->(yx)^-1, applied as a free-word substitution then evaluated in PN) is NOT the same map as Ad(delta) (conjugation by delta=s1*s2) in general. This CONFIRMS the commander's implementation guard was necessary: using the Ad(delta) shortcut for tau would have been a genuine error for most elements.",
+    "additional_finding_m_neq_0": "For the m=0 (u=1) kernel representatives themselves, word-level H_tau DOES match c^0=identity (2/2 pass, both windows) -- so THIS task's representatives are validly settled under either convention. However, for m=2 (u=5, a DIFFERENT already-settled shadow from the same window, unrelated to this task's kernel), word-level H_tau does NOT match c^2 (2/2 fail, both windows) -- suggesting the ORIGINAL wall-miner shortcut-based census (which used Ad(delta) as tau throughout the whole campaign) may have used a non-equivalent tau for some m!=0 elements. This is flagged as a secondary finding for the mathematician's judgment; it is NOT resolved or acted on here, and does not affect the m=0 representatives this task is about."
+  },
+  "kappa_measurement_2026_08_22": {
+    "mathematician_ruling": "canary-1 (c in N_F2) measured the wrong thing (c is not even an element of F2, so c-notin-F2 is nearly tautological). The real M5 question is kappa := ord(cbar in PB3/N) (=Order(W.c), directly computable). The earlier m=2 word-level H_tau mismatch (canary-2's additional finding) is diagnosed by the mathematician as a c^m BOOKKEEPING discrepancy (absorption of an x^{-m}*c^m factor in the canonical (3.3)/(3.4) hexagon), NOT a regulation/convention war -- an m-proportional difference is the decisive evidence.",
+    "windows": [
+      {"id_group": [1152, 154161], "kappa": 2},
+      {"id_group": [1152, 154163], "kappa": 4}
+    ],
+    "decision_tree_result": "kappa=1 would mean c^m in N always (census undisturbed, matter closed). BOTH windows measured kappa>1 (2 and 4) -- so we are in the OTHER branch: T-REF (a full, verbatim (3.3)/(3.4) evaluation acting as third-party arbiter on the disputed m=2 element) is required, to be separately dispatched (not performed here per instruction -- only kappa itself was requested this round).",
+    "bookkeeping_hypothesis_test": "Tried both x^{-m}*c^m and c^m*x^{-m} as alternate targets for H_tau(m=2,f) (in addition to plain c^m) -- ALL THREE targets FAIL to match the word-level H_tau(2,f) in both windows. The simple x^{-m} correction-factor hypotheses tested here do NOT resolve the m=2 discrepancy; a more precise canonical (3.3)/(3.4) bookkeeping formula (as intended for T-REF) is likely needed, beyond the 2 simple variants tried.",
+    "hold_status": "Per instruction: ④'s numeric claims (|GT^settled(N)|=48, parity results, u≡1 law) remain ON HOLD pending T-REF resolution of the m!=0 discrepancy -- EXCEPT the m=0 layer, which is unconditionally undamaged (confirmed clean under all 3 target hypotheses in canary-4 below)."
+  },
+  "canary_4_full_hexagon_self_check": {
+    "method": "For ONE m=0 element and ONE m!=0 (m=2) element per window, verbatim word-level check of (3.3) H_theta(f)=f*theta(f)==identity AND (3.4) H_tau(m,f)==c^m (plus the 2 bookkeeping variants), fully self-contained within the survival lane's own word-level construction (GUARD-C: g:=y^m*f built as an explicit F2(x,y) word, theta/tau applied via literal letter substitution, never via the Ad(Delta)/Ad(delta) quotient shortcut).",
+    "results": [
+      {"id_group": [1152, 154161], "m": 0, "H_theta_eq_1": true, "H_tau_eq_c_m": true, "H_tau_eq_xInvM_c_m": true, "H_tau_eq_c_m_xInvM": true},
+      {"id_group": [1152, 154161], "m": 2, "H_theta_eq_1": true, "H_tau_eq_c_m": false, "H_tau_eq_xInvM_c_m": false, "H_tau_eq_c_m_xInvM": false},
+      {"id_group": [1152, 154163], "m": 0, "H_theta_eq_1": true, "H_tau_eq_c_m": true, "H_tau_eq_xInvM_c_m": true, "H_tau_eq_c_m_xInvM": true},
+      {"id_group": [1152, 154163], "m": 2, "H_theta_eq_1": true, "H_tau_eq_c_m": false, "H_tau_eq_xInvM_c_m": false, "H_tau_eq_c_m_xInvM": false}
+    ],
+    "verdict": "m=0 representatives (this task's actual subject): FULLY self-consistent, all hexagon checks pass under word-level construction in both windows -- the m=0 layer is clean and independent of the census/shortcut dispute. m=2 (a DIFFERENT, unrelated shadow used only as a canary probe): H_theta passes but H_tau fails under all 3 tested targets -- this is the disputed case requiring T-REF, not resolved here."
+  },
+  "S1_S5_implementation_status": {
+    "S1_E_construction": "DONE conceptually -- E is understood as the image of the free group on {x,y} in PN (order 192 for both windows), NOT Bq (order 1152) -- this reading was inferred from theta/tau's domain (x,y) and the canary-2 findings, but has NOT been confirmed by the mathematician; flagged in the accompanying message as needing confirmation.",
+    "S2_S5_schreier_and_linear_system": "NOT IMPLEMENTED. Building the r=193 Schreier generators of N_F2=ker(F(x,y)->PN) via Reidemeister-Schreier (BFS+transversal+rewriting), the resulting E-module structure on V=N_F2/K_F2 (PN acting by conjugation), and the Fox-calculus-style linearization of the two hexagon conditions H_theta/H_tau with respect to a correction w in V, followed by an affine linear-system solvability test, is a substantial NEW construction (structurally analogous to this session's L3-radical Fox-derivative work, but for a genuinely new module and two new target functions) that was not completed within the expected minutes-order budget. A clarifying question was sent to the commander (interpretation confirmation + request for either a concrete linear-system recipe from the mathematician, or explicit authorization to spend the larger implementation time this requires) before proceeding further, to avoid delivering an unverified survive/fake verdict built on an unconfirmed design."
+  },
+  "grade": "candidate for S0/canary-1/canary-2 (machine-computed, GAP-verified, no design ambiguity) -- S1-S5 UNSTARTED/paused pending commander guidance, not a verdict.",
+  "wall_seconds_approx": 90,
+  "superseded_note_2026_08_22": "This v1 cert's S1_S5_implementation_status (E=PN via F(x,y), r=193, theta_*/tau_* linearization design) was SUPERSEDED by the mathematician's corrected spec on the same day -- see search/certs/koubou83_theta_linearization_v1_20260822.json (theta-row work built under the superseded design, itself now also superseded) and search/certs/koubou83_survival_v2_20260822.json (current design: N=N_PB3 index 1152, K=[N,N]N^2, V=H_1(N;F2), PRECHECK-FREE + weakened-litmus + pending R-b linear system). This file is NOT renamed and NO existing field value above has been altered -- this note is appended only, per commander instruction 2026-08-22, so the original record of what was computed under the earlier (now-superseded) design remains intact and auditable. S0_kernel_structure, canary_1/2/4, and kappa_measurement_2026_08_22 above remain independently valid (they do not depend on the superseded E/Schreier design) and are reused as-is in koubou83_survival_v2_20260822.json's representative selection."
+}
