@@ -244,7 +244,7 @@ p を素数、K を [N,N]N^p ⊆ K ⊆ N, K ⊴ B₃ とし V := N/K(N は自明
 
 記号: A := N/[N,N](可換)、W := N_{F₂} = N∩F₂。K_n の A における像は nA。
 
-**(0)** [N,N] と N^n は N の characteristic 部分群、N ⊴ B₃ ゆえ K_n ⊴ B₃。K_n ⊇ [N,N]N^{|N/[N,N]|·…} で有限指数。
+**(0)** [N,N] と N^n は N の characteristic 部分群、N ⊴ B₃ ゆえ K_n ⊴ B₃。有限指数の理由(Sol 便 155 誤記訂正): **A = N/[N,N] は有限生成可換群なので N/K_n ≅ A/nA は有限**(B₃ の有限指数部分群 N は有限生成・その可換化も有限生成)。〔旧文「K_n ⊇ [N,N]N^{|N/[N,N]|·…}」は意味をなさず撤回 — Sol 便 155 §2 A2〕
 
 **(1)** A の中で aA ∩ bA = abA:⊇ は自明。⊆ は Bézout:ra+sb=1 なら α ∈ aA∩bA に対し α = raα + sbα ∈ a(bA') + b(aA'') ⊆ abA(α = aα' = bα'' と書けば raα+sbα = ra(bα'')+sb(aα') = ab(rα''+sα'))。よって K_a∩K_b は A で abA に対応 ⟹ K_a∩K_b = K_{ab}。また aA + bA = A(Bézout)⟹ K_aK_b = N。
 
@@ -265,7 +265,7 @@ p を素数、K を [N,N]N^p ⊆ K ⊆ N, K ⊴ B₃ とし V := N/K(N は自明
  - **hexagon**: hexagon 条件は類 (m + K_ord ℤ, f K_{F₂}) のみに依存する(2401 の (3.4) 直後の注)。よって (m_*,f_*) は mod K_a でも mod K_b でも hexagon を満たす。hexagon は「ある元が K に入る」形の条件だから、**その元は K_a∩K_b = K_{ab} に入る** ⟹ **(m_*,f_*) は mod K_{ab} で hexagon を満たす**。
  - **charming(単元)**: 2m_*+1 ≡ 2m_a+1 (mod (K_a)_ord) ゆえ gcd(2m_*+1,(K_a)_ord) = 1、同様に (K_b)_ord とも互いに素。(3) より (K_{ab})_ord = lcm なので **gcd(2m_*+1, (K_{ab})_ord) = 1**。
  - **charming(可換化)**: ab(f_*) ∈ ab(f_a) + Λ_{K_a} = Λ_{K_a}、同様に ∈ Λ_{K_b}。(4) より **ab(f_*) ∈ Λ_{K_{ab}}**。
- - **全射性**: K_{ab}=K_a∩K_b・K_aK_b=N より **B₃/K_{ab} ≅ (B₃/K_a) ×_{B₃/N} (B₃/K_b)**(fibre product)。V_a := N/K_a は指数 a の可換群、V_b := N/K_b は指数 b の可換群で **gcd(|V_a|,|V_b|)=1**。H := Im(T_{m_*,f_*}) ≤ B₃/K_{ab} は B₃/K_a と B₃/K_b の双方へ全射(それぞれ T_{m_a,f_a}, T_{m_b,f_b} の全射性)。よって |H| は |B₃/N||V_a| と |B₃/N||V_b| の双方で割り切れ、gcd(|V_a|,|V_b|)=1 より lcm = |B₃/N||V_a||V_b| = |B₃/K_{ab}| で割り切れる ⟹ **H = B₃/K_{ab}**。
+ - **全射性**: K_{ab}=K_a∩K_b・K_aK_b=N より **B₃/K_{ab} ≅ (B₃/K_a) ×_{B₃/N} (B₃/K_b)**(fibre product)。V_a := N/K_a ≅ A/aA・V_b := N/K_b ≅ A/bA は有限可換群で、**|V_a| の素因子は a の素因子に限られ・|V_b| の素因子は b の素因子に限られる**(A/nA の exponent | n)⟹ gcd(a,b)=1 より **gcd(|V_a|,|V_b|)=1**。〔旧文「指数 a の可換群」は誤り — Sol 便 155 §2 A2 訂正。lcm 論法はこの形で成立〕H := Im(T_{m_*,f_*}) ≤ B₃/K_{ab} は B₃/K_a と B₃/K_b の双方へ全射(それぞれ T_{m_a,f_a}, T_{m_b,f_b} の全射性)。よって |H| は |B₃/N||V_a| と |B₃/N||V_b| の双方で割り切れ、gcd(|V_a|,|V_b|)=1 より lcm = |B₃/N||V_a||V_b| = |B₃/K_{ab}| で割り切れる ⟹ **H = B₃/K_{ab}**。
  ⟹ **[m_*,f_*] ∈ GT(K_{ab})** かつ R_{K_{ab},N}([m_*,f_*]) = (m_*+N_ord ℤ, f_*N_{F₂}) = [m,f]。∎
 
 ### 4.3 裁定と射程

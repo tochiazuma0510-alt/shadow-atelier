@@ -3,8 +3,8 @@
 > **⚠ 監査注記**: 同日の Sol 便 154(sol/sol_reply_154_daily.md)= **差し戻し(STOP 4 = F1〜F4)**。本索引は限定文言へ同期済み。正本 = CLAIMS C-15(v4)。
 
 ## §0 三行
-1. **どこまで到達したか**: isolated 2 窓で **p=3 full-48 = 48/48 生存**(v2 producer・核不変性で厳尽・単系統 → 独立照合器は便 155 work order)・うち **24 行は cross-checked**(単位規約問題(INC-13)を経て維持 — 理由 = 法 3 冪で単位誤差不可視・cert 明記済)・障害類 = p=3 の 26/26 ゼロ。**p=2 full-48 = 48/48(v3・PIN-AB-1 準拠・初の実検査・単系統 candidate)** — 単位 2 倍バグ(INC-13)で v1/v2 の mod-2 検査は恒真化していたが、正規約 v3 で全 96 行が別 witness により生存(対照 P-A2-1/2 的中・unsolvable 0)。**登録済み有限探針からは fake 証明書 0(全体判定 = UNKNOWN-DEPTH/UNKNOWN-STRUCTURAL)**。
-2. **何が残ったか**: 非内部元の生存機構(主要残問)・**C-83-INN の marked-form lift 補題(F4・conditional)**・transgression 実 rank(End 次元読解は撤回)・K₆ fibre-product 補題・GAP-83-3・TORUS-GAP-1・F1 再走の帰結。
+1. **どこまで到達したか**: isolated 2 窓で **full-48 単段生存が二素数とも cross-checked**(便 155・WO-155-1): p=3 = v2 producer(核不変性で厳尽)×独立照合器 96/96・p=2 = v3(PIN-AB-1 準拠・**初の実検査** — v1/v2 は単位 2 倍バグ INC-13 で mod-2 検査が恒真化)×同 96/96。照合器 = Luna 実装・著者分離・producer 非開封・全ゲート 192/192・対照 P-A2-1/2 的中(verdict a144249b…・commit d7a3ff09・射程 pin は CLAIMS C-15)。K₃ 深部 24 行 cross-check(維持理由 = 法 3 冪で単位誤差不可視)・障害類 = p=3 の 26/26 ゼロも維持。**登録済み有限探針からは fake 証明書 0(全体判定 = UNKNOWN-DEPTH/UNKNOWN-STRUCTURAL — 便 155 後も不変)**。
+2. **何が残ったか**: 非内部元の生存機構(主要残問)・**GAP-INN-1 = C-83-INN の marked-form lift 補題(F4・conditional のまま)**・transgression 実 rank(End 次元読解は撤回)・GAP-83-3・TORUS-GAP-1。〔K₆ fibre-product = proved 昇格・F1 再走帰結 = 解決 — 便 155 反映〕
 3. **再開条件**: **c∉N の対象に適用できる算術機構**の入手(金庫 intel/: Ishii 2312.04196・Enriquez 1003.1012・Lochak–Nakamura–Schneps 2602.12462)。lane の現状 = **park**(登録済み経路の使い切りによる休止・非存在定理ではない)。
 
 ## §1 正本の主張
@@ -19,7 +19,7 @@
 | koubou83_k3_witness_export_v1_20260822.json | witness 生値(f/w/k/f″/witness_m) | 884e9c2199188eab |
 | crosscheck/verdicts/koubou83_survival_k3_crosscheck_v2 | 独立照合 v2(破壊対照つき 24/24) | (v2・supersedes v1) |
 | koubou83_survival_k5_v1_20260822.json | K₅(p=5)全生存(単系統・情報量 UNKNOWN) | 81ba289e5fc8f5b9 相当 |
-| koubou83_h2_obstruction_v1_20260822.json | dim H²=23/11(3 経路)・障害類 48/48 ゼロ | d54401ed798016e4 |
+| koubou83_h2_obstruction_v1_20260822.json | dim H²=23/11(3 経路)・障害類 = **p=3 の 26/26(非自明 24+対照 2)ゼロ**(「48/48・両素数」は F2 で撤回済 — cert 実母数どおり) | d54401ed798016e4 |
 | koubou83_closure_v1_20260822.json | A-1 撤回・A-2′・A-3・A-4・COMP-1・end_ring_dims — **⚠ hard-coded 集計の単一系統 candidate(manifest なし・A-2′「48/48」は F1 で無効・erratum 追記済・cross-checked 根拠に使わない)** | (erratum 追記で sha 更新) |
 | koubou83_charming_sweep_v1_20260822.json | p=2 charming 掃引 24 行・位数ラベル | efc6066798e536d3 |
 ### 2.2 経路の閉鎖 3 本

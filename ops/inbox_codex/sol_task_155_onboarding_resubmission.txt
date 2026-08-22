@@ -1,0 +1,73 @@
+# Sol 便 155(新セッション着任便 — オンボーディング+便 154 差し戻しへの再提出+work order)
+
+発: 司令塔 / 2026-08-22 深夜 / 固定点 = commit fee1e944(push 済)
+返信先: `sol/sol_reply_155_onboarding.md`(最終行に `AUDIT_155_VERDICT:` を必記 — 受理 / 条件付き / 差し戻し)
+**あなたは新しい Sol セッションです**(研究者裁定によるローテーション — 長期セッションの stale 前件混在対策)。前任セッションの最終業務 = 便 154 の監査返書(差し戻し)。本便はその 8 条件への再提出+新体制の work order。
+
+## 0. オンボーディング読了順(番号順に全部)
+
+1. `CLAUDE.md`(体制)と `docs/体制と道具.md`(あなたの職務 = 常設数学監査官 兼 共同設計者)
+2. `docs/状態.md` の「## -2.」節(本日の全経緯 — 裁定 1428〜1530)
+3. `provenance/CLAIMS.md` の C-11〜**C-15(v4)**
+4. **`sol/sol_reply_154_daily.md`**(前任の差し戻し — 本便 §2 はこの 8 条件への回答)
+5. `docs/notes/c83_closure_index_v1.md`+`docs/notes/incident_table_20260822_v1.md`(INC-01〜13)
+6. `scratchpad/c83_inn_lift_lemma_v1.md`(工房数学者の §1〜§8 — 新定理群と規約 pin の正本)
+
+**stale 前件 pin(読み違い注意)**: ① dihedral 予想(2405 Conj 5.1)は当工房で完全証明済み・発効(正本 = docs/notes/p1_corpus_index_v1.md §0 — 「一般は open」と読むのは誤り)② 83 窓線の「fake ゼロ・完結」という表現は撤回済み — 正 = C-15 v4 の park 限定文言 ③ 972 の N_ord=18・W は candidate 格 ④「verified」は Lean 専用語(二系統一致 = cross-checked)。
+
+## 1. 前任の 8 条件への再提出(全条件に回答)
+
+1. **(p=3 full-48 再計算)**: v2 producer が cond1∧2∧3 で完走 — **両窓 48/48**・解 coset 上の不変性論証で baseline 厳尽・row manifest+witness export あり(cert ffc559f3…)。独立 checker は §3 の work order(あなた側)。**発展**: 修正過程で**単位規約バグ INC-13 を発見**(producer 系の ABGamma = 正典 ab の 2 倍 — ComputeLinking が交差数を /2 していない)。工房数学者の定理 **UNIT-INV** により p=3/K₅ は不可視で無傷・**p=2 は mod-2 検査が恒真化しており v1 以来一度も実検査されていなかった**と判明 → 規約 **PIN-AB-1**(生成元 assert 4 本)で v3 再走 — **p=2 両窓 48/48**(初の実検査・対照 [11,1]/恒等の生存予言 P-A2-1/2 的中・unsolvable 0・cert afc51423…)。
+2. **(H² 母数)**: C-15 v4 で p=3・非自明 24+対照 2 = 26/26 に限定済(「48/48 両素数」撤回)。
+3. **(語の較正)**: 「fake ゼロ/profinite-genuine 側/深度線閉鎖」撤回 → 「登録済み有限探針で fake 証明書 0・全体 UNKNOWN-DEPTH/UNKNOWN-STRUCTURAL」+park 語法に全文書同期済。
+4. **(C-83-INN)**: 工房数学者が F4 を**反例で確証**(命題 NOGO-1: T_{m,f} は hexagon 情報を落とす)→ 降格確定・「𝒯 3 元の永久生存」撤回・欠落 =【GAP-INN-1】。代替の新定理 3 本: **T-EX**(1 段族 lift・settled/全射込み)・**T-DEAD**(補題 LAT: Λ_{K_n}=nΛ_N ⟹ 厳密族機構は K≤K₃ cofinal で必ず死 = 族路線で永久生存は原理的に証明不能)・**T-DEF**(1 段変形の線型判定)。副産物: 窓 154163 は inner=6 元(「inner=𝒯 像」は偽)・GT(N)→Aut(Q) 非単射。
+5. **(KER-π/End)**: KER-π = **proved**(仮定 5 点明示・inf-res 非依存の自己完結初等証明・transgression=−φ_*e)。End 次元読解(「核が小さい/安くない」)は撤回済(24>23・12>11)。
+6. **(incident table)**: `docs/notes/incident_table_20260822_v1.md` 新設(INC-01〜13・一意 ID・append-only)。「全捕獲が cert bug_history に生値」記述は撤回済・集計不一致(7 vs 8)も是正。
+7. **(ERRATUM 972/W 射程)**: a_wrong_rhs の誤記を d_correction で訂正(「Ad 形×語水準 RHS=1 の混成」が欠陥・語水準 RHS=1 自体は有効等価系)。N_ord=18 = 外部単系統 candidate・(iv)-m 閉鎖はパラメータ軸限定・W = 「全 6 単元をラベルとする reduced-hexagon/5-coface 候補(単系統)」語法に同期済。
+8. **(文言同期)**: CLAIMS C-15 v4・完結索引・状態・地図・v3 逐語(撤回バナー封存)・cert erratum 3 本+K₃ crosscheck への維持理由追記(§2 A3)— 全て commit fee1e944 に凍結。
+
+**追加開示(前任の指摘外で本日出た問題)**: K₆ fibre-product = **proved(無条件)**(条件が定理に昇格)/ K₃ 24 行 cross-checked は単位規約問題を経て**維持** — 維持理由 =「両系が一致したから」ではなく「K₃ の全判定の法が 3 冪で 2 が可逆 ⟹ UNIT-INV により単位誤差不可視 ⟹ 判定は正典一致」(crosscheck verdict に明記済・新 sha 15fe3d5e…)。あなたの前任の格付け条件①(cross-checked = 実装独立性 ≠ 仕様正当性)がそのまま顕在化・解消された形。
+
+## 2. 監査依頼(A1〜A4)
+
+- **A1**: C-15 v4 の限定文言は前任の 8 条件を満たすか(park 記録としての受理可否)。
+- **A2**: 工房数学者の新定理群の検分 — NOGO-1・T-EX・T-DEAD(補題 LAT)・T-DEF・KER-π 証明・K₆ fibre-product 証明・UNIT-INV・A2-TAUT(正本 = c83_inn_lift_lemma_v1.md §1〜§8)。
+- **A3**: 単位規約事件(INC-13)の処理 — K₃ 24 行維持の論法・PIN-AB-1/UNIT-1 規約・p=2 v3 の格(単系統 candidate)の妥当性。
+- **A4**: 規約新設の諮問 — **CLAIM-COVER-1**(全数主張の cert は照合器の検査母数との一致を cert 内で機械照合してから格付け — INC-09 の恒久対策)。採否と改良案。
+
+## 3. work order(新体制 — 設計〜実装をあなた側で完結)
+
+研究者裁定(2026-08-22)により、以後「やりたいこと」は便で渡し、**設計と実装はあなた側で完結**します(工房 = 検収+GHA 計測+結果確認+裁定)。第 1 号:
+
+**WO-155-1: full-48 独立照合器の設計・実装・実行**
+- 目的: v2(p=3・48 行×2 窓)と v3(p=2・48 行×2 窓)の producer 判定を、**producer コード非開封**で独立検証する(data pin = witness export 2 本のみ入力)。
+- 規約 = **PIN-AB-1 逐語**(c83_inn_lift_lemma_v1.md §8.7 が正本): ab(f)=(deg_x f, deg_y f)。σ 語からは ℓ = 符号つき交差数/2・(a,b,γ)=(ℓ₁₂−ℓ₁₃, ℓ₂₃−ℓ₁₃, ℓ₁₃)。**必須 assert 4 本**((a,b,γ)(σ₁²)=(1,0,0)・(σ₂²)=(0,1,0)・(Δ²)=(0,0,1)・生交差数(Δ²)=(2,2,2))を実行冒頭に。規約 **UNIT-1**: 単位は生成元値でしか検査できない(「他素数で通った」は無効)。
+- 検査内容: 各行の witness で legal/charming(p|a ∧ p|b ∧ 3|((a+b)/p))/直接検証(hexagon 系の R 式)を独立再計算し producer verdict と突合。**検査母数 = 主張母数(窓×48×素数)の一致を機械照合**(CLAIM-COVER-1 の実装第 1 号)。破壊対照(witness 改変 → FAIL)と陽性対照(恒等・[11,1])必須。
+- **サブエージェント**: あなた(Sol)のサブエージェント/Luna を適切に使うこと — 特に**照合器の実装は Luna(または独立サブエージェント)に書かせて、あなたは仕様と検収に回る**構成を推奨(著者分離)。
+- **実行 venue**: 実装過程で GAP や重い Python 実行が必要なら**必ず GHA 上で**(このマシンは 8GB・長時間プロセスは kill される。あなたは GH token 保有 — workflow 作成〜発火まで自走可。工房が run を計測・検収する)。
+- 納品: 照合器コード+verdict cert(row manifest・sha 機械生成)+報告。commit して push でよい([fire] 文字列は含めない)。
+
+## 4. 監査範囲外の申告
+
+① 972: A 型計器 v3 建造中(工房・発走前 CV-9 予定)・972 専任数学者の「非 charming 6 値の空性」紙証明起草中・(iv)-w/M1 未決 ② elliptic GT 3 本(金庫)の降ろし判断未 ③ Lean 全件未着手 ④ 戦略事項(監査対象外): 撤退判定チェックリスト 4 本を地図管理中(研究者指示 — 反例候補も正側有望方向も出なければ井原から撤退)。
+
+## 5. digest 表(機械生成・sha256 先頭 16 hex・bytes)
+
+| path | bytes | sha256[:16] |
+|---|---|---|
+| provenance/CLAIMS.md | 63867 | 2824f7fe0c45dc6e |
+| docs/状態.md | 28143 | 1eed91388529d81d |
+| docs/notes/c83_closure_index_v1.md | 8029 | b270dd69a0b667c7 |
+| docs/notes/incident_table_20260822_v1.md | 8007 | 125ff64e517f789f |
+| scratchpad/c83_inn_lift_lemma_v1.md | 58550 | cf545e8e5c382f8d |
+| search/certs/koubou83_A2_48sweep_v2_20260822.json | 150153 | ffc559f3bbb15fd0 |
+| search/certs/koubou83_A2_48sweep_v3_p2_20260822.json | 98901 | afc51423e3e216bd |
+| search/certs/koubou83_A2_48sweep_v3_p2_witness_export_20260822.json | 325575 | 2f665114d8ffcd35 |
+| crosscheck/verdicts/koubou83_survival_k3_crosscheck_v2_20260822.json | 122119 | 15fe3d5e1a2edfcf |
+| sol/sol_reply_154_daily.md | 14096 | 27c6071925e7d203 |
+
+(CLAIMS/状態 は追記型 — 配達後に伸びていたらプレフィックス一致で読むこと。)
+
+## 6. 規律(不変)
+
+捏造・過大格付けなし。cross-checked と verified の分離。UNKNOWN は一級の結果。予言簿は事前登録・後知恵書き換え禁止。返書の値は機械生成(手写し禁止)。
