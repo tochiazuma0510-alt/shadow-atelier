@@ -1,4 +1,4 @@
-name: D972 dovetail v2 whole-process checkpoint
+name: D972 dovetail v2.3 whole-process checkpoint
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: d972-dovetail-v2-whole-process
+  group: d972-dovetail-v2-calibration-v5-whole-process
   cancel-in-progress: false
 
 jobs:
@@ -30,8 +30,8 @@ jobs:
     timeout-minutes: 330
     env:
       RUNTIME_ROOT: .d972-runtime
-      ARTIFACT_NAME: d972-dovetail-v2-state
-      ARTIFACT_ARCHIVE: d972-dovetail-v2-state.tar
+      ARTIFACT_NAME: d972-dovetail-v2-calibration-v5-state
+      ARTIFACT_ARCHIVE: d972-dovetail-v2-calibration-v5-state.tar
       MANIFEST_V2: search/d972_dovetail_manifest_v2.json
       PRODUCER_V2: search/d972_dovetail_producer_v2.py
       CHECKER_V2: search/check_d972_dovetail_v2.py
@@ -45,7 +45,7 @@ jobs:
         id: predecessor
         uses: actions/github-script@v7
         env:
-          ARTIFACT_NAME: d972-dovetail-v2-state
+          ARTIFACT_NAME: d972-dovetail-v2-calibration-v5-state
           REQUESTED_RESUME: ${{ env.REQUESTED_RESUME }}
         with:
           script: |
@@ -96,7 +96,7 @@ jobs:
         if: steps.predecessor.outputs.run_id != ''
         uses: actions/download-artifact@v4
         with:
-          name: d972-dovetail-v2-state
+          name: d972-dovetail-v2-calibration-v5-state
           path: .d972-artifact-download
           run-id: ${{ steps.predecessor.outputs.run_id }}
           github-token: ${{ github.token }}
@@ -405,7 +405,7 @@ jobs:
             python3 - "$SOURCE_COMMIT" <<'PY'
           import json, pathlib, sys
           pathlib.Path('.d972-runtime/campaign-meta.json').write_text(
-              json.dumps({'campaign_id':'d972-roof-A-semidecision-v2','source_commit':sys.argv[1]}, sort_keys=True) + '\n')
+              json.dumps({'campaign_id':'d972-roof-A-semidecision-v2-calibration-v5','source_commit':sys.argv[1]}, sort_keys=True) + '\n')
           PY
           fi
           status=$(python3 - <<'PY'
@@ -544,7 +544,15 @@ jobs:
           deadline=$((SECONDS + REQUESTED_SLICE_MINUTES * 60))
           while kill -0 "$computation_pid" 2>/dev/null && ((SECONDS < deadline)); do sleep 20; done
           if ! kill -0 "$computation_pid" 2>/dev/null; then
+            set +e
             wait "$computation_pid"
+            computation_rc=$?
+            set -e
+            if ((computation_rc != 0)); then
+              printf 'D972_CAMPAIGN_NATURAL_EXIT_UNKNOWN rc=%s diagnostics=%s\n' \
+                "$computation_rc" "$RUNTIME_ROOT/checker"
+              exit "$computation_rc"
+            fi
             rm -f "$PENDING_ENVELOPE"
             python3 - <<'PY'
           import pathlib, shutil
@@ -695,10 +703,19 @@ jobs:
         if: steps.campaign.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
-          name: d972-dovetail-v2-state
-          path: d972-dovetail-v2-state.tar
+          name: d972-dovetail-v2-calibration-v5-state
+          path: d972-dovetail-v2-calibration-v5-state.tar
           if-no-files-found: error
           compression-level: 0
+          retention-days: 7
+
+      - name: Upload bounded calibration diagnostics on STATE_STOP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-dovetail-v2-calibration-v5-diagnostics-${{ github.run_id }}
+          path: .d972-runtime/checker/d972-independent-calibration-failure-v5.json
+          if-no-files-found: ignore
           retention-days: 7
 
       - name: Summary

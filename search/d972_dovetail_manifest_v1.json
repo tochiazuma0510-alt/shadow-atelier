@@ -7,8 +7,16 @@
     "q0_order": 1469664,
     "qbar": "B3/M",
     "qbar_order": 8817984,
-    "start_k": 3,
-    "predicate": "all finite B3-stable marked-over-base extensions, ordered by (k,H,outer_action,extension_class,marked_orbit)",
+    "start_k": 8,
+    "predicate": "all finite B3-stable marked-over-base extensions for the A semidecision, ordered by (k,H,outer_action,extension_class,marked_orbit); k=3..7 are frozen all-pass prefix and skipped for A soundness only",
+    "skipped_prefix": {
+      "k_range": [3, 7],
+      "status": "FROZEN_ALL_PASS_NOT_RECHECKED",
+      "a_soundness_effect": "none: one exact isolated zero-fiber witness is sufficient",
+      "b_or_completeness_authority": false,
+      "anchor": "sol/sol_reply_151_finish.md#section-3",
+      "anchor_sha256": "36460bb959ec8f81efc5989e722ec2a3d1490c71a8a67f92cc18488cd3c09c2c"
+    },
     "manual_universe_override": false
   },
   "cursor_order": [
@@ -22,7 +30,7 @@
     "ready": false,
     "schema": {
       "path": "search/d972_dovetail_state_schema_v1.json",
-      "sha256": "6b693fde5236216d0839396e19e22b168da81399788c5e4190d29b99d9d6571a"
+      "sha256": "945ca3b20ac6f9efe5199756567569b73b3d768932dd60fed3fbcc0f120443c1"
     },
     "code": {
       "producer": {
@@ -161,7 +169,7 @@
   },
   "cursors": {
     "producer": {
-      "k": 3,
+      "k": 8,
       "H": {"index": 0, "semantic_key": "@unstarted"},
       "outer_action": {"index": 0, "semantic_key": "@unstarted"},
       "extension_class": {"index": 0, "semantic_key": "@unstarted"},
@@ -169,7 +177,7 @@
       "stage": "H"
     },
     "checker": {
-      "k": 3,
+      "k": 8,
       "H": {"index": 0, "semantic_key": "@unstarted"},
       "outer_action": {"index": 0, "semantic_key": "@unstarted"},
       "extension_class": {"index": 0, "semantic_key": "@unstarted"},
@@ -177,7 +185,7 @@
       "stage": "H"
     },
     "agreed": {
-      "k": 3,
+      "k": 8,
       "H": {"index": 0, "semantic_key": "@unstarted"},
       "outer_action": {"index": 0, "semantic_key": "@unstarted"},
       "extension_class": {"index": 0, "semantic_key": "@unstarted"},
@@ -196,7 +204,7 @@
     "semantic_key_set_sha256": null,
     "k_ledger": [
       {
-        "k": 3,
+        "k": 8,
         "status": "OPEN",
         "k_closed": false,
         "enumerator_complete": false,

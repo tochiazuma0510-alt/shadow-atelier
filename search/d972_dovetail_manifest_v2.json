@@ -1,6 +1,6 @@
 {
   "schema": "d972-dovetail-orchestration/v2",
-  "campaign_id": "d972-roof-A-semidecision-v2",
+  "campaign_id": "d972-roof-A-semidecision-v2-calibration-v5",
   "universe_id": "B3-stable-marked-extensions-over-K9-intersection-NS4-k-ge-8-skip3-7/v4",
   "prefix_policy": {
     "skipped_k_range": [3, 7],
@@ -59,7 +59,7 @@
     "calibration_paper_premise": "sol/sol_reply_143_typedfiber.md#5.4"
   },
   "dmtcp_contract": {
-      "contract_version": "d972-dmtcp-whole-process/v2.2",
+      "contract_version": "d972-dmtcp-whole-process/v2.3",
       "legacy_seed_workflow_rebind": {
         "version": "d972-legacy-seed-workflow-rebind/v1",
         "scope": "fresh-genesis-seed-only",
@@ -76,7 +76,7 @@
         "fail_closed_on_precondition_drift": true
       },
       "calibration_contract": {
-        "version": "d972-direct-bq-calibration/v4",
+        "version": "d972-direct-bq-calibration/v5",
         "route": "explicit-permutation-BQ",
         "bq_order": 8817984,
         "raw_fp_quotient_size_forbidden": true,
@@ -276,7 +276,7 @@
     },
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-      "contract_sha256": "5025d1cdcd3006c6a51b939aac062313aa4f419f175e53bdac386ac38331ba63"
+      "contract_sha256": "48e2afee1966b3952855be4f8a48cb3fbd14d74910f5b5eab6afe4e188084014"
   },
   "launch_spec": {
     "cwd": ".",
@@ -324,7 +324,7 @@
     ]
   },
   "resume_policy": {
-    "artifact_name": "d972-dovetail-v2-state",
+    "artifact_name": "d972-dovetail-v2-calibration-v5-state",
     "latest_predecessor_only": true,
     "explicit_run_must_equal_latest": true,
     "source_commit_checkout_required": true,
