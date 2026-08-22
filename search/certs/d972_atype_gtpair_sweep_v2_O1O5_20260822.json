@@ -98,6 +98,19 @@
     "total_gt_pairs": 3
   },
   "engine": "scratchpad/audit_P0_naive_judge_v4.py (composition-order-fixed, self-tests PASSED)",
+  "erratum_972_M_01": {
+    "applied_at_utc": "2026-08-22T08:26:20.675824+00:00",
+    "effect": "APPEND-ONLY -- no existing field or value in this cert was modified. This erratum supersedes the INTERPRETATION of this cert's measurements, not the raw measurements themselves.",
+    "erratum_id": "ERRATUM-972-M-01",
+    "issued_by": "972 specialist mathematician, first ruling (972-01)",
+    "reasons": {
+      "a_wrong_rhs": "the primary predicate tested here used RHS=1 (word-level tau_0 substitution form); the correct Ad-form predicate has RHS=c^m. Since ord(c)=18 (measured this session, kappa_full(e4)), testing RHS=1 for m=1..8 (where c^m != identity in general) is a TAUTOLOGICAL failure of the WRONG predicate -- it does not show m=1..8 fail to be GT-pairs, it shows RHS=1 was never the right condition to test for m!=0.",
+      "b_half_period": "the m-range 0..8 used in both certs is HALF of the TRUE N_ord=18 -- the '9' measured earlier in this session was the period of a COARSE/normalized-orbit quotient, not the fine object e4 itself; e4's own 5 cofaces have ord=18.",
+      "c_wrong_f_universe": "the f-universe swept in both certs was restricted to the 27 correction-fibre words alone; the CORRECT universe is roof x correction = 6 x 27 = 162 words. The O-4 'mismatch' found in v2 (FIXED_WORD not a member of the 27-word list) was the CORRECT detection of exactly this error, not a flaw needing separate resolution."
+    },
+    "retracted_phrase": "\"GT-pair is m=0 only\" -- USE OF THIS PHRASE AS A SUMMARY OF THIS CERT IS RETRACTED/FORBIDDEN going forward.",
+    "successor_instrument": "A-type instrument v3 (spec = 972-01 Section4/Section10 verbatim) -- pending falsifier CV-9 clearance before running (per ruling, not yet requested/cleared as of this erratum)."
+  },
   "generated_at_utc": "2026-08-22T07:42:39.817199+00:00",
   "grade": "candidate, single-system measurement (this file's own from-scratch artin/meridian engine, composition-order-fixed); O-1 list is the FROZEN correction_fibre enumeration (not guessed); O-4 shows a literal MISMATCH between B's own h1(0) and this list -- flagged, not resolved here.",
   "schema": "d972-atype-gtpair-sweep/v2-O1O5",

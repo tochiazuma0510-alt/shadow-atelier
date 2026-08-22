@@ -1,0 +1,114 @@
+{
+  "cert_id": "koubou83_closure_v1_20260822",
+  "campaign": "koubou83-survival, closure of the 83-line (mathematician's 4-measurement closure package, 2026-08-22): A-1(withdrawn)/A-2'(48-shadow sweep)/A-3(m=6 layer order)/A-4(TORUS-GAP-1 expanded)/COMP-1(composition-law discriminating experiment)",
+  "grade": "candidate / cross-checked-pending (NOT verified -- Lean not run)",
+  "A1_status": {
+    "task": "Omega additivity test (Omega(g1 o g2) = Omega(g1)+Omega(g2) over the 48-shadow composition table, p in {2,3})",
+    "status": "WITHDRAWN -- superseded by COMP-1's discovery that the composition law itself first needed to be pinned down correctly (see COMP-1 below); the additivity question was not reached in this pass. Not counted as tested, confirmed, or falsified."
+  },
+  "A2_prime_48shadow_sweep": {
+    "task": "1-step survival sweep (p in {2,3}) over the FULL 48-shadow set (=corr, all hexagon-satisfying (m,f) pairs = GT(N)) using the existing sign-fixed, row/column-corrected A-differential augmented-system machinery.",
+    "method_note": "used the mod-2/mod-3 generic 2-condition charming test (Lambda_Kp=p*Lambda_N); the p=3-specific 3rd (mod-9) refinement was intentionally NOT applied here, since it was a refinement specific to that earlier campaign step, not part of the generic 1-step-survival definition being swept.",
+    "results": {
+      "window_1152_154161": "survives-p2=48/48, survives-p3=48/48, survives-BOTH=48/48",
+      "window_1152_154163": "survives-p2=48/48, survives-p3=48/48, survives-BOTH=48/48"
+    },
+    "conclusion": "STRONGEST-FORM negative result: every single one of the 48 shadows in GT(N) survives one step at BOTH p=2 and p=3, both windows, with ZERO exceptions -- no counterexample ('fake') found anywhere in the full 48-element space.",
+    "C83_ARITH_PC_control": "the shadow [m=11, f=Identity(PN)] (the complex-conjugate-type arithmetic control, required to always survive) is one of the 48 elements and is confirmed SURVIVING at both primes as part of the 48/48 result above; its (3.53)-composition order was independently confirmed = 2 (see COMP-1 canary-7)."
+  },
+  "A3_m6_layer_order": {
+    "task": "(3.53)-composition order of the 6 m=6-layer elements, both windows, using the CONFIRMED-CORRECT composition (order P, see COMP-1).",
+    "window_1152_154161": {
+      "orders": [
+        6,
+        6,
+        2,
+        2,
+        6,
+        6
+      ],
+      "multiset": "{6,6,6,6,2,2}"
+    },
+    "window_1152_154163": {
+      "orders": [
+        2,
+        6,
+        6,
+        6,
+        6,
+        2
+      ],
+      "multiset": "{6,6,6,6,2,2}"
+    },
+    "conclusion": "IDENTICAL multiset in both windows: 4 order-6 elements + 2 order-2 elements, ZERO order-3 elements in the m=6 layer (contrast with the m=0/C6 layer's {1,3,3,6,2,6}, which had 2 order-3 elements). The order-6 elements are the strongest evidence carriers for C-83 since they are simultaneously informative at BOTH p=2 and p=3 in a single object (order divisible by both primes), and all 4 of them (both windows) survive per A-2's 48/48 result."
+  },
+  "A4_torusgap1_expanded": {
+    "task": "systematic re-search for a SECOND 'integral' free-group family (type (i)) beyond the known torus family T, with EXPANDED search radius vs. the prior bounded search (m in [-8,8], syllable<=3, exponent<=2).",
+    "expanded_radius": {
+      "mRange": "[-12,12] (25 values)",
+      "maxSyllables": 4,
+      "maxExponentPerSyllable": 3,
+      "wordsEnumerated": 3108,
+      "totalPairsTried": 77700
+    },
+    "enumeration_method": "systematic (NOT random): all alternating x/y-syllable xy-words with 1 to 4 syllables, each exponent in {-3,-2,-1,1,2,3}, tested as g'=y^m*g for every m in the range, against the free-group identities g'*theta(g')=1 and tau^2(g')*tau(g')*g'=1 (theta:x<->y, tau:x->y,y->y^-1x^-1).",
+    "result": "42 (m,g) input combinations tested TRUE (excluding the trivial g'=[] case), but these collapse to only 6 DISTINCT reduced values: y^-k x^k and y^k x^-k for k=1,2,3 -- i.e. EXACTLY the already-known torus family T (both orientations), not a new family.",
+    "conclusion": "NO second integral family found, absent up to this radius (m in [-12,12], syllable<=4, exponent<=3). This is a negative-up-to-radius-R result, NOT a general non-existence proof; type (i) = T only, as far as this expanded search can tell."
+  },
+  "COMP1_composition_law": {
+    "task": "pin down the (3.53) composition law on the 48-shadow set via a canary-arbitrated discriminating experiment (per instruction: canaries decide, not guesswork).",
+    "formula": "psi1(x):=x^u1, psi1(y):=f1^-1*y^u1*f1 (u1=2*m1+1); m_new := (2*m1*m2+m1+m2) mod Nord (m tracked as genuine state, NEVER reconstructed from u alone, since Nord can make m and m+Nord/2 share the same u).",
+    "discriminating_experiment": {
+      "order_P_paper_order": {
+        "formula": "fnew := f1 * Image(psi1,f2)",
+        "canary_1_identity_two_sidedness": "PASS 0/96 (both windows)",
+        "canary_2_u_product_identity": "PASS 0/2304 (both windows)",
+        "canary_3_closure": "PASS 2304/2304 (both windows) -- FULL closure",
+        "canary_4_associativity_100_triples": "PASS 0/100 (both windows)",
+        "canary_5_m0_layer_order_distribution": "[1,3,3,6,2,6] both windows -- MATCHES expected multiset {1,3,3,2,6,6}",
+        "canary_6_P93_1_guard": "PASS |corr|=48, 8 distinct m-values {0,2,3,5,6,8,9,11}",
+        "canary_7_C83_ARITH_PC_order": "PASS order([11,Identity])=2 (both windows)",
+        "verdict": "7/7 PASS"
+      },
+      "order_W_previously_tried": {
+        "formula": "fnew := Image(psi1,f2) * f1",
+        "canary_1": "PASS 0/96",
+        "canary_2": "PASS 0/2304",
+        "canary_3_closure": "FAIL 1024/2304 (both windows) -- NOT fully closed",
+        "canary_4": "PASS 0/100",
+        "canary_5_m0_layer_order_distribution": "[1,12,12,12,2,12] both windows -- DOES NOT match {1,3,3,2,6,6} (12=Nord, indicating several elements never closed within corr and cycled through a larger ambient structure)",
+        "canary_6": "PASS",
+        "canary_7": "PASS order=2",
+        "verdict": "5/7 PASS -- REJECTED"
+      }
+    },
+    "adopted": "order P (paper order, fnew:=f1*Image(psi1,f2)) -- 7/7 canaries, unambiguous margin over order W's 5/7. The earlier 'W-1 GAP-correction' instruction (reverse the product order) was diagnosed by the mathematician as a probable confusion between REVERSING THE COMPOSITE OF AUTOMORPHISMS and reversing the GROUP-ELEMENT PRODUCT -- this canary suite confirms the paper order for the group-element product is correct; the mathematician is separately querying the source of the W-1 instruction.",
+    "note_on_14328_reference": "the mathematician's original reference count (14328) was from the OLD 15-window census at a different scale, not applicable to this 48-element corr; the corrected target for THIS closure's canary-3 is 2304/2304 (48x48 all pairs), which order P achieves exactly."
+  },
+  "conclusion": "The 83-line closure package is COMPLETE with one item (A-1, Omega additivity) explicitly withdrawn pending a well-defined starting point (now available via COMP-1's confirmed composition law, but not re-attempted in this pass). All other items (A-2', A-3, A-4, COMP-1) produced clean, decisive, machine-computed results: 48/48 survival at both p=2,3 across ALL of GT(N) (strongest-form negative result), m=6 layer order distribution pinned down (no order-3 elements, order-6 elements are the strongest C-83 evidence carriers), TORUS-GAP-1 re-confirmed absent-up-to-expanded-radius, and the composition law itself resolved via a clean 7-vs-5 canary margin (not a guess).",
+  "claim_boundary": {
+    "grade": "candidate / cross-checked-pending",
+    "single_system_caveat": "output of ONE explorer system, not independently cross-checked.",
+    "not_verified": "Lean has not checked any of this.",
+    "A1_open": "Omega additivity (the test that would determine whether p=5 and other primes not dividing 48 are automatically informationless) remains UNTESTED, not confirmed or falsified. This is the single most consequential open item for the campaign's final evidence grade.",
+    "A4_radius_caveat": "TORUS-GAP-1's negative result is bounded (m in [-12,12], syllable<=4, exponent<=3) -- absence of a second family within this radius, not a proof of absence at all radii."
+  },
+  "end_ring_dims": {
+    "task": "final closure measurement (mathematician instruction 2026-08-22, lemma KER-pi quantitative key): dim End_{F_p[Q]}(V_p), both windows, p in {2,3}. Q-action := conjugation by sigma1,sigma2 on V_p, built via direct per-basis-word conjugation (same canary-validated construction as the H2-obstruction script). End = {M : M*rho(sigma_i)=rho(sigma_i)*M, i=1,2}, solved as a linear system in the dBasis_p^2 entries of M via Kronecker product.",
+    "bug_found_and_fixed": "the FIRST attempt computed NullspaceMat(FullSys) directly, which gives the LEFT nullspace {v : v*FullSys=0} -- the SAME row/column convention bug this campaign has hit and fixed multiple times before -- yielding an impossible result (dim End = 9628 > 9604 = dBasis^2 for window154161, and 2512 > 2500 for window154163, both exceeding the ambient matrix-space dimension, which is mathematically impossible since End is a SUBSPACE of the full matrix space). Fixed via NullspaceMat(TransposedMat(FullSys)) to get the correct RIGHT nullspace {vec(M) : FullSys*vec(M)=0}.",
+    "results": {
+      "window_1152_154161": {
+        "dBasis": 98,
+        "dim_End_F2": 24,
+        "dim_End_F3": 24
+      },
+      "window_1152_154163": {
+        "dBasis": 50,
+        "dim_End_F2": 12,
+        "dim_End_F3": 12
+      }
+    },
+    "canaries": "Identity matrix and rho(c) (c=(sigma1 sigma2 sigma1)^2, the central element) both confirmed to lie in End for every (window,p) combination -- PASS. dim End >= 1 confirmed for all four measurements.",
+    "conclusion": "dim End is IDENTICAL at p=2 and p=3 within each window (24 for 154161, 12 for 154163), and notably EQUALS K_ord for that window (K_ord=24 for 154161, K_ord=12 for 154163, as measured much earlier in this campaign via direct x^n membership probes) -- both well within the ambient dBasis^2 bound. Per the mathematician's lemma KER-pi (ker pi* = End_Q(V).e), a LARGER End dimension gives a quantitative explanation for why the obstruction vanishes 'cheaply' -- i.e. why H^2 obstruction classes were found to be zero for every candidate tested (koubou83_h2_obstruction_v1): there is a large-dimensional space of Q-equivariant endomorphisms available to absorb any would-be obstruction into the kernel of pi*."
+  }
+}

@@ -1,0 +1,861 @@
+{
+  "schema": "shadow-atelier/koubou83-survival-k3-crosscheck/v1",
+  "generated_by": "crosscheck/check_koubou83_survival_k3.py (independent second system, pure Python, no GAP; reuses this crosscheck's own F2 engine's G=PN Todd-Coxeter construction, which is purely group-theoretic and unaffected by the F2-vs-F3 coefficient choice; producer GAP/py implementation code never opened, only data-pin certs consumed)",
+  "generated_at_utc": "2026-08-22T08:02:33.943379+00:00",
+  "task": "K3 (p=3, depth K3=[N,N]N^3) lane cross-check, FULL pass (26/26 rows): environment quantities (dim V3, K3_ord, kappa) independently reproduced; 26-row verdict comparison via the producer witness export (object-identity pin, judgment-logic-free) -- direct_verify (Phi3-only, no A1/A2 matrices) for all 12 m=0-family rows AND all 12 m6-family rows (using the mathematician's general R(m,f) formula, sec.7), both windows; PC-1 independent commutator control (this crosscheck's own basis) and NC-1 independent strand-tracking (a,b,gamma) control (this crosscheck's own implementation of the recipe) both included.",
+  "pins": {
+    "k3_cert_path": "search/certs/koubou83_survival_k3_v1_1_20260822.json",
+    "k3_cert_sha256_actual": "46cfcfc55b19c4c1ca53a1f72c3ea10c9eb19000f77ba0381ea2062001dd9a5d",
+    "k3_cert_sha256_expected_per_task": "46cfcfc55b19c4c1ca53a1f72c3ea10c9eb19000f77ba0381ea2062001dd9a5d",
+    "k3_cert_sha256_match": true,
+    "k3_cert_sha256_superseded (originally-issued pin, now stale)": "b823e220145de42fdbf442c8acbadbd6ae8493af826d4a75dd89d27f59a110b9",
+    "k3_cert_supersession_note": "b823e220...(old, as originally issued) -> 46cfcfc5...(current). Root cause per commander ruling 2026-08-22: a commander-side process slip -- the commander instructed the producer to append judgment-context notes AFTER issuing the pin. This crosscheck's own `git diff` (run before re-pinning) confirmed the ONLY change between the two hashes is two annotation fields in open_items_pending_mathematician_guidance (a W-2 one-sidedness caveat and a P83-3/W-1 half-bookkeeping note); verdicts/dimV3/K3_ord_determination/sanity_checks -- everything this crosscheck actually reads -- are byte-identical across both hashes. Cross-check validity is therefore unaffected; re-pinned to the current hash per ruling.",
+    "k3_cert_note": "v1.1, W-1 VOID / CH-0 revision (see k3_cert's own proposition_CH_0 and open_items_pending_mathematician_guidance.W1_abelianization_of_witness_product.FINAL_RULING_2026_08_22 fields -- judgment-level context, not re-derived here).",
+    "charming_sweep_cert_path": "search/certs/koubou83_charming_sweep_v1_20260822.json",
+    "charming_sweep_cert_sha256": "efc6066798e536d38c2275e888c43bc3c0c44fa60bdce90761c527907564335f",
+    "charming_sweep_cert_authorization": "commander ruling 2026-08-22, in response to this script's scope question -- authorized as an additional producer-declared data pin (m6-elt1..6 xy_word source only).",
+    "witness_export_path": "search/certs/koubou83_k3_witness_export_v1_20260822.json",
+    "witness_export_sha256_actual": "e8bece2659b09074f14bd700b7a85115d2cfadf17d21c3f62bc8587830046f8a",
+    "witness_export_sha256_expected_per_task": "e8bece2659b09074f14bd700b7a85115d2cfadf17d21c3f62bc8587830046f8a",
+    "witness_export_sha256_match": true,
+    "deep15_path": "search/iso_census83_deep15_data.g",
+    "deep15_sha256": "75905c604b83058ff6406f5c115bfa3325fd4424c98125750e49c2b76bbd35ec"
+  },
+  "windows": {
+    "1152_154161": {
+      "window_id": [
+        1152,
+        154161
+      ],
+      "env_check": {
+        "order_PN_independent": 192,
+        "kappa_independent": 2,
+        "rank_D3_independent": 191,
+        "dim_Ker_D3_independent": 193,
+        "rank_U3_independent": 96,
+        "dim_V3_independent": 98,
+        "coinv_independent (dim_V3 - 1)": 97,
+        "dim_V3_cert_expected": 98,
+        "dBasis3_cert_expected": 98,
+        "dim_V3_matches_cert": true,
+        "n_accepted_basis_words_independent": 98,
+        "n_accepted_basis_words_matches_dim_V3": true,
+        "K3_ord_probe_raw": {
+          "x^12": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "y^12": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "x^24": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "y^24": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "x^36": {
+            "reduces_to_zero": true,
+            "ev_is_identity": true
+          },
+          "y^36": {
+            "reduces_to_zero": true,
+            "ev_is_identity": true
+          },
+          "c^kappa": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          }
+        },
+        "K3_ord_independent": 36,
+        "K3_ord_cert_expected": 36,
+        "K3_ord_matches_cert": true
+      },
+      "m6_elt_F_identification_facts": [
+        {
+          "label": "m6-elt1",
+          "xy_word_text": "x*y*x^-1*y^-1",
+          "xy_word_tokens": [
+            1,
+            2,
+            -1,
+            -2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=33 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 33,
+          "cert_abgamma_f": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt2",
+          "xy_word_text": "x^-1*y^-1*x*y",
+          "xy_word_tokens": [
+            -1,
+            -2,
+            1,
+            2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=38 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 38,
+          "cert_abgamma_f": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt3",
+          "xy_word_text": "x*y*x^-1*y*x",
+          "xy_word_tokens": [
+            1,
+            2,
+            -1,
+            2,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=23 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 23,
+          "cert_abgamma_f": [
+            2,
+            4,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt4",
+          "xy_word_text": "x^6",
+          "xy_word_tokens": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=10 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 10,
+          "cert_abgamma_f": [
+            12,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt5",
+          "xy_word_text": "x^3*y*x^2",
+          "xy_word_tokens": [
+            1,
+            1,
+            1,
+            2,
+            1,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=12 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 12,
+          "cert_abgamma_f": [
+            10,
+            2,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt6",
+          "xy_word_text": "x^3*y^2*x",
+          "xy_word_tokens": [
+            1,
+            1,
+            1,
+            2,
+            2,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=13 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 13,
+          "cert_abgamma_f": [
+            8,
+            4,
+            0
+          ]
+        }
+      ],
+      "witness_export_row_results": {
+        "PC-fam-n4": {
+          "label": "PC-fam-n4",
+          "f_sigma_len": 16,
+          "w_len": 784,
+          "k_len": 24060,
+          "fpp_len": 24826,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt2": {
+          "label": "C6-elt2",
+          "f_sigma_len": 4,
+          "w_len": 784,
+          "k_len": 22380,
+          "fpp_len": 23134,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt3": {
+          "label": "C6-elt3",
+          "f_sigma_len": 4,
+          "w_len": 124,
+          "k_len": 186,
+          "fpp_len": 306,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt4": {
+          "label": "C6-elt4",
+          "f_sigma_len": 12,
+          "w_len": 304,
+          "k_len": 8472,
+          "fpp_len": 8778,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt5": {
+          "label": "C6-elt5",
+          "f_sigma_len": 18,
+          "w_len": 426,
+          "k_len": 16428,
+          "fpp_len": 16852,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt6": {
+          "label": "C6-elt6",
+          "f_sigma_len": 12,
+          "w_len": 352,
+          "k_len": 8916,
+          "fpp_len": 9264,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt1": {
+          "label": "m6-elt1",
+          "f_sigma_len": 8,
+          "w_len": 992,
+          "k_len": 10242,
+          "fpp_len": 11190,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt2": {
+          "label": "m6-elt2",
+          "f_sigma_len": 8,
+          "w_len": 1178,
+          "k_len": 24360,
+          "fpp_len": 25480,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt3": {
+          "label": "m6-elt3",
+          "f_sigma_len": 10,
+          "w_len": 778,
+          "k_len": 23358,
+          "fpp_len": 24104,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt4": {
+          "label": "m6-elt4",
+          "f_sigma_len": 12,
+          "w_len": 224,
+          "k_len": 2124,
+          "fpp_len": 2350,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt5": {
+          "label": "m6-elt5",
+          "f_sigma_len": 12,
+          "w_len": 746,
+          "k_len": 21120,
+          "fpp_len": 21846,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt6": {
+          "label": "m6-elt6",
+          "f_sigma_len": 12,
+          "w_len": 388,
+          "k_len": 7260,
+          "fpp_len": 7640,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        }
+      },
+      "PC1_independent_commutator_control": {
+        "construction": "commutator = [basis_word[0], basis_word[1]] of this crosscheck's own accepted V3 basis (bare, w=[]) -- independently built, not read from any producer file.",
+        "check": {
+          "ev_R1_is_identity": true,
+          "ev_R2_is_identity": true,
+          "Phi3_red_R1_is_zero": true,
+          "Phi3_red_R2_is_zero": true,
+          "direct_verify_pass": true
+        }
+      }
+    },
+    "1152_154163": {
+      "window_id": [
+        1152,
+        154163
+      ],
+      "env_check": {
+        "order_PN_independent": 192,
+        "kappa_independent": 4,
+        "rank_D3_independent": 191,
+        "dim_Ker_D3_independent": 193,
+        "rank_U3_independent": 144,
+        "dim_V3_independent": 50,
+        "coinv_independent (dim_V3 - 1)": 49,
+        "dim_V3_cert_expected": 50,
+        "dBasis3_cert_expected": 50,
+        "dim_V3_matches_cert": true,
+        "n_accepted_basis_words_independent": 50,
+        "n_accepted_basis_words_matches_dim_V3": true,
+        "K3_ord_probe_raw": {
+          "x^12": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "y^12": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "x^24": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "y^24": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "x^36": {
+            "reduces_to_zero": true,
+            "ev_is_identity": true
+          },
+          "y^36": {
+            "reduces_to_zero": true,
+            "ev_is_identity": true
+          },
+          "c^kappa": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          }
+        },
+        "K3_ord_independent": 36,
+        "K3_ord_cert_expected": 36,
+        "K3_ord_matches_cert": true
+      },
+      "m6_elt_F_identification_facts": [
+        {
+          "label": "m6-elt1",
+          "xy_word_text": "x^3",
+          "xy_word_tokens": [
+            1,
+            1,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=10 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 10,
+          "cert_abgamma_f": [
+            6,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt2",
+          "xy_word_text": "y*x^2",
+          "xy_word_tokens": [
+            2,
+            1,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=24 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 24,
+          "cert_abgamma_f": [
+            4,
+            2,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt3",
+          "xy_word_text": "y^2*x",
+          "xy_word_tokens": [
+            2,
+            2,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=9 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 9,
+          "cert_abgamma_f": [
+            2,
+            4,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt4",
+          "xy_word_text": "x*y*x^-1*y^-1",
+          "xy_word_tokens": [
+            1,
+            2,
+            -1,
+            -2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=14 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 14,
+          "cert_abgamma_f": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt5",
+          "xy_word_text": "x^-1*y^-1*x*y",
+          "xy_word_tokens": [
+            -1,
+            -2,
+            1,
+            2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=13 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 13,
+          "cert_abgamma_f": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt6",
+          "xy_word_text": "x*y*x*y^-1*x^-1*y^-1",
+          "xy_word_tokens": [
+            1,
+            2,
+            1,
+            -2,
+            -1,
+            -2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_reduces_to_zero": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only. The cert's own witness_support_size=21 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict.",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 21,
+          "cert_abgamma_f": [
+            2,
+            -2,
+            0
+          ]
+        }
+      ],
+      "witness_export_row_results": {
+        "PC-fam-n4": {
+          "label": "PC-fam-n4",
+          "f_sigma_len": 16,
+          "w_len": 548,
+          "k_len": 23142,
+          "fpp_len": 23702,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt2": {
+          "label": "C6-elt2",
+          "f_sigma_len": 4,
+          "w_len": 548,
+          "k_len": 21246,
+          "fpp_len": 21794,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt3": {
+          "label": "C6-elt3",
+          "f_sigma_len": 4,
+          "w_len": 210,
+          "k_len": 11862,
+          "fpp_len": 12058,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt4": {
+          "label": "C6-elt4",
+          "f_sigma_len": 10,
+          "w_len": 468,
+          "k_len": 15168,
+          "fpp_len": 15628,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt5": {
+          "label": "C6-elt5",
+          "f_sigma_len": 14,
+          "w_len": 322,
+          "k_len": 14196,
+          "fpp_len": 14518,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "C6-elt6": {
+          "label": "C6-elt6",
+          "f_sigma_len": 14,
+          "w_len": 502,
+          "k_len": 17016,
+          "fpp_len": 17516,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 0,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt1": {
+          "label": "m6-elt1",
+          "f_sigma_len": 6,
+          "w_len": 232,
+          "k_len": 2382,
+          "fpp_len": 2608,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt2": {
+          "label": "m6-elt2",
+          "f_sigma_len": 6,
+          "w_len": 556,
+          "k_len": 11814,
+          "fpp_len": 12366,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt3": {
+          "label": "m6-elt3",
+          "f_sigma_len": 6,
+          "w_len": 342,
+          "k_len": 16530,
+          "fpp_len": 16860,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt4": {
+          "label": "m6-elt4",
+          "f_sigma_len": 8,
+          "w_len": 444,
+          "k_len": 16968,
+          "fpp_len": 17416,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt5": {
+          "label": "m6-elt5",
+          "f_sigma_len": 8,
+          "w_len": 510,
+          "k_len": 11814,
+          "fpp_len": 12322,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        },
+        "m6-elt6": {
+          "label": "m6-elt6",
+          "f_sigma_len": 12,
+          "w_len": 456,
+          "k_len": 12882,
+          "fpp_len": 13330,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used": 6,
+          "direct_verification_R1_R2_of_f.w": {
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "Phi3_red_R1_is_zero": true,
+            "Phi3_red_R2_is_zero": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false
+        }
+      },
+      "PC1_independent_commutator_control": {
+        "construction": "commutator = [basis_word[0], basis_word[1]] of this crosscheck's own accepted V3 basis (bare, w=[]) -- independently built, not read from any producer file.",
+        "check": {
+          "ev_R1_is_identity": true,
+          "ev_R2_is_identity": true,
+          "Phi3_red_R1_is_zero": true,
+          "Phi3_red_R2_is_zero": true,
+          "direct_verify_pass": true
+        }
+      }
+    }
+  },
+  "m0_degeneration_canary_pass (general R(m,f) at m=0 == old m=0-only template, exact list equality)": true,
+  "NC1_independent_control": {
+    "f4_sigma_word": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "f4_description": "y^4 * x^-4 (n=4=1 mod3), tested BARE (no witness)",
+    "abgamma_independent": [
+      -8,
+      8,
+      0
+    ],
+    "abgamma_cert_reference (koubou83_charming_sweep_v1_20260822.json, PC-fam-n4 abgamma_f, mod-2 lane)": [
+      -8,
+      8,
+      0
+    ],
+    "abgamma_matches_cert_reference": true,
+    "final_strand_perm_is_identity (word is a pure braid)": true,
+    "charming_at_K3_independent": false,
+    "charming_at_K3_expected": false,
+    "NC1_pass (charming must be False)": true
+  },
+  "summary": {
+    "env_quantities_all_match": true,
+    "fpp_reconstruction_all_match (f_sigma++w++k == fpp, all 24 rows)": true,
+    "m0_family_rows_direct_verify_all_pass (12 rows: PC-fam-n4 + C6-elt2..6, both windows)": true,
+    "m6_family_rows_direct_verify_all_pass (12 rows: m6-elt1..6, both windows, general R(m,f) formula)": true,
+    "all_24_nontrivial_rows_pass": true,
+    "PC1_independent_control_all_pass (both windows)": true,
+    "NC1_independent_control_pass": true,
+    "row_level_verdict_check_status": "26/26 rows: 24/26 (PC-fam-n4 + C6-elt2..6 + m6-elt1..6, both windows) FULLY independently confirmed SURVIVES-K3 via Phi3-only direct_verify on f.w (no A1/A2 matrices), using the mathematician's general R(m,f) formula (sec.7) for the m6-family and its m=0 degeneration for the rest -- matching the producer's SURVIVES-K3 verdicts with ZERO exceptions, both windows. The remaining 2/26 rows (PC-unit, both windows) are the trivial f=w=k=fpp=[] case, not separately re-tested. PC-1 (independent commutator control) and NC-1 (independent strand-tracking charming=false control, matching the producer's own charming_sweep abgamma_f=[-8,8,0] value exactly) both pass."
+  }
+}

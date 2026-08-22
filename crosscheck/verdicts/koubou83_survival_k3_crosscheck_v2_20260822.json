@@ -1,0 +1,2216 @@
+{
+  "schema": "shadow-atelier/koubou83-survival-k3-crosscheck/v2",
+  "supersedes": "crosscheck/verdicts/koubou83_survival_k3_crosscheck_v1_20260822.json -- WITHDRAWN: falsifier/CV-9 found that v1's direct_verify check was VACUOUS (reduced to the Gaussian-elimination REMAINDER, which is trivially always zero once the tracker spans the full ambient space, instead of the COEFFICIENT over the accepted V3 basis -- an F2-to-F3 port regression, since the F2 engine tracked coefficients correctly). v1's 26/26-pass claim is NOT reliable evidence; this v2 fixes the bug, adds destructive controls proving the fixed check actually discriminates, adds independent legal/charming computation, and adds an m/m+36 periodicity canary.",
+  "generated_by": "crosscheck/check_koubou83_survival_k3.py (independent second system, pure Python, no GAP; reuses this crosscheck's own F2 engine's G=PN Todd-Coxeter construction, which is purely group-theoretic and unaffected by the F2-vs-F3 coefficient choice; producer GAP/py implementation code never opened, only data-pin certs consumed)",
+  "generated_at_utc": "2026-08-22T08:35:02.531088+00:00",
+  "task": "K3 (p=3, depth K3=[N,N]N^3) lane cross-check, v2 (CV-9 bug fix + destructive controls + legal/charming + m-periodicity canary): environment quantities (dim V3, K3_ord, kappa) independently reproduced; 26-row verdict comparison via the producer witness export (object-identity pin, judgment-logic-free) -- direct_verify (Phi3-only, no A1/A2 matrices, CORRECTLY testing the V3-basis COEFFICIENT this time) for all 12 m=0-family rows AND all 12 m6-family rows (mathematician's general R(m,f) formula, sec.7), both windows; destructive controls (witness deletion, truncation) confirmed to correctly FAIL; legal/charming independently computed via strand-tracking and compared to the cert; m/m+36 periodicity canary; PC-1/NC-1 independent controls.",
+  "pins": {
+    "k3_cert_path": "search/certs/koubou83_survival_k3_v1_1_20260822.json",
+    "k3_cert_sha256_actual": "486d7490c34700d2c9c94d1f3aa28f39608e855a5c0d987cf783a90953bd2da2",
+    "k3_cert_sha256_expected_per_task": "486d7490c34700d2c9c94d1f3aa28f39608e855a5c0d987cf783a90953bd2da2",
+    "k3_cert_sha256_match": true,
+    "k3_cert_sha256_supersession_chain (oldest -> current)": [
+      "b823e220145de42fdbf442c8acbadbd6ae8493af826d4a75dd89d27f59a110b9",
+      "46cfcfc55b19c4c1ca53a1f72c3ea10c9eb19000f77ba0381ea2062001dd9a5d",
+      "486d7490c34700d2c9c94d1f3aa28f39608e855a5c0d987cf783a90953bd2da2"
+    ],
+    "k3_cert_supersession_note": "b823e220...(v0, as originally issued) -> 46cfcfc5...(v1, W-2 one-sidedness + P83-3/W-1 half-bookkeeping annotations only, commander process-slip) -> 486d7490...(v2, current: producer's CV-9 bookkeeping fix -- 'm_used' field RENAMED to 'last_solvable_mp' throughout plus a CV9_producer_note explaining the old field silently recorded the LAST solvable m' from an un-broken sweep loop, not the base m the exported witness actually uses; also adds explicit witness_m=0/6 values). Confirmed via `git diff` at each step: verdicts/dimV3/K3_ord_determination/sanity_checks -- everything this crosscheck actually reads for the verdict comparison -- are unchanged end-to-end; only bookkeeping/annotation fields moved. Cross-check validity is unaffected by any of these three pins.",
+    "k3_cert_note": "v1.1, W-1 VOID / CH-0 revision (see k3_cert's own proposition_CH_0 and open_items_pending_mathematician_guidance.W1_abelianization_of_witness_product.FINAL_RULING_2026_08_22 fields -- judgment-level context, not re-derived here).",
+    "charming_sweep_cert_path": "search/certs/koubou83_charming_sweep_v1_20260822.json",
+    "charming_sweep_cert_sha256": "efc6066798e536d38c2275e888c43bc3c0c44fa60bdce90761c527907564335f",
+    "charming_sweep_cert_authorization": "commander ruling 2026-08-22, in response to this script's scope question -- authorized as an additional producer-declared data pin (m6-elt1..6 xy_word source only).",
+    "witness_export_path": "search/certs/koubou83_k3_witness_export_v1_20260822.json",
+    "witness_export_sha256_actual": "884e9c2199188eab2fac8135bb6f670f0c2d12936c2e842e3228dc81be0393c0",
+    "witness_export_sha256_expected_per_task": "884e9c2199188eab2fac8135bb6f670f0c2d12936c2e842e3228dc81be0393c0",
+    "witness_export_sha256_match": true,
+    "witness_export_sha256_superseded (v1, no witness_m field)": "e8bece2659b09074f14bd700b7a85115d2cfadf17d21c3f62bc8587830046f8a",
+    "witness_export_supersession_note": "e8bece26...(v1) -> 884e9c21...(v2, current): adds an explicit witness_m field to every row (the base m the exported witness is valid at). This crosscheck's own m_used assumption (0 for PC-fam-n4/C6-elt2..6, 6 for m6-elt1..6, decided BEFORE this field existed, from the task's original family descriptions) is cross-checked against it below per row -- see 'm_matches_export_witness_m' in each row result and 'witness_m_all_match_export' in summary.",
+    "deep15_path": "search/iso_census83_deep15_data.g",
+    "deep15_sha256": "75905c604b83058ff6406f5c115bfa3325fd4424c98125750e49c2b76bbd35ec"
+  },
+  "windows": {
+    "1152_154161": {
+      "window_id": [
+        1152,
+        154161
+      ],
+      "env_check": {
+        "order_PN_independent": 192,
+        "kappa_independent": 2,
+        "rank_D3_independent": 191,
+        "dim_Ker_D3_independent": 193,
+        "rank_U3_independent": 96,
+        "dim_V3_independent": 98,
+        "coinv_independent (dim_V3 - 1)": 97,
+        "dim_V3_cert_expected": 98,
+        "dBasis3_cert_expected": 98,
+        "dim_V3_matches_cert": true,
+        "n_accepted_basis_words_independent": 98,
+        "n_accepted_basis_words_matches_dim_V3": true,
+        "K3_ord_probe_raw": {
+          "x^12": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "y^12": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "x^24": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "y^24": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "x^36": {
+            "reduces_to_zero": true,
+            "ev_is_identity": true
+          },
+          "y^36": {
+            "reduces_to_zero": true,
+            "ev_is_identity": true
+          },
+          "c^kappa": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          }
+        },
+        "K3_ord_independent": 36,
+        "K3_ord_cert_expected": 36,
+        "K3_ord_matches_cert": true
+      },
+      "m6_elt_F_identification_facts": [
+        {
+          "label": "m6-elt1",
+          "xy_word_text": "x*y*x^-1*y^-1",
+          "xy_word_tokens": [
+            1,
+            2,
+            -1,
+            -2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=33 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 33,
+          "cert_abgamma_f": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt2",
+          "xy_word_text": "x^-1*y^-1*x*y",
+          "xy_word_tokens": [
+            -1,
+            -2,
+            1,
+            2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=38 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 38,
+          "cert_abgamma_f": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt3",
+          "xy_word_text": "x*y*x^-1*y*x",
+          "xy_word_tokens": [
+            1,
+            2,
+            -1,
+            2,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=23 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 23,
+          "cert_abgamma_f": [
+            2,
+            4,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt4",
+          "xy_word_text": "x^6",
+          "xy_word_tokens": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=10 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 10,
+          "cert_abgamma_f": [
+            12,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt5",
+          "xy_word_text": "x^3*y*x^2",
+          "xy_word_tokens": [
+            1,
+            1,
+            1,
+            2,
+            1,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=12 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 12,
+          "cert_abgamma_f": [
+            10,
+            2,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt6",
+          "xy_word_text": "x^3*y^2*x",
+          "xy_word_tokens": [
+            1,
+            1,
+            1,
+            2,
+            2,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=13 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 13,
+          "cert_abgamma_f": [
+            8,
+            4,
+            0
+          ]
+        }
+      ],
+      "witness_export_row_results": {
+        "PC-fam-n4": {
+          "label": "PC-fam-n4",
+          "f_sigma_len": 16,
+          "w_len": 784,
+          "k_len": 24060,
+          "fpp_len": 24826,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": true,
+              "correctly_fails": false,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": true
+            },
+            "witness_truncated (w cut to first half, 392/784 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              -8,
+              8,
+              0
+            ],
+            "abgamma_w": [
+              -70,
+              -20,
+              -30
+            ],
+            "abgamma_fw": [
+              -78,
+              -12,
+              -30
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "PC-fam-n4",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt2": {
+          "label": "C6-elt2",
+          "f_sigma_len": 4,
+          "w_len": 784,
+          "k_len": 22380,
+          "fpp_len": 23134,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": true,
+              "correctly_fails": false,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": true
+            },
+            "witness_truncated (w cut to first half, 392/784 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              -2,
+              2,
+              0
+            ],
+            "abgamma_w": [
+              -70,
+              -20,
+              -30
+            ],
+            "abgamma_fw": [
+              -72,
+              -18,
+              -30
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt2 (order3, P-83-2 target)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt3": {
+          "label": "C6-elt3",
+          "f_sigma_len": 4,
+          "w_len": 124,
+          "k_len": 186,
+          "fpp_len": 306,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": true,
+              "correctly_fails": false,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": true
+            },
+            "witness_truncated (w cut to first half, 62/124 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              2,
+              -2,
+              0
+            ],
+            "abgamma_w": [
+              -2,
+              -16,
+              0
+            ],
+            "abgamma_fw": [
+              0,
+              -18,
+              0
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt3 (order3, P-83-2 target)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt4": {
+          "label": "C6-elt4",
+          "f_sigma_len": 12,
+          "w_len": 304,
+          "k_len": 8472,
+          "fpp_len": 8778,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 152/304 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              -6,
+              -6,
+              0
+            ],
+            "abgamma_w": [
+              -24,
+              -18,
+              -6
+            ],
+            "abgamma_fw": [
+              -30,
+              -24,
+              -6
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt4 (order6, P-83-1 target)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt5": {
+          "label": "C6-elt5",
+          "f_sigma_len": 18,
+          "w_len": 426,
+          "k_len": 16428,
+          "fpp_len": 16852,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 213/426 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              -14,
+              -4,
+              0
+            ],
+            "abgamma_w": [
+              -46,
+              28,
+              0
+            ],
+            "abgamma_fw": [
+              -60,
+              24,
+              0
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt5 (order2)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt6": {
+          "label": "C6-elt6",
+          "f_sigma_len": 12,
+          "w_len": 352,
+          "k_len": 8916,
+          "fpp_len": 9264,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 176/352 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              -6,
+              -6,
+              0
+            ],
+            "abgamma_w": [
+              -24,
+              -36,
+              -12
+            ],
+            "abgamma_fw": [
+              -30,
+              -42,
+              -12
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt6 (order6, P-83-1 target)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "m6-elt1": {
+          "label": "m6-elt1",
+          "f_sigma_len": 8,
+          "w_len": 992,
+          "k_len": 10242,
+          "fpp_len": 11190,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 496/992 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              0,
+              0,
+              0
+            ],
+            "abgamma_w": [
+              -6,
+              42,
+              -78
+            ],
+            "abgamma_fw": [
+              -6,
+              42,
+              -78
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt2": {
+          "label": "m6-elt2",
+          "f_sigma_len": 8,
+          "w_len": 1178,
+          "k_len": 24360,
+          "fpp_len": 25480,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 589/1178 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              0,
+              0,
+              0
+            ],
+            "abgamma_w": [
+              -60,
+              60,
+              -72
+            ],
+            "abgamma_fw": [
+              -60,
+              60,
+              -72
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt3": {
+          "label": "m6-elt3",
+          "f_sigma_len": 10,
+          "w_len": 778,
+          "k_len": 23358,
+          "fpp_len": 24104,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 389/778 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              2,
+              4,
+              0
+            ],
+            "abgamma_w": [
+              -80,
+              38,
+              -18
+            ],
+            "abgamma_fw": [
+              -78,
+              42,
+              -18
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt4": {
+          "label": "m6-elt4",
+          "f_sigma_len": 12,
+          "w_len": 224,
+          "k_len": 2124,
+          "fpp_len": 2350,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 112/224 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              12,
+              0,
+              0
+            ],
+            "abgamma_w": [
+              -18,
+              -12,
+              -6
+            ],
+            "abgamma_fw": [
+              -6,
+              -12,
+              -6
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt5": {
+          "label": "m6-elt5",
+          "f_sigma_len": 12,
+          "w_len": 746,
+          "k_len": 21120,
+          "fpp_len": 21846,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 373/746 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              10,
+              2,
+              0
+            ],
+            "abgamma_w": [
+              -82,
+              -20,
+              -18
+            ],
+            "abgamma_fw": [
+              -72,
+              -18,
+              -18
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt6": {
+          "label": "m6-elt6",
+          "f_sigma_len": 12,
+          "w_len": 388,
+          "k_len": 7260,
+          "fpp_len": 7640,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 194/388 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              8,
+              4,
+              0
+            ],
+            "abgamma_w": [
+              -44,
+              -58,
+              18
+            ],
+            "abgamma_fw": [
+              -36,
+              -54,
+              18
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        }
+      },
+      "PC1_independent_commutator_control": {
+        "construction": "commutator = [basis_word[0], basis_word[1]] of this crosscheck's own accepted V3 basis (bare, w=[]) -- independently built, not read from any producer file.",
+        "check": {
+          "R1_in_PB3": true,
+          "R2_in_PB3": true,
+          "ev_R1_is_identity": true,
+          "ev_R2_is_identity": true,
+          "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+          "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+          "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+          "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+          "direct_verify_pass": true
+        }
+      }
+    },
+    "1152_154163": {
+      "window_id": [
+        1152,
+        154163
+      ],
+      "env_check": {
+        "order_PN_independent": 192,
+        "kappa_independent": 4,
+        "rank_D3_independent": 191,
+        "dim_Ker_D3_independent": 193,
+        "rank_U3_independent": 144,
+        "dim_V3_independent": 50,
+        "coinv_independent (dim_V3 - 1)": 49,
+        "dim_V3_cert_expected": 50,
+        "dBasis3_cert_expected": 50,
+        "dim_V3_matches_cert": true,
+        "n_accepted_basis_words_independent": 50,
+        "n_accepted_basis_words_matches_dim_V3": true,
+        "K3_ord_probe_raw": {
+          "x^12": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "y^12": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "x^24": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "y^24": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          },
+          "x^36": {
+            "reduces_to_zero": true,
+            "ev_is_identity": true
+          },
+          "y^36": {
+            "reduces_to_zero": true,
+            "ev_is_identity": true
+          },
+          "c^kappa": {
+            "reduces_to_zero": false,
+            "ev_is_identity": true
+          }
+        },
+        "K3_ord_independent": 36,
+        "K3_ord_cert_expected": 36,
+        "K3_ord_matches_cert": true
+      },
+      "m6_elt_F_identification_facts": [
+        {
+          "label": "m6-elt1",
+          "xy_word_text": "x^3",
+          "xy_word_tokens": [
+            1,
+            1,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=10 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 10,
+          "cert_abgamma_f": [
+            6,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt2",
+          "xy_word_text": "y*x^2",
+          "xy_word_tokens": [
+            2,
+            1,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=24 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 24,
+          "cert_abgamma_f": [
+            4,
+            2,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt3",
+          "xy_word_text": "y^2*x",
+          "xy_word_tokens": [
+            2,
+            2,
+            1
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=9 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 9,
+          "cert_abgamma_f": [
+            2,
+            4,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt4",
+          "xy_word_text": "x*y*x^-1*y^-1",
+          "xy_word_tokens": [
+            1,
+            2,
+            -1,
+            -2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=14 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 14,
+          "cert_abgamma_f": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt5",
+          "xy_word_text": "x^-1*y^-1*x*y",
+          "xy_word_tokens": [
+            -1,
+            -2,
+            1,
+            2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=13 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 13,
+          "cert_abgamma_f": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "label": "m6-elt6",
+          "xy_word_text": "x*y*x*y^-1*x^-1*y^-1",
+          "xy_word_tokens": [
+            1,
+            2,
+            1,
+            -2,
+            -1,
+            -2
+          ],
+          "ev_is_identity_in_PN": false,
+          "Phi3_red_of_F_alone_V3_coeff_is_zero (CV-9-fixed: coeff, not remainder)": false,
+          "note": "This is Phi3_red(F) for the BARE element F (no witness/correction applied) -- an environment-level fact only, using the CV-9-fixed coefficient test (not the always-trivially-zero remainder). The cert's own witness_support_size=21 for this row means the row's actual verdict was determined using SOME correction word w (unknown to this crosscheck via this OLDER mod-2-lane cert), not F alone; F alone reducing to zero or not does not by itself determine the row's SURVIVES/DIES verdict. (Note also: this charming_sweep cert is the mod-2/K lane, not K3 -- its cert_verdict below is a K-lane label.)",
+          "cert_verdict": "SURVIVES-K",
+          "cert_witness_support_size": 21,
+          "cert_abgamma_f": [
+            2,
+            -2,
+            0
+          ]
+        }
+      ],
+      "witness_export_row_results": {
+        "PC-fam-n4": {
+          "label": "PC-fam-n4",
+          "f_sigma_len": 16,
+          "w_len": 548,
+          "k_len": 23142,
+          "fpp_len": 23702,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": true,
+              "correctly_fails": false,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": true
+            },
+            "witness_truncated (w cut to first half, 274/548 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              -8,
+              8,
+              0
+            ],
+            "abgamma_w": [
+              -76,
+              -32,
+              6
+            ],
+            "abgamma_fw": [
+              -84,
+              -24,
+              6
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "PC-fam-n4",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt2": {
+          "label": "C6-elt2",
+          "f_sigma_len": 4,
+          "w_len": 548,
+          "k_len": 21246,
+          "fpp_len": 21794,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": true,
+              "correctly_fails": false,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": true
+            },
+            "witness_truncated (w cut to first half, 274/548 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              -2,
+              2,
+              0
+            ],
+            "abgamma_w": [
+              -76,
+              -32,
+              6
+            ],
+            "abgamma_fw": [
+              -78,
+              -30,
+              6
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt2 (order3, P-83-2 target)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt3": {
+          "label": "C6-elt3",
+          "f_sigma_len": 4,
+          "w_len": 210,
+          "k_len": 11862,
+          "fpp_len": 12058,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": true,
+              "correctly_fails": false,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": true
+            },
+            "witness_truncated (w cut to first half, 105/210 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              2,
+              -2,
+              0
+            ],
+            "abgamma_w": [
+              -38,
+              20,
+              -12
+            ],
+            "abgamma_fw": [
+              -36,
+              18,
+              -12
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt3 (order3, P-83-2 target)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt4": {
+          "label": "C6-elt4",
+          "f_sigma_len": 10,
+          "w_len": 468,
+          "k_len": 15168,
+          "fpp_len": 15628,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 234/468 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              0,
+              -6,
+              0
+            ],
+            "abgamma_w": [
+              -48,
+              0,
+              -18
+            ],
+            "abgamma_fw": [
+              -48,
+              -6,
+              -18
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt4 (order6, P-83-1 target)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt5": {
+          "label": "C6-elt5",
+          "f_sigma_len": 14,
+          "w_len": 322,
+          "k_len": 14196,
+          "fpp_len": 14518,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 161/322 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              -4,
+              -2,
+              0
+            ],
+            "abgamma_w": [
+              -44,
+              -4,
+              -6
+            ],
+            "abgamma_fw": [
+              -48,
+              -6,
+              -6
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt5 (order2)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "C6-elt6": {
+          "label": "C6-elt6",
+          "f_sigma_len": 14,
+          "w_len": 502,
+          "k_len": 17016,
+          "fpp_len": 17516,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 0,
+          "witness_m_from_export": 0,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 251/502 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 0,
+            "m_plus_36": 36,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              0,
+              -6,
+              0
+            ],
+            "abgamma_w": [
+              -60,
+              -6,
+              0
+            ],
+            "abgamma_fw": [
+              -60,
+              -12,
+              0
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          },
+          "legal_charming_vs_cert": {
+            "cert_key": "C6-elt6 (order6, P-83-1 target)",
+            "cert_legal": true,
+            "cert_charming": true,
+            "legal_matches_cert": true,
+            "charming_matches_cert": true
+          }
+        },
+        "m6-elt1": {
+          "label": "m6-elt1",
+          "f_sigma_len": 6,
+          "w_len": 232,
+          "k_len": 2382,
+          "fpp_len": 2608,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 116/232 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              6,
+              0,
+              0
+            ],
+            "abgamma_w": [
+              -12,
+              24,
+              0
+            ],
+            "abgamma_fw": [
+              -6,
+              24,
+              0
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt2": {
+          "label": "m6-elt2",
+          "f_sigma_len": 6,
+          "w_len": 556,
+          "k_len": 11814,
+          "fpp_len": 12366,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 278/556 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              4,
+              2,
+              0
+            ],
+            "abgamma_w": [
+              -46,
+              -32,
+              -6
+            ],
+            "abgamma_fw": [
+              -42,
+              -30,
+              -6
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt3": {
+          "label": "m6-elt3",
+          "f_sigma_len": 6,
+          "w_len": 342,
+          "k_len": 16530,
+          "fpp_len": 16860,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 171/342 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              2,
+              4,
+              0
+            ],
+            "abgamma_w": [
+              -62,
+              -16,
+              6
+            ],
+            "abgamma_fw": [
+              -60,
+              -12,
+              6
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt4": {
+          "label": "m6-elt4",
+          "f_sigma_len": 8,
+          "w_len": 444,
+          "k_len": 16968,
+          "fpp_len": 17416,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 222/444 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              0,
+              0,
+              0
+            ],
+            "abgamma_w": [
+              -66,
+              -42,
+              12
+            ],
+            "abgamma_fw": [
+              -66,
+              -42,
+              12
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt5": {
+          "label": "m6-elt5",
+          "f_sigma_len": 8,
+          "w_len": 510,
+          "k_len": 11814,
+          "fpp_len": 12322,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 255/510 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": false,
+              "R2_in_PB3": false,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              0,
+              0,
+              0
+            ],
+            "abgamma_w": [
+              -42,
+              -30,
+              -6
+            ],
+            "abgamma_fw": [
+              -42,
+              -30,
+              -6
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        },
+        "m6-elt6": {
+          "label": "m6-elt6",
+          "f_sigma_len": 12,
+          "w_len": 456,
+          "k_len": 12882,
+          "fpp_len": 13330,
+          "fpp_reconstruction_match (fpp == f_sigma++w++k, free-reduced)": true,
+          "m_used_by_this_crosscheck (base m)": 6,
+          "witness_m_from_export": 6,
+          "m_matches_export_witness_m": true,
+          "direct_verification_R1_R2_of_f.w": {
+            "R1_in_PB3": true,
+            "R2_in_PB3": true,
+            "ev_R1_is_identity": true,
+            "ev_R2_is_identity": true,
+            "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+            "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+            "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+            "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+            "direct_verify_pass": true
+          },
+          "blocked": false,
+          "destructive_controls": {
+            "witness_deleted (w replaced by [])": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "note": "Expected to FAIL in general (that's the discriminating control). Where it instead PASSES (observed for PC-fam-n4/C6-elt2/C6-elt3, both windows -- see 'bare_hexagon_already_trivial' below), this is NOT a bug: it means the RAW hexagon/direct_verify condition already holds for the bare candidate, independent of legal/charming (a separate gate) -- confirmed by this crosscheck's own prior bare-f probe in the earlier session, consistent here.",
+              "bare_hexagon_already_trivial (explains an unexpected PASS, if any)": false
+            },
+            "witness_truncated (w cut to first half, 228/456 letters)": {
+              "direct_verify_pass": false,
+              "correctly_fails": true,
+              "R1_in_PB3": true,
+              "R2_in_PB3": true,
+              "note": "NON-DIAGNOSTIC for the CV-9 bug specifically (falsifier finding, 2026-08-22, confirmed): a half-length truncation almost always breaks R1/R2's return to transversal state 1 (not in PB3 at all -- see R1_in_PB3/R2_in_PB3 above), which even the BROKEN v1 checker (remainder-only) would also correctly reject, since the remainder test is only vacuous when ev==identity. This control therefore does NOT distinguish 'bug present' from 'bug fixed' -- only the witness_deleted control above does that (it stays in PB3 in 18/24 cases, where the v1/v2 distinction actually bites). Kept here as a basic well-formedness check, not cited as evidence for the CV-9 fix. If a future diagnostic truncation control is wanted, a SHORT truncation (e.g. w[:-2], dropping only the last 2 letters) would be more likely to stay in PB3 while still not being a legitimate witness -- untested here, noted for the record only."
+            }
+          },
+          "m_periodicity_canary (m vs m+36, K3_ord=36)": {
+            "m": 6,
+            "m_plus_36": 42,
+            "direct_verify_pass_at_m": true,
+            "direct_verify_pass_at_m_plus_36": true,
+            "matches (both same truth value)": true
+          },
+          "legal_charming_independent": {
+            "t3_w (=k(w) mod 3)": 0,
+            "gamma_w_mod3": 0,
+            "legal_independent": true,
+            "abgamma_f": [
+              2,
+              -2,
+              0
+            ],
+            "abgamma_w": [
+              -32,
+              50,
+              -36
+            ],
+            "abgamma_fw": [
+              -30,
+              48,
+              -36
+            ],
+            "cond1_3|(a_f+a_w)": true,
+            "cond2_3|(b_f+b_w)": true,
+            "cond3_9|(a_fw+b_fw)": true,
+            "charming_independent": true
+          }
+        }
+      },
+      "PC1_independent_commutator_control": {
+        "construction": "commutator = [basis_word[0], basis_word[1]] of this crosscheck's own accepted V3 basis (bare, w=[]) -- independently built, not read from any producer file.",
+        "check": {
+          "R1_in_PB3": true,
+          "R2_in_PB3": true,
+          "ev_R1_is_identity": true,
+          "ev_R2_is_identity": true,
+          "remainder_R1_is_zero (sanity only, expected always True when ev==0)": true,
+          "remainder_R2_is_zero (sanity only, expected always True when ev==0)": true,
+          "V3_coeff_R1_is_zero (THE real check, post CV-9 fix)": true,
+          "V3_coeff_R2_is_zero (THE real check, post CV-9 fix)": true,
+          "direct_verify_pass": true
+        }
+      }
+    }
+  },
+  "m0_degeneration_canary_pass (general R(m,f) at m=0 == old m=0-only template, exact list equality)": true,
+  "NC1_independent_control": {
+    "f4_sigma_word": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "f4_description": "y^4 * x^-4 (n=4=1 mod3), tested BARE (no witness)",
+    "abgamma_independent": [
+      -8,
+      8,
+      0
+    ],
+    "abgamma_cert_reference (koubou83_charming_sweep_v1_20260822.json, PC-fam-n4 abgamma_f, mod-2 lane)": [
+      -8,
+      8,
+      0
+    ],
+    "abgamma_matches_cert_reference": true,
+    "final_strand_perm_is_identity (word is a pure braid)": true,
+    "charming_at_K3_independent": false,
+    "charming_at_K3_expected": false,
+    "NC1_pass (charming must be False)": true
+  },
+  "summary": {
+    "env_quantities_all_match": true,
+    "fpp_reconstruction_all_match (f_sigma++w++k == fpp, all 24 rows)": true,
+    "witness_m_all_match_export (this crosscheck's assumed base m vs export's witness_m field, all 24 rows)": true,
+    "m0_family_rows_direct_verify_all_pass (12 rows: PC-fam-n4 + C6-elt2..6, both windows)": true,
+    "m6_family_rows_direct_verify_all_pass (12 rows: m6-elt1..6, both windows, general R(m,f) formula)": true,
+    "all_24_nontrivial_rows_pass": true,
+    "destructive_control_truncation_all_correctly_fail (24/24 rows -- basic well-formedness check ONLY, NON-DIAGNOSTIC for the CV-9 bug: it fails at the ev/PB3 stage, which the broken v1 checker would also correctly reject)": true,
+    "destructive_control_deletion_correctly_fail_count (THE control that demonstrates the CV-9 fix -- expected 18/24: 6 explained PASSes for PC-fam-n4/C6-elt2/C6-elt3, both windows, where bare hexagon is genuinely already trivial)": 18,
+    "destructive_control_deletion_total": 24,
+    "destructive_controls_all_correctly_fail (both kinds strictly -- see per-row notes for the 6 explained deletion exceptions)": false,
+    "m_periodicity_canary_all_match (m vs m+36, all 24 rows)": true,
+    "legal_independent_all_match_cert": true,
+    "charming_independent_all_match_cert": true,
+    "PC1_independent_control_all_pass (both windows)": true,
+    "NC1_independent_control_pass": true,
+    "row_level_verdict_check_status": "26/26 rows: 24/26 (PC-fam-n4 + C6-elt2..6 + m6-elt1..6, both windows) FULLY independently confirmed SURVIVES-K3 via the CV-9-FIXED Phi3-only direct_verify (V3-basis COEFFICIENT test, not the vacuous remainder test) on f.w (no A1/A2 matrices), using the mathematician's general R(m,f) formula (sec.7) for the m6-family and its m=0 degeneration for the rest -- matching the producer's SURVIVES-K3 verdicts with ZERO exceptions, both windows. Of the two destructive controls, only witness DELETION actually demonstrates the CV-9 fix (falsifier finding, 2026-08-22, confirmed): it correctly fails for 18/24 rows; the remaining 6 (PC-fam-n4, C6-elt2, C6-elt3, both windows) unexpectedly PASS bare -- investigated and NOT a bug: the raw hexagon/direct_verify condition is genuinely already trivial for these three bare candidates, independent of legal/charming (a separate gate) -- confirmed both here and by this crosscheck's earlier bare-f probe from the prior session (same three families, same result). Witness TRUNCATION (half-length) is NON-DIAGNOSTIC for CV-9 specifically: it fails at the ev/PB3 stage (R1/R2 leave the transversal), which even the BROKEN v1 checker would also correctly reject, so it does not distinguish bug-present from bug-fixed -- kept only as a basic well-formedness check (24/24 pass). A short truncation such as w[:-2] would likely be more diagnostic (more likely to stay in PB3 while still not a legitimate witness) but was not tested this run. Reported raw, not smoothed over. The m/m+36 periodicity canary (K3_ord=36) matches for all 24 rows. Legal and charming, independently computed via strand-tracking (a,b,gamma) exactly as specified, match the cert's legal/charming booleans for all rows where a cert comparison key was found. The remaining 2/26 rows (PC-unit, both windows) are the trivial f=w=k=fpp=[] case, not separately re-tested. PC-1 (independent commutator control) and NC-1 (independent strand-tracking charming=false control, matching the producer's own charming_sweep abgamma_f=[-8,8,0] value exactly) both pass."
+  }
+}

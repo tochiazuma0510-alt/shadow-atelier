@@ -7,7 +7,8 @@
   "f_sigma": "the candidate representative f, as a sigma-word (already free-reduced).",
   "w": "the witness found by the sign-fixed F3 augmented A-differential system at the base m for that candidate (m=0 for PC-fam-n4/C6-elt2..6, m=6 for m6-elt1..6), such that f.w survives K3=[N,N]N^3 (legal+charming+direct_verify all confirmed true -- see search/certs/koubou83_survival_k3_v1_1_20260822.json for the judged verdicts).",
   "k": "the LEG-1 exact-normalization correction (an integer combination of N's own defining generating words, found via SolutionIntMat over their EXACT (a,b,gamma) integer invariants -- NOT reduced mod anything) such that f.w.k has (a,b,gamma)=(0,0,0) EXACTLY (not just modulo 3). Concatenating basisWords3[i] |c_i| times (forward if c_i>0, inverse if c_i<0) for each nonzero integer coefficient c_i found by SolutionIntMat.",
-  "fpp": "f'' := f.w.k (free-reduced), the normal representative -- confirmed by the producer to have EXACT (a,b,gamma)=(0,0,0) for every row below (verified via direct ABGamma computation, not merely mod-3)."
+  "fpp": "f'' := f.w.k (free-reduced), the normal representative -- confirmed by the producer to have EXACT (a,b,gamma)=(0,0,0) for every row below (verified via direct ABGamma computation, not merely mod-3).",
+  "witness_m": "the BASE m at which this row's witness w was actually found and verified (0 for PC-fam-n4 and C6-elt2..6, 6 for m6-elt1..6) -- added per CV-9/falsifier finding 2026-08-22: an earlier cert field ('m_used', now renamed 'last_solvable_mp' in koubou83_survival_k3_v1_1) reported the LAST m' tried in an unbroken sweep loop, not the m at which this exported witness is valid."
  },
  "windows": {
   "1152_154161": {
@@ -49707,7 +49708,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt2": {
      "f_sigma": [
@@ -96019,7 +96021,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt3": {
      "f_sigma": [
@@ -96649,7 +96652,8 @@
       1,
       1,
       1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt4": {
      "f_sigma": [
@@ -114225,7 +114229,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt5": {
      "f_sigma": [
@@ -147959,7 +147964,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt6": {
      "f_sigma": [
@@ -166513,7 +166519,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 0
     },
     "m6-elt1": {
      "f_sigma": [
@@ -188955,7 +188962,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt2": {
      "f_sigma": [
@@ -239991,7 +239999,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt3": {
      "f_sigma": [
@@ -288251,7 +288260,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt4": {
      "f_sigma": [
@@ -292971,7 +292981,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt5": {
      "f_sigma": [
@@ -336705,7 +336716,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt6": {
      "f_sigma": [
@@ -352015,7 +352027,8 @@
       -1,
       2,
       -1
-     ]
+     ],
+     "witness_m": 6
     }
    }
   },
@@ -399438,7 +399451,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt2": {
      "f_sigma": [
@@ -443040,7 +443054,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt3": {
      "f_sigma": [
@@ -467184,7 +467199,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt4": {
      "f_sigma": [
@@ -498468,7 +498484,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt5": {
      "f_sigma": [
@@ -527528,7 +527545,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 0
     },
     "C6-elt6": {
      "f_sigma": [
@@ -562586,7 +562604,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 0
     },
     "m6-elt1": {
      "f_sigma": [
@@ -567824,7 +567843,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt2": {
      "f_sigma": [
@@ -592576,7 +592596,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt3": {
      "f_sigma": [
@@ -626324,7 +626345,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt4": {
      "f_sigma": [
@@ -661170,7 +661192,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt5": {
      "f_sigma": [
@@ -685834,7 +685857,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 6
     },
     "m6-elt6": {
      "f_sigma": [
@@ -712524,7 +712548,8 @@
       1,
       -2,
       1
-     ]
+     ],
+     "witness_m": 6
     }
    }
   }
