@@ -12,7 +12,10 @@ the current GAP/ACE process and all opaque algorithm state at one generation.
 The ordinary CLI is intentionally identical to v1.  The workflow additionally
 sets D972_DMTCP_ENABLED=1 and D972_DMTCP_CONTRACT_SHA256 to the frozen contract
 digest in d972_dovetail_manifest_v2.json.  Direct, uncheckpointed campaign runs
-fail closed.  ``--self-test`` checks the wrapper without invoking GAP.
+fail closed.  ``--campaign-driver`` keeps the producer/checker pair in this
+same checkpointed process alive until a terminal state or the external DMTCP
+supervisor's checkpoint-kill; it never adds a per-cell wall-clock timeout.
+``--self-test`` checks the wrapper without invoking GAP.
 """
 
 from __future__ import annotations
@@ -39,6 +42,24 @@ CHECKER_V2 = ROOT / "search" / "check_d972_dovetail_v2.py"
 MANIFEST_V2 = ROOT / "search" / "d972_dovetail_manifest_v2.json"
 ENVELOPE_SCHEMA_V2 = ROOT / "search" / "d972_dovetail_state_schema_v2.json"
 WORKFLOW_V2 = ROOT / ".github" / "workflows" / "d972-dovetail-v2.yml"
+SEMANTIC_M_CHECKER = ROOT / "search" / "check_d972_semantic_m_v1.py"
+SEMANTIC_M_MANIFEST = ROOT / "search" / "d972_semantic_m_manifest_v1.json"
+
+LEGACY_SEED_WORKFLOW_REBIND_SPEC = {
+    "version": "d972-legacy-seed-workflow-rebind/v1",
+    "scope": "fresh-genesis-seed-only",
+    "precondition": {
+        "path": ".github/workflows/d972-dovetail.yml",
+        "required": True,
+        "sha256": None,
+    },
+    "replacement": {
+        "path": ".github/workflows/d972-dovetail-v2.yml",
+        "required": True,
+    },
+    "existing_checkpoint_migration": False,
+    "fail_closed_on_precondition_drift": True,
+}
 
 
 def canonical_bytes(value: Any) -> bytes:
@@ -87,6 +108,29 @@ def worker_authority_material(receipt: dict[str, Any]) -> str:
     return "|".join(f"{key}={value}" for key, value in parts)
 
 
+def authority_material_diagnostic(
+    receipt: dict[str, Any], material: str | None = None,
+) -> str:
+    """Return a non-authoritative, secret-free digest mismatch diagnostic.
+
+    The GAP worker publishes the exact material it hashed only as a debugging
+    aid.  The producer still rebuilds the material independently and refuses
+    the envelope on either mismatch.  The material contains only schema,
+    cursors, booleans, and digests; it never contains payload/task contents.
+    """
+    if material is None:
+        material = worker_authority_material(receipt)
+    claimed = receipt.get("checkpoint_sha256")
+    observed = sha_bytes(material.encode("utf-8"))
+    worker_material = receipt.get("authority_material_diagnostic")
+    return (
+        "claimed=" + repr(claimed) +
+        " observed=" + observed +
+        " python_material=" + repr(material) +
+        " worker_material=" + repr(worker_material)
+    )
+
+
 def load_manifest() -> dict[str, Any]:
     try:
         manifest = json.loads(MANIFEST_V2.read_text(encoding="utf-8"))
@@ -104,6 +148,9 @@ def load_manifest() -> dict[str, Any]:
 
 
 def v2_code_receipt(manifest: dict[str, Any]) -> dict[str, Any]:
+    rebind_spec = manifest["dmtcp_contract"].get("legacy_seed_workflow_rebind")
+    if rebind_spec != LEGACY_SEED_WORKFLOW_REBIND_SPEC:
+        raise RuntimeError("DMTCP_CONTRACT_STOP legacy seed workflow rebind drift")
     paths = {
         "producer_v2": Path(__file__).resolve(),
         "checker_v2": CHECKER_V2,
@@ -115,6 +162,8 @@ def v2_code_receipt(manifest: dict[str, Any]) -> dict[str, Any]:
         "checker_v1_library": ROOT / "search" / "check_d972_dovetail_v1.py",
         "worker_v1_library": ROOT / "search" / "d972_dovetail_worker_v1.g",
         "calibration_paper_premise": ROOT / "sol" / "sol_reply_143_typedfiber.md",
+        "semantic_m_checker_v1": SEMANTIC_M_CHECKER,
+        "semantic_m_manifest_v1": SEMANTIC_M_MANIFEST,
     }
     missing = [name for name, path in paths.items() if not path.is_file()]
     if missing:
@@ -137,6 +186,7 @@ def v2_code_receipt(manifest: dict[str, Any]) -> dict[str, Any]:
         "binding_set_sha256": sha_bytes(binding_material),
         "timeout_policy": "no subprocess wall timeout; external DMTCP supervisor only",
         "whole_process_tree_required": True,
+        "legacy_seed_workflow_rebind": copy.deepcopy(rebind_spec),
     }
 
 
@@ -186,8 +236,19 @@ def unwrap_worker_envelope(
     if envelope.get("payload_sha256") != sha_bytes(payload_text.encode("utf-8")):
         raise ValueError("v2 payload digest mismatch")
     material = worker_authority_material(envelope)
-    if envelope.get("checkpoint_sha256") != sha_bytes(material.encode("utf-8")):
-        raise ValueError("v2 checkpoint receipt digest mismatch")
+    worker_material = envelope.get("authority_material_diagnostic")
+    if not isinstance(worker_material, str):
+        raise ValueError(
+            "v2 checkpoint authority material diagnostic absent: " +
+            authority_material_diagnostic(envelope, material)
+        )
+    if worker_material != material or envelope.get("checkpoint_sha256") != sha_bytes(
+        material.encode("utf-8")
+    ):
+        raise ValueError(
+            "v2 checkpoint receipt digest mismatch: " +
+            authority_material_diagnostic(envelope, material)
+        )
     boolean_fields = (
         "cell_complete", "classification_complete", "outer_advance_authorized",
         "exhausted", "h_exhausted", "terminal_A_eligible", "workflow_resumable",
@@ -200,7 +261,22 @@ def unwrap_worker_envelope(
         raise ValueError("v2 authority-field types")
     payload = envelope["payload"]
     if not (payload.get("schema") == "d972_dovetail_worker/v1" and
-            payload.get("mode") == mode and payload.get("status") == envelope.get("status")):
+            payload.get("mode") == mode):
+        raise ValueError("v2/v1 payload schema-mode mismatch")
+    if mode == "selftest":
+        # The frozen v1 selftest predates the status field.  Permit only that
+        # exact legacy shape; production modes retain strict status equality.
+        expected_selftest_keys = {
+            "schema", "mode", "table_group", "canonical", "aut_count",
+            "split", "nonsplit", "shadow_formula_toy", "target_identity_key",
+            "target_serializer_pass", "relative_extension_completeness_receipt",
+            "all_pass",
+        }
+        if ("status" in payload or envelope.get("status") != "PASS" or
+                payload.get("all_pass") is not True or
+                set(payload) != expected_selftest_keys):
+            raise ValueError("v2/v1 legacy selftest payload shape mismatch")
+    elif payload.get("status") != envelope.get("status"):
         raise ValueError("v2/v1 payload schema-mode-status mismatch")
     if (envelope.get("outer_cursor_before") != envelope.get("cursor_before") or
             envelope.get("outer_cursor_after") != envelope.get("cursor_after")):
@@ -271,6 +347,37 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
     original_initial_state = legacy.initial_state
     original_transition = legacy.transition
     original_validate_state = legacy.validate_state
+    original_bind_seed_integrity = legacy._bind_seed_integrity
+
+    def bind_fresh_seed_to_v2_workflow(state: dict[str, Any]) -> None:
+        """Replace the deleted v1 supervisor only on an unbound genesis seed."""
+        spec = manifest["dmtcp_contract"].get("legacy_seed_workflow_rebind")
+        if spec != LEGACY_SEED_WORKFLOW_REBIND_SPEC:
+            raise legacy.StateStop("STATE_STOP legacy seed workflow rebind contract drift")
+        try:
+            integrity = state["integrity"]
+            row = integrity["code"]["workflow"]
+        except (KeyError, TypeError) as exc:
+            raise legacy.StateStop(
+                "STATE_STOP legacy seed workflow binding row absent"
+            ) from exc
+        if (state.get("schema_version") != "d972-dovetail-state/v1" or
+                integrity.get("ready") is not False or
+                row != spec["precondition"]):
+            raise legacy.StateStop(
+                "STATE_STOP legacy seed workflow rebind precondition drift"
+            )
+        if not WORKFLOW_V2.is_file():
+            raise legacy.StateStop("STATE_STOP v2 supervisor workflow absent")
+        row["path"] = spec["replacement"]["path"]
+        original_bind_seed_integrity(state)
+        expected = {
+            "path": spec["replacement"]["path"],
+            "required": spec["replacement"]["required"],
+            "sha256": sha_file(WORKFLOW_V2),
+        }
+        if row != expected:
+            raise legacy.StateStop("STATE_STOP v2 supervisor workflow bind drift")
 
     def current_run_metadata() -> dict[str, Any]:
         path = ROOT / ".d972-runtime" / "current-run.json"
@@ -316,6 +423,17 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
         original_validate_state(state, bind_current=bind_current)
         if bind_current and state.get("receipts", {}).get("v2_runtime_integrity") != runtime_receipt:
             raise legacy.StateStop("STATE_STOP v2 runtime/code binding drift")
+
+    original_next_fallback_table = legacy.next_fallback_table
+
+    def next_fallback_table_without_deadline(
+        k: int, start: int, deadline: float,
+    ) -> tuple[int, list[list[int]] | None, bool]:
+        # The legacy fallback accepts a deadline to support its standalone
+        # finite-slice CLI.  Under DMTCP that would be an unauthorized inner
+        # clock: let the external supervisor interrupt the exact loop instead.
+        del deadline
+        return original_next_fallback_table(k, start, float("inf"))
 
     def run_worker_without_timeout(
         mode: str, out_path: Path, env_extra: dict[str, str], timeout: float
@@ -395,15 +513,78 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
     legacy.initial_state = initial_state
     legacy.transition = transition
     legacy.validate_state = validate_state
+    legacy._bind_seed_integrity = bind_fresh_seed_to_v2_workflow
     legacy.run_worker = run_worker_without_timeout
+    legacy.next_fallback_table = next_fallback_table_without_deadline
     legacy._current_run_metadata = current_run_metadata
 
 
 def self_test() -> int:
     manifest = load_manifest()
+    checkpoint_probe = manifest["dmtcp_provisioning"]["checkpoint_kill_probe"]
+    if (checkpoint_probe.get("allowed_exit_codes") != [0, 2] or
+            checkpoint_probe.get("required_output_tokens_by_exit_code") != {
+                "0": [], "2": ["Computation was checkpointed and killed."]
+            } or
+            "process-death postconditions" not in checkpoint_probe.get(
+                "exit_semantics", ""
+            )):
+        raise RuntimeError("self-test DMTCP Kc dual-exit contract drift")
+    rewrites = manifest["dmtcp_contract"]["gap_4_12_materialized_rewrites"]
+    base_rewrites = rewrites.get("base_permutation_groups", {})
+    list_rewrites = rewrites.get("table_group", {})
+    outer_rewrites = rewrites.get("outer_bucket_inner", {})
+    parent_rewrites = rewrites.get("exact_parent_subgroups", {})
+    if (rewrites.get("replacement_count_total") != 34 or
+            base_rewrites.get("replacement_count") != 17 or
+            list_rewrites.get("replacement_count") != 1 or
+            outer_rewrites.get("replacement_count") != 1 or
+            parent_rewrites.get("replacement_count") != 11 or
+            parent_rewrites.get("fail_closed_on_count_drift") is not True or
+            list_rewrites.get("needle") != "G := Group(perms);" or
+            list_rewrites.get("replacement") !=
+            "G := D972V2PermutationGroup(perms,n,\"table_group\");" or
+            outer_rewrites.get("needle") != "I := Group(innerPerms);" or
+            outer_rewrites.get("replacement") !=
+            "I := D972V2PermutationGroup(innerPerms,k,\"outer_bucket_inner\");" or
+            base_rewrites.get("helper") !=
+            "D972V2PermutationGroup(generators, degree, stage) -> "
+            "Subgroup(SymmetricGroup(degree), PermList images)" or
+            base_rewrites.get("fail_closed_on_count_drift") is not True):
+        raise RuntimeError("self-test GAP4.12 base permutation rewrite contract drift")
     receipt = v2_code_receipt(manifest)
     if receipt["whole_process_tree_required"] is not True:
         raise RuntimeError("self-test invariant failed")
+    legacy = load_legacy()
+    install_v2_adapter(legacy, manifest)
+    seed_fixture = json.loads(
+        (ROOT / manifest["mathematical_state"]["seed_manifest"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    legacy._bind_seed_integrity(seed_fixture)
+    workflow_row = seed_fixture["integrity"]["code"]["workflow"]
+    if workflow_row != {
+        "path": ".github/workflows/d972-dovetail-v2.yml",
+        "required": True,
+        "sha256": sha_file(WORKFLOW_V2),
+    }:
+        raise RuntimeError("self-test legacy seed workflow rebind failed")
+    negative_fixture = json.loads(
+        (ROOT / manifest["mathematical_state"]["seed_manifest"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    negative_fixture["integrity"]["code"]["workflow"]["required"] = False
+    try:
+        legacy._bind_seed_integrity(negative_fixture)
+    except legacy.StateStop as exc:
+        if "rebind precondition drift" not in str(exc):
+            raise RuntimeError(
+                f"self-test workflow rebind negative-canary drifted: {exc}"
+            ) from exc
+    else:
+        raise RuntimeError("self-test workflow rebind accepted a nonfrozen seed")
     payload_text = '{"schema":"d972_dovetail_worker/v1","mode":"candidate","status":"PASS","cursor":{"aut_pair_index":0,"defect_index":0,"lift_pair_index":0},"next_cursor":{"aut_pair_index":0,"defect_index":0,"lift_pair_index":1},"accepted_count":1,"candidates":[{"synthetic":true}]}'
     payload_sha = sha_bytes(payload_text.encode("utf-8"))
     cursor = {"aut_pair_index": 0, "defect_index": 0, "lift_pair_index": 0}
@@ -435,7 +616,10 @@ def self_test() -> int:
                             "stage": "marked_orbit", "start": cursor, "stop": cursor},
         "relative_extension_completeness_receipt": completeness,
     }
-    prefix["checkpoint_sha256"] = sha_bytes(worker_authority_material(prefix).encode("utf-8"))
+    prefix["authority_material_diagnostic"] = worker_authority_material(prefix)
+    prefix["checkpoint_sha256"] = sha_bytes(
+        prefix["authority_material_diagnostic"].encode("utf-8")
+    )
     synthetic_raw = json.dumps(prefix, separators=(",", ":"))[:-1] + ',"payload":' + payload_text + "}"
     unwrapped = unwrap_worker_envelope(
         synthetic_raw, mode="candidate", manifest=manifest,
@@ -443,9 +627,59 @@ def self_test() -> int:
     )
     if unwrapped.get("accepted_count") != 1 or len(unwrapped.get("candidates", [])) != 1:
         raise RuntimeError("self-test accepted payload was lost during v2 unwrap")
+    tampered_material = copy.deepcopy(prefix)
+    tampered_material["authority_material_diagnostic"] += "|tampered"
+    tampered_raw = (
+        json.dumps(tampered_material, separators=(",", ":"))[:-1] +
+        ',"payload":' + payload_text + "}"
+    )
+    try:
+        unwrap_worker_envelope(
+            tampered_raw, mode="candidate", manifest=manifest,
+            task_digest=task_digest, generation="7", expected_cursor=cursor,
+        )
+    except ValueError as exc:
+        if not all(token in str(exc) for token in (
+            "python_material=", "worker_material=", "claimed=", "observed=",
+        )):
+            raise RuntimeError(f"authority-material diagnostic drifted: {exc}") from exc
+    else:
+        raise RuntimeError("tampered authority material was accepted")
+    missing_status_payload = json.loads(payload_text)
+    missing_status_payload.pop("status", None)
+    missing_status_text = json.dumps(missing_status_payload, separators=(",", ":"))
+    missing_status = copy.deepcopy(prefix)
+    missing_status["payload_sha256"] = sha_bytes(missing_status_text.encode("utf-8"))
+    missing_status["checkpoint_sha256"] = sha_bytes(
+        worker_authority_material(missing_status).encode("utf-8")
+    )
+    missing_status["authority_material_diagnostic"] = worker_authority_material(
+        missing_status
+    )
+    missing_status_raw = (
+        json.dumps(missing_status, separators=(",", ":"))[:-1] +
+        ',"payload":' + missing_status_text + "}"
+    )
+    try:
+        unwrap_worker_envelope(
+            missing_status_raw, mode="candidate", manifest=manifest,
+            task_digest=task_digest, generation="7", expected_cursor=cursor,
+        )
+    except ValueError as exc:
+        if "schema-mode-status mismatch" not in str(exc):
+            raise RuntimeError(f"candidate missing-status gate drifted: {exc}") from exc
+    else:
+        raise RuntimeError("candidate payload without status was accepted")
     taskless_payload_text = (
         '{"schema":"d972_dovetail_worker/v1","mode":"selftest",'
-        '"status":"PASS","all_pass":true}'
+        '"table_group":true,"canonical":true,"aut_count":1,'
+        '"split":{"h_embeds":true,"order":4,"marked_generates":false},'
+        '"nonsplit":{"h_embeds":true,"order":4,"marked_generates":true},'
+        '"shadow_formula_toy":{"n_ord":2,"derived_order":1,'
+        '"full_hexagon_count":2,"shadow_count":2,"settled_count":2},'
+        '"target_identity_key":"(0;0,0,0,0,0,0;1,2,3,4,5,6,7,8,9)",'
+        '"target_serializer_pass":true,'
+        '"relative_extension_completeness_receipt":{},"all_pass":true}'
     )
     taskless = copy.deepcopy(prefix)
     taskless.update({
@@ -457,8 +691,9 @@ def self_test() -> int:
         "outer_advance_authorized": True,
         "completed_range": {"complete": True, "stage": "selftest"},
     })
+    taskless["authority_material_diagnostic"] = worker_authority_material(taskless)
     taskless["checkpoint_sha256"] = sha_bytes(
-        worker_authority_material(taskless).encode("utf-8")
+        taskless["authority_material_diagnostic"].encode("utf-8")
     )
     taskless_raw = (
         json.dumps(taskless, separators=(",", ":"))[:-1] +
@@ -470,6 +705,22 @@ def self_test() -> int:
     )
     if taskless_unwrapped.get("all_pass") is not True:
         raise RuntimeError("self-test taskless/null-radices payload was lost")
+    campaign_fixture = [
+        None,
+        {"status": {"code": "CALIBRATION_PENDING", "terminal": False}},
+        {"status": {"code": "UNKNOWN/RESUME", "terminal": False}},
+        {"status": {"code": "CHECKER_PENDING", "terminal": False}},
+        {"status": {"code": "CONTINUE", "terminal": False}},
+        {"status": {"code": "A_WITNESS_CROSSCHECKED", "terminal": True}},
+    ]
+    expected_phases = [
+        "producer", "checker", "producer", "checker", "producer", "terminal",
+    ]
+    observed_phases = [campaign_phase(state) for state in campaign_fixture]
+    if observed_phases != expected_phases:
+        raise RuntimeError(
+            f"campaign loop fixture drift: {observed_phases!r} != {expected_phases!r}"
+        )
     print(json.dumps({
         "schema": "d972-dovetail-producer-selftest/v2",
         "status": "PASS",
@@ -478,12 +729,33 @@ def self_test() -> int:
         "no_internal_worker_timeout": True,
         "synthetic_accepted_payload_unwrap": True,
         "taskless_null_radices_unwrap": True,
+        "campaign_loop_fixture": "PASS",
+        "legacy_seed_workflow_rebind": "PASS",
     }, sort_keys=True))
     return 0
 
 
+CAMPAIGN_CHECKER_PENDING = frozenset({"CALIBRATION_PENDING", "CHECKER_PENDING"})
+CAMPAIGN_PRODUCER_PHASE = frozenset({"INITIALIZED", "UNKNOWN/RESUME", "CONTINUE"})
+
+
+def campaign_phase(state: dict[str, Any] | None) -> str:
+    """Select the only legal next phase, including the fresh-launch phase."""
+    if state is None:
+        return "producer"
+    status = state.get("status", {})
+    if status.get("terminal"):
+        return "terminal"
+    code = status.get("code")
+    if code in CAMPAIGN_CHECKER_PENDING:
+        return "checker"
+    if code in CAMPAIGN_PRODUCER_PHASE:
+        return "producer"
+    raise RuntimeError(f"STATE_STOP campaign status unexpected: {code!r}")
+
+
 def campaign_driver(argv: Sequence[str]) -> int:
-    """Run producer and independent checker in one checkpointed process tree."""
+    """Run producer/checker iterations in one checkpointed process tree."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--state", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
@@ -494,13 +766,6 @@ def campaign_driver(argv: Sequence[str]) -> int:
         "--state", str(args.state), "--out-dir", str(args.out_dir),
         "--slice-seconds", str(args.slice_seconds),
     ]
-    exit_code = main(producer_argv)
-    if exit_code != 0:
-        return exit_code
-    state = json.loads(args.state.read_text(encoding="utf-8"))
-    code = state.get("status", {}).get("code")
-    if code not in {"CALIBRATION_PENDING", "CHECKER_PENDING"}:
-        return 0 if not state.get("status", {}).get("terminal") or code == "A_WITNESS_CROSSCHECKED" else 3
     args.out_dir.mkdir(parents=True, exist_ok=True)
     producer_ledger = args.out_dir / "producer-ledger.jsonl"
     producer_ledger.touch(exist_ok=True)
@@ -514,10 +779,45 @@ def campaign_driver(argv: Sequence[str]) -> int:
         raise RuntimeError("DMTCP_CONTRACT_STOP checker-v2 driver unavailable")
     checker = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(checker)
-    return int(checker.main([
+    checker_argv = [
         "--state", str(args.state), "--producer-ledger", str(producer_ledger),
         "--out-dir", str(args.checker_out_dir),
-    ]))
+    ]
+    while True:
+        before = (
+            json.loads(args.state.read_text(encoding="utf-8"))
+            if args.state.exists() else None
+        )
+        phase = campaign_phase(before)
+        if phase == "terminal":
+            code = before.get("status", {}).get("code")
+            return 0 if code == "A_WITNESS_CROSSCHECKED" else 3
+        before_hash = None if before is None else before.get("hash_chain", {}).get("checkpoint_sha256")
+        if before_hash is not None and (not isinstance(before_hash, str) or len(before_hash) != 64):
+            raise RuntimeError("STATE_STOP campaign loop missing phase input hash")
+
+        if phase == "producer":
+            # The v2 adapter deliberately ignores the legacy worker timeout.
+            # A single GAP cell therefore remains inside this DMTCP process
+            # until it completes or the external supervisor checkpoints and
+            # kills it.
+            exit_code = main(producer_argv)
+            if exit_code != 0:
+                return exit_code
+        else:
+            checker_code = int(checker.main(checker_argv))
+            if checker_code != 0:
+                return checker_code
+
+        after = json.loads(args.state.read_text(encoding="utf-8"))
+        after_hash = after.get("hash_chain", {}).get("checkpoint_sha256")
+        if not isinstance(after_hash, str) or len(after_hash) != 64:
+            raise RuntimeError("STATE_STOP campaign phase produced no checkpoint hash")
+        if before_hash is not None and after_hash == before_hash:
+            raise RuntimeError(f"STATE_STOP campaign {phase} phase made no state progress")
+        # Terminal state is the only natural return.  Every nonterminal state
+        # is fed back through campaign_phase, which selects checker or producer
+        # and rejects an unrecognised/STATE_STOP status fail-closed.
 
 
 def main(argv: Sequence[str] | None = None) -> int:

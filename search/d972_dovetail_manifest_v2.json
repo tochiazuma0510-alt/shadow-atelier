@@ -1,8 +1,55 @@
 {
   "schema": "d972-dovetail-orchestration/v2",
   "campaign_id": "d972-roof-A-semidecision-v2",
-  "universe_id": "B3-stable-marked-extensions-over-K9-intersection-NS4-k-ge-3/v2",
+  "universe_id": "B3-stable-marked-extensions-over-K9-intersection-NS4-k-ge-8-skip3-7/v4",
+  "prefix_policy": {
+    "skipped_k_range": [3, 7],
+    "status": "FROZEN_ALL_PASS_NOT_RECHECKED",
+    "a_soundness_effect": "none: terminal A depends on one exact isolated direct-BQ zero-fiber witness",
+    "b_or_completeness_authority": false,
+    "anchor": "sol/sol_reply_151_finish.md#section-3",
+    "anchor_sha256": "36460bb959ec8f81efc5989e722ec2a3d1490c71a8a67f92cc18488cd3c09c2c"
+  },
   "search_input_set_sha256": "48d2d91ef56f2cc73a75b559aed378f48d5d28d1e04a964ccfd6fb5502713969",
+  "dmtcp_provisioning": {
+    "method": "pinned-source-build",
+    "release_tag": "v4.2.0",
+    "release_commit_sha": "f8009ce7b4ad211311ca2f72a929b975e4aa1155",
+    "archive_url": "https://api.github.com/repos/dmtcp/dmtcp/tarball/v4.2.0",
+    "archive_sha256": "0288457860517cf3b221da794bbf0bea8804d846fcb629a50181a7225b93a392",
+    "archive_root": "dmtcp-dmtcp-f8009ce",
+    "configure": "./configure --prefix=$GITHUB_WORKSPACE/.dmtcp-prefix",
+    "build": "make -j$(nproc)",
+    "install": "make install",
+    "binary_prefix": ".dmtcp-prefix/bin",
+    "version_probe": {
+      "argv": ["dmtcp_launch", "--version"],
+      "allowed_exit_codes": [0],
+      "required_output_tokens": ["DMTCP", "4.2.0"]
+    },
+    "command_help_probe": {
+      "argv": ["dmtcp_command", "--help"],
+      "allowed_exit_codes": [1],
+      "required_output_tokens": ["--kcheckpoint"]
+    },
+    "restart_help_probe": {
+      "argv": ["dmtcp_restart", "--help"],
+      "allowed_exit_codes": [0],
+      "required_output_tokens": ["--ckptdir"]
+    },
+    "checkpoint_kill_probe": {
+      "argv": ["dmtcp_command", "--kcheckpoint"],
+      "allowed_exit_codes": [0, 2],
+      "required_output_tokens_by_exit_code": {
+        "0": [],
+        "2": ["Computation was checkpointed and killed."]
+      },
+      "exit_semantics": "DMTCP 4.2.0 Kc returns 0 on coordinator NOERROR or 2 with the killed token on the NOT_RUNNING completion race; both require the same restart-script, image-set, and process-death postconditions",
+      "image_glob": "*.dmtcp",
+      "image_max_depth": 1,
+      "restart_script": "dmtcp_restart_script.sh"
+    }
+  },
   "mathematical_state": {
     "schema": "d972-dovetail-state/v1",
     "seed_manifest": "search/d972_dovetail_manifest_v1.json",
@@ -12,14 +59,198 @@
     "calibration_paper_premise": "sol/sol_reply_143_typedfiber.md#5.4"
   },
   "dmtcp_contract": {
-    "contract_version": "d972-dmtcp-whole-process/v2",
-    "transport": "DMTCP coordinated checkpoint images for the entire producer Python process tree and every GAP/ACE child",
+      "contract_version": "d972-dmtcp-whole-process/v2.2",
+      "legacy_seed_workflow_rebind": {
+        "version": "d972-legacy-seed-workflow-rebind/v1",
+        "scope": "fresh-genesis-seed-only",
+        "precondition": {
+          "path": ".github/workflows/d972-dovetail.yml",
+          "required": true,
+          "sha256": null
+        },
+        "replacement": {
+          "path": ".github/workflows/d972-dovetail-v2.yml",
+          "required": true
+        },
+        "existing_checkpoint_migration": false,
+        "fail_closed_on_precondition_drift": true
+      },
+      "calibration_contract": {
+        "version": "d972-direct-bq-calibration/v4",
+        "route": "explicit-permutation-BQ",
+        "bq_order": 8817984,
+        "raw_fp_quotient_size_forbidden": true,
+        "q_relators_gate": "evaluate producer q_relators in BQ and bind digest; no quotient construction",
+        "candidate_gate": "direct P-to-BQ map, onto, kernel_order=k, marked images, and |P|=k*|BQ|",
+        "terminal_A_requires_route": true
+      },
+      "transport": "DMTCP coordinated checkpoint images for the entire producer Python process tree and every GAP/ACE child",
     "coordinator_checkpointed": false,
     "manual_checkpoint_only": true,
     "checkpoint_open_files": true,
     "atomic_checkpoint_and_kill_group": "dmtcp_command --kcheckpoint",
+    "campaign_driver_policy": {
+      "producer_checker_loop": true,
+      "terminal_statuses": ["A_WITNESS_CROSSCHECKED", "CALIBRATION_STOP", "BLOCKED_RELATIVE_EXTENSION_ENUMERATOR", "DISAGREE_STOP", "INCONSISTENT_STOP"],
+      "progress_hash_required_after_each_phase": true,
+      "internal_cell_timeout": false,
+      "legacy_fallback_deadline_ignored": true,
+      "external_supervisor_only_clock": true
+    },
     "external_supervisor_only_clock": true,
     "python_subprocess_timeout_forbidden": true,
+    "gap_environment_accessor": {
+      "api": "GAPInfo.SystemEnvironment",
+      "compatibility": "define GetEnv only when unbound before loading frozen v1",
+      "missing_value": "fail"
+    },
+    "gap_4_12_materialized_rewrites": {
+      "source": "search/d972_dovetail_worker_v1.g",
+      "replacement_count_total": 34,
+      "mapping_group": {
+        "replacement_count": 1,
+        "needle": "Size(Group(a1,a2))",
+        "replacement": "D972V2MappingGroupOrder([a1,a2],G9)",
+        "materialization": "AsSSortedList(G9) -> PositionSorted images -> PermList -> Subgroup(SymmetricGroup(Length(elements)),perms)",
+        "stage_markers": [
+          "D972V2_MAPPING_STAGE materialize_begin",
+          "D972V2_MAPPING_STAGE source_gate_pass",
+          "D972V2_MAPPING_STAGE images_materialized",
+          "D972V2_MAPPING_STAGE perms_constructed",
+          "D972V2_MAPPING_STAGE subgroup_begin",
+          "D972V2_MAPPING_STAGE subgroup_done"
+        ],
+        "generator_arity": 2,
+        "fail_closed_gates": [
+          "finite source cardinality",
+          "bijective source automorphisms fixing identity",
+          "all images in source",
+          "distinct generator permutations",
+          "exactly two materialized generators"
+        ]
+      },
+      "qt9_group": {
+        "replacement_count": 1,
+        "needle": "Size(Group(qt9.s1,qt9.s2))",
+        "replacement": "D972V2PointActionGroupOrder([qt9.s1,qt9.s2],6*Size(G9))",
+        "materialization": "[qt9.s1,qt9.s2] -> finite point images -> PermList -> Subgroup(SymmetricGroup(6*Size(G9)),perms)",
+        "generator_arity": 2,
+        "fail_closed_gates": [
+          "positive finite point degree",
+          "each image lies in the point set",
+          "permutation materialization succeeds",
+          "exactly two generators"
+        ]
+      },
+      "qt4_group": {
+        "replacement_count": 1,
+        "needle": "Size(Group(qt4.s1,qt4.s2))",
+        "replacement": "D972V2PointActionGroupOrder([qt4.s1,qt4.s2],6*Size(P4))",
+        "materialization": "[qt4.s1,qt4.s2] -> finite point images -> PermList -> Subgroup(SymmetricGroup(6*Size(P4)),perms)",
+        "generator_arity": 2,
+        "fail_closed_gates": [
+          "positive finite point degree",
+          "each image lies in the point set",
+          "permutation materialization succeeds",
+          "exactly two generators"
+        ]
+      },
+      "mtc_group": {
+        "replacement_count": 1,
+        "needle": "PresentationSubgroupMtc(P, Hsub, \"h\", 0)",
+        "replacement": "PresentationSubgroupMtc(P, Hsub, \"h\")"
+      },
+      "table_group": {
+        "replacement_count": 1,
+        "needle": "G := Group(perms);",
+        "replacement": "G := D972V2PermutationGroup(perms,n,\"table_group\");",
+        "materialization": "table-derived permutations -> PermList images -> Subgroup(SymmetricGroup(n),perms)",
+        "exact_degree_binding": "n=Length(tbl)",
+        "stage_marker": "D972V2_PERM_GROUP subgroup_done stage=table_group"
+      },
+      "outer_bucket_inner": {
+        "replacement_count": 1,
+        "needle": "I := Group(innerPerms);",
+        "replacement": "I := D972V2PermutationGroup(innerPerms,k,\"outer_bucket_inner\");",
+        "materialization": "inner conjugation permutations -> PermList images -> Subgroup(SymmetricGroup(k),innerPerms)",
+        "exact_degree_binding": "k=Length(tbl)",
+        "stage_marker": "D972V2_PERM_GROUP subgroup_done stage=outer_bucket_inner"
+      },
+      "exact_parent_subgroups": {
+        "replacement_count": 11,
+        "materialization": "Subgroup(existing exact parent,[existing generators]); no ambient degree inference",
+        "exact_parent_bindings": {
+          "small_c2_parent": "SymmetricGroup(2)",
+          "candidate_generation_parent": "P",
+          "shadow_marked_parent": "P",
+          "shadow_perm_marked_parent": "P after IsomorphismPermGroup",
+          "shadow_perm_pure_parent": "P after IsomorphismPermGroup",
+          "shadow_perm_surjectivity_parent": "P after IsomorphismPermGroup",
+          "compare_parent": "L.group and R.group",
+          "selftest_split_parent": "split.fp",
+          "selftest_nonsplit_parent": "nonsplit.fp",
+          "selftest_derived_parent": "nonsplit.fp",
+          "selftest_surjectivity_parent": "nonsplit.fp"
+        },
+        "fail_closed_on_count_drift": true
+      },
+      "base_permutation_groups": {
+        "replacement_count": 17,
+        "helper": "D972V2PermutationGroup(generators, degree, stage) -> Subgroup(SymmetricGroup(degree), PermList images)",
+        "source_sha256": "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8",
+        "exact_degree_bindings": {
+          "base_q": "6*2916+6*504",
+          "base_psl4": "9",
+          "base_pure": "6*2916+6*504",
+          "base_compact_pure": "27+9",
+          "base_full_pure": "6*2916+6*504",
+          "base_shortcut_pure": "27+9",
+          "base_scan_surjectivity": "6*2916+6*504",
+          "small_c2": "6*Size(C2)",
+          "small_q8": "6*Size(q8.G)",
+          "combined_full": "baseDegree+M.degree",
+          "combined_full_gate": "baseDegree+M.degree",
+          "combined_pure": "baseDegree+M.degree",
+          "combined_pure_with_c": "baseDegree+M.degree",
+          "combined_split_pure_with_c": "baseDegree+M.degree",
+          "orbit_pure": "B.component9_degree+B.component4_degree+M.degree",
+          "base_derived": "B.component9_degree+B.component4_degree",
+          "orbit_surjectivity": "B.component9_degree+B.component4_degree+M.degree"
+        },
+        "stage_markers": [
+          "D972V2_REWRITE label=base_q",
+          "D972V2_REWRITE label=base_pure",
+          "D972V2_REWRITE label=base_compact_pure",
+          "D972V2_PERM_GROUP materialize_begin",
+          "D972V2_PERM_GROUP perms_constructed",
+          "D972V2_PERM_GROUP subgroup_done"
+        ],
+        "fail_closed_on_count_drift": true
+      },
+      "fail_closed_on_count_drift": true,
+      "frozen_v1_digest_gate": true,
+      "frozen_v1_sha256": "f9ad3f8f71dc5af3d20dbef66dc6a25c79a50393be55767c0fb9f077d46994e8"
+    },
+    "gap_v1_library_materialization": {
+      "writer": "FileString",
+      "round_trip_check": "StringFile(path) equals exact normalized prefix before Read",
+      "forbidden_writer": "PrintTo",
+      "reason": "GAP 4.13 byte-faithful long-string file construction"
+    },
+    "worker_payload_compatibility": {
+      "selftest_legacy_status": "absent",
+      "selftest_envelope_status": "PASS",
+      "selftest_required_all_pass": true,
+      "production_modes_require_payload_status": true,
+      "candidate_missing_status": "reject"
+    },
+    "gap_smallgrp_dependency": {
+      "package": "smallgrp",
+      "load_call": "LoadPackage(\"smallgrp\") <> true",
+      "missing_package": "fail",
+      "required_globals": ["SmallGroupsAvailable", "AllSmallGroups"],
+      "required_for": "kernel-catalog and GAP 4.13 v1 API compatibility"
+    },
     "stable_workspace_relative_runtime_root": ".d972-runtime",
     "opaque_state_covered": [
       "canonical_table_relabel",
@@ -35,8 +266,17 @@
     "runtime_compatibility": "exact source commit, code/input hashes, DMTCP/GAP/Python versions, runner ImageOS, architecture and stable workspace path; restart failure is terminally fail-closed",
     "restored_environment_semantics": "DMTCP restores the image-tree birth environment; D972_DMTCP_GENERATION and launch_environment describe that birth, while envelope hash_chain.generation and checkpoint_images.directory identify each outer checkpoint generation",
     "secret_policy": "checkpointed target is launched by env -i with the manifest allowlist; no GITHUB_TOKEN or credential variable enters the image",
+    "authority_material_diagnostic": {
+      "field": "authority_material_diagnostic",
+      "encoding": "UTF-8 material string hashed by checkpoint_sha256",
+      "role": "non-authoritative worker/producer/checker mismatch diagnosis",
+      "included_in_checkpoint_sha256": false,
+      "payload_or_secret_free": true,
+      "independent_rebuild_required": true
+    },
     "smoke_test_required_each_run": true,
-    "contract_sha256": "673ad777bd5de76077db25cc7744622783218c0323ba428cec1bd790e1234e57"
+    "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
+      "contract_sha256": "5025d1cdcd3006c6a51b939aac062313aa4f419f175e53bdac386ac38331ba63"
   },
   "launch_spec": {
     "cwd": ".",

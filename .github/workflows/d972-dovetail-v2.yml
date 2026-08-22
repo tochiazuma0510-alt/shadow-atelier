@@ -13,8 +13,10 @@ on:
         required: false
         default: "240"
         type: string
-  schedule:
-    - cron: "31 */6 * * *"
+  # schedule: TEMPORARILY DISABLED for post-integration manual 240-min validation (Sol reply 157b sec.4, ruling 1581).
+  # Re-enable with EXACT passing supervisor bytes (sha256 6eb791a1...) after the manual run PASSes.
+  # schedule:
+  #   - cron: "31 */6 * * *"
 
 permissions:
   contents: read
@@ -31,6 +33,7 @@ jobs:
     env:
       RUNTIME_ROOT: .d972-runtime
       ARTIFACT_NAME: d972-dovetail-v2-state
+      ARTIFACT_ARCHIVE: d972-dovetail-v2-state.tar
       MANIFEST_V2: search/d972_dovetail_manifest_v2.json
       PRODUCER_V2: search/d972_dovetail_producer_v2.py
       CHECKER_V2: search/check_d972_dovetail_v2.py
@@ -96,9 +99,56 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: d972-dovetail-v2-state
-          path: .d972-runtime
+          path: .d972-artifact-download
           run-id: ${{ steps.predecessor.outputs.run_id }}
           github-token: ${{ github.token }}
+
+      - name: Extract validated predecessor runtime archive
+        if: steps.predecessor.outputs.run_id != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive=".d972-artifact-download/$ARTIFACT_ARCHIVE"
+          test -f "$archive"
+          test "$(find .d972-artifact-download -mindepth 1 -maxdepth 1 -type f -printf . | wc -c)" = 1
+          test ! -e "$RUNTIME_ROOT"
+          python3 - "$archive" <<'PY'
+          import pathlib, posixpath, re, sys, tarfile
+          archive = pathlib.Path(sys.argv[1]).resolve(strict=True)
+          root = pathlib.Path.cwd().resolve()
+          runtime = root / '.d972-runtime'
+          if runtime.exists():
+              raise SystemExit('runtime exists before archive extraction')
+          with tarfile.open(archive, mode='r:') as bundle:
+              members = bundle.getmembers()
+              if not members:
+                  raise SystemExit('empty runtime archive')
+              names = set()
+              for member in members:
+                  path = pathlib.PurePosixPath(member.name)
+                  if (path.is_absolute() or not path.parts or path.parts[0] != '.d972-runtime' or
+                          '..' in path.parts or str(path) in names):
+                      raise SystemExit(f'unsafe or duplicate archive member: {member.name}')
+                  names.add(str(path))
+                  if member.issym():
+                      target = pathlib.PurePosixPath(posixpath.normpath(str(path.parent / member.linkname)))
+                      if (path.name != 'dmtcp_restart_script.sh' or target.parent != path.parent or
+                              not re.fullmatch(r'dmtcp_restart_script_[0-9A-Za-z._-]+[.]sh', target.name) or
+                              str(target) not in names and str(target) not in
+                              {str(pathlib.PurePosixPath(row.name)) for row in members}):
+                          raise SystemExit(f'unsafe archive symlink: {member.name}')
+                  elif member.islnk():
+                      target = pathlib.PurePosixPath(member.linkname)
+                      if (target.is_absolute() or not target.parts or
+                              target.parts[0] != '.d972-runtime' or '..' in target.parts):
+                          raise SystemExit(f'unsafe archive hardlink: {member.name}')
+                  elif not (member.isdir() or member.isfile()):
+                      raise SystemExit(f'unsupported archive member type: {member.name}')
+              bundle.extractall(root, filter='data')
+          if not (runtime / 'pending-envelope.json').is_file():
+              raise SystemExit('restored pending envelope absent')
+          print(f'D972_ARCHIVE_RESTORE members={len(members)}')
+          PY
 
       - name: Lock checkout to the image source commit
         id: source
@@ -121,6 +171,20 @@ jobs:
           test "$checked_out_supervisor_sha" = "$TRIGGER_SUPERVISOR_SHA256"
           echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
 
+      - name: Bash syntax gate for exact DMTCP inventory step
+        shell: bash
+        run: |
+          set -euo pipefail
+          extracted="$RUNNER_TEMP/d972-dmtcp-inventory-step.sh"
+          awk '
+            /^      - name: Install and inventory GAP plus DMTCP$/ { capture=1; next }
+            capture && /^      - name:/ { exit }
+            capture && /^        run: [|]$/ { emit=1; next }
+            emit { sub(/^          /, ""); print }
+          ' .github/workflows/d972-dovetail-v2.yml > "$extracted"
+          test -s "$extracted"
+          bash -n "$extracted"
+
       - name: Set up exact Python 3.13.14
         uses: actions/setup-python@v5
         with:
@@ -132,23 +196,96 @@ jobs:
         run: |
           set -euo pipefail
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends gap dmtcp
+          sudo apt-get install --yes --no-install-recommends gap gap-smallgrp build-essential ca-certificates curl
+          dmtcp_release_url=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["archive_url"])')
+          dmtcp_release_sha=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["archive_sha256"])')
+          dmtcp_release_commit=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["release_commit_sha"])')
+          dmtcp_release_root=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["archive_root"])')
+          dmtcp_release_tag=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["release_tag"])')
+          dmtcp_version_token="${dmtcp_release_tag#v}"
+          dmtcp_allowed_exit_code=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["version_probe"]["allowed_exit_codes"]; assert len(x)==1; print(x[0])')
+          dmtcp_command_help_allowed_code=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["command_help_probe"]["allowed_exit_codes"]; assert len(x)==1; print(x[0])')
+          dmtcp_command_help_token=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["command_help_probe"]["required_output_tokens"][0])')
+          dmtcp_restart_help_allowed_code=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["restart_help_probe"]["allowed_exit_codes"]; assert len(x)==1; print(x[0])')
+          dmtcp_restart_help_token=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["restart_help_probe"]["required_output_tokens"][0])')
+          dmtcp_checkpoint_allowed_codes=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["allowed_exit_codes"]; assert x == [0,2]; print(",".join(map(str,x)))')
+          dmtcp_checkpoint_token=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["required_output_tokens_by_exit_code"]; assert x["0"] == [] and len(x["2"]) == 1; print(x["2"][0])')
+          dmtcp_checkpoint_image_glob=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["image_glob"])')
+          dmtcp_checkpoint_image_depth=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["image_max_depth"])')
+          dmtcp_restart_script=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["restart_script"])')
+          test "$dmtcp_command_help_token" = "--kcheckpoint"
+          test "$dmtcp_restart_help_token" = "--ckptdir"
+          test "$dmtcp_checkpoint_token" = "Computation was checkpointed and killed."
+          test "$dmtcp_checkpoint_allowed_codes" = "0,2"
+          test "$dmtcp_checkpoint_image_glob" = "*.dmtcp"
+          test "$dmtcp_checkpoint_image_depth" = "1"
+          test "$dmtcp_restart_script" = "dmtcp_restart_script.sh"
+          printf '%s\n' "$dmtcp_command_help_token" | grep -Fq -- "$dmtcp_command_help_token"
+          printf '%s\n' "$dmtcp_restart_help_token" | grep -Fq -- "$dmtcp_restart_help_token"
+          [[ "$dmtcp_release_sha" =~ ^[0-9a-f]{64}$ ]]
+          [[ "$dmtcp_release_commit" =~ ^[0-9a-f]{40}$ ]]
+          dmtcp_archive="$RUNNER_TEMP/dmtcp-v4.2.0.tar.gz"
+          dmtcp_source_root="$RUNNER_TEMP/dmtcp-source"
+          rm -rf "$dmtcp_source_root"
+          mkdir -p "$dmtcp_source_root"
+          curl --fail --location --retry 5 --retry-all-errors --connect-timeout 30 \
+            --max-time 300 "$dmtcp_release_url" --output "$dmtcp_archive"
+          echo "$dmtcp_release_sha  $dmtcp_archive" | sha256sum --check --status
+          tar --extract --gzip --file "$dmtcp_archive" --directory "$dmtcp_source_root"
+          dmtcp_src="$dmtcp_source_root/$dmtcp_release_root"
+          test -d "$dmtcp_src"
+          test "$(git -C "$dmtcp_src" rev-parse HEAD 2>/dev/null || true)" = ""
+          test -f "$dmtcp_src/configure"
+          dmtcp_prefix="$GITHUB_WORKSPACE/.dmtcp-prefix"
+          rm -rf "$dmtcp_prefix"
+          mkdir -p "$dmtcp_prefix"
+          (
+            cd "$dmtcp_src"
+            ./configure --prefix="$dmtcp_prefix"
+            make -j"$(nproc)"
+            make install
+          )
+          export PATH="$dmtcp_prefix/bin:$PATH"
+          echo "PATH=$dmtcp_prefix/bin:$PATH" >> "$GITHUB_ENV"
           mkdir -p "$RUNTIME_ROOT" "$RUNTIME_ROOT/tmp" "$RUNTIME_ROOT/home" "$RUNTIME_ROOT/ckpt" \
             "$RUNTIME_ROOT/artifacts" "$RUNTIME_ROOT/checker" "$RUNTIME_ROOT/lineage"
-          dmtcp_version_output=$(dmtcp_launch --version 2>&1)
+          set +e
+          dmtcp_version_output=$("$dmtcp_prefix/bin/dmtcp_launch" --version 2>&1)
+          dmtcp_version_rc=$?
+          set -e
+          test "$dmtcp_version_rc" = "$dmtcp_allowed_exit_code"
+          grep -Fq 'DMTCP' <<<"$dmtcp_version_output"
+          grep -Fq -- "$dmtcp_version_token" <<<"$dmtcp_version_output"
           dmtcp_version=$(head -n 1 <<<"$dmtcp_version_output" | tr -d '\r')
+          test -n "$dmtcp_version"
+          test "$(command -v dmtcp_launch)" = "$dmtcp_prefix/bin/dmtcp_launch"
+          test "$(command -v dmtcp_command)" = "$dmtcp_prefix/bin/dmtcp_command"
+          test "$(command -v dmtcp_coordinator)" = "$dmtcp_prefix/bin/dmtcp_coordinator"
+          test "$(command -v dmtcp_restart)" = "$dmtcp_prefix/bin/dmtcp_restart"
+          dmtcp_version="$dmtcp_version; version_probe_exit=$dmtcp_version_rc; release_commit=$dmtcp_release_commit; archive_sha256=$dmtcp_release_sha"
           gap_version=$(gap -q -b <<'GAP' | tail -n 1
           Print(GAPInfo.Version, "\n");
           QUIT_GAP(0);
           GAP
           )
           python_version=$(python3 --version 2>&1 | tr -d '\r')
-          test -n "$dmtcp_version"
           test -n "$gap_version"
+          set +e
           dmtcp_command_help=$(dmtcp_command --help 2>&1)
+          dmtcp_command_help_rc=$?
           dmtcp_restart_help=$(dmtcp_restart --help 2>&1)
-          grep -q -- '--kcheckpoint' <<<"$dmtcp_command_help"
-          grep -q -- '--ckptdir' <<<"$dmtcp_restart_help"
+          dmtcp_restart_help_rc=$?
+          set -e
+          test "$dmtcp_command_help_rc" = "$dmtcp_command_help_allowed_code"
+          test "$dmtcp_restart_help_rc" = "$dmtcp_restart_help_allowed_code"
+          grep -Fq -- "$dmtcp_command_help_token" <<<"$dmtcp_command_help"
+          grep -Fq -- "$dmtcp_restart_help_token" <<<"$dmtcp_restart_help"
+          dmtcp_version="$dmtcp_version; command_help_exit=$dmtcp_command_help_rc; restart_help_exit=$dmtcp_restart_help_rc"
+          echo "D972_CHECKPOINT_ALLOWED_CODES=$dmtcp_checkpoint_allowed_codes" >> "$GITHUB_ENV"
+          echo "D972_CHECKPOINT_TOKEN=$dmtcp_checkpoint_token" >> "$GITHUB_ENV"
+          echo "D972_CHECKPOINT_IMAGE_GLOB=$dmtcp_checkpoint_image_glob" >> "$GITHUB_ENV"
+          echo "D972_CHECKPOINT_IMAGE_DEPTH=$dmtcp_checkpoint_image_depth" >> "$GITHUB_ENV"
+          echo "D972_RESTART_SCRIPT=$dmtcp_restart_script" >> "$GITHUB_ENV"
           echo "dmtcp_version=$dmtcp_version" >> "$GITHUB_OUTPUT"
           echo "gap_version=$gap_version" >> "$GITHUB_OUTPUT"
           echo "python_version=$python_version" >> "$GITHUB_OUTPUT"
@@ -185,9 +322,21 @@ jobs:
           before_count=$(cut -d: -f2 <<<"$before_line")
           [[ "$before_count" =~ ^[0-9]+$ ]]
           ((before_count < 40))
-          DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$port" dmtcp_command --kcheckpoint
+          set +e
+          checkpoint_output=$(DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$port" \
+            dmtcp_command --kcheckpoint 2>&1)
+          checkpoint_rc=$?
+          set -e
+          printf '%s\n' "$checkpoint_output" > "$smoke/checkpoint-command.txt"
+          printf 'D972_SMOKE_CHECKPOINT_RESULT rc=%s output=%q\n' "$checkpoint_rc" "$checkpoint_output"
+          case "$checkpoint_rc" in
+            0) ;;
+            2) grep -Fq -- "$D972_CHECKPOINT_TOKEN" <<<"$checkpoint_output" ;;
+            *) echo "unexpected DMTCP checkpoint exit: $checkpoint_rc" >&2; exit 1 ;;
+          esac
           wait "$smoke_pid" || true
-          mapfile -t smoke_images < <(find "$smoke/ckpt" -maxdepth 1 -type f -name '*.dmtcp' -print | sort)
+          test -e "$smoke/ckpt/$D972_RESTART_SCRIPT"
+          mapfile -t smoke_images < <(find "$smoke/ckpt" -maxdepth "$D972_CHECKPOINT_IMAGE_DEPTH" -type f -name "$D972_CHECKPOINT_IMAGE_GLOB" -print | sort)
           ((${#smoke_images[@]} > 0))
           DMTCP_CHECKPOINT_DIR="$smoke/ckpt" DMTCP_CHECKPOINT_INTERVAL=0 \
             dmtcp_coordinator --daemon --coord-port 0 --port-file "$port_file.restart"
@@ -424,9 +573,69 @@ jobs:
           else
             # --kcheckpoint atomically completes one coordinated generation and
             # kills the image-bearing process group before it can mutate files.
-            DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$port" \
-              dmtcp_command --kcheckpoint > "$RUNTIME_ROOT/checkpoint-command.txt" 2>&1
-            wait "$computation_pid" || true
+            set +e
+            checkpoint_output=$(DMTCP_COORD_HOST=127.0.0.1 DMTCP_COORD_PORT="$port" \
+              dmtcp_command --kcheckpoint 2>&1)
+            checkpoint_rc=$?
+            set -e
+            printf '%s\n' "$checkpoint_output" > "$RUNTIME_ROOT/checkpoint-command.txt"
+            printf 'D972_CAMPAIGN_CHECKPOINT_RESULT rc=%s output=%q\n' "$checkpoint_rc" "$checkpoint_output"
+            case "$checkpoint_rc" in
+              0) ;;
+              2) grep -Fq -- "$D972_CHECKPOINT_TOKEN" <<<"$checkpoint_output" ;;
+              *) echo "unexpected DMTCP checkpoint exit: $checkpoint_rc" >&2; exit 1 ;;
+            esac
+            for _ in $(seq 1 200); do
+              ! kill -0 "$computation_pid" 2>/dev/null && break
+              sleep 0.1
+            done
+            if kill -0 "$computation_pid" 2>/dev/null; then
+              echo "checkpointed computation remained alive" >&2
+              exit 1
+            fi
+            set +e
+            wait "$computation_pid"
+            computation_rc=$?
+            set -e
+            for _ in $(seq 1 100); do
+              if [[ -e "$current_ckpt_dir/$D972_RESTART_SCRIPT" ]] &&
+                 find "$current_ckpt_dir" -maxdepth "$D972_CHECKPOINT_IMAGE_DEPTH" -type f -name "$D972_CHECKPOINT_IMAGE_GLOB" -print -quit | grep -q .; then
+                break
+              fi
+              sleep 0.1
+            done
+            mapfile -t current_images < <(find "$current_ckpt_dir" -maxdepth "$D972_CHECKPOINT_IMAGE_DEPTH" -type f -name "$D972_CHECKPOINT_IMAGE_GLOB" -print | sort)
+            printf 'D972_CAMPAIGN_PROCESS_EXIT rc=%s images=%s\n' "$computation_rc" "${#current_images[@]}"
+            test -e "$current_ckpt_dir/$D972_RESTART_SCRIPT"
+            ((${#current_images[@]} > 0))
+            python3 - "$RUNTIME_ROOT" <<'PY'
+          import os, pathlib, re, sys
+          root = pathlib.Path(sys.argv[1]).resolve(strict=True)
+          tmp = pathlib.Path('/tmp').resolve(strict=True)
+          removed = []
+          retained = []
+          for path in sorted(root.rglob('*')):
+              if not path.is_symlink():
+                  continue
+              target = path.resolve(strict=True)
+              if (target.is_relative_to(root) and path.name == 'dmtcp_restart_script.sh' and
+                      target.parent == path.parent and
+                      re.fullmatch(r'dmtcp_restart_script_[0-9A-Za-z._-]+[.]sh', target.name)):
+                  retained.append(path.relative_to(root).as_posix())
+                  continue
+              if target.is_relative_to(tmp):
+                  relative = target.relative_to(tmp)
+                  if (any(part.startswith('dmtcp-') for part in relative.parts[:-1]) and
+                          target.name.startswith('dmtcp') and target.suffix == '.log'):
+                      path.unlink()
+                      removed.append(path.relative_to(root).as_posix())
+                      continue
+              raise SystemExit(f'unsafe runtime symlink: {path} -> {os.readlink(path)}')
+          remaining = [path for path in root.rglob('*') if path.is_symlink()]
+          if len(remaining) != len(retained):
+              raise SystemExit('runtime symlink classification changed during removal')
+          print(f'D972_DMTCP_LINK_POLICY removed_logs={len(removed)} retained_restart={len(retained)}')
+          PY
             python3 "$CHECKER_V2" seal-envelope \
               --checkpoint-dir "$current_ckpt_dir" --state "$RUNTIME_ROOT/state.json" \
               --envelope "$PENDING_ENVELOPE" \
@@ -459,13 +668,37 @@ jobs:
             ! grep -Eiq 'GITHUB_TOKEN|ACTIONS_RUNTIME_TOKEN|PASSWORD|CREDENTIAL|SECRET' \
               "$RUNTIME_ROOT/launch-environment.json"
           fi
+          python3 - "$RUNTIME_ROOT" <<'PY'
+          import pathlib, re, sys
+          root = pathlib.Path(sys.argv[1]).resolve(strict=True)
+          links = [path for path in root.rglob('*') if path.is_symlink()]
+          for path in links:
+              target = path.resolve(strict=True)
+              if not (target.is_relative_to(root) and path.name == 'dmtcp_restart_script.sh' and
+                      target.parent == path.parent and
+                      re.fullmatch(r'dmtcp_restart_script_[0-9A-Za-z._-]+[.]sh', target.name)):
+                  raise SystemExit(f'unsafe pre-upload symlink: {path}')
+          print(f'D972_PREUPLOAD_INTERNAL_RESTART_LINKS count={len(links)}')
+          PY
+
+      - name: Pack the exact state or suspended process generation
+        if: steps.campaign.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$ARTIFACT_ARCHIVE"
+          tar --format=posix --numeric-owner --owner=0 --group=0 \
+            -cf "$ARTIFACT_ARCHIVE" "$RUNTIME_ROOT"
+          test -s "$ARTIFACT_ARCHIVE"
+          printf 'D972_ARTIFACT_ARCHIVE sha256=%s bytes=%s\n' \
+            "$(sha256sum "$ARTIFACT_ARCHIVE" | cut -d' ' -f1)" "$(stat -c '%s' "$ARTIFACT_ARCHIVE")"
 
       - name: Upload the exact state or suspended process generation
         if: steps.campaign.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: d972-dovetail-v2-state
-          path: .d972-runtime
+          path: d972-dovetail-v2-state.tar
           if-no-files-found: error
           compression-level: 0
           retention-days: 7
