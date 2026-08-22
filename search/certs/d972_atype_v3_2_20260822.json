@@ -1,0 +1,97 @@
+{
+  "gate4_closure": {
+    "closed": 36,
+    "naive_control_excluded_lambda1_cells": 11,
+    "naive_control_fail": 25,
+    "naive_control_total": 25,
+    "not_closed_cells": [],
+    "total": 36
+  },
+  "generated_at_utc": "2026-08-22T14:32:45.373658+00:00",
+  "grade": "candidate, single-system at slots 1-4 (system A has no slot1-4 formulation -- structural, not resolved by further engineering); PENDING third falsifier CV-9 pass before launch.",
+  "m_spectrum_completion": {
+    "m15": {
+      "route": "compose((3,W),(12,f12))",
+      "status": "UNKNOWN -- f12 not identified (W and f'' do not directly realize m=12; not guessed)"
+    },
+    "m2": {
+      "route": "compose((3,W),(5,f5))",
+      "status": "UNKNOWN -- f5 not identified (W and f'' do not directly realize m=5; not guessed)"
+    },
+    "m8": {
+      "all5": true,
+      "len_f": 992,
+      "m": 8,
+      "route": "compose((14,W),(6,f''))"
+    },
+    "m9": {
+      "all5": true,
+      "len_f": 992,
+      "m": 9,
+      "route": "compose((14,W),(11,f''))"
+    }
+  },
+  "out_of_scope_this_round": "W verification series (pentagon/T_F2/settled PROXY items) EXCLUDED per commander instruction -- separate delivery after definition-source procurement.",
+  "predicate_version": "v3_2-launch-gate-repair-post-CV9-second-read",
+  "provenance": {
+    "q3_path": "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json",
+    "q3_sha256_matches_pin": true,
+    "q3_sha256_measured": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"
+  },
+  "regression_oracle": {
+    "all_pass": true,
+    "results": [
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 1,
+        "m": 0,
+        "name": "f=1",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 17,
+        "m": 17,
+        "name": "f=1",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 7,
+        "m": 3,
+        "name": "W",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 11,
+        "m": 14,
+        "name": "W",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 13,
+        "m": 6,
+        "name": "f''",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 5,
+        "m": 11,
+        "name": "f''",
+        "pass": true
+      }
+    ]
+  },
+  "schema": "d972-atype-v3_2/production-v1",
+  "universe_digest": "87fb1d419cabf9f502f038bde8905f86fc71ac663b29a69e1edec964ed709d5f",
+  "urgent_side_finding": "search/koubou158_L3_core_v1_1.py IndependentPc.inverse() raises IndexError for pc elements with nonzero weight-2 coordinate (self._inv_gen has only 6 entries, indexed up to 10) -- worked around HERE via safe_e4_inverse (exponent-3 squaring), NOT patched in production. Reported separately for a production-patch decision."
+}

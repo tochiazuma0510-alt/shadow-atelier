@@ -1,0 +1,135 @@
+{
+  "cv9_status": "GO (third read) -- scope: gate4 calibration + m-spectrum + cert issuance. W verification series remains OUT OF SCOPE (separate delivery).",
+  "gate4_closure": {
+    "closed": 36,
+    "naive_control_excluded_lambda1_cells": 11,
+    "naive_control_fail": 25,
+    "naive_control_total": 25,
+    "not_closed_cells": [],
+    "total": 36
+  },
+  "generated_at_utc": "2026-08-22T14:54:33.575367+00:00",
+  "grade": "candidate, single-system at slots 1-4 (system A has no slot1-4 formulation -- structural constraint, retained per falsifier; CV-9 GO obtained for gate4+m-spectrum+cert scope only).",
+  "m_spectrum_completion": {
+    "m15": {
+      "all5": true,
+      "len_f": 46832,
+      "m": 15,
+      "route": "compose((3,W),(12,f12)) where f12=compose((11,f''),(11,f''))"
+    },
+    "m2": {
+      "all5": true,
+      "len_f": 46604,
+      "m": 2,
+      "route": "compose((3,W),(5,f5)) where f5=compose((6,f''),(11,f''))"
+    },
+    "m8": {
+      "all5": true,
+      "len_f": 992,
+      "m": 8,
+      "route": "compose((14,W),(6,f''))"
+    },
+    "m9": {
+      "all5": true,
+      "len_f": 992,
+      "m": 9,
+      "route": "compose((14,W),(11,f''))"
+    },
+    "spectrum_12_of_12": [
+      0,
+      2,
+      3,
+      5,
+      6,
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17
+    ]
+  },
+  "m_spectrum_summary": "12/12 realized: {0,2,3,5,6,8,9,11,12,14,15,17}",
+  "out_of_scope_this_round": "W verification series (pentagon/T_F2-surjectivity-PROXY/settled-PROXY) EXCLUDED per commander instruction -- separate delivery after definition-source procurement.",
+  "predicate_version": "v3_3-final-launch-post-CV9-third-read",
+  "provenance": {
+    "pc_exponent3_exhaustive_check": {
+      "note": "all 3^10=59049 pc-coordinate tuples checked for g^3=identity (Pi4[3] exponent-3 property); 0 violations.",
+      "total_tuples_checked": 59049,
+      "violations": 0
+    },
+    "q3_path": "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json",
+    "q3_sha256_matches_pin": true,
+    "q3_sha256_measured": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"
+  },
+  "regression_oracle": {
+    "all_pass": true,
+    "results": [
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 1,
+        "m": 0,
+        "name": "f=1",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 17,
+        "m": 17,
+        "name": "f=1",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 7,
+        "m": 3,
+        "name": "W",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 11,
+        "m": 14,
+        "name": "W",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 13,
+        "m": 6,
+        "name": "f''",
+        "pass": true
+      },
+      {
+        "charming": true,
+        "gtpair_all5": true,
+        "lambda": 5,
+        "m": 11,
+        "name": "f''",
+        "pass": true
+      }
+    ]
+  },
+  "schema": "d972-atype-v3_3/production-final-v1",
+  "theta_control_finding": "[x,y].theta0([x,y]) = [x,y].[y,x] = [x,y].[x,y]^-1 = 1 is a FREE-GROUP IDENTITY for ANY commutator under the swap theta0 -- a commutator structurally CANNOT be a theta-false control. v3_3's destructive-a control uses the product of two different commutators ([x,y]).([x,y^-1]) instead, which is charming but not itself a commutator, and does break theta0-symmetry (verified below).",
+  "universe_digest": "0df6216cb0a0f734d4556eda37def6f424b542d9432c9f6a723672c2b7c2befa",
+  "urgent_side_finding": "search/koubou158_L3_core_v1_1.py IndependentPc.inverse() raises IndexError for pc elements with nonzero weight-2 coordinate (self._inv_gen has only 6 entries, indexed up to 10) -- worked around via safe_e4_inverse (exponent-3 squaring), NOT patched in production. STILL PENDING a production-patch decision (unresolved as of this cert).",
+  "verification_trail": {
+    "destructive_controls": {
+      "a_theta_false_charming": "PASS (product-of-two-commutators word IS charming and DOES break theta0-symmetry, confirmed)",
+      "b_non_charming_quarantined": "PASS (y.x^-1 correctly flagged non-charming, REDUCED-FORM tag applied)",
+      "c_charming_non_gtpair_rejected": "PASS (charming commutator correctly rejected as non-GT-pair at m=5)"
+    },
+    "positive_control_m0_f1": "PASS (charming=True, gtpair_all5_gated=True)",
+    "system_A_B_slot0_agreement": {
+      "cells_tested": 72,
+      "mismatches": 0
+    }
+  }
+}
