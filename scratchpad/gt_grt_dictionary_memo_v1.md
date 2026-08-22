@@ -4,6 +4,11 @@
 
 **状態札**: `mixed — §2 は定理(自前証明)/ §3.2 は定理(自前証明)/ ★§3.3 は新結果(paper-proof + GAP 単系統・独立照合前)/ §2.6・§4 は candidate / 封印非接触 / 窓の候補値(48 元の f 値)非接触`
 
+> ## ⚠ 訂正バナー(2026-08-22・Sol 便 156 = 条件付き受理 → 5 条件執行済)
+> **本文 §2〜§3 は初版のまま残置(versioned 規律)。読む前に必ず **§8** を見ること。** 訂正は 7 箇所に **⚠訂正 C1〜C5-g** のマーカーを埋め込み、逐語の正本は **§8** に置いた。とくに:
+> **C1** $X_3$ は開曲線 $U_3=E\setminus S$($\hat\pi_1(E)$ ではない)・ℚ 上の deck 群は $\mu_3$ / **C2** 重み完全列は localization sequence・**分裂主張は削除**(C3-LIFT に不要)/ **C3** T-ARITH の「全 $K$」→「**全細分 $K\le N$**」/ **C4** (S7) は全 reduction fibre の死亡証明書へ強化 / **C5** A5 の格境界(D3(iv) 分離・D4 の $e=0$ 文・**𝔤𝔯𝔱^hex → 斉次 hexagon 解空間**・294/42 は retrospective agreement・$\mathrm{nilvis}_p$・**972 は保留**)。
+> **§7.7 の (S1)(S3)(S7) は §8.7 の改訂版が正本**(旧逐語は参照専用)。
+
 - 起草: 影工房 数学者(Claude / Opus 5)・2026-08-22
 - 委嘱: 司令塔(転進判断の入力)。配達文献 4 本(金庫 `intel/grt_papers/`)= §1.3。
 - 正典: `docs/week1-定義ノート.md` / 2401.06870 / 2405.11725。工房既在: `docs/notes/c83_closure_index_v1.md`・`scratchpad/c83_inn_lift_lemma_v1.md`・`docs/notes/bhunt_l1_bridge_v1.md`・`docs/notes/b4_direct_adjudication_feasibility_v1_2.md`・`docs/notes/b_type_synthesis_design_v1_addendum_l4b_grt12.md`。
@@ -96,18 +101,24 @@ $K_p:=[N,N]N^p$、$V:=N/K_p=H_1(N;\mathbb F_p)$($\mathbb F_p[Q]$-加群)。
 > **(iii)** $U_0=\ker(1-\bar\sigma_1+\bar\sigma_1\bar\sigma_2)\cap\ker(1-\bar\sigma_2+\bar\sigma_2\bar\sigma_1)$ が含意する $\bar\Delta v=-v$ は、**[W] (29) $\psi(X,Y)+\psi(Y,X)=0$ の群論的相対版そのもの**である($\mathrm{Ad}(\Delta)$ は $x\leftrightarrow y$ = θ、(1.13))。同様に $\mathrm{Ad}(\delta)=\mathrm{Ad}(\sigma_1\sigma_2)$ は τ($x\to y\to z\to x$)で、簡約 hexagon (3.11) の線型化が **[W] (28) $\psi(X,Y)+\psi(Y,Z)+\psi(Z,X)=0$($Z=-X-Y$)**にあたる。
 > **(iv)(★橋の正確な位置)** $N=\mathbf N(\ell,k,j)$(定理 D1)かつ $p=\ell$ のとき、$V$ の中の重み $k$ 成分は自由 Lie 代数の次数 $k$ 部分 $\mathrm{Lie}_k\otimes\mathbb F_\ell$ で、$Q$ は $S_3$ 作用と円分捻りで作用する。この場合 **$U_0$ は $\mathfrak{grt}^{\rm hex}_k\otimes\mathbb F_\ell$ に一致する**(§2.5.3 の数値一致がその証拠)。一般の窓では $V$ は非冪零被覆群の $H_1$ であり、**重み次数も grt 解釈も存在しない**。
 
+> **⚠訂正 C5-a(便 156・§8.5)**: **(iv) は定理 D3 から分離する**。(i)(ii)(iii) のみが定理で、**(iv) は【GAP-DICT-1】candidate**(根拠は数値一致のみ・構成的証明なし)。以後 (iv) を「定理 D3 の一部」として引用しない。
+
 **証明.** (i) 定義から $[N,N]N^p=\Phi_p(N)$、$D_1=N$、$D_2=[N,N]N^p$。(ii) は `c83_inn_lift_lemma_v1.md` 定理 T-DEF そのもの(本メモは再証明しない・引用)。(iii) は (1.13) と導出 1((3.3) 節の $\delta x\delta^{-1}=y$)から作用素の同定が従う(同ノート §2.6 の系「$\bar\Delta v=-v$」が加法記法で (29) である)。(iv) の一致は §2.5.3 の 2 系統一致による **candidate**(構成的証明は与えていない — 【GAP-DICT-1】)。∎
 
 ### 2.4 定理 D4(gr が忘れるもの = 拡大類)
 
 > **定理 D4.** 1 → V → B₃/K_p → Q → 1 の拡大類を $e\in H^2(Q,V)$ とする。次数付きデータ $(V,\ Q\text{-作用},\ U_0)$ は **$e$ を忘れる**。持ち上げの障害はこの $e$ から作られる類であり、実際 **KER-π**(`c83_inn_lift_lemma_v1.md` §3)が $\ker(\pi^*)=\mathrm{End}_{\mathbb F_p[Q]}(V)\cdot e$ を与える。⟹ **同型な $(V,Q)$ をもつ 2 つの窓が、異なる $e$ ゆえに異なる survival 挙動をもち得る。**
-> ゆえに「grt の影で有限窓を語る」対応は **影であって同値ではない**。同値になるのは拡大が分裂($e=0$)する場合に限る。
+> ゆえに「grt の影で有限窓を語る」対応は **影であって同値ではない**。~~同値になるのは拡大が分裂($e=0$)する場合に限る。~~
+> **⚠訂正 C5-b(便 156・§8.5)**: 取り消し線部は**過大**。$e=0$ は**この一つの障害を消すだけ**で、grt と有限窓の全情報の同値は与えない。正 =「$e$ を忘れることで持ち上げ障害の情報が失われる」まで。
 
 **証明.** $(V,Q)$ は $e$ の情報を含まない(同じ $(V,Q)$ に対し $H^2(Q,V)$ は一般に非零で、異なる類が異なる群 $B_3/K_p$ を与える)。障害の記述は KER-π。∎
 
 > **系(規律)**: 「$\mathfrak{grt}$ で次元が合ったから有限窓でも合う」は **禁句**。合うのは $V$ の線型部分までで、貼り合わせは別勘定。§2.5.3 の 294/42 一致は「合った」という**測定**であって、この系の反例ではない(その窓では $e$ の寄与が見えていないだけ)。
 
-### 2.5 𝔤𝔯𝔱^hex — hexagon だけを課した Lie 代数
+### 2.5 ~~𝔤𝔯𝔱^hex — hexagon だけを課した Lie 代数~~ → **斉次 hexagon 解空間 $\mathcal H$**(便 156 改称)
+
+> **⚠訂正 C5-c(便 156・§8.5)**: **「Lie 代数」と断言しない**。Ihara bracket での閉性は【GAP-HEX-1】未解決ゆえ、本節の対象は **斉次 hexagon 解空間 $\mathcal H_w:=\{\psi\in\mathrm{Lie}_w(X,Y):\text{(28)}\wedge\text{(29)}\}$** と呼ぶ(次元計算に bracket 閉性は不要)。以下の記号 $\mathfrak{grt}^{\rm hex}_w$ は $\mathcal H_w$ と読み替えること。
+> **⚠訂正 C5-d(便 156・§8.5)**: §2.5.2 の次元表は **candidate**。2 大素数一致は有理 rank の**下界**を与えるにとどまる(mod-p rank ≤ 有理 rank)。厳密化には fraction-free 有理消去 or SNF 証明書が要る。
 
 #### 2.5.1 定義(可能・[W] の定義から pentagon を落とすだけ)
 
@@ -143,7 +154,9 @@ NW(7) 窓(`b4_direct_adjudication_feasibility_v1_2.md` §1.1): $N_{F_2}=\gamma_5
 - 本メモの表の重み 2,3,4 の和: $\mathfrak{grt}^{\rm hex}$: $0+1+1 = \mathbf{2}$;$\mathfrak{grt}$: $0+1+0 = \mathbf{1}$。
 - $$\boxed{\ 294/6 = 7^{\,\dim\mathfrak{grt}^{\rm hex}_{2}+\dim\mathfrak{grt}^{\rm hex}_{3}+\dim\mathfrak{grt}^{\rm hex}_{4}} = 7^2,\qquad 42/6 = 7^{\,\dim\mathfrak{grt}_{2}+\dim\mathfrak{grt}_{3}+\dim\mathfrak{grt}_{4}} = 7^1\ }$$
 
-**二つの完全に独立な系統(工房の GAP 悉皆 vs 本メモの char-0 線型代数)が一致した。**これは §2.3(iv) の橋の強い実証であり、同時に **BIT-252 の数値の独立裏取り**でもある(工房側は「実測」、こちらは「予測」— 時系列は工房が先なので予言とは呼ばない)。
+~~**二つの完全に独立な系統(工房の GAP 悉皆 vs 本メモの char-0 線型代数)が一致した。**これは §2.3(iv) の橋の強い実証であり、同時に **BIT-252 の数値の独立裏取り**でもある(工房側は「実測」、こちらは「予測」— 時系列は工房が先なので予言とは呼ばない)。~~
+
+> **⚠訂正 C5-e(便 156・§8.5)**: 正しい語は **retrospective numerical agreement(事後的な数値一致)**。**D3(iv) が未証明である以上、「独立裏取り」「独立再現」「BIT-252 を証明した」「橋の実証」とは書かない。** 最大文 = 「**既知の GAP 値と、独立な graded 会計とが一致した**」。§0 の表 C 欄の「独立に的中」も同じく **retrospective agreement** へ読み替える。
 
 > **予言 P-GRT-1(事前登録可・未測定)**: 窓 $F_2/\gamma_{6}F_2^{\ell}$(重み ≤5)について
 > $$|GT(\mathbf N)| / |\mathcal X| = \ell^{\,0+1+1+2}=\ell^4,\qquad |\mathrm{PENT}_W| / |\mathcal X| = \ell^{\,0+1+0+1}=\ell^2 .$$
@@ -206,7 +219,9 @@ $$\psi^{\rm ab}_\sigma(\xi,\eta)=\exp\Bigl\{\sum_{m\ge3,\ \rm odd}\frac{\kappa^*
 
 ### 3.2.1 972 窓についての一言
 
-972 系の窓は $F_2/N_{F_2}\cong G_9\times PSL(2,8)$ 型(地図 §PH2-VOID)。$PSL(2,8)$ は単純ゆえ $ab=1$、$G_9\le D_9^3$ ゆえ $G_9^{\rm ab}$ は位数 ≤4 の 2 群。したがって **$G^{\rm ab}$ は 2 群で、最大 pro-ℓ 商は $\ell$ 奇で自明・$\ell=2$ で $G^{\rm ab}$ に等しい**(位数 ≤4 の群は可換)。⟹ **同じ理由で Soulé 輸入は不可**。工房の既在観測「$G_l^{\rm ab}$ に 3-part なし」はこの定理の特殊例である。
+972 系の窓は $F_2/N_{F_2}\cong G_9\times PSL(2,8)$ 型(地図 §PH2-VOID)。$PSL(2,8)$ は単純ゆえ $ab=1$、$G_9\le D_9^3$ ゆえ $G_9^{\rm ab}$ は位数 ≤4 の 2 群。したがって **$G^{\rm ab}$ は 2 群で、最大 pro-ℓ 商は $\ell$ 奇で自明・$\ell=2$ で $G^{\rm ab}$ に等しい**(位数 ≤4 の群は可換)。⟹ ~~**同じ理由で Soulé 輸入は不可**~~。工房の既在観測「$G_l^{\rm ab}$ に 3-part なし」はこの定理の特殊例である。
+
+> **⚠訂正 C5-f(便 156 §6.3・§8.5)— 972 は保留**: 「$G^{\rm ab}$ が小さい 2 群」だけからは **最大 2-商が可換とは結論できない**(位数 ≤4 の abelianization をもつ 2 群が非可換でありうる)。**972 への NILP-VOID 適用は、その対象で $\gamma_2=\gamma_3$ または最大冪零商を直接 pin するまで保留**。本メモが主張するのは **83 両窓のみ**(そこでは $\gamma_2=\gamma_3$ が二系統実測済)。
 
 ### 3.3 ★★新結果 — 83 窓の算術下界(Soulé 抜き・非冪零性を資源に使う)
 
@@ -222,7 +237,12 @@ $$\boxed{\ E:\ Y^2=X^3+16\quad(\cong y^2+y=x^3,\ \text{27a3}),\qquad j=0,\ \math
 
 $R$ は $G_\mathbb{Q}$-安定($G_\mathbb{Q}$ は $F_2^{\rm ab}$ にスカラー $\chi$ で作用するので mod 3 の線型条件を保つ)⟹ **$X_3$ は $\mathbb Q$ 上定義**され、$H_1(X_3;\mathbb F_2)=R/\Phi(R)$(4 次元)は $G_\mathbb{Q}$-加群、重み完全列
 $$0\to W_{\mathbb F_2}\ (\dim 2,\ \text{尖点類 }x^3,y^3,z^3;\ \text{Galois 自明})\to H_1(X_3;\mathbb F_2)\to E[2]\to 0 .$$
-($W'$ は $H_1$(コンパクト)が自由ゆえ飽和・分裂するので mod 2 でも完全。)
+~~($W'$ は $H_1$(コンパクト)が自由ゆえ飽和・分裂するので mod 2 でも完全。)~~
+
+> **⚠訂正 C1(便 156 §2.1–2.2・§8.1)— 開曲線とコンパクト曲線の分離**: 上の $X_3$ は **開曲線** $U_3:=E\setminus S$、$S=\{O,T,-T\}$、$T=(0,4)$ を指す(座標変換 $u=2t-1,\ X=-4w,\ Y=4u$)。正しい同一視は $\widehat R\cong\hat\pi_1(U_3,\bar{\mathbb Q})$ であり、**$\hat\pi_1(E)$ と書いてはならない**($R$ の階数 4 がその証左)。接ベクトル基点は「基底側の標準 tangential base point とその上の幾何的 lift を一つ選んで得られる同型」であり、**lift の選択を変えても $G_\mathbb{Q}$-加群の同型型は不変**(deck 変換による同型の差のみ)。さらに **ℚ 上の deck 群は定数群 $C_3$ ではなく $\mu_3$**($\bar{\mathbb Q}$ 上で $C_3$)ゆえ、**「ℚ 上の $C_3$-Galois cover」という語は使わない** — Galois は deck 生成元を $\chi \bmod 3$ で捻る。
+> **⚠訂正 C2(便 156 §2.3・§8.2)— 完全列の書き方と分裂主張の削除**: 上の完全列は **localization sequence** として書く:
+> $$0\to W\to H_1(U_3;\mathbb F_2)\to H_1(E;\mathbb F_2)\to0,\qquad W\cong\widetilde H_0(S;\mathbb F_2)(1)\ (\dim 2).$$
+> $W$ が自明 $G_\mathbb{Q}$-加群である理由は「3 尖点が各点 ℚ-rational」かつ「$\mathbb F_2(1)$ が自明」であること。**取り消し線部の「コンパクト部分が自由ゆえ飽和・分裂」は $G_\mathbb{Q}$-同変分裂の理由にならないので削除する。C3-LIFT に分裂は不要**(必要なのは同変完全列と商 $H_1(U_3)/W\cong E[2]$ だけ)。分裂を残す場合のみ「尖点差 $T,-T$ が有理 3-torsion($3T=O$・接線公式より $2T=-T$)で、2 が有理 $C_3$ 上可逆ゆえ mod-2 Kummer 類が消える」に差し替える。
 
 #### 3.3.2 ★決定的計算(GAP・両窓)
 
@@ -269,7 +289,9 @@ $$0\to W_{\mathbb F_2}\ (\dim 2,\ \text{尖点類 }x^3,y^3,z^3;\ \text{Galois �
 > **旧**: 「c∉N の対象に適用できる算術機構」。**新(本メモの提案)**: 窓ごとに次の 2 値を先に測れ。
 > $$\mathrm{nilvis}(N):=\dim\bigl(\gamma_2(G)/\gamma_3(G)\bigr)\quad(\text{Soulé/grt 系が効く条件} = \mathrm{nilvis}>0),$$
 > $$\mathrm{solvis}(N):=\text{「}G\text{ の可解フィルトレーションの各層に対応する被覆の算術」の有無}\quad(\text{83 窓ではこれが }E[2]).$$
-> 83 窓は $\mathrm{nilvis}=0$(Soulé 不可)だが $\mathrm{solvis}\ne0$(楕円曲線が出る)。**c∉N は両方に無関係**(NW(7) の $\mathbf N$ は $c\in N$、その ℚ-変種 $\mathbf N_0=\mathcal V(PB_3)$ は $c\notin N$、どちらでも BH-BRIDGE は動く)。
+> **⚠訂正 C5-g(便 156 §6.3・§8.5)**: $\mathrm{nilvis}(N):=\dim(\gamma_2/\gamma_3)$ は **係数体なしには未定義**。正しくは $$\mathrm{nilvis}_p(N):=\dim_{\mathbb F_p}\bigl((\gamma_2(G)/\gamma_3(G))\otimes\mathbb F_p\bigr)\quad(\text{素数ごとのベクトル})$$ または単に **$\gamma_2(G)/\gamma_3(G)$ の群同型型**を記録する。83 両窓では $\gamma_2=\gamma_3$ ゆえ全 $p$ で $\mathrm{nilvis}_p=0$。また **$\mathrm{solvis}$ は数値不変量ではなく「レーン選択ラベル」**である(格を明記して用いる)。
+>
+> 83 窓は $\mathrm{nilvis}_p\equiv0$(Soulé 不可)だが $\mathrm{solvis}$ は非空(楕円曲線が出る)。**c∉N は両方に無関係**(NW(7) の $\mathbf N$ は $c\in N$、その ℚ-変種 $\mathbf N_0=\mathcal V(PB_3)$ は $c\notin N$、どちらでも BH-BRIDGE は動く)。
 
 **レーン PL-ℓ(新設提案・Soulé が効く窓)**: $\mathbf N(\ell,k,j)$(定理 D1)。ここでは (a) 明示公式(§3.1)が $f_\sigma$ の metabelian 部分を全重み与え、(b) 各重み $m$ での mod ℓ 全射性が $H^2(\mathbb Z[1/\ell],\mathbb Z_\ell(m))=0$(⟸ Bernoulli 分子条件)で判定でき、(c) 出力は
 $$|\mathrm{Im}(\mathrm{Ih}_{\mathbf N})|\ \ge\ \varphi(\ell^{j'})\cdot \ell^{\#\{m\ \text{odd},\ 3\le m\le k-1,\ H^2=0\}}$$
@@ -388,7 +410,7 @@ shadow は $(m+N_{\rm ord}\mathbb Z,\ f N_{F_2})$ であり、**$f$ は $G=F_2/N
 > ### ★定理 T-ARITH
 > 窓 $N\in\{[1152,154161],[1152,154163]\}$ について
 > $$\boxed{\ R_N(\mathcal T)\ =\ \{[0,f_0],[0,f_1],[0,f_2]\}\ \subseteq\ \mathrm{Im}(\mathrm{Ih}_N).\ }$$
-> すなわち **𝒯(fake torus)の像 3 元は算術的**であり、したがって **genuine**、したがって **2401 Cor 5.4 により全ての $K\in\mathrm{NFI}_{PB_3}(B_3)$ へ survive する**。
+> すなわち **𝒯(fake torus)の像 3 元は算術的**であり、したがって **genuine**、したがって **2401 Cor 5.4 により ~~全ての $K\in\mathrm{NFI}_{PB_3}(B_3)$~~ → 【訂正 C3(便 156)】全ての細分 $K\le N$ へ survive する**(NFI 内の $N$ と無関係な $K$ を含意しない)。
 >
 > **証明.** ① $|H_0|=6$(補題 M + C-15 (C1))。② 位数 6 の群の Sylow 3 部分群は一意($n_3\mid 2$ かつ $n_3\equiv1 \bmod 3$ ⟹ $n_3=1$)。③ $R_N(\mathcal T)$ は $H_0$ の位数 3 の部分群である: 補題 U′ より $[0,f_\nu]\in GT(N)$、$m=0$ ゆえ $\chi_{\rm vir}=1$、周期 $e=3$(系 T-EX2・実測)、非自明性は登録済み実測(inner $=3$ 元)。よって ② より $R_N(\mathcal T)$ は $H_0$ の**唯一の**位数 3 部分群。④ $A_0:=\mathrm{Im}(\mathrm{Ih}_N)\cap H_0$ は部分群($\mathrm{Ih}_N$ は isolated 窓で準同型・$H_0$ は部分群)。定理 C3-LIFT の 3 元は $\chi\equiv1\ (\mathrm{mod}\ 24)$ ゆえ $m\equiv0\ (\mathrm{mod}\ 12)$ で $A_0$ に属し、$\Theta$ 像が相異なるので $3\mid|A_0|$。⑤ よって $A_0$ は $H_0$ の位数 3 の部分群を含み、②よりそれは $R_N(\mathcal T)$。∎
 >
@@ -448,3 +470,91 @@ shadow は $(m+N_{\rm ord}\mathbb Z,\ f N_{F_2})$ であり、**$f$ は $G=F_2/N
 > **(S5′)〔改訂〕** v1 の `matched_nu=None` / `t_pair_valid=False` は **規約 W-1 違反による artifact と確定**(数学者診断 → M0 再走で解消)。W-1 準拠の v1_1 では **𝒯 像 3 元が元水準で完全一致・$t\_pair\_valid$ 3/12**。**新規約 pin: cert に `ad_convention` を明記**。INC 追記候補(内部捕獲・定理との矛盾で検出した型)。
 > **(S6)〔新〕** **残問は 1 ビット + $m$=6 層**: $|A|\in\{3,6,12\}$、$m=0$ 部は $\ker(\Theta|_{H_0})$ 生成元 1 個の算術性で決まる。
 > **(S7)〔新〕** **falsifier canary**(§7.6): $[0,f_\nu]$($\nu\not\equiv0$)の死亡証明書 1 枚で T-ARITH は反証 ⟹ park 中の survival lane が C3-LIFT の片側反証器になる。**この canary の妥当性の可否を Sol に問う。**
+
+---
+
+# §8 Sol 便 156(AUDIT_156_VERDICT = 条件付き)5 条件の執行 — versioned 訂正の正本
+
+出典: `sol/sol_reply_156_c3lift.md`(監査固定点 `9f6ad83f18fe4d5f1352fea411e3b5bb720ff13a`・全文読了)。
+**規律**: 本文 §2〜§7 は 1 バイトも削除せず、訂正マーカー(⚠訂正 C1〜C5-g)と取り消し線のみを挿入した。**逐語の正本は本 §8。**
+**Sol の総合判定**: 「C3-LIFT の幾何鎖は、2 つの修正を入れれば通る。この修正形では【GAP-C3-1】(a)〜(c) に未解決の数学的欠落は残らない。従って C3-LIFT を前件とする T-ARITH と残問縮約の論理も通る。」 ⟹ **【GAP-C3-1】は解消**(格は candidate のまま・verified ではない)。
+
+## 8.1 条件 1 — $X_3$ の開/コンパクト分離(執行済・マーカー C1)
+
+> **正本**: $U:=\mathbb P^1_\mathbb{Q}\setminus\{0,1,\infty\}$、$q:\hat\pi_1(U_{\bar{\mathbb Q}})\cong\hat F_2\to\mathbb Z/3$、$q(x)=q(y)=q(z)=1$。被覆 $w^3=t(1-t)$ は $U$ 上有限 étale 3 次。$\ker q=\widehat R$($R=\ker(F_2\to C_3)$ の閉包・有限指数ゆえ閉包との齟齬なし)。
+> 座標変換 $u=2t-1,\ X=-4w,\ Y=4u$ により滑らかな完備化は $E:Y^2=X^3+16$、除いた 3 点は $S=\{O,\ T,\ -T\}$、$T=(0,4)$。よって
+> $$\boxed{\ \widehat R\ \cong\ \hat\pi_1(U_3,\bar{\mathbb Q}),\qquad U_3:=E\setminus S\ }$$
+> であり、**$\hat\pi_1(E)$ と書くのは誤り**($R$ の階数が 4 であることがその証左)。本メモの $X_3$ は以後すべて $U_3$ を指す。
+> **接ベクトル基点**: 基底側の標準 tangential base point と、その上の幾何的 lift/path を **一つ選んで得られる同型**として述べる。lift の変更は deck 変換による同型を変えるだけで、**$G_\mathbb{Q}$-加群の同型型は不変**。「基点を無視した文字どおりの等号」とは書かない。
+> **deck 群**: ℚ 上の deck 群は定数群 $C_3$ ではなく **$\mu_3$**($\bar{\mathbb Q}$ 上で $C_3$)。Galois は deck 生成元を $\chi\bmod3$ で捻る。⟹ **「ℚ 上の $C_3$-Galois cover」という語は使わない。**
+> **$\widehat R$ の安定性(Sol §2.2 の形)**: Ihara 作用 $\varphi_g$ に対し $q\circ\varphi_g=(\chi(g)\bmod3)\,q$($f_g\in\hat F_2'$ ゆえ共役項が消える)。$\chi(g)\bmod3$ は単元ゆえ $\ker q=\widehat R$ は安定。これが descent datum を与え、式 $w^3=t(1-t)$ 自体が ℚ 上にあるので **ℚ-構造は循環論法なしに明示されている**。
+
+## 8.2 条件 2 — 重み完全列と分裂主張の削除(執行済・マーカー C2)
+
+> **正本**: $O,T,-T$ はすべて ℚ-rational で、接線公式から $2T=-T$、ゆえに $3T=O$。開曲線の étale homology には $G_\mathbb{Q}$-同変な **localization sequence**
+> $$0\ \to\ W\ \to\ H_1(U_3;\mathbb F_2)\ \to\ H_1(E;\mathbb F_2)\ \to\ 0$$
+> があり、$W\cong\widetilde H_0(S;\mathbb F_2)(1)$ は **2 次元**($x^3,y^3,z^3$ の cusp inertia class が張り関係は 1 本)、3 尖点が点ごとに ℚ-rational かつ $\mathbb F_2(1)$ が自明ゆえ **$W$ は自明 $G_\mathbb{Q}$-加群**、$H_1(E;\mathbb F_2)\cong E[2]$ は同変。
+> **分裂は主張しない(削除)。** 旧稿の「コンパクト部分が自由だから飽和・分裂」は**ベクトル空間としての分裂しか与えず、$G_\mathbb{Q}$-同変分裂の理由にならない**。**C3-LIFT に必要なのは同変完全列と商 $H_1(U_3)/W\cong E[2]$ だけ**である。
+> (残す場合の代替理由のみ記録: generalized Jacobian / 1-motive の拡大類は尖点差 $T,-T$ の mod-2 Kummer 類であり、$T=2(-T),\ -T=2T$ と 2 が有理 $C_3$ 上可逆ゆえ両類が消える。以下では使わない。)
+> **$P/\Phi(P)\cong E[2]$ の導出(Sol §2.3 の形)**: isolated/settled 性から $N_{F_2}$ は Ihara 作用で安定し、自然な全射 $H_1(U_3;\mathbb F_2)=R/\Phi(R)\twoheadrightarrow P/\Phi(P)$ は $G_\mathbb{Q}$-同変。独立測定は $d(P)=2$ と $x^3,y^3,z^3\in\Phi(P)$ を返すので **核は 2 次元の $W$ を含み、両辺の次元から核はちょうど $W$**。ゆえに $P/\Phi(P)\cong H_1(U_3;\mathbb F_2)/W\cong E[2]$ が $G_\mathbb{Q}$-加群として従う。∎
+
+## 8.3 条件 3 — T-ARITH の射程(執行済・マーカー C3)
+
+> **正本**: 「$R_N(\mathcal T)\subseteq\mathrm{Im}(\mathrm{Ih}_N)$ ⟹ 3 元は arithmetical ⟹ genuine ⟹ **全ての細分 $K\le N$ へ survive する**」。
+> **禁句**: 「全ての $K\in\mathrm{NFI}_{PB_3}(B_3)$」— $N$ と比較不能な $K$ を含意してしまう。
+
+## 8.4 条件 4 — (S7) 片側反証器の強化(執行済・§8.7 に逐語)
+
+Sol §4 の 5 点を必須要件として組み込む(逐語は §8.7 の (S7′))。あわせて **A4 の規約 2 件を次版 checker/cert への発注として登録**:
+- **発注 A4-1(W-1 fail-closed assert・必須ゲート)**: paper-aware product helper を通し、$\nu=1$ の補題 U′ $f_1^{-1}\sigma_2f_1=x\sigma_2x^{-1}$($f_1=yx^{-1}$、GAP では `x^-1*y`)を **$B_3$ または規約感度をもつ固定非可換 fixture 上で assert**。同 fixture で旧誤形 `y*x^-1` が不一致になる **陰性 canary** も必須。**可換商・単生成元・空語のみの fixture は W-1 に盲ゆえ不可。**
+- **発注 A4-2(`ad_convention` pin)**: cert に `paper_ad_x(u)=x*u*x^-1` / `gap_power_convention: u^x = x^-1*u*x` / 実装がどちらを `Ad(x)` とラベルしているか / ν と action class の対応表と非中心 fixture 上の assert 結果 / `word_convention_id`・`action_convention_id`・checker source SHA を **機械生成**で入れる。⟹ v1_1 の `ν=2↔matches_adx`, `ν=1↔matches_adx2` が **バグでなく raw GAP conjugation label と paper $\mathrm{Ad}$ の符号差**だと cert 単体で判読できる。
+- **発注 A4-3(stale comment 訂正)**: `koubou83_c3lift_check_v1_1.g` の :193–195「ker χ は m=0 のみ」・:233「m=0 so u=1」は、直後の正しい実装 `m∈{0,6}` と矛盾する stale comment。**v1_1 は上書きせず次版で訂正**。
+
+## 8.5 条件 5 — A5 の格境界同期(執行済・マーカー C5-a〜C5-g)
+
+| 札 | 旧 | **新(正本)** |
+|---|---|---|
+| **C5-a** | 定理 D3 (iv)(「$U_0=\mathfrak{grt}^{\rm hex}_k\otimes\mathbb F_\ell$」)を定理の一部として提示 | **定理 D3 から分離。(i)(ii)(iii) のみ定理、(iv) は【GAP-DICT-1】candidate**(根拠は数値一致のみ) |
+| **C5-b** | 「同値になるのは拡大が分裂($e=0$)する場合に限る」 | **削除(過大)**。$e=0$ は**この一つの障害を消すだけ**で全情報の同値を与えない |
+| **C5-c** | $\mathfrak{grt}^{\rm hex}$ を「Lie 代数」と呼ぶ | **「斉次 hexagon 解空間 $\mathcal H_w$」に改称**(Ihara bracket 閉性 =【GAP-HEX-1】未証明。次元計算に閉性は不要) |
+| **C5-d** | 次元表(w≤12)の格が曖昧 | **candidate**。2 大素数一致は **有理 rank の下界**にとどまる(mod-p rank ≤ 有理 rank)。厳密化には fraction-free 有理消去・非零 minor と kernel basis の両証明・または SNF 証明書 |
+| **C5-e** | 294/42 一致を「独立裏取り/橋の実証」 | **retrospective numerical agreement**。「独立再現」「BIT-252 を証明」とは書かない。最大文 =「既知の GAP 値と独立な graded 会計との一致」 |
+| **C5-f** | 972 へ NILP-VOID を一行拡張 | **保留**。$G^{\rm ab}$ が小さい 2 群というだけでは最大 2-商が可換とは限らない。**別 pin($\gamma_2=\gamma_3$ or 最大冪零商の直接計算)まで 83 両窓のみ主張** |
+| **C5-g** | $\mathrm{nilvis}(N)=\dim(\gamma_2/\gamma_3)$ | **$\mathrm{nilvis}_p(N):=\dim_{\mathbb F_p}((\gamma_2/\gamma_3)\otimes\mathbb F_p)$ のベクトル、または $\gamma_2/\gamma_3$ の群同型型**。$\mathrm{solvis}$ は数値不変量でなく **レーン選択ラベル**(格を明記) |
+
+**P-GRT-1 の凍結宇宙(条件 5 の一部・執行)**: 事前登録は採用。ただし **最初の凍結宇宙は ℓ=7・重み ≤5・一窓に限定**する。digest 化する対象 = window presentation・$\mathcal X$・charming/PENT の述語版・row universe・**char-0 / mod-7 rank canary**。**全素数への無条件適用はしない**(本メモ自身が重み 2・標数 3 の段差を指摘している)。**一般版は mod-ℓ rank を入力とする次版に分ける。** 外れた場合の分岐は既登録どおり(mod-ℓ 段差 / 有限窓 bridge・非線形 lifting の破れ)で、**結果を見て予言本文を上書きしない**。
+
+**[NW] 引用範囲の確認**: 「weight ≤29 で Conj. 2 の 4 Lie 代数が一致」に限定した読みで整合。その引用を前件に自由 Lie 生成関数から $\dim\mathfrak{grt}_{16}=5$ を得るのも整合。**ただし論文全体の独立精読ではない**(§6 の自己申告どおり)。
+
+## 8.6 便 156 の付随事項(記録)
+
+- **park の限定解除(Sol §7)**: 再開してよいのは **EC-83 の $E[4]$ / punctured CM elliptic pro-2 レーン**と **(S7) の完全 fibre falsifier** のみ。**解除しないもの** = 18 候補の全算術性・$\mathrm{Im}(\mathrm{Ih}_N)=GT(N)$・83 線全体の genuine/fake 判定・深度線完結。
+- **C-15/地図へ反映する最大文(Sol §7 逐語)**: 「A1 の修正文に相対して C3-LIFT/T-ARITH の paper chain が Sol 監査を通過。三 torus image は算術的という candidate 結論を持ち、全体は UNKNOWN。verified ではない。」
+- **digest 不一致 1 件(Sol §8)**: 現作業木 `docs/状態.md` は便記載の prefix と不一致(C3 検証ブロックの**途中挿入**による)。固定 commit の blob は正しく数学入力は復元可能。**次 freeze で append-only か full digest 更新のどちらかに統一すること**(司令塔案件)。
+- **監査範囲外(Sol §9)**: M1/M2/M3 未発注・P-GRT-1 は登録のみ・C-15/地図反映は条件執行後・972 A 型 v3 は対象外・Lean 未着手。
+
+## 8.7 ★改訂逐語 — (S1)(S3)(S7)(便 156 後の正本)
+
+> ### (S1′) 定理 C3-LIFT【改訂】
+> 窓 $N\in\{[1152,154161],[1152,154163]\}$。$U:=\mathbb P^1_\mathbb{Q}\setminus\{0,1,\infty\}$、$q:\hat F_2\to\mathbb Z/3$($x,y,z\mapsto1$)、$\widehat R:=\ker q$。被覆 $w^3=t(1-t)$ の滑らかな完備化は $E:Y^2=X^3+16$($\cong$ 27a3・$j=0$・CM by $\mathbb Z[\zeta_3]$)、除去点は $S=\{O,T,-T\}$、$T=(0,4)$、$U_3:=E\setminus S$。標準 tangential base point とその lift を一つ選ぶと $\widehat R\cong\hat\pi_1(U_3,\bar{\mathbb Q})$(**lift の選択変更に対し同型**)。ℚ 上の deck 群は $\mu_3$。$q\circ\varphi_g=(\chi(g)\bmod3)q$ より $\widehat R$ は $G_\mathbb{Q}$-安定で、$w^3=t(1-t)$ が ℚ 上にあるので ℚ-構造は明示的。
+> $G_\mathbb{Q}$-同変 localization sequence $0\to W\to H_1(U_3;\mathbb F_2)\to H_1(E;\mathbb F_2)\to0$($W\cong\widetilde H_0(S;\mathbb F_2)(1)$・2 次元・3 尖点 ℚ-rational かつ $\mathbb F_2(1)$ 自明ゆえ **自明加群**;**分裂は主張しない**)。settled/isolated から $N_{F_2}$ は安定で全射 $H_1(U_3;\mathbb F_2)\twoheadrightarrow P/\Phi(P)$ は同変。二系統測定 $d(P)=2$・$x^3,y^3,z^3\in\Phi(P)$ より核は $W$ を含み、次元勘定で核 $=W$。ゆえに
+> $$\boxed{\ P/\Phi(P)\ \cong\ E[2]\quad(G_\mathbb{Q}\text{-加群として}),\qquad \mathbb Q(E[2])=\mathbb Q(\zeta_3,\sqrt[3]2),\ \mathrm{Gal}\cong S_3.\ }$$
+> 最大可換部分体が $\mathbb Q(\zeta_3)$ ゆえ $\mathbb Q(E[2])\cap\mathbb Q(\zeta_{24})=\mathbb Q(\zeta_3)$、$G_{\mathbb Q(\zeta_{24})}$ の $E[2]$ 像に $C_3$ が残る。この部分では $\chi\equiv1\ (24)$ ゆえ $m\equiv0\ (12)$。よって
+> $$\boxed{\ \mathrm{Im}(\mathrm{Ih}_N)\cap\ker\chi_{\rm vir}\supseteq C_3,\qquad |\mathrm{Im}(\mathrm{Ih}_N)|\ \ge\ 12\ \ (\text{従来 }4).\ }$$
+> **格 = paper-proof candidate**(verified でない・cross-checked とも書かない)。**【GAP-C3-1】は便 156 §2 で解消**(「この修正形では (a)〜(c) に未解決の数学的欠落は残らない」)。機械入力は **二系統**(数学者 × implementer・著者分離・9/9 一致)。各窓で非単位 2 元・計 4 元が候補除外集合から落ちる会計も Sol が確認済。
+
+> ### (S3′) 定理 T-ARITH【改訂】
+> 補題 M(($3.53$) の第一成分 $2m_1m_2+m_1+m_2$ で $\{0,6\}$ が $C_2$ をなす ⟹ $\mu:\ker\chi_{\rm vir}\to C_2$ は準同型)と、**凍結有限前件**である登録済み C-15 (C1)(|H|=12・m=6 層 6 元・二系統測定;C3-LIFT/T-ARITH の結論を使わないので**循環しない**)から $|H_0|=6$。位数 6 の群の Sylow 3 部分群は一意。補題 U′・周期 $e=3$・非自明性測定から $R_N(\mathcal T)$ は $H_0$ の位数 3 の部分群、ゆえに**唯一の Sylow 3**。C3-LIFT の算術 3 元は $m=0$ ゆえ $A_0:=\mathrm{Im}(\mathrm{Ih}_N)\cap H_0$ に属し $E[2]$ 上相異なるので $3\mid|A_0|$。よって
+> $$\boxed{\ R_N(\mathcal T)\subseteq\mathrm{Im}(\mathrm{Ih}_N)\ }$$
+> arithmetical ⟹ genuine ⟹ **全ての細分 $K\le N$ へ survive**(「全 NFI の無関係な $K$」ではない)。**この Sylow 論法はどの shadow がどの $\nu$ かを使わないので v1 の W-1 artifact に依存しない。**
+> **格 = candidate**。相対する前件 = (S1′) の修正文・C-15 (C1) の凍結有限前件・isolated 性。
+> **帰結**: DICHOTOMY-83 は genuine 側の分岐に着地(𝒯∩ĜT_gen={1} と矛盾しない)/【GAP-INN-1】の主張は真だが**証明機構は算術**で T-DEAD と両立(T-DEAD は「厳密族機構では証明できない」)/ 22 候補から 4 元脱落。
+
+> ### (S7′) 片側反証器【改訂・強化 5 点】
+> $[0,f_\nu]$($\nu\not\equiv0$)の**真正な死亡証明書**が 1 枚出れば T-ARITH は反証される。ただし次を**すべて**満たすもののみ死亡証明書と認める。
+> 1. 対象を $K\le N$ と reduction map $R_{K,N}$ で pin し、死亡対象が同じ $[0,f_\nu]\in GT(N)$ であることを **canonical key** で確認する。
+> 2. 「strict representative $f_\nu$ が $K$ で charming でない」「T-EX の厳密族 witness が失敗」は**死亡証明書ではない**(**T-DEAD がまさにその失敗を予言している**)。**$R_{K,N}^{-1}([0,f_\nu])$ の全 fibre に lift がないこと**を証明しなければならない。
+> 3. 有界探索の不発・solver UNKNOWN・未尽の coset は反証に使わない。**CLAIM-COVER-1 の exact multiset coverage・legal/charming/direct gate・破壊対照・陽性対照**を要求する。
+> 4. 真の死亡証明書が出た場合、論理的には C3-LIFT/A1 だけでなく **C-15 (C1)・$R_N(\mathcal T)$ の同定・reduction 実装を含む前件の連言のどれか**を反証する。**原因を C3-LIFT に一意帰属させない。**
+> 5. **有限深度で死亡が出ないことは支持証拠へ格上げしない。**
+> この形なら、park 中の既存計器を正側定理の高感度 falsifier に転用する設計として有効(Sol §4 = 登録可)。

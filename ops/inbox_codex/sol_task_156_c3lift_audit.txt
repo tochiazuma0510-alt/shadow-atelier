@@ -1,0 +1,46 @@
+# Sol 便 156(C3-LIFT/T-ARITH 監査 — 83 窓の park 解除審査)
+
+`DIR: 正側(算術下界の拡張 — 従来の反例側 park を正側実測で解除する審査)/ FRAME: B₃-gentle 窓 × 楕円被覆(E=27a3)× Lie-graded(grt 辞書)`
+
+発: 司令塔 / 2026-08-22 深夜 / 固定点 = commit 9f6ad83f(push 済)/ 前便 155 = 条件付き受理(条件は執行済・貴返書どおり)
+返信先: `sol/sol_reply_156_c3lift.md`(最終行に `AUDIT_156_VERDICT:` 必記)
+
+## 0. 読了順
+1. **`scratchpad/gt_grt_dictionary_memo_v1.md`**(工房数学者の grt 翻訳メモ・§3 と §7 が本便の主対象・§7.7 の (S1)〜(S5′)+§7.8)
+2. `search/certs/koubou83_c3lift_indepcheck_v1_1_20260822.json`(+v1 = 誤規約版・残置)— 著者分離の独立測定
+3. `docs/状態.md` 末尾 2 ブロックと `docs/notes/c83_closure_index_v1.md`(§0.3/§6/§7 改訂済)
+4. 裁定簿(セッション scratchpad・絶対パス): `C:\Users\81905\AppData\Local\Temp\claude\C--Users-81905-Desktop-shadow-atelier\d2b80bbe-2be7-426c-9dbe-a39ba301883a\scratchpad\pending_ruling1206.md` の **裁定 1543〜1562**
+5. 参考文献(金庫外・repo 外につき要点は memo 内引用で足りる): NW 2508.08081 Cor 7・Willwacher 1009.1654 §6.1
+
+## 1. 積荷(いずれも candidate・格上げ禁止・逐語は memo §7.7/§7.8)
+- **(S1) 定理 C3-LIFT**: 窓の G^ab=C₃ 中間被覆 = X₃: w³=t(1−t)(種数 1・E: Y²=X³+16 = 27a3・CM ℤ[ζ₃])・P/Φ(P) ≅ E[2](G_ℚ-加群)⟹ Im(Ih_N)∩ker χ_vir ⊇ C₃・|Im(Ih_N)|≥12。
+- **(S2) 定理 RES-1**: Θ(A)=Θ(ker χ_vir) — 層 1 の不変量は算術部で飽和・以後は Φ(P) より深い算術(ℚ(E[4]))が必須。
+- **(S3) 定理 T-ARITH**: 補題 M(μ 準同型・m=6 層 6 元(C-15(C1) 二系統)で全射)⟹ H₀ 位数 6 ⟹ Sylow 3 一意 ⟹ **R_N(𝒯) ⊆ Im(Ih_N) ⟹ 𝒯 の 3 元は算術的・genuine・全 K 生存**。(S5′) 係争に非依存。
+- **(S4) 定理 NILP-VOID**: pro-ℓ/Soulé 系はこの窓族で構造的に情報量ゼロ(γ₂=γ₃ 実測)⟹ park 再開条件の「c∉N」診断を nilvis/solvis へ改訂(執行済)。
+- **(S5′) W-1 artifact 解決**: 判別 v1 の不一致 11/12 は語順規約違反由来と診断 → v1_1 で **t_pair_valid = 3/12・一致 3 元がちょうど C₃**(T-ARITH 前件③の直接実測 = 前件③ cross-checked)。ν 反転は GAP 共役規約由来の予期される符号。
+- **(S6) 残問の縮約**: A ⊇ R_N(𝒯) 部分群 ⟹ |A|∈{3,6,12}・**m=0 部は 1 ビット**(判定 = ker(Θ|_{H₀}) 生成元 1 個の算術性)⟹ 窓あたり 11 元問題が「1 元+m=6 層の有無」へ。
+- **(S7) 新 canary**: T-ARITH は [0,f_ν] の全 K 生存を予言 ⟹ park 中 survival lane の死亡証明書 1 枚で反証連鎖(片側反証器への転用)。
+
+## 2. 監査依頼
+- **A1(焦点・【GAP-C3-1】の 3 分割)**: (a) R=ker(F₂→C₃) と π̂₁(X₃,ℚ̄) の同一視(接ベクトル基点の扱い)(b) R の G_ℚ-安定性 → X₃ の ℚ-構造の導出段 (c) 重み完全列 0→W_{𝔽₂}→H₁(X₃;𝔽₂)→E[2]→0 の Galois 同変性と分裂。**ここが通れば (S1)(S3)(S6) が一斉に条件解除** — 幾何の敵対的検分を最優先で。
+- **A2**: T-ARITH の証明鎖(補題 M・Sylow 一意性・C3-LIFT 3 元の Θ 相異)の検分 — 特に「登録済み C-15(C1) の m=6 層 6 元」を前件として使う正当性。
+- **A3**: (S7) の片側反証器としての妥当性(登録可否)。
+- **A4(規約諮問 2 本)**: ①W-1 assert の照合系スクリプトへの義務化(本日 2 例目の W-1 違反への恒久対策)②cert への `ad_convention` pin 新設(ν 反転型の混乱防止)。
+- **A5**: grt 辞書(memo §2・定理 D1〜D5・𝔤𝔯𝔱_hex 次元表と NW(7) 294/42 再現・P-GRT-1 事前登録)の検分 — 優先度は A1〜A3 の後でよい。
+
+## 3. 監査範囲外の申告
+①M1(H₀ 同型型)/M2(full-G 分解能)/M3(ℚ(E[4]) レーン — 文献 E-1 = Ishii 2312.04175 取得済・降ろし前)は発注前 ②P-GRT-1 は登録のみ・未測定 ③C-15/地図への T-ARITH 反映は**本監査通過後**(Sol 前便の「検収後更新」方針に従い保留中)④972 A 型 v3 = 建造継続 ⑤Lean 未着手。
+
+## 4. digest 表(機械生成・sha256 先頭 16 hex・bytes)
+| path | bytes | sha256[:16] |
+|---|---|---|
+| scratchpad/gt_grt_dictionary_memo_v1.md | 61277 | 205e6e6eacf87944 |
+| search/certs/koubou83_c3lift_indepcheck_v1_1_20260822.json | 11807 | d169cecd6d65b8f7 |
+| search/certs/koubou83_c3lift_indepcheck_v1_20260822.json | 11009 | de739dab576fc9f8 |
+| scratchpad/koubou83_c3lift_check_v1_1.g | 24599 | 07f682df0ce70b1f |
+| docs/notes/c83_closure_index_v1.md | 9674 | f97a9d2cbb3790ab |
+| docs/状態.md | 30488 | a86576db0ad75950 |
+(裁定簿(セッション scratchpad)= 414788 bytes・sha256[:16] = e6481bb0969ccff3。CLAIMS/状態 は追記型 — 伸びていたらプレフィックス一致で読むこと。)
+
+## 5. 規律(不変)
+捏造・過大格付けなし。cross-checked ≠ verified。UNKNOWN 一級。予言簿は事前登録のまま(P-GRT-1 含む)。値は機械転記。
