@@ -31,6 +31,7 @@ jobs:
     env:
       RUNTIME_ROOT: .d972-runtime
       ARTIFACT_NAME: d972-dovetail-v2-state
+      ARTIFACT_ARCHIVE: d972-dovetail-v2-state.tar
       MANIFEST_V2: search/d972_dovetail_manifest_v2.json
       PRODUCER_V2: search/d972_dovetail_producer_v2.py
       CHECKER_V2: search/check_d972_dovetail_v2.py
@@ -96,9 +97,56 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: d972-dovetail-v2-state
-          path: .d972-runtime
+          path: .d972-artifact-download
           run-id: ${{ steps.predecessor.outputs.run_id }}
           github-token: ${{ github.token }}
+
+      - name: Extract validated predecessor runtime archive
+        if: steps.predecessor.outputs.run_id != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive=".d972-artifact-download/$ARTIFACT_ARCHIVE"
+          test -f "$archive"
+          test "$(find .d972-artifact-download -mindepth 1 -maxdepth 1 -type f -printf . | wc -c)" = 1
+          test ! -e "$RUNTIME_ROOT"
+          python3 - "$archive" <<'PY'
+          import pathlib, posixpath, re, sys, tarfile
+          archive = pathlib.Path(sys.argv[1]).resolve(strict=True)
+          root = pathlib.Path.cwd().resolve()
+          runtime = root / '.d972-runtime'
+          if runtime.exists():
+              raise SystemExit('runtime exists before archive extraction')
+          with tarfile.open(archive, mode='r:') as bundle:
+              members = bundle.getmembers()
+              if not members:
+                  raise SystemExit('empty runtime archive')
+              names = set()
+              for member in members:
+                  path = pathlib.PurePosixPath(member.name)
+                  if (path.is_absolute() or not path.parts or path.parts[0] != '.d972-runtime' or
+                          '..' in path.parts or str(path) in names):
+                      raise SystemExit(f'unsafe or duplicate archive member: {member.name}')
+                  names.add(str(path))
+                  if member.issym():
+                      target = pathlib.PurePosixPath(posixpath.normpath(str(path.parent / member.linkname)))
+                      if (path.name != 'dmtcp_restart_script.sh' or target.parent != path.parent or
+                              not re.fullmatch(r'dmtcp_restart_script_[0-9A-Za-z._-]+[.]sh', target.name) or
+                              str(target) not in names and str(target) not in
+                              {str(pathlib.PurePosixPath(row.name)) for row in members}):
+                          raise SystemExit(f'unsafe archive symlink: {member.name}')
+                  elif member.islnk():
+                      target = pathlib.PurePosixPath(member.linkname)
+                      if (target.is_absolute() or not target.parts or
+                              target.parts[0] != '.d972-runtime' or '..' in target.parts):
+                          raise SystemExit(f'unsafe archive hardlink: {member.name}')
+                  elif not (member.isdir() or member.isfile()):
+                      raise SystemExit(f'unsupported archive member type: {member.name}')
+              bundle.extractall(root, filter='data')
+          if not (runtime / 'pending-envelope.json').is_file():
+              raise SystemExit('restored pending envelope absent')
+          print(f'D972_ARCHIVE_RESTORE members={len(members)}')
+          PY
 
       - name: Lock checkout to the image source commit
         id: source
@@ -631,16 +679,27 @@ jobs:
           print(f'D972_PREUPLOAD_INTERNAL_RESTART_LINKS count={len(links)}')
           PY
 
+      - name: Pack the exact state or suspended process generation
+        if: steps.campaign.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$ARTIFACT_ARCHIVE"
+          tar --format=posix --numeric-owner --owner=0 --group=0 \
+            -cf "$ARTIFACT_ARCHIVE" "$RUNTIME_ROOT"
+          test -s "$ARTIFACT_ARCHIVE"
+          printf 'D972_ARTIFACT_ARCHIVE sha256=%s bytes=%s\n' \
+            "$(sha256sum "$ARTIFACT_ARCHIVE" | cut -d' ' -f1)" "$(stat -c '%s' "$ARTIFACT_ARCHIVE")"
+
       - name: Upload the exact state or suspended process generation
         if: steps.campaign.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: d972-dovetail-v2-state
-          path: .d972-runtime
+          path: d972-dovetail-v2-state.tar
           if-no-files-found: error
           compression-level: 0
           retention-days: 7
-          include-hidden-files: true
 
       - name: Summary
         if: always()
