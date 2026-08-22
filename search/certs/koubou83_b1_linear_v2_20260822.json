@@ -1,0 +1,131 @@
+{
+  "S1_witness_identification": {
+    "det_xbar_mod_p2": 1,
+    "reconstruction_matches_script_assertion": true,
+    "seed_ahat": [
+      [
+        483,
+        28
+      ],
+      [
+        59,
+        208
+      ]
+    ],
+    "seed_bhat": [
+      [
+        245,
+        158
+      ],
+      [
+        69,
+        445
+      ]
+    ],
+    "three_way_trace_table": {
+      "witness_1076_TRUE": 231,
+      "witness_A_v1_MISIDENTIFIED": 353,
+      "witness_B_v1_MISIDENTIFIED": 283
+    },
+    "trace_xbar_mod_p": 231,
+    "trace_xbar_mod_p2": 451454,
+    "trace_ybar_mod_p": 231,
+    "window_mixup_confirmed": true,
+    "xbar_1076": [
+      [
+        9115,
+        57725
+      ],
+      [
+        391912,
+        442339
+      ]
+    ],
+    "ybar_1076": [
+      [
+        144005,
+        26367
+      ],
+      [
+        434427,
+        307449
+      ]
+    ]
+  },
+  "S2_linear_test_on_true_witness": {
+    "X": [
+      [
+        9115,
+        57725
+      ],
+      [
+        391912,
+        442339
+      ]
+    ],
+    "Y": [
+      [
+        144005,
+        26367
+      ],
+      [
+        434427,
+        307449
+      ]
+    ],
+    "det_X_mod_p2": 1,
+    "g": [
+      [
+        477480,
+        466792
+      ],
+      [
+        108760,
+        1
+      ]
+    ],
+    "g_exists_invertible": true,
+    "label": "witness_1076_true",
+    "nullspace_free_dimension": 1,
+    "rank_matches_nullspace_computation": true,
+    "rank_over_residue_field_mod_691": 3,
+    "trace_X_mod_p": 231,
+    "trace_X_mod_p2": 451454,
+    "verify": {
+      "det_g_unit_mod_p": true,
+      "gX_eq_Xinv_g": true,
+      "gY_eq_Yinv_g": true
+    }
+  },
+  "actual_result": "PASS",
+  "c_touched": false,
+  "claim_boundary_same_line_as_verdict": "Scope unchanged from v1/裁定1076: settled part of GT(N') only, non-settled torsor part (#C(N') multiple) out of scope regardless of this result. The 'line 3 closes' language above is CONDITIONAL on premise alpha (Aut(SL(2,Z/691^2))=conjugation-only) being pinned separately -- this cert does NOT itself establish alpha.",
+  "generated_at_utc": "2026-08-22T02:39:42.326517+00:00",
+  "grade": "candidate, single-system producer measurement (own Python mod-691^2 reconstruction + linear algebra, cross-checked internally via independent residue-field rank computation and via exact match to q4_denom_v1.g's own hardcoded xbarOk assertion); no independent second-system cross-check has been run yet",
+  "input_provenance": {
+    "gate05_literature_pin": {
+      "path": "docs/文献ゲート_05_complex_conjugation_fc.md",
+      "sha256": "e0abca0df3ff4c47421c24c260d6051ee01aa2161b5638bc9a37936a7cb27198"
+    },
+    "q4_denom_v1_cert": {
+      "D3_u_minus1_is_shadow": true,
+      "D4_size_GT_settled_total": 2,
+      "path": "search/certs/q4_denom_v1_20260813.json",
+      "sha256": "6d4f6fad09ebcba2178eecce19fae8425e88689f72727dba372cf0fd07f4ef20"
+    },
+    "q4_denom_v1_script": {
+      "path": "search/q4_denom_v1.g",
+      "sha256": "0a640a72014e53e8000c13ab61612b3bf8fccc4a8bbc68db272b26ab68d200d1"
+    }
+  },
+  "lemma_IDENT": "settled <=> T_{-1,1}-stable <=> (under f_c=1, pinned by gate05) the B1 mirror-innerness question (exists invertible g with g*X=X^-1*g, g*Y=Y^-1*g)",
+  "lemma_IDENT_correction_for_v1": "v1's FAIL results for witness A (trace 353) and witness B (trace 283) are NOT computation errors and v1's own claim_boundary language remains accurate -- but those two witnesses are NOT the 1076-series witness that established |GT^settled(N')|=2 and GS-GAP-1=CLOSED ([-1,1] is shadow). The correct reading of v1's FAIL results: '[-1,1] is not settled for THOSE two OTHER windows (trace 353 and trace 283), so it is not even an element of X' there' -- the 'live non-arithmetic candidate' language in v1 is RETRACTED (superseded by this note, not deleted -- see v1's own cert, kept unchanged).",
+  "mathematician_prediction": "PASS",
+  "overall_reading": "S1 CONFIRMS window mix-up (i): the true 1076-series witness has trace=231 mod 691, distinct from both v1's witness A (353) and witness B (283). S2: the linear test on the TRUE witness returns PASS, MATCHING the mathematician's prediction (PASS). B1 holds for this window (invertible g realizing the mirror map exists) => combined with beta=f_c=1 (gate05, pinned) and B2=N'_ord=47679>2 (already established): Prop BP' fires => |A'|=2 for the TRUE N' window => line 3 CLOSES for this window via 'no live non-arithmetic candidate exists' -- CONDITIONAL on the residual premise alpha (Aut(SL(2,Z/691^2))=PGL(2,Z/691^2)-conjugation exactly, i.e. the extension 1->sl2(F_691)->SL(2,Z/691^2)->SL(2,F_691)->1 is non-split in the relevant sense) being separately pinned by the commander/mathematician -- NOT re-derived in this cert.",
+  "predecessor_cert": "search/certs/koubou83_b1_linear_v1_20260822.json (kept unchanged; its claim-boundary language was accurate, only the witness identity was mismatched -- see lemma_IDENT_correction below, which should also be appended to that cert)",
+  "prediction_matched": true,
+  "schema": "koubou83-b1-linear/v2",
+  "spec_source": "commander instruction 2026-08-22 (lemma IDENT ruling): v1's witness A/B were the WRONG matrices for the 1076-series claim -- re-extract the TRUE witness and rerun the linear test on it",
+  "u_touched": false,
+  "alpha_clause_superseded_20260822": "HISTORICAL NOTE (appended 2026-08-22 per Sol audit P5 in sol/sol_reply_audit_972_koubou83.md): the CONDITIONAL-on-premise-alpha clauses inside 'claim_boundary_same_line_as_verdict' and 'overall_reading' above are superseded by lemma IDENT at PB3 level (CLAIMS C-14, registered 2026-08-22) -- alpha (the Aut(SL(2,Z/691^2)) classification) is NOT a precondition of the C-14 chain (it is tied only to the secondary non-splitness claim) and must not be revived as a live precondition. All pre-existing field values above are kept byte-identical as historical record."
+}

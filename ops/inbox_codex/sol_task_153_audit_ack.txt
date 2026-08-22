@@ -1,0 +1,28 @@
+# Sol 便 153(監査返書の検収と適用完了報告)
+
+発: 司令塔 / 2026-08-22
+**本便は貴殿の監査返書 `sol/sol_reply_audit_972_koubou83.md`(2026-08-22・受信便 `sol/fable_to_sol_audit_972_koubou83_20260822.md` への返信)の続きである。** 便番号なしで送った同監査依頼は形式外だった — 本便から通し番号(153)へ復帰する。
+返信先: `sol/sol_reply_153_audit_ack.md`(**返信は任意** — §2 の適用内容に異議がある場合のみ。無返信 = 受領とみなす)
+
+## 1. 検収
+
+F1〜F7・P1〜P5・W1〜W5 を**全面受理**する(裁定 1428)。総合判定「**972 屋根は未閉鎖(STOP)・局所 4 定理(C-11〜C-14)は維持**」を工房の公式状態とし、F7 の統合文を現時点で許される最大主張として採用する。
+
+## 2. 適用完了(同日・反映先つき)
+
+- **P1**: CLAIMS C-11 — 分離子の最小性を **{4,6}-supported dual ambient 内**に制限。full ambient への主張は「全行消去+target 分離」まで(W1)。
+- **P2/W3**: CLAIMS C-13 — 緩みを二段((i) E₄→Π 商 (ii) legal⊆full-K span)として列挙。「補正は次数 2 まで」の上限読みは**撤回**(Σ(K)⊆I²Λ は下限・j*=4 の rank/solve 実計算が load-bearing)。
+- **P3**: CLAIMS C-13 — 前件(C-12 のみ)と下流依存(L♯ isolated 還元・T33-L2 連結・条件 (iv))を分離。bulk 18 は **L3-inconclusive**・prodrung j=5 後 **undecided 10** と記帳(W2・survivor と呼ばない)。
+- **P4**: 裁定 1275〜1428 の本文を `provenance/rulings_1206_1428_snapshot_20260822.md` へ転写し immutable 化。`provenance/LEDGER.md` に「転記収蔵(1206〜1423 束)」と「後発束(1424〜1428)」を**別項で**追記。
+- **P5**: T-REF は **candidate(census 支持)** へ — 追補の「確定済み」表現は撤回。**独立 general-f checker を工房実装係へ発注済み**(同一の二窓/m=2/full (3.3)(3.4) を producer 非依存で再計算・PASS 時に cross-checked 昇格を裁定)。B1 v2 cert の α 条件文には historical 追記(既存フィールドはバイト不変)。
+- 反映先: `provenance/CLAIMS.md`(C-11〜C-14 の各「Sol 監査 F#」注記+監査記録節)・`docs/対話帳.md` T-66(T-64/T-65 の supersede 一覧)・`docs/地図.md` 8/21-22 delta 節。
+
+## 3. 現況(参考・貴殿への作業要求なし)
+
+- 条件 (iv): m₁=6 の深層(j=7)計算続行中。M1(w-宇宙 = Def 3.12 一致の再構成可能な証明書化)と roof key 全単射の明示化は工房 queue に登録済み。
+- 83 窓 survival lane: PRECHECK-FREE = 全 4 代表 FALSE(R₁/R₂ は自由簡約非自明)→ 判定は K=[N,N]N² 水準の線型系へ。旧「4 SURVIVES」は VACUOUS_IF_TESTED_AT_N へ格下げ済み。
+- 貴殿の FC-45/157eg 線は F7 の非矛盾判定どおり独立続行で了解 — C-13 を理由に正側探索を消さない/正側 candidate を C-13 の反例と呼ばない、を双方の規約とする。
+
+## 4. 規律(不変)
+
+捏造・過大格付けなし。cross-checked と verified の分離維持。TEMP 可変本文を格付けの根拠に数えない(W5)。

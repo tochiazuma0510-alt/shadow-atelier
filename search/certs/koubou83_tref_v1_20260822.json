@@ -1,0 +1,36 @@
+{
+  "schema": "shadow-atelier/koubou83-tref/v1",
+  "generated_by": "implementer (commander instruction 2026-08-22, T-REF formal order)",
+  "task": "T-REF: use the frozen (pre-dispute, cross-checked one month prior) canonical (3.3)/(3.4) hexagon implementation as an impartial third-party judge for the disputed m=2 settled element in both isolated windows.",
+  "step1_stock_check": {
+    "frozen_source_located": true,
+    "location_1": "search/suite-wp1.g lines 208-246 (N5 control section, calibration suite v2) -- implements the f=1 SPECIAL CASE of (3.3)/(3.4): lhs33=sigma1^u*sigma2^u, rhs33=sigma1*sigma2*xbar^(-m)*cbar^m; lhs34=sigma2^u*sigma1^u, rhs34=sigma2*sigma1*ybar^(-m)*cbar^m. This section is comment-labeled '(3.3)(3.4)(f=1版)' and was frozen and cross-checked (C-3, N5 control, all m in {0..4}) approximately one month before this dispute -- confirmed to have no stake in the current tau controversy.",
+    "location_2_general_f_formula": "docs/notes/2401.06870-抽出ノート_v1.md L49-50 gives the FULL (f-included) canonical formula, extracted verbatim from the primary source (arXiv 2401.06870), a month prior to this dispute: (3.3) sigma1^{2m+1} f^-1 sigma2^{2m+1} f N = f^-1 sigma1 sigma2 x12^{-m} c^m N ; (3.4) f^-1 sigma2^{2m+1} f sigma1^{2m+1} N = sigma2 sigma1 x23^{-m} c^m f N. This is the general form used for the actual T-REF evaluation below (the suite-wp1.g N5-control formula is exactly this formula's f=1 specialization, confirming internal consistency of the two frozen sources).",
+    "full_sigma_form_confirmed": true,
+    "note": "no stock-check failure -- both frozen sources found and mutually consistent; proceeding to step 2."
+  },
+  "step2_disputed_element_evaluation": {
+    "method": "Direct GAP evaluation of the frozen general formula (from step 1, location 2) on the SAME disputed m=2 (u=5) settled element (taken directly from the ORIGINAL census's own CorrectedShadows output, unmodified) in both windows. All group operations performed in Bq=B3/N (the actual finite quotient), so equality mod N is automatic/exact, not approximate.",
+    "windows": [
+      {
+        "id_group": [1152, 154161], "m": 2, "u": 5,
+        "hex_3_3": true, "hex_3_4": true,
+        "frozen_ground_truth_verdict": "genuine hexagon solution (settled)"
+      },
+      {
+        "id_group": [1152, 154163], "m": 2, "u": 5,
+        "hex_3_3": true, "hex_3_4": true,
+        "frozen_ground_truth_verdict": "genuine hexagon solution (settled)"
+      }
+    ]
+  },
+  "step3_verdict": {
+    "three_way_result": "CENSUS_CORRECT",
+    "explanation": "The frozen, impartial (3.3)/(3.4) evaluation CONFIRMS the ORIGINAL census's shortcut-based (TT=Ad(delta)) classification of the m=2 element as settled, in BOTH windows (hex_3_3=hex_3_4=true, matching what CorrectedShadows already found via the shortcut). This CONTRADICTS this implementer's own word-level H_theta/H_tau construction from the survival-lane work (koubou83_htau_check_v1.g / canary-4), which found H_tau(m=2,f) did NOT match c^m (nor the 2 simple x^{-m}-bookkeeping variants tried) under that word-level formula.",
+    "conclusion": "**Census側が正**(census の近道基準〔Ad(delta)〕は m!=0 でも正しく settled を判定していた)。**語水準の m!=0 式(この実装係が S4 で構成した H_tau(m,f)=tau^2(g)*tau(g)*g, g:=y^m*f)は別規約/不完全 -- 発見された不一致は census の欠陥ではなく、この実装係が構成した H_tau の簡略化がフルの (3.4)(f^-1 sigma2^u f sigma1^u = sigma2 sigma1 x23^{-m} c^m f, 特に f が両辺の異なる位置に現れる構造)を正確に再現できていなかったことが原因と判断される。",
+    "impact_on_campaign_4_numeric_claims": "④(|GT^settled(N)|=48・parity・u≡1法則)の数値主張は**再走リスクなし・census無傷で確定**。κ>1(T-REF発注のトリガーだった条件)は依然として真だが、それはcensusの誤りを意味せず、censusの正しさがT-REFによって独立に裏書きされたことを意味する。",
+    "impact_on_survival_lane_H_tau_construction": "S4で使用中のH_tau(m,f)構成(tau^2(g)*tau(g)*g、g:=y^m*f)は、**m=0では偶然/構造的に正しいが、m!=0では正典(3.4)の完全形と一致しない**ため、修理が必要。正典(3.4)を直接参照すると、f が LHS の内側(f^-1...f の挟み込み)とRHS の末尾の両方に別の形で現れており、私の単純な『g=y^m*f を1回τ substitutionに通す』構成はこの構造を正しく捕捉していない可能性が高い。GUARD-Cの精神(語水準構成を必須とする)自体は正しいが、その具体的な式を(3.4)の正典形に合わせて修正する必要がある。この修理は③(τ行の完全線型化)の作業の一部として、数学者のR-a/R-b修理案の選定と合わせて実施予定。"
+  },
+  "grade": "candidate -- GAP-computed against a frozen, pre-dispute, previously-cross-checked source; the frozen source itself carries the original C-3 cross-check status (search/suite-wp1.g N5 control), not re-verified here beyond direct re-execution consistency.",
+  "wall_seconds_approx": 30
+}
