@@ -10,33 +10,52 @@
 #      inline-asserting v5 reproduces v4's actual logged values exactly
 #      (dims 42/192/636/1740/4056, primary canary PASS, closed-form
 #      identity diff_term_count=14/exact_match=True, m1 in {3,5,8}
-#      settled at j=4 and m1=2 settled at j=5 -- see
-#      koubou158_M2_msweep_v5.py's EXPECTED_* constants, sourced from
-#      scratchpad/m2_v4_run.log). A mismatch raises core.require() ->
-#      nonzero exit -> `set -euo pipefail` stops the job before step 2,
-#      per instruction ("一つでも割れたら j=7 に進まず報告").
+#      settled at j=4 and m1=2 settled at j=5, PLUS (falsifier finding
+#      F-3/F-4) m1=6 STILL open at j=6, and an independent-implementation
+#      diff against the original unmemoized cbfs builder for j=2..4 --
+#      see koubou158_M2_msweep_v5.py's EXPECTED_* constants and its
+#      falsifier-audit docstring section). A mismatch raises
+#      core.require()/PurityCanaryFailure -> nonzero exit ->
+#      `set -euo pipefail` stops the job before step 2, per instruction
+#      ("一つでも割れたら j=7 に進まず報告").
 #   2. Production: SAME script, SAME checkpoint/cache directory (no
 #      --fresh), continuing from the warm checkpoint straight through
-#      j=7..J_MAX(12) without recomputing j=2..6 -- this is why steps 1
-#      and 2 share one job/workspace rather than being split across
-#      jobs (splitting would lose the persisted kernel cache, see the
-#      module docstring's note on why persistent caching across j levels
-#      is the main compounding speedup at higher j).
+#      j=7..max_j without recomputing j=2..6 -- this is why steps 1 and 2
+#      share one job/workspace rather than being split across jobs
+#      (splitting would lose the persisted kernel cache, see the module
+#      docstring's note on why persistent caching across j levels is the
+#      main compounding speedup at higher j).
 #
-# DISPATCH GATE: workflow_dispatch only. Per the same discipline as
-# other koubou158 lanes in this repo (e.g. koubou158-sweep-sharded-v1),
-# this is NOT to be dispatched until the falsifier's pre-flight review
-# returns PASS. Push and dispatch are the commander's action, not this
-# implementation's.
+# DISPATCH GATE (falsifier finding F-7): workflow_dispatch alone 404s
+# until the workflow file is registered on the repo's DEFAULT branch --
+# the exact same wall this repo already hit and recorded in
+# koubou158-sweep-sharded-v1.yml (see that file's lines ~40-46). Per that
+# established precedent, this workflow ALSO fires on a `push` to its own
+# feature branch, gated by the HEAD commit message containing "[fire]"
+# (an ordinary WIP push must NOT launch a 330-minute job by accident).
+# workflow_dispatch is kept too (for once this file is on master), but
+# push+[fire] is expected to be the actual first-dispatch route. Per the
+# same discipline as other koubou158 lanes in this repo, this is NOT to
+# be dispatched/pushed-with-[fire] until the falsifier's pre-flight
+# review returns PASS. Push and dispatch are the commander's action, not
+# this implementation's.
 #
 # NO cross-run artifact resume (same falsifier-established pattern as
 # koubou158-sweep-sharded-v1.yml's p5_shard job): if this single job is
-# killed by the 330-minute cap mid-production, the checkpoint/cache at
-# whatever j was last completed are still uploaded (if: always()), but a
-# fresh dispatch starts a NEW job with an empty workspace and would redo
-# the regression gate + all j levels from scratch (cheap relative to the
-# whole run given the compounding cache, but not free) unless someone
-# manually seeds scratchpad/m2_v5/ from a downloaded artifact first.
+# killed by the 330-minute cap mid-production, the checkpoint/cache/cert
+# at whatever j was last completed are still uploaded (if: always(), and
+# (falsifier finding F-11) a cert is written after EVERY completed j, not
+# only at the end -- so even a j=7-completes/j=8-killed run leaves a
+# usable, non-stale cert), but a fresh dispatch starts a NEW job with an
+# empty workspace and would redo the regression gate + all j levels from
+# scratch (cheap relative to the whole run given the compounding cache,
+# but not free) unless someone manually seeds scratchpad/m2_v5/ from a
+# downloaded artifact first.
+#
+# FIRST DISPATCH (falsifier finding F-11(b)): max_j defaults to 7, not
+# J_MAX(12) -- the commander's instruction is to get j=7 done and
+# evaluate before committing GHA minutes to j=8-12 unattended. Raise
+# max_j on a subsequent dispatch/push once j=7 is confirmed healthy.
 
 name: koubou158-m2-msweep-v5-gha
 
@@ -47,7 +66,9 @@ on:
         description: "Stop after this j level (production ceiling). J_MAX in the script is 12."
         required: true
         type: number
-        default: 12
+        default: 7
+  push:
+    branches: [ "koubou158/m2-msweep-v5-gha" ]
 
 permissions:
   contents: read
@@ -59,13 +80,27 @@ concurrency:
 jobs:
   msweep_v5:
     name: v5 regression gate (j<=6) then production (j<=max_j)
+    # Misfire gate (F-7, matching koubou158-sweep-sharded-v1.yml's
+    # wiring_smoke job): fires unconditionally on workflow_dispatch (an
+    # explicit human action), but a `push` to the tracked branch only
+    # fires this if the HEAD commit message contains "[fire]" -- an
+    # ordinary WIP push to this branch must NOT launch a 330-minute job.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[fire]')
     runs-on: ubuntu-latest
     # 330, matching this repo's other long single-job koubou158 lanes
     # (e.g. p4_remainder in koubou158-sweep-sharded-v1.yml) -- j=7's
     # dimension (~8500) is roughly double j=6's (4056), and v4's
-    # unaccelerated j=6 alone took 2381s; even with the v5 kernel speedup
-    # measured locally (see the job summary this workflow prints), a
-    # generous cap is kept rather than risk truncating j=7-12 mid-run.
+    # unaccelerated j=6 alone took 2381s. The kernel speedup at j=4 has
+    # been independently measured (falsifier delta audit, 2026-08-22):
+    # 10.85s (v4/unaccelerated) -> 2.23s (v5/memoized+canaried), ~4.9x;
+    # this is a single early-j data point, NOT an extrapolation to j=7-12,
+    # so a generous job-level cap is kept as a backstop rather than
+    # trusting that ratio to hold at much larger dimension/depth. The
+    # production STEP below also carries its own tighter timeout so the
+    # always-run upload step still collects whatever exists if production
+    # specifically overruns.
     timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
@@ -76,22 +111,33 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install numpy (fastkernel module's F3NumpyEchelon/F3NumpySpace; not on the default hot path but imported unconditionally)
-        shell: bash
-        run: pip install "numpy>=1.26,<3"
+      # No numpy install (falsifier finding F-10): the fastkernel
+      # module's F3NumpySpace/F3NumpyEchelon are dead code for this lane
+      # (not wired into the driver's default path, not exercised by any
+      # check here) and now import numpy LAZILY, only if something
+      # actually calls them -- nothing in this workflow does, so there is
+      # no reason to add a numpy dependency to this job for dead code.
 
-      - name: Regression gate (from-scratch, j<=6, must match v4's actual log exactly)
+      - name: Regression gate (from-scratch, j<=6, must match v4's actual log + independent-implementation diff)
         shell: bash
         run: |
           set -euo pipefail
           python3 -m py_compile search/koubou158_L3_core_fastkernel_v1.py search/koubou158_M2_msweep_v5.py
-          python3 search/koubou158_M2_msweep_v5.py --fresh --max-j 6
+          python3 search/koubou158_M2_msweep_v5.py --fresh --max-j 6 --run-role regression_gate
 
       - name: Production (resume from warm checkpoint, j=7..max_j)
         shell: bash
+        # Step-level timeout (falsifier finding F-10/step-summary note):
+        # tighter than the job-level 330 so a production overrun is
+        # caught as a step failure while still leaving time for the
+        # always-run upload step below to collect whatever cert/
+        # checkpoint/cache exist at whatever j was last completed --
+        # per-j cert writes (F-11) mean that is never empty-handed once
+        # step 1 (regression gate, j<=6) has completed.
+        timeout-minutes: 280
         run: |
           set -euo pipefail
-          python3 search/koubou158_M2_msweep_v5.py --max-j "${{ inputs.max_j || 12 }}"
+          python3 search/koubou158_M2_msweep_v5.py --max-j "${{ inputs.max_j || 7 }}" --run-role production
 
       - uses: actions/upload-artifact@v4
         if: always()

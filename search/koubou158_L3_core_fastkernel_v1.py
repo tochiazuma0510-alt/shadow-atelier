@@ -27,46 +27,72 @@ space (the pc-group has exactly 3^10 = 59049 elements), so they are
 MEMOIZED here -- this is expected to account for most of the real v5
 speedup, not the linear-algebra change.
 
-ALSO PROVIDED, per the commander's instruction (numpy int8 GF(3)
-row-reduction, vectorized/blocked): F3NumpySpace / F3NumpyEchelon,
+ALSO PROVIDED, per the commander's original instruction (numpy int8
+GF(3) row-reduction, vectorized/blocked): F3NumpySpace / F3NumpyEchelon,
 implementing the SAME external contract as core.F3BitSpace /
 core.F3BitEchelon (vec/add/neg/sub/scale/leading/coeff_at/dot for the
 space; reduce/add/rank/clone/rref/extract_separator for the echelon),
 backed by dense int8 numpy rows, PLUS a batch_reduce() method that
-tests multiple targets against the same echelon in one vectorized pass
-(row subtraction is a numpy op over the full dimension instead of a
-per-target Python bit loop) -- this is the "block" membership test the
-v4->v5 dual sweep can use (up to 10 targets -- 5 remaining m1 values x
-{primary, secondary} -- tested against the SAME per-j echelon).
-Reported honestly: per the profiling above, this kernel swap alone is
-NOT expected to be the dominant speedup for this specific workload; it
-is included because it was explicitly instructed and is harmless
-(same results, same interface), while the memoization above targets the
-actually-measured bottleneck.
+tests multiple targets against the same echelon in one vectorized pass.
+FALSIFIER FINDING (F-10, delta audit): this numpy kernel is NOT wired
+into koubou158_M2_msweep_v5.py's default path, is NOT exercised by ANY
+of that driver's regression checks, and is UNTESTED beyond ad hoc
+interactive use -- any earlier wording suggesting it is "validated by
+the regression gate" was WRONG and has been removed. It is dead code
+for this lane today, kept only because it was explicitly instructed;
+`numpy` is therefore imported LAZILY (inside the functions/methods that
+need it, not at module import time) so a numpy-less environment can
+still import and run everything this lane actually uses.
 
-Both kernels are validated against the ORIGINAL core/cbfs functions by
-the v5 regression gate (see koubou158_M2_msweep_v5.py) before j=7 is
-attempted -- any divergence stops the run rather than silently
-proceeding.
+The MEMOIZATION above (project_vec_to_Ij_cached / apply_xi_minus_1_cached)
+is the part actually exercised by the driver's default path, and is
+cross-checked two ways there: (a) a purity canary (below) against the
+ORIGINAL uncached functions on a random sample of cache hits, and (b) an
+independent-implementation diff gate (F-4, koubou158_M2_msweep_v5.py)
+that re-runs cbfs.build_V_and_D2bar_from_q3_complete (the ORIGINAL,
+unmemoized builder) for j=2..4 on a --fresh run and requires exact
+agreement on rank_V / rank_V_plus_D2bar_combined / per_relator_closure_
+receipts / total_vectors_explored -- catching a corrupted-cache bug that
+a dims-only sanity check cannot (see that module's docstring).
 
-PURITY CANARY (commander instruction, 2026-08-22, after approving the
-hotspot pivot): memoization is only sound if the cached functions are
-truly pure (same input -> same output, always). Rather than trust that
-blindly, PurityCanary below re-derives a small RANDOM SAMPLE of cache
-hits (default 1-in-1000) from the ORIGINAL uncached core functions and
-requires bit-for-bit agreement; any mismatch is a fail-closed
-core.require() abort (reported, not silently patched), same discipline
-as the rest of this lane.
+PURITY CANARY (commander instruction 2026-08-22, after approving the
+hotspot pivot; hardened 2026-08-22 per falsifier findings F-1/F-8/F-9):
+memoization is only sound if the cached functions are truly pure (same
+input -> same output, always). PurityCanary below re-derives a small
+RANDOM SAMPLE of cache hits (default 1-in-1000) from the ORIGINAL
+uncached core functions and requires bit-for-bit agreement. A mismatch
+raises PurityCanaryFailure (a dedicated exception, deliberately NOT a
+RuntimeError) -- the driver does not catch this class (only
+RuntimeError, for the unrelated EXPAND_CAP resource-cap abort), so a
+canary failure kills the process outright (nonzero exit) rather than
+being silently absorbed into an "ABORTED_RESOURCE_CAP"-style outcome
+that would let a broken run exit 0 and write a cert (falsifier finding
+F-1: this WAS happening -- PurityCanaryFailure did not exist yet and
+the recheck used core.require(), whose RuntimeError was caught by the
+driver's `except RuntimeError` around the build call). The sample-rate
+PHASE (falsifier finding F-9: was a hardcoded seed, so the same calls
+were canaried every run, e.g. always counter=540) is now drawn from a
+fresh random seed each run and the actual seed/phase used is recorded
+in the checkpoint/cert so a specific run's canary coverage is
+reconstructible.
 """
 from __future__ import annotations
 
 import random
 from collections import defaultdict
-from typing import Any
-
-import numpy as np
 
 import koubou158_L3_core_v1_1 as core
+
+
+class PurityCanaryFailure(Exception):
+    """Raised when a memoized function's cached value disagrees with a
+    fresh recomputation from the ORIGINAL uncached function. Deliberately
+    NOT a RuntimeError subclass: koubou158_M2_msweep_v5.py catches
+    RuntimeError only around the EXPAND_CAP resource-cap abort inside the
+    BFS closure, and must NOT catch this -- a purity failure means the
+    cache (and therefore every result computed using it) may be corrupt,
+    and the process must die immediately rather than have this absorbed
+    into some other, survivable outcome (falsifier finding F-1)."""
 
 
 # ---------------------------------------------------------------------
@@ -75,7 +101,7 @@ import koubou158_L3_core_v1_1 as core
 # ---------------------------------------------------------------------
 
 class PurityCanary:
-    def __init__(self, sample_rate: int = 1000, seed: int = 20260822) -> None:
+    def __init__(self, sample_rate: int = 1000, seed: int | None = None) -> None:
         self.sample_rate = sample_rate
         # counter-based sampling (cheap: one int compare per hit, no per-call
         # RNG draw -- an earlier version called random.Random.randrange() on
@@ -83,21 +109,37 @@ class PurityCanary:
         # j=4, see scratchpad/profile_j4_fast.py's first run). A single RNG
         # draw at construction picks a random PHASE offset so the sampled
         # calls aren't always the same fixed stride-aligned ones across runs.
-        self.counter = random.Random(seed).randrange(sample_rate)
+        # Falsifier finding F-9: an earlier version hardcoded seed=20260822,
+        # so every run canaried the exact same call indices (observed
+        # counter=540 every time) -- the seed is now drawn fresh (system
+        # entropy) unless the caller explicitly passes one, and the
+        # RESULTING seed/phase is exposed via seed_used/initial_phase below
+        # so a run's actual canary coverage is reconstructible from its
+        # checkpoint/cert rather than silently varying and unrecorded.
+        if seed is None:
+            seed = random.SystemRandom().randrange(2**32)
+        self.seed_used = seed
+        self.initial_phase = random.Random(seed).randrange(sample_rate)
+        self.counter = self.initial_phase
         self.checked = 0
         self.mismatches = 0
 
     def maybe_check(self, recheck_fn) -> None:
         """recheck_fn: zero-arg callable that recomputes the value from
-        the ORIGINAL uncached function and compares to the cached value,
-        raising via core.require() on mismatch. Called on 1-in-sample_rate
-        cache HITs (misses are already fresh computations, nothing to
-        canary)."""
+        the ORIGINAL uncached function and RAISES PurityCanaryFailure (not
+        core.require()/RuntimeError -- falsifier finding F-1) on mismatch.
+        Called on 1-in-sample_rate cache HITs (misses are already fresh
+        computations, nothing to canary)."""
         self.counter += 1
         if self.counter >= self.sample_rate:
             self.counter = 0
             self.checked += 1
             recheck_fn()
+
+    def summary(self) -> dict:
+        return {"sample_rate": self.sample_rate, "seed_used": self.seed_used,
+                "initial_phase": self.initial_phase, "checked": self.checked,
+                "mismatches": self.mismatches}
 
 
 # ---------------------------------------------------------------------
@@ -111,8 +153,11 @@ def project_pcvec_terms_cached(pcvec: bytes, j: int, cache: dict, canary: Purity
         if canary is not None:
             def recheck():
                 fresh = list(core.project_pcvec_terms(pcvec, j))
-                core.require(fresh == hit, f"157m2v5 PURITY CANARY FAILED: project_pcvec_terms_cached "
-                             f"drifted for pcvec={pcvec!r} j={j} (cached={hit!r} fresh={fresh!r})")
+                if fresh != hit:
+                    canary.mismatches += 1
+                    raise PurityCanaryFailure(
+                        f"157m2v5 PURITY CANARY FAILED: project_pcvec_terms_cached "
+                        f"drifted for pcvec={pcvec!r} j={j} (cached={hit!r} fresh={fresh!r})")
             canary.maybe_check(recheck)
         return hit
     terms = list(core.project_pcvec_terms(pcvec, j))
@@ -139,9 +184,11 @@ def apply_xi_minus_1_cached(v_pi: dict, i: int, pc: core.IndependentPc, mul_cach
             if canary is not None:
                 def recheck(pcvec=pcvec, new_pc=new_pc):
                     fresh = pc.mul(gi, pcvec)
-                    core.require(fresh == new_pc, f"157m2v5 PURITY CANARY FAILED: "
-                                 f"apply_xi_minus_1_cached mul drifted for i={i} pcvec={pcvec!r} "
-                                 f"(cached={new_pc!r} fresh={fresh!r})")
+                    if fresh != new_pc:
+                        canary.mismatches += 1
+                        raise PurityCanaryFailure(
+                            f"157m2v5 PURITY CANARY FAILED: apply_xi_minus_1_cached mul drifted "
+                            f"for i={i} pcvec={pcvec!r} (cached={new_pc!r} fresh={fresh!r})")
                 canary.maybe_check(recheck)
         else:
             new_pc = pc.mul(gi, pcvec)
@@ -160,50 +207,68 @@ def apply_xi_minus_1_cached(v_pi: dict, i: int, pc: core.IndependentPc, mul_cach
 # ---------------------------------------------------------------------
 
 class F3NumpySpace:
+    """DEAD CODE for this lane (falsifier finding F-10): not wired into
+    koubou158_M2_msweep_v5.py's default path, not exercised by any
+    regression check there. `numpy` is imported LAZILY (per method, not
+    at module top level) so importing this module does not force a
+    numpy dependency on environments that never touch this class."""
+
     def __init__(self, n: int) -> None:
         self.n = n
 
-    def vec(self, d: dict) -> np.ndarray:
+    def vec(self, d: dict):
+        import numpy as np
         v = np.zeros(self.n, dtype=np.int8)
         for i, c in d.items():
             v[i] = c % 3
         return v
 
-    def add(self, v: np.ndarray, w: np.ndarray) -> np.ndarray:
+    def add(self, v, w):
+        import numpy as np
         return ((v.astype(np.int16) + w.astype(np.int16)) % 3).astype(np.int8)
 
-    def neg(self, v: np.ndarray) -> np.ndarray:
+    def neg(self, v):
+        import numpy as np
         return ((-v.astype(np.int16)) % 3).astype(np.int8)
 
-    def sub(self, v: np.ndarray, w: np.ndarray) -> np.ndarray:
+    def sub(self, v, w):
+        import numpy as np
         return ((v.astype(np.int16) - w.astype(np.int16)) % 3).astype(np.int8)
 
-    def scale(self, v: np.ndarray, c: int) -> np.ndarray:
+    def scale(self, v, c: int):
+        import numpy as np
         c %= 3
         if c == 0:
             return np.zeros(self.n, dtype=np.int8)
         return v.copy() if c == 1 else self.neg(v)
 
-    def leading(self, v: np.ndarray) -> int:
+    def leading(self, v) -> int:
+        import numpy as np
         nz = np.flatnonzero(v)
         return int(nz[0]) if nz.size else -1
 
-    def coeff_at(self, v: np.ndarray, pos: int) -> int:
+    def coeff_at(self, v, pos: int) -> int:
         return int(v[pos])
 
-    def dot(self, v: np.ndarray, w: np.ndarray) -> int:
+    def dot(self, v, w) -> int:
+        import numpy as np
         return int((np.dot(v.astype(np.int32), w.astype(np.int32))) % 3)
 
 
 class F3NumpyEchelon:
+    """DEAD CODE for this lane (falsifier finding F-10) -- see
+    F3NumpySpace's docstring. `numpy` is imported LAZILY here too
+    (only batch_reduce touches it directly; the other methods only go
+    through self.sp, which does its own lazy imports)."""
+
     def __init__(self, sp: F3NumpySpace, pivots=None) -> None:
         self.sp = sp
-        self.pivots: dict[int, np.ndarray] = dict(pivots) if pivots else {}
+        self.pivots: dict = dict(pivots) if pivots else {}
 
     def clone(self) -> "F3NumpyEchelon":
         return F3NumpyEchelon(self.sp, self.pivots)
 
-    def reduce(self, v: np.ndarray):
+    def reduce(self, v):
         sp = self.sp
         v = v.copy()
         while True:
@@ -216,7 +281,7 @@ class F3NumpyEchelon:
             c = sp.coeff_at(v, p)
             v = sp.sub(v, sp.scale(basis, c))
 
-    def add(self, v: np.ndarray) -> bool:
+    def add(self, v) -> bool:
         sp = self.sp
         v, p = self.reduce(v)
         if p < 0:
@@ -241,7 +306,7 @@ class F3NumpyEchelon:
                     v = sp.sub(v, sp.scale(self.pivots[q], c))
             self.pivots[p] = v
 
-    def extract_separator(self, target: np.ndarray):
+    def extract_separator(self, target):
         sp = self.sp
         self.rref()
         v, f0 = self.reduce(target)
@@ -263,6 +328,7 @@ class F3NumpyEchelon:
         Returns a list of pivot positions (-1 if fully reduced to zero,
         i.e. member) parallel to `targets`. Mathematically identical to
         calling reduce() once per target independently."""
+        import numpy as np
         sp = self.sp
         if not targets:
             return []
