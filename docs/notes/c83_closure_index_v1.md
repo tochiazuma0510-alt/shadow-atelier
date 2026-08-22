@@ -5,7 +5,7 @@
 ## §0 三行
 1. **どこまで到達したか**: isolated 2 窓で **full-48 単段生存が二素数とも cross-checked**(便 155・WO-155-1): p=3 = v2 producer(核不変性で厳尽)×独立照合器 96/96・p=2 = v3(PIN-AB-1 準拠・**初の実検査** — v1/v2 は単位 2 倍バグ INC-13 で mod-2 検査が恒真化)×同 96/96。照合器 = Luna 実装・著者分離・producer 非開封・全ゲート 192/192・対照 P-A2-1/2 的中(verdict a144249b…・commit d7a3ff09・射程 pin は CLAIMS C-15)。K₃ 深部 24 行 cross-check(維持理由 = 法 3 冪で単位誤差不可視)・障害類 = p=3 の 26/26 ゼロも維持。**登録済み有限探針からは fake 証明書 0(全体判定 = UNKNOWN-DEPTH/UNKNOWN-STRUCTURAL — 便 155 後も不変)**。
 2. **何が残ったか**: 非内部元の生存機構(主要残問)・**GAP-INN-1 = C-83-INN の marked-form lift 補題(F4・conditional のまま)**・transgression 実 rank(End 次元読解は撤回)・GAP-83-3・TORUS-GAP-1。〔K₆ fibre-product = proved 昇格・F1 再走帰結 = 解決 — 便 155 反映〕
-3. **再開条件**: **c∉N の対象に適用できる算術機構**の入手(金庫 intel/: Ishii 2312.04196・Enriquez 1003.1012・Lochak–Nakamura–Schneps 2602.12462)。lane の現状 = **park**(登録済み経路の使い切りによる休止・非存在定理ではない)。
+3. **再開条件(2026-08-22 深夜・裁定 1550/1551 で更新)**: 旧記述「c∉N に効く算術機構」は**誤診と判明** — 真の障害は c∉N でなく **F₂/N_{F₂} の非冪零性**(定理 NILP-VOID: pro-ℓ/Soulé 系はこの窓で構造的に情報量ゼロ・判定量 nilvis(N))。そして**新機構の候補が既に立った**: **C3-LIFT**(G^ab=C₃ の中間被覆 = CM 楕円曲線 E=27a3 の 2 等分 — P/Φ(P)≅E[2] ⟹ |Im(Ih_N)|≥12・22 候補中 ≥4 が算術的として脱落・paper-proof candidate・正本 = scratchpad/gt_grt_dictionary_memo_v1.md §3)。**独立照合器+Sol 監査(GAP-C3-1)が通れば park は実質解除**。金庫の elliptic GT 3 本(Ishii・Enriquez・LNS)はこの標的(CM 曲線穴あき pro-2 π₁)への降ろし材料として現役。lane の現状 = park(ただし解除審査中)。
 
 ## §1 正本の主張
 **C-15(v4)= CLAIMS 正本**(2026-08-22・便 154 差し戻し反映)。v3 逐語 = `scratchpad/c83_final_v3_draft.md`(**撤回バナー付き封存・引用禁止**)。格 = K₃ 24 行のみ cross-checked(格付け条件 2 = 共通モード注記+C6-elt data-pin 依拠)・p=2 full-48 は単一系統 candidate・verified 未。
@@ -41,10 +41,11 @@ K₆ 等 squarefree 合成細分 = CRT で K₂∧K₃ に分解(定理・走行
 P-83-1(order6 死)= 反証/P-83-2(order3 死)= 反証/P-83-3 W-1 = VOID(charming の言い換え・設計ミス)・W-2 = 的中(片側・全 FALSE)/P-83-4(p=5 全生存)= 的中(情報量 UNKNOWN)。C-83 v1(障害消失 ⟺ integral)→ v2(片側のみ定理)へ改訂。**「登録が直感に勝った」実例**(C-83 スケッチ vs P-83-3)を含む — 事前登録制度の価値の実証。
 
 ## §6 計器の在庫(再開時にそのまま使える)
+**新入庫(2026-08-22 深夜・grt 翻訳メモ由来)**: **nilvis(N) = dim γ₂(G)/γ₃(G)**(窓トリアージ計器 — pro-ℓ/Soulé 系算術入力の可視性を事前判定・NILP-VOID の系)/**𝔤𝔯𝔱_hex 次元表(w≤12)+shadow 数予言式**(ℓ 群窓の |GT|/|PENT| を char-0 次元から予言 — NW(7) 294/42 で的中・**予言 P-GRT-1 事前登録済(裁定 1555)**)/Zassenhaus 塔簿記(mod-p Witt・Frattini 塔 3^98 死の迂回路)。
 producer(GAP): B の scratchpad スクリプト群(koubou83_*.g — K/K₃/K₅ 装置・差分定義 A・γ-canary・COMP-1)/checker(Python): crosscheck/check_koubou83_survival_v3.py・check_koubou83_survival_k3.py(v2・係数追跡・破壊対照)・check_koubou83_tref_v1.py/数学者検算(セッション scratchpad): arith.py(COMP-1 参照・48 元列挙・[11,1])・h2spec.py・close.py(内部性悉皆)・integral.py・mirror.py 等。常設対照: **C-83-ARITH-PC**([11,1] は理論が生存を保証 — 死んだら計器バグ)・NC-1(f₄ 素通し charming=false)・PC-1(真の交換子)・破壊対照(witness 削除 = 判別子)。
 
 ## §7 handover 導線
-- **再開条件**: c∉N 対象に効く算術機構。金庫の elliptic GT 3 本の降ろし検問(司令塔義務): ①c∉N 適用可否(定義域明示)②Im(Ih_N) を下から評価する手続き ③B₃-gentle への翻訳。
+- **再開条件(裁定 1550/1551 で改訂)**: 旧「c∉N に効く算術機構」は誤診(NILP-VOID — 障害は非冪零性)。**新判定 = nilvis/solvis による窓判定**(gt_grt_dictionary_memo_v1.md §3.5): pro-ℓ 系が効くか(nilvis)・可解被覆経由の算術(C3-LIFT 型)が効くか(solvis)を窓ごとに測ってから機構を選ぶ。**当該 2 窓は solvis 経由で機構確保済み(C3-LIFT・candidate)** — 検収通過で park 解除。金庫の elliptic GT 3 本の降ろし検問は memo §3.5 の回答で更新(標的 = CM 曲線 E=27a3 の穴あき pro-2 π₁・文献要請 E-1 併走)。
 - **再開初手**: [11,1] を陽性対照に Im(Ih_N)∩ker χ_vir(位数 12)を下から詰める — 22 候補はちょうどこの全射性の障害集合。
 - **再開しない場合**: C-15(v4)の park 記録で総括 — 「**登録済み有限探針(3 素数)からは fake 証明書 0**」という限定つき負結果+定理群(格付き)+規約 15 本+incident table が成果。「完結/非存在/深度線閉鎖」とは書かない(F3)。
 - 経緯の正本: 裁定簿(セッション scratchpad/pending_ruling1206.md 1433〜1497)→ LEDGER 転記後はそちら。Sol 報告 = 便 154。
