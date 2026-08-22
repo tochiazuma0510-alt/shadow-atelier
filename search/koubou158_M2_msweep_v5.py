@@ -91,6 +91,33 @@ FALSIFIER DELTA AUDIT (2026-08-22) -- fixes applied, itemized:
     cache producing a FALSE early settle for the one target where that
     would otherwise slip through undetected (nothing else checks m1=6
     before j=7).
+  F-3 ROUND 2 (falsifier re-audit, critical, poison-injection reproduced):
+    the round-1 `if j == 6:` guard NEVER FIRES when m1=6 settles falsely
+    early (any j<6) -- a false settle empties `remaining`, and `if not
+    remaining: break` at the TOP of the next loop iteration exits before
+    j=6 is ever reached, so the guard's body (gated on `j == 6`) simply
+    never executes. Falsifier proved this by injecting a fake early
+    settle and observing ALL_FIVE_SLICES_SETTLED_NO_M_DIRECTION_CLOSED
+    with exit 0. Fixed with TWO independent, structurally different
+    checks, neither gated on loop position: (a) an IMMEDIATE check inside
+    the settle branch itself (`core.require(not (m1 == 6 and j <= 6), ...)`
+    -- fires the instant the false settle happens, at whatever j that is);
+    (b) a POST-LOOP re-evaluation of ALL regression judgments (dims,
+    settle-at-j, F-3) against the RECORDED state (dims_by_j /
+    per_target_outcome), run unconditionally after the main loop
+    regardless of how/why it ended -- this also generalizes the fix: the
+    round-1 settle-at-j inline check (`if j in (4, 5):`) had the exact
+    same class of bug (skippable if `remaining` empties before j=4/5 is
+    reached) and has been removed in favor of the post-loop version.
+  F-4(a) (falsifier round 2): checkpoint.json is now ALSO generation-bound
+    (q3_sha/code_sha), the same protection F-5 gave the pickled cache --
+    falsifier demonstrated that resuming after a code change silently
+    inherited the OLD code's completed_j/f4_verified_js/dims_by_j claims
+    as though the NEW code had verified them. A mismatch now discards the
+    ENTIRE checkpoint (not just completed_j/f4_verified_js) and starts
+    cold; this also closes the "manually seed scratchpad/m2_v5/ from a
+    downloaded artifact" path the GHA workflow's own comments mention --
+    a stale/foreign checkpoint is now inert rather than silently trusted.
   F-4: on a --fresh run, j in {2,3,4} are ALSO computed via
     koubou158_L3_core_completebfs_v1.build_V_and_D2bar_from_q3_complete
     (the ORIGINAL, unmemoized, independently-implemented builder) and
@@ -221,14 +248,35 @@ def build_secondary_h1(m, cofaces_3_4, slot):
 # checkpoint / cache persistence
 # ---------------------------------------------------------------------
 
-def load_checkpoint() -> dict:
-    if CKPT_PATH.is_file():
-        return json.loads(CKPT_PATH.read_text(encoding="utf-8"))
+def _fresh_checkpoint(q3_sha: str) -> dict:
     return {
-        "schema": SCHEMA, "completed_j": [], "per_target_progression": {}, "per_target_outcome": {},
+        "schema": SCHEMA, "q3_sha": q3_sha, "code_sha": code_sha(),
+        "completed_j": [], "per_target_progression": {}, "per_target_outcome": {},
         "canary_checked": 0, "canary_mismatches": 0, "setup_done": False,
         "closed_form_identity_check": None, "primary_canary": None,
+        "f4_verified_js": [], "dims_by_j": {},
     }
+
+
+def load_checkpoint(expected_q3_sha: str) -> dict:
+    """F-4(a) (falsifier round 2): checkpoint.json is now generation-bound
+    the same way F-5 bound the pickle cache -- carries q3_sha/code_sha, and
+    a mismatch means RESUME IS REFUSED (the whole checkpoint is discarded,
+    not merely completed_j/f4_verified_js, since per_target_outcome/
+    dims_by_j etc. are equally downstream of the code that produced them).
+    Falsifier's finding: without this, a code change followed by a resume
+    silently inherited the OLD code's completed_j/f4_verified_js claims as
+    if the new code had verified them itself."""
+    if not CKPT_PATH.is_file():
+        return _fresh_checkpoint(expected_q3_sha)
+    ckpt = json.loads(CKPT_PATH.read_text(encoding="utf-8"))
+    if ckpt.get("q3_sha") != expected_q3_sha or ckpt.get("code_sha") != code_sha():
+        print(f"[{time.strftime('%H:%M:%S')}] checkpoint generation mismatch (F-4(a)) -- RESUME "
+              f"REFUSED, discarding checkpoint and starting cold (checkpoint q3_sha="
+              f"{ckpt.get('q3_sha')!r} code_sha={ckpt.get('code_sha')!r}; current "
+              f"q3_sha={expected_q3_sha!r} code_sha={code_sha()!r})", flush=True)
+        return _fresh_checkpoint(expected_q3_sha)
+    return ckpt
 
 
 def save_checkpoint(ckpt: dict) -> None:
@@ -441,6 +489,13 @@ def main() -> int:
                           "'regression_gate' when --fresh is passed, else 'production' -- matching "
                           "the GHA workflow's two-step invocation (step 1: --fresh --max-j 6; "
                           "step 2: --max-j <N>, no --fresh).")
+    ap.add_argument("--debug-poison-false-settle-m1-6-at-j", type=int, default=None,
+                     help="TEST HOOK ONLY (falsifier F-3 round-2 poison-injection reproduction): "
+                          "forces (6,'primary')/(6,'secondary') to be recorded as a false NO settle "
+                          "at the given j (<=6), simulating a corrupted-cache false-early-settle, to "
+                          "verify the F-3 defenses actually fire (nonzero exit) rather than silently "
+                          "producing ALL_FIVE_SLICES_SETTLED_NO_M_DIRECTION_CLOSED. No effect unless "
+                          "explicitly passed; never used in the GHA workflow.")
     args = ap.parse_args()
     run_role = args.run_role
     if run_role == "auto":
@@ -462,7 +517,7 @@ def main() -> int:
     cofaces_3_4 = q3["formulas"]["cofaces_3_4"]
     core.require(len(cofaces_3_4) == 5, "expected 5 cofaces")
 
-    ckpt = load_checkpoint()
+    ckpt = load_checkpoint(got_sha)
     proj_cache, mul_cache = load_caches(got_sha)
     canary = fast.PurityCanary(sample_rate=1000)
     canary.checked = ckpt.get("canary_checked", 0)
@@ -589,6 +644,7 @@ def main() -> int:
                  ("SETTLED_NO_DEPTH_TRUSTWORTHY", "ABORTED_RESOURCE_CAP")}
     completed_j = set(ckpt["completed_j"])
     f4_verified_js = set(ckpt.get("f4_verified_js", []))
+    dims_by_j: dict = {int(k): v for k, v in ckpt.get("dims_by_j", {}).items()}
 
     def nabla_for(m1, form):
         return nabla_b_primary_pi[m1] if form == "primary" else nabla_b_secondary_pi[m1]
@@ -613,11 +669,22 @@ def main() -> int:
             break
         elapsed_build = time.perf_counter() - t_j
 
-        # ---- regression gate (inline, from-scratch by construction) ----
+        # Record the dimension for THIS j unconditionally (used by the
+        # post-loop regression re-evaluation below, falsifier F-3 hardening
+        # round 2 -- tracked here, independent of `remaining`/target state,
+        # so an early break caused by a false settle elsewhere does not
+        # erase the record of which j levels were actually built and what
+        # their dimension was).
+        dims_by_j[j] = info["dim_Lambda_over_Ij"]
+
+        # ---- regression gate (inline, fast-fail during normal execution) ----
         # F-2: dims-only agreement is a function of j alone and cannot by
         # itself catch a corrupted cache reproducing the right dimension
         # -- kept as a cheap sanity check, but see F-4 below for the real
-        # independent-implementation diff.
+        # independent-implementation diff. This inline check is a FAST-FAIL
+        # convenience only; the authoritative check is the post-loop
+        # re-evaluation against dims_by_j (see after the main loop), which
+        # cannot be skipped by an early break.
         if j in EXPECTED_DIMS:
             core.require(info["dim_Lambda_over_Ij"] == EXPECTED_DIMS[j],
                          f"157m2v5 REGRESSION FAILED at j={j}: dim={info['dim_Lambda_over_Ij']} "
@@ -650,6 +717,11 @@ def main() -> int:
             ech_clone = ech_combined.clone()
             _, pivot = ech_clone.reduce(tv)
             non_member = pivot >= 0
+            if (args.debug_poison_false_settle_m1_6_at_j is not None and m1 == 6 and
+                    j == args.debug_poison_false_settle_m1_6_at_j):
+                print(f"[{time.strftime('%H:%M:%S')}] TEST HOOK: poisoning ({m1},{form}) at j={j} "
+                      f"to simulate a false early settle (F-3 round-2 reproduction)", flush=True)
+                non_member = True
             entry = {
                 "j": j, "dim_Lambda_over_Ij": info["dim_Lambda_over_Ij"],
                 "rank_V": info["rank_V"], "rank_V_plus_D2bar_combined": info["rank_V_plus_D2bar_combined"],
@@ -658,39 +730,26 @@ def main() -> int:
             }
             per_target_progression[t].append(entry)
             if non_member and info["depth_requirement_satisfied"]:
+                # ---- F-3 immediate-fire (falsifier round 2, critical): the
+                # OLD `if j == 6:` check below (now removed) only ran if the
+                # loop actually reached j=6 -- but a FALSE early settle of
+                # m1=6 empties `remaining` and hits `if not remaining: break`
+                # at the top of the loop BEFORE j=6 is ever reached, so that
+                # check never fired (falsifier reproduced this: injected a
+                # false settle, got ALL_FIVE_SLICES_SETTLED_NO_M_DIRECTION_
+                # CLOSED with exit 0). This check fires INSTANTLY at the
+                # moment of the settle itself, at whatever j that is, so
+                # there is no window for an early break to skip it. See also
+                # the post-loop re-evaluation after the main loop, which
+                # re-checks the same fact from recorded state as a second,
+                # structurally independent line of defense.
+                core.require(not (m1 == 6 and j <= 6),
+                             f"157m2v5 F-3: m1=6 settled at j={j}; v4 log shows it open through j=6")
                 per_target_outcome[t] = {"status": "SETTLED_NO_DEPTH_TRUSTWORTHY", "j_star": j}
                 remaining.discard(t)
             elif non_member and not info["depth_requirement_satisfied"]:
                 print(f"[{time.strftime('%H:%M:%S')}] j={j} {t}: non_member=True but depth NOT "
                       f"satisfied -- continuing", flush=True)
-
-        # ---- regression gate: expected settle-at-j for m1 in {2,3,5,8} ----
-        if j in (4, 5):
-            for m1, expected_j in EXPECTED_SETTLED_AT_J.items():
-                if expected_j != j:
-                    continue
-                for form in ("primary", "secondary"):
-                    outcome = per_target_outcome[(m1, form)]
-                    core.require(outcome.get("status") == "SETTLED_NO_DEPTH_TRUSTWORTHY" and
-                                 outcome.get("j_star") == j,
-                                 f"157m2v5 REGRESSION FAILED: m1={m1} form={form} expected "
-                                 f"SETTLED_NO_DEPTH_TRUSTWORTHY at j={j} (v4 log), got {outcome}")
-            print(f"[{time.strftime('%H:%M:%S')}] j={j}: REGRESSION MATCH (settle-at-j) vs v4 log", flush=True)
-
-        # ---- F-3: m1=6 must STILL be unresolved through j=6 (v4's log) ----
-        # The one slice the settle-at-j gate above does NOT pin down is
-        # m1=6 (v4's log shows it open through j=6, resolved only at the
-        # in-progress j=7). A corrupted cache producing a FALSE early
-        # settle for m1=6 would otherwise pass every other check in this
-        # gate silently -- this is the one place that would catch it.
-        if j == 6:
-            core.require((6, "primary") in remaining and (6, "secondary") in remaining,
-                         f"157m2v5 F-3 REGRESSION FAILED: m1=6 (primary/secondary) expected to "
-                         f"STILL be unresolved at j=6 (v4 log) -- got outcome "
-                         f"{per_target_outcome[(6, 'primary')]!r} / "
-                         f"{per_target_outcome[(6, 'secondary')]!r}")
-            print(f"[{time.strftime('%H:%M:%S')}] j=6: F-3 REGRESSION MATCH (m1=6 still open, per v4 log)",
-                  flush=True)
 
         elapsed_j = time.perf_counter() - t_j
         print(f"[{time.strftime('%H:%M:%S')}] j={j}: dim={info['dim_Lambda_over_Ij']} "
@@ -707,6 +766,7 @@ def main() -> int:
         ckpt["purity_canary_seed_used"] = canary.seed_used
         ckpt["purity_canary_initial_phase"] = canary.initial_phase
         ckpt["f4_verified_js"] = sorted(f4_verified_js)
+        ckpt["dims_by_j"] = {str(k): v for k, v in dims_by_j.items()}
         save_checkpoint(ckpt)
         save_caches(proj_cache, mul_cache, got_sha)
 
@@ -719,6 +779,59 @@ def main() -> int:
             per_target_outcome=per_target_outcome, completed_j=completed_j,
             f4_verified_js=f4_verified_js,
             elapsed=time.perf_counter() - t_start, in_progress=True))
+
+    # ---- POST-LOOP regression re-evaluation (falsifier round 2, F-3 hardening) ----
+    # Re-derives EVERY regression judgment (dims, settle-at-j, F-3) from the
+    # RECORDED state (dims_by_j / per_target_outcome), not from loop
+    # position. This is deliberately independent of, and does not rely on,
+    # any of the inline checks above having actually run -- the falsifier
+    # demonstrated that an early `break` (triggered by `if not remaining`
+    # once every target settles, however that happened) can skip inline
+    # checks gated on a specific j being reached. These checks instead ask
+    # "what does the final recorded state show", which is unaffected by
+    # when/whether the loop visited any particular j.
+    for j_expected, expected_dim in EXPECTED_DIMS.items():
+        if j_expected in dims_by_j:
+            core.require(dims_by_j[j_expected] == expected_dim,
+                         f"157m2v5 REGRESSION FAILED (post-loop): dim recorded at j={j_expected} is "
+                         f"{dims_by_j[j_expected]}, expected {expected_dim} (v4 log)")
+
+    max_j_built = max(dims_by_j) if dims_by_j else 0
+    for m1, expected_j in EXPECTED_SETTLED_AT_J.items():
+        for form in ("primary", "secondary"):
+            outcome = per_target_outcome[(m1, form)]
+            if outcome.get("status") == "SETTLED_NO_DEPTH_TRUSTWORTHY":
+                core.require(outcome.get("j_star") == expected_j,
+                             f"157m2v5 REGRESSION FAILED (post-loop): m1={m1} form={form} settled at "
+                             f"j_star={outcome.get('j_star')}, expected exactly j={expected_j} (v4 log)")
+            elif max_j_built >= expected_j:
+                # the run built at least up to the j where v4's log shows
+                # this target settling, yet it is NOT settled here -- a
+                # regression regardless of how/whether the loop's own
+                # inline check for this j ever ran.
+                core.require(False,
+                             f"157m2v5 REGRESSION FAILED (post-loop): m1={m1} form={form} expected "
+                             f"SETTLED_NO_DEPTH_TRUSTWORTHY by j={expected_j} (v4 log; run built up to "
+                             f"j={max_j_built}), got {outcome!r}")
+
+    # F-3 (hardened, round 2): m1=6 must not be recorded as settled at any
+    # j<=6, full stop -- checked against per_target_outcome directly,
+    # which is unaffected by whether the loop's body ever reached j==6
+    # (the falsifier's round-1 reproduction: a false early settle empties
+    # `remaining`, the loop breaks at its top-of-iteration guard before
+    # ever reaching j=6, and the old `if j == 6:` inline check simply never
+    # executes). This is IN ADDITION to the immediate-fire check inside
+    # the settle branch above -- two structurally independent lines of
+    # defense against the same failure mode.
+    for form in ("primary", "secondary"):
+        outcome = per_target_outcome[(6, form)]
+        if outcome.get("status") == "SETTLED_NO_DEPTH_TRUSTWORTHY":
+            core.require(outcome.get("j_star", 0) > 6,
+                         f"157m2v5 F-3 REGRESSION FAILED (post-loop): m1=6 form={form} recorded as "
+                         f"settled at j_star={outcome.get('j_star')} (<=6) -- v4 log shows this slice "
+                         f"open through j=6")
+    print(f"[{time.strftime('%H:%M:%S')}] post-loop regression re-evaluation PASS "
+          f"(dims/settle-at-j/F-3 checked against recorded state, not loop position)", flush=True)
 
     for t in targets:
         if per_target_outcome[t]["status"] == "PENDING":
