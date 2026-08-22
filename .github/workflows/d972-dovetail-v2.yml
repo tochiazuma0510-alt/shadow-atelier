@@ -13,10 +13,8 @@ on:
         required: false
         default: "240"
         type: string
-  # schedule: TEMPORARILY DISABLED for post-integration manual 240-min validation (Sol reply 157b sec.4, ruling 1581).
-  # Re-enable with EXACT passing supervisor bytes (sha256 6eb791a1...) after the manual run PASSes.
-  # schedule:
-  #   - cron: "31 */6 * * *"
+  schedule:
+    - cron: "31 */6 * * *"
 
 permissions:
   contents: read
