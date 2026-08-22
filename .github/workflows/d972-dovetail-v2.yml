@@ -558,6 +558,26 @@ jobs:
             printf 'D972_CAMPAIGN_PROCESS_EXIT rc=%s images=%s\n' "$computation_rc" "${#current_images[@]}"
             test -e "$current_ckpt_dir/$D972_RESTART_SCRIPT"
             ((${#current_images[@]} > 0))
+            python3 - "$RUNTIME_ROOT" <<'PY'
+          import os, pathlib, sys
+          root = pathlib.Path(sys.argv[1]).resolve(strict=True)
+          tmp = pathlib.Path('/tmp').resolve(strict=True)
+          removed = []
+          for path in sorted(root.rglob('*')):
+              if not path.is_symlink():
+                  continue
+              target = path.resolve(strict=True)
+              relative = target.relative_to(tmp)
+              if (not any(part.startswith('dmtcp-') for part in relative.parts[:-1]) or
+                      not target.name.startswith('dmtcp') or target.suffix != '.log'):
+                  raise SystemExit(f'unsafe runtime symlink: {path} -> {os.readlink(path)}')
+              path.unlink()
+              removed.append(path.relative_to(root).as_posix())
+          remaining = [path for path in root.rglob('*') if path.is_symlink()]
+          if remaining:
+              raise SystemExit('runtime symlink removal incomplete')
+          print(f'D972_TRANSIENT_DMTCP_LOG_LINKS_REMOVED count={len(removed)}')
+          PY
             python3 "$CHECKER_V2" seal-envelope \
               --checkpoint-dir "$current_ckpt_dir" --state "$RUNTIME_ROOT/state.json" \
               --envelope "$PENDING_ENVELOPE" \
@@ -590,6 +610,7 @@ jobs:
             ! grep -Eiq 'GITHUB_TOKEN|ACTIONS_RUNTIME_TOKEN|PASSWORD|CREDENTIAL|SECRET' \
               "$RUNTIME_ROOT/launch-environment.json"
           fi
+          test -z "$(find "$RUNTIME_ROOT" -type l -print -quit)"
 
       - name: Upload the exact state or suspended process generation
         if: steps.campaign.outcome == 'success'
